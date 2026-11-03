@@ -18,6 +18,8 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 SKIRT_N = int(os.environ.get('SKIRT_N', '2'))
+# NOSKIRT=1（BB 21:36，LAWWW 16629d866：墊子上拉筋的一律換成男生底模）：判法改成 ① 每一位在拉筋的最低點 ≥ −0.05 m；② 墊子上沒有穿裙子的人——找不到穿裙子的＝PASS（修法就是不讓穿裙子的人上墊子）
+NOSKIRT = os.environ.get('NOSKIRT', '') == '1'
 SKIRT_RE = re.compile(os.environ.get('SKIRT_RE', r'NF1[0479]|[Ss]kirt'))   # 雲端 ffee：NF10 −0.498、NF17 −0.329、NF19 −0.485、NF14（第一次）都掛在 J_Bip_C_Hips
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
@@ -65,11 +67,16 @@ async def main():
                     skirts.append(r)
             if len(skirts) >= SKIRT_N: break
         with open(os.path.join(OUT, 'stretchers.json'), 'w', encoding='utf-8') as f: json.dump(rec, f, ensure_ascii=False, indent=1)
-        check('前置：找到穿裙子在拉筋的人（%s）' % SKIRT_RE.pattern, bool(skirts), '看到 %d 位在拉筋，衣服：%s' % (len(rec), J(sorted({x for r in rec for x in r['meshes']}))))
+        clothes = J(sorted({x for r in rec for x in r['meshes'] if x.startswith('Clothes')}))
         bad = [r for r in rec if r.get('low') is None or r['low'] < -0.05]
-        check('① 每一位在拉筋的人最低點離地 ≥ −0.05 m（不穿進地板）', bool(rec) and not bad, J([{k: r.get(k) for k in ('key', 'skirt', 'low', 'who')} for r in bad[:4]]))
-        bads = [r for r in skirts if r.get('low') is None or r['low'] < -0.05]
-        check('② 穿裙子在拉筋的人最低點離地 ≥ −0.05 m（修正前約 −0.45 m）', bool(skirts) and not bads, J([{k: r.get(k) for k in ('key', 'low', 'who')} for r in (bads or skirts)[:4]]))
+        if NOSKIRT:
+            check('① 墊子上每一位在拉筋的人最低點離地 ≥ −0.05 m（看到 %d 位）' % len(rec), bool(rec) and not bad, J([{k: r.get(k) for k in ('key', 'skirt', 'low', 'who')} for r in bad[:4]]))
+            check('② 墊子上沒有穿裙子的人（%s）——修法是不讓穿裙子的人上墊子' % SKIRT_RE.pattern, not skirts, '衣服：' + clothes + ('；穿裙子的：' + J([r['key'] for r in skirts]) if skirts else ''))
+        else:
+            check('前置：找到穿裙子在拉筋的人（%s）' % SKIRT_RE.pattern, bool(skirts), '看到 %d 位在拉筋，衣服：%s' % (len(rec), clothes))
+            check('① 每一位在拉筋的人最低點離地 ≥ −0.05 m（不穿進地板）', bool(rec) and not bad, J([{k: r.get(k) for k in ('key', 'skirt', 'low', 'who')} for r in bad[:4]]))
+            bads = [r for r in skirts if r.get('low') is None or r['low'] < -0.05]
+            check('② 穿裙子在拉筋的人最低點離地 ≥ −0.05 m（修正前約 −0.45 m）', bool(skirts) and not bads, J([{k: r.get(k) for k in ('key', 'low', 'who')} for r in (bads or skirts)[:4]]))
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), ', '.join(FAILS[:6])), flush=True)

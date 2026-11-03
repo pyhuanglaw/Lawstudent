@@ -35,6 +35,8 @@ N20_reach      | d2b962a3f | game  | tests/reachability_all.py | index.html?turb
 N20_libfl      | d2b962a3f | game  | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out}
 N20_libsc      | d2b962a3f | game  | tests/flow_library_scene.py | index.html | 60 | XARGS={url} {out}
 N20_zone       | d2b962a3f | game  | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
+N20_gymskirt | 16629d866 | probe | docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py | index.html | 40 | NOSKIRT=1
+# （N20_gymskirt：BB 21:36，16629d866 墊子上拉筋一律男生底模；NOSKIRT=1：找不到穿裙子的＝PASS）
 # （N20 的語彤第三版、美術整合截圖：探針寫好、雲端跑過再加）
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 V19W_tour_tap8  | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
@@ -107,7 +109,6 @@ V19X_gym_C   | f9d8cce09 | probe | docs/story_planning/test_tools/cc/cc_gym_shot
 V19X_unmet   | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py | index.html?lowres | 60 | MAX_MIN=55
 V19X_jnl     | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 |
 V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 | EXPECT=FAIL
-#HOLD修正 GYM_skirt   | <修正> | probe | docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py | index.html | 40 |
 # （GYM_skirt：BUG-GYM-SKIRT-1103 修好以後填 SHA；雲端 ffeec06e0 修正前 FAILED 2）
 # ===== V19 結束 =====
 # ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
