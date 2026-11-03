@@ -53,10 +53,12 @@ pd = [i for i in LAY['items'] if i['kind'] == 'pendant'][0]
 light('POINT', g2b(pd['x'], pd['y'] - 0.02, pd['z']), 40 * K, color=(1, 0.8, 0.58), size=0.06)
 ct = [i for i in LAY['items'] if i['kind'] == 'counter'][0]
 o = light('AREA', g2b(ct['x'], 0.83, ct['z'] + ct['d'] / 2 + 0.03), 30 * K, color=(1, 0.8, 0.56), sx=ct['w'] - 0.1, sy=0.04); o.rotation_euler = (0, 0, 0)
+# 天花板的補光（牆、天花板互相反射的那一層亮度；遊戲裡是烘焙）
+o = light('AREA', g2b(0, H - 0.08, -0.5), float(opt('--fill', '120')), color=(1, 0.86, 0.7), sx=LAY['w'] - 0.6, sy=LAY['d'] - 1.0); o.rotation_euler = (0, 0, 0)
 # 午後的太陽：從店門那一側（+z、偏東）斜照進來
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun)
 sun.data.energy = float(opt('--sunE', '3.0')); sun.data.color = (1.0, 0.78, 0.55); sun.data.angle = math.radians(2)
-el, az = math.radians(float(opt('--sunEl', '24'))), math.radians(float(opt('--sunAz', '20')))
+el, az = math.radians(float(opt('--sunEl', '15'))), math.radians(float(opt('--sunAz', '20')))
 dvec = Vector((-math.sin(az) * math.cos(el), -math.sin(el), -math.cos(az) * math.cos(el)))   # 遊戲座標的照射方向（往 −z、往下）
 sun.rotation_euler = g2b(*dvec).to_track_quat('-Z', 'Y').to_euler()
 for mt in bpy.data.materials:   # 燈條、燈頭的發光強度（遊戲裡照材質；Cycles 預覽調亮一點才看得到）

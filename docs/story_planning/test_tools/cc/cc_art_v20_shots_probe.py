@@ -228,7 +228,7 @@ async def case_xinhai_ground(pg, cdp):
     check('xinhai_ground：背景有彎道路面網格', g.get('road'), J({k: g.get(k) for k in ('road', 'n', 'bbox')}))
     if not g.get('road'): return
     pts = g['pts']
-    fd = await pg.evaluate(XHG_FIND % J(pts))
+    fd = await pg.evaluate(XHG_FIND.replace('(%s)', '(' + J(pts) + ')'))   # XHG_FIND 裡有 JS 的 i%3，不能用 % 格式化（ART_V20_XHG 第一次 PC：ValueError）
     note('候選點（每層前 5 名；seen＝眼睛高度看得到幾個取樣點／%s）：%s' % (fd.get('0', {}).get('of'), J(fd)))
     REC['data']['xinhai_ground_find'] = fd
     got = []

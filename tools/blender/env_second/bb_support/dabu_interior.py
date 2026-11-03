@@ -131,7 +131,8 @@ def face_quad(cx, cy, cz, w, h, normal):
 
 # ---------------- 鞋子：五種輪廓 × 四個配色（UV 到 dabu_shoe 圖集；instancing 的原型） ----------------
 PROF = [(1, 0), (1, .42), (.86, .8), (.42, 1), (-.42, 1), (-.86, .8), (-1, .42), (-1, 0)]
-SC = 1.06   # 男鞋 US 9～10 左右（鞋長約 31 cm）
+SCV = 1.3   # 高度再放大一點：參考圖的鞋都是厚底、鞋面飽滿的款（不是扁平的跑鞋）
+SC = 1.2    # 參考圖的鞋在層板上看起來比較大（一雙約佔一層高度的六成）：照參考圖放大到鞋長約 35 cm（展示用的大尺碼樣品）
 STY = {
     'bb_high': dict(L=0.300, t=[0, .07, .25, .45, .66, .84, 1.0], h=[.150, .168, .158, .104, .078, .058, .026], w=[.021, .041, .045, .047, .050, .046, .017],
                     sole=(.013, .036, .028), spring=.014, lace=(.28, .70)),
@@ -151,7 +152,16 @@ def shoe_mesh(style, k):
     st = STY[style]; cx, cy = TX.shoe_cell(style, k)
     def uv(px, py): return ((cx + px) / TX.SW, 1 - (cy + py) / TX.SH)
     bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap')
-    Lg, T, Hs, Ws = st['L'] * SC, st['t'], [h * SC for h in st['h']], [w * SC for w in st['w']]; ot, mh, mt = [v * SC for v in st['sole']]; sp = st['spring'] * SC; n = len(T)
+    # 斷面加密到 10 個（鞋頭那一段多三個）：鞋頭圓弧往下收，側面輪廓不是一塊楔形積木
+    T = [0, .05, .14, .3, .48, .64, .78, .89, .96, 1.0]
+    def _ip(arr, t):
+        for i in range(len(st['t']) - 1):
+            if st['t'][i] <= t <= st['t'][i + 1]:
+                u = (t - st['t'][i]) / (st['t'][i + 1] - st['t'][i]); return arr[i] * (1 - u) + arr[i + 1] * u
+        return arr[-1]
+    TOE = {0.89: 0.82, 0.96: 0.55, 1.0: 0.2}; TW = {0.96: 0.8, 1.0: 0.5}
+    hs0 = [_ip(st['h'], t) * TOE.get(t, 1.0) for t in T]; ws0 = [_ip(st['w'], t) * TW.get(t, 1.0) for t in T]
+    Lg, Hs, Ws = st['L'] * SC, [h * SC * SCV for h in hs0], [w * SC * 1.08 for w in ws0]; ot, mh, mt = [v * SC * SCV for v in st['sole']]; sp = st['spring'] * SC; n = len(T)
     xs = [(t - 0.5) * Lg for t in T]
     yb = lambda t: sp * max(0.0, (t - 0.72) / 0.28) ** 2
     ym = lambda t: yb(t) * 0.75 + mh + (mt - mh) * t
@@ -162,7 +172,7 @@ def shoe_mesh(style, k):
         return f
     def patch(i): return uv(i * 64 + 32, (TX.PATCH_Y[0] + TX.PATCH_Y[1]) / 2)   # 0 鞋帶、1 鞋舌、2 內裡、3 大底
     # 鞋底：大底、中底三圈（外緣比鞋面寬 5 mm）
-    sel = [0, 1, 3, 5, 6]
+    sel = [0, 2, 4, 6, 8]
     ol = [(xs[0] - 0.007, 0.0, 0.0)] + [(xs[i], Ws[i] + 0.005, T[i]) for i in sel] + [(xs[-1] + 0.008, 0.0, 1.0)] + [(xs[i], -(Ws[i] + 0.005), T[i]) for i in reversed(sel)]
     rings = [[nv(x, f(t), z) for (x, z, t) in ol] for f in (yb, lambda t: yb(t) + ot, ym)]
     m_ = len(ol); ys = [(TX.OUT_Y[1], TX.OUT_Y[0]), (TX.MID_Y[1], TX.MID_Y[0])]
@@ -170,7 +180,7 @@ def shoe_mesh(style, k):
         for i in range(m_):
             j = (i + 1) % m_; u0, u1 = i / m_ * 255, (i + 1) / m_ * 255; ya, yb_ = ys[lv]
             face([rings[lv][i], rings[lv][j], rings[lv + 1][j], rings[lv + 1][i]], [uv(u0, ya), uv(u1, ya), uv(u1, yb_), uv(u0, yb_)])
-    face(list(reversed(rings[0])), [patch(3)] * m_); face(list(rings[2]), [uv(128, TX.MID_Y[0] + 8)] * m_)
+    face(list(reversed(rings[0])), [patch(3)] * m_)   # 中底的上蓋在鞋裡面看不到：不做
     # 鞋面：7 個斷面、每個 8 點；第 j 段對到圖集的列（右側 0–2、鞋口 3、左側 4–6、底 7）
     R = []
     for i in range(n):
@@ -180,7 +190,7 @@ def shoe_mesh(style, k):
     VY = {0: (3, 2), 1: (2, 1), 2: (1, 0), 3: (3, 4), 4: (7, 6), 5: (6, 5), 6: (5, 4), 7: (7.2, 7.8)}
     U = lambda t: 4 + t * 248
     for i in range(n - 1):
-        for j in range(8):
+        for j in range(7):   # 第 7 段（鞋面的底）被鞋底蓋住：不做
             j2 = (j + 1) % 8; ya, yb_ = VY[j][0] * bd, VY[j][1] * bd; ua, ub = U(T[i]), U(T[i + 1])
             face([R[i][j], R[i][j2], R[i + 1][j2], R[i + 1][j]], [uv(ua, ya), uv(ua, yb_), uv(ub, yb_), uv(ub, ya)])
     face(list(reversed(R[0])), [uv(6, 1.5 * bd)] * 8); face(list(R[-1]), [uv(250, 1.5 * bd)] * 8)
@@ -190,13 +200,13 @@ def shoe_mesh(style, k):
                 u = (t - T[i]) / (T[i + 1] - T[i]); return ym(t) - 0.003 + Hs[i] * (1 - u) + Hs[i + 1] * u, Ws[i] * (1 - u) + Ws[i + 1] * u
         return ym(t) + Hs[-1], Ws[-1]
     # 鞋舌（往後翹）
-    tt = T[2] + 0.02; xt = (tt - 0.5) * Lg; yt, wt = top_at(tt)
+    tt = T[3] - 0.04; xt = (tt - 0.5) * Lg; yt, wt = top_at(tt)
     q = [(xt - 0.004, yt - 0.012), (xt + 0.010, yt - 0.012), (xt - 0.010, yt + 0.026), (xt - 0.024, yt + 0.022)]
     vs = [nv(x, y, z) for z in (-0.34 * wt, 0.34 * wt) for (x, y) in q]
     for a in ((0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)): face([vs[i] for i in a], [patch(1)] * 4)
     # 鞋帶：三條橫跨的細條
     la, lb = st['lace']
-    for f_ in (0.15, 0.5, 0.85):
+    for f_ in (0.5,):
         t = la + (lb - la) * f_; x = (t - 0.5) * Lg; y, w = top_at(t)
         for fc in L.bm_box(bm, x - 0.005, x + 0.005, y - 0.002, y + 0.005, -0.52 * w, 0.52 * w):
             for lp in fc.loops: lp[uvl].uv = patch(0)
@@ -341,7 +351,7 @@ for sw in LAY['shoeWalls']: shoe_wall(sw)
 lw = LAY['shoeWalls'][0]
 pq('left', 'note2', face_quad(X0 + lw['depth'] + 0.002, 2.42, -1.5, 0.2, 0.15, '+x'), 2)            # 「本週新到 籃球鞋 →」貼在隔板上
 # 左牆前段（鞋牆和櫥窗中間）：直條木板＋一張大海報、一盆大盆栽
-for k in range(14): z = lw['z1'] + 0.05 + k * 0.2; wm('left', 'wood').rbox(XI0, XI0 + 0.02, 0.0, 2.65, z + 0.005, z + 0.195, r=0.004, seg=1)
+for k in range(14): z = lw['z1'] + 0.05 + k * 0.2; wm('left', 'wood').box(XI0, XI0 + 0.02, 0.0, 2.65, z + 0.004, z + 0.196)
 wm('left', 'vc').crbox(XI0 + 0.02, XI0 + 0.06, 1.2, 2.3, 3.2, 4.9, '#f3efe8', r=0.008)
 pq('left', 'poster3', face_quad(XI0 + 0.0605, 1.75, 4.05, 1.62, 1.02, '+x'))
 
@@ -427,8 +437,7 @@ def box_wall(face, a0, a1, depth, top, sh_n=6):
                 for s_ in range(stack):
                     yb0 = y + s_ * 0.13; dd = depth - 0.03 - rb.uniform(0, 0.025)
                     if yb0 + 0.125 > y + gap - 0.02: break
-                    vc.cbox(*T_(u0 + 0.004, u1 - 0.004, yb0, yb0 + 0.1, 0.02, dd - 0.004), col[0])
-                    vc.cbox(*T_(u0, u1, yb0 + 0.1, yb0 + 0.124, 0.016, dd), col[1])
+                    vc.cbox(*T_(u0, u1, yb0, yb0 + 0.124, 0.016, dd), col[0])   # 盒身＋盒蓋一個方塊（盒蓋的線畫在標籤上）
                     uc = (u0 + u1) / 2; cx_, cy_, cz_ = fpt(uc, yb0 + 0.062, dd + 0.0015)
                     pq(grp, f'boxend{ci + 4 * rb.randrange(4)}', face_quad(cx_, cy_, cz_, u1 - u0 - 0.004, 0.122, nrm), 2)
 
@@ -441,8 +450,9 @@ box_wall('right', bws['right']['z0'], bws['right']['z1'], bws['right']['depth'],
 nb_ = it['name_board'][0]; sx0, sx1 = nb_['x'] - nb_['w'] / 2, nb_['x'] + nb_['w'] / 2; sy0, sy1 = nb_['y'] - nb_['h'] / 2, nb_['y'] + nb_['h'] / 2
 wm('back', 'wood').rbox(sx0, sx1, sy0, sy1, ZI0, ZI0 + 0.04, r=0.01, seg=1)
 pq('back', 'sign', face_quad(nb_['x'], nb_['y'], ZI0 + 0.0405, nb_['w'] - 0.02, nb_['h'] - 0.02, '+z'), 1)
-for x0_ in (sx1 + 0.01, sx1 + 0.4):
-    if x0_ + 0.38 < XI1: pq('back', 'woodpanel', face_quad(x0_ + 0.19, (sy0 + sy1) / 2, ZI0 + 0.002, 0.38, sy1 - sy0, '+z'), 1)
+for k_ in range(12):
+    x0_ = sx1 + 0.01 + k_ * 0.39
+    if x0_ + 0.38 < XI1 and not (it['staff_door'][0]['x'] - 0.6 < x0_ + 0.19 < it['staff_door'][0]['x'] + 0.6): pq('back', 'woodpanel', face_quad(x0_ + 0.19, (sy0 + sy1) / 2, ZI0 + 0.002, 0.38, sy1 - sy0, '+z'), 1)
 # 員工門（後牆右端，關著）
 sd = it['staff_door'][0]; dx0, dx1 = sd['x'] - sd['w'] / 2, sd['x'] + sd['w'] / 2
 wm('back', 'vc').crbox(dx0 - 0.05, dx1 + 0.05, 0.0, 2.15, ZI0, ZI0 + 0.03, '#d8d2c8', r=0.008)
@@ -535,15 +545,15 @@ for side_ in (-1, 1):
         x_out = side_ * (iw / 2 + 0.16); x_in = side_ * (iw / 2 + 0.01)
         for zz in (-0.38, 0.38): VCM.cbox(*sorted((ixf.p(x_in, 0, 0)[0], ixf.p(x_out, 0, 0)[0])), yb_ - 0.004, yb_ + 0.004, ir['z'] + zz - 0.004, ir['z'] + zz + 0.004, '#2c2c2e')
         for yy in (yb_, yb_ + 0.2): VCM.cbox(ixf.p(x_out, 0, 0)[0] - 0.004, ixf.p(x_out, 0, 0)[0] + 0.004, yy - 0.004, yy + 0.004, ir['z'] - 0.38, ir['z'] + 0.38, '#2c2c2e')
-        for j in range(12):
-            zz = ir['z'] - 0.38 + j * 0.76 / 11; xo = ixf.p(x_out, 0, 0)[0]
+        for j in range(8):
+            zz = ir['z'] - 0.38 + j * 0.76 / 7; xo = ixf.p(x_out, 0, 0)[0]
             VCM.cbox(xo - 0.003, xo + 0.003, yb_, yb_ + 0.2, zz - 0.002, zz + 0.002, '#2c2c2e')
             VCM.cbox(*sorted((ixf.p(x_in, 0, 0)[0], xo)), yb_ - 0.002, yb_ + 0.002, zz - 0.002, zz + 0.002, '#2c2c2e')
         xc = (ixf.p(x_in, 0, 0)[0] + ixf.p(x_out, 0, 0)[0]) / 2
         if k == 0:
             for j in range(7):   # 噴霧罐（旋轉體）
                 cz = ir['z'] - 0.32 + j * 0.105; col = CANS[(j + side_) % len(CANS)]; ht = 0.17 + (j % 3) * 0.02
-                painted(VC, col, lambda cz=cz, ht=ht: Xf(xc, cz).lathe(VC, [(0, 0), (0.028, 0), (0.03, 0.01), (0.03, ht), (0.022, ht + 0.02), (0, ht + 0.02)], 0, yb_ + 0.005, 0, seg=10))
+                painted(VC, col, lambda cz=cz, ht=ht: Xf(xc, cz).lathe(VC, [(0, 0), (0.028, 0), (0.03, 0.01), (0.03, ht), (0.022, ht + 0.02), (0, ht + 0.02)], 0, yb_ + 0.005, 0, seg=8))
                 painted(VC, '#f4f4f2' if col != '#f4f4f2' else '#3c6ea0', lambda cz=cz, ht=ht: Xf(xc, cz).lathe(VC, [(0, 0), (0.018, 0), (0.018, 0.035), (0, 0.035)], 0, yb_ + ht + 0.025, 0, seg=6))
         else:
             for j in range(3):
@@ -585,7 +595,7 @@ xf.rbox(acc('wood'), -w / 2 + 0.05, w / 2 - 0.05, 0.16, 0.19, -d / 2 + 0.05, d /
 for k in range(4):
     ci = k % 4; col = BOXC[ci]; bx0 = -w / 2 + 0.1 + k * 0.36
     for s_ in range(2 if k % 2 == 0 else 1):
-        y = 0.19 + s_ * 0.125; xf.crbox(VC, bx0, bx0 + 0.33, y, y + 0.1, -0.1, 0.1, col[0], r=0.002, seg=1); xf.crbox(VC, bx0 - 0.004, bx0 + 0.334, y + 0.1, y + 0.124, -0.104, 0.104, col[1], r=0.002, seg=1)
+        y = 0.19 + s_ * 0.125; xf.crbox(VC, bx0, bx0 + 0.33, y, y + 0.1, -0.1, 0.1, col[0], r=0.0); xf.crbox(VC, bx0 - 0.004, bx0 + 0.334, y + 0.1, y + 0.124, -0.104, 0.104, col[1], r=0.0)
 for k, (style, cw_k) in enumerate((('bb_high', 1), ('run', 0), ('casual', 0), ('bb_mid', 2), ('run', 2), ('retro', 1))):
     ox = -w / 2 + 0.25 + (k % 3) * 0.55; oz = -0.18 if k < 3 else 0.18
     put_shoe(style, cw_k, *xf.p(ox, hh, oz), (0.4 if k < 3 else math.pi - 0.4) + random.uniform(-0.1, 0.1))
@@ -595,11 +605,11 @@ fvc, fvm, fgl = wm('front', 'vc'), wm('front', 'vcm'), wm('front', 'glass')
 posts = [wx0 + k * (wx1 - wx0) / 3 for k in range(4)]
 for px in posts:
     for pz in (wz0, wz1): painted(fvm, ALU, lambda px=px, pz=pz: fvm.cyl((px, 0.0, pz), (px, 2.3, pz), 0.012, seg=6))
-for yy in (1.05, 1.5, 1.95):
+for yy in (1.2, 1.85):
     fgl.box(wx0, wx1, yy - 0.012, yy, wz0 - 0.03, wz1 + 0.01)
     for px in posts: fvm.cbox(px - 0.02, px + 0.02, yy - 0.03, yy - 0.012, wz0 - 0.03, wz1 + 0.01, ALU)
-    for q in range(5):
-        sx_ = wx0 + 0.4 + q * (wx1 - wx0 - 0.8) / 4; style = ['bb_high', 'run', 'casual', 'bb_mid', 'retro', 'run', 'bb_high', 'casual'][(q + int(yy * 10)) % 8]
+    for q in range(4):
+        sx_ = wx0 + 0.45 + q * (wx1 - wx0 - 0.9) / 3; style = ['bb_high', 'run', 'casual', 'bb_mid', 'retro', 'run', 'bb_high', 'casual'][(q + int(yy * 10)) % 8]
         put_shoe(style, (q + int(yy * 2)) % 4, sx_, yy, (wz0 + wz1) / 2, (0.5 if q % 2 else math.pi - 0.5), 'front')
 for (px, pw, ph) in ((wx0 + 0.55, 0.6, 0.42), (wdp['x'] + 0.2, 0.5, 0.3), (wx1 - 0.5, 0.55, 0.5)):
     fvc.crbox(px - pw / 2, px + pw / 2, 0.0, ph, wz0 + 0.02, wz1 - 0.02, '#ece8e0', r=0.01)
@@ -625,8 +635,8 @@ for lv, yy in enumerate((0.15, 0.6)):
     for c in range(2):
         for s_ in range(3 if lv == 0 else 2):
             ci = rs.choice([0, 1, 3]); col = BOXC[ci]; ox = -0.38 + c * 0.38; y = yy + s_ * 0.125
-            bcx.crbox(VC, ox, ox + 0.34, y, y + 0.1, -0.2, 0.0, col[0], r=0.002, seg=1); bcx.crbox(VC, ox - 0.004, ox + 0.344, y + 0.1, y + 0.124, -0.204, 0.004, col[1], r=0.002, seg=1)
-            bcx.crbox(VC, ox, ox + 0.34, y, y + 0.1, 0.02, 0.22, BOXC[(ci + 1) % 4][0], r=0.002, seg=1); bcx.crbox(VC, ox - 0.004, ox + 0.344, y + 0.1, y + 0.124, 0.016, 0.224, BOXC[(ci + 1) % 4][1], r=0.002, seg=1)
+            bcx.crbox(VC, ox, ox + 0.34, y, y + 0.1, -0.2, 0.0, col[0], r=0.0); bcx.crbox(VC, ox - 0.004, ox + 0.344, y + 0.1, y + 0.124, -0.204, 0.004, col[1], r=0.0)
+            bcx.crbox(VC, ox, ox + 0.34, y, y + 0.1, 0.02, 0.22, BOXC[(ci + 1) % 4][0], r=0.0); bcx.crbox(VC, ox - 0.004, ox + 0.344, y + 0.1, y + 0.124, 0.016, 0.224, BOXC[(ci + 1) % 4][1], r=0.0)
 # 門邊的鐵網架：三層鐵網籃（鞋帶包、鞋墊盒、噴霧）
 wr = it['wire_rack'][0]; rx, rz, rw, rd, rh = wr['x'], wr['z'], wr['w'], wr['d'], wr['h']
 for sx in (-rw / 2 + 0.02, rw / 2 - 0.02):
@@ -641,7 +651,7 @@ for k, yy in enumerate((0.15, 0.62, 1.09)):
         else: VC.crbox(rx - 0.16, rx + 0.16, yy, yy + (0.05 if k == 0 else 0.09), z - 0.055, z + 0.055, ['#f2efe9', '#3c6ea0', '#e9e4da', '#5e636b'][(j + k) % 4], r=0.006, seg=1)
 pq(None, 'note7', face_quad(rx - rw / 2 - 0.003, 0.85, rz, 0.2, 0.15, '-x'), 2)                    # 「鞋墊 加購 NT$350」
 # 右牆前段：直條木板＋系隊團購傳單、手寫紙條
-for k in range(26): z = 0.6 + k * 0.2; wm('right', 'wood').rbox(XI1 - 0.02, XI1, 0.0, 2.65, z + 0.005, z + 0.195, r=0.004, seg=1)
+for k in range(26): z = 0.6 + k * 0.2; wm('right', 'wood').box(XI1 - 0.02, XI1, 0.0, 2.65, z + 0.004, z + 0.196)   # 直條木板（板縫 8 mm；不倒角，省三角形）
 pq('right', 'flyer', face_quad(XI1 - 0.022, 1.55, 1.6, 0.42, 0.57, '-x'), 1)
 pq('right', 'note0', face_quad(XI1 - 0.022, 1.3, 0.95, 0.24, 0.18, '-x'), 2)
 pq('back', 'note0', face_quad(-3.25, 1.25, BZ + 0.002, 0.24, 0.18, '+z'), 2)                       # 「試穿請坐這邊 謝謝！」（鏡子左邊）
@@ -658,7 +668,7 @@ def track(a, b, n, aimf):
         d_ = Vector(aimf(hx, hz, k)).normalized(); hy = H - 0.16
         pa, pb = (hx - d_.x * 0.05, hy - d_.y * 0.05, hz - d_.z * 0.05), (hx + d_.x * 0.09, hy + d_.y * 0.09, hz + d_.z * 0.09)
         painted(VCM, '#ece8e0', lambda hx=hx, hz=hz: VCM.cyl((hx, H - 0.04, hz), (hx, hy + 0.02, hz), 0.008, seg=4))
-        painted(VC, '#f1ede6', lambda pa=pa, pb=pb: VC.cyl(pa, pb, 0.04, seg=12))
+        painted(VC, '#f1ede6', lambda pa=pa, pb=pb: VC.cyl(pa, pb, 0.04, seg=10))
         lens = (pb[0] + d_.x * 0.002, pb[1] + d_.y * 0.002, pb[2] + d_.z * 0.002); acc('led').cyl(pb, lens, 0.032, seg=8)
         SPOTS.append((lens, tuple(d_)))
         if k % 3 == 1: CL.glow(root, 'spot', lens[0] + d_.x * 0.3, lens[1] + d_.y * 0.3, lens[2] + d_.z * 0.3, color='rgba(255,224,176,1)', size=0.9, day=0.15, night=0.8)
@@ -668,7 +678,7 @@ def aim_to(tx, ty, dz=0.0): return lambda hx, hz, k: (tx - hx, ty - (H - 0.16), 
 track((-2.45, -3.85), (-2.45, 5.5), 9, lambda hx, hz, k: (-0.85, -1.0, -0.15))           # 打左牆鞋牆
 track((2.35, -3.85), (2.35, 5.5), 9, lambda hx, hz, k: (0.85, -1.0, -0.15) if hz < 0.8 else (0.3, -1.0, -0.2))   # 打右牆（前段打地上）
 track((-0.15, -3.85), (-0.15, 5.5), 7, lambda hx, hz, k: ((-0.5 if k % 2 else 0.35), -1.0, -0.3))   # 中間：長凳、展示桌、地板
-track((-0.45, -5.15), (2.5, -5.15), 4, lambda hx, hz, k: (0.0, -0.5, -1.0))               # 櫃台區：打招牌、鞋盒
+track((-0.45, -5.15), (2.5, -5.15), 4, lambda hx, hz, k: (0.0, -0.5, -1.0) if k % 2 == 0 else (0.0, -1.0, -0.55))               # 櫃台區：打招牌、鞋盒
 ac_x, ac_z = 0.75, -2.9   # 吸頂冷氣（參考圖上方中間）
 VC.crbox(ac_x - 0.42, ac_x + 0.42, H - 0.05, H, ac_z - 0.42, ac_z + 0.42, '#eeebe5', r=0.012)
 VC.cbox(ac_x - 0.25, ac_x + 0.25, H - 0.054, H - 0.05, ac_z - 0.25, ac_z + 0.25, '#d6d2cc')
@@ -689,8 +699,8 @@ VC.finish(root, uv=False, smooth=True); VCM.finish(root, uv=False, smooth=True)
 for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
-# 圖面（印刷：海報、標籤、紙條、地毯）只從正面看：單面、不補反面（nodup）；拼起來的牆、木作也不補（補了反面重疊的面在 Cycles 變黑）
-_ss = L.single_side(root, keep=r'glass', nodup=r'^dabu_(print|wall_paint|oak|floor_oak)$')
+# 圖面（印刷：海報、標籤、紙條、地毯）只從正面看、鞋子（底部、鞋口裡面開口，看不到）：單面、不補反面（nodup）；拼起來的牆、木作也不補（補了反面重疊的面在 Cycles 變黑）
+_ss = L.single_side(root, keep=r'glass', nodup=r'^dabu_(print|wall_paint|oak|floor_oak|shoe)$')
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 patch_glb(OUT); info['bytes'] = os.path.getsize(OUT)

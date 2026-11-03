@@ -86,18 +86,18 @@ for i in range(13, 512, 26):
     for j in range(13, 512, 26): pd.ellipse([i - 5, j - 5, i + 5, j + 5], fill=(0, 0, 0, 0))
 A.paste(pb, (0, 512)); uvbox('peg', 0, 512, 512, 1024, (AW, AH))
 # 羽球拍頭（一張卡：拍框 0.236 × 0.196 m＋拍喉；卡 0.22 × 0.30 m → 192 × 256 px）：框、線、拍喉三種東西；8 種框的顏色（參考圖：藍、紅、黃、黑、白、粉紅、綠、紫）
-HEAD = [('#2048a8', '#f0d23a'), ('#c8202a', '#1d1d21'), ('#e6d020', '#1d1d21'), ('#1d1d21', '#c8202a'), ('#e8e6e0', '#2048a8'),
-        ('#d9579a', '#1d1d21'), ('#23874a', '#e8e6e0'), ('#4a2f8a', '#e6d020')]
+HEAD = [('#1c3f96', '#f0d23a'), ('#b81c26', '#1d1d21'), ('#d8c41a', '#1d1d21'), ('#18181b', '#c8202a'), ('#18181b', '#2048a8'),
+        ('#c9468a', '#1d1d21'), ('#1f7a42', '#e8e6e0'), ('#2a2f6a', '#d8c41a')]
 for k, (fc, acc) in enumerate(HEAD):
     cx0 = 512 + k * 192; c = Image.new('RGBA', (192, 256), (0, 0, 0, 0)); cd = ImageDraw.Draw(c)
     ex0, ey0, ex1, ey1 = 14, 6, 178, 206   # 外框（0.196 × 0.236 m 的比例）
     cd.ellipse([ex0 + 8, ey0 + 8, ex1 - 8, ey1 - 8], fill=(0, 0, 0, 0))
-    for s in range(16, 170, 7): cd.line([s + 4, ey0 + 4, s + 4, ey1 - 4], fill=hx('#efece2'), width=1)   # 主線（直）
-    for s in range(14, 202, 7): cd.line([ex0 + 4, s, ex1 - 4, s], fill=hx('#e4e0d4'), width=1)            # 橫線
+    for s in range(16, 170, 7): cd.line([s + 4, ey0 + 4, s + 4, ey1 - 4], fill=hx('#d9d6cc'), width=1)   # 主線（直）
+    for s in range(14, 202, 7): cd.line([ex0 + 4, s, ex1 - 4, s], fill=hx('#cfcbc0'), width=1)            # 橫線
     m = Image.new('L', (192, 256), 0); ImageDraw.Draw(m).ellipse([ex0 + 7, ey0 + 7, ex1 - 7, ey1 - 7], fill=255)
     c.putalpha(Image.fromarray(np.minimum(np.asarray(c.split()[3]), np.asarray(m))))
     cd = ImageDraw.Draw(c)
-    cd.ellipse([ex0, ey0, ex1, ey1], outline=hx(fc), width=9)
+    cd.ellipse([ex0, ey0, ex1, ey1], outline=hx(fc), width=13)
     cd.arc([ex0 + 2, ey0 + 2, ex1 - 2, ey1 - 2], 200, 320, fill=hx('#ffffff', 170), width=2)              # 框的高光
     cd.arc([ex0 + 1, ey0 + 1, ex1 - 1, ey1 - 1], 20, 80, fill=hx(acc), width=4)                            # 框側面的配色
     cd.polygon([(84, 204), (108, 204), (99, 250), (93, 250)], fill=hx(fc))                                 # 拍喉（T 字接頭）
@@ -251,13 +251,13 @@ def tags(im, d):
 
 def curtain(im, d):
     """布簾（參考圖最裡面的門簾：米灰底、淡淡的竹葉；下襬髒一點）"""
-    w, h = im.size; base = Image.new('RGB', (w, h), hx('#b9ad92')[:3]); im.paste(grain(base, 6, 3)); d = ImageDraw.Draw(im)
+    w, h = im.size; base = Image.new('RGB', (w, h), hx('#8f8470')[:3]); im.paste(grain(base, 6, 3)); d = ImageDraw.Draw(im)
     rr = np.random.default_rng(5)
     for k in range(60):
         x, y = rr.uniform(0, w), rr.uniform(0, h); a = rr.uniform(-1.2, 1.2); L_ = rr.uniform(26, 50)
         dx, dy = math.sin(a) * L_, math.cos(a) * L_; nx, ny = -dy * 0.13, dx * 0.13
-        d.polygon([(x, y), (x + dx / 2 + nx, y + dy / 2 + ny), (x + dx, y + dy), (x + dx / 2 - nx, y + dy / 2 - ny)], fill=hx('#7f7a5c'))
-    for k in range(0, w, 16): d.line([k, 0, k, h], fill=hx('#a89c80'), width=2)   # 布的褶子
+        d.polygon([(x, y), (x + dx / 2 + nx, y + dy / 2 + ny), (x + dx, y + dy), (x + dx / 2 - nx, y + dy / 2 - ny)], fill=hx('#5f5a44'))
+    for k in range(0, w, 22): d.line([k, 0, k, h], fill=hx('#6f6552'), width=5); d.line([k + 6, 0, k + 6, h], fill=hx('#a2967c'), width=2)   # 布的褶子
     a = np.asarray(im, np.float32); a *= np.linspace(1.0, 0.8, h)[:, None, None]; im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)))
 
 

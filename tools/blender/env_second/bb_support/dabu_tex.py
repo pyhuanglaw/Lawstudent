@@ -22,7 +22,7 @@ PW, PH = 2048, 2048
 # 圖集格子（像素框 x0,y0,x1,y1；y 往下）。Blender 端用 uv_of(框) 轉成 UV
 CELLS = {}
 for i in range(6): CELLS[f'poster{i}'] = ((i % 3) * 680, (i // 3) * 340, (i % 3) * 680 + 680, (i // 3) * 340 + 340)
-CELLS['sign'] = (0, 680, 1024, 1160)
+CELLS['sign'] = (0, 680, 672, 1160)          # 比例 1.4（＝模型裡招牌的寬高比，字不會被擠扁）
 CELLS['rug'] = (1024, 680, 1536, 1192)
 CELLS['mirror'] = (1536, 680, 1792, 1192)
 CELLS['monitor'] = (1792, 680, 2048, 840)
@@ -186,7 +186,7 @@ def wood_planks(w, h, base=(204, 160, 110), vertical=True, seed=5, plank=64):
 def sign(w, h):
     """櫃台後面的木頭招牌：淺木直條板＋深咖啡立體字「大步球鞋」＋一道橘色的「步紋」（虛構：兩段斜折的筆刷，不是任何品牌）"""
     p = wood_planks(w, h, (206, 160, 108), True, 7, 96); d = ImageDraw.Draw(p, 'RGBA')
-    f = F(int(h * 0.36)); s = '大步球鞋'
+    f = F(int(h * 0.29)); s = '大步球鞋'
     bb = d.textbbox((0, 0), s, font=f); tw = bb[2] - bb[0]; x0 = (w - tw) / 2 - bb[0] + w * 0.03; y0 = h * 0.2 - bb[1]
     for k in range(9, 0, -1): d.text((x0 + k * 1.6, y0 + k * 1.8), s, font=f, fill=(70, 50, 34, 34))      # 立體字的影子
     d.text((x0 + 3, y0 + 3), s, font=f, fill=(46, 34, 26, 255)); d.text((x0, y0), s, font=f, fill=(78, 60, 46, 255))
@@ -267,7 +267,7 @@ def gen(outdir=None):
     def put(name, img):
         x0, y0, x1, y1 = CELLS[name]; im.paste(img.resize((x1 - x0, y1 - y0)), (x0, y0))
     for i in range(6): put(f'poster{i}', poster(i, 680, 340))
-    put('sign', sign(1024, 480)); put('rug', rug(512, 512)); put('mirror', mirror(256, 512))
+    put('sign', sign(672, 480)); put('rug', rug(512, 512)); put('mirror', mirror(256, 512))
     put('woodpanel', wood_planks(256, 192, (206, 160, 108), True, 7, 48))
     s = Image.new('RGB', (256, 160), (36, 40, 46)); d = ImageDraw.Draw(s)   # 收銀螢幕（POS：品項列表、合計）
     d.rectangle([8, 8, 248, 152], fill=(232, 234, 236)); d.rectangle([8, 8, 248, 30], fill=(64, 96, 130)); d.text((14, 11), '大步球鞋 POS', font=F(14), fill=(255, 255, 255))

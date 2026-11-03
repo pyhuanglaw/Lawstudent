@@ -49,7 +49,7 @@ const DABU_LAYOUT = {
     {kind: 'box_wall', side: 'side', z0: -6.0, z1: -4.25, depth: 0.34, note: '櫃台區左側牆（x −0.98，面向 +x）：鞋盒層架到頂'},
     {kind: 'box_wall', side: 'back', x0: -0.98, x1: 2.45, depth: 0.34, top: 1.72, note: '櫃台後面的鞋盒層架（四層），上面是木頭招牌'},
     {kind: 'box_wall', side: 'right', z0: -5.55, z1: -3.6, depth: 0.34, note: '右牆後段：鞋盒層架（店員拿尺寸）'},
-    {kind: 'name_board', x: 0.55, y: 2.47, z: -5.95, w: 2.5, h: 1.17, note: '木頭招牌「大步球鞋」＋橘色步紋（字畫在 dabu_print 圖集上，不是 canvas）'},
+    {kind: 'name_board', x: 0.09, y: 2.4, z: -5.95, w: 1.4, h: 1.0, note: '木頭招牌「大步球鞋」＋橘色步紋（字畫在 dabu_print 圖集上，不是 canvas）'},
     {kind: 'counter', x: 0.5, z: -4.71, w: 2.8, d: 0.58, h: 1.0, note: '收銀台：原木檯面、白色檯身、檯面下暖色燈條；螢幕、刷卡機、筆筒、盆栽、紙提袋'},
     {kind: 'pendant', x: 0.0, y: 2.45, z: -4.71, note: '白色圓頂吊燈'},
     {kind: 'staff_door', x: 2.95, z: -5.95, w: 0.85, note: '後牆右端的員工門（關著，「員工專用」）'},
