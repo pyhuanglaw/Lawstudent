@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19O_onetap",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py",
+  "env": "SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T01:19:07",
+  "end": "2026-11-04T01:22:23",
+  "seconds": 196,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 83,
+    "mem": 58,
+    "used_gb": 18.2,
+    "chrome_testing": 27
+  }
+}
