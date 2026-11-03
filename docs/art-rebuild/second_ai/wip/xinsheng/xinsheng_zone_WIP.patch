@@ -19,17 +19,7 @@ diff --git a/src/zones3d.js b/src/zones3d.js
      /* 社科院圖書館（D56 社科院第①步）：門在現在的社科院正面中間（src/soclib3d.js 的 SL3.DOOR）；一樓才有（萬才館陽台那一層不算）*/
      if(typeof SL3!=='undefined'&&typeof SOCLIB_LAYOUT!=='undefined') exits.push({x:SL3.DOOR.x,z:SL3.DOOR.z,r:SL3.DOOR.r,to:'soclib',spawn:Object.assign({},SOCLIB_LAYOUT.entrance.spawn),label:'進入社科院圖書館',door:true,lv:0,y:0});
      // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
-@@ -858,7 +860,8 @@
-     // 集合點：公館圓環意象（小廣場）
-     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
-     // 通往溫州街（西側）
--    E.interactables.push({x:-71,z:FZ+1.2,radius:2.6,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});
-+    if(typeof XS3==='undefined') E.interactables.push({x:-71,z:FZ+1.2,radius:2.6,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});   /* 使用者 11-03 22:0x（AA 轉述，AA_615 檔首 ba26f7f7d）：溫州街只從新生南路進出，公館西端的巷口拿掉＝走不進去的街景；有新生南路（src/xinsheng3d.js）時不放這個出口 */
-+    if(typeof XS3!=='undefined') nav.blockRect(-71,FZ+1.3,8.4,3.4,0);   /* 巷口走不進去（街景照留）*/
-     nav.blockOutside(-78,-45,78,FZ+2.6); /* 南側騎樓（z 19–22，店面玻璃在 z=22）要可走，互動點在 z=21 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=9;zq<=15;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
-     for(const lx of gate.userData.gate.lanes) for(let z=-50;z<=-44;z+=0.5) for(let xq=lx-2.1;xq<=lx+2.1;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }   /* 校門兩側通道（門房在正中間，2026-10-18 起；原本開的是開口正中間 x -4～4）*/
-     placeBlocks(nav,gate,0,-46,0);   /* 開完通道再把門房、燈柱、鐵門擋回去 */
-@@ -919,7 +922,10 @@
+@@ -919,7 +921,10 @@
      // 巷底與遠景（讓巷子看起來還有延伸）
      { const b=TK.apartment({w:12,d:10,floors:5,wall:'tile',color:'#c7b9a3',detail:false,ground:{type:'door'}}); b.position.set(5.75,0,21); b.rotation.y=Math.PI; g.add(b); buildings.push(b); wzTag(b,'F1'); addCollider(5.75,26,12,10,17); }
      { const b=TK.apartment({w:12,d:10,floors:4,wall:'mosaic',color:'#d6d0c2',detail:false,ground:{type:'shutter'}}); b.position.set(-12.25,0,-20); g.add(b); buildings.push(b); wzTag(b,'F2'); addCollider(-12.25,-25,12,10,14); }
@@ -41,16 +31,7 @@ diff --git a/src/zones3d.js b/src/zones3d.js
      // 西端（巷底）：住家公寓。v9.2 起兩點半 Café 搬到東端路口（門面朝西，傍晚夕陽沿著巷子照到店門口）
      { const endB=TK.apartment({w:14,d:13,floors:4,wall:'tile',color:'#cdbfa8',balcony:true,ground:{type:'door',color:'#5c3a21'}}); endB.position.set(-37.2,0,-1); endB.rotation.y=Math.PI/2; g.add(endB); buildings.push(endB); wzTag(endB,'W0'); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,16); }
      // 東端路口：兩點半 Café（一樓咖啡廳＋樓上住家；正對主巷，從公館走進溫州街第一眼就看到）
-@@ -1047,7 +1053,7 @@
-     // 夜間點光源（數量固定，白天強度 0，避免換燈數造成 shader 重編）
-     for(const [lx,ly,lz,c,i] of [[53.8,3.2,0,0xffc88a,1],[44,3.0,3.8,0xf2fbff,0.85],[14.2,3.0,3.6,0xffd6a0,0.7]]){ const L=new THREE.PointLight(c,0,16,1.8); L.position.set(lx,ly,lz); L.userData.maxI=i*18; g.add(L); lights.push(L); }
-     // 東端：回公館
--    E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-71,z:16.5,yaw:Math.PI}}});
-+    if(!XSL) E.interactables.push({x:51.3,z:-13.4,radius:2.6,label:'回公館',exit:{to:'gongguan',spawn:{x:-71,z:16.5,yaw:Math.PI}}});   /* 有新生南路時溫州街只有一個出入口：西側橫巷北口「往新生南路」（使用者 11-03 22:0x：「溫州街主要入口應該是新生南路側門 溫州街就在新生南路後面」、公館那頭的巷口「拿掉」）*/
-     for(const b of buildings) b.traverse(o=>{ if(o.isMesh){ o.castShadow=o.castShadow!==false; } });
-     // 時間：0 白天 → 1 夜晚（傍晚漸亮）
-     const warmSky=new THREE.Color(0xffc48a), warmGround=new THREE.Color(0x6a5644); const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi){ E.hemi.intensity+=0.85*k; E.hemi.color.lerp(warmSky,0.3*k); E.hemi.groundColor.lerp(warmGround,0.55*k); } for(const L of lights) L.intensity=L.userData.maxI*Math.max(0,Math.min(1,k)); for(const p of pools) p.material.opacity=p.userData.poolMax*Math.max(0,Math.min(1,k*1.2-0.2)); };
-@@ -2247,5 +2253,5 @@
+@@ -2247,5 +2252,5 @@
          if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
        const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
      setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
@@ -555,10 +536,10 @@ index 000000000..4c5c1259d
 +}
 diff --git a/tests/xinsheng_unit.js b/tests/xinsheng_unit.js
 new file mode 100644
-index 000000000..80a9bf0b6
+index 000000000..af6bb91b4
 --- /dev/null
 +++ b/tests/xinsheng_unit.js
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,58 @@
 +/* 新生南路（ART-XINSHENG-GATE-1103，LAWWW2 11-03）：區域建得起來；從側門進來走得到溫州街巷口、七間店的門口、兩條斑馬線的對面；斑馬線以外的車道走不到；
 +   互動點：側門回校園、往溫州街。用法：node tests/xinsheng_unit.js */
 +const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -616,11 +597,6 @@ index 000000000..80a9bf0b6
 +  check('14. 從新生南路來的溫州街出生點站得住、走得到出口',wFree(ws.x,ws.z)&&!!ex&&wReach([ws.x,ws.z],[ex.x,ex.z]),ws.x+','+ws.z);
 +  check('15. 溫州街出生點走得到兩點半門口、公館巷口（主巷整條接得起來）',wReach([ws.x,ws.z],[51.7,0])&&wReach([ws.x,ws.z],[51.3,-9.8]));
 +  check('16. 巷底 W0 照舊擋住（W0 的導航阻擋 (−43.7, −1) 走不到）',!wFree(-43.7,-1)); }
-+// 使用者 11-03 22:0x：溫州街只從新生南路進出（公館西端的巷口拿掉、溫州街裡的「回公館」拿掉）
-+{ check('17. 溫州街沒有「回公館」出口（只剩往新生南路）',(()=>{ E.interactables=[]; E.colliders=[]; Z3.ZONES.wenzhou.build(E); const ex=E.interactables.filter(q=>q.exit); return !ex.some(q=>q.exit.to==='gongguan')&&ex.some(q=>q.exit.to==='xinsheng'); })());
-+  E.interactables=[]; E.colliders=[]; const gz=Z3.ZONES.gongguan.build(E); const gn=gz.nav;
-+  const gFree=(x,zz)=>{ const c=Math.floor((x-gn.ox)/gn.cell), r=Math.floor((zz-gn.oz)/gn.cell); return c>=0&&r>=0&&c<gn.cols&&r<gn.rows&&!gn.b[gn.idx(c,r)]; };
-+  check('18. 公館沒有「往溫州街」出口、巷口 (−71, 20.2) 走不進去',!E.interactables.some(q=>q.exit&&q.exit.to==='wenzhou')&&!gFree(-71,20.2)&&!gFree(-71,21.5)); }
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 diff --git a/assets/models/env/second_ai/wenzhou_street.glb b/assets/models/env/second_ai/wenzhou_street.glb
 index 7669dd7c8006eaf2e3ea9642cb2623e0e2cbde8b..354029cd4bfa919eb1bee5d7ab773208dc0f0a14 100644
