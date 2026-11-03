@@ -1,17 +1,19 @@
-[08:32:21] run_forever round: 1   runner sha256: a98287fbd6
-[08:32:21] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[08:32:21]          playwright 1.64.1 OK
-[08:32:21] git    : git version 2.56.0.windows.4
-[08:32:21] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[08:32:22] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[08:32:22] repo   : C:\Users\USER\Documents\Lawstudent
-[08:32:22] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[08:32:22] parallel: 2  (blender items run alone)
-[08:32:22] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[08:32:22] git fetch
+[09:17:05] run_forever round: 2   runner sha256: 88d80543f6
+[09:17:05] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[09:17:05]          playwright 1.64.1 OK
+[09:17:05] git    : git version 2.56.0.windows.4
+[09:17:05] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[09:17:05] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[09:17:05] repo   : C:\Users\USER\Documents\Lawstudent
+[09:17:05] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[09:17:05] parallel: 2  (blender items run alone)
+[09:17:05] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[09:17:05] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       f1eb06684..69af0167b  claude/cc-testing -> origin/claude/cc-testing
+       bc8ffc08f..f87996dc3  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
@@ -38,239 +40,18 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_main_pass.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_route_grades_retake.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
-    M	docs/story_planning/CC/local_out/summary.md
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[08:32:26] dev head = 238518a38   lawww2 head = b5c2e47c0
-[08:32:28] killed leftover test browser pid 12508: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:28] killed leftover test browser pid 18584: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:28] killed leftover test browser pid 23876: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:29] killed leftover test browser pid 18880: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:29] killed leftover test browser pid 15988: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:29] killed leftover test browser pid 13476: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:30] killed leftover test browser pid 30992: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:30] killed leftover test browser pid 13428: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:30] killed leftover test browser pid 30032: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[08:32:30] config.txt: PARALLEL 2 -> 3
-[08:32:30] memory used: 39%  (new items wait while >= 85%)
-[08:32:34] queue: X_A1_adv, X_G5_term, X_G5b_ancf, X_G6a_v7, X_G6b_v95, X_G6c_fm, X_G3_libsc, X_P5_ui, X_P5w, X_G4v2, X_P3_ladder, X_P1_d124, X_P2_bar_a, X_P2_bar_b, X_P2_epi, X_P1pre, N1_node, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
-[08:32:34] skip X_A1_adv (already done on 62d98bfa5)
-[08:32:34] skip X_G5_term (already done on 62d98bfa5)
-[08:32:34] skip X_G5b_ancf (already done on 62d98bfa5)
-[08:32:34] skip X_G6a_v7 (already done on 62d98bfa5)
-[08:32:34] skip X_G6b_v95 (already done on 62d98bfa5)
-[08:32:34] skip X_G6c_fm (already done on 62d98bfa5)
-[08:32:34] skip X_G3_libsc (already done on 62d98bfa5)
-[08:32:34] skip X_P5_ui (already done on 62d98bfa5)
-[08:32:34] skip X_P5w (already done on 62d98bfa5)
-[08:32:34] skip X_G4v2 (already done on 62d98bfa5)
-[08:32:34] skip X_P3_ladder (already done on 5f238fc9d)
-[08:32:34] skip X_P1_d124 (already done on 62d98bfa5)
-[08:32:34] skip X_P2_bar_a (already done on 62d98bfa5)
-[08:32:34] skip X_P2_bar_b (already done on 62d98bfa5)
-[08:32:34] skip X_P2_epi (already done on 62d98bfa5)
-[08:32:34] skip X_P1pre (already done on a3d80d47a)
-[08:32:34] skip N1_node (already done on ef63b1877)
-[08:32:34] skip G1_reach (already done on ef63b1877)
-[08:32:34] skip G2_libfl (already done on ef63b1877)
-[08:32:34] skip G3_libsc (already done on ef63b1877)
-[08:32:34] skip G5_termend (already done on ef63b1877)
-[08:32:34] skip G6a_v7 (already done on ef63b1877)
-[08:32:34] skip G6b_v95 (already done on ef63b1877)
-[08:32:34] skip G6c_fm (already done on ef63b1877)
-[08:32:34] skip G7_class (already done on ef63b1877)
-[08:32:34] skip P3_ladder (already done on ef63b1877)
-[08:32:34] skip P4_legal (already done on ef63b1877)
-[08:32:34] skip P5_ui (already done on ef63b1877)
-[08:32:34] skip A1_advskip (already done on b1b249873)
-[08:32:34] skip A2_dorm (already done on b1b249873)
-[08:32:34] skip A3_late15 (already done on b1b249873)
-[08:32:34] skip A1_adv_ef63 (already done on ef63b1877)
-[08:32:34] skip A2_dorm_ef63 (already done on ef63b1877)
-[08:32:34] skip A3_l15_ef63 (already done on ef63b1877)
-[08:32:34] skip A1pre (already done on 03b2721af)
-[08:32:34] skip A2pre (already done on 3c6207b60)
-[08:32:34] skip A3pre (already done on dc36b401e)
-[08:32:34] skip ART_cop (already done on b1b249873)
-[08:32:35] skip ART_lband (already done on b1b249873)
-[08:32:35] skip ART_night (already done on b1b249873)
-[08:32:35] skip ART_uskit (already done on b1b249873)
-[08:32:35] skip BK1_cpu (already done on b5c2e47c0)
-[08:32:35] skip BK1_hip (already done on b5c2e47c0)
-[08:32:35] skip P3b_sl (already done on ef63b1877)
-[08:32:35] skip R4main (already done on 27e6ce77e)
-[08:32:35] skip R4b1b_rr (already done on b1b249873)
-[08:32:35] skip R4v2_b1b (already done on b1b249873)
-[08:32:35] skip B4main (already done on 27e6ce77e)
-[08:32:35] skip R1_reach (already done on b1b249873)
-[08:32:35] skip R2_flowcls (already done on b1b249873)
-[08:32:35] skip R3_touchwz (already done on b1b249873)
-[08:32:35] skip R4_day12 (already done on b1b249873)
-[08:32:35] skip R6_layout (already done on b1b249873)
-[08:32:35] skip R6b_layoutcss (already done on b1b249873)
-[08:32:35] skip R7_quota (already done on b1b249873)
-[08:32:35] skip R7b_quota15 (already done on b1b249873)
-[08:32:35] skip R8b_y4s2jp (already done on b1b249873)
-[08:32:35] skip R8c_y4s2fin (already done on b1b249873)
-[08:32:35] skip R9_roll (already done on b1b249873)
-[08:32:35] skip R5_rr (already done on b1b249873)
-[08:32:35] skip R6_rr (already done on b1b249873)
-[08:32:35] skip R8_rr (already done on b1b249873)
-[08:32:35] skip R10_b3 (already done on b1b249873)
-[08:32:35] skip R11_b4 (already done on b1b249873)
-[08:32:35] skip R10_rr (already done on b1b249873)
-[08:32:35] skip R12_fasat (already done on b1b249873)
-[08:32:35] skip R12b_fasatpre (already done on ba125d6f3)
-[08:32:35] skip R10_rr2 (already done on b1b249873)
-[08:32:35] skip R6_rr2 (already done on b1b249873)
-[08:32:35] skip R8_rr2 (already done on b1b249873)
-[08:32:35] skip F1_fps_hl (already done on b1b249873)
-[08:32:35] skip F2_fps_hd (already done on b1b249873)
-[08:32:35] skip R1_x2 (already done on b1b249873)
-[08:32:35] skip R2_x2 (already done on b1b249873)
-[08:32:35] skip R3_x2 (already done on b1b249873)
-[08:32:35] skip R4_x2 (already done on b1b249873)
-[08:32:35] memory 41% before starting R5_x2 (0 running)
-[08:32:35] memory 41% before starting R9_x2 (1 running)
-[08:32:35] ==== START R5_x2  (probe @ b1b249873) ====
-[08:32:35] memory 41% before starting R1_x3 (2 running)
-[08:32:35] ==== START R9_x2  (probe @ b1b249873) ====
-[08:32:35] ==== START R1_x3  (game @ b1b249873) ====
-[08:32:38] [res] cpu=9% mem=41% (12.9/31.4 GB) chrome_testing=8  START R1_x3
-[08:32:38] [res] cpu=7% mem=41% (12.9/31.4 GB) chrome_testing=8  START R9_x2
-[08:32:38] [res] cpu=9% mem=41% (12.9/31.4 GB) chrome_testing=8  START R5_x2
-[08:32:59] leftover C:\Users\USER\Documents\wt_cc_R9_x2 cannot be removed - using C:\Users\USER\Documents\wt_cc_R9_x2_1793665979
-[08:33:23] leftover C:\Users\USER\Documents\wt_cc_R5_x2 cannot be removed - using C:\Users\USER\Documents\wt_cc_R5_x2_1793666003
-[08:39:00] [res] cpu=18% mem=52% (16.6/31.4 GB) chrome_testing=17  END R9_x2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5630ec2d2..01b676b6d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:39:07] ==== END   R9_x2  exit=0  386s   ====
-[08:39:10] memory 52% before starting R2_x3 (2 running)
-[08:39:10] ==== START R2_x3  (game @ b1b249873) ====
-[08:39:13] [res] cpu=41% mem=52% (16.6/31.4 GB) chrome_testing=18  START R2_x3
-[08:40:35] [res] cpu=79% mem=49% (15.6/31.4 GB) chrome_testing=18  END R1_x3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       01b676b6d..4b23f00d0  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:40:39] ==== END   R1_x3  exit=0  480s   ====
-[08:40:42] memory 49% before starting R3_x3 (2 running)
-[08:40:42] ==== START R3_x3  (game @ b1b249873) ====
-[08:40:45] [res] cpu=91% mem=49% (15.5/31.4 GB) chrome_testing=18  START R3_x3
-[08:41:17] [res] cpu=60% mem=48% (15.2/31.4 GB) chrome_testing=17  END R2_x3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       4b23f00d0..b782881ff  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:41:22] ==== END   R2_x3  exit=0  127s   ====
-[08:41:25] memory 50% before starting R4_x3 (2 running)
-[08:41:25] ==== START R4_x3  (game @ b1b249873) ====
-[08:41:28] [res] cpu=45% mem=50% (15.8/31.4 GB) chrome_testing=17  START R4_x3
-[08:43:50] [res] cpu=24% mem=48% (15.3/31.4 GB) chrome_testing=17  END R3_x3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b782881ff..f8fbe7341  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:43:54] ==== END   R3_x3  exit=0  188s   ====
-[08:43:57] memory 48% before starting R5_x3 (2 running)
-[08:43:57] ==== START R5_x3  (probe @ b1b249873) ====
-[08:44:00] [res] cpu=21% mem=48% (15.2/31.4 GB) chrome_testing=18  START R5_x3
-[08:44:53] [res] cpu=20% mem=48% (15.2/31.4 GB) chrome_testing=18  END R4_x3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f8fbe7341..c59d1002a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:44:59] ==== END   R4_x3  exit=1  209s   ====
-[08:45:01] memory 48% before starting R9_x3 (2 running)
-[08:45:01] ==== START R9_x3  (probe @ b1b249873) ====
-[08:45:05] [res] cpu=12% mem=48% (15.2/31.4 GB) chrome_testing=11  START R9_x3
-[08:51:05] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=19  END R9_x3
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c59d1002a..d6c74210d  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:51:12] ==== END   R9_x3  exit=0  364s   ====
-[08:51:14] memory 47% before starting 00_gpu (2 running)
-[08:51:14] ==== START 00_gpu  (gpu @ 381a4d705) ====
-[08:51:18] [res] cpu=29% mem=47% (14.9/31.4 GB) chrome_testing=19  START 00_gpu
-[08:53:50] [res] cpu=28% mem=48% (15.3/31.4 GB) chrome_testing=18  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d6c74210d..c78dd1fcd  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:53:55] ==== END   00_gpu  exit=0  156s   ====
-[08:53:57] memory 48% before starting 01_p0speed (2 running)
-[08:53:57] ==== START 01_p0speed  (game @ 381a4d705) ====
-[08:54:00] [res] cpu=40% mem=48% (15.2/31.4 GB) chrome_testing=19  START 01_p0speed
-[08:56:31] [res] cpu=6% mem=48% (15.1/31.4 GB) chrome_testing=20  END 01_p0speed
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       c78dd1fcd..46843e2c4  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:56:36] ==== END   01_p0speed  exit=0  154s   ====
-[08:56:56] memory 41% before starting 00_gpu (2 running)
-[08:56:56] ==== START 00_gpu  (gpu @ 8bc76b5ce) ====
-[08:56:59] [res] cpu=29% mem=41% (13.0/31.4 GB) chrome_testing=9  START 00_gpu
-[08:57:03] [res] cpu=12% mem=43% (13.1/31.4 GB) chrome_testing=9  END R5_x2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       46843e2c4..feef02c2a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:57:28] ==== END   R5_x2  exit=1  1468s   ====
-[08:57:31] memory 46% before starting 01_p0speed (2 running)
-[08:57:31] ==== START 01_p0speed  (game @ 75a38f329) ====
-[08:57:35] [res] cpu=27% mem=46% (14.8/31.4 GB) chrome_testing=18  START 01_p0speed
-[08:59:21] [res] cpu=13% mem=45% (14.0/31.4 GB) chrome_testing=18  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       feef02c2a..e4736eb29  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[08:59:25] ==== END   00_gpu  exit=0  145s   ====
-[08:59:27] memory 46% before starting 00_gpu (2 running)
-[08:59:27] ==== START 00_gpu  (gpu @ 75a38f329) ====
-[08:59:30] [res] cpu=21% mem=46% (14.5/31.4 GB) chrome_testing=18  START 00_gpu
-[09:00:11] [res] cpu=40% mem=49% (15.5/31.4 GB) chrome_testing=17  END 01_p0speed
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e4736eb29..01480f1e8  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:00:15] ==== END   01_p0speed  exit=0  160s   ====
-[09:00:18] memory 44% before starting 10_deploy (2 running)
-[09:00:18] ==== START 10_deploy  (game @ d75871437) ====
-[09:00:21] [res] cpu=15% mem=45% (14.0/31.4 GB) chrome_testing=13  START 10_deploy
-[09:01:53] [res] cpu=18% mem=51% (16.0/31.4 GB) chrome_testing=17  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       01480f1e8..207160aa6  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:01:58] ==== END   00_gpu  exit=0  146s   ====
-[09:02:00] memory 46% before starting 11_reach (2 running)
-[09:02:00] ==== START 11_reach  (game @ d75871437) ====
-[09:02:03] [res] cpu=20% mem=46% (14.5/31.4 GB) chrome_testing=16  START 11_reach
-[09:03:55] [res] cpu=10% mem=49% (15.3/31.4 GB) chrome_testing=17  END 10_deploy
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       207160aa6..483d19e6f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:03:59] ==== END   10_deploy  exit=0  217s   ====
-[09:04:01] memory 46% before starting 12_flowcls (2 running)
-[09:04:01] ==== START 12_flowcls  (game @ d75871437) ====
-[09:04:04] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=17  START 12_flowcls
-[09:06:09] [res] cpu=26% mem=51% (16.0/31.4 GB) chrome_testing=17  END 12_flowcls
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       483d19e6f..0afcb5516  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:06:14] ==== END   12_flowcls  exit=0  127s   ====
-[09:06:18] memory 52% before starting Y_A1_adv (2 running)
-[09:06:18] ==== START Y_A1_adv  (probe @ c89a5f9be) ====
-[09:06:21] [res] cpu=15% mem=52% (16.4/31.4 GB) chrome_testing=17  START Y_A1_adv
-[09:08:01] [res] cpu=13% mem=52% (16.4/31.4 GB) chrome_testing=17  END Y_A1_adv
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0afcb5516..4731b37e0  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:08:07] ==== END   Y_A1_adv  exit=0  103s   ====
-[09:08:10] memory 53% before starting Y_P1_d124 (2 running)
-[09:08:10] ==== START Y_P1_d124  (probe @ c89a5f9be) ====
-[09:08:13] [res] cpu=23% mem=53% (16.7/31.4 GB) chrome_testing=17  START Y_P1_d124
-[09:08:40] [res] cpu=13% mem=40% (12.6/31.4 GB) chrome_testing=9  END R5_x3
-[09:08:46] [res] cpu=10% mem=41% (13.0/31.4 GB) chrome_testing=9  END 11_reach
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       4731b37e0..4d4bed77b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:08:52] ==== END   R5_x3  exit=1  1483s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       4d4bed77b..458863c79  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[09:08:56] ==== END   11_reach  exit=0  406s   ====
-[09:08:59] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
-[09:16:58] [res] cpu=1% mem=35% (11.2/31.4 GB) chrome_testing=0  END Y_P1_d124
+    Merge made by the 'ort' strategy.
+     ...272\244\346\216\245\347\264\200\351\214\204.md" | 16 ++++++
+     ...4\237\351\226\223PC\347\265\220\346\236\234.md" | 61 ++++++++++++++++++++++
+     .../test_tools/cc/cc_dorm_moveout_probe.py         | 55 +++++++++++++++++--
+     .../test_tools/cc/cc_late15_probe.py               | 15 +++++-
+     .../test_tools/cc/cc_libwhisper_probe.py           | 38 +++++++++-----
+     .../test_tools/cc/cc_next1102_ui_probe.py          | 41 +++++++++++----
+     tools/cc_local/queue.txt                           |  4 +-
+     7 files changed, 199 insertions(+), 31 deletions(-)
+     create mode 100644 "docs/story_planning/CC/CC_35_\344\272\244\347\217\255\346\234\237\351\226\223PC\347\265\220\346\236\234.md"
+[09:17:13] dev head = f87996dc3   lawww2 head = b5c2e47c0
+[09:17:14] config.txt: PARALLEL 2 -> 3
+[09:17:14] memory used: 36%  (new items wait while >= 85%)
