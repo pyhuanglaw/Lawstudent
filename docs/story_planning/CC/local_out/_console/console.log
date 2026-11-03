@@ -151,3 +151,9 @@
 [19:37:14] [res] cpu=28% mem=48% (15.0/31.4 GB) chrome_testing=0  START V18R_deploy
 [19:37:14] [res] cpu=28% mem=48% (15.0/31.4 GB) chrome_testing=0  START V18R_p0
 [19:41:29] [res] cpu=93% mem=64% (20.3/31.4 GB) chrome_testing=12  END V18R_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b3103a68d..73369fe69  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:41:37] ==== END   V18R_deploy  exit=0  258s   ====
+[19:41:49] [res] cpu=59% mem=58% (18.1/31.4 GB) chrome_testing=9  END V18R_p0
+[19:41:57] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
