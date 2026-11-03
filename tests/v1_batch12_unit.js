@@ -106,9 +106,9 @@ const KX={dating_kexin:true};
     const f=cgFile('cg_nye_rooftop');
     check('CG-15：登錄的是正式檔 assets/cg/zhe/event_nye_rooftop.webp、1920×1080、標題「頂樓的跨年」',!!f&&f.file==='assets/cg/zhe/event_nye_rooftop.webp'&&!f.missing&&JSON.stringify(f.size)==='[1920,1080]'&&CG_REGISTRY.cg_nye_rooftop.title==='頂樓的跨年',JSON.stringify(f)); }
   /* ---------- A15：考完的宵夜 ---------- */
-  { fresh(termDay(9,3),21,'campus',KX); meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); picks=['繼續吃滷味']; await EVENTS.run(ev('ev_midterm_supper'));
+  { fresh(termDay(9,3),21,'campus',KX); meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); picks=['繼續聽']; await EVENTS.run(ev('ev_midterm_supper'));
     const o=opts.find(x=>x.includes('「……他有念啦。」'));
-    check('A15：明軒那個選項：「……他有念啦。」／（繼續吃滷味）（BB 2026-10-14）',!!o&&JSON.stringify(o)==='["「……他有念啦。」","（繼續吃滷味）"]'&&!G.flags.SUPPER_MX_EGG&&!lines().includes('明軒瞪了你一眼。'),JSON.stringify(o)); }
+    check('A15：明軒那個選項：「……他有念啦。」／（繼續聽）（BB 2026-10-14；AA_618 2-4-1 宵夜改在日常失速，AA 定稿「（繼續聽）」）',!!o&&JSON.stringify(o)==='["「……他有念啦。」","（繼續聽）"]'&&!G.flags.SUPPER_MX_EGG&&!lines().includes('明軒瞪了你一眼。'),JSON.stringify(o)); }
   /* ---------- A19：以安的第一則訊息 ---------- */
   const anMsgs=()=>(G.msgs||[]).filter(m=>m.tag==='an_first_note'||m.tag==='an_split_table').map(m=>({tag:m.tag,day:m.day,h:m.h,th:m.th,from:m.from,text:m.text}));
   const D2=2;
