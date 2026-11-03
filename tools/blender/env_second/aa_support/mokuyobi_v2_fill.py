@@ -74,7 +74,7 @@ def clock(xf, u, y, z=0.0):
 
 # ---------------------------------------------------------------- 1. 窗下的矮書櫃（窗台 0.75 以下；紗簾下緣 0.62，櫃子做到 0.58）
 wa, wb = fr['windows'][0]
-ub = Xf(0.8, Z1 - 0.17, math.pi)   # 正面朝店裡（−z）
+ub = Xf((wa + wb) / 2, Z1 - 0.17, math.pi)   # 正面朝店裡（−z）
 ulen = (wb - 0.1) - (wa + 0.1)
 ub.rbox(wm, -ulen / 2, ulen / 2, 0.0, 0.58, -0.15, -0.13, r=0.003)
 for k in range(8):
@@ -89,8 +89,8 @@ for k in range(7):
             lying_books(ub, (u0 + u1) / 2 - 0.12, 0.0, y, 4); K.book_rows(sh, 'books', ub, (u0 + u1) / 2 + 0.05, u1, y, 0.12, hgt=0.22, depth=0.2, rng=R2); continue
         K.book_rows(sh, 'books', ub, u0, u1, y, 0.12, hgt=0.22, depth=0.2, rng=R2)
 # 窗台上：小盆栽、一疊書、玻璃罐（避開紗簾 x −2.75～−2.15、0.55～1.05、3.75～4.35）
-for (x, c) in ((-1.6, '#b0653e'), (1.9, '#e8dcc0'), (3.25, '#8a6a4a')): sh.plant(x, Z1 - 0.11, h=0.3, r=0.065, pot_col=c, y0=fr['sill'])
-for x in (-0.45, 2.6): lying_books(xf0, x, Z1 - 0.11, fr['sill'], 3, w=0.2, d=0.15)
+for (x, c) in ((-1.6, '#b0653e'), (1.5, '#e8dcc0')): sh.plant(x, Z1 - 0.11, h=0.3, r=0.065, pot_col=c, y0=fr['sill'])
+for x in (-0.45, 1.9): lying_books(xf0, x, Z1 - 0.11, fr['sill'], 3, w=0.2, d=0.15)
 K.jar(sh, -1.1, Z1 - 0.1, fr['sill'], h=0.14, r=0.045, col='#d8c49a', lid='#6a4630')
 sh.tally('v2 window shelf')
 
