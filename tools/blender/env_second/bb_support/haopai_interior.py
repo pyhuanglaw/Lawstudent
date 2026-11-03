@@ -173,15 +173,20 @@ class Proto:
 
 
 # ---------------- 頂點色的小工具 ----------------
-def _new(c, n0): c.bm.faces.ensure_lookup_table(); return [c.bm.faces[i] for i in range(n0, len(c.bm.faces))]
+class _N0:
+    """「這之後新加的面」：記住當時有哪些面（bmesh 的面順序不保證新面在最後：create_cone 之後用 index 取，會塗到別的零件——v2 第一版的球拍中管變白）"""
+    def __init__(self, c): self.before = set(c.bm.faces)
+
+
+def _new(c, n0): return [f for f in c.bm.faces if f not in n0.before]
 
 
 def ccyl(c, a, b, r, col, seg=8, r2=None, caps=True):
-    n0 = len(c.bm.faces); c.cyl(a, b, r, seg=seg, r2=r2, caps=caps); return c.paint(_new(c, n0), col)
+    n0 = _N0(c); c.cyl(a, b, r, seg=seg, r2=r2, caps=caps); return c.paint(_new(c, n0), col)
 
 
 def clathe(c, prof, x, y, z, col, seg=16, R=None):
-    n0 = len(c.bm.faces); bm = L.lathe(prof, seg=seg); c.add_bm(bm, fm((x, y, z), R)); bm.free(); return c.paint(_new(c, n0), col)
+    n0 = _N0(c); bm = L.lathe(prof, seg=seg); c.add_bm(bm, fm((x, y, z), R)); bm.free(); return c.paint(_new(c, n0), col)
 
 
 def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=1):
@@ -190,7 +195,7 @@ def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=1):
 
 
 def csph(c, ctr, r, col, seg=8, rings=5, sy=1.0):
-    n0 = len(c.bm.faces); c.sphere(ctr, r, seg=seg, rings=rings, sy=sy); return c.paint(_new(c, n0), col)
+    n0 = _N0(c); c.sphere(ctr, r, seg=seg, rings=rings, sy=sy); return c.paint(_new(c, n0), col)
 
 
 def jit(hexcol, k=0.06):
@@ -216,7 +221,7 @@ def bad_build(k, grip):
 
 
 def frame_ring(c, cy, ay, az, rr, tx, col, n):
-    n0 = len(c.bm.faces); rings = []
+    n0 = _N0(c); rings = []
     for i in range(n):
         t = 2 * math.pi * i / n; y = cy + ay * math.sin(t); z = az * math.cos(t)
         ny, nz = math.sin(t) / ay, math.cos(t) / az; l = math.hypot(ny, nz); ny, nz = ny / l, nz / l
@@ -252,7 +257,7 @@ def tt_build(face_a, face_b):
         ring = [(cy + ay * math.sin(2 * math.pi * i / n) * (1.0 if math.sin(2 * math.pi * i / n) > 0 else 0.94), az * math.cos(2 * math.pi * i / n)) for i in range(n)]
         for xs, col in ((0.0058, face_a), (-0.0058, face_b)):
             vs = [c.bm.verts.new(g2b(xs, y, z)) for y, z in ring]; fc = c.bm.faces.new(vs if xs > 0 else list(reversed(vs))); c.paint([fc], col)
-        n0 = len(c.bm.faces); top = [c.bm.verts.new(g2b(0.0058, y, z)) for y, z in ring]; bot = [c.bm.verts.new(g2b(-0.0058, y, z)) for y, z in ring]
+        n0 = _N0(c); top = [c.bm.verts.new(g2b(0.0058, y, z)) for y, z in ring]; bot = [c.bm.verts.new(g2b(-0.0058, y, z)) for y, z in ring]
         for i in range(n): j = (i + 1) % n; c.bm.faces.new((top[i], top[j], bot[j], bot[i]))
         c.paint(_new(c, n0), '#c39a68')
         crb(c, -0.012, 0.012, 0.0, 0.105, -0.0135, 0.0135, '#b98756', r=0.006)
@@ -395,7 +400,7 @@ def hook(y, z, L_=0.08):
 
 
 n_b = 0
-ROWS = [(2.6, 6.55, -0.85), (1.84, 6.55, -0.85), (1.08, 2.15, RZ0 + 0.05), (0.36, 1.35, RZ0 + 0.05)]   # (握把底, z 起, z 止)
+ROWS = [(2.6, 6.55, -0.85), (1.84, 6.55, -0.85), (1.08, 2.15, RZ0 + 0.05), (0.36, 1.35, RZ0 + 0.05), (1.22, 4.6, 3.45)]   # (握把底, z 起, z 止)
 for ri, (yb, za, zb) in enumerate(ROWS):
     z = za - (0.045 if ri % 2 else 0.0)
     while z >= zb:
@@ -486,7 +491,7 @@ for j, col in enumerate(('#1d1d21', '#d2303a')):
     crb(c, xa + 0.3 + j * 0.08, xa + 0.315 + j * 0.08, bh, bh + 0.012, bz - 0.1, bz + 0.05, col, r=0.003)
     crb(cm, xa + 0.302 + j * 0.08, xa + 0.313 + j * 0.08, bh, bh + 0.008, bz + 0.05, bz + 0.13, '#c9ccce', r=0.002)
 clathe(c, [(0.0, 0.0), (0.06, 0.0), (0.062, 0.018), (0.0, 0.02)], xa + 0.55, bh, za + 0.2, '#f2f0ea', seg=12)   # 一卷拍線
-n0 = len(c.bm.faces); rows = []                                                              # 毛巾：從桌子前緣垂下來
+n0 = _N0(c); rows = []                                                              # 毛巾：從桌子前緣垂下來
 for k in range(7):
     t = k / 6; xx = xa + 0.1 * (1 - t) - 0.015 * t; yy = bh + 0.01 - 0.36 * t ** 1.2
     rows.append([c.bm.verts.new(g2b(xx, yy, zb - 0.06 + 0.01 * math.sin(k))), c.bm.verts.new(g2b(xx - 0.004, yy, zb - 0.36))])
@@ -702,7 +707,6 @@ pt.done()
 for i in range(5):                                                                             # 羽球筒（參考圖櫃台前段：一排一排直立）
     for j in range(3):
         TUBE[0].place(fm((xb_ - 0.07 - i * 0.095, T_, zb - 0.08 - j * 0.095), rot('Y', random.uniform(0, 6.3))))
-for i in range(3): TUBE[0].place(fm((xb_ - 0.07 - i * 0.095, T_ + 0.425, zb - 0.08), rot('Y', random.uniform(0, 6.3))))
 
 
 # ======================================================================
@@ -755,16 +759,17 @@ for (x0_, x1_) in ((XI0 + 0.02, -1.04), (1.44, XI1 - 0.02)):
 st_.done()
 # 桌球拍洞洞板（右邊鐵架的正面，面向店門；紅黑膠皮的成品拍 2 × 4）
 pbx0, pbx1, pby0, pby1, pbz = 1.2, 1.9, 0.8, 2.4, BZ1 + 0.02
-pb = Part('ttboard'); pb['alpha'].rect(((pbx0 + pbx1) / 2, (pby0 + pby1) / 2, pbz), (1, 0, 0), (0, 1, 0), (pbx1 - pbx0) / 2, (pby1 - pby0) / 2, ATL['peg'])
+pb = Part('ttboard'); pb['wood'].rbox(pbx0, pbx1, pby0, pby1, pbz - 0.02, pbz, r=0.004)   # 參考圖：深色木板（不是洞洞板的白鐵）
+for r_ in range(3): ccyl(pb['vcm'], (pbx0 + 0.04, pby1 - 0.12 - r_ * 0.5, pbz + 0.005), (pbx1 - 0.04, pby1 - 0.12 - r_ * 0.5, pbz + 0.005), 0.005, '#8d9196', seg=4)
 for (a0, a1, b0, b1) in ((pbx0 - 0.03, pbx0, pby0 - 0.03, pby1 + 0.03), (pbx1, pbx1 + 0.03, pby0 - 0.03, pby1 + 0.03), (pbx0, pbx1, pby0 - 0.03, pby0), (pbx0, pbx1, pby1, pby1 + 0.03)):
     pb['wood'].rbox(a0, a1, b0, b1, pbz - 0.02, pbz + 0.015, r=0.005)
 pb['goods'].rect(((pbx0 + pbx1) / 2, pby1 + 0.12, pbz + 0.017), (1, 0, 0), (0, 1, 0), 0.12, 0.08, sub('note_tt', 0, 0.2, 1, 0.8))
 pb.done()
 TT = [Proto('tt_rb', tt_build('#c0262a', '#1b1b1d')), Proto('tt_bb', tt_build('#1b1b1d', '#c0262a'))]
-for r_ in range(4):
-    for cz_ in range(3):
-        x = pbx0 + 0.13 + cz_ * 0.22; y = pby1 - 0.34 - r_ * 0.37
-        TT[(cz_ + r_) % 2 if r_ < 3 else 0].place(fm((x, y, pbz + 0.03), rot('Y', -math.pi / 2) @ rot('X', random.uniform(-0.05, 0.05))))
+for r_ in range(3):                                                                            # 參考圖：兩排大的紅黑成品拍、每排三支，掛在橫桿上
+    for cz_ in range(2):
+        x = pbx0 + 0.19 + cz_ * 0.32; y = pby1 - 0.5 - r_ * 0.5
+        TT[(cz_ + r_) % 2].place(fm((x, y, pbz + 0.03), rot('Y', -math.pi / 2) @ rot('X', random.uniform(-0.05, 0.05))) @ Matrix.Scale(1.35, 4))
 # 布簾（後門）＋電風扇
 cu = IT['curtain']; cux, cuw, cuh = cu['x'], cu['w'], cu['h']
 pcu = Part('curtain', side='back')
@@ -782,14 +787,14 @@ fn = IT['fan']; fx_, fz_ = fn['x'], fn['z']
 pf_ = Part('fan', T=fm((fx_, 0, fz_), rot('Y', -0.4))); c = pf_['vc']
 clathe(c, [(0, 0), (0.17, 0), (0.17, 0.02), (0.06, 0.05), (0.025, 0.06), (0, 0.06)], 0, 0, 0, '#e2e0da', seg=16)
 ccyl(c, (0, 0.06, 0), (0, 0.95, 0), 0.014, '#d2d0ca', seg=6); ccyl(c, (0, 0.5, 0), (0, 0.97, 0), 0.019, '#e2e0da', seg=6)
-n0 = len(c.bm.faces); c.ell((0, 1.05, -0.06), 0.07, 0.07, 0.1, seg=10, rings=5); c.paint(_new(c, n0), '#e2e0da')
+n0 = _N0(c); c.ell((0, 1.05, -0.06), 0.07, 0.07, 0.1, seg=10, rings=5); c.paint(_new(c, n0), '#e2e0da')
 for ring_z in (0.04, 0.1):
     pts_ = [(0.2 * math.cos(2 * math.pi * k / 14), 1.05 + 0.2 * math.sin(2 * math.pi * k / 14), ring_z) for k in range(14)]
     for a, b in zip(pts_, pts_[1:] + pts_[:1]): ccyl(c, a, b, 0.003, '#c8ccd0', seg=3)
 for k in range(10):
     a_ = 2 * math.pi * k / 10; ccyl(c, (0, 1.05, 0.12), (0.2 * math.cos(a_), 1.05 + 0.2 * math.sin(a_), 0.1), 0.002, '#c8ccd0', seg=3)
 for k in range(3):
-    a_ = 2 * math.pi * k / 3 + 0.3; n0 = len(c.bm.faces)
+    a_ = 2 * math.pi * k / 3 + 0.3; n0 = _N0(c)
     c.ell((0.1 * math.cos(a_), 1.05 + 0.1 * math.sin(a_), 0.07), 0.075, 0.045, 0.006, seg=8, rings=3); c.paint(_new(c, n0), '#9fc4d8')
 csph(c, (0, 1.05, 0.075), 0.03, '#e2e0da', seg=8, rings=4)
 pf_.done()

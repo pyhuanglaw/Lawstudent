@@ -1,14 +1,15 @@
 {
- "objects": 189,
- "unique_meshes": 50,
- "tris": 30122,
- "tris_drawn": 59590,
+ "objects": 167,
+ "unique_meshes": 49,
+ "tris": 33542,
+ "tris_drawn": 59502,
  "materials": 12,
  "out": "../../../../../../home/user/Lawstudent/assets/models/env/second_ai/bb_support/dabu.glb",
- "bytes": 2007060,
+ "bytes": 2396024,
  "texres": 512,
  "shop": "dabu",
- "layout": 1,
- "shoes": 159,
- "shoe_meshes": 20
+ "layout": 2,
+ "shoes": 138,
+ "shoe_meshes": 20,
+ "spots": 29
 }

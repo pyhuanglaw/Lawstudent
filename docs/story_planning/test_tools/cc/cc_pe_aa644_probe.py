@@ -4,11 +4,13 @@
     1F 球場：老師 (0,−7.0) 面南（yaw 0）；同學 10 人在圓心 (0,−6.8) 半徑 4.2 m 的半圈上、面向老師；玩家在半圈最南邊 CLS.PE_IN_GYM (0,−2.6)；羽球場沒人
     B1 池邊（游泳週＝大一上第 10～16 週、B1 開著）：老師 (19.8,−3.4)；同學 6 人坐東側兩張長椅（z≈−1.1）＋2 人站；玩家 CLS.PE_POOL (16.6,−2.2)
   CASES（逗號分隔；預設全部）：
-    normal       大一上第 2 週 2025-09-08（一）下午：球場站位、旁白「阿哲跑在最前面」（阿哲不在／不認識＝「有人」）逐字對稿
+    normal       大一上第 8 週 2025-10-20（一）15:30–17:20：球場站位、旁白「（分組比賽。輸的那一組收球。）」逐字對稿
+    name         大一下第 3 週 2026-03-09（一）：球場、旁白有名字「Alison 每打一球就喊一聲」（Alison 不在場／不認識＝「有人每打一球…」）
+                 （大一上舊局 9/17 開局：第 1～3 週在開局以前、第 5～7 週 9/29、10/6、10/13 放假——大一上球場有名字的兩句（第 2、6 週）在遊戲裡出不來，見回報）
     swim         大一上第 10 週 2025-11-03（一）：B1 池邊、旁白第 10 週、池邊鏡頭構圖（射線、水面）
     swim_closed  大一上第 13 週 2025-11-24（第四個星期一 B1 休館）：照舊在球場、旁白「（今天在球場講游泳的安全守則。下週下水。）」
-    late         大一上第 7 週 2025-10-13（一）：開始以後才走進去＝遲到 1～15 分鐘：R.late、出席 +1、沒有 R.abs
-    absent       大一上第 5 週 2025-09-29（一）：人在校園、不去，站著等到「沒去」：沒有 done、出席不加（點名週＝缺一次）
+    late         大一上第 14 週 2025-12-01（一，游泳週）：開始以後才走進去＝遲到 1～15 分鐘：R.late、出席 +1、沒有 R.abs；旁白照說
+    absent       大一上第 11 週 2025-11-10（一）：人在校園、不去，站著等到「沒去」：沒有 done、出席不加（點名週＝缺一次）
     econ         經濟系那一年 2024-09-11（三，pe_y0s1 第 2 週）：旁白名字換經濟系的同學、沒有法律系的名字
   每一個 CASE 的檢查：
     ① 第一句對話時人在 gym／gym_b1、ADV 背景 freeze ② 玩家站位 ③ 老師站位、朝向、名牌 ④ 同學人數、半圈／長椅、面向老師
@@ -16,7 +18,7 @@
     ⑦ 館內沒有「黑板」字幕 ⑧ freeze 那一刻，站進半圈的朋友（peFriend）是 VRM（driver＝vrm、userData.vrm），不是備用人物
     ⑨ 鏡頭構圖：從鏡頭打射線到每個人頭部，記第一個打到的（老師、朋友被擋＝FAIL，路人只記錄）；游泳池：鏡頭 y 和水面高度、鏡頭有沒有在水裡
     ⑩ 下課：done、出席、遲到、缺席照舊
-  截圖：normal、swim 各兩張（第一句、旁白那一句）、swim_closed 一張、late 一張（第一句）、econ 一張。
+  截圖：normal、swim 各兩張（第一句、旁白那一句）、name、econ 兩張、swim_closed 一張、late 一張（第一句）；每個 CASE 另有下課後一張。
   每一個捷徑前置都印「[前置／捷徑]」：讀檔（日期、時間、門口南邊）、條件事件關閉、手機自動訊息關閉、讓朋友「認識」（SOCIAL.meet）。
   對照組（修正前 6c14ce66d）跑 normal：③ 老師 z（−7.9）④ 6 人、不在半圈 ⑤ 羽球照打 ⑥ 台詞池那一句（不是稿上的旁白）⑧ 沒有朋友站進來 應該 FAIL；① ② ⑩ 應該 PASS。
 用法：LW_TESTS=<wt>/tests [CASES=normal,swim] python3 cc_pe_aa644_probe.py <url> <out>"""
@@ -26,7 +28,7 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-ALL = ['normal', 'swim', 'swim_closed', 'late', 'absent', 'econ']
+ALL = ['normal', 'name', 'swim', 'swim_closed', 'late', 'absent', 'econ']
 CASES = [c.strip() for c in (os.environ.get('CASES') or ','.join(ALL)).split(',') if c.strip()]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
@@ -400,12 +402,20 @@ async def main():
 
         if 'normal' in CASES:
             print('== normal 一般週（球場）', flush=True)
-            x = await case_class(pg, cdp, 'normal', '2025-09-08', {'cid': 'pe_y1s1', 'week': 2, 'swim': False}, -0.4, ('first', 'narr'))
+            x = await case_class(pg, cdp, 'normal', '2025-10-20', {'cid': 'pe_y1s1', 'week': 8, 'swim': False}, -0.4, ('first', 'narr'))
             if x:
                 r0, r1 = x['r0'], x['r1']
                 check('normal ⑩ 下課：done、出席 +1、沒有缺席', r1['st'] == 'done' and r1['done'] and r1['attend'] == r0['attend'] + 1 and not r1['abs'], J(r1))
                 if not r1['late']: check('normal ⑩ 準時進去：沒有記遲到', not r1['late'], J(r1))
                 else: info('normal ⑩ 走進去時已經開始（記了遲到）', J(r1))
+
+        if 'name' in CASES:
+            print('== name 旁白有名字（大一下第 3 週 Alison）', flush=True)
+            x = await case_class(pg, cdp, 'name', '2026-03-09', {'cid': 'pe_y1s2', 'week': 3, 'swim': False}, -0.4, ('first', 'narr'))
+            if x:
+                sn = x['r']['snap'] or {}; h = (sn.get('here') or {}).get('yu') or {}
+                info('name Alison 在場／認識', J(h))
+                check('name ⑩ 下課：done', x['r1']['st'] == 'done', J(x['r1']))
 
         if 'swim' in CASES:
             print('== swim 游泳週（B1 池邊）', flush=True)
@@ -423,22 +433,22 @@ async def main():
 
         if 'late' in CASES:
             print('== late 遲到 1～15 分鐘', flush=True)
-            x = await case_class(pg, cdp, 'late', '2025-10-13', {'cid': 'pe_y1s1', 'week': 7, 'swim': False}, 0.03, ('first',))
+            x = await case_class(pg, cdp, 'late', '2025-12-01', {'cid': 'pe_y1s1', 'week': 14, 'swim': True}, 0.03, ('first',))
             if x:
                 r0, r1 = x['r0'], x['r1']
                 lm = [t for t in x['texts'] if '後面有位子' in t]
                 info('late 走進去那一刻的遲到分鐘', '下課後 lateMin 不準（整堂課）；老師那一句「後面有位子」：%s' % J(lm))
                 check('late ⑩ 遲到 1～15 分鐘：記遲到（R.late）、出席 +1、done、沒有缺席（R.abs）', r1['done'] and r1['late'] and r1['attend'] == r0['attend'] + 1 and not r1['abs'], J(r1))
-                check('late ⑥ 遲到也照說這週的旁白', any(t == DOC['pe_y1s1'][6] for t in x['texts']), J(x['texts'][:8]))
+                check('late ⑥ 遲到也照說這週的旁白', any(t == DOC['pe_y1s1'][13] for t in x['texts']), J(x['texts'][:8]))
 
         if 'absent' in CASES:
             print('== absent 沒去', flush=True)
-            fh = await find_class(pg, '2025-09-29')
-            ok = check('absent 前置：2025-09-29 有體育課（pe_y1s1 第 5 週）', bool(fh.get('it')) and fh['it']['id'] == 'pe_y1s1' and fh['it']['week'] == 5, J(fh))
+            fh = await find_class(pg, '2025-11-10')
+            ok = check('absent 前置：2025-11-10 有體育課（pe_y1s1 第 11 週）', bool(fh.get('it')) and fh['it']['id'] == 'pe_y1s1' and fh['it']['week'] == 11, J(fh))
             if ok:
                 h = fh['it']['t0'] - 0.2
                 st = {'zone': 'campus', 'hour': h, 'day': fh['day'], 'weekday': fh['wd'], 'weather': 'clear', 'flags': dict(FLAGS), 'pos': {'x': 74, 'z': 40, 'yaw': 0}, 'stage': 'law', 'energy': 90, 'money': 20000}
-                await load(pg, cdp, st, '2025-09-29 %.2f 時（上課 %.2f–%.2f）、校園 (74,40)，不去體育館' % (h, fh['it']['t0'], fh['it']['t1']))
+                await load(pg, cdp, st, '2025-11-10 %.2f 時（上課 %.2f–%.2f）、校園 (74,40)，不去體育館' % (h, fh['it']['t0'], fh['it']['t1']))
                 a = {'key': fh['it']['key'], 'cid': fh['it']['id']}
                 r0 = await pg.evaluate(js(REC, a)); print('  一開始：%s' % J(r0), flush=True)
                 t0 = time.time(); r1 = r0
