@@ -81,7 +81,9 @@ for(const [zid,key,h] of [['gym',TUE,12.6],['gym',SAT,19],['gym',MONPE,15.8],['g
   check('4. 服務台、販賣機、直飲台、中圈、「打羽球」、進門的地方、B1 櫃台前面、健身中心門口、3F 入口通道：都不站人（走動的路線也不經過）',!bad.length,[...new Set(bad)].slice(0,6).join('｜')); }
 // ---------- 5. 體育課、典禮的日子 ----------
 { const G=mkG(MONPE,15.8); const it=CLS.dayItems(G).find(q=>q.room&&q.room.door==='gym'); enter('gym',G); const t=role('pe_teacher')[0], st=role('pe_student');
-  check('5. 玩家的體育課上課中（週一 15:48，'+(it?it.c.name:'？')+'）：中圈北邊一位體育老師（名字＝課堂上的稱呼）面向一排同學',!!it&&!!t&&t.name===CLS.teacherName(it.c)&&st.length>=5&&Math.cos(t.obj.rotation.y)>0.9&&st.every(n=>Math.cos(n.obj.rotation.y)<-0.9&&n.obj.position.z>t.obj.position.z),t?t.name+'、同學 '+st.length:'沒有老師');
+  /* AA_644 第 1 節（PE-IN-GYM-AA644-1103）：原本是「一排同學」，改成同學在南邊圍成半圈、面向老師（詳細在 tests/pe_aa644_unit.js）*/
+  const faceT=n=>{ const dx=t.obj.position.x-n.obj.position.x, dz=t.obj.position.z-n.obj.position.z, a=Math.atan2(dx,dz); return Math.cos(a-n.obj.rotation.y)>0.95; };
+  check('5. 玩家的體育課上課中（週一 15:48，'+(it?it.c.name:'？')+'）：中圈北邊一位體育老師（名字＝課堂上的稱呼）面向南邊圍成半圈的同學（每個人面向老師）',!!it&&!!t&&t.name===CLS.teacherName(it.c)&&st.length>=8&&Math.cos(t.obj.rotation.y)>0.9&&t.obj.position.z<-5.8&&st.every(n=>faceT(n)&&n.obj.position.z>=t.obj.position.z-1),t?t.name+'、同學 '+st.length:'沒有老師');
   const G2=mkG(MONPE,17.6); enter('gym',G2); check('5. 下課以後（17:36）：體育課的老師、同學不在',!role('pe_teacher').length&&!role('pe_student').length); }
 { const G=mkG('2025-08-31',15); enter('gym_arena',G); const n=ppl().length; check('5. 典禮的日子（2025-08-31 開學典禮，3F 布置打開）：主球場沒有人打球',!!(GY3.ceremonyDay&&GY3.ceremonyDay(G))&&n===0,n+' 人'); }
 // ---------- 6. 櫃台阿姨說話 ----------

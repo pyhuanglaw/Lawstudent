@@ -153,6 +153,12 @@ const CROWD=(function(){
       const q=quiet(G)||(typeof CALENDAR!=='undefined'&&!!CALENDAR.holiday(G.day)), w=wk(G); const cuts=[[a,12,0],[12,14,1],[14,17.5,2],[17.5,b,3]];
       return cuts.map(([t0,t1,i])=>({t0:Math.max(t0,a),t1:Math.min(t1,b),i})).filter(c=>c.t1-c.t0>0.05).map(c=>{ let n=busy[c.i].slice(); if(w) n=[Math.max(n[0],busy[3][0]-1),Math.max(n[1],busy[3][1]-1)]; if(q) n=[Math.max(0,n[0]-1),Math.max(1,n[1]-1)];
         return {key:'g'+c.i,t0:c.t0,t1:c.t1,n,fixed:true,pose:'idle',talk:0,enter:'door',leave:'door'}; }); };
+    /* 玩家的體育課（課表的體育課，門口 gym）：[開始前 30 分鐘, 下課, 那一堂]；swim＝游泳週在 B1 上的（CLS.peSwim，AA_644）、false＝在 1F 球場上的 */
+    const peWin=(G,swim)=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym'&&!!(CLS.peSwim&&CLS.peSwim(G,it))===!!swim).map(it=>[it.t0-0.5,it.t1,it]); };
+    /* 把一天的時段切開：和體育課重疊的那一段 pe:true（沒切到的時段 key 不變：同一天同一時段同一批人）*/
+    const cutPE=(slots,W)=>{ if(!W.length) return slots; const out=[]; for(const s of slots){ let segs=[[s.t0,s.t1,false]];
+        for(const [a,b] of W){ const nx=[]; for(const [p,q,f] of segs){ if(f||b<=p||a>=q){ nx.push([p,q,f]); continue; } if(a>p) nx.push([p,a,false]); nx.push([Math.max(p,a),Math.min(q,b),true]); if(b<q) nx.push([b,q,false]); } segs=nx; }
+        segs.forEach(([p,q,f],i)=>{ if(q-p>0.05) out.push(Object.assign({},s,{key:s.key+(segs.length>1?'_'+i:''),t0:p,t1:q,pe:f})); }); } return out; };
     let IX=0; const mkSpot=(id,zone,c,door,people,slots,extra)=>Object.assign({id:'gym_'+id,zone,label:'體育館',gym:id,ix:IX++,c,spread:[1,1],door,road:door,people,slots,fidget:true},extra||{});   /* fidget：站著的人（器材旁、場邊、體育課的同學）也有小動作 */
     const D1=[0,17.9], DB=[18,7.6], DA=[0,24.8];   /* 進出的地方：1F 大門、B1 上樓的樓梯、3F 入口通道 */
     const B=L.b1, A=L.arena, eq=n=>(B.equipment.find(e=>e.node===n)||{at:[]}).at;
@@ -168,12 +174,22 @@ const CROWD=(function(){
     const court=mkSpot('court','gym',[0,-4],D1,function(G,slot,r){ const nc=Math.min(COURTS.length,Math.max(1,Math.round(cnt(r,slot)/2))), sp=specs(r,nc*2,this.ix), out=[];
         for(let c=0;c<nc;c++){ const [cx,cz]=COURTS[c]; for(const sd of [-1,1]){ const k=out.length, z0=cz+sd*3.0, wp=[[cx-1.2,z0+sd*0.5],[cx+1.1,z0-sd*0.6],[cx+0.5,z0+sd*1.4],[cx-0.8,z0-sd*0.9]].map(q=>[+q[0].toFixed(2),+q[1].toFixed(2),0]);
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'badminton',beh:'route',waypoints:wp,ri:Math.floor(r()*wp.length),walkSpeed:2.6,run:true,pauseAt:true,faceYaw:face([cx,z0],[cx,cz])})); } }
-        return out; },G=>{ const w=wk(G); return daySlots(G,[[0,0],[2,4],[2,4],[4,6]],w?9:12,w?17:21).filter(s=>s.n[1]>0); });
-    /* ---- 1F 球場：體育課（玩家自己的體育課上課中）---- */
-    const pe=mkSpot('pe','gym',[0,-6],D1,function(G,slot,r){ const sp=specs(r,7,this.ix), out=[]; const c=slot.course;
-        out.push(mk(this,slot,0,{x:0,z:-7.9,yaw:0,spec:Object.assign({},(typeof CLS!=='undefined'&&CLS.teacherSpec&&c)?CLS.teacherSpec(c):STORY.extraSpec(sp[0])),role:'pe_teacher',name:(typeof CLS!=='undefined'&&CLS.teacherName&&c)?CLS.teacherName(c):'體育老師',rawSpec:true}));
-        [-4.2,-3.0,-1.8,1.8,3.0,4.2].forEach((x,k)=>out.push(mk(this,slot,k+1,{x,z:-6.0+(k%2?0.25:0),yaw:Math.PI,spec:sp[k+1],role:'pe_student',pose:k%3===1?'talk':'idle'})));
-        return out; },G=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym').map(it=>({key:'pe|'+it.key,t0:it.t0-0.5,t1:it.t1,n:[7,7],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c})); });
+        return out; },G=>{ const w=wk(G); return cutPE(daySlots(G,[[0,0],[2,4],[2,4],[4,6]],w?9:12,w?17:21),peWin(G,false)).filter(s=>s.n[1]>0&&!s.pe); });   /* 玩家的體育課在球場上的時候（AA_644：整個球場是那一班的）兩面羽球場不打 */
+    /* ---- 1F 球場：體育課（玩家自己的體育課上課中）----
+       AA_644 第 1 節：老師在中圈北邊、面向南（面向學生）；同學在南邊排成半圈，大約 10 人（路人底模；運動服的外觀還沒有：LAWWW2）。
+       半圈的圓心 (0, −6.8)、半徑 4.2 m：最南邊那一格（0, −2.6）是玩家（CLS.PE_IN_GYM），兩側各 5 格（每格 20°，相隔約 1.46 m）、面向老師；序號 1、2＝玩家左右兩邊，越大越遠。
+       有修這堂、在場的朋友由 CLS.peCast 換掉序號最小的幾個（換掉的位子記在 CLS.peTakenKey，人群重排時空著）。
+       游泳週（CLS.peSwim：B1 開著）這裡沒有人，整班在 B1 游泳池（gym_pe_pool）*/
+    S.PE_RING={c:[0,-6.8],r:4.2,step:20,teacher:[0,-7.0]};
+    const ringAt=k=>{ const R=S.PE_RING, j=Math.ceil(k/2), sd=k%2?1:-1, a=sd*j*R.step*Math.PI/180; return [+(R.c[0]+R.r*Math.sin(a)).toFixed(2),+(R.c[1]+R.r*Math.cos(a)).toFixed(2)]; };   /* k＝1…10 */
+    S.peRingAt=ringAt;
+    const taken=key=>typeof CLS!=='undefined'&&CLS.peTakenKey&&CLS.peTakenKey(key);
+    const tName=c=>(typeof CLS!=='undefined'&&CLS.teacherName&&c)?CLS.teacherName(c):'體育老師', tSpec=(c,sp)=>Object.assign({},(typeof CLS!=='undefined'&&CLS.teacherSpec&&c)?CLS.teacherSpec(c):STORY.extraSpec(sp));
+    const peSlots=(G,swim)=>peWin(G,swim).map(([t0,t1,it])=>({key:'pe|'+it.key,t0,t1,n:[11,11],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c}));
+    const pe=mkSpot('pe','gym',[0,-6],D1,function(G,slot,r){ const sp=specs(r,11,this.ix), out=[]; const c=slot.course, T=S.PE_RING.teacher;
+        out.push(mk(this,slot,0,{x:T[0],z:T[1],yaw:0,spec:tSpec(c,sp[0]),role:'pe_teacher',name:tName(c),rawSpec:true}));
+        for(let k=1;k<=10;k++){ const q=ringAt(k), o=mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,T),spec:sp[k],role:'pe_student',pose:k%3===1?'talk':'idle'}); if(!taken(o.key)) out.push(o); }
+        return out; },G=>peSlots(G,false));
     /* ---- B1 ---- */
     const TM=eq('GYM_TREADMILL'), SQ=eq('GYM_SQUAT_RACK'), DBR=eq('GYM_DB_RACK'), BN=eq('GYM_BENCH'), MAT=eq('GYM_MAT');
     const BK=eq('GYM_BIKE'), RW=eq('GYM_ROWER');
@@ -199,8 +215,17 @@ const CROWD=(function(){
     const LG=(B.entryProps.find(e=>e.node==='GYM2_LIFEGUARD')||{at:[[14.2,-12]]}).at[0], PB=B.poolBenches||[];
     const pool=mkSpot('pool','gym_b1',[0,-2],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[];
         out.push(mk(this,slot,0,{x:+(LG[0]-1.0).toFixed(2),z:LG[1],yaw:-Math.PI/2,spec:sp[0],role:'lifeguard',name:'救生員',fixed:true}));   /* 高椅西邊、面向池子（-x）*/
+        if(slot.pe) return out;   /* 游泳週的體育課（AA_644）：長椅給那一班，池邊只有救生員 */
         const bs=shuffle(PB,r); for(let k=1;k<n&&k-1<bs.length;k++){ const q=bs[k-1]; out.push(mk(this,slot,k,{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI,spec:sp[k],role:'pool_bench',seat:{x:q[0],z:+(q[1]-0.1).toFixed(2),yaw:Math.PI}})); }   /* 長椅四張：至少空一張給玩家（n 最多 3）*/
-        return out; },G=>daySlots(G,[[2,3],[2,3],[2,3],[3,3]]));   /* 放假、國定假日少一個：至少救生員＋一個人 */
+        return out; },G=>cutPE(daySlots(G,[[2,3],[2,3],[2,3],[3,3]]),peWin(G,true)));   /* 放假、國定假日少一個：至少救生員＋一個人 */
+    /* ---- B1 游泳池：游泳週的體育課（AA_644 第 1 節：整班改到 B1 游泳池，老師站池邊，同學坐在池邊的長椅）----
+       東側兩張長椅一張坐三個（面向池子）、旁邊站兩個；老師站在長椅和池子中間、面向長椅；玩家站在長椅西邊（CLS.PE_POOL）。序號越小離玩家越近（CLS.peCast 先換那幾個）*/
+    S.PE_POOL_CAST={teacher:[19.8,-3.4],seats:[[17.95,-1.1],[18.6,-1.1],[19.25,-1.1],[20.35,-1.1],[21.0,-1.1],[21.65,-1.1]],stand:[[22.8,-1.7],[22.7,-2.7]]};
+    const pePool=mkSpot('pe_pool','gym_b1',[19.8,-2.2],DB,function(G,slot,r){ const sp=specs(r,9,this.ix), out=[], C=S.PE_POOL_CAST, c=slot.course;
+        out.push(mk(this,slot,0,{x:C.teacher[0],z:C.teacher[1],yaw:0,spec:tSpec(c,sp[0]),role:'pe_swim_teacher',name:tName(c),rawSpec:true}));
+        C.seats.forEach((q,i)=>{ const o=mk(this,slot,i+1,{x:q[0],z:q[1],yaw:Math.PI,spec:sp[i+1],role:'pe_swim',seat:{x:q[0],z:q[1],yaw:Math.PI}}); if(!taken(o.key)) out.push(o); });
+        C.stand.forEach((q,i)=>{ const k=C.seats.length+1+i, o=mk(this,slot,k,{x:q[0],z:q[1],yaw:face(q,C.teacher),spec:sp[k],role:'pe_swim'}); if(!taken(o.key)) out.push(o); });
+        return out; },G=>peSlots(G,true));
     /* ---- 3F 主球場 ---- */
     const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
     const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
@@ -208,8 +233,8 @@ const CROWD=(function(){
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
-    for(const sp of [lobby,court,pe,b1,pool,arena]) sp.bind=S.gymBind;
-    return [lobby,court,pe,b1,pool,arena]; };
+    for(const sp of [lobby,court,pe,b1,pool,pePool,arena]) sp.bind=S.gymBind;
+    return [lobby,court,pe,b1,pool,pePool,arena]; };
   /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
      每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
      散步的人、1F 長椅上的人：AA_489 沒寫句子；AA_495（路人分科系）起是「體」的系（電機、醫學），說那個系的句子（S.deptGymOne）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。
