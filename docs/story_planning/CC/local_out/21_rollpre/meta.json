@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "21_rollpre",
+  "sha": "82f8d28c5",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_rollcall_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T10:35:28",
+  "end": "2026-11-03T10:40:37",
+  "seconds": 308,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 68,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 28
+  }
+}
