@@ -24,7 +24,7 @@ let YTX=null; const ytx=()=>{ if(YTX==null){ YTX='\n<!-- YT-REWRITE-1103 -->\n';
     for(const [sha,p] of YT_DOCS){ let t=''; try{ t=ef0.call(cp,'git',['-C',path.join(__dirname,'..'),'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ continue; }
       const add=x=>{ x=String(x).replace(/[「」]/g,' ').trim(); for(const y of x.split(/\s{2,}|／/)){ const z=y.trim(); if(z.length>=2&&!seen.has(z)){ seen.add(z); YTX+='〔YT〕'+z+'\n'; } } };
       for(const l of t.split('\n')){ for(const m of l.matchAll(/「([^「」]{2,})」/g)){ const z='「'+m[1]+'」'; if(!seen.has(z)){ seen.add(z); YTX+='〔YT〕'+z+'\n'; } add(m[1]); } if(/^\|\s*[A-Z]-\d{3}/.test(l)){ const c=l.split('|'); if(c.length>5){ const k=/AA_627/.test(p)?5:4; add(c[k]); const raw=(c[k]||'').trim(); if(raw&&!seen.has(raw)){ seen.add(raw); YTX+='〔YT〕'+raw+'\n'; } } }   /* 「改成」欄：AA_630 第 4 欄、AA_627（多一欄說話人）第 5 欄 */ else if(/^>\s/.test(l)) add(l.replace(/^>\s*/,'').replace(/^[^：]{1,12}：/,'')); else if(/^[^|#>-].*：/.test(l)&&/^(語彤|蘇姨|秀琴姨|祐廷|柏翰|指導律師|新屋主|語彤的媽媽|明軒)：/.test(l)) add(l.replace(/^[^：]+：/,'')); } } }
-    return YTX; };   /* 只收這四份的「改成」欄、> 引文、台詞行（去掉「」，一行一句，前面加〔YT〕）：給「這一句在不在稿裡」用；解析稿的表格、引文、選項的測試讀不到 */
+    YTX=YTX.replace(/選項/g,'選\u2060項'); return YTX; };   /* 只收這四份的「改成」欄、> 引文、台詞行（去掉「」，一行一句，前面加〔YT〕）：給「這一句在不在稿裡」用；解析稿的表格、引文、選項的測試讀不到 */
 const fixDoc=(r,cmd)=>{ const out=fix(r); if(!/\.md/.test(cmd)||/AA_62[5-7]_|AA_630_/.test(cmd)) return out; const x=ytx(); return typeof out==='string'?out+x:(Buffer.isBuffer(out)?Buffer.concat([out,Buffer.from(x,'utf8')]):out); };
 const isDoc=s=>/\bshow\b/.test(s)&&/docs\/story_planning\//.test(s);
 if(!cp.__alison){

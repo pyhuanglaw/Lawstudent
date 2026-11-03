@@ -160,7 +160,7 @@ TEXT_SRC = {
     'AA_329_吃東西_一起吃_吃過的_店員認得你.md': ['src/data/eat_lines.js'],
     'AA_415_邀約回覆照階段變_七位定稿.md': ['src/data/invite_replies.js'],
     'AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md': ['src/data/msg2_pool.js'],
-    'AA_202_玩家主動傳訊息_規格.md': ['src/data/msg2_pool.js'],   # 下面三個是 AA_627 表 B
+    'AA_202_玩家主動傳訊息_規格.md': ['src/data/msg2_pool.js', 'src/data/msg_pool.js'],   # 下面三個是 AA_627 表 B
     'AA_367_畢業以後的交往節奏_六位.md': ['src/data/pg_dates.js'],
     'y4s1.py': ['src/data/syllabus.js'],
 }
@@ -171,6 +171,10 @@ def patch_file(R, game_file, root, log=None):
     p = os.path.join(root, game_file); t = open(p, encoding='utf8').read(); t2 = patch_text(R, game_file, t, log)
     if t2 != t: open(p, 'w', encoding='utf8').write(t2)
     return t2 != t
+
+
+# 表上沒有列、但同一句在另一個自動產生檔的（照那一列的改法）：msg_pool.js 的「在幹嘛」照片＝AA_627 A-152（fest_events.js 那一句）
+EXTRA_TEXT = {'src/data/msg_pool.js': [('（照片：麵店今天的小菜）', '（照片：茶屋今天的茶點）')]}
 
 
 def _pairs(r):
@@ -198,6 +202,8 @@ def patch_text(R, game_file, text, log=None):
                 text = text.replace(o, nw); n += 1
             elif nw in text: n += 1
             else: miss.append(r['no'])
+    for o, nw in EXTRA_TEXT.get(game_file, []):
+        if o in text: text = text.replace(o, nw); n += 1
     if log is not None: log.append(f'{game_file}：{n} 處' + (f'（遊戲裡沒有、只在企劃稿：{"、".join(miss)}）' if miss else ''))
     return text
 

@@ -37,7 +37,7 @@ const FRIENDS2=(function(){
   const evDone=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const timeOk=(G,code)=>{ const t=S.SLOT[code].time; if(!t) return true; const h=G.hour; return h>=t[0]&&h<t[1]; };   /* 過了午夜＝同一個遊戲日的 24 以上（story3d.js：G.hour 到 24 以上才換日）*/
   /* 課堂那幾場：撞到同一堂別的上課前／下課事件就讓位（同 AA_606 的 busyBefore／busyAfter）*/
-  let yielding=false;
+  let yielding=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['friends2_3d:yielding']=()=>{ yielding=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028，tests/loadgen_locks_unit.js）*/
   const busyBefore=(it,self)=>{ if(yielding||typeof EVENTS==='undefined') return false; yielding=true; try{ return STORY_EVENTS.some(e=>e!==self&&!e.retired&&(e.beforeClass===it.c.id||(typeof e.beforeClass==='function'&&e.beforeClass(it)))&&EVENTS.check(e,{chain:true})); } finally { yielding=false; } };
   const busyAfter=(it,self)=>{ if(yielding||typeof CLS==='undefined'||!CLS.afterClassOk) return false; yielding=true; try{ const ok=CLS.afterClassOk(it); return STORY_EVENTS.some(e=>e!==self&&!e.retired&&!e.classAlso&&ok(e)); } finally { yielding=false; } };
   const C=f=>({custom:f});

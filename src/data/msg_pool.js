@@ -38,7 +38,7 @@ const MSG_POOL={
   "heroine_03":{"name":"陳語彤","rules":{"replyFree": [10, 60], "noReplyText": "週二、週四麵店時間，20:30 以後才回", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）；「問課」不出現，她是社會系", "habitText": "常傳沒有字的照片；沒有貼圖；「問課」不出現，她是社會系", "wakeLine": [], "lTierText": "L（~~大四~~ 同上：交往中，或第 5 階以上而且單身；任何學期，2026-10-17 AA-C）", "otherText": ["語彤：沒有貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在店裡。"], "tags": ["店裡的時間"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在三樓。"], "tags": [], "ask": null, "src": "AA_202 6-3 在幹嘛", "note": "總圖三樓，她固定的位子"},
-   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（照片：麵店今天的小菜）"], "tags": ["店裡的時間"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
+   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（照片：茶屋今天的茶點）"], "tags": ["店裡的時間"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["（照片：總圖三樓的窗外）"], "tags": [], "ask": null, "src": "AA_202 6-3 在幹嘛", "addIf": {"tag": "下雨天", "msgs": ["下雨了。"], "text": "下雨天加一則「下雨了。」"}},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["剛收完店。"], "tags": ["收店後"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["陪我媽看電視。"], "tags": ["晚上、在家"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
