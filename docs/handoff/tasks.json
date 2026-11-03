@@ -43113,10 +43113,10 @@
    "id": "WZ-CAT-FLOAT-RUB-1103",
    "title": "溫州街橘貓：趴在老樹圓椅上不浮空（貼著座面）；白天會走動；玩家站著不動時會走過來蹭腳（使用者 11-03「懸空的橘貓」「要會動吧」「會走過來蹭」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "X186；接 J13 WZ-CAT-LIFE-1023（wzcat3d.js，LAWWW2-C）；蹭的專用動畫交 LAWWW2",
-   "next": "子代理（worktree）：查浮空原因、白天為什麼趴著、加蹭的狀態 → 截圖 → 合併 → BB 測"
+   "next": "BB 測；LAWWW2 補 cat_rub／cat_lie_idle／cat_jump 動畫（程式有 cat_rub 就自動播）；問 AA 醒著的時段要不要延到 18:30（遊戲日落）"
   },
   {
    "first": {
