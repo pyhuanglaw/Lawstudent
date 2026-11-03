@@ -105,12 +105,14 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);
   { const st=DATE.stageNum('heroine_03'); if(st<5){ const r=SOCIAL.rel('heroine_03'); r.npcRom=60; r.rom=40; r.fam=70; r.trust=60; r.comf=60; } }
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
-  const ln=lines(); check('9. 約成：語彤的「答應」（手機、連發兩則：「好。」「我跟蘇姨說那天不排班。」）；麵店沒公休那天不說「店裡公休」',ln.some(x=>/（手機）：好。$/.test(x))&&ln.some(x=>/我跟蘇姨說那天不排班。/.test(x))&&!ln.some(x=>/公休/.test(x)),ln.join(' | '));
-  check('9. 句子也寫進手機的對話串',(G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/不顧店/.test(m.text)),JSON.stringify((G.msgs||[]).slice(-3)));
+  const ln=lines(); check('9. 約成：語彤的「答應」（手機、連發兩則：「好。」「我跟蘇姨說那天不排班。」）；她那天（週日）茶屋有班＝不說「那天我沒有班」（AA_630 D-211、D-212；AA_627 P-26）',ln.some(x=>/（手機）：好。$/.test(x))&&ln.some(x=>/我跟蘇姨說那天不排班。/.test(x))&&!ln.some(x=>/公休|沒有班/.test(x)),ln.join(' | '));
+  check('9. 句子也寫進手機的對話串',(G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/不排班/.test(m.text)),JSON.stringify((G.msgs||[]).slice(-3)));
   said=[]; picks=['淡水',DATE.dayLabel(G,day+2).split('（')[0],'15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
-  check('9. 第二次約：沒有別句可以輪（公休那句今天不能用）→ 還是同一句',lines().some(x=>/不顧店/.test(x)),lines().join(' | '));
+  check('9. 第二次約（週一，她茶屋沒有班）：輪到第二句「可以。那天我沒有班。」（AA_630 D-212；原本「那天店裡公休」只在麵店公休日）',lines().some(x=>/可以。那天我沒有班。$/.test(x))&&!lines().some(x=>/不排班/.test(x)),lines().join(' | '));
+  said=[]; picks=['淡水',DATE.dayLabel(G,day+7).split('（')[0],'15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
+  check('9. 第三次約（下週日，她茶屋有班）：「那天我沒有班」今天不能用 → 回到第一句',lines().some(x=>/不排班/.test(x))&&!lines().some(x=>/沒有班/.test(x)),lines().join(' | '));
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
-  check('9. 和她交往中：「答應（和她交往中）」那一句',lines().some(x=>/阿姨說，那天她自己顧。/.test(x)),lines().join(' | '));
+  check('9. 和她交往中：「答應（和她交往中）」那一句',lines().some(x=>/蘇姨說，那天她自己顧。/.test(x))   /* AA_630 D-213 */,lines().join(' | '));
   // 交通偏好：語彤 D09 想搭捷運 → 預設選、排第一；改開車她說一句
   { const b22=OUT.BG.d22_base_afternoon; delete OUT.BG.d22_base_afternoon; const no22=!DATE.listable('D22'); OUT.BG.d22_base_afternoon=b22;   /* 10-23 起 D22 有底圖了：暫時拿掉底圖測「有台詞、沒底圖＝不列」這條規則 */
   check('9. 有台詞、沒底圖的地點（D22 暫時拿掉底圖）不列在約會清單；放回去＝列；烏來 D20 有底圖、有台詞＝列（32 個地點台詞全部匯入以後，2026-10-21）',!!DATE_LINES.loc.D22&&no22&&!!b22&&DATE.listable('D22')&&!!DATE_LINES.loc.D20&&DATE.listable('D20')); }

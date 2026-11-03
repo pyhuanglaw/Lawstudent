@@ -113,7 +113,7 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   const L=PRIVTALK.LIST, keys=L.map(e=>e.key), bad=L.filter(e=>!e._wired||!e.cat||!e.desc||(e.gate!=='none'&&!e.note));   /* desc＝入口在哪、note＝旁邊有人時怎麼辦（給人看的說明欄，tests/sis_no_three_unit.js 不掃）*/
   check('0. 清單（'+L.length+' 筆）每一筆都接上、key 不重複、寫了類別／在哪／旁邊有人時怎麼辦（沒有入口的寫在哪裡）',!bad.length&&new Set(keys).size===keys.length&&L.length>=20,J(bad.map(e=>e.key)));
   const cats=new Set(L.map(e=>e.cat)), topics=new Set(L.map(e=>e.topic).filter(Boolean));
-  const needC=['告白','心意邀約','約會','交往中才有的互動','坦白有別人','分開談話（AA_346）','她知情以後','還沒公開'], needT=['子晴爸爸','沛珊重考','芷若交換申請','語彤媽媽回診','學姊口試結果'];
+  const needC=['告白','心意邀約','約會','交往中才有的互動','坦白有別人','分開談話（AA_346）','她知情以後','還沒公開'], needT=['子晴爸爸','沛珊重考','芷若交換申請','語彤媽媽要她考牙醫','學姊口試結果'];   /* AA_630 Z-065：「語彤媽媽回診」→「語彤媽媽要她考牙醫」*/
   check('0. 清單涵蓋 AA 的每一類（告白、心意邀約、約會、交往中、坦白有別人、AA_346、她知情以後、還沒公開的五件）',needC.every(c=>cats.has(c))&&needT.every(t=>topics.has(t)),J({cats:[...cats],topics:[...topics]}));
   const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8'), y2=fs.readFileSync(path.join(H.ROOT,'src/y2r2_3d.js'),'utf8');
   check('0. 呼叫的地方：story3d.js offerInvite 每個選項問自己那一筆（invite、privKey）、選了先 privLead；multirel3d.js 問 PRIVTALK.ok（zq_dad_pre、ps_bterm、zz_after）再 privLead；坦白的兩個選項標 priv＋privKey；以安「明軒的事……」標 priv（an_mx）',
@@ -208,10 +208,10 @@ await sec('4',async()=>{
   { const run=async(on)=>{ fresh(TD('Y1S2',13,2),13,'campus'); H.FAMILIAR('heroine_02'); SOCIAL.remember('heroine_02','SHARED_SECRET',''); crowd('heroine_02',on); H.opts=[]; H.picks=['發呆']; await EVENTS.run(evOf('ev_zhiruo_bell')); return H.opts[0]||[]; };
     const o1=await run(true), o2=await run(false), Q='「妳的交換申請交了嗎？」';
     check('4. 傅鐘旁邊的選項「妳的交換申請交了嗎？」：旁邊有人不出（其他照常）；她一個人才出',!o1.includes(Q)&&o1.includes('「妳上完課都在這裡發呆？」')&&o2.includes(Q),J({o1,o2})); }
-  /* (d) 閒聊階梯：整層（語彤媽媽回診 Y-L7、Y7-L8）*/
-  { const R=[]; for(const [term,w,wd,id,sid,lvl,zone] of [['Y1S1',6,2,'heroine_03','Y-L7','FAMILIAR','campus'],['Y4S1',16,2,'heroine_03','Y7-L8','FRIEND','campus']]){
-      fresh(TD(term,w,wd),15,zone); H[lvl](id); SOCIAL.meet(id,zone); ladIdx(H.G,id,sid); crowd(id,true); const a=nextId(H.G,id); crowd(id,false); const b=nextId(H.G,id); R.push([sid,a===null&&b===sid,J({a,b})]); }
-    check('4. 語彤媽媽回診（Y-L7「我媽每個月要回診一次」、Y7-L8「期末考完，我要陪我媽去回診」）：旁邊有人＝這一層不播；她一個人＝播',R.every(x=>x[1]),J(R)); }
+  /* (d) 閒聊階梯：整層（AA_630 Z-065、Z-146：「語彤媽媽要她考牙醫」只剩 Y7-L8〔要 YT_PARENTS_KNOW〕；Y-L7 改成每週的電話，不是私密話題＝旁邊有人照播）*/
+  { const R=[]; for(const [term,w,wd,id,sid,lvl,zone,priv] of [['Y1S1',6,2,'heroine_03','Y-L7','FAMILIAR','campus',false],['Y4S1',16,2,'heroine_03','Y7-L8','FRIEND','campus',true]]){
+      fresh(TD(term,w,wd),15,zone); H[lvl](id); H.G.flags.YT_PARENTS_KNOW=true; SOCIAL.meet(id,zone); ladIdx(H.G,id,sid); crowd(id,true); const a=nextId(H.G,id); crowd(id,false); const b=nextId(H.G,id); R.push([sid,(priv?a===null:a===sid)&&b===sid,J({a,b})]); }
+    check('4. 語彤媽媽要她考牙醫（Y7-L8「期末考完，我要回淡水一趟。」）：旁邊有人＝這一層不播、她一個人＝播；Y-L7「我媽每個禮拜天晚上打電話來。」不是私密＝旁邊有人也播',R.every(x=>x[1]),J(R)); }
   /* (e) 閒聊階梯：換進私密那一版才擋（Z3-L6 交換申請、P3-L6 重考、Z2-L6 extraIf）；原本那一版照播 */
   { const R=[]; const one=(lab,term,w,wd,id,sid,lvl,setPriv)=>{ fresh(TD(term,w,wd),15,'campus'); H[lvl](id); SOCIAL.meet(id,'campus'); ladIdx(H.G,id,sid);
       crowd(id,true); const base=nextId(H.G,id); setPriv(); const held=nextId(H.G,id); crowd(id,false); const alone=nextId(H.G,id); const st=STORY.ladNext(H.G,id), L=st?STORY.ladLines(st,H.G,id):[];
@@ -224,14 +224,14 @@ await sec('4',async()=>{
   { fresh(TD('Y2S2',5,2),19,'noodle'); H.FRIEND('heroine_03'); SOCIAL.meet('heroine_03','noodle'); const D=STORY.ladData(H.G,'heroine_03'), st=D&&D.L.steps.find(s=>s.id==='Y4-L6');
     crowd('heroine_03',true); const c1=st?STORY.ladChoices(st).map(c=>c.t):[]; crowd('heroine_03',false); const c2=st?STORY.ladChoices(st).map(c=>c.t):[];
     check('4. 語彤 Y4-L6 的「妳媽媽還反對嗎？」：旁邊有人只出第一個選項；她一個人兩個都出',!!st&&J(c1)===J(['「跟上次不一樣了。」'])&&c2.length===2,J({c1,c2})); }
-  /* (g) 真的圈子：語彤和筱涵（大一上週二中午校園，一定同框）——筱涵在她旁邊＝Y-L7 不播；走遠＝播 */
-  { const r=HCIRCLE.row('c503_6_1'); const d=TD('Y1S1',6,2); fresh(d,12.4,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); ladIdx(H.G,'heroine_03','Y-L7');
+  /* (g) 真的圈子：語彤和筱涵（大二下週二中午校園，一定同框，c506_3_2）——筱涵在她旁邊＝Y4-L6 只出第一個選項；走遠＝兩個都出（原本用 Y-L7；AA_630 Z-065 以後 Y-L7 不是私密的）*/
+  { const r=HCIRCLE.row('c506_3_2'); const d=TD('Y2S2',6,2); fresh(d,12.4,'campus'); H.FRIEND('heroine_03'); H.G.flags.YT_PARENTS_KNOW=true; SOCIAL.meet('heroine_03','campus'); const st=STORY.ladData(H.G,'heroine_03').L.steps.find(s=>s.id==='Y4-L6');
     E.zone={id:'campus',seats:[],spawn:{x:0,z:0}}; E.npcs=[]; GM.npc={}; E.canStand=()=>true; E.placeAt=(n,x,z,lv)=>{ n.obj.position.x=x; n.obj.position.z=z; n.lv=lv|0; }; E.moveTo=(n,x,z,cb)=>{ n.obj.position.x=x; n.obj.position.z=z; if(cb) cb(); return true; };
     E.player.obj.position={x:500,y:0,z:500};
     const sp=(id,x,z)=>{ const n={id,charId:id,name:SOCIAL.npcName(id),obj:{position:{x,y:0,z},rotation:{y:0}},lv:0,beh:'wander',waypoints:[[x,z]],pose:'idle',idlePose:'idle',talk:nn=>STORY.talkCharacter(id,nn)}; GM.npc[id]=n; E.npcs.push(n); return n; };
     const yt=sp('heroine_03',0,7), xh=sp('npc_huangxh',1,7); HCIRCLE.bind(GM); HCIRCLE.arrange(GM,false); const on=HCIRCLE.on(r,H.G);
-    const a=nextId(H.G,'heroine_03'); xh.obj.position.x=30; const b=nextId(H.G,'heroine_03');
-    check('4. 真的圈子（語彤和筱涵，HCIRCLE.company）：筱涵在旁邊＝Y-L7 不播；筱涵走遠＝播',on===true&&a===null&&b==='Y-L7',J({on,a,b})); }
+    const a=STORY.ladChoices(st).map(c=>c.t); xh.obj.position.x=30; const b=STORY.ladChoices(st).map(c=>c.t);
+    check('4. 真的圈子（語彤和筱涵，HCIRCLE.company）：筱涵在旁邊＝Y4-L6 只出「跟上次不一樣了。」；筱涵走遠＝兩個都出',on===true&&J(a)===J(['「跟上次不一樣了。」'])&&b.length===2,J({on,a,b})); }
   /* (h) until／from：芷若交換申請 5/11 錄取以後、學姊口試結果只算 5/29 那一天 */
   if(HAS()){ const ok=(k,key,id)=>{ fresh(k,15,'campus'); crowd(id,true); return PRIVTALK.ok(H.G,id,key); };
     const a=ok('2027-05-10','zr_exch_lad','heroine_02'), b=ok('2027-05-11','zr_exch_lad','heroine_02'), c=ok('2029-05-28','sis_oral','heroine_05'), d=ok('2029-05-29','sis_oral','heroine_05'), e=ok('2029-05-30','sis_oral','heroine_05');
@@ -260,38 +260,39 @@ await sec('5',async()=>{ if(typeof HCIRCLE==='undefined'){ check('5. HCIRCLE',fa
   check('5. 閒聊階梯擋下的那幾層：那幾週裡都有她在 3D、旁邊沒有圈子的人的時候',lad.length>=9&&lad.every(x=>x[1]>=1),J(lad)); });
 
 /* ---------- 6 一般閒聊照常 ---------- */
-await sec('6',async()=>{ const d=TD('Y1S1',6,2); fresh(d,15,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');
+/* AA_630 Z-065（YT-REWRITE-1103）：私密的那一層改成 Y7-L8（大四上第 16～18 週、要 YT_PARENTS_KNOW）；原本是 Y-L7（大一上） */
+await sec('6',async()=>{ const d=TD('Y4S1',16,2); fresh(d,15,'campus'); H.FRIEND('heroine_03'); H.G.flags.YT_PARENTS_KNOW=true; SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');
   H.said=[]; await STORY.talkCharacter('heroine_03',n); H.G.day+=1; H.G.weekday=wdOf(H.G.day);   /* 先說過一次（升到有點熟的那幾句先說掉）*/
-  const D=STORY.ladData(H.G,'heroine_03'), i7=D.L.steps.findIndex(s=>s.id==='Y-L7'); ladIdx(H.G,'heroine_03',D.L.steps[i7-1].id);   /* Y-L7 前一層（一般的）*/
+  const D=STORY.ladData(H.G,'heroine_03'), i7=D.L.steps.findIndex(s=>s.id==='Y7-L8'); ladIdx(H.G,'heroine_03',D.L.steps[i7-1].id);   /* Y7-L8 前一層（一般的）*/
   crowd('heroine_03',true); H.said=[]; await STORY.talkCharacter('heroine_03',n); const s1=said(), at1=ladAt(H.G,'heroine_03');
   H.G.day+=1; H.G.weekday=wdOf(H.G.day); H.said=[]; await STORY.talkCharacter('heroine_03',n); const s2=said(), at2=ladAt(H.G,'heroine_03');
   crowd('heroine_03',false); H.G.day+=1; H.G.weekday=wdOf(H.G.day); H.said=[]; await STORY.talkCharacter('heroine_03',n); const s3=said(), at3=ladAt(H.G,'heroine_03');
-  const L7='我媽每個禮拜天晚上打電話來。';
+  const L7='期末考完，我要回淡水一趟。';
   check('6. 旁邊有人：一般的那一層照播、照常前進（'+D.L.steps[i7-1].id+'）',at1===i7&&s1.length>0&&!s1.some(t=>t.includes(L7)),J({at1,i7,s1:s1.slice(0,3)}));
-  check('6. 隔天旁邊還是有人：Y-L7 不播、不前進，照常閒聊（有說話）',at2===i7&&s2.length>0&&!s2.some(t=>t.includes(L7)),J({at2,s2:s2.slice(0,3)}));
-  check('6. 再隔一天她一個人：Y-L7 播、前進',at3===i7+1&&s3.some(t=>t.includes(L7)),J({at3,s3:s3.slice(0,3)})); });
+  check('6. 隔天旁邊還是有人：Y7-L8 不播、不前進，照常閒聊（有說話）',at2===i7&&s2.length>0&&!s2.some(t=>t.includes(L7)),J({at2,s2:s2.slice(0,3)}));
+  check('6. 再隔一天她一個人：Y7-L8 播、前進',at3===i7+1&&s3.some(t=>t.includes(L7)),J({at3,s3:s3.slice(0,3)})); });
 
 /* ===================== 第三輪（PRIV-AAFIX-1028，AA_503 第 14 節）===================== */
 const day=d=>{ H.G.day=d; H.G.weekday=wdOf(d); };
 const W=(key,id,sub)=>HAS()&&PRIVTALK.waitOf?PRIVTALK.waitOf(H.G,key,id,sub):'no';
 const narrFirst=()=>!!H.said[0]&&H.said[0].who===null&&H.said[0].t===NARR;
 const noNarr=()=>!H.said.some(s=>s.t===NARR);
-const L7='陳語彤：我媽每個禮拜天晚上打電話來。';
+const L7='陳語彤：期末考完，我要回淡水一趟。';   /* AA_630 L-212：Y7-L8（「語彤媽媽要她考牙醫」，Z-065）*/
 /* 語彤：先和她說過一次話（升到有點熟的那幾句先說掉），再把閒聊階梯放到 sid 那一層 */
-const ytLad=async(d,h,zone,sid,lvl)=>{ fresh(d-1,h,zone); H[lvl||'FAMILIAR']('heroine_03'); SOCIAL.meet('heroine_03',zone); const n=npc('heroine_03'); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_03',n); day(d); ladIdx(H.G,'heroine_03',sid); return n; };
+const ytLad=async(d,h,zone,sid,lvl)=>{ fresh(d-1,h,zone); H[lvl||'FAMILIAR']('heroine_03'); H.G.flags.YT_PARENTS_KNOW=true; SOCIAL.meet('heroine_03',zone);   /* Y4-L6、Y7-L8 要 YT_PARENTS_KNOW（AA_630 L-119、L-215）*/ const n=npc('heroine_03'); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_03',n); day(d); ladIdx(H.G,'heroine_03',sid); return n; };
 const optsOf=async(id)=>{ H.opts=[]; H.picks=['就這樣']; await STORY.offerInvite(GM,id,npc(id)); return (H.opts[0]||[]); };
 
 /* ---------- 7 共同的保底 ---------- */
 /* (a) 沒有期限：閒聊階梯 Y-L7（筱涵在旁邊） */
-await sec('7. (a) 沒有期限：閒聊階梯 Y-L7（筱涵在旁邊）',async()=>{ const d0=TD('Y1S1',6,1), n=await ytLad(d0,15,'campus','Y-L7'); crowd('heroine_03',['npc_huangxh']);
-    const a1=nextId(H.G,'heroine_03'), w1=W('yt_mom_lad','heroine_03','Y-L7'); day(d0+6); const a7=nextId(H.G,'heroine_03');
-    day(d0+7); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_03',n); const s8=said(), nf=narrFirst(), w8=W('yt_mom_lad','heroine_03','Y-L7');
-    check('7. 沒有期限（閒聊階梯 Y-L7，筱涵在旁邊）：第 1 天擋下來、記那一天；第 7 天還擋；第 8 天照播，第一句是旁白「（她跟旁邊的人說了一聲，走到你這邊。）」，播完清掉等待',
-      a1===null&&w1===d0&&a7===null&&nf&&s8[1]===L7&&w8===null&&!Object.keys(H.G.flags.PRIVWAIT||{}).some(k=>/^yt_mom_lad/.test(k)),J({a1,w1,d0,a7,s8:s8.slice(0,2),w8})); });
+/* AA_630 Z-065（YT-REWRITE-1103）以後語彤的私密閒聊只剩 Y7-L8（大四上第 16 週＝學期最後一週，週次 [16,18] 實際只有 7 天）：這裡只看第 1、7 天擋；「第 8 天照演＋旁白」由 (j) Y4-L6 的選項看（同一個沒有期限的規則）*/
+await sec('7. (a) 沒有期限：閒聊階梯 Y7-L8（筱涵在旁邊）',async()=>{ const d0=TD('Y4S1',16,1); await ytLad(d0,15,'campus','Y7-L8','FRIEND'); crowd('heroine_03',['npc_huangxh']);
+    const a1=nextId(H.G,'heroine_03'), w1=W('yt_mom_lad','heroine_03','Y7-L8'); day(d0+6); const a7=nextId(H.G,'heroine_03');
+    check('7. 沒有期限（閒聊階梯 Y7-L8，筱涵在旁邊）：第 1 天擋下來、記那一天；第 7 天還擋',a1===null&&w1===d0&&a7===null,J({a1,w1,d0,a7}));
+  });
 /* (b) 擋下來以後她一個人：照播、沒有旁白、清掉 */
-await sec('7. (b) 擋下來以後她一個人：照播、沒有旁白、清掉',async()=>{ const d0=TD('Y1S1',6,1), n=await ytLad(d0,15,'campus','Y-L7'); crowd('heroine_03',true); const a1=nextId(H.G,'heroine_03'), w1=W('yt_mom_lad','heroine_03','Y-L7');
+await sec('7. (b) 擋下來以後她一個人：照播、沒有旁白、清掉',async()=>{ const d0=TD('Y4S1',16,1), n=await ytLad(d0,15,'campus','Y7-L8','FRIEND'); crowd('heroine_03',true); const a1=nextId(H.G,'heroine_03'), w1=W('yt_mom_lad','heroine_03','Y7-L8');
     day(d0+2); crowd('heroine_03',false); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_03',n); const s=said();
-    check('7. 擋下來以後她一個人（第 3 天）：照播，沒有旁白；清掉等待',a1===null&&w1===d0&&s[0]===L7&&noNarr()&&W('yt_mom_lad','heroine_03','Y-L7')===null,J({a1,w1,s:s.slice(0,2)})); });
+    check('7. 擋下來以後她一個人（第 3 天）：照播，沒有旁白；清掉等待',a1===null&&w1===d0&&s[0]===L7&&noNarr()&&W('yt_mom_lad','heroine_03','Y7-L8')===null,J({a1,w1,s:s.slice(0,2)})); });
 /* (c) 有期限：P3 我要重考（大二上第 5 週平日） */
 await sec('7. (c) 有期限：P3 我要重考（大二上第 5 週平日）',async()=>{ const mon=TD('Y2S1',5,1), fri=TD('Y2S1',5,5), ev=evOf('ev_peishan_decision'); fresh(mon,12.5,'linze',{dating_classmate_peishan:true}); H.FAMILIAR('classmate_peishan'); done('ev_peishan_doubt'); crowd('classmate_peishan',true);
     const c1=EVENTS.check(ev), w1=W('ps_retake_ev','classmate_peishan'); day(TD('Y2S1',5,4)); const c4=EVENTS.check(ev); day(fri); const c5=EVENTS.check(ev); H.said=[]; H.picks=[]; await EVENTS.run(ev); const nf=narrFirst();
@@ -335,7 +336,7 @@ await sec('7. (i) 事件裡的選項：傅鐘「妳的交換申請交了嗎？�
     check('7. 事件裡的選項（傅鐘「妳的交換申請交了嗎？」）：第 1 天不出、第 8 天旁邊有人也出；選了那一個＝她回答以前先一句旁白',!o1.includes(Q)&&w1===d0&&o8.includes(Q)&&i>0&&H.said[i].who===null&&!!H.said[i+1]&&H.said[i+1].who!==null,J({o1,w1,o8,s8})); });
 /* (j) 階梯那一層的選項：語彤 Y4-L6「妳媽媽還反對嗎？」 */
 await sec('7. (j) 階梯那一層的選項：語彤 Y4-L6「妳媽媽身體',async()=>{ const d0=TD('Y2S2',5,3), n=await ytLad(d0,15,'campus','Y4-L6','FRIEND');   /* 週三下午校園（週二、四傍晚麵店有麵店的事件）*/ crowd('heroine_03',['npc_huangxh']); const D=STORY.ladData(H.G,'heroine_03'), st=D&&D.L.steps.find(s=>s.id==='Y4-L6');
-    const c1=st?STORY.ladChoices(st).map(c=>c.t):[], w1=W('yt_mom_ask','heroine_03'); day(d0+7); H.opts=[]; H.said=[]; H.picks=['妳媽媽身體還好嗎']; await STORY.talkCharacter('heroine_03',n);
+    const c1=st?STORY.ladChoices(st).map(c=>c.t):[], w1=W('yt_mom_ask','heroine_03'); day(d0+7); H.opts=[]; H.said=[]; H.picks=['妳媽媽還反對嗎']; await STORY.talkCharacter('heroine_03',n);   /* AA_630 L-119：「妳媽媽身體還好嗎？」→「妳媽媽還反對嗎？」*/
     const o8=(H.opts.find(o=>o.includes('「跟上次不一樣了。」'))||[]), s=said(), i=s.indexOf(NARR);
     check('7. 階梯那一層的選項（語彤 Y4-L6「妳媽媽還反對嗎？」）：第 1 天只出第一個；第 8 天兩個都出；選了那一個＝她回答以前先一句旁白',
       J(c1)===J(['「跟上次不一樣了。」'])&&w1===d0&&o8.length===2&&i>0&&s[i+1]==='陳語彤：……嗯。可是那壺她喝完了。',J({c1,w1,o8,s})); });
@@ -431,8 +432,8 @@ await sec('8. 第 10 項 前任那兩句',async()=>{ const AN='heroine_01', YT='
 await sec('8. 第 11 項 到場就演的：不改',async()=>{ check('8. 第 11 項 到場就演的知情場景（MREL.dueAuto）、裂縫談話：不改（清單沒有、MREL.dueAuto 沒有包）',!PRIVTALK.LIST.some(e=>/dueAuto|cracktalk/.test(e.desc||''))&&!/PRIVTALK/.test(String(MREL.dueAuto))&&/不改/.test(PRIVTALK.DECIDED[10].impl)); });
 /* 第 12 項 例外只限三組（假的圈子） */
 await sec('8. 第 12 項 例外只限三組（假的圈子）',async()=>{ const R12=[];
-    { const d0=TD('Y1S1',6,1); await ytLad(d0,15,'campus','Y-L7'); crowd('heroine_03',['hc_ayi']); const a=nextId(H.G,'heroine_03'); crowd('heroine_03',['hc_ayi','npc_huangxh']); const b=nextId(H.G,'heroine_03'); crowd('heroine_03',['heroine_04']); const c=nextId(H.G,'heroine_03');
-      R12.push(['語彤和阿姨（Y-L7）',a==='Y-L7'&&b===null&&c===null]); }
+    { const d0=TD('Y4S1',16,1); await ytLad(d0,15,'campus','Y7-L8','FRIEND'); crowd('heroine_03',['hc_xiuqin']); const a=nextId(H.G,'heroine_03'); crowd('heroine_03',['hc_xiuqin','npc_huangxh']); const b=nextId(H.G,'heroine_03'); crowd('heroine_03',['heroine_04']); const c=nextId(H.G,'heroine_03');
+      R12.push(['語彤和秀琴姨（Y7-L8；AA_630 Z-146、AA_627 P-17：原本是麵店的阿姨、Y-L7）',a==='Y7-L8'&&b===null&&c===null]); }
     { fresh(TD('Y1S2',11,6),15,'wenzhou'); H.FAMILIAR('heroine_02'); const ev=evOf('ev_zhiruo_secret'); crowd('heroine_02',['heroine_04']); const a=EVENTS.check(ev); crowd('heroine_02',['heroine_04','hc_xt']); const b=EVENTS.check(ev);
       R12.push(['芷若和子晴（Z4）',a===true&&b===false]); }
     { fresh(TD('Y2S1',5,1),12.5,'linze',{dating_classmate_peishan:true}); H.FAMILIAR('classmate_peishan'); done('ev_peishan_doubt'); crowd('classmate_peishan',['classmate_bohan']); R12.push(['其他組沒有例外（沛珊和柏翰：P3）',EVENTS.check(evOf('ev_peishan_decision'))===false]); }
@@ -509,22 +510,21 @@ await sec('10. 對稿：第 6、7 點',async()=>{ const L=(HAS()&&PRIVTALK.LATER
     DOC503.includes('**麵店只有阿姨在：「約她去…」和 tell_later 也照出**')&&DOC503.includes('第 5 點「阿姨不算旁邊有人」包含麵店裡所有私密的選項：知情場景、「約她去…」、「（下次見面，自己跟她講…的事）」。')
     &&DOC503.includes('第 14 節第 12 項那句「『約她去…』照擋」，只限旁邊還有別的圈子同伴的時候。')&&DOC503.includes('**阿姨在不在店裡，看 3D**')
     &&DOC503.includes('`auntIn` 改看阿姨的 3D 人物現在在不在麵店（圈子表 `c503_6_2` 那幾列）。')&&DOC503.includes('- 在：不問「阿姨呢？」；')&&DOC503.includes('- 不在：「阿姨呢？」「去買東西。」。')&&DOC503.includes('3D 的時間不改（`AA_503` 第 6 節圈子表照舊）。')
-    &&L.length>=7&&L[5].n===6&&L[6].n===7&&/PLACE_EXCEPT/.test(L[5].impl)&&/labelIn/.test(L[6].impl)&&J(PRIVTALK.PLACE_EXCEPT)===J([{who:'heroine_03',zone:'noodle',except:['hc_ayi']}])
-    &&!!if1&&J(if1.else)===J([{p:'阿姨呢？'},'去買東西。'])&&!!if2&&J(if2.then)===J(['蘇姨，我等一下自己收。',{s:{name:'阿姨'},t:'好啦，你們年輕人。'},{n:'（阿姨先上樓）'}]),J({sha:SHA503,n:L.length})); });
+    &&L.length>=7&&L[5].n===6&&L[6].n===7&&/PLACE_EXCEPT/.test(L[5].impl)&&/labelIn/.test(L[6].impl)&&J(PRIVTALK.PLACE_EXCEPT)===J([])   /* 遊戲：AA_627 P-18 拿掉 PLACE_EXCEPT（語彤不在燒臘店顧店）；「今天很忙喔？」那一段照 AA_630 Z-032、Z-124、Z-127 搬到茶屋（蘇姨）（YT-REWRITE-1103）。稿上的字照舊對 */
+    &&!!if1&&J(if1.else)===J([{p:'蘇姨呢？'},'去批茶葉。'])&&!!if2&&J(if2.then)===J(['蘇姨，我等一下自己收。',{s:{name:'蘇姨'},t:'好啦，你們年輕人。'},{n:'（蘇姨先走了。）'}]),J({sha:SHA503,n:L.length})); });
 /* (A) 第 6 點：麵店只有阿姨＝「約她去…」、tell_later 照出（測試強制旁邊的人）；阿姨＋別的同伴、只有別的同伴＝照擋；校園強制阿姨＝照擋（照舊） */
-await sec('10. (A) 麵店只有阿姨：「約她去…」、tell_later',async()=>{ const d=ayiDay(true), R=[];
+/* AA_627 P-18（YT-REWRITE-1103）：「語彤在麵店、旁邊只有阿姨＝照講」拿掉（她不在燒臘店顧店了）＝燒臘店強制阿姨在旁邊，跟別的地方一樣照擋 */
+await sec('10. (A) 麵店只有阿姨：「約她去…」、tell_later',async()=>{ const d=TD('Y1S1',4,2), R=[];
   fresh(d,18.2,'noodle'); const t=ytTwo('noodle');
-  crowd('heroine_03',['hc_ayi']); const o1=await optsOf('heroine_03'); R.push(['只有阿姨＝兩個都出、不記等待',o1.some(x=>INV_T.test(x))&&o1.includes(t)&&W('invite','heroine_03')===null&&W('tell_later','heroine_03')===null,J(o1)]);
-  H.opts=[]; H.said=[]; H.picks=['自己跟她講']; await STORY.offerInvite(GM,'heroine_03',npc('heroine_03')); R.push(['選了 tell_later＝不加旁白（阿姨不算旁邊有人）、記下次見面講',noNarr()&&!!MREL.rec(H.G).cpend.heroine_03,J(said())]); delete MREL.rec(H.G).cpend.heroine_03;
-  crowd('heroine_03',['hc_ayi','npc_huangxh']); const o2=await optsOf('heroine_03'); R.push(['阿姨＋筱涵＝兩個都擋、記等待',!o2.some(x=>INV_T.test(x))&&!o2.includes(t)&&W('invite','heroine_03')===H.G.day&&W('tell_later','heroine_03')===H.G.day,J(o2)]);
-  fresh(d,18.2,'noodle'); ytTwo('noodle'); crowd('heroine_03',['npc_huangxh']); const o3=await optsOf('heroine_03'); R.push(['只有筱涵＝照擋',!o3.some(x=>INV_T.test(x))&&!o3.includes(t),J(o3)]);
-  fresh(d,18.2,'campus'); ytTwo('campus'); crowd('heroine_03',['hc_ayi']); const o4=await optsOf('heroine_03'); R.push(['校園（強制阿姨在旁邊）＝照擋（麵店以外照舊）',!o4.some(x=>INV_T.test(x))&&!o4.includes(t),J(o4)]);
-  check('10. (A) 第 6 點（麵店，強制旁邊的人）：只有阿姨＝「約她去…」、「'+t+'」照出、不記等待，選了不加旁白；阿姨＋別的同伴＝照擋（記等待）；只有別的同伴＝照擋；麵店以外（校園強制阿姨）照舊擋',
+  crowd('heroine_03',['hc_ayi']); const o1=await optsOf('heroine_03'); R.push(['燒臘店只有阿姨＝照擋、記等待（P-18 拿掉例外）',!o1.some(x=>INV_T.test(x))&&!o1.includes(t)&&W('invite','heroine_03')===H.G.day,J(o1)]);
+  fresh(d,18.2,'noodle'); ytTwo('noodle'); crowd('heroine_03',['hc_ayi','npc_huangxh']); const o2=await optsOf('heroine_03'); R.push(['阿姨＋筱涵＝照擋',!o2.some(x=>INV_T.test(x))&&!o2.includes(t),J(o2)]);
+  fresh(d,18.2,'campus'); ytTwo('campus'); crowd('heroine_03',['hc_ayi']); const o4=await optsOf('heroine_03'); R.push(['校園（強制阿姨在旁邊）＝照擋',!o4.some(x=>INV_T.test(x))&&!o4.includes(t),J(o4)]);
+  check('10. (A) 第 6 點拿掉以後（AA_627 P-18）：燒臘店只有阿姨、阿姨＋筱涵、校園強制阿姨＝「約她去…」、「'+t+'」都照擋（阿姨不再是例外）',
     !!t&&R.every(x=>x[1]),J(R.filter(x=>!x[1]))); });
 await sec('10. (A) 第 7 項交往中那一版：麵店只有阿姨',async()=>{ const one=(zone,on)=>{ fresh(TD('Y4S2',2,2),15,zone); H.CLOSE('heroine_03'); SOCIAL.meet('heroine_03',zone); H.date('heroine_03'); const s=PRIVTALK.ladStep(H.G,'heroine_03','Y8-L0'); crowd('heroine_03',on); return {s,L:s?STORY.ladLines(s,H.G,'heroine_03'):null}; };
   const a=one('noodle',['hc_ayi']), b=one('noodle',['hc_ayi','npc_huangxh']), c=one('campus',['hc_ayi']);
-  check('10. (A) 第 7 項交往中那一版（語彤 Y8-L0 的 linesIf）也走 S.crowd：麵店只有阿姨＝說交往中那一版；阿姨＋筱涵＝一般版；校園強制阿姨＝一般版（照舊）；不記等待',
-    !!a.s&&J(a.L)===J(a.s.linesIf[0].lines)&&J(b.L)===J(b.s.lines)&&J(c.L)===J(c.s.lines)&&J(H.G.flags.PRIVWAIT||{})==='{}',J({a:a.L,b:b.L,c:c.L})); });
+  check('10. (A) 第 7 項交往中那一版（語彤 Y8-L0 的 linesIf）也走 S.crowd：AA_627 P-18 拿掉麵店的例外＝燒臘店只有阿姨、阿姨＋筱涵、校園強制阿姨都說一般版；不記等待',
+    !!a.s&&J(a.L)===J(a.s.lines)&&J(b.L)===J(b.s.lines)&&J(c.L)===J(c.s.lines)&&J(H.G.flags.PRIVWAIT||{})==='{}',J({a:a.L,b:b.L,c:c.L})); });
 /* (A) 真的圈子：BB 那一天（2025-09-09 週二 18:12 麵店，c503_6_2 那一天擲到＝HCIRCLE.arrange 生出阿姨，站在語彤旁邊）*/
 await sec('10. (A) 真的圈子：BB 那一天的麵店',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
@@ -557,15 +557,15 @@ const ckVis=ck=>ck.hidden!==true&&ck.obj.visible!==false, ayiHere=()=>{ const a=
 await sec('11. 對稿：第 8、9 點',async()=>{ const L=(HAS()&&PRIVTALK.LATER)||[], B=((MULTIREL_LINES.DISC||{}).heroine_03||{}).base||[], if1=B.find(x=>x&&x.if==='auntIn'&&x.else), if2=B.find(x=>x&&x.if==='auntLate'&&x.then);
   const T9={'大二下':'c503_14_1','大三上':'c503_14_2','大三下':'c503_14_3','大四上':'c503_14_4','大四下':'c503_14_5'}, rows=[];
   for(const l of DOC503.split('\n')){ const m=/^\| (大二下|大三上|大三下|大四上|大四下) \| (.+) \|$/.exec(l); if(m) rows.push([m[1],m[2]]); }
-  const bad=rows.filter(([t,hd])=>{ const r=HCIRCLE.row(T9[t]); return !r||r.heard!==hd; });
+  const Y630=require('./aa630_expect.js'); const bad=rows.filter(([t,hd])=>{ const r=HCIRCLE.row(T9[t]); return !r||r.heard!==Y630.fix(hd,'src/data/heroine_circle.js'); });   /* 稿上「阿姨：」那一格照 AA_630 C-008～C-012 換成蘇姨（第 4 節：整組搬到一盞茶屋）再比 */
   check('11. 對稿（白名單上 AA_503 那一版 '+SHA503+' 有後補第 8、9 點）：交往中那一版照說、廚房那位就是阿姨（沒擲到的三成、17:30 以前、20:30 以後）、大二下以後每學期阿姨那一列（到 2029-09 畢業以後篇以前）、最後那三句照原本 19:00 以後出、只在語彤人在麵店的時候套用；'
     +'第 9 點的表五個學期＝遊戲裡 c503_14_1～5 的「走近時聽到」逐字；PRIVTALK.LATER 第 8、9 項、REF2 加 38a74680d、f6069e42d；「今天很忙喔？」那一段：「阿姨呢？」看 auntIn、最後那三句看 auntLate',
     DOC503.includes('語彤在麵店、旁邊只有阿姨的時候，交往中那一版的句子照說（第 14 節第 7 項的「改說一般版」不套用）。')&&DOC503.includes('**廚房那位就是阿姨**')
     &&DOC503.includes('阿姨不在店裡的時候（那天沒擲到的三成、17:30 以前、20:30 以後），廚房那位也不出現（請 LAWWW2 跟著藏）。')&&DOC503.includes('這樣「阿姨呢？」「去買東西。」才對得上。')
-    &&DOC503.includes('**大二下以後也要有阿姨那一列**：週二、四 17:30～20:30 在麵店，同 `c503_6_2` 的做法，每學期都有（到 2029-09 畢業以後篇以前）。')&&DOC503.includes('「蘇姨，我等一下自己收。」「好啦，你們年輕人。」照原本 19:00 以後出。')
+    &&DOC503.includes('**大二下以後也要有阿姨那一列**：週二、四 17:30～20:30 在麵店，同 `c503_6_2` 的做法，每學期都有（到 2029-09 畢業以後篇以前）。')&&DOC503.includes('「阿姨，我等一下自己收。」「好啦，你們年輕人。」照原本 19:00 以後出。')
     &&DOC503.includes('「廚房那位不出現」只在語彤人在麵店的時候套用，照 LAWWW。語彤不在的平常時段，店員照常在，玩家照常吃麵。')&&DOC503.includes('那學期語彤週二、四晚上不在麵店的就不加')
     &&rows.length===5&&!bad.length&&L.length===9&&L[7].n===8&&L[8].n===9&&L.slice(7).every(x=>x.desc&&x.decided&&x.impl)&&/38a74680d/.test(PRIVTALK.REF2||'')&&/f6069e42d/.test(PRIVTALK.REF2||'')
-    &&!!if1&&J(if1.else)===J([{p:'阿姨呢？'},'去買東西。'])&&!!if2&&J(if2.then)===J(['蘇姨，我等一下自己收。',{s:{name:'阿姨'},t:'好啦，你們年輕人。'},{n:'（阿姨先上樓）'}]),J({sha:SHA503,rows:rows.length,bad,n:L.length,if2:!!if2})); });
+    &&!!if1&&J(if1.else)===J([{p:'蘇姨呢？'},'去批茶葉。'])&&!!if2&&J(if2.then)===J(['蘇姨，我等一下自己收。',{s:{name:'蘇姨'},t:'好啦，你們年輕人。'},{n:'（蘇姨先走了。）'}]),J({sha:SHA503,rows:rows.length,bad,n:L.length,if2:!!if2})); });
 /* ① 第 8 點第 1 項：交往中那一版照說——真的圈子（大四下 c503_14_5 擲到的週二 18:30，HCIRCLE.arrange 生出阿姨）*/
 await sec('11. ① 交往中那一版（真的圈子）',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();

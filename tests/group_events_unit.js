@@ -128,7 +128,7 @@ const NAME=id=>SOCIAL.displayName(id);
   { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 燒臘店（AA_612）', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半燒臘店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
   fresh(x26,18.5,'noodle'); team(); R('heroine_02','FAM'); let X1=await play('ev_xmas_y3_box',['杯墊']);
   check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（燒臘店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
-  check('3. X1 杯墊＝以安「她會知道是哪一家。」；語彤封箱「阿姨說，箱子不夠大的話，店裡有。」；XMAS_Y3_BOX coaster', X1.includes(NAME('heroine_01')+'：她會知道是哪一家。')&&has('（語彤從吧檯後面拿來一卷膠帶，把箱子封了三圈。）')&&X1[X1.length-1]===NAME('heroine_03')+'：阿姨說，箱子不夠大的話，店裡有。'&&G.flags.XMAS_Y3_BOX==='coaster');
+  check('3. X1 杯墊＝以安「她會知道是哪一家。」；語彤封箱「蘇姨說，箱子不夠大的話，倉庫裡有。」（AA_630 Z-120、Z-121）；XMAS_Y3_BOX coaster', X1.includes(NAME('heroine_01')+'：她會知道是哪一家。')&&has('（語彤從吧檯後面拿來一卷膠帶，把箱子封了三圈。）')&&X1[X1.length-1]===NAME('heroine_03')+'：蘇姨說，箱子不夠大的話，倉庫裡有。'&&G.flags.XMAS_Y3_BOX==='coaster');
   fresh(x26,18.5,'noodle'); team(); date('heroine_02'); X1=await play('ev_xmas_y3_box',['只有你看得懂']);
   check('3. 和芷若交往中：多「（放一張只有你看得懂的便條）」→ Alison「……好，我們都不看。」', opts[0].length===4&&opts[0][3]==='（放一張只有你看得懂的便條）'&&X1.includes(NAME('yu')+'：……好，我們都不看。')&&G.flags.XMAS_Y3_BOX==='note');
   fresh(x26,18.5,'noodle'); team(); X1=await play('ev_xmas_y3_box');

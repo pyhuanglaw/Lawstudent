@@ -51,7 +51,7 @@ const PRIVTALK=(function(){
   S.NARR='（她跟旁邊的人說了一聲，走到你這邊。）';   /* 共同的保底：等了 7 天、到期那天照演時的第一句（AA_503 第 14 節，一字不差）*/
   S.WAIT=7;   /* 第一次擋下來那一天算第 1 天：第 8 天（＋7）起照演 */
   /* 旁邊的人本來就知道的（第 12 項：只限這三組）：語彤和阿姨（媽媽的事）、芷若和子晴（交換申請）、第 1 項的對方本人（各筆的 except）*/
-  const KNOW={ytMom:['hc_ayi'],zrExch:['heroine_04']};
+  const KNOW={ytMom:['hc_xiuqin'],zrExch:['heroine_04']};   /* AA_630 Z-146、AA_627 P-17（YT-REWRITE-1103）：「語彤媽媽要她考牙醫」——秀琴姨在旁邊不算外人（原本是麵店的阿姨 hc_ayi）*/
   /* 期限算法 */
   const evDue='ev';   /* 那個事件自己的學期、週次、星期：最後一個可以演的日子（S.evDue）*/
   const missDue=mid=>(G,id)=>S.missDue(G,mid,id);   /* 沒回訊息那一句：關閉以後 14 天的最後一天（story3d.js neededMissLine 的期限）*/
@@ -210,7 +210,7 @@ const PRIVTALK=(function(){
   /* 旁邊有她的人（except 的人不算）*/
   S.exceptOf=(e,id)=>!e||!e.except?null:Array.isArray(e.except)?e.except:(e.except[id]||null);   /* except：陣列＝這一筆都不算；物件＝依人物（{她的 id:[不算的人]}，後補第 5 點）*/
   /* 依人物＋區域（後補第 6 點，企劃線 5ec2fe771）：語彤在麵店，阿姨對她所有私密的都不算（清單每一筆、旁白、第 7 項交往中那一版）；旁邊還有別的圈子同伴照擋；別的區域照舊 */
-  S.PLACE_EXCEPT=[{who:'heroine_03',zone:'noodle',except:['hc_ayi']}];
+  S.PLACE_EXCEPT=[];   /* AA_627 P-18（YT-REWRITE-1103）：語彤不在燒臘店顧店了＝「在麵店、阿姨在旁邊照講」拿掉（她家沒有 3D，秀琴姨那一筆用 KNOW.ytMom）*/
   S.placeExcept=function(G,id){ let o=null; if(!G) return o; for(const q of S.PLACE_EXCEPT) if(q.who===id&&q.zone===G.zone) o=(o||[]).concat(q.except); return o; };
   S.exceptAt=function(G,e,id){ const a=S.exceptOf(e,id), b=S.placeExcept(G,id); return a&&b?a.concat(b):(a||b); };   /* 清單那一筆的＋這個地方的 */
   S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=S.exceptAt(G,e,id); if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };

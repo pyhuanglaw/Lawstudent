@@ -154,7 +154,7 @@ const MREL=(function(){
     C.lastWeek=()=>{ const d=S.lastMeet(G,x), wd=(wdOf(G.day)+6)%7; return !!y&&d>=G.day-wd&&d>=S.sinceDay(G,y); };   /* 這禮拜（週一起）*/
     C.cry=()=>x===KX&&S.durDays(G,KX)>=365&&(evDone(G,'ev_kexin_anniversary_y1')||evDone(G,'ev_kexin_anniversary_yn'));   /* 交往一年以上＋週年演過（AA_227 5-2）*/
     C.auntIn=()=>S.auntIn(G);   /* 阿姨在店裡：看 3D 的阿姨在不在麵店（AA_503 第 14 節後補第 7 點，5ec2fe771；S.auntIn）——在＝不問「阿姨呢？」；不在＝「阿姨呢？」「去買東西。」。原本 19:00 以後（AA_425 第 1 節）*/
-    C.auntLate=()=>S.auntIn(G)&&(((+G.hour||0)%24)+24)%24>=19;   /* 最後「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）：阿姨在店裡、照原本 19:00 以後才出（AA_503 第 14 節後補第 8 點，企劃線 f6069e42d；19:00 以前阿姨在＝不問「阿姨呢？」，也還不收）*/
+    C.auntLate=()=>S.auntIn(G)&&(((+G.hour||0)%24)+24)%24>=16.5;   /* AA_627 P-19（整段搬到茶屋打烊）：「蘇姨，我等一下自己收。」…（蘇姨先走了。）＝茶屋 17:00 打烊前半小時起（原本麵店 19:00 以後；16:30 是 LAWWW 子代理的讀法，交 AA 確認）*/   /* 最後「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）：阿姨在店裡、照原本 19:00 以後才出（AA_503 第 14 節後補第 8 點，企劃線 f6069e42d；19:00 以前阿姨在＝不問「阿姨呢？」，也還不收）*/
     C.said=()=>!!c.said; C.prevTold=()=>!!c.prevTold; C.eating=()=>S.FOOD_LOCS.includes(c.loc);
     C.slip=()=>!!c.slip; C.slipYu=()=>c.slip==='yu'; C.second=()=>!!c.second;
     C.overlap=()=>!!y&&c.prevDay!=null&&S.sinceDay(G,y)<=c.prevDay;
@@ -307,9 +307,13 @@ const MREL=(function(){
   /* 這一次見面能不能演發現（talk：和她說話；date：和她的正式校外約會）*/
   S.DISC_AT={heroine_01:['talk','date'],heroine_05:['talk','date'],classmate_peishan:['talk','date'],heroine_03:['noodle']};
   S.discDue=function(G,x,kind){ const p=S.rec(G).pend[x]; if(!p||!law(G)) return false; if(G.day===p.day&&(+G.hour||0)<p.h) return false;
-    const A=S.DISC_AT[x]||[]; if(kind==='noodle'||(x===YT&&kind==='talk')) return x===YT&&G.zone==='noodle'&&S.ytShift(G);
+    const A=S.DISC_AT[x]||[]; if(kind==='noodle'||(x===YT&&kind==='talk')) return x===YT&&S.ytHere(G);
     return A.includes(kind); };
-  S.ytShift=G=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[YT], e=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null; return !!(e&&e.zone==='noodle'); };
+  /* AA_627 P-19、AA_630 Z-032（YT-REWRITE-1103）：語彤的那幾場（發現、坦白、冷靜以後第一次說話）原本在麵店她顧店的時候；她現在在一盞茶屋上班（週六、日 13:00～17:00）＝整段搬到茶屋。
+     kind 'noodle'（MREL 內部的名字）不改；ytShift＝她照作息在茶屋上班、ytHere＝玩家也在茶屋 */
+  S.YT_ZONE='wz_teahouse';
+  S.ytShift=G=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[YT], e=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null; return !!(e&&e.zone===S.YT_ZONE); };
+  S.ytHere=G=>!!G&&G.zone===S.YT_ZONE&&S.ytShift(G);
   /* 麵店的阿姨在不在店裡（PRIV-AUNT-1028；AA_503 第 14 節後補第 7 點，企劃線 5ec2fe771，BB-C 11:41 測出）：看 3D——阿姨的 3D 人物現在在不在麵店（圈子表 c503_6_2 那幾列：
      src/hcircle3d.js HCIRCLE.labelIn＝她那幾列現在成立，同 3D 生不生阿姨那一套）。原本 19:00 以後＝在（AA_425 第 1 節「阿姨 19:00 才來」），3D 的阿姨卻 17:30～20:30 站在店裡：
      18:00～19:00 那一場她問「阿姨呢？」，阿姨就在旁邊。3D 的時間不改（圈子表照舊）。沒有 HCIRCLE（只載 multirel3d.js 的測試）＝不在。
@@ -380,7 +384,7 @@ const MREL=(function(){
   S.KX_MEET_EVS=['ev_kexin_visits_ntu','ev_kexin_our_day','ev_kexin_our_day_wk'];
   S.playConf=async function(GM,x,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.cpend[x]; if(!p) return false; delete R.cpend[x]; const y=p.y;
     if(!dating(G,x)||!dating(G,y)||knows(G,x,y)) return false;
-    if(x===YT&&!o.remote&&(+G.hour||0)<21&&GM.advance) GM.advance(21-(+G.hour||0));   /* 「等妳下班」→ 打烊 */
+    if(x===YT&&!o.remote&&(+G.hour||0)<17&&GM.advance) GM.advance(17-(+G.hour||0));   /* 「等妳下班」→ 打烊（AA_627 P-19：一盞茶屋 17:00 打烊；原本麵店 21:00）*/
     if(o.remote==='video'&&typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(typeof OUT!=='undefined'&&OUT.bg?OUT.bg('video'):'video');
     const c=S.ctx(G,x,y,{remote:o.remote||null}); c.cond.grad=()=>S.zqGrad(G);
     if(typeof ROM!=='undefined'&&ROM.tellBy) ROM.tellBy(G,x,y); sub(S.defaults(G).YT_CONFESSED,x)[y]=G.day; sub(R.disc,x)[y]={day:G.day,ver:'confess',remote:o.remote||null};
@@ -399,7 +403,7 @@ const MREL=(function(){
       if(ab) continue;
       if(x===ZQ){ if(later&&h>=22&&S.inTaiwanBoth(G,ZQ)){ const g=S.zqGrad(G); return {k:'conf',x,bg:g?'gongguan':'wenzhou',cap:g?'公館的宵夜攤':'溫州街小公園的鞦韆',run:run()}; } continue; }
       if(x===ZR){ if(S.herAway(G,ZR)) continue; if(G.zone==='cafe'){ const e=S.zrShiftEnd(G); if(e!=null&&h>=e-0.25&&(later||h>=p.h+0.5)) return {k:'conf',x,blur:true,run:run()}; } continue; }
-      if(x===YT){ if(G.zone==='noodle'&&S.ytShift(G)&&(later||h>=p.h+0.25)) return {k:'conf',x,blur:true,run:run()}; continue; }
+      if(x===YT){ if(S.ytHere(G)&&(later||h>=p.h+0.25)) return {k:'conf',x,blur:true,run:run()}; continue; }
       if(x===KX){ const d29=DK('2029-06-28'); if(d29!=null&&G.day>=d29){ if(later&&h>=21.5&&h<23) return {k:'conf',x,cap:S.inDorm(G)?'宿舍樓下':'家巷口',run:run()}; continue; }
         const t=now(G), q=(typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]).find(q=>q&&q.state==='planned'&&S.KX_MEET_EVS.includes(q.ev)&&t>=T(q.day,q.h)-0.5&&t<T(q.day,q.h)+(q.late||0.5));
         if(q) return {k:'conf',x,cap:q.place||'',run:async GM=>{ q.state='skipped'; q.mrelConf=G.day; return S.playConf(GM,x,{}); }}; } }   /* 她來了，聽完就走（這一趟不演原本的）*/
@@ -651,7 +655,7 @@ const MREL=(function(){
         const r=st.intent==='both'?(rom(ZR)>=80&&S.acc(ZR)?'Byes':'Bno'):(st.intent==='unsure'?'C':null); return r?{abort:true,run:async GM=>S.result(GM,ZR,st,r)}:null; } },
     heroine_03:{
       tick(G,st){ if(st.phase==='ended'||st.phase==='done') return null;
-        if(st.phase==='cool'&&G.day>st.day&&G.zone==='noodle'&&S.ytShift(G)) return {k:'talk1',x:YT,blur:true,run:async GM=>S.ytTalk1(GM,st)};
+        if(st.phase==='cool'&&G.day>st.day&&S.ytHere(G)) return {k:'talk1',x:YT,blur:true,run:async GM=>S.ytTalk1(GM,st)};
         if(st.phase==='waiting'&&!st.dist&&G.day>=(st.talk1Day|0)+7&&!st.planned2){ st.planned2=G.day; S.planOut(G,YT,'talk2',G.day,21,{place:'總圖三樓外面的走廊',title:'總圖三樓外面的走廊',travel:'走過去約 10 分鐘',travelH:1/6}); }
         return null; },
       meet(G,st,kind){ const y=st.y;
@@ -899,7 +903,7 @@ const MREL=(function(){
       if(rm) continue;
       if(x===ZQ&&h>=22&&S.inTaiwanBoth(G,ZQ)) return {k:'disc',x,bg:'phone_street_night',run:async GM=>S.playDisc(GM,x,{})};
       if(x===ZR&&G.zone==='cafe'){ const e=S.zrShiftEnd(G); if(e!=null&&h>=e-0.25) return {k:'disc',x,blur:true,run:async GM=>S.playDisc(GM,x,{})}; }
-      if(x===YT&&G.zone==='noodle'&&S.ytShift(G)) return {k:'disc',x,blur:true,run:async GM=>S.playDisc(GM,x,{})};
+      if(x===YT&&S.ytHere(G)) return {k:'disc',x,blur:true,run:async GM=>S.playDisc(GM,x,{})};
       if(x===KX&&h>=21.5&&h<24.5&&(G.day>p.day||p.h<21.5)&&!S.heAbroad(G)) return {k:'disc',x,bg:'phone_street_night',run:async GM=>S.playDisc(GM,x,{})};
       if((x===A1||x===PS)&&G.zone==='wancai'&&G.day>p.day&&S.plgOn(G,G.day)&&h>=21.5&&h<22.5) return {k:'disc',x,bg:x===A1?'wancai_seminar':'girls_dorm_gate',run:async GM=>S.playDisc(GM,x,{})}; }
     { const a=S.kwDue(G); if(a) return a; }   /* 可昕收回：國外、她在高雄＝視訊（AA_474 第 3 節；在臺北＝出遊，S.kwPlan）*/
@@ -981,7 +985,7 @@ const MREL=(function(){
           const cafe=n&&n.staff==='cafe';
           if(cafe&&id===ZR){ const st=S.st(G,ZR); const a=st&&S.FLOW.heroine_02.meet(G,st,'cafe'); if(a){ let r; GM.sceneBegin({adv:id}); try{ r=await a.run(GM); } finally{ GM.sceneEnd(); } if(r!=='left') return; }
             const Z=S.rec(G).zz.o||{}; if(G.flags.ZQ_ZR_ENDED_DAY!=null&&!Z.first_heroine_02&&!dating(G,ZR)&&privOk(G,ZR,GM,'zz_after','first')){ (S.rec(G).zz.o||(S.rec(G).zz.o={})).first_heroine_02=G.day; GM.sceneBegin({adv:id}); try{ await privLead(GM,'zz_after',ZR,'first'); await S.run(GM,ZR,L().ZZ_AFTER.first[ZR],{}); } finally{ GM.sceneEnd(); } } }   /* 分開以後第一句（AA_503 第 14 節第 2 項：旁邊有她的人＝這一次不說，照常點餐）*/
-          else if(!cafe&&!(typeof INV!=='undefined'&&INV.meetable&&INV.meetable(G,id))){ const kind=G.zone==='noodle'&&id===YT?'noodle':'talk'; let a=S.meetAction(G,id,kind); if(!a&&kind==='noodle') a=S.meetAction(G,id,'talk');
+          else if(!cafe&&!(typeof INV!=='undefined'&&INV.meetable&&INV.meetable(G,id))){ const kind=G.zone===S.YT_ZONE&&id===YT?'noodle':'talk'; let a=S.meetAction(G,id,kind); if(!a&&kind==='noodle') a=S.meetAction(G,id,'talk');
             if(!a&&(id===ZQ||id===ZR)&&G.flags.ZQ_ZR_ENDED_DAY!=null&&!dating(G,id)){ const o=(S.rec(G).zz.o||{}); if(!o['first_'+id]&&id===ZQ&&privOk(G,ZQ,GM,'zz_after','first')) a={abort:true,run:async GM2=>{ await S.zzPreTalk(GM2,S.who(G,id),id); }}; }   /* 旁邊有她的人＝這一次不演「嗨。」、照常說話（AA_503 第 14 節第 2 項）*/
             if(a){ GM.sceneBegin({adv:id}); try{ await a.run(GM); } finally{ GM.sceneEnd(); } if(a.abort) return; } } }catch(e){ console.warn('MREL talk',e); } }
         return t0.apply(this,arguments); }; STORY._mrelTalk=true; }
