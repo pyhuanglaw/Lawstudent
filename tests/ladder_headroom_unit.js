@@ -2,14 +2,15 @@
 // 使用者 11-03：「宿舍天花板太低了 走上去都撞到頭 不合理」「至少微微彎腰不要整個頭卡進去天花板」。
 // 在 Node 裡載入遊戲真正的祐廷（VRM，不算圖）＋ story3d.js 真正的上床（goToBedFull）、起床（getUp）流程（GM 是假的：GM.sleep 照毫秒數一格一格 1/30 秒跑 CHAR.animate），
 // 每一格量「頭頂」＝整個模型（含頭髮、彈簧骨甩動以後）最高的頂點（Box3.setFromObject(vrm.scene, precise)），和 sleep_scene 的天花板限制比：
-//   兩種版面：A＝現在的版面（沒有 head_max：房間高 3.0 m → 限制 2.92 m）；B＝LAWWW2 要交的版面（ceil_y 3.4、head_max 3.32、bed_entry_pose 'kneel'）。
+//   兩種版面：A＝遊戲的版面（LAWWW2 DORM-CEIL-1103 04cf29dc5：房間 3.4 m、sleep_scene 的 ceil_y 3.4、head_max 3.32、bed_entry_pose 'kneel'，照資料讀、不寫死）；
+//             B＝備用路徑（拿掉 head_max、bed_entry_pose，ceil_y 3.0＝舊的矮天花板 → 限制 2.92 m、照樣跪）——確定程式讀的是版面、不是寫死 3.32。
 //   ① 爬上去（梯子每一階、最上面一階轉身、跪上床）每一格頭頂 ≤ 限制（舊版：最上面一階站直 3.35 m、上床點站直 3.6 m）
 //   ② 起床（跪在床上 → 最上面一階 → 一階一階下來）每一格頭頂 ≤ 限制
 //   ③ 上床點（bed_entry）跪著：臀部離床墊 ≤ 0.70 m（站著約 0.98 m）、兩個膝蓋離床墊 ≤ 0.12 m；起床的第一個看得到的畫面也是跪著
 //   ④ 平滑：人物座標裡的關節沒有跳格——相鄰兩格移動量的差（二階差分）身體 ≤ 5 cm、手腳 ≤ 8 cm，每一格 ≤ 12 cm（30 fps；走路片段的腳本來就一格約 8 cm；黑幕裡換位置的那一格不算）——彎腰、蹲低、跪下、站起來都不跳
 //   ⑤ 腳踩在踏點上：梯子上每一格最低的腳（腳踝、腳尖）不低於踏點 3 cm 以上（蹲低時腳照樣踩在那一階）
 //   ⑥ 站回梯子前以後拿掉限制（userData.headMax 沒了）、姿勢 idle；站直時頭頂回到身高
-// 修改前（e3d773589 那一版的 character3d.js、story3d.js）：① ② ③ 失敗。用法：node tests/ladder_headroom_unit.js
+// 修改前（578f5a0d4 那一版的 character3d.js、story3d.js）：① ② ③ 失敗（8 項；最上面一階站直頭頂 3.59 m、起床 3.35 m）。用法：node tests/ladder_headroom_unit.js
 const path=require('path'), fs=require('fs'), vm=require('vm');
 const {ROOT,preload}=require('../tools/dev_scratch/spring_sim/harness.js');
 global.location={search:''}; document.addEventListener=()=>{}; document.body=document.body||{appendChild(){}};
@@ -24,8 +25,10 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
   await preload([KEY]);
   const U=DORM_ROOM.units.find(u=>u.id===(DORM_ROOM.player_unit||'L2')), SC0=U.sleep_scene;
   const roomH=DORM_ROOM.room.h;
-  const layouts=[{name:'A 現在的版面（房間 '+roomH+' m、沒有 head_max）',sc:JSON.parse(JSON.stringify(SC0)),lim:(SC0.head_max!=null?SC0.head_max:(SC0.ceil_y!=null?SC0.ceil_y:roomH)-0.08)},
-    {name:'B LAWWW2 的版面（ceil_y 3.4、head_max 3.32、bed_entry_pose kneel）',sc:Object.assign(JSON.parse(JSON.stringify(SC0)),{ceil_y:3.4,head_max:3.32,bed_entry_pose:'kneel'}),lim:3.32}];
+  check('版面：DORM_ROOM 玩家那一組的 sleep_scene 有 ceil_y、head_max（≤ ceil_y）、bed_entry_pose kneel；房間高度＝ceil_y（DORM-CEIL-1103）',SC0&&isFinite(+SC0.head_max)&&isFinite(+SC0.ceil_y)&&+SC0.head_max<+SC0.ceil_y&&SC0.bed_entry_pose==='kneel'&&Math.abs(DORM_ROOM.room.h-SC0.ceil_y)<1e-6,`房間 ${roomH} m、ceil_y ${SC0&&SC0.ceil_y}、head_max ${SC0&&SC0.head_max}、bed_entry_pose ${SC0&&SC0.bed_entry_pose}`);
+  const fb=JSON.parse(JSON.stringify(SC0)); delete fb.head_max; delete fb.bed_entry_pose; fb.ceil_y=3.0;
+  const layouts=[{name:'A 遊戲的版面（房間 '+roomH+' m、head_max '+SC0.head_max+'）',sc:JSON.parse(JSON.stringify(SC0)),lim:+SC0.head_max},
+    {name:'B 備用（沒有 head_max、ceil_y 3.0 → 限制 2.92 m）',sc:fb,lim:3.0-0.08}];
   const H=ASSETS.manifest[KEY].height||1.75;
   const h=CHAR.build({model:KEY,height:H}); scene.add(h); const vrm=h.userData.vrm, R=n=>vrm.humanoid.getRawBoneNode(n); if(process.env.NOSPRING) vrm.springBoneManager=null;
   const box=new THREE.Box3(), tmp=new THREE.Vector3();
