@@ -34,12 +34,13 @@ const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCH
 const run=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
 const OLD_K=['刑總那題，你先講結論，再講理由。講完我再問。','這題你上禮拜錯過。……我記得。再一次。','你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。','好，換你出題。出一題你自己也不確定的。'];
 const OLD_Y=['押租金那個，你講給我聽。不要講條號。','……這個詞我在社會系也學過，可是意思不一樣。你講你們的。','你剛剛那一段，跟上禮拜講的不一樣。哪一個對？','我出一題我自己不會的。你答完，我抄下來。'];
-const YT_FIRST=['（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）','我今年不考。……可是我可以考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
+const YT_FIRST=['（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）','我們一起考。……我先考你。',   /* AA_642 第 4 節（AA_629：她 2029 也考）*/'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
 /* 讀書小組：kind＝kexin／yutong／split／three；2/26～8/3 每一場（S.session）照時間跑事件，回傳 [{k,sat,mode,L}] */
 const bar=async(kind,flags)=>{ const G=fresh('2029-02-22',23,'dorm',Object.assign({Y4_PATH:'bar',BAR_GROUP_KIND:kind,BAR_STUDY_GROUP:kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']),BAR_GROUP_START:kind==='split'?'kexin':kind},flags||{}));
   if(kind!=='yutong') H.date('kexin'); if(kind!=='kexin') H.FRIEND('heroine_03'); if(kind==='three') ROM.learn(G,'heroine_03','kexin','test'); G.events.done.ev_bar_group_start=1; return G; };
 const season=async(G,from,to)=>{ const out=[]; for(let d=D(from||'2029-02-26');d<=D(to||'2029-08-03');d++){ const s=S.session(G,d); if(!s) continue; H.at(keyOf(d),s.t0+0.5);
-    let L=null; if(s.mode==='video'||s.mode==='nccu') L=await run('ev_bar_group_video'); else { G.zone=s.mode==='noodle'?'noodle':'library_hall'; if(EVENTS.check(ev('ev_bar_group_night'))) L=await run('ev_bar_group_night'); }
+    let L=null; if(s.mode==='video'||s.mode==='nccu') L=await run('ev_bar_group_video'); else if(s.mode==='noodle') L=(await run('ev_bar_group_out'));   /* AA_642 第 6 節：平日晚上（原本麵店）＝大口漢堡二樓的 2D 出遊 ev_bar_group_out */
+    else { G.zone='library_hall'; if(EVENTS.check(ev('ev_bar_group_night'))) L=await run('ev_bar_group_night'); }
     if(L) out.push({k:keyOf(d),sat:wdOf(d)===6,who:s.who,mode:s.mode,L,W:H.said.map(x=>x.who)}); }
   return out; };
 /* 照稿的規則算這一個人每一場應該是哪一句（第一輪 4 句；之後平日、週六各自照順序；用完收尾）*/

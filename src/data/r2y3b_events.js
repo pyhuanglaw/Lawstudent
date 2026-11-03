@@ -241,8 +241,8 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。'},   /* AA_377 第 14 項：日本路線（原「這週的筆記我留了。回來再給你。」是臺灣的說法）*/
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},   /* AA_377 第 3 項：玩家參加過讀書會才說 */
-      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從吧檯後面探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'蘇姨',name:'蘇姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）'},   /* AA_642 第 5 節：大家在公館燒臘跟祐廷視訊，她不在燒臘店工作 */
+      {if:inG,speaker:'阿姨',name:'燒臘店阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_642 第 5 節：燒臘店的阿姨（A-256 改蘇姨作廢）*/
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
@@ -261,8 +261,8 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'強制執行法的筆記，我留了一份。你大五補修用得到。'},
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
-      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從吧檯後面探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'蘇姨',name:'蘇姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_627 A-259、A-260（說話人欄）：同日本版 245 行 */
+      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）'},
+      {if:inG,speaker:'阿姨',name:'燒臘店阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_642 第 5 節（同日本版；A-259、A-260 作廢）*/
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},

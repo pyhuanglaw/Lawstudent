@@ -230,7 +230,8 @@ await sec(6,async()=>{
   /* 語彤不回答 */
   fresh('2026-09-20',12); H.CLOSE(YT); ROM.start(H.G,YT); ROM.end(H.G,YT,'drift'); H.G.zone='library'; setD(th,18.6);
   check('6. 語彤不回答以後：她不留位子（週四先不算）',!X().ytRbDue(H.G)&&!(X().rb(H.G,YT).thu||[]).length);
-  H.G.zone='noodle'; setD(th,21.3); a=due(); check('6. 週四打烊後人在麵店＝「我想把那個問題回答完。」',a&&a.k==='yt_rb_answer');
+  H.G.zone='noodle'; setD(th,21.3); check('6. 週四 21:00 人在燒臘店＝不演（AA_642 第 6 節：搬到茶屋）',!X().ytRbDue(H.G));
+  H.G.zone='wz_teahouse'; setD(th+2,17.6); a=due(); check('6. 週六 17:30 一盞茶屋打烊以後人在茶屋＝「我想把那個問題回答完。」（AA_642 第 6 節，原本週四 21:00 麵店）',a&&a.k==='yt_rb_answer');
   clr(); H.picks=[0]; await play(a); check('6. →「……嗯。這次，不要讓我等。」，之後照三個週四',J(H.opts[0])===J(['「我想把那個問題回答完。」','（先不說）'])&&J(T())===J(['……嗯。這次，不要讓我等。'])&&X().rb(H.G,YT).step==='thu');
 });
 

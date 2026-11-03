@@ -471,7 +471,7 @@ const MREL=(function(){
     if(r.kind==='drift'){ await S.run(GM,A1,B.drift,{}); for(let i=0;i<8;i++){ const O=B.driftOpts, kk=await GM.choose(O.map(o=>({t:o.t}))), o=O[kk]||O[0]; await S.run(GM,A1,o.then,{}); if(!o.again) break; } }
     await S.run(GM,A1,B.week,{}); r.step='week'; r.weekAt=G.day+7; return true; };
   S.ytRbDue=function(G){ const r=S.rb(G,YT); if(!r||r.step==='done'||!law(G)||G.day-r.bd<28) return null; const h=+G.hour||0, thu=wdOf(G.day)===4;
-    if(r.step==='answer'){ if(thu&&G.zone==='noodle'&&h>=21&&h<22&&r.skipDay!==G.day) return 'answer'; return null; }
+    if(r.step==='answer'){ if(wdOf(G.day)===6&&G.zone===S.YT_ZONE&&h>=17.5&&h<18.5&&r.skipDay!==G.day) return 'answer'; return null; }   /* AA_642 第 6 節：週六 17:30 一盞茶屋打烊以後（原本週四 21:00 麵店）；台詞照舊 */
     if(thu&&G.zone==='library'&&h>=18.5&&h<19&&(r.from==null||G.day>r.from)){ const L0=r.thu||(r.thu=[]); if(L0[L0.length-1]!==G.day){ if(L0.length&&G.day-L0[L0.length-1]!==7) L0.length=0; L0.push(G.day); } if(L0.length>=3) return 'seat'; }
     return null; };
   S.ytRb=async function(GM,step){ const G=GM.G, r=S.rb(G,YT), B=L().REBUILD.heroine_03;

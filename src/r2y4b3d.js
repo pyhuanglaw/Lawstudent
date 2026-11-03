@@ -175,7 +175,7 @@ const R2Y4B=(function(){
     if(knowsOther(G,'heroine_03')){ if(grp(G)) PHONE.at(G,d,18,[GR('heroine_03',PH),GR('heroine_03','阿姨第一次出國'),GR('heroine_03','店休一個禮拜',{ask})],'y4_yt_aunt'); }   /* 她知道祐廷和別人交往：照片發在麵店團群組 */
     else if(contact(G,'heroine_03')) PHONE.at(G,d,18,[P_('heroine_03',PH,{ask})],'y4_yt_aunt'); };
   S.aunTrip=G=>{ const a=DK('2029-04-19'), b=DK('2029-04-25'); return law(G)&&a!=null&&G.day>=a&&G.day<=b; };
-  S.AUNT_DOOR='（麵店門口貼著一張紙：「出國，休息七天。——阿鳳」）';   /* AA_519 1-1：阿姨的名字（原本「老闆出國，休息七天」）*/
+  S.AUNT_DOOR='（燒臘店門口貼著一張紙：「出國，休息七天。」）';   /* AA_642 第 6 節：燒臘店照樣公休七天（老闆出國），拿掉「阿鳳」的署名（AA_519 1-1 的舊設定）*/
 
   /* ===================== 2-Y4-38 可昕：生日「今年不要慶祝」（4/23 21:00、4/24）===================== */
   const KB={d23:'2029-04-23',d24:'2029-04-24',d25:'2029-04-25'};
@@ -411,10 +411,11 @@ const R2Y4B=(function(){
       knew:['……我知道。不用說名字。','你選了。好。'],ask:['為什麼？'],
       told:[{narr:'（她沒有馬上說話。）'},'……你說實話了。','我要一點時間。'],quiet:['……好。',{narr:'（她把白板筆的蓋子蓋上。）',n30:'（她把筷子在碗上放好。）'}],
       last:[{narr:'（她低下頭，把東西收進包包。）'},'好了。你先走。我再坐一下。']},
-    heroine_03:{h:[21.5,21.5],at29:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},NOODLE),at30:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},Y30),
-      open29:'（茶屋打烊以後。她在吧檯後面擦杯子，沒有抬頭。）',open30:'（茶屋打烊以後。她在吧檯後面擦杯子，沒有抬頭。）',
-      knew:[{narr:'（杯子一個一個倒扣在架上。）'},'……嗯。我知道會有這一天。'],
-      told:['……嗯。',{narr:'（很久以後。）'},'你坐。我把這碗剝完。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）'}],
+    /* 語彤：AA_642 第 6 節（企劃線 ef468a260，YT-REWRITE-1103）——一盞茶屋 17:00 打烊以後（h 17.5）；2029 她在吧檯後面洗杯子，2030 她已經畢業、坐吧檯最旁邊（n30＝2030 的旁白）；沒有 3D＝dark＋字幕 */
+    heroine_03:{h:[17.5,17.5],at29:Object.assign({place:'一盞茶屋打烊以後',bg:'dark'},NEAR),at30:Object.assign({place:'一盞茶屋・吧檯最旁邊',bg:'dark'},Y30),
+      open29:'（茶屋打烊以後。她在吧檯後面洗杯子，沒有抬頭。）',open30:'（一盞茶屋。她坐在吧檯最旁邊的位子，蘇姨放下一杯茶就走開了。）',
+      knew:[{narr:'（杯子一個一個倒扣在架子上。）',n30:'（她轉著手上的茶杯。）'},'……嗯。我知道會有這一天。'],
+      told:['……嗯。',{narr:'（很久以後。）'},'你坐。我把這幾個洗完。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。杯子洗完了，她又拿起一個。）',n30:'（她轉著手上的茶杯。）'}],
       last:['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
     heroine_02:{h:[22,21.5],at29:{place:'約好的視訊',bg:'video',video:true},at30:Object.assign({place:'打烊後的 Café',bg:'dark'},Y30),
       open29:'（視訊。她那邊是下午，窗外是英國灰灰的天。）',open30:'（打烊後的 Café。只開了吧檯一盞燈。）',
@@ -440,7 +441,7 @@ const R2Y4B=(function(){
       last:['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
   S.APART_ME='……我想跟妳分開。'; S.APART_DM='你是不是有話要跟我說。'; S.APART_PHONE='（電話。）';
   /* 電話版（沛珊，以及錯過三次改電話的）：看得到動作的旁白換成聽得到的，不另寫整段（AA_350 Q3）；null＝拿掉。視訊版（芷若 2029）看得到，照留 */
-  S.APART_HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）',
+  S.APART_HEAR={'（杯子一個一個倒扣在架子上。）':'（那頭有杯子碰到的聲音。）','（她沒有問為什麼。杯子洗完了，她又拿起一個。）':'（那頭有杯子碰到的聲音。）','（她轉著手上的茶杯。）':'（那頭安靜了一下。）',   /* 語彤：AA_642 第 6 節的新旁白（電話版用現有的聲音句）*/
     '（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）','（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她低下頭，把東西收進包包。）':'（翻紙的聲音。）',
     '（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）','（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）',
     '（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
@@ -666,7 +667,7 @@ const R2Y4B=(function(){
   const groupStartPhone=G=>{ const d=DK(GS), F=G.flags; if(d==null||G.day<d||G.day>d+1||F.BAR_GROUP_KIND!=null||!S.groupOn(G)||!at(G,GS,0)) return; const kind=S.groupKind(G); if(!kind){ F.BAR_GROUP_KIND='none'; return; }
     F.BAR_GROUP_KIND=kind; F.BAR_STUDY_GROUP=kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']); F.BAR_GROUP_START=kind==='split'?'kexin':kind;   /* 分開讀：成立那一晚照可昕的視訊 */
     const st=F.BAR_GROUP_START, video=st==='kexin';
-    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'公館燒臘',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（公館燒臘）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
+    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'大口漢堡',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（大口漢堡）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
   S.kxVday=G=>!!(G.flags.KX_VDAY&&G.flags.KX_VDAY[4]==='video');
   S.kxIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('kexin')&&dating(G,'kexin');   /* 之後分手的人，那天以後不再出現 */
   S.ytIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('yutong')&&!isEx(G,'heroine_03');
@@ -680,7 +681,7 @@ const R2Y4B=(function(){
     if(w==='yutong'&&yt) return {mode:sat?'library':'noodle',t0,t1,who:'yutong'};   /* 只有語彤：週六在總圖 */
     return null; };
   S.groupNightDue=function(G){ const F=G.flags; if(F.BAR_GROUP_LAST===G.day) return false; const s=S.session(G,G.day); if(!s||(s.mode!=='noodle'&&s.mode!=='library')) return false; const h=hh(G); if(h<s.t0||h>=s.t1) return false;
-    return s.mode==='noodle'?G.zone==='noodle':LIB_ZONES.includes(G.zone); };
+    return s.mode==='noodle'?false:LIB_ZONES.includes(G.zone); };   /* mode 'noodle'（平日晚上）：AA_642 第 6 節搬到大口漢堡＝2D 出遊 ev_bar_group_out（groupVideoRules 排），不在 3D 觸發 */
   S.groupLine=function(G,force){ const F=G.flags, s=S.session(G,G.day), w=force||(s&&s.who)||'kexin';
     if(w!=='kexin'&&!F.BAR_GROUP_YT_FIRST&&(w==='yutong')&&F.BAR_GROUP_KIND!=='three'&&s&&(s.mode==='noodle'||(s.mode==='library'&&F.BAR_GROUP_KIND==='yutong'))) return 'yt_first';   /* AA_350 N1：只有語彤、第一次是週六白天總圖的＝演白天版（第一句旁白換，其他兩句一樣）；分開讀的照舊留到她第一個麵店的晚上 */   /* 只有語彤（或分開讀的語彤那幾晚）：第一次那三句。是晚上的事（「十點，麵店拉下一半的鐵門」）：週六白天在總圖不演；分開讀的放在她的第一個週五晚上 3/2（AA_345 G6）*/
     const pick=w==='three'?(((F.BAR_GROUP_N|0)%2===0)?'kexin':'yutong'):w;
@@ -708,12 +709,13 @@ const R2Y4B=(function(){
     else if(ln[0]==='k'){ inc('BAR_GROUP_KI'); if(ln[1]==='w') inc('BAR_GROUP_KN'); else if(ln[1]==='s') inc('BAR_GROUP_KNS'); }
     else { inc('BAR_GROUP_YI'); if(ln[1]==='w') inc('BAR_GROUP_YN'); else if(ln[1]==='s') inc('BAR_GROUP_YNS'); } };   /* 旁白另開計數（AA_468 第 4 節）*/
   const groupVideoRules=G=>{ const F=G.flags; if(!F.BAR_GROUP_KIND||F.BAR_GROUP_KIND==='none'||!evDone(G,'ev_bar_group_start')) return;
-    if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>/^y4_bar_vid_/.test(q.id)&&q.state==='planned')) return;   /* 一次只排下一場 */
-    for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='video'&&s.mode!=='nccu')) continue; if(now(G)>T(d,s.t0+0.5)) continue; if(outGet(G,'y4_bar_vid_'+d)) continue; if(F.BAR_GROUP_LAST===d) continue;
+    if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>/^y4_bar_(vid|out)_/.test(q.id)&&q.state==='planned')) return;   /* 一次只排下一場 */
+    for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='video'&&s.mode!=='nccu'&&s.mode!=='noodle')) continue; if(now(G)>T(d,s.t0+0.5)) continue; if(outGet(G,'y4_bar_vid_'+d)||outGet(G,'y4_bar_out_'+d)) continue; if(F.BAR_GROUP_LAST===d) continue;
+      if(s.mode==='noodle'){ plan(G,{id:'y4_bar_out_'+d,ev:'ev_bar_group_out',day:d,h:s.t0,late:0.5,place:'大口漢堡',no:'今天先不讀',title:'律師讀書小組（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到首都帝大。'}); break; }   /* AA_642 第 6 節：平日晚上在大口漢堡二樓（2D）*/
       const nc=s.mode==='nccu'; plan(G,{id:'y4_bar_vid_'+d,ev:'ev_bar_group_video',day:d,h:s.t0,late:0.5,place:nc?'木柵大學':'視訊',verb:nc?undefined:'接起來',no:'今天先不讀',title:'律師讀書小組（'+(nc?'木柵大學':'視訊')+'）',travel:nc?'開車約 40 分鐘':'',travelH:nc?2/3:0,back:nc?'回到首都帝大。':'視訊結束。'}); break; } };
   S.groupStop=function(G){ if(!graduated(G)) return null; for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='noodle'&&s.mode!=='library')||G.flags.BAR_GROUP_LAST===d) continue; const t=T(d,s.t0); if(t>now(G)) return t; } return null; };   /* 畢業後篇：麵店、總圖那幾晚停一下 */
   const groupThreeRules=G=>{ const d=DK('2029-06-23'), F=G.flags; if(d==null||G.day<d-3||G.day>d||F.BAR_GROUP_KIND!=='three'||!S.kxIn(G)||!S.ytIn(G)||outGet(G,'y4_bar_three')) return;
-    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'公館燒臘',title:'三個人的長桌（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25}); };
+    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'大口漢堡',title:'三個人的長桌（大口漢堡）',travel:'走過去約 15 分鐘',travelH:0.25}); };
 
   /* ===================== 2-Y4-61 沛珊大四下的學期末（6/8（五）台南；AA_254 第 6 節的心意邀約、女朋友的約會、第二次）===================== */
   const PSD='2029-06-08';

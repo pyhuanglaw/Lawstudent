@@ -74,8 +74,9 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'
 if(typeof US208==='undefined'||!ev('ev_far_call_us')){ H.done(); return; }
 
 /* ======================= F 主線 8「遠方」美國版 ======================= */
+/* AA_642 第 5 節：大家在公館燒臘視訊，語彤坐在長桌最旁邊（不在燒臘店工作）*/
 const FAR_ALL=['（早上七點半。你端著一碗麥片，走到門外的平台上。這裡的收訊比房間好。）','你那邊幾點？……你吃什麼？給我看。','（你舉起那碗麥片。）','就這樣？',
-  '你瘦了！……不對，是鏡頭。','強制執行法的筆記，我留了一份。你大五補修用得到。','讀書會你的位子，我們沒有人坐。','（語彤從吧檯後面探出頭，舉起田野筆記，沒說話。）','滷蛋要不要！隔著螢幕也要問！',
+  '你瘦了！……不對，是鏡頭。','強制執行法的筆記，我留了一份。你大五補修用得到。','讀書會你的位子，我們沒有人坐。','（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）','滷蛋要不要！隔著螢幕也要問！',
   '（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）','Hello，台灣！','好了，飯要涼了。……你自己也要吃。','（畫面關掉。平台上很安靜，遠處有人在割草。）'];
 const FAR_SOLO=[0,1,2,3,11,12].map(i=>FAR_ALL[i]);
 const farSetup=(key,h,o)=>{ o=o||{}; fresh(key,h,'us_apartment',US(o.flags)); if(o.grp!==false) grp(); R('zhe',o.zhe||'FRI'); for(const id of (o.ppl||[])) R(id,'FRI'); dateSis(); return H.G; };
@@ -93,7 +94,7 @@ await sec('F1',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmat
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-03-02')]={h:20,end:'full'};
   await run('ev_far_call_us');
   check('F1. 在麵店團、都認識、參加過讀書會、見過何俊朗：台詞逐字、順序照 AA_412 第 2 節（【美】的麥片、柏翰、何俊朗、割草）；FAR_CALL us',J(H.said.map(s=>s.t))===J(FAR_ALL)&&G.flags.FAR_CALL==='us',J(L()));
-  check('F1. 說話的人：阿哲、Alison、柏翰、芯慈；「蘇姨（畫面外）」（AA_627 A-259、A-260）；何俊朗',H.said.some(s=>s.who==='蘇姨（畫面外）'&&s.t==='滷蛋要不要！隔著螢幕也要問！')&&H.said.some(s=>s.who==='何俊朗'&&s.t==='Hello，台灣！')&&H.said.filter(s=>s.t==='就這樣？').every(s=>s.who&&s.who!=='何俊朗'),J(L()));
+  check('F1. 說話的人：阿哲、Alison、柏翰、芯慈；「燒臘店阿姨（畫面外）」（AA_642 第 5 節）；何俊朗',H.said.some(s=>s.who==='燒臘店阿姨（畫面外）'&&s.t==='滷蛋要不要！隔著螢幕也要問！')&&H.said.some(s=>s.who==='何俊朗'&&s.t==='Hello，台灣！')&&H.said.filter(s=>s.t==='就這樣？').every(s=>s.who&&s.who!=='何俊朗'),J(L()));
   check('F1. 美國版沒有以安那一則、沒有日本版的柏翰「筆記拍給我」、沒有便利商店飯糰',!H.said.some(s=>/他吃飯糰|筆記拍給我|飯糰/.test(s.t)));
   check('F1. 背景：視訊（同日本版 bg video）',H.bgs.some(b=>J(b)===J(OUT.bg('video'))),J(H.bgs)); });
 await sec('F2',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmate_bohan','classmate_xinci','heroine_03']});
@@ -101,7 +102,7 @@ await sec('F2',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmat
   check('F2. 沒見過何俊朗（沒有 MET_LONG）：他那兩句不出；沒參加過讀書會：芯慈那句不出；其他照樣',!H.has('Hello，台灣！')&&!H.has(FAR_ALL[9])&&!H.has('讀書會你的位子，我們沒有人坐。')&&H.has('強制執行法的筆記，我留了一份。你大五補修用得到。')&&H.has('（畫面關掉。平台上很安靜，遠處有人在割草。）'),J(L()));
   farSetup('2028-09-21',7.5); SOCIAL.remember('npc_long','MET_LONG',''); await run('ev_far_call_us');
   check('F2. MET_LONG 是記憶（舊存檔 R3 版迎新記的，AA_370 M3 兩邊互相認）也算：何俊朗出現',H.has('Hello，台灣！')&&H.has(FAR_ALL[9]));
-  check('F2. 不認識 Alison、柏翰、語彤：她們的句子不出（照日本版的條件）',!H.has('你瘦了！……不對，是鏡頭。')&&!H.has('強制執行法的筆記，我留了一份。你大五補修用得到。')&&!H.has('（語彤從吧檯後面探出頭，舉起田野筆記，沒說話。）')&&H.has('滷蛋要不要！隔著螢幕也要問！')); });
+  check('F2. 不認識 Alison、柏翰、語彤：她們的句子不出（照日本版的條件）',!H.has('你瘦了！……不對，是鏡頭。')&&!H.has('強制執行法的筆記，我留了一份。你大五補修用得到。')&&!H.has('（語彤坐在長桌最旁邊，舉起田野筆記，沒說話。）')&&H.has('滷蛋要不要！隔著螢幕也要問！')); });
 await sec('F3',async()=>{ const G=farSetup('2028-09-20',9.1,{grp:false,zhe:'FAM',flags:{MET_LONG:true}}); rules();
   check('F3. 不在麵店團、和阿哲 FAMILIAR：一樣收到私訊',txt('p:zhe').includes('zhe:明天你那邊早上七點半 視訊 給我起床'));
   at('2028-09-21',7.5); await run('ev_far_call_us');

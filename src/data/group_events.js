@@ -106,9 +106,9 @@ const GROUP_EVENTS=(function(){
       {if:kn('heroine_01'),speaker:'heroine_01',text:'郵局說寄到英國要十天。我查過了。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'郵局禮拜一才開，她收到要一月了。'},
       {if:kn('classmate_xinci'),speaker:null,text:'（芯慈已經在填海關的單子。）'},
-      {if:kn('heroine_03'),speaker:null,text:'（語彤從吧檯後面拿來一卷膠帶，把箱子封了三圈。）'},
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'蘇姨說，箱子不夠大的話，倉庫裡有。'} ],
-    consequences:{memo:'寄到英國的那一箱（茶屋）'},
+      {if:kn('heroine_03'),speaker:null,text:'（語彤從包包裡拿出一卷膠帶，把箱子封了三圈。）'},   /* AA_642 第 5 節：這一場在公館燒臘（Z-120「茶屋吧檯」作廢）*/
+      {if:kn('heroine_03'),speaker:'阿姨',name:'燒臘店阿姨（畫面外）',text:'箱子不夠大的話，店裡有！'} ],   /* AA_642 第 5 節：改由燒臘店的阿姨說 */
+    consequences:{memo:'寄到英國的那一箱（燒臘店）'},
     after:G=>{ const g=G1(); if(g) g.xmasBoxAfter(G); },
     outingMissed:G=>{ const g=G1(); if(g) g.xmasBoxPhoto(G); } },
   /* ---------- 1C-04 哲 4「有事」（2028-04-28 23:00；AA_40 哲 4）：在宿舍＝十分鐘後宿舍樓下的便利商店外；在家、日本路線＝視訊（同一段話）。記憶 ZHE_SAID_IT ---------- */
