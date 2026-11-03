@@ -288,13 +288,18 @@ async def main():
     async with async_playwright() as p:
         for k in CASES:
             print('== case %s ==' % k, flush=True)
-            b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-            pg.set_default_timeout(180000)
-            cerrs = []
-            pg.on('console', lambda m, c=cerrs: c.append(m.text[:200]) if m.type == 'error' else None)
+            for att in range(3):   # SwiftShader 偶爾一開頁就 Page crashed（11-03 第一次跑兩邊都是）：換一個瀏覽器再開，最多三次，次數印出來
+                b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+                pg.set_default_timeout(180000)
+                cerrs = []
+                pg.on('console', lambda m, c=cerrs: c.append(m.text[:200]) if m.type == 'error' else None)
+                try:
+                    await pg.goto(URL); loaded = await L.wait_loaded(pg, 300); break
+                except Exception as e:
+                    print('  [開頁失敗 第 %d 次] %s' % (att + 1, str(e).splitlines()[0][:200]), flush=True); loaded = False
+                    await b.close()
             try:
-                await pg.goto(URL)
-                if run.check('%s：遊戲載入' % k, await L.wait_loaded(pg, 300)):
+                if run.check('%s：遊戲載入' % k, loaded):
                     await P.init(pg)
                     try:
                         if k.startswith('tana'): await case_tana(pg, cdp, run, errs, k)
