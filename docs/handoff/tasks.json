@@ -41226,10 +41226,10 @@
       "id": "BUG-EAT-AFTER-CLASS-SCENE-1103",
       "title": "下課選去吃飯：扣錢、吃飽了，但場景還是教室",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P0",
       "note": "使用者 11-03 08:1x 實玩回報（X159）",
-      "next": "LAWWW 找下課選單「去吃飯」的流程：要真的換到餐廳（或至少換背景／移到吃飯的地方），不是只扣錢加飽足"
+      "next": "已在開發分支（classes3d.js lunchBreak：ADV 換到店裡的 2D 背景＋店名字幕；小松／學活沒圖＝深色底）；tests/eat_after_class_unit.js（修改前 FAIL 10）→ BB 瀏覽器驗；小松／學活的 2D 圖請 BB 跟使用者要"
     },
     {
       "first": {
