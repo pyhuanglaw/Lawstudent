@@ -30,8 +30,10 @@ const CAFE1='芷若給祐廷一張紙，上面是常客的名字和點法：「�
 (async()=>{
 check('0. 載得到：JOBS 有 cafe、books；Café、書店的區域',ok&&JOBS.KEYS.includes('cafe')&&JOBS.KEYS.includes('books')&&JOBS.ZONE_KEY.cafe==='cafe'&&JOBS.ZONE_KEY.bookstore==='books',err);
 
-await sec(1,async()=>{ fresh('2025-11-08',15,'cafe'); H.E.interactables=[]; const it=JOBS.addDesk(GM,'cafe');
-  check('1. Café 門上的告示：大一上還沒有',!!it&&it.hidden===true);
+await sec(1,async()=>{ fresh('2025-11-08',15,'cafe'); H.G.stage='econ'; H.E.interactables=[]; const it=JOBS.addDesk(GM,'cafe');
+  check('1. Café 門上的告示：經濟系那一年沒有',!!it&&it.hidden===true);
+  fresh('2025-11-08',15,'cafe'); H.E.interactables=[]; const it1=JOBS.addDesk(GM,'cafe');
+  check('1. Café 門上的告示：法律系大一上就有（使用者 11-03「一開始就要有」；原本大一下第 1 週起）',!!it1&&it1.hidden===false);
   fresh(key(TD('Y1S2',1,6)),15,'cafe'); H.E.interactables=[]; const it2=JOBS.addDesk(GM,'cafe'); H.E.interactables=[]; const it3=JOBS.addDesk(GM,'bookstore');
   check('1. 大一下第 1 週起：「應徵：徵外場夥伴　週四晚上、週六下午　意者洽櫃台」、書店「應徵：週末缺人。會搬書、不怕灰塵。」',it2.hidden===false&&it2.label==='應徵：徵外場夥伴　週四晚上、週六下午　意者洽櫃台'&&it3.label==='應徵：週末缺人。會搬書、不怕灰塵。',it2.label+'｜'+it3.label);
   /* 第 3 次點餐：老闆開口 */
