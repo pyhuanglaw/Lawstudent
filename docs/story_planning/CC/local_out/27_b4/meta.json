@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "27_b4",
+  "sha": "d75871437",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b4_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T10:43:40",
+  "end": "2026-11-03T10:56:16",
+  "seconds": 756,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 71,
+    "mem": 54,
+    "used_gb": 17.3,
+    "chrome_testing": 28
+  }
+}
