@@ -11,6 +11,8 @@
 //   8. 有人跟著你（companion）：客人少一半左右。
 //   9. 慢讀咖啡：一個人的有人看書（read）、有人用筆電（腿上 laptop_lap）；一桌兩個人的轉頭看對方。
 //  10. 待在店裡時間到了新來的客人從門口走進來（走過去的路上那個位子算有人：seatTarget）；兩點半 Café 不在這一套裡（S.cafeCustomers 照舊）。
+//  11. 預約位子（之後「朋友偶遇」AA_632 用）：CROWD.shopSeatTake(zone, seat) 那個位子路人不坐；人在店裡預約有客人的位子＝那一桌起身走；shopSeatFree 取消；隔天自動失效；玩家坐著不能預約。
+//  12. 有名字的人進門就坐好、空位不夠（CROWD.shopMakeRoom）：進門那一刻直接拿掉靠門口那一桌；待在店裡（tick 以後）不在眼前拿掉人。
 // 修改前：CROWD 沒有店的客人（第 1 項就 FAIL：每一家 0 人）。用法：node tests/shop_diners_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -56,8 +58,8 @@ const stat=(z,h,days,o)=>{ let nOpen=0, sum=0, occ=0, mx=0; for(const d of days|
 // ---------- 1. 營業時間內有客人 ----------
 { const bad=[], info=[]; for(const z of SHOP_ZONES){ const h=PEAK[z]||18.5, s=stat(z,h); info.push(z+' '+s.avg.toFixed(1)); if(!s.nOpen||s.avg<1) bad.push(z+'（'+h+' 點，開門 '+s.nOpen+' 天，平均 '+s.avg.toFixed(2)+' 位）'); }
   check('1. 每一家店在自己的尖峰有客人（吃飯的店晚餐 18:30；半熟 10:30、一盞和慢讀咖啡 15:00、一一八茶飲和影印店 12:30）',!bad.length,bad.length?bad.join('、'):info.join('、')); }
-{ const bad=[], info=[]; for(const z of MEAL) for(const h of [12.5,18.5]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(s.occ<0.28||s.occ>0.65) bad.push(z+'@'+h+' '+s.occ.toFixed(2)); }
-  check('1. 吃飯的店午餐（12:30）、晚餐（18:30）平均坐滿約三成到六成（大店最多 10 位）',!bad.length,(bad.length?'不對：'+bad.join('、')+'｜':'')+info.slice(0,8).join(' ')); }
+{ const bad=[], info=[]; for(const z of MEAL) for(const h of [12.5,18.5]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(s.occ<0.35||s.occ>0.65) bad.push(z+'@'+h+' '+s.occ.toFixed(2)); }
+  check('1. 吃飯的店午餐（12:30）、晚餐（18:30）平均坐滿約四到六成（三成半以上；大店最多 10 位，十八、二十個位子的店最多五成多）',!bad.length,(bad.length?'不對：'+bad.join('、')+'｜':'')+info.slice(0,8).join(' ')); }
 { const z=enter('wz_teishoku',mkG('2025-10-18',18+22/60)); const n=ppl(), sat=n.filter(m=>m.seat&&m.pose==='sit');
   check('1. 使用者截圖那一刻：巷子裡定食 10/18（週六）18:22 有客人坐在位子上吃',sat.length>=3,'客人 '+n.length+' 位（坐著 '+sat.length+'）'); }
 // ---------- 2. 人數照時段、打烊沒有人 ----------
@@ -126,4 +128,28 @@ const KCAP={bookstore:6,cvs:6,wz_print:2,l118_tea:3};
   const d=walked&&walked.obj.position, def=defOf('l118_korea');
   check('10. 待在店裡時間到了：新來的客人從門口走進來（走過去的路上那個位子算有人）',!!walked&&Math.hypot(d.x-def.door[0],d.z-def.door[1])<0.6&&seatBusy(E,walked.seatTarget),'11:00 起 '+n0+' 位'+(walked?'，'+G.hour.toFixed(2)+' 有人從門口進來':'，沒有人走進來'));
   check('10. 兩點半 Café 不在這一套（照舊 story3d.js 的 S.cafeCustomers）',!CROWD.SPOTS.some(s=>s.zone==='cafe'&&s.shop)); }
+// ---------- 11. 預約位子（CROWD.shopSeatTake／shopSeatFree）----------
+{ const has=typeof CROWD.shopSeatTake==='function'&&typeof CROWD.shopSeatFree==='function';
+  if(!has){ check('11. CROWD.shopSeatTake／shopSeatFree 存在',false,'沒有這兩個函式'); }
+  else { const z='wz_teishoku'; let ref=null; { const zz=enter(z,mkG(DAYS[0],12)); ref={x:zz.seats[5].x,z:zz.seats[5].z}; }
+    /* 平常那個位子會有人坐的那些時刻 */
+    const used=[]; for(const d of DAYS) for(const h of [12,12.5,13,18,18.5,19]){ enter(z,mkG(d,h)); if(ppl().some(n=>n.seat&&Math.hypot(n.seat.x-ref.x,n.seat.z-ref.z)<0.12)) used.push([d,h]); }
+    let sat=0, busyOk=0; for(const [d,h] of used){ CROWD.shopSeatFree(z); GAME.G=mkG(d,h); CROWD.shopSeatTake(z,ref,{G:GAME.G,day:d}); const zz=enter(z,GAME.G); const st=zz.seats.find(q=>Math.hypot(q.x-ref.x,q.z-ref.z)<0.12);
+      if(ppl().some(n=>(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-ref.x,(n.seat||n.seatTarget).z-ref.z)<0.12)) sat++; if(seatBusy(E,st)) busyOk++; }
+    check('11. 預約的位子（巷子裡定食 5 號，先預約再進門）路人不坐、算有人坐',used.length>0&&sat===0&&busyOk===used.length,'平常有人坐的時刻 '+used.length+'、預約以後有人坐 '+sat);
+    CROWD.shopSeatFree(z); const [d0,h0]=used[0]; enter(z,mkG(d0,h0)); const before=ppl().filter(n=>!n.leaving).length;
+    const r=CROWD.shopSeatTake(z,ref,{GM}); const st=E.zone.seats.find(q=>Math.hypot(q.x-ref.x,q.z-ref.z)<0.12); const on=ppl().filter(n=>!n.leaving&&n.seat&&Math.hypot(n.seat.x-ref.x,n.seat.z-ref.z)<0.12);
+    for(let i=0;i<4;i++){ GAME.G.hour+=0.01; CROWD.tick(GM,1.6); } const back=ppl().filter(n=>!n.leaving&&(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-ref.x,(n.seat||n.seatTarget).z-ref.z)<0.12).length;
+    check('11. 人在店裡預約有客人的位子：那一桌起身走出去、之後沒有人再坐上去',!!r&&on.length===0&&back===0&&ppl().filter(n=>!n.leaving).length<before,'客人 '+before+' → '+ppl().filter(n=>!n.leaving).length+'、還坐在那裡 '+on.length+'、又坐回去 '+back);
+    CROWD.shopSeatFree(z,ref); enter(z,mkG(d0,h0)); const again=ppl().some(n=>n.seat&&Math.hypot(n.seat.x-ref.x,n.seat.z-ref.z)<0.12);
+    CROWD.shopSeatTake(z,ref,{G:mkG(d0-1,h0),day:d0-1}); enter(z,mkG(d0,h0)); const exp=ppl().some(n=>n.seat&&Math.hypot(n.seat.x-ref.x,n.seat.z-ref.z)<0.12);
+    check('11. shopSeatFree 取消以後路人照常坐；昨天的預約今天不算',again&&exp,'取消以後 '+again+'、昨天的預約 '+exp);
+    CROWD.shopSeatFree(z); let mine=null; enter(z,mkG(d0,h0),{playerSeat:zz=>{ mine=zz.seats[2]; return mine; }}); const pr=CROWD.shopSeatTake(z,mine,{GM});
+    const pk=CROWD.shopSeatPick(GM); check('11. 玩家坐著的位子不能預約；shopSeatPick 給一個空位（不是玩家那一組、不是有人的）',pr===false&&!!pk&&!seatBusy(E,pk),'預約玩家的位子 '+pr+'、空位 '+(pk?pk.x+','+pk.z:'沒有'));
+    CROWD.shopSeatFree(z); } }
+// ---------- 12. 有名字的人進門就坐好：CROWD.shopMakeRoom ----------
+{ if(typeof CROWD.shopMakeRoom!=='function') check('12. CROWD.shopMakeRoom 存在',false);
+  else { enter('l118_korea',mkG(DAYS[1],12.5)); const f0=shopFree(E), n0=ppl().length; const k=CROWD.shopMakeRoom(GM,f0+3); const f1=shopFree(E), n1=ppl().length;
+    CROWD.tick(GM,1.6); const k2=CROWD.shopMakeRoom(GM,shopFree(E)+3);
+    check('12. 進門那一刻空位不夠：直接拿掉靠門口的客人到空位夠；待在店裡（tick 以後）不拿',k>0&&f1>=f0+3&&n1<n0&&k2===0,'空位 '+f0+' → '+f1+'、客人 '+n0+' → '+n1+'、tick 以後 '+k2); } }
 console.log(fails?('\n'+fails+' 項 FAIL'):'\n全部 PASS'); process.exit(fails?1:0);
