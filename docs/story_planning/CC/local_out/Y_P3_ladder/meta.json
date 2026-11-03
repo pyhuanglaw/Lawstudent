@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Y_P3_ladder",
+  "sha": "c89a5f9be",
+  "kind": "game",
+  "script": "tests/flow_ladder_y1s2.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:28:26",
+  "end": "2026-11-03T09:30:22",
+  "seconds": 117,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 54,
+    "mem": 52,
+    "used_gb": 16.5,
+    "chrome_testing": 27
+  }
+}
