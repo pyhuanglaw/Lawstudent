@@ -130,8 +130,11 @@ async def main():
         await pg.evaluate("(async(s)=>{ await GAME.applySave(s); })(%s)" % saves['slot3']); await pg.wait_for_timeout(3000)
         # 存檔、再讀檔。課表紀錄（courses）是課表系統第一次用到時才建（classes3d.js 的 rec；每 30 幀的 tick）：真機 60 fps 讀檔後半秒就有，
         # 這台 SwiftShader 約 1 fps，3 秒只過了幾幀——等它真的建起來（最多 90 秒）再存，不是放寬條件（2026-10-13 v9.6 回歸：3 秒時還沒建，誤判）
+        # 讀檔後有待回的訊息時手機會自己打開（D103）、遊戲暫停、tick 不跑，courses 不會建：像玩家一樣按「收起來」再等
+        # （BB 11-03 X_G6b／CC_36 判定：遊戲正常、是測試沒照玩家的做法；不放寬成「沒有 courses 也算過」）
         for _ in range(90):
             if await pg.evaluate("!!(GAME.G&&GAME.G.courses)"): break
+            await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
             await pg.wait_for_timeout(1000)
         await pg.evaluate("GAME.autosave()")
         sv = await pg.evaluate("JSON.parse(localStorage.getItem('fatiao3d_auto'))")
