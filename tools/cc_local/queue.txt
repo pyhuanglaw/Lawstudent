@@ -15,6 +15,9 @@
 # BB_229（11:52 UTC）規則 1（BB 11:57 修正：只有從來沒有在任何地方完整跑過、而且改動很大的才 HOLD＝day9、boya203、wsem；其餘照跑，這一輪就當第一次實跑）。原文：今晚新寫或改過、雲端沒有跑過紀錄的探針（quota15、legalpage、layout16、wsem、day9、delay14、fasat、makeup、y4s2final、d118b3、d118b4、rollcall、boya203、bg107、pt106）要先在雲端跑過一次。跑過以前，項目前面標「#HOLD雲端 」，PC 會跳過；雲端 PASS 以後拿掉標記。
 # 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
+# ===== BB 08:35：v9.10.17 已上線，線上版驗證（PC 才連得到 github.io）。測試程式取自發布樹 1d0904473 =====
+LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
+LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
 # ===== BB 01:56：驗收版本改成 7224af47a（c89＋libq3、以安改稿、AA_600/602/591）。c89 已 PASS 的不重跑；以安改稿相關的重跑 =====
 Z_G5_term  | 7224af47a | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
 Z_G5b_ancf | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=7224af47a;CASES=ancf2;ORIENTS=port;REAL=1
@@ -27,6 +30,9 @@ Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60 
 #HOLD雲端 Z_LIBWHISPER | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 |
 #HOLD雲端 Z_DRIVE_X81  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 |
 #HOLD雲端 Z_BACKFILLCG | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_backfillcg_probe.py | index.html | 60 |
+# LAWWW2 PERF-WZ-DAY-1103（11-03 08:34）：溫州街白天 1% low 7 fps 是不是進區域的載入卡頓
+WZ1_order  | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=night,day,rain;WARM=4
+WZ2_warm   | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=day,night,rain;WARM=20
 # ===== CC 2026-11-03 09:0x 台灣：LAWWW 00:55「擋發布兩項用 c89a5f9be」（ADV-SKIP 打字中 0d4cf65c3、國考題池 f47d4849a）＋回歸。修改前對照＝62d 的 X_A1／X_P1（PC 已 FAIL）=====
 Y_A1_adv   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
 Y_P1_d124  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
