@@ -275,3 +275,9 @@
 [20:24:05] ==== START V18_LIBTOUR  (probe @ ffeec06e0) ====
 [20:24:08] [res] cpu=15% mem=52% (16.2/31.4 GB) chrome_testing=19  START V18_LIBTOUR
 [20:26:59] [res] cpu=27% mem=51% (16.1/31.4 GB) chrome_testing=20  END D_RUN_movreg
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       77617a690..d6831eb47  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:27:03] ==== END   D_RUN_movreg  exit=1  294s   ====
+[20:27:34] 正在跑：FS112（已跑 24 分／上限 360 分）、V18_LIBTOUR（已跑 3 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:28:20] [res] cpu=16% mem=48% (15.3/31.4 GB) chrome_testing=10  END V18_LIBTOUR
