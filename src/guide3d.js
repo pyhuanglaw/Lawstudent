@@ -38,7 +38,7 @@ const GUIDE=(function(){
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
     [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
     [/自習區|總圖/, LIB2F],
-    [/麵店/, {zone:'noodle',name:'阿鳳麵店'}],
+    [/麵店/, {zone:'noodle',name:'公館燒臘'}],
   ];
   function infer(t){ t=String(t||''); if(!t||t==='—') return null; for(const [re,d] of RULES){ if(re.test(t)) return d?Object.assign({},d):null; } return null; }
 

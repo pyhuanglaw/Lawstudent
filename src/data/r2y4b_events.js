@@ -114,7 +114,7 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().barLine(G)===0},speaker:'zhe',text:'我第二週就只看一堂函授。我在培養感覺。'},   /* AA_97 2-2 */
       {if:{custom:G=>R().barLine(G)===1},speaker:'yu',text:'民訴那本我借你。我畫的重點是紫色的，不要問為什麼。'},
       {if:{custom:G=>R().barLine(G)===2},speaker:'classmate_bohan',text:'這週我讀了十八個小時。……你不用告訴我你讀了幾個。'},
-      {if:{custom:G=>R().barLine(G)===3},speaker:'zhe',text:'麵店吃完再來，剛好消化。'},
+      {if:{custom:G=>R().barLine(G)===3},speaker:'zhe',text:'燒臘店吃完再來，剛好消化。'},
       {if:{custom:G=>R().barLine(G)===4},speaker:'yu',text:'十點了。我要回板橋。'} ],
     consequences:{inc:{BAR_STUDY_N:1}} },
   /* ---------- 2-Y4-34 研究所放榜：以安商法組（3/22 19:00 麵店長桌，窗口 18:45～19:15；AA_285 第 4 節①）＋選②的祐廷 ---------- */
@@ -157,9 +157,9 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（民宿的老闆送了一大盤水果。大家坐在榻榻米上，有人說要講大一的事。）'},
       {if:kn('yu','classmate_bohan'),speaker:'yu',text:'大一迎新，柏翰說我講了四個社團。'},
       {if:kn('yu','classmate_bohan'),speaker:'classmate_bohan',text:'妳講了四個。'},   /* 接 AA_71 2-1 大一迎新 */
-      {choice:[{text:'「大一中秋，火一直熄。」',goto:'m1'},{text:'「第一次去麵店。」',goto:'m2'},{text:'（聽大家講）',goto:'m3'}]},
+      {choice:[{text:'「大一中秋，火一直熄。」',goto:'m1'},{text:'「第一次去燒臘店。」',goto:'m2'},{text:'（聽大家講）',goto:'m3'}]},
       {label:'m1'},{if:kn('zhe'),speaker:'zhe',text:'那是你顧的。'},{goto:'night'},
-      {label:'m2'},{if:kn('heroine_01'),speaker:'heroine_01',text:'你點了招牌乾麵。大家都是。'},{goto:'night'},
+      {label:'m2'},{if:kn('heroine_01'),speaker:'heroine_01',text:'你點了招牌叉燒飯。大家都是。'},{goto:'night'},
       {label:'m3'},{if:kn('yu'),speaker:null,text:'（你沒有說話。Alison 講到一半自己笑出來。）'},
       {label:'night'},{if:{custom:dating('heroine_01')},speaker:'heroine_01',text:'明天早上空了一格。……你排。'},   /* 睡前她把行程表推過來 */
       {advance:toDay('2029-04-04',16)},
@@ -262,8 +262,8 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.k25Missed(G); } },
   /* ---------- 2-Y4-43 期末最後一頓（2029-06-22（五）19:00 麵店；不佔學期末的飯）---------- */
   { id:'ev_last_meal_y4', title:'期末最後一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的牆上貼滿了照片。四年來，大家在長桌拍的。）'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（燒臘店的牆上貼滿了照片。四年來，大家在長桌拍的。）'},
       {speaker:'阿姨',text:'照片我貼起來了。你們自己找，找不到的下次帶一張來。'},   /* 交接包_v5 3b。AA_519 1-5：「二十三週年那一張。」原本讀 ANNIVERSARY_23（沒有人設），改讀 y34b3d.js 設的 ANNIV23（'there'＝那天在場；美國路線的遠端版 'remote' 不在照片裡）*/
       {choice:[{text:'「大一第一次來的那一張。」',goto:'p1'},{text:'「二十三週年那一張。」',if:{flagIs:{ANNIV23:'there'}},goto:'p2'},{text:'「找不到。」',goto:'p3'}]},
       {label:'p1'},{speaker:null,text:'（照片裡的你，坐在最旁邊，筷子還沒拆。）'},{goto:'end'},
@@ -271,9 +271,9 @@ const R2Y4B_EVENTS=(function(){
       {label:'p3'},{speaker:'阿姨',text:'找不到就下次帶一張來。'},
       {label:'end'},
       {if:kn('yu'),speaker:'yu',text:'這是最後一頓了。'},
-      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下禮拜還是麵店。'},   /* AA_71 2-13 */
+      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下禮拜還是燒臘店。'},   /* AA_71 2-13 */
       {set:{LAST_MEAL_Y4:'went'}} ],
-    consequences:{memo:'期末最後一頓（麵店）'},
+    consequences:{memo:'期末最後一頓（公館燒臘）'},
     outingMissed:G=>{ const r=R(); if(r) r.lastMealMissed(G); } },
   /* ---------- 2-Y4-44 可昕 K26（7/7（六）15:00「老地方」；BB_99 9-18、10-1 第 18 項；AA 審稿 #47）---------- */
   /* 地點＝約會紀錄裡次數最多的那一個（背景跟著換），所以整段在 R2Y4B.k26Scene 演（台詞在 R2Y4B.K26）*/
@@ -312,8 +312,8 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.mxDepartMissed(G); } },
   /* ---------- 2-Y4-50 以安：哥大（2030-03-28（四）19:00 麵店，她約的；AA_285 第 4 節④）＋紐約送機（2030-08-11（日）10:00；④⑤）---------- */
   { id:'ev_an_columbia', title:'紐約的法學院', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
-      {speaker:null,text:'（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）'},
+    dialogue:[ {scene:'公館燒臘',bg:'noodle_table'},
+      {speaker:null,text:'（燒臘店。長桌的人還沒到，她坐在角落那張兩人桌。）'},
       {speaker:'heroine_01',text:'紐約的法學院上了。我要去。'},
       {speaker:'heroine_01',text:'司法官學院，我寫信說不去報到。研究所辦休學。'},
       {speaker:'heroine_01',text:'我媽聽了一個小時。最後她說：你講得比我想的清楚。'},
@@ -544,8 +544,8 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-58 律師讀書小組（AA_253 第 11 節、11-1）：2/23 成立（三種）、每週一三五晚上＋週六（麵店／視訊）、6/23 三個人的長桌 ---------- */
   { id:'ev_bar_group_start', title:'律師讀書小組', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {if:{flagIs:{BAR_GROUP_START:'kexin'}},goto:'kx'},{if:{flagIs:{BAR_GROUP_START:'yutong'}},goto:'yt'},
-      {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（開學第一個週五晚上，麵店打烊以後。長桌上多了一張手寫的表，可昕寫的。）'},
+      {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）'},
       {speaker:'kexin',expression:'serious',text:'每週一、三、五晚上，週六整天。……有意見現在說。'},
       {speaker:'heroine_03',text:'週二我在店裡。你們在這裡讀，我順便考你們。'},
       {speaker:'kexin',expression:'smile',text:'……好。那表上多一格。'},{end:true},
@@ -553,7 +553,7 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'teasing',text:'情人節那張表，我把八月以前都排完了。'},
       {unless:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'serious',text:'我排了一張表，到八月，一天三科。'},   /* 沒有 2/14 那張表（KX_VDAY[4] 不是 'video'）*/
       {speaker:'kexin',expression:'smile',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
-      {label:'yt'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+      {label:'yt'},{scene:'公館燒臘・長桌',bg:'noodle_table'},
       {speaker:'heroine_03',text:'我今年不考。……可是你考的那幾科，我也要修。'},
       {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ] },   /* 成立那一晚不算讀書（BAR_GROUP_N＝讀的次數，從 2/26 第一次讀書算起；三個人的那一晚先輪到可昕）*/
   /* 讀書的那一晚（麵店）：一晚一句，輪流；只有語彤的第一次是那三句（AA_253 第 11 節）。只出題、不給答案、不寫條號 */
@@ -588,7 +588,7 @@ const R2Y4B_EVENTS=(function(){
       ...narrRows('kexin','k','kexin') ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'video'); } },
   { id:'ev_bar_group_three', title:'三個人的長桌', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
       {speaker:null,text:'（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）'},
       {speaker:'kexin',expression:'serious',text:'還有四十二天。'},
       {speaker:'heroine_03',text:'先吃，麵要糊了。'} ] },

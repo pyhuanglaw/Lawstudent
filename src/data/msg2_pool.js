@@ -41,7 +41,7 @@ const MSG2_POOL={
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["小事"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["哥客氣什麼"], "tags": [], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝啦！！"], "tags": [], "src": "AA_202 7-3 阿哲"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["哥記得！！", "今天麵店我請"], "tags": [], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["哥記得！！", "今天燒臘店我請"], "tags": [], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]},
    {"topic": "ok", "cond": "team_loss", "tier": "A", "msgs": ["還好啦"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "ok", "cond": "team_loss", "tier": "R", "msgs": ["輸了", "明天再打"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！！"], "tags": [], "src": "AA_202 7-3 阿哲"},

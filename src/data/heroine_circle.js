@@ -225,7 +225,7 @@ const HCIRCLE_DATA={
     {id:'c519_2_3',doc:'AA_519',sec:'2-3',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-06-16','2028-06-16']],zone:'gongguan',heard:'陳助教：下禮拜二口試。／學姊：幾點。／陳助教：……妳要來？／學姊：最後一排。不講話。',
       place:'AA_519 2-3：6/16（五）週五公館和學姊吃飯那一列（放暑假了，學期的列不成立；只有這一天）；口試 2028-06-20（二），學姊沒有別的事'},
     /* ===================== AA_509 大四上＋寒假（CIRCLE3D-Y4-1028）===================== */
-    {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的麵？」以安：「沒有這種的。」阿姨：「那就好。」）',
+    {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的燒臘？」以安：「沒有這種的。」阿姨：「那就好。」）',
       place:'麵店長桌＝她的作息（characters.js 週四 18:30～19:30 麵店，AA_509 0-2 第 3 點，現有）；阿姨在廚房＝旁白，不生阿姨'},
     {id:'c509_1_2',doc:'AA_509',sec:'1-1',k:2,who:'heroine_01',with:['heroine_03'],always:true,anchor:'with',comp:{heroine_03:{behind:true}},days:[4],from:20,to:21.5,dates:[['2028-11-30','2029-02-18']],zone:'library',
       heard:'（以安坐在語彤後面那桌。九點半語彤先走，經過她旁邊，敲了一下桌子。）',

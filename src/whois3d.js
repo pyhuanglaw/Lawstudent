@@ -58,7 +58,7 @@ const WHOIS=(()=>{
     {c:1,id:'name',if:f('met_yu'),t:'Alison。法律系，跟你同班，坐你前面右邊。'},
     {c:1,id:'home',if:ev('ev_yu_breakfast'),t:'從板橋通勤。'},
     {c:3,id:'bkf1',if:ev('ev_yu_breakfast'),t:'大一上，在晨思鐘旁邊一起吃過早餐。'},
-    {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在麵店親口跟你說的。'},
+    {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在燒臘店親口跟你說的。'},
     {c:3,id:'zc',keep:true,if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},
     {c:3,id:'zp',keep:true,if:G=>F(G).YU_ZHE_TOLD==='photo',t:'大二上學期末，她和阿哲在一起了。你是看到群組的照片才知道的。'},
     {c:3,id:'bkf',if:f('YU_BKF'),t:'大二下有一陣子，她一個人吃早餐。'},

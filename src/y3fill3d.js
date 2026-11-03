@@ -72,7 +72,7 @@ const Y3FILL=(function(){
       'Y5-L7':G=>S.ytThuFree(G) },   /* #10：事件 13（12/16）以前才說（以後就算過，不卡住後面那一層）*/
     hold:{ 'Y5-L1':G=>done(G,'ev_yt_umbrella_y3')||after(G,'2027-09-14',17.5) },   /* #11：事件 12（9/14 第一次上台）之後 */
     week:{ 'A5-L1':{if:{},week:[2,18]}, 'Y5-L7':{if:{},week:[14,15]} },   /* #11：A5-L1 第 2 週起；#10：Y5-L7 第 14～15 週 */
-    choice:{ 'A5-L8':{'「我們幫妳把位子占著。」':{custom:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='JP')},'「那我們在日本找一家麵店。」':{flagIs:{EXCHANGE_ROUTE:'JP'}}},   /* #18：日本路線祐廷 3/25 也要走 */
+    choice:{ 'A5-L8':{'「我們幫妳把位子占著。」':{custom:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='JP')},'「那我們在日本找一家燒臘店。」':{flagIs:{EXCHANGE_ROUTE:'JP'}}},   /* #18：日本路線祐廷 3/25 也要走 */
       'Y5-L8':{'「一起去。」':{custom:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='JP')},'「我們同一班。」':{flagIs:{EXCHANGE_ROUTE:'JP'}}} } };
   S.installLadder=function(){ if(typeof STORY==='undefined') return 0; let n=0; const put=(tbl,k,v)=>{ if(tbl&&tbl[k]==null){ tbl[k]=v; n++; } };
     for(const k in S.LAD.skip) put(STORY.LADDER_SKIP,k,S.LAD.skip[k]);

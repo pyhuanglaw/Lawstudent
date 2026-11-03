@@ -1132,7 +1132,7 @@ const CLS=(function(){
     if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
     return true; };
   /* 先去吃飯（1-4）：一頓飯 40 分鐘、照價錢扣錢（吃飯不扣時段次數）；只寫一般的場面（和誰一起吃、偶遇是第 5 節第二批）*/
-  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'阿鳳麵店，一碗乾麵加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
+  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'公館燒臘，一盤叉燒飯加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
   /* 小福（AA_186 4-4：小福樓 2025/12/31 停業、2026/1/10 拆除重建）：經濟系那一年、大一上照常；大一下起改成活大的自助餐 */
   const mealsOf=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, id=t?t.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null); return id&&!/^Y0/.test(id)&&id!=='Y1S1'?MEALS.map(m=>m.t==='小松'?{t:'學活',price:m.price,line:'學活的自助餐，夾了三樣菜。'}:m):MEALS; };
   /* AA_350 R2（AA_294 第 3 節「翹了經原下也還有機會」）：大一下那個週五沒去經原下、12:00～13:00 選了「先去吃飯→活大」＝ ev_sk03_lunch 在活大演（阿勳已經坐在那裡，不出選項）。

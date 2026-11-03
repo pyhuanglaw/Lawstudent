@@ -138,7 +138,7 @@ const R2Y3A=(function(){
   const zheTh=G=>grp(G)?'g:noodle_team':(met(G,'zhe','FAMILIAR')?'p:zhe':null);   /* 不在群組、和阿哲 FAMILIAR 以上＝阿哲私訊 */
   S.firstMealPhone=function(G){ const d=DK('2027-09-09'); if(d==null||G.day!==d) return; const th=zheTh(G); if(!th) return;
     if(G.hour>=17&&!sent(G,'y3_first_meal_ask')){ PHONE.at(G,d,atH(G,d,17),[{th,from:'zhe',text:'大三第一頓 七點 長桌'}],'y3_first_meal_ask');
-      if(!outGet(G,'y3_first_meal')&&G.hour<19.25) plan(G,{id:'y3_first_meal',ev:'ev_y3_first_meal',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); } };
+      if(!outGet(G,'y3_first_meal')&&G.hour<19.25) plan(G,{id:'y3_first_meal',ev:'ev_y3_first_meal',day:d,h:19,late:0.25,place:'公館燒臘',title:'開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); } };
   S.firstMealPhoto=G=>{ const d=DK('2027-09-09'), th=zheTh(G); if(d!=null&&th) PHONE.at(G,d,21.5,[{th,from:'zhe',text:'（照片：新的菜單，每一個價錢都貼了一張小紙條）'}],'y3_first_meal_photo'); };
   S.captainPhone=function(G){ const d=DK('2027-09-10'); if(d==null||G.day!==d||G.hour<12) return; const th=zheTh(G); if(!th||sent(G,'y3_zhe3_ask')) return; PHONE.at(G,d,atH(G,d,12),[{th,from:'zhe',text:'今天傍晚球場 新球季第一次練'}],'y3_zhe3_ask'); };
 

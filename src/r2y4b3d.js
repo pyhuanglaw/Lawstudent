@@ -110,7 +110,7 @@ const R2Y4B=(function(){
   /* 和以安交往中：17:50 她打來（演出來的電話）*/
   S.anCallDue=G=>{ const d=DK(R34); return d!=null&&G.day===d&&hh(G)>=17+50/60&&hh(G)<18.75&&dating(G,'heroine_01')&&!G.flags.Y4_AN_CALL; };
   S.anCall=async function(GM){ const G=GM.G; G.flags.Y4_AN_CALL=G.day; if(GM.toast) GM.toast('手機響了。',2400); const me={name:nm('heroine_01')+'（電話）',charId:'heroine_01'};
-    await scene(GM,async()=>{ await GM.say(me,'……上了。'); await GM.say(me,'晚上麵店，我自己跟大家說。'); }); return true; };
+    await scene(GM,async()=>{ await GM.say(me,'……上了。'); await GM.say(me,'晚上燒臘店，我自己跟大家說。'); }); return true; };
 
   /* ===================== 2-Y4-35 春假（最後一次）＋可昕三選一（照 1C-01 的流程）===================== */
   const SP={inv:'2029-03-25',dl:'2029-04-01',eve:'2029-04-02',d0:'2029-04-03',d1:'2029-04-04'};
@@ -297,7 +297,7 @@ const R2Y4B=(function(){
   S.anColumbiaMissed=G=>{};   /* 22:00 群組照 PG.MSGS */
   S.anSendoffMissed=G=>{};    /* 11:40 照 PG.MSGS */
   const anRules=G=>{ const F=G.flags;
-    if(F.AN_COL_GO===true&&!outGet(G,'y6_an_col')){ const d=DK(AN.c28); if(now(G)<T(d,19.5)) plan(G,{id:'y6_an_col',ev:'ev_an_columbia',day:d,h:19,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店（以安）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+    if(F.AN_COL_GO===true&&!outGet(G,'y6_an_col')){ const d=DK(AN.c28); if(now(G)<T(d,19.5)) plan(G,{id:'y6_an_col',ev:'ev_an_columbia',day:d,h:19,late:0.5,place:'阿鳳麵店',title:'公館燒臘（以安）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
     if(F.AN_NY_GO===true&&!outGet(G,'y6_an_ny')){ const d=DK(AN.s11); if(now(G)<T(d,10.5)) plan(G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:d,h:10,late:0.5,place:'桃園機場',title:'送以安（桃園機場）',travel:'捷運約一小時',travelH:1}); } };
 
   /* ===================== 2-Y4-51 一試不到 12 題：2030 重考的那一年（台灣路線）===================== */
@@ -666,7 +666,7 @@ const R2Y4B=(function(){
   const groupStartPhone=G=>{ const d=DK(GS), F=G.flags; if(d==null||G.day<d||G.day>d+1||F.BAR_GROUP_KIND!=null||!S.groupOn(G)||!at(G,GS,0)) return; const kind=S.groupKind(G); if(!kind){ F.BAR_GROUP_KIND='none'; return; }
     F.BAR_GROUP_KIND=kind; F.BAR_STUDY_GROUP=kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']); F.BAR_GROUP_START=kind==='split'?'kexin':kind;   /* 分開讀：成立那一晚照可昕的視訊 */
     const st=F.BAR_GROUP_START, video=st==='kexin';
-    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'阿鳳麵店',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（阿鳳麵店）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
+    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'阿鳳麵店',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（公館燒臘）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
   S.kxVday=G=>!!(G.flags.KX_VDAY&&G.flags.KX_VDAY[4]==='video');
   S.kxIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('kexin')&&dating(G,'kexin');   /* 之後分手的人，那天以後不再出現 */
   S.ytIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('yutong')&&!isEx(G,'heroine_03');
@@ -713,7 +713,7 @@ const R2Y4B=(function(){
       const nc=s.mode==='nccu'; plan(G,{id:'y4_bar_vid_'+d,ev:'ev_bar_group_video',day:d,h:s.t0,late:0.5,place:nc?'木柵大學':'視訊',verb:nc?undefined:'接起來',no:'今天先不讀',title:'律師讀書小組（'+(nc?'木柵大學':'視訊')+'）',travel:nc?'開車約 40 分鐘':'',travelH:nc?2/3:0,back:nc?'回到首都帝大。':'視訊結束。'}); break; } };
   S.groupStop=function(G){ if(!graduated(G)) return null; for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='noodle'&&s.mode!=='library')||G.flags.BAR_GROUP_LAST===d) continue; const t=T(d,s.t0); if(t>now(G)) return t; } return null; };   /* 畢業後篇：麵店、總圖那幾晚停一下 */
   const groupThreeRules=G=>{ const d=DK('2029-06-23'), F=G.flags; if(d==null||G.day<d-3||G.day>d||F.BAR_GROUP_KIND!=='three'||!S.kxIn(G)||!S.ytIn(G)||outGet(G,'y4_bar_three')) return;
-    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'三個人的長桌（阿鳳麵店）',travel:'走過去約 15 分鐘',travelH:0.25}); };
+    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'三個人的長桌（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25}); };
 
   /* ===================== 2-Y4-61 沛珊大四下的學期末（6/8（五）台南；AA_254 第 6 節的心意邀約、女朋友的約會、第二次）===================== */
   const PSD='2029-06-08';
@@ -763,8 +763,8 @@ const R2Y4B=(function(){
   /* ===================== 畢業後篇（PG）：訊息、場景表、停一下 ===================== */
   S.MSGS=[
     /* 2-Y4-43 期末最後一頓 */
-    {tag:'y4_last_meal',at:['2029-06-22',17],cond:G=>grp(G),items:G=>[GR('zhe','今天 期末最後一頓'),GR('zhe','七點 麵店')],
-      after:G=>plan(G,{id:'y4_last_meal',ev:'ev_last_meal_y4',day:DK('2029-06-22'),h:19,late:0.5,place:'阿鳳麵店',title:'期末最後一頓',travel:'走過去約 15 分鐘',travelH:0.25})},
+    {tag:'y4_last_meal',at:['2029-06-22',17],cond:G=>grp(G),items:G=>[GR('zhe','今天 期末最後一頓'),GR('zhe','七點 燒臘店')],
+      after:G=>plan(G,{id:'y4_last_meal',ev:'ev_last_meal_y4',day:DK('2029-06-22'),h:19,late:0.5,place:'公館燒臘',title:'期末最後一頓',travel:'走過去約 15 分鐘',travelH:0.25})},
     /* 2-Y4-44 可昕 K26 */
     {tag:'y4_kx_k26',at:['2029-07-05',21],cond:G=>dating(G,'kexin'),items:G=>[P_('kexin','禮拜六下午，我把行程表空出來了。'),P_('kexin','三點，老地方。',{ask:{id:'y4_kx_k26',until:T(DK('2029-07-07'),15),opts:[{t:'好。'}]}})],after:G=>S.k26Plan(G)},   /* AA_366 第 4 節 A7（企劃線 e6d4a198）：6/10 已經講好畢業以後的節奏（隔週日晚上），K26 不再說「重新排」*/
     /* 2-Y4-46 七月的心意邀約 */
@@ -777,7 +777,7 @@ const R2Y4B=(function(){
       if(met(G,'classmate_mingxuan','FAMILIAR')) L[L.length-1].ask={id:'y5_mx_depart',until:T(DK('2029-09-02'),6),opts:[{t:'我也去。',set:{MX_DEPART_GO:true}}]}; return L; }},
     {tag:'y5_mx_photo',at:['2029-09-02',8+40/60],cond:G=>PHONE.sent(G,'y5_mx_depart')&&G.flags.MX_DEPART!=='airport',items:G=>[GR('classmate_mingxuan','（照片：機場的落地窗，一架飛機）'),GR('classmate_mingxuan','出發了。一年。八月見。'),GR('zhe','帶香腸回來')],after:G=>{ G.flags.MX_DEPART='msg'; }},
     /* 2-Y4-50 以安：哥大、紐約 */
-    {tag:'y6_an_col',at:['2030-03-27',21],cond:G=>met(G,'heroine_01','FRIEND')&&!isEx(G,'heroine_01')&&contact(G,'heroine_01'),items:G=>[P_('heroine_01','明天晚上七點，麵店。'),P_('heroine_01','有事想說。',{ask:{id:'y6_an_col',until:T(DK('2030-03-28'),19),opts:[{t:'好。',set:{AN_COL_GO:true}},{t:'那天不行。',set:{AN_COL_GO:false},say:[{from:'heroine_01',text:'好。……那我寫在群組。'}]}]}})]},   /* 「那天不行。」的回話：AA_345 G6；3/28 22:00 群組那一則照常 */
+    {tag:'y6_an_col',at:['2030-03-27',21],cond:G=>met(G,'heroine_01','FRIEND')&&!isEx(G,'heroine_01')&&contact(G,'heroine_01'),items:G=>[P_('heroine_01','明天晚上七點，燒臘店。'),P_('heroine_01','有事想說。',{ask:{id:'y6_an_col',until:T(DK('2030-03-28'),19),opts:[{t:'好。',set:{AN_COL_GO:true}},{t:'那天不行。',set:{AN_COL_GO:false},say:[{from:'heroine_01',text:'好。……那我寫在群組。'}]}]}})]},   /* 「那天不行。」的回話：AA_345 G6；3/28 22:00 群組那一則照常 */
     {tag:'y6_an_col_grp',at:['2030-03-28',22],cond:G=>grp(G)&&knows('heroine_01',G)&&!evDone(G,'ev_an_columbia'),items:G=>[GR('heroine_01','紐約的法學院上了。八月去紐約。')]},   /* 不到 FRIEND（和當面沒去的）*/
     {tag:'y6_an_ny_grp',at:['2030-08-10',21],cond:G=>grp(G)&&knows('heroine_01',G),items:G=>{ const L=[GR('zhe','明天以安的飛機'),GR('zhe','早上十點 桃園 要去的舉手')];
       if(met(G,'heroine_01','FRIEND')) L[1].ask={id:'y6_an_ny',until:T(DK('2030-08-11'),9),opts:[{t:'我去。',set:{AN_NY_GO:true}}]}; return L; }},

@@ -81,7 +81,7 @@ const YULE=(function(){
   /* ---------------- 第 4 節 演講那一晚 ---------------- */
   S.OUTS={   /* 出遊（OUT.plan）：①霖澤館 201、②阿鳳麵店；車程照現有的霖澤館、麵店出遊；alarm＝跳過時間停在該出發的時候 */
     listen:{id:'yl_lecture',ev:'ev_yule_lecture',h:18+50/60,late:0.5,place:'法律系館A 201',title:'家事調查官的演講（法律系館A 201）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true},
-    eat:{id:'yl_lecture',ev:'ev_yule_lecture',h:20.25,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店（予樂）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true} };
+    eat:{id:'yl_lecture',ev:'ev_yule_lecture',h:20.25,late:0.5,place:'阿鳳麵店',title:'公館燒臘（予樂）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true} };
   S.untilAbs=function(G){ const A=L.lecture, u=A&&S.when(A.until); if(!u) return null; const w=S.loc(G,u); return abs(w.day,w.h); };
   S.lecture=function(G){ const A=L.lecture, B=L.lectureAfter; if(!A||!B) return; const R=S.rec(G), F=G.flags;
     if(!R[A.id]){ const w=S.due(G,A.at); if(!w) return; if(w==='late'){ R[A.id]='x:late'; return; } if(!S.ownOk(G,w.tw)){ R[A.id]='x:cond'; return; }
