@@ -75,6 +75,9 @@ MD_tx_v2b   | bae31acad | blender | docs/story_planning/test_tools/cc/blender/re
 B245_bench      | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_bench_probe.py | index.html | 40 | 
 B245_wind       | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_wind_probe.py | index.html | 40 | 
 B245_stairarm   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | 
+B245_stairarm2 | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
+B245_stairarm2_c | 5babe1517 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45;EXPECT=FAIL
+# （B245_stairarm2：BB 17:01 改判定＝手臂 > 45° 才 FAIL，「骨架有沒有更新」只記錄；_c 是修正前的版本，T 字要照樣 FAIL）
 B245_b07        | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_b07_probe.py | index.html | 40 | 
 B245_swingshot  | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
 B245_swing      | ffeec06e0 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 | 
