@@ -67,6 +67,21 @@ const YTJOB=(function(){
   S.RENT=[[YT,'……嗯。昨天秀琴姨煮完飯，沒有馬上走。'],[YT,'她說她的房東要把房子賣了。她住了十四年。'],[YT,'賣了她要住哪裡。……她問我，我也不知道。'],['player','我上課有聽過，房子賣了租約不一定就沒了。我再查。'],[YT,'嗯。你查到再跟我說。']];
   S.rentDue=G=>{ const F=G.flags; return afterW(G,'Y1S2',10)&&!!F.YT_MOM_BACK&&F.YT_MOM_BACK!==G.day&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(YT,'RENT_RUMOR')); };
   S.rent=async function(GM){ const G=GM.G; await JOBS.play(GM,S.RENT); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,'RENT_RUMOR','秀琴姨的房東要把房子賣了'); (G.events.done=G.events.done||{}).ev_yutong_landlord=G.day; return true; };
+  /* AA_625 第 11 節「想幫秀琴姨」（開頭照 AA_643 第 1 節：蘇姨先走了）：大二下第 15 週以後的週末班打烊、要 RENT_CONSULTATION；取代 y2r2_3d.js 的 ev_yt_help_dishes（AA_643 第 7 節），演完記 YT_HELP_OFFERED。
+     選①吵架（記 YT_FIGHT）→ 兩週後的週末班她道歉（記 APOLOGIZED）；②不吵、不記 APOLOGIZED；③她笑了一下 */
+  S.HELP={ open:[[null,'（打烊。蘇姨先走了。語彤在數今天的零錢，數到一半停下來。）'],[YT,'我想幫秀琴姨付新房子的押金。萬一到期真的要搬。'],[YT,'我跟她說了，她不收。']],
+    a:[[YT,'那她要什麼？'],[null,'（她的聲音第一次變大）'],[YT,'我有的就只有錢。']], a2:{t:'「她要的是可以不用搬。」',say:[[YT,'……我知道。'],[null,'（她把零錢收好，先走了。）']]},
+    b:[[YT,'什麼方法？'],['player','陪她準備續約。'],[YT,'……嗯。這個她會收。']],
+    c:[[YT,'好意她也不收。'],[null,'（她笑了一下）'],[YT,'她跟我媽很像。……不對，一點都不像。']],
+    sorry:[[YT,'上次……你說得對。她要的是可以不用搬。我不應該拿錢去堵。']] };
+  const ytHas=t=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,t), ytMem=(t,n)=>{ if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,t,n); };
+  S.helpDue=G=>afterW(G,'Y2S2',15)&&!G.flags.YT_EV11B&&ytHas('RENT_CONSULTATION');
+  S.help=async function(GM){ const G=GM.G, F=G.flags; F.YT_EV11B=G.day; F.YT_HELP_OFFERED=true; await JOBS.play(GM,S.HELP.open);
+    const k=await GM.choose([{t:'「我覺得她要的不是錢。」'},{t:'「那就換一個她會收的方法。」'},{t:'「妳是好意。」'}]);
+    if(k===0){ await JOBS.play(GM,S.HELP.a); await ch(GM,[S.HELP.a2]); ytMem('YT_FIGHT','想幫秀琴姨付押金那天'); F.YT_FIGHT_DAY=G.day; }
+    else if(k===1) await JOBS.play(GM,S.HELP.b); else await JOBS.play(GM,S.HELP.c); return true; };
+  S.sorryDue=G=>{ const d=G.flags.YT_FIGHT_DAY; return typeof d==='number'&&G.day>=d+14&&!G.flags.YT_EV11B_SORRY; };
+  S.sorry=async function(GM){ const G=GM.G; G.flags.YT_EV11B_SORRY=G.day; await JOBS.play(GM,S.HELP.sorry); ytMem('APOLOGIZED','她說「上次……你說得對。」'); return true; };
   S.momDay=G=>at(G,'Y1S2',9,6); S.absentDay=G=>at(G,'Y1S2',9,7);   /* 第 9 週週六媽媽來（她在班上）、週日她請假 */
   S.absent=G=>!!G&&typeof CALENDAR!=='undefined'&&S.absentDay(G);   /* story3d.js schedEnt：那一天她不在茶屋 */
   S.momKnown=G=>{ const F=G.flags; if(!F.YT_PARENTS_KNOW&&F.YT_MET_JOB&&afterW(G,'Y1S2',9)&&!S.momDay(G)) F.YT_PARENTS_KNOW=true; };   /* 第 9 週週六過了＝她媽媽已經知道（玩家沒去上班也一樣）*/
@@ -80,6 +95,8 @@ const YTJOB=(function(){
     F.TEA_SHIFTS=(+F.TEA_SHIFTS||0)+1;
     if(afterW(G,'Y1S2',10)&&!F.YT_MOM_BACK){ F.YT_MOM_BACK=G.day; await JOBS.play(GM,S.MOM.back); await ch(GM,S.MOM.opts); if(!F.YT_FAMILY_HEARD){ await JOBS.play(GM,S.MOM.fam); F.YT_FAMILY_HEARD=true; } F.YT_PARENTS_KNOW=true; return true; }
     if(S.rentDue(G)) return S.rent(GM);   /* AA_625 第 6 節 */
+    if(S.sorryDue(G)) return S.sorry(GM);   /* AA_625 第 11 節：兩週後的週末班 */
+    if(S.helpDue(G)) return S.help(GM);   /* AA_625 第 11 節 */
     if(!F.YT_FIRST_PAY&&afterW(G,'Y1S1',8)&&(!at(G,'Y1S1',8)||wdOf(G.day)===7)) return S.firstPay(GM);   /* 第 8 週週日（或之後第一個班）打烊 */
     if(F.TEA_SHIFTS===3) return S.cats(GM);   /* 祐廷第三次上班（和她一起的第三個班）打烊 */
     return false; };

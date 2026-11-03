@@ -465,7 +465,7 @@ const Y2R2=(function(){
   /* AA_375 第 21 項：補演（6/17 17:30）和語彤的學期末的飯（週四 19:00 麵店，termend 的出遊 te_Y2S2／te_gf_Y2S2_heroine_03）互斥——排了期末飯的那天，補演改隔天 */
   S.yt11bDay=G=>{ const b=d('yt11b'); if(b==null) return null; const q=[outGet(G,'te_Y2S2'),outGet(G,'te_gf_Y2S2_heroine_03')].find(x=>x&&x.te&&x.te.who==='heroine_03'&&x.day===b&&x.state!=='cancelled'); return q?b+1:b; };
   const yt11Day=G=>G.day===d('yt11')||G.day===S.yt11bDay(G);
-  EV.push({ id:'ev_yt_help_dishes', title:'想幫她', participants:['heroine_03'], location:'noodle', trigger:'enter', time:[17.5,19.5], background:'blur',   /* 不用 once：先走的 6/17 再一次（YT_EV11、YT_EV11_SEEN 管次數）*/
+  EV.push({ id:'ev_yt_help_dishes', retired:true /* AA_643 第 7 節（YT-REWRITE-1103）：舊設定（語彤在麵店幫忙）整條關掉，由 AA_625 第 11 節「想幫秀琴姨」取代（src/ytjob3d.js S.help）；定義留給舊存檔 */, title:'想幫她', participants:['heroine_03'], location:'noodle', trigger:'enter', time:[17.5,19.5], background:'blur',   /* 不用 once：先走的 6/17 再一次（YT_EV11、YT_EV11_SEEN 管次數）*/
     prereq:{custom:G=>law(G)&&yt11Day(G)&&!!G.flags.YT_HELP_OFFERED&&atLeast('heroine_03','FAMILIAR')&&G.flags.YT_EV11!=='dishes'&&!(G.flags.YT_EV11==='left'&&G.day!==S.yt11bDay(G))&&!(G.flags.YT_EV11_SEEN===G.day)},
     dialogue:[
       {if:{flagIs:{YT_EV11:'left'}},goto:'again'},

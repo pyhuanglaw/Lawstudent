@@ -67,6 +67,15 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   G.day=tdOf('Y1S2',10,7); said=[]; await shift(14); const R6=YTJOB.RENT.map(x=>x[1]);
   check('6. 第 10 週週日（10\' 的下一班）打烊：「……嗯。昨天秀琴姨煮完飯，沒有馬上走。」…祐廷「我上課有聽過…」→「嗯。你查到再跟我說。」；記 RENT_RUMOR、ev_yutong_landlord',R6.every(t=>said.some(x=>x.endsWith(t)))&&R6.every(t=>DOC.includes(t))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&G.events.done.ev_yutong_landlord===G.day&&!!(STORY_EVENTS.find(e=>e.id==='ev_yutong_landlord')||{}).retired,JSON.stringify(said));
   G.day=tdOf('Y1S2',11,6); said=[]; await shift(15); check('6. 下一班不再說',!said.some(x=>/秀琴姨煮完飯/.test(x)),JSON.stringify(said));
+  /* 11 想幫秀琴姨（AA_625 第 11 節；開頭 AA_643 第 1 節）：大二下第 15 週以後的週末班打烊、要 RENT_CONSULTATION；記 YT_HELP_OFFERED；選①＝YT_FIGHT，兩週後的週末班道歉＝APOLOGIZED */
+  fresh(); G.flags.YT_MET_JOB=true; G.flags.TEA_SHIFTS=40; G.flags.YT_FIRST_PAY=true; G.flags.YT_CATS_NO=true; G.flags.YT_MOM_BACK=1; G.events.done.ev_yutong_landlord=1;
+  G.day=tdOf('Y2S2',15,6); said=[]; await shift(41); check('11. 沒有 RENT_CONSULTATION：沒有',!said.some(x=>/押金/.test(x)),JSON.stringify(said));
+  SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); G.day=tdOf('Y2S2',14,7); said=[]; await shift(42); check('11. 第 14 週：還沒有',!said.some(x=>/押金/.test(x)));
+  G.day=tdOf('Y2S2',15,6); said=[]; picks=['她要的不是錢','可以不用搬']; await shift(43); const H11=YTJOB.HELP;
+  check('11. 第 15 週週末班打烊：「（打烊。蘇姨先走了。…）」「我想幫秀琴姨付新房子的押金。…」→ 選①「那她要什麼？」…「……我知道。」；記 YT_HELP_OFFERED、YT_FIGHT',said.some(x=>x.endsWith('（打烊。蘇姨先走了。語彤在數今天的零錢，數到一半停下來。）'))&&said.some(x=>x.endsWith('我有的就只有錢。'))&&said.some(x=>x.endsWith('……我知道。'))&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','YT_FIGHT')&&!SOCIAL.has('heroine_03','APOLOGIZED'),JSON.stringify(said));
+  G.day=tdOf('Y2S2',16,6); said=[]; await shift(44); check('11. 一週後還沒道歉',!said.some(x=>/你說得對/.test(x)));
+  G.day=tdOf('Y2S2',15,6)+14; said=[]; await shift(45);   /* 第 15 週週六＋14 天（學期剛結束的暑假週末班）*/ check('11. 兩週後的週末班：「上次……你說得對。…」；記 APOLOGIZED',said.some(x=>x.endsWith('上次……你說得對。她要的是可以不用搬。我不應該拿錢去堵。'))&&SOCIAL.has('heroine_03','APOLOGIZED'),JSON.stringify(said));
+  check('11. 台詞都在 AA_625 第 11 節（開頭照 AA_643 第 1 節）',[].concat(H11.a,H11.b,H11.c,H11.sorry,H11.a2.say,H11.open.slice(1)).every(x=>DOC.includes(x[1].replace(/^（|）$/g,'')))&&!!(STORY_EVENTS.find(e=>e.id==='ev_yt_help_dishes')||{retired:true}).retired);
   fresh(); G.flags.YT_MET_JOB=true; G.day=tdOf('Y1S2',11,2); YTJOB.momKnown(G); check('4. 沒去上班的玩家：第 9 週週六過了也記 YT_PARENTS_KNOW（閒聊階梯的條件）',G.flags.YT_PARENTS_KNOW===true);
   check('5. 接線：jobs3d.js 有 MID_EV、story3d.js schedEnt 看 YTJOB.absent',/S\.MID_EV=\[\]/.test(fs.readFileSync(path.join(ROOT,'src/jobs3d.js'),'utf8'))&&/YTJOB\.absent/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
