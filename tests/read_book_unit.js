@@ -9,8 +9,9 @@
 //   ⑥ 手不穿過書、大腿：手指（中節、末節的關節＝手指的中心線）都在封底後面 ≥ 0.6 cm（封底的高度照 book_open.py 的式子）；手腕比大腿根高 ≥ 8 cm；
 //   ⑦ 手肘在身體外側、肩膀下面（離中線 ≥ 13 cm），手掌朝向書（掌心方向和書的 +z 夾角 ≤ 30°）；
 //   ⑧ 手上原本拿的東西（例：采潔的小說）讀書時收起來、坐著、站著照舊拿著；
-//   ⑨ 平滑：連續讀書的時候每一格手腕最多移動 1 cm（頭的小晃動不會讓書、手抖）。
-// 修改前（READ_VRM 只有手臂角度：兩手往前下方張開、沒有書）：①②③④⑤⑥⑦⑧ 失敗。
+//   ⑨ 平滑：連續讀書的時候每一格手腕最多移動 1 cm（頭的小晃動不會讓書、手抖）；
+//   ⑩ 前面有桌子（桌面比髖關節高 22 cm）：書整本、兩手腕比桌面高 ≥ 3 cm（不穿進桌子、不藏在桌子底下）；拿走桌子就不抬（Café 的桌子、總圖長桌截圖發現的，2026-11-03 接手的子代理）。
+// 修改前（READ_VRM 只有手臂角度：兩手往前下方張開、沒有書）：①②③④⑤⑥⑦⑧ 失敗；⑩ 在加 readTable 之前失敗（書在桌面底下）。
 // 用法：node tests/read_book_unit.js [char.yuting ...]（不給就祐廷、沈以安、溫學姊、兩個路人底模、GLB driver 的 rpm_sample；GLB 沒有配件，不測 ⑧）
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
 const fs=require('fs'), path=require('path');
@@ -88,6 +89,16 @@ const backZ=x=>{ const s=x/BW; let c=bunder(Math.min(1,s)); if(x<0.014) c=Math.m
     await tick(h,'walk',3); const v3=!!(book&&book.visible), nv3=!!(novel&&novel.visible);
     await tick(h,'read',3); const v4=!!(book&&book.visible);
     check(`② ${key} 其他姿勢看不到書（read→sit、idle、walk 藏起來，再 read 又出現）${glb?'':'、站起來小說照舊拿著'}`,!!book&&!v1&&!v2&&!v3&&v4&&(glb||nv3),'sit '+v1+'、idle '+v2+'、walk '+v3+'、read '+v4+'、走路拿小說 '+nv3);
+    // ⑩ 前面有桌子（Café 的桌子、總圖的長桌：桌面比髖關節高 22 cm、桌子的邊在髖關節前面 20 cm）：書整本在桌面上方（最低的角比桌面高 ≥ 3 cm）、兩手腕也在桌面上方；沒有桌子的時候不抬
+    if(book){ const hp=Lc('hips'), top=hp.y+0.22*u.k, tb=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.04,0.8),new THREE.MeshBasicMaterial());
+      tb.position.copy(h.localToWorld(new THREE.Vector3(hp.x,top-0.02,hp.z+0.2*u.k+0.4))); tb.rotation.y=h.rotation.y; scene.add(tb); scene.updateMatrixWorld(true);
+      h.position.x+=0.07; h.updateMatrixWorld(true); tb.position.x+=0.07;   /* 換位置＝重新找桌子 */
+      await tick(h,'read',20); book.updateMatrixWorld(true); const sc=new THREE.Vector3().setFromMatrixScale(book.matrixWorld);
+      const low=Math.min(...[[-0.153,-0.1065],[0.153,-0.1065],[-0.153,0.1065],[0.153,0.1065]].flatMap(([x,y])=>[0.003,-0.004].map(z=>h.worldToLocal(new THREE.Vector3(x,y,z).divide(sc).applyMatrix4(book.matrixWorld)).y)));
+      const wr=Math.min(Lc('leftHand').y,Lc('rightHand').y);
+      check(`⑩ ${key} 前面有桌子：書整本在桌面上方（最低的角比桌面高 ≥ 3 cm）、兩手腕也比桌面高 ≥ 3 cm`,book.visible&&low>=top+0.03&&wr>=top+0.03,'最低的角 '+cm(low-top)+'、手腕 '+cm(wr-top)+'（比桌面高）');
+      scene.remove(tb); h.position.x-=0.07; h.updateMatrixWorld(true); await tick(h,'read',20);
+      check(`⑩ ${key} 拿走桌子（換位置）：書回到腿上方（不再抬高）`,!(u.readLift>0.001),'抬高 '+cm(u.readLift||0)); }
     scene.remove(h); CHAR.release(h);
   }
   console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

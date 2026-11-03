@@ -289,7 +289,7 @@ const CHAR = (function(){
      ④ 手指貼著封底、往掌心微彎（grip＝指根、中節和掌心那一面的夾角，弧度）＝扶著封底。頭往下看書（READ_VRM、Head 0.35 rad）。
      C.READ_BOOK 的長度都是公尺；書的尺寸照 book_open.json（W＝單頁寬、back＝外緣封底的 z）。C.readIK=false：不放書、手照 READ_VRM（比較用）。u.readHands＝[左手腕, 右手腕] 的目標（世界座標，測試用：tests/read_book_unit.js）*/
   C.readIK=true;
-  C.READ_BOOK={dy:0.2,dz:0.3,W:0.15,back:-0.0005,palmIn:0.035,palmY:-0.035,palmOff:0.022,palm:0.045,fx:0.5,fy:0.85,grip:[0.06,0.16]};
+  C.READ_BOOK={dy:0.2,dz:0.3,W:0.15,H:0.1065,back:-0.0005,palmIn:0.035,palmY:-0.035,palmOff:0.022,palm:0.045,fx:0.5,fy:0.85,grip:[0.06,0.16]};
   const RBV=[0,1,2,3,4,5,6,7,8].map(()=>new THREE.Vector3()), RBM=[new THREE.Matrix4(),new THREE.Matrix4(),new THREE.Matrix4()], RBQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()];
   /* 手掌的世界方向：f＝手腕→中指根、n＝掌心（左手 +(f×a)、右手 −(f×a)，a＝食指根→小指根的反方向＝小指根→食指根）；回傳正交化的 [f, n] 或 null */
   function palmFrame(hand,idx,mid,lit,left,f,n){ if(!hand||!idx||!mid||!lit) return false; const p=hand.getWorldPosition(RBV[6]); f.copy(mid.getWorldPosition(RBV[7])).sub(p); const a=idx.getWorldPosition(RBV[8]).sub(lit.getWorldPosition(RBV[7]));
@@ -297,6 +297,19 @@ const CHAR = (function(){
   /* 把 b 在世界座標轉 q（左乘）*/
   function rotWorldQ(b,q){ b.parent.getWorldQuaternion(RBQ[0]); RBQ[1].copy(RBQ[0]).invert(); b.quaternion.premultiply(RBQ[0]).premultiply(q).premultiply(RBQ[1]); b.updateWorldMatrix(false,true); }
   function basisQ(f,n,out){ const s=RBV[5].crossVectors(f,n); RBM[2].makeBasis(f,n,s); return out.setFromRotationMatrix(RBM[2]); }
+  /* 讀書的人前面有沒有桌子：從書的位置（中間、左右、再往前一點）往下打 5 條射線，找高度在髖關節上方 6～55 cm 之間、看得到的面（人物、透明的東西不算）；
+     回傳最高的那個面在人物座標的高度，沒有＝null。只在換位置（坐到別的座位、轉向）時算，之後 1.5 秒、5 秒各再算一次（區域的正式模型可能晚一點才載好），其他時候用存下來的。*/
+  const RTR=new THREE.Raycaster(), RTV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()], RTDN=new THREE.Vector3(0,-1,0);
+  function readTable(h,u,cx,hp,cz,k){ const T=u.readTbl, now=(u.anim&&u.anim.t)||0, wp=h.getWorldPosition(RTV[0]);
+    const key=Math.round(wp.x*20)+','+Math.round(wp.y*20)+','+Math.round(wp.z*20)+','+Math.round(h.rotation.y*20);
+    if(T&&T.key===key&&(T.n>=3||now<T.next)) return T.y;
+    const n=T&&T.key===key?T.n+1:1; let root=h; while(root.parent) root=root.parent;
+    const list=[]; const walk=o=>{ if(!o.visible||(o!==root&&o.userData&&o.userData.driver)) return; if(o.isMesh&&!o.isSkinnedMesh&&!o.isInstancedMesh){ const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.visible!==false&&!(m.transparent&&m.opacity<0.3)) list.push(o); } for(const c of o.children) walk(c); };
+    for(const c of root.children) if(c!==h) walk(c);
+    let best=null; const lo=hp.y+0.06*k, hi=hp.y+0.55*k;
+    if(list.length) for(const [dx,dz] of [[0,-0.06],[0,0.04],[0,0.14],[0.12,0.04],[-0.12,0.04]]){ const o=h.localToWorld(RTV[1].set(cx+dx*k,hi+0.05,cz+dz*k)); RTR.set(o,RTDN); RTR.far=(hi-lo)+0.05;
+      for(const hit of RTR.intersectObjects(list,false)){ const y=h.worldToLocal(RTV[2].copy(hit.point)).y; if(y>=lo&&y<=hi){ if(best==null||y>best) best=y; break; } } }
+    u.readTbl={key,y:best,n,next:now+(n===1?1.5:3.5)}; return best; }
   /* get(名稱)：VRM humanoid 骨頭名稱（leftUpperArm…）→ 真實骨架的節點 */
   function readIK(h,u,get){ const K=C.READ_BOOK, k=u.k||1; const hips=get('hips'), lUL=get('leftUpperLeg'), rUL=get('rightUpperLeg'), head=get('head');
     const AR=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']].map(L=>L.map(get));
@@ -306,8 +319,13 @@ const CHAR = (function(){
     // ① 書的位置、方向（人物座標：x 往左、y 往上、z 往前）
     const hp=Lc(hips,RBV[0]); const cx=lUL&&rUL?(Lc(lUL,RBV[1]).x+Lc(rUL,RBV[2]).x)/2:hp.x;
     const ctr=RBV[3].set(cx,hp.y+K.dy*k,hp.z+K.dz*k);
-    const eL=get('leftEye'), eR=get('rightEye'); let eye; if(eL&&eR){ eye=Lc(eL,RBV[1]).add(Lc(eR,RBV[2])).multiplyScalar(0.5); } else { eye=Lc(head,RBV[1]).add(RBV[2].set(0,0.06*k,0.06*k)); }
-    const Z=RBV[4].copy(eye).sub(ctr).normalize(), X=RBV[2].set(-1,0,0); X.addScaledVector(Z,-X.dot(Z)).normalize(); const Y=RBV[1].crossVectors(Z,X);   /* X＝書的右邊＝人物的右邊（−x）*/
+    const eL=get('leftEye'), eR=get('rightEye'); let eye; if(eL&&eR){ eye=Lc(eL,new THREE.Vector3()).add(Lc(eR,RBV[2])).multiplyScalar(0.5); } else { eye=Lc(head,new THREE.Vector3()).add(RBV[2].set(0,0.06*k,0.06*k)); }
+    const Z=RBV[4], X=RBV[2], Y=RBV[1]; const frame=()=>{ Z.copy(eye).sub(ctr).normalize(); X.set(-1,0,0); X.addScaledVector(Z,-X.dot(Z)).normalize(); Y.crossVectors(Z,X); };   /* X＝書的右邊＝人物的右邊（−x）*/
+    frame();
+    /* 前面有桌子（Café 的桌子、總圖的長桌）：書整本抬到桌面上方（最低的那一邊離桌面 ≥ 4.5 cm：手在封底後面、比書低一點，手也不碰桌面），不穿進桌子、不藏在桌子底下（readTable：桌面在人物座標的高度，沒有桌子＝null）*/
+    const tY=readTable(h,u,cx,hp,ctr.z,k), lowNow=()=>ctr.y-Math.abs(Y.y)*K.H-Math.abs(Z.y)*0.004;
+    let lift=0; if(tY!=null) for(let it=0;it<3;it++){ const d=tY+0.045-lowNow(); if(d<=0.001) break; ctr.y+=d; lift+=d; frame(); }
+    u.readLift=lift;
     const ML=RBM[0].makeBasis(X,Y,Z).setPosition(ctr), MW=RBM[1].multiplyMatrices(h.matrixWorld,ML);
     const bk=u.readBook; u.model.updateWorldMatrix(true,false); bk.matrix.copy(u.model.matrixWorld).invert().multiply(MW); bk.matrix.decompose(bk.position,bk.quaternion,bk.scale); bk.updateMatrixWorld(true);
     const bookQ=RBQ[2].setFromRotationMatrix(MW); const nW=new THREE.Vector3(0,0,1).applyQuaternion(bookQ);

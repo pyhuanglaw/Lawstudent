@@ -34,10 +34,16 @@ async def shoot(pg, zone, hour, pos, views):
         r = await pg.evaluate(READY)
         if r['vrm'] == r['n'] and r['hidden'] == 0 and (OFF or r['book'] == r['n']) and i > 4: break
     print(zone, 'ready', r, flush=True)
-    for name, (cpos, look) in views:
-        await pg.evaluate("((p,l)=>{ GAME.E.cinematic(new THREE.Vector3(p[0],p[1],p[2]),new THREE.Vector3(l[0],l[1],l[2])); })(%s,%s)" % (json.dumps(cpos), json.dumps(look)))
+    await pg.evaluate("GAME.E.player.obj.visible=false")   # 玩家不擋鏡頭
+    for name, v in views:
+        if isinstance(v, dict):   # {"seat":座位序號,"d":距離,"h":鏡頭高度,"a":偏離正面的角度（弧度）,"ly":注視高度}：鏡頭放在那個座位的人前面
+            await pg.evaluate("""(v=>{ const E=GAME.E, s=(E.zone.seats||[])[v.seat]; const y=(s.y||0), yaw=(s.yaw||0)+(v.a||0), d=v.d||1.4;
+              E.cinematic(new THREE.Vector3(s.x+Math.sin(yaw)*d, y+(v.h||1.25), s.z+Math.cos(yaw)*d), new THREE.Vector3(s.x+Math.sin(s.yaw||0)*0.25, y+(v.ly||0.75), s.z+Math.cos(s.yaw||0)*0.25)); })(%s)""" % json.dumps(v))
+        else:
+            cpos, look = v
+            await pg.evaluate("((p,l)=>{ GAME.E.cinematic(new THREE.Vector3(p[0],p[1],p[2]),new THREE.Vector3(l[0],l[1],l[2])); })(%s,%s)" % (json.dumps(cpos), json.dumps(look)))
         await pg.wait_for_timeout(7000)
-        fn = os.path.join(OUT, '%s_%s.png' % (TAG, name)); await pg.screenshot(path=fn); print('shot', fn, flush=True)
+        fn = os.path.join(OUT, '%s_%s.png' % (TAG, name)); await pg.screenshot(path=fn, timeout=180000); print('shot', fn, flush=True)
 
 
 async def main():
@@ -48,7 +54,7 @@ async def main():
         await pg.evaluate("(()=>{ STORY.tick=()=>{}; })()")
         for zone, hour, pos in (('cafe', 15.0, {'x': 0, 'z': 5.0, 'yaw': 0}), ('library', 10.0, {'x': 0, 'z': 4.0, 'yaw': 0})):
             if cfg and zone not in cfg: continue
-            await shoot(pg, zone, hour, pos, [(n, tuple(v)) for n, v in cfg.get(zone, [])])
+            await shoot(pg, zone, hour, pos, [(n, v if isinstance(v, dict) else tuple(v)) for n, v in cfg.get(zone, {}).items()])
         print('errors', errs[:5])
         await b.close()
 
