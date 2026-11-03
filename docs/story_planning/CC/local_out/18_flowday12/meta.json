@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "18_flowday12",
+  "sha": "d75871437",
+  "kind": "game",
+  "script": "tests/flow_main_day12.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:46:37",
+  "end": "2026-11-03T09:51:19",
+  "seconds": 282,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 77,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 29
+  }
+}
