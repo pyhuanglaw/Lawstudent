@@ -43575,10 +43575,10 @@
    "id": "BUG-GYM-SKIRT-1103",
    "title": "健身房墊子拉筋（gym_stretch）的路人穿裙子（npc_nf10／14／17／19 長裙）後片穿到地板下 0.33～0.50 m",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "BB 11-03 17:20／17:29；CC 探針 cc_gym_skirt_probe（cc-testing 4d0ec34db）修正前 FAILED 2；v9.10.18 就有，不擋 v9.10.19",
-   "next": "v9.10.19 合進 main 以後：裙子底模（manifest source 有「裙」或 skirt 標記）不分到墊子拉筋，或拉筋時改用不坐地的姿勢；修好給 CC SHA 在使用者電腦跑"
+   "next": "CC 跑 cc_gym_skirt_probe（4d0ec34db）要 PASS"
   }
  ]
 }

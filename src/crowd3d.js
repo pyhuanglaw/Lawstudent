@@ -192,7 +192,7 @@ const CROWD=(function(){
       [MAT[0],MAT[2]].filter(Boolean).map(q=>G_([q[0],q[1]-0.55],{pose:'gym_stretch',role:'mat'})));   /* 坐在墊子靠南那一端、腿往北伸 */
     const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
         out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
-        const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:sp[k+1]},q))));
+        const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:q.role==='mat'?(sp[k+1]|1):sp[k+1]},q))));   /* BUG-GYM-SKIRT-1103（BB／CC 11-03）：墊子上拉筋＝坐在地上，女生路人底模有四套長裙（nf10／14／17／19），裙子後片掛在臀部、坐地就穿進地板 0.33～0.50 m——墊子上的人用男生底模（奇數 spec）*/
         return out; },G=>daySlots(G,[[2,3],[3,4],[2,4],[4,6]]));
     /* ---- B1 游泳池（BUG-GYM-POOL-EMPTY-1103；使用者 11-03 截圖：「游泳池完全沒人？」）：池邊救生員高椅旁站著的救生員（面向池子）、池邊長椅坐著休息的人。
        水裡游泳的人要游泳的動作和泳裝模型（LAWWW2：ART-GYM-POOL-SWIMMERS-1103），還沒有；池子導航整個擋住，人不會走進水裡 */
