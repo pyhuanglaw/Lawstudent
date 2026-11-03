@@ -110,3 +110,56 @@
 [19:56:56] ==== START V18R_touch2  (game @ 0776cafc8) ====
 [19:57:00] [res] cpu=44% mem=62% (19.8/31.4 GB) chrome_testing=18  START V18R_touch2
 [19:59:01] [res] cpu=58% mem=58% (18.2/31.4 GB) chrome_testing=20  END V18R_reach
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5a55d2d35..f2828c148  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[19:59:08] ==== END   V18R_reach  exit=0  619s   ====
+[19:59:12] skip V18_ANSMOKE (already done on 6a8033f4e)
+[19:59:12] skip G1_reach (already done on ef63b1877)
+[19:59:12] skip G2_libfl (already done on ef63b1877)
+[19:59:12] skip G3_libsc (already done on ef63b1877)
+[19:59:12] skip G5_termend (already done on ef63b1877)
+[19:59:12] skip G6a_v7 (already done on ef63b1877)
+[19:59:12] skip G6b_v95 (already done on ef63b1877)
+[19:59:12] skip G6c_fm (already done on ef63b1877)
+[19:59:12] skip G7_class (already done on ef63b1877)
+[19:59:12] skip P3_ladder (already done on ef63b1877)
+[19:59:12] skip P4_legal (already done on ef63b1877)
+[19:59:12] skip P5_ui (already done on ef63b1877)
+[19:59:12] skip A1_advskip (already done on b1b249873)
+[19:59:12] skip A2_dorm (already done on b1b249873)
+[19:59:12] skip A3_late15 (already done on b1b249873)
+[19:59:12] skip A1_adv_ef63 (already done on ef63b1877)
+[19:59:12] skip A2_dorm_ef63 (already done on ef63b1877)
+[19:59:12] skip A3_l15_ef63 (already done on ef63b1877)
+[19:59:12] skip A1pre (already done on 03b2721af)
+[19:59:12] skip A2pre (already done on 3c6207b60)
+[19:59:12] skip A3pre (already done on dc36b401e)
+[19:59:12] skip ART_cop (already done on b1b249873)
+[19:59:12] skip ART_lband (already done on b1b249873)
+[19:59:12] skip ART_night (already done on b1b249873)
+[19:59:12] skip ART_uskit (already done on b1b249873)
+[19:59:12] skip P3b_sl (already done on ef63b1877)
+[19:59:12] skip B4main (already done on 27e6ce77e)
+[19:59:12] skip R1_reach (already done on b1b249873)
+[19:59:12] skip R3_touchwz (already done on b1b249873)
+[19:59:12] skip R6_layout (already done on b1b249873)
+[19:59:12] skip R6b_layoutcss (already done on b1b249873)
+[19:59:12] skip R7_quota (already done on b1b249873)
+[19:59:13] skip R7b_quota15 (already done on b1b249873)
+[19:59:13] skip R8b_y4s2jp (already done on b1b249873)
+[19:59:13] skip R6_rr (already done on b1b249873)
+[19:59:13] skip R12_fasat (already done on b1b249873)
+[19:59:13] skip R12b_fasatpre (already done on ba125d6f3)
+[19:59:13] skip R6_rr2 (already done on b1b249873)
+[19:59:13] skip F1_fps_hl (already done on b1b249873)
+[19:59:13] skip F2_fps_hd (already done on b1b249873)
+[19:59:13] skip R1_x2 (already done on b1b249873)
+[19:59:13] skip R3_x2 (already done on b1b249873)
+[19:59:13] skip R1_x3 (already done on b1b249873)
+[19:59:13] skip R3_x3 (already done on b1b249873)
+[19:59:13] memory 57% before starting 00_gpu (2 running)
+[19:59:13] ==== START 00_gpu  (gpu @ 309ddc71e) ====
+[19:59:17] [res] cpu=57% mem=58% (18.2/31.4 GB) chrome_testing=20  START 00_gpu
+[19:59:26] 正在跑：V18G_camp608（已跑 6 分／上限 240 分）、V18R_touch2（已跑 2 分／上限 60 分）、00_gpu（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:00:02] [res] cpu=24% mem=57% (17.8/31.4 GB) chrome_testing=18  END V18G_camp608

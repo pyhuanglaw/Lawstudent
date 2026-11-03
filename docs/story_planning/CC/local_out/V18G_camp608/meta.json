@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V18G_camp608",
+  "sha": "ffeec06e0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_camp608_probe.py",
+  "env": "MAX_S=12000",
+  "machine": "MSI",
+  "start": "2026-11-03T19:52:48",
+  "end": "2026-11-03T20:00:02",
+  "seconds": 433,
+  "exit": 1,
+  "error": null,
+  "runner": "3ef8d2df55",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 69,
+    "used_gb": 22.0,
+    "chrome_testing": 28
+  }
+}
