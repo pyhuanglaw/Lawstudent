@@ -51,6 +51,8 @@ V19X_gym_C   | f9d8cce09 | probe | docs/story_planning/test_tools/cc/cc_gym_shot
 V19X_unmet   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py | index.html?lowres | 60 | MAX_MIN=55
 V19X_jnl     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 |
 V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 | EXPECT=FAIL
+#HOLD修正 GYM_skirt   | <修正> | probe | docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py | index.html | 40 |
+# （GYM_skirt：BUG-GYM-SKIRT-1103 修好以後填 SHA；雲端 ffeec06e0 修正前 FAILED 2）
 # ===== V19 結束 =====
 # ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
 N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
