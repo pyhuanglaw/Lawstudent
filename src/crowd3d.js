@@ -280,7 +280,7 @@ const CROWD=(function(){
     drink:{L:[[10,0.2],[11.6,0.5],[13.4,0.5],[14,0.3],[17,0.45],[19,0.45],[20,0.2],[21,0.1]],dur:[0.15,0.35],face:0.3,side:0.3,standDur:[0.08,0.15],cap:3},
     book:{L:[[10,0.15],[12,0.25],[13,0.25],[14,0.2],[17,0.35],[20,0.35],[21.5,0.15]],dur:[0.12,0.35],cap:6},
     cvs:{L:[[0,0.15],[2,0.05],[6,0.05],[7.5,0.45],[9,0.3],[11.6,0.55],[13.4,0.5],[14,0.25],[17.5,0.5],[19.5,0.45],[22,0.3],[24,0.15]],dur:[0.1,0.25],payDur:[0.06,0.12],cap:6},
-    print:{L:[[9,0.2],[12,0.35],[13,0.3],[17,0.3],[22,0.15]],dur:[0.15,0.4],cap:2} };
+    print:{L:[[9,0.3],[12,0.55],[13,0.5],[17,0.45],[22,0.2]],dur:[0.15,0.4],cap:2} };
   /* 這一天、這個時刻坐滿幾成（0～0.85）*/
   S.shopLoad=function(def,G,h){ const K=S.SHOP_KIND[def.kind]; if(!K) return 0; let L=ramp(K.L,h); const C=typeof CALENDAR!=='undefined'?CALENDAR:null; if(!C) return Math.min(0.85,L);
     const kd=C.kind(G.day), wk=C.weekend(G.day)||kd==='holiday', T=C.termOf?C.termOf(G.day):null, k=def.kind;
@@ -327,7 +327,7 @@ const CROWD=(function(){
       if(WZ.print&&WZ.print.spawn) add('wz_print','print',[WZ.print.spawn.x,WZ.print.spawn.z],standUnits([[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]])); }
     /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
     if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');
-      let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.55,L.order.z+0.75,Math.PI]],'wait'));
+      let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
       add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:id==='tea'}); }
     return out; };
   S.SHOPS=S.shopDefs(); S.SHOP_ZONES={}; for(const d of S.SHOPS) S.SHOP_ZONES[d.zone]=d;
