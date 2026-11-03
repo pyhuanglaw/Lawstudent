@@ -349,7 +349,7 @@ const Y2R2=(function(){
       {if:KN('yu'),speaker:'yu',expression:'neutral',text:'債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。'},   /* AA_375 第 8 項：贈與第 14 週才教；租賃第 4～6 週 */
       {if:{custom:G=>knows('yu',G)&&knows('zhe',G)},speaker:'zhe',expression:'laugh',text:'贈與那題我也寫錯了。我們一起錯。'},
       {if:KN('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'……第二題寫完，我才發現背面還有一題。'},
-      {if:KN('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'我寫了三頁。第二題值得。'},
+      {if:KN('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'第二題我寫了三頁。手到現在還在痠。'},
       {if:KN('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'期末考完了。今天之後，我不跟你們對答案。'} ],   /* AA_578 #9：「期中」→「期末」*/
     after:G=>{ for(const id of ['yu','zhe','heroine_03','heroine_01','classmate_xinci']) if(knows(id,G)) remember(id,'SHARED_CLASS','債各期末考'); } });   /* AA_578 #9 */
   /* Z8：吉他社社課（萬才館）走到子晴旁邊——AA_375 第 13 項：演唱會是 5/15（六）晚上，改 5/17（一）以後（5/17 週一；沒遇到 5/19 週三）；句子不改。原本 5/12、5/19 */
@@ -711,7 +711,7 @@ const Y2R2=(function(){
       [['job','要不要我問問看有沒有打工？'],['lend','需要的話，我可以先借妳。'],['info','我找了一些資料。']].forEach(([k,t])=>{ if(!H[k]) out.push({t,run:async(GM,who)=>S.ytHelp(GM,who,k,t)}); }); }
     /* 2-Y2-18 以安「明軒的事……」：聽說以後到 9/5、一次；和以安交往中而且明軒知道的不會有這件事。
        priv（AA_503 第 14 節第 5 項，企劃線 6bc3cd784：擋）：她旁邊有她的人時不出，清單 src/privtalk3d.js 的 an_mx（期限 9/5：那天照出，選了先一句旁白）*/
-    if(id==='heroine_01'&&F.MX_HEARD&&!F.AN_MX_ASKED&&G.day<=d('an_end')&&!mxKnows(G)) out.push({t:'明軒的事……',priv:true,privKey:'an_mx',run:async(GM,who)=>{ G.flags.AN_MX_ASKED=true; GM.sceneBegin(); try{ await GM.say(who,'他問了，我答了。我們還是朋友。'); } finally { GM.sceneEnd(); } }});
+    if(id==='heroine_01'&&F.MX_HEARD&&!F.AN_MX_ASKED&&G.day<=d('an_end')&&!mxKnows(G)) out.push({t:'明軒的事……',priv:true,privKey:'an_mx',run:async(GM,who)=>{ G.flags.AN_MX_ASKED=true; GM.sceneBegin(); try{ await GM.say(who,'他還好嗎？'); await GM.say({name:G.name},'他今天還跟阿哲去打球。'); await GM.say(who,'嗯。'); await GM.say(who,'……你今天晚餐吃什麼。'); }   /* AA_587 第 41 列（共創第十三、十四批：反過來問他還好嗎，然後轉話題；中間一句祐廷）*/ finally { GM.sceneEnd(); } }});
     return out; };
   S.ytDutyChat=async function(GM,who){ const G=GM.G, F=G.flags, me={name:G.name||'祐廷'}; GM.sceneBegin();
     try{ await GM.say(who,'來的人多嗎？'); await GM.say(me,'一個阿伯講了十分鐘，大家都在翻六法。'); await GM.say(who,'他是不是一直講他兒子？'); await GM.say(me,'妳怎麼知道？');

@@ -76,7 +76,7 @@ const R2Y3B=(function(){
 
   /* ===================== 2-Y3-28 杜鵑花第三張：12:40 以安在麵店團群組（不在群組、和她 FRIEND 以上＝私訊同兩則）===================== */
   S.azaleaPhone=function(G){ const d=D('2028-03-09'); if(d==null||G.day<d||G.day>d+7||now(G)<T(d,12+40/60)||PHONE.sent(G,'y3_azalea')||!knows('heroine_01',G)) return;
-    const g=grp(G); if(!g&&!(stageAt('heroine_01','FRIEND')&&contact(G,'heroine_01'))) return; const A=M(g?NG:'p:heroine_01','heroine_01');
+    const g=grp(G); if(!g&&!(stageAt('heroine_01','FRIEND')&&contact(G,'heroine_01')&&!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_01')))) return; const A=M(g?NG:'p:heroine_01','heroine_01');   /* AA_600 A9：私訊那一支擋前任（同大四版 r2y4b3d.js）；群組照留 */
     PHONE.at(G,d,12+40/60,[A('（照片：杜鵑花。和前兩年同一個位置。）'),A('第三張。')],'y3_azalea'); };
 
   /* ===================== 2-Y3-29 C6 Alison 的社團經費 ===================== */
@@ -149,7 +149,7 @@ const R2Y3B=(function(){
         {t:'好。',say:[{from:'heroine_01',text:'嗯。'}],set:{AN_SAKURA_GO:true}},{t:'明天不行。',say:[{from:'heroine_01',text:'好。……櫻花下週就謝了。我拍給你。'}],set:{AN_SAKURA_GO:false}}]}})],'y3_an_sakura');
     if(F.AN_SAKURA_GO===true&&!outGet(G,'y3_an_sakura')&&now(G)<T(d8,jt(G,d8,16.5)+0.5)) plan(G,{id:'y3_an_sakura',ev:'ev_an_sakura_riverbank',day:d8,h:jt(G,d8,16.5),late:0.5,place:'大學城的河堤',title:'和以安：大學城的河堤（日本 16:30）',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到宿舍。'});
     if(PHONE.sent(G,'y3_an_sakura')&&now(G)>=T(d8,jt(G,d8,18))&&!done(G,'ev_an_sakura_riverbank')&&!(outGet(G,'y3_an_sakura')||{}).arrived) S.sakuraPhoto(G); };   /* 婉拒、沒回、沒到 */
-  S.sakuraPhoto=G=>{ const d=D('2028-04-08'); if(G.flags.AN_SAKURA==null) G.flags.AN_SAKURA='missed'; if(d!=null) PHONE.at(G,d,jt(G,d,18),[{th:'p:heroine_01',from:'heroine_01',text:'（照片：河堤的櫻花，手帳攤在石階上）'},{th:'p:heroine_01',from:'heroine_01',text:'今天在這裡讀完一章。'}],'y3_an_sakura_photo'); };
+  S.sakuraPhoto=G=>{ const d=D('2028-04-08'); if(G.flags.AN_SAKURA==null) G.flags.AN_SAKURA='missed'; if(d!=null) PHONE.at(G,d,jt(G,d,18),[{th:'p:heroine_01',from:'heroine_01',text:'（照片：河堤的櫻花，書攤在石階上）'},{th:'p:heroine_01',from:'heroine_01',text:'今天在這裡讀完一章。'}],'y3_an_sakura_photo'); };
 
   /* ===================== 2-Y3-38 主線 8「遠方」視訊（日本路線）：4/12 21:00 阿哲私訊；4/13 19:30 視訊（15 分鐘沒接＝沒接）===================== */
   S.farPhone=function(G){ const d12=D('2028-04-12'), d13=D('2028-04-13'); if(d12==null||G.day<d12||G.day>d13||!inJP(G,d13)) return; if(!(grp(G)||met(G,'zhe','FAMILIAR'))) return; const F=G.flags, Z=M('p:zhe','zhe');
@@ -457,7 +457,8 @@ const R2Y3B=(function(){
       {lines:[{narr:'（總圖 B1 的位子，八點以前就被書包佔滿。你搶到靠插座的那一個。）'},NPS('隔壁的考生','同學，你也是明年考？')],
         choice:[{t:'「對。」',say:[NPS('隔壁的考生','加油。我第三年了。……今年會上。')]},{t:'「還沒決定。」',say:[NPS('隔壁的考生','那很好。慢慢想。')]}]},
       {lines:[{narr:'（七月最熱的那個禮拜，B1 的冷氣開到最強。你帶了一件外套。）'},{narr:'（隔壁的考生把一包餅乾推過來。）'},NPS('隔壁的考生','多買的。')]},
-      G=>S.anBackY3(G)?{lines:[{who:'heroine_01',text:'你暑假都在這裡？'},{who:'heroine_01',text:'……我在京都的圖書館，也是坐最角落。'},{who:'heroine_01',text:'明天開始，我也來。'}]}
+      G=>S.anBackY3(G)&&typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_01')?{lines:[{narr:'（隔天開始，她也來了，坐在最角落。你們沒有說話。）'}]}   /* AA_600 A10（企劃線 031414cad）：前任＝她的三句刪，只有旁白 */
+      :S.anBackY3(G)?{lines:[{who:'heroine_01',text:'你暑假都在這裡？'},{who:'heroine_01',text:'……我在京都的圖書館，也是坐最角落。'},{who:'heroine_01',text:'明天開始，我也來。'}]}
         :{lines:[{narr:'（隔壁的考生今天沒有來。他的位子上放了一張紙條：「我上了。這個位子給你。」）'}]}]};
   S.sumScene=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; let x=(S.SUMMER_SCENES[k]||[])[i]; if(typeof x==='function') x=x(G); return x||null; };
   const runS=async(GM,L)=>{ const G=GM.G; for(const x of (L||[])){ if(!x) continue; if(x.narr) await GM.say(null,x.narr); else if(x.who&&x.name) await GM.say({name:x.name},x.text); else if(x.who) await GM.say({name:nm(x.who),charId:x.who},x.text); } };

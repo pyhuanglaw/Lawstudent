@@ -19,7 +19,8 @@ let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/an_yt_hol_events.js');
 const X=()=>typeof ANYTHOL!=='undefined'?ANYTHOL:null;
 let doc=''; try{ doc=cp.execSync('git show 5c139cc49:"docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc416=''; try{ doc416=cp.execSync('git show ed80edb71:"docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc416=''; }   /* AA_416 第 3 節：第 6 階的換字、2029 的 CG 補救 */
-const inDoc=t=>doc.indexOf(t)>=0||doc416.indexOf(t)>=0;
+const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587 第 23、38 列、AA_589 第 48～53 列）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3_unit.js、aa589_an_b4_unit.js）*/
+const inDoc=t=>doc.indexOf(t)>=0||doc416.indexOf(t)>=0||ANREV.has(t);
 const J=JSON.stringify, AN='heroine_01', YT='heroine_03';
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const VDAY=J({fam:3,comf:6,npcRom:5}), CALL=J({fam:2,comf:3,npcRom:3}), MOON=J({fam:4,comf:4,npcRom:4});
@@ -83,7 +84,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-1. 11:15 就問出發（14:00 減 2.5 小時再早 15 分；寒假從家出發不用取車，DATE-C7）',!!due&&due.id==='anyt_an_vday_y1');
     check('1-1. 油錢有扣（出發的時候 -900 交通）',m0-H.G.money===900&&J(money)===J([[-900,'交通']]),J(money));
     check('1-1. 背景：car_morning → tc_park（公園門口、公園）→ car_night（國道・休息站）',J(H.bgs.map(img).filter((b,i,A)=>typeof b==='string'&&b!=='dark'&&A.indexOf(b)===i))===J(['car_morning','tc_park','car_night']),J(H.bgs.map(img)));
-    check('1-1. 那一場照稿（「我想來。」）',J(L)===J(['（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）','你出門的時候傳了訊息。我算你兩點到。','開了兩個多小時，就為了這個？……你可以不用來的。','……嗯。','（她把圍巾拉下來一點。）',
+    check('1-1. 那一場照稿（「我想來。」）',J(L)===J(['（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）','你出門的時候傳了訊息。我算你兩點到。','開了兩個多小時，就為了這個？你可以不用來的。','……嗯。','（她把圍巾拉下來一點。）',
       '（公園裡只有幾個遛狗的人。你們走了兩圈。她一直在講寒假讀的公司法，講到一半停下來。）','我在講公司法。今天是情人節。','……你不要笑。','（傍晚，她送你到車子旁邊。你要上車的時候，她把一個紙袋塞給你。）','回去再打開。開車不要看手機。','（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）']),J(L));
     check('1-1. AN_VDAY_Y1 went、記憶 AN_VDAY_TC、熟悉 +3、自在 +6、她的戀愛 +5、裂縫 -1（2→1）、回到臺北 20:00',H.G.flags.AN_VDAY_Y1==='went'&&SOCIAL.has(AN,'AN_VDAY_TC')&&dRel(AN,a)===VDAY&&H.G.flags.AN_CRACK===1&&H.G.hour===20&&H.G.day===H.D('2026-02-14'),dRel(AN,a)+' crack '+H.G.flags.AN_CRACK+' h '+H.G.hour);
     at('2026-02-14',20.5); rules(); check('1-1. 有來的：沒有 15:00／17:00／20:00 那幾則',!dms(AN).some(t=>/公園門口。兩點|夜市的烤玉米攤/.test(t))); }
@@ -108,7 +109,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-2. 去年去過台中：「妳特地上來？」→「嗯。去年你來了。」「今年換我。」、AN_VDAY_Y2_GO',J(r)===J(['妳特地上來？','嗯。去年你來了。','今年換我。'])&&H.G.flags.AN_VDAY_Y2_GO===true,J(r));
     check('1-2. 出遊：2/14 14:00、捷運約 15 分鐘（0.25）、late 0.25、標題「情人節（大安森林公園）」',!!q&&q.day===H.D('2027-02-14')&&q.h===14&&q.travel==='捷運約 15 分鐘'&&q.travelH===0.25&&q.late===0.25&&q.title==='情人節（大安森林公園）',J(q));
     at('2027-02-14',13.6); const a=relOf(AN); const {L}=await goOut('anyt_an_vday_y2',[1]);
-    check('1-2. 背景 daan_park；「巧克力。」→「巧克力太簡單了。」旁白「（她從紙袋裡拿出一個學業御守。）」；照稿',img(H.bgs[0])==='daan_park'&&J(L)===J(['（她從東京回來兩個禮拜了。手上提著一個紙袋，上面都是日文。）','東京買的。你猜。','巧克力太簡單了。','（她從紙袋裡拿出一個學業御守。）','你今年要考很多試。','（你們在公園裡走了兩個多小時。她看了兩次手錶，第三次沒有看。）','四點半了。我要去搭車。','……下次換你來。']),J({bg:img(H.bgs[0]),L}));
+    check('1-2. 背景 daan_park；「巧克力。」→「巧克力太簡單了。」旁白「（她從紙袋裡拿出一個學業御守。）」；照稿',img(H.bgs[0])==='daan_park'&&J(L)===J(['（她從東京回來兩個禮拜了。手上提著一個紙袋，上面都是日文。）','東京買的。你猜。','巧克力太簡單了。','（她從紙袋裡拿出一個學業御守。）','你今年要考很多試。','（你們在公園裡走了兩個多小時。她看了兩次手錶，第三次沒有看。）','四點半了。我要去搭車。','下次換你來。']),J({bg:img(H.bgs[0]),L}));
     check('1-2. AN_VDAY_Y2 went、記憶 AN_VDAY_OMAMORI、+3／+6／+5、裂縫 1→0、16:30 結束',H.G.flags.AN_VDAY_Y2==='went'&&SOCIAL.has(AN,'AN_VDAY_OMAMORI')&&dRel(AN,a)===VDAY&&H.G.flags.AN_CRACK===0&&H.G.hour===16.5,dRel(AN,a)+' h '+H.G.hour); }
   { setup('2027-02-12',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y2_ask',1); const r=dms(AN).slice(-2); const L=await play('ev_an_vday_y2',[0]);
     check('1-2. 2026 沒去台中：「妳特地上來？」→「……嗯。我想上來。」；「御守。」→「……你怎麼知道。」',J(r)===J(['妳特地上來？','……嗯。我想上來。'])&&L[2]==='……你怎麼知道。'&&L[3]==='你今年要考很多試。',J({r,L})); }
@@ -128,12 +129,12 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-3. 背景 ntu_avenue；「（給她一支鋼筆）」→「……你知道我的筆快沒水了。」「去日本帶這支。」；最後「三月十四號那天，你不要排別的。」',img(H.bgs[0])==='ntu_avenue'&&J(L)===J(['（寒假的椰影大道，腳踏車比平常少一半。）','再一個多月就去日本了。','行李我列好了。衣服帶太少，書帶太多。','……你知道我的筆快沒水了。','去日本帶這支。','三月十四號那天，你不要排別的。'])&&J(H.opts[0])===J(['（給她一支鋼筆）','（給她一盒巧克力）']),J(L));
     check('1-3. AN_VDAY_GIFT pen、AN_VDAY_Y3 went、記憶 AN_VDAY_PEN、+3／+6／+5',H.G.flags.AN_VDAY_GIFT==='pen'&&H.G.flags.AN_VDAY_Y3==='went'&&SOCIAL.has(AN,'AN_VDAY_PEN')&&!SOCIAL.has(AN,'AN_VDAY_CHOCO')&&dRel(AN,a)===VDAY,dRel(AN,a));
     at('2028-03-14',18); const W=await play('ev_an_white_day',[0]);
-    check('1-3. 接 3/14：ev_an_white_day 演「（她拿出一個小紙袋）一個月前你送的。這是回禮。」那一版（不改 r2y3b_events.js）',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!W.includes('二月十四號那天，我在讀書。……你也沒說什麼。'),J(W)); }
+    check('1-3. 接 3/14：ev_an_white_day 演「（她拿出一個小紙袋）一個月前你送的。這是回禮。」那一版（不改 r2y3b_events.js）',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!W.includes('二月十四號那天，我在讀書。你也沒說什麼。'),J(W)); }
   { setup('2028-02-13',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y3_ask',0); const L=await play('ev_an_vday_y3',[1]);
     check('1-3. 「（給她一盒巧克力）」→「……好。」旁白「（她當場拆開，吃了一顆。）」「我以為我會留到日本再吃。」、AN_VDAY_GIFT choco、記憶 AN_VDAY_CHOCO',J(L.slice(3,6))===J(['……好。','（她當場拆開，吃了一顆。）','我以為我會留到日本再吃。'])&&H.G.flags.AN_VDAY_GIFT==='choco'&&SOCIAL.has(AN,'AN_VDAY_CHOCO'),J(L));
     at('2028-03-14',18); const W=await play('ev_an_white_day',[0]); check('1-3. 巧克力也算送過（AN_VDAY_GIFT 有值）：3/14 是回禮那一版',W.includes('（她拿出一個小紙袋）一個月前你送的。這是回禮。'),J(W)); }
   { setup('2028-02-13',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y3_ask',1); rules(); const r=dms(AN).slice(-1)[0]; at('2028-03-14',18); const W=await play('ev_an_white_day',[0]);
-    check('1-3. 「明天我不行。」→「好。那三月再說。」、AN_VDAY_Y3 no、沒有 AN_VDAY_GIFT＝3/14 沒送過那一版，而且是「你有事」那一句（AA_508 0-2 第 8 點：她約過、你拒絕）＋「回禮要先收到才算。」',r==='好。那三月再說。'&&H.G.flags.AN_VDAY_Y3==='no'&&H.G.flags.AN_VDAY_GIFT==null&&W.includes('二月十四號那天，你有事。我在讀書。')&&!W.includes('二月十四號那天，我在讀書。……你也沒說什麼。')&&W.includes('（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。'),J({r,W})); }
+    check('1-3. 「明天我不行。」→「好。那三月再說。」、AN_VDAY_Y3 no、沒有 AN_VDAY_GIFT＝3/14 沒送過那一版，而且是「你有事」那一句（AA_508 0-2 第 8 點：她約過、你拒絕）＋「回禮要先收到才算。」',r==='好。那三月再說。'&&H.G.flags.AN_VDAY_Y3==='no'&&H.G.flags.AN_VDAY_GIFT==null&&W.includes('二月十四號那天，你有事。我在讀書。')&&!W.includes('二月十四號那天，我在讀書。你也沒說什麼。')&&W.includes('（她拿出一個小紙袋）回禮要先收到才算。這個是我自己想送的。'),J({r,W})); }
   { setup('2028-02-13',21.05,AN); rules(); PHONE.answer(H.G,'anyt_an_y3_ask',0); rules(); at('2028-02-14',13.6); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'anyt_an_vday_y3')); rules(); const n=dms(AN).length; at('2028-02-14',15.05); rules(); at('2028-02-14',17.05); rules();
     check('1-3. 「不去了」：記 missed、15:00「我在總圖門口。」、17:00「我先回去了。行李還沒收。」',H.G.flags.AN_VDAY_Y3==='missed'&&J(dms(AN).slice(n))===J(['我在總圖門口。','我先回去了。行李還沒收。']),J(dms(AN))); }
   });
@@ -143,11 +144,11 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2029-02-13',20,AN); rules(); at('2029-02-13',21.5); rules(); const pre=dms(AN).length; at('2029-02-14',9); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4');
     check('1-4. 沒有前一天的私訊；2/14（三，初二）21:00 她打來（那一天一開始就排好；電話、接起來／先不接、late 0.25）',pre===0&&!!q&&q.day===H.D('2029-02-14')&&q.h===21&&q.call===true&&q.verb==='接起來'&&q.no==='先不接'&&q.place==='電話'&&q.late===0.25,J(q));
     at('2029-02-14',20.95); const a=relOf(AN); const {L}=await goOut('anyt_an_vday_y4',[0]);
-    check('1-4. 電話（{scene:\'電話\'}）照稿；「十八號回來？」→「十八號。高鐵三點到臺北。」「……我只是跟你說一聲。」',J(L)===J(['（電話。那頭很吵，有人在喊「碰」。）','今天初二。我在外婆家。','十幾個人在客廳打牌。我躲到陽台。','……今天是情人節。我記得。','十八號。高鐵三點到臺北。','……我只是跟你說一聲。','（那頭有人叫她的名字。）','我要進去了。……晚安。'])&&ev('ev_an_vday_y4').dialogue[0].scene==='電話',J(L));
+    check('1-4. 電話（{scene:\'電話\'}）照稿；「十八號回來？」→「十八號。高鐵三點到臺北。」「我只是跟你說一聲。」',J(L)===J(['（電話。那頭很吵，有人在喊「碰」。）','今天初二。我在外婆家。','十幾個人在客廳打牌。我躲到陽台。','……今天是情人節。我記得。','十八號。高鐵三點到臺北。','我只是跟你說一聲。','（那頭有人叫她的名字。）','我要進去了。晚安。'])&&ev('ev_an_vday_y4').dialogue[0].scene==='電話',J(L));
     check('1-4. AN_VDAY_Y4 called、記憶 AN_VDAY_CALL、熟悉 +2、自在 +3、她的戀愛 +3',H.G.flags.AN_VDAY_Y4==='called'&&SOCIAL.has(AN,'AN_VDAY_CALL')&&dRel(AN,a)===CALL,dRel(AN,a));
     at('2029-02-14',21.6); rules(); check('1-4. 接了：沒有 21:30 那兩則',!dms(AN).includes('打給你，沒接。')); }
   { setup('2029-02-14',9,AN); rules(); const L=await play('ev_an_vday_y4',[1]);
-    check('1-4. 「外婆家好玩嗎？」→「表妹問我男朋友是誰。我說你不認識。」「……她說那就是有。」',J(L.slice(4,6))===J(['表妹問我男朋友是誰。我說你不認識。','……她說那就是有。']),J(L)); }
+    check('1-4. 「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說有。」「她問了二十分鐘。」',J(L.slice(4,6))===J(['表妹問我有沒有男朋友。我說有。','她問了二十分鐘。']),J(L)); }
   { setup('2029-02-14',9,AN); rules(); at('2029-02-14',20.95); H.picks=[2]; const r=await OUT.prompt(GM,OUT.get(H.G,'anyt_an_vday_y4')); rules(); const n=dms(AN).length; at('2029-02-14',21.51); rules(); const m1=dms(AN).slice(n); at('2029-02-14',21.6); rules();
     check('1-4. 先不接：記 missed、21:30「打給你，沒接。」、21:31「外婆家很吵。明天再說。」',r==='no'&&H.G.flags.AN_VDAY_Y4==='missed'&&J(m1)===J(['打給你，沒接。'])&&J(dms(AN).slice(n))===J(['打給你，沒接。','外婆家很吵。明天再說。']),J({r,d:dms(AN)})); }
   { setup('2029-02-14',9,AN); rules(); at('2029-02-14',21.3); rules(); at('2029-02-14',21.6); rules();

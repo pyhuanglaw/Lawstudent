@@ -123,7 +123,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const item=day=>CLS.dayItems(G,day).find(it=>it.c.id==='civ_general');
     const cls=async(day,flags,setup,pk,withAn)=>{ fresh(day,13.2,'classroom',Object.assign({afternoonDone:true},flags||{})); G.choices.cafeView=(flags&&flags._view)||'A'; if(withAn!==false) npc('an',1,1); if(setup) setup(); picks=pk||[]; const it=item(day); if(!it) return null; await CLS.attend(GM,it); return lines(); };
     const L=await cls(W4THU,{},null,['一起寫']);
-    check('A12 第 4 週週四上完民總：以安「（把講義收好）民總的報告，兩人一組。我還沒找人。」「你那天講的，我想放進去。」',!!L&&L.includes('（把講義收好）民總的報告，兩人一組。我還沒找人。')&&L.includes('你那天講的，我想放進去。')&&L.indexOf('你那天講的，我想放進去。')>L.findIndex(t=>/./.test(t)),JSON.stringify(L));
+    check('A12 第 4 週週四上完民總：以安「（把講義收好）民總的報告兩人一組。我還沒有組。」「你那天講的，我想放進去。」',!!L&&L.includes('（把講義收好）民總的報告兩人一組。我還沒有組。')&&L.includes('你那天講的，我想放進去。')&&L.indexOf('你那天講的，我想放進去。')>L.findIndex(t=>/./.test(t)),JSON.stringify(L));
     check('A12 「好，一起寫。」＋cafeView A：「那結論你寫。」、記憶 REPORT_PARTNER',L.includes('那結論你寫。')&&SOCIAL.has('heroine_01','REPORT_PARTNER')&&caps.some(t=>/^下課了/.test(t)));
     for(const [v,t] of [['B','那反方你寫。'],['C','那判斷標準你寫，你比我會講。']]){ const Lv=await cls(W4THU,{_view:v},null,['一起寫']); check('A12 cafeView '+v+'：「'+t+'」',Lv.includes(t)&&!Lv.includes('那結論你寫。'),JSON.stringify(Lv.slice(-2))); }
     const Ln=await cls(W4THU,{},null,['有組了']);
@@ -143,15 +143,15 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A4／A12 「報告發回來了」第 6 週起（第 5 週沒有）',!f.w5&&f.w6,JSON.stringify(f));
     for(const [partner,want] of [[true,'「這份我學到很多。」'],[false,'「這份我學到很多。」']]){   /* AA_524 A5（企劃線 8fd10848d）：模擬法庭刪掉以後沒有合寫報告的場合，兩種玩家都改「這份我學到很多。」（原本「下次也一起寫。」／「下次一起寫。」）*/ fresh(W6MON,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(partner) SOCIAL.remember('heroine_01','REPORT_PARTNER',''); npc('an',1,1); picks=[0]; await EVENTS.run(fb);
       check('A12 報告發回來：'+(partner?'一起寫過':'沒有一起寫')+'的第一個選項是'+want+'（數值照舊）',opts[0][0]===want&&opts[0].length===2&&SOCIAL.rel('heroine_01').fam>=5,JSON.stringify(opts[0])); }
-    /* AA_358 2-4（AA-C 2026-10-21 659d9d81）：「謝謝你那天陪我」有 cafeView（A、B）照原句和原選項；沒有 cafeView（拒絕咖啡廳）的換「（小聲）……寫完了，先給你看。」、
+    /* AA_358 2-4（AA-C 2026-10-21 659d9d81）：「謝謝你那天陪我」有 cafeView（A、B）照原句和原選項；沒有 cafeView（拒絕咖啡廳）的換「（小聲）你先看。哪裡不通直接講。」、
        選項「妳寫得出來的。」「改天請妳喝咖啡。」（記憶的 note 改「你說改天請她喝咖啡」）。修改前 FAIL：沒有 cafeView 也說「謝謝你那天陪我」*/
     { fresh(W4THU+1,10,'library',{afternoonDone:true}); G.choices.cafeView='A'; npc('an',1,1); picks=[1]; await EVENTS.run(fu); const LA=lines(), oA=opts[0];
       fresh(W4THU+1,10,'library',{afternoonDone:true}); G.choices.cafeView='B'; npc('an',1,1); picks=[0]; await EVENTS.run(fu); const LB=lines();
       fresh(W4THU+1,10,'library',{afternoonDone:true,anSkipped:true}); npc('an',1,1); picks=[1]; await EVENTS.run(fu); const LN=lines(), oN=opts[0], mem=SOCIAL.memories('heroine_01').find(m=>m.tag==='IMPORTANT_CONVERSATION');
       fresh(W4THU+1,10,'library',{afternoonDone:true,anSkipped:true}); npc('an',1,1); const c0=SOCIAL.rel('heroine_01').comf; picks=[0]; await EVENTS.run(fu); const L0=lines(), helped=SOCIAL.has('heroine_01','HELPED_WITH_REPORT');
-      check('AA_358 2-4 報告的結論：cafeView A、B 照原句「（小聲）……謝謝你那天陪我。」和原選項（「妳寫得出來，我只是坐在旁邊。」「下次換我請。」）',LA.includes('（小聲）……謝謝你那天陪我。')&&LB.includes('（小聲）……謝謝你那天陪我。')&&JSON.stringify(oA)===JSON.stringify(['「妳寫得出來，我只是坐在旁邊。」','「下次換我請。」']),JSON.stringify([LA,oA]));
-      check('AA_358 2-4 沒有 cafeView（拒絕咖啡廳）：不說「謝謝你那天陪我」，換「（小聲）……寫完了，先給你看。」；選項「妳寫得出來的。」「改天請妳喝咖啡。」→ 記憶「你說改天請她喝咖啡」',
-        !LN.includes('（小聲）……謝謝你那天陪我。')&&LN.includes('（小聲）……寫完了，先給你看。')&&JSON.stringify(oN)===JSON.stringify(['「妳寫得出來的。」','「改天請妳喝咖啡。」'])&&!!mem&&mem.note==='你說改天請她喝咖啡'&&LN[LN.length-1]==='（小聲）好。',JSON.stringify([LN,oN,mem]));
-      check('AA_358 2-4 沒有 cafeView 選「妳寫得出來的。」：自在、好感照原本第一個選項加；不記「幫她寫報告」（沒有一起寫）',L0.includes('（小聲）……寫完了，先給你看。')&&SOCIAL.rel('heroine_01').comf===c0+4&&!helped,JSON.stringify([L0,SOCIAL.rel('heroine_01').comf,c0,helped])); } }
+      check('AA_358 2-4 報告的結論：cafeView A、B 照原句「（小聲）那天謝謝。」和原選項（「妳寫得出來，我只是坐在旁邊。」「下次換我請。」）',LA.includes('（小聲）那天謝謝。')&&LB.includes('（小聲）那天謝謝。')&&JSON.stringify(oA)===JSON.stringify(['「妳寫得出來，我只是坐在旁邊。」','「下次換我請。」']),JSON.stringify([LA,oA]));
+      check('AA_358 2-4 沒有 cafeView（拒絕咖啡廳）：不說「謝謝你那天陪我」，換「（小聲）你先看。哪裡不通直接講。」；選項「妳寫得出來的。」「改天請妳喝咖啡。」→ 記憶「你說改天請她喝咖啡」',
+        !LN.includes('（小聲）那天謝謝。')&&LN.includes('（小聲）你先看。哪裡不通直接講。')&&JSON.stringify(oN)===JSON.stringify(['「妳寫得出來的。」','「改天請妳喝咖啡。」'])&&!!mem&&mem.note==='你說改天請她喝咖啡'&&LN[LN.length-1]==='（小聲）好。',JSON.stringify([LN,oN,mem]));
+      check('AA_358 2-4 沒有 cafeView 選「妳寫得出來的。」：自在、好感照原本第一個選項加；不記「幫她寫報告」（沒有一起寫）',L0.includes('（小聲）你先看。哪裡不通直接講。')&&SOCIAL.rel('heroine_01').comf===c0+4&&!helped,JSON.stringify([L0,SOCIAL.rel('heroine_01').comf,c0,helped])); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

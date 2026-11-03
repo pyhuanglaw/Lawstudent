@@ -127,7 +127,7 @@ const VAC=(function(){
             if(s.again&&S.nth(G,I)>=2) M[0].ask={id:tag,until:T(o.to,24),opts:[{t:s.again.t,post:false,set:{VAC_PICK:I.key+':again'},say:[]}]};   /* 去過的人多一個選項（C17「寄信給馮律師」，AA_242 12-1 第 5 點）；不是對全班說的話：不在群組留玩家的一句 */
             PHONE.at(G,o.from,o.h,M,tag); } }   /* 第二年起：同一則公告（換年份、日期），C02、C08 多一句；行事曆報名（AA_264 第 3 節）*/
         else if(s.kind==='group'){ if(!PHONE.inGroup(G,s.th.slice(2))) continue; const M=s.msgs.map(m=>Object.assign({th:s.th},m)); if(gt) M.push({th:'sys',text:gt}); else Object.assign(M[M.length-1],{ask:{id:tag,until:T(o.to,24),opts:[{t:s.yes.t,set:{VAC_PICK:I.key+':yes'},say:(s.yes.say||[]).map(x=>Object.assign({th:s.th},x))}]}}); PHONE.at(G,o.from,o.h,M,tag); }
-        else if(s.kind==='dm'&&(!s.min||atLeast(s.who,s.min))&&!(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.cool(G,s.who))&&(typeof STORY==='undefined'||!STORY.knows||STORY.knows(s.who,G)||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(s.who,'FIRST_MET')))){ const th='p:'+s.who, M=s.msgs.map(t=>({th,from:s.who,text:t}));
+        else if(s.kind==='dm'&&(!s.min||atLeast(s.who,s.min))&&!(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.cool(G,s.who))&&!(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,s.who))/* AA_600 S6：前任不揪（C03 照 board:true 從行事曆報名）*/&&(typeof STORY==='undefined'||!STORY.knows||STORY.knows(s.who,G)||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(s.who,'FIRST_MET')))){ const th='p:'+s.who, M=s.msgs.map(t=>({th,from:s.who,text:t}));
           const opts=[{t:s.yes.t,set:{VAC_PICK:I.key+':yes'},say:(s.yes.say||[]).map(x=>Object.assign({th},x))}]; if(s.later) opts.push({t:s.later.t,set:{VAC_PICK:I.key+':later'},say:s.later.say.map(x=>Object.assign({th},x))}); if(s.no) opts.push({t:s.no.t,set:{VAC_PICK:I.key+':no'},say:s.no.say.map(x=>Object.assign({th},x))});
           Object.assign(M[M.length-1],{ask:{id:tag,until:T(o.to,24),opts}}); PHONE.at(G,o.from,o.h,M,tag); } }   /* 分開以後一個學期她不主動約（V6EX.cool，AA_434 第 4 節第 3 點）：她私訊約的那一種先不傳；冷卻過了、報名還沒截止就照常傳 */
       /* 沒參加（沒報名、或報了沒去）：卡片的 miss */
@@ -190,7 +190,8 @@ const VAC=(function(){
     for(const m of Dt().MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=DK(m.day); if(d==null||now<T(d,m.h)||G.day>d+2) continue;
       if(m.th.startsWith('g:')&&!PHONE.inGroup(G,m.th.slice(2))) continue; if(m.min&&!atLeast(m.min[0],m.min[1])) continue; if(m.dating&&!F['dating_'+m.dating]) continue;
       if(m.vac&&!S.enrolled(G,m.vac)) continue; if(m.dating&&!m.vac&&S.abroadOn(G,d)) continue;   /* 人在國外的那幾天，交往中的訊息照 AA_242 第 6、8 節（出國期間的那一套）*/ if(m.idle&&Object.values(V.reg).some(v=>v==='yes'||v==='done')) continue;   /* 整個暑假都沒排事才傳（VA-11 最後一列）*/
-      if(!m.dating&&m.th.startsWith('p:')&&F['dating_'+m.th.slice(2)]&&/^va02_/.test(m.tag)) continue;   /* 交往中的返鄉訊息另外補（AA_241 第 6 節最後一點）*/
+      if(!m.dating&&m.th.startsWith('p:')&&F['dating_'+m.th.slice(2)]&&/^va02_/.test(m.tag)) continue;
+      if(m.th.startsWith('p:')&&typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,m.th.slice(2))) continue;   /* AA_600 A16（va02_3、va02_4）：前任的以安、學姊不主動私訊 */   /* 交往中的返鄉訊息另外補（AA_241 第 6 節最後一點）*/
       PHONE.at(G,d,m.h,m.ms.map(x=>Object.assign({th:m.th},x)),m.tag); } };
   /* ---- VA-09 芯慈的事務所暑假（AA_256 第 1 節）：她自己過，玩家有沒有回都照常；第 2、3 則可以約一次午餐 ---- */
   /* AA_549 2-1（AA 回第 1 題）：行事曆地點「芯慈實習公司樓下的自助餐」；標題的「（事務所樓下）」照她那一句改「（公司樓下）」*/
@@ -320,7 +321,7 @@ const VAC=(function(){
       if(dark!=null&&P.dark){ const th='p:'+id; const ask={id:T0+id+'_dark',until:T(dark+2,24),opts:M.darkRep.map(t=>({t,say:[{th,from:id,text:P.darkAns}]}))}; put(id,dark,22.5,P.dark,T0+id+'_dark',ask); }   /* 停電那晚她傳的，隔天早上才收到 */
       if(tr.missWeek&&P.miss){ const d=sd+(tr.missWeek-1)*7+2; if(d<ed) put(id,at(d).d,at(d).h+0.5,P.miss,T0+id+'_miss',{id:T0+id+'_miss',until:T(d+2,24),opts:M.missRep.map(t=>({t,say:[]}))}); } }
     const fam=id=>atLeast(id,'FAMILIAR');
-    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
+    for(const id in M.friend){ if(F['dating_'+id]||!fam(id)||mates.has(id)) continue; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) continue;   /* AA_600 S7：祐廷出國時，前任的以安、學姊不傳 */ if(M.gf[id]&&off(M.gf[id].off,sd)) continue;
       M.friend[id].forEach((f,j)=>{ if(f.only&&f.only!==A.id) return; const d=f.day==='mid'?mid:(f.day==='mid1'?mid+1:(f.day==='mid-1'?mid-1:(f.day==='end'?ed-1:sd+f.day))); const h=f.h==='dep'?depH:f.h, fd=f.nextDay?d+1:d;
         const shutF=!!f.shut&&typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,fd);   /* 那天麵店過年店休：語彤朋友版的照片換 shut（AA_369 第 9 節第 3 題）*/
         put(id,fd,h,tx(shutF?f.shut:f.ms),T0+'f_'+id+'_'+j); }); }

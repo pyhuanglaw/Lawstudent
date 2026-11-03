@@ -1,15 +1,20 @@
-// 第二天「為什麼念法律」＋以安三項（D60；AA_12 0-4、AA_120 7-5 第 4、5 項；使用者 2026-10-14 正式決定二、三）——不需要瀏覽器。
+// 第二天：下課她追出來、一起走、Café／總圖（D60 起；2026-11-02 改照 AA_587 第 7-2 節 S4 方案 A——使用者 11-02「你為什麼念法律」拿掉、她追出來是為了報告分組並交換 LINE；
+// AA 第 9 節定案、使用者第 14 節看完）——不需要瀏覽器。
 // （de2a31e 的 commit 訊息寫成「D60、D62」是筆誤：D62 是社科院與辜振甫圖書館）
 // 檢查：
-//   走路（Café、總圖兩條路線）：祐廷「……說來話長。你呢？」、以安講「理由要怎麼講才算數」；沒有舊句子。
-//   Café、總圖各四個回答（AA 原文）都選一次：F.whyLaw／G.choices.whyLaw 是新 key；只有 econ 以安記得 KNOWS_ECON_YEAR；不設全域旗標（ECON_PAST_SHARED 另外管）。
-//   以安的反應照 AA 原文；Café 第 88 條選「不應該」的反應改成「現實裡」那句（整句，不是只換兩個字）。
+//   追出來（meetAn）：classAnswer 那句以後、邀約以前，以安「老師說報告兩人一組。我還沒有組。你呢？」→ 祐廷「那我們一組？」（自動說、對話框寫玩家的名字、不是選項）→「好。」→ CG-28 →「LINE。」；
+//     記 AN_CONTACT_DAY2（＝那一天）、REPORT_PARTNER（開學第二天她追出來分組）；三種邀約選法都一樣；婉拒的多一句「題目出來我傳你。」；邀約的選項照舊三個。
+//   走路（Café、總圖兩條路線）：「周老師說報告的題目下週公布。我猜就是今天那個賣家。」→ 祐廷「少打一個零那個？」→「嗯。我已經在找判決了。」；沒有舊句子。
+//   Café、總圖：「為什麼念法律」整段拿掉（沒有那四個選項、沒有「說來話長」、whyLaw 不設、以安不會從這裡知道經濟系）；換成照 cafeView 的分工（新5～新8）；好感照舊 +3；
+//     結尾「筆記我晚上拍給你。」（不再要聯絡方式、不在這裡記 AN_CONTACT_DAY2）；記憶 CAFE_AFTERNOON／LIBRARY_AFTERNOON 的備註「聊了報告」。
+//   Café 第 88 條選「不應該」：「好狠。」之後「……但我懂。「我不是故意的」，每天都有人在說。」（AA_587 第 6 列）。
+//   第 4～5 週的分組事件（ev_an_report_split）：條件多 notMemory REPORT_PARTNER——新玩家第二天就同組了，只剩舊存檔會演。
 //   舊句子（分數到了、書記官、一年後我再問你、我媽說、我媽在法院）：story3d.js 整個檔案與實際演出都沒有。
 //   ev_an_mother 停用：條件都符合也不觸發（同樣條件、拿掉 retired 的複本會觸發——證明這項測試抓得到）。
 //   存檔：第二天之後存的（舊 key ok／hero／family／unknown 原值不變、以安不知道經濟系、下午之後找以安不再追問「家裡那件事」）、
 //         第二天之前存的（照新版演）、已經演過 ev_an_mother 的（不會再演、記憶留著、人物面板照樣讀得出來）。
-//   以安要聯絡方式（A19 的前提，AA 2026-10-14）：Café、總圖兩條路線的結尾各一句，記 AN_CONTACT_DAY2。
-//   開局：自訂名字（祐廷自己說的話，對話框寫玩家取的名字）；遊戲只有一種新遊戲開局（STORY.newGame），第二天拒絕以安的邀約時沒有這段對話。
+//   開局：自訂名字（祐廷自己說的話，對話框寫玩家取的名字）；遊戲只有一種新遊戲開局（STORY.newGame）。
+// 修改前（d7a468868 的 story3d.js、events.js 放進這支測試實際跑）：FAIL 43、PASS 33（追出來、Café、總圖、分組事件、為什麼念法律那幾項）；修改後 ALL PASS（76 項）。
 // 用法：node tests/day2_whylaw_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -31,66 +36,52 @@ const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>n
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },
   choose:async o=>{ const tx=o.map(q=>q.t||q.text); opts.push(tx); if(tx.some(t=>/翻民法/.test(t))) return pick.why; if(tx.some(t=>/改天/.test(t))) return pick.invite; if(tx.length===3&&/^應該/.test(tx[0])) return pick.law88; return 0; }};
 const fresh=(over,name)=>{ G=mkG(name); Object.assign(G.flags,over||{}); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; GM.npc={an:{id:'an',charId:'heroine_01',name:'小安',obj:{position:{x:0,z:0}},beh:'follow'}}; };
+global.ADV.cg=id=>{ said.push({who:'#CG',t:'#CG:'+id}); };   /* CG 那一拍記進同一串，看順序 */
 const lines=()=>said.map(s=>s.t);
 const has=(id,tag)=>SOCIAL.has(id,tag);
 const D2=STORY._day2;
-// AA_12 0-4（Café）、AA_120 7-5 第 5 項（總圖短版）的原文
-const CAFE_OPTS=['我小時候遇到事情就會去翻民法。翻得到，看不懂。我想知道怎麼看懂。','我念過一個多月經濟。還是想念這個。','我想幫身邊的人把事情弄清楚。','還在找怎麼說。但這是我自己選的。'];
-const LIB_OPTS=['小時候遇到事情就去翻民法。翻得到，看不懂。','我念過一個多月經濟。還是想念這個。','想幫身邊的人把事情弄清楚。','還在找怎麼說。但是我自己選的。'];
 const KEYS=['curious','econ','help','own'];
-const CAFE_REACT=[['……小時候？','她停了一下。','那你很誠實。大部分人會說自己從小就懂。'],['所以你比我大？','一歲。','……學長。','不要。'],['這個理由我喜歡。很多人不是輸在法律，是輸在沒人幫他把事情弄清楚。'],['「自己選的」。','她重複一次，好像要記住。']];
-const LIB_REACT=[['（小聲）……小時候？那你很誠實。'],['（小聲）所以你比我大？','一歲。','（小聲）……學長。','不要。'],['（小聲）這個理由我喜歡。'],['（小聲）「自己選的」。……好。']];
 const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
+const WHY=/為什麼是法律系|說來話長|翻民法|自己選的|小時候|學長|理由/;   /* 「為什麼念法律」那一段的字（AA_587 第 46～49、51～55 列刪掉的） */
+const NOTE=['那結論你寫。','那反方你寫。','那判斷標準你寫，你比我會講。'], NOTE_Q=['（小聲）那結論你寫。','（小聲）那反方你寫。','（小聲）那判斷標準你寫。'];
+const memNote=(id,tag)=>{ const m=(G.social&&G.social.mem&&G.social.mem[id]||[]).find(x=>x.tag===tag); return m?m.note:null; };
 (async()=>{
   // ---------- 1 走路（兩條路線）----------
   for(const plan of ['cafe','library']){ const cks=D2.walkChecks(plan); const first=cks[0]; const all=[].concat(...cks.map(c=>c.lines.map(l=>l[1])));
-    check('1 走路（'+plan+'）：「為什麼是法律系？」→ 祐廷「……說來話長。你呢？」→ 以安講吃飯講理由（AA_12 0-4）',
-      first.lines.length===3&&first.lines[0][1]==='你有沒有想過，為什麼是法律系？'&&first.lines[1][0]==='我'&&first.lines[1][1]==='……說來話長。你呢？'&&first.lines[2][1]==='我家吃飯的時候，一件小事也要講理由講半天。我想知道，理由要怎麼講才算數。',JSON.stringify(first.lines));
-    check('1 走路（'+plan+'）：沒有舊句子（'+OLD.join('、')+'）',oldIn(all).length===0,oldIn(all).join('、')); }
-  // ---------- 2 Café 四個回答 ----------
-  for(let k=0;k<4;k++){ fresh(); pick={law88:0,why:k}; await D2.cafeScene(GM); const L=lines(), whyOpts=opts.find(o=>o.some(t=>/翻民法/.test(t)))||[];
-    const q='欸，剛剛路上你說「說來話長」。我們有一整個下午。';
-    check('2 Café 選 '+KEYS[k]+'：以安先接回路上的話「'+q+'」',L.includes(q));
-    check('2 Café 選 '+KEYS[k]+'：四個選項＝AA 原文（沒有否認是自己選的）',JSON.stringify(whyOpts)===JSON.stringify(CAFE_OPTS),JSON.stringify(whyOpts));
-    check('2 Café 選 '+KEYS[k]+'：F.whyLaw＝G.choices.whyLaw＝'+KEYS[k],G.flags.whyLaw===KEYS[k]&&G.choices.whyLaw===KEYS[k],G.flags.whyLaw+'/'+G.choices.whyLaw);
-    const exp=CAFE_REACT[k], got=after(L,q).slice(0,exp.length);
-    check('2 Café 選 '+KEYS[k]+'：以安的反應＝AA 原文',JSON.stringify(got)===JSON.stringify(exp),JSON.stringify(got));
-    check('2 Café 選 '+KEYS[k]+'：只有 econ 以安記得念過經濟系（KNOWS_ECON_YEAR）；沒有設全域旗標',has('heroine_01','KNOWS_ECON_YEAR')===(k===1)&&G.flags.ECON_PAST_SHARED===undefined&&!('KNOWS_ECON_YEAR' in G.flags));
-    check('2 Café 選 '+KEYS[k]+'：整段演出沒有舊句子',oldIn(L).length===0,oldIn(L).join('、'));
-    check('2 Café 選 '+KEYS[k]+'：下午照樣結束（afternoonDone、CAFE_AFTERNOON）',G.flags.afternoonDone===true&&has('heroine_01','CAFE_AFTERNOON'));
-    if(k===1) check('2 econ：祐廷自己說「一歲。」「不要。」（對話框寫玩家的名字）',said.filter(s=>s.t==='一歲。'||s.t==='不要。').every(s=>s.who==='祐廷')&&said.filter(s=>s.who==='祐廷').length===2,JSON.stringify(said.filter(s=>s.who==='祐廷'))); }
-  // Café 第 88 條三個選項各一次：「不應該」的反應是「現實裡」那句；其他兩個不變
-  { fresh(); pick={law88:1,why:2}; await D2.cafeScene(GM); const L=lines();
-    check('2 Café 第 88 條選「不應該」：「好狠。」之後是「……但我懂。「我不是故意的」，現實裡每天都有人說。可是法律不是用來原諒粗心的。」',
-      after(L,'好狠。')[0]==='……但我懂。「我不是故意的」，現實裡每天都有人說。可是法律不是用來原諒粗心的。'&&G.flags.cafeView==='B',after(L,'好狠。')[0]);
+    check('1 走路（'+plan+'）：「周老師說報告的題目下週公布。我猜就是今天那個賣家。」→ 祐廷「少打一個零那個？」→「嗯。我已經在找判決了。」（AA_587 第 43～45 列）',
+      first.lines.length===3&&first.lines[0][1]==='周老師說報告的題目下週公布。我猜就是今天那個賣家。'&&first.lines[1][0]==='我'&&first.lines[1][1]==='少打一個零那個？'&&first.lines[2][1]==='嗯。我已經在找判決了。',JSON.stringify(first.lines));
+    check('1 走路（'+plan+'）：沒有舊句子（'+OLD.join('、')+'）、沒有「為什麼是法律系」',oldIn(all).length===0&&!all.some(t=>/為什麼是法律系|說來話長/.test(t)),oldIn(all).join('、')); }
+  // ---------- 2 Café：第 88 條三個選項各一次 ----------
+  for(const [a,key] of [[0,'A'],[1,'B'],[2,'C']]){ fresh(); pick={law88:a}; await D2.cafeScene(GM); const L=lines(); const n=after(L,'她打開筆電，打了幾行字，又停下來。');
+    check('2 Café 第 88 條選 '+key+'：「她打開筆電…」之後是「'+NOTE[a]+'」「其他的我來。題目一公布就開始。」（AA_587 新5、新6）',G.flags.cafeView===key&&n[0]===NOTE[a]&&n[1]==='其他的我來。題目一公布就開始。',JSON.stringify(n.slice(0,2)));
+    check('2 Café 選 '+key+'：「為什麼念法律」整段拿掉：沒有那四個選項、whyLaw 不設、以安不記得經濟系',!opts.some(o=>o.some(t=>/翻民法|經濟/.test(t)))&&G.flags.whyLaw===undefined&&G.choices.whyLaw===undefined&&!has('heroine_01','KNOWS_ECON_YEAR')&&!L.some(t=>WHY.test(t)),JSON.stringify(L.filter(t=>WHY.test(t))));
+    check('2 Café 選 '+key+'：結尾「今天……謝謝。」→「筆記我晚上拍給你。」（AA_587 第 50 列）；不在這裡記 AN_CONTACT_DAY2；下午照樣結束（afternoonDone、CAFE_AFTERNOON「聊了報告」）',
+      after(L,'今天……謝謝。')[0]==='筆記我晚上拍給你。'&&!L.includes('你的聯絡方式給我。筆記我拍給你。')&&G.flags.AN_CONTACT_DAY2===undefined&&G.flags.afternoonDone===true&&memNote('heroine_01','CAFE_AFTERNOON')==='聊了報告',JSON.stringify(L.slice(-2)));
+    check('2 Café 選 '+key+'：整段演出沒有舊句子',oldIn(L).length===0,oldIn(L).join('、')); }
+  { fresh(); pick={law88:1}; await D2.cafeScene(GM); const L=lines();
+    check('2 Café 第 88 條選「不應該」：「好狠。」之後是「……但我懂。「我不是故意的」，每天都有人在說。」（AA_587 第 6 列）',after(L,'好狠。')[0]==='……但我懂。「我不是故意的」，每天都有人在說。'&&G.flags.cafeView==='B',after(L,'好狠。')[0]);
     check('2 Café 第 88 條選「不應該」：沒有提到媽媽',!L.some(t=>/媽/.test(t)),L.filter(t=>/媽/.test(t)).join(' / ')); }
-  for(const [a,key] of [[0,'A'],[2,'C']]){ fresh(); pick={law88:a,why:0}; await D2.cafeScene(GM); const L=lines();
-    check('2 Café 第 88 條選 '+key+'：照舊演完、沒有舊句子',G.flags.cafeView===key&&oldIn(L).length===0&&G.flags.whyLaw==='curious',key+' '+oldIn(L).join('、')); }
-  // ---------- 3 總圖四個回答（小聲版）----------
-  for(let k=0;k<4;k++){ fresh({plan:'library',walkCk:{soc:true}}); G.zone='library_hall'; pick={law88:0,why:k}; await D2.libraryScene(GM); const L=lines(), whyOpts=opts.find(o=>o.some(t=>/翻民法/.test(t)))||[];
-    const q='（小聲）剛剛路上你說「說來話長」。……小聲講，可以講短一點。';
-    check('3 總圖 選 '+KEYS[k]+'：以安先接回路上的話「'+q+'」',L.includes(q));
-    check('3 總圖 選 '+KEYS[k]+'：四個選項＝AA 短版原文',JSON.stringify(whyOpts)===JSON.stringify(LIB_OPTS),JSON.stringify(whyOpts));
-    check('3 總圖 選 '+KEYS[k]+'：F.whyLaw＝G.choices.whyLaw＝'+KEYS[k],G.flags.whyLaw===KEYS[k]&&G.choices.whyLaw===KEYS[k]);
-    const exp=LIB_REACT[k], got=after(L,q).slice(0,exp.length);
-    check('3 總圖 選 '+KEYS[k]+'：以安的反應＝AA 原文',JSON.stringify(got)===JSON.stringify(exp),JSON.stringify(got));
-    check('3 總圖 選 '+KEYS[k]+'：只有 econ 記得 KNOWS_ECON_YEAR；沒有全域旗標',has('heroine_01','KNOWS_ECON_YEAR')===(k===1)&&G.flags.ECON_PAST_SHARED===undefined);
-    check('3 總圖 選 '+KEYS[k]+'：沒有舊句子；下午照樣結束（LIBRARY_AFTERNOON）',oldIn(L).length===0&&G.flags.afternoonDone===true&&has('heroine_01','LIBRARY_AFTERNOON'),oldIn(L).join('、')); }
-  // ---------- 3b 以安要聯絡方式（交付清單 A19 的前提，AA 2026-10-14）：兩條路線的結尾 ----------
-  { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const L=lines(); const i=L.indexOf('今天……謝謝。');
-    check('3b Café 的結尾：「今天……謝謝。」之後以安「你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2＝那一天',i>=0&&L[i+1]==='你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L.slice(-3)));
-    fresh({plan:'library',walkCk:{soc:true}}); G.zone='library_hall'; pick={law88:0,why:1}; await D2.libraryScene(GM); const L2=lines(); const j=L2.indexOf('（小聲）我再待一下。今天……謝謝。');
-    check('3b 總圖的結尾（小聲版）：以安「（小聲）你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2',j>=0&&L2[j+1]==='（小聲）你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L2.slice(-3))); }
-  // ---------- 4 以安的記憶：人物面板讀得出來（只在 econ）----------
-  { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const d=SOCIAL.describe('heroine_01');
-    check('4 econ 之後：以安的人物面板寫「知道你念過經濟系」',/知道你念過經濟系/.test(d),d);
-    fresh(); pick={law88:0,why:3}; await D2.cafeScene(GM); const d2=SOCIAL.describe('heroine_01');
-    check('4 own 之後：以安的人物面板沒有經濟系',!/經濟/.test(d2),d2); }
+  // 好感：S4 拿掉的那段原本的 GM.rel('an',3) 搬到分工那兩句後面（總量不變）
+  { const rels=[]; const r0=GM.rel; GM.rel=(id,n)=>rels.push([id,n]); fresh(); pick={law88:0}; await D2.cafeScene(GM); const c=rels.slice(); rels.length=0;
+    fresh({plan:'library',walkCk:{soc:true}}); G.zone='library_hall'; pick={law88:0}; await D2.libraryScene(GM); GM.rel=r0;
+    check('2 好感照舊：Café、總圖選 A 各 GM.rel(an,3) 一次（原本「為什麼念法律」那段的，搬到分工後面）',JSON.stringify(c)===JSON.stringify([['an',3]])&&JSON.stringify(rels)===JSON.stringify([['an',3]]),JSON.stringify({c,rels})); }
+  // ---------- 3 總圖（小聲版）----------
+  for(const [a,key] of [[0,'A'],[1,'B'],[2,'C']]){ fresh({plan:'library',walkCk:{soc:true}}); G.zone='library_hall'; pick={law88:a}; await D2.libraryScene(GM); const L=lines();
+    const i=L.findIndex(t=>/^（小聲）(我也這樣想|好狠|對，「無過失」)/.test(t)), n=L.slice(i+1);
+    check('3 總圖 選 '+key+'：第 88 條的反應之後是「'+NOTE_Q[a]+'」「（小聲）其他的我來。」（AA_587 新7、新8）',i>=0&&n[0]===NOTE_Q[a]&&n[1]==='（小聲）其他的我來。'&&G.flags.cafeView===key,JSON.stringify(n.slice(0,2)));
+    check('3 總圖 選 '+key+'：沒有「為什麼念法律」、whyLaw 不設、沒有 KNOWS_ECON_YEAR',!opts.some(o=>o.some(t=>/翻民法|經濟/.test(t)))&&G.flags.whyLaw===undefined&&!has('heroine_01','KNOWS_ECON_YEAR')&&!L.some(t=>WHY.test(t)),JSON.stringify(L.filter(t=>WHY.test(t))));
+    check('3 總圖 選 '+key+'：結尾「（小聲）我再待一下。今天……謝謝。」→「（小聲）筆記我晚上拍給你。」；不在這裡記 AN_CONTACT_DAY2；LIBRARY_AFTERNOON「聊了報告」；沒有舊句子',
+      after(L,'（小聲）我再待一下。今天……謝謝。')[0]==='（小聲）筆記我晚上拍給你。'&&G.flags.AN_CONTACT_DAY2===undefined&&G.flags.afternoonDone===true&&memNote('heroine_01','LIBRARY_AFTERNOON')==='聊了報告'&&oldIn(L).length===0,JSON.stringify(L.slice(-2))); }
+  // ---------- 4 分組事件只剩舊存檔 ----------
+  { const ev=STORY_EVENTS.find(e=>e.id==='ev_an_report_split'), nm=(ev.prereq&&ev.prereq.notMemory)||[];
+    check('4 ev_an_report_split 條件多 notMemory REPORT_PARTNER（第二天已經同組的不演；AA_587 第 7-2 節）',nm.some(m=>m.npc==='heroine_01'&&m.tag==='REPORT_PARTNER'),JSON.stringify(ev.prereq));
+    check('4 ev_an_report_split 的原句照 AA_587 第 8、9 列（舊存檔看得到）',ev.dialogue[0].text==='（把講義收好）民總的報告兩人一組。我還沒有組。'&&ev.dialogue.some(l=>l.text==='你呢？')); }
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
     /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。」，BB_104 8b-16；BB_179 段 E 改短）：先拿掉這幾句再搜尋 */
     const LEGIT=['我媽說我寒假胖了。','我媽說我這三天胖了。……都是夜市害的。','我媽說她不好意思拒絕。','我媽說今年要包一百個','我媽說，下次她會先打給我。'];   /* 法服值班民眾第 6 件（AA_184）；阿哲的大二過年（AA_143 2-1，AA-B 9035ede0）；法服值班第二輪第 6 位回來（AA_469 2-1，企劃線 9f465dcef）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
     check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
+    check('5 story3d.js 沒有第二天的「為什麼念法律」台詞（說來話長、我們有一整個下午、這個理由我喜歡）、whyLawChosen 拿掉',!/說來話長|我們有一整個下午|這個理由我喜歡|whyLawChosen/.test(src.slice(src.indexOf('async function meetAn('),src.indexOf("GM.memo('和小安在總圖待到黃昏')")).replace(/\/\*[\s\S]*?\*\//g,''))&&src.indexOf('async function meetAn(')>0);   /* 第二天那幾段（meetAn～libraryScene）；別處合法的「說來話長」（經濟系寒假 E24C）不算 */
     const h=CHARACTERS.heroine_01;
     check('5 以安的 family_context＝「母親是高等法院庭長，單親；家在台中，家境寬裕」（2026-10-18 01:3x 使用者經 AA-C）',h.family_context==='母親是高等法院庭長，單親；家在台中，家境寬裕',h.family_context);
     check('5 以安的 contradictions：還沒決定司法官或大事務所律師、媽媽是高等法院庭長、不想被當成『庭長的女兒』；沒有書記官',h.contradictions==='看起來對人生極有規劃，其實還沒決定要當司法官還是大事務所律師；媽媽是高等法院庭長，她給自己的標準很高，也不想被當成『庭長的女兒』'&&!/書記官/.test(JSON.stringify(h)),h.contradictions); }
@@ -117,9 +108,9 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     G.day=2; G.hour=13.5; G.zone='campus'; Object.assign(G.flags,{classDone:true,plan:'cafe',companion:'an',walkCk:{}});
     { const si=global.setInterval, ci=global.clearInterval; let cb=null; global.setInterval=f=>{ cb=f; return 1; }; global.clearInterval=()=>{};
       try{ D2.startWalkTalk(GM); P.obj.position.x=30; P.obj.position.z=-40; cb&&cb(); } finally { global.setInterval=si; global.clearInterval=ci; P.obj.position.x=0; P.obj.position.z=0; } }
-    check('7-2 第二天之前的舊存檔：讀進來以後走到路上的觸發點，播新版走路台詞、記下 whyWalkNew',G.flags.walkCk.road===true&&G.flags.whyWalkNew===true,JSON.stringify({walkCk:G.flags.walkCk,whyWalkNew:G.flags.whyWalkNew}));
-    G.hour=14.2; G.zone='cafe'; pick={law88:1,why:1}; said=[]; opts=[]; await D2.cafeScene(GM); const L=lines();
-    check('7-2 第二天之前的舊存檔：第二天照新版演（「說來話長」、新選項、econ 記得、「現實裡」）',L.includes('欸，剛剛路上你說「說來話長」。我們有一整個下午。')&&G.flags.whyLaw==='econ'&&has('heroine_01','KNOWS_ECON_YEAR')&&L.some(t=>/現實裡每天都有人說/.test(t))&&oldIn(L).length===0,oldIn(L).join('、')); }
+    check('7-2 第二天之前的舊存檔：讀進來以後走到路上的觸發點，播新版走路台詞（walkCk.road）',G.flags.walkCk.road===true,JSON.stringify({walkCk:G.flags.walkCk}));
+    G.hour=14.2; G.zone='cafe'; pick={law88:1}; said=[]; opts=[]; await D2.cafeScene(GM); const L=lines();
+    check('7-2 第二天之前的舊存檔：第二天照新版演（分工「那反方你寫。」、「每天都有人在說」、沒有「為什麼念法律」）',L.includes('那反方你寫。')&&L.some(t=>/每天都有人在說/.test(t))&&G.flags.whyLaw===undefined&&!L.some(t=>WHY.test(t))&&oldIn(L).length===0,oldIn(L).join('、')); }
   // 7-3 已經演過 ev_an_mother 的：不會再演、記憶留著、人物面板讀得出來
   { fresh({afternoonDone:true,whyLaw:'ok'}); G.zone='campus'; G.hour=18; G.day=15; G.events.done.ev_an_mother=1; G.events.last.ev_an_mother=11; SOCIAL.adjust('heroine_01',{fam:30,trust:20});
     SOCIAL.remember('heroine_01','TALKED_FAMILY','她媽媽是書記官');
@@ -129,19 +120,23 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     check('7-3 人物面板只寫「聊過家裡的事」，不顯示舊備註（存檔裡的備註不改，AA 2026-10-14）',!/書記官/.test(d)&&G.social.mem.heroine_01.some(m=>m.tag==='TALKED_FAMILY'&&m.note==='她媽媽是書記官'),d);
     SOCIAL.remember('heroine_01','LATE_NIGHT_TALK','聊到很晚'); const d2=SOCIAL.describe('heroine_01');
     check('7-3 不是停用事件留下的備註照常顯示',/深夜聊過（聊到很晚）/.test(d2),d2); }
-  // 7-4 舊版走到一半存的檔（聽過舊的走路台詞、還沒到店裡）：到 Café／總圖用不提「說來話長」的問句（AA 2026-10-14）；也涵蓋沒經過觸發點就到店裡的玩家
-  { fresh(); delete G.flags.whyWalkNew; pick={law88:0,why:2}; await D2.cafeScene(GM); const L=lines(), whyOpts=opts.find(o=>o.some(t=>/翻民法/.test(t)))||[];
-    check('7-4 Café：沒聽過新版走路台詞 → 「欸，剛剛路上那個問題——為什麼是法律系？我們有一整個下午。」，四個選項、key 照舊',L.includes('欸，剛剛路上那個問題——為什麼是法律系？我們有一整個下午。')&&!L.some(t=>/說來話長/.test(t))&&JSON.stringify(whyOpts)===JSON.stringify(CAFE_OPTS)&&G.flags.whyLaw==='help',JSON.stringify(L.filter(t=>/剛剛路上/.test(t))));
-    fresh({plan:'library',walkCk:{soc:true}}); delete G.flags.whyWalkNew; G.zone='library_hall'; pick={law88:0,why:3}; await D2.libraryScene(GM); const L2=lines();
-    check('7-4 總圖：沒聽過新版走路台詞 → 「（小聲）剛剛路上那個問題……小聲講，可以講短一點。」',L2.includes('（小聲）剛剛路上那個問題……小聲講，可以講短一點。')&&!L2.some(t=>/說來話長/.test(t))&&G.flags.whyLaw==='own',JSON.stringify(L2.filter(t=>/剛剛路上/.test(t)))); }
-  // ---------- 8 開局 ----------
-  { fresh(null,'阿明'); pick={law88:0,why:1}; await D2.cafeScene(GM);
-    check('8 自訂名字「阿明」：祐廷自己說的「一歲。」「不要。」對話框寫「阿明」',said.filter(s=>s.t==='一歲。'||s.t==='不要。').every(s=>s.who==='阿明')&&said.filter(s=>s.who==='阿明').length===2,JSON.stringify(said.filter(s=>s.t==='一歲。'||s.t==='不要。')));
-    const nm=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8').match(/S\.newGame=async function/g)||[];
-    check('8 新遊戲只有一種開局（STORY.newGame）：第一天 21:12 宿舍；第二天才有這段對話',nm.length===1);
-    // 第二天下課後以安的邀約（meetAn）：三種選法都從新遊戲的狀態開始（第二天、上完課、還沒有 plan）
-    for(const [inv,plan] of [[0,'cafe'],[1,'library'],[2,null]]){ fresh({plan:undefined,companion:undefined,walkCk:undefined}); G.zone='campus'; G.hour=12.1; GM.npc={}; pick={law88:0,why:0,invite:inv}; await D2.meetAn(GM); const L=lines();
-      if(plan) check('8 下課後的邀約選「'+(plan==='cafe'?'咖啡廳':'總圖')+'」：一起走、路上的對話照新版（plan='+plan+'）、還沒有 whyLaw（坐下來才問）',G.flags.plan===plan&&G.flags.companion==='an'&&G.flags.whyLaw===undefined&&oldIn(L).length===0&&D2.walkChecks(G.flags.plan)[0].lines[1][1]==='……說來話長。你呢？',JSON.stringify({plan:G.flags.plan,companion:G.flags.companion}));
-      else check('8 下課後的邀約選「改天」：沒有走路／Café／總圖的對話，whyLaw 沒設（之後讀成 null）、以安沒有記得經濟系',G.flags.anSkipped===true&&G.flags.plan===undefined&&G.flags.whyLaw===undefined&&STORY.whyLawKey(G.flags)===null&&!has('heroine_01','KNOWS_ECON_YEAR')&&oldIn(L).length===0,JSON.stringify({anSkipped:G.flags.anSkipped,plan:G.flags.plan})); } }
+  // 7-4 舊版走到一半存的檔（聽過舊的走路台詞、還沒到店裡）：到 Café／總圖也沒有「為什麼念法律」
+  { fresh(); delete G.flags.whyWalkNew; pick={law88:0}; await D2.cafeScene(GM); const L=lines();
+    check('7-4 Café：沒聽過新版走路台詞的舊存檔，到店裡也照新版（分工、沒有「為什麼是法律系」）',L.includes('那結論你寫。')&&!L.some(t=>WHY.test(t))&&G.flags.whyLaw===undefined,JSON.stringify(L.filter(t=>WHY.test(t))));
+    fresh({plan:'library',walkCk:{soc:true}}); delete G.flags.whyWalkNew; G.zone='library_hall'; pick={law88:0}; await D2.libraryScene(GM); const L2=lines();
+    check('7-4 總圖：同上（小聲版分工、沒有「為什麼是法律系」）',L2.includes('（小聲）那結論你寫。')&&!L2.some(t=>WHY.test(t))&&G.flags.whyLaw===undefined,JSON.stringify(L2.filter(t=>WHY.test(t)))); }
+  // ---------- 8 開局、追出來（meetAn）----------
+  { const nm=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8').match(/S\.newGame=async function/g)||[];
+    check('8 新遊戲只有一種開局（STORY.newGame）：第一天 21:12 宿舍；第二天才有這段對話',nm.length===1); }
+  const SEQ=['老師說報告兩人一組。我還沒有組。你呢？','那我們一組？','好。','#CG:cg_line_qr_heroine01','LINE。','#CG:null'];
+  for(const [inv,plan,name] of [[0,'cafe','祐廷'],[1,'library','祐廷'],[2,null,'祐廷'],[0,'cafe','阿明']]){
+    fresh({plan:undefined,companion:undefined,walkCk:undefined,metAn:undefined},name); G.zone='campus'; G.hour=12.1; GM.npc={}; pick={law88:0,invite:inv}; await D2.meetAn(GM); const L=lines();
+    const i=L.indexOf(SEQ[0]), inviteAt=L.indexOf('我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。'), classAt=L.findIndex(t=>/^剛剛周老師/.test(t));
+    const tag='8 追出來（'+(plan||'改天')+'，'+name+'）';
+    check(tag+'：classAnswer 那句以後、邀約以前：'+SEQ.join('→')+'（AA_587 新1～新4；「LINE。」那一拍放 CG-28）',i>classAt&&classAt>=0&&JSON.stringify(L.slice(i,i+SEQ.length))===JSON.stringify(SEQ)&&inviteAt===i+SEQ.length,JSON.stringify(L.slice(Math.max(0,i-1),i+SEQ.length+1)));
+    check(tag+'：「那我們一組？」是祐廷自己說的（對話框寫「'+name+'」），不是選項；邀約的選項照舊三個',(said.find(s=>s.t==='那我們一組？')||{}).who===name&&opts.length===1&&opts[0].length===3&&!opts.some(o=>o.includes('那我們一組？')),JSON.stringify(opts));
+    check(tag+'：記 AN_CONTACT_DAY2＝那一天、REPORT_PARTNER（開學第二天她追出來分組）',G.flags.AN_CONTACT_DAY2===G.day&&has('heroine_01','REPORT_PARTNER')&&memNote('heroine_01','REPORT_PARTNER')==='開學第二天她追出來分組');
+    if(plan) check(tag+'：一起走（plan='+plan+'）、whyLaw 沒設、沒有舊句子',G.flags.plan===plan&&G.flags.companion==='an'&&G.flags.whyLaw===undefined&&oldIn(L).length===0&&!L.includes('題目出來我傳你。'),JSON.stringify({plan:G.flags.plan,companion:G.flags.companion}));
+    else check(tag+'：「好。那明天見。」→「題目出來我傳你。」（AA_587 第 4 列、新9）；沒有走路／Café／總圖、whyLaw 沒設（之後讀成 null）',G.flags.anSkipped===true&&G.flags.plan===undefined&&after(L,'好。那明天見。')[0]==='題目出來我傳你。'&&STORY.whyLawKey(G.flags)===null&&!has('heroine_01','KNOWS_ECON_YEAR')&&oldIn(L).length===0,JSON.stringify(L.slice(-3))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

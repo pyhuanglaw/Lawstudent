@@ -165,7 +165,7 @@ const answer=(id,k)=>{ const m=dm(id); if(!m) return null; const n=(H.G.msgs||[]
 sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); return; }
   /* 以安：第 10 週週五和媽媽吃飯的隔天 10:05（很熟），不用回 */
   const SAT=TDt('Y1S2',10,6); fresh(SAT,9); who('heroine_01','CLOSE'); walk(SAT,10); const a0=tagged('an_mom2').length; walk(SAT,10.1);
-  check('3. 以安（很熟）大一下第 10 週週六 10:05：三則、不用回',a0===0&&J(tagged('an_mom2'))===J(['我媽問我下學期選什麼。','我說公司法。她說：好。','……她說好的時候，都不太像好。'])&&!(H.G.msgs||[]).some(m=>m.tag==='aa503_an_mom2'&&m.ask),J(tagged('an_mom2')));
+  check('3. 以安（很熟）大一下第 10 週週六 10:05：三則、不用回',a0===0&&J(tagged('an_mom2'))===J(['我媽問我下學期選什麼。','我把課表傳給她。她說：好。','……她說好的時候，都不太像好。'])&&!(H.G.msgs||[]).some(m=>m.tag==='aa503_an_mom2'&&m.ask),J(tagged('an_mom2')));
   fresh(SAT,9); who('heroine_01','FRIEND'); walk(SAT,11); check('3. 以安只是朋友：沒有（x:stage）',!tagged('an_mom2').length&&R().dm.an_mom2==='x:stage');
   /* 8/17 AN_LIST */
   const D817=DK('2026-08-17'); fresh(D817-1,20,{AN_LIST:true}); who('heroine_01','FRIEND'); walk(D817,9.9); const b0=tagged('an_done').length; walk(D817,10.1);

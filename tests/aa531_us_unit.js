@@ -98,9 +98,10 @@ await sec(0,()=>{
   check('0. 全部的檔載入沒有錯誤；這一批的模組都在（USL、L118、CRACKTALK、FEST、R2Y4B、SISB16、MSG）',!loadErr.length&&[typeof USL,typeof L118,typeof CRACKTALK,typeof FEST,typeof R2Y4B,typeof SISB16,typeof MSG].every(t=>t==='object'),J(loadErr));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===DOCF);
   check('0. 劇情匯入白名單有 AA_531（sha '+SHA+'、approved、AA-B 定稿（D109）、任務 AA531-US-FIX-1030）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].approvedBy==='AA-B 定稿（D109）'&&A[0].task==='AA531-US-FIX-1030',J(A.map(e=>({sha:e.sha,status:e.status,by:e.approvedBy,task:e.task}))));
-  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0);
+  const ANREV=require('./an_rev_doc.js');   /* 以安改稿第四批 AA_589 第 47 列（視訊的旁白「桌上攤著手帳」→「書」）：遊戲→稿 在改成欄也算、稿→遊戲 照改成欄找（逐列核對在 tests/aa589_an_b4_unit.js）*/
+  const G0=gameNew(), notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&!ANREV.has(t));
   check('0. 遊戲 → 稿：這一批的新句（'+new Set(G0).size+' 句：四位的私訊、五場視訊、勞動節、上課十二句、兩場期末、子晴國外版選項、語彤國外版、大峽谷、七句旁白、挽回中招呼、8-3 四句國外版）都在稿裡（一字不差）',new Set(G0).size>=90&&!notIn.length,J({n:new Set(G0).size,notIn}));
-  const GS=gameSet(), lost=t=>{ const r=SUP[t]||SUP[unq(t)]; return r?!GS.has(r):(!GS.has(t)&&!GS.has(unq(t))); };   /* 8-1 換掉的舊句：找新句 */
+  const GS=gameSet(), lost=t=>{ const r=SUP[t]||SUP[unq(t)]; if(!r&&ANREV.MAP.has(t)&&GS.has(ANREV.rev(t))) return false; return r?!GS.has(r):(!GS.has(t)&&!GS.has(unq(t))); };   /* 8-1 換掉的舊句：找新句 */
   const miss2=DOC2.map(L=>L.filter(lost));
   check('0. 稿 → 遊戲：第 2 節四位的表（'+DOC2.map(L=>L.length).join('、')+' 句）每一句都在遊戲裡',DOC2.every(L=>L.length)&&miss2.every(L=>!L.length),J(miss2));
   check('0. 稿 → 遊戲：5-1 三門各四句（12 句）、5-2 兩場（'+DOC52.length+' 句）、第 6 節表（'+DOC6.length+' 句）都在遊戲裡',DOC51.length===12&&DOC52.length>=7&&DOC6.length===9&&![...DOC51,...DOC52,...DOC6].some(lost),J([...DOC51,...DOC52,...DOC6].filter(lost)));
@@ -152,7 +153,7 @@ await sec(2,async()=>{
   check('2. 以安：10/19 那一通（y4_an18_video）有接＝第一次不排 10/22、挪到 10/29 09:00；第二次 11/19 08:00（冬令，美東早上八點）只給第一次有接的（USL_TW_AN_V1）',n22&&!!q29&&q29.day===D('2028-10-29')&&q29.h===9&&no2&&!!q2&&q2.day===D('2028-11-19')&&q2.h===8,J({n22,q29:q29&&[keyOf(q29.day),q29.h],no2,q2:q2&&[keyOf(q2.day),q2.h]}));
   /* 演：以安第一次（記 USL_TW_AN_V1）、子晴（十分鐘）*/
   fresh('2028-10-21',9,'us_apartment',US()); date(AN,'2028-06-01'); phAt('2028-10-21',12); at('2028-10-22',8.8); await goOut('usl_tw_heroine_01_v1');
-  const anV=seq(['（視訊。她那邊是晚上九點，桌上攤著手帳。你這邊的早餐還沒吃完。）','你那邊幾點？','……我算錯了。我以為你吃完了。','下次我照你那邊的時間排。'])&&H.G.flags.USL_TW_AN_V1===true;
+  const anV=seq(['（視訊。她那邊是晚上九點，桌上攤著書。你這邊的早餐還沒吃完。）','你那邊幾點？','……我算錯了。我以為你吃完了。','下次我照你那邊的時間排。'])&&H.G.flags.USL_TW_AN_V1===true;
   fresh('2028-10-14',9,'us_apartment',US()); date(ZQ,'2028-06-01'); phAt('2028-10-14',12); at('2028-10-15',7.9); await goOut('usl_tw_heroine_04_v'); const zqV=seq(['（視訊。她在公司的茶水間，背後的白板寫滿了字。）','我只有十分鐘','……你那邊天亮了嗎'])&&Math.abs(ev('ev_usl_tw_zq_v').hours-1/6)<1e-6;
   check('2. 演得出來：以安第一次（四句、記 USL_TW_AN_V1）、子晴（三句；十分鐘＝出遊 10 分鐘）',anV&&zqV,J(said()));
   /* 12/23：人已經回到臺灣（臺灣時間）*/
@@ -277,11 +278,11 @@ await sec('8-1',()=>{
   check('8-1. 稿 8-1 的九句都在遊戲裡；被換掉的六句（「先去上課。」「到了傳一句。」「落地了嗎」「到了嗎～」「他講德國」「期末考。三題申論」）稿上有、遊戲裡沒有',
     Q81.length===9&&Q81.every(t=>GS.has(t))&&old.length===6&&old.every(t=>DOC.indexOf(t)>=0&&!GS.has(t)),J({miss:Q81.filter(t=>!GS.has(t)),still:old.filter(t=>GS.has(t))}));
   check('8-1. 以安 8/26（週六）第二則「你那邊是早上。週末，你多睡一點。」；12/23 以安「你的班機早上五點四十落地。我查過了。」「明天見。」、子晴「你今天回來對吧」「時差記得調」、沛珊「回到家了嗎～」「好好睡一覺～」；語彤「回來了？」照舊',
-    wdOf('2028-08-26')===6&&J(pTW(AN,'qixi').msgs)===J(['今天七夕。手帳上有寫。',Q81[0]])&&J(pTW(AN,'ret').msgs)===J([Q81[1],Q81[2]])&&J(pTW(ZQ,'ret').msgs)===J([Q81[3],Q81[4]])&&J(pTW(PS,'ret').msgs)===J([Q81[5],Q81[6]])&&pTW(YT,'ret').msgs[0]==='回來了？',
+    wdOf('2028-08-26')===6&&J(pTW(AN,'qixi').msgs)===J(['今天七夕。公館到處都在賣花。',Q81[0]])&&J(pTW(AN,'ret').msgs)===J([Q81[1],Q81[2]])&&J(pTW(ZQ,'ret').msgs)===J([Q81[3],Q81[4]])&&J(pTW(PS,'ret').msgs)===J([Q81[5],Q81[6]])&&pTW(YT,'ret').msgs[0]==='回來了？',
     J({an:pTW(AN,'qixi').msgs,ret:[AN,ZQ,PS,YT].map(id=>pTW(id,'ret').msgs)}));
   /* 演出來：8/26 以安（美國、交往中，當地 09:00）*/
   fresh('2028-08-20',9,'us_apartment',US()); date(AN,'2028-06-01'); phAt('2028-08-26',9); const M=tagMsgs('usl_tw_'+AN+'_qixi').map(m=>m.text);
-  check('8-1. 8/26 當地 09:00 收到以安「今天七夕。手帳上有寫。」「你那邊是早上。週末，你多睡一點。」',J(M)===J(['今天七夕。手帳上有寫。','你那邊是早上。週末，你多睡一點。']),J(M)); });
+  check('8-1. 8/26 當地 09:00 收到以安「今天七夕。公館到處都在賣花。」「你那邊是早上。週末，你多睡一點。」',J(M)===J(['今天七夕。公館到處都在賣花。','你那邊是早上。週末，你多睡一點。']),J(M)); });
 await sec('8-2',()=>{
   /* 語彤「店裡的時間」：傳的那一刻她的作息（照臺灣時間）是麵店 act:'help'——大三上週二、四 17:30～20:30、週六 9:00～12:00 */
   const pick=()=>{ const e=MSG.pick(H.G,YT,'chat'); return e?e.msgs[0]:null; };

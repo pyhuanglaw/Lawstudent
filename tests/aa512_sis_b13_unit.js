@@ -113,7 +113,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
      AA 對 AA_584 的補充第 4 點（2026-11-02 19:19：修正本私訊「一本給我爸了」刪、下一則改「多印了一本。……你說過要的。」）不在遊戲裡 */
   const A591=require('./aa591_doc.js');
   const GONE591=new Set(['我爸寄了一份剪報給我。法律扶助的新聞。旁邊用原子筆寫：「妳寫的這個。」','他不會說。……他會寄剪報。','等的人越來越多。……我的論文寫的就是他們。','「他在關心妳。」','「剪報上寫什麼？」',
-    '你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。']);
+    '一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。']);
   const NEW584=['多印了一本。……你說過要的。'];
   const A591x={'你那邊幾點？':'你那邊十點了吧。','……謝謝。':'謝謝。','……好。':'好。'};   /* 第 17、78、126 列（原句到處都有、不在 MAP）：這份稿裡十分鐘、洗衣間、家裡的中飯那三句，第 5、6、13 節逐場驗 */
   /* AA_523 6-11（企劃線 0d7b5388b）：換掉的兩則不在遊戲裡；換上的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列 */
@@ -131,7 +131,8 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa512 的行、SMALLTALK 的三句（'+new Set(G0).size+' 句）都在稿裡（一字不差；SMALLTALK 說的話加「」、手機選項不加「」）',G0.length>=150&&!notIn.length,J(notIn));
   /* 改在現有檔的字 */
   const yes=(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES.heroine_05&&CONFESS_LINES.heroine_05.yes)||null, rs=SISB4.restartYes; SISB4.restartYes=()=>true; let yl=null; try{ yl=yes?yes({flags:{}}):null; } finally { SISB4.restartYes=rs; }
-  check('0. 6-2：confess_lines.js 重新開始那一次四句（稿 6-2）——AA_591 第 11 節第 13 點／AA_593（使用者「學姊不會先說」）整支拿掉：restartYes 也是第一次答應那一版',Array.isArray(yl)&&!yl.includes('你做到了。')&&!yl.includes('這次，我選你。')&&yl.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。'),J(yl));
+  /* AA_591 整合九件第 4 件（AA 11-02 21:25，企劃線 43d27cd80）：restartYes 放回（祐廷先說以後她的回答）——AA_591 第 11 節第 13 點時改成「拿掉」的期望，照 AA 的決定換回原本的 */
+  check('0. 6-2：confess_lines.js 重新開始那一次四句（稿 6-2）',J(yl)===J(QUOTES.filter(q=>/^(你做到了。|……我也想好了。|其他的，想了很久。……沒有了。|這次，我選你。)$/.test(q.t)).map(q=>q.t))&&J(yl)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(yl));
   const src4=fs.readFileSync(path.join(H.ROOT,'src/data/sis_b4_events.js'),'utf8'), feed=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y3s1.js'),'utf8');
   check('0. 6-3：4-1 那句是「還有，我要時間。等到我說好的那天。」（稿 6-3 的「→」右邊）；舊句只剩註解',DOC.indexOf('→「還有，我要時間。等到我說好的那天。」')>0&&/SIS\('還有，我要時間。等到我說好的那天。'\)/.test(src4)&&!/SIS\('還有，我要時間。不是一週，是我說好的那天。'\)/.test(src4));
   const s1=typeof FEED_Y3S1!=='undefined'?FEED_Y3S1.posts.find(p=>p.id==='sis1e'):null;
@@ -422,7 +423,7 @@ await sec(14,async()=>{
   await pick('lover',{},[1]); check('14. 6-1 臺灣路線、沒有旗標的戀人版：照舊（沒有新句子）',!said().some(t=>/鹿咬|七月說要保密|麵店？說好的|阿姨端了兩碗麵/.test(t))&&has('……還有。（她轉過頭看著你。）親一下。'));
   /* 6-2、6-3 */
   const yes=CONFESS_LINES.heroine_05.yes, rs=SISB4.restartYes; let a1, a2; SISB4.restartYes=()=>true; try{ a1=yes({flags:{}}); } finally { SISB4.restartYes=()=>false; } try{ a2=yes({flags:{}}); } finally { SISB4.restartYes=rs; }
-  check('14. 6-2 重新開始那一次（restartYes）：AA_591 第 11 節第 13 點／AA_593（使用者「學姊不會先說」）整支拿掉＝和第一次答應一樣；第一次答應照舊',J(a1)===J(a2)&&!a1.includes('這次，我選你。')&&J(a2)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。']),J([a1,a2]));
+  check('14. 6-2 重新開始那一次（restartYes，AA_591 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」；第一次答應照舊',J(a1)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。'])&&J(a2)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。']),J([a1,a2]));
   const tc=ev('ev_sis_three_conditions'); fresh('2028-04-12',10,'friend'); await runEv('ev_sis_three_conditions',[0]);
   check('14. 6-3 4-1：「還有，我要時間。等到我說好的那天。」（舊句不出現）',has('還有，我要時間。等到我說好的那天。')&&!has('還有，我要時間。不是一週，是我說好的那天。')&&!!tc,J(said())); });
 

@@ -2,7 +2,7 @@
 //   1. CG_REGISTRY 還是一行；這一批 48 個 key 都在、檔案都在、整個 CG_REGISTRY 沒有兩個 key 指同一個檔；40 張原檔、8 張合成都是 1672×941
 //   2. CG-10：8 個 key 和尾聲 PG.epiCg（src/postgrad3d.js）對得上（單身＝阿凱、交往中＝那一位）
 //   3. 插的 cg（位置與條件照 README）：
-//      1B-24 以安新 20 交往版：CG-19 在「……第一個問我的人是你。這也是理由之一。」那一句；沒交往（朋友版）沒有
+//      1B-24 以安新 20 交往版：CG-19 在「第一個問我的，是你。」那一句（AA_589 第 58 列，原本「……第一個問我的人是你。這也是理由之一。」）；沒交往（朋友版）沒有
 //      K10 互相出題：BCG-30 在山下小吃那一版「換她出題」那一拍（她舉起題目卡）；視訊版沒有
 //      語彤事件 17 一起畢業：CG-21 只在交往中那一句「恭喜。……四年，我們都在總圖三樓。」，說完回到椰林大道；朋友版沒有
 //      學姊學期末告白（AA_343 E1）：答應、她說兩支都有便條那一拍；BCG-44 在答應的「好。」、她說的「……我喜歡你。」；第二次沒有
@@ -48,10 +48,10 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
 (async()=>{
   // 1B-24 以安新 20（y34b3d.js AN20_BODY）
   { const G=H.fresh('2029-05-03',16,'cafe',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); G.acts={att:{}}; G.outings=[]; H.FRIEND('heroine_01'); H.date('heroine_01'); await run('ev_an_your_turn',[0]);
-    const c=cgAt('cg_first_to_ask_heroine01'), l=idx('……第一個問我的人是你。這也是理由之一。');
-    check('3. 1B-24 和以安交往：CG-19 就在「……第一個問我的人是你。這也是理由之一。」那一句（前一拍），之後才是三個選項',c>=0&&l===c+1&&H.opts.length>0,JSON.stringify(H.said.slice(Math.max(0,c-1),c+2))); }
+    const c=cgAt('cg_first_to_ask_heroine01'), l=idx('第一個問我的，是你。');
+    check('3. 1B-24 和以安交往：CG-19 就在「第一個問我的，是你。」那一句（前一拍），之後才是三個選項',c>=0&&l===c+1&&H.opts.length>0,JSON.stringify(H.said.slice(Math.max(0,c-1),c+2))); }
   { const G=H.fresh('2029-05-03',16,'cafe',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); G.acts={att:{}}; G.outings=[]; H.FRIEND('heroine_01'); await run('ev_an_your_turn',[0]);
-    check('3. 1B-24 沒交往（朋友版）：沒有 CG-19、也沒有那一句',cgAt('cg_first_to_ask_heroine01')<0&&idx('……第一個問我的人是你。這也是理由之一。')<0&&idx('所以我念法律，是為了把地圖畫好。')>=0); }
+    check('3. 1B-24 沒交往（朋友版）：沒有 CG-19、也沒有那一句',cgAt('cg_first_to_ask_heroine01')<0&&idx('第一個問我的，是你。')<0&&idx('我想把那種地圖畫好。')>=0); }
   // K10 互相出題（y2r2_3d.js quizEv）
   { const G=H.fresh('2026-10-23',18.5,'any'); H.date('kexin'); await run('ev_kexin_quiz_y2',[0]);   /* K10 改到 10/23（五）18:30（AA_343 E4：BCG-30 是十月星期五晚上的圖）*/
     const c=cgAt('cg_quiz_kexin'), l=idx('（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）');
@@ -73,9 +73,11 @@ const run=async(id,picks)=>{ H.said=[]; H.cgs=[]; H.picks=picks||[]; await EVENT
     /* AA_591 第 11 節第 13 點（使用者 2026-11-02「學姊不會先說」）：她先說的那一支拿掉——祐廷選「（先不說）」＝什麼都沒發生（沒有便條、沒有 BCG-44）*/
     { const r=await walk('Y1S2',[3,0]);
       check('3. 學姊不先說（AA_591）：「（先不說）」＝silent；沒有「你不講，那我講。」「……我喜歡你。」、沒有便條旁白、沒有 BCG-44',r==='silent'&&!H.has('你不講，那我講。')&&!H.has('……我喜歡你。')&&!H.has(N1)&&!H.has(NS)&&cgAt(C44)<0,JSON.stringify(H.said)); }
-    { await walk('Y2S1',[0],'Y1S2'); const a=cgAt(C44)<0&&!H.has(N1)&&!H.has(NY)&&H.has('……這次是你先說。');
+    /* AA_591 整合九件第 6 件（AA 11-02 21:25）：她不先說以後「這次是你先說」的前提不成立——yes2 和 yes 相同的句子（便條、BCG-44 也一樣）。
+       走到第二次的玩家（舊存檔：上學期「讓我想想」）第一次沒有看過 yes，所以一個玩家還是只看到一次。原本「第二次沒有便條、沒有 BCG-44、「……這次是你先說。」」的期望照 AA 換 */
+    { await walk('Y2S1',[0],'Y1S2'); const a=cgAt(C44)>=0&&H.has(N1)&&H.has('（她笑了。）你確定？')&&!H.has('……這次是你先說。');
       await walk('Y2S1',[3,0],'Y1S2'); const b=cgAt(C44)<0&&!H.has(N1)&&!H.has(NS)&&!H.has('上學期那件事，我到現在還是一樣。……你呢？');   /* she2 也拿掉（AA_591）*/
-      check('3. 學姊第二次（上次選「讓我想想」）：答應沒有便條、沒有 BCG-44（一個玩家只看到一次）；「（先不說）」她也不先說（AA_591）',a&&b); }
+      check('3. 學姊第二次（上次選「讓我想想」）：答應和第一次同樣的句子（AA 九件第 6 件；這個玩家第一次沒看過）、沒有「……這次是你先說。」；「（先不說）」她也不先說（AA_591）',a&&b); }
     { const r=await walk('Y4S2',[0]);
       check('3. 學姊畢業那天傍晚（大四下）答應：一樣有便條那一拍、BCG-44 在「我很難相處喔。」（AA_590 決3）',r==='yes'&&idx(N1)>=0&&cgAt(C44)===idx('我很難相處喔。')-1&&idx(NY)===idx('（她把便條收進口袋，把手伸給你。）走吧。')+1,JSON.stringify(H.said)); } }
   // 已經寫好 cg 的事件：key 都登錄了（之前 ADV.cg 找不到就不顯示）

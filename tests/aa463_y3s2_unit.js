@@ -34,6 +34,8 @@ const TH=th=>(H.G.msgs||[]).filter(m=>m.th===th);
 
 /* ---- 讀稿（企劃線 878496edb）---- */
 let doc=''; try{ doc=cp.execSync('git show 482c7f6e9:"docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+/* 以安改稿①b（AA_592 第 18～21 列：日本 T1 的私訊與回覆按鈕）改了這份稿上的幾格：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b_unit.js）*/
+{ const [d]=require('./an_rev_doc.js').overlay(doc,/^r2y3b(_events\.js|3d\.js)/); doc=d; }
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const strip=s=>String(s||'').replace(/（原句）$/,'').replace(/（`[^）]*）$/,'').trim();
@@ -45,7 +47,7 @@ const T1R=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+
 const S7=part('## 7.'), S7a=(S7.match(/第 1 則：(.+)$/m)||[])[1], S7b=S7.match(/第 8 則回覆①：「([^」]+)」→ (.+)$/m);
 if(S7a&&T1R[0]) T1R[0].L=msgsOf(S7a.trim()); if(S7b&&T1R[7]) T1R[7].o1=S7b[1]+'→'+S7b[2].trim();
 const OLD_T1O={'飯糰':[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],'櫻花':[['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],
-  '洗衣機':[['一百圓是多少？','二十幾塊。我記了匯率。'],['手帳記幾頁了？','十一頁。']],'號碼牌':[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]};   /* 原本四則的回覆（「照舊」）*/
+  '洗衣機':[['一百圓是多少？','二十幾塊。我記了匯率。'],['記幾頁了？','十一頁。']],'號碼牌':[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]};   /* 原本四則的回覆（「照舊」）*/
 const oldKey=L=>Object.keys(OLD_T1O).find(k=>L[0].includes(k));
 const T1O=T1R.map(r=>r.o1==='照舊'?OLD_T1O[oldKey(r.L)]:[rep(r.o1),rep(r.o2)].map(x=>x&&[x[0],x[1].join('')]));
 /* 第 2、3 節 */

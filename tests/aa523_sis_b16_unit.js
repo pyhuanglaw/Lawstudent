@@ -121,13 +121,16 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b15_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b16_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b16_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b16_3d.js')>0&&a('src/sis_b16_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=mine().concat(changed()), GS=new Set(G0.concat(G0.map(t=>t.replace(/^「|」$/g,''))));
   /* 稿 → 遊戲 */
-  const lostQ=QUOTES.filter(t=>!covered(GS,t)), lostO=OPTS.filter(o=>!covered(GS,o.o)&&!covered(GS,o.o.replace(/^「|」$/g,''))), lostR=[].concat(...OPTS.map(o=>o.r)).filter(t=>!covered(GS,t)), lostP=PHONES.filter(p=>!covered(GS,p.o)||(p.r!=null&&!covered(GS,p.r)));
+  /* AA_600 B6（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：4-1 總圖門口她不先開口——她的句子、三個選項和回覆、前後兩句旁白整場換成一句旁白；稿上那幾句不再在遊戲裡 */
+  const GONE600=new Set(['（總圖門口。她從研究小間出來，看到你，在台階上停了一下。）','……你的時差，調好了嗎。','回來那班飛機，你睡得比我好。','（她把圍巾拉高，往捷運站走了。）','「調好了。」','「還沒。」','（點頭）','嗯。……我凌晨三點還是會醒。','我也是。凌晨三點。','（她也點了一下頭。）']);
+  const lostQ=QUOTES.filter(t=>!covered(GS,t)&&!GONE600.has(t)), lostO=OPTS.filter(o=>!covered(GS,o.o)&&!covered(GS,o.o.replace(/^「|」$/g,''))&&!GONE600.has(o.o)), lostR=[].concat(...OPTS.map(o=>o.r)).filter(t=>!covered(GS,t)&&!GONE600.has(t)), lostP=PHONES.filter(p=>!covered(GS,p.o)||(p.r!=null&&!covered(GS,p.r)));
   check('0. 稿 → 遊戲：第 1～5 節每一句「>」（'+QUOTES.length+' 句）都在遊戲裡（AA_527 3-1 明信片兩則換三則：132→133）',QUOTES.length===133&&!lostQ.length,J({n:QUOTES.length,lostQ}));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、→ 後面的回覆、私訊群組的回覆（'+PHONES.length+' 組）都在遊戲裡',OPTS.length===27&&PHONES.length===8&&!lostO.length&&!lostR.length&&!lostP.length,J({o:OPTS.length,p:PHONES.length,lostO,lostR,lostP}));
   const INLINE=['Shu，謝謝。'];   /* 稿寫在說明句裡的（「」括起來）*/
   check('0. 稿寫在說明裡的句子（1-2 多的那個選項「Shu，謝謝。」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&covered(GS,t)),J(INLINE));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,'')));
+  const A600=require('./aa600_doc.js');   /* AA_600 新寫的旁白（B6）在 AA_600 的稿裡 */
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!A591.has(t)&&!A591.has(t.replace(/^「|」$/g,''))&&!A600.has(t));
   check('0. 遊戲 → 稿：新檔的每一句、改字（'+new Set(G0).size+' 句）都在稿裡（一字不差）',G0.length>=200&&!notIn.length,J({n:G0.length,notIn}));
   /* 第 6 節換掉的舊句不在遊戲裡（註解除外）*/
   const OLD=[['src/data/sis_b13_events.js',"'學姊回來了！！'"],['src/data/sis_b13_events.js',"'禮拜四家聚 歡迎回來 118 巷那家'"],['src/data/sis_b12_events.js',"'「美國好玩嗎？」'"],['src/data/sis_b12_events.js',"'好玩。……照片你都看過了。'"],
@@ -330,9 +333,9 @@ await sec(4,async()=>{
   const e=ev('ev_sis16_ex_door'), b=blk(sub('4-1','## 5. ',S4));
   const R=(key,h,fl,o,brk)=>{ fresh(brk||'2028-11-15',10,'ex',fl,Object.assign({route:'US',zone:'campus'},o||{})); at(key,h); atGate(); };
   R('2029-02-20',17.1); const r0=relOf(); const ran=await tickOnly('ev_sis16_ex_door',[0]); const s1=said(), r1=relOf();
-  check('4. 4-1 R（美國路線、回來時沒在一起的前任）2/19～3/2 平日 17:00～17:30 總圖門口：演（照稿、三個選項）；記 SIS16_EX_DOOR；關係不加不減；一次',
-    ran&&J(s1.slice(0,b.pre.length))===J(b.pre)&&J(H.opts[0])===J(b.opts.map(o=>o.o))&&seqJ(b.opts[0].r.concat(b.post))&&H.G.flags.SIS16_EX_DOOR===true&&J(r0)===J(r1)&&!EVENTS.check(e),J({s:s1,r0,r1}));
-  for(let k=1;k<3;k++){ R('2029-02-21',17.1); await runEv('ev_sis16_ex_door',[k]); check('4. 4-1 選項 '+b.opts[k].o+' → '+b.opts[k].r.join('／'),seqJ(b.opts[k].r.concat(b.post)),J(said())); }
+  /* AA_600 B6：原本的期望（照稿的開頭、三個選項、各自的回覆）照 AA_600 換成一句旁白、沒有選項；時間、條件、旗標、關係不加不減照舊 */
+  check('4. 4-1 R（美國路線、回來時沒在一起的前任）2/19～3/2 平日 17:00～17:30 總圖門口：演（AA_600 B6：只有旁白「（她在總圖門口看到你，點了一下頭，走進去了。）」、沒有選項）；記 SIS16_EX_DOOR；關係不加不減；一次',
+    ran&&J(s1)===J(['（她在總圖門口看到你，點了一下頭，走進去了。）'])&&!H.opts.length&&H.G.flags.SIS16_EX_DOOR===true&&J(r0)===J(r1)&&!EVENTS.check(e),J({s:s1,r0,r1}));
   const no=[]; const tryR=(nm,key,h,fl,o,brk,extra)=>{ R(key,h,fl,o,brk); if(extra) extra(); if(EVENTS.check(e)) no.push(nm); };
   tryR('臺灣路線的前任','2029-02-20',17.1,{},{route:'TW'}); tryR('12/23 以後才分開的','2029-02-20',17.1,{},{},'2029-01-10');
   tryR('演過 4-1 她要的時間','2029-02-20',17.1,{},{},null,()=>{ H.G.flags.SIS_REBUILD=D('2029-02-01'); });
@@ -378,7 +381,7 @@ await sec(5,async()=>{
     const s1=await th({SIS7_PHOTO:true}), s0=await th({});
     check('5. 5 6/2 保溫瓶那一段最後多兩句「（拿出手機）……拍照。說好的。」「（照片裡，你們兩個都穿著借來的衣服。）」；沒選的沒有',J(s1.slice(-2))===J(['（拿出手機）……拍照。說好的。','（照片裡，你們兩個都穿著借來的衣服。）'])&&s1.includes('每天帶出門。')&&!s0.includes('（拿出手機）……拍照。說好的。'),J({s1,s0})); }
   /* 6～9 在第 1～3 節查過（1-5、2-1、2-5、3-1、3-2）*/
-  check('5. 6～9 不兌現的三件照設計（除夕「（她傳來一張照片：一盤水餃。）厲害吧。」、二月那一頁、h3b「Shu」只給一個選項）：沒有加別的事件',!STORY_EVENTS.some(e=>/^ev_sis16_/.test(e.id)&&/除夕|包一顆/.test(J(e.dialogue))));
+  check('5. 6～9 不兌現的三件照設計（除夕「厲害吧。」、二月那一頁、h3b「Shu」只給一個選項）：沒有加別的事件',!STORY_EVENTS.some(e=>/^ev_sis16_/.test(e.id)&&/除夕|包一顆/.test(J(e.dialogue))));
 });
 
 /* ---- 6 第 6 節 ---- */

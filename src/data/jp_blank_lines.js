@@ -85,7 +85,7 @@ const JP_BLANK_LINES=(function(){
     an('臺灣的草莓，三月就沒有了。'),an('……這裡四月才最好吃。'),
     {choice:[{text:'「買兩盒。」',goto:'a'},{text:'「妳很喜歡草莓？」',goto:'b'}]},
     {label:'a'},an('一盒就好。吃不完會壞。'),{goto:'e'},
-    {label:'b'},an('我媽喜歡。……我拍給她看。'),nar('（她拍了一張照片，傳出去。）'),
+    {label:'b'},an('我媽喜歡。我拍給她看。'),nar('（她拍了一張照片，傳出去。）'),
     {label:'e'} ]);
   out('ev_jpb_w_laundry','投幣洗衣店',[ {scene:'投幣洗衣店',bg:'jp_laundry'},
     nar('（洗衣機轉著。她坐在塑膠椅上看行政法，你坐在旁邊。）'),
@@ -98,7 +98,7 @@ const JP_BLANK_LINES=(function(){
     nar('（她的腳踏車倒放在宿舍門口，鏈條垂在地上。）'),
     an('我查了怎麼裝。看了三遍影片。……還是裝不上去。'),
     {choice:[{text:'「我來。」',goto:'a'},{text:'「一起弄。」',goto:'b'}]},
-    {label:'a'},nar('（你弄了十分鐘，手都黑了。鏈條卡進去的時候，她說了一聲「好」。）'),an('……手去洗。我請你吃午餐。'),{goto:'e'},
+    {label:'a'},nar('（你弄了十分鐘，手都黑了。鏈條卡進去的時候，她說了一聲「好」。）'),an('手去洗。我請你吃午餐。'),{goto:'e'},
     {label:'b'},nar('（她扶著車，你轉踏板。第三次卡上去了。兩個人的手都是黑的。）'),
     {label:'e'} ]);
   out('ev_jpb_w_books','鎮上的舊書店',[ {scene:'鎮上的舊書店',bg:'jp_old_bookstore'},
@@ -110,7 +110,7 @@ const JP_BLANK_LINES=(function(){
     {label:'e'} ]);
   out('ev_jpb_w_light','她房間的燈',[ {scene:'她的房間門口',bg:'jp_an_room_door'},   /* 第 109 組（BB 07:50）*/   /* 她的房間第一次出現；不寫留下來、不寫進房間以後的事（AA_359）*/
     nar('（她租的房間在二樓。門口放著一雙拖鞋、一袋新的燈管。）'),
-    an('椅子在這裡。……我扶著。'),
+    an('椅子在這裡。我扶著。'),
     {choice:[{text:'「我站上去。」',goto:'a'},{text:'「找房東？」',goto:'b'}]},
     {label:'a'},nar('（燈管換好，房間一下子亮了。她看了天花板一下。）'),an('……原來這麼亮。'),{goto:'e'},
     {label:'b'},an('房東週末不在。我傳過了。'),nar('（你還是站上去換了。）'),
@@ -119,14 +119,14 @@ const JP_BLANK_LINES=(function(){
     nar('（寺的石階兩邊都是繡球花，藍的、紫的。下過雨，石階有一點滑。）'),
     an('土是酸的，花就是藍的。'),an('……我昨天查的。'),
     {choice:[{text:'「那紫的呢？」',goto:'a'},{text:'（拍一張她和花）',goto:'b'}]},
-    {label:'a'},an('我也不知道。……回去查。'),{goto:'e'},
+    {label:'a'},an('我也不知道。回去查。'),{goto:'e'},
     {label:'b'},nar('（她沒有看鏡頭。照片裡她在看石階。）'),
     {label:'e'} ]);
   out('ev_jpb_w_parcel','媽媽寄來的東西',[ {scene:'宿舍・共用廚房',bg:'jp_kitchen'},   /* 不寫媽媽的工作、不寫「法官」（口氣表 1-1）*/
     nar('（共用廚房的桌上，一個從臺灣寄來的紙箱。裡面是一包乾麵條、一罐醬，和一張紙條。）'),
     an('我媽說，煮的時候水要多。'),
     {choice:[{text:'「紙條寫什麼？」',goto:'a'},{text:'「我來煮。」',goto:'b'}]},
-    {label:'a'},an('水要多。'),nar('（她把紙條摺起來，收進手帳。）'),{goto:'e'},
+    {label:'a'},an('水要多。'),nar('（她把紙條摺起來，夾進書裡。）'),{goto:'e'},
     {label:'b'},an('……水要多。'),nar('（她站在你旁邊看著鍋子。）'),
     {label:'e'} ],{hours:1.5});
   out('ev_jpb_w_fire','河堤的煙火',[ {scene:'河堤',bg:'jp_riverbank_fireworks'},   /* 第 109 組（BB 07:50）：夏天晚上的河堤（jp_riverbank 是白天櫻花，花見用）*/

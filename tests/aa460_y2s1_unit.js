@@ -38,6 +38,7 @@ const KAI=rows(part('## 3.','## 4.')).filter(r=>/^[1-4]$/.test(r[0])).map(r=>ori
 const FK={'情人節':'vday','白色情人節':'white','三月十四':'white','七夕':'qixi','生日':'bday','聖誕':'xmas'};
 const tab4=t=>{ const o={}; for(const r of rows(t)) if(FK[r[0]]) o[FK[r[0]]]=orig(r[1]).split('／'); return o; };
 const AN_BY=tab4(part('### 4-2','### 4-3')), PS_BY=tab4(part('### 4-3','### 4-4'));
+{ const ANREV=require('./an_rev_doc.js'); for(const k in AN_BY) if(Array.isArray(AN_BY[k])) AN_BY[k]=AN_BY[k].map(t=>typeof t==='string'?ANREV.rev(t):t); }   /* 以安改稿④b（AA_594 第 10 列：白色情人節「手帳上這一格，我先寫了。」→「這一天，我先排了。」）照改成欄比（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const TM={'大一下':'Y1S2','大二上':'Y2S1','大二下':'Y2S2','大三上':'Y3S1','大三下':'Y3S2','大四上':'Y4S1','大五上':'Y5S1'}, KXT={}; for(const r of rows(part('## 5.','## 6.'))) if(TM[r[0]]) KXT[TM[r[0]]]=[r[1],r[2]];
 const T6=rows(part('## 6.','## 7.')).filter(r=>r.length>=3&&r[0]!=='哪裡');
 const AN='heroine_01', PS='classmate_peishan', ZR='heroine_02';
@@ -90,6 +91,14 @@ await sec(2,()=>{
   const night=k=>{ setup(k); STORY.phoneRules(GM); H.G.hour=23.9; PHONE.tick(H.G); return byTag('ps_keep_'+D(k)); };
   const keys=['2026-12-31','2027-01-02','2027-01-03','2027-01-04','2027-03-15','2027-07-09','2027-08-05'], got=keys.map(k=>{ const m=night(k); return {k,t:m.map(x=>x.text),h:m.map(x=>x.h),ok:m.length===1&&m[0].th==='p:'+PS&&m[0].from===PS&&m[0].h>=23&&m[0].h<23.6&&m[0].text===K(k)}; });
   check('2. 手機（交往中、消失期）：每晚 23:00 以後她傳的那一則＝排好的那句（12/31 煙火、1/2 週六、1/3 第一個週日、1/4 短句、3/15 生日、7/9、8/5）；tag ps_keep_<日>',got.every(g=>g.ok)&&H.G.flags.PS_KEPT===true,J(got.filter(g=>!g.ok)));
+  /* CG-119（BB 決定，AA_597 CG 總表）：第一次傳「今天寫完兩回考古題。地理還是最爛。」那一晚附照片（cg_redpen_night_peishan，送出就收進相簿）；之後同一句只有字 */
+  { const k1=Object.keys(P).map(Number).sort((a,b)=>a-b).find(d=>P[d]===STORY.PS_KEEP_ROWS[0][1]), key1=k1!=null?keyOf(k1):null; const m1=key1?night(key1):[];
+    const ok1=m1.length===1&&m1[0].text===STORY.PS_KEEP_ROWS[0][1]&&m1[0].cg==='cg_redpen_night_peishan'&&(H.G.cg.unlocked||[]).includes('cg_redpen_night_peishan')&&H.G.flags.PS_REDPEN_CG===k1;
+    const k2=D('2027-01-04'), line0=STORY.psKeepLine; STORY.psKeepLine=()=>STORY.PS_KEEP_ROWS[0][1]; let m2=[];
+    try{ setup('2027-01-04'); H.G.flags.PS_REDPEN_CG=k1; STORY.phoneRules(GM); H.G.hour=23.9; PHONE.tick(H.G); m2=byTag('ps_keep_'+k2); } finally { STORY.psKeepLine=line0; }
+    const m3=night('2027-01-04');
+    check('2. CG-119：第一次傳「'+STORY.PS_KEEP_ROWS[0][1]+'」那一晚（'+key1+'）附照片 cg_redpen_night_peishan、收進相簿、記 PS_REDPEN_CG；之後同一句只有字（沒有 cg）；別句沒有照片',
+      ok1&&m2.length===1&&m2[0].text===STORY.PS_KEEP_ROWS[0][1]&&!m2[0].cg&&m3.length===1&&!m3[0].cg,J({key1,m1,m2,m3})); }
   setup('2027-03-15'); H.G.flags.PS_KEEP_N=37; H.G.msgs.push({day:D('2027-03-14'),h:23.2,th:'p:'+PS,from:PS,text:'模擬考的分數出來了。先不要問。',tag:'ps_keep_'+D('2027-03-14')}); STORY.phoneRules(GM); H.G.hour=23.9; PHONE.tick(H.G);
   check('2. 舊存檔（PS_KEEP_N＝37、昨晚用舊的輪法收過）：今晚照日子挑（3/15 生日那一句），昨晚那則不重發',byTag('ps_keep_'+D('2027-03-15')).map(m=>m.text).join('|')===K('2027-03-15')&&byTag('ps_keep_'+D('2027-03-14')).length===1);
   { const G=fresh('2027-03-15',8,{}); const r=SOCIAL.rel(PS); Object.assign(r,{fam:30,trust:20,comf:20}); G.contacts[PS]=d0-100; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G);
@@ -114,7 +123,7 @@ const dm=id=>(H.G.msgs||[]).filter(m=>m.th==='p:'+id&&m.from===id).map(m=>m.text
 await sec(4,()=>{
   const K5=['vday','white','qixi','bday','xmas'];
   const K4=['vday','white','qixi','xmas'], AL=FEST_DATA.PEOPLE[AN].ask.lines, PL=FEST_DATA.PEOPLE[PS].ask.lines, old=(L,k)=>L.map((t,i)=>i===0&&k!=='vday'?t.replace('情人節',FEST.name(k)):t);
-  check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「手帳上這一格」、七夕「農曆的日子」、聖誕「穿暖一點」）',K4.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K4.map(k=>FEST.herLines(AN,k,false))));
+  check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「這一天，我先排了」（AA_594 第 10 列）、七夕「農曆的日子」、聖誕「穿暖一點」）',K4.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K4.map(k=>FEST.herLines(AN,k,false))));
   check('4-2. 以安生日那一列當作沒有（第 9 節）：沒有「'+AN_BY.bday.join('」「')+'」，照原本（第一句換節日名）',J(FEST.herLines(AN,'bday',false))===J(old(AL,'bday'))&&!AN_BY.bday.some(t=>FEST.herLines(AN,'bday',false).includes(t)),J(FEST.herLines(AN,'bday',false)));
   check('4-3. 沛珊在臺北（不是 home）那張當作沒有（第 9 節）：照原本（第一句換節日名、第二句「'+PL[1]+'」），沒有 4-3 的第二句',K5.every(k=>J(FEST.herLines(PS,k,false))===J(old(PL,k)))&&!K5.some(k=>k!=='vday'&&FEST.herLines(PS,k,false).some(t=>PS_BY[k].includes(t))),J(K5.map(k=>FEST.herLines(PS,k,false))));
   const OLD3='明天你要下來嗎？……不用勉強。', hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));

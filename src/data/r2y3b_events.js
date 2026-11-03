@@ -23,6 +23,7 @@ const R2Y3B_EVENTS=(function(){
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
   const cg=id=>({if:{custom:()=>hasCG(id)},cg:id});   /* CG 登錄了才放（CG_REGISTRY；沒有就照原背景演）*/
   const X=()=>typeof R2Y3B!=='undefined'?R2Y3B:null;
+  const SHOP_SEEN={custom:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_01','AN_SHOP_PAGE')};   /* 看過以安手帳「想去的店」那一頁（AN_SHOP_PAGE，AA_589 第 10 節）*/
   const AN_KNOWS={custom:G=>{ const x=X(); return !!x&&!!x.knowsOther&&x.knowsOther(G,'heroine_01'); }};   /* 以安知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）：七夕告白先演知情對話（AA_474 3b）*/
   const fl=(k,v)=>({custom:G=>(G.flags||{})[k]===v});
 
@@ -50,12 +51,12 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（新店溪的河濱。Alison 的風箏飛了三次，掉了三次。）'},
       {if:kn('yu'),speaker:'yu',text:'風不對！不是我的問題！'},
       {if:kn('zhe','yu'),speaker:'zhe',text:'（躺在草地上）妳的問題。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（坐在階梯上，手帳攤開）三月二十五號以前，還有四個週末。'},
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（坐在階梯上，看著手機的月曆）三月二十五號以前，還有四個週末。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'三個半。今天放假，不算。'},
       {choice:[{text:'「我來放。」',goto:'k'},{text:'（坐到以安旁邊）',if:kn('heroine_01'),goto:'a'},{text:'（躺到阿哲旁邊）',if:kn('zhe'),goto:'z'}]},
       {label:'k'},{if:kn('yu'),speaker:null,text:'（風箏飛起來了。Alison 把線搶過去：「看吧！是風的問題！」）'},{goto:'end'},
       {label:'a'},{if:{custom:G=>strainedAn(G)},speaker:null,text:'（以安看了你一眼，又低頭寫。）'},{if:{custom:G=>strainedAn(G)},goto:'end'},   /* AA_377 第 7 項：挽回中（和以安分手、冷靜中）不接話 */
-      {speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手帳轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
+      {speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手機轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
       {label:'z'},{speaker:'zhe',text:'這就對了。放假就是要躺。'},
       {label:'end'} ],
     consequences:{flags:{Y3S2_228:true},memo:'228 的河濱（風箏）'},
@@ -173,8 +174,8 @@ const R2Y3B_EVENTS=(function(){
       cg('cg_japan_konbini_heroine01'),   /* CG-13 在這一句出現 */
       {speaker:'heroine_01',text:'（一本正經）標籤只寫給看得懂的人。'},
       {choice:[{text:'「隨便拿一個。」',goto:'a'},{text:'「我幫妳翻譯。」',goto:'b'},{text:'「我們一人拿一個，交換吃。」',goto:'c'}]},
-      {label:'a'},{speaker:'heroine_01',text:'……你說的。如果難吃，算你的。'},{speaker:null,text:'（她閉眼拿了一個。）'},{goto:'d'},
-      {label:'b'},{speaker:'heroine_01',text:'你日文比我差。'},{speaker:'player',text:'對。'},{speaker:'heroine_01',text:'……那我們兩個一起看不懂。'},{goto:'d'},
+      {label:'a'},{speaker:'heroine_01',text:'你說的。如果難吃，算你的。'},{speaker:null,text:'（她閉眼拿了一個。）'},{goto:'d'},
+      {label:'b'},{speaker:'heroine_01',text:'你日文比我差。'},{speaker:'player',text:'對。'},{speaker:'heroine_01',text:'那我們兩個一起看不懂。'},{goto:'d'},
       {label:'c'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_01',text:'好。你先挑。'},   /* 原稿重複的「（她想了一下）」留一次（檔尾裁定 #31）*/
       {label:'d'},{set:{AN_J1:'dating'}},{end:true},
       {label:'repair'},
@@ -220,9 +221,8 @@ const R2Y3B_EVENTS=(function(){
   const SAKURA={ id:'ev_an_sakura_riverbank', title:'春天的河堤', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'大學城的河堤',bg:'jp_riverbank'},
       {speaker:null,text:'（河堤的石階上，櫻花一直在掉。以安坐著讀書，旁邊放著字典和一個保溫杯。）'},
-      cg('cg_sakura_riverbank_heroine01'),   /* CG-23 在這一句出現 */
-      {speaker:'heroine_01',text:'（在手帳寫一行，轉過來給你看）'},
-      {speaker:'手帳',text:'理由：櫻花只開一個禮拜。'},   /* 手帳上的字（AA_121：遊戲疊在 CG 上；疊字還沒做，先用一行顯示）*/
+      cg('cg_sakura_riverbank_heroine01'),   /* CG-23 在這一句出現（AA_589 第 81、82 列：她直接說「櫻花只開一個禮拜。」、說話人「手帳」那一行刪掉、CG 不疊字；CG-23 換新圖：她抬頭說話）*/
+      {speaker:'heroine_01',text:'櫻花只開一個禮拜。'},
       {speaker:'heroine_01',text:'……所以這週的讀書會，改在這裡。'},
       {choice:[{text:'「那下週呢？」',goto:'a'},{text:'（坐下來，翻開書）',goto:'b'}]},
       {label:'a'},{speaker:'heroine_01',text:'下週就謝了。下週回圖書館。'},{goto:'end'},
@@ -349,7 +349,7 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「是信任。」',goto:'a'},{text:'「是壓力。」',goto:'b'},{text:'「兩個都有。」',goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',text:'信任誰？町公所，還是隔壁鄰居？'},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',text:'那沒照做的那一家，鄰居會怎麼看他？'},{goto:'end'},
-      {label:'c'},{speaker:'heroine_01',text:'（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。'},
+      {label:'c'},{speaker:'heroine_01',text:'我問過宿舍的管理員阿姨。她說大家照做，是因為隔壁也照做。'},{speaker:'heroine_01',text:'（停一下）她沒有提到町公所。'},   /* AA_589 第 27 列（第 11 節：使用者要照日本人的看法寫、她不下結論＝轉述宿舍管理員阿姨，兩句）*/
       {label:'end'},
       {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到群組。）'},   /* AA_187 1-5 交往中的結尾 */
       {speaker:'heroine_01',text:'這張不用傳到群組了。'},
@@ -357,13 +357,16 @@ const R2Y3B_EVENTS=(function(){
     outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
   const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 11-02 第九批有自己的圖（BB_132 第 107 組；原本借 jp_lounge）；沒有 CG-17 */
-      {speaker:'heroine_01',text:'……你看得懂這個字嗎？'},
+      /* AA_589 第 28、29 列（第 11 節：使用者「分手，不會主動聯絡」＝祐廷先開口）：她不先問；祐廷「要幫忙嗎？」；「我不是在跟你和好。」那句、b 的「我說了，我只是看不懂。」刪掉；
+         選項改「（不再多說）」／「那我們可以談一下嗎？」；REPAIR 條件照舊（不追問＝AN_NOTICE_REPAIR_OK＝REPAIR +1）*/
+      {speaker:null,text:'（晚上的宿舍大廳。她拿著一張通知，查字典查了很久。）'},
+      {speaker:'player',text:'要幫忙嗎？'},
+      {speaker:null,text:'（她停了一下，把通知推過來，指著一個字。）'},
       {speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'},
       {speaker:'heroine_01',text:'……謝謝。'},
-      {speaker:'heroine_01',text:'我不是在跟你和好。我只是看不懂。'},
-      {choice:[{text:'「……好。」',goto:'a'},{text:'「那我們可以談一下嗎？」',goto:'b'}]},
-      {label:'a'},{speaker:null,text:'（她把通知折好，收進手帳。）'},{speaker:'heroine_01',text:'晚安。'},{set:{AN_NOTICE_REPAIR_OK:true}},{goto:'end'},
-      {label:'b'},{speaker:'heroine_01',text:'我說了，我只是看不懂。'},{speaker:null,text:'（她拿起字典走了。）'},
+      {choice:[{text:'（不再多說）',goto:'a'},{text:'「那我們可以談一下嗎？」',goto:'b'}]},
+      {label:'a'},{speaker:null,text:'（她把通知折好，收進包包。）'},{speaker:'heroine_01',text:'晚安。'},{set:{AN_NOTICE_REPAIR_OK:true}},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'……我只是看不懂這個字。'},{speaker:null,text:'（她拿起字典走了。）'},
       {label:'end'},{set:{AN_TOWN_NOTICE:'repair'}} ],
     after:G=>{ const x=X(); if(x&&G.flags.AN_NOTICE_REPAIR_OK) x.repairAdd(G,'heroine_01'); } };   /* 「……好。」＝REPAIR +1（AA_254 第 10 節）*/
 
@@ -434,21 +437,21 @@ const R2Y3B_EVENTS=(function(){
     /* T1：十則，照順序各傳一次（AA_463 第 1 節：原本四則輪、每則兩三次；「我研究了三天」是她到日本第二天收到的）。原本四則（櫻花、飯糰、洗衣機、號碼牌）留著、放到第 3、2、4、5 則；
        到的那週、四月（櫻花）、六月（梅雨）、七月底（行李箱）照月份，其他照順序補空的那一週（r2y3b3d.js S.abPickT1）；十則傳完就不再傳 */
     t1:[['（照片：公寓房間，箱子還沒拆）','到了。箱子明天拆。'],   /* 第 1 則、第 8 則回覆①照 AA_463 第 7 節改字（她在日本住公寓，AA_377）*/['（照片：便利商店的飯糰架）','飯糰的海苔要自己拉開。我研究了三天。'],['（照片：大學的櫻花）','四月。這邊的櫻花開得比較晚。'],
-        ['（照片：公寓的投幣洗衣機）','一次一百圓。我記在手帳了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。'],['（照片：垃圾分類的月曆，貼在冰箱上）','星期二可燃，星期五資源。我貼在冰箱上了。'],
+        ['（照片：公寓的投幣洗衣機）','一次一百圓。我每一筆都記下來了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。'],['（照片：垃圾分類的月曆，貼在冰箱上）','星期二可燃，星期五資源。我貼在冰箱上了。'],
         ['（照片：電車的月台，人排成兩排）','這邊排隊會排成兩排。我第一天排錯了。'],['（照片：窗外一片灰）','梅雨。衣服三天沒乾。'],['（照片：教室的黑板，寫滿日文）','今天上課被點到。我用日文答完，全班安靜了一下。'],
         ['（照片：行李箱，攤開在床上）','八月五號。我開始收了。']],
     t1O:[[['累嗎？','還好。……床比宿舍軟。'],['房間多大？','六疊。我量過了。']],[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],
-        [['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],[['一百圓是多少？','二十幾塊。我記了匯率。'],['手帳記幾頁了？','十一頁。']],[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']],
+        [['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],[['一百圓是多少？','二十幾塊。我記了匯率。'],['記幾頁了？','十一頁。']],[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']],
         [['比臺灣難嗎？','比較難。可是規則寫得很清楚。'],['妳一定都記得。','記得。上禮拜鄰居還問我。']],[['後來呢？','後面的阿姨帶我換過去。沒說話。'],['妳也會排錯？','會。只有一次。']],
         [['公寓有烘衣機嗎？','樓下有。一次一百圓。我又記了一筆。'],['臺北也在下。','那我們一樣。']],[['一定是答對了。','下次我問老師。'],['安靜是好的意思嗎？','我也不知道。我查了。']],
-        [['我去機場接妳。','好。……我記在手帳了。'],['東西變多了嗎？','多了一本手帳。寫滿了。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句；原本四則的回覆照舊 */
+        [['我去機場接妳。','好。班機號碼我再傳給你。'],['東西變多了嗎？','多了很多書。箱子關不起來。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句；原本四則的回覆照舊 */
     /* AA_524 A10：沒交往的朋友（r2y3b3d.js 的 tier 1）沒有接機那一場——「我去機場接妳。」她的回覆換這一句；交往中照上面（8/5 接機）*/
-    t1OFriend:{9:{'我去機場接妳。':'不用。我爸會來。……謝謝。'}},
+    t1OFriend:{9:{'我去機場接妳。':'不用。我媽會來。……謝謝。'}},
     t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊報告交了嗎？'],O:['交了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
         {L:['讀書會 Alison 有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
-    t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
-      [ {speaker:'heroine_01',text:'（她把手帳翻到這一週）這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
-      [ {speaker:'heroine_01',text:'（畫面晃了一下，她把手機靠在字典上）你那邊幾點？'},{speaker:'heroine_01',text:'……我只是想看一下你。好，可以了。'},{speaker:'heroine_01',text:'你先掛。'} ] ],
+    t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你吃晚餐了嗎？我這邊剛吃完。'},{speaker:'heroine_01',text:'這禮拜的課很難。不講課了，你最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
+      [ {speaker:'heroine_01',text:'這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
+      [ {speaker:'heroine_01',text:'（畫面晃了一下，她把手機靠在字典上）你還沒睡？'},{speaker:'heroine_01',text:'……我只是想看一下你。好，可以了。'},{speaker:'heroine_01',text:'你先掛。'} ] ],
     invite:[ {speaker:'heroine_01',text:'七月七號，這邊是七夕。商店街會掛很多竹子。'},{speaker:'heroine_01',text:'……你要不要來看？'},
       {choice:[{text:'「我去。」',set:{AN_JP_TRIP_ASK:'go'},goto:'iy'},{text:'「我再看看。」',set:{AN_JP_TRIP_ASK:'later'},goto:'il'}]},
       {label:'iy'},{speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},{goto:'ie'},
@@ -462,7 +465,7 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
       {label:'p'},{goto:'pk',if:AN_KNOWS},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
       {label:'pk'},{speaker:'heroine_01',text:'……我知道。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,true); }},{goto:'e'},   /* AA_474 3b：她知道祐廷有別人＝「……我知道。」接 KNOW.say、三個選項（R2Y3B.tanabataKnow）*/
-      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},{goto:'e'},
+      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{unless:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。回臺灣，我有東西給你。'},{if:SHOP_SEEN,speaker:'heroine_01',text:'我喜歡你。……回臺灣，那一行我想勾掉。'},{speaker:'heroine_01',text:'……你不准賴。'},{goto:'e'},
       {label:'hk'},{speaker:'heroine_01',text:'我喜歡你。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_481 第 1 節：她知道＝只說兩句就接 KNOW.she（「理由我寫在手帳裡」沒答應就沒有下文、「……你不准賴。」和她接著問的打架，都不說）；答應的照原本排 ev_an_notebook */
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
@@ -476,8 +479,9 @@ const R2Y3B_EVENTS=(function(){
     outingMissed:G=>{ const x=X(); if(x) x.tanabataMissed(G); } };   /* 答應了、7/6 沒出發：照條件沒到那一版（7/7 竹子的照片）*/
   const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},cg('cg_airport_return_heroine01'),{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };   /* CG-35（AA_597；BB 2026-11-02 19:4x）放在第一句旁白 */
-  const AN_NOTEBOOK={ id:'ev_an_notebook', title:'理由欄', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{speaker:null,text:'（第一頁寫著：「理由欄。空著，給你。」）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };
+  const AN_NOTEBOOK={ id:'ev_an_notebook', title:'日本的手帳', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{unless:SHOP_SEEN,speaker:null,text:'（第一頁的標題是「想去的店」。上面還沒有店名，最下面一行只寫著：和你。）',consequences:{mem:[{npc:'heroine_01',tag:'AN_SHOP_PAGE',note:''}]}},
+      {if:SHOP_SEEN,speaker:null,text:'（是那一本舊手帳。翻到「想去的店」，最下面還是「和你」。旁邊多畫了一個空的勾勾格。）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };   /* AA_589 第 80 列＋第 10 節：第一次看到「想去的店」那一頁＝記 AN_SHOP_PAGE；看過的（期末飯她先說過）換承接的寫法；事件標題「理由欄」→「日本的手帳」（7-1）*/
 
   /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（交往中一律有，AA_343 D1）；4/13（四）22:30 視訊（日本 23:30）---------- */
   const VDAY={custom:G=>!!(G.flags&&G.flags.AN_VDAY_GIFT)};
@@ -487,8 +491,8 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_01',text:'日本的白色情人節，是收到巧克力的人要回禮。'},
       {if:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）一個月前你送的。這是回禮。'},
       {if:{custom:G=>!VDAY.custom(G)&&VDAY_BUSY(G)},speaker:'heroine_01',text:'二月十四號那天，你有事。我在讀書。'},   /* AA_508 0-2 第 8 點（31a4c4002）：2/13 她約過、玩家拒絕（no）或答應了沒到（missed）——原本也走「你也沒說什麼」，接不上 */
-      {if:{custom:G=>!VDAY.custom(G)&&!VDAY_BUSY(G)},speaker:'heroine_01',text:'二月十四號那天，我在讀書。……你也沒說什麼。'},   /* 沒約到（不是交往中、沒回 noreply）照舊 */
-      {unless:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。'},   /* AA_508 0-2 第 8 點：原本「所以這個不是回禮。……是我自己想送的。」是禁用句型（口氣表 0-3「不是X。是Y。」），兩個版本都換 */
+      {if:{custom:G=>!VDAY.custom(G)&&!VDAY_BUSY(G)},speaker:'heroine_01',text:'二月十四號那天，我在讀書。你也沒說什麼。'},   /* 沒約到（不是交往中、沒回 noreply）照舊 */
+      {unless:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）回禮要先收到才算。這個是我自己想送的。'},   /* AA_508 0-2 第 8 點：原本「所以這個不是回禮。……是我自己想送的。」是禁用句型（口氣表 0-3「不是X。是Y。」），兩個版本都換 */
       {choice:[{text:'「謝謝。」',set:{AN_WHITE_DAY:'thanks'},goto:'a'},{text:'「台灣是反過來的吧？」',set:{AN_WHITE_DAY:'reverse'},goto:'b'},{text:'「十一天以後妳就走了。」',set:{AN_WHITE_DAY:'eleven'},goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',text:'嗯。……打開以前先猜。'},{goto:'end'},   /* 三個回覆她各回一句（新寫）*/
       {label:'b'},{speaker:'heroine_01',text:'我查過了。所以我送。'},{goto:'end'},
@@ -497,7 +501,7 @@ const R2Y3B_EVENTS=(function(){
   const FAR_VIDEO={ id:'ev_an_far_video', title:'以安的視訊', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'heroine_01',text:'（拿著一張照片對著鏡頭）町公所門口的通知。'},
-      {speaker:'heroine_01',text:'最後一行我還是看不懂。……你幫我想。'},
+      {speaker:'heroine_01',text:'最後一行我還是看不懂。你幫我想。'},
       {choice:[{text:'「應該是叫大家準時倒垃圾。」',set:{AN_FAR_VIDEO:'trash'},goto:'a'},{text:'「把照片傳給我，我查。」',set:{AN_FAR_VIDEO:'check'},goto:'b'},{text:'「我也看不懂。」',set:{AN_FAR_VIDEO:'same'},goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',text:'……那我這三個禮拜都倒錯了。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_01',text:'好。查到了先跟我說。'},{goto:'end'},

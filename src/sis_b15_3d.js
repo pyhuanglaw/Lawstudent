@@ -81,7 +81,7 @@ const SISB15=(function(){
       if(!sent(G,tag)&&now(G)<T(d,19)){ const hint=typeof SISB12!=='undefined'&&!!SISB12.plgTerm&&SISB12.plgTerm(G,d)&&typeof SISB12_LINES!=='undefined'&&SISB12_LINES.studyHint;   /* 以安的公法讀書會（週四 20:00）同一晚：照 AA_490 第 3 節同一個讀書會的做法——照撞期處理、「去。」帶小字（那一學期去過公法讀書會的）*/
         const ask=S.awayOn(G,d)?null:{id:tag,until:T(d,19),opts:[Object.assign({t:L.go,set:{[go]:true}},hint?{hint}:{})]};   /* 那天人在國外＝訊息照收、沒有「去。」*/
         if(inGrp(G)){ const m=g(['k',L.studyAsk]); if(ask) m.ask=ask; PHONE.at(G,d-1,tzH(G,d-1,21),[m],tag); }   /* 家族群組：所有人（D 也收得到）*/
-        else if(G.flags.met_sis&&(S.dating(G)||stageOk('FAMILIAR'))&&contact(G)){ const m=dm(L.studyDm); if(ask) m.ask=ask; PHONE.at(G,d-1,tzH(G,d-1,21),[m],tag); } }   /* 沒在家族群組、FAMILIAR 以上：她私訊 */
+        else if(G.flags.met_sis&&(S.dating(G)||stageOk('FAMILIAR'))&&contact(G)&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,ID))){   /* AA_600 B22：私訊那一支前任不送（家族群組照留）*/ const m=dm(L.studyDm); if(ask) m.ask=ask; PHONE.at(G,d-1,tzH(G,d-1,21),[m],tag); } }   /* 沒在家族群組、FAMILIAR 以上：她私訊 */
       if(F[go]===true&&F['SIS15_STUDY_'+x.n]==null&&!S.awayOn(G,d)&&now(G)<T(d,19.25)) plan(G,Object.assign(S.studyOut(x.n),{day:d})); } };
   S.LATE='2028-03-16';
   S.late=function(G){ const d=D(S.LATE); if(d==null||G.day<d||G.day>d+1||!inGrp(G)) return; PHONE.at(G,d,tzH(G,d,21),[g(['k',L.late])],'sisb15_late'); };   /* 2-3 Kevin 九點（群組）*/

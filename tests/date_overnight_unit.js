@@ -239,7 +239,8 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
   await sec('14c',async()=>{
     // 5-2：D26～D32 時間不對的九句（只改引號裡的字；date_lines.js 由 import_date_lines.py 疊上去）
     const bad=[]; const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&typeof x==='object'){ if(typeof x.text==='string') o.push(x.text); for(const k in x) if(k!=='text') texts(x[k],o); } return o; };
-    for(const f of SP.fix52){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]); if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(f.neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+f.neu); }
+    const R594=require('./an_rev_doc.js').ROWS.filter(r=>/AA_594_/.test(r.doc)&&/^date_lines\.js/.test(r.where));   /* AA_359 的新句後來又被以安改稿④b（AA_594 第 2-14 節）改的：照 AA_594 的改成找（tests/aa594_an_4b_unit.js 逐列查）*/
+    for(const f of SP.fix52){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]), r=f.who==='heroine_01'&&R594.find(x=>x.old===f.neu&&x.where.includes('loc.'+f.loc+'.')), neu=r?r.nw:f.neu; if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+neu); }
     check('14. 5-2：九句都換成「改成」那一欄（只在那個地點、那個人；舊句不見了）',SP.fix52.length===9&&!bad.length,bad.join('；'));
     check('14. 5-2：date_lines.js 的來源寫著 AA_359@'+SPEC_SHA,DATE_LINES.source.includes('AA_359_兩天一夜的約會_住宿那一段.md@'+SPEC_SHA),DATE_LINES.source.slice(-200)); });
   await sec('14d',async()=>{

@@ -63,7 +63,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('H1. 沒有交往：沒有那則私訊',!TH('p:heroine_01').some(m=>m.tag==='va10_dm_heroine_01')); }
   // ===== H2 白色情人節、H3 阿哲 =====
   { const src=fs.readFileSync(path.join(ROOT,'src/data/r2y3b_events.js'),'utf8');
-    check('H2. 2028 白色情人節（沒送過那一版）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。」（AA_508 0-2 第 8 點換掉禁用句型）；沒有「我在臺中」「理由欄我寫了」',src.includes("text:'二月十四號那天，我在讀書。……你也沒說什麼。'")&&src.includes("text:'（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。'")&&!src.includes("text:'（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。'")&&!src.includes('我在臺中，你在臺北')&&!src.includes('理由欄我寫了'));
+    check('H2. 2028 白色情人節（沒送過那一版）：「二月十四號那天，我在讀書。你也沒說什麼。」「（她拿出一個小紙袋）回禮要先收到才算。這個是我自己想送的。」（AA_508 0-2 第 8 點換掉禁用句型）；沒有「我在臺中」「理由欄我寫了」',src.includes("text:'二月十四號那天，我在讀書。你也沒說什麼。'")&&src.includes("text:'（她拿出一個小紙袋）回禮要先收到才算。這個是我自己想送的。'")&&!src.includes("text:'（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。'")&&!src.includes('我在臺中，你在臺北')&&!src.includes('理由欄我寫了'));
     check('H3. 大三下期末飯阿哲：「大四了欸。」「暑假我回高雄，書帶回去讀。」',J(TERMEND_LINES.POOL.Y3S2.zhe)===J(['大四了欸。','暑假我回高雄，書帶回去讀。']),J(TERMEND_LINES.POOL.Y3S2.zhe)); }
   // ===== H4 同行的人 =====
   { fresh(D('2026-08-24'),6,'dorm',{}); R('kai','FAM'); R('heroine_03','FAM'); R('yu','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0];

@@ -43,13 +43,13 @@ const date=id=>H.date(id);
 (async()=>{
   /* ===== 2-Y4-31 杜鵑花第四張 ===== */
   { fresh('2029-03-08',11,'dorm'); ACQ('heroine_01'); H.FAMILIAR('yu'); contact('heroine_01'); grp(); at('2029-03-08',12+10/60); phone();
-    check('2-Y4-31 12:10 有點熟以上：以安私訊「杜鵑開了」「十二點半 老位置」', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['杜鵑開了','十二點半 老位置']), JSON.stringify(th('p:heroine_01')));
+    check('2-Y4-31 12:10 有點熟以上：以安私訊「杜鵑開了」「十二點半，老位置。」', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['杜鵑開了','十二點半，老位置。']), JSON.stringify(th('p:heroine_01')));
     at('2029-03-08',12.5); H.G.zone='campus'; E.player.obj.position.x=-20; E.player.obj.position.z=8;
     check('2-Y4-31 12:25～12:55 走到椰影大道的杜鵑＝演（不在大道上＝不演）', S.azaleaDue(H.G,GM)&&(()=>{ E.player.obj.position.z=40; const r=S.azaleaDue(H.G,GM); E.player.obj.position.z=8; return !r; })());
     H.picks=[0]; await run('ev_azalea_y4',[0]);
     check('Z1 朋友：「第四張。」；四張排在一起；選項三個；AZALEA_Y4 shot', has('（把手機遞給你）第四張。')&&has('（她把四張照片排在一起給你看。同一棵樹，同一個位置。）')&&has('一樣才對。')&&H.opts[0].length===3&&H.G.flags.AZALEA_Y4==='shot'&&!has('麻煩你。……兩個人。')); }
   { fresh('2029-03-08',12.5,'campus'); ACQ('heroine_01'); date('heroine_01'); H.FAMILIAR('yu'); global.CG_REGISTRY.cg_azalea_fourth_heroine01={file:'x.webp',title:'t'}; await run('ev_azalea_y4');
-    const pen='（她翻開手帳，在這一張照片的旁邊寫了一行字：「這一張要有兩個人。」）';
+    const pen='（照片裡的兩個人都沒有看鏡頭。她看了很久，才把手機收起來。）';
     const cz=cgAt.filter(c=>c[0]==='cg_azalea_fourth_heroine01').pop();
     check('Z2 交往中：「麻煩你。……兩個人。」；CG-18 在拍下去的那一刻（手帳那一行之前）；手帳那一行是旁白、她不唸', has('麻煩你。……兩個人。')&&H.cgs.includes('cg_azalea_fourth_heroine01')&&!!cz&&cz[1]===iOf('麻煩你。……兩個人。')+1&&cz[1]<=iOf(pen)&&has(pen)&&H.said.find(s=>s.t===pen).who===null&&!has('第四張。')&&H.G.flags.AZALEA_Y4==='two');
     delete global.CG_REGISTRY.cg_azalea_fourth_heroine01;
@@ -115,7 +115,7 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-35 春假（最後一次）＋可昕三選一 ===== */
   const TEAM=()=>{ for(const id of ['heroine_01','zhe','yu','classmate_bohan']) H.FAMILIAR(id); grp(); };
   { fresh('2029-03-25',20,'dorm'); TEAM(); date('kexin'); at('2029-03-25',20.5); phone();
-    check('2-Y4-35 3/25 20:30 群組：以安「春假要不要出去 兩天一夜」「行程我排好了 4/1 前跟我說」；可昕的還沒到＝先不問', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['春假要不要出去 兩天一夜','行程我排好了 4/1 前跟我說'])&&!S.springPending(H.G));
+    check('2-Y4-35 3/25 20:30 群組：以安「春假要不要出去？兩天一夜。」「行程我排好了。4/1 前跟我說。」；可昕的還沒到＝先不問', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['春假要不要出去？兩天一夜。','行程我排好了。4/1 前跟我說。'])&&!S.springPending(H.G));
     at('2029-03-25',21); phone();
     check('2-Y4-35 21:00 交往中的可昕「最後一個春假。……這次不排行程表。」；兩則都到了才問三選一', th('p:kexin').includes('最後一個春假。……這次不排行程表。')&&S.springPending(H.G));
     H.opts=[]; H.picks=[0]; await S.springPrompt(GM);
@@ -126,7 +126,7 @@ const date=id=>H.date(id);
   { fresh('2029-04-02',19,'dorm',{SPRING_Y4:'noodle'}); TEAM(); at('2029-04-02',20.5);
     check('2-Y4-35 4/2 晚上：旁白「你回家把車開出來。」', S.springCarDue(H.G)&&(H.said=[],await S.springCar(GM),has('（你回家把車開出來。）'))&&!S.springCarDue(H.G));
     OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); at('2029-04-03',7.9); await goOut('y4_spring',[0]);
-    check('S1 麵店團：行程表「最後一次」（旁白，不唸）；阿哲、Alison；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。理由欄只寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）……謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
+    check('S1 麵店團：行程表「最後一次」（旁白，不唸）；阿哲、Alison；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
     fresh('2029-04-03',7.9,'dorm',{SPRING_Y4:'noodle'}); TEAM(); date('heroine_01'); OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); await goOut('y4_spring',[1]);
     check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去麵店。」→「你點了招牌乾麵。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌乾麵。大家都是。')); }
   { fresh('2029-03-25',20,'dorm'); TEAM(); H.FRIEND('heroine_03'); date('heroine_03'); at('2029-03-25',20.5); phone(); H.picks=['留在宿舍']; await S.springPrompt(GM); at('2029-04-03',21.6); phone(); PHONE.tick(H.G);
@@ -254,13 +254,13 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-46 七月最後一次的心意邀約 ===== */
   const heartOk=id=>{ const r=SOCIAL.rel(id); r.npcRom=60; const L=DATE.log(H.G,id); L.count=4; L.wish=true; TERMEND.rec(H.G).think[id]='Y4S2'; };
   { fresh('2029-07-13',20,'dorm',Object.assign({BAR_REG:true},GD)); H.FRIEND('heroine_01'); heartOk('heroine_01'); at('2029-07-13',21); pg();
-    check('J1 畢業傍晚對以安選「讓我想想」：7/13 21:00「明天晚上有空嗎。」「六點半，同一家。……手帳我帶著。」', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上有空嗎。','六點半，同一家。……手帳我帶著。']));
+    check('J1 畢業傍晚對以安選「讓我想想」：7/13 21:00「明天晚上有空嗎。」「六點半，同一家。」', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上有空嗎。','六點半，同一家。']));
     answer('y4_july',0); phone(); const q=OUT.get(H.G,'y4_july'); at('2029-07-14',0.1); phone();
     check('2-Y4-46「好。」→ 7/14 18:30 公館巷子裡她知道的小店；7/14 00:00 重新判斷照樣成立', !!q&&q.h===18.5&&q.day===D('2029-07-14')&&q.state==='planned'&&!H.G.flags.JULY_CANCEL);
     at('2029-07-14',9.5); const early=dueHas('r2y4b_july_day'); at('2029-07-14',10); const due=dueHas('r2y4b_july_day'); H.said=[]; { const st=PG.byId('r2y4b_july_day'); if(st) await PG.runStep(GM,st); }
     check('G9-46 7/14 白天（10:00）旁白「（白天照樣在總圖。離一試還有二十一天。）」（AA_345 G9；有那天晚上的邀約、報了國考）', !early&&due&&H.said.length===1&&H.said[0].t==='（白天照樣在總圖。離一試還有二十一天。）'&&H.said[0].who===null, JSON.stringify(H.said));
     at('2029-07-14',18.3); await goOut('y4_july',['先不說','我們還是朋友']);
-    check('J1 先不說 →「（她把手帳翻到最後一頁…寫滿了。）」「我寫完了。這次我不等下一次。」「你回答。」；回家路上是杜鵑那棵樹；沒有 CG、沒有「讓我想想」；四個選項', has('（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）')&&has('我寫完了。這次我不等下一次。')&&has('你回答。')&&has('四張照片都在這棵樹前面拍的。今天沒有花，我還是想停一下。')&&!H.cgs.length&&H.opts[0].length===4&&!H.opts.flat().some(t=>/讓我想想/.test(t)));
+    check('J1 先不說 →（AA_589 第 88、89 列＋第 10 節：這裡沒有 AN_SHOP_PAGE＝第一次揭曉的寫法）「（她把手帳翻到「想去的店」那一頁…只寫著「和你」。）」「這一行，我想今天勾掉。」「你回答。」；回家路上是杜鵑那棵樹；沒有 CG、沒有「讓我想想」；四個選項', has('（她把手帳翻到「想去的店」那一頁，推到你面前。最下面一行沒有店名，只寫著「和你」。）')&&has('這一行，我想今天勾掉。')&&has('你回答。')&&has('四張照片都在這棵樹前面拍的。今天沒有花，我還是想停一下。')&&!H.cgs.length&&H.opts[0].length===4&&!H.opts.flat().some(t=>/讓我想想/.test(t)));
     check('2-Y4-46「我們還是朋友。」＝「好。……八月四號，你考試加油。」；記 HEART_FRIEND／HEART_LAST', has('好。……八月四號，你考試加油。')&&H.G.flags.HEART_FRIEND_heroine_01===true&&H.G.flags.HEART_LAST_heroine_01===true&&!H.G.flags.dating_heroine_01); }
   { fresh('2029-07-14',18.3,'dorm',GD); H.FRIEND('heroine_01'); heartOk('heroine_01'); OUT.plan(H.G,{id:'y4_july',ev:'ev_heart_july',day:D('2029-07-14'),h:18.5,place:'x',title:'t',travelH:0.25,july:{id:'heroine_01'}}); await goOut('y4_july',[0]);
     check('2-Y4-46 說出來（第二次、七月那一版）：「……嗯。這次換你先說了。」「好。我們在一起。」→ 交往', has('……嗯。這次換你先說了。')&&has('好。我們在一起。')&&H.G.flags.dating_heroine_01===true);
@@ -308,24 +308,24 @@ const date=id=>H.date(id);
     at('2029-09-03',12); const p1=STORY.presence('classmate_mingxuan',H.G); at('2030-07-31',12); const p2=STORY.presence('classmate_mingxuan',H.G); at('2030-08-01',12); const p3=STORY.presence('classmate_mingxuan',H.G);
     check('2-Y4-48 presence：2029-09-02～2030-07-31 在德國', p1.here===false&&p1.kind==='abroad'&&p2.here===false&&p3.here!==false); }
   /* ===== 2-Y4-49 以安：二試放榜、三試放榜（已在 AA_319 1A-18）===== */
-  check('2-Y4-49 已在 AA_319：以安的兩通電話（「二試過了。一月面試。」「司法官上了。」）還在 postgrad_lines.js', POSTGRAD_LINES.AN.call1[0]==='二試過了。一月面試。'&&POSTGRAD_LINES.AN.call2[0]==='司法官上了。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
+  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月面試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月面試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
   /* ===== 2-Y4-50 以安：哥大＋紐約送機 ===== */
   const ANF=()=>{ H.FRIEND('heroine_01'); contact('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); grp(); };
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();
     check('2-Y4-50 3/27 21:00 私訊「明天晚上七點，麵店。」「有事想說。」（去／不去）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上七點，麵店。','有事想說。'])&&!!PHONE.byAsk(H.G,'y6_an_col'));
     answer('y6_an_col',0); phone(); const q=OUT.get(H.G,'y6_an_col'); at('2030-03-28',18.4); await goOut('y6_an_col',[0]);
-    check('C1 朋友：3/28 麵店當面「紐約的法學院上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約的法學院上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。……可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
+    check('C1 朋友：3/28 麵店當面「紐約的法學院上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約的法學院上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
     at('2030-03-28',22.1); pg(); check('2-Y4-50 當面說過的：22:00 沒有群組那一則', !th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。'));
     at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('C1 8/10 21:00 阿哲「明天以安的飛機」「早上十點 桃園 要去的舉手」；8/11 朋友版「你們不用全部都來的。」「回來的時候，我會在事務所。你來找我，要預約。」；AN_NY_SENDOFF went', th('g:noodle_team').includes('明天以安的飛機')&&th('g:noodle_team').includes('早上十點 桃園 要去的舉手')&&has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')&&has('……嗯。')&&!has('……你不用預約。')&&H.G.flags.AN_NY_SENDOFF==='went'); }
   { fresh('2030-03-28',18.4,'dorm',GD); ANF(); date('heroine_01'); OUT.plan(H.G,{id:'y6_an_col',ev:'ev_an_columbia',day:D('2030-03-28'),h:19,place:'阿鳳麵店',title:'t',travelH:0.5}); await goOut('y6_an_col',[1,1]);
     check('C2 交往中：「八月走。一年。」（她看著你，等你說話。）→「我去紐約找妳。」→「好。機票你自己訂，行程我排。」', has('確定。寫信的時候手有一點抖。')&&!has('抖的是手，不是我。')&&has('八月走。一年。')&&has('（她看著你，等你說話。）')&&has('好。機票你自己訂，行程我排。'));
     OUT.plan(H.G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:D('2030-08-11'),h:10,place:'桃園機場',title:'t',travelH:1}); at('2030-08-11',8.9); await goOut('y6_an_ny',[1]);
-    check('C2 8/11 交往版：先跟大家說完「你們不用全部都來的。」才轉過來；「紐約比臺北慢十二個小時。……」「……你不用預約。」；（抱她一下）', iOf('（看了一下手錶）你們不用全部都來的。')>=0&&iOf('紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。')>iOf('（看了一下手錶）你們不用全部都來的。')&&has('每天一句就好。')&&has('……你不用預約。')&&has('（她很快地回抱了一下，轉身走進去。走到一半回頭，揮了一下手。）')); }
+    check('C2 8/11 交往版：先跟大家說完「你們不用全部都來的。」才轉過來；「紐約比臺北慢十二個小時。……」「……你不用預約。」；（抱她一下）', iOf('（看了一下手錶）你們不用全部都來的。')>=0&&iOf('紐約比臺北慢十二個小時。我算過了，你早上起床，我剛好要睡。')>iOf('（看了一下手錶）你們不用全部都來的。')&&has('每天一句就好。')&&has('……你不用預約。')&&has('（她很快地回抱了一下，轉身走進去。走到一半回頭，揮了一下手。）')); }
   { fresh('2030-03-28',18.4,'dorm',GD); ANF(); date('heroine_01'); H.G.flags.AN_SENDOFF='went'; H.G.flags.AN_JP_TRIP_ASK='go'; OUT.plan(H.G,{id:'y6_an_col',ev:'ev_an_columbia',day:D('2030-03-28'),h:19,place:'阿鳳麵店',title:'t',travelH:0.5}); await goOut('y6_an_col',[1,1]);
     check('AA_447 1-3 答應過日本七夕（AN_JP_TRIP_ASK go）：「好。跟上次一樣，機票你自己訂，行程我排。」，沒有原句', has('好。跟上次一樣，機票你自己訂，行程我排。')&&!has('好。機票你自己訂，行程我排。'));
     OUT.plan(H.G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:D('2030-08-11'),h:10,place:'桃園機場',title:'t',travelH:1}); at('2030-08-11',8.9); await goOut('y6_an_ny',[1]);
-    check('AA_447 1-1 送過她去日本（AN_SENDOFF went）交往版：前三句換「兩年多前送她去日本，也是這個門口」「……我上次也說過。」「上次你也知道我們會來。」，沒有照抄的三句；後面照常', has('（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）')&&has('（看了一下手錶）……我上次也說過。你們不用全部都來的。')&&has('上次你也知道我們會來。')&&!has('（桃園機場，出境的門口。大家站成一排。）')&&!has('（看了一下手錶）你們不用全部都來的。')&&!has('要。')&&has('紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。')); }
+    check('AA_447 1-1 送過她去日本（AN_SENDOFF went）交往版：前三句換「兩年多前送她去日本，也是這個門口」「我上次也說過。」（AA_589 第 71 列拿掉「……」）「上次你也知道我們會來。」，沒有照抄的三句；後面照常', has('（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）')&&has('（看了一下手錶）我上次也說過。你們不用全部都來的。')&&has('上次你也知道我們會來。')&&!has('（桃園機場，出境的門口。大家站成一排。）')&&!has('（看了一下手錶）你們不用全部都來的。')&&!has('要。')&&has('紐約比臺北慢十二個小時。我算過了，你早上起床，我剛好要睡。')); }
   { fresh('2030-08-10',20,'dorm',GD); ANF(); H.G.flags.AN_SENDOFF='together'; at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('AA_447 1-1 日本路線一起出發（AN_SENDOFF together）朋友版：換句的三句；「回來的時候，我會在事務所。」照常', has('（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）')&&has('上次你也知道我們會來。')&&!has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')); }
   { fresh('2030-08-10',20,'dorm',GD); ANF(); H.G.flags.AN_SENDOFF='missed'; at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);

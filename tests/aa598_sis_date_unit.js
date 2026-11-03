@@ -120,7 +120,7 @@ const allHers=loc=>{ const out=[]; const w=x=>{ if(Array.isArray(x)) x.forEach(w
 const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8'));
 const ent=allow.files.filter(e=>e.path===DOCF);
 check('0. 白名單：AA_598@c389462be approved、task AA598-SIS-1C-1102（只有一筆）',ent.length===1&&ent[0].sha===SHA&&ent[0].status==='approved'&&!!ent[0].approvedBy&&ent[0].task==='AA598-SIS-1C-1102',J(ent));
-check('0. date_lines.js 的來源（開頭註解＋source）有 AA_598@c389462be',src.split('\n')[0].includes('AA_598_學姊改稿_1c_約會地點台詞.md@'+SHA)&&String(DL.source).endsWith('＋AA_598_學姊改稿_1c_約會地點台詞.md@'+SHA),String(DL.source).slice(-120));
+check('0. date_lines.js 的來源（開頭註解＋source）有 AA_598@c389462be',src.split('\n')[0].includes('AA_598_學姊改稿_1c_約會地點台詞.md@'+SHA)&&String(DL.source).includes('＋AA_598_學姊改稿_1c_約會地點台詞.md@'+SHA)   /* 合併 anb 以後 AA_594 也疊在後面：只看有沒有，不看是不是最後一個 */,String(DL.source).slice(-120));
 check('0. 讀得到稿（企劃線 '+SHA+'）',DOC.includes('## 8. AA 審查決定'),'讀不到；在沒有企劃線 commit 的地方跑要設 AA598_DOCREPO');
 
 /* 1 */

@@ -27,17 +27,19 @@ await tsec(1,async()=>{ const S1=sec(1);
     const atNoon=H.msgs('p:heroine_05').slice(); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
     const th=H.msgs('p:heroine_05');
-    check('1. '+tag+'、學姊前任：12:00 她私訊「'+noon+'」',J(atNoon)===J([noon]),J(atNoon));
-    check('1. '+tag+'：19:30 Kevin 的生日 → 傳「生日快樂。」→ 她只回「謝謝。」（不再恭喜一次：「'+two+'」不出）',th.join('|').endsWith('生日快樂。|謝謝。')&&!th.includes(two)&&G.flags.SIS_BDAY_Y4==='msg'&&th.filter(t=>t===noon).length===1,J(th)); }
+    /* AA_600 B9、B10（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：中午她不主動私訊前任；晚上你傳「生日快樂。」她已讀不回——
+       原本的期望（AA_473 第 1 節：中午「畢業快樂。」／「今天恭喜。」、晚上只回「謝謝。」）照 AA_600 換，不是放寬 */
+    check('1. '+tag+'、學姊前任（AA_600 B9）：12:00 不私訊（沒有「'+noon+'」）',!atNoon.length,J(atNoon));
+    check('1. '+tag+'（AA_600 B10）：19:30 Kevin 的生日 → 傳「生日快樂。」→ 她不回（沒有「謝謝。」、沒有「'+two+'」）',th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(two)&&G.flags.SIS_BDAY_Y4==='msg'&&!th.includes(noon),J(th)); }
   /* AA_476 A-5：判斷照「她回生日的那一刻，手機裡已經有畢業那一則（含補發）」——下午才分手的：中午那一則在晚上補發，回生日只回「謝謝。」*/
   { check('1. 稿：AA_476 A-5「含補發」、只回「謝謝。」',a476(5).includes('含補發')&&a476(5).includes('只回「謝謝。」'));
     const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); PG.rules(GM); PHONE.tick(G); const noonNot=!PHONE.sent(G,'pg_sis_ex'); await H.run('grad');
     H.at('2029-06-02',15); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM); PHONE.tick(G);
     const th=H.msgs('p:heroine_05'), m=(G.msgs||[]).find(x=>x.tag==='pg_sis_ex');
-    check('1. 中午還在交往、下午才分手：中午那一則晚上補發（時間寫 12:00）、回生日只回「謝謝。」',noonNot&&!!m&&m.h===12&&th.join('|').endsWith('生日快樂。|謝謝。')&&!th.includes(POSTGRAD_LINES.BDAY.exReply[1]),J(th)); }
+    check('1. 中午還在交往、下午才分手（AA_600 B9、B10）：中午那一則不補發、回生日也不回',noonNot&&!m&&th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(POSTGRAD_LINES.BDAY.exReply[1]),J(th)); }
   /* 中午那一則沒送到（還不是前任的時候不發；之後也過了補發的時間）：照原本兩句 */
   { const G=H.fresh('2029-06-04',13,'dorm'); graduated(G); ex('heroine_05'); G.flags.PG_SIS_EX_BDAY='send'; PG.rules(GM); PHONE.tick(G); const th=H.msgs('p:heroine_05');
-    check('1. 中午那一則沒送到：照原本兩句「謝謝。」「'+B.exReply[1]+'」',!PHONE.sent(G,'pg_sis_ex')&&th.join('|').endsWith('生日快樂。|謝謝。|'+B.exReply[1]),J(th)); }
+    check('1. 中午那一則沒送到（AA_600 B10）：她也不回（沒有「謝謝。」「'+B.exReply[1]+'」）',!PHONE.sent(G,'pg_sis_ex')&&th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(B.exReply[1]),J(th)); }
   /* 不傳＝沒有回覆 */
   { const G=H.fresh('2029-06-02',19.1,'campus'); graduated(G); ex('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',1); PG.rules(GM);
     check('1. 選「不傳」：沒有「生日快樂。」也沒有回覆',!H.msgs('p:heroine_05').includes('生日快樂。')&&!H.msgs('p:heroine_05').includes('謝謝。')&&G.flags.SIS_BDAY_Y4==='none'); } });
@@ -46,25 +48,27 @@ await tsec(1,async()=>{ const S1=sec(1);
 await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2='司法官上了。', US='我還寄了一份申請。美國的。……先不要問。';
   check('2. 稿：12/14「以安：'+L1+'」、1/25「以安：'+L2+'」（麵店團、不用回）',S2.includes('> 以安：'+L1)&&S2.includes('> 以安：'+L2)&&/前任改成麵店團群組\*\*（21:00，不用回）/.test(S2));
   const noodle=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='heroine_01').map(m=>m.text);
+  /* AA_589 第 7-5 節 S6（第 95、96 列）：群組也不由她宣布——阿哲先貼「以安二試過了」「以安上了 司法官」（不加句號），她回「一月面試。」「謝謝。」；不是前任的那一步不再是她打來的電話（祐廷自己查到、她回訊息）*/
+  const Z1='以安二試過了', Z2='以安上了 司法官', H1='一月面試。', H2='謝謝。', zhe=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^pg_an_/.test(m.tag||'')).map(m=>m.text);
   for(const route of [null,'JP']){ const tag=route?'日本路線（交換延畢）':'臺灣路線';
     const G=H.fresh('2029-12-14',20.6,'dorm',route?{EXCHANGE_ROUTE:route}:{}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); ex('heroine_01');
     PG.rules(GM); H.at('2029-12-14',21); const s1=PG.due(G); H.said=[]; if(s1) await PG.runStep(GM,s1); H.tick();   /* 照實際流程：時間到了有場景就演 */
-    check('2. '+tag+'、以安前任（FRIEND 以上）：12/14 21:00 沒有電話（an1 不成立）；麵店團「'+L1+'」',!(s1&&s1.id==='an1')&&!PG.byId('an1').cond(G)&&J(noodle(G))===J([L1]),J([s1&&s1.id,noodle(G)]));
+    check('2. '+tag+'、以安前任（FRIEND 以上）：12/14 21:00 沒有電話（an1 不成立）；麵店團阿哲「'+Z1+'」→ 以安「'+H1+'」',!(s1&&s1.id==='an1')&&!PG.byId('an1').cond(G)&&J(noodle(G))===J([H1])&&J(zhe(G))===J([Z1]),J([s1&&s1.id,noodle(G)]));
     check('2. '+tag+'：美國那份申請不講（電話、群組都沒有）',!H.has(US)&&!(G.msgs||[]).some(m=>m.text===US)&&!H.said.some(x=>/（電話）$/.test(x.who||'')));
     H.at('2030-01-25',20.6); PG.rules(GM); H.at('2030-01-25',21); const s2=PG.due(G); if(s2) await PG.runStep(GM,s2); H.tick();
-    check('2. '+tag+'：1/25 21:00 沒有電話（an2 不成立）；麵店團「'+L2+'」',!(s2&&s2.id==='an2')&&J(noodle(G))===J([L1,L2]),J([s2&&s2.id,noodle(G)]));
+    check('2. '+tag+'：1/25 21:00 沒有電話（an2 不成立）；麵店團阿哲「'+Z2+'」→ 以安「'+H2+'」',!(s2&&s2.id==='an2')&&J(noodle(G))===J([H1,H2])&&J(zhe(G))===J([Z1,Z2]),J([s2&&s2.id,noodle(G)]));
     H.at('2030-03-28',22.1); PG.rules(GM); STORY.phoneRules(GM); PHONE.tick(G); H.at('2030-03-29',10); PHONE.tick(G); }
   /* 不是前任（FRIEND）：照舊打電話、麵店團沒有那兩則 */
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); PG.rules(GM); H.at('2029-12-14',21); const c=PG.due(G);
-    check('2. 不是前任（FRIEND）：21:00 照舊是她打來的電話',!!c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c); H.tick();
-    check('2. 電話「'+L1+'」「'+US+'」；麵店團沒有那一則',H.has(L1)&&H.has(US)&&!noodle(G).length,J(noodle(G))); }
+    check('2. 不是前任（FRIEND）：21:00 照舊有那一步（an1；S6 起是祐廷自己查到、她回訊息）',!!c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c); H.tick();
+    check('2. S6：她回「謝謝。一月面試。」、不是交往中不提美國（「'+US+'」不在）；麵店團沒有那一則',H.has('謝謝。一月面試。')&&!H.has(US)&&!H.has(L1)&&!noodle(G).length,J(noodle(G))); }
   /* 交往中：照舊打電話（「……我只跟你講了。」）*/
   { const G=H.fresh('2029-12-14',21,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); const c=PG.due(G);
     check('2. 交往中：照舊打電話',!!c&&c.id==='an1'); }
   /* 前任但不到 FRIEND：照原本（12/14 沒有、1/25 麵店團一則）*/
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(G,'heroine_01'); H.FAMILIAR('heroine_01');
     PG.rules(GM); H.at('2029-12-14',21.1); H.tick(); const a=noodle(G).slice(); H.at('2030-01-25',20.6); PG.rules(GM); H.at('2030-01-25',21.1); H.tick();
-    check('2. 前任、不到 FRIEND：12/14 沒有（照原本）、1/25 麵店團「'+L2+'」',!a.length&&J(noodle(G))===J([L2])&&!PG.due(G),J([a,noodle(G)])); }
+    check('2. 前任、不到 FRIEND：12/14 沒有（照原本）、1/25 麵店團阿哲「'+Z2+'」→「'+H2+'」',!a.length&&J(noodle(G))===J([H2])&&J(zhe(G))===J([Z2])&&!PG.due(G),J([a,noodle(G)])); }
   /* 舊存檔：這一版以前已經演過電話（PG.done an1／an2 是 1）＝不再發群組那一則（不重演）*/
   { const G=H.fresh('2029-12-14',21.4,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); ex('heroine_01'); PG.rec(G).done.an1=1; PG.rules(GM); H.tick(); const a=noodle(G).slice();
     H.at('2030-01-25',21.4); PG.rec(G).done.an2=1; PG.rules(GM); H.tick();
@@ -74,14 +78,14 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
     const run=G=>{ for(const [k,h] of [['2029-12-14',20.6],['2029-12-14',21.1],['2029-12-14',23],['2029-12-15',10],['2030-01-25',20.6],['2030-01-25',21.1],['2030-01-25',23.5],['2030-01-26',12]]){ H.at(k,h); PG.rules(GM); PHONE.tick(G); const s=PG.due(G); if(s&&(s.id==='an1'||s.id==='an2')) return s.id; } return null; };
     const cnt=(G,t)=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.text===t).length;
     const G1=H.fresh('2029-12-14',20,'dorm'); graduated(G1); PHONE.join(G1,'noodle_team','麵店團'); ex('heroine_01'); const c1=run(G1);
-    check('2. 前任（FRIEND 以上）一路跳過 12/14、1/25（規則重跑好幾次）：「'+L1+'」「'+L2+'」各一則、沒有電話',!c1&&cnt(G1,L1)===1&&cnt(G1,L2)===1,J([c1,cnt(G1,L1),cnt(G1,L2)]));
+    check('2. 前任（FRIEND 以上）一路跳過 12/14、1/25（規則重跑好幾次）：「'+Z1+'」「'+Z2+'」各一則、沒有電話',!c1&&cnt(G1,Z1)===1&&cnt(G1,Z2)===1,J([c1,cnt(G1,Z1),cnt(G1,Z2)]));
     const G2=H.fresh('2029-12-14',20,'dorm'); graduated(G2); PHONE.join(G2,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(G2,'heroine_01'); H.FAMILIAR('heroine_01');
     for(const [k,h] of [['2029-12-14',21.1],['2029-12-15',12],['2029-12-17',12]]){ H.at(k,h); PG.rules(GM); PHONE.tick(G2); }   /* 12/14 那一則補發的時間（48 小時）過了才到 FRIEND */
     H.at('2030-01-01',12); H.FRIEND('heroine_01'); let c2=null; for(const [k,h] of [['2030-01-25',20.6],['2030-01-25',21.1],['2030-01-25',23.5],['2030-01-26',12]]){ H.at(k,h); PG.rules(GM); PHONE.tick(G2); const x=PG.due(G2); if(x&&x.id==='an2') c2=x.id; }
-    check('2. 12/14 不到 FRIEND、1/25 前已經到 FRIEND 的前任：12/14 沒有、1/25「'+L2+'」只有一則（不到 FRIEND 原本那一則和前任那一則是同一則）、沒有電話',!c2&&cnt(G2,L2)===1&&cnt(G2,L1)===0,J([c2,cnt(G2,L1),cnt(G2,L2)])); }
+    check('2. 12/14 不到 FRIEND、1/25 前已經到 FRIEND 的前任：12/14 沒有、1/25「'+Z2+'」只有一則（不到 FRIEND 原本那一則和前任那一則是同一則）、沒有電話',!c2&&cnt(G2,Z2)===1&&cnt(G2,Z1)===0,J([c2,cnt(G2,Z1),cnt(G2,Z2)])); }
   /* 前任、不在麵店團：沒有 */
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); ex('heroine_01'); PG.rules(GM); H.at('2029-12-14',21.1); H.tick(); const c=PG.due(G);
-    check('2. 前任、不在麵店團：沒有電話、沒有群組',!(c&&c.id==='an1')&&!(G.msgs||[]).some(m=>m.text===L1)); } });
+    check('2. 前任、不在麵店團：沒有電話、沒有群組',!(c&&c.id==='an1')&&!(G.msgs||[]).some(m=>m.text===Z1||m.text===H1)); } });
 
 H.done();
 })();

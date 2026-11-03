@@ -44,7 +44,7 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
   { const A=epiItems({SIS_THERMOS:true},()=>H.date('heroine_05')), B=epiItems({},()=>H.date('heroine_05'));
     check('R4. 和學姊交往、有 SIS_THERMOS：「（桌上有兩個保溫瓶。…）」接在祐廷那一樣後面；沒有＝「蓋子換過」',A.length===2&&/桌上有兩個保溫瓶/.test(A[1])&&B.length===2&&/蓋子換過/.test(B[1]),JSON.stringify([A,B])); }
   { const A=epiItems({},()=>H.date('heroine_01')), S0=epiItems({});
-    check('以安是伴侶：「說理由。」那張紙一定在；單身＝只有祐廷那一樣',A.length===2&&/說理由/.test(A[1])&&S0.length===1,JSON.stringify([A,S0])); }
+    check('以安是伴侶：「每個人講完。」那張紙一定在（AA_589 第 97 列，原本「說理由。」）；單身＝只有祐廷那一樣',A.length===2&&/上面只剩一行：「每個人講完。」/.test(A[1])&&!/說理由/.test(A[1])&&S0.length===1,JSON.stringify([A,S0])); }
   // R5
   { const s=require('fs').readFileSync(require('path').join(H.ROOT,'src/postgrad3d.js'),'utf8');
     check('R5. 方奕廷「那一年你在考試」只看台灣路線 BAR_YEAR===2030（交換路線 2031 拿掉）',/if\(!S\.delayed\(G\)&&F\.BAR_YEAR===2030\) t=Fy\.y2030;/.test(s)&&!/BAR_YEAR===2031\)\) t=Fy\.y2030/.test(s)); }

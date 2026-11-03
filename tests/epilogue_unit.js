@@ -53,7 +53,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   // P2：和以安交往
   { const G=await epi(Object.assign({},leanA,LAWYER),()=>{ H.FRIEND('heroine_01'); H.date('heroine_01'); H.FRIEND('zhe'); });
     const an=SOCIAL.datingName&&SOCIAL.datingName('heroine_01')||SOCIAL.displayName('heroine_01');
-    check('P2. 以安（交往）「今天我沒帶電腦出門。事務所的人都嚇一跳。」「你比我晚到。理由？」',said(an,'今天我沒帶電腦出門。事務所的人都嚇一跳。')&&said(an,'你比我晚到。理由？')&&!H.has('我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。'),an);
+    check('P2. 以安（交往）「今天我沒帶電腦出門。事務所的人都嚇一跳。」「你比我晚到。我等了十分鐘。」',said(an,'今天我沒帶電腦出門。事務所的人都嚇一跳。')&&said(an,'你比我晚到。我等了十分鐘。')&&!H.has('我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。'),an);
     check('P2. CG-10 以安在旁邊',JSON.stringify(H.cgs)===JSON.stringify(['cg_reunion_window_table_heroine01']));
     check('P2. 桌上那張紙（讀書會只剩一條規則的那張紙）記在 EPI_ITEMS（自己的東西在前：法服週六＝值班證）',JSON.stringify(G.flags.EPI_ITEMS)==='["值班證","讀書會只剩一條規則的那張紙"]'); }
   // P3：和可昕交往（A：沒有分開過）

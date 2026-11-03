@@ -78,9 +78,9 @@ const HCIRCLE_DATA={
     /* ===================== AA_503 大一上 ===================== */
     {id:'c503_4_1',doc:'AA_503',sec:'4-1',k:1,who:'heroine_01',with:['pool_7'],cls:true,pm:true,wkFrom:2,terms:['Y1S1'],cond:'metZjw',anchor:'with',heard:'曾靖雯：早安。／以安：……現在下午兩點。／曾靖雯：我知道。',
       place:'必修課的教室：以安坐到曾靖雯旁邊（第一排）。「現在下午兩點」＝只算下午的課（大一上是週四的民總）'},
-    {id:'c503_4_2',doc:'AA_503',sec:'4-1',k:2,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S1'],zone:'campus',heard:'Alison：欸妳今天手帳寫了幾頁？／以安：兩頁。其中一頁是妳上課講的話。'},
+    {id:'c503_4_2',doc:'AA_503',sec:'4-1',k:2,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S1'],zone:'campus',heard:'Alison：欸妳今天筆記寫了幾頁？／以安：兩頁。其中一頁是妳上課講的話。'},
     {id:'c503_4_3',doc:'AA_503',sec:'4-1',k:3,who:'heroine_01',with:['classmate_peishan'],days:[4],from:19+40/60,to:20,terms:['Y1S1'],wk:[10,15],zone:'campus',heard:'沛珊：講義我多印了一份。／以安：給誰？／沛珊：給會遲到的人。'},
-    {id:'c503_4_n1',doc:'AA_503',sec:'4-1',k:'n1',who:'heroine_01',alone:true,days:[0,1,2,3,4,5,6],from:14,to:18,terms:['Y1S1'],zone:'cafe',heard:'（她在手帳上畫線。看到你，先把那一頁蓋起來。）',
+    {id:'c503_4_n1',doc:'AA_503',sec:'4-1',k:'n1',who:'heroine_01',alone:true,days:[0,1,2,3,4,5,6],from:14,to:18,terms:['Y1S1'],zone:'cafe',heard:'（她在整理筆記，旁邊那杯茶已經冷了。看到你，點了一下頭。）',
       place:'表下面的說明「Café 那幾段照舊一個人。旁白補一句」'},
     {id:'c503_5_1',doc:'AA_503',sec:'5-1',k:1,who:'heroine_02',with:['hc_xt'],days:[5],from:19,to:22,terms:['Y1S1'],zone:'cafe',act:'barista',comp:{hc_xt:{clerk:'cafe'}},heard:'小婷：學姊，那個客人又點熱拿鐵。／芷若：他每天都點。你先打奶。'},
     {id:'c503_5_2',doc:'AA_503',sec:'5-1',k:2,who:'heroine_02',with:['hc_boss'],days:[1,3,5],from:11,to:15,terms:['Y1S1'],zone:'cafe',act:'barista',comp:{hc_boss:{clerk:'cafe'}},heard:'老闆：豆子快沒了。／芷若：我昨天寫在白板上了。／老闆：……我沒看白板。'},
@@ -104,7 +104,7 @@ const HCIRCLE_DATA={
     {id:'c503_10_3',doc:'AA_503',sec:'10-1',k:3,who:'classmate_peishan',ref:true,heard:'照現有讀書會',place:'作息補：週四 20:00 萬才館（SCHED）；讀書會是事件，柏翰、Alison 不另外搬'},
     /* ===================== AA_504 大一下＋暑假 ===================== */
     {id:'c504_1_1',doc:'AA_504',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[1,12],dates:[['2026-02-23','2026-05-13']],aa527:'2-5',zone:'campus',heard:'Alison：欸妳日文課幾點？／以安：七點。／Alison：早上？……妳瘋了。'},
-    {id:'c504_1_2',doc:'AA_504',sec:'1-1',k:2,who:'heroine_01',alone:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[12,13],dates:[['2026-05-14','2026-05-24']],zone:'campus',heard:'（她一個人走，手帳拿在手上，沒有打開。）',
+    {id:'c504_1_2',doc:'AA_504',sec:'1-1',k:2,who:'heroine_01',alone:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[12,13],dates:[['2026-05-14','2026-05-24']],zone:'campus',heard:'（她一個人走，走得比平常慢。）',
       place:'第 12～13 週、5/14 吵架以後＝5/18、5/20；第 12 週 5/11、5/13 還沒吵架＝照上一列和 Alison 同框（AA_527 2-5，企劃線 bfede0a62：c504_1_1 延到第 12 週 5/13）'},
     {id:'c504_1_3',doc:'AA_504',sec:'1-1',k:3,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y1S2'],wk:[14,16],zone:'campus',heard:'Alison：欸，上次那個，我還是覺得要申請很怪。／以安：我知道。妳說過了。／Alison：……那我們今天走哪邊？'},
     {id:'c504_1_4',doc:'AA_504',sec:'1-1',k:4,who:'heroine_01',with:['pool_7'],cls:true,terms:['Y1S2'],cond:'metZjw',anchor:'with',heard:'曾靖雯：早安。妳日文課是不是也很早？／以安：七點。……妳的早安我現在聽得習慣了。',place:'「照舊」＝同 AA_503（認識曾靖雯以後）'},

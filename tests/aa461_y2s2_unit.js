@@ -149,7 +149,7 @@ const want4=k=>['player:'+T465[k].me,T465[k].who+':'+T465[k].t];
 await sec(5,async()=>{
   check('5. 讀得到 AA_465 第 3 節的表三列（麵店團／可昕／留在宿舍；回的人都是以安）；R2Y4B 載得到',!!Y4&&Object.keys(T465).length===3&&Object.values(T465).every(x=>x.me&&x.who==='heroine_01'&&x.t),J(T465));
   toAsk4(false); const pend=Y4.springPending(H.G);
-  check('5. [前置] 3/25 20:30 以安在群組「春假要不要出去 兩天一夜」→ 該問了',pend&&byTag('y4_spring_grp').length===2,J(TH(NG).map(m=>m.text)));
+  check('5. [前置] 3/25 20:30 以安在群組「春假要不要出去？兩天一夜。」→ 該問了',pend&&byTag('y4_spring_grp').length===2,J(TH(NG).map(m=>m.text)));
   await choose4('跟麵店團出去');
   check('5. 選麵店團：祐廷在群組「'+T465.noodle.me+'」→ 以安「'+T465.noodle.t+'」（AA_465 第 3 節）',H.G.flags.SPRING_Y4==='noodle'&&J(kxPick('y4_spring_pick'))===J(want4('noodle'))&&byTag('y4_spring_pick').every(m=>m.th===NG)&&byTag('y4_spring_pick')[0].who===null,J(kxPick('y4_spring_pick')));
   check('5. 跟大一下、大二下的句子都不一樣',[T1.noodle.me,'我去。'].indexOf(T465.noodle.me)<0&&!byTag('y2s2_spring_pick').length&&!byTag('spring_pick_msg').length);

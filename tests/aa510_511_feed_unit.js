@@ -207,7 +207,7 @@ await sec('3',async()=>{ if(!HAS2()){ check('3. 時差',false,'沒有資料'); r
   check('3. 畢業以後玩家都在臺灣：臺灣、日本、美國路線 2030-11-11 STORY.tzOffset＝0（以安在紐約是她的時差，不改玩家的時鐘）',
     ['TW','JP','US'].every(r=>STORY.tzOffset(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:r})}),DK('2030-11-11'))===0));
   const D1111=DK('2030-11-11'); fresh(D1111,8.5); who('heroine_01','FRIEND'); walk(D1111,8.98); const n0=item('an4i'); walk(D1111,9.02);
-  check('3. 以安第 4 則在遊戲裡臺灣 11/11 09:00 出（08:59 還沒有）、手機上寫 09:00、「第三個國家的窗戶。」',!n0&&!!item('an4i')&&HT().includes('今天 09:00')&&HT().includes('第三個國家的窗戶。'),J(item('an4i')));
+  check('3. 以安第 4 則在遊戲裡臺灣 11/11 09:00 出（08:59 還沒有）、手機上寫 09:00、「第三個國家了。」',!n0&&!!item('an4i')&&HT().includes('今天 09:00')&&HT().includes('第三個國家了。'),J(item('an4i')));
   const D311=DK('2029-03-11'); fresh(D311,5.5); who('heroine_02','ACQ'); walk(D311,6.1); const u0=item('zr1h'); walk(D311,6.13);
   check('3. 芷若第 1 則在遊戲裡臺灣 3/11 06:07 出（06:06 還沒有）',!u0&&!!item('zr1h')&&Math.abs(item('zr1h').h-(6+7/60))<0.01,J(item('zr1h'))); });
 

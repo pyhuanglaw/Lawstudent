@@ -266,7 +266,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-05 回家再讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」---- */
     if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
     /* ---- 2-Y4-06 推甄 ---- */
-    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
+    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')&&!(typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05'))){   /* AA_600 B14：前任不送 */   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
         const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
         L[L.length-1].ask={id:'y4_push_note',opts:[{t:'只有一句。',say:[{from:S5,text:'一句就夠了。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
         PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }
@@ -397,7 +397,7 @@ const R2Y4A=(function(){
         if(PHONE.inGroup(G,'noodle_team')&&knows(AN,G)&&stageAt(AN,'FRIEND')&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_an_eve')){ const A=t=>({th:'g:noodle_team',from:AN,text:t}), L=[A('明天考試，今天早點睡。'),A('考完再跟你們說。')];
           L[1].ask={id:'y4_an_eve',until:T(d+1,9),opts:[{t:'加油。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。'}]},{t:'早點睡。',set:{AN_EXAM_EVE:'reply'},say:[{from:AN,text:'好。你們也是。'}]}]}; atTW(G,d,21,L,'y4_an_eve'); }
         if(PHONE.sent(G,'y4_an_eve')&&!F.AN_EXAM_EVE&&now(G)>=T(d+1,9)) F.AN_EXAM_EVE='none';   /* 不回（不扣分）*/
-        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完 一起去麵店'),A('大碗')]:[A('明天考完 我想吃麵店的大碗'),A('你可以先去排嗎')];
+        if(dating(G,AN)&&pastTW(G,d,23+10/60)&&!PHONE.sent(G,'y4_an_eve_dm')){ const A=t=>({th:'p:'+AN,from:AN,text:t}), ex=S.examOn(G), L=ex?[A('明天考完，一起去麵店。'),A('大碗。')]:[A('明天考完，我想吃麵店的大碗。'),A('你可以先去排嗎？')];
           L[1].ask={id:'y4_an_eve_dm',opts:[{t:'好。',say:[{from:AN,text:ex?'好。……早點睡。':'好。考完打給你。'}]}]}; atTW(G,d,23+10/60,L,'y4_an_eve_dm'); } } }
     /* ---- 2-Y4-28 除夕：2/12 22:00（她在高雄）三選一；「打給妳。」＝電話；不回＝隔天 10:00 ---- */
     { const d=D('2029-02-12'); if(d!=null&&kxOn(G)&&G.day>=d&&G.day<=d+2){
