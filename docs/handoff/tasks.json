@@ -42822,6 +42822,26 @@
       "priority": "P2",
       "note": "LAWWW2 10:03 分工（使用者 10:02 要 AA、BB、CC 協助建模）：姿勢歸 LAWWW",
       "next": "承品書店室內交件後接"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 6,
+        "earliest": "大一上第 6 週週五 20:00（日常失速）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA618-MX-BOARDGAME-1103",
+      "title": "明軒的桌遊夜（AA_618 2-4 第 3 點）：大一上第 6 週起隔週週五 20:00 日常失速八人長桌；明軒 12:00 約（第 13 週前私訊、之後系上群組）；Alison 回「幫我留一局」、阿哲柏翰沛珊各一句；阿凱大二起偶爾來；去過三次以上人物頁多一行",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "使用者 11-03 對 AA：「明軒是會主動約大家玩桌遊 固定在其中一家新的店裡」（企劃線 148a6f560）；跟 AA_617 一批（要等日常失速場景）",
+      "next": "等 ART-WZ-CAFES-1103（日常失速）＋AA 台詞"
     }
   ]
 }
