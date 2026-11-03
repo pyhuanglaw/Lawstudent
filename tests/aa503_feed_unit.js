@@ -84,7 +84,7 @@ sec('1',()=>{ const W2SUN=TD(2,7); fresh(TD(1,1),8); who('heroine_01','ACQ'); ti
   check('1. 以安第 2 則（朋友）只認識：沒有（done x:stage），畫面上沒有「寫完了。」、沒有「鎖」',R().done.an2==='x:stage'&&!item('an2')&&!h1.includes('寫完了。')&&!/鎖/.test(h1),J(R().done.an2));
   rel('heroine_01','FRIEND'); walk(TD(7,3),12); check('1. 之後變朋友：那一則還是沒有（判斷過就不再判斷）',!item('an2')&&R().done.an2==='x:stage');
   /* 沒有聯絡方式 */
-  fresh(TD(3,1),8); rel('heroine_03','CLOSE'); walk(TD(3,2),21); check('1. 語彤很熟、沒有聯絡方式：第 1 則不出（x:contact）',R().done.yt1==='x:contact'&&!item('yt1'),J(R().done));
+  fresh(TD(3,1),8); rel('heroine_03','CLOSE'); walk(TD(3,6),21); check('1. 語彤很熟、沒有聯絡方式：第 1 則不出（x:contact；AA_630 F-001：時間改第 3 週週六 17:20，她的班）',R().done.yt1==='x:contact'&&!item('yt1'),J(R().done));
   /* 睡過、跳時間：照原本的時間補 */
   fresh(TD(3,7),20); who('heroine_02','ACQ'); tickF(); jump(TD(4,1),8);
   const z=item('zr1'); check('1. 芷若第 1 則（第 3 週週日 22:07）：週日 20:00 睡到週一 08:00，補在週日 22:07',!!z&&z.day===TD(3,7)&&Math.abs(z.h-(22+7/60))<0.01,J(z));
@@ -108,8 +108,8 @@ sec('2',()=>{ const W10THU=TD(10,4), W11WED=TD(11,3), W13SUN=TD(13,7);
   walk(W13SUN,22.6); const r3=FEED.respond(H.G,'zr3','dm'); const L3=th('heroine_02').slice(-2);
   check('2. 私訊問一句「這是小婷的？」→「嗯。她很會。我教的。」；隔天以後再回＝熟悉再 +1',!!r3&&J(L3.map(m=>m.text))===J(['這是小婷的？','嗯。她很會。我教的。'])&&famOf('heroine_02')===f0+2,J(L3.map(m=>m.text)));
   /* 這則不能留言、私訊問的條件 */
-  fresh(TD(6,3),8); who('heroine_03','FRIEND'); walk(TD(6,3),11); const c=HT();
-  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳在醫院？」→ 兩句',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳在醫院？','嗯。我媽叫我回去吃飯。','……謝謝你問。']));
+  fresh(TD(6,7),8); who('heroine_03','FRIEND'); walk(TD(6,7),19); const c=HT();   /* AA_630 F-005～F-008：第 6 週週日 18:30 淡水捷運站 */
+  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳回家？」→ 兩句（AA_630 F-007、F-008）',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳回家？','嗯。我媽叫我回去吃飯。','……謝謝你問。']));
   fresh(TD(7,2),21); who('heroine_01','FRIEND'); walk(TD(7,2),22.2); const a=HT(); H.G.flags.AN_DORM_RULES='group'; const b=HT();
   check('2. 以安第 2 則的私訊問「三頁是因為字很大嗎？」：Alison 在群組爆料（AN_DORM_RULES group）以後才有',!a.includes('data-fd="an2|dm"')&&b.includes('data-fd="an2|dm"')&&b.includes('三頁是因為字很大嗎？'));
   H.G.flags.AN_DORM_RULES='peishan'; check('2. 沛珊當面說的（不是 Alison）：沒有那一格',FEED.respond(H.G,'an2','dm')===null);
@@ -258,11 +258,11 @@ sec('9',()=>{ const SAT=TD(5,6);
 sec('10',()=>{ fresh(TD(13,5),8); who('heroine_03','ACQ'); who('classmate_peishan','CLOSE'); walk(TD(13,7),16.5);
   check('10. 新的動態：小點（newCount）',FEED.newCount(H.G)===2,J(FEED.newCount(H.G)));
   const h=HT(); const i1=h.indexOf('大稻埕的老房子'), i2=h.indexOf('夜行列車與貓');
-  check('10. 最新的在上面（週日 16:00 語彤在週六 01:10 沛珊上面）、照片寫成「（照片：……）」、沒有字的那則只有照片、三個回應按鈕',i1>0&&i2>i1&&h.includes('（照片：大稻埕的老房子，窗戶有一盆花）')&&h.includes('data-fd="yt4|heart"')&&h.includes('>（按愛心）<')&&h.includes('>大稻埕？<')&&h.includes('（私訊問一句）')&&h.includes('妳常去？'));
+  check('10. 最新的在上面（週六 01:10 沛珊在週五 16:00 語彤上面；AA_630 F-009 語彤那則改到第 13 週週五）、照片寫成「（照片：……）」、沒有字的那則只有照片、三個回應按鈕',i2>0&&i1>i2&&h.includes('（照片：大稻埕的老房子，窗戶有一盆花）')&&h.includes('data-fd="yt4|heart"')&&h.includes('>（按愛心）<')&&h.includes('>大稻埕？<')&&h.includes('（私訊問一句）')&&h.includes('妳常去？'));
   check('10. 看過就熄（markSeen）',FEED.newCount(H.G)===0);
   check('10. 動態不算手機的未讀',PHONE.unread(H.G)===0,J(PHONE.unread(H.G)));
+  FEED.respond(H.G,'yt4','heart'); const h2=HT();   /* AA_630 F-009：語彤那則改到第 13 週週五 16:00，第 14 週週六 02:00 已經過七天、不在畫面上——回應的檢查放到走時間以前 */ check('10. 回過的那一則：按鈕換成結果',h2.includes('♥ 你按了愛心。')&&!h2.includes('data-fd="yt4|'));
   walk(TD(14,6),2); check('10. 只顯示七天：第 13 週週六 01:10 那一則，第 14 週週六 02:00 已經不在畫面上',!HT().includes('夜行列車與貓'));
-  FEED.respond(H.G,'yt4','heart'); const h2=HT(); check('10. 回過的那一則：按鈕換成結果',h2.includes('♥ 你按了愛心。')&&!h2.includes('data-fd="yt4|'));
   HT(); walk(TD(15,4),22); FEED.respond(H.G,'an5','cm');   /* 以安沒有聯絡方式：沒有 an5 */
   check('10. 沒有她的聯絡方式：動態頁上沒有她',!HT().includes('民總。剩六張。')); });
 
