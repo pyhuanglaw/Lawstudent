@@ -20,6 +20,10 @@ TIE_ELEV = -24.0         # 髮髻的位置（仰角，度，從頭的中心往�
 BUN_BASE = 0.030         # 往後梳的髮片停在離髮髻中心這麼遠（髮髻底面蓋住）
 SIDE_BONES = 3
 SEED = 20261014
+# 給其他人共用（LAWWW2 11-03，蘇姨 npc.py 的 hair_mod='bun'）：預設值＝芯慈原本的做法，芯慈的輸出不變
+#   bang：False＝沒有瀏海、整頭往後梳；side_w：臉旁碎髮寬度倍數；name：物件／材質名稱前綴；tmpl：MToon 範本材質（None＝找第一個 HAIR）
+#   grey／grey_k：白頭髮比例與混色；soft：髮絲細紋柔化（跨髮絲方向 9 px 平均、混合比例）；bun_k：髮髻大小倍數
+OPT = dict(bang=True, side_w=1.0, name='X01', tmpl='F00_000_Hair_00_HAIR_01', grey=0.0, grey_k=(0.3, 0.5), soft=0.0, bun_k=1.0)
 
 # 髮際線（方位角 → 仰角，度；方位角 0＝前額正中、90＝人物左耳、180＝後頸）：前額 → 太陽穴 → 耳前的鬢角 → 越過耳朵上緣 → 耳後 → 後頸
 HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 10), (66, 2), (74, -1), (82, 0), (90, 1), (100, 0),
@@ -103,7 +107,8 @@ def _wobble(f, rng, amp, wl):
     return f[y[:, None], x0 % w] * (1 - fr) + f[y[:, None], (x0 + 1) % w] * fr
 
 
-def _strand_color(rng, h, w, root_dark=0.8, sheen=None, tip_light=0.06, base=BASE):
+def _strand_color(rng, h, w, root_dark=0.8, sheen=None, tip_light=0.06, base=None):
+    if base is None: base = BASE    # 執行時的 BASE（原本是定義時的預設值：換髮色時這一項還是芯慈的棕）
     """細髮絲（1px）＋中等髮束（4px）＋大的明暗（16px），沿長度方向拉長；髮根暗、髮尾稍亮；柔和的高光帶"""
     S = _streaks(rng, h, w, 2, 90, 0.18) + _streaks(rng, h, w, 6, 170, 0.42) + _streaks(rng, h, w, 20, 360, 0.38)
     S = _wobble(S, rng, 1.6, 260)
@@ -183,6 +188,19 @@ def make_atlas(seed=SEED):
     x0, x1, y0, y1 = REG_PX['tie']; h, w = y1 - y0, x1 - x0; t = ((np.arange(h) + 0.5) / h)[:, None]
     col = np.zeros((h, w, 3)) + np.array([0.055, 0.05, 0.05]) + np.array([0.09, 0.085, 0.085]) * np.exp(-((t - 0.5) / 0.12) ** 2)[..., None]
     put('tie', col, np.ones((h, w)))
+    if OPT['grey']:   # 白頭髮（蘇姨）：每一區隨機幾條直的髮絲（貼圖的 y＝髮絲方向）混成淺灰；髮圈那一區不動
+        g = np.array(OPT.get('grey_col', (0.80, 0.79, 0.77)), float)
+        for nm, (x0, x1, y0, y1) in REG_PX.items():
+            if nm == 'tie': continue
+            for xx in rng.integers(x0, x1 - 1, int((x1 - x0) * OPT['grey'] / 2)):
+                k = float(rng.uniform(*OPT['grey_k'])); ww = int(rng.integers(1, 3)); img[y0:y1, xx:xx + ww, :3] = img[y0:y1, xx:xx + ww, :3] * (1 - k) + g * k
+    if OPT['soft']:   # 髮絲細紋柔化（同 npc_hair_f 的 P['soft']：BB 11-03 秀琴姨「一條一條像假髮」）
+        sk, r = float(OPT['soft']), 4
+        for nm, (x0, x1, y0, y1) in REG_PX.items():
+            if nm == 'tie': continue
+            a = img[y0:y1, x0:x1, :3]; pad = np.concatenate([a[:, :1].repeat(r, 1), a, a[:, -1:].repeat(r, 1)], 1)
+            cs = np.cumsum(np.concatenate([np.zeros_like(pad[:, :1]), pad], 1), 1); bl = (cs[:, 2 * r + 1:] - cs[:, :-2 * r - 1]) / (2 * r + 1)
+            img[y0:y1, x0:x1, :3] = a * (1 - sk) + bl * sk
     return img
 
 
@@ -344,6 +362,7 @@ def apply(m):
         return 1 - (BUN_BASE / RT) / om
 
     def v_bang(a):   # 瀏海區（前額）的範圍：髮際線到 v_bang 這一段由瀏海蓋住
+        if not OPT['bang']: return 0.0
         a = abs(((a + 180) % 360) - 180); return 0.30 * float(1 - sstep(30, 44, a))
 
     # ---- 1. 髮殼 ----
@@ -424,7 +443,7 @@ def apply(m):
             d = sph(a, bt); r = H.R(d, True); bt += (z_tip - (c[2] + d[2] * r)) / max(0.03, r) * 57.3 * 0.8
         return bt
 
-    for row, (ah, at, zt, w0, reg) in [(0, b) for b in bangs] + [(1, b) for b in bangs2]:
+    for row, (ah, at, zt, w0, reg) in ([(0, b) for b in bangs] + [(1, b) for b in bangs2] if OPT['bang'] else []):
         ar = PART + (ah - PART) * 0.55; vr = 0.33 - 0.03 * row
         dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0042)
         bh = hairline_beta(ah) + 2.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + 0.0125 - 0.002 * row)
@@ -471,7 +490,7 @@ def apply(m):
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
+            width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * OPT['side_w'] * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
             mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
@@ -502,7 +521,7 @@ def apply(m):
     ax = _unit(dT)
     e1 = np.array([1.0, 0.0, 0.0]); e2 = _unit(np.cross(ax, e1))
     if e2[2] < 0: e2 = -e2                                  # e2 朝上
-    RW, RH, RD = 0.046, 0.038, 0.029
+    RW, RH, RD = 0.046 * OPT['bun_k'], 0.038 * OPT['bun_k'], 0.029 * OPT['bun_k']
     Cb = T0 + ax * (RD * 0.55)                              # 髮髻中心：從綁點往外一點（底部壓在往後梳的頭髮上）
 
     def bun_pt(th, ph, ex=0.0):
@@ -542,17 +561,18 @@ def apply(m):
 
     # ---- 6. 物件、材質 ----
     V = np.array(mb.V); Fc = mb.F
-    me = bpy.data.meshes.new('Hair_X01'); me.from_pydata(V.tolist(), [], Fc); me.validate(clean_customdata=False); me.update()
+    me = bpy.data.meshes.new('Hair_' + OPT['name']); me.from_pydata(V.tolist(), [], Fc); me.validate(clean_customdata=False); me.update()
     uv = me.uv_layers.new(name='UVMap'); li = np.zeros(len(me.loops), int); me.loops.foreach_get('vertex_index', li)
     uv.data.foreach_set('uv', np.array(mb.UV)[li].reshape(-1).astype(np.float32))
     me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
     me.normals_split_custom_set_from_vertices([tuple(n) for n in np.array(mb.N)])
-    obj = bpy.data.objects.new('Hair_X01', me)
+    obj = bpy.data.objects.new('Hair_' + OPT['name'], me)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
     atlas = make_atlas()
     wip = os.path.join(C.ROOT, 'tools', 'vroid_wip', 'bl'); os.makedirs(wip, exist_ok=True)
-    img = C.image_from_array('X01_HairCard', atlas, os.path.join(wip, 'x01_hair_atlas.png'))
-    mat = C.mtoon_from('F00_000_Hair_00_HAIR_01', 'X01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
+    img = C.image_from_array(OPT['name'] + '_HairCard', atlas, os.path.join(wip, OPT['name'].lower() + '_hair_atlas.png'))
+    tmpl = OPT['tmpl'] if OPT['tmpl'] in bpy.data.materials else next(mt.name for mt in bpy.data.materials if 'HAIR' in mt.name and getattr(mt, 'vrm_addon_extension', None) and not mt.name.startswith(('K01_', OPT['name'] + '_')))
+    mat = C.mtoon_from(tmpl, OPT['name'] + '_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
     mt.shade_color_factor = (0.80, 0.70, 0.70)     # 原本的頭髮陰影偏藍紫；深棕髮的陰影用暖色
     try:      # Sendagaya Shino 樣本的頭髮材質有一張加亮的 MatCap（Matcap_RimHair）：頭頂、髮片邊緣斜著看會發白光（第一版的頭頂一圈白邊）

@@ -156,6 +156,15 @@ VARIANTS = {
                  layered=dict(style=outer_style(rgb(58, 64, 88), rgb(84, 82, 86), rgb(92, 64, 44), rgb(52, 38, 28), tex='knit', sleeve_k=0.78, ease=0.88, shoe_style='loafer'),
                               skirt=dict(len='long')),
                  apron=dict(rgb=(0.84, 0.79, 0.69)), skin=(0.90, 0.84, 0.78)),   # skin：膚色乘上去（暗一點、偏暖；BB 17:19「太白太亮，像二十幾歲」）   # 黑灰側分短鮑伯＋深靛藍針織衫＋深灰長裙＋棕樂福鞋（圍裙：亞麻米色，只有 bl_xiuqin_apron.vrm 有）
+    # 蘇姨（一盞茶屋的主人 wz_su；AA_164：六十幾歲、話很少，整修過的日式老宿舍委託她經營。LAWWW 11-03 17:23：要和秀琴姨分得出是不同人）——不是路人池。
+    #   和秀琴姨反過來：灰白頭髮往後梳成低髮髻（沒有瀏海、不戴眼鏡）、淺色亞麻上衣＋深色寬褲（秀琴姨：黑灰短鮑伯＋眼鏡、深藍毛衣＋長裙）、
+    #   靛藍的腰間前掛（秀琴姨：米色有胸片的圍裙）；底模換 Victoria_Rubin（臉型、身形不同）、高一點瘦一點、臉長、眼尾細長、唇薄
+    'su': dict(sex='f', base='Victoria_Rubin', head=0.92, height=1.61, iris='#2a201a', hair_mod='bun',
+               face=dict(EYE_SX=0.92, EYE_SZ=0.46, EYE_TILT=-0.02, BROW_DROP=0.0050, BROW_ARCH=0.18, BROW_K=0.90, LASH_N=8, LASH_L=0.40, IRIS_FRAC=0.50, D_CHIN=0.010, JAW_OUT=0.0030,
+                         FACE_NARROW=0.975, CHIN_WIDEN=0.60, MOUTH_K=1.00, CHEEK_TINT_K=1.0, LIP_OUT=(0.72, 0.50, 0.48), LIP_IN=(0.62, 0.40, 0.40), LIP_A=0.45, AGE_K=2.6),
+               hair=dict(seed=20261104, part=-2.0, tie=-16.0, bang=False, side_w=0.55, col=(0.44, 0.43, 0.42), grey=0.30, grey_k=(0.35, 0.65), soft=0.55, bun_k=0.95),
+               layered=dict(style=outer_style(rgb(204, 198, 186), rgb(52, 54, 62), rgb(48, 36, 28), rgb(36, 30, 26), tex='linen', sleeve_k=0.80, ease=0.86, pants_ell=(0.074, 0.084), drop=True, shoe_style='loafer')),
+               apron=dict(bib=False, rgb=(0.20, 0.24, 0.36), skirt_w=0.150, skirt_flare=0.035, waist_up=0.01, hem_up=0.02), skin=(0.92, 0.86, 0.80)),   # 灰白低髮髻＋燕麥白亞麻上衣＋炭灰寬褲＋深棕便鞋＋靛藍前掛（只有 bl_su_apron.vrm 有）
     'nm9': dict(sex='m', base='HairSample_Male', head=0.93, height=1.72, iris='#2e2218',
                 face=dict(EYE_SX=1.04, EYE_SZ=0.70, EYE_TILT=0.02, BROW_ARCH=0.50, BROW_K=1.50, FACE_NARROW=0.970, CHIN_WIDEN=0.60, JAW_OUT=0.0046, MOUTH_K=1.40),
                 hair=dict(seed=20261219, part=-16.0, col=(0.16, 0.12, 0.10), tip=(-0.010, -0.008, -0.004, 0.004, 0.000, -0.008, -0.014, -0.020, -0.018, -0.016), nape=0.024, vol=0.9, curl=(10, 22)),
@@ -345,6 +354,12 @@ JP_STYLE = {
 
 
 def hair(m):
+    if VAR.get('hair_mod') == 'bun':      # 低髮髻（蘇姨）：芯慈的 x_xinci_hair.py（OPT：沒有瀏海、白頭髮、柔化）
+        import x_xinci_hair as XH
+        hp = VAR['hair']; XH.SEED = hp['seed']; XH.PART = hp.get('part', XH.PART); XH.TIE_ELEV = hp.get('tie', XH.TIE_ELEV)
+        b = np.array(hp['col'], float); XH.BASE = b; XH.DEEP = b * 0.55; XH.LIGHT = np.minimum(b * 1.35, 1.0); XH.SHEEN = np.minimum(b * 1.75, 1.0)
+        XH.OPT.update({k: hp[k] for k in ('bang', 'side_w', 'grey', 'grey_k', 'soft', 'bun_k') if k in hp}); XH.OPT['name'] = TAG
+        XH.apply(m); skin_tint(m); return
     import npc_hair_m as HM, npc_hair_f as HF
     mod = HM if VAR['sex'] == 'm' else HF
     mod.P.update(VAR['hair']); mod.P['name'] = TAG

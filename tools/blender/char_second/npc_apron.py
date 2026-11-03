@@ -40,6 +40,51 @@ def _tube(bm, pts, r, sides=6, flat=1.0):
     for R_, rev in ((rings[0], True), (rings[-1], False)): bm.faces.new(list(reversed(R_)) if rev else R_)
 
 
+def _panel(clo, arm, tag, fs, z_w, z_hem, sw, cfg):
+    """腰間的前掛（前掛け；蘇姨，穿寬褲）：從腰垂下來的一片布（不是從衣服網格挑面：褲子兩腿中間是空的，挑出來會裂成兩片）。
+    上緣貼著腰（每一欄量衣服在那個高度最前面的 y），往下慢慢變成平平垂下（整段最前面的那一點再往前一點）；
+    權重：上緣綁腰（Hips），往下左右兩半各自加上同側大腿（走路時前面那條腿把那半邊往前帶，不會穿出來）"""
+    Mw = clo.matrix_world; P = np.array([tuple(Mw @ v.co) for v in clo.data.vertices])
+    NU, NV = 18, 22; off = cfg.get('off_skirt', 0.012)
+    zs = np.linspace(z_w, z_hem, NV + 1)
+    band = P[(P[:, 2] < z_w + 0.01) & (P[:, 2] > z_hem - 0.01) & (np.abs(P[:, 0]) < sw(z_hem))]
+    y_hang = (band[:, 1].min() if fs < 0 else band[:, 1].max()) + fs * (off + cfg.get('hang', 0.010))
+
+    def front_y(x, z):
+        s_ = P[(np.abs(P[:, 2] - z) < 0.012) & (np.abs(P[:, 0] - x) < 0.018)]
+        if len(s_) == 0: return None
+        return float(s_[:, 1].min() if fs < 0 else s_[:, 1].max())
+    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); G = []; rows = []
+    for j, z in enumerate(zs):
+        t = j / NV; w_ = sw(z); row = []
+        k = float(np.clip(t / 0.45, 0, 1)); k = k * k * (3 - 2 * k)                  # 腰下 45% 的地方換成平平垂下
+        for i in range(NU + 1):
+            u = -1 + 2 * i / NU; x = u * w_
+            yf = front_y(x, z); yw = (yf + fs * off) if yf is not None else y_hang
+            yh = y_hang if fs * (y_hang - yw) > 0 else yw
+            y = yw * (1 - k) + yh * k + fs * 0.004 * math.sin(math.pi * (i / NU) * 6) * t   # 布垂下來的幾道淺淺的褶
+            row.append(bm.verts.new((x, y, z))); G.append((u, t))
+        rows.append(row)
+    for j in range(1, len(rows)):
+        a_, b_ = rows[j - 1], rows[j]
+        for i in range(NU):
+            q = (a_[i + 1], a_[i], b_[i], b_[i + 1]) if fs < 0 else (a_[i], a_[i + 1], b_[i + 1], b_[i])   # 法線朝前
+            uvq = {a_[i]: (i, j - 1), a_[i + 1]: (i + 1, j - 1), b_[i]: (i, j), b_[i + 1]: (i + 1, j)}
+            f = bm.faces.new(q)
+            for lp in f.loops: ii, jj = uvq[lp.vert]; lp[uvl].uv = (ii / NU * 0.5, 1 - jj / NV * 0.6)
+    Mi = Mw.inverted()
+    for v in bm.verts: v.co = Mi @ v.co
+    me = bpy.data.meshes.new('Apron_' + tag); bm.to_mesh(me); bm.free()
+    ob = bpy.data.objects.new('Apron_' + tag, me); clo.users_collection[0].objects.link(ob)
+    me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
+    G = np.array(G); u, t = G[:, 0], G[:, 1]
+    leg = 0.75 * np.clip((t - 0.10) / 0.90, 0, 1) ** 1.2
+    wl = leg * np.clip(0.5 + 0.9 * u, 0, 1); wr = leg * np.clip(0.5 - 0.9 * u, 0, 1)   # +x＝人物的左手邊（J_Bip_L_*）
+    C.bind(ob, arm, {'J_Bip_C_Hips': 1 - wl - wr, 'J_Bip_L_UpperLeg': wl, 'J_Bip_R_UpperLeg': wr})
+    print('  apron(panel): %d faces, hang y %.3f' % (len(me.polygons), y_hang))
+    return ob
+
+
 def run(m, tag, cfg):
     arm, body, clo = m['arm'], m['body'], m['clothes']
     Lm = C.landmarks(arm)
@@ -48,11 +93,21 @@ def run(m, tag, cfg):
     z_top = Lm['neck'] - cfg.get('bib_drop', 0.07); z_w = Lm['spine'] + cfg.get('waist_up', 0.03); z_hem = Lm['knee'] + cfg.get('hem_up', 0.08)
     bw = cfg.get('bib_w', 0.085)
     sw = lambda z: cfg.get('skirt_w', 0.165) + (z_w - z) * cfg.get('skirt_flare', 0.10)
+    Mw = clo.matrix_world; N3 = Mw.to_3x3(); Mi = Mw.inverted()
+    bib = cfg.get('bib', True); kind = {}; nsnap = 0
+    if not bib: ap = _panel(clo, arm, tag, fs, z_w, z_hem, sw, cfg)
+    else: ap, nsnap = _bib_apron(clo, tag, fs, z_top, z_w, z_hem, bw, sw, cfg, kind)
+    _finish(m, arm, body, clo, tag, cfg, ap, bib, kind, nsnap, Lm, fs, z_top, z_w, z_hem, bw)
+    return ap
+
+
+def _bib_apron(clo, tag, fs, z_top, z_w, z_hem, bw, sw, cfg, kind):
+    """有胸前那片的圍裙（秀琴姨）：從衣服網格挑出朝前的面"""
     Mw = clo.matrix_world; N3 = Mw.to_3x3()
     ap = clo.copy(); ap.data = clo.data.copy(); ap.name = 'Apron_' + tag; ap.data.name = 'Apron_' + tag
     clo.users_collection[0].objects.link(ap)
     bm = bmesh.new(); bm.from_mesh(ap.data); bm.faces.ensure_lookup_table()
-    keep, kind = set(), {}
+    keep = set()
     for f in bm.faces:
         c = Mw @ f.calc_center_median(); n = (N3 @ f.normal).normalized()
         if n.y * fs < 0.30: continue
@@ -75,6 +130,12 @@ def run(m, tag, cfg):
         n = (N3 @ v.normal).normalized() if v.normal.length > 1e-6 else Vector((0, fs, 0))
         v.co = Mi @ (w + n * off)
     bm.to_mesh(ap.data); bm.free()
+    return ap, nsnap
+
+
+def _finish(m, arm, body, clo, tag, cfg, ap, bib, kind, nsnap, Lm, fs, z_top, z_w, z_hem, bw):
+    """材質、帶子、蝴蝶結（兩種圍裙共用；掛脖子的帶子只有 bib 的有）"""
+    Mi = clo.matrix_world.inverted()
     # 材質：亞麻、淺米色
     k0 = K.KNIT_RGB; K.KNIT_RGB = np.array(cfg.get('rgb', (0.83, 0.78, 0.68)), float)
     img = C.image_from_array(tag + '_Apron', K.linen_texture(), None) if 'image_from_array' in dir(C) else None
@@ -108,7 +169,7 @@ def run(m, tag, cfg):
             _tube(b, loop, 0.007, 6, 0.35)
             _tube(b, [(bx + s * 0.006, by - fs * 0.004, bz - 0.004), (bx + s * 0.022, by - fs * 0.010, bz - 0.07), (bx + s * 0.030, by - fs * 0.012, bz - 0.15)], 0.0085, 6, 0.30)
         _tube(b, [(bx, by - fs * 0.002, bz - 0.012), (bx, by - fs * 0.002, bz + 0.012)], 0.010, 6, 0.6)   # 結
-    so = strap_obj('ApronStrap', 'J_Bip_C_UpperChest', neck); to = strap_obj('ApronTie', 'J_Bip_C_Spine', ties)
-    print('  apron: edge snapped %d;' % nsnap); print('  apron: faces %d (bib %d, skirt %d); straps %d, ties %d; z top %.3f waist %.3f hem %.3f' % (nf, sum(1 for k in kind.values() if k == 'bib'), sum(1 for k in kind.values() if k == 'skirt'), len(so.data.polygons), len(to.data.polygons), z_top, z_w, z_hem))
+    so = strap_obj('ApronStrap', 'J_Bip_C_UpperChest', neck) if bib else None; to = strap_obj('ApronTie', 'J_Bip_C_Spine', ties)
+    print('  apron: edge snapped %d;' % nsnap); print('  apron: faces %d (bib %d, skirt %d); straps %d, ties %d; z top %.3f waist %.3f hem %.3f' % (nf, sum(1 for k in kind.values() if k == 'bib'), sum(1 for k in kind.values() if k == 'skirt'), len(so.data.polygons) if so else 0, len(to.data.polygons), z_top, z_w, z_hem))
     m['apron'] = ap
     return ap
