@@ -119,7 +119,7 @@ GM.money=function(n){ G.money+=n; };
   // 10. 沒在麵店團、和語彤有點熟以上＝私訊；不熟＝沒有
   fresh(D('2026-07-09'),12.5,'dorm',{}); G.stage='law'; meet('heroine_03'); R('heroine_03',30,0,0); HOME.breakPhone(GM); PHONE.tick(G);
   const dm=(G.msgs||[]).find(m=>m.tag==='yt_bday_y1'); check('10. 不在群組、和語彤有點熟＝她的私訊放同一個按鈕',!!dm&&dm.th==='p:heroine_03'&&dm.ask.opts[0].t==='傳一句生日快樂');
-  { const r=PHONE.answer(G,'yt_bday_y1',0); check('10. 傳了＝語彤「……謝謝。阿姨說要請你吃滷蛋。下次來。」',!!r&&r.out.some(m=>m.from==='heroine_03'&&m.text==='……謝謝。阿姨說要請你吃滷蛋。下次來。')); }
+  { const r=PHONE.answer(G,'yt_bday_y1',0); check('10. 傳了＝語彤「……謝謝。秀琴姨說要請你吃飯。」',!!r&&r.out.some(m=>m.from==='heroine_03'&&m.text==='……謝謝。秀琴姨說要請你吃飯。')); }
   fresh(D('2026-07-09'),12.5,'dorm',{}); G.stage='law'; HOME.breakPhone(GM); PHONE.tick(G); check('10. 不熟、不在群組＝沒有',!(G.msgs||[]).some(m=>m.tag==='yt_bday_y1'));
   // 10b. 每年 7/15 抽籤（AA_208 第 9 節）：大三阿哲二樓、大四「我又二樓」；ZHE_CALLS_GE＝「哥我們又同一間！！」；不在群組、和阿哲有點熟＝私訊（沒有柏翰那句）
   { const zt=tag=>(G.msgs||[]).filter(m=>m.tag===tag).map(m=>m.th+'|'+m.from+':'+m.text);

@@ -69,7 +69,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   { fresh(D('2026-08-24'),6,'dorm',{}); R('kai','FAM'); R('heroine_03','FAM'); R('yu','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0];
     await VAC.outing(GM,OUT.get(G,'vac_C05@Y1')); PHONE.tick(G);
     const KA=allTxt('p:kai'), Y=allTxt('p:heroine_03');
-    check('H4. C05 日本五天（阿凱那一團）：阿凱就在旁邊，沒有「宿舍好安靜」「要不要帶零食回來」；語彤（朋友）照樣「📷（麵店今天的長桌）」',!KA.some(t=>/宿舍好安靜|帶零食/.test(t))&&Y.includes('📷（麵店今天的長桌）'),J([KA,Y]));
+    check('H4. C05 日本五天（阿凱那一團）：阿凱就在旁邊，沒有「宿舍好安靜」「要不要帶零食回來」；語彤（朋友）照樣「📷（茶屋今天的長桌）」',!KA.some(t=>/宿舍好安靜|帶零食/.test(t))&&Y.includes('📷（茶屋今天的長桌）'),J([KA,Y]));
     G.day=D('2026-08-30'); G.hour=12; said=[]; const a=await VAC.backGreet(GM,{name:'阿凱',charId:'kai'},'kai'), b=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu');
     check('H4. 回來後第一次遇到：一起去的阿凱沒有「回來了。宿舍又變吵了。」；Alison 照樣「你回來了！伴手禮咧！」',!a&&b&&lines().join('|')==='Alison：你回來了！伴手禮咧！',J(lines())); }
   { fresh(D('2028-07-03'),7,'dorm',{dating_heroine_04:true}); R('heroine_04','CLO'); R('kai','FAM'); VAC.signup(G,'T03@Y3','yes'); said=[]; picks=[0,0,0];
@@ -150,11 +150,11 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('M5. 大一跨年（高雄）可昕：「十分鐘。看完就回去。我媽說十二點半以前要到家。」；沒有「我們都還有考試」',T.includes('十分鐘。看完就回去。我媽說十二點半以前要到家。')&&!T.some(t=>/還有考試/.test(t)),J(T)); }
   // ===== M6 新年快樂的「過年」標籤 =====
   { const ny=(id,k,lv,flags)=>{ fresh(D(k),12,'campus',flags||{}); R(id,lv||'FRI'); const r=MSG.pick2(G,id,'newyear',true); return r&&r.e?r.e.msgs.join('／'):null; };
-    const c=[['heroine_03','新年快樂。','（照片：麵店拉下來的鐵門，貼著紅紙）'],['zhe','新年快樂！！','（照片：高雄的年夜飯）／新年快樂哥',{ZHE_CALLS_GE:true}],['classmate_bohan','新年快樂。','新年快樂。新竹風很大。'],['kai','新年快樂','新年快樂／（照片：宜蘭家裡的電腦桌）／我爸也在打電動']];
+    const c=[['heroine_03','新年快樂。','（照片：茶屋拉下來的木門，貼著紅紙）'],['zhe','新年快樂！！','（照片：高雄的年夜飯）／新年快樂哥',{ZHE_CALLS_GE:true}],['classmate_bohan','新年快樂。','新年快樂。新竹風很大。'],['kai','新年快樂','新年快樂／（照片：宜蘭家裡的電腦桌）／我爸也在打電動']];
     const got=c.map(([id,a,b,f])=>[ny(id,'2027-01-01','FRI',f),ny(id,'2027-02-06','FRI',f)]);
     check('M6. 新年快樂（朋友）：1/1 用一般版、初一（2027-02-06）才是麵店的鐵門、高雄的年夜飯、新竹風很大、宜蘭家裡的電腦桌',c.every(([id,a,b],i)=>got[i][0]===a&&got[i][1]===b),J(got));
     const l1=ny('heroine_03','2027-01-01','FRI',{dating_heroine_03:true}), l2=ny('heroine_03','2027-02-06','FRI',{dating_heroine_03:true});
-    check('M6. 語彤交往中：1/1 沒有「初四開店。你要第一個來。」，初一才有',!/初四開店/.test(l1||'')&&/初四開店/.test(l2||''),J([l1,l2])); }
+    check('M6. 語彤交往中：1/1 沒有「初四開店。你要第一個來喝。」，初一才有',!/初四開店/.test(l1||'')&&/初四開店/.test(l2||''),J([l1,l2])); }
   // ===== L1 方奕廷的期末邀約分學期 =====
   { const one=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('npc_fangyt','FAM'); TERMEND.rec(G,term).plan={back:w.from,heart:[],friend:['npc_fangyt'],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.6; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_npc_fangyt'); return m?[m.text,((m.ask.opts[1].say||[])[0]||{}).text]:null; };
@@ -228,16 +228,16 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const byDay=th=>{ const o={}; const add=(d,t)=>{ (o[K(d)]=o[K(d)]||[]).push(t); }; for(const m of TH(th)) add(m.day,m.text); for(const q of PHONE.rec(G).q) for(const x of (q.items||[])) if(x.th===th) add(q.day,x.text); return o; };
     const yt=(yk,k0)=>{ fresh(D(k0),7,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); VAC.tripMsgs(G,VAC.inst('C11',yk)); return byDay('p:heroine_03'); };
     const y3=yt('Y3','2028-01-17'), y2=yt('Y2','2027-01-17');
-    const BIZ=/今天店裡很忙|收店了|沒什麼客人|不是你的 是客人的|一碗加蛋的乾麵|修鞋的阿伯|店裡的蛋用得比較少|今天也有開|麵店的鍋子|阿姨說幫你留一碗/;
+    const BIZ=/今天店裡很忙|收店了|沒什麼客人|不是你的 是客人的|一碗加蛋的乾麵|修鞋的阿伯|店裡的蛋用得比較少|今天也有開|麵店的鍋子|蘇姨說幫你留一杯/;
     const S1='店休第一天，我睡到十點。……阿姨說我很難得。', S2='店休。阿姨叫我去迪化街買年貨。人好多。', S3='今天在家幫阿姨包餃子。我包的都站不起來。', NEU=['你那邊在吃什麼','……晚安'];
     const shutK=Object.keys(y3).filter(k=>NOODLE_CLOSED.closed(G,D(k))), all3=[].concat(...Object.values(y3));
     check('第 7 節第 7 題＋第 8 節第 5 題. 語彤店休套 ④：大三寒假東京（店休 2028-01-19～01-28）那幾天不傳講店裡生意的那幾則（含「今天也有開」）；第一天「'+S1+'」、接著「'+S2+'」「'+S3+'」（各一次），其他店休的日子只用不講店裡的那兩則',
       shutK.length===10&&shutK.every(k=>!y3[k].some(t=>BIZ.test(t))&&y3[k].every(t=>[S1,S2,S3].concat(NEU).includes(t)))&&J(y3['2028-01-19'])===J([S1])&&J(y3['2028-01-20'])===J([S2])&&J(y3['2028-01-21'])===J([S3])&&
       [S1,S2,S3].every(s=>all3.filter(t=>t===s).length===1),J(shutK.map(k=>[k,y3[k]])));
-    check('第 8 節第 5 題. 對照：店休以外的日子照舊講店裡（2028-01-18「今天店裡很忙」、1/29 初四開門以後、1/30 回來「阿姨說幫你留一碗」）；大二寒假東京中間那天（2027-01-23 有開）「今天也有開」照傳',
-      (y3['2028-01-18']||[]).includes('今天店裡很忙')&&(y3['2028-01-29']||[]).some(t=>BIZ.test(t))&&J(y3['2028-01-30'])===J(['回來了嗎','阿姨說幫你留一碗'])&&(y2['2027-01-23']||[]).includes('今天也有開')&&![S1,S2,S3].some(s=>[].concat(...Object.values(y2)).includes(s)),
+    check('第 8 節第 5 題. 對照：店休以外的日子照舊講店裡（2028-01-18「今天店裡很忙」、1/29 初四開門以後、1/30 回來「蘇姨說幫你留一杯」）；大二寒假東京中間那天（2027-01-23 有開）「今天也有開」照傳',
+      (y3['2028-01-18']||[]).includes('今天店裡很忙')&&(y3['2028-01-29']||[]).some(t=>BIZ.test(t))&&J(y3['2028-01-30'])===J(['回來了嗎','蘇姨說幫你留一杯'])&&(y2['2027-01-23']||[]).includes('今天也有開')&&![S1,S2,S3].some(s=>[].concat(...Object.values(y2)).includes(s)),
       J([y3['2028-01-18'],y3['2028-01-29'],y3['2028-01-30'],y2['2027-01-23']]));
-    check('第 8 節第 5 題. 2027 大二寒假東京 1/30 回國那天是店休第一天：「回來了嗎」「店休。阿姨說等開店，第一碗留給你。」（取代「阿姨說幫你留一碗」）',
+    check('第 8 節第 5 題. 2027 大二寒假東京 1/30 回國那天是店休第一天：「回來了嗎」「店休。阿姨說等開店，第一碗留給你。」（取代「蘇姨說幫你留一杯」）',
       NOODLE_CLOSED.closed(G,D('2027-01-30'))&&J(y2['2027-01-30'])===J(['回來了嗎','店休。阿姨說等開店，第一碗留給你。']),J(y2['2027-01-30'])); }
   // ===== 第 8 節第 1 題：Alison 營隊、方奕廷上山「在幹嘛」用她們自己那一版 =====
   { const setup=(id,k,h)=>{ fresh(D(k),h||15,'campus',{}); R(id,'FAM'); INV.addContact(G,id); }, pk=(id,k,h)=>{ setup(id,k,h); return MSG.pick(G,id,'chat'); };
@@ -297,7 +297,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('第 9 節第 3 題. 對照：有開店的日子照舊「辛苦了。」「想吃乾麵。」',openA.length>=1&&openA.every(a=>J(a[2])===J(['辛苦了。','想吃乾麵。'])),J(openA));
     const fr=(yk,k0)=>{ fresh(D(k0),7,'dorm',{}); R('heroine_03','FAM'); VAC.tripMsgs(G,VAC.inst('C11',yk)); const o={}; for(const q of PHONE.rec(G).q) for(const x of (q.items||[])) if(x.th==='p:heroine_03') (o[K(q.day)]=o[K(q.day)]||[]).push(x.text); for(const m of TH('p:heroine_03')) (o[K(m.day)]=o[K(m.day)]||[]).push(m.text); return o; };
     const f3=fr('Y3','2028-01-17'), f2=fr('Y2','2027-01-17');
-    check('第 9 節第 3 題. 沒交往的語彤（朋友）：2028-01-23（店休）那張是「📷（拉下來的鐵門，貼著紅紙）」，不是「📷（麵店今天的長桌）」；對照：2027-01-23（有開）照舊長桌',
-      J(f3['2028-01-23'])===J(['📷（拉下來的鐵門，貼著紅紙）'])&&!Object.values(f3).some(a=>a.includes('📷（麵店今天的長桌）'))&&J(f2['2027-01-23'])===J(['📷（麵店今天的長桌）']),J([f3,f2])); }
+    check('第 9 節第 3 題. 沒交往的語彤（朋友）：2028-01-23（店休）那張是「📷（拉下來的鐵門，貼著紅紙）」，不是「📷（茶屋今天的長桌）」；對照：2027-01-23（有開）照舊長桌',
+      J(f3['2028-01-23'])===J(['📷（拉下來的鐵門，貼著紅紙）'])&&!Object.values(f3).some(a=>a.includes('📷（茶屋今天的長桌）'))&&J(f2['2027-01-23'])===J(['📷（茶屋今天的長桌）']),J([f3,f2])); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

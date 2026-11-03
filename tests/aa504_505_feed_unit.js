@@ -194,7 +194,7 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
   /* 語彤看海、學姊池上、可昕模擬法庭（大二上） */
   const D23=DK('2027-02-03');
   for(const [k,flag,want] of [[0,'where',['基隆。她說她年輕的時候常去。']],[1,'happy',['她回來的路上一直睡。……應該是。']],[2,'none',[]]]){ fresh(D23,16); who('heroine_03','CLOSE'); walk(D23,21.1); const got=answer('yt_sea',k);
-    check('3. 語彤（很熟）2/3 17:00 第 4 則、21:00 看海三則（在沙灘上坐了很久），選第 '+(k+1)+' 個 → YT_SEA_DM '+flag,!!item('yt4c')&&J(tagged('yt_sea').slice(0,3))===J(['帶阿姨去看海了。','她說很冷。','然後在沙灘上坐了很久。'])&&J(got)===J(want)&&H.G.flags.YT_SEA_DM===flag,J(got)); }
+    check('3. 語彤（很熟）2/3 17:00 第 4 則、21:00 看海三則（在沙灘上坐了很久），選第 '+(k+1)+' 個 → YT_SEA_DM '+flag,!!item('yt4c')&&J(tagged('yt_sea').slice(0,3))===J(['跟我媽去看海了。','她說很冷。','然後在沙灘上坐了很久。'])&&J(got)===J(want)&&H.G.flags.YT_SEA_DM===flag,J(got)); }
   const W11=TDt('Y2S1',11,6);
   for(const [k,flag,want] of [[0,'can',['我知道。……你不用安慰我。']],[1,'good',['很好。好到我回去把自己那份重寫了一次。']]   /* AA_546 第 8 節（企劃線 86b121f42，D116）：原本「很好。好到我很生氣。」 */,[2,'watch',['不要。你在我會看你。……好啦，下次。']]]){ fresh(W11,21); who('kexin','FRIEND'); walk(W11,22.6); const got=answer('kx_moot',k);
     check('3. 可昕（朋友）大二上第 11 週週六 22:30 模擬法庭輸了，選第 '+(k+1)+' 個 → KX_MOOT_DM '+flag,J(tagged('kx_moot').slice(0,3))===J(['輸了。','對方的律師是大三的。','……我下次要寫得更好。'])&&J(got)===J(want)&&H.G.flags.KX_MOOT_DM===flag,J(got)); }
@@ -205,13 +205,13 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
 await asec('4a',async()=>{ if(!HAS()||!SET.Y1S2){ check('4. 語彤放榜',false,'沒有資料'); return; }
   const D73=DK('2026-07-03'); fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.6); const y3=item('yt3b'), before=tagged('yt_pass').length; walk(D73,20.75);
   check('4. AA_504：7/3 語彤放榜——20:30 動態第 3 則（沒有字）、20:40 私訊三則、三個選項',!!y3&&Math.abs(y3.h-20.5)<0.01&&before===0&&J(tagged('yt_pass').slice(0,3))===J(['上了。','雙主修。','阿姨說要請你吃麵。'])&&J(dm('yt_pass').ask.opts.map(o=>o.t))===J(['恭喜！','我去吃。','（不回）']),J(tagged('yt_pass')));
-  const got=answer('yt_pass',1); check('4. 「我去吃。」→「好。週二、四都在。」（YT_PASS_DM eat；不排約）',J(got)===J(['好。週二、四都在。'])&&H.G.flags.YT_PASS_DM==='eat'&&!(typeof OUT!=='undefined'&&OUT.rec(H.G).some(q=>/yt/.test(q.id||''))),J(got));
+  const got=answer('yt_pass',1); check('4. 「我去吃。」→「好。週末都在茶屋。」（YT_PASS_DM eat；不排約）',J(got)===J(['好。週末都在茶屋。'])&&H.G.flags.YT_PASS_DM==='eat'&&!(typeof OUT!=='undefined'&&OUT.rec(H.G).some(q=>/yt/.test(q.id||''))),J(got));
   for(const [k,flag,want] of [[0,'congrats',['嗯。']],[2,'none',[]]]){ fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.75); const g=answer('yt_pass',k); check('4. 放榜那則選第 '+(k+1)+' 個 → YT_PASS_DM '+flag,J(g)===J(want)&&H.G.flags.YT_PASS_DM===flag,J(g)); }
   /* 之後第一次在麵店點餐：阿姨一句、不用錢；第二次照付 */
   const paid=[], m0=GM.money; GM.money=d=>{ paid.push(d); }; const it={eat:'noodle',seat:{x:0,z:0}};
   try{ fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.75); H.G.zone='noodle'; at(D73+4,18); check('4. 私訊傳了以後：FEED.ytTreatDue',FEED.ytTreatDue(H.G)===true);
     H.picks=[0]; H.said=[]; await STORY.interact(it,GM); const s1=H.said.map(x=>(x.who?x.who+'：':'')+x.t);
-    check('4. 之後第一次到麵店點乾麵：阿姨「語彤上了！今天你的麵我請。」、那一碗不用錢（沒有扣錢）',s1[0]==='阿姨：語彤上了！今天你的麵我請。'&&!paid.length&&FEED.ytTreatDue(H.G)===false&&H.G.flags.FEED.ytTreat===D73+4,J({s1,paid}));
+    check('4. 之後第一次到麵店點乾麵：阿姨「語彤上了！今天你的茶我請。」、那一碗不用錢（沒有扣錢）',s1[0]==='阿姨：語彤上了！今天你的茶我請。'&&!paid.length&&FEED.ytTreatDue(H.G)===false&&H.G.flags.FEED.ytTreat===D73+4,J({s1,paid}));
     H.picks=[1]; H.said=[]; await STORY.interact(it,GM); check('4. 下一次照付（燒鴨飯 110 元，AA_612 菜單）、阿姨不再說',J(paid)===J([-110])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)),J({paid,said:H.said}));
     fresh(D73-1,20); who('heroine_03','FRIEND'); H.G.zone='noodle'; paid.length=0; H.picks=[0]; H.said=[]; await STORY.interact(it,GM); check('4. 放榜以前（沒收到那則）：照付（叉燒飯 100）、阿姨不說',J(paid)===J([-100])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)));
     fresh(D73,20); who('heroine_03','ACQ'); walk(D73,21); check('4. 語彤只認識：沒有放榜私訊（x:stage）、麵店也不請',!tagged('yt_pass').length&&R().dm.yt_pass==='x:stage'&&FEED.ytTreatDue(H.G)===false); }

@@ -483,18 +483,18 @@ const date=id=>H.date(id);
     const q=OUT.get(H.G,'y4_bar_group_start');
     check('BG1 台灣路線、選國考、和可昕交往、和語彤 FRIEND、兩人都知道：2/23 21:30 三個人（公館燒臘打烊以後）；BAR_STUDY_GROUP [kexin, yutong]', H.G.flags.BAR_GROUP_KIND==='three'&&JSON.stringify(H.G.flags.BAR_STUDY_GROUP)==='["kexin","yutong"]'&&!!q&&q.h===21.5&&/公館燒臘/.test(q.place));
     at('2029-02-23',21.2); await goOut('y4_bar_group_start');
-    check('BG1 成立：長桌上可昕寫的表；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週二我在店裡。…」；「……好。那表上多一格。」', has('（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週二我在店裡。你們在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
+    check('BG1 成立：長桌上可昕寫的表；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週二我在店裡。…」；「……好。那表上多一格。」', has('（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週末我在茶屋。你們平常在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
     at('2029-02-26',21.5); H.G.zone='noodle'; const due=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');
     check('2-Y4-58 作息：週一 21:00～23:00 走到麵店就是讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；BAR_GROUP_N', due&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1&&!EVENTS.check(ev('ev_bar_group_night')));
     at('2029-02-27',21.5); const tue=!EVENTS.check(ev('ev_bar_group_night')); at('2029-02-28',21.5); const hol=!EVENTS.check(ev('ev_bar_group_night')); at('2029-03-02',21.5); await run('ev_bar_group_night');
     const TX=['ev_bar_group_night','ev_bar_group_video','ev_bar_group_start'].flatMap(id=>ev(id).dialogue.filter(l=>l.text).map(l=>l.text));
     check('2-Y4-58 週二不排（週四是國考讀書會）、國定假日不排（2/28）；下一次（週五）輪到語彤「押租金那個，你講給我聽。不要講條號。」；BG3 沒有條號、沒有假設題、沒有比誰對', tue&&hol&&has('押租金那個，你講給我聽。不要講條號。')&&H.G.flags.BAR_GROUP_N===2&&!TX.some(t=>/第\s*[0-9一二三四五六七八九十百]+\s*條|假設|你覺得我會錯/.test(t)));
     at('2029-06-21',12); phone(); const q3=OUT.get(H.G,'y4_bar_three'); at('2029-06-23',18.8); await goOut('y4_bar_three');
-    check('BG1 6/23 19:00 三個人的長桌：「（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）」「還有四十二天。」「先吃，麵要糊了。」', !!q3&&q3.h===19&&has('（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）')&&has('還有四十二天。')&&has('先吃，麵要糊了。')); }
+    check('BG1 6/23 19:00 三個人的長桌：「（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）」「還有四十二天。」「先吃，湯要涼了。」', !!q3&&q3.h===19&&has('（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）')&&has('還有四十二天。')&&has('先吃，湯要涼了。')); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); at('2029-02-23',21.2); await goOut('y4_bar_group_start');
     check('BG2 只有語彤：「我今年不考。……可是你考的那幾科，我也要修。」「所以你讀的時候，我也在旁邊讀我的。」', H.G.flags.BAR_GROUP_KIND==='yutong'&&has('我今年不考。……可是你考的那幾科，我也要修。')&&has('所以你讀的時候，我也在旁邊讀我的。'));
     at('2029-02-26',21.5); H.G.zone='noodle'; await run('ev_bar_group_night');
-    check('2-Y4-58 只有語彤的第一次：「（十點，麵店拉下一半的鐵門。…）」「我今年不考。……可是我可以考你。」「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）')&&has('我今年不考。……可是我可以考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
+    check('2-Y4-58 只有語彤的第一次：「（十點，麵店拉下一半的鐵門。…）」「我今年不考。……可是我可以考你。」「買賣不破租賃那一條。你講給我聽，講到我聽得懂。」', has('（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）')&&has('我今年不考。……可是我可以考你。')&&has('買賣不破租賃那一條。你講給我聽，講到我聽得懂。'));
     at('2029-03-03',11); H.G.zone='library_hall'; check('2-Y4-58 只有語彤：週六在總圖', EVENTS.check(ev('ev_bar_group_night'))&&S.session(H.G,H.G.day).mode==='library');
     at('2029-06-23',18); phone(); check('2-Y4-58 只有一個人的玩家：沒有 6/23 那一場', !OUT.get(H.G,'y4_bar_three')); }
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar',KX_VDAY:{4:'video'}},'TW'); date('kexin'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start'); at('2029-02-23',21.4); await goOut('y4_bar_group_start');
@@ -504,7 +504,7 @@ const date=id=>H.date(id);
     fresh('2029-02-23',21.4,'dorm',{Y4_PATH:'bar',BAR_GROUP_KIND:'kexin',BAR_STUDY_GROUP:['kexin'],BAR_GROUP_START:'kexin'},'TW'); date('kexin'); OUT.plan(H.G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:D('2029-02-23'),h:21.5,place:'視訊',title:'t',travelH:0}); await goOut('y4_bar_group_start');
     check('2-Y4-58 沒有 2/14 那張表：第一句換成「我排了一張表，到八月，一天三科。」', has('我排了一張表，到八月，一天三科。')&&!has('情人節那張表，我把八月以前都排完了。')); }
   /* AA_345 G6 58：兩個人互不知情、分開讀：成立那晚走可昕的視訊；語彤「只有語彤的第一次」放在她的第一個週五晚上 3/2 21:00，週六白天（總圖）不演 */
-  { const FIRST='（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）';
+  { const FIRST='（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）';
     fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); at('2029-02-23',8); phone(); const q=OUT.get(H.G,'y4_bar_group_start');
     check('G6-58 分開讀（兩人互不知情）：成立那晚是可昕的視訊', H.G.flags.BAR_GROUP_KIND==='split'&&!!q&&q.place==='視訊');
     at('2029-03-02',21.5); H.G.zone='noodle'; const due=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');

@@ -223,7 +223,7 @@ sec('4',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('4. 私訊',false,'沒有�
   const n=(H.G.msgs||[]).length; PHONE.answer(H.G,'yt_bday_y2',0); const gr=(H.G.msgs||[]).slice(n).map(m=>[m.th,m.from,m.text]);
   check('4. 語彤 7/9 12:00（在麵店團群組）：Alison「今天語彤生日！」→「傳一句生日快樂」→ 你「生日快樂。」、她在群組回「……謝謝。今天第一次去田野。……」、YT_BDAY_Y2',
     g0===0&&g.length===1&&g[0].th==='g:noodle_team'&&g[0].from==='yu'&&g[0].text==='今天語彤生日！'&&J(g[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂'])
-    &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。乾麵的阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
+    &&J(gr)===J([['g:noodle_team','player','生日快樂。'],['g:noodle_team','heroine_03','……謝謝。今天第一次去田野。三號桌的阿伯說，生日還出來工作，很乖。']])&&H.G.flags.YT_BDAY_Y2===true,J({g:g.map(m=>[m.th,m.from,m.text]),gr}));
   walk(D79,21.1); check('4. 同一天 21:00 動態第 5 則（錄音筆、乾麵；留言「生日快樂！」→「謝謝。」）',!!item('yt5d')&&HT().includes('生日快樂！'));
   fresh(D79,11); who('heroine_03','FAM'); walk(D79,12.1); const s=bmsg();
   check('4. 不在群組、和語彤有點熟：她的私訊放系統字「今天是語彤的生日。」，同一個按鈕',s.length===1&&s[0].th==='p:heroine_03'&&!s[0].from&&s[0].text==='今天是語彤的生日。'&&J(s[0].ask.opts.map(o=>o.t))===J(['傳一句生日快樂']),J(s.map(m=>[m.th,m.from,m.text])));

@@ -75,6 +75,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('7. 和以安交往中：改行程那一句之後她小聲說「你想去哪？我照你的排。」；沒交往沒有',i>=0&&r1.L[i+1]==='沈以安：（她小聲對你說）你想去哪？我照你的排。'&&!r.L.some(l=>/我照你的排/.test(l)),JSON.stringify(r1.L)); }
   { const YT=k=>{ fresh(D.inv2,22,'dorm',{dating_heroine_03:true}); PHONE.join(G,'noodle_team','麵店團'); STORY.springChoose(GM,k,{silent:true}); G.day=D.d0; G.hour=18.1; STORY.phoneRules(GM); PHONE.tick(G); return G.msgs.filter(m=>m.th==='p:heroine_03').map(m=>m.text); };
     const a1=YT('noodle'), a2=YT('dorm'); fresh(D.inv2,22,'dorm',{}); STORY.springChoose(GM,'dorm',{silent:true}); G.day=D.d0; G.hour=18.1; STORY.phoneRules(GM); PHONE.tick(G); const a3=G.msgs.filter(m=>m.th==='p:heroine_03').map(m=>m.text);
-    check('7. 和語彤交往中：去麵店團＝第一天傍晚「看到群組了。你們那邊也在下雨喔。」「店裡今天很空。」；留在宿舍＝「春假店裡很空。你要來吃嗎？」；沒交往沒有',JSON.stringify(a1)==='["看到群組了。你們那邊也在下雨喔。","店裡今天很空。"]'&&JSON.stringify(a2)==='["春假店裡很空。你要來吃嗎？"]'&&!a3.length,JSON.stringify([a1,a2,a3])); }
+    check('7. 和語彤交往中：去麵店團＝第一天傍晚「看到群組了。你們那邊也在下雨喔。」「店裡今天很空。」；留在宿舍＝「春假茶屋很空。你要來喝茶嗎？」；沒交往沒有',JSON.stringify(a1)==='["看到群組了。你們那邊也在下雨喔。","店裡今天很空。"]'&&JSON.stringify(a2)==='["春假茶屋很空。你要來喝茶嗎？"]'&&!a3.length,JSON.stringify([a1,a2,a3])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -200,7 +200,7 @@ const ALLOW = [
   ['src/data/ladder.js', '第 18 週 E19（誤會）以前；寒假的每晚訊息（E24）接在後面（2'],
   ['src/data/ladder.js', '經原我是第二次修啦。第一次期中考完我就沒去了。'],
   ['src/data/linze_upper_layouts.js', '期中考範圍和討論的題目；遊戲裡顯示的字等 AA 寫'],
-  ['src/data/needed_msgs.js', '期中考你在總圖哪一層？我想找一個不會遇到麵店客人的地方。'],
+  ['src/data/needed_msgs.js', '期中考你在總圖哪一層？我想找一個不會遇到茶屋客人的地方。'],
   ['src/data/pool_story_b3.js', '好。那你要是期中前改變主意，B1 找我。'],
   ['src/data/postgrad_lines.js', '我在帶大學部刑訴的討論課。期中考完，我第一件事是問他們錯哪裡。'],
   ['src/data/sup497_lines.js', '「家教那個學生期中考進步了。他媽媽塞給我一袋柳丁。」'],

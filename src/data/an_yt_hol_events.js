@@ -223,7 +223,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'b'},Y('看。'),N('（她用指甲在柚子頂上劃了一圈，整片皮完整地剝了下來。）'),
         {label:'c'},N('（她把剝好的一瓣放到你手上。旁邊那一攤已經開始生火，煙飄過來。）'),
         {if:{custom:G=>yr(G)===2027},speaker:YT,text:'今天以安生日。這顆柚子，等一下給她。'},   /* 2027 年多一句（也是以安的生日，group3d.js 1C-02）*/
-        {if:{custom:G=>yr(G)===2028},speaker:'classmate_mingxuan',text:'（提著烤肉架走過來）明年你們還來不來占位子？'},   /* 2028 年多兩句（AA_630 H-015：說話人改明軒）*/
+        {if:{custom:G=>yr(G)===2028},speaker:'classmate_mingxuan',name:'明軒（提著烤肉架走過來）',text:'明年你們還來不來占位子？'},   /* 2028 年多兩句（AA_630 H-015：說話人改明軒）*/
         {if:{custom:G=>yr(G)===2028},speaker:YT,text:'……來啊。'},
         N('（快七點的時候，語彤忽然抬頭。）'),
         {if:{custom:G=>moonFirst(G)&&!!moonCG()},get cg(){ return moonCG(); }},   /* 「月亮。」那一句放 CG（照原本的構圖；登錄進 adv3d.js 的 CG_REGISTRY 才放）*/

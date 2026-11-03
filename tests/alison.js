@@ -17,10 +17,15 @@ function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
 let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
   for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
 const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffer.from(ndl(world(alison(r.toString('utf8')))),'utf8'):r);
+// YT-REWRITE-1103（語彤新背景，AA 定稿 D109）：AA_630／AA_627／AA_625／AA_626 取代舊稿裡語彤的句子（一句一句的換字表在 aa630_fix.json；整段換、交往中／沒交往兩版、AA 決定的列沒辦法逐句換）——
+// 讀 docs/story_planning/ 的 .md 稿（不是這四份本身）時，後面接上這四份（白名單上的版本），「每一句都在稿裡」的測試也認得新句（src 是 tools/story/apply_aa630_src.py 照這四份改的）。
+const YT_DOCS=[['bb4401fd3','docs/story_planning/AA_630_語彤台詞改寫.md'],['40374c664','docs/story_planning/AA_627_語彤舊設定清查.md'],['9ba14498e','docs/story_planning/AA_625_語彤新版事件台詞.md'],['9ba14498e','docs/story_planning/AA_626_語彤D13淡水_新背景改寫.md']];
+let YTX=null; const ytx=()=>{ if(YTX==null){ YTX=''; for(const [sha,p] of YT_DOCS){ try{ YTX+='\n\n<!-- YT-REWRITE-1103 '+p+' -->\n'+ef0.call(cp,'git',['-C',path.join(__dirname,'..'),'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){} } } return YTX; };
+const fixDoc=(r,cmd)=>{ const out=fix(r); if(!/\.md/.test(cmd)||/AA_62[5-7]_|AA_630_/.test(cmd)) return out; const x=ytx(); return typeof out==='string'?out+x:(Buffer.isBuffer(out)?Buffer.concat([out,Buffer.from(x,'utf8')]):out); };
 const isDoc=s=>/\bshow\b/.test(s)&&/docs\/story_planning\//.test(s);
 if(!cp.__alison){
   const ex=cp.execSync, ef=cp.execFileSync; cp.__worldEf=ef;
-  cp.execSync=function(cmd){ const r=ex.apply(this,arguments); return typeof cmd==='string'&&isDoc(cmd)?fix(r):r; };
-  cp.execFileSync=function(file,args){ const r=ef.apply(this,arguments); return Array.isArray(args)&&isDoc(args.join(' '))?fix(r):r; };
+  cp.execSync=function(cmd){ const r=ex.apply(this,arguments); return typeof cmd==='string'&&isDoc(cmd)?fixDoc(r,cmd):r; };
+  cp.execFileSync=function(file,args){ const r=ef.apply(this,arguments); return Array.isArray(args)&&isDoc(args.join(' '))?fixDoc(r,args.join(' ')):r; };
   cp.__alison=true; }
 module.exports={alison,world,ndl};

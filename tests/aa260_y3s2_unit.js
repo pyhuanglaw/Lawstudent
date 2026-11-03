@@ -41,6 +41,6 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   delete G.flags.YT_EV13; delete G.flags.RENT_RENEWED; SOCIAL.remember(YT,'FIRST_MET',''); R(YT,...LV.FRI);
   const greet=()=>{ const out=new Set(); for(let d=0;d<40;d++){ G.day=termDay('Y3S2',2,1)+d; G.weekday=wdOf(G.day); G.hour=13; G.weather='clear'; G.zone='campus'; const t=STORY.ladGreet(G,YT); if(t) out.add(t); } return [...out]; };
   const g0=greet(); G.flags.YT_EV13=true; G.flags.RENT_RENEWED=true; const g1=greet();
-  check('3. 招呼③「週四店裡現在是工讀生，我只剩週二。」事件 13、14 以前不說、之後會說',!g0.some(t=>/工讀生/.test(t))&&g1.some(t=>/工讀生/.test(t)),JSON.stringify([g0,g1]));
+  check('3. 招呼③「週四我去做田野。週末還是在茶屋。」事件 13、14 以前不說、之後會說（AA_630 L-185、AA_627 P-09：LADDER_GREET_IF 的鍵跟著改）',!g0.some(t=>/週四我去做田野/.test(t))&&g1.some(t=>/週四我去做田野/.test(t)),JSON.stringify([g0,g1]));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

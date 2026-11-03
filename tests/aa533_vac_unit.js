@@ -83,7 +83,7 @@ const keyOf=(id,title)=>(A[id].keys||[]).find(k=>k.title===title);
   /* ================= 4 小出遊、海邊 ================= */
   const runEv=async(id,picks)=>{ H.said=[]; H.picks=picks||[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id===id)); return H.lines(); };
   { H.fresh('2027-01-16',18,'dorm'); const L=await runEv('ev_vf_y2w_0116'), yt=SOCIAL.displayName('heroine_03');
-    check('4-1. 麵店長桌：兩句旁白中間「（語彤端麵過來…）」、語彤「寒假人少。阿姨煮得比較慢。」、Alison「慢沒關係！我餓到可以等！」',L.length===5&&L[1]==='（語彤端麵過來，順手把你的筷子擺正。）'&&L[2]===yt+'：寒假人少。阿姨煮得比較慢。'&&/：慢沒關係！我餓到可以等！$/.test(L[3])&&L[0]===VACFILL_LINES.y2w_0114.narr&&L[4]===VACFILL_LINES.y2w_0114.narr2,J(L));
+    check('4-1. 麵店長桌：兩句旁白中間「（語彤端麵過來…）」、語彤「寒假人少。蘇姨泡得比較慢。」、Alison「慢沒關係！我餓到可以等！」',L.length===5&&L[1]==='（語彤倒茶過來，順手把你的杯墊擺正。）'&&L[2]===yt+'：寒假人少。蘇姨泡得比較慢。'&&/：慢沒關係！我餓到可以等！$/.test(L[3])&&L[0]===VACFILL_LINES.y2w_0114.narr&&L[4]===VACFILL_LINES.y2w_0114.narr2,J(L));
     H.fresh('2028-01-08',15,'dorm'); const L2=await runEv('ev_vf_y3w_0108');
     check('4-2. 參創：旁白後面子晴兩句',L2.length===3&&/：這台是我學長做的。他去年也在這裡排隊，排到最後一個。$/.test(L2[1])&&/：……明年我也要有一台。$/.test(L2[2]),J(L2));
     H.fresh('2028-02-14',10,'dorm'); const L3=await runEv('ev_vf_y3_0214',['補上學期']); const o3=H.opts[0]; H.fresh('2028-02-14',10,'dorm'); const L4=await runEv('ev_vf_y3_0214',['預習']);

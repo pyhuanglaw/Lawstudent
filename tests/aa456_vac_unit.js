@@ -123,7 +123,7 @@ await sec('1-5',()=>{
   check('1-5. 芷若前三學期照舊 22:00、週五；沛珊大三上照舊在台南（over 的地點留著）',zr.every(g=>g.h===22&&(g.wd||5)===5)&&ps.place==='eatery_tn',J([zr.map(g=>g.h),ps.place]));
   const dup=Object.values(WHO).filter(id=>{ const L=X15.filter(x=>x.who===id).map(x=>inv(x.who,x.term)); return new Set(L).size!==L.length; });
   check('1-5. 每個人稿裡的每一學期都不一樣（原句只留在稿說保留的學期）',!dup.length&&X15.filter(x=>x.orig).length===7,J(dup));
-  const FB=[['heroine_01','Y3S2','考完了。……今天不讀書，你也不准讀。'],['heroine_05','Y1S1','考完了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_03','Y5S1','打烊以後。我煮。'],['heroine_01','Y5S1','你實習結束了吧。……今天我訂位子。'],['heroine_05','Y5S1','你實習結束了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_04','Y5S1','你實習完了吧 宵夜 我想吃兩份'],['classmate_peishan','Y5S1','學期結束了吧！你下來，我們吃熱的。'],['heroine_02','Y2S2','禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'],['heroine_02','Y3S2','禮拜四十點，等我下班。']];
+  const FB=[['heroine_01','Y3S2','考完了。……今天不讀書，你也不准讀。'],['heroine_05','Y1S1','考完了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_03','Y5S1','打烊以後。我泡茶。'],['heroine_01','Y5S1','你實習結束了吧。……今天我訂位子。'],['heroine_05','Y5S1','你實習結束了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_04','Y5S1','你實習完了吧 宵夜 我想吃兩份'],['classmate_peishan','Y5S1','學期結束了吧！你下來，我們吃熱的。'],['heroine_02','Y2S2','禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'],['heroine_02','Y3S2','禮拜四十點，等我下班。']];
   const fb=FB.filter(([id,t,s])=>inv(id,t)!==s).map(([id,t,s])=>[id,t,inv(id,t)]);
   check('1-5. 稿沒寫的學期照 invite（以安大三下、學姊大一上、語彤大五上）；over 寫的照 over（大五上四人、芷若大二下、大三下）',!fb.length,J(fb));
   /* 實際手機：交往中，約會當天 12:00 那一則（AA_378 #3） */

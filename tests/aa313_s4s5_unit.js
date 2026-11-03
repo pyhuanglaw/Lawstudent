@@ -90,7 +90,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');
     check('4-1 第 13 點. 大三跨年和語彤交往中：00:01 她打電話來（接起來／先不接）',!!c&&c.ev==='ev_yt_nye_call_y3'&&c.day===nye+1&&Math.abs(c.h-1/60)<1e-6&&c.verb==='接起來',J(c));
     said=[]; await EVENTS.run(ev('ev_yt_nye_call_y3')); const L=lines();
-    check('4-1 第 13 點. 電話照稿：「（電話。她那邊很安靜。）」「……新年快樂。」「店裡今天提早收。阿姨說跨年沒有人吃麵。」「你那邊好吵。……好，你去看。我掛了。」',J(L)===J(['（電話。她那邊很安靜。）','陳語彤：……新年快樂。','陳語彤：店裡今天提早收。阿姨說跨年沒有人吃麵。','陳語彤：你那邊好吵。……好，你去看。我掛了。'])&&G.flags.YT_NYE_CALL_Y3===true,J(L));
+    check('4-1 第 13 點. 電話照稿：「（電話。她那邊很安靜。）」「……新年快樂。」「茶屋今天提早收。蘇姨說跨年沒有人喝茶。」「你那邊好吵。……好，你去看。我掛了。」',J(L)===J(['（電話。她那邊很安靜。）','陳語彤：……新年快樂。','陳語彤：茶屋今天提早收。蘇姨說跨年沒有人喝茶。','陳語彤：你那邊好吵。……好，你去看。我掛了。'])&&G.flags.YT_NYE_CALL_Y3===true,J(L));
     fresh(nye,22.8,'dorm',{}); R('heroine_03','FAM'); run(22.8,23.2); check('4-1 第 13 點. 沒交往：不打電話（照舊 00:07 私訊）',!OUT.get(G,'yt_nye_call_y3')); }
   // ===================== 第 5 節：麵店團 =====================
   const K0=STORY.knows, onlyKnow=ids=>{ STORY.knows=id=>ids.includes(id); }, knowReset=()=>{ STORY.knows=K0; };

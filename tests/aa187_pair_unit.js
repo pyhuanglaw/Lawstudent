@@ -119,10 +119,10 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     check('3. (b) 大三上：晴天的週二、下雨的週三都不算「第一個下雨的週二」',H.G.flags.YT_UMB_TUE==null);
     at(tues[1],10,'campus','rain'); tick(); check('3. (b) 下雨的週二（人在校園也記）：記 YT_UMB_TUE＝那天',H.G.flags.YT_UMB_TUE===tues[1],keyOf(tues[1]));
     at(tues[1],18,'noodle','rain'); const c1=EVENTS.check(U); const L=await run('ev_yt_umbrella_hook');
-    check('3. (b) 那天走進麵店（有 HELPED）：旁白「（那把傘，掛在只有她拿得到的地方。）」，不說話、不選擇、沒有標題',c1&&U.trigger==='auto'&&!U.title&&J(L)===J(['（那把傘，掛在只有她拿得到的地方。）'])&&H.opts.length===0,J(L));
+    check('3. (b) AA_630 Y-007（YT-REWRITE-1103）：整個 ev_yt_umbrella_hook 刪（retired，新的雨天總圖沒有借傘、她不在麵店）＝下雨的週二走進麵店也不演',U.retired===true&&!c1);
     check('3. (b) 只一次',!EVENTS.check(U));
     { fresh(keyOf(tues[0]),12,'campus',{}); SOCIAL.remember(YT,'HELPED','把傘給她'); at(tues[1],10,'campus','rain'); tick(); at(tues[2],18,'noodle','rain'); tick();
-      check('3. (b) 第一個下雨的週二沒去麵店：下一個下雨的週二走進麵店照演（AA-B 11-01 第 4 題放寬：大三上任何一個下雨的週二，第一次走進麵店那次）',H.G.flags.YT_UMB_TUE===tues[1]&&EVENTS.check(U)); }
+      check('3. (b) retired：下一個下雨的週二也不演（AA_630 Y-007）',H.G.flags.YT_UMB_TUE===tues[1]&&!EVENTS.check(U)); }
     { fresh(keyOf(tues[0]),12,'campus',{}); SOCIAL.remember(YT,'HELPED','把傘給她'); at(tues[2],18,'noodle','clear'); tick(); check('3. (b) 晴天的週二走進麵店：不演',!EVENTS.check(U)); }
     { fresh(keyOf(tues[0]),12,'campus',{}); at(tues[1],18,'noodle','rain'); tick(); check('3. (b) 沒有 HELPED（大一沒把傘給她）：不演',H.G.flags.YT_UMB_TUE===tues[1]&&!EVENTS.check(U)); }
     { const t2=[]; for(let d=D('2027-02-15');t2.length<1;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S2'&&wdOf(d)===2) t2.push(d); } fresh(keyOf(t2[0]),18,'noodle',{}); SOCIAL.remember(YT,'HELPED',''); at(t2[0],18,'noodle','rain'); tick();
@@ -135,22 +135,22 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     const rules=()=>{ AA187.phone(H.G); PHONE.tick(H.G); };
     check('4. 2029-04-26 是週四（大四下）',wdOf(d)===4&&CALENDAR.termOf(d)&&CALENDAR.termOf(d).id==='Y4S2');
     fresh('2029-04-26',16.9,'dorm',{}); date(YT); H.FRIEND(YT); rules(); const m0=dm('aa187_fd').length; setT(d,17.05); rules();
-    check('4. 當天 17:00 語彤私訊兩則：「今天打烊後留下來」「阿姨說的 不是我說的」（17:00 以前沒有）',m0===0&&J(dm('aa187_fd'))===J([YT+':今天打烊後留下來',YT+':阿姨說的 不是我說的']),J(dm('aa187_fd')));
+    check('4. 當天 17:00 語彤私訊兩則：「今天打烊後留下來」「阿姨說的 不是我說的」（17:00 以前沒有）',m0===0&&J(dm('aa187_fd'))===J([YT+':今天茶屋打烊後留下來',YT+':蘇姨說的 不是我說的']),J(dm('aa187_fd')));
     const chk=(h,zone)=>{ setT(d,h); H.G.zone=zone; return EVENTS.check(F); };
-    check('4. 20:30～21:00 人在麵店（3D）＝演；20:29、21:00、不在麵店不演',F.location==='noodle'&&F.trigger==='auto'&&F.once===true&&chk(20.5,'noodle')&&chk(20.95,'noodle')&&!chk(20.48,'noodle')&&!chk(21,'noodle')&&!chk(20.7,'gongguan'));
-    { const G=H.G; const k=G.flags.dating_heroine_03; G.flags.dating_heroine_03=false; const a=chk(20.7,'noodle'); G.flags.dating_heroine_03=k; setT(D('2029-04-19'),20.7); G.zone='noodle'; const b=EVENTS.check(F);
+    check('4. 20:30～21:00 人在一盞茶屋（3D，AA_630 Y-005）＝演；20:29、21:00、不在茶屋不演',F.location==='wz_teahouse'&&F.trigger==='auto'&&F.once===true&&chk(20.5,'wz_teahouse')&&chk(20.95,'wz_teahouse')&&!chk(20.48,'wz_teahouse')&&!chk(21,'wz_teahouse')&&!chk(20.7,'gongguan'));
+    { const G=H.G; const k=G.flags.dating_heroine_03; G.flags.dating_heroine_03=false; const a=chk(20.7,'wz_teahouse'); G.flags.dating_heroine_03=k; setT(D('2029-04-19'),20.7); G.zone='wz_teahouse'; const b=EVENTS.check(F);
       check('4. 沒有交往、別的週四都不演',!a&&!b); }
-    chk(20.6,'noodle'); const L=await run('ev_yt_family_dinner'), A='阿姨', Y=SOCIAL.displayName(YT);
-    check('4. 台詞照稿、記 YT_FAMILY_DINNER',J(L)===J(['（鐵門拉下一半。桌上擺了三副碗筷。）',A+'：坐。今天你不是客人。','（語彤把自己那碗推過來一點，又推回去。）',A+'：她以前不讓同學進廚房的。',Y+'：……阿姨。',A+'：日本的寺廟，我幫你們兩個都拜了。',Y+'：（低頭吃麵）……我們沒有要你拜。',A+'：我拜我的。','（回去的路上，她說今天的麵比較鹹。你說沒有。她說有。）'])&&H.G.flags.YT_FAMILY_DINNER===true,J(L));
-    check('4. 只演一次',!chk(20.7,'noodle'));
+    chk(20.6,'wz_teahouse'); const L=await run('ev_yt_family_dinner'), A='蘇姨', Y=SOCIAL.displayName(YT);
+    check('4. 台詞照 AA_630 Y-006（一盞茶屋打烊後的吧檯、蘇姨）、記 YT_FAMILY_DINNER',J(L)===J(['（茶屋門口的燈關了。吧檯上擺了三副碗筷。）',A+'：坐。今天你不是客人。','（語彤把自己那碗推過來一點，又推回去。）',A+'：她在這裡快四年，第一次坐在吧檯這一邊。',Y+'：……蘇姨。',A+'：菜是我煮的，茶是她泡的。兩個都要說好吃。',Y+'：（低頭吃飯）……茶不用說。',A+'：我說的。','（回去的路上，她說今天的茶泡得太濃。你說沒有。她說有。）'])&&H.G.flags.YT_FAMILY_DINNER===true,J(L));
+    check('4. 只演一次',!chk(20.7,'wz_teahouse'));
     setT(d,21.05); rules(); check('4. 演過了：21:00 不傳「阿姨說下次」',dm('aa187_fd_miss').length===0);
     fresh('2029-04-26',17.05,'dorm',{}); date(YT); rules(); setT(d,20.95); rules(); const n0=dm('aa187_fd_miss').length; setT(d,21.05); rules();
-    check('4. 沒到：21:00 語彤「阿姨說下次」「她多煮了一碗 我吃掉了」（21:00 以前沒有）',n0===0&&J(dm('aa187_fd_miss'))===J([YT+':阿姨說下次',YT+':她多煮了一碗 我吃掉了']),J(dm('aa187_fd_miss')));
+    check('4. 沒到：21:00 語彤「阿姨說下次」「她多煮了一碗 我吃掉了」（21:00 以前沒有）',n0===0&&J(dm('aa187_fd_miss'))===J([YT+':蘇姨說下次',YT+':她多煮了一碗 我吃掉了']),J(dm('aa187_fd_miss')));
     fresh('2029-04-26',17.05,'dorm',{}); rules(); setT(d,21.05); rules(); check('4. 沒有交往：17:00、21:00 都沒有',dm('aa187_fd').length===0&&dm('aa187_fd_miss').length===0);
     /* 尾聲（2034-06-03 Café）：語彤的句子前面一句旁白 */
     const epi=fl=>{ fresh('2034-06-03',19,'cafe',fl); SOCIAL.rel(YT).fam=60; return PG.epiLine(H.G,YT); };
     const e1=epi({dating_heroine_03:true,YT_FAMILY_DINNER:true}), e0=epi({dating_heroine_03:true}), e2=epi({YT_FAMILY_DINNER:true});
-    check('4. 尾聲：交往中、有 YT_FAMILY_DINNER＝語彤的句子前面多「（語彤的手機桌布，是麵店那張照片：三個人，一張桌子。）」；後面照原本',Array.isArray(e1)&&e1[0]==='（語彤的手機桌布，是麵店那張照片：三個人，一張桌子。）'&&J(e1.slice(1))===J(e0),J(e1));
+    check('4. 尾聲：交往中、有 YT_FAMILY_DINNER＝語彤的句子前面多「（語彤的手機桌布，是麵店那張照片：三個人，一張桌子。）」；後面照原本',Array.isArray(e1)&&e1[0]==='（語彤的手機桌布，是茶屋吧檯那張照片：三個人，一張桌子。）'&&J(e1.slice(1))===J(e0),J(e1));
     check('4. 尾聲：沒演過那一桌、或沒在交往（朋友那一版）不加',Array.isArray(e0)&&e0[0]!==AA187.FD_EPI&&!(Array.isArray(e2)&&e2[0]===AA187.FD_EPI),J([e0,e2]));
   });
 

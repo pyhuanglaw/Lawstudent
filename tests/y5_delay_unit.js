@@ -180,7 +180,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G5. AA_363 T1 可昕第五年：卡片第一頁「第五年。……明年的卡片，換你寫。」（smile）→「好。」「寫什麼？」「（把卡片收進外套口袋）」→「你說的喔。……錯字我會圈起來。」（teasing）／「你自己想。……你想五年了吧。」（laugh）／「（她看著你收好，嘴角動了一下。）」→「後面幾頁，她說：『回去再看。』」；不出第三、四年那一組；數值、旗標照第二～四年（選項不加數值，KX_ANNIV {5}）（修改前 FAIL）',
       ok&&exprOk,JSON.stringify(runs.map(r=>[r.L.slice(-4),r.O[0]]))+' expr='+exprOk); }
   // ===== G5 3-4 大五上女朋友的學期末約會（延畢、交往中，12/19～12/23）=====
-  const INV5={heroine_01:'你實習結束了吧。……今天我訂位子。',heroine_02:'禮拜五九點，等我下班。',heroine_03:'打烊以後。我煮。',heroine_04:'你實習完了吧 宵夜 我想吃兩份',heroine_05:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。',classmate_peishan:'學期結束了吧！你下來，我們吃熱的。'};
+  const INV5={heroine_01:'你實習結束了吧。……今天我訂位子。',heroine_02:'禮拜五九點，等我下班。',heroine_03:'打烊以後。我泡茶。',heroine_04:'你實習完了吧 宵夜 我想吃兩份',heroine_05:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。',classmate_peishan:'學期結束了吧！你下來，我們吃熱的。'};
   const TB5={heroine_01:['碩一的課，每一堂都要先讀一整本。','……我讀得完。只是睡得少。'],heroine_02:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。'],heroine_03:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。'],heroine_04:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。'],heroine_05:['上班以後，計畫本裡都是中心的事。','……今天這一頓，是我自己約的。'],classmate_peishan:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']};
   { const bad=[]; for(const id in INV5){ const G=grad('2029-12-19',20,{EXCHANGE_ROUTE:'JP'}); H.FRIEND(id); H.date(id); H.at('2029-12-19',20.6); STORY.phoneRules(GM); PHONE.tick(G);
       { const dd=((TERMEND.rec(G,'Y5S1').gfDay)||{})[id]; if(dd!=null&&dd>=0){ PG.setT(G,H.E,dd,12.1); STORY.phoneRules(GM); PHONE.tick(G); } else bad.push(id+' 沒排日子'); }   /* AA_378 #3：先排好那一天，當天 12:00 才傳 */ const got=H.msgs('p:'+id);

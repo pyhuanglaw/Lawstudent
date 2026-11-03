@@ -43,7 +43,7 @@ R('heroine_01',25);
   check("2. 以安升到「有點熟」：下一次見面先說（AA_576 #25～26：手帳旁白刪；#26 使用者改選＝旁白「她坐到你旁邊」＋「早。」，企劃線 9bf7d6a97）",ok1&&gm.out[0]==='N:（她坐到你旁邊。）'&&gm.out[1]==='S:早。',gm.out.join('｜'));
   gm=mockGM(); ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01"); check("2. 說過就不再說",!ok1&&!gm.out.length);
   R('heroine_03',8); R('heroine_03',65,50,45); gm=mockGM(); await SOCIAL.playUp(gm,{name:'語彤'},'heroine_03');
-  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:阿姨問你這禮拜會不會來。｜S:她說她記得你都點什麼。'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
+  check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:秀琴姨問你這禮拜會不會來。｜S:她說她記得你都點什麼。'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
   // 學姊：照一般階段（AA_219 A-11：W8 上限拿掉；「筆試前不想交往」只影響告白）
   R('heroine_05',45,30,10); W8=false;
   check('2. 學姊「朋友」、W8 還沒發生：照一般階段算「朋友」（聯絡人「溫學姊」），不再卡在「有點熟」',SOCIAL.friendLevel('heroine_05')==='FRIEND'&&SOCIAL.contactName('heroine_05')==='溫學姊',SOCIAL.friendLevel('heroine_05')+' '+SOCIAL.contactName('heroine_05'));

@@ -90,7 +90,7 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
 const AA532={'在總圖。暑假人很少。':'在總圖。暑假開到五點。','（寒假的總圖人很少。你五點出來的時候，天已經黑了。）':'（總圖寒假開到五點。你五點出來的時候，天已經黑了。）'};
 const b532=t=>typeof t==='string'&&AA532[t]?AA532[t]:t;
 /* AA_533 第 4 節（企劃線 cf0066ed2）：三場一鍵出遊後面加的人說話（新句在 tests/aa533_vac_unit.js 對 AA_533）*/
-const AA533={y2w_0116:['（語彤端麵過來，順手把你的筷子擺正。）','寒假人少。阿姨煮得比較慢。','慢沒關係！我餓到可以等！'],y3w_0108:['這台是我學長做的。他去年也在這裡排隊，排到最後一個。','……明年我也要有一台。'],
+const AA533={y2w_0116:['（語彤倒茶過來，順手把你的杯墊擺正。）','寒假人少。蘇姨泡得比較慢。','慢沒關係！我餓到可以等！'],y3w_0108:['這台是我學長做的。他去年也在這裡排隊，排到最後一個。','……明年我也要有一台。'],
   y3_0214:['開學前來借的人，通常是要補上學期的。','……你是哪一種？','（把一本書從書架抽出來，放在你手上）這本。']};
 const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&&typeof v==='object')?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,b532all(x)])):v;
 (async()=>{
@@ -226,7 +226,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2027-06-18',21.05); rules(); rep=answer('vf_y2_0618',0); check('2-1. 「在家。」→ 阿哲「好喔」',J(rep)===J(['zhe:好喔']));
     G=lawG('2027-06-18',21.05,{groups:[]}); rules(); check('2-1. 不在麵店團：沒有',!tagged('vf_y2_0618').length);
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); const t23=qs(part('- **6/23','## 2-2')||part('- **6/23','### 2-2.'));
-    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「阿姨說你上次吃很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J([t23[2],t23[3]]),J(t23));
+    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「蘇姨說你上次喝很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J([t23[2],t23[3]]),J(t23));
     answer('vf_y2_0623',0); rules(); const q=out('vf_y2_0623'); check('2-1. 「我去吃。」＝當天 18:00 一鍵到麵店（照麵店一般的吃飯）',isAt(q,'2027-06-23',18)&&q.goto&&q.goto.zone==='noodle',J(q));
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); rep=answer('vf_y2_0623',1); check('2-1. 「下次。」→「嗯。」',J(rep)===J([YT+':'+t23[4]]),J(rep));
     G=lawG('2027-06-23',15.05,{know:[YT]}); rules(); check('2-1. 和語彤只是認識：沒有',!tagged('vf_y2_0623').length);

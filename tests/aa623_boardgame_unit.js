@@ -149,7 +149,7 @@ await sec(6,()=>{ const E=ev('ev_mid_autumn_bbq');
   const g=(H.G.msgs||[]).find(x=>x.tag==='bbq_ask');
   check('6. 在桌遊團：明軒在群組揪',!!g&&g.th==='g:noodle_team'&&g.from===MX&&g.text==='中秋烤肉，河濱，七點。飲料自己帶。',J(g));
   const Y=E.dialogue.filter(l=>/heroine_03/.test(String(l.if&&l.if.custom))&&l.text);
-  check('6. 語彤那兩句照舊（P0：語彤的句子等新稿）',Y.some(l=>l.text==='語彤也來了，提著一盒阿姨醃的肉。阿哲在麵店揪人那天，阿姨在旁邊聽到了。')&&Y.some(l=>l.text==='阿姨叫我拿來的。她說常來吃麵的，都算自己人。'));
+  check('6. 語彤那兩句照舊（P0：語彤的句子等新稿）',Y.some(l=>l.text==='語彤也來了，提著一盒秀琴姨醃的肉。前一個週末在茶屋，你跟她說過今天要烤肉。')&&Y.some(l=>l.text==='秀琴姨叫我拿來的。她說人多的地方要有肉。'));
   const A=ev('ev_midterm_supper'), T=A.dialogue.map(l=>l.text).filter(Boolean);
   check('6. A15：日常失速長桌，AA_618 2-4 第 1 點的句子；「明軒說他沒念」照留；沒有滷味攤',A.dialogue[0].scene==='溫州街・日常失速・長桌'&&['我民總最後一題寫了一整面。……寫什麼我已經忘了。','我寫完那題就沒時間了。','那你還好，你至少寫完了。','我們不要對答案好不好。','第二題是不是選 C？','（十一點，店員來收第三輪的杯子。店長從頭到尾都在旁邊那張椅子上睡覺。）','明軒說他沒念。……我不信，他筆記比我多。'].every(t=>T.includes(t))&&!T.some(t=>/滷味攤/.test(t)),J(T));
   check('6. A15 群組：「考完了！日常失速，八人桌我先佔。」，選項「好。」／「今天先不去。」、20:00',strip(src('src/story3d.js')).includes("text:'考完了！日常失速，八人桌我先佔。',ask:{until:s1.day*24+20,opts:[{t:'好。',set:{SUPPER_MID1:'yes'}},{t:'今天先不去。',set:{SUPPER_MID1:'no'}}]}"));

@@ -231,7 +231,7 @@ const Y2B_EVENTS=(function(){
       {label:'c2'},{speaker:'heroine_03',text:'今天週二。本來就要回家吃飯。'},{speaker:null,text:'（停了一下。）'},{speaker:'heroine_03',text:'……可是今天我不切蔥。我坐著吃。'},{goto:'end'},
       {label:'c3'},{speaker:null,text:'（一路上她講了二十分鐘助教課的事，比她這兩年講過的話加起來都多。）'},{goto:'end'},
       {label:'gf'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',text:'中午你傳的那三個驚嘆號，我上台前看了一下。'},
-      {choice:[{text:'「恭喜。」',goto:'g1'},{text:'「去麵店慶祝？」',goto:'g2'},{text:'（陪她走到麵店，不說話）',goto:'g3'}]},
+      {choice:[{text:'「恭喜。」',goto:'g1'},{text:'「去吃飯慶祝？」',goto:'g2'},{text:'（陪她走回新生南路，不說話）',goto:'g3'}]},
       {label:'g1'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'嗯。……中午說加油，現在說恭喜。'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'……都收到了。'},
       {unless:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'嗯。'},{unless:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'……再說一次也可以。'},{goto:'end'},
       {label:'g2'},{speaker:'heroine_03',text:'今天週二。本來就要去。'},{speaker:'heroine_03',text:'……今天我不切蔥。你坐我旁邊。'},{goto:'end'},

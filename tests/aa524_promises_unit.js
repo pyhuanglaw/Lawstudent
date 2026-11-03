@@ -86,7 +86,7 @@ const NEW={
   Y2:['說好一起看的。','……我開視訊。','（畫面裡是她家的窗戶。遠處的煙火很小，聲音晚了一秒才傳過來。）','這樣算一起嗎。','算。','……嗯。','不算。','我知道。'],
   Y3:['店休。……說好要出去的。','刷完這一排就走。','（刷完椅子，你們去河濱走了一圈。）'],
   Y4:['（指了一下對岸）去年想帶你去的地方，在那邊。','山坡上那一排房子。','……今年從這裡看就好。'],
-  Y5:['今天我顧到打烊。','我過去。','今天不行。','嗯。','（你到的時候，她在拉鐵門。阿姨在裡面算錢。）','……你真的來了。'],
+  Y5:['今天我顧到打烊。','我過去。','今天不行。','嗯。','（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）','……你真的來了。'],
   Y6:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],
   Y7:['美國那兩個 阿姨說照片也算'],
   Y8:['（阿姨把一顆滷蛋放進你的碗裡。）','生日那天說的。'],
@@ -418,11 +418,11 @@ await sec('Y2',async()=>{
   fresh('2027-01-01',0.02); H.FRIEND(YT); H.date(YT); await runEv('ev_yt_nye_call_y2',['下次一起看']);
   check('Y2. 大二跨年「下次一起看。」→「……嗯。」、記 YT_NYE_TOGETHER',has('……嗯。')&&H.G.flags.YT_NYE_TOGETHER===true);
   fresh('2028-01-01',0.02,{YT_NYE_TOGETHER:true}); H.FRIEND(YT); H.date(YT); await runEv('ev_yt_nye_call_y3',['「算。」']);
-  check('Y2. 大三跨年的電話：「……新年快樂。」之後這一段，「算。」→「……嗯。」，接回現有的句子',adj(['……新年快樂。'].concat(NEW.Y2.slice(0,4)))&&J(H.opts[0])===J(['「算。」','「不算。」'])&&adj(['……嗯。','店裡今天提早收。阿姨說跨年沒有人吃麵。','你那邊好吵。……好，你去看。我掛了。']),J(said()));
+  check('Y2. 大三跨年的電話：「……新年快樂。」之後這一段，「算。」→「……嗯。」，接回現有的句子',adj(['……新年快樂。'].concat(NEW.Y2.slice(0,4)))&&J(H.opts[0])===J(['「算。」','「不算。」'])&&adj(['……嗯。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。','你那邊好吵。……好，你去看。我掛了。']),J(said()));
   fresh('2028-01-01',0.02,{YT_NYE_TOGETHER:true}); H.FRIEND(YT); H.date(YT); await runEv('ev_yt_nye_call_y3',['「不算。」']);
-  check('Y2. 「不算。」→「我知道。」',adj(['我知道。','店裡今天提早收。阿姨說跨年沒有人吃麵。'])&&!has('……嗯。'),J(said()));
+  check('Y2. 「不算。」→「我知道。」',adj(['我知道。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。'])&&!has('……嗯。'),J(said()));
   fresh('2028-01-01',0.02); H.FRIEND(YT); H.date(YT); await runEv('ev_yt_nye_call_y3',[]);
-  check('Y2. 沒有旗標：照現有',J(said())===J(['（電話。她那邊很安靜。）','……新年快樂。','店裡今天提早收。阿姨說跨年沒有人吃麵。','你那邊好吵。……好，你去看。我掛了。'])&&!H.opts.length,J(said()));
+  check('Y2. 沒有旗標：照現有',J(said())===J(['（電話。她那邊很安靜。）','……新年快樂。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。','你那邊好吵。……好，你去看。我掛了。'])&&!H.opts.length,J(said()));
 });
 await sec('Y3',async()=>{
   fresh('2026-02-14',17); H.FRIEND(YT); await runEv('ev_yt_vday_y1',['下次店休也出來']);
@@ -447,13 +447,13 @@ await sec('Y5',async()=>{
   const setup=()=>{ fresh('2025-11-04',20.1,{NOODLE_VISITS:3},{zone:'noodle'}); H.FRIEND(YT); contact(YT); };
   setup(); await ladPlay('Y1S1',YT,'Y-L8',['那哪天陪妳等一次']);
   const d=D('2025-11-13');
-  check('Y5. 閒聊階梯 Y-L8「那哪天陪妳等一次。」→「好啊，哪天我顧到打烊再跟你說。」、記 YT_WAIT_CLOSE＝那一天（AA_526）；之後的第二個週四＝11/13',has('好啊，哪天我顧到打烊再跟你說。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE===D('2025-11-04')&&X().y5Day(H.G)===d&&CALENDAR.dateOf(d).wd===4,keyOf(X().y5Day(H.G)));
+  check('Y5. 閒聊階梯 Y-L8「那哪天陪妳等一次。」→「好啊，哪天我待到打烊再跟你說。」、記 YT_WAIT_CLOSE＝那一天（AA_526）；之後的第二個週四＝11/13',has('好啊，哪天我待到打烊再跟你說。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE===D('2025-11-04')&&X().y5Day(H.G)===d&&CALENDAR.dateOf(d).wd===4,keyOf(X().y5Day(H.G)));
   phAt('2025-11-06',21.2); const n6=byTag('aa524_y5').length;
   phAt(d,20.9); const n0=byTag('aa524_y5').length; phAt(d,21);
   const m=PHONE.byAsk(H.G,'aa524_y5');
   check('Y5. 11/13 21:00 私訊「今天我顧到打烊。」（第一個週四 11/6 沒有）；選項「我過去。」「今天不行。」、期限 21:40',n6===0&&n0===0&&!!m&&m.text===NEW.Y5[0]&&m.day===d&&Math.abs(m.h-21)<0.01&&J(m.ask.opts.map(o=>o.t))===J([NEW.Y5[1],NEW.Y5[2]])&&Math.abs(m.ask.until-T(d,21+40/60))<1e-6,J(m&&{t:m.text,d:m.day,h:m.h}));
   answer('aa524_y5',0); PHONE.tick(H.G); at(d,21.6); H.G.zone='wenzhou'; H.said=[]; let r=await NOODLE_CLOSED.door(GM);
-  check('Y5. 「我過去。」→ 在麵店門口按「進入公館燒臘」：21:50 旁白「（你到的時候，她在拉鐵門。阿姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
+  check('Y5. 「我過去。」→ 在麵店門口按「進入公館燒臘」：21:50 旁白「（你到的時候，她在收院子的坐墊。蘇姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
   H.said=[]; r=await NOODLE_CLOSED.door(GM); check('Y5. 演一次（再按就照常進去）',r===false&&!said().length);
   setup(); await ladPlay('Y1S1',YT,'Y-L8',[0]); phAt(d,21.1); answer('aa524_y5',1); PHONE.tick(H.G);
   at(d,21.9); H.said=[]; r=await NOODLE_CLOSED.door(GM);
@@ -464,7 +464,7 @@ await sec('Y5',async()=>{
   fresh('2025-11-04',20.1); H.FRIEND(YT); contact(YT); phAt(d,21.1); check('Y5. 沒有 YT_WAIT_CLOSE：沒有私訊',!byTag('aa524_y5').length);
   /* AA_526 Y5：只給選「那哪天陪妳等一次。」的——選「打烊以後妳都在幹嘛？」（YT_TEN_MINUTES 照記）不發；舊存檔分不出來的（只有記憶）不發 */
   setup(); await ladPlay('Y1S1',YT,'Y-L8',['打烊以後妳都在幹嘛']); phAt(d,21);
-  check('Y5. 選「打烊以後妳都在幹嘛？」：YT_TEN_MINUTES 照記、不記 YT_WAIT_CLOSE、11/13 沒有私訊',has('幫阿姨擦桌子，然後一起吃剩下的滷味。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE==null&&!byTag('aa524_y5').length,J(said()));
+  check('Y5. 選「打烊以後妳都在幹嘛？」：YT_TEN_MINUTES 照記、不記 YT_WAIT_CLOSE、11/13 沒有私訊',has('幫蘇姨擦桌子，然後一起喝剩下的茶。')&&mem(YT,'YT_TEN_MINUTES')&&H.G.flags.YT_WAIT_CLOSE==null&&!byTag('aa524_y5').length,J(said()));
   fresh('2025-11-04',20.1); H.FRIEND(YT); contact(YT); SOCIAL.remember(YT,'YT_TEN_MINUTES','Y-L8'); phAt(d,21);
   check('Y5. 舊存檔：只有 YT_TEN_MINUTES（分不出選了哪一個）＝不發',!byTag('aa524_y5').length);
 });
@@ -478,7 +478,7 @@ await sec('Y7',()=>{
 });
 await sec('Y8',async()=>{
   const d=D('2026-07-09'); fresh(d,12.2); H.FAMILIAR(YT); PHONE.join(H.G,'noodle_team','麵店團'); ph(); answer('yt_bday_y1',0); PHONE.tick(H.G);
-  check('Y8. 語彤生日「傳一句生日快樂」→「……謝謝。阿姨說要請你吃滷蛋。下次來。」、記 YT_BDAY_Y1（照舊）',H.G.flags.YT_BDAY_Y1===true&&txt('g:noodle_team').includes('……謝謝。阿姨說要請你吃滷蛋。下次來。'));
+  check('Y8. 語彤生日「傳一句生日快樂」→「……謝謝。秀琴姨說要請你吃飯。」、記 YT_BDAY_Y1（照舊）',H.G.flags.YT_BDAY_Y1===true&&txt('g:noodle_team').includes('……謝謝。秀琴姨說要請你吃飯。'));
   at('2026-07-12',18); H.G.zone='noodle'; const m0=H.G.money; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
   check('Y8. 之後第一次在麵店點餐（付完錢那個位置）：「（阿姨把一顆滷蛋放進你的碗裡。）」「阿姨：生日那天說的。」、記 YT_BDAY_EGG；那一盤照付（叉燒飯 100，AA_612 菜單）',adj(NEW.Y8)&&H.said[idx(NEW.Y8[1])].who==='阿姨'&&H.G.flags.YT_BDAY_EGG===H.G.day&&H.G.money===m0-100,J({L:said(),m:m0-H.G.money}));
   H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
@@ -490,9 +490,9 @@ await sec('Y9',async()=>{
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['我請']);
   check('Y9. 碧潭天鵝船「我請。」→「……下次我請。……嗯，謝謝。」照留',has('……下次我請。……嗯，謝謝。'),J(said()));
   await spot(YT,'D10','D10.boat',1,[]);
-  check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟阿姨說了。她說「很好啊」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
+  check('Y9. 下一次 remember 多一句旁白「（這次她先去付了錢。）」',adj(['上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。',NEW.Y9[0]])&&H.said[idx(NEW.Y9[0])].who===null,J(said()));
   fresh('2026-11-14',13); H.FAMILIAR(YT); await spot(YT,'D10','D10.boat',0,['今天坐']); await spot(YT,'D10','D10.boat',1,[]);
-  check('Y9. 第一次選「今天坐。」：沒有',has('上次坐完，我跟阿姨說了。她說「很好啊」。')&&!has(NEW.Y9[0]),J(said()));
+  check('Y9. 第一次選「今天坐。」：沒有',has('上次坐完，我跟我媽說了。她說「有穿救生衣嗎」。')&&!has(NEW.Y9[0]),J(said()));
 });
 
 /* ---------------- 99 舊存檔 ---------------- */

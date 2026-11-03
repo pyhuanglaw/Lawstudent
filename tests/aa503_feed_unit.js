@@ -109,7 +109,7 @@ sec('2',()=>{ const W10THU=TD(10,4), W11WED=TD(11,3), W13SUN=TD(13,7);
   check('2. 私訊問一句「這是小婷的？」→「嗯。她很會。我教的。」；隔天以後再回＝熟悉再 +1',!!r3&&J(L3.map(m=>m.text))===J(['這是小婷的？','嗯。她很會。我教的。'])&&famOf('heroine_02')===f0+2,J(L3.map(m=>m.text)));
   /* 這則不能留言、私訊問的條件 */
   fresh(TD(6,3),8); who('heroine_03','FRIEND'); walk(TD(6,3),11); const c=HT();
-  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳在醫院？」→ 兩句',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳在醫院？','陪我媽。例行的。','……謝謝你問。']));
+  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳在醫院？」→ 兩句',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳在醫院？','嗯。我媽叫我回去吃飯。','……謝謝你問。']));
   fresh(TD(7,2),21); who('heroine_01','FRIEND'); walk(TD(7,2),22.2); const a=HT(); H.G.flags.AN_DORM_RULES='group'; const b=HT();
   check('2. 以安第 2 則的私訊問「三頁是因為字很大嗎？」：Alison 在群組爆料（AN_DORM_RULES group）以後才有',!a.includes('data-fd="an2|dm"')&&b.includes('data-fd="an2|dm"')&&b.includes('三頁是因為字很大嗎？'));
   H.G.flags.AN_DORM_RULES='peishan'; check('2. 沛珊當面說的（不是 Alison）：沒有那一格',FEED.respond(H.G,'an2','dm')===null);
@@ -200,7 +200,7 @@ sec('7',()=>{ const TUE=TD(10,2);
   const W11=TD(11,3); for(const [k,flag,want] of [[0,'filled',['還沒。……截止日還很久。']],[1,'where',['英國吧。……我隨便說的。']],[2,'none',[]]]){ fresh(W11,20); who('heroine_02','FRIEND'); walk(W11,22.2); const mm=dm('zr_exch'); const n=th('heroine_02').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_02').slice(n);
     check('7. 芷若交換說明會（第 11 週週三 22:07）選第 '+(k+1)+' 個（ZR_EXCH_DM '+flag+'）',J(th('heroine_02').filter(x=>x.tag==='aa503_zr_exch').map(x=>x.text))===J(['今天去了交換說明會。','拿了表格。表格現在在吧檯下面。'])&&J(L.filter(x=>x.from!=='player').map(x=>x.text))===J(want)&&H.G.flags.ZR_EXCH_DM===flag&&(k===2?L.length===0:L[0].from==='player')); }
   /* 語彤 */
-  const W9=TD(9,4); for(const [k,flag,want] of [[0,'fast',['她說正常人不會那麼快。……我只是想快點結束。']],[1,'xh',['她還差十二個人。……我叫阿姨問店裡的客人。']],[2,'none',[]]]){ fresh(W9,20); who('heroine_03','FRIEND'); walk(W9,20.8); const mm=dm('yt_subject'); const n=th('heroine_03').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_03').slice(n);
+  const W9=TD(9,4); for(const [k,flag,want] of [[0,'fast',['她說正常人不會那麼快。……我只是想快點結束。']],[1,'xh',['她還差十二個人。……我叫蘇姨問茶屋的客人。']],[2,'none',[]]]){ fresh(W9,20); who('heroine_03','FRIEND'); walk(W9,20.8); const mm=dm('yt_subject'); const n=th('heroine_03').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_03').slice(n);
     check('7. 語彤當筱涵的受試者（第 9 週週四：20:40 第 3 則、20:45 三則）選第 '+(k+1)+' 個（YT_SUBJECT_DM '+flag+'）',!!item('yt3')&&J(th('heroine_03').filter(x=>x.tag==='aa503_yt_subject').map(x=>x.text))===J(['今天當筱涵的受試者。','看螢幕，看到就按。四十分鐘。','她說我太快，那一份資料不能用。'])&&J(L.filter(x=>x.from!=='player').map(x=>x.text))===J(want)&&H.G.flags.YT_SUBJECT_DM===flag); }
   /* 學姊 */
   const D=DK('2026-01-18'); fresh(D,20); who('heroine_05','CLOSE'); walk(D,22.8); const s=th('heroine_05').filter(x=>x.tag==='aa503_sis_ch3');

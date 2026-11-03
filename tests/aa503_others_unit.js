@@ -183,7 +183,7 @@ await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3
   setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點的順延也不會挑它（retired）',!!p4&&p4.e.once!=='h504_zhe_hand');
   /* 大一上：輪到才演、只演一次 */
   const W6=NDt('Y1S1',6,0); setup(W6); H.G.flags.ndlTalkN={Y1:8}; const g=STORY.ndlTalkPick(H.G); H.said=[]; await STORY.ndlTalk(GM); const sg=said();
-  check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));
+  check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在洗杯子。我去幫忙，被蘇姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在洗杯子。我去幫忙，被蘇姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));
   H.G.flags.ndlTalkN={Y1:8}; at(NDt('Y1S1',7,0),18); const g2=STORY.ndlTalkPick(H.G); check('3. 演過了：下一輪輪到它就跳過（只演一次）',!!g2&&g2.e.once!=='h503_zhe_garlic',J(g2&&[g2.i,g2.e.once]));
   setup(NDt('Y1S2',3,0)); H.G.flags.ndlTalkN={Y1:8}; const g3=STORY.ndlTalkPick(H.G); check('3. 大一下輪到它：不演（大一上才有）',!!g3&&g3.e.once!=='h503_zhe_garlic');
   });
@@ -237,7 +237,7 @@ await sec('5',async()=>{ if(!HAS()){ check('5. 第三輪',false,'沒有 HEARD');
   check('5. AA_506 6-4：柏翰「沛珊去台南了。我在動態看到的。……我按了愛心。」9/4 20:00（她那則動態）以後才說',!p0&&id(p1)==='h506_bh_ps',J([id(p0),id(p1)]));
   const D1128=TDt('Y3S1',12,7); fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan','heroine_03'); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s1=said();
   at(D1128+1,12); H.said=[]; await HEARD.preTalk(GM,who('柏翰'),'classmate_bohan'); const s2=said();
-  check('5. AA_507：柏翰說語彤的租約（11/25 起）、說沛珊寫黑板（第 12 週週日 19:30 起）兩句都在的那天：一天一句，隔天說另一句',J(s1)===J(['語彤阿姨的新租約，是她一條一條念給阿姨聽的。念到一半，阿姨說，妳念的比房東清楚。'])&&J(s2)===J(['沛珊在寫黑板。她的字變大了。……我在動態看到的。']),J({s1,s2}));
+  check('5. AA_507：柏翰說語彤的租約（11/25 起）、說沛珊寫黑板（第 12 週週日 19:30 起）兩句都在的那天：一天一句，隔天說另一句',J(s1)===J(['秀琴姨的新租約，是語彤一條一條念給她聽的。念到一半，秀琴姨說，妳念的比房東清楚。'])&&J(s2)===J(['沛珊在寫黑板。她的字變大了。……我在動態看到的。']),J({s1,s2}));
   fresh(D1128,20,{}); meet('classmate_bohan','classmate_peishan'); const p2=HEARD.talkDue(H.G,'classmate_bohan');
   check('5. 不認識語彤：柏翰直接說沛珊那一句（about 要 FIRST_MET）',id(p2)==='h507_bh_ps',J(id(p2)));
   /* 陳助教、筱涵、芷若 */

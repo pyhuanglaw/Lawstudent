@@ -56,7 +56,7 @@ const txt=th=>(H.G.msgs||[]).filter(m=>PHONE.th(m)===th).map(m=>m.text);
   check('2-7. 不在日期的字照稿（「回宜蘭」「在營隊當小隊長」「田野調查（台東）」）',!notIn(['回宜蘭','在營隊當小隊長','田野調查（台東）']).length); }
 { const yt='heroine_03', run=(k,h)=>{ at(k,h); STORY.phoneRules(GM); PHONE.tick(H.G); };
   fresh('2027-07-20',20); H.FRIEND(yt); H.G.contacts[yt]=H.G.day-200; run('2027-07-21',21.1); const a=txt('p:'+yt); run('2027-07-28',21.1); const b=txt('p:'+yt);
-  const L1='這裡的阿嬤說話很快。我錄音錄了兩小時，聽懂一半。', L2='明天最後一天。阿嬤問我要不要留下來嫁給她孫子。我說要回去顧店。';
+  const L1='這裡的阿嬤說話很快。我錄音錄了兩小時，聽懂一半。', L2='明天最後一天。阿嬤問我要不要留下來嫁給她孫子。我說要回去上班。';
   check('2-7. 和語彤朋友以上：7/21 21:00、7/28 21:00 她傳兩則私訊（台詞照稿）',a.includes(L1)&&!a.includes(L2)&&b.includes(L2)&&!notIn([L1,L2]).length,J(b));
   fresh('2027-07-20',20); H.FAMILIAR(yt); H.G.contacts[yt]=H.G.day-200; run('2027-07-21',21.1); run('2027-07-28',21.1);
   check('2-7. 只有有點熟（FAMILIAR）：收不到',!txt('p:'+yt).length,J(txt('p:'+yt))); }
@@ -81,7 +81,7 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
 
   /* ================= 2-5／3-3 只有一句旁白的兩次「約」 ================= */
   { fresh('2026-02-07',18);
-    const head=['（寒假的麵店，客人只有兩桌。語彤在櫃台後面包餛飩。）','陳語彤：你來了。','陳語彤：今天的餛飩是我包的。形狀不一樣，味道一樣。','阿姨：她包的比我包的好看。不要跟她說。'];
+    const head=['（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）','陳語彤：你來了。','陳語彤：下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。','阿姨：她包的比我包的好看。不要跟她說。'];
     const nm=SOCIAL.npcName('heroine_03'), fix=L=>L.map(t=>t.replace(nm+'：','陳語彤：'));
     const a=fix(await playEv('ev_y1w_noodle_last',['點一碗'])), o=H.opts[0], b=fix(await playEv('ev_y1w_noodle_last',['寒假都在']));
     check('3-3. 2026-02-07 語彤的麵店：場景＋「（點一碗餛飩湯）」→（她端過來。）「最醜的那顆是第一顆。你吃到了。」',J(a)===J(head.concat(['（她端過來。）','陳語彤：最醜的那顆是第一顆。你吃到了。']))&&J(o)===J(['「（點一碗餛飩湯）」','「妳寒假都在店裡？」']),J([a,o]));

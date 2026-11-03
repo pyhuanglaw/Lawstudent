@@ -197,7 +197,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'JP'}); const aj=STORY.ladChoices(a).map(c=>c.t), yj=STORY.ladChoices(y), yr=yj.find(c=>c.t==='「我們同一班。」');
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'TW'}); const at=STORY.ladChoices(a).map(c=>c.t), yt=STORY.ladChoices(y).map(c=>c.t);
     check('18. 以安 A5-L8 日本路線：「那我們在日本找一家燒臘店。」（不出「我們幫妳把位子占著。」）；臺灣路線照舊',J(aj)===J(['「那我們在日本找一家燒臘店。」','「回來第一碗我請。」'])&&J(at)===J(['「我們幫妳把位子占著。」','「回來第一碗我請。」']),J([aj,at]));
-    check('18. 語彤 Y5-L8 日本路線：「我們同一班。」→「……那我十點去機場。送兩個。」；臺灣路線照舊「一起去。」',J(yj.map(c=>c.t))===J(['「我們同一班。」','「以安會想念麵店。」'])&&!!yr&&STORY.ladReply(y,yr)==='……那我十點去機場。送兩個。'&&J(yt)===J(['「一起去。」','「以安會想念麵店。」']),J([yj.map(c=>c.t),yt]));
+    check('18. 語彤 Y5-L8 日本路線：「我們同一班。」→「……那我十點去機場。送兩個。」；臺灣路線照舊「一起去。」',J(yj.map(c=>c.t))===J(['「我們同一班。」','「以安會想家吧。」'])&&!!yr&&STORY.ladReply(y,yr)==='……那我十點去機場。送兩個。'&&J(yt)===J(['「一起去。」','「以安會想家吧。」']),J([yj.map(c=>c.t),yt]));
   });
   // ===== 19. 大一的初識事件限大一 =====
   await sec('19',async()=>{

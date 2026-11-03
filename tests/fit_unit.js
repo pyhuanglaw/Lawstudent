@@ -58,7 +58,7 @@ await sec(6,async()=>{ H.fresh('2026-03-02',10,'campus'); H.FRIEND('heroine_04')
   H.fresh('2026-03-02',10,'campus'); gym().fit=55; gym().card=H.G.day-30;   /* 有會員證（GYM-NOTICE-1027 起沒有會員證的玩家，以安說「你最近走路變快了。」，tests/gym_notice_1027_unit.js 測）*/
   await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（結實、有會員證）：一般那一句',H.has('你最近下課都往新體育館走。……我只是看到了。'));
   gym().fit=90; await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（經常鍛鍊）：右邊兩句',H.has('你搬讀書會的資料，一次搬兩箱。')&&H.has('……以前你要搬兩趟。'));
-  H.fresh('2026-03-02',10,'campus'); gym().fit=30; await X().preTalk(GM,{name:'語彤',charId:'heroine_03'},'heroine_03'); check('6. 語彤：「阿姨說你最近都吃兩碗。」',H.has('阿姨說你最近都吃兩碗。'));
+  H.fresh('2026-03-02',10,'campus'); gym().fit=30; await X().preTalk(GM,{name:'語彤',charId:'heroine_03'},'heroine_03'); check('6. 語彤：「蘇姨說你最近搬桌子，都一次搬兩張。」',H.has('蘇姨說你最近搬桌子，都一次搬兩張。'));
   H.fresh('2026-03-02',10,'campus'); gym().fit=30; H.FRIEND('kexin'); const k0=SOCIAL.rel('kexin').npcRom||0; await X().outingPre(GM,{},{participants:['kexin']});
   check('6. 可昕在出遊開頭（OUT.BEFORE）：「你爬上來沒有喘。……你每天都去？」、戀愛 +4',H.has('你爬上來沒有喘。……你每天都去？')&&(SOCIAL.rel('kexin').npcRom||0)-k0===4&&OUT.BEFORE.includes(X().outingPre));
   const m=H.said.length; await X().outingPre(GM,{},{participants:['kexin'],kxAway:true}); check('6. 可昕不在場的出遊不說',H.said.length===m);

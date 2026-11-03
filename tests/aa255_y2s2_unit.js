@@ -17,7 +17,7 @@ check('0-1. 讀得到稿（企劃線 52900eb23 AA_255 附錄，含附錄 A 群�
   check('0-2. 匯入白名單：AA_255 附錄@52900eb23（approved，一個版本，approvedBy 寫明）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&!!A[0].approvedBy,J(A)); }
 
 // ---- 1 春假群組 ----
-const SPRING=[['zhe','春假四天，要不要去哪'],['yu','海邊！！'],['classmate_bohan','要去的話要先訂車 誰會開車'],['zhe','@祐廷'],['yu','@語彤 妳可以嗎'],['heroine_03','我問阿姨'],['zhe','好啦那下週再排']];
+const SPRING=[['zhe','春假四天，要不要去哪'],['yu','海邊！！'],['classmate_bohan','要去的話要先訂車 誰會開車'],['zhe','@祐廷'],['yu','@語彤 妳可以嗎'],['heroine_03','我問蘇姨能不能排休'],['zhe','好啦那下週再排']];   /* AA_630 Z-079：語彤那一句「我問阿姨」→「我問蘇姨能不能排休」（YT-REWRITE-1103）*/
 check('1-0. 讀稿：附錄 A 群組列的改法（七句、芯慈那句刪掉、P5 的註解拿掉）在稿裡',inMD('阿哲「春假四天，要不要去哪」／小語「海邊！！」／柏翰「要去的話要先訂車 誰會開車」／阿哲「@祐廷」／小語「@語彤 妳可以嗎」／語彤「我問阿姨」／阿哲「好啦那下週再排」')&&inMD('芯慈那句刪掉（她已讀，沒回）；P5 的註解拿掉'));
 const spring=(name,inGroup)=>{ const d=STORY.dayOfKey('2027-03-23'); H.fresh('2027-03-23',20,'campus'); H.G.name=name||'祐廷'; if(inGroup!==false) PHONE.join(H.G,'noodle_team','法二吃飯');
   for(let h=20;h<=21.3+1e-9;h+=0.05){ H.G.hour=+h.toFixed(3); STORY.phoneRules(H.GM); PHONE.tick(H.G); }

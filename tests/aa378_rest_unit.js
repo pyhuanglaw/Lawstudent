@@ -59,7 +59,7 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
   // ---- 9、11、13、14 閒聊階梯（源檔 6e0d1313）----
   { const LD=fs.readFileSync(path.join(ROOT,'src/data/ladder.js'),'utf8');
     const NEWL=[['#14','謝謝。八月就回來了，一直到開學才去吃。','謝謝。八月就回來了，今天才第一次來吃。'],['#11','這學期週五早上的研討，我很期待。','這學期週五早上有公司法研討，我很期待。'],['#11','期末考週。書還有一半沒背完。','期末考週。強執禮拜一早上考，我還沒背完。'],
-      ['#13','店開二十三年了。牆上多了一張紅紙，阿姨每天都去看一下。','店開二十三年了。門口多了一張紅紙，阿姨每天都去看一下。'],['#9','她寄了一本她以前讀的保險法來。……上面的筆記比書還多。','先跟她講了。她沒說不好。']];
+      ['#13','茶屋開十年了。牆上多了一張紅紙，蘇姨每天都去看一下。','店開二十三年了。門口多了一張紅紙，阿姨每天都去看一下。'],['#9','她寄了一本她以前讀的保險法來。……上面的筆記比書還多。','先跟她講了。她沒說不好。']];
     for(const [k,nw,old] of NEWL) check('0. '+k+' 閒聊階梯「'+nw+'」＝稿、匯入了（ladder.js）；舊句不在了',spec.includes(nw)&&LD.includes('"'+nw+'"')&&!LD.includes('"'+old+'"'));
     const st=(LADDER.byTerm.Y4S1.heroine_01.steps||[]).find(x=>x.id==='A7-L5'), ch=an=>{ fresh(D('2028-10-30'),15,'campus',an?{AN_CHOICE:an}:{}); return STORY.ladChoices(st).map(c=>c.t+'→'+c.reply); };
     const here=ch('here'), grp=ch('group'), none=ch(null), R='她寄了一本她以前讀的保險法來。……上面的筆記比書還多。';

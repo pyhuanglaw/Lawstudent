@@ -105,7 +105,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);
   { const st=DATE.stageNum('heroine_03'); if(st<5){ const r=SOCIAL.rel('heroine_03'); r.npcRom=60; r.rom=40; r.fam=70; r.trust=60; r.comf=60; } }
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
-  const ln=lines(); check('9. 約成：語彤的「答應」（手機、連發兩則：「好。」「我跟阿姨說那天不顧店。」）；麵店沒公休那天不說「店裡公休」',ln.some(x=>/（手機）：好。$/.test(x))&&ln.some(x=>/我跟阿姨說那天不顧店。/.test(x))&&!ln.some(x=>/公休/.test(x)),ln.join(' | '));
+  const ln=lines(); check('9. 約成：語彤的「答應」（手機、連發兩則：「好。」「我跟蘇姨說那天不排班。」）；麵店沒公休那天不說「店裡公休」',ln.some(x=>/（手機）：好。$/.test(x))&&ln.some(x=>/我跟蘇姨說那天不排班。/.test(x))&&!ln.some(x=>/公休/.test(x)),ln.join(' | '));
   check('9. 句子也寫進手機的對話串',(G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/不顧店/.test(m.text)),JSON.stringify((G.msgs||[]).slice(-3)));
   said=[]; picks=['淡水',DATE.dayLabel(G,day+2).split('（')[0],'15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
   check('9. 第二次約：沒有別句可以輪（公休那句今天不能用）→ 還是同一句',lines().some(x=>/不顧店/.test(x)),lines().join(' | '));

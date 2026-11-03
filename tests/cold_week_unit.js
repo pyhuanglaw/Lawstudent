@@ -61,7 +61,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、Alison、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
   G.money=5000; G.energy=70; picks=[1]; await night(); const L1=lines();
   check('1. C1 21:30 房間一句 → 手機響了 → 下樓到交誼廳（3D dorm_hall）', said[0].t==='（晚上九點半。你躺在床上，額頭燙得不像自己的。）'&&said[1].t==='（手機響了。你披了一件外套，下樓到交誼廳。）'&&entered.includes('dorm_hall'), JSON.stringify(entered));
-  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
+  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
   check('1. C1 CG cg_cold_week_friends 在「那一句」之前', cgs[0]==='cg_cold_week_friends');
   check('1. C1 阿哲問（通用一句）、選第 2 個、回答後「好。病好了再跟我講一次。」、結尾（逐字）', L1.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L1.includes('阿哲：好。病好了再跟我講一次。')&&L1[L1.length-1]==='（十點半。交誼廳的燈關了一半。你上樓的時候，手上還提著一個塑膠袋。）', JSON.stringify(L1.slice(-3)));
   check('1. C1 旗標：COLD_WEEK_PRESENT、COLD_WEEK_ANSWER why、BEING_HEARD（阿哲）、HELPED（四位）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&G.flags.COLD_WEEK_ANSWER==='why'&&SOCIAL.has('zhe','BEING_HEARD')&&['heroine_03','zhe','yu','classmate_bohan'].every(id=>SOCIAL.has(id,'HELPED'))&&!SOCIAL.has('yu','BEING_HEARD'));
@@ -101,18 +101,18 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 5. C5
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_03','CLO'); R('heroine_05','FRI'); picks=[2]; await night(); const L5=lines();
-  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字）', L5.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：湯喝完。然後睡覺。$/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
+  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字）', L5.includes('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：湯喝完。然後睡覺。$/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
   check('5. C5 學姊沒有來（不在 COLD_WEEK_PRESENT）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)==='["heroine_03"]');
 
   // 6. C6
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('heroine_01'); R('heroine_03','CLO'); picks=[0]; await night(); const L6=lines();
-  check('6. C6 以安（沒被告知）先「……你為什麼不說？」再「我幫你排好了。」；語彤也來（不是放下就走）；以安問', L6.indexOf('沈以安：……你為什麼不說？')>=0&&L6.indexOf('沈以安：我幫你排好了。')>L6.indexOf('沈以安：……你為什麼不說？')&&L6.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&!L6.some(x=>/東西在舍監那裡/.test(x))&&L6.includes('沈以安：好。這句我會記得。'), JSON.stringify(L6));
+  check('6. C6 以安（沒被告知）先「……你為什麼不說？」再「我幫你排好了。」；語彤也來（不是放下就走）；以安問', L6.indexOf('沈以安：……你為什麼不說？')>=0&&L6.indexOf('沈以安：我幫你排好了。')>L6.indexOf('沈以安：……你為什麼不說？')&&L6.includes('陳語彤：嗯。秀琴姨煮的粥。不要問我怎麼知道的。')&&!L6.some(x=>/東西在舍監那裡/.test(x))&&L6.includes('沈以安：好。這句我會記得。'), JSON.stringify(L6));
 
   // 7. C7
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); date('kexin'); R('heroine_03','CLO');
   { const C=STORY.coldWeekCast(G); check('7. C7 只有語彤、祐廷和可昕交往：她不坐下（drop）、沒有人問', C.drop==='heroine_03'&&C.visitors.length===0&&!C.asker, JSON.stringify(C)); }
   await night(); const L7=lines();
-  check('7. C7 舍監窗口＋她那句的手機版（逐字）；接 3-5', L7.some(x=>/^[^：]*（手機）：東西在舍監那裡。我先走了。$/.test(x))&&L7.some(x=>/^[^：]*（手機）：嗯。阿姨煮的粥。不要問我怎麼知道的。$/.test(x))&&TH('p:heroine_03').map(m=>m.text).join('|')==='東西在舍監那裡。我先走了。|嗯。阿姨煮的粥。不要問我怎麼知道的。'&&L7.includes('（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）')&&!G.flags.COLD_WEEK_ASKER, JSON.stringify(L7));
+  check('7. C7 舍監窗口＋她那句的手機版（逐字）；接 3-5', L7.some(x=>/^[^：]*（手機）：東西在舍監那裡。我先走了。$/.test(x))&&L7.some(x=>/^[^：]*（手機）：嗯。秀琴姨煮的粥。不要問我怎麼知道的。$/.test(x))&&TH('p:heroine_03').map(m=>m.text).join('|')==='東西在舍監那裡。我先走了。|嗯。秀琴姨煮的粥。不要問我怎麼知道的。'&&L7.includes('（沒有人敲門。你吃了一顆退燒藥，睡到隔天中午。）')&&!G.flags.COLD_WEEK_ASKER, JSON.stringify(L7));
   check('7. C7 可昕沒被告知、10/24 沒人問：之後麵店版', STORY.coldNoodleOn(G)===true);
   { const G2=fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_03','CLO'); const C=STORY.coldWeekCast(G); check('7. 雙方單身、只有語彤：她照樣坐下（第 5 點只在有伴侶時）', !C.drop&&C.visitors[0]==='heroine_03'); }
 
@@ -143,7 +143,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 11. 選項、裂縫
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night'}); check('11. 第 1 個選項：一般', STORY.coldWeekOpts(G)[0].t==='「我想讓遇到事情的人，旁邊有一個看得懂的人。」'&&STORY.coldWeekOpts(G).length===4&&STORY.coldWeekOpts(G,true).length===3);
-  SOCIAL.remember('heroine_03','RENT_RUMOR',''); check('11. 第 1 個選項：看過語彤家房東的事＝「我想讓麵店那種事，每次都有人幫得上忙。」', STORY.coldWeekOpts(G)[0].t==='「我想讓麵店那種事，每次都有人幫得上忙。」');
+  SOCIAL.remember('heroine_03','RENT_RUMOR',''); check('11. 第 1 個選項：看過語彤家房東的事＝「我想讓秀琴姨那種事，每次都有人幫得上忙。」', STORY.coldWeekOpts(G)[0].t==='「我想讓秀琴姨那種事，每次都有人幫得上忙。」');
   fresh(d24,21.5,'dorm_hall',{COLD_WEEK:'night'}); said=[]; picks=[3,1]; await STORY._cwAsk(GM,'zhe','night');
   check('11. 第 4 個：「好，那吃完再說。」「（你吃完了。）」再問一次通用那一句、沒有第 4 個', said.map(s=>s.t).join('|')==='你每次都在幫別人查。你自己呢？你想用法律做什麼？|好，那吃完再說。|（你吃完了。）|你每次都在幫別人查。你自己呢？你想用法律做什麼？|好。病好了再跟我講一次。'&&opts[1].length===3&&G.flags.COLD_WEEK_ANSWER==='why', JSON.stringify(said.map(s=>s.t)));
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'heroine_01'}); date('heroine_01'); R('zhe','CLO'); ROM.crack(G,'heroine_01');

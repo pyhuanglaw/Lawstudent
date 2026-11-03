@@ -198,7 +198,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('F0. 「好。」→「記得吃飯」；4/13 臺灣 19:30＝日本 20:30 視訊（接起來）', txt('p:zhe').includes('zhe:記得吃飯')&&fq&&fq.h===20.5&&fq.verb==='接起來');
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'};   /* 芯慈那句要參加過讀書會（AA_377 第 3 項）*/
   await run('ev_far_call_jp');
-  check('F1. 在麵店團：「你那邊幾點？……你吃什麼？給我看。」、Alison、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（她從廚房探出頭，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='阿姨（畫面外）')&&G.flags.FAR_CALL==='jp');
+  check('F1. 在麵店團：「你那邊幾點？……你吃什麼？給我看。」、Alison、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（她從吧檯後面探出頭，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='阿姨（畫面外）')&&G.flags.FAR_CALL==='jp');
   check('F2. 和以安 FRIEND 以上：以安那則沒有「理由：」', has('（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）')&&!said.some(s=>/理由：便利商店/.test(s.t)));
   fresh('2028-04-13',19.5,'dorm',{EXCHANGE_ROUTE:'JP'}); R('zhe','FAM'); date('heroine_01'); await run('ev_far_call_jp');
   check('F. 不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的台詞', has('就這樣？')&&!has('你瘦了！……不對，是鏡頭。')&&!has('滷蛋要不要！隔著螢幕也要問！')&&!said.some(s=>/他吃飯糰/.test(s.t)));

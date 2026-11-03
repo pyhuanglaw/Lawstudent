@@ -87,7 +87,7 @@ await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','
   check('3. 可昕交往中（木柵大學那幾年）：羽球「好。我從山上下來。拍子你負責借。」、晨跑「椰影大道？從木柵大學過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)==='「好。我從山上下來。拍子你負責借。」'&&txt(k2.lines)==='「椰影大道？從木柵大學過去要四十分鐘。」「……好。你敢遲到試試看。」',txt(k1.lines)+' / '+txt(k2.lines));
   fresh('2025-03-12','kexin',2,{econ:true}); const k3=INV.personal(H.G,'kexin',P('gym_badminton'),H.G.day,15.5,{res:'accept'});
   check('3. 可昕經濟系那一年：不說木柵大學那幾年的句子',!/木柵大學|首都帝大的球場|山上/.test(txt(k3.lines)),txt(k3.lines));
-  const W={heroine_01:['「羽球？好。我國中是校隊。……替補。」','「六點半？……好。我設兩個鬧鐘。」'],heroine_03:['「……我不太會。」「好。你不要笑。」','「早上我要幫阿姨備料。……七點半以前可以。」'],
+  const W={heroine_01:['「羽球？好。我國中是校隊。……替補。」','「六點半？……好。我設兩個鬧鐘。」'],heroine_03:['「……我不太會。」「好。你不要笑。」','「早上我要去茶屋幫蘇姨。……七點半以前可以。」'],
     heroine_02:['「羽球！好啊，我手腕很好。拉花練的。」','「早上？……我昨天上到兩點。」「……好啦。我去。」'],heroine_05:['「羽球。好。……我只會發球。」','「晨跑。好。跑完我直接去研究室。」'],classmate_peishan:['「好啊！！我要問你，你為什麼會打。」','「好啊！早上我很習慣，在家的時候四點半就要起來幫忙開店。」']};
   for(const id in W){ fresh('2026-03-11',id,3); const x=ask(id,'gym_badminton',15.5), y=ask(id,'run_avenue',6.5,H.G.day+1);
     check('3. '+id+'：羽球、晨跑照 §3-3',txt(x.lines)===W[id][0]&&txt(y.lines)===W[id][1],x.res+' '+txt(x.lines)+' / '+y.res+' '+txt(y.lines)); }

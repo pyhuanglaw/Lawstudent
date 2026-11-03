@@ -182,7 +182,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-09-14',12.3,'campus',{rain_umbrella:'share'}); R('heroine_03','FRI'); ct('heroine_03'); date('heroine_03'); rules(); answer('y3_yt_umb_noon',0); at('2027-09-14',17.6); picks=[0]; await run('ev_yt_umbrella_y3');
   check('U4. 交往中、中午回了「加油！！！」：「中午你傳的那三個驚嘆號……」；恭喜＝「中午說加油，現在說恭喜。」', G.flags.YT12_CHEER===true&&has('中午你傳的那三個驚嘆號，我上台前看了一下。')&&has('嗯。……中午說加油，現在說恭喜。')&&has('我後來買了一把跟你那天一樣的。很蠢吧。'));
   fresh('2027-09-14',17.6,'campus',{rain_umbrella:'give'}); R('heroine_03','FRI'); date('kexin'); ROM.learn(G,'heroine_03','kexin','test'); picks=[0]; await run('ev_yt_umbrella_y3');
-  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。阿姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
+  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。秀琴姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
   fresh('2027-09-14',18.6,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules(); PHONE.tick(G); at('2027-09-14',20.1); rules();
   check('U5. 沒去：20:00「今天講完了」「……傘我自己有帶」', txt('p:heroine_03').join('|')==='heroine_03:今天講完了|heroine_03:……傘我自己有帶'&&G.flags.YT_UMBRELLA_Y3==='missed');
 
@@ -217,7 +217,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('C. 一般版：回寄過的玩家沒有 12/17 那張', !Y2B.pcCards(G).some(c=>c.key==='2027-12-17'));
 
   // ---------- AA_336 B5 面板名稱、B6 芷若英國的生日 ----------
-  { const L=SOCIAL.MEMORY_LABEL; check('B5. 六個回憶面板的名稱照 AA_336 B5', L.LAW_MEETS_LIFE==='把買賣不破租賃那一頁傳給她'&&L.RENT_CONSULTATION==='聽她說陪阿姨去法服諮詢'&&L.TICKET_STUB==='她出國前給的電影票根'&&L.TOLD_HER_CHANGE==='跟她說過自己從經濟換到法律'&&L.POSTCARDS==='回寄過她從英國寄來的明信片'&&L.POSTCARDS_GROUP==='在寄給她的大明信片上寫了一句', JSON.stringify(['LAW_MEETS_LIFE','RENT_CONSULTATION','TICKET_STUB','TOLD_HER_CHANGE','POSTCARDS','POSTCARDS_GROUP'].map(k=>L[k]))); }
+  { const L=SOCIAL.MEMORY_LABEL; check('B5. 六個回憶面板的名稱照 AA_336 B5', L.LAW_MEETS_LIFE==='把買賣不破租賃那一頁傳給她'&&L.RENT_CONSULTATION==='聽她說陪秀琴姨去法服諮詢'&&L.TICKET_STUB==='她出國前給的電影票根'&&L.TOLD_HER_CHANGE==='跟她說過自己從經濟換到法律'&&L.POSTCARDS==='回寄過她從英國寄來的明信片'&&L.POSTCARDS_GROUP==='在寄給她的大明信片上寫了一句', JSON.stringify(['LAW_MEETS_LIFE','RENT_CONSULTATION','TICKET_STUB','TOLD_HER_CHANGE','POSTCARDS','POSTCARDS_GROUP'].map(k=>L[k]))); }
   const BACK='「9/28，台灣晚上十點。打給我。」', V3=['今天我一個人看了一部電影。','……你打來了，所以不算一個人。','好了。去睡。你那邊很晚了。'];
   const card924=async(zone,fl,dt)=>{ fresh('2027-09-24',13,zone,Object.assign({ZR_LAST_SHIFT:'seen'},fl||{})); R('heroine_02','FAM'); SOCIAL.remember('heroine_02','TICKET_STUB',''); if(dt) date(dt); picks=['先不回']; said=[]; await Y2B.pcScene(GM); };
   const tickWait=async()=>{ const r=Y2B.tick(GM,0.6); await new Promise(z=>setTimeout(z,30)); return r; };

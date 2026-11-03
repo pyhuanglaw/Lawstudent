@@ -52,7 +52,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('0. index.html：an_yt_hol_events.js、an_yt_hol3d.js 接在 sis_b4_3d.js 後面（?v= 照舊）',/src\/sis_b4_3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/an_yt_hol_events\.js\?v=\1"><\/script>\n<script src="src\/an_yt_hol3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES 有接；noodle_closed3d.js、r2y3b_events.js 載得到（店休、3/14）',STORY.PHONE_RULES.length>0&&okNC&&okWD&&!!ev('ev_an_white_day'));
   { const ML=SOCIAL.MEMORY_LABEL||{}, W={AN_VDAY_TC:'情人節去台中找她',AN_VDAY_OMAMORI:'她從東京帶回來一個學業御守',AN_VDAY_PEN:'送她一支鋼筆',AN_VDAY_CHOCO:'送她一盒巧克力',AN_VDAY_CALL:'初二那天，她躲到陽台打給你',
-      YT_VDAY_RIVER:'店休那天，阿姨叫你們去別的地方',YT_VDAY_SHOP:'阿姨在門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'阿姨叫她拿年糕給你',YT_MOON:'中秋在麵店門口剝柚子'};
+      YT_VDAY_RIVER:'店休那天，蘇姨叫你們去別的地方',YT_VDAY_SHOP:'蘇姨在茶屋門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'秀琴姨叫她拿年糕給你',YT_MOON:'中秋烤肉前，在河濱剝柚子'};
     const bad=Object.keys(W).filter(k=>ML[k]!==W[k]||!inDoc('`'+k+'`「'+W[k]+'」'));
     check('0. 人物頁記憶 10 個（稿裡「`代號`「名稱」」，social3d.js MEMORY_LABEL）',!bad.length,J(bad)); }
   { const bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
@@ -160,7 +160,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2026-02-13',21.05,YT,{YT_CRACK:1}); rules();
     check('2-1. 2/13（五）21:00 語彤「明天店休。」「下午大掃除。……五點以後可以。」；回覆三個',J(dms(YT))===J(['明天店休。','下午大掃除。……五點以後可以。'])&&J(optsOf('anyt_yt_y1_ask'))===J(['五點，麵店門口。','我去幫忙掃。','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y1_ask',1); rules(); const r=dms(YT).slice(-3), q=OUT.get(H.G,'anyt_yt_vday_y1');
-    check('2-1. 「我去幫忙掃。」→「……阿姨會很高興。」「四點。穿舊衣服。」、YT_VDAY_Y1_GO、YT_VDAY_Y1_HELP；出遊 16:00、走路約 10 分鐘、late 0.25、標題「情人節（麵店門口）」',J(r)===J(['我去幫忙掃。','……阿姨會很高興。','四點。穿舊衣服。'])&&H.G.flags.YT_VDAY_Y1_GO===true&&H.G.flags.YT_VDAY_Y1_HELP===true&&!!q&&q.h===16&&q.help===true&&q.travel==='走路約 10 分鐘'&&q.late===0.25&&q.title==='情人節（麵店門口）'&&q.day===H.D('2026-02-14'),J(q));
+    check('2-1. 「我去幫忙掃。」→「……蘇姨會很高興。」「四點。穿舊衣服。」、YT_VDAY_Y1_GO、YT_VDAY_Y1_HELP；出遊 16:00、走路約 10 分鐘、late 0.25、標題「情人節（茶屋門口）」',J(r)===J(['我去幫忙掃。','……蘇姨會很高興。','四點。穿舊衣服。'])&&H.G.flags.YT_VDAY_Y1_GO===true&&H.G.flags.YT_VDAY_Y1_HELP===true&&!!q&&q.h===16&&q.help===true&&q.travel==='走路約 10 分鐘'&&q.late===0.25&&q.title==='情人節（茶屋門口）'&&q.day===H.D('2026-02-14'),J(q));
     at('2026-02-14',12); check('2-1. 那天麵店店休，有約在麵店＝鐵門照常開（noodle_closed3d.js storyDue）',NOODLE_CLOSED.closed(H.G)&&NOODLE_CLOSED.storyDue(H.G));
     at('2026-02-14',15.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y1',[1]);
     check('2-1. 幫忙的先演；阿姨兩句（說話框「阿姨」）；字幕「河濱」換 riverside；「下次店休也出來。」→「下次店休是明年。」「……那明年也出來。」',J(L)===J(['（鐵門拉下來一半。你彎腰鑽進去，語彤蹲在地上刷椅子腳。）','手套在那邊。','（你們把最後幾張椅子刷完。阿姨從廚房出來，看了一下時鐘。）','今天情人節耶，你們兩個還在這裡。','去去去，去別的地方。店我來關。','……阿姨叫我們去別的地方。','（河濱的風很大。跑步的人一個一個從旁邊過去。）','我很少這個時間出來。平常這時候在店裡。','下次店休是明年。','……那明年也出來。'])&&H.said[3].who==='阿姨',J(L));
@@ -179,7 +179,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2027-02-13',21.05,YT); rules();
     check('2-2. 2/13（六）21:00「明天中午，麵店。」「我沒班。」；回覆「好。」「不去別的地方？」「明天不行。」',J(dms(YT))===J(['明天中午，麵店。','我沒班。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
-    check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（阿鳳麵店）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（阿鳳麵店）',J(q));
+    check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（一盞茶屋）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（一盞茶屋）',J(q));
     at('2027-02-14',11.6); const a=relOf(YT), n0=(H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0; const {L}=await goOut('anyt_yt_vday_y2',[0]);
     check('2-2. 背景 noodle_door（門口，11-02 第六批；進店以後 noodle_table）；紅紙、滷蛋；「謝謝阿姨。」→阿姨「謝什麼。吃。」；「今天我沒班。」「……是我自己想在這裡吃的。」',img(H.bgs[0])==='noodle_door'&&J(L)===J(['（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）','阿姨自己寫的。……我叫她不要貼。','（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）','送的。一人一顆。不是一桌一顆。','……阿姨。','謝什麼。吃。','今天我沒班。','……是我自己想在這裡吃的。']),J({b:img(H.bgs[0]),L}));
     check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5；不是正式校外約會（dateLog 次數不加）',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY&&((H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0)===n0,dRel(YT,a)); }
@@ -217,7 +217,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     PHONE.answer(H.G,'anyt_yt_y4_ask',0); rules(); const q=OUT.get(H.G,'anyt_yt_vday_y4');
     check('2-4. 「好。」→「嗯。」；出遊 19:00、走路約 15 分鐘、late 0.25、標題「情人節（河濱）」',dms(YT).slice(-1)[0]==='嗯。'&&!!q&&q.h===19&&q.travel==='走路約 15 分鐘'&&q.late===0.25&&q.title==='情人節（河濱）',J(q));
     at('2029-02-14',18.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y4',[0]);
-    check('2-4. 背景 riverside（晚上）；2026 有去的多「上次店休碰到情人節，是大一。」；「替我謝謝阿姨。」→「你自己謝。初四開門，你來。」',img(H.bgs[0])==='riverside'&&J(L)===J(['（過年的河濱，跑步的人比平常少。對岸的燈一排一排亮著。）','上次店休碰到情人節，是大一。','阿姨叫我拿年糕給你。','她說你太瘦了。','你自己謝。初四開門，你來。','（她把裝年糕的袋子交給你，手沒有馬上收回去。）']),J(L));
+    check('2-4. 背景 riverside（晚上）；2026 有去的多「上次店休碰到情人節，是大一。」；「替我謝謝阿姨。」→「你自己謝。初四開門，你來。」',img(H.bgs[0])==='riverside'&&J(L)===J(['（過年的河濱，跑步的人比平常少。對岸的燈一排一排亮著。）','上次店休碰到情人節，是大一。','秀琴姨叫我拿年糕給你。','她說你太瘦了。','你自己謝。初四開門，你來。','（她把裝年糕的袋子交給你，手沒有馬上收回去。）']),J(L));
     check('2-4. YT_VDAY_Y4 went、記憶 YT_VDAY_NIANGAO、+3／+6／+5',H.G.flags.YT_VDAY_Y4==='went'&&SOCIAL.has(YT,'YT_VDAY_NIANGAO')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
   { setup('2029-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y4_ask',0); const L=await play('ev_yt_vday_y4',[1]);
     check('2-4. 2026 沒去：沒有「上次店休」那句；「妳也很瘦。」→「……我吃很多。只是你沒看到。」',!L.includes('上次店休碰到情人節，是大一。')&&L[3]==='……我吃很多。只是你沒看到。',J(L)); }

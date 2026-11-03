@@ -19,7 +19,7 @@ for line in md7.split('\n'):
     tag = re.match(r'【([^】]+)】', c[5])
     if '/ladder/' in c[1] or '/date_system/lines/' in c[1] or 'AA_127_' in c[1]: continue   # ladder、Dxx、AA_127 以 AA_630 為準（AA_630 第 1、2 節：沒列的＝照舊）
     if tag and tag.group(1) in ('改句', '換字'): rows.append({'no': c[0], 'file': c[1], 'orig': c[3], 'new': c[4], 'note': c[5]})
-BAD = re.compile(r"[{}\[\]<>]|^'|:'|',|\bif\b|^（刪|^（照|^（不改|整段|見 H-|見表下|改成：|交往中：|沒交往|^—$")
+BAD = re.compile(r"[{}\[\]<>]|^'|:'|',|\bif\b|^（刪|^（照(第|舊|原|AA|這)|^（不改|整段|見 H-|見表下|改成：|交往中：|沒交往|^—$")
 pairs = {}
 for r in rows:
     o, n = r['orig'].strip(), r['new'].strip()

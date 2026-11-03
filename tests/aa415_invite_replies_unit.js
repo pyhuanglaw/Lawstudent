@@ -199,10 +199,10 @@ await sec(10,()=>{ fresh('2025-03-12','kexin',1,{econ:true}); const k1=INV.perso
 
 await sec(11,()=>{ fresh('2027-12-23','heroine_03','d'); const y1=ask('heroine_03','cafe',15.5);
   check('11. 語彤交往中、續約以後（事件 13 以後）的週四：「週四是我的。……分你。」',H.G.weekday===4&&txt(y1.lines)==='「週四是我的。……分你。」',y1.res+' '+txt(y1.lines));
-  fresh('2027-12-09','heroine_03','d'); const y2=ask('heroine_03','cafe',15.5);
-  check('11. 續約以前的週四（今天）：「今天我在店裡。你來吃麵，我收完店再陪你。」',txt(y2.lines)==='「今天我在店裡。你來吃麵，我收完店再陪你。」',y2.res+' '+txt(y2.lines));
+  fresh('2027-12-11','heroine_03','d'); const y2=ask('heroine_03','cafe',15.5);   /* AA_627 P-27：那天她在一盞茶屋有班（週六、日 13～17）；原本「續約以前的週四」*/
+  check('11. 她在茶屋有班的週六（今天；AA_627 P-27）：「今天我在茶屋。你來喝茶，我收完店再陪你。」',txt(y2.lines)==='「今天我在茶屋。你來喝茶，我收完店再陪你。」',y2.res+' '+txt(y2.lines));
   fresh('2027-12-08','heroine_03','d'); const y3=ask('heroine_03','cafe',15.5,H.G.day+1);
-  check('11. 前一天約明天（週四）：不說「今天我在店裡」',txt(y3.lines)!=='「今天我在店裡。你來吃麵，我收完店再陪你。」',txt(y3.lines));
+  check('11. 前一天約明天（週四）：不說「今天我在店裡」',txt(y3.lines)!=='「今天我在茶屋。你來喝茶，我收完店再陪你。」',txt(y3.lines));
   fresh('2026-03-14','heroine_02','d'); const z1=ask('heroine_02','noodle',12+10/60);
   check('11. 芷若交往中週六：「好。週六我本來就沒班。……整天都是你的。」',txt(z1.lines)==='「好。週六我本來就沒班。……整天都是你的。」',z1.res+' '+txt(z1.lines));
   fresh('2026-03-15','heroine_02','d'); const zz=[]; for(let i=0;i<4;i++) zz.push(txt(ask('heroine_02','noodle',12+10/60).lines));

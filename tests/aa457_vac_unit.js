@@ -46,7 +46,7 @@ const ORIG10=()=>((MSG_POOL.people[ZR]||{}).replies||[]).filter(e=>e.variant==='
 /* ---- 0 ---- */
 await sec(0,()=>{
   check('0. 讀得到稿、檔都載得到（MSG、CRACKTALK、FEST）',!!doc&&!loadErr.length&&typeof MSG!=='undefined'&&typeof CRACKTALK!=='undefined'&&typeof FEST!=='undefined',J(loadErr));
-  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天顧店到九點。'&&YB[0]==='明天陪我媽回診。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf(OLD3)>=0,
+  check('0. 稿裡四張表都讀得到（1-1 六個月 12 句、1-2 十二個月 30 句、第 2 節四組＋「5 以後：從 2 再輪」、第 3 節五個節日）',Object.keys(X1).length===6&&N(X1)===12&&Object.keys(X2).length===12&&N(X2)===30&&YA.length===4&&YB.length===4&&YA[0]==='今天茶屋到五點。'&&YB[0]==='明天回淡水。我媽叫我回去吃飯。'&&/從 2 再輪.*從 2 再輪/.test(Y5)&&Object.keys(X3).length===5&&doc.indexOf(OLD3)>=0,
     J({X1:N(X1),X2:N(X2),YA,YB,Y5,X3}));
   const U=MSG.UK_WEEK||{}, eq=(a,b)=>J(Object.keys(a||{}).sort())===J(Object.keys(b).sort())&&Object.keys(b).every(m=>J((a||{})[m])===J(b[m]));
   check('0. MSG.UK_WEEK 照稿：第一次在英國 = 1-1 的表、第二次 = 1-2 的表（照月份、照表的順序，一字不差；「／」＝照片和那一句分兩則）',eq(U[1],X1)&&eq(U[2],X2),J(U));
@@ -120,7 +120,7 @@ await sec('1舊',()=>{
 });
 /* ---- 2 語彤裂縫②：開頭照第幾次輪流 ---- */
 await sec(2,()=>{
-  const X=CRACKTALK_LINES.SRC2.yt2, OA=['我去店裡吃。','那我等妳下班。','今天可以不要顧店嗎？陪我。'], OB=['要我一起去嗎？','好，下週見。','回診可以讓阿姨陪嗎？我們去看電影。'];
+  const X=CRACKTALK_LINES.SRC2.yt2, OA=['我去店裡吃。','那我等妳下班。','今天可以不要去茶屋嗎？陪我。'], OB=['要我一起去嗎？','好，下週見。','回淡水可以晚一天嗎？我們去看電影。'];
   const yt=k=>{ const G=fresh(k,10); SOCIAL.remember(YT,'FIRST_MET',''); INV.addContact(G,YT); H.CLOSE(YT); ROM.start(G,YT); ROM.get(G,YT).sinceDay=G.day; return G; };
   const ask=n=>{ const m=PHONE.byAsk(H.G,'ct_yt2_'+n); return m?{t:(H.G.msgs||[]).filter(x=>x.tag==='ct_yt2_'+n&&x.from===YT).map(x=>x.text),o:m.ask.opts.map(o=>o.t)}:null; };
   yt('2026-10-05'); const got=[], rep=[], R=()=>CRACKTALK.src(H.G).yt2||{};

@@ -34,7 +34,7 @@ const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCH
 const run=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
 const OLD_K=['刑總那題，你先講結論，再講理由。講完我再問。','這題你上禮拜錯過。……我記得。再一次。','你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。','好，換你出題。出一題你自己也不確定的。'];
 const OLD_Y=['押租金那個，你講給我聽。不要講條號。','……這個詞我在社會系也學過，可是意思不一樣。你講你們的。','你剛剛那一段，跟上禮拜講的不一樣。哪一個對？','我出一題我自己不會的。你答完，我抄下來。'];
-const YT_FIRST=['（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）','我今年不考。……可是我可以考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
+const YT_FIRST=['（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）','我今年不考。……可是我可以考你。','買賣不破租賃那一條。你講給我聽，講到我聽得懂。'];
 /* 讀書小組：kind＝kexin／yutong／split／three；2/26～8/3 每一場（S.session）照時間跑事件，回傳 [{k,sat,mode,L}] */
 const bar=async(kind,flags)=>{ const G=fresh('2029-02-22',23,'dorm',Object.assign({Y4_PATH:'bar',BAR_GROUP_KIND:kind,BAR_STUDY_GROUP:kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']),BAR_GROUP_START:kind==='split'?'kexin':kind},flags||{}));
   if(kind!=='yutong') H.date('kexin'); if(kind!=='kexin') H.FRIEND('heroine_03'); if(kind==='three') ROM.learn(G,'heroine_03','kexin','test'); G.events.done.ev_bar_group_start=1; return G; };
