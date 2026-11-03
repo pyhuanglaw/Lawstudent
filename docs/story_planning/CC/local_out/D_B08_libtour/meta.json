@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "D_B08_libtour",
+  "sha": "6dc39be73",
+  "kind": "game",
+  "script": "tests/flow_lib_tour.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T17:47:42",
+  "end": "2026-11-03T17:52:27",
+  "seconds": 284,
+  "exit": 1,
+  "error": null,
+  "runner": "02a9caf4ba",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 71,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 27
+  }
+}

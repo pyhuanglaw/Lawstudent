@@ -343,3 +343,18 @@
        5e7d8a5a0..940fe0730  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [17:47:32] ==== END   01_p0speed  exit=0  177s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       940fe0730..29ad67304  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:47:36] ==== END   00_gpu  exit=0  182s   ====
+[17:47:40] skip R11_full (already done on b1b249873)
+[17:47:40] skip R10pre (already done on 299e23345)
+[17:47:40] skip R11pre (already done on f57e3ac75)
+[17:47:40] memory 46% before starting D_B02_playfix (2 running)
+[17:47:40] ==== START D_B02_playfix  (game @ 6dc39be73) ====
+[17:47:42] memory 46% before starting D_B08_libtour (2 running)
+[17:47:42] ==== START D_B08_libtour  (game @ 6dc39be73) ====
+[17:47:43] [res] cpu=47% mem=46% (14.6/31.4 GB) chrome_testing=10  START D_B02_playfix
+[17:47:46] [res] cpu=33% mem=47% (14.7/31.4 GB) chrome_testing=10  START D_B08_libtour
+[17:49:17] 正在跑：FS112（已跑 4 分／上限 360 分）、D_B02_playfix（已跑 1 分／上限 120 分）、D_B08_libtour（已跑 1 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:52:27] [res] cpu=30% mem=50% (15.8/31.4 GB) chrome_testing=18  END D_B08_libtour
