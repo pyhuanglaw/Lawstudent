@@ -1,0 +1,7 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yt_newgame_fm120_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3FM_new\out
+PASS 遊戲載入
+PASS 標題畫面按「開始新的一天」
+PASS ① 進到 3D、G.social 建好（60 秒內）  {"zone": "dorm", "social": true, "fm120": true, "keys": ["rel", "mem", "reveal", "prof", "grad", "fm120", "_relSync"]}
+PASS ② 新遊戲的 G.social.fm120 === true（修法 ①）  {"zone": "dorm", "social": true, "fm120": true, "keys": ["rel", "mem", "reveal", "prof", "grad", "fm120", "_relSync"]}
+PASS 沒有 JS 例外  []
+ALL PASS
