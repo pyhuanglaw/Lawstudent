@@ -247,3 +247,11 @@
 [09:04:01] ==== START 12_flowcls  (game @ d75871437) ====
 [09:04:04] [res] cpu=16% mem=46% (14.6/31.4 GB) chrome_testing=17  START 12_flowcls
 [09:06:09] [res] cpu=26% mem=51% (16.0/31.4 GB) chrome_testing=17  END 12_flowcls
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       483d19e6f..0afcb5516  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:06:14] ==== END   12_flowcls  exit=0  127s   ====
+[09:06:18] memory 52% before starting Y_A1_adv (2 running)
+[09:06:18] ==== START Y_A1_adv  (probe @ c89a5f9be) ====
+[09:06:21] [res] cpu=15% mem=52% (16.4/31.4 GB) chrome_testing=17  START Y_A1_adv
+[09:08:01] [res] cpu=13% mem=52% (16.4/31.4 GB) chrome_testing=17  END Y_A1_adv

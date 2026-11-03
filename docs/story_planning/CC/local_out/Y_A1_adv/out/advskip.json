@@ -1,0 +1,268 @@
+{
+ "sha": "c89a5f9be",
+ "url": "http://127.0.0.1:8811/index.html",
+ "typing": {
+  "before": {
+   "adv": true,
+   "skip": false,
+   "hist": 1,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": true,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.523
+  },
+  "btn": {
+   "exists": true,
+   "topDisplay": "flex",
+   "topParent": "BODY",
+   "topZ": "7",
+   "btn": true,
+   "rect": [
+    414,
+    8,
+    74,
+    34
+   ],
+   "c": [
+    451,
+    25
+   ],
+   "hitOk": true,
+   "hit": "BUTTON 「略過對話」"
+  },
+  "first_skip_true": {
+   "adv": true,
+   "skip": true,
+   "hist": 2,
+   "last": "……",
+   "dlg": true,
+   "typing": true,
+   "dtext": "",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.523,
+   "sec": 0.0
+  },
+  "state": {
+   "adv": true,
+   "skip": false,
+   "hist": 4,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.523
+  },
+  "seen": [
+   "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。"
+  ],
+  "hist": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "……",
+   "……我沒帶傘。",
+   "你在圖書館看過她幾次。社會系的樣子，總是"
+  ],
+  "sec": 0.3
+ },
+ "full": {
+  "before": {
+   "adv": true,
+   "skip": false,
+   "hist": 9,
+   "last": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "dlg": true,
+   "typing": false,
+   "dtext": "總圖門口的屋簷下站著一個人。雨很大，她看著雨，沒有要走的意思。",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  },
+  "btn": {
+   "exists": true,
+   "topDisplay": "flex",
+   "topParent": "BODY",
+   "topZ": "7",
+   "btn": true,
+   "rect": [
+    414,
+    8,
+    74,
+    34
+   ],
+   "c": [
+    451,
+    25
+   ],
+   "hitOk": true,
+   "hit": "BUTTON 「略過對話」"
+  },
+  "first_skip_true": {
+   "adv": true,
+   "skip": true,
+   "hist": 10,
+   "last": "……",
+   "dlg": true,
+   "typing": true,
+   "dtext": "",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534,
+   "sec": 0.0
+  },
+  "state": {
+   "adv": true,
+   "skip": false,
+   "hist": 12,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  },
+  "seen": [
+   "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。"
+  ],
+  "hist": [
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "……",
+   "……我沒帶傘。",
+   "你在圖書館看過她幾次。社會系的樣子，總是",
+   "▶ 「我也沒帶。」",
+   "……那我們兩個都很慘。",
+   "她笑了一下，很短。你們並肩看了十分鐘的雨",
+   "我叫陳語彤。社會系的。你呢？",
+   "總圖門口的屋簷下站著一個人。雨很大，她看",
+   "……",
+   "……我沒帶傘。",
+   "你在圖書館看過她幾次。社會系的樣子，總是"
+  ],
+  "sec": 0.3
+ },
+ "stay": {
+  "t0": {
+   "adv": true,
+   "skip": false,
+   "hist": 12,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  },
+  "t1": {
+   "adv": true,
+   "skip": false,
+   "hist": 12,
+   "last": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "dlg": false,
+   "typing": false,
+   "dtext": "你在圖書館看過她幾次。社會系的樣子，總是坐在靠窗那排，很安靜。",
+   "choices": [
+    "「一起走吧。」你有傘",
+    "「我的給妳，我等等搭車。」",
+    "「便利商店應該有賣。」",
+    "「我也沒帶。」"
+   ],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  }
+ },
+ "after_choice": {
+  "h_before": 12,
+  "d1": {
+   "adv": true,
+   "skip": false,
+   "hist": 14,
+   "last": "……可以嗎？",
+   "dlg": true,
+   "typing": true,
+   "dtext": "",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  },
+  "d2": {
+   "adv": true,
+   "skip": false,
+   "hist": 14,
+   "last": "……可以嗎？",
+   "dlg": true,
+   "typing": false,
+   "dtext": "……可以嗎？",
+   "choices": [],
+   "busy": true,
+   "running": "ev_rain_library_door",
+   "advOn": true,
+   "hour": 18.534
+  }
+ },
+ "steps": [
+  [
+   14,
+   15,
+   "反正我也要往校門走。"
+  ],
+  [
+   15,
+   16,
+   "嗯。"
+  ]
+ ],
+ "end": {
+  "adv": false,
+  "skip": false,
+  "hist": 19,
+  "last": "謝謝。改天還你一把傘。",
+  "dlg": false,
+  "typing": false,
+  "dtext": "謝謝。改天還你一把傘。",
+  "choices": [],
+  "busy": false,
+  "running": null,
+  "advOn": false,
+  "hour": 18.55
+ },
+ "errors": []
+}

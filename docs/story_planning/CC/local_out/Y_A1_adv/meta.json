@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Y_A1_adv",
+  "sha": "c89a5f9be",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_advskip_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T09:06:18",
+  "end": "2026-11-03T09:08:01",
+  "seconds": 103,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 42,
+    "mem": 58,
+    "used_gb": 18.2,
+    "chrome_testing": 26
+  }
+}
