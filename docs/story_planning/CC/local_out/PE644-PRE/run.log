@@ -1,0 +1,48 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pe_aa644_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PE644-PRE\out
+PASS 遊戲載入
+INFO 這一版有沒有 AA_644 的程式  {"narr": false, "place": false, "ring": false, "b1": true}
+== normal 一般週（球場）
+  2025-10-20 的體育課：{"day": 34, "wd": 1, "it": {"key": "34:pe_y1s1:pm2", "id": "pe_y1s1", "name": "體育", "week": 8, "t0": 15.5, "t1": 17.333333333333332, "swim": false, "place": null}}
+PASS normal 前置：2025-10-20 有體育課（pe_y1s1 第 8 週，球場）  {"day": 34, "wd": 1, "it": {"key": "34:pe_y1s1:pm2", "id": "pe_y1s1", "name": "體育", "week": 8, "t0": 15.5, "t1": 17.333333333333332, "swim": false, "place": null}}
+FAIL normal 前置：遊戲判定在 gym 球場（CLS.pePlace）  null
+  [前置／捷徑] 讀檔：2025-10-20 15.10 時（上課 15.50–17.33）、校園體育館門口南邊 (74,54)、stage=law（條件事件關閉、手機自動訊息關閉）
+  [前置／捷徑] 讓有修這堂的朋友「認識」（SOCIAL.meet，在不在場照遊戲的作息）：{"zhe": true, "classmate_bohan": true, "classmate_mingxuan": true, "yu": true, "classmate_xinci": true, "classmate_youchen": true}
+  上課前：{"st": "open", "done": false, "late": false, "abs": false, "attend": 0, "hour": 15.157, "zone": "campus", "roll": {"weeks": [4, 10, 13, 14], "past": 1, "present": 0, "missed": 1, "rollWeek": false}, "today": " 10/20 週一・大一上 第 8 週 現在 15:09 今天的時間 上午 ○ ○ 下午 ○ ○ 晚上 ○ ○ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。 09:10–12:10 憲法（上） 法律系館A 201・張老師・沒去 15:30–17:20 體育 體育館・現在可以進教室 直接去上課 法律學院圖書館：今天 08:10–21:45 總圖：08:00–22:00 跳過時間 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 等到傍晚（17", "lateMin": 0}
+PASS normal：校園有「體育館」門口互動點  {"x": 74, "z": 59.4, "r": 1.6, "label": "體育館", "lv": 0, "y": null}
+  到達「體育館」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS normal：走到體育館門口
+PASS normal：互動按鈕是「體育館…」  體育館
+PASS normal：選單有「進去上課…」並選了它  進去上課：體育15:30–17:20（點對話可以略過）
+  normal 第一句：{"zone": "gym", "hour": 15.194, "x": 0, "z": -2.6, "adv": true, "bg": "freeze", "freeze": true, "dlg": true, "name": "老師", "text": "體育會點名。不會每次點。", "cap": "黑板體育：球類　本週：球類", "choices": []}
+  老師     體育會點名。不會每次點。
+  老師     鞋子穿對，不要受傷。受傷的不算請假，算我的麻煩。
+  （旁白）   體育老師：先跑兩圈操場。不要用走的。
+PASS normal ① 上課第一句時人在 gym  {"zone": "gym", "hour": 15.194, "x": 0, "z": -2.6, "adv": true, "bg": "freeze", "freeze": true, "dlg": true, "name": "老師", "text": "體育會點名。不會每次點。", "cap": "黑板體育：球類　本週：球類", "choices": []}
+PASS normal ① 上課時 ADV 背景是館內 3D（bgMode＝freeze）  {"adv": true, "bg": "freeze", "freeze": true}
+PASS normal ② 玩家在半圈最南邊 (0,−2.6) 1.2 m 內、在老師南邊  {"x": 0, "z": -2.6, "yaw": 3.142}
+FAIL normal ③ 老師一位：(0,−7.0) 0.3 m 內、面南（yaw≈0）、名牌「體育老師」  [{"name": "體育老師", "x": 0, "z": -7.9, "yaw": 0}]
+FAIL normal ④ 同學 10 人（含站進來的朋友）在圓心 (0,−6.8) 半徑 4.2 m 的半圈上、面向老師  6 人；不合：[{"id": null, "role": "pe_student", "x": -4.2, "z": -6, "yaw": 3.142}, {"id": null, "role": "pe_student", "x": -3, "z": -5.75, "yaw": 3.142}, {"id": null, "role": "pe_student", "x": -1.8, "z": -6, "yaw": 3.142}, {"id": null, "role": "pe_student", "x": 1.8, "z": -5.75, "yaw": 3.142}]
+INFO normal 半圈離玩家最近  3.63 m
+FAIL normal ⑤ 上課那段時間羽球場沒人打（crowdRole badminton＝0）  {"desk_1f": 1, "walker": 1, "badminton": 4, "pe_teacher": 1, "pe_student": 6}
+  normal 有修這堂的朋友在不在場：{"zhe": {"present": true, "knows": true}, "classmate_bohan": {"present": true, "knows": true}, "classmate_mingxuan": {"present": true, "knows": true}, "yu": {"present": true, "knows": true}, "classmate_xinci": {"present": true, "knows": true}, "classmate_youchen": {"present": true, "knows": true}}；遊戲 CLS.peFriends＝[]
+INFO normal ⑧ 朋友 VRM  這一堂沒有在場的朋友（遊戲 CLS.peFriends 空），只記錄其他人：["{\"driver\": \"vrm\", \"model\": \"char.npc_f2\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nf3\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nf4\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nf5\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nf6\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nm3\", \"vrm\": true, \"placeholder\": false}", "{\"driver\": \"vrm\", \"model\": \"char.npc_nm6\", \"vrm\": true, \"placeholder\": false}"]
+INFO normal 這一班的人物模型  {"vrm": 7}
+    構圖 體育老師                   role=pe_teacher       頭 y=1.46 畫面內=True 第一個打到：{"name": "Hair001baked_1", "who": "體育老師", "d": 10.22, "L": 10.35, "mine": true}
+    構圖                        role=pe_student       頭 y=1.68 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|1", "d": 9.35, "L": 9.43, "mine": true}
+    構圖                        role=pe_student       頭 y=1.44 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|2", "d": 8.7, "L": 8.79, "mine": true}
+    構圖                        role=pe_student       頭 y=1.50 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|3", "d": 8.59, "L": 8.68, "mine": true}
+    構圖                        role=pe_student       頭 y=1.44 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|4", "d": 8.36, "L": 8.45, "mine": true}
+    構圖                        role=pe_student       頭 y=1.67 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|5", "d": 8.88, "L": 8.96, "mine": true}
+    構圖                        role=pe_student       頭 y=1.44 畫面內=True 第一個打到：{"name": "npc_far", "who": "gym_pe|pe|34:pe_y1s1:pm2|6", "d": 9.18, "L": 9.27, "mine": true}
+PASS normal ⑨ 鏡頭構圖：老師、朋友的頭在畫面內、沒有被擋（射線第一個打到的是本人）  []
+INFO normal ⑨ 路人同學被擋／在畫面外  0／6：[]
+  normal 稿上第 8 週（pe_y1s1）：["（分組比賽。輸的那一組收球。）"]；遊戲 CLS.peNarr＝null
+FAIL normal ⑥ 這週的旁白和 AA_644 稿逐字一樣（名字照在場與否換「有人」）  說了：["體育會點名。不會每次點。", "鞋子穿對，不要受傷。受傷的不算請假，算我的麻煩。", "體育老師：先跑兩圈操場。不要用走的。"]
+FAIL normal ⑥ 稿上的旁白只出現一句  []
+FAIL normal ⑥ 沒有台詞池那一句／同學反應（旁白取代）  ["體育老師：先跑兩圈操場。不要用走的。"]
+FAIL normal ⑦ 館內沒有「黑板」字幕  ["下課了。", "黑板體育：球類　本週：球類"]
+  下課後：{"st": "done", "done": true, "late": false, "abs": false, "attend": 1, "hour": 17.349, "zone": "gym", "roll": {"weeks": [4, 10, 13, 14], "past": 1, "present": 0, "missed": 1, "rollWeek": false}, "today": " 10/20 週一・大一上 第 8 週 現在 17:21 今天的時間 上午 ○ ○ 下午 ● ○ 晚上 ○ ○ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。 09:10–12:10 憲法（上） 法律系館A 201・張老師・沒去 15:30–17:20 體育 體育館・上過了 法律學院圖書館：今天 08:10–21:45 總圖：08:00–22:00 跳過時間 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 等到晚上（20:00） 翹課不會被", "lateMin": 111}
+PASS normal ⑩ 下課：done、出席 +1、沒有缺席  {"st": "done", "done": true, "late": false, "abs": false, "attend": 1, "hour": 17.349, "zone": "gym", "roll": {"weeks": [4, 10, 13, 14], "past": 1, "present": 0, "missed": 1, "rollWeek": false}, "today": " 10/20 週一・大一上 第 8 週 現在 17:21 今天的時間 上午 ○ ○ 下午 ● ○ 晚上 ○ ○ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。 09:10–12:10 憲法（上） 法律系館A 201・張老師・沒去 15:30–17:20 體育 體育館・上過了 法律學院圖書館：今天 08:10–21:45 總圖：08:00–22:00 跳過時間 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 等到晚上（20:00） 翹課不會被", "lateMin": 111}
+PASS normal ⑩ 準時進去：沒有記遲到  {"st": "done", "done": true, "late": false, "abs": false, "attend": 1, "hour": 17.349, "zone": "gym", "roll": {"weeks": [4, 10, 13, 14], "past": 1, "present": 0, "missed": 1, "rollWeek": false}, "today": " 10/20 週一・大一上 第 8 週 現在 17:21 今天的時間 上午 ○ ○ 下午 ● ○ 晚上 ○ ○ 每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。 09:10–12:10 憲法（上） 法律系館A 201・張老師・沒去 15:30–17:20 體育 體育館・上過了 法律學院圖書館：今天 08:10–21:45 總圖：08:00–22:00 跳過時間 沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。 等到晚上（20:00） 翹課不會被", "lateMin": 111}
+PASS 沒有 JS 例外  []
+FAILED 8: normal 前置：遊戲判定在 gym 球場（CLS.pePlace）；normal ③ 老師一位：(0,−7.0) 0.3 m 內、面南（yaw≈0）、名牌「體育老師」；normal ④ 同學 10 人（含站進來的朋友）在圓心 (0,−6.8) 半徑 4.2 m 的半圈上、面向老師；normal ⑤ 上課那段時間羽球場沒人打（crowdRole badminton＝0）；normal ⑥ 這週的旁白和 AA_644 稿逐字一樣（名字照在場與否換「有人」）；normal ⑥ 稿上的旁白只出現一句；normal ⑥ 沒有台詞池那一句／同學反應（旁白取代）；normal ⑦ 館內沒有「黑板」字幕
