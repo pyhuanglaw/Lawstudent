@@ -158,7 +158,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. 大三頂樓：不認識以安、芯慈＝沒有她們的句子（也沒有 Alison 問以安行李那段）',!L.some(t=>/以安|芯慈/.test(t))&&L.includes('阿哲：下禮拜吃飯喔。'),J(L)); }
   // 芯慈松菸（5-6）：旁白拆出來
   { const row=ENCOUNTERS.rows.find(r=>r.who==='classmate_xinci'&&r.spot==='D02'); fresh(D('2026-10-04'),14,'d02',{}); R('classmate_xinci','FRI'); said=[]; picks=[0]; await ENC.meet(GM,row,{t:'friend',st:'FRIEND'}); const L=lines();
-    check('5-6. 松菸芯慈（朋友）：「（你看了一下。沒算錯。）」是旁白、她只說「……是我買太多。」',L.includes('（你看了一下。沒算錯。）')&&L.some(t=>/^吳芯慈：……是我買太多。$/.test(t))&&!L.some(t=>/吳芯慈：（你看了一下）/.test(t)),J(L)); }
+    check('5-6. 松菸芯慈（朋友）：「（你看了一下。沒算錯。）」是旁白、她只說「……是我買太多。」（AA_606 第 2 節：對話框寫「芯慈」）',L.includes('（你看了一下。沒算錯。）')&&L.some(t=>/^芯慈：……是我買太多。$/.test(t))&&!L.some(t=>/芯慈：（你看了一下）/.test(t)),J(L)); }
   // 沒有測試寫死的句子
   { const S=SRC('src/story3d.js'), xs=ev('ev_xinci_second').dialogue, beach=evTexts('ev_va03_beach'), m=STORY_EVENTS.find(e=>e.id==='ev_va03_beach');
     check('5-5. 海邊：柏翰那句改旁白「（柏翰站在離浪最遠的地方，鞋子拿在手上。）」',beach.includes('（柏翰站在離浪最遠的地方，鞋子拿在手上。）')&&!beach.includes('冬天的海大概十八度。')&&m.dialogue.find(l=>l.text==='（柏翰站在離浪最遠的地方，鞋子拿在手上。）').speaker===null);

@@ -39,6 +39,7 @@
 | v9.10.14 | `271cd2305`（PR [pyhuanglaw/Lawstudent#20](https://github.com/pyhuanglaw/Lawstudent/pull/20)；遊戲檔案＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | 2026-10-30 07:52:40 UTC（run 41022443245） | v9.10.13 `37603ad6a` |
 | v9.10.15 | `27e6ce77e`（PR [pyhuanglaw/Lawstudent#21](https://github.com/pyhuanglaw/Lawstudent/pull/21)；遊戲檔案＝BB GO 的基準 `39f68236c`＋版本字樣，發布樹 `8fb7212b1`） | 2026-11-01 02:54:35 UTC（run 41266933798） | v9.10.14 `271cd2305` |
 | v9.10.16 | `e3d773589`（PR [pyhuanglaw/Lawstudent#22](https://github.com/pyhuanglaw/Lawstudent/pull/22)；遊戲檔案＝候選 `b1b249873`，BB_222 GO） | 2026-11-02 19:17:47 UTC（run 41508079716 success） | v9.10.15 `27e6ce77e` |
+| v9.10.17 | `408d9f3cb`（PR [pyhuanglaw/Lawstudent#23](https://github.com/pyhuanglaw/Lawstudent/pull/23)；遊戲檔案＝BB GO 的 `0f66c4215`＋版本字樣，發布樹 `1d0904473`） | 2026-11-03 08:34:31 UTC（run 41603929930 success） | v9.10.16 `e3d773589` |
 
 ---
 
@@ -51,6 +52,15 @@ C=$(git commit-tree e88bda5^{tree} -p origin/main -m "緊急回復到 v9.6（e88
 git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub Actions 的 pages build and deployment 確認部署
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
+
+## v9.10.17（2026-11-03 08:31 UTC 合併 `408d9f3cb`，PR [pyhuanglaw/Lawstudent#23](https://github.com/pyhuanglaw/Lawstudent/pull/23)；BB 11-03 08:18 GO；GitHub Pages run 41603929930 08:34:31 UTC success）
+
+**候選＝基準**：開發分支 `0f66c4215`（int/m591 全部併進來＋7 支測試照現行定稿改期望）。**發布樹** `1d0904473`＝基準＋index.html 版本字樣（`?v=9.10.17`×300、標題「版本 v9.10.17（2026-11-03）」）；`git diff 0f66c4215 1d0904473 -- src tests lib assets` 空。
+**GO 依據（BB_246 最後一節）**：擋發布兩項解除（Y_A1 ADV-SKIP、Y_P1 國考題池，PC PASS）；GHA run 41563231494 910 支失敗 0；PC Z_ 系列（7224，Z_G6b 用 0f66）全部 PASS；Y_P3b_sl 是探針過時（LIBQ 第一次只點頭）。發布後補跑（不擋）：Z_ANSMOKE、Z_LIBWHISPER、Z_DRIVE、Z_BACKFILLCG、Z_P3b。
+**內容**：學姊改稿第四批 AA_591、AA_598 約會台詞；以安改稿 AA_587／589／592／594、AA_601 一起去行政法院（CG-29）；AA_600 分手後不主動聯絡、AA_602；AA_595 圖書館小聲講＋走出館外旁白、空保溫瓶拿掉；國考題池、打字中略過、宿舍閣樓比例、爬梯手勢 climbIK、AA_603 重考生、CG 批次。
+**LAWWW 發布前檢查**：deploy_check（乾淨 checkout `1d0904473`）ALL PASS；其他回歸由 BB／CC 在使用者 PC 跑（Z_ 系列）、全部 Node 由 GHA 跑（D100 第 4 點、GHA-TEST-OFFLOAD-1103）。
+**沒放進這一版**（BB 還沒驗）：使用者 11-03 實玩回報的修正——睡覺不演上床（BUG-SLEEP-CINEMATIC-1103）、下課吃飯換到店裡（BUG-EAT-AFTER-CLASS-SCENE-1103）、進場景等正式模型載好（PERF-ZONE-POPIN-1103）、AA_605（老師不認人、通識拿掉、便利貼交代清楚）；發布後放回開發分支 `a7a97d111`。
+**部署**：Pages run 41603929930 success。線上版本字樣由 BB 驗（LAWWW 的雲端機器連不到 github.io）。
 
 ## v9.10.16（2026-11-02 19:14 UTC 合併 `e3d773589`，PR [pyhuanglaw/Lawstudent#22](https://github.com/pyhuanglaw/Lawstudent/pull/22)；BB_222 GO（企劃線 08b72e805）；GitHub Pages run 41508079716）——法律學習與考試第一版（D118）、海商法改選修、以安與學姊改稿、背景與立繪
 
