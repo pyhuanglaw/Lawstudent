@@ -125,9 +125,9 @@ const NAME=id=>SOCIAL.displayName(id);
   // ===== 3. 1C-03 寄到英國的那一箱 =====
   const x25=D('2027-12-25'), x26=D('2027-12-26');
   fresh(x25,20,'dorm'); team(); run(x25,20,21.25);
-  { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 麵店', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半麵店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
+  { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 燒臘店（AA_612）', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半燒臘店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
   fresh(x26,18.5,'noodle'); team(); R('heroine_02','FAM'); let X1=await play('ev_xmas_y3_box',['杯墊']);
-  check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
+  check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（燒臘店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
   check('3. X1 杯墊＝以安「她會知道是哪一家。」；語彤封箱「阿姨說，箱子不夠大的話，店裡有。」；XMAS_Y3_BOX coaster', X1.includes(NAME('heroine_01')+'：她會知道是哪一家。')&&has('（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）')&&X1[X1.length-1]===NAME('heroine_03')+'：阿姨說，箱子不夠大的話，店裡有。'&&G.flags.XMAS_Y3_BOX==='coaster');
   fresh(x26,18.5,'noodle'); team(); date('heroine_02'); X1=await play('ev_xmas_y3_box',['只有你看得懂']);
   check('3. 和芷若交往中：多「（放一張只有你看得懂的便條）」→ Alison「……好，我們都不看。」', opts[0].length===4&&opts[0][3]==='（放一張只有你看得懂的便條）'&&X1.includes(NAME('yu')+'：……好，我們都不看。')&&G.flags.XMAS_Y3_BOX==='note');
@@ -183,7 +183,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(f29,19,'gym'); team(); R('classmate_mingxuan','FAM'); await play('ev_final_game_y3',['請客']);
   /* 2026-10-28 改：AA_497 第 8 節第 4 點（企劃線 60fc3b9a3）明軒的滷蛋只留 M1、M2、德文三處——冠軍那一串改「一碗大的／大碗」（旗標名 MX_EGG* 不改；tests/aa497_supporting_unit.js 第 8 節）*/
   check('4. 選「冠軍耶，明天請客。」：「好。請你吃一碗大的。」（AA_497 第 8 節）、記欠的那一碗（MX_EGG_DAY；當週不補、下週一起補）', has('好。請你吃一碗大的。')&&!has('好。請你吃滷蛋。一顆。')&&G.flags.MX_EGG_DAY===f29&&(G.day=f29+1,!GROUP.eggDue(G))&&(G.day=f29+2,GROUP.eggDue(G)));
-  { const e=ev('ev_mx_egg_y3'); check('4. 補那一碗（ev_mx_egg_y3）：在麵店、明軒在旁邊（npcNear）才演；「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」（AA_497 第 8 節）', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[0].text==='（他把一碗大碗的乾麵推到你面前。）'&&e.dialogue[1].text==='冠軍那天欠的。大碗。'); }
+  { const e=ev('ev_mx_egg_y3'); check('4. 補那一碗（ev_mx_egg_y3）：在麵店、明軒在旁邊（npcNear）才演；「（他把一盤雙拼推到你面前。）」（AA_612 A 表）「冠軍那天欠的。大碗。」（AA_497 第 8 節）', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[0].text==='（他把一盤雙拼推到你面前。）'&&e.dialogue[1].text==='冠軍那天欠的。大碗。'); }
   fresh(f29,19.5,'dorm'); team(); ev('ev_final_game_y3').outingMissed(G,GM,{}); run(f29,21.5,21.75);
   check('4. 沒去：FINAL_GAME_Y3 missed、21:30 群組照片', G.flags.FINAL_GAME_Y3==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（獎盃在明軒手上。阿哲在旁邊比讚。）');
   // 日本路線

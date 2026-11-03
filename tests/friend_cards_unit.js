@@ -62,7 +62,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
   // ---------- 3-3 Alison：第一次和阿哲去麵店 ----------
   { fresh(); at('2025-09-04',18.5); SOCIAL.meet('zhe','camp'); said=[]; await EVENTS.run(ev('ev_zhe_long_table_out')); const m=(G.social.mem.yu||[]).find(x=>x.tag==='FIRST_MET');
     check('C7. 3-3 第一次併桌（9/4 約的那一頓）開頭：Alison 跟著來（預設「對，就是我。」），之後照原本「（阿哲把兩張桌子併起來。）」；認識 Alison（FIRST_MET noodle）、熟悉 +1',
-      !block(['（麵店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）'])&&said.includes('Alison：嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。')&&optsSeen.includes('「對，就是我。」/「他怎麼跟妳說的？」')&&m&&m.note==='noodle'&&fam('yu')===6,said.slice(0,6).join(' / ')+' '+fam('yu'));
+      !block(['（燒臘店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）'])&&said.includes('Alison：嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。')&&optsSeen.includes('「對，就是我。」/「他怎麼跟妳說的？」')&&m&&m.note==='noodle'&&fam('yu')===6,said.slice(0,6).join(' / ')+' '+fam('yu'));
     check('C8. 3-3 第 3 週初遇（ev_yu_meet_w3／talkYu）：在麵店認識的，Alison 那句改「你是周老師點的那個！……欸，你剛剛講得很好。」、不再自我介紹（第二句照舊）',STORY.yuIntroLines(G)[0]==='你是周老師點的那個！……欸，你剛剛講得很好。'&&STORY.yuIntroLines(G)[1]===STORY.YU_INTRO.lines[1]&&!/我是 Alison/.test(STORY.yuIntroLines(G).join()),STORY.yuIntroLines(G).join(' | '));
     { const G0=G; G.day=STORY.termDay('Y1S1',3,1); G.weekday=1; G.hour=12.3; global.CLS={dayItems:G=>[{c:{id:'const_1',kind:'required'},room:{zone:'linze',room:'201'},key:'k',t0:9+10/60,t1:12+10/60}],rec:G=>({done:{k:true},abs:{}})};   /* 替身：第 3 週週一憲法上完（只給 SUP497.yuMeetDue 用，用完拿掉）*/ const due=SUP497.yuMeetDue(G); const G2={day:G.day,weekday:1,hour:12.3,stage:'law',flags:{met_yu:true},social:{mem:{yu:[{tag:'FIRST_MET',note:'classroom'}]}}}; const due2=SUP497.yuMeetDue(G2); delete global.CLS;
       check('C8b. 3-3：在麵店認識的（SOCIAL.meet 會記 met_yu）第 3 週憲法下課的初遇照演一次；別的地方認識的照舊不演',due===true&&due2===false,JSON.stringify([due,due2])); }
@@ -85,7 +85,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     setup(22.7); const w=STORY.dormWho(G).map(x=>x[0]).join(); const ok=EVENTS.check(e); setup(22.1); const okEarly=EVENTS.check(e); setup(22.7); G.day=day('2025-09-22'); G.weekday=1; const okMon=EVENTS.check(e); setup(22.7); delete G.flags.DORM_FOUR; const ok2=EVENTS.check(e);
     check('C15. 3-5 條件：9/23 22:00 以後在 203、阿凱和柏翰都在房間（22:42 都在＝演；22:06 柏翰還沒回來、9/22、沒有四人房＝不演）',e.trigger==='auto'&&ok&&!okEarly&&!okMon&&!ok2,JSON.stringify({w,ok,okEarly,okMon,ok2}));
     setup(22.7); for(const id of ['zhe','kai','classmate_bohan']) SOCIAL.meet(id,'dorm'); const f0=fam('zhe'); await EVENTS.run(e);
-    check('C16. 3-5 台詞（預設「謝啦，阿哲。」）；記 FRIEND_CARD「四碗麵」、阿哲熟悉 +2',!block(['（晚上十點，阿哲提著四碗麵進門。）','阿凱、柏翰、祐廷。宵夜。我揪的，算我的。','一碗六十五。我轉你。','沒事啦。','那下次我買。……所以下次是什麼時候。','吃啦，要冷了。','（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'])&&card('zhe')==='提了四碗麵回來'&&fam('zhe')-f0===2,said.join(' / '));
+    check('C16. 3-5 台詞（預設「謝啦，阿哲。」）；記 FRIEND_CARD「四碗麵」、阿哲熟悉 +2',!block(['（晚上十點，阿哲提著四個燒臘便當進門。）','阿凱、柏翰、祐廷。宵夜。我揪的，算我的。','一碗六十五。我轉你。','沒事啦。','那下次我買。……所以下次是什麼時候。','吃啦，要冷了。','（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'])&&card('zhe')==='提了四個便當回來'&&fam('zhe')-f0===2,said.join(' / '));
     setup(22.7); picks=['我也轉你']; await EVENTS.run(e); const a=said.includes('阿哲：不用啦。');
     setup(22.7); G.flags.ZHE_CALLS_GE=true; picks=['我也轉你']; await EVENTS.run(e);
     check('C17. 3-5「我也轉你。」→「不用啦。」；有 ZHE_CALLS_GE＝「不用啦，哥。」',a&&said.includes('阿哲：不用啦，哥。')&&!said.includes('阿哲：不用啦。')); }
@@ -94,7 +94,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     fresh(); G.day=wk13; G.weekday=3; G.hour=12.2; SOCIAL.adjust('zhe',{fam:45,trust:30}); const fr=EVENTS.check(e);
     check('C18. 第 4 節條件：第 13 週刑總下課（afterClass crim_gen1）；演過四碗麵、或和阿哲 FRIEND 以上才演',e.afterClass==='crim_gen1'&&!no&&yes&&fr&&!w12,JSON.stringify({no,yes,fr,w12}));
     fresh(); G.day=wk13; G.hour=12.2; picks=['明軒那家']; await EVENTS.run(e);
-    check('C19. 第 4 節台詞照順序；選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK mx',!block(['（刑總下課。走廊上，阿哲已經在點人數。）','考完那天，吃飯。柏翰、明軒、Alison、祐廷。芯慈呢？','她說要提前一天約才算數。我幫她約了！','最後一科考完是下午三點十分。','麵店四點半才開。……我知道一家三點就開的。','所以哪家？','（拿出手機）表上第三列。'])&&optsSeen.includes('「我都可以。」/「明軒那家。」')&&G.flags.Y1S1_EXAM_MEAL_PICK==='mx',said.join(' / '));
+    check('C19. 第 4 節台詞照順序；選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK mx',!block(['（刑總下課。走廊上，阿哲已經在點人數。）','考完那天，吃飯。柏翰、明軒、Alison、祐廷。芯慈呢？','她說要提前一天約才算數。我幫她約了！','最後一科考完是下午三點十分。','燒臘店四點半才開。……我知道一家三點就開的。','所以哪家？','（拿出手機）表上第三列。'])&&optsSeen.includes('「我都可以。」/「明軒那家。」')&&G.flags.Y1S1_EXAM_MEAL_PICK==='mx',said.join(' / '));
     fresh(); G.day=wk13; G.hour=12.2; await EVENTS.run(e); check('C20. 選「我都可以。」不記旗標',G.flags.Y1S1_EXAM_MEAL_PICK==null); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
