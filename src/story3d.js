@@ -136,7 +136,10 @@ const STORY = (function(){
     if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:'p:zhe',from:'zhe',name:'阿哲',text:'我在高鐵上了。'},{th:'p:zhe',from:'zhe',name:'阿哲',text:'七點到宿舍。你到了沒？'}],'camp_squad_829');   /* AA 11-03：阿哲是第八小隊，改成私訊（宿營時加了好友）*/   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
   S.CAMP_DAY='2025-08-22';
   S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
-  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||F.CAMP_Y1) return false;
+  /* BUG-CAMP-RESUME-824-1103（BB 11-03）：最後一段 ev_camp_d3_end 自己就設了 CAMP_Y1，接著用 campStep＝段數自動存檔；那一份讀回來 CAMP_Y1 已經是 true，
+     以前就不接著演「回到家」和 8/29 搬宿舍（停在 8/24 12:56）。CAMP_Y1_ON 還開著、campStep 還在＝宿營還沒收尾，照樣接著演 */
+  S.campMidway=F=>!!(F&&F.CAMP_Y1_ON&&F.campStep!=null);
+  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||(F.CAMP_Y1&&!S.campMidway(F))) return false;
     const econ=S.isEcon(G); if(econ) F.PLAYED_Y0=true;   /* 經濟系路線（AA_205 2-3）：營地旁白「這個營地你去年來過」看 PLAYED_Y0（轉進法律系時本來也會記）*/
     F.CAMP_Y1_ON=true; const from=S.campFrom(F); F.campStep=from; F.campSeqV=2; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
     if(GM.sceneBegin) GM.sceneBegin(); try{
@@ -311,7 +314,7 @@ const STORY = (function(){
       if(hr>=8&&hr<22){ const dk=L.furniture.find(f=>f.type==='desk'); if(dk) mk(dk.x-0.6,dk.z+0.75,0,Math.PI,'idle');
         const sts=E.zone.seats.slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts[k]; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-3.4,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）；東翼那一點 (8,−5) 在第二版（11-02 二樓平面圖）是西文圖書的書架，改 (8,−3.4)（第一版也是空地）*/
-        if(hr<18) GM.spawnExtra(extraSpec(xi++),[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }
+        if(hr<18) GM.spawnExtra(extraSpec(xi++),(LIBRARY_LAYOUT.b1Door&&LIBRARY_LAYOUT.b1Door.wall==='vestibule')?[[5.6,-8.6,0],[1.0,3.0,0],[-3.5,3.0,0],[-7.9,-5.0,0]]:[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }   /* 總圖第四版（LIB-PLAN-1103：一樓照平面圖，服務台、十字影音櫃、多一排四人桌）一樓走動的人改走空地；舊配置照舊 */
       if(F.companion==='an') spawnCompanion(GM); }
     /* 法律學院圖書館（D46，2026-10-13）的背景人物：櫃台的館員、一樓自習區和二樓讀書的人、走樓梯上下樓的人。不是劇情人物、沒有對話 */
     if(zoneId==='lawlib'&&typeof LAWLIB_LAYOUT!=='undefined'){ const L=LAWLIB_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
