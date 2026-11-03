@@ -1,0 +1,23 @@
+PASS 遊戲載入
+  [前置／捷徑] cafe_an：［捷徑］讀檔到 cafe（2025-10-18 15:15），存檔寫好今天這個時段遇到 heroine_01
+PASS cafe_an：heroine_01 在店裡（坐著，姿勢 read），按鈕「和沈以安打招呼」，位子有預約、沒有路人疊在一起  {"x": -5.95, "z": 3.95, "seat": true, "pose": "read", "label": "和沈以安打招呼", "reserved": false, "crowdNear": 0}
+PASS cafe_an：走近她，按鈕是「和沈以安打招呼」  {"zone": "cafe", "dlg": false, "dtext": "", "dname": "", "choices": [], "interact": "和沈以安打招呼"}
+PASS cafe_an：選項 ['打招呼', '一起坐', '不打擾']  {"zone": "cafe", "dlg": false, "dtext": "她坐在沙發那一區，手帳攤開，旁邊一杯冷掉的拿鐵。", "dname": "", "choices": ["打招呼", "一起坐", "不打擾"], "interact": ""}
+PASS cafe_an：遇過以後按鈕回到一般（和沈以安說話），記在今天遇過的人  {"label": "和沈以安說話", "met": ["heroine_01"], "flags": {"MET": null}}
+  [前置／捷徑] bookstore_zhining：［捷徑］讀檔到 bookstore（2025-10-18 15:00），存檔寫好今天這個時段遇到 npc_songzn
+PASS bookstore_zhining：npc_songzn 在店裡（站著，姿勢 idle），按鈕「看二手書架」，位子有預約、沒有路人疊在一起  {"x": -1.25, "z": 0, "seat": false, "pose": "idle", "label": "看二手書架", "reserved": true, "crowdNear": 0}
+PASS bookstore_zhining：走近她，按鈕是「看二手書架」  {"zone": "bookstore", "dlg": false, "dtext": "（你們坐了一會兒，各做各的事，偶爾說兩句。）", "dname": "", "choices": [], "interact": "看二手書架"}
+PASS bookstore_zhining：選項 ['「妳先看。」', '「一起看？」']  {"zone": "bookstore", "dlg": false, "dtext": "你是法律系的？我只是想看看裡面的筆記。前一個主人字很好看。", "dname": "看書的女生", "choices": ["「妳先看。」", "「一起看？」"], "interact": ""}
+PASS bookstore_zhining：遇過以後按鈕回到一般（None），記在今天遇過的人  {"label": null, "met": ["npc_songzn"], "flags": {"MET": true}}
+  [前置／捷徑] cvs_kai：［捷徑］讀檔到 cvs（2025-10-15 23:30），存檔寫好今天這個時段遇到 kai
+PASS cvs_kai：kai 在店裡（站著，姿勢 idle），按鈕「和阿凱打招呼」，位子有預約、沒有路人疊在一起  {"x": -2.63, "z": -3.45, "seat": false, "pose": "idle", "label": "和阿凱打招呼", "reserved": true, "crowdNear": 0}
+PASS cvs_kai：走近她，按鈕是「和阿凱打招呼」  {"zone": "cvs", "dlg": false, "dtext": "（你們站在書架前面翻了二十分鐘。她說她叫知寧，中文系的。）", "dname": "", "choices": [], "interact": "和阿凱打招呼"}
+PASS cvs_kai：選項 ['打招呼', '不打擾']  {"zone": "cvs", "dlg": false, "dtext": "他站在微波爐前面，等一碗泡麵加熱。", "dname": "", "choices": ["打招呼", "不打擾"], "interact": ""}
+PASS cvs_kai：遇過以後按鈕回到一般（和阿凱說話），記在今天遇過的人  {"label": "和阿凱說話", "met": ["kai"], "flags": {"MET": null}}
+  [前置／捷徑] teishoku_diner：［捷徑］讀檔到巷子裡定食（2025-10-15 12:30），把玩家放到一桌兩個客人旁邊
+PASS teishoku_diner：有一桌兩個人可以「聽一句」  {"x": 1.85, "z": 2.55, "yaw": 1.5707963267948966, "label": "聽一句"}
+PASS teishoku_diner：按鈕「聽一句」  {"zone": "wz_teishoku", "dlg": false, "dtext": "我今天 debug 到現在。不要問。", "dname": "阿凱", "choices": [], "interact": "聽一句"}
+PASS teishoku_diner：路人說一句「路人：你那份報告交了沒？」  {"zone": "wz_teishoku", "dlg": true, "dtext": "你那份報告交了沒？", "dname": "路人", "choices": [], "interact": ""}
+PASS 沒有 JS 例外
+ALL PASS
+EXIT=0
