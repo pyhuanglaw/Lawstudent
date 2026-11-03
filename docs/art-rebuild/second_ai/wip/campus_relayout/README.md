@@ -120,4 +120,7 @@
 - **舊配置相容**：新配置是預設；只有載入舊版（v2/v3）黑森林配置時才回到舊位置（LAWWW 手上若還有舊黑森林 patch 不會混成一半）。
 - **舊存檔**：站在舊萬才館門口、舊大樓梯、舊平台／陽台（第 1 層）的存檔，讀檔時引擎照舊把人移到最近站得住、走得到的地方（`engine3d.js` 的 unstick＋走得到出生點檢查）；`campus_layout_nav.py` 加了這 5 個舊存檔位置。
 - **patch**：`../blackforest/law_relayout_blackforest_1102_wip.patch`（和黑森林 v4 同一份；對 int/m590 `0e11c43a3`，apply --cached --check 過）。
+- **11-03 交件版（`READY_FOR_ART_REVIEW`）**：patch 改成接在**開發分支最新 `3670b96eb`**（apply --cached --check 過），系館門牌（電機二館、土木工程館、圖書資訊學系館、農業綜合大樓）一起併進來，電機二館的牌子跟著建築在 (119, −62)。`campus_relayout_names_1102.patch` 不用另外整合。
+  - 測試（`law_v4_shots/test_results_3670b96eb.txt`）：校園相關 Node 單元 **176 支 ALL PASS**；瀏覽器 `campus_layout_nav`、`flow_wancai_stairs`、`flow_wancai_floors`、`tap_floor_levels`、`zone_transitions`、`wancai_glb_integration`、`reachability_all --zones campus` **全部 ALL PASS**（`flow_wancai_floors` 第一次 FAIL 是測試第 161 行寫死舊的出來位置 (93.8,−98.4)，改成新的 (95.8,−86.4) 重跑過）。門牌併進來之後再跑：`room_map_labels`、`minimap_yellowdot`、`nav_buildings`、`socsci_place`（測試接受電機二館的門牌）、`placemap`、`blackforest`、`kit_nav_check` ALL PASS。
+  - 前後對照（同一個鏡頭，改前＝開發分支＋總圖 patch、改後＝整包 patch）：`law_v4_shots/cmp_a.jpg`（鳥瞰、斜鳥瞰、照片 2 小湖、兩館之間的走道經過小湖）、`cmp_b.jpg`（萬才館正面、霖澤館往萬才館；**照片 5 土徑、國青／研三舍那兩張鏡頭放錯了**：一張在樹幹裡、一張在霖澤館牆角，下一輪重拍）。
 - **測試**（雲端，不是手機實機）：Node `nav_buildings`、`nav_soclib`、`heroine_circle3d`、`aa499_501_pool`、`blackforest`、`nav_levels`、`placemap`、`v1_sk01`、`r2y4a_events`、`kit_nav_check` ALL PASS。測試裡舊萬才館的點全部 +(2, 12)，標準沒有放寬。其他 172 支校園相關 Node 單元、7 支瀏覽器測試、前後截圖：排隊中，結果出來補在這裡。

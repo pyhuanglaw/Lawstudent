@@ -1,0 +1,195 @@
+unit tests/aa117_notes_unit.js | ALL PASS 
+unit tests/aa347_y1_unit.js | ALL PASS 
+unit tests/aa355_unit.js | ALL PASS 
+unit tests/aa412_us_unit.js | ALL PASS 
+unit tests/aa497_supporting_unit.js | ALL PASS 
+unit tests/aa512_sis_b13_unit.js | ALL PASS 
+unit tests/aa513_unit.js | ALL PASS 
+unit tests/aa516_sis_b14_unit.js | ALL PASS 
+unit tests/aa518_sis_b15_unit.js | ALL PASS 
+unit tests/aa519_support2_unit.js | ALL PASS 
+unit tests/aa520_yule_unit.js | ALL PASS 
+unit tests/aa521_econ_friends_unit.js | ALL PASS 
+unit tests/aa523_sis_b16_unit.js | ALL PASS 
+unit tests/aa524_promises_unit.js | ALL PASS 
+unit tests/aa525_promises_unit.js | ALL PASS 
+unit tests/aa527_528_unit.js | ALL PASS 
+unit tests/aa529_econ_unit.js | ALL PASS 
+unit tests/aa531_us_unit.js | ALL PASS 
+unit tests/aa590_sis_b3_unit.js | ALL PASS 
+unit tests/aa591_sis_b4_unit.js | ALL PASS 
+unit tests/aa595_rules_unit.js | ALL PASS 
+unit tests/aa_followup_1030_unit.js | ALL PASS 
+unit tests/airport_cam_unit.js | ALL PASS 
+unit tests/bball_present_unit.js | ALL PASS 
+unit tests/bball_rain_unit.js | ALL PASS 
+unit tests/bg107_unit.js | ALL PASS 
+unit tests/bg108_unit.js | ALL PASS 
+unit tests/bg_city_awnings_unit.js | ALL PASS 
+unit tests/bg_dark12_unit.js | ALL PASS 
+unit tests/bike_unit.js | ALL PASS 
+unit tests/blackforest_unit.js | ALL PASS 
+unit tests/bookstore_exit_unit.js | ALL PASS 
+unit tests/bookstore_interior_lm_unit.js | ALL PASS 
+unit tests/boya_203_unit.js | ALL PASS 
+unit tests/boya_lecture_glb_unit.js | ALL PASS 
+unit tests/boya_lecture_unit.js | ALL PASS 
+unit tests/cafe_barista_unit.js | ALL PASS 
+unit tests/cafe_customers_unit.js | ALL PASS 
+unit tests/cafe_kit_glow_unit.js | ALL PASS 
+unit tests/cafe_refresh_unit.js | ALL PASS 
+unit tests/cafe_rota_unit.js | ALL PASS 
+unit tests/cafe_seethru_unit.js | ALL PASS 
+unit tests/cafe_street_live_unit.js | ALL PASS 
+unit tests/cafe_wz4_unit.js | ALL PASS 
+unit tests/campus_backdrop_ground_unit.js | ALL PASS 
+unit tests/campus_bell_seethru_unit.js | ALL PASS 
+unit tests/campus_bikes_unit.js | ALL PASS 
+unit tests/campus_hall_pillar_seethru_unit.js | ALL PASS 
+unit tests/campus_lamps_unit.js | ALL PASS 
+unit tests/campus_public_unit.js | ALL PASS 
+unit tests/class_arrive_unit.js | ALL PASS 
+unit tests/class_teacher_unit.js | ALL PASS 
+unit tests/classes_unit.js | ALL PASS 
+unit tests/club_fair_align_unit.js | ALL PASS 
+unit tests/club_fair_expo_unit.js | ALL PASS 
+unit tests/clubfair_1027_unit.js | ALL PASS 
+unit tests/crowd_depts_unit.js | ALL PASS 
+unit tests/crowd_unit.js | ALL PASS 
+unit tests/cvs_interior_lm_unit.js | ALL PASS 
+unit tests/desk_furniture_unit.js | ALL PASS 
+unit tests/dorm_205_unit.js | ALL PASS 
+unit tests/dorm_cam_unit.js | ALL PASS 
+unit tests/dorm_hall_lightmap_unit.js | ALL PASS 
+unit tests/dorm_laundry_unit.js | ALL PASS 
+unit tests/dorm_lightmap_unit.js | ALL PASS 
+unit tests/dorm_lounge_unit.js | ALL PASS 
+unit tests/dorm_moved_out_unit.js | ALL PASS 
+unit tests/dorm_seethru_unit.js | ALL PASS 
+unit tests/dorm_wz_items_unit.js | ALL PASS 
+unit tests/dorm_y2_items_unit.js | ALL PASS 
+unit tests/dorm_y3_items_unit.js | ALL PASS 
+unit tests/econ_soclib_1030_unit.js | ALL PASS 
+unit tests/follow_buddy_unit.js | ALL PASS 
+unit tests/gongtong_3f_unit.js | ALL PASS 
+unit tests/gongtong_interior_glb_unit.js | ALL PASS 
+unit tests/ground_zfight_unit.js | ALL PASS 
+unit tests/gym_arena_unit.js | ALL PASS 
+unit tests/gym_b1_plates_unit.js | ALL PASS 
+unit tests/gym_ceremony_unit.js | ALL PASS 
+unit tests/gym_crowd_unit.js | ALL PASS 
+unit tests/gym_hear_unit.js | ALL PASS 
+unit tests/gym_unit.js | ALL PASS 
+unit tests/heroine_circle3d_unit.js | ALL PASS 
+unit tests/indoor_crowd_unit.js | ALL PASS 
+unit tests/jacket_econ_unit.js | ALL PASS 
+unit tests/kai_tape_cam_unit.js | ALL PASS 
+unit tests/l118_arcade_unit.js | ALL PASS 
+unit tests/l118_bar_lift_unit.js | ALL PASS 
+unit tests/l118_shops_unit.js | ALL PASS 
+unit tests/lake_night_unit.js | ALL PASS 
+unit tests/lamppost_nav_unit.js | ALL PASS 
+unit tests/lane118_walkers_unit.js | ALL PASS 
+unit tests/lib_front_unit.js | ALL PASS 
+unit tests/lib_lawn_unit.js | ALL PASS 
+unit tests/libq_aa_1102_unit.js | ALL PASS 
+unit tests/libq_out_1102_unit.js | ALL PASS 
+unit tests/library_3f_lm_unit.js | ALL PASS 
+unit tests/library_copier_unit.js | ALL PASS 
+unit tests/library_hall_cam_core_unit.js | ALL PASS 
+unit tests/library_hall_lightmap_unit.js | ALL PASS 
+unit tests/library_hall_v2_oldsave_unit.js | ALL PASS 
+unit tests/library_media_unit.js | ALL PASS 
+unit tests/linze_lightmap_unit.js | ALL PASS 
+unit tests/linze_office_unit.js | ALL PASS 
+unit tests/linze_pillar_seethru_unit.js | ALL PASS 
+unit tests/loadgen_locks_unit.js | ALL PASS 
+unit tests/nav_buildings_unit.js | ALL PASS 
+unit tests/nav_lawlib_unit.js | ALL PASS 
+unit tests/nav_soclib_unit.js | ALL PASS 
+unit tests/nav_teach_unit.js | ALL PASS 
+unit tests/nav_us_unit.js | ALL PASS 
+unit tests/plate_text_dir_unit.js | ALL PASS 
+unit tests/postcard_reach_unit.js | ALL PASS 
+unit tests/quick_travel_unit.js | ALL PASS 
+unit tests/room_ceiling_unit.js | ALL PASS 
+unit tests/room_rtnight_unit.js | ALL PASS 
+unit tests/room_y3_unit.js | ALL PASS 
+unit tests/room_y4_unit.js | ALL PASS 
+unit tests/rooms_ab3_people_unit.js | ALL PASS 
+unit tests/season_dusk_unit.js | ALL PASS 
+unit tests/seat_approach_reach_unit.js | ALL PASS 
+unit tests/seat_fold_unit.js | ALL PASS 
+unit tests/seat_occupied_unit.js | ALL PASS 
+unit tests/seat_reach_unit.js | ALL PASS 
+unit tests/seated_figures_lod_unit.js | ALL PASS 
+unit tests/seated_figures_unit.js | ALL PASS 
+unit tests/sis_expo_presence_unit.js | ALL PASS 
+unit tests/sk02_jacket_wear_unit.js | ALL PASS 
+unit tests/socsci_place_unit.js | ALL PASS 
+unit tests/sq_traces_unit.js | ALL PASS 
+unit tests/stairs_cam_slab_unit.js | ALL PASS 
+unit tests/street_props_nav_unit.js | ALL PASS 
+unit tests/tap_stall_unit.js | ALL PASS 
+unit tests/teach_cam_walls_unit.js | ALL PASS 
+unit tests/teach_class_unit.js | ALL PASS 
+unit tests/teach_doors_unit.js | ALL PASS 
+unit tests/teach_perf_unit.js | ALL PASS 
+unit tests/text_fixes_1016_unit.js | ALL PASS 
+unit tests/us_apt_closet_unit.js | ALL PASS 
+unit tests/us_bed_c_unit.js | ALL PASS 
+unit tests/us_cam_walls_unit.js | ALL PASS 
+unit tests/us_campus_shelter_unit.js | ALL PASS 
+unit tests/us_lamp_pools_unit.js | ALL PASS 
+unit tests/us_lawlib_2f_unit.js | ALL PASS 
+unit tests/us_market_cam_unit.js | ALL PASS 
+unit tests/us_market_street_unit.js | ALL PASS 
+unit tests/us_ms_seethru_unit.js | ALL PASS 
+unit tests/us_season_unit.js | ALL PASS 
+unit tests/v0_a6_unit.js | ALL PASS 
+unit tests/v0_dorm_props_unit.js | ALL PASS 
+unit tests/v1_batch2_unit.js | ALL PASS 
+unit tests/v3_batch1_unit.js | ALL PASS 
+unit tests/wancai_lightmap_unit.js | ALL PASS 
+unit tests/wancai_semb_unit.js | ALL PASS 
+unit tests/whois_unit.js | ALL PASS 
+unit tests/window_dusk_fade_unit.js | ALL PASS 
+unit tests/window_night_sync_unit.js | ALL PASS 
+unit tests/wz_aa364_shops_unit.js | ALL PASS 
+unit tests/wz_cat_unit.js | ALL PASS 
+unit tests/wz_cat_walk_unit.js | ALL PASS 
+unit tests/wz_copy_shop_unit.js | ALL PASS 
+unit tests/wz_market_keeper_unit.js | ALL PASS 
+unit tests/wz_market_unit.js | ALL PASS 
+unit tests/wz_park_people_unit.js | ALL PASS 
+unit tests/wz_park_unit.js | ALL PASS 
+unit tests/wz_shops2_unit.js | ALL PASS 
+unit tests/wz_shops_cam_unit.js | ALL PASS 
+unit tests/wz_shops_lm_unit.js | ALL PASS 
+unit tests/wz_shops_unit.js | ALL PASS 
+unit tests/wz_work_spots_unit.js | ALL PASS 
+unit tests/xinci_romance_unit.js | ALL PASS 
+unit tests/zhoushan_lamps_unit.js | ALL PASS 
+unit tests/zone_dispose_unit.js | ALL PASS 
+unit tests/zone_prewarm_unit.js | ALL PASS 
+unit tests/zone_warmup_unit.js | ALL PASS 
+unit tests/zq_arcade_seat_unit.js | ALL PASS 
+units done 08:39:12
+== campus_layout_nav start 08:39:15
+lr campus_layout_nav exit=0 08:41:46 ALL PASS
+== flow_wancai_stairs start 08:41:46
+lr flow_wancai_stairs exit=0 08:51:47 ALL PASS
+== flow_wancai_floors start 08:51:47
+lr flow_wancai_floors exit=1 08:59:04 FAILED: 回到校園：陽台下的一樓入口前面、地面那一層、站得住
+== tap_floor_levels start 08:59:04
+lr tap_floor_levels exit=0 09:02:33 ALL PASS
+== zone_transitions start 09:02:33
+lr zone_transitions exit=0 09:05:26 ALL PASS
+== wancai_glb_integration start 09:05:26
+lr wancai_glb_integration exit=0 09:07:53 ALL PASS
+== reach_campus start 09:07:53
+lr reach_campus exit=0 09:08:24 ALL PASS
+after shots exit=0 09:14:27
+before shots exit=0 09:19:34
+lr5 done 09:19:34
+lr flow_wancai_floors 重跑（tests/flow_wancai_floors.py 第 161 行的出來位置改新座標）exit=0 ALL PASS

@@ -127,9 +127,61 @@ def build(v1):
     # 窗：西、東外牆（每 2.4 m 一扇；北段新加），展演廳的窗角度（度，0＝正北）
     L['windowsV2'] = {'xWallZ': [round(-15.6 + 2.4 * k, 2) for k in range(11)], 'rotundaDeg': [-48, 0, 48]}   # 展演廳的窗：弧牆 15 段（一段 12°）的第 3、7、11 段（library_hall_v2.py 的 WIN_AT；第三版 BB_244 第 4 點：照片 2 上下各三扇，第二版是五扇）
     L['directory'] = {'x': -3.6, 'z': 0.0, 'note': '樓層簡介立牌：入口閘門後面、西側展示櫃前面，面朝南（門口）；第一版掛在核心書架上 (−3.2, −0.48)。字是遊戲畫的 canvas，架子在正式模型、備用模型各一份'}
+    plan_1f_v4(L)
     L['furnitureNote'] = 'v2 新的型別：groupTable（一樓四人桌）、pcDesk（電腦桌）、roundTable（圓桌）、stack（二樓雙面書架）——src/library_hall_v2.js 處理；prop 的 kind 只影響 Blender 畫什麼'
     return L
 
+
+
+def plan_1f_v4(L):
+    """第四版（LIB-PLAN-1103，使用者 11-03「我還給你總圖每個樓層的位置圖 你至少弄得像一點吧」）：一樓照 08:58 的一樓平面圖（0858_plan_1f.png）重排。
+    平面圖 → 遊戲（x 往東、z 往南，入口在南）：
+      - 總服務台（紅色）：閘門北邊、主走道東側 → (2.6, 1.6)；第一版在門廳東邊 (7.8, 4.4)。館員照舊讀 desk（story3d.js）。
+      - 辦公室：西南 → 西南角隔間（x −11.9～−7.6、z 4.6～9）；東南（第一版的館員辦公室）改成校友中心＋視聽室 166-1～3（關著的門）。
+      - B1 的樓梯：平面圖在入口門禁兩旁 → 往 B1 的樓梯間門搬到門廳西牆（x −5.2、z 6.2），B1 24 小時自習室不用過閘門；第一版在大廳西牆 z −2.4。
+      - 多元共享區（西側北半邊）：四人桌從 4 張變 6 張（多一排 z −7.0）、閱報區（西牆）照舊。
+      - 數位媒體區（東側北半邊）：東牆一整排影片櫃（平面圖的家用版中文影片）、中間兩組十字形的音樂光碟／公播版影片櫃、電腦桌三排照舊。
+    座標有改的（給 LAWWW 的新舊對照表在 README）：desk、b1Door（含 spawn）、officeWall（多一道）、doors 的 staff（id 不變，搬到西南）。
+    """
+    F = L['furniture']
+    def find(t, **kw): return [f for f in F if f['type'] == t and all(f.get(k) == v for k, v in kw.items())]
+    # 總服務台
+    for d in find('desk'): d.update({'x': 3.0, 'z': 1.0, 'w': 3.0, 'd': 0.8, 'note': '第四版：閘門北邊、主走道東側（一樓平面圖的紅色服務台）；櫃台後面（+z）是館員站的地方，導航擋到 z 2.4，閘門四道往北都走得過去'})
+    for p in find('planter', lv=0):
+        if p['x'] > 0: p.update({'z': -0.5})   # 讓出服務台
+    # 第一版服務台旁的兩片隔板（框館員辦公室的入口）拿掉
+    F[:] = [f for f in F if f['type'] != 'partition']
+    # 辦公室：東南那道牆照舊（改成校友中心＋視聽室），西南加一道
+    ow = find('officeWall')
+    if ow: ow[0]['label'] = '校友中心・視聽室'
+    F.append({'type': 'officeWall', 'lv': 0, 'x0': -11.9, 'x1': -7.6, 'z': 4.6, 'label': '辦公室', 'id': 'office_sw', 'note': '第四版：一樓平面圖的辦公室在西南'})
+    # 西南隔間裡的沙發搬走（第一版在 (−11, 6.2)）；搬到多元共享區西牆邊
+    for s_ in find('sofa'):
+        if s_['z'] > 4: s_.update({'x': -11.0, 'z': -2.2})
+    # 門廳西牆：B1 樓梯間的門（置物櫃縮短讓出來）
+    for lk in find('lockers'): lk.update({'z': 7.95, 'w': 1.6, 'note': '第四版：縮短讓出門廳西牆南段給 B1 樓梯間的門'})
+    BD = L['b1Door']; BD.update({'x': -5.05, 'z': 6.2, 'wall': 'vestibule', 'spawn': {'x': -3.4, 'z': 6.2, 'lv': 0, 'yaw': 1.5708},
+                                'note': '第四版（LIB-PLAN-1103）：一樓平面圖的 B1 樓梯在入口門禁兩旁 → 門廳西牆（x −5.2）；不用過閘門就能下 B1 24 小時自習室。第一～三版在大廳西牆 z −2.4。spawn＝從 B1 走上來站的位置（離門的互動點 1.1 m 以上）'})
+    # 多元共享區：多一排四人桌（z −7.0）；推車搬到西牆
+    for x in (-9.4, -6.4):
+        F.append({'type': 'groupTable', 'lv': 0, 'x': x, 'z': -7.0, 'w': 1.6, 'd': 1.0, 'seats': 4})
+    for bc in find('prop', kind='bookcart', lv=0): bc.update({'x': -11.35, 'z': 0.6, 'ry': 1.5708})
+    # 數位媒體區：東牆影片櫃拉長、中間兩組十字形影音櫃
+    for ms in find('prop', kind='mediaShelf'):
+        ms.update({'z': -12.4, 'd': 8.4, 'nav': [11.6, -12.4, 0.55, 8.5], 'note': '第四版：東牆一整排（一樓平面圖的家用版中文影片，藍綠色）'})
+    for (cx, cz, col) in ((6.5, -6.6, '#e8743b'), (6.5, -3.4, '#8db33a')):   # 十字形：兩片 1.6 m 的矮櫃交叉（和東邊視聽座位之間留 0.8 m 走道）（平面圖的音樂光碟＝橘、公播版影片＝綠）
+        F.append({'type': 'prop', 'kind': 'crossShelf', 'lv': 0, 'x': cx, 'z': cz, 'w': 1.6, 'd': 1.6, 'h': 1.4, 'col': col, 'nav': [cx, cz, 1.7, 1.7]})
+    # 門：館員辦公室（staff）搬到西南隔間；東南改校友中心、視聽室 166-1～3（關著）
+    for d in L['doors']:   # 館員辦公室的門（id 照舊 staff：別的程式、測試用 id 找）搬到西南隔間的北面
+        if d['id'] == 'staff': d.update({'x': -9.6, 'z': 4.55, 'ry': 3.1416, 'wall': 'office_sw', 'note': '第四版：一樓平面圖的辦公室在西南；第一～三版在東南 (10.8, 5.7)'})
+    L['doors'] = L['doors'] + [
+        {'id': 'alumni', 'lv': 0, 'x': 6.4, 'z': 5.75, 'ry': 3.1416, 'label': '校友中心', 'closed': '校友中心。今天沒有開放，玻璃門上貼著下週校友座談的海報。'},
+        {'id': 'av1', 'lv': 0, 'x': 8.3, 'z': 5.75, 'ry': 3.1416, 'label': '視聽室 166-1', 'closed': '視聽室 166-1。要在服務台登記才能用，現在有人在裡面看電影。'},
+        {'id': 'av2', 'lv': 0, 'x': 9.8, 'z': 5.75, 'ry': 3.1416, 'label': '視聽室 166-2', 'closed': '視聽室 166-2。門上的牌子寫「使用中」。'},
+        {'id': 'av3', 'lv': 0, 'x': 11.2, 'z': 5.75, 'ry': 3.1416, 'label': '視聽室 166-3', 'closed': '視聽室 166-3。要先到服務台登記。'}]
+    L['signs'] = [s for s in L['signs'] if not (s['lv'] == 0 and 'B1' in s['text'])] + [
+        {'lv': 0, 'text': 'B1 24小時自習室 ↓', 'x': -5.0, 'z': 6.2, 'y': 2.62, 'ry': 1.5708, 'w': 1.8},
+        {'lv': 0, 'text': '總服務台', 'x': 2.6, 'z': 1.18, 'y': 1.25, 'ry': 0, 'w': 1.4}]
 
 def write_js(L, repo):
     p = os.path.join(repo, 'src', 'data', 'library_layout.js')
