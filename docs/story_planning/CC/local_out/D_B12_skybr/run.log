@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_D_B12_skybr\tests\flow_skybridge.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\D_B12_skybr\out
+  [前置／捷徑] 讀檔到普通教學館二樓走廊（空橋通道口前），9/19 週五 10:00
+PASS A0. 在普通教學館二樓  {'zone': 'putong', 'x': -3.2, 'z': 0.2, 'ry': 3.14, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.02, 'stand': True, 'camYaw': 6.282, 'fallbacks': 0, 'y': 4.2, 'lv': 1, 'frame': 104, 'paused': False}
+  [  45.1s] 到達「空橋中間」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS A1. 走到空橋中間（穿過通道和北牆門洞）  {'zone': 'putong', 'x': -3.2, 'z': -11.46, 'ry': 3.14, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.08, 'stand': True, 'camYaw': 6.282, 'fallbacks': 0, 'y': 4.46, 'lv': 1, 'frame': 300, 'paused': False}
+PASS A1. 人在橋面上：高度在 4.2～4.8 之間（緩坡）  y=4.46
+  [  53.9s] 到達「空橋博思那一端」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS A2. 走到空橋另一端：出現「進博思教學館」  {'zone': 'putong', 'x': -3.2, 'z': -14.7, 'ry': 3.14, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '進博思教學館', 'hour': 10.14, 'stand': True, 'camYaw': 6.282, 'fallbacks': 0, 'y': 4.8, 'lv': 1, 'frame': 567, 'paused': False}
+PASS A2. 另一端比較高（4.8）  y=4.8
+PASS B. 按「進博思教學館」：換到博思、二樓、站得住  {'zone': 'boya', 'x': -3.2, 'z': 7, 'ry': 3.14, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.16, 'stand': True, 'camYaw': 6.283, 'fallbacks': 0, 'y': 4.8, 'lv': 1, 'frame': 763, 'paused': False}
+  [  62.3s] 到達「博思二樓走廊、往空橋的通道口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS C0. 博思二樓往南看：通道裡沒有門板，4 m 以內沒有不透明的東西擋住（看得到空橋）  None
+  [  67.9s] 到達「博思往空橋的門」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS C1. 博思南牆的玻璃門：出現「走上空橋（往普通教學館）」  {'zone': 'boya', 'x': -3.2, 'z': 8.28, 'ry': -0.0, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '走上空橋（往普通教學館）', 'hour': 10.21, 'stand': True, 'camYaw': 3.142, 'fallbacks': 0, 'y': 4.8, 'lv': 1, 'frame': 1720, 'paused': False}
+PASS C2. 落在空橋博思那一端（普通教學館區域、二樓、站得住、高度約 4.8）  {'zone': 'putong', 'x': -3.2, 'z': -13.8, 'ry': 0, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.24, 'stand': True, 'camYaw': 3.142, 'fallbacks': 0, 'y': 4.72, 'lv': 1, 'frame': 1853, 'paused': False}
+PASS C2. 落在空橋上時鏡頭看得到人物（鏡頭到人物頭部沒有不透明的東西擋住）  None
+  [  83.7s] 到達「普通二樓走廊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+PASS C3. 自己走過整條空橋回到普通二樓走廊  {'zone': 'putong', 'x': -3.2, 'z': -0.05, 'ry': 0, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.3, 'stand': True, 'camYaw': 3.142, 'fallbacks': 0, 'y': 4.2, 'lv': 1, 'frame': 2109, 'paused': False}
+  [  94.2s] 到達「普通二樓東邊的走廊」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS D1. 走到普通二樓東邊的走廊  {'zone': 'putong', 'x': 7.85, 'z': -3.8, 'ry': 2.56, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '坐下', 'hour': 10.37, 'stand': True, 'camYaw': 5.401, 'fallbacks': 0, 'y': 4.2, 'lv': 1, 'frame': 2534, 'paused': False}
+  [ 120.1s] 到達「普通一樓大廳」附近（0.23 m）：點地面 3 次、轉鏡頭 2 次、搖桿 0 次，26 秒
+PASS D2. 走樓梯下到普通一樓大廳  {'zone': 'putong', 'x': -0.05, 'z': 3.78, 'ry': 0.2, 'busy': False, 'pose': 'idle', 'path': 0, 'dlg': False, 'dtext': '', 'choices': 0, 'interact': '', 'hour': 10.55, 'stand': True, 'camYaw': 2.951, 'fallbacks': 0, 'y': 0, 'lv': 0, 'frame': 3428, 'paused': False}
+PASS 劇情自動走路卡住次數 0  0
+PASS 沒有 JS 例外  []
+ALL PASS

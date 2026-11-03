@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "D_B12_skybr",
+  "sha": "ffeec06e0",
+  "kind": "game",
+  "script": "tests/flow_skybridge.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T20:19:19",
+  "end": "2026-11-03T20:21:55",
+  "seconds": 156,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 34,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 29
+  }
+}
