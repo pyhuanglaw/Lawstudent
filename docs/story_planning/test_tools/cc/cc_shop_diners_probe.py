@@ -87,7 +87,8 @@ async def main():
                 await pg.screenshot(path=os.path.join(OUT, f'{z}_{int(h * 100)}.png'))
                 bset = await load(pg, cdp, z, d, wd, h)
                 sig = lambda i: sorted(str(c['key'] or c['crowd']) for c in i.get('cust', []))
-                check(f'{tag}：同一時段讀檔兩次＝同一批人', sig(a) == sig(bset), json.dumps([sig(a), sig(bset)], ensure_ascii=False)[:300])
+                sa, sb = sig(a), sig(bset)   # 不一樣的時候只列差的那幾位，加上兩次取樣的遊戲時間（V19 PC：原本截到 300 字看不到差在哪）
+                check(f'{tag}：同一時段讀檔兩次＝同一批人', sa == sb, json.dumps({'只在第一次': sorted(set(sa) - set(sb)), '只在第二次': sorted(set(sb) - set(sa)), 'hour': [a.get('hour'), bset.get('hour')]}, ensure_ascii=False))
             else:
                 print(f'  {z}：這幾個時段都沒有客人，沒有截圖', flush=True)
         with open(os.path.join(OUT, 'diners.json'), 'w', encoding='utf8') as f: json.dump(allinfo, f, ensure_ascii=False, indent=1)

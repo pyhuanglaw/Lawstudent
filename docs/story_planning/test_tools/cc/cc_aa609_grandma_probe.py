@@ -177,6 +177,8 @@ async def main():
                 for who, nm in (('mom', '媽媽'), ('grandma', '奶奶')):
                     for o in ('land', 'port'):
                         sl = DIMSEEN.get((who, o)); on = [x for x in (sl or []) if x['show'] and x['img']]
+                        if sl is not None and not on and who == 'mom':   # V19 PC：媽媽那一句是這一場的第一句，學姊還沒上台＝台上沒有人可以暗，不算 FAIL（只記錄）
+                            print('INFO ⑦ 媽媽說話時（%s）台上還沒有人（這一場的第一句；學姊下一句才上台）：%s' % (o, J(sl)), flush=True); continue
                         run.check('⑦ %s說話時（%s）學姊還在台上（有圖、沒有 .off）而且變暗（.dim）' % (nm, '橫向' if o == 'land' else '直向'),
                                   bool(on) and all(x['dim'] and not x['off'] for x in on), J(sl))
             run.check('④ 演了 %s（EVENTS.run 叫到、events.done 記上）' % EVID, bool(evi) and await pg.evaluate(EVDONE, EVID), J([e['id'] for e in W['ev']]))
