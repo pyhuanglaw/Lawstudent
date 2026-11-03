@@ -13,6 +13,7 @@ REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None): return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 LIB = arg('--lib', '/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/wt_l2/tools/blender/env_second')
+if not os.path.exists(os.path.join(LIB, 'lib2.py')): LIB = os.path.dirname(HERE)   # PC（工作樹＝second-ai-env-art）用工作樹裡的 lib2
 sys.path.insert(0, LIB)
 import lib2 as L   # noqa: E402
 import cafe_layout as CL   # noqa: E402
