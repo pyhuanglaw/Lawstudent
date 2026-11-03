@@ -1,5 +1,5 @@
 {
- "note": "AA612-SIULAP-1103（AA_612 麵店改燒臘店，企劃線 a3879758c；A 表語彤以外的列，6 個字以上的原句）：遊戲 src 已照表換；企劃源稿（含自動產生的 ladder、msg_pool、msg2_pool、pg_dates、invite_replies、syllabus、heroine_circle 的來源）還是舊句，讀稿、讀稿比對時照這張表換（tools/story/import_guard.py read_fix、tests/alison.js 共用；長的先換）。B 表（語彤）作廢、不在這裡。",
+ "note": "AA612-SIULAP-1103（AA_612 麵店改燒臘店，企劃線 a3879758c；A 表語彤以外的列，6 個字以上的原句；也是語彤句子一部分的不放）：遊戲 src 已照表換；企劃源稿（含自動產生的 ladder、msg_pool、msg2_pool、pg_dates、invite_replies、syllabus、heroine_circle 的來源）還是舊句，讀稿、讀稿比對時照這張表換（tools/story/import_guard.py read_fix、tests/alison.js 共用；長的先換）。B 表（語彤）作廢、不在這裡。",
  "pairs": [
   [
    "（錄音 3:12。電梯的叮、教室椅子收起來的聲音、周教授說「下一個」、麵店阿姨的「不要蔥」，最後是很長的、沒有人的穿堂。）",
@@ -1038,16 +1038,8 @@
    "今天燒臘店我請"
   ],
   [
-   "麵店打烊以後",
-   "公館燒臘打烊以後"
-  ],
-  [
    "吃麵不能斷喔",
    "吃燒臘不能斷喔"
-  ],
-  [
-   "（阿鳳麵店）",
-   "（公館燒臘）"
   ],
   [
    "餛飩湯 40",
@@ -1064,6 +1056,10 @@
   [
    "進入阿鳳麵店",
    "進入公館燒臘"
+  ],
+  [
+   "我請一碗",
+   "我請一個"
   ]
  ]
 }

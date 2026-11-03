@@ -100,7 +100,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   { const th=(t,w,done)=>{ fresh(termDay(t,w,2),21.5,'library',{yutong_hospital:true}); R('heroine_03','FRI'); if(done) G.events.done[done]=1; return EVENTS.check(ev('ev_yutong_thanks')); };
     const mw=(t,w,done)=>{ fresh(termDay(t,w,2),21,'noodle',{}); R('heroine_03','FRI'); if(done) G.events.done[done]=1; return EVENTS.check(ev('ev_yutong_midterm_week')); };
     check('9. ev_yutong_thanks（「……阿姨跟你講了吧。」）：大一下照常；大二上不演',th('Y1S2',10)&&!th('Y2S1',3),J([th('Y1S2',10),th('Y2S1',3)]));
-    check('9. ev_yutong_midterm_week（「大一期中考那週…」）：大一下第 10 週起演；大二上、大二下都不補',mw('Y1S2',10)&&!mw('Y1S2',9)&&!mw('Y2S1',11)&&!mw('Y2S2',3),J([mw('Y1S2',10),mw('Y1S2',9),mw('Y2S1',11),mw('Y2S2',3)]));
+    check('9. ev_yutong_midterm_week（「大一期中考那週…」）：AA_624 拿掉阿姨扭到手＝retired，哪一週都不演',ev('ev_yutong_midterm_week').retired===true&&!mw('Y1S2',10)&&!mw('Y1S2',9)&&!mw('Y2S1',11)&&!mw('Y2S2',3),J([mw('Y1S2',10),mw('Y1S2',9),mw('Y2S1',11),mw('Y2S2',3)]));
     check('9. 互斥：演了一件，另一件不演',!th('Y1S2',10,'ev_yutong_midterm_week')&&!mw('Y1S2',10,'ev_yutong_thanks')); }
   // ===== 第 10 項：芯慈慈 3 =====
   { const xc=async lent=>{ fresh(termDay('Y2S1',12,1)+1,0.5,'cvs',{}); R('classmate_xinci','FAM'); if(lent) SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; picks=[0]; await EVENTS.run(ev('ev_xinci_second')); return said.map(s=>s.t); };
