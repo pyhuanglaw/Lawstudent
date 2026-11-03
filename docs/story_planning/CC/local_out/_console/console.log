@@ -1,22 +1,20 @@
-[19:36:43] run_forever round: 1   runner sha256: 02a9caf4ba
-[19:36:43] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[19:36:43]          playwright 1.64.1 OK
-[19:36:44] git    : git version 2.56.0.windows.4
-[19:36:45] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[19:36:45] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[19:36:45] repo   : C:\Users\USER\Documents\Lawstudent
-[19:36:45] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[19:36:45] parallel: 2  (blender items run alone)
-[19:36:45] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[19:36:46] git fetch
+[19:44:01] run_forever round: 2   runner sha256: 3ef8d2df55
+[19:44:01] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[19:44:01]          playwright 1.64.1 OK
+[19:44:01] git    : git version 2.56.0.windows.4
+[19:44:01] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[19:44:01] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[19:44:01] repo   : C:\Users\USER\Documents\Lawstudent
+[19:44:01] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[19:44:01] parallel: 2  (blender items run alone)
+[19:44:01] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[19:44:02] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
-       0939186e7..746f7e1af  claude/cc-testing -> origin/claude/cc-testing
-       e79973830..578f5a0d4  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
-       9d8af03e4..79ab8efba  claude/second-ai-env-art -> origin/claude/second-ai-env-art
+       79ab8efba..b12d3bb5d  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -41,125 +39,9 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_main_pass.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_route_grades_retake.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
-    Your branch is ahead of 'origin/claude/cc-local' by 6 commits.
-      (use "git push" to publish your local commits)
+    Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Merge made by the 'ort' strategy.
-     ...272\244\346\216\245\347\264\200\351\214\204.md" |  12 +
-     docs/story_planning/CC/CC_39_D_B02_PC.md           |  34 +
-     ...250\202\345\231\250\345\256\244\345\205\247.md" |  67 ++
-     ...220\203\351\236\213\345\256\244\345\205\247.md" |  78 ++
-     ...201\213\345\213\225\345\256\244\345\205\247.md" |  78 ++
-     ...273\243\345\240\264\345\256\244\345\205\247.md" |  48 ++
-     .../CC/logs/eat_d231/eat_fix_d231.log              |  81 ++
-     .../CC/shots/b02/01_A_after_talk.png               | Bin 0 -> 78944 bytes
-     .../story_planning/CC/shots/b02/04_D_find_goal.png | Bin 0 -> 265362 bytes
-     .../test_tools/cc/cc_aa609_grandma_probe.py        | 210 +++++
-     .../test_tools/cc/cc_camp608_common.py             |  43 +
-     .../test_tools/cc/cc_camp608_probe.py              |  20 +-
-     .../test_tools/cc/cc_camp_oldsave_probe.py         |  17 +-
-     .../test_tools/cc/cc_friends606_probe.py           |  18 +-
-     .../test_tools/cc/cc_gym_shot_probe.py             |  13 +-
-     .../test_tools/cc/cc_kexin_hsr_probe.py            |  18 +-
-     .../test_tools/cc/cc_phone_unmet_probe.py          |  21 +-
-     .../test_tools/cc/cc_playfix_probe.py              | 253 ++++++
-     src/data/dabu_layout.js                            |  81 ++
-     src/data/haopai_layout.js                          |  69 ++
-     src/data/tongxian_layout.js                        |  62 ++
-     src/data/xinsheng_sports_layout.js                 |  89 +++
-     .../env_second/bb_support/cc_wip/dabu_run_final.sh |   7 +
-     .../env_second/bb_support/cc_wip/dabu_views.json   |   5 +
-     .../env_second/bb_support/cc_wip/render_tx.py      |  39 +
-     .../env_second/bb_support/cc_wip/run_build.sh      |   5 +
-     .../bb_support/cc_wip/tongxian_views.json          |   6 +
-     .../bb_support/cc_wip/xinsheng_views.json          |   5 +
-     .../env_second/bb_support/cc_wip/xs_nav_check.js   |  34 +
-     .../blender/env_second/bb_support/dabu_interior.py | 736 +++++++++++++++++
-     .../env_second/bb_support/haopai_interior.py       | 787 +++++++++++++++++++
-     tools/blender/env_second/bb_support/haopai_tex.py  | 196 +++++
-     .../env_second/bb_support/tongxian_interior.py     | 873 +++++++++++++++++++++
-     .../blender/env_second/bb_support/tongxian_tex.py  | 338 ++++++++
-     .../bb_support/xinsheng_sports_interior.py         | 815 +++++++++++++++++++
-     .../env_second/textures/gen/haopai_alpha.png       | Bin 0 -> 14047 bytes
-     .../env_second/textures/gen/haopai_atlas.json      | 146 ++++
-     .../env_second/textures/gen/haopai_emit.png        | Bin 0 -> 1734 bytes
-     .../env_second/textures/gen/haopai_goods.png       | Bin 0 -> 125469 bytes
-     .../env_second/textures/gen/tongxian_atlas.json    | 486 ++++++++++++
-     .../env_second/textures/gen/tongxian_guitar.png    | Bin 0 -> 357278 bytes
-     .../env_second/textures/gen/tongxian_props.png     | Bin 0 -> 545922 bytes
-     .../textures/gen/tongxian_props_emit.png           | Bin 0 -> 71328 bytes
-     tools/cc_local/queue.txt                           | 130 +--
-     tools/cc_local/run_queue.py                        |  15 +-
-     45 files changed, 5858 insertions(+), 77 deletions(-)
-     create mode 100644 docs/story_planning/CC/CC_39_D_B02_PC.md
-     create mode 100644 "docs/story_planning/CC/CC_40_\345\220\214\345\274\246\346\250\202\345\231\250\345\256\244\345\205\247.md"
-     create mode 100644 "docs/story_planning/CC/CC_41_\345\244\247\346\255\245\347\220\203\351\236\213\345\256\244\345\205\247.md"
-     create mode 100644 "docs/story_planning/CC/CC_42_\345\245\275\346\213\215\351\201\213\345\213\225\345\256\244\345\205\247.md"
-     create mode 100644 "docs/story_planning/CC/CC_43_\346\226\260\347\224\237\351\201\213\345\213\225\345\273\243\345\240\264\345\256\244\345\205\247.md"
-     create mode 100644 docs/story_planning/CC/logs/eat_d231/eat_fix_d231.log
-     create mode 100644 docs/story_planning/CC/shots/b02/01_A_after_talk.png
-     create mode 100644 docs/story_planning/CC/shots/b02/04_D_find_goal.png
-     create mode 100644 docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py
-     create mode 100644 docs/story_planning/test_tools/cc/cc_playfix_probe.py
-     create mode 100644 src/data/dabu_layout.js
-     create mode 100644 src/data/haopai_layout.js
-     create mode 100644 src/data/tongxian_layout.js
-     create mode 100644 src/data/xinsheng_sports_layout.js
-     create mode 100755 tools/blender/env_second/bb_support/cc_wip/dabu_run_final.sh
-     create mode 100644 tools/blender/env_second/bb_support/cc_wip/dabu_views.json
-     create mode 100644 tools/blender/env_second/bb_support/cc_wip/render_tx.py
-     create mode 100755 tools/blender/env_second/bb_support/cc_wip/run_build.sh
-     create mode 100644 tools/blender/env_second/bb_support/cc_wip/tongxian_views.json
-     create mode 100644 tools/blender/env_second/bb_support/cc_wip/xinsheng_views.json
-     create mode 100644 tools/blender/env_second/bb_support/cc_wip/xs_nav_check.js
-     create mode 100644 tools/blender/env_second/bb_support/dabu_interior.py
-     create mode 100644 tools/blender/env_second/bb_support/haopai_interior.py
-     create mode 100644 tools/blender/env_second/bb_support/haopai_tex.py
-     create mode 100644 tools/blender/env_second/bb_support/tongxian_interior.py
-     create mode 100644 tools/blender/env_second/bb_support/tongxian_tex.py
-     create mode 100644 tools/blender/env_second/bb_support/xinsheng_sports_interior.py
-     create mode 100644 tools/blender/env_second/textures/gen/haopai_alpha.png
-     create mode 100644 tools/blender/env_second/textures/gen/haopai_atlas.json
-     create mode 100644 tools/blender/env_second/textures/gen/haopai_emit.png
-     create mode 100644 tools/blender/env_second/textures/gen/haopai_goods.png
-     create mode 100644 tools/blender/env_second/textures/gen/tongxian_atlas.json
-     create mode 100644 tools/blender/env_second/textures/gen/tongxian_guitar.png
-     create mode 100644 tools/blender/env_second/textures/gen/tongxian_props.png
-     create mode 100644 tools/blender/env_second/textures/gen/tongxian_props_emit.png
-[19:37:01] dev head = 578f5a0d4   lawww2 head = 79ab8efba
-[19:37:03] killed leftover test browser pid 424: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:03] killed leftover test browser pid 30880: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:04] killed leftover test browser pid 3304: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:04] killed leftover test browser pid 31444: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:04] killed leftover test browser pid 14296: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:05] killed leftover test browser pid 5448: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:05] killed leftover test browser pid 4572: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:05] killed leftover test browser pid 10280: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:06] killed leftover test browser pid 14288: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:06] killed leftover test browser pid 16724: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
-[19:37:06] INTERRUPTED last round: FS112 (started 2026-11-03T17:44:29, last log change 2026-11-03T19:37:04) - it will run again from the start
-[19:37:06] config.txt: PARALLEL 2 -> 3
-[19:37:06] memory used: 47%  (new items wait while >= 85%)
-[19:37:11] queue: V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
-[19:37:11] memory 47% before starting V18R_deploy (0 running)
-[19:37:11] memory 47% before starting V18R_p0 (1 running)
-[19:37:11] ==== START V18R_deploy  (game @ 0776cafc8) ====
-[19:37:11] memory 47% before starting V18R_v7 (2 running)
-[19:37:11] ==== START V18R_p0  (game @ 0776cafc8) ====
-[19:37:11] ==== START V18R_v7  (game @ 0776cafc8) ====
-[19:37:14] [res] cpu=29% mem=48% (15.0/31.4 GB) chrome_testing=0  START V18R_v7
-[19:37:14] [res] cpu=28% mem=48% (15.0/31.4 GB) chrome_testing=0  START V18R_deploy
-[19:37:14] [res] cpu=28% mem=48% (15.0/31.4 GB) chrome_testing=0  START V18R_p0
-[19:41:29] [res] cpu=93% mem=64% (20.3/31.4 GB) chrome_testing=12  END V18R_deploy
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b3103a68d..73369fe69  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:41:37] ==== END   V18R_deploy  exit=0  258s   ====
-[19:41:49] [res] cpu=59% mem=58% (18.1/31.4 GB) chrome_testing=9  END V18R_p0
-[19:41:57] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       73369fe69..ebb055a19  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:42:04] ==== END   V18R_p0  exit=0  278s   ====
-[19:42:11] 正在跑：V18R_v7（已跑 5 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:43:54] [res] cpu=54% mem=50% (15.8/31.4 GB) chrome_testing=0  END V18R_v7
+    Already up to date.
+[19:44:18] dev head = 578f5a0d4   lawww2 head = b12d3bb5d
+[19:44:20] config.txt: PARALLEL 2 -> 3
+[19:44:20] memory used: 49%  (new items wait while >= 85%)
