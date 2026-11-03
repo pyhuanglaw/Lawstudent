@@ -1,0 +1,18 @@
+bb_onetap_flow_probe  SHA=b1ae1c390  CASES=['sleep']  URL=http://127.0.0.1:8793/index.html
+PASS 遊戲載入
+  [前置／捷徑] 最小存檔 2025-09-22（星期一）22.00 時 campus（條件事件照開）
+PASS sleep 22:00「回去睡覺」可以按  [{"k": "sleep", "dim": false, "t": "回去睡覺 / 宿舍 203（爬上床直接睡）"}, {"k": "cls", "dim": true, "t": "到下一堂課的教室 / 今天的課已經上完了"}, {"k": "date", "dim": true, "t": "到下一個約會地點 / 今天沒有約"}]
+  [  52.6s] S1 框出現到按下確定：1996 ms
+  [  52.6s] S1 不算數：探針按得太慢（1996 ms ≥ 450），雲端 SwiftShader 做不到；防誤觸交 Node onetap_unit／PC
+  [  52.6s] S1 已經出發了：回到校園重來 S2
+  [前置／捷徑] 最小存檔 2025-09-22（星期一）22.00 時 campus（條件事件照開）
+PASS S2 點確認框外面＝取消（框關掉、還在校園、時間沒跳）  {"day": 6, "h": 22.011, "zone": "campus", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": [], "fb": 0}
+PASS S3 等 1 秒再按「確定」：框關掉、開始走  {"day": 6, "h": 22.017, "zone": "campus", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": [], "fb": 0}
+  [ 994.9s] sleep：900 秒內沒有到 {"day": 6, "h": 23.239, "zone": "campus", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": [], "fb": 0}
+  [ 994.9s] sleep 經過：[{"zone": "campus", "day": 6, "h": 22.05, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.152, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.251, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.35, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.452, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.551, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.651, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.75, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.851, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 22.951, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 23.05, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "campus", "day": 6, "h": 23.151, "pose": "idle", "name": "", "txt": "", "ch": []}]
+FAIL S4 到宿舍 203、上床睡著、隔天早上在宿舍醒來（day+1、04～11 點）  null
+FAIL S4 中間真的睡了（STORY._sleeping 出現過）  null
+FAIL S4 walkFallbacks 0（沒有走不過去被直接放到目的地）  null
+PASS 沒有 JS 例外  []
+SHA b1ae1c390
+FAILED: S4 到宿舍 203、上床睡著、隔天早上在宿舍醒來（day+1、04～11 點）, S4 中間真的睡了（STORY._sleeping 出現過）, S4 walkFallbacks 0（沒有走不過去被直接放到目的地）

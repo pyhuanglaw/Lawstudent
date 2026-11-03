@@ -96,19 +96,34 @@ async def follow(pg, cdp, run, until, max_s, label, tag):
 async def case_sleep(pg, cdp, run):
     d = await load(pg, run, '2025-09-22', 22.0, 'campus', {'x': 30, 'z': -60, 'yaw': 0}); await calm(pg, cdp)
     s0 = await pg.evaluate(TS)
+    await pg.evaluate("""(()=>{ const box=document.getElementById('goConfirm'), y=document.getElementById('goCfYes'); window.__OTT={shown:box.classList.contains('hide')?null:performance.now(),tap:null};
+      new MutationObserver(()=>{ if(!box.classList.contains('hide')&&window.__OTT.shown==null) window.__OTT.shown=performance.now(); }).observe(box,{attributes:true});
+      y.addEventListener('touchstart',()=>{ if(window.__OTT.tap==null) window.__OTT.tap=performance.now(); },{capture:true}); })()""")
     items, it = await open_item(pg, cdp, 'sleep')
     run.check('sleep 22:00「回去睡覺」可以按', bool(it) and not it['dim'], J(items))
-    await pg.wait_for_timeout(150); await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)   # 一跳出來就按（防誤觸）
+    # 防誤觸：量「框出現」到「手指按下確定」的時間（頁面裡的 performance.now）；超過 0.45 秒＝探針太慢、這一項不算數
+    yc = await L.center_of(pg, '#goCfYes')
+    if yc: await L.touch_tap(cdp, yc[0], yc[1])
+    await pg.wait_for_timeout(1500)
+    tt = await pg.evaluate("(()=>window.__OTT)()"); gap = (tt['tap'] - tt['shown']) if tt and tt.get('tap') is not None and tt.get('shown') is not None else None
     s1 = await pg.evaluate(TS)
-    run.check('S1 防誤觸：確認框剛跳出來就按「確定」不算（還在原地、框還開著）', s1['zone'] == 'campus' and s1['cf'] and abs(s1['h'] - s0['h']) < 0.2, J(s1))
+    run.note('S1 框出現到按下確定：%s ms' % (None if gap is None else round(gap)))
+    if gap is not None and gap < 450:
+        run.check('S1 防誤觸：確認框剛跳出來（%d ms）就按「確定」不算（還在原地、框還開著）' % gap, s1['zone'] == 'campus' and s1['cf'] and abs(s1['h'] - s0['h']) < 0.2, J(s1))
+    else:
+        run.note('S1 不算數：探針按得太慢（%s ms ≥ 450），雲端 SwiftShader 做不到；防誤觸交 Node onetap_unit／PC' % (None if gap is None else round(gap)))
+        if not s1['cf']: run.note('S1 已經出發了：回到校園重來 S2'); await load(pg, run, '2025-09-22', 22.0, 'campus', {'x': 30, 'z': -60, 'yaw': 0}); await calm(pg, cdp); s0 = await pg.evaluate(TS); await open_item(pg, cdp, 'sleep'); await pg.wait_for_timeout(1200)
     await pg.screenshot(path=os.path.join(OUT, 'sleep_confirm.png'))
     await L.touch_tap(cdp, 20, 20); await pg.wait_for_timeout(1200)   # 框外
     s2 = await pg.evaluate(TS)
     run.check('S2 點確認框外面＝取消（框關掉、還在校園、時間沒跳）', not s2['cf'] and s2['zone'] == 'campus' and abs(s2['h'] - s0['h']) < 0.3, J(s2))
-    items, it = await open_item(pg, cdp, 'sleep'); await pg.wait_for_timeout(1200)
+    items, it = await open_item(pg, cdp, 'sleep')
+    run.check('S3 前：讀檔以後再開選單，「回去睡覺」照樣可以按（不能卡在「正在前往」）', bool(it) and not it['dim'], J(items))
+    await pg.wait_for_timeout(1200)
+    cf_open = (await pg.evaluate(TS))['cf']
     await L.tap(pg, cdp, '#goCfYes'); await pg.wait_for_timeout(1500)
     s3 = await pg.evaluate(TS)
-    run.check('S3 等 1 秒再按「確定」：框關掉、開始走', not s3['cf'], J(s3))
+    run.check('S3 等 1 秒再按「確定」：確認框真的有開、按了以後關掉', cf_open and not s3['cf'], J({'cf_open': cf_open, 's3': s3}))
     fin, trail = await follow(pg, cdp, run, lambda s: s['day'] == d['d'] + 1 and 4 <= s['h'] < 12 and s['zone'] == 'dorm' and not s['dlg'] and not s['busy'], 900, 'sleep', 'sleep')
     run.note('sleep 經過：%s' % J(trail[-12:]))
     await pg.screenshot(path=os.path.join(OUT, 'sleep_morning.png'))
