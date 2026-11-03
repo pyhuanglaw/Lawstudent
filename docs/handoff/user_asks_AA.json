@@ -776,6 +776,16 @@
    "task": "OPENING-INVITE-1103",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "AA_613 已寫；待 LAWWW 開任務、整合"
+  },
+  {
+   "id": "UA-AA-1103-44",
+   "at": "2026-11-03",
+   "quote": "有在打工的同學也不是只有我啊 要可以遇到同學約什麼不能來因為在打工",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "CLASSMATE-JOBS-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_614 已寫；待 LAWWW 開任務、整合"
   }
  ]
 }
