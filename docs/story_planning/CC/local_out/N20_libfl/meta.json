@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N20_libfl",
+  "sha": "d2b962a3f",
+  "kind": "game",
+  "script": "tests/flow_library_floors.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-04T07:18:03",
+  "end": "2026-11-04T07:23:45",
+  "seconds": 342,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 76,
+    "mem": 63,
+    "used_gb": 19.8,
+    "chrome_testing": 26
+  }
+}
