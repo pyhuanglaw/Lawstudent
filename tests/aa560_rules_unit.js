@@ -30,7 +30,7 @@ check('0. 讀得到 AA_560 第 2-7 節（企劃線 '+SHA+'）、資料檔載得�
 
 /* C3 柏翰志向（資料欄位）*/
 { const B=CHARACTERS.classmate_bohan;
-  check('C3. 柏翰 career_goal「研究所」（原「司法官」）；稿上那一句',SEC.includes('C3：柏翰 `characters.js` 志向 →「研究所」')&&B.career_goal==='研究所'&&B.name==='許柏翰'&&B.year===1,J(B.career_goal)); }
+  check('C3. 柏翰 career_goal「研究所」（原「司法官」）；稿上那一句',SEC.includes('C3：柏翰 `characters.js` 志向 →「研究所」')&&B.career_goal==='研究所'&&B.name==='柏翰'&&B.fullname==='許柏翰'&&B.year===1,J(B.career_goal)); }
 
 /* C4 芯慈：畢業照片、needed_msgs 那一句 */
 { const pg=file('src/data/postgrad_lines.js');

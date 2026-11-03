@@ -13,6 +13,7 @@
 //   6  AA 對 AA_584 的補充：sis3h、修正本私訊、family_context、us208 沒有 heardClip
 //   7  AA 2026-11-02 20:26 定稿：選課分支 a、告白「收進口袋」不重複、confess_lines 拿掉「你上次說的，我有記得。」、爸爸（THERMOS.father／fatherGrad）舊存檔旗標不壞、sis_no_three 例外
 // 修改前（int/m590 0e11c43a3，實測）：46 項 FAIL、7 項 PASS（讀稿、表的列數、沒改的第 183 列、照舊的兩條路線：訪談沒交往／選原子筆、祐廷先說的期末飯與大峽谷交往）。用法：node tests/aa591_sis_b4_unit.js
+// AA_609（使用者 2026-11-03：學姊的爸爸改成奶奶）：第 2 節的她爸爸的晚餐、208 剪報、出來走一圈的剪報段、第 7 節的 fatherGrad 改成她奶奶恢復——這裡改成驗「不 retired、沒有爸」，細節在 tests/aa609_sis_grandma_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -62,7 +63,8 @@ await sec(1,()=>{
   const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(inGame(r.nw)||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡',!miss.length,J(miss));
   /* 換掉的原句不在遊戲裡：原句是別人的句子、到處都有的短句（「……好。」「好。」「過了。」「……謝謝。」等）、原句是改成的一部分、retired 的定義留著的除外 */
-  const RET=new Set(['23','24','25','199','200','201','202','203','206','207','208','209','210','211','212','213','214','215','216','193']);
+  /* 194～198、222～225：AA_609（使用者 2026-11-03）改成她奶奶恢復，原句（不含爸的那幾句）回到遊戲 */
+  const RET=new Set(['194','195','196','197','198','222','223','224','225','23','24','25','199','200','201','202','203','206','207','208','209','210','211','212','213','214','215','216','193']);
   const shortOrShared=r=>r.old.length<=6||['9','17','22','37','52','53','57','58','75','78','85','86','95','103','117','126','142','154','172','175','205','218'].includes(r.n);
   const still=num.filter(r=>!SUP600.has(r.n)&&!RET.has(r.n)&&!shortOrShared(r)&&r.old!==r.nw&&!r.nw.includes(r.old)&&inGame(r.old)).map(r=>'#'+r.n+' '+r.old);
   check('1. 換掉的原句不在遊戲裡（註解、retired 的定義、到處都有的短句除外）',!still.length,J(still));
@@ -84,32 +86,17 @@ await sec(1,()=>{
 /* ---------- 2 retired ---------- */
 await sec(2,async()=>{
   const y4=ev('ev_sis_adv_y4'), fa=ev('ev_sis_y4_father'), cl=ev('ev_us208_clipping');
-  check('2. 三場 retired（寫了 AA_591）、定義留給舊存檔：你的大四、她爸爸的晚餐、208 剪報',!!y4&&!!fa&&!!cl&&/AA_591/.test(String(y4.retired))&&/AA_591/.test(String(fa.retired))&&/AA_591/.test(String(cl.retired)),J([y4&&y4.retired,fa&&fa.retired,cl&&cl.retired]));
+  /* AA_609（使用者 2026-11-03「學姊的爸爸可以都用奶奶取代嗎？」）：她爸爸的晚餐（決1）、208 剪報（決2）、出來走一圈的剪報段（決3）、畢業典禮的 fatherGrad 改成她奶奶、恢復——
+     那幾場的驗法搬到 tests/aa609_sis_grandma_unit.js；這裡只留「你的大四」retired，和她奶奶那幾場的 retired 拿掉、沒有「爸」 */
+  check('2. 你的大四 retired（寫了 AA_591）、定義留給舊存檔；她奶奶的晚餐、208 剪報 AA_609 恢復（不 retired）',!!y4&&!!fa&&!!cl&&/AA_591/.test(String(y4.retired))&&!fa.retired&&!cl.retired,J([y4&&y4.retired,fa&&fa.retired,cl&&cl.retired]));
   /* 你的大四：原本大三下第 11 週（5/2）在總圖跟她說話（熟悉）＝接演 */
   setup('2028-05-02',10,'library','FAMILIAR',{EXCHANGE_ROUTE:'TW'});
   const p=typeof SISB4!=='undefined'&&SISB4.preTalkEv?SISB4.preTalkEv(H.G):'(no SISB4)';
   check('2. 你的大四：大三下第 11 週在總圖找她說話不再接演（preTalkEv 不回 ev_sis_adv_y4）',p!=='ev_sis_adv_y4'&&p!=='(no SISB4)',J(p));
   check('2. 你的大四：EVENTS.check 也不演',EVENTS.check(y4)===false);
-  /* 她爸爸的晚餐 */
-  check('2. 她爸爸的晚餐：EVENTS.check 不演；R3 排程清單照跑但 3/14 21:00 不傳邀約、不排 3/17 的出遊',EVENTS.check(fa)===false);
-  { const G=setup('2029-03-14',21.5,'dorm','CLOSE',{EXCHANGE_ROUTE:'TW'}); H.date(ID); G.contacts[ID]=G.day-300; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,ID);
-    if(typeof R3!=='undefined'&&R3.father) R3.father(G); const ms=(G.msgs||[]).map(m=>m.text);
-    check('2. 3/14 21:30（交往中）：沒有「我爸週六會過來，他要請吃飯。」，SIS_FATHER_ASKED 沒記、沒有出遊 r3_sis_father',!ms.some(t=>/我爸/.test(t))&&G.flags.SIS_FATHER_ASKED==null&&!(G.outings||[]).some(q=>q.id==='r3_sis_father'),J(ms)); }
-  { const G=setup('2029-03-17',12,'dorm','CLOSE'); H.date(ID); G.outings=[{id:'r3_sis_father',ev:'ev_sis_y4_father',day:G.day,h:18.5,state:'planned'}];
-    if(typeof R3!=='undefined'&&R3.father) R3.father(G);
-    check('2. 舊存檔已經排好 3/17 那一趟：取消（state missed），不演、不傳訊息',G.outings[0].state==='missed'&&!(G.msgs||[]).some(m=>/我爸/.test(m.text)),J(G.outings)); }
-  { const G=setup('2029-03-14',21,'dorm','CLOSE'); H.date(ID); const L=await runEv('ev_sis_y4_desks',[0]);
-    check('2. 3/14 書桌夜（第 206～209 列）：照一般的書桌夜演，沒有爸爸那一段、沒有「那天不行。」選項',!L.some(t=>/我爸|公館|穿太正式|我跟他說/.test(t))&&!H.opts.some(o=>o.includes('「那天不行。」'))&&L.some(t=>/第四章　第二節/.test(t)),J(L)); }
-  check('2. 畢業典禮（第 222～225 列）：THERMOS 沒有 father、fatherGrad；PG 沒有 fatherGradDue；social3d 的 MET_SIS_FATHER 名稱不提爸爸',POSTGRAD_LINES.THERMOS.father===undefined&&POSTGRAD_LINES.THERMOS.fatherGrad===undefined&&typeof PG.fatherGradDue==='undefined'&&SOCIAL.MEMORY_LABEL&&!/爸/.test(SOCIAL.MEMORY_LABEL.MET_SIS_FATHER||'x'),J(SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL.MET_SIS_FATHER));
-  { const G=setup('2029-06-02',12,'campus','CLOSE'); H.date(ID); G.flags.MET_SIS_FATHER=true; G.flags.SIS_FATHER_ASKED='face'; H.said=[]; H.picks=[0,0,0];
-    await PG.thermos(GM); const L=said();
-    check('2. 舊存檔記了 MET_SIS_FATHER／SIS_FATHER_ASKED 的：畢業典禮也沒有她爸爸、沒有「我爸叫我跟你說：恭喜。」',!L.some(t=>/爸/.test(t))&&L.includes('恭喜畢業。'),J(L)); }
-  /* 208 剪報 */
-  check('2. 208：六場（3-1、3-2、3-4～3-7），沒有 3-3；沒有 S.heardClip；私訊句「臺灣寄來的東西到了。」不會傳',US208.SCENES.length===6&&!US208.SCENES.some(s=>s.ev==='ev_us208_clipping')&&J(US208.SCENES.map(s=>s.n))===J(['3-1','3-2','3-4','3-5','3-6','3-7'])&&typeof US208.heardClip==='undefined'&&!inAny('臺灣寄來的東西到了。'));
-  check('2. 208 剪報：EVENTS.check 不演；記憶名稱改成「臺灣寄來的信封」（舊存檔）',EVENTS.check(cl)===false&&SOCIAL.MEMORY_LABEL.US208_CLIPPING==='臺灣寄來的信封'&&!inAny('我爸寄的。')&&!inAny('他還是一個字都沒寫。'));
-  /* 出來走一圈 */
+  check('2. 她奶奶的晚餐、208 剪報、出來走一圈（AA_609）：台詞沒有「爸」',![fa,cl,ev('ev_sis13_walk')].some(e=>/爸/.test(J(e.dialogue))));
   { const D=ev('ev_sis13_walk').dialogue, T=D.filter(l=>l.text).map(l=>l.text), i=T.indexOf('咖哩的「適量」，我改成兩匙了。我自己決定的。');
-    check('2. 出來走一圈（決3，第 194～198 列）：咖哩那一句後面直接接「好。可以回去寫了。」；沒有剪報、沒有選項「他在關心妳。」',i>=0&&T[i+1]==='好。可以回去寫了。'&&!J(D).includes('剪報')&&!J(D).includes('他在關心妳'),J(T.slice(i,i+3)));
+    check('2. 出來走一圈（決3 第 194～198 列，AA_609 第 5 節恢復成她奶奶）：咖哩那一句後面接「我奶奶寄了一份剪報給我。……」；沒有「他在關心妳。」',i>=0&&/^我奶奶寄了一份剪報給我。/.test(T[i+1])&&!J(D).includes('他在關心妳'),J(T.slice(i,i+3)));
     check('2. 私密話題名稱不提爸爸（privtalk3d.js sis13_walk）',/topic:'學姊論文卡住出來走一圈'/.test(RAW['src/privtalk3d.js']||fs.readFileSync(path.join(H.ROOT,'src/privtalk3d.js'),'utf8'))&&!/學姊爸爸的剪報/.test(fs.readFileSync(path.join(H.ROOT,'src/privtalk3d.js'),'utf8'))); }
 });
 
@@ -187,7 +174,7 @@ await sec(6,()=>{
   check('6. 動態 sis3h：祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」；「刪了二十頁？」不在',src.includes("dm:['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。']")&&!src.includes('刪了二十頁？')&&(!s3||J(s3.dm)===J(['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'])));
   check('6. 修正本私訊：「修正本印好了。」「多印了一本。……你說過要的。」；沒有「一本給我爸了」',J(SISB13_LINES.thesisMsg)===J(['修正本印好了。','多印了一本。……你說過要的。'])&&!inAny('一本給我爸了'),J(SISB13_LINES.thesisMsg));
   check('6. 人物卡 family_context：「媽媽是公務員，期待她考司法官」（不寫爸爸）',CHARACTERS.heroine_05.family_context==='媽媽是公務員，期待她考司法官',CHARACTERS.heroine_05.family_context);
-  check('6. us208：沒有 heardClip（3-3 整場刪，七場變六場）',typeof US208.heardClip==='undefined'&&!/heardClip/.test(RAW['src/us208_3d.js']||''));
+  check('6. us208：3-3 剪報 AA_609 恢復成她奶奶（七場）、heardClip 回來；驗法在 tests/aa609_sis_grandma_unit.js',US208.SCENES.length===7&&typeof US208.heardClip==='function');
 });
 
 /* ---------- 7 AA 2026-11-02 20:26 定稿（LAWWW 追加）---------- */
@@ -201,7 +188,7 @@ await sec(7,async()=>{
   { const a=CONFESS_LINES[ID].yes({flags:{SIS_DECLINED_PREEXAM:{day:1}}}), b=CONFESS_LINES[ID].yes({flags:{}});
     check('7. confess_lines 學姊答應：婉拒過的也沒有「你上次說的，我有記得。」（照 AA_254 第 3 節作廢），其餘照留',J(a)===J(['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。','好。'])&&J(a)===J(b)&&!inAny('你上次說的，我有記得。'),J(a)); }
   for(const fl of [{MET_SIS_FATHER:'grad'},{MET_SIS_FATHER:true},{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false},{SIS_FATHER_ASKED:'face',SIS_FATHER_GO:true}]){ setup('2029-06-02',12,'campus','CLOSE',fl); H.date(ID); H.said=[]; H.picks=[0,0]; let err=null; try{ await PG.thermos(GM); }catch(e){ err=String(e); }
-    const L=said(); check('7. 舊存檔旗標 '+J(fl)+'：畢業典禮保溫瓶照演、沒有她爸爸、不丟例外；SIS_THERMOS 照記',!err&&!L.some(x=>/爸/.test(x))&&L.includes('恭喜畢業。')&&H.G.flags.SIS_THERMOS===true&&POSTGRAD_LINES.THERMOS.father===undefined&&POSTGRAD_LINES.THERMOS.fatherGrad===undefined&&typeof PG.fatherGrad==='undefined'&&typeof PG.fatherGradDue==='undefined',J({err,L})); }
+    const L=said(); check('7. 舊存檔旗標 '+J(fl)+'：畢業典禮保溫瓶照演、沒有她爸爸、不丟例外；SIS_THERMOS 照記（AA_609：MET_SIS_FATHER true＋交往中＝她奶奶先來說畢業快樂；THERMOS.father 照舊沒有）',!err&&!L.some(x=>/爸/.test(x))&&L.includes('恭喜畢業。')&&H.G.flags.SIS_THERMOS===true&&POSTGRAD_LINES.THERMOS.father===undefined&&(L[0]==='（典禮結束，學姊身邊站著她奶奶。）')===(fl.MET_SIS_FATHER===true),J({err,L})); }
   { const src=fs.readFileSync(path.join(H.ROOT,'tests/sis_no_three_unit.js'),'utf8');
     check('7. sis_no_three 例外：第 65 列「這學期，還有一件事沒做完。」、第 69 列「還有一件事。」在允許清單（AA_590 收的，AA 20:26 確認）',src.includes("'還有一件事。':'學姊（AA_590 第 69 列")&&src.includes("'這學期，還有一件事沒做完。':'學姊（AA_590 第 65 列")); }
 });

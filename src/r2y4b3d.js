@@ -150,7 +150,7 @@ const R2Y4B=(function(){
     if(G.day>D.dl&&F.SPRING_Y4==null&&(PHONE.sent(G,'y4_spring_grp')||PHONE.sent(G,'y4_spring_kx'))) S.springChoose(GM||G,'none',{silent:true});
     if(dating(G,'heroine_03')&&PHONE.sent(G,'y4_spring_grp')&&at(G,SP.d0,18)&&G.day<=D.d1) PHONE.at(G,D.d0,18,[P_('heroine_03','看到群組了。……店裡今天很空。')],'y4_spring_yt'); };   /* 和語彤交往中：她春假照樣顧店（AA_71 2-10）*/
   S.springCarDue=G=>{ const D=SPD(); return G.flags.SPRING_Y4==='noodle'&&G.day===D.eve&&hh(G)>=20&&!G.flags.Y4_SPRING_CAR; };
-  S.springCar=async function(GM){ GM.G.flags.Y4_SPRING_CAR=true; await scene(GM,async()=>{ await GM.say(null,'（你回家把車開出來。）'); }); return true; };   /* 4/2 晚上 */
+  S.springCar=async function(GM){ GM.G.flags.Y4_SPRING_CAR=true; return true; };   /* AA_599 補（BB 11-03、AA 定字）：「（你回家把車開出來。）」刪掉，只記旗標（開車從宿舍出發，不寫取車）*/   /* 4/2 晚上 */
 
   /* ===================== 2-Y4-36 沛珊 P6 公開課（4/12 21:00 私訊、4/14 14:00 台南）===================== */
   S.psReconnected=G=>{ const F=G.flags||{}; return !!F.PS_RECONNECT||F.PS_BACK_FIRST!=null||typeof F.PS_BACK_READ==='number'; };   /* 放榜以後重新聯絡上（AA_282 第 2 節；玩家先傳過訊息）*/
