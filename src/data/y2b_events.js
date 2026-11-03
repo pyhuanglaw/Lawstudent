@@ -44,7 +44,7 @@ const Y2B_EVENTS=(function(){
 
   /* ---- 1B-02 語彤事件 8「買賣不破租賃」：下課後（手機，要有她的聯絡方式；課堂那一段在 y2b3d.js，演過記 Y2B_LEASE_DAY）---- */
   const LEASE_TEXT={ id:'ev_yt_lease_text', title:'買賣不破租賃', participants:[], location:'any', trigger:'manual', afterClass:'oblig_spec', classFirst:true, once:true, term:['Y2S2'], weeks:[6], background:'blur',
-    prereq:{custom:G=>G.flags.Y2B_LEASE_DAY===G.day&&knows('heroine_03',G)&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')},
+    prereq:{custom:G=>G.flags.Y2B_LEASE_DAY===G.day&&knows('heroine_03',G)&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')&&has('heroine_03','RENT_RUMOR')},   /* AA_643 第 3 節：沒聽過事件 6（沒有 RENT_RUMOR）＝不出「傳訊息給語彤」、不記 LAW_MEETS_LIFE */
     /* AA_625 第 8 節（YT-REWRITE-1103，AA 定稿）：下課後傳給語彤的那一段整段換（秀琴姨的房子）。祐廷那一句是民法第 425 條第 1 項的白話（不是逐字引條文）——交 BB 核對 */
     dialogue:[ {choice:[{text:'（傳訊息給語彤）',goto:'send'},{text:'（不傳）',end:true}]},
       {label:'send'},
@@ -58,7 +58,7 @@ const Y2B_EVENTS=(function(){
   /* ---- 1B-03 語彤事件 9「陪阿姨來」不在場版：之後第一次在麵店或總圖和語彤說話（5/22 中午以後～6/13）；在場版在 y2b3d.js ---- */
   const AUNT_RETELL={ id:'ev_yt_aunt_retell', title:'陪秀琴姨去法服', participants:['heroine_03'], location:['wz_teahouse','library','library_hall'],   /* AA_625 第 9 節不在場版：之後第一次在茶屋或總圖 */ trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const a=D('2027-05-22'), b=D('2027-06-13'); return a!=null&&b!=null&&(G.day>a||(G.day===a&&G.hour>=12))&&G.day<=b&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G); }},
-    dialogue:[ {speaker:'heroine_03',text:'禮拜六我陪秀琴姨去法服。'},   /* AA_625 第 9 節（逐字；AA_375 第 9 項原本改「上次」，AA_625 寫「禮拜六」——交 AA 確認）*/
+    dialogue:[ {speaker:'heroine_03',text:'上次我陪秀琴姨去法服。'},   /* AA_643 第 2 節（照 AA_375 第 9 項：之後才講，「禮拜六」不對）*/
       {speaker:'heroine_03',text:'裡面的人說，租約到期以前，新屋主不能叫她搬。'},
       {speaker:'heroine_03',text:'她出來的時候在笑。'},
       {if:{custom:G=>dating(G,'heroine_03')},speaker:'heroine_03',text:'那時候很想打給你。後來沒打，秀琴姨在旁邊。'},

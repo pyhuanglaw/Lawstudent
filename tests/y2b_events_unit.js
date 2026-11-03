@@ -67,14 +67,14 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   const it={c:COURSES.list.find(c=>c.id==='oblig_spec'),exam:null,key:'k'};
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); SOCIAL.remember('heroine_03','RENT_RUMOR','量店面'); ct('heroine_03');
   await Y2B.leaseClass(GM,it,null,{prof:'葉教授'});
-  check('Y1. 課堂段：葉教授兩句（時間）、看過事件 6＝想起捲尺', has('葉教授：房子賣了，房客怎麼辦？法律說：住進去了，租約就跟著房子走。新屋主要接著當房東。')&&has('葉教授：換句話說，法律給了房客一樣東西：時間。')&&has('（你想起去年在麵店，那個拿捲尺量店面的人。）')&&!!G.events.done.ev_yt_lease_class, JSON.stringify(lines()));
+  check('Y1. 課堂段：葉教授兩句（時間）、看過事件 6（RENT_RUMOR）＝「（你想起語彤說的，秀琴姨的房東要把房子賣了。）」（AA_643 第 4 節）', has('葉教授：房子賣了，房客怎麼辦？法律說：住進去了，租約就跟著房子走。新屋主要接著當房東。')&&has('葉教授：換句話說，法律給了房客一樣東西：時間。')&&has('（你想起語彤說的，秀琴姨的房東要把房子賣了。）')&&!!G.events.done.ev_yt_lease_class, JSON.stringify(lines()));
   picks=[0]; said=[]; await CLS.afterClassEvent(GM,it);
   /* AA_625 第 8 節（YT-REWRITE-1103）：下課後那一段整段換——祐廷那一句是民法第 425 條第 1 項的白話（「出租人於租賃物交付後，承租人占有中，縱將其所有權讓與第三人，其租賃契約，對於受讓人仍繼續存在。」條文原文給 BB 核對；遊戲裡沒有引條文）*/
   check('Y1. 下課後：傳／不傳；「今天上到買賣不破租賃。秀琴姨的房子…」→「……真的？」「我明天跟她說。」「謝謝。我不知道課本裡有寫這個。」（AA_625 第 8 節）；記 LAW_MEETS_LIFE、YT_LEASE_HELP', opts[0]&&opts[0][0]==='（傳訊息給語彤）'&&txt('p:heroine_03').join('|')==='player:今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。|heroine_03:……真的？|heroine_03:我明天跟她說。|heroine_03:謝謝。我不知道課本裡有寫這個。'&&SOCIAL.has('heroine_03','LAW_MEETS_LIFE')&&G.flags.YT_LEASE_HELP===true, JSON.stringify(txt('p:heroine_03')));
   at('2027-03-29',21.6); rules(); check('Y1. 當天 21:30 沒有「我拿給阿姨看了」那兩則（AA_625 第 8 節換成當下「我明天跟她說。」）', !txt('p:heroine_03').some(t=>/拿給阿姨看了|影印給她/.test(t)));
   { const s=fs.readFileSync(path.join(ROOT,'src/data/syllabus.js'),'utf8'); check('Y1. 行政救濟第 13 週的回想讀 LAW_MEETS_LIFE（syllabus.js 已有）', /LAW_MEETS_LIFE/.test(s)); }
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); ct('heroine_03'); date('heroine_03'); await Y2B.leaseClass(GM,it,null,{prof:'葉教授'}); picks=[0]; said=[]; await CLS.afterClassEvent(GM,it);
-  check('Y2. 沒有 RENT_RUMOR、交往中：AA_625 第 8 節只有一個版本＝同一段', txt('p:heroine_03').join('|')==='player:今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。|heroine_03:……真的？|heroine_03:我明天跟她說。|heroine_03:謝謝。我不知道課本裡有寫這個。', JSON.stringify(txt('p:heroine_03')));
+  check('Y2. 沒有 RENT_RUMOR（交往中也一樣）：沒有「傳訊息給語彤」、不記 LAW_MEETS_LIFE、課堂沒有回想句（AA_643 第 3、4 節）', !txt('p:heroine_03').length&&!SOCIAL.has('heroine_03','LAW_MEETS_LIFE')&&!has('（你想起語彤說的，秀琴姨的房東要把房子賣了。）'), JSON.stringify(txt('p:heroine_03')));
   at('2027-03-29',21.6); rules(); check('Y2. 交往中：21:30 也沒有（AA_625 第 8 節）', !txt('p:heroine_03').some(t=>/拿給阿姨看了|謝謝你$/.test(t)));
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); ct('heroine_03'); said=[]; await CLS.afterClassEvent(GM,it);
   check('Y3. 翹這堂課（沒有課堂段）：下課後什麼都沒有、LAW_MEETS_LIFE 沒有值', said.length===0&&!SOCIAL.has('heroine_03','LAW_MEETS_LIFE'));
@@ -92,7 +92,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   { const s=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('A2. 大一下事件 4 交往版記 YT_AUNT_KNOWS', /\{if:\{flags:\['dating_heroine_03'\]\},set:\{YT_AUNT_KNOWS:true\}\}/.test(s)); }
   fresh('2027-05-22',9.2,'wancai'); R('heroine_03','FRI'); said=[]; check('A3. 不是法服成員：5/22 沒有在場版', !Y2B.auntDue(G));
   at('2027-05-29',14); G.zone='wz_teahouse'; SOCIAL.remember('heroine_03','LAW_MEETS_LIFE',''); said=[]; const hit=EVENTS.onInteract('heroine_03'); await new Promise(r=>setTimeout(r,5));
-  check('A3. 之後在茶屋和語彤說話（AA_625 第 9 節不在場版）：「禮拜六我陪秀琴姨去法服。」「裡面的人說，租約到期以前，新屋主不能叫她搬。」「她出來的時候在笑。」＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('禮拜六我陪秀琴姨去法服。')&&has('裡面的人說，租約到期以前，新屋主不能叫她搬。')&&has('她出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
+  check('A3. 之後在茶屋和語彤說話（AA_625 第 9 節不在場版；第一句 AA_643 第 2 節「上次」）：「上次我陪秀琴姨去法服。」「裡面的人說，租約到期以前，新屋主不能叫她搬。」「她出來的時候在笑。」＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('上次我陪秀琴姨去法服。')&&has('裡面的人說，租約到期以前，新屋主不能叫她搬。')&&has('她出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
   fresh('2027-06-12',21.2,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules();
   check('A3. 都沒遇到：6/12 21:00 三句（第一句「前陣子」；其他照 AA_625 第 9 節不在場版）', txt('p:heroine_03').join('|')==='heroine_03:前陣子我陪秀琴姨去法服。|heroine_03:裡面的人說，租約到期以前，新屋主不能叫她搬。|heroine_03:她出來的時候在笑。');
   fresh('2027-05-25',18,'noodle'); said=[]; const hit4=EVENTS.onInteract('heroine_03'); fresh('2027-06-12',21.2,'dorm'); ct('heroine_03'); rules();

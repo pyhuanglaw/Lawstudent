@@ -85,7 +85,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- E3：和以安交往 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_01'); H.date('heroine_01'); H.FRIEND('heroine_03'); H.picks=[0,'好。'];
     await H.run('grad');
-    check('10. E3：以安「今天不讀書。……晚上的位子我訂好了。」；Café 那句由別人說（語彤 FRIEND）',H.has('今天不讀書。……晚上的位子我訂好了。')&&!H.has('晚上五點半，兩點半 Café。我訂了窗邊。')&&H.has('晚上要不要一起吃？店今天沒開，我們去兩點半。')&&OUT.get(G,'te_gf_Y4S2_heroine_01'),JSON.stringify(H.lines().slice(-4))); }
+    check('10. E3：以安「今天不讀書。……晚上的位子我訂好了。」；Café 那句由別人說（語彤 FRIEND）',H.has('今天不讀書。……晚上的位子我訂好了。')&&!H.has('晚上五點半，兩點半 Café。我訂了窗邊。')&&H.has('晚上要不要一起吃？今天不排班，我們去兩點半。')   /* AA_643 第 8 節 */&&OUT.get(G,'te_gf_Y4S2_heroine_01'),JSON.stringify(H.lines().slice(-4))); }
   // ---- 第二次（之前說過「讓我想想」）：以安 18:00 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_01'); heart('heroine_01'); TERMEND.rec(G).think.heroine_01='Y4S1'; H.picks=['好。'];
     await H.run('grad'); check('11. 第二次：「典禮完，六點，同一家。」「上次那一頁，最下面那一行還沒勾。」→ 18:00',H.has('典禮完，六點，同一家。')&&H.has('上次那一頁，最下面那一行還沒勾。')&&OUT.get(G,'te_Y4S2').h===18); }

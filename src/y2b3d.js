@@ -120,7 +120,7 @@ const Y2B=(function(){
     const pre=prof?'':((ct&&ct.prof)||(typeof CLS!=='undefined'&&CLS.profName?CLS.profName(it.c):'葉教授'))+'：';
     await GM.say(prof||null,pre+'房子賣了，房客怎麼辦？法律說：住進去了，租約就跟著房子走。新屋主要接著當房東。');
     await GM.say(prof||null,pre+'換句話說，法律給了房客一樣東西：時間。');
-    if(knows('heroine_03',G)) await GM.say(null,has('heroine_03','RENT_RUMOR')?'（你想起去年在麵店，那個拿捲尺量店面的人。）':'（坐在前兩排的語彤，忽然低頭寫筆記，寫了很久。）');
+    if(knows('heroine_03',G)&&has('heroine_03','RENT_RUMOR')) await GM.say(null,'（你想起語彤說的，秀琴姨的房東要把房子賣了。）');   /* AA_643 第 4 節：有 RENT_RUMOR 才出；沒有＝不出（原本「低頭寫筆記」那一句也拿掉）*/
     mark(G,'ev_yt_lease_class'); G.flags.Y2B_LEASE_DAY=G.day; return true; };   /* 下課後的傳訊息：y2b_events.js 的 ev_yt_lease_text（afterClass）*/
 
   /* ===================== 1B-03 語彤事件 9 在場版：2027-05-22（六）法服值班（包住 STORY.fafuShift：那天值班那一段換成這一場，其他的值班旁白不演）===================== */
