@@ -1,0 +1,22 @@
+{
+  "rerun": "",
+  "id": "DC_ver_bad",
+  "sha": "039a9227a",
+  "kind": "game",
+  "script": "tests/deploy_check.py",
+  "env": "SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）;EXPECT=FAIL",
+  "machine": "MSI",
+  "start": "2026-11-04T05:15:52",
+  "end": "2026-11-04T05:15:59",
+  "seconds": 7,
+  "exit": null,
+  "error": "worktree add 039a9227a failed: fatal: invalid reference: 039a9227a",
+  "runner": "fa98538ce5",
+  "rf_round": "18",
+  "res_peak": {
+    "cpu": 10,
+    "mem": 39,
+    "used_gb": 12.3,
+    "chrome_testing": 0
+  }
+}
