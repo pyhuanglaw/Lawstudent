@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19R_deploy3",
+  "sha": "b267b0534",
+  "kind": "game",
+  "script": "tests/deploy_check.py",
+  "env": "XARGS={url} v9.10.19（2026-11-03）",
+  "machine": "MSI",
+  "start": "2026-11-04T02:05:55",
+  "end": "2026-11-04T02:09:23",
+  "seconds": 208,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 96,
+    "mem": 61,
+    "used_gb": 19.2,
+    "chrome_testing": 28
+  }
+}
