@@ -26,9 +26,9 @@
 判斷（每項一行 PASS／FAIL）：
   ① 觸發換區成功（G.zone 變成目標）
   ② 有淡入：#fade 先到全黑（opacity ≥ 0.99）、之後回到 0
-  ③ 淡入結束那一刻（第一個 opacity ≤ 0.01 且沒有 class on 的取樣），這一區要的正式模型全部載好（pending＝0）
+  ③ 淡入結束那一刻（#fade 全黑或掛上 class on 以後，第一個 opacity ≤ 0.01 且沒有 class on 的取樣），這一區要的正式模型全部載好（pending＝0）
   ④ 淡入結束那一刻，方塊備用看不到（可見的套件數＝0）
-  ⑤ 黑畫面（opacity > 0.5）不超過 BLACK_MAX（預設 6.5 秒）
+  ⑤ 黑畫面（opacity > 0.5）不超過 BLACK_MAX（預設 6.5 秒）——雲端 SwiftShader 建區域＋Z3.prewarm 就要十幾秒，這一項在雲端會 FAIL，以 PC（顯示卡）的結果為準
   ⑥ 腳踏車：淡入結束以前（區域建好後到淡入結束）騎士移動距離——只記錄；BIKE_STRICT=1 時 > 0.05 m 算 FAIL
   ⑦ 沒有 JS 例外
 用法：  CASES=classroom,wz_cafe_out LW_TESTS=<工作樹>/tests SHA=<sha> python3 cc_popin_probe.py <URL index.html> <輸出資料夾>
@@ -137,10 +137,13 @@ def analyse(cs, S, target):
     if not S: return out
     i_zone = next((i for i, x in enumerate(S) if x['gz'] == target and x['ez'] == target), None)
     i_black = next((i for i, x in enumerate(S) if x['op'] is not None and x['op'] >= 0.99), None)
+    # 淡入開始＝第一個全黑的取樣，或 #fade 掛上 class on 的取樣（SwiftShader 主執行緒卡住時 CSS transition 沒走完，getComputedStyle 一直是 0、class on 已經掛上；
+    #   0f66 溫州街就是這樣：沒有一格到全黑、區域建好時 class on 已經拿掉＝方塊直接露出來。之前只認 opacity≥0.99，淡入結束算不出來，③④ 判不了）
+    i_on = next((i for i, x in enumerate(S) if (x['op'] is not None and x['op'] >= 0.99) or x['on']), None)
     i_end = None
-    if i_black is not None:
-        i_end = next((i for i in range(i_black, len(S)) if S[i]['op'] is not None and S[i]['op'] <= 0.01 and not S[i]['on'] and S[i]['ez'] == target), None)
-    out.update(i_zone=i_zone, t_zone=S[i_zone]['t'] if i_zone is not None else None, t_black=S[i_black]['t'] if i_black is not None else None,
+    if i_on is not None:
+        i_end = next((i for i in range(i_on, len(S)) if S[i]['op'] is not None and S[i]['op'] <= 0.01 and not S[i]['on'] and S[i]['ez'] == target), None)
+    out.update(i_zone=i_zone, t_zone=S[i_zone]['t'] if i_zone is not None else None, t_black=S[i_black]['t'] if i_black is not None else None, t_on=S[i_on]['t'] if i_on is not None else None,
                t_fade_end=S[i_end]['t'] if i_end is not None else None)
     # 黑畫面（opacity > 0.5）總長：取樣之間用前一個取樣的值
     blk = 0; run0 = None; longest = 0
@@ -240,7 +243,7 @@ async def run_case(p, name):
         cs.note('腳踏車 %s；NPC %s' % (J(A.get('bikes')), J(A.get('npcs'))))
         cs.check('① 觸發換區成功（G.zone、E.zone＝%s）' % target, A.get('i_zone') is not None, 't_zone=%s ms' % A.get('t_zone'))
         cs.check('② 有淡入（先全黑、再回到透明）', A.get('t_black') is not None and A.get('t_fade_end') is not None,
-                 't_black=%s ms、t_fade_end=%s ms' % (A.get('t_black'), A.get('t_fade_end')))
+                 't_black=%s ms、class on=%s ms、t_fade_end=%s ms' % (A.get('t_black'), A.get('t_on'), A.get('t_fade_end')))
         e = A.get('at_end') or {}
         kit = e.get('kit') or {}
         cs.check('③ 淡入結束時，這一區要的正式模型都載好了（pending 0）', bool(e) and e.get('req', 0) > 0 and e.get('pend') == 0,
