@@ -1,0 +1,6 @@
+[gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G6b_v95]
+[gpu_wrap 48.8s] page close url=http://127.0.0.1:8812/index.html?turbo
+[gpu_wrap 48.8s] BROWSER DISCONNECTED
+[gpu_wrap 49.6s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G6b_v95]
+[gpu_wrap 286.9s] page close url=http://127.0.0.1:8809/index.html
+[gpu_wrap 286.9s] BROWSER DISCONNECTED
