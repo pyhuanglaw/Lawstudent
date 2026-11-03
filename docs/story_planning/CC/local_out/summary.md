@@ -709,3 +709,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_libfl] | [gpu_wrap 285.2s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 285.3s] BROWSER DISCONNECTED
 - 2026-11-04T07:25:54  N20_zone  sha=d2b962a3f  exit=0  185s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_zone] | [gpu_wrap 146.9s] page close url=http://127.0.0.1:8813/index.html?turbo?turbo | [gpu_wrap 147.0s] BROWSER DISCONNECTED
+- 2026-11-04T07:27:28  N20_reach  sha=d2b962a3f  exit=0  564s    統計：29 個區域、1175 個互動點、13 個劇情走路目的地、76 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.7s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_reach] | [gpu_wrap 486.3s] page close url=http://127.0.0.1:8811/index.html?turbo?turbo | [gpu_wrap 486.4s] BROWSER DISCONNECTED
