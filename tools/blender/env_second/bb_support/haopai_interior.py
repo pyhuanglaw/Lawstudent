@@ -288,13 +288,13 @@ fl = Part('floor', smooth=False); fl['floor'].box(X0, X1, -0.02, 0.0, Z0, Z1); f
 ce = Part('ceiling', smooth=False)
 ce['ceil'].quad([(XI0, H, SZ), (XI1, H, SZ), (XI1, H, ZI1), (XI0, H, ZI1)])
 ce['ceil'].quad([(XI0, HB, ZI0), (XI1, HB, ZI0), (XI1, HB, SZ - SD), (XI0, HB, SZ - SD)]); ce.done()
-tb = Part('tbar', smooth=False)                                                               # 輕鋼架（60 cm 方格）
+tb = Part('tbar', smooth=False)   # 輕鋼架（60 cm 方格）：只做朝下的一片（鏡頭在天花板上面的遊戲視角看不到，和天花板一樣是剖面）
 for y_, za, zb in ((H, SZ, ZI1), (HB, ZI0, SZ - SD)):
     for k in range(1, 7):
         x = XI0 + k * 0.6
-        if x < XI1 - 0.05: tb['vcm'].cbox(x - 0.012, x + 0.012, y_ - 0.012, y_ - 0.001, za, zb, '#d6d2c8')
+        if x < XI1 - 0.05: tb['ceil'].quad([(x - 0.012, y_ - 0.004, za), (x + 0.012, y_ - 0.004, za), (x + 0.012, y_ - 0.004, zb), (x - 0.012, y_ - 0.004, zb)])
     z = ZI1 - 0.6
-    while z > za + 0.05: tb['vcm'].cbox(XI0, XI1, y_ - 0.012, y_ - 0.001, z - 0.012, z + 0.012, '#d6d2c8'); z -= 0.6
+    while z > za + 0.05: tb['ceil'].quad([(XI0, y_ - 0.004, z - 0.012), (XI1, y_ - 0.004, z - 0.012), (XI1, y_ - 0.004, z + 0.012), (XI0, y_ - 0.004, z + 0.012)]); z -= 0.6
 tb.done()
 for side in ('left', 'right', 'back'):
     p = Part('wall', side=side, smooth=False)
@@ -828,7 +828,7 @@ def fix_instanced_names(path):
     out = out[:8] + struct.pack('<I', len(out)) + out[12:]; open(path, 'wb').write(out); print('instanced nodes renamed', k)
 
 
-fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT)
+fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT); info['out'] = os.path.relpath(OUT, REPO)
 drawn = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in root.children_recursive if ob.type == 'MESH')
 info.update({'shop': 'haopai', 'layout': 2, 'drawn_tris': drawn, 'protos': {p.name: p.n for p in BAD + BAD_FREE + TEN + TUBE + TT + [FIXP]},
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
