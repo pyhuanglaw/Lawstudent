@@ -134,7 +134,7 @@ const SHOPENC=(function(){
   const ESAY=(GM,who,t)=>GM.say(who,typeof ENC!=='undefined'&&ENC.zheGe?ENC.zheGe(GM.G,who,t):t);
   S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||[]; return L.acq||L.friend||[]; };
   S.canJoin=function(row,tr){ if(tr.t==='ex'||tr.t==='catch'||!row.join) return false; if(row.join==='friend') return tr.t==='friend'||tr.t==='dating'; if(row.join==='dating') return tr.t==='dating'; return true; };
-  S.mark=function(G,row){ const R=S.rec(G); if(!R.met.includes(row.who)) R.met.push(row.who); const em=G.daily&&G.daily.encMet; if(em&&em.day===G.day&&Array.isArray(em.who)&&!em.who.includes(row.who)) em.who.push(row.who);
+  S.mark=function(G,row){ const R=S.rec(G); if(!R.met.includes(row.who)) R.met.push(row.who); const em=typeof ENC!=='undefined'&&ENC.rec?ENC.rec(G).encMet:(G.daily&&G.daily.encMet); if(em&&em.day===G.day&&Array.isArray(em.who)&&!em.who.includes(row.who)) em.who.push(row.who);   /* 和自由出行的偶遇一起算「一天一次」*/
     if(row.weekMax) G.daily.shopEncWk[row.who+'@'+row.spot]={wk:weekKey(G),day:G.day};
     const L=G.daily.shopEncLog||(G.daily.shopEncLog=[]); L.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who}); if(L.length>30) L.splice(0,L.length-30); };
   /* 遇到：why → 選項 → 台詞、數值（回傳 'greet'／'join'／'pass'／'ex'）*/
