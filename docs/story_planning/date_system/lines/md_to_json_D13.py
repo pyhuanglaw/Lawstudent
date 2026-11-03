@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 date_system/lines/D13.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：16 處：芷若欄杆的交換回來版 ZR_UK_BACK（345234b3e）、語彤四句「秀琴姨」（4783b971e，11-03 新背景）、沛珊欄杆少一行開發註記、學姊欄杆旁白括號；這支讀的 BB_128 2-8、5-1 表格沒有跟著改。
+#   現行版本以 date_system/lines/D13.json 為準。
 """BB_128 2-8、5-1（D13 淡水，md 表格）→ D13.json（和 D01.json 同一個格式）。只做格式轉換，台詞一字不改。BB-B 2026-10-16。"""
 import re, json, glob, os, sys
 HERE=os.path.dirname(os.path.abspath(__file__))

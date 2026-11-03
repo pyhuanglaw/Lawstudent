@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 date_system/wish/wish_aa.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：原稿 wish_aa.py 過時（51 個欄位，見 wish_aa.py 開頭）；這支本身的程式沒問題，但用它重建會拿舊原稿。
+#   現行版本以 date_system/wish/wish_aa.json 為準。
 """以安、語彤的心願事件（AA_127 第 1、2 節）：wish_aa.py → wish_aa.json＋檢查。AA-B 2026-10-16（AA_140 G33）。檢查照 BB-B 的 build_wish.py：
 1. AA_127 1-1～1-5、2-1～2-5 原文的每一句台詞都在 JSON 裡（一字不改）。
 2. 每一行 ≤60 字；選項 ≤3。
