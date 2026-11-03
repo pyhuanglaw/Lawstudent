@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19D_swingshot",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_shots_probe.py",
+  "env": "SUBS=swing",
+  "machine": "MSI",
+  "start": "2026-11-04T01:56:18",
+  "end": "2026-11-04T01:57:43",
+  "seconds": 86,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 90,
+    "mem": 51,
+    "used_gb": 16.3,
+    "chrome_testing": 18
+  }
+}
