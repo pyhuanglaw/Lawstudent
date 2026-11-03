@@ -42625,12 +42625,12 @@
         "confirmed": true
       },
       "area": null,
-      "id": "ART-CHENGPIN-BOOKSTORE-1103",
-      "title": "兩層樓「承品書店」（有人坐地板看書，新生南路那一側；AA_613）",
+      "id": "ART-SHANLAN-BOOKSTORE-1103",
+      "title": "兩層樓「山嵐書店」（有人坐地板看書，新生南路那一側；AA_613）",
       "owner": "LAWWW2",
       "status": "待開工",
       "priority": "P1",
-      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）；11-03 改名：承品→山嵐（使用者「不要諧音梗」；企劃線 52e3d83a8）",
       "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
       "xai": {
         "spec": "AA_613（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
@@ -42807,7 +42807,7 @@
       "first": {
         "term": "Y1S1",
         "week": null,
-        "earliest": "承品書店（新生南路側）",
+        "earliest": "山嵐書店（新生南路側）",
         "mainline": false,
         "blocks": false,
         "prereq": false,
@@ -42816,7 +42816,7 @@
       },
       "area": null,
       "id": "POSE-FLOOR-READ-1103",
-      "title": "坐在地板上看書的姿勢（承品書店的人；character3d.js 程序化姿勢，同 gymIK 做法）",
+      "title": "坐在地板上看書的姿勢（山嵐書店的人；character3d.js 程序化姿勢，同 gymIK 做法）",
       "owner": "LAWWW",
       "status": "待開工",
       "priority": "P2",
