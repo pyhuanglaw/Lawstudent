@@ -113,7 +113,15 @@ const f3=v=>v.toFixed(3);
       const bz=tryRub(()=>{ E3.player.busy=true; }); E3.player.busy=false;
       check('D8. 玩家坐著、劇情在演（玩家忙）：不蹭',!sat&&!bz);
       GAME.G.hour=19; const night=tryRub(()=>{},200); GAME.G.hour=10;
-      check('D9. 晚上 19:00（貓要回去睡）：不蹭',!night); }
+      check('D9. 晚上 19:00（貓要回去睡）：不蹭',!night);
+      /* 被收養（子晴那一晚演完）、寒流那一週、走失那一週、hold（所長回來那一場）：白天也不蹭 */
+      const d0=GAME.G.day, T_=k=>{ const d=dayOf(k); return d; };
+      GAME.G.flags.ZQ_CAT_NIGHT=true; const adopt=tryRub(()=>{}); delete GAME.G.flags.ZQ_CAT_NIGHT;
+      GAME.G.day=T_('2028-12-12'); const cold=tryRub(()=>{}); GAME.G.day=d0;
+      let lostDay=null; for(let d=d0;d<d0+1500&&lostDay==null;d++){ if(PARK.catLost({day:d,hour:10,flags:{},daily:{}})) lostDay=d; }
+      let lost=null; if(lostDay!=null){ GAME.G.day=lostDay; lost=tryRub(()=>{}); GAME.G.day=d0; }
+      WZCAT.hold('lie'); const held=tryRub(()=>{}); WZCAT.release();
+      check('D10. 被收養、寒流、走失（第 '+lostDay+' 天）、hold 期間：不蹭',!adopt&&!cold&&lost===false&&!held,JSON.stringify({adopt,cold,lost,held})); }
     else check('D1. WZCAT 有蹭腳（WZCAT.RUB）',false); }
   delete global.GAME;
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
