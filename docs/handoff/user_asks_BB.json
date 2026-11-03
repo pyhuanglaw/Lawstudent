@@ -183,6 +183,26 @@
    "task": "PORTRAIT-HIRES-1103",
    "src": "BB（帳號 A）對話",
    "note": "使用者睡覺期間：BB 自己判斷、不停下來等回答；已轉告 LAWWW（同帳號值班）轉其他職位。重申 D110／D111／D87"
+  },
+  {
+   "id": "UA-BB-1103-BLENDER-USAGE",
+   "at": "2026-11-03T13:3x",
+   "quote": "有個問題就是blender這個AI開始一起做這個的時候我的使用量突然飆高，但如果我的電腦也可以做的話，是不是可以交給我的電腦就好",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "PORTRAIT-HIRES-1103",
+   "src": "BB（帳號 A）對話",
+   "note": "選擇題答案：PC 的 Blender 改成只用 CPU（建議）。BB 定：CC 建模不開子代理、渲染小圖、匯出與渲染排 PC 佇列（CPU）；已轉 LAWWW 建議新店建模不要四個職位同時做"
+  },
+  {
+   "id": "UA-BB-1103-BLENDER-CPU",
+   "at": "2026-11-03T13:3x",
+   "quote": "改成只用 CPU（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "PORTRAIT-HIRES-1103",
+   "src": "BB（帳號 A）對話 AskUserQuestion",
+   "note": "CC 改 runner／queue 預設 CC_BLENDER_DEVICE=CPU、一次一個"
   }
  ]
 }
