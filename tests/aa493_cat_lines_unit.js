@@ -28,19 +28,19 @@ const AMB_DAY='有隻貓在老樹下面走來走去。有人蹲在旁邊拍照�
   check('0. 環境句白天版、所長回來白天版照稿',doc.includes('{貓}在老樹下面走來走去。有人蹲在旁邊拍照。')&&doc.includes('> '+BACK_DAY));
   // 1 取名
   const name=async(day,h,o)=>{ const G=mk(dayOf(day),h,o); const gm=mkGM(G,[0]); await PARK.interact(gm,CAT); return gm.L.says; };
-  const a=await name('2025-10-08',10), b=await name('2025-10-08',18), c=await name('2025-10-08',10,{weather:'rain'}), d=await name('2025-10-08',17.49), e=await name('2025-10-08',17.5);
+  const a=await name('2025-10-08',10), b=await name('2025-10-08',19), c=await name('2025-10-08',10,{weather:'rain'}), d=await name('2025-10-08',18.49), e=await name('2025-10-08',18.5);
   check('1. 白天 10:00 沒下雨：「坐在圓椅前面看你。你蹲下來，牠沒有逃走。」→「你要叫牠什麼？」',a[0]===DAYL&&a[1]==='你要叫牠什麼？',J(a));
-  check('1. 18:00：「趴在圓椅上。牠沒有逃走。」',b[0]===LIE&&b[1]==='你要叫牠什麼？',J(b));
+  check('1. 19:00（AA 11-03 醒著延到日落，沒有 3D 的貓＝18:30）：「趴在圓椅上。牠沒有逃走。」',b[0]===LIE&&b[1]==='你要叫牠什麼？',J(b));
   const c2=await name('2025-10-08',20,{weather:'rain'});
   check('1. 下雨（白天、晚上都是）：「縮在涼亭的石桌底下躲雨。你蹲下來，牠沒有逃走。」（AA_493 第 5 節）',c[0]===RAIN&&c2[0]===RAIN&&c[1]==='你要叫牠什麼？',J([c[0],c2[0]]));
-  check('1. 17:29 白天版、17:30 晚上版（和 3D 的貓同一個時間）',d[0]===DAYL&&e[0]===LIE,J([d[0],e[0]]));
+  check('1. 18:29 白天版、18:30 晚上版（AA 11-03：延到日落）（和 3D 的貓同一個時間）',d[0]===DAYL&&e[0]===LIE,J([d[0],e[0]]));
   check('1. 原句「在圓椅上曬太陽」不在遊戲裡',!/曬太陽。牠沒有逃走/.test(fs.readFileSync(path.join(ROOT,'src/wzpark3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'')));
   // 2 有 3D 的貓
   global.WZCAT={awake:()=>false}; const f=await name('2025-10-08',10); global.WZCAT={awake:()=>true}; const g=await name('2025-10-08',19); delete global.WZCAT;
   check('2. 有 3D 的貓：照 WZCAT.awake（白天 awake false＝趴著那一版；晚上 awake true＝白天版）',f[0]===LIE&&g[0]===DAYL,J([f[0],g[0]]));
   // 3 環境句
   { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const m=st.match(/key:'park',from:16,to:21,lines:(G=>\{.*?\})\}\];/); let fn=null; try{ fn=m&&eval('(PARK=>'+m[1]+')')(PARK); }catch(x){}
-    const r=h=>fn&&fn(mk(dayOf('2025-10-08'),h)); check('3. 環境句：16:30 白天版、17:30 以後原句、下雨不播',!!fn&&r(16.5)[0]===AMB_DAY&&/^老樹下的圓椅上有隻貓在睡覺/.test(r(17.5)[0])&&fn(mk(dayOf('2025-10-08'),16.5,{weather:'rain'}))===null,m?J([r(16.5),r(17.5)]):'找不到'); }
+    const r=h=>fn&&fn(mk(dayOf('2025-10-08'),h)); check('3. 環境句：16:30 白天版、18:30 以後原句（AA 11-03）、下雨不播',!!fn&&r(16.5)[0]===AMB_DAY&&/^老樹下的圓椅上有隻貓在睡覺/.test(r(18.5)[0])&&fn(mk(dayOf('2025-10-08'),16.5,{weather:'rain'}))===null,m?J([r(16.5),r(18.5)]):'找不到'); }
   // 4 所長回來
   { const s=fs.readFileSync(path.join(ROOT,'src/data/wz_events.js'),'utf8'); const i=s.indexOf("ev('ev_wz_p_back'"), ln=i>=0?s.slice(i,s.indexOf('\n',i)):'';
     const wl=fs.readFileSync(path.join(ROOT,'src/wzlines3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,''), bk=(wl.match(/if\(S\.backDue\(G\)\)[^\n]*/)||[''])[0];

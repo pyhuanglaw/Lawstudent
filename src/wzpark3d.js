@@ -123,7 +123,7 @@ const PARK=(function(){
        路人都不取名、不記關係（不碰 SOCIAL）。
      存檔（一般狀態，G.daily.park）：entryDay（今天播過那一句）、pplDay＋pplDone（今天點過的人）、pplLast（每一種人上一次說第幾句）；舊存檔沒有＝今天還沒播、還沒點過 */
   S.rainy=G=>!!G&&(G.weather==='rain'||G.weather==='typhoon');
-  S.catAwake=G=>typeof WZCAT!=='undefined'&&WZCAT.awake?WZCAT.awake(G):(!!G&&(+G.hour||0)>=7&&(+G.hour||0)<17.5&&!S.rainy(G)&&!S.catCold(G)&&!S.catLost(G)&&!S.catGone(G));   /* 3D 的貓醒著在公園裡走（src/wzcat3d.js；沒載入時照同一個時段算）：AA_493 取名、所長回來的句子照這個換 */
+  S.catAwake=G=>typeof WZCAT!=='undefined'&&WZCAT.awake?WZCAT.awake(G):(!!G&&(+G.hour||0)>=7&&(+G.hour||0)<18.5&&!S.rainy(G)&&!S.catCold(G)&&!S.catLost(G)&&!S.catGone(G));   /* 3D 的貓醒著在公園裡走（src/wzcat3d.js；沒載入時照同一個時段算）：AA_493 取名、所長回來的句子照這個換 */
   S.catUnder=G=>(S.rainy(G)||S.catCold(G))&&!S.catLost(G)&&!S.catGone(G);   /* 寒流那一週也在石桌底下（AA_397 3-2）；收養以後沒有貓 */   /* 下雨：貓在涼亭的石桌底下（AA_164 5-2；zones3d.js buildWzPark 照這個放）*/
   /* 放假的日子（週末、國定假日）照週末的表；校定的停課日（運動會）不算——國小、上班的人照常 */
   S.dayOff=function(G){ if(typeof CALENDAR==='undefined') return G.weekday===0||G.weekday===6; const d=CALENDAR.dateOf(G.day); if(d.wd>=6) return true; const hol=CALENDAR.holiday(G.day); return !!hol&&!(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[d.key]); };

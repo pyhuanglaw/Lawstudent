@@ -22,14 +22,15 @@ const WZCAT=(function(){
   S.SPOTS=[{x:26.0,z:23.3,w:3},{x:24.2,z:22.4,w:2},{x:17.0,z:25.6,w:1},{x:23.1,z:24.3,w:1},{x:13.9,z:26.9,w:1},{x:29.8,z:23.6,w:1},{x:25.2,z:14.2,w:1}];
   S.WAKE={bench:{x:26.0,z:23.3,yaw:0},under:{x:17.0,z:25.6,yaw:Math.PI/2}};   /* 睡醒站起來的地方／回去睡之前走到的地方：圓椅前（SPOTS[0]）、涼亭東邊台階下（SPOTS[2]）*/
   S.SPEED=0.32;   /* m/s：cat_walk 一步一秒、步幅約 0.32 m（腳不滑）*/
-  S.AWAKE=[7,17.5];
+  S.AWAKE=[7,18.5];   /* AA 11-03 14:16（AA_493 的 17:30 改成日落）：醒著到日落——照那一天臺北的日落時間（E3.sunsetPlace，冬天早暗）；量不到就 18:30 */
+  S.sleepH=function(G){ try{ if(G&&G.day!=null&&typeof E3!=='undefined'&&E3.sunsetPlace&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const v=E3.sunsetPlace(CALENDAR.dateOf(G.day).key,'tw'); if(v!=null&&isFinite(v)&&v>16&&v<20) return v; } }catch(e){} return S.AWAKE[1]; };
   S.NEAR=1.6; S.FAR=2.8;
   S.SIT0=[4,14]; S.SIT=[15,50];   /* 秒：進公園時已經坐著的那一段、走到一個點坐下待多久（原本 15～45、25～70：玩家進公園看了半分鐘，貓都沒動，WZ-CAT-FLOAT-RUB-1103）*/
   S.RUB={R:4,WAIT:3,P:0.55,CD:45,MISS:20,RING:0.44,V:0.16,LEAN:0.25,CAT_R:0.12,MOVE:0.12};
   let cat=null, held=null; const breathers=[];
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzcat3d:held']=()=>{ held=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const P=()=>typeof PARK!=='undefined'?PARK:null;
-  S.awake=function(G){ if(!G||held) return false;   /* hold 期間＝趴著（取名、環境句照「趴在圓椅上」那一版：PARK.catAwake 照這個）*/ const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
+  S.awake=function(G){ if(!G||held) return false;   /* hold 期間＝趴著（取名、環境句照「趴在圓椅上」那一版：PARK.catAwake 照這個）*/ const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.sleepH(G))) return false; const K=P();
     if(K&&((K.rainy&&K.rainy(G))||(K.catCold&&K.catCold(G))||(K.catLost&&K.catLost(G))||(K.catAdopted&&K.catAdopted(G)))) return false; return true; };
   S.sleepWhere=G=>{ const K=P(); return !held&&K&&K.catUnder&&G&&K.catUnder(G)?'under':'bench'; };   /* 下雨睡石桌底下（AA_164 5-2）；hold 一律圓椅 */
   /* 呼吸：趴著的模型沒有骨架，整隻（原點在地面）上下微微起伏，3.4 秒一次 */
