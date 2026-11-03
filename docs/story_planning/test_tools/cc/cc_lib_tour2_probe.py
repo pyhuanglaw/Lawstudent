@@ -85,6 +85,7 @@ async def handle_choices(pg, cdp, run):
 
 
 async def join(pg, cdp, run):
+    await pg.evaluate("(()=>{ if(!window.__evOrig) window.__evOrig={tick:EVENTS.tick, onEnter:EVENTS.onEnter}; })()")   # quiet_events 會把這兩個換掉；先存起來，導覽結束後還原（PHOTO）
     await L.load_state(pg, PRE, quiet_events=True); await pg.wait_for_timeout(5000)
     it = await L.find_it(pg, '新生導覽集合點')
     ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, '集合點')
@@ -161,6 +162,10 @@ async def main():
         if PHOTO:
             during = [o for o in OUTSEEN if not o['post']]
             run.check('A 導覽途中沒有跳「出發：」選單（15:55 系學會合照要等導覽結束）', not during, json.dumps(during, ensure_ascii=False))
+            # 11-03 20:1x：前置用 quiet_events（EVENTS.tick／onEnter 換成什麼都不做）＝自動觸發的事件（ev_l3_photo 是 trigger:'auto'）永遠不會演——tap5～7 的「合照沒演」是這個造成的。
+            #   導覽走完以後，照真實遊戲把條件事件還原，再等合照
+            ev_on = await pg.evaluate("(()=>{ const o=window.__evOrig; if(!o) return false; EVENTS.tick=o.tick; EVENTS.onEnter=o.onEnter; return true; })()")
+            run.note('導覽結束：條件事件還原（EVENTS.tick／onEnter）＝%s' % ev_on)
             POST['on'] = True; h0 = await pg.evaluate("+GAME.G.hour"); t1 = time.time(); dl = []
             # BB 18:56：ddda 第一次（tap3）合照已經出發、state done，探針卻沒看到選單＝等的這段不能有任何自動點選。
             #   在頁面裡掛觀察器：#choices 每一次出現的按鈕文字（和遊戲時間）、每一次按鈕被按（誰按的都記），探針只在看到「出發：」時自己點
