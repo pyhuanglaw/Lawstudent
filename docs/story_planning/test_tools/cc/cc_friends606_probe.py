@@ -66,6 +66,7 @@ async def quick_go(pg, cdp, run, zone):
         await pg.wait_for_timeout(1000)
         s = await C.ts(pg)
         if s['zone'] == zone or s['dlg'] or s['ch']: break
+    if (await C.ts(pg))['phone']: await L.phone_away(pg, cdp, tries=2); await L.close_panels(pg, cdp)   # 到了（或中途有劇情）就把手機收起來
     return True
 
 
@@ -122,7 +123,7 @@ async def main():
             run.check('新局照玩家點完宿營、走到 8/29', ok_c, J({k: s_c.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1')} if s_c else None))
             if not ok_c:
                 await run.shot(pg, 'camp_not_done'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
-        t0 = time.time(); last = None; since = time.time(); ended = None; tried = set(); day_key = None; shot_days = set()
+        t0 = time.time(); last = None; since = time.time(); ended = None; tried = set(); day_key = None; shot_days = set(); t_class = 0.0
         while time.time() - t0 < MAX_S:
             s = await C.ts(pg)
             if not s: await pg.wait_for_timeout(800); continue
@@ -161,7 +162,9 @@ async def main():
             h = s['h']
             soon = [g for g in ci['gl'] if g['key'] not in tried and g['t0'] - h <= 1.0]
             if soon:
-                tried.add(soon[0]['key']); await go_class(pg, cdp, run, soon[0]['key']); since = time.time(); continue
+                tried.add(soon[0]['key']); await go_class(pg, cdp, run, soon[0]['key']); since = time.time(); t_class = time.time(); continue
+            if s['zone'] != 'dorm' and time.time() - t_class < 150:
+                await pg.wait_for_timeout(1500); continue   # 剛按「直接去上課」：到教室以後坐下、上課的選單還要一下子才出來，不要馬上回宿舍
             if s['zone'] != 'dorm':
                 run.note('%s %s 在 %s：手機「地點」回宿舍' % (s['key'], C.hm(h), s['zone'])); await quick_go(pg, cdp, run, 'dorm'); continue
             # 9/23：22:00 以前不快轉過頭——在 203 等（快轉也會在四碗麵那一刻停；這裡照玩家「晚上待在房間」）
