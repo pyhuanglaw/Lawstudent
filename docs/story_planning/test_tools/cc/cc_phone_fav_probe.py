@@ -18,7 +18,10 @@ POST = """(()=>{ const G=GAME.G, d=G.day; PHONE.postAt(G,{th:'p:heroine_01',from
   PHONE.postAt(G,{th:'p:heroine_02',from:'heroine_02',text:'下週的書展你去嗎？'},d-1,21); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'週末來木柵大學？我當導遊。'},d,12);
   PHONE.postAt(G,{th:'p:heroine_03',from:'heroine_03',text:'社會學的報告要分組了'},d,15);
   PHONE.postAt(G,{th:'p:zhe',from:'zhe',text:'明天系籃練球？'},d,9); })()"""
-ROWS = "[...document.querySelectorAll('#phoneBody .chatRow')].map(e=>({th:e.dataset.th,star:!!e.querySelector('.favStar')}))"
+ROWS_ALL = "[...document.querySelectorAll('#phoneBody .chatRow')].map(e=>({th:e.dataset.th,star:!!e.querySelector('.favStar')}))"
+# 只比這次放的五個人的順序：系統通知（th=sys）什麼時候進來看機器快慢（PC 11-03 N19F_fav：語彤和可昕之間多一列 sys），不是最愛的功能
+MINE = ['p:heroine_01', 'p:heroine_02', 'p:heroine_03', 'p:kexin', 'p:zhe']
+ROWS = "(%s).filter(r=>%s.includes(r.th))" % (ROWS_ALL, json.dumps(MINE))
 fails = []
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + ('  ' + info if info else ''), flush=True)
@@ -34,6 +37,8 @@ async def msgs(pg, cdp):
     if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
     await L.tap(pg, cdp, '#phoneTabs [data-ptab="msg"]'); await pg.wait_for_timeout(900)
+    allr = await pg.evaluate(ROWS_ALL); other = [r['th'] for r in allr if r['th'] not in MINE]
+    if other: print('  （列表裡另外還有：%s；不列入順序比對）' % other, flush=True)
     return await pg.evaluate(ROWS)
 
 async def one(p, tag, landscape):

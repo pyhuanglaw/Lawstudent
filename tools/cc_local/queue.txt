@@ -58,6 +58,10 @@ N19C_f606   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_friends60
 N19C_kx607  | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_kexin_hsr_probe.py | index.html | 120 | MAX_S=6600
 # BB 14:07：PHONE-FAV-1103（X190）；雲端 b1ae 直向＋橫向 ALL PASS（32 項）
 N19F_fav    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav_probe.py | index.html | 40 | CC_HEADLESS=0;ORIENTS=port,land
+N19F_fav2   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav_probe.py | index.html | 40 | CC_HEADLESS=0;ORIENTS=port,land;RERUN=sysrow
+# （N19F_fav2：第一次 PC 列表多一列系統通知 sys，探針只比五個人的順序；CC 11-03）
+N19E_exw    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_examweek_trip_probe.py | index.html | 60 |
+# （N19E_exw：雲端 b1ae ALL PASS（④ 改成那天每個出發時間都沒灰掉），PC 再跑一次）
 # BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
 #HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
 #HOLD候選 N19O_onetap_s | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 40 | SCRIPT_FROM=story;CASES=sleep;CC_HEADLESS=0
