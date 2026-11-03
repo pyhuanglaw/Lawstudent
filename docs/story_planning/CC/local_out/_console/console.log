@@ -214,3 +214,11 @@
 [20:12:41] ==== START LIVE18_deploy  (game @ 0776cafc8) ====
 [20:12:44] [res] cpu=12% mem=48% (15.2/31.4 GB) chrome_testing=19  START LIVE18_deploy
 [20:13:51] [res] cpu=86% mem=51% (16.3/31.4 GB) chrome_testing=19  END 01_p0speed
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8f00b81e3..72f187803  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:13:55] ==== END   01_p0speed  exit=0  164s   ====
+[20:13:57] memory 51% before starting LIVE18_day12 (2 running)
+[20:13:57] ==== START LIVE18_day12  (game @ 0776cafc8) ====
+[20:14:02] [res] cpu=38% mem=52% (16.2/31.4 GB) chrome_testing=19  START LIVE18_day12
+[20:15:57] [res] cpu=20% mem=48% (15.2/31.4 GB) chrome_testing=19  END LIVE18_deploy
