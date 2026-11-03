@@ -14,7 +14,7 @@ import playlib as L
 URL = sys.argv[1]; OUT = sys.argv[2]
 SHOPS = [s for s in os.environ.get('SHOPS', '').split(',') if s]
 HOURS = [float(h) for h in os.environ.get('HOURS', '12.5,15,18.5,22.75').split(',')]
-DATE = os.environ.get('DATE', '2025-10-15')   # 週三（開學後、不是假日）
+DATE = os.environ.get('DATE', '2025-10-16')   # 週四（開學後、不是假日；l118_pasta 週三休，BB 14:34）
 BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True}
 fails = []
 def check(name, ok, info=''):
