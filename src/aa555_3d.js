@@ -78,7 +78,7 @@ const AA555=(function(){
     ['y2s2_an_question',AN,wk('Y2S2'),(G,d)=>got(G,AN,d)&&classOn('admin_remedy',d),()=>[M(AN,'我今天在課堂上問了一個問題。老師說『好問題』。我只想要答案。')]],   /* 新 11 還沒有事件：行政救濟法有課的那一天 */
     ['y2s2_an_expo',AN,wk('Y2S2'),(G,d)=>{ const x=DK('2027-03-18'); return got(G,AN,d)&&x!=null&&d>x; },()=>[M(AN,'說明會的資料四十頁，我讀完了。有三頁是同一頁印兩次。')]],   /* 交換說明會 3/18 之後 */
     /* ---- 大三上 ---- */
-    ['y3s1_yt_lease',YT,wk('Y3S1'),(G,d)=>got(G,YT,d)&&done(G,'ev_yt_lease_renew'),()=>SQ(YT,['📷（阿姨在新合約上簽名，手有點抖）','她說是因為冷。'])],
+    ['y3s1_yt_lease',YT,wk('Y3S1'),(G,d)=>got(G,YT,d)&&done(G,'ev_yt_lease_renew'),()=>SQ(YT,['📷（秀琴姨在新的租約上簽名，手有點抖）','她說是因為冷。']   /* AA_643 第 9-2 節 */)],
     ['y3s1_zhe_captain',ZHE,wk('Y3S1'),(G,d)=>got(G,ZHE,d)&&!!G.flags.ZHE3,()=>SQ(ZHE,['明天練球','不來的要買飲料','來的也要買','我是隊長'])],   /* 哲 3 當隊長（ZHE3）；AA-B 11-01：遊戲沒有系籃群組，改阿哲私訊祐廷 */
     ['y3s1_zhe_scooter',ZHE,wk('Y3S1'),(G,d)=>got(G,ZHE,d)&&done(G,'ev_zhe_scooter'),()=>SQ(ZHE,['修車行說兩千','對方付了','我請你吃燒臘','雙拼'])],   /* AA_117 C4 */
     ['y3s1_yu_tuesday',YU,wk('Y3S1'),(G,d)=>got(G,YU,d),()=>SQ(YU,['我現在每週二晚上沒有事','好奇怪','我在宿舍走來走去'])],

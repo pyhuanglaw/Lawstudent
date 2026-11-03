@@ -221,15 +221,16 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-05 語彤 15b〈公館的時間〉 ----------
   fresh('2028-10-17',17.6,'noodle',TWF()); R('heroine_03','FAM'); const e1ok=EVENTS.check(ev('ev_yt_essay')); picks=[0]; await run('ev_yt_essay');
-  check('E1. 10/17 麵店（她的班、FAMILIAR）：「不要在我面前讀」；當面讀＝三句旁白；YT_ESSAY front', e1ok&&has('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。')&&has('（第一段是水源市場賣菜的阿嬤：「她五十年沒有放過假。」中間是續約那天，一個老客人說的話。）')&&has('（你抬頭的時候，她已經倒好水，站在別桌旁邊。）')&&G.flags.YT_ESSAY==='front');
+  /* AA_625 第 15b 節（YT-REWRITE-1103）：〈溫州街的時間〉——她不在燒臘店的班，麵店那一場退場（retired）；只剩總圖三樓的期刊架，目錄那一句後面加「（系刊第三頁，她的名字下面寫著：…）」*/
+  check('E1. 10/17 麵店那一場退場（AA_625 第 15b 節）', !e1ok&&!!ev('ev_yt_essay').retired);
   fresh('2028-10-24',18,'noodle',TWF()); R('heroine_03','FAM'); picks=[1]; await run('ev_yt_essay'); at('2028-10-25',21.1); rules(); const ask05=PHONE.byAsk(G,'y4_yt_essay'); answer('y4_yt_essay',0);
-  check('E2. 回家讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」', G.flags.YT_ESSAY==='home'&&!!ask05&&JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:讀了嗎','player:讀了','heroine_03:嗯']), JSON.stringify(txt('p:heroine_03')));
+  check('E2. 舊存檔（直接演那一場的定義、選回家讀）：隔天 21:00「讀了嗎」照舊', G.flags.YT_ESSAY==='home'&&!!ask05&&JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:讀了嗎','player:讀了','heroine_03:嗯']), JSON.stringify(txt('p:heroine_03')));
   fresh('2028-10-17',17.6,'noodle',US()); R('heroine_03','FAM'); const e3a=!EVENTS.check(ev('ev_yt_essay'));
   fresh('2028-12-20',10,'library',US({US_RETURNED:D('2028-12-23')})); const e3b=!R2Y4A.shelfOn(G); at('2028-12-24',10); await tick(); const sh=E.interactables.find(it=>it.ytEssayShelf); said=[]; await R2Y4A.shelfLook(GM);
-  check('E3. 美國路線：沒有她的那一場；12/24 起總圖三樓期刊架看得到：「（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）」；YT_ESSAY shelf', e3a&&e3b&&!!sh&&has('（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）')&&G.flags.YT_ESSAY==='shelf');
+  check('E3. 美國路線：沒有她的那一場；12/24 起總圖三樓期刊架看得到：「（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）」；YT_ESSAY shelf', e3a&&e3b&&!!sh&&has('（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）')&&has('（系刊第三頁，她的名字下面寫著：『謝謝秀琴姨，和一盞茶屋所有的人。』）')&&G.flags.YT_ESSAY==='shelf');
   fresh('2028-10-16',12,'library',TWF()); R('heroine_03','FAM'); await tick(); const shTW=!!E.interactables.find(it=>it.ytEssayShelf); await R2Y4A.shelfLook(GM); const hold0=STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-20')});
   at('2028-10-17',17.6); G.zone='noodle';
-  check('E. 台灣路線 10/16 起有期刊架；先翻了期刊架，10/17 她的班照樣演；Y7-L3 等這一場（或 10/24 以後）', shTW&&EVENTS.check(ev('ev_yt_essay'))&&hold0===false&&STORY.LADDER_HOLD['Y7-L3'](G)===true&&STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-25')})===true);
+  check('E. 台灣路線 10/16 起有期刊架；麵店那一場不演；Y7-L3 等期刊架（或 10/24 以後）', shTW&&!EVENTS.check(ev('ev_yt_essay'))&&hold0===false&&STORY.LADDER_HOLD['Y7-L3'](G)===true&&STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-25')})===true);
 
   // ---------- 2-Y4-06 推甄 ----------
   const EXAMS=v=>{ const R0=CLS.rec(G); R0.exam={}; for(const t of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2']) R0.exam[t+':c'+t+':final']={status:'done',correct:v}; };

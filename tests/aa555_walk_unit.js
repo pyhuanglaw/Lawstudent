@@ -163,7 +163,7 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   let b=bubbles(r.content), special=null;
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
-  if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js')).map(t=>t==='📷（秀琴姨在我家陽台烤肉，旁邊一隻貓）'?'📷（公園的橘子，旁邊一塊烤肉）':t);   /* 中秋那張：AA_642 第 2 節用 A-017 的備選（秀琴姨不去烤肉）*/   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
+  if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js')).map(t=>t==='📷（秀琴姨在我家陽台烤肉，旁邊一隻貓）'?'📷（公園的橘子，旁邊一塊烤肉）':(t==='📷（阿姨在新合約上簽名，手有點抖）'?'📷（秀琴姨在新的租約上簽名，手有點抖）':t));   /* 大三上續約那張：AA_643 第 9-2 節 */   /* 中秋那張：AA_642 第 2 節用 A-017 的備選（秀琴姨不去烤肉）*/   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
 /* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
 { const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/

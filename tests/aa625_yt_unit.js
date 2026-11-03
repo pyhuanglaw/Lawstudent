@@ -76,6 +76,12 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   G.day=tdOf('Y2S2',16,6); said=[]; await shift(44); check('11. 一週後還沒道歉',!said.some(x=>/你說得對/.test(x)));
   G.day=tdOf('Y2S2',15,6)+14; said=[]; await shift(45);   /* 第 15 週週六＋14 天（學期剛結束的暑假週末班）*/ check('11. 兩週後的週末班：「上次……你說得對。…」；記 APOLOGIZED',said.some(x=>x.endsWith('上次……你說得對。她要的是可以不用搬。我不應該拿錢去堵。'))&&SOCIAL.has('heroine_03','APOLOGIZED'),JSON.stringify(said));
   check('11. 台詞都在 AA_625 第 11 節（開頭照 AA_643 第 1 節）',[].concat(H11.a,H11.b,H11.c,H11.sorry,H11.a2.say,H11.open.slice(1)).every(x=>DOC.includes(x[1].replace(/^（|）$/g,'')))&&!!(STORY_EVENTS.find(e=>e.id==='ev_yt_help_dishes')||{retired:true}).retired);
+  /* 5 圖書館三樓（AA_643 第 9-1 節，企劃線 4862b7139）：新遊戲（YT_JOB_V）＝大一下第 10 週以後週末 17:30～19:00、YT_PARENTS_KNOW；舊存檔照舊 21:00～22:00 阿姨那一版 */
+  { const T=STORY_EVENTS.find(e=>e.id==='ev_yutong_thanks'), C=T.prereq.custom, g=(wk,wd,h,f)=>({day:tdOf('Y1S2',wk,wd),hour:h,flags:Object.assign({YT_JOB_V:1,YT_PARENTS_KNOW:true},f||{})});
+    const A643=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 4862b7139:"docs/story_planning/AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
+    const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text);
+    check('5. 新遊戲：第 10 週週六 18:00＝有；週三、第 9 週、19:30、沒有 YT_PARENTS_KNOW＝沒有；舊存檔（沒有 YT_JOB_V）照舊 21:00～22:00＋yutong_hospital',C(g(10,6,18))&&C(g(12,7,17.6))&&!C(g(10,3,18))&&!C(g(9,6,18))&&!C(g(10,6,19.5))&&!C(g(10,6,18,{YT_PARENTS_KNOW:false}))&&C({day:tdOf('Y1S2',10,2),hour:21.5,flags:{yutong_hospital:true}})&&!C({day:tdOf('Y1S2',10,6),hour:18,flags:{}}));
+    check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句）',A643.length>1000&&V.length===8&&V.every(t=>A643.includes(t.replace(/^「|」$/g,''))),JSON.stringify(V.filter(t=>!A643.includes(t)))); }
   fresh(); G.flags.YT_MET_JOB=true; G.day=tdOf('Y1S2',11,2); YTJOB.momKnown(G); check('4. 沒去上班的玩家：第 9 週週六過了也記 YT_PARENTS_KNOW（閒聊階梯的條件）',G.flags.YT_PARENTS_KNOW===true);
   check('5. 接線：jobs3d.js 有 MID_EV、story3d.js schedEnt 看 YTJOB.absent',/S\.MID_EV=\[\]/.test(fs.readFileSync(path.join(ROOT,'src/jobs3d.js'),'utf8'))&&/YTJOB\.absent/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

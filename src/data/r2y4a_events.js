@@ -404,7 +404,7 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */
   const YT='heroine_03', yt=t=>({speaker:YT,text:t});
   const YT_DAYS=['2028-10-17','2028-10-24'];
-  EV.push({ id:'ev_yt_essay', title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
+  EV.push({ id:'ev_yt_essay', retired:true /* AA_625 第 15b 節（YT-REWRITE-1103）：〈溫州街的時間〉只剩總圖三樓的期刊架（r2y4a3d.js S.shelfLook）；她不在燒臘店的班，這一場退場，定義留給舊存檔 */, title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:YT,min:'FAMILIAR'},custom:G=>YT_DAYS.some(k=>D(k)===G.day)&&(!G.flags.YT_ESSAY||G.flags.YT_ESSAY==='shelf')&&notUS(G)},   /* 先翻過期刊架（shelf）的，那兩個班照樣遇得到她 */
     dialogue:[ yt('系刊登了。我沒有寫阿姨是我阿姨。'),
       yt('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。'),

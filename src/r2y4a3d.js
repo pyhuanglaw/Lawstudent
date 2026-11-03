@@ -464,7 +464,7 @@ const R2Y4A=(function(){
     if(!S.shelfOn(G)){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
     const v2=typeof L3F!=='undefined'&&L3F.active&&L3F.active();   /* LIB-3F-1102 第二版：中間紅色的現期期刊展示架（最南那一座 z −3.4）前面 (0, −2.75)；第一版西側書牆前 (−9.7, 2.4)，第二版那裡是靠窗的閱覽桌 */
     E.interactables.push({x:v2?0:-9.7,z:v2?-2.75:2.4,radius:1.0,lv:0,label:'看期刊架',ytEssayShelf:true,onInteract:()=>{ S.shelfLook(GM).catch(e=>console.warn('R2Y4A 期刊架',e)); }}); };   /* 西側書牆（zones3d.js 的 library：shelfWall x=-10.8）*/
-  S.shelfLook=async function(GM){ const G=GM.G; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'}); await GM.say(null,'（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）'); }
+  S.shelfLook=async function(GM){ const G=GM.G; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'}); await GM.say(null,'（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）'); await GM.say(null,'（系刊第三頁，她的名字下面寫著：『謝謝秀琴姨，和一盞茶屋所有的人。』）'); }   /* 第二句：AA_625 第 15b 節（YT-REWRITE-1103）*/
     finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); } if(!G.flags.YT_ESSAY) G.flags.YT_ESSAY='shelf'; return true; };
 
   /* ===================== 2-Y4-07 校慶的海報：11/6～11/11 霖澤館公告欄（AA_345 F1 新寫；11/12 起撤掉）=====================

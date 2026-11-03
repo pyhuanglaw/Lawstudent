@@ -80,7 +80,8 @@ const YTJOB=(function(){
     const k=await GM.choose([{t:'「我覺得她要的不是錢。」'},{t:'「那就換一個她會收的方法。」'},{t:'「妳是好意。」'}]);
     if(k===0){ await JOBS.play(GM,S.HELP.a); await ch(GM,[S.HELP.a2]); ytMem('YT_FIGHT','想幫秀琴姨付押金那天'); F.YT_FIGHT_DAY=G.day; }
     else if(k===1) await JOBS.play(GM,S.HELP.b); else await JOBS.play(GM,S.HELP.c); return true; };
-  S.sorryDue=G=>{ const d=G.flags.YT_FIGHT_DAY; return typeof d==='number'&&G.day>=d+14&&!G.flags.YT_EV11B_SORRY; };
+  const fieldAway=G=>{ const a=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-07-19'):null, b=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-07-31'):null; return a!=null&&b!=null&&G.day>=a&&G.day<=b; };   /* 台東田野那兩週（AA_549 2-7）*/
+  S.sorryDue=G=>{ const d=G.flags.YT_FIGHT_DAY; return typeof d==='number'&&G.day>=d+14&&!G.flags.YT_EV11B_SORRY&&!fieldAway(G); };   /* AA_643 第 9-3 節：落在 7/19～7/31 就順延到她回來後的第一個班 */
   S.sorry=async function(GM){ const G=GM.G; G.flags.YT_EV11B_SORRY=G.day; await JOBS.play(GM,S.HELP.sorry); ytMem('APOLOGIZED','她說「上次……你說得對。」'); return true; };
   S.momDay=G=>at(G,'Y1S2',9,6); S.absentDay=G=>at(G,'Y1S2',9,7);   /* 第 9 週週六媽媽來（她在班上）、週日她請假 */
   S.absent=G=>!!G&&typeof CALENDAR!=='undefined'&&S.absentDay(G);   /* story3d.js schedEnt：那一天她不在茶屋 */
