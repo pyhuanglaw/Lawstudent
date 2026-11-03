@@ -183,3 +183,11 @@
 [08:45:01] ==== START R9_x3  (probe @ b1b249873) ====
 [08:45:05] [res] cpu=12% mem=48% (15.2/31.4 GB) chrome_testing=11  START R9_x3
 [08:51:05] [res] cpu=1% mem=47% (14.9/31.4 GB) chrome_testing=19  END R9_x3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c59d1002a..d6c74210d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:51:12] ==== END   R9_x3  exit=0  364s   ====
+[08:51:14] memory 47% before starting 00_gpu (2 running)
+[08:51:14] ==== START 00_gpu  (gpu @ 381a4d705) ====
+[08:51:18] [res] cpu=29% mem=47% (14.9/31.4 GB) chrome_testing=19  START 00_gpu
+[08:53:50] [res] cpu=28% mem=48% (15.3/31.4 GB) chrome_testing=18  END 00_gpu
