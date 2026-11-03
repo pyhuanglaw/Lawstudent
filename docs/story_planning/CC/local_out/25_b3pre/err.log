@@ -1,0 +1,6 @@
+[gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [25_b3pre]
+[gpu_wrap 37.6s] page close url=http://127.0.0.1:8810/index.html
+[gpu_wrap 37.7s] BROWSER DISCONNECTED
+[gpu_wrap 38.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [25_b3pre]
+[gpu_wrap 110.9s] page close url=http://127.0.0.1:8810/index.html
+[gpu_wrap 111.0s] BROWSER DISCONNECTED

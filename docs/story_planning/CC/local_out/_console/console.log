@@ -505,3 +505,12 @@
 [10:41:06] memory 39% before starting 25_b3pre (2 running)
 [10:41:06] ==== START 25_b3pre  (probe @ 299e23345) ====
 [10:41:07] [res] cpu=40% mem=39% (12.5/31.4 GB) chrome_testing=8  END 23_boyapre
+[10:41:09] [res] cpu=47% mem=40% (12.5/31.4 GB) chrome_testing=8  START 25_b3pre
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5ebacb864..f9e6e51dc  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:41:12] ==== END   23_boyapre  exit=1  162s   ====
+[10:41:33] memory 44% before starting 26_b3pre2 (2 running)
+[10:41:33] ==== START 26_b3pre2  (probe @ 6ba2a22ad) ====
+[10:41:36] [res] cpu=90% mem=45% (13.9/31.4 GB) chrome_testing=18  START 26_b3pre2
+[10:43:32] [res] cpu=34% mem=47% (14.8/31.4 GB) chrome_testing=18  END 25_b3pre

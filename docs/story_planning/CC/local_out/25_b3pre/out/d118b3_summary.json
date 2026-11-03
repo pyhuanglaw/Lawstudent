@@ -1,0 +1,84 @@
+{
+ "sha": "299e23345",
+ "url": "http://127.0.0.1:8810/index.html",
+ "cases": [
+  "S1",
+  "night"
+ ],
+ "seed": "20251215",
+ "label": "考前總複習",
+ "case_S1": {
+  "pre": {
+   "day": "2025-12-13",
+   "h": 14.005,
+   "zone": "dorm",
+   "money": 30000,
+   "studyStat": 0,
+   "slots": null,
+   "prep": {},
+   "notes": 0,
+   "done": 0,
+   "examSeed": 20251215,
+   "examRec": [],
+   "hasReview": false,
+   "label": null,
+   "prog": {
+    "const_1": {
+     "total": 9,
+     "heard": 0,
+     "read": 0,
+     "got": 0
+    },
+    "crim_gen1": {
+     "total": 8,
+     "heard": 0,
+     "read": 0,
+     "got": 0
+    },
+    "civ_general": {
+     "total": 10,
+     "heard": 0,
+     "read": 0,
+     "got": 0
+    }
+   },
+   "studyU": {},
+   "miss": 0,
+   "info": null,
+   "opt": null
+  },
+  "menu": {
+   "ok": true,
+   "menu_txt": "讀書〔選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉下午 1 次（還剩 0）〕｜起身",
+   "idx": null
+  },
+  "walkFallbacks": 0
+ },
+ "case_night": {
+  "night_2130": {
+   "menu": "讀書〔選讀多久（1～3 小時只算一次）。用掉晚上 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉晚上 1 次（還剩 0）〕｜起身",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\02_night_2130_menu_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\03_night_2130_menu_port.png"
+   ],
+   "dim": null
+  },
+  "night_2100": {
+   "menu": "讀書〔選讀多久（1～3 小時只算一次）。用掉晚上 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉晚上 1 次（還剩 0）〕｜起身",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\04_night_2100_menu_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\05_night_2100_menu_port.png"
+   ],
+   "dim": null
+  },
+  "night_2045": {
+   "menu": "讀書〔選讀多久（1～3 小時只算一次）。用掉晚上 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉晚上 1 次（還剩 0）〕｜起身",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\06_night_2045_menu_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\25_b3pre\\out\\07_night_2045_menu_port.png"
+   ],
+   "dim": null
+  },
+  "walkFallbacks": 0
+ }
+}

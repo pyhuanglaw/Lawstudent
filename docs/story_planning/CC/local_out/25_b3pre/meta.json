@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "25_b3pre",
+  "sha": "299e23345",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b3_probe.py",
+  "env": "CASES=S1,night",
+  "machine": "MSI",
+  "start": "2026-11-03T10:41:06",
+  "end": "2026-11-03T10:43:32",
+  "seconds": 146,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 54,
+    "mem": 52,
+    "used_gb": 16.7,
+    "chrome_testing": 27
+  }
+}
