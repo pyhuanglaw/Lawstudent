@@ -897,6 +897,26 @@
    "task": "GUITAR-CLUB-1103",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "AA_619 已寫；待 LAWWW 開任務"
+  },
+  {
+   "id": "UA-AA-1103-56",
+   "at": "2026-11-03",
+   "quote": "要有運動用品店阿 球鞋 球衣 羽球拍",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SPORT-SHOPS-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_620 已寫；待 LAWWW 開任務"
+  },
+  {
+   "id": "UA-AA-1103-57",
+   "at": "2026-11-03",
+   "quote": "而且不只一家 有的主要很多球鞋 有的主要是各種桌球 羽球 用品",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "SPORT-SHOPS-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_620 已寫；待 LAWWW 開任務"
   }
  ]
 }
