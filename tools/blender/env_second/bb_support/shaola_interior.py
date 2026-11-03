@@ -36,7 +36,7 @@ LEAF_DEG = -100                                                # 左邊門扇往
 BACKTABLE = dict(x0=-2.9, x1=-0.35, z0=-6.5, z1=-5.92)        # 後牆不鏽鋼工作檯（參考圖第 10 項）
 EXTRA_BLOCKS = [[round((BACKTABLE['x0'] + BACKTABLE['x1']) / 2, 3), round((BACKTABLE['z0'] + BACKTABLE['z1']) / 2, 3), round(BACKTABLE['x1'] - BACKTABLE['x0'], 3), round(BACKTABLE['z1'] - BACKTABLE['z0'], 3), '後牆不鏽鋼工作檯'],
                 [-2.75, 0.0, 0.4, 0.0, '靠牆的圓凳（每桌一張，z＝桌子；見 README）']]
-EXTRA_BLOCKS = EXTRA_BLOCKS[:1] + [[-2.74, z, 0.36, 0.36, f'靠牆的圓凳（第 {i + 1} 桌）'] for i, z in enumerate(TABLES_Z)]
+EXTRA_BLOCKS = EXTRA_BLOCKS[:1] + [[-2.74, z, 0.36, 0.36, f'靠牆的圓凳（第 {i + 1} 桌）'] for i, z in enumerate(TABLES_Z)] + [[-1.5, z, 0.36, 0.36, f'靠走道的圓凳（第 {i + 1} 桌；走道剩 x −1.32～0.9＝2.2 m）'] for i, z in enumerate(TABLES_Z)]
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
 
 random.seed(612); R = random.Random(612)
@@ -275,7 +275,7 @@ def stool(x, z):
 for z in TABLES_Z:
     table(z)
     for dz in (-0.62, 0.62): stool(TX_, z + dz)
-    stool(-2.74, z + R.uniform(-0.08, 0.08))
+    stool(-2.74, z + R.uniform(-0.08, 0.08)); stool(-1.5, z + R.uniform(-0.06, 0.06))   # 靠牆、靠走道各多一張（參考圖每桌四張）
 
 # ================= 左牆的東西（從前到後） =================
 lv = wg('left', 'vc')
@@ -319,6 +319,22 @@ for (zc, y0, key, w_, h_) in ((6.5 - 4.9, 1.6, 'cert', 0.26, 0.34), (6.5 - 6.4, 
     z0_, z1_ = zc - w_ / 2 - 0.025, zc + w_ / 2 + 0.025
     for (b0, b1, c0, c1) in ((z0_, z1_, y0 - 0.025, y0), (z0_, z1_, y0 + h_, y0 + h_ + 0.025), (z0_, z0_ + 0.025, y0, y0 + h_), (z1_ - 0.025, z1_, y0, y0 + h_)):
         lv.cbox(X0, X0 + 0.024, c0, c1, b0, b1, '#4a3222')
+# 神明桌（左牆高處，紅色小佛龕＋紅色小燈）、掛在牆上的塑膠袋、湯匙杯架、更多手寫紙條
+sx0, sz0 = X0, 0.6
+lv.cbox(sx0, sx0 + 0.36, 2.28, 2.31, sz0 - 0.3, sz0 + 0.3, '#7a2a1c'); lv.cbox(sx0, sx0 + 0.04, 2.31, 2.75, sz0 - 0.28, sz0 + 0.28, '#8a2a1c')
+lv.crbox(sx0 + 0.04, sx0 + 0.3, 2.31, 2.68, sz0 - 0.2, sz0 + 0.2, '#a8281c', r=0.01, seg=1)
+lv.cbox(sx0 + 0.3, sx0 + 0.305, 2.35, 2.62, sz0 - 0.14, sz0 + 0.14, '#3a1810')
+lv.ell((sx0 + 0.2, 2.42, sz0), 0.05, 0.08, 0.05, seg=8, rings=5); lv.paint(list(lv.bm.faces)[-40:], '#d8a030')
+for dz in (-0.17, 0.17): wg('left', 'warm').sphere((sx0 + 0.28, 2.36, sz0 + dz), 0.025, seg=8, rings=5)
+for dz in (-0.08, 0.08): ccyl(lv, (sx0 + 0.3, 2.31, sz0 + dz), (sx0 + 0.3, 2.4, sz0 + dz), 0.02, '#b8862a', seg=8)
+lv.cbox(sx0, sx0 + 0.006, 2.1, 2.27, sz0 - 0.25, sz0 + 0.25, '#c82a20')   # 紅色的布條
+for k in range(3): clathe(lv, [(0.0, 0.0), (0.05, 0.0), (0.06, 0.26), (0.0, 0.26)], X0 + 0.07, 1.05 - k * 0.002, -2.3 + k * 0.03, '#f0eee8' if k else '#e8e0d0', seg=8)   # 一串塑膠袋
+ccyl(lv, (X0, 1.36, -2.27), (X0 + 0.07, 1.33, -2.27), 0.006, '#8a8a8a', seg=4)
+lv.cbox(X0, X0 + 0.16, 1.05, 1.08, -3.2, -2.7, '#c4c8cb')   # 湯匙杯架
+for k in range(4): clathe(lv, [(0.0, 0.0), (0.04, 0.0), (0.045, 0.12), (0.0, 0.12)], X0 + 0.08, 1.08, -3.12 + k * 0.12, '#e8e4dc', seg=8)
+on_wall(lp, 'left', Z1 - 0.2 - 3.4, Z1 - 0.2 - 3.1, 1.4, 1.62, C['note3'], d=0.004)   # 滷蛋一顆 15
+on_wall(lp, 'left', Z1 - 10.3, Z1 - 10.0, 1.3, 1.52, C['note5'], d=0.004)            # 湯自取
+on_wall(lp, 'left', Z1 - 2.9, Z1 - 2.6, 1.05, 1.27, C['note1'], d=0.004)             # 外帶加 10 元
 # 圓鐘（後面，z −4.9，高 2.45）
 cz_, cy_ = -4.9, 2.45
 fs = clathe(lv, [(0.0, 0.0), (0.17, 0.0), (0.175, 0.015), (0.17, 0.04), (0.15, 0.04), (0.15, 0.01), (0.0, 0.01)], X0, cy_, cz_, '#2a2a2c', seg=28, mat=Matrix.Rotation(PI / 2, 4, 'Y'))
@@ -459,8 +475,8 @@ VC.crbox(1.12, 1.3, c['h'], c['h'] + 0.1, -0.35, -0.15, '#d8c8a0', r=0.004, seg=
 # 砧板檯後面（老闆那一側）的小東西：辣椒罐、塑膠袋一捲
 for k in range(4): clathe(GL, [(0.0, 0.0), (0.04, 0.0), (0.04, 0.1), (0.0, 0.1)], 1.8, c['h'], -0.3 + k * 0.2, ['#a8200e', '#e8d8a8', '#2a140a', '#e8e0c8'][k], seg=8)
 # 招牌下的橫樑（砧板檯上方，面向走道）＋「公館燒臘」招牌
-VC.cbox(c['x0'] - 0.02, c['x0'] + 0.06, 2.42, H, CHOP_Z[0] - 0.4, CASE_Z[0] + 0.05, '#cfc6b0')
-on_wall(PR, 'right', CHOP_Z[0] - 0.33 - Z0, CASE_Z[0] - Z0, 2.48, 3.14, C['sign'], d=X1 - (c['x0'] - 0.025))
+VC.cbox(c['x0'] - 0.02, c['x0'] + 0.06, 2.34, H, CASE_Z[0] - 4.2, CASE_Z[0] + 0.05, '#cfc6b0')
+on_wall(PR, 'right', CASE_Z[0] - 4.1 - Z0, CASE_Z[0] - Z0, 2.38, 3.18, C['sign'], d=X1 - (c['x0'] - 0.025))
 # 電視（後段上方，吊架，斜斜面向用餐區）
 T = rot(1.35, -4.75, -PI * 0.13)
 def rbox_rot(m, T, lx, ly, lz, w, h, d, yaw, col):   # 轉了 yaw 的方塊（中心在本地 lx, ly, lz）
@@ -481,7 +497,7 @@ for z in (kz0, kz0 + 1.07, kz0 + 2.14, kz1):
 MS['glass'].quad([(gx0 - 0.02, c['h'], kz1), (gx0 - 0.02, c['h'], kz0), (gx0 - 0.02, top, kz0), (gx0 - 0.02, top, kz1)])   # 面向走道的玻璃
 MS['glass'].quad([(gx0, c['h'], kz1 - 0.01), (gx1, c['h'], kz1 - 0.01), (gx1, top, kz1 - 0.01), (gx0, top, kz1 - 0.01)])  # 門那一端
 VM.cbox(gx0 - 0.03, gx0 - 0.015, c['h'] + 0.26, c['h'] + 0.28, kz0, kz1, '#c0c4c8')
-VM.cbox(gx1 - 0.02, gx1, c['h'], top, kz0, kz1, '#55585a')   # 櫃子背面（老闆那一側的拉門，暗一點的不鏽鋼）                                  # 玻璃中段的橫條
+ST.box(X1 - 0.02, X1, c['h'], 2.5, kz0, kz1)   # 櫃子後面右牆的不鏽鋼擋板（參考圖櫃子裡亮亮的反光）                                  # 玻璃中段的橫條
 # 吊桿＋勾子（兩根桿，前低後高）
 RAIL_X, RAIL_Y = 1.42, 2.3
 ccyl(VM, (RAIL_X, RAIL_Y, kz0 + 0.05), (RAIL_X, RAIL_Y, kz1 - 0.05), 0.012, '#b0b4b8', seg=8)
@@ -503,7 +519,12 @@ def bird(x, z, kind):
     prof = [(0.0, 0.0), (body_r * 0.45, 0.012), (body_r * 0.85, body_h * 0.12), (body_r, body_h * 0.3), (body_r * 0.97, body_h * 0.5), (body_r * 0.8, body_h * 0.7),
             (body_r * 0.5, body_h * 0.86), (0.03 * sc, body_h * 0.97), (0.022 * sc, body_h + neck_len * 0.6), (0.018 * sc, body_h + neck_len), (0.0, body_h + neck_len + 0.005)]
     sq = Matrix.Diagonal((1.0, 0.58, 1.0, 1.0))   # 前後扁（Blender y＝遊戲 −z）
-    f0 = set(GL.bm.faces); GL.add_bm(L.lathe(prof, seg=16), Matrix.Translation(g2b(x, yb, z)) @ sq); fs = newfaces(GL, f0)
+    bm = L.lathe(prof, seg=18); rr = random.Random(int(z * 997))
+    for v in bm.verts:   # 不對稱、表面有起伏（皮皺、油滴）：完美的旋轉體看起來像玩具
+        t = v.co.z / body_h; a = math.atan2(v.co.y, v.co.x)
+        k = 1 + 0.06 * math.sin(a * 3 + rr.uniform(0, 6)) * math.sin(PI * min(1.0, t)) + rr.uniform(-0.025, 0.025)
+        v.co.x *= k * (1.08 if v.co.x > 0 and t < 0.5 else 1.0); v.co.y *= k * (1.15 if v.co.y < 0 else 0.9)   # 胸前鼓、背平
+    f0 = set(GL.bm.faces); GL.add_bm(bm, Matrix.Translation(g2b(x, yb, z)) @ sq); bm.free(); fs = newfaces(GL, f0)
     def grad(px, py, pz):
         t = (py - yb) / body_h; e = min(1.0, abs(px - x) / body_r)
         base = mix(col_lo, col_hi, max(0.0, min(1.0, 0.15 + 1.1 * t if t < 0.6 else 0.81 - (t - 0.6) * 1.2)))
@@ -537,7 +558,7 @@ def charsiu(x, z, ln):
     def grad(px, py, pz):
         e = min(1.0, math.hypot((px - x) / 0.036, (pz - z) / 0.022)); t = (py - (ytop - ln)) / ln
         edge = max(0.0, min(1.0, (e - 0.5) / 0.5)) ** 1.5; spot = 0.5 + 0.5 * math.sin(py * 53 + px * 91 + pz * 37)
-        base = mix('#b03420', '#701a10', edge)
+        base = mix('#c23a22', '#7a1c10', edge)
         k = (1 - 0.65 * edge * spot) * (0.55 + 0.45 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
     paint_fn(GL, fs, grad)
 

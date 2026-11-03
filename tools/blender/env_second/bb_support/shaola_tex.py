@@ -49,8 +49,12 @@ def wall(path):
             drip = np.clip(1 - yy / ln, 0, 1) ** 0.7
             stain = np.maximum(stain, prof[None, :] * drip * rng.uniform(0.4, 1.0))
         stain *= (0.6 + 0.6 * n2)
+        for _ in range(10):   # 牆中段的大片舊污（灰褐、不規則）
+            cx, cy = rng.randint(0, W), rng.randint(60, 360); rx, ry = rng.randint(40, 200), rng.randint(30, 120)
+            yy2, xx2 = np.mgrid[0:h, 0:W]; blob = np.exp(-(((xx2 - cx) / rx) ** 2 + ((yy2 - cy) / ry) ** 2) * 2) * (0.4 + 0.6 * n2)
+            stain = np.maximum(stain, blob * rng.uniform(0.25, 0.5))
         sc = np.array([150, 112, 64], np.float32)
-        col = col * (1 - 0.62 * stain[..., None]) + sc * 0.62 * stain[..., None]
+        col = col * (1 - 0.75 * stain[..., None]) + sc * 0.75 * stain[..., None]
         # 水漬的邊（深一點的線）
         edge = np.clip(np.abs(np.gradient(stain, axis=0)) * 40, 0, 1)
         col *= (1 - 0.18 * edge[..., None])
