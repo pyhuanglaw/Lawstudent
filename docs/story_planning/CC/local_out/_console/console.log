@@ -465,3 +465,10 @@
 [07:09:07] memory 49% before starting MAP_ctl (2 running)
 [07:09:07] ==== START MAP_ctl  (probe @ bf6dbda44) ====
 [07:09:08] [res] cpu=44% mem=49% (15.4/31.4 GB) chrome_testing=8  END PE_ctl
+[07:09:10] [res] cpu=58% mem=49% (15.5/31.4 GB) chrome_testing=8  START MAP_ctl
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9cc788787..04e75a207  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:09:13] ==== END   PE_ctl  exit=1  111s   ====
+[07:09:36] solo item N20_tour_tap8 waits: no new items start until the 2 running item(s) finish
+[07:10:51] [res] cpu=38% mem=49% (15.4/31.4 GB) chrome_testing=8  END MAP_fix

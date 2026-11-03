@@ -1,0 +1,37 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_map_friend_go_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MAP_fix\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：校園第 8 天找人（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  人：[["不認識的女生", "cafe", "mins:20"], ["不認識的女生", "library", "mins:5"], ["黃筱涵", "library", "mins:5"], ["陳助教", "library", "mins:5"], ["坐第三排的人", "bookstore", "mins:20"], ["常在圖書館的男生", "library_hall", "mins:5"], ["抱著一疊講義的女生", "cafe", "mins:20"], ["坐窗邊的人", "library", "mins:5"], ["常跟助教說話的男生", "library", "mins:5"], ["騎腳踏車超快的男生", "campus", "here"], ["很會問問題的女生", "campus", "here"], ["愛睡覺的男生", "library", "mins:5"]]
+PASS 前置：找到「同一區、走得到」的人  {"id": "pool_14", "nm": "騎腳踏車超快的男生", "met": false, "zone": "campus", "away": null, "here": true, "npc": true, "go": "here"}
+PASS 前置：找到「別區、走得到」的人  {"id": "heroine_02", "nm": "不認識的女生", "met": false, "zone": "cafe", "away": null, "here": false, "npc": false, "go": "mins:20"}
+== M 大地圖
+  [前置／捷徑] 讀檔：大地圖：other（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  👥：[]
+PASS M（other） ① 沒有「帶我去」  []
+FAIL M（other） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL M（other）：不認識的女生 那一行有「直接過去」可以按  []
+  [前置／捷徑] 讀檔：大地圖：here（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  👥：[]
+PASS M（here） ① 沒有「帶我去」  []
+FAIL M（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL M（here）：騎腳踏車超快的男生 那一行有「直接過去」可以按  []
+== P 手機朋友頁
+  [前置／捷徑] 讀檔：手機：here（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  朋友頁：[{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS P（here） ① 沒有「帶我去」  []
+FAIL P（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL P（here）：騎腳踏車超快的男生 那一行有「直接過去」可以按  [{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+  [前置／捷徑] 讀檔：手機：other（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  朋友頁：[{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS P（other） ① 沒有「帶我去」  []
+FAIL P（other） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL P（other）：不認識的女生 那一行有「直接過去」可以按  [{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+== U 走不到的人（寒假）
+  [前置／捷徑] 讀檔：寒假 2026-01-28（{"zone": "campus", "day": 134, "weekday": 3, "hour": 14.0}）
+  走不到的人：[["沈以安", "回台中過年", null], ["不認識的女生", "回台中過年", null], ["阿哲", "回高雄過年", null], ["柏翰", "回新竹過年", null], ["沛珊", "寒暑假在台中的家", null], ["方奕廷", "回台中過年", null], ["杜可昕", "寒暑假在高雄的家", null]]；朋友頁：[{"text": "沈以安\n☆\n回台中過年\n資料\n訊息\n回台中了，不在臺北。", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息"]}, {"text": "阿哲\n☆\n回高雄過年\n資料\n訊息\n回高雄了，不在臺北。", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n寒暑假在高雄的家\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS U ⑤ 前置：朋友頁上至少有一位走不到的人  ["沈以安", "不認識的女生", "阿哲", "柏翰", "沛珊", "方奕廷", "杜可昕"]
+PASS U ⑤ 走不到的人沒有「直接過去」  []
+PASS U ⑤ 頁面上不顯示「不能直接過去：…」
+PASS U ① 沒有「帶我去」  []
+PASS 沒有 JS 例外  []
+FAILED 8: M（other） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；M（other）：不認識的女生 那一行有「直接過去」可以按；M（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；M（here）：騎腳踏車超快的男生 那一行有「直接過去」可以按；P（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；P（here）：騎腳踏車超快的男生 那一行有「直接過去」可以按；P（other） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；P（other）：不認識的女生 那一行有「直接過去」可以按
