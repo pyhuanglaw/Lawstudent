@@ -77,6 +77,7 @@ async def main():
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
         global LINES
         src = await pg.evaluate(TOURSRC)
+        src = [x for k, x in enumerate(src) if k == 0 or x != src[k - 1]]   # 同一站的兩個分支（三元運算）寫同一句：只算一次
         LINES = [x[:10] for x in src]
         print('  七站的字（從 src/classes3d.js 的 TOUR 讀）：' + json.dumps(src, ensure_ascii=False), flush=True)
         run.check('從遊戲讀到七站的字', len(LINES) == 7, json.dumps(LINES, ensure_ascii=False))
@@ -84,7 +85,7 @@ async def main():
         await join(pg, cdp, run)
         await pg.evaluate(CAPOBS); await pg.evaluate(TRACK)
         run.note('MODE=%s' % MODE)
-        seen, t0, zones = [], time.time(), set()
+        seen, t0, zones, acts = [], time.time(), set(), []   # acts：每一輪做了什麼（看搖桿版為什麼跟不上）
         while time.time() - t0 < 1500:
             cap = await pg.evaluate(CAPALL)
             for i, l in enumerate(LINES):
@@ -92,15 +93,25 @@ async def main():
             st = await pg.evaluate(ST); zones.add(await pg.evaluate("GAME.G.zone"))
             if st == 'full': break
             s = await L.state(pg)
-            if s['choices'] and await handle_choices(pg, cdp, run): continue
-            if s['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+            if s['choices'] and await handle_choices(pg, cdp, run): acts.append([round(time.time() - t0), 'choice']); continue
+            if s['dlg']: acts.append([round(time.time() - t0), 'dlg']); await L.tap(pg, cdp, '#dlg'); continue
             lib = await pg.evaluate(LIB)
             if lib:
                 d = await pg.evaluate("(l=>{ const P=GAME.E.player; return (P.lv|0)!==l.lv?99:Math.hypot(P.obj.position.x-l.x,P.obj.position.z-l.z); })(%s)" % json.dumps(lib))
                 if d > 2.5:
                     if MODE == 'joy':   # 只用搖桿：手指滑鏡頭朝館員、搖桿往前推（d 越遠推越久）
-                        await L.turn_camera_to(pg, cdp, lib['x'], lib['z'])
+                        tc = await L.turn_camera_to(pg, cdp, lib['x'], lib['z'])
+                        p0 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
                         await L.joystick(pg, cdp, 0, -60, int(min(2500, 300 + d * 250)))
+                        p1 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
+                        if math.hypot(p1[0] - p0[0], p1[1] - p0[1]) < 0.3:   # 被擋住：像玩家一樣往斜前方、旁邊繞（不點地面）
+                            for dx, dy in ((42, -42), (-42, -42), (60, 0), (-60, 0), (42, 42), (-42, 42)):
+                                await L.joystick(pg, cdp, dx, dy, 900)
+                                p2 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
+                                if math.hypot(p2[0] - p1[0], p2[1] - p1[1]) >= 0.3:
+                                    run.note('搖桿往前被擋住，往 (%d,%d) 繞開' % (dx, dy)); break
+                        p3 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
+                        acts.append([round(time.time() - t0), 'joy', round(d, 2), bool(tc), round(math.hypot(p3[0] - p0[0], p3[1] - p0[1]), 2)])
                     else:
                         await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
             await pg.wait_for_timeout(1200)
@@ -111,7 +122,7 @@ async def main():
             for e in trk[max(0, li - 10):li + 1]: print('    ' + json.dumps(e, ensure_ascii=False), flush=True)
             tl = trk[li]['t']; print('  前 20 秒的點地面／moveTo：' + json.dumps([x for x in taps if tl - 20 <= x['t'] <= tl], ensure_ascii=False)[:1500], flush=True)
             await pg.screenshot(path=OUT + '/A_left.png')
-        with open(OUT + '/tour_trace.json', 'w', encoding='utf8') as f: json.dump({'mode': MODE, 'lines': LINES, 'track': trk, 'taps': taps}, f, ensure_ascii=False, indent=0)
+        with open(OUT + '/tour_trace.json', 'w', encoding='utf8') as f: json.dump({'mode': MODE, 'lines': LINES, 'track': trk, 'taps': taps, 'acts': acts}, f, ensure_ascii=False, indent=0)
         cap = await pg.evaluate(CAPALL)
         for i, l in enumerate(LINES):
             if l in cap and i not in seen: seen.append(i)
