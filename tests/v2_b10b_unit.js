@@ -61,7 +61,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   /* 4. 10-4 還債（ev_sk03_lunch） */
   const lunch=async(day,flags,pick)=>{ fresh(day,12.17,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true,P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true,MET_PINYU:true},flags)); picks=[pick||'一起去']; said=[]; opts=[]; caps=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
   { const L=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
-    check('4. 第 11 週週五：走廊「昨天那題我想通了。」→「學活。走不走？」→ 去了＝還債三句（不是平常的輪替句）、XUN_REPAID',L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：學活。走不走？'&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&L.includes('品妤：他從來沒請過我。')&&L.includes('阿勳：妳又沒教過我統計。')&&!L.includes('吳芯慈：……經濟系的人也會還債。')&&!L.some(t=>t.includes('永遠在講統計'))&&G.flags.XUN_REPAID,JSON.stringify(L));
+    check('4. 第 11 週週五：走廊「昨天那題我想通了。」→「學活。走不走？」→ 去了＝還債三句（不是平常的輪替句）、XUN_REPAID',L[0]==='阿勳：昨天那題我想通了。'&&L[1]==='阿勳：學活。走不走？'&&L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&L.includes('品妤：他從來沒請過我。')&&L.includes('阿勳：妳又沒教過我統計。')&&!L.includes('芯慈：……經濟系的人也會還債。')&&!L.some(t=>t.includes('永遠在講統計'))&&G.flags.XUN_REPAID,JSON.stringify(L));
     const L2=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T});
     check('4. 還債那天也是第一次去：先 1-1（品妤「重考生？…」，最後一句 AA_305 第 9 節「……你講話還是一樣，不留情。」）再還債三句',L2.indexOf('品妤：重考生？你看起來很有覺悟。')>0&&L2.indexOf('阿勳：（把一個便當推過來）昨天那題的。還債。')>L2.indexOf('品妤：……你講話還是一樣，不留情。')&&G.flags.SK03_FIRST,JSON.stringify(L2));
     const L3=await lunch(F11,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true,ECON_LAW_BRIDGE:true});
@@ -89,8 +89,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const e4=ev('ev_sk03_xinci_class'); check('5. ev_sk03_xinci_class：beforeClass econ_principles_2、週五、大一下',!!e4&&e4.beforeClass==='econ_principles_2');
     const before=async(day,flags)=>{ fresh(day,9.05,'putong',Object.assign({P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true},flags)); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
     const a=await before(F3,{}), b=await before(F8,{}), brB=G.flags.ECON_LAW_BRIDGE===true, c=await before(F8,{ECON_PAST_SHARED:'full'}), d=await before(F9,{}), e=await before(F8,{ECON_LAW_BRIDGE:true}), f=await before(F8,{P4D_ANSWER:null});
-    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('吳芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='吳芯慈：你們週五都在學活吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
-    check('5. full＝「原來你們以前住同一間。」（AA_209）；第 9 週（延到下一個有去的週五）沒有「考卷還沒發。」；已經有 ECON_LAW_BRIDGE、沒有 P4d＝沒有',c.includes('吳芯慈：原來你們以前住同一間。')&&d.length&&d[0]!=='考卷還沒發。'&&!e.length&&!f.length,JSON.stringify([c,d,e,f])); }
+    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='芯慈：你們週五都在學活吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
+    check('5. full＝「原來你們以前住同一間。」（AA_209）；第 9 週（延到下一個有去的週五）沒有「考卷還沒發。」；已經有 ECON_LAW_BRIDGE、沒有 P4d＝沒有',c.includes('芯慈：原來你們以前住同一間。')&&d.length&&d[0]!=='考卷還沒發。'&&!e.length&&!f.length,JSON.stringify([c,d,e,f])); }
   /* 6. SK05 三閃，販賣機見（大一版） */
   { const D17=termDay('Y1S2',16,2)   /* SK05 三閃改第 16 週（AA_198 第 5 節）*/, XM=()=>G.msgs.filter(m=>m.th==='p:econ_zhengxun');
     const night=(zone,hour,flags)=>{ fresh(D17,hour,zone,flags); STORY.phoneRules(GM); G.hour=Math.max(hour,23)+0.05; PHONE.tick(G); STORY.phoneRules(GM); return XM(); };
@@ -138,6 +138,6 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const a=await seat(F3,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true,MET_PINYU:true});
     check('9. 坐在普通 101 的座位上「上課：經原（下）」：下課後照樣演 SK03（「學活。走不走？」）',!!a&&a.includes('阿勳：學活。走不走？'),JSON.stringify(a&&a.slice(-4)));
     const b=await seat(F8,9.05,{P4D_ANSWER:'retake',ECON_HALLWAY_DAY:termDay('Y1S2',2,5),MET_XUN:true});
-    check('9. 坐著上第 8 週（期中考）：考卷發下來之前先演 1-4「考卷還沒發。」芯慈那段（課前事件）',!!b&&b[0]==='考卷還沒發。'&&b.includes('吳芯慈：你們週五都在學活吃？那我下次可以一起嗎？'),JSON.stringify(b&&b.slice(0,3))); }
+    check('9. 坐著上第 8 週（期中考）：考卷發下來之前先演 1-4「考卷還沒發。」芯慈那段（課前事件）',!!b&&b[0]==='考卷還沒發。'&&b.includes('芯慈：你們週五都在學活吃？那我下次可以一起嗎？'),JSON.stringify(b&&b.slice(0,3))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

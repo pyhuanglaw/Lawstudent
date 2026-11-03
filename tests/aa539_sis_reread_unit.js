@@ -77,7 +77,7 @@ await sec(0,()=>{
   if(typeof US208!=='undefined') for(const s of US208.SCENES) for(const t of (s.dmMore||[])) L.push(t);
   for(const a of LN().friendDm){ L.push(...a.L); if(a.yes) L.push(a.yes,a.noT,a.no,a.yesRe); if(a.card) L.push(...a.card); } for(const a of LN().famGrp) for(const [,t] of a.L) L.push(t);
   const bad=L.filter(t=>!t||!doc.includes(t));
-  check('0. 遊戲裡新的句子都在稿裡（一字不差；'+L.length+' 句：改字 3、輪流 11、208 三（AA_591 決2：3-3 剪報刪，「東西還在客廳。你哪天過來拿。」不在遊戲裡）、私訊 8＋7/20 的選項回覆 4＋演過 12-1 那一則 1、群組 9）',L.length===39&&!bad.length,J(bad));
+  check('0. 遊戲裡新的句子都在稿裡（一字不差；'+L.length+' 句：改字 3、輪流 11、208 四（3-3 剪報 AA_591 決2 刪過、AA_609 改成她奶奶恢復）、私訊 8＋7/20 的選項回覆 4＋演過 12-1 那一則 1、群組 9）',L.length===40&&!bad.length,J(bad));
   const want={'**朋友版（總圖）**':[LV(entry('library').pre),SR_PRE],'**交往版（總圖）**':[LV(entry('library').dat),SR_DAT],'**交往版（晨跑）**':[LV(entry('run_avenue').dat),null]};
   for(const hd in want){ const dl=docList(hd), [g,sr]=want[hd], exp=sr?dl.concat([sr]):dl;
     check('0. 第 2 節 '+hd.replace(/\*/g,'')+'：順序和稿一樣（第 1 句是原句）'+(sr?'；第五句＝5-1 的慢讀「'+sr+'」':'；晨跑四句'),dl.length===4&&J(g)===J(exp),J({doc:exp,game:g})); }
@@ -85,7 +85,7 @@ await sec(0,()=>{
   check('0. 5-1：慢讀那一句的地點是慢讀、下午三點（15:00）；1-3 的 noCard 拿掉了；1-2 研究室以前的晨跑照舊',s5(lib.pre).place==='slowread'&&J(s5(lib.pre).h)==='[15]'&&s5(lib.dat).place==='slowread'&&J(s5(lib.dat).h)==='[15]'&&!lib.pre.noCard&&!lib.dat.noCard&&!!run.dat&&!!run.dat.noLab&&run.dat.noLab.line===NO_LAB&&doc.includes('> 學姊：'+NO_LAB)&&doc.includes('**1-3 作廢**')&&doc.includes('加進第 2 節的輪流，當第五句'),J({pre:s5(lib.pre),dat:s5(lib.dat)}));
   /* 1-4 的表 */
   const got4=tbl('| 原句（第一次） |').map(r=>{ const first=r[0].replace(/（`[^`]*`）$/,''), s=typeof US208!=='undefined'?US208.SCENES.find(x=>x.dm===first):null; return {first,want:[first].concat(r.slice(1).filter(c=>c&&c!=='—')),game:s?[s.dm].concat(s.dmMore||[]):null}; });
-  check('0. 1-4 的表三列：每一場第一次、第二次、第三次＝US208.SCENES 的 dm＋dmMore；其他沒有 dmMore（3-3 那一列：AA_591 決2 整場刪，SCENES 沒有）',got4.length===3&&got4.every(x=>x.first==='臺灣寄來的東西到了。'?x.game===null:J(x.want)===J(x.game))&&typeof US208!=='undefined'&&US208.SCENES.filter(s=>(s.dmMore||[]).length).length===2&&doc.includes('**每一句最多傳一次**'),J(got4));
+  check('0. 1-4 的表三列：每一場第一次、第二次、第三次＝US208.SCENES 的 dm＋dmMore；其他四場沒有 dmMore（3-3 AA_609 恢復）',got4.length===3&&got4.every(x=>J(x.want)===J(x.game))&&typeof US208!=='undefined'&&US208.SCENES.filter(s=>(s.dmMore||[]).length).length===3&&doc.includes('**每一句最多傳一次**'),J(got4));
   /* 3-1、3-2 的表（7/20 照 5-1）*/
   const R1=tbl('| 日子（21:00） | 學姊 |').map(c=>({day:c[0],L:c[1].split('／')})), g1=LN().friendDm.map(a=>({day:a.day,L:a.L}));
   check('0. 3-1 的表 12/20 以後五列（日子、句子、「／」分開的兩則）＝SIS539_LINES.friendDm',R1.length===6&&J(R1.slice(1))===J(g1.slice(1))&&!!g1[0]&&g1[0].day===R1[0].day,J({doc:R1.slice(1),game:g1.slice(1)}));
@@ -147,12 +147,12 @@ await sec('1-4',()=>{
   const md=d=>keyOf(d).slice(5).replace('-','');
   const runW=(k0,k1,pre)=>{ w208(k0,13.9); if(pre) pre(H.G); const got={}; for(let d=D(k0);d<=D(k1);d++){ const w=wdOf(d); if(w!==6&&w!==0) continue; at(d,14.05); H.G.zone='us_apartment'; rules(); const m=byTag('us208_dm_'+md(d)); if(m.length) got[keyOf(d).slice(5)]=m.map(x=>x.text).join('｜'); } return got; };
   const got=runW('2028-09-16','2028-12-10');
-  /* AA_591 決2：3-3 剪報刪——10/14 不傳；10/21 是 3-4 的第一句 */
-  const want={'09-16':'我在 208。門沒鎖。','09-23':'今天也在 208。','10-21':'下午在 208。你來的時候先敲門。','11-18':'客廳那盆植物，我在救它。','11-25':'植物多長了一片葉子。','12-02':'它好像要放棄了。我還沒。'};
-  const bad=Object.keys(want).filter(k=>got[k]!==want[k]).concat(got['10-14']?['10-14']:[]);
-  check('1-4. 交往中、208 一場都沒演、每個週末 14:00 都沒回：3-1 第二次「今天也在 208。」、3-6 第二、三次換句（3-3 AA_591 決2 刪：10/14 不傳）',!bad.length,J({bad,got}));
+  /* 3-3 剪報：AA_591 決2 刪過，AA_609（使用者 2026-11-03）改成她奶奶恢復——10/14 第一句、10/21 第二句 */
+  const want={'09-16':'我在 208。門沒鎖。','09-23':'今天也在 208。','10-14':'臺灣寄來的東西到了。','10-21':'東西還在客廳。你哪天過來拿。','11-18':'客廳那盆植物，我在救它。','11-25':'植物多長了一片葉子。','12-02':'它好像要放棄了。我還沒。'};
+  const bad=Object.keys(want).filter(k=>got[k]!==want[k]);
+  check('1-4. 交往中、208 一場都沒演、每個週末 14:00 都沒回：3-1 第二次「今天也在 208。」、3-3 第二次換句、3-6 第二、三次換句',!bad.length,J({bad,got}));
   const all=Object.values(got), dupe=all.filter((t,i)=>all.indexOf(t)!==i);
-  check('1-4. 一路下來（9/16～12/10）她週末的私訊每句只傳一次',!dupe.length&&all.length>=9,J(got));
+  check('1-4. 一路下來（9/16～12/10）她週末的私訊每句只傳一次',!dupe.length&&all.length>=10,J(got));
   /* 5-2 第 6 點：其他四場第二次起不傳 */
   const g2=runW('2028-09-16','2028-10-01',G=>{ G.events.done.ev_us208_memo=1; });   /* 3-1 演過了：9/23、9/30 都是 3-2 */
   check('1-4. 5-2：3-2 沒有換句——9/23 傳過「我在煮東西。……」，9/30 不再傳（也不停）',g2['09-23']==='我在煮東西。……第一次煮這個。'&&!g2['09-30']&&!g2['10-01']&&US208.stopAt(H.G,D('2028-09-30'))===false,J({got:g2,stop:US208.stopAt(H.G,D('2028-09-30'))}));
@@ -165,7 +165,7 @@ await sec('1-4',()=>{
   check('1-4. 快轉的停點跟著（S.stopAt）：第二次還有句子的停、沒有的不停；US208_SAID 記傳過的',(()=>{ w208('2028-11-24',20); at('2028-11-24',20); H.G.flags.US208_SAID=['客廳那盆植物，我在救它。']; const a=US208.stopAt(H.G,D('2028-11-25')); H.G.flags.US208_SAID.push('植物多長了一片葉子。','它好像要放棄了。我還沒。'); return a===true&&US208.stopAt(H.G,D('2028-11-25'))===false; })());
   /* 舊存檔：沒有 US208_SAID、手機裡已經有 10/14 那一則原句 */
   w208('2028-10-21',13.9); H.G.msgs.push({day:D('2028-10-14'),h:14,th:'p:'+ID,from:ID,text:'臺灣寄來的東西到了。',tag:'us208_dm_1014'}); at('2028-10-21',14.05); rules(); const o=byTag('us208_dm_1021');
-  check('1-4. 舊存檔（沒有 US208_SAID、10/14 收過 3-3 的原句）：3-3 已刪（AA_591 決2），10/21 傳 3-4 的第一句',o.length===1&&o[0].text==='下午在 208。你來的時候先敲門。',J(o.map(m=>m.text)));
+  check('1-4. 舊存檔（沒有 US208_SAID、10/14 收過 3-3 的原句）：10/21 換第二句「東西還在客廳。你哪天過來拿。」（AA_609 恢復 3-3）',o.length===1&&o[0].text==='東西還在客廳。你哪天過來拿。',J(o.map(m=>m.text)));
   /* 舊存檔換句（原本驗 3-3 的第二句）改用 3-6：手機裡已經有 11/18 原句、沒有 US208_SAID → 11/25 換第二句 */
   w208('2028-11-25',13.9); H.G.msgs.push({day:D('2028-11-18'),h:14,th:'p:'+ID,from:ID,text:'客廳那盆植物，我在救它。',tag:'us208_dm_1118'}); at('2028-11-25',14.05); rules(); const o6=byTag('us208_dm_1125');
   check('1-4. 舊存檔（沒有 US208_SAID、11/18 收過 3-6 原句）：11/25 換第二句「植物多長了一片葉子。」',o6.length===1&&o6[0].text==='植物多長了一片葉子。',J(o6.map(m=>m.text))); });

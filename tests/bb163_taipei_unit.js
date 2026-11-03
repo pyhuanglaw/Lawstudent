@@ -54,7 +54,7 @@ GM.money=function(n){ G.money+=n; };
   const K={PS_BACK_FIRST:D('2027-08-12')};   /* 放榜後重新聯絡上（AA_282 第 2 節） */
   setup(Y3TUE,9,K); at(Y3TUE,17); e=ent(PS); const r4=ask(PS,'wenzhou',Y3TUE,17), r4b=ask(PS,'library',Y3TUE,14), r4c=ask(PS,'cafe',Y3TUE,17), r4d=ask(PS,'cafe',Y3TUE,13);
   { const w=STORY.whereIs({G,E:{}},PS); check('4. 大三週二 17:00：不在溫州街（課輔班）、不會照作息生出來（reachable false）；人物線索「在台南」',!STORY.reachable(PS,G)&&!!w&&w.zone==null&&w.away==='在台南',JSON.stringify([e&&e.zone,w])); }
-  check('4. 約溫州街、總圖、Café：都不行（away）、「郭沛珊在台南，不在臺北。」',[r4,r4b,r4c,r4d].every(x=>x.res==='decline'&&x.why==='away')&&INV.reply(G,PS,'cafe',r4c)==='郭沛珊在台南，不在臺北。',JSON.stringify([r4,r4b,r4c,r4d].map(x=>x.res+(x.why||''))));
+  check('4. 約溫州街、總圖、Café：都不行（away）、「沛珊在台南，不在臺北。」（AA_606 第 2 節：叫的名字）',[r4,r4b,r4c,r4d].every(x=>x.res==='decline'&&x.why==='away')&&INV.reply(G,PS,'cafe',r4c)==='沛珊在台南，不在臺北。',JSON.stringify([r4,r4b,r4c,r4d].map(x=>x.res+(x.why||''))));
   setup(Y3SAT,9,K); at(Y3SAT,15); const r4e=ask(PS,'cafe',Y3SAT,15), w4=STORY.whereIs({G,E:{}},PS);
   check('4. 大三週六 15:00：不在公館的書店（她在台南學校附近的二手書店打工，AA_282 第 1 節，不排作息）',!STORY.reachable(PS,G)&&r4e.res==='decline'&&!!w4&&w4.zone==null&&w4.away==='在台南',JSON.stringify([r4e,w4]));
   const r4f=ask(PS,'noodle',Y3SAT,19); check('4. 大三起約麵店：也不行',r4f.res==='decline'&&r4f.why==='away',JSON.stringify(r4f));

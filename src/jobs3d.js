@@ -1,6 +1,6 @@
 /* ===== 溫州街三家店的打工系統 JOBS（DL-10；USER_WANTS B06；AA_420 第 2 節＋AA_164 第 2、3、6、7 節＋AA_165）=====
    三家店：半熟早午餐（週六／週日 07:30～11:30，上午）、阿德影印輸出（週二～四 18:00～22:00，晚上；考試週可以加班 21:00～24:00）、一盞茶屋（週六／週日 13:00～17:00，下午）。
-   - 應徵（第 6 條第 2 點）：大一下第 1 週起。早午餐、茶屋＝門上的告示（店裡的選單「應徵：…」）；或客人來過幾次以後老闆開口（吃三次／印三次／喝兩次，WZ_JOBS_DATA.ask）。
+   - 應徵（第 6 條第 2 點）：大一上第 1 週起（使用者 11-03「一開始就要有」、AA 確認；原本大一下第 1 週起；經濟系那一年照舊沒有）。早午餐、茶屋＝門上的告示（店裡的選單「應徵：…」）；或客人來過幾次以後老闆開口（吃三次／印三次／喝兩次，WZ_JOBS_DATA.ask）。
      答應時選班表；那一學期那一天、那個時段有課的不列（AA_420 第 12 條第 1 點）；一週最多兩班（所有打工加起來，家教也算；加班不算）。
      選了週六早午餐、去過法服週六值班的＝小米姐一句；選了週四影印、去過公法讀書會的＝阿德一句（AA_420 第 12 條第 3 點）。
    - 出門提醒（第 3 條）：開班前 30 分鐘（OUT.plan，goto 那一家店的室內），「出發」或「這週請假」。走進店裡、班的時間到了就開班（也可以按「開始上班」）。
@@ -50,7 +50,7 @@ const JOBS=(function(){
   S.route=G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute?STORY.routeAbroadRoute(G):null;   /* 交換延畢（日本、美國路線）*/
   S.finalTerm=G=>S.route(G)?'Y5S1':'Y4S2';   /* AA_420 第 15 條 */
   S.endDay=G=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays(S.finalTerm(G)):null; return r?r.to:1e9; };
-  S.startDay=()=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; return r?r.from:1e9; };   /* 大一下第 1 週起（AA_164 第 2 節）*/
+  S.startDay=()=>{ const r=hasCal()&&CALENDAR.termDays?CALENDAR.termDays('Y1S1'):null; return r?r.from:1e9; };   /* 大一上第 1 週起（使用者 11-03「一開始就要有」；原本 AA_164 第 2 節大一下第 1 週起）；經濟系那一年看 law(G) */
   S.termAt=(G,d)=>{ if(!hasCal()) return null; const t=CALENDAR.termOf(d); if(t) return t; if(S.route(G)&&CALENDAR.termOfDelayed) return CALENDAR.termOfDelayed(d); return null; };
   /* 寒暑假：HOME.breakOf（大一～大四）；延畢的玩家大四下到大五上中間的暑假另外算（key 'Y4S'）*/
   S.breakAt=function(G,d){ if(!hasCal()||CALENDAR.termOf(d)) return null; if(typeof HOME!=='undefined'&&HOME.breakOf){ const b=HOME.breakOf(d); if(b) return b; }
@@ -100,7 +100,7 @@ const JOBS=(function(){
   S.summerPay=true;   /* 暑假的班照班發薪（r3_3d.js 的 22000 不再另外給）*/
 
   // ---------- 一週最多兩班 ----------
-  S.tutorWeekly=G=>S.tutorOn(G)?1:0;   /* 家教那一週算一班（大一下～大二下有在上的學期，AA_163 第 2 節）*/
+  S.tutorWeekly=G=>S.tutorOn(G)?1:0;   /* 家教那一週算一班（大一上～大二下有在上的學期，AA_163 第 2 節；11-03 起大一上第 6 週可以接）*/
   S.used=(G,except)=>{ let n=S.tutorWeekly(G); for(const k of S.KEYS){ if(k===except||!S.active(G,k)) continue; n+=fix(S.job(G,k)).day.length; } return n; };
   S.cap=(G,k)=>Math.max(0,2-S.used(G,k));
   /* 那一學期那一天、那個時段有課（AA_420 第 12 條第 1 點）*/
@@ -405,7 +405,7 @@ const JOBS=(function(){
   // ---------- 家教（AA_163 第 2 節，企劃線 a06d3f545；V2-B32）＋補一件（AA_289 3-3「考卷的背面」）----------
   /* 家教的事件還是 data/events.js 的 ev_tutor_lesson（第 1～3 堂的內容、TUTOR_N＝上過幾堂）；排課、規則、多的台詞在這裡（story3d.js 原本只排大一下的最小版：有 JOBS 就讓給這裡，JOBS.TUTOR_PLAN）。
      ①週二或週四（TUTOR_WD）19:00～21:00，學生家在溫州街；出門提醒「出發」／「這週請假」。
-     ②大一下（從答應那天以後）、大二上、大二下：寒暑假停；大二上、大二下開學第一天 12:00 明軒私訊「家長問你這學期還來嗎」——「來」＝這學期照排、「不了」＝停（明軒回 AA_163 停的那一句）；
+     ②答應的那一學期（從答應那天以後；11-03 起大一上第 6 週就可以接，原本大一下）、之後到大二下：寒暑假停；答應那一學期以後的每一學期（大一上答應的＝大一下也問）開學第一天 12:00 明軒私訊「家長問你這學期還來嗎」——「來」＝這學期照排、「不了」＝停（明軒回 AA_163 停的那一句）；
        期末考週停（AA_163 a06d3f545「第 16 週」，CALENDAR exam 'final'），前一週（第 15 週）那一堂結尾學生的媽媽一句；國定假日、颱風假不排；
        會考（2027-05-15、16；AA_163「2027 年 5 月中旬，照當年公告的會考日期」）前的那一堂是最後一堂（學生一句），5/16 21:00 學生的訊息，家教結束（TUTOR_DONE）。
      ③沒去（「這週請假」或過了時間）：不扣分、不改關係；下一堂開場一句（三句輪流；換學期就不說）；連續三週沒去＝明軒私訊「還要做」／「先停」（一段連續只問一次）。
@@ -415,17 +415,20 @@ const JOBS=(function(){
      存檔（G.flags）：TUTOR_TERM_Y2S1／TUTOR_TERM_Y2S2（'go'｜'stop'）、TUTOR_MISS_RUN、TUTOR_MISS_N、TUTOR_MISS_PEND（沒去那一堂的學期）、TUTOR_ASK3（回覆）、TUTOR_ASK3_SENT、
        TUTOR_STOP（停的那一天）、TUTOR_DONE（會考後學生傳訊息那一天）、TUTOR_WHY；出遊 tutor_<天> 的 tutorSeen＝算過有沒有去。舊存檔沒有＝照大一下開始的狀態 */
   S.TUTOR_PLAN=true;
-  S.TUTOR_TERMS=['Y1S2','Y2S1','Y2S2'];
+  S.TUTOR_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2'];   /* 11-03：加大一上（明軒大一上第 6 週起問）*/
+  S.ASK_TERMS=['Y1S2','Y2S1','Y2S2'];   /* 開學第一天問「這學期還來嗎」的學期（答應的那一學期不問）*/
   const TU=()=>D()&&D().tutor;
   const dayKey=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const MX='classmate_mingxuan', mxMsg=t=>({th:'p:'+MX,from:MX,text:t});
   S.tutorKK=()=>TU()?dayKey(TU().kaokao):null;
   S.tutorStopped=G=>{ const F=(G&&G.flags)||{}; return F.TUTOR_STOP!=null||F.TUTOR_DONE!=null; };
   S.tutorEnded=G=>{ if(S.tutorStopped(G)) return true; const kk=S.tutorKK(); return kk!=null&&!!G&&G.day>=kk; };   /* 停了、會考以後（大三起一律沒有家教：home3d.js、r2y3b3d.js 讀 JOBS.at）*/
-  S.tutorTermOk=(G,tid)=>{ const F=G.flags||{}; return S.TUTOR_TERMS.includes(tid)&&(tid==='Y1S2'||F['TUTOR_TERM_'+tid]==='go'); };
+  /* 答應的那一學期：tutorFromDay 那天的學期（答應那天在寒假＝下一個學期）；舊存檔沒有 tutorFromDay＝大一下（原本只有大一下能接）*/
+  S.tutorStartTerm=G=>{ const F=(G&&G.flags)||{}; if(!hasCal()) return null; if(F.tutorFromDay==null) return 'Y1S2'; for(let d=F.tutorFromDay;d<F.tutorFromDay+120;d++){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
+  S.tutorTermOk=(G,tid)=>{ const F=G.flags||{}; if(!S.TUTOR_TERMS.includes(tid)) return false; const st=S.tutorStartTerm(G); return tid===st||(S.TUTOR_TERMS.indexOf(tid)>S.TUTOR_TERMS.indexOf(st)&&F['TUTOR_TERM_'+tid]==='go'); };   /* 答應的那一學期照排；之後的學期要回「來」*/
   S.tutorOn=(G,d)=>{ const F=(G&&G.flags)||{}; if(!F.JOB_TUTOR||S.tutorEnded(G)||!hasCal()) return false; if(d==null) d=G.day; const t=CALENDAR.termOf(d); if(!t||!S.tutorTermOk(G,t.id)) return false; const kk=S.tutorKK(); return kk==null||d<kk; };
   /* 這一天能不能上課：有在上的學期、不是期末考週、不是國定假日或颱風假、會考以前、答應那天以後 */
-  S.tutorDayOk=(G,d)=>{ if(!S.tutorOn(G,d)) return false; const t=CALENDAR.termOf(d); if(t.exam==='final') return false; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) return false; return !(t.id==='Y1S2'&&d<=((G.flags.tutorFromDay)|0)); };
+  S.tutorDayOk=(G,d)=>{ if(!S.tutorOn(G,d)) return false; const t=CALENDAR.termOf(d); if(t.exam==='final') return false; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) return false; return !(G.flags.tutorFromDay!=null&&d<=G.flags.tutorFromDay); };   /* 答應那天以後（原本只看大一下；11-03 起大一上也可以接）*/
   S.tutorPlan=function(G){ const F=G.flags; if(!F.JOB_TUTOR||typeof OUT==='undefined'||!hasCal()) return; const U=TU(); if(!U) return;
     for(const q of OUT.rec(G)) if(/^tutor_/.test(q.id)&&q.state==='planned'&&!S.tutorDayOk(G,q.day)) q.state=S.tutorEnded(G)?'cancelled':'skipped';   /* 停了、期末考週、學期以後（舊存檔排的）*/
     const T=CALENDAR.termOf(G.day); if(!T||!S.tutorOn(G)||typeof STORY==='undefined'||!STORY.termDayIn) return; const wd=F.TUTOR_WD===4?4:2, LW=STORY.termWeeks?STORY.termWeeks(T.id):16;
@@ -435,15 +438,15 @@ const JOBS=(function(){
   S.tutorTrack=function(G){ const F=G.flags; if(typeof OUT==='undefined') return; const U=TU(); if(!U) return;
     if(F.TUTOR_ASK3==='stop'){ F.TUTOR_ASK3=null; if(F.TUTOR_STOP==null) F.TUTOR_STOP=G.day; }
     else if(F.TUTOR_ASK3==='go'){ F.TUTOR_ASK3=null; F.TUTOR_MISS_RUN=0; F.TUTOR_ASK3_SENT=false; }
-    for(const tid of ['Y2S1','Y2S2']) if(F['TUTOR_TERM_'+tid]==='stop'&&F.TUTOR_STOP==null) F.TUTOR_STOP=G.day;
+    for(const tid of S.ASK_TERMS) if(F['TUTOR_TERM_'+tid]==='stop'&&F.TUTOR_STOP==null) F.TUTOR_STOP=G.day;
     const L=OUT.rec(G).filter(q=>/^tutor_/.test(q.id)&&!q.tutorSeen&&(q.state==='missed'||q.state==='done')).sort((a,b)=>a.day-b.day);
     for(const q of L){ q.tutorSeen=true; if(q.state==='done'){ F.TUTOR_MISS_RUN=0; F.TUTOR_ASK3_SENT=false; continue; }
       F.TUTOR_MISS_RUN=(F.TUTOR_MISS_RUN|0)+1; const t=CALENDAR.termOf(q.day); F.TUTOR_MISS_PEND=t?t.id:null; }
     if((F.TUTOR_MISS_RUN|0)>=3&&!F.TUTOR_ASK3_SENT&&!S.tutorEnded(G)&&typeof PHONE!=='undefined'){ F.TUTOR_ASK3_SENT=true; const tag='tutor_ask3_'+G.day;
       PHONE.at(G,G.day,Math.max(G.hour,21),[Object.assign(mxMsg(U.ask3),{ask:{id:tag,opts:[{t:U.ask3Opts[0],set:{TUTOR_ASK3:'go'}},{t:U.ask3Opts[1],say:[mxMsg(U.stopReply)],set:{TUTOR_ASK3:'stop'}}]}})],tag); } };
-  /* 大二上、大二下開學第一天 12:00：「家長問你這學期還來嗎」（上一個學期還在上的才問）*/
-  S.tutorTermAsk=function(G){ const F=G.flags, U=TU(); if(!U||!F.JOB_TUTOR||S.tutorEnded(G)||typeof PHONE==='undefined') return; const T=CALENDAR.termOf(G.day); if(!T||(T.id!=='Y2S1'&&T.id!=='Y2S2')) return;
-    if(F['TUTOR_TERM_'+T.id]!=null) return; if(T.id==='Y2S2'&&F.TUTOR_TERM_Y2S1!=='go') return; const kk=S.tutorKK(); if(kk!=null&&G.day>=kk) return;
+  /* 答應那一學期以後的每一學期（大一下、大二上、大二下）開學第一天 12:00：「家長問你這學期還來嗎」（上一個學期還在上的才問；11-03 起大一上答應的，大一下也問——跟大二上一樣）*/
+  S.tutorTermAsk=function(G){ const F=G.flags, U=TU(); if(!U||!F.JOB_TUTOR||S.tutorEnded(G)||typeof PHONE==='undefined') return; const T=CALENDAR.termOf(G.day); if(!T||!S.ASK_TERMS.includes(T.id)||T.id===S.tutorStartTerm(G)) return;
+    if(F['TUTOR_TERM_'+T.id]!=null) return; const prev=S.TUTOR_TERMS[S.TUTOR_TERMS.indexOf(T.id)-1]; if(!S.tutorTermOk(G,prev)) return;   /* 原本：大二下要大二上回「來」；大二上不看（只能大一下接）*/ const kk=S.tutorKK(); if(kk!=null&&G.day>=kk) return;
     const R=CALENDAR.termDays(T.id), tag='tutor_term_'+T.id; if(!R||PHONE.sent(G,tag)) return; const late=G.day>R.from;
     PHONE.at(G,late?G.day:R.from,late?Math.max(G.hour,12):12,[Object.assign(mxMsg(U.termAsk),{ask:{id:tag,until:(R.to+1)*24,opts:[{t:U.termOpts[0],set:{['TUTOR_TERM_'+T.id]:'go'}},{t:U.termOpts[1],say:[mxMsg(U.stopReply)],set:{['TUTOR_TERM_'+T.id]:'stop'}}]}})],tag); };
   /* 會考以後：學生的訊息，家教結束（大二下還在上的）*/

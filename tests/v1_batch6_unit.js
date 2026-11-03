@@ -51,8 +51,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 阿哲在旁邊（6 m 內）才演；離太遠不演',!far&&!!near,JSON.stringify({far,near}));
     await new Promise(r=>setTimeout(r,0));
     const L=lines();
-    check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）',JSON.stringify(L)===JSON.stringify(['（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。']),JSON.stringify(L));
-    check('A9 阿姨的台詞名字是「阿姨」',said[1]&&said[1].who==='阿姨',JSON.stringify(said[1]));
+    check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）；AA_606 3-3：大一上還不認識 Alison＝開頭 Alison 跟著來（預設第一個選項）',JSON.stringify(L)===JSON.stringify(['（麵店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。']),JSON.stringify(L));
+    { const k=said.findIndex(x=>x.t==='你們？法律系的？'); check('A9 阿姨的台詞名字是「阿姨」',k>=0&&said[k].who==='阿姨',JSON.stringify(said[k])); }
     check('A9 記下哪一天（noodleTableDay）、只一次',G.flags.noodleTableDay===W4THU&&!EVENTS.check(e));
     /* 麵店團群組 */
     run(18.2,20); const gm=G.msgs.filter(m=>m.th==='g:noodle_team');
@@ -121,7 +121,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* ---------- A12 以安的報告分工 ---------- */
   { const e=ev('ev_an_report_split'); check('A12 事件存在（ev_an_report_split，民總下課後）',!!e&&e.afterClass==='civ_general'&&e.trigger==='class');
     const item=day=>CLS.dayItems(G,day).find(it=>it.c.id==='civ_general');
-    const cls=async(day,flags,setup,pk,withAn)=>{ fresh(day,13.2,'classroom',Object.assign({afternoonDone:true},flags||{})); G.choices.cafeView=(flags&&flags._view)||'A'; if(withAn!==false) npc('an',1,1); if(setup) setup(); picks=pk||[]; const it=item(day); if(!it) return null; await CLS.attend(GM,it); return lines(); };
+    const cls=async(day,flags,setup,pk,withAn)=>{ fresh(day,13.2,'classroom',Object.assign({afternoonDone:true,FRIEND_CARD_classmate_bohan:true,FRIEND_CARD_classmate_mingxuan:true},flags||{}));   /* AA_606 名片場（柏翰民總上課前、明軒必修下課，延到第 5 週）不在這裡測：先當作演過 */ G.choices.cafeView=(flags&&flags._view)||'A'; if(withAn!==false) npc('an',1,1); if(setup) setup(); picks=pk||[]; const it=item(day); if(!it) return null; await CLS.attend(GM,it); return lines(); };
     const L=await cls(W4THU,{},null,['一起寫']);
     check('A12 第 4 週週四上完民總：以安「（把講義收好）民總的報告兩人一組。我還沒有組。」「你那天講的，我想放進去。」',!!L&&L.includes('（把講義收好）民總的報告兩人一組。我還沒有組。')&&L.includes('你那天講的，我想放進去。')&&L.indexOf('你那天講的，我想放進去。')>L.findIndex(t=>/./.test(t)),JSON.stringify(L));
     check('A12 「好，一起寫。」＋cafeView A：「那結論你寫。」、記憶 REPORT_PARTNER',L.includes('那結論你寫。')&&SOCIAL.has('heroine_01','REPORT_PARTNER')&&caps.some(t=>/^下課了/.test(t)));

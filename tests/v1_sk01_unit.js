@@ -80,6 +80,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('5. 三個按鈕',JSON.stringify(opts[opts.length-1])===JSON.stringify(['（穿去法律系館A上課）','（送給阿勳）','（收進衣櫃）']),JSON.stringify(opts));
   check('5. ①穿去上課：ECON_JACKET wear、SOC_WRONG_BUILDING、SK02_DAY、15 分鐘',G.flags.ECON_JACKET==='wear'&&G.flags.SOC_WRONG_BUILDING&&G.flags.SK02_DAY===mon4&&Math.abs(G.hour-15.75)<1e-6);
   const room=it=>({c:{id:'civ_general'},room:{zone:'classroom'}});
+  G.flags.FRIEND_CARD_classmate_bohan=true;   /* AA_606 3-2 柏翰「第一排」（民總上課前，第 2～5 週）不在這裡測：先當作演過 */
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 同一天霖澤館的課：阿哲還沒說',!said.length);
   G.day=mon4+1; G.weekday=wdOf(G.day); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'english_y1'},room:{zone:'gongtong'}}); check('5. 隔天共同的課：沒有',!said.some(s=>/臥底/.test(s.t)));
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 隔天霖澤館的課：阿哲「你是經濟系派來的臥底嗎？」',lines()[0]==='阿哲：你是經濟系派來的臥底嗎？',JSON.stringify(lines()));

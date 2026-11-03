@@ -155,9 +155,9 @@ const D15=at('D15','lines/hotspots/D15.sky/normal/0/lines/0');
 check('3. D15 停車場邊的草地平常第 1 套是 AA_436 的新句（稿 7-6；企劃線 D15.py:23 還是舊句，D15.json 和遊戲是新句）',D15==='上次那顆是飛機。……今天雲比較多，連飛機都沒有。',D15);
 
 /* 4 AA_591「整合時的 AA 決定」第 9 點（企劃線 43d27cd80，D12.py、D12.json 已改；白名單 D12.json 換到 43d27cd80 重匯）：她爸爸在遊戲開始前過世、不提 */
-const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TEA_NEW='這種茶我媽每天喝。我小時候覺得好苦。';
+const TEA_OLD='這種茶我爸以前每天喝。我那時候覺得好苦。', TEA_NEW='這種茶我奶奶每天喝。我小時候覺得好苦。';   /* AA_609 第 6 點（使用者 11-03 爸爸改奶奶）：白名單 D12.json 前進到 2b4969352 */
 const d12=allow.files.filter(e=>e.path==='docs/story_planning/date_system/lines/D12.json');
-check('4. 白名單 D12.json＝43d27cd80（approved；舊的 a5b936a69 留在 history）',d12.length===1&&d12[0].sha==='43d27cd80'&&d12[0].status==='approved'&&(d12[0].history||[]).some(h=>h.sha==='a5b936a69')&&String(DL.source).includes('D12.json@43d27cd80'),J(d12.map(e=>e.sha)));
+check('4. 白名單 D12.json＝2b4969352（AA_609；approved；舊的 a5b936a69、43d27cd80 留在 history）',d12.length===1&&d12[0].sha==='2b4969352'&&d12[0].status==='approved'&&(d12[0].history||[]).some(h=>h.sha==='a5b936a69')&&(d12[0].history||[]).some(h=>h.sha==='43d27cd80')&&String(DL.source).includes('D12.json@2b4969352'),J(d12.map(e=>e.sha)));
 check('4. D12 老茶行第一次：學姊說「'+TEA_NEW+'」（同一個位置），「我爸」那句整個檔都不在',at('D12','lines/hotspots/D12.tea/first/lines/1')===TEA_NEW&&!src.includes(TEA_OLD),at('D12','lines/hotspots/D12.tea/first/lines/1'));
 const dad=[]; for(const loc of Object.keys(DL.loc)) for(const s of allHers(loc)) if(/我爸|爸爸/.test(s)) dad.push(loc+' '+s);
 check('4. 學姊的約會地點台詞不提爸爸',!dad.length,J(dad));

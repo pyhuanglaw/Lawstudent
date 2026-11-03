@@ -118,7 +118,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     const e=STORY_EVENTS.find(x=>x.id==='ev_bohan_score'); check('3-15. 事件資料：weeks [10,11]、carryTo 15',JSON.stringify(e.weeks)==='[10,11]'&&e.carryTo===15); }
   /* ② 便利貼第一張：到第 12 週 */
   { const run=async w=>{ const G=fresh('2025-11-06',9,'gongtong'); const d=STORY.termDay('Y1S1',w,4); setDay(d,9.1); H.said=[]; H.picks=['椅子也是']; await CLS.beforeClassEvent(GM,{c:{id:'english_y1'}}); return G; };
-    let G=await run(10); check('3-16. 便利貼第一張：第 10 週才第一次來照樣有（原本第 3～5 週以後就沒有）',has('這個位子的插座是壞的。')&&G.flags.SK04_REPLY==='chair');
+    let G=await run(10); check('3-16. 便利貼第一張：第 10 週才第一次來照樣有（原本第 3～5 週以後就沒有）',has('這個位子的插座是壞的。不要白帶充電器。')&&G.flags.SK04_REPLY==='chair');
     G=await run(13); check('3-17. 第 13 週以後才第一次來：沒有（這條線沒有）',!has('這個位子的插座是壞的。')&&!G.flags.SK04_REPLY); }
   /* ② P4d：這學期第一次出席經原下就演；10-3 先見過阿勳的走 SK03 */
   { const run=async(w,flags)=>{ const G=fresh('2026-05-08',9,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true},flags||{})); const it=itemOf('Y1S2',w,'econ_principles_2'); setDay(it.day,it.t1); H.said=[]; H.picks=['「重修。」']; await CLS.afterClassEvent(GM,it); return G; };

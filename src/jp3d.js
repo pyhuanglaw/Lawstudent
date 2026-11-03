@@ -409,8 +409,8 @@ const JP=(function(){
     O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'});
     const ff=S.ffOpts(G,'home'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});
-    if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'});
     if(G.hour<REST_UNTIL()) O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});   /* 同上 */
+    if(HOME.menuOrder) O.splice(0,O.length,...HOME.menuOrder(O));   /* HOME-MENU-ORDER-1103 */
     const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep');
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='out'){ const call=S.callLike(o.q); H.at=false; if(A&&A.end) A.end(); const ok=await OUT.go(GM,o.q,{fromHome:true});

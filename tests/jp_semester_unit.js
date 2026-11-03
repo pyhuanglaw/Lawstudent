@@ -344,7 +344,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     const G2=fresh('2029-02-19',9,'classroom','JP'); const it2=CLS.dayItems(G2,G2.day).find(x=>x.c.id==='civpro_2_re'); H.said=[]; H.picks=['嗯']; await CLS.beforeClassEvent(GM,it2);
     check('L8 選「嗯。」→（他沒有再問，把講義往你這邊推了一點。）', has('（他沒有再問，把講義往你這邊推了一點。）')&&!has('喔，日本！那邊的民訴也這樣上嗎？'));
     const G3=fresh('2029-02-22',9,'classroom','JP'); const it3=CLS.dayItems(G3,G3.day).find(x=>x.c.id==='insurance_re'); H.said=[]; const c=!!it3&&await CLS.beforeClassEvent(GM,it3);
-    check('L8 保險法（補修）第一堂：「（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）」', c&&JSON.stringify(H.said.map(s=>s.t))===JSON.stringify(['（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）']), JSON.stringify(H.said)); }
+    check('L8 保險法（補修）第一堂：「（保險法的補修班。你坐在最後一排，抄下這學期剩下的上課日期。）」', c&&JSON.stringify(H.said.map(s=>s.t))===JSON.stringify(['（保險法的補修班。你坐在最後一排，抄下這學期剩下的上課日期。）']), JSON.stringify(H.said)); }
   /* L9 （不算學分）只標在日文課 */
   { const G=inJapan('2028-04-04',10); const w=CLS.weekHTML(G), items=w.split('<div class="item">').filter(x=>/不算學分/.test(x));
     check('L9 手機課表「（不算學分）」只在日本語（中級）那一列；交換學校的法律課沒有', items.length===1&&/日本語（中級）/.test(items[0])&&!/回國申請抵免/.test(w), JSON.stringify(items)); }
