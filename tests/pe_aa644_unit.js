@@ -150,7 +150,11 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     check('5. 上課時阿哲（在場、認識）站進半圈（CLS.attend 帶 inGym 會叫 CLS.peCast）',!!a.GM.npc.zhe&&a.GM.npc.zhe.peFriend===a.it.key&&a.GM.npc.zhe.until===a.it.t1);
     const b=await run(W10,15.4); check('5. 游泳週上課：在 B1、說第 10 週的旁白',!b.err&&b.G.zone==='gym_b1'&&b.L.includes(CLS.PE_NARR.pe_y1s1[9]),b.err||J(b.L));
     const c=await run(W14,15.5+20/60); check('5. 遲到超過 15 分鐘、選了還是進去聽：記缺席（R.abs）、旁白照說',!c.err&&c.R.abs[c.it.key]===1&&c.L.includes(CLS.PE_NARR.pe_y1s1[13]),c.err||J(c.L));
-    HERE.delete('zhe'); const d=await run(Y2S1_W9,15.4); check('5. 大二上第 9 週：阿哲不在場＝「有人說他等這一段等一年了」',!d.err&&d.it.week===9&&d.L.includes('（換籃球。有人說他等這一段等一年了。）'),d.err||J(d.L));
+    check('5. 遲到超過 15 分鐘（AA_644 §4）：體育館版「（你到的時候…）」，沒有教室的「從後門進去」',!c.err&&c.L.some(x=>/^（你到的時候大家已經/.test(x))&&!c.L.some(x=>/從後門進去/.test(x)),c.err||J(c.L));
+    HERE.delete('zhe'); const d=await run(Y2S1_W9,15.4); check('5. 大二上第 9 週：阿哲不在場＝「有人說終於輪到籃球了。」（AA_644 §4：不認識的人不會知道他等一年）',!d.err&&d.it.week===9&&d.L.includes('（換籃球。有人說終於輪到籃球了。）')&&!d.L.some(x=>/等一年/.test(x)),d.err||J(d.L));
     HERE.clear(); KNOW.clear(); }
+  /* AA_644 §4（AA 11-03 23:36）：第 16 週休館版、遲到 1～15 分鐘的體育館版 */
+  check('6. 第 16 週碰到 B1 休館＝「（B1 游泳池今天休館。期末改在球場考體適能。）」；其他游泳週照舊「下週下水」',CLS.PE_SWIM_CLOSED16==='（B1 游泳池今天休館。期末改在球場考體適能。）'&&/\(it\.week\|0\)===16\?S\.PE_SWIM_CLOSED16:S\.PE_SWIM_CLOSED/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/classes3d.js'),'utf8')));
+  check('6. 遲到的體育館版（球場／游泳池各兩句，照 AA_644 §4）',J(CLS.PE_LATE)===J({gym:{abs:'（你到的時候大家已經在暖身了。你站到半圈最後面。）',late:'先跑兩圈再進來。'},gym_b1:{abs:'（你到的時候大家已經下水了。）',late:'先在池邊暖身。'}}));
   console.warn=warn0; done();
 })().catch(e=>{ console.log('ERR',e.stack); process.exit(1); });

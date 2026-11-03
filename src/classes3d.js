@@ -326,7 +326,7 @@ const CLS=(function(){
       if(exam&&S.isExamCourse(c)) await S.runExam(GM,it);   /* 考五題的法律課（AA_130 第 3 節）*/
       else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
         await GM.say(null,p>=8?'題目你都見過——上課講過、自己也讀過。你寫得很順。':p>=4?'有幾題你有印象，有一題你只記得老師在黑板上畫過圖。':'你認得題目裡的每一個字，合起來就不太認得了。'); }
-      else { if(lateAbs) await GM.say(null,'（你從後門進去，在最後面的空位坐下。前半堂已經講完了。）'); else if(S.isLate(G,it)) await GM.say(prof||null,(prof?'':S.profName(c)+'：')+'後面有位子。');   /* AA_137 第 4 節：遲到 1～15 分鐘，教授一句、課照常；超過 15 分鐘選了還是進去聽：記缺席、看得到後半堂、課堂提問照常 */
+      else { const PL=o.inGym&&S.PE_LATE&&GM.G&&S.PE_LATE[GM.G.zone]; if(lateAbs) await GM.say(null,PL?PL.abs:'（你從後門進去，在最後面的空位坐下。前半堂已經講完了。）'); else if(S.isLate(G,it)) await GM.say(prof||null,(prof?'':S.profName(c)+'：')+(PL?PL.late:'後面有位子。'));   /* AA_137 第 4 節：遲到 1～15 分鐘，教授一句、課照常；超過 15 分鐘選了還是進去聽：記缺席、看得到後半堂、課堂提問照常 */
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
@@ -504,6 +504,10 @@ const CLS=(function(){
       '（分組比賽第二輪。中場的時候大家都在喝水。）','（體適能：一分鐘仰臥起坐、坐姿體前彎。）','（八百公尺。今年比去年快了一點。）','（期末：投籃十球、運球繞錐。考完大家一起收球。）']};
   S.PE_SWIM={pe_y1s1:[10,11,12,13,14,15,16]};   /* 稿上地點寫「B1 游泳池」的週 */
   S.PE_SWIM_CLOSED='（今天在球場講游泳的安全守則。下週下水。）';   /* 稿第 3 節：游泳週 B1 沒開 */
+  /* AA_644 §4（企劃線 a1302b8db，AA 11-03 23:36）：第 16 週（期末）碰到 B1 休館、換成「有人」以後要另寫的那一句、遲到的體育館版（教室那兩句在體育館不出）*/
+  S.PE_SWIM_CLOSED16='（B1 游泳池今天休館。期末改在球場考體適能。）';
+  S.PE_ANON_FIX={'（換籃球。有人說他等這一段等一年了。）':'（換籃球。有人說終於輪到籃球了。）'};   /* 不認識的人不會知道他等了一年 */
+  S.PE_LATE={gym:{abs:'（你到的時候大家已經在暖身了。你站到半圈最後面。）',late:'先跑兩圈再進來。'},gym_b1:{abs:'（你到的時候大家已經下水了。）',late:'先在池邊暖身。'}};
   S.PE_FRIENDS=['zhe','classmate_bohan','classmate_mingxuan','yu','classmate_xinci','classmate_youchen'];   /* 稿第 1 節：有修這堂的朋友（法律系同屆）*/
   S.PE_NAME={'阿哲':'zhe','柏翰':'classmate_bohan','明軒':'classmate_mingxuan','Alison':'yu','芯慈':'classmate_xinci'};   /* 旁白裡的名字 → 人物 */
   S.PE_Y0={from:'pe_y1s1',weeks:8,rename:{'阿哲':'韋綸','柏翰':'阿勳'},friends:['econ_weilun','econ_zhengxun'],name:{'韋綸':'econ_weilun','阿勳':'econ_zhengxun'}};   /* 經濟系：大一上第 1～8 週，阿哲→韋綸、柏翰→阿勳（照台詞池同一句的對應：pe_y1s1 阿哲／pe_y0s1 韋綸「唯一不會遲到的課」；給 AA 確認）*/
@@ -516,8 +520,8 @@ const CLS=(function(){
   S.peHere=function(G,id,it){ if(typeof STORY==='undefined') return false; if(STORY.present&&!STORY.present(id,G)) return false; if(STORY.knows&&!STORY.knows(id,G)) return false;
     if(id===(STORY.YOUCHEN||'classmate_youchen')&&!((it&&it.week)>=14)) return false; return true; };
   S.peFriends=function(G,it){ const T=S.peTable(it&&it.c); return T?T.friends.filter(id=>S.peHere(G,id,it)):[]; };
-  S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return S.PE_SWIM_CLOSED;
-    for(const nm in T.name){ if(t.indexOf(nm)<0||S.peHere(G,T.name[nm],it)) continue; t=t.split(nm+(/^[A-Za-z]/.test(nm)?' ':'')).join('有人'); } return t; };
+  S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return (it.week|0)===16?S.PE_SWIM_CLOSED16:S.PE_SWIM_CLOSED;
+    for(const nm in T.name){ if(t.indexOf(nm)<0||S.peHere(G,T.name[nm],it)) continue; t=t.split(nm+(/^[A-Za-z]/.test(nm)?' ':'')).join('有人'); } return S.PE_ANON_FIX[t]||t; };
   S.pePlace=(G,it)=>S.peSwim(G,it)?Object.assign({zone:'gym_b1'},S.PE_POOL):Object.assign({zone:'gym'},S.PE_IN_GYM);
   /* 朋友站進半圈（坐上長椅）：換掉這一堂離玩家最近的路人同學（crowd3d.js 的 pe_student／pe_swim，crowdKey 最後的序號＝離玩家的遠近），朋友照那個位置、朝向、座位；
      下課（it.t1）照作息離開（story3d.js n.until）。換掉的位子記在 S._peTaken：人群重排時那幾個位子不再放路人 */
