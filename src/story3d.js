@@ -3236,6 +3236,12 @@ const STORY = (function(){
     { const T=F.KX_TRIP&&F.KX_TRIP.Y1S2, txt={sea:'海邊。她拎著鞋子站在浪裡，褲管濕到膝蓋。',oldtown:'老街。牆上貼滿發黃的老照片，她站在中間，手上拿著第三家的點心。',stars:'山上。照片幾乎全黑，右上角有一個小白點。她說那是星星。你覺得是路燈。'}[T]; if(txt) L.push(['旅行的照片',txt]); }   /* 可昕 K8 春假旅行（BB_96 9-5，BB 14265eb）*/
     for(const f of S.ROOM_EXTRA){ try{ f(G,L); }catch(e){ console.warn('STORY.ROOM_EXTRA',e); } }   /* 事件包各自的房間物件（例：AA_325 她的聖誕卡片、高雄夜市的照片）*/
     return L; };
+  /* DORM-DESK-ITEMS-3D-1103（使用者 11-03「不應該還有這些選項? 不然也是在書桌上?? 書桌牆面可以貼東西? 擺書」）：選單上的每一件在房間裡都看得到——
+     3D（zones3d.js loadDeskItems → dorm_desk_items.glb 的 ITEM_desk_<key>）照這裡回傳的 key 開關；key 由 S.roomItemList 的標籤換算，選單和 3D 永遠是同一份條件（不另外寫一套）。
+     沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳；系外套 jacket 照舊由 dorm_room4 的 JACKET_ 開關。*/
+  const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
+    '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','經濟系的系外套':'jacket'};
+  S.roomItemKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; for(const r of S.roomItemList(G)){ let k=ROOM_ITEM_KEY[r[0]]; if(!k&&r[0]==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } if(k&&!K.includes(k)) K.push(k); } return K; };
   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），

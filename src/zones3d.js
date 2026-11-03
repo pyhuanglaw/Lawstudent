@@ -1902,7 +1902,7 @@ const Z3 = (function(){
     /* 祐廷椅背上的經濟系系外套（X140；GLB 節點 JACKET_CHAIR，L2 書桌椅，每一年同一張）：預設藏，劇情呼叫 z.setJacketChair(true)；模型還沒載完也先記住 */
     z.jacketChair=false; z.setJacketChair=on=>{ z.jacketChair=!!on; const o=z.dormRoot&&z.dormRoot.getObjectByName('JACKET_CHAIR'); if(o) o.visible=z.jacketChair; };
     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); if(!econ) loadWzItems(z,g0,E); if(!econ) loadDeskItems(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
     z.setV0Box=()=>{};
@@ -1988,6 +1988,25 @@ const Z3 = (function(){
         apply(key?key.split(','):[]); }).catch(e=>console.warn('房間的溫州街物件載入失敗',e)); };
     const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); if(typeof GAME!=='undefined'&&GAME.G) z.setWzItems(GAME.G); };
     z.setWzItems(typeof GAME!=='undefined'?GAME.G:null); }
+  /* 祐廷書桌「看東西」選單上的東西（DORM-DESK-ITEMS-3D-1103；dorm_desk_items.glb，tools/blender/env_second/dorm_desk_items.py，LAWWW2 2026-11-03；READY_FOR_ART_REVIEW）：
+     ITEM_desk_<key>＝STORY.roomItemKeys(G)（和選單同一份）。節點的 room='203'（書背、筆記本的字、桌墊下的票根、大一的軟木板和釘在上面的東西）只在大一 203；
+     on='board'（釘在軟木板上）要軟木板也顯示（軟木板＝大一才有；大二起換成 dorm_y2_items 那一塊）。手機、三色螢光筆每一年都在。搬家、收拾那幾天全部收起來。
+     牆上的網格叫 WALL_left_desk_*：跟左牆一起淡出（同溫州街那幾件）。旗標在房間裡變了每一幀比一次（只比一個字串）*/
+  function deskItemKeys(G,room){ const F=(G&&G.flags)||{}; if(F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||F.PACKED_Y4||(G&&G.stage==='econ')) return []; const K=typeof STORY!=='undefined'&&STORY.roomItemKeys?STORY.roomItemKeys(G):[]; if(room==='203') K.push('board'); return K; }
+  function loadDeskItems(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_desk_items']) return; let grp=null, key=null, loading=false;
+    const apply=K=>{ if(!grp) return; const room=z.dormSetKey, board=K.includes('board')&&room==='203';
+      grp.traverse(o=>{ if(!/^ITEM_desk_/.test(o.name)) return; const u=o.userData||{}; o.visible=K.includes(o.name.slice(10))&&(!u.room||u.room===room)&&(u.on!=='board'||board); }); };
+    z.setDeskItems=G=>{ const K=deskItemKeys(G,z.dormSetKey), k=z.dormSetKey+':'+K.join(','); if(k===key) return; key=k; if(grp){ apply(K); return; } if(!K.length||loading) return; loading=true;
+      grp=new THREE.Group(); grp.name='dorm_desk_items'; grp.userData.dyn=true; g0.add(grp);
+      ASSETS.loadOne('bldg.dorm_desk_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+        grp.add(root); root.updateMatrixWorld(true);
+        root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=false; o.receiveShadow=true;
+          if(/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); }
+          else if(/glass/.test(o.material&&o.material.name||'')){ o.material.transparent=true; o.material.depthWrite=false; o.renderOrder=2; }   /* 透明桌墊 */
+          if(o.material) TK.bounce(o.material,0.3,0.4); });
+        apply(deskItemKeys(typeof GAME!=='undefined'?GAME.G:null,z.dormSetKey)); }).catch(e=>console.warn('書桌上的東西載入失敗',e)); };
+    const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); if(typeof GAME!=='undefined'&&GAME.G) z.setDeskItems(GAME.G); };
+    z.setDeskItems(typeof GAME!=='undefined'?GAME.G:null); }
   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
     o.material.transparent=true; o.userData.dir=new THREE.Vector3(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y));   /* 貼的那一面朝室內的方向（四人房：月曆在洗手間隔間、傳單在書桌前的牆）*/ o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
   /* ---------- 溫州街三家新店的室內（DL-09 第一步；ART-WZ3，LAWWW2-B ce586623；AA_164 第 2 節）----------
