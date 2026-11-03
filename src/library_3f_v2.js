@@ -89,7 +89,7 @@ const L3F=(function(){
     // 關著的房間：討論室 344／346、研究小間（看得懂的說明，D36）
     for(const f of L.furniture){ if(f.type==='room') E.interactables.push({x:(f.x0+f.x1)/2,z:f.z1+0.7,radius:1.0,label:f.label,look:f.label+'。門上貼著「請上網預約，憑學生證開門」，今天的時段都被借走了。'});
       if(f.type==='carrel') E.interactables.push({x:f.x,z:f.z-f.d/2-0.7,radius:0.8,label:f.label,look:f.label+'：要上網預約，兩個人以上才能借。玻璃上貼著今天的預約表，排滿了。'}); }
-    E.interactables.push({x:R.cx,z:B.z0+0.9,radius:1.4,label:'看臺大人文庫',look:'臺大人文庫：半圓形的房間，一圈書牆放的是臺大老師、校友寫的書。'});
+    E.interactables.push({x:R.cx,z:B.z0+0.9,radius:1.4,label:'看首都帝大人文庫',look:'首都帝大人文庫：半圓形的房間，一圈書牆放的是首都帝大老師、校友寫的書。'});
     // 指標（中文字：正式模型沒有字）
     for(const s of L.signs){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,s.y,s.z); sp.rotation.y=s.ry||0; g.add(sp); }
     // 正式模型

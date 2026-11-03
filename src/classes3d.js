@@ -408,7 +408,7 @@ const CLS=(function(){
     (()=>{ const d=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.furniture?LIBRARY_LAYOUT.furniture.find(f=>f.type==='desk'&&(f.lv|0)===0):null;   /* LIB-PLAN-1103：服務台前（讀配置；第四版服務台搬到閘門北邊 (3.0,1.0)，站在讀者那一側 (3.0,−0.3)；第三版 (7.8,4.4) → (7.8,3.2) 照舊）*/
       return d&&d.z<3?{x:d.x,z:+(d.z-d.d/2-0.9).toFixed(2),lv:0,say:'借書、還書，都在這裡問。'}:{x:7.8,z:3.2,lv:0,say:'借書、還書，都在這裡問。'}; })(),
     {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
-    {x:10.6,z:5.6,lv:1,say:'研究小間是研究所的學長姊在用的，一個人一間。不用預約，空著的就可以進去。要跟同學討論的話，B1 有討論室，兩個人以上就能上網預約。'},   /* 同一站（新生導覽照舊七站，tests/flow_lib_tour.py）；AA 11-03 12:06（AA_399 3-1 更正：研究小間一個人用、討論室兩人以上上網預約）；「大四以後」照使用者 11-03 選擇題「大一就能用，免預約」改（CARREL-FREE-1103）*/
+    {x:10.6,z:5.6,lv:1,say:'研究小間不用預約，有空的就能進去，一個人也可以。要跟同學討論的話，B1 有討論室，兩個人以上，要上網預約。'},   /* 同一站（新生導覽照舊七站，tests/flow_lib_tour.py）；AA_635（企劃線 db117b0f8；AA 11-03 12:06 AA_399 3-1 更正：研究小間一個人用、討論室兩人以上上網預約）；「大四以後」照使用者 11-03 選擇題「大一就能用，免預約」改（CARREL-FREE-1103）*/
     {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
     {x:0,z:4.4,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];   /* LIB-3F-1102 第二版：最後一站 (0, 4.4)（第一版 (0, 3.2) 在第二版的科技中文書架上）*/
   S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};

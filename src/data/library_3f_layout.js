@@ -771,7 +771,7 @@ const LIBRARY3F_LAYOUT={
   ],
   "signs": [
     {
-      "text": "臺大人文庫",
+      "text": "首都帝大人文庫",
       "x": 0.0,
       "z": -16.88,
       "y": 3.0,

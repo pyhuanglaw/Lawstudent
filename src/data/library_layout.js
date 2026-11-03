@@ -346,7 +346,7 @@ const LIBRARY_LAYOUT={
         "lv": 1,
         "yaw": -1.5708
       },
-      "closed": "研究小間。門上貼著「請先上網預約，憑學生證開門」，今天的時段都被借走了。",
+      "closed": "研究小間。閉館時間，門鎖著。",
       "note": "CLOSED-SPACES-1023 第 3 項（AA_399 3-1，LAWWW2-B 10-23）：門通到 library_carrels（src/library_upper3d.js）；back＝從研究小間走回來站的位置（離門的互動點 1.45 m）；closed＝研究小間的區域沒載入時的「看」"
     },
     {
