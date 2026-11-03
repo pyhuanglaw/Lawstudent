@@ -43204,6 +43204,33 @@
    "priority": "P1",
    "note": "X190",
    "next": "子代理（和 ONE-TAP-GO-1103 同一個）實作 → 合併 → BB 測"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "8/29 搬進宿舍 203",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "DORM-DESK-ITEMS-3D-1103",
+   "title": "宿舍 203 祐廷書桌：S.roomItemList 列的東西在 3D 看得到（書架上的書、桌上筆記本／卡片／螢光筆、桌墊下票根、書桌上方牆面軟木板貼照片與評鑑表…），照旗標出現",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "note": "X191；DORM-CEIL 同一個房間，排在它後面",
+   "next": "LAWWW2 建模＋接線（D108 場景程式）→ LAWWW 合併 → BB 測",
+   "xai": {
+    "spec": "使用者 11-03 截圖＋src/story3d.js S.roomItemList（約 3111、3224 行）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "選單每一項在房間裡都有對應的物件、照旗標顯示；遊戲內截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
