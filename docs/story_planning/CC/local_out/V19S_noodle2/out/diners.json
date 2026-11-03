@@ -1,0 +1,118 @@
+{
+ "l118_noodle2 18:30": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 18.535910666666656,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 6,
+  "need": 2,
+  "count": 10,
+  "keep": 1,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_noodle2_0",
+    "spec": null,
+    "key": "shop_l118_noodle2_0|v3@17.80|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_0",
+    "spec": null,
+    "key": "shop_l118_noodle2_0|v3@17.80|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v5@18.01|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_3",
+    "spec": null,
+    "key": "shop_l118_noodle2_3|v3@18.08|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v2@17.70|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v2@17.70|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v4@18.18|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v4@18.18|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v6@18.53|0",
+    "pose": "walk",
+    "stand": false,
+    "seatD": null,
+    "dy": null
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v6@18.53|1",
+    "pose": "walk",
+    "stand": false,
+    "seatD": null,
+    "dy": null
+   }
+  ]
+ }
+}

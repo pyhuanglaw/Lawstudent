@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_diners_probe.py http://127.0.0.1:8811/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19S_noodle2\out
+PASS 遊戲載入
+店（CROWD.SHOPS）： ["noodle", "cvs", "bookstore", "wz_brunch", "wz_teahouse", "wz_lin", "wz_teishoku", "wz_print", "l118_dian", "l118_self", "l118_tea", "l118_home", "l118_cafe2", "l118_pasta", "l118_korea", "l118_omu", "l118_noodle2"]
+PASS CROWD.SHOPS 有 17 間  17
+【前置／捷徑】每一間直接讀檔到店裡：2025-10-16（day 30、週4），時段 [18.5]
+  l118_noodle2 18:30：營業=True 客人=10 位子=16 空位=6 留給玩家的兩人座=1（0/2 有人） 比例=50%
+PASS l118_noodle2 18:30：一間 ≤ 10 人  10
+PASS l118_noodle2 18:30：空位 ≥ 2（玩家還沒坐：自己＋一起來的人）  free=6 need=2
+PASS l118_noodle2 18:30：留給玩家的兩人座沒人坐  0/2
+PASS l118_noodle2 18:30：坐著的客人都在位子上（≤0.05 m，沒浮空、沒穿進桌子）  []
+PASS l118_noodle2 18:30：站著的那幾組（書店、便利商店、影印店等）沒有坐姿  []
+PASS l118_noodle2 18:30：同一時段讀檔兩次＝同一批人  {"只在第一次": [], "只在第二次": [], "hour": [18.538451999999992, 18.53859933333332]}
+PASS 沒有 JS 例外
+ALL PASS
