@@ -10,10 +10,10 @@
 //      （同時只有一組、點了整段、說話的人對、一天聽一次）；路人在按鈕上最後才算（旁邊有出口、有名字的同學時不擋「進入○○」「和小安說話」）
 //   5. 公館：館的系、館的對話（晚上、考試週的晚上）
 //   6. 圖書館：總圖大廳相鄰兩個空位一起坐（第 5 組）；閉館前 30 分鐘工讀的人（圖資）站在座位旁邊（第 15 組）；社科圖沒有圖資；劇情寫死的位子不坐
-//   7. 教學館門口：通識（ge_film_y1s1）上課前各系混著、第 3 節（第 1 週、平常、第 6～7 週三個人、下課後、第 13 週以後）；
-//      法律系必修（大一經濟學原理，普通 101）都是法律系、第 4 節（第 1 週、平常、考試前一週、下課後）；選修、演講照舊
+//   7. 教學館的課（CROWD-NO-DOOR-1103 起：原本教室門口的對話，由坐在玩家前一排或旁邊的同學在教室裡說；教室門口沒有等的人）：通識（ge_film_y1s1）各系、第 3 節（第 1 週、平常、第 6～7 週三個人同一排、下課後、第 13 週以後）；
+//      法律系必修（大一經濟學原理，普通 101）都是法律系、第 4 節（第 1 週、平常、考試前一週、下課後）；選修照舊沒有
 //   8. 體育館：16 句一起輪（AA_495 那三句說的人是外文系、化學系、醫學系的學生）；大廳散步的人、長椅上的人＝電機、醫學；1F 場邊的長椅兩個人的對話；寒暑假沒有系
-//   9. 經濟系那一年（Y0）：校園的路人一樣有系、有句子；通識門口一樣；經濟系的必修門口照舊
+//   9. 經濟系那一年（Y0）：校園的路人一樣有系、有句子；通識的課一樣；經濟系的必修照舊
 // 修改前（開發分支 095cf15ae，在那個版本的 src、index.html 上真的跑過）：26 項 FAIL——第 0 項（沒有 crowd_depts.js、對稿全部對不到、體育館 13 句）8 項、第 1～9 項都 FAIL
 //   （路人沒有系、點不了、沒有對話、教學館門口沒有名字和對話）；修改前也 PASS 的 5 項是前提（讀得到稿、測試用的日子、walkRoutes）和照舊的部分（選修門口、寒假的體育館）。
 // 用法：node tests/crowd_depts_unit.js（第 0 項用 git show 讀 AA 的稿；讀不到先 git fetch origin claude/magical-albattani-bk7b4n）
@@ -177,25 +177,31 @@ await blk('6. 圖書館',async()=>{
   const hit=[]; for(const [z,keep] of [['library_hall',[0,1]],['soclib',[16]]]){ build(z); const seats=E.zone.seats; for(let d=W5;d<W5+30;d++){ const GM=mkGM(mkG(d,14,z)); for(const st of [false,true]){ const r=C.deptSeatPair(GM,z,st)||[]; for(const s of r) if(s&&keep.some(i=>seats[i]===s)) hit.push(z+'@'+d); } } }
   check('6. 劇情寫死的位子（總圖大廳 0、1 號＝小安「總圖的下午」；社科圖 16 號）不會被兩個人的對話坐走',!hit.length,J(hit.slice(0,4))); }
 });
-// ---------- 7. 教學館門口 ----------
+// ---------- 7. 教學館的課：原本教室門口的對話，CROWD-NO-DOOR-1103 起由玩家前一排或旁邊的同學在教室裡說 ----------
 const findCls=(term,id,week)=>{ for(let d=-420;d<1700;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term||t.week!==week) continue; const G=mkG(d,12,'campus',term[1]==='0'?{stage:'econ'}:{}); const it=CLS.dayItems(G).find(q=>q.c.id===id); if(it) return {day:d,it}; } return null; };
-const door=async(term,id,week,ph,o)=>{ const f=findCls(term,id,week); if(!f) return null; const zone=f.it.room.zone, G=mkG(f.day,ph==='pre'?f.it.t0-0.3:f.it.t1+0.05,zone,Object.assign(term[1]==='0'?{stage:'econ'}:{},o||{}));
-  enter(zone,G,0); const spot=zone+'_'+f.it.room.room, grp=E.npcs.filter(n=>n.crowd===spot), {ppl,ids}=pairOf(); return {f,G,grp,ppl,ids,spot}; };
-await blk('7. 教學館門口',async()=>{
-{ const r=await door('Y1S1','ge_film_y1s1',3,'pre'), names=r?r.grp.map(n=>n.name):[];
-  check('7. 通識（電影與敘事，普通 101）上課前第 3 週：門口的人都有系、各系混著（不是都同一系、沒有圖資）',!!r&&r.grp.length>=3&&names.every(x=>/系的學生$/.test(x))&&new Set(names).size>=2&&!names.includes('圖資系的學生'),J(names));
-  const c=r&&r.ids.length?conv('GE',+r.ids[0].slice(1)):null, last=r?r.grp.slice(-2):[];
-  check('7. 第 3 節的對話（平常：第 3 組電影、第 4 組通識）；是最後走進去的兩個人、其他人不能點',!!c&&[3,4].includes(c.n)&&r.ppl.length===2&&last.every(n=>r.ppl.includes(n))&&r.grp.filter(n=>!r.ppl.includes(n)).every(n=>!n.talk),J(r&&r.ids));
-  if(c){ const h=await tap(r.ppl[0]); check('7. 點了：整段，名字照那一組的系',J(h)===J(stepsOf(c,c.who.map(x=>x+'系的學生'))),J(h)); }
-  const w1=await door('Y1S1','ge_film_y1s1',1,'pre'), w6=await door('Y1S1','ge_film_y1s1',6,'pre'), w14=await door('Y1S1','ge_film_y1s1',14,'post'), p3=await door('Y1S1','ge_film_y1s1',3,'post');
-  check('7. 第 1 週＝第 1、2 組；第 6 週＝第 6 組（三個人：電機、獸醫、法律）；下課後平常＝第 8、10 組；第 14 週下課後＝第 9 組',!!w1&&['g1','g2'].includes(w1.ids[0])&&!!w6&&J(w6.ids)==='["g6"]'&&w6.ppl.length===3&&J(w6.ppl.map(n=>n.name))===J(['電機系的學生','獸醫系的學生','法律系的學生'])&&!!p3&&['g8','g10'].includes(p3.ids[0])&&!!w14&&J(w14.ids)==='["g9"]',
+/* 玩家坐在那一間中間那一排、中間的位子；同學照課表坐好（上課前＝開始的時候、下課後＝下課那一刻），叫 CROWD.seatTalkPrep（classes3d.js 的 S.attend 在轉暗的時候叫的那一個）*/
+const inRoom=async(term,id,week,ph,o)=>{ const f=findCls(term,id,week); if(!f) return null; const it=f.it, zone=it.room.zone, G=mkG(f.day,ph==='pre'?it.t0:it.t1-0.01,zone,Object.assign(term[1]==='0'?{stage:'econ'}:{},o||{}));
+  const GM=enter(zone,G,0); CLS.syncRooms(GM,{full:true,instant:true}); const sts=E.zone.seats.filter(q=>q.room===it.room.room&&(q.kind==='class'||q.kind==='lecture')), rows=[...new Set(sts.map(q=>q.row))].sort((x,y)=>x-y), r=rows[Math.floor(rows.length/2)], row=sts.filter(q=>q.row===r).sort((x,y)=>x.col-y.col), me=row[Math.floor(row.length/2)];
+  GM.sitAt(E.player,me); E.player.seat=me; if(ph==='post') G.hour=it.t1;
+  const prep=C&&C.seatTalkPrep?C.seatTalkPrep(GM,it,ph):null; const ppl=prep?prep.ppl:[], others=E.npcs.filter(n=>n.clsStudent&&!ppl.includes(n));
+  const play=async()=>{ said=[]; if(prep) await C.seatTalkPlay(GM,prep); return said.map(s=>({who:s.who,t:s.t})); };
+  return {f,G,GM,prep,ppl,ids:prep?[prep.id]:[],others,me,play}; };
+const besideOrFront=r=>{ const me=r.me, fx=Math.sin(me.yaw||0), fz=Math.cos(me.yaw||0), f=r.ppl.map(n=>(n.seat.x-me.x)*fx+(n.seat.z-me.z)*fz); return r.ppl.length>=2&&r.ppl.every(n=>n.seat&&n.seat.room===me.room)&&f.every(v=>Math.abs(v-f[0])<0.3)&&f[0]>-0.3; };   /* 同一排、在玩家前面或旁邊 */
+await blk('7. 教學館的課',async()=>{
+{ const r=await inRoom('Y1S1','ge_film_y1s1',3,'pre'), names=r?r.ppl.map(n=>n.name):[], c=r&&r.ids.length?conv('GE',+r.ids[0].slice(1)):null;
+  check('7. 通識（電影與敘事，普通 101）上課前第 3 週：玩家前一排或旁邊（同一排）的兩個同學，名字照那一組的系（第 3 組電影、第 4 組通識）；其他同學沒有系、不能點',!!c&&[3,4].includes(c.n)&&besideOrFront(r)&&J(names)===J(c.who.map(x=>x+'系的學生'))&&r.others.length>=3&&r.others.every(n=>!n.name&&!n.talk),J([r&&r.ids,names]));
+  if(c){ const h=await r.play(); check('7. 說：整段，名字照那一組的系；聽完這一天不再出（deptTalkDay）',J(h)===J(stepsOf(c,c.who.map(x=>x+'系的學生')))&&r.G.flags.deptTalkDay&&r.G.flags.deptTalkDay['g'+c.n]===r.G.day,J(h)); }
+  const w1=await inRoom('Y1S1','ge_film_y1s1',1,'pre'), w6=await inRoom('Y1S1','ge_film_y1s1',6,'pre'), w14=await inRoom('Y1S1','ge_film_y1s1',14,'post'), p3=await inRoom('Y1S1','ge_film_y1s1',3,'post');
+  check('7. 第 1 週＝第 1、2 組；第 6 週＝第 6 組（三個人：電機、獸醫、法律，同一排）；下課後平常＝第 8、10 組；第 14 週下課後＝第 9 組',!!w1&&['g1','g2'].includes(w1.ids[0])&&!!w6&&J(w6.ids)==='["g6"]'&&w6.ppl.length===3&&besideOrFront(w6)&&J(w6.ppl.map(n=>n.name))===J(['電機系的學生','獸醫系的學生','法律系的學生'])&&!!p3&&['g8','g10'].includes(p3.ids[0])&&besideOrFront(p3)&&!!w14&&J(w14.ids)==='["g9"]',
     J([w1&&w1.ids,w6&&w6.ids,p3&&p3.ids,w14&&w14.ids]));
-  const L=await door('Y1S1','econ_principles_1',3,'pre'), Ln=L?L.grp.map(n=>n.name):[];
-  check('7. 法律系必修（大一經濟學原理，普通 101）上課前：門口的人全部是「法律系的學生」、第 4 節平常那一組（第 2 組）',!!L&&L.grp.length>=2&&Ln.every(x=>x==='法律系的學生')&&J(L.ids)==='["l2"]',J([Ln,L&&L.ids]));
-  if(L&&L.ppl.length){ const h=await tap(L.ppl[1]); check('7. 點了：「你判決看了嗎？」那一段，兩個人都是法律系的學生',J(h)===J(stepsOf(conv('LAW',2),['法律系的學生','法律系的學生'])),J(h)); }
-  const L1=await door('Y1S1','econ_principles_1',1,'pre'), L7=await door('Y1S1','econ_principles_1',7,'pre'), Lp=await door('Y1S1','econ_principles_1',3,'post');
+  const L=await inRoom('Y1S1','econ_principles_1',3,'pre'), Ln=L?L.ppl.map(n=>n.name):[];
+  check('7. 法律系必修（大一經濟學原理，普通 101）上課前：說話的兩個人都是「法律系的學生」、第 4 節平常那一組（第 2 組）',!!L&&L.ppl.length===2&&besideOrFront(L)&&Ln.every(x=>x==='法律系的學生')&&J(L.ids)==='["l2"]',J([Ln,L&&L.ids]));
+  if(L&&L.ppl.length){ const h=await L.play(); check('7. 說：「你判決看了嗎？」那一段，兩個人都是法律系的學生',J(h)===J(stepsOf(conv('LAW',2),['法律系的學生','法律系的學生'])),J(h)); }
+  const L1=await inRoom('Y1S1','econ_principles_1',1,'pre'), L7=await inRoom('Y1S1','econ_principles_1',7,'pre'), Lp=await inRoom('Y1S1','econ_principles_1',3,'post');
   check('7. 法律系必修：第 1 週＝第 1 組、考試前一週（第 7 週）＝第 4 組（法典）、下課後＝第 3、5 組',!!L1&&J(L1.ids)==='["l1"]'&&!!L7&&J(L7.ids)==='["l4"]'&&!!Lp&&['l3','l5'].includes(Lp.ids[0]),J([L1&&L1.ids,L7&&L7.ids,Lp&&Lp.ids]));
-  const jp=await door('Y2S1','japanese_1',3,'pre'); check('7. 選修（日文，共同 102）門口照舊：沒有系、不能點',!!jp&&jp.grp.length>=2&&jp.grp.every(n=>!n.name&&!n.talk),jp?jp.grp.length+' 人':'找不到日文課'); }
+  const jp=await inRoom('Y2S1','japanese_1',3,'pre'); check('7. 選修（日文，共同 102）照舊：沒有那幾段、同學沒有系',!!jp&&!jp.prep&&!!C.seatTalkPrep&&jp.others.length>=2&&jp.others.every(n=>!n.name&&!n.talk),jp?jp.others.length+' 人':'找不到日文課');
+  const gd=C.SPOTS?C.SPOTS.filter(s=>['boya','putong','gongtong'].includes(s.zone)).map(s=>s.id):['?'];
+  check('7. 教學館裡的教室門口沒有等的人、聊天的人（CROWD-NO-DOOR-1103：沒有室內的等候點）',!gd.length,J(gd)); }
 });
 // ---------- 8. 體育館 ----------
 await blk('8. 體育館',async()=>{
@@ -216,8 +222,8 @@ await blk('8. 體育館',async()=>{
 await blk('9. 經濟系那一年',async()=>{
 { const G=mkG(Y0W4,14,'campus',{stage:'econ'}); enter('campus',G,10); const all=E.npcs.filter(n=>n.isExtra&&!n.crowd), pool=C.deptPool(G,'campus').map(d=>d.id);
   check('9. 經濟系那一年（大一上第 4 週）：校園的走路的人一樣有系（有經濟系的人可以出現）、有句子',all.length===10&&all.every(n=>pool.includes(deptOf(n)))&&pool.includes('經濟')&&all.filter(n=>n.talk).length>=6,all.map(deptOf).join('、'));
-  const g=await door('Y0S1','chinese_y0',4,'pre'), e=await door('Y0S1','econ_principles_y0',4,'pre');
-  check('9. 經濟系那一年：通識（大一國文，博雅 101）門口照第 3 節（各系混著、有對話）；經濟系必修（經濟學原理）門口照舊（沒有系、不能點）',!!g&&g.ids.length===1&&/^g/.test(g.ids[0])&&g.grp.every(n=>/系的學生$/.test(n.name))&&!!e&&e.grp.length>=2&&e.grp.every(n=>!n.name&&!n.talk),J([g&&g.ids,e&&e.grp.length])); }
+  const g=await inRoom('Y0S1','chinese_y0',4,'pre'), e=await inRoom('Y0S1','econ_principles_y0',4,'pre');
+  check('9. 經濟系那一年：通識（大一國文，博雅 101）照第 3 節（前一排或旁邊的同學、各系、有對話）；經濟系必修（經濟學原理）照舊（沒有那幾段、同學沒有系）',!!g&&g.ids.length===1&&/^g/.test(g.ids[0])&&besideOrFront(g)&&g.ppl.every(n=>/系的學生$/.test(n.name))&&!!e&&!e.prep&&e.others.length>=2&&e.others.every(n=>!n.name&&!n.talk),J([g&&g.ids,e&&e.others.length])); }
 });
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

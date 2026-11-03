@@ -317,7 +317,7 @@ const CLS=(function(){
       if(!door&&E.zone&&(roomy(E.zone)||G.zone==='classroom')){ const h0=hr(G); let stPre=null;
         /* 開始上課的時候同學都坐好了（2026-10-18 BB-C：開始前 30 分鐘就能坐下上課，同學 10 分鐘前才陸續進來——提早坐下的話整堂課教室只有祐廷一個人）。
            CROWD-CLASS-ARRIVE-1027（使用者 2026-10-27「開始上課教室突然出現更多人已經坐在位置上?」）：原本選「上課」那一刻，沒到的同學一起出現在座位上。改成——
-           提早坐下（還沒開始）：先轉暗、等到上課時間（時間真的過去了），走在半路、門口等的人在這段時間坐好；已經開始：還沒到的同學從門口走進來，不在座位上冒出來 */
+           提早坐下（還沒開始）：先轉暗、等到上課時間（時間真的過去了），走在半路的人在這段時間坐好（CROWD-NO-DOOR-1103 起教室門口沒有等的人）；已經開始：還沒到的同學從門口走進來，不在座位上冒出來 */
         if(h0<it.t0-0.5/60){ await GM.fade(true); { const R=S.rec(G); if(R.waitLast!==it.key){ R.waitLast=it.key; await GM.say(null,'（你在座位上等。教室慢慢坐滿了。）'); } }   /* AA_489 第 3 節（c4bcf86f6）：提早坐下等上課，轉暗時一句，一堂課一次 */ S.settleRoom(GM); GM.advance(it.t0-h0); keepCrowd(G); if(typeof CROWD!=='undefined'&&CROWD.resync) CROWD.resync(GM); S.syncRoom(GM,{full:true,instant:true}); stPre=seatTalk(GM,it,'pre'); await GM.fade(false); if(stPre) await CROWD.seatTalkPlay(GM,stPre); }   /* 前一排或旁邊的同學說上課前那一段（AA_495 第 3、4 節，原本在教室門口；CROWD-NO-DOOR-1103）：轉暗的時候排好位子、亮了才說 */
         else S.syncRoom(GM,{full:true}); }
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
@@ -749,7 +749,7 @@ const CLS=(function(){
   /* 下課：同學站起來、從教室門走到建築出口（走到了、不在畫面上才移除，crowd3d.js 的 sweep）；時間突然跳了（跳過時間、讀檔、快速前往、剛進區域）就直接移除 */
   let lastSync=null;
   /* 玩家自己坐著上完課、聽完演講（快轉到結束）：時間是「待在這裡過完的」，不是跳過去——下一次同步照一般的下課處理，同學站起來走出去（不是在黑畫面裡一起消失）*/
-  const keepCrowd=G=>{ lastSync={zone:G.zone,h:G.hour}; if(typeof CROWD!=='undefined'&&CROWD.keep) CROWD.keep(G); };   /* crowd3d.js 自己也記時間（門口的人群、走出去的同學 n.crowd）：兩邊都要知道 */
+  const keepCrowd=G=>{ lastSync={zone:G.zone,h:G.hour}; if(typeof CROWD!=='undefined'&&CROWD.keep) CROWD.keep(G); };   /* crowd3d.js 自己也記時間（校園門口的人群、走出去的同學 n.crowd）：兩邊都要知道 */
   function walkOut(GM,n){ const E=GM.E, ex=S.entryPoint(E); if(!ex||typeof CROWD==='undefined'||!CROWD.seatSide) return false; const st=n.seat, ap=st&&CROWD.seatSide(E,st); if(!ap) return false; const lv=st.lv|0;   /* 教學館＝大門；霖澤館 201、GLB 教室（沒有 layout）＝教室的門（CROWD-CLASS-ARRIVE-1027，原本直接拿掉）*/
     n.obj.position.set(ap[0],E.heightAt(ap[0],ap[1],lv),ap[1]); n.lv=lv; n.seat=null; n.clsStudent=false; n.frozen=false; n.pose='walk'; n.idlePose='idle'; n.leaving=true; n.arrived=false; n.crowd='cls';
     return E.moveTo(n,ex.x,ex.z,()=>{ n.arrived=true; },ex.lv|0); }
