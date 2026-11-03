@@ -101,7 +101,7 @@ SAMPLER_JS = r"""(([zone,room,R,cap])=>{ if(window.__X161&&window.__X161.timer) 
   else if(rm.doorFront) pts.push({x:(rm.doorFront[0]+rm.doorFront[1])/2,z:rm.doorZ!=null?rm.doorZ:-0.4,lv:rm.lv|0,what:'door'});
   const ex=LY.entrance.exit, inRoom=(x,z)=>x>rm.x0&&x<rm.x1&&z>rm.z0&&z<rm.z1;
   const W=window.__X161={pts,ex:{x:ex.x,z:ex.z},room:{x0:rm.x0,x1:rm.x1,z0:rm.z0,z1:rm.z1},st:{},n:0,dwellMax:{s:0},dwellBad:[],seatLog:[],fadeSamples:0,lastH:null,zone0:zone,pid:0,samples:0,startH:GAME.G.hour};
-  const tick=()=>{ try{ const E=GAME.E, G=GAME.G; if(G.zone!==W.zone0) return; const f=document.getElementById('fade'), fade=!!(f&&f.classList.contains('on'));
+  const tick=()=>{ try{ const E=GAME.E, G=GAME.G; if(G.zone!==W.zone0) return; const f=document.getElementById('fade'), fade=!!f&&(f.classList.contains('on')||+getComputedStyle(f).opacity>0.3);
     const h=+G.hour, dh=W.lastH==null?0:Math.max(0,Math.min(h-W.lastH,cap)); W.lastH=h; W.samples++; if(fade) W.fadeSamples++; const first=W.samples===1;
     for(const n of E.npcs){ if(!n.obj||!n.obj.position) continue; if(n.__x161==null) n.__x161=++W.pid; const id=n.__x161, p=n.obj.position, lv=n.lv|0;
       let S=W.st[id]; if(!S){ S=W.st[id]={id,firstH:h,firstFade:fade,firstAtLoad:first,first:[+p.x.toFixed(2),+p.z.toFixed(2)],fromEntrance:Math.hypot(p.x-W.ex.x,p.z-W.ex.z)<4,anchor:null,dwell:0,maxD:0,seatedAt:null,how:null,trail:[],teacher:!!(n.clsTeacher||n.tSpot),name:n.name||'',lastPos:null,stoodAfterSit:false,leftSeatDist:0,walkOut:false}; }
@@ -125,7 +125,7 @@ SAMPLER_JS = r"""(([zone,room,R,cap])=>{ if(window.__X161&&window.__X161.timer) 
 
 # 對話、字幕的紀錄（只記，不改行為）
 HOOK_JS = r"""(()=>{ if(window.__X161H) return 'again'; const H=window.__X161H={log:[],seq:0};
-  const fadeOn=()=>{ const f=document.getElementById('fade'); return !!(f&&f.classList.contains('on')); };
+  const fadeOn=()=>{ const f=document.getElementById('fade'); return !!f&&(f.classList.contains('on')||+getComputedStyle(f).opacity>0.3); };
   const rel=(me,q)=>{ const fx=Math.sin(me.yaw||0), fz=Math.cos(me.yaw||0), dx=q.x-me.x, dz=q.z-me.z; return {f:+(dx*fx+dz*fz).toFixed(2),l:+(dx*fz-dz*fx).toFixed(2)}; };
   const s0=GAME.say; GAME.say=function(w,t){ try{ const E=GAME.E, me=E.player&&E.player.seat; let sp=null;
       if(w&&w.obj){ const n=E.npcs.find(m=>m.obj===w.obj); if(n){ const st=n.seat, p=n.obj.position; sp={pid:n.__x161||null,seated:!!st&&(n.pose==='sit'||n.pose==='read')&&Math.hypot(p.x-st.x,p.z-st.z)<0.45,
@@ -142,7 +142,7 @@ PICK_SEAT_JS = r"""(room=>{ const E=GAME.E, z=E.zone; const sts=(z.seats||[]).fi
   for(const r of [rows[Math.min(2,rows.length-1)],rows[Math.min(3,rows.length-1)],rows[1]]){ const c=sts.filter(q=>q.row===r&&!used(q)).sort((a,b)=>Math.abs(a.col-1.5)-Math.abs(b.col-1.5)); if(c.length){ const q=c[0], ap=GAME.seatApproach(q); return {x:q.x,z:q.z,row:q.row,col:q.col,lv:q.lv|0,yaw:q.yaw,ap}; } }
   return null; })(%s)"""
 
-DOMDLG_JS = "(()=>({n:((document.getElementById('dlgName')||{}).textContent||'').trim(),t:((document.getElementById('dlgText')||{}).textContent||'').trim()}))()"
+DOMDLG_JS = "(()=>{ const g=id=>document.getElementById(id), nx=g('dlgNext'), b=g('dlg'); return {n:((g('dlgName')||{}).textContent||'').trim(),t:((g('dlgText')||{}).textContent||'').trim(),done:!!nx&&nx.style.visibility==='visible',open:!!b&&!b.classList.contains('hide')&&!!(GAME.D&&GAME.D.active)}; })()"
 CHOICES_JS = "[...document.querySelectorAll('#choices button')].map(b=>({t:(b.textContent||'').trim(),dim:b.classList.contains('dim')||b.disabled}))"
 
 
@@ -318,13 +318,18 @@ async def one(p, case):
                 note('%s：選單 %s → %s' % (tag, J([o['t'] for o in opts]), opts[kk]['t']))
                 await tap_choice(pg, cdp, kk); await pg.wait_for_timeout(1200); continue
             if s['dlg']:
-                prev = None
-                for _ in range(6):
+                # 打字效果：等 ▼（#dlgNext）出現＝這一句印完；8 秒還沒印完就像玩家一樣點一下補完（不翻頁），再讀對話框
+                d = None
+                for _ in range(16):
                     d = await pg.evaluate(DOMDLG_JS)
-                    if prev and d == prev:
+                    if d['done'] or not d['open']:
                         break
-                    prev = d; await pg.wait_for_timeout(450)
-                dom.append(d)
+                    await pg.wait_for_timeout(500)
+                if d and d['open'] and not d['done']:
+                    await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); d = await pg.evaluate(DOMDLG_JS)
+                if not d or not d['open']:
+                    continue
+                dom.append({'n': d['n'], 't': d['t']})
                 if any(d['t'].startswith(x) for x in all_lines) and talk_shots < 12:
                     talk_shots += 1; await shot('talk_%s' % hm(await hour()))
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
