@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "BK1_hip",
-  "sha": "43b715b1a",
+  "sha": "cf81f6460",
   "kind": "blender",
   "script": "tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py",
   "env": "CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256",
   "machine": "MSI",
-  "start": "2026-11-03T17:33:16",
-  "end": "2026-11-03T17:37:48",
-  "seconds": 272,
+  "start": "2026-11-03T17:39:48",
+  "end": "2026-11-03T17:44:21",
+  "seconds": 273,
   "exit": 0,
   "error": null,
   "runner": "02a9caf4ba",
   "rf_round": "2",
   "url": "http://127.0.0.1:8810/index.html",
   "res_peak": {
-    "cpu": 65,
-    "mem": 43,
-    "used_gb": 13.7,
+    "cpu": 54,
+    "mem": 42,
+    "used_gb": 13.5,
     "chrome_testing": 0
   }
 }
