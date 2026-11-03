@@ -3,7 +3,7 @@
 - 參考圖（使用者 11-03）：`docs/story_planning/ref_images/shops/gongguan_shaola_int.webp`（室內）、`gongguan_shaola_ext.webp`（店面）。
 - 照 SCENE_RULES 第 11、12 節做：參考圖就是規格。交件要附四樣：拆圖清單全部打勾、ref_match 五項 PASS、醜點清單打勾、和參考圖不同的地方。
 - 腳本：`tools/blender/env_second/bb_support/shaola_interior.py`。
-- 狀態：**WORK_IN_PROGRESS**。v1～v4 是自己檢查用的，都不交。
+- 狀態：**WORK_IN_PROGRESS**（2026-11-03 子代理開工中：照新配置 6×13 重做 v5，subagent working）。v1～v4 是自己檢查用的，都不交。
   - v3 渲染：`wip_v3_4views.jpg`。v3 太空、單色，看起來像廉價遊戲，LAWWW2 的回覆在 §11。
   - 配置衝突：參考圖是窄長店，右牆一整排櫃子；遊戲的 noodle 區域是 10×9，三張桌子在中間。已經問 LAWWW2，等回覆（A 改配置／B 不改）。
 
