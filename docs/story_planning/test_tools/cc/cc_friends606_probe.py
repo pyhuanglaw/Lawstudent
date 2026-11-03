@@ -110,6 +110,10 @@ async def main():
         if SAVE:
             run.setup('讀 ① 匯出的 8/24 存檔 %s（標題「讀取／匯入存檔」→「匯入存檔」→「匯入」）' % SAVE)
             run.check('匯入 8/24 存檔', await C.import_save(pg, cdp, run, sp))
+            ok_r, s_r = await C.resume_ok(pg, cdp, run, int(os.environ.get('RESUME_S', '240')))
+            run.check('讀 8/24 存檔以後遊戲接著演、走到 8/29（不停在 8/24）', ok_r, J({k: s_r.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1', 'campStep')} if s_r else None))
+            if not ok_r:
+                await run.shot(pg, 'resume_stuck'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
         else:
             run.setup('沒有 ① 的 8/24 存檔：乾淨的瀏覽器、標題「從法律系開始」照玩家點完宿營（不是捷徑）')
             run.check('標題畫面按「從法律系開始」', await C.new_game_law(pg, cdp, run))

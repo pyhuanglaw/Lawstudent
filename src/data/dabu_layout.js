@@ -11,24 +11,24 @@ const DABU_LAYOUT = {
   version: 1,
   id: 'dabu_shoes', name: '大步球鞋', glb: 'assets/models/env/second_ai/bb_support/dabu.glb',
   w: 9.0, d: 16.0, h: 3.6, wallColor: '#eee6da', floor: 'wood_mid_light',
-  note: '9×16×3.6 m（SCENE_RULES 第 10 節暫定尺寸）。左牆（西）整面鞋牆（五格，每格六層、每層暖色燈條，上面一排抽象運動色塊燈箱）；' +
+  note: '9×16×3.6 m（SCENE_RULES 第 10 節暫定尺寸）。左牆（西）鞋牆（四格，每格六層、每層暖色燈條，上面一排抽象運動色塊燈箱；前段一面大燈箱）；' +
         '最後面兩格是籃球鞋（高筒、中筒），燈箱是橘色球場的線條，好認。中間淺色地毯上兩張原木腳灰布軟凳（試穿）。後牆：落地鏡、襪子掛架、鐵網毛巾桶、長鞋拔。' +
-        '右後：鞋盒牆（白、灰）、原木＋白色收銀台（螢幕、刷卡機）、白色吊燈、店名木板（字由遊戲畫）。右前：鐵網架（噴霧、毛巾）。右牆中段兩格跑鞋／休閒鞋。' +
+        '右後：鞋盒牆（白、灰）、原木＋白色收銀台（螢幕、刷卡機）、白色吊燈、店名木板（字由遊戲畫）。右前：鐵網架（噴霧、毛巾）。右牆中段兩格跑鞋／復古低筒（五層）。' +
         '前面：西側整面櫥窗（玻璃層架擺鞋），東側玻璃門。天花板外露風管、管線、三條軌道投射燈、兩台吸頂冷氣。',
   front: {door: {x: 2.8, w: 2.0}, windows: [[-4.2, 1.4]], sill: 0.45, head: 2.75},
   spawn: {x: 2.8, z: 7.1, yaw: Math.PI},
-  seeThru: ['dabu_pendant'],   /* 收銀台上的吊燈（燈罩、吊線）擋在人前面時網點透空 */
   exit: null,      /* LAWWW2 填：{at:{x:2.8,z:7.55}, label:'離開大步球鞋', to:'<新生南路區域>', spawn:{...}} */
   enterAt: null,   /* LAWWW2 填：新生南路上「進店」的互動點（世界座標） */
   shoeWalls: [
-    /* 鞋牆：side＝靠哪一面牆；z0～z1＝範圍；每格 2.0 m、6 層（y＝0.6、0.91、1.22、1.53、1.84、2.15），一層 4 隻；cats＝每一格的分類（由後往前） */
-    {side: 'left', x: -4.275, z0: -6.6, z1: 3.4, depth: 0.45, bays: 5, rows: 6, cats: ['basketball_high', 'basketball_mid', 'running', 'casual', 'retro']},
-    {side: 'right', x: 4.275, z0: -3.4, z1: 0.6, depth: 0.45, bays: 2, rows: 6, cats: ['running', 'casual']}
+    /* 鞋牆：side＝靠哪一面牆；z0～z1＝範圍；每格 2.0 m、rows 層（由下往上 y＝0.6、0.91、1.22、1.53、1.84、2.15），一層 4 隻；cats＝每一格的分類（由後往前）。
+       左牆前段 z 1.6～3.4 是一面大燈箱（抽象色塊）＋大盆栽，不放鞋（三角形預算：鞋子約 160 隻） */
+    {side: 'left', x: -4.275, z0: -6.6, z1: 1.4, depth: 0.45, bays: 4, rows: 6, cats: ['basketball_high', 'basketball_mid', 'running', 'casual']},
+    {side: 'right', x: 4.275, z0: -3.4, z1: 0.6, depth: 0.45, bays: 2, rows: 5, cats: ['running', 'retro']}
   ],
   zones: [
     {kind: 'basketball', label: '籃球鞋', side: 'left', z0: -6.6, z1: -2.6, note: '阿哲帶玩家走到這裡（AA_620 3-1）：左牆最後面兩格（靠落地鏡那一頭），上方兩個燈箱是橘色球場線條；高筒一格、中筒一格'},
     {kind: 'running', label: '跑鞋', side: 'left', z0: -2.6, z1: -0.6}, {kind: 'casual', label: '休閒鞋', side: 'left', z0: -0.6, z1: 1.4},
-    {kind: 'retro', label: '復古低筒', side: 'left', z0: 1.4, z1: 3.4}, {kind: 'running', label: '跑鞋', side: 'right', z0: -3.4, z1: -1.4}, {kind: 'casual', label: '休閒鞋', side: 'right', z0: -1.4, z1: 0.6}
+    {kind: 'running', label: '跑鞋', side: 'right', z0: -3.4, z1: -1.4}, {kind: 'retro', label: '復古低筒', side: 'right', z0: -1.4, z1: 0.6}
   ],
   items: [
     {kind: 'window_display', x: -1.4, z: 7.5, w: 5.4, d: 0.6, note: '櫥窗內側：三層玻璃層架＋白色矮台（一顆籃球、一盆植物）；從街上看得到（外觀 dabu_ext）'},
@@ -46,9 +46,10 @@ const DABU_LAYOUT = {
     {kind: 'pendant', x: 2.2, y: 2.55, z: -5.2, note: '白色圓頂吊燈'},
     {kind: 'display_table', x: 0.3, z: 4.4, w: 1.8, d: 0.8, h: 0.78, note: '新品展示桌：六隻鞋＋疊起來的鞋盒（外觀圖門裡看得到的那張桌子）'},
     {kind: 'wire_rack', x: 4.2, z: 4.2, w: 0.5, d: 1.0, h: 1.5, note: '右前的鐵網架：三層鐵網籃（噴霧、除臭劑、毛巾）'},
+    {kind: 'lightbox_big', side: 'left', z0: 1.6, z1: 3.4, y0: 0.7, y1: 2.6, note: '左牆前段的大燈箱（抽象的夕陽弧線，沒有人物）'},
     {kind: 'plant_big', x: -4.0, z: 5.0}, {kind: 'plant_big', x: -4.0, z: -7.35}, {kind: 'plant_big', x: 4.12, z: 7.1}
   ],
-  blocks: [[-4.275, -1.6, 0.45, 10.0], [4.275, -1.4, 0.45, 4.0], [-1.4, 7.5, 5.6, 0.7],
+  blocks: [[-4.275, -2.6, 0.45, 8.0], [-4.33, 2.5, 0.34, 1.8], [4.275, -1.4, 0.45, 4.0], [-1.4, 7.5, 5.6, 0.7],
            [-1.9, -0.7, 1.3, 0.5], [-1.3, -2.5, 1.3, 0.5],
            [-2.55, -7.75, 0.85, 0.32], [-1.3, -7.7, 0.95, 0.6], [-0.55, -7.75, 0.3, 0.3], [-4.0, -7.35, 0.6, 0.6],
            [2.45, -7.8, 4.1, 0.4], [4.3, -6.0, 0.4, 3.2], [2.2, -5.2, 2.2, 0.7],

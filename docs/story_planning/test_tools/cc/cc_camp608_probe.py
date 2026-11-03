@@ -12,6 +12,7 @@
   c 認識的順序：芯慈（破冰）→ 阿哲（撕名牌，ev_camp_d1_field）→ 大老二＋學測（ev_camp_d1_free 裡「十五級分。」）→ 沛珊（ev_camp_d2_fire）
   d 沛珊在營火之前沒有出現：營火以前沒有她的台詞、沒有 FIRST_MET；營火裡第一句「嗨。」；認識地點 note＝camp
   e 演完：CAMP_Y1、campStep／campSeqV 清掉；只認識這三個人（FIRST_MET note camp 的只有三個）；walkFallbacks 0；沒有 JS 例外
+  f 匯出的 8/24 存檔用新的瀏覽器匯入，遊戲自己接著演（回家 → 8/29 搬宿舍），RESUME_S 秒內走到 8/29（RESUME_CHECK=0 跳過）
   另外匯出 8/24 的存檔（演完最後一段 ev_camp_d3_end 以後的自動存檔，campStep 8、8/24）→ <out>/camp608_824_save.json（＋camp608_824_save.json.meta.json：寫的版本 SHA、時間），給 cc_friends606_probe.py、cc_kexin_hsr_probe.py 當起點。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [MAX_S=3600] python3 cc_camp608_probe.py '<URL>/index.html' <輸出資料夾>
 exit 0＝ALL PASS；1＝有 FAIL。不是 iPhone：Playwright 手機橫向模擬（844×390）。"""
@@ -25,6 +26,8 @@ URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 MAX_S = int(os.environ.get('MAX_S', '3600'))
 STUCK_S = int(os.environ.get('STUCK_S', '240'))
+RESUME_CHECK = os.environ.get('RESUME_CHECK', '1') == '1'   # f：匯出的 8/24 存檔讀回來能不能接著走（RESUME_CHECK=0 不檢查）
+RESUME_S = int(os.environ.get('RESUME_S', '240'))
 J = C.J
 ALLOW_IDS = {'zhe', 'classmate_xinci', 'classmate_peishan'}
 if '?turbo' in URL or '&turbo' in URL: raise SystemExit('真實流程不能用 ?turbo')
@@ -152,6 +155,19 @@ async def main():
         run.check('e 沒有 JS 例外', not errs, J(errs[:3]))
         json.dump({'sha': SHA, 'ended': ended, 'records': recs, 'picks': picks, 'met': fin_met}, open(os.path.join(OUT, 'camp608_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
         await b.close()
+        # ---- f 匯出的 8/24 存檔讀得回來（玩家在這時候關掉分頁、或把這個存檔搬到別台）：新的瀏覽器 → 匯入 → 遊戲自己接著走到 8/29 ----
+        if saved is not None and RESUME_CHECK:
+            b2, ctx2, pg2, cdp2, errs2 = await L.launch(p, landscape=True)
+            pg2.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+            await pg2.goto(URL); await L.wait_loaded(pg2, 600)
+            sv_path = os.path.join(OUT, 'camp608_824_save.json')
+            imp = await C.import_save(pg2, cdp2, run, sv_path)
+            ok, s2 = await C.resume_ok(pg2, cdp2, run, RESUME_S)
+            await run.shot(pg2, 'resume_824')
+            run.check('f 8/24 的存檔（campStep 8、CAMP_Y1=%s、CAMP_Y1_ON=%s）讀回來，遊戲接著演、走到 8/29 搬宿舍' % ((saved.get('flags') or {}).get('CAMP_Y1'), (saved.get('flags') or {}).get('CAMP_Y1_ON')),
+                      imp and ok, J({k: s2.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1', 'campStep')} if s2 else None))
+            run.check('f 讀檔以後沒有 JS 例外', not errs2, J(errs2[:3]))
+            await b2.close()
     print('ALL PASS' if not run.fails else 'FAILED %d' % len(run.fails), flush=True)
     return 1 if run.fails else 0
 
