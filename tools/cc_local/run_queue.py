@@ -962,6 +962,20 @@ class Runner(object):
         log('queue: ' + ', '.join(it.id for it in items))
         attempted = set()
         running = {}            # id -> (thread, item)
+        self._running = running
+        STATUS_EVERY = float(os.environ.get('CC_STATUS_EVERY', '300'))
+        stop_status = threading.Event()
+
+        def status_loop():          # BB 11-03：使用者看到視窗不動以為測完、把它關掉 → 每 5 分鐘印一行「還沒測完，請不要關」
+            while not stop_status.wait(STATUS_EVERY):
+                try:
+                    items_now = list(self._running.values())
+                    if items_now:
+                        parts = ['%s（已跑 %d 分／上限 %d 分）' % (r[1].id, int((time.time() - getattr(r[1], 't_start', time.time())) // 60), r[1].tmin) for r in items_now]
+                        log('正在跑：' + '、'.join(parts) + '——還沒測完，請不要關 (tests still running - please do not close)')
+                except Exception:
+                    pass
+        threading.Thread(target=status_loop, daemon=True).start()
         done_q = queue.Queue()
         ran_n = skipped_n = 0
         need_refresh = False
@@ -1029,6 +1043,7 @@ class Runner(object):
                 attempted.add('%s@%s#%s' % (pick.id, pick.rsha, pick.rerun))
                 ran_n += 1
                 th = threading.Thread(target=worker, args=(pick,), daemon=True)
+                pick.t_start = time.time()
                 running[pick.id] = (th, pick)
                 th.start()
                 if pick.kind == 'blender':
@@ -1044,6 +1059,7 @@ class Runner(object):
                 except queue.Empty:
                     break
 
+        stop_status.set()
         print('')
         print('===== SUMMARY =====')
         print('ran %d item(s), skipped %d already done' % (ran_n, skipped_n))
@@ -1054,7 +1070,9 @@ class Runner(object):
         print('Results: %s  (%s)' % (self.out_root, 'not pushed: --no-push' if self.a.no_push else 'pushed to origin/' + self.branch))
         if self.restart_pending:
             print('run_queue.py was updated - exit %d so run_forever.ps1 restarts the new version now' % RESTART_EXIT)
+            log('正在換新版，馬上會自己重新開始——請不要關 (restarting with the new version - please do not close)')
             return RESTART_EXIT
+        log('目前沒有測試在跑，可以關；不關的話 5 分鐘後會自己再檢查有沒有新的測試 (no test running now - safe to close)')
         return 0
 
 
