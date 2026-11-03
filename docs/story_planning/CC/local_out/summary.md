@@ -642,3 +642,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_p0f] | [gpu_wrap 119.8s] page close url=http://127.0.0.1:8811/index.html?turbo | [gpu_wrap 119.9s] BROWSER DISCONNECTED
 - 2026-11-04T04:38:36  V19R_deploy6  sha=55939fc71  exit=0  181s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_deploy6] | [gpu_wrap 149.4s] page close url=http://127.0.0.1:8810/index.html?turbo | [gpu_wrap 149.5s] BROWSER DISCONNECTED
+- 2026-11-04T04:43:19  V19D_tour_tap8c  sha=ddda3d829  exit=1  277s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / FAILED: A 到了以後合照真的演了（events.done 有 ev_l3_photo_*；對話裡有合照的句子）
+      err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap8c] | [gpu_wrap 246.5s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 246.5s] BROWSER DISCONNECTED
