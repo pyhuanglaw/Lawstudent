@@ -306,3 +306,11 @@
 [09:44:19] ==== START 16_p0  (game @ d75871437) ====
 [09:44:22] [res] cpu=49% mem=51% (15.9/31.4 GB) chrome_testing=19  START 16_p0
 [09:45:18] [res] cpu=79% mem=49% (15.4/31.4 GB) chrome_testing=19  END 14_zones
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c60c836a0..d8de83f0f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:45:22] ==== END   14_zones  exit=0  154s   ====
+[09:45:25] memory 49% before starting 17_savev7 (2 running)
+[09:45:25] ==== START 17_savev7  (game @ d75871437) ====
+[09:45:28] [res] cpu=77% mem=49% (15.5/31.4 GB) chrome_testing=19  START 17_savev7
+[09:46:31] [res] cpu=94% mem=46% (14.5/31.4 GB) chrome_testing=18  END 15_touchwz
