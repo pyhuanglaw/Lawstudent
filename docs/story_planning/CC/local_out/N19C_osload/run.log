@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_camp_oldsave_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_osload\out
+cc_camp_oldsave_probe  SHA=b1ae1c390  URL=http://127.0.0.1:8810/index.html  CASES=load  MAKE_AFTER=ev_camp_d2_bbq
+---- load（新版）URL=http://127.0.0.1:8810/index.html SAVE=docs/story_planning/CC/local_out/N19C_osmake/out/oldsave_camp_d2.json ----
+  [   0.6s] 存檔 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_osmake\out\oldsave_camp_d2.json（寫的版本 0f66c4215）
+PASS load 遊戲載入
+  [  18.9s] load：存檔 day=-24 hour=17.5 campStep=8 campSeqV=None；新版 campFrom＝5 → 應該接著演 ["ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS a 存檔是舊版的（沒有 campSeqV、CAMP_Y1_ON、還沒 CAMP_Y1）  {"campSeqV": null, "CAMP_Y1_ON": true, "CAMP_Y1": null, "campStep": 8}
+  [  23.2s] 匯入檔 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_osmake\out\oldsave_camp_d2.json：讀進文字框 5362 字
+  [  23.2s] 匯入訊息：匯入成功，已備份原本進度。
+PASS a 標題「讀取／匯入存檔」→「匯入存檔」→「匯入」讀進來
+  [  52.3s] load 結束：ok；{"key": "2025-08-29", "h": 16.087, "zone": "dorm", "CAMP_Y1": true, "campOn": false, "campStep": null, "fb": 0, "busy": true, "depth": 1}
+  [  52.3s] load 讀檔以後演的事件：[["ev_camp_d2_fire", "2025-08-23", "20:00"], ["ev_camp_d3_quiz", "2025-08-24", "07:30"], ["ev_camp_d3_end", "2025-08-24", "10:30"]]
+PASS b 接著演的段落＝campFrom 以後的 CAMP_SEQ（不跳段、不多演）  演的=["ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"] 應為=["ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS c 沒有重播存檔裡已經演過的事件  []
+PASS d 沛珊的營火有演（ev_camp_d2_fire）  ["ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS d 「這是沛珊。妳先坐這邊。」有出現  {"k": "say", "n": "小隊輔", "cid": "小隊輔", "t": "這是沛珊。妳先坐這邊。", "d": "2025-08-23", "day": -24, "h": 20, "z": "dorm", "ev": "ev_camp_d2_fire", "camp": true, "step": 5, "adv": true, "i": 2}
+PASS e 走到 8/24 演完、8/29 搬宿舍（沒有卡住）  ok
+PASS e 遊戲時鐘沒有倒退（讀檔以後每段開始的時間 ≥ 存檔的時間 17:30）  []
+PASS e 宿營各段的時間照順序往前  [-556, -544.5, -541.5]
+PASS e walkFallbacks 0  0
+PASS f 讀檔以後的宿營台詞，講話的人在名單內  []
+PASS g 沒有 JS 例外  []
+ALL PASS

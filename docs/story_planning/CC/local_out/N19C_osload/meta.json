@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19C_osload",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py",
+  "env": "CASES=load;SAVE=docs/story_planning/CC/local_out/N19C_osmake/out/oldsave_camp_d2.json;SAVE_SHA=0f66c4215;SAVE_WAIT_MIN=40",
+  "machine": "MSI",
+  "start": "2026-11-03T22:33:15",
+  "end": "2026-11-03T22:34:41",
+  "seconds": 86,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 60,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 28
+  }
+}
