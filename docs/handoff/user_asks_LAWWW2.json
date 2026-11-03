@@ -516,6 +516,16 @@
    "src": "使用者直接對帳號 A 的 LAWWW2 說；提案圖 docs/art-rebuild/second_ai/wip/campus_relayout/law_relayout_plan.jpg",
    "note": "觸發 D31 的重新討論條件（使用者要求法學院區照真實配置）。使用者選：霖澤館不動、國青和研三舍在霖澤館東邊、萬才館移到東南、小湖在霖澤館南邊、黑森林在兩館之間。LAWWW 22:17 ACK：照 D108 由 LAWWW2 主導整包（萬才館外觀與入口、落點、wancaiStairs 第 1 層導航、國青／研三舍、小湖、黑森林、舊存檔落點遷移、7 支測試；zrzq3d.js:169、classes3d.js:1015、places.js 一起改）。實作差異：萬才館正面維持朝南（大樓梯的兩層導航整套照朝南寫，轉 90° 要重寫；朝南的正面對著樹林和 z −60 的路），已告訴使用者。",
    "progress": "22:4x：整包 patch（含黑森林 v4）WIP 5c33eb485：docs/art-rebuild/second_ai/wip/blackforest/law_relayout_blackforest_1102_wip.patch；10 支 Node 單元 ALL PASS；172 支校園 Node 單元、7 支瀏覽器測試、前後截圖排隊中；已通知 LAWWW（DELIVERED，舊黑森林 patch 先不要整合）。 22:5x 交班：Node 172 支＋campus_layout_nav ALL PASS；其他 6 支瀏覽器測試與前後截圖沒跑（見 HANDOFF.md）。"
+  },
+  {
+   "id": "UA-LAWWW2-1103-01",
+   "at": "2026-11-03T08:5x",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "LIB（總圖）、CAMPUS-RELAYOUT／LAW-RELAYOUT",
+   "quote": "你可以優先做總圖 還有系館改位置的東西嗎",
+   "src": "使用者直接對帳號 A 的 LAWWW2 說",
+   "note": "排序改：①法學院區重排（測試跑完→交件）②系館名字 patch 和法學院區 patch 合併（電機二館的門牌跟著搬到 (119,−62)）③電機一館照 README 第六節方案 A（使用者 11-02 11:1x 說沒回覆的可以自己決定）④總圖：一樓展演廳第三版（BB_244）、3F 第二版（LIB-3F-1102）在開發分支最新版重測、截圖、交件；q4 沒跑完的總圖瀏覽器測試。延後：PERF-WZ-DAY 分析（PC 量測照排）、舊路書房書架重烘、宿舍梯子兩件、BAKE-PC 第二輪（PC 照排、只是等結果）。"
   }
  ]
 }
