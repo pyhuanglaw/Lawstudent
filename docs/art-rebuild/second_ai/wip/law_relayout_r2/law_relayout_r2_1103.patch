@@ -1,17 +1,17 @@
 diff --git a/index.html b/index.html
-index bab955742..f2fdf908f 100644
+index 3016a6b71..035cab6c9 100644
 --- a/index.html
 +++ b/index.html
-@@ -216,6 +216,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
- <script src="src/data/lane118_layout.js?v=9.10.16"></script>
- <script src="src/data/lane118_shops.js?v=9.10.16"></script>
- <script src="src/data/lane118_props.js?v=9.10.16"></script>
-+<script src="src/data/blackforest_layout.js?v=9.10.16"></script>
- <script src="src/zones3d.js?v=9.10.16"></script>
- <script src="src/data/linze_layout.js?v=9.10.16"></script>
- <script src="src/data/classroom_layout.js?v=9.10.16"></script>
+@@ -228,6 +228,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/lane118_layout.js?v=9.10.18"></script>
+ <script src="src/data/lane118_shops.js?v=9.10.18"></script>
+ <script src="src/data/lane118_props.js?v=9.10.18"></script>
++<script src="src/data/blackforest_layout.js?v=9.10.18"></script>
+ <script src="src/zones3d.js?v=9.10.18"></script>
+ <script src="src/data/linze_layout.js?v=9.10.18"></script>
+ <script src="src/data/classroom_layout.js?v=9.10.18"></script>
 diff --git a/src/assets3d.js b/src/assets3d.js
-index 942a44b4d..2fe54f92d 100644
+index 7d7d09680..9fee6c187 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -89,6 +89,7 @@ const ASSETS = (function(){
@@ -23,10 +23,10 @@ index 942a44b4d..2fe54f92d 100644
      'bldg.campus_bell':{url:'assets/models/env/second_ai/campus_bell.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_bell.py（傅鐘：台基、四根柱子、梁、四坡瓦屋頂、銅鐘、石碑、夜間地燈；校園世界座標；尺寸照 zones3d.js campus 區塊的 CK.bell；切石、屋瓦、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
      'bldg.campus_admin':{url:'assets/models/env/second_ai/campus_admin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_hall.py --set admin（行政大樓外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
 diff --git a/src/classes3d.js b/src/classes3d.js
-index 71749aa71..1f9c827a2 100644
+index e4c7f4f4a..8b2d62260 100644
 --- a/src/classes3d.js
 +++ b/src/classes3d.js
-@@ -888,7 +888,7 @@ const CLS=(function(){
+@@ -890,7 +890,7 @@ const CLS=(function(){
    /* 各區域在校園座標裡大概的位置（公館、溫州街照 zones3d.js 的換算：公館 (gx,gz) → 校園 (x=-170-gz, z=gx)；溫州街和公館在巷口 (-71,16.5) 相接）。只用來估時間。
       遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
       （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
@@ -35,7 +35,7 @@ index 71749aa71..1f9c827a2 100644
                   gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75] };
    S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone==='gongguan'&&pos&&toPos){ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
      if(fromZone===toZone&&toZone!=='campus') return 0;
-@@ -1012,7 +1012,7 @@ const CLS=(function(){
+@@ -1014,7 +1014,7 @@ const CLS=(function(){
    S.routeVia=function(from,to){ const a=upTo(from), b=upTo(to); if(!a||!b) return []; const k=a.findIndex(z=>b.includes(z)); if(k<0) return []; const j=b.indexOf(a[k]);
      return a.slice(1,k+1).concat(b.slice(0,j).reverse()).filter(z=>z!==to&&z!==from); };
    /* 停在校園時站的地方：要走進去的那一棟門口（和各棟「走出去」的落點、手機快速前往的落點一樣）。其他的區域照那一區的出生點（大門、大廳）*/
@@ -1642,10 +1642,10 @@ index e70c99e9f..b2cbaea8f 100644
        {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[-117,3.6,-PI/2,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'騎腳踏車超快的男生',label:'校門口，牽著車'} ],   /* 5-5 畢業那一週，校門口 */
      [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-2.4,1.5],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/
 diff --git a/src/story3d.js b/src/story3d.js
-index 74b2d8211..89354ef58 100644
+index f764b435e..db4adf7ab 100644
 --- a/src/story3d.js
 +++ b/src/story3d.js
-@@ -256,8 +256,8 @@ const STORY = (function(){
+@@ -264,8 +264,8 @@ const STORY = (function(){
    /* 路線點可以是 [x,z,層]（v9.4 多樓層）。校園第 6 條（萬才館第二階段）：法學院廣場 → 萬才館大樓梯 → 樓梯頂端平台、弧形陽台（第 1 層）→ 走下來 → 往 z=−60 那條路（原本是新社科院的中庭；X75 社科院搬到霖澤館西南以後是一棟沒有名字的系館）。第 3 條：法學院廣場 → 小椰林道 → 社科院的中庭（X75；原本走到 (8,−40)，現在那裡是社科院圖書館）*/
    /* 公館南側（GG-WALKERS-1023，LAWWW2-B 10-23，騎樓外加了一排機車以後）：路點會隨機偏 ±1 m（extras），原本 z 16.5 那一條偏到 17.5 會擦過機車的車尾、x −30 那一點會進捷運旁的花台 → 改 z 16、那一點移到 x −22；
       多一條廣場上的（繞過圓環北側、停車架和行道樹之間）。每個路點 ±1 m 都站得住（人物半徑 0.33）。騎樓只有 2.4 m 深，±1 m 的偏移放不下，沒有加騎樓裡的路線 */
@@ -2117,7 +2117,7 @@ index 74d031082..c86c69be5 100644
          check('沒有 JS 例外', not errs, str(errs[:3]))
          await b.close()
 diff --git a/tests/flow_wancai_floors.py b/tests/flow_wancai_floors.py
-index 9392fc7bf..9fbaef5a4 100644
+index 9392fc7bf..de675d866 100644
 --- a/tests/flow_wancai_floors.py
 +++ b/tests/flow_wancai_floors.py
 @@ -50,8 +50,8 @@ async def main():
@@ -2136,7 +2136,7 @@ index 9392fc7bf..9fbaef5a4 100644
          run.check('離開法律系館B → 回到校園', await press(pg, cdp, run, '離開法律系館B', 'campus'))
          await pg.wait_for_timeout(2000); s = await L.state(pg); await run.shot(pg, 'out_1f')
 -        run.check('回到校園：陽台下的一樓入口前面、地面那一層、站得住', s['zone'] == 'campus' and s['lv'] == 0 and abs(s['y']) < 0.05 and s['stand'] and abs(s['x'] - 93.8) < 0.5 and abs(s['z'] + 98.4) < 0.5, json.dumps(s, ensure_ascii=False))
-+        run.check('回到校園：陽台下的一樓入口前面、地面那一層、站得住', s['zone'] == 'campus' and s['lv'] == 0 and abs(s['y']) < 0.05 and s['stand'] and abs(s['x'] - 95.8) < 0.5 and abs(s['z'] + 86.4) < 0.5, json.dumps(s, ensure_ascii=False))
++        run.check('回到校園：陽台下的一樓入口前面、地面那一層、站得住', s['zone'] == 'campus' and s['lv'] == 0 and abs(s['y']) < 0.05 and s['stand'] and abs(s['x'] - 89.21) < 0.5 and abs(s['z'] + 82.01) < 0.5, json.dumps(s, ensure_ascii=False))
          # 8.
          run.check('劇情自動走路沒有用到卡住保險（walkFallbacks＝0）', s['fallbacks'] == 0, str(s['fallbacks']))
          run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
