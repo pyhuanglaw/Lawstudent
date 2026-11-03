@@ -1,0 +1,31 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_V19R_p0d\tests\p0_movement.py http://127.0.0.1:8811/index.html
+  [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）
+PASS 霖澤館前（教室出口）：搖桿上 → 位置改變  {'x': 34, 'z': -97.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -91.5, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿右 → 移動／轉向  {'x': 27.01, 'z': -91.5, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿左 → 移動／轉向  {'x': 34.99, 'z': -91.5, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿上 → 位置改變  {'x': 34, 'z': -99.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -90.9, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿右 → 移動／轉向  {'x': 27.33, 'z': -90.9, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿左 → 移動／轉向  {'x': 33.96, 'z': -90.9, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿上 → 位置改變  {'x': 34, 'z': -101, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -92.13, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿右 → 移動／轉向  {'x': 25.82, 'z': -92.13, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿左 → 移動／轉向  {'x': 33.24, 'z': -92.13, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿上 → 位置改變  {'x': 34, 'z': -98, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -89.07, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿右 → 移動／轉向  {'x': 26.06, 'z': -89.07, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿左 → 移動／轉向  {'x': 32.78, 'z': -89.07, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿上 → 位置改變  {'x': 20, 'z': 54, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 20, 'z': 44.58, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿右 → 移動／轉向  {'x': 26.65, 'z': 44.58, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿左 → 移動／轉向  {'x': 19.96, 'z': 44.58, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿上 → 位置改變  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -63, 'z': 9.13, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿右 → 移動／轉向  {'x': -56.51, 'z': 9.13, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿左 → 移動／轉向  {'x': -62.98, 'z': 9.13, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.32, 'z': 15.82, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -22.71, 'z': 15.82, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -30.77, 'z': 15.82, 'yaw': 4.71, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -13.64, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿右 → 移動／轉向  {'x': -8.95, 'z': -13.64, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿左 → 移動／轉向  {'x': -2.58, 'z': -13.64, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 27.75, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿右 → 移動／轉向  {'x': 27.75, 'z': -7.39, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿左 → 移動／轉向  {'x': 27.75, 'z': -0.67, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+console: ['warning: 星期和日期對不上，照行事曆改： 4 → 3', 'warning: THREE.WebGLRenderer: Texture marked for update but no image data found.', 'warning: THREE.WebGLRenderer: Texture marked for update but no image data found.', 'warning: THREE.WebGLRenderer: Texture marked for update but no image data found.', 'warning: THREE.WebGLRenderer: Texture marked for update but no image data found.']
+RESULT: ALL PASS
