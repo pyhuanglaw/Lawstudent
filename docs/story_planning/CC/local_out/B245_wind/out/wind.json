@@ -1,0 +1,238 @@
+{
+ "campus": {
+  "seat": {
+   "label": "坐在椰影大道的長椅上",
+   "seat": {
+    "x": -50,
+    "z": -12.94,
+    "yaw": 0,
+    "lv": 0
+   },
+   "ap": [
+    -50,
+    -12.14
+   ],
+   "n": 23,
+   "indoor": false,
+   "zone": "campus"
+  },
+  "runs": [
+   {
+    "cap": {
+     "t": "風從椰影大道那頭吹過來。",
+     "z": "campus",
+     "h": 16.364
+    },
+    "st": {
+     "zone": "campus",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": true
+   },
+   {
+    "cap": {
+     "t": "你看著來來去去的人，想著今天還要做什麼。",
+     "z": "campus",
+     "h": 16.75
+    },
+    "st": {
+     "zone": "campus",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": false
+   },
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "campus",
+     "h": 17.133
+    },
+    "st": {
+     "zone": "campus",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": false
+   }
+  ]
+ },
+ "wenzhou": {
+  "seat": {
+   "label": "坐在小公園的長椅",
+   "seat": {
+    "x": 23.66,
+    "z": 9,
+    "yaw": 1.5707963267948966,
+    "lv": 0
+   },
+   "ap": [
+    24.46,
+    9
+   ],
+   "n": 5,
+   "indoor": false,
+   "zone": "wenzhou"
+  },
+  "runs": [
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "wenzhou",
+     "h": 16.365
+    },
+    "st": {
+     "zone": "wenzhou",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": true
+   },
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "wenzhou",
+     "h": 16.747
+    },
+    "st": {
+     "zone": "wenzhou",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": false
+   },
+   {
+    "cap": {
+     "t": "你看著來來去去的人，想著今天還要做什麼。",
+     "z": "wenzhou",
+     "h": 17.128
+    },
+    "st": {
+     "zone": "wenzhou",
+     "indoor": false,
+     "pose": "sit"
+    },
+    "force": false
+   }
+  ]
+ },
+ "cafe": {
+  "seat": {
+   "label": "坐在這一桌",
+   "seat": {
+    "x": 0,
+    "z": 2.3,
+    "yaw": 3.141592653589793,
+    "lv": 0
+   },
+   "ap": [
+    -0.0,
+    2.9
+   ],
+   "n": 4,
+   "indoor": true,
+   "zone": "cafe"
+  },
+  "runs": [
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "cafe",
+     "h": 16.362
+    },
+    "st": {
+     "zone": "cafe",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": true
+   },
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "cafe",
+     "h": 16.743
+    },
+    "st": {
+     "zone": "cafe",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": false
+   },
+   {
+    "cap": {
+     "t": "你看著來來去去的人，想著今天還要做什麼。",
+     "z": "cafe",
+     "h": 17.124
+    },
+    "st": {
+     "zone": "cafe",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": false
+   }
+  ]
+ },
+ "library_hall": {
+  "seat": {
+   "label": "坐在沙發上",
+   "seat": {
+    "x": -11,
+    "z": 6.2,
+    "yaw": 1.5708,
+    "lv": 0
+   },
+   "ap": [
+    -10.2,
+    6.2
+   ],
+   "n": 29,
+   "indoor": true,
+   "zone": "library_hall"
+  },
+  "runs": [
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "library_hall",
+     "h": 16.365
+    },
+    "st": {
+     "zone": "library_hall",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": true
+   },
+   {
+    "cap": {
+     "t": "遠處有人在笑。",
+     "z": "library_hall",
+     "h": 16.745
+    },
+    "st": {
+     "zone": "library_hall",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": false
+   },
+   {
+    "cap": {
+     "t": "你看著來來去去的人，想著今天還要做什麼。",
+     "z": "library_hall",
+     "h": 17.126
+    },
+    "st": {
+     "zone": "library_hall",
+     "indoor": true,
+     "pose": "sit"
+    },
+    "force": false
+   }
+  ]
+ }
+}

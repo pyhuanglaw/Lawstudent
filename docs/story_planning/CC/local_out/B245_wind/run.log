@@ -1,0 +1,41 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_wind_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_wind\out
+cc_b245_wind_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8810/index.html  PLACES=campus,wenzhou,cafe,library_hall  RUNS=2
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）campus 第 7 天 16.0
+INFO campus 找到的座位：{"label": "坐在椰影大道的長椅上", "seat": {"x": -50, "z": -12.94, "yaw": 0, "lv": 0}, "ap": [-50, -12.14], "n": 23, "indoor": false, "zone": "campus"}
+PASS campus 前置：區域裡有一般座位（有 seat、沒人坐）
+  【前置／捷徑】load_state（quiet_events）campus 站到座位「坐在椰影大道的長椅上」前面 (-50.00, -12.14)
+INFO campus #0（亂數固定 0）：旁白 {"t": "風從椰影大道那頭吹過來。", "z": "campus", "h": 16.364}；狀態 {"zone": "campus", "indoor": false, "pose": "sit"}
+INFO campus #1（遊戲亂數）：旁白 {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "campus", "h": 16.75}；狀態 {"zone": "campus", "indoor": false, "pose": "sit"}
+INFO campus #2（遊戲亂數）：旁白 {"t": "遠處有人在笑。", "z": "campus", "h": 17.133}；狀態 {"zone": "campus", "indoor": false, "pose": "sit"}
+PASS campus：每一次「坐一下」都收到旁白（3 次）  [{"t": "風從椰影大道那頭吹過來。", "z": "campus", "h": 16.364}, {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "campus", "h": 16.75}, {"t": "遠處有人在笑。", "z": "campus", "h": 17.133}]
+PASS campus（對照）：校園戶外、亂數固定 0 那一次是「風從…」那一句（掛勾抓得到）  {"t": "風從椰影大道那頭吹過來。", "z": "campus", "h": 16.364}
+  【前置／捷徑】load_state（quiet_events）wenzhou 第 7 天 16.0
+INFO wenzhou 找到的座位：{"label": "坐在小公園的長椅", "seat": {"x": 23.66, "z": 9, "yaw": 1.5707963267948966, "lv": 0}, "ap": [24.46, 9], "n": 5, "indoor": false, "zone": "wenzhou"}
+PASS wenzhou 前置：區域裡有一般座位（有 seat、沒人坐）
+  【前置／捷徑】load_state（quiet_events）wenzhou 站到座位「坐在小公園的長椅」前面 (24.46, 9.00)
+INFO wenzhou #0（亂數固定 0）：旁白 {"t": "遠處有人在笑。", "z": "wenzhou", "h": 16.365}；狀態 {"zone": "wenzhou", "indoor": false, "pose": "sit"}
+INFO wenzhou #1（遊戲亂數）：旁白 {"t": "遠處有人在笑。", "z": "wenzhou", "h": 16.747}；狀態 {"zone": "wenzhou", "indoor": false, "pose": "sit"}
+INFO wenzhou #2（遊戲亂數）：旁白 {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "wenzhou", "h": 17.128}；狀態 {"zone": "wenzhou", "indoor": false, "pose": "sit"}
+PASS wenzhou：每一次「坐一下」都收到旁白（3 次）  [{"t": "遠處有人在笑。", "z": "wenzhou", "h": 16.365}, {"t": "遠處有人在笑。", "z": "wenzhou", "h": 16.747}, {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "wenzhou", "h": 17.128}]
+PASS wenzhou（戶外）：「坐一下」3 次都沒有出現「風從椰影大道那頭吹過來。」（含亂數固定 0 那一次）  ["遠處有人在笑。", "遠處有人在笑。", "你看著來來去去的人，想著今天還要做什麼。"]
+  【前置／捷徑】load_state（quiet_events）cafe 第 7 天 16.0
+INFO cafe 找到的座位：{"label": "坐在這一桌", "seat": {"x": 0, "z": 2.3, "yaw": 3.141592653589793, "lv": 0}, "ap": [-0.0, 2.9], "n": 4, "indoor": true, "zone": "cafe"}
+PASS cafe 前置：區域裡有一般座位（有 seat、沒人坐）
+  【前置／捷徑】load_state（quiet_events）cafe 站到座位「坐在這一桌」前面 (-0.00, 2.90)
+INFO cafe #0（亂數固定 0）：旁白 {"t": "遠處有人在笑。", "z": "cafe", "h": 16.362}；狀態 {"zone": "cafe", "indoor": true, "pose": "sit"}
+INFO cafe #1（遊戲亂數）：旁白 {"t": "遠處有人在笑。", "z": "cafe", "h": 16.743}；狀態 {"zone": "cafe", "indoor": true, "pose": "sit"}
+INFO cafe #2（遊戲亂數）：旁白 {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "cafe", "h": 17.124}；狀態 {"zone": "cafe", "indoor": true, "pose": "sit"}
+PASS cafe：每一次「坐一下」都收到旁白（3 次）  [{"t": "遠處有人在笑。", "z": "cafe", "h": 16.362}, {"t": "遠處有人在笑。", "z": "cafe", "h": 16.743}, {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "cafe", "h": 17.124}]
+PASS cafe（室內）：「坐一下」3 次都沒有出現「風從椰影大道那頭吹過來。」（含亂數固定 0 那一次）  ["遠處有人在笑。", "遠處有人在笑。", "你看著來來去去的人，想著今天還要做什麼。"]
+  【前置／捷徑】load_state（quiet_events）library_hall 第 7 天 16.0
+INFO library_hall 找到的座位：{"label": "坐在沙發上", "seat": {"x": -11, "z": 6.2, "yaw": 1.5708, "lv": 0}, "ap": [-10.2, 6.2], "n": 29, "indoor": true, "zone": "library_hall"}
+PASS library_hall 前置：區域裡有一般座位（有 seat、沒人坐）
+  【前置／捷徑】load_state（quiet_events）library_hall 站到座位「坐在沙發上」前面 (-10.20, 6.20)
+INFO library_hall #0（亂數固定 0）：旁白 {"t": "遠處有人在笑。", "z": "library_hall", "h": 16.365}；狀態 {"zone": "library_hall", "indoor": true, "pose": "sit"}
+INFO library_hall #1（遊戲亂數）：旁白 {"t": "遠處有人在笑。", "z": "library_hall", "h": 16.745}；狀態 {"zone": "library_hall", "indoor": true, "pose": "sit"}
+INFO library_hall #2（遊戲亂數）：旁白 {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "library_hall", "h": 17.126}；狀態 {"zone": "library_hall", "indoor": true, "pose": "sit"}
+PASS library_hall：每一次「坐一下」都收到旁白（3 次）  [{"t": "遠處有人在笑。", "z": "library_hall", "h": 16.365}, {"t": "遠處有人在笑。", "z": "library_hall", "h": 16.745}, {"t": "你看著來來去去的人，想著今天還要做什麼。", "z": "library_hall", "h": 17.126}]
+PASS library_hall（室內）：「坐一下」3 次都沒有出現「風從椰影大道那頭吹過來。」（含亂數固定 0 那一次）  ["遠處有人在笑。", "遠處有人在笑。", "你看著來來去去的人，想著今天還要做什麼。"]
+PASS 沒有 JS 例外  []
+ALL PASS

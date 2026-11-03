@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_wind",
+  "sha": "ffeec06e0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_wind_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T00:49:54",
+  "end": "2026-11-04T00:54:35",
+  "seconds": 281,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 28
+  }
+}
