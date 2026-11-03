@@ -1,0 +1,170 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b4_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\28_b4pre\out
+==== D118-B4 考試裡的 cue 和考後訂正（SHA f57e3ac75）不用 turbo；作答用【捷徑：只讀】；不是 iPhone ====
+==== CASE S1 ====
+PASS S1：遊戲載入
+  [前置／捷徑] [前置] 最小存檔 2025-12-13（六，Y1S1 第 15 週）14:00 宿舍；整學期沒自習、沒上過課、沒有課本；examSeed=20251215
+  [  28.3s] s1_desk：desk 的互動點 1 個 [{"x": -2.04, "z": -0.098, "lv": 0, "label": "坐在書桌前", "r": 1}]
+  [  32.4s] 到達「坐在書桌前」附近（0.65 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [  32.4s] s1_desk：走到「坐在書桌前」(-2.0,-0.1)；互動鍵「坐在書桌前」
+  [  34.0s] s1_desk：選單 讀書〔選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉下午 1 次（還剩 0）〕｜考前總複習〔這學期還要考的 3 科、27 張觀念卡讀一遍。三小時，不占時段次數。〕｜起身
+PASS S1：宿舍書桌的選單有「考前總複習」（B3；前置用）  {"ok": true, "menu_txt": "讀書〔選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉下午 1 次（還剩 0）〕｜考前總複習〔這學期還要考的 3 科、27 張觀念卡讀一遍。三小時，不占時段次數。〕｜起身", "idx": 2}
+  [  42.5s] s1_review：總複習 OK；開始 {"d": "2025-12-13", "h": 14.029} 結束 {"d": "2025-12-13", "h": 17.029}；卡 1 張；字幕 ["憲法（上）　期末範圍：學過 9／9・答對過 0<br>刑法總則（一）　期末範圍：學過 8／8・答對過 0<br>民法總則　期末範圍：學過 10／10・答對過 0"]；toast []
+PASS S1：總複習跑完、三科「讀過」＝範圍全部（前置）  {"const_1": {"total": 9, "heard": 9, "read": 9, "got": 0}, "crim_gen1": {"total": 8, "heard": 8, "read": 8, "got": 0}, "civ_general": {"total": 10, "heard": 10, "read": 10, "got": 0}}
+  [前置／捷徑] 【前置／捷徑：跳日期】同一份進度跳到 2025-12-15（Y1S1 第 16 週）07:40 dorm；憲法（上）期末那天（週末＋考試週中間的日子不是這一項要驗的）
+  [  48.1s] s1_exam_const_1：憲法（上） 期末那一列 {"key": "90:const_1:am", "cid": "const_1", "name": "憲法（上）", "exam": "final", "term": "Y1S1", "week": 16, "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "法律系館A 201", "status": "upcoming"}
+  [  48.1s] s1_exam_const_1：考前預測（複製的存檔抽 5 題，不寫回）[[1, "DISC_02", [["const_1_w11", "read"]], true, null], [2, "AI_CON1_08", [["const_1_w10", "read"]], true, null], [3, "AI_CON1_06", [["const_1_w6", "read"]], true, null], [4, "AI_CON1_04", [["const_1_w5", "read"]], true, null], [5, "AI_CON1_03", [["const_1_w3", "read"]], true, null]]
+  [  61.7s] s1_exam_const_1 09:00 classroom 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 1 題 DISC_02 答案 C → 點正解「（C）不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [  86.4s] s1_exam_const_1：第 1 題 → 點「（C）不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 2 題 AI_CON1_08 答案 C → 點故意選錯「（A）第 14 條（集會及結社自由）」
+  [  89.3s] s1_exam_const_1：第 2 題 → 點「（A）第 14 條（集會及結社自由）」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 3 題 AI_CON1_06 答案 A → 點正解「（A）本人或他人都可以聲請該管法院提審，法院不得拒絕，也不得」
+  [  92.1s] s1_exam_const_1：第 3 題 → 點「（A）本人或他人都可以聲請該管法院提審，法院不得拒絕，也不得先命逮捕機關查覆」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 4 題 AI_CON1_04 答案 D → 點正解「（D）年齡」
+  [  94.9s] s1_exam_const_1：第 4 題 → 點「（D）年齡」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 5 題 AI_CON1_03 答案 B → 點故意選錯「（A）增修條文施行後，憲法本文全部失效」
+  [  97.7s] s1_exam_const_1：第 5 題 → 點「（A）增修條文施行後，憲法本文全部失效」
+  [ 106.1s] s1_exam_const_1：結束 {"day": 90, "key": "2025-12-15", "h": 12.172, "zone": "classroom"}；{"ok": true, "stuck": false, "jumped": false, "st": {"status": "done", "done": true}}
+PASS s1_exam_const_1：憲法（上） 一鍵去考試、考完  {"btn": "直接去上課", "stuck": false, "jumped": false, "end": {"day": 90, "key": "2025-12-15", "h": 12.172, "zone": "classroom"}}
+PASS s1_exam_const_1：憲法（上） 畫面出現 5 題、題幹和考前預測相同（預測可用）  [[1, "DISC_02", true], [2, "AI_CON1_08", true], [3, "AI_CON1_06", true], [4, "AI_CON1_04", true], [5, "AI_CON1_03", true]]
+FAIL s1_exam_const_1：憲法（上） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）  []
+PASS s1_exam_const_1：憲法（上） ①讀過但 cueFor＝null 的 5 題，題目前面沒有提示行（不洩題）  [[1, "DISC_02", null], [2, "AI_CON1_08", null], [3, "AI_CON1_06", null], [4, "AI_CON1_04", null], [5, "AI_CON1_03", null]]
+  [ 106.3s] INFO s1_exam_const_1：憲法（上） 提示全文和 STUDY.cueFor（考前複製存檔算）不同的 []
+  [ 106.3s] Q s1_exam_const_1：憲法（上） 第 1 題 DISC_02 卡 [["const_1_w11", "read"]] 讀過=True 提示行=null 正解「不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [ 106.3s] Q s1_exam_const_1：憲法（上） 第 2 題 AI_CON1_08 卡 [["const_1_w10", "read"]] 讀過=True 提示行=null 正解「第 11 條（言論、講學、著作及出版自由）」
+  [ 106.3s] Q s1_exam_const_1：憲法（上） 第 3 題 AI_CON1_06 卡 [["const_1_w6", "read"]] 讀過=True 提示行=null 正解「本人或他人都可以聲請該管法院提審，法院不得拒絕，也不得先命逮捕機關查覆」
+  [ 106.3s] Q s1_exam_const_1：憲法（上） 第 4 題 AI_CON1_04 卡 [["const_1_w5", "read"]] 讀過=True 提示行=null 正解「年齡」
+  [ 106.3s] Q s1_exam_const_1：憲法（上） 第 5 題 AI_CON1_03 卡 [["const_1_w3", "read"]] 讀過=True 提示行=null 正解「憲法本文仍然存在，但有些條文依增修條文的規定停止適用」
+  [ 106.3s] INFO ②：憲法（上） 提示和正確選項比對：沒有可疑
+PASS s1_exam_const_1：憲法（上） ④交卷答對 3／5＝實際點對的題數 3、分數＝CLS.scoreOf（80）、R.exam 相同  {"shown": [3, 80], "rec": {"correct": 3, "score": 80, "status": "done"}, "ans_ok": [true, false, true, true, false]}
+PASS s1_exam_const_1：憲法（上） 考前抽的題號＝R.exam 的題號  [["DISC_02", "AI_CON1_08", "AI_CON1_06", "AI_CON1_04", "AI_CON1_03"], ["DISC_02", "AI_CON1_08", "AI_CON1_06", "AI_CON1_04", "AI_CON1_03"]]
+FAIL s1_exam_const_1：憲法（上） ③答錯 2 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）  []
+  [ 106.3s] INFO s1_exam_const_1：憲法（上） 這場新進 miss 的卡 ["const_1_w10", "const_1_w3"]；toast []
+FAIL s1_exam_const_1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）  [[1, true, null], [2, true, null], [3, true, null], [4, true, null], [5, true, null]]
+PASS s1_exam_const_1：（INFO 對照）沒有提示行的第 1 題（橫向 844x390）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 430, "y": 48, "w": 400, "h": 226, "b": 274, "r": 830}}
+  [ 106.3s] INFO s1_exam_const_1：（INFO 對照）沒有提示行的第 1 題 land：選項框要捲才看得到的 []；題目框 {"x": 42, "y": 296, "w": 760, "h": 80, "b": 376, "r": 802}；題目框和選項框重疊 0 px；題目框文字「1／5　依111年憲判字第2號判決，民法第195條第1項後段「回復名譽之適當處分」，是否包括法院以判決命加害人公開道歉？」
+PASS s1_exam_const_1：（INFO 對照）沒有提示行的第 1 題（直向 390x844）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 14, "y": 502, "w": 362, "h": 226, "b": 728, "r": 376}}
+  [ 106.3s] INFO s1_exam_const_1：（INFO 對照）沒有提示行的第 1 題 port：選項框要捲才看得到的 []；題目框 {"x": 14, "y": 725.2, "w": 362, "h": 104.8, "b": 830, "r": 376}；題目框和選項框重疊 2.7999999999999545 px；題目框文字「1／5　依111年憲判字第2號判決，民法第195條第1項後段「回復名譽之適當處分」，是否包括法院以判決命加害人公開道歉？」
+  [前置／捷徑] 【前置／捷徑：跳日期】同一份進度跳到 2025-12-17（Y1S1 第 16 週）07:40 dorm；刑法總則（一）期末那天（週末＋考試週中間的日子不是這一項要驗的）
+  [ 111.4s] s1_exam_crim_gen1：刑法總則（一） 期末那一列 {"key": "92:crim_gen1:am", "cid": "crim_gen1", "name": "刑法總則（一）", "exam": "final", "term": "Y1S1", "week": 16, "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "法律系館A 201", "status": "upcoming"}
+  [ 111.4s] s1_exam_crim_gen1：考前預測（複製的存檔抽 5 題，不寫回）[[1, "CRIM45_40", [["crim_gen1_w14", "read"]], true, null], [2, "CRIM45_03", [["crim_gen1_w12", "read"]], true, null], [3, "CRIM45_31", [["crim_gen1_w2", "read"]], true, null], [4, "DISC_01", [["crim_gen1_w6", "read"]], true, null], [5, "CRIM45_34", [["crim_gen1_w7", "read"]], true, null]]
+  [ 118.9s] s1_exam_crim_gen1 09:00 classroom 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  [前置／捷徑] 【捷徑：只讀】Y1S1:crim_gen1:final 第 1 題 CRIM45_40 答案 A → 點正解「（A）不得僅因發生死亡結果，即依加重結果犯規定加重其刑」
+  [ 144.1s] s1_exam_crim_gen1：第 1 題 → 點「（A）不得僅因發生死亡結果，即依加重結果犯規定加重其刑」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:crim_gen1:final 第 2 題 CRIM45_03 答案 D → 點正解「（D）甲可能具有殺人的間接故意」
+  [ 147.9s] s1_exam_crim_gen1：第 2 題 → 點「（D）甲可能具有殺人的間接故意」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:crim_gen1:final 第 3 題 CRIM45_31 答案 D → 點正解「（D）原則上不得在欠缺行為時法律明文處罰規定的情況下，對甲科」
+  [ 150.8s] s1_exam_crim_gen1：第 3 題 → 點「（D）原則上不得在欠缺行為時法律明文處罰規定的情況下，對甲科處刑罰」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:crim_gen1:final 第 4 題 DISC_01 答案 B → 點正解「（B）救生員因契約負有防止結果發生的義務，可能成立不純正不作」
+  [ 153.6s] s1_exam_crim_gen1：第 4 題 → 點「（B）救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:crim_gen1:final 第 5 題 CRIM45_34 答案 B → 點正解「（B）甲的超速行為與乙死亡無因果關係，不能僅因甲違規即將死亡」
+  [ 157.6s] s1_exam_crim_gen1：第 5 題 → 點「（B）甲的超速行為與乙死亡無因果關係，不能僅因甲違規即將死亡結果歸責於甲」
+  [ 161.6s] s1_exam_crim_gen1：結束 {"day": 92, "key": "2025-12-17", "h": 12.171, "zone": "classroom"}；{"ok": true, "stuck": false, "jumped": false, "st": {"status": "done", "done": true}}
+PASS s1_exam_crim_gen1：刑法總則（一） 一鍵去考試、考完  {"btn": "直接去上課", "stuck": false, "jumped": false, "end": {"day": 92, "key": "2025-12-17", "h": 12.171, "zone": "classroom"}}
+PASS s1_exam_crim_gen1：刑法總則（一） 畫面出現 5 題、題幹和考前預測相同（預測可用）  [[1, "CRIM45_40", true], [2, "CRIM45_03", true], [3, "CRIM45_31", true], [4, "DISC_01", true], [5, "CRIM45_34", true]]
+FAIL s1_exam_crim_gen1：刑法總則（一） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）  []
+PASS s1_exam_crim_gen1：刑法總則（一） ①讀過但 cueFor＝null 的 5 題，題目前面沒有提示行（不洩題）  [[1, "CRIM45_40", null], [2, "CRIM45_03", null], [3, "CRIM45_31", null], [4, "DISC_01", null], [5, "CRIM45_34", null]]
+  [ 161.8s] INFO s1_exam_crim_gen1：刑法總則（一） 提示全文和 STUDY.cueFor（考前複製存檔算）不同的 []
+  [ 161.8s] Q s1_exam_crim_gen1：刑法總則（一） 第 1 題 CRIM45_40 卡 [["crim_gen1_w14", "read"]] 讀過=True 提示行=null 正解「不得僅因發生死亡結果，即依加重結果犯規定加重其刑」
+  [ 161.8s] Q s1_exam_crim_gen1：刑法總則（一） 第 2 題 CRIM45_03 卡 [["crim_gen1_w12", "read"]] 讀過=True 提示行=null 正解「甲可能具有殺人的間接故意」
+  [ 161.8s] Q s1_exam_crim_gen1：刑法總則（一） 第 3 題 CRIM45_31 卡 [["crim_gen1_w2", "read"]] 讀過=True 提示行=null 正解「原則上不得在欠缺行為時法律明文處罰規定的情況下，對甲科處刑罰」
+  [ 161.8s] Q s1_exam_crim_gen1：刑法總則（一） 第 4 題 DISC_01 卡 [["crim_gen1_w6", "read"]] 讀過=True 提示行=null 正解「救生員因契約負有防止結果發生的義務，可能成立不純正不作為犯；路人原則上不成立」
+  [ 161.8s] Q s1_exam_crim_gen1：刑法總則（一） 第 5 題 CRIM45_34 卡 [["crim_gen1_w7", "read"]] 讀過=True 提示行=null 正解「甲的超速行為與乙死亡無因果關係，不能僅因甲違規即將死亡結果歸責於甲」
+  [ 161.8s] INFO ②：刑法總則（一） 提示和正確選項比對：沒有可疑
+PASS s1_exam_crim_gen1：刑法總則（一） ④交卷答對 5／5＝實際點對的題數 5、分數＝CLS.scoreOf（100）、R.exam 相同  {"shown": [5, 100], "rec": {"correct": 5, "score": 100, "status": "done"}, "ans_ok": [true, true, true, true, true]}
+PASS s1_exam_crim_gen1：刑法總則（一） 考前抽的題號＝R.exam 的題號  [["CRIM45_40", "CRIM45_03", "CRIM45_31", "DISC_01", "CRIM45_34"], ["CRIM45_40", "CRIM45_03", "CRIM45_31", "DISC_01", "CRIM45_34"]]
+PASS s1_exam_crim_gen1：刑法總則（一） ③全對 → 沒有新增訂正筆記  []
+FAIL s1_exam_crim_gen1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）  [[1, true, null], [2, true, null], [3, true, null], [4, true, null], [5, true, null]]
+PASS s1_exam_crim_gen1：（INFO 對照）沒有提示行的第 1 題（橫向 844x390）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 430, "y": 48, "w": 400, "h": 226, "b": 274, "r": 830}}
+  [ 161.8s] INFO s1_exam_crim_gen1：（INFO 對照）沒有提示行的第 1 題 land：選項框要捲才看得到的 []；題目框 {"x": 42, "y": 296, "w": 760, "h": 80, "b": 376, "r": 802}；題目框和選項框重疊 0 px；題目框文字「1／5　甲基於傷害故意毆打乙，導致乙死亡。假設甲對死亡結果欠缺預見可能性，且依具體情況也不能預見。依刑法第17條，下列何」
+PASS s1_exam_crim_gen1：（INFO 對照）沒有提示行的第 1 題（直向 390x844）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 14, "y": 502, "w": 362, "h": 226, "b": 728, "r": 376}}
+  [ 161.8s] INFO s1_exam_crim_gen1：（INFO 對照）沒有提示行的第 1 題 port：選項框要捲才看得到的 []；題目框 {"x": 14, "y": 699.6, "w": 362, "h": 130.4, "b": 830, "r": 376}；題目框和選項框重疊 28.399999999999977 px；題目框文字「1／5　甲基於傷害故意毆打乙，導致乙死亡。假設甲對死亡結果欠缺預見可能性，且依具體情況也不能預見。依刑法第17條，下列何」
+  [前置／捷徑] 【前置／捷徑：跳日期】同一份進度跳到 2025-12-18（Y1S1 第 16 週）12:20 dorm；民法總則期末那天（週末＋考試週中間的日子不是這一項要驗的）
+  [ 166.9s] s1_exam_civ_general：民法總則 期末那一列 {"key": "93:civ_general:pm1", "cid": "civ_general", "name": "民法總則", "exam": "final", "term": "Y1S1", "week": 16, "t0": 13.333333333333334, "t1": 15.166666666666666, "room": "法律系館A 201", "status": "upcoming"}
+  [ 166.9s] s1_exam_civ_general：考前預測（複製的存檔抽 5 題，不寫回）[[1, "CIVS_07", [["civ_general_w12", "read"]], true, null], [2, "CIV40_22", [["civ_general_w14", "read"]], true, null], [3, "CIV40_03", [["civ_general_w15", "read"]], true, null], [4, "CIVS_03", [["civ_general_w13", "read"]], true, null], [5, "CIVS_01", [["civ_general_w5", "read"]], true, null]]
+  [ 174.2s] s1_exam_civ_general 13:10 classroom 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  [前置／捷徑] 【捷徑：只讀】Y1S1:civ_general:final 第 1 題 CIVS_07 答案 A → 點正解「（A）無效，但法律另有規定者不在此限」
+  [ 199.4s] s1_exam_civ_general：第 1 題 → 點「（A）無效，但法律另有規定者不在此限」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:civ_general:final 第 2 題 CIV40_22 答案 A → 點正解「（A）撤銷意思表示」
+  [ 203.5s] s1_exam_civ_general：第 2 題 → 點「（A）撤銷意思表示」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:civ_general:final 第 3 題 CIV40_03 答案 B → 點故意選錯「（A）當然有效」
+  [ 206.3s] s1_exam_civ_general：第 3 題 → 點「（A）當然有效」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:civ_general:final 第 4 題 CIVS_03 答案 A → 點正解「（A）意思表示到達相對人時」
+  [ 209.0s] s1_exam_civ_general：第 4 題 → 點「（A）意思表示到達相對人時」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:civ_general:final 第 5 題 CIVS_01 答案 B → 點正解「（B）滿十八歲之成年人」
+  [ 211.9s] s1_exam_civ_general：第 5 題 → 點「（B）滿十八歲之成年人」
+  [ 218.1s] s1_exam_civ_general：結束 {"day": 93, "key": "2025-12-18", "h": 15.171, "zone": "classroom"}；{"ok": true, "stuck": false, "jumped": false, "st": {"status": "done", "done": true}}
+PASS s1_exam_civ_general：民法總則 一鍵去考試、考完  {"btn": "直接去上課", "stuck": false, "jumped": false, "end": {"day": 93, "key": "2025-12-18", "h": 15.171, "zone": "classroom"}}
+PASS s1_exam_civ_general：民法總則 畫面出現 5 題、題幹和考前預測相同（預測可用）  [[1, "CIVS_07", true], [2, "CIV40_22", true], [3, "CIV40_03", true], [4, "CIVS_03", true], [5, "CIVS_01", true]]
+FAIL s1_exam_civ_general：民法總則 ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）  []
+PASS s1_exam_civ_general：民法總則 ①讀過但 cueFor＝null 的 5 題，題目前面沒有提示行（不洩題）  [[1, "CIVS_07", null], [2, "CIV40_22", null], [3, "CIV40_03", null], [4, "CIVS_03", null], [5, "CIVS_01", null]]
+  [ 218.3s] INFO s1_exam_civ_general：民法總則 提示全文和 STUDY.cueFor（考前複製存檔算）不同的 []
+  [ 218.3s] Q s1_exam_civ_general：民法總則 第 1 題 CIVS_07 卡 [["civ_general_w12", "read"]] 讀過=True 提示行=null 正解「無效，但法律另有規定者不在此限」
+  [ 218.3s] Q s1_exam_civ_general：民法總則 第 2 題 CIV40_22 卡 [["civ_general_w14", "read"]] 讀過=True 提示行=null 正解「撤銷意思表示」
+  [ 218.3s] Q s1_exam_civ_general：民法總則 第 3 題 CIV40_03 卡 [["civ_general_w15", "read"]] 讀過=True 提示行=null 正解「經乙承認，始對乙發生效力」
+  [ 218.3s] Q s1_exam_civ_general：民法總則 第 4 題 CIVS_03 卡 [["civ_general_w13", "read"]] 讀過=True 提示行=null 正解「意思表示到達相對人時」
+  [ 218.3s] Q s1_exam_civ_general：民法總則 第 5 題 CIVS_01 卡 [["civ_general_w5", "read"]] 讀過=True 提示行=null 正解「滿十八歲之成年人」
+  [ 218.3s] INFO ②：民法總則 提示和正確選項比對：沒有可疑
+PASS s1_exam_civ_general：民法總則 ④交卷答對 4／5＝實際點對的題數 4、分數＝CLS.scoreOf（90）、R.exam 相同  {"shown": [4, 90], "rec": {"correct": 4, "score": 90, "status": "done"}, "ans_ok": [true, true, false, true, true]}
+PASS s1_exam_civ_general：民法總則 考前抽的題號＝R.exam 的題號  [["CIVS_07", "CIV40_22", "CIV40_03", "CIVS_03", "CIVS_01"], ["CIVS_07", "CIV40_22", "CIV40_03", "CIVS_03", "CIVS_01"]]
+FAIL s1_exam_civ_general：民法總則 ③答錯 1 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）  []
+  [ 218.3s] INFO s1_exam_civ_general：民法總則 這場新進 miss 的卡 ["civ_general_w15"]；toast []
+FAIL s1_exam_civ_general：⑤這一場有提示行的題目畫面（修改前預期 FAIL）  [[1, true, null], [2, true, null], [3, true, null], [4, true, null], [5, true, null]]
+PASS s1_exam_civ_general：（INFO 對照）沒有提示行的第 1 題（橫向 844x390）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 208, "ch": 208, "top": 0}, "choices": {"x": 430, "y": 66, "w": 400, "h": 208, "b": 274, "r": 830}}
+  [ 218.3s] INFO s1_exam_civ_general：（INFO 對照）沒有提示行的第 1 題 land：選項框要捲才看得到的 []；題目框 {"x": 42, "y": 296, "w": 760, "h": 80, "b": 376, "r": 802}；題目框和選項框重疊 0 px；題目框文字「1／5　依民法第71條，法律行為違反強制或禁止規定時，原則上其效力如何？」
+PASS s1_exam_civ_general：（INFO 對照）沒有提示行的第 1 題（直向 390x844）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 208, "ch": 208, "top": 0}, "choices": {"x": 14, "y": 520, "w": 362, "h": 208, "b": 728, "r": 376}}
+  [ 218.3s] INFO s1_exam_civ_general：（INFO 對照）沒有提示行的第 1 題 port：選項框要捲才看得到的 []；題目框 {"x": 14, "y": 750, "w": 362, "h": 80, "b": 830, "r": 376}；題目框和選項框重疊 0 px；題目框文字「1／5　依民法第71條，法律行為違反強制或禁止規定時，原則上其效力如何？」
+FAIL s1：⑤找到有提示行的題目畫面量選項位置（修改前預期 FAIL）
+FAIL s1：③筆記頁（☰「筆記」DOM）有一則「憲法（上）…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\10_s1_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\11_s1_notes_port.png"]  []
+PASS s1：③全對的「刑法總則（一）」筆記頁沒有訂正那一則  []
+FAIL s1：③筆記頁（☰「筆記」DOM）有一則「民法總則…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\10_s1_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\11_s1_notes_port.png"]  []
+PASS s1：③G.notes 的 examfix_ 一科一則（沒有重複 id、沒有重複課名）  []
+PASS S1：沒有 JS 例外  []
+  [ 226.2s] S1：逐字稿 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\28_b4pre\out\transcript_S1.json（69 筆）
+==== CASE mix ====
+PASS mix：遊戲載入
+  [前置／捷徑] [前置] 最小存檔 2025-12-15 07:40 宿舍（憲法期末那天）；examSeed=20251215
+  [前置／捷徑] 【前置／捷徑：寫卡片狀態】用複製的存檔抽憲法期末 5 題（不寫回），第 [1, 3] 題對到的觀念卡 STUDY.mark(...,"read")：[[1, "DISC_02", "const_1_w11", true], [3, "AI_CON1_06", "const_1_w6", true]]
+  [ 256.6s] mix_exam_const_1：憲法（上） 期末那一列 {"key": "90:const_1:am", "cid": "const_1", "name": "憲法（上）", "exam": "final", "term": "Y1S1", "week": 16, "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "法律系館A 201", "status": "upcoming"}
+  [ 256.6s] mix_exam_const_1：考前預測（複製的存檔抽 5 題，不寫回）[[1, "DISC_02", [["const_1_w11", "read"]], true, null], [2, "AI_CON1_08", [["const_1_w10", null]], false, null], [3, "AI_CON1_06", [["const_1_w6", "read"]], true, null], [4, "AI_CON1_04", [["const_1_w5", null]], false, null], [5, "AI_CON1_03", [["const_1_w3", null]], false, null]]
+  [ 272.4s] mix_exam_const_1 09:00 classroom 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 1 題 DISC_02 答案 C → 點正解「（C）不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [ 297.1s] mix_exam_const_1：第 1 題 → 點「（C）不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 2 題 AI_CON1_08 答案 C → 點正解「（C）第 11 條（言論、講學、著作及出版自由）」
+  [ 300.2s] mix_exam_const_1：第 2 題 → 點「（C）第 11 條（言論、講學、著作及出版自由）」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 3 題 AI_CON1_06 答案 A → 點故意選錯「（B）只有甲本人可以聲請提審，乙不能代為聲請」
+  [ 303.5s] mix_exam_const_1：第 3 題 → 點「（B）只有甲本人可以聲請提審，乙不能代為聲請」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 4 題 AI_CON1_04 答案 D → 點正解「（D）年齡」
+  [ 306.7s] mix_exam_const_1：第 4 題 → 點「（D）年齡」
+  [前置／捷徑] 【捷徑：只讀】Y1S1:const_1:final 第 5 題 AI_CON1_03 答案 B → 點正解「（B）憲法本文仍然存在，但有些條文依增修條文的規定停止適用」
+  [ 309.9s] mix_exam_const_1：第 5 題 → 點「（B）憲法本文仍然存在，但有些條文依增修條文的規定停止適用」
+  [ 316.6s] mix_exam_const_1：結束 {"day": 90, "key": "2025-12-15", "h": 12.172, "zone": "classroom"}；{"ok": true, "stuck": false, "jumped": false, "st": {"status": "done", "done": true}}
+PASS mix_exam_const_1：憲法（上） 一鍵去考試、考完  {"btn": "直接去上課", "stuck": false, "jumped": false, "end": {"day": 90, "key": "2025-12-15", "h": 12.172, "zone": "classroom"}}
+PASS mix_exam_const_1：憲法（上） 畫面出現 5 題、題幹和考前預測相同（預測可用）  [[1, "DISC_02", true], [2, "AI_CON1_08", true], [3, "AI_CON1_06", true], [4, "AI_CON1_04", true], [5, "AI_CON1_03", true]]
+FAIL mix_exam_const_1：憲法（上） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）  []
+PASS mix_exam_const_1：憲法（上） ①讀過但 cueFor＝null 的 2 題，題目前面沒有提示行（不洩題）  [[1, "DISC_02", null], [3, "AI_CON1_06", null]]
+  [ 316.9s] INFO mix_exam_const_1：憲法（上） 提示全文和 STUDY.cueFor（考前複製存檔算）不同的 []
+PASS mix_exam_const_1：憲法（上） ①沒讀過的 3 題沒有提示行  [[2, "AI_CON1_08", null, [["const_1_w10", null]]], [4, "AI_CON1_04", null, [["const_1_w5", null]]], [5, "AI_CON1_03", null, [["const_1_w3", null]]]]
+  [ 316.9s] Q mix_exam_const_1：憲法（上） 第 1 題 DISC_02 卡 [["const_1_w11", "read"]] 讀過=True 提示行=null 正解「不包括，才符合憲法保障言論自由及思想自由的意旨」
+  [ 316.9s] Q mix_exam_const_1：憲法（上） 第 2 題 AI_CON1_08 卡 [["const_1_w10", null]] 讀過=False 提示行=null 正解「第 11 條（言論、講學、著作及出版自由）」
+  [ 316.9s] Q mix_exam_const_1：憲法（上） 第 3 題 AI_CON1_06 卡 [["const_1_w6", "read"]] 讀過=True 提示行=null 正解「本人或他人都可以聲請該管法院提審，法院不得拒絕，也不得先命逮捕機關查覆」
+  [ 316.9s] Q mix_exam_const_1：憲法（上） 第 4 題 AI_CON1_04 卡 [["const_1_w5", null]] 讀過=False 提示行=null 正解「年齡」
+  [ 316.9s] Q mix_exam_const_1：憲法（上） 第 5 題 AI_CON1_03 卡 [["const_1_w3", null]] 讀過=False 提示行=null 正解「憲法本文仍然存在，但有些條文依增修條文的規定停止適用」
+  [ 316.9s] INFO ②：憲法（上） 提示和正確選項比對：沒有可疑
+PASS mix_exam_const_1：憲法（上） ④交卷答對 4／5＝實際點對的題數 4、分數＝CLS.scoreOf（90）、R.exam 相同  {"shown": [4, 90], "rec": {"correct": 4, "score": 90, "status": "done"}, "ans_ok": [true, true, false, true, true]}
+PASS mix_exam_const_1：憲法（上） 考前抽的題號＝R.exam 的題號  [["DISC_02", "AI_CON1_08", "AI_CON1_06", "AI_CON1_04", "AI_CON1_03"], ["DISC_02", "AI_CON1_08", "AI_CON1_06", "AI_CON1_04", "AI_CON1_03"]]
+FAIL mix_exam_const_1：憲法（上） ③答錯 1 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）  []
+  [ 316.9s] INFO mix_exam_const_1：憲法（上） 這場新進 miss 的卡 ["const_1_w6"]；toast []
+FAIL mix_exam_const_1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）  [[1, true, null], [2, false, null], [3, true, null], [4, false, null], [5, false, null]]
+PASS mix_exam_const_1：（INFO 對照）沒有提示行的第 1 題（橫向 844x390）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 430, "y": 48, "w": 400, "h": 226, "b": 274, "r": 830}}
+  [ 316.9s] INFO mix_exam_const_1：（INFO 對照）沒有提示行的第 1 題 land：選項框要捲才看得到的 []；題目框 {"x": 42, "y": 296, "w": 760, "h": 80, "b": 376, "r": 802}；題目框和選項框重疊 0 px；題目框文字「1／5　依111年憲判字第2號判決，民法第195條第1項後段「回復名譽之適當處分」，是否包括法院以判決命加害人公開道歉？」
+PASS mix_exam_const_1：（INFO 對照）沒有提示行的第 1 題（直向 390x844）選項 4 個都在畫面裡  {"bad": [], "scroll": {"sh": 226, "ch": 226, "top": 0}, "choices": {"x": 14, "y": 502, "w": 362, "h": 226, "b": 728, "r": 376}}
+  [ 316.9s] INFO mix_exam_const_1：（INFO 對照）沒有提示行的第 1 題 port：選項框要捲才看得到的 []；題目框 {"x": 14, "y": 725.2, "w": 362, "h": 104.8, "b": 830, "r": 376}；題目框和選項框重疊 2.7999999999999545 px；題目框文字「1／5　依111年憲判字第2號判決，民法第195條第1項後段「回復名譽之適當處分」，是否包括法院以判決命加害人公開道歉？」
+PASS mix：同一場考試裡「讀過」「沒讀過」兩種題都有（前置成立）  [[1, true], [2, false], [3, true], [4, false], [5, false]]
+FAIL mix：①每一題 有沒有提示行＝考前卡片有沒有 read／got  [[1, true, null], [2, false, null], [3, true, null], [4, false, null], [5, false, null]]
+FAIL mix：③筆記頁（☰「筆記」DOM）有一則「憲法（上）…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\15_mix_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\16_mix_notes_port.png"]  []
+PASS mix：③G.notes 的 examfix_ 一科一則（沒有重複 id、沒有重複課名）  []
+PASS mix：沒有 JS 例外  []
+  [ 325.0s] mix：逐字稿 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\28_b4pre\out\transcript_mix.json（23 筆）
+SHA f57e3ac75 CASES S1,mix
+FAILED: s1_exam_const_1：憲法（上） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）, s1_exam_const_1：憲法（上） ③答錯 2 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）, s1_exam_const_1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）, s1_exam_crim_gen1：刑法總則（一） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）, s1_exam_crim_gen1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）, s1_exam_civ_general：民法總則 ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）, s1_exam_civ_general：民法總則 ③答錯 1 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）, s1_exam_civ_general：⑤這一場有提示行的題目畫面（修改前預期 FAIL）, s1：⑤找到有提示行的題目畫面量選項位置（修改前預期 FAIL）, s1：③筆記頁（☰「筆記」DOM）有一則「憲法（上）…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\10_s1_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\11_s1_notes_port.png"], s1：③筆記頁（☰「筆記」DOM）有一則「民法總則…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\10_s1_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\11_s1_notes_port.png"], mix_exam_const_1：憲法（上） ①讀過的題目裡，有 cue（考前預測 cueFor 非 null）的 0 題，題目前面都有提示行（修改前預期 FAIL）, mix_exam_const_1：憲法（上） ③答錯 1 題 → 這次考試新增「考後訂正」筆記剛好一則（G.notes id examfix_…；修改前預期 FAIL）, mix_exam_const_1：⑤這一場有提示行的題目畫面（修改前預期 FAIL）, mix：①每一題 有沒有提示行＝考前卡片有沒有 read／got, mix：③筆記頁（☰「筆記」DOM）有一則「憲法（上）…訂正」（暫定字 ・期末考訂正），截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\15_mix_notes_land.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\28_b4pre\\out\\16_mix_notes_port.png"]
