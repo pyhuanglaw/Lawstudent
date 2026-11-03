@@ -133,3 +133,26 @@
   3. xinsheng 的 `wenzhouLane.exit.spawn` 改成 (−33.4, −27.5, yaw 0：面向南，走進橫巷)。
   4. 要跑的測試：nav_buildings、reachability_all、touch_flow_wenzhou、wz 系列單元、wz_street_integration。
 - 這還是 LAWWW 同意的「西端」：橫巷在 x −33，就是巷子的西端。
+
+## 溫州街那一端：做好了（11-03 20:3x，在 `xinsheng_zone_WIP.patch` 裡）
+- **改了什麼**：
+  - `wz_street.py` 的 SPECS 拿掉 F4，重出 `wenzhou_street.glb`：93,155 個三角形，原本 93,881；8.02 MB。
+  - 先確認過：照舊的腳本重出一次，和開發分支的 GLB 只差 720 bytes，所以這份 GLB 只少了 F4。
+  - `zones3d.js` buildWenzhou：`XSL`（有載入 xinsheng3d.js）的時候：
+    - F4 的套件不放；
+    - 橫巷往北多開 x −36.4～−30.6、z −29.6～−15，加一段柏油；
+    - 出口「往新生南路」放在 (−33.4, −28.4)，進去落在新生南路那一側巷口、面向馬路。
+  - `tests/wz_street_integration.py` 的名單拿掉 F4，原因寫在註解。
+  - layout 的 `wenzhouLane.exit.spawn` 改成 (−33.4, −27, yaw 0)。
+- **測試**：
+  - `xinsheng_unit` 16 項 ALL PASS（新增第 13～16 項：溫州街出口、出生點、走得到兩點半和公館巷口、W0 照舊擋）。
+  - nav_buildings 和 wz 系列 16 支單元測試（cat、market、park、shops、shops_lm、copy_shop、swing_front、work_spots…）、seat_reach 都 ALL PASS。
+  - 單獨套在 b049c84e3 的乾淨 worktree 上：xinsheng_unit、nav_buildings、wz_shops ALL PASS。
+  - 四份 patch 依序套（六法 → 總圖第五版 → 這份 → 研究小間讀者），`git apply --check` 都通過。
+- **注意（不要單獨整合這份）**：
+  - GLB 已經沒有 F4。如果 index.html 沒有載入 `src/data/xinsheng_layout.js`、`src/xinsheng3d.js`，溫州街橫巷北口會空一塊，而且沒有出口。
+  - 整合時 index.html 要在 zones3d.js 後面加這兩行（index.html 是 LAWWW 的檔案）。
+- **還沒做**：
+  - 瀏覽器測試：reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration；
+  - 新生南路的店面、地面正式模型；
+  - 北口外面的遠景（現在走出去前看到的是空地）。

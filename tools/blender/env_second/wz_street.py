@@ -52,7 +52,8 @@ SPECS = [
     dict(id='F1', pos=(5.75, 21.0), ry=math.pi, w=12, d=10, floors=5, wall='tile', color='#c7b9a3', ground='door', far=True),
     dict(id='F2', pos=(-12.25, -20.0), ry=0.0, w=12, d=10, floors=4, wall='mosaic', color='#d6d0c2', ground='shutter', far=True),
     dict(id='F3', pos=(-33.4, 16.2), ry=math.pi, w=9, d=10, floors=4, wall='tile', color='#cfc4b2', ground='door', far=True),
-    dict(id='F4', pos=(-33.4, -16.2), ry=0.0, w=9, d=10, floors=5, wall='tile', color='#d9cdb8', ground='door', far=True),
+    # F4（−33.4, −16.2，遠景，「新生大樓」）拿掉：西側橫巷的北口打開，接新生南路（ART-XINSHENG-GATE-1103，LAWWW 11-03 20:24 同意西端；W0 巷底公寓照留）
+    # dict(id='F4', pos=(-33.4, -16.2), ry=0.0, w=9, d=10, floors=5, wall='tile', color='#d9cdb8', ground='door', far=True),
     # Café 往南的路（+z，施工護欄外，走不到）
     dict(id='S1', pos=(47.9, 23.0), ry=math.pi / 2, w=11, d=10, floors=5, wall='tile', color='#cdbfa9', ground='door', far=True),
     dict(id='S2', pos=(54.7, 22.5), ry=-math.pi / 2, w=10, d=10, floors=4, wall='tile', color='#d6cab6', ground='door', far=True),
