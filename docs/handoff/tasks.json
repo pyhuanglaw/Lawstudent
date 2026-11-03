@@ -43120,7 +43120,7 @@
   },
   {
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "經濟系第一週就會進公館、溫州街的店",
     "mainline": true,
@@ -43140,7 +43140,7 @@
   },
   {
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "經濟系第一週進公館、溫州街的店",
     "mainline": true,
@@ -43167,7 +43167,7 @@
   },
   {
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "開局就用得到",
     "mainline": true,
@@ -43187,7 +43187,7 @@
   },
   {
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "開局手機",
     "mainline": true,
@@ -43234,7 +43234,7 @@
   },
   {
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "開局的對話（可昕、經濟系同學）",
     "mainline": true,
@@ -43538,6 +43538,27 @@
    "priority": "P2",
    "note": "AA 自己的企劃線",
    "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一場有路人／家人說話的 ADV",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "BUG-ADV-NOPORTRAIT-DIM-1103",
+   "title": "沒有立繪的人說話時台上的立繪不變暗、第二個沒有立繪的人會把台上的人擠下去",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "sha": "f110787dd",
+   "note": "BB 11-03 16:23（CC aa609 grandma_line.jpg）；src/adv3d.js A.noPic；tests/adv_nopic_dim_unit.js",
+   "next": "CC 瀏覽器重拍 grandma_line 橫／直"
   }
  ]
 }
