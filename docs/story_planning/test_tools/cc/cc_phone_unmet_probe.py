@@ -203,6 +203,10 @@ async def ps_check(pg, cdp, run, tag):
     r = {'tag': tag, 'opened': True, 'cell': cell, 'stage': await pg.evaluate("id=>({stage:SOCIAL.stage(id),metD:!!SOCIAL.metD(id),contact:!!INV.hasContact(GAME.G,id),open:MSG.open?MSG.open(GAME.G,id):null})", PS)}
     if cell and cell['th'] and not cell['dis']:
         await L.tap(pg, cdp, '#phoneBody .ctList [data-th="p:%s"]' % PS); await pg.wait_for_timeout(1000)
+        st = await pg.evaluate("(()=>({hidden:document.getElementById('phone').classList.contains('hide'), inThread:!!document.querySelector('#phoneBody [data-thback]')}))()")
+        if st['hidden'] or not st['inThread']:   # 宿營劇情中：點下去的同時劇情往下走、手機被收起來（ffee 8/23 第一次：截圖是阿哲的對話）＝這一次沒看到，下一段對話之間再試
+            r.update(opened=False, why='點沛珊的同時劇情把手機收起來／沒進到對話（%s）' % J(st), shot=await run.shot(pg, 'peishan_%s_interrupted' % tag))
+            await L.close_panels(pg, cdp); run.note('沛珊（%s）：%s' % (tag, J(r))); return r
         r['thread'] = (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[:400]
         r['send'] = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-msgto]')].map(b=>b.textContent.trim())")
         r['shot'] = await run.shot(pg, 'peishan_%s' % tag)

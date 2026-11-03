@@ -64,8 +64,8 @@ SPOT_JS = """(([x,z,yaw])=>{ const E=GAME.E, nv=E.nav, ok=(a,b)=>[[0,0],[0.35,0]
 SAMPLE_JS = """(async(key,N)=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey===key); if(!n) return {err:'找不到 '+key};
   const o=n.obj; let vrm=o.userData.vrm; if(!vrm) o.traverse(c=>{ if(!vrm&&c.userData&&c.userData.vrm) vrm=c.userData.vrm; }); if(!vrm) return {err:'沒有 VRM（備用人物）', pose:n.pose};
   const hm=vrm.humanoid, V=()=>new THREE.Vector3(), B=b=>{ const nd=hm.getRawBoneNode(b); return nd?nd.getWorldPosition(V()):null; };
-  const lowest=()=>{ let m=1e9; const v=V(); o.updateMatrixWorld(true); o.traverse(c=>{ if(!c.isSkinnedMesh||!c.visible||!c.geometry||!c.geometry.attributes.position) return; let vis=true; for(let q=c;q;q=q.parent) if(q.visible===false) vis=false; if(!vis) return;
-      if(c.skeleton) c.skeleton.update(); const N=c.geometry.attributes.position.count; for(let i=0;i<N;i++){ c.getVertexPosition(i,v); c.localToWorld(v); if(v.y<m) m=v.y; } }); return m; };
+  let lowWho=null; const lowest=()=>{ let m=1e9; const v=V(); o.updateMatrixWorld(true); o.traverse(c=>{ if(!c.isSkinnedMesh||!c.visible||!c.geometry||!c.geometry.attributes.position) return; let vis=true; for(let q=c;q;q=q.parent) if(q.visible===false) vis=false; if(!vis) return;
+      if(c.skeleton) c.skeleton.update(); const N=c.geometry.attributes.position.count; for(let i=0;i<N;i++){ c.getVertexPosition(i,v); c.localToWorld(v); if(v.y<m){ m=v.y; const si=c.geometry.attributes.skinIndex, b=si&&c.skeleton?c.skeleton.bones[si.getComponent(i,0)]:null; lowWho=(c.name||'?')+'@'+(b?b.name:'?')+' ('+v.x.toFixed(2)+','+v.z.toFixed(2)+')'; } } }); return m; };
   const S=[], J=['hips','leftUpperLeg','rightUpperLeg','leftFoot','rightFoot','leftHand','rightHand','head'];
   for(let i=0;i<N;i++){ const f={}; for(const j of J){ const p=B(j); f[j]=p?[p.x,p.y,p.z]:null; } f.low=(i%4===0)?lowest():null; S.push(f); await new Promise(r=>setTimeout(r,300)); }
   const y0=o.position.y, g=E.heightAt?E.heightAt(o.position.x,o.position.z,n.lv|0):0, ud=o.userData||{};
@@ -74,7 +74,7 @@ SAMPLE_JS = """(async(key,N)=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKe
   let mv=0; for(const j of J){ const ps=S.map(f=>f[j]).filter(Boolean); for(let a=0;a<ps.length;a++) for(let b=a+1;b<ps.length;b++){ const d=Math.hypot(ps[a][0]-ps[b][0],ps[a][1]-ps[b][1],ps[a][2]-ps[b][2]); if(d>mv) mv=d; } }
   const r3=a=>a.map(v=>+v.toFixed(3));
   return {pose:n.pose, gymPose:gp, x:+o.position.x.toFixed(2), z:+o.position.z.toFixed(2), y:+y0.toFixed(3), ground:+(+g).toFixed(3), yaw:+o.rotation.y.toFixed(3),
-    thigh:r3(thigh), hips:r3(hips), low:r3(lows), moved:+mv.toFixed(3), isFar:!!ud.isFar}; })(%s)"""
+    thigh:r3(thigh), hips:r3(hips), low:r3(lows), moved:+mv.toFixed(3), isFar:!!ud.isFar, lowWho}; })(%s)"""
 FRAME_JS = """(key=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey===key); if(!n||!E.camera) return null; const cam=E.camera, pp=E.player.obj.position, cp=cam.getWorldPosition(new THREE.Vector3());
   const pr=y=>{ const v=n.obj.position.clone(); v.y+=y; v.project(cam); return {sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), ok:v.z<1&&v.x>-0.9&&v.x<0.9&&v.y>-0.9&&v.y<0.75}; };
   const q=pp.clone(); q.y+=1.0; q.project(cam); const a=pr(0.3), b=pr(1.2), px=Math.round((q.x+1)/2*innerWidth);
@@ -253,7 +253,7 @@ async def case_motion(pg, cdp, od, tag, rec):
         await pg.wait_for_timeout(1200)
         f2 = await shot(pg, od, 'motion_%s_%s_2' % (tag, pose[4:]), rec)
         rec.setdefault('motion_' + tag, {})[pose] = {'slot': [f['day'], f['hour']], 'player': spot, 'm': m, 'shots': [f1, f2]}
-        print('  motion %s %s：位置 (%s,%s) yaw %s；大腿根 %s；臀部 %s；網格最低點 %s；地面 %s；%.1f 秒內最大移動 %s m' % (tag, zh, m.get('x'), m.get('z'), m.get('yaw'), m.get('thigh'), m.get('hips'), m.get('low'), m.get('ground'), win, m.get('moved')), flush=True)
+        print('  motion %s %s：位置 (%s,%s) yaw %s；大腿根 %s；臀部 %s；網格最低點 %s（%s）；地面 %s；%.1f 秒內最大移動 %s m' % (tag, zh, m.get('x'), m.get('z'), m.get('yaw'), m.get('thigh'), m.get('hips'), m.get('low'), m.get('lowWho'), m.get('ground'), win, m.get('moved')), flush=True)
         print('  截圖（留給 BB 判穿模、自然不自然）：%s 動作 %s → %s、%s' % (zh, pose, f1, f2), flush=True)
         if not check('motion %s：%s 有 VRM 骨架可量' % (tag, zh), 'err' not in m, m.get('err', '')):
             continue
