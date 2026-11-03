@@ -55,7 +55,7 @@ const D2=STORY._day2||{};
     run(21,21.1); const c94n=SOCIAL.contactName('heroine_05'); G.day=d5; G.weekday=5; G.hour=10; const c95=SOCIAL.contactName('heroine_05');
     return {LC,B,FM:txt('g:family_law').filter(t=>!/新的家族學弟妹|臥底那一隊|騙了自己家|考古題茶會|學弟妹好～|有進來的舉個手/.test(t)),FALL:txt('g:family_law'),c93,c94,c94n,c95}; };
   { const r=groupRun(true);
-    check('2. 9/4 21:00 家族群組（去過宿營）：Kevin「家族群組開好了。學弟，這次不用臥底了。」「上面那位是你的直屬學姊。」，接著她兩句、Kevin「你們認識？」',J(r.FM.slice(-5))===J(['kevin:家族群組開好了。學弟，這次不用臥底了。','kevin:上面那位是你的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),J(r.FM));
+    check('2. 9/4 21:00 家族群組（去過宿營）：Kevin「家族群組開好了。學弟。」（AA 11-03：Kevin 不在宿營，「這次不用臥底了」拿掉）「上面那位是你的直屬學姊。」，接著她兩句、Kevin「你們認識？」',!r.FALL.some(t=>/臥底/.test(t))&&J(r.FM.slice(-5))===J(['kevin:家族群組開好了。學弟。','kevin:上面那位是你的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),J(r.FM));
     check('2. 9/4 那一串 Kevin 不再自我介紹（沒有「我是 Kevin」「歡迎學弟」）',!r.FM.some(t=>/我是 Kevin|歡迎學弟/.test(t)),J(r.FM));
     check('10. 9/1 21:00 系上社群祐廷的自介拿掉「重考一年」',r.B.includes('player:大家好，我是祐廷，財經法學組，澄嶼高中畢業。興趣是數學跟睡覺。請多指教。')&&!r.B.some(t=>/重考/.test(t)),J(r.B));
     check('12. 8/31 班群：「新生茶會：9/2（二）18:30，法律系館B一樓大廳。會說家族怎麼分，有點心。」（不說「公布直屬」）',r.LC.includes('law_assoc:新生茶會：9/2（二）18:30，法律系館B一樓大廳。會說家族怎麼分，有點心。')&&!r.LC.some(t=>/公布直屬/.test(t)),J(r.LC));

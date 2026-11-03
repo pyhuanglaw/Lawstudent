@@ -325,8 +325,11 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪 */
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪過；AA_609 第 7 節改成她奶奶——和她交往中、演過 3/17 的晚餐（MET_SIS_FATHER，'grad'＝舊版在典禮上見過的不算）*/
+  S.fatherGradDue=G=>{ const F=G.flags, m=F.MET_SIS_FATHER; return S.dating(G,'heroine_05')&&!!m&&m!=='grad'; };
+  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
+    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); };
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater);   /* 黑咖啡那一句（THERMOS 的 helped）拿掉：連著空的保溫瓶那一次（AA 2026-11-02 20:26，D127、AA_595）*/
     if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
     F.SIS_THERMOS=true; };

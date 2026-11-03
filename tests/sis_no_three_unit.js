@@ -21,6 +21,7 @@ const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).m
 const found=new Map(); for(const f of files){ for(const s of lits(fs.readFileSync(path.join(ROOT,f),'utf8'))) if(RE.test(s)){ const k=s.trim(); if(!found.has(k)) found.set(k,f); } }
 /* ---- 看過、可以留的 ---- */
 const OK={
+  '剛認識時的一件事':'人物面板的記憶名稱（FRIEND_CARD，AA 11-03 定字；不是學姊的句子）',
   /* 系統字、說明 */
   '到下一件事':'睡覺選單的系統字','有一件事。':'捷運出遊有【必】事件時不能出發的系統字（AA_160 3-4 D 第 3 點原文「今天下午有一件事」；src/freetrip3d.js，DL-04）','同一件事一趟只說一次':'enc_walk 的規則說明','朋友以上；有伴侶時只陪一件事':'enc_walk 的規則說明',
   /* 別的人物 */

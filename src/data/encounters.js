@@ -106,8 +106,8 @@ const ENCOUNTERS={
       ex:{kx_b:['嗨。我們在喝茶。','這座山是木柵大學的後院。你知道的。'],kx_c:['好久不見。這裡的茶，還是一樣苦。','我們要下山了。你慢慢走。']},src:'BB_150 1、2-1（予樂讓位：enc_walk intro）'},
     {who:'heroine_04',spot:'D18',why:'她坐在石階上，平板上畫著九份的燈籠。',days:[0],from:16,to:20,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[13],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D18_ZQ',away:'在九份',
       lines:{acq:['你怎麼也在九份。','我在畫燈籠。……畫好玩的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是……你怎麼知道我在這？','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
-    {who:'heroine_05',spot:'D24',why:'她和媽媽坐在泡腳池邊，褲管捲到膝蓋。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',
-      lines:{acq:['學弟。我陪爸媽來泡腳。（溫爸爸點了一下頭。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我爸問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我爸媽在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
+    {who:'heroine_05',spot:'D24',why:'她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',
+      lines:{acq:['學弟。我陪家人來泡腳。（她奶奶朝你點了一下頭。阿公在旁邊看報紙。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我奶奶問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我家人在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
     {who:'heroine_02',spot:'D25',why:'她坐在堤防上，手上一台底片相機，等著一道浪。',days:[6],from:14,to:18.5,terms:['Y1S1','Y2S1','Y3S2'],weeks:[4],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D25_ZR',away:'在外澳拍照',
       lines:{acq:['你也來看海？','我在拍照。底片的，一卷只有三十六張。'],friend:['別動。你站在那裡，風就小了。','這一張我想拍很久了。浪剛好要碎掉的那一秒。'],dating:['你怎麼會在這裡？','我還剩最後一張。拍你好了。']},src:'BB_150 1、2-5'}
   ],
@@ -155,5 +155,5 @@ const ENCOUNTERS={
     ENC_D06_AN:'在美術館遇到她',ENC_D12_YT:'在迪化街遇到她',ENC_D04_ZHE:'在西門町遇到他',ENC_D04_YU:'在西門町遇到她',ENC_D06_BH:'在美術館遇到他',ENC_D04_XC:'在西門町遇到她',
     ENC_D26_AN:'在臺中遇到她',ENC_D14_YT:'在漁人碼頭遇到她',ENC_D11_BH:'在北投的圖書館遇到他',ENC_D01_YU:'在華山遇到她',ENC_D02_XC:'在松菸遇到她',ENC_D29_ZHE:'在高雄駁二遇到他',
     ENC_D01_ZQ:'在華山的市集遇到她',ENC_D02_ZR:'在松菸的書店門口遇到她',ENC_D11_SIS:'在北投圖書館遇到學姊',ENC_D08_PS:'在動物園遇到她',ENC_D10_KX:'在碧潭遇到她',
-    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊和她媽媽',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她'}
+    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊和她媽媽、奶奶',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她'}
 };

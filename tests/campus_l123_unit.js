@@ -80,7 +80,7 @@ const ticked=()=>{ let got=null; const r0=EVENTS.run; EVENTS.run=async ev=>{ got
     check('1. 新局還不認識阿哲（9/4 他才自我介紹）：沒有阿哲那一段',!kz&&J(L)===J(HEAD.concat([CL123.GOSSIP_PRE,G3[0]])),J([kz,L])); }
   { /* 走樓梯 */
     let G=fresh('2025-09-08',12.2,'linze'); let L=await runLines(L1,[1]);
-    check('1. 走樓梯：柏翰「走樓梯比電梯快四十秒。我算過。」',J(L)===J(['（中午下課，電梯門口擠滿人。）','走樓梯比電梯快四十秒。我算過。'])&&who()[1]==='許柏翰',J([L,who()]));
+    check('1. 走樓梯：柏翰「走樓梯比電梯快四十秒。我算過。」',J(L)===J(['（中午下課，電梯門口擠滿人。）','走樓梯比電梯快四十秒。我算過。'])&&who()[1]==='柏翰',J([L,who()]));
     G=fresh('2027-09-14',12.2,'linze',{BH4_DONE:true}); const a=(await runLines(L1,[1]))[1];
     G=fresh('2027-09-14',12.2,'linze'); const b=(await runLines(L1,[1]))[1];
     G=fresh('2027-03-09',12.2,'linze',{BH4_DONE:true}); const c=(await runLines(L1,[1]))[1];

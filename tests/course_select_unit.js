@@ -26,7 +26,7 @@ const has=(G,term,id)=>CLS.termCourses(G,term).some(c=>c.id===id);
   // ---------- 2. 大一下：開學前一天（2026-02-22 週日）早上——沒有選修，選課結果照樣播（通識那兩句），沒有「要不要修」 ----------
   const SUN=dayOf('2026-02-22'), TUE=dayOf('2026-02-24');
   { const G=mkG(SUN,7.5), GM=mkGM(G,[1]); await CLS.morning(GM);
-    check('開學前一天早上起床：「選課結果出來了：大一下」、通識的兩句、「這學期的課表在手機的「課表」」；沒有任何選項',GM.log.includes('say:選課結果出來了：大一下。')&&GM.log.includes('say:選上的是「天文與我們」。')&&GM.log.includes('say:這學期的課表在手機的「課表」。')&&!GM.log.some(t=>t.startsWith('choose:')),GM.log.join(' | '));
+    check('開學前一天早上起床：「選課結果出來了：大一下」、「這學期的課表在手機的「課表」」；沒有任何選項（AA_605 第 3 列：通識那兩句拿掉）',GM.log.includes('say:選課結果出來了：大一下。')&&!GM.log.some(t=>/城市與散步|天文與我們/.test(t))&&GM.log.includes('say:這學期的課表在手機的「課表」。')&&!GM.log.some(t=>t.startsWith('choose:')),GM.log.join(' | '));
     check('大一下的課表沒有法律與社會（下）；重修的經濟學原理（下）照樣在',!has(G,'Y1S2','law_society_2')&&has(G,'Y1S2','econ_principles_2')&&G.courses.electives.Y1S2_ls===undefined,JSON.stringify(G.courses.electives));
     const G2=Object.assign(JSON.parse(JSON.stringify(G)),{day:TUE,hour:8,weekday:2});
     const items=CLS.dayItems(G2).map(it=>CLS.hhmm(it.t0)+' '+it.c.name);
@@ -39,9 +39,9 @@ const has=(G,term,id)=>CLS.termCourses(G,term).some(c=>c.id===id);
     const back=JSON.parse(JSON.stringify(G)); check('跟著存檔（JSON 來回一次，大一下照樣沒有法律與社會（下））',!has(back,'Y1S2','law_society_2')&&back.courses.note.sel_Y1S2===1); }
   // ---------- 2b. 大一下的通識（交接包 v2 第 3 節第 1 週）：接 v1 的選課結果 ----------
   { const G=mkG(SUN,7.5), GM=mkGM(G,[0]); await CLS.morning(GM); const L=GM.log.filter(t=>t.startsWith('say:'));
-    check('大一下：v1 選「下學期再選」（或沒遇到）的玩家：「「城市與散步」——備取三。差一點。」「選上的是「天文與我們」。」',L[1]==='say:「城市與散步」——備取三。差一點。'&&L[2]==='say:選上的是「天文與我們」。',L.join(' | '));
+    check('大一下：不管 v1 有沒有選加簽，都不說「城市與散步」「天文與我們」（AA_605 第 2、3 列：ev_course_selection 拿掉、大一下只留選課結果和選單）',!L.some(t=>/城市與散步|天文與我們/.test(t)),L.join(' | '));
     const G2=mkG(SUN,7.5); G2.flags.ge_walk_waitlist=true; const GM2=mkGM(G2,[0]); await CLS.morning(GM2); const L2=GM2.log.filter(t=>t.startsWith('say:'));
-    check('大一下：v1 選加簽的玩家：「上學期加簽沒成功的「城市與散步」，這學期——備取三。」',L2[1]==='say:上學期加簽沒成功的「城市與散步」，這學期——備取三。'&&L2[2]==='say:選上的是「天文與我們」。',L2.join(' | '));
+    check('大一下：舊存檔有 ge_walk_waitlist 也不說',!L2.some(t=>/城市與散步|天文與我們/.test(t)),L2.join(' | '));
     const D=dayOf('2028-09-03'), G3=mkG(D,7.5), GM3=mkGM(G3,[0,0]); await CLS.morning(GM3); check('其他學期沒有這兩句',!GM3.log.some(t=>/城市與散步|天文與我們/.test(t))); }
   { const c=COURSES.list?COURSES.list.find(q=>q.id==='ge_y1s2'):(Array.isArray(COURSES)?COURSES.find(q=>q.id==='ge_y1s2'):Object.values(COURSES).flat().find(q=>q&&q.id==='ge_y1s2'));
     check('大一下的通識課名是「通識：天文與我們」（AA 同意改名；課表、手機都顯示這個名字）',!!c&&c.name==='通識：天文與我們',c&&c.name); }

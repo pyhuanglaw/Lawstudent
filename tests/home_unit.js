@@ -40,12 +40,16 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('3. 宿舍房間有「收拾背包回家」（週五晚上看得到）',!!it&&!it.hidden,it&&it.label); G.hour=10; check('3. 週五白天藏起來',!!it&&it.hidden); G.hour=19;
   { const keep=E.interactables; E.interactables=[]; G.zone='campus'; try{ STORY.populate('campus',GM); }catch(e){ console.log('  populate campus 其他部分在 node 裡跑不起來（不影響這一項）：'+e.message); } const ig=E.interactables.find(i=>i.home); E.interactables=keep; G.zone='dorm';
     check('3b. 校門口也有「回家」（AA_134 第 3 節；週五晚上看得到、白天藏起來；不和走出校門重疊；校門 2026-10-18 改成兩側通道各一個出口）',!!ig&&!ig.hidden&&(G.hour=10,ig.hidden)&&[[-125.5,5.27],[-125.5,-5.27]].every(([ex,ez])=>Math.hypot(ig.x-ex,ig.z-ez)>2.5+ig.radius),ig&&JSON.stringify([ig.x,ig.z,ig.label])); G.hour=19; }
-  picks=['吃晚餐',0,'睡覺','玄關','回宿舍'];
+  picks=['吃晚餐',0,'睡覺','回宿舍'];
   await STORY.interact(it,GM); const t=lines().join('｜');
   check('4. 到家：媽媽一句（到家池）',said.some(s=>s.who==='媽媽'&&HOME_LINES.arrive.some(a=>a.t===s.t)),t.slice(0,80));
   check('4. 晚餐：媽媽問、玩家二選一、媽媽收尾（爸爸在上海，AA_298 第 8 節）；旁白「媽媽煮了一桌」、沒有「（爸爸」',said.some(s=>s.who==='媽媽'&&HOME_LINES.dinner.some(d=>d.mom===s.t))&&(said.some(s=>s.who==='媽媽'&&HOME_LINES.dinner.some(d=>d.dad===s.t))||/（媽媽/.test(t))&&/媽媽煮了一桌/.test(t)&&!/（爸爸|爸爸、媽媽都在/.test(t)&&!said.some(s=>s.who==='爸爸'));
   check('5. 睡覺：週六早上在家醒來（08:30、精力回滿、早上一句）',said.some(s=>HOME_LINES.morning.some(m=>s.t===m.t)));
-  check('6. 取車：媽媽一句、車在身邊（carWithMe）',G.flags.carWithMe===true&&said.some(s=>s.who==='媽媽'&&HOME_LINES.car.some(c=>c.t===s.t)));
+  check('6. 選單沒有「取車」（HOME-CAR-NOOP-1103：開車從宿舍出發，取車沒有作用）',!opts.some(o=>o.some(t=>/取車|車鑰匙/.test(t||''))),JSON.stringify(opts.slice(0,2)));
+  { const m=opts[0]||[], ix=t=>m.findIndex(x=>(x||'').includes(t));
+    check('6b. 在家選單照固定順序（HOME-MENU-ORDER-1103：使用者「家裡的選項為什麼層級這麼混亂」）：在家做的事 → 回宿舍 → 睡覺 → 存檔最後',m.length>=4&&ix('存檔')===m.length-1&&ix('吃晚餐')<ix('回宿舍')&&ix('回宿舍')<ix('睡覺')&&ix('睡覺')<ix('存檔'),JSON.stringify(m));
+    const O=[{k:'save'},{k:'sleep'},{k:'back'},{k:'eat'},{k:'out'},{k:'ff'},{k:'ext'},{k:'stay'}], R=HOME.menuOrder?HOME.menuOrder(O).map(o=>o.k).join(','):'';
+    check('6c. HOME.menuOrder：出發 → 在家做的事 → 快轉 → 出門／回宿舍 → 睡覺／住家裡 → 存檔（同組照原本順序）',R==='out,eat,ext,ff,back,sleep,stay,save',R); }
   check('7. 回宿舍：媽媽一句、回到宿舍房間、不在家了',said.some(s=>s.who==='媽媽'&&HOME_LINES.back.some(b=>b.t===s.t))&&G.zone==='dorm'&&!HOME.at(G)&&G.weekday===6,JSON.stringify({zone:G.zone,wd:G.weekday,at:HOME.at(G)}));
   // 週日 21:30 以後：自動提醒回宿舍
   const SUN=FRI+2; fresh(SUN,21.6,'dorm',{introDone:true,classDone:true,afternoonDone:true}); G.home={at:true,day:SUN}; picks=[];

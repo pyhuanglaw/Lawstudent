@@ -23,7 +23,7 @@ const GROUP_EVENTS=(function(){
   /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
-    dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
+    dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（後座擠了三個人。）'}   /* AA_599 補（BB 11-03、AA 定字）：不寫取車過程 */,
       {if:{custom:G=>{ const g=G1(); return !!g&&g.springTrain(G); }},speaker:null,text:'（車子坐不下。剩下的人搭火車，下午在那邊會合。）'},   /* AA_375 第 5 項：認識的超過三個＝其他人搭火車；會合以後（海邊）照樣有他們的句子 */
       {scene:'小鎮的市場',bg:'town_market'},   /* 11-02 使用者生成（BB_132 第 96 組第 3 張；原本深色底＋字幕）*/
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
