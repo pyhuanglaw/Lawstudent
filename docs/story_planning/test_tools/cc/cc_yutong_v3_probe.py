@@ -155,7 +155,7 @@ CASES = {
                    contacts=[YT, 'zhe', 'heroine_01', 'yu'], meet=['zhe', 'heroine_01', 'yu', 'heroine_02'], groups=[['noodle_team', '桌遊團']], act='wait', phone=True, picks=['一包乖乖', '出發'], shot=['燒臘店阿姨（畫面外）'],
                    exp=[('642', N, '（語彤從包包裡拿出一卷膠帶，把箱子封了三圈。）'), ('642', '燒臘店阿姨（畫面外）', '箱子不夠大的話，店裡有！')],
                    done="!!(((GAME.G.events||{}).done||{}).ev_xmas_y3_box)"),
-    'ev8': dict(title='8 買賣不破租賃（大二下債各第 6 週：課堂回想＋下課傳訊息）', key='2027-03-29', where=('linze', None, 9.5), rel={YT: dict(fam=40, trust=25)}, contacts=[YT], mem=[[YT, 'RENT_RUMOR', '']],
+    'ev8': dict(title='8 買賣不破租賃（大二下債各第 6 週：課堂回想＋下課傳訊息）', key='2027-03-29', where=('linze', {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 8 + 55 / 60), rel={YT: dict(fam=40, trust=25)}, contacts=[YT], mem=[[YT, 'RENT_RUMOR', '']],
                 act='class', picks=['傳訊息給語彤'], shot=[N],
                 exp=[('643', N, '（你想起語彤說的，秀琴姨的房東要把房子賣了。）')],
                 msgs=[('625', '今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。'), ('625', '……真的？'), ('625', '我明天跟她說。'), ('625', '謝謝。我不知道課本裡有寫這個。')],
@@ -412,10 +412,11 @@ def compare(run, name, cs, says, docs, msgs):
     return ok_all, rows
 
 
-async def run_case(p, name, cs, docs, run):
+async def run_case(BR, name, cs, docs, run):
     out = os.path.join(OUT, name); os.makedirs(out, exist_ok=True)
     print('\n==== %s：%s ====' % (name, cs['title']), flush=True)
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    ctx = BR[1]; pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []   # 同一個瀏覽器（HTTP 快取共用，載入快一點）、每一場一個新分頁
+    pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
     pg.set_default_timeout(180000)
     res = {'name': name, 'title': cs['title'], 'pass': False, 'rows': []}
@@ -467,7 +468,7 @@ async def run_case(p, name, cs, docs, run):
         try: await pg.screenshot(path=os.path.join(out, name + '_exception.png'))
         except Exception: pass
     run.check('[%s] 沒有 JS 例外' % name, not errs, J(errs[:3]))
-    try: await asyncio.wait_for(b.close(), 30)
+    try: await asyncio.wait_for(pg.close(), 30)
     except Exception: pass
     return res
 
@@ -484,7 +485,9 @@ async def class_flow(pg, cdp, run, cs):
     """債各（oblig_spec）第 6 週週一上午 L201：照玩家走進霖澤館 201 坐下（等開課）。"""
     run.note('ev8：上課的流程交給遊戲（走到 201 門口、進教室、坐下）')
     it = None
-    for lb in ('進入 201', '進去 201', '201', '上課'):
+    s = await pg.evaluate(TS)
+    if s['act'].startswith('進入 201'): run.note('點「%s」' % s['act']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4000)
+    for lb in ('進入 201',):
         it = await L.find_it(pg, lb)
         if it: break
     run.note('201 的入口：%s' % J(it))
@@ -511,9 +514,14 @@ async def main():
     for k, f in DOCS.items(): run.check('稿讀得到：%s（%s）' % (f, REF), len(docs.get(k) or '') > 500, '%d 字' % len(docs.get(k) or ''))
     results = []
     async with async_playwright() as p:
+        BR = await L.launch(p, landscape=True)
+        try: await BR[2].close()
+        except Exception: pass
         for name in want:
             if name not in CASES: run.check('場名 %s' % name, False, '沒有這一場'); continue
-            results.append(await run_case(p, name, CASES[name], docs, run))
+            results.append(await run_case(BR, name, CASES[name], docs, run))
+        try: await asyncio.wait_for(BR[0].close(), 30)
+        except Exception: pass
     print('\n==== 摘要 ====', flush=True)
     for r in results:
         print('%s %s %s' % ('PASS' if r['pass'] else 'FAIL', r['name'], r['title']), flush=True)
