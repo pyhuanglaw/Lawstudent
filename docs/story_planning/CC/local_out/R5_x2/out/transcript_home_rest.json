@@ -1,0 +1,671 @@
+{
+ "rows": [
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/home_dining_day.webp\"}",
+   "d": "2029-06-26",
+   "h": 8.512,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "考前總複習〔會錯過補考。〕｜出發：補考（法律系館A）〔強制執行法　10:00　捷運＋公車 約 40 分鐘〕｜存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
+   "d": "2029-06-26",
+   "h": 8.512,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "考前總複習〔會錯過補考。〕｜出發：補考（法律系館A）〔強制執行法　10:00　捷運＋公車 約 40 分鐘〕｜存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
+   "d": "2029-06-26",
+   "h": 9.512,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "出發：補考（法律系館A）〔強制執行法　10:00　捷運＋公車 約 40 分鐘〕｜存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
+   "d": "2029-06-26",
+   "h": 10.512,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "會錯過：10:00 補考：強制執行法。",
+   "d": "2029-06-26",
+   "h": 10.512,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "照樣｜先不要",
+   "d": "2029-06-26",
+   "h": 10.512,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "存檔〔存到存檔欄位〕｜睡覺〔隔天早上在家醒來〕｜去玄關拿車鑰匙（取車）｜在家休息一下〔一小時〕｜回宿舍〔捷運＋公車 約 40 分鐘〕",
+   "d": "2029-06-26",
+   "h": 11.512,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "媽媽",
+   "c": null,
+   "t": "到了說一聲。",
+   "d": "2029-06-26",
+   "h": 11.512,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "回到宿舍。",
+   "d": "2029-06-26",
+   "h": 12.212,
+   "z": "dorm"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":0,\"z\":2.4,\"yaw\":3.141592653589793}",
+   "t": "dorm",
+   "d": "2029-06-26",
+   "h": 12.212,
+   "z": "dorm"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "fd_mk_missed",
+   "d": "2029-06-26",
+   "h": 12.213,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（補考的時間過了。強制執行法，你沒有去考。）",
+   "d": "2029-06-26",
+   "h": 12.213,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（證書要等下學期。九月，你要回學校重修。）",
+   "d": "2029-06-26",
+   "h": 12.213,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（今年的國考，考不成了。明年再報。）",
+   "d": "2029-06-26",
+   "h": 12.213,
+   "z": "dorm"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "fd_mk_missed",
+   "d": "2029-06-26",
+   "h": 12.213,
+   "z": "dorm"
+  },
+  {
+   "k": "card",
+   "n": "6/27（三）23:00",
+   "t": "",
+   "d": "2029-06-27",
+   "h": 23,
+   "z": "dorm"
+  },
+  {
+   "k": "ev",
+   "n": "",
+   "t": "ev_r409_last",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "最後一晚",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "我自己的喝完了。",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "許柏翰",
+   "c": "classmate_bohan",
+   "t": "……二十三點了。",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "阿哲",
+   "c": "zhe",
+   "t": "知道啦。最後一次。",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "「（去關燈）」｜「再聊一下。」",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
+   "d": "2029-06-27",
+   "h": 23.001,
+   "z": "dorm"
+  },
+  {
+   "k": "card",
+   "n": "6/28（四）10:00",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":0,\"z\":5.6,\"yaw\":3.141592653589793,\"lv\":0}",
+   "t": "dorm_hall",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你的房間在四樓，409。樓梯在走廊北邊。",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+   "d": "2029-06-28",
+   "h": 10.002,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+   "d": "2029-06-28",
+   "h": 10.702,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "card",
+   "n": "公館的套房",
+   "t": "",
+   "d": "2029-06-28",
+   "h": 10.702,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（兵役的時間，你排在考試之後。）",
+   "d": "2029-06-28",
+   "h": 10.702,
+   "z": "dorm_hall"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
+   "t": "gongguan",
+   "d": "2029-06-28",
+   "h": 10.702,
+   "z": "dorm_hall"
+  }
+ ],
+ "start": {
+  "clock": {
+   "key": "2029-06-26",
+   "day": 1379,
+   "h": 8.505,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "pending",
+    "res": {}
+   },
+   "EXCHANGE_ROUTE": "TW"
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "enforcement": "0 分（不及格）",
+   "maritime": "60 分"
+  },
+  "pgOn": true,
+  "delayed": false,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1
+  },
+  "pend": [
+   [
+    "fd_makeup",
+    "2029-06-26",
+    9.5
+   ],
+   [
+    "b1",
+    "2029-07-12",
+    20
+   ],
+   [
+    "exam_2029",
+    "2029-08-04",
+    8
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "pending",
+   "res": {}
+  },
+  "homeOpt": {
+   "t": "出發：補考（法律系館A）",
+   "hint": "強制執行法　10:00　捷運＋公車 約 40 分鐘"
+  },
+  "review": {
+   "t": "考前總複習",
+   "hint": "會錯過補考。",
+   "dim": true
+  },
+  "homeAt": true,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 1,
+  "title": false
+ },
+ "menu": {
+  "menu0": [
+   "考前總複習會錯過補考。",
+   "出發：補考（法律系館A）強制執行法　10:00　捷運＋公車 約 40 分鐘",
+   "存檔存到存檔欄位",
+   "睡覺隔天早上在家醒來",
+   "去玄關拿車鑰匙（取車）",
+   "在家休息一下一小時",
+   "回宿舍捷運＋公車 約 40 分鐘"
+  ],
+  "menus": [
+   [
+    "2029-06-26",
+    "08:31",
+    [
+     "考前總複習會錯過補考。",
+     "出發：補考（法律系館A）強制執行法　10:00　捷運＋公車 約 40 分鐘",
+     "存檔存到存檔欄位",
+     "睡覺隔天早上在家醒來",
+     "去玄關拿車鑰匙（取車）",
+     "在家休息一下一小時",
+     "回宿舍捷運＋公車 約 40 分鐘"
+    ]
+   ],
+   [
+    "2029-06-26",
+    "09:31",
+    [
+     "考前總複習會錯過補考。",
+     "出發：補考（法律系館A）強制執行法　10:00　捷運＋公車 約 40 分鐘",
+     "存檔存到存檔欄位",
+     "睡覺隔天早上在家醒來",
+     "去玄關拿車鑰匙（取車）",
+     "在家休息一下一小時",
+     "回宿舍捷運＋公車 約 40 分鐘"
+    ]
+   ],
+   [
+    "2029-06-26",
+    "10:31",
+    [
+     "出發：補考（法律系館A）強制執行法　10:00　捷運＋公車 約 40 分鐘",
+     "存檔存到存檔欄位",
+     "睡覺隔天早上在家醒來",
+     "去玄關拿車鑰匙（取車）",
+     "在家休息一下一小時",
+     "回宿舍捷運＋公車 約 40 分鐘"
+    ]
+   ],
+   [
+    "2029-06-26",
+    "11:31",
+    [
+     "存檔存到存檔欄位",
+     "睡覺隔天早上在家醒來",
+     "去玄關拿車鑰匙（取車）",
+     "在家休息一下一小時",
+     "回宿舍捷運＋公車 約 40 分鐘"
+    ]
+   ]
+  ]
+ },
+ "end": {
+  "clock": {
+   "key": "2029-06-28",
+   "day": 1381,
+   "h": 10.709,
+   "zone": "gongguan",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": false,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [
+    "enforcement"
+   ],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "missed",
+    "res": {
+     "enforcement": "missed"
+    },
+    "bar": true,
+    "said": 1379
+   },
+   "EXCHANGE_ROUTE": "TW",
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_DAY": 1379,
+   "FAIL_DELAY_BARCANCEL": true,
+   "MOVED_OUT": 1381
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "enforcement": "不及格（補考缺考）",
+   "maritime": "60 分"
+  },
+  "pgOn": true,
+  "delayed": true,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": "missed",
+   "fd_mk_missed": 1
+  },
+  "pend": [
+   [
+    "late_2029",
+    "2029-08-04",
+    17.58
+   ],
+   [
+    "r2y4b_y5_plan",
+    "2029-09-03",
+    9
+   ],
+   [
+    "r2y4b_y5_cert",
+    "2030-01-21",
+    10
+   ],
+   [
+    "reg_2030",
+    "2030-05-10",
+    21
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "missed",
+   "res": {
+    "enforcement": "missed"
+   },
+   "bar": true,
+   "said": 1379
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": false,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 4,
+  "title": false
+ },
+ "answered": {},
+ "shots": {
+  "menu0": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\97_home_rest_menu0_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\98_home_rest_menu0_port.png"
+  ],
+  "menu_late": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\99_home_rest_menu_after11_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\100_home_rest_menu_after11_port.png"
+  ],
+  "w:missed": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\101_home_rest_line_missed_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\102_home_rest_line_missed_port.png"
+  ],
+  "w:cert": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\103_home_rest_line_cert_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\104_home_rest_line_cert_port.png"
+  ],
+  "w:bar": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\105_home_rest_line_bar_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x2\\out\\106_home_rest_line_bar_port.png"
+  ]
+ },
+ "sha": "b1b249873",
+ "case": "home_rest"
+}
