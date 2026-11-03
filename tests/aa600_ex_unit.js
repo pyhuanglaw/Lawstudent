@@ -194,9 +194,9 @@ await sec('N',async()=>{
   { const G=fresh('2028-03-01',20); H.CLOSE(SIS); date(SIS); G.name='祐廷'; const m=PHONE.post(G,{th:'p:'+SIS,from:SIS,text:'{name}，到了嗎。'}); ROM.end(G,SIS,'apart_talk');
     const m2=PHONE.post(G,{th:'p:'+SIS,from:SIS,text:'{name}。'});
     check('N8. 林{name}：交往中送出的訊息當下就存成「林祐廷」（ytFix），分手以後還是「林祐廷」；分手以後送的不加姓',m.text==='林祐廷，到了嗎。'&&m.ytFix===1&&m2.text==='{name}。'&&(G.msgs||[]).find(x=>x===m).text==='林祐廷，到了嗎。',J([m.text,m2.text])); }
-  check('N9. 她爸爸：pg_dates「我媽問研究單位在做什麼」（她說：『所以是公務員？』）、礁溪「她和媽媽坐在泡腳池邊」、記憶「在礁溪遇到學姊和她媽媽」、重訪「上次學姊和她媽媽坐在這裡。」',
+  check('N9. 她爸爸：pg_dates「我媽問研究單位在做什麼」（她說：『所以是公務員？』）；礁溪（AA_609 第 6 節，使用者 2026-11-03 爸爸改成奶奶）「她和媽媽、奶奶坐在泡腳池邊」、記憶「在礁溪遇到學姊和她媽媽、奶奶」、重訪「上次學姊和她媽媽、奶奶坐在這裡。」',
     RAW('src/data/pg_dates.js').includes('元旦回家，我媽問研究單位在做什麼。我講了二十分鐘。她說：『所以是公務員？』')&&!RAW('src/data/pg_dates.js').includes('我爸問研究單位')
-    &&RAW('src/data/encounters.js').includes("why:'她和媽媽坐在泡腳池邊")&&RAW('src/data/encounters.js').includes("ENC_D24_SIS:'在礁溪遇到學姊和她媽媽'")&&RAW('src/data/enc_walk.js').includes('泡腳池。上次學姊和她媽媽坐在這裡。'));
+    &&RAW('src/data/encounters.js').includes("why:'她和媽媽、奶奶坐在泡腳池邊")&&RAW('src/data/encounters.js').includes("ENC_D24_SIS:'在礁溪遇到學姊和她媽媽、奶奶'")&&RAW('src/data/enc_walk.js').includes('泡腳池。上次學姊和她媽媽、奶奶坐在這裡。'));
   { let ok=false; try{ const doc=cp.execSync('git show 43d27cd80:"docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md"',{cwd:H.ROOT,encoding:'utf8'}); ok=doc.includes('整合時的 AA 決定（回 LAWWW 11-02 21:25，九件）'); }catch(e){}
     check('N. 依據：企劃線 43d27cd80 AA_591 最後一節（九件）讀得到',ok,'git fetch origin claude/story-planning'); } });
 

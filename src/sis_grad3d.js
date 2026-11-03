@@ -178,12 +178,14 @@ const SISG=(function(){
         {label:'end'} ],
       after:(G,GM,npcs)=>{ const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },   /* 走回總圖（和 W1 同一條路）*/
     /* 2-12 畢業典禮（BB_97 2-8；W10）：6/6（六）11:00 法律學院的典禮之後、霖澤館一樓大廳；有點熟以上的玩家當天早上收到她的私訊 → 出遊。
-       她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的媽媽」（AA_339 第 3 題的標法）；AA_590 第 78、79 列（決2 乙，F10：爸爸在遊戲開始前過世）：「九月開學？」改由媽媽問、「來，拍一張。」刪；2D linze_auditorium */
+       她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的媽媽」（AA_339 第 3 題的標法）；AA_590 第 78、79 列（決2 乙，F10：爸爸在遊戲開始前過世）：「九月開學？」改由媽媽問、「來，拍一張。」刪過；
+       AA_609 第 6 節（使用者 2026-11-03，她爸爸改成奶奶）：「來，拍一張。」恢復、說話人「學姊的奶奶」；2D linze_auditorium */
     { id:'ev_sis_graduation', title:'畢業典禮', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'法律系館A・一樓大廳',bg:'linze_auditorium'},
         {speaker:'學姊的媽媽',text:'九月開學？'},
         {speaker:ID,expression:'neutral',text:'九月。……開學前，我想先睡一個禮拜。'},
         {speaker:null,text:'（媽媽笑了。）'},
+        {speaker:'學姊的奶奶',text:'來，拍一張。'},
         {speaker:null,text:'（她看到你，笑了一下。）'},
         {speaker:ID,expression:'smile',text:'你來了。'},
         {speaker:ID,expression:'smile',text:'……我本來想了很多要說的。'},

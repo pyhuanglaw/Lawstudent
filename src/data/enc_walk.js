@@ -1474,7 +1474,7 @@ const ENC_WALK={
    "batch": 2,
    "who": "heroine_05",
    "spot": "D24",
-   "normal": "泡腳池。上次學姊和她媽媽坐在這裡。",
+   "normal": "泡腳池。上次學姊和她媽媽、奶奶坐在這裡。",
    "afterBreakup": "泡腳池。水還是一樣燙。"
   },
   {

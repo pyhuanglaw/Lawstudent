@@ -265,7 +265,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     check('2-12. 6/6（六）早上私訊「今天十一點，A館。不用帶花。」（AA_459 第 5 節補句號）→ 11:00 出遊（有點熟以上）',her().length===1&&her()[0].text==='今天十一點，A館。不用帶花。'&&!!q&&q.h===11&&q.ev==='ev_sis_graduation',JSON.stringify(q));
     { fresh(d,7.5,'dorm',{}); R(10); span(Tm(d,7.9),Tm(d,9)); check('2-12. 只認識：沒有私訊、沒有出遊',!her().length&&!OUT.get(G,'sisg_grad')); }
     fresh(d,11,'dorm',{}); FAM(); await EVENTS.run(ev('ev_sis_graduation'));
-    check('2-12. 台詞（AA_590 第 78、79 列，決2 乙：爸爸的兩句改成媽媽問「九月開學？」、「來，拍一張。」刪）：媽媽「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 →「你來了。」「……我本來想了很多要說的。」「今天只說一句：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的媽媽：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。',SOCIAL.displayName(ID)+'：……我本來想了很多要說的。',SOCIAL.displayName(ID)+'：今天只說一句：謝謝你來。']),JSON.stringify(lines()));
+    check('2-12. 台詞（AA_590 第 78、79 列，決2 乙：爸爸的兩句改成媽媽問「九月開學？」；「來，拍一張。」AA_609 第 6 節改給學姊的奶奶）：媽媽「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 → 學姊的奶奶「來，拍一張。」→「你來了。」「……我本來想了很多要說的。」「今天只說一句：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的媽媽：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','學姊的奶奶：來，拍一張。','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。',SOCIAL.displayName(ID)+'：……我本來想了很多要說的。',SOCIAL.displayName(ID)+'：今天只說一句：謝謝你來。']),JSON.stringify(lines()));
     { const sc=ev('ev_sis_graduation').dialogue.find(l=>l.scene!==undefined); check('2-12. 背景 2D linze_auditorium（霖澤館一樓大廳）',sc&&sc.bg==='linze_auditorium'); }
   });
   /* ---------- G1 只有點熟、沒解鎖 ---------- */
