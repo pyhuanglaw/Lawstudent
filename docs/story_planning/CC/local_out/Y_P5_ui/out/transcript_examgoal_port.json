@@ -1,0 +1,50 @@
+{
+ "orient": "port",
+ "find": {
+  "day": 90,
+  "key": "2025-12-15",
+  "t0": 9.166666666666666,
+  "name": "憲法（上）",
+  "room": "法律系館A 201",
+  "normal": 87,
+  "normalKey": "2025-12-12"
+ },
+ "exam": {
+  "goal": {
+   "goalG": "09:10 期末考：憲法（上）（法律系館A 201）",
+   "dom": "目標：09:10 期末考：憲法（上）（法律系館A 201）",
+   "next": {
+    "exam": "final",
+    "t0": 9.166666666666666,
+    "name": "憲法（上）"
+   },
+   "curExam": null,
+   "h": 6.746,
+   "zone": "dorm"
+  },
+  "lines": [],
+  "chose": [],
+  "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P5_ui\\out\\01_examgoal_port_exam_goal.png"
+ },
+ "normal": {
+  "goal": {
+   "goalG": "—",
+   "dom": "目標：—",
+   "next": {
+    "exam": null,
+    "t0": 9.166666666666666,
+    "name": "經濟學原理（上）"
+   },
+   "curExam": null,
+   "h": 6.752,
+   "zone": "dorm"
+  },
+  "lines": [],
+  "chose": [],
+  "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P5_ui\\out\\02_examgoal_port_normal_goal.png"
+ },
+ "errs": [],
+ "sha": "c89a5f9be",
+ "tag": "examgoal_port",
+ "url": "http://127.0.0.1:8809/index.html?turbo"
+}
