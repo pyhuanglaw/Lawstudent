@@ -2076,6 +2076,15 @@
       "status": "規則（永久）",
       "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
       "note": "D129／HV-23；接在 LAWWW 交班後關掉 LAWWW、LAWWW2、BB 三個每小時保險喚醒之後"
+    },
+    {
+      "id": "UA-LAWWW-1103-02",
+      "at": "2026-11-03",
+      "quote": "現在接班繼續（建議）",
+      "kind": "選擇題答案",
+      "status": "規則（永久）",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "使用者：「你上次交班之後沒有人接班」；問要不要帳號 A 的 LAWWW 重新接班，選現在接班繼續（＝我回來了）。task 掛 D129 這一列只是為了對到總表：接班時打開自己的保險喚醒"
     }
   ]
 }
