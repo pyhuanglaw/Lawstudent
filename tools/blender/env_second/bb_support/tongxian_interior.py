@@ -51,7 +51,7 @@ M = {
     'wood': L.pbr(P + 'wood', 'wood_table_001', tile=1.0, target='#9c6e48', normal=0.4, maps=('diff', 'nor'), rough_value=0.5),
     'guitar': img_mat(P + 'guitars', 'tongxian_guitar.png', rough=0.3),
     'props': img_mat(P + 'props', 'tongxian_props.png', rough=0.8, emit_fn='tongxian_props_emit.png'),
-    'glass': L.flat(P + 'glass', '#e2eaea', rough=0.04, alpha=0.14),
+    'glass': L.flat(P + 'glass', '#eef2ee', rough=0.04, alpha=0.1),   # v2：櫃台玻璃再淡一點（CC_40 缺點 4：太暗）
     'vc': L.vc_material(P + 'vc', rough=0.6),
     'metal': L.vc_metal(P + 'metal', rough=0.42, metal=0.4),
     'emit': L.flat(P + 'lamp', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
@@ -482,12 +482,12 @@ gzs0, gzs1 = -6.25, 4.6
 wg = G('guitar', 'right'); wm_ = G('metal', 'right'); rng = random.Random(77)
 NE, NA = 22, 21
 for i in range(NE):
-    zc = gzs0 + (gzs1 - gzs0) * i / (NE - 1); g = E_SPECS[i % len(E_SPECS)]; yh = 3.0
+    zc = gzs0 + (gzs1 - gzs0) * i / (NE - 1); g = E_SPECS[i % len(E_SPECS)]; yh = 2.85
     vnut = {'S': 0.743, 'T': 0.743, 'E': 0.768}[g['kind']]
     fr = Frame((X1 - 0.032 - 0.058, yh - vnut, zc), (-1, 0, math.sin(rng.uniform(-0.05, 0.05))), (0, 1, 0))
     pt = Part(); vn, wt = build_guitar(pt, g); pt.into(wg, fr); hanger(wm_, fr, vn, wt - 0.02, wall=-0.058)
 for i in range(NA):
-    zc = gzs0 + 0.12 + (gzs1 - gzs0 - 0.24) * i / (NA - 1); g = dict(A_SPECS[i % len(A_SPECS)], kind='ac', tag=(i % 4 == 1)); yh = 1.93
+    zc = gzs0 + 0.12 + (gzs1 - gzs0 - 0.24) * i / (NA - 1); g = dict(A_SPECS[i % len(A_SPECS)], kind='ac', tag=(i % 4 == 1)); yh = 1.80
     fr = Frame((X1 - 0.032 - 0.05, yh - 0.855, zc), (-1, 0, math.sin(rng.uniform(-0.05, 0.05))), (0, 1, 0))
     pt = Part(); vn, wt = build_guitar(pt, g); pt.into(wg, fr); hanger(wm_, fr, vn, wt - 0.024, head_half=0.03, wall=-0.05)
 # 櫃台後面（z 4.8 以後）：兩個掛著的琴袋、三捲導線
@@ -636,7 +636,7 @@ def leaf_at(base, d, nrm, Lf, var=0):
     LEAVES.append((Vector(base), Vector(d).normalized(), Vector(nrm), Lf, var))
 
 
-def vine(start, out_dir, length, seed, step=0.055, droop=1.0):
+def vine(start, out_dir, length, seed, step=0.07, droop=1.0):   # v2：0.055→0.07（三角形預算）
     """垂下來的藤：先往 out_dir 長出去，再往下垂；每節一片葉子（左右交錯），越往下越小"""
     rg = random.Random(seed); p = Vector(start); od = Vector(out_dir).normalized(); n = max(3, int(length / step)); pts = [p.copy()]
     for i in range(n):
@@ -734,17 +734,49 @@ prism(pt, [(-0.215, 0.0), (0.0, 0.0), (0.0, 0.28), (-0.215, 0.28)], 0.0045, 0.00
 prism(pt, [(0.002, 0.0), (0.217, 0.0), (0.217, 0.28), (0.002, 0.28)], 0.0045, 0.0062, pc('paper'), pc('paper'))
 pt.into(PR, mfr)
 # 琴架上的木吉他（A 字琴架；吉他面向試琴椅，往後靠 16°）
-gs = IT['guitar_on_stand'][0]; gx, gz = gs['x'], gs['z']; gyaw = math.atan2(-1.55 - gx, -4.6 - gz)
-fw_ = Vector((math.sin(gyaw), 0, math.cos(gyaw))); tilt_b = math.radians(16)
-vdir = Vector((0, math.cos(tilt_b), 0)) - fw_ * math.sin(tilt_b)
-gfr = Frame((gx - fw_.x * 0.02, 0.09, gz - fw_.z * 0.02), tuple(fw_ * math.cos(tilt_b) + Vector((0, math.sin(tilt_b), 0))), tuple(vdir))
-pt = Part(); vn, wt = build_guitar(pt, dict(kind='ac', top='spruce', side='side_mahog', shape='dread')); pt.into(G('guitar'), gfr)
-for (u, w_, v) in ((-0.15, 0.06, 0.0), (0.15, 0.06, 0.0)):   # 琴架：兩隻前腳的托、後腳、頸托
-    a = gfr.g(u, w_ + 0.03, -0.02); vpaint(CMt, '#1a1a1c', lambda: CMt.cyl(a, (a[0] - fw_.x * 0.25, 0.0, a[2] - fw_.z * 0.25), 0.007, seg=6))
-    vpaint(CMt, '#1a1a1c', lambda: CMt.cyl(a, (a[0] + fw_.x * 0.12, 0.0, a[2] + fw_.z * 0.12), 0.007, seg=6))
-    vpaint(CV, '#2e2e30', lambda: CV.cyl(gfr.g(u, w_ - 0.06, 0.0), gfr.g(u, w_ + 0.06, 0.0), 0.012, seg=6))
-nk = gfr.g(0, -0.005, 0.62); vpaint(CMt, '#1a1a1c', lambda: CMt.cyl((nk[0] - fw_.x * 0.03, 0.0, nk[2] - fw_.z * 0.03), nk, 0.008, seg=6))
-vpaint(CV, '#2e2e30', lambda: CV.cyl(gfr.g(-0.03, -0.01, 0.62), gfr.g(0.03, -0.01, 0.62), 0.01, seg=6))
+def stand_guitar(gx, gz, gyaw, spec, y0=0.0, tilt_deg=16):
+    """A 字琴架＋放在上面的吉他（gyaw：吉他正面朝向；y0：放在台子上的高度）"""
+    fw_ = Vector((math.sin(gyaw), 0, math.cos(gyaw))); tilt_b = math.radians(tilt_deg)
+    vdir = Vector((0, math.cos(tilt_b), 0)) - fw_ * math.sin(tilt_b)
+    gfr = Frame((gx - fw_.x * 0.02, y0 + 0.09, gz - fw_.z * 0.02), tuple(fw_ * math.cos(tilt_b) + Vector((0, math.sin(tilt_b), 0))), tuple(vdir))
+    pt = Part(); vn, wt = build_guitar(pt, spec); pt.into(G('guitar'), gfr)
+    for (u, w_, v) in ((-0.15, 0.06, 0.0), (0.15, 0.06, 0.0)):   # 琴架：兩隻前腳的托、後腳、頸托
+        a = gfr.g(u, w_ + 0.03, -0.02); vpaint(CMt, '#1a1a1c', lambda: CMt.cyl(a, (a[0] - fw_.x * 0.25, y0, a[2] - fw_.z * 0.25), 0.007, seg=6))
+        vpaint(CMt, '#1a1a1c', lambda: CMt.cyl(a, (a[0] + fw_.x * 0.12, y0, a[2] + fw_.z * 0.12), 0.007, seg=6))
+        vpaint(CV, '#2e2e30', lambda: CV.cyl(gfr.g(u, w_ - 0.06, 0.0), gfr.g(u, w_ + 0.06, 0.0), 0.012, seg=6))
+    nk = gfr.g(0, -0.005, 0.62); vpaint(CMt, '#1a1a1c', lambda: CMt.cyl((nk[0] - fw_.x * 0.03, y0, nk[2] - fw_.z * 0.03), nk, 0.008, seg=6))
+    vpaint(CV, '#2e2e30', lambda: CV.cyl(gfr.g(-0.03, -0.01, 0.62), gfr.g(0.03, -0.01, 0.62), 0.01, seg=6))
+
+gs = IT['guitar_on_stand'][0]; stand_guitar(gs['x'], gs['z'], math.atan2(-1.55 - gs['x'], -4.6 - gs['z']), dict(kind='ac', top='spruce', side='side_mahog', shape='dread'))
+# ---------------- v2：店中間的矮木台（五把吉他站在琴架上，正面朝兩邊的走道） ----------------
+dp = IT['display_platform'][0]; dx0, dx1, dz0, dz1, dh = dp['x'] - dp['w'] / 2, dp['x'] + dp['w'] / 2, dp['z'] - dp['d'] / 2, dp['z'] + dp['d'] / 2, dp['h']
+WD.rbox(dx0, dx1, 0.0, dh, dz0, dz1, r=0.012, seg=2)
+CV.cbox(dx0 + 0.03, dx1 - 0.03, 0.0, 0.025, dz0 + 0.03, dz1 - 0.03, '#2a2018')   # 踢腳（往內縮的暗色底）
+DSP = [(-0.25, -1.0, dict(kind='ac', top='sunburst_ac', side='side_mahog', pg='pg_black')), (0.25, -0.45, dict(kind='E', fin='e_cherry', pg='pg_black', fb='fb_rose', neck='neck_mahog')),
+       (-0.25, 0.15, dict(kind='ac', top='spruce', side='side_rose', shape='om')), (0.25, 0.85, dict(kind='S', fin='e_seafoam', pg='pg_white', fb='fb_maple'))]   # 四把（三角形預算 6 萬）
+for (ox_, oz_, spec_) in DSP:
+    stand_guitar(dp['x'] + ox_, dp['z'] + oz_, (-math.pi / 2 if ox_ < 0 else math.pi / 2) + (0.25 if oz_ < 0 else -0.25), spec_, y0=dh, tilt_deg=14)
+for k, (zz_, col_) in enumerate(((dz0 + 0.12, '#e9e2d0'), (dz1 - 0.12, '#e9e2d0'))):   # 台子兩端的小價格牌（空白卡片）
+    CV.crbox(dp['x'] - 0.08, dp['x'] + 0.08, dh, dh + 0.11, zz_ - 0.004, zz_ + 0.004, col_, r=0.002, seg=1)
+# ---------------- v2：左牆兩台疊起來的音箱、吉他紙箱 ----------------
+def amp_box(x0, x1, y0, y1, z0, z1, face_x):
+    CV.crbox(x0, x1, y0, y1, z0, z1, '#211f1e', r=0.015, seg=2)
+    fx = x1 + 0.002 if face_x > 0 else x0 - 0.002
+    q = [(fx, y0 + 0.04, z1 - 0.03), (fx, y0 + 0.04, z0 + 0.03), (fx, y1 - 0.09, z0 + 0.03), (fx, y1 - 0.09, z1 - 0.03)]
+    uvquad(PR, q, pc('grille_dark'))
+    CMt.cbox(fx - 0.003, fx + 0.003, y1 - 0.08, y1 - 0.02, z0 + 0.03, z1 - 0.03, '#b9bcbe')
+    for k in range(5): vpaint(CV, '#151515', lambda: CV.cyl((fx, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), (fx + 0.018, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), 0.01, seg=8))
+ak = IT['amp_stack'][0]
+amp_box(ak['x'] - ak['d'] / 2, ak['x'] + ak['d'] / 2, 0.0, 0.55, ak['z'] - ak['w'] / 2, ak['z'] + ak['w'] / 2, 1)
+amp_box(ak['x'] - ak['d'] / 2 + 0.02, ak['x'] + ak['d'] / 2 - 0.04, 0.55, 0.93, ak['z'] - ak['w'] / 2 + 0.06, ak['z'] + ak['w'] / 2 - 0.06, 1)
+bx_ = IT['boxes'][0]
+for k, zz_ in enumerate((-0.02, 0.03, 0.0)):   # 立著靠牆的吉他紙箱（扁、1 m 左右高；一個疊在一個前面）
+    hgt = 1.08 - 0.06 * k; xa = X0 + 0.01 + 0.135 * k; zz0, zz1 = bx_['z'] + zz_ - 0.21, bx_['z'] + zz_ + 0.21
+    CV.cbox(xa, xa + 0.13, 0.0, hgt, zz0, zz1, ['#b28c5c', '#a98352', '#bb966a'][k])
+    CV.cbox(xa + 0.13, xa + 0.132, hgt * 0.45, hgt * 0.45 + 0.05, zz0, zz1, '#d9c7a4')   # 封箱膠帶
+CV.cbox(X0 + 0.02, X0 + 0.47, 0.0, 0.14, bx_['z'] - 0.62, bx_['z'] - 0.38, '#b28c5c')   # 平放的一箱（弦、配件）
+CV.cbox(X0 + 0.02, X0 + 0.47, 0.14, 0.142, bx_['z'] - 0.52, bx_['z'] - 0.48, '#d9c7a4')
+
 # 花台（細腳的木台＋黃金葛）
 ps_ = IT['plant_stand'][0]
 for k in range(4):
@@ -773,8 +805,8 @@ for tr in IT['track']:
         top = Vector(g2b(x_, H - 0.03, z_)); jt = top + Vector((0, 0, -0.09)); dv = (tgt - jt).normalized()
         vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.008, 0.0), (0.008, 0.09)], seg=6), Matrix.Translation(jt)))
         rot = Vector((0, 0, -1)).rotation_difference(dv).to_matrix().to_4x4()
-        vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.0, 0.04), (0.03, 0.04), (0.042, 0.0), (0.045, -0.13), (0.038, -0.135), (0.0, -0.12)], seg=10), Matrix.Translation(jt) @ rot))
-        EM.add_bm(L.lathe([(0.036, -0.125), (0.0, -0.126)], seg=12), Matrix.Translation(jt) @ rot)
+        vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.0, 0.04), (0.03, 0.04), (0.042, 0.0), (0.045, -0.13), (0.038, -0.135), (0.0, -0.12)], seg=8), Matrix.Translation(jt) @ rot))   # v2：seg 10→8
+        EM.add_bm(L.lathe([(0.036, -0.125), (0.0, -0.126)], seg=8), Matrix.Translation(jt) @ rot)
 
 # ---------------- 左牆：書架、軟木板、邊櫃、靠牆的琴袋、吊盆 ----------------
 bs = IT['bookshelf'][0]; bx0, bx1, bz0, bz1, bh = bs['x'] - bs['w'] / 2, bs['x'] + bs['w'] / 2, bs['z'] - bs['d'] / 2, bs['z'] + bs['d'] / 2, bs['h']
@@ -789,7 +821,7 @@ for (y0_, y1_) in ((0.085, 0.42), (0.445, 0.82)):
     for (za, zb) in ((bz0 + 0.024, (bz0 + bz1) / 2 - 0.012), ((bz0 + bz1) / 2 + 0.012, bz1 - 0.024)):
         z_ = za + 0.01
         while z_ < zb - 0.04:
-            t_ = rb.uniform(0.018, 0.045); h_ = rb.uniform(0.18, min(0.3, y1_ - y0_ - 0.02)); dd = rb.uniform(0.15, 0.22)
+            t_ = rb.uniform(0.024, 0.05); h_ = rb.uniform(0.18, min(0.3, y1_ - y0_ - 0.02)); dd = rb.uniform(0.15, 0.22)
             if rb.random() < 0.08: z_ += 0.06; continue
             LV.cbox(bx1 - 0.02 - dd, bx1 - 0.02, y0_, y0_ + h_, z_, z_ + t_, rb.choice(PAL)); z_ += t_ + 0.002
         LV.crbox(bx1 - 0.2, bx1 - 0.02, y0_, y0_ + 0.06, zb - 0.035, zb - 0.002, rb.choice(PAL), r=0.002, seg=1)   # 平放的一疊
@@ -819,7 +851,9 @@ for k in range(5): vine((sc['x'] + 0.08, sch + 0.15, sc['z'] - 0.2 + (k - 2) * 0
 LV.crbox(sc['x'] - 0.1, sc['x'] + 0.1, sch, sch + 0.05, sc['z'] + 0.15, sc['z'] + 0.4, '#2a4a6a', r=0.004, seg=1)   # 一疊樂譜
 # 靠牆的琴袋（裡面有一把吉他：客人寄放的）
 gb = IT['gig_bag'][0]
-o = [(u * 1.12, v * 1.1) for u, v in outline('dread')]; pt = Part(); body_shell(pt, o, 0.13, 0.04, pc('gigbag'), pc('gigbag')); prism(pt, [(-0.045, 0.5), (0.045, 0.5), (0.035, 1.02), (-0.035, 1.02)], 0.03, 0.1, pc('gigbag'), pc('gigbag'))
+o = [(u * 1.12, v * 1.1) for u, v in outline('dread')]; pt = Part(); body_shell(pt, o, 0.13, 0.04, pc('gigbag'), pc('gigbag'))
+prism(pt, [(-0.075, 0.46), (0.075, 0.46), (0.065, 0.86), (-0.065, 0.86)], 0.02, 0.11, pc('gigbag'), pc('gigbag'))   # 琴頸的袋子（比琴頸寬）
+prism(pt, [(-0.065, 0.86), (0.065, 0.86), (0.1, 0.9), (0.1, 1.08), (-0.1, 1.08), (-0.1, 0.9)], 0.02, 0.1, pc('gigbag'), pc('gigbag'))   # 琴頭的袋子
 tb = math.radians(14); gfr2 = Frame((X0 + 0.32, 0.0, gb['z']), (math.cos(tb), math.sin(tb), 0), (-math.sin(tb), math.cos(tb), 0)); pt.into(G('props', 'left'), gfr2)
 # 吊盆（門口上方，參考圖左上角垂下來的藤）
 hx2, hz2, hy2 = -2.85, 5.2, 2.55
@@ -869,5 +903,5 @@ L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WA
 ss = L.single_side(root, keep=r'glass|leaf', nodup=r'plaster', skip=lambda ob: 'FACE' in ob.name)   # 牆只從室內看；前後牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（CC 11-03）
 print('SINGLE_SIDE', json.dumps(ss, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
-info.update({'layout': LAYALL['version'], 'guitars': {'electric': NE, 'acoustic': NA, 'owner': 1, 'on_stand': 1}})
+info.update({'layout': LAYALL['version'], 'guitars': {'electric': NE, 'acoustic': NA, 'owner': 1, 'on_stand': 1 + len(DSP)}})
 L.write_json(OUT[:-4] + '.json', info)

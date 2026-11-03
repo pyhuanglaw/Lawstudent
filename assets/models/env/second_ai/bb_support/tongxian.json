@@ -1,17 +1,17 @@
 {
  "objects": 37,
  "unique_meshes": 37,
- "tris": 56675,
- "tris_drawn": 56675,
+ "tris": 59889,
+ "tris_drawn": 59889,
  "materials": 12,
- "out": "../model/out_tx/tongxian_v2.glb",
- "bytes": 3651572,
+ "out": "../model/out_tx/tongxian_v3.glb",
+ "bytes": 3844872,
  "texres": 512,
- "layout": 1,
+ "layout": 2,
  "guitars": {
   "electric": 22,
   "acoustic": 21,
   "owner": 1,
-  "on_stand": 1
+  "on_stand": 5
  }
 }
