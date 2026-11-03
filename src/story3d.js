@@ -119,8 +119,14 @@ const STORY = (function(){
   /* 開學前迎新宿營 8/22～24（CAMP-L1；AA_205 第 2～4 節、BB_177 第五版；台詞在 src/data/camp_y1.js）：新遊戲第一段，三天兩夜全部在 2D 畫面演（人不在臺北）。
      一段一個事件，依 CAMP_SEQ 的日子（8/22 起第幾天）與時間跑；每段演完記 F.campStep 並自動存檔——中途被踢回標題或關掉，讀檔回來從下一段接著演（game3d.js applySave 呼叫 S.campY1 resume）。
      開頭：加入「法律系 114 新生（系學會）」群組（8/15 公告、8/21 小隊名單，AA_205 2-2）；演完：回家旁白（2-2）、小隊群組 camp_squad_y1（8/24 21:00 合照、BB_177 13-3、阿哲「29 號見」；8/29 18:00 阿哲，AA_205 6-4）。 */
-  S.CAMP_SEQ=[['ev_camp_d1_bus',0,8.5],['ev_camp_d1_ice',0,10.5],['ev_camp_d1_field',0,13.5],['ev_camp_d1_party',0,18],['ev_camp_d1_walk',0,21.5],
+  /* AA_608（使用者 11-03「宿營活動蠻無聊的，可以只留認識過程嗎？」）：只演認識人的段落——新增午餐（12:00）、寢室（22:00）；迎新晚會、夜遊、法律闖關、水大地 retired，不在表上（時間照原本的時間表往後推）。
+     F.campStep 是這張表的第幾段（F.campSeqV＝2）；舊版存檔（沒有 campSeqV）的 campStep 是 CAMP_SEQ_V1 的第幾段，讀檔接著演時照「最後演完那一段的時間」換算成新表（S.campFrom）*/
+  S.CAMP_SEQ_V1=[['ev_camp_d1_bus',0,8.5],['ev_camp_d1_ice',0,10.5],['ev_camp_d1_field',0,13.5],['ev_camp_d1_party',0,18],['ev_camp_d1_walk',0,21.5],
     ['ev_camp_d2_quiz',1,7],['ev_camp_d2_water',1,14],['ev_camp_d2_bbq',1,17.5],['ev_camp_d2_fire',1,20],['ev_camp_d2_talk',1,22.5],['ev_camp_d3_quiz',2,7.5],['ev_camp_d3_end',2,10.5]];
+  S.CAMP_SEQ=[['ev_camp_d1_bus',0,8.5],['ev_camp_d1_ice',0,10.5],['ev_camp_d1_lunch',0,12],['ev_camp_d1_field',0,13.5],['ev_camp_d1_room',0,22],
+    ['ev_camp_d2_bbq',1,17.5],['ev_camp_d2_fire',1,20],['ev_camp_d2_talk',1,22.5],['ev_camp_d3_quiz',2,7.5],['ev_camp_d3_end',2,10.5]];
+  S.campFrom=function(F){ const n=F.campStep|0; if(n<=0||F.campSeqV===2) return n; const last=S.CAMP_SEQ_V1[Math.min(n,S.CAMP_SEQ_V1.length)-1], t=last[1]*24+last[2];   /* 舊版存檔：最後演完的那一段之後的第一段（例：演完破冰＝接午餐；演完迎新晚會＝接寢室）*/
+    const k=S.CAMP_SEQ.findIndex(([,o,h])=>o*24+h>t); return k<0?S.CAMP_SEQ.length:k; };
   S.metAtCamp=(G,id)=>{ const m=G&&G.social&&G.social.mem&&(G.social.mem[id]||[]).find(x=>x.tag==='FIRST_MET'); return !!(m&&m.note==='camp'); };   /* 在宿營認識的（FIRST_MET 的 note＝camp）：之後第一次見面用宿營版（AA_205 第 4 節）*/
   S.campGroups=function(G,d0){ if(typeof PHONE==='undefined') return; const NEW='g:law_new', SQ='g:camp_squad_y1';
     if(!PHONE.inGroup(G,'law_new')){ PHONE.join(G,'law_new','法律系 114 新生（系學會）');
@@ -133,11 +139,11 @@ const STORY = (function(){
   S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
   S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||F.CAMP_Y1) return false;
     const econ=S.isEcon(G); if(econ) F.PLAYED_Y0=true;   /* 經濟系路線（AA_205 2-3）：營地旁白「這個營地你去年來過」看 PLAYED_Y0（轉進法律系時本來也會記）*/
-    F.CAMP_Y1_ON=true; const from=F.campStep|0; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
+    F.CAMP_Y1_ON=true; const from=S.campFrom(F); F.campStep=from; F.campSeqV=2; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
     if(GM.sceneBegin) GM.sceneBegin(); try{
       if(typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:'dark'});   /* X09（BUG-CAMP-CUT-1018）：字卡疊在黑底上，不露出出發前的 3D（椰林大道、家裡）*/
       if(from===0&&GM.titleCard){ G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=8.5; if(E) E.hour=G.hour; await GM.titleCard('2025 年 8 月 22 日（五）','迎新宿營',2200); }
-      for(let i=from;i<S.CAMP_SEQ.length;i++){ const [id,off,hr]=S.CAMP_SEQ[i], ev=STORY_EVENTS.find(e=>e.id===id); if(!ev) continue;
+      for(let i=from;i<S.CAMP_SEQ.length;i++){ const [id,off,hr]=S.CAMP_SEQ[i], ev=STORY_EVENTS.find(e=>e.id===id); if(!ev||ev.retired) continue;
         const day=d0+off; if(day!==G.day){ G.day=day; G.weekday=CALENDAR.dateOf(day).wd%7; if(GM.titleCard){ const dt=S.dateOf(day); await GM.titleCard('8 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday]+'）','迎新宿營 第 '+(off+1)+' 天',1600); } }
         G.hour=hr; if(E) E.hour=hr; if(GM.updateHUD) GM.updateHUD();
         if(typeof ev.before==='function') ev.before(G);
@@ -152,7 +158,7 @@ const STORY = (function(){
       /* 回家（AA_205 2-2）：8/24 下午；8/25～28 不演 */
       G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=15; if(E) E.hour=G.hour;
       if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); if(GM.say) await GM.say(null,'（回到家，你把營地帶回來的衣服丟進洗衣機。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
-      F.CAMP_Y1=true; F.CAMP_Y1_ON=false; delete F.campStep;
+      F.CAMP_Y1=true; F.CAMP_Y1_ON=false; delete F.campStep; delete F.campSeqV;
     } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     if(o.next!==false) await S.startLawWeek1(GM,null);   /* 接著 8/29 搬宿舍（新遊戲、讀檔接著演都一樣）*/
     return true; };
