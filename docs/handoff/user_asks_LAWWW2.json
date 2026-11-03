@@ -536,6 +536,16 @@
    "quote": "總圖前還有台階這件事你還記得嗎／我還給你總圖每個樓層的位置圖 你至少弄得像一點吧／你先把代辦事項列出來 總圖 系館最優先",
    "src": "使用者直接對帳號 A 的 LAWWW2 說",
    "note": "台階（UA-LAWWW2-1102-03、-08）：LIB-FRONT v3（平台＋往下的台階、走得上去）已進開發分支 ef63b1877，還沒發布到線上。樓層圖（0858_plan_1f／2f／3f／b1）：每一層做『平面圖 vs 遊戲俯視圖』疊圖對照，差的地方照圖改；先列待辦給使用者。"
+  },
+  {
+   "id": "UA-LAWWW2-1103-03",
+   "at": "2026-11-03T09:3x",
+   "kind": "原話（使用者對 BB 說，BB 09:31 轉來）",
+   "status": "進行中",
+   "task": "LAW-RELAYOUT-1102 第二輪",
+   "quote": "超不對 系館a不應該跟系館b平行!!!!",
+   "src": "BB（session_01XVHYLaK9Vcnae3U1aAJoZv）09:31 轉述；BB 撤回法學院區配置的 ART_APPROVED",
+   "note": "取代 11-02 22:1x 我『萬才館正面維持朝南』的實作差異：萬才館（B）照官方地圖 map_ne.jpg 順著辛亥路弧線斜放（長軸轉 40～45°、西北—東南走向、正面朝西南對著霖澤館與廣場）；國青、研三舍在兩館之間偏北；黑森林範圍和走道跟著重排（植栽照舊）。已請 LAWWW 先不要套 43b715b1a 的 patch。要跑 nav_buildings、kit_nav_check、flow_wancai_stairs、wancai_glb_integration（GLB 外緣 --check）。"
   }
  ]
 }
