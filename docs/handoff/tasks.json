@@ -22778,7 +22778,7 @@
       "title": "「略過對話」沒辦法按（使用者 10-18）",
       "area": "P0",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P0",
       "first": {
         "term": "Y0S1",
@@ -22792,7 +22792,8 @@
       },
       "source": "使用者 2026-10-18 07:4x",
       "authorized": "使用者回報",
-      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）"
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）",
+      "evidence": "BB 11-03 01:11：Y_A1_adv（使用者 PC，c89a5f9be）ALL PASS——打字中按略過、整句後按略過都直接到選項、選項停住、之後逐句不卡；解除擋發布"
     },
     {
       "id": "BG-CAMP-1018",
@@ -40956,6 +40957,90 @@
         "receiver": "BB（測試總監，D100）、CC",
         "ack": "未派",
         "owner": "LAWWW"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "溫州街白天（大一上起）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "PERF-WZ-DAY-1103",
+      "title": "溫州街白天卡頓：PC 桌機（RX 6600M）白天只有 30～40 fps、1% low 只有 7 fps（校園白天也 30～40）；查來源（NPC 數量、陰影、樹的 draw call、GC）並修",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "BB 11-03 01:11（CC_35，b1b，F1／F2 fps 探針；結果在 cc-local F1_fps_hl／F2_fps_hd）：萬才館、霖澤館、公館 50～70 fps；桌機都這樣，iPhone 只會更差。不擋這一版，手機優先要排高。場景效能歸 LAWWW2（D108）；NPC 數量、GC 牽涉 story3d／engine3d 的由 LAWWW 協助",
+      "next": "LAWWW2 下一班：讀 cc-local F1_fps_hl／F2_fps_hd → 分項量（關陰影、關 NPC、關樹）找最大來源 → 修 → 排 cc-local 重量 fps（交 BB 判）",
+      "xai": {
+        "spec": "BB 11-03 01:11 send_message（CC_35）",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB 用同一支 F1／F2 探針重量：溫州街白天 1% low 明顯改善、平均接近萬才館水準",
+        "receiver": "LAWWW（整合）、BB（量測）",
+        "ack": "未派",
+        "owner": "LAWWW2"
+      }
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "美術流程",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BAKE-PC-1102-S2",
+      "title": "BAKE-PC 第二步：BK1 用 compare_bakes.py 逐像素確認（雲端參考 wip/bake_pc/cloud_ref/）；再排大場景（3F 或展演廳），HIP 連跑兩次、只算第二次的時間；GPU 還是比較慢就改 PC 的 CPU 烘",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "BB 11-03 01:12 代轉（LAWWW2 已交班，BB_00「給休班職位的待辦」也有寫）：BK1 亮度一致",
+      "next": "LAWWW2 下一班接班時做",
+      "xai": {
+        "spec": "BB 11-03 01:12 send_message；BB_00「給休班職位的待辦」",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "逐像素比對結果＋大場景第二次烘焙時間（GPU vs CPU）",
+        "receiver": "BB",
+        "ack": "未派",
+        "owner": "LAWWW2"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "美術流程",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-OLDROAD-SHELF-1103",
+      "title": "舊路書房書架背板全黑，要貼木紋（P3）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P3",
+      "note": "BB 11-03 01:08 發現（BB_247 補證據時）、01:12 請 LAWWW 代記；證據 cc-local ART_lband y090、y180",
+      "next": "LAWWW2 下一班：書架背板貼淺色木紋（D112）→ 交 BB 看 cc-local 截圖",
+      "xai": {
+        "spec": "BB 11-03 01:08／01:12 send_message",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "cc-local 同角度截圖背板有木紋、不是全黑",
+        "receiver": "BB",
+        "ack": "未派",
+        "owner": "LAWWW2"
       }
     }
   ]
