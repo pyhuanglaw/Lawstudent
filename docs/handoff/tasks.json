@@ -43598,7 +43598,7 @@
    "status": "等待其他AI／素材",
    "priority": "P1",
    "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
-   "next": "等 LAWWW2 新生南路第 1 批（zone xinsheng＋溫州街西側橫巷北口 (−33.4,−28.4)）交件；接上以後同一批拿掉公館巷口（不能先拿，否則溫州街走不到）"
+   "next": "地圖那一半 LAWWW2 已做在 xinsheng_zone_WIP.patch（4c6ce4d12，載入 xinsheng3d.js 才生效：公館「往溫州街」拿掉、巷口導航擋住；溫州街「回公館」拿掉）。第 1 批交件整合時 LAWWW 改：guide 去兩點半的路線（新生南路側門→新生南路「往溫州街」）＋tests/guide_flow.py；tests/gongguan_layout_nav.py 98～106 行（巷口走到溫州街）；places.js 溫州街說明（快速移動落點 (51.3,−9.8) 照留）；整合後跑 tests/flow_day2_an.py"
   },
   {
    "first": {
