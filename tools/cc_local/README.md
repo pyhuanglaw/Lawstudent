@@ -139,3 +139,5 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - **SOLO=1**（ENV 欄）：這一項要單獨跑。輪到它時不再開新的項目，等手上的都跑完才單獨跑；它在跑的時候也不開別的。已經跑完的 SOLO 項目會跳過，不會擋住佇列。例如 V18R_touch2：touch_flow_wenzhou 在 CPU 被搶的時候會誤判（#36）。
 - **blender 項目**：要等手上的項目跑完才能獨佔，但不擋後面的項目。舊版在這裡 break，FS112 一跑就是 6 小時，整條佇列跟著停住。
 - **沒有項目結束時，每 300 秒重讀一次佇列**（CC_REFRESH_SEC）。新排進去的項目不用等長項目結束才看得到。
+- **Blender 一律只用 CPU**（使用者 11-03 13:3x 選「改成只用 CPU（建議）」）：blender 項目的 CC_BLENDER_DEVICE 一律強制成 CPU。佇列如果寫了 HIP，也會改成 CPU，並記在 meta 的 device_forced。CC_BLENDER_THREADS 預設是核心數減 2，留給系統和瀏覽器用。用 blender 執行檔跑時會加上 `-t`；用 bpy 的 python 跑時，由腳本自己讀 CC_BLENDER_THREADS。一次只跑一個 Blender（獨佔）。
+- 單元測試：`solo_unit.py`（SOLO、blender 不擋佇列、Blender 只用 CPU）。修改前的 runner（746f7e1af^）會 FAIL 3 項，然後當掉；新版 ALL PASS。
