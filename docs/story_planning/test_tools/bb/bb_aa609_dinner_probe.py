@@ -117,6 +117,8 @@ async def main():
             if got:
                 await L.close_panels(pg, cdp)
                 await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
+                c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phoneTabs button, #phone button')].find(x=>(x.textContent||'').trim()==='訊息'); if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)   # 手機打開是「今天」，照玩家點「訊息」分頁
                 if not await pg.evaluate("!!document.querySelector('#phoneBody [data-ask^=\"r3_sis_father|\"]')"):
                     await L.tap(pg, cdp, '#phoneBody [data-th="p:heroine_05"]'); await pg.wait_for_timeout(1500)
                 replies = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-ask^=\"r3_sis_father|\"]')].map(b=>(b.textContent||'').trim())")
@@ -126,7 +128,8 @@ async def main():
             run.check('② 回覆只有「好。」（AA_609 第 7 節：一定會去）', replies == ['好。'], J(replies))
             t1 = time.time()
             while time.time() - t1 < 60:
-                if all(r in [x['text'] for x in await pg.evaluate(MSGS)] for r in REPLY): break
+                tx = [x['text'] for x in await pg.evaluate(MSGS)]
+                if all(r in tx for r in REPLY): break
                 await pg.wait_for_timeout(1500)
             m2 = await pg.evaluate(MSGS)
             run.check('③ 回覆後她回 %s' % J(REPLY), all(r in [x['text'] for x in m2] for r in REPLY), J(m2[-4:]))
