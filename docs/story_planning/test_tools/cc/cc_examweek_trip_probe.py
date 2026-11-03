@@ -3,7 +3,7 @@
 ① 考試週裡沒考試、隔天也沒考試的那一天：臺中（D26）一日遊 09:00 出發 → 不灰、小字沒有「考試」
 ② 考試那天、考試前一天：一日遊 09:00 出發 → 灰掉、小字逐字「那幾天有考試。」；點了 → 說「那幾天有考試。」、沒有約成
 ③ 兩天一夜：考試前一天出發（第二天是考試）→ 同上被擋（選單裡「兩天一夜…」那一支）
-④ 考試前一天的半日／晚上（D13，18:30）→ 不擋「考試」
+④ 考試前一天的半日／晚上（D13）→ 那一天的出發時間沒有一個因為「考試」灰掉
 【前置／捷徑】讀檔到大一下第 16 週（期末考週）的前一週六 07:00 宿舍（同 tests/date_examweek_unit.js 的 ex-6）；
 和語彤交往中（dating_heroine_03）、有她的聯絡方式（G.contacts）、錢 20000；手機自動打開關掉。
 用法：LW_TESTS=<wt>/tests python3 cc_examweek_trip_probe.py '<URL>/index.html' <out>"""
@@ -73,8 +73,9 @@ async def trip(pg, cdp, label, route, time_want):
         h, c = await pick(pg, cdp, w, log)
         if not h: check(f'{label}：選單有「{w}」', False, json.dumps([x['t'][:30] for x in c], ensure_ascii=False)); return None, log
     c = await choices(pg)
-    t = next((x for x in c if x['t'].startswith(time_want)), None)
     log.append({'time_opts': [x['t'][:50] for x in c]})
+    if time_want is None: return [x for x in c if x['t'][:2].isdigit()], log   # 這一天所有的出發時間
+    t = next((x for x in c if x['t'].startswith(time_want)), None)
     return t, log
 
 async def main():
@@ -152,13 +153,15 @@ async def main():
         else:
             check('③ 手機打得開和語彤的對話、有「約」', False)
         await back_out(pg, cdp)
-        # ④ 考試前一天的晚上
-        t, log = await trip(pg, cdp, f'④ 考試前一天晚上（{dl}，{grp["n13"]} 18:30）', [out, grp['d13'], grp['n13'], dl], '18:30')
-        if t is None:
-            # 交通只有一種時不會問交通：上面 route 沒有交通那一步；找不到時把選項印出來
-            check(f'④ 考試前一天晚上：找得到「18:30 出發」', False, json.dumps(log, ensure_ascii=False)[:500])
+        # ④ 考試前一天的半日／晚上：這一天列出來的每一個出發時間都不能因為「考試」灰掉
+        ts, log = await trip(pg, cdp, f'④ 考試前一天（{dl}，{grp["n13"]}）', [out, grp['d13'], grp['n13'], dl], None)
+        print('  ④ 出發時間：' + json.dumps([x['t'][:40] for x in (ts or [])], ensure_ascii=False), flush=True)
+        if not ts:
+            check(f'④ 考試前一天（{grp["n13"]}）：有出發時間可以選', False, json.dumps(log, ensure_ascii=False)[-600:])
         else:
-            check(f'④ 考試前一天晚上 18:30：不擋「考試」', not t['dim'] or '考試' not in t['t'], t['t'])
+            bad = [x['t'] for x in ts if WHY in x['t']]
+            check(f'④ 考試前一天（{grp["n13"]}，半日／晚上）：沒有一個出發時間因為「{WHY}」灰掉', not bad, json.dumps(bad, ensure_ascii=False))
+            check(f'④ 考試前一天（{grp["n13"]}）：至少一個出發時間可以選', any(not x['dim'] for x in ts), json.dumps([x['t'][:30] for x in ts], ensure_ascii=False))
             await pg.screenshot(path=os.path.join(OUT, 'evening_ok.png'))
         await back_out(pg, cdp)
         check('沒有 JS 例外', not errs, '；'.join(errs[:3]))
