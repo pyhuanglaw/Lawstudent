@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19R_zone",
+  "sha": "15e78dff7",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T01:11:58",
+  "end": "2026-11-04T01:14:41",
+  "seconds": 163,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 96,
+    "mem": 62,
+    "used_gb": 19.2,
+    "chrome_testing": 26
+  }
+}

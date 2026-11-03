@@ -535,3 +535,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_deploy] | [gpu_wrap 162.3s] page close url=http://127.0.0.1:8813/index.html?turbo | [gpu_wrap 162.4s] BROWSER DISCONNECTED
 - 2026-11-04T01:14:09  V19R_mini  sha=15e78dff7  exit=0  75s    PASS 玩家箭頭朝地圖上方（往前走時）  arrow=6.195932655828074e-12 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_mini] | [gpu_wrap 39.7s] page close url=http://127.0.0.1:8813/index.html?turbo | [gpu_wrap 39.8s] BROWSER DISCONNECTED
+- 2026-11-04T01:14:41  V19R_zone  sha=15e78dff7  exit=0  163s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_zone] | [gpu_wrap 127.8s] page close url=http://127.0.0.1:8810/index.html?turbo?turbo | [gpu_wrap 127.9s] BROWSER DISCONNECTED
