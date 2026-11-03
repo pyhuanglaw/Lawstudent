@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "07_bg107",
+  "sha": "c2d0c24bc",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_bg107_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T11:16:19",
+  "end": "2026-11-03T11:49:21",
+  "seconds": 1982,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 88,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 30
+  }
+}
