@@ -41150,10 +41150,10 @@
       "id": "STORY-NO-TEACHER-EXCHANGE-1103",
       "title": "老師不會知道祐廷是交換回來的、不會從名單看到（一堂課很多學生）：掃全遊戲拿掉這種句子",
       "owner": "AA",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 08:1x 實玩回報（X156）",
-      "next": "LAWWW 查過（11-03）：程式裡找到的只有 src/data/jp_events.js:133 REDO_INS（日本路線大四補修保險法：老師點名停一下「交換回來的？」在名單上打勾）；請 AA 掃企劃稿與其他（老師認出、看名單、點名問）給改稿表，LAWWW 照表改",
+      "next": "AA_605 第 1 列已在開發分支 a7a97d111 → BB 驗",
       "xai": {
         "spec": "使用者 11-03 原話；已知一處 src/data/jp_events.js:133 REDO_INS（保險法老師點名「交換回來的？」）",
         "branch": "claude/story-planning",
@@ -41206,10 +41206,10 @@
       "id": "BUG-GE-NOT-SELECTED-1103",
       "title": "「通識城市與散步沒選上」的事件和開局課表都排好的設計矛盾",
       "owner": "AA",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P2",
       "note": "使用者 11-03 08:1x 實玩回報（X158）",
-      "next": "LAWWW 查過（11-03）：大一上課表是固定的（沒有選課畫面）；ev_course_selection（events.js，第 5 天起宿舍 7～12 點）只是旁白「通識城市與散步沒選上、備取十七」＋兩個選項（加簽／下學期再選，只設 ge_walk_waitlist 旗標）；大一下開學選課（classes3d.js 選課畫面）才用到這個旗標說一句「備取三」再選「天文與我們」。沒有真的選課抽籤系統→玩家看不懂。請 AA 定：拿掉大一上這段、或改成玩家看得懂的（例：大一下選課那時才講）；LAWWW 照稿改",
+      "next": "AA_605 第 2、3 列已在開發分支 a7a97d111 → BB 驗",
       "xai": {
         "spec": "使用者 11-03 原話＋LAWWW 查到的程式現況（本任務 next）",
         "branch": "claude/story-planning",
@@ -41254,10 +41254,10 @@
       "id": "PERF-ZONE-POPIN-1103",
       "title": "進新場景先出現畫質很爛的版本（方塊）卡一下才出現完整的；溫州街還沒讀完、腳踏車就在動",
       "owner": "LAWWW2",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 08:1x 實玩回報（X160）",
-      "next": "LAWWW2（D108 場景載入）：進場景時用載入遮罩等正式 GLB 和貼圖好了再顯示、車流等場景好了才開；LAWWW 先查 zone_prewarm／GAME.enter 有沒有現成的遮罩可以延長",
+      "next": "LAWWW 先做了 GAME.enter 等正式模型（a7a97d111，zone_popin_wait_unit）→ BB 在 PC 看；LAWWW2 回來再看要不要載入遮罩",
       "xai": {
         "spec": "使用者 11-03 原話",
         "branch": "claude/second-ai-env-art",
@@ -41285,7 +41285,7 @@
       "status": "待開工",
       "priority": "P2",
       "note": "使用者 11-03 08:1x 實玩回報（X161）",
-      "next": "LAWWW 查過（11-03）：「插座是壞的」＝SK04 便利貼（events.js ev_sk04_note1～，大一上週四大一英文共同教學館：同一個座位下午是經濟系大二的唐睿，兩個人用便利貼對話，第 15 週揭曉是誰）。使用者覺得看不出意義——請 AA 決定留不留、怎麼讓玩家一開始就看得懂（或拿掉）。教室外的人群：LAWWW 下一步查是哪個系統放的（下課人潮／indoor_crowd）並減少",
+      "next": "便利貼：AA_605 第 4～8 列已在開發分支 a7a97d111；人群：AA 選 (a)（門口不聚人、門口對話改到教室裡前一排／旁邊說），LAWWW 實作中",
       "xai": {
         "spec": "使用者 11-03 原話；SK04 便利貼＝events.js ev_sk04_note1～（大一英文的座位，和經濟系的唐睿用便利貼對話，第 15 週揭曉）",
         "branch": "claude/story-planning",
@@ -41380,6 +41380,26 @@
         "ack": "ACK",
         "owner": "LAWWW2"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "體育館（健身房 B1）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-GYM-CROWD-STIFF-1103",
+      "title": "健身房新增的人都不太會動，看起來更詭異（跑步機原地跑、站在器材前、坐重訓椅、拉筋）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 08:3x（UA-LAWWW-1103-20；USER_WANTS X162）",
+      "next": "LAWWW：crowd3d.js 體育館 B1 的路人（gym_crowd）——加真的動作（跑步、舉啞鈴、深蹲的循環動畫）；做不出像樣的動作就減到少數幾個、不擺在玩家一進門看得到的地方。改完 BB 在 PC 看"
     }
   ]
 }
