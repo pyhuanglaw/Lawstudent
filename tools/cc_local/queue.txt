@@ -33,6 +33,10 @@ Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60 
 # LAWWW2 PERF-WZ-DAY-1103（11-03 08:34）：溫州街白天 1% low 7 fps 是不是進區域的載入卡頓
 WZ1_order  | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=night,day,rain;WARM=4
 WZ2_warm   | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=day,night,rain;WARM=20
+# LAWWW2 BAKE-PC-1102 第二輪（11-03 08:39）：只看速度，1024²／512 spp；blender 獨佔，照順序一項接一項
+BK2_hip_a  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
+BK2_hip_b  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
+BK2_cpu    | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
 # ===== CC 2026-11-03 09:0x 台灣：LAWWW 00:55「擋發布兩項用 c89a5f9be」（ADV-SKIP 打字中 0d4cf65c3、國考題池 f47d4849a）＋回歸。修改前對照＝62d 的 X_A1／X_P1（PC 已 FAIL）=====
 Y_A1_adv   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
 Y_P1_d124  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
