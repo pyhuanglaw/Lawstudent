@@ -282,14 +282,14 @@ const CHAR = (function(){
         for(const row of fb) for(let j=0;j<3;j++){ const b=row[j]; if(b) rotWorld(b,ax,sg*K.grip[j]*w); } } } } }
   /* 坐著讀書（pose 'read'；READ-POSE-BOOK-1103，使用者 11-03 附 Café 截圖：「不管事咖啡廳 還是圖書館 都給我這樣念書 會笑出來 書在哪」——舊版只有 READ_VRM 的手臂角度：兩手往前下方張開、手上沒有書）。
      每一個讀書的人（VRM、GLB driver 都一樣；Café 沙發、總圖書桌、教室）手上捧一本打開的書（PROPS.readBook：tools/blender/char_second/book_open.py 的 GLB），在真實骨架上：
-     ① 書：在兩條大腿根中間的正前方——hips 往上 dy、往前 dz（乘身高比例 u.k；書本身是真實尺寸、不縮放），頁面朝向眼睛（兩眼骨頭的中點；沒有眼睛骨頭用頭往上、往前一點），
+     ① 書：在兩條大腿根中間的正前方——hips 往上 dy、往前 dz（乘身高比例 u.k；書本身是真實尺寸、不縮放），頁面朝向眼睛（兩眼骨頭的中點；沒有眼睛骨頭用頭往上、往前一點；再往讀的人那邊立起來一點 tilt：只朝眼睛的話沙發上的書幾乎是平的、像端盤子，2026-11-03 截圖），
         左頁在人物的左邊；書掛在 vrmWrap（u.model）底下、每一幀照骨頭放（世界矩陣換成 wrap 的座標，wrap 的縮放抵掉）。
      ② 兩手：和 rideIK／climbIK 同一套兩段式 IK（ik2）：手腕放到書的左右外緣、偏下半部、在封面後面（手掌貼著封底、手指往書溝、往上，大拇指在書的外緣）；手肘往下、往外、往後（pole）。
      ③ 手掌方向：手指（手腕→中指根）＝書的「往內＋往上」，掌心＝朝向書（書的 +z，也就是朝讀的人）；掌心方向用真實骨架算（食指根→小指根 × 手指方向，左右手號相反：和 VRM 0.x／1.0 無關）。
      ④ 手指貼著封底、往掌心微彎（grip＝指根、中節和掌心那一面的夾角，弧度）＝扶著封底。頭往下看書（READ_VRM、Head 0.35 rad）。
      C.READ_BOOK 的長度都是公尺；書的尺寸照 book_open.json（W＝單頁寬、back＝外緣封底的 z）。C.readIK=false：不放書、手照 READ_VRM（比較用）。u.readHands＝[左手腕, 右手腕] 的目標（世界座標，測試用：tests/read_book_unit.js）*/
   C.readIK=true;
-  C.READ_BOOK={dy:0.2,dz:0.3,W:0.15,H:0.1065,back:-0.0005,palmIn:0.035,palmY:-0.035,palmOff:0.022,palm:0.045,fx:0.5,fy:0.85,grip:[0.06,0.16]};
+  C.READ_BOOK={dy:0.24,dz:0.3,tilt:0.2,W:0.15,H:0.1065,back:-0.0005,palmIn:0.035,palmY:-0.035,palmOff:0.022,palm:0.045,fx:0.5,fy:0.85,grip:[0.06,0.16]};
   const RBV=[0,1,2,3,4,5,6,7,8].map(()=>new THREE.Vector3()), RBM=[new THREE.Matrix4(),new THREE.Matrix4(),new THREE.Matrix4()], RBQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()];
   /* 手掌的世界方向：f＝手腕→中指根、n＝掌心（左手 +(f×a)、右手 −(f×a)，a＝食指根→小指根的反方向＝小指根→食指根）；回傳正交化的 [f, n] 或 null */
   function palmFrame(hand,idx,mid,lit,left,f,n){ if(!hand||!idx||!mid||!lit) return false; const p=hand.getWorldPosition(RBV[6]); f.copy(mid.getWorldPosition(RBV[7])).sub(p); const a=idx.getWorldPosition(RBV[8]).sub(lit.getWorldPosition(RBV[7]));
@@ -320,7 +320,7 @@ const CHAR = (function(){
     const hp=Lc(hips,RBV[0]); const cx=lUL&&rUL?(Lc(lUL,RBV[1]).x+Lc(rUL,RBV[2]).x)/2:hp.x;
     const ctr=RBV[3].set(cx,hp.y+K.dy*k,hp.z+K.dz*k);
     const eL=get('leftEye'), eR=get('rightEye'); let eye; if(eL&&eR){ eye=Lc(eL,new THREE.Vector3()).add(Lc(eR,RBV[2])).multiplyScalar(0.5); } else { eye=Lc(head,new THREE.Vector3()).add(RBV[2].set(0,0.06*k,0.06*k)); }
-    const Z=RBV[4], X=RBV[2], Y=RBV[1]; const frame=()=>{ Z.copy(eye).sub(ctr).normalize(); X.set(-1,0,0); X.addScaledVector(Z,-X.dot(Z)).normalize(); Y.crossVectors(Z,X); };   /* X＝書的右邊＝人物的右邊（−x）*/
+    const Z=RBV[4], X=RBV[2], Y=RBV[1]; const frame=()=>{ Z.copy(eye).sub(ctr).normalize(); Z.z-=K.tilt; Z.normalize(); X.set(-1,0,0); X.addScaledVector(Z,-X.dot(Z)).normalize(); Y.crossVectors(Z,X); };   /* X＝書的右邊＝人物的右邊（−x）*/
     frame();
     /* 前面有桌子（Café 的桌子、總圖的長桌）：書整本抬到桌面上方（最低的那一邊離桌面 ≥ 4.5 cm：手在封底後面、比書低一點，手也不碰桌面），不穿進桌子、不藏在桌子底下（readTable：桌面在人物座標的高度，沒有桌子＝null）*/
     const tY=readTable(h,u,cx,hp,ctr.z,k), lowNow=()=>ctr.y-Math.abs(Y.y)*K.H-Math.abs(Z.y)*0.004;
