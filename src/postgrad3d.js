@@ -285,7 +285,7 @@ const PG=(function(){
   S.seaItems=function(G){ const Y=L().SEA_Y5, a=P_('heroine_05',Y.ask[0]), b=P_('heroine_05',Y.ask[1]);
     b.ask={id:'pg_sis_sea',until:T(SEA_DAY,9),opts:[{t:Y.opts[0],set:{PG_SIS_SEA:'yes'}},{t:Y.opts[1],set:{PG_SIS_SEA:'no'},say:[{from:'heroine_05',text:Y.no}]}]}; return [a,b]; };
   S.planSea=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_sis_sea',ev:'ev_pg_sis_sea',day:S.DK(SEA_DAY),h:9,late:0.5,place:'她家樓下',title:'學姊的生日：九點，她家樓下',travel:'開車約 15 分鐘',travelH:0.25,back:'回到臺北。',alarm:true,who:'heroine_05'});
-  S.planNoodle=(G,y)=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_bar_noodle_'+y,ev:'ev_pg_noodle',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'公館燒臘・長桌',travel:'走過去約 15 分鐘',travelH:0.25});
+  S.planNoodle=(G,y)=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_bar_noodle_'+y,ev:'ev_pg_noodle',day:S.DK(Y[y].r2),h:18,late:0.5,place:'公館燒臘',title:'公館燒臘・長桌',travel:'走過去約 15 分鐘',travelH:0.25});
   /* ---------- 手機規則（story3d.js 的 S.tick、跳的途中照時間）---------- */
   S.rules=function(GM){ const G=GM&&GM.G?GM.G:GM; if(!G||!G.flags||!law(G)) return; const now=NOW(G); if(now<T('2029-05-10',0)) return; const F=G.flags;
     if(F.Y4_PATH==='bar'&&F.BAR_REG==null&&now>=T('2029-05-10',21)&&!S.delayed(G)) F.BAR_REG=true;   /* 已經報名的：沒有提醒（X1）。交換延畢的 2029 不考、不設（AA_357 1-6：7/14 照「沒報名」那一版）*/

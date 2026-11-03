@@ -278,7 +278,7 @@ const R2Y4A=(function(){
           PHONE.at(G,d,15+10/60,[q],'y4_push_bh');
           const C=[B('明天晚上六點半，燒臘店。我請。'),B('……阿哲知道的話，會叫我請全部人。')]; C[1].ask={id:'y4_bh_dinner',until:T(d+1,18.75),opts:[{t:'好。',set:{BH_DINNER_GO:true}},{t:'明天不行。',say:[{from:BH,text:'好。下次。'}],set:{BH_DINNER:'no'}}]};
           PHONE.at(G,d,21.5,C,'y4_bh_dinner_ask'); } }   /* 21:30 柏翰約晚餐（裁定第 1 點：「……阿哲知道的話，會叫我請全部人。」）*/
-        if(F.BH_DINNER_GO&&!F.BH_DINNER) plan(G,{id:'y4_bh_dinner',ev:'ev_bh_dinner',day:d+1,h:18.5,late:0.25,place:'阿鳳麵店',title:'公館燒臘（柏翰）',travel:'走過去約 15 分鐘',travelH:0.25});
+        if(F.BH_DINNER_GO&&!F.BH_DINNER) plan(G,{id:'y4_bh_dinner',ev:'ev_bh_dinner',day:d+1,h:18.5,late:0.25,place:'公館燒臘',title:'公館燒臘（柏翰）',travel:'走過去約 15 分鐘',travelH:0.25});
         if(PHONE.inGroup(G,'noodle_team')&&knows(BH,G)&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_push_group')) atTW(G,d,21,[{th:'g:noodle_team',from:'yu',text:'柏翰推甄上了！'},{th:'g:noodle_team',from:BH,text:'……嗯。'}],'y4_push_group'); } }   /* 所有認識柏翰的玩家（美國路線照當地時間）*/
     /* ---- 2-Y4-15 可昕的實習：推甄沒上＝隔天 21:00；沒申請＝11/22 21:00（美國路線＝當地 08:00）；交換延畢 2030-03-15 ---- */
     if(dating(G,KX)){ const K=t=>({th:'p:'+KX,from:KX,text:t}), d22=D('2028-11-22');

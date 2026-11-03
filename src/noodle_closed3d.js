@@ -24,7 +24,7 @@ const NOODLE_CLOSED=(function(){
   const inGroup=G=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,'noodle_team');
   const friend=G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.friendLevel&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_03'));
   /* 那一天在麵店有約：出遊（地點寫麵店）、答應的邀約（地點是麵店）——劇情照演，門照常開 */
-  S.storyDue=function(G){ const OUTS=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]; if(OUTS.some(q=>q.day===G.day&&q.state==='planned'&&/麵店/.test(q.place||'')&&!/麵舖/.test(q.place||''))) return true;
+  S.storyDue=function(G){ const OUTS=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]; if(OUTS.some(q=>q.day===G.day&&q.state==='planned'&&/麵店|燒臘/.test(q.place||'')&&!/麵舖/.test(q.place||''))) return true;
     return (G.invites||[]).some(iv=>iv.day===G.day&&iv.accepted&&!iv.done&&/noodle/.test(iv.place||'')); };
   /* A、D：群組訊息（STORY.PHONE_RULES）*/
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined'||!inGroup(G)) return; const W=S.window(G.day)||S.window(G.day-1)||S.window(G.day-3);

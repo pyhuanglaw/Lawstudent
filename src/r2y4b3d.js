@@ -297,7 +297,7 @@ const R2Y4B=(function(){
   S.anColumbiaMissed=G=>{};   /* 22:00 群組照 PG.MSGS */
   S.anSendoffMissed=G=>{};    /* 11:40 照 PG.MSGS */
   const anRules=G=>{ const F=G.flags;
-    if(F.AN_COL_GO===true&&!outGet(G,'y6_an_col')){ const d=DK(AN.c28); if(now(G)<T(d,19.5)) plan(G,{id:'y6_an_col',ev:'ev_an_columbia',day:d,h:19,late:0.5,place:'阿鳳麵店',title:'公館燒臘（以安）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+    if(F.AN_COL_GO===true&&!outGet(G,'y6_an_col')){ const d=DK(AN.c28); if(now(G)<T(d,19.5)) plan(G,{id:'y6_an_col',ev:'ev_an_columbia',day:d,h:19,late:0.5,place:'公館燒臘',title:'公館燒臘（以安）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
     if(F.AN_NY_GO===true&&!outGet(G,'y6_an_ny')){ const d=DK(AN.s11); if(now(G)<T(d,10.5)) plan(G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:d,h:10,late:0.5,place:'桃園機場',title:'送以安（桃園機場）',travel:'捷運約一小時',travelH:1}); } };
 
   /* ===================== 2-Y4-51 一試不到 12 題：2030 重考的那一年（台灣路線）===================== */
@@ -666,7 +666,7 @@ const R2Y4B=(function(){
   const groupStartPhone=G=>{ const d=DK(GS), F=G.flags; if(d==null||G.day<d||G.day>d+1||F.BAR_GROUP_KIND!=null||!S.groupOn(G)||!at(G,GS,0)) return; const kind=S.groupKind(G); if(!kind){ F.BAR_GROUP_KIND='none'; return; }
     F.BAR_GROUP_KIND=kind; F.BAR_STUDY_GROUP=kind==='kexin'?['kexin']:(kind==='yutong'?['yutong']:['kexin','yutong']); F.BAR_GROUP_START=kind==='split'?'kexin':kind;   /* 分開讀：成立那一晚照可昕的視訊 */
     const st=F.BAR_GROUP_START, video=st==='kexin';
-    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'阿鳳麵店',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（公館燒臘）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
+    plan(G,{id:'y4_bar_group_start',ev:'ev_bar_group_start',day:d,h:21.5,late:0.5,place:video?'視訊':'公館燒臘',verb:video?'接起來':undefined,title:'律師讀書小組'+(video?'（視訊）':'（公館燒臘）'),travel:video?'':'走過去約 15 分鐘',travelH:video?0:0.25}); };
   S.kxVday=G=>!!(G.flags.KX_VDAY&&G.flags.KX_VDAY[4]==='video');
   S.kxIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('kexin')&&dating(G,'kexin');   /* 之後分手的人，那天以後不再出現 */
   S.ytIn=G=>Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('yutong')&&!isEx(G,'heroine_03');
@@ -713,7 +713,7 @@ const R2Y4B=(function(){
       const nc=s.mode==='nccu'; plan(G,{id:'y4_bar_vid_'+d,ev:'ev_bar_group_video',day:d,h:s.t0,late:0.5,place:nc?'木柵大學':'視訊',verb:nc?undefined:'接起來',no:'今天先不讀',title:'律師讀書小組（'+(nc?'木柵大學':'視訊')+'）',travel:nc?'開車約 40 分鐘':'',travelH:nc?2/3:0,back:nc?'回到首都帝大。':'視訊結束。'}); break; } };
   S.groupStop=function(G){ if(!graduated(G)) return null; for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='noodle'&&s.mode!=='library')||G.flags.BAR_GROUP_LAST===d) continue; const t=T(d,s.t0); if(t>now(G)) return t; } return null; };   /* 畢業後篇：麵店、總圖那幾晚停一下 */
   const groupThreeRules=G=>{ const d=DK('2029-06-23'), F=G.flags; if(d==null||G.day<d-3||G.day>d||F.BAR_GROUP_KIND!=='three'||!S.kxIn(G)||!S.ytIn(G)||outGet(G,'y4_bar_three')) return;
-    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'三個人的長桌（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25}); };
+    if(now(G)<T(d,19.25)) plan(G,{id:'y4_bar_three',ev:'ev_bar_group_three',day:d,h:19,late:0.25,place:'公館燒臘',title:'三個人的長桌（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25}); };
 
   /* ===================== 2-Y4-61 沛珊大四下的學期末（6/8（五）台南；AA_254 第 6 節的心意邀約、女朋友的約會、第二次）===================== */
   const PSD='2029-06-08';
