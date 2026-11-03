@@ -43019,10 +43019,10 @@
    "id": "ART-LIB-FRONT-PAVING-1103",
    "title": "總圖前椰影大道地磚很怪：淺色石磚有隨機斑點（Canvas 亂點，違反 D38 第 1 點）、柏油上大塊深色污漬、廣場和道路接縫一格一格錯開、黃線斷斷續續",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "使用者 11-03 11:3x 截圖「總圖前椰影大道地磚是怎樣」（UA-LAWWW-1103-39；X184）；截圖 docs/history/user_feedback_images/lib_front_paving_1103.webp；程式：zones3d.js:125 libPlaza＝W3.stoneTex、柏油 W3.asphaltTex／TK.asphaltTex",
-   "next": "LAWWW2：照片參考改成 PBR 石材／柏油（Poly Haven），拿掉隨機斑點和深色大污漬，廣場與道路邊界對齊",
+   "next": "BB 驗收（D128）",
    "xai": {
     "spec": "使用者 11-03 截圖；LIB-FRONT-1102 照片",
     "branch": "claude/second-ai-env-art",
