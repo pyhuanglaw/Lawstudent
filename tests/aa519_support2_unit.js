@@ -458,11 +458,12 @@ await sec('8-1',async()=>{
   const cny=D('2027-02-02'); noodleK(cny,18.5,true); const c1=[NOODLE_CLOSED.closed(H.G),HCIRCLE.auntAway(H.G),MREL.auntIn(H.G)];
   const k2=noodleK(D('2029-04-24'),18.5,false); const c2=[R2Y4B.aunTrip(H.G),HCIRCLE.auntAway(H.G),ckVis(k2.ck),MREL.auntIn(H.G)];
   const k3=noodleK(D('2029-04-26'),18.5,true); const c3=[HCIRCLE.auntAway(H.G),ckVis(k3.ck)||!!GM.npc.hc_ayi,MREL.auntIn(H.G)];
-  check('8-1 例外：過年店休（2027-02-02）＝auntAway、auntIn 不在；出國那一週（2029-04-24）＝auntAway、廚房那位不在（語彤不在也一樣）、auntIn 不在；回來（4/26）照常在',
-    J(c1)===J([true,true,false])&&J(c2)===J([true,true,false,false])&&J(c3)===J([false,true,true]),J({c1,c2,c3}));
+  /* AA_627 P-19、AA_630 Z-032（YT-REWRITE-1103）：「今天很忙喔？」那一段搬到一盞茶屋＝auntIn 看蘇姨（茶屋的店員，語彤上班一定在），不跟燒臘店的店休、阿姨出國走 */
+  check('8-1 例外：過年店休（2027-02-02）＝auntAway；出國那一週（2029-04-24）＝auntAway、廚房那位照常在（AA_627 P-15：「語彤顧店、廚房那位是阿姨／阿姨不在就藏」整套拿掉）；回來（4/26）照常在；auntIn（蘇姨）三天都在',
+    J(c1)===J([true,true,true])&&J(c2)===J([true,true,true,true])&&J(c3)===J([false,true,true]),J({c1,c2,c3}));
   /* 「去買東西」留著當備用：阿姨真的不在（強制 auntAway）＝語彤顧店時店員藏起來、auntOut */
   const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>true; let f=null; try{ const k=noodleK(D('2027-07-06'),18.5,true); f=[ckVis(k.ck),HCIRCLE.auntOut(GM),MREL.auntIn(H.G)]; } finally { HCIRCLE.auntAway=a0; }
-  check('8-1 備用：阿姨真的不在（測試強制 auntAway）：語彤不顧店（AA_610／AA_624）＝沒有「語彤顧店、阿姨不在」（店員照常、不是 auntOut）；auntIn 不在',J(f)===J([true,false,false]),J(f)); });
+  check('8-1 備用：阿姨真的不在（測試強制 auntAway）：語彤不顧店（AA_610／AA_624）＝沒有「語彤顧店、阿姨不在」（店員照常、不是 auntOut）；auntIn（茶屋的蘇姨，AA_627 P-19）照樣在',J(f)===J([true,false,true]),J(f)); });
 await sec('8-2',async()=>{
   const IN=one(/阿姨在：「([^」]+)」/,S8), OUTL=one(/阿姨不在：「([^」]+)」/,S8);
   const eat=async(d,h,yt)=>{ noodleK(D(d),h,yt); H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return said(); };
@@ -628,8 +629,8 @@ await sec('9-3',async()=>{
 /* 9-4 privtalk3d.js 說明字 */
 await sec('9-4',async()=>{
   const it=((typeof PRIVTALK!=='undefined'&&PRIVTALK.LATER)||[]).find(x=>x&&x.n===7)||{}, im=String(it.impl||'');
-  check('9-4 privtalk3d.js 清單第 7 項的說明字照現在的做法：S.auntIn＝labelIn 或 !HCIRCLE.auntAway（第 8 節第 1 點：店開著＝阿姨在）——和 multirel3d.js 的 S.auntIn 對得上；舊的「沒寫一定同框的列照那一天擲的 70%」拿掉；稿「註解那一點 LAWWW 順手改」',
-    /labelIn/.test(im)&&im.includes('!HCIRCLE.auntAway(G)')&&im.includes('店開著＝阿姨在')&&!/擲的 70%/.test(im)&&/auntAway/.test(String(MREL.auntIn))&&/labelIn/.test(String(MREL.auntIn))&&S94.includes('註解那一點 LAWWW 順手改'),im.slice(0,80)); });
+  check('9-4 privtalk3d.js 清單第 7 項的說明字照現在的做法（AA_627 P-19、AA_630 Z-032 搬到茶屋：auntIn＝蘇姨在；原本 AA_519 第 8 節第 1 點 labelIn／!auntAway 的寫法留在「原本」）——和 multirel3d.js 的 S.auntIn 對得上；沒有「擲的 70%」；稿「註解那一點 LAWWW 順手改」',
+    /P-19/.test(im)&&im.includes('蘇姨')&&im.includes('!HCIRCLE.auntAway(G)')&&!/擲的 70%/.test(im)&&!/hc_ayi|auntAway/.test(String(MREL.auntIn))&&/AA_627 P-19/.test(fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8'))&&S94.includes('註解那一點 LAWWW 順手改'),im.slice(0,80)); });
 
 /* ===================== 9 舊存檔 ===================== */
 await sec('9',async()=>{
@@ -672,7 +673,7 @@ await sec('10',async()=>{
     '（他把吸管插進第一杯。）':'9-1 只有阿凱那一版：原本「（他拆了第一包。）」（子代理解讀）','「一人一杯。」':'9-1 同上：原本「一人一包。」','兩杯。颱風天。':'9-1 同上：原本「兩包。颱風天。」（兩杯都要）',
     '所以我帶豆漿過去':'9-1 大三 19:30 那則（src/r2y3a3d.js）：原本「所以我帶泡麵過去」（子代理解讀）',
     '（第一個週六。你走路繞了大學城一圈。腳踏車還沒買。）':'9-2 稿上「→」右邊那一句，加原句的開頭「（第一個週六。」（原句後半「，花了四十分鐘。」跟著拿掉）',
-    'src/multirel3d.js C.auntIn＝S.auntIn：HCIRCLE.labelIn(G,"hc_ayi","noodle")（她那幾列現在成立，和 3D 生不生阿姨〔S.arrange 照 S.rowsIn〕同一套）或 !HCIRCLE.auntAway(G)——AA_519 第 8 節第 1 點（企劃線 d75cd0228）起語彤顧店的時段阿姨一定在廚房：店開著＝阿姨在（那一天沒擲到、3D 沒有生標籤的阿姨也一樣，廚房那位就是她）；過年店休（NOODLE_CLOSED）、2029-04-19～25 出國那一週才不在，才有「阿姨呢？」「去買東西。」；阿姨後面那三句（「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓））第 8 點起看 C.auntLate（阿姨在店裡、19:00 以後）；圈子表、3D 的時間不改':'9-4 privtalk3d.js 清單第 7 項的說明字（玩家看不到；稿「註解那一點 LAWWW 順手改」）','「冠廷學長在寫論文的第五章。他說不要問第六章。」':'2-1「論文卡在第五章」的推論（子代理解讀）','「我在幫老師整理判決。一份判決讀完，我多了三個問題。」':'pool_story_b2 同一行原本的第二句',
+    'src/multirel3d.js C.auntIn＝S.auntIn：AA_627 P-19、AA_630 Z-032（YT-REWRITE-1103）起整段搬到一盞茶屋：茶屋的店員就是蘇姨，語彤上班的時候一定在（有 HCIRCLE＝在；燒臘店的店休、阿姨出國跟她無關了）；「蘇姨呢？」「去批茶葉。」留著當備用；後面那三句（「蘇姨，我等一下自己收。」「好啦，你們年輕人。」（蘇姨先走了。））看 C.auntLate（蘇姨在、16:30 以後＝茶屋 17:00 打烊前）。原本（AA_519 第 8 節第 1 點，d75cd0228）：labelIn(G,"hc_ayi","noodle") 或 !HCIRCLE.auntAway(G)，店開著＝阿姨在':'9-4 privtalk3d.js 清單第 7 項的說明字（玩家看不到；稿「註解那一點 LAWWW 順手改」）','「冠廷學長在寫論文的第五章。他說不要問第六章。」':'2-1「論文卡在第五章」的推論（子代理解讀）','「我在幫老師整理判決。一份判決讀完，我多了三個問題。」':'pool_story_b2 同一行原本的第二句',
     '法研所（刑事法組）・碩二':'2-1 年級（稿：2025 碩二）','法研所（刑事法組）・碩三':'2-1（2026 碩三）','法研所（刑事法組）・碩四':'2-1（2027 碩四）','法研所（刑事法組）':'characters.js 同一行原本的欄位',
     '刑訴助教；講話慢、喜歡反問；準備寫論文寫到懷疑人生':'同上','博士班或律師':'同上',
     '小禾：學姊，三號桌說要「跟上次一樣」。／芷若：……上次是誰點的？／小禾：我。／芷若：那妳去。':'AA_508 2-1 的句子，說話人照 3-4 換小禾（tests/heroine_circle3d_unit.js 對稿）',

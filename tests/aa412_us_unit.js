@@ -93,7 +93,7 @@ await sec('F1',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmat
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-03-02')]={h:20,end:'full'};
   await run('ev_far_call_us');
   check('F1. 在麵店團、都認識、參加過讀書會、見過何俊朗：台詞逐字、順序照 AA_412 第 2 節（【美】的麥片、柏翰、何俊朗、割草）；FAR_CALL us',J(H.said.map(s=>s.t))===J(FAR_ALL)&&G.flags.FAR_CALL==='us',J(L()));
-  check('F1. 說話的人：阿哲、Alison、柏翰、芯慈；「阿姨（畫面外）」；何俊朗',H.said.some(s=>s.who==='阿姨（畫面外）'&&s.t==='滷蛋要不要！隔著螢幕也要問！')&&H.said.some(s=>s.who==='何俊朗'&&s.t==='Hello，台灣！')&&H.said.filter(s=>s.t==='就這樣？').every(s=>s.who&&s.who!=='何俊朗'),J(L()));
+  check('F1. 說話的人：阿哲、Alison、柏翰、芯慈；「蘇姨（畫面外）」（AA_627 A-259、A-260）；何俊朗',H.said.some(s=>s.who==='蘇姨（畫面外）'&&s.t==='滷蛋要不要！隔著螢幕也要問！')&&H.said.some(s=>s.who==='何俊朗'&&s.t==='Hello，台灣！')&&H.said.filter(s=>s.t==='就這樣？').every(s=>s.who&&s.who!=='何俊朗'),J(L()));
   check('F1. 美國版沒有以安那一則、沒有日本版的柏翰「筆記拍給我」、沒有便利商店飯糰',!H.said.some(s=>/他吃飯糰|筆記拍給我|飯糰/.test(s.t)));
   check('F1. 背景：視訊（同日本版 bg video）',H.bgs.some(b=>J(b)===J(OUT.bg('video'))),J(H.bgs)); });
 await sec('F2',async()=>{ const G=farSetup('2028-09-21',7.5,{ppl:['yu','classmate_bohan','classmate_xinci','heroine_03']});

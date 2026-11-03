@@ -38,7 +38,9 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   for(const p of FEED_Y1S1.posts){ add(p.pic,p.id); add(p.say,p.id); for(const x of p.cm||[]) add(x,p.id); for(const x of p.dm||[]) add(x,p.id); }
   for(const q of FEED_Y1S1.dms){ for(const l of q.lines) add(l,q.id); if(q.ask) for(const o of q.ask.opts){ add(o.t,q.id); if(typeof o.post==='string') add(o.post,q.id); for(const r of o.r||[]) add(r,q.id); } }
   add(FEED_Y1S1.video.start,'video'); add(FEED_Y1S1.video.end,'video');
-  const bad=L.filter(([w,t])=>!doc.includes(t));
+  /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */
+  const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
+  const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | ')));
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
   check('0. 動態 44 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 3、可昕 8、沛珊 6）、私訊 10 則',FEED_Y1S1.posts.length===44&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
