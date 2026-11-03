@@ -26,7 +26,8 @@ Z_A2_dorm  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_dorm_moveo
 Z_A3_l15   | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
 Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
 Z_P3b_sl   | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
-#HOLD雲端 Z_ANSMOKE  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 60 | （以安七夕短冊「再一次。」／「好。」、行政法院 CG-29；撰寫中）
+Z_ANSMOKE  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 45 |
+V18_ANSMOKE | 6a8033f4e | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 45 |
 #HOLD雲端 Z_LIBWHISPER | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 |
 #HOLD雲端 Z_DRIVE_X81  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 |
 #HOLD雲端 Z_BACKFILLCG | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_backfillcg_probe.py | index.html | 60 |
