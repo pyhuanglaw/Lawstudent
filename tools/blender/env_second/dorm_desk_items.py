@@ -35,8 +35,9 @@ FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 # ---------------- 貼圖集（1024×1024）----------------
 AW, AH = 2048, 1024
 SOLID = {'c_cork': (178, 134, 88), 'c_frame': (122, 86, 56), 'c_pin_r': (200, 52, 48), 'c_pin_b': (52, 96, 190), 'c_pin_y': (226, 190, 40),
-         'c_hl_y': (238, 226, 60), 'c_hl_p': (236, 108, 160), 'c_hl_b': (88, 170, 226), 'c_cap': (40, 40, 44), 'c_phone': (28, 28, 32), 'c_white': (244, 242, 236)}
-SIZES = [('spine_civil', 64, 300), ('spine_econ', 96, 420), ('nb_l', 200, 240), ('nb_r', 200, 240), ('ferris', 120, 280), ('phone', 120, 250),
+         'c_hl_y': (238, 226, 60), 'c_hl_p': (236, 108, 160), 'c_hl_b': (88, 170, 226), 'c_cap': (40, 40, 44), 'c_phone': (28, 28, 32), 'c_white': (244, 242, 236),
+         'c_cover': (36, 58, 98), 'c_edge': (228, 224, 212), 'c_pen': (24, 26, 34), 'c_gutter': (150, 146, 136)}
+SIZES = [('spine_civil', 64, 300), ('spine_econ', 96, 420), ('nb_l', 240, 340), ('nb_r', 240, 340), ('ferris', 120, 280), ('phone', 120, 250),
          ('kai', 300, 400), ('film1', 260, 110), ('film3', 330, 110), ('trip_sea', 260, 180), ('trip_oldtown', 260, 180), ('trip_stars', 260, 180),
          ('anniv', 180, 250), ('cork', 256, 256)] + [(k, 16, 16) for k in SOLID]
 R = {}
@@ -70,9 +71,11 @@ def draw_atlas():
     # 筆記本：左頁祐廷的字（藍、歪）、右頁她的字（黑、工整）＋螢光筆
     for k, col, seed, neat in (('nb_l', (40, 70, 150), 11, False), ('nb_r', (30, 30, 34), 23, True)):
         x0, y0, x1, y1 = R[k]; d.rectangle(R[k], fill=(246, 244, 236))
-        for j in range(12): d.line((x0 + 4, y0 + 14 + j * 19, x1 - 4, y0 + 14 + j * 19), fill=(196, 208, 226), width=1)
-        scribble((x0 + 12, y0 + 6, x1 - 10, y1 - 10), col, 12, w=2, amp=2.0 if neat else 3.4, seed=seed, slant=0.0 if neat else 0.03)
-        if neat: d.rectangle((x0 + 12, y0 + 64, x1 - 60, y0 + 74), fill=(250, 236, 120))
+        for j in range(14): d.line((x0 + 4, y0 + 18 + j * 23, x1 - 4, y0 + 18 + j * 23), fill=(190, 204, 226), width=1)
+        if neat: d.rectangle((x0 + 14, y0 + 80, x1 - 70, y0 + 96), fill=(250, 232, 96))   # 她的螢光筆（先畫，字壓在上面）
+        scribble((x0 + 14, y0 + 8, x1 - 12, y1 - 12), col, 14, w=4 if not neat else 3, amp=2.0 if neat else 4.2, seed=seed, slant=0.0 if neat else 0.035)
+        if neat: d.ellipse((x0 + 150, y0 + 200, x1 - 14, y0 + 250), outline=(200, 50, 46), width=3)   # 紅筆圈起來的重點
+        else: d.line((x0 + 30, y1 - 40, x0 + 120, y1 - 52), fill=(40, 70, 150), width=3)   # 你的箭頭
     # 摩天輪的票根（直式）：淺藍、摩天輪的線圖、日期一行（數字不寫實際日期）
     x0, y0, x1, y1 = R['ferris']; d.rectangle(R['ferris'], fill=(214, 232, 244)); cxx, cyy, rr = (x0 + x1) / 2, y0 + 96, 40
     d.ellipse((cxx - rr, cyy - rr, cxx + rr, cyy + rr), outline=(60, 90, 150), width=3)
@@ -181,8 +184,18 @@ def print_mat(name):
 MAT = print_mat('desk_print')
 PAD = L.flat('desk_pad_glass', '#e8eef0', rough=0.12, alpha=0.22)   # 透明 PVC 桌墊（名字有 glass：遊戲當透明處理）
 root = B.group('dorm_desk_items', props={'kind': 'dorm_desk_items'})
+# 「看看房間裡的東西」選了那一項時的鏡頭（BB 14:03 第 4 點：選單和畫面要對得上）：eye＝鏡頭、look＝看的點（遊戲座標，GLB 根節點的座標＝房間座標）。
+#   鏡頭在上舖床板（x −1.995～−0.95、底面 1.58 m）下面的都低於 1.53 m；牆上的東西離 0.4～0.7 m（第一次 1.1 m：照片、評鑑表太小）；story3d.js roomItems 讀節點的 userData.eye／look 呼叫 E.cinematic
+FOCUS = {
+    'civil': ([-0.95, 1.30, 0.15], [-1.80, 1.15, -0.22]), 'econ': ([-0.95, 1.30, 0.12], [-1.80, 1.17, -0.27]),
+    'notebook': ([-1.05, 1.30, -0.30], [-1.60, 0.77, -0.63]), 'ferris': ([-1.20, 1.05, 0.26], [-1.47, 0.76, 0.40]),
+    'phone': ([-1.10, 1.15, 0.05], [-1.60, 0.77, 0.25]), 'highlighters': ([-1.10, 1.15, 0.05], [-1.49, 0.77, 0.245]),
+    'kai_sheet': ([-1.40, 1.50, 0.20], [-2.00, 1.57, 0.51]), 'film1': ([-1.55, 1.12, 0.44], [-2.00, 1.04, 0.44]), 'film3': ([-1.55, 1.12, 0.44], [-2.00, 1.04, 0.44]),
+    'trip_sea': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]), 'trip_oldtown': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]), 'trip_stars': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]),
+    'anniv': ([-1.40, 1.52, -0.15], [-1.86, 1.49, 0.065])}
 def item(key, props=None):
-    g = B.group('ITEM_desk_' + key, root, dict({'kind': 'room_item', 'key': key}, **(props or {})))
+    fx = {'eye': FOCUS[key][0], 'look': FOCUS[key][1]} if key in FOCUS else {}
+    g = B.group('ITEM_desk_' + key, root, dict({'kind': 'room_item', 'key': key}, **fx, **(props or {})))
     return g, TMesh('desk_' + key, MAT)
 
 
@@ -200,7 +213,18 @@ def pin(t, x, z, y, col):
 g, t = item('civil', {'room': '203'}); wall_quad(t, WALLX + 0.23 + 0.0015, -0.197, -0.233, 1.04, 1.25, 'spine_civil'); t.finish(g)
 g, t = item('econ', {'room': '203'}); wall_quad(t, WALLX + 0.25 + 0.0015, -0.242, -0.303, 1.035, 1.30, 'spine_econ'); t.finish(g)
 # ---- 寫滿的筆記本（203 書桌左前那本攤開的筆記本：x −1.65～−1.48、z −0.765～−0.585、頁面 0.77）
-g, t = item('notebook', {'room': '203'}); flat_quad(t, -1.646, -1.484, -0.676, -0.590, 0.7708, 'nb_r'); flat_quad(t, -1.646, -1.484, -0.760, -0.676, 0.7708, 'nb_l'); t.finish(g)
+# 第二版（BB 14:03 第 1 點：「看起來像空的盒子」）：放大成攤開的 B5 筆記本——深藍封面、兩疊書頁看得到厚度、中間的裝訂縫、右頁上一支筆；
+#   蓋住 dorm_room4 原本那塊白色薄板（x −1.65～−1.48、z −0.76～−0.59）；筆電在 z −0.29 以後，不碰到
+NX0, NX1, NZ0, NZ1 = -1.712, -1.488, -0.775, -0.480;   # z −0.474 以後是溫州街讀書會的卡片（dorm_wz_items wz6_card z −0.469）
+NZM = (NZ0 + NZ1) / 2; NT = Y + 0.003; NP = NT + 0.007
+g, t = item('notebook', {'room': '203'})
+t.solid_box('c_cover', NX0 - 0.006, NX1 + 0.006, Y, NT, NZ0 - 0.006, NZ1 + 0.006)                     # 封面（攤開平放，四周露出一點）
+for za, zb, key in ((NZM + 0.004, NZ1, 'nb_l'), (NZ0, NZM - 0.004, 'nb_r')):   # 從走道看左邊（z 大）＝左頁（你的字）、右邊＝右頁（她的字）
+    t.solid_box('c_edge', NX0, NX1, NT, NP - 0.0004, za, zb)                                           # 書頁那一疊（側面看得到厚度）
+    flat_quad(t, NX0 + 0.002, NX1 - 0.002, za + 0.002, zb - 0.002, NP, key)   # 直式：頁面上緣朝牆
+t.solid_box('c_gutter', NX0, NX1, NT, NP - 0.002, NZM - 0.004, NZM + 0.004)                            # 中間的裝訂縫（比書頁低一點）
+t.solid_cyl('c_pen', (NX0 + 0.05, NP + 0.005, NZ0 + 0.11), (NX1 - 0.03, NP + 0.005, NZ0 + 0.05), 0.0045, seg=8)   # 擱在右頁的筆
+t.finish(g)
 # ---- 透明桌墊＋壓在下面的摩天輪票根（右前角）
 g, t = item('ferris', {'room': '203'})
 flat_quad(t, -1.50, -1.445, 0.34, 0.47, 0.7604, 'ferris', rot=1)
@@ -219,19 +243,22 @@ t.finish(g)
 # ---- 大一的小軟木板＋貼在牆上的東西：層架右側板（z 0.365）和衣櫃（z 0.645）中間那一條牆（書桌前、層架左邊那面牆整面是法服社的傳單 0.42×0.6，不能蓋）。
 #      這一條牆 y 1.15～1.26 是溫州街讀書會白板照片（dorm_wz_items ITEM_wz_board）的位置：避開——軟木板在上面（y 1.285～1.555），照片、票根貼在下面
 g, t = item('board', {'room': '203'})
-t.solid_box('c_frame', WALLX, WALLX + 0.02, 1.285, 1.555, 0.385, 0.630)
-wall_quad(t, WALLX + 0.0215, 0.615, 0.400, 1.300, 1.540, 'cork')
+# 第二版（BB 14:03 第 2 點：從書桌那邊看被層架擋住）：整塊往上搬到層架頂（1.42 m）上面、床板（約 1.70 m）下面
+BY0, BY1 = 1.445, 1.690
+t.solid_box('c_frame', WALLX, WALLX + 0.02, BY0, BY1, 0.385, 0.630)
+wall_quad(t, WALLX + 0.0215, 0.615, 0.400, BY0 + 0.012, BY1 - 0.012, 'cork')
 ob = t.finish(g); ob.name = 'WALL_left_desk_board'; ob['dir'] = [1, 0, 0]
 PX = WALLX + 0.0225   # 紙釘在軟木上
 TX_ = WALLX + 0.0015  # 紙膠帶貼在牆上
 def pinned(key, zl, zr, y0, y1, col='c_pin_r', atlas=None, on_board=True):
     x = PX if on_board else TX_
     g, t = item(key, dict({'room': '203'}, **({'on': 'board'} if on_board else {}))); wall_quad(t, x, zl, zr, y0, y1, atlas or key)
-    if on_board: pin(t, x, (zl + zr) / 2, y1 - 0.004, col)   # 圖釘在紙的上緣（不壓到標題）
+    if on_board:   # 圖釘釘在上面兩個角（第二版：原本在上緣正中間，蓋住標題「泡麵評鑑表」一半）
+        for zz in (zl - 0.012, zr + 0.012): pin(t, x, zz, y1 - 0.012, col)
     else:
         for zz in (zl - 0.012, zr + 0.012): t.solid_box('c_white', x, x + 0.0006, y1 - 0.009, y1 + 0.006, min(zz, zz) - 0.012, zz + 0.012)   # 紙膠帶
     ob = t.finish(g); ob.name = 'WALL_left_desk_' + key; ob['dir'] = [1, 0, 0]
-pinned('kai_sheet', 0.598, 0.417, 1.308, 1.528, 'c_pin_b', atlas='kai')
+pinned('kai_sheet', 0.598, 0.417, BY0 + 0.018, BY1 - 0.018, 'c_pin_b', atlas='kai')
 pinned('film1', 0.487, 0.387, 1.020, 1.062, on_board=False)
 pinned('film3', 0.497, 0.372, 1.020, 1.062, on_board=False)
 for k in ('trip_sea', 'trip_oldtown', 'trip_stars'): pinned(k, 0.630, 0.505, 0.975, 1.065, on_board=False)

@@ -1,0 +1,56 @@
+diff --git a/src/story3d.js b/src/story3d.js
+index 0f306988e..60b3ea735 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -3244,7 +3244,13 @@ const STORY = (function(){
+      沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳；系外套 jacket 照舊由 dorm_room4 的 JACKET_ 開關。*/
+   const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
+     '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','經濟系的系外套':'jacket'};
+-  S.roomItemKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; for(const r of S.roomItemList(G)){ let k=ROOM_ITEM_KEY[r[0]]; if(!k&&r[0]==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } if(k&&!K.includes(k)) K.push(k); } return K; };
++  S.roomItemKeyOf=function(G,label){ const F=(G&&G.flags)||{}; let k=ROOM_ITEM_KEY[label]; if(!k&&label==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } return k||null; };
++  S.roomItemKeys=function(G){ const K=[]; for(const r of S.roomItemList(G)){ const k=S.roomItemKeyOf(G,r[0]); if(k&&!K.includes(k)) K.push(k); } return K; };
++  /* 選了那一項：鏡頭轉去看那件東西（BB 2026-11-03 14:03 第 4 點：選單和畫面要對得上）。鏡頭位置在 dorm_desk_items.glb 節點的 userData.eye／look（GLB 根節點座標＝房間座標）；
++     那件東西沒顯示（別的年份、沒有這個旗標）或沒有鏡頭資料就不轉。旁白講完 E.endCinematic 回到原本的鏡頭；sceneEnd 也會再收一次 */
++  S.roomItemFocus=function(GM,label){ const E=GM&&GM.E, k=S.roomItemKeyOf(GM&&GM.G,label); if(!E||!E.scene||!k||!E.cinematic) return false; const o=E.scene.getObjectByName('ITEM_desk_'+k), u=o&&o.userData;
++    if(!o||!u||!u.eye||!u.look||!o.parent) return false; let v=o; while(v){ if(v.visible===false) return false; v=v.parent; } o.parent.updateMatrixWorld(true);
++    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2]))); return true; };
+   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
+      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
+      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
+@@ -3343,7 +3349,7 @@ const STORY = (function(){
+       GM.memo('搬進第三個房間'); if(GM.autosave) GM.autosave(); }
+     finally{ delete F.ROOM_Y3_MOVING; GM.sceneEnd(); }
+     return true; };
+-  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; if(typeof L[i][2]==='function'){ await L[i][2](GM); break; } for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }   /* 第三欄＝動作（例：玩子晴的測試版，src/zq_testbuild3d.js）：做完就離開選單 */
++  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; const cam=S.roomItemFocus(GM,L[i][0]); if(typeof L[i][2]==='function'){ await L[i][2](GM); break; } for(const t of [].concat(L[i][1])) await GM.say(null,t); if(cam) GM.E.endCinematic(); } } finally { GM.sceneEnd(); } }   /* 第三欄＝動作（例：玩子晴的測試版，src/zq_testbuild3d.js）：做完就離開選單 */
+   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
+      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛 prop_pothos.glb（ART-04，LAWWW2-C 639f0188）由 zones3d.js 的 z.setPothos 放、照澆水次數換大小 */
+   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);
+diff --git a/tests/dorm_desk_items_unit.js b/tests/dorm_desk_items_unit.js
+index 65d61a160..e347e3a38 100644
+--- a/tests/dorm_desk_items_unit.js
++++ b/tests/dorm_desk_items_unit.js
+@@ -55,5 +55,23 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
+     const miss=K.filter(k=>k!=='jacket'&&!NODES.includes('ITEM_desk_'+k)); check('12. 每一個 key 在 dorm_desk_items.glb 都有 ITEM_desk_<key>（jacket 例外）',!miss.length,JSON.stringify(miss)); }
+   for(const t of ['sea','oldtown','stars']) check('13. 旅行照片三種都有節點：trip_'+t,NODES.includes('ITEM_desk_trip_'+t));
+   check('14. 大一的軟木板 ITEM_desk_board 有節點',NODES.includes('ITEM_desk_board'));
++  // 選了那一項鏡頭轉去看那件東西（BB 11-03 14:03 第 4 點；STORY.roomItemFocus＋GLB 節點 extras 的 eye／look）
++  { const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/dorm_desk_items.glb')), jl=b.readUInt32LE(12), gj=JSON.parse(b.slice(20,20+jl).toString('utf8'));
++    const ex={}; for(const n of gj.nodes||[]) if(/^ITEM_desk_/.test(n.name||'')) ex[n.name.slice(10)]=n.extras||{};
++    const noCam=Object.keys(ex).filter(k=>k!=='board'&&!(Array.isArray(ex[k].eye)&&ex[k].eye.length===3&&Array.isArray(ex[k].look)&&ex[k].look.length===3));
++    check('15. 每一件（軟木板以外）的節點都有鏡頭 eye／look',!noCam.length,JSON.stringify(noCam));
++    const far=Object.keys(ex).filter(k=>ex[k].eye&&ex[k].look&&Math.hypot(ex[k].eye[0]-ex[k].look[0],ex[k].eye[1]-ex[k].look[1],ex[k].eye[2]-ex[k].look[2])>1.0);
++    check('16. 鏡頭離東西 1 m 以內（第一版 1.1 m：照片、評鑑表太小）',!far.length,JSON.stringify(far));
++    const inDeck=Object.keys(ex).filter(k=>ex[k].eye&&ex[k].eye[0]<-0.95&&ex[k].eye[1]>1.55);
++    check('17. 鏡頭不在上舖床板裡（x < −0.95 的鏡頭低於 1.55 m）',!inDeck.length,JSON.stringify(inDeck));
++    let got=null; const par={visible:true,parent:null,updateMatrixWorld(){},localToWorld:v=>({x:v.x+10,y:v.y,z:v.z})};
++    const node={visible:true,parent:par,userData:{eye:[1,2,3],look:[4,5,6]}};
++    const GMf={G:{flags:{}},E:{scene:{getObjectByName:n=>n==='ITEM_desk_notebook'?node:null},cinematic:(p,l)=>{ got=[p,l]; }}};
++    const r1=STORY.roomItemFocus(GMf,'寫滿的筆記本');
++    check('18. roomItemFocus：選「寫滿的筆記本」→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
++    got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'寫滿的筆記本');
++    check('19. 那件東西沒顯示（別的年份）就不轉鏡頭',r2===false&&got===null);
++    got=null; const r3=STORY.roomItemFocus(GMf,'經濟系的系外套');
++    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null); }
+   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+ })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
