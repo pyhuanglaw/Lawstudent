@@ -867,6 +867,36 @@
    "task": "WZ-CAFES-1103",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "AA_617 已更新、使用者同意照做"
+  },
+  {
+   "id": "UA-AA-1103-53",
+   "at": "2026-11-03",
+   "quote": "安排一家吉他店",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "GUITAR-CLUB-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_619 已寫；待 LAWWW 開任務"
+  },
+  {
+   "id": "UA-AA-1103-54",
+   "at": "2026-11-03",
+   "quote": "吉他社的劇情呢 玩家如果要參加 要買吉他",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "GUITAR-CLUB-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_619 已寫；待 LAWWW 開任務"
+  },
+  {
+   "id": "UA-AA-1103-55",
+   "at": "2026-11-03",
+   "quote": "吉他社 有 社遊 安排可攻略對象的劇情",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "GUITAR-CLUB-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_619 已寫；待 LAWWW 開任務"
   }
  ]
 }
