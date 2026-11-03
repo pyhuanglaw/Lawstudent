@@ -352,7 +352,7 @@ const CHAR = (function(){
       const pole=Kw.clone().addScaledVector(HTV[4].set(0,0,1).applyQuaternion(HTQ[0]),0.3);   /* 膝蓋往前（膝蓋的目標點再往前一點：大腿、小腿折得很緊時方向才穩）*/ if(wt<1) pole.lerp(R[L[1]].getWorldPosition(HTV[5]),1-wt);   /* 權重小：膝蓋照原本的方向 */
       ik2(R[L[0]],R[L[1]],R[L[2]],Aw,pole);
       const toe=R[L[3]]; if(toe){ const fd=toe.getWorldPosition(new THREE.Vector3()).sub(R[L[2]].getWorldPosition(HTV[5])), sd=R[L[2]].getWorldPosition(new THREE.Vector3()).sub(R[L[1]].getWorldPosition(HTV[6]));   /* 腳背貼床墊：腳尖的方向轉到小腿的方向（往後）*/
-        const ax=new THREE.Vector3().crossVectors(fd,sd); if(ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(R[L[2]],ax,fd.angleTo(sd)*wt*0.92); } } }
+        const ax=new THREE.Vector3().crossVectors(fd,sd); if(ax.lengthSq()>1e-10){ ax.normalize(); rotWorld(R[L[2]],ax,fd.angleTo(sd)*wt*wt*0.92); } } }   /* ×wt²：權重小（剛要跪、快站起來）腳掌還是平的，腳尖不往下插進那一階 */
     u.kneelLa=la; }
   /* 跪：兩手放在大腿上（headFit 以後）*/
   function kneelArms(h,u,wt){ const R=fitRaw(u), Q=C.KNEEL, k=u.k||1; if(ARMS.some(L=>L.some(n=>!R[n]))) return; h.updateWorldMatrix(true,true);

@@ -40,7 +40,7 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
     const step=n=>{ for(let i=0;i<n;i++){ CHAR.animate(h,1/30,{pose:P.pose,speed:0}); scene.updateMatrixWorld(true); const u=h.userData;
         const J={}; for(const j of JOINTS){ const b=R(j); if(b) J[j]=h.worldToLocal(b.getWorldPosition(new THREE.Vector3())); }
         const W=n=>R(n).getWorldPosition(new THREE.Vector3());
-        frames.push({who:topV.who,pose:P.pose,black,jump:jumped,x:h.position.x,y:h.position.y,z:h.position.z,top:topV(),topC:CHAR.headTop(h),J,hipsW:W('hips').y,kneeW:[W('leftLowerLeg').y,W('rightLowerLeg').y],footW:Math.min(W('leftFoot').y,W('rightFoot').y,...['leftToes','rightToes'].filter(n=>R(n)).map(n=>W(n).y)),kneelW:u.kneelW||0,fitE:u.fitE,fitR:u.fitR,headMax:u.headMax}); jumped=false; } };
+        frames.push({who:topV.who,pose:P.pose,black,jump:jumped,x:h.position.x,y:h.position.y,z:h.position.z,top:topV(),topC:CHAR.headTop?CHAR.headTop(h):null,J,hipsW:W('hips').y,kneeW:[W('leftLowerLeg').y,W('rightLowerLeg').y],footW:Math.min(W('leftFoot').y,W('rightFoot').y,...['leftToes','rightToes'].filter(n=>R(n)).map(n=>W(n).y)),kneelW:u.kneelW||0,fitE:u.fitE,fitR:u.fitR,headMax:u.headMax}); jumped=false; } };
     const E={zone:{id:'dorm'},player:P,npcs:[],toneK:1,hour:22,cam:{mode:'follow'},q:{level:'high'},applyTime(){},endCinematic(){ this.cam.mode='follow'; },placeAt(ent,x,z){ ent.obj.position.set(x,0,z); },prePose(){}};
     const GM={G:{day:6,hour:22,flags:{},zone:'dorm'},E,turbo:false,depth:0,
       sleep:async ms=>{ step(Math.max(1,Math.round(ms/1000*30))); },
@@ -50,7 +50,7 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
     /* 上床（完整演出：goToBedFull）*/
     STORY.SLEEP_FULL=true; h.position.set(0,0,2); h.rotation.y=0; P.pose='idle'; step(10); frames.length=0;
     await STORY._bedFx.goToBed(GM,sc); const up=frames.slice(); const upMax=Math.max(...up.map(f=>f.top)), upW=up.reduce((a,f)=>f.top>a.top?f:a,up[0]);
-    check(`① ${LY.name.slice(0,1)} 爬上去、跪上床：每一格頭頂 ≤ ${lim.toFixed(2)} m`,upMax<=lim,`最高 ${cm(upMax)}（${upW.pose}、腳 ${cm(upW.y)}；頭骨估計 ${cm(upW.topC)}${upW.who?'、'+upW.who:''}）、${up.length} 格${process.env.DBG_TOP?' fitE '+upW.fitE+' fitR '+upW.fitR:''}`);
+    check(`① ${LY.name.slice(0,1)} 爬上去、跪上床：每一格頭頂 ≤ ${lim.toFixed(2)} m`,upMax<=lim,`最高 ${cm(upMax)}（${upW.pose}、腳 ${cm(upW.y)}；頭骨估計 ${upW.topC!=null?cm(upW.topC):"—"}${upW.who?'、'+upW.who:''}）、${up.length} 格${process.env.DBG_TOP?' fitE '+upW.fitE+' fitR '+upW.fitR:''}`);
     const kn=up.filter(f=>f.pose==='kneel'&&Math.abs(f.y-be[1])<1e-6&&Math.abs(f.x-be[0])<1e-6&&f.kneelW>=0.999), kl=kn[kn.length-1];
     check(`③ ${LY.name.slice(0,1)} 上床點跪著：臀部離床墊 ≤ 70 cm（站著 ${cm(hips0)}）、兩膝離床墊 ≤ 12 cm`,!!kl&&kl.hipsW-mat<=0.70&&kl.kneeW.every(y=>y-mat<=0.12&&y-mat>=0.0),kl?`臀部 ${cm(kl.hipsW-mat)}、膝 ${kl.kneeW.map(y=>cm(y-mat)).join('／')}（${kn.length} 格）`:'沒有跪在上床點的格子');
     /* 躺下（S.lieDown）→ 起床（getUp）*/
@@ -67,7 +67,7 @@ const JOINTS=['hips','spine','chest','neck','head','leftUpperLeg','rightUpperLeg
     check(`④ ${LY.name.slice(0,1)} 平滑：沒有跳格（相鄰兩格移動量的差：身體 ≤ 5 cm、手腳 ≤ 8 cm；每一格 ≤ 12 cm）`,acc<=0.05&&accL<=0.08&&vel<=0.12,`身體 ${cm(acc)} ${af||''}；手腳 ${cm(accL)} ${afL||''}；每格最大 ${cm(vel)} ${vf||''}`);
     /* ⑤ 腳踩在踏點上 */
     const onSteps=up.concat(dn).filter(f=>!f.black&&(f.pose==='climb'||f.pose==='climbdown')&&st.some(s=>Math.abs(f.y-s[1])<1e-6&&Math.abs(f.x-s[0])<1e-6));
-    const sink=Math.max(...onSteps.map(f=>f.y-f.footW));
+    const sink=Math.max(...onSteps.map(f=>f.y-f.footW)); if(process.env.DBG_SINK) onSteps.filter(f=>f.y-f.footW>0.015).forEach(f=>console.log('  sink',f.pose,f.y.toFixed(2),cm(f.y-f.footW),'kw',f.kneelW.toFixed(2),'fitE',f.fitE!=null?f.fitE.toFixed(3):'-'));
     check(`⑤ ${LY.name.slice(0,1)} 腳踩在踏點上：最低的腳不低於踏點 3 cm 以上`,onSteps.length>=4&&sink<=0.03,`最多低 ${cm(sink)}（${onSteps.length} 格）`);
     /* ⑥ 站回梯子前 */
     step(20); const after=topV();
