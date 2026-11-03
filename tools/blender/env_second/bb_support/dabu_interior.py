@@ -130,8 +130,9 @@ def face_quad(cx, cy, cz, w, h, normal):
 
 
 # ---------------- 鞋子：五種輪廓 × 四個配色（UV 到 dabu_shoe 圖集；instancing 的原型） ----------------
-PROF = [(1, 0), (1, .42), (.86, .8), (.42, 1), (-.42, 1), (-.86, .8), (-1, .42), (-1, 0)]
-SCV = 1.3   # 高度再放大一點：參考圖的鞋都是厚底、鞋面飽滿的款（不是扁平的跑鞋）
+PROF = [(1, 0), (1, .4), (.9, .76), (.5, .97), (-.5, .97), (-.9, .76), (-1, .4), (-1, 0)]
+SCV = 1.05  # 鞋面高度
+SCS = 1.45  # 鞋底厚度：參考圖的鞋都是厚中底的款
 SC = 1.2    # 參考圖的鞋在層板上看起來比較大（一雙約佔一層高度的六成）：照參考圖放大到鞋長約 35 cm（展示用的大尺碼樣品）
 STY = {
     'bb_high': dict(L=0.300, t=[0, .07, .25, .45, .66, .84, 1.0], h=[.150, .168, .158, .104, .078, .058, .026], w=[.021, .041, .045, .047, .050, .046, .017],
@@ -161,7 +162,7 @@ def shoe_mesh(style, k):
         return arr[-1]
     TOE = {0.89: 0.82, 0.96: 0.55, 1.0: 0.2}; TW = {0.96: 0.8, 1.0: 0.5}
     hs0 = [_ip(st['h'], t) * TOE.get(t, 1.0) for t in T]; ws0 = [_ip(st['w'], t) * TW.get(t, 1.0) for t in T]
-    Lg, Hs, Ws = st['L'] * SC, [h * SC * SCV for h in hs0], [w * SC * 1.08 for w in ws0]; ot, mh, mt = [v * SC * SCV for v in st['sole']]; sp = st['spring'] * SC; n = len(T)
+    Lg, Hs, Ws = st['L'] * SC, [h * SC * SCV for h in hs0], [w * SC * 0.95 for w in ws0]; ot, mh, mt = [v * SC * SCS for v in st['sole']]; sp = st['spring'] * SC; n = len(T)
     xs = [(t - 0.5) * Lg for t in T]
     yb = lambda t: sp * max(0.0, (t - 0.72) / 0.28) ** 2
     ym = lambda t: yb(t) * 0.75 + mh + (mt - mh) * t
@@ -185,7 +186,8 @@ def shoe_mesh(style, k):
     R = []
     for i in range(n):
         w, h, y0 = Ws[i], Hs[i], ym(T[i]) - 0.003
-        R.append([nv(xs[i], y0 + yy * h, zz * w) for (zz, yy) in PROF])
+        dip = {0: 0.5, 1: 0.55, 2: 0.66, 3: 0.9}.get(i, 1.0)   # 鞋口：後半段的上緣往下凹（看得到內裡）
+        R.append([nv(xs[i], y0 + yy * h * (dip if k_ in (3, 4) else 1.0), zz * w * (0.8 if (k_ in (3, 4) and dip < 1) else 1.0)) for k_, (zz, yy) in enumerate(PROF)])
     bd = TX.UP_Y1 / 8.0
     VY = {0: (3, 2), 1: (2, 1), 2: (1, 0), 3: (3, 4), 4: (7, 6), 5: (6, 5), 6: (5, 4), 7: (7.2, 7.8)}
     U = lambda t: 4 + t * 248
@@ -201,7 +203,7 @@ def shoe_mesh(style, k):
         return ym(t) + Hs[-1], Ws[-1]
     # 鞋舌（往後翹）
     tt = T[3] - 0.04; xt = (tt - 0.5) * Lg; yt, wt = top_at(tt)
-    q = [(xt - 0.004, yt - 0.012), (xt + 0.010, yt - 0.012), (xt - 0.010, yt + 0.026), (xt - 0.024, yt + 0.022)]
+    q = [(xt - 0.004, yt - 0.014), (xt + 0.012, yt - 0.014), (xt - 0.006, yt + 0.012), (xt - 0.02, yt + 0.01)]
     vs = [nv(x, y, z) for z in (-0.34 * wt, 0.34 * wt) for (x, y) in q]
     for a in ((0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)): face([vs[i] for i in a], [patch(1)] * 4)
     # 鞋帶：三條橫跨的細條
@@ -337,7 +339,7 @@ def shoe_wall(sw):
             style = rows[r_]
             for q in range(3):
                 z = z0 + b * bw + bw * (q + 0.5) / 3 + rs.uniform(-0.02, 0.02)
-                ry = -math.pi / 2 + (0.28 if side == 'left' else -0.28) + rs.uniform(-0.05, 0.05)   # 鞋頭朝店門（+z），往走道轉一點
+                ry = -math.pi / 2 + (-0.42 if side == 'left' else 0.42) + rs.uniform(-0.05, 0.05)   # 鞋頭朝店門（+z）、往牆裡斜 24°：從店中間看是側面（參考圖每一雙都是側面朝人）
                 put_shoe(style, rs.randrange(4), sx, t, z, ry, side)
             # 價格卡：層板前緣，斜立的小卡
             q = rs.randrange(3); zc = z0 + b * bw + bw * (q + 0.5) / 3 + 0.17; xc = fx + sgn * 0.035
