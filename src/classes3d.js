@@ -490,8 +490,8 @@ const CLS=(function(){
      經濟系那一年（pe_y0s1）：大一上第 1～8 週的旁白，名字換經濟系的同學（S.PE_Y0）。體育老師不認得個別學生（AA_596 §八）；旁白沒有選項、不影響數值，朋友只在旁白裡出現（不另開對話）。測試：node tests/pe_aa644_unit.js */
   S.PE_POOL={x:16.6,z:-2.2,yaw:+Math.atan2(19.8-16.6,-3.4+2.2).toFixed(4)};   /* B1 池邊（東側兩張長椅西邊）、面向站在池邊的老師（crowd3d.js gym_pe_pool：老師 (19.8,−3.4)）*/
   S.PE_NARR={
-    pe_y1s1:['（第一堂。老師點完名，說這學期分三段：體適能、球類、游泳。）','（暖身跑了六圈。阿哲跑在最前面，回頭喊你們快一點。）','（量身高、體重、坐姿體前彎。排隊的時候大家都在講昨天的報告。）','（折返跑。最後一趟，你聽到自己的心跳。）',
-      '（開始打籃球。老師先教運球，球一直滾到隔壁的羽球場。）','（分組三對三。柏翰站在籃下，算好位置才動。）','（排球低手傳球。整堂課都在撿球。）','（分組比賽。輸的那一組收球。）',
+    pe_y1s1:['（第一堂。老師點完名，說這學期分三段：體適能、球類、游泳。）','（暖身跑了六圈。最後一圈大家都在用走的。）','（量身高、體重、坐姿體前彎。排隊的時候大家都在講昨天的報告。）','（折返跑。阿哲跑在最前面，回頭喊你們快一點。）',
+      '（開始打籃球。老師先教運球，球一直滾到隔壁的羽球場。）','（分組三對三。球一直打到界外。）','（排球低手傳球。整堂課都在撿球。）','（分組比賽。柏翰站在籃下，算好位置才動。輸的那一組收球。）',
       '（老師說下週開始游泳，記得帶泳衣泳帽。）','（第一次下水。水比想像中冷。老師說先閉氣十秒就好。）','（扶著池邊練踢水。旁邊那一水道有人游得很快。）','（第一次不扶池邊，游了半趟。上岸的時候腿有點軟。）',
       '（換氣。嗆了兩次水，第三次就對了。）','（老師說期末要游二十五公尺，不限姿勢。）','（期末前最後一次練習。你游到對面，扶著牆喘了很久。）','（期末測驗。二十五公尺，你游完了。）'],
     pe_y1s2:['（這學期打羽球。老師發球拍，有幾支的線鬆了。）','（練握拍和高遠球。羽球一直往旁邊飛。）','（兩人一組對打。Alison 每打一球就喊一聲。）','（練殺球。老師說手腕不要太用力。）',
@@ -506,6 +506,7 @@ const CLS=(function(){
   S.PE_SWIM_CLOSED='（今天在球場講游泳的安全守則。下週下水。）';   /* 稿第 3 節：游泳週 B1 沒開 */
   /* AA_644 §4（企劃線 a1302b8db，AA 11-03 23:36）：第 16 週（期末）碰到 B1 休館、換成「有人」以後要另寫的那一句、遲到的體育館版（教室那兩句在體育館不出）*/
   S.PE_SWIM_CLOSED16='（B1 游泳池今天休館。期末改在球場考體適能。）';
+  S.PE_SWIM_CLOSED_MID='（今天 B1 游泳池休館，改在球場練划手和換氣的動作。）';   /* AA_644 §5（企劃線 92c089f47）*/
   S.PE_ANON_FIX={'（換籃球。有人說他等這一段等一年了。）':'（換籃球。有人說終於輪到籃球了。）'};   /* 不認識的人不會知道他等了一年 */
   S.PE_LATE={gym:{abs:'（你到的時候大家已經在暖身了。你站到半圈最後面。）',late:'先跑兩圈再進來。'},gym_b1:{abs:'（你到的時候大家已經下水了。）',late:'先在池邊暖身。'}};
   S.PE_FRIENDS=['zhe','classmate_bohan','classmate_mingxuan','yu','classmate_xinci','classmate_youchen'];   /* 稿第 1 節：有修這堂的朋友（法律系同屆）*/
@@ -520,7 +521,7 @@ const CLS=(function(){
   S.peHere=function(G,id,it){ if(typeof STORY==='undefined') return false; if(STORY.present&&!STORY.present(id,G)) return false; if(STORY.knows&&!STORY.knows(id,G)) return false;
     if(id===(STORY.YOUCHEN||'classmate_youchen')&&!((it&&it.week)>=14)) return false; return true; };
   S.peFriends=function(G,it){ const T=S.peTable(it&&it.c); return T?T.friends.filter(id=>S.peHere(G,id,it)):[]; };
-  S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return (it.week|0)===16?S.PE_SWIM_CLOSED16:S.PE_SWIM_CLOSED;
+  S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return (it.week|0)===16?S.PE_SWIM_CLOSED16:((it.week|0)>=11?S.PE_SWIM_CLOSED_MID:S.PE_SWIM_CLOSED);   /* AA_644 §5：第 10 週還沒下過水＝講安全守則；11～15 週＝在球場練划手換氣；16 週＝改考體適能 */
     for(const nm in T.name){ if(t.indexOf(nm)<0||S.peHere(G,T.name[nm],it)) continue; t=t.split(nm+(/^[A-Za-z]/.test(nm)?' ':'')).join('有人'); } return S.PE_ANON_FIX[t]||t; };
   S.pePlace=(G,it)=>S.peSwim(G,it)?Object.assign({zone:'gym_b1'},S.PE_POOL):Object.assign({zone:'gym'},S.PE_IN_GYM);
   /* 朋友站進半圈（坐上長椅）：換掉這一堂離玩家最近的路人同學（crowd3d.js 的 pe_student／pe_swim，crowdKey 最後的序號＝離玩家的遠近），朋友照那個位置、朝向、座位；

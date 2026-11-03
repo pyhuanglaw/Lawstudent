@@ -48,11 +48,15 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
 
 (async()=>{
   /* ========== 0 讀稿 ========== */
-  let doc=''; try{ doc=cp.execSync('git show 96d771c8d:"docs/story_planning/AA_644_體育課在體育館_每週旁白.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){}
-  check('0. 讀稿：AA_644 @96d771c8d（企劃線）',doc.length>2000&&doc.indexOf('## 2. 每週一句旁白')>=0,doc.length+' 字');
+  let doc=''; try{ doc=cp.execSync('git show 92c089f47:"docs/story_planning/AA_644_體育課在體育館_每週旁白.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){}
+  check('0. 讀稿：AA_644 @92c089f47（企劃線；§5 改第 2、4、6、8 週和游泳週中間休館）',doc.length>2000&&doc.indexOf('## 2. 每週一句旁白')>=0,doc.length+' 字');
   const sec=(tag)=>{ const a=doc.indexOf(tag); if(a<0) return []; const b=doc.indexOf('\n###',a+3), part=doc.slice(a,b<0?doc.indexOf('\n## 3',a):b), rows=[];
     for(const l of part.split('\n')){ const m=/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*(.+?)\s*\|\s*$/.exec(l); if(m) rows.push({w:+m[1],at:m[2],t:m[3]}); } return rows; };
   const D={pe_y1s1:sec('### 大一上（`pe_y1s1`'),pe_y1s2:sec('### 大一下（`pe_y1s2`'),pe_y2s1:sec('### 大二上（`pe_y2s1`')};
+  /* §5（BB 23:43 三件）：大一上第 2、4、6、8 週換句（表格沒改，以 §5 為準）——每一句都要在 §5 裡 */
+  const S5={2:'（暖身跑了六圈。最後一圈大家都在用走的。）',4:'（折返跑。阿哲跑在最前面，回頭喊你們快一點。）',6:'（分組三對三。球一直打到界外。）',8:'（分組比賽。柏翰站在籃下，算好位置才動。輸的那一組收球。）'};
+  { const sec5=doc.slice(Math.max(0,doc.indexOf('## 5.'))); check('0. §5 的四句都在稿 §5 裡',doc.indexOf('## 5.')>0&&Object.values(S5).every(t=>sec5.indexOf(t)>=0)); }
+  for(const r of D.pe_y1s1) if(S5[r.w]) r.t=S5[r.w];
   const N=typeof CLS.PE_NARR==='object'&&CLS.PE_NARR?CLS.PE_NARR:{};
   for(const cid of ['pe_y1s1','pe_y1s2','pe_y2s1']){ const rows=D[cid], L=N[cid]||[], bad=rows.filter((r,i)=>r.w!==i+1||L[i]!==r.t).map(r=>r.w+'：'+r.t+' ≠ '+L[r.w-1]);
     check('0. '+cid+'：16 句旁白和稿一字不差（照週次）',rows.length===16&&L.length===16&&!bad.length,rows.length+'／'+L.length+' '+bad.slice(0,3).join('｜')); }
@@ -97,17 +101,17 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     check('2. 館內 1F 中圈「體育課集合」：游泳週＝下樓到池邊再上課',entered.length===1&&entered[0][0]==='gym_b1'&&!!got&&got.inGym===true,J(entered.map(e=>e[0])));
     G.hour=18.2; enterZ(GM,'gym_b1',null); check('2. 下課以後：那一班走了、長椅又有一般的人',!role('pe_swim').length&&!role('pe_swim_teacher').length&&role('pool_bench').length>=1);
     const G13=mkG(W13,15.6), it13=peIt(G13);
-    check('2. 第 13 週（11/24，第四個星期一 B1 休館）：在 1F 球場上、旁白換成「今天在球場講游泳的安全守則。下週下水。」',!!it13&&it13.week===13&&!CLS.peSwim(G13,it13)&&CLS.pePlace(G13,it13).zone==='gym'&&CLS.peNarr(G13,it13)===CLS.PE_SWIM_CLOSED,it13&&CLS.peNarr(G13,it13));
+    check('2. 第 13 週（11/24，第四個星期一 B1 休館）：在 1F 球場上、旁白換成 §5「（今天 B1 游泳池休館，改在球場練划手和換氣的動作。）」（已經下過水）',!!it13&&it13.week===13&&!CLS.peSwim(G13,it13)&&CLS.pePlace(G13,it13).zone==='gym'&&CLS.peNarr(G13,it13)===CLS.PE_SWIM_CLOSED_MID&&CLS.PE_SWIM_CLOSED_MID==='（今天 B1 游泳池休館，改在球場練划手和換氣的動作。）',it13&&CLS.peNarr(G13,it13));
     const GM13=mkGM(G13); enterZ(GM13,'gym',CLS.PE_IN_GYM); check('2. 第 13 週：半圈在球場（老師＋10 人）',role('pe_teacher').length===1&&role('pe_student').length===10);
     const z0=Z3.ZONES.gym_b1; delete Z3.ZONES.gym_b1; const Gx=mkG(W10,15.6), itx=peIt(Gx); const nb=!CLS.peSwim(Gx,itx)&&CLS.pePlace(Gx,itx).zone==='gym'&&CLS.peNarr(Gx,itx)===CLS.PE_SWIM_CLOSED; Z3.ZONES.gym_b1=z0;
     check('2. 沒有 B1 區域（還沒開放）：游泳週照舊在球場、用 B1 沒開那一句',nb); }
 
   /* ========== 3 朋友 ========== */
   { HERE.clear(); KNOW.clear(); const G=mkG(W8,15.6), it=peIt(G);
-    const w2=Object.assign({},it,{week:2}), w6=Object.assign({},it,{week:6});
-    check('3. 沒有朋友在場：第 2 週「有人跑在最前面」、第 6 週「有人站在籃下」',CLS.peNarr(G,w2)==='（暖身跑了六圈。有人跑在最前面，回頭喊你們快一點。）'&&CLS.peNarr(G,w6)==='（分組三對三。有人站在籃下，算好位置才動。）',CLS.peNarr(G,w2)+CLS.peNarr(G,w6));
+    const w2=Object.assign({},it,{week:4}), w6=Object.assign({},it,{week:8});   /* AA_644 §5：有名字的兩句搬到第 4、8 週 */
+    check('3. 沒有朋友在場：第 4 週「有人跑在最前面」、第 8 週「有人站在籃下」（§5）',CLS.peNarr(G,w2)==='（折返跑。有人跑在最前面，回頭喊你們快一點。）'&&CLS.peNarr(G,w6)==='（分組比賽。有人站在籃下，算好位置才動。輸的那一組收球。）',CLS.peNarr(G,w2)+CLS.peNarr(G,w6));
     HERE.add('zhe'); check('3. 阿哲這學期在學校、還不認識：照舊「有人」',CLS.peNarr(G,w2).indexOf('有人跑在最前面')>=0);
-    KNOW.add('zhe'); check('3. 阿哲在場、認識：「阿哲跑在最前面」（稿上那一句）',CLS.peNarr(G,w2)===CLS.PE_NARR.pe_y1s1[1]);
+    KNOW.add('zhe'); check('3. 阿哲在場、認識：「阿哲跑在最前面」（稿上那一句）',CLS.peNarr(G,w2)===CLS.PE_NARR.pe_y1s1[3]);
     const G2=mkG(Y1S2_W3,15.6), i2=peIt(G2); check('3. Alison 不在：「有人每打一球就喊一聲」（名字後面的半形空格一起拿掉）',!!i2&&i2.week===3&&CLS.peNarr(G2,i2)==='（兩人一組對打。有人每打一球就喊一聲。）',i2&&CLS.peNarr(G2,i2));
     HERE.add('yu'); KNOW.add('yu'); check('3. Alison 在：照稿',CLS.peNarr(G2,i2)===CLS.PE_NARR.pe_y1s2[2]);
     const G3=mkG(Y2S1_W12,15.6), i3=peIt(G3); HERE.delete('zhe'); check('3. 大二上第 12 週阿哲不在：「有人傳給你一球，你沒進，他說沒事啦。」',!!i3&&i3.week===12&&CLS.peNarr(G3,i3)==='（分組比賽。有人傳給你一球，你沒進，他說沒事啦。）',i3&&CLS.peNarr(G3,i3)); HERE.add('zhe');
@@ -132,7 +136,7 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     check('4. 經濟系大一上第 2 週（2024-09-11 週三）有體育課（pe_y0s1）',!!it&&it.c.id==='pe_y0s1'&&it.week===2,it&&it.c.id+' w'+(it&&it.week));
     const T=CLS.peTable(it.c), y1=CLS.PE_NARR.pe_y1s1; const exp=y1.slice(0,8).map(t=>t.split('阿哲').join('韋綸').split('柏翰').join('阿勳'));
     check('4. 用大一上第 1～8 週的旁白、阿哲→韋綸、柏翰→阿勳；沒有法律系的朋友',!!T&&J(T.lines)===J(exp)&&T.lines.every(t=>!/阿哲|柏翰|明軒|Alison|芯慈/.test(t))&&J(T.friends)===J(['econ_weilun','econ_zhengxun']),T&&T.lines[1]+T.lines[5]);
-    check('4. 韋綸不在場：「有人跑在最前面」；在、認識：「韋綸跑在最前面」',CLS.peNarr(G,it)==='（暖身跑了六圈。有人跑在最前面，回頭喊你們快一點。）'&&(HERE.add('econ_weilun'),KNOW.add('econ_weilun'),CLS.peNarr(G,it)==='（暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）'),CLS.peNarr(G,it));
+    const it4=Object.assign({},it,{week:4}); check('4. 韋綸不在場：「有人跑在最前面」；在、認識：「韋綸跑在最前面」（§5 第 4 週）',CLS.peNarr(G,it4)==='（折返跑。有人跑在最前面，回頭喊你們快一點。）'&&(HERE.add('econ_weilun'),KNOW.add('econ_weilun'),CLS.peNarr(G,it4)==='（折返跑。韋綸跑在最前面，回頭喊你們快一點。）'),CLS.peNarr(G,it4));
     HERE.add('zhe'); KNOW.add('zhe'); check('4. 經濟系那一年站進半圈的只有經濟系的同學',J(CLS.peFriends(G,it))===J(['econ_weilun']));
     check('4. 第 9 週以後稿上沒有：照舊用台詞池',CLS.peNarr(G,Object.assign({},it,{week:9}))===null);
     check('4. 大一下（pe_y0s2）是休學期間：沒有旁白（課表照舊不排，CLS.enrolled）',CLS.peNarr(G,{c:COURSES.list.find(c=>c.id==='pe_y0s2'),week:2})===null&&!CLS.enrolled({flags:{Y0_LEFT:true}},COURSES.list.find(c=>c.id==='pe_y0s2')));
@@ -142,7 +146,7 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
   { HERE.add('zhe'); KNOW.add('zhe');
     const run=async(key,h,o)=>{ const G=Object.assign(mkG(key,h),{money:1000,daily:{},energy:70}), GM=mkGM(G), it=peIt(G); said.length=0; caps.length=0; const P=CLS.pePlace(G,it); enterZ(GM,P.zone,P); let r=null, err='';
       try{ r=await CLS.attend(GM,it,Object.assign({door:true,inGym:true},o||{})); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,3).join(' / '); } return {G,GM,it,r,err,R:CLS.rec(G),L:said.map(s=>s.t)}; };
-    const a=await run(W8,15.4); const pool=(SYLLABUS.pools.pe_y1s1||{}), w8=CLS.PE_NARR.pe_y1s1[7];
+    const a=await run(W8,15.4); const pool=(SYLLABUS.pools.pe_y1s1||{}), w8=CLS.PE_NARR.pe_y1s1[7].replace('柏翰','有人');   /* §5：第 8 週有柏翰的名字；這裡柏翰不在場＝「有人」*/
     check('5. 第 8 週上課（CLS.attend）：說了這週的旁白「'+w8+'」',!a.err&&a.L.includes(w8),a.err||J(a.L));
     check('5. 台詞池那一句、同學反應不說（旁白取代）',!a.L.some(t=>(pool.lines||[]).some(l=>t.indexOf(l)>=0))&&!a.L.some(t=>(pool.react||[]).some(r=>t.indexOf(r.text)>=0)),J(a.L));
     check('5. 館內沒有「黑板」字幕（體育館沒有黑板）',!caps.some(c=>c[0]==='黑板'),J(caps));
@@ -154,7 +158,7 @@ const W8='2025-10-20', W10='2025-11-03', W13='2025-11-24', W14='2025-12-01', Y1S
     HERE.delete('zhe'); const d=await run(Y2S1_W9,15.4); check('5. 大二上第 9 週：阿哲不在場＝「有人說終於輪到籃球了。」（AA_644 §4：不認識的人不會知道他等一年）',!d.err&&d.it.week===9&&d.L.includes('（換籃球。有人說終於輪到籃球了。）')&&!d.L.some(x=>/等一年/.test(x)),d.err||J(d.L));
     HERE.clear(); KNOW.clear(); }
   /* AA_644 §4（AA 11-03 23:36）：第 16 週休館版、遲到 1～15 分鐘的體育館版 */
-  check('6. 第 16 週碰到 B1 休館＝「（B1 游泳池今天休館。期末改在球場考體適能。）」；其他游泳週照舊「下週下水」',CLS.PE_SWIM_CLOSED16==='（B1 游泳池今天休館。期末改在球場考體適能。）'&&/\(it\.week\|0\)===16\?S\.PE_SWIM_CLOSED16:S\.PE_SWIM_CLOSED/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/classes3d.js'),'utf8')));
+  check('6. 第 16 週碰到 B1 休館＝「（B1 游泳池今天休館。期末改在球場考體適能。）」；其他游泳週照舊「下週下水」',CLS.PE_SWIM_CLOSED16==='（B1 游泳池今天休館。期末改在球場考體適能。）'&&/\(it\.week\|0\)===16\?S\.PE_SWIM_CLOSED16:\(\(it\.week\|0\)>=11\?S\.PE_SWIM_CLOSED_MID:S\.PE_SWIM_CLOSED\)/.test(require('fs').readFileSync(require('path').join(__dirname,'..','src/classes3d.js'),'utf8')));
   check('6. 遲到的體育館版（球場／游泳池各兩句，照 AA_644 §4）',J(CLS.PE_LATE)===J({gym:{abs:'（你到的時候大家已經在暖身了。你站到半圈最後面。）',late:'先跑兩圈再進來。'},gym_b1:{abs:'（你到的時候大家已經下水了。）',late:'先在池邊暖身。'}}));
   console.warn=warn0; done();
 })().catch(e=>{ console.log('ERR',e.stack); process.exit(1); });
