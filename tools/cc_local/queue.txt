@@ -20,6 +20,11 @@
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 # BB 17:08：候選換成 033242ae9（和 15e78dff7 只差 index.html 版本字樣 v9.10.19）；其餘 V19 項目照 15e78dff7 跑、算這一版；deploy、p0b 跑 033242ae9
+# BB 18:00：候選改成 b267b0534（多了 library_view_trees 兩張圖），這四支排最前面；還沒跑的 V19 項目、重跑項目也改用 b267b0534
+V19R_deploy3 | b267b0534 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
+V19R_p0c     | b267b0534 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+V19L_libfl   | b267b0534 | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out}
+V19L_libsc   | b267b0534 | game | tests/flow_library_scene.py | index.html | 60 | XARGS={url} {out}
 V19R_deploy | 033242ae9 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.19（2026-11-03）
 V19R_p0b    | 033242ae9 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 V19R_p0     | 15e78dff7 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
@@ -43,23 +48,18 @@ V19D_tour_joy | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tou
 V19D_swingshot | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
 V19D_swing    | 15e78dff7 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
 V19D_stairarm | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
-#HOLD修正 V19R_deploy3 | <補檔> | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
-#HOLD修正 V19R_p0c     | <補檔> | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
-#HOLD修正 V19L_libfl   | <補檔> | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out}
-#HOLD修正 V19L_libsc   | <補檔> | game | tests/flow_library_scene.py | index.html | 60 | XARGS={url} {out}
-# （BB 17:58：library_view_trees 補檔的 SHA 下來就填、拿掉 #HOLD修正、排到最前面；libfl、libsc 要看展演廳圓窗的截圖）
 # --- V19 重跑（CC 17:5x）：touch 第一次手機自己打開、搖桿沒動；tour_tap 結束後合照選單沒跳（加出遊狀態記錄）；grandma 媽媽那句台上還沒人（探針改）；diners noodle2 18:30 同一批人不同（改成列出差的人和時間）---
 V19R_touch2  | 15e78dff7 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r2;XARGS={url}
-V19D_tour_tap2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=outst
-V19D_grandma2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1;RERUN=mom
-V19S_noodle2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 30 | CC_HEADLESS=0;SHOPS=l118_noodle2;HOURS=18.5;RERUN=diff
+V19D_tour_tap2 | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=outst
+V19D_grandma2 | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1;RERUN=mom
+V19S_noodle2 | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 30 | CC_HEADLESS=0;SHOPS=l118_noodle2;HOURS=18.5;RERUN=diff
 # --- V18 非門檻那批（子代理 11-03：ffee 上 unmet、journal ALL PASS，gym 只有拉筋裙子 FAIL，popin ⑤ 要看 PC）：改在 V19 候選跑，_C 是修正前的對照、應該 FAIL ---
-V19X_popin   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0
+V19X_popin   | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0
 V19X_popin_C | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0;EXPECT=FAIL
-V19X_gym     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_gym_shot_probe.py | index.html | 60 | CC_HEADLESS=0;CASES=rack,pool,plate,closed,motion
+V19X_gym     | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_gym_shot_probe.py | index.html | 60 | CC_HEADLESS=0;CASES=rack,pool,plate,closed,motion
 V19X_gym_C   | f9d8cce09 | probe | docs/story_planning/test_tools/cc/cc_gym_shot_probe.py | index.html | 40 | CASES=rack,motion;EXPECT=FAIL
-V19X_unmet   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py | index.html?lowres | 60 | MAX_MIN=55
-V19X_jnl     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 |
+V19X_unmet   | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py | index.html?lowres | 60 | MAX_MIN=55
+V19X_jnl     | b267b0534 | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 |
 V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 | EXPECT=FAIL
 #HOLD修正 GYM_skirt   | <修正> | probe | docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py | index.html | 40 |
 # （GYM_skirt：BUG-GYM-SKIRT-1103 修好以後填 SHA；雲端 ffeec06e0 修正前 FAILED 2）
