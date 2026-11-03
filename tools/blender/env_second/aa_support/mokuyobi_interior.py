@@ -51,7 +51,7 @@ for a, b in fr['windows']:
     xf0.rbox(sh.w('front', 'walnut'), a - 0.05, b + 0.05, fr['sill'] - 0.04, fr['sill'], Z1 - 0.22, Z1, r=0.008)        # 窗台板
 for side in ('back', 'left', 'right'):
     a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wall', a0, a1, 0.0, H)
-for side, (a0, a1) in (('back', (X0, X1)), ('left', (Z0, Z1)), ('right', (Z0, Z1)), ('front', (SW['x1'], fr['windows'][0][0]))):
+for side, (a0, a1) in (('back', (X0, X1)), ('left', (Z0, Z1)), ('right', (Z0, Z1)), ('front', (SW['x1'], fr['windows'][0][0])), ('front', (fr['windows'][-1][1], X1))):
     sh.wall_box(side, 'walnut', a0, a1, 0.0, 0.1, -0.015, 0.0)                                                          # 踢腳板
 # 樓梯間：x＝−3.0 的隔間牆（z 3.6～7.0）、z＝3.6 的隔間牆（店門開口）——併在 WALL_front（鏡頭在臨街那一側時一起淡出）
 fw = sh.w('front', 'wall'); dw = SW['door']; d0, d1 = dw['x'] - dw['w'] / 2, dw['x'] + dw['w'] / 2
@@ -186,7 +186,7 @@ for t, ss in sorted(tabs.items()):
         ox = math.sin(s_['yaw']) * -0.05; oz = math.cos(s_['yaw']) * -0.05
         K.bentwood_chair(sh, s_['x'] + ox, s_['z'] + oz, s_['yaw'], key='walnut')
     lx, lz = (tx + 0.18, tz - 0.18) if t not in (1, 2) else (tx, tz + 0.2)
-    K.table_lamp(sh, lx, lz, y=0.74, r=0.09)
+    if t not in (1, 2, 5): K.table_lamp(sh, lx, lz, y=0.74, r=0.09)   # v3：窗邊兩桌點蠟燭、前景那桌放甜點（參考圖沒有檯燈）
 # 生活痕跡：窗邊那桌（布丁、巴斯克、拿鐵、小花瓶）、念書的桌子（攤開的書、筆記本、鉛筆、水）
 t1 = (-0.9, 6.15)
 K.plate(sh, t1[0] - 0.12, t1[1] - 0.1, 0.74, r=0.09); Xf(t1[0] - 0.12, t1[1] - 0.1, 0, 0.75).lathe(sh.a('vcg'), [(0.0, 0.0), (0.045, 0.0), (0.04, 0.05), (0.032, 0.06), (0.0, 0.062)], 0, 0, 0, seg=14, col='#e3b05a')
@@ -214,8 +214,7 @@ for (x, z, ry) in ((-3.05, 1.1, 0.1), (-2.95, -1.55, 0.2), (3.55, 1.9, -0.1)):
     Xf(x + 0.22, z + 0.05, 0.3, 0.74).rbox(sh.a('vc'), -0.07, 0.07, 0.0, 0.008, -0.1, 0.1, r=0.002, col='#f4efe2')       # 筆記本
     Xf(x + 0.22, z + 0.05, 1.1, 0.748).cyl(sh.a('vc'), (-0.07, 0.004, 0), (0.07, 0.004, 0), 0.004, col='#d9a441', seg=6)  # 鉛筆
     K.glass_cup(sh, x - 0.2, z - 0.15, 0.74, h=0.1, r=0.033, fill='#dfe6e6')
-cg = Xf(0.5 + 0.55 + 0.05, 2.6, -math.pi / 2)                                                                             # 椅背上的針織外套
-cg.rbox(sh.a('vc'), -0.2, 0.2, 0.55, 0.86, -0.25, -0.17, r=0.03, col='#c9b48a'); cg.rbox(sh.a('vc'), -0.12, 0.12, 0.35, 0.6, -0.26, -0.2, r=0.03, col='#c9b48a')
+# （v3 拿掉 v1 椅背上的針織外套：兩個方塊看起來像一塊板子，參考圖也沒有）
 
 sh.tally('tables')
 # ---------------------------------------------------------------- 沙發區（L 形墨綠沙發、單人沙發、矮桌、立燈、半高書櫃）
@@ -262,6 +261,16 @@ sh.plant(hb['x'] + 0.6, hb['z'], h=0.35, r=0.08, pot_col='#e8dcc0', y0=hh + 0.04
 
 # ---------------------------------------------------------------- 東牆的兩張電影海報（胡桃木框）
 for p_, cell in zip(IT['poster'], ((0, 0, 2, 3), (2, 0, 2, 3))):
+    if p_.get('wall') == 'front':   # v3：臨街那面牆的實牆段（面向北）
+        pxf = Xf(p_['x'], Z1, math.pi)
+        sh.img_quad(sh.w('front', 'print'), pxf, 0, p_['y'] - p_['h'] / 2, 0.03, p_['w'], p_['h'], K.cell_uv(*cell))
+        pxf.rbox(sh.w('front', 'walnut'), -p_['w'] / 2 - 0.04, p_['w'] / 2 + 0.04, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, 0.0, 0.025, r=0.005)
+        continue
+    if p_.get('wall') == 'stair':   # v3：樓梯間隔間牆（面向東）
+        pxf = Xf(p_['x'], p_['z'], math.pi / 2)
+        sh.img_quad(sh.a('print'), pxf, 0, p_['y'] - p_['h'] / 2, 0.02, p_['w'], p_['h'], K.cell_uv(*cell))
+        pxf.rbox(sh.a('walnut'), -p_['w'] / 2 - 0.04, p_['w'] / 2 + 0.04, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, -0.005, 0.015, r=0.005)
+        continue
     sh.wall_img('right', 'print', p_['z'], p_['y'], p_['w'], p_['h'], K.cell_uv(*cell), off=0.03)
     Xf(0, 0).rbox(sh.w('right', 'walnut'), X1 - 0.025, X1, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, p_['z'] - p_['w'] / 2 - 0.04, p_['z'] + p_['w'] / 2 + 0.04, r=0.005)
 
@@ -269,8 +278,8 @@ sh.tally('sofa')
 # ---------------------------------------------------------------- 吊燈（波浪邊乳白玻璃）、植物
 for (x, z) in ((-0.9, 6.0), (2.4, 6.0), (0.5, 2.6), (-3.0, 1.3), (-3.0, -1.3), (3.6, 2.2), (-3.5, -5.5), (-2.3, -5.5), (2.9, -5.5)):
     K.dome_pendant(sh, x, z, 2.05 if z > -5 else 2.15, r=0.19 if z > -5 else 0.14, kind='scallop', glow_size=0.55)
-sh.plant(4.05, 6.45, h=1.3, r=0.24, pot_col='#b0653e')
-for (x, c) in ((-2.3, '#e8dcc0'), (4.0, '#b0653e')): sh.plant(x, Z1 - 0.12, h=0.3, r=0.07, pot_col=c, y0=fr['sill'])
+sh.plant(4.1, 3.9, h=1.3, r=0.24, pot_col='#b0653e')   # v3：窗邊東角變實牆＋唱片櫃，盆栽移到東牆
+for (x, c) in ((-2.3, '#e8dcc0'), (0.2, '#b0653e')): sh.plant(x, Z1 - 0.12, h=0.3, r=0.07, pot_col=c, y0=fr['sill'])
 sh.plant(-0.9 + 0.0, Z0 + 0.35, h=0.9, r=0.18, pot_col='#e8dcc0')
 
 # ---------------------------------------------------------------- 多一點「有人在用」的東西：東牆的矮櫃、唱片櫃上方的小畫、門邊的衣帽架、書櫃旁的大盆栽、地上的一疊書
@@ -296,6 +305,7 @@ sh.plant(-4.1, 3.1, h=1.2, r=0.22, pot_col='#b0653e')
 for q in range(6): Xf(-4.2, -1.62, 0.15 * q).rbox(sh.a('vcg'), -0.12, 0.12, q * 0.04, q * 0.04 + 0.038, -0.16, 0.16, r=0.004, col=('#e8e0cc', '#7b2d26', '#1f2e45', '#c9b48a', '#2f4a3a', '#f2efe6')[q])
 
 sh.tally('v1 rest')
-exec(open(os.path.join(HERE, 'mokuyobi_v2_fill.py'), encoding='utf-8').read())   # v2：擺滿東西（另一個檔，比較好讀）
+exec(open(os.path.join(HERE, 'mokuyobi_v2_fill.py'), encoding='utf-8').read())
+exec(open(os.path.join(HERE, 'mokuyobi_v3_fill.py'), encoding='utf-8').read())   # v3：照參考圖的窗邊一角（SCENE_RULES §12）   # v2：擺滿東西（另一個檔，比較好讀）
 sh.tally('v2 fill')
 info = sh.finish(OUT, keep=lambda ob: 'VIEW' in ob.name, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})
