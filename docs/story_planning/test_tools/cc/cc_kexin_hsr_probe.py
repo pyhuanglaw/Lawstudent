@@ -134,7 +134,7 @@ async def main():
                 await pg.wait_for_timeout(800); continue
             if s['day'] < d30 - 1:   # 宿營、搬宿舍以前（新局）：等劇情
                 await pg.wait_for_timeout(800); continue
-            await pg.wait_for_timeout(1600)   # 起床選單、出發選單要空下來才出
+            s = await C.settle(pg, s)   # 等遊戲跑過兩次 EVENTS.tick（每 30 幀一次；SwiftShader 1～4 fps 要 10～60 秒）：自動事件（阿凱凌晨的作業、四碗麵）有機會先演，玩家不會一停下來就又去睡（雲端 11-03：快轉停在 9/2 23:30、1.6 秒後又去睡，凌晨的作業沒演）
             s = await C.ts(pg)
             if not C.is_free(s): continue
             if s['zone'] != 'dorm':

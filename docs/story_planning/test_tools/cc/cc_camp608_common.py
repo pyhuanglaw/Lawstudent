@@ -205,3 +205,12 @@ async def resume_ok(pg, cdp, run, max_s=240):
         await pg.wait_for_timeout(1500)
     run.note('讀檔 %d 秒後還沒接著演：%s' % (max_s, J({k: s.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1', 'campStep', 'dlg', 'busy')} if s else None)))
     return False, s
+
+
+async def settle(pg, s, frames=65, max_s=90):
+    """空下來以後，等遊戲主迴圈再跑 frames 幀（EVENTS.tick／STORY.tick 每 30 幀一次）或有事發生（對話、選項、劇情），最多 max_s 秒。回傳最新的狀態"""
+    f0 = (s or {}).get('frame', 0); t0 = time.time(); s2 = s
+    while time.time() - t0 < max_s:
+        await pg.wait_for_timeout(1500); s2 = await ts(pg)
+        if not is_free(s2) or s2['frame'] - f0 >= frames: break
+    return s2
