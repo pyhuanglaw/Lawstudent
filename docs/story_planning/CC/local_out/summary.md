@@ -271,3 +271,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.4s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Z_A2_dorm] | [gpu_wrap 114.0s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 114.1s] BROWSER DISCONNECTED
 - 2026-11-03T10:14:36  Z_A3_l15  sha=7224af47a  exit=0  103s    PASS c 選「先不要」：時間沒有跳（差 < 3 分鐘）  h0=09:20 → 09:21 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Z_A3_l15] | [gpu_wrap 68.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 68.7s] BROWSER DISCONNECTED
+- 2026-11-03T10:17:12  Y_A2pre  sha=3c6207b60  exit=1  142s    PASS law_old b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式）  gohome=False 預期=False / PASS 沒有 JS 例外  [] / FAILED 6
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_A2pre] | [gpu_wrap 114.6s] page close url=http://127.0.0.1:8812/index.html | [gpu_wrap 114.8s] BROWSER DISCONNECTED

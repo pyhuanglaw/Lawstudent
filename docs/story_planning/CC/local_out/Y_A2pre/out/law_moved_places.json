@@ -1,0 +1,164 @@
+{
+ "rows": [
+  {
+   "i": 0,
+   "name": "台大校園（霖澤館前）",
+   "place": null,
+   "gohome": false,
+   "sub": "你在這裡"
+  },
+  {
+   "i": 1,
+   "name": "椰林大道・傅鐘",
+   "place": "campus|椰林大道・傅鐘",
+   "gohome": false,
+   "sub": "約 10 分鐘"
+  },
+  {
+   "i": 2,
+   "name": "校門口",
+   "place": "campus|校門口",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  },
+  {
+   "i": 3,
+   "name": "共同教學館",
+   "place": "campus|共同教學館",
+   "gohome": false,
+   "sub": "約 10 分鐘"
+  },
+  {
+   "i": 4,
+   "name": "普通教學館",
+   "place": "campus|普通教學館",
+   "gohome": false,
+   "sub": "約 10 分鐘"
+  },
+  {
+   "i": 5,
+   "name": "博雅教學館",
+   "place": "campus|博雅教學館",
+   "gohome": false,
+   "sub": "約 10 分鐘"
+  },
+  {
+   "i": 6,
+   "name": "大一女舍（門口）",
+   "place": "campus|大一女舍（門口）",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  },
+  {
+   "i": 7,
+   "name": "霖澤館（大廳）",
+   "place": "linze|霖澤館（大廳）",
+   "gohome": false,
+   "sub": "約 5 分鐘"
+  },
+  {
+   "i": 8,
+   "name": "霖澤館 201 教室",
+   "place": "classroom|霖澤館 201 教室",
+   "gohome": false,
+   "sub": "約 5 分鐘"
+  },
+  {
+   "i": 9,
+   "name": "萬才館（大廳）",
+   "place": "wancai|萬才館（大廳）",
+   "gohome": false,
+   "sub": "約 5 分鐘"
+  },
+  {
+   "i": 10,
+   "name": "法律學院圖書館",
+   "place": "lawlib|法律學院圖書館",
+   "gohome": false,
+   "sub": "約 5 分鐘・今天 08:10–21:45"
+  },
+  {
+   "i": 11,
+   "name": "總圖書館（大廳）",
+   "place": "library_hall|總圖書館（大廳）",
+   "gohome": false,
+   "sub": "約 10 分鐘・08:00–22:00"
+  },
+  {
+   "i": 12,
+   "name": "社科院圖書館",
+   "place": "soclib|社科院圖書館",
+   "gohome": false,
+   "sub": "約 10 分鐘・今天 08:20–22:00"
+  },
+  {
+   "i": 13,
+   "name": "公館商圈",
+   "place": "gongguan|公館商圈",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  },
+  {
+   "i": 14,
+   "name": "捷運公館站",
+   "place": "gongguan|捷運公館站",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  },
+  {
+   "i": 15,
+   "name": "阿鳳麵店",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過"
+  },
+  {
+   "i": 16,
+   "name": "日日便利",
+   "place": "cvs|日日便利",
+   "gohome": false,
+   "sub": "約 20 分鐘"
+  },
+  {
+   "i": 17,
+   "name": "舊路書房",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過"
+  },
+  {
+   "i": 18,
+   "name": "溫州街",
+   "place": "wenzhou|溫州街",
+   "gohome": false,
+   "sub": "約 20 分鐘"
+  },
+  {
+   "i": 19,
+   "name": "兩點半 Café",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過・11:00–02:30"
+  },
+  {
+   "i": 20,
+   "name": "宿舍",
+   "place": "dorm|宿舍",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  }
+ ],
+ "tab": "places",
+ "stage": "law",
+ "zone": "campus",
+ "hour": 13.51,
+ "Y0_MOVED_OUT": null,
+ "MOVED_OUT": 8,
+ "baseMode": false,
+ "movedOut": "無 HOME.movedOut",
+ "canGo": false,
+ "atHome": false,
+ "v": 2,
+ "hasSocial": true,
+ "phoneOpen": true
+}
