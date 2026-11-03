@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "N19_reach",
-  "sha": "9f14aab23",
+  "sha": "b1ae1c390",
   "kind": "game",
   "script": "tests/reachability_all.py",
   "env": "XARGS={url}",
   "machine": "MSI",
-  "start": "2026-11-03T22:00:26",
-  "end": "2026-11-03T22:09:38",
-  "seconds": 552,
+  "start": "2026-11-03T22:09:49",
+  "end": "2026-11-03T22:17:32",
+  "seconds": 464,
   "exit": 0,
   "error": null,
   "runner": "8565f3aa98",
   "rf_round": "3",
   "url": "http://127.0.0.1:8810/index.html?turbo",
   "res_peak": {
-    "cpu": 43,
-    "mem": 62,
-    "used_gb": 19.5,
-    "chrome_testing": 28
+    "cpu": 60,
+    "mem": 63,
+    "used_gb": 19.9,
+    "chrome_testing": 27
   }
 }
