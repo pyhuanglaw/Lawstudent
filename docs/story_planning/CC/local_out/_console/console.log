@@ -132,3 +132,11 @@
 [16:38:56] [res] cpu=18% mem=39% (12.5/31.4 GB) chrome_testing=0  START LIVE1_deploy
 [16:39:17] 正在跑：LIVE1_deploy（已跑 0 分／上限 30 分）、LIVE2_day12（已跑 0 分／上限 60 分）、WZ1_order（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [16:41:11] [res] cpu=68% mem=52% (16.5/31.4 GB) chrome_testing=18  END WZ1_order
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fd6010b4e..647e0bf7a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:41:16] ==== END   WZ1_order  exit=0  139s   ====
+[16:41:21] memory 53% before starting WZ2_warm (2 running)
+[16:41:21] ==== START WZ2_warm  (probe @ 3670b96eb) ====
+[16:41:24] [res] cpu=34% mem=52% (16.8/31.4 GB) chrome_testing=18  START WZ2_warm
+[16:43:19] [res] cpu=53% mem=52% (16.4/31.4 GB) chrome_testing=17  END LIVE1_deploy

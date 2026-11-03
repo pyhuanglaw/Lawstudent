@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "LIVE1_deploy",
+  "sha": "1d0904473",
+  "kind": "game",
+  "script": "tests/deploy_check.py",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）",
+  "machine": "MSI",
+  "start": "2026-11-03T16:38:52",
+  "end": "2026-11-03T16:43:19",
+  "seconds": 267,
+  "exit": 0,
+  "error": null,
+  "runner": "02a9caf4ba",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8812/index.html",
+  "res_peak": {
+    "cpu": 69,
+    "mem": 62,
+    "used_gb": 19.8,
+    "chrome_testing": 26
+  }
+}
