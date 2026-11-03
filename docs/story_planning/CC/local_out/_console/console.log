@@ -298,3 +298,11 @@
 [09:43:11] ==== START 15_touchwz  (game @ d75871437) ====
 [09:43:15] [res] cpu=87% mem=45% (14.0/31.4 GB) chrome_testing=19  START 15_touchwz
 [09:44:11] [res] cpu=91% mem=50% (15.9/31.4 GB) chrome_testing=19  END Y_P2_bar_a
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       416a6910d..c60c836a0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:44:17] ==== END   Y_P2_bar_a  exit=0  561s   ====
+[09:44:19] memory 50% before starting 16_p0 (2 running)
+[09:44:19] ==== START 16_p0  (game @ d75871437) ====
+[09:44:22] [res] cpu=49% mem=51% (15.9/31.4 GB) chrome_testing=19  START 16_p0
+[09:45:18] [res] cpu=79% mem=49% (15.4/31.4 GB) chrome_testing=19  END 14_zones

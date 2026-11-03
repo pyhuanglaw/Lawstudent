@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "14_zones",
+  "sha": "d75871437",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:42:44",
+  "end": "2026-11-03T09:45:18",
+  "seconds": 154,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 91,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 28
+  }
+}
