@@ -419,7 +419,7 @@ const CLS=(function(){
       for(let i=0;i<2;i++){ const q=CHAR.build(STORY.extraSpec(150+i*7)); q.position.set(x+0.8*(i?1:-1),0,z+1.2); const n=E.addNPC({obj:q,name:'',beh:'buddy',buddy:lib,side:i?1:-1,followOff:0.9+i*0.4,isExtra:true,lv:lv|0}); if(E.placeAt) E.placeAt(n,x+0.8*(i?1:-1),z+1.2,lv|0); crew.push(n); }
       if(withAn&&GM.spawnCharacter){ const an=GM.spawnCharacter('heroine_01',x+0.6,z-0.8,{lv:lv|0,beh:'buddy'}); if(an){ an.buddy=lib; an.side=1; an.followOff=0.7; crew.push(an); } } };
     const near=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)===(lib.lv|0)&&Math.hypot(P.x-L.x,P.z-L.z)<4.5; };
-    const far=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)!==(lib.lv|0)||Math.hypot(P.x-L.x,P.z-L.z)>25; };
+    const far=()=>{ const P=E.player.obj.position, L=lib.obj.position, h=Math.hypot(P.x-L.x,P.z-L.z); return (E.player.lv|0)!==(lib.lv|0)?h>8:h>25; };   /* BUG-TOUR-STAIRS-FAR-1103（BB 17:01，CC N19_tour_joy）：館員在樓梯平台等、玩家在下一層就在她腳下＝不算走遠（原本不同層一律算，40 秒就判「你離開了」）*/
     let zone0=G.zone, farT=0, left=false;
     const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
