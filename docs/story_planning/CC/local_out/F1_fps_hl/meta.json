@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "F1_fps_hl",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "CC_HEADLESS=1",
+  "machine": "MSI",
+  "start": "2026-11-03T07:55:17",
+  "end": "2026-11-03T08:04:00",
+  "seconds": 523,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 51,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 23
+  }
+}

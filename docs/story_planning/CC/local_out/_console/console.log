@@ -315,3 +315,11 @@
 [07:55:20] [res] cpu=5% mem=37% (11.7/31.4 GB) chrome_testing=0  START F1_fps_hl
 [07:55:37] leftover C:\Users\USER\Documents\wt_cc_R8_rr2 cannot be removed - using C:\Users\USER\Documents\wt_cc_R8_rr2_1793663737
 [08:01:01] [res] cpu=26% mem=50% (16.0/31.4 GB) chrome_testing=13  END P3b_sl
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       43d6d4592..9ff96a8c5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:01:07] ==== END   P3b_sl  exit=0  344s   ====
+[08:01:10] memory 50% before starting F2_fps_hd (2 running)
+[08:01:10] ==== START F2_fps_hd  (probe @ b1b249873) ====
+[08:01:13] [res] cpu=14% mem=50% (15.9/31.4 GB) chrome_testing=13  START F2_fps_hd
+[08:04:00] [res] cpu=35% mem=49% (15.4/31.4 GB) chrome_testing=17  END F1_fps_hl
