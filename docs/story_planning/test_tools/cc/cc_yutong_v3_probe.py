@@ -40,7 +40,7 @@ TEA = ('wenzhou', {'x': -20.5, 'z': 2.6, 'yaw': 0}, 12 + 40 / 60)   # 一盞門�
 SHIFT_LINES = ['水溫不要太高，烏龍會苦。', '語彤第一天來，把整壺茶倒在自己身上。你比她好。', '這間店第七年了。', '客人坐下先給水。他們會自己看菜單。', '三號桌的阿伯每次都點一樣的。你不用問。']
 BAN_OLD = ['麵店', '阿鳳', '扭到']
 CASES = {
-    'tea_first': dict(title='第一班（AA_610 第 2 節）', at=('Y1S1', 3, 6), where=TEA, met=False, tea=0, act='tea', picks=['妳在這裡做多久了'], shot=['語彤', '蘇姨'], port=True,
+    'tea_first': dict(title='第一班（AA_610 第 2 節）＋之後讀檔一次', at=('Y1S1', 3, 6), where=TEA, met=False, tea=0, keepFm=True, reload_name=True, act='tea', picks=['妳在這裡做多久了'], shot=['語彤', '蘇姨'], port=True,
                       exp=[('610', N, '（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）'), ('610', '蘇姨', '語彤，他今天第一天。妳帶他。'), ('610', '語彤', '……嗯。'),
                            ('610', '語彤', '客人坐下先給水，不要先問點什麼。他們會自己看。'), ('610', '語彤', '高三暑假開始。'),
                            ('610', N, '（一個下午下來，她跟你講的話不超過十句。）'), ('610', N, '（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）'), ('610', '語彤', '第一天都這樣。下週就順了。')],
@@ -222,6 +222,7 @@ SETUP = r"""(c=>{ const G=GAME.G, F=G.flags, YT='heroine_03';
   const so=G.social||(G.social={}), U=so.relUp||(so.relUp={}); for(const id of Object.keys(c.rel||{})) if((U[id]|0)<4) U[id]=4;
   for(const k in (c.dayflags||{})) F[k]=G.day+c.dayflags[k];
   const D=(G.events.done=G.events.done||{}); for(const e of (c.done_ev||[])) D[e]=G.day-7;
+  if(!c.keepFm) so.fm120=true;   /* 捷徑：讀檔時的「舊存檔初遇修正」（game3d.js relabelFirstMet）記成做過；不然第二次讀檔會把剛記的 FIRST_MET 改成 GREETED（見 tea_first 的讀檔檢查）*/
   return {stage:SOCIAL.stage(YT), rel:SOCIAL.rel(YT), knows:typeof STORY!=='undefined'&&STORY.knows?STORY.knows(YT,G):null, dating:!!F['dating_'+YT],
     jobs:G.jobs&&G.jobs.tea?{shifts:G.jobs.tea.shifts,day:G.jobs.tea.day}:null, groups:(c.groups||[]).map(g=>PHONE.inGroup(G,g[0]))}; })"""
 
@@ -427,7 +428,7 @@ async def run_case(BR, name, cs, docs, run):
         if not st: run.check('[%s] 找得到日子' % name, False, J(cs.get('key') or cs.get('at'))); return res
         await pg.evaluate("(()=>{ window.__YTEV={a:EVENTS.onEnter,b:EVENTS.tick}; })()")
         await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(2500)
-        info = await pg.evaluate(SETUP, {k: cs.get(k) for k in ('meet', 'rel', 'mem', 'contacts', 'groups', 'dating', 'dayflags', 'done_ev')} | {'meet': [YT] + list(cs.get('meet') or []) if cs.get('met', True) else list(cs.get('meet') or [])})
+        info = await pg.evaluate(SETUP, {k: cs.get(k) for k in ('meet', 'rel', 'mem', 'contacts', 'groups', 'dating', 'dayflags', 'done_ev', 'keepFm')} | {'meet': [YT] + list(cs.get('meet') or []) if cs.get('met', True) else list(cs.get('meet') or [])})
         if cs.get('grad') or cs.get('epi'):
             info['pg'] = await pg.evaluate(PG_SETUP, {'epi': bool(cs.get('epi'))})
         run.setup('[%s] 最小存檔讀檔：%s（星期%s，%s 第 %s 週）%.2f %s；遊戲 API 設前置：%s' % (name, d['key'], '日一二三四五六'[d['wd']], d['term'], d['week'], cs['where'][2], cs['where'][0], J(info)))
@@ -439,6 +440,8 @@ async def run_case(BR, name, cs, docs, run):
         await pg.evaluate(HOOK)
         await L.load_state(pg, snap, quiet_events=False, quiet_phone=not cs.get('phone')); await pg.wait_for_timeout(3000)
         run.setup('[%s] GAME.snapshot() 再讀一次（條件事件照開%s）' % (name, '、手機自動打開照開' if cs.get('phone') else '、只關手機自動打開'))
+        if cs.get('keepFm'):   # 新遊戲從標題「開始」玩到這裡、中間沒讀過檔＝G.social 沒有 fm120（game3d.js 只在讀檔時記）；這裡的兩次讀檔是捷徑，把它拿掉回到新遊戲的樣子
+            run.setup('[%s] 拿掉 G.social.fm120（回到「新遊戲、還沒讀過檔」）：%s' % (name, J(await pg.evaluate("(()=>{ const had=!!(GAME.G.social&&GAME.G.social.fm120); if(GAME.G.social) delete GAME.G.social.fm120; return had; })()"))))
         await run.shot(pg, name + '_loaded')
         if cs.get('act') == 'class':
             await class_flow(pg, cdp, run, cs)
@@ -462,7 +465,14 @@ async def run_case(BR, name, cs, docs, run):
             run.check('[%s] 茶屋平常的班：一班最多一句、句子在 AA_625 第 77～82 行' % name, len(sl) <= 1 and all(doc_line(docs, '625', t) for t in sl), J(sl))
         bad = [r for r in W['scr'] if any(w in r['t'] for w in BAN_OLD)]
         run.check('[%s] 畫面上沒有舊設定的字（%s）' % (name, '、'.join(BAN_OLD)), not bad, J(bad[:4]))
-        res.update({'pass': ok and done and not bad, 'rows': rows})
+        rl_ok = True
+        if cs.get('reload_name'):   # 第一班演完：照玩家「讀檔」一次（GAME.snapshot()→GAME.applySave，同「繼續」），名字還是語彤嗎
+            snap2 = await pg.evaluate("()=>GAME.snapshot()"); snap2 = snap2.get('G', snap2) if isinstance(snap2, dict) else snap2
+            pre = await pg.evaluate("(()=>({name:SOCIAL.displayName('heroine_03'), met:!!GAME.G.flags.met_heroine_03, fm:SOCIAL.has('heroine_03','FIRST_MET'), fm120:!!(GAME.G.social&&GAME.G.social.fm120), mem:(GAME.G.social.mem.heroine_03||[]).map(m=>m.tag)}))()")
+            await L.load_state(pg, snap2, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
+            post = await pg.evaluate("(()=>({name:SOCIAL.displayName('heroine_03'), met:!!GAME.G.flags.met_heroine_03, fm:SOCIAL.has('heroine_03','FIRST_MET'), job:!!GAME.G.flags.YT_MET_JOB, mem:(GAME.G.social.mem.heroine_03||[]).map(m=>m.tag)}))()")
+            rl_ok = run.check('[%s] 第一班以後讀檔一次（GAME.snapshot→applySave）：她的名字還是「陳語彤」（FIRST_MET、met_heroine_03 留著）' % name, post['name'] == '陳語彤' and post['fm'], J({'讀檔前': pre, '讀檔後': post}))
+        res.update({'pass': ok and done and not bad and rl_ok, 'rows': rows})
     except Exception as e:
         run.check('[%s] 跑完（沒有探針例外）' % name, False, repr(e)[:500]); traceback.print_exc()
         try: await pg.screenshot(path=os.path.join(out, name + '_exception.png'))

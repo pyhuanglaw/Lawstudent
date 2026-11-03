@@ -106,12 +106,16 @@ async def interact_label(pg):
 
 async def tap_interact(pg, cdp, want):
     """像玩家一樣按互動鍵（字要是 want 開頭）；回傳按了沒"""
-    for _ in range(12):
-        lab = await interact_label(pg)
+    for _ in range(16):
+        s = await L.state(pg)
+        if s['dlg'] and not s['choices']:   # 進來時的旁白（例：研究小間第一次進去「很安靜」那一句）先點掉
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+        lab = s.get('interact') or ''
         if lab.startswith(want):
             await L.tap(pg, cdp, '#interact'); return True
         await pg.wait_for_timeout(500)
-    note('互動鍵不是「%s」：%r' % (want, await interact_label(pg)))
+    dbg = await pg.evaluate("(()=>{ const E=GAME.E, p=E.player.obj.position; return {busy:!!E.player.busy, seat:!!E.player.seat, near:E.interactables.filter(i=>Math.hypot(i.x-p.x,i.z-p.z)<2.5).map(i=>[i.label,+i.x.toFixed(2),+i.z.toFixed(2),i.radius,i.lv,!!i.hidden]), ni:(E.nearestInteractable()||{}).label||null, p:[+p.x.toFixed(2),+p.z.toFixed(2)]}; })()")
+    note('互動鍵不是「%s」：%r；%s；附近的互動點 %s' % (want, await interact_label(pg), J({k: s[k] for k in ('dlg', 'dtext', 'choices', 'busy', 'paused') if k in s}), J(dbg)))
     return False
 
 
@@ -295,14 +299,13 @@ async def case_sixlaw(pg, cdp):
         await L.tap_ground(pg, cdp, sp[0], sp[1] + 0.25); await pg.wait_for_timeout(4000)
     results = []
     menu = None
-    for k in range(6):
-        if not await tap_interact(pg, cdp, '看看房間裡的東西'):
-            break
-        o = await wait_choices(pg, 10)
-        if menu is None: menu = o; note('選單：%s' % J(o))
-        items = [t for t in o if t != '不看了']
-        if k >= len(items): await pick(pg, cdp, lambda t: t == '不看了'); break
-        want = items[k]
+    opened = await tap_interact(pg, cdp, '看看房間裡的東西')
+    o = await wait_choices(pg, 10) if opened else []
+    menu = o; note('選單：%s' % J(o))
+    items = [t for t in o if t != '不看了']
+    for k, want in enumerate(items):
+        if not await choices(pg):
+            note('選單不見了（第 %d 項以前）' % k); break
         cam0 = await pg.evaluate("window.__CC.cam()")
         await pg.evaluate(CAMLOG_START)
         await pick(pg, cdp, lambda t: t == want)
@@ -323,14 +326,15 @@ async def case_sixlaw(pg, cdp):
         results.append(r)
         note('「%s」：%d 格、劇情鏡頭 %s、用了 via %s；起點 %s 終點 %s；在梯子裡 %d 格／穿過 %d 段、在床板裡 %d／%d、名字有 ladder 的 %s' % (
             want, len(log), cine, r['via_used'], J(log[:1]), J(log[-1:]), len(hitL), segL, len(hitD), segD, J(segN)))
-        # 講完旁白回到選單
+        # 講完旁白：選單會再出來（roomItems 一次最多 12 項），像玩家一樣接著選下一項
         for _ in range(30):
             s = await L.state(pg)
             if s['choices']: break
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(600)
-        if await choices(pg):
-            await pick(pg, cdp, lambda t: t == '不看了'); await pg.wait_for_timeout(2500)
+        await pg.wait_for_timeout(1500)
+    if await choices(pg):
+        await pick(pg, cdp, lambda t: t == '不看了'); await pg.wait_for_timeout(2500)
     REC['data']['sixlaw_paths'] = results
     check('sixlaw：選單裡有鏡頭的東西都量到了（至少 1 項）', len(results) >= 1, J(menu))
     camr = [r for r in results if r['cine']]
