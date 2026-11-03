@@ -34,8 +34,6 @@ V18R_touch2 | 0776cafc8 | game | tests/touch_flow_wenzhou.py  | index.html?turbo
 V18G_sleep    | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_sleep_cine_probe.py       | index.html | 60  | CC_HEADLESS=0
 V18G_eat      | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_eat_after_class_probe.py  | index.html | 90  | CC_HEADLESS=0
 V18G_camp608  | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_camp608_probe.py          | index.html | 240 | MAX_S=12000
-#HOLD雲端 V18G_oldsave  | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 120 | （make 0f66／load ffee 的傳檔方式等子代理建議）
-#HOLD雲端 V18G_f606     | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_friends606_probe.py   | index.html | 600 | （探針還在修；SAVE 讀 V18G_camp608 的輸出）
 # ===== BB 13:38：下一版（開發分支 21ab92db0；總圖一二樓第四版、萬才館轉 42°）=====
 # 已知：二樓書架很高，點地面常常點到書架。如果 flow 是因為點不到地面而失敗，只記錄、交給 BB 判，不改判 PASS
 N19_libfl   | 21ab92db0 | game  | tests/flow_library_floors.py   | index.html       | 60  | XARGS={url} {out}
@@ -52,6 +50,12 @@ N19S_shots  | b1ae1c390 | game  | tests/shop_diners_shots.py | index.html?turbo 
 # BB 14:14：N19_libtour 被判「離開導覽」，在 b1ae 上 SOLO 重跑兩個版本（點地面／只用搖桿），記軌跡和每一次點地面
 #HOLD雲端 N19_tour_tap | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;CC_HEADLESS=0
 #HOLD雲端 N19_tour_joy | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;CC_HEADLESS=0
+# BB 12:03 順序 ①：camp 系列（雲端已驗：camp608 debb ALL PASS、oldsave e799／ffee ALL PASS、kexin ffee ALL PASS、friends606 跑到 9/3）。b1ae1c390 含 debb001c4（BUG-CAMP-RESUME-824 修正）
+N19C_c608   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_camp608_probe.py | index.html | 30  | MAX_S=1500
+N19C_osmake | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 30 | CASES=make
+N19C_osload | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py | index.html | 75 | CASES=load;SAVE=docs/story_planning/CC/local_out/N19C_osmake/out/oldsave_camp_d2.json;SAVE_SHA=0f66c4215;SAVE_WAIT_MIN=40
+N19C_f606   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_friends606_probe.py | index.html | 620 | SAVE=docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json;SAVE_SHA=b1ae1c390;SAVE_WAIT_MIN=40;MAX_S=36000
+N19C_kx607  | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_kexin_hsr_probe.py | index.html | 120 | MAX_S=6600
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
 #V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
