@@ -1,0 +1,77 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gym_shot_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_gym_C\out
+CASES=rack,motion  headless=False  SHA=f9d8cce09
+PASS land：遊戲載入
+  [前置／捷徑] land：讀檔進 gym_b1 第 8 天（週3）17.00 時，位置 None（條件事件關閉）——週三 17:00、有人在練的時段
+PASS rack land：人在 gym_b1  gym_b1
+PASS rack：CROWD.GYM_STAND_FIT 不是 true（55332d899 設 false；8bc5b1207 起拿掉開關）  False
+PASS rack land：深蹲架、啞鈴架前沒有站著不動的人（crowdRole rack／dumbbell 的 pose 是 gym_squat／gym_curl）  7 位、rack／dumbbell []、站著不動的 []
+  rack land：NPC 7 位；15 秒內沒動（<0.05 m）的：[{'name': '櫃台阿姨', 'role': 'desk_b1', 'x': 21, 'z': 0.2, 'moved': 0.0, 'vis': True, 'pose': 'idle'}, {'name': '救生員', 'role': 'lifeguard', 'x': 13.2, 'z': -12, 'moved': 0.0, 'vis': True, 'pose': 'idle'}]
+  [前置／捷徑] land：讀檔進 gym_b1 第 11 天（週6）19.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 11 天 19.0 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 7 天（週2）18.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 7 天 18.5 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 11 天（週6）10.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 11 天 10.0 時：4 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 12 天（週0）15.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 12 天 15.0 時：4 人，動作 ['idle', 'run', 'sit']
+  [前置／捷徑] land：讀檔進 gym_b1 第 8 天（週3）17.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 8 天 17.0 時：5 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 7 天（週2）12.60 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 7 天 12.6 時：4 人，動作 ['idle', 'run', 'sit']
+  [前置／捷徑] land：讀檔進 gym_b1 第 14 天（週2）19.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 14 天 19.5 時：7 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 18 天（週6）16.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 18 天 16.0 時：5 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 19 天（週0）10.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 19 天 10.5 時：5 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 15 天（週3）20.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 15 天 20.5 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 25 天（週6）19.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 25 天 19.0 時：7 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] land：讀檔進 gym_b1 第 21 天（週2）18.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion land 第 21 天 18.0 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+FAIL motion land：深蹲（gym_squat）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+FAIL motion land：啞鈴彎舉（gym_curl）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+FAIL motion land：坐姿肩推（gym_press）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+FAIL motion land：飛輪（gym_bike）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+FAIL motion land：划船（gym_row）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+FAIL motion land：拉筋（gym_stretch）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 12, 'run': 27, 'talk': 17, 'sit': 9}
+PASS land：沒有 JS 例外  []
+PASS port：遊戲載入
+  [前置／捷徑] port：讀檔進 gym_b1 第 8 天（週3）17.00 時，位置 None（條件事件關閉）——週三 17:00、有人在練的時段
+PASS rack port：人在 gym_b1  gym_b1
+PASS rack port：深蹲架、啞鈴架前沒有站著不動的人（crowdRole rack／dumbbell 的 pose 是 gym_squat／gym_curl）  7 位、rack／dumbbell []、站著不動的 []
+  rack port：NPC 7 位；15 秒內沒動（<0.05 m）的：[{'name': '櫃台阿姨', 'role': 'desk_b1', 'x': 21, 'z': 0.2, 'moved': 0.0, 'vis': True, 'pose': 'idle'}, {'name': '救生員', 'role': 'lifeguard', 'x': 13.2, 'z': -12, 'moved': 0.0, 'vis': True, 'pose': 'idle'}]
+  [前置／捷徑] port：讀檔進 gym_b1 第 11 天（週6）19.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 11 天 19.0 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 7 天（週2）18.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 7 天 18.5 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 11 天（週6）10.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 11 天 10.0 時：4 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 12 天（週0）15.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 12 天 15.0 時：4 人，動作 ['idle', 'run', 'sit']
+  [前置／捷徑] port：讀檔進 gym_b1 第 8 天（週3）17.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 8 天 17.0 時：5 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 7 天（週2）12.60 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 7 天 12.6 時：4 人，動作 ['idle', 'run', 'sit']
+  [前置／捷徑] port：讀檔進 gym_b1 第 14 天（週2）19.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 14 天 19.5 時：7 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 18 天（週6）16.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 18 天 16.0 時：5 人，動作 ['idle', 'run', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 19 天（週0）10.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 19 天 10.5 時：5 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 15 天（週3）20.50 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 15 天 20.5 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 25 天（週6）19.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 25 天 19.0 時：7 人，動作 ['idle', 'run', 'sit', 'talk', 'walk']
+  [前置／捷徑] port：讀檔進 gym_b1 第 21 天（週2）18.00 時，位置 {'x': -6.0, 'z': 6.0, 'yaw': 0}（條件事件關閉）——找健身中心裡有哪些動作（一次進場只挑 2～6 人）
+  motion port 第 21 天 18.0 時：6 人，動作 ['idle', 'run', 'sit', 'talk']
+FAIL motion port：深蹲（gym_squat）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+FAIL motion port：啞鈴彎舉（gym_curl）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+FAIL motion port：坐姿肩推（gym_press）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+FAIL motion port：飛輪（gym_bike）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+FAIL motion port：划船（gym_row）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+FAIL motion port：拉筋（gym_stretch）在健身中心出現  試過 12 個時段都沒出現；看到的動作 {'idle': 13, 'run': 27, 'talk': 15, 'sit': 9, 'walk': 1}
+PASS port：沒有 JS 例外  []
+截圖：C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_gym_C\out\rack_land_1.png, C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_gym_C\out\rack_land_2.png, C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_gym_C\out\rack_port_1.png, C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_gym_C\out\rack_port_2.png
+FAILED 12
