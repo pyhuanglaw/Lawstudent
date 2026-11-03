@@ -40882,6 +40882,27 @@
         "receiver": "LAWWW2",
         "ack": "ACK"
       }
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "每次交班",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "title": "D129 交班以後就不用喚醒：交班完成的職位停用自己的每小時保險喚醒、取消 send_later；接班時再打開",
+      "owner": "LAWWW",
+      "status": "已驗收",
+      "priority": "P2",
+      "note": "UA-LAWWW-1103-01",
+      "evidence": "CLAUDE.md D129＋P0 換班口令第 9 點、AI_SESSION_HANDOFF 第 5 節與 HV-23、PROJECT_DECISIONS D129；帳號 A 交班時 LAWWW、LAWWW2、BB 的保險喚醒已 enabled=false（AA、CC 還在值班，照舊）",
+      "next": "各職位交班照做；接班時把自己的保險喚醒改回 enabled=true"
     }
   ]
 }

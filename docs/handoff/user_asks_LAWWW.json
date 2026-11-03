@@ -2067,6 +2067,15 @@
       "status": "進行中",
       "task": "BUG-CLIMB-ZOMBIE-1102",
       "note": "爬宿舍梯子上床的 climb 姿勢：character3d.js CLIMB_VRM 兩手固定往前抬（蓋掉走路片段的手），看起來像殭屍；改成兩手交替抓梯子、手肘彎、不要直直伸出去"
+    },
+    {
+      "id": "UA-LAWWW-1103-01",
+      "at": "2026-11-03T23:1x",
+      "quote": "你幫我新增一個規則就是只要交班之後就不用用喚醒",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "D129／HV-23；接在 LAWWW 交班後關掉 LAWWW、LAWWW2、BB 三個每小時保險喚醒之後"
     }
   ]
 }
