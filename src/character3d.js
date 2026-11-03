@@ -259,17 +259,22 @@ const CHAR = (function(){
   C.climbIK=true;
   C.CLIMB={side:0.2,lo:-0.12,hi:0.27,fwdLo:0.24,fwdHi:0.3,amp:0.3,lean:0.14,chest:0.06,neck:-0.16,blend:0.7,grip:[0.75,0.9,0.6]};
   const CLQ=new THREE.Quaternion(), CLV=[0,1,2,3,4,5].map(()=>new THREE.Vector3());
-  function climbIK(h,u,dt){ if(!C.climbIK) return; const hm=u.vrm.humanoid, K=C.CLIMB, k=u.k||1;
+  /* part：'lean'＝① 上身＋③ 換手的節奏（在 headFit 以前）、'arms'＝② 手＋⑤ 握住（在 headFit 以後：彎腰、蹲低以後手照肩膀新的位置抓）。
+     權重 u.climbW 在 animateVRM 算（換成爬梯子 blend 秒內 0→1、換成別的姿勢 1→0：爬到最上面換成跪上床時手慢慢放開，不跳格；DORM-LADDER-STOOP-1103）*/
+  function climbIK(h,u,part){ if(!C.climbIK) return; const hm=u.vrm.humanoid, K=C.CLIMB, k=u.k||1;
     const R=u.rawClimb||(u.rawClimb=(()=>{ const o={}; for(const n of ['spine','chest','neck']) o[n]=hm.getRawBoneNode(n); for(const L of LEGS.concat(ARMS)) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
     if(LEGS.concat(ARMS).some(L=>L.slice(0,3).some(n=>!R[n]))) return;
-    const w0=u.climbW=Math.min(1,(u.climbW||0)+(dt>0?dt/K.blend:0)); if(!(w0>0)) return; const w=w0*w0*(3-2*w0);   /* 緩進緩出 */
+    const w0=u.climbW||0; if(!(w0>0)) return; const w=w0*w0*(3-2*w0);   /* 緩進緩出 */
     h.updateWorldMatrix(true,true); const left=CLV[0].set(1,0,0).applyQuaternion(h.getWorldQuaternion(CLQ)).normalize();   /* 人物的左方（人物座標 +x）：繞它轉正的角度＝往前傾 */
     const Lc=b=>h.worldToLocal(b.getWorldPosition(new THREE.Vector3()));
+    if(part==='lean'){
     // ③ 換手的節奏：左膝比右膝前面多少（人物座標 z 往前）
     const d=(Lc(R.leftLowerLeg).z-Lc(R.leftUpperLeg).z)-(Lc(R.rightLowerLeg).z-Lc(R.rightUpperLeg).z), s=Math.max(-1,Math.min(1,d/(K.amp*k)));
     const hiR=0.5+0.5*Math.sin(s*Math.PI/2), hi=[1-hiR,hiR]; u.climbHi=hi;   /* 左腳在前（往上踩）→ 右手在上 */
     // ① 上身
     if(R.spine) rotWorld(R.spine,left,K.lean*w); if(R.chest) rotWorld(R.chest,left,K.chest*w); if(R.neck) rotWorld(R.neck,left,K.neck*w);
+    return; }
+    const hi=u.climbHi||[0.5,0.5];
     // ② 手
     for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], sh=Lc(R[L[0]]), cur=Lc(R[L[2]]), t=hi[i];
       const T=CLV[1].set(side*K.side*k, sh.y+(K.lo+(K.hi-K.lo)*t)*k, sh.z+(K.fwdLo+(K.fwdHi-K.fwdLo)*t)*k); if(w<1) T.lerp(cur,1-w);
