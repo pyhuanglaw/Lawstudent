@@ -276,3 +276,7 @@
 [05:15:55] ERROR DC_ver_ok : worktree add e1603907e failed: fatal: invalid reference: e1603907e
 [05:15:59] [res] cpu=10% mem=39% (12.3/31.4 GB) chrome_testing=0  END DC_ver_bad
 [05:15:59] [res] cpu=9% mem=38% (12.3/31.4 GB) chrome_testing=0  END DC_ver_ok
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       19c049487..94b30296a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[05:16:03] ==== END   DC_ver_bad  exit=None  7s  worktree add 039a9227a failed: fatal: invalid reference: 039a9227a ====
