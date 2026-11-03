@@ -303,7 +303,7 @@ const CLS=(function(){
     if(lateAbs&&!o.lateOk){ const k=await (async()=>{ if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,'已經開始 '+Math.floor(S.lateMin(G,it))+' 分鐘了。現在進去會記缺席。'); return await GM.choose([{t:'還是進去聽',hint:'記缺席；聽得到後半堂'},{t:'算了'}]); } finally { if(!o.inScene) GM.sceneEnd(); } })(); if(k!==0) return false; }
     if(c.kind!=='service'&&!lateAbs) await S.beforeClassEvent(GM,it);
     { const zf=it.room&&it.room.zone, line=zf&&ROOM_FIRST[zf]; if(line&&!exam&&!lateAbs&&G.flags&&!G.flags['ROOM_FIRST_'+zf]){ G.flags['ROOM_FIRST_'+zf]=true; if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,line); } finally { if(!o.inScene) GM.sceneEnd(); } } }   /* 第一次在那間教室上課的一句旁白（X78，AA_330 第 3 點；只演一次）*/   /* 上課前的人物事件（BB_135 1-4：芯慈在重修教室上課前）。坐在 3D 座位上課（inScene）也要演：原本只有門口上課才演，座位教室（201、普通 101…）的課前、課後事件從來不會出現（AA-B 2026-10-16 回報）*/
-    const dBg=door&&it.room&&S.DOOR_BG[it.room.door]&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.DOOR_BG[it.room.door]):null;   /* 門口上課有自己的背景圖（BB 10:24：研討室 A 上課、考試都是空的模糊背景）*/
+    const dBg=door&&o.inGym?'freeze':(door&&it.room&&S.DOOR_BG[it.room.door]&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.DOOR_BG[it.room.door]):null);   /* inGym：在體育館裡上體育課＝看得到館內（BUG-PE-DOOR-2D-1103）*/   /* 門口上課有自己的背景圖（BB 10:24：研討室 A 上課、考試都是空的模糊背景）*/
     if(!o.inScene) GM.sceneBegin(door?(dBg?{adv:true,background:dBg}:{adv:true}):undefined); else if(dBg&&typeof ADV!=='undefined'&&ADV.active&&ADV.setBg) ADV.setBg(dBg);
     try{
       if(door&&exam&&it.room&&S.DOOR_EXAM_LINE[it.room.door]) await GM.say(null,S.DOOR_EXAM_LINE[it.room.door].replace(/\{課名\}/g,c.name));   /* 考試那一堂開頭一句（研討室裡的人；AA 寫，到了填進 S.DOOR_EXAM_LINE）*/
@@ -480,6 +480,7 @@ const CLS=(function(){
                 campus_service:{zone:'campus',x:-40,z:11.2,radius:1.6,label:'服務學習集合點',verb:'報到',terms:['Y2S1'],look:'晨思鐘旁的服務學習集合點。'},   /* 服務學習（二）（大二上；內容 AA 大二前再補）：只在那學期出現 */
                 wancai_seminar:{zone:'wancai',built:true,label:'研討室 A',look:'研討室 A：法律系館B二樓的小教室，大四的研討課在這裡上。'} };   /* built：門的互動點由區域自己建（wancai3d.js 的研討室 A），addDoors 不另外加 */
   S.DOORS=DOORS;
+  S.PE_IN_GYM={x:0,z:-2.6,yaw:Math.PI};   /* 體育課的站位：體育館球場中圈（gym_layout.js pe_class (0,-4)）前面、面向中圈 */
   S.DOOR_BG={wancai_seminar:'wancai_seminar'};   /* 門口上課的 ADV 背景（OUT.BG 的 id）：研討室 A＝法律系館B・研討室（現有的圖）；共同、普通、博思、體育館照舊模糊（不考五題，BB 10:24 先記下）*/
   S.DOOR_EXAM_LINE={wancai_seminar:'（法律系館B 的研討室。{課名}只有十幾個人，大家圍著長桌坐，老師坐在桌子的另一頭，手邊一疊考卷。）'};   /* 研討室 A 期末考開頭的旁白（AA_578 第 7 節 @9a767de08，BB 口氣審 PASS 10:24）：法律倫理、刑事判決研討、公法判決研討共用 */
   S.addDoors=function(GM,zoneId){ const E=GM.E; const tm=typeof CALENDAR!=='undefined'&&GM.G?CALENDAR.termOf(GM.G.day):null; for(const k in DOORS){ const d=DOORS[k]; if(d.zone!==zoneId||d.built) continue; if(d.terms&&!(tm&&d.terms.includes(tm.id))) continue;
@@ -533,7 +534,10 @@ const CLS=(function(){
   S.doorInteract=async function(GM,k,o){ o=o||{}; const G=GM.G, d=DOORS[k]; const it=S.liveDoor(G,k);
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]&&(!it||it.room.zone===d.enter)){ await GM.enter(d.enter); if(it&&S.status(G,it)!=='done') GM.toast(S.status(G,it)==='open'?'上課的教室：'+it.room.name+'（找個位子坐下）':it.c.name+'快下課了（'+it.room.name+'），現在進去不算出席',4200); return; }   /* liveDoor 只會是 open 或 missed（2026-10-13 審查：遲到時原本寫「等一下的課在」）*/   /* 課在館內的教室上（2026-10-13）*/
     if(it&&S.status(G,it)==='open'){ const opts=[{t:(d.verb||'進去上課')+'：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'}]; if(d.enter&&Z3.ZONES[d.enter]) opts.push({t:'進館裡逛逛（不上課）'}); opts.push({t:'不上了'});
-      const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
+      const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })();
+      /* BUG-PE-DOOR-2D-1103（使用者 11-03 22:5x 截圖：「體育課上課 用對話呈現？體育館都已經建立好了」「然後背景是校園？」）：體育課＝走進體育館、站到球場中圈上課，背景是館內的 3D（freeze），不在校園門口用模糊背景演 */
+      if(ch===0&&k==='gym'&&S.PE_IN_GYM&&typeof Z3!=='undefined'&&Z3.ZONES.gym&&GM.enter){ const P=S.PE_IN_GYM; await GM.enter('gym',{x:P.x,z:P.z,yaw:P.yaw||0,lv:0}); await S.attend(GM,it,{door:true,inGym:true}); return; }
+      if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]){ await GM.enter(d.enter); return; }   /* 沒有課：公共空間照常可以進（使用者 2026-10-13：「不必每次進入都觸發故事」）*/
     const today=S.dayItems(G).filter(q=>q.room.door===k); if(d.noToday&&!today.length){ GM.caption('',o.look||d.look,4800); return; } const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',(o.pre?o.pre:'')+(o.look||d.look)+s,o.pre?6000:4800); };
   // ---------- 自學：選一門課（AA_104 4-3：和上課累積同一個「準備」）----------

@@ -96,7 +96,7 @@ const GY3=(function(){
   async function scene(GM,f){ GM.sceneBegin(); try{ await f(GM); } finally { GM.sceneEnd(); } }
   /* 球場中圈「體育課集合」：這堂體育課現在可以上 → 上課（和門口同一套）；不然寫今天的體育課 */
   async function peClass(GM){ const G=GM.G; if(typeof CLS==='undefined') return; const it=CLS.liveDoor?CLS.liveDoor(G,'gym'):null;
-    if(it&&CLS.status(G,it)==='open'){ let ch=1; GM.sceneBegin(); try{ ch=await GM.choose([{t:'上課：'+it.c.name},{t:'等一下'}]); } finally { GM.sceneEnd(); } if(ch===0) await CLS.attend(GM,it,{door:true}); return; }
+    if(it&&CLS.status(G,it)==='open'){ let ch=1; GM.sceneBegin(); try{ ch=await GM.choose([{t:'上課：'+it.c.name},{t:'等一下'}]); } finally { GM.sceneEnd(); } if(ch===0) await CLS.attend(GM,it,{door:true,inGym:true}); return; }   /* inGym：館內 3D 當背景（BUG-PE-DOOR-2D-1103）*/
     const today=CLS.dayItems(G).filter(q=>q.room&&q.room.door==='gym'); GM.caption('',today.length?'體育課在這裡集合。今天：'+today.map(q=>q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以上',upcoming:'還沒開始'})[CLS.status(G,q)]+'）').join('、'):'體育課在這裡集合。今天沒有你的體育課。',4200); }
 
   const gym={ id:'gym', name:'綜合體育館', indoor:true, camDist:5.2, build(E){ const Ly=L();

@@ -43626,6 +43626,46 @@
     "acceptance": "BB ART_APPROVED（D120）",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第 1 週週一體育課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "BUG-PE-DOOR-2D-1103",
+   "title": "體育課在體育館裡上：門口「進去上課」先進館站到球場中圈，再上課，背景館內 3D（freeze）；館內中圈集合同樣",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "note": "使用者 11-03 22:5x 截圖（X202）",
+   "next": "BB／CC 在 PC 驗；之後：游泳週到 B1 游泳池、老師和同學站在中圈（AA 台詞照舊）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次打開大地圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "MAP-FRIEND-GO-1103",
+   "title": "地圖「認識的人現在大概在」每個人多一個「直接過去」（轉場＋走路時間，到他在的區域旁邊）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "使用者 11-03 22:5x 截圖（X203）",
+   "next": "實作＋單元測試→BB"
   }
  ]
 }
