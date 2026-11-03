@@ -703,3 +703,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T07:17:55  N20_tour_tap8  sha=d2b962a3f  exit=0  330s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_tour_tap8] | [gpu_wrap 296.9s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 297.0s] BROWSER DISCONNECTED
 - 2026-11-04T07:19:20  N20_navb  sha=d2b962a3f  exit=0  77s    PASS 帳篷：2026-11-15、2027-11-15、2028-11-15 不擺（11/15 只留給大一） / PASS 帳篷：經濟系那一年的博覽會、校慶只在經濟系擺；大一博覽會照 activities 的日子 / ALL PASS
+- 2026-11-04T07:22:41  N20_libsc  sha=d2b962a3f  exit=0  194s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_libsc] | [gpu_wrap 154.8s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 154.9s] BROWSER DISCONNECTED
