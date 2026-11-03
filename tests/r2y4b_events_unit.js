@@ -156,16 +156,16 @@ const date=id=>H.date(id);
   { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();
     check('P3 沒重新聯絡上：沒有這一件', !th('p:classmate_peishan').length); }
   /* ===== 2-Y4-37 語彤 16b 阿姨的照片 ===== */
-  const PH='（照片：阿姨在日本一座寺廟前比 YA，背後是跟團的旗子）';
+  /* AA_625 第 16b 節（YT-REWRITE-1103；AA_627 AA 決定第 3 點）：秀琴姨請一週假去台中看孫子——18:00 一張照片、沒有字；隔五分鐘「她說台中太熱了。」「她說下禮拜回來，叫我不要一直吃泡麵。」；沒有選項、沒有群組版 */
+  const PH='（照片：秀琴姨在台中的公園抱著一個小孩，背後是兒子一家）', AFTER=['她說台中太熱了。','她說下禮拜回來，叫我不要一直吃泡麵。'];
   { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); at('2029-04-19',18); phone();
-    const m=(H.G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.text===PH);
-    check('A1 朋友：4/19 18:00 一張照片、沒有字；三選一', JSON.stringify(th('p:heroine_03'))===JSON.stringify([PH])&&!!m&&m.ask&&m.ask.opts.length===3);
-    answer('y4_yt_aunt',1);
-    check('2-Y4-37（回一張麵的照片）→ 你傳的是照片「📷（別家的乾麵，旁邊一顆滷蛋）」（AA_345 G5），接她「你在吃別家的麵？我要跟阿姨講。」；YT_AUNT_PHOTO', (()=>{ const T=th('p:heroine_03'), i=T.indexOf('📷（別家的乾麵，旁邊一顆滷蛋）'); return i>0&&T[i+1]==='你在吃別家的麵？我要跟阿姨講。'; })()&&H.G.flags.YT_AUNT_PHOTO==='noodle', JSON.stringify(th('p:heroine_03')));
+    const m=(H.G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.text===PH), t0=JSON.stringify(th('p:heroine_03')); at('2029-04-19',18.1); phone();
+    check('A1 朋友：4/19 18:00 一張照片、沒有字、沒有選項；18:05 兩句（AA_625 第 16b 節）', t0===JSON.stringify([PH])&&!!m&&!m.ask&&JSON.stringify(th('p:heroine_03'))===JSON.stringify([PH].concat(AFTER)), JSON.stringify(th('p:heroine_03')));
+    check('2-Y4-37 沒有「回一張麵的照片」那些回覆（AA_625 第 16b 節沒有選項）、不記 YT_AUNT_PHOTO', !th('p:heroine_03').some(t=>/別家的乾麵|阿姨講/.test(t))&&H.G.flags.YT_AUNT_PHOTO==null);
     at('2029-04-20',12); H.said=[]; const r=await NOODLE_CLOSED.door(GM);
     check('A2 4/20 去燒臘店：門口「（燒臘店門口貼著一張紙：「出國，休息七天。」）」（AA_642 第 6 節：照樣公休七天、拿掉「阿鳳」的署名）、進不去（4/26 照常開）', r===true&&H.said.some(s=>s.t==='（燒臘店門口貼著一張紙：「出國，休息七天。」）')&&!H.said.some(s=>/老闆|阿鳳/.test(s.t))&&(at('2029-04-26',12),!(await NOODLE_CLOSED.door(GM))), JSON.stringify(H.said.map(s=>s.t))); }
   { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); date('kexin'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-04-19',18); phone();
-    check('2-Y4-37 她知道祐廷和別人交往：照片發在麵店團群組，多「阿姨第一次出國」「店休一個禮拜」', JSON.stringify(th('g:noodle_team').slice(-3))===JSON.stringify([PH,'阿姨第一次出國','店休一個禮拜'])&&!th('p:heroine_03').length); }
+    check('2-Y4-37 她知道祐廷和別人交往：一樣是私訊（AA_625 第 16b 節沒有群組版）', JSON.stringify(th('p:heroine_03').slice(0,1))===JSON.stringify([PH])&&!th('g:noodle_team').some(t=>t===PH||/阿姨第一次出國/.test(t))); }
   /* ===== 2-Y4-38 可昕：生日「今年不要慶祝」===== */
   { fresh('2029-04-23',20,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); at('2029-04-23',21); phone();
     check('2-Y4-38 4/23 21:00「明天我生日。今年不要慶祝，我們都在準備考試。」（回「好。」）', th('p:kexin').includes('明天我生日。今年不要慶祝，我們都在準備考試。')&&(answer('y4_kx_bday',0),th('p:kexin').includes('好。')));

@@ -68,9 +68,10 @@ await sec(1,async()=>{ const due=(t,w,wdd)=>{ fresh(key(TD(t,w,wdd)),18,'wz_prin
   H.said=[]; await JOBS.onEnter(GM,'copy');
   check('1. 1-5 留下來的四句（AA_420 3-3）',said('房東說漲一成就好。我照學長說的，一條一條談，談完寫下來。')&&said('我們法律系的，果然不只會印考古題。')&&said('爸，你剛剛說「我們法律系」。')&&said('……我說錯了。')&&H.G.flags.WZ_COPY_SHOP==='stay',J(L()));
   /* 語彤的租約多一句 */
-  const lt=ev('ev_yt_lease_text'), i=lt.dialogue.findIndex(l=>l.text==='（你想起阿德那封信。學長第一個問的，是租約寫了幾年。）'), j=lt.dialogue.findIndex(l=>l.text==='（你傳了一張課本那一頁的照片。）'), k=lt.dialogue.findIndex(l=>l.text==='……房東想把整棟賣掉。還沒確定。');
+  /* 語彤那一段照 AA_625 第 8 節整段換了（YT-REWRITE-1103）：阿德那一句接在她最後一句「謝謝。我不知道課本裡有寫這個。」之後（原本在「房東想把整棟賣掉」之後、照片之前，照片那一句拿掉）*/
+  const lt=ev('ev_yt_lease_text'), i=lt.dialogue.findIndex(l=>l.text==='（你想起阿德那封信。學長第一個問的，是租約寫了幾年。）'), j=lt.dialogue.length, k=lt.dialogue.findIndex(l=>l.text==='謝謝。我不知道課本裡有寫這個。');
   fresh('2027-03-30',12,'linze',{WZ_COPY_LEASE:2}); const c1=EVENTS.cond(lt.dialogue[i].if); H.G.flags.WZ_COPY_LEASE=1; const c0=EVENTS.cond(lt.dialogue[i].if);
-  check('1. 語彤的租約訊息多一句（WZ_COPY_LEASE≥2；在「房東想把整棟賣掉」之後、照片之前）',i>k&&i<j&&c1&&!c0);
+  check('1. 語彤的租約訊息多一句（WZ_COPY_LEASE≥2；在她最後一句之後，AA_625 第 8 節）',k>=0&&i>k&&i<j&&c1&&!c0);
   /* 1-6、阿芃的年級 */
   fresh(key(TD('Y3S1',3,2)),19,'wz_print'); H.picks=[0]; await run('ev_wz_c7c'); check('1. 第 3 題：沒上過 ip_law 第 4 週＝「這題我要回去想。」；大三＝「我才高一。」',said('這題我要回去想。')&&said('那你想好了再跟我說。我不急。我才高一。'),J(L()));
   H.said=[]; H.picks=[0]; await run('ev_wz_c_apeng'); const o=H.opts.slice(-1)[0]||[];

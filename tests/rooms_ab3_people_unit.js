@@ -110,14 +110,14 @@ await sec(2,async()=>{
   check('2. 柏翰坐 spots.duty、語彤坐 spots.companion、阿姨（背景）坐 spots.client',sp3.some(s=>s.id==='classmate_bohan'&&near(s,sp.duty)&&s.o.seat)&&sp3.some(s=>s.id==='heroine_03'&&near(s,sp.companion)&&s.o.seat)&&ex3.some(e=>e.id==='rab3_aunt'&&near(e,sp.client)&&e.o.seat),J(sp3.map(s=>[s.id,s.x,s.z]))+J(ex3.map(e=>[e.id,e.x,e.z])));
   check('2. 畫面：模糊的 3D（不是 wancai_seminar 的圖）',bg3[0]==='blur'&&!bg3.some(isImg),J(bg3));
   check('2. 散會：阿姨、語彤離開，柏翰照作息留著',rm3.includes('rab3_aunt')&&rm3.includes('heroine_03')&&!!GM.npc.classmate_bohan&&C.staged===null,J(rm3));
-  check('2. 演了一次（ev_yt_aunt_consult、值班算一次）、台詞照原文',G.events.done.ev_yt_aunt_consult===1&&G.flags.LAWCLUB_SAT_LAST===G.day&&L3d[0]==='（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）'&&L3d.includes(NM('classmate_bohan')+'：好。那紀錄你照做，意見我來講。'),J(L3d.slice(0,4)));
+  check('2. 演了一次（ev_yt_aunt_consult、值班算一次）、台詞照原文',G.events.done.ev_yt_aunt_consult===1&&G.flags.LAWCLUB_SAT_LAST===G.day&&L3d[0]==='（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）'   /* AA_625 第 9 節 */&&L3d.includes(NM('classmate_bohan')+'：好。那紀錄你照做，意見我來講。'),J(L3d.slice(0,4)));
   H.said=[]; const r2=await STORY.fafuShift(GM); check('2. 同一天再按：不再演（once）',!r2&&!H.said.length);
   G=await aunt('wancai',[0]); await without('wancai_semb',()=>STORY.fafuShift(GM)); const L2d=lines(), bg2=H.bgs.slice();
   check('2. 房間不在（舊版）：照原本 2D——沒有換區域、背景是 wancai_seminar 的圖',!entered.length&&isImg(bg2[0]),J(bg2));
   check('2. 3D 和 2D 的台詞、選項一字不差',J(L3d)===J(L2d)&&L3d.length>15,L3d.length+'/'+L2d.length);
   /* 交往中、阿姨知道（另一支）：3D、2D 一樣 */
   const both=[]; for(const noRoom of [false,true]){ const G1=await aunt('wancai',[2]); G1.flags.YT_AUNT_KNOWS=true; G1.flags.dating_heroine_03=true; const run=()=>STORY.fafuShift(GM); if(noRoom) await without('wancai_semb',run); else await run(); both.push(lines()); }
-  check('2. 交往中、阿姨知道（第三個選項）：3D、2D 台詞一樣（「認識啊，我們語彤的男朋友。」）',J(both[0])===J(both[1])&&both[0].includes('阿姨：認識啊，我們語彤的男朋友。'),both[0].length+'/'+both[1].length);
+  check('2. 交往中（第三個選項）：3D、2D 台詞一樣（AA_625 第 9 節：「認識啊，他是語彤的男朋友。」）',J(both[0])===J(both[1])&&both[0].includes('秀琴姨：認識啊，他是語彤的男朋友。'),both[0].length+'/'+both[1].length);
   /* 人在研討室 B：自動開始 */
   G=await aunt('wancai_semb',[0]); const t=C.tick(GM); await C.pending; const Lr=lines();
   check('2. 人在研討室 B（值班時間）：自動開始、不換區域、走到做紀錄的位置；台詞和上面一樣',t===true&&!entered.length&&walks.some(w=>near({x:w[0],z:w[1]},rec))&&J(Lr)===J(L3d)&&G.events.done.ev_yt_aunt_consult===1,J({t,entered,walks}));

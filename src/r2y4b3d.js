@@ -168,12 +168,9 @@ const R2Y4B=(function(){
   /* ===================== 2-Y4-37 語彤 16b 阿姨的照片（4/19 18:00）＋麵店公休 4/19～4/25 ===================== */
   const knowsOther=(G,id)=>typeof ROM!=='undefined'&&LOVE.filter(x=>x!==id&&dating(G,x)).some(p=>p==='kexin'?(ROM.knowsGF&&ROM.knowsGF(G,id)):(ROM.knowsOf&&ROM.knowsOf(G,id,p)));
   const ytAuntPhone=G=>{ const d=DK('2029-04-19'); if(d==null||G.day<d||G.day>d+6||!at(G,'2029-04-19',18)||!met(G,'heroine_03','FAMILIAR')||PHONE.sent(G,'y4_yt_aunt')) return;
-    const ask={id:'y4_yt_aunt',until:T(d+6,24),opts:[{t:'阿姨好開心。',set:{YT_AUNT_PHOTO:'happy'},say:[{from:'heroine_03',text:'她說這是她第一次出國。店休一個禮拜，她說回來要煮多一點補回來。'}]},
-      {t:'（回一張麵的照片）',post:'📷（別家的乾麵，旁邊一顆滷蛋）',set:{YT_AUNT_PHOTO:'noodle'},say:[{from:'heroine_03',text:'你在吃別家的麵？我要跟阿姨講。'}]},
-      {t:'妳呢？',set:{YT_AUNT_PHOTO:'you'},say:[{from:'heroine_03',text:'我在總圖。期中考，店剛好也沒開。'}]}]};
-    const PH='（照片：阿姨在日本一座寺廟前比 YA，背後是跟團的旗子）';
-    if(knowsOther(G,'heroine_03')){ if(grp(G)) PHONE.at(G,d,18,[GR('heroine_03',PH),GR('heroine_03','阿姨第一次出國'),GR('heroine_03','店休一個禮拜',{ask})],'y4_yt_aunt'); }   /* 她知道祐廷和別人交往：照片發在麵店團群組 */
-    else if(contact(G,'heroine_03')) PHONE.at(G,d,18,[P_('heroine_03',PH,{ask})],'y4_yt_aunt'); };
+    /* AA_625 第 16b 節（YT-REWRITE-1103；AA_627 AA 決定第 3 點：秀琴姨不退休）：秀琴姨請一週假去台中看孫子——18:00 一張照片、沒有文字；隔五分鐘兩句。沒有選項（原本的三個回覆、群組版拿掉）*/
+    const PH='（照片：秀琴姨在台中的公園抱著一個小孩，背後是兒子一家）';
+    if(contact(G,'heroine_03')){ PHONE.at(G,d,18,[P_('heroine_03',PH)],'y4_yt_aunt'); PHONE.at(G,d,18+5/60,[P_('heroine_03','她說台中太熱了。'),P_('heroine_03','她說下禮拜回來，叫我不要一直吃泡麵。')],'y4_yt_aunt_2'); } };
   S.aunTrip=G=>{ const a=DK('2029-04-19'), b=DK('2029-04-25'); return law(G)&&a!=null&&G.day>=a&&G.day<=b; };
   S.AUNT_DOOR='（燒臘店門口貼著一張紙：「出國，休息七天。」）';   /* AA_642 第 6 節：燒臘店照樣公休七天（老闆出國），拿掉「阿鳳」的署名（AA_519 1-1 的舊設定）*/
 

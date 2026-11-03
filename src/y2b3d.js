@@ -41,10 +41,10 @@ const Y2B=(function(){
           if(L) PHONE.at(G,d02,21,L,'y2_kx_bad_1202'); }
         if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給予樂聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
     /* ---- 1B-02 語彤事件 8：傳了訊息的那天 21:30 ---- */
-    { const dL=F.YT_LEASE_TEXT_DAY; if(typeof dL==='number'&&!PHONE.sent(G,'y2_yt_lease_2130')&&now(G)>=T(dL,21.5)) PHONE.at(G,dL,21.5,[Y('我拿給阿姨看了'),Y('她叫我把那一頁影印給她')].concat(dating(G,'heroine_03')?[Y('謝謝你')]:[]),'y2_yt_lease_2130'); }
+    /* 21:30「我拿給阿姨看了」那兩則：AA_625 第 8 節換成當下「我明天跟她說。」，拿掉（YT-REWRITE-1103）*/
     /* ---- 1B-03 語彤事件 9：都沒遇到＝6/12（六）21:00 私訊三句 ---- */
     { const d=D('2027-06-12'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-12',21)&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G)&&contact(G,'heroine_03')&&!PHONE.sent(G,'y2_yt_aunt_msg')){
-        PHONE.at(G,d,21,[Y('前陣子我陪阿姨去法服。'),Y('裡面的人說，租約到期以前，他不能趕我們。'),Y('阿姨出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪阿姨去法服'); } }
+        PHONE.at(G,d,21,[Y('前陣子我陪秀琴姨去法服。'),Y('裡面的人說，租約到期以前，新屋主不能叫她搬。'),Y('她出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪秀琴姨去法服');   /* 句子照 AA_625 第 9 節不在場版（「禮拜六」改「前陣子」：這一則是 6/12 才傳）*/ } }
     /* ---- 1B-05 子晴 Q8：沒碰到、或沒看過 Q6＝6/4（五）22:00（FRIEND 以上）---- */
     { const d=D('2027-06-04'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-04',22)&&!done(G,'ev_ziqing_dad_visit')&&stageAt('heroine_04','FRIEND')&&contact(G,'heroine_04')&&!PHONE.sent(G,'y2_zq_dad_msg')){
         /* AA_255 第 7 節（C10，AA 定稿；AA_375 第 4 節提醒還沒進程式）：四則版——看過 Q6＝「他問我遊戲做好了沒」、沒看過（不提遊戲）＝「他問我最近在忙什麼 我說寫程式」；
@@ -129,37 +129,37 @@ const Y2B=(function(){
   S.auntDue=G=>{ const d=D('2027-05-22'); return d!=null&&G.day===d&&law(G)&&typeof STORY!=='undefined'&&!!STORY.fafuShiftable&&STORY.fafuShiftable(G)&&!done(G,'ev_yt_aunt_consult')&&knows('heroine_03',G); };
   S.auntConsult=async function(GM){ const G=GM.G, F=G.flags; if(!S.auntDue(G)) return false;
     F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1; mark(G,'ev_yt_aunt_consult');   /* 值班照樣算一次（同 S.fafuShift）*/
-    const yt=who('heroine_03'), bh=who('classmate_bohan'), aunt={name:'阿姨'}, me={name:G.name||'祐廷'}, dt=dating(G,'heroine_03'), aK=dt&&S.auntKnows(G);
+    /* AA_625 第 9 節（YT-REWRITE-1103，AA 定稿）：陪秀琴姨（語彤家的煮飯阿姨）來法服；交往中的版本＝和她交往中（秀琴姨知道）*/
+    const yt=who('heroine_03'), bh=who('classmate_bohan'), aunt={name:'秀琴姨'}, me={name:G.name||'祐廷'}, dt=dating(G,'heroine_03');
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin){ if(ADV.preload) ADV.preload(['heroine_03','classmate_bohan']); ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg('wancai_seminar'):'blur',right:{charId:'heroine_03',expression:'neutral'},left:{charId:'classmate_bohan',expression:'serious'}}); }
-      await GM.say(null,'（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）');
-      await GM.say(yt,'（看到你，停了一下）……嗯。我陪阿姨來的。');
+      await GM.say(null,'（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）');
+      await GM.say(yt,'（看到你，停了一下）……嗯。我陪秀琴姨來的。');
       await GM.say(bh,'你們認識？');
-      if(aK){ await GM.say(aunt,'認識啊，我們語彤的男朋友。'); await GM.say(yt,'阿姨。'); await GM.say(bh,'……喔。那這件你不要做紀錄，坐旁邊聽就好。紀錄我自己來。'); await GM.say(null,'（你把筆放下。語彤沒有看你，耳朵有點紅。）');
+      if(dt){ await GM.say(aunt,'認識啊，他是語彤的男朋友。'); await GM.say(yt,'秀琴姨。'); await GM.say(bh,'……喔。那這件你不要做紀錄，坐旁邊聽就好。'); await GM.say(null,'（你把筆放下。語彤沒有看你，耳朵有點紅。）');
         if(typeof ROM!=='undefined'&&ROM.learn) ROM.learn(G,'classmate_bohan','heroine_03','aunt_consult'); }   /* 柏翰知道了（不往下傳，AA_218 17-10）*/
-      else { await GM.say(me,'我常去她們店裡吃麵。'); await GM.say(bh,'好。那紀錄你照做，意見我來講。'); }
+      else { await GM.say(me,'我們在同一家茶屋打工。'); await GM.say(bh,'好。那紀錄你照做，意見我來講。'); }
       await GM.say(bh,'阿姨，先跟您說，我們都是學生。今天講的，之後會請指導律師再看一次。');
       await GM.say(aunt,'學生好啊。學生比較有耐心。');
-      await GM.say(null,'（阿姨把租約攤在桌上。語彤把它轉過來，對著柏翰。）');
-      await GM.say(bh,'（翻到最後一頁）書面的，五年，還有……快兩年。您一直住在店裡、做生意，對吧？');
-      await GM.say(aunt,'每天。過年也開。');
-      await GM.say(bh,'那這樣。房子賣了，租約跟著房子走。新屋主要接著當房東，到期以前，他不能叫你們搬。');
-      await GM.say(aunt,'仲介說他要租給連鎖店。');
-      await GM.say(bh,'那是到期以後的事。到期以前，他要等。');
-      await GM.say(bh,'這快兩年，可以拿來準備怎麼跟他談續約。');
-      await GM.say(aunt,'談？跟屋主談？我切燒臘的耶。');
-      await GM.say(yt,'阿姨，所以才要準備。');
-      await GM.say(null,'（阿姨看了她一眼，笑出來。第一次。）');
+      await GM.say(null,'（秀琴姨把租約攤在桌上。語彤把它轉過來，對著柏翰。）');
+      await GM.say(bh,'（翻到最後一頁）書面的，還有……快兩年。您一直住在那裡，對吧？');
+      await GM.say(aunt,'十五年了。');
+      await GM.say(bh,'那這樣。房子賣了，租約跟著房子走。新屋主要接著當房東，到期以前，他不能叫您搬。');
+      await GM.say(aunt,'新屋主說他要重新裝潢，租給學生。');
+      await GM.say(bh,'那是到期以後的事。到期以前，他要等。這快兩年，可以拿來準備怎麼跟他談續約。');
+      await GM.say(aunt,'談？跟屋主談？我只會煮飯耶。');
+      await GM.say(yt,'秀琴姨，所以才要準備。');
+      await GM.say(null,'（秀琴姨看了她一眼，笑出來。）');
       await GM.say(aunt,'好啦，聽妳們的。');
-      if(typeof ADV!=='undefined'&&ADV.hide) ADV.hide('left'); if(GM.caption) GM.caption('','法律系館B門口',2400);   /* 散會。萬才館門口，阿姨先去騎車 */
+      if(typeof ADV!=='undefined'&&ADV.hide) ADV.hide('left'); if(GM.caption) GM.caption('','法律系館B門口',2400);
       await GM.say(yt,'剛剛他講的那個，我這學期也在上。');
-      await GM.say(yt,'在課本上看的時候，覺得好整齊。坐在阿姨旁邊聽，就不整齊了。');
-      const k=await GM.choose([{t:'「整齊的部分，我可以再講給妳聽。」'},{t:'「阿姨會沒事的。」'},{t:'「妳要不要先陪阿姨回去？」'}]);
-      if(k===0){ await GM.say(yt,'今天先不要。'); await GM.say(yt,'今天我只想陪阿姨。'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','IMPORTANT_CONVERSATION','陪阿姨來法服那天'); if(dt) await GM.say(yt,'晚上再講。打給我。'); }
-      else if(k===1){ await GM.say(yt,'你又不知道。'); await GM.say(null,'（停了一下。）'); await GM.say(yt,'……不過她剛剛在笑。所以應該是好消息。'); if(dt) await GM.say(yt,'……你陪我送她回店裡。'); }
-      else { await GM.say(yt,'她叫我去念書。說今天不用顧店。'); await GM.say(yt,'我現在念不下去。……陪我走一段。'); await GM.say(null,'（你們走到公館的路口，她都沒有再說話。）'); if(dt) await GM.say(null,'（她的手碰了一下你的手背，又收回去。）'); }
-      if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','陪阿姨來法服諮詢的那天'); }
+      await GM.say(yt,'在課本上看的時候，覺得好整齊。坐在秀琴姨旁邊聽，就不整齊了。');
+      const k=await GM.choose([{t:'「整齊的部分，我可以再講給妳聽。」'},{t:'「秀琴姨會沒事的。」'},{t:'「妳要不要先陪她回去？」'}]);
+      if(k===0){ await GM.say(yt,'今天先不要。今天我只想陪她。'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','IMPORTANT_CONVERSATION','陪秀琴姨來法服那天'); if(dt) await GM.say(yt,'晚上再講。打給我。'); }
+      else if(k===1){ await GM.say(yt,'你又不知道。'); await GM.say(null,'（停了一下）'); await GM.say(yt,'……不過她剛剛在笑。所以應該是好消息。'); if(dt) await GM.say(yt,'……你陪我送她回家。'); }
+      else { await GM.say(yt,'她說她自己走。叫我去念書。'); await GM.say(yt,'我現在念不下去。……陪我走一段。'); await GM.say(null,'（你們走到新生南路的路口，她都沒有再說話。）'); if(dt) await GM.say(null,'（她的手碰了一下你的手背，又收回去。）'); }
+      if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','陪秀琴姨來法服諮詢的那天'); }
     finally { if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
-    if(GM.advance) GM.advance(1); if(GM.memo) GM.memo('陪阿姨來法服'); if(GM.autosave) GM.autosave(); return true; };
+    if(GM.advance) GM.advance(1); if(GM.memo) GM.memo('陪秀琴姨來法服'); if(GM.autosave) GM.autosave(); return true; };
 
   /* ===================== 1B-10 芷若 Z10 明信片（她在英國的那一學期；刻意不用手機）===================== */
   /* 9/24、10/22、11/19、12/17（週五）中午以後：一般＝宿舍書桌上（她 FAMILIAR 以上）；和別人交往中＝寄到 Café、抬頭「兩點半的常客們」、貼在吧檯旁的牆上；和她交往中＝寄給你，12/17 背面多一行 → 12/25 20:00 視訊。
