@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19D_tour_later",
+  "sha": "ddda3d829",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py",
+  "env": "SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T04:10:27",
+  "end": "2026-11-04T04:15:51",
+  "seconds": 324,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 24,
+    "mem": 45,
+    "used_gb": 14.3,
+    "chrome_testing": 9
+  }
+}
