@@ -1,0 +1,184 @@
+{
+ "fill": {
+  "fill": {
+   "n": 14,
+   "total": 5242624,
+   "err": {
+    "name": "QuotaExceededError",
+    "code": 22,
+    "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_14' exceeded the quota."
+   },
+   "stopAt": 128
+  },
+  "canWrite": "QuotaExceededError",
+  "snapLen": 8209,
+  "ls": {
+   "chars": 5242754,
+   "fill": 5242754,
+   "nfill": 14,
+   "per": {}
+  }
+ },
+ "attempts": [
+  {
+   "n": 1,
+   "au": {
+    "ms": 67857,
+    "now": 1793675261656,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "short": false,
+   "toasts": [
+    {
+     "t": "自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+     "ms": 67791,
+     "now": 1793675261590
+    }
+   ],
+   "g": {
+    "saveErr": "quota",
+    "autoFailAt": 1793675261576,
+    "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+    "now": 1793675262034,
+    "keys": {
+     "fatiao3d_auto": 0,
+     "fatiao3d_quick": 0,
+     "fatiao3d_slot_1": 0,
+     "fatiao3d_slot_2": 0,
+     "fatiao3d_slot_3": 0,
+     "fatiao3d_backup": 0
+    }
+   }
+  },
+  {
+   "n": 2,
+   "au": {
+    "ms": 112849,
+    "now": 1793675306648,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 45.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 3,
+   "au": {
+    "ms": 157840,
+    "now": 1793675351640,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 90.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 4,
+   "au": {
+    "ms": 202840,
+    "now": 1793675396641,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 135.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 5,
+   "au": {
+    "ms": 247848,
+    "now": 1793675441650,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 180.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 6,
+   "au": {
+    "ms": 292845,
+    "now": 1793675486647,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 225.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 7,
+   "au": {
+    "ms": 337842,
+    "now": 1793675531644,
+    "err": "quota",
+    "failAt": 1793675261576,
+    "autoLen": 0
+   },
+   "elapsed_s": 270.1,
+   "toasts": [],
+   "saveErr": "quota"
+  },
+  {
+   "n": 8,
+   "au": {
+    "ms": 382854,
+    "now": 1793675576657,
+    "err": "quota",
+    "failAt": 1793675576626,
+    "autoLen": 0
+   },
+   "elapsed_s": 315.1,
+   "toasts": [
+    {
+     "t": "自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+     "ms": 382831,
+     "now": 1793675576634
+    }
+   ],
+   "saveErr": "quota"
+  }
+ ],
+ "toasts": [
+  {
+   "t": "自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+   "ms": 67791,
+   "now": 1793675261590
+  },
+  {
+   "t": "自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+   "ms": 382831,
+   "now": 1793675576634
+  }
+ ],
+ "shots": {
+  "first_land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\02_fill_auto_toast1_land.png",
+  "within_land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\03_fill_auto_within5_2.png",
+  "after5": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\04_fill_auto_toast_after5_port.png"
+ },
+ "before": {
+  "saveErr": null,
+  "autoFailAt": 0,
+  "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。",
+  "now": 1793675222650,
+  "keys": {
+   "fatiao3d_auto": 2207,
+   "fatiao3d_quick": 0,
+   "fatiao3d_slot_1": 0,
+   "fatiao3d_slot_2": 0,
+   "fatiao3d_slot_3": 0,
+   "fatiao3d_backup": 0
+  }
+ }
+}

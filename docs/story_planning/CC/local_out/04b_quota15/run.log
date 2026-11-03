@@ -1,0 +1,121 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_quota15_probe.py http://127.0.0.1:8811/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\04b_quota15\out
+==== CASE estimate（SHA c2d0c24bc）====
+PASS estimate：遊戲載入
+  [前置／捷徑] [前置] estimate：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [  71.2s] estimate：estimate {"usage": 0, "quota": 10737418240, "details": {}}
+  [  71.2s] estimate：localStorage 共 8222 字元；各鍵 {"fatiao3d_auto": 8222}；GAME.snapshot() 8209 字元；自動存檔 {"ms": 68610, "now": 1793675190884, "err": null, "failAt": 0, "autoLen": 8209}
+PASS estimate：讀到 fatiao3d_auto（讀檔後自動存檔寫進去了）  {"fatiao3d_auto": 8209, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+PASS estimate：沒有 JS 例外  []
+==== CASE fill_auto（SHA c2d0c24bc）====
+PASS fill_auto：遊戲載入
+  [前置／捷徑] [前置] fill_auto：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [前置／捷徑] [前置] fill_auto：刪掉 fatiao3d_auto（原本 2207 字元；不刪的話同大小的覆蓋可能剛好寫得進去）
+  [前置／捷徑] [前置] fill_auto：用 cc_fill_* 塞滿 localStorage：{"n": 14, "total": 5242624, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_14' exceeded the quota."}, "stopAt": 128}；之後試寫一份存檔大小（8209 字元）的字串＝QuotaExceededError；localStorage 共 5242754 字元（cc_fill 5242754）
+PASS fill_auto：前置成立（塞到 QuotaExceededError、一份存檔大小寫不進去）  {"fill": {"n": 14, "total": 5242624, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_14' exceeded the quota."}, "stopAt": 128}, "canWrite": "QuotaExceededError"}
+  [ 141.7s] fill_auto：第一次自動存檔 {"ms": 67857, "now": 1793675261656, "err": "quota", "failAt": 1793675261576, "autoLen": 0}（捷徑 False）；toast ["自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]；狀態 {"saveErr": "quota", "autoFailAt": 1793675261576, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675262034, "keys": {"fatiao3d_auto": 0, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS fill_auto：第一次自動存檔失敗＝GM.saveErr 'quota'（修改前預期 FAIL：沒有 saveErr）  {"ms": 67857, "now": 1793675261656, "err": "quota", "failAt": 1793675261576, "autoLen": 0}
+PASS fill_auto：toast「自動存檔：儲存空間不足…」（全文＝「自動存檔：」＋SAVE_FULL_TEXT）（修改前預期 FAIL：安靜失敗）  ["自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_auto：fatiao3d_auto 沒有被寫進去（空間不足）  {"fatiao3d_auto": 0, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [ 191.9s] fill_auto：第 2 次自動存檔，距離第一次跳 45.1 秒，toast []，saveErr quota
+  [ 236.6s] fill_auto：第 3 次自動存檔，距離第一次跳 90.1 秒，toast []，saveErr quota
+  [ 281.4s] fill_auto：第 4 次自動存檔，距離第一次跳 135.1 秒，toast []，saveErr quota
+  [ 326.8s] fill_auto：第 5 次自動存檔，距離第一次跳 180.1 秒，toast []，saveErr quota
+  [ 372.0s] fill_auto：第 6 次自動存檔，距離第一次跳 225.1 秒，toast []，saveErr quota
+  [ 416.9s] fill_auto：第 7 次自動存檔，距離第一次跳 270.1 秒，toast []，saveErr quota
+  [ 418.4s] fill_auto：快到 5 分鐘（276 秒），切直向等下一次
+  [ 456.8s] fill_auto：第 8 次自動存檔，距離第一次跳 315.1 秒，toast ["自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]，saveErr quota
+PASS fill_auto：5 分鐘內有再自動存檔（至少一次，給下一條檢查用）  [45.1, 90.1, 135.1, 180.1, 225.1, 270.1]
+PASS fill_auto：5 分鐘內的自動存檔不再跳 toast  [[45.1, []], [90.1, []], [135.1, []], [180.1, []], [225.1, []], [270.1, []]]
+PASS fill_auto：過了 5 分鐘（實際時間）第一次自動存檔再跳一次（直向截圖）  {"n": 8, "au": {"ms": 382854, "now": 1793675576657, "err": "quota", "failAt": 1793675576626, "autoLen": 0}, "elapsed_s": 315.1, "toasts": [{"t": "自動存檔：儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "ms": 382831, "now": 1793675576634}], "saveErr": "quota"}
+  [ 458.6s] fill_auto：清掉 cc_fill_* 14 個，剩 0 個
+PASS fill_auto：cc_fill_* 清乾淨  0
+PASS fill_auto：沒有 JS 例外  []
+==== CASE fill_slot（SHA c2d0c24bc）====
+PASS fill_slot：遊戲載入
+  [前置／捷徑] [前置] fill_slot：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [ 491.3s] fill_slot：存檔頁 [{"box": "saveSlots", "label": "自動存檔", "empty": false, "btns": ["讀取"]}, {"box": "saveSlots", "label": "快速存檔（右上 💾）", "empty": true, "btns": []}, {"box": "saveSlots", "label": "欄位 1", "empty": true, "btns": ["存檔"]}, {"box": "saveSlots", "label": "欄位 2", "empty": true, "btns": ["存檔"]}, {"box": "saveSlots", "label": "欄位 3", "empty": true, "btns": ["存檔"]}]
+  [前置／捷徑] [前置] fill_slot：用 cc_fill_* 塞滿 localStorage：{"n": 12, "total": 5240320, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_12' exceeded the quota."}, "stopAt": 128}；之後試寫一份存檔大小（14225 字元）的字串＝QuotaExceededError；localStorage 共 5242650 字元（cc_fill 5240430）
+PASS fill_slot：前置成立（塞到 QuotaExceededError、一份存檔大小寫不進去）  {"fill": {"n": 12, "total": 5240320, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_12' exceeded the quota."}, "stopAt": 128}, "canWrite": "QuotaExceededError"}
+  [ 494.2s] 按「欄位 1」的「存檔」：按了
+  [ 494.4s] fill_slot（land）：toast ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]；狀態 {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675614690, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS fill_slot（land）：toast＝SAVE_FULL_TEXT（修改前預期 FAIL：「存檔失敗（瀏覽器儲存不可用）」）  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_slot（land）：沒有出現「存檔失敗（瀏覽器儲存不可用）」  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_slot（land）：GM.saveErr＝'quota'、欄位 1 還是空的  {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675614690, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+  [ 497.1s] 按「欄位 1」的「存檔」：按了
+  [ 497.2s] fill_slot（port）：toast ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]；狀態 {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675617555, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS fill_slot（port）：toast＝SAVE_FULL_TEXT（修改前預期 FAIL：「存檔失敗（瀏覽器儲存不可用）」）  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_slot（port）：沒有出現「存檔失敗（瀏覽器儲存不可用）」  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_slot（port）：GM.saveErr＝'quota'、欄位 1 還是空的  {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675617555, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+  [ 498.3s] fill_slot：清掉 cc_fill_* 12 個，剩 0 個
+PASS fill_slot：cc_fill_* 清乾淨  0
+PASS fill_slot：沒有 JS 例外  []
+==== CASE fill_quick（SHA c2d0c24bc）====
+PASS fill_quick：遊戲載入
+  [前置／捷徑] [前置] fill_quick：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [前置／捷徑] [前置] fill_quick：用 cc_fill_* 塞滿 localStorage：{"n": 12, "total": 5240320, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_12' exceeded the quota."}, "stopAt": 128}；之後試寫一份存檔大小（8209 字元）的字串＝QuotaExceededError；localStorage 共 5242650 字元（cc_fill 5240430）
+PASS fill_quick：前置成立（塞到 QuotaExceededError、一份存檔大小寫不進去）  {"fill": {"n": 12, "total": 5240320, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_12' exceeded the quota."}, "stopAt": 128}, "canWrite": "QuotaExceededError"}
+  [ 533.0s] 💾 →「快速存檔」：按了
+  [ 533.3s] fill_quick（land）：toast ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]；狀態 {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675653613, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS fill_quick（land）：toast＝SAVE_FULL_TEXT（修改前預期 FAIL：「存檔失敗（瀏覽器儲存不可用）」）  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_quick（land）：沒有出現「存檔失敗（瀏覽器儲存不可用）」  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_quick（land）：快速存檔沒有寫進去（fatiao3d_quick 0 字元）  {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [ 533.3s] fill_quick（land）：同時出現的自動存檔 toast（只記）[]
+  [ 537.0s] 💾 →「快速存檔」：按了
+  [ 537.3s] fill_quick（port）：toast ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]；狀態 {"saveErr": "quota", "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675657625, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS fill_quick（port）：toast＝SAVE_FULL_TEXT（修改前預期 FAIL：「存檔失敗（瀏覽器儲存不可用）」）  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_quick（port）：沒有出現「存檔失敗（瀏覽器儲存不可用）」  ["儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。"]
+PASS fill_quick（port）：快速存檔沒有寫進去（fatiao3d_quick 0 字元）  {"fatiao3d_auto": 2207, "fatiao3d_quick": 0, "fatiao3d_slot_1": 0, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [ 537.3s] fill_quick（port）：同時出現的自動存檔 toast（只記）[]
+  [ 538.4s] fill_quick：清掉 cc_fill_* 12 個，剩 0 個
+PASS fill_quick：cc_fill_* 清乾淨  0
+PASS fill_quick：沒有 JS 例外  []
+==== CASE delete_then_save（SHA c2d0c24bc）====
+PASS delete_then_save：遊戲載入
+  [前置／捷徑] [前置] delete_then_save：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [ 571.8s] 💾 →「快速存檔」：按了
+  [ 575.4s] 按「欄位 1」的「存檔」：按了
+  [ 576.7s] 按「欄位 2」的「存檔」：按了
+  [ 576.7s] delete_then_save：塞之前 {"saveErr": null, "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675697010, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 14225, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}；toast {"save1_pre": ["已存到欄位 1"], "save2_pre": ["已存到欄位 2"]}
+PASS delete_then_save：前置（塞之前欄位 1、2、快速存檔都存好了）  {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 14225, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [前置／捷徑] [前置] delete_then_save：用 cc_fill_* 塞滿 localStorage：{"n": 11, "total": 5203712, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_11' exceeded the quota."}, "stopAt": 128}；之後試寫一份存檔大小（14225 字元）的字串＝QuotaExceededError；localStorage 共 5242735 字元（cc_fill 5203812）
+PASS delete_then_save：前置成立（塞到 QuotaExceededError、一份存檔大小寫不進去）  {"fill": {"n": 11, "total": 5203712, "err": {"name": "QuotaExceededError", "code": 22, "msg": "Failed to execute 'setItem' on 'Storage': Setting the value of 'cc_fill_11' exceeded the quota."}, "stopAt": 128}, "canWrite": "QuotaExceededError"}
+  [ 578.0s] 按「欄位 1」的「存檔」：按了
+  [ 578.0s] delete_then_save：塞滿後、刪除前存欄位 1：toast ["已存到欄位 1"]；狀態 {"saveErr": null, "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675698310, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 14225, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}（只記：同大小覆蓋可能寫得進去；fatiao3d_backup 應該寫不進去）
+PASS delete_then_save：刪除前 fatiao3d_backup 寫不進去（空間真的滿了）  {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 14225, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [ 583.4s] delete_then_save：存檔頁 [{"box": "saveSlots", "label": "自動存檔", "empty": false, "btns": ["讀取"]}, {"box": "saveSlots", "label": "快速存檔（右上 💾）", "empty": false, "btns": ["讀取"]}, {"box": "saveSlots", "label": "欄位 1", "empty": false, "btns": ["存檔", "讀取", "刪除"]}, {"box": "saveSlots", "label": "欄位 2", "empty": false, "btns": ["存檔", "讀取", "刪除"]}, {"box": "saveSlots", "label": "欄位 3", "empty": true, "btns": ["存檔"]}]
+PASS delete_then_save：自動存檔、快速存檔兩列有「讀取」、沒有「刪除」  [{"box": "saveSlots", "label": "自動存檔", "empty": false, "btns": ["讀取"]}, {"box": "saveSlots", "label": "快速存檔（右上 💾）", "empty": false, "btns": ["讀取"]}]
+PASS delete_then_save：欄位 1、欄位 2 有「刪除」（修改前預期 FAIL：沒有刪除鈕）  [{"box": "saveSlots", "label": "欄位 1", "empty": false, "btns": ["存檔", "讀取", "刪除"]}, {"box": "saveSlots", "label": "欄位 2", "empty": false, "btns": ["存檔", "讀取", "刪除"]}]
+  [ 583.4s] delete_then_save：備份列（只記）[]
+  [ 584.6s] 按「欄位 2」的「刪除」：按了
+  [ 585.5s] delete_then_save：刪除欄位 2 → confirm [{"type": "confirm", "msg": "刪除「欄位 2」？刪掉就讀不回來了。", "answer": "dismiss"}] → 按取消；欄位 2 14225 字元
+PASS delete_then_save：按「刪除」有 confirm（文字「刪除「欄位 2」？刪掉就讀不回來了。」）  [{"type": "confirm", "msg": "刪除「欄位 2」？刪掉就讀不回來了。", "answer": "dismiss"}]
+PASS delete_then_save：confirm 按取消＝欄位 2 還在  {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 14225, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}
+  [ 586.7s] 按「欄位 2」的「刪除」：按了
+  [ 586.8s] delete_then_save：再刪一次 → confirm [{"type": "confirm", "msg": "刪除「欄位 2」？刪掉就讀不回來了。", "answer": "accept"}] → 確定；toast ["已刪除「欄位 2」"]；狀態 {"saveErr": null, "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675707019, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}}
+PASS delete_then_save：confirm 按確定＝欄位 2 刪掉、toast「已刪除「欄位 2」」  {"keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 0}, "toasts": ["已刪除「欄位 2」"]}
+  [ 588.1s] 按「欄位 1」的「存檔」：按了
+  [ 592.3s] delete_then_save：刪掉欄位 2 以後存欄位 1：toast ["已存到欄位 1"]；狀態 {"saveErr": null, "autoFailAt": 0, "full": "儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。", "now": 1793675708375, "keys": {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 14225}}
+PASS delete_then_save：刪掉以後存欄位 1 成功（toast「已存到欄位 1」、saveErr null）  {"toasts": ["已存到欄位 1"], "saveErr": null}
+PASS delete_then_save：fatiao3d_backup（覆蓋前的欄位 1）這次寫進去了＝空出來的空間有用到  {"fatiao3d_auto": 2207, "fatiao3d_quick": 8209, "fatiao3d_slot_1": 14225, "fatiao3d_slot_2": 0, "fatiao3d_slot_3": 0, "fatiao3d_backup": 14225}
+  [ 592.3s] delete_then_save：清掉 cc_fill_* 11 個，剩 0 個
+PASS delete_then_save：cc_fill_* 清乾淨  0
+PASS delete_then_save：沒有 JS 例外  []
+  [ 592.3s] delete_then_save：對話框 [{"type": "confirm", "msg": "刪除「欄位 2」？刪掉就讀不回來了。", "answer": "dismiss"}, {"type": "confirm", "msg": "刪除「欄位 2」？刪掉就讀不回來了。", "answer": "accept"}]
+==== CASE big_old（SHA c2d0c24bc）====
+PASS big_old：遊戲載入
+  [前置／捷徑] [前置] big_old：最小存檔 2026-10-03（Y2S1）10:00 宿舍，quiet_events（關條件事件、手機自動打開：自動存檔在劇情中會被跳過）
+  [前置／捷徑] [前置] big_old：GAME.snapshot() 加 1000 個習慣鍵＋保留鍵 ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"]＋其他種類 ["invite:kexin", "retake:play", "kai_supper"]，寫進 fatiao3d_slot_3：{"len": 294549, "keys": 1006, "trim": 1000}
+  [ 627.9s] big_old：存檔頁 [{"box": "saveSlots", "label": "自動存檔", "empty": false, "btns": ["讀取"]}, {"box": "saveSlots", "label": "快速存檔（右上 💾）", "empty": true, "btns": []}, {"box": "saveSlots", "label": "欄位 1", "empty": true, "btns": ["存檔"]}, {"box": "saveSlots", "label": "欄位 2", "empty": true, "btns": ["存檔"]}, {"box": "saveSlots", "label": "欄位 3", "empty": false, "btns": ["存檔", "讀取", "刪除"]}]
+  [ 629.3s] 按「欄位 3」的「讀取」：按了
+  [ 634.2s] big_old：讀檔 toast ["已讀取"]；讀進來 GAME.G.habits {"keys": 306, "trim": 300, "keep": ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"], "other": ["invite:kexin", "retake:play", "kai_supper"], "len": null, "savedAt": null}
+PASS big_old：從選單欄位 3 讀進來（toast「已讀取」，沒有「讀取失敗」）  ["已讀取"]
+  [ 639.7s] big_old：自動存檔 {"ms": 35550, "now": 1793675750322, "err": null, "failAt": 0, "autoLen": 99448}（捷徑 False）；fatiao3d_auto 之前 null → 之後 {"keys": 306, "trim": 300, "keep": ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"], "other": ["invite:kexin", "retake:play", "kai_supper"], "len": 99448, "savedAt": 1793675750185}
+PASS big_old：讀檔後沒有 JS 例外  []
+PASS big_old：讀檔後有自動存檔（fatiao3d_auto 是讀進來的那一份：savedAt 比讀檔晚）  {"au": {"ms": 35550, "now": 1793675750322, "err": null, "failAt": 0, "autoLen": 99448}, "before": null, "after": {"keys": 306, "trim": 300, "keep": ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"], "other": ["invite:kexin", "retake:play", "kai_supper"], "len": 99448, "savedAt": 1793675750185}}
+PASS big_old：fatiao3d_auto 的 habits 鍵數 ≤306、可刪那幾類 ≤300（修改前預期 FAIL）  {"keys": 306, "trim": 300, "keep": ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"], "other": ["invite:kexin", "retake:play", "kai_supper"], "len": 99448, "savedAt": 1793675750185}
+PASS big_old：保留鍵 seat:boya:study、meal:noodle、meal:xiaofu:fri 都還在  ["seat:boya:study", "meal:noodle", "meal:xiaofu:fri"]
+PASS big_old：其他種類 invite:kexin、retake:play、kai_supper 都還在  ["invite:kexin", "retake:play", "kai_supper"]
+PASS big_old：fatiao3d_auto 比 slot_3 小（99448 < 294549）
+PASS big_old：沒有 JS 例外  []
+SHA c2d0c24bc CASES estimate,fill_auto,fill_slot,fill_quick,delete_then_save,big_old
+ALL PASS

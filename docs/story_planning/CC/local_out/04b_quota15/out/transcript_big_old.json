@@ -1,0 +1,103 @@
+{
+ "built": {
+  "len": 294549,
+  "keys": 1006,
+  "trim": 1000
+ },
+ "auto_before": null,
+ "game": {
+  "keys": 306,
+  "trim": 300,
+  "keep": [
+   "seat:boya:study",
+   "meal:noodle",
+   "meal:xiaofu:fri"
+  ],
+  "other": [
+   "invite:kexin",
+   "retake:play",
+   "kai_supper"
+  ],
+  "len": null,
+  "savedAt": null
+ },
+ "auto_after": {
+  "keys": 306,
+  "trim": 300,
+  "keep": [
+   "seat:boya:study",
+   "meal:noodle",
+   "meal:xiaofu:fri"
+  ],
+  "other": [
+   "invite:kexin",
+   "retake:play",
+   "kai_supper"
+  ],
+  "len": 99448,
+  "savedAt": 1793675750185
+ },
+ "au": {
+  "ms": 35550,
+  "now": 1793675750322,
+  "err": null,
+  "failAt": 0,
+  "autoLen": 99448
+ },
+ "toasts": [
+  {
+   "t": "已讀取",
+   "ms": 35416,
+   "now": 1793675750187
+  }
+ ],
+ "shots": {
+  "menu": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\14_big_old_menu_land.png",
+  "after": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\15_big_old_after_load_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\04b_quota15\\out\\16_big_old_after_load_port.png"
+  ]
+ },
+ "rows": [
+  {
+   "box": "saveSlots",
+   "label": "自動存檔",
+   "empty": false,
+   "btns": [
+    "讀取"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "快速存檔（右上 💾）",
+   "empty": true,
+   "btns": []
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 1",
+   "empty": true,
+   "btns": [
+    "存檔"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 2",
+   "empty": true,
+   "btns": [
+    "存檔"
+   ]
+  },
+  {
+   "box": "saveSlots",
+   "label": "欄位 3",
+   "empty": false,
+   "btns": [
+    "存檔",
+    "讀取",
+    "刪除"
+   ]
+  }
+ ]
+}
