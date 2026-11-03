@@ -19,8 +19,9 @@
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
-# deploy 的版本字樣照候選的 index.html 讀出來：「版本 v9.10.18（2026-11-03）」（候選還沒改版本字樣，CC 17:0x 已告訴 BB）
-V19R_deploy | 15e78dff7 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.18（2026-11-03）
+# BB 17:08：候選換成 033242ae9（和 15e78dff7 只差 index.html 版本字樣 v9.10.19）；其餘 V19 項目照 15e78dff7 跑、算這一版；deploy、p0b 跑 033242ae9
+V19R_deploy | 033242ae9 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.19（2026-11-03）
+V19R_p0b    | 033242ae9 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 V19R_p0     | 15e78dff7 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 V19R_v7     | 15e78dff7 | game | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
 V19R_zone   | 15e78dff7 | game | tests/zone_transitions.py    | index.html?turbo | 60  | XARGS={url}
