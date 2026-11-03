@@ -5000,7 +5000,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {speaker:null,text:'（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'},
         card('kai','凌晨的作業') ] },
     /* 3-2 柏翰「第一排」：第 2 週民法總則上課前（教室）；9/1 已經有柏翰第一排那場（ev_bohan_w1_front）的，第一句改「{name}。今天也坐這裡。」*/
-    { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', beforeClass:function(it){ return !!(it&&it.c&&it.c.id==='civ_general')&&!busyBefore(it,this); }, once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
+    { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', yieldClass:true, beforeClass:function(it){ return !!(it&&it.c&&it.c.id==='civ_general')&&!busyBefore(it,this); }, once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_bohan},
       dialogue:[ {speaker:null,text:'（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）'},
         {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_bohan_w1_front)},speaker:'classmate_bohan',text:'{name}。這裡。'},
@@ -5014,7 +5014,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         card('classmate_bohan','第一排') ] },
     /* 3-3 Alison：改成第一次和阿哲去麵店時認識（ZHE_FIRST_TABLE 開頭，AA_606 3-3 11-03 版；原本的「第一班捷運」作廢）*/
     /* 3-4 明軒「公館便宜好吃.xlsx」：第 3 週第一次上完法律系的必修下課（明軒和你同班，每一門必修都有修）*/
-    { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', afterClass:function(it){ return !!(it&&it.c&&it.c.kind==='required')&&!busyAfter(it,this); }, once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
+    { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', yieldClass:true, afterClass:function(it){ return !!(it&&it.c&&it.c.kind==='required')&&!busyAfter(it,this); }, once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_mingxuan},
       dialogue:[ {speaker:null,text:'（下課鐘一響，前排一個戴帽子的男生第一個收好書包。是宿營遊覽車上一直在睡的那個人。）'},   /* AA_606 3-4（AA_608 10-1 的回扣）*/
         {speaker:'classmate_mingxuan',text:'欸，{name}，我先走，公車要趕。'},
