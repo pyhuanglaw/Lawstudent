@@ -1,0 +1,46 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3FM_fix\out
+cc_yutong_v3_probe  SHA=9d8e00fdc  URL=http://127.0.0.1:8811/index.html  CASES=tea_first
+FAIL 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  0 字
+FAIL 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  0 字
+FAIL 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  0 字
+FAIL 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  0 字
+FAIL 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  0 字
+
+==== tea_first：第一班（AA_610 第 2 節）＋之後讀檔一次 ====
+PASS [tea_first] 遊戲載入
+  [前置／捷徑] [tea_first] 最小存檔讀檔：2025-09-20（星期六，Y1S1 第 3 週）12.67 wenzhou；遊戲 API 設前置：{"stage": "STRANGER", "rel": {"fam": 0, "trust": 0, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 0, "talked": 0}, "knows": false, "dating": false, "jobs": {"shifts": 0, "day": [6, 7]}, "groups": []}
+  [前置／捷徑] [tea_first] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [前置／捷徑] [tea_first] 拿掉 G.social.fm120（回到「新遊戲、還沒讀過檔」）：true
+  [  47.9s] 到達「一盞門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [  48.1s] 點「進去一盞」
+  [  75.1s] 選項 ["「好。」", "「妳在這裡做多久了？」"] → 點「「妳在這裡做多久了？」」
+  [tea_first] 事件：[]
+  [tea_first] 台詞：[["蘇姨", "水不要滾太久。滾久了，水就老了。"], ["旁白", "（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）"], ["蘇姨", "語彤，他今天第一天。妳帶他。"], ["語彤", "……嗯。"], ["語彤", "客人坐下先給水，不要先問點什麼。他們會自己看。"], ["語彤", "高三暑假開始。"], ["旁白", "風一來，葉子就往緣側的方向飛。你掃了三次，蘇姨說：「掃一次就好。剩下的是院子的。」"], ["旁白", "你把水沖得太急，蘇姨說水會被你嚇到。"], ["旁白", "烏龍。"], ["蘇姨", "第一泡不要給客人。那是洗茶，也是叫醒它。"], ["蘇姨", "水溫不要太高，烏龍會苦。"], ["旁白", "你把茶巾一條一條晾在緣側。蘇姨泡了一杯給你：「今天你泡得最好的那一種。」"], ["旁白", "（一個下午下來，她跟你講的話不超過十句。）"], ["旁白", "（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）"], ["語彤", "第一天都這樣。下週就順了。"]]
+  [tea_first] 立繪框：{"tea_first_蘇姨_land": [], "tea_first_蘇姨_port": [], "tea_first_語彤_land": [], "tea_first_語彤_port": []}
+PASS [tea_first] 演完（!!GAME.G.flags.YT_MET_JOB&&(GAME.G.jobs.tea.shifts|0)>=1）
+PASS [tea_first] 稿逐句「旁白：（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「蘇姨：語彤，他今天第一天。妳帶他。」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：語彤，他今天第一天。妳帶他。  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「語彤：……嗯。」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：……嗯。  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「語彤：客人坐下先給水，不要先問點什麼。他們會自己看。」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：客人坐下先給水，不要先問點什麼。他們會自己看。  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「語彤：高三暑假開始。」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：高三暑假開始。  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「旁白：（一個下午下來，她跟你講的話不超過十句。）」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：（一個下午下來，她跟你講的話不超過十句。）  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「旁白：（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 稿逐句「語彤：第一天都這樣。下週就順了。」（AA_610_語彤改成打工同事才認識.md:0）
+FAIL [tea_first] 探針抄的句子逐字在稿裡：第一天都這樣。下週就順了。  AA_610_語彤改成打工同事才認識.md
+PASS [tea_first] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+  [前置／捷徑] [tea_first] 讀檔前：{"name": "陳語彤", "met": true, "fm": true, "job": true, "fm120": false, "mem": ["FIRST_MET"]}
+PASS [tea_first] 第 1 次讀檔（GAME.snapshot→applySave，同「繼續」）：名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET  {"讀檔前": {"name": "陳語彤", "met": true, "fm": true, "job": true, "fm120": false, "mem": ["FIRST_MET"]}, "讀檔後": {"name": "陳語彤", "met": true, "fm": true, "job": true, "fm120": true, "mem": ["FIRST_MET"]}}
+PASS [tea_first] 第 2 次讀檔（GAME.snapshot→applySave，同「繼續」）：名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET  {"讀檔前": {"name": "陳語彤", "met": true, "fm": true, "job": true, "fm120": false, "mem": ["FIRST_MET"]}, "讀檔後": {"name": "陳語彤", "met": true, "fm": true, "job": true, "fm120": true, "mem": ["FIRST_MET"]}}
+PASS [tea_first] 沒有 JS 例外  []
+
+==== 摘要 ====
+PASS tea_first 第一班（AA_610 第 2 節）＋之後讀檔一次
+SHA 9d8e00fdc
+FAILED: 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）, 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）, 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）, 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）, 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）, [tea_first] 探針抄的句子逐字在稿裡：（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）, [tea_first] 探針抄的句子逐字在稿裡：語彤，他今天第一天。妳帶他。, [tea_first] 探針抄的句子逐字在稿裡：……嗯。, [tea_first] 探針抄的句子逐字在稿裡：客人坐下先給水，不要先問點什麼。他們會自己看。, [tea_first] 探針抄的句子逐字在稿裡：高三暑假開始。, [tea_first] 探針抄的句子逐字在稿裡：（一個下午下來，她跟你講的話不超過十句。）, [tea_first] 探針抄的句子逐字在稿裡：（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）, [tea_first] 探針抄的句子逐字在稿裡：第一天都這樣。下週就順了。

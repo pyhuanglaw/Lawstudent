@@ -432,3 +432,12 @@
 [07:05:39] [res] cpu=41% mem=50% (16.0/31.4 GB) chrome_testing=8  END N20_libcorner
 [07:05:40] memory 50% before starting YT3FM_ctl (2 running)
 [07:05:40] ==== START YT3FM_ctl  (probe @ d2b962a3f) ====
+[07:05:43] [res] cpu=40% mem=50% (15.8/31.4 GB) chrome_testing=8  START YT3FM_ctl
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       fc92c0b59..003977dbd  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:05:45] ==== END   N20_libcorner  exit=1  177s   ====
+[07:06:08] memory 51% before starting PE_fix (2 running)
+[07:06:08] ==== START PE_fix  (probe @ 4ce25dc1d) ====
+[07:06:13] [res] cpu=82% mem=51% (16.0/31.4 GB) chrome_testing=17  START PE_fix
+[07:07:07] [res] cpu=51% mem=54% (17.1/31.4 GB) chrome_testing=17  END YT3FM_fix
