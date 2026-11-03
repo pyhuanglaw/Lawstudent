@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19X_popin_C",
+  "sha": "0f66c4215",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_popin_probe.py",
+  "env": "CC_HEADLESS=0;EXPECT=FAIL",
+  "machine": "MSI",
+  "start": "2026-11-04T02:19:24",
+  "end": "2026-11-04T02:21:46",
+  "seconds": 142,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 58,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 25
+  }
+}

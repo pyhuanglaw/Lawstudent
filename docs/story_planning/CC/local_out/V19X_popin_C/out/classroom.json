@@ -1,0 +1,1870 @@
+{
+ "case": "classroom",
+ "url": "http://127.0.0.1:8811/index.html",
+ "sha": "0f66c4215",
+ "headless_env": "0",
+ "notes": [
+  "[前置／捷徑] 第一次進教室：法律系館A 二樓 201 門口外 → 走到門口 → 按「進入 201 階梯教室」；讀檔（GAME.applySave）到 linze (-2.0, -4.3, 第 1 層) 10:00、週六、條件事件和手機自動打開關掉（只看畫面，不演劇情）",
+  "讀檔後 {\"gz\": \"linze\", \"ez\": \"linze\", \"x\": -2, \"z\": -4.3, \"lv\": 1, \"hour\": 10.04, \"loading\": false, \"interact\": null}；互動點 {\"x\": -2, \"z\": -6.25, \"r\": 1.15, \"label\": \"進入 201 階梯教室\", \"lv\": 1, \"y\": null}",
+  "按鈕以前已經在快取的正式模型（building）24 個：[\"bldg.linze_interior\", \"bldg.linze_exterior\", \"bldg.wancai_exterior\", \"bldg.campus_gongguan_bd\", \"bldg.campus_lib_lawn\", \"bldg.campus_library\", \"bldg.campus_bell\", \"bldg.campus_admin\", \"bldg.campus_arts\", \"bldg.campus_hist\", \"bldg.campus_pavilion\", \"prop.street\", \"bldg.campus_gongtong\", \"prop.bike_ride\", \"bldg.campus_lake\", \"bldg.bball_court\", \"bldg.skybridge\", \"bldg.campus_freshman\", \"bldg.campus_putong\", \"bldg.campus_boya\", \"bldg.campus_gate\", \"bldg.campus_male1\", \"bldg.campus_socsci\", \"prop.trees\"]",
+  "t=0 以後要的正式模型（building）6 個：{\"bldg.classroom_201\": {\"t\": 1144, \"cachedAtReq\": false, \"done\": 4877, \"err\": null}, \"prop.bag_yu\": {\"t\": 1702, \"cachedAtReq\": false, \"done\": 4139, \"err\": null}, \"prop.glasses_bohan\": {\"t\": 1758, \"cachedAtReq\": false, \"done\": 4141, \"err\": null}, \"prop.glasses_peishan\": {\"t\": 1907, \"cachedAtReq\": false, \"done\": 4143, \"err\": null}, \"prop.novel\": {\"t\": 1991, \"cachedAtReq\": false, \"done\": 4782, \"err\": null}, \"prop.thermos_silver\": {\"t\": 2067, \"cachedAtReq\": false, \"done\": 4147, \"err\": null}}",
+  "數字：{\"n\": 31, \"i_zone\": 11, \"t_zone\": 4067, \"t_black\": 1004, \"t_on\": 611, \"t_fade_end\": 4660, \"black_ms\": 3520, \"black_longest_ms\": 3520, \"at_end\": {\"t\": 4660, \"gz\": \"classroom\", \"ez\": \"classroom\", \"op\": 0, \"on\": false, \"req\": 6, \"pend\": 2, \"pendK\": [\"bldg.classroom_201\", \"prop.novel\"], \"kit\": {\"zone\": \"classroom\", \"formal\": null, \"vis\": 1, \"tot\": 1, \"names\": [\"fallback\"]}, \"zr\": null, \"lzw\": null, \"fr\": 693}, \"after2s_kit_max\": 1, \"after2s_pend_max\": 2, \"t_all_loaded\": 8247, \"t_kit_hidden\": 8247}",
+  "腳踏車 null；NPC {\"n\": 4, \"first\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"at_fade_end\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"last\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"moved_before_fade_end_m\": 0, \"moved_total_m\": 0}",
+  "⑥ INFO：這一區沒有騎腳踏車的人（GAME.extras 沒有 rider）",
+  "連拍 4 張（8.0 秒內），截圖每張平均 2116 ms"
+ ],
+ "fails": [
+  "③ 淡入結束時，這一區要的正式模型都載好了（pending 0）",
+  "④ 淡入結束時，方塊備用看不到（可見 0）"
+ ],
+ "shots": [
+  {
+   "file": "classroom\\000_t00115.png",
+   "k": 0,
+   "t_ms": 115,
+   "shot_ms": 410,
+   "sample": {
+    "now": 533,
+    "t": 502,
+    "gz": "linze",
+    "ez": "linze",
+    "ent": false,
+    "op": 0,
+    "on": false,
+    "fr": 665,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "linze",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": null,
+    "lzw": null,
+    "bikes": [],
+    "npcs": [
+     [
+      5.6,
+      -6.35
+     ],
+     [
+      0.1,
+      3.55
+     ],
+     [
+      4,
+      3.55
+     ],
+     [
+      1.2,
+      -3.95
+     ]
+    ],
+    "pl": [
+     -2,
+     -6.01
+    ]
+   }
+  },
+  {
+   "file": "classroom\\003_t00532.png",
+   "k": 3,
+   "t_ms": 532,
+   "shot_ms": 407,
+   "sample": {
+    "now": 948,
+    "t": 905,
+    "gz": "linze",
+    "ez": "linze",
+    "ent": true,
+    "op": 0.445,
+    "on": true,
+    "fr": 677,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "linze",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": null,
+    "lzw": null,
+    "bikes": [],
+    "npcs": [
+     [
+      5.6,
+      -6.35
+     ],
+     [
+      0.1,
+      3.55
+     ],
+     [
+      4,
+      3.55
+     ],
+     [
+      1.2,
+      -3.95
+     ]
+    ],
+    "pl": [
+     -2,
+     -6.01
+    ]
+   }
+  },
+  {
+   "file": "classroom\\006_t00947.png",
+   "k": 6,
+   "t_ms": 947,
+   "shot_ms": 3115,
+   "sample": {
+    "now": 4174,
+    "t": 4067,
+    "gz": "classroom",
+    "ez": "classroom",
+    "ent": true,
+    "op": 1,
+    "on": false,
+    "fr": 687,
+    "paused": false,
+    "req": 6,
+    "pend": 6,
+    "pendK": [
+     "bldg.classroom_201",
+     "prop.bag_yu",
+     "prop.glasses_bohan",
+     "prop.glasses_peishan",
+     "prop.novel",
+     "prop.thermos_silver"
+    ],
+    "kit": {
+     "zone": "classroom",
+     "formal": null,
+     "vis": 1,
+     "tot": 1,
+     "names": [
+      "fallback"
+     ]
+    },
+    "zr": null,
+    "lzw": null,
+    "bikes": [],
+    "npcs": [
+     [
+      -3.75,
+      0.4
+     ],
+     [
+      3.75,
+      -1.7
+     ],
+     [
+      -5.25,
+      -3.8
+     ],
+     [
+      -2.25,
+      -3.8
+     ]
+    ],
+    "pl": [
+     0,
+     7
+    ]
+   }
+  },
+  {
+   "file": "classroom\\027_t04174.png",
+   "k": 27,
+   "t_ms": 4174,
+   "shot_ms": 4535,
+   "sample": {
+    "now": 8746,
+    "t": 8704,
+    "gz": "classroom",
+    "ez": "classroom",
+    "ent": false,
+    "op": 0,
+    "on": false,
+    "fr": 699,
+    "paused": false,
+    "req": 6,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "classroom",
+     "formal": true,
+     "vis": 0,
+     "tot": 1,
+     "names": []
+    },
+    "zr": null,
+    "lzw": null,
+    "bikes": [],
+    "npcs": [
+     [
+      -3.75,
+      0.4
+     ],
+     [
+      3.75,
+      -1.7
+     ],
+     [
+      -5.25,
+      -3.8
+     ],
+     [
+      -2.25,
+      -3.8
+     ]
+    ],
+    "pl": [
+     0,
+     7
+    ]
+   }
+  }
+ ],
+ "js_errors": [],
+ "preloaded_building": [
+  "bldg.linze_interior",
+  "bldg.linze_exterior",
+  "bldg.wancai_exterior",
+  "bldg.campus_gongguan_bd",
+  "bldg.campus_lib_lawn",
+  "bldg.campus_library",
+  "bldg.campus_bell",
+  "bldg.campus_admin",
+  "bldg.campus_arts",
+  "bldg.campus_hist",
+  "bldg.campus_pavilion",
+  "prop.street",
+  "bldg.campus_gongtong",
+  "prop.bike_ride",
+  "bldg.campus_lake",
+  "bldg.bball_court",
+  "bldg.skybridge",
+  "bldg.campus_freshman",
+  "bldg.campus_putong",
+  "bldg.campus_boya",
+  "bldg.campus_gate",
+  "bldg.campus_male1",
+  "bldg.campus_socsci",
+  "prop.trees"
+ ],
+ "analysis": {
+  "n": 31,
+  "i_zone": 11,
+  "t_zone": 4067,
+  "t_black": 1004,
+  "t_on": 611,
+  "t_fade_end": 4660,
+  "black_ms": 3520,
+  "black_longest_ms": 3520,
+  "at_end": {
+   "t": 4660,
+   "gz": "classroom",
+   "ez": "classroom",
+   "op": 0,
+   "on": false,
+   "req": 6,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "fr": 693
+  },
+  "after2s_kit_max": 1,
+  "after2s_pend_max": 2,
+  "t_all_loaded": 8247,
+  "t_kit_hidden": 8247,
+  "bikes": null,
+  "npcs": {
+   "n": 4,
+   "first": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "at_fade_end": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "last": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "moved_before_fade_end_m": 0,
+   "moved_total_m": 0
+  }
+ },
+ "req": {
+  "bldg.classroom_201": {
+   "t": 1144,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4877,
+   "err": null
+  },
+  "char.npc_nf6": {
+   "t": 1147,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 4838,
+   "err": null
+  },
+  "char.npc_nm6": {
+   "t": 1148,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 4859,
+   "err": null
+  },
+  "prop.bag_yu": {
+   "t": 1702,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4139,
+   "err": null
+  },
+  "prop.glasses_bohan": {
+   "t": 1758,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4141,
+   "err": null
+  },
+  "prop.glasses_peishan": {
+   "t": 1907,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4143,
+   "err": null
+  },
+  "prop.novel": {
+   "t": 1991,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4782,
+   "err": null
+  },
+  "prop.thermos_silver": {
+   "t": 2067,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 4147,
+   "err": null
+  },
+  "char.npc_nf17": {
+   "t": 2069,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 4873,
+   "err": null
+  },
+  "char.npc_nf15": {
+   "t": 2070,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 8247,
+   "err": null
+  },
+  "char.npc_nf2": {
+   "t": 2071,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 8566,
+   "err": null
+  }
+ },
+ "samples": [
+  {
+   "t": 1,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 642,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 133,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 651,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 207,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 656,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 320,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 663,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 414,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 665,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 502,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 665,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 611,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.022,
+   "on": true,
+   "fr": 672,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 711,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.445,
+   "on": true,
+   "fr": 677,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 804,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.445,
+   "on": true,
+   "fr": 677,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 905,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.445,
+   "on": true,
+   "fr": 677,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 1004,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.996,
+   "on": true,
+   "fr": 681,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 4067,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": false,
+   "fr": 687,
+   "paused": false,
+   "req": 6,
+   "pend": 6,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.bag_yu",
+    "prop.glasses_bohan",
+    "prop.glasses_peishan",
+    "prop.novel",
+    "prop.thermos_silver"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 4175,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": false,
+   "fr": 688,
+   "paused": false,
+   "req": 6,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 4524,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 0.058,
+   "on": false,
+   "fr": 691,
+   "paused": false,
+   "req": 6,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 4660,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 693,
+   "paused": false,
+   "req": 6,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 4722,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 694,
+   "paused": false,
+   "req": 6,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8247,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 696,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8567,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 697,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8661,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 698,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8704,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 699,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8831,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 702,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 8909,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 704,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9044,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 707,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9135,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 709,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9283,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 712,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9325,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 713,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9414,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 715,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9539,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 718,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 9634,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 720,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 10022,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 721,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 10289,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 723,
+   "paused": false,
+   "req": 6,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": null,
+   "lzw": null,
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  }
+ ]
+}
