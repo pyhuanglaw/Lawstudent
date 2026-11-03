@@ -2114,6 +2114,15 @@
       "wants": "X154",
       "task": "GHA-TEST-OFFLOAD-1103",
       "note": "全文五節（GitHub 費用與限制、可能較慢的五個因素、八項實測比較、與本機測試分工、執行限制與報告六問）收錄在 docs/handoff/GHA_TEST_OFFLOAD_1103.md"
+    },
+    {
+      "id": "UA-LAWWW-1103-06",
+      "at": "2026-11-03T00:5x",
+      "quote": "其他AI如果你還沒有把他的自動喚醒關掉，你現在管因為你寫的規則，但是他們還是繼續自動喚醒自己",
+      "kind": "原話",
+      "status": "已完成",
+      "task": "RULE-NO-WAKE-AFTER-HANDOFF-1103",
+      "note": "LAWWW 00:54 關掉 AA（trig_01Gs1X6fU3cVNnAyuA26KnRZ）、CC（trig_01KdQxKoyn2pQZKW5xXLM8ir）的每小時保險喚醒（enabled=false，不刪）；LAWWW2、BB 的 11-02 23:04 已關；帳號裡開著的排程只剩 LAWWW 自己的"
     }
   ]
 }
