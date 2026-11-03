@@ -43318,6 +43318,226 @@
    "priority": "P2",
    "note": "debb001c4，發布後加回 c9f017092",
    "next": "BB 測"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "GUITAR-CLUB-1103",
+   "title": "吉他店＋吉他社劇情（參加要買吉他、社遊、可攻略對象劇情）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X196",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "SPORT-SHOPS-1103",
+   "title": "運動用品店兩家（球鞋球衣／桌球羽球用品）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X197",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "FASTFOOD-24H-1103",
+   "title": "24 小時速食店大口漢堡（考前念書）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X198",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "BOOKSTORE-2F-1103",
+   "title": "兩層樓的山嵐書店（有人坐在地板看書；店名原創）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X176；同 ART-SHANLAN-BOOKSTORE-1103",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "CINEMA-GG-1103",
+   "title": "公館附近電影院（南洋戲院）＋在電影院打工的同學送爆米花",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X178；同 ART-NANYANG-CINEMA-1103、AA615",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "CLASSMATE-JOBS-1103",
+   "title": "同學在打工：約了來不了因為在打工",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X177；同 AA614-CLASSMATE-JOBS-1103",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "OPENING-INVITE-1103",
+   "title": "開學活動、社團博覽會有同學約一起去；系籃怎麼參加要說",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X176；同 AA613-OPENING-ACTS-1103",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "XINSHENG-SIDE-1103",
+   "title": "新生南路側：側門、店面、過馬路到溫州街；新店都放這一側",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X178；同 ART-XINSHENG-GATE-1103",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "WZ-CAFES-1103",
+   "title": "溫州街咖啡廳木曜日（念書）、日常失速（吃飯、桌遊；明軒桌遊團）；原本那家開到凌晨兩點",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "X179、X181、X182",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "MODEL-HELP-1103",
+   "title": "新店建模臨時分工：LAWWW2 主做，AA、BB、CC 測試空檔一次一家（X195）；等使用者給店面外部與內部參考圖才開始",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "臨時，不是永久規則",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新生南路側的店開了以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "area": null,
+   "id": "STALE-SCRIPTS-1103",
+   "title": "舊企劃腳本和現行不同的標「作廢」或備註已修改（全面清查）",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "AA 自己的企劃線",
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
   }
  ]
 }
