@@ -152,7 +152,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
       o1.flags.KX_DEC3_MIGRATED===true&&o1b.flags.KX_BDAY[1]==='visit'&&o1b.flags.KX_DEC3[1]==='visit'&&o4.flags.KX_BDAY[1]==='visit'&&o4.flags.KX_BDAY_MSG===true&&o4.flags.KX_DEC3===undefined
       &&o5.flags.KX_BDAY[1]==='none'&&o5.flags.KX_DEC3[1]==='visit'&&o6.flags.KX_BDAY_VISIT===true&&o6.flags.KX_DEC3_VISIT===undefined,
       JSON.stringify([o1b,o4,o5,o6].map(o=>({b:o.flags.KX_BDAY,d:o.flags.KX_DEC3,v:o.flags.KX_BDAY_VISIT,m:o.flags.KX_BDAY_MSG}))));
-    check('G46 新遊戲的 defaults 有 KX_DEC3_MIGRATED（不會把第一次讀檔前記的 4/24 搬走）',/flags:\{dating_kexin:true,KX_DEC3_MIGRATED:true\}/.test(src)); }
+    check('G46 新遊戲的 defaults 有 KX_DEC3_MIGRATED（不會把第一次讀檔前記的 4/24 搬走）',/flags:\{dating_kexin:true,KX_DEC3_MIGRATED:true[,}]/.test(src)); }
   /* ---------- 第一份報告交出去的晚上（BB_95 9-6 改版，2026-10-15 BB-B：生日改 4/24；AA_140 G01）---------- */
   { const BD=termDay(14,3); let toasts=[]; GM.toast=(t)=>{ toasts.push(t); };
     const draft=()=>G.msgs.find(m=>m.tag==='kx_dec3_draft');
