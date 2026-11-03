@@ -3408,7 +3408,7 @@ const STORY = (function(){
      沒有 sleep_scene 的房間、不在宿舍房間（美國公寓、家裡）：照原本（梯子前淡出就睡、醒來在門口）。
      熄燈：區域有 z.lightsOff(k)（LAWWW2 的第三張光照貼圖 roomDarkMap，k 0～1）就用它；沒有就把曝光壓暗（E.toneK × (1−0.82k)，室內 applyTime 每 5 格套一次）。換成光照貼圖只要區域提供 lightsOff。
      讀檔中途：LOADLOCKS 放開（S._bed、S._bedBusy、GM.onBlack、曝光）；存檔時人在床上＝存梯子前（STORY.bedSavePos，game3d.js snapshot）。測試：node tests/dorm_sleep_scene_unit.js */
-  S.SLEEP_T={step:0.38,entry:0.5,hold:0.7,dim:0.9,wake:1.0};   /* 秒：一階、上床點、躺下以後、熄燈、醒來躺著 */
+  S.SLEEP_T={step:0.38,entry:0.5,hold:0.7,dim:0.9,wake:1.0,turn:0.35,kneel:0.35};   /* 秒：一階、上床點、躺下以後、熄燈、醒來躺著、最上面一階轉身、跪在床上停一下 */
   S.DARK_MAX=0.82;   /* 沒有熄燈光照貼圖時曝光最多壓掉多少（0.7 在 SwiftShader 截圖還像傍晚，2026-10-30）*/
   S.sleepSceneOf=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||G.zone!=='dorm'||!E||!E.zone||!E.player||typeof DORM_ROOM==='undefined'||!DORM_ROOM||!DORM_ROOM.units) return null;
     const u=DORM_ROOM.units.find(q=>q.id===(DORM_ROOM.player_unit||'L2')), sc=u&&u.sleep_scene; if(!sc||!sc.approach||!Array.isArray(sc.steps)||!sc.steps.length||!sc.lie||!sc.lie.feet||!sc.cam||!sc.cam.eye||!sc.cam.look) return null; return sc; };
@@ -3428,6 +3428,18 @@ const STORY = (function(){
   async function bedTween(GM,o,to,sec){ const p=o.position, x0=p.x, y0=p.y, z0=p.z, n=GM.turbo?1:Math.max(2,Math.round(sec*25));
     for(let i=1;i<=n;i++){ const t=i/n, e=t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2; p.x=x0+(to[0]-x0)*e; p.y=y0+(to[1]-y0)*e; p.z=z0+(to[2]-z0)*e; await GM.sleep(sec*1000/n); } }
   const faceTo=(o,x,z)=>{ const dx=x-o.position.x, dz=z-o.position.z; if(Math.hypot(dx,dz)>0.03) o.rotation.y=Math.atan2(dx,dz); };
+  /* 慢慢轉向 (x,z)（最上面一階轉向床、從床上下來轉向梯子：不一格轉 90°）*/
+  async function turnTo(GM,o,x,z,sec){ const dx=x-o.position.x, dz=z-o.position.z; if(Math.hypot(dx,dz)<=0.03) return; const y0=o.rotation.y, d=Math.atan2(Math.sin(Math.atan2(dx,dz)-y0),Math.cos(Math.atan2(dx,dz)-y0)); if(Math.abs(d)<0.02){ o.rotation.y=y0+d; return; }
+    const n=GM.turbo?1:Math.max(2,Math.round(sec*25)); for(let i=1;i<=n;i++){ const t=i/n; o.rotation.y=y0+d*(t*t*(3-2*t)); await GM.sleep(sec*1000/n); } }
+  /* 天花板（DORM-LADDER-STOOP-1103；使用者 11-03「宿舍天花板太低了 走上去都撞到頭」「至少微微彎腰不要整個頭卡進去天花板」）：爬梯子、跪上床、從床上起來的時候，
+     頭頂（含頭髮）不高過 S.bedHeadMax(sc)（character3d.js 的 headFit：膝蓋彎一點、上身往前彎）——sleep_scene.head_max（LAWWW2 的版面）；沒有就（sleep_scene.ceil_y 或房間高度 DORM_ROOM.room.h）− 0.08 m。
+     上床點（bed_entry）跪上去（pose kneel）：sleep_scene.bed_entry_pose 是 'kneel' 或沒寫＝跪；'stand'＝照舊站著（pose climb）。站回梯子前（bedStand）、清掉床的狀態（bedClear）＝拿掉限制。測試：node tests/ladder_headroom_unit.js */
+  S.HEAD_CLEAR=0.08;
+  S.bedHeadMax=function(sc){ if(sc&&sc.head_max!=null&&isFinite(+sc.head_max)) return +sc.head_max; const R=typeof DORM_ROOM!=='undefined'&&DORM_ROOM&&DORM_ROOM.room; const c=sc&&sc.ceil_y!=null&&isFinite(+sc.ceil_y)?+sc.ceil_y:(R&&isFinite(+R.h)?+R.h:null); return c!=null?c-S.HEAD_CLEAR:null; };
+  S.bedEntryPose=sc=>sc&&sc.bed_entry_pose==='stand'?'climb':'kneel';
+  const headOn=(P,sc)=>{ if(P&&P.obj&&P.obj.userData){ const m=S.bedHeadMax(sc); if(m!=null) P.obj.userData.headMax=m; else delete P.obj.userData.headMax; } };
+  const headOff=P=>{ if(P&&P.obj&&P.obj.userData) delete P.obj.userData.headMax; };
+  const bedEntryOf=sc=>{ const L=sc.lie; return sc.bed_entry||[L.feet[0],L.mattress_top_y!=null?L.mattress_top_y:L.feet[1],L.feet[2]]; };
   /* 爬梯子的鏡頭：踏點中間往床的反方向退 1.8 m、往梯子底下（房間中間）退 1.6 m、高 1.75（L2：(−0.83, 1.75, 2.99) 看梯子；第一版退 1 m、高 1.55 太近，人爬到一半頭出畫面）*/
   S.climbCam=function(sc){ const st=sc.steps, n=st.length, a=sc.approach, L=sc.lie; const mx=(st[0][0]+st[n-1][0])/2, mz=(st[0][2]+st[n-1][2])/2;
     let ux=st[n-1][0]-a[0], uz=st[n-1][2]-a[1]; const ul=Math.hypot(ux,uz)||1; ux/=ul; uz/=ul; const hd=L.head||L.feet; let bx=hd[0]-L.feet[0], bz=hd[2]-L.feet[2]; const bl=Math.hypot(bx,bz)||1; bx/=bl; bz/=bl;
@@ -3447,11 +3459,11 @@ const STORY = (function(){
   S.bedSeeThru=function(sc){ const L=sc&&sc.lie; if(!L||!L.feet) return null; const hd=L.head||L.feet, y0=L.mattress_top_y!=null?L.mattress_top_y:L.feet[1]-0.05;
     return {x:(L.feet[0]+hd[0])/2,y:y0+S.BED_SEE.up,z:(L.feet[2]+hd[2])/2,r:S.BED_SEE.r,aspect:S.BED_SEE.aspect}; };
   /* 站回梯子前（面向房間）*/
-  S.bedStand=function(GM,sc){ const E=GM.E, P=E.player, o=P.obj, a=sc.approach, s0=sc.steps[0]; if(o.userData) o.userData.eyesShut=false; P.pose='idle'; P.idlePose='idle'; P.frozen=false; P.path=null;
+  S.bedStand=function(GM,sc){ const E=GM.E, P=E.player, o=P.obj, a=sc.approach, s0=sc.steps[0]; if(o.userData) o.userData.eyesShut=false; headOff(P); P.pose='idle'; P.idlePose='idle'; P.frozen=false; P.path=null;
     if(E.placeAt) E.placeAt(P,a[0],a[1],0); else { o.position.x=a[0]; o.position.z=a[1]; o.position.y=0; } o.rotation.y=Math.atan2(a[0]-s0[0],a[1]-s0[2]); };
   /* 清掉床的狀態、開燈；how：'state'＝只清狀態（換了區域）、'cam'＝站回梯子前並結束運鏡（黑幕裡）、其他＝站回梯子前 */
   S.bedClear=function(GM,how){ const B=S._bed; S._bed=null; S._bedBusy=false; if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; if(!GM||!GM.E) return false; if(GM.E.cam) GM.E.cam.seeThru=null; S.roomDark(GM,0); if(!B) return false;
-    const E=GM.E, P=E.player, same=E.zone===B.zone&&GM.G.zone==='dorm'; if(same&&how!=='state'&&P&&(P.pose==='lie'||P.pose==='climb'||P.pose==='climbdown')) S.bedStand(GM,B.sc); else if(P&&P.obj&&P.obj.userData) P.obj.userData.eyesShut=false;
+    const E=GM.E, P=E.player, same=E.zone===B.zone&&GM.G.zone==='dorm'; if(same&&how!=='state'&&P&&(P.pose==='lie'||P.pose==='climb'||P.pose==='climbdown'||P.pose==='kneel')) S.bedStand(GM,B.sc); else if(P&&P.obj&&P.obj.userData){ P.obj.userData.eyesShut=false; headOff(P); if(P.pose==='kneel'||P.pose==='climb'||P.pose==='climbdown') P.pose='idle'; }
     if(same&&how==='cam'&&E.endCinematic) E.endCinematic(); return true; };
   function bedOnBlack(){ if(typeof GAME!=='undefined') S.bedClear(GAME,'cam'); }
   function disarmBlack(GM){ if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; }   /* 沒有用到的黑幕接口收掉（小睡沒跳成）*/
@@ -3469,9 +3481,9 @@ const STORY = (function(){
     return ok; }
   async function goToBedFull(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps, L=sc.lie; let ok=false; S._bedBusy=true; GM.sceneBegin();
     try{ if(P.seat&&GM.standUp) GM.standUp(P); await GM.walkTo(P,sc.approach[0],sc.approach[1]); const c=S.climbCam(sc); camOn(GM,c); faceTo(P.obj,st[0][0],st[0][2]); P.pose='idle'; await GM.sleep(300);
-      P.pose='climb'; S._bed={sc,zone:E.zone,day:GM.G.day}; if(P.obj.userData) P.obj.userData.climbTop=(L.mattress_top_y!=null?L.mattress_top_y:L.feet[1])+0.26;   /* 爬梯子的手最高抓到床欄頂（床墊頂＋0.26 m；character3d.js 的 climbIK，CLIMB-POSE-1102）*/
+      P.pose='climb'; headOn(P,sc); S._bed={sc,zone:E.zone,day:GM.G.day}; if(P.obj.userData) P.obj.userData.climbTop=(L.mattress_top_y!=null?L.mattress_top_y:L.feet[1])+0.26;   /* 爬梯子的手最高抓到床欄頂（床墊頂＋0.26 m；character3d.js 的 climbIK，CLIMB-POSE-1102）；頭頂不高過天花板（headOn，DORM-LADDER-STOOP-1103）*/
       for(const s of st){ faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }
-      const be=sc.bed_entry||[L.feet[0],L.mattress_top_y||L.feet[1],L.feet[2]]; faceTo(P.obj,be[0],be[2]); await bedTween(GM,P.obj,be,T.entry);
+      const be=bedEntryOf(sc); await turnTo(GM,P.obj,be[0],be[2],T.turn); P.pose=S.bedEntryPose(sc); await bedTween(GM,P.obj,be,T.entry); if(P.pose==='kneel') await GM.sleep(T.kneel*1000);   /* 最上面一階轉向床、跪上去（kneel），跪好停一下再淡出 */
       await GM.fade(true); S.lieDown(GM,sc); camOn(GM,bedCam(sc),true); await GM.fade(false);
       await GM.sleep(T.hold*1000); await darkTo(GM,1,T.dim); if(P.obj.userData) P.obj.userData.eyesShut=true; await GM.sleep(450); ok=true; }
     finally { S._bedBusy=false; GM.sceneEnd(); if(ok&&S._bed) camOn(GM,bedCam(sc),true); }   /* sceneEnd 會把鏡頭放回跟隨：接著睡覺的黑幕要停在睡覺鏡頭 */
@@ -3479,8 +3491,12 @@ const STORY = (function(){
   /* 起床：開燈 → 短淡出 → 最上面一階 → 一階一階下來 → 梯子前。在 sceneBegin 裡面叫（外面的 sceneEnd 放回跟隨鏡頭）*/
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
     try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
-      await GM.fade(true); if(E.cam) E.cam.seeThru=null;   /* 爬下來：不躺了，床欄透空收掉（#120）*/ const top=st[st.length-1]; P.obj.position.x=top[0]; P.obj.position.y=top[1]; P.obj.position.z=top[2]; P.pose='climbdown'; P.idlePose='idle'; P.frozen=false;   /* 下來：走路的樣子（不舉手）*/
-      const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; faceTo(P.obj,nx[0],nx[2]); const c=S.climbCam(sc); camOn(GM,{pos:c.pos,look:[top[0],top[1]+1.0,top[2]]},true); await GM.fade(false);
+      await GM.fade(true); if(E.cam) E.cam.seeThru=null;   /* 爬下來：不躺了，床欄透空收掉（#120）*/ const top=st[st.length-1], o=P.obj, kp=S.bedEntryPose(sc), be=bedEntryOf(sc); P.idlePose='idle'; P.frozen=false; headOn(P,sc);
+      const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; const c=S.climbCam(sc);
+      if(kp==='kneel'){ o.position.x=be[0]; o.position.y=be[1]; o.position.z=be[2]; faceTo(o,top[0],top[2]); P.pose='kneel'; if(o.userData) o.userData.kneelSnap=true;   /* 先跪在上床點（黑幕裡直接跪好），再從床上爬到最上面一階（DORM-LADDER-STOOP-1103：頭不碰天花板）*/
+        camOn(GM,{pos:c.pos,look:[be[0],be[1]+0.7,be[2]]},true); await GM.sleep(300); await GM.fade(false); await GM.sleep(T.kneel*1000);
+        P.pose='climbdown'; await bedTween(GM,o,top,T.entry); camOn(GM,{pos:c.pos,look:[top[0],top[1]+1.0,top[2]]}); await turnTo(GM,o,nx[0],nx[2],T.turn); }
+      else { o.position.x=top[0]; o.position.y=top[1]; o.position.z=top[2]; P.pose='climbdown'; faceTo(o,nx[0],nx[2]); camOn(GM,{pos:c.pos,look:[top[0],top[1]+1.0,top[2]]},true); await GM.fade(false); }   /* 下來：走路的樣子（不舉手）*/
       for(let i=st.length-2;i>=0;i--){ const s=st[i]; faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }
       const a=sc.approach; faceTo(P.obj,a[0],a[1]); await bedTween(GM,P.obj,[a[0],0,a[1]],T.step); }
     finally { S._bedBusy=false; S.bedClear(GM); } }
