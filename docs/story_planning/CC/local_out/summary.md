@@ -660,3 +660,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_tour_joy] | [gpu_wrap 458.1s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 458.1s] BROWSER DISCONNECTED
 - 2026-11-04T05:45:31  LIVE19_ver  sha=e1603907e  exit=0  81s    PASS ④ 沒有 4xx／5xx  [] / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [LIVE19_ver] | [gpu_wrap 26.6s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html | [gpu_wrap 26.7s] BROWSER DISCONNECTED
+- 2026-11-04T05:48:14  LIVE19_deploy  sha=e1603907e  exit=0  244s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [LIVE19_deploy] | [gpu_wrap 167.9s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 168.1s] BROWSER DISCONNECTED
