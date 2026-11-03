@@ -52,3 +52,21 @@
 2. 你同意以後：校園開側門、溫州街西端接口；
 3. 各店室內一家一家接進來；
 4. 測試：`nav_buildings`、`p0_movement`、`reachability_all`、`zone_transitions`、新的 `xinsheng_unit`。
+
+## 進度（11-03 21:0x，`BLOCKOUT`）
+- `xinsheng_layout.js`（這個資料夾，草案 v1）：店面、騎樓、馬路、斑馬線、側門、公車站、樹、路燈、溫州街巷口的座標。接進遊戲時搬到 `src/data/`。
+- **街景第 0 版**：`wz_street.py` 加了 `--set xinsheng`，重用溫州街、公館的公寓和騎樓做法，照 layout 排西側一整排樓房。
+  - 輸出：`xinsheng_street.glb`，21,909 個三角形、2.0 MB，還沒放進 assets。
+  - 指令：`/opt/blenv/bin/python tools/blender/env_second/wz_street.py -- --set xinsheng --out <glb>`
+- 圖：`blockout_v0_vs_ref.jpg`。左上從側門看、右上從南往北、左下騎樓，右下是參考圖 b。
+  - **離參考圖還很遠**：
+    - 七家店的店面還是一般的騎樓鐵捲門、玻璃；
+    - 招牌字是空白的（遊戲畫字）；
+    - 沒有地面、馬路、斑馬線、校園那一側（圍牆、側門、椰子、樟樹、公車站）；
+    - 樓房太白、太整齊。
+- **下一步**：
+  1. 七家店改用店面組件 `wz_shopkit`。照各自的參考圖做：大口漢堡兩層玻璃＋24h 燈箱、南洋戲院舊燈箱＋海報櫥窗＋售票口、山嵐兩層整面玻璃＋白磁磚帶、同弦的樓梯口和吉他、大步白色店面、好拍窄店、運動廣場兩層。
+  2. 地面 GLB：柏油、分隔島、斑馬線、紅磚人行道、騎樓地磚。照 `lane118_ground.py` 的做法。
+  3. 校園那一側：圍牆、側門門柱、椰子、樟樹、候車亭。
+  4. 招牌字：sign_atlas 設計稿，或遊戲用 TK.signTex 畫。
+  5. 等 LAWWW 回覆 PLAN 第 1、3 節，再碰 campus、wenzhou。

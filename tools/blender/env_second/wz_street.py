@@ -24,7 +24,7 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 SET = arg('--set', 'wenzhou')   # wenzhou＝溫州街（預設）；gongguan＝公館羅斯福路南側的騎樓店面；lane118＝和平東路二段 118 巷（⑭；同一套公寓、材質與窗戶原型）；nccu_food＝政大山下的小吃街（只給 2D 背景算圖：bg_nccu.py）
-OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb'}.get(SET, 'wenzhou_street.glb')))
+OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongguan': 'gongguan_shops.glb', 'lane118': 'lane118_street.glb', 'nccu_food': 'bg_nccu_food_street.glb', 'xinsheng': 'xinsheng_street.glb'}.get(SET, 'wenzhou_street.glb')))
 
 # ---------------- 遊戲裡的配置（照 zones3d.js buildWenzhou；改那邊要一起改這裡） ----------------
 SHOP = lambda **k: k
@@ -134,22 +134,40 @@ NCCU_FOOD = {"sides": ["W"], "lane": {"x0": -3.0, "x1": 3.0, "z0": -40.0, "z1": 
                        {"id": "mcd", "side": "W", "z0": -15.0, "z1": -7.0, "floors": 3, "name": "麥丹勞", "type": "速食"},
                        {"id": "mos", "side": "W", "z0": -25.0, "z1": -19.0, "floors": 4, "name": "魔司漢堡", "type": "速食"}]}
 # 麥當勞和摩斯中間：一棟鐵門長年拉下的公寓（關鍵評論網）；其他查不到的門面只放住家鐵門、鐵捲門，不編店名
-if SET in ('lane118', 'nccu_food'):
+# ART-XINSHENG-GATE-1103（D108，LAWWW2 11-03）：新生南路西側一整排騎樓店面，照 XINSHENG_LAYOUT（草案在 docs/art-rebuild/second_ai/wip/xinsheng/；接進遊戲以後是 src/data/xinsheng_layout.js）。
+#   換算成 118 巷那一套的格式：只有西側、街沿著 z、立面（樓上的牆面）在 x＝facade.upper、一樓退成騎樓（ground 'arcade'）
+def _xinsheng_lj():
+    import json as _j
+    _p = os.path.join(L.ROOT, 'src/data/xinsheng_layout.js')
+    if not os.path.exists(_p): _p = os.path.join(L.ROOT, 'docs/art-rebuild/second_ai/wip/xinsheng/xinsheng_layout.js')
+    _s = open(_p, encoding='utf8').read(); X = _j.loads(_s[_s.index('{', _s.index('const XINSHENG_LAYOUT=')):_s.rindex('}') + 1])
+    sh = [dict(id=q['id'], side='W', z0=q['z0'], z1=q['z1'], floors=q['floors'], name=q['name'], type=q['type'], door=q['door']) for q in X['shops']]
+    wl = X['wenzhouLane']
+    return {"sides": ["W"], "lane": {"z0": X['road']['z0'], "z1": X['road']['z1']}, "facade": {"west": X['facade']['upper'], "east": -X['facade']['upper']},
+            "floorH": X['facade']['floorH'], "groundH": X['facade']['groundH'], "alleys": [{"side": "W", "z0": wl['z0'], "z1": wl['z1']}], "shops": sh, "X": X}
+if SET in ('lane118', 'nccu_food', 'xinsheng'):
     import json as _json
-    if SET == 'lane118':
+    if SET == 'xinsheng':
+        LJ = _xinsheng_lj()
+    elif SET == 'lane118':
         _src = open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf8').read()
         LJ = _json.loads(_src[_src.index('{', _src.index('const LANE118_LAYOUT=')):_src.rindex('}') + 1])
     else:
         LJ = NCCU_FOOD
     GH, FH = LJ['groundH'], LJ['floorH']
     _TYPE = {'滇緬料理': 'teishoku', '自助餐': 'teishoku', '手搖飲': 'tea', '家常菜': 'teishoku', '咖啡': 'cafe', '義大利麵': 'cafe', '韓式': 'teishoku', '蛋包飯': 'cafe', '麵店': 'noodle',
-             '滷味': 'noodle', '甜湯': 'teishoku', '早餐': 'teishoku', '鹹酥雞': 'noodle', '速食': 'cafe'}
+             '滷味': 'noodle', '甜湯': 'teishoku', '早餐': 'teishoku', '鹹酥雞': 'noodle', '速食': 'cafe',
+             '速食（24 小時）': 'cafe', '二輪戲院': 'books', '書店（兩層）': 'books', '吉他行（二樓）': 'books', '球鞋': 'bike', '球拍專賣': 'bike', '運動用品（兩層）': 'bike'}
     # 招牌底色、字色、色帶、雨遮（虛構店家，配色照店的類型）
     _LOOK = {'dian': ('#2f5d50', '#f4ead8', '#c9a24a', '#2f5d50'), 'self': ('#c9463d', '#ffffff', '', '#c9463d'), 'tea': ('#f4ead8', '#2f7d5b', '#2f7d5b', None),
              'home': ('#8c3b2a', '#f4ead8', '', '#3b5a8c'), 'cafe2': ('#3b2a1e', '#f4ead8', '', None), 'pasta': ('#f4f1ea', '#8c3b47', '#2f5d50', '#2f5d50'),
              'korea': ('#ffffff', '#c9463d', '#1f4e8c', '#c9463d'), 'omu': ('#f2c230', '#5c3a21', '', '#e0a030'), 'noodle2': ('#f4ead8', '#9c2f2a', '', '#9c2f2a'),
              'minzhong': ('#b8231c', '#ffffff', '', '#b8231c'), 'milksha': ('#3f6f8c', '#ffffff', '', None), 'fifty': ('#f4f1ea', '#2f5d50', '#2f5d50', None),
-             'sichuan': ('#f4ead8', '#9c2f2a', '', None), 'mcd': ('#8c2a22', '#f4ead8', '#e0a030', None), 'mos': ('#2f4a3a', '#f4ead8', '', None)}
+             'sichuan': ('#f4ead8', '#9c2f2a', '', None), 'mcd': ('#8c2a22', '#f4ead8', '#e0a030', None), 'mos': ('#2f4a3a', '#f4ead8', '', None),
+             # 新生南路（照參考圖 ref_images/shops/*_ext.webp 的配色；大口漢堡用藍底橘字，不用紅黃）
+             'dakou': ('#1f3a6b', '#f4ead8', '#e8873a', None), 'nanyang': ('#8c2a22', '#f6e7c8', '#d9b45a', '#6b2a22'), 'shanlan': ('#f4ead8', '#3b2a1e', '', None),
+             'tongxian': ('#7a2a2a', '#f4ead8', '', None), 'dabu': ('#1f2e45', '#ffffff', '', None), 'haopai': ('#2f6f4a', '#ffffff', '#e0b24a', '#2f6f4a'),
+             'xsports': ('#1f4e8c', '#ffffff', '#c9463d', None)}
     _FILL = [('早餐店', 'teishoku', '#f2b33e', '#3b2a1e'), ('影印・輸出', 'print', '#2f3a44', '#ffffff'), ('自助洗衣', 'laundry', '#e9f2f6', '#2a5f8a'),
              ('水果行', 'fruit', '#e0a030', '#3b2a1e'), ('二手書', 'books', '#2f4a3a', '#f4ead8'), ('文具', 'books', '#8c3b47', '#ffffff')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0', '#cdbfa8']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
@@ -191,6 +209,7 @@ if SET in ('lane118', 'nccu_food'):
                             vertical=q.get('vsign', q['name'][:4] if len(q['name']) <= 6 else None), vBg='#ffffff', vColor=bg if bg not in ('#ffffff', '#f4f1ea', '#f4ead8') else fg, vBand=fg)
                 if awn: shop['awning'] = awn
                 base.update(ground='shop', shop=shop, lane118=q['id'])
+                if SET == 'xinsheng': base.update(ground='arcade', pillars=[w / 2], rollbox=False, d=20)   # 新生南路：一樓退成騎樓（參考圖），樓房比 118 巷深
             elif w < 2.6: base.update(ground='door', door=_DOOR[_n % 4], floors=max(3, base['floors']))
             elif SET == 'nccu_food': base.update(ground=['shutter', 'door'][_n % 2], door=_DOOR[_n % 4])
             else:
@@ -205,7 +224,7 @@ if SET in ('lane118', 'nccu_food'):
 
 random.seed(707)
 B.reset(texres=512)
-_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street', 'nccu_food': 'nccu_food_street'}.get(SET, 'wenzhou_street')
+_RN = {'gongguan': 'gongguan_shops', 'lane118': 'lane118_street', 'nccu_food': 'nccu_food_street', 'xinsheng': 'xinsheng_street'}.get(SET, 'wenzhou_street')
 root = B.group(_RN, props={'kind': _RN})
 base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、浪板、水塔、植物…，名稱相同→遊戲同一套夜間設定）
 _mats = {}
