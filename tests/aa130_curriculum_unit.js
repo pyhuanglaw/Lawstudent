@@ -47,7 +47,7 @@ function mkGM(G,picks){ const log=[]; let k=0;
     const wk=(SYLLABUS.courses.legal_english||[]); check('2. syllabus 的法學英文是大二下的版本（BB 3ae2200 重新匯入：第 15 週「你們還有兩年。」）',wk.length>0&&JSON.stringify(wk).includes('你們還有兩年'),SYLLABUS.source); }
   // 3. 大一下照播選課結果、沒有選項；大三下沒有選課
   { const G=mkG(dayOf('2026-02-22'),7.5), GM=mkGM(G); await CLS.morning(GM);
-    check('3. 大一下開學前一天：播「選課結果出來了：大一下。」和通識兩句，沒有任何選項',GM.log.includes('say:選課結果出來了：大一下。')&&GM.log.some(t=>t==='say:選上的是「天文與我們」。')&&!GM.log.some(t=>t.startsWith('choose:')),GM.log.join(' | '));
+    check('3. 大一下開學前一天：播「選課結果出來了：大一下。」，沒有任何選項（AA_605 第 3 列：通識兩句拿掉）',GM.log.includes('say:選課結果出來了：大一下。')&&!GM.log.some(t=>/天文與我們/.test(t))&&!GM.log.some(t=>t.startsWith('choose:')),GM.log.join(' | '));
     const G3=mkG(dayOf('2028-02-20'),7.5), GM3=mkGM(G3); await CLS.morning(GM3);
     check('3. 大三下：沒有選課、勞動法固定在課表',!GM3.log.some(t=>t.startsWith('choose:'))&&CLS.termCourses(G3,'Y3S2').some(c=>c.id==='labor_law'),GM3.log.join(' | ')); }
   // 8. 舊存檔

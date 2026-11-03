@@ -1116,17 +1116,17 @@ const STORY_EVENTS=[
     const base={ participants:[], location:'any', trigger:'class', beforeClass:'english_y1', term:['Y1S1'], once:true, background:'blur' };
     return [
       Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G), w1=typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G); return (w1?w>=1:w>=3)&&w<=12&&!G.flags.SK04_REPLY; }},   /* AA_195 4-7 C：開學改 9/1 的局第 1 週起（舊局照舊第 3 週起）；AA_294 ②：下一次出席英文就出現，到第 12 週（原本第 1～3／3～5 週，沒去就沒有）*/
-        dialogue:[ {speaker:null,text:'桌角貼著一張便利貼。'},{speaker:'便利貼',text:'這個位子的插座是壞的。'},
+        dialogue:[ {speaker:null,text:'（這間教室下午是經濟系的課。你坐的位子，桌角貼著一張便利貼——是下午坐這裡的人留的。）'},{speaker:'便利貼',text:'這個位子的插座是壞的。不要白帶充電器。'},   /* AA_605 第 4、5 列（STORY-CLASSROOM-CROWD-SOCKET-1103，使用者 11-03「插座是壞的劇情 到底有什麼意義」：開頭交代是下午的人留的）*/
           {choice:[{text:'「椅子也是。」',set:{SK04_REPLY:'chair'}},{text:'「已報修。——法律系」',set:{SK04_REPLY:'law'}},{text:'（不回）',set:{SK04_REPLY:'none'}}]} ],
         after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=1; } }),
       Object.assign({},base,{ id:'ev_sk04_note2', title:'便利貼', prereq:{custom:G=>on(G)&&G.flags.SK04_N===1&&wk(G)>(G.flags.SK04_WK|0)&&wk(G)<=14},
-        dialogue:[ {speaker:'便利貼',text:'統計好難。'},{choice:[{text:'「英文也是。」'},{text:'（不回）',set:{SK04_QUIET:true}}]} ],
+        dialogue:[ {speaker:null,text:'（同一個位子，又多了一張。字跡跟上次一樣。）'},{speaker:'便利貼',text:'統計好難。'},   /* AA_605 第 6 列 */{choice:[{text:'「英文也是。」'},{text:'（不回）',set:{SK04_QUIET:true}}]} ],
         after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=2; } }),
       Object.assign({},base,{ id:'ev_sk04_note3', title:'便利貼', prereq:{custom:G=>on(G)&&G.flags.SK04_N===2&&!G.flags.SK04_QUIET&&wk(G)>(G.flags.SK04_WK|0)&&wk(G)<=14},
-        dialogue:[ {speaker:'便利貼',text:'你們法律系也要考英文？'},{choice:[{text:'「我們什麼都要考。」'},{text:'（不回）'}]} ],
+        dialogue:[ {speaker:null,text:'（第三張。下午那個人好像很期待你回。）'},{speaker:'便利貼',text:'你們法律系也要考英文？'},   /* AA_605 第 7 列 */{choice:[{text:'「我們什麼都要考。」'},{text:'（不回）'}]} ],
         after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=3; } }),
       Object.assign({},base,{ id:'ev_sk04_reveal', title:'是你？', participants:[], prereq:{custom:G=>{ const w=wk(G); return on(G)&&(w===15||w===16)&&!G.flags.STICKY_NOTES; }},
-        dialogue:[ {speaker:'唐睿',text:'……是你？'},{speaker:'player',text:'……是你？'},
+        dialogue:[ {speaker:null,text:'（英文提早十分鐘下課。你收東西的時候，下午那堂的人已經在門口等。有一個人直接走到你的位子，手上拿著一張便利貼。）'},{speaker:'唐睿',text:'……是你？'},   /* AA_605 第 8 列 */{speaker:'player',text:'……是你？'},
           {unless:{flags:['PLAYED_Y0']},speaker:'唐睿',text:'唐睿。全系最會講話的那個。……你真的忘了我？'},{set:{STICKY_NOTES:true,KNOWS_TANG:true}} ] }) ]; })(),
   /* SK01 對面的舊系館（BB_106 SK01，BB-B 2026-10-16 定稿 d5224961；AA_154 A52 ①）：法律系第 2 天（9/18 週四）民總下課、第二天的劇情結束以後，第一次站在霖澤館前
      （大一上第 3～6 週；社科圖開著、接下來 75 分鐘沒有課：STORY.sk01Ready）。阿勳兩則私訊（沒玩經濟系那一年的先多一則重新介紹）→
@@ -4743,7 +4743,7 @@ const STORY_EVENTS_V11=[
     dialogue:[ {speaker:null,text:'你點了拿鐵，拿到的是手沖。店員說「啊」，然後看著你。'},{choice:[{text:'「沒關係，這杯也好。」',consequences:{energy:5,memo:'喝了一杯不是自己點的咖啡'}},{text:'「我點的是拿鐵。」',consequences:{advance:0.15}}]} ] },
   { id:'ev_almost_late', title:'快遲到', participants:[], location:'campus', trigger:'enter', weekday:[2], time:[9.9,10.25], day_min:3, cooldown_days:6, keep:'defer', background:'freeze',   /* keep：【延】（AA_160 3-4 C：生活小事，一鍵上課路上不攔；有 time 預設會算【固】，所以寫明）*/
     dialogue:[ {speaker:null,text:'等一下還有課。你看了一眼手機，開始用走的假裝自己沒有在跑。'} ], consequences:{goal:'法律系館A：上課'} },   /* AA_372 第 14 項：大一上週二沒有 10:20 的課（原本「十點二十的課。」）*/
-  { id:'ev_course_selection', title:'選課結果', participants:[], location:'dorm', trigger:'enter', day_min:5, once:true, time:[7,12], background:'freeze',
+  { id:'ev_course_selection', title:'選課結果', retired:true,   /* AA_605 第 2 列（BUG-GE-NOT-SELECTED-1103，使用者 11-03「有一個通識課沒選上到底是什麼 現在遊戲不是一開始課表都訂好了?」）：大一上課表是排好的，拿掉；定義留給舊存檔 */ participants:[], location:'dorm', trigger:'enter', day_min:5, once:true, time:[7,12], background:'freeze',
     dialogue:[ {speaker:null,text:'選課結果出來了。通識「城市與散步」——沒選上。備取十七。'},{choice:[{text:'沒選到的那堂，等第二階段有人退選，再上網加加看。',consequences:{flags:{ge_walk_waitlist:true},memo:'通識「城市與散步」備取，等第二階段退選'}},{text:'算了，下學期再選。',consequences:{memo:'通識「城市與散步」沒選上，下學期再選'}}]} ] },   /* 交接包 v1 第 1 節：祐廷本來就要重修經原（必修），不設 ge_econ */
   /* AA_356 第 2 節：選「我明天拿來。」＝隔天以後第一次進總圖還書、罰款變四十元（原本欠著不用付，當場繳的反而吃虧）；欠著的時候不再跳逾期 */
   { id:'ev_book_return', title:'還書', participants:[], location:['library_hall','library'], trigger:'enter', background:'freeze', prereq:{custom:G=>!!(G.flags&&G.flags.book_overdue)&&G.day>(G.flags.book_overdue_day|0)},
