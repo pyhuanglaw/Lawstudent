@@ -2516,6 +2516,24 @@
    "status": "進行中",
    "wants": "X189",
    "task": "ONE-TAP-GO-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-51",
+   "at": "2026-11-03T12:0x",
+   "quote": "可以把某位朋友設為最愛",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X190",
+   "task": "PHONE-FAV-1103"
+  },
+  {
+   "id": "UA-LAWWW-1103-52",
+   "at": "2026-11-03T12:0x",
+   "quote": "他的聊天會放在最上面",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X190",
+   "task": "PHONE-FAV-1103"
   }
  ]
 }

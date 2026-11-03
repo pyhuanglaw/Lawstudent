@@ -43184,6 +43184,26 @@
    "priority": "P1",
    "note": "X189；使用者「下一個版本」",
    "next": "子代理（worktree）實作 → 合併 → BB 測 → v9.10.19"
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "開局手機",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "PHONE-FAV-1103",
+   "title": "手機：朋友可以設為最愛（取消也可以），最愛的聊天在訊息列表最上面（多位照最新訊息排）；存檔記住、舊存檔沒有最愛",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X190",
+   "next": "子代理（和 ONE-TAP-GO-1103 同一個）實作 → 合併 → BB 測"
   }
  ]
 }
