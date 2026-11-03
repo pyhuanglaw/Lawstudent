@@ -43,6 +43,11 @@ V19D_tour_joy | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tou
 V19D_swingshot | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
 V19D_swing    | 15e78dff7 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
 V19D_stairarm | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
+#HOLD修正 V19R_deploy3 | <補檔> | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
+#HOLD修正 V19R_p0c     | <補檔> | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+#HOLD修正 V19L_libfl   | <補檔> | game | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out}
+#HOLD修正 V19L_libsc   | <補檔> | game | tests/flow_library_scene.py | index.html | 60 | XARGS={url} {out}
+# （BB 17:58：library_view_trees 補檔的 SHA 下來就填、拿掉 #HOLD修正、排到最前面；libfl、libsc 要看展演廳圓窗的截圖）
 # --- V19 重跑（CC 17:5x）：touch 第一次手機自己打開、搖桿沒動；tour_tap 結束後合照選單沒跳（加出遊狀態記錄）；grandma 媽媽那句台上還沒人（探針改）；diners noodle2 18:30 同一批人不同（改成列出差的人和時間）---
 V19R_touch2  | 15e78dff7 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r2;XARGS={url}
 V19D_tour_tap2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=outst
