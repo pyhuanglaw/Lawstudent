@@ -394,11 +394,12 @@ const GAME = (function(){
      ②只改一般搭話留下的 FIRST_MET（連同同一次記下的 met_ 旗標：名單上的人和 FIRST_MET 一致）；③正式初遇事件播過的不動；④熟悉度等關係、事件紀錄、其他旗標都不動；
      ⑤改過一次就不再改（fm120）；⑥存檔資料壞掉（記憶不是物件、事件紀錄壞掉）不改也不丟例外——無法確定正式初遇有沒有發生過時一律不動。測試：tests/save_firstmet_unit.js */
   const MEET_EVENTS={heroine_02:['ev_cafe_barista_zhiruo','ev_zhiruo_ge_group'],heroine_03:['ev_library_door_phone','ev_rain_library_door'],heroine_04:['ev_ziqing_club']};
+  const MEET_FLAGS={heroine_03:['YT_MET_JOB']};   /* BUG-YT-FIRSTMET-RELABEL-1103（BB 11-03 22:43）：語彤第三版初遇搬到茶屋第一班（ytjob3d.js firstShift，不是事件），讀檔一次就被當成一般搭話改成 GREETED、刪 met_ */
   function relabelFirstMet(s){ const so=s&&s.social; if(!so||typeof so!=='object'||!so.mem||typeof so.mem!=='object'||so.fm120) return [];
     const ev=s.events; if(!ev||typeof ev!=='object'||!ev.done||typeof ev.done!=='object'){ so.fm120=true; return []; }   /* 事件紀錄壞掉：不知道正式初遇有沒有播過，不動（⑥③）*/
     const done=ev.done, out=[];
     for(const id in MEET_EVENTS){ const M=so.mem[id]; if(!Array.isArray(M)||!M.some(m=>m&&m.tag==='FIRST_MET')) continue;
-      if(MEET_EVENTS[id].some(e=>done[e])) continue; if(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>(e.participants||[]).includes(id)&&done[e.id])) continue;
+      if(MEET_EVENTS[id].some(e=>done[e])) continue; if(s.flags&&typeof s.flags==='object'&&(MEET_FLAGS[id]||[]).some(f=>s.flags[f])) continue;   /* 正式初遇記在旗標上的（語彤第三版：茶屋第一班 YT_MET_JOB）*/ if(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>(e.participants||[]).includes(id)&&done[e.id])) continue;
       if(M.some(m=>!m||typeof m!=='object'||(m.tag!=='FIRST_MET'&&m.tag!=='ADJUST'))) continue;   /* 有別的記憶（壞掉的也算）：不動 */
       for(const m of M) if(m.tag==='FIRST_MET') m.tag='GREETED'; if(s.flags&&typeof s.flags==='object') delete s.flags['met_'+id]; out.push(id); }
     so.fm120=true; return out; }
