@@ -190,14 +190,14 @@ def wait_save(run, path, want_sha='', wait_min=0.0, since=0.0):
 
 
 async def resume_ok(pg, cdp, run, max_s=240):
-    """讀進宿營中途／剛演完的存檔以後，遊戲有沒有自己接著演：宿營（CAMP_Y1_ON）收掉、走到 8/29 以後。
+    """新局（從法律系開始）或讀進宿營中途／剛演完的存檔以後，遊戲有沒有自己演完宿營：宿營（CAMP_Y1_ON）收掉、走到 8/29 以後。
     中間的對話照玩家點過去（選項第一個）。回傳 (ok, 最後的 s)。
     2026-11-03 雲端：ev_camp_d3_end 演完那一刻的自動存檔（CAMP_Y1＝true、CAMP_Y1_ON 還是 true、campStep 8）讀回來不接著演，停在 8/24 12:30 的宿舍房間"""
     d0 = await pg.evaluate("STORY.dayOfKey(STORY.CAMP_DAY||'2025-08-22')")
     t0 = time.time(); s = None; picks = []
     while time.time() - t0 < max_s:
         s = await ts(pg)
-        if s and not s['campOn'] and s['day'] > d0 + 2: return True, s
+        if s and s['CAMP_Y1'] and not s['campOn'] and s['day'] > d0 + 2 and not s['title']: return True, s   # CAMP_Y1：新局剛按下去、宿營還沒開始時 G.day 還是預設的第 1 天（9/17），不能當成走完
         if s and await step(pg, cdp, s, picks): continue
         await pg.wait_for_timeout(1500)
     run.note('讀檔 %d 秒後還沒接著演：%s' % (max_s, J({k: s.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1', 'campStep', 'dlg', 'busy')} if s else None)))

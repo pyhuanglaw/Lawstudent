@@ -57,6 +57,7 @@ STORY_BRANCH = 'claude/story-planning'
 RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完手上的項目、push 完，用 75 結束；run_forever.ps1 收到 75 立刻重跑新版
 SELF_FILE = os.path.abspath(__file__)
 LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
+REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結束時，多久重讀一次佇列
 
 
 def file_hash(path):
@@ -988,6 +989,7 @@ class Runner(object):
             finally:
                 done_q.put(it.id)
 
+        blender_wait_logged = set()
         while True:
             if need_refresh:
                 self.refresh()
@@ -1016,6 +1018,12 @@ class Runner(object):
                     cs = self.resolve(cand.sha)
                     key = '%s@%s#%s' % (cand.id, cs, cand.rerun)   # 鍵含 RERUN 記號（舊版漏了 RERUN）
                     if key in attempted:
+                        continue
+                    if cand.kind == 'blender' and running:
+                        # BB 11:32（V18R）：要獨佔的 blender 項目等手上的跑完，但不擋後面的項目（舊版在這裡 break，FS112 跑 6 小時就整條佇列停住）
+                        if cand.id not in blender_wait_logged:
+                            blender_wait_logged.add(cand.id)
+                            log('blender item %s waits until the %d running item(s) finish; other items go first' % (cand.id, len(running)))
                         continue
                     if self.is_done(cand, cs):
                         attempted.add(key)
@@ -1050,9 +1058,14 @@ class Runner(object):
                     blender_running = True
             if not running:
                 break
-            fin = done_q.get()
+            try:
+                fin = done_q.get(timeout=REFRESH_SEC)
+            except queue.Empty:
+                need_refresh = True          # 長項目跑很久時也每 REFRESH_SEC 秒重讀佇列（BB 11:32：新排的 V18R 要能馬上開始）
+                continue
             running.pop(fin, None)
             need_refresh = True
+            blender_wait_logged.clear()
             while True:                      # 同時結束的一起收
                 try:
                     running.pop(done_q.get_nowait(), None)

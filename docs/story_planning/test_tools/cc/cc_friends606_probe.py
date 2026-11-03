@@ -117,6 +117,11 @@ async def main():
         else:
             run.setup('沒有 ① 的 8/24 存檔：乾淨的瀏覽器、標題「從法律系開始」照玩家點完宿營（不是捷徑）')
             run.check('標題畫面按「從法律系開始」', await C.new_game_law(pg, cdp, run))
+            # 宿營（2D）照玩家點完、走到 8/29 搬宿舍才進主迴圈：按下去到宿營開始之間 G.day 還是預設的第 1 天（9/17），主迴圈會誤判成「日期過了」（雲端 11-03 第一次跑就是這樣）
+            ok_c, s_c = await C.resume_ok(pg, cdp, run, int(os.environ.get('CAMP_S', '2400')))
+            run.check('新局照玩家點完宿營、走到 8/29', ok_c, J({k: s_c.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1')} if s_c else None))
+            if not ok_c:
+                await run.shot(pg, 'camp_not_done'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
         t0 = time.time(); last = None; since = time.time(); ended = None; tried = set(); day_key = None; shot_days = set()
         while time.time() - t0 < MAX_S:
             s = await C.ts(pg)
