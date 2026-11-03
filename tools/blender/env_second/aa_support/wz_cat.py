@@ -654,6 +654,58 @@ def build_rig(body, accs, rng):
     act('cat_idle', list(range(0, 4 * FPS + 1, 4)), idle)
     act('cat_sit', list(range(0, int(0.8 * FPS) + 1, 2)), sit)
     act('cat_sit_idle', list(range(0, 4 * FPS + 1, 4)), sit_idle)
+    # ---- WZ-CAT-FLOAT-RUB-1103（LAWWW 11-03 14:16，LAWWW2）：蹭腳、有骨架的趴、跳下／跳上 ----
+    Y_ = (0, 1, 0)   # 繞前後軸（Blender −Y＝貓的前方）：正＝身體上面往貓的左邊（遊戲 +x）倒
+    def rub(f, side=1):   # side＝1：玩家在貓的左邊（cat_rub）、−1：右邊（cat_rub_r，左右鏡像）。2 秒一循環、原地（遊戲配 0.16 m/s 繞腳走；玩家在貓的左邊＝+x，逆時針繞）：頭低、往左（內側）偏，側身拱著往左貼，尾巴豎直、尾端往前微勾
+        t = f / FPS; w = math.pi * t; r = {}; ph = {'thigh_L': 0.0, 'upperarm_L': 0.25, 'thigh_R': 0.5, 'upperarm_R': 0.75}
+        for up, p0 in ph.items():
+            sd = up[-1]; front = up.startswith('upper'); ww = w + 2 * math.pi * p0; sw = math.sin(ww); lift = max(0.0, math.cos(ww))
+            r[up] = [(X_, -A(13 if front else 12) * sw)]
+            lo, ft = (f'forearm_{sd}', f'paw_{sd}') if front else (f'shin_{sd}', f'foot_{sd}')
+            r[lo] = [(X_, A(26 if front else 22) * lift)]; r[ft] = [(X_, -A(18 if front else 14) * lift)]
+        push = 0.5 + 0.5 * math.sin(w)            # 一循環貼過去一次（頭先、身體跟著）
+        r['body'] = [(Y_, side * A(7 + 5 * push))]; r['spine'] = [(Z_, side * A(6 + 4 * push))]; r['chest'] = [(Z_, side * A(8 + 4 * push)), (Y_, side * A(5))]
+        r['neck'] = [(X_, A(16)), (Z_, side * A(14 + 8 * push))]; r['head'] = [(X_, A(14)), (Z_, side * A(16 + 10 * push)), (Y_, side * A(18 * push))]
+        r[TAILS[0]] = [(X_, A(58))]; r[TAILS[1]] = [(X_, A(12))]
+        for i, tb in enumerate(TAILS[2:], 2): r[tb] = [(X_, A(-4 if i < len(TAILS) - 1 else 34)), (Z_, A(4) * math.sin(w * 2 + i))]
+        return r, {'body': (0.0, 0.003 * math.sin(2 * w), 0.0)}
+    def lie_pose():   # 有骨架的趴姿（獅身像那種）：身體放低、後腳折在身體兩側、前腳往前平放、頭抬著、尾巴繞到右邊地上
+        r = {'body': [], 'neck': [(X_, A(-8))], 'head': [(X_, A(6))]}
+        for sd in ('L', 'R'):
+            r[f'thigh_{sd}'] = [(X_, -A(80))]; r[f'shin_{sd}'] = [(X_, A(152))]; r[f'foot_{sd}'] = [(X_, -A(72))]
+            r[f'upperarm_{sd}'] = [(X_, -A(78))]; r[f'forearm_{sd}'] = [(X_, -A(6))]; r[f'paw_{sd}'] = [(X_, A(4))]
+        r[TAILS[0]] = [(X_, -A(62)), (Z_, -A(34))]   # 尾巴貼地繞到右邊（第一版 −18°：尾巴還翹著）
+        for i, tb in enumerate(TAILS[1:], 1): r[tb] = [(X_, -A(20)), (Z_, -A(18))]
+        return r, {'body': (0.0, -0.105, 0.0)}
+    def lie_idle(f):   # 4 秒：呼吸、偶爾甩一下尾巴尖、頭（耳朵）抖一下
+        t = f / FPS; w = 2 * math.pi * t / 4.0; r, l = lie_pose()
+        r['chest'] = [(X_, A(1.4) * math.sin(4 * w))]; l = {'body': (0.0, -0.105 + 0.0018 * math.sin(4 * w), 0.0)}
+        flick = math.exp(-((t - 2.4) / 0.18) ** 2); twitch = math.exp(-((t - 1.1) / 0.06) ** 2)
+        r[TAILS[-1]] = r[TAILS[-1]] + [(Z_, A(38) * flick)]; r[TAILS[-2]] = r[TAILS[-2]] + [(Z_, A(14) * flick)]
+        r['head'] = r['head'] + [(Y_, A(9) * twitch), (Z_, A(5) * twitch)]
+        return r, l
+    def jump(f, up):   # 0.8 秒：蹲（0～0.17 秒）→ 跳（彈出、前腳伸、後腳蹬）→ 落地緩衝。位移在 body 骨頭：跳下＝前進 0.35、往下 0.45；跳上＝前進 0.30、往上 0.45
+        t = f / FPS; r = {}
+        dz, dy = (0.30, 0.45) if up else (0.35, -0.45)
+        k_c = min(1.0, t / 0.17); a0, a1 = 0.17, 0.55
+        if t <= a0: q, y_ = 0.0, -0.035 * k_c
+        elif t <= a1: q = (t - a0) / (a1 - a0); y_ = dy * q + (0.10 if up else 0.05) * 4 * q * (1 - q)
+        else: q = 1.0; y_ = dy - 0.03 * math.sin(math.pi * min(1.0, (t - a1) / 0.25))
+        air = 4 * q * (1 - q) if a0 < t <= a1 else 0.0
+        crouch = k_c if t <= a0 else max(0.0, 1 - (t - a0) / 0.06)
+        land = math.sin(math.pi * min(1.0, (t - a1) / 0.25)) if t > a1 else 0.0
+        pitch = (-A(14) if up else A(18)) * air
+        r['body'] = [(X_, pitch)]; r['neck'] = [(X_, -pitch * 0.6)]; r['head'] = [(X_, -pitch * 0.4)]
+        for sd in ('L', 'R'):
+            r[f'thigh_{sd}'] = [(X_, -A(28) * crouch + A(30) * air - A(18) * land)]; r[f'shin_{sd}'] = [(X_, A(42) * crouch - A(10) * air + A(28) * land)]; r[f'foot_{sd}'] = [(X_, -A(16) * crouch)]
+            r[f'upperarm_{sd}'] = [(X_, A(14) * crouch - A(36) * air - A(10) * land)]; r[f'forearm_{sd}'] = [(X_, A(30) * crouch - A(8) * air + A(22) * land)]
+        for i, tb in enumerate(TAILS): r[tb] = [(X_, A(10) * air - A(6) * crouch)]
+        return r, {'body': (0.0, y_, dz * q)}
+    act('cat_rub', list(range(0, 2 * FPS + 1, 2)), rub)
+    act('cat_rub_r', list(range(0, 2 * FPS + 1, 2)), lambda f: rub(f, -1))
+    act('cat_lie_idle', list(range(0, 4 * FPS + 1, 4)), lie_idle)
+    act('cat_jump_down', list(range(0, int(0.8 * FPS) + 1, 1)), lambda f: jump(f, False))
+    act('cat_jump_up', list(range(0, int(0.8 * FPS) + 1, 1)), lambda f: jump(f, True))
     pose_set(arm, {})   # 靜止＝站姿
     return arm, acts
 
@@ -736,6 +788,8 @@ def build():
     st['textures'] = [os.path.relpath(p, L.ROOT) for p in (FUR, FUR_OLD)]
     st['note'] = ('四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；'
                   'CAT_walk（v3）是骨架節點＋CAT_walk_mesh（站姿），動畫 cat_walk（1 秒一步、原地）／cat_idle（4 秒）／cat_sit（0.8 秒坐下）／cat_sit_idle（4 秒），遊戲要用 SkeletonUtils.clone；'
+                  '11-03 加：cat_rub／cat_rub_r（2 秒、原地，配 0.16 m/s；cat_rub＝頭和側身往貓的左邊 +x 貼（玩家在貓的左邊），cat_rub_r＝右邊（鏡像））／cat_lie_idle（4 秒，有骨架的趴姿：身體放低 0.105 m、前腳往前平放；呼吸、2.4 秒甩尾巴尖、1.1 秒頭抖一下）／'
+                  'cat_jump_down、cat_jump_up（0.8 秒；位移在 body 骨頭：跳下＝前進 0.35、往下 0.45，跳上＝前進 0.30、往上 0.45——片段播完那一格遊戲把貓的位置移到落地點、接 cat_idle）；'
                   '每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；'
                   '所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）')
     L.write_json(out[:-4] + '.json', st)

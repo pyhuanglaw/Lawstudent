@@ -5,7 +5,7 @@
  "tris_drawn": 11925,
  "materials": 2,
  "out": "assets/models/env/second_ai/aa_support/wz_cat.glb",
- "bytes": 855932,
+ "bytes": 970376,
  "texres": 512,
  "tris_per_node": {
   "CAT_sit": 2684,
@@ -28,7 +28,12 @@
    "cat_walk": 1.0,
    "cat_idle": 4.0,
    "cat_sit": 0.75,
-   "cat_sit_idle": 4.0
+   "cat_sit_idle": 4.0,
+   "cat_rub": 2.0,
+   "cat_rub_r": 2.0,
+   "cat_lie_idle": 4.0,
+   "cat_jump_down": 0.792,
+   "cat_jump_up": 0.792
   },
   "check": {
    "stand": {
@@ -101,5 +106,5 @@
   "tools/blender/env_second/textures/gen/wz_cat_fur.png",
   "tools/blender/env_second/textures/gen/wz_cat_fur_old.png"
  ],
- "note": "四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；CAT_walk（v3）是骨架節點＋CAT_walk_mesh（站姿），動畫 cat_walk（1 秒一步、原地）／cat_idle（4 秒）／cat_sit（0.8 秒坐下）／cat_sit_idle（4 秒），遊戲要用 SkeletonUtils.clone；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
+ "note": "四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；CAT_walk（v3）是骨架節點＋CAT_walk_mesh（站姿），動畫 cat_walk（1 秒一步、原地）／cat_idle（4 秒）／cat_sit（0.8 秒坐下）／cat_sit_idle（4 秒），遊戲要用 SkeletonUtils.clone；11-03 加：cat_rub／cat_rub_r（2 秒、原地，配 0.16 m/s；cat_rub＝頭和側身往貓的左邊 +x 貼（玩家在貓的左邊），cat_rub_r＝右邊（鏡像））／cat_lie_idle（4 秒，有骨架的趴姿：身體放低 0.105 m、前腳往前平放；呼吸、2.4 秒甩尾巴尖、1.1 秒頭抖一下）／cat_jump_down、cat_jump_up（0.8 秒；位移在 body 骨頭：跳下＝前進 0.35、往下 0.45，跳上＝前進 0.30、往上 0.45——片段播完那一格遊戲把貓的位置移到落地點、接 cat_idle）；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
 }
