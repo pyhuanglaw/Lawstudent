@@ -84,7 +84,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     { const d=td('Y1S1',14,3), r=tryInv(d,12+10/60), rl=tryInv(td('Y1S1',14,2),19,'library'), rj=tryInv(K('2026-01-13'),19), rx=tryInv(K('2026-02-02'),12+10/60), rp=tryInv(K('2026-02-03'),19);
       check('2-1. 第 14 週午餐照樣答應；總圖（一起念書）不受上限；1 月晚餐婉拒；2/2 午餐（她在考試、不在學校）婉拒；2/3（筆試以後）照一般規則',r.res==='accept'&&!(rl.res==='decline'&&rl.why==='exam')&&rj.res==='decline'&&rj.why==='exam'&&rx.res==='decline'&&rx.why==='exam'&&!(rp.why==='exam'),[r.res,rl.res+':'+rl.why,rj.res,rx.res,rp.res+':'+rp.why].join(' ')); }
     /* 當面約（INV.flow）：婉拒句講出來、數值沒動 */
-    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['阿鳳麵店','明天 19:00','不用了。']; const iv=await INV.flow(GM,ID,null,false);
+    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['公館燒臘','明天 19:00','不用了。']; const iv=await INV.flow(GM,ID,null,false);
     check('2-1. 手機約她（第 15 週）：她說婉拒句（AA_535 1-3 的兩句）、接「那一起念書。」／「不用了。」；選「不用了。」沒有約成、數值沒動',iv===null&&said.some(s=>SISG.DECLINE_OFF.includes(s.t))&&opts.some(o=>o.join('|')==='那一起念書。|不用了。')&&!(G.invites||[]).length&&JSON.stringify(relOf())===JSON.stringify(r0),JSON.stringify(lines().slice(-2)));
     /* 校外約會：第 10 週起「等我考完。」；第 9 週以前照一般條件 */
     const dateOk=()=>{ const r=SOCIAL.rel(ID); Object.assign(r,{fam:50,trust:35,comf:20,npcRom:35,rom:10}); };

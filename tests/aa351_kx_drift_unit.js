@@ -77,7 +77,7 @@ await sec(1,async()=>{ let doc=''; try{ doc=cp.execSync('git show b6588bf5:"docs
 
 /* ---------- 2 D0 ---------- */
 await sec(2,async()=>{ const G=fresh('2026-10-07',12); H.FRIEND('heroine_01'); INV.addContact(G,'heroine_01'); G.flags.KX_CRACK=1;
-  H.picks=['阿鳳麵店','明天 19:00','跟可昕說一聲']; H.opts=[]; const iv=await INV.flow(GM,'heroine_01',null,false); const menu=H.opts[H.opts.length-1]||[];
+  H.picks=['公館燒臘','明天 19:00','跟可昕說一聲']; H.opts=[]; const iv=await INV.flow(GM,'heroine_01',null,false); const menu=H.opts[H.opts.length-1]||[];
   const sent=msgs(G).find(m=>m.from==='player'); setT(G,G.day,23.5); PHONE.tick(G); const rep=msgs(G).filter(m=>m.from==='kexin').map(m=>m.text);
   check('2. 和可昕交往中，約以安去阿鳳麵店（吃飯）、她答應：多一個選單「（跟可昕說一聲）」／「（不說）」',!!iv&&iv.state==='accepted'&&eq(menu,['（跟可昕說一聲）','（不說）']),JSON.stringify(menu));
   check('2. 說了：祐廷傳「明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。」、她回第一句「好。吃完跟我說好不好吃。」、KX_CRACK 1→0',!!sent&&sent.text==='明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。'&&rep[0]==='好。吃完跟我說好不好吃。'&&cr(G)===0,JSON.stringify({t:sent&&sent.text,rep,c:cr(G)}));
