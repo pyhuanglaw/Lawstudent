@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "MD_xinsheng_v1",
+  "sha": "1053b9500",
+  "kind": "blender",
+  "script": "tools/blender/env_second/render_cycles.py",
+  "env": "SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/xinsheng_sports.glb {out} xinsheng docs/story_planning/test_tools/cc/blender/xinsheng_views.json --res 960x540 --samples 64 --exposure -0.3 --point -3.0,3.25,-6.0,40 --point -3.0,3.25,-3.0,40 --point -3.0,3.25,0.0,40 --point -3.0,3.25,3.0,40 --point -3.0,3.25,6.0,40 --point 0.0,3.25,-6.0,40 --point 0.0,3.25,-3.0,40 --point 0.0,3.25,0.0,40 --point 0.0,3.25,3.0,40 --point 0.0,3.25,6.0,40 --point 3.0,3.25,-6.0,40 --point 3.0,3.25,-3.0,40 --point 3.0,3.25,0.0,40 --point 3.0,3.25,3.0,40 --point 3.0,3.25,6.0,40 --point -3.0,6.8,-6.0,40 --point -3.0,6.8,-3.5,40 --point 0.0,6.8,-6.0,40 --point 0.0,6.8,-3.5,40",
+  "machine": "MSI",
+  "start": "2026-11-04T06:34:52",
+  "end": "2026-11-04T06:40:48",
+  "seconds": 355,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 49,
+    "used_gb": 15.6,
+    "chrome_testing": 0
+  }
+}

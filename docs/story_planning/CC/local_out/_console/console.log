@@ -357,3 +357,12 @@
 [06:27:57] [res] cpu=53% mem=42% (13.3/31.4 GB) chrome_testing=0  START MD_haopai_v1
 [06:32:19] 正在跑：MD_haopai_v1（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [06:34:44] [res] cpu=6% mem=47% (14.8/31.4 GB) chrome_testing=0  END MD_haopai_v1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       680dcb346..6e0d1cc9e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[06:34:50] ==== END   MD_haopai_v1  exit=0  409s   ====
+[06:34:52] memory 47% before starting MD_xinsheng_v1 (0 running)
+[06:34:52] ==== START MD_xinsheng_v1  (blender @ 1053b9500) ====
+[06:34:55] [res] cpu=7% mem=47% (15.0/31.4 GB) chrome_testing=0  START MD_xinsheng_v1
+[06:37:19] 正在跑：MD_xinsheng_v1（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[06:40:48] [res] cpu=1% mem=46% (14.6/31.4 GB) chrome_testing=0  END MD_xinsheng_v1
