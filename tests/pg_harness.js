@@ -25,7 +25,8 @@ const GM={get G(){ return H.G; },E,D:{active:false},npc:{},running:true,
 H.GM=GM; H.E=E;
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 H.D=k=>PG.DK(k);
-H.fresh=(key,hour,zone,flags)=>{ const day=PG.DK(key); H.G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,examSeed:12345},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+/* YT_MET_JOB:true（AA_610）：舊的測試都當成「已經認識語彤的存檔」（同舊存檔的遷移）；測試新遊戲（還沒在茶屋認識她）的傳 {YT_MET_JOB:false}（tests/aa610_ytjob_unit.js）*/
+H.fresh=(key,hour,zone,flags)=>{ const day=PG.DK(key); H.G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,examSeed:12345},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(H.G); EVENTS.bind(GM); INV.rec(H.G); H.said=[]; H.opts=[]; H.picks=[]; H.cards=[]; H.cgs=[]; H.entered=[]; H.bgs=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; E.player.busy=false; if(STORY._fy) STORY._fy.reset(); return H.G; };
 H.rel=(id,fam,trust,comf)=>{ if(id==='heroine_03'&&H.G&&H.G.flags) H.G.flags.YT_MET_JOB=true;   /* AA_610：測試裡「已經認識語彤」＝在茶屋認識過（YT_MET_JOB；src/ytjob3d.js）*/ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; SOCIAL.remember(id,'FIRST_MET',''); };
 H.FRIEND=id=>H.rel(id,45,30,0); H.FAMILIAR=id=>H.rel(id,25,0,0); H.CLOSE=id=>H.rel(id,65,50,45);

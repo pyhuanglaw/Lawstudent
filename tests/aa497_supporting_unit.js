@@ -489,7 +489,7 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     run(); const m=byTag('yu_quit');
     check('3-4. 大二下第 3 週週三 21:00 私訊三則「我退辯論社了！！」「禮拜三晚上突然空下來」「好長喔」；三個回覆',J(m.map(x=>x.text))===J(Q.msg)&&Math.abs(m[0].h-21)<0.02&&J(askOpts('yu_quit'))===J(Q.opts.map(o=>o[0])));
     const reps=[]; for(let k=0;k<3;k++){ run(k); reps.push(texts('p:'+YU).slice(-1)[0]); }
-    check('3-4. 「要不要去麵店？」→「好！！我叫阿哲」（不排約）／「好好休息。」→「我不會休息啦 我會去找事做」／「（貼圖）」→「（貼圖：熊拍熊）」',J(reps)===J(Q.opts.map(o=>o[1]))&&!(H.G.invites||[]).length,J(reps));
+    check('3-4. 「要不要去燒臘店？」→「好！！我叫阿哲」（不排約）／「好好休息。」→「我不會休息啦 我會去找事做」／「（貼圖）」→「（貼圖：熊拍熊）」',J(reps)===J(Q.opts.map(o=>o[1]))&&!(H.G.invites||[]).length,J(reps));
     run(null,{fam:false}); check('3-4. 不到有點熟：不發',!byTag('yu_quit').length);
     check('3-4. 舊的「這學期我只剩兩個社團了。你猜我退了哪一個？」（needed_msgs yu_clubs）不再發',NEEDED_MSGS.list.find(x=>x.id==='yu_clubs').cond(H.G)===false); });
 

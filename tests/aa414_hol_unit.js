@@ -179,7 +179,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
   { setup('2027-02-13',21.05,YT); rules();
     check('2-2. 2/13（六）21:00「明天中午，麵店。」「我沒班。」；回覆「好。」「不去別的地方？」「明天不行。」',J(dms(YT))===J(['明天中午，麵店。','我沒班。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
-    check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（阿鳳麵店）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（阿鳳麵店）',J(q));
+    check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（公館燒臘）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（公館燒臘）',J(q));
     at('2027-02-14',11.6); const a=relOf(YT), n0=(H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0; const {L}=await goOut('anyt_yt_vday_y2',[0]);
     check('2-2. 背景 noodle_door（門口，11-02 第六批；進店以後 noodle_table）；紅紙、滷蛋；「謝謝阿姨。」→阿姨「謝什麼。吃。」；「今天我沒班。」「……是我自己想在這裡吃的。」',img(H.bgs[0])==='noodle_door'&&J(L)===J(['（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）','阿姨自己寫的。……我叫她不要貼。','（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）','送的。一人一顆。不是一桌一顆。','……阿姨。','謝什麼。吃。','今天我沒班。','……是我自己想在這裡吃的。']),J({b:img(H.bgs[0]),L}));
     check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5；不是正式校外約會（dateLog 次數不加）',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY&&((H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0)===n0,dRel(YT,a)); }

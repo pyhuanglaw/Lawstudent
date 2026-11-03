@@ -179,7 +179,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, sh=k=>(allow.find(e=>e.path.indexOf('docs/story_planning/'+k+'_')===0)||{}).sha;
   check('0. 白名單：AA_508＝ce6e87a99（第 9 節實作時定的）、AA_509＝28f981438（AA_510 0-1 更正）；AA_506＝691a26400（第 9 節出遊途中）',sh('AA_508')===SHA508&&sh('AA_509')===SHA&&sh('AA_506')==='691a26400',J({AA_506:sh('AA_506'),AA_508:sh('AA_508'),AA_509:sh('AA_509')}));
   const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_aa508_yt_aunt'):null;
-  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「阿鳳麵店・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
+  check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「公館燒臘・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
 
 /* ---------- 1 階段、聯絡方式、時間、舊存檔 ---------- */
 await sec('1',async()=>{ if(!HAS2()){ check('1. 動態',false,'沒有資料'); return; }

@@ -30,7 +30,7 @@ await sec(0,()=>{ check('0. src/ytjob3d.js 在 index.html、載得到（YTJOB）
 
 /* ---------- 1 認識以前全部擋 ---------- */
 await sec(1,()=>{ const sat=TD('Y1S1',3,6), tue=TD('Y1S1',3,2);
-  H.fresh('2025-09-16',10,'campus');
+  H.fresh('2025-09-16',10,'campus',{YT_MET_JOB:false});   /* 新遊戲（pg_harness 預設當舊存檔已經認識她）*/
   check('1. 新遊戲沒有 YT_MET_JOB',!H.G.flags.YT_MET_JOB);
   SOCIAL.meet(YT,'library'); SOCIAL.remember(YT,'HELPED','test');
   check('1. SOCIAL.meet／remember 不記（沒有 FIRST_MET、沒有記憶）',!SOCIAL.has(YT,'FIRST_MET')&&!(H.G.social.mem[YT]||[]).length&&!H.G.flags.met_heroine_03);
@@ -54,7 +54,7 @@ await sec(1,()=>{ const sat=TD('Y1S1',3,6), tue=TD('Y1S1',3,2);
 
 /* ---------- 2 茶屋第一班 ---------- */
 await sec(2,async()=>{ const sat=TD('Y1S1',3,6);
-  H.fresh('2025-09-16',10,'dorm'); hire('tea',[6]); at(sat,12.9,'wz_teahouse'); H.said=[]; H.picks=['妳在這裡做多久了？'];
+  H.fresh('2025-09-16',10,'dorm',{YT_MET_JOB:false}); hire('tea',[6]); at(sat,12.9,'wz_teahouse'); H.said=[]; H.picks=['妳在這裡做多久了？'];
   await JOBS.runShift(GM,'tea'); const L=H.lines();
   const YN=SOCIAL.displayName(YT);   /* 對話框照遊戲的名字（陳語彤）*/
   const want=['蘇姨：水不要滾太久。滾久了，水就老了。','（水屋裡，一個綁馬尾的女生正在一個一個擦茶杯。）','蘇姨：語彤，他今天第一天。妳帶他。',YN+'：……嗯。',YN+'：客人坐下先給水，不要先問點什麼。他們會自己看。',YN+'：高三暑假開始。','（一個下午下來，她跟你講的話不超過十句。）','（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）',YN+'：第一天都這樣。下週就順了。'];
@@ -65,7 +65,7 @@ await sec(2,async()=>{ const sat=TD('Y1S1',3,6);
   const sun=TD('Y1S1',4,6); at(sun,12.9,'wz_teahouse'); H.said=[]; await JOBS.runShift(GM,'tea');
   check('2. 第二班不再演',!H.lines().some(l=>l.endsWith('：……嗯。'))&&!H.lines().some(l=>l.includes('綁馬尾')));
   /* 別的店的第一班不會遇到她 */
-  H.fresh('2025-09-16',10,'dorm'); hire('brunch',[6]); at(sat,7.4,'wz_brunch'); H.said=[]; await JOBS.runShift(GM,'brunch');
+  H.fresh('2025-09-16',10,'dorm',{YT_MET_JOB:false}); hire('brunch',[6]); at(sat,7.4,'wz_brunch'); H.said=[]; await JOBS.runShift(GM,'brunch');
   check('2. 半熟的第一班：沒有語彤、不記 YT_MET_JOB',!H.G.flags.YT_MET_JOB&&!H.lines().some(l=>/語彤：/.test(l)));
 });
 

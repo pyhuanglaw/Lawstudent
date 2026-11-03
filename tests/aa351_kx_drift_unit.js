@@ -80,7 +80,7 @@ await sec(2,async()=>{ const G=fresh('2026-10-07',12); H.FRIEND('heroine_01'); I
   H.picks=['阿鳳麵店','明天 19:00','跟可昕說一聲']; H.opts=[]; const iv=await INV.flow(GM,'heroine_01',null,false); const menu=H.opts[H.opts.length-1]||[];
   const sent=msgs(G).find(m=>m.from==='player'); setT(G,G.day,23.5); PHONE.tick(G); const rep=msgs(G).filter(m=>m.from==='kexin').map(m=>m.text);
   check('2. 和可昕交往中，約以安去阿鳳麵店（吃飯）、她答應：多一個選單「（跟可昕說一聲）」／「（不說）」',!!iv&&iv.state==='accepted'&&eq(menu,['（跟可昕說一聲）','（不說）']),JSON.stringify(menu));
-  check('2. 說了：祐廷傳「明天我跟'+nm('heroine_01')+'去阿鳳麵店吃飯。」、她回第一句「好。吃完跟我說好不好吃。」、KX_CRACK 1→0',!!sent&&sent.text==='明天我跟'+nm('heroine_01')+'去阿鳳麵店吃飯。'&&rep[0]==='好。吃完跟我說好不好吃。'&&cr(G)===0,JSON.stringify({t:sent&&sent.text,rep,c:cr(G)}));
+  check('2. 說了：祐廷傳「明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。」、她回第一句「好。吃完跟我說好不好吃。」、KX_CRACK 1→0',!!sent&&sent.text==='明天我跟'+nm('heroine_01')+'去公館燒臘吃飯。'&&rep[0]==='好。吃完跟我說好不好吃。'&&cr(G)===0,JSON.stringify({t:sent&&sent.text,rep,c:cr(G)}));
   await meet(G,iv); tick(G);
   check('2. 說了的那一次：去了也沒有 D1 的電話',!outs(G,/^kx_drift_r1_/).length,JSON.stringify(outs(G,/^kx_drift/).map(q=>q.id)));
   setT(G,D('2026-10-14'),12); await mkInv(G,'heroine_01','wenzhou',D('2026-10-17'),15,0); setT(G,G.day,23.5); PHONE.tick(G);

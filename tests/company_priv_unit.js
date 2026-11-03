@@ -607,7 +607,7 @@ await sec('11. ② 廚房那位就是阿姨',async()=>{ const dOff=ayiDay(false)
   { const s=noodleK(dOff,18.2,true), a=ckVis(s.ck); s.yt.leaving=true; HCIRCLE.arrange(GM,true); K.push(['沒擲到、阿姨在（AA_519 第 8 節第 1 點）：語彤顧店、走開都＝店員（阿姨）在',a&&ckVis(s.ck),J({a})]); }
   /* 點餐：老樣子那一句（阿姨）、阿姨請的那一碗（FEED.ytTreat；這支測試沒有載 FEED，用假的）*/
   if(typeof EAT==='undefined') for(const [f,n] of [['src/data/eat_lines.js',['EAT_LINES']],['src/eat3d.js',['EAT']]]) loadG(f,n);
-  const SAME=((EAT_LINES.staff||{})['阿鳳麵店']||{}).same, OPTS=()=>[{t:'乾麵　60 元'},{t:'餛飩湯　70 元'},{t:'先不吃'}];
+  const SAME=((EAT_LINES.staff||{})['阿鳳麵店']||{}).same, OPTS=()=>[{t:'叉燒飯　100 元'},{t:'燒鴨飯　110 元'},{t:'先不吃'}];
   const order=async(d,withYt)=>{ noodleK(d,18.2,withYt); H.G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'},l5:{'阿鳳麵店':1}}; H.said=[]; H.picks=['老樣子']; const k=await EAT.choose(GM,'阿鳳麵店',OPTS(),['乾麵','餛飩湯'],[60,70]); return {k,said:said(),away:EAT.staffAway(GM,'阿鳳麵店')}; };
   const o1=await order(dOff,true), o2=await order(dOn,true), o3=await order(dOff,false), o4=await awayAs(true,()=>order(dOff,true));
   K.push(['點「老樣子」：阿姨不在店裡（阿姨真的不在＝auntAway，強制；AA_519 第 8 節第 1 點起沒擲到、語彤顧店＝阿姨在廚房）＝阿姨那一句「'+SAME+'」不說（EAT.staffAway）；沒擲到語彤顧店、擲到、語彤不在店裡（店員＝阿姨）＝照說',

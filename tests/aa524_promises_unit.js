@@ -453,7 +453,7 @@ await sec('Y5',async()=>{
   const m=PHONE.byAsk(H.G,'aa524_y5');
   check('Y5. 11/13 21:00 私訊「今天我顧到打烊。」（第一個週四 11/6 沒有）；選項「我過去。」「今天不行。」、期限 21:40',n6===0&&n0===0&&!!m&&m.text===NEW.Y5[0]&&m.day===d&&Math.abs(m.h-21)<0.01&&J(m.ask.opts.map(o=>o.t))===J([NEW.Y5[1],NEW.Y5[2]])&&Math.abs(m.ask.until-T(d,21+40/60))<1e-6,J(m&&{t:m.text,d:m.day,h:m.h}));
   answer('aa524_y5',0); PHONE.tick(H.G); at(d,21.6); H.G.zone='wenzhou'; H.said=[]; let r=await NOODLE_CLOSED.door(GM);
-  check('Y5. 「我過去。」→ 在麵店門口按「進入阿鳳麵店」：21:50 旁白「（你到的時候，她在拉鐵門。阿姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
+  check('Y5. 「我過去。」→ 在麵店門口按「進入公館燒臘」：21:50 旁白「（你到的時候，她在拉鐵門。阿姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
   H.said=[]; r=await NOODLE_CLOSED.door(GM); check('Y5. 演一次（再按就照常進去）',r===false&&!said().length);
   setup(); await ladPlay('Y1S1',YT,'Y-L8',[0]); phAt(d,21.1); answer('aa524_y5',1); PHONE.tick(H.G);
   at(d,21.9); H.said=[]; r=await NOODLE_CLOSED.door(GM);
