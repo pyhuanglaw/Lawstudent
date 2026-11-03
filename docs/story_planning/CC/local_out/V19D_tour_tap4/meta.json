@@ -1,0 +1,23 @@
+{
+  "rerun": "obs",
+  "id": "V19D_tour_tap4",
+  "sha": "ddda3d829",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py",
+  "env": "SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=obs",
+  "machine": "MSI",
+  "start": "2026-11-04T03:01:13",
+  "end": "2026-11-04T03:20:10",
+  "seconds": 1137,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 19,
+    "mem": 45,
+    "used_gb": 14.2,
+    "chrome_testing": 9
+  }
+}
