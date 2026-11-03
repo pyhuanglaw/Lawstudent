@@ -159,3 +159,31 @@ def classify(rec, roster, allow_ids, allow_names, extra_bad=('Kevin', '凱文'))
         if id_ in allow_ids: continue
         if any(n == x or n.startswith(x + '（') for x in names if x): return id_
     return None
+
+
+# ---- 存檔在兩項之間傳遞（PC 佇列：前一項寫、下一項讀；run_queue.py 沒有相依，也不清輸出資料夾）----
+def write_save(path, sv, sha):
+    """寫存檔＋旁邊的 <檔>.meta.json（哪一版寫的、什麼時候），讓下一項分得出是不是這一輪的"""
+    json.dump(sv, open(path, 'w', encoding='utf-8'), ensure_ascii=False)
+    json.dump({'sha': sha, 'written': time.time(), 'day': sv.get('day'), 'hour': sv.get('hour')}, open(path + '.meta.json', 'w', encoding='utf-8'), ensure_ascii=False)
+
+
+def wait_save(run, path, want_sha='', wait_min=0.0, since=0.0):
+    """等前一項寫好存檔：檔案在、而且（有給 want_sha 時）meta 的 sha 開頭相符、（有給 since 時）寫的時間不早於 since。
+    相對路徑照目前資料夾（PC runner 的 probe 是 <work>）。回傳絕對路徑或 None"""
+    path = os.path.abspath(path); t0 = time.time(); why = ''
+    while True:
+        if os.path.exists(path):
+            m = {}
+            try: m = json.load(open(path + '.meta.json', encoding='utf-8'))
+            except Exception: m = {}
+            ms = str(m.get('sha') or '')
+            if want_sha and not (ms and (ms.startswith(want_sha[:9]) or want_sha.startswith(ms[:9]))): why = '存檔是 %s 寫的（要 %s）' % (ms or '?', want_sha)
+            elif since and float(m.get('written') or 0) < since: why = '存檔比這一輪舊（%s）' % time.strftime('%m-%d %H:%M', time.localtime(float(m.get('written') or 0)))
+            else:
+                run.note('存檔 %s（寫的版本 %s）' % (path, ms or '?')); return path
+        else:
+            why = '還沒有檔案'
+        if time.time() - t0 >= wait_min * 60:
+            run.note('等不到存檔 %s：%s（等了 %.0f 分鐘）' % (path, why, (time.time() - t0) / 60)); return None
+        time.sleep(30)

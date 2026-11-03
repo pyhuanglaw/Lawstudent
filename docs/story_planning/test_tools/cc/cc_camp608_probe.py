@@ -12,7 +12,7 @@
   c 認識的順序：芯慈（破冰）→ 阿哲（撕名牌，ev_camp_d1_field）→ 大老二＋學測（ev_camp_d1_free 裡「十五級分。」）→ 沛珊（ev_camp_d2_fire）
   d 沛珊在營火之前沒有出現：營火以前沒有她的台詞、沒有 FIRST_MET；營火裡第一句「嗨。」；認識地點 note＝camp
   e 演完：CAMP_Y1、campStep／campSeqV 清掉；只認識這三個人（FIRST_MET note camp 的只有三個）；walkFallbacks 0；沒有 JS 例外
-  另外匯出 8/24 的存檔（演完最後一段 ev_camp_d3_end 以後的自動存檔，campStep 8、8/24）→ <out>/camp608_824_save.json，給 cc_friends606_probe.py、cc_kexin_hsr_probe.py 當起點。
+  另外匯出 8/24 的存檔（演完最後一段 ev_camp_d3_end 以後的自動存檔，campStep 8、8/24）→ <out>/camp608_824_save.json（＋camp608_824_save.json.meta.json：寫的版本 SHA、時間），給 cc_friends606_probe.py、cc_kexin_hsr_probe.py 當起點。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [MAX_S=3600] python3 cc_camp608_probe.py '<URL>/index.html' <輸出資料夾>
 exit 0＝ALL PASS；1＝有 FAIL。不是 iPhone：Playwright 手機橫向模擬（844×390）。"""
 import os, sys, json, asyncio, time
@@ -62,7 +62,7 @@ async def main():
             if s['campStep'] == len(seq) and saved is None:
                 sv = await C.save_auto(pg)
                 if sv and sv.get('day') == d0 + 2 and (sv.get('flags') or {}).get('campStep') == len(seq):
-                    saved = sv; json.dump(sv, open(os.path.join(OUT, 'camp608_824_save.json'), 'w', encoding='utf-8'), ensure_ascii=False)
+                    saved = sv; C.write_save(os.path.join(OUT, 'camp608_824_save.json'), sv, SHA)
                     run.note('匯出 8/24 存檔：day=%s h=%s campStep=%s → camp608_824_save.json' % (sv.get('day'), sv.get('hour'), sv['flags'].get('campStep')))
             if s['CAMP_Y1'] and not s['campOn'] and s['day'] > d0 + 2:
                 ended = 'after camp (%s)' % s['key']; break

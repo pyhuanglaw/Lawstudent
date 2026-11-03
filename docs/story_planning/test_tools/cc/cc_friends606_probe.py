@@ -29,6 +29,8 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 SAVE = os.environ.get('SAVE', '')
+SAVE_SHA = os.environ.get('SAVE_SHA', '')          # 存檔要是這一版寫的（cc_camp608_probe.py 的 meta.json）；PC 佇列放 camp608 那一項的 SHA
+SAVE_WAIT_MIN = float(os.environ.get('SAVE_WAIT_MIN', '0'))   # camp608 那一項還在跑就等，最多幾分鐘
 MAX_S = int(os.environ.get('MAX_S', '36000'))
 STUCK_S = int(os.environ.get('STUCK_S', '420'))
 UNTIL = os.environ.get('UNTIL', '2025-09-23')
@@ -91,6 +93,11 @@ async def go_bed(pg, cdp, run):
 async def main():
     run = L.Run('cc_friends606', OUT); os.makedirs(OUT, exist_ok=True)
     print('cc_friends606_probe  SHA=%s  URL=%s  SAVE=%s  UNTIL=%s' % (SHA, URL, SAVE or '（沒有）', UNTIL), flush=True)
+    sp = None
+    if SAVE:
+        sp = C.wait_save(run, SAVE, SAVE_SHA, SAVE_WAIT_MIN)   # PC 佇列：camp608 那一項寫好（版本相符）才開始
+        if not sp:
+            run.check('有 8/24 存檔 %s（SAVE_SHA=%s）' % (SAVE, SAVE_SHA or '不限'), False); print('FAILED %d' % len(run.fails), flush=True); return 1
     recs, picks = [], []
     summary = {'sha': SHA, 'url': URL, 'save': SAVE, 'until': UNTIL, 'cards': [], 'days': []}
     async with async_playwright() as p:
@@ -102,7 +109,7 @@ async def main():
         d_end = await pg.evaluate("k=>STORY.dayOfKey(k)", UNTIL)
         if SAVE:
             run.setup('讀 ① 匯出的 8/24 存檔 %s（標題「讀取／匯入存檔」→「匯入存檔」→「匯入」）' % SAVE)
-            run.check('匯入 8/24 存檔', await C.import_save(pg, cdp, run, SAVE))
+            run.check('匯入 8/24 存檔', await C.import_save(pg, cdp, run, sp))
         else:
             run.setup('沒有 ① 的 8/24 存檔：乾淨的瀏覽器、標題「從法律系開始」照玩家點完宿營（不是捷徑）')
             run.check('標題畫面按「從法律系開始」', await C.new_game_law(pg, cdp, run))
