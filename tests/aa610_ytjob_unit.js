@@ -91,7 +91,7 @@ await sec(3,()=>{
 await sec(4,async()=>{ const C=CHARACTERS[YT];
   check('4. characters.js：她的作息沒有 zone noodle',!(C.daily_schedule||[]).some(e=>e.zone==='noodle'),J((C.daily_schedule||[]).filter(e=>e.zone==='noodle')));
   H.fresh('2025-09-16',10,'campus',{YT_MET_JOB:true}); H.rel(YT,25,0,0);
-  for(const [t,w,wd,hh,lab] of [['Y1S1',3,6,14,'大一上週六'],['Y1S1',3,7,16,'大一上週日'],['Y2S2',5,6,13.5,'大二下週六']]){ at(TD(t,w,wd),hh); const e=STORY.schedEnt(C,H.G); check('4. '+lab+' '+hh+':00 在一盞茶屋（wz_teahouse）',!!e&&e.zone==='wz_teahouse',J(e)); }
+  for(const [t,w,wd,hh,lab] of [['Y1S1',3,6,14,'大一上週六'],['Y1S1',4,7,16,'大一上雙週週日（單週 15:00 起有大稻埕的偶遇 D12，那一筆先算）'],['Y2S2',5,6,13.5,'大二下週六']]){ at(TD(t,w,wd),hh); const e=STORY.schedEnt(C,H.G); check('4. '+lab+' '+hh+':00 在一盞茶屋（wz_teahouse）',!!e&&e.zone==='wz_teahouse',J(e)); }
   let bad=[]; const d0=TD('Y1S1',1,1); for(let d=d0;d<d0+1500;d++){ for(const hh of [9,14.5,17.5,18,19,20]){ at(d,hh); const e=STORY.schedEnt(C,H.G); if(e&&e.zone==='noodle') bad.push(CALENDAR.dateOf(d).key+' '+hh); } }
   check('4. 四年每天 9、14:30、17:30～20:00：她從來不在燒臘店（含圈子補的作息）',!bad.length,bad.slice(0,6).join(','));
   /* 約她：地點清單沒有公館燒臘（INV.neverAt；選單、節日、直接約都不成立）*/
