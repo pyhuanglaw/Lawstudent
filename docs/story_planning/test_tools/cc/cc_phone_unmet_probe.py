@@ -25,7 +25,8 @@
   21:00 以後：手機「地點」快速前往宿舍（照樣花遊戲時間）、走到床邊按「睡覺」。不改旗標、不撥時間、不用 GAME.advance。
   網址建議加 ?turbo（測試加速：走位瞬間、dt 上限；條件事件 EVENTS.tick、PHONE.tick、劇情照常跑，不會漏時段）和 ?lowres。
   一路玩到開學那一天（END_KEY，預設 2025-09-01）看過一次聯絡人列為止。
-判斷：聯絡人列出現名字「不認識…」、名字空白、或沒見過（metD=false）的女主角卻列出來（含 gray）→ FAIL；見過、沒有聯絡方式的 gray 照設計，不算。
+判斷（LAWWW 08:48 的期待值；修正 ce9fdfacf，d231df045 也有）：聯絡人列只列傳得了訊息的人——任何 gray（data-noct／disabled）、「不認識」字樣、名字空白、
+  沒見過（metD=false）的女主角 → FAIL；開學前見過、有聯絡方式的阿哲、阿凱要有格子、點得開（data-th）、不能寫「聯絡不上」。0f66c4215 應 FAIL、d231df045 應 PASS。
 用法：LW_TESTS=<wt>/tests SHA=<sha> [START=law|econ] [END_KEY=2025-09-01] [MAX_MIN=85] python3 cc_phone_unmet_probe.py '<URL>/index.html?turbo&lowres' <輸出資料夾>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED n；exit 0／1。"""
 import os, sys, json, asyncio, time, traceback
@@ -162,8 +163,10 @@ async def pickers(pg, cdp, run, tag, met):
                 pid = c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or c['data'].get('person') or ''
                 if c['gray'] and pid in met and not met[pid]: w = (w + '、' if w else '') + '沒見過（metD=false）卻列出來'
                 if not w: continue
-                if '透明' in w and not unk(c['name']) and c['name'] and met.get(pid, True) and len(w.split('、')) == 1:
-                    run.note('%s %s：「%s」灰著——見過、還沒有聯絡方式（msg3d.js:155 照設計），不算' % (tag, pn, c['name'])); continue
+                if c['gray'] and 'gray' not in w: w = (w + '、' if w else '') + 'gray（data-noct）'   # LAWWW 08:48：聯絡人列只列傳得了訊息的人，不能有任何 gray
+                if '聯絡不上' in c['text']: w = (w + '、' if w else '') + '寫「聯絡不上」'
+                if '不認識' in c['text'] and '不認識' not in w: w = (w + '、' if w else '') + '有「不認識」字樣'
+                if not w: continue
                 if shot is None:
                     await pg.evaluate("(t=>{ const B=document.getElementById('phoneBody'); const e=[...B.querySelectorAll('.ctList button,.chatRow,.item.phrow')].find(b=>b.textContent.trim().replace(/\\s+/g,' ').startsWith(t.slice(0,12))); if(e) e.scrollIntoView({block:'center'}); })(%s)" % J(c['text']))
                     await pg.wait_for_timeout(500); shot = await run.shot(pg, 'picker_%s_%s' % (tab, tag))
@@ -251,7 +254,8 @@ async def main():
                 if last_key and per not in done_p:   # 這個時段還沒看過：照玩家打開每一個選人的面板
                     done_p.add(per); tag = '%s%s_%02d' % (per[0][5:], per[1], int(s['hour']))
                     cells, bad = await pickers(pg, cdp, run, tag, cur_met)
-                    ui_log.append((tag, {'cells': cells, 'bad': bad, 'met': dict(cur_met)}))
+                    fr = await pg.evaluate("ids=>ids.map(id=>({id,metD:!!SOCIAL.metD(id),stage:SOCIAL.stage(id),contact:!!INV.hasContact(GAME.G,id)}))", ['zhe', 'kai'])
+                    ui_log.append((tag, {'cells': cells, 'bad': bad, 'met': dict(cur_met), 'friends': fr}))
                     run.note('選人面板 %s（%s %.2f %s）：%s' % (tag, last_key, s['hour'], s['zone'], J({k: [[c['name'], c['avatar'] and c['avatar'][:3], c['opacity']] for c in v] for k, v in cells.items()})))
                     if bad:
                         sst = await pg.evaluate("ids=>ids.map(id=>({id,stage:SOCIAL.stage(id),metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,trust:SOCIAL.rel(id).trust|0,contact:!!INV.hasContact(GAME.G,id)}))", list({r['pid'] for r in bad if r['pid']}))
@@ -289,6 +293,17 @@ async def main():
                 bb = [r for r in allbad if r['panel'] == pn]
                 run.check('選人面板 %s：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子' % nm, not bb,
                           ('第一格 %s；共 %d 格次' % (J(bb[0]), len(bb))) if bb else '看了 %d 次' % len(ui_log))
+            # LAWWW 08:48：開學前見過、有聯絡方式的朋友（阿哲、阿凱）點得開（有 data-th、不是 disabled、沒寫「聯絡不上」）
+            for fid, fnm in (('zhe', '阿哲'), ('kai', '阿凱')):
+                seen = []; badf = []
+                for k, u in ui_log:
+                    f = next((x for x in u.get('friends', []) if x['id'] == fid), None)
+                    if not f or not (f['metD'] and f['contact']): continue
+                    c = next((c for c in u['cells']['msg_contacts'] if c['data'].get('th') == 'p:' + fid or c['data'].get('noct') == fid), None)
+                    seen.append(k)
+                    if not c or c['disabled'] or c['gray'] or '聯絡不上' in c['text'] or not c['data'].get('th'): badf.append([k, c])
+                run.check('%s：見過、有聯絡方式那幾天，聯絡人列有他、點得開、沒寫「聯絡不上」' % fnm, bool(seen) and not badf,
+                          J({'看過': seen, '不對': badf[:2]}) if (badf or not seen) else '看過 %d 天' % len(seen))
             # 每位女主角：相遇前選人面板不能有她（格子的 data-th／data-noct／data-person＝她）
             for id_ in HER:
                 bb = [r for r in allbad if r['pid'] == id_ or id_ in J(r['data'])]
