@@ -116,9 +116,12 @@ const OUT=(function(){
     if(typeof CLS!=='undefined'&&CLS.touring) return null;   /* 總圖新生導覽進行中：出發選單等導覽結束（BB 11-03）*/
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
+  /* BUG-OUT-LATER-MISS-1103（BB 11-03 20:16，CC later2）：「晚一點」＝20 分鐘後再問；但 20 分鐘後已經過了最晚能出發的時間（late 短的、導覽延長的 lateTo）＝沒再問就算錯過。
+     改成：再問的時間不晚於最晚能出發的時候（lateEnd－路上的時間）；連那個時間都不到 1 分鐘＝不給「晚一點」（null）*/
+  S.laterAsk=function(G,q){ const now=t(G.day,G.hour), last=lateEnd(q)-(S.trip(G,q).travelH||0), ask=Math.min(now+1/3,last); return ask-now<1/60?null:ask; };
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
-    try{ const tl=String(q.title||''), hh=hm(q.h), O=[{t:(q.verb||'出發')+'：'+S.tt(q.title),hint:[q.place&&!tl.includes(q.place)?q.place:'',tl.includes(hh)?'':hh,q.travel||''].filter(Boolean).join('　')}];   /* 小字不重複標題已經寫的地點、時間（BB218-P3 ④，和 home3d.js outHint 同一個做法）*/ if(!q.must) O.push({t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}); k=await GM.choose(O); } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
-    if(k===1){ q.ask=t(G.day,G.hour)+1/3; return 'later'; }
+    try{ const tl=String(q.title||''), hh=hm(q.h), O=[{t:(q.verb||'出發')+'：'+S.tt(q.title),hint:[q.place&&!tl.includes(q.place)?q.place:'',tl.includes(hh)?'':hh,q.travel||''].filter(Boolean).join('　')}];   /* 小字不重複標題已經寫的地點、時間（BB218-P3 ④，和 home3d.js outHint 同一個做法）*/ if(!q.must){ const ask=S.laterAsk(G,q); O.push(ask==null?null:{t:ask-t(G.day,G.hour)>=1/3-1e-6?'晚一點（20 分鐘後再提醒）':'晚一點（'+(m=>String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'))(Math.round((ask-G.day*24)*60))+' 再提醒）'},{t:q.no||'不去了'}); } k=await GM.choose(O.filter(Boolean)); if(O[1]===null&&k>=1) k++; } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
+    if(k===1){ q.ask=S.laterAsk(G,q); if(q.ask==null) q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
