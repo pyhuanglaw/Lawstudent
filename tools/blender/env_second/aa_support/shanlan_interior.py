@@ -22,11 +22,11 @@ sh._imgkeys = {'print', 'books'}
 P = 'shl_'
 sh.M.update({
     'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#c49b6c', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.5),
-    'wall': CL.soft_plaster(P + 'wall', '#d9cbb4', 0.92, tile=1.8, k=0.25),   # v2：v1 #ece6da 太白、過曝；暖一點、暗一點
-    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#c29660', maps=('diff',), res=256, rough_value=0.48),
+    'wall': CL.soft_plaster(P + 'wall', '#d7bf98', 0.92, tile=1.8, k=0.25),   # v3：再往暖色（LAWWW2 驗收：參考圖整體蜂蜜色）；v2 #d9cbb4、v1 #ece6da
+    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#c8955a', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.14),
     'bulb': L.flat(P + 'bulb', '#ffeccc', rough=0.3, emit=B.srgb('#ffc88a')),
-    'ceil': L.flat(P + 'ceiling', '#ddd2bf', rough=0.95, cull=True),
+    'ceil': L.flat(P + 'ceiling', '#d8c4a2', rough=0.95, cull=True),   # v3：v2 #ddd2bf 偏灰白
     'print': K.img_mat(P + 'print', 'shl_print.png', rough=0.75),
     'books': K.img_mat(P + 'books', 'shl_bookrows.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
@@ -142,7 +142,7 @@ for sx in (-1, 1):                                                              
     xf0.cyl(fm, (dx + sx * 0.12, 0.85, Z1 - 0.06), (dx + sx * 0.12, 1.55, Z1 - 0.06), 0.015, col='#b8b0a0', seg=8)
     for yy in (0.9, 1.5): xf0.cyl(fm, (dx + sx * 0.12, yy, Z1 - 0.06), (dx + sx * 0.12, yy, Z1 + 0.02), 0.01, col='#b8b0a0', seg=6)
 xf0.rbox(fm, dx - 0.025, dx + 0.025, 0.0, dh, Z1 - 0.02, Z1 + 0.12, r=0.004, seg=1, col=STEEL)
-for (bx0, bz) in ((X0, -0.8), (VD['x1'], 3.3)): xf0.rbox(sh.a('wall'), bx0, X1, H1 - 0.32, H1, bz - 0.17, bz + 0.17, r=0.015, seg=1)   # v2：一樓天花板的兩根樑（v1 一整片白）
+# v3：v2 一樓天花板的兩根樑拿掉，改成 shanlan_v3_fill.py 的木格樑
 for (cx, cz) in [(c['x'], c['z']) for c in IT['column']]: xf0.rbox(sh.a('wall'), cx - 0.2, cx + 0.2, 0.0, H, cz - 0.2, cz + 0.2, r=0.02, seg=2)
 
 # ---------------------------------------------------------------- 樓梯（實心的淺木階梯、木側板、玻璃欄杆、木扶手）
@@ -348,6 +348,7 @@ bk_.cyl(sh.a('vcm'), (-0.15, 0.26, 0), (0.15, 0.26, 0), 0.008, col='#2a2a2a', se
 sh.tally('v1')
 exec(open(os.path.join(HERE, 'shanlan_v2_fill.py'), encoding='utf-8').read())   # v2：一樓擺滿（另一個檔）
 sh.tally('v2 fill')
+exec(open(os.path.join(HERE, 'shanlan_v3_fill.py'), encoding='utf-8').read())   # v3：樓梯實木側板、天花板格樑＋嵌燈
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats']), 'floorSit': len(LAY['floorSit'])})
 # 每層樓的三角形（L2_ 開頭＝二樓；WALL_ 是兩層共用的牆）
 import json as _j
