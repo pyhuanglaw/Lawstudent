@@ -1,9 +1,9 @@
 // 開學前迎新宿營 8/22～24（CAMP-L1；AA_205、BB_177 第五版）——不需要瀏覽器。在 Node 裡用遊戲自己的事件引擎跑 STORY.campY1 整段：
-//   A 預設選項（都選第一個）：12 段都演、時間照 8/22 08:30 → 8/24、演完回家旁白；小隊五個同學 FIRST_MET（note 'camp'）、MET_ZHE、CAMP_MOLE_REVEALED、CAMP_SEEN=['yu']、CAMP_Y1；
+//   A 預設選項（都選第一個）：10 段都演（AA_608：迎新晚會、夜遊、法律闖關、水大地 retired；多午餐、寢室）、時間照 8/22 08:30 → 8/24、演完回家旁白；小隊五個同學 FIRST_MET（note 'camp'）、MET_ZHE、CAMP_MOLE_REVEALED、CAMP_SEEN=['yu']、CAMP_Y1；
 //     手機：「法律系 114 新生（系學會）」有 8/15 公告與 8/21 名單、第七小隊群組排好 8/24 21:00 合照與 8/29 18:00 阿哲；接著 8/29 搬宿舍（startLawWeek1：錢 7,000、第 −18 天）。
-//   B 夜遊跟 Kevin 走（看過三個破綻）→ 問他 → CAMP_MOLE_GUESSED，營火揭曉多「看了你一眼」與回隊伍那句、夜談阿哲「你早就知道了喔？」。
-//   C 大地遊戲只演兩關；選第二關（沛珊）→ 交換聯絡方式；選兩人三腳和明軒 → MX_CAMP_PAIR。夜談選「我大一歲」→ ZHE_CALLS_GE，第三天早餐「哥，你的蛋。」。
-//   D 中途讀檔：campStep=5 從第二天法律闖關接著演，前五段不重演。
+//   B AA_608（11-03 宿營只留認識過程）＋AA_606 第 1 節：破冰只剩名字接龍（Alison 報名字、每人多一個特徵）、午餐（柏翰、芯慈）、步道（沛珊）、寢室（明軒）、烤肉（Alison 借夾子）、營火（只演 Kevin）、夜談不提破綻、早餐沒有金頭腦；兩種選項都跑；熟悉 +1。
+//   C 沛珊那一段一定演 → 交換聯絡方式；不再設 MX_CAMP_PAIR。夜談選「我大一歲」→ ZHE_CALLS_GE，第三天早餐「哥，你的蛋。」。
+//   D 中途讀檔：新版存檔（campSeqV 2）從 campStep 接著演；舊版存檔（12 段的表）照最後演完那一段的時間換到新表（演完破冰＝接午餐、演完夜遊＝接寢室）。
 //   E 宿營之後：9/1 ev_zhe_w1_meet 宿營版（AA_205 6-2：書包放旁邊、「欸，早。」／有 ZHE_CALLS_GE「哥，早。」、不換名字、不加熟悉）；明軒系籃開頭（BB_177 第 12 節）；9/27 舊迎新不排（有 CAMP_Y1）。
 // 修改前（沒有 camp_y1.js、沒有 STORY.campY1）全部 FAIL。用法：node tests/camp_y1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -15,14 +15,14 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/activities.js','src/data/characters.js','src/data/events.js','src/data/camp_y1.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js']) load(f);
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},setBg(){},hide(){},slots:{}}; global.CHAR={setExpr(){}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-let G=null, sayHr={}, said=[], cards=[], picks=[], entered=[];
+let G=null, sayHr={}, said=[], cards=[], picks=[], entered=[], optsSeen=[];
 const P={busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0};
 const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>null,seats:[]},npcs:[],extras:[],interactables:[{deskStudy:true,seat:{x:1.8,z:-1.9,yaw:Math.PI}}],levels:null,setWeather(){},endCinematic(){},cam:{distTarget:0}},D:{active:false,busyDepth:0},npc:{},
   advance(h){ G.hour+=h; },sitAt(p,seat){ GM.sat=seat; },standUp(){ GM.stood=true; },rel(id,n){ GM.rels=(GM.rels||[]).concat([[id,n]]); },
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){ GM.saves=(GM.saves|0)+1; },energy(){},money(){},setGoal(g){ G.goal=g; },toast(){},updateHUD(){},letterbox(){},fade:()=>Promise.resolve(),
   titleCard:async(a,b)=>{ cards.push(a+'｜'+(b||'')); },
-  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/晚會是學長姐的場子|這關很簡單|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
-  choose:async opts=>{ if(GM.prefer){ const k=opts.findIndex(o=>GM.prefer.some(w=>o.t.indexOf(w)>=0)); if(k>=0) return k; } const want=picks.shift(); if(want==null) return 0; const k=opts.findIndex(o=>o.t.indexOf(want)>=0); return k<0?0:k; },
+  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/午餐。柏翰坐你對面|晚上的八人寢室|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
+  choose:async opts=>{ optsSeen.push(opts.map(o=>o.t).join('/')); if(GM.prefer){ const k=opts.findIndex(o=>GM.prefer.some(w=>o.t.indexOf(w)>=0)); if(k>=0) return k; } const want=picks.shift(); if(want==null) return 0; const k=opts.findIndex(o=>o.t.indexOf(want)>=0); return k<0?0:k; },
   enter:async(z,sp)=>{ entered.push(z); G.zone=z; },
   spawnNPC(id,spec,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; },spawnCharacter(id,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; }};   /* 只記下來、回傳 null（不放進 GM.npc，事件照舊當作人物沒生出來；後面的段落不受影響）*/
 const fresh=()=>{ G={day:1,weekday:3,hour:21.2,zone:'dorm',stage:'law',name:'祐廷',money:22000,flags:{},choices:{},events:{done:{},last:{},count:0},rel:{},social:null,msgs:[],goal:''};
@@ -30,26 +30,28 @@ const fresh=()=>{ G={day:1,weekday:3,hour:21.2,zone:'dorm',stage:'law',name:'祐
 const flush=()=>new Promise(r=>setTimeout(r,10));
 const day=k=>STORY.dayOfKey(k);
 (async()=>{
-  check('0. camp_y1.js 有 12 段、STORY.campY1 存在',typeof STORY.campY1==='function'&&STORY_EVENTS.filter(e=>e.trigger==='camp').length===12);
+  { const camp=STORY_EVENTS.filter(e=>e.trigger==='camp'), R=['ev_camp_d1_party','ev_camp_d1_walk','ev_camp_d2_quiz','ev_camp_d2_water'], seq=STORY.CAMP_SEQ.map(x=>x[0]);
+    check('0. STORY.campY1 存在；AA_608：camp 事件 14 個（4 個 retired 留給舊存檔），CAMP_SEQ 10 段＝遊覽車、破冰、午餐、步道、寢室｜烤肉、營火、夜談｜早餐、結業',typeof STORY.campY1==='function'&&camp.length===14&&R.every(id=>camp.find(e=>e.id===id&&e.retired))&&camp.filter(e=>!e.retired).length===10
+      &&seq.join()==='ev_camp_d1_bus,ev_camp_d1_ice,ev_camp_d1_lunch,ev_camp_d1_field,ev_camp_d1_room,ev_camp_d2_bbq,ev_camp_d2_fire,ev_camp_d2_talk,ev_camp_d3_quiz,ev_camp_d3_end'&&!seq.some(id=>R.includes(id)),seq.join()); }
   // ---------- A 預設選項 ----------
   fresh(); await STORY.campY1(GM);
   const F=G.flags, met=id=>(G.social.mem[id]||[]).find(m=>m.tag==='FIRST_MET');
   const ids=['zhe','classmate_xinci','classmate_peishan','classmate_mingxuan','classmate_bohan'];
-  check('A1. 12 段都演完（events.done）、CAMP_Y1、沒有 campStep',STORY.CAMP_SEQ.every(([id])=>G.events.done[id])&&F.CAMP_Y1===true&&F.campStep==null,STORY.CAMP_SEQ.filter(([id])=>!G.events.done[id]).join());
+  check('A1. 10 段都演完（events.done）、retired 的四段沒演、CAMP_Y1、沒有 campStep／campSeqV',STORY.CAMP_SEQ.every(([id])=>G.events.done[id])&&!['ev_camp_d1_party','ev_camp_d1_walk','ev_camp_d2_quiz','ev_camp_d2_water'].some(id=>G.events.done[id])&&F.CAMP_Y1===true&&F.campStep==null&&F.campSeqV==null,STORY.CAMP_SEQ.filter(([id])=>!G.events.done[id]).join());
   check('A2. 字卡：8/22 迎新宿營、第 2 天、第 3 天',cards[0]==='2025 年 8 月 22 日（五）｜迎新宿營'&&cards.some(c=>/8 月 23 日（六）｜迎新宿營 第 2 天/.test(c))&&cards.some(c=>/8 月 24 日（日）｜迎新宿營 第 3 天/.test(c)),cards.join(' / '));
   check('A3. 小隊五個同學 FIRST_MET，note＝camp；MET_ZHE',ids.every(id=>met(id)&&met(id).note==='camp')&&F.MET_ZHE===true,ids.map(id=>id+':'+(met(id)?met(id).note:'-')).join(' '));
-  check('A3d. 6-14 程式 4：宿營中間推時間（晚會 19:30、闖關 09:00、回校門 12:30）',Object.values(sayHr).length===3&&Math.abs(sayHr['（晚會是學長']-19.5)<0.01&&Math.abs(sayHr['這關很簡單。']-9)<0.01&&Math.abs(sayHr['（十二點半，']-12.5)<0.01,JSON.stringify(sayHr));
+  check('A3d. 宿營時間（AA_608 8-4）：午餐 12:00、寢室 22:00、回校門 12:30（6-14 程式 4）',Object.values(sayHr).length===3&&Math.abs(sayHr['（午餐。柏翰']-12)<0.01&&Math.abs(sayHr['（晚上的八人']-22)<0.01&&Math.abs(sayHr['（十二點半，']-12.5)<0.01,JSON.stringify(sayHr));
   check('A3b. 6-14 程式 1、2：凱文 FIRST_MET 宿營時就記（camp）、阿哲熟悉 +1（ACQUAINTANCE 的 5 再加 1）',!!met('kevin')&&met('kevin').note==='camp'&&SOCIAL.rel('zhe').fam>=6,JSON.stringify([met('kevin'),SOCIAL.rel('zhe').fam]));
   check('A3c. 6-14 程式 3：人物面板記憶顯示日期（8/22）、地點中文（宿營）',SOCIAL.dayLabel(met('zhe').day)==='8/22'&&SOCIAL.noteShown('zhe',met('zhe'))==='宿營'&&SOCIAL.noteShown('kai',{tag:'FIRST_MET',note:'dorm'})==='宿舍',SOCIAL.dayLabel(met('zhe').day)+' '+SOCIAL.noteShown('zhe',met('zhe')));
-  check('A4. 臥底揭曉 CAMP_MOLE_REVEALED、破綻至少 3 個（隊呼、生日、晚會）、CAMP_SEEN＝["yu"]',F.CAMP_MOLE_REVEALED===true&&(F.CAMP_MOLE_CLUE|0)>=3&&JSON.stringify(F.CAMP_SEEN)==='["yu"]',JSON.stringify({c:F.CAMP_MOLE_CLUE,s:F.CAMP_SEEN}));
-  check('A5. 大地遊戲只演兩關（CAMP_FIELD_N＝2）',F.CAMP_FIELD_N===2,String(F.CAMP_FIELD_N));
+  check('A4. 臥底揭曉 CAMP_MOLE_REVEALED、CAMP_SEEN＝["yu"]；AA_608：不再記破綻（CAMP_MOLE_CLUE、CAMP_CLUE0／1）',F.CAMP_MOLE_REVEALED===true&&F.CAMP_MOLE_CLUE==null&&!F.CAMP_CLUE0&&!F.CAMP_CLUE1&&JSON.stringify(F.CAMP_SEEN)==='["yu"]',JSON.stringify({c:F.CAMP_MOLE_CLUE,s:F.CAMP_SEEN}));
+  check('A5. AA_608 第 3 節：沒有大地遊戲的三關選單（CAMP_FIELD_N、CAMP_F1～3）、不設 MX_CAMP_PAIR；沛珊那段一定演＝有她的聯絡方式',F.CAMP_FIELD_N==null&&!F.CAMP_F1&&!F.CAMP_F2&&!F.CAMP_F3&&!F.MX_CAMP_PAIR&&INV.hasContact(G,'classmate_peishan'),JSON.stringify({n:F.CAMP_FIELD_N,mx:F.MX_CAMP_PAIR}));
   check('A6. 回家旁白（AA_205 2-2）在最後',said.some(t=>t==='（回到家，你把營地帶回來的衣服丟進洗衣機。）'));
   const grpNew=G.msgs.filter(m=>m.th==='g:law_new');
   check('A7. 手機：系學會新生群組有 8/15 公告與 8/21 小隊名單（含玩家名字與凱文）',PHONE.inGroup(G,'law_new')&&grpNew.some(m=>m.day===day('2025-08-15')&&/新生都要參加/.test(m.text))&&grpNew.some(m=>m.day===day('2025-08-21')&&/祐廷/.test(m.text)&&/凱文/.test(m.text)),grpNew.map(m=>m.day+':'+m.text.slice(0,12)).join(' | '));
   const q=(G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
   check('A8. 第七小隊群組：8/24 21:00 合照、8/29 17:30 阿哲「我在高鐵上了」（AA_205 6-14①）',PHONE.inGroup(G,'camp_squad_y1')&&q.includes('camp_squad_photo@'+day('2025-08-24')+'/21')&&q.includes('camp_squad_829@'+day('2025-08-29')+'/17.5'),q.join(' '));
   check('A9. 接著 8/29 搬宿舍：第 −18 天、錢 7,000、進宿舍',G.day===day('2025-08-29')&&G.money===7000&&entered.includes('dorm')&&cards.some(c=>/8 月 29 日/.test(c)),G.day+' '+G.money+' '+entered.join());
-  check('A10. 每段演完都自動存檔（12 次以上）',GM.saves>=12,String(GM.saves));
+  check('A10. 每段演完都自動存檔（10 次以上）',GM.saves>=10,String(GM.saves));
   // ---------- F 8/29 搬進宿舍（AA_195 4-2＋BB_168 第 1 節 ev_kai_movein）----------
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0), km=(G.social.mem.kai||[]).find(m=>m.tag==='FIRST_MET');
     check('F1. 日期卡「8 月 29 日（五）｜16:05 · 男生宿舍」',cards.includes('8 月 29 日（五）｜16:05 · 男生宿舍'),cards.slice(-2).join(' / '));
@@ -114,28 +116,62 @@ const day=k=>STORY.dayOfKey(k);
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0);
     check('F7. 經濟系轉過來：「你去年也搬過一次宿舍」在行李箱那句前面；錢不重設',ix('你去年也搬過一次宿舍，這次只有一個行李箱。')>=0&&ix('你去年也搬過一次宿舍')<ix('行李箱的輪子')&&G.money===22000,String(G.money));
     check('F8. 選「我是祐廷，法律系。」→「阿凱。資工。」「法律系喔，那你書應該很多。衣櫃大的那格給你。」（AA_208：櫃子→衣櫃）',said.includes('阿凱：阿凱。資工。')&&said.includes('阿凱：法律系喔，那你書應該很多。衣櫃大的那格給你。')); }
-  // ---------- B 猜臥底 ----------
-  fresh(); picks=['坐阿哲旁邊','洋芋片',null,'第三關','第一關','和阿哲一組','跟凱文走在一起','你是不是來過這裡']; await STORY.campY1(GM,{next:false});
-  check('B1. 夜遊跟凱文走、看過三個破綻 → 問他 → CAMP_MOLE_GUESSED',G.flags.CAMP_MOLE_GUESSED===true&&G.flags.CAMP_MOLE_CLUE===4,String(G.flags.CAMP_MOLE_CLUE));
-  check('B2. 揭曉多兩句（看了你一眼、回隊伍那句）、夜談阿哲「你早就知道了喔？」',said.includes('（他走出去之前，看了你一眼。）')&&said.some(t=>/我差點就承認了/.test(t))&&said.includes('阿哲：你早就知道了喔？'));
-  check('B3. next:false 不接 8/29（還在 8/24）',G.day===day('2025-08-24'),String(G.day));
+  // ---------- B AA_608 宿營只留認識過程（＋AA_606 第 1 節接龍）----------
+  { const is=(s,t)=>s===t||(s||'').endsWith('：'+t), at=(t,from)=>{ for(let k=from|0;k<said.length;k++) if(is(said[k],t)) return k; return -1; };
+    const inOrder=list=>{ let k=-1; for(const t of list){ const j=at(t,k+1); if(j<0) return 'missing: '+t; k=j; } return ''; };
+    fresh(); optsSeen=[]; await STORY.campY1(GM,{next:false});
+    const ice=['（營地的空地上，每個小隊圍成一圈。小隊輔發了名牌：「名字上面都有。」）','（隔壁小隊在喊隊呼，帶頭的女生聲音最大。她喊完，回頭朝你們這邊揮手。）','我叫 Alison！你們隊呼好小聲！','好。名字接龍，順便講你從哪裡來。要先把前面的人念一遍。',
+      '張哲維，叫我阿哲。高雄上來的。要吃什麼問我。','阿哲。吳芯慈，永和。我應該是全隊住最近的。','……前面是阿哲、還有、呃……','（小聲）芯慈。','芯慈，謝謝。我是郭沛珊，台中來的。','（一口氣念完前面的名字）江明軒。彰化，家裡開機車行。五點的客運。','阿哲、芯慈、沛珊、明軒。許柏翰。新竹。……上課我坐第一排。',
+      '（念完，一個都沒漏）凱文！台北人，土生土長！','（輪到你。你把前面六個人念了一遍，念到「凱文」的時候，他比了一個讚。）','好，七個人都記住了吧。','記住了！'];
+    const i0=at(ice[0]); let ok=!inOrder(ice); for(let k=0;k<ice.length&&ok;k++) ok=is(said[i0+k],ice[k]);
+    check('B1. 破冰（AA_608 第 2 節＋AA_606 第 1 節）：名牌 → Alison「我叫 Alison！你們隊呼好小聲！」→ 名字接龍（阿哲、明軒、柏翰多一個特徵），一句不多一句不少；Alison 那句是她自己說的',ok&&said.includes('Alison：我叫 Alison！你們隊呼好小聲！'),said.slice(Math.max(0,i0),i0+ice.length).join(' / '));
+    check('B2. 拿掉：小隊輔問隊呼、凱文搶喊、照生日排隊、凱文報錯生日',!said.some(t=>/我們小隊的隊呼是|第七小隊，有到|照生日排成一排|呃，三月|你報了生日|我記錯了/.test(t)));
+    const lunch=['（午餐。柏翰坐你對面，桌上攤著一本《民法總則》。）','開學前想把第一章讀完。還差十一頁。','我念得慢。先讀，上課才跟得上。','（芯慈坐下來，拿出一疊對摺的紙，一人發一張。）','下午到晚上的時間表。我印了七份。','（每個活動用不同顏色標好，連洗澡都排了。）','洗澡要排隊。我們這間排第三，七點十分。','昨天晚上。我習慣先知道接下來要做什麼。'];
+    check('B3. 午餐（AA_608 8-1，預設選項）：柏翰的課本、還差十一頁、我念得慢 → 芯慈的時間表、七點十分 →「昨天晚上。……」；選項「「你帶課本來宿營？」／（先吃飯）」「「妳印這個多久？」／「謝了。」」',!inOrder(lunch)&&optsSeen.includes('「你帶課本來宿營？」/（先吃飯）')&&optsSeen.includes('「妳印這個多久？」/「謝了。」'),inOrder(lunch)+' '+optsSeen.join(' | '));
+    const trail=['（下午分組找東西。沛珊和你往營地後面的步道走。）','（步道走到一半，路中間拉了一條繩子，掛著一塊牌子：「工作區域　禁止進入」。）','如果有人跨過去，會怎樣？罰錢嗎？還是只是被罵？','（她從背包拿出一本小筆記本，撕下一頁，上面是她自己寫得密密麻麻的字。）','祐廷。你要不要加我？剛剛那個問題，之後知道答案跟我說。'];
+    check('B4. 步道（AA_608 第 3 節）：沒有三關選單、兩人三腳、全隊跑完；直接演沛珊那段',!inOrder(trail)&&!optsSeen.some(o=>/兩人三腳|找三樣東西|全隊跑完|和明軒一組/.test(o))&&!said.some(t=>/任務單|人數對，膝蓋|有贏！/.test(t))&&STORY_EVENTS.find(e=>e.id==='ev_camp_d1_field').title==='迎新宿營：步道',inOrder(trail));
+    const room=['（晚上的八人寢室。電風扇轉兩下就停了。）','完了，今天晚上會熱死。','（已經蹲下去，把背板拆開）誰有原子筆？借我。','（三分鐘後，電風扇轉了。）','線鬆了。家裡開機車行，這種常修。','會一點。……不要跟學長講，他們會把整營的東西都拿來。','明軒，你就是我們這間的神。','（燈關了。）'];
+    check('B5. 寢室的電風扇（AA_608 8-2，預設選項「你也會修機車？」）',!inOrder(room)&&optsSeen.includes('「你也會修機車？」/「厲害。」'),inOrder(room));
+    const bbq=['（第二天晚上烤肉。芯慈照她的時間表分肉，一個人三片。柏翰說他只要兩片。）','（隔壁的烤肉架突然冒出一團火。）','（衝過來）欸欸欸！借我夾子！我們那架起火了！','謝謝！！你哪一隊？……第七？好，我記住了！','（天黑了。營火那邊有人在喊集合。）'];
+    check('B6. 烤肉（AA_608 8-3）：Alison 借夾子、選「給妳。」；沒有顧火／搶答／負責吃',!inOrder(bbq)&&optsSeen.includes('「給妳。」/「我跟妳過去。」')&&!optsSeen.some(o=>/顧火|去搶答|負責吃/.test(o)),inOrder(bbq));
+    const fire=['（營火晚會。各小隊演完短劇，主持的學長拿起麥克風。）','各小隊的臥底，出列。','（你們小隊的凱文站了起來。）','（走到營火前面，把名牌翻到背面）大二，系學會。我叫 Kevin，不叫凱文。','（小聲）難怪他什麼都知道。','……所以充電線要還學長嗎？'];
+    const f0=at(fire[0]); let okf=f0>=0; for(let k=0;k<fire.length&&okf;k++) okf=is(said[f0+k],fire[k]);
+    check('B7. 營火（AA_608 第 5 節）：只演 Kevin 揭曉，六句照順序、連在一起；沒有短劇三選一、Alison 演樹、「生日那個……」、柏翰翻名牌',okf&&!optsSeen.some(o=>/上台演|幕後拉燈/.test(o))&&!said.some(t=>/演一棵樹|生日那個|名牌翻過來看|夜遊都不用看地圖/.test(t))&&G.flags.CAMP_MOLE_REVEALED===true,said.slice(Math.max(0,f0),f0+fire.length).join(' / '));
+    check('B8. 夜談照留（隊呼那句、你幾年次的、為什麼重考的來源），沒有 CAMP_MOLE_GUESSED 的三句',said.some(t=>is(t,'欸，你幾年次的？感覺你比我們大一點。'))&&!said.some(t=>/你早就知道了喔|他排生日排錯了|我怎麼沒注意到/.test(t)));
+    check('B9. 早餐（AA_608 第 6 節）：標題「迎新宿營：早餐」、沒有金頭腦三題',STORY_EVENTS.find(e=>e.id==='ev_camp_d3_quiz').title==='迎新宿營：早餐'&&!said.some(t=>/水大地總共用了幾桶水球|第一個上台的是哪一隊|臥底叫什麼名字|一包營地的饅頭/.test(t)));
+    check('B10. retired 的段落沒演：沒有迎新晚會、夜遊、法律闖關、水大地的句子',!said.some(t=>/晚會是學長姐的場子|九點半，小隊輔帶小隊走|這關很簡單|三大桶水球/.test(t)));
+    check('B11. next:false 不接 8/29（還在 8/24）',G.day===day('2025-08-24'),String(G.day));
+    fresh(); optsSeen=[]; GM.prefer=['（先吃飯）','「謝了。」','「厲害。」','「我跟妳過去。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+    check('B12. 另一個選項：午餐「（你吃到一半，他翻了一頁。）」「還差十頁。」→「不客氣。……七點十分，不要忘記。」；寢室「沒有啦。睡了，我五點就起來了。」；烤肉「（你們跑過去的時候……）」「……好吧。不過謝謝你跑過來！我 Alison，記住喔！」',
+      !inOrder(['（你吃到一半，他翻了一頁。）','還差十頁。','我念得慢。先讀，上課才跟得上。','不客氣。……七點十分，不要忘記。','線鬆了。家裡開機車行，這種常修。','沒有啦。睡了，我五點就起來了。','明軒，你就是我們這間的神。','（你們跑過去的時候，學長已經用水把火澆熄了。）','……好吧。不過謝謝你跑過來！我 Alison，記住喔！','（天黑了。營火那邊有人在喊集合。）'])&&!said.some(t=>/還差十一頁|昨天晚上。我習慣|會一點。……不要跟學長講|我記住了！$/.test(t)),said.filter(t=>/十頁|七點十分|五點|Alison，記住/.test(t)).join(' / '));
+    const fam=id=>SOCIAL.rel(id).fam|0, run1=async(id,ids)=>{ fresh(); for(const p of ids) if(p!=='yu') SOCIAL.meet(p,'camp'); const b=ids.map(fam); await EVENTS.run(STORY_EVENTS.find(e=>e.id===id)); return ids.map((p,k)=>fam(p)-b[k]); };
+    const dl=await run1('ev_camp_d1_lunch',['classmate_bohan','classmate_xinci']), dr=await run1('ev_camp_d1_room',['classmate_mingxuan','zhe']), db=await run1('ev_camp_d2_bbq',['yu']);
+    check('B13. 每段結尾熟悉 +1（AA_608 第 8 節）：午餐柏翰、芯慈；寢室明軒（阿哲不加）；烤肉 Alison；選項不記旗標',dl.join()==='1,1'&&dr.join()==='1,0'&&db.join()==='1'&&!Object.keys(G.flags).length,JSON.stringify({dl,dr,db,f:G.flags})); }
   // ---------- C 沛珊、明軒、哥 ----------
-  fresh(); picks=['坐明軒旁邊',null,'第二關','應該是被罵吧','第一關','和明軒一組','走前面','我上去','付了錢就是我的','幫忙裝水球','負責吃','在旁邊看','我大一歲']; await STORY.campY1(GM,{next:false});
-  check('C1. 沛珊那一關 → 交換聯絡方式；兩人三腳和明軒 → MX_CAMP_PAIR',INV.hasContact(G,'classmate_peishan')&&G.flags.MX_CAMP_PAIR===true);
+  fresh(); picks=['坐明軒旁邊']; GM.prefer=['我大一歲']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+  check('C1. 沛珊那一段 → 交換聯絡方式；坐明軒旁邊（CAMP_BUS mx）；不再設 MX_CAMP_PAIR（AA_608 第 3 節）',INV.hasContact(G,'classmate_peishan')&&G.flags.CAMP_BUS==='mx'&&!G.flags.MX_CAMP_PAIR);
   check('C2. 夜談「我大一歲」→ ZHE_CALLS_GE；第三天早餐「哥，你的蛋。」、明軒要蛋',G.flags.ZHE_CALLS_GE===true&&said.includes('阿哲：（隔著桌子）哥，你的蛋。')&&said.includes('江明軒：那顆蛋你不吃的話給我。'));
-  check('C3. 沒猜的人：揭曉沒有「看了你一眼」',!said.includes('（他走出去之前，看了你一眼。）'));
+  check('C3. 揭曉沒有「看了你一眼」（破綻拿掉）',!said.includes('（他走出去之前，看了你一眼。）'));
   // ---------- D 中途讀檔 ----------
+  fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=5; G.flags.campSeqV=2; G.day=day('2025-08-22'); await STORY.campY1(GM,{next:false});
+  check('D1. 新版存檔 campStep=5：第一天五段不重演，從第二天烤肉接著演到結束',!said.some(t=>/校門口停了兩台遊覽車|八人寢室。電風扇/.test(t))&&said.some(t=>/借我夾子/.test(t))&&G.flags.CAMP_Y1===true&&!G.events.done.ev_camp_d1_bus);
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=5; G.day=day('2025-08-22'); await STORY.campY1(GM,{next:false});
-  check('D1. campStep=5：第一天的五段不重演（沒有遊覽車那句），從法律闖關接著演到結束',!said.some(t=>/校門口停了兩台遊覽車/.test(t))&&said.some(t=>/這關很簡單/.test(t))&&G.flags.CAMP_Y1===true&&!G.events.done.ev_camp_d1_bus);
+  check('D2. 舊版存檔 campStep=5（演完夜遊 21:30）：從寢室（22:00）接著演，沒有遊覽車、午餐、法律闖關',!said.some(t=>/校門口停了兩台遊覽車|午餐。柏翰坐你對面|這關很簡單/.test(t))&&said.some(t=>/晚上的八人寢室/.test(t))&&said.some(t=>/借我夾子/.test(t))&&G.flags.CAMP_Y1===true,said.slice(0,2).join(' / '));
+  fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=2; G.day=day('2025-08-22'); let seqV=[]; const as0=GM.autosave; GM.autosave=()=>{ seqV.push(G.flags.campSeqV); as0(); }; await STORY.campY1(GM,{next:false}); GM.autosave=as0;
+  check('D3. 舊版存檔 campStep=2（演完破冰）：接午餐、破冰不重演；接著演的存檔記 campSeqV 2，演完拿掉',said.some(t=>/午餐。柏翰坐你對面/.test(t))&&!said.some(t=>/名字接龍/.test(t))&&seqV.length>0&&seqV.every(v=>v===2)&&G.flags.campSeqV==null,JSON.stringify(seqV));
+  fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=10; G.day=day('2025-08-24'); await STORY.campY1(GM,{next:false});
+  check('D4. 舊版存檔 campStep=10（演完夜談）：只剩早餐、結業',!said.some(t=>/借我夾子|各小隊的臥底/.test(t))&&said.some(t=>/第三天早上/.test(t))&&said.some(t=>/十二點半，遊覽車停在校門口/.test(t))&&G.flags.CAMP_Y1===true);
   // ---------- E 宿營之後 ----------
   fresh(); picks=[]; GM.prefer=['跟你們一樣啦']; await STORY.campY1(GM,{next:false}); GM.prefer=null; const evZ=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'); G.day=day('2025-09-01'); G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13;
   check('E1. 9/1 宿營認識阿哲：ev_zhe_w1_meet 的條件成立（已經 MET_ZHE 也演宿營版）',EVENTS.cond(evZ.prereq)===true||(evZ.prereq.custom&&evZ.prereq.custom(G)===true));
   const fam0=JSON.stringify(G.rel.zhe||null); said=[]; await EVENTS.run(evZ);
   check('E2. 宿營版：書包放旁邊、「欸，早。」、問中午吃什麼；不換名字、不加熟悉、記 ZHE_W1_CAMP',said.includes('（你坐下沒多久，有人把書包放到你旁邊的位子。）')&&said.includes('阿哲：欸，早。')&&said.some(t=>/我昨天在公館繞了半小時/.test(t))&&!said.some(t=>/我阿哲。張哲維。/.test(t))&&!said.some(t=>/用筆輕輕戳/.test(t))&&JSON.stringify(G.rel.zhe||null)===fam0&&G.flags.ZHE_W1_CAMP===true,said.join(' / '));
-  fresh(); picks=['坐阿哲旁邊','洋芋片',null,'第一關','和明軒一組','第三關','走前面','我上去',null,'衝前面','顧火','在旁邊看','我大一歲']; await STORY.campY1(GM,{next:false}); G.day=day('2025-09-01'); said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'));
+  fresh(); picks=[]; GM.prefer=['我大一歲']; await STORY.campY1(GM,{next:false}); GM.prefer=null; G.day=day('2025-09-01'); said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'));
   check('E3. 有 ZHE_CALLS_GE：「哥，早。」',said.includes('阿哲：哥，早。'));
   said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_mingxuan_ball'));
-  check('E4. 兩人三腳和明軒一組：系籃開頭「欸，宿營兩人三腳那個。你也來打球喔？」、不再自我介紹',said[0]==='江明軒：欸，宿營兩人三腳那個。你也來打球喔？'&&!said.some(t=>/阿哲的隊友/.test(t)),said.slice(0,2).join(' / '));
+  check('E4. 新局宿營（沒有兩人三腳）：系籃開頭「欸，你也來打球喔？」（events.js 原本的另一句，AA_608 第 3 節）、不再自我介紹',said[0]==='江明軒：欸，你也來打球喔？'&&!said.some(t=>/阿哲的隊友|兩人三腳/.test(t)),said.slice(0,2).join(' / '));
+  { const mx0=G.flags.MX_CAMP_PAIR; G.flags.MX_CAMP_PAIR=true; delete G.events.done.ev_mingxuan_ball; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_mingxuan_ball')); if(mx0===undefined) delete G.flags.MX_CAMP_PAIR; else G.flags.MX_CAMP_PAIR=mx0;
+    check('E4b. 舊存檔（宿營兩人三腳和明軒一組，MX_CAMP_PAIR）：系籃照舊「欸，宿營兩人三腳那個。你也來打球喔？」',said[0]==='江明軒：欸，宿營兩人三腳那個。你也來打球喔？',said.slice(0,2).join(' / ')); }
   { G.flags.DORM_FOUR=true; delete G.flags.ZHE_W1_CAMP; delete G.flags.ZHE_W1_DORM; G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13; G.day=day('2025-09-01');
     const evD=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_dorm'), evM=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'), evB=STORY_EVENTS.find(e=>e.id==='ev_bohan_w1_front');
     check('E6. 四人房（DORM_FOUR）：9/1 早上宿舍版的條件成立',!!evD&&evD.location==='dorm'&&evD.prereq.custom(G)===true);
