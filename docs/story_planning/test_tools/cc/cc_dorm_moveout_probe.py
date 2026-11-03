@@ -104,7 +104,7 @@ QUIET_HOME_JS = "(()=>{ if(typeof ECONFF!=='undefined'&&ECONFF.tick2){ ECONFF.ti
 
 
 async def quiet_autohome(pg):
-    setup('關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；沒有這個函式的舊版=%s）' % (not await pg.evaluate(QUIET_HOME_JS)))
+    setup('關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；這一版有 ECONFF.tick2＝%s）' % (await pg.evaluate(QUIET_HOME_JS)))
 
 
 async def wait_ready(pg, case, st, econ, moved):

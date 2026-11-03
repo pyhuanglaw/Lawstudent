@@ -41,7 +41,7 @@ NOD = {'f': '（她抬頭看到你，點了一下頭。）', 'm': '（他抬頭�
 SOFT = re.compile('小聲|氣音|口型|噓|壓低聲音|悄悄')
 SCENES = [
     dict(tag='lib2f', name='總圖二樓自習區', key='2026-10-06', hour=16.6, zone='library_hall', cid='classmate_peishan', sex='f', quiet=True, move_lv1=True),
-    dict(tag='lawlib', name='法圖', key='2025-10-21', hour=15.0, zone='lawlib', cid='heroine_05', sex='f', quiet=True),
+    dict(tag='lawlib', name='法圖', key='2025-10-21', hour=15.0, zone='lawlib', cid='heroine_05', sex='f', quiet=True, retry_side=True),
     dict(tag='b1', name='總圖 B1 二十四小時自習室', key='2025-10-28', hour=22.3, zone='library_b1', cid='classmate_mingxuan', sex='m', quiet=True),
     dict(tag='cafe', name='兩點半 Café（反例：圖書館以外）', key='2025-10-21', hour=17.5, zone='cafe', cid='heroine_01', sex='f', quiet=False),
 ]
@@ -124,12 +124,12 @@ async def start_scene(pg, cdp, run, sc):
     return w, loc
 
 
-async def talk(pg, cdp, run, sc, k):
+async def talk(pg, cdp, run, sc, k, side=False):
     n0 = await pg.evaluate(HOOK)
     nod0 = await pg.evaluate(NODREC_JS % J(sc['cid']))
-    r = await P.talk_to(pg, cdp, run, sc['cid'], '%s 第 %d 次說話' % (sc['name'], k), picks=('就這樣',), max_s=TALK_MAX)
+    r = None if side else await P.talk_to(pg, cdp, run, sc['cid'], '%s 第 %d 次說話' % (sc['name'], k), picks=('就這樣',), max_s=TALK_MAX)
     if r is None:
-        r = await walk_around_talk(pg, cdp, run, sc, k)
+        r = await walk_around_talk(pg, cdp, run, sc, k, study_only=side)
     said = await said_since(pg, n0)
     nod1 = await pg.evaluate(NODREC_JS % J(sc['cid']))
     loc = await pg.evaluate(WHERE_JS % J(sc['cid']))
@@ -139,19 +139,20 @@ async def talk(pg, cdp, run, sc, k):
     return r, said, nod1, loc
 
 
-AROUND_JS = r"""(id=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return []; const h=n.obj.position, lv=n.lv|0, out=[];
-  for(const R of [0.9,1.3]) for(let i=0;i<12;i++){ const a=i*Math.PI/6, x=h.x+Math.sin(a)*R, z=h.z+Math.cos(a)*R; if(!E.canStand||E.canStand(x,z,0.3,lv)) out.push([+x.toFixed(2),+z.toFixed(2)]); }
-  return out; })(%s)"""
+AROUND_JS = r"""((id,study)=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return []; const h=n.obj.position, lv=n.lv|0, out=[], z0=GAME.G.zone;
+  for(const R of [0.9,1.3]) for(let i=0;i<12;i++){ const a=i*Math.PI/6, x=h.x+Math.sin(a)*R, z=h.z+Math.cos(a)*R; if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
+    if(study&&typeof LIBQ!=='undefined'&&!LIBQ.studyAt(z0,lv,x,z)) continue; out.push([+x.toFixed(2),+z.toFixed(2)]); }
+  return out; })(%s,%s)"""
 
 
-async def walk_around_talk(pg, cdp, run, sc, k):
+async def walk_around_talk(pg, cdp, run, sc, k, study_only=False):
     """talk_to 在他旁邊按鈕一直不是「和…說話」（旁邊的椅子「坐下（自習）」比較近）：像玩家一樣繞到他身邊別的位置（前後左右、0.9／1.3 m），
     按鈕變成「和…說話」就按；回傳同 talk_to（找不到＝None）"""
     want = await pg.evaluate("id=>{ const n=__BBF.npc(id); return n?(n.talkLabel||('和'+n.name+'說話')):null; }", sc['cid'])
-    pts = await pg.evaluate(AROUND_JS % J(sc['cid']))
-    run.note('%s 第 %d 次：按鈕不是「%s」，繞到他身邊別的位置試（%d 個點）' % (sc['name'], k, want, len(pts)))
+    pts = await pg.evaluate(AROUND_JS % (J(sc['cid']), J(bool(study_only))))
+    run.note('%s 第 %d 次：%s，繞到他身邊別的位置試（%d 個點）' % (sc['name'], k, '只走讀書區那一側' if study_only else '按鈕不是「%s」' % want, len(pts)))
     for i, (x, z) in enumerate(pts):
-        await L.go_to(pg, cdp, run, x, z, 0.3, '%s 第 %d 次：繞到 (%.1f,%.1f)' % (sc['name'], k, x, z), max_s=60, stop=lambda s: s['interact'].startswith(want))
+        await L.go_to(pg, cdp, run, x, z, 0.3, '%s 第 %d 次：繞到 (%.1f,%.1f)' % (sc['name'], k, x, z), max_s=60, stop=None if study_only else (lambda s: s['interact'].startswith(want)))
         s = await L.state(pg)
         if s['interact'].startswith(want):
             run.note('%s 第 %d 次：在 (%.2f,%.2f) 按鈕變成「%s」' % (sc['name'], k, s['x'], s['z'], s['interact']))
@@ -185,24 +186,32 @@ async def quiet_scene(pg, cdp, run, sc):
         if loc0.get('here'):
             await P.place_near(pg, run, loc0['x'], loc0['z'], R=4.0, lv=loc0['lv'], what='%s 旁邊（同一層 lv%d）' % (sc['cid'], loc0['lv']))
     if not run.check('%s：前置——%s 在這一區、站在讀書區' % (sc['name'], sc['cid']), bool(loc0.get('here')) and loc0.get('npcStudyOwn') and not loc0.get('hidden'), J(loc0)): return
+    ok = await two_talks(pg, cdp, run, sc, sc['name'], 1, False)
+    if not ok and sc.get('retry_side'):
+        run.note('%s：玩家站的位置不算讀書區（見上面的「玩家讀書區」）——像玩家一樣繞到她讀書區那一側再試同一套（同一天，她還沒被記成見過）' % sc['name'])
+        await two_talks(pg, cdp, run, sc, sc['name'] + '（從讀書區那一側）', 3, True)
+
+
+async def two_talks(pg, cdp, run, sc, nm, k0, side):
     nod = NOD[sc['sex']]
-    r1, s1, n1, l1 = await talk(pg, cdp, run, sc, 1)
+    r1, s1, n1, l1 = await talk(pg, cdp, run, sc, k0, side)
     only_nod = len(s1) == 1 and s1[0]['n'] == '' and s1[0]['raw'] == nod
-    run.check('%s：今天第一次碰到 %s——按說話只點頭（GAME.say 只有一句旁白「%s」，沒有人開口）' % (sc['name'], sc['cid'], nod), bool(r1 and r1['started']) and only_nod,
-              J({'say': [[x['n'], x['raw']] for x in s1][:8], '對話框': (r1 or {}).get('lines')}))
-    run.check('%s：玩家看得到點頭那一句（對話框 startswith）' % sc['name'], box_has(r1, nod), J((r1 or {}).get('lines')))
-    run.check('%s：記在存檔 G.libNod（今天、%s）' % (sc['name'], sc['cid']), n1['seen'] and n1['today'], J(n1))
-    r2, s2, n2, l2 = await talk(pg, cdp, run, sc, 2)
+    ok1 = run.check('%s：今天第一次碰到 %s——按說話只點頭（GAME.say 只有一句旁白「%s」，沒有人開口）' % (nm, sc['cid'], nod), bool(r1 and r1['started']) and only_nod,
+              J({'say': [[x['n'], x['raw']] for x in s1][:8], '對話框': (r1 or {}).get('lines'), '玩家讀書區': l1.get('meStudy'), '玩家': l1.get('me')}))
+    run.check('%s：玩家看得到點頭那一句（對話框 startswith）' % nm, box_has(r1, nod), J((r1 or {}).get('lines')))
+    run.check('%s：記在存檔 G.libNod（今天、%s）' % (nm, sc['cid']), n1['seen'] and n1['today'], J(n1))
+    r2, s2, n2, l2 = await talk(pg, cdp, run, sc, k0 + 1, side)
     sp = spoken(s2)
     bad = [x['shown'] for x in sp if not is_quiet(x['shown']) and needs_prefix(x['shown'])]
     pref = [x['shown'] for x in sp if is_quiet(x['shown'])]
     me = [x['shown'] for x in sp if x['n'] in ('祐廷',)]
-    run.check('%s：第二次照常說話、不再點頭' % sc['name'], bool(r2 and r2['started']) and len(sp) > 0 and not any(x['raw'] == nod for x in s2),
+    run.check('%s：第二次照常說話、不再點頭' % nm, bool(r2 and r2['started']) and len(sp) > 0 and not any(x['raw'] == nod for x in s2),
               J({'say': [[x['n'], x['shown']] for x in s2][:12]}))
-    run.check('%s：第二次每一句有名字的台詞都以「（小聲）」或「（…，小聲）」開頭（只有動作／已經小聲的除外），至少一句有' % sc['name'], len(sp) > 0 and not bad and len(pref) > 0,
-              J({'沒加的': bad[:6], '有加的': pref[:6], '祐廷的': me[:4], '位置': {'玩家讀書區': l2.get('meStudy'), 'quietNow': l2.get('quietNow')}}))
+    ok2 = run.check('%s：第二次每一句有名字的台詞都以「（小聲）」或「（…，小聲）」開頭（只有動作／已經小聲的除外），至少一句有' % nm, len(sp) > 0 and not bad and len(pref) > 0,
+              J({'沒加的': bad[:6], '有加的': pref[:6], '祐廷的': me[:4], '位置': {'玩家讀書區': l2.get('meStudy'), 'quietNow': l2.get('quietNow'), '玩家': l2.get('me')}}))
     if pref:
-        run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % sc['name'], any(is_quiet(t) for _, t in ((r2 or {}).get('lines') or [])), J((r2 or {}).get('lines')))
+        run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % nm, any(is_quiet(t) for _, t in ((r2 or {}).get('lines') or [])), J((r2 or {}).get('lines')))
+    return ok1 and ok2
 
 
 async def loud_scene(pg, cdp, run, sc):
