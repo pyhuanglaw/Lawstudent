@@ -129,7 +129,16 @@
       "INTERIOR-AAA": "LAWWW2 交件標題「INTERIOR-AAA 美國收尾」的簡寫＝任務 INTERIOR-AAA-REVIEW-1028（LAWWW-B 11-01）",
       "LINZE-LOBBY-V2-1028": "LAWWW2 的交件名（霖澤館一樓大廳第二版）＝任務 LOBBY-CEIL-1028（LAWWW-B 11-01）",
       "WZ-P2": "AA_420 第 12-2 節的子項編號＝任務 ART-WZ-MARKET-1023（LAWWW-B 11-01）",
-      "FAIR-STAFF-LOD": "BB 交接檔的簡寫＝任務 FAIR-STAFF-LOD-1027（LAWWW-B 11-01）"
+      "FAIR-STAFF-LOD": "BB 交接檔的簡寫＝任務 FAIR-STAFF-LOD-1027（LAWWW-B 11-01）",
+      "CAR-04": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "D118-B1": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "D118-B2": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "D118-B4": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "FA-08": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "FA-11": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "R-B01": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "SE-06": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對",
+      "SE-11": "CC／BB 的測試案例編號（CC_00 11-03 交班「全部待辦」；屬於 STUDY-EXAM-CAREER-1102、D118、BB 測試組的子項，不是任務）——LAWWW 11-03 交班核對"
     },
     "offList": [
       {
@@ -41084,6 +41093,26 @@
       "note": "UA-LAWWW-1103-11",
       "evidence": "CLAUDE.md D130＋D100 第 2a 點、PROJECT_DECISIONS D130、AI_SESSION_HANDOFF HV-24；11-03 02:0x LAWWW 已直接請 CC 補 duty handoff",
       "next": "CC 的啟動提示詞（AI_SESSION_HANDOFF 第 7.13、7.14 節）下次改版時補一句「LAWWW 可以直接找你」"
+    },
+    {
+      "first": {
+        "term": "Y4S2",
+        "week": null,
+        "earliest": "大四下延畢補救",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": false
+      },
+      "area": null,
+      "id": "BUG-Y4S2-RESCUE-OVERREACH-1102",
+      "title": "候選 bug（CC 初判，還沒經 BB 判定）：大四下補救（FD_RESCUE 類）範圍太大",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "CC_00 11-03 交班「做完（CC 初判，已報 BB）」列的候選 bug（同列還有 BUG-Y4S2-NOFINAL-1102）；LAWWW 11-03 交班核對補進總表",
+      "next": "等 BB 判定是不是 bug（讀 CC_00 第 185 行附近與 CC_01 的證據）→ 是的話 LAWWW 修"
     }
   ]
 }
