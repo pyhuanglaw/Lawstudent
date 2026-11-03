@@ -1,0 +1,66 @@
+06:21:35 | INFO: Data are loaded, start creating Blender stuff
+06:21:35 | INFO: Blender create Mesh node dabu_ceiling
+06:21:35 | INFO: Blender create Mesh node dabu_fabric
+06:21:35 | INFO: Blender create Mesh node dabu_floor
+06:21:35 | INFO: Blender create Mesh node dabu_graphic
+06:21:35 | INFO: Blender create Mesh node dabu_leaf
+06:21:35 | INFO: Blender create Mesh node dabu_led
+06:21:35 | INFO: Blender create Mesh node dabu_metal_parts
+06:21:35 | INFO: Blender create Mesh node dabu_paint
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_bb_high_1
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_run_0
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_casual_0
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_bb_mid_0
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_run_2
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_retro_1
+06:21:35 | INFO: Blender create Mesh node dabu_shoe_bb_high_0
+06:21:35 | INFO: Blender create Mesh node dabu_vc_parts
+06:21:35 | INFO: Blender create Mesh node dabu_wood
+06:21:35 | INFO: Blender create Mesh node WALL_back_back_paint
+06:21:35 | INFO: Blender create Mesh node WALL_back_back_vc
+06:21:35 | INFO: Blender create Mesh node WALL_back_back_vcm
+06:21:35 | INFO: Blender create Mesh node WALL_back_back_wood
+06:21:36 | INFO: Blender create Mesh node WALL_back_mirror
+06:21:36 | INFO: Blender create Mesh node WALL_back_PLATE_FACE_dabu_name
+06:21:36 | INFO: Blender create Mesh node WALL_front_front_glass
+06:21:36 | INFO: Blender create Mesh node WALL_front_front_paint
+06:21:36 | INFO: Blender create Mesh node WALL_front_front_vc
+06:21:36 | INFO: Blender create Mesh node WALL_front_front_vcm
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_retro_0
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_bb_high_3
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_run_1
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_casual_2
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_bb_mid_3
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_bb_high_2
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_casual_3
+06:21:36 | INFO: Blender create Mesh node WALL_left_left_led
+06:21:36 | INFO: Blender create Mesh node WALL_left_left_paint
+06:21:36 | INFO: Blender create Mesh node WALL_left_left_vc
+06:21:36 | INFO: Blender create Mesh node WALL_left_left_wood
+06:21:36 | INFO: Blender create Mesh node WALL_left_lightbox
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_bb_mid_1
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_bb_mid_2
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_run_3
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_casual_1
+06:21:36 | INFO: Blender create Mesh node WALL_right_lightbox
+06:21:36 | INFO: Blender create Mesh node WALL_right_right_led
+06:21:36 | INFO: Blender create Mesh node WALL_right_right_paint
+06:21:36 | INFO: Blender create Mesh node WALL_right_right_vc
+06:21:36 | INFO: Blender create Mesh node WALL_right_right_wood
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_retro_2
+06:21:36 | INFO: Blender create Mesh node dabu_shoe_retro_3
+06:21:36 | INFO: glTF import finished in 0.47s
+00:06.969  cycles           | WARNING CUEW initialization failed: Error opening the library
+01:20.453  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_01_ref_angle.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_01_ref_angle.png
+02:32.047  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_02_basketball.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_02_basketball.png
+03:43.438  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_03_counter.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_03_counter.png
+04:53.469  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_04_front.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_04_front.png
+06:06.469  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_05_shoes_close.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_dabu_v1\out\dabu_05_shoes_close.png
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

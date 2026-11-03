@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "MD_dabu_v1",
+  "sha": "5cac0555e",
+  "kind": "blender",
+  "script": "tools/blender/env_second/render_cycles.py",
+  "env": "SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} dabu docs/story_planning/test_tools/cc/blender/dabu_views.json --res 960x540 --samples 64 --exposure -0.3 --point -2.9,3.25,-6.5,45 --point -2.9,3.25,-3.5,45 --point -2.9,3.25,-0.5,45 --point -2.9,3.25,2.5,45 --point -2.9,3.25,5.5,45 --point 0.3,3.25,-6.5,45 --point 0.3,3.25,-3.5,45 --point 0.3,3.25,-0.5,45 --point 0.3,3.25,2.5,45 --point 0.3,3.25,5.5,45 --point 3.0,3.25,-6.5,45 --point 3.0,3.25,-3.5,45 --point 3.0,3.25,-0.5,45 --point 3.0,3.25,2.5,45 --point 3.0,3.25,5.5,45",
+  "machine": "MSI",
+  "start": "2026-11-04T06:21:09",
+  "end": "2026-11-04T06:27:43",
+  "seconds": 395,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 45,
+    "used_gb": 14.1,
+    "chrome_testing": 0
+  }
+}

@@ -1,0 +1,2 @@
+C:\Users\USER\Documents\wt_cc_MD_dabu_v1\tools\blender\env_second\render_cycles.py:25: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree
