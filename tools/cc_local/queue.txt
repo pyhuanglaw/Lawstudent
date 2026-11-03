@@ -16,68 +16,78 @@
 # 規則 5（修改前對照）：R5 → 05_mk12old（b4f98ea4e）；R8 → 雲端 4734c3d9e 已跑（CC_01 §13b）；R9 → 21_rollpre；R12 → R12b_fasatpre；R10 → R10pre（299e23345，B3 合併前）；R11 → R11pre（f57e3ac75，B4 前）；R1～R4、R6b、R7 是回歸／量測，不是修 bug 的項目，沒有修改前對照。
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
 # ===== BB 08:35：v9.10.17 已上線，線上版驗證（PC 才連得到 github.io）。測試程式取自發布樹 1d0904473 =====
-LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
-LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
+# ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
+V18R_deploy | 0776cafc8 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.18（2026-11-03）
+V18R_p0     | 0776cafc8 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
+V18R_v7     | 0776cafc8 | game | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
+V18R_zone   | 0776cafc8 | game | tests/zone_transitions.py    | index.html?turbo | 60  | XARGS={url}
+V18R_mini   | 0776cafc8 | game | tests/minimap_direction.py   | index.html?turbo | 30  | XARGS={url} {out}
+V18R_touch  | 0776cafc8 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
+V18R_class  | 0776cafc8 | game | tests/flow_class_real.py     | index.html       | 110 | XARGS={url} {out}
+V18R_reach  | 0776cafc8 | game | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+# ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
+#V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
+#V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
 # ===== BB 01:56：驗收版本改成 7224af47a（c89＋libq3、以安改稿、AA_600/602/591）。c89 已 PASS 的不重跑；以安改稿相關的重跑 =====
-Z_G5_term  | 7224af47a | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
-Z_G5b_ancf | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=7224af47a;CASES=ancf2;ORIENTS=port;REAL=1
-Z_P5w      | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=7224af47a;CASES=examgoal_wake;ORIENTS=port
-Z_A2_dorm  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
-Z_A3_l15   | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
-Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
-Z_P3b_sl   | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
-Z_ANSMOKE  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 45 |
+#V18R 暫停# Z_G5_term  | 7224af47a | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+#V18R 暫停# Z_G5b_ancf | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=7224af47a;CASES=ancf2;ORIENTS=port;REAL=1
+#V18R 暫停# Z_P5w      | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=7224af47a;CASES=examgoal_wake;ORIENTS=port
+#V18R 暫停# Z_A2_dorm  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+#V18R 暫停# Z_A3_l15   | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+#V18R 暫停# Z_G6b_v95  | 0f66c4215 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+#V18R 暫停# Z_P3b_sl   | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
+#V18R 暫停# Z_ANSMOKE  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 45 |
 V18_ANSMOKE | 6a8033f4e | probe | docs/story_planning/test_tools/cc/cc_an_smoke_probe.py | index.html?turbo | 45 |
 #HOLD雲端 Z_LIBWHISPER | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 |
 #HOLD雲端 Z_DRIVE_X81  | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 |
 #HOLD雲端 Z_BACKFILLCG | 7224af47a | probe | docs/story_planning/test_tools/cc/cc_backfillcg_probe.py | index.html | 60 |
 # LAWWW2 PERF-WZ-DAY-1103（11-03 08:34）：溫州街白天 1% low 7 fps 是不是進區域的載入卡頓
-WZ1_order  | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=night,day,rain;WARM=4
-WZ2_warm   | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=day,night,rain;WARM=20
+#V18R 暫停# WZ1_order  | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=night,day,rain;WARM=4
+#V18R 暫停# WZ2_warm   | 3670b96eb | probe | tools/cc_local/fps_zones.py | index.html | 30 | CC_HEADLESS=0;ZONES=wenzhou;SLOTS=day,night,rain;WARM=20
 # LAWWW2 BAKE-PC-1102 第二輪（11-03 08:39）：只看速度，1024²／512 spp；blender 獨佔，照順序一項接一項
-BK2_hip_a  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
-BK2_hip_b  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
-BK2_cpu    | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
+#V18R 暫停# BK2_hip_a  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
+#V18R 暫停# BK2_hip_b  | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 1024 --samples 512
+#V18R 暫停# BK2_cpu    | 7cb22d757 | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 1024 --samples 512
 # ===== CC 2026-11-03 09:0x 台灣：LAWWW 00:55「擋發布兩項用 c89a5f9be」（ADV-SKIP 打字中 0d4cf65c3、國考題池 f47d4849a）＋回歸。修改前對照＝62d 的 X_A1／X_P1（PC 已 FAIL）=====
-Y_A1_adv   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
-Y_P1_d124  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
-Y_G1_reach | c89a5f9be | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
-Y_G2_libfl | c89a5f9be | game  | tests/flow_library_floors.py | index.html | 60  | XARGS={url} {out}
-Y_G3_libsc | c89a5f9be | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
-Y_G5_term  | c89a5f9be | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
-Y_G6a_v7   | c89a5f9be | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
-Y_G6b_v95  | c89a5f9be | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
-Y_G6c_fm   | c89a5f9be | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
-Y_G7_class | c89a5f9be | game  | tests/flow_class_real.py     | index.html | 110 | XARGS={url} {out}
-Y_P3_ladder| c89a5f9be | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
-Y_P3b_sl   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
-Y_P5_ui    | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=examgoal,psbhbg;ORIENTS=port,land
-Y_G5b_ancf | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=ancf2;ORIENTS=port;REAL=1
+#V18R 暫停# Y_A1_adv   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+#V18R 暫停# Y_P1_d124  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
+#V18R 暫停# Y_G1_reach | c89a5f9be | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+#V18R 暫停# Y_G2_libfl | c89a5f9be | game  | tests/flow_library_floors.py | index.html | 60  | XARGS={url} {out}
+#V18R 暫停# Y_G3_libsc | c89a5f9be | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
+#V18R 暫停# Y_G5_term  | c89a5f9be | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+#V18R 暫停# Y_G6a_v7   | c89a5f9be | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
+#V18R 暫停# Y_G6b_v95  | c89a5f9be | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+#V18R 暫停# Y_G6c_fm   | c89a5f9be | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
+#V18R 暫停# Y_G7_class | c89a5f9be | game  | tests/flow_class_real.py     | index.html | 110 | XARGS={url} {out}
+#V18R 暫停# Y_P3_ladder| c89a5f9be | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
+#V18R 暫停# Y_P3b_sl   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
+#V18R 暫停# Y_P5_ui    | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=examgoal,psbhbg;ORIENTS=port,land
+#V18R 暫停# Y_G5b_ancf | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=ancf2;ORIENTS=port;REAL=1
 # 改到 7224（Z_）：Y_P5w      | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=c89a5f9be;CASES=examgoal_wake;ORIENTS=port
-Y_A2pre    | 3c6207b60 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=fix4
-Y_A3pre    | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=fix4
-Y_G4v2     | c89a5f9be | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
-Y_P2_bar_a | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
-Y_A2_dorm  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
-Y_A3_l15   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
+#V18R 暫停# Y_A2pre    | 3c6207b60 | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 | RERUN=fix4
+#V18R 暫停# Y_A3pre    | dc36b401e | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 | RERUN=fix4
+#V18R 暫停# Y_G4v2     | c89a5f9be | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
+#V18R 暫停# Y_P2_bar_a | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
+#V18R 暫停# Y_A2_dorm  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |
+#V18R 暫停# Y_A3_l15   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_late15_probe.py | index.html | 60 |
 # GHA-TEST-OFFLOAD-1103（BB 01:10：Node 全套改由 GitHub Actions）：Y_N1_node  | c89a5f9be | node  | tools/cc_local/node_units.js | index.html | 90 | XARGS=--out {out} --timeout 600
 # ===== BB 22:03：發布候選換成 62d98bfa5（開發分支頭 ef3c6cfe9；含 CC_31／CC_32 的 window.GAME 修正）。排最前面 =====
-X_A1_adv   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
-X_G5_term  | 62d98bfa5 | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
-X_G5b_ancf | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=ancf2;ORIENTS=port;REAL=1
-X_G6a_v7   | 62d98bfa5 | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
-X_G6b_v95  | 62d98bfa5 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
-X_G6c_fm   | 62d98bfa5 | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
-X_G3_libsc | 62d98bfa5 | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
-X_P5_ui    | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=examgoal,psbhbg;ORIENTS=port,land
-X_P5w      | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=62d98bfa5;CASES=examgoal_wake;ORIENTS=port
-X_G4v2     | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
-X_P3_ladder | 5f238fc9d | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out};RERUN=t3
-X_P1_d124  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
-X_P2_bar_a | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
-X_P2_bar_b | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 40 | CASES=missed1
-X_P2_epi   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 20 | CASES=epi_social
-X_P1pre    | a3d80d47a | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
+#V18R 暫停# X_A1_adv   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_advskip_probe.py | index.html | 60 |
+#V18R 暫停# X_G5_term  | 62d98bfa5 | game  | tests/flow_termend.py        | index.html | 90  | XARGS={url} {out}
+#V18R 暫停# X_G5b_ancf | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=ancf2;ORIENTS=port;REAL=1
+#V18R 暫停# X_G6a_v7   | 62d98bfa5 | game  | tests/save_compat_v7.py      | index.html | 60  | SHA2=385e194;XARGS={url2} {url}
+#V18R 暫停# X_G6b_v95  | 62d98bfa5 | game  | tests/save_compat_v95.py     | index.html | 60  | SHA2=a4f2760;XARGS={url2} {url} {out}
+#V18R 暫停# X_G6c_fm   | 62d98bfa5 | game  | tests/save_firstmet_migration.py | index.html | 60 | XARGS={url} {out}
+#V18R 暫停# X_G3_libsc | 62d98bfa5 | game  | tests/flow_library_scene.py  | index.html | 60  | XARGS={url} {out}
+#V18R 暫停# X_P5_ui    | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=62d98bfa5;CASES=examgoal,psbhbg;ORIENTS=port,land
+#V18R 暫停# X_P5w      | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 60 | SHA=62d98bfa5;CASES=examgoal_wake;ORIENTS=port
+#V18R 暫停# X_G4v2     | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
+#V18R 暫停# X_P3_ladder | 5f238fc9d | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out};RERUN=t3
+#V18R 暫停# X_P1_d124  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
+#V18R 暫停# X_P2_bar_a | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
+#V18R 暫停# X_P2_bar_b | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 40 | CASES=missed1
+#V18R 暫停# X_P2_epi   | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 20 | CASES=epi_social
+#V18R 暫停# X_P1pre    | a3d80d47a | probe | docs/story_planning/test_tools/cc/cc_d124_probe.py | index.html?turbo | 30 | CASES=take,skip,bar_pool
 #HOLD雲端 X_LIBWHISPER | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_libwhisper_probe.py | index.html | 60 | （探針撰寫中）
 #HOLD雲端 X_DRIVE_X81  | 62d98bfa5 | probe | docs/story_planning/test_tools/cc/cc_drive_x81_probe.py | index.html | 60 | （探針撰寫中）
 # 新存檔相容的 backfillCG（帶旗標的存檔相簿多出那幾張、沒旗標的不多）：G6 系列看結果，不夠的話另寫探針
@@ -119,8 +129,8 @@ ART_night  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_pro
 ART_uskit  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_probe.py | index.html | 10 | CC_HEADLESS=0;SHA=b1b249873;CASES=uskitchen
 # LAWWW2 BAKE-PC-1102（21:08，BB 已授權 blender 工作單；發布前測試在前面）。腳本在 lawww2 22f1e722c（head fa9b9f5d8）。
 # BB_229 規則 1：CC 這個容器沒有 bpy，沒辦法在雲端先跑；腳本 LAWWW2 已在他的雲端驗過 CPU 路徑（和原本逐像素相同）。HIP 是第一次實測
-BK1_cpu      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256
-BK1_hip      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256
+#V18R 暫停# BK1_cpu      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;XARGS=--out {out} --res 512 --samples 256
+#V18R 暫停# BK1_hip      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256
 P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 #HOLD雲端 （第二批 BB_245 的 node／probe 探針、art247 截圖：子代理寫好、雲端跑過再加）
 R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
@@ -232,9 +242,11 @@ R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_pr
 R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
 R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 
-# ── D 類 B 項（BB 09:08，低優先；dev head 6dc39be73）：有現成 flow 的直接排 PC
-D_B02_playfix | 6dc39be73 | game  | tests/flow_playtest_fixes.py | index.html | 120 | XARGS={url} {out}
-D_B08_libtour | 6dc39be73 | game  | tests/flow_lib_tour.py       | index.html | 90  | XARGS={url} {out}
-D_B12_skybr   | 6dc39be73 | game  | tests/flow_skybridge.py      | index.html | 90  | XARGS={url} {out}
-D_RUN_p0      | 6dc39be73 | game  | tests/p0_movement.py         | index.html | 30  | XARGS={url}
-D_RUN_movreg  | 6dc39be73 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
+# ── D 類 B 項（BB 09:08，低優先；BB 10:59 改指 v9.10.18 候選 ffeec06e0（取代 e799、84c5））：有現成 flow 的直接排 PC
+#取代為 V18_PLAYFIX（原測試讀檔後手機自己打開、tick 暫停）# D_B02_playfix | ffeec06e0 | game  | tests/flow_playtest_fixes.py | index.html | 120 | XARGS={url} {out}
+#取代為 V18_LIBTOUR（原測試取樣漏記）# D_B08_libtour | ffeec06e0 | game  | tests/flow_lib_tour.py       | index.html | 90  | XARGS={url} {out}
+D_B12_skybr   | ffeec06e0 | game  | tests/flow_skybridge.py      | index.html | 90  | XARGS={url} {out}
+D_RUN_p0      | ffeec06e0 | game  | tests/p0_movement.py         | index.html | 30  | XARGS={url}
+D_RUN_movreg  | ffeec06e0 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
+V18_LIBTOUR   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
+#HOLD雲端 V18_PLAYFIX   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_playfix_probe.py | index.html | 120 |

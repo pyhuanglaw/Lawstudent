@@ -6,7 +6,8 @@
         匯出成 <out>/oldsave_camp_d2.json，然後關掉瀏覽器（像玩家玩到一半關掉分頁）。不用 ?turbo、沒有捷徑。
   load  新版（6a8033f4e）：新的 browser context（乾淨）→ 標題「讀取／匯入存檔」→「匯入存檔」選 oldsave_camp_d2.json →「匯入」（玩家搬存檔的方式）
         → 遊戲自己接著演宿營（applySave → STORY.campY1 resume）→ 照玩家點到 8/24 演完、8/29 搬宿舍的字卡。
-        SAVE=<檔案> 可以指定別的存檔（預設 <out>/oldsave_camp_d2.json）。
+        SAVE=<檔案> 可以指定別的存檔（預設 <out>/oldsave_camp_d2.json；相對路徑照目前資料夾）。
+        分兩項排（PC 佇列沒有相依）：load 那一項加 SAVE_SHA=<make 的 SHA>（meta.json 的版本要相符，不讀上一輪留下的舊檔）、SAVE_WAIT_MIN=<分鐘>（make 還在跑就等）。
   一次跑兩段：CASES=make,load，OLD_URL=<舊版 index.html>（make 用），第一個參數是新版。
 load 的檢查：
   a 匯入成功、讀進來是舊存檔（沒有 campSeqV、campStep＝存檔的值）
@@ -30,6 +31,9 @@ CASES = [c.strip() for c in os.environ.get('CASES', 'load').split(',') if c.stri
 MAKE_AFTER = os.environ.get('MAKE_AFTER', 'ev_camp_d2_bbq')
 OLD_URL = os.environ.get('OLD_URL', '')
 SAVE = os.environ.get('SAVE') or os.path.join(OUT, 'oldsave_camp_d2.json')
+SAVE_SHA = os.environ.get('SAVE_SHA', '')          # load：存檔要是這一版寫的（meta.json 的 sha 開頭相符）；PC 佇列放 make 那一項的 SHA
+SAVE_WAIT_MIN = float(os.environ.get('SAVE_WAIT_MIN', '0'))   # load：存檔還沒好（make 那一項還在跑）就等，最多幾分鐘
+SHA_MAKE = os.environ.get('SHA_MAKE') or SHA      # make 寫進 meta.json 的版本（一次跑兩段時用 SHA_MAKE 標舊版）
 MAX_S = int(os.environ.get('MAX_S', '3600'))
 STUCK_S = int(os.environ.get('STUCK_S', '240'))
 J = C.J
@@ -78,7 +82,7 @@ async def case_make(p, run, url):
     run.check('make 宿營第 2 天演完 %s 的自動存檔（campStep=%d、8/23）' % (MAKE_AFTER, target), bool(ok),
               J({'why': why, 'day': sv and sv.get('day'), 'hour': sv and sv.get('hour'), 'campStep': sv and (sv.get('flags') or {}).get('campStep')}))
     if sv:
-        json.dump(sv, open(os.path.join(OUT, 'oldsave_camp_d2.json'), 'w', encoding='utf-8'), ensure_ascii=False)
+        C.write_save(os.path.join(OUT, 'oldsave_camp_d2.json'), sv, SHA_MAKE)
         done = sorted((sv.get('events') or {}).get('done', {}).keys())
         met = {k: [m for m in v if m.get('tag') == 'FIRST_MET'] for k, v in ((sv.get('social') or {}).get('mem') or {}).items()}
         met = {k: v[0] for k, v in met.items() if v}
@@ -91,9 +95,10 @@ async def case_make(p, run, url):
 
 async def case_load(p, run, url):
     print('---- load（新版）URL=%s SAVE=%s ----' % (url, SAVE), flush=True)
-    if not os.path.exists(SAVE):
-        run.check('load 有舊存檔檔案 %s（先跑 CASES=make）' % SAVE, False); return
-    sv = json.load(open(SAVE, encoding='utf-8'))
+    sp = C.wait_save(run, SAVE, SAVE_SHA, SAVE_WAIT_MIN)
+    if not sp:
+        run.check('load 有舊存檔檔案 %s（先跑 CASES=make；SAVE_SHA=%s）' % (SAVE, SAVE_SHA or '不限'), False); return
+    sv = json.load(open(sp, encoding='utf-8'))
     old_done = set(((sv.get('events') or {}).get('done') or {}).keys())
     recs, picks = [], []
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
@@ -110,7 +115,7 @@ async def case_load(p, run, url):
     run.check('a 存檔是舊版的（沒有 campSeqV、CAMP_Y1_ON、還沒 CAMP_Y1）', (sv.get('flags') or {}).get('campSeqV') is None and (sv.get('flags') or {}).get('CAMP_Y1_ON') and not (sv.get('flags') or {}).get('CAMP_Y1'),
               J({k: (sv.get('flags') or {}).get(k) for k in ('campSeqV', 'CAMP_Y1_ON', 'CAMP_Y1', 'campStep')}))
     t_save = sv.get('day', 0) * 24 + float(sv.get('hour') or 0)
-    run.check('a 標題「讀取／匯入存檔」→「匯入存檔」→「匯入」讀進來', await C.import_save(pg, cdp, run, SAVE))
+    run.check('a 標題「讀取／匯入存檔」→「匯入存檔」→「匯入」讀進來', await C.import_save(pg, cdp, run, sp))
     pname = await pg.evaluate("GAME.G.name")
     allow_names = {pname, '小隊輔', '系學會', ''}
     await run.shot(pg, 'load_after_import')

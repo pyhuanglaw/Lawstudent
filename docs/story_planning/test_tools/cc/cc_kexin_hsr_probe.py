@@ -30,6 +30,8 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 SAVE = os.environ.get('SAVE', '')
+SAVE_SHA = os.environ.get('SAVE_SHA', '')          # 存檔要是這一版寫的（cc_camp608_probe.py 的 meta.json）；PC 佇列放 camp608 那一項的 SHA
+SAVE_WAIT_MIN = float(os.environ.get('SAVE_WAIT_MIN', '0'))   # camp608 那一項還在跑就等，最多幾分鐘
 MAX_S = int(os.environ.get('MAX_S', '5400'))
 STUCK_S = int(os.environ.get('STUCK_S', '300'))
 J = C.J
@@ -69,6 +71,11 @@ async def go_bed(pg, cdp, run):
 async def main():
     run = L.Run('cc_kexin_hsr', OUT); os.makedirs(OUT, exist_ok=True)
     print('cc_kexin_hsr_probe  SHA=%s  URL=%s  SAVE=%s' % (SHA, URL, SAVE or '（沒有：新局照玩家玩完宿營）'), flush=True)
+    sp = None
+    if SAVE:
+        sp = C.wait_save(run, SAVE, SAVE_SHA, SAVE_WAIT_MIN)   # PC 佇列：camp608 那一項寫好（版本相符）才開始
+        if not sp:
+            run.check('有 8/24 存檔 %s（SAVE_SHA=%s）' % (SAVE, SAVE_SHA or '不限'), False); print('FAILED %d' % len(run.fails), flush=True); return 1
     recs, picks, clocks = [], [], []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
@@ -79,9 +86,18 @@ async def main():
         ev_hours = await pg.evaluate("(STORY_EVENTS.find(e=>e.id==='ev_y0_e37')||{}).hours||2")
         if SAVE:
             run.setup('讀 8/24 的存檔 %s（cc_camp608_probe.py 匯出；標題「讀取／匯入存檔」→「匯入」）' % SAVE)
-            run.check('匯入 8/24 存檔', await C.import_save(pg, cdp, run, SAVE))
+            run.check('匯入 8/24 存檔', await C.import_save(pg, cdp, run, sp))
+            ok_r, s_r = await C.resume_ok(pg, cdp, run, int(os.environ.get('RESUME_S', '240')))
+            run.check('讀 8/24 存檔以後遊戲接著演、走到 8/29（不停在 8/24）', ok_r, J({k: s_r.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1', 'campStep')} if s_r else None))
+            if not ok_r:
+                await run.shot(pg, 'resume_stuck'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
         else:
             run.check('標題畫面按「從法律系開始」', await C.new_game_law(pg, cdp, run))
+            # 宿營（2D）照玩家點完、走到 8/29 搬宿舍才進主迴圈：按下去到宿營開始之間 G.day 還是預設的第 1 天（9/17），主迴圈會誤判成「日期過了」（雲端 11-03 第一次跑就是這樣）
+            ok_c, s_c = await C.resume_ok(pg, cdp, run, int(os.environ.get('CAMP_S', '2400')))
+            run.check('新局照玩家點完宿營、走到 8/29', ok_c, J({k: s_c.get(k) for k in ('key', 'h', 'zone', 'campOn', 'CAMP_Y1')} if s_c else None))
+            if not ok_c:
+                await run.shot(pg, 'camp_not_done'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
         t0 = time.time(); last = None; since = time.time(); ended = None
         dep = arr = ret = None; dep_how = None; prompt_at = None; call_at = None; shots = set()
         while time.time() - t0 < MAX_S:
