@@ -520,6 +520,7 @@ class Runner(object):
         clear_stale_git_locks(os.path.join(self.repo, '.git'))   # 當機留下的 index.lock 等（工作樹的在 .git/worktrees/ 底下）
         log('git fetch')
         git('-C', self.repo, 'fetch', 'origin', CC_BRANCH, DEV_BRANCH)
+        git('-C', self.repo, 'fetch', 'origin', 'main', quiet=True)   # LIVE19（11-03 21:15）：main 的合併 commit（e1603907e）只在 main 上，沒抓 main＝invalid reference
         self.fetch_lawww2(quiet=False)
         git('-C', self.repo, 'fetch', 'origin', STORY_BRANCH, quiet=True)   # 有些單元測試會 git show 企劃分支的 commit（N1：v1_inv_wording、heroine_circle3d）
         rc, _ = git('-C', self.repo, 'fetch', 'origin', self.branch, quiet=True)
@@ -633,6 +634,11 @@ class Runner(object):
                     path = alt
             # core.autocrlf=false：受測檔案保持 LF，和雲端、Pages 一樣（Windows 預設會轉 CRLF，N1 有一批「從原始碼抽函式」的單元測試因此 FAIL，BB 21:3x）
             rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
+            if rc != 0 and 'invalid reference' in out:   # 不在任何抓下來的分支上（main、PR 分支…）：先抓 main，再直接用 SHA 抓一次（GitHub 讓抓得到的 commit 用 SHA 抓），再試
+                log('worktree add %s: invalid reference - fetching main and the commit itself' % sha)
+                git('-C', self.repo, 'fetch', 'origin', 'main', quiet=True)
+                git('-C', self.repo, 'fetch', 'origin', sha, quiet=True)
+                rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
         return path
