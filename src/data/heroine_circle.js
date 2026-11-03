@@ -65,7 +65,7 @@ const HCIRCLE_DATA={
     {hc:'c505_5_2',who:'heroine_05',e:{days:[1,2,3,4],from:7,to:8,zone:'gym_b1',act:'linger',at:[8,-2.8,Math.PI,0],terms:['Y2S1'],dates:[['2026-09-09','2026-12-27']],noHoliday:true,label:'新體育館 B1 游泳池（池邊）'}},
     {hc:'c506_1_2',who:'heroine_01',e:{days:[1,2,3,4,5],from:21+50/60,to:22+10/60,zone:'campus',act:'linger',at:[-92.6,56.4,-Math.PI/2,0],terms:['Y2S2'],weeks:[10,11,12,13],label:'女生宿舍門口'}},
     {hc:'c506_3_1',who:'heroine_03',e:{days:[1],from:12.2,to:12.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（債各下課）'}},
-    {hc:'c506_3_3',who:'heroine_03',e:{days:[2,4],from:14.5,to:15.5,zone:'noodle',act:'read',dates:[['2027-07-09','2027-09-05']],label:'麵店（午休）'}},
+    /* c506_3_3 語彤暑假週二、四 14:30～15:30 在麵店（午休）的作息補：AA_624（使用者 11-03）她從來不在燒臘店，拿掉 */
     {hc:'c506_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:10,to:18,zone:null,act:'out',away:'在實習',dates:[['2027-07-06','2027-09-03']],note:'AA_506 4-1：暑假平日 10:00～18:00 實習（7/6 第一天、9/3 最後一天，AA_506 4-2 第 5 點），不在 3D'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],dates:[['2027-06-14','2027-09-05']],label:'公館騎樓（插座旁邊）'}},

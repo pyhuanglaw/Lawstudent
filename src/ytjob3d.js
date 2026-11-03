@@ -24,9 +24,11 @@ const YTJOB=(function(){
     {choice:[{t:'「好。」',say:[[null,'（她點了一下頭，回去擦杯子。）']]},{t:'「妳在這裡做多久了？」',say:[[YT,'高三暑假開始。']]}]} ];
   S.B=[ [null,'（一個下午下來，她跟你講的話不超過十句。）'], [null,'（收店的時候，她倒了一杯剩下的烏龍茶，放在你旁邊。）'], [YT,'第一天都這樣。下週就順了。'] ];
   S._pend=null;
-  S.firstShift=async function(GM,ctx){ const G=GM.G; if(S.met(G)||typeof JOBS==='undefined'||!JOBS.play) return false; await JOBS.play(GM,S.A); S._pend=G.day; return true; };
-  S.closeShift=async function(GM,k){ const G=GM.G; if(k!=='tea'||S._pend!==G.day||S.met(G)) return false; S._pend=null; await JOBS.play(GM,S.B);
-    G.flags.YT_MET_JOB=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.meet(YT,'tea'); const r=SOCIAL.rel(YT); r.fam=(r.fam|0)+2; } return true; };
+  S.firstShift=async function(GM,ctx){ const G=GM.G; if(S.met(G)||typeof JOBS==='undefined'||!JOBS.play) return false; await JOBS.play(GM,S.A.slice(0,2));
+    G.flags.YT_MET_JOB=true; if(typeof SOCIAL!=='undefined') SOCIAL.meet(YT,'tea');   /* 蘇姨叫了她的名字＝從這裡起對話框寫「語彤」（不然寫「不認識的女生」）；YT_MET_JOB 同時記 */
+    await JOBS.play(GM,S.A.slice(2)); S._pend=G.day; return true; };
+  S.closeShift=async function(GM,k){ const G=GM.G; if(k!=='tea'||S._pend!==G.day) return false; S._pend=null; await JOBS.play(GM,S.B);
+    if(typeof SOCIAL!=='undefined'){ const r=SOCIAL.rel(YT); r.fam=(r.fam|0)+2; } return true; };
   /* 手機：認識以前她的訊息都不送 */
   const ytItem=it=>!!it&&(it.from===YT||it.th==='p:'+YT);
   S.gatePhone=function(){ if(typeof PHONE==='undefined'||PHONE._ytjob) return; PHONE._ytjob=true; const at0=PHONE.at, post0=PHONE.post;
