@@ -105,7 +105,8 @@ async def main():
                     elif s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700)
                     else: break
             texts = [i for i in its if i['id'] in ('rules', 'booking', 'door08')]
-            bad = [i for i in texts if '預約' in (i['label'] + i['look'])]
+            BADW = ('服務台預約', '預約制', '請預約', '預約表')   # 叫玩家去預約的字；「不用預約」是對的（9f14aab23 第一版探針把它也算進去＝探針錯）
+            bad = [i for i in texts if any(w in (i['label'] + i['look']) for w in BADW)]
             run.check('A4 牌子（使用須知、預約表、08 門）不再叫玩家「去服務台預約」（免預約以後還寫「請到 1F 服務台預約」＝玩家會被誤導）', not bad, J(texts))
             # A5 同一天再進一次
             n0 = len((await pg.evaluate("(()=>window.__N19)()"))['say'])
@@ -120,7 +121,7 @@ async def main():
             its2 = await pg.evaluate(ITS); await pg.screenshot(path=os.path.join(OUT, 'A_2230.png'))
             d8 = next((i for i in its2 if i['id'] == 'door08'), None)
             run.check('A6【前置】22:30（閉館後）08 關門：有關門互動點、沒有「坐下（研究小間）」', bool(d8) and not any(i['label'].startswith('坐下（研究小間）') for i in its2), J([[i['id'], i['label']] for i in its2]))
-            run.check('A6 關門時 08 的說明不是「請預約」', bool(d8) and '預約' not in (d8['label'] + d8['look']), J(d8))
+            run.check('A6 關門時 08 的說明不是「請預約」', bool(d8) and not any(w in (d8['label'] + d8['look']) for w in ('服務台預約', '預約制', '請預約')), J(d8))
             # ---------------- B 201 教室 ----------------
             n1 = len((await pg.evaluate("(()=>window.__N19)()"))['assets'])
             d2 = await pg.evaluate(DAY_JS, '2025-10-16')
