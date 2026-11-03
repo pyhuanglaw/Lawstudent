@@ -1181,6 +1181,9 @@ const CLS=(function(){
   S.slotsOn=G=>!!G&&!opening(G);
   S.periodAt=t=>t<12?'am':(t<18?'pm':'ev');
   S.examWeek=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!(t&&t.exam); };
+  /* AA_638 ①-4（取代 AA_126 1-1）：出遊（一日遊、兩天一夜、遠程自由出遊、去她的縣市）只擋「自己有考試的那一天」和「前一天」；考試週裡沒考試的日子照一般日子 */
+  S.examNear=(G,d)=>{ if(d==null) d=G.day; const has=x=>(S.dayItems(G,x)||[]).some(it=>it.exam); try{ return has(d)||has(d+1); }catch(e){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null; return !!(t&&t.exam); } };
+  S.EXAM_NEAR_WHY='那幾天有考試。';
   S.slotRec=G=>{ if(!G.slots||typeof G.slots!=='object'||G.slots.day!==G.day||!G.slots.used) G.slots={day:G.day,used:{am:0,pm:0,ev:0}}; return G.slots; };
   S.slotCap=(G,p,kind)=>S.SLOT_BASE[p]+(kind==='study'&&S.examWeek(G)?1:0);
   S.slotLeft=(G,p,kind)=>Math.max(0,S.slotCap(G,p,kind)-(S.slotRec(G).used[p]||0));

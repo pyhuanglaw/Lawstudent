@@ -5,9 +5,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='fb5156ab', SPEC_PATH='docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|DATE_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EXAM_BANK|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|DATE_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/exam_bank.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/story3d.js','src/classes3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/date3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,600):'')); if(!ok) fails++; };
 let said=[], opts=[], picks=[], bgs=[], toasts=[], G=null;
 global.ADV={active:false,preload(){},begin(o){ this.active=true; bgs.push(o&&o.background); },end(){ this.active=false; },log(){},speaker(){},cg(){},setBg(b){ bgs.push(b); }};
@@ -129,15 +129,16 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     check('4. 「兩天一夜…」清單有清境（有底圖、有台詞）；日月潭多問一次「只去日月潭／日月潭＋清境」',ovl.includes(L32)&&J(cmb)===J(['只去'+L31,L31+'＋'+L32]),J(opts.slice(0,3)));
     check('4. 選了日月潭＋清境：不問交通（只能開車）、直接選日期；約成 locs D31、D32、開車、住宿 2500',!!tb&&tb.ok&&J(tb.locs)===J(['D31','D32'])&&tb.transport==='car'&&tb.lodging===2500&&/^今天 .*～/.test((opts[3]||[])[0]||''),J({tb,o3:opts[3]}));
     check('4. 清境自己不會再問「＋日月潭」（第一天日月潭、第二天清境，順序固定）',DATE.comboOf('D32')===null&&DATE.comboOf('D31')==='D32'); });
-  // ===== 5. 考試週排不進去（AA_126 1-1）=====
+  // ===== 5. 考試那天和前一天排不進去（AA_638 ①-4，取代 AA_126 1-1）=====
   await sec('5',async()=>{
-    const d16=STORY.termDay('Y1S2',16,6), d7=STORY.termDay('Y1S2',7,7); fresh(d7-3,10,{}); setRel('heroine_03',S6);
-    const a=DATE.check(G,{who:'heroine_03',locs:['D28'],day:d16,depart:9,kind:'overnight'}), b=DATE.check(G,{who:'heroine_03',locs:['D28'],day:d7,depart:9,kind:'overnight'}), c=DATE.check(G,{who:'heroine_03',locs:['D28'],day:d7-1,depart:9,kind:'overnight'});
-    check('5. 期末考週（第 16 週六）：不能選，寫「考試週」',!a.ok&&a.why==='考試週',a.why);
-    check('5. 第二天落在期中考週（第 7 週日出發、第 8 週一回來）：也不行',!b.ok&&b.why==='考試週',b.why);
-    check('5. 對照：第 7 週六～日可以',c.ok,c.why);
-    G.contacts.heroine_03=1; G.day=d16-6; G.weekday=wdOf(G.day); G.hour=7; opts=[]; picks=['兩天一夜…',DATE.loc('D28').name,'高鐵',DATE.dayLabel(G,d16).split('（')[0].trim(),'09:00','算了']; await DATE.menu(GM,'heroine_03',null);
-    check('5. 選單：考試週那天的「09:00 出發」灰掉、寫考試週；選了只提示、約不成',toasts.includes('考試週')&&!(G.trips||[]).length,J(toasts)); });
+    const d7=STORY.termDay('Y1S2',7,7); fresh(d7-3,10,{}); setRel('heroine_03',S6);
+    let ex=null; for(let d=STORY.termDay('Y1S2',16,1);d<STORY.termDay('Y1S2',16,1)+8&&ex==null;d++) if(CLS.dayItems(G,d).some(it=>it.exam)) ex=d;
+    const a=DATE.check(G,{who:'heroine_03',locs:['D28'],day:ex,depart:9,kind:'overnight'}), b=DATE.check(G,{who:'heroine_03',locs:['D28'],day:ex-1,depart:9,kind:'overnight'}), c=DATE.check(G,{who:'heroine_03',locs:['D28'],day:d7,depart:9,kind:'overnight'});
+    check('5. 自己有期末考的那天出發：不能選，寫「那幾天有考試。」',ex!=null&&!a.ok&&a.why==='那幾天有考試。',J([ex,a.why]));
+    check('5. 第二天是考試（前一天出發）：也不行',!b.ok&&b.why==='那幾天有考試。',b.why);
+    check('5. 第 7 週日出發、第 8 週一回來（期中考取消）：不擋「考試」',!/考試/.test(c.why||''),c.why);
+    G.contacts.heroine_03=1; G.day=ex-6; G.weekday=wdOf(G.day); G.hour=7; opts=[]; toasts.length=0; picks=['兩天一夜…',DATE.loc('D28').name,'高鐵',DATE.dayLabel(G,ex).split('（')[0].trim(),'09:00','算了']; await DATE.menu(GM,'heroine_03',null);
+    check('5. 選單：考試那天的「09:00 出發」灰掉、寫「那幾天有考試。」；選了只提示、約不成',toasts.includes('那幾天有考試。')&&!(G.trips||[]).length,J(toasts)); });
   // ===== 6. 沛珊大三起 D28：她回租的地方、早上在樓下 =====
   await sec('6',async()=>{
     const d=STORY.termDay('Y3S1',5,6); fresh(d-1,20,{PS_RECONNECT:true}); setRel('classmate_peishan',S6);

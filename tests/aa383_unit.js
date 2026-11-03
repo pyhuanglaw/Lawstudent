@@ -56,11 +56,11 @@ const cp=require('child_process'), SPEC_SHA='98516b51';
   const P=(id,day)=>STORY.presence(id,{day,flags:{},stage:'law'});
   const w4=D('2025-09-27'), w8=D('2025-10-25'), w12=D('2025-11-22');
   check('2. 前提：10/25（六）是大一上第 8 週（期中考週）、以安照樣 presence trip「回台中」',CALENDAR.termOf(w8).week===8&&CALENDAR.termOf(w8).exam==='mid'&&P('heroine_01',w8).kind==='trip'&&P('heroine_01',w8).away==='回台中',J([CALENDAR.termOf(w8),P('heroine_01',w8)]));
-  for(const [lab,day,open] of [['第 4 週 9/27',w4,true],['第 8 週 10/25（期中考週）',w8,false],['第 8 週 10/26（日）',w8+1,false],['第 12 週 11/22',w12,true]]){ fresh(day,10,'campus',{dating_heroine_01:true}); know('heroine_01',S6);
+  for(const [lab,day,open] of [['第 4 週 9/27',w4,true],['第 8 週 10/25（AA_638 ①-4：期中考取消、那天沒有自己的考試＝照一般日子）',w8,true],['第 8 週 10/26（日）',w8+1,true],['第 12 週 11/22',w12,true]]){ fresh(day,10,'campus',{dating_heroine_01:true}); know('heroine_01',S6);
     const why=INV.whyNot(G,'heroine_01'), only=DATE.homeOnly(G,'heroine_01');
     check('2. '+lab+'：'+(open?'手機的約打開、只列 D26（T7a）':'手機的約關著「回台中，不在臺北。」（考試週，T7a 不適用）'),open?(why===''&&J(only)===J(['D26'])):(why==='回台中，不在臺北。'&&only==null),J([why,only])); }
   { fresh(w8-1,20,'campus',{dating_heroine_01:true}); know('heroine_01',S6); const c=DATE.check(G,{who:'heroine_01',locs:['D26'],day:w8,depart:9});
-    check('2. 10/24 在臺北約 10/25 的 D26：約不成（考試週）',!c.ok&&/考試週/.test(c.why||''),J(c&&{ok:c.ok,why:c.why})); }
+    check('2. 10/24 在臺北約 10/25 的 D26：AA_638 ①-4 起沒有「考試週」這個原因（那天沒有自己的考試）',!/考試/.test(c.why||''),J(c&&{ok:c.ok,why:c.why})); }
   { const e=(ENCOUNTERS.rows||[]).find(x=>x&&x.who==='heroine_01'&&x.spot==='D26');
     const ds=e?e.dates.filter(r=>r[0].startsWith('2025-')).map(r=>r[0]):null;
     check('2. D26 臺中偶遇（以安）大一上只剩 9/27、11/22（10/25 拿掉）',J(ds)===J(['2025-09-27','2025-11-22']),J(ds)); }
