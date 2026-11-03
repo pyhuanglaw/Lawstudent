@@ -8,7 +8,7 @@
      ⑤手機：她傳的、她的私訊串、群組裡她說的那一句都不送（PHONE.at／post；一則都不剩＝記成傳過，認識以後不補舊的）。
    - 舊存檔：已經認識她（FIRST_MET、met_heroine_03、熟悉度不是陌生人）＝讀檔記 YT_MET_JOB（照舊，GM.migrate 叫 YTJOB.migrate）。
    - 她從來不在燒臘店（AA_624；schedEnt 擋 zone noodle）。原本麵店的作息（週二、四顧店、大二起週六備料、2029 暑假週四）拿掉，改週六、日 13～17 在一盞茶屋（characters.js）。
-   一起上班時的小對話（AA_610 第 3 節）、AA_624 的新事件：等 AA_625 的台詞，這裡還沒做。測試：node tests/aa610_ytjob_unit.js */
+   一起上班時的小對話（AA_610 第 3 節）、AA_624 的新事件：AA_625 的台詞來了再做，這裡還沒做。測試：node tests/aa610_ytjob_unit.js */
 'use strict';
 const YTJOB=(function(){
   const S={}, YT='heroine_03';
