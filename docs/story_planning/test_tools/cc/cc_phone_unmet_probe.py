@@ -25,6 +25,8 @@
   21:00 以後：手機「地點」快速前往宿舍（照樣花遊戲時間）、走到床邊按「睡覺」。不改旗標、不撥時間、不用 GAME.advance。
   網址建議加 ?turbo（測試加速：走位瞬間、dt 上限；條件事件 EVENTS.tick、PHONE.tick、劇情照常跑，不會漏時段）和 ?lowres。
   一路玩到開學那一天（END_KEY，預設 2025-09-01）看過一次聯絡人列為止。
+BB 10:57：開學前每天（玩家能動的日子）都打開一次訊息頁、截一張聯絡人列（contacts_msg_<MM-DD>_<HH>.png；有可疑格子的那天改截 picker_…），
+  只要有一天出現「不認識的…」或沒見過的人就 FAIL；宿營整天劇情、8/25～28 不演的日子看不到，列在「過了但沒看到」裡（不算 FAIL）。
 判斷（LAWWW 08:48 的期待值；修正 ce9fdfacf，d231df045 也有）：聯絡人列只列傳得了訊息的人——任何 gray（data-noct／disabled）、「不認識」字樣、名字空白、
   沒見過（metD=false）的女主角 → FAIL；開學前見過、有聯絡方式的阿哲、阿凱要有格子、點得開（data-th）、不能寫「聯絡不上」。0f66c4215 應 FAIL、0ee99b327（含 d231df045、ce9fdfacf）應 PASS。
 case camp_peishan（BB 08:53，使用者 v9.10.17 截圖：8/22 宿營加了沛珊，點開卻「不能傳訊息：聯絡不上」msg3d.js:126）：同一趟新局，宿營照玩家點完
@@ -165,10 +167,12 @@ async def pickers(pg, cdp, run, tag, met):
         shot = None
         for pn, sel in panels:
             cells = await pg.evaluate(CELLS_JS, sel); out[pn] = cells
+            ids = sorted({(c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or '') for c in cells} - {''})
+            metAll = await pg.evaluate("ids=>{ const o={}; for(const id of ids){ try{ o[id]=!!SOCIAL.metD(id); }catch(e){ o[id]=null; } } return o; }", ids)   # BB 10:57：任何還沒見過的人（不只女主角）
             for c in cells:
                 w = bad_cell(c, pn)
                 pid = c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or c['data'].get('person') or ''
-                if c['gray'] and pid in met and not met[pid]: w = (w + '、' if w else '') + '沒見過（metD=false）卻列出來'
+                if (pid in met and not met[pid]) or metAll.get(pid) is False: w = (w + '、' if w else '') + '沒見過（metD=false）卻列出來'
                 if not w: continue
                 if c['gray'] and 'gray' not in w: w = (w + '、' if w else '') + 'gray（data-noct）'   # LAWWW 08:48：聯絡人列只列傳得了訊息的人，不能有任何 gray
                 if '聯絡不上' in c['text']: w = (w + '、' if w else '') + '寫「聯絡不上」'
@@ -177,7 +181,11 @@ async def pickers(pg, cdp, run, tag, met):
                 if shot is None:
                     await pg.evaluate("(t=>{ const B=document.getElementById('phoneBody'); const e=[...B.querySelectorAll('.ctList button,.chatRow,.item.phrow')].find(b=>b.textContent.trim().replace(/\\s+/g,' ').startsWith(t.slice(0,12))); if(e) e.scrollIntoView({block:'center'}); })(%s)" % J(c['text']))
                     await pg.wait_for_timeout(500); shot = await run.shot(pg, 'picker_%s_%s' % (tab, tag))
-                bad.append(dict(c, panel=pn, why=w, at=tag, shot=shot, pid=pid, metD=met.get(pid)))
+                bad.append(dict(c, panel=pn, why=w, at=tag, shot=shot, pid=pid, metD=met.get(pid, metAll.get(pid))))
+            if shot is None:   # BB 10:57：開學前每天都截一張訊息頁上面的聯絡人列（沒有可疑的格子也截）
+                await pg.evaluate("(()=>{ const B=document.getElementById('phoneBody'); if(!B) return; const e=B.querySelector('.ctList'); if(e) e.scrollIntoView({block:'start'}); else B.scrollTop=0; })()")
+                await pg.wait_for_timeout(400); shot = await run.shot(pg, 'contacts_%s_%s' % (tab, tag))
+            out.setdefault('_shots', []).append(shot)
     await L.close_panels(pg, cdp)
     return out, bad
 
@@ -297,7 +305,7 @@ async def main():
                     cells, bad = await pickers(pg, cdp, run, tag, cur_met)
                     fr = await pg.evaluate("ids=>ids.map(id=>({id,metD:!!SOCIAL.metD(id),stage:SOCIAL.stage(id),contact:!!INV.hasContact(GAME.G,id)}))", ['zhe', 'kai'])
                     ui_log.append((tag, {'cells': cells, 'bad': bad, 'met': dict(cur_met), 'friends': fr}))
-                    run.note('選人面板 %s（%s %.2f %s）：%s' % (tag, last_key, s['hour'], s['zone'], J({k: [[c['name'], c['avatar'] and c['avatar'][:3], c['opacity']] for c in v] for k, v in cells.items()})))
+                    run.note('選人面板 %s（%s %.2f %s）：%s' % (tag, last_key, s['hour'], s['zone'], J({k: [[c['name'], c['avatar'] and c['avatar'][:3], c['opacity']] for c in v] for k, v in cells.items() if k != '_shots'})))
                     if bad:
                         sst = await pg.evaluate("ids=>ids.map(id=>({id,stage:SOCIAL.stage(id),metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,trust:SOCIAL.rel(id).trust|0,contact:!!INV.hasContact(GAME.G,id)}))", list({r['pid'] for r in bad if r['pid']}))
                         for r in bad: r['now'] = next((x for x in sst if x['id'] == r['pid']), None)
@@ -338,6 +346,13 @@ async def main():
             for id_ in HER:
                 off = next((x for x in ST if x['id'] == id_ and str(x['pre']).startswith('STRANGER') and x['post'] != 'STRANGER' and not x['metD']), None)
                 if off: run.note('[來源] %s 在相遇前 stage 離開 STRANGER：%s' % (id_, J(off)))
+            if 'contacts' in CASES:   # BB 10:57：開學前每天都要看一次（宿營 8/22～24 整天劇情、8/25～28 不演的日子列出來，不算 FAIL）
+                seen_days = sorted({k[:5] for k, u in ui_log})
+                all_days = sorted({d[5:] for d in days if d < END_KEY or d == END_KEY})
+                miss = [d for d in all_days if d not in seen_days]
+                run.note('聯絡人列每天的截圖：%s' % J([[k, (u['cells'].get('_shots') or [None])[0]] for k, u in ui_log]))
+                run.check('contacts：開學前（到 %s）每一個玩家能動的日子都看過一次聯絡人列' % END_KEY, bool(seen_days) and END_KEY[5:] in seen_days,
+                          J({'看過': seen_days, '過了但沒看到（劇情整天佔住或不演）': miss}))
             for pn, nm in NAMES.items():
                 bb = [r for r in allbad if r['panel'] == pn]
                 run.check('選人面板 %s：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子' % nm, not bb,
