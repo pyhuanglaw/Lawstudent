@@ -307,7 +307,8 @@ async def do_action(pg, cdp, run, cs):
         for _ in range(15):
             s = await pg.evaluate(TS)
             if s['dlg'] or s['ch']: return True
-            if '語彤' in s['act']: run.note('點「%s」' % s['act']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500); return True
+            if '語彤' in s['act']:   # 讀書區第一次遇到＝只點頭（libquiet3d.js LIBQ.gate）；沒有開始就像玩家一樣再點一次（最多三次）
+                run.note('點「%s」' % s['act']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(8000); continue
             p2 = await pg.evaluate(NPC_AT, YT)
             if p2 and math.hypot(p2['x'] - s['x'], p2['z'] - s['z']) > 1.6: await L.go_to(pg, cdp, run, p2['x'], p2['z'], 1.4, '再靠近一點', max_s=120, stop=stop)
             await pg.wait_for_timeout(1000)
@@ -380,12 +381,17 @@ async def drive(pg, cdp, run, cs, out, name):
     return slots
 
 
+def unq(t):
+    """讀書區的「（小聲）」前綴是遊戲共用的機制（libquiet3d.js LIBQ.whisper，D127 ③），不是稿的字：比對前拿掉"""
+    return t[4:] if t.startswith('（小聲）') else t
+
+
 def compare(run, name, cs, says, docs, msgs):
     ok_all = True; rows = []
     i = 0
     for k, spk, txt in cs.get('exp') or []:
-        j = next((q for q in range(i, len(says)) if says[q]['t'].startswith(txt)), None)
-        if j is None: j = next((q for q in range(len(says)) if says[q]['t'].startswith(txt)), None); order = False
+        j = next((q for q in range(i, len(says)) if unq(says[q]['t']).startswith(txt)), None)
+        if j is None: j = next((q for q in range(len(says)) if unq(says[q]['t']).startswith(txt)), None); order = False
         else: order = True
         got = None if j is None else [norm_spk(says[j]['n'], says[j]['c']), says[j]['t']]
         ln = doc_line(docs, k, txt); ref = ('%s:%s' % (DOCS[k], ln)) if k else '（稿只改說話人）'
@@ -408,7 +414,7 @@ def compare(run, name, cs, says, docs, msgs):
             ok_all = ok_all and ok
             if j is not None: i = j + 1
     for t, bad in (cs.get('ban_spk') or {}).items():
-        hit = [x for x in says if x['t'].startswith(t) and norm_spk(x['n'], x['c']) in bad]
+        hit = [x for x in says if unq(x['t']).startswith(t) and norm_spk(x['n'], x['c']) in bad]
         run.check('[%s] 「%s」的說話人不是 %s' % (name, t[:20], '／'.join(bad)), not hit, J(hit[:2]))
     return ok_all, rows
 

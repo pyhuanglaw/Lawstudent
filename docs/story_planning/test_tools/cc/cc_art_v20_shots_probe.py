@@ -26,7 +26,7 @@ CASES（逗號分開，預設全部）：
     ＝照實記 FAIL「遊戲沒有放她」；另外【捷徑】在茶屋用 CHAR.build({model:'char.xiuqin_apron'}) 放一個，只為了看模型在遊戲光線下的樣子（標明不是遊戲自己放的）。
 - cat：溫州街公園的橘貓（src/wzcat3d.js）。GLB 的片段（wz_cat.json）：cat_walk、cat_idle、cat_sit、cat_sit_idle＋f22ef5dcd 新加五段 cat_rub、cat_rub_r、cat_lie_idle、cat_jump_down、cat_jump_up。
     2aaa7d22b 只接了 cat_rub／cat_rub_r（蹭的方向照玩家在哪一邊，S.rubClip），趴姿、跳上跳下還沒接（commit 說明）。
-    ① 【前置／捷徑】讀檔到溫州街 10:00 晴天、站在貓（第一個點 (26.0,23.3)）旁 1.6～2.5 m；【捷徑】把貓的亂數換成固定序列（c.rnd：先擲中蹭腳，再決定繞的方向 dir＝1／−1），
+    ① 【前置／捷徑】讀檔到溫州街 14:00 晴天（避開 08～11 點第一次進公園的 ev_wz_p1）、站在貓（第一個點 (26.0,23.3)）旁 1.6～2.5 m；【捷徑】把貓的亂數換成固定序列（c.rnd：先擲中蹭腳，再決定繞的方向 dir＝1／−1），
        玩家站著不動等貓走過來蹭。dir＝1（玩家在貓的左邊）、dir＝−1（右邊）各一次，蹭的時候每 0.5 秒截一張（共 6 張）。
        量：播的片段是 cat_rub（dir 1）／cat_rub_r（dir −1）；蹭的那幾格裡，玩家在貓身體的左邊（貓朝向的左手邊）／右邊的比例 ≥ 0.6。
     ② 每一段片段在遊戲裡的樣子：【捷徑】直接用貓的 mixer 播 cat_walk、cat_idle、cat_sit、cat_sit_idle、cat_lie_idle、cat_jump_down、cat_jump_up 各 1 張（貓停住、鏡頭拉近）；
@@ -471,7 +471,8 @@ CAT_RND = r"""(dir=>{ const c=WZCAT._cat(); if(!c) return false; const seq=[0.1,
 async def case_cat(pg, cdp):
     rubs = {}
     for dir_, tag in ((1, 'left'), (-1, 'right')):
-        await put(pg, cdp, {'zone': 'wenzhou', 'hour': 10.0, 'day': 9, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 26.0, 'z': 21.3, 'yaw': 3.1416}}, '溫州街公園 10:00 晴，貓（圓椅前 (26.0,23.3)）北邊 2 m', 15000)
+        # 14:00：08:00～11:00 第一次進公園會演 ev_wz_p1（下象棋的阿伯那一句，busy 把貓定住；第二次跑 10:00 就卡在這裡）
+        await put(pg, cdp, {'zone': 'wenzhou', 'hour': 14.0, 'day': 9, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 26.0, 'z': 21.3, 'yaw': 3.1416}}, '溫州街公園 14:00 晴，貓（圓椅前 (26.0,23.3)）北邊 2 m', 15000)
         await helpers(pg)
         for _ in range(30):   # 進溫州街時的劇情、旁白（GAME.D.busyWho）先等它演完、點掉
             bz = await pg.evaluate("(()=>({busy:!!GAME.E.player.busy, who:(GAME.D&&GAME.D.busyWho||[]).slice(), dlg:!!document.querySelector('#dlg:not(.hide)')}))()")
@@ -494,7 +495,7 @@ async def case_cat(pg, cdp):
         await L.turn_camera_to(pg, cdp, 26.0, 23.3, tries=5); await low_cam(pg, 0.35, 3.0)
         got = None
         bzlog = []
-        for i in range(60):   # 站著不動：3 秒以後擲骰、站起來、走過來
+        for i in range(100):   # 站著不動：3 秒以後擲骰、站起來、走過來（SwiftShader 慢：第二次跑 30 秒時貓還在走過來）
             await pg.wait_for_timeout(500)
             s = await pg.evaluate(CAT_SIDE)
             if s and s['state'] == 'rub': got = s; break

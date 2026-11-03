@@ -1,16 +1,16 @@
 {
  "objects": 316,
  "unique_meshes": 80,
- "tris": 41500,
- "tris_drawn": 73432,
+ "tris": 40896,
+ "tris_drawn": 72828,
  "materials": 12,
- "out": "../model/out_xs2/xinsheng.glb",
- "bytes": 2515404,
+ "out": "../../../../../../home/user/Lawstudent/assets/models/env/second_ai/bb_support/xinsheng_sports.glb",
+ "bytes": 2479756,
  "texres": 512,
  "layout": 1,
  "tris_per_level": {
-  "0": 58772,
-  "1": 14660
+  "0": 58320,
+  "1": 14508
  },
  "materials_per_level": {
   "0": 10,
