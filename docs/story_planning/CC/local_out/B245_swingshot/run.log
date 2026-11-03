@@ -1,0 +1,27 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_shots_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_swingshot\out
+cc_b245_shots_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8810/index.html  SUBS=swing
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（rain），先量鞦韆互動點附近站得住的點
+INFO 鞦韆架前面（z 小於座位那一側）最近站得住的點：[{"label": "盪鞦韆", "x": 31.7, "z": 25, "radius": 1.3, "min": 1.35, "at": [31.7, 23.65]}, {"label": "盪鞦韆", "x": 33.5, "z": 24.8, "radius": 1.3, "min": 1.15, "at": [33.5, 23.65]}]
+INFO INFO 前面（seat.ap 那一側）按不按得到「盪鞦韆」（31.7, 25.0）：最近 1.35 m、radius 1.3 → 按不到
+INFO INFO 前面（seat.ap 那一側）按不按得到「盪鞦韆」（33.5, 24.8）：最近 1.15 m、radius 1.3 → 按得到
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（sunny），站在鞦韆前面 (31.7, 23.4)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）
+INFO 站好以後 #interact：「打招呼」（站在 31.70, 23.40，sunny）
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（sunny），站在鞦韆前面 (33.5, 23.4)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）
+INFO 站好以後 #interact：「打招呼」（站在 33.50, 23.40，sunny）
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（rain），站在鞦韆前面 (31.7, 23.4)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）
+INFO 站好以後 #interact：「」（站在 31.70, 23.40，rain）
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（rain），站在鞦韆前面 (33.5, 23.4)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）
+INFO 站好以後 #interact：「」（站在 33.50, 23.40，rain）
+  【前置／捷徑】load_state（quiet_events）溫州街第 7 天 20:30（sunny），站在鞦韆前面 (31.7, 25.9)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）
+INFO 站好以後 #interact：「盪鞦韆」（站在 31.70, 25.85，sunny）
+INFO 鞦韆 layout：{"g": {"x": 32.6, "z": 24.8}, "seats": [{"x": 31.7, "z": 25, "yaw": 3.141592653589793, "label": "盪鞦韆", "kind": "swing"}, {"x": 33.5, "z": 24.8, "yaw": 3.141592653589793, "label": "盪鞦韆", "kind": "swing"}]}
+INFO 鞦韆互動點和最近站得住的點：[{"label": "盪鞦韆", "x": 31.7, "z": 25, "radius": 1.3, "min": 0.85, "at": [31.7, 25.85], "ap": [31.7, 23.400000000000002], "hasCanStand": true}, {"label": "盪鞦韆", "x": 33.5, "z": 24.8, "radius": 1.3, "min": 1.05, "at": [33.5, 25.85], "ap": [33.5, 23.400000000000002], "hasCanStand": true}]
+PASS swing 站得到的地方按得到「盪鞦韆」（31.7, 25.0）：最近站得住的點離互動點 < radius  最近 0.85 m（[31.7, 25.85]）、radius 1.3、seat.ap [31.7, 23.400000000000002]
+PASS swing 站得到的地方按得到「盪鞦韆」（33.5, 24.8）：最近站得住的點離互動點 < radius  最近 1.05 m（[33.5, 25.85]）、radius 1.3、seat.ap [33.5, 23.400000000000002]
+INFO 點了 #interact：「盪鞦韆」
+PASS swing 前置：#interact 是「盪鞦韆」（文字 startswith）  盪鞦韆
+INFO 坐上鞦韆、旁白出現時：{"x": 31.7, "z": 25, "y": 0, "pose": "sit", "dlg": true, "hour": 20.7}
+PASS swing 旁白出現時玩家坐在鞦韆座位上（< 0.05 m）、pose sit  離最近座位 0.000 m；{"x": 31.7, "z": 25, "y": 0, "pose": "sit", "dlg": true, "hour": 20.7}
+PASS 沒有 JS 例外  []
+ALL PASS

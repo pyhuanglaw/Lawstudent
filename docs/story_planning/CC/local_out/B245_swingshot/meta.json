@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_swingshot",
+  "sha": "ffeec06e0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_shots_probe.py",
+  "env": "SUBS=swing",
+  "machine": "MSI",
+  "start": "2026-11-04T00:54:44",
+  "end": "2026-11-04T00:57:20",
+  "seconds": 156,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 34,
+    "mem": 56,
+    "used_gb": 17.6,
+    "chrome_testing": 20
+  }
+}
