@@ -139,10 +139,12 @@ def side_wall(dname, xw, inward):
         pil.rbox(min(xw, xw + inward * 7), max(xw, xw + inward * 7), H - 0.95, H - 0.75, z - 0.26, z + 0.26, r=0.02, seg=1)
         if k < len(pz) - 1: vel.append((z + 0.22, pz[k + 1] - 0.22))
     pil.finish(g)
-    for i, (za, zb) in enumerate(vel):   # 柱子中間：絨布牆板＋金色細框
-        xf = xw + inward * 1.0
-        uvquad(f'WALL_{dname}_velvet{i}', (xf, WAIN + 0.12, za if inward > 0 else zb), (xf, WAIN + 0.12, zb if inward > 0 else za),
-               (xf, H - 1.0, zb if inward > 0 else za), (xf, H - 1.0, za if inward > 0 else zb), IM['velvet'], g)
+    bmv = bmesh.new(); ulv = bmv.loops.layers.uv.new(); xf = xw + inward * 1.0   # 柱子中間：絨布牆板（一面牆合成一個網格，少 draw call）
+    for (za, zb) in vel:
+        a, b_ = (za, zb) if inward > 0 else (zb, za)
+        f = bmv.faces.new([bmv.verts.new(g2b(xf, WAIN + 0.12, a)), bmv.verts.new(g2b(xf, WAIN + 0.12, b_)), bmv.verts.new(g2b(xf, H - 1.0, b_)), bmv.verts.new(g2b(xf, H - 1.0, a))])
+        for lp, t in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[ulv].uv = t
+    B.mesh_obj(f'WALL_{dname}_velvet', bmv, IM['velvet'], g, None)
     fr = Mesh(f'WALL_{dname}_trim', m_gold)
     for (za, zb) in vel:
         xf = xw + inward * 1.4
@@ -158,9 +160,10 @@ gb = B.group('WALL_back', root, props={'dir': DIRS['back']})
 bw = Mesh('WALL_back_plaster', m_wall, tile=2.5); bw.box(X0, dx0, 0, H, Z1, Z1 + T); bw.box(dx1, X1, 0, H, Z1, Z1 + T); bw.box(dx0, dx1, DR['h'], H, Z1, Z1 + T); bw.finish(gb)
 bwm = Mesh('WALL_back_wains', m_maroon); wains(bwm, 'x', X0, dx0, Z1, -0.025); wains(bwm, 'x', dx1, X1, Z1, -0.025); bwm.finish(gb)
 bo = LAY['booth']
-for i, x in enumerate(bo['xs']):   # 放映窗：小方窗、裡面一點暖光（放映機的光）
-    Mesh(f'WALL_back_boothframe{i}', m_wood).rbox(x - 0.38, x + 0.38, bo['y'] - 0.3, bo['y'] + 0.3, Z1 - 0.06, Z1, r=0.01, seg=1).finish(gb)
-    Mesh(f'WALL_back_boothglow{i}', m_warm).box(x - 0.3, x + 0.3, bo['y'] - 0.22, bo['y'] + 0.22, Z1 - 0.07, Z1 - 0.06).finish(gb)
+bfr = Mesh('WALL_back_boothframe', m_wood); bgl = Mesh('WALL_back_boothglow', m_warm)
+for x in bo['xs']:   # 放映窗：小方窗、裡面一點暖光（放映機的光）
+    bfr.rbox(x - 0.38, x + 0.38, bo['y'] - 0.3, bo['y'] + 0.3, Z1 - 0.06, Z1, r=0.01, seg=1); bgl.box(x - 0.3, x + 0.3, bo['y'] - 0.22, bo['y'] + 0.22, Z1 - 0.07, Z1 - 0.06)
+bfr.finish(gb); bgl.finish(gb)
 df = Mesh('WALL_back_doorframe', m_wood)
 df.rbox(dx0 - 0.1, dx0, 0, DR['h'] + 0.1, Z1 - 0.08, Z1 + 0.02, r=0.01, seg=1); df.rbox(dx1, dx1 + 0.1, 0, DR['h'] + 0.1, Z1 - 0.08, Z1 + 0.02, r=0.01, seg=1); df.rbox(dx0 - 0.1, dx1 + 0.1, DR['h'], DR['h'] + 0.1, Z1 - 0.08, Z1 + 0.02, r=0.01, seg=1)
 df.finish(gb)
@@ -249,9 +252,9 @@ for L_ in LAY['lights']:
     al.box(L_['x'] - 0.06, L_['x'] + 0.06, 0.08, 0.16, L_['z'] - 0.02, L_['z'] + 0.02); ah.box(L_['x'] - 0.08, L_['x'] + 0.08, 0.06, 0.18, L_['z'] - 0.04, L_['z'] - 0.02)
 al.finish(root); ah.finish(root)
 # 左邊前方的太平門（左牆上、靠銀幕）
-ez = -5.6; ed = Mesh('EXIT_DOOR_L', m_wood); ed.rbox(X0 + 0.02, X0 + 0.07, 0, 2.3, ez - 0.55, ez + 0.55, r=0.01, seg=1); ed.finish(root)
+ez = -6.0; ed = Mesh('EXIT_DOOR_L', m_wood); ed.rbox(X0 + 0.02, X0 + 0.07, 0, 2.3, ez - 0.55, ez + 0.55, r=0.01, seg=1); ed.finish(root)
 Mesh('EXIT_DOOR_L_BAR', m_gold).box(X0 + 0.07, X0 + 0.11, 1.0, 1.05, ez - 0.45, ez + 0.45).finish(root)
-uvquad('EXIT_SIGN_L', (X0 + 0.09, 2.42, ez - 0.5), (X0 + 0.09, 2.42, ez + 0.5), (X0 + 0.09, 2.78, ez + 0.5), (X0 + 0.09, 2.78, ez - 0.5), IM['exit'])
+uvquad('EXIT_SIGN_L', (X0 + 0.09, 2.42, ez + 0.5), (X0 + 0.09, 2.42, ez - 0.5), (X0 + 0.09, 2.78, ez - 0.5), (X0 + 0.09, 2.78, ez + 0.5), IM['exit'])   # 面向 +x：看的人右手是 −z
 
 # ---------------- Art Deco 壁燈（層層燈罩，掛在壁柱上）----------------
 scn = Mesh('SCONCE', m_gold); scg = Mesh('SCONCE_GLASS', m_warm)
