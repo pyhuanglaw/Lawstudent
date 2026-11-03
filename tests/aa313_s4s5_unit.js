@@ -168,6 +168,6 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/燒臘店/.test(t)));   /* AA_612：麵店改燒臘店 */
       check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間燒臘店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間燒臘店，便宜，份量也夠。」'])),J(ops)); }
     fresh(D('2025-09-01'),9,'dorm',{}); STORY.phoneRules(GM); const q=PHONE.rec(G).q.find(x=>x.tag==='bbq_ask');
-    check('5-3. 中秋烤肉的訊息不加句號「週六中秋烤肉 日常失速騎樓 晚上六點」（AA_623 第 3 節：18:00 日常失速騎樓）',!!q&&q.items[0].text==='週六中秋烤肉 日常失速騎樓 晚上六點',q&&q.items[0].text); }
+    check('5-3. 中秋烤肉：明軒揪「中秋烤肉，河濱，七點。飲料自己帶。」（AA_623 第 3 節，ace533a43）',!!q&&q.items[0].text==='中秋烤肉，河濱，七點。飲料自己帶。',q&&q.items[0].text); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -222,6 +222,7 @@ const FEST=(function(){
     const ver=S.ver(G,id,f.k), vb=c.venueBy&&c.venueBy[ver], want=c.venue||(vb&&typeof vb==='object'?vb[f.y]:vb)||null;
     for(const Q of ((typeof INVITE_DATA!=='undefined'&&INVITE_DATA.places)||[])){ if(!S.PLACES.includes(Q.id)||(want&&Q.id!==want)) continue;
       if(typeof INV!=='undefined'&&INV.placeWhy&&INV.placeWhy(G,id,Q)) continue;
+      if(typeof INV!=='undefined'&&INV.neverAt&&INV.neverAt(id,Q)) continue;   /* 語彤不在燒臘店（AA_610／AA_624，invites3d.js S.NEVER_AT）*/
       if(want){ if(typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen(Q.zone,h,f.d)) continue; }   /* 稿寫了地方的（芷若聖誕夜有班、語彤 2028 顧店）：她那時候在那裡上班也算 */
       else if(typeof INV!=='undefined'&&INV.freeAt&&!INV.freeAt(G,id,Q,f.d,h)) continue;
       out.push({kind:'inv',t:Q.name,P:Q,h}); }

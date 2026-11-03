@@ -88,17 +88,28 @@ await sec(3,()=>{
 });
 
 /* ---------- 4 作息 ---------- */
-await sec(4,()=>{ const C=CHARACTERS[YT];
+await sec(4,async()=>{ const C=CHARACTERS[YT];
   check('4. characters.js：她的作息沒有 zone noodle',!(C.daily_schedule||[]).some(e=>e.zone==='noodle'),J((C.daily_schedule||[]).filter(e=>e.zone==='noodle')));
   H.fresh('2025-09-16',10,'campus',{YT_MET_JOB:true}); H.rel(YT,25,0,0);
   for(const [t,w,wd,hh,lab] of [['Y1S1',3,6,14,'大一上週六'],['Y1S1',3,7,16,'大一上週日'],['Y2S2',5,6,13.5,'大二下週六']]){ at(TD(t,w,wd),hh); const e=STORY.schedEnt(C,H.G); check('4. '+lab+' '+hh+':00 在一盞茶屋（wz_teahouse）',!!e&&e.zone==='wz_teahouse',J(e)); }
   let bad=[]; const d0=TD('Y1S1',1,1); for(let d=d0;d<d0+1500;d++){ for(const hh of [9,14.5,17.5,18,19,20]){ at(d,hh); const e=STORY.schedEnt(C,H.G); if(e&&e.zone==='noodle') bad.push(CALENDAR.dateOf(d).key+' '+hh); } }
   check('4. 四年每天 9、14:30、17:30～20:00：她從來不在燒臘店（含圈子補的作息）',!bad.length,bad.slice(0,6).join(','));
+  /* 約她：地點清單沒有公館燒臘（INV.neverAt；選單、節日、直接約都不成立）*/
+  H.fresh('2026-03-10',10,'campus',{YT_MET_JOB:true}); H.CLOSE(YT); H.G.contacts=H.G.contacts||{}; H.G.contacts[YT]=H.G.day-30;
+  const P=INVITE_DATA.places.find(q=>q.id==='noodle'), d1=TD('Y1S2',4,3);
+  const r=INV.decide(H.G,YT,'noodle',d1,18), r2=INV.decide(H.G,'zhe','noodle',d1,18);
+  check('4. 約語彤去公館燒臘：不成立（decline place）；約阿哲照常判斷',INV.neverAt(YT,P)&&r.res==='decline'&&r.why==='place'&&!INV.neverAt('zhe',P)&&r2.why!=='place',J([r,r2]));
+  H.said=[]; H.opts=[]; H.picks=['吃飯']; try{ await INV.flow(GM,YT,null,false); }catch(e){}
+  check('4. 約語彤的地點選單沒有「公館燒臘」',!H.opts.some(o=>(o.all||o).some(t=>/公館燒臘/.test(String(t)))),J(H.opts));
 });
 
 /* ---------- 5 retired ---------- */
 await sec(5,()=>{
-  for(const id of ['ev_yutong_absent','ev_yutong_midterm_week','ev_noodle_yutong']) check('5. '+id+' retired（舊存檔演過的照留）',!!ev(id)&&ev(id).retired===true);
+  for(const id of ['ev_yutong_absent','ev_yutong_midterm_week','ev_noodle_yutong','ev_yutong_customer']) check('5. '+id+' retired（舊存檔演過的照留）',!!ev(id)&&ev(id).retired===true);
+  { const T=ev('ev_yutong_thanks'), d=TD('Y1S2',10,2); H.fresh(CALENDAR.dateOf(d).key,21.5,'library',{yutong_hospital:true}); H.FRIEND(YT); const old=EVENTS.check(T); H.G.flags.YT_JOB_V=1; const nw=EVENTS.check(T);
+    check('5. ev_yutong_thanks（阿姨扭到手那條線）：舊存檔照舊、這一版的新遊戲（YT_JOB_V）不演',old===true&&nw===false,J([old,nw]));
+    const Pst=(typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null);
+    check('5. 動態 yt2b（櫃台上的繃帶）只給舊存檔：if ytOld、FEED.COND.ytOld',typeof FEED!=='undefined'&&FEED.COND.ytOld({flags:{}})===true&&FEED.COND.ytOld({flags:{YT_JOB_V:1}})===false&&/\{id:'yt2b',if:'ytOld'/.test(fs.readFileSync(path.join(H.ROOT,'src/data/feed_y1s2.js'),'utf8'))); }
   const HD=(typeof NOODLE_TABLE!=='undefined'?Object.values(NOODLE_TABLE).flat():[]).find(e=>e&&e.once==='h504_zhe_hand');
   check('5. 阿哲「期中那兩個禮拜，阿姨的手包著……」（h504_zhe_hand）retired、長桌不挑',!!HD&&HD.retired===true);
 });

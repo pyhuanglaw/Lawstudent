@@ -1,5 +1,6 @@
 /* ===== 明軒的桌遊夜（AA_623 麵店團改成桌遊團＋AA_618 第 2-4 節第 3 點；使用者 11-03「明軒是會主動約大家玩桌遊 固定在其中一家新的店裡」「要有慈昕」「沛珊偶爾也會去桌遊」）=====
-   - 什麼時候：大一上第 6 週起，隔週週五 20:00～23:30，溫州街日常失速的八人長桌（學期中照週次：偶數週；期中、期末考那兩週〔term.exam〕、國定假日停）；一直辦到大四下。
+   - 什麼時候：大一上第 5 週起，隔週週五 20:00～23:30，溫州街日常失速的八人長桌（AA_618 2-4 第 3 點，企劃線 ace533a43：大一上第 5、7、10、12、14 週——第 6 週國慶照隔週跳過，期中第 8、9 週停、考完那一週接著辦）；
+     其他學期從第 2 週起隔週；碰到考試週（term.exam）就停、考完的第一週接著；那個週五是國定假日就停那一次（不補、不改隔週）；一直辦到大四下。S.weeks(學期)＝那一學期辦的週次。
    - 誰約：明軒，當天 12:00 傳（已經認識明軒）。還不在群組＝私訊（第一次兩句）；在桌遊團群組（noodle_team）＝群組一句（三句輪流）。回「好。」才排出遊（20:00）；「這次不行。」明軒「好，兩個禮拜後還有。」
    - 群組裡的回覆（在群組才有、認識的人才說；不用玩家回）：Alison（週五晚上在戲院打工，AA_615；只在群組回）、阿哲、柏翰（第一次）、芯慈（固定成員，兩句輪流）、沛珊（大約三次來一次：那一晚有來才說；大三去台南以後不來）。
    - 去了（2D，日常失速還沒有 3D；背景先用現有的桌遊店 boardgame_gg，BB 跟使用者要日常失速的圖）：開場旁白、明軒第一次那句、芯慈第一次兩句、阿凱（大二起，問過「要不要找阿凱？」以後一學期一次）、結束旁白四句輪流。
@@ -38,7 +39,13 @@ const BGN=(function(){
   /* 那一天是不是桌遊夜 */
   S.isNight=function(d){ if(!hasCal()||d==null) return false; const t=CALENDAR.termOf(d); if(!t||!S.TERMS.includes(t.id)||t.exam) return false;
     if(S.natHoliday(d)) return false;   /* 國定假日停（校定的停課日，例如運動會、颱風假不算國定假日：照辦）*/
-    if(CALENDAR.dateOf(d).wd!==5) return false; if(t.week%2!==0) return false; if(t.id==='Y1S1'&&t.week<6) return false; return true; };
+    if(CALENDAR.dateOf(d).wd!==5) return false; return S.weeks(t.id).includes(t.week); };
+  const WK={};
+  S.START={Y1S1:5};
+  S.weeks=function(tid){ if(WK[tid]) return WK[tid]; const out=[]; if(typeof STORY==='undefined'||!STORY.termDayIn) return out;
+    const ex=w=>{ const d=STORY.termDayIn(tid,w,5); if(d==null) return null; const t=CALENDAR.termOf(d); return !!(t&&t.exam); };
+    let w=S.START[tid]||2; for(let guard=0;guard<30;guard++){ const e=ex(w); if(e==null) break; if(e){ while(ex(w)===true) w++; if(ex(w)==null) break; } out.push(w); w+=2; }
+    return (WK[tid]=out); };
   S.yearOf=d=>{ const t=hasCal()?CALENDAR.termOf(d):null, m=t&&/^Y(\d)/.exec(t.id); return m?+m[1]:0; };
   /* 沛珊：大約三次來一次（固定挑法，讀檔不會變）；大一、大二（大三去台南以後不來）*/
   S.psOn=d=>S.isNight(d)&&S.yearOf(d)<=2&&(Math.floor(d/14)%3)===0;

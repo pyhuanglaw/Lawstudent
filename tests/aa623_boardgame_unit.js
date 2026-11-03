@@ -1,11 +1,11 @@
 // AA_623 麵店團改成桌遊團（＋AA_618 2-4 第 1、3 點）、AA_612 麵店改燒臘店（A、C 表，語彤以外）——不需要瀏覽器。
 //   1  燒臘店的名字：招牌、區域名、地點、互動按鈕、點餐（叉燒飯 100／燒鴨飯 110）、吃過的店名；比對新舊都認（舊存檔的「阿鳳麵店」）
-//   2  桌遊夜的日子：大一上第 6 週起隔週週五（偶數週），考試週、國定假日、大五停；作息 20:00～23:30 明軒、阿哲、芯慈、柏翰在日常失速（麵店日長桌的作息拿掉）
+//   2  桌遊夜的日子：大一上第 5、7、10、12、14 週週五（其他學期第 2 週起隔週），考試週、國定假日、大五停；作息 20:00～23:30 明軒、阿哲、芯慈、柏翰在日常失速（麵店日長桌的作息拿掉）
 //   3  明軒的約：當天 12:00；不在群組＝私訊兩句（第一次）、「好。」才排 20:00 出遊、「這次不行。」明軒回一句；在群組＝群組一句＋大家的回覆（Alison、阿哲、柏翰第一次、芯慈、沛珊那一晚有來）
 //   4  群組：名字一直是「桌遊團」（不再每年改名）；舊存檔的「麵店團」「法X吃飯」改「桌遊團」、規矩兩句改「隔週五 桌遊」「沒空不用講」、「最後一學期」照舊
 //   5  加進群組：第一次桌遊夜結束明軒「我開個群組，之後在這裡約。」（明軒建立）；第 13 週「考完吃哪家」一直沒去的明軒「你也進來吧。」（明軒把你加進）；
 //      第一次併桌（ev_zhe_long_table）不再加群組；補救入口說話的人改明軒
-//   6  中秋烤肉（大一）：明軒揪、18:00 日常失速騎樓；A15 考完的聚餐＝AA_618 2-4 第 1 點（日常失速、阿哲在群組「考完了！日常失速，八人桌我先佔。」）
+//   6  中秋烤肉（大一）：照原本在河濱、明軒揪「中秋烤肉，河濱，七點。飲料自己帶。」（ace533a43）；A15 考完的聚餐＝AA_618 2-4 第 1 點（日常失速、阿哲在群組「考完了！日常失速，八人桌我先佔。」）
 //   7  人物頁：去過三次以上，明軒多一行「隔週五在日常失速辦桌遊。」
 // 修改前（開發分支 b744b3237）：第 1～7 項 FAIL。用法：node tests/aa623_boardgame_unit.js
 require('./alison.js');
@@ -53,8 +53,9 @@ await sec(1,()=>{ const Z=strip(src('src/zones3d.js'));
 
 /* ---------- 2 日子、作息 ---------- */
 await sec(2,()=>{
-  check('2. 大一上第 6 週起隔週週五：第 6 週 10/10 國慶日、第 8 週期中考週停＝第一個桌遊夜是第 10 週',!!B&&!B.isNight(night('Y1S1',6))&&CALENDAR.holiday(night('Y1S1',6))&&!B.isNight(night('Y1S1',8))&&B.isNight(night('Y1S1',10))&&B.isNight(night('Y1S1',12)));
-  check('2. 大一上第 4、5、7、11 週週五不是（第 6 週起、隔週）',!B.isNight(night('Y1S1',4))&&!B.isNight(night('Y1S1',5))&&!B.isNight(night('Y1S1',7))&&!B.isNight(night('Y1S1',11)));
+  const Y1=[]; for(let w=1;w<=18;w++){ const d=night('Y1S1',w); if(d!=null&&B.isNight(d)) Y1.push(w); }
+  check('2. 大一上：第 5、7、10、12、14 週（AA_618 2-4 第 3 點，ace533a43：第 5 週起隔週；第 6 週國慶照隔週跳過；期中第 8、9 週停）',!!B&&J(Y1)===J([5,7,10,12,14])&&J(B.weeks('Y1S1'))===J([5,7,10,12,14]),J(Y1));
+  check('2. 大一上第 4、6、8、9、11 週週五不是',[4,6,8,9,11].every(w=>!B.isNight(night('Y1S1',w))));
   check('2. 第 10 週的週四、週六不是',!B.isNight(TD('Y1S1',10,4))&&!B.isNight(TD('Y1S1',10,6)));
   const ex=[]; for(const t of B.TERMS) for(let w=1;w<=18;w++){ const d=night(t,w); if(d==null) continue; const T=CALENDAR.termOf(d); if(T&&T.exam&&B.isNight(d)) ex.push(t+':'+w); }
   check('2. 考試週沒有',!ex.length,ex.join(','));
@@ -137,13 +138,16 @@ await sec(5,async()=>{ const d6=night('Y1S1',10);
 
 /* ---------- 6 中秋烤肉、A15 ---------- */
 await sec(6,()=>{ const E=ev('ev_mid_autumn_bbq');
-  check('6. 中秋烤肉：日常失速的騎樓（不是河濱）',E.dialogue[0].scene==='溫州街・日常失速・騎樓'&&!E.dialogue.some(l=>l.scene==='河濱'));
+  check('6. 中秋烤肉（大一）：照原本在河濱（AA_623 第 3 節，ace533a43 改回）、CG-14 照播、兩句河濱的旁白照舊',E.dialogue[0].scene==='河濱'&&E.dialogue.some(l=>l.cg==='cg_midautumn_riverside')&&E.dialogue.some(l=>l.text==='中秋節前的河濱。阿哲借了一個烤肉架。')&&E.dialogue.some(l=>l.text==='中秋節前的河濱。大家借了一個烤肉架。')&&E.dialogue.some(l=>l.text==='隔壁房的方奕廷也來了，一直在講河邊的植物。'));
   const wed=TD('Y1S1',5,3), sat=TD('Y1S1',5,6);
   H.fresh('2025-10-01',20.9,'dorm'); H.FAMILIAR(MX); at(wed,21.1); tick();
   const m=(H.G.msgs||[]).find(x=>x.tag==='bbq_ask');
-  check('6. 明軒揪：「週六中秋烤肉 日常失速騎樓 晚上六點」',!!m&&m.from===MX&&m.text==='週六中秋烤肉 日常失速騎樓 晚上六點',J(m));
+  check('6. 明軒揪：「中秋烤肉，河濱，七點。飲料自己帶。」（還不在桌遊團＝明軒私訊）',!!m&&m.from===MX&&m.th==='p:'+MX&&m.text==='中秋烤肉，河濱，七點。飲料自己帶。',J(m));
   answer('bbq_ask',0); tick(); const q=OUT.get(H.G,'bbq');
-  check('6. 去＝週六 18:00 出遊',!!q&&q.day===sat&&q.h===18&&q.place==='日常失速',J(q));
+  check('6. 去＝週六 19:00（七點）河濱的出遊',!!q&&q.day===sat&&q.h===19&&q.place==='河濱',J(q));
+  H.fresh('2025-10-01',20.9,'dorm',{noodleTableDay:3,BGN_JOIN:'night'}); H.FAMILIAR(MX); PHONE.join(H.G,'noodle_team','桌遊團'); at(wed,21.1); tick();
+  const g=(H.G.msgs||[]).find(x=>x.tag==='bbq_ask');
+  check('6. 在桌遊團：明軒在群組揪',!!g&&g.th==='g:noodle_team'&&g.from===MX&&g.text==='中秋烤肉，河濱，七點。飲料自己帶。',J(g));
   const Y=E.dialogue.filter(l=>/heroine_03/.test(String(l.if&&l.if.custom))&&l.text);
   check('6. 語彤那兩句照舊（P0：語彤的句子等新稿）',Y.some(l=>l.text==='語彤也來了，提著一盒阿姨醃的肉。阿哲在麵店揪人那天，阿姨在旁邊聽到了。')&&Y.some(l=>l.text==='阿姨叫我拿來的。她說常來吃麵的，都算自己人。'));
   const A=ev('ev_midterm_supper'), T=A.dialogue.map(l=>l.text).filter(Boolean);

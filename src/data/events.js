@@ -860,11 +860,12 @@ const STORY_EVENTS=[
      AA 的「小事」是條列，旁白照條列的字寫成句子。AA 2026-10-14：沒有麵店團群組的玩家第一句是「大家借了」；加「你被分到顧火。火一直熄。」；
      只記 MIDAUTUMN_Y1，不加數值、不記 SHARED_MEAL */
   { id:'ev_mid_autumn_bbq', title:'中秋烤肉', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-    dialogue:[ {scene:'溫州街・日常失速・騎樓',bg:'dark'},   /* AA_623 第 3 節：18:00 日常失速的騎樓（明軒揪、店裡借烤肉架）；日常失速還沒有圖＝深色底。河濱的 CG-14 不用（畫的是河濱）*/
-      {speaker:null,text:'中秋節前，日常失速的騎樓。明軒跟店裡借了一個烤肉架。'},
+    dialogue:[ {scene:'河濱',bg:'riverside'},   /* AA_623 第 3 節（企劃線 ace533a43）：照原本在河濱；只有揪人改成明軒（story3d.js phoneRules）*/
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。阿哲借了一個烤肉架。'},
+      {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。大家借了一個烤肉架。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤，Alison 負責吃。'},
       {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤。'},
-      /* CG-14 中秋的河濱（cg_midautumn_riverside）：AA_623 搬到日常失速騎樓以後不播（畫的是河濱）*/
+      {cg:'cg_midautumn_riverside'},   /* CG-14 中秋的河濱（BB 2026-10-14 ART_APPROVED）：去烤肉的玩家都有，從這一句起 */
       {speaker:null,text:'你被分到顧火。火一直熄。'},
       {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* AA_195 4-9（CAMP-FIX-614 程式 7）：到中秋烤肉還沒有「哥」的玩家（夜談選「跟你們一樣啦」），阿哲問同一段；選項、效果同夜談 */
       {speaker:'zhe',text:'欸，明軒說你比我們大一屆？'},   /* AA_372 第 10 項：宿營時明軒問過一字不差的同一句 */
@@ -899,7 +900,7 @@ const STORY_EVENTS=[
       {label:'zw'},{speaker:'kexin',expression:'smile',text:'好，我回去練。'},{goto:'end'},
       {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。不要問跟誰。'},   /* AA_305 第 9 節 */
       {label:'end'} ],
-    consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（日常失速騎樓）'},
+    consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
     after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
   /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。麵店團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
      沒有加入麵店團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
@@ -4537,7 +4538,7 @@ const STORY_EVENTS_V11=[
       {label:'end2'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
     consequences:{stamp:['zrAppliedDay']} },
   // ── 語彤 arc ──
-  { id:'ev_yutong_customer', title:'麵店的糾紛', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 16 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
+  { id:'ev_yutong_customer', retired:true, title:'麵店的糾紛',   /* retired：AA_624 拿掉「客人說要告」（企劃線 ace533a43）；舊存檔演過的照留 */ participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, minWeek:{term:'Y1S1',week:15}, term:['Y1S1','Y1S2'],   /* 只在大一（大一上第 15 週～大一下第 16 週；AA_140 G47 AA-B 裁定：沒觸發就不演，大二的事件 7 不依賴它）*/   /* 交接包 v1 A6 的週次：第 15 週起（v1 稽核：原本沒有下限）*/ prereq:{memory:[{npc:'heroine_03',tag:'SHARED_MEAL'}],custom:G=>{ if(typeof STORY==='undefined'||!STORY.fafuSat) return true; const f=STORY.fafuSat(G.day); return !!f&&f.wk<=1; }}, background:'blur',   /* AA-B 2026-10-16（G47 邊界）：下一個法服值班的週六在這週或下週才演；更遠（例如期中考週、寒假前）就先等，等到值班週六進到兩週內 */
     /* 語彤事件 3 改寫版（AA_11 事件 3；交接包 v1 第 1 節，2026-10-14）：大一的祐廷誠實地「不知道」。不出任何法律題目、不給錄音證據的法律結論。
        選「我知道誰會知道」：祐廷第一次私訊學姊（yutongAskSisDay），學姊當晚 22:30 回（BB_95 4-3），截圖轉給語彤：「……法服是什麼？」（大二她加入法服的伏筆；story3d.js 的 phoneRules）。
        裝懂：她記得（BLUFFED；大二第一次在麵店會問「這次你會說不知道嗎？」——AA_236 A4：語彤不加入法服）。結果三種都一樣：阿姨週六去了法服（ev_yutong_customer_after）*/
@@ -4561,7 +4562,7 @@ const STORY_EVENTS_V11=[
     dialogue:[ {speaker:null,text:'櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'},{speaker:'阿姨',text:'手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。'},{unless:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你是她同學喔？她喔，累了也不會講。'},/* AA_209 附錄A §2 */
       {if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'（看了你一下）你是語彤那個喔。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'她沒跟你講齁。她說講了你一定會跑來幫忙。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你吃你的。她問的話，就說你自己看到的。'},   /* AA_313 4-4（「不要跟別人說」模板的變形）*/{if:{flags:['dating_heroine_03']},set:{YT_AUNT_KNOWS:true}},   /* 阿姨知道（1B-03 事件 9 讀，AA_316）*/   /* 交往中的版本（AA_11 事件 4，AA-C 2026-10-17 e2bdcece；AA_215／AA_216 大一下 #3：大一就可能交往）*/
       {set:{yutong_hospital:true}},{unless:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊'}]},{if:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊；阿姨說她怕你來幫忙'}]} ] },
-  { id:'ev_yutong_thanks', title:'圖書館三樓', term:['Y1S2'], participants:['heroine_03'],   /* 交接包 v1：大一下以後才觸發（AA_11 事件 5 延後）；AA_259 第 4 節第 4 點：收到大二上，不要大三才觸發；AA_374 第 9 項：只在大一下（大二上用現在式講不對）、和 ev_yutong_midterm_week 互斥 */ location:'library', trigger:'interact', priority:9, once:true, time:[21,22], prereq:{flags:['yutong_hospital'],notEvents:['ev_yutong_midterm_week']}, background:'blur',   /* AA_178 ②＋AA_177：麵店 21:00 打烊以後、總圖閉館以前（「店收了才來的」）*/
+  { id:'ev_yutong_thanks', title:'圖書館三樓', term:['Y1S2'], participants:['heroine_03'],   /* 交接包 v1：大一下以後才觸發（AA_11 事件 5 延後）；AA_259 第 4 節第 4 點：收到大二上，不要大三才觸發；AA_374 第 9 項：只在大一下（大二上用現在式講不對）、和 ev_yutong_midterm_week 互斥 */ location:'library', trigger:'interact', priority:9, once:true, time:[21,22], prereq:{flags:['yutong_hospital'],notEvents:['ev_yutong_midterm_week'],custom:G=>!(G.flags&&G.flags.YT_JOB_V)}, background:'blur',   /* AA_624（ace533a43）：阿姨扭到手那條線新遊戲沒有＝YT_JOB_V（這一版的新遊戲）不演，舊存檔照舊 */   /* AA_178 ②＋AA_177：麵店 21:00 打烊以後、總圖閉館以前（「店收了才來的」）*/
     dialogue:[ {speaker:null,text:'（她看到你，闔上書，指了指外面。）'},{speaker:null,text:'（你們走到樓梯間。）',libOut:true},   /* libOut（AA_595 1-B13；AA 11-02 22:30 定稿）*/
       {speaker:'heroine_03',expression:'tired',text:'……阿姨跟你講了吧。'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'neutral',text:'我叫她不要講的。'},{speaker:'heroine_03',expression:'neutral',text:'她每次都這樣。沒事，手腕扭到而已。'},{choice:[{text:'（什麼都不問，把自己的筆記推過去）',consequences:{rel:{heroine_03:{comf:8,trust:5,aff:3}},mem:[{npc:'heroine_03',tag:'HELPED',note:'什麼都沒問，把筆記給她'}]},goto:'notes'},{text:'「妳可以講。講完就算了。」',consequences:{rel:{heroine_03:{trust:6,comf:3}},mem:[{npc:'heroine_03',tag:'TALKED_FAMILY',note:'你說她可以講'}]},goto:'talk'},{text:'「妳看起來很累，回去睡吧。」',consequences:{rel:{heroine_03:{comf:2}}},goto:'sleep'}]},{label:'notes'},{speaker:'heroine_03',expression:'surprised',text:'……'},{speaker:null,text:'（她看了一下，把筆記拉到自己面前。）'},{speaker:'heroine_03',expression:'smile',text:'這頁我抄一下就還你。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'talk'},{speaker:'heroine_03',expression:'sad',text:'講了也沒用啦，她的手又不會比較快好。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'sleep'},{speaker:'heroine_03',expression:'neutral',text:'店收了才來的。這裡比較安靜。'},{label:'end'},
       {if:{flags:['dating_heroine_03']},speaker:null,text:'（她把書推到一邊，趴在桌上。）'},{if:{flags:['dating_heroine_03']},speaker:null,text:'（她趴在桌上，指了指手錶。）'} ] },   /* AA_595 1-B13 結尾：原本「閉館的時候叫我。」改旁白 */   /* 交往中的版本（AA_11 事件 5，AA-C e2bdcece；AA_216 大一下 #4）*/

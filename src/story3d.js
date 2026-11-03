@@ -2153,14 +2153,14 @@ const STORY = (function(){
     /* 予樂戴紙巾皇冠的照片：原本「這週不行」才私訊（kx_yule_crown）；AA_503 9-2、9-3 改成可昕的動態第 3 則，不管去沒去都出（src/data/feed_y1s1.js kx3）*/
     /* 中秋烤肉（A13）：第 5 週週三 21:00 阿哲揪（有麵店團群組在群組，沒有的私訊）；去＝週六 15:00 河濱（出遊，走過去約 15 分鐘）。揪的那一句和兩個回覆是 LAWWW 寫的（AA_355 第 2 節：AA 看過、照用）*/
     { const wed=termDay('Y1S1',5,3), sat=termDay('Y1S1',5,6);
-      if(sat&&!F._bbqUntilFix){ F._bbqUntilFix=1; const fix=it=>{ if(it&&it.ask&&it.ask.until==null) it.ask.until=sat*24+18; };   /* 舊存檔：5c471a79（10-21）以前排進去的 bbq_ask、kx_bbq_ask 沒有 until，到隔年還是「待回覆」、每個假期一開始手機自己打開（BB-C 10-21 P3；10-22 子代理用 9/25 底檔查到）→ 補上和新局同一個期限（一次）*/
+      if(sat&&!F._bbqUntilFix){ F._bbqUntilFix=1; const fix=it=>{ if(it&&it.ask&&it.ask.until==null) it.ask.until=sat*24+19; };   /* 舊存檔：5c471a79（10-21）以前排進去的 bbq_ask、kx_bbq_ask 沒有 until，到隔年還是「待回覆」、每個假期一開始手機自己打開（BB-C 10-21 P3；10-22 子代理用 9/25 底檔查到）→ 補上和新局同一個期限（一次）*/
         for(const m of (G.msgs||[])) if(m.tag==='bbq_ask'||m.tag==='kx_bbq_ask') fix(m);
         for(const q of (PHONE.rec(G).q||[])) if(q.tag==='bbq_ask'||q.tag==='kx_bbq_ask') (q.items||[]).forEach(fix); }
-      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const mx=S.knows('classmate_mingxuan',G), th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':(mx?'p:classmate_mingxuan':'p:zhe'); PHONE.at(G,wed,21,[{th,from:mx?'classmate_mingxuan':'zhe',text:'週六中秋烤肉 日常失速騎樓 晚上六點',ask:{until:sat*24+18,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* AA_623 第 3 節：明軒揪（不認識明軒＝照舊阿哲私訊），18:00 日常失速的騎樓 */   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
-      if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:18,place:'日常失速',title:'中秋烤肉（日常失速騎樓）',travel:'走過去約 15 分鐘',travelH:0.25});
+      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const mx=S.knows('classmate_mingxuan',G), th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':(mx?'p:classmate_mingxuan':'p:zhe'); PHONE.at(G,wed,21,[{th,from:mx?'classmate_mingxuan':'zhe',text:'中秋烤肉，河濱，七點。飲料自己帶。',ask:{until:sat*24+19,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* AA_623 第 3 節（企劃線 ace533a43）：照原本在河濱，明軒在桌遊團群組揪「中秋烤肉，河濱，七點。飲料自己帶。」（還不在群組＝明軒私訊；不認識明軒＝阿哲私訊同一句）；七點＝19:00 */   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
+      if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:19,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25});
       /* 可昕 K3（BB_95 9-4）：前一天（週五）20:00 她問；回「來我們這邊」她就來；「妳去妳們系的」她去她們系的（烤玉米的照片 AA_503 改成動態第 2 則，去沒去都出）*/
       if(sat&&F.dating_kexin&&(F.BBQ_YES||!F.BBQ_NO)&&!PHONE.sent(G,'kx_bbq_ask')&&G.day>=sat-1&&G.day<=sat){ const K=t=>({from:'kexin',text:t});
-        PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{until:sat*24+18,opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
+        PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{until:sat*24+19,opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
       /* 烤玉米的照片「我們的玉米比較好。」：原本「妳去妳們系的。」才私訊（kx_bbq_corn）；AA_503 9-2、9-3 改成可昕的動態第 2 則，一定出（她來了＝照片裡有你的手，src/data/feed_y1s1.js kx2）*/ }
     /* 以安新 3 宿舍的規則（A14，交接包_v1 第 3 節）：第 7 週週二晚上麵店團群組，Alison 轉述（她是聽說的）、阿哲、以安隔一陣子才回；只給在群組裡的玩家（其他人由沛珊當面說：ev_an_dorm_rules_peishan）*/
     if(PHONE.inGroup(G,'noodle_team')&&!F.AN_DORM_RULES){ const d=termDay('Y1S1',7,2), gj=PHONE.rec(G).groups.noodle_team; if(d&&G.day>=d-1&&gj.day<=d){ const th='g:noodle_team';   /* 那天以前就在群組裡（之後才加入的，看不到加入以前的訊息：由沛珊當面說）*/
