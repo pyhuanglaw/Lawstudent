@@ -15709,7 +15709,7 @@
       "title": "畫面中間一道從上到下的半透明直條（總圖大廳、舊路書房都有）",
       "area": "BUG",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "next": "已修（0dc2acbc）＋瀏覽器重拍宿舍確認直條消失（shots/qa_w1/A1）；總圖大廳、舊路書房待使用者 iPhone 看。｜原因：各室內的 fadeWalls 把鏡頭這一側的牆調成 12% 透明，細長牆段、門框、壁柱的殘影在鏡頭前變成一條半透明直條（QA-W1 宿舍截圖 shots/qa_w1/A1、A2 也看得到）。已修：engine3d.js hideFaded()——淡出的牆整面藏（Café 原本就這樣）。待截圖確認＋使用者 iPhone",
       "first": {
@@ -15723,7 +15723,8 @@
         "confirmed": true
       },
       "source": "使用者 2026-10-16 21:5x、22:1x 兩張截圖",
-      "authorized": "使用者（bug 回報）"
+      "authorized": "使用者（bug 回報）",
+      "evidence": "BB_247 末節（企劃線；BB 11-03 01:08 send_message）：PC 顯示卡實拍 cc-local ART_*，連拍像素差查閃爍沒找到，BB 判 ART_APPROVED"
     },
     {
       "id": "BUG-SLOTJUMP",
@@ -16042,7 +16043,7 @@
       "title": "開發組自己的 GLB 有同向疊面（會閃）：萬才館外觀、霖澤館外觀、宿舍大廳等",
       "area": "BUG",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "next": "【11:4x 7e287c19 整合 LAWWW2 3d7f898d：linze_exterior 544→1.9、wancai_exterior 634→3.8 m²（扣掉 GPU instancing 窗原型的假警報）；霖澤館室內不用換。瀏覽器 campus_glb_integration 派 BB】LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
       "first": {
@@ -16064,7 +16065,8 @@
         "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
         "receiver": "LAWWW-B",
         "ack": "ACTIONED"
-      }
+      },
+      "evidence": "BB_247 末節（企劃線；BB 11-03 01:08 send_message）：PC 顯示卡實拍 cc-local ART_*，連拍像素差查閃爍沒找到，BB 判 ART_APPROVED"
     },
     {
       "id": "BUG-TEA-SEIZA",
@@ -20411,7 +20413,7 @@
       "title": "美國公寓、合租戶窄廚房：冰箱和爐子的互動點疊在一起、鏡頭跑到牆外看不到人（BB-C 10-18 測出；USER_WANTS X05）；合租戶客廳電視櫃（0.8,-2.4）＋行李箱（0.75,-1.05）擋住臥室 A 門口",
       "area": "US",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y4S1",
@@ -20435,7 +20437,8 @@
         "acceptance": "nav_us_unit 通過＋BB-C 真實流程",
         "receiver": "LAWWW-C",
         "ack": "ACK"
-      }
+      },
+      "evidence": "BB_247 末節（企劃線；BB 11-03 01:08 send_message）：PC 顯示卡實拍 cc-local ART_*，連拍像素差查閃爍沒找到，BB 判 ART_APPROVED"
     },
     {
       "id": "PS-RESULTS-1018",
@@ -21425,7 +21428,7 @@
       "title": "正式模型第二次進區域以後，窗和燈不跟著天黑（LAWWW2-C 做男一舍時發現：白天進校園、晚上窗不亮；晚上先進來、白天窗還亮著）",
       "area": "P0",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "first": {
         "term": "Y0S1",
@@ -21439,7 +21442,8 @@
       },
       "source": "LAWWW2-C 10-18 04:21（night_rereg.diff＋night_rereg_check.py，e0e39091）",
       "authorized": "D85",
-      "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】night_rereg_check PASS（白天 0、天黑 1、進宿舍回來白天 0、再天黑 1）；剩 BB-C 看溫州街、Café 天黑以後的窗｜原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
+      "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】night_rereg_check PASS（白天 0、天黑 1、進宿舍回來白天 0、再天黑 1）；剩 BB-C 看溫州街、Café 天黑以後的窗｜原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗",
+      "evidence": "BB_247 末節（企劃線；BB 11-03 01:08 send_message）：PC 顯示卡實拍 cc-local ART_*，連拍像素差查閃爍沒找到，BB 判 ART_APPROVED"
     },
     {
       "id": "UX-HOME-RETURN-1018",
@@ -28404,7 +28408,7 @@
       "id": "BACKLOG-A7-WZPARK-COPLANAR",
       "title": "溫州街小公園疊面（BACKLOG A7）：涼亭樑、神龕背板、環狀步道、公布欄軟木板各移 3～5 mm（check_coplanar 一定會閃 11→0、遠處才閃 18→1）",
       "owner": "LAWWW2",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P3",
       "sha": "a3837c1c",
       "first": {
@@ -28425,7 +28429,8 @@
         "ack": "ACK"
       },
       "note": "LAWWW2 1effaa35 交件（wz_park.glb＋wz_park.py c53c3c6d，不用改程式）；LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；閃爍消失只靠 check_coplanar 的數字，BB 有空時動態看一眼",
-      "next": "BB 有空時在溫州街小公園走一圈看有沒有閃（動態）；沒問題就驗收"
+      "next": "BB 有空時在溫州街小公園走一圈看有沒有閃（動態）；沒問題就驗收",
+      "evidence": "BB_247 末節（企劃線；BB 11-03 01:08 send_message）：PC 顯示卡實拍 cc-local ART_*，連拍像素差查閃爍沒找到，BB 判 ART_APPROVED"
     },
     {
       "id": "UI-MONEY-TOAST-ADV-1021",
