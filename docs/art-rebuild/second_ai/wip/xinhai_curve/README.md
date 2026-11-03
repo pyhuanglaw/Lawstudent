@@ -1,3 +1,16 @@
+# 第二版 patch（LAWWW 17:02 退回：campus_backdrop_ground_unit 第 2 項重疊約 1292 m²）
+
+- **原因**：彎道的柏油放在 y −0.02，被當成「整片的地面」（y ≤ 0.001），疊在外圍打底的柏油上面。別的馬路、人行道都是 y 0.012～0.02 的窄條。
+- **修法**：彎道路面改成 y 0.008，在人行道（0.012）和車道線（0.018）下面；其他和第一版一樣。
+- **patch**：`xinhai_curve_v2_1103.patch`（取代第一版），接在開發分支 **033242ae9**，`git apply --check` 過。開發分支已經有鞦韆那件，這個 patch 只有辛亥路。
+- **測試（033242ae9＋patch）**：下面 14 支 ALL PASS。
+  - campus_backdrop_ground_unit（第 2 項重疊 0）、xinhai_curve
+  - ground_zfight、nav_buildings、campus_public、blackforest、wz_swing_front、socsci_place、world_rename、lib_lawn
+  - campus_bell_seethru、campus_bikes、campus_l123、campus_lamps
+- BB 16:5x：通過；萬才館 r2 整合進候選版就 ART_APPROVED。
+
+---
+
 # 辛亥路往東南彎（萬才館 r2 補充，BB 的驗收條件）——LAWWW2 11-03，READY_FOR_ART_REVIEW
 
 官方地圖（`../law_relayout_r2/map_law_xinhai_curve.jpg`）：辛亥路二段沿校園北邊筆直，過了霖澤館往東南彎成三段，萬才館順著它斜放。
