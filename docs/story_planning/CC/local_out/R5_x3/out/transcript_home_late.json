@@ -1,0 +1,291 @@
+{
+ "rows": [],
+ "start": {
+  "clock": {
+   "key": "2029-06-26",
+   "day": 1379,
+   "h": 11.254,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "missed",
+    "res": {
+     "enforcement": "missed"
+    },
+    "bar": true
+   },
+   "EXCHANGE_ROUTE": "TW"
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "enforcement": "不及格（補考缺考）",
+   "maritime": "60 分"
+  },
+  "pgOn": true,
+  "delayed": false,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": "missed"
+  },
+  "pend": [
+   [
+    "fd_mk_missed",
+    "2029-06-26",
+    11
+   ],
+   [
+    "b1",
+    "2029-07-12",
+    20
+   ],
+   [
+    "exam_2029",
+    "2029-08-04",
+    8
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "missed",
+   "res": {
+    "enforcement": "missed"
+   },
+   "bar": true
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": true,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 2,
+  "title": false
+ },
+ "menu": {
+  "menu0": [
+   "存檔存到存檔欄位",
+   "睡覺隔天早上在家醒來",
+   "去玄關拿車鑰匙（取車）",
+   "在家休息一下一小時",
+   "回宿舍捷運＋公車 約 40 分鐘"
+  ],
+  "menus": []
+ },
+ "end": {
+  "clock": {
+   "key": "2029-06-26",
+   "day": 1379,
+   "h": 11.254,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": false,
+   "GRADUATED": 1355,
+   "FAIL_DELAY_COURSES": [
+    "enforcement"
+   ],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "missed",
+    "res": {
+     "enforcement": "missed"
+    },
+    "bar": true
+   },
+   "EXCHANGE_ROUTE": "TW",
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_DAY": 1379,
+   "FAIL_DELAY_BARCANCEL": true
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "enforcement": "不及格（補考缺考）",
+   "maritime": "60 分"
+  },
+  "pgOn": true,
+  "delayed": true,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": "missed"
+  },
+  "pend": [
+   [
+    "fd_mk_missed",
+    "2029-06-26",
+    11
+   ],
+   [
+    "late_2029",
+    "2029-08-04",
+    17.58
+   ],
+   [
+    "r2y4b_y5_plan",
+    "2029-09-03",
+    9
+   ],
+   [
+    "r2y4b_y5_cert",
+    "2030-01-21",
+    10
+   ],
+   [
+    "reg_2030",
+    "2030-05-10",
+    21
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "missed",
+   "res": {
+    "enforcement": "missed"
+   },
+   "bar": true
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": true,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 2,
+  "title": false
+ },
+ "answered": {},
+ "shots": {
+  "menu0": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x3\\out\\106_home_late_menu0_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R5_x3\\out\\107_home_late_menu0_port.png"
+  ]
+ },
+ "sha": "b1b249873",
+ "case": "home_late"
+}

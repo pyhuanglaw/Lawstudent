@@ -1,0 +1,23 @@
+{
+  "rerun": "x3",
+  "id": "R5_x3",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+  "env": "FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x3",
+  "machine": "MSI",
+  "start": "2026-11-03T08:43:57",
+  "end": "2026-11-03T09:08:40",
+  "seconds": 1483,
+  "exit": 1,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8809/index.html?turbo",
+  "res_peak": {
+    "cpu": 90,
+    "mem": 58,
+    "used_gb": 18.8,
+    "chrome_testing": 30
+  }
+}
