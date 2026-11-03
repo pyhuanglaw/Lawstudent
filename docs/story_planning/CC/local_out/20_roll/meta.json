@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "20_roll",
+  "sha": "4c8f138f7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_rollcall_probe.py",
+  "env": "CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge",
+  "machine": "MSI",
+  "start": "2026-11-03T10:31:48",
+  "end": "2026-11-03T10:38:00",
+  "seconds": 372,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 66,
+    "mem": 54,
+    "used_gb": 17.2,
+    "chrome_testing": 29
+  }
+}
