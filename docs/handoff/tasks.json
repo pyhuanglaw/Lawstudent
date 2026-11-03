@@ -43231,6 +43231,33 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "開局的對話（可昕、經濟系同學）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "PORTRAIT-HIRES-1103",
+   "title": "對話立繪高解析度：原因＝從多人設定圖裡切出 160～250 px 寬的小人再放大到 600×1000；要每個人一張高解析度單人全身圖（和現有立繪同一個人、同一套衣服）＋表情，重新去背",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X192；清晰度量測（拉普拉斯變異數，低＝糊）：芷若部分 57、方奕廷 122、品妤 129、宥辰 153、黃筱涵 153、唐睿 158、芯慈 167、明軒 182、林教授 210、沛珊 216、可昕 218、周教授 241、鄭勳 273、韋綸 321、Alison 329、家豪 332、柏翰 371、阿哲 390；清楚的：予樂 1909、徐教授 1483、以安 567～609",
+   "next": "BB 照 D97 寫提示詞跟使用者要（先可昕、沛珊、芯慈、明軒、經濟系四位）→ LAWWW 角色美術驗收（D100a）→ 去背、接進遊戲",
+   "xai": {
+    "spec": "使用者 11-03 截圖；tools/portraits/cut_reference_portraits.py 的 SRC 裁切範圍",
+    "branch": "BB 企劃線",
+    "acceptance": "對話立繪在手機上看得清楚（和予樂、徐教授同一個等級）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
