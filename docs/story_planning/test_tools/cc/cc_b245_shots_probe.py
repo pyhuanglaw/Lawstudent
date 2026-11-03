@@ -32,6 +32,11 @@ REACH_JS = """(()=>{ const E=GAME.E; return E.interactables.filter(it=>it.park==
   return {label:it.label, x:it.x, z:it.z, radius:it.radius||1.8, min:best===null?null:+best.toFixed(3), at, ap:it.seat&&it.seat.ap||null, hasCanStand:!!E.canStand}; }); })()"""
 
 
+FRONT_JS = """(()=>{ const E=GAME.E; return E.interactables.filter(it=>it.park==='swing').map(it=>{ let best=null, at=null;
+  for(let x=it.x-2; x<=it.x+2; x+=0.05) for(let z=it.z-2; z<=it.z-0.3; z+=0.05){ if(E.canStand&&!E.canStand(x,z,0.32,0)) continue; const d=Math.hypot(x-it.x,z-it.z); if(best===null||d<best){ best=d; at=[+x.toFixed(2),+z.toFixed(2)]; } }
+  return {label:it.label, x:it.x, z:it.z, radius:it.radius||1.8, min:best===null?null:+best.toFixed(3), at}; }); })()"""
+
+
 async def cam(pg, p, l):
     await pg.evaluate(CAM % (J(p), J(l)))
 
@@ -73,7 +78,17 @@ async def sub_swing(pg, cdp):
     # 晚上公園有路人（AA_283）：站在鞦韆前面時最近的互動點可能是「打招呼」。依序試：鞦韆 A 前面、鞦韆 B 前面（晴）、鞦韆 A 前面（下雨＝公園沒有人）；
     # #interact 不是「盪鞦韆」就不點、換下一個（照玩家：換個位置站）
     lab = ''
-    for wx, wz, wea in ((31.7, 23.4, 'sunny'), (33.5, 23.4, 'sunny'), (31.7, 23.4, 'rain')):
+    # 11-03：BUG-SWING-SEAT 修正後座位搬到座板上（z 25.0／24.8），鞦韆架前面（seat.ap，z 23.4）離互動點 1.6／1.4 m（radius 1.3）按不到；
+    # 先讀一次檔量「站得住、最近」的點（REACH_JS，常常在架子後面），前面試完再站到那些點（照玩家：繞到架子另一邊）
+    await C.load(pg, C.st('wenzhou', 20.5, 31.7, 23.4, 0.0, day=DAY, weekday=WD, extra={'weather': 'rain'}), '溫州街第 %d 天 20:30（rain），先量鞦韆互動點附近站得住的點' % DAY)
+    reach0 = await pg.evaluate(REACH_JS)
+    front = await pg.evaluate(FRONT_JS)
+    info('鞦韆架前面（z 小於座位那一側）最近站得住的點：' + J(front))
+    for r in front:
+        info('INFO 前面（seat.ap 那一側）按不按得到「%s」（%.1f, %.1f）：最近 %s m、radius %s → %s' % (r['label'], r['x'], r['z'], r['min'], r['radius'], '按得到' if r['min'] is not None and r['min'] < r['radius'] else '按不到'))
+    cands = [(31.7, 23.4, 'sunny'), (33.5, 23.4, 'sunny'), (31.7, 23.4, 'rain'), (33.5, 23.4, 'rain')]
+    cands += [(r['at'][0], r['at'][1], w) for w in ('sunny', 'rain') for r in reach0 if r['at']]
+    for wx, wz, wea in cands:
         await C.load(pg, C.st('wenzhou', 20.5, wx, wz, 0.0, day=DAY, weekday=WD, extra={'weather': wea}),
                      '溫州街第 %d 天 20:30（%s），站在鞦韆前面 (%.1f, %.1f)（zones3d.js 的 ap：座位 x、鞦韆 z−1.4）' % (DAY, wea, wx, wz))
         t = ''
@@ -81,7 +96,7 @@ async def sub_swing(pg, cdp):
             t = await C.interact_label(pg)
             if t: break
             await pg.wait_for_timeout(400)
-        info('站好以後 #interact：「%s」' % t)
+        info('站好以後 #interact：「%s」（站在 %.2f, %.2f，%s）' % (t, wx, wz, wea))
         if t.startswith('盪鞦韆'):
             await L.tap(pg, cdp, '#interact'); lab = t; break
     sw = await pg.evaluate("(()=>{ const L=WZ_PARK_LAYOUT, g=L.items.find(i=>i.kind==='swings'); return {g:{x:g.x,z:g.z}, seats:L.seats.filter(s=>s.kind==='swing')}; })()")
