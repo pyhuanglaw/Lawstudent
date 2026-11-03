@@ -149,7 +149,7 @@ const STORY = (function(){
         if(typeof ev.before==='function') ev.before(G);
         if(typeof ADV!=='undefined') ADV.begin({background:ev.background||'dark'});
         await EVENTS.run(ev); if(typeof ADV!=='undefined'){ if(ADV.active) ADV.end(); ADV.begin({background:'dark'}); }   /* X09：兩段之間（隔天的字卡）留在黑底，不露出 3D */
-        if(econ&&F.dating_kexin&&id==='ev_camp_d2_talk'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'camp_kx_823')){ G.hour=23+40/60; if(E) E.hour=G.hour;   /* BB_177 第 14 節：8/23 22:00 可昕傳、營地訊號差，熄燈前（23:40）才收到；不用回 */
+        if(econ&&F.dating_kexin&&id==='ev_camp_d2_fire'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'camp_kx_823')){   /* 第二天最後一段之後（AA_608 10-5：夜談 retired，原本接在 ev_camp_d2_talk 後面）*/ G.hour=23+40/60; if(E) E.hour=G.hour;   /* BB_177 第 14 節：8/23 22:00 可昕傳、營地訊號差，熄燈前（23:40）才收到；不用回 */
           PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'山上冷嗎',tag:'camp_kx_823'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'訊號不好就不用回'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'明天十二點半到校門對吧，到了跟我說一聲'},G.day,22);
           if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); await GM.say(null,'（手機到熄燈前才收到訊息。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
         F.campStep=i+1; if(GM.autosave) GM.autosave(true); }
