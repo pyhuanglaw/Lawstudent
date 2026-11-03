@@ -61,6 +61,7 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
 const SEE={x:(L.feet[0]+L.head[0])/2,y:L.mattress_top_y+0.28,z:(L.feet[2]+L.head[2])/2,r:0.2,aspect:0.5};   /* ⑨ LAWWW2-B #120 建議：身體中段、床墊上 0.25～0.3 m、r 0.2、aspect 0.5 */
 const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1e-6)&&near(s.r,SEE.r,1e-9)&&near(s.aspect,SEE.aspect,1e-9);
 (async()=>{
+  STORY.SLEEP_FULL=true;   /* ①～⑨測的是原本完整的上床演出（留在 goToBedFull）；預設（使用者 11-03 BUG-SLEEP-CINEMATIC-1103）在最後一段 ⑩ 測 */
   /* ===== ①～⑥：晚上 22:00 在 203（第 6 天＝9/22 週一）選「睡到明天早上」===== */
   { const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; const want=STORY.bedOptions(gm.G)[0];
     await STORY.interact({sleep:true},gm); const Fr=gm.frames;
@@ -141,4 +142,10 @@ const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1
     const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
     check('⑧ game3d.js：loadRelease 清掉 GM.onBlack；fade(true) 全黑以後才叫 GM.onBlack',/function loadRelease\(\)\{[^\n]*GM\.onBlack=null;/.test(g3)&&/function fade\(on\)\{[^\n]*sleep\(on\?480:500\)\.then\(\(\)=>\{ if\(on&&GM\.onBlack\)/.test(g3)); }
   STORY.onEnter=realOnEnter;
+  /* ===== ⑩ 預設（BUG-SLEEP-CINEMATIC-1103，使用者 11-03「不要每天都給我撥放走上床躺下熄燈 只要第二天從床上起來就好」）：不走、不爬、不演躺下熄燈；醒來照舊從床上起來、爬下來 ===== */
+  { STORY.SLEEP_FULL=false; const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; await STORY.interact({sleep:true},gm); const Fr=gm.frames;
+    const lie0=Fr.findIndex(f=>inBed(f)); const up=Fr.slice(0,lie0<0?Fr.length:lie0).filter(f=>f.pose==='climb');
+    check('⑩ 上床：不走到梯子前、不爬梯子（淡出裡直接放到床上）',gm.walks.length===0&&up.length===0&&lie0>=0,JSON.stringify({walks:gm.walks.length,climb:up.length,lie0}));
+    const down=Fr.slice(lie0<0?0:lie0).filter(f=>f.pose==='climbdown');
+    check('⑩ 醒來照舊：從床上起來、一階一階爬下來、換到第二天',down.length>=3&&gm.G.day===d0+1,JSON.stringify({down:down.length,day:gm.G.day-d0})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); console.log('FAILED '+(fails+1)); process.exit(1); });

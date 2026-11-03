@@ -1130,7 +1130,7 @@ const CLS=(function(){
     if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
     return true; };
   /* 先去吃飯（1-4）：一頓飯 40 分鐘、照價錢扣錢（吃飯不扣時段次數）；只寫一般的場面（和誰一起吃、偶遇是第 5 節第二批）*/
-  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'阿鳳麵店，一碗乾麵加一顆滷蛋。'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。'}];
+  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'阿鳳麵店，一碗乾麵加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
   /* 小福（AA_186 4-4：小福樓 2025/12/31 停業、2026/1/10 拆除重建）：經濟系那一年、大一上照常；大一下起改成活大的自助餐 */
   const mealsOf=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, id=t?t.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null); return id&&!/^Y0/.test(id)&&id!=='Y1S1'?MEALS.map(m=>m.t==='小松'?{t:'學活',price:m.price,line:'學活的自助餐，夾了三樣菜。'}:m):MEALS; };
   /* AA_350 R2（AA_294 第 3 節「翹了經原下也還有機會」）：大一下那個週五沒去經原下、12:00～13:00 選了「先去吃飯→活大」＝ ev_sk03_lunch 在活大演（阿勳已經坐在那裡，不出選項）。
@@ -1141,7 +1141,9 @@ const CLS=(function(){
   S.lunchBreak=async function(GM){ const G=GM.G, MEALS=mealsOf(G); const opts=MEALS.map(m=>({t:m.t+'　'+m.price+' 元',dim:G.money<m.price})).concat([{t:'算了'}]); let i=opts.length-1; GM.sceneBegin(); try{ i=await GM.choose(opts); } finally { GM.sceneEnd(); }
     const m=MEALS[i]; if(!m) return false; if(G.money<m.price){ GM.toast('錢不夠',2400); return false; }
     const sk=m.t==='學活'?S.sk03Huoda(G):null; if(sk){ GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); await GM.fade(false); } finally { GM.sceneEnd(); } G.flags.SK03_HUODA=G.day; await EVENTS.run(sk); return true; }   /* 時間：事件的 after 快轉到 13:00「午休結束。」*/
-    GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); GM.advance(40/60); GM.caption('',m.line,2600); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
+    /* BUG-EAT-AFTER-CLASS-SCENE-1103（使用者 11-03：「上課完去吃飯居然扣錢和吃飽 場景都是教室」）：吃飯那一段換到那家店（2D 背景＋地點字幕），吃完再出發去下一堂；原本只淡出淡入、人一直在教室 */
+    const bgKey=(hr(G)>=18&&m.bgNight)||m.bg, bg=bgKey&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(bgKey):'dark';
+    GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); GM.advance(40/60); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:bg}); GM.caption('',m.t,2400); await GM.fade(false); await GM.say(null,m.line); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); } finally { GM.sceneEnd(); } return true; };
   /* 在附近讀書（1-4）：讀到出門時間；每小時一份準備給下一堂（和自學同一個 prep，AA_104 4-3）。時段次數（DL-03）做好以後算一次自習 */
   S.studyUntil=async function(GM,nx,until){ const G=GM.G, h0=hr(G); if(until<=h0+0.1) return true; if(S.slotPlan){ const sp=S.slotPlan(G,until-h0,'study'); if(!sp.ok){ GM.toast(sp.why,3000); return false; } S.slotUse(G,sp.uses); }   /* 算一次自習（DL-03）*/ const R=S.rec(G), hrs=Math.max(1,Math.floor(until-h0)); GM.sceneBegin(); try{ await GM.fade(true); GM.advance(until-h0); R.prep[nx.c.id]=(R.prep[nx.c.id]||0)+hrs; R.lastStudy={day:G.day,id:nx.c.id,name:nx.c.name}; if(G.stats) G.stats.study=(G.stats.study||0)+hrs; GM.caption('','你找了個位子，把'+nx.c.name+'這週的進度讀到 '+hhmm(hr(G))+'。',2800); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
   /* 開學第二天的民總（劇情課：story3d.js 的 classScene，進 201 就開始）不能翹（AA_294 第 1 節第 1 列、第 3 節「時間到了直接帶去」，任務 AA294-SKIPCLASS-1018）：
