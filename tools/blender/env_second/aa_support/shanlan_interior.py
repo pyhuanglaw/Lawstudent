@@ -23,7 +23,7 @@ P = 'shl_'
 sh.M.update({
     'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#c49b6c', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.5),
     'wall': CL.soft_plaster(P + 'wall', '#d7bf98', 0.92, tile=1.8, k=0.25),   # v3：再往暖色（LAWWW2 驗收：參考圖整體蜂蜜色）；v2 #d9cbb4、v1 #ece6da
-    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#c8955a', maps=('diff',), res=256, rough_value=0.48),
+    'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=1.3, target='#c99f6e', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.14),
     'bulb': L.flat(P + 'bulb', '#ffeccc', rough=0.3, emit=B.srgb('#ffc88a')),
     'ceil': L.flat(P + 'ceiling', '#d8c4a2', rough=0.95, cull=True),   # v3：v2 #ddd2bf 偏灰白
@@ -349,6 +349,7 @@ sh.tally('v1')
 exec(open(os.path.join(HERE, 'shanlan_v2_fill.py'), encoding='utf-8').read())   # v2：一樓擺滿（另一個檔）
 sh.tally('v2 fill')
 exec(open(os.path.join(HERE, 'shanlan_v3_fill.py'), encoding='utf-8').read())   # v3：樓梯實木側板、天花板格樑＋嵌燈
+exec(open(os.path.join(HERE, 'shanlan_v4_fill.py'), encoding='utf-8').read())   # v4：樓梯側板的嵌入式書架、樓梯旁西牆的書牆（§12 對參考圖）；木色 #c8955a → #c99f6e（LAWWW2 ref_match：太橘）
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats']), 'floorSit': len(LAY['floorSit'])})
 # 每層樓的三角形（L2_ 開頭＝二樓；WALL_ 是兩層共用的牆）
 import json as _j
