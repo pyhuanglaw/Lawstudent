@@ -510,3 +510,11 @@
 [22:34:48] ==== START 00_gpu  (gpu @ 95fdd71af) ====
 [22:34:51] [res] cpu=17% mem=51% (16.1/31.4 GB) chrome_testing=20  START 00_gpu
 [22:36:45] [res] cpu=27% mem=51% (15.8/31.4 GB) chrome_testing=14  END N19F_fav
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ab97b347d..e3eba2bcb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:36:53] ==== END   N19F_fav  exit=1  170s   ====
+[22:36:58] memory 47% before starting 01_p0speed (2 running)
+[22:36:58] ==== START 01_p0speed  (game @ 81f195b1a) ====
+[22:37:03] [res] cpu=60% mem=47% (14.9/31.4 GB) chrome_testing=13  START 01_p0speed
+[22:37:31] [res] cpu=40% mem=49% (15.2/31.4 GB) chrome_testing=19  END 00_gpu
