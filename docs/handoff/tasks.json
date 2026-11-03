@@ -41043,6 +41043,26 @@
         "ack": "未派",
         "owner": "LAWWW2"
       }
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "交班",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "HANDOFF-A-1103",
+      "title": "帳號 A 11-03 交班：LAWWW 等 BB、CC（還在值班的）交班完再最後收尾（duty sync、roles、喚醒全關、最後快照）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P0",
+      "note": "使用者 11-03 02:0x（UA-LAWWW-1103-10）：「你要等其他AI都交班完你才交班 我已經通知他們要交班了」；AI_SESSION_HANDOFF 第 5 節「LAWWW 最後做」",
+      "next": "收到 BB、CC 交班（duty_BB.json、duty_CC.json state handed-off）→ duty sync → roles／check → 確認五個保險喚醒都 enabled=false → snapshot＋duty handoff → commit＋push"
     }
   ]
 }
