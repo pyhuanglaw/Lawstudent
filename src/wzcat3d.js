@@ -14,7 +14,8 @@
    - 趴著的模型沒有骨架：用整隻上下微微起伏的「呼吸」（S.breathe；石桌底下、舊 GLB 那幾種 zones3d.js 自己放的也一樣）。甩尾巴要 LAWWW2 補有骨架的趴姿（cat_lie_idle）。
    - 蹭腳（S.RUB）：醒著、玩家站在 4 m 內不動 3 秒（坐著不算）→ 擲一次骰（55%；沒中 20 秒內不再擲）→ 貓走到玩家腳邊（離玩家中心 0.44 m，玩家碰撞半徑 0.33、貓身體半寬 0.11，貼著不穿過）、
      沿著腳邊慢慢繞半圈到一圈（0.16 m/s、身體側面朝玩家、頭往內偏一點），繞完一半機率坐在旁邊、一半走開；玩家一動就停下來看。蹭完 45 秒內不再蹭；劇情在演、被收養、寒流、走失、hold 期間都不蹭。
-     專用的磨蹭動畫（頭和側身貼著磨）要 LAWWW2 補 cat_rub；現在用 cat_walk 慢速播。*/
+     專用的磨蹭動畫（頭和側身貼著磨）要 LAWWW2 補 cat_rub（GLB 裡有這個片段就自動用，beginRub）；現在用 cat_walk 慢速播。
+   - 「白天沒走」（使用者截圖那次）：舊的版本醒著／睡著只在進溫州街那一刻判斷；而且 07:00～17:30 才醒著（AA_493 定的），遊戲裡 17:30～18:36 太陽還在（HUD ☀、黃昏調色），看起來是白天、貓卻已經趴上圓椅。*/
 const WZCAT=(function(){
   const S={};
   /* 貓會去的地方（溫州街區域座標；x 往東、z 往南）：老樹圓椅前（兩個點，最常回來）、涼亭東邊台階下、路燈下、土地公旁邊、東邊路燈和鞦韆之間、前面草地的步道邊 */
@@ -83,7 +84,7 @@ const WZCAT=(function(){
       c.path=p.map(q=>({x:q[0],z:q[1]})); c.state='approach'; c.t=25; c.rub=null; play('cat_walk',0.25); return true; }
     c.rubCd=S.RUB.MISS; return false; }
   function beginRub(pp){ const c=cat, o=c.obj.position; c.rub={cx:pp.x,cz:pp.z,a:Math.atan2(o.x-pp.x,o.z-pp.z),r:Math.max(S.RUB.RING,Math.hypot(o.x-pp.x,o.z-pp.z)),dir:c.rnd()<0.5?1:-1,left:Math.PI*(1+c.rnd()),flips:0,swept:0};
-    c.state='rub'; c.path=null; play('cat_walk',0.2); c.act.cat_walk.timeScale=S.RUB.V/S.SPEED; }
+    c.state='rub'; c.path=null; if(c.act.cat_rub){ play('cat_rub',0.25); } else { play('cat_walk',0.2); c.act.cat_walk.timeScale=S.RUB.V/S.SPEED; } }   /* LAWWW2 補了 cat_rub（原地、一圈 2 秒、頭和側身往內貼）就用它；沒有就用 cat_walk 慢速播 */
   function endRub(E,stopped){ const c=cat; c.rubCd=stopped?S.RUB.MISS+10:S.RUB.CD; c.rub=null;
     if(stopped){ play('cat_idle',0.2); c.state='look'; c.t=2.5; return; }
     if(c.rnd()<0.5){ play('cat_sit',0.25); c.state='sit'; c.at=null; c.t=8+c.rnd()*12; return; }   /* 坐在玩家旁邊 */

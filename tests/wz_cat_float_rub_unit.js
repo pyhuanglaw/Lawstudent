@@ -123,6 +123,12 @@ const f3=v=>v.toFixed(3);
       WZCAT.hold('lie'); const held=tryRub(()=>{}); WZCAT.release();
       check('D10. 被收養、寒流、走失（第 '+lostDay+' 天）、hold 期間：不蹭',!adopt&&!cold&&lost===false&&!held,JSON.stringify({adopt,cold,lost,held})); }
     else check('D1. WZCAT 有蹭腳（WZCAT.RUB）',false); }
+  /* LAWWW2 補了 cat_rub：蹭的時候播它（沒有就 cat_walk 慢速）*/
+  FAKE.animations.push(new THREE.AnimationClip('cat_rub',2,[])); await enter(mkG(10)); { const c=WZCAT._cat&&WZCAT._cat(); let clip=null;
+    if(c&&WZCAT.RUB){ c.rnd=()=>0.3; const P=E3.player.obj.position; P.set(26,0,24.4); c.state='look'; c.t=99; c.rubCd=0; c.anchor=null;
+      for(let i=0;i<400;i++){ zone.update(0.1,E3); if(c.state==='rub'){ zone.update(0.1,E3); clip=c.cur; break; } } }
+    check('D11. GLB 有 cat_rub 片段：蹭的時候播 cat_rub',clip==='cat_rub',clip); }
+  FAKE.animations.pop();
   delete global.GAME;
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
