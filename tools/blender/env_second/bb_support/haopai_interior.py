@@ -7,7 +7,7 @@
 招牌「好拍運動」只做空白底板 PLATE_FACE_HAOPAI（字由遊戲用 canvas 畫）；球拍、膠皮、包裝都沒有任何字或標誌（D77）；電視畫面是抽象的綠色球場色塊。
 尺寸（照真實）：羽球拍全長 0.675 m、拍框 0.236 × 0.196；網球拍 0.685 m、拍面 0.33 × 0.256；桌球拍 0.16 × 0.15＋握把 0.10；羽球筒 ø0.09 × 0.40；
 櫃台 1.0 m、高腳凳座面 0.70、小板凳 0.32；穿線機轉盤高 1.02。"""
-import json, math, os, random, subprocess, sys
+import json, math, os, random, re, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
@@ -116,6 +116,11 @@ class UM:
         self.bm.normal_update(); return B.mesh_obj(self.name, self.bm, self.mat, parent)
 
 
+_TRI = {}
+if os.environ.get('TRI_DBG'):
+    import atexit; atexit.register(lambda: print('TRI_DBG', json.dumps(sorted(_TRI.items(), key=lambda kv: -kv[1])[:25])))
+
+
 class Part:
     """一件東西（可以有好幾種材質）：在自己的座標建好，最後套一個變換；side＝放進哪一面牆的淡出組"""
     def __init__(self, name, side=None, T=None, smooth=True): self.name, self.side, self.T, self.smooth, self.m = name, side, T, smooth, {}
@@ -132,6 +137,7 @@ class Part:
             elif isinstance(m, L.CMesh): ob = m.finish(root, uv=False)
             else: ob = m.finish(root, uv=True)
             if ob is None: continue
+            if os.environ.get('TRI_DBG'): _TRI[re.sub(r'_\d+$', '', self.name)] = _TRI.get(re.sub(r'_\d+$', '', self.name), 0) + sum(len(pl.vertices) - 2 for pl in ob.data.polygons)   # 除錯：每一種東西幾個三角形
             if self.T is not None: ob.matrix_basis = self.T
             if self.side: ob['dir'] = DIRS[self.side]
             if self.smooth and key not in ('floor', 'wall', 'ceil', 'glass', 'sign'): L.smooth_mesh(ob, angle=0.6)
@@ -150,7 +156,7 @@ def clathe(c, prof, x, y, z, col, seg=16, R=None):
     n0 = len(c.bm.faces); bm = L.lathe(prof, seg=seg); c.add_bm(bm, fm((x, y, z), R)); bm.free(); return c.paint(_new(c, n0), col)
 
 
-def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=2):
+def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=1):   # 圓角段數 2→1（三角形預算；圓角 1 cm 左右，遊戲距離看不出來）
     if r <= 0.0005: return c.cbox(x0, x1, y0, y1, z0, z1, col)
     return c.crbox(x0, x1, y0, y1, z0, z1, col, r=r, seg=seg)
 
@@ -194,18 +200,18 @@ BAD_FRAME = ['#1f4fa0', '#c8202a', '#e2cc1e', '#1d1d21', '#e8e6e0', '#d9579a', '
 GRIPS = ['#f2f0ea', '#1e1e20', '#e2cc1e', '#d2303a', '#2f6fb8', '#f2f0ea']
 
 
-def badminton(pt, frame, grip, shaft='#34363a', n=14, strings=True):
+def badminton(pt, frame, grip, shaft='#34363a', n=10, strings=True):   # 三角形預算（第一次建置 7.8 萬）：框 14→10 段
     c = pt['vc']; cy, ay, az = 0.567, 0.118, 0.098
     frame_ring(c, cy, ay, az, 0.0036, 0.0052, frame, n)
-    ccyl(c, (0, 0.205, 0), (0, 0.452, 0), 0.0034, shaft, seg=6, caps=False)
-    ccyl(c, (0, 0.424, 0), (0, 0.452, 0), 0.0068, frame, seg=6, r2=0.0042, caps=False)   # T 字接頭
-    ccyl(c, (0, 0.013, 0), (0, 0.196, 0), 0.0136, grip, seg=7)                            # 握把（纏握把布）
-    ccyl(c, (0, 0.0, 0), (0, 0.014, 0), 0.0148, '#202022', seg=7, caps=False)            # 尾蓋
-    ccyl(c, (0, 0.192, 0), (0, 0.218, 0), 0.0105, frame, seg=7, r2=0.0048, caps=False)   # 握把頭的塑膠套
+    ccyl(c, (0, 0.205, 0), (0, 0.452, 0), 0.0034, shaft, seg=4, caps=False)
+    ccyl(c, (0, 0.424, 0), (0, 0.452, 0), 0.0068, frame, seg=4, r2=0.0042, caps=False)   # T 字接頭
+    ccyl(c, (0, 0.013, 0), (0, 0.196, 0), 0.0136, grip, seg=6)                            # 握把（纏握把布）
+    ccyl(c, (0, 0.0, 0), (0, 0.014, 0), 0.0148, '#202022', seg=6, caps=False)            # 尾蓋
+    ccyl(c, (0, 0.192, 0), (0, 0.218, 0), 0.0105, frame, seg=5, r2=0.0048, caps=False)   # 握把頭的塑膠套
     if strings: string_bed(pt['alpha'], cy, ay - 0.003, az - 0.003, 'bad_str', n)
 
 
-def tennis(pt, frame, grip, accent, n=16):
+def tennis(pt, frame, grip, accent, n=12):
     c = pt['vc']; cy, ay, az = 0.515, 0.162, 0.127
     frame_ring(c, cy, ay, az, 0.0095, 0.011, frame, n)
     yb = cy - ay * math.sqrt(1 - (0.082 / az) ** 2)
@@ -216,7 +222,7 @@ def tennis(pt, frame, grip, accent, n=16):
     string_bed(pt['alpha'], cy, ay - 0.008, az - 0.008, 'ten_str', n)
 
 
-def tt_paddle(pt, face_a, face_b, n=16):
+def tt_paddle(pt, face_a, face_b, n=12):
     """桌球拍（拍面朝 ±x：+x 那面 face_a、−x 那面 face_b；握把往 −y，拍面中心在 (0,0.18,0)）"""
     c = pt['vc']; cy, ay, az = 0.18, 0.079, 0.075
     ring = [(cy + ay * math.sin(2 * math.pi * i / n) * (1.0 if math.sin(2 * math.pi * i / n) > 0 else 0.94), az * math.cos(2 * math.pi * i / n)) for i in range(n)]
@@ -342,7 +348,7 @@ def hang_badminton(z, y_bot, i, tilt):
 
 
 n_b = 0
-for row, (yb, za, zb, step) in enumerate(((2.74, -1.38, 7.32, 0.17), (2.02, -0.32, 7.32, 0.17))):
+for row, (yb, za, zb, step) in enumerate(((2.74, -1.38, 7.32, 0.2), (2.02, -0.32, 7.32, 0.2))):   # 間距 0.17→0.19（三角形預算）
     z = za + (0.085 if row else 0.0)
     while z <= zb:
         hang_badminton(z, yb + random.uniform(-0.02, 0.02), n_b, random.uniform(-0.05, 0.05)); n_b += 1; z += step
@@ -355,8 +361,8 @@ for i, z in enumerate([2.3 - k * 0.29 for k in range(9)]):
 for i, z in enumerate((7.05, 6.75, 6.45, 6.15, 5.85, 4.35, 4.05, 3.75)):
     pt = Part(f'reel_{i}', side='right', T=fm((XR - 0.035, 1.72 if i % 2 else 1.5, z), rot('Z', math.pi / 2)))
     col = ['#f2f0ea', '#e2cc1e', '#d9579a', '#2f6fb8', '#ee7a1e', '#2e8a4a', '#f2f0ea', '#c8202a'][i]
-    clathe(pt['vc'], [(0.006, -0.012), (0.055, -0.012), (0.055, -0.008), (0.04, -0.007), (0.04, 0.007), (0.055, 0.008), (0.055, 0.012), (0.006, 0.012)], 0, 0, 0, '#2a2c30', seg=14)
-    clathe(pt['vc'], [(0.041, -0.0068), (0.052, -0.006), (0.052, 0.006), (0.041, 0.0068)], 0, 0, 0, col, seg=14)
+    clathe(pt['vc'], [(0.006, -0.012), (0.055, -0.012), (0.055, -0.008), (0.04, -0.007), (0.04, 0.007), (0.055, 0.008), (0.055, 0.012), (0.006, 0.012)], 0, 0, 0, '#2a2c30', seg=10)
+    clathe(pt['vc'], [(0.041, -0.0068), (0.052, -0.006), (0.052, 0.006), (0.041, 0.0068)], 0, 0, 0, col, seg=10)
     pt.done(); hook(1.72 if i % 2 else 1.5, z, 0.06)
 # 價目卡（夾在網格上）
 for i, (y, z) in enumerate(((2.66, 6.4), (2.66, 3.1), (1.95, 1.3), (2.66, 0.2), (1.95, 4.9), (1.1, 2.4))):
