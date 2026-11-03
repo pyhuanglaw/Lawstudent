@@ -1,0 +1,23 @@
+{
+  "rerun": "fix4",
+  "id": "Y_A3pre",
+  "sha": "dc36b401e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_late15_probe.py",
+  "env": "RERUN=fix4",
+  "machine": "MSI",
+  "start": "2026-11-03T10:17:19",
+  "end": "2026-11-03T10:18:37",
+  "seconds": 78,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8812/index.html",
+  "res_peak": {
+    "cpu": 46,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 27
+  }
+}

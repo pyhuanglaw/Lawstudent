@@ -410,3 +410,11 @@
 [10:17:19] ==== START Y_A3pre  (probe @ dc36b401e) ====
 [10:17:22] [res] cpu=19% mem=50% (15.7/31.4 GB) chrome_testing=18  START Y_A3pre
 [10:18:21] [res] cpu=43% mem=46% (14.5/31.4 GB) chrome_testing=18  END Z_G6b_v95
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2d1351c56..8b965f5d5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:18:27] ==== END   Z_G6b_v95  exit=0  249s   ====
+[10:18:29] memory 45% before starting 00_gpu (2 running)
+[10:18:29] ==== START 00_gpu  (gpu @ 3670b96eb) ====
+[10:18:32] [res] cpu=52% mem=42% (14.4/31.4 GB) chrome_testing=9  START 00_gpu
+[10:18:37] [res] cpu=46% mem=44% (13.4/31.4 GB) chrome_testing=9  END Y_A3pre
