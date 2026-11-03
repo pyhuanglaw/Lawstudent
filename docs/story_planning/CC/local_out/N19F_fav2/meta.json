@@ -1,0 +1,23 @@
+{
+  "rerun": "sysrow",
+  "id": "N19F_fav2",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_phone_fav_probe.py",
+  "env": "CC_HEADLESS=0;ORIENTS=port,land;RERUN=sysrow",
+  "machine": "MSI",
+  "start": "2026-11-03T22:56:58",
+  "end": "2026-11-03T22:59:53",
+  "seconds": 175,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 40,
+    "mem": 56,
+    "used_gb": 17.6,
+    "chrome_testing": 30
+  }
+}

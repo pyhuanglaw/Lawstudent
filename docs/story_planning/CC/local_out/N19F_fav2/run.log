@@ -1,0 +1,48 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_phone_fav_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19F_fav2\out
+PASS port 遊戲載入
+【前置／捷徑】port：讀檔到 9/22 週一 22:00 校園（day 6），PHONE.postAt 放四則訊息
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+  port 原本的順序：['p:heroine_03', 'p:kexin', 'p:zhe', 'p:heroine_02', 'p:heroine_01']
+PASS port ① 原本：照最新一則排（語彤、可昕、阿哲、芷若、以安），沒有 ★  [{"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}, {"th": "p:heroine_01", "star": false}]
+PASS port ① 對話表頭有 ☆，44px 以上、在畫面裡  {"t": "☆", "w": 44, "h": 44, "in": true}
+PASS port ① 點 ☆：變 ★、G.phone.fav 有以安  ★
+PASS port ① 列表：以安（訊息最舊）到最上面、名字前有 ★，其他的照原本順序  [{"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}]
+  朋友頁的星號：["p:heroine_01", "p:zhe", "p:kai", "p:kexin", "p:prof_zhou"]
+PASS port ② 朋友頁有 p:zhe 的星號、點得到
+PASS port ② 朋友頁有 p:kexin 的星號、點得到
+PASS port ② G.phone.fav 有三個  ["p:heroine_01", "p:zhe", "p:kexin"]
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+PASS port ② 最愛三個在最上面、之間照最新一則（可昕、阿哲、以安），接著語彤、芷若  [{"th": "p:kexin", "star": true}, {"th": "p:zhe", "star": true}, {"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:heroine_02", "star": false}]
+PASS port ③ 存到欄位 1，存檔裡有 phone.fav  ["p:heroine_01", "p:zhe", "p:kexin"]
+PASS port ③ 讀檔以後 G.phone.fav 還是三個  ["p:heroine_01", "p:zhe", "p:kexin"]
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+PASS port ③ 讀檔以後列表還是置頂（和存檔前一樣）  [{"th": "p:kexin", "star": true}, {"th": "p:zhe", "star": true}, {"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:heroine_02", "star": false}]
+PASS port ④ 對話表頭再點一次：變回 ☆  ☆
+PASS port ④ 全部取消：G.phone.fav 是空的  []
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+PASS port ④ 列表回到原本的順序、沒有 ★  [{"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}, {"th": "p:heroine_01", "star": false}]
+PASS port 沒有 JS 例外
+PASS land 遊戲載入
+【前置／捷徑】land：讀檔到 9/22 週一 22:00 校園（day 6），PHONE.postAt 放四則訊息
+  （列表裡另外還有：['sys', 'g:econ_friends']；不列入順序比對）
+  land 原本的順序：['p:heroine_03', 'p:kexin', 'p:zhe', 'p:heroine_02', 'p:heroine_01']
+PASS land ① 原本：照最新一則排（語彤、可昕、阿哲、芷若、以安），沒有 ★  [{"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}, {"th": "p:heroine_01", "star": false}]
+PASS land ① 對話表頭有 ☆，44px 以上、在畫面裡  {"t": "☆", "w": 44, "h": 44, "in": true}
+PASS land ① 點 ☆：變 ★、G.phone.fav 有以安  ★
+PASS land ① 列表：以安（訊息最舊）到最上面、名字前有 ★，其他的照原本順序  [{"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}]
+  朋友頁的星號：["p:heroine_01", "p:zhe", "p:kai", "p:kexin", "p:prof_zhou"]
+PASS land ② 朋友頁有 p:zhe 的星號、點得到
+PASS land ② 朋友頁有 p:kexin 的星號、點得到
+PASS land ② G.phone.fav 有三個  ["p:heroine_01", "p:zhe", "p:kexin"]
+  （列表裡另外還有：['sys', 'g:econ_friends']；不列入順序比對）
+PASS land ② 最愛三個在最上面、之間照最新一則（可昕、阿哲、以安），接著語彤、芷若  [{"th": "p:kexin", "star": true}, {"th": "p:zhe", "star": true}, {"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:heroine_02", "star": false}]
+PASS land ③ 存到欄位 1，存檔裡有 phone.fav  ["p:heroine_01", "p:zhe", "p:kexin"]
+PASS land ③ 讀檔以後 G.phone.fav 還是三個  ["p:heroine_01", "p:zhe", "p:kexin"]
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+PASS land ③ 讀檔以後列表還是置頂（和存檔前一樣）  [{"th": "p:kexin", "star": true}, {"th": "p:zhe", "star": true}, {"th": "p:heroine_01", "star": true}, {"th": "p:heroine_03", "star": false}, {"th": "p:heroine_02", "star": false}]
+PASS land ④ 對話表頭再點一次：變回 ☆  ☆
+PASS land ④ 全部取消：G.phone.fav 是空的  []
+  （列表裡另外還有：['sys', 'g:law_class', 'g:econ_friends']；不列入順序比對）
+PASS land ④ 列表回到原本的順序、沒有 ★  [{"th": "p:heroine_03", "star": false}, {"th": "p:kexin", "star": false}, {"th": "p:zhe", "star": false}, {"th": "p:heroine_02", "star": false}, {"th": "p:heroine_01", "star": false}]
+PASS land 沒有 JS 例外
+ALL PASS
