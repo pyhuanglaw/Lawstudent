@@ -20,3 +20,4 @@
 2. status＝completed 時：牆鐘時間＝`updated_at − run_started_at`（或 `get_workflow_run_usage` 的 run_duration_ms）；結果看 conclusion＋job 日誌（`actions_list` 的 `list_workflow_jobs`，再看失敗支數）。
 3. 若又被取消／重跑：`actions_list` `list_workflow_runs` `resource_id=node-sweep.yml` 找 claude/gha-node-sweep 最新那筆完成的。
 4. 填進上表 → 套判斷規則 → 告訴使用者「GHA 幾分 vs PC 49 分，以後給誰跑」→ 若改回 PC，請 CC 把 queue.txt 的 N1 解除註解。
+5. 怎麼讀結果（LAWWW 01:22）：conclusion＝success 就是沒有失敗。執行摘要分三份：失敗的、最後一行看不出結果的、輸出有「跳過／找不到」字樣的。**bookstore_exit 最後一行本來就是 `}`，不算失敗**。有失敗就記進總表（docs/handoff/tasks.json），交給下一班 LAWWW。LAWWW 那邊的時間紀錄在 `docs/handoff/GHA_TEST_OFFLOAD_1103.md` 第六節（456c343d0）。網址公開：https://github.com/pyhuanglaw/Lawstudent/actions/runs/41558969904
