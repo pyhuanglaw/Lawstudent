@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_R4_x3\tests\flow_main_day12.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\R4_x3\out
+PASS 遊戲載入
+  [  30.8s] 幀率 65.11 格／秒 → 真實時間上限放大 1.0 倍（走路 420 秒、等劇情 300 秒）
+PASS 標題畫面有「開始新的一天」
+  [  80.8s] 幀率 0.00 格／秒 → 真實時間上限放大 6.0 倍（走路 2520 秒、等劇情 1800 秒）
+PASS 第一天宿舍開場結束、恢復控制、目標是讀案例或睡覺  goal=目標：讀（或不讀）明天的案例，然後睡覺 {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "走出房間", "hour": 21.2, "stand": true, "camYaw": -2.743, "fallbacks": 0, "y": 0, "lv": 0, "frame": 5820, "paused": true}
+PASS 宿舍有「坐在書桌前」  {'x': -2.04, 'z': -0.098, 'r': 1, 'label': '坐在書桌前', 'lv': None, 'y': None}
+  [  81.0s] 「書桌」途中：phone 開著（遊戲暫停），先關掉
+  [ 103.0s] 到達「書桌」附近（0.66 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，22 秒
+PASS 走到書桌（點地面／搖桿）
+PASS 書桌旁出現「坐在書桌前」
+PASS 坐下讀完案例（選「認真讀完」）、恢復控制  readCase=full
+  [ 109.6s] 「床」途中：phone 開著（遊戲暫停），先關掉
+  [ 113.2s] 到達「床」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS 走到床邊（點地面／搖桿）
+PASS 床邊出現「睡覺」
+  [ 143.1s] 第二天開場時間 13.08（13:05＝13.08；12:30 以後空下來 1.5 秒劇情就會帶進 201）
+FAIL 睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課  day=2 goal=目標：進入法律系館A上課（13:20） {"zone": "classroom", "x": 0, "z": 7.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "好啦好啦。", "choices": 0, "interact": "離開教室", "hour": 13.08, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 9342, "paused": false}
+  [ 149.2s] 【劇情接手】走到法律系館A門口途中被帶進 201（{'h': 13.08, 'classDone': False, 'classNow': True, 'day': 2}）：沙盒太慢，classes3d.js S.goDay2 照設計接手
+PASS 劇情接手的時間合理（第二天、12:30～15:12、還沒上過課）  {"h": 13.08, "classDone": false, "classNow": true, "day": 2}
+[未驗] 走到法律系館A門口（點地面／搖桿）（劇情接手，這一次沒有走到）
+[未驗] 門口出現「進入法律系館A」（劇情接手，這一次沒有走到）
+[未驗] 進到霖澤館大廳、目標是上二樓到 201 教室（劇情接手，這一次沒有走到）
+[未驗] 走樓梯上二樓、走到 201 教室門口（點地面／搖桿）（劇情接手，這一次沒有走到）
+[未驗] 門口出現「進入 201 階梯教室」（劇情接手，這一次沒有走到）
+PASS 用選單存到欄位 1
+PASS 重新整理後載入
+PASS 標題「讀取」欄位 1：天數、地點、上課與讀案例的進度一樣  {'day': 2, 'zone': 'classroom', 'hour': 13.08, 'classDone': False, 'readCase': 'full'} → {'day': 2, 'zone': 'classroom', 'hour': 13.08, 'classDone': False, 'readCase': 'full'}
+PASS 讀檔後搖桿走得動  {"zone": "classroom", "x": -3.47, "z": 7.13, "ry": 4.63, "busy": true, "pose": "walk", "path": 5, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 13.08, "stand": true, "camYaw": 7.776, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 82, "paused": false} 推了 1 次、走了 38.49 m
+PASS 沒有 JS 例外  []
+[未驗] 共 5 項（劇情接手；要在負載低、每秒 1 格以上時重跑才驗得到）：走到法律系館A門口（點地面／搖桿）、門口出現「進入法律系館A」、進到霖澤館大廳、目標是上二樓到 201 教室、走樓梯上二樓、走到 201 教室門口（點地面／搖桿）、門口出現「進入 201 階梯教室」
+FAILED: 睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課
