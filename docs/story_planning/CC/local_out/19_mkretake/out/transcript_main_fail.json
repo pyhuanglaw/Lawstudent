@@ -1,0 +1,1120 @@
+{
+ "rows": [
+  {
+   "k": "step",
+   "n": "start",
+   "t": "fd_grades_y4s2",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "大四下的成績出來了。",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：60 分　強制執行法（重修）：0 分（不及格）",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（強制執行法，不及格。）",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（補考在 6/26（二）上午十點，法律系館A。考過了，就照常畢業。）",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "fd_grades_y4s2",
+   "d": "2029-06-18",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "card",
+   "n": "6/21（四）19:30",
+   "t": "（畢業以後，你還是每天八點起床。不用上課，就去總圖。）",
+   "d": "2029-06-21",
+   "h": 19.5,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "讀書〔選讀多久（1～3 小時只算一次）。用掉晚上 1 次（還剩 0）〕｜整理今天的筆記（30 分鐘）〔用掉晚上 1 次（還剩 0）〕｜考前總複習〔補考的 1 科、8 張觀念卡讀一遍。三小時，不占時段次數。〕｜起身",
+   "d": "2029-06-21",
+   "h": 19.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（考前總複習：補考的 1 科，一共 8 張觀念卡。）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　1／8】債務人異議之訴（§14）（答錯過）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "判決以後，我已經還了　執行還要繼續嗎？　蔡老師：判決以後，我已經還錢了。執行還要繼續嗎？",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：執行名義成立後，有消滅或妨礙債權人請求的事由（例如清償）發生，債務人得於強制執行程序終結前提起債務人異議之訴。判決已經確定，不能再上訴；非常上訴是刑事訴訟的程序。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔2／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　2／8】保全執行（答錯過）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "假扣押、假處分的執行　先保住，才有得執行　蔡老師：判決還沒下來，先把財產保住。大三民訴放假那週沒講到的，今天補。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：金錢請求或得易為金錢請求之請求，欲保全強制執行者，聲請假扣押；金錢請求以外的請求才是假處分。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔3／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　3／8】執行機關（答錯過）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "地方法院的民事執行處　把判決變成真的地方　蔡老師：法院裡有一個地方，專門把判決變成真的。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：民事強制執行事務，於地方法院及其分院設民事執行處辦理。行政執行署處理的是公法上金錢給付義務逾期不履行的行政執行，不是民事強制執行。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔4／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　4／8】執行名義（§4）（答錯過）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "確定判決、本票裁定、載明逕受強制執行的公證書……　沒有它，法院不會幫你拿錢　蔡老師：沒有執行名義，法院不會幫你拿錢。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：借據只是證明借款的私文書，不在強制執行法第4條的執行名義裡。公證人「認證」只證明私文書的簽名真正，和載明應逕受強制執行的「公證書」不同。要先取得確定判決，或支付命令（債務人未於法定期間合法異議）等執行名義。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔5／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　5／8】行為與不行為的執行（答錯過）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "判決叫他做一件事　他就是不做　蔡老師：判決叫他做一件事，他就是不做。法院能逼他嗎？",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：債務人應為一定行為而不為，且該行為可以由他人代為時，執行法院得以債務人之費用命第三人代為履行。怠金、管收是用在別人無法代為履行的行為。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔6／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　6／8】薪資扣押（§115-1）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "對方有工作，可以扣薪水，但不能全部扣　扣多少，他還能過日子？　蔡老師：薪水可以扣。扣多少，才算讓他還能過日子？",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔7／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　7／8】第三人異議之訴（§15）",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "法院查封的東西　其實是我的　蔡老師：法院查封的東西，其實是我的。怎麼辦？",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：第三人就執行標的物有足以排除強制執行的權利（例如所有權），得於強制執行程序終結前，向執行法院對債權人提起異議之訴。債務人異議之訴是債務人主張請求權消滅或妨礙的事由。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "下一張〔8／8〕｜結束總複習〔沒看的也算讀過〕",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "【強制執行法（重修）　8／8】執行的界線",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "生活必需的東西，不能查封（§53）　讓債務人還能過日子　蔡老師：法律讓債權人拿得到錢，也讓債務人還能過日子。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "重點：尚未發表之發明或著作不得查封；其他是可以查封的一般財產。",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "強制執行法（重修）　期末範圍：學過 8／8・答對過 0",
+   "d": "2029-06-21",
+   "h": 22.523,
+   "z": "dorm"
+  },
+  {
+   "k": "card",
+   "n": "6/25（一）20:00",
+   "t": "",
+   "d": "2029-06-25",
+   "h": 20,
+   "z": "dorm"
+  },
+  {
+   "k": "card",
+   "n": "6/26（二）09:30",
+   "t": "",
+   "d": "2029-06-26",
+   "h": 9.5,
+   "z": "dorm"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 9.5,
+   "z": "dorm"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "{\"image\":\"assets/bg/linze_201.webp\"}",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "法律系館A",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（法律系館A 201。前面幾排零零散散坐了四五個人。有人穿著實習的襯衫，有人一邊吃早餐一邊翻講義。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "陳助教",
+   "c": "npc_ta_chen",
+   "t": "考卷發下去了。一樣五題，十一點收。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你想起筆記上寫的：薪資扣押（§115-1））",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／5　乙月薪 6 萬元（自然人因提供勞務而獲得的繼續性報酬）。債權人聲請扣押乙的薪資，執行法院沒有認定有失公平的特殊情形。每個月原則上最多可以扣押多少？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）6,000 元｜（B）12,000 元｜（C）15,000 元｜（D）20,000 元",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／5　法院強制執行時，查封了債務人乙家中的一架鋼琴，但這架鋼琴其實是鄰居丙寄放的，所有權屬於丙。丙在強制執行程序終結前，最適合提起什麼訴訟？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）債務人異議之訴｜（B）第三人異議之訴｜（C）再審之訴｜（D）確認支付命令無效之訴",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你想起筆記上寫的：執行的界線）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／5　執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支名牌手錶、一輛很少開的跑車、乙名下另一間出租的房子。依強制執行法第53條，哪一樣原則上不得查封？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）名牌手錶｜（B）還沒發表的小說手稿｜（C）很少開的跑車｜（D）另一間出租的房子",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／5　確定判決命乙清償 50 萬元。判決確定後，乙已經全部清償，債權人甲仍持判決聲請強制執行。乙在執行程序終結前，可以提起什麼訴訟？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）債務人異議之訴｜（B）第三人異議之訴｜（C）第三審上訴｜（D）非常上訴",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你想起筆記上寫的：執行名義（§4））",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／5　甲持有乙親筆簽名的借據，乙到期不還。甲可不可以直接拿這張借據，向法院聲請強制執行？",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）可以，借據本身就是執行名義｜（B）可以，只要借據經過公證人認證簽名｜（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令｜（D）不可以，借款債權依法不能強制執行",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。答對 0／5，0 分。",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 1 題的答案：（D）20,000 元。考點：對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。（強制執行法 §115-1 II、III）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 2 題的答案：（B）第三人異議之訴。考點：第三人就執行標的物有足以排除強制執行的權利（例如所有權），得於強制執行程序終結前，向執行法院對債權人提起異議之訴。債務人異議之訴是債務人主張請求權消滅或妨礙的事由。（強制執行法 §15、§14）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 3 題的答案：（B）還沒發表的小說手稿。考點：尚未發表之發明或著作不得查封；其他是可以查封的一般財產。（強制執行法 §53 I ⑥）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 4 題的答案：（A）債務人異議之訴。考點：執行名義成立後，有消滅或妨礙債權人請求的事由（例如清償）發生，債務人得於強制執行程序終結前提起債務人異議之訴。判決已經確定，不能再上訴；非常上訴是刑事訴訟的程序。（強制執行法 §14 I）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 5 題的答案：（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令。考點：借據只是證明借款的私文書，不在強制執行法第4條的執行名義裡。公證人「認證」只證明私文書的簽名真正，和載明應逕受強制執行的「公證書」不同。要先取得確定判決，或支付命令（債務人未於法定期間合法異議）等執行名義。（強制執行法 §4 I；公證法 §2 I、§13 I；民事訴訟法 §521 I）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "📓 筆記：強制執行法（重修）・大四下補考訂正",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（強制執行法的補考，沒有過。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（證書要等下學期。九月，你要回學校重修。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（今年的國考，考不成了。明年再報。）",
+   "d": "2029-06-26",
+   "h": 10,
+   "z": "dorm"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "fd_makeup",
+   "d": "2029-06-26",
+   "h": 11,
+   "z": "dorm"
+  }
+ ],
+ "msgs": [
+  {
+   "th": "g:econ_friends",
+   "from": "econ_weilun",
+   "tag": "econ_photo_0813",
+   "day": -34,
+   "h": 23.5,
+   "text": "📷（公館的宵夜攤，四個人和準備收攤的老闆。桌上多擺了兩副碗筷。）"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "fd_mk_sys",
+   "day": 1371,
+   "h": 9,
+   "text": "【教務處】大四下補考通知：強制執行法。6/26（二）10:00，法律系館A。"
+  },
+  {
+   "th": "sys",
+   "from": null,
+   "tag": "fd_mk_remind",
+   "day": 1378,
+   "h": 20,
+   "text": "【教務處】明天上午 10:00 補考：強制執行法（法律系館A）。"
+  },
+  {
+   "th": "p:zhe",
+   "from": "zhe",
+   "tag": "fd_zhe",
+   "day": 1379,
+   "h": 22,
+   "text": "聽說了"
+  },
+  {
+   "th": "p:zhe",
+   "from": "zhe",
+   "tag": "fd_zhe",
+   "day": 1379,
+   "h": 22,
+   "text": "九月我還在總圖 B1 你來，我幫你占位子"
+  }
+ ],
+ "answered": {
+  "2029-06-26|enforcement|makeup|1|乙月薪 6 萬元（自然人因提供勞務而獲得的繼續性報酬）。債權": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 1,
+   "id": "Y4_ENF_04",
+   "right": 3,
+   "picked": 0,
+   "correct": false,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|2|法院強制執行時，查封了債務人乙家中的一架鋼琴，但這架鋼琴其實": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 2,
+   "id": "Y4_ENF_02",
+   "right": 1,
+   "picked": 0,
+   "correct": false,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|3|執行人員到作家乙家裡查封，看到：一部還沒發表的小說手稿、一支": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 3,
+   "id": "Y4_ENF_05",
+   "right": 1,
+   "picked": 0,
+   "correct": false,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|4|確定判決命乙清償 50 萬元。判決確定後，乙已經全部清償，債": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 4,
+   "id": "Y4_ENF_03",
+   "right": 0,
+   "picked": 1,
+   "correct": false,
+   "d": "2029-06-26",
+   "h": 10
+  },
+  "2029-06-26|enforcement|makeup|5|甲持有乙親筆簽名的借據，乙到期不還。甲可不可以直接拿這張借據": {
+   "course": "enforcement",
+   "kind": "makeup",
+   "i": 5,
+   "id": "Y4_ENF_01",
+   "right": 2,
+   "picked": 0,
+   "correct": false,
+   "d": "2029-06-26",
+   "h": 10
+  }
+ },
+ "picks": [
+  [
+   "2029-06-21",
+   "19:31",
+   [
+    "讀書選讀多久（1～3 小時只算一次）。用掉晚上 1 次（還剩 0）",
+    "整理今天的筆記（30 分鐘）用掉晚上 1 次（還剩 0）",
+    "考前總複習補考的 1 科、8 張觀念卡讀一遍。三小時，不占時段次數。",
+    "起身"
+   ],
+   "考前總複習補考的 1 科、8 張觀念卡讀一遍。三小時，不占時段次數。"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張2／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張2／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張3／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張3／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張4／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張4／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張5／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張5／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張6／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張6／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張7／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張7／8"
+  ],
+  [
+   "2029-06-21",
+   "22:31",
+   [
+    "下一張8／8",
+    "結束總複習沒看的也算讀過"
+   ],
+   "下一張8／8"
+  ]
+ ],
+ "start": {
+  "clock": {
+   "key": "2029-06-18",
+   "day": 1371,
+   "h": 8.504,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": true,
+   "GRADUATED": 1355,
+   "EXCHANGE_ROUTE": "TW"
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   }
+  },
+  "grades": null,
+  "pgOn": true,
+  "delayed": false,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1
+  },
+  "pend": [
+   [
+    "fd_grades_y4s2",
+    "2029-06-18",
+    9
+   ],
+   [
+    "b1",
+    "2029-07-12",
+    20
+   ],
+   [
+    "exam_2029",
+    "2029-08-04",
+    8
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": null,
+  "homeOpt": null,
+  "review": null,
+  "homeAt": false,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 0,
+  "title": false
+ },
+ "end": {
+  "clock": {
+   "key": "2029-06-26",
+   "day": 1379,
+   "h": 22.008,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "flags": {
+   "Y4_PATH": "bar",
+   "BAR_REG": false,
+   "GRADUATED": 1355,
+   "EXCHANGE_ROUTE": "TW",
+   "FAIL_DELAY_COURSES": [
+    "enforcement"
+   ],
+   "FAIL_DELAY_V": 2,
+   "FD_MAKEUP": {
+    "v": 1,
+    "courses": [
+     "enforcement"
+    ],
+    "status": "fail",
+    "res": {
+     "enforcement": "fail"
+    }
+   },
+   "FAIL_DELAY": true,
+   "FAIL_DELAY_DAY": 1379,
+   "FAIL_DELAY_BARCANCEL": true
+  },
+  "failed": [
+   "enforcement"
+  ],
+  "exam": {
+   "Y4S2:enforcement:final": {
+    "qs": [
+     "Y4_ENF_08",
+     "Y4_ENF_01",
+     "Y4_ENF_07",
+     "Y4_ENF_06",
+     "Y4_ENF_03"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 0,
+    "score": 0
+   },
+   "Y4S2:maritime:final": {
+    "qs": [
+     "Y4_MAR_04",
+     "Y4MAR_08",
+     "Y4MAR_04",
+     "Y4MAR_03",
+     "Y4MAR_01"
+    ],
+    "ans": [],
+    "status": "done",
+    "correct": 3,
+    "score": 60
+   },
+   "Y4S2:enforcement:makeup": {
+    "qs": [
+     "Y4_ENF_04",
+     "Y4_ENF_02",
+     "Y4_ENF_05",
+     "Y4_ENF_03",
+     "Y4_ENF_01"
+    ],
+    "ans": [
+     "A",
+     "A",
+     "A",
+     "B",
+     "A"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   }
+  },
+  "grades": {
+   "legal_research": "通過",
+   "legal_practice": "通過",
+   "maritime": "60 分",
+   "enforcement": "不及格（補考未過）"
+  },
+  "pgOn": true,
+  "delayed": true,
+  "exchDelayed": false,
+  "pgDone": {
+   "grad": 1,
+   "fd_grades_y4s2": 1,
+   "fd_makeup": 1
+  },
+  "pend": [
+   [
+    "late_2029",
+    "2029-08-04",
+    17.58
+   ],
+   [
+    "r2y4b_y5_plan",
+    "2029-09-03",
+    9
+   ],
+   [
+    "r2y4b_y5_cert",
+    "2030-01-21",
+    10
+   ],
+   [
+    "reg_2030",
+    "2030-05-10",
+    21
+   ],
+   [
+    "first",
+    "2030-10-01",
+    21
+   ]
+  ],
+  "mk": {
+   "v": 1,
+   "courses": [
+    "enforcement"
+   ],
+   "status": "fail",
+   "res": {
+    "enforcement": "fail"
+   }
+  },
+  "homeOpt": null,
+  "review": null,
+  "homeAt": false,
+  "retake": [
+   {
+    "id": "enforcement",
+    "from": "Y4S1",
+    "base": "Y4S1",
+    "term": "Y4S2",
+    "slots": [
+     {
+      "wd": 1,
+      "block": "am"
+     }
+    ],
+    "alt": false
+   }
+  ],
+  "nmsg": 5,
+  "title": false
+ },
+ "trips": [],
+ "remind": {
+  "msg": {
+   "th": "sys",
+   "from": null,
+   "tag": "fd_mk_remind",
+   "day": 1378,
+   "h": 20,
+   "text": "【教務處】明天上午 10:00 補考：強制執行法（法律系館A）。"
+  },
+  "seen_at": {
+   "key": "2029-06-25",
+   "day": 1378,
+   "h": 20,
+   "zone": "dorm",
+   "term": null,
+   "week": null
+  },
+  "free": false
+ },
+ "stuck": null,
+ "shots": {
+  "grades": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\22_main_fail_grades_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\23_main_fail_grades_port.png"
+  ],
+  "w:fail618": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\24_main_fail_line_fail618_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\25_main_fail_line_fail618_port.png"
+  ],
+  "w:notice": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\26_main_fail_line_notice_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\27_main_fail_line_notice_port.png"
+  ],
+  "phone_sys": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\28_main_fail_phone_sys_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\29_main_fail_phone_sys_port.png"
+  ],
+  "review_menu": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\30_main_fail_review_menu_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\31_main_fail_review_menu_port.png"
+  ],
+  "remind": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\32_main_fail_remind_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\33_main_fail_remind_port.png"
+  ],
+  "w:open": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\34_main_fail_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\35_main_fail_line_open_port.png"
+  ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\36_main_fail_makeup_q1.png",
+  "w:mkfail": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\37_main_fail_line_mkfail_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\38_main_fail_line_mkfail_port.png"
+  ],
+  "w:cert": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\39_main_fail_line_cert_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\40_main_fail_line_cert_port.png"
+  ],
+  "w:bar": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\41_main_fail_line_bar_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\19_mkretake\\out\\42_main_fail_line_bar_port.png"
+  ]
+ },
+ "sha": "690ac5f4d",
+ "case": "main_fail"
+}
