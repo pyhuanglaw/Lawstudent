@@ -375,3 +375,12 @@
 [17:55:16] ==== START Z_ANSMOKE  (probe @ 7224af47a) ====
 [17:55:19] [res] cpu=33% mem=51% (15.9/31.4 GB) chrome_testing=18  START Z_ANSMOKE
 [17:58:19] [res] cpu=58% mem=51% (16.0/31.4 GB) chrome_testing=18  END Z_ANSMOKE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       abe3a8a6f..d9976419c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:58:25] ==== END   Z_ANSMOKE  exit=0  183s   ====
+[17:58:30] memory 51% before starting V18_ANSMOKE (2 running)
+[17:58:30] ==== START V18_ANSMOKE  (probe @ 6a8033f4e) ====
+[17:58:33] [res] cpu=24% mem=51% (16.1/31.4 GB) chrome_testing=18  START V18_ANSMOKE
+[17:59:17] 正在跑：FS112（已跑 14 分／上限 360 分）、D_B02_playfix（已跑 11 分／上限 120 分）、V18_ANSMOKE（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[18:01:34] [res] cpu=34% mem=52% (16.4/31.4 GB) chrome_testing=18  END V18_ANSMOKE
