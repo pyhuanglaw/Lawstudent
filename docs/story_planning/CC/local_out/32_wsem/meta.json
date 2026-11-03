@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "32_wsem",
+  "sha": "d75871437",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wsem_probe.py",
+  "env": "CASES=all;NARR=1",
+  "machine": "MSI",
+  "start": "2026-11-03T10:22:54",
+  "end": "2026-11-03T10:35:17",
+  "seconds": 743,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 73,
+    "mem": 53,
+    "used_gb": 16.9,
+    "chrome_testing": 29
+  }
+}

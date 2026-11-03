@@ -1,0 +1,357 @@
+{
+ "case": "class_crim_judgment_sem",
+ "route": "door",
+ "cid": "crim_judgment_sem",
+ "course": {
+  "id": "crim_judgment_sem",
+  "name": "刑事判決研討",
+  "term": "Y4S1",
+  "kind": "elective",
+  "room": "WSEM",
+  "roomInfo": {
+   "name": "法律系館B 研討室",
+   "door": "wancai_seminar",
+   "zone": "wancai",
+   "lv": 1
+  },
+  "slots": [
+   {
+    "wd": 5,
+    "block": "am"
+   }
+  ],
+  "choice": {
+   "group": "Y4S1_sem",
+   "default": "crim_judgment_sem"
+  },
+  "examCourse": true,
+  "pool": 8,
+  "DOOR_BG": {
+   "wancai_seminar": "wancai_seminar"
+  },
+  "DOOR_EXAM_LINE": {
+   "wancai_seminar": "（法律系館B 的研討室。{課名}只有十幾個人，大家圍著長桌坐，老師坐在桌子的另一頭，手邊一疊考卷。）"
+  }
+ },
+ "examCourse": true,
+ "day": "2028-10-06",
+ "item": {
+  "key": "1116:crim_judgment_sem:am",
+  "name": "刑事判決研討",
+  "t0": 9.166666666666666,
+  "t1": 12.166666666666666,
+  "exam": null,
+  "week": 5,
+  "room": {
+   "name": "法律系館B 研討室",
+   "door": "wancai_seminar",
+   "zone": "wancai"
+  },
+  "status": "open",
+  "live": true
+ },
+ "img": {
+  "u": "assets/bg/wancai_seminar.webp",
+  "ok": true,
+  "w": 1672,
+  "h": 941
+ },
+ "door_its": [
+  {
+   "x": -3,
+   "z": -6.25,
+   "lv": 1,
+   "label": "進入 研討室 A",
+   "door": null,
+   "hidden": false,
+   "exit": true
+  }
+ ],
+ "placed": {
+  "x": -3,
+  "z": -3.25,
+  "R": 3
+ },
+ "reached": true,
+ "labels": [
+  "進入 研討室 A"
+ ],
+ "door_menu": [
+  "進去上課：刑事判決研討09:10–12:10（點對話可以略過）",
+  "不上了"
+ ],
+ "picks": [
+  {
+   "h": 9.103,
+   "opts": [
+    "進去上課：刑事判決研討09:10–12:10（點對話可以略過）",
+    "不上了"
+   ],
+   "pick": "進去上課：刑事判決研討09:10–12:10（點對話可以略過）",
+   "why": "pick"
+  },
+  {
+   "h": 9.103,
+   "opts": [
+    "量刑本來就要看個案",
+    "差這麼多，不公平",
+    "要看有沒有寫出理由",
+    "我想先聽別人說。"
+   ],
+   "pick": "量刑本來就要看個案",
+   "why": "first"
+  }
+ ],
+ "shots": {
+  "land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\08_class_crim_judgment_sem_door_class_land.png",
+  "port": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\09_class_crim_judgment_sem_door_class_port.png",
+  "snap_land": {
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  "snap_port": {
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  }
+ },
+ "shot_txt": "同樣的罪，一個判一年，一個判三年。讀量刑的理由，你們怎麼看？",
+ "end": "done",
+ "last_shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\10_class_crim_judgment_sem_door_end.png",
+ "ws": [
+  {
+   "k": "choose",
+   "t": "進去上課：刑事判決研討｜不上了",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "comp": "",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "attend",
+   "t": "1116:crim_judgment_sem:am",
+   "key": "1116:crim_judgment_sem:am",
+   "exam": null,
+   "door": true,
+   "o": "{\"door\":true}",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "comp": "",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "adv_begin",
+   "t": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "黑板｜量刑（§57）　同樣的罪，兩份判決　為什麼判得不一樣？",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "say",
+   "t": "同樣的罪，一個判一年，一個判三年。讀量刑的理由，你們怎麼看？",
+   "n": "林教授",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "say",
+   "t": "林教授把兩份判決並排放在桌上：「一人一句。」",
+   "n": "",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "choose",
+   "t": "量刑本來就要看個案｜差這麼多，不公平｜要看有沒有寫出理由｜我想先聽別人說。",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "say",
+   "t": "林教授：「那從理由裡，看得出個案差在哪嗎？」",
+   "n": "",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "say",
+   "t": "你們剛剛說的，被告也會問。這題沒有一個數字可以回答。",
+   "n": "林教授",
+   "d": "2028-10-06",
+   "h": 9.103,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "｜下課了。林老師收起講義。",
+   "d": "2028-10-06",
+   "h": 12.167,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "adv_end",
+   "t": "",
+   "d": "2028-10-06",
+   "h": 12.167,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "attended",
+   "t": "1116:crim_judgment_sem:am",
+   "key": "1116:crim_judgment_sem:am",
+   "ret": "true",
+   "done": true,
+   "d": "2028-10-06",
+   "h": 12.167,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "｜今天的課上完了。",
+   "d": "2028-10-06",
+   "h": 12.186,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "",
+   "comp": "none",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  }
+ ],
+ "errs": [],
+ "sha": "d75871437"
+}

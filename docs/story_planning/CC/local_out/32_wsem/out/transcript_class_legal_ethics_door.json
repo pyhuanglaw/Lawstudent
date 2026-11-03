@@ -1,0 +1,276 @@
+{
+ "case": "class_legal_ethics",
+ "route": "door",
+ "cid": "legal_ethics",
+ "course": {
+  "id": "legal_ethics",
+  "name": "法律倫理",
+  "term": "Y4S1",
+  "kind": "required",
+  "room": "WSEM",
+  "roomInfo": {
+   "name": "法律系館B 研討室",
+   "door": "wancai_seminar",
+   "zone": "wancai",
+   "lv": 1
+  },
+  "slots": [
+   {
+    "wd": 2,
+    "block": "pm1"
+   }
+  ],
+  "choice": null,
+  "examCourse": true,
+  "pool": 8,
+  "DOOR_BG": {
+   "wancai_seminar": "wancai_seminar"
+  },
+  "DOOR_EXAM_LINE": {
+   "wancai_seminar": "（法律系館B 的研討室。{課名}只有十幾個人，大家圍著長桌坐，老師坐在桌子的另一頭，手邊一疊考卷。）"
+  }
+ },
+ "examCourse": true,
+ "day": "2028-10-17",
+ "item": {
+  "key": "1127:legal_ethics:pm1",
+  "name": "法律倫理",
+  "t0": 13.333333333333334,
+  "t1": 15.166666666666666,
+  "exam": null,
+  "week": 7,
+  "room": {
+   "name": "法律系館B 研討室",
+   "door": "wancai_seminar",
+   "zone": "wancai"
+  },
+  "status": "open",
+  "live": true
+ },
+ "img": {
+  "u": "assets/bg/wancai_seminar.webp",
+  "ok": true,
+  "w": 1672,
+  "h": 941
+ },
+ "door_its": [
+  {
+   "x": -3,
+   "z": -6.25,
+   "lv": 1,
+   "label": "進入 研討室 A",
+   "door": null,
+   "hidden": false,
+   "exit": true
+  }
+ ],
+ "placed": {
+  "x": -3,
+  "z": -3.25,
+  "R": 3
+ },
+ "reached": true,
+ "labels": [
+  "進入 研討室 A"
+ ],
+ "door_menu": [
+  "進去上課：法律倫理13:20–15:10（點對話可以略過）",
+  "不上了"
+ ],
+ "picks": [
+  {
+   "h": 13.276,
+   "opts": [
+    "進去上課：法律倫理13:20–15:10（點對話可以略過）",
+    "不上了"
+   ],
+   "pick": "進去上課：法律倫理13:20–15:10（點對話可以略過）",
+   "why": "pick"
+  }
+ ],
+ "shots": {
+  "land": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\01_class_legal_ethics_door_class_land.png",
+  "port": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\02_class_legal_ethics_door_class_port.png",
+  "snap_land": {
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  "snap_port": {
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  }
+ },
+ "shot_txt": "兼任律師：律師這一行，有一部分是還給社會的。",
+ "end": "done",
+ "last_shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\32_wsem\\out\\03_class_legal_ethics_door_end.png",
+ "ws": [
+  {
+   "k": "choose",
+   "t": "進去上課：法律倫理｜不上了",
+   "d": "2028-10-17",
+   "h": 13.276,
+   "z": "wancai",
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "comp": "",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "attend",
+   "t": "1127:legal_ethics:pm1",
+   "key": "1127:legal_ethics:pm1",
+   "exam": null,
+   "door": true,
+   "o": "{\"door\":true}",
+   "d": "2028-10-17",
+   "h": 13.276,
+   "z": "wancai",
+   "active": false,
+   "mode": null,
+   "img": null,
+   "dom": "",
+   "comp": "",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "adv_begin",
+   "t": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "d": "2028-10-17",
+   "h": 13.276,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "黑板｜公益　律師的公益義務　法律扶助",
+   "d": "2028-10-17",
+   "h": 13.276,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "say",
+   "t": "兼任律師：律師這一行，有一部分是還給社會的。",
+   "n": "",
+   "d": "2028-10-17",
+   "h": 13.276,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "｜下課了。",
+   "d": "2028-10-17",
+   "h": 15.167,
+   "z": "wancai",
+   "active": true,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "on image compact narr",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": true,
+   "ev": null
+  },
+  {
+   "k": "adv_end",
+   "t": "",
+   "d": "2028-10-17",
+   "h": 15.167,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "attended",
+   "t": "1127:legal_ethics:pm1",
+   "key": "1127:legal_ethics:pm1",
+   "ret": "true",
+   "done": true,
+   "d": "2028-10-17",
+   "h": 15.167,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "url(\"assets/bg/wancai_seminar.webp\")",
+   "comp": "url(\"http://127.0.0.1:8811/assets/bg/wancai_seminar.webp\")",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  },
+  {
+   "k": "cap",
+   "t": "｜今天的課上完了。",
+   "d": "2028-10-17",
+   "h": 15.183,
+   "z": "wancai",
+   "active": false,
+   "mode": "{\"image\":\"assets/bg/wancai_seminar.webp\"}",
+   "img": "assets/bg/wancai_seminar.webp",
+   "dom": "",
+   "comp": "none",
+   "cls": "",
+   "want": "assets/bg/wancai_seminar.webp",
+   "isSem": false,
+   "ev": null
+  }
+ ],
+ "errs": [],
+ "sha": "d75871437"
+}
