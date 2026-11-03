@@ -9,9 +9,9 @@ LAWWW 驗法（docs/handoff/BB245_LAWWW_REPLY_1102.md 第一節）：瀏覽器�
   這一格有沒有更新骨架、左上臂（VRM raw leftUpperArm→leftLowerArm）和正下方的夾角（T 字＝約 90°）、她的高度 y。
 判定：
   前置  她在畫面外、cd < 15 m 的格子至少 MIN_FRAMES（預設 5）格（cd 15～17 m 的灰色地帶不判，只記）
-  ①    這些格子每一格都有更新骨架（CHAR.animate 有叫到她）
-  ②    這些格子裡左上臂和正下方的夾角都 < 70°（不是 T 字；走路擺手約 10～40°）
-  鏡頭切過去（她爬到第一段 y 0.7～1.7 m 時，用 E.cinematic 把鏡頭切到她側前方）：③ 切過去以後第一格看得到她（visible）的那一格，左上臂夾角 < 70°；截圖＝上樓梯的畫面。
+  ①    這些格子有沒有更新骨架（CHAR.animate 有叫到她）——只記錄、不判（BB 17:01：時間邊界會誤判）
+  ②    這些格子裡左上臂和正下方的夾角都 ≤ 45°（> 45° 就是 T 字；走路擺手約 10～40°；BB 17:01）
+  鏡頭切過去（她爬到第一段 y 0.7～1.7 m 時，用 E.cinematic 把鏡頭切到她側前方）：③ 切過去以後第一格看得到她（visible）的那一格，左上臂夾角 ≤ 45°；截圖＝上樓梯的畫面。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [MIN_FRAMES=5] python3 cc_b245_stairsarm_probe.py '<URL>/index.html' <輸出資料夾>
 exit 0＝ALL PASS；1＝有 FAIL。"""
 import os, sys, asyncio, json
@@ -93,12 +93,12 @@ async def main():
         info('前 12 格：' + J(fr[:12]))
         check('前置：沛珊在畫面外、離鏡頭 < 15 m 的格子至少 %d 格' % MINF, len(pre) >= MINF, str(len(pre)))
         noupd = [f for f in pre if not f['upd']]
-        check('① 畫面外、16 m 內的格子每一格都更新骨架（CHAR.animate 有叫到她）', bool(pre) and not noupd, '%d/%d 格沒更新；例 %s' % (len(noupd), len(pre), J(noupd[:3])))
-        tarm = [f for f in pre if f['arm'] is None or f['arm'] >= 70]
-        check('② 畫面外那幾格的左上臂和正下方夾角都 < 70°（不是 T 字）', bool(pre) and not tarm, '%d/%d 格 ≥70°；例 %s' % (len(tarm), len(pre), J(tarm[:3])))
+        print('INFO ① 畫面外、16 m 內的格子沒更新骨架的：%d/%d 格；例 %s（BB 17:01：只記錄、不判——時間邊界會誤判，判定看 ② 的手臂角度）' % (len(noupd), len(pre), J(noupd[:3])), flush=True)
+        tarm = [f for f in pre if f['arm'] is None or f['arm'] > 45]   # BB 17:01：> 45° 就是 T 字（原本的 bug 約 90°）
+        check('② 畫面外那幾格的左上臂和正下方夾角都 ≤ 45°（不是 T 字）', bool(pre) and not tarm, '%d/%d 格 >45°；例 %s' % (len(tarm), len(pre), J(tarm[:3])))
         cr = S['cutRec']
         check('前置：有切到她爬第一段（y 0.7～1.7）', cut, '')
-        check('③ 鏡頭切過去以後第一格看得到她：左上臂夾角 < 70°', bool(cr and cr['arm'] is not None and cr['arm'] < 70), J(cr))
+        check('③ 鏡頭切過去以後第一格看得到她：左上臂夾角 ≤ 45°', bool(cr and cr['arm'] is not None and cr['arm'] <= 45), J(cr))
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     json.dump(rec, open(os.path.join(OUT, 'stairsarm.json'), 'w'), ensure_ascii=False, indent=1)

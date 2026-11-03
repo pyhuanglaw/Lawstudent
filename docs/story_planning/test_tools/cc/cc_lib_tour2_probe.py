@@ -23,6 +23,11 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_lib_tour'
 MODE = os.environ.get('MODE', 'tap')
 # PHOTO=1（候選版 3783ae554 以後；BB 16:11）：導覽途中（15:55 前後）不能跳「出發：」選單；導覽結束後 5 分鐘（遊戲時間）內要跳系學會合照的「出發：」，選了還來得及去
 PHOTO = os.environ.get('PHOTO', '') == '1'
+# 搖桿版朝哪裡推（PC 11-03 N19_tour_joy：館員在大樓梯的平台（第 1 層），只朝她的 x、z 推會走到樓梯底下、不會上樓）：
+#   用遊戲的找路（E.pathTo，跨樓層）看「往她那裡的路」前面 1.5 m 的點，鏡頭轉向那一點再推——像知道樓梯在哪的玩家；只拿來決定方向，不移動人
+AIM = """(l=>{ const E=GAME.E, P=E.player, p=P.obj.position; const r=E.pathTo&&E.pathTo(p.x,p.z,P.lv|0,l.x,l.z,l.lv|0); if(!r||!r.length) return {x:l.x,z:l.z,via:'direct'};
+  let acc=0, q=[p.x,p.z]; for(const w of r){ acc+=Math.hypot(w[0]-q[0],w[1]-q[1]); q=[w[0],w[1]]; if(acc>=1.5) return {x:w[0],z:w[1],via:'path',n:r.length}; }
+  const w=r[r.length-1]; return {x:w[0],z:w[1],via:'path',n:r.length}; })(%s)"""
 OUTSEEN = []          # 每次看到「出發：」選單：{t（遊戲時間）, touring, tour（導覽狀態）, opts}
 POST = {'on': False}  # 導覽走完以後才 True：這時候的「出發：」照玩家想去合照，選「出發」
 DAY = 3   # 2025-09-19 週五
@@ -109,9 +114,10 @@ async def main():
                 d = await pg.evaluate("(l=>{ const P=GAME.E.player; return (P.lv|0)!==l.lv?99:Math.hypot(P.obj.position.x-l.x,P.obj.position.z-l.z); })(%s)" % json.dumps(lib))
                 if d > 2.5:
                     if MODE == 'joy':   # 只用搖桿：手指滑鏡頭朝館員、搖桿往前推（d 越遠推越久）
-                        tc = await L.turn_camera_to(pg, cdp, lib['x'], lib['z'])
+                        aim = await pg.evaluate(AIM % json.dumps(lib))
+                        tc = await L.turn_camera_to(pg, cdp, aim['x'], aim['z'])
                         p0 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
-                        await L.joystick(pg, cdp, 0, -60, int(min(2500, 300 + d * 250)))
+                        await L.joystick(pg, cdp, 0, -60, int(min(2500, 300 + min(d, 8) * 250)))
                         p1 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
                         if math.hypot(p1[0] - p0[0], p1[1] - p0[1]) < 0.3:   # 被擋住：像玩家一樣往斜前方、旁邊繞（不點地面）
                             for dx, dy in ((42, -42), (-42, -42), (60, 0), (-60, 0), (42, 42), (-42, 42)):
@@ -120,7 +126,7 @@ async def main():
                                 if math.hypot(p2[0] - p1[0], p2[1] - p1[1]) >= 0.3:
                                     run.note('搖桿往前被擋住，往 (%d,%d) 繞開' % (dx, dy)); break
                         p3 = await pg.evaluate("[GAME.E.player.obj.position.x,GAME.E.player.obj.position.z]")
-                        acts.append([round(time.time() - t0), 'joy', round(d, 2), bool(tc), round(math.hypot(p3[0] - p0[0], p3[1] - p0[1]), 2)])
+                        acts.append([round(time.time() - t0), 'joy', round(d, 2), bool(tc), round(math.hypot(p3[0] - p0[0], p3[1] - p0[1]), 2), aim.get('via')])
                     else:
                         await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0 or q['dlg'])   # 對話、選單都交給主迴圈（handle_choices）：go_to 自己的 advance_dialogs 會把對話後面接的「出發：圓窗館前」點第一個（PC 11-03 N19_tour_tap：t=21 s 被帶到 (−104,−17)）
             await pg.wait_for_timeout(1200)
