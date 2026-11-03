@@ -42472,10 +42472,10 @@
       "id": "AA609-SIS-GRANDMA-1103",
       "title": "學姊的爸爸全部改成奶奶（AA_609）：3/14 邀約、3/17 奶奶的晚餐（交往中一定演）、畢業典禮奶奶道賀、美國 208 剪報、sis_b13 剪報、礁溪、D12 茶、畢業照",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 直接對 AA 定（第③級）；企劃線 4fc0e0095＋第 2 節開頭改字；子代理在 worktree 做",
-      "next": "子代理交件 → 合併、測試 → BB"
+      "next": "已合併（b14769173）＋D12.tea 重匯（ac744c80c）；aa609_sis_grandma 新增 32/41 修改前 FAIL；73 支相關測試通過 → BB；AA 確認：3/14 邀約只剩「好。」；礁溪對話裡的爸爸等第 8 節"
     },
     {
       "first": {
@@ -42749,7 +42749,7 @@
       "id": "ART-WZ-CAFES-1103",
       "title": "溫州街新增兩家咖啡廳「巷光」（白天）、「晚安咖啡」（18–05，考試週 24 小時）外觀＋室內（AA_616）",
       "owner": "LAWWW2",
-      "status": "待開工",
+      "status": "暫停",
       "priority": "P1",
       "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
       "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
@@ -42759,7 +42759,11 @@
         "acceptance": "兩家店外觀＋可坐的室內；兩點半照舊",
         "receiver": "LAWWW",
         "ack": "SENT"
-      }
+      },
+      "pausedReason": "使用者 11-03 給了正式設定「木曜日」「日常失速 DAILY OFFBEAT」取代巷光、晚安咖啡，並要求先提整合規劃、不要先改程式地圖事件（AA 09:53 轉）；決定者：使用者",
+      "resumeWhen": "AA_617 整合規劃經使用者同意以後",
+      "owner_note": "負責：AA（規劃）→ LAWWW2／LAWWW",
+      "nextCheck": "2026-11-04"
     },
     {
       "first": {
@@ -42776,10 +42780,14 @@
       "id": "AA616-WZ-CAFES-1103",
       "title": "溫州街三家咖啡廳的營業時間、同學作息、讀書旁白（AA_616；不另外加分；等 ART-WZ-CAFES-1103）",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "暫停",
       "priority": "P1",
       "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-      "next": "照 AA 稿實作"
+      "next": "照 AA 稿實作",
+      "pausedReason": "使用者 11-03 給了正式設定「木曜日」「日常失速 DAILY OFFBEAT」取代巷光、晚安咖啡，並要求先提整合規劃、不要先改程式地圖事件（AA 09:53 轉）；決定者：使用者",
+      "resumeWhen": "AA_617 整合規劃經使用者同意以後",
+      "owner_note": "負責：AA（規劃）→ LAWWW2／LAWWW",
+      "nextCheck": "2026-11-04"
     }
   ]
 }
