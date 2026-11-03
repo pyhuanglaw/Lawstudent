@@ -23,7 +23,7 @@ SEED = 20261014
 # 給其他人共用（LAWWW2 11-03，蘇姨 npc.py 的 hair_mod='bun'）：預設值＝芯慈原本的做法，芯慈的輸出不變
 #   bang：False＝沒有瀏海、整頭往後梳；side_w：臉旁碎髮寬度倍數；name：物件／材質名稱前綴；tmpl：MToon 範本材質（None＝找第一個 HAIR）
 #   grey／grey_k：白頭髮比例與混色；soft：髮絲細紋柔化（跨髮絲方向 9 px 平均、混合比例）；bun_k：髮髻大小倍數
-OPT = dict(bang=True, side_w=1.0, name='X01', tmpl='F00_000_Hair_00_HAIR_01', grey=0.0, grey_k=(0.3, 0.5), soft=0.0, bun_k=1.0)
+OPT = dict(bang=True, side_long=True, side_w=1.0, name='X01', tmpl='F00_000_Hair_00_HAIR_01', grey=0.0, grey_k=(0.3, 0.5), soft=0.0, bun_k=1.0)
 
 # 髮際線（方位角 → 仰角，度；方位角 0＝前額正中、90＝人物左耳、180＝後頸）：前額 → 太陽穴 → 耳前的鬢角 → 越過耳朵上緣 → 耳後 → 後頸
 HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 10), (66, 2), (74, -1), (82, 0), (90, 1), (100, 0),
@@ -461,38 +461,40 @@ def apply(m):
     # ---- 4. 臉旁碎髮（太陽穴 → 下顎 → 胸口）與耳前短碎髮 ----
     side_chains = {}
     for sgn, grp in ((1, 'sideL'), (-1, 'sideR')):
-        ctrl = []
-        d = sph(sgn * 52, 30); ctrl.append(c + d * (H.R(d) + 0.0035))     # 髮根藏在往後梳的髮片底下
-        d = sph(sgn * 58, 15); ctrl.append(c + d * (H.R(d) + 0.0055))
-        d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
-        d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
         jaw = H.c[2] - 0.098
-        # 芯慈：垂到下巴下面、鎖骨上方，不往前勾（第二版照溫書瑀「髮尾沿著下顎線往前收」，45° 看像問號）；下巴以下不再量臉的前緣（打到衣服會被拉到前面）
-        ctrl.append(np.array([sgn * 0.070, min(H.front_y(sgn * 0.070, jaw + 0.010) - 0.024, -0.028), jaw + 0.010]))
-        ctrl.append(np.array([sgn * 0.072, -0.024, jaw - 0.036]))
-        P = catmull(np.array(ctrl), 16)
-        P, s = resample(P, 25)
-        marg = np.where(P[:, 2] > jaw, 0.008, 0.012); marg[:4] = [0.0035, 0.0045, 0.006, 0.007]     # 溫書瑀：下巴以下離脖子 1.2 cm（2.2 cm 時髮尾被推得往外翹）
-        P = H.push(P, marg); P = push_spheres(P, colliders(arm, {'J_Bip_C_UpperChest', 'J_Bip_C_Neck'}), 0.012, start=12)
-        for _ in range(4):      # 芯慈第五版：推出皮膚、衣服之後再抹平（第四版只抹兩次、最後又推一次，下巴旁邊折成閃電形）
-            P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
-            P = H.push(P, marg)
-        P, s = resample(P, 25); L = s[-1]
-        # 下段微微的 S 形波浪（參考圖臉旁的長髮有弧度，不是一條直的；第二版 2026-10-10）
-        uu = s / L; P[:, 0] += sgn * 0.0018 * np.sin((uu - 0.35) / 0.65 * 2 * np.pi * 1.1) * sstep(0.30, 0.55, uu)
-        for _ in range(2):
-            P = H.push(P, marg); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2
-        Tn = tangents(P)
-        out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in ((0.0, 0.36, 'lock', 0.0), (0.5 * sgn, 0.26, 'wisp', 0.003)):   # 芯慈第八版：0.48／0.30 → 0.36／0.26（正面看像兩條深色緞帶）    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
-            nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
-            sd = _unit(np.cross(nrm, Tn))
-            twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
-            sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
-            if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * OPT['side_w'] * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
-            mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
-        side_chains[grp] = (P, s, jaw)
+        if OPT['side_long']:   # 臉旁到下巴的長碎髮（有彈簧骨）；蘇姨第二版拿掉（BB 11-03：太長太直，像浮在臉旁邊的線）
+            ctrl = []
+            d = sph(sgn * 52, 30); ctrl.append(c + d * (H.R(d) + 0.0035))     # 髮根藏在往後梳的髮片底下
+            d = sph(sgn * 58, 15); ctrl.append(c + d * (H.R(d) + 0.0055))
+            d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
+            d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
+            jaw = H.c[2] - 0.098
+            # 芯慈：垂到下巴下面、鎖骨上方，不往前勾（第二版照溫書瑀「髮尾沿著下顎線往前收」，45° 看像問號）；下巴以下不再量臉的前緣（打到衣服會被拉到前面）
+            ctrl.append(np.array([sgn * 0.070, min(H.front_y(sgn * 0.070, jaw + 0.010) - 0.024, -0.028), jaw + 0.010]))
+            ctrl.append(np.array([sgn * 0.072, -0.024, jaw - 0.036]))
+            P = catmull(np.array(ctrl), 16)
+            P, s = resample(P, 25)
+            marg = np.where(P[:, 2] > jaw, 0.008, 0.012); marg[:4] = [0.0035, 0.0045, 0.006, 0.007]     # 溫書瑀：下巴以下離脖子 1.2 cm（2.2 cm 時髮尾被推得往外翹）
+            P = H.push(P, marg); P = push_spheres(P, colliders(arm, {'J_Bip_C_UpperChest', 'J_Bip_C_Neck'}), 0.012, start=12)
+            for _ in range(4):      # 芯慈第五版：推出皮膚、衣服之後再抹平（第四版只抹兩次、最後又推一次，下巴旁邊折成閃電形）
+                P[1:-1] = P[1:-1] * 0.5 + (P[:-2] + P[2:]) * 0.25
+                P = H.push(P, marg)
+            P, s = resample(P, 25); L = s[-1]
+            # 下段微微的 S 形波浪（參考圖臉旁的長髮有弧度，不是一條直的；第二版 2026-10-10）
+            uu = s / L; P[:, 0] += sgn * 0.0018 * np.sin((uu - 0.35) / 0.65 * 2 * np.pi * 1.1) * sstep(0.30, 0.55, uu)
+            for _ in range(2):
+                P = H.push(P, marg); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2
+            Tn = tangents(P)
+            out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
+            for rot, wfac, reg, dx in ((0.0, 0.36, 'lock', 0.0), (0.5 * sgn, 0.26, 'wisp', 0.003)):   # 芯慈第八版：0.48／0.30 → 0.36／0.26（正面看像兩條深色緞帶）    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+                nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
+                sd = _unit(np.cross(nrm, Tn))
+                twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
+                sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
+                if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
+                width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * OPT['side_w'] * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
+                mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
+            side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
         for a_r, a_m, wq in ((52, 60, 0.011),):
             q = []
@@ -599,7 +601,7 @@ def apply(m):
     for grp, (names, js) in sides.items(): chain(Gs == grp, names, js)
     tot = sum(wts.values()); tot[tot < 1e-6] = 1
     C.bind(obj, arm, {k: v / tot for k, v in wts.items() if v.max() > 1e-4})
-    C.add_spring_group(arm, 'Hair_SideLocks', [sides['sideL'][0][0], sides['sideR'][0][0]], stiffness=1.0, gravity=0.35, drag=0.55, hit_radius=0.012,
+    if sides: C.add_spring_group(arm, 'Hair_SideLocks', [sides['sideL'][0][0], sides['sideR'][0][0]], stiffness=1.0, gravity=0.35, drag=0.55, hit_radius=0.012,
                        colliders={HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_L_UpperArm', 'J_Bip_R_UpperArm'})
     m['hair'] = obj
     print('  hair: tris shell %d swept %d bangs %d side %d bun %d total %d; verts %d; bones side %d' % (
