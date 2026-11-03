@@ -4070,6 +4070,15 @@
    "task": "AA602-FEED-1C-1102",
    "kind": "text",
    "note": "以安動態與零星台詞 32 列（tools/story/apply_line_table.py 自動換 31 列，第 19 列 r2y3a_events.js 手改、註解順手改）；第 8 節 (a) 她先傳的動態私訊分手後不送（feed3d.js S.dmBlocked 走 V6EX.noContact，不走 coolSkip）；(b) 已在 ec2814492。企劃源稿（AA_503～AA_511、AA_504 6-4）還是舊句，讀稿比對用 tools/story/aa602_fix.json。tests/aa602_feed_unit.js。子代理 2026-11-02 代登（ex600 分支），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_630_語彤台詞改寫.md",
+   "sha": "bb4401fd3",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-03 定稿（D109，第②級；816 列＋第 10 節 AA 對第 8 節的十條決定；使用者 11-03 重定語彤背景 AA_624 第三版）",
+   "task": "YT-REWRITE-1103",
+   "kind": "text",
+   "note": "共用工具 tools/story/aa630.py：第 1 節閒聊階梯（ladder_aa*.json 的 JSON 路徑）在 tools/ladder/import_ladder.py 讀源稿以後套；第 2 節約會（Dxx.json）在 tools/date/import_date_lines.py 套；企劃稿位置（AA_127、AA_329、AA_415、AA_531、build_solo_before.py）在各匯入工具寫檔前 patch_text；src 手寫檔 tools/story/apply_aa630_src.py 一次改。JOB_TEA／TEA_SHIFTS 是 AA 暫名，src/ytjob3d.js 照打工系統記同名旗標。子代理 2026-11-03 代登，給值班 LAWWW 核"
   }
  ]
 }
