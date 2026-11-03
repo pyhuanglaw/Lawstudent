@@ -63,8 +63,8 @@ const POOL_MORE=(function(){
     [LY]:[ {days:[1,3],from:18.75,to:19,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],activity:'club_guitar',terms:['Y1S2'],weeks:[3,4,5,6,7,8,9,10],pri:true,if:{custom:G=>fam(LY)&&!q(G,'PQ_LYR')},desc:'抱著一疊講義的女生',label:'法律系館B一樓走廊'},   /* 2-3：吉他社社課那天 18:45（社辦在多功能教室那一側）*/
       {days:WD,from:18,to:21,zone:'wancai',act:'linger',at:[3.0,-5.4,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'抱著一疊講義的女生',label:'法律系館B一樓，最後一次來社辦'} ],   /* 2-5 畢業那一週 */
     [SH]:[ {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[-36.4,-71.0,0,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'走路很快的男生',label:'博思門口'} ],   /* 3-5 畢業那一週，博雅門口（DOORS.boya (−38,−72.8) 東南）*/
-    [CX]:[ {days:[1,3],from:21,to:22,zone:'campus',act:'linger',at:[97.5,-95,PI,0],pri:true,if:{custom:G=>q(G,'PQ_YCX')==='open'},desc:'背吉他袋的女生',label:'法律系館B旁邊，練和弦'},   /* 4-3 打拍子：週一、三 21:00 以後 */
-      {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ],   /* 4-4 她畢業那一週 */
+    [CX]:[ {days:[1,3],from:21,to:22,zone:'campus',act:'linger',at:[89.69,-77.01,PI,0],pri:true,if:{custom:G=>q(G,'PQ_YCX')==='open'},desc:'背吉他袋的女生',label:'法律系館B旁邊，練和弦'},   /* 4-3 打拍子：週一、三 21:00 以後 */
+      {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[89.69,-77.01,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ],   /* 4-4 她畢業那一週 */
     [ZY]:[ {days:WD,from:14,to:18,zone:'library_hall',act:'read',terms:['Y2S1'],weeks:[15],pri:true,noHoliday:true,desc:'騎腳踏車超快的男生',label:'總圖，念書'},   /* 5-4 大二上期末前一週（在總圖）*/
       {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[-117,3.6,-PI/2,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'騎腳踏車超快的男生',label:'校門口，牽著車'} ],   /* 5-5 畢業那一週，校門口 */
     [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-3.0,7.25],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/   /* LIB-3F-1102 第二版：南側長桌 (−3.0, 7.25)；第一版 (−2.4, 1.5) */

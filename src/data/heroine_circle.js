@@ -53,7 +53,7 @@ const HCIRCLE_DATA={
     hc_kid:{label:'課輔班的小朋友',sex:'m',model:'char.npc_nm20',height:1.25,props:[{name:'backpack',color:'#d9534f'}],note:'沛珊課輔班的小朋友（AA_504 6-1）'}},
   /* 她要補的作息（放在她 daily_schedule 最前面；with、hc 由載入時從那一列帶進去）*/
   SCHED:[
-    {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[93.8,-97.6,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'法律系館B門口（讀書會前）'}},
+    {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[88.68,-81.42,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'法律系館B門口（讀書會前）'}},
     {hc:'c503_10_1',who:'classmate_peishan',e:{days:[2,4],from:13+20/60,to:15+10/60,zone:'campus',act:'linger',at:[-23.95,-12.6,-Math.PI/2,0],terms:['Y1S1'],noHoliday:true,label:'文學院前的長椅（哲學概論旁聽）'}},
     {hc:'c503_10_3',who:'classmate_peishan',e:{days:[4],from:20,to:21.5,zone:'wancai',act:'club',terms:['Y1S1'],weeks:[10,11,12,13,14,15],note:'AA_503 10-1：公法讀書會（作息補這一筆；週次同以安那一筆）'}},
     {hc:'c504_4_3',who:'heroine_04',e:{days:[2,4],from:13,to:18,zone:'gongguan',act:'linger',at:[12,20.6,Math.PI,0],dates:[['2026-07-01','2026-08-31']],label:'公館騎樓的咖啡店'}},

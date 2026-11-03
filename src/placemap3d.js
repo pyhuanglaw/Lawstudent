@@ -16,7 +16,7 @@ const PLACEMAP=(function(){
   S.PINS=[
     {id:'lane118',name:'118 巷',x:290,y:24,lab:'r',m:[['lane118','118 巷']]},
     {id:'linze',name:'法律系館A',x:270,y:78,lab:'l',cx:30,cz:-104,m:[['campus','首都帝大校園（法律系館A前）'],['linze','法律系館A（大廳）'],['classroom','法律系館A 201 教室']]},
-    {id:'wancai',name:'法律系館B',x:324,y:82,lab:'t',cx:92,cz:-100,m:[['wancai','法律系館B（大廳）'],['lawlib','法律學院圖書館']]},
+    {id:'wancai',name:'法律系館B',x:326,y:94,lab:'l',cx:88.94,cz:-84.41,m:[['wancai','法律系館B（大廳）'],['lawlib','法律學院圖書館']]},
     {id:'soclib',name:'社科圖',x:268,y:132,lab:'r',cx:11,cz:-66,m:[['soclib','社科院圖書館']]},
     {id:'boya',name:'博思・普通',x:206,y:112,lab:'t',cx:-38,cz:-60,m:[['campus','博思教學館'],['campus','普通教學館']]},
     {id:'avenue',name:'椰影大道',x:220,y:172,lab:'t',cx:-40,cz:6,m:[['campus','椰影大道・晨思鐘']]},

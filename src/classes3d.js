@@ -891,7 +891,7 @@ const CLS=(function(){
   /* 各區域在校園座標裡大概的位置（公館、溫州街照 zones3d.js 的換算：公館 (gx,gz) → 校園 (x=-170-gz, z=gx)；溫州街和公館在巷口 (-71,16.5) 相接）。只用來估時間。
      遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
      （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
-  const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[93.8,-100], lawlib:[85,-102], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
+  const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[90.28,-83.2], lawlib:[85.08,-90.58], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
                  gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75] };
   S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone==='gongguan'&&pos&&toPos){ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
     if(fromZone===toZone&&toZone!=='campus') return 0;
@@ -1015,7 +1015,7 @@ const CLS=(function(){
   S.routeVia=function(from,to){ const a=upTo(from), b=upTo(to); if(!a||!b) return []; const k=a.findIndex(z=>b.includes(z)); if(k<0) return []; const j=b.indexOf(a[k]);
     return a.slice(1,k+1).concat(b.slice(0,j).reverse()).filter(z=>z!==to&&z!==from); };
   /* 停在校園時站的地方：要走進去的那一棟門口（和各棟「走出去」的落點、手機快速前往的落點一樣）。其他的區域照那一區的出生點（大門、大廳）*/
-  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:93.8,z:-98.4,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:74,z:58,yaw:Math.PI}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
+  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:89.21,z:-82.01,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:74,z:58,yaw:Math.PI}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
   /* 到達時就會演的事件（R2）：enter，或不用走近、不是隨機的 auto；地點明確寫了那一區；不靠人物在場、在旁邊、玩家在哪一間（那些要到了現場才知道，走過去的時候再演）*/
   S.arriveEv=(e,z)=>!!e&&(e.trigger==='enter'||(e.trigger==='auto'&&!e.near))&&e.random_weight===undefined&&!e.npcPresent&&!e.npcNear&&!e.npcRoom&&!e.room&&!!e.location&&e.location!=='any'&&[].concat(e.location).includes(z);
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），

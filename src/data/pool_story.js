@@ -76,7 +76,7 @@ const POOL_STORY=(function(){
     pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學姊', personality:'', place:'法律系館B旁邊',
       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
       where:[ {days:[1,3],from:19,to:21,zone:'wancai',act:'club',activity:'club_guitar',desc:'背吉他袋的女生',label:'法律系館B，吉他社社課'},   /* AA_528 1-3（企劃線 7ad5fee84）：吉他社有課的時間她在吉他社（同一個時段原本也站在萬才館旁邊）*/
-        {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,if:NO_GUITAR,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ] },   /* 萬才館旁邊那一格只在吉他社沒課的時候 */
+        {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[89.69,-77.01,P,0],noHoliday:true,if:NO_GUITAR,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ] },   /* 萬才館旁邊那一格只在吉他社沒課的時候 */
     pool_12:{ card:'系籃經理', personality:'', place:'籃球場',
       model:'char.npc_nm5', props:['sports_drink'],   /* 運動飲料＝sports_drink（坐下時藏，NPC-POOL-ART-1028）；系服沒有（衣服，D99）*/
       where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'映月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */

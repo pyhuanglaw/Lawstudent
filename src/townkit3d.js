@@ -364,12 +364,14 @@ const TK = (function(){
     const v=hash01(seed+sp*31,A.x*0.37+A.z*0.11), k=(sp===2?1:b)*(0.9+0.18*v);   /* 葉色：深色參數（dark）×每棵樹一點差異 */
     const t={key,x:A.x,y:A.y,z:A.z,rot:rot+(sp===2?v*6.28:0),sy,sxz,col:new THREE.Color(k*(0.97+0.05*hash01(seed,7)),k,k*(0.96+0.06*hash01(seed,9))),near:false,
       r:Math.max(md.r0*sxz/sy*sy,md.h0*sy*0.5)*1.15, cy:A.y+md.h0*sy*0.55, cw:md.card.w*sxz, ch:md.card.h*sy, cell:[md.card.px[0]/md.card.size,md.card.px[1]/md.card.size,(md.card.px[2]-md.card.px[0])/md.card.size,(md.card.px[3]-md.card.px[1])/md.card.size]};
+    { const kb=(sp!==2&&b<1)?Math.min(1,(0.35+0.65*b)*(0.82+0.3*hash01(seed,13))):1, kw=(sp!==2&&b<1)?0.94+0.12*hash01(seed,17):1; t.bcol=new THREE.Color(kb*kw,kb,kb*(2-kw)); }   /* 黑森林第三版（BB_248 末節第 1 點：樹皮每棵不一樣）：每棵的樹皮亮度、冷暖各差一點 */   /* 樹幹：深色參數 < 1 的樹（黑森林）樹幹跟著稍微暗一點（樹蔭下；第二版照使用者照片，dark 0.62～0.74 → ×0.75～0.83）；行道樹（dark 1）不變 */
     t.m=new THREE.Matrix4().compose(_tA.set(t.x,t.y,t.z),_tQ.setFromAxisAngle(_tUp,t.rot),_tS.set(t.sxz,t.sy,t.sxz)); this.trees.push(t); };
   TreeField.prototype.build=function(L,parent){ const G=new THREE.Group(); G.name='street_trees_field'; G.userData.dyn=true; const cnt={};
     for(const t of this.trees) cnt[t.key]=(cnt[t.key]||0)+1;
     this.near={}; for(const k of Object.keys(cnt)){ const md=L.models[k]; const mk=(src,name)=>{ const im=new THREE.InstancedMesh(src.geometry,src.material,cnt[k]); im.name=name; im.count=0; im.frustumCulled=false; im.castShadow=true; im.receiveShadow=true; im.instanceMatrix.setUsage(THREE.DynamicDrawUsage); G.add(im); return im; };
       const leaf=mk(md.leaf,'trees_'+k+'_leaf'); leaf.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(cnt[k]*3),3); leaf.instanceColor.setUsage(THREE.DynamicDrawUsage);
-      this.near[k]={bark:mk(md.bark,'trees_'+k+'_bark'),leaf}; }
+      const bark=mk(md.bark,'trees_'+k+'_bark'); bark.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(cnt[k]*3).fill(1),3); bark.instanceColor.setUsage(THREE.DynamicDrawUsage);
+      this.near[k]={bark,leaf}; }
     const N=this.trees.length; if(N){ const cm=new THREE.InstancedMesh(L.card.geo,L.card.mat,N); cm.name='trees_cards'; cm.count=0; cm.frustumCulled=false; cm.castShadow=false; cm.receiveShadow=false; cm.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
       cm.instanceColor=new THREE.InstancedBufferAttribute(new Float32Array(N*3),3); cm.instanceColor.setUsage(THREE.DynamicDrawUsage);
       const cell=new THREE.InstancedBufferAttribute(new Float32Array(N*4),4); cell.setUsage(THREE.DynamicDrawUsage); cm.geometry=L.card.geo.clone(); cm.geometry.setAttribute('aCell',cell); this.cards=cm; G.add(cm); }
@@ -383,10 +385,10 @@ const TK = (function(){
     for(const t of this.trees){ const dx=t.x-cx, dz=t.z-cz, d2=dx*dx+dz*dz; const R=t.near?NEAR_OUT:NEAR_IN; let near=d2<R*R; _tSp.center.set(t.x,t.cy,t.z); _tSp.radius=t.r; const vis=_tF.intersectsSphere(_tSp);
       if(near&&!vis&&P){ const px=t.x-P.x, pz=t.z-P.z; if(px*px+pz*pz>30*30) near=false; }   /* 畫面外、離玩家 30 m 以上的樹不畫模型（影子也照不到玩家附近） */
       t.near=near;
-      if(near){ const nm=this.near[t.key], i=nm.n++; nm.bark.setMatrixAt(i,t.m); nm.leaf.setMatrixAt(i,t.m); nm.leaf.setColorAt(i,t.col); continue; }
+      if(near){ const nm=this.near[t.key], i=nm.n++; nm.bark.setMatrixAt(i,t.m); nm.bark.setColorAt(i,t.bcol); nm.leaf.setMatrixAt(i,t.m); nm.leaf.setColorAt(i,t.col); continue; }
       if(!vis||d2>F2||!cards) continue;
       _tM.compose(_tA.set(t.x,t.y,t.z),_tQ.identity(),_tS.set(t.cw,t.ch,1)); cards.setMatrixAt(nc,_tM); cards.setColorAt(nc,t.col); ca.setXYZW(nc,t.cell[0],t.cell[1],t.cell[2],t.cell[3]); nc++; }
-    for(const k in this.near){ const nm=this.near[k]; for(const im of [nm.bark,nm.leaf]){ im.count=nm.n; im.instanceMatrix.needsUpdate=true; } nm.leaf.instanceColor.needsUpdate=true; }
+    for(const k in this.near){ const nm=this.near[k]; for(const im of [nm.bark,nm.leaf]){ im.count=nm.n; im.instanceMatrix.needsUpdate=true; } nm.leaf.instanceColor.needsUpdate=true; nm.bark.instanceColor.needsUpdate=true; }
     if(cards){ cards.count=nc; cards.instanceMatrix.needsUpdate=true; cards.instanceColor.needsUpdate=true; ca.needsUpdate=true; }
     this.stats.near=Object.fromEntries(Object.entries(this.near).map(([k,v])=>[k,v.n])); this.stats.cards=nc; };
   function treeStats(){ return field&&E3.extras.indexOf(field)>=0?Object.assign({ready:field.ready},field.stats||{}):null; }

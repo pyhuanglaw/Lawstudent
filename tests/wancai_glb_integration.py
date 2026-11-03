@@ -33,16 +33,16 @@ NIGHT = """(()=>{ const E=GAME.E, b=%s, root=b.getObjectByName('WancaiExterior')
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));
     const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); return out; })"""
-VIEWS = [('front', (93, 2.0, -70), (88, 10, -112)),       # 廣場往北看整棟
-         ('stairs', (87, 1.7, -85.5), (87, 3.2, -102)),   # 大樓梯正前方（玩家最常看到的角度）
-         ('balcony', (95.6, 5.4, -99.6), (82, 4.2, -96.5)),  # 陽台上往西看平台、弧形量體
-         ('corner', (116, 3, -80), (88, 12, -112))]       # 東南角
+VIEWS = [('front', (69.6, 2, -61.4), (94, 10, -96)),       # 廣場往北看整棟
+         ('stairs', (75.5, 1.7, -77), (86.6, 3.2, -89.2)),   # 大樓梯正前方（玩家最常看到的角度）
+         ('balcony', (91.4, 5.4, -81.7), (79.2, 4.2, -88.5)),  # 陽台上往西看平台、弧形量體
+         ('corner', (93.4, 3, -53.5), (94, 12, -96))]       # 東南角
 
 
 async def check(pg, run, formal):
     tag = '正式模型' if formal else '擋掉 GLB'
-    run.setup('讀檔到法學院廣場 (87,-84) 17:30，關掉條件事件')
-    await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 87, 'z': -84, 'yaw': 3.1416}}, quiet_events=True)
+    run.setup('讀檔到法學院廣場 (74.52,-75.86) 17:30，關掉條件事件')
+    await PL.load_state(pg, {'zone': 'campus', 'hour': 17.5, 'pos': {'x': 74.52, 'z': -75.86, 'yaw': 3.1416}}, quiet_events=True)
     if formal: run.check(tag + '：萬才館的正式模型接上', await pg.evaluate(WAIT_FORMAL))
     else: await pg.wait_for_timeout(6000)
     kit = await pg.evaluate(KIT)

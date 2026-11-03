@@ -250,7 +250,7 @@ await sec('2',async()=>{ if(!HAS()){ check('2. HCIRCLE',false,'沒有 HCIRCLE');
   { const r=R('c503_4_3'); const f=findOn(r); fresh(f.d,f.h,'campus'); stage('campus'); STORY._bindGM(GM); HCIRCLE.bind(GM); POOL.bind(GM);
     const an=GM.spawnNPC('an',{name:'小安'},-20,6,{talk:()=>{}}); an.charId='heroine_01'; an.beh='wander'; an.waypoints=[[-20,6],[-60,6]];
     const ps=GM.spawnCharacter('classmate_peishan',30,-7,{beh:'wander',waypoints:[[30,-7]]}); HCIRCLE.arrange(GM,false);
-    const ok1=Math.abs(an.obj.position.x-93.8)<0.01&&Math.abs(an.obj.position.z+97.6)<0.01&&an.frozen===true&&dist(an,ps)<1.5;
+    const ok1=Math.abs(an.obj.position.x-88.68)<0.01&&Math.abs(an.obj.position.z+81.42)<0.01&&an.frozen===true&&dist(an,ps)<1.5;
     let away=false; const wa=STORY.walkAway; STORY.walkAway=(g,n)=>{ if(n===an) away=true; n.leaving=true; return true; }; try{ set(f.d,20.05,'campus'); HCIRCLE.arrange(GM,true); } finally { STORY.walkAway=wa; }
     check('2. 週四 19:40 萬才館門口：大道上的以安走到那裡站好、沛珊站她旁邊；20:00 以後以安走開（作息換到萬才館讀書會）',ok1&&away,J({ok1,away,an:an.obj.position})); }
   /* (j) 走路的同伴那一段結束：回去照路線走（子晴週二 17:00 走了，Alison 留在校園到 17:30）*/

@@ -166,7 +166,7 @@ const ZRZQ=(function(){
   /* 看電影那天＝F3 之後的第一個週三：5/31 萬才館門口（吉他社練完，21:00）；F3 延到 6/19＝6/21（三）21:30 溫州街的小公園（她們已經畢業）*/
   S.mindSlot=function(G){ const F=G.flags||{}, R=S.rec(G); if(F.FANG_F3_DAY==null||!['dating','mutual','first'].includes(R.f3)) return null;
     let d=null; for(let k=1;k<=7;k++) if(wdOf(F.FANG_F3_DAY+k)===3){ d=F.FANG_F3_DAY+k; break; } if(d==null) return null;
-    const park=S.afterGrad(d); return {kind:'mind',day:d,h:park?21.5:21,meet:park?21.5:21,end:24,park,ver:R.f3,at:park?PARK_GATE:{zone:'campus',x:93.8,z:-98.4,yaw:0}}; };
+    const park=S.afterGrad(d); return {kind:'mind',day:d,h:park?21.5:21,meet:park?21.5:21,end:24,park,ver:R.f3,at:park?PARK_GATE:{zone:'campus',x:89.21,z:-82.01,yaw:0}}; };
   S.mindDue=function(G){ const R=S.rec(G); if(R.ev.ev_zz_zq_mind) return null; const s=S.mindSlot(G); if(!s||now(G)<T(s.day,s.h)) return null;
     const see=!abroad(G,s.day)&&knows(G,ZQ)&&inTaipei(G,ZQ,s.day);   /* 祐廷不在台灣就不演 */
     if(!see||now(G)>=T(s.day,s.end)) return Object.assign({mode:'skip'},s);   /* 4-2b 只在那一晚：沒演到就沒有 */

@@ -76,7 +76,7 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
   // ---- 7 劇情開始（busy）：下車 ----
   P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); P.busy=true; BIKE.tick(GM,1/30); check('7 劇情開始（busy）：自動下車',!P.riding&&!!parkedObj()); P.busy=false;
   // ---- 8 樓梯：萬才館大樓梯（第 1 層）——車停在樓梯前 ----
-  { let st=null; for(let x=60;x<=120&&!st;x+=0.5) for(let z=-125;z<=-85&&!st;z+=0.5){ const h=E.heightAt(x,z,0); if(h>0.3&&h<0.6&&E.canStand(x,z,0.3,0)&&E.canStand(x,z+2.5,0.45,0)&&E.heightAt(x,z+2.5,0)<0.02) st=[x,z]; }   /* 一樓那一層、高度 0.3～0.6 m 的台階格（萬才館大樓梯：兩層共用），前面 2.5 m 是平地 */
+  { let st=null; for(let x=60;x<=120&&!st;x+=0.5) for(let z=-125;z<=-70&&!st;z+=0.5){ const h=E.heightAt(x,z,0); if(h>0.3&&h<0.6&&E.canStand(x,z,0.3,0)&&E.canStand(x,z+2.5,0.45,0)&&E.heightAt(x,z+2.5,0)<0.02) st=[x,z]; }   /* 一樓那一層、高度 0.3～0.6 m 的台階格（萬才館大樓梯：兩層共用），前面 2.5 m 是平地 */
     if(st){ G.bike={zone:'campus',x:st[0],z:st[1]+2.5,yaw:Math.PI,riding:false}; await enter('campus',{x:st[0],z:st[1]+2.5,yaw:Math.PI}); BIKE.mount(GM); step(0.5,0,5); const flat=P.obj.position.clone();
       P.obj.position.set(st[0],0.4,st[1]); BIKE.tick(GM,1/30);
       check('8 騎上樓梯（高度 0.4 m）：自動下車、車停在樓梯前的平地（最後一個平地的位置）、說明',!P.riding&&!!parkedObj()&&Math.hypot(parkedObj().position.x-flat.x,parkedObj().position.z-flat.z)<1e-6&&parkedObj().position.y===0&&toasts.some(t=>/樓梯/.test(t)),JSON.stringify(G.bike)); }
