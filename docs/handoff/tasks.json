@@ -41068,10 +41068,11 @@
       "id": "HANDOFF-A-1103",
       "title": "帳號 A 11-03 交班：LAWWW 等 BB、CC（還在值班的）交班完再最後收尾（duty sync、roles、喚醒全關、最後快照）",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已驗收",
       "priority": "P0",
       "note": "使用者 11-03 02:0x（UA-LAWWW-1103-10）：「你要等其他AI都交班完你才交班 我已經通知他們要交班了」；AI_SESSION_HANDOFF 第 5 節「LAWWW 最後做」",
-      "next": "收到 BB、CC 交班（duty_BB.json、duty_CC.json state handed-off）→ duty sync → roles／check → 確認五個保險喚醒都 enabled=false → snapshot＋duty handoff → commit＋push"
+      "next": "收到 BB、CC 交班（duty_BB.json、duty_CC.json state handed-off）→ duty sync → roles／check → 確認五個保險喚醒都 enabled=false → snapshot＋duty handoff → commit＋push",
+      "evidence": "11-03 02:09：duty sync 後 LAWWW／AA／BB／CC handed-off、LAWWW2 off；roles OK；帳號 A 已沒有開著的保險喚醒（五個都 enabled=false），LAWWW 自排的檢查已刪；最後快照 2026-11-03T0209Z_A_LAWWW"
     },
     {
       "first": {

@@ -47,6 +47,8 @@
 
 **D｜最新決策與規則**：D129／HV-23；使用者要求 UA-LAWWW-1103-01～09。
 
+**收尾（02:09）**：LAWWW 等其他職位都交完才最後收尾（使用者 02:0x）——BB（story-planning 3b6765ba3）、CC（cc-testing 90a3cd480）、AA（story-planning f6a59f5f6）都 duty handoff 了（BB、CC 一開始漏跑，LAWWW 請它們補）；duty sync 後五個職位都不是值班中；roles OK（CC 九個測試案例編號進 reconcileIgnore、BUG-Y4S2-RESCUE-OVERREACH-1102 補進總表）；帳號 A 沒有開著的保險喚醒。新規則 D130／HV-24：LAWWW 可以直接聯絡 CC。
+
 **E｜跨 AI 協作**：BB、CC 值班中（使用者 01:0x 叫回），0f66c4215 與 7 支失敗說明已送 BB（DELIVERED）。LAWWW2、AA 休班（D75）。
 
 **F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER、BUG-CLIMB-ZOMBIE、SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。

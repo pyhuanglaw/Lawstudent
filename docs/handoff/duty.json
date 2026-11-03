@@ -56,12 +56,12 @@
    "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
    "branch": "claude/story-planning",
    "sha": "3b6765ba",
-   "since": "2026-11-02T03:36Z",
-   "state": "on",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "c989cc06",
-   "handedOffAt": "2026-11-01T08:58Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-11-01T0857Z_B_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-11-03T02:08Z",
+   "handoffSnapshot": "docs/handoff/snapshots/2026-11-03T0208Z_A_AA.json"
   },
   "BB": {
    "account": "A",
@@ -850,7 +850,7 @@
    "note": "LAWWW-B 11-01 22:5x 查核：帳號 C 這條分支最後 commit 3e23808e7（10-28 15:2x～15:33），比帳號 B 10-30 02:07 接班早，而且已經是帳號 B 同一職位分支的祖先（接班時合併了）——不是兩個帳號同時寫；duty.json 記的 C 交班 SHA 是舊的"
   }
  ],
- "seq": 50,
+ "seq": 51,
  "chain": [
   {
    "seq": 1,
@@ -1200,6 +1200,13 @@
    "at": "2026-11-03T02:06Z",
    "account": "-",
    "role": "LAWWW2,AA,BB,CC",
+   "event": "sync"
+  },
+  {
+   "seq": 51,
+   "at": "2026-11-03T02:09Z",
+   "account": "-",
+   "role": "AA",
    "event": "sync"
   }
  ],
