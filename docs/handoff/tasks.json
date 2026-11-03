@@ -43137,6 +43137,33 @@
    "priority": "P1",
    "note": "X187；路人用現有 crowd 底模，不用有名字的人；座位用店裡現有的座位",
    "next": "子代理（worktree）實作 → 截圖 → 合併 → BB 測"
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "經濟系第一週進公館、溫州街的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "SHOP-ENCOUNTER-1103",
+   "title": "店裡偶遇：進店時照作息與機率遇到已認識的朋友（坐著吃、聊幾句、可以併桌）；也可以在店裡認識新的人（AA 定人物與台詞）",
+   "owner": "LAWWW",
+   "status": "等待其他AI",
+   "priority": "P1",
+   "note": "X188；擴充 ENC（encounter3d.js，DL-07）到店家；等 AA 交規格",
+   "next": "AA 交誰在哪家店、什麼時段、台詞、新認識的人 → LAWWW 子代理實作（接 SHOP-DINERS-1103 的店清單）",
+   "xai": {
+    "spec": "AA（待交）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "玩家進店時會遇到朋友或認識新人，台詞照 AA 定稿",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
