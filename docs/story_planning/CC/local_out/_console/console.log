@@ -45,3 +45,17 @@
 [19:44:18] dev head = 578f5a0d4   lawww2 head = b12d3bb5d
 [19:44:20] config.txt: PARALLEL 2 -> 3
 [19:44:20] memory used: 49%  (new items wait while >= 85%)
+[19:44:26] queue: V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18G_sleep, V18G_eat, V18G_camp608, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
+[19:44:26] skip V18R_deploy (already done on 0776cafc8)
+[19:44:26] skip V18R_p0 (already done on 0776cafc8)
+[19:44:26] skip V18R_v7 (already done on 0776cafc8)
+[19:44:26] memory 50% before starting V18R_zone (0 running)
+[19:44:26] memory 50% before starting V18R_mini (1 running)
+[19:44:26] ==== START V18R_zone  (game @ 0776cafc8) ====
+[19:44:26] memory 50% before starting V18R_touch (2 running)
+[19:44:26] ==== START V18R_mini  (game @ 0776cafc8) ====
+[19:44:26] ==== START V18R_touch  (game @ 0776cafc8) ====
+[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_zone
+[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_mini
+[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_touch
+[19:46:53] [res] cpu=99% mem=62% (19.3/31.4 GB) chrome_testing=16  END V18R_mini
