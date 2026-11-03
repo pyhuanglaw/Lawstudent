@@ -201,9 +201,11 @@ const rowOf=(who,spot)=>SHOP_ENC.rows.find(r=>r.who===who&&r.spot===spot);
     /* 回她 */
     const Gr=mk(STORY.termDay('Y2S1',5,3),21.6,{flags:G.flags,msgs:G.msgs.filter(m=>m.day<STORY.termDay('Y2S1',5,3))});
     const o=MSG.open(Gr,ZN), tp=MSG.topics(Gr,ZN).map(q=>q.k).join();
-    check('11. 加了聯絡人：她的對話串可以「傳訊息」（在幹嘛、分享）',!!o.ok&&tp==='chat,share',JSON.stringify(o)+' '+tp);
+    check('11. 加了聯絡人：她的對話串可以「傳訊息」（在幹嘛、分享、晚安）',!!o.ok&&tp==='chat,share,night',JSON.stringify(o)+' '+tp);
     const n0=Gr.msgs.length; const r=MSG.send(Gr,ZN,'share','cat'); Gr.hour=26; PHONE.tick(Gr); const add=Gr.msgs.slice(n0);
-    check('11. 傳了：她只回一句「哈哈。」或「好。」',r.ok&&add.length===2&&add[0].from==='player'&&add[1].from===ZN&&X.znReplies.includes(add[1].text),JSON.stringify(add.map(m=>m.text)));
+    check('11. 傳了：她只回一句「哈哈。」或「好。」',r.ok&&add.length===2&&add[0].from==='player'&&add[1].from===ZN&&add[1].text==='哈哈。',JSON.stringify(add.map(m=>m.text)));
+    { const RP=MSG.EXTRA[ZN].reply; const F0=Gr.flags.SHOP_ZN_BK; const mv=F0&&F0.moved; const m1=RP(Gr,'chat'); if(F0){ F0.moved=Gr.day-1; } const m2=RP(Gr,'chat'); if(F0) F0.moved=mv;
+      check('11b. AA 11-03 15:05：照話題各回一句——在幹嘛「在書房。」（到山嵐以後「在山嵐顧二樓。」）、謝謝「不客氣。」、生日快樂「謝謝。」、還好嗎「還好。」、新年快樂「新年快樂。」、其他「好。」',m1==='在書房。'&&(!F0||m2==='在山嵐顧二樓。')&&RP(Gr,'thanks')==='不客氣。'&&RP(Gr,'bday')==='謝謝。'&&RP(Gr,'ok')==='還好。'&&RP(Gr,'newyear')==='新年快樂。'&&RP(Gr,'night')==='好。',JSON.stringify([m1,m2])); }
     check('11. 同一天不能再傳',!MSG.canSend(Gr,ZN));
     const Gn=mk(Gr.day,15,{flags:{SHOP_ZN_MET:true}}); check('11. 沒加聯絡人：不能傳',!MSG.open(Gn,ZN).ok);
     check('11. 接線：手機規則（STORY.PHONE_RULES）有 SHOPENC.znPhone',STORY.PHONE_RULES.some(f=>String(f).includes('znPhone'))); }

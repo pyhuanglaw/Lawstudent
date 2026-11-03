@@ -22,7 +22,7 @@
      加了聯絡人以後的訊息（AA_641 第 2 節，aa641.znMsgs 六則；S.znPhone 在 STORY.PHONE_RULES）：照順序、一天一則、每學期最多兩則、學期中的平日（週一～五）21:00～21:20（PHONE.at）；考試週、寒暑假、國定假日不發；
        上一則以後至少 S.ZN_GAP 天、加聯絡人以後至少 3 天；哪一天照種子（S.ZN_P）。第 5 則（她要去山嵐書店打工）：山嵐書店（zone shanlan）還沒進遊戲就先跳過、改發第 6 則（之後開了再補第 5 則）；
        發了以後，她在店裡的出現改到山嵐書店（aa641.znMove：週六 14–17；台詞照舊三句輪流）。記在 G.flags.SHOP_ZN_BK＝{c0 加聯絡人那天, sent:[第幾則], terms:{學期:幾則}, last, ev 今天決定過, moved 第 5 則那天}（舊存檔沒有＝沒發過）。
-       玩家傳訊息給她（MSG.EXTRA：在幹嘛、分享）：她只回一句——分享（照片）「哈哈。」、其他「好。」（aa641.znReplies；哪一句配哪個話題 LAWWW 定），5～30 分鐘後（00:30～08:00 傳的 08:00 以後）。
+       玩家傳訊息給她（MSG.EXTRA：在幹嘛、分享）：她只回一句（AA 11-03 15:05 定）：分享「哈哈。」、在幹嘛「在書房。」（到山嵐以後「在山嵐顧二樓。」）、謝謝「不客氣。」、生日快樂「謝謝。」、還好嗎「還好。」、新年快樂「新年快樂。」、其他「好。」，5～30 分鐘後（00:30～08:00 傳的 08:00 以後）。
    - 阿德（影印店老闆，AA_633 shopkeepers）：「印東西」時隨機一句（每次最多一句；期中、期末那兩週機率高）。
    - 店裡客人的路人句（SHOP-DINERS-1103、AA_640）：點了聽一句（按鈕最後才算 yieldIt）——吃飯的店兩人一桌（A／B 照 pair）、Café 與慢讀咖啡（第 2～5、7 句）、
      書店（第 1～6 句）全部「（小聲）」、便利商店排隊結帳的人；考試週 quiet 多一句（LAWWW 決定）。同一位客人一天只講一句（再點還是那一句）；同一句一天內不重複；用完了其他客人不說。
@@ -252,8 +252,9 @@ const SHOPENC=(function(){
     if(P&&typeof PHONE!=='undefined'&&PHONE.NAMES) PHONE.NAMES[S.ZN]=P.name;
     if(P&&typeof MSG!=='undefined'&&MSG.EXTRA) MSG.EXTRA[S.ZN]={name:P.name,
       open:G=>(G.flags&&G.flags.SHOP_ZN_CONTACT)?{ok:true}:{ok:false,why:'還沒有聯絡方式',noContact:true},
-      topics:()=>(MSG.TOPICS||[]).filter(q=>q.k==='chat'||q.k==='share'),
-      reply:(G,topic)=>{ const R=X41().znReplies||[]; return topic==='share'?R[0]:R[1]; },
+      topics:()=>(MSG.TOPICS||[]).filter(q=>q.k==='chat'||q.k==='share'||q.k==='night'),
+      reply:(G,topic)=>{ const R=X41().znReplies||[], shan=!!(G.flags&&G.flags.SHOP_ZN_BK&&G.flags.SHOP_ZN_BK.moved!=null&&G.day>G.flags.SHOP_ZN_BK.moved);   /* AA 11-03 15:05：照話題各一句，只回這一句、沒有下文 */
+        const M={share:R[0]||'哈哈。',chat:shan?'在山嵐顧二樓。':'在書房。',thanks:'不客氣。',bday:'謝謝。',ok:'還好。',newyear:'新年快樂。'}; return M[topic]||'好。'; },
       at:G=>{ const h=G.hour%24, day=G.day+Math.floor(G.hour/24), m=5+hash('znr|'+G.day+'|'+Math.round(G.hour*60))%26; if(h>=0.5&&h<8) return {day,h:8+m/60,late:true}; return {day,h:h+m/60}; }}; }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY._shopEncZn){ STORY.PHONE_RULES.push(G=>S.znPhone(G)); STORY._shopEncZn=true; }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.SCHED_X)&&!STORY._shopEncSched){ STORY.SCHED_X.push(S.sched); STORY._shopEncSched=true; }
