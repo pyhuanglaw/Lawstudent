@@ -1,134 +1,134 @@
-16:32:44 | INFO: Data are loaded, start creating Blender stuff
-16:32:44 | INFO: Blender create Mesh node BAKEONLY_opposite
-16:32:44 | INFO: Blender create Mesh node BAKEONLY_street
-16:32:44 | INFO: Blender create Mesh node dorm_bath_floor
-16:32:44 | INFO: Blender create Mesh node dorm_bath_outer
-16:32:44 | INFO: Blender create Mesh node dorm_bath_tile
-16:32:44 | INFO: Blender create Mesh node dorm_bathmat
-16:32:44 | INFO: Blender create Mesh node dorm_ceiling
-16:32:44 | INFO: Blender create Mesh node dorm_ceramic
-16:32:44 | INFO: Blender create Mesh node dorm_chair_white
-16:32:44 | INFO: Blender create Mesh node dorm_chrome
-16:32:44 | INFO: Blender create Mesh node dorm_fixtures
-16:32:44 | INFO: Blender create Mesh node dorm_floor
-16:32:44 | INFO: Blender create Mesh node dorm_frame_white
-16:32:44 | INFO: Blender create Mesh node dorm_items
-16:32:44 | INFO: Blender create Mesh node dorm_led
-16:32:44 | INFO: Blender create Mesh node dorm_metal
-16:32:44 | INFO: Blender create Mesh node dorm_mirror
-16:32:44 | INFO: Blender create Mesh node dorm_shower_curtain
-16:32:44 | INFO: Blender create Mesh node dorm_tubes
-16:32:44 | INFO: Blender create Mesh node dorm_wood
-16:32:44 | INFO: Blender create Mesh node JACKET_CHAIR_cloth
-16:32:44 | INFO: Blender create Mesh node BEDDING_L1_duvet
-16:32:44 | INFO: Blender create Mesh node BEDDING_L1_pillow
-16:32:44 | INFO: Blender create Mesh node LOFT_L1_frame
-16:32:44 | INFO: Blender create Mesh node LOFT_L1_rod
-16:32:44 | INFO: Blender create Mesh node LOFT_L1_sheet
-16:32:44 | INFO: Blender create Mesh node BEDDING_L2_duvet
-16:32:44 | INFO: Blender create Mesh node BEDDING_L2_pillow
-16:32:44 | INFO: Blender create Mesh node LOFT_L2_frame
-16:32:44 | INFO: Blender create Mesh node LOFT_L2_rod
-16:32:44 | INFO: Blender create Mesh node LOFT_L2_sheet
-16:32:44 | INFO: Blender create Mesh node BEDDING_R1_duvet
-16:32:44 | INFO: Blender create Mesh node BEDDING_R1_pillow
-16:32:44 | INFO: Blender create Mesh node LOFT_R1_frame
-16:32:44 | INFO: Blender create Mesh node LOFT_R1_rod
-16:32:44 | INFO: Blender create Mesh node LOFT_R1_sheet
-16:32:44 | INFO: Blender create Mesh node BEDDING_R2_duvet
-16:32:44 | INFO: Blender create Mesh node BEDDING_R2_pillow
-16:32:44 | INFO: Blender create Mesh node LOFT_R2_frame
-16:32:44 | INFO: Blender create Mesh node LOFT_R2_rod
-16:32:44 | INFO: Blender create Mesh node LOFT_R2_sheet
-16:32:44 | INFO: Blender create Mesh node NAMETAG_TANGRUI_card
-16:32:44 | INFO: Blender create Mesh node NAMETAG_WEILUN_card
-16:32:44 | INFO: Blender create Mesh node ROOMMATE_KAI_black
-16:32:44 | INFO: Blender create Mesh node ROOMMATE_KAI_bulb
-16:32:44 | INFO: Blender create Mesh node ROOMMATE_KAI_items
-16:32:44 | INFO: Blender create Mesh node ROOMMATE_KAI_screen
-16:32:44 | INFO: Blender create Mesh node WALL_back_ac
-16:32:44 | INFO: Blender create Mesh node WALL_back_alu
-16:32:44 | INFO: Blender create Mesh node WALL_back_black
-16:32:44 | INFO: Blender create Mesh node WALL_back_blind
-16:32:44 | INFO: Blender create Mesh node WALL_back_glass
-16:32:44 | INFO: Blender create Mesh node WALL_back_rod
-16:32:44 | INFO: Blender create Mesh node WALL_back_sill
-16:32:44 | INFO: Blender create Mesh node WALL_back_skirt
-16:32:44 | INFO: Blender create Mesh node WALL_back_trim
-16:32:44 | INFO: Blender create Mesh node WALL_back_wall
-16:32:44 | INFO: Blender create Mesh node WALL_bath_n_skirt
-16:32:44 | INFO: Blender create Mesh node WALL_bath_n_wall
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_bdoor
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_black
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_chrome
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_sign
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_skirt
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_trim
-16:32:44 | INFO: Blender create Mesh node WALL_bath_w_wall
-16:32:44 | INFO: Blender create Mesh node WALL_front_black
-16:32:44 | INFO: Blender create Mesh node WALL_front_blind
-16:32:44 | INFO: Blender create Mesh node WALL_front_chrome
-16:32:44 | INFO: Blender create Mesh node WALL_front_door
-16:32:44 | INFO: Blender create Mesh node WALL_front_pillow
-16:32:44 | INFO: Blender create Mesh node WALL_front_skirt
-16:32:44 | INFO: Blender create Mesh node WALL_front_trim
-16:32:44 | INFO: Blender create Mesh node WALL_front_wall
-16:32:44 | INFO: Blender create Mesh node WALL_left_skirt
-16:32:44 | INFO: Blender create Mesh node WALL_left_wall
-16:32:44 | INFO: Blender create Mesh node WALL_right_wall
-16:32:44 | INFO: Blender create Mesh node Y203_BOHAN_black
-16:32:44 | INFO: Blender create Mesh node Y203_BOHAN_bulb
-16:32:44 | INFO: Blender create Mesh node Y203_BOHAN_items
-16:32:44 | INFO: Blender create Mesh node Y203_BOHAN_metal
-16:32:44 | INFO: Blender create Mesh node Y203_YUTING_black
-16:32:44 | INFO: Blender create Mesh node Y203_YUTING_items
-16:32:44 | INFO: Blender create Mesh node Y203_YUTING_metal
-16:32:44 | INFO: Blender create Mesh node Y203_YUTING_screen
-16:32:44 | INFO: Blender create Mesh node Y203_ZHE_items
-16:32:44 | INFO: Blender create Mesh node Y203_ZHE_metal
-16:32:44 | INFO: Blender create Mesh node Y312_BOHAN_black
-16:32:44 | INFO: Blender create Mesh node Y312_BOHAN_bulb
-16:32:44 | INFO: Blender create Mesh node Y312_BOHAN_items
-16:32:44 | INFO: Blender create Mesh node Y312_BOHAN_metal
-16:32:44 | INFO: Blender create Mesh node Y312_FRESH_items
-16:32:44 | INFO: Blender create Mesh node Y312_YUTING_black
-16:32:44 | INFO: Blender create Mesh node Y312_YUTING_items
-16:32:44 | INFO: Blender create Mesh node Y312_YUTING_screen
-16:32:44 | INFO: Blender create Mesh node Y312_ZHE_items
-16:32:44 | INFO: Blender create Mesh node Y312_ZHE_metal
-16:32:44 | INFO: Blender create Mesh node Y409_BOHAN_black
-16:32:44 | INFO: Blender create Mesh node Y409_BOHAN_bulb
-16:32:44 | INFO: Blender create Mesh node Y409_BOHAN_items
-16:32:44 | INFO: Blender create Mesh node Y409_BOHAN_metal
-16:32:44 | INFO: Blender create Mesh node Y409_FRESH_black
-16:32:44 | INFO: Blender create Mesh node Y409_FRESH_items
-16:32:44 | INFO: Blender create Mesh node Y409_FRESH_screen
-16:32:44 | INFO: Blender create Mesh node Y409_SOPH_black
-16:32:44 | INFO: Blender create Mesh node Y409_SOPH_items
-16:32:45 | INFO: Blender create Mesh node Y409_SOPH_screen
-16:32:45 | INFO: Blender create Mesh node Y409_YUTING_black
-16:32:45 | INFO: Blender create Mesh node Y409_YUTING_items
-16:32:45 | INFO: Blender create Mesh node Y409_YUTING_screen
-16:32:45 | INFO: Blender create Mesh node Y412_TANGRUI_items
-16:32:45 | INFO: Blender create Mesh node Y412_TANGRUI_metal
-16:32:45 | INFO: Blender create Mesh node Y412_WEILUN_items
-16:32:45 | INFO: Blender create Mesh node Y412_YUTING_black
-16:32:45 | INFO: Blender create Mesh node Y412_YUTING_items
-16:32:45 | INFO: Blender create Mesh node Y412_YUTING_screen
-16:32:45 | INFO: Blender create Mesh node Y507_BOHAN_black
-16:32:45 | INFO: Blender create Mesh node Y507_BOHAN_bulb
-16:32:45 | INFO: Blender create Mesh node Y507_BOHAN_items
-16:32:45 | INFO: Blender create Mesh node Y507_BOHAN_metal
-16:32:45 | INFO: Blender create Mesh node Y507_PEER_black
-16:32:45 | INFO: Blender create Mesh node Y507_PEER_items
-16:32:45 | INFO: Blender create Mesh node Y507_PEER_screen
-16:32:45 | INFO: Blender create Mesh node Y507_SOPH_black
-16:32:45 | INFO: Blender create Mesh node Y507_SOPH_items
-16:32:45 | INFO: Blender create Mesh node Y507_SOPH_screen
-16:32:45 | INFO: Blender create Mesh node Y507_YUTING_black
-16:32:45 | INFO: Blender create Mesh node Y507_YUTING_items
-16:32:45 | INFO: Blender create Mesh node Y507_YUTING_screen
-16:32:45 | INFO: glTF import finished in 0.47s
+17:25:26 | INFO: Data are loaded, start creating Blender stuff
+17:25:26 | INFO: Blender create Mesh node BAKEONLY_opposite
+17:25:26 | INFO: Blender create Mesh node BAKEONLY_street
+17:25:26 | INFO: Blender create Mesh node dorm_bath_floor
+17:25:26 | INFO: Blender create Mesh node dorm_bath_outer
+17:25:26 | INFO: Blender create Mesh node dorm_bath_tile
+17:25:26 | INFO: Blender create Mesh node dorm_bathmat
+17:25:26 | INFO: Blender create Mesh node dorm_ceiling
+17:25:26 | INFO: Blender create Mesh node dorm_ceramic
+17:25:26 | INFO: Blender create Mesh node dorm_chair_white
+17:25:26 | INFO: Blender create Mesh node dorm_chrome
+17:25:26 | INFO: Blender create Mesh node dorm_fixtures
+17:25:26 | INFO: Blender create Mesh node dorm_floor
+17:25:26 | INFO: Blender create Mesh node dorm_frame_white
+17:25:26 | INFO: Blender create Mesh node dorm_items
+17:25:26 | INFO: Blender create Mesh node dorm_led
+17:25:26 | INFO: Blender create Mesh node dorm_metal
+17:25:26 | INFO: Blender create Mesh node dorm_mirror
+17:25:26 | INFO: Blender create Mesh node dorm_shower_curtain
+17:25:26 | INFO: Blender create Mesh node dorm_tubes
+17:25:26 | INFO: Blender create Mesh node dorm_wood
+17:25:26 | INFO: Blender create Mesh node JACKET_CHAIR_cloth
+17:25:26 | INFO: Blender create Mesh node BEDDING_L1_duvet
+17:25:26 | INFO: Blender create Mesh node BEDDING_L1_pillow
+17:25:26 | INFO: Blender create Mesh node LOFT_L1_frame
+17:25:26 | INFO: Blender create Mesh node LOFT_L1_rod
+17:25:26 | INFO: Blender create Mesh node LOFT_L1_sheet
+17:25:26 | INFO: Blender create Mesh node BEDDING_L2_duvet
+17:25:26 | INFO: Blender create Mesh node BEDDING_L2_pillow
+17:25:26 | INFO: Blender create Mesh node LOFT_L2_frame
+17:25:26 | INFO: Blender create Mesh node LOFT_L2_rod
+17:25:26 | INFO: Blender create Mesh node LOFT_L2_sheet
+17:25:26 | INFO: Blender create Mesh node BEDDING_R1_duvet
+17:25:26 | INFO: Blender create Mesh node BEDDING_R1_pillow
+17:25:26 | INFO: Blender create Mesh node LOFT_R1_frame
+17:25:26 | INFO: Blender create Mesh node LOFT_R1_rod
+17:25:26 | INFO: Blender create Mesh node LOFT_R1_sheet
+17:25:26 | INFO: Blender create Mesh node BEDDING_R2_duvet
+17:25:26 | INFO: Blender create Mesh node BEDDING_R2_pillow
+17:25:26 | INFO: Blender create Mesh node LOFT_R2_frame
+17:25:26 | INFO: Blender create Mesh node LOFT_R2_rod
+17:25:26 | INFO: Blender create Mesh node LOFT_R2_sheet
+17:25:26 | INFO: Blender create Mesh node NAMETAG_TANGRUI_card
+17:25:26 | INFO: Blender create Mesh node NAMETAG_WEILUN_card
+17:25:26 | INFO: Blender create Mesh node ROOMMATE_KAI_black
+17:25:26 | INFO: Blender create Mesh node ROOMMATE_KAI_bulb
+17:25:26 | INFO: Blender create Mesh node ROOMMATE_KAI_items
+17:25:26 | INFO: Blender create Mesh node ROOMMATE_KAI_screen
+17:25:26 | INFO: Blender create Mesh node WALL_back_ac
+17:25:26 | INFO: Blender create Mesh node WALL_back_alu
+17:25:26 | INFO: Blender create Mesh node WALL_back_black
+17:25:26 | INFO: Blender create Mesh node WALL_back_blind
+17:25:26 | INFO: Blender create Mesh node WALL_back_glass
+17:25:26 | INFO: Blender create Mesh node WALL_back_rod
+17:25:26 | INFO: Blender create Mesh node WALL_back_sill
+17:25:26 | INFO: Blender create Mesh node WALL_back_skirt
+17:25:26 | INFO: Blender create Mesh node WALL_back_trim
+17:25:26 | INFO: Blender create Mesh node WALL_back_wall
+17:25:26 | INFO: Blender create Mesh node WALL_bath_n_skirt
+17:25:26 | INFO: Blender create Mesh node WALL_bath_n_wall
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_bdoor
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_black
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_chrome
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_sign
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_skirt
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_trim
+17:25:26 | INFO: Blender create Mesh node WALL_bath_w_wall
+17:25:26 | INFO: Blender create Mesh node WALL_front_black
+17:25:26 | INFO: Blender create Mesh node WALL_front_blind
+17:25:26 | INFO: Blender create Mesh node WALL_front_chrome
+17:25:26 | INFO: Blender create Mesh node WALL_front_door
+17:25:26 | INFO: Blender create Mesh node WALL_front_pillow
+17:25:26 | INFO: Blender create Mesh node WALL_front_skirt
+17:25:26 | INFO: Blender create Mesh node WALL_front_trim
+17:25:26 | INFO: Blender create Mesh node WALL_front_wall
+17:25:26 | INFO: Blender create Mesh node WALL_left_skirt
+17:25:26 | INFO: Blender create Mesh node WALL_left_wall
+17:25:26 | INFO: Blender create Mesh node WALL_right_wall
+17:25:26 | INFO: Blender create Mesh node Y203_BOHAN_black
+17:25:26 | INFO: Blender create Mesh node Y203_BOHAN_bulb
+17:25:26 | INFO: Blender create Mesh node Y203_BOHAN_items
+17:25:27 | INFO: Blender create Mesh node Y203_BOHAN_metal
+17:25:27 | INFO: Blender create Mesh node Y203_YUTING_black
+17:25:27 | INFO: Blender create Mesh node Y203_YUTING_items
+17:25:27 | INFO: Blender create Mesh node Y203_YUTING_metal
+17:25:27 | INFO: Blender create Mesh node Y203_YUTING_screen
+17:25:27 | INFO: Blender create Mesh node Y203_ZHE_items
+17:25:27 | INFO: Blender create Mesh node Y203_ZHE_metal
+17:25:27 | INFO: Blender create Mesh node Y312_BOHAN_black
+17:25:27 | INFO: Blender create Mesh node Y312_BOHAN_bulb
+17:25:27 | INFO: Blender create Mesh node Y312_BOHAN_items
+17:25:27 | INFO: Blender create Mesh node Y312_BOHAN_metal
+17:25:27 | INFO: Blender create Mesh node Y312_FRESH_items
+17:25:27 | INFO: Blender create Mesh node Y312_YUTING_black
+17:25:27 | INFO: Blender create Mesh node Y312_YUTING_items
+17:25:27 | INFO: Blender create Mesh node Y312_YUTING_screen
+17:25:27 | INFO: Blender create Mesh node Y312_ZHE_items
+17:25:27 | INFO: Blender create Mesh node Y312_ZHE_metal
+17:25:27 | INFO: Blender create Mesh node Y409_BOHAN_black
+17:25:27 | INFO: Blender create Mesh node Y409_BOHAN_bulb
+17:25:27 | INFO: Blender create Mesh node Y409_BOHAN_items
+17:25:27 | INFO: Blender create Mesh node Y409_BOHAN_metal
+17:25:27 | INFO: Blender create Mesh node Y409_FRESH_black
+17:25:27 | INFO: Blender create Mesh node Y409_FRESH_items
+17:25:27 | INFO: Blender create Mesh node Y409_FRESH_screen
+17:25:27 | INFO: Blender create Mesh node Y409_SOPH_black
+17:25:27 | INFO: Blender create Mesh node Y409_SOPH_items
+17:25:27 | INFO: Blender create Mesh node Y409_SOPH_screen
+17:25:27 | INFO: Blender create Mesh node Y409_YUTING_black
+17:25:27 | INFO: Blender create Mesh node Y409_YUTING_items
+17:25:27 | INFO: Blender create Mesh node Y409_YUTING_screen
+17:25:27 | INFO: Blender create Mesh node Y412_TANGRUI_items
+17:25:27 | INFO: Blender create Mesh node Y412_TANGRUI_metal
+17:25:27 | INFO: Blender create Mesh node Y412_WEILUN_items
+17:25:27 | INFO: Blender create Mesh node Y412_YUTING_black
+17:25:27 | INFO: Blender create Mesh node Y412_YUTING_items
+17:25:27 | INFO: Blender create Mesh node Y412_YUTING_screen
+17:25:27 | INFO: Blender create Mesh node Y507_BOHAN_black
+17:25:27 | INFO: Blender create Mesh node Y507_BOHAN_bulb
+17:25:27 | INFO: Blender create Mesh node Y507_BOHAN_items
+17:25:27 | INFO: Blender create Mesh node Y507_BOHAN_metal
+17:25:27 | INFO: Blender create Mesh node Y507_PEER_black
+17:25:27 | INFO: Blender create Mesh node Y507_PEER_items
+17:25:27 | INFO: Blender create Mesh node Y507_PEER_screen
+17:25:27 | INFO: Blender create Mesh node Y507_SOPH_black
+17:25:27 | INFO: Blender create Mesh node Y507_SOPH_items
+17:25:27 | INFO: Blender create Mesh node Y507_SOPH_screen
+17:25:27 | INFO: Blender create Mesh node Y507_YUTING_black
+17:25:27 | INFO: Blender create Mesh node Y507_YUTING_items
+17:25:27 | INFO: Blender create Mesh node Y507_YUTING_screen
+17:25:27 | INFO: glTF import finished in 0.62s
 import 160 objects
 bake objects 47
 back faces dropped 0
@@ -288,265 +288,265 @@ saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_ou
 black faces collapsed 3910
 INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
 INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
-16:33:49 | INFO: Starting glTF 2.0 export
-16:33:49 | INFO: Extracting primitive: dorm_bath_floor
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_bath_outer
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_bath_tile
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_bathmat
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_ceiling
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_ceramic
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_chair_white
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_chrome
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_fixtures
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_floor
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_frame_white
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_led
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_mirror
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_shower_curtain
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_tubes
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: dorm_wood
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: JACKET_CHAIR_cloth
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_L1_duvet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_L1_pillow
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L1_frame
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L1_rod
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L1_sheet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_L2_duvet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_L2_pillow
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L2_frame
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L2_rod
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_L2_sheet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_R1_duvet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_R1_pillow
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R1_frame
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R1_rod
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R1_sheet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_R2_duvet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: BEDDING_R2_pillow
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R2_frame
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R2_rod
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: LOFT_R2_sheet
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: NAMETAG_TANGRUI_card
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: NAMETAG_WEILUN_card
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: ROOMMATE_KAI_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: ROOMMATE_KAI_bulb
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: ROOMMATE_KAI_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: ROOMMATE_KAI_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_ac
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_alu
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_blind
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_glass
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_rod
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_sill
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_skirt
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_trim
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_back_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_n_skirt
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_n_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_bdoor
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_chrome
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_sign
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_skirt
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_trim
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_bath_w_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_blind
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_chrome
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_door
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_pillow
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_skirt
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_trim
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_front_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_left_skirt
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_left_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: WALL_right_wall
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_BOHAN_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_BOHAN_bulb
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_BOHAN_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_BOHAN_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_YUTING_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_YUTING_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_YUTING_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_YUTING_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_ZHE_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y203_ZHE_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_BOHAN_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_BOHAN_bulb
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_BOHAN_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_BOHAN_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_FRESH_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_YUTING_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_YUTING_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_YUTING_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_ZHE_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y312_ZHE_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_BOHAN_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_BOHAN_bulb
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_BOHAN_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_BOHAN_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_FRESH_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_FRESH_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_FRESH_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_SOPH_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_SOPH_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_SOPH_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_YUTING_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_YUTING_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y409_YUTING_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_TANGRUI_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_TANGRUI_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_WEILUN_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_YUTING_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_YUTING_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y412_YUTING_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_BOHAN_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_BOHAN_bulb
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_BOHAN_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_BOHAN_metal
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_PEER_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_PEER_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_PEER_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_SOPH_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_SOPH_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_SOPH_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_YUTING_black
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_YUTING_items
-16:33:49 | INFO: Primitives created: 1
-16:33:49 | INFO: Extracting primitive: Y507_YUTING_screen
-16:33:49 | INFO: Primitives created: 1
-16:33:50 | INFO: Finished glTF 2.0 export in 0.7030842304229736 s
+17:26:28 | INFO: Starting glTF 2.0 export
+17:26:28 | INFO: Extracting primitive: dorm_bath_floor
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_bath_outer
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_bath_tile
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_bathmat
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_ceiling
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_ceramic
+17:26:28 | INFO: Primitives created: 1
+17:26:28 | INFO: Extracting primitive: dorm_chair_white
+17:26:28 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_chrome
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_fixtures
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_floor
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_frame_white
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_led
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_mirror
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_shower_curtain
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_tubes
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: dorm_wood
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: JACKET_CHAIR_cloth
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_L1_duvet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_L1_pillow
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L1_frame
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L1_rod
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L1_sheet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_L2_duvet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_L2_pillow
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L2_frame
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L2_rod
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_L2_sheet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_R1_duvet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_R1_pillow
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R1_frame
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R1_rod
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R1_sheet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_R2_duvet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: BEDDING_R2_pillow
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R2_frame
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R2_rod
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: LOFT_R2_sheet
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: NAMETAG_TANGRUI_card
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: NAMETAG_WEILUN_card
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: ROOMMATE_KAI_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: ROOMMATE_KAI_bulb
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: ROOMMATE_KAI_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: ROOMMATE_KAI_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_ac
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_alu
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_blind
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_glass
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_rod
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_sill
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_skirt
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_trim
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_back_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_n_skirt
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_n_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_bdoor
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_chrome
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_sign
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_skirt
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_trim
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_bath_w_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_blind
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_chrome
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_door
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_pillow
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_skirt
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_trim
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_front_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_left_skirt
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_left_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: WALL_right_wall
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_BOHAN_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_BOHAN_bulb
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_BOHAN_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_BOHAN_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_YUTING_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_YUTING_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_YUTING_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_YUTING_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_ZHE_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y203_ZHE_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_BOHAN_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_BOHAN_bulb
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_BOHAN_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_BOHAN_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_FRESH_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_YUTING_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_YUTING_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_YUTING_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_ZHE_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y312_ZHE_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_BOHAN_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_BOHAN_bulb
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_BOHAN_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_BOHAN_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_FRESH_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_FRESH_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_FRESH_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_SOPH_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_SOPH_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_SOPH_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_YUTING_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_YUTING_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y409_YUTING_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_TANGRUI_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_TANGRUI_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_WEILUN_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_YUTING_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_YUTING_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y412_YUTING_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_BOHAN_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_BOHAN_bulb
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_BOHAN_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_BOHAN_metal
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_PEER_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_PEER_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_PEER_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_SOPH_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_SOPH_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_SOPH_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_YUTING_black
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_YUTING_items
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Extracting primitive: Y507_YUTING_screen
+17:26:29 | INFO: Primitives created: 1
+17:26:29 | INFO: Finished glTF 2.0 export in 0.6493172645568848 s
 
 exported C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK1_cpu\out\d.glb
-PCBAKE {"res": 512, "samples": 256, "total_seconds": 70.0, "images": {"day": {"mean": 0.06225, "p50": 0.0, "p95": 0.4125, "pixels": 262144}, "night": {"mean": 0.06903, "p50": 0.0, "p95": 0.45227, "pixels": 262144}, "dark": {"mean": 0.00474, "p50": 0.0, "p95": 0.02884, "pixels": 262144}}, "device": "CPU", "blender": "5.2.3 LTS", "bake_seconds": 60.7}
+PCBAKE {"res": 512, "samples": 256, "total_seconds": 64.7, "images": {"day": {"mean": 0.06225, "p50": 0.0, "p95": 0.4125, "pixels": 262144}, "night": {"mean": 0.06903, "p50": 0.0, "p95": 0.45227, "pixels": 262144}, "dark": {"mean": 0.00474, "p50": 0.0, "p95": 0.02884, "pixels": 262144}}, "device": "CPU", "blender": "5.2.3 LTS", "bake_seconds": 59.0}
 Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
 
 Blender quit

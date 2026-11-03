@@ -1,7 +1,7 @@
 {
  "res": 512,
  "samples": 256,
- "total_seconds": 70.0,
+ "total_seconds": 64.7,
  "images": {
   "day": {
    "mean": 0.06225,
@@ -24,5 +24,5 @@
  },
  "device": "CPU",
  "blender": "5.2.3 LTS",
- "bake_seconds": 60.7
+ "bake_seconds": 59.0
 }
