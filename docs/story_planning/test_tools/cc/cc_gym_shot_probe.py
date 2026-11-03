@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """CC（帳號 A）：體育館 B1（重訓室＋游泳池）截圖探針。
 - rack：BUG-GYM-CROWD-STIFF-1103（55332d899；BB 2026-11-03 08:49）。使用者原話：「健身房新增了人 但是都不太會動 更詭異好嗎」。
-    修正：深蹲架、啞鈴架前不再擺站著不動的人（CROWD.GYM_STAND_FIT=false）。週三 17:00 讀檔進 gym_b1，記錄每個 NPC 15 秒內移動多少。
+    修正：深蹲架、啞鈴架前不再擺站著不動的人（CROWD.GYM_STAND_FIT=false）；8bc5b1207（GYM-USE-1103）起那裡的人回來但都在做深蹲／彎舉（開關拿掉），
+    判斷改成 rack／dumbbell 的 pose 一定是 gym_squat／gym_curl。週三 17:00 讀檔進 gym_b1，記錄每個 NPC 15 秒內移動多少。
 - pool：BUG-GYM-POOL-EMPTY-1103（5af1accd8）。使用者原話：「游泳池完全沒人？而且為什麼會出現去健身房的選項」。
     8/30（六）19:58 池邊：救生員（crowdRole lifeguard）一位、在高椅（GYM2_LIFEGUARD (14.2,-12)）西邊、面向池子（yaw≈-π/2）；
     池邊長椅（crowdRole pool_bench）坐 1～2 人、在 B.poolBenches 的座位上；位置在 B.pool（游泳池廳）內、不在 B.pool.basin（水裡）、
@@ -122,10 +123,14 @@ async def case_rack(pg, od, tag, rec):
         if y:
             moves.append({'name': x['name'], 'role': x['role'], 'x': x['x'], 'z': x['z'], 'moved': round(math.hypot(x['x'] - y['x'], x['z'] - y['z']), 2), 'vis': x['vis'], 'pose': x['pose']})
     rec['rack_' + tag] = {'info': info, 'npcs': moves}
-    stand = [m for m in moves if m['role'] in ('rack', 'dumbbell')]
+    # 55332d899：rack／dumbbell 站著不動的人拿掉（GYM_STAND_FIT=false）；8bc5b1207（GYM-USE-1103）起 rack／dumbbell 回來、但一定在做 gym_squat／gym_curl（開關也拿掉了）。
+    #   所以判斷是「深蹲架、啞鈴架前沒有站著不動的人」：rack 的 pose 要 gym_squat、dumbbell 的要 gym_curl（沒有這兩種人也算過）
+    WANT = {'rack': 'gym_squat', 'dumbbell': 'gym_curl'}
+    stand = [m for m in moves if m['role'] in WANT and m['pose'] != WANT[m['role']]]
     if tag == 'land':
-        check('rack：CROWD.GYM_STAND_FIT 是 false（修正版）', info.get('fit') is False, str(info.get('fit')))
-    check('rack %s：沒有 crowdRole rack／dumbbell（深蹲架、啞鈴架前站著的人）' % tag, not stand and len(moves) > 0, '%d 位、站著的 %s' % (len(moves), stand))
+        check('rack：CROWD.GYM_STAND_FIT 不是 true（55332d899 設 false；8bc5b1207 起拿掉開關）', info.get('fit') is not True, str(info.get('fit')))
+    check('rack %s：深蹲架、啞鈴架前沒有站著不動的人（crowdRole rack／dumbbell 的 pose 是 gym_squat／gym_curl）' % tag, not stand and len(moves) > 0,
+          '%d 位、rack／dumbbell %s、站著不動的 %s' % (len(moves), [[m['role'], m['pose']] for m in moves if m['role'] in WANT], stand))
     print('  rack %s：NPC %d 位；15 秒內沒動（<0.05 m）的：%s' % (tag, len(moves), [m for m in moves if m['moved'] < 0.05 and m['vis']]), flush=True)
 
 
