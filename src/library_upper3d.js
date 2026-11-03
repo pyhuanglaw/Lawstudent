@@ -21,7 +21,9 @@ const LUP=(function(){
   /* BUG-CARREL-SIGN-1103（BB 11-03）：免預約（LUPS.FREE，CARREL-FREE-1103）以後，配置檔（GLB 一起產生、不手改）的牌子還在叫人去預約——這裡蓋掉；預約表先不放（要不要換成別的、寫什麼請 AA 定）*/
   const FREE=()=>typeof LUPS!=='undefined'&&!!LUPS.FREE;
   S_.FREE_LOOK={door08:'研究小間 08。開放時間 08:00～22:00，現在門鎖著。',rules:'研究小間使用須知：不用預約，空著的就可以進去，一人一間。開放時間 08:00～22:00。請保持安靜。'};
-  S_.FREE_HIDE={booking:true};
+  S_.FREE_LOOK.booking='（門上貼著一張手寫的紙：『免預約。離開時請把椅子推回去。』）（03 那間的椅子，推得最整齊。）';   /* AA 11-03 13:48（原本的預約表換成這張紙；第二句是學姊固定坐 03 的暗示）*/
+  S_.FREE_LABEL={booking:'門上的紙'};
+  S_.FREE_HIDE={};
   const lookText=q=>(FREE()&&q&&S_.FREE_LOOK[q.id])||String(q.note||'').trim()||q.label;
   S_.lookText=lookText;
   /* ---- 研究小間的狀態（LAWWW 可以換掉這幾個函式）---- */
@@ -68,7 +70,7 @@ const LUP=(function(){
     for(const q of L.interact){ if(q.id==='hall'){ IT.push({x:q.x,z:q.z,radius:q.r,lv:0,id:q.id,label:q.label,exit:{to:'library_hall',spawn:Object.assign({},back||{x:9.6,z:5.6,lv:1,yaw:-Math.PI/2})}}); continue; }
       if(q.id==='door08'&&bk) continue;   /* 有預約：門開著，直接進去 */
       if(FREE()&&S_.FREE_HIDE[q.id]) continue;
-      IT.push({x:q.x,z:q.z,radius:q.r,lv:0,id:q.id,label:q.label,look:lookText(q)}); }
+      IT.push({x:q.x,z:q.z,radius:q.r,lv:0,id:q.id,label:(FREE()&&S_.FREE_LABEL[q.id])||q.label,look:lookText(q)}); }
     for(const k of Object.keys(nodes)) nodes[k]=[]; noteOn=false;
     formal(E,z,g0,fb,'bldg.library_carrels',root=>{ root.traverse(o=>{ if(!o.isMesh) return; const n=o.name||'';
       if(/^CARREL08_DOOR_SHUT/.test(n)) nodes.shut.push(o); else if(/^CARREL08_DOOR_OPEN/.test(n)) nodes.open.push(o); else if(/^SIS_CARREL_LAMP/.test(n)) nodes.lamp.push(o); else if(/^SIS_CARREL_/.test(n)) nodes.sis.push(o); else if(/^STICKY_SIS/.test(n)) nodes.note.push(o);

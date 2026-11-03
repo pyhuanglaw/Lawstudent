@@ -37,7 +37,7 @@ await sec(1,async()=>{ /* CARREL-FREE-1103（使用者 11-03「大一就能用�
   /* BUG-CARREL-SIGN-1103（BB 11-03）：牌子不再叫人預約；預約表不放 */
   { const L=LIBRARY_UPPER_LAYOUTS.carrels.interact, txt=id=>LUP.lookText(L.find(q=>q.id===id)), all=L.map(q=>q.id==='booking'||q.id==='hall'?'':LUP.lookText(q)).join('|');
     check('1. 免預約：使用須知、08 關門的字沒有「預約」，寫開放時間',!/請到.{0,8}預約|預約制/.test(txt("rules")+txt("door08"))&&/08:00～22:00/.test(txt('rules'))&&/08:00～22:00/.test(txt('door08')),J([txt('rules'),txt('door08')]));
-    check('1. 免預約：預約表不當互動點',!!LUP.FREE_HIDE.booking&&!/請到.{0,8}預約|預約制|預約表/.test(all)); } });
+    check('1. 免預約：預約表換成門上的紙（AA 11-03）：「免預約。離開時請把椅子推回去。」',!LUP.FREE_HIDE.booking&&LUP.FREE_LABEL.booking==='門上的紙'&&/免預約。離開時請把椅子推回去/.test(txt('booking'))&&!/請到.{0,8}預約|預約制|預約表/.test(all+txt('booking'))); } });
 
 await sec(2,async()=>{ const G=fresh('2028-03-14',15,'library_carrels'); lv(SIS,'FRIEND'); G.flags.CARREL_QUIET=1;   /* 以前進來過（第一次的旁白另外測）*/
   check('2. 2028-03-14（二）15:00：學姊在 03（燈亮）、能敲玻璃',LUP.sisHere(G)&&X().knockOk(G));
