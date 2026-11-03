@@ -262,7 +262,7 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'強制執行法的筆記，我留了一份。你大五補修用得到。'},
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
       {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從吧檯後面探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:inG,speaker:'蘇姨',name:'蘇姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},   /* AA_627 A-259、A-260（說話人欄）：同日本版 245 行 */
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},

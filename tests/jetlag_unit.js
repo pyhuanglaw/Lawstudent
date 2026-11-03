@@ -50,7 +50,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   check('2. 9/7 19:00 人在麵店：到期、演（R1_SEEN table）', R.ok&&G.flags.R1_SEEN==='table');
   check('2. 開場六句（阿哲、以安、Alison）', JSON.stringify(R.T.slice(0,7))===JSON.stringify(['阿哲：欸，你們回來了。','沈以安：阿哲，Alison 呢？她不是每次都坐你旁邊？','阿哲：她在看電影。一個人。','沈以安：……一個人？','阿哲：（很得意）她現在會一個人去看電影了。看完會打給我講劇情。講兩個小時。','Alison：（剛好進門）我聽到我的名字了。（坐到阿哲旁邊）那部超好看，你們都要去看。','陳語彤：妳曬黑了。']), JSON.stringify(R.T.slice(0,7)));
   check('2. R1 台灣路線：語彤「妳曬黑了。」對以安 → 以安「日本的夏天。」→「那就是吃太多。」', R.T.join('|').includes('陳語彤：妳曬黑了。|沈以安：日本的夏天。|陳語彤：那就是吃太多。')&&!R.T.includes('祐廷：日本的夏天。'));
-  check('2. 以安問語彤四句', R.T.join('|').includes('沈以安：語彤，妳上學期都在幹嘛？|陳語彤：（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……秀琴姨是第二十三個。|沈以安：給我看。|陳語彤：吃麵先。'));
+  check('2. 以安問語彤四句', R.T.join('|').includes('沈以安：語彤，妳上學期都在幹嘛？|陳語彤：（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……秀琴姨是第二十三個。|沈以安：給我看。|陳語彤：吃飯先。'));   /* AA_627 A-077【換字】燒臘店：「吃麵先。」→「吃飯先。」*/
   const half=opts.find(o=>o.includes('「（先聽大家講）」'))||[];
   check('2. R1「這半年」：Alison 問、四選一只出經歷過的（田野、Q12、芷若熟、先聽）', R.T.includes('Alison：欸，你一直在臺灣。這半年發生什麼事？')&&JSON.stringify(half)===JSON.stringify(['「語彤每個禮拜四都去市場訪問。我跟過幾次。」','「子晴的發表會，最後一關有人打過了。」','「芷若回來半年，九月又去英國了。這次是念研究所。」','「（先聽大家講）」'])&&R.T.includes('（你把筷子拿起來，讓別人先說。）'), JSON.stringify(half));
   check('2. 子晴晚到（以安、子晴都熟）、芷若那句「英國在下雨」（芷若也熟）', R.T.join('|').includes('（長桌還有一個空位。過了半小時，門口有人喘著氣。）|高子晴：欸不是，我下班了。（坐下，第一句就問以安）日本的貓胖嗎？|沈以安：胖。很胖。|高子晴：（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'));
@@ -69,7 +69,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   R=await table('TW',['zhe','heroine_01','yu','heroine_03','heroine_04']); check('3. 和芷若不熟：子晴照樣晚到、沒有芷若那句；「這半年」沒有芷若那個', R.T.some(t=>/下班了/.test(t))&&!R.T.some(t=>/英國在下雨/.test(t))&&!(opts.find(o=>o.includes('「（先聽大家講）」'))||[]).some(t=>/芷若/.test(t)));
   R=await table('TW',['zhe','yu']); check('3. 只熟阿哲、Alison：沒有以安、語彤的句子（以安問 Alison 那段、曬黑、筆記、子晴都跳過），「這半年」照樣問', R.T[0]==='阿哲：欸，你們回來了。'&&!R.T.some(t=>/^沈以安|^陳語彤/.test(t))&&R.T.includes('Alison：欸，你一直在臺灣。這半年發生什麼事？'), JSON.stringify(R.T));
   R=await table('TW',ALL.concat(['classmate_xinci']),{XINCI_FIRST:true});
-  check('3. 芯慈（XINCI_FIRST＋FAMILIAR，e75ebc69；以安那句照 AA_547 第 4 節）：「吃麵先。」之後三句，熟悉度 +1', R.T.join('|').includes('陳語彤：吃麵先。|（芯慈坐到以安旁邊，先開口。）|芯慈：我跟妳說一部劇。|沈以安：好。是上次那部嗎？我看了兩集。')&&SOCIAL.rel('classmate_xinci').fam>R.fam0.classmate_xinci, JSON.stringify(R.T.slice(10,14)));
+  check('3. 芯慈（XINCI_FIRST＋FAMILIAR，e75ebc69；以安那句照 AA_547 第 4 節）：「吃飯先。」（AA_627 A-077）之後三句，熟悉度 +1', R.T.join('|').includes('陳語彤：吃飯先。|（芯慈坐到以安旁邊，先開口。）|芯慈：我跟妳說一部劇。|沈以安：好。是上次那部嗎？我看了兩集。')&&SOCIAL.rel('classmate_xinci').fam>R.fam0.classmate_xinci, JSON.stringify(R.T.slice(10,14)));
   R=await table('TW',ALL,{XINCI_FIRST:true}); check('3. XINCI_FIRST 但和芯慈不熟：沒有', !R.T.some(t=>/一部劇/.test(t)));
   // 4. 時間、沒到
   fresh(d7,18.7,'noodle'); PHONE.join(G,'noodle_team','麵店團'); run(d6,21,21); G.day=d7; G.hour=18.7; check('4. 18:42 還不演、18:45 起、19:15 以後不演', !STORY.r1Due(G)&&(G.hour=18.75,STORY.r1Due(G))&&(G.hour=19.25,!STORY.r1Due(G)));

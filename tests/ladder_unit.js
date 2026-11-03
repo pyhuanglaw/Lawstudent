@@ -125,20 +125,17 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('13b. 那一學期沒有這個人的階梯檔（大三上的芷若）：ladderTalk 回 false（照舊閒聊）',!(LADDER.byTerm.Y3S1||{})[ZR]&&(await STORY.ladderTalk(GM,who,ZR))===false&&said.length===0); }
   fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); said=[];
   check('13c. 大二上以安有檔（AA_141）：資料讀得到、key 是 heroine_01@Y2S1',!!(STORY.ladData(G,'heroine_01')&&STORY.ladData(G,'heroine_01').key==='heroine_01@Y2S1'));
-  // any：語彤 Y-L1＝雨天總圖門口或麵店那一次
+  // 語彤 Y-L1：AA_630 L-001～L-006（YT-REWRITE-1103）——認識她只有一盞茶屋第一班（YT_MET_JOB）；原本「雨天總圖門口／麵店／問幾點那一次 any 其中一個」、linesIf 都拿掉
   const YT='heroine_03'; fresh(D0,12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(YT); R(YT,12);
-  check('14. 語彤 Y-L1：兩個事件都沒發生＝不推進',STORY.ladNext(G,YT)===null);
-  G.events.done.ev_noodle_yutong=D0; check('14. 語彤 Y-L1：麵店那一次發生過（any 其中一個）＝推進',STORY.ladNext(G,YT)===LADDER.characters[YT].steps[0]);
-  // linesIf／extraIf（AA 2026-10-16）
+  G.events.done.ev_rain_library_door=D0; G.events.done.ev_library_door_phone=D0;
+  delete G.flags.YT_MET_JOB;   /* fresh 的預設（舊存檔遷移：已經認識的記 YT_MET_JOB）先拿掉，看「沒有在茶屋認識」*/
+  check('14. 語彤 Y-L1：沒有 YT_MET_JOB（總圖門口那幾場發生過也一樣）＝不推進（AA_630 L-001）',STORY.ladNext(G,YT)===null,JSON.stringify([STORY.ladNext(G,YT)&&STORY.ladNext(G,YT).id,G.flags.YT_MET_JOB]));
+  G.flags.YT_MET_JOB=true; check('14. 語彤 Y-L1：茶屋第一班認識（YT_MET_JOB）＝推進',STORY.ladNext(G,YT)===LADDER.characters[YT].steps[0]);
   const Y1=LADDER.characters[YT].steps[0];
-  // 2026-10-17 AA_193（125f4d1a）：麵店要先 FIRST_MET（總圖門口認識過），「只在麵店認識」不會發生；linesIf 改成「不下雨那一次（ev_library_door_phone）認識的」
-  G.events.done.ev_library_door_phone=D0;
-  check('15. 語彤 Y-L1 在不下雨的總圖門口認識（ev_library_door_phone）：linesIf 換成「我問你幾點的那個」',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(Y1.linesIf[0].lines)&&/問你幾點/.test(Y1.linesIf[0].lines[0]),JSON.stringify(STORY.ladLines(Y1)));
-  G.events.done.ev_rain_library_door=D0; check('15. 雨天總圖門口遇過：照原本的 lines',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(Y1.lines));
-  check('15. 麵店的初見要先 FIRST_MET（只在麵店認識不會發生）',JSON.stringify(EVENTS.byId?EVENTS.byId('ev_noodle_yutong').prereq:STORY_EVENTS.find(e=>e.id==='ev_noodle_yutong').prereq).includes('FIRST_MET'));
+  check('15. 語彤 Y-L1 照 AA_630 L-002～L-005：「……嗯。在茶屋以外的地方看到你，第一次。」、沒有 linesIf',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(['……嗯。在茶屋以外的地方看到你，第一次。'])&&!Y1.linesIf,JSON.stringify(STORY.ladLines(Y1)));
   const Y5=LADDER.characters[YT].steps[4]; const n5=STORY.ladLines(Y5).length;
   SOCIAL.remember(YT,'HELPED',''); const L5=STORY.ladLines(Y5);
-  check('16. 語彤 Y-L5 傘給她（HELPED）：extraIf 多說一句',Y5.extraIf&&L5.length===n5+Y5.extraIf[0].lines.length&&L5[L5.length-1]===Y5.extraIf[0].lines[0],JSON.stringify(L5));
+  check('16. 語彤 Y-L5：AA_630 L-019、L-020 刪整個 extraIf（新的雨天總圖沒有借傘，HELPED 不會再記）＝記了 HELPED 也不多說',!Y5.extraIf&&L5.length===n5,JSON.stringify(L5));
   // skipIf：條件成立＝這一層直接算過、不播、不算今天推進（用測試資料，BB-B 的 Q-L3 改好以後也會用到）
   LADDER.characters.t_skip={steps:[{id:'T1',skipIf:{flags:['T_SKIP']},lines:['第一層']},{id:'T2',lines:['第二層']}],greet:{base:['嗨']}};
   fresh(D0,12,'campus',{T_SKIP:true}); const nx=STORY.ladNext(G,'t_skip');
