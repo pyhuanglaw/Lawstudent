@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "31_b2base",
+  "sha": "a3b1bd647",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b2_probe.py",
+  "env": "CASES=wancai",
+  "machine": "MSI",
+  "start": "2026-11-03T11:46:25",
+  "end": "2026-11-03T11:48:13",
+  "seconds": 108,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 73,
+    "mem": 52,
+    "used_gb": 16.4,
+    "chrome_testing": 29
+  }
+}

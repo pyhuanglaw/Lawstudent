@@ -1,0 +1,19 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b2_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\31_b2base\out
+==== D118-B2 探針 MODE pre（SHA a3b1bd647）START ['Y1S1', 1, 1] WEEKS 2 SPLIT 0 LEGACY 0 ====
+CASES wancai NO_STUDY 1
+==== CASE wancai ====
+PASS wancai：遊戲載入
+  [前置／捷徑] [前置] wancai：最小存檔 2026-09-15（Y2S1 第 2 週，週二）12:30 宿舍——大一上沒有萬才館多功能教室的課，改到大二上第一門 WMULTI 課（property）
+PASS wancai：2026-09-15 有 property、教室是萬才館多功能教室（只讀 CLS.dayItems）  [{"key": "364:crim_spec:am", "cid": "crim_spec", "name": "刑法分則", "t0": 9.166666666666666, "room": "法律系館A 201", "zone": "classroom", "exam": null}, {"key": "364:property:pm1", "cid": "property", "name": "民法物權", "t0": 13.333333333333334, "room": "法律系館B 多功能教室", "zone": "wancai_multi", "exam": null}]
+PASS wancai：手機「今天」有「直接去上課」（直接去上課）
+  [  44.1s] wancai 選項 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  [  66.8s] wancai 選項 ["（A）移轉", "（B）登記", "（C）創設", "（D）繼承"] → （A）移轉
+PASS wancai：上完 民法物權（CLS.rec done）  {"zone": "wancai_multi", "room": "法律系館B 多功能教室", "hasBoard": false, "board": ["物權法定（§757）", "物權的種類和內容，要法律或習慣規定", "你不能自己發明一種物權"]}
+PASS wancai：萬才館多功能教室這一區沒有 setBoard（前置成立；hasBoard=False，zone=wancai_multi）
+FAIL wancai：上課期間有一句字幕含黑板第一行「物權法定（§757）」  {"caps": ["下課了。鄭老師收起講義。"], "say裡有": false, "toast裡有": false, "board": ["物權法定（§757）", "物權的種類和內容，要法律或習慣規定", "你不能自己發明一種物權"]}
+FAIL wancai：黑板字幕（GAME.caption 標「黑板」）＝黑板三行「物權法定（§757）　物權的種類和內容，要法律或習慣規定　你不能自己發明一種物權」  {"boardCaps": [], "capsN": [["", "下課了。鄭老師收起講義。"]]}
+  [  73.8s] wancai：這一堂的課堂提問筆記（只讀 G.notes，ask_ 開頭）[]
+PASS wancai：GAME.walkFallbacks＝0（0）
+PASS wancai：沒有 JS 例外  []
+SHA a3b1bd647 CASES wancai
+FAILED: wancai：上課期間有一句字幕含黑板第一行「物權法定（§757）」, wancai：黑板字幕（GAME.caption 標「黑板」）＝黑板三行「物權法定（§757）　物權的種類和內容，要法律或習慣規定　你不能自己發明一種物權」
