@@ -866,7 +866,7 @@ for name, pts, rect, props in PLATES:
 for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
-ss = L.single_side(root, keep=r'glass|leaf', skip=lambda ob: 'FACE' in ob.name)
+ss = L.single_side(root, keep=r'glass|leaf', nodup=r'plaster', skip=lambda ob: 'FACE' in ob.name)   # 牆只從室內看；前後牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（CC 11-03）
 print('SINGLE_SIDE', json.dumps(ss, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAYALL['version'], 'guitars': {'electric': NE, 'acoustic': NA, 'owner': 1, 'on_stand': 1}})
