@@ -247,6 +247,10 @@ for dd in LAY['doors']:
     if dd['id'] in ('staff', 'alumni', 'av1', 'av2', 'av3') and OW:   # 第四版：辦公室在西南、東南是校友中心＋視聽室；門片貼在那道隔間牆的北面
         ow_ = next((f for f in LAY['furniture'] if f['type'] == 'officeWall' and f['x0'] - 0.01 <= dd['x'] <= f['x1'] + 0.01), OW)
         door_leaf(C0, 'x', ow_['z'] + 0.05, dd['x'], 0.0, -1, w=1.0, col='#6e5a48' if dd['id'] == 'staff' else '#8a6a4a')
+    elif dd.get('wall') in ('rooms_w', 'rooms_e'):   # 第五版③：一樓北邊房間區的門（朝南，門片貼在牆的南面）；演奏室、討論室門上有小窗
+        rb = next(f for f in LAY['furniture'] if f.get('id') == dd['wall'])
+        door_leaf(C0, 'x', rb['z1'] - 0.03, dd['x'], 0.0, +1, w=1.0, col='#8a6a4a' if not dd['id'].startswith('wc') else '#7d8a92')
+        if not dd['id'].startswith('wc'): C0.get('glass').box(dd['x'] - 0.18, dd['x'] + 0.18, 1.35, 1.95, rb['z1'] - 0.03 + T / 2 + 0.062, rb['z1'] - 0.03 + T / 2 + 0.068)   # 門片：z1−0.03＋T/2＋0.01 起 5 cm（牆面在 z1＋0.06，門片離牆 2 cm）
     elif dd['id'] in ('disc225', 'disc226'): door_leaf(C1, 'x', Z0, dd['x'], Y1, +1, w=1.0, col='#8a6a4a'); C1.get('glass').box(dd['x'] - 0.2, dd['x'] + 0.2, Y1 + 1.3, Y1 + 2.0, Z0 + T / 2 + 0.055, Z0 + T / 2 + 0.065)   # 門上的小窗
 # 正面：門廳的挑高玻璃帷幕（一樓那段 L0、二樓那段 L1）＋兩扇自動門
 for (c, ya, yb) in ((C0, 0.0, Y1), (C1, Y1, RY - 0.2)):
@@ -600,10 +604,27 @@ for f in LAY['furniture']:
             mx = x - 1.0 + k * 1.0; c.vm.cbox(mx - 0.22, mx + 0.22, y + 1.12, y + 1.42, z + 0.1, z + 0.13, '#1e2124')
     elif t == 'partition': c.vc.cbox(f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y, y + 2.4, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, '#d9d3c6')
     elif t == 'officeWall': C0.get('plaster', tile=3.0).box(f['x0'], f['x1'], y, y + 3.0, f['z'] - 0.06, f['z'] + 0.06)
+    elif t == 'roomBlock':                             # 第五版③：一樓北邊翼樓的小房間（廁所、演奏室、討論室）：朝大廳的牆＋靠中間的側牆，頂到二樓樓板；木頭踢腳板
+        hh = Y1 - ST; pl = C0.get('plaster', tile=3.0); wd = C0.get('wood', tile=1.6)
+        pl.box(f['x0'], f['x1'], y, y + hh, f['z1'] - 0.06, f['z1'] + 0.06); wd.box(f['x0'], f['x1'], y, y + 0.1, f['z1'] + 0.06, f['z1'] + 0.075)
+        pl.box(f['side'] - 0.06, f['side'] + 0.06, y, y + hh, f['z0'], f['z1']); sx = 1 if f['side'] > 0 else -1
+        wd.box(min(f['side'] - sx * 0.06, f['side'] - sx * 0.075), max(f['side'] - sx * 0.06, f['side'] - sx * 0.075), y, y + 0.1, f['z0'], f['z1'])
     elif t == 'display':                               # 新書展示台（木頭、斜面上的書）
         rbox(c.vc, T_, -f['w'] / 2, f['w'] / 2, y, y + 0.75, -f['d'] / 2, f['d'] / 2, '#8a6440', r=0.01, seg=1)
-        for k in range(6):
-            lx = -f['w'] / 2 + 0.25 + k * (f['w'] - 0.5) / 5; rbox(c.get('books', cm=True), T_, lx - 0.1, lx + 0.1, y + 0.75, y + 0.78, -0.15, 0.15, rng.choice(['#8c3b47', '#2f5d50', '#d9c9a0', '#4a6c8c', '#c46a4a']))
+        # 第五版④（BB 11-03 12:11：「白色空白卡片看起來像沒做完」）：中間一道矮木條，兩面各立一排書（封面朝外：底色＋書名色帶＋作者細帶），
+        #   第四版是平放在台面上的薄色塊（遠看像白卡片）
+        rbox(c.vc, T_, -f['w'] / 2 + 0.06, f['w'] / 2 - 0.06, y + 0.75, y + 0.86, -0.05, 0.05, '#6e5034', r=0.008, seg=1)
+        COV = [('#8c3b47', '#efe6d2'), ('#2f5d50', '#e8d9a8'), ('#e9e2cf', '#2b3a55'), ('#4a6c8c', '#f2efe6'), ('#c46a4a', '#2a2420'), ('#d9b45a', '#3b2a1e'), ('#3b3f46', '#e0b95b'), ('#f2f0ea', '#9b3b2f')]
+        nb = max(5, int((f['w'] - 0.3) / 0.24))
+        for side in (-1, 1):
+            for k in range(nb):
+                lx = -f['w'] / 2 + 0.2 + k * (f['w'] - 0.4) / (nb - 1); bw, bh = 0.17 + 0.02 * ((k * 7 + side) % 3) / 2, 0.23 + 0.03 * ((k * 5 + side) % 3) / 2
+                base, band = COV[(k * 3 + (side > 0) * 5) % len(COV)]
+                z0, z1 = (0.06, 0.09) if side > 0 else (-0.09, -0.06)
+                rbox(c.vc, T_, lx - bw / 2, lx + bw / 2, y + 0.75, y + 0.75 + bh, z0, z1, base, r=0.004, seg=1)                                   # 書（立著、靠在木條上）
+                zf = z1 + 0.002 if side > 0 else z0 - 0.002
+                rbox(c.vc, T_, lx - bw / 2 + 0.015, lx + bw / 2 - 0.015, y + 0.75 + bh * 0.58, y + 0.75 + bh * 0.80, min(zf, zf - side * 0.002), max(zf, zf - side * 0.002), band, r=0.0, seg=1)   # 書名
+                rbox(c.vc, T_, lx - bw / 2 + 0.03, lx + bw / 2 - 0.05, y + 0.75 + bh * 0.16, y + 0.75 + bh * 0.22, min(zf, zf - side * 0.002), max(zf, zf - side * 0.002), band, r=0.0, seg=1)   # 作者
     elif t == 'sofa':
         rbox(c.vc, T_, -f['w'] / 2, f['w'] / 2, y + 0.12, y + 0.45, -f['d'] / 2, f['d'] / 2, '#5d6a74', r=0.04, seg=2)
         rbox(c.vc, T_, -f['w'] / 2, f['w'] / 2, y + 0.45, y + 0.85, -f['d'] / 2, -f['d'] / 2 + 0.2, '#56636d', r=0.04, seg=2)

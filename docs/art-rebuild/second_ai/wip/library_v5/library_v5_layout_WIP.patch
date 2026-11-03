@@ -1,0 +1,1293 @@
+diff --git a/src/data/library_layout.js b/src/data/library_layout.js
+index a8ecdf394..be6f6484b 100644
+--- a/src/data/library_layout.js
++++ b/src/data/library_layout.js
+@@ -8,6 +8,17 @@
+ /* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
+ /* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
+ /* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
+ const LIBRARY_LAYOUT={
+   "version": 2,
+   "W": 24,
+@@ -422,6 +433,66 @@ const LIBRARY_LAYOUT={
+       "ry": 3.1416,
+       "label": "視聽室 166-3",
+       "closed": "視聽室 166-3。要先到服務台登記。"
++    },
++    {
++      "id": "wc_m",
++      "lv": 0,
++      "x": -11.0,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "男廁",
++      "closed": "男生廁所。",
++      "wall": "rooms_w"
++    },
++    {
++      "id": "wc_f",
++      "lv": 0,
++      "x": -9.7,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "女廁",
++      "closed": "女生廁所。",
++      "wall": "rooms_w"
++    },
++    {
++      "id": "music",
++      "lv": 0,
++      "x": -8.4,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "演奏室",
++      "closed": "演奏室。門上的小窗看得到一台直立式鋼琴，要先到服務台借鑰匙。",
++      "wall": "rooms_w"
++    },
++    {
++      "id": "disc101",
++      "lv": 0,
++      "x": 8.0,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "討論室 101",
++      "closed": "討論室 101。玻璃門上貼著「請上網預約，憑學生證開門」，裡面有三個人在白板前面討論報告。",
++      "wall": "rooms_e"
++    },
++    {
++      "id": "disc102",
++      "lv": 0,
++      "x": 9.4,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "討論室 102",
++      "closed": "討論室 102。門上的牌子寫「使用中」。",
++      "wall": "rooms_e"
++    },
++    {
++      "id": "avroom",
++      "lv": 0,
++      "x": 10.6,
++      "z": -8.12,
++      "ry": 0.0,
++      "label": "團體視聽室",
++      "closed": "團體視聽室。要在服務台登記才能用，今天的時段都排滿了。",
++      "wall": "rooms_e"
+     }
+   ],
+   "furniture": [
+@@ -480,22 +551,6 @@ const LIBRARY_LAYOUT={
+       "z": 5.8,
+       "label": "校友中心・視聽室"
+     },
+-    {
+-      "type": "display",
+-      "lv": 0,
+-      "x": -8.4,
+-      "z": 2.4,
+-      "w": 2.4,
+-      "d": 1.0
+-    },
+-    {
+-      "type": "display",
+-      "lv": 0,
+-      "x": -8.4,
+-      "z": -1.6,
+-      "w": 2.4,
+-      "d": 1.0
+-    },
+     {
+       "type": "sofa",
+       "lv": 0,
+@@ -516,31 +571,6 @@ const LIBRARY_LAYOUT={
+       "ry": 1.5708,
+       "seat": true
+     },
+-    {
+-      "type": "racks",
+-      "lv": 0,
+-      "x": 11.45,
+-      "z": -6.6,
+-      "w": 3.6,
+-      "d": 0.6,
+-      "ry": -1.5708
+-    },
+-    {
+-      "type": "armchair",
+-      "lv": 0,
+-      "x": 8.6,
+-      "z": -5.8,
+-      "ry": 1.5708,
+-      "seat": true
+-    },
+-    {
+-      "type": "armchair",
+-      "lv": 0,
+-      "x": 8.6,
+-      "z": -7.4,
+-      "ry": 1.5708,
+-      "seat": true
+-    },
+     {
+       "type": "planter",
+       "lv": 0,
+@@ -555,22 +585,6 @@ const LIBRARY_LAYOUT={
+       "z": -0.5,
+       "r": 0.45
+     },
+-    {
+-      "type": "studyTable",
+-      "lv": 1,
+-      "x": -8.2,
+-      "z": -6.8,
+-      "w": 4.2,
+-      "seats": 4
+-    },
+-    {
+-      "type": "studyTable",
+-      "lv": 1,
+-      "x": -8.2,
+-      "z": -3.8,
+-      "w": 4.2,
+-      "seats": 4
+-    },
+     {
+       "type": "studyTable",
+       "lv": 1,
+@@ -590,10 +604,11 @@ const LIBRARY_LAYOUT={
+     {
+       "type": "shelf",
+       "lv": 1,
+-      "x": 7.0,
++      "x": 7.45,
+       "z": -8.55,
+-      "w": 4.6,
+-      "ry": 0
++      "w": 3.7,
++      "ry": 0,
++      "note": "第五版：西端縮短 0.9 m（x 5.6～9.3），東側走道（x 3.7～5.2）出來的轉角不再夾成一格"
+     },
+     {
+       "type": "shelf",
+@@ -696,8 +711,8 @@ const LIBRARY_LAYOUT={
+       "h": 1.05,
+       "ry": 1.5708,
+       "nav": [
+-        -6.45,
+-        -6.4,
++        -11.35,
++        0.6,
+         0.5,
+         0.98
+       ],
+@@ -747,19 +762,19 @@ const LIBRARY_LAYOUT={
+       "type": "prop",
+       "kind": "bookcart",
+       "lv": 1,
+-      "x": 9.2,
+-      "z": -7.55,
++      "x": 11.4,
++      "z": -3.6,
+       "w": 0.9,
+       "d": 0.45,
+       "h": 1.05,
+-      "ry": 0,
++      "ry": 1.5708,
+       "nav": [
+-        9.2,
+-        -7.55,
+-        0.98,
+-        0.5
++        11.4,
++        -3.6,
++        0.5,
++        0.98
+       ],
+-      "note": "還書車：二樓東翼書架前"
++      "note": "還書車：二樓東翼，書架和東牆中間（第五版：原本的位置變成書架）"
+     },
+     {
+       "type": "prop",
+@@ -804,120 +819,6 @@ const LIBRARY_LAYOUT={
+         3.5
+       ]
+     },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -9.4,
+-      "z": -10.2,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -6.4,
+-      "z": -10.2,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -9.4,
+-      "z": -14.8,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -6.4,
+-      "z": -14.8,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+-    {
+-      "type": "prop",
+-      "kind": "lowScreen",
+-      "lv": 0,
+-      "x": -7.9,
+-      "z": -12.5,
+-      "w": 4.6,
+-      "d": 0.08,
+-      "h": 1.3,
+-      "nav": [
+-        -7.9,
+-        -12.5,
+-        4.6,
+-        0.4
+-      ]
+-    },
+-    {
+-      "type": "prop",
+-      "kind": "newsRack",
+-      "lv": 0,
+-      "x": -11.6,
+-      "z": -12.5,
+-      "w": 0.5,
+-      "d": 3.0,
+-      "h": 1.6,
+-      "ry": 1.5708,
+-      "nav": [
+-        -11.55,
+-        -12.5,
+-        0.6,
+-        3.1
+-      ]
+-    },
+-    {
+-      "type": "pcDesk",
+-      "lv": 0,
+-      "x": 8.4,
+-      "z": -10.0,
+-      "w": 4.8,
+-      "d": 0.75,
+-      "seats": 4
+-    },
+-    {
+-      "type": "pcDesk",
+-      "lv": 0,
+-      "x": 8.4,
+-      "z": -12.6,
+-      "w": 4.8,
+-      "d": 0.75,
+-      "seats": 4
+-    },
+-    {
+-      "type": "pcDesk",
+-      "lv": 0,
+-      "x": 8.4,
+-      "z": -15.2,
+-      "w": 4.8,
+-      "d": 0.75,
+-      "seats": 4
+-    },
+-    {
+-      "type": "prop",
+-      "kind": "mediaShelf",
+-      "lv": 0,
+-      "x": 11.6,
+-      "z": -12.4,
+-      "w": 0.45,
+-      "d": 8.4,
+-      "h": 1.8,
+-      "ry": -1.5708,
+-      "nav": [
+-        11.6,
+-        -12.4,
+-        0.55,
+-        8.5
+-      ],
+-      "note": "第四版：東牆一整排（一樓平面圖的家用版中文影片，藍綠色）"
+-    },
+     {
+       "type": "prop",
+       "kind": "curveCase",
+@@ -1040,24 +941,6 @@ const LIBRARY_LAYOUT={
+       "id": "office_sw",
+       "note": "第四版：一樓平面圖的辦公室在西南"
+     },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -9.4,
+-      "z": -7.0,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+-    {
+-      "type": "groupTable",
+-      "lv": 0,
+-      "x": -6.4,
+-      "z": -7.0,
+-      "w": 1.6,
+-      "d": 1.0,
+-      "seats": 4
+-    },
+     {
+       "type": "prop",
+       "kind": "crossShelf",
+@@ -1093,124 +976,323 @@ const LIBRARY_LAYOUT={
+       ]
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": -10.9,
+-      "z": -12.4,
+-      "w": 6.4,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#e8b923",
+-      "label": "000–299"
+-    },
+-    {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": -8.0,
+-      "z": -12.4,
+-      "w": 6.4,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#e8b923",
+-      "label": "300–699"
++      "type": "roomBlock",
++      "lv": 0,
++      "x0": -11.9,
++      "x1": -7.2,
++      "z0": -16.9,
++      "z1": -8.2,
++      "side": -7.2,
++      "id": "rooms_w",
++      "note": "第五版③：一樓西北翼（平面圖的廁所、演奏室）"
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": -5.3,
+-      "z": -12.4,
+-      "w": 6.4,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#e8b923",
+-      "label": "700–999"
++      "type": "roomBlock",
++      "lv": 0,
++      "x0": 7.2,
++      "x1": 11.9,
++      "z0": -16.9,
++      "z1": -8.2,
++      "side": 7.2,
++      "id": "rooms_e",
++      "note": "第五版③：一樓東北翼（平面圖的討論室、視聽室）"
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": -4.9,
+-      "z": -4.5,
+-      "w": 6.2,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#e8b923",
+-      "label": "820–899"
++      "type": "planter",
++      "lv": 0,
++      "x": -4.25,
++      "z": -14.45,
++      "r": 0.36,
++      "note": "第五版：擋住西北柱子和台階中間的窄縫"
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": 6.2,
+-      "z": -7.6,
++      "type": "groupTable",
++      "lv": 0,
++      "x": -8.9,
++      "z": -4.4,
+       "w": 1.4,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#9b59b6",
+-      "label": "900–949 藝術"
++      "d": 1.0,
++      "seats": 4
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": 9.0,
+-      "z": -7.6,
++      "type": "groupTable",
++      "lv": 0,
++      "x": -6.8,
++      "z": -4.4,
+       "w": 1.4,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#9b59b6",
+-      "label": "950–999 藝術"
++      "d": 1.0,
++      "seats": 4
+     },
+     {
+-      "type": "stack",
+-      "lv": 1,
+-      "x": 6.2,
+-      "z": -3.05,
+-      "w": 4.1,
+-      "d": 0.62,
+-      "h": 2.1,
+-      "ry": 1.5708,
+-      "cap": "#3a7ca5",
+-      "label": "A–H"
++      "type": "groupTable",
++      "lv": 0,
++      "x": -8.9,
++      "z": -1.3,
++      "w": 1.4,
++      "d": 1.0,
++      "seats": 4
+     },
+     {
+-      "type": "stack",
++      "type": "groupTable",
++      "lv": 0,
++      "x": -6.8,
++      "z": -1.3,
++      "w": 1.4,
++      "d": 1.0,
++      "seats": 4
++    },
++    {
++      "type": "groupTable",
++      "lv": 0,
++      "x": -8.9,
++      "z": 1.8,
++      "w": 1.4,
++      "d": 1.0,
++      "seats": 4
++    },
++    {
++      "type": "groupTable",
++      "lv": 0,
++      "x": -6.8,
++      "z": 1.8,
++      "w": 1.4,
++      "d": 1.0,
++      "seats": 4
++    },
++    {
++      "type": "pcDesk",
++      "lv": 0,
++      "x": 2.8,
++      "z": -4.6,
++      "w": 2.4,
++      "d": 0.75,
++      "seats": 3
++    },
++    {
++      "type": "pcDesk",
++      "lv": 0,
++      "x": 2.8,
++      "z": -2.2,
++      "w": 2.4,
++      "d": 0.75,
++      "seats": 3
++    },
++    {
++      "type": "prop",
++      "kind": "mediaShelf",
++      "lv": 0,
++      "x": 11.6,
++      "z": -6.9,
++      "w": 0.45,
++      "d": 2.0,
++      "h": 1.8,
++      "ry": -1.5708,
++      "nav": [
++        11.6,
++        -6.9,
++        0.55,
++        2.1
++      ],
++      "note": "第五版②：東牆（平面圖的家用版中文影片）"
++    },
++    {
++      "type": "display",
++      "lv": 0,
++      "x": 8.4,
++      "z": 3.4,
++      "w": 2.4,
++      "d": 1.0,
++      "note": "第五版④：服務台東邊（平面圖的新書展示）"
++    },
++    {
++      "type": "display",
++      "lv": 0,
++      "x": 8.4,
++      "z": 1.2,
++      "w": 2.4,
++      "d": 1.0,
++      "note": "第五版④：服務台東邊（平面圖的新書展示）"
++    },
++    {
++      "type": "carrelRow",
+       "lv": 1,
+-      "x": 9.0,
+-      "z": -3.05,
+-      "w": 4.1,
++      "x0": -11.9,
++      "x1": -10.9,
++      "z0": -16.6,
++      "z1": -1.0,
++      "n": 20,
++      "first": 230,
++      "id": "carrels_w",
++      "note": "第五版⑥：二樓平面圖西牆的研究小間 230～249（一排小房間；門朝東，關著）。遊戲能進去的研究小間（library_carrels）照舊在東牆的門"
++    },
++    {
++      "type": "compact",
++      "lv": 1,
++      "x": -9.4,
++      "z": -12.7,
++      "w": 1.2,
++      "d": 4.6,
++      "h": 2.3,
++      "rows": 9,
++      "cap": "#e8b923",
++      "note": "第五版⑧：西北翼的密集書庫（可以移動的密集書架，端板朝東有手輪）"
++    },
++    {
++      "type": "compact",
++      "lv": 1,
++      "x": -6.75,
++      "z": -12.7,
++      "w": 1.7,
++      "d": 4.6,
++      "h": 2.0,
++      "rows": 7,
++      "cap": "#5b7a99",
++      "periodicals": true,
++      "note": "第五版⑧：期刊（裝訂好的過期期刊，密集書架）"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": -9.0,
++      "z": -5.2,
++      "w": 7.6,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#e8b923",
++      "label": "000–299"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": -7.4,
++      "z": -5.2,
++      "w": 7.6,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#e8b923",
++      "label": "300–699"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": -5.9,
++      "z": -5.2,
++      "w": 7.6,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#e8b923",
++      "label": "700–999"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 7.07,
++      "z": -7.55,
++      "w": 1.7,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#9b59b6",
++      "label": "900–949 藝術"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 8.93,
++      "z": -7.55,
++      "w": 1.7,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#9b59b6",
++      "label": "950–999 藝術"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 5.21,
++      "z": -3.2,
++      "w": 4.2,
+       "d": 0.62,
+       "h": 2.1,
+       "ry": 1.5708,
+       "cap": "#3a7ca5",
+-      "label": "J–Q"
++      "label": "A–D"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": 7.0,
+-      "z": 2.5,
++      "x": 7.07,
++      "z": -3.2,
+       "w": 4.2,
+       "d": 0.62,
+       "h": 2.1,
+       "ry": 1.5708,
+       "cap": "#3a7ca5",
+-      "label": "R–Z"
++      "label": "E–H"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": 9.4,
+-      "z": 2.5,
++      "x": 8.93,
++      "z": -3.2,
+       "w": 4.2,
+       "d": 0.62,
+       "h": 2.1,
+       "ry": 1.5708,
+       "cap": "#3a7ca5",
+-      "label": "PN–PQ"
++      "label": "J–N"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 10.79,
++      "z": -3.2,
++      "w": 4.2,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "P–Q"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 7.07,
++      "z": 3.3,
++      "w": 2.8,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "R–Z"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 8.93,
++      "z": 3.3,
++      "w": 2.8,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "PA–PN"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 10.79,
++      "z": 3.3,
++      "w": 2.8,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "PQ–PZ"
+     }
+   ],
+   "signs": [
+@@ -1250,24 +1332,6 @@ const LIBRARY_LAYOUT={
+       "ry": 0,
+       "w": 2.0
+     },
+-    {
+-      "lv": 0,
+-      "text": "多元共享區",
+-      "x": -7.9,
+-      "z": -16.88,
+-      "y": 2.9,
+-      "ry": 0,
+-      "w": 2.6
+-    },
+-    {
+-      "lv": 0,
+-      "text": "數位媒體區",
+-      "x": 8.4,
+-      "z": -16.88,
+-      "y": 2.9,
+-      "ry": 0,
+-      "w": 2.6
+-    },
+     {
+       "lv": 1,
+       "text": "展示區",
+@@ -1295,11 +1359,83 @@ const LIBRARY_LAYOUT={
+       "ry": 0,
+       "w": 1.4
+     },
++    {
++      "lv": 0,
++      "text": "多元共享區",
++      "x": -11.84,
++      "z": -1.3,
++      "y": 2.7,
++      "ry": 1.5708,
++      "w": 2.6
++    },
++    {
++      "lv": 0,
++      "text": "數位媒體區",
++      "x": 9.4,
++      "z": -8.129999999999999,
++      "y": 3.5,
++      "ry": 0.0,
++      "w": 2.6
++    },
++    {
++      "lv": 0,
++      "text": "男廁",
++      "x": -11.0,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 0.9
++    },
++    {
++      "lv": 0,
++      "text": "女廁",
++      "x": -9.7,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 0.9
++    },
++    {
++      "lv": 0,
++      "text": "演奏室",
++      "x": -8.4,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 0.9
++    },
++    {
++      "lv": 0,
++      "text": "討論室 101",
++      "x": 8.0,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 1.2
++    },
++    {
++      "lv": 0,
++      "text": "討論室 102",
++      "x": 9.4,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 1.2
++    },
++    {
++      "lv": 0,
++      "text": "團體視聽室",
++      "x": 10.6,
++      "z": -8.129999999999999,
++      "y": 2.62,
++      "ry": 0.0,
++      "w": 1.2
++    },
+     {
+       "lv": 1,
+       "text": "000–299",
+-      "x": -10.9,
+-      "z": -15.635,
++      "x": -9.0,
++      "z": -9.035,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+@@ -1307,8 +1443,8 @@ const LIBRARY_LAYOUT={
+     {
+       "lv": 1,
+       "text": "300–699",
+-      "x": -8.0,
+-      "z": -15.635,
++      "x": -7.4,
++      "z": -9.035,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+@@ -1316,53 +1452,62 @@ const LIBRARY_LAYOUT={
+     {
+       "lv": 1,
+       "text": "700–999",
+-      "x": -5.3,
+-      "z": -15.635,
++      "x": -5.9,
++      "z": -9.035,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "820–899",
+-      "x": -4.9,
+-      "z": -7.635,
++      "text": "900–949 藝術",
++      "x": 7.07,
++      "z": -8.435,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "900–949 藝術",
+-      "x": 6.2,
+-      "z": -8.335,
++      "text": "950–999 藝術",
++      "x": 8.93,
++      "z": -8.435,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "950–999 藝術",
+-      "x": 9.0,
+-      "z": -8.335,
++      "text": "A–D",
++      "x": 5.21,
++      "z": -5.335,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "A–H",
+-      "x": 6.2,
+-      "z": -5.135,
++      "text": "E–H",
++      "x": 7.07,
++      "z": -5.335,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "J–Q",
+-      "x": 9.0,
+-      "z": -5.135,
++      "text": "J–N",
++      "x": 8.93,
++      "z": -5.335,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "P–Q",
++      "x": 10.79,
++      "z": -5.335,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+@@ -1370,17 +1515,26 @@ const LIBRARY_LAYOUT={
+     {
+       "lv": 1,
+       "text": "R–Z",
+-      "x": 7.0,
+-      "z": 0.365,
++      "x": 7.07,
++      "z": 1.865,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "PN–PQ",
+-      "x": 9.4,
+-      "z": 0.365,
++      "text": "PA–PN",
++      "x": 8.93,
++      "z": 1.865,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "PQ–PZ",
++      "x": 10.79,
++      "z": 1.865,
+       "y": 1.72,
+       "ry": 0.0,
+       "w": 0.52
+@@ -1388,16 +1542,43 @@ const LIBRARY_LAYOUT={
+     {
+       "lv": 1,
+       "text": "人社中日韓文圖書",
+-      "x": -8.0,
+-      "z": -16.84,
++      "x": -7.4,
++      "z": -9.4,
+       "y": 2.42,
+-      "ry": 0,
++      "ry": 0.0,
++      "w": 1.9
++    },
++    {
++      "lv": 1,
++      "text": "密集書庫",
++      "x": -9.4,
++      "z": -10.36,
++      "y": 2.55,
++      "ry": 3.1416,
++      "w": 1.1
++    },
++    {
++      "lv": 1,
++      "text": "期刊",
++      "x": -6.75,
++      "z": -10.36,
++      "y": 2.3,
++      "ry": 3.1416,
++      "w": 0.9
++    },
++    {
++      "lv": 1,
++      "text": "研究小間 230–249",
++      "x": -10.84,
++      "z": -0.6,
++      "y": 2.5,
++      "ry": 1.5708,
+       "w": 1.9
+     },
+     {
+       "lv": 1,
+       "text": "人社西文圖書",
+-      "x": 7.6,
++      "x": 8.0,
+       "z": -0.66,
+       "y": 2.42,
+       "ry": 3.1416,
+@@ -1406,11 +1587,191 @@ const LIBRARY_LAYOUT={
+     {
+       "lv": 1,
+       "text": "藝術資料",
+-      "x": 7.6,
++      "x": 8.0,
+       "z": -8.82,
+       "y": 2.42,
+-      "ry": 0,
++      "ry": 0.0,
+       "w": 1.2
++    },
++    {
++      "lv": 1,
++      "text": "230",
++      "x": -10.83,
++      "z": -16.21,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "231",
++      "x": -10.83,
++      "z": -15.43,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "232",
++      "x": -10.83,
++      "z": -14.65,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "233",
++      "x": -10.83,
++      "z": -13.87,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "234",
++      "x": -10.83,
++      "z": -13.09,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "235",
++      "x": -10.83,
++      "z": -12.31,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "236",
++      "x": -10.83,
++      "z": -11.53,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "237",
++      "x": -10.83,
++      "z": -10.75,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "238",
++      "x": -10.83,
++      "z": -9.97,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "239",
++      "x": -10.83,
++      "z": -9.19,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "240",
++      "x": -10.83,
++      "z": -8.41,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "241",
++      "x": -10.83,
++      "z": -7.63,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "242",
++      "x": -10.83,
++      "z": -6.85,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "243",
++      "x": -10.83,
++      "z": -6.07,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "244",
++      "x": -10.83,
++      "z": -5.29,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "245",
++      "x": -10.83,
++      "z": -4.51,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "246",
++      "x": -10.83,
++      "z": -3.73,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "247",
++      "x": -10.83,
++      "z": -2.95,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "248",
++      "x": -10.83,
++      "z": -2.17,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
++    },
++    {
++      "lv": 1,
++      "text": "249",
++      "x": -10.83,
++      "z": -1.39,
++      "y": 2.28,
++      "ry": 1.5708,
++      "w": 0.34
+     }
+   ],
+   "note": "總圖大廳第二版（LIB-INTERIOR-1102，LAWWW2 2026-11-02）：使用者 11-02 的 1F 平面圖＋兩張一樓照片（台階書牆、半圓形展演廳）；南半邊（門廳、閘門、電梯、B1 門、二樓西翼長桌、3F 樓梯間）沿用第一版。產生：tools/blender/env_second/library_hall_v2_layout.py，不要手改。",
+diff --git a/src/library_hall_v2.js b/src/library_hall_v2.js
+index 87dd88fdd..41a3c69ff 100644
+--- a/src/library_hall_v2.js
++++ b/src/library_hall_v2.js
+@@ -59,6 +59,17 @@ const LBV2=(function(){
+         if(ns){ b.add(B3.MAT.woodD(),TK.boxG(d,h,f.w),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(d+0.02,h,0.03),f.x,y+h/2,f.z+e*(f.w/2+0.015)); nav.blockRect(f.x,f.z,d,f.w+0.06,0,0.05); }
+         else { b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
+         nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); } }
++      else if(f.type==='roomBlock'){ const h=L.floors[1].y-L.slabT, w=f.x1-f.x0, d=f.z1-f.z0;   /* 第五版③（BB 11-03 12:11）：一樓北邊翼樓圍成小房間（廁所、演奏室、討論室）：朝大廳的牆＋靠中間的側牆；門關著（L.doors），裡面整塊擋住 */
++        b.add(B3.MAT.plaster(),TK.boxG(w,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z1); b.add(B3.MAT.plaster(),TK.boxG(0.12,h,d,1.2),f.side,y+h/2,(f.z0+f.z1)/2);
++        nav.blockRect((f.x0+f.x1)/2,(f.z0+f.z1)/2,w+0.1,d+0.1,0,0); }
++      else if(f.type==='carrelRow'){ const h=2.6, n=f.n||20, dz=(f.z1-f.z0)/n, d=f.x1-f.x0;   /* 第五版⑥：二樓西牆一排研究小間 230～249（門朝東、關著）：備用模型＝前牆＋每間一扇門片；裡面整塊擋住 */
++        b.add(B3.MAT.plaster(),TK.boxG(0.12,h,f.z1-f.z0,1.2),f.x1,y+h/2,(f.z0+f.z1)/2); for(let k=0;k<n;k++) b.add(M('#8a6a4a',{rough:0.6}),TK.boxG(0.04,2.1,dz*0.72),f.x1+0.08,y+1.05,f.z0+(k+0.5)*dz);
++        b.add(B3.MAT.plaster(),TK.boxG(d,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z0); b.add(B3.MAT.plaster(),TK.boxG(d,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z1);
++        nav.blockRect((f.x0+f.x1)/2,(f.z0+f.z1)/2,d+0.1,f.z1-f.z0+0.1,0,0);
++        IT.push({x:f.x1+0.7,z:(f.z0+f.z1)/2,radius:Math.max(1.2,(f.z1-f.z0)/2),lv,label:'看研究小間',look:'研究小間 '+f.first+'～'+(f.first+n-1)+'：一排小房間，門上的小窗看得到桌子和檯燈。大部分的門都關著，有幾間掛著「使用中」。'}); }
++      else if(f.type==='compact'){ const h=f.h||2.3, rows=f.rows||9;   /* 第五版⑧：密集書庫（可以移動的密集書架）：備用模型＝一整塊書架＋端板；整塊擋住 */
++        b.add(B3.MAT.woodD(),TK.boxG(f.w,h,f.d),f.x,y+h/2,f.z); const cap=M(f.cap||'#e8b923',{rough:0.5}); for(let k=0;k<rows;k++) b.add(cap,TK.boxG(0.03,h,f.d/rows*0.92),f.x+f.w/2+0.015,y+h/2,f.z-f.d/2+(k+0.5)*f.d/rows);
++        nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0,0); }
+       else if(f.type==='roundTable'){ b.add(M('#d8d2c6',{rough:0.6}),new THREE.CylinderGeometry(f.r,f.r,0.04,20),f.x,y+0.73,f.z); b.add(M('#3a3f45',{rough:0.5}),new THREE.CylinderGeometry(0.05,0.05,0.7,8),f.x,y+0.35,f.z);
+         nav.blockCircle(f.x,f.z,f.r+0.25);
+         for(let i=0;i<(f.seats||3);i++){ const a=i*2*Math.PI/(f.seats||3)+Math.PI/6, cx=f.x+Math.sin(a)*(f.r+0.45), cz=f.z+Math.cos(a)*(f.r+0.45), yaw=a+Math.PI, seat={x:cx,z:cz,yaw,lv}; Z3.chair(grp,cx,cz,yaw,'#7a5a46'); seats.push(seat); IT.push({x:cx,z:cz,radius:0.8,lv,label:'坐下',seat}); } } }
+diff --git a/src/story3d.js b/src/story3d.js
+index 973f486d5..ae1960079 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -313,7 +313,7 @@ const STORY = (function(){
+     /* 總圖大廳（總圖第一階段，D43）的背景人物：服務台的館員、二樓自習區讀書的人、走大樓梯上下樓的人、一樓走動的人。不是劇情人物、沒有對話 */
+     if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const L=LIBRARY_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+       if(hr>=8&&hr<22){ const dk=L.furniture.find(f=>f.type==='desk'); if(dk) mk(dk.x-0.6,dk.z+0.75,0,Math.PI,'idle');
+-        const sts=E.zone.seats.slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts[k]; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
++        const sts=E.zone.seats.filter(q=>(q.lv|0)===1).slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts.length?sts[k%sts.length]:null; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
+         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-3.4,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）；東翼那一點 (8,−5) 在第二版（11-02 二樓平面圖）是西文圖書的書架，改 (8,−3.4)（第一版也是空地）*/
+         if(hr<18) GM.spawnExtra(extraSpec(xi++),(LIBRARY_LAYOUT.b1Door&&LIBRARY_LAYOUT.b1Door.wall==='vestibule')?[[5.6,-8.6,0],[1.0,3.0,0],[-3.5,3.0,0],[-7.9,-5.0,0]]:[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }   /* 總圖第四版（LIB-PLAN-1103：一樓照平面圖，服務台、十字影音櫃、多一排四人桌）一樓走動的人改走空地；舊配置照舊 */
+       if(F.companion==='an') spawnCompanion(GM); }
+@@ -3253,7 +3253,8 @@ const STORY = (function(){
+      那件東西沒顯示（別的年份、沒有這個旗標）或沒有鏡頭資料就不轉。旁白講完 E.endCinematic 回到原本的鏡頭；sceneEnd 也會再收一次 */
+   S.roomItemFocus=function(GM,label){ const E=GM&&GM.E, k=S.roomItemKeyOf(GM&&GM.G,label); if(!E||!E.scene||!k||!E.cinematic) return false; const o=E.scene.getObjectByName('ITEM_desk_'+k), u=o&&o.userData;
+     if(!o||!u||!u.eye||!u.look||!o.parent) return false; let v=o; while(v){ if(v.visible===false) return false; v=v.parent; } o.parent.updateMatrixWorld(true);
+-    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2]))); return true; };
++    const via=u.via?o.parent.localToWorld(new THREE.Vector3(u.via[0],u.via[1],u.via[2])):null;   /* 先經過的點（dorm_desk_items.py 的 VIA：走道上、和 eye 同高同 z），鏡頭不穿過梯子、床欄（BB 11-03 16:16）*/
++    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2])),via); return true; };
+   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
+      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
+      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
