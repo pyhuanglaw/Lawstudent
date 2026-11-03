@@ -61,7 +61,9 @@ async def main():
             for k, deg in enumerate(g['deg'] or []):
                 a = (90 - deg) * math.pi / 180; R = g['R']
                 wx, wz = R['cx'] + math.cos(a) * R['r'], R['cz'] - math.sin(a) * R['r']
-                await L.turn_camera_to(pg, cdp, wx, wz); await pg.wait_for_timeout(1200)
+                await L.turn_camera_to(pg, cdp, wx, wz)
+                # 【前置／捷徑】只為了截圖：鏡頭放低、拉近（跟隨鏡頭預設俯角會把窗切到畫面最上面）；量的東西不受影響
+                await pg.evaluate("(()=>{ const c=GAME.E.cam; c.pitch=0.02; c.dist=c.distTarget=2.2; })()"); await pg.wait_for_timeout(1500)
                 await pg.screenshot(path=os.path.join(OUT, 'rotunda_%s_%d.png' % (tag, k)))
         check('③ 沒有 library_view_* 的 404', not bad404, J(bad404[:4]))
         check('沒有 JS 例外', not errs, J(errs[:3]))
