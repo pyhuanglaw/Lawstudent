@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19C_kx607",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_kexin_hsr_probe.py",
+  "env": "MAX_S=6600",
+  "machine": "MSI",
+  "start": "2026-11-03T22:53:40",
+  "end": "2026-11-03T22:57:31",
+  "seconds": 230,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 74,
+    "mem": 56,
+    "used_gb": 17.2,
+    "chrome_testing": 29
+  }
+}

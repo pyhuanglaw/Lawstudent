@@ -1,0 +1,28 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_kexin_hsr_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_kx607\out
+cc_kexin_hsr_probe  SHA=b1ae1c390  URL=http://127.0.0.1:8810/index.html  SAVE=（沒有：新局照玩家玩完宿營）
+PASS 遊戲載入
+PASS 標題畫面按「從法律系開始」
+PASS 新局照玩家點完宿營、走到 8/29  {"key": "2025-08-29", "h": 16.085, "zone": "dorm", "campOn": false, "CAMP_Y1": true}
+  [ 138.2s] 2025-08-29 22:41 空下來在宿舍：去床（晚上）
+  [ 146.0s] 到達「床」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [ 152.5s] 2025-08-30 07:31 空下來在宿舍：去床（白天）
+  [ 163.2s] 到達「床」附近（0.00 m）：點地面 0 次、轉鏡頭 2 次、搖桿 2 次，11 秒
+  [ 187.0s] 結束：returned；{"key": "2025-08-30", "h": 17.521, "zone": "dorm", "fb": 0}；行程 y0_e37={"day": -17, "key": "2025-08-30", "h": 13.5, "late": 0.25, "place": "台北車站（高鐵出口）", "travel": "開車", "travelH": 0.6666666666666666, "state": "done", "alarm": true}；私訊=[{"day": -18, "h": 21.5, "key": "2025-08-29"}]
+PASS 1 收到可昕的私訊「明天一點半的高鐵到台北。」（8/29 21:30 起或 8/30）  [{"day": -18, "h": 21.5, "key": "2025-08-29"}]
+PASS 1 行程 y0_e37：8/30 13:30、台北車站（高鐵出口）、開車  {"day": -17, "key": "2025-08-30", "h": 13.5, "late": 0.25, "place": "台北車站（高鐵出口）", "travel": "開車", "travelH": 0.6666666666666666, "state": "done", "alarm": true}
+  [ 187.0s] 出發選單：{"d": "2025-08-30", "h": "12:40", "t": "出發：台北車站 13:30：接可昕｜晚一點（20 分鐘後再提醒）｜不去了"}；電話：null
+PASS 2 可以出發（OUT.go y0_e37；方式=prompt）  {"k": "outgo", "t": "y0_e37", "place": "台北車站（高鐵出口）", "qh": 13.5, "d": "2025-08-30", "day": -17, "h": 12.668, "z": "dorm", "ev": null, "camp": false, "step": null, "adv": false, "i": 120}
+PASS 2 鬧鐘叫醒以後出現「出發：…接可昕」選單（不是等到 13:45 的電話）  {"d": "2025-08-30", "h": "12:40"}
+PASS 2 出發的時間在 12:35～13:51（約好的 13:30 − 車程 40 分 − 15 分；最晚 13:30＋late）  2025-08-30 12:40
+PASS 3 到達：演 ev_y0_e37  {"k": "ev", "t": "ev_y0_e37", "d": "2025-08-30", "day": -17, "h": 13.5, "z": "dorm", "ev": null, "camp": false, "step": null, "adv": true, "i": 122}
+PASS 3 抵達 8/30 13:30（＝max(出發 12:40＋車程, 13:30)）  2025-08-30 13:30
+PASS 3 第一句「（八月三十日下午。你在台北車站的高鐵出口接到她…」  "（八月三十日下午。你在台北車站的高鐵出口接到她，兩個行李箱放進後車廂，開車上山。"
+PASS 4 回來：演完以後回到 3D、空下來  returned
+PASS 4 回來的時間 17:30（＝抵達＋ev.hours 4 小時，±15 分）、還是 8/30  2025-08-30 17:31
+PASS 4 回到出發的區域（dorm）  ret=dorm dep=dorm
+  [ 187.0s] 8/30 起床以後超過 45 分鐘的跳：[{"from": "2025-08-30 07:32", "to": "2025-08-30 12:40", "dt": 5.14, "ev_from": null, "ev_to": null, "txt": "", "lastpick": "睡到傍晚（不設鬧鐘）18:00——但約好的時間：台北車站 13:30：接可昕，1", "why": "床：睡到傍晚（不設鬧鐘）18:00——但約好"}, {"from": "2025-08-30 12:40", "to": "2025-08-30 13:30", "dt": 0.83, "ev_from": null, "ev_to": null, "txt": "", "lastpick": "出發：台北車站 13:30：接可昕台北車站（高鐵出口）　開車", "why": "車程（出發→抵達）"}, {"from": "2025-08-30 13:30", "to": "2025-08-30 17:30", "dt": 4.0, "ev_from": null, "ev_to": null, "txt": "", "lastpick": "「我也以為我會在經濟系。」", "why": "出遊 ev.hours"}]
+PASS 5 8/30 起床以後遊戲時鐘沒有倒退  []
+PASS 5 沒有不合理的大跳（超過 1 小時的只有床、車程、出遊 4 小時）  []
+PASS 6 walkFallbacks 0  0
+PASS 6 沒有 JS 例外  []
+ALL PASS
