@@ -26,8 +26,11 @@
   網址建議加 ?turbo（測試加速：走位瞬間、dt 上限；條件事件 EVENTS.tick、PHONE.tick、劇情照常跑，不會漏時段）和 ?lowres。
   一路玩到開學那一天（END_KEY，預設 2025-09-01）看過一次聯絡人列為止。
 判斷（LAWWW 08:48 的期待值；修正 ce9fdfacf，d231df045 也有）：聯絡人列只列傳得了訊息的人——任何 gray（data-noct／disabled）、「不認識」字樣、名字空白、
-  沒見過（metD=false）的女主角 → FAIL；開學前見過、有聯絡方式的阿哲、阿凱要有格子、點得開（data-th）、不能寫「聯絡不上」。0f66c4215 應 FAIL、d231df045 應 PASS。
-用法：LW_TESTS=<wt>/tests SHA=<sha> [START=law|econ] [END_KEY=2025-09-01] [MAX_MIN=85] python3 cc_phone_unmet_probe.py '<URL>/index.html?turbo&lowres' <輸出資料夾>
+  沒見過（metD=false）的女主角 → FAIL；開學前見過、有聯絡方式的阿哲、阿凱要有格子、點得開（data-th）、不能寫「聯絡不上」。0f66c4215 應 FAIL、0ee99b327（含 d231df045、ce9fdfacf）應 PASS。
+case camp_peishan（BB 08:53，使用者 v9.10.17 截圖：8/22 宿營加了沛珊，點開卻「不能傳訊息：聯絡不上」msg3d.js:126）：同一趟新局，宿營照玩家點完
+  （camp_y1.js:116 consequences.contact 加沛珊）；8/22（宿營中，對話之間試著按手機）、8/25（8/25～28 劇情不演 story3d.js:152，用回家後第一個能動的那天代替）、
+  8/30 各從訊息頁上面的聯絡人列點沛珊：要點得開、有「傳訊息」（data-msgto）、不是「聯絡不上」。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=contacts,camp_peishan] [START=law|econ] [END_KEY=2025-09-01] [MAX_MIN=85] python3 cc_phone_unmet_probe.py '<URL>/index.html?turbo&lowres' <輸出資料夾>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED n；exit 0／1。"""
 import os, sys, json, asyncio, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -38,6 +41,9 @@ SHA = os.environ.get('SHA', '?')
 START = os.environ.get('START', 'law')
 END_KEY = os.environ.get('END_KEY', '2025-09-01')   # 開學那一天（src/data/calendar.js:21 Y1S1 start）
 MAX_MIN = float(os.environ.get('MAX_MIN', '85'))
+CASES = [x.strip() for x in os.environ.get('CASES', 'contacts,camp_peishan').split(',') if x.strip()]   # 同一趟新局；CASES 只決定報哪幾項
+PS = 'classmate_peishan'
+PS_DAYS = ('2025-08-22', '2025-08-25', '2025-08-30')
 J = lambda o: json.dumps(o, ensure_ascii=False)
 HER = ['heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05']
 SLEEP_PREF = ('睡到明天早上', '先睡。明天再拆。', '睡覺', '直接睡')
@@ -170,9 +176,31 @@ async def pickers(pg, cdp, run, tag, met):
                 if shot is None:
                     await pg.evaluate("(t=>{ const B=document.getElementById('phoneBody'); const e=[...B.querySelectorAll('.ctList button,.chatRow,.item.phrow')].find(b=>b.textContent.trim().replace(/\\s+/g,' ').startsWith(t.slice(0,12))); if(e) e.scrollIntoView({block:'center'}); })(%s)" % J(c['text']))
                     await pg.wait_for_timeout(500); shot = await run.shot(pg, 'picker_%s_%s' % (tab, tag))
-                bad.append(dict(c, panel=pn, why=w, at=tag, shot=shot, pid=pid))
+                bad.append(dict(c, panel=pn, why=w, at=tag, shot=shot, pid=pid, metD=met.get(pid)))
     await L.close_panels(pg, cdp)
     return out, bad
+
+
+async def ps_check(pg, cdp, run, tag):
+    """照玩家：手機 → 訊息 → 上面聯絡人列點沛珊 → 看對話裡有沒有「傳訊息」、是不是「聯絡不上」。回傳 dict"""
+    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+        return {'tag': tag, 'opened': False, 'why': '手機打不開（劇情進行中）'}
+    await open_tab(pg, cdp, 'msg')
+    cell = await pg.evaluate("id=>{ const e=document.querySelector('#phoneBody .ctList [data-th=\"p:'+id+'\"],#phoneBody .ctList [data-noct=\"'+id+'\"]'); return e?{th:e.dataset.th||'',noct:e.dataset.noct||'',dis:!!e.disabled,text:e.textContent.trim().replace(/\\s+/g,' ')}:null; }", PS)
+    r = {'tag': tag, 'opened': True, 'cell': cell, 'stage': await pg.evaluate("id=>({stage:SOCIAL.stage(id),metD:!!SOCIAL.metD(id),contact:!!INV.hasContact(GAME.G,id),open:MSG.open?MSG.open(GAME.G,id):null})", PS)}
+    if cell and cell['th'] and not cell['dis']:
+        await L.tap(pg, cdp, '#phoneBody .ctList [data-th="p:%s"]' % PS); await pg.wait_for_timeout(1000)
+        r['thread'] = (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[:400]
+        r['send'] = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-msgto]')].map(b=>b.textContent.trim())")
+        r['shot'] = await run.shot(pg, 'peishan_%s' % tag)
+    else:
+        r['shot'] = await run.shot(pg, 'peishan_%s_nocell' % tag)
+    r['ok'] = bool(cell and cell['th'] and not cell['dis'] and r.get('send') and '聯絡不上' not in r.get('thread', '') and '聯絡不上' not in (cell or {}).get('text', ''))
+    await L.close_panels(pg, cdp)
+    run.note('沛珊（%s）：%s' % (tag, J(r)))
+    return r
 
 
 async def main():
@@ -201,7 +229,7 @@ async def main():
                 if await pg.evaluate("!!GAME.G&&GAME.running"): break
                 await pg.wait_for_timeout(500)
             day0 = None; last_key = None; last_sig = None; stuck_t = time.time(); recover = 0; free_since = None; skip_fail = None
-            end_reason = None; met_at = None; last_scan = 0
+            end_reason = None; met_at = None; last_scan = 0; ps_res = {}; ps_got = None; ps_tries = 0
             while time.time() - t_start < MAX_MIN * 60:
                 if not await pg.evaluate("!!GAME.G&&GAME.running"):
                     await pg.wait_for_timeout(800); continue
@@ -225,6 +253,18 @@ async def main():
                         if sc['key'] >= END_KEY and any(k[0] >= END_KEY for k in done_p): end_reason = 'school'
                 s = await L.state(pg)
                 free = not s['dlg'] and not s['choices'] and not s['busy']
+                if 'camp_peishan' in CASES:
+                    if ps_got is None and await pg.evaluate("id=>!!INV.hasContact(GAME.G,id)", PS):
+                        ps_got = [last_key, s['hour']]; run.note('宿營裡拿到沛珊的聯絡方式（camp_y1.js:116 consequences.contact）：%s' % J(ps_got))
+                    if ps_got and last_key in PS_DAYS and last_key not in ps_res:
+                        if last_key == '2025-08-22' and not free and ps_tries < 6:   # 宿營整天是劇情：在對話之間試著打開手機（像玩家按右上角手機）
+                            ps_tries += 1; r = await ps_check(pg, cdp, run, '0822_scene%d' % ps_tries)
+                            if r['opened']: ps_res[last_key] = r
+                            elif ps_tries >= 6: ps_res[last_key] = r
+                        elif free:
+                            ps_res[last_key] = await ps_check(pg, cdp, run, last_key[5:].replace('-', '')); continue
+                    if ps_got and last_key and '2025-08-25' not in ps_res and '2025-08-25' < last_key < '2025-08-30' and free:   # 8/25～28 不演（story3d.js:152）：用回家後第一個能動的那天代替
+                        ps_res['2025-08-25'] = dict(await ps_check(pg, cdp, run, 'sub0825_' + last_key[5:].replace('-', '')), note='8/25～28 劇情不演（story3d.js:152），用 %s 代替' % last_key); continue
                 if end_reason and free: break
                 sig = (s['dtext'], s['choices'], s['zone'], round(s['x'], 1), round(s['z'], 1), s['hour'])
                 if sig != last_sig: last_sig = sig; stuck_t = time.time()
@@ -283,7 +323,15 @@ async def main():
             json.dump({'writes': W, 'ui': [[k, v] for k, v in ui_log], 'scan_first': scans_first, 'picks': picks, 'days': days, 'met_at': met_at}, open(os.path.join(OUT, 'unmet_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
             run.check('從新局一路玩到開學那一天（%s，%s）' % (END_KEY, end_reason or '時間到'), bool(end_reason), J({'days': days[-3:], 'met_at': met_at, 'min': round((time.time() - t_start) / 60, 1)}))
             allbad = [r for k, u in ui_log if u for r in u['bad']]
-            NAMES = {'msg_contacts': '訊息頁上面的「傳訊息給」聯絡人列'}
+            NAMES = {'msg_contacts': '訊息頁上面的「傳訊息給」聯絡人列'} if 'contacts' in CASES else {}
+            if 'camp_peishan' in CASES:
+                run.check('camp_peishan：宿營照玩家點完、拿到沛珊的聯絡方式', bool(ps_got), J(ps_got))
+                for dk in PS_DAYS:
+                    r = ps_res.get(dk)
+                    if r and not r.get('opened'):
+                        run.note('camp_peishan %s：%s（不算 FAIL，記下來）' % (dk, r.get('why'))); continue
+                    run.check('camp_peishan %s：訊息頁聯絡人列點沛珊點得開、有「傳訊息」、不是「聯絡不上」' % dk, bool(r and r['ok']),
+                              J({k2: (r or {}).get(k2) for k2 in ('tag', 'cell', 'send', 'stage', 'note', 'shot')}) + ' 對話：' + (r or {}).get('thread', '')[:160].replace('\n', ' | '))
             ST = await pg.evaluate("window.__PU.st")
             json.dump(ST, open(os.path.join(OUT, 'stage_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
             for id_ in HER:
@@ -294,7 +342,7 @@ async def main():
                 run.check('選人面板 %s：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子' % nm, not bb,
                           ('第一格 %s；共 %d 格次' % (J(bb[0]), len(bb))) if bb else '看了 %d 次' % len(ui_log))
             # LAWWW 08:48：開學前見過、有聯絡方式的朋友（阿哲、阿凱）點得開（有 data-th、不是 disabled、沒寫「聯絡不上」）
-            for fid, fnm in (('zhe', '阿哲'), ('kai', '阿凱')):
+            for fid, fnm in ((('zhe', '阿哲'), ('kai', '阿凱')) if 'contacts' in CASES else ()):
                 seen = []; badf = []
                 for k, u in ui_log:
                     f = next((x for x in u.get('friends', []) if x['id'] == fid), None)
@@ -305,8 +353,8 @@ async def main():
                 run.check('%s：見過、有聯絡方式那幾天，聯絡人列有他、點得開、沒寫「聯絡不上」' % fnm, bool(seen) and not badf,
                           J({'看過': seen, '不對': badf[:2]}) if (badf or not seen) else '看過 %d 天' % len(seen))
             # 每位女主角：相遇前選人面板不能有她（格子的 data-th／data-noct／data-person＝她）
-            for id_ in HER:
-                bb = [r for r in allbad if r['pid'] == id_ or id_ in J(r['data'])]
+            for id_ in (HER if 'contacts' in CASES else ()):
+                bb = [r for r in allbad if (r['pid'] == id_ or id_ in J(r['data'])) and r.get('metD') is False]
                 run.check('%s：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子' % id_, not bb, ('第一格 %s' % J(bb[0])) if bb else '')
             # 附帶資訊：相遇前寫進 G.msgs 的她的訊息（不算 FAIL）
             for id_ in HER:
