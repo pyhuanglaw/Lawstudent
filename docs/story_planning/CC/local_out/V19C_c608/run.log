@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_camp608_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19C_c608\out
+cc_camp608_probe  SHA=15e78dff7  URL=http://127.0.0.1:8811/index.html
+PASS 遊戲載入
+  [  21.1s] 宿營第一天 day=-25；CAMP_SEQ=[["ev_camp_d1_bus", 0, 8.5], ["ev_camp_d1_ice", 0, 10.5], ["ev_camp_d1_field", 0, 13.5], ["ev_camp_d1_free", 0, 19.5], ["ev_camp_d2_bbq", 1, 17.5], ["ev_camp_d2_fire", 1, 20], ["ev_camp_d3_quiz", 2, 7.5], ["ev_camp_d3_end", 2, 10.5]]；retired=["ev_camp_d1_party", "ev_camp_d1_walk", "ev_camp_d2_quiz", "ev_camp_d2_water", "ev_camp_d2_talk"]
+PASS 這一版有 S.CAMP_SEQ（8 段）  ["ev_camp_d1_bus", "ev_camp_d1_ice", "ev_camp_d1_field", "ev_camp_d1_free", "ev_camp_d2_bbq", "ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS 標題畫面按「從法律系開始」
+  [  97.6s] 匯出 8/24 存檔：day=-23 h=12.5 campStep=8 → camp608_824_save.json
+  [  98.8s] 結束：after camp (2025-08-29)；最後 {"key": "2025-08-29", "h": 16.087, "zone": "dorm", "CAMP_Y1": true, "campOn": false, "campStep": null}
+PASS 宿營演完（走到 8/24 以後）  after camp (2025-08-29)
+  [  98.8s] 宿營演過的段落：[["ev_camp_d1_bus", "2025-08-22", "08:30"], ["ev_camp_d1_ice", "2025-08-22", "10:30"], ["ev_camp_d1_field", "2025-08-22", "13:30"], ["ev_camp_d1_free", "2025-08-22", "19:30"], ["ev_camp_d2_bbq", "2025-08-23", "17:30"], ["ev_camp_d2_fire", "2025-08-23", "20:00"], ["ev_camp_d3_quiz", "2025-08-24", "07:30"], ["ev_camp_d3_end", "2025-08-24", "10:30"]]
+PASS a 八段照 CAMP_SEQ 的順序演  演的=["ev_camp_d1_bus", "ev_camp_d1_ice", "ev_camp_d1_field", "ev_camp_d1_free", "ev_camp_d2_bbq", "ev_camp_d2_fire", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS a 每段的日子、時間照 CAMP_SEQ  []
+PASS a retired 的段落沒有演  []
+DAY 2025-08-22 講話的人：{"（旁白）": 18, "芯慈〔classmate_xinci〕": 4, "小隊輔〔小隊輔〕": 2, "阿哲〔zhe〕": 11, "祐廷": 3}｜新認識：["classmate_xinci(camp)", "zhe(camp)"]
+DAY 2025-08-23 講話的人：{"（旁白）": 5, "小隊輔〔小隊輔〕": 1, "沛珊〔classmate_peishan〕": 3}｜新認識：["classmate_peishan(camp)"]
+DAY 2025-08-24 講話的人：{"阿哲〔zhe〕": 3, "沛珊〔classmate_peishan〕": 1, "（旁白）": 5}｜新認識：[]
+PASS b 宿營三天講話的人都在名單內（阿哲、芯慈、沛珊、玩家、背景、旁白）  []
+PASS b／e 宿營認識的（FIRST_MET note camp）只有阿哲、芯慈、沛珊  {"classmate_xinci": {"day": -25, "note": "camp"}, "zhe": {"day": -25, "note": "camp"}, "classmate_peishan": {"day": -24, "note": "camp"}}
+PASS b 8/22～8/24 沒有認識別人（任何 note）  {}
+PASS b 每天都有截圖（3 張）  ["2025-08-22", "2025-08-23", "2025-08-24"]
+  [  98.9s] 順序（紀錄編號）：{"芯慈第一句": 18, "撕名牌": 24, "阿哲報名字": 32, "自由時間": 36, "十五級分": 46, "營火": 59, "沛珊第一句": 63}
+PASS c 芯慈 → 撕名牌（阿哲）→ 大老二＋學測（十五級分）→ 營火沛珊  {"芯慈第一句": 18, "撕名牌": 24, "阿哲報名字": 32, "自由時間": 36, "十五級分": 46, "營火": 59, "沛珊第一句": 63}
+PASS c 「十五級分。」在自由時間（ev_camp_d1_free）裡  {"k": "say", "n": "祐廷", "cid": null, "t": "十五級分。", "d": "2025-08-22", "day": -25, "h": 19.5, "z": "dorm", "ev": "ev_camp_d1_free", "camp": true, "step": 3, "adv": true, "i": 46}
+PASS c 認識的日子：芯慈、阿哲 8/22，沛珊 8/23  {"classmate_peishan": {"day": -24, "note": "camp"}, "zhe": {"day": -25, "note": "camp"}, "classmate_xinci": {"day": -25, "note": "camp"}}
+PASS d 營火之前沒有沛珊的台詞  []
+PASS d 沛珊第一句是營火裡的「嗨。」  {"k": "say", "n": "沛珊", "cid": "classmate_peishan", "t": "嗨。……我錯過很多嗎？", "d": "2025-08-23", "day": -24, "h": 20, "z": "dorm", "ev": "ev_camp_d2_fire", "camp": true, "step": 5, "adv": true, "i": 63}
+PASS d 營火（第 6 段）以前對話框沒有出現「沛珊」的名牌  []
+PASS e 演完：CAMP_Y1＝true、campStep／campSeqV 清掉  {"CAMP_Y1": true, "campStep": null, "campSeqV": null}
+PASS e 8/24 的存檔匯出了（camp608_824_save.json）
+PASS e walkFallbacks 0  0
+PASS e 沒有 JS 例外  []
+  [ 124.9s] 匯入檔 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19C_c608\out\camp608_824_save.json：讀進文字框 3987 字
+  [ 125.0s] 匯入訊息：匯入成功，已備份原本進度。
+PASS f 8/24 的存檔（campStep 8、CAMP_Y1=True、CAMP_Y1_ON=True）讀回來，遊戲接著演、走到 8/29 搬宿舍  {"key": "2025-08-29", "h": 16.083, "zone": "dorm", "campOn": false, "CAMP_Y1": true, "campStep": null}
+PASS f 讀檔以後沒有 JS 例外  []
+ALL PASS
