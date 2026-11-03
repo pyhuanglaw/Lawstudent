@@ -3,8 +3,8 @@
  "account": "A",
  "session": "session_01TdESzxBpdGoPhdkPD2ENce",
  "branch": "claude/cc-testing",
- "since": "2026-11-02T03:53Z",
- "state": "on",
- "sinceSha": "336d26c3",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-11-03T02:06Z",
+ "sha": "eddddf17",
+ "snapshot": "docs/handoff/snapshots/2026-11-03T0206Z_A_CC.json"
 }
