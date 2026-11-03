@@ -42840,8 +42840,28 @@
       "owner": "LAWWW",
       "status": "待開工",
       "priority": "P2",
-      "note": "使用者 11-03 對 AA：「明軒是會主動約大家玩桌遊 固定在其中一家新的店裡」（企劃線 148a6f560）；跟 AA_617 一批（要等日常失速場景）",
+      "note": "使用者 11-03 對 AA：「明軒是會主動約大家玩桌遊 固定在其中一家新的店裡」（企劃線 148a6f560）；跟 AA_617 一批（要等日常失速場景）；AA_623 補：芯慈固定、沛珊偶爾；併入 AA623-BOARDGAME-TEAM-1103",
       "next": "等 ART-WZ-CAFES-1103（日常失速）＋AA 台詞"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 6,
+        "earliest": "大一上第 6 週（第一次桌遊夜）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA623-BOARDGAME-TEAM-1103",
+      "title": "麵店團改成桌遊團（AA_623）：明軒揪、隔週週五 20:00 日常失速長桌（明軒、阿哲、芯慈、柏翰；Alison 群組回；沛珊三次來一次；阿凱大二起）；noodle_team id 不變、顯示名一律「桌遊團」；加入群組改成第一次桌遊夜／第 13 週；ev_zhe_long_table 只留認識 Alison、地點改公館燒臘；中秋烤肉改日常失速騎樓；日常失速沒做好前先用 2D 背景",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 對 AA：「麵店團改成桌遊團」「要有芯慈」「沛珊偶爾也會去桌遊」（企劃線 248674e35）；和 AA_612 衝突以 AA_623 為準",
+      "next": "和 AA610（語彤打工）、AA_612（燒臘店改字 697 列，AA 還要定 24 句）一起做；可以先用 2D 背景"
     }
   ]
 }
