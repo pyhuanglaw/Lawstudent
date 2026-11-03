@@ -458,3 +458,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19_libtour] | [gpu_wrap 1577.0s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 1577.1s] BROWSER DISCONNECTED
 - 2026-11-03T22:17:32  N19_reach  sha=b1ae1c390  exit=0  464s    統計：29 個區域、1185 個互動點、13 個劇情走路目的地、76 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19_reach] | [gpu_wrap 429.2s] page close url=http://127.0.0.1:8810/index.html?turbo?turbo | [gpu_wrap 429.3s] BROWSER DISCONNECTED
+- 2026-11-03T22:20:02  N19S_shots  sha=b1ae1c390  exit=0  141s    PASS l118_cafe2_1016_1500：客人 2 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  [] / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19S_shots] | [gpu_wrap 103.6s] page close url=http://127.0.0.1:8810/index.html?turbo | [gpu_wrap 103.7s] BROWSER DISCONNECTED

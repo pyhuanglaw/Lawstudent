@@ -1,0 +1,478 @@
+{
+ "teishoku_1018_1822_before": {
+  "zone": "wz_teishoku",
+  "formal": true,
+  "n": 0,
+  "shop": 0,
+  "cafe": 0,
+  "list": [],
+  "player": [
+   -2,
+   3.05
+  ]
+ },
+ "teishoku_1018_1822_after": {
+  "zone": "wz_teishoku",
+  "formal": true,
+  "n": 7,
+  "shop": 7,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_0",
+    "x": -0.55,
+    "y": 0,
+    "z": 2.55,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_1",
+    "x": 1.85,
+    "y": 0,
+    "z": 2.55,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_8",
+    "x": 0.8,
+    "y": 0.27,
+    "z": -1.35,
+    "seatD": 0,
+    "seatY": 0.27,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_7",
+    "x": -1.1,
+    "y": 0.27,
+    "z": -1.35,
+    "seatD": 0,
+    "seatY": 0.27,
+    "dyaw": 0
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_2",
+    "x": -1.52,
+    "y": 0,
+    "z": 1.89,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_3",
+    "x": -1.52,
+    "y": 0,
+    "z": 1.89,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_3",
+    "x": -1.07,
+    "y": 0,
+    "z": 2.21,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   }
+  ],
+  "player": [
+   -2,
+   3.05
+  ]
+ },
+ "teishoku_1018_1822_after_side": {
+  "zone": "wz_teishoku",
+  "formal": true,
+  "n": 7,
+  "shop": 7,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_0",
+    "x": -0.55,
+    "y": 0,
+    "z": 2.55,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_1",
+    "x": 1.85,
+    "y": 0,
+    "z": 2.55,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_8",
+    "x": 0.8,
+    "y": 0.27,
+    "z": -1.35,
+    "seatD": 0,
+    "seatY": 0.27,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_wz_teishoku_7",
+    "x": -1.1,
+    "y": 0.27,
+    "z": -1.35,
+    "seatD": 0,
+    "seatY": 0.27,
+    "dyaw": 0
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_2",
+    "x": -0.81,
+    "y": 0,
+    "z": 0.19,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_3",
+    "x": -0.81,
+    "y": 0,
+    "z": 0.19,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_wz_teishoku_3",
+    "x": 0.58,
+    "y": 0,
+    "z": 1.6,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   }
+  ],
+  "player": [
+   -2,
+   3.05
+  ]
+ },
+ "cafe_1016_1500": {
+  "zone": "cafe",
+  "formal": true,
+  "n": 2,
+  "shop": 0,
+  "cafe": 2,
+  "list": [
+   {
+    "pose": "read",
+    "crowd": "",
+    "x": -4,
+    "y": 0,
+    "z": 3.3,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "read",
+    "crowd": "",
+    "x": 4.5,
+    "y": 0,
+    "z": -3.3,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   }
+  ],
+  "player": [
+   0,
+   4.6
+  ]
+ },
+ "noodle_1015_1230": {
+  "zone": "noodle",
+  "formal": true,
+  "n": 3,
+  "shop": 3,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "walk",
+    "crowd": "shop_noodle_0",
+    "x": -0.57,
+    "y": 0,
+    "z": 1.86,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_noodle_1",
+    "x": 3,
+    "y": 0,
+    "z": -0.3,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_noodle_1",
+    "x": 3,
+    "y": 0,
+    "z": 1.3,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   }
+  ],
+  "player": [
+   0,
+   3.5
+  ]
+ },
+ "cvs_1016_1830": {
+  "zone": "cvs",
+  "formal": true,
+  "n": 4,
+  "shop": 4,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "idle",
+    "crowd": "shop_cvs_2",
+    "x": 4.5,
+    "y": 0,
+    "z": -3.45,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_cvs_5",
+    "x": -0.59,
+    "y": 0,
+    "z": 1.06,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_cvs_6",
+    "x": -0.91,
+    "y": 0,
+    "z": 3.25,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "walk",
+    "crowd": "shop_cvs_8",
+    "x": -0.61,
+    "y": 0,
+    "z": 3.33,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   }
+  ],
+  "player": [
+   0,
+   3.5
+  ]
+ },
+ "bookstore_1016_1830": {
+  "zone": "bookstore",
+  "formal": true,
+  "n": 3,
+  "shop": 3,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "idle",
+    "crowd": "shop_bookstore_5",
+    "x": 4.58,
+    "y": 0,
+    "z": -3.95,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "idle",
+    "crowd": "shop_bookstore_11",
+    "x": 4.95,
+    "y": 0,
+    "z": 3.2,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   },
+   {
+    "pose": "idle",
+    "crowd": "shop_bookstore_14",
+    "x": 4.95,
+    "y": 0,
+    "z": -1.6,
+    "seatD": null,
+    "seatY": null,
+    "dyaw": null
+   }
+  ],
+  "player": [
+   0,
+   4
+  ]
+ },
+ "l118_korea_1016_1830": {
+  "zone": "l118_korea",
+  "formal": true,
+  "n": 6,
+  "shop": 6,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_2",
+    "x": -2,
+    "y": 0,
+    "z": 0.09,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_2",
+    "x": -2,
+    "y": 0,
+    "z": 1.41,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_4",
+    "x": 0.15,
+    "y": 0,
+    "z": -1.86,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_5",
+    "x": 0.65,
+    "y": 0,
+    "z": -1.86,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_7",
+    "x": 0.65,
+    "y": 0,
+    "z": 0.09,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_korea_9",
+    "x": 0.65,
+    "y": 0,
+    "z": 2.04,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   }
+  ],
+  "player": [
+   2.2,
+   2.75
+  ]
+ },
+ "l118_cafe2_1016_1500": {
+  "zone": "l118_cafe2",
+  "formal": true,
+  "n": 4,
+  "shop": 2,
+  "cafe": 0,
+  "list": [
+   {
+    "pose": "read",
+    "crowd": "shop_l118_cafe2_0",
+    "x": -2.3,
+    "y": 0.31,
+    "z": 3.72,
+    "seatD": 0,
+    "seatY": 0.31,
+    "dyaw": 0
+   },
+   {
+    "pose": "sit",
+    "crowd": "shop_l118_cafe2_6",
+    "x": 0.75,
+    "y": 0,
+    "z": -2,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "read",
+    "crowd": "",
+    "x": 2.55,
+    "y": 0,
+    "z": -0.95,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   },
+   {
+    "pose": "read",
+    "crowd": "",
+    "x": 2.55,
+    "y": 0,
+    "z": -2.25,
+    "seatD": 0,
+    "seatY": 0,
+    "dyaw": 0
+   }
+  ],
+  "player": [
+   2.2,
+   3
+  ]
+ }
+}

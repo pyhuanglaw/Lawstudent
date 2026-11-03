@@ -1,0 +1,22 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_N19S_shots\tests\shop_diners_shots.py http://127.0.0.1:8810/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19S_shots\out
+PASS 遊戲載入
+  [前置／捷徑] teishoku_1018_1822_before：讀檔到 wz_teishoku（2025-10-18 18:22）［修改前：拿掉店裡客人的地點］
+PASS teishoku_1018_1822_before：客人 0 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] teishoku_1018_1822_after：讀檔到 wz_teishoku（2025-10-18 18:22）
+PASS teishoku_1018_1822_after：客人 7 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] teishoku_1018_1822_after_side：讀檔到 wz_teishoku（2025-10-18 18:22）
+PASS teishoku_1018_1822_after_side：客人 7 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] cafe_1016_1500：讀檔到 cafe（2025-10-16 15:00）
+PASS cafe_1016_1500：客人 0 位（店的客人）＋Café 客人 2；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] noodle_1015_1230：讀檔到 noodle（2025-10-15 12:30）
+PASS noodle_1015_1230：客人 3 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] cvs_1016_1830：讀檔到 cvs（2025-10-16 18:30）
+PASS cvs_1016_1830：客人 4 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] bookstore_1016_1830：讀檔到 bookstore（2025-10-16 18:30）
+PASS bookstore_1016_1830：客人 3 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] l118_korea_1016_1830：讀檔到 l118_korea（2025-10-16 18:30）
+PASS l118_korea_1016_1830：客人 6 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+  [前置／捷徑] l118_cafe2_1016_1500：讀檔到 l118_cafe2（2025-10-16 15:00）
+PASS l118_cafe2_1016_1500：客人 2 位（店的客人）＋Café 客人 0；坐著的都在位子上、方向照座位  []
+PASS 沒有 JS 例外
+ALL PASS

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19S_shots",
+  "sha": "b1ae1c390",
+  "kind": "game",
+  "script": "tests/shop_diners_shots.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T22:17:41",
+  "end": "2026-11-03T22:20:02",
+  "seconds": 141,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 58,
+    "used_gb": 18.3,
+    "chrome_testing": 27
+  }
+}
