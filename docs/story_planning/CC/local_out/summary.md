@@ -216,3 +216,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G2_libfl] | [gpu_wrap 298.9s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 299.0s] BROWSER DISCONNECTED
 - 2026-11-03T09:23:41  Y_G5_term  sha=c89a5f9be  exit=0  155s    PASS 黑幕沒有擋住對話 / PASS 全程沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G5_term] | [gpu_wrap 123.2s] page close url=http://127.0.0.1:8811/index.html?turbo | [gpu_wrap 123.3s] BROWSER DISCONNECTED
+- 2026-11-03T09:24:13  Y_G1_reach  sha=c89a5f9be  exit=0  400s    統計：29 個區域、1142 個互動點、13 個劇情走路目的地、76 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G1_reach] | [gpu_wrap 367.8s] page close url=http://127.0.0.1:8809/index.html?turbo?turbo | [gpu_wrap 367.9s] BROWSER DISCONNECTED
