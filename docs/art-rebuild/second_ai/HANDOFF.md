@@ -1,5 +1,11 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ⚠️ 新規則 D131（使用者 11-03 22:3x 對 BB 回「好」，LAWWW 22:42 轉達）
+- 瀏覽器測試一律排使用者的電腦：包括探針、流程、截圖、test_charlook、deploy、線上版。排 CC 的 cc-local 佇列，找 BB 或 CC 排。我的模型遊戲內截圖、瀏覽器 lookdev 也一樣。
+- Node 全套丟 GHA。
+- 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
+- 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
+
 ## 🔨 現在在做（11-03 20:5x UTC 更新）
 - **總圖第五版：BB ART_APPROVED（20:14，第二輪 `52dbf7f8e`）**。條件：LAWWW 整合後，候選版的 flow_library_floors、flow_library_scene、nav、reachability 都要 PASS。patch 是 `wip/library_v5/library_v5_1103.patch`。
 - **研究小間讀者第二版**：已交 `12ac5e5f9`。
