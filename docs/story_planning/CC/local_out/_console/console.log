@@ -549,3 +549,15 @@
 [22:42:22] ==== END   01_p0speed  exit=0  152s   ====
 [22:42:34] 正在跑：FS112（已跑 159 分／上限 360 分）、00_gpu（已跑 2 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:42:44] [res] cpu=4% mem=43% (13.7/31.4 GB) chrome_testing=10  END 00_gpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3f2691592..9e1639d54  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:42:48] ==== END   00_gpu  exit=0  141s   ====
+[22:47:34] 正在跑：FS112（已跑 164 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:47:54] memory 44% before starting 00_gpu (1 running)
+[22:47:54] ==== START 00_gpu  (gpu @ dd13ce284) ====
+[22:47:54] memory 44% before starting 01_p0speed (2 running)
+[22:47:54] ==== START 01_p0speed  (game @ dd13ce284) ====
+[22:47:57] [res] cpu=10% mem=44% (13.8/31.4 GB) chrome_testing=10  START 00_gpu
+[22:47:57] [res] cpu=10% mem=44% (13.8/31.4 GB) chrome_testing=10  START 01_p0speed
+[22:50:19] [res] cpu=14% mem=51% (16.1/31.4 GB) chrome_testing=20  END 00_gpu
