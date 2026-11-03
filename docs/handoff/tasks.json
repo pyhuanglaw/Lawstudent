@@ -40942,12 +40942,12 @@
       "owner": "LAWWW",
       "status": "待開工",
       "priority": "P2",
-      "note": "使用者 2026-11-03 00:5x（UA-LAWWW-1103-04；USER_WANTS X154）。前置：GHA-NODE-TRIAL-1103 已證明可行（run 41554813408）。這次只登記、不實作；目前的遊戲整合與測試照原計畫",
-      "next": "輪到時先交白話評估報告（不先實作），內容：①盤點約 900 支 tests/*_unit.js 和其他測試，哪些適合 GitHub（不需要瀏覽器、不需要 GPU）；②使用者電腦已排的 3D 畫面、人物操作、碰撞、實際遊玩流程照舊（D123、cc-local 佇列），不重複建立；③找出要舊版本（git show 舊 SHA，例 nav_levels_unit 的 92acd48）、其他分支（企劃線稿、白名單 SHA）、特殊資料的測試——GitHub 預設淺層下載會讓它們『跳過卻顯示通過』，要 fetch-depth:0 或改成找不到就 FAIL；④每次上傳只跑相關的、整批完成或發布前跑完整的可行性；⑤GitHub 保留結果（Actions 執行紀錄、artifact、check 狀態）讓接班 AI 直接查、不重跑；⑥只用公開專案免費標準執行環境，不用付費服務或 Claude API。報告後再決定實施方式（和 BB／CC 分工，BB 管測試，D100、D119）",
+      "note": "使用者 2026-11-03 00:5x（UA-LAWWW-1103-04；USER_WANTS X154）。前置：GHA-NODE-TRIAL-1103 已證明可行（run 41554813408）。這次只登記、不實作；目前的遊戲整合與測試照原計畫；11-03 01:0x 使用者補充背景與驗收標準（UA-LAWWW-1103-05）→ docs/handoff/GHA_TEST_OFFLOAD_1103.md（以那份為準）",
+      "next": "照 docs/handoff/GHA_TEST_OFFLOAD_1103.md：先小規模效能比較（下載、準備、執行時間；單批 vs 4／8 批 vs 只跑受影響的；淺層下載造成的跳過要找出來、不能算通過；先確認 BB／CC 的本機測試系統不重複），再交白話評估報告（值不值得、省多少 Claude、慢在哪、怎麼排最快最省、對本機測試的影響、私人專案的費用），使用者決定後才實施。（和 BB／CC 分工，BB 管測試，D100、D119）",
       "xai": {
-        "spec": "使用者 2026-11-03 00:5x 原話（user_asks_LAWWW UA-LAWWW-1103-04）",
+        "spec": "docs/handoff/GHA_TEST_OFFLOAD_1103.md（使用者 11-03 00:5x、01:0x 原話；UA-LAWWW-1103-04、05）",
         "branch": "claude/gha-node-trial（試用分支）",
-        "acceptance": "白話評估報告交使用者後再決定實施",
+        "acceptance": "白話評估報告回答 GHA_TEST_OFFLOAD_1103.md 第五節六個問題＋第三節八項實測數字；使用者決定後才實施",
         "receiver": "BB（測試總監，D100）、CC",
         "ack": "未派",
         "owner": "LAWWW"

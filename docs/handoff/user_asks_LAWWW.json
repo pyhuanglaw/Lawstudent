@@ -2104,6 +2104,16 @@
       "wants": "X154",
       "task": "GHA-TEST-OFFLOAD-1103",
       "note": "六點要求全文見 tasks.json GHA-TEST-OFFLOAD-1103 的 next"
+    },
+    {
+      "id": "UA-LAWWW-1103-05",
+      "at": "2026-11-03T01:0x",
+      "quote": "請把以下資訊補充到先前的「評估 GitHub Actions 免費自動測試」待辦工作，作為後續評估的背景與驗收標準。……請沿用原本的任務 ID，不要重複新增一項相同工作。……後續輪到這項工作時，先做小規模效能比較，再決定是否擴大。……最終目標不是盲目把所有測試搬到 GitHub，而是找到整體最省錢、最省 Claude 使用量，又不會降低測試品質的分工方式。",
+      "kind": "原話",
+      "status": "還沒做",
+      "wants": "X154",
+      "task": "GHA-TEST-OFFLOAD-1103",
+      "note": "全文五節（GitHub 費用與限制、可能較慢的五個因素、八項實測比較、與本機測試分工、執行限制與報告六問）收錄在 docs/handoff/GHA_TEST_OFFLOAD_1103.md"
     }
   ]
 }
