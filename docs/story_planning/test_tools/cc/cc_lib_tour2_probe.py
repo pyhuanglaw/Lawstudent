@@ -23,6 +23,10 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_lib_tour'
 MODE = os.environ.get('MODE', 'tap')
 # PHOTO=1（候選版 3783ae554 以後；BB 16:11）：導覽途中（15:55 前後）不能跳「出發：」選單；導覽結束後 5 分鐘（遊戲時間）內要跳系學會合照的「出發：」，選了還來得及去
 PHOTO = os.environ.get('PHOTO', '') == '1'
+CHOBS = """(()=>{ window.__ch=[]; window.__chClick=[]; const box=document.getElementById('choices'); if(!box||box.__ccObs) return;
+              const rec=()=>{ const bs=[...box.querySelectorAll('button')].map(b=>(b.textContent||'').trim().slice(0,40)); if(bs.length&&!box.classList.contains('hide')) window.__ch.push({h:+(+GAME.G.hour).toFixed(3), bs}); };
+              new MutationObserver(rec).observe(box,{childList:true,subtree:true,attributes:true,attributeFilter:['class']}); box.__ccObs=1;
+              box.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('button'); window.__chClick.push({h:+(+GAME.G.hour).toFixed(3), t:b?(b.textContent||'').trim().slice(0,40):null, trusted:e.isTrusted}); },true); })()"""   # 選單觀察器：從導覽一開始就掛（BB 18:56）
 # 搖桿版朝哪裡推（PC 11-03 N19_tour_joy：館員在大樓梯的平台（第 1 層），只朝她的 x、z 推會走到樓梯底下、不會上樓）：
 #   用遊戲的找路（E.pathTo，跨樓層）看「往她那裡的路」前面 1.5 m 的點，鏡頭轉向那一點再推——像知道樓梯在哪的玩家；只拿來決定方向，不移動人
 AIM = """(l=>{ const E=GAME.E, P=E.player, p=P.obj.position; const r=E.pathTo&&E.pathTo(p.x,p.z,P.lv|0,l.x,l.z,l.lv|0); if(!r||!r.length) return {x:l.x,z:l.z,via:'direct'};
@@ -97,7 +101,7 @@ async def main():
         run.check('從遊戲讀到七站的字', len(LINES) == 7, json.dumps(LINES, ensure_ascii=False))
         run.setup('讀檔：2025-09-19（週五）15:20 總圖大廳集合點旁；關掉條件事件')
         await join(pg, cdp, run)
-        await pg.evaluate(CAPOBS); await pg.evaluate(TRACK)
+        await pg.evaluate(CAPOBS); await pg.evaluate(TRACK); await pg.evaluate(CHOBS)
         run.note('MODE=%s' % MODE)
         seen, t0, zones, acts = [], time.time(), set(), []   # acts：每一輪做了什麼（看搖桿版為什麼跟不上）
         while time.time() - t0 < 1500:
@@ -151,13 +155,19 @@ async def main():
             during = [o for o in OUTSEEN if not o['post']]
             run.check('A 導覽途中沒有跳「出發：」選單（15:55 系學會合照要等導覽結束）', not during, json.dumps(during, ensure_ascii=False))
             POST['on'] = True; h0 = await pg.evaluate("+GAME.G.hour"); t1 = time.time(); dl = []
-            run.note('導覽結束（遊戲時間 %.3f）：等合照的「出發：」選單，最多 5 分鐘遊戲時間' % h0)
+            # BB 18:56：ddda 第一次（tap3）合照已經出發、state done，探針卻沒看到選單＝等的這段不能有任何自動點選。
+            #   在頁面裡掛觀察器：#choices 每一次出現的按鈕文字（和遊戲時間）、每一次按鈕被按（誰按的都記），探針只在看到「出發：」時自己點
+            run.note('導覽結束（遊戲時間 %.3f）：等合照的「出發：」選單，最多 5 分鐘遊戲時間；這段不自動點選項，只有看到「出發：」才由探針點' % h0)
             while time.time() - t1 < 900 and 'went' not in POST:
                 if await pg.evaluate("+GAME.G.hour") > h0 + 5 / 60 + 0.005: break
                 s = await L.state(pg)
-                if s['choices']: await handle_choices(pg, cdp, run); continue
+                if s['choices']:
+                    c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
+                    if any(x.startswith('出發') for x in c): await handle_choices(pg, cdp, run); continue
+                    run.note('等合照時跳出別的選單 %s：不點，記下來' % json.dumps([x[:30] for x in c], ensure_ascii=False)); await pg.wait_for_timeout(1500); continue
                 if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
                 await pg.wait_for_timeout(1000)
+            print('  等合照這段：選單出現 %s；按鈕被按 %s' % (json.dumps(await pg.evaluate("window.__ch||[]"), ensure_ascii=False)[:800], json.dumps(await pg.evaluate("window.__chClick||[]"), ensure_ascii=False)[:600]), flush=True)
             post = [o for o in OUTSEEN if o['post']]
             ost = await pg.evaluate("(()=>{ const G=GAME.G; let r=null; try{ r=(OUT.rec?OUT.rec(G):[]).map(q=>({id:q.id,state:q.state,day:q.day,h:q.h,late:q.late,ask:q.ask})); }catch(e){ r=String(e); } return {h:+(+G.hour).toFixed(3), day:G.day, zone:G.zone, touring:!!(typeof CLS!=='undefined'&&CLS.touring), due:(()=>{ try{ const q=OUT.due&&OUT.due(G); return q?q.id:null; }catch(e){ return String(e); } })(), rec:r}; })()")
             print('  導覽結束後的出遊狀態（等了 %.0f 秒）：%s' % (time.time() - t1, json.dumps(ost, ensure_ascii=False)[:1200]), flush=True)

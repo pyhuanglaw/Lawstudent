@@ -24,6 +24,8 @@ V19D_tour_tap3 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_to
 V19D_tour_joy3 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
 V19R_deploy4  | ddda3d829 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
 V19R_p0d      | ddda3d829 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+V19D_tour_tap4 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=obs
+# （V19D_tour_tap4：BB 18:56，tap3 合照已經 done 卻沒看到選單；探針從導覽開始就記所有選單和按鈕被按，等合照時不自動點）
 # （BB 18:25 P0：候選 ddda3d829（outings3d.js 導覽中 tourHeld、結束後寬限至少 15 分鐘）；這四支最前面，其他沿用）
 # BB 18:00：候選改成 b267b0534（多了 library_view_trees 兩張圖），這四支排最前面；還沒跑的 V19 項目、重跑項目也改用 b267b0534
 V19R_deploy3 | b267b0534 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
