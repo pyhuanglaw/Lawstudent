@@ -43153,16 +43153,16 @@
    "id": "SHOP-ENCOUNTER-1103",
    "title": "店裡偶遇：進店時照作息與機率遇到已認識的朋友（坐著吃、聊幾句、可以併桌）；也可以在店裡認識新的人（AA 定人物與台詞）",
    "owner": "LAWWW",
-   "status": "等待其他AI",
+   "status": "待開工",
    "priority": "P1",
    "note": "X188；擴充 ENC（encounter3d.js，DL-07）到店家；等 AA 交規格",
-   "next": "AA 交誰在哪家店、什麼時段、台詞、新認識的人 → LAWWW 子代理實作（接 SHOP-DINERS-1103 的店清單）",
+   "next": "SHOP-DINERS-1103 合併以後，子代理接（座位共用）；白名單前進到 f6b207b30",
    "xai": {
-    "spec": "AA（待交）",
+    "spec": "企劃線 f6b207b30 AA_632＋docs/story_planning/shop_enc/shop_enc_aa_v1.json",
     "branch": "claude/confident-ritchie-8rwh7t",
     "acceptance": "玩家進店時會遇到朋友或認識新人，台詞照 AA 定稿",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
