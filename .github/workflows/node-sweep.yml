@@ -1,0 +1,63 @@
+# 全部 Node 單元測試（tests/*_unit.js）交給 GitHub 免費標準執行環境（使用者 2026-11-03 選「現在就丟給 GitHub」；任務 GHA-TEST-OFFLOAD-1103）。
+# 用法：把 gha/target.txt 改成要測的 commit SHA，commit 到 claude/gha-node-sweep → 自動跑。
+# 只在這條分支觸發，不影響 main、開發分支、BB／CC 的分支；瀏覽器測試照舊是 BB／CC（使用者電腦）。
+# 下載完整歷史（fetch-depth: 0）：有些測試要 git show 舊版本或企劃線，淺層下載會讓它們跳過卻顯示通過。
+name: node-sweep
+on:
+  push:
+    branches: [claude/gha-node-sweep]
+permissions:
+  contents: read
+concurrency:
+  group: node-sweep
+  cancel-in-progress: true
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 切到要測的版本
+        run: |
+          T=$(grep -v '^#' gha/target.txt | head -1 | tr -d '[:space:]')
+          echo "要測的版本：$T"
+          git checkout -q --detach "$T"
+          git log -1 --format='%H %s' | cut -c1-200
+          git branch -r | wc -l
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 全部 Node 單元測試（同一台機器 4 支同時跑）
+        run: |
+          mkdir -p out
+          ls tests/*_unit.js > out/list.txt
+          echo "共 $(wc -l < out/list.txt) 支"
+          start=$(date +%s)
+          xargs -P 4 -I{} bash -c 'n=$(basename "{}" .js); s=$(date +%s); timeout 600 node "{}" > "out/$n.log" 2>&1; c=$?; e=$(( $(date +%s) - s )); l=$(tail -1 "out/$n.log" | tr "\t" " " | cut -c1-150); printf "%s\t%s\t%s\t%s\n" "{}" "$c" "$e" "$l" >> out/summary.tsv' < out/list.txt
+          echo "總共 $(( $(date +%s) - start )) 秒"
+      - name: 整理結果
+        if: always()
+        run: |
+          cd out
+          awk -F'\t' '$2!=0 || $4 ~ /FAIL/ {print}' summary.tsv > fail.tsv
+          awk -F'\t' '$2==0 && $4 !~ /FAIL/ && $4 !~ /ALL PASS|全部通過|PASS/ {print}' summary.tsv > unknown.tsv
+          grep -l -E '跳過|skip|SKIP|找不到' *.log > skipped.txt || true
+          sort -t$'\t' -k3 -nr summary.tsv | head -15 > slowest.tsv
+          {
+            echo "## 全部 Node 單元測試"
+            echo "- 版本：$(git -C .. rev-parse --short HEAD)"
+            echo "- 共 $(wc -l < summary.tsv) 支；失敗 $(wc -l < fail.tsv)；最後一行看不出結果 $(wc -l < unknown.tsv)；輸出裡有「跳過／skip／找不到」 $(wc -l < skipped.txt)"
+            echo "### 失敗"; echo '```'; cat fail.tsv; echo '```'
+            echo "### 最後一行看不出結果（要人看）"; echo '```'; cat unknown.tsv; echo '```'
+            echo "### 輸出裡有「跳過／skip／找不到」（要確認不是缺資料被略過）"; echo '```'; cat skipped.txt; echo '```'
+            echo "### 最慢 15 支（秒）"; echo '```'; cut -f1,3 slowest.tsv; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          test ! -s fail.tsv
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: node-sweep-out
+          path: out/
+          retention-days: 14
