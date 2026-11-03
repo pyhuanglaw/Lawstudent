@@ -7,7 +7,7 @@
     池邊長椅（crowdRole pool_bench）坐 1～2 人、在 B.poolBenches 的座位上；位置在 B.pool（游泳池廳）內、不在 B.pool.basin（水裡）、
     y 和地面差 < 0.1 m、站著的人在導航可走的格子上。橫向、直向各截圖（看救生員一張、看長椅一張）。
 - plate：同一個修正的名牌。人在游泳池那一側（z ≤ B.pool.z1）時 GUIDE 名牌「去健身房」不顯示；用玩家方式（點地面走、走不動才推搖桿，playlib.go_to）
-    從池邊穿過泳池門走回走廊（z > B.pool.z1）以後才顯示。兩個位置各截一張圖、記錄名牌 sprite 的 visible 與螢幕座標。只跑橫向（CC_PLATE_PORT=1 加跑直向）。
+    從池邊 (2.5,-1.5) 穿過泳池門（x -5～-3.2）走回走廊 (1.0,1.6)（z > B.pool.z1）以後才顯示。兩個位置各截一張圖、記錄名牌 sprite 的 visible 與螢幕座標。只跑橫向（CC_PLATE_PORT=1 加跑直向）。
 - closed：反例。2025-09-22（一）＝每月第四個星期一休館（src/crowd3d.js:151 S.gymHours、src/gym3d.js:139 fourthMonday），19:58 游泳池不能有人。
 用法：LW_TESTS=<wt>/tests SHA=<sha> CASES=rack,pool,plate,closed python3 cc_gym_shot_probe.py <url> <out>   （PC 用 CC_HEADLESS=0 有視窗＋顯示卡）
 【前置／捷徑】用遊戲自己的讀檔（playlib.load_state，條件事件關閉）把玩家放進 gym_b1 的指定時間與位置，不是玩家走過去；plate 的走路是玩家操作。
@@ -37,7 +37,7 @@ INFO = """(()=>{ const E=GAME.E, B=GYM_LAYOUT.b1, p=E.player.obj.position; retur
 MARK = """(()=>{ const E=GAME.E, st=(typeof GUIDE!=='undefined'&&GUIDE._st)||null; if(!st) return {err:'沒有 GUIDE._st'};
   const m=(st.markers||[]).find(q=>q.it&&(q.it.label||'').startsWith('去健身房')); const p=E.player.obj.position;
   if(!m) return {found:false, n:(st.markers||[]).length, px:+p.x.toFixed(2), pz:+p.z.toFixed(2)};
-  let scr=null; if(m.spr&&E.camera){ const v=new THREE.Vector3(); m.spr.getWorldPosition(v).project(E.camera); scr={sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), front:v.z<1}; }
+  let scr=null; if(m.spr&&E.camera){ const v=new THREE.Vector3(); m.spr.getWorldPosition(v).project(E.camera); const sx=Math.round((v.x+1)/2*innerWidth), sy=Math.round((1-v.y)/2*innerHeight), inView=v.z<1&&sx>=0&&sy>=0&&sx<innerWidth&&sy<innerHeight, el=inView?document.elementFromPoint(sx,sy):null; scr={sx, sy, inView, onCanvas:!!el&&el.id==='c', cover:el&&el.id!=='c'?(el.id||el.className||el.tagName):null}; }
   return {found:true, visible:!!(m.spr&&m.spr.visible), txt:m.txt, hasVisIf:typeof m.it.visIf==='function', it:[m.it.x,m.it.z],
     d:+Math.hypot(m.it.x-p.x,m.it.z-p.z).toFixed(2), px:+p.x.toFixed(2), pz:+p.z.toFixed(2), scr}; })()"""
 fails = []
@@ -131,7 +131,7 @@ async def case_pool(pg, cdp, od, tag, rec):
 
 
 async def case_plate(pg, cdp, od, tag, rec):
-    await put(pg, DAY_0830, 6, H1958, {'x': -2.0, 'z': -2.0, 'yaw': 0}, tag, '池邊、泳池門東邊（離「去健身房」名牌約 7.5 m，在名牌顯示距離 12 m 內）')
+    await put(pg, DAY_0830, 6, H1958, {'x': 2.5, 'z': -1.5, 'yaw': 0}, tag, '池邊、隔著牆就是走廊的「去健身房」（離名牌約 4.2 m，在名牌顯示距離 12 m 內；近一點名牌才在畫面中間，不被左上角的時間列蓋住）')
     info = await pg.evaluate(INFO)
     z1 = info['pool']['z1']
     run = L.Run('gym_plate_' + tag, od)
@@ -144,7 +144,7 @@ async def case_plate(pg, cdp, od, tag, rec):
     check('plate %s：找得到「去健身房」名牌' % tag, m1.get('found') is True, m1)
     check('plate %s：池邊看不到「去健身房」名牌（sprite.visible false）' % tag, m1.get('found') is True and m1.get('visible') is False, 'visible %s d %s' % (m1.get('visible'), m1.get('d')))
     ok = await L.go_to(pg, cdp, run, -4.1, -1.0, 0.6, '泳池門內', max_s=300)
-    ok = ok and await L.go_to(pg, cdp, run, -3.0, 1.6, 0.7, '走廊（泳池門外）', max_s=300)
+    ok = ok and await L.go_to(pg, cdp, run, 1.0, 1.6, 0.7, '走廊（名牌西邊約 3 m）', max_s=300)
     s = await L.state(pg)
     check('plate %s：用點地面／搖桿走回走廊（z > %s）' % (tag, z1), ok and s['z'] > z1, '(%s,%s) 走路改放到目的地 %s 次' % (s['x'], s['z'], s.get('fallbacks')))
     await L.turn_camera_to(pg, cdp, 4.1, 2.4)
@@ -153,6 +153,8 @@ async def case_plate(pg, cdp, od, tag, rec):
     await shot(pg, od, 'plate_%s_corridor' % tag, rec)
     print('  plate %s 走廊：%s' % (tag, m2), flush=True)
     check('plate %s：走廊看得到「去健身房」名牌（sprite.visible true）' % tag, m2.get('found') is True and m2.get('visible') is True, 'visible %s d %s scr %s' % (m2.get('visible'), m2.get('d'), m2.get('scr')))
+    sc = m2.get('scr') or {}
+    print('  記錄 plate %s：走廊截圖裡名牌的螢幕位置 (%s,%s)、在畫面內 %s、沒被介面蓋住 %s（蓋住的元素 %s）——只記錄，不算 PASS／FAIL' % (tag, sc.get('sx'), sc.get('sy'), sc.get('inView'), sc.get('onCanvas'), sc.get('cover')), flush=True)
     rec['plate_' + tag] = {'pool': m1, 'corridor': m2}
 
 

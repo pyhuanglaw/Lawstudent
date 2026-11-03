@@ -9,7 +9,7 @@
       tana_ok （REPAIR=3）：旁白兩句 →（她在自己那張上面寫了一個字…「好。」）→ 以安「……不准賴。」→ AN_TANABATA_JP_REPAIR 'again'、AN_JP_RECONCILED、dating_heroine_01。
       tana_low（REPAIR=2）：旁白兩句 →（她看了很久，把短冊還給你。）→ 以安「掛上去吧。」→ 'hung'，沒有 RECONCILED、不交往。
     這一場沒有記憶（SOCIAL.remember）；c89a5f9be 的舊稿是「以安拿著一張，寫了很久。」「你要看嗎？」「（短冊上只有一行：「再一次。理由：我想。」）」。
-    觸發照玩家：【前置】讀檔到 2028-07-07 19:00 日本據點（jp_hub，JPF 旗標同 cc_bg5_probe.py），據點迴圈（JP.loop 的 dueStop）自己演，不點選單。
+    觸發照玩家：【前置】讀檔到 2028-07-07 18:45 日本據點（jp_hub，JPF 旗標同 cc_bg5_probe.py）→ 據點選單點「快轉」→「到下一個有事的日子」→ 19:00 據點迴圈（JP.loop 的 dueStop）自己演。
 (2) 行政法院 CG-29＝ev_an_admin_court_together（src/data/r2y3a_events.js:362-381；CG 在 370 行 cg_admin_court_heroine01＝CG_REGISTRY src/adv3d.js:118
     assets/cg/heroine_01/cg_admin_court.webp）。觸發 src/r2y3a3d.js:245-253 S.anAdminPhone：AN_ADMIN_NEXT（ev_an_admin_court 選「下次我也想去。」）、FRIEND 以上、
     不是前任 → 2027-10-27 21:00 她私訊三則＋回覆「好。」／「那天我有課。」；「好。」＝AN_ADMIN_GO → OUT.plan y3_an_admin 2027-11-03 13:50（late 0.25、捷運 30 分鐘）。
@@ -145,25 +145,33 @@ async def after_ok(pg, cdp, hub):
 async def case_tana(pg, cdp, run, errs, k):
     ok_branch = k == 'tana_ok'
     rep = 3 if ok_branch else 2
-    s0, d = await build(pg, '2028-07-07', 19.0, 'jp_hub', dict(JPF, REPAIR={'heroine_01': rep}))
-    run.setup('[前置] %s 讀檔 %s 19:00 日本據點 jp_hub（日本路線 JPF、挽回中＝沒有 dating_heroine_01、REPAIR.heroine_01=%d）' % (k, d['key'], rep))
+    s0, d = await build(pg, '2028-07-07', 18.75, 'jp_hub', dict(JPF, REPAIR={'heroine_01': rep}))
+    run.setup('[前置] %s 讀檔 %s 18:45 日本據點 jp_hub（日本路線 JPF、挽回中＝沒有 dating_heroine_01、REPAIR.heroine_01=%d）' % (k, d['key'], rep))
     await P.load(pg, cdp, s0, quiet=True)
     await pg.evaluate(HOOK)
     x0 = await st(pg)
     run.check('%s 前置：人在日本、挽回中、REPAIR=%d、這一版有 %s' % (k, rep, EV_T), x0['inJapan'] and not x0['dating'] and x0['repair'] == rep and x0['hasEvT'], J({k2: x0[k2] for k2 in ('key', 'h', 'zone', 'inJapan', 'dating', 'repair', 'hasEvT')}))
-    # 照玩家：據點自己演（JP.loop dueStop），不點選單
-    t0 = time.time(); started = False; menus = []
+    # 照玩家：18:45 在據點，選單點「快轉」→「到下一個有事的日子」（CDP 觸控）→ 19:00 據點自己演（JP.loop 的 dueStop）。
+    # 不直接讀 19:00：11-03 c89 那一次讀 19:00，據點選單已經出來、dueStop 沒有開演，等 240 秒都沒動（選單上時間不走；7224 那一次有開演＝讀檔和據點迴圈的先後不一定）
+    t0 = time.time(); started = False; menus = []; ffs = []
     while time.time() - t0 < PROMPT_S:
         lg = await log(pg)
         if any(e['k'] == 'ev' and e['t'] == EV_T for e in lg): started = True; break
         s = await P.ts(pg)
         if s['phone'] and not s['ch'] and not s['dlg']: await L.phone_away(pg, cdp); continue
         if s['dlg'] and not s['ch']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
-        if s['ch'] and [o['t'] for o in s['ch']] not in menus: menus.append([o['t'] for o in s['ch']]); run.note('%s：畫面上有選單（不點，等）：%s' % (k, J(menus[-1])))
+        if s['ch']:
+            opts = [o['t'] for o in s['ch']]
+            if opts not in menus: menus.append(opts); run.note('%s：畫面上的選單 %s' % (k, J(opts)))
+            kk = next((i for i, t in enumerate(opts) if t.startswith('到下一個有事的日子')), None)
+            if kk is None and len(ffs) < 6: kk = next((i for i, t in enumerate(opts) if t.startswith('快轉')), None)
+            if kk is not None:
+                ffs.append(opts[kk][:12]); run.note('%s：點「%s」（像玩家；遊戲時間 %s）' % (k, opts[kk], J(await P.clock(pg))))
+                await P.tap_choice(pg, cdp, kk); await pg.wait_for_timeout(1500); continue
         await pg.wait_for_timeout(1000)
     lg = await log(pg)
-    run.check('%s：7/7 19:00 據點自己演 %s（JP.playStop g7_tanabata，沒有用捷徑）' % (k, EV_T), started,
-              J({'stops': [e['t'] for e in lg if e['k'] == 'stop'], 'evs': [e['t'] for e in lg if e['k'] == 'ev'], 'clock': await P.clock(pg)}))
+    run.check('%s：18:45 據點選單照玩家點「快轉→到下一個有事的日子」→ 7/7 19:00 據點自己演 %s（JP.playStop g7_tanabata，沒有用捷徑）' % (k, EV_T), started,
+              J({'taps': ffs, 'stops': [e['t'] for e in lg if e['k'] == 'stop'], 'evs': [e['t'] for e in lg if e['k'] == 'ev'], 'clock': await P.clock(pg)}))
     if not started:
         await run.shot(pg, k + '_not_started'); return
     await pg.wait_for_timeout(1500); await run.shot(pg, k + '_first')

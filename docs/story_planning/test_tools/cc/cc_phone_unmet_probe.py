@@ -66,6 +66,7 @@ HOOK = r"""(()=>{ if(window.__PU) return 'again'; const W=window.__PU={w:[],at:{
   const wrapS=name=>{ const f0=SOCIAL[name]; if(typeof f0!=='function') return; SOCIAL[name]=function(id){ const pre=HER.includes(id)?stOf(id):null; const r=f0.apply(this,arguments);
     if(HER.includes(id)){ const post=stOf(id); if(pre!==post) W.st.push(Object.assign({fn:'SOCIAL.'+name,id,args:JSON.stringify([].slice.call(arguments,1)).slice(0,120),pre,post,metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,stack:stk()},clk())); } return r; }; };
   wrapS('adjust'); wrapS('activity'); wrapS('meet'); wrapS('remember');
+  { const b0=SOCIAL.bind; SOCIAL.bind=function(g){ const r=b0.apply(this,arguments); try{ for(const id of HER){ const st=stOf(id); if(st!=='STRANGER') W.st.push(Object.assign({fn:'SOCIAL.bind（開局／讀檔：舊版 G.rel 遷移，social3d.js:11-14）',id,pre:'STRANGER(新)',post:st,metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,gRel:JSON.stringify(g&&g.rel||{}),stack:stk()},clk())); } }catch(e){} return r; }; }
   return 'ok'; })()""" % J(HER)
 
 # 不開 UI：照 game3d.js msgHTML 的資料來源算列表（PHONE.threads＋MSG.contactRows），加群組裡女主角的訊息顯示成什麼
@@ -335,7 +336,7 @@ async def main():
             ST = await pg.evaluate("window.__PU.st")
             json.dump(ST, open(os.path.join(OUT, 'stage_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
             for id_ in HER:
-                off = next((x for x in ST if x['id'] == id_ and x['pre'] == 'STRANGER' and x['post'] != 'STRANGER' and not x['metD']), None)
+                off = next((x for x in ST if x['id'] == id_ and str(x['pre']).startswith('STRANGER') and x['post'] != 'STRANGER' and not x['metD']), None)
                 if off: run.note('[來源] %s 在相遇前 stage 離開 STRANGER：%s' % (id_, J(off)))
             for pn, nm in NAMES.items():
                 bb = [r for r in allbad if r['panel'] == pn]
