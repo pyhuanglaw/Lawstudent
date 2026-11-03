@@ -139,6 +139,10 @@ async def talk(pg, cdp, run, sc, k, side=False):
     r = None if side else await P.talk_to(pg, cdp, run, sc['cid'], '%s 第 %d 次說話' % (sc['name'], k), picks=('就這樣',), max_s=TALK_MAX)
     if r is None:
         r = await walk_around_talk(pg, cdp, run, sc, k, study_only=side)
+    elif not await said_since(pg, n0):
+        # 按下去的那一刻最近的互動換成旁邊的椅子（坐下選單），不是和他說話：像玩家一樣收掉、繞到別的位置再按一次
+        run.note('%s 第 %d 次：按了沒有和他說到話（%s），繞到別的位置再試' % (sc['name'], k, J((r or {}).get('opts'))))
+        r = await walk_around_talk(pg, cdp, run, sc, k, study_only=side)
     said = await said_since(pg, n0)
     nod1 = await pg.evaluate(NODREC_JS % J(sc['cid']))
     loc = await pg.evaluate(WHERE_JS % J(sc['cid']))
@@ -150,7 +154,7 @@ async def talk(pg, cdp, run, sc, k, side=False):
 
 AROUND_JS = r"""((id,study)=>{ const E=GAME.E, n=__BBF.npc(id); if(!n||!n.obj) return []; const h=n.obj.position, lv=n.lv|0, out=[], z0=GAME.G.zone;
   for(const R of [0.9,1.3]) for(let i=0;i<12;i++){ const a=i*Math.PI/6, x=h.x+Math.sin(a)*R, z=h.z+Math.cos(a)*R; if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue;
-    if(study&&typeof LIBQ!=='undefined'&&!LIBQ.studyAt(z0,lv,x,z)) continue; out.push([+x.toFixed(2),+z.toFixed(2)]); }
+    if(study&&typeof LIBQ!=='undefined'&&![[0,0],[0.45,0],[-0.45,0],[0,0.45],[0,-0.45]].every(([dx,dz])=>LIBQ.studyAt(z0,lv,x+dx,z+dz))) continue; out.push([+x.toFixed(2),+z.toFixed(2)]); }   /* 讀書區那一側：停下來差 0.3 m 也還在讀書區 */
   return out; })(%s,%s)"""
 
 
