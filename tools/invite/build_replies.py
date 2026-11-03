@@ -60,14 +60,14 @@ WHEN = {
     '「好！我今天的班換掉了。」': {'today': True, 'zrShift': True},
     '「好。週六不去溫州街了。改去你說的地方。」': {'wd': [6], 'notPlace': 'wenzhou'},
     '「好。週六我本來就沒班。……整天都是你的。」': {'wd': [6]},
-    '「今天我在店裡。你來吃麵，我收完店再陪你。」': {'today': True},
+    '「今天我在茶屋。你來喝茶，我收完店再陪你。」': {'today': True},   # AA_627 B-029（讀稿時照 aa630_fix 換過）
 }
 # 改天的時間（句子說了時間）：day＝same（同一天）／tomorrow（明天）／nextweek（下週一起）；from＝不早於；wd＝星期幾；today＝約的是今天；
 # exact＝就是那個時間（不是「以後」）；before＝約的時間早於（「四點下課」＝約在四點以前）
 AT = {
     '「家教到七點。七點二十，可以嗎？」': {'day': 'same', 'from': 19 + 20 / 60, 'exact': True},
     '「週六我陪我媽。……週日可以。」': {'wd': 0},
-    '「今天店裡缺人。明天？」': {'today': True, 'day': 'tomorrow'},
+    '「今天茶屋缺人。明天？」': {'today': True, 'day': 'tomorrow'},   # AA_627 B-033
     '「我在睡。下午三點以後再約。」': {'day': 'same', 'from': 15},
     '「今天不行。明天。明天不行的話後天。後天一定。」': {'today': True, 'day': 'tomorrow'},
     '「在趕作業。明天。」': {'today': True, 'day': 'tomorrow'},

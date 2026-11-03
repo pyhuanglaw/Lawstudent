@@ -61,6 +61,7 @@ def load(ROOT, ALLOW, G=None):
             if '/ladder/' in path or '/date_system/lines/' in path or path.endswith('AA_127_以安語彤_心願約會與邀約變化.md'): continue
             if not tag or tag.group(1) not in ('改句', '換字') or c[4] == c[3]: continue
             if any(r['orig'] == c[3] for r in R['rows']): continue   # AA_630 有同一句＝照 AA_630
+            if any(r['file'] == path and r['at'] == q for r in R['rows']): continue   # AA_630 有同一個位置（例：AA_415:163 的 Z-081／Z-082 對 B-020～B-022）＝照 AA_630
             R['b627'].append({'no': 'AA_627 ' + c[0], 'file': path, 'at': q, 'orig': c[3], 'new': c[4], 'note': c[5]})
     return R
 

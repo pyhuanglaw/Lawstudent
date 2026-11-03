@@ -71,7 +71,7 @@ for l in lines[s3:s4]:
     else:
         m3 = re.match(r'^「([^」]+)」', same); same = m3.group(1) if m3 else same
     staff[m.group(1).strip()] = {'who': m.group(2).strip(), 'line5': m.group(3), 'same': same, 'alt': alt}
-yt = re.search(r'語彤：(……阿姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)
+yt = re.search(r'語彤：(……[阿蘇]姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)   # 讀稿照 aa630_fix 換過＝「蘇姨說」（AA_630，YT-REWRITE-1103）
 # AA_336 A4：便利商店上次沒加熱的，店員第 5 次那一句改說另一句，回一句（AA-C：「上次沒加熱的，店員改說「**一樣不用加熱，對吧。**」，回「好。」」）
 a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
 m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
