@@ -41992,10 +41992,10 @@
    "id": "STORY-FRIENDS-EVENTS-1103",
    "title": "祐廷的好朋友（阿哲、阿凱、柏翰、明軒、Alison 等）要有自己的事件、甚至自動播放的劇情，讓玩家記得名字",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "note": "使用者 11-03 08:1x 實玩回報（X157）",
-   "next": "AA_637（企劃線 bad289195）第二批七場＋第 3 節名字淡入（LAWWW 決定做：A 層朋友第一次說話時上方淡入「阿哲｜張哲維・法律系一年級」3 秒）；F2-02、F2-05 要桌遊團群組＝等麵店那批（AA_623）合併以後接",
+   "next": "子代理：AA_637 九場＋名字淡入（和語彤第三版同一個子代理）",
    "xai": {
     "spec": "使用者 11-03 原話",
     "branch": "claude/story-planning",
@@ -42999,10 +42999,10 @@
    "id": "AA631-D33-XINYI-1103",
    "title": "新約會地點 D33「信義區・光年影城」（院線片；只用 CG／2D 背景／旁白，不做 3D；捷運 25 分 35 元、電影 120 分 340 元；互動點：散場大廳、百貨美食街、天橋夜景；七位女主角抵達＋三互動點第一次台詞）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "note": "使用者 11-03 對 AA：「南洋戲院看起來是二輪片欸 那要看院線就要去信義區了 我直接cg處理」，選擇題「加一個信義區，西門町照留」（AA_631）",
-   "next": "date_locations.json 照 AA_631 第 1 節＋第 2 節台詞匯入（白名單）；CG 使用者自己做，到之前用 2D 背景"
+   "next": "子代理（語彤第三版那批）"
   },
   {
    "first": {
@@ -43093,10 +43093,10 @@
    "id": "READ-POSE-BOOK-1103",
    "title": "坐著讀書（pose read）手上拿一本打開的書：兩手捧書、低頭看書；Café 沙發、總圖書桌、教室都一樣（使用者 11-03「書在哪」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "X185；書的 GLB 由子代理先做、LAWWW2（美術總監）驗收可以再精修",
-   "next": "子代理（worktree）：打開的書 GLB＋讀書手臂姿勢＋只在 read 顯示 → 截圖 → 合併 → BB 測"
+   "next": "BB 測；還不夠好：沙發書偏低偏平、桌前的書會擋到半張臉、沒有翻頁"
   },
   {
    "first": {
@@ -43153,10 +43153,10 @@
    "id": "SHOP-ENCOUNTER-1103",
    "title": "店裡偶遇：進店時照作息與機率遇到已認識的朋友（坐著吃、聊幾句、可以併桌）；也可以在店裡認識新的人（AA 定人物與台詞）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "note": "X188；擴充 ENC（encounter3d.js，DL-07）到店家；等 AA 交規格",
-   "next": "接 AA_632／633（企劃線 f6b207b30、2e0df2a67）：用 CROWD.shopSeatTake 預約座位",
+   "next": "子代理：AA_632＋633＋AA_640 路人句",
    "xai": {
     "spec": "企劃線 f6b207b30 AA_632＋docs/story_planning/shop_enc/shop_enc_aa_v1.json",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -43220,10 +43220,10 @@
    "id": "DORM-DESK-ITEMS-3D-1103",
    "title": "宿舍 203 祐廷書桌：S.roomItemList 列的東西在 3D 看得到（書架上的書、桌上筆記本／卡片／螢光筆、桌墊下票根、書桌上方牆面軟木板貼照片與評鑑表…），照旗標出現",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "X191；DORM-CEIL 同一個房間，排在它後面",
-   "next": "LAWWW2 建模＋接線（D108 場景程式）→ LAWWW 合併 → BB 測",
+   "next": "BB 驗收（D128）",
    "xai": {
     "spec": "使用者 11-03 截圖＋src/story3d.js S.roomItemList（約 3111、3224 行）",
     "branch": "claude/second-ai-env-art",
