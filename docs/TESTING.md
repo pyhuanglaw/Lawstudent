@@ -133,7 +133,7 @@
 
 > 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。
 
-1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣）
+1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣；**?v= 全部要和標題字樣是同一個版號**——2026-11-03 起，v9.10.19 PR #25 標題改了、309 處 ?v= 還是舊版號沒被抓到；BB／CC 驗過：main e1603907e PASS、039a9227a 只有這項 FAIL）
 2. `tests/reachability_all.py`（全遊戲可達性）
 3. `tests/flow_class_real.py`、`tests/minimap_direction.py`、`tests/joystick_direction.py`（永久回歸：教室卡住、小地圖方向、搖桿方向）
 4. `tests/zone_transitions.py`、`tests/touch_flow_wenzhou.py`、`tests/p0_movement.py`
