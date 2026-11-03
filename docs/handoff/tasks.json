@@ -42747,23 +42747,19 @@
       },
       "area": null,
       "id": "ART-WZ-CAFES-1103",
-      "title": "溫州街新增兩家咖啡廳「巷光」（白天）、「晚安咖啡」（18–05，考試週 24 小時）外觀＋室內（AA_616）",
+      "title": "溫州街兩家咖啡廳（AA_617）：「木曜日」巷子中段老公寓二樓（可坐下讀書、約會深談）、「日常失速 DAILY OFFBEAT」靠新生南路轉角一樓（聚會、桌遊）；外觀＋室內",
       "owner": "LAWWW2",
-      "status": "暫停",
-      "priority": "P1",
-      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "使用者 11-03 選「照 AA_617 做」，排在 D99 三項之後（企劃線 3e4651ebf；參考圖 docs/story_planning/ref_images/wz_cafes/）",
       "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
       "xai": {
-        "spec": "AA_616（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
+        "spec": "AA_617 第 1、2 節（企劃線 3e4651ebf）",
         "branch": "claude/second-ai-env-art",
-        "acceptance": "兩家店外觀＋可坐的室內；兩點半照舊",
+        "acceptance": "兩家店外觀＋室內照 AA_617；木曜日座位可坐下讀書",
         "receiver": "LAWWW",
         "ack": "SENT"
-      },
-      "pausedReason": "使用者 11-03 給了正式設定「木曜日」「日常失速 DAILY OFFBEAT」取代巷光、晚安咖啡，並要求先提整合規劃、不要先改程式地圖事件（AA 09:53 轉）；決定者：使用者",
-      "resumeWhen": "AA_617 整合規劃經使用者同意以後",
-      "owner_note": "負責：AA（規劃）→ LAWWW2／LAWWW",
-      "nextCheck": "2026-11-04"
+      }
     },
     {
       "first": {
@@ -42780,14 +42776,32 @@
       "id": "AA616-WZ-CAFES-1103",
       "title": "溫州街三家咖啡廳的營業時間、同學作息、讀書旁白（AA_616；不另外加分；等 ART-WZ-CAFES-1103）",
       "owner": "LAWWW",
-      "status": "暫停",
+      "status": "取消／被取代",
       "priority": "P1",
       "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
       "next": "照 AA 稿實作",
-      "pausedReason": "使用者 11-03 給了正式設定「木曜日」「日常失速 DAILY OFFBEAT」取代巷光、晚安咖啡，並要求先提整合規劃、不要先改程式地圖事件（AA 09:53 轉）；決定者：使用者",
-      "resumeWhen": "AA_617 整合規劃經使用者同意以後",
-      "owner_note": "負責：AA（規劃）→ LAWWW2／LAWWW",
-      "nextCheck": "2026-11-04"
+      "reason": "使用者選 AA_617：巷光、晚安咖啡不做",
+      "replacedBy": "AA617-WZ-CAFES-1103"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "溫州街（大一上）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA617-WZ-CAFES-1103",
+      "title": "木曜日（13–22，週二休，可讀書）、日常失速（13–01，不給讀書）接進遊戲：營業時間、互動、同學作息、台詞（AA 接著寫）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "AA_617（企劃線 3e4651ebf）；使用者排在 D99 三項之後",
+      "next": "等 ART-WZ-CAFES-1103 場景＋AA 台詞＋BB 2D 背景"
     }
   ]
 }
