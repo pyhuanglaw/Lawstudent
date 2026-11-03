@@ -133,7 +133,7 @@ const STORY = (function(){
       PHONE.postAt(G,{th:NEW,from:'law_assoc',name:'系學會',text:'迎新宿營 8/22～8/24，三天兩夜，山上的青年活動中心。新生都要參加，車子、住宿、吃的系學會處理。8/22 早上八點半校門集合。'},d0-7,20);
       PHONE.postAt(G,{th:NEW,text:'（小隊名單貼出來了。第七小隊七個人，你認得的只有自己的名字。）'},d0-1,21); }   /* AA 11-03：宿營只認識阿哲（第八小隊）、芯慈、沛珊（第七小隊），名單不列名字 */
     if(!PHONE.sent(G,'camp_squad_photo')) PHONE.at(G,d0+2,21,[{th:SQ,from:'classmate_xinci',name:'芯慈',text:'📷（小隊合照）'},{th:SQ,from:'classmate_xinci',name:'芯慈',text:'宿營辛苦了。'},{th:SQ,from:'classmate_peishan',name:'沛珊',text:'我只有半張臉在裡面'}],'camp_squad_photo');   /* AA 11-03：Kevin、明軒、柏翰不在宿營；阿哲在第八小隊（不在這個群組說話）*/
-    if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:SQ,from:'zhe',name:'阿哲',text:'我在高鐵上了'},{th:SQ,from:'zhe',name:'阿哲',text:'七點到宿舍'}],'camp_squad_829');   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
+    if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:'p:zhe',from:'zhe',name:'阿哲',text:'我在高鐵上了。'},{th:'p:zhe',from:'zhe',name:'阿哲',text:'七點到宿舍。你到了沒？'}],'camp_squad_829');   /* AA 11-03：阿哲是第八小隊，改成私訊（宿營時加了好友）*/   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
   S.CAMP_DAY='2025-08-22';
   S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
   S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||F.CAMP_Y1) return false;
@@ -1369,7 +1369,7 @@ const STORY = (function(){
       if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); if(G.hour<19) GM.advance(19-G.hour); if(E&&E.zone&&E.zone.dormSet) E.zone.dormSet('203'); await GM.fade(false);   /* 黑畫面時阿哲的床桌東西出現（8/29 下午是 '203_movein'）；阿哲約 19:00 從高雄上來（AA_208 2-1；AA_205 6-4「29 號再上來搬宿舍」）*/
       if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'zhe'});
       await GM.say(null,'（門被撞開。阿哲拖著一個超大的行李箱，背上還有一顆籃球。）');
-      await GM.say(zhe,'欸？撕名牌那個！你也住這間喔？');   /* AA 11-03：取代「（看到柏翰）柏翰也在？那宿營那間只差一個明軒。」和柏翰「明軒住別棟。」；原本前一句「哥／欸！你也這間喔！」和新句重複，拿掉 */ await GM.say(who,'（戴著耳機，頭沒有回，舉了一下手）'); await GM.say(who,'門關一下，冷氣會跑掉。');   /* BB-B 01:12（BB_168 第 1 節，BB 分支 030bbce4）：還是不轉身、不自我介紹；冷氣接 22:40 的遙控器訊息 */
+      await GM.say(zhe,F.ZHE_CALLS_GE?'哥！撕名牌那個就是你嘛，你也住這間喔？':'欸？撕名牌那個！你也住這間喔？');   /* AA 11-03 10:07：叫「哥」的版本合成一句加回來 */   /* AA 11-03：取代「（看到柏翰）柏翰也在？那宿營那間只差一個明軒。」和柏翰「明軒住別棟。」；原本前一句「哥／欸！你也這間喔！」和新句重複，拿掉 */ await GM.say(who,'（戴著耳機，頭沒有回，舉了一下手）'); await GM.say(who,'門關一下，冷氣會跑掉。');   /* BB-B 01:12（BB_168 第 1 節，BB 分支 030bbce4）：還是不轉身、不自我介紹；冷氣接 22:40 的遙控器訊息 */
       F.DORM_FOUR=true;   /* 四人房：阿哲、柏翰也住 203 */
       await GM.say(null,'（你們各自整理到快十點。他的電腦開機的聲音很大。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
       await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();

@@ -115,7 +115,7 @@ const WHOIS=(()=>{
     {c:1,id:'name0',if:mxOld,t:'江明軒。法律系，跟你同班。阿哲的系籃隊友。'},   /* 舊開局（演過 ev_mingxuan_ball）*/
     {c:1,id:'dorm',if:f('DORM_FOUR'),t:'也住宿舍，在別棟。'},
     {c:1,id:'home',if:G=>F(G).MX_3ON3==='went'||done(G,'ev_mx_3on3'),t:'彰化人。'},
-    {c:2,id:'why',if:f('WHY_RETAKE_ASKED'),t:'宿營夜談，是他問你為什麼重考。'},
+    {c:2,id:'list',if:f('FRIEND_CARD_classmate_mingxuan'),t:'開學第 3 週，給你一張公館便宜好吃的清單。'},   /* AA 11-03 10:07（AA_606 3-4）：原本「宿營夜談，是他問你為什麼重考」——現在問的是阿哲 */
     {c:3,id:'ball',if:G=>!mxOld(G),t:'打系籃，是阿哲的隊友。'},   /* 舊開局的第一行已經寫了，不重複 */
     {c:3,id:'study',if:G=>mem(G,MX,'SAW_HIM_STUDY'),t:'他看起來都沒念書。你撞見過他偷偷念。'},
     {c:3,id:'tutor',if:f('JOB_TUTOR'),t:'你的家教是他介紹的。'},

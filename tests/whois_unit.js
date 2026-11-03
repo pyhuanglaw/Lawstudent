@@ -49,7 +49,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
     const COMPOSED=new Set(['室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。',   /* 柏翰沒有 DORM_FOUR：1-3「從有的那一年寫起」*/
       '大二同住 312。大三起他搬去別間。','打系籃。大三當上隊長。',
-      '宿營撕名牌，撕掉你名牌的那個。','宿營自由時間找你打牌。','宿營第二天晚上才到，坐你旁邊。']);   /* AA 11-03 宿營改稿表（阿哲、芯慈、沛珊的「怎麼認識」；稿在 AA_543 以後）*/   /* 5-1 合併：兩句照稿接起來（沒有 203 的阿哲、沒演 17 號那場就當上隊長、明軒「同樣」）*/
+      '宿營撕名牌，撕掉你名牌的那個。','宿營自由時間找你打牌。','宿營第二天晚上才到，坐你旁邊。','開學第 3 週，給你一張公館便宜好吃的清單。']);   /* AA 11-03 宿營改稿表（阿哲、芯慈、沛珊的「怎麼認識」；稿在 AA_543 以後）*/   /* 5-1 合併：兩句照稿接起來（沒有 203 的阿哲、沒演 17 號那場就當上隊長、明軒「同樣」）*/
     const FN={zhe:{room:['大一同住 203。','室友：大一 203、大二 312。','大二同住 312。','室友：大一 203、大二 312。大三起他搬去別間。','大二同住 312。大三起他搬去別間。'],
         grp:['常揪大家吃飯。群組「（當學年的名字）」是他建的。'],ball:['打系籃。','打系籃，17 號。','打系籃，17 號。大三當上隊長。','打系籃。大三當上隊長。']},
       classmate_bohan:{room:['大一同住 203，他比你先搬進去。','室友：大一 203、大二 312。','室友：大一 203、大二 312、大三 507。','四年都是室友：203、312、507、409。','室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。']}};
@@ -60,7 +60,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     /* 稿 → 遊戲：第 1、2 節表格「顯示」那一欄（括號開頭的說明、群組名那一句除外）都在遊戲裡 */
     const all=new Set(); for(const id of Object.keys(W().R)) for(const r of W().R[id]) for(const t of (typeof r.t==='function'?((FN[id]||{})[r.id]||[]):[r.t])) all.add(t);
     const SUPERSEDED=new Set(['大三當上系籃隊長。','雙主修經濟。她說是家裡要的。','原本雙主修經濟，大三下改成輔系。',
-      '宿營同一小隊，第一天就認識了。','去程的遊覽車上，他坐你旁邊。','宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。']);   /* AA 11-03 宿營改稿表：阿哲換成撕名牌那一行、遊覽車兩行（CAMP_BUS 固定 'win'）、Alison 宿營那一行、明軒宿營那一行拿掉 */   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）；AA_547 2-6：芯慈雙主修那一行換、改輔系那一行拿掉 */
+      '宿營同一小隊，第一天就認識了。','去程的遊覽車上，他坐你旁邊。','宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。','宿營夜談，是他問你為什麼重考。']);   /* AA 11-03 宿營改稿表：阿哲換成撕名牌那一行、遊覽車兩行（CAMP_BUS 固定 'win'）、Alison 宿營那一行、明軒宿營那一行拿掉 */   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）；AA_547 2-6：芯慈雙主修那一行換、改輔系那一行拿掉 */
     const miss=[]; const s12=DOC.slice(DOC.indexOf('## 1. 法律系'),DOC.indexOf('## 3. 個性那一行'));
     for(const ln of s12.split('\n')){ const m=ln.match(/^\| [^|]+ \| (.+) \|$/); if(!m) continue; let c=m[1].trim(); if(c==='顯示'||/^-+$/.test(c)) continue;
       c=c.replace(/^（把上一行換成）/,''); if(/<br>/.test(c)){ for(const x of c.split('<br>')){ const q=x.match(/「(.+?)」$/); if(q&&!all.has(q[1])) miss.push(q[1]); } continue; }
@@ -159,8 +159,8 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     check('7. 柏翰：大二起、聽過法服值班表那一句＝「大二當法服社長。」',has('classmate_bohan','大二當法服社長。'),J(L('classmate_bohan')));
     save('2025-10-20',{}); done('ev_xinci_notes'); SOCIAL.remember('classmate_xinci','LENT_NOTES','');
     check('7. 芯慈舊開局（演過借筆記、沒有宿營）：第一行「……大一上借筆記那次說上話。」，不再另外寫「她的筆記借過你。」',J(L('classmate_xinci'))===J(['吳芯慈。法律系，跟你同班。大一上借筆記那次說上話。']),J(L('classmate_xinci')));
-    save('2025-10-20',{CAMP_BUS:'mx',WHY_RETAKE_ASKED:true},['classmate_mingxuan']);
-    check('7. 明軒（AA 11-03：不在宿營）：就算舊存檔有宿營認識、遊覽車旗標 \'mx\'，也沒有宿營、遊覽車那一行；「宿營夜談，是他問你為什麼重考。」；「打系籃，是阿哲的隊友。」',!L('classmate_mingxuan').some(t=>/宿營同一小隊|遊覽車/.test(t))&&has('classmate_mingxuan','宿營夜談，是他問你為什麼重考。')&&has('classmate_mingxuan','打系籃，是阿哲的隊友。'),J(L('classmate_mingxuan')));
+    save('2025-10-20',{CAMP_BUS:'mx',WHY_RETAKE_ASKED:true,FRIEND_CARD_classmate_mingxuan:true},['classmate_mingxuan']);
+    check('7. 明軒（AA 11-03：不在宿營）：就算舊存檔有宿營認識、遊覽車旗標 \'mx\'，也沒有宿營、遊覽車、「宿營夜談」那一行（AA 11-03：問為什麼重考的是阿哲）；看過名片場＝「開學第 3 週，給你一張公館便宜好吃的清單。」；「打系籃，是阿哲的隊友。」',!L('classmate_mingxuan').some(t=>/宿營同一小隊|遊覽車|宿營夜談/.test(t))&&has('classmate_mingxuan','開學第 3 週，給你一張公館便宜好吃的清單。')&&has('classmate_mingxuan','打系籃，是阿哲的隊友。'),J(L('classmate_mingxuan')));
     save('2025-10-20',{}); done('ev_mingxuan_ball'); check('7. 明軒舊開局（演過 ev_mingxuan_ball）：「江明軒。法律系，跟你同班。阿哲的系籃隊友。」，不重複「打系籃，是阿哲的隊友。」',has('classmate_mingxuan','江明軒。法律系，跟你同班。阿哲的系籃隊友。')&&!has('classmate_mingxuan','打系籃，是阿哲的隊友。'),J(L('classmate_mingxuan')));
     save('2025-10-20',{}); H.G.msgs=[{tag:'yc_song_1',th:'g:law_class',text:'x',day:H.G.day,h:20}]; const g1=has('classmate_youchen','每個月傳一首歌給你。');
     H.G.msgs.push({tag:'yc_song_2',th:'p:classmate_youchen',text:'x',day:H.G.day,h:20}); check('7. 宥辰：週五的歌只在班群（沒有聯絡方式）不算；私訊收過＝「每個月傳一首歌給你。」',!g1&&has('classmate_youchen','每個月傳一首歌給你。'));

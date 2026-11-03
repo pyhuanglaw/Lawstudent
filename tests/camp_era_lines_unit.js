@@ -44,7 +44,7 @@ const J=JSON.stringify, day=k=>STORY.dayOfKey(k), ev=id=>STORY_EVENTS.find(e=>e.
   check('4. 9/2 茶會 Kevin（去過宿營）：「我 Kevin，大二，系學會的。有事找我。」；沒有「這次是真的學長了」',code.includes("KV('我 Kevin，大二，系學會的。有事找我。')")&&!/這次是真的學長/.test(code));
   check('4. 9/4 家族群組 Kevin：「家族群組開好了。學弟。」；沒有「這次不用臥底了」',code.includes("KV('家族群組開好了。學弟。')")&&!/不用臥底/.test(code));
   check('4. 8/29 搬宿舍：柏翰「（從書裡抬頭）你也住這間？」→「許柏翰。新竹。」；阿哲「欸？撕名牌那個！你也住這間喔？」；沒有「只差一個明軒」「明軒住別棟」「喔，是你。」「你也這間喔！」',
-    /GM\.say\(bo,'（從書裡抬頭）你也住這間？'\);[^\n]*GM\.say\(bo,'許柏翰。新竹。'\)/.test(code)&&code.includes("GM.say(zhe,'欸？撕名牌那個！你也住這間喔？')")&&!/只差一個明軒|明軒住別棟|喔，是你。'|你也這間喔！/.test(code));
+    /GM\.say\(bo,'（從書裡抬頭）你也住這間？'\);[^\n]*GM\.say\(bo,'許柏翰。新竹。'\)/.test(code)&&code.includes("GM.say(zhe,F.ZHE_CALLS_GE?'哥！撕名牌那個就是你嘛，你也住這間喔？':'欸？撕名牌那個！你也住這間喔？')")&&!/只差一個明軒|明軒住別棟|喔，是你。'|你也這間喔！/.test(code));
   // ---------- 5 系籃 ----------
   for(const [nm,setup,wantIntro] of [['名片場認識（FRIEND_CARD_classmate_mingxuan）、去過宿營',()=>{ G.flags.FRIEND_CARD_classmate_mingxuan=true; G.flags.CAMP_Y1=true; },false],['名片場認識、沒去宿營',()=>{ G.flags.FRIEND_CARD_classmate_mingxuan=true; },false],['都沒見過（防呆）',()=>{},true]]){
     fresh(); setup(); said=[]; await EVENTS.run(ev('ev_mingxuan_ball')); const intro=said.includes('明軒：江明軒。阿哲的隊友。他說你們同班。');
