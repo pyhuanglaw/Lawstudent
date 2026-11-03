@@ -34,8 +34,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
 
   const e=ev('ev_mingxuan_tutor_intro'), les=ev('ev_tutor_lesson'); check('1. 事件在：ev_mingxuan_tutor_intro（校園、找明軒、大一下）、ev_tutor_lesson（出遊）',!!e&&!!les&&e.location==='campus'&&e.participants[0]==='classmate_mingxuan');
   const W3=termDay('Y1S2',3,2), at=(day,h,mem,stage)=>{ fresh(day,h,'campus',{}); SOCIAL.meet('classmate_mingxuan','campus'); if(mem) SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY','x'); return EVENTS.check(e); };
-  const r={ok:at(W3,16,true),w2:at(termDay('Y1S2',2,2),16,true),noMem:at(W3,16,false),eve:at(W3,19,true),sat:at(termDay('Y1S2',3,6),16,true)};
-  check('2. 第 3 週起、平日 15:30～18:00、SAW_HIM_STUDY 才有（第 2 週、沒記憶又不熟、晚上、週六沒有）',r.ok&&!r.w2&&!r.noMem&&!r.eve&&!r.sat,JSON.stringify(r));
+  const r={ok:at(W3,16,true),w5:at(termDay('Y1S1',5,2),16,true),noMem:at(W3,16,false),eve:at(W3,19,true),sat:at(termDay('Y1S2',3,6),16,true)};
+  check('2. 平日 15:30～18:00、SAW_HIM_STUDY 才有（大一上第 5 週以前（11-03 起大一上第 6 週開始，原本大一下第 3 週）、沒記憶又不熟、晚上、週六沒有）',r.ok&&!r.w5&&!r.noMem&&!r.eve&&!r.sat,JSON.stringify(r));
   at(W3,16,true); picks=['好']; await EVENTS.run(e); const L=lines();
   check('3. 台詞照 BB_96 3-2 四句；「好。」＝JOB_TUTOR、「很好。第一堂我陪你去認門。」',/欸，你要不要接一個家教？$/.test(L[0])&&/我學生的弟弟，國中，要補公民。我排不下了。$/.test(L[1])&&L.some(t=>/時薪我幫你談好了。不能比我低。$/.test(t))&&/很好。第一堂我陪你去認門。$/.test(L[L.length-1])&&G.flags.JOB_TUTOR&&G.flags.tutorFromDay===W3,JSON.stringify(L));
   STORY.phoneRules(GM); const qs=OUT.rec(G).filter(q=>/^tutor_/.test(q.id)); const q1=qs[0];

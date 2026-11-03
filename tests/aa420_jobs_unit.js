@@ -34,7 +34,7 @@ check('0. 新檔載得到；index.html：b1story3d.js → data/wz_jobs.js → jo
 await sec(0,()=>{ const G=fresh('2026-03-07',9); delete G.jobs; check('0. 舊存檔（沒有 G.jobs）：at、any 都是 null；rec 補上空的',JOBS.at(G,'brunch')===null&&JOBS.at(G,'print')===null&&JOBS.any(G)===null&&JOBS.at(G,'cvs')===null&&J(JOBS.rec(G))==='{"_meta":{"n":{},"asked":{}}}');
   G.flags.JOB_TUTOR=true; G.flags.TUTOR_WD=4; const t=JOBS.at(G,'tutor'); check('0. 家教（AA_164 第 7 節 tutor）：照舊 JOB_TUTOR',!!t&&J(t.day)==='[4]'); });
 
-await sec(1,async()=>{ fresh('2025-10-11',9,'wz_brunch'); JOBS.rec(H.G)._meta.n.brunch=5; await JOBS.visit(GM,'brunch','cashier',true); check('1. 大一上：不開口（大一下第 1 週起）',!said('你週末早上都起得來嗎？')&&!JOBS.job(H.G,'brunch'));
+await sec(1,async()=>{ fresh('2025-10-11',9,'wz_brunch'); H.G.stage='econ'; JOBS.rec(H.G)._meta.n.brunch=5; await JOBS.visit(GM,'brunch','cashier',true); check('1. 經濟系那一年：不開口（11-03 起法律系大一上第 1 週就有，原本大一下）',!said('你週末早上都起得來嗎？')&&!JOBS.job(H.G,'brunch'));
   const sat=nextWd('2026-03-02',6); fresh(key(sat),9,'wz_brunch',{LAWCLUB_SAT_VISITS:2}); const M=JOBS.rec(H.G)._meta; M.n.brunch=2;
   H.picks=['（應徵）','週六']; await JOBS.visit(GM,'brunch','cashier',true);
   check('1. 吃第三次：小米姐「你週末早上都起得來嗎？」→ 應徵 → 週六',said('你週末早上都起得來嗎？')&&J(JOBS.job(H.G,'brunch').day)==='[6]',J(L()));

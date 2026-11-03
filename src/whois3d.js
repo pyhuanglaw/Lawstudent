@@ -39,8 +39,7 @@ const WHOIS=(()=>{
   R.zhe=[
     {c:1,id:'name',if:zheMet,t:'張哲維，大家叫他阿哲。法律系，跟你同班。高雄人。'},
     {c:1,id:'name0',if:G=>!zheMet(G),t:'阿哲。法律系，跟你同班。'},   /* 舊開局，從來沒講過全名 */
-    {c:2,id:'camp',if:G=>camp(G,'zhe'),t:G=>'宿營同一小隊，第一天就認識了。'+(F(G).CAMP_BUS==='zhe'?'去程的遊覽車上，他坐你旁邊。':'')},   /* 5-1：宿營＋遊覽車一行 */
-    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='zhe'&&!camp(G,'zhe'),t:'去程的遊覽車上，他坐你旁邊。'},
+    {c:2,id:'camp',if:G=>camp(G,'zhe'),t:'宿營撕名牌，撕掉你名牌的那個。'},   /* AA 11-03：阿哲在第八小隊、撕名牌認識；遊覽車那一行拿掉（CAMP_BUS 固定 'win'）*/
     {c:2,id:'w1',if:G=>done(G,'ev_zhe_w1_meet')&&!camp(G,'zhe'),t:'開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'},
     {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return (r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。')+((r.y3||r.y4)&&y(G,3)?'大三起他搬去別間。':''); }},   /* 5-1：室友＋大三搬走一行 */
     {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
@@ -58,7 +57,6 @@ const WHOIS=(()=>{
   R.yu=[
     {c:1,id:'name',if:f('met_yu'),t:'Alison。法律系，跟你同班，坐你前面右邊。'},
     {c:1,id:'home',if:ev('ev_yu_breakfast'),t:'從板橋通勤。'},
-    {c:2,id:'camp',if:G=>Array.isArray(F(G).CAMP_SEEN)&&F(G).CAMP_SEEN.includes('yu'),t:'宿營時隔壁小隊帶隊呼的那個女生，開學以後才說上話。'},
     {c:3,id:'bkf1',if:ev('ev_yu_breakfast'),t:'大一上，在晨思鐘旁邊一起吃過早餐。'},
     {c:3,id:'zh',keep:true,if:G=>F(G).YU_ZHE_TOLD==='here',t:'大二上學期末，她和阿哲在一起了。是她在麵店親口跟你說的。'},
     {c:3,id:'zc',keep:true,if:G=>F(G).YU_ZHE_TOLD==='call',t:'大二上學期末，她和阿哲在一起了。她打電話跟你說的。'},
@@ -98,12 +96,16 @@ const WHOIS=(()=>{
     {c:1,id:'name',if:G=>!xcOld(G),t:'吳芯慈。法律系，跟你同班。'},
     {c:1,id:'name0',if:xcOld,t:'吳芯慈。法律系，跟你同班。大一上借筆記那次說上話。'},   /* 舊開局（演過 ev_xinci_notes）*/
     {c:1,id:'home',if:G=>camp(G,XC)||!!(G.needed&&G.needed.shown&&G.needed.shown.xc_drama!=null),t:'住永和，通勤。'},   /* AA_547：新的慈 3 沒有說永和＝改看宿營破冰（「吳芯慈，永和。」）或收過 xc_drama */   /* 慈 3（「她在台中，我在永和」）或收過「永和的公車今天提早到了」*/
-    {c:2,id:'camp',if:G=>camp(G,XC),t:'宿營同一小隊。'},
+    {c:2,id:'camp',if:G=>camp(G,XC),t:'宿營自由時間找你打牌。'},   /* AA 11-03 */
     {c:3,id:'notes',if:G=>mem(G,XC,'LENT_NOTES')&&!xcOld(G),t:'她的筆記借過你。'},   /* 舊開局的第一行已經寫了借筆記，不重複 */
     {c:3,id:'double',if:ev('ev_xinci_double'),t:'雙主修財金。她說看財報比看小說好看。'},   /* AA_547 2-6（原本「雙主修經濟。她說是家裡要的。」）；「大三下改成輔系」那一行拿掉 */
     {c:3,id:'family',if:G=>mem(G,XC,'TALKED_FAMILY'),t:'爸媽都是律師，在永和開事務所。'},   /* AA_547 2-6「演過慈 2」：她說爸媽是律師的那一支（「妳為什麼要雙主修？」記 TALKED_FAMILY）*/
     {c:3,id:'intern',if:xcFirst,t:'大三下，她申請上國際所的暑期實習，金融那一組。'},
    ];   /* 「高中補習班，她三年都是第二名。」「大三下，她第一次考了第一。」拿掉（D116 不跟別人比；AA_543 1-4 改稿，企劃線 0342b98ec）*/
+
+  /* ---------------- 沛珊（AA 11-03：只有「怎麼認識」一行）---------------- */
+  R[PS]=[
+    {c:2,id:'camp',if:G=>camp(G,PS),t:'宿營第二天晚上才到，坐你旁邊。'} ];
 
   /* ---------------- 1-5 江明軒 ---------------- */
   const MX='classmate_mingxuan';
@@ -113,8 +115,6 @@ const WHOIS=(()=>{
     {c:1,id:'name0',if:mxOld,t:'江明軒。法律系，跟你同班。阿哲的系籃隊友。'},   /* 舊開局（演過 ev_mingxuan_ball）*/
     {c:1,id:'dorm',if:f('DORM_FOUR'),t:'也住宿舍，在別棟。'},
     {c:1,id:'home',if:G=>F(G).MX_3ON3==='went'||done(G,'ev_mx_3on3'),t:'彰化人。'},
-    {c:2,id:'camp',if:G=>camp(G,MX),t:G=>'宿營同一小隊。'+(F(G).CAMP_BUS==='mx'?'去程的遊覽車上，他坐你旁邊。':'')},   /* 5-1：宿營＋遊覽車一行（宿營的旗標寫 'mx'，camp_y1.js）*/
-    {c:2,id:'bus',if:G=>F(G).CAMP_BUS==='mx'&&!camp(G,MX),t:'去程的遊覽車上，他坐你旁邊。'},
     {c:2,id:'why',if:f('WHY_RETAKE_ASKED'),t:'宿營夜談，是他問你為什麼重考。'},
     {c:3,id:'ball',if:G=>!mxOld(G),t:'打系籃，是阿哲的隊友。'},   /* 舊開局的第一行已經寫了，不重複 */
     {c:3,id:'study',if:G=>mem(G,MX,'SAW_HIM_STUDY'),t:'他看起來都沒念書。你撞見過他偷偷念。'},
