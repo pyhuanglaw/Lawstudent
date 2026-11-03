@@ -61,7 +61,7 @@ const ONETAP=(function(){
     if(GM.E.player.busy||(GM.D&&GM.D.active)){ GM.toast('到了。先處理眼前的事。',3000); return false; }   /* 進房間就演的劇情（onEnter）先演 */
     await STORY.bedScene(GM,{auto:true}); return true; };
   /* ---------- 2. 到下一堂課的教室 ---------- */
-  S.classPlan=function(GM){ const G=GM.G, why=S.busyWhy(GM); if(why) return {k:'cls',ok:false,why}; if(!typeof CLS!=='undefined'||!CLS.goList) return {k:'cls',ok:false,why:'沒有課表'};
+  S.classPlan=function(GM){ const G=GM.G, why=S.busyWhy(GM); if(why) return {k:'cls',ok:false,why}; if(typeof CLS==='undefined'||!CLS.goList) return {k:'cls',ok:false,why:'沒有課表'};
     const cw=CLS.canGo?CLS.canGo(GM):''; if(cw) return {k:'cls',ok:false,why:cw};
     const R=CLS.rec(G), it=CLS.goList(G).find(q=>!R.done[q.key]); if(!it){ const any=CLS.dayItems(G).length; return {k:'cls',ok:false,why:any?'今天的課已經上完了':'今天沒有課'}; }
     const pl=CLS.goPlan?CLS.goPlan(GM,it):null; if(!pl&&!(it.room&&it.room.offsite)) return {k:'cls',ok:false,why:'找不到'+it.c.name+'的教室'};
@@ -101,7 +101,7 @@ const ONETAP=(function(){
     const ms=typeof STORY!=='undefined'&&STORY.missText?STORY.missText(G,G.day,G.hour,arrive-G.day*24):''; if(ms) lines.push(ms);
     return {k:'date',ok:true,c,wait,leave,title:'到下一個約會地點',lines}; };
   S.goDate=async function(GM,p){ const G=GM.G, c=p.c;
-    if(p.wait>0.02){ if(!typeof CLS!=='undefined'||!CLS.skipTo) return false; const target=p.leave-G.day*24; const ok=await CLS.skipTo(GM,target); if(!ok||now(G)<p.leave-0.02) return false; }   /* 中途停下來（有事、取消）＝停在那裡，之後再按一次 */
+    if(p.wait>0.02){ if(typeof CLS==='undefined'||!CLS.skipTo) return false; const target=p.leave-G.day*24; const ok=await CLS.skipTo(GM,target); if(!ok||now(G)<p.leave-0.02) return false; }   /* 中途停下來（有事、取消）＝停在那裡，之後再按一次 */
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
     if(c.kind==='inv') return INV.goNow(GM,c.iv);
     const q=c.q; if(q.state!=='planned') return false;
