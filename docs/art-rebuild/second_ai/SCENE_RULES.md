@@ -177,3 +177,37 @@ D38 是底線；這一節是交件時我實際會一項一項看的東西。**�
 - 穿插、懸空、比例錯；
 - 字被擠扁、出現真實品牌；
 - 超過預算一倍以上。
+
+## 10. 新生南路那一側的新店：AA、BB、CC 協助做室內（2026-11-03 10:0x）
+
+> 使用者 11-03 對 AA 說：「lawww2在忙 你和bb cc協助建模 跟LAWWW2分工」。企劃：企劃線 `claude/story-planning` 的 AA_613（承品書店）、AA_615（新生南路側門、南洋戲院）、AA_617（木曜日、日常失速；參考圖 `docs/story_planning/ref_images/wz_cafes/`）、AA_619（同弦樂器）、AA_620（運動用品店）、AA_621（麥丹勞）。
+
+### 分工
+| 誰 | 做什麼 |
+|---|---|
+| LAWWW2 | 新生南路側門、新生南路整排店面的**外觀**、溫州街巷口接線；木曜日（老公寓）、日常失速（轉角）、南洋戲院（公館）的**外觀**；所有新店的區域程式、導航、出入口、整合、光照烘焙、最後驗收 |
+| AA | **室內**：木曜日（二樓）、日常失速（轉角一樓）、承品書店（兩層） |
+| BB＋CC（BB 分派） | **室內**：南洋戲院（大廳＋影廳；影廳照 AA_615 可先用 2D 背景）、同弦樂器、三家運動用品店、麥丹勞（兩層） |
+| LAWWW | 劇情接線、人物（坐在地板看書的姿勢、character3d） |
+
+### 規矩
+- **腳本**：AA → `tools/blender/env_second/aa_support/<店>_interior.py`；BB／CC → `tools/blender/env_second/bb_support/<店>_interior.py`。執行：`/opt/blenv/bin/python <腳本> -- [--out …]`。開頭照 `wz_shops_interior.py`（`sys.path` 加 env_second、`import lib2 as L`）。**用 `claude/second-ai-env-art` 上的 `lib2.py`、`cafe_layout.py`、`plants.py`**。
+- **lib2 常用**：`L.pbr`（Poly Haven CC0，1k，`textures/`）、`L.flat`、`L.vc_material`、`L.Mesh`／`L.rbox_bm`（倒角）、`L.lathe`（旋轉體）、`L.merge_by_material`（最後合併）、`L.single_side`（天花板單面朝下）、`L.export(out)`。
+- **配置檔（遊戲和 Blender 共用一份）**：`src/data/<店>_layout.js`，格式照 `src/data/wz_shops_layout.js` 開頭的說明——房間中心在原點、x 往東、z 往南、店門在 +z（z = d/2）、公尺；`blocks:[x,z,寬,深]`、`seats`、`interact`、`floorSit`（坐地板的位置）、`w/d/h`。兩層：`levels:[{y:0},{y:4.2}]`、樓梯 `stairs:{x,z,w,len,axis,ya,yb}`（踏面 0.28 m、一階 0.17 m、寬 ≥ 1.2 m，要真的走得上去，D38 第 4 點）。`exit`、`enterAt` 留空（LAWWW2 填）。**除了這份新檔，`src/` 都不改**。
+- **節點名稱**：會淡出的牆 `WALL_<front|back|left|right>_*`（掛在牆上的東西放進同一組）；玻璃名字裡有 `glass`；天花板單面朝下。
+- **材質**：金屬度 ≤ 0.45（遊戲沒有環境貼圖）；淺色木地板或石材，不用深色木地板（D112）。
+- **預算（每一層樓）**：三角形 ≤ 6 萬、材質 ≤ 12、GLB ≤ 6 MB；小物件 instancing 或合併。
+- **輸出**：`assets/models/env/second_ai/aa_support/<店>.glb`、`…/bb_support/<店>.glb`。光照烘焙 LAWWW2 做。
+- **交件**：Blender 渲染 ≥ 3 張＋`glb_specs.py` 的數字；照第 6、9 節；狀態最多 `READY_FOR_REVIEW`（LAWWW2 確認後才算完成）；授權寫在交件說明（LAWWW2 補 LICENSES）。
+- **分支**：各推自己的分支；LAWWW2 merge 進 `claude/second-ai-env-art`，整合好再交 LAWWW。
+
+### 暫定尺寸（寬 × 深 × 高；要改先告訴 LAWWW2，外觀要配合）
+| 店 | 尺寸 |
+|---|---|
+| 承品書店 | 14 × 18 m，兩層，一層 4.2 m |
+| 木曜日 | 老公寓二樓 9 × 14 × 3.0 m；樓梯從一樓的門上來，室內從二樓的樓梯口開始 |
+| 日常失速 | 轉角一樓 11 × 10 × 3.4 m，兩面有窗 |
+| 南洋戲院 | 大廳 16 × 12 × 4.5 m；影廳 14 × 20 × 7 m（地板往後升高） |
+| 同弦樂器 | 7 × 14 × 3.4 m |
+| 運動用品店（三家） | 各 9 × 16 × 3.6 m |
+| 麥丹勞 | 12 × 16 m，兩層，一層 3.6 m |
