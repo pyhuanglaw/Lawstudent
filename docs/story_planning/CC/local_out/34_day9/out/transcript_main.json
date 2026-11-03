@@ -1,0 +1,404 @@
+{
+ "case": "main",
+ "load": "menu",
+ "save_file": "user_save_day9.json",
+ "shots": {
+  "title": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\01_title.png",
+  "import_box": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\02_import_box.png",
+  "first": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\03_first_screen_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\04_first_screen_port.png"
+  ],
+  "phone_today": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\05_phone_today_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\06_phone_today_port.png"
+  ],
+  "target": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\07_target_zone_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\08_target_zone_port.png"
+  ],
+  "talk": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\09_after_talk_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\10_after_talk_port.png"
+  ],
+  "back": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\11_back_home_zone_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\12_back_home_zone_port.png"
+  ],
+  "title2": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\13_title_after_reload.png",
+  "reloaded": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\14_reloaded_continue_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\34_day9\\out\\15_reloaded_continue_port.png"
+  ]
+ },
+ "file": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 15.735,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 60,
+  "nrel": 5,
+  "nsocialRel": 29,
+  "nmem": 10,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 1,
+  "homeAt": false,
+  "pos": {
+   "x": 50.85,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1792501178208,
+  "hasStuck": true
+ },
+ "menu_open": {
+  "menu": true,
+  "saveTab": true
+ },
+ "import_chars": 35680,
+ "import_msg": "匯入成功，已備份原本進度。",
+ "after_load": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 15.74,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 71,
+  "nrel": 5,
+  "nsocialRel": 29,
+  "nmem": 10,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 1,
+  "homeAt": false,
+  "pos": {
+   "x": 50.85,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1792501178208,
+  "hasStuck": false
+ },
+ "ls_after_load": {
+  "fatiao3d_auto": 23095
+ },
+ "phone_today": "9/25 週四・大一上 第 4 週\n現在 15:46\n今天的時間　上午 ○　下午 ○　晚上 ○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。\n開學待辦（還有 4 項，不做也沒關係）\n☐ 買民總、刑總、憲法的教科書（舊路書房），或在法律學院圖書館看指定參考書\n☐ 總圖新生導覽（9/19、9/23、9/25、9/26 15:30，總圖大廳；去一場就好）\n☐ 法律資料怎麼查（9/24、10/1 15:30，法律學院圖書館 討論室 A）\n☐ 服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台）\n09:10–12:10 大一英文（上）\n共同教學館 102・英文老師・上過了\n13:20–15:10 民法總則\n法律系館A 201・周老師・上過了\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+ "moves": [
+  {
+   "exit": {
+    "x": 54.2,
+    "z": 0,
+    "r": 2.3,
+    "label": "進入兩點半 Café",
+    "to": "cafe",
+    "lv": 0,
+    "d": 3.35
+   },
+   "arrived": true,
+   "from": [
+    50.85,
+    0
+   ],
+   "to": [
+    53.96,
+    0
+   ],
+   "moved": 3.11,
+   "interact": "進入兩點半 Café",
+   "tapped": "進入兩點半 Café",
+   "zone": "cafe",
+   "entered": true,
+   "dialog": []
+  },
+  {
+   "exit": {
+    "x": 0,
+    "z": 5.6,
+    "r": 1.6,
+    "label": "離開咖啡廳",
+    "to": "wenzhou",
+    "lv": 0,
+    "d": 5.34
+   },
+   "arrived": true,
+   "from": [
+    -5.25,
+    4.62
+   ],
+   "to": [
+    -0.69,
+    4.49
+   ],
+   "moved": 4.56,
+   "interact": "離開咖啡廳",
+   "tapped": "離開咖啡廳",
+   "zone": "wenzhou",
+   "entered": true,
+   "dialog": []
+  }
+ ],
+ "live_walk": [
+  {
+   "frame": 293,
+   "day": 9,
+   "h": 15.778,
+   "busy": false,
+   "depth": 0,
+   "paused": false,
+   "x": 50.85,
+   "z": 0,
+   "zone": "wenzhou",
+   "fb": 0,
+   "toast": "已讀取"
+  },
+  {
+   "frame": 818,
+   "day": 9,
+   "h": 15.852,
+   "busy": false,
+   "depth": 0,
+   "paused": false,
+   "x": 0,
+   "z": 5,
+   "zone": "cafe",
+   "fb": 0,
+   "toast": "已讀取"
+  }
+ ],
+ "auto_after_enter": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 15.849,
+  "zone": "cafe",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 89,
+  "nrel": 5,
+  "nsocialRel": 31,
+  "nmem": 10,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 2,
+  "homeAt": false,
+  "pos": {
+   "x": 0,
+   "z": 5,
+   "lv": 0
+  },
+  "savedAt": 1793675060371,
+  "hasStuck": false
+ },
+ "named": [
+  {
+   "id": "pool_5",
+   "name": "抱著一疊講義的女生",
+   "d": 6.04
+  }
+ ],
+ "talk": {
+  "who": {
+   "id": "pool_5",
+   "name": "抱著一疊講義的女生",
+   "d": 6.04
+  },
+  "r": {
+   "lines": [
+    [
+     "",
+     "（靠窗的桌子，一個女生抱著一疊講義，講義上面壓著一包洋芋片。）"
+    ],
+    [
+     "抱著一疊講義的女生",
+     "學弟！你是法律系的對不對？你要不要吃？……我們吉他社的零食買太多了。"
+    ],
+    [
+     "劉晏如",
+     "劉晏如，大二。吉他社。我負責零食。"
+    ],
+    [
+     "",
+     "（靠窗的桌子，一個女生抱著一疊講義，講義上面壓著一包洋芋片。）"
+    ],
+    [
+     "抱著一疊講義的女生",
+     "學弟！你是法律系的對不對？你要不要吃？……我們吉他社的零食買太多了。"
+    ],
+    [
+     "劉晏如",
+     "劉晏如，大二。吉他社。我負責零食。"
+    ]
+   ],
+   "opts": [],
+   "picked": [],
+   "label": "和抱著一疊講義的女生說話"
+  }
+ },
+ "live_wait": [
+  {
+   "frame": 3318,
+   "day": 9,
+   "h": 16.124,
+   "busy": false,
+   "depth": 0,
+   "paused": false,
+   "x": -5.25,
+   "z": 4.62,
+   "zone": "cafe",
+   "fb": 0,
+   "toast": "劉晏如好像更信任你了一點。"
+  },
+  {
+   "frame": 5173,
+   "day": 9,
+   "h": 16.375,
+   "busy": false,
+   "depth": 0,
+   "paused": false,
+   "x": -5.25,
+   "z": 4.62,
+   "zone": "cafe",
+   "fb": 0,
+   "toast": "劉晏如好像更信任你了一點。"
+  }
+ ],
+ "autoA": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 16.431,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 91,
+  "nrel": 5,
+  "nsocialRel": 31,
+  "nmem": 11,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 2,
+  "homeAt": false,
+  "pos": {
+   "x": 51.7,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1793675165789,
+  "hasStuck": false
+ },
+ "liveA": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 16.46,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 91,
+  "nrel": 5,
+  "nsocialRel": 31,
+  "nmem": 11,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 2,
+  "homeAt": false,
+  "pos": {
+   "x": 51.7,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1792501178208,
+  "hasStuck": false
+ },
+ "rows": [
+  {
+   "k": "cap",
+   "n": "",
+   "t": "（她在手帳上畫線。看到你，先把那一頁蓋起來。）",
+   "d": "2025-09-25",
+   "h": 16.015,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "（靠窗的桌子，一個女生抱著一疊講義，講義上面壓著一包洋芋片。）",
+   "d": "2025-09-25",
+   "h": 16.056,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "抱著一疊講義的女生",
+   "t": "學弟！你是法律系的對不對？你要不要吃？……我們吉他社的零食買太多了。",
+   "d": "2025-09-25",
+   "h": 16.056,
+   "z": "cafe"
+  },
+  {
+   "k": "say",
+   "n": "劉晏如",
+   "t": "劉晏如，大二。吉他社。我負責零食。",
+   "d": "2025-09-25",
+   "h": 16.056,
+   "z": "cafe"
+  }
+ ],
+ "autoA2": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 16.497,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 91,
+  "nrel": 5,
+  "nsocialRel": 31,
+  "nmem": 11,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 2,
+  "homeAt": false,
+  "pos": {
+   "x": 51.7,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1793675175653,
+  "hasStuck": false
+ },
+ "liveB": {
+  "day": 9,
+  "key": "2025-09-25",
+  "hour": 16.502,
+  "zone": "wenzhou",
+  "stage": "law",
+  "money": 41510,
+  "nflags": 91,
+  "nrel": 5,
+  "nsocialRel": 31,
+  "nmem": 11,
+  "evDone": 7,
+  "evCount": 7,
+  "nmsgs": 22,
+  "ncontacts": 2,
+  "homeAt": false,
+  "pos": {
+   "x": 51.7,
+   "z": 0,
+   "lv": 0
+  },
+  "savedAt": 1793675175653,
+  "hasStuck": false
+ },
+ "walkFallbacks": 0,
+ "console_errors": [],
+ "rows_after_reload": []
+}
