@@ -40,7 +40,7 @@ const ent=(k,h,id,flags)=>{ fresh(D(k),h,'campus',flags||{}); const e=STORY.sche
 { const a1=ent('2029-02-22',20.5,'heroine_01'), a15=ent('2029-05-31',20.5,'heroine_01'), y1=ent('2029-02-22',21,'heroine_03'), y15=ent('2029-05-31',21,'heroine_03'), a16=ent('2029-06-07',20.5,'heroine_01');
   check('1. 大四下週四：以安 20:30、語彤 21:00 都在總圖三樓（第 1 週 2/22、第 15 週 5/31）；畢業以後（6/7）以安不在這一筆',a1&&a1.zone==='library'&&a15&&a15.zone==='library'&&y1&&y1.zone==='library'&&y15&&y15.zone==='library'&&!(a16&&a16.zone==='library'&&a16.act==='read'),J({a1,a15,y1,y15,a16})); }
 { const s=ent('2029-06-07',18,'heroine_03'), t=ent('2029-05-31',18,'heroine_03'), aft=ent('2029-09-06',18,'heroine_03');
-  check('2. 語彤 2029 暑假週四 18:00 在麵店（6/7）；學期中（5/31）在總圖；9/6 開學以後回總圖',s&&s.zone==='noodle'&&t&&t.zone==='library'&&aft&&aft.zone==='library',J({s,t,aft})); }
+  check('2. 語彤 2029 暑假週四 18:00 不在燒臘店（6/7；AA_610／AA_624 拿掉麵店的作息）；學期中（5/31）在總圖；9/6 開學以後回總圖',!(s&&s.zone==='noodle')&&t&&t.zone==='library'&&aft&&aft.zone==='library',J({s,t,aft})); }
 { const st=(LADDER.byTerm.Y4S2.heroine_01.steps||[]).find(x=>x.id==='A8-L1');
   check('3. 以安 A8-L1：「這學期我多選了一門證券交易法。不是必修。」、回覆「證交法很好玩。真的。……你那個表情是什麼意思。」；台詞、選項沒有「保險法」（第二個回覆「公司、保險、證券」照舊）',!!st&&st.lines[0]==='這學期我多選了一門證券交易法。不是必修。'&&st.choices[0].reply==='證交法很好玩。真的。……你那個表情是什麼意思。'&&!J(st.lines).includes('保險法')&&!J(st.choices).includes('保險法'),J(st&&{l:st.lines,c:st.choices})); }
 { const s=rd('src/postgrad3d.js'); check("4. 芷若畢業那天的照片（pg_zr_photo）改 6/3 05:07（英國 6/2 22:07），字不改",s.includes("{tag:'pg_zr_photo',at:['2029-06-03',5+7/60],")&&rd('src/data/postgrad_lines.js').includes("'畢業快樂。今天下午替你看了一部。'")); }

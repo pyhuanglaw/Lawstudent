@@ -480,7 +480,7 @@ await sec('Y8',async()=>{
   const d=D('2026-07-09'); fresh(d,12.2); H.FAMILIAR(YT); PHONE.join(H.G,'noodle_team','麵店團'); ph(); answer('yt_bday_y1',0); PHONE.tick(H.G);
   check('Y8. 語彤生日「傳一句生日快樂」→「……謝謝。阿姨說要請你吃滷蛋。下次來。」、記 YT_BDAY_Y1（照舊）',H.G.flags.YT_BDAY_Y1===true&&txt('g:noodle_team').includes('……謝謝。阿姨說要請你吃滷蛋。下次來。'));
   at('2026-07-12',18); H.G.zone='noodle'; const m0=H.G.money; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
-  check('Y8. 之後第一次在麵店點餐（付完錢那個位置）：「（阿姨把一顆滷蛋放進你的碗裡。）」「阿姨：生日那天說的。」、記 YT_BDAY_EGG；那一碗照付',adj(NEW.Y8)&&H.said[idx(NEW.Y8[1])].who==='阿姨'&&H.G.flags.YT_BDAY_EGG===H.G.day&&H.G.money===m0-60,J({L:said(),m:m0-H.G.money}));
+  check('Y8. 之後第一次在麵店點餐（付完錢那個位置）：「（阿姨把一顆滷蛋放進你的碗裡。）」「阿姨：生日那天說的。」、記 YT_BDAY_EGG；那一盤照付（叉燒飯 100，AA_612 菜單）',adj(NEW.Y8)&&H.said[idx(NEW.Y8[1])].who==='阿姨'&&H.G.flags.YT_BDAY_EGG===H.G.day&&H.G.money===m0-100,J({L:said(),m:m0-H.G.money}));
   H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
   check('Y8. 演過了：下一次不再說',!has(NEW.Y8[0]),J(said()));
   fresh('2026-07-12',18,{},{zone:'noodle'}); H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
