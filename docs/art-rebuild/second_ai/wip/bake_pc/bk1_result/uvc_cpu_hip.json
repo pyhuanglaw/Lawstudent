@@ -1,0 +1,45 @@
+{
+ "ref": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bk1/cpu",
+ "cmp": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bk1/hip",
+ "pass": true,
+ "why": [],
+ "images": {
+  "day": {
+   "points": 6118,
+   "edge_skipped": 0,
+   "mean_ref": 0.27136,
+   "mean_cmp": 0.27156,
+   "ratio": 1.0007,
+   "mad_255": 0.098,
+   "p95_255": 0.187,
+   "p99_255": 1.17,
+   "ok": true
+  },
+  "night": {
+   "points": 6182,
+   "edge_skipped": 0,
+   "mean_ref": 0.30696,
+   "mean_cmp": 0.30729,
+   "ratio": 1.0011,
+   "mad_255": 0.113,
+   "p95_255": 0.209,
+   "p99_255": 1.641,
+   "ok": true
+  },
+  "dark": {
+   "points": 3604,
+   "edge_skipped": 0,
+   "mean_ref": 0.02602,
+   "mean_cmp": 0.02603,
+   "ratio": 1.0006,
+   "mad_255": 0.007,
+   "p95_255": 0.0,
+   "p99_255": 0.055,
+   "ok": true
+  }
+ },
+ "meshes": 47,
+ "mesh_mismatch": [],
+ "unmatched": [],
+ "uv_identical_meshes": 47
+}

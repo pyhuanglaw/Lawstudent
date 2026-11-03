@@ -1,0 +1,49 @@
+{
+ "ref": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bk1/cloud2",
+ "cmp": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/bk1/hip",
+ "pass": false,
+ "why": [
+  "day：亮度比 0.983、平均差 14.01/255、95% 72.2/255",
+  "night：亮度比 1.008、平均差 13.67/255、95% 80.8/255",
+  "dark：亮度比 0.966、平均差 2.01/255、95% 5.6/255"
+ ],
+ "images": {
+  "day": {
+   "points": 6369,
+   "edge_skipped": 0,
+   "mean_ref": 0.26543,
+   "mean_cmp": 0.26086,
+   "ratio": 0.9828,
+   "mad_255": 14.012,
+   "p95_255": 72.235,
+   "p99_255": 106.382,
+   "ok": false
+  },
+  "night": {
+   "points": 6425,
+   "edge_skipped": 0,
+   "mean_ref": 0.29338,
+   "mean_cmp": 0.29567,
+   "ratio": 1.0078,
+   "mad_255": 13.67,
+   "p95_255": 80.82,
+   "p99_255": 119.558,
+   "ok": false
+  },
+  "dark": {
+   "points": 4085,
+   "edge_skipped": 0,
+   "mean_ref": 0.02378,
+   "mean_cmp": 0.02297,
+   "ratio": 0.9657,
+   "mad_255": 2.006,
+   "p95_255": 5.574,
+   "p99_255": 28.219,
+   "ok": false
+  }
+ },
+ "meshes": 47,
+ "mesh_mismatch": [],
+ "unmatched": [],
+ "uv_identical_meshes": 0
+}
