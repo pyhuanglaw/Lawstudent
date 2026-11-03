@@ -96,11 +96,57 @@ const YTJOB=(function(){
     F.TEA_SHIFTS=(+F.TEA_SHIFTS||0)+1;
     if(afterW(G,'Y1S2',10)&&!F.YT_MOM_BACK){ F.YT_MOM_BACK=G.day; await JOBS.play(GM,S.MOM.back); await ch(GM,S.MOM.opts); if(!F.YT_FAMILY_HEARD){ await JOBS.play(GM,S.MOM.fam); F.YT_FAMILY_HEARD=true; } F.YT_PARENTS_KNOW=true; return true; }
     if(S.rentDue(G)) return S.rent(GM);   /* AA_625 第 6 節 */
+    if(S.essayDue(G)) return S.essay(GM);   /* AA_643 第 10 節（15b 當面）*/
     if(S.sorryDue(G)) return S.sorry(GM);   /* AA_625 第 11 節：兩週後的週末班 */
     if(S.helpDue(G)) return S.help(GM);   /* AA_625 第 11 節 */
     if(!F.YT_FIRST_PAY&&afterW(G,'Y1S1',8)&&(!at(G,'Y1S1',8)||wdOf(G.day)===7)) return S.firstPay(GM);   /* 第 8 週週日（或之後第一個班）打烊 */
     if(F.TEA_SHIFTS===3) return S.cats(GM);   /* 祐廷第三次上班（和她一起的第三個班）打烊 */
     return false; };
+  /* ===== AA_625「第一次去她家」（交往以後才有；YT-REWRITE-1103）＋事件 6「在她家當面」版（AA_643 第 5 節：要 YT_HOME_SEEN、那天傍晚在她家）=====
+     觸發：和她交往以後的第一個平日（週一～五）傍晚 17:00 她私訊「……今天秀琴姨煮很多。你要不要來吃。」→「好。」＝當天 18:30 去她家（2D：新生南路，沒有 3D 的家＝dark＋字幕）；
+     「今天不行。」＝不說話，下一個平日再問一次。演完記 YT_HOME_SEEN。17:00 傳、18:30 到是 LAWWW 子代理定的時間（AA_625 只寫「平日傍晚」，交 AA 確認）*/
+  const romR=(G,id)=>((G&&G.flags&&G.flags.romance)||{})[id]||null;
+  const datingYT=G=>{ const F=(G&&G.flags)||{}, R=romR(G,YT); return F['dating_'+YT]===true||!!(R&&R.status==='dating'); };
+  const ytHas2=t=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(YT,t);
+  S.HOME_INV=['……今天秀琴姨煮很多。你要不要來吃。'];
+  S.homeRentDue=G=>afterW(G,'Y1S2',10)&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!ytHas2('RENT_RUMOR');   /* 事件 6 還沒在茶屋聽過 */
+  S.homePhone=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||!datingYT(G)||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
+    const R=romR(G,YT), since=R&&typeof R.sinceDay==='number'?R.sinceDay:null, wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:0, h=((+G.hour||0)%24+24)%24;
+    if(since!=null&&G.day<=since) return; if(wd<1||wd>5||h<17||h>=18.5) return;   /* 交往以後的平日傍晚（開始那一天不算）*/
+    const tag='yt_home_'+G.day; if(PHONE.sent(G,tag)||OUT.get(G,'yt_home_first')) return; if(F.YT_HOME_ASK===G.day) return; F.YT_HOME_ASK=G.day;
+    PHONE.at(G,G.day,17,[{th:'p:'+YT,from:YT,text:S.HOME_INV[0],ask:{id:tag,until:G.day*24+18.5,opts:[{t:'好。',set:{YT_HOME_GO:G.day}},{t:'今天不行。'}]}}],tag); };
+  S.homePlan=function(G){ const F=G.flags; if(!F||F.YT_HOME_SEEN||F.YT_HOME_GO!==G.day||typeof OUT==='undefined'||OUT.get(G,'yt_home_first')) return;
+    OUT.plan(G,{id:'yt_home_first',ev:'ev_yt_home_first',day:G.day,h:18.5,late:0.5,place:'新生南路・她家',title:'去語彤家吃飯',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true}); };
+  S.HOME_EV={ id:'ev_yt_home_first', title:'第一次去她家', participants:[YT], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    prereq:{custom:G=>!G.flags.YT_HOME_SEEN},
+    dialogue:[ {scene:'新生南路・她家',bg:'dark'},
+      {speaker:null,text:'（新生南路、學校對面的大樓。電梯到七樓。）'},
+      {speaker:null,text:'（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙箱。廚房裡，一個阿姨在盛湯。）'},
+      {speaker:'秀琴姨',text:'你就是祐廷喔？坐、坐。'},
+      {speaker:YT,text:'……嗯。這是秀琴姨。'},
+      {speaker:'秀琴姨',text:'她都不帶人回來。你是第一個。'},
+      {speaker:YT,text:'秀琴姨。'},
+      /* 事件 6「在她家當面」（AA_625 第 6 節；AA_643 第 5 節保留）：大一下第 10 週以後、還沒在茶屋聽她說過 */
+      {if:{custom:G=>S.homeRentDue(G)},goto:'rent'},
+      {speaker:null,text:'（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）'},{goto:'opt'},
+      {label:'rent'},
+      {speaker:null,text:'（秀琴姨把最後一盤菜端上桌，在餐桌旁邊坐下來，沒有拿包包。）'},
+      {speaker:'秀琴姨',text:'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'},
+      {speaker:null,text:'（語彤沒說話。她幫秀琴姨盛了一碗湯。）'},
+      {speaker:YT,text:'秀琴姨，妳先吃。'},
+      {mem:[{npc:YT,tag:'RENT_RUMOR',note:'秀琴姨在她家說房東要把房子賣了'}]},{set:{YT_RENT_AT_HOME:true}},
+      {label:'opt'},
+      {choice:[{text:'「妳一個人住這麼大？」',goto:'a'},{text:'「秀琴姨煮得很好吃。」',goto:'b'}]},
+      {label:'a'},{speaker:YT,text:'我媽買的。……我只是想知道一個人過日子是什麼感覺。'},{goto:'e'},
+      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'},
+      {label:'e'},{set:{YT_HOME_SEEN:true}} ],
+    after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) G.events.done.ev_yutong_landlord=G.day; } };
+  S.homeInstall=function(){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HOME_EV.id)) STORY_EVENTS.push(S.HOME_EV);
+    if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!S._homeRule){ S._homeRule=true; STORY.PHONE_RULES.push(G=>{ try{ S.homePhone(G); S.homePlan(G); }catch(e){ console.warn('YTJOB home',e); } }); } };
+  /* ===== AA_643 第 10 節：15b〈溫州街的時間〉當面的一句——系刊出刊（2028-10-16）以後她第一次的茶屋班，打烊收杯子時講、只講一次（讀過＝期刊架那一場的 YT_ESSAY）===== */
+  S.ESSAY_READ=[[YT,'你看過了喔。……蘇姨也看了。她說寫得太短。']]; S.ESSAY_NEW=[[YT,'這期系刊，第三頁那篇是我寫的。……不用現在看。']];
+  S.essayDue=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2028-10-16'):null; return d!=null&&G.day>=d&&!G.flags.YT_ESSAY_SHIFT; };
+  S.essay=async function(GM){ const G=GM.G; G.flags.YT_ESSAY_SHIFT=G.day; await JOBS.play(GM,G.flags.YT_ESSAY?S.ESSAY_READ:S.ESSAY_NEW); return true; };
   /* 手機：認識以前她的訊息都不送 */
   const ytItem=it=>!!it&&(it.from===YT||it.th==='p:'+YT);
   S.gatePhone=function(){ if(typeof PHONE==='undefined'||PHONE._ytjob) return; PHONE._ytjob=true; const at0=PHONE.at, post0=PHONE.post;
@@ -108,7 +154,7 @@ const YTJOB=(function(){
         if(!rest.length){ if(tag&&!PHONE.sent(G,tag)){ const P=PHONE.rec(G); (P.cut=P.cut||[]).push(tag); } return false; } items=rest; }
       return at0.call(this,G,day,h,items,tag); };
     PHONE.post=function(G,m){ if(!S.met(G)&&ytItem(m)) return null; return post0.apply(this,arguments); }; };
-  S.install=function(){ S.gatePhone(); if(typeof JOBS!=='undefined'&&Array.isArray(JOBS.SHIFT_EV)&&!JOBS._ytjob){ JOBS._ytjob=true; JOBS.SHIFT_EV.unshift(async(GM,k)=>{ if(!(await S.closeShift(GM,k))) await S.closeExtra(GM,k); else { S.sync(GM.G); GM.G.flags.TEA_SHIFTS=(+GM.G.flags.TEA_SHIFTS||0)+1; } }); }
+  S.install=function(){ S.gatePhone(); S.homeInstall(); if(typeof JOBS!=='undefined'&&Array.isArray(JOBS.SHIFT_EV)&&!JOBS._ytjob){ JOBS._ytjob=true; JOBS.SHIFT_EV.unshift(async(GM,k)=>{ if(!(await S.closeShift(GM,k))) await S.closeExtra(GM,k); else { S.sync(GM.G); GM.G.flags.TEA_SHIFTS=(+GM.G.flags.TEA_SHIFTS||0)+1; } }); }
     if(typeof JOBS!=='undefined'&&Array.isArray(JOBS.MID_EV)&&!JOBS._ytjobMid){ JOBS._ytjobMid=true; JOBS.MID_EV.push(async(GM,k)=>{ await S.midShift(GM,k); }); } };
   S.install();
   return S;

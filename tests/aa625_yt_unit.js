@@ -82,6 +82,24 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
     const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text);
     check('5. 新遊戲：第 10 週週六 18:00＝有；週三、第 9 週、19:30、沒有 YT_PARENTS_KNOW＝沒有；舊存檔（沒有 YT_JOB_V）照舊 21:00～22:00＋yutong_hospital',C(g(10,6,18))&&C(g(12,7,17.6))&&!C(g(10,3,18))&&!C(g(9,6,18))&&!C(g(10,6,19.5))&&!C(g(10,6,18,{YT_PARENTS_KNOW:false}))&&C({day:tdOf('Y1S2',10,2),hour:21.5,flags:{yutong_hospital:true}})&&!C({day:tdOf('Y1S2',10,6),hour:18,flags:{}}));
     check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句）',A643.length>1000&&V.length===8&&V.every(t=>A643.includes(t.replace(/^「|」$/g,''))),JSON.stringify(V.filter(t=>!A643.includes(t)))); }
+  /* 第一次去她家（AA_625；交往以後的第一個平日傍晚 17:00 私訊 → 18:30 去她家，記 YT_HOME_SEEN）＋事件 6 在她家當面版（AA_643 第 5 節）*/
+  { global.OUT={bg:k=>k,get:(g,id)=>(g._out||{})[id]||null,plan:(g,o)=>((g._out=g._out||{})[o.id]=Object.assign({state:'planned'},o))};
+    const home=async(wk,f)=>{ fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,1)-1}}},f||{}); G.flags.romance.heroine_03.sinceDay=wk[2]-1; G.day=wk[2]; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
+      const m=(G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.ask); if(m) PHONE.answer(G,m.ask.id,0); YTJOB.homePlan(G); return m; };
+    let m=await home(['Y2S1',3,tdOf('Y2S1',3,2)]); const q=OUT.get(G,'yt_home_first'), E=ev('ev_yt_home_first');
+    check('家. 交往以後的平日 17:00：「……今天秀琴姨煮很多。你要不要來吃。」→「好。」＝當天 18:30 去她家（新生南路）',!!m&&m.text==='……今天秀琴姨煮很多。你要不要來吃。'&&!!q&&q.h===18.5&&q.day===G.day&&q.ev==='ev_yt_home_first'&&!!E&&E.trigger==='outing',JSON.stringify([m&&m.text,q]));
+    SOCIAL.remember('heroine_03','RENT_RUMOR','');   /* 事件 6 已經在茶屋聽過＝一般版 */
+    said=[]; picks=['一個人住這麼大']; await EVENTS.run(E); const HL=['（新生南路、學校對面的大樓。電梯到七樓。）','你就是祐廷喔？坐、坐。','……嗯。這是秀琴姨。','她都不帶人回來。你是第一個。','秀琴姨。','（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）','我媽買的。……我只是想知道一個人過日子是什麼感覺。'];
+    check('家. 那一晚照 AA_625 逐字；記 YT_HOME_SEEN；台詞都在稿裡',HL.every(t=>said.some(x=>is(x,t)))&&G.flags.YT_HOME_SEEN===true&&HL.every(t=>DOC.includes(t.replace(/^（|）$/g,''))),JSON.stringify(said));
+    fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,6)}}}); G.day=tdOf('Y2S1',3,6)+1; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
+    check('家. 週末不問、沒交往不問、去過不問',!(G.msgs||[]).some(x=>x.th==='p:heroine_03')&&(()=>{ fresh(); G.day=tdOf('Y2S1',3,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const a=!(G.msgs||[]).length; return a; })());
+    m=await home(['Y1S2',11,tdOf('Y1S2',11,2)]); said=[]; picks=['煮得很好吃']; await EVENTS.run(ev('ev_yt_home_first'));
+    check('家. 事件 6 在她家當面版（大一下第 10 週以後、還沒在茶屋聽過）：秀琴姨坐下來「房東說要把房子賣了。…」、語彤「秀琴姨，妳先吃。」；記 RENT_RUMOR、ev_yutong_landlord 演過',said.some(x=>is(x,'房東說要把房子賣了。我住了十四年。賣了我要住哪裡。'))&&said.some(x=>is(x,'秀琴姨，妳先吃。'))&&!said.some(x=>/收完碗就走了/.test(x))&&said.some(x=>is(x,'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&!!G.events.done.ev_yutong_landlord,JSON.stringify(said)); }
+  /* 15b 當面（AA_643 第 10 節）：系刊出刊以後她第一次的茶屋班打烊；讀過期刊架＝「你看過了喔。…」，沒讀過＝「這期系刊…」；只講一次 */
+  for(const [ys,want] of [['shelf','你看過了喔。……蘇姨也看了。她說寫得太短。'],[null,'這期系刊，第三頁那篇是我寫的。……不用現在看。']]){
+    fresh(); Object.assign(G.flags,{YT_MET_JOB:true,TEA_SHIFTS:80,YT_FIRST_PAY:true,YT_CATS_NO:true,YT_MOM_BACK:1,YT_EV11B:1}); G.events.done.ev_yutong_landlord=1; if(ys) G.flags.YT_ESSAY=ys;
+    G.day=day('2028-10-14'); said=[]; await shift(81); const before=said.some(x=>/系刊/.test(x)); G.day=day('2028-10-21'); said=[]; await shift(82); const got=said.some(x=>is(x,want)); G.day=day('2028-10-22'); said=[]; await shift(83);
+    check('15b. 當面（'+(ys?'讀過':'沒讀過')+'）：10/16 以前沒有；10/21 的班打烊「'+want+'」；下一班不再說',!before&&got&&!said.some(x=>/系刊|你看過了喔/.test(x))); }
   fresh(); G.flags.YT_MET_JOB=true; G.day=tdOf('Y1S2',11,2); YTJOB.momKnown(G); check('4. 沒去上班的玩家：第 9 週週六過了也記 YT_PARENTS_KNOW（閒聊階梯的條件）',G.flags.YT_PARENTS_KNOW===true);
   check('5. 接線：jobs3d.js 有 MID_EV、story3d.js schedEnt 看 YTJOB.absent',/S\.MID_EV=\[\]/.test(fs.readFileSync(path.join(ROOT,'src/jobs3d.js'),'utf8'))&&/YTJOB\.absent/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
