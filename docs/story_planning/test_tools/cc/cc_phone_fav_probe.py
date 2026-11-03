@@ -1,6 +1,6 @@
 """CC（帳號 A）11-03：PHONE-FAV-1103（X190，fbfbac265，候選 b1ae1c390）手機最愛：照玩家的方式（手指點）測。
 ① 訊息列表原本的順序（照最新一則）→ 對話表頭點 ☆ → 變 ★、這個對話跑到最上面、名字前有 ★
-② 朋友頁再點兩個人的星號（最愛三個）→ 最愛的三個都在最上面、三個之間照最新一則排；其他的照舊
+② 朋友頁再點語彤、可昕的星號（最愛三個；芷若在這個前置裡還沒見過，不在朋友頁）→ 最愛的三個都在最上面、三個之間照最新一則排；其他的照舊
 ③ 選單 → 存檔欄位 1 → 重新整理 → 標題「讀取」欄位 1 → G.phone.fav 還在、列表還是置頂
 ④ 一個一個取消星號 → 列表回到 ① 原本的順序、沒有 ★
 直向（390×844）、橫向（844×390）各一次。
@@ -61,16 +61,17 @@ async def one(p, tag, landscape):
     r1 = await pg.evaluate(ROWS)
     check(f'{tag} ① 列表：以安（訊息最舊）到最上面、名字前有 ★，其他的照原本順序', [r['th'] for r in r1][:4] == ['p:heroine_01', 'p:heroine_03', 'p:kexin', 'p:heroine_02'] and r1[0]['star'] and not any(r['star'] for r in r1[1:]), json.dumps(r1[:5], ensure_ascii=False))
     await pg.evaluate("document.getElementById('phoneBody').scrollTop=0"); await pg.screenshot(path=os.path.join(OUT, f'{tag}_2_fav1.png'))
-    # ② 朋友頁再加兩個（芷若、可昕）
+    # ② 朋友頁再加兩個（語彤、可昕）
     await L.tap(pg, cdp, '#phoneTabs [data-ptab="friends"]'); await pg.wait_for_timeout(900)
-    for th in ('p:heroine_02', 'p:kexin'):
+    print('  朋友頁的星號：' + json.dumps(await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-fav]')].map(e=>e.dataset.fav)")), flush=True)
+    for th in ('p:heroine_03', 'p:kexin'):
         ok = await tapq(pg, cdp, "document.querySelector('#phoneBody [data-fav=\"%s\"]')" % th)
         check(f'{tag} ② 朋友頁有 {th} 的星號、點得到', ok)
     fav = await pg.evaluate("GAME.G.phone.fav.slice()")
-    check(f'{tag} ② G.phone.fav 有三個', sorted(fav) == sorted(['p:heroine_01', 'p:heroine_02', 'p:kexin']), json.dumps(fav))
+    check(f'{tag} ② G.phone.fav 有三個', sorted(fav) == sorted(['p:heroine_01', 'p:heroine_03', 'p:kexin']), json.dumps(fav))
     await pg.screenshot(path=os.path.join(OUT, f'{tag}_3_friends.png'))
     r2 = await msgs(pg, cdp); o2 = [r['th'] for r in r2]
-    check(f'{tag} ② 最愛三個在最上面、之間照最新一則（可昕、芷若、以安），接著語彤', o2[:4] == ['p:kexin', 'p:heroine_02', 'p:heroine_01', 'p:heroine_03'] and all(r['star'] for r in r2[:3]) and not any(r['star'] for r in r2[3:]), json.dumps(r2[:5], ensure_ascii=False))
+    check(f'{tag} ② 最愛三個在最上面、之間照最新一則（語彤、可昕、以安），接著芷若', o2[:4] == ['p:heroine_03', 'p:kexin', 'p:heroine_01', 'p:heroine_02'] and all(r['star'] for r in r2[:3]) and not any(r['star'] for r in r2[3:]), json.dumps(r2[:5], ensure_ascii=False))
     await pg.evaluate("document.getElementById('phoneBody').scrollTop=0"); await pg.screenshot(path=os.path.join(OUT, f'{tag}_4_fav3.png'))
     await L.close_panels(pg, cdp)
     # ③ 存檔 → 重新整理 → 讀檔
@@ -99,7 +100,7 @@ async def one(p, tag, landscape):
     check(f'{tag} ④ 對話表頭再點一次：變回 ☆', t4 == '☆', str(t4))
     await tapq(pg, cdp, "document.querySelector('#phoneBody [data-thback]')")
     await L.tap(pg, cdp, '#phoneTabs [data-ptab="friends"]'); await pg.wait_for_timeout(900)
-    for th in ('p:heroine_02', 'p:kexin'):
+    for th in ('p:heroine_03', 'p:kexin'):
         await tapq(pg, cdp, "document.querySelector('#phoneBody [data-fav=\"%s\"]')" % th)
     fav4 = await pg.evaluate("GAME.G.phone.fav.slice()")
     check(f'{tag} ④ 全部取消：G.phone.fav 是空的', fav4 == [], json.dumps(fav4))
