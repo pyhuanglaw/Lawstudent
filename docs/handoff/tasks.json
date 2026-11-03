@@ -43164,6 +43164,26 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "開局就用得到",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "ONE-TAP-GO-1103",
+   "title": "一鍵三項：回住的地方直接睡覺、到下一堂課的教室（坐到座位）、到下一個約會地點；每項有確認（去哪、跳過多少時間、會錯過什麼）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X189；使用者「下一個版本」",
+   "next": "子代理（worktree）實作 → 合併 → BB 測 → v9.10.19"
   }
  ]
 }
