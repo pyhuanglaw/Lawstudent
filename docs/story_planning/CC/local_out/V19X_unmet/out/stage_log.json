@@ -1,0 +1,21 @@
+[
+ {
+  "fn": "SOCIAL.bind（開局／讀檔：舊版 G.rel 遷移，social3d.js:11-14）",
+  "id": "heroine_01",
+  "pre": "STRANGER(新)",
+  "post": "ACQUAINTANCE",
+  "metD": false,
+  "fam": 6,
+  "gRel": "{\"an\":6,\"zhe\":12,\"sis\":2,\"kai\":8,\"yu\":3}",
+  "stack": [
+   "SOCIAL.bind at SOCIAL.bind (eval at evaluate (:370:30), <anonymous>:19:348)",
+   "bindSystems src/game3d.js:11",
+   "$.onclick src/game3d.js:782"
+  ],
+  "day": 1,
+  "key": "2025-09-17",
+  "h": 21.2,
+  "zone": "dorm",
+  "ev": null
+ }
+]

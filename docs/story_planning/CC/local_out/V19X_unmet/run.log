@@ -1,0 +1,76 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_phone_unmet_probe.py http://127.0.0.1:8811/index.html?lowres C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_unmet\out
+cc_phone_unmet_probe  SHA=b267b0534  URL=http://127.0.0.1:8811/index.html?lowres  START=law  END_KEY=2025-09-01
+PASS 遊戲載入
+PASS 包住寫入函式（PHONE.post/postAt/at/join、INV.msg/msgAt）
+  [  21.4s] 照玩家點標題「#btnNewLaw」（名字預設）
+  [  21.7s] 開局 2025-09-17 21.20 dorm
+  [  21.7s] == 2025-09-17 21.20 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+  [  32.2s] == 2025-08-22 8.50 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+   ▶ 「臺北。我家就在這附近。」 ／ ['「臺北。我家就在這附近。」', '「臺北人。」']
+   ▶ 「你偷襲。」 ／ ['「你偷襲。」', '（揉一下被撞到的肩膀）']
+   ▶ 「好啊。」 ／ ['「好啊。」', '「我不太會玩。」']
+   ▶ 「嗯。」 ／ ['「嗯。」', '「我念過一個多月經濟系，才重考的']
+  [  80.1s] == 2025-08-23 17.50 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+   ▶ 「還好，昨天主要在玩遊戲。」 ／ ['「還好，昨天主要在玩遊戲。」', '「妳怎麼今天才來？」']
+  [  89.5s] 宿營裡拿到沛珊的聯絡方式（camp_y1.js:116 consequences.contact）：["2025-08-23", 20]
+  [  93.3s] 沛珊（0823_scene1）：{"tag": "0823_scene1", "opened": false, "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "why": "點沛珊的同時劇情把手機收起來／沒進到對話（{\"hidden\": true, \"inThread\": false}）", "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\01_peishan_0823_scene1_interrupted.png"}
+  [  94.1s] == 2025-08-24 7.50 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+  [  98.2s] 沛珊（0824_scene1）：{"tag": "0824_scene1", "opened": true, "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "thread": "‹ 訊息\n沛珊（宿營同隊）\n☆\n傳訊息\n昨天 20:00\n加了沛珊的聯絡方式。", "send": ["傳訊息"], "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\02_peishan_0824_scene1.png", "ok": true}
+   ▶ 「好，開學見。」 ／ ['「好，開學見。」', '「這麼遠還跑一趟？」']
+  [ 110.0s] == 2025-08-29 16.09 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+  [ 115.5s] 沛珊（sub0825_0829）：{"tag": "sub0825_0829", "opened": true, "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "thread": "‹ 訊息\n沛珊（宿營同隊）\n☆\n傳訊息\n8/23 20:00\n加了沛珊的聯絡方式。", "send": ["傳訊息"], "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\03_peishan_sub0825_0829.png", "ok": true}
+   ▶ 沒關係，你先放。 ／ ['沒關係，你先放。', '我是祐廷，法律系。', '（點頭，先搬自己的東西）']
+   ▶ 你可以直接講啊 ／ ['你可以直接講啊', '好 開幾度']
+  [ 163.4s] 選人面板 08-29_22（2025-08-29 22.73 dorm）：{"msg_contacts": [["沛珊（宿營同隊）", null, 1], ["可昕", null, 1], ["阿哲", null, 1], ["阿凱", null, 1]]}
+  [ 177.2s] 到達「睡覺」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+   ▶ 睡到明天早上（07:30）07:30（明天沒有課） ／ ['睡到明天早上（07:30）07:', '睡到明天中午12:00', '睡到明天下午14:00——但約好', '再撐一下']
+  [ 185.7s] == 2025-08-30 7.52 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+  [ 189.8s] 沛珊（0830）：{"tag": "0830", "opened": false, "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "why": "點沛珊的同時劇情把手機收起來／沒進到對話（{\"hidden\": false, \"inThread\": false}）", "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\05_peishan_0830_interrupted.png"}
+  [ 205.0s] 選人面板 08-30_07（2025-08-30 7.58 dorm）：{"msg_contacts": [["沛珊（宿營同隊）", null, 1], ["可昕", null, 1], ["阿哲", null, 1], ["阿凱", null, 1]]}
+   跳過時間： 等到中午（12:00）
+   跳過時間： 等到下午（14:00）
+   ▶ 出發：台北車站 13:30：接可昕台北車站（高鐵出口）　開車 ／ ['出發：台北車站 13:30：接可', '晚一點（20 分鐘後再提醒）', '不去了']
+   ▶ 「我也以為我會在經濟系。」 ／ ['「我也以為我會在經濟系。」', '（等她說下去）', '「現在呢？」']
+   跳過時間： 等到晚上（20:00）
+  [ 268.9s] 到達「睡覺」附近（0.00 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   ▶ 睡到明天早上（07:30）07:30（明天沒有課） ／ ['睡到明天早上（07:30）07:', '睡到明天中午12:00', '睡到明天下午14:00', '睡到明天晚上18:00', '再撐一下']
+  [ 275.8s] == 2025-08-31 7.52 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+  [ 294.4s] 選人面板 08-31_07（2025-08-31 7.57 dorm）：{"msg_contacts": [["沛珊（宿營同隊）", null, 1], ["可昕", null, 1], ["阿哲", null, 1], ["阿凱", null, 1]]}
+   跳過時間： 等到中午（12:00）
+   跳過時間： 等到下午（14:00）
+   跳過時間： 等到傍晚（17:30）
+   跳過時間： 等到晚上（20:00）
+   快速前往： dorm|宿舍
+  [ 386.2s] 到達「睡覺」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+   ▶ 睡到明天早上（08:10）08:10（第一堂 09:10 憲 ／ ['睡到明天早上（08:10）08:', '睡到明天中午12:00。會錯過：', '睡到明天下午14:00。會錯過：', '睡到明天晚上18:00。會錯過：', '再撐一下']
+  [ 393.2s] == 2025-09-01 8.17 dorm  rel={"heroine_01": {"st": "ACQUAINTANCE", "fam": 6, "ct": false}, "heroine_02": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_03": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_04": {"st": "STRANGER", "fam": 0, "ct": false}, "heroine_05": {"st": "STRANGER", "fam": 2, "ct": true}}
+   ▶ 「校門對面那排有一間燒臘店，便宜，份量也夠。」 ／ ['「校門對面那排有一間燒臘店，便宜', '「往捷運站那邊走，店比較多。」', '「我也還在找。」']
+   ▶ 「校門對面那排有一間燒臘店，便宜，份量也夠。」 ／ ['「校門對面那排有一間燒臘店，便宜', '「往捷運站那邊走，店比較多。」', '「我也還在找。」']
+   ▶ 直接去上課：憲法（上）09:10，法律系館A 201。走路  ／ ['直接去上課：憲法（上）09:10', '翹這堂課記沒去，不扣分。這堂課裡', '先起床再說手機的「今天」隨時可以']
+   ▶ 坐中間的位子第一次上這門課 ／ ['坐中間的位子第一次上這門課', '自己找位子走過去坐下就可以上課']
+   ▶ 先去吃飯，再去下一堂約 40 分鐘 ／ ['先去吃飯，再去下一堂約 40 分', '在附近讀書，再去下一堂讀到 15', '先自由活動手機的「今天」隨時可以', '下一堂不去']
+   ▶ 小松　90 元 ／ ['小松\u300090 元', '公館燒臘\u3000100 元', '便利商店\u300075 元', '算了']
+  [ 475.4s] 選人面板 09-01_17（2025-09-01 17.38 campus）：{"msg_contacts": [["沛珊（宿營同隊）", null, 1], ["可昕", null, 1], ["阿哲", null, 1], ["阿凱", null, 1]]}
+  [ 475.9s] 選項（都選第一個；睡覺選單例外）：[["2025-08-22", 10.5, "「臺北。我家就在這附近。」", ["「臺北。我家就在這附近。」", "「臺北人。」"]], ["2025-08-22", 13.5, "「你偷襲。」", ["「你偷襲。」", "（揉一下被撞到的肩膀）"]], ["2025-08-22", 19.5, "「好啊。」", ["「好啊。」", "「我不太會玩。」"]], ["2025-08-22", 19.5, "「嗯。」", ["「嗯。」", "「我念過一個多月經濟系，才重考的"]], ["2025-08-23", 20, "「還好，昨天主要在玩遊戲。」", ["「還好，昨天主要在玩遊戲。」", "「妳怎麼今天才來？」"]], ["2025-08-24", 12.5, "「好，開學見。」", ["「好，開學見。」", "「這麼遠還跑一趟？」"]], ["2025-08-29", 16.1, "沒關係，你先放。", ["沒關係，你先放。", "我是祐廷，法律系。", "（點頭，先搬自己的東西）"]], ["2025-08-29", 22.67, "你可以直接講啊", ["你可以直接講啊", "好 開幾度"]], ["2025-08-29", 22.82, "睡到明天早上（07:30）07:30（明天沒有課）", ["睡到明天早上（07:30）07:", "睡到明天中午12:00", "睡到明天下午14:00——但約好", "再撐一下"]], ["2025-08-30", 12.67, "出發：台北車站 13:30：接可昕台北車站（高鐵出口）　開車", ["出發：台北車站 13:30：接可", "晚一點（20 分鐘後再提醒）", "不去了"]], ["2025-08-30", 13.5, "「我也以為我會在經濟系。」", ["「我也以為我會在經濟系。」", "（等她說下去）", "「現在呢？」"]], ["2025-08-30", 20.07, "睡到明天早上（07:30）07:30（明天沒有課）", ["睡到明天早上（07:30）07:", "睡到明天中午12:00", "睡到明天下午14:00", "睡到明天晚上18:00", "再撐一下"]], ["2025-08-31", 20.41, "睡到明天早上（08:10）08:10（第一堂 09:10 憲", ["睡到明天早上（08:10）08:", "睡到明天中午12:00。會錯過：", "睡到明天下午14:00。會錯過：", "睡到明天晚上18:00。會錯過：", "再撐一下"]], ["2025-09-01", 8.17, "「校門對面那排有一間燒臘店，便宜，份量也夠。」", ["「校門對面那排有一間燒臘店，便宜", "「往捷運站那邊走，店比較多。」", "「我也還在找。」"]], ["2025-09-01", 8.17, "「校門對面那排有一間燒臘店，便宜，份量也夠。」", ["「校門對面那排有一間燒臘店，便宜", "「往捷運站那邊走，店比較多。」", "「我也還在找。」"]], ["2025-09-01", 8.19, "直接去上課：憲法（上）09:10，法律系館A 201。走路 ", ["直接去上課：憲法（上）09:10", "翹這堂課記沒去，不扣分。這堂課裡", "先起床再說手機的「今天」隨時可以"]], ["2025-09-01", 9.01, "坐中間的位子第一次上這門課", ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"]], ["2025-09-01", 12.2, "先去吃飯，再去下一堂約 40 分鐘", ["先去吃飯，再去下一堂約 40 分", "在附近讀書，再去下一堂讀到 15", "先自由活動手機的「今天」隨時可以", "下一堂不去"]], ["2025-09-01", 12.2, "小松　90 元", ["小松　90 元", "公館燒臘　100 元", "便利商店　75 元", "算了"]]]
+  [ 476.0s] 寫入紀錄 32 筆；過了的日子 ["2025-09-17", "2025-08-22", "2025-08-23", "2025-08-24", "2025-08-29", "2025-08-30", "2025-08-31", "2025-09-01"]
+PASS 從新局一路玩到開學那一天（2025-09-01，school）  {"days": ["2025-08-30", "2025-08-31", "2025-09-01"], "met_at": null, "min": 7.9}
+PASS camp_peishan：宿營照玩家點完、拿到沛珊的聯絡方式  ["2025-08-23", 20]
+  [ 476.0s] camp_peishan 2025-08-22：這一天還沒有沛珊的聯絡方式（2025-08-23 20 時才拿到；AA_608 宿營 8/23 營火才認識），不算 FAIL
+  [ 476.0s] camp_peishan 2025-08-23：宿營劇情中試了 1 次，每次點沛珊的同時劇情都把手機收起來、這一天就過了（看截圖 *_interrupted），不算 FAIL
+PASS camp_peishan 2025-08-24：訊息頁聯絡人列點沛珊點得開、有「傳訊息」、不是「聯絡不上」  {"tag": "0824_scene1", "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "send": ["傳訊息"], "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "note": null, "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\02_peishan_0824_scene1.png"} 對話：‹ 訊息 | 沛珊（宿營同隊） | ☆ | 傳訊息 | 昨天 20:00 | 加了沛珊的聯絡方式。
+PASS camp_peishan 2025-08-25：訊息頁聯絡人列點沛珊點得開、有「傳訊息」、不是「聯絡不上」  {"tag": "sub0825_0829", "cell": {"th": "p:classmate_peishan", "noct": "", "dis": false, "text": "沛珊（宿營同隊）"}, "send": ["傳訊息"], "stage": {"stage": "ACQUAINTANCE", "metD": true, "contact": true, "open": {"ok": true}}, "note": "8/25～28 劇情不演（story3d.js:152），用 2025-08-29 代替", "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\03_peishan_sub0825_0829.png"} 對話：‹ 訊息 | 沛珊（宿營同隊） | ☆ | 傳訊息 | 8/23 20:00 | 加了沛珊的聯絡方式。
+  [ 476.0s] camp_peishan 2025-08-30：點沛珊的同時劇情把手機收起來／沒進到對話（{"hidden": false, "inThread": false}）（不算 FAIL，記下來）
+  [ 476.0s] [來源] heroine_01 在相遇前 stage 離開 STRANGER：{"fn": "SOCIAL.bind（開局／讀檔：舊版 G.rel 遷移，social3d.js:11-14）", "id": "heroine_01", "pre": "STRANGER(新)", "post": "ACQUAINTANCE", "metD": false, "fam": 6, "gRel": "{\"an\":6,\"zhe\":12,\"sis\":2,\"kai\":8,\"yu\":3}", "stack": ["SOCIAL.bind at SOCIAL.bind (eval at evaluate (:370:30), <anonymous>:19:348)", "bindSystems src/game3d.js:11", "$.onclick src/game3d.js:782"], "day": 1, "key": "2025-09-17", "h": 21.2, "zone": "dorm", "ev": null}
+  [ 476.0s] 聯絡人列每天的截圖：[["08-29_22", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\04_contacts_msg_08-29_22.png"], ["08-30_07", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\06_contacts_msg_08-30_07.png"], ["08-31_07", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\07_contacts_msg_08-31_07.png"], ["09-01_17", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\08_contacts_msg_09-01_17.png"]]
+PASS contacts：開學前（到 2025-09-01）每一個玩家能動的日子都看過一次聯絡人列  {"看過": ["08-29", "08-30", "08-31", "09-01"], "過了但沒看到（劇情整天佔住或不演）": ["08-22", "08-23", "08-24"]}
+PASS 選人面板 訊息頁上面的「傳訊息給」聯絡人列：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子  看了 4 次
+PASS 阿哲：見過、有聯絡方式那幾天，聯絡人列有他、點得開、沒寫「聯絡不上」  看過 4 天
+PASS 阿凱：見過、有聯絡方式那幾天，聯絡人列有他、點得開、沒寫「聯絡不上」  看過 4 天
+PASS heroine_01：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子
+PASS heroine_02：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子
+PASS heroine_03：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子
+PASS heroine_04：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子
+PASS heroine_05：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子
+PASS 沒有 JS 例外（pageerror）
+用時 476 秒
+ALL PASS

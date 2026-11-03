@@ -1,0 +1,1953 @@
+{
+ "writes": [
+  {
+   "fn": "PHONE.join",
+   "th": "g:law_new",
+   "text": "法律系 114 新生（系學會）",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.campGroups src/story3d.js:132",
+    "S.campY1 src/story3d.js:144",
+    "S.newGame src/story3d.js:172",
+    "src/game3d.js:782"
+   ],
+   "day": 1,
+   "key": "2025-09-17",
+   "h": 21.2,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_new",
+   "from": "law_assoc",
+   "who": null,
+   "text": "迎新宿營 8/22～8/24，三天兩夜，山上的青年活動中心。新生都要參加，車子、",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "S.campGroups src/story3d.js:133",
+    "S.campY1 src/story3d.js:144",
+    "S.newGame src/story3d.js:172",
+    "src/game3d.js:782"
+   ],
+   "shown": "系學會",
+   "title": "法律系 114 新生（系學會）",
+   "day": 1,
+   "key": "2025-09-17",
+   "h": 21.2,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -32,
+   "atH": 20
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_new",
+   "from": null,
+   "who": null,
+   "text": "（小隊名單貼出來了。第七小隊七個人，你認得的只有自己的名字。）",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "S.campGroups src/story3d.js:134",
+    "S.campY1 src/story3d.js:144",
+    "S.newGame src/story3d.js:172",
+    "src/game3d.js:782"
+   ],
+   "shown": "",
+   "title": "法律系 114 新生（系學會）",
+   "day": 1,
+   "key": "2025-09-17",
+   "h": 21.2,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -26,
+   "atH": 21
+  },
+  {
+   "fn": "PHONE.join",
+   "th": "g:camp_squad_y1",
+   "text": "第七小隊",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.campY1 src/story3d.js:144",
+    "S.newGame src/story3d.js:172",
+    "src/game3d.js:782"
+   ],
+   "day": 1,
+   "key": "2025-09-17",
+   "h": 21.2,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "INV.msg",
+   "th": "p:classmate_peishan",
+   "from": null,
+   "who": "classmate_peishan",
+   "text": "加了沛珊的聯絡方式。",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "INV.msg at INV.msg (eval at evaluate (:370:30), <anonymous>:13:84)",
+    "S.addContact src/invites3d.js:34",
+    "X.applyConsequences src/events3d.js:136",
+    "runBody src/events3d.js:116",
+    "src/events3d.js:114"
+   ],
+   "shown": "",
+   "title": "沛珊",
+   "day": -24,
+   "key": "2025-08-23",
+   "h": 20,
+   "zone": "dorm",
+   "ev": "ev_camp_d2_fire"
+  },
+  {
+   "fn": "PHONE.join",
+   "th": "g:econ_friends",
+   "text": "走啦",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.phoneRules src/story3d.js:2441",
+    "S.tick src/story3d.js:1233",
+    "frame src/game3d.js:547"
+   ],
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 16.09,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:econ_friends",
+   "from": "econ_weilun",
+   "who": null,
+   "text": "📷（公館的宵夜攤，四個人和準備收攤的老闆。桌上多擺了兩副碗筷。）",
+   "tag": "econ_photo_0813",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "S.phoneRules src/story3d.js:2441",
+    "S.tick src/story3d.js:1233",
+    "frame src/game3d.js:547"
+   ],
+   "shown": "韋綸",
+   "title": "走啦",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 16.09,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -34,
+   "atH": 23.5
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:camp_squad_y1",
+   "from": "classmate_xinci",
+   "who": null,
+   "text": "📷（小隊合照）",
+   "tag": "camp_squad_photo",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "芯慈",
+   "title": "第七小隊",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 16.09,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -23,
+   "atH": 21,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.campGroups src/story3d.js:135",
+     "S.campY1 src/story3d.js:144",
+     "S.newGame src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": 1,
+     "key": "2025-09-17",
+     "h": 21.2,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -23,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:camp_squad_y1",
+   "from": "classmate_xinci",
+   "who": null,
+   "text": "宿營辛苦了。",
+   "tag": "camp_squad_photo",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "芯慈",
+   "title": "第七小隊",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 16.09,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -23,
+   "atH": 21.01,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.campGroups src/story3d.js:135",
+     "S.campY1 src/story3d.js:144",
+     "S.newGame src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": 1,
+     "key": "2025-09-17",
+     "h": 21.2,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -23,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:camp_squad_y1",
+   "from": "classmate_peishan",
+   "who": null,
+   "text": "我只有半張臉在裡面",
+   "tag": "camp_squad_photo",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "沛珊",
+   "title": "第七小隊",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 16.09,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -23,
+   "atH": 21.02,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.campGroups src/story3d.js:135",
+     "S.campY1 src/story3d.js:144",
+     "S.newGame src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": 1,
+     "key": "2025-09-17",
+     "h": 21.2,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -23,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.post",
+   "th": "p:kai",
+   "from": "kai",
+   "who": null,
+   "text": "你的冷氣遙控器在我這",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.post at PHONE.post (eval at evaluate (:370:30), <anonymous>:8:51)",
+    "phoneScene src/story3d.js:1362",
+    "kaiMoveIn src/story3d.js:1394",
+    "src/story3d.js:116",
+    "src/story3d.js:165"
+   ],
+   "shown": "阿凱",
+   "title": "阿凱",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.post",
+   "th": "p:kai",
+   "from": "player",
+   "who": null,
+   "text": "你可以直接講啊",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.post at PHONE.post (eval at evaluate (:370:30), <anonymous>:8:51)",
+    "S.answer src/phone3d.js:70",
+    "phoneScene src/story3d.js:1364",
+    "src/story3d.js:1394",
+    "src/story3d.js:116"
+   ],
+   "shown": "你",
+   "title": "阿凱",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.post",
+   "th": "p:kai",
+   "from": "kai",
+   "who": null,
+   "text": "我耳機戴著 懶得拿下來",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.post at PHONE.post (eval at evaluate (:370:30), <anonymous>:8:51)",
+    "S.answer src/phone3d.js:70",
+    "phoneScene src/story3d.js:1364",
+    "src/story3d.js:1394",
+    "src/story3d.js:116"
+   ],
+   "shown": "阿凱",
+   "title": "阿凱",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.post",
+   "th": "p:kai",
+   "from": "kai",
+   "who": null,
+   "text": "幾度",
+   "tag": null,
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.post at PHONE.post (eval at evaluate (:370:30), <anonymous>:8:51)",
+    "S.answer src/phone3d.js:70",
+    "phoneScene src/story3d.js:1364",
+    "src/story3d.js:1394",
+    "src/story3d.js:116"
+   ],
+   "shown": "阿凱",
+   "title": "阿凱",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.join",
+   "th": "g:family_law",
+   "text": "法律系直屬家族",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.familyW0 src/story3d.js:1417",
+    "S.startLawWeek1 src/story3d.js:117",
+    "src/story3d.js:165",
+    "src/story3d.js:172",
+    "src/game3d.js:782"
+   ],
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:zhe",
+   "from": "zhe",
+   "who": null,
+   "text": "我在高鐵上了。",
+   "tag": "camp_squad_829",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "阿哲",
+   "title": "阿哲",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -18,
+   "atH": 17.5,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.campGroups src/story3d.js:136",
+     "S.campY1 src/story3d.js:144",
+     "S.newGame src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": 1,
+     "key": "2025-09-17",
+     "h": 21.2,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -18,
+    "h": 17.5,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:zhe",
+   "from": "zhe",
+   "who": null,
+   "text": "七點到宿舍。你到了沒？",
+   "tag": "camp_squad_829",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "阿哲",
+   "title": "阿哲",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -18,
+   "atH": 17.51,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.campGroups src/story3d.js:136",
+     "S.campY1 src/story3d.js:144",
+     "S.newGame src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": 1,
+     "key": "2025-09-17",
+     "h": 21.2,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -18,
+    "h": 17.5,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:kexin",
+   "from": "kexin",
+   "who": null,
+   "text": "明天一點半的高鐵到台北。",
+   "tag": "y0_e37_law_ask",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "可昕",
+   "title": "可昕",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -18,
+   "atH": 21.5,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "send src/story3d.js:1941",
+     "src/story3d.js:1944"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -18,
+    "h": 21.5,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:kexin",
+   "from": "kexin",
+   "who": null,
+   "text": "行李兩箱。你來車站接我，直接上山。",
+   "tag": "y0_e37_law_ask",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "可昕",
+   "title": "可昕",
+   "day": -18,
+   "key": "2025-08-29",
+   "h": 22.67,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -18,
+   "atH": 21.51,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "send src/story3d.js:1941",
+     "src/story3d.js:1944"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -18,
+    "h": 21.5,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:family_law",
+   "from": "kevin",
+   "who": null,
+   "text": "學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；",
+   "tag": "fam_w0",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "Kevin",
+   "title": "法律系直屬家族",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 7.52,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -17,
+   "atH": 21,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.familyW0 src/story3d.js:1422",
+     "S.startLawWeek1 src/story3d.js:117",
+     "src/story3d.js:165",
+     "src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -17,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:family_law",
+   "from": "kevin",
+   "who": null,
+   "text": "新的家族學弟妹都進群了嗎？",
+   "tag": "fam_w0",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "Kevin",
+   "title": "法律系直屬家族",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 7.52,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -17,
+   "atH": 21.01,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.familyW0 src/story3d.js:1422",
+     "S.startLawWeek1 src/story3d.js:117",
+     "src/story3d.js:165",
+     "src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -17,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:family_law",
+   "from": "kevin",
+   "who": null,
+   "text": "有進來的舉個手，考古題茶會那天給你們。",
+   "tag": "fam_w0",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "Kevin",
+   "title": "法律系直屬家族",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 7.52,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -17,
+   "atH": 21.02,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.familyW0 src/story3d.js:1422",
+     "S.startLawWeek1 src/story3d.js:117",
+     "src/story3d.js:165",
+     "src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -17,
+    "h": 21,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.join",
+   "th": "g:law_class",
+   "text": "法律系（全班）",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.lawClassJoinY1 src/story3d.js:1427",
+    "S.open src/gymcer3d.js:32"
+   ],
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 14,
+   "zone": "gym_arena",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.join",
+   "th": "g:law_board",
+   "text": "法律系新生（自介版）",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "PHONE.join at PHONE.join (eval at evaluate (:370:30), <anonymous>:12:224)",
+    "S.lawClassJoinY1 src/story3d.js:1427",
+    "S.open src/gymcer3d.js:32"
+   ],
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 14,
+   "zone": "gym_arena",
+   "ev": null
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_class",
+   "from": null,
+   "who": null,
+   "text": "你被加進「法律系（全班）」。",
+   "tag": "law_class_join",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "",
+   "title": "法律系（全班）",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 15.5,
+   "zone": "gym_arena",
+   "ev": null,
+   "atDay": -16,
+   "atH": 14.002378000000002,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.lawClassJoinY1 src/story3d.js:1431",
+     "S.open src/gymcer3d.js:32"
+    ],
+    "c": {
+     "day": -16,
+     "key": "2025-08-31",
+     "h": 14,
+     "zone": "gym_arena",
+     "ev": null
+    },
+    "day": -16,
+    "h": 14.002378000000002,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_class",
+   "from": "law_assoc",
+   "who": null,
+   "text": "新生茶會：9/2（二）18:30，法律系館B一樓大廳。會說家族怎麼分，有點心。",
+   "tag": "law_class_join",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "系學會",
+   "title": "法律系（全班）",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 15.5,
+   "zone": "gym_arena",
+   "ev": null,
+   "atDay": -16,
+   "atH": 14.012378000000002,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.lawClassJoinY1 src/story3d.js:1431",
+     "S.open src/gymcer3d.js:32"
+    ],
+    "c": {
+     "day": -16,
+     "key": "2025-08-31",
+     "h": 14,
+     "zone": "gym_arena",
+     "ev": null
+    },
+    "day": -16,
+    "h": 14.002378000000002,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_class",
+   "from": "law_assoc",
+   "who": null,
+   "text": "不用報名，來就好。",
+   "tag": "law_class_join",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "系學會",
+   "title": "法律系（全班）",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 15.5,
+   "zone": "gym_arena",
+   "ev": null,
+   "atDay": -16,
+   "atH": 14.022378000000002,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.lawClassJoinY1 src/story3d.js:1431",
+     "S.open src/gymcer3d.js:32"
+    ],
+    "c": {
+     "day": -16,
+     "key": "2025-08-31",
+     "h": 14,
+     "zone": "gym_arena",
+     "ev": null
+    },
+    "day": -16,
+    "h": 14.002378000000002,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_class",
+   "from": null,
+   "who": null,
+   "text": "請問要穿系服嗎",
+   "tag": "law_class_q",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "同學",
+   "title": "法律系（全班）",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 15.5,
+   "zone": "gym_arena",
+   "ev": null,
+   "atDay": -16,
+   "atH": 14.252378000000002,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.lawClassJoinY1 src/story3d.js:1432",
+     "S.open src/gymcer3d.js:32"
+    ],
+    "c": {
+     "day": -16,
+     "key": "2025-08-31",
+     "h": 14,
+     "zone": "gym_arena",
+     "ev": null
+    },
+    "day": -16,
+    "h": 14.252378000000002,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "g:law_class",
+   "from": null,
+   "who": null,
+   "text": "我們還沒有系服吧",
+   "tag": "law_class_q",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "同學",
+   "title": "法律系（全班）",
+   "day": -16,
+   "key": "2025-08-31",
+   "h": 15.5,
+   "zone": "gym_arena",
+   "ev": null,
+   "atDay": -16,
+   "atH": 14.262378000000002,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.lawClassJoinY1 src/story3d.js:1432",
+     "S.open src/gymcer3d.js:32"
+    ],
+    "c": {
+     "day": -16,
+     "key": "2025-08-31",
+     "h": 14,
+     "zone": "gym_arena",
+     "ev": null
+    },
+    "day": -16,
+    "h": 14.252378000000002,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:kexin",
+   "from": "kexin",
+   "who": null,
+   "text": "明天開學了。",
+   "tag": "kx_eve",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "可昕",
+   "title": "可昕",
+   "day": -15,
+   "key": "2025-09-01",
+   "h": 8.17,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -16,
+   "atH": 22.166666666666668,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.kexinEve src/story3d.js:1455",
+     "S.startLawWeek1 src/story3d.js:118",
+     "src/story3d.js:165",
+     "src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -16,
+    "h": 22.166666666666668,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.postAt",
+   "th": "p:kexin",
+   "from": "kexin",
+   "who": null,
+   "text": "你課表都排好了嗎？",
+   "tag": "kx_eve",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.postAt at PHONE.postAt (eval at evaluate (:370:30), <anonymous>:9:61)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "可昕",
+   "title": "可昕",
+   "day": -15,
+   "key": "2025-09-01",
+   "h": 8.17,
+   "zone": "dorm",
+   "ev": null,
+   "atDay": -16,
+   "atH": 22.17666666666667,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.kexinEve src/story3d.js:1455",
+     "S.startLawWeek1 src/story3d.js:118",
+     "src/story3d.js:165",
+     "src/story3d.js:172",
+     "src/game3d.js:782"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 22.67,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -16,
+    "h": 22.166666666666668,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  },
+  {
+   "fn": "PHONE.post",
+   "th": "sys",
+   "from": null,
+   "who": null,
+   "text": "9/6（六）10:00～16:00　社團博覽會（椰影大道）",
+   "tag": "fair_y1_cal",
+   "met": {
+    "heroine_01": false,
+    "heroine_02": false,
+    "heroine_03": false,
+    "heroine_04": false,
+    "heroine_05": false
+   },
+   "stack": [
+    "rec at rec (eval at evaluate (:370:30), <anonymous>:7:25)",
+    "PHONE.post at PHONE.post (eval at evaluate (:370:30), <anonymous>:8:51)",
+    "src/phone3d.js:54",
+    "Array.forEach at Array.forEach (<anonymous>)",
+    "S.tick src/phone3d.js:54",
+    "S.tick src/story3d.js:1233"
+   ],
+   "shown": "行事曆",
+   "title": "通知",
+   "day": -15,
+   "key": "2025-09-01",
+   "h": 8.17,
+   "zone": "dorm",
+   "ev": null,
+   "atStack": {
+    "stack": [
+     "PHONE.at at PHONE.at (eval at evaluate (:370:30), <anonymous>:10:146)",
+     "S.phone src/clubfair3d.js:86",
+     "src/clubfair3d.js:97",
+     "S.phoneRules src/story3d.js:1708",
+     "S.tick src/story3d.js:1233",
+     "frame src/game3d.js:547"
+    ],
+    "c": {
+     "day": -18,
+     "key": "2025-08-29",
+     "h": 16.09,
+     "zone": "dorm",
+     "ev": null
+    },
+    "day": -15,
+    "h": 8,
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    }
+   }
+  }
+ ],
+ "ui": [
+  [
+   "08-29_22",
+   {
+    "cells": {
+     "msg_contacts": [
+      {
+       "name": "沛珊（宿營同隊）",
+       "text": "沛珊（宿營同隊）",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 154,
+       "h": 44,
+       "data": {
+        "th": "p:classmate_peishan"
+       }
+      },
+      {
+       "name": "可昕",
+       "text": "可昕",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kexin"
+       }
+      },
+      {
+       "name": "阿哲",
+       "text": "阿哲",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:zhe"
+       }
+      },
+      {
+       "name": "阿凱",
+       "text": "阿凱",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kai"
+       }
+      }
+     ],
+     "_shots": [
+      "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\04_contacts_msg_08-29_22.png"
+     ]
+    },
+    "bad": [],
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    },
+    "friends": [
+     {
+      "id": "zhe",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     },
+     {
+      "id": "kai",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     }
+    ]
+   }
+  ],
+  [
+   "08-30_07",
+   {
+    "cells": {
+     "msg_contacts": [
+      {
+       "name": "沛珊（宿營同隊）",
+       "text": "沛珊（宿營同隊）",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 154,
+       "h": 44,
+       "data": {
+        "th": "p:classmate_peishan"
+       }
+      },
+      {
+       "name": "可昕",
+       "text": "可昕",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kexin"
+       }
+      },
+      {
+       "name": "阿哲",
+       "text": "阿哲",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:zhe"
+       }
+      },
+      {
+       "name": "阿凱",
+       "text": "阿凱",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kai"
+       }
+      }
+     ],
+     "_shots": [
+      "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\06_contacts_msg_08-30_07.png"
+     ]
+    },
+    "bad": [],
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    },
+    "friends": [
+     {
+      "id": "zhe",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     },
+     {
+      "id": "kai",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     }
+    ]
+   }
+  ],
+  [
+   "08-31_07",
+   {
+    "cells": {
+     "msg_contacts": [
+      {
+       "name": "沛珊（宿營同隊）",
+       "text": "沛珊（宿營同隊）",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 154,
+       "h": 44,
+       "data": {
+        "th": "p:classmate_peishan"
+       }
+      },
+      {
+       "name": "可昕",
+       "text": "可昕",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kexin"
+       }
+      },
+      {
+       "name": "阿哲",
+       "text": "阿哲",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:zhe"
+       }
+      },
+      {
+       "name": "阿凱",
+       "text": "阿凱",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kai"
+       }
+      }
+     ],
+     "_shots": [
+      "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\07_contacts_msg_08-31_07.png"
+     ]
+    },
+    "bad": [],
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    },
+    "friends": [
+     {
+      "id": "zhe",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     },
+     {
+      "id": "kai",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     }
+    ]
+   }
+  ],
+  [
+   "09-01_17",
+   {
+    "cells": {
+     "msg_contacts": [
+      {
+       "name": "沛珊（宿營同隊）",
+       "text": "沛珊（宿營同隊）",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 154,
+       "h": 44,
+       "data": {
+        "th": "p:classmate_peishan"
+       }
+      },
+      {
+       "name": "可昕",
+       "text": "可昕",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kexin"
+       }
+      },
+      {
+       "name": "阿哲",
+       "text": "阿哲",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:zhe"
+       }
+      },
+      {
+       "name": "阿凱",
+       "text": "阿凱",
+       "avatar": null,
+       "opacity": 1,
+       "disabled": false,
+       "gray": false,
+       "w": 64,
+       "h": 44,
+       "data": {
+        "th": "p:kai"
+       }
+      }
+     ],
+     "_shots": [
+      "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_unmet\\out\\08_contacts_msg_09-01_17.png"
+     ]
+    },
+    "bad": [],
+    "met": {
+     "heroine_01": false,
+     "heroine_02": false,
+     "heroine_03": false,
+     "heroine_04": false,
+     "heroine_05": false
+    },
+    "friends": [
+     {
+      "id": "zhe",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     },
+     {
+      "id": "kai",
+      "metD": true,
+      "stage": "ACQUAINTANCE",
+      "contact": true
+     }
+    ]
+   }
+  ]
+ ],
+ "scan_first": {},
+ "picks": [
+  [
+   "2025-08-22",
+   10.5,
+   "「臺北。我家就在這附近。」",
+   [
+    "「臺北。我家就在這附近。」",
+    "「臺北人。」"
+   ]
+  ],
+  [
+   "2025-08-22",
+   13.5,
+   "「你偷襲。」",
+   [
+    "「你偷襲。」",
+    "（揉一下被撞到的肩膀）"
+   ]
+  ],
+  [
+   "2025-08-22",
+   19.5,
+   "「好啊。」",
+   [
+    "「好啊。」",
+    "「我不太會玩。」"
+   ]
+  ],
+  [
+   "2025-08-22",
+   19.5,
+   "「嗯。」",
+   [
+    "「嗯。」",
+    "「我念過一個多月經濟系，才重考的"
+   ]
+  ],
+  [
+   "2025-08-23",
+   20,
+   "「還好，昨天主要在玩遊戲。」",
+   [
+    "「還好，昨天主要在玩遊戲。」",
+    "「妳怎麼今天才來？」"
+   ]
+  ],
+  [
+   "2025-08-24",
+   12.5,
+   "「好，開學見。」",
+   [
+    "「好，開學見。」",
+    "「這麼遠還跑一趟？」"
+   ]
+  ],
+  [
+   "2025-08-29",
+   16.1,
+   "沒關係，你先放。",
+   [
+    "沒關係，你先放。",
+    "我是祐廷，法律系。",
+    "（點頭，先搬自己的東西）"
+   ]
+  ],
+  [
+   "2025-08-29",
+   22.67,
+   "你可以直接講啊",
+   [
+    "你可以直接講啊",
+    "好 開幾度"
+   ]
+  ],
+  [
+   "2025-08-29",
+   22.82,
+   "睡到明天早上（07:30）07:30（明天沒有課）",
+   [
+    "睡到明天早上（07:30）07:",
+    "睡到明天中午12:00",
+    "睡到明天下午14:00——但約好",
+    "再撐一下"
+   ]
+  ],
+  [
+   "2025-08-30",
+   12.67,
+   "出發：台北車站 13:30：接可昕台北車站（高鐵出口）　開車",
+   [
+    "出發：台北車站 13:30：接可",
+    "晚一點（20 分鐘後再提醒）",
+    "不去了"
+   ]
+  ],
+  [
+   "2025-08-30",
+   13.5,
+   "「我也以為我會在經濟系。」",
+   [
+    "「我也以為我會在經濟系。」",
+    "（等她說下去）",
+    "「現在呢？」"
+   ]
+  ],
+  [
+   "2025-08-30",
+   20.07,
+   "睡到明天早上（07:30）07:30（明天沒有課）",
+   [
+    "睡到明天早上（07:30）07:",
+    "睡到明天中午12:00",
+    "睡到明天下午14:00",
+    "睡到明天晚上18:00",
+    "再撐一下"
+   ]
+  ],
+  [
+   "2025-08-31",
+   20.41,
+   "睡到明天早上（08:10）08:10（第一堂 09:10 憲",
+   [
+    "睡到明天早上（08:10）08:",
+    "睡到明天中午12:00。會錯過：",
+    "睡到明天下午14:00。會錯過：",
+    "睡到明天晚上18:00。會錯過：",
+    "再撐一下"
+   ]
+  ],
+  [
+   "2025-09-01",
+   8.17,
+   "「校門對面那排有一間燒臘店，便宜，份量也夠。」",
+   [
+    "「校門對面那排有一間燒臘店，便宜",
+    "「往捷運站那邊走，店比較多。」",
+    "「我也還在找。」"
+   ]
+  ],
+  [
+   "2025-09-01",
+   8.17,
+   "「校門對面那排有一間燒臘店，便宜，份量也夠。」",
+   [
+    "「校門對面那排有一間燒臘店，便宜",
+    "「往捷運站那邊走，店比較多。」",
+    "「我也還在找。」"
+   ]
+  ],
+  [
+   "2025-09-01",
+   8.19,
+   "直接去上課：憲法（上）09:10，法律系館A 201。走路 ",
+   [
+    "直接去上課：憲法（上）09:10",
+    "翹這堂課記沒去，不扣分。這堂課裡",
+    "先起床再說手機的「今天」隨時可以"
+   ]
+  ],
+  [
+   "2025-09-01",
+   9.01,
+   "坐中間的位子第一次上這門課",
+   [
+    "坐中間的位子第一次上這門課",
+    "自己找位子走過去坐下就可以上課"
+   ]
+  ],
+  [
+   "2025-09-01",
+   12.2,
+   "先去吃飯，再去下一堂約 40 分鐘",
+   [
+    "先去吃飯，再去下一堂約 40 分",
+    "在附近讀書，再去下一堂讀到 15",
+    "先自由活動手機的「今天」隨時可以",
+    "下一堂不去"
+   ]
+  ],
+  [
+   "2025-09-01",
+   12.2,
+   "小松　90 元",
+   [
+    "小松　90 元",
+    "公館燒臘　100 元",
+    "便利商店　75 元",
+    "算了"
+   ]
+  ]
+ ],
+ "days": [
+  "2025-09-17",
+  "2025-08-22",
+  "2025-08-23",
+  "2025-08-24",
+  "2025-08-29",
+  "2025-08-30",
+  "2025-08-31",
+  "2025-09-01"
+ ],
+ "met_at": null
+}

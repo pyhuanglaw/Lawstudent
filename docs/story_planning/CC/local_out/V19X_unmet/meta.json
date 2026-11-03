@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19X_unmet",
+  "sha": "b267b0534",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py",
+  "env": "MAX_MIN=55",
+  "machine": "MSI",
+  "start": "2026-11-04T02:21:54",
+  "end": "2026-11-04T02:30:25",
+  "seconds": 511,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html?lowres",
+  "res_peak": {
+    "cpu": 49,
+    "mem": 56,
+    "used_gb": 17.8,
+    "chrome_testing": 28
+  }
+}
