@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Y_P3b_sl",
+  "sha": "c89a5f9be",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T09:28:28",
+  "end": "2026-11-03T09:33:43",
+  "seconds": 315,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 74,
+    "mem": 53,
+    "used_gb": 16.9,
+    "chrome_testing": 27
+  }
+}

@@ -1,0 +1,1166 @@
+{
+ "steps": [
+  {
+   "sid": "S-L1",
+   "ok": false,
+   "before": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.07,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 0,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L1",
+    "nextFirst": "學弟。",
+    "nextAll": [
+     "學弟。",
+     "總圖二樓的飲水機壞了，要裝水去三樓。",
+     "嗯。我剛剛也白跑一趟。",
+     "沒有，剛好看到你。"
+    ],
+    "nextFirstCh": [
+     "「謝謝妳。」",
+     "「妳是特地來講的嗎？」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 5,
+    "trust": 1,
+    "comf": 0,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": null
+   },
+   "after": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.17,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 0,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L1",
+    "nextFirst": "學弟。",
+    "nextAll": [
+     "學弟。",
+     "總圖二樓的飲水機壞了，要裝水去三樓。",
+     "嗯。我剛剛也白跑一趟。",
+     "沒有，剛好看到你。"
+    ],
+    "nextFirstCh": [
+     "「謝謝妳。」",
+     "「妳是特地來講的嗎？」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 5,
+    "trust": 1,
+    "comf": 0,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": null
+   }
+  },
+  {
+   "sid": "S-L2",
+   "ok": false,
+   "before": {
+    "day": 0,
+    "key": "2025-09-16",
+    "wd": 2,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 0,
+    "key": "2025-09-16",
+    "wd": 2,
+    "h": 10.15,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   }
+  },
+  {
+   "sid": "S-L3",
+   "ok": false,
+   "before": {
+    "day": 6,
+    "key": "2025-09-22",
+    "wd": 1,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 6,
+    "key": "2025-09-22",
+    "wd": 1,
+    "h": 10.15,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   }
+  },
+  {
+   "sid": "S-Lx3",
+   "ok": false,
+   "before": {
+    "day": 7,
+    "key": "2025-09-23",
+    "wd": 2,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 7,
+    "key": "2025-09-23",
+    "wd": 2,
+    "h": 10.16,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   }
+  },
+  {
+   "sid": "S-L4（舊存檔）",
+   "ok": false,
+   "before": {
+    "day": 17,
+    "key": "2025-10-03",
+    "wd": 5,
+    "h": 10.1,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 5,
+    "lad": 4,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L4",
+    "nextFirst": "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+    "nextAll": [
+     "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+     "我今天放了三包。",
+     "今天事情比較多。",
+     "……還好啦。謝謝。"
+    ],
+    "nextFirstCh": [
+     "「三包？」",
+     "「妳睡得夠嗎？」"
+    ],
+    "relUp": 2,
+    "evCount": 1,
+    "fam": 26,
+    "trust": 1,
+    "comf": 0,
+    "stage": "FAMILIAR",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": null
+   },
+   "after": {
+    "day": 17,
+    "key": "2025-10-03",
+    "wd": 5,
+    "h": 10.2,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 5,
+    "lad": 4,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L4",
+    "nextFirst": "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+    "nextAll": [
+     "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+     "我今天放了三包。",
+     "今天事情比較多。",
+     "……還好啦。謝謝。"
+    ],
+    "nextFirstCh": [
+     "「三包？」",
+     "「妳睡得夠嗎？」"
+    ],
+    "relUp": 2,
+    "evCount": 1,
+    "fam": 26,
+    "trust": 1,
+    "comf": 0,
+    "stage": "FAMILIAR",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": null
+   }
+  }
+ ],
+ "talks": [
+  {
+   "tag": "第 1 天在總圖找她說話 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.07,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 0,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L1",
+    "nextFirst": "學弟。",
+    "nextAll": [
+     "學弟。",
+     "總圖二樓的飲水機壞了，要裝水去三樓。",
+     "嗯。我剛剛也白跑一趟。",
+     "沒有，剛好看到你。"
+    ],
+    "nextFirstCh": [
+     "「謝謝妳。」",
+     "「妳是特地來講的嗎？」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 5,
+    "trust": 1,
+    "comf": 0,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": null
+   },
+   "after": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.17,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 0,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L1",
+    "nextFirst": "學弟。",
+    "nextAll": [
+     "學弟。",
+     "總圖二樓的飲水機壞了，要裝水去三樓。",
+     "嗯。我剛剛也白跑一趟。",
+     "沒有，剛好看到你。"
+    ],
+    "nextFirstCh": [
+     "「謝謝妳。」",
+     "「妳是特地來講的嗎？」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 5,
+    "trust": 1,
+    "comf": 0,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": null
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "反例①：同一天再找她說話",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 0.95
+   },
+   "before": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.17,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 0,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L1",
+    "nextFirst": "學弟。",
+    "nextAll": [
+     "學弟。",
+     "總圖二樓的飲水機壞了，要裝水去三樓。",
+     "嗯。我剛剛也白跑一趟。",
+     "沒有，剛好看到你。"
+    ],
+    "nextFirstCh": [
+     "「謝謝妳。」",
+     "「妳是特地來講的嗎？」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 5,
+    "trust": 1,
+    "comf": 0,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": null
+   },
+   "after": {
+    "day": -1,
+    "key": "2025-09-15",
+    "wd": 1,
+    "h": 10.21,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "said": [
+    [
+     "溫學姊",
+     "學弟。"
+    ],
+    [
+     "溫學姊",
+     "總圖二樓的飲水機壞了，要裝水去三樓。"
+    ],
+    [
+     "溫學姊",
+     "嗯。我剛剛也白跑一趟。"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "溫學姊",
+      "（小聲）總圖二樓的飲水機壞了，要裝水去三樓。"
+     ],
+     [
+      "溫學姊",
+      "（小聲）嗯。我剛剛也白跑一趟。"
+     ]
+    ],
+    "opts": [
+     [
+      "「謝謝妳。」",
+      "「妳是特地來講的嗎？」"
+     ],
+     [
+      "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩",
+      "就這樣"
+     ]
+    ],
+    "picked": [
+     "「謝謝妳。」",
+     "就這樣"
+    ],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "第 2 天在總圖找她說話 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": 0,
+    "key": "2025-09-16",
+    "wd": 2,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 0,
+    "key": "2025-09-16",
+    "wd": 2,
+    "h": 10.15,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "反例②：還沒去過法服就找她說話 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": 1,
+    "key": "2025-09-17",
+    "wd": 3,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 1,
+    "key": "2025-09-17",
+    "wd": 3,
+    "h": 10.15,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 3,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": false,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "去過法服以後的平日 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": 6,
+    "key": "2025-09-22",
+    "wd": 1,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 6,
+    "key": "2025-09-22",
+    "wd": 1,
+    "h": 10.15,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "下一個平日（總圖、第 3～15 週） 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": 7,
+    "key": "2025-09-23",
+    "wd": 2,
+    "h": 10.05,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "after": {
+    "day": 7,
+    "key": "2025-09-23",
+    "wd": 2,
+    "h": 10.16,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 4,
+    "lad": 1,
+    "ladKey": "heroine_05",
+    "ladDay": -1,
+    "next": "S-L2",
+    "nextFirst": "你們民總現在上到哪？",
+    "nextAll": [
+     "你們民總現在上到哪？",
+     "看得懂嗎？",
+     "先背沒關係。背完可以想一下，這條為什麼要這樣定。",
+     "嗯，那很好。很多人大一都只在背。"
+    ],
+    "nextFirstCh": [
+     "「我還在背定義。」",
+     "「我還在找問題在哪。」"
+    ],
+    "relUp": 0,
+    "evCount": 1,
+    "fam": 9,
+    "trust": 1,
+    "comf": 1,
+    "stage": "ACQUAINTANCE",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": {
+     "aa584": 1
+    }
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  },
+  {
+   "tag": "舊存檔（AA_584 以前，進度 4）讀進來找她說話 第 1 次",
+   "npc": "sis",
+   "who": {
+    "x": -4,
+    "z": -3.9,
+    "lv": 0,
+    "beh": "idle",
+    "pose": "read",
+    "hidden": false,
+    "leaving": false,
+    "name": "溫學姊",
+    "label": null,
+    "talk": true,
+    "dMe": 11.61
+   },
+   "before": {
+    "day": 17,
+    "key": "2025-10-03",
+    "wd": 5,
+    "h": 10.1,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 5,
+    "lad": 4,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L4",
+    "nextFirst": "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+    "nextAll": [
+     "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+     "我今天放了三包。",
+     "今天事情比較多。",
+     "……還好啦。謝謝。"
+    ],
+    "nextFirstCh": [
+     "「三包？」",
+     "「妳睡得夠嗎？」"
+    ],
+    "relUp": 2,
+    "evCount": 1,
+    "fam": 26,
+    "trust": 1,
+    "comf": 0,
+    "stage": "FAMILIAR",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": null
+   },
+   "after": {
+    "day": 17,
+    "key": "2025-10-03",
+    "wd": 5,
+    "h": 10.2,
+    "zone": "library",
+    "term": "Y1S1",
+    "week": 5,
+    "lad": 4,
+    "ladKey": "heroine_05",
+    "ladDay": null,
+    "next": "S-L4",
+    "nextFirst": "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+    "nextAll": [
+     "（她喝了一口保溫瓶，皺了一下眉）太濃了。",
+     "我今天放了三包。",
+     "今天事情比較多。",
+     "……還好啦。謝謝。"
+    ],
+    "nextFirstCh": [
+     "「三包？」",
+     "「妳睡得夠嗎？」"
+    ],
+    "relUp": 2,
+    "evCount": 1,
+    "fam": 26,
+    "trust": 1,
+    "comf": 0,
+    "stage": "FAMILIAR",
+    "mems": [
+     "FIRST_MET"
+    ],
+    "satFirst": true,
+    "ladDel": null
+   },
+   "said": [
+    [
+     "",
+     "（她抬頭看到你，點了一下頭。）"
+    ]
+   ],
+   "dialog": {
+    "lines": [
+     [
+      "",
+      "（她抬頭看到你，點了一下頭。）"
+     ]
+    ],
+    "opts": [],
+    "picked": [],
+    "started": true,
+    "label": "和溫學姊說話"
+   }
+  }
+ ],
+ "secs": 265
+}
