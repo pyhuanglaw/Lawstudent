@@ -60,6 +60,11 @@ LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
 REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結束時，多久重讀一次佇列
 
 
+def is_solo(it):
+    """ENV 有 SOLO=1：這一項要單獨跑（不和別的項目同時跑）"""
+    return str(getattr(it, 'envd', {}).get('SOLO', '')).strip() == '1'
+
+
 def file_hash(path):
     try:
         with open(path, 'rb') as fh:
@@ -1007,7 +1012,7 @@ class Runner(object):
                 fin = done_q.get()
                 running.pop(fin, None)
                 continue
-            blender_running = any(r[1].kind == 'blender' for r in running.values())
+            blender_running = any(r[1].kind == 'blender' or is_solo(r[1]) for r in running.values())   # 跑 SOLO 項目時也不開別的
             while len(running) < self.a.parallel and not blender_running:
                 pick = None
                 for cand in items:
@@ -1019,6 +1024,13 @@ class Runner(object):
                     key = '%s@%s#%s' % (cand.id, cs, cand.rerun)   # 鍵含 RERUN 記號（舊版漏了 RERUN）
                     if key in attempted:
                         continue
+                    if is_solo(cand) and running and not self.is_done(cand, cs):
+                        # BB 11:53：SOLO=1（例：touch_flow_wenzhou 要單獨跑才算數，#36）：不再開新項目，等手上的都跑完再單獨跑
+                        if cand.id not in blender_wait_logged:
+                            blender_wait_logged.add(cand.id)
+                            log('solo item %s waits: no new items start until the %d running item(s) finish' % (cand.id, len(running)))
+                        pick = 'SOLO_WAIT'
+                        break
                     if cand.kind == 'blender' and running:
                         # BB 11:32（V18R）：要獨佔的 blender 項目等手上的跑完，但不擋後面的項目（舊版在這裡 break，FS112 跑 6 小時就整條佇列停住）
                         if cand.id not in blender_wait_logged:
@@ -1032,7 +1044,7 @@ class Runner(object):
                         continue
                     pick = cand
                     break
-                if pick is None:
+                if pick is None or pick == 'SOLO_WAIT':
                     break
                 mp = mem_used_pct()
                 if running and mp is not None and mp >= MEM_LIMIT:
@@ -1054,7 +1066,7 @@ class Runner(object):
                 pick.t_start = time.time()
                 running[pick.id] = (th, pick)
                 th.start()
-                if pick.kind == 'blender':
+                if pick.kind == 'blender' or is_solo(pick):
                     blender_running = True
             if not running:
                 break
