@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "02b_mk12dea",
+  "sha": "dea6b1944",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+  "env": "CASES=home,mkbg;FAIL_ROUTE=maritime",
+  "machine": "MSI",
+  "start": "2026-11-03T09:51:27",
+  "end": "2026-11-03T10:03:54",
+  "seconds": 747,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html?turbo",
+  "res_peak": {
+    "cpu": 79,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 29
+  }
+}
