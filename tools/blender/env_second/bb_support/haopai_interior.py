@@ -801,6 +801,24 @@ for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
 ss = L.single_side(root, keep=r'glass', nodup=r'hp_(plaster|wood|floor_tile|ceiling|goods|sign|emit|alpha)')
 info = L.export(OUT, gpu_instances=True)
+
+
+def fix_instanced_names(path):
+    """Blender 匯出 EXT_mesh_gpu_instancing 的節點叫 haopai_interior.N、沒有自訂屬性 → 遊戲的 /WALL_/ 認不到右牆的球拍。
+    改成網格的名字（WALL_right_…_inst），右牆的補 extras.dir（和牆一樣往室內的法線），球拍才會跟著右牆淡出。"""
+    import struct
+    b = open(path, 'rb').read(); n = struct.unpack('<I', b[12:16])[0]; j = json.loads(b[20:20 + n]); rest = b[20 + n:]; k = 0
+    for nd in j['nodes']:
+        if 'EXT_mesh_gpu_instancing' not in nd.get('extensions', {}): continue
+        mn = j['meshes'][nd['mesh']]['name']; nd['name'] = mn + '_inst'; k += 1
+        m_ = re.match(r'WALL_(front|back|left|right)_', mn)
+        if m_: nd.setdefault('extras', {})['dir'] = DIRS[m_.group(1)]
+    js = json.dumps(j, ensure_ascii=False, separators=(',', ':')).encode('utf-8'); js += b' ' * ((4 - len(js) % 4) % 4)
+    out = b[:12] + struct.pack('<I', len(js)) + b'JSON' + js + rest
+    out = out[:8] + struct.pack('<I', len(out)) + out[12:]; open(path, 'wb').write(out); print('instanced nodes renamed', k)
+
+
+fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT)
 drawn = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in root.children_recursive if ob.type == 'MESH')
 info.update({'shop': 'haopai', 'layout': 2, 'drawn_tris': drawn, 'protos': {p.name: p.n for p in BAD + BAD_FREE + TEN + TUBE + TT + [FIXP]},
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
