@@ -132,7 +132,7 @@ await sec(2,()=>{
   check('2. B（週五 21:00）：第 1 次原句「'+YB[0]+'」、第 2～4 次「'+YB.slice(1).join('」「')+'」'+(B.length>=5?'、第 5 次從第 2 組再輪':'')+'（收到 '+B.length+' 次）',B.length>=4&&J(B.slice(0,5).map(g=>g.t))===J([YB[0],YB[1],YB[2],YB[3],YB[1]].slice(0,Math.min(5,B.length)).map(t=>[t])),J(B.map(g=>[g.day,g.t])));
   check('2. A、B 照舊輪流；tag ct_yt2_<n> 照舊',got.length>=9&&got.every((g,i)=>g.k===(i%2?'B':'A')&&g.n===i),J(got.map(g=>g.k)));
   check('2. 選項每次都照舊（A 三個、B 三個）',got.every(g=>J(g.o)===J(g.k==='A'?OA:OB)),J(got.map(g=>g.o)));
-  check('2. 回覆照舊：四種開頭都接「我去店裡吃。」→「嗯。我留一碗。」；第 2 次回診「回診可以讓阿姨陪嗎？……」→「……阿姨要顧店。」',rep.filter(r=>r.k==='A').every(r=>J(r.r)===J(['嗯。我留一碗。']))&&J((rep.filter(r=>r.k==='B')[1]||{}).r)===J(['……阿姨要顧店。'])&&rep.filter(r=>r.k==='B'&&r.pick===0).every(r=>J(r.r)===J(['不用。……可是謝謝。'])),J(rep));
+  check('2. 回覆（AA_627 A-051「嗯。我留一杯。」、A-053 回淡水那一組「……我媽會打電話來。」，語彤新背景）：四種開頭都接「我去店裡吃。」→「嗯。我留一碗。」；第 2 次回診「回診可以讓阿姨陪嗎？……」→「……阿姨要顧店。」',rep.filter(r=>r.k==='A').every(r=>J(r.r)===J(['嗯。我留一杯。']))&&J((rep.filter(r=>r.k==='B')[1]||{}).r)===J(['……我媽會打電話來。'])&&rep.filter(r=>r.k==='B'&&r.pick===0).every(r=>J(r.r)===J(['不用。……可是謝謝。'])),J(rep));
   /* 舊存檔：已經用原句收過 A、B、A（n=3）→ 下一次是第 2 次 B、再下一次第 3 次 A */
   yt('2026-10-05'); const R0=CRACKTALK.src(H.G); R0.yt2={next:D('2027-02-01'),n:3,sent:{0:'A',1:'B',2:'A'},done:{0:true,1:true,2:true}};
   oldMsg('ct_yt2_0','p:'+YT,YT,YA[0],D('2026-11-03'),16.5); oldMsg('ct_yt2_1','p:'+YT,YT,YB[0],D('2026-12-04'),21); oldMsg('ct_yt2_2','p:'+YT,YT,YA[0],D('2027-01-05'),16.5);

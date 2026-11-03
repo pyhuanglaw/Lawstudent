@@ -199,7 +199,7 @@ if A626:
 miss, extra = [], []
 FROM_FREE = re.compile(r'freeVisited')   # 「你來過一次」（AA_160 4-4）：AA_271 第 3 節、BB_213／AB-25 後來加的，不在 AA_127、BB_128
 def found(md, p):
-    c = {p, p.rstrip('。：'), p.lstrip('她'), p.lstrip('她').rstrip('。：')}
+    c = {p, p.rstrip('。：'), p.lstrip('她'), p.lstrip('她').rstrip('。：'), re.sub(r'^……嗯。', '', p)}   # 語彤每場第一句的「……嗯。」開頭（AA_186 第 5 節）：AA_626 的稿只寫後面那一句
     return any(x and x in md for x in c)
 def walk_ifs(e, k):
     for i, x in enumerate((e.get('arrive') or {}).get('extraIf') or []):

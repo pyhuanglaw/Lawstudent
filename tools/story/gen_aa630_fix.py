@@ -18,22 +18,27 @@ for line in md7.split('\n'):
     if len(c) < 6: continue
     tag = re.match(r'【([^】]+)】', c[5])
     if '/ladder/' in c[1] or '/date_system/lines/' in c[1] or 'AA_127_' in c[1]: continue   # ladder、Dxx、AA_127 以 AA_630 為準（AA_630 第 1、2 節：沒列的＝照舊）
-    if tag and tag.group(1) in ('改句', '換字'): rows.append({'no': c[0], 'file': c[1], 'orig': c[3], 'new': c[4], 'note': c[5]})
+    if tag and tag.group(1) in ('改句', '換字'): rows.append({'no': c[0], 'file': c[1], 'orig': c[3], 'new': c[4], 'note': c[5], 'r627': True})
 BAD = re.compile(r"[{}\[\]<>]|^'|:'|',|\bif\b|^（刪|^（照(第|舊|原|AA|這)|^（不改|整段|見 H-|見表下|改成：|交往中：|沒交往|^—$")
-pairs = {}
+pairs = {}; P630 = set()   # AA_630 的列先收；AA_627 的建議和 AA_630 同一句不同改法＝照 AA_630（AA_630 是最後的字）
 LIT = re.compile(r"'([^']*)'")
 for r in rows:
     o, n = r['orig'].strip(), r['new'].strip()
     lo, ln = LIT.findall(o), LIT.findall(n)
     if lo and len(lo) == len(ln) and not re.search(r'<|見 H-|見表下|改成：|交往中：|沒交往', n):   # 程式寫法的列（narr:'…',yt:'…'）：引號裡的字一對一換（8 個字以上，和一般列一樣；短句會換到別人）
         for x, y in zip(lo, ln):
-            if x != y and len(x) >= 8 and x not in y and re.search(r'[一-鿿]', x): pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
+            if x != y and len(x) >= 8 and x not in y and re.search(r'[一-鿿]', x):
+                if r.get('r627') and x in P630: continue
+                if not r.get('r627'): P630.add(x)
+                pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
         continue
     if BAD.search(o) or BAD.search(n) or o == n: continue
     o = o.strip('「」'); n = n.strip('「」')
     if '」「' in o or '」「' in n: continue
     if len(o) < 8 or re.match(r'^[A-Z_0-9]+$', o): continue
     if o in n: continue   # 改成裡面還有原句（只加字）＝換兩次會疊，不收
+    if r.get('r627') and o in P630: continue
+    if not r.get('r627'): P630.add(o)
     if o in pairs and pairs[o] != n: pairs[o] = None; continue   # 同一句兩種改法＝不收
     pairs[o] = n
 # 讀稿時 aa612_fix.json（麵店→燒臘店）先換：舊稿裡的語彤句子已經被它換過的，另外收換過以後的那一句（不然對不到）

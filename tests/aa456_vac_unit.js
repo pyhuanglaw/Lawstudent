@@ -29,6 +29,7 @@ const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
 const oldMsg=(tag,th,from,text,d,h)=>{ PHONE.rec(H.G); H.G.msgs.push({th,from,text,tag,day:d,h}); };   /* 舊存檔：這一則已經用舊的字收過了 */
 
 /* ---- 讀稿（企劃線 71f260ecc）---- */
+require('./alison.js');   /* YT-REWRITE-1103：讀 AA_456 稿照 aa630_fix.json 換語彤的句子（AA_630 Z-149、Z-150：期末心意邀約搬到茶屋）*/
 let doc=''; try{ doc=cp.execSync('git show 71f260ecc:"docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 /* 以安改稿④b（AA_594 第 19～23 列：termend_lines.js 女朋友版的邀約與飯桌）改了這份稿上她的幾格：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const AN594_USED=(()=>{ const [d,u]=require('./an_rev_doc.js').overlay(doc,/^termend_lines\.js/); doc=d; return u; })();
