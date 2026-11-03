@@ -1,5 +1,7 @@
 # 約會反應台詞（`DATE_LINES`／`DATE_LIKES`；BB_128 2-7、2-9 的格式）
 
+> **【已修改，部分腳本過時】（2026-11-03 AA 清查，`AA_628_舊腳本清查.md`）**`D03.py`（1 句）和 `md_to_json_D13.py`（16 處，連同它讀的 BB_128 2-8、5-1 表格）過時：`D03.json`、`D13.json` 之後已經直接修改，不要用這兩支重建，否則會把新內容蓋回舊的；現行版本以 `D03.json`、`D13.json` 為準。其他 30 個地點 `build_lines.py` 重建一字不差。
+
 - 每個地點一個 `<LOC>.py`（原稿）→ `python3 build_lines.py <LOC>` 產生 `<LOC>.json`（LAWWW-B 讀這個）並檢查：七位都有、每個互動點 first／normal≥3／remember／dating、每行 ≤40 字、選項 ≤20 字且最多兩個、不用的句型。
 - `lines[角色][arrive|closing|hotspots]`：一套＝`{tier:'any'|'low'|'mid'|'high', lines:[{who,text}], choice?:[{t, reply:[…]}]}`；`who:'narr'` 是旁白。選台詞的順序照 BB_128 2-9（心願事件 → 第一次 → 記得上次 → 交往中 → 普通〔照階段、排除最近 3 套〕）。
 - `likes[角色][互動點]`：`like`／`normal`／`dislike`（AA_128 5-3 的結算）；`dislikeLine`＝不太喜歡時她的一句。

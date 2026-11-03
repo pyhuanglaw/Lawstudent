@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 exam_ai/BB_negotiable.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：1 個欄位：票據法第 10 題 scopeWeek 16→15（8421efdbc 16 週制，直接改 JSON）；其他 3 門課重建一字不差。
+#   現行版本以 exam_ai/BB_negotiable.json 為準。
 """大一～大三 AI 補題：BB 負責的四門（AB-13；使用者 2026-10-16 約 05:0x 授權，見 README.md）。
 商事法總論及公司法 company_law（Y3S1）、保險法 insurance（Y3S2）、票據及支付工具法 negotiable（Y3S2）、勞動法 labor_law（Y3S2），各 10 題。
 

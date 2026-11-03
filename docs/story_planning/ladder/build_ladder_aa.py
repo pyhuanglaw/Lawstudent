@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 ladder/ladder_aa.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：8 個欄位，都是以安（966c2dfd8 以安改稿第二批直接改 JSON：豆漿、手帳、總圖一開門等）。
+#   現行版本以 ladder/ladder_aa.json 為準。
 """AA_135（以安）、AA_136（語彤）→ ladder_aa.json（給 LAWWW-B 直接實作）。作者：AA-B 2026-10-15（使用者 2026-10-15：大一上閒聊全案通過，直接實作）。
 格式和 ladder_bb.json 完全一樣（欄位說明：README.md）。以安 heroine_01、語彤 heroine_03。
 用法：python3 build_ladder_aa.py → ladder_aa.json；python3 build_ladder_aa.py --check 只檢查。"""
