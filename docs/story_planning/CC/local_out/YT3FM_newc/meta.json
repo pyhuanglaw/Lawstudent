@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "YT3FM_newc",
+  "sha": "d2b962a3f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T07:04:21",
+  "end": "2026-11-04T07:05:26",
+  "seconds": 66,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 83,
+    "mem": 58,
+    "used_gb": 18.3,
+    "chrome_testing": 19
+  }
+}

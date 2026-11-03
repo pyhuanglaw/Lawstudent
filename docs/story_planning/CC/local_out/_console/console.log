@@ -414,3 +414,14 @@
        d18e9c213..f3281ddf9  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [07:04:11] ==== END   ART_V20_XHG  exit=1  82s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f3281ddf9..5675783e7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:04:16] ==== END   YT3FM_new  exit=0  87s   ====
+[07:04:21] memory 51% before starting YT3FM_newc (2 running)
+[07:04:21] ==== START YT3FM_newc  (probe @ d2b962a3f) ====
+[07:04:23] memory 50% before starting YT3FM_fix (2 running)
+[07:04:23] ==== START YT3FM_fix  (probe @ 9d8e00fdc) ====
+[07:04:24] [res] cpu=47% mem=50% (16.2/31.4 GB) chrome_testing=9  START YT3FM_newc
+[07:04:27] [res] cpu=57% mem=51% (15.9/31.4 GB) chrome_testing=9  START YT3FM_fix
+[07:05:26] [res] cpu=37% mem=55% (17.3/31.4 GB) chrome_testing=11  END YT3FM_newc
