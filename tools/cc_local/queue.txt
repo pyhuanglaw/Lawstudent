@@ -29,6 +29,7 @@ Y_G7_class | c89a5f9be | game  | tests/flow_class_real.py     | index.html | 110
 Y_P3_ladder| c89a5f9be | game  | tests/flow_ladder_y1s2.py    | index.html | 110 | XARGS={url} {out}
 Y_P3b_sl   | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 Y_P5_ui    | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=examgoal,psbhbg;ORIENTS=port,land
+Y_G5b_ancf | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py | index.html | 90 | SHA=c89a5f9be;CASES=ancf2;ORIENTS=port;REAL=1
 Y_G4v2     | c89a5f9be | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 110 |
 Y_P2_bar_a | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_bar_b8_probe.py | index.html?turbo | 35 | CASES=judge2033,trainee
 Y_A2_dorm  | c89a5f9be | probe | docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py | index.html | 60 |

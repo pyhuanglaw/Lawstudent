@@ -30,3 +30,12 @@
 - examgoal_wake：床、目標
 
 完整輸出在雲端 scratchpad `out/uief63/`。
+
+## 追加：ancf2 照 c89a5f9be 更新（2026-11-03，雲端 REAL=1 直向 ALL PASS）
+- c89 的設計（BB 01:07 判定）：
+  - 第一次（巷子，背景 gongguan）：在「想去的店」那一拍放 CG-11，一場一張，會記進 unlocked。
+  - 第二次（桌邊，背景 xiaofu）：she2 之後選「好。」，接畫勾 →「……勾了。」→ 收盤子 → 走出店門；這一場只放 CG-27，會記進 unlocked。
+  - AN_SHOP_PAGE 只記一筆。說出來那條路不放 CG。
+- 雲端：Y1S1、Y1S2 都排到以安；出發提示照玩家方式等到（59.7 秒、57.6 秒）；CG-11、CG-27 各一張，unlocked 是 [cg_reason_column_heroine01, cg_shop_page_check_heroine01]；全部 PASS，沒有 JS 例外。
+- **PC 上「Y1S1 沒排以安」是探針前置的問題**：termend 挑對象照條件，不是隨機（termend3d.js:62 S.cond、:68 heartWhy）；plan 每學期只算一次（:99）。探針讀進的存檔是 12/20，已經在期末時段裡，PC 太快，手機規則在好感度還沒設好時就把 plan 算好了（排成 kai）。修法：起始存檔改成 12/10，另外加一項前置檢查「設條件以前 plan 還沒算過」。**這個修正還沒實跑過**，用 Y_G5b_ancf（PC，c89）第一次實跑。
+- 截圖：shots/uic89/（CG-11、CG-27 畫勾、「……勾了。」、逐字台詞）。
