@@ -16,14 +16,14 @@ const FRIENDS2=(function(){
   /* ---------- 時段：第幾週、星期幾（CALENDAR.dateOf 的 wd：1＝週一…7＝週日）、時間（超過 24＝半夜，同一個遊戲日）---------- */
   S.SLOT={
     F2_01:{week:9,wd:4,time:[22,26]}, F2_02:{week:9,wd:6,time:[18,24]}, F2_03:{week:11,wd:2,time:[23.5,26]}, F2_04:{week:12,wd:1,course:'const_1',before:true},
-    F2_05:{week:14,wd:7,time:[21,24]}, F2_06:{week:15,wd:4,course:'civ_general',before:true}, F2_07:{week:15,wd:6,time:[24.5,27]},   /* 週日 00:30＝週六那個遊戲日的 24:30 */
+    F2_05:{week:14,wd:7,time:[21,24]}, F2_06:{week:15,wd:4,course:'civ_general',before:true}, F2_07:{week:15,wd:7,time:[24.5,27]},   /* 週日 00:30＝週六那個遊戲日的 24:30 */
     F2_08:{week:10,wd:4,course:'civ_general',after:true}, F2_09:{week:14,wd:6,time:[24+40/60,27]} };   /* 週六 00:40＝週五那一晚過了半夜；AA 寫「第 14 週週六 00:40」＝週五遊戲日的 24:40 → 下面 slotDay 往前一天 */
   S.MIDNIGHT={F2_07:true,F2_09:true};   /* 寫的是「週日／週六 00:xx」：遊戲日是前一天 */
   S.DELAY=3;
   const dayOf=(term,week,wd)=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.termDays) return null; const T=CALENDAR.termDays(term); if(!T) return null;
     for(let d=T.from;d<=T.to;d++){ const t=CALENDAR.termOf(d), x=CALENDAR.dateOf(d); if(t&&t.id===term&&t.week===week&&x&&x.wd===wd) return d; } return null; };
   S.slotDay=function(code){ const s=S.SLOT[code]; if(!s) return null; let d=dayOf('Y1S1',s.week,s.wd); if(d==null) return null; if(S.MIDNIGHT[code]) d-=1; return d; };
-  const examDay=d=>{ if(typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(d); return !!t&&(t.week===8||t.week===16||!!t.exam); };
+  const examDay=d=>{ if(typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(d); return !!t&&t.id==='Y1S1'&&(t.week===8||t.week===16); };   /* AA_637 第 0 節第 4 點：第 8 週（期中考週）、第 16 週（期末考週）——照稿的週次（calendar 的 exam 標記第 9 週也算期中，稿的第 9 週照排）*/
   /* 同一天已經演過女主角或主線的事件（AA_637 第 0 節第 3 點）：G.events.last＝事件 id → 最後演的那一天 */
   const HER=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   let EVMAP=null; const evOf=id=>{ if(!EVMAP||EVMAP.n!==STORY_EVENTS.length){ EVMAP={n:STORY_EVENTS.length,m:new Map()}; for(const e of STORY_EVENTS) if(e&&e.id) EVMAP.m.set(e.id,e); } return EVMAP.m.get(id); };
@@ -152,7 +152,7 @@ const FRIENDS2=(function(){
   S.onSay=function(G,who){ if(!G||!G.flags||(G.stage||'law')!=='law') return null; const id=idOfWho(who); if(!id||G.flags['NAMECARD_'+id]) return null;
     if(String((who&&who.name)||'').includes('（手機）')) return null;   /* 對話框裡的手機訊息不算「說話」 */
     G.flags['NAMECARD_'+id]=true; const t=S.cardText(id); S.shown=t; S.show(t); return t; };
-  S.show=function(t){ if(typeof document==='undefined') return; let el=document.getElementById('nameCard'); if(!el){ el=document.createElement('div'); el.id='nameCard'; (document.getElementById('ui')||document.body).appendChild(el); }
+  S.show=function(t){ if(typeof document==='undefined'||!document.createElement) return; let el=document.getElementById('nameCard'); if(!el){ el=document.createElement('div'); el.id='nameCard'; (document.getElementById('ui')||document.body).appendChild(el); }
     el.textContent=t; el.classList.remove('nc-out'); el.classList.add('nc-in'); clearTimeout(S._t); S._t=setTimeout(()=>{ el.classList.remove('nc-in'); el.classList.add('nc-out'); },3000); };
   /* 舊存檔：已經認識的（記憶 FIRST_MET、熟悉度不是陌生人、演過名片場）不出現；NAMECARD_V＝這一版以後的新遊戲不用看（game3d.js defaults）*/
   S.known=function(s,id){ const F0=s.flags||{}; if(F0['FRIEND_CARD_'+id]) return true; const M=s.social&&s.social.mem&&s.social.mem[id]; if(Array.isArray(M)&&M.length) return true;

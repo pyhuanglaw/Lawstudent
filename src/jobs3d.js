@@ -140,6 +140,7 @@ const JOBS=(function(){
   S.quit=async function(GM,k){ await S.leave(GM,k,'quit',[shop(k).boss,S.quitLine(k)]); };
 
   // ---------- 一班 ----------
+  S.MID_EV=[];       /* 一班的中間：async fn(GM,k,n,ctx)（src/ytjob3d.js）*/
   S.SHIFT_EV=[];      /* 事件：async fn(GM,k,n,ctx)（三段工作之後、薪水之前；四條故事線，src/wzlines3d.js）*/
   S.SHIFT_LINES=[];   /* 多的一句旁白：fn(G,k,n,seg)→[一句…] 或 null（seg：'mid'＝第二段之後、'close'＝收尾之後）*/
   S.AFTER_SHIFT=[];   /* 下班以後：async fn(GM,k,n,ctx) */
@@ -165,7 +166,9 @@ const JOBS=(function(){
       const sg=S.segs(G,k,n);
       await S.play(GM,sg.a); GM.advance(seg);
       { const sl=S.skillLine(k,j.skill|0); if(sl) await say(GM,null,sl); }   /* 熟練描述（AA_165 1-4／2-5／3-4）*/
-      await S.play(GM,sg.b); await S.play(GM,extra(G,k,n,'mid')); GM.advance(seg);
+      await S.play(GM,sg.b); await S.play(GM,extra(G,k,n,'mid'));
+      for(const f of S.MID_EV){ try{ await f(GM,k,n,ctx); }catch(e){ console.warn('JOBS.MID_EV',e); } }   /* 一班的中間（第二段工作之後）：語彤 AA_625 10' 媽媽來、茶屋平常的班那一句（src/ytjob3d.js）*/
+      GM.advance(seg);
       if(k==='brunch'&&S.natHoliday(d)&&!j.b5) await S.b5(GM,j);   /* WZ-B5 國定假日的班（一次）*/
       await S.play(GM,sg.c);
       if(k==='brunch'&&j.b5next&&j.b5!==d){ await say(GM,null,D().b5.next); j.b5next=false; }   /* WZ-B5 的下一班 */

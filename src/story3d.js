@@ -403,7 +403,7 @@ const STORY = (function(){
      ・上課（act:'class'）和 noHoliday 的只在上課期間、國定假日不算（和課表一樣停課）；
      ・zone:null＝不在遊戲的場景裡（away 是人物線索的文字，例如「在小福吃午餐」）*/
   /* AA_610／AA_624（使用者 11-03）：語彤認識以前（YT_MET_JOB）不在遊戲裡的任何地方；她從來不在燒臘店（noodle：作息、圈子補的作息、約好的時間都不算）*/
-  function schedEnt(c,G){ if(c&&c.id==='heroine_03'){ if(!(G&&G.flags&&G.flags.YT_MET_JOB)) return null; const e=schedEnt0(c,G); return e&&e.zone==='noodle'?null:e; } return schedEnt0(c,G); }
+  function schedEnt(c,G){ if(c&&c.id==='heroine_03'){ if(!(G&&G.flags&&G.flags.YT_MET_JOB)) return null; if(typeof YTJOB!=='undefined'&&YTJOB.absent&&YTJOB.absent(G)) { const e0=schedEnt0(c,G); if(e0&&e0.zone==='wz_teahouse') return null; }   /* AA_625 事件 4：大一下第 9 週週日她請假（不在茶屋）*/ const e=schedEnt0(c,G); return e&&e.zone==='noodle'?null:e; } return schedEnt0(c,G); }
   function schedEnt0(c,G){ if(typeof INV!=='undefined'&&INV.entryFor&&c&&c.id){ const iv=INV.entryFor(G,c.id); if(iv) return iv; }   /* 約好的時間人在那裡、一起走過去的人跟著你（src/invites3d.js）*/
     if(typeof GROUP!=='undefined'&&GROUP.tripAway&&c&&c.id){ const ta=GROUP.tripAway(G,c.id); if(ta) return ta; }   /* 麵店團出遊那天（大二春假 4/4），去的人作息停掉（AA_375 第 14 項；src/group3d.js）*/
     const tp=!!(c&&c.presence&&S.presence(c.id,G).kind==='taipei');   /* 在臺北、不在台大（BB_163）：只用標了 taipei 的那幾筆作息（taipei:'both'＝兩種時候都用）、不跟課表 */
