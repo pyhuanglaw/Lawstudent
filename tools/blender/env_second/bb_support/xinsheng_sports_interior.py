@@ -803,7 +803,7 @@ for where, items in DECAL.items():
 for (key, lv_), m in _acc.items(): m.finish(root, uv=key not in ('vc', 'vcg'), smooth=key in ('vc', 'vcg', 'steel', 'dark', 'wood'))
 for (side, lv_, key), m in walls.items(): m.finish(root, uv=key not in ('vc', 'vcg'), props={'dir': DIRS[side]}, smooth=key in ('vc',))
 L.merge_by_material(root, keep=lambda ob: ob.parent is not root, key=lambda ob: '_'.join(ob.name.split('_')[:3]) if ob.name.startswith('WALL_') else ob.name.split('_')[0])
-ss = L.single_side(root, keep=r'glass')
+ss = L.single_side(root, keep=r'glass', nodup=r'paint|plaster')   # 牆是窗、門四周幾個方盒拼的，會被當成開口零件補反面＝和正面重疊，Cycles 渲染整面黑（MD_xinsheng_v1 PC 渲染；同 tongxian）
 # 每一層的三角形（instancing 照實際畫出的數量）
 per = {0: 0, 1: 0}
 for o in [o for o in root.children_recursive if o.type == 'MESH']:
