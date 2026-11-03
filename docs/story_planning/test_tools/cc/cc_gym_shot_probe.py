@@ -14,7 +14,7 @@
     動作是 src/character3d.js:318-323（說明）、:343 gymIK、:363～:401 各動作、:327-332 C.GYM（座墊高度：肩推 0.46、飛輪 0.985、划船 0.40）。
     一次進場只挑 2～6 人（crowd3d.js:196 daySlots），所以照 MOTION_SLOTS 換幾個日子時段讀檔，直到六種都出現（沒出現＝FAIL，列出看到的）。
     每一種：讀檔把玩家放在那個人旁邊 2 m 左右（導航可走的格子），滑畫面把鏡頭轉過去，橫向、直向各截兩張（隔 1.2 秒，不同相位）；
-    遊戲狀態：人物的 userData.gym.pose 是那個動作、3 秒內關節有動（≥ 5 cm）；坐著的（肩推、飛輪、划船）大腿根（＝臀部坐在座墊上的位置，同 tests/gym_pose_unit.js）
+    遊戲狀態：人物的 userData.gym.pose 是那個動作、一個循環內（SAMPLE_S，拉筋 6.5 秒）關節有動（≥ 5 cm）；坐著的（肩推、飛輪、划船）大腿根（＝臀部坐在座墊上的位置，同 tests/gym_pose_unit.js）
     和座墊高度差 < 0.1 m；站著的（深蹲、彎舉）和拉筋：人物網格（含蒙皮）最低點離地 < 0.05 m（不漂浮、不陷進地板）。手和器材穿模、自然不自然留給 BB 看圖。
 - closed：反例。2025-09-22（一）＝每月第四個星期一休館（src/crowd3d.js:151 S.gymHours、src/gym3d.js:139 fourthMonday），19:58 游泳池不能有人。
 用法：LW_TESTS=<wt>/tests SHA=<sha> CASES=rack,pool,plate,closed,motion python3 cc_gym_shot_probe.py <url> <out>   （PC 用 CC_HEADLESS=0 有視窗＋顯示卡）
@@ -61,13 +61,13 @@ SPOT_JS = """(([x,z,yaw])=>{ const E=GAME.E, nv=E.nav, ok=(a,b)=>[[0,0],[0.35,0]
     if(others.some(o=>Math.hypot(o.x-px,o.z-pz)<0.8)) continue; const f=[Math.sin(yaw),Math.cos(yaw)], d=[(px-x)/r,(pz-z)/r], ang=Math.acos(Math.max(-1,Math.min(1,f[0]*d[0]+f[1]*d[1])));
     const sc=Math.abs(ang-0.9)+0.15*Math.abs(r-2.0); if(!best||sc<best.sc) best={x:+px.toFixed(2),z:+pz.toFixed(2),sc,r}; }
   return best; })(%s)"""
-SAMPLE_JS = """(async(key)=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey===key); if(!n) return {err:'找不到 '+key};
+SAMPLE_JS = """(async(key,N)=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey===key); if(!n) return {err:'找不到 '+key};
   const o=n.obj; let vrm=o.userData.vrm; if(!vrm) o.traverse(c=>{ if(!vrm&&c.userData&&c.userData.vrm) vrm=c.userData.vrm; }); if(!vrm) return {err:'沒有 VRM（備用人物）', pose:n.pose};
   const hm=vrm.humanoid, V=()=>new THREE.Vector3(), B=b=>{ const nd=hm.getRawBoneNode(b); return nd?nd.getWorldPosition(V()):null; };
   const lowest=()=>{ let m=1e9; const v=V(); o.updateMatrixWorld(true); o.traverse(c=>{ if(!c.isSkinnedMesh||!c.visible||!c.geometry||!c.geometry.attributes.position) return; let vis=true; for(let q=c;q;q=q.parent) if(q.visible===false) vis=false; if(!vis) return;
       if(c.skeleton) c.skeleton.update(); const N=c.geometry.attributes.position.count; for(let i=0;i<N;i++){ c.getVertexPosition(i,v); c.localToWorld(v); if(v.y<m) m=v.y; } }); return m; };
   const S=[], J=['hips','leftUpperLeg','rightUpperLeg','leftFoot','rightFoot','leftHand','rightHand','head'];
-  for(let i=0;i<10;i++){ const f={}; for(const j of J){ const p=B(j); f[j]=p?[p.x,p.y,p.z]:null; } f.low=(i%4===0)?lowest():null; S.push(f); await new Promise(r=>setTimeout(r,300)); }
+  for(let i=0;i<N;i++){ const f={}; for(const j of J){ const p=B(j); f[j]=p?[p.x,p.y,p.z]:null; } f.low=(i%4===0)?lowest():null; S.push(f); await new Promise(r=>setTimeout(r,300)); }
   const y0=o.position.y, g=E.heightAt?E.heightAt(o.position.x,o.position.z,n.lv|0):0, ud=o.userData||{};
   let gp=ud.gym&&ud.gym.pose||null; if(!gp) o.traverse(c=>{ if(!gp&&c.userData&&c.userData.gym&&c.userData.gym.pose) gp=c.userData.gym.pose; });
   const thigh=S.filter(f=>f.leftUpperLeg&&f.rightUpperLeg).map(f=>(f.leftUpperLeg[1]+f.rightUpperLeg[1])/2-y0), hips=S.filter(f=>f.hips).map(f=>f.hips[1]-y0), lows=S.map(f=>f.low).filter(v=>v!=null);
@@ -75,7 +75,14 @@ SAMPLE_JS = """(async(key)=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey=
   const r3=a=>a.map(v=>+v.toFixed(3));
   return {pose:n.pose, gymPose:gp, x:+o.position.x.toFixed(2), z:+o.position.z.toFixed(2), y:+y0.toFixed(3), ground:+(+g).toFixed(3), yaw:+o.rotation.y.toFixed(3),
     thigh:r3(thigh), hips:r3(hips), low:r3(lows), moved:+mv.toFixed(3), isFar:!!ud.isFar}; })(%s)"""
+FRAME_JS = """(key=>{ const E=GAME.E, n=(E.npcs||[]).find(q=>q.crowdKey===key); if(!n||!E.camera) return null; const cam=E.camera, pp=E.player.obj.position, cp=cam.getWorldPosition(new THREE.Vector3());
+  const pr=y=>{ const v=n.obj.position.clone(); v.y+=y; v.project(cam); return {sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), ok:v.z<1&&v.x>-0.9&&v.x<0.9&&v.y>-0.9&&v.y<0.75}; };
+  const q=pp.clone(); q.y+=1.0; q.project(cam); const a=pr(0.3), b=pr(1.2), px=Math.round((q.x+1)/2*innerWidth);
+  return {camD:+Math.hypot(cp.x-pp.x,cp.z-pp.z).toFixed(2), sub:[a,b], playerSx:px, inView:a.ok&&b.ok, clear:Math.min(Math.abs(a.sx-px),Math.abs(b.sx-px))>innerWidth*0.16}; })(%s)"""
 SEAT_H = {'gym_press': 0.46, 'gym_bike': 0.985, 'gym_row': 0.40}
+# 取樣多久（秒）：至少一個循環＋0.5 秒（character3d.js:327-332 C.GYM 的 T：深蹲 2.8、彎舉 2.4、肩推 3.0、飛輪 0.9、划船 3.2、拉筋 6.0）。
+#   拉筋一個循環 6 秒，只看 3 秒剛好落在動作慢的那一段會只動 1 cm（ffee 第一次跑橫向 0.013 m、直向 0.355 m）＝探針的取樣太短，不是沒動
+SAMPLE_S = {'gym_squat': 3.3, 'gym_curl': 3.0, 'gym_press': 3.5, 'gym_bike': 3.0, 'gym_row': 3.7, 'gym_stretch': 6.5}
 fails = []
 
 
@@ -230,20 +237,28 @@ async def case_motion(pg, cdp, od, tag, rec):
         if not check('motion %s：重新進場以後還是同一個人在%s' % (tag, zh), n is not None and n['pose'] == pose, str(n)):
             continue
         # 鏡頭看向那個人、往旁邊偏 22°（玩家站在畫面中間，不要擋住那個人）
-        s0 = await L.state(pg); dx, dz = n['x'] - s0['x'], n['z'] - s0['z']; c, si = math.cos(0.38), math.sin(0.38)
-        await L.turn_camera_to(pg, cdp, s0['x'] + dx * c - dz * si, s0['z'] + dx * si + dz * c)
-        await pg.wait_for_timeout(1500)
-        m = await pg.evaluate(SAMPLE_JS.replace('%s', json.dumps(n['key'])))
+        #   直向畫面窄、器材靠牆時鏡頭會被牆推近（ffee 第一次跑：直向划船整張都是玩家的背）——看人物投影到畫面的位置，不在畫面裡或被玩家擋住就換另一邊、再換正對
+        s0 = await L.state(pg); dx, dz = n['x'] - s0['x'], n['z'] - s0['z']; fr = None
+        for off in ((0.38, -0.38, 0.2, -0.2, 0.0) if tag == 'port' else (0.38, -0.38, 0.0)):
+            c, si = math.cos(off), math.sin(off)
+            await L.turn_camera_to(pg, cdp, s0['x'] + dx * c - dz * si, s0['z'] + dx * si + dz * c)
+            await pg.wait_for_timeout(1500)
+            fr = await pg.evaluate(FRAME_JS.replace('%s', json.dumps(n['key'])))
+            if fr and fr['inView'] and fr['clear']: break
+        print('  motion %s %s 取景：鏡頭偏 %.2f rad、%s' % (tag, zh, off, json.dumps(fr, ensure_ascii=False)), flush=True)
+        if not (fr and fr['inView'] and fr['clear']):
+            print('  記錄 motion %s %s：試過幾個角度，人物都不在畫面裡或被玩家擋住（鏡頭離玩家 %s m）——截圖照拍、BB 看圖時注意；不算 PASS／FAIL' % (tag, zh, (fr or {}).get('camD')), flush=True)
+        win = SAMPLE_S.get(pose, 3.0); m = await pg.evaluate(SAMPLE_JS.replace('%s', json.dumps(n['key']) + ',' + str(int(math.ceil(win / 0.3)))))
         f1 = await shot(pg, od, 'motion_%s_%s_1' % (tag, pose[4:]), rec)
         await pg.wait_for_timeout(1200)
         f2 = await shot(pg, od, 'motion_%s_%s_2' % (tag, pose[4:]), rec)
         rec.setdefault('motion_' + tag, {})[pose] = {'slot': [f['day'], f['hour']], 'player': spot, 'm': m, 'shots': [f1, f2]}
-        print('  motion %s %s：位置 (%s,%s) yaw %s；大腿根 %s；臀部 %s；網格最低點 %s；地面 %s；3 秒內最大移動 %s m' % (tag, zh, m.get('x'), m.get('z'), m.get('yaw'), m.get('thigh'), m.get('hips'), m.get('low'), m.get('ground'), m.get('moved')), flush=True)
+        print('  motion %s %s：位置 (%s,%s) yaw %s；大腿根 %s；臀部 %s；網格最低點 %s；地面 %s；%.1f 秒內最大移動 %s m' % (tag, zh, m.get('x'), m.get('z'), m.get('yaw'), m.get('thigh'), m.get('hips'), m.get('low'), m.get('ground'), win, m.get('moved')), flush=True)
         print('  截圖（留給 BB 判穿模、自然不自然）：%s 動作 %s → %s、%s' % (zh, pose, f1, f2), flush=True)
         if not check('motion %s：%s 有 VRM 骨架可量' % (tag, zh), 'err' not in m, m.get('err', '')):
             continue
         check('motion %s：%s 人物真的在做 %s（userData.gym.pose）' % (tag, zh, pose), m.get('gymPose') == pose, str(m.get('gymPose')))
-        check('motion %s：%s 3 秒內關節有動（≥ 5 cm）' % (tag, zh), m.get('moved', 0) >= 0.05, '%s m' % m.get('moved'))
+        check('motion %s：%s 一個循環（%.1f 秒）內關節有動（≥ 5 cm）' % (tag, zh, win), m.get('moved', 0) >= 0.05, '%s m' % m.get('moved'))
         if kind == 'seat':
             h = SEAT_H[pose]; ds = [round(t - h, 3) for t in m['thigh']]
             check('motion %s：%s 臀部（大腿根）和座墊（%.3f m）高度差 < 0.1 m' % (tag, zh, h), bool(ds) and all(abs(d) < 0.1 for d in ds), '差 %s～%s m' % (min(ds) if ds else None, max(ds) if ds else None))
