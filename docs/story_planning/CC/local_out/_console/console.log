@@ -389,3 +389,12 @@
 [21:48:36] ==== START N19_wcst  (game @ 9f14aab23) ====
 [21:48:40] [res] cpu=30% mem=53% (16.9/31.4 GB) chrome_testing=19  START N19_wcst
 [21:51:26] [res] cpu=17% mem=52% (16.5/31.4 GB) chrome_testing=19  END N19_wcst
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ca82c3a3e..1c6dff5c2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:51:32] ==== END   N19_wcst  exit=0  170s   ====
+[21:51:35] memory 52% before starting N19_wcfl (2 running)
+[21:51:35] ==== START N19_wcfl  (game @ 9f14aab23) ====
+[21:51:38] [res] cpu=13% mem=53% (16.6/31.4 GB) chrome_testing=19  START N19_wcfl
+[21:52:34] 正在跑：FS112（已跑 109 分／上限 360 分）、N19_libtour（已跑 8 分／上限 90 分）、N19_wcfl（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:55:27] [res] cpu=12% mem=51% (16.1/31.4 GB) chrome_testing=19  END N19_wcfl

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19_wcfl",
+  "sha": "9f14aab23",
+  "kind": "game",
+  "script": "tests/flow_wancai_floors.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T21:51:35",
+  "end": "2026-11-03T21:55:27",
+  "seconds": 232,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 40,
+    "mem": 59,
+    "used_gb": 18.7,
+    "chrome_testing": 28
+  }
+}
