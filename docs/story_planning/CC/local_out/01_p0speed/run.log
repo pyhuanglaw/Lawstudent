@@ -1,31 +1,31 @@
 [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_01_p0speed\tests\p0_movement.py http://127.0.0.1:8810/index.html
   [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）
-PASS 霖澤館前（教室出口）：搖桿上 → 位置改變  {'x': 34, 'z': -97.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -89.46, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 霖澤館前（教室出口）：搖桿右 → 移動／轉向  {'x': 27.41, 'z': -89.46, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 霖澤館前（教室出口）：搖桿左 → 移動／轉向  {'x': 33.94, 'z': -89.46, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 法律系館A門口（台階下）：搖桿上 → 位置改變  {'x': 34, 'z': -99.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -90.34, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 法律系館A門口（台階下）：搖桿右 → 移動／轉向  {'x': 27.47, 'z': -90.34, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 法律系館A門口（台階下）：搖桿左 → 移動／轉向  {'x': 34.12, 'z': -90.34, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿上 → 位置改變  {'x': 34, 'z': -101, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -91.41, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿右 → 移動／轉向  {'x': 27.3, 'z': -91.41, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿左 → 移動／轉向  {'x': 34.12, 'z': -91.41, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校園預設出生點：搖桿上 → 位置改變  {'x': 34, 'z': -98, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -88.68, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校園預設出生點：搖桿右 → 移動／轉向  {'x': 26.33, 'z': -88.68, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校園預設出生點：搖桿左 → 移動／轉向  {'x': 33.42, 'z': -88.68, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 宿舍門口：搖桿上 → 位置改變  {'x': 20, 'z': 54, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 20, 'z': 45.44, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 宿舍門口：搖桿右 → 移動／轉向  {'x': 26.96, 'z': 45.44, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 宿舍門口：搖桿左 → 移動／轉向  {'x': 20.37, 'z': 45.44, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館麵店門口：搖桿上 → 位置改變  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -63, 'z': 9.03, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館麵店門口：搖桿右 → 移動／轉向  {'x': -56.22, 'z': 9.03, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館麵店門口：搖桿左 → 移動／轉向  {'x': -62.5, 'z': 9.03, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.32, 'z': 15.82, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -23.04, 'z': 15.82, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -29.38, 'z': 15.82, 'yaw': 4.71, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -20.34, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校門外：搖桿右 → 移動／轉向  {'x': -8.76, 'z': -20.34, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 校門外：搖桿左 → 移動／轉向  {'x': -2.4, 'z': -20.34, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 31.44, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 溫州街：搖桿右 → 移動／轉向  {'x': 29.15, 'z': -5.94, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
-PASS 溫州街：搖桿左 → 移動／轉向  {'x': 29.15, 'z': 1.07, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿上 → 位置改變  {'x': 34, 'z': -97.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -88.47, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿右 → 移動／轉向  {'x': 26.37, 'z': -88.47, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿左 → 移動／轉向  {'x': 33.07, 'z': -88.47, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿上 → 位置改變  {'x': 34, 'z': -99.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -90.3, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿右 → 移動／轉向  {'x': 25.96, 'z': -90.3, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 法律系館A門口（台階下）：搖桿左 → 移動／轉向  {'x': 32.7, 'z': -90.3, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿上 → 位置改變  {'x': 34, 'z': -101, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -91.72, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿右 → 移動／轉向  {'x': 27.12, 'z': -91.72, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在法律系館A舊門口（現在是台階）：搖桿左 → 移動／轉向  {'x': 33.85, 'z': -91.72, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿上 → 位置改變  {'x': 34, 'z': -98, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -88.97, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿右 → 移動／轉向  {'x': 27.1, 'z': -88.97, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿左 → 移動／轉向  {'x': 33.84, 'z': -88.97, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿上 → 位置改變  {'x': 20, 'z': 54, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 20, 'z': 45.03, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿右 → 移動／轉向  {'x': 26.84, 'z': 45.03, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿左 → 移動／轉向  {'x': 18.35, 'z': 45.03, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿上 → 位置改變  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -63, 'z': 9.11, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿右 → 移動／轉向  {'x': -56.33, 'z': 9.11, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿左 → 移動／轉向  {'x': -62.98, 'z': 9.11, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.35, 'z': 15.82, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -22.94, 'z': 15.82, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -29.68, 'z': 15.82, 'yaw': 4.71, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -20.09, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿右 → 移動／轉向  {'x': -9.55, 'z': -20.09, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿左 → 移動／轉向  {'x': -2.52, 'z': -20.09, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 26.59, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿右 → 移動／轉向  {'x': 26.59, 'z': -7.3, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿左 → 移動／轉向  {'x': 26.59, 'z': 0.49, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
 console: ['warning: 星期和日期對不上，照行事曆改： 4 → 3']
 RESULT: ALL PASS
