@@ -1,0 +1,598 @@
+{
+ "case": "skip",
+ "sha": "c89a5f9be",
+ "sel": {
+  "opts": [
+   "海商法與海洋法週三上午・法律系館A 202",
+   "這學期不修海商法與海洋法那個時段沒有課"
+  ],
+  "picked": "這學期不修海商法與海洋法那個時段沒有課",
+  "asked": "海商法與海洋法要修嗎？",
+  "shots": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\10_skip_select_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\11_skip_select_port.png"
+  ],
+  "lines": [
+   "選課結果出來了：大四下。",
+   "海商法與海洋法要修嗎？",
+   "這學期的課表在手機的「課表」。"
+  ],
+  "drv": {
+   "answered": {},
+   "shots": {},
+   "picks": []
+  }
+ },
+ "g": {
+  "clock": {
+   "key": "2029-02-19",
+   "day": 1252,
+   "h": 12.341,
+   "zone": "dorm",
+   "term": "Y4S2",
+   "week": 1
+  },
+  "electives": {
+   "y4s2_mar": "none"
+  },
+  "sel": true,
+  "termCourses": [
+   "legal_research",
+   "legal_practice"
+  ],
+  "examDay": null,
+  "examList": [],
+  "exam": null,
+  "grades": null,
+  "flags": {
+   "Y4_PATH": "bar"
+  },
+  "pgOn": false,
+  "delayed": false,
+  "fdOn": false,
+  "failed": [],
+  "curExamHook": true,
+  "curExam": null,
+  "nmsg": 1,
+  "groups": [
+   {
+    "group": "y4s2_mar",
+    "def": "maritime",
+    "none": true,
+    "opts": [
+     "maritime"
+    ]
+   }
+  ]
+ },
+ "scan": [],
+ "wk": {
+  "text": "大四下・第 1 週\n週一\n週二\n週三\n週四\n週五\n上午\n09:10\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午一\n13:20\n法律專題研究\n法律系館B 研討室\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午二\n15:30\n出席：法律專題研究 0 次、法律實習或法律扶助實務 0 次",
+  "exam": null,
+  "shots": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\12_skip_after_select_week_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\13_skip_after_select_week_port.png"
+  ]
+ },
+ "ex": {
+  "today": {
+   "text": "5/30 週三・大四下 第 15 週（期末考週）\n現在 07:37\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n今天沒有課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "text_port": "5/30 週三・大四下 第 15 週（期末考週）\n現在 07:37\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n今天沒有課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "items": [],
+   "go": [],
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\14_skip_20290530_today_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\15_skip_20290530_today_port.png"
+   ]
+  },
+  "go": [],
+  "trip": null,
+  "g": {
+   "clock": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "h": 7.62,
+    "zone": "dorm",
+    "term": "Y4S2",
+    "week": 15
+   },
+   "electives": {
+    "y4s2_mar": "none"
+   },
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice"
+   ],
+   "examDay": null,
+   "examList": [],
+   "exam": null,
+   "grades": null,
+   "flags": {
+    "BAR_REG": true,
+    "Y4_PATH": "bar"
+   },
+   "pgOn": false,
+   "delayed": false,
+   "fdOn": false,
+   "failed": [],
+   "curExamHook": true,
+   "curExam": null,
+   "nmsg": 4,
+   "groups": [
+    {
+     "group": "y4s2_mar",
+     "def": "maritime",
+     "none": true,
+     "opts": [
+      "maritime"
+     ]
+    }
+   ]
+  },
+  "drv": {
+   "answered": {},
+   "shots": {},
+   "picks": [
+    [
+     "2029-05-30",
+     "07:30",
+     [
+      "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+      "算了，下學期再選。"
+     ],
+     "算了，下學期再選。"
+    ]
+   ]
+  }
+ },
+ "gr": {
+  "g": {
+   "clock": {
+    "key": "2029-10-20",
+    "day": 1495,
+    "h": 10.004,
+    "zone": "gongguan",
+    "term": null,
+    "week": null
+   },
+   "electives": {
+    "y4s2_mar": "none"
+   },
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice"
+   ],
+   "examDay": null,
+   "examList": [],
+   "exam": null,
+   "grades": {
+    "legal_research": "通過",
+    "legal_practice": "通過"
+   },
+   "flags": {
+    "BAR_REG": true,
+    "Y4_PATH": "bar",
+    "FAIL_DELAY_COURSES": [],
+    "FAIL_DELAY_V": 2,
+    "GRADUATED": 1355
+   },
+   "pgOn": true,
+   "delayed": false,
+   "fdOn": false,
+   "failed": [],
+   "curExamHook": true,
+   "curExam": null,
+   "nmsg": 3,
+   "groups": [
+    {
+     "group": "y4s2_mar",
+     "def": "maritime",
+     "none": true,
+     "opts": [
+      "maritime"
+     ]
+    }
+   ]
+  },
+  "gline": "法律專題研究：通過　法律實習或法律扶助實務：通過",
+  "fdl": [],
+  "steps": [
+   "fd_grades_y4s2",
+   "b1",
+   "exam_2029",
+   "r1_2029",
+   "r2y4b_retake_plan",
+   "r2y4b_rt_1020"
+  ],
+  "stuck": null,
+  "said": [
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "法律專題研究：通過　法律實習或法律扶助實務：通過",
+    "d": "2029-06-18",
+    "h": 9,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "我自己的喝完了。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "許柏翰",
+    "c": "classmate_bohan",
+    "t": "……二十三點了。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "知道啦。最後一次。",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
+    "d": "2029-06-27",
+    "h": 23.001,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+    "d": "2029-06-28",
+    "h": 10.701,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（兵役的時間，你排在考試之後。）",
+    "d": "2029-06-28",
+    "h": 10.701,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（總圖 B1，讀書會最後一次。桌上攤滿了考古題。）",
+    "d": "2029-07-12",
+    "h": 20,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "（把滷味放在桌子正中間）剩三個禮拜了，吃好一點。",
+    "d": "2029-07-12",
+    "h": 20,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "1／20　依行政程序法第111條第7款，行政處分具有何種瑕疵時，可能構成無效？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "2／20　甲犯罪後，於具有偵查犯罪職權的公務員尚未發覺其犯罪前，主動向警方坦承犯罪並接受裁判。依刑法第62條，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "3／20　辯護人只是法院的輔助人，與被告防禦權無關。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "4／20　依律師法第47條，律師收取酬金時應如何？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "5／20　確定判決命乙清償 50 萬元。判決確定後，乙已經全部清償，債權人甲仍持判決聲請強制執行。乙在執行程序終結前，可以提起什麼訴訟？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "6／20　立法院打算以法律限制人民的一項自由。依憲法第 23 條，下列何者不是條文列出的限制目的？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "7／20　依民法第860條，普通抵押權的主要功能為何？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "8／20　法院得因被告保持緘默而直接推論其有罪。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "9／20　依證券交易法第157條第2項，公司董事會或監察人不行使短線交易利益歸入請求權時，股東得定多久期限請求董事或監察人行使，逾期不行使時，得為公司行使？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "10／20　依民法第359條，買賣標的物具有出賣人應負擔保責任的瑕疵時，買受人原則上得主張何種權利？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "11／20　人民認為行政機關作成的行政處分違法，侵害其權利或法律上利益，經必要的訴願程序後，原則上得提起何種訴訟？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "12／20　A person is presumed ______ until proven guilty in a criminal trial.",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "13／20　甲的民事訴訟已經打到最高法院確定，甲認為這份確定終局判決牴觸憲法。依憲法訴訟法，下列敘述何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "14／20　甲為乙公司的受僱人，執行職務時因過失不法侵害丙的權利。依民法第188條第1項，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "15／20　依憲法訴訟法第59條，人民聲請憲法法庭宣告不利確定終局裁判或其所適用之法規範違憲，前提之一是什麼？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "16／20　依民法規定，下列何者為完全行為能力人？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "17／20　依民法第1174條，繼承人拋棄繼承，原則上應於知悉其得繼承之時起多久內，以書面向法院為之？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "18／20　依勞工退休金條例第14條第1項，雇主每個月為適用該條例的勞工負擔提繳的退休金，不得低於勞工每月工資的多少？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "19／20　甲乙事先約定共同搶劫商店，由甲持刀威嚇店員，乙負責拿取收銀機內現金。兩人依計畫完成犯罪。下列何者最適當？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "20／20　依民法第345條，買賣契約的基本內容為何？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "交卷。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "許柏翰",
+    "c": "classmate_bohan",
+    "t": "第十四題你選哪個？",
+    "d": "2029-08-04",
+    "h": 17.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "不要對。對了會睡不著。",
+    "d": "2029-08-04",
+    "h": 17.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "律師、司法官一試：未通過。",
+    "d": "2029-09-07",
+    "h": 15.083,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（明年八月，再一次。）",
+    "d": "2029-09-08",
+    "h": 21,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（朋友們去考二試的那兩天，你在自習室讀民法。）",
+    "d": "2029-10-20",
+    "h": 10,
+    "z": "gongguan"
+   }
+  ],
+  "msgs": [
+   {
+    "th": "g:econ_friends",
+    "from": "econ_pinyu",
+    "tag": "heard_h510_pinyu",
+    "day": 1421,
+    "h": 21.33,
+    "text": "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"
+   },
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "pg_r1sys_2029",
+    "day": 1452,
+    "h": 15.08,
+    "text": "律師、司法官一試：未通過。"
+   }
+  ],
+  "shots": {
+   "grades": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\16_skip_grades_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\17_skip_grades_port.png"
+   ]
+  },
+  "mk_msgs": []
+ }
+}

@@ -1,0 +1,9 @@
+[gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_P1_d124]
+[gpu_wrap 263.5s] page close url=http://127.0.0.1:8809/index.html?turbo
+[gpu_wrap 263.6s] BROWSER DISCONNECTED
+[gpu_wrap 264.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_P1_d124]
+[gpu_wrap 480.8s] page close url=http://127.0.0.1:8809/index.html?turbo
+[gpu_wrap 480.8s] BROWSER DISCONNECTED
+[gpu_wrap 481.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_P1_d124]
+[gpu_wrap 497.2s] page close url=http://127.0.0.1:8809/index.html?turbo
+[gpu_wrap 497.3s] BROWSER DISCONNECTED

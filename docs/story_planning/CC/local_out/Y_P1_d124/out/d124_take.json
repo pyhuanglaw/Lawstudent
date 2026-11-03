@@ -1,0 +1,834 @@
+{
+ "case": "take",
+ "sha": "c89a5f9be",
+ "sel": {
+  "opts": [
+   "海商法與海洋法週三上午・法律系館A 202",
+   "這學期不修海商法與海洋法那個時段沒有課"
+  ],
+  "picked": "海商法與海洋法週三上午・法律系館A 202",
+  "asked": "海商法與海洋法要修嗎？",
+  "shots": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\01_take_select_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\02_take_select_port.png"
+  ],
+  "lines": [
+   "選課結果出來了：大四下。",
+   "海商法與海洋法要修嗎？",
+   "這學期的課表在手機的「課表」。"
+  ],
+  "drv": {
+   "answered": {},
+   "shots": {},
+   "picks": []
+  }
+ },
+ "g": {
+  "clock": {
+   "key": "2029-02-19",
+   "day": 1252,
+   "h": 12.341,
+   "zone": "dorm",
+   "term": "Y4S2",
+   "week": 1
+  },
+  "electives": {
+   "y4s2_mar": "maritime"
+  },
+  "sel": true,
+  "termCourses": [
+   "legal_research",
+   "legal_practice",
+   "maritime"
+  ],
+  "examDay": {
+   "key": "2029-05-30",
+   "day": 1352,
+   "block": "am"
+  },
+  "examList": [
+   [
+    "maritime",
+    "final",
+    "2029-05-30",
+    "am"
+   ]
+  ],
+  "exam": null,
+  "grades": null,
+  "flags": {
+   "Y4_PATH": "bar"
+  },
+  "pgOn": false,
+  "delayed": false,
+  "fdOn": false,
+  "failed": [
+   "maritime"
+  ],
+  "curExamHook": true,
+  "curExam": null,
+  "nmsg": 1,
+  "groups": [
+   {
+    "group": "y4s2_mar",
+    "def": "maritime",
+    "none": true,
+    "opts": [
+     "maritime"
+    ]
+   }
+  ]
+ },
+ "scan": [
+  "2029-02-21",
+  "2029-03-07",
+  "2029-03-14",
+  "2029-03-21",
+  "2029-03-28",
+  "2029-04-11",
+  "2029-04-18",
+  "2029-04-25",
+  "2029-05-02",
+  "2029-05-09",
+  "2029-05-16",
+  "2029-05-23",
+  "2029-05-30"
+ ],
+ "wk": {
+  "text": "大四下・第 1 週\n週一\n週二\n週三\n週四\n週五\n上午\n09:10\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n海商法與海洋法\n法律系館A 202\n下午一\n13:20\n法律專題研究\n法律系館B 研討室\n法律實習或法律扶助實務\n法扶・臺北的辦公室\n下午二\n15:30\n出席：法律專題研究 0 次、法律實習或法律扶助實務 0 次、海商法與海洋法 0 次\n考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202",
+  "exam": "考試（這段時間不能約人、約會）\n期末　海商法與海洋法　5/30（三）09:10–12:10　法律系館A 202",
+  "shots": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\03_take_after_select_week_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\04_take_after_select_week_port.png"
+  ]
+ },
+ "ex": {
+  "today": {
+   "text": "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "text_port": "5/30 週三・大四下 第 15 週（期末考週）\n現在 08:16\n今天的時間　上午 ○○　下午 ○○　晚上 ○○\n每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。\n09:10–12:10 海商法與海洋法（考試）\n法律系館A 202・兼任老師・還沒開始\n直接去上課\n法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00\n跳過時間\n沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。\n等到下一堂課前（09:00）\n等到中午（12:00）\n等到下午（14:00）\n等到傍晚（17:30）\n等到晚上（20:00）\n翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。",
+   "items": [
+    {
+     "key": "1352:maritime:am",
+     "cid": "maritime",
+     "t0": 9.166666666666666,
+     "exam": "final",
+     "examMain": true,
+     "status": "upcoming"
+    }
+   ],
+   "go": [
+    [
+     "1352:maritime:am",
+     "直接去上課"
+    ]
+   ],
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\05_take_20290530_today_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\06_take_20290530_today_port.png"
+   ]
+  },
+  "go": [
+   {
+    "key": "1352:maritime:am",
+    "cid": "maritime",
+    "name": "海商法與海洋法",
+    "t0": 9.166666666666666,
+    "exam": "final",
+    "examMain": true,
+    "status": "upcoming"
+   }
+  ],
+  "trip": {
+   "key": "1352:maritime:am",
+   "ok": true,
+   "stuck": false,
+   "btn": "直接去上課",
+   "done": true,
+   "end": {
+    "day": 1352,
+    "key": "2029-05-30",
+    "h": 12.169,
+    "zone": "linze_202"
+   },
+   "enters": [
+    [
+     "linze_202",
+     9
+    ]
+   ]
+  },
+  "g": {
+   "clock": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "h": 12.169,
+    "zone": "linze_202",
+    "term": "Y4S2",
+    "week": 15
+   },
+   "electives": {
+    "y4s2_mar": "maritime"
+   },
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice",
+    "maritime"
+   ],
+   "examDay": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "block": "am"
+   },
+   "examList": [
+    [
+     "maritime",
+     "final",
+     "2029-05-30",
+     "am"
+    ]
+   ],
+   "exam": {
+    "qs": [
+     "Y4MAR_01",
+     "Y4MAR_04",
+     "Y4_MAR_04",
+     "Y4MAR_07",
+     "Y4MAR_05"
+    ],
+    "ans": [
+     "A",
+     "B",
+     "B",
+     "A",
+     "A"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   },
+   "grades": null,
+   "flags": {
+    "BAR_REG": true,
+    "Y4_PATH": "bar"
+   },
+   "pgOn": false,
+   "delayed": false,
+   "fdOn": false,
+   "failed": [
+    "maritime"
+   ],
+   "curExamHook": true,
+   "curExam": null,
+   "nmsg": 4,
+   "groups": [
+    {
+     "group": "y4s2_mar",
+     "def": "maritime",
+     "none": true,
+     "opts": [
+      "maritime"
+     ]
+    }
+   ]
+  },
+  "drv": {
+   "answered": {
+    "Y4MAR_01|甲將自己所有的貨輪賣給乙，雙方已作成書面，並經航政主管機關蓋": {
+     "i": 1,
+     "ce": {
+      "cid": "maritime",
+      "kind": "final",
+      "term": "Y4S2",
+      "i": 1,
+      "qid": "Y4MAR_01"
+     },
+     "by": "curExam",
+     "id": "Y4MAR_01",
+     "right": 2,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "Y4MAR_04|船長在航行中操作船舶時判斷錯誤（航行上的過失），導致船上的貨": {
+     "i": 2,
+     "ce": {
+      "cid": "maritime",
+      "kind": "final",
+      "term": "Y4S2",
+      "i": 2,
+      "qid": "Y4MAR_04"
+     },
+     "by": "curExam",
+     "id": "Y4MAR_04",
+     "right": 0,
+     "picked": 1,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "Y4_MAR_04|依海商法第53條，載貨證券由誰、在什麼時候發給？": {
+     "i": 3,
+     "ce": {
+      "cid": "maritime",
+      "kind": "final",
+      "term": "Y4S2",
+      "i": 3,
+      "qid": "Y4_MAR_04"
+     },
+     "by": "curExam",
+     "id": "Y4_MAR_04",
+     "right": 0,
+     "picked": 1,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "Y4MAR_07|漁船對一艘遇難的貨輪及船上貨物施以救助，但最後沒有任何救助效": {
+     "i": 4,
+     "ce": {
+      "cid": "maritime",
+      "kind": "final",
+      "term": "Y4S2",
+      "i": 4,
+      "qid": "Y4MAR_07"
+     },
+     "by": "curExam",
+     "id": "Y4MAR_07",
+     "right": 2,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    },
+    "Y4MAR_05|甲以「以船舶之全部供運送為目的」的運送契約（傭船契約）向乙租": {
+     "i": 5,
+     "ce": {
+      "cid": "maritime",
+      "kind": "final",
+      "term": "Y4S2",
+      "i": 5,
+      "qid": "Y4MAR_05"
+     },
+     "by": "curExam",
+     "id": "Y4MAR_05",
+     "right": 1,
+     "picked": 0,
+     "correct": false,
+     "d": "2029-05-30"
+    }
+   },
+   "shots": {
+    "exam_q1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\07_take_exam_q1.png"
+   },
+   "picks": [
+    [
+     "2029-05-30",
+     "08:10",
+     [
+      "沒選到的那堂，等第二階段有人退選，再上網加加看。",
+      "算了，下學期再選。"
+     ],
+     "算了，下學期再選。"
+    ],
+    [
+     "2029-05-30",
+     "08:10",
+     [
+      "直接去考場：海商法與海洋法走路 18 分鐘，09:00 到教室",
+      "先起床考試前 10 分鐘會自動帶你進考場"
+     ],
+     "先起床考試前 10 分鐘會自動帶你進考場"
+    ],
+    [
+     "2029-05-30",
+     "09:00",
+     [
+      "坐中間的位子第一次上這門課",
+      "自己找位子走過去坐下就可以上課"
+     ],
+     "坐中間的位子第一次上這門課"
+    ]
+   ]
+  }
+ },
+ "gr": {
+  "g": {
+   "clock": {
+    "key": "2029-10-20",
+    "day": 1495,
+    "h": 10.004,
+    "zone": "gongguan",
+    "term": null,
+    "week": null
+   },
+   "electives": {
+    "y4s2_mar": "maritime"
+   },
+   "sel": true,
+   "termCourses": [
+    "legal_research",
+    "legal_practice",
+    "maritime"
+   ],
+   "examDay": {
+    "key": "2029-05-30",
+    "day": 1352,
+    "block": "am"
+   },
+   "examList": [
+    [
+     "maritime",
+     "final",
+     "2029-05-30",
+     "am"
+    ]
+   ],
+   "exam": {
+    "qs": [
+     "Y4MAR_01",
+     "Y4MAR_04",
+     "Y4_MAR_04",
+     "Y4MAR_07",
+     "Y4MAR_05"
+    ],
+    "ans": [
+     "A",
+     "B",
+     "B",
+     "A",
+     "A"
+    ],
+    "correct": 0,
+    "score": 0,
+    "status": "done"
+   },
+   "grades": {
+    "legal_research": "通過",
+    "legal_practice": "通過",
+    "maritime": "0 分（不及格）"
+   },
+   "flags": {
+    "BAR_REG": true,
+    "Y4_PATH": "bar",
+    "FAIL_DELAY_COURSES": [],
+    "FAIL_DELAY_V": 2,
+    "GRADUATED": 1355
+   },
+   "pgOn": true,
+   "delayed": false,
+   "fdOn": false,
+   "failed": [
+    "maritime"
+   ],
+   "curExamHook": true,
+   "curExam": null,
+   "nmsg": 3,
+   "groups": [
+    {
+     "group": "y4s2_mar",
+     "def": "maritime",
+     "none": true,
+     "opts": [
+      "maritime"
+     ]
+    }
+   ]
+  },
+  "gline": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）",
+  "fdl": [],
+  "steps": [
+   "fd_grades_y4s2",
+   "b1",
+   "exam_2029",
+   "r1_2029",
+   "r2y4b_retake_plan",
+   "r2y4b_rt_1020"
+  ],
+  "stuck": null,
+  "said": [
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "法律專題研究：通過　法律實習或法律扶助實務：通過　海商法與海洋法：0 分（不及格）",
+    "d": "2029-06-18",
+    "h": 9,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（紙箱都封好了。學弟們先走了，房間只剩兩張床有東西。）",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（阿哲從二樓上來，手上兩罐飲料，一罐給你，一罐給柏翰。）",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "我自己的喝完了。",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "許柏翰",
+    "c": "classmate_bohan",
+    "t": "……二十三點了。",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "知道啦。最後一次。",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（燈關了。窗外的路燈照進來一點。三個人都沒說話。）",
+    "d": "2029-06-27",
+    "h": 23,
+    "z": "dorm"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（宿舍期滿。舍監在門口收鑰匙。）",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（409 的鑰匙交出去的時候，舍監看了一下名單：「四年，四個房間。」）",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "「冬天的衣服」那一箱，最後一個搬上車。",
+    "d": "2029-06-28",
+    "h": 10.001,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（你租的套房在公館，走路到總圖十分鐘。）",
+    "d": "2029-06-28",
+    "h": 10.701,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（兵役的時間，你排在考試之後。）",
+    "d": "2029-06-28",
+    "h": 10.701,
+    "z": "dorm_hall"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（總圖 B1，讀書會最後一次。桌上攤滿了考古題。）",
+    "d": "2029-07-12",
+    "h": 20,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "（把滷味放在桌子正中間）剩三個禮拜了，吃好一點。",
+    "d": "2029-07-12",
+    "h": 20,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "1／20　甲為影響某上市股票價格，故意散布該公司即將獲得重大訂單的不實消息。依證券交易法第155條第1項，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "2／20　甲承諾乙：「如果乙通過考試，就給乙獎金。」甲為避免支付獎金，以不正當行為阻止條件成就。依民法第101條第1項，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "3／20　甲在餐廳離開時，誤將外觀完全相同的乙之雨傘當成自己的雨傘帶走。甲確實相信該傘為自己所有，並無其他不法意圖。下列何者最適當？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "4／20　甲向乙表示：「如果不交給我五萬元，我就公布你不願讓人知道的私人照片。」乙因恐懼而交付款項。假設甲具有不法所有意圖，且未施用達到強盜罪程度的強暴、脅迫。下列何者最適當？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "5／20　依證券交易法第7條，下列何者最符合「募集」與「私募」的區別？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "6／20　關於法人侵權責任，下列何者較符合現行實務的討論方向？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "7／20　依憲法本文，關於法官的保障，下列敘述何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "8／20　甲負有於10月1日交付特定設備的義務，履行期限已屆至，甲仍未交付，且不存在免責事由。下列何者最符合其債務不履行類型？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "9／20　依國民法官法第5條，下列經檢察官起訴、由地方法院管轄的第一審案件，何者應行國民參與審判？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "10／20　依民法第184條第1項前段的通常理解，下列何者最適合描述純粹經濟上損失？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "11／20　依民法第408條第1項，贈與物的權利尚未移轉前，贈與人原則上得如何？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "12／20　被告具有程序主體地位，因此享有防禦權。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "13／20　我國刑事訴訟原則上禁止僅憑被告自白作為有罪判決唯一證據。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "14／20　政府為了開一條公共道路，依法徵收甲的土地。下列敘述何者最符合憲法保障財產權的意旨？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "15／20　補強證據必須自己單獨證明全部犯罪事實到毫無合理懷疑。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "16／20　逮捕現行犯的重要特徵：",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "17／20　甲基於傷害故意毆打乙，導致乙死亡。假設甲對死亡結果欠缺預見可能性，且依具體情況也不能預見。依刑法第17條，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "18／20　依勞動基準法第2條第1款，「勞工」是指什麼人？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "19／20　幾位同學想成立一個財團法人，用來管理一筆獎學金。依民法第 25 條，關於法人的成立，下列敘述何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "20／20　乙的腳踏車被偷，小偷在網路上賣給不知情的丙。依民法，下列何者正確？",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "交卷。",
+    "d": "2029-08-04",
+    "h": 8.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "許柏翰",
+    "c": "classmate_bohan",
+    "t": "第十四題你選哪個？",
+    "d": "2029-08-04",
+    "h": 17.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "阿哲",
+    "c": "zhe",
+    "t": "不要對。對了會睡不著。",
+    "d": "2029-08-04",
+    "h": 17.5,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "律師、司法官一試：未通過。",
+    "d": "2029-09-07",
+    "h": 15.083,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（明年八月，再一次。）",
+    "d": "2029-09-08",
+    "h": 21,
+    "z": "gongguan"
+   },
+   {
+    "k": "say",
+    "n": "",
+    "c": null,
+    "t": "（朋友們去考二試的那兩天，你在自習室讀民法。）",
+    "d": "2029-10-20",
+    "h": 10,
+    "z": "gongguan"
+   }
+  ],
+  "msgs": [
+   {
+    "th": "g:econ_friends",
+    "from": "econ_pinyu",
+    "tag": "heard_h510_pinyu",
+    "day": 1421,
+    "h": 21.33,
+    "text": "可昕一試考完，第一件事是去吃鹹酥雞。她說忍了半年。"
+   },
+   {
+    "th": "sys",
+    "from": null,
+    "tag": "pg_r1sys_2029",
+    "day": 1452,
+    "h": 15.08,
+    "text": "律師、司法官一試：未通過。"
+   }
+  ],
+  "shots": {
+   "grades": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\08_take_grades_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\Y_P1_d124\\out\\09_take_grades_port.png"
+   ]
+  },
+  "mk_msgs": []
+ }
+}
