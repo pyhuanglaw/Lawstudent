@@ -39991,7 +39991,7 @@
       "title": "刪除「這不是問句／這次是問句／這次是直述句」句型（使用者 11-02 原話，AA_573）",
       "area": "劇情",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P1",
       "next": "BB／CC 看 Q15 那一段＋solo_before D06（美術館第 2 句）",
       "first": {
@@ -40012,7 +40012,8 @@
         "acceptance": "玩家看得到的文字沒有這個句型；舊存檔 not_question、事件 id 照舊",
         "receiver": "BB",
         "ack": "DELIVERED"
-      }
+      },
+      "evidence": "BB_251（BB 11-03）：b5ef7be38 src 去註解掃五種句型＝只剩 ladder.js 4 處 note（玩家看不到）；AA_573 #5、#6 在、事件 id 照舊"
     },
     {
       "id": "BUG-GOCLASS-WINDOW-1102",
