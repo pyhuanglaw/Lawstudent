@@ -637,3 +637,11 @@
 [12:06:59] ==== START R10pre  (probe @ 299e23345) ====
 [12:07:02] [res] cpu=21% mem=51% (15.6/31.4 GB) chrome_testing=20  START R10pre
 [12:41:45] [res] cpu=18% mem=49% (15.5/31.4 GB) chrome_testing=20  END 30_b1base
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       53408e9e0..d251edf38  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:41:51] ==== END   30_b1base  exit=1  4463s   ====
+[12:41:53] memory 47% before starting R11pre (2 running)
+[12:41:53] ==== START R11pre  (probe @ f57e3ac75) ====
+[12:41:56] [res] cpu=5% mem=47% (15.0/31.4 GB) chrome_testing=20  START R11pre
+[12:53:19] [res] cpu=26% mem=46% (15.5/31.4 GB) chrome_testing=20  END R11pre
