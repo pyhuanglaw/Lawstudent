@@ -314,3 +314,11 @@
 [21:32:18] [res] cpu=8% mem=44% (13.8/31.4 GB) chrome_testing=10  START 01_p0speed
 [21:32:34] 正在跑：FS112（已跑 89 分／上限 360 分）、00_gpu（已跑 0 分／上限 20 分）、01_p0speed（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:34:44] [res] cpu=16% mem=51% (16.1/31.4 GB) chrome_testing=19  END 00_gpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       952800d67..694578ae8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:34:50] ==== END   00_gpu  exit=0  149s   ====
+[21:34:53] memory 51% before starting 00_gpu (2 running)
+[21:34:53] ==== START 00_gpu  (gpu @ b4115ee3a) ====
+[21:34:56] [res] cpu=12% mem=51% (16.1/31.4 GB) chrome_testing=19  START 00_gpu
+[21:35:24] [res] cpu=9% mem=48% (15.0/31.4 GB) chrome_testing=19  END 01_p0speed
