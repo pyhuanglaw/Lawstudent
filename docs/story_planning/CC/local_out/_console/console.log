@@ -386,3 +386,11 @@
 [10:12:38] ==== START Z_A3_l15  (probe @ 7224af47a) ====
 [10:12:41] [res] cpu=36% mem=50% (15.7/31.4 GB) chrome_testing=19  START Z_A3_l15
 [10:14:05] [res] cpu=35% mem=48% (15.3/31.4 GB) chrome_testing=19  END Z_A2_dorm
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c2dd350fa..088aeacf0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:14:11] ==== END   Z_A2_dorm  exit=0  148s   ====
+[10:14:13] memory 43% before starting Z_G6b_v95 (2 running)
+[10:14:13] ==== START Z_G6b_v95  (game @ 0f66c4215) ====
+[10:14:16] [res] cpu=45% mem=39% (13.7/31.4 GB) chrome_testing=3  START Z_G6b_v95
+[10:14:21] [res] cpu=37% mem=39% (11.8/31.4 GB) chrome_testing=9  END Z_A3_l15
