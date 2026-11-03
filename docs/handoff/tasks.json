@@ -43579,6 +43579,53 @@
    "priority": "P2",
    "note": "BB 11-03 17:20／17:29；CC 探針 cc_gym_skirt_probe（cc-testing 4d0ec34db）修正前 FAILED 2；v9.10.18 就有，不擋 v9.10.19",
    "next": "CC 跑 cc_gym_skirt_probe（4d0ec34db）要 PASS"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "WZ-ENTRY-XINSHENG-1103",
+   "title": "溫州街只從新生南路進出：拿掉公館往溫州街的巷口；溫州街「回公館」改回新生南路；手機地圖、places.js、劇情裡「從公館走去溫州街」的移動照改；舊存檔不管（使用者 11-03 22:0x 對 AA，X199）",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
+   "next": "等 LAWWW2 新生南路第 1 批（zone xinsheng＋溫州街西側橫巷北口 (−33.4,−28.4)）交件；接上以後同一批拿掉公館巷口（不能先拿，否則溫州街走不到）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "GG-SHOPS-REDESIGN-1103",
+   "title": "公館 15 間店重新設計外觀和室內美術（使用者會給 2D 參考圖）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "note": "使用者 11-03 22:0x 對 AA（X200）",
+   "next": "等使用者參考圖；排在新生南路七批之後或照使用者給圖的順序",
+   "xai": {
+    "receiver": "LAWWW2",
+    "branch": "claude/second-ai-env-art",
+    "spec": "使用者 2D 參考圖（待給）",
+    "acceptance": "BB ART_APPROVED（D120）",
+    "ack": "SENT"
+   }
   }
  ]
 }
