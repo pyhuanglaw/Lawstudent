@@ -239,3 +239,14 @@
 [20:18:39] ==== START 01_p0speed  (game @ 0f16f98a3) ====
 [20:18:42] [res] cpu=10% mem=49% (15.5/31.4 GB) chrome_testing=19  START 01_p0speed
 [20:19:11] [res] cpu=19% mem=47% (14.6/31.4 GB) chrome_testing=18  END LIVE18_day12
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2b4ef704b..dad38926b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:19:17] ==== END   LIVE18_day12  exit=0  313s   ====
+[20:19:19] skip R11_full (already done on b1b249873)
+[20:19:19] skip R10pre (already done on 299e23345)
+[20:19:19] skip R11pre (already done on f57e3ac75)
+[20:19:19] memory 50% before starting D_B12_skybr (2 running)
+[20:19:19] ==== START D_B12_skybr  (game @ ffeec06e0) ====
+[20:19:22] [res] cpu=12% mem=49% (15.8/31.4 GB) chrome_testing=18  START D_B12_skybr
+[20:21:12] [res] cpu=7% mem=52% (16.0/31.4 GB) chrome_testing=20  END 01_p0speed
