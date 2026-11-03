@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "V19R_deploy",
-  "sha": "15e78dff7",
+  "sha": "033242ae9",
   "kind": "game",
   "script": "tests/deploy_check.py",
-  "env": "XARGS={url} v9.10.18（2026-11-03）",
+  "env": "XARGS={url} v9.10.19（2026-11-03）",
   "machine": "MSI",
-  "start": "2026-11-04T01:05:45",
-  "end": "2026-11-04T01:08:59",
-  "seconds": 194,
+  "start": "2026-11-04T01:09:10",
+  "end": "2026-11-04T01:12:47",
+  "seconds": 217,
   "exit": 1,
   "error": null,
   "runner": "c9cac8a6aa",
   "rf_round": "5",
-  "url": "http://127.0.0.1:8810/index.html",
+  "url": "http://127.0.0.1:8813/index.html",
   "res_peak": {
-    "cpu": 91,
-    "mem": 64,
-    "used_gb": 20.1,
-    "chrome_testing": 27
+    "cpu": 96,
+    "mem": 62,
+    "used_gb": 19.3,
+    "chrome_testing": 26
   }
 }
