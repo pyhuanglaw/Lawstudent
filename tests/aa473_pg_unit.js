@@ -27,17 +27,19 @@ await tsec(1,async()=>{ const S1=sec(1);
     const atNoon=H.msgs('p:heroine_05').slice(); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
     const th=H.msgs('p:heroine_05');
-    check('1. '+tag+'、學姊前任：12:00 她私訊「'+noon+'」',J(atNoon)===J([noon]),J(atNoon));
-    check('1. '+tag+'：19:30 Kevin 的生日 → 傳「生日快樂。」→ 她只回「謝謝。」（不再恭喜一次：「'+two+'」不出）',th.join('|').endsWith('生日快樂。|謝謝。')&&!th.includes(two)&&G.flags.SIS_BDAY_Y4==='msg'&&th.filter(t=>t===noon).length===1,J(th)); }
+    /* AA_600 B9、B10（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：中午她不主動私訊前任；晚上你傳「生日快樂。」她已讀不回——
+       原本的期望（AA_473 第 1 節：中午「畢業快樂。」／「今天恭喜。」、晚上只回「謝謝。」）照 AA_600 換，不是放寬 */
+    check('1. '+tag+'、學姊前任（AA_600 B9）：12:00 不私訊（沒有「'+noon+'」）',!atNoon.length,J(atNoon));
+    check('1. '+tag+'（AA_600 B10）：19:30 Kevin 的生日 → 傳「生日快樂。」→ 她不回（沒有「謝謝。」、沒有「'+two+'」）',th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(two)&&G.flags.SIS_BDAY_Y4==='msg'&&!th.includes(noon),J(th)); }
   /* AA_476 A-5：判斷照「她回生日的那一刻，手機裡已經有畢業那一則（含補發）」——下午才分手的：中午那一則在晚上補發，回生日只回「謝謝。」*/
   { check('1. 稿：AA_476 A-5「含補發」、只回「謝謝。」',a476(5).includes('含補發')&&a476(5).includes('只回「謝謝。」'));
     const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); PG.rules(GM); PHONE.tick(G); const noonNot=!PHONE.sent(G,'pg_sis_ex'); await H.run('grad');
     H.at('2029-06-02',15); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM); PHONE.tick(G);
     const th=H.msgs('p:heroine_05'), m=(G.msgs||[]).find(x=>x.tag==='pg_sis_ex');
-    check('1. 中午還在交往、下午才分手：中午那一則晚上補發（時間寫 12:00）、回生日只回「謝謝。」',noonNot&&!!m&&m.h===12&&th.join('|').endsWith('生日快樂。|謝謝。')&&!th.includes(POSTGRAD_LINES.BDAY.exReply[1]),J(th)); }
+    check('1. 中午還在交往、下午才分手（AA_600 B9、B10）：中午那一則不補發、回生日也不回',noonNot&&!m&&th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(POSTGRAD_LINES.BDAY.exReply[1]),J(th)); }
   /* 中午那一則沒送到（還不是前任的時候不發；之後也過了補發的時間）：照原本兩句 */
   { const G=H.fresh('2029-06-04',13,'dorm'); graduated(G); ex('heroine_05'); G.flags.PG_SIS_EX_BDAY='send'; PG.rules(GM); PHONE.tick(G); const th=H.msgs('p:heroine_05');
-    check('1. 中午那一則沒送到：照原本兩句「謝謝。」「'+B.exReply[1]+'」',!PHONE.sent(G,'pg_sis_ex')&&th.join('|').endsWith('生日快樂。|謝謝。|'+B.exReply[1]),J(th)); }
+    check('1. 中午那一則沒送到（AA_600 B10）：她也不回（沒有「謝謝。」「'+B.exReply[1]+'」）',!PHONE.sent(G,'pg_sis_ex')&&th.join('|').endsWith('生日快樂。')&&!th.includes('謝謝。')&&!th.includes(B.exReply[1]),J(th)); }
   /* 不傳＝沒有回覆 */
   { const G=H.fresh('2029-06-02',19.1,'campus'); graduated(G); ex('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',1); PG.rules(GM);
     check('1. 選「不傳」：沒有「生日快樂。」也沒有回覆',!H.msgs('p:heroine_05').includes('生日快樂。')&&!H.msgs('p:heroine_05').includes('謝謝。')&&G.flags.SIS_BDAY_Y4==='none'); } });

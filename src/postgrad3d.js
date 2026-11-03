@@ -240,7 +240,7 @@ const PG=(function(){
     {tag:'pg_zr_eve',at:['2029-06-01',23],cond:G=>S.dating(G,'heroine_02'),items:G=>[P_('heroine_02',L().PARTNER.heroine_02.eve)]},
     /* 1A-13 ⑦ 手機（不在現場的人）*/
     {tag:'pg_kx_ex',at:[GRAD,12],cond:G=>S.isEx(G,'kexin'),items:G=>L().PHONE.kexinEx.text.map(t=>P_('kexin',t))},
-    {tag:'pg_sis_ex',at:[GRAD,12],cond:G=>S.isEx(G,'heroine_05'),items:G=>[P_('heroine_05',DLY(G,'thermosEx',L().THERMOS.ex))]},
+    {tag:'pg_sis_ex',at:[GRAD,12],cond:G=>S.isEx(G,'heroine_05')&&!S.EX_NO_CONTACT,   /* AA_600 B9：畢業「今天恭喜。」私訊刪 */items:G=>[P_('heroine_05',DLY(G,'thermosEx',L().THERMOS.ex))]},
     {tag:'pg_ps_card',at:[GRAD,12.5],cond:G=>!S.dating(G,'classmate_peishan')&&!S.isEx(G,'classmate_peishan')&&!!G.flags.PS_RECONNECT&&S.at(G,'classmate_peishan','FAMILIAR'),items:G=>DLY(G,'peishan',L().PHONE.peishan.text).map(t=>P_('classmate_peishan',t)),after:G=>{ G.flags.PS_GRAD_CARD=true; }},   /* AA_327 2-Y4-53：收過照片記 PS_GRAD_CARD */
     {tag:'pg_fy',at:[GRAD,13],cond:G=>!S.isEx(G,'npc_fangyt')&&S.at(G,'npc_fangyt','FAMILIAR'),items:G=>L().PHONE.fangyt.text.map(t=>P_('npc_fangyt',t))},
     {tag:'pg_zr_photo',at:['2029-06-03',5+7/60],cond:G=>!S.dating(G,'heroine_02')&&!S.isEx(G,'heroine_02')&&S.at(G,'heroine_02','FAMILIAR'),items:G=>DLY(G,'zhiruo',L().PHONE.zhiruo.text).map(t=>P_('heroine_02',t))},
@@ -294,7 +294,7 @@ const PG=(function(){
     if(F.PG_SIS_SEA==='yes'&&S.seaOk(G)&&typeof OUT!=='undefined'&&!OUT.get(G,'pg_sis_sea')) S.planSea(G);   /* 6/1 21:00 回了「好。」*/
     if(F.SIS_BDAY_Y5==null&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&now>=T('2030-06-03',0)) F.SIS_BDAY_Y5='alone';   /* 15:00 那則沒送到（那時已經分手）也記一次 */
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
-    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
+    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); if(!S.EX_NO_CONTACT) for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
     if(F.PG_SIS_EX_BDAY==='no'&&F.SIS_BDAY_Y4==null) F.SIS_BDAY_Y4='none';
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
@@ -570,13 +570,14 @@ const PG=(function(){
   S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
     if(F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'){ const nights=!!(G.events&&G.events.done&&Object.keys(G.events.done).some(k=>/^ev_sk05_vending/.test(k))); return {line:nights?E.full:E.noNights,far:false}; }   /* 那幾個晚上＝SK05 三閃，販賣機見 */
     return {line:E.none,far:true}; };
+  S.EX_NO_CONTACT=true;   /* AA_600（企劃線 031414cad）：前任的學姊不主動傳（B9 畢業中午那一則）、生日快樂已讀不回（B10）*/
   S.EX_ORDER=['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kexin'];
   S.exLines=function(G,id,econFar){ const E=L().EPI, X=E.ex, me=x=>x.map(t=>[id,t]);
-    if(id==='heroine_01') return me(econFar?[X.heroine_01Alt,X.heroine_01[1]]:X.heroine_01);   /* 不再接 */
+    if(id==='heroine_01') return [X.exNod.heroine_01].concat(me(econFar?[X.heroine_01Alt,X.heroine_01[1]]:X.heroine_01));   /* 不再接。AA_600 A13：前面加旁白「（她經過你們那桌。你先打了招呼。）」，她的句子照留（是回應）*/
     if(id==='heroine_03'){ const Y3=S.ytEnd(G); return me(X.heroine_03.concat([E.yt[Y3.job===1||Y3.job===2?Y3.job:4][0]])); }
     if(id==='heroine_02') return me(X.heroine_02.concat(E.zr.main));
     if(id==='heroine_04') return me(X.heroine_04.concat(G.flags.ZQ_Q12==='cat'?E.zq.cat:E.zq.nine));   /* 同上（AA_360 第 1 節）*/
-    if(id==='heroine_05') return me(X.heroine_05.concat(E.sis.road));
+    if(id==='heroine_05') return [X.exNod.heroine_05];   /* AA_600 B11：「……你們看起來很好。」刪，改旁白「（她經過你們那桌，點了一下頭。）」；後面接的研究近況（E.sis.road，她自己開口）一起不演 */
     if(id==='classmate_peishan') return me(X.classmate_peishan.concat(E.ps.base));
     if(id==='kexin') return me(X.kexin.concat(G.flags.GIRAFFE_KEYCHAIN?[X.kexinKey]:[]));
     return null; };

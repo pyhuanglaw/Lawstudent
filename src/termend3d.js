@@ -68,6 +68,7 @@ const TERMEND=(function(){
   S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.log) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return false;   /* AA_600 S5（企劃線 031414cad）：以安、學姊是前任＝不發心意邀約、也不傳 NOPE 那一句；要復合只走祐廷主動的路（約會結尾告白、挽回）*/
     if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,id)) return false;   /* 分開以後到下一個學期第 1 週：她不主動約（AA_434 4-3，V6EX.cool），心意邀約不發、那一句也不傳；你自己約她吃飯＝朋友的期末飯（S.playerInvite）*/
     if(id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)) return false;   /* AA_386 第 4 節：分開過的學姊不發心意邀約（她的答應是第一次的台詞「你確定？」「我很難相處喔。」——AA_590 決3 前是「考試那時候就有一點了」，接不上）——重新開始照三件事（SIS_REBUILD）＋兩次正式校外約會，第二次那一趟的結尾告白（date3d.js）*/
     const c=S.cond(G,id);
@@ -76,6 +77,7 @@ const TERMEND=(function(){
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(D&&typeof D.hideIf==='function'&&D.hideIf(G,null)) return false;   /* 沛珊重考期：聯絡不到，不傳 */
     return true; };
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
+    if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return false;   /* AA_600 S5：前任的朋友邀約也不發 */
     if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,id)) return false;   /* 同上（AA_434 4-3）：分開以後這段期間她也不發朋友的邀約（不然心意邀約不發，她會改用朋友的邀約約你）*/
     if(id==='heroine_05'&&w.id==='Y1S1') return false;   /* 學姊筆試前不約（AA_250 10-2）*/
     if(id==='classmate_peishan'&&(w.id==='Y2S1'||w.id==='Y2S2')) return false;   /* 大二上說要重考以後不想見人、大二下聯絡不到（AA_250 第 3、4 節）*/

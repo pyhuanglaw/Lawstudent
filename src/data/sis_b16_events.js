@@ -226,14 +226,8 @@ const SISB16_EVENTS=(function(){
     /* ---------- 4-1 2/19～3/2 平日 17:00～17:30 總圖門口，一次（R：前任、美國路線、12/23 回來時沒在交往；沒有在走「4-1 她要的時間」；不推挽回；關係不加不減）---------- */
     { id:'ev_sis16_ex_door', title:'時差', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[1,2,3,4,5], time:[17,17.5], near:{npc:ID,r:4}, background:'blur',
       prereq:{custom:G=>!!X()&&X().exDoorOk(G)},
-      dialogue:[ N('（總圖門口。她從研究小間出來，看到你，在台階上停了一下。）'),
-        SIS('……你的時差，調好了嗎。'),
-        {choice:[{text:'「調好了。」',goto:'a'},{text:'「還沒。」',goto:'b'},{text:'（點頭）',goto:'c'}]},
-        {label:'a'},SIS('嗯。……我凌晨三點還是會醒。'),{goto:'e'},
-        {label:'b'},SIS('我也是。凌晨三點。'),{goto:'e'},
-        {label:'c'},N('（她也點了一下頭。）'),
-        {label:'e'},SIS('回來那班飛機，你睡得比我好。'),
-        N('（她把圍巾拉高，往捷運站走了。）'),
+      /* AA_600 B6（企劃線 031414cad）：她的句子刪（她不先開口），整場改成一句旁白；原本「從研究小間出來」「往捷運站走了」和「走進去了」方向不同，一起拿掉 */
+      dialogue:[ N('（她在總圖門口看到你，點了一下頭，走進去了。）'),
         {set:{SIS16_EX_DOOR:true}} ],
       after:(G,GM,npcs)=>{ const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[70,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } } ];   /* 往捷運站（大道往西）走了（同 W1 演完她走進總圖的做法）*/
 })();

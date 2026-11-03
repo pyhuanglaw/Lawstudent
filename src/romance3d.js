@@ -87,6 +87,10 @@ const ROM=(function(){
   S.partners=function(G){ const F=G.flags||{}; return Object.keys(F).filter(k=>/^dating_/.test(k)&&F[k]===true).map(k=>k.slice(7)); };
   S.current=G=>S.partners(G)[0]||null;   /* 舊的介面：只要一位的時候用 */
   S.isEx=(G,id)=>!!(G.flags&&G.flags['EX_'+id]);
+  /* AA_600（企劃線 031414cad）「分手後」：沒在交往，而且 EX_<id>，或 status 是 ex／paused（等你說清楚）／friend_after_catch（被發現退回朋友）；
+     學姊另外算 SISB4.brokeUp（同一組條件）。日本／美國路線的挽回中＝status ex、沒在交往，也在這裡面。只讀，不記東西 */
+  S.exOf=function(G,id){ const F=(G&&G.flags)||{}; if(F['dating_'+id]===true) return false; if(F['EX_'+id]) return true; const R=F.romance&&F.romance[id];
+    return !!R&&(R.status==='ex'||R.status==='paused'||R.status==='friend_after_catch'); };
   /* 她知道祐廷現在還在交往的哪些人（不含她自己；分開了的不算）*/
   S.knows=function(G,x){ S.rec(G); return S.partners(G).filter(p=>p!==x&&S.knowsOf(G,x,p)); };
   /* 誠實／閃避／說謊（BB_194 第 2 節、§24；任務 BB194-YTFLAGS）：她問到祐廷的感情狀態，祐廷的回答記在這三個旗標，期末飯的知情門檻（termend3d.js KNOWS_OK）讀它們。

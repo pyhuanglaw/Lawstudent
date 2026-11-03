@@ -281,9 +281,9 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { const W=['（七點整，線上讀書室只有兩格。兩格的鏡頭都關著。）','（她的麥克風沒有關。翻頁的聲音、螢光筆的蓋子，偶爾一聲很小的「……嗯。」）','（七點五十分，她那一格先打了一行字。）','七點五十了。我先下線。','……颱風天這樣讀，剛好。'];
     caps=[]; await go('y3_t3b_online',18.9); check('9. 10/14 線上那一段：字卡「照常的讀書會」；B4 旁白三句＋（不在公法讀書會）「七點五十了。我先下線。」「……颱風天這樣讀，剛好。」（逐字、順序）；19:50 結束（20:00 是公法讀書會）；SIS_TYPHOON_Y3_ONLINE went',caps.includes('照常的讀書會')&&JSON.stringify(all())===JSON.stringify(W)&&said[3].who!==null&&said[4].who!==null&&Math.abs(G.hour-(19+50/60))<0.01&&G.flags.SIS_TYPHOON_Y3_ONLINE==='went',JSON.stringify([caps,G.hour,all()])); }
   fresh('2027-10-14',19,'dorm',{SIS_TYPHOON_Y3:'online'}); G.acts={att:{['public_law_group@'+D('2025-11-13')]:{end:'full'}}}; await play('ev_typhoon_y3_family');
-  check('9. B4 大一去過公法讀書會（STORY.plgY1Count>0）：「八點你們有讀書會。下線吧。」→「……颱風天這樣讀，剛好。」',has('八點你們有讀書會。下線吧。')&&!has('七點五十了。我先下線。')&&idx('……颱風天這樣讀，剛好。')===idx('八點你們有讀書會。下線吧。')+1,JSON.stringify(all()));
+  check('9. B4 大一去過公法讀書會（STORY.plgY1Count>0）：「八點你們有讀書會。我先下線了。」→「……颱風天這樣讀，剛好。」',has('八點你們有讀書會。我先下線了。')&&!has('七點五十了。我先下線。')&&idx('……颱風天這樣讀，剛好。')===idx('八點你們有讀書會。我先下線了。')+1,JSON.stringify(all()));
   fresh('2027-10-14',19,'dorm',{SIS_TYPHOON_Y3:'online'}); G.acts={att:{['public_law_group@'+D('2027-10-07')]:{end:'full'}}}; await play('ev_typhoon_y3_family');
-  check('9. B4 大一沒去、這學期有去：也是「八點你們有讀書會。下線吧。」',has('八點你們有讀書會。下線吧。')&&!has('七點五十了。我先下線。'),JSON.stringify(all()));
+  check('9. B4 大一沒去、這學期有去：也是「八點你們有讀書會。我先下線了。」',has('八點你們有讀書會。我先下線了。')&&!has('七點五十了。我先下線。'),JSON.stringify(all()));
   fresh('2027-10-13',20,'dorm'); join('family_law'); run('2027-10-13',20.75,21.25); ans('y3_t3b',1); run('2027-10-14',18.5,19.5,1/12);
   { const q=OUT.get(G,'y3_t3b_online'); check('9. B4 答應了、19:10 還沒上線：什麼都不發生（她不追人、沒有訊息）；SIS_TYPHOON_Y3 照記 online',!!q&&Math.abs(q.late-1/6)<1e-9&&q.state==='missed'&&TH('g:family_law').slice(-1)[0].text==='……那就兩個人上。其他人休息。'&&!TH('p:heroine_05').length&&G.flags.SIS_TYPHOON_Y3==='online',JSON.stringify([q&&q.state,q&&q.late,TH('p:heroine_05').length])); }
   fresh('2027-10-13',20,'dorm'); join('family_law'); run('2027-10-13',20.75,21.25); ans('y3_t3b',2);
@@ -403,7 +403,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-11-13',11,'campus',{lawclub:true}); R('heroine_05','FAM'); await play('ev_fair_booth_y3',[0]); check('15. 沒遇過阿嬤：沒有三選一；11:00 沒有學姊；不認識子晴阿凱沒有貼紙',opts.length===0&&!any(/阿嬤|少年欸|訪談稿|插座貓/));
   fresh('2027-11-13',12.2,'campus',{GRANDMA_TREE_Y2:'heard'}); R('heroine_05','FAM'); check('15. 不是法服成員：路過版可以演',EVENTS.check(ev('ev_fair_booth_y3_pass'))&&!EVENTS.check(ev('ev_fair_booth_y3')));
   await play('ev_fair_booth_y3_pass');
-  check('15. F2 不是成員、和學姊熟：「你。……算了，今年不抓你。」；阿嬤揮手；沒有選項；FAIR_Y3 pass',JSON.stringify(all())===JSON.stringify(['（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）','（攤位旁邊的阿嬤看到你，揮了一下手。）','你。……算了，今年不抓你。'])&&opts.length===0&&G.flags.FAIR_Y3==='pass');
+  check('15. F2 不是成員、和學姊熟：「（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。」；阿嬤揮手；沒有選項；FAIR_Y3 pass',JSON.stringify(all())===JSON.stringify(['（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）','（攤位旁邊的阿嬤看到你，揮了一下手。）','（抱著一疊訪談稿，從攤位前面經過，看到你）今天人好多。我回研究室了。'])&&opts.length===0&&G.flags.FAIR_Y3==='pass');
 
   // ===== 16. 2-Y3-16 C4 阿哲的機車 =====
   fresh('2027-11-19',20,'dorm'); R('zhe','FAM'); run('2027-11-19',20.75,21.25);

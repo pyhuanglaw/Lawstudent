@@ -64,7 +64,7 @@ const Y1FILL=(function(){
     {id:'y1s2_yu_curry',term:Y1S2,h:()=>12.5,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.yu_curry)},
     {id:'y1s2_zhe_three',term:Y1S2,h:()=>22+40/60,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.zhe_three)},
     {id:'y1s2_bohan_closed',term:Y1S2,h:()=>22+10/60/* AA_373 #19：總圖十點關（原本 23:10）*/,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.bohan_closed)},
-    {id:'y1s2_an_ac',term:Y1S2,h:()=>15+20/60,ok:(G,day)=>law(G)&&met(G,'heroine_01','FAMILIAR')&&contact(G,'heroine_01',day),items:()=>seqP('heroine_01',L.dp.an_ac)},
+    {id:'y1s2_an_ac',term:Y1S2,h:()=>15+20/60,ok:(G,day)=>law(G)&&met(G,'heroine_01','FAMILIAR')&&contact(G,'heroine_01',day)&&!(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,'heroine_01')),   /* AA_600 S11：前任不送 */items:()=>seqP('heroine_01',L.dp.an_ac)},
     {id:'y1s2_yt_board',term:Y1S2,h:()=>17+40/60,ok:G=>law(G)&&met(G,'heroine_03','FAMILIAR')&&S.thuNoodle(G)&&contact(G,'heroine_03'),items:()=>seqP('heroine_03',L.dp.yt_board)},   /* AA_350 O6：要有她的聯絡方式 */
     {id:'y1s2_xinci_drama',term:Y1S2,h:()=>23.5,ok:(G,day)=>law(G)&&contact(G,'classmate_xinci',day),items:()=>seqP('classmate_xinci',L.dp.xinci_drama)},
     {id:'y1s2_kai_app',term:Y1S2,max:()=>2,gap:14,h:()=>22+5/60,ok:G=>law(G)&&roommate(G),items:(G,n)=>seqP('kai',n?L.dp.kaiApp2:L.dp.kaiApp1)} ];   /* 第二次＝兩週後同一則的後半 */

@@ -196,7 +196,8 @@ const R3=(function(){
   /* 要考 2/3 筆試：台灣路線（未決定也算）、Y4_PATH 'grad'、推甄沒上（AA_327 的 Y4_PUSH／GRAD_ADMIT 還沒有＝當作沒上，同 events.js 跨年大四的單字卡）*/
   S.gradExam=G=>{ const F=(G&&G.flags)||{}, r=route(G); return r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH!=='pass'&&F.GRAD_ADMIT!=='push'; };
   S.sisKnowsPlan=G=>!!G.flags.SIS_PLAN_POSTED||G.flags.SIS_PLAN_SEEN==='us'||dating(G,SIS);   /* 她知道你的計畫：A 貼過、B 演過、或交往中 */
-  S.noteDoor=G=>dating(G,SIS)||partners(G).length===0;   /* 交往中，或雙方都單身＝當面 */
+  S.noteDoor=G=>dating(G,SIS)||partners(G).length===0;
+  const exS=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,SIS);   /* AA_600 B16～B18（企劃線 031414cad）：前任的學姊不主動私訊、不來考場門口 */   /* 交往中，或雙方都單身＝當面 */
   S.sisPlan=function(G){ const F=G.flags, t=now(G);
     { const d=D('2028-10-21'), r=route(G); if(d!=null&&t>=T(d,20.5)&&t<T(d+3,0)&&r!=='US'&&PHONE.inGroup(G,'family_law')){   /* A */
         if(!PHONE.sent(G,'r3_sis_plan_a')) PHONE.at(G,d,20.5,[GK('大四的各位 讀書計畫貼上來'),Object.assign(GK('學姊說她可以幫忙看'),{ask:{id:'r3_sis_plan_a',until:T(d+1,18),opts:[{t:'（貼上自己的讀書計畫）',post:'📷（讀書計畫表，一週七欄。週日那一欄只寫了「休息」。）',set:{SIS_PLAN_POSTED:true}},{t:'（不貼）',post:false}]}})],'r3_sis_plan_a');   /* 群組裡是照片（AA_343 C5）；選項的字不進群組 */
@@ -206,17 +207,17 @@ const R3=(function(){
         PHONE.at(G,d,19,[W('你的讀書計畫，帶去會所給我看。八點。')],'r3_sis_plan_b');
         OUT.plan(G,{id:'r3_sis_plan_us',ev:'ev_sis_plan_us',day:d,h:20,late:0.5,place:'會所',title:'會所・自習室',travel:'',travelH:0,back:'回到公寓。'}); } }
     if(F.SIS_PLAN_SEEN!=='us'&&!PHONE.sent(G,'r3_sis_plan_c')&&typeof OUT!=='undefined'){ const d=D(S.gradExam(G)?'2029-01-08':'2029-02-20');   /* C */
-      if(d!=null&&t>=T(d,21)&&t<T(d+1,18)&&met(G,SIS,'FRIEND')&&S.sisKnowsPlan(G)&&contact(G,SIS)&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))){
+      if(d!=null&&t>=T(d,21)&&t<T(d+1,18)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.sisKnowsPlan(G)&&contact(G,SIS)&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))){
         PHONE.at(G,d,21,[W('你的讀書計畫，拿來研究室給我看。明天晚上七點。')],'r3_sis_plan_c');
         OUT.plan(G,{id:'r3_sis_plan_lab',ev:'ev_sis_plan_lab',day:d+1,h:19,late:0.5,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } }
-    { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
+    { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
         F.SIS_NOTE_GRAD='photo'; const same=PHONE.sent(G,'y4_push_note');   /* AA_378 S3：收過 10/25 推甄前那一張的，這一張只寫「同上。」*/
         PHONE.at(G,d3-1,21,[Object.assign(W(same?'📷（一張手寫的便條：同上。）':'📷（一張手寫的便條：你可以。）'),{ask:{id:'r3_sis_note_photo',until:T(d3,18),opts:[{t:same?'同上。':'只有一句。',say:[{from:SIS,text:same?'對。':'一句就夠了。'}]},{t:'謝謝。',say:[{from:SIS,text:'考完傳訊息。'}]}]}})],'r3_sis_note_photo'); } } };
   /* B、C 沒到（outingMissed）：21:00 一則；C 沒到、在群組貼過計畫的＝她自己看了那一張 */
   S.sisPlanMissed=function(G,kind){ const F=G.flags, q=typeof OUT!=='undefined'?OUT.get(G,kind==='us'?'r3_sis_plan_us':'r3_sis_plan_lab'):null; if(!q) return; F.SIS_PLAN_SEEN='missed';
     PHONE.at(G,q.day,21,[W(kind==='us'?'……下次帶來。':(F.SIS_PLAN_POSTED?'我自己看了你傳在群組的那張。……週六十二個小時，改成八個。':'……下次拿來。'))],'r3_sis_plan_miss_'+kind); };
   /* D 當面：2/3 08:00～08:40（醒著、空下來）→ 08:30 考場門口（接著 08:40 是 AA_327 2-Y4-27 以安在門口那一段：開發分支還沒有）*/
-  S.noteDue=function(G){ const F=(G&&G.flags)||{}, d=D('2029-02-03'); return d!=null&&law(G)&&G.day===d&&G.hour>=8&&G.hour<8+40/60&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&S.noteDoor(G)&&!done(G,'ev_sis_exam_note'); };
+  S.noteDue=function(G){ const F=(G&&G.flags)||{}, d=D('2029-02-03'); return d!=null&&law(G)&&G.day===d&&G.hour>=8&&G.hour<8+40/60&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!exS(G)&&S.noteDoor(G)&&!done(G,'ev_sis_exam_note'); };
   S.noteRun=async function(GM){ const G=GM.G, e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id==='ev_sis_exam_note'):null; if(!e||typeof EVENTS==='undefined') return false; G.flags.SIS_NOTE_GRAD='door';
     if(GM.fade) await GM.fade(true); if(G.hour<8.5){ G.hour=8.5; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); } if(GM.fade) await GM.fade(false); await EVENTS.run(e); return true; };
 

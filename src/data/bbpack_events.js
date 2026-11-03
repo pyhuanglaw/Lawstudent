@@ -14,6 +14,7 @@ const BBPACK_EVENTS=(function(){
   const KN=(...ids)=>({custom:()=>typeof SOCIAL!=='undefined'&&ids.every(id=>SOCIAL.has(id,'FIRST_MET'))});
   const FI=(k,v)=>({flagIs:{[k]:v}});
   const nar=t=>({speaker:null,text:t}), say=(s,t)=>({speaker:s,text:t}), me=t=>({speaker:'player',text:t});
+  const exSis=G=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,'heroine_05');   /* AA_600 的「分手後」*/
   const IF=(c,l)=>Object.assign({if:c},l), UN=(c,l)=>Object.assign({unless:c},l);
   const PS='classmate_peishan', AN='heroine_01', YT='heroine_03', ZR='heroine_02', SIS='heroine_05', XC='classmate_xinci', BH='classmate_bohan', MX='classmate_mingxuan';
   /* 校園上的門口（near）：大一女舍門口的長椅（同 ev_b106_d1_bench）、社科院大樓正門（同 SK06）、普通／博雅／共同教學館的正門（classes3d.js DOORS；出館的落點也在範圍內）、文學院的門廊 */
@@ -227,8 +228,9 @@ const BBPACK_EVENTS=(function(){
   EV.push({ id:'ev_b8_door', title:'', participants:[SIS], location:'campus', trigger:'auto', near:BOYA_DOOR, once:true, tier:'short', building:'boya_front', term:['Y3S1'], weeks:[5], weekday:[5], time:[17,17.5], background:'blur',
     prereq:{memory:[{npc:SIS,tag:'FIRST_MET'}],custom:G=>{ const b=B(); return !!b&&b.here(SIS,G); }},
     dialogue:[ nar('（散場的人群裡，學姊抱著筆記走出來，看到你。）'),
-      say(SIS,'你也來聽？'),
-      say(SIS,'後半段講法律扶助的教育，我是為那段來的。……先走了，七點還有東西要交。'),
+      Object.assign(say(SIS,'你也來聽？'),{unless:{custom:G=>exSis(G)}}),
+      Object.assign(say(SIS,'後半段講法律扶助的教育，我是為那段來的。……先走了，七點還有東西要交。'),{unless:{custom:G=>exSis(G)}}),
+      Object.assign(nar('（她看到你，點了一下頭。）'),{if:{custom:G=>exSis(G)}}),   /* AA_600 B29（企劃線 031414cad）：前任＝她的句子刪，改這一句旁白 */
       {set:{B8_SEEN:true}} ] });
   /* B10 大四的小桌子（AA 寫，AA_153 第 6 節）：大四上、大四下平日 19:00～22:00 走進博雅自習區，一天擲一次三成；可重複（一天一次），懷舊那個選項只一次。
      開場三組輪流（只輪認識的人）；推甄放榜（大四上第 12 週）以後柏翰換那一句。有 SK10 匯率紀錄的玩家，第一次多一句旁白（BBPACK.rateLine，照實際紀錄組句）*/

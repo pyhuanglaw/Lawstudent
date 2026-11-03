@@ -82,28 +82,26 @@ const SISB10_EVENTS=(function(){
         {choice:[{text:'「最左邊那顆？」',goto:'a29'},{text:'「看起來都一樣。」',goto:'b29'}]},
         {label:'a29'},SIS('……你看得出來。'),{goto:'e29'},
         {label:'b29'},SIS('你在說謊。……謝謝。'),
-        {label:'e29'},SIS('（她傳來一張照片：一盤水餃。）厲害吧。'),
+        {label:'e29'},SIS('厲害吧。'),   /* AA_591 整合九件第 2 件（企劃線 43d27cd80）：照片在開頭那一行已經出現，這裡只留「厲害吧。」*/
         {label:'end'},rel({comf:1,npcRom:1}) ],
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.cnyMissed(G,q); } },
     /* ---------- 第 3 節：前任（四場；3-4 是私訊）---------- */
     { id:'ev_sis_ex_1', title:'還東西', participants:[ID], location:'lawlib', trigger:'manual', once:true, background:'blur',
+      /* AA_600 B2（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：她不走過來、不說話——櫃台轉交。她的句子和兩個問她的選項拿掉、「她回到自己的位子」那一句也拿掉（她沒有過來）*/
       dialogue:[ {scene:'法圖・二樓',bg:'law_library'},
-        N('（她看到你，停了一下，從包包拿出一個牛皮紙袋。）'),SIS('你的東西。一直在我那裡。'),N('（紙袋裡是你的筆記本，還有一支你以為弄丟的筆。）'),
-        {choice:[{text:'「謝謝。」',goto:'a'},{text:'「妳最近好嗎？」',goto:'b'}]},
-        {label:'a'},SIS('嗯。'),{goto:'c'},
-        {label:'b'},SIS('在寫論文。'),SIS('……你也好好念。'),
-        {label:'c'},N('（她回到自己的位子。整個晚上，她沒有再抬頭。）') ] },
+        N('（法圖的櫃台叫住你：有人放了一個紙袋給你。裡面是你的東西。）'),N('（紙袋裡是你的筆記本，還有一支你以為弄丟的筆。）') ] },
     { id:'ev_sis_ex_2', title:'Café 的椅子', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
       dialogue:[ {scene:'兩點半 Café',bg:'cafe_night'},
         N('（她在老位子。對面的椅子上放著她的包包。）'),N('（她看到你，點了一下頭。包包沒有拿起來。）'),
         {choice:[{text:'（坐到吧檯）',goto:'a'},{text:'（走過去打招呼）',goto:'b'}]},
-        {label:'a'},N('（你在吧檯坐了一個小時。十點，她收好書，經過你旁邊。）'),SIS('……回去小心。'),{goto:'c'},
+        {label:'a'},N('（你在吧檯坐了一個小時。）'),N('（十點，她經過吧檯，沒有停下來。）'),{goto:'c'},   /* AA_600 B3：「……回去小心。」刪、改旁白；前一句的「十點，她收好書，經過你旁邊。」拿掉（和新旁白重複）*/
         {label:'b'},SIS('嗯。我在趕一章。'),N('（你回到吧檯。十點，她先走了。）'),
         {label:'c'},{set:{SIS_EX_CAFE:true}} ] },
     { id:'ev_sis_ex_3', title:'樓梯間', participants:[ID], location:'linze', trigger:'manual', once:true, background:'blur',
-      /* AA_591 第 191、192 列＋第 11 節第 6 點（使用者 2026-11-02 選擇題：分手後她很少理對方）：這一場改成只有一句旁白；
-         她不問你好不好、選項「不太好。」拿掉。原本「從樓上下來」「往下走」的兩句旁白和「就上樓了」方向相反，一起拿掉（回報 AA）*/
-      dialogue:[ N('（她看到你，點了一下頭，就上樓了。）') ] },
+      /* AA_591 第 191、192 列＋第 11 節第 6 點（使用者 2026-11-02 選擇題：分手後她很少理對方）：她不問你好不好、選項「不太好。」拿掉；
+         原本「從樓上下來」「往下走」的兩句旁白（方向相反）拿掉——AA 11-02 21:25 九件第 3 件確認不放回去。
+         AA_600 B4（企劃線 031414cad）：改成祐廷先問「最近好嗎？」，她「（點了一下頭）嗯。」*/
+      dialogue:[ {speaker:'player',text:'最近好嗎？'},SIS('（點了一下頭）嗯。') ] },
     /* ---------- 第 4 節：畢業以後的朋友，每季一次 Café（說話前接演）---------- */
     { id:'ev_sis_pg_q1', title:'上班三個月', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
       dialogue:[ N('（她換了一個新的包包。筆電旁邊放著一張識別證，背面朝上。）'),SIS('你也還在來。'),SIS('上班以後，晚上反而比較有時間。……很奇怪。'),

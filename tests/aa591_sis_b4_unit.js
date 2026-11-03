@@ -49,19 +49,22 @@ const OPT=new Set(['193','56','217']);
 (async()=>{
 await sec(0,()=>{ check('0. 讀得到 AA_591@6b35748c7（第 11 節使用者確認；最後一行「照第 11 節可以交 LAWWW」）',A591.DOC.length>100000&&A591.DOC.includes('## 11. 使用者確認')&&A591.DOC.includes('照第 11 節可以交 LAWWW'));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===A591.P);
-  check('0. 白名單：AA_591@6b35748c7 approved、task AA591-SIS-B4-1102',A.length===1&&A[0].sha===A591.SHA&&A[0].status==='approved'&&!!A[0].approvedBy&&A[0].task==='AA591-SIS-B4-1102',J(A)); });
+  /* AA_591 整合九件（AA 11-02 21:25）在同一個檔的最後一節（企劃線 43d27cd80）：白名單換到 43d27cd80，6b35748c7 留在 history */
+  check('0. 白名單：AA_591@43d27cd80（history 有 6b35748c7）approved、task AA591-SIS-B4-1102',A.length===1&&A[0].sha==='43d27cd80'&&(A[0].history||[]).some(h=>h.sha===A591.SHA)&&A[0].status==='approved'&&!!A[0].approvedBy&&A[0].task==='AA591-SIS-B4-1102',J(A)); });
 
 /* ---------- 1 表上每一列 ---------- */
 await sec(1,()=>{
   const num=ROWS.filter(r=>/^[0-9]+$/.test(r.n)), del=num.filter(r=>r.nw.startsWith('（刪')), keep=num.filter(r=>!r.nw.startsWith('（刪'));
   check('1. 表：數字列 225 列；刪句 30 列（決1 第 206～216、222～225 列、決2 第 199～203 列、決3 第 194～198 列、第 23～25、191、192 列）',num.length===225&&del.length===30,J([num.length,del.length,del.map(r=>r.n)]));
   /* 「改成」在遊戲裡：選項帶「」（表上的選項也帶「」）；heard（第 heroine_circle 的整條字串）、地點字幕、人物近況是字串的一部分 */
-  const miss=keep.filter(r=>!(inGame(r.nw)||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
+  /* AA_600（企劃線 031414cad）再改過的兩列：第 68 列初雪「回去吧，會冷。」→ AA_600 3-5 的「……回去吧，會冷。」；第 171 列總圖門口的回覆＝AA_600 B6 整場只剩旁白 */
+  const SUP600=new Set(['68','171']);
+  const miss=keep.filter(r=>!SUP600.has(r.n)).filter(r=>!(inGame(r.nw)||(OPT.has(r.n)&&inAny("'"+r.nw+"'"))||(/／/.test(r.nw)?r.nw.split('／').every(p=>inAny(p.trim())):false)||(/heroine_circle|social3d|loc30|APART|TELL/.test(r.where)&&inAny(r.nw)))).map(r=>'#'+r.n+' '+r.nw);
   check('1. 每一列「改成」一字不差在遊戲裡',!miss.length,J(miss));
   /* 換掉的原句不在遊戲裡：原句是別人的句子、到處都有的短句（「……好。」「好。」「過了。」「……謝謝。」等）、原句是改成的一部分、retired 的定義留著的除外 */
   const RET=new Set(['23','24','25','199','200','201','202','203','206','207','208','209','210','211','212','213','214','215','216','193']);
   const shortOrShared=r=>r.old.length<=6||['9','17','22','37','52','53','57','58','75','78','85','86','95','103','117','126','142','154','172','175','205','218'].includes(r.n);
-  const still=num.filter(r=>!RET.has(r.n)&&!shortOrShared(r)&&r.old!==r.nw&&!r.nw.includes(r.old)&&inGame(r.old)).map(r=>'#'+r.n+' '+r.old);
+  const still=num.filter(r=>!SUP600.has(r.n)&&!RET.has(r.n)&&!shortOrShared(r)&&r.old!==r.nw&&!r.nw.includes(r.old)&&inGame(r.old)).map(r=>'#'+r.n+' '+r.old);
   check('1. 換掉的原句不在遊戲裡（註解、retired 的定義、到處都有的短句除外）',!still.length,J(still));
   /* 人工列逐一：只換表上那一處 */
   check('1. 第 193 列（決7）兩個人都喜歡：交往中選項「貝貝。」、沒交往「學姊。」；第 56 列美國廚房「貝貝，休息一下。」；第 217 列（決8）「對不起，我沒趕上。」',
@@ -72,7 +75,7 @@ await sec(1,()=>{
   check('1. 第 172 列人物近況「大學研究中心（助理）」、第 154 列事件標題「研究中心的回信」',RAW['src/social3d.js'].includes("heroine_05:[['2029-09-01','大學研究中心（助理）']]")&&ev('ev_sis16_job').title==='研究中心的回信');
   check('1. 保71（使用者 11-02）：情人節「沒照計畫走。……可是這樣很好。」，「我記一下。明年不要再這樣排。」不在；第 7 列「……下次還坐這一班。」',row('保71').nw==='沒照計畫走。……可是這樣很好。'&&inGame('沒照計畫走。……可是這樣很好。')&&!inAny('我記一下。明年不要再這樣排。')&&inGame('……下次還坐這一班。'));
   check('1. 第 108 列接機（使用者「討親親」）：「……還有。（她轉過頭看著你。）親一下。」只有戀人版；「……還有，我想你。」不在',/IF\(PV\('lover'\),sis\('……還有。（她轉過頭看著你。）親一下。'\)\)/.test(RAW['src/data/r2y4a_events.js'])&&!inAny('……還有，我想你。'));
-  check('1. 第 115 列除夕（使用者：拍照說「厲害吧」）：「（她傳來一張照片：一盤水餃。）厲害吧。」；「明年，你來包一顆。」不在',inGame('（她傳來一張照片：一盤水餃。）厲害吧。')&&!inAny('明年，你來包一顆。'));
+  check('1. 第 115 列除夕（使用者：拍照說「厲害吧」；AA 11-02 21:25 九件第 2 件：照片開頭已經有，只留「厲害吧。」）：「厲害吧。」在、「（她傳來一張照片：一盤水餃。）厲害吧。」不在；「明年，你來包一顆。」不在',inAny("SIS('厲害吧。')")&&!inAny('（她傳來一張照片：一盤水餃。）厲害吧。')&&!inAny('明年，你來包一顆。'));
   check('1. 第 183 列 Café 改報告（使用者選原句）：「單位裡來了一個新人。他的報告我在改。」照舊',row(183).nw==='單位裡來了一個新人。他的報告我在改。'&&inGame('單位裡來了一個新人。他的報告我在改。'));
   check('1. 第 175 列：THERMOS「恭喜畢業。」（「畢業快樂。」只留在 ex 那一句）',POSTGRAD_LINES.THERMOS.lines.some(x=>x[0]===ID&&x[1]==='恭喜畢業。')&&!POSTGRAD_LINES.THERMOS.lines.some(x=>x[1]==='畢業快樂。')&&POSTGRAD_LINES.THERMOS.ex==='畢業快樂。');
   check('1. 第 17 列：十分鐘（日本）「你那邊十點了吧。」；第 37 列兩處（句子＋註解）',inGame('你那邊十點了吧。')&&!RAW['src/data/sis_b13_events.js'].includes("SIS('你那邊幾點？')")&&!inAny('很晚了。……明天中午，研究室。'));
@@ -113,7 +116,8 @@ await sec(2,async()=>{
 /* ---------- 3 場景 ---------- */
 await sec(3,async()=>{
   { const D=ev('ev_sis_ex_3').dialogue.filter(l=>l.text||l.choice);
-    check('3. 樓梯間（第 191、192 列、第 11 節第 6 點）：只有「（她看到你，點了一下頭，就上樓了。）」；不問你好不好、沒有「不太好。」',D.length===1&&D[0].speaker===null&&D[0].text==='（她看到你，點了一下頭，就上樓了。）'&&!inAny('要吃飯，要睡覺。')&&!inAny('……不要學我以前那樣。'),J(D)); }
+    /* AA 九件第 3 件（11-02 21:25）：方向的兩句確認拿掉；再套 AA_600 B4（祐廷先問「最近好嗎？」，她「（點了一下頭）嗯。」）——原本「只有一句旁白」的期望照 AA 換 */
+    check('3. 樓梯間（第 191、192 列、第 11 節第 6 點＋AA_600 B4）：祐廷「最近好嗎？」→ 她「（點了一下頭）嗯。」；她不問你好不好、沒有「不太好。」、沒有方向的兩句',D.length===2&&D[0].speaker==='player'&&D[0].text==='最近好嗎？'&&D[1].speaker===ID&&D[1].text==='（點了一下頭）嗯。'&&!J(D).includes('樓上下來')&&!J(D).includes('往下走')&&!inAny('要吃飯，要睡覺。')&&!inAny('……不要學我以前那樣。'),J(D)); }
   { setup('2027-11-27',10,'dorm','CLOSE'); H.date(ID); const L=await runEv('ev_sis_interview2',[0]);
     check('3. 第二次訪談（決6）交往中選「他太太那段。」：「可是我要記得。」→「（她沒有回答，把頭靠在你肩膀上一下。）」→「好了。吃飯。」；沒有咖啡那兩句',J(L.slice(L.indexOf('可是我要記得。')))===J(['可是我要記得。','（她沒有回答，把頭靠在你肩膀上一下。）','好了。吃飯。'])&&H.G.flags.SIS_INTERVIEW2==='went',J(L)); }
   { setup('2027-11-27',10,'dorm','FRIEND'); const L=await runEv('ev_sis_interview2',[0]);
@@ -138,10 +142,11 @@ await sec(4,async()=>{
   const GONE=['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。','我以前把喜歡的東西都排在計畫後面。','這次計畫做完了。……後面排你。','你不講，那我講。','這件事我想了一個禮拜。','……我喜歡你。','我原本想講得比較好。','上學期那件事，我到現在還是一樣。……你呢？','這次，我選你。','我還是喜歡你。這個我不想騙自己。','好。我也是想了很久才說的。你慢慢想。'];
   /* 「你不講，那我講。」別人也有（以安等），只看學姊的資料 */
   /* 「那我先說。」別人也有（story3d.js 可昕的私訊），只看大峽谷那一場 */
-  const sisOnly=['我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。','我以前把喜歡的東西都排在計畫後面。','這次計畫做完了。……後面排你。','這件事我想了一個禮拜。','我原本想講得比較好。','上學期那件事，我到現在還是一樣。……你呢？','這次，我選你。','我還是喜歡你。這個我不想騙自己。','好。我也是想了很久才說的。你慢慢想。'];
+  /* AA 九件第 4、5 件（11-02 21:25）：「這次，我選你。」（restartYes）、「我還是喜歡你。這個我不想騙自己。」（multirel Byes）是祐廷先說以後她的回答，放回——不在這張「她先說」的表上 */
+  const sisOnly=['我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。','我以前把喜歡的東西都排在計畫後面。','這次計畫做完了。……後面排你。','這件事我想了一個禮拜。','我原本想講得比較好。','上學期那件事，我到現在還是一樣。……你呢？','好。我也是想了很久才說的。你慢慢想。'];
   const left=sisOnly.filter(t=>inAny(t));
   if(J(ev('ev_sis_canyon').dialogue).includes('那我先說。')) left.push('ev_sis_canyon：那我先說。');
-  check('4. 她先說的句子都不在遊戲裡（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、重新開始「這次，我選你。」、多段感情「我還是喜歡你。」）',!left.length,J(left));
+  check('4. 她先說的句子都不在遊戲裡（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯）',!left.length,J(left));
   const h=TERMEND_LINES.HEART[ID];
   check('4. 期末飯（AA_590 那一支）：學姊的心意邀約沒有 she、she2、think（祐廷先說的 yes 照 AA_590）',h&&h.she===undefined&&h.she2===undefined&&h.think===undefined&&Array.isArray(h.yes)&&J(h.yes).includes('我很難相處喔。'),J(Object.keys(h||{})));
   const h4=TERMEND.heart(ID,'Y4S2');
@@ -155,8 +160,9 @@ await sec(4,async()=>{
     if(typeof R2Y4B!=='undefined') R2Y4B.canyonAfter(H.G,'tw');
     check('4. 大峽谷祐廷不說話：她不先說（下一句直接是回程的機場），SIS_CANYON silent、canyonAfter 以後不交往',i>=0&&L[i+1]==='十二月二十三號，晚上八點落地。你來接我。'&&H.G.flags.SIS_CANYON==='silent'&&!H.G.flags.dating_heroine_05&&!(H.G.flags.romance&&H.G.flags.romance[ID]&&H.G.flags.romance[ID].status==='dating'),J({L:L.slice(i,i+3),c:H.G.flags.SIS_CANYON})); }
   { const rs=SISB4.restartYes; SISB4.restartYes=()=>true; let a=null; try{ a=CONFESS_LINES[ID].yes({flags:{}}); } finally { SISB4.restartYes=rs; }
-    check('4. 重新開始那一版（restartYes）：沒有「你做到了。」「這次，我選你。」，照第一次答應那一版',Array.isArray(a)&&!a.includes('這次，我選你。')&&!a.includes('你做到了。'),J(a)); }
-  check('4. 多段感情 Byes：「我想過了。」「……你去見她那天，出門前傳一句給我就好。」，沒有「我還是喜歡你。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(['我想過了。','……你去見她那天，出門前傳一句給我就好。'])||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([['我想過了。','……你去見她那天，出門前傳一句給我就好。']]));
+    check('4. 重新開始那一版（restartYes，AA 九件第 4 件放回）：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」「這次，我選你。」',J(a)===J(['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']),J(a)); }
+  { const W=['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。'];
+    check('4. 多段感情 Byes（AA 九件第 5 件放回）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前傳一句給我就好。」',J(MULTIREL_LINES.heroine_05&&MULTIREL_LINES.heroine_05.result.Byes||(MULTIREL_LINES.REL||{}))===J(W)||J(Object.values(MULTIREL_LINES).map(v=>v&&v.heroine_05&&v.heroine_05.result&&v.heroine_05.result.Byes).filter(Boolean))===J([W])); }
 });
 
 /* ---------- 5 林{name} ---------- */
@@ -171,7 +177,7 @@ await sec(5,()=>{
   if(typeof ROM!=='undefined'&&ROM.end) ROM.end(G,ID); else { G.flags.dating_heroine_05=false; if(G.flags.romance&&G.flags.romance[ID]) G.flags.romance[ID].status='ended'; }
   check('5. 分手以後：照舊',SOCIAL.ytNameT('{name}。',ID)==='{name}。'&&SOCIAL.ytNameT('祐廷。',ID)==='祐廷。');
   const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-  check('5. 接線：對話框（game3d.js showLine，說話的人＝charId 或交往中的名字）、手機她的訊息（sysT）都過 SOCIAL.ytNameT',/D\.full=subst\(text\); if\(who&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\) D\.full=SOCIAL\.ytNameT\(D\.full,who\.charId/.test(g3)&&/const ytT=m=>m&&m\.from==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\?SOCIAL\.ytNameT\(m\.text,'heroine_05'\):m\.text;/.test(g3)&&/SOCIAL\.shuyuT\(m\.text\):ytT\(m\);/.test(g3));
+  check('5. 接線：對話框（game3d.js showLine，說話的人＝charId 或交往中的名字）、手機她的訊息（sysT）都過 SOCIAL.ytNameT',/D\.full=subst\(text\); if\(who&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\) D\.full=SOCIAL\.ytNameT\(D\.full,who\.charId/.test(g3)&&/const ytT=m=>m&&m\.from==='heroine_05'&&!m\.ytFix&&typeof SOCIAL!=='undefined'&&SOCIAL\.ytNameT\?SOCIAL\.ytNameT\(m\.text,'heroine_05'\):m\.text;/.test(g3)&&/m\.text=SOCIAL\.ytNameT\(m\.text,'heroine_05'\); m\.ytFix=1;/.test(fs.readFileSync(path.join(H.ROOT,'src/phone3d.js'),'utf8'))   /* AA 九件第 8 件：手機訊息送出時就定字（phone3d.js mk 記 ytFix），有 ytFix 的不再顯示時換 */&&/SOCIAL\.shuyuT\(m\.text\):ytT\(m\);/.test(g3));
 });
 
 /* ---------- 6 AA 對 AA_584 的補充 ---------- */

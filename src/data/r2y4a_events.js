@@ -87,12 +87,16 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_us2_repair', title:'退回的報告', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ nar('（你去 C 棟還上個禮拜跟她室友借的鍋子。廚房朝客廳的窗口開著，她站在爐子前面，水還沒滾。你把鍋子放在窗口的吧台上。）'),   /* AA_452 1-3：交代鍋子是哪來的 */
       CG('cg_us_kitchen_heroine05'),   /* BCG-32 接這一句 */
-      sis('……報告被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
-      nar('（水滾了。她把麵放進去，放了兩人份，又拿出一把。）'),
-      sis('你吃過了嗎？'),
-      {choice:[{text:'「還沒。」',set:{US2_STAYED:true},goto:'a'},{text:'「吃過了。」',goto:'b'}]},
-      {label:'a'},nar('（她把那一把麵放回鍋子裡。你在窗口外的高腳椅坐下。）'),{goto:'end'},
-      {label:'b'},sis('好。'),nar('（她煮了一人份。）'),
+      /* AA_600 3-3（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：她不先講報告、不問「你吃過了嗎？」；祐廷問了她才說。US2_STAYED、REPAIR、CG 照舊 */
+      nar('（她看了你一眼，點了一下頭，又回去看鍋子。吧台上放著一份報告，第一頁有教授的紅字。）'),
+      {choice:[{text:'「報告怎麼了？」',goto:'q'},{text:'（把鍋子放好就走）',goto:'w'}]},
+      {label:'q'},nar('（她沒有回答，攪了一下鍋子。過了很久才開口。）'),
+      sis('……被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
+      nar('（水滾了。她把麵放進去，一人份。）'),
+      {choice:[{text:'「我陪妳吃完再走。」',set:{US2_STAYED:true},goto:'a'},{text:'「那我先走了。」',goto:'b'}]},
+      {label:'a'},sis('……隨你。'),nar('（你在窗口外的高腳椅坐下。）'),{goto:'end'},
+      {label:'b'},sis('嗯。'),{goto:'end'},
+      {label:'w'},nar('（你走的時候，她沒有回頭。）'),
       {label:'end'},{set:{US2:'repair'}} ],
     after:G=>{ if(G.flags.US2_STAYED&&typeof R2Y4A!=='undefined') R2Y4A.repairAdd(G,'us2'); } });
 
@@ -143,8 +147,10 @@ const R2Y4A_EVENTS=(function(){
       sis('（打字，停了一下，又加兩個字）跟你。'),
       {set:{US3:'two'}},{end:true},
       {label:'r'},
-      IF(LONG,nar('（湖邊。何俊朗和其他人走在前面。她放慢腳步，走到你旁邊。）')),UN(LONG,nar('（湖邊。大家走在前面。她放慢腳步，走到你旁邊。）')),   /* AA_452 1-4：群組約的是「大家」*/
-      sis('分手那天，你沒有解釋。'),
+      /* AA_600 3-4（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：祐廷放慢腳步走到她旁邊、先說；她的「分手那天，你沒有解釋。」刪。選項、回答照舊 */
+      IF(LONG,nar('（湖邊。何俊朗和其他人走在前面。你放慢腳步，走到她旁邊。她沒有看你。）')),UN(LONG,nar('（湖邊。大家走在前面。你放慢腳步，走到她旁邊。她沒有看你。）')),   /* AA_452 1-4：群組約的是「大家」*/
+      me('分手那天，我沒有解釋。'),
+      nar('（她走了好幾步才開口。）'),
       sis('我後來想，那樣比較好。你解釋的話，我可能會信。'),
       sis('……我不想因為信了一個解釋，再跟你在一起。'),
       {choice:[{text:'「那妳想因為什麼？」',set:{US3_HEARD:true},goto:'r1'},{text:'「對不起。」',goto:'r2'}]},
@@ -181,15 +187,16 @@ const R2Y4A_EVENTS=(function(){
   const REP_OK=G=>typeof R2Y4A!=='undefined'&&R2Y4A.repairOK(G);
   EV.push({ id:'ev_us_snow_repair', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps_snow'},
-      nar('（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'),
-      sis('你看。'),
+      /* AA_600 3-5（企劃線 031414cad；使用者 11-02 選「祐廷先開口」；學姊不先說）：祐廷走過去先開口、祐廷說重新開始，她回「……好。」；「你看。」「如果你還想的話，我們重新開始。這次我先說。」刪。US_SNOW、CG、SNOW_END 照舊 */
+      nar('（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。你走過去，在下面一階停下來。）'),
+      me('下雪了。'),
       sis('……我在臺灣，從來沒看過雪。'),
       {if:{custom:REP_OK},goto:'ok'},
-      sis('回去吧，會冷。'),
+      sis('……回去吧，會冷。'),
       {set:{US_SNOW:'cold'}},{end:true},
       {label:'ok'},
-      sis('如果你還想的話，我們重新開始。這次我先說。'),
-      {choice:[{text:'「好。」'},{text:'「……我還想。」'}]},
+      {choice:[{text:'「我們重新開始，好不好？」'},{text:'「……我還想跟妳在一起。」'}]},
+      sis('（看了你很久）……好。'),
       CG('cg_snow_steps_heroine05'),
       nar('（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）'),   /* AA_452 第 4 節（企劃線 2c75de1bc）：選完她要有反應，接交往中那一段計畫本「雪」 */
       ...SNOW_END,

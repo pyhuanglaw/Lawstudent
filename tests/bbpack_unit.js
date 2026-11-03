@@ -46,7 +46,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   check('0. 新檔載得到：BBPACK、BBPACK_EVENTS 都進了 STORY_EVENTS',ok1&&ok2&&!!X()&&BBPACK_EVENTS.length>=30&&BBPACK_EVENTS.every(e=>STORY_EVENTS.includes(e)),err);
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
-  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; bad.push(t); };
+  { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; if(require('./aa600_doc.js').has(t)) return;   /* AA_600 B29（企劃線 031414cad）前任那一句旁白在 AA_600 的稿裡 */ bad.push(t); };
     for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard|^ev_b6b_|^ev_b12_/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js；B6b、B12 照 AA_430 對字：tests/aa430_b6b_b12_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }

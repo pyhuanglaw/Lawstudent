@@ -6,7 +6,7 @@ const PG_DATES={
  "source": {
   "AA_366": "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md@e6d4a198",
   "AA_367": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md@1ebcf530",
-  "AA_523": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md@0d7b5388b（6-5 學姊 2029-06 那一格）"
+  "AA_523": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md@bfede0a62（6-5 學姊 2029-06 那一格）"
  },
  "kexin": {
   "segs": {
@@ -568,7 +568,7 @@ const PG_DATES={
    },
    {
     "ym": "2030-01",
-    "line": "元旦回家，我爸問研究單位在做什麼。我講了二十分鐘。他說：『所以是公務員？』",
+    "line": "元旦回家，我媽問研究單位在做什麼。我講了二十分鐘。她說：『所以是公務員？』",
     "note": ""
    },
    {

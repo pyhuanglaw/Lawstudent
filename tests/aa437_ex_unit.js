@@ -21,7 +21,7 @@ const part=(s,a,b)=>{ const i=s.indexOf(a); if(i<0) return ''; const j=b?s.index
 const quoteLines=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return {sp:t.slice(0,k),text:t.slice(k+1)}; });
 const SEC4=part(S437,'## 4.','## 5.'), SEC5=part(S437,'## 5.','## 6.'), SEC6=part(S437,'## 6.','## 7.');
 const INVITE=quoteLines(part(SEC4,'**邀約**','**11/17'));
-const TABLE=quoteLines(part(SEC4,'**11/17','- 阿哲、Alison'));
+const TABLE=quoteLines(part(SEC4,'**11/17','- 阿哲、Alison')).filter(x=>x.text!=='你不用為了這個說什麼。');   /* AA_600 A6（企劃線 031414cad）：長桌最後她對他說的「你不用為了這個說什麼。」刪（群組揪人照留）——稿上那一句不再演，期望照 AA_600 拿掉 */
 const SENDOFF=(quoteLines(part(SEC4,'**同一節的新 16',null))[0]||{}).text;
 const NOD=(/只有旁白：(（[^（）]*）)/.exec(SEC5)||[])[1];
 const rows=s=>s.split('\n').filter(l=>/^\|/.test(l)&&!/^\|[-| :]+\|\s*$/.test(l)).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
@@ -59,7 +59,7 @@ const noodle=async(p)=>{ at(d17,18.5); H.G.zone='noodle'; clear(p); return STORY
 await sec(0,()=>{
   check('0. 讀得到稿（AA_437、AA_315 @ fc6f20bc0）、程式檔都載得到',!!S437&&!!S315&&!loadErr.length,loadErr.join('；'));
   check('0. 稿裡讀出來：邀約兩句、長桌 10 句、新 16 一句、新 21 旁白、紙箱（開頭、兩個選項、兩句旁白、七位＋子晴另一句）、B／C 旁白',
-    INVITE.length===2&&TABLE.length===10&&!!SENDOFF&&!!NOD&&!!BOX.top&&!!BOX.openOpt&&!!BOX.keptOpt&&!!BOX.close&&!!BOX.kept&&Object.keys(BOX.who).length===7&&Object.values(BOX.who).every(Boolean)&&!!BOX.zqNo&&!!FORM.US&&!!FORM.TW,
+    INVITE.length===2&&TABLE.length===9/* 稿 10 句，AA_600 A6 拿掉「你不用為了這個說什麼。」*/&&!!SENDOFF&&!!NOD&&!!BOX.top&&!!BOX.openOpt&&!!BOX.keptOpt&&!!BOX.close&&!!BOX.kept&&Object.keys(BOX.who).length===7&&Object.values(BOX.who).every(Boolean)&&!!BOX.zqNo&&!!FORM.US&&!!FORM.TW,
     J({INVITE,n:TABLE.length,SENDOFF,NOD,BOX,FORM}));
 });
 

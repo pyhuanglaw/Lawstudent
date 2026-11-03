@@ -47,6 +47,7 @@ const Y34B=(function(){
   const remember=(id,t,n)=>{ const s=So(); if(s&&s.remember) s.remember(id,t,n||''); };
   const dating=(G,id)=>{ const F=(G&&G.flags)||{}, Rm=F.romance||{}; return F['dating_'+id]===true||!!(Rm[id]&&Rm[id].status==='dating'); };
   const exOf=(G,id)=>{ const F=(G&&G.flags)||{}, Rm=F.romance||{}; return !dating(G,id)&&(F['EX_'+id]===true||!!(Rm[id]&&Rm[id].status==='ex')); };
+  const exAny=(G,id)=>typeof ROM!=='undefined'&&ROM.exOf?ROM.exOf(G,id):exOf(G,id);   /* AA_600 的「分手後」（含 paused、friend_after_catch）*/
   const LOVE=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   const partners=G=>{ const s=new Set(LOVE.filter(id=>dating(G,id))); if(typeof ROM!=='undefined'&&ROM.partners) for(const id of ROM.partners(G)) s.add(id); return [...s]; };
   const datingAny=G=>partners(G).length>0, datingOther=(G,id)=>partners(G).some(p=>p!==id);
@@ -84,7 +85,7 @@ const Y34B=(function(){
         OUT.plan(G,{id:'y3_an_sendoff',ev:'ev_an_sendoff',day:d25,h:10,late:0.5,place:'桃園機場第二航廈',title:'桃園機場',travel:'機場捷運 約 1 小時',travelH:1,hours:1.5,alarm:true,back:'回到台北。'});
       if(F.AN_SENDOFF==null&&NOW(G)>=T(d25,11+40/60)){ F.AN_SENDOFF='missed';   /* 11:40（AA_180 2-6）*/
         const L=[DM('heroine_01','（照片：登機證）'),DM('heroine_01','要登機了。'),DM('heroine_01','到了再傳。')]; if(F.HOOK_AN_SENDOFF!=null) L.push(DM('heroine_01','……你說你會來的。沒關係。'));
-        at(G,d25,11+40/60,L,'y3_an_sendoff_miss'); } } };
+        if(!exAny(G,'heroine_01')) at(G,d25,11+40/60,L,'y3_an_sendoff_miss'); } } };   /* AA_600 A7：前任不送登機證私訊 */
   /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。
      E08（使用者 10-16 21:49「3d做機場…」、10-17 00:0x「機場的也是阿」；2026-10-27）：機場改成 3D 的出境大廳（EXCH.airGo，同美國那一趟）——
        字卡「出發｜桃園機場第二航廈」→ 出境大廳（交往中以安跟在旁邊）→ 報到櫃台那一段（ev_an_depart_jp 登機口以前的台詞，2D 疊在模糊的大廳上；第一個地點字幕不換 2D 背景）
@@ -326,7 +327,7 @@ const Y34B=(function(){
       else at(G,d,hh,[GSIS('（照片）'),GSIS(S.M6_QUIET[wi-M6_Q.length]||S.M6_QUIET[0])],tag);   /* 第幾個「不吵」的週日（AA_464 第 2 節；超過十四個照原句）*/
       return; }
     const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
-    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
+    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU&&!exAny(G,'heroine_05')/* AA_600 B13：前任不私訊（照舊在家族群組）*/, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
     if(mine&&F.SIS_PHOTO_SAID==null){ F.SIS_PHOTO_SAID=d; L.push(DM('heroine_05','說好的。')); }   /* AA_470 4-1：大三上 11/17 雙方單身那一句（SIS_PHOTO_TO_YOU）＝平日的照片改傳私訊（週日照舊在家族群組）；第一張（8/3）多一句 */
     at(G,d,h9,L,tag);
     const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')), days=[...new Set(old.map(m=>m.tag))]; if(days.length>6){ const cut=new Set(days.slice(0,days.length-6)); G.msgs=G.msgs.filter(m=>!cut.has(m.tag)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）；私訊也照用，一天算一張（第一張的「說好的。」跟著那一張）*/
@@ -335,7 +336,7 @@ const Y34B=(function(){
   S.usGate=async function(GM){ const G=GM.G, F=G.flags; if(!US(G)||F.SIS_SENDOFF!=='together'||F.SIS_GATE) return false; F.SIS_GATE=true; const ev=evOf('ev_sis_gate_us'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ================= 1B-19 以安新 18 ================= */
   S.an18Due=(G)=>{ const d=D('an18'); if(!law(G)||d==null||G.day!==d||G.hour<21.5||G.hour>=22||G.flags.AN_CHOICE!=null||US(G)) return false;
-    if(!['wancai','wancai_sema'].includes(G.zone)||!fam('heroine_01')) return false; const here=!!(G.acts&&G.acts.att&&G.acts.att['public_law_group@'+d]); return here||grpCount(G)>=3; };
+    if(!['wancai','wancai_sema'].includes(G.zone)||!fam('heroine_01')||exAny(G,'heroine_01')) return false; const here=!!(G.acts&&G.acts.att&&G.acts.att['public_law_group@'+d]); return here||grpCount(G)>=3; };
   /* 美國路線、和以安交往中（AA_296 2-3-1 ①，企劃線 3f406dbc）：原本只有兩則私訊，改成她打來的視訊（臺灣 22:00＝當地 10:00；ev_an_her_choice_video，AN_CHOICE video）。
      出遊的電話照 r2y3b3d.js 那幾通的寫法（OUT：接起來、沒有「不去了」）；約好的時間前 2 小時才排（手機「今天」不會一早就寫著她要打來；快轉每小時跑一次規則也停得到），不跳「排進行程」。
      沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊（S.an18Dm，AN_CHOICE dm）。人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
@@ -350,6 +351,7 @@ const Y34B=(function(){
   S.an18Phone=function(G){ const F=G.flags, d=D('an18'); if(d==null||G.day<d||G.day>d+1||!law(G)||F.AN_CHOICE!=null) return; if(!met('heroine_01')) return;
     if(US(G)&&dating(G,'heroine_01')){ S.an18Video(G); return; }
     { const q=typeof OUT!=='undefined'?OUT.get(G,S.AN18_VIDEO.id):null; if(q&&q.state==='planned') q.state='cancelled'; }   /* 排好視訊以後不再交往：不打來，照下面的群組 */
+    if(NOW(G)>=T(d,tzH(G,d,22))&&exAny(G,'heroine_01')){ F.AN_CHOICE='group'; if(inGrp(G,'noodle_team')){ remember('heroine_01','AN_CHOICE_TOLD','聽說'); at(G,d,tzH(G,d,22),[{th:'g:noodle_team',from:'zhe',text:'以安說她要考首都帝大法研所 商法組'}],'y4_an18_grp_ex'); } return; }   /* AA_600 A8（企劃線 031414cad）：前任＝走廊那場不演（S.an18Due）、她也不在群組說；那天 22:00 阿哲在麵店團轉述（阿哲不打句號）*/
     if(NOW(G)>=T(d,tzH(G,d,22))){ F.AN_CHOICE='group'; if(inGrp(G,'noodle_team')){ remember('heroine_01','AN_CHOICE_TOLD','聽說'); at(G,d,tzH(G,d,22),[{th:'g:noodle_team',from:'heroine_01',text:'我決定了。考首都帝大法研所，商法組。'}],'y4_an18_grp'); } } };
   /* ================= 1B-20 二十三週年 ================= */
   S.a23Due=G=>{ const d=D('a23'); return law(G)&&!US(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&G.hour>=18.75&&G.hour<21&&G.flags.ANNIV23==null; };

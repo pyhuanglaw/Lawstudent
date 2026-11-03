@@ -61,7 +61,8 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡凌晨三點。……學士服是不是借太大件？')<sayIdx('（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
   // ---- D4：和學姊分手過 ----
   { const G=H.fresh('2029-06-02',11.6,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PG.rules(GM); H.at('2029-06-02',12.1); PHONE.tick(G);
-    check('7. D4：學姊前任＝只有「畢業快樂。」訊息',H.msgs('p:heroine_05').includes('畢業快樂。'));
+    /* AA_600 B9（企劃線 031414cad；使用者 11-02「分手，他不太會理我」）：前任的學姊畢業那天不主動私訊——原本「只有『畢業快樂。』訊息」照 AA_600 換成沒有 */
+    check('7. D4：學姊前任（AA_600 B9）＝不主動私訊（沒有「畢業快樂。」）',!H.msgs('p:heroine_05').includes('畢業快樂。'),JSON.stringify(H.msgs('p:heroine_05')));
     await H.run('grad'); check('7. D4：拍照沒有保溫瓶',!H.has('每天帶出門。')&&!G.flags.SIS_THERMOS); }
   // ---- ⑦ 手機 ----
   { const G=H.fresh('2029-06-02',11.6,'campus',{PS_RECONNECT:true}); H.FAMILIAR('classmate_peishan'); H.FAMILIAR('npc_fangyt'); H.FAMILIAR('heroine_02'); H.FRIEND('kexin'); H.date('kexin'); ROM.end(G,'kexin');
@@ -108,7 +109,8 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('13. 沒去：第二天家族群組只有她一句「謝謝大家。」',q.state==='missed'&&H.msgs('g:family_law').includes('謝謝大家。')&&G.flags.SIS_BDAY_Y4==='none'&&G.flags.GRAD_EVENING==='none'); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
-    check('13. 前任：沒有「去」，傳一句生日快樂 →「謝謝。」（AA_473 第 1 節：中午她已經私訊「畢業快樂。」，晚上不再恭喜一次；原本多一句「今天畢業，恭喜你。」）',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|').endsWith('畢業快樂。|生日快樂。|謝謝。')&&!H.msgs('p:heroine_05').includes('今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
+    /* AA_600 B9、B10：中午不私訊、前任傳生日快樂已讀不回——原本（AA_473 第 1 節）「畢業快樂。|生日快樂。|謝謝。」照 AA_600 換 */
+    check('13. 前任：沒有「去」，傳一句生日快樂 → 她不回（AA_600 B10：沒有「謝謝。」；中午也沒有「畢業快樂。」）',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|')==='生日快樂。'&&!H.msgs('p:heroine_05').includes('今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 可昕 6/3、6/9（BB_99 9-17、AA_250 9-2）----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
     check('14. 6/2 傍晚可昕不發約會邀約',!(G.outings||[]).some(q=>/kexin|kx/.test(q.id)));

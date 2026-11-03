@@ -919,7 +919,7 @@ const STORY = (function(){
     if(n&&n.staff==='cafe'&&typeof ZRZQ!=='undefined'&&ZRZQ.preTalk) await ZRZQ.preTalk(GM_ref,id,{scene:true});   /* AA_385 第 4 節：芷若在吧檯上班時也一樣（她們交往中、祐廷還不知道＝她先說），演完照常點餐（src/zrzq3d.js）*/
     if(n&&n.staff==='cafe') await gradesFirst(id,n);   /* 同一天第二次跟吧檯的她說話（店員事件冷卻中）＝直接點餐：成績那段一樣先演 */
     if(n&&n.staff==='cafe'){ await counter(GM_ref,'兩點半 Café',CAFE_MENU); n.name=SOCIAL.npcName(id); n.talkLabel=SOCIAL.has(id,'FIRST_MET')?'和'+n.name+'說話':'和店員說話'; return; }   /* 吧檯後面的店員：今天沒有她的事件（兩點半的店員一天一次）就是點餐——店員擋住了吧檯的點餐點（engine3d.js），不能讓玩家在她上班時買不到東西 */
-    const GM=GM_ref; GM.sceneBegin({adv:id}); const E=GM.E; if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); const c=CHARACTERS[id]; const who={name:SOCIAL.displayName(id),obj:n.obj,charId:id,pose:n.pose}; if((id==='heroine_05'||id==='heroine_01')&&await S.twoHeartsEcho(GM,id,who)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話（照作息出現的她）*/ if(id==='heroine_05'&&typeof SISY23!=='undefined'&&SISY23.preTalk) await SISY23.preTalk(GM);   /* AA_379 2-3、2-6：照作息在法圖的她（talkSis 那一邊同一段）*/
+    const GM=GM_ref; GM.sceneBegin({adv:id}); const E=GM.E; if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); const c=CHARACTERS[id]; const who={name:SOCIAL.displayName(id),obj:n.obj,charId:id,pose:n.pose}; if((id==='heroine_05'||id==='heroine_01')&&await S.twoHeartsEcho(GM,id,who)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話（照作息出現的她）*/ if(id==='heroine_05'&&!first&&typeof V6EX!=='undefined'&&V6EX.sisExTalk&&await V6EX.sisExTalk(GM,who)){ GM.sceneEnd(); return; }   /* AA_600 S10（同 talkSis）*/ if(id==='heroine_05'&&typeof SISY23!=='undefined'&&SISY23.preTalk) await SISY23.preTalk(GM);   /* AA_379 2-3、2-6：照作息在法圖的她（talkSis 那一邊同一段）*/
     if((id==='heroine_02'||id==='heroine_04')&&typeof ZRZQ!=='undefined'&&ZRZQ.preTalk) await ZRZQ.preTalk(GM,id);   /* AA_385 第 4 節：芷若×子晴交往中、祐廷還不知道——其中一人自己告訴他，接在說話前面演，演完照常閒聊（src/zrzq3d.js；同 AA_379 2-3）*/
     /* 五位女主角的第一次見面是專屬的事件（AA_120 3-1，AA、BB 2026-10-13：只算五位女主角）：還沒見過時被搭話不走一般自我介紹、不記 FIRST_MET，只有一句旁白；舊存檔已經記下的不追溯 */
     /* 第二天錯過以安（S.tick 的 anMissed，X70）：照作息出現的以安（heroine_01，不是劇情的 an）第一次被搭話就自我介紹、記 FIRST_MET——原本走下面的「只有一句旁白」，
@@ -1643,6 +1643,7 @@ const STORY = (function(){
     for(const e of NEEDED_MSGS.list){ if(!e.at||N.shown[e.id]!=null) continue; const d=S.dayOfKey(e.at.day); if(d==null) continue; const t0=needAbs(d,e.at.h); if(now<t0||now-t0>=6*24) continue;
       const lv=typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(e.who):'STRANGER', kn=['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv)&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(e.who,'FIRST_MET')||e.who==='zhe'||e.who==='kai');
       let ok=!!(e.anyone||kn); try{ if(ok&&e.cond&&!e.cond(G)) ok=false; }catch(err){ ok=false; } if(!ok) continue;
+      if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,e.who)){ N.shown[e.id]=d; continue; }   /* AA_600 S2：以安、學姊分手以後不送（直到重新交往）*/
       if(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.coolSkip&&V6EX.cool(Object.assign({},G,{day:d}),e.who)&&V6EX.coolSkip(G,e.who,'need',e.id+'@'+d)){ N.shown[e.id]=d; continue; }   /* 分開以後一個學期，她先傳的每兩則送一則（AA_434 4-3；和每週 neededPick 共用 need 的計數）*/
       const grp='need_'+d; N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
       if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }
@@ -1671,7 +1672,7 @@ const STORY = (function(){
     const gen=v.miss||e.miss||(NEEDED_MSGS.miss||{})[who]||null;
     if(e.missDating&&G.flags&&G.flags['dating_'+who]) return gen&&datingQuiet(G,e,who,e,'miss')?gen:e.missDating;   /* 見面時旁邊有她的人＝說一般版；沒有一般版的照說（AA_503 第 14 節第 7 項）*/
     return gen; };
-  S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G); const now=needAbs(G.day,G.hour);
+  S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,id)) return null;   /* AA_600 S2：「沒回的那一句」對前任不演 */ const N=S.neededRec(G); const now=needAbs(G.day,G.hour);
     if(N.missLast[id]!=null&&now-N.missLast[id]<14*24) return null;
     for(let i=N.batches.length-1;i>=0;i--){ const b=N.batches[i]; const it=b.ids.find(x=>x[1]===id); if(!it||b.ans.includes(it[0])||b.said[id]) continue;
       const close=b.closedAt!=null?b.closedAt:needAbs(b.d+7,21); if(now<close||now>=close+14*24) continue;
@@ -3814,7 +3815,9 @@ const STORY = (function(){
   S.memoText=(G,m)=>{ const t=!m?'':(m.named&&m.who&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,m.who)?m.named:m.t); return typeof SOCIAL!=='undefined'&&SOCIAL.worldName?SOCIAL.worldName(t):t; };   /* 舊存檔的日誌顯示虛構校名（WORLD-RENAME-1030；存檔不改）*/
   S.memoShown=G=>((G&&G.memo)||[]).filter(m=>{ const t=S.memoText(G,m); return typeof t==='string'&&!!t&&!/^ev_[A-Za-z0-9_]+$/.test(t); });   /* MEMO-NO-EVID-1028：日誌顯示的那幾筆——舊存檔裡已經寫進去的事件代號（ev_xxx）不顯示 */
   S.sisZhishuOut=(G,day,hour)=>{ const d=S.dayOfKey('2025-09-04'), dd=day==null?G.day:day, hh=hour==null?G.hour:hour; return d==null||dd>d||(dd===d&&hh>=21); };
-  async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'}); if(await S.twoHeartsEcho(GM,'heroine_05',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */
+  /* AA_600 S10（企劃線 031414cad）：前任的學姊當面找她＝每學期前兩次只點頭、之後「嗯。」，不閒聊（V6EX.sisExTalk）；處理了就收場、回傳 true */
+  S.sisExNod=async function(GM,n){ if(typeof V6EX==='undefined'||!V6EX.sisExTalk||!(await V6EX.sisExTalk(GM,n))) return false; GM.sceneEnd(); return true; };
+  async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'}); if(await S.twoHeartsEcho(GM,'heroine_05',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */ if(F.met_sis&&await S.sisExNod(GM,n)) return;
     if(!F.met_sis){ await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }   /* AA_379：閱覽室、大廳自習區 9/4 以後找她說話＝ev_sis_w1（上面 EVENTS.onInteract），原本那一行旁白（說這裡不能講話）拿掉 */
     SOCIAL.talkedTo('heroine_05'); if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj);
     if(typeof SISY23!=='undefined'&&SISY23.preTalk) await SISY23.preTalk(GM);   /* AA_379 2-3、2-6：大二下第 5～10 週、大三上 11/1～11/9 第一次找她說話，接在前面演，演完照常閒聊（src/sis_y2y3_3d.js）*/
@@ -4203,7 +4206,7 @@ const STORY = (function(){
      可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 的出遊、約會），沒見面＝11/17 22:00 電話（2-6）。*/
   const AN15_K={d15:'2027-11-15',d16:'2027-11-16',d17:'2027-11-17',d18:'2027-11-18'};
   const an15D=()=>({d15:S.dayOfKey(AN15_K.d15),d16:S.dayOfKey(AN15_K.d16),d17:S.dayOfKey(AN15_K.d17),d18:S.dayOfKey(AN15_K.d18)});
-  S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex'); };   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
+  S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex')&&!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_01')); };   /* AA_600 A5：ex／paused／friend_after_catch 全部擋（私訊、16:00「我在窗邊。」、18:00 都不傳）*/   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
   S.an15Due=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='cafe'&&h(G)>=15.25&&h(G)<17&&F.AN15_SEEN==null&&S.an15On(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y3_an15_invite'); };   /* 窗口 15:15～16:00，16:00 那則訊息延到 17:00 */
   /* 2-2 祐廷寫了什麼的旁白（A／B／C 第一句）：Café 和前任的麵店長桌版（AA_437 第 4 節）共用 */
   S.AN15_FORM={JP:'（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）',US:'（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）',TW:'（志願表你拿了一張。到現在還是空白的。）'};
@@ -4236,7 +4239,7 @@ const STORY = (function(){
     open:[[null,'（長桌。以安把自己的志願表放在桌子中間。第一志願「日本」，字很工整。申請理由那一欄寫得很滿。）'],['heroine_01','我的。'],[null,'（申請理由第一行寫著：「行政指導：沒有命令，對方照做。是信任，還是壓力？」）'],
       ['heroine_01','台灣也有這一條。可是條文只寫了怎麼規定，我想看的是那邊的人為什麼照做。'],['heroine_01','那個要去那裡看。']],
     zhe:'……妳連申請理由都寫好了。我還在想要不要申請。', yu:'日本！！我可以去找妳玩嗎', reply:'可以。……先等我上。', replyZhe:'申請不用想太久。明天中午截止。',   /* replyZhe：只認識阿哲、不認識 Alison（AA_437 第 10 節第 2 點）*/
-    close:[[null,'（她把志願表收回去，看了你一眼。）'],['heroine_01','你不用為了這個說什麼。']] };
+    close:[[null,'（她把志願表收回去，看了你一眼。）']] };   /* AA_600 A6：長桌最後對他說的「你不用為了這個說什麼。」刪（群組揪人照留）*/
   S.an15ExOn=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&!cwDating(G,'heroine_01')&&!!(R&&R.status==='ex')&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'); };
   S.an15ExDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='noodle'&&h(G)>=18.25&&h(G)<19.5&&F.AN15_SEEN==null&&S.an15ExOn(G)&&PHONE.sent(G,'y3_an15_ex_invite'); };
   S.an15Noodle=async function(GM){ const G=GM.G, F=G.flags; if(!S.an15ExDue(G)) return false; F.AN15_SEEN=G.day; F.AN15_MODE='noodle'; cwDone(G,'ev_an_why_japan');
@@ -4257,7 +4260,7 @@ const STORY = (function(){
     return ['（志願表你拿了一張，放在書包裡一個禮拜。最後沒有交。）','（你想，大四還沒開始。你想在這裡過。）']; };   /* AA_376 #20 */
   S.routeNarr=async function(GM){ const G=GM.G; if(!S.routeNarrDue(G)) return false; G.flags.ROUTE_NARR=G.day; GM.sceneBegin(); try{ for(const t of S.routeNarrLines(G)) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; };
   /* 2-5 學姊：交往中，或 FRIEND 以上（不是的沒有這一段）*/
-  S.sisFormOn=G=>(G.stage||'law')==='law'&&(cwDating(G,'heroine_05')||cwAt('heroine_05','FRIEND'));
+  S.sisFormOn=G=>(G.stage||'law')==='law'&&(cwDating(G,'heroine_05')||cwAt('heroine_05','FRIEND'))&&!(typeof ROM!=='undefined'&&ROM.exOf&&ROM.exOf(G,'heroine_05'));   /* AA_600 B1：前任（含 11/11 攤牌沒被選的學姊）不傳「我在法圖。九點四十五關門。」、22:30 手機版也不傳 */
   S.sisFormLines=function(G){ const r=S.routeFor(G);
     if(cwDating(G,'heroine_05')) return {pre:[['sis','志願表交了？'],['me','交了。美國。'],['sis','……我知道你會填那裡。'],['sis','可是你要自己也想去。不是只因為我在那邊。']],opts:[['我自己也想去。','好。那我相信你。'],['一半一半。','……誠實。好。']],route:r};
     const single=!cwPartners(G).length&&!cwHasMate(G,'heroine_05'), last=r!=='JP'&&single?'好。那我明年在美國，每天傳一張照片給你。':'好。那我明年在美國，每天在家族群組放一張照片。……你們要回。';   /* 雙方都單身：最後一句改 */

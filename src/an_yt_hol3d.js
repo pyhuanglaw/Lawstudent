@@ -38,7 +38,8 @@ const ANYTHOL=(function(){
   S.shopOk=(G,a,day)=>!a.shop||typeof NOODLE_CLOSED==='undefined'||!NOODLE_CLOSED.closed||NOODLE_CLOSED.closed(G,day)===(a.shop==='closed');
   /* AA_416 第 3、5 節：2/14 那幾場第 6 階（DATE.stageNum，還沒交往）也演；中秋照 AA_414 只有交往中 */
   const stage6=id=>typeof DATE!=='undefined'&&!!DATE.stageNum&&DATE.stageNum(id)>=6;
-  S.ok=(G,a,askDay,day)=>law(G)&&(dating(G,a.who)||(!a.moon&&stage6(a.who)))&&S.herOk(G,a.who,day,a.where)&&!abroad(G,askDay)&&!abroad(G,day)&&contact(G,a.who,askDay)&&S.shopOk(G,a,day);
+  const exOf=(G,id)=>typeof ROM!=='undefined'&&!!ROM.exOf&&ROM.exOf(G,id);   /* AA_600 A24（企劃線 031414cad）：第 6 階的那一支擋前任（以安、學姊；她不主動約前任過節）*/
+  S.ok=(G,a,askDay,day)=>law(G)&&(dating(G,a.who)||(!a.moon&&stage6(a.who)&&!((a.who==='heroine_01'||a.who==='heroine_05')&&exOf(G,a.who))))&&S.herOk(G,a.who,day,a.where)&&!abroad(G,askDay)&&!abroad(G,day)&&contact(G,a.who,askDay)&&S.shopOk(G,a,day);
 
   /* 1-1 開車去台中：date3d.js 地點表 D26（臺中）開車＝單程 150 分、來回 900 元（油錢加過路費）；開車從宿舍直接出發（AA_599；原本先回家取車多 30 分）*/
   S.DRIVE={loc:'D26',pick:0};   /* AA_599 更正：開車從宿舍直接出發（原本先回家取車 0.5）*/

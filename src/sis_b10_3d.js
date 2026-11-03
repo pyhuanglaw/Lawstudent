@@ -62,7 +62,8 @@ const SISB10=(function(){
     if(n===2&&G.zone==='cafe'&&[1,2,4].includes(w)&&h>=19&&h<22&&herHere(GM)) return 'ev_sis_ex_2';
     if(n===3&&G.zone==='linze'&&(GM.E&&GM.E.player?(GM.E.player.lv|0)===0:true)&&w>=1&&w<=4&&h>=13+55/60&&h<14+20/60) return 'ev_sis_ex_3';
     return null; };
-  S.exLast=function(G){ const d=D(S.EX_END), F=G.flags; if(d==null||G.day<d||G.day>d+1||!S.isEx(G)||sent(G,'sisb10_ex_last')||now(G)<T(d,21)) return; const x=S.exDay(G); if(x!=null&&d<x+21) return;
+  S.EX_LAST_OFF=true;   /* AA_600 B5（企劃線 031414cad）：3-4 私訊「明天走了。」「……你也保重。」刪——分手以後她不主動傳（台詞留在 sis_b10_events.js 的 exLast，不再送）*/
+  S.exLast=function(G){ if(S.EX_LAST_OFF) return; const d=D(S.EX_END), F=G.flags; if(d==null||G.day<d||G.day>d+1||!S.isEx(G)||sent(G,'sisb10_ex_last')||now(G)<T(d,21)) return; const x=S.exDay(G); if(x!=null&&d<x+21) return;
     const tz=typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0, M=L.exLast.L.map(dm); M[M.length-1].ask={id:'sisb10_ex_last',opts:L.exLast.opts.map(o=>({t:o.t,say:[{from:ID,text:o.r}]}))};
     PHONE.at(G,d,21+tz,M,'sisb10_ex_last'); F.SIS_EX_SEEN=Math.max(F.SIS_EX_SEEN|0,4); };
   /* ---------------- 第 4 節 畢業以後 ---------------- */
