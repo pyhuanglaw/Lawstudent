@@ -41154,10 +41154,10 @@
    "id": "LIB-3F-1102",
    "title": "總圖三樓閱覽區（library 區域）照使用者 08:58 第 5 張平面圖重排（人文庫、討論室 344／346、期刊架、研究小間、考古題／參考書區、南側挑空）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "LAWWW2 15:34 更正：使用者 08:58 有給 3F 平面圖（原圖在 second-ai-env-art 94e53c082 docs/art-rebuild/second_ai/ref/lib1102_user/）；保留學姊座位／作息站位、我看過你在三樓、樓梯間與東側電梯、自習座位；搬座標在 patch 一起改附對照",
-   "next": "LAWWW2：一樓二樓 v2 → LIB-FRONT v3.1 → LIB-3F-1102",
+   "next": "BB 測（開發分支 0f16f98a3）",
    "xai": {
     "spec": "使用者 08:58 平面圖第 5 張",
     "branch": "claude/second-ai-env-art",
@@ -42182,10 +42182,10 @@
    "id": "LAW-RELAYOUT-1102",
    "title": "法學院區重排：萬才館搬位、湖、黑森林（LAWWW2 d73588749 WIP；使用者給 5 張實景照片）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "LAWWW 11-03 補登（LAWWW2 user_asks 指到、總表沒有）",
-   "next": "LAWWW2 下一班接著做，交 LAWWW 整合",
+   "next": "BB 測（開發分支 e76d577a4）",
    "xai": {
     "spec": "LAWWW2 user_asks 1102-12～16",
     "branch": "claude/second-ai-env-art",
@@ -43297,7 +43297,27 @@
    "status": "已整合待測試",
    "priority": "P2",
    "note": "X193；lupstory3d.js S.FREE",
-   "next": "BB 測；AA 改導覽句；LAWWW2 其他小間玻璃後面放路人"
+   "next": "BB 測（開發分支 4fc0dda22）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/24 宿營結束",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "BUG-CAMP-RESUME-824-1103",
+   "title": "宿營最後一段演完的自動存檔讀回來接著演回到家與 8/29 搬宿舍（BB 11-03）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "note": "debb001c4，發布後加回 c9f017092",
+   "next": "BB 測"
   }
  ]
 }
