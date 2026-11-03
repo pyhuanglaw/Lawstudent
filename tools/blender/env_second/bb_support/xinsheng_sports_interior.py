@@ -165,7 +165,12 @@ class Xf:
     def p(self, x, y, z): return (self.px + x * self.c + z * self.s, self.py + y, self.pz - x * self.s + z * self.c)
     def M(self, x=0.0, y=0.0, z=0.0): return Matrix.Translation(g2b(*self.p(x, y, z))) @ Matrix.Rotation(self.ry, 4, 'Z')
     def rb(self, m, x0, x1, y0, y1, z0, z1, col=None, r=0.012, seg=1):
-        return put(m, L.rbox_bm(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0), r, seg), self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), col)
+        w, h, d = abs(x1 - x0), abs(y1 - y0), abs(z1 - z0)
+        if r <= 0.015 and min(w, h, d) <= 0.05:   # 預算（第一版一樓 10 萬）：摺好的衣服、紙箱、盒子這種薄的小東西用直角方塊（倒角 1 段＝26 面，直角＝6 面；遊戲距離看不出來）
+            bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+            for v in bm.verts: v.co = Vector((v.co.x * w, v.co.y * d, v.co.z * h))
+            return put(m, bm, self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), col)
+        return put(m, L.rbox_bm(w, h, d, r, seg), self.M((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), col)
     def cy(self, m, a, b, r, col=None, seg=8, r2=None, caps=True): return put(m, cyl_bm(a, b, r, seg, r2, caps), self.M(), col)
     def la(self, m, prof, x, y, z, col=None, seg=12, sx=1.0, sz=1.0):
         return put(m, L.lathe(prof, seg=seg), self.M(x, y, z) @ Matrix.Diagonal((sx, sz, 1.0, 1.0)), col)
@@ -244,7 +249,7 @@ TS = [0.0, 0.06, 0.14, 0.24, 0.27, 0.42, 0.58, 0.74, 0.88, 1.0]
 
 def garment_bm(style, col, trim=None, hanger='#3b3c40', flat=1.0, hang=True):
     """衣架上的一件衣服（自己的座標：掛鉤頂端在原點、正面朝 +z）：前後兩片曲面＋側邊封起來；肩斜、領口、下襬波浪、垂下來的布紋"""
-    bm = bmesh.new(); C = bm.loops.layers.float_color.new('Col'); NC = 6
+    bm = bmesh.new(); C = bm.loops.layers.float_color.new('Col'); NC = 4   # 橫向 6→4 段（預算）
     trim = trim or col
     if style == 'tee': Ln, hw = 0.70, [0.20, 0.30, 0.35, 0.355, 0.25, 0.252, 0.256, 0.26, 0.263, 0.266]
     elif style == 'jersey': Ln, hw = 0.74, [0.12, 0.13, 0.17, 0.235, 0.258, 0.262, 0.265, 0.268, 0.27, 0.272]
@@ -332,7 +337,7 @@ def ball_bm(r, kind, seg, rings):
 
 
 def ball(kind):
-    r, seg, rings = {'basket': (0.121, 14, 9), 'volley': (0.105, 14, 9), 'tennis': (0.033, 8, 5)}[kind]
+    r, seg, rings = {'basket': (0.121, 10, 7), 'volley': (0.105, 10, 7), 'tennis': (0.033, 6, 4)}[kind]   # 預算（第一版一樓 10 萬）：14×9→10×7
     return proto('ball_' + kind, lambda: ball_bm(r, kind, seg, rings), 'print')
 
 
@@ -342,8 +347,8 @@ BOTTLE_COLS = [('#e9a8b4', '#f2f2ee'), ('#9cc6e4', '#2a2c30'), ('#2c3e66', '#c9c
 
 def bottle_bm(body, cap):
     cm = L.CMesh('_b', M['vcg']); xf = Xf(0, 0)
-    xf.la(cm, [(0.0, 0.0), (0.033, 0.0), (0.035, 0.014), (0.035, 0.2), (0.026, 0.226), (0.021, 0.236)], 0, 0, 0, body, seg=7)
-    xf.la(cm, [(0.022, 0.236), (0.023, 0.268), (0.0, 0.272)], 0, 0, 0, cap, seg=7)
+    xf.la(cm, [(0.0, 0.0), (0.033, 0.0), (0.035, 0.014), (0.035, 0.2), (0.026, 0.226), (0.021, 0.236)], 0, 0, 0, body, seg=5)
+    xf.la(cm, [(0.022, 0.236), (0.023, 0.268), (0.0, 0.272)], 0, 0, 0, cap, seg=5)
     xf.rb(cm, -0.006, 0.006, 0.255, 0.275, 0.018, 0.04, cap, r=0.004)   # 提把
     return cm.bm
 
@@ -517,7 +522,7 @@ mb, mv, mt = ball('basket'), ball('volley'), ball('tennis')
 for ys in (1.42, 1.98):
     for k in range(14):
         z = bz0 + 0.17 + k * 0.252; inst(mb, 0, bx0 + 0.2 + (0.13 if k % 2 else 0.0) * 0.0, ys + 0.123, z, ry=random.uniform(0, 6.28))
-        if k % 3 != 1: inst(mb, 0, bx0 + 0.44, ys + 0.123, z + 0.06, ry=random.uniform(0, 6.28))
+        if k % 3 == 0: inst(mb, 0, bx0 + 0.44, ys + 0.123, z + 0.06, ry=random.uniform(0, 6.28))
 for k in range(16): inst(mv, 0, bx0 + 0.3 + (0.1 if k % 2 else -0.08), 0.86 + 0.107, bz0 + 0.15 + k * 0.215, ry=random.uniform(0, 6.28))
 for j in range(3):                                                                              # 網球：三個鐵網籃
     cz = bz0 + 0.65 + j * 1.15; bk_ = Xf(bx0 + 0.29, cz)
@@ -671,8 +676,8 @@ for side in (-1, 1):
         if y > 1.6:
             for k in range(7): wb.rb(vc0, -1.35 + k * 0.4, -1.03 + k * 0.4, y, y + 0.2, 0.06 * side, 0.26 * side, rr.choice(['#1f3f8a', '#efefea', '#e8782a', '#2f6b45']), r=0.01)   # 上層：盒裝的水壺
             continue
-        for k in range(30):
-            x = -1.35 + k * 0.093; gx, gy, gz = wb.p(x, y, 0.17 * side); inst(bott[(k + int(y * 7) + (side > 0)) % len(bott)], 0, gx, gy, gz, ry=random.uniform(0, 6.28))
+        for k in range(20):   # 一層 30→20 瓶（預算）
+            x = -1.35 + k * 0.14; gx, gy, gz = wb.p(x, y, 0.17 * side); inst(bott[(k + int(y * 7) + (side > 0)) % len(bott)], 0, gx, gy, gz, ry=random.uniform(0, 6.28))
     for k in range(6):                                                                         # 最下層：摺好的毛巾
         x = -1.25 + k * 0.48; c = ['#efefea', '#8fb8de', '#efefea', '#1f2d55', '#efefea', '#8d9196'][k]
         for j in range(4): wb.rb(vc0, x, x + 0.36, 0.12 + j * 0.045, 0.12 + j * 0.045 + 0.042, 0.05 * side, 0.26 * side, c, r=0.015)

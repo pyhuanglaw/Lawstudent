@@ -74,7 +74,7 @@ HELPERS = r"""(()=>{ if(window.__CC) return true; const V=(x,y,z)=>new THREE.Vec
   C.model=o=>{ if(!o) return null; const u=o.userData||{}, sp=u.spec||u.buildSpec||{}; let vrm=!!u.vrm; if(!vrm) o.traverse(c=>{ if(c.userData&&c.userData.vrm) vrm=true; }); return {driver:u.driver||null, model:sp.model||null, vrm, placeholder:!!u.placeholder}; };
   C.npcs=()=>{ const E=GAME.E, out=[]; const ids={}; if(GAME.npc) for(const k in GAME.npc) if(GAME.npc[k]) ids[k]=GAME.npc[k];
     for(const n of (E.npcs||[])){ const o=n.obj; if(!o) continue; let key=null; for(const k in ids) if(ids[k]===n) key=k; const p=o.position;
-      out.push(Object.assign({id:key||n.id||n.charId||null, name:n.name||'', carrelId:n.carrelId||null, clerk:!!n.clerk, x:+p.x.toFixed(2), y:+p.y.toFixed(2), z:+p.z.toFixed(2), vis:o.visible!==false&&!n.hidden, pose:n.pose||null}, C.model(o))); }
+      out.push(Object.assign({id:key||n.id||n.charId||null, name:n.name||'', carrelId:n.carrelId||null, clerk:!!n.clerk, x:+p.x.toFixed(2), y:+p.y.toFixed(2), z:+p.z.toFixed(2), vis:o.visible!==false&&!n.hidden, objVis:o.visible!==false, hidden:!!n.hidden, pose:n.pose||null}, C.model(o))); }
     return out; };
   window.__CC=C; return true; })()"""
 
@@ -354,7 +354,7 @@ async def case_sixlaw(pg, cdp):
 TEA_GEO = r"""(()=>{ const E=GAME.E, C=window.__CC; const st=[];
   /* 正式模型照材質合併（wz_teahouse_interior.glb 的網格名字是 wzs_planks…，沒有 stool）：從木凳正上方往下打射線，第一個打到的看得見的網格＝木凳的座面（打到地板＝沒有木凳）*/
   for(const [x,z] of [[3.05,3.35],[2.95,3.35],[3.15,3.35],[3.05,3.25],[3.05,3.45]]){ const rc=new THREE.Raycaster(new THREE.Vector3(x,2.2,z),new THREE.Vector3(0,-1,0),0,3); const hs=rc.intersectObjects(E.scene.children,true);
-    const h=hs.find(q=>{ const o=q.object; if(!o.isMesh||!o.material) return false; for(let p=o;p;p=p.parent) if(p.visible===false) return false; return (Array.isArray(o.material)?o.material:[o.material]).some(m=>m.visible!==false); });
+    const h=hs.find(q=>{ const o=q.object; if(!o.isMesh||!o.material) return false; for(let p=o;p;p=p.parent){ if(p.visible===false) return false; if(p.userData&&p.userData.driver) return false; }   /* 人物（坐在木凳上的路人）不算：第一次全跑打到 Hair_NM7 */ return (Array.isArray(o.material)?o.material:[o.material]).some(m=>m.visible!==false); });
     if(h) st.push({name:h.object.name, c:[x,z], top:+h.point.y.toFixed(3)}); }
   const seats=(E.zone.seats||E.seats||[]).map(s=>[s.x,s.z,s.label||'']); const its=E.interactables.filter(i=>i.seat).map(i=>[i.x,i.z,i.label]);
   return {stools:st, seats, its, zone:GAME.G.zone}; })()"""
@@ -428,7 +428,7 @@ async def case_aunts(pg, cdp):
     days = fs.get('found') or []
     su = None
     for dd in days[:2]:
-        await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': dd['h'], 'day': dd['day'], 'weekday': dd['wd'], 'pos': {'x': -0.3, 'z': 3.4, 'yaw': -1.2}, 'flags': AF},
+        await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': dd['h'], 'day': dd['day'], 'weekday': dd['wd'], 'pos': {'x': 0.3, 'z': 0.45, 'yaw': 1.5708}, 'flags': AF},   # 長桌北邊、面向東看水屋：語彤站在 (2.95,2.4)，從茶席那一側看會擋在蘇姨前面（第一次全跑）
                   '一盞茶屋第 %d 天（週%d）%.1f 時，圈子表 %s' % (dd['day'], dd['wd'], dd['h'], dd['row']), 16000)
         await helpers(pg)
         ns = await pg.evaluate("window.__CC.npcs()")
@@ -493,10 +493,18 @@ async def case_cat(pg, cdp):
         await pg.evaluate(CAT_RND % dir_)
         await L.turn_camera_to(pg, cdp, 26.0, 23.3, tries=5); await low_cam(pg, 0.35, 3.0)
         got = None
+        bzlog = []
         for i in range(60):   # 站著不動：3 秒以後擲骰、站起來、走過來
             await pg.wait_for_timeout(500)
             s = await pg.evaluate(CAT_SIDE)
             if s and s['state'] == 'rub': got = s; break
+            bz = await pg.evaluate("(()=>({busy:!!GAME.E.player.busy, who:(GAME.D&&GAME.D.busyWho||[]).slice(0,3), cap:((document.getElementById('caption')||{}).textContent||'').slice(0,40)}))()")
+            if bz['busy']:
+                if not bzlog or bzlog[-1] != bz: bzlog.append(bz)
+                st2 = await L.state(pg)
+                if st2['dlg']: await L.tap(pg, cdp, '#dlg')
+                elif st2['choices']: await pick(pg, cdp, lambda t: True)
+        if bzlog: note('等貓的時候 busy（劇情／旁白把貓定住，wzcat3d.js busy()）：%s' % J(bzlog[:4]))
         if not got:
             check('cat %s：貓走過來蹭（state rub）' % tag, False, J(await pg.evaluate(CAT_ST))); continue
         samples = []
