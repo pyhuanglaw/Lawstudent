@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\_script_from\V19O_onetap_s\docs\story_planning\test_tools\bb\bb_onetap_flow_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19O_onetap_s\out
+bb_onetap_flow_probe  SHA=15e78dff7  CASES=['sleep']  URL=http://127.0.0.1:8811/index.html
+PASS 遊戲載入
+  [前置／捷徑] 最小存檔 2025-09-22（星期一）22.00 時 campus（條件事件照開）
+PASS sleep 22:00「回去睡覺」可以按  [{"k": "sleep", "dim": false, "t": "回去睡覺 / 宿舍 203（爬上床直接睡）"}, {"k": "cls", "dim": true, "t": "到下一堂課的教室 / 今天的課已經上完了"}, {"k": "date", "dim": true, "t": "到下一個約會地點 / 今天沒有約"}]
+  [  38.8s] S1 框出現到按下確定：12 ms
+PASS S1 防誤觸：確認框剛跳出來（12 ms）就按「確定」不算（還在原地、框還開著）  {"day": 6, "h": 22.038, "zone": "campus", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": true, "phone": false, "npcs": [], "fb": 0}
+PASS S2 點確認框外面＝取消（框關掉、還在校園、時間沒跳）  {"day": 6, "h": 22.046, "zone": "campus", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": [], "fb": 0}
+PASS S3 前：讀檔以後再開選單，「回去睡覺」照樣可以按（不能卡在「正在前往」）  [{"k": "sleep", "dim": false, "t": "回去睡覺 / 宿舍 203（爬上床直接睡）"}, {"k": "cls", "dim": true, "t": "到下一堂課的教室 / 今天的課已經上完了"}, {"k": "date", "dim": true, "t": "到下一個約會地點 / 今天沒有約"}]
+PASS S3 等 1 秒再按「確定」：確認框真的有開、按了以後關掉  {"cf_open": true, "s3": {"day": 6, "h": 22.225, "zone": "dorm", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "idle", "seat": false, "sleeping": false, "cf": false, "phone": false, "npcs": ["kai"], "fb": 0}}
+  [  57.9s] sleep 經過：[{"zone": "dorm", "day": 6, "h": 22.226, "pose": "idle", "name": "", "txt": "", "ch": []}, {"zone": "dorm", "day": 7, "h": 8.168, "pose": "lie", "name": "", "txt": "", "ch": []}]
+PASS S4 到宿舍 203、上床睡著、隔天早上在宿舍醒來（day+1、04～11 點）  {"day": 7, "h": 8.168, "zone": "dorm", "dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "pose": "lie", "seat": false, "sleeping": true, "cf": false, "phone": false, "npcs": ["kai"], "fb": 0, "_slept": true}
+PASS S4 中間真的睡了（STORY._sleeping 出現過）  true
+PASS S4 walkFallbacks 0（沒有走不過去被直接放到目的地）  0
+PASS 沒有 JS 例外  []
+SHA 15e78dff7
+ALL PASS
