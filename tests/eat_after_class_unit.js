@@ -25,7 +25,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const advCalls=[]; ADV.begin=o=>{ advCalls.push(o); ADV.active=true; }; ADV.end=()=>{ ADV.active=false; };
 (async()=>{
   const day=STORY.termDay('Y1S1',4,2);
-  for(const [meal,img,price] of [['阿鳳麵店','noodle_table',70],['便利商店','cvs_table_day',75],['小松',null,90]]){
+  for(const [meal,img,price] of [['公館燒臘','noodle_table',100],['便利商店','cvs_table_day',75],['小松',null,90]]){
     fresh(day,12,'classroom',{}); advCalls.length=0; const m0=G.money, h0=G.hour; picks=[meal];
     const r=await CLS.lunchBreak(GM); const bg=advCalls[0]&&advCalls[0].background;
     check(meal+'：吃飯那一段開了 ADV（換到店裡，不是停在教室的 3D）',r===true&&advCalls.length===1,JSON.stringify(advCalls));
