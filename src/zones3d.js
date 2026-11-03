@@ -1155,6 +1155,21 @@ const Z3 = (function(){
       if(o.morphTargetDictionary&&o.morphTargetInfluences&&o.morphTargetDictionary.fat!=null) o.morphTargetInfluences[o.morphTargetDictionary.fat]=fat;
       if(old&&oldMat&&o.material&&o.material.name==='cat_fur') o.material=oldMat; });
     const out=new THREE.Group(); out.name='wz_cat_glb'; out.add(keep); out.userData.catState={pose,fat,tag,band,old}; return out; }
+  /* 貓趴著的位置（WZ-CAT-FLOAT-RUB-1103，使用者 11-03「懸空的橘貓」）：原本放在 ring.z＋r（1.45，圓椅外緣的外接圓），
+     可是圓椅是 10 片的多邊形（wz_park.py：R1＝r、R0＝r−0.38、木板間隙 0.012、第一片的角在 π/10，正北那一片是平的），正北的外緣只到 (r−0.012)·cos(π/10)＝1.367——
+     貓的中心在座面外 8 cm、身體 0.32 m 寬有 0.23 m 懸在草地上；高度也高了 2 cm（座面頂 0.45、貓的底 −0.003）。
+     現在照 GLB 量的包圍盒（CAT_lie／CAT_curl，x 是身體的寬、z 是身長；原點＝四腳中間的地面）把整隻放在座面中間（徑向 1.03～1.37 m）、底部貼座面。
+     石桌底下（下雨、寒流）：石桌的底座半徑 0.24 m（地台上 6 cm）、桌面半徑 0.5、東邊的石凳內緣 0.74（park3_props.glb 量的）——貓放在底座外、石凳內（舊的位置 +0.3 m 會插進底座）。
+     回傳 {x,y,z,yaw}（溫州街世界座標；y＝地面以上，石桌那一版是涼亭地台 0.14 再加上去）。tests/wz_cat_float_rub_unit.js 讀 GLB 量 */
+  const WZ_CAT_BOX={lie:{x0:-0.171,x1:0.149,z0:-0.237,z1:0.256,y0:-0.003},curl:{x0:-0.183,x1:0.204,z0:-0.212,z1:0.243,y0:-0.003}};
+  const WZ_RING_SEAT={depth:0.38,gap:0.012,top:0.45,n:10};   /* tools/blender/env_second/wz_park.py「樹圍圓形座椅」：R0＝R1−0.38、H 0.39＋板厚 0.06、10 片、角在 π/10＋k·2π/10 */
+  const WZ_TABLE={base:0.24,stool:0.74,floor:0.14};
+  function wzCatSpot(L,where,pose){ L=L||(typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null); if(!L) return null; const b=WZ_CAT_BOX[pose]||WZ_CAT_BOX.lie;
+    if(where==='under'){ const pv=L.items.find(i=>i.kind==='pavilion'); if(!pv) return null; const gap=0.02;   /* 轉 π：身體的 x 朝 −x、z 朝 −z */
+      const c=WZ_TABLE.base+gap+b.x1; return {x:pv.x+c,y:WZ_TABLE.floor-b.y0,z:pv.z+(b.z0+b.z1)/2,yaw:Math.PI,inner:c-b.x1,outer:c-b.x0}; }
+    const rg=L.items.find(i=>i.kind==='ring_bench'); if(!rg) return null; const R1=rg.r||1.45, R0=R1-WZ_RING_SEAT.depth, k=Math.cos(Math.PI/WZ_RING_SEAT.n);
+    const ri=(R0+WZ_RING_SEAT.gap)*k, ro=(R1-WZ_RING_SEAT.gap)*k, mid=(ri+ro)/2;   /* 正北那一片的內外緣（平的那一邊）*/
+    return {x:rg.x+(b.z0+b.z1)/2,y:WZ_RING_SEAT.top-b.y0,z:rg.z+mid-(b.x0+b.x1)/2,yaw:Math.PI*1.5,seatIn:rg.z+ri,seatOut:rg.z+ro};   /* 轉 3π/2：身體的 x 朝 +z（徑向）、頭朝 −x（沿著圓椅）*/ }
   function buildWzPark(E,g,nav,open,pkTag,pools,place){ const L=WZ_PARK_LAYOUT, A=L.area, f=A.front, b=A.back;
     open(f.x0+0.1,4,f.x1-0.1,f.z1); open(b.x0+0.1,b.z0,b.x1-0.1,b.z1-0.1);
     if(b.cut) nav.blockRect((b.x0+b.cut.x1)/2,(b.cut.z0+b.z1)/2+0.5,b.cut.x1-b.x0,b.z1-b.cut.z0+1,0,0);   // 西北角：巷底那棟 F1（x 8.4～11.8）
@@ -1181,20 +1196,22 @@ const Z3 = (function(){
       E.interactables.push({x:catAt.x,z:catAt.z+(under?0:0.2),radius:1.4,get label(){ const G=Gn(); return G&&typeof PARK!=='undefined'&&PARK.catLabel?PARK.catLabel(G):(nm?'摸摸'+nm:'那隻貓'); },get hidden(){ const G=Gn(); return !!(G&&typeof PARK!=='undefined'&&PARK.catHidden&&PARK.catHidden(G)); },park:'cat'}); }
     for(const it of L.items) if(it.kind==='park_lamp'){ const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(it.x,0.03,it.z); g.add(pool); pools.push(pool); }
     // 睡在老樹圓椅上的橘白色胖貓（AA_164 5-1、AA_171 第 7 節；3D 正式模型是 ART-WZ5，到之前用套件的貓）
-    { const bf=catAt&&catHere?{x:catAt.x-0.05,z:catAt.z+0.45,yaw:catAt.yaw-Math.PI/2}:null; if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
+    { const cold=!!(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0)), pose=cold?'curl':'lie', sp=catAt&&catHere?wzCatSpot(L,under?'under':'bench',pose):null;   /* 趴著的位置照座面量（wzCatSpot，WZ-CAT-FLOAT-RUB-1103）*/
+      if(sp){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
         const body=new THREE.SphereGeometry(0.2,14,9); body.scale(1.0,0.5,0.72); cat.add(fur,body,0,cy+0.08,0,0.3);
         cat.add(fur,new THREE.SphereGeometry(0.085,12,8),0.15,cy+0.07,-0.07,0); cat.add(furL,new THREE.SphereGeometry(0.04,8,6),0.2,cy+0.05,-0.12,0);
         for(const ex of [-0.04,0.04]) cat.add(fur,new THREE.ConeGeometry(0.028,0.06,4),0.15+ex,cy+0.15,-0.06,0);
         cat.add(dk,new THREE.TorusGeometry(0.16,0.026,6,14,Math.PI*1.1),-0.02,cy+0.035,-0.02,0.4,{rx:-Math.PI/2});
-        const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); cg.position.set(bf.x+0.05,0,bf.z-0.45); cg.rotation.y=bf.yaw+Math.PI/2;
-        const catG=new THREE.Group(); catG.name='wz_cat'; catG.userData.dyn=true; catG.add(cg); g.add(catG);
+        const catG=new THREE.Group(); catG.name='wz_cat'; catG.userData.dyn=true; g.add(catG);
+        if(under){ catG.position.y=WZ_TABLE.floor-WZ_RING_SEAT.top; catG.userData.under=true; }   /* 石桌底下：整組放低到涼亭的地台（舊的測試照這個量，tests/wz_park_people_unit.js）；裡面的模型照 sp.y 減回來 */
+        const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); cg.position.set(sp.x,sp.y-0.483-catG.position.y,sp.z); cg.rotation.y=sp.yaw-Math.PI/2; catG.add(cg);   /* 套件的貓：身體的底在 0.48、身長沿 x、頭朝 +x */
         /* 被子晴收養以後（PARK.catAdopted：12/14 23:00 起，或那一場演完）公園不顯示貓（WZ-CAT-LIFE-1023，AA_397 第 3 節）：每一格看，玩家待在公園裡過了 23:00 也會不見；「看圓椅」的互動點照 PARK.catHidden */
         { let shown=true; Object.defineProperty(catG,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!(G&&typeof PARK!=='undefined'&&PARK.catAdopted&&PARK.catAdopted(G)); },set(v){ shown=!!v; }}); }   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
-        if(under){ catG.position.y=catAt.y-0.45; catG.userData.under=true; }   /* 套件的貓、正式模型（0.47）都是照圓椅的座面（0.45 m）放的：石桌底下整組放低到涼亭的地台上 */
         if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return;
-          if(!under&&typeof WZCAT!=='undefined'&&WZCAT.attach(E,catG,c,{G:G0,lie:{x:bf.x+0.05,y:0.47,z:bf.z-0.45,yaw:bf.yaw+Math.PI}})){ cg.visible=false; return; }   /* 白天醒著：有骨架的貓在公園裡走（src/wzcat3d.js，J13）；晚上、下雨、寒流照舊趴著／縮著 */
-          const m=wzCatModel(c.scene.clone(true),G0,(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0))?'curl':'lie');   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
-          m.position.set(bf.x+0.05,0.47,bf.z-0.45); m.rotation.y=bf.yaw+Math.PI; cg.visible=false; catG.add(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
+          const bench=wzCatSpot(L,'bench','lie'), tbl=wzCatSpot(L,'under','lie');
+          if(!under&&typeof WZCAT!=='undefined'&&WZCAT.attach(E,catG,c,{G:G0,lie:bench,under:tbl})){ cg.visible=false; return; }   /* 有骨架的貓交給 WZCAT（src/wzcat3d.js，J13）：白天在公園裡走、晚上趴在圓椅上（會呼吸）、時間到了自己醒來或回去睡；下雨、寒流進公園照舊在石桌底下 */
+          const m=wzCatModel(c.scene.clone(true),G0,pose);   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
+          m.position.set(sp.x,sp.y-catG.position.y,sp.z); m.rotation.y=sp.yaw; cg.visible=false; catG.add(m); if(typeof WZCAT!=='undefined'&&WZCAT.breathe) WZCAT.breathe(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
     // 備用外觀（模型載入後藏起來）
     const fb=o=>{ pkTag(o); o.userData.wzParkFb=true; return o; };
     const grassM=new THREE.MeshStandardMaterial({map:(()=>{ const t=W3.grassTex().clone(); t.needsUpdate=true; t.repeat.set(5,5); return t; })(),roughness:0.95});
@@ -2143,5 +2160,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();
