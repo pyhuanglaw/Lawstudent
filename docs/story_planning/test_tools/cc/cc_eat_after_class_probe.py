@@ -195,7 +195,8 @@ async def one(p, case):
         check('%s：玩家看得到：吃飯那句旁白時 ADV 開著、#adv 的背景圖是 %s' % (tag, sp['bg']), bool(line_adv) and line_adv['active'] and any(sp['bg'] in u for u in line_adv['imgs']),
               J(line_adv and {'active': line_adv['active'], 'vis': line_adv['domVis'], 'imgs': line_adv['imgs'][:4]}))
         check('%s：地點字幕是店名（開頭「%s」）' % (tag, sp['meal']), any(x['t'].startswith(sp['meal']) for x in caps), J([x['t'] for x in caps]))
-        check('%s：旁白是那家店的那一句（開頭「%s」）' % (tag, sp['meal']), bool(seen) and seen['txt'].startswith(sp['meal']), J(seen and seen['txt']))
+        says = [x['t'] for x in log if x['k'] == 'say']   # 對話框逐字出現：判斷用 GAME.say 的參數（畫面上的字只截圖）
+        check('%s：旁白是那家店的那一句（GAME.say 開頭「%s」；對話框出現過）' % (tag, sp['meal']), bool(seen) and any(t.startswith(sp['meal']) for t in says[:3]), J({'say': says[:3], 'dlg': seen and seen['txt']}))
         meal_money = [x['v'] for x in money if x['v'] < 0]
         check('%s：扣 %d 元（GAME.money(-%d) 一次）' % (tag, sp['price'], sp['price']), meal_money[:1] == [-sp['price']], J({'money_calls': [x['v'] for x in money], 'before': m_before}))
         h_line = line_adv and line_adv['h']
