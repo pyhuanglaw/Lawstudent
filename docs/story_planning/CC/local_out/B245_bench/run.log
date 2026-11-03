@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_bench_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_bench\out
+cc_b245_bench_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8813/index.html
+PASS 遊戲載入
+  【前置／捷徑】load_state（quiet_events）校園第 7 天 10:00
+INFO 長椅讀書的路人：[{"x": 71.7, "z": -22.14, "seat": {"x": 71.7, "z": -22.14, "yaw": 0}, "bench": {"label": "坐在總圖前的長椅上", "x": 71.7, "z": -22.14, "yaw": 0, "d": 0}, "free": {"x": 72.15, "z": -22.14}, "hasFreeFn": true}, {"x": -100, "z": -12.94, "seat": {"x": -100, "z": -12.94, "yaw": 0}, "bench": {"label": "坐在椰影大道的長椅上", "x": -100, "z": -12.94, "yaw": 0, "d": 0}, "free": {"x": -99.55, "z": -12.94}, "hasFreeFn": true}, {"x": -75, "z": 12.94, "seat": {"x": -75, "z": 12.94, "yaw": 3.141592653589793}, "bench": {"label": "坐在椰影大道的長椅上", "x": -75, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, "free": {"x": -75.45, "z": 12.94}, "hasFreeFn": true}, {"x": -25, "z": -12.94, "seat": {"x": -25, "z": -12.94, "yaw": 0}, "bench": {"label": "坐在椰影大道的長椅上", "x": -25, "z": -12.94, "yaw": 0, "d": 0}, "free": {"x": -24.55, "z": -12.94}, "hasFreeFn": true}]
+PASS 前置：校園白天有長椅讀書的路人（story3d.js seats[1,4,7,10]）  4
+PASS a 每個讀書的路人都有 seat，而且 seat 就是他坐的位置（< 0.05 m）  [[71.7, -22.14, {"x": 71.7, "z": -22.14, "yaw": 0}], [-100, -12.94, {"x": -100, "z": -12.94, "yaw": 0}], [-75, 12.94, {"x": -75, "z": 12.94, "yaw": 3.141592653589793}], [-25, -12.94, {"x": -25, "z": -12.94, "yaw": 0}]]
+PASS 前置：讀書的路人坐的位置有長椅互動點（< 0.4 m）  4/4
+PASS b GAME.freeSeat(有人讀書的那個長椅座位)＝null 或離所有讀書路人 ≥ 0.4 m 的位子  [[{"label": "坐在總圖前的長椅上", "x": 71.7, "z": -22.14, "yaw": 0, "d": 0}, {"x": 72.15, "z": -22.14}], [{"label": "坐在椰影大道的長椅上", "x": -100, "z": -12.94, "yaw": 0, "d": 0}, {"x": -99.55, "z": -12.94}], [{"label": "坐在椰影大道的長椅上", "x": -75, "z": 12.94, "yaw": 3.141592653589793, "d": 0}, {"x": -75.45, "z": 12.94}], [{"label": "坐在椰影大道的長椅上", "x": -25, "z": -12.94, "yaw": 0, "d": 0}, {"x": -24.55, "z": -12.94}]]
+  【前置／捷徑】load_state（quiet_events）校園第 7 天 10:00，站在有人讀書的長椅前面 (71.70, -21.64)
+INFO c 讀檔後讀書的路人：[[71.7, -22.14], [-100, -12.94], [-75, 12.94], [-25, -12.94]]；E.nearestInteractable：null
+INFO c 點了 #interact：「」
+PASS c 照玩家：站在有人讀書的座位前面，#interact 不出現（E.nearestInteractable 跳過有人的座位），玩家沒有坐到人身上  null
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_bench",
+  "sha": "ffeec06e0",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_bench_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T00:49:54",
+  "end": "2026-11-04T00:52:13",
+  "seconds": 139,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 56,
+    "used_gb": 18.0,
+    "chrome_testing": 27
+  }
+}
