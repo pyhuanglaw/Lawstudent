@@ -420,10 +420,12 @@ const CLS=(function(){
       if(withAn&&GM.spawnCharacter){ const an=GM.spawnCharacter('heroine_01',x+0.6,z-0.8,{lv:lv|0,beh:'buddy'}); if(an){ an.buddy=lib; an.side=1; an.followOff=0.7; crew.push(an); } } };
     const near=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)===(lib.lv|0)&&Math.hypot(P.x-L.x,P.z-L.z)<4.5; };
     const far=()=>{ const P=E.player.obj.position, L=lib.obj.position, h=Math.hypot(P.x-L.x,P.z-L.z); return (E.player.lv|0)!==(lib.lv|0)?h>8:h>25; };   /* BUG-TOUR-STAIRS-FAR-1103（BB 17:01，CC N19_tour_joy）：館員在樓梯平台等、玩家在下一層就在她腳下＝不算走遠（原本不同層一律算，40 秒就判「你離開了」）*/
-    let zone0=G.zone, farT=0, left=false;
-    const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
+    let zone0=G.zone, farT=0, left=false, upNote=false, warned=false;
+    /* BUG-TOUR-STAIRS-FAR-1103 的兩句（AA 11-03 17:04）：館員在上一層等＝旁白一次（每一站）；走遠到一半時間（20 秒）＝館員小聲提醒一次（回來以後再走遠才會再提醒）*/
+    const TOUR_UP='（館員站在樓梯平台上，回頭等你們跟上來。）', TOUR_WARN='（小聲）導覽往這邊喔，還要一起走嗎？';
+    const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else { farT=0; warned=false; } if(!upNote&&lib&&(lib.lv|0)>(E.player.lv|0)){ upNote=true; GM.caption('',TOUR_UP,3600); } if(!warned&&farT>=20){ warned=true; GM.caption('館員',TOUR_WARN,4200); } if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
-    for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
+    for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i]; upNote=false;
       if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
