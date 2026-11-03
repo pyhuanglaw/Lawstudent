@@ -5,125 +5,96 @@
    一段一個事件（trigger:'camp'），由 story3d.js 的 S.campY1 依時間順序跑（設定日子、時間、背景）；句子只照上面兩份規格，LAWWW 不自己寫（D79）。每段開頭的註解寫來源節。
    旗標：CAMP_Y1（演完）、CAMP_MOLE_CLUE（Kevin 的破綻看過幾個，0～4）、CAMP_MOLE_GUESSED、CAMP_MOLE_REVEALED、CAMP_SEEN（陣列，現在只有 yu）、MX_CAMP_PAIR、MET_ZHE、ZHE_CALLS_GE、ECON_PAST_SHARED；
    小隊六個人 FIRST_MET（note 'camp'）。Kevin 不是 CHARACTERS 的人物（手機、事件用名字），記 CAMP_KEVIN。
-   2026-11-03 AA_608（使用者「宿營活動蠻無聊的，可以只留認識過程嗎？」）：三天兩夜照舊，畫面上只演認識人的段落——
-   第一天＝遊覽車、破冰（只留名字接龍＋Alison 報名字）、午餐（柏翰、芯慈）、步道（沛珊）、寢室（明軒）；第二天＝烤肉（Alison 借夾子）、營火（Kevin）、夜談；第三天＝早餐、結業。
-   迎新晚會、夜遊、法律闖關、水大地 retired（定義留給舊存檔）；Kevin 的破綻（CAMP_MOLE_CLUE、CAMP_CLUE*、CAMP_MOLE_GUESSED）、大地遊戲的 CAMP_F*、MX_CAMP_PAIR 新局不再設（營外只有 MX_CAMP_PAIR 有人讀，舊存檔照舊）。 */
+   2026-11-03 AA_608 第 10 節（＋10-1～10-4；使用者「宿營活動蠻無聊的，可以只留認識過程嗎？」「宿營認識阿哲、沛珊、慈昕就好」）：三天兩夜照舊，畫面上只演認識人的段落，
+   宿營只認識芯慈（破冰，第七小隊）、阿哲（撕名牌，隔壁第八小隊、不同寢室）、沛珊（第二天晚上營火才到；交換聯絡方式）。明軒、Alison 只有一句印象旁白（不寫名字、不記認識、不設 CAMP_SEEN）；柏翰、Kevin 不出場（不再有臥底）。
+   第一天＝遊覽車（坐窗邊，CAMP_BUS 'win'）、破冰、撕名牌、自由時間（大老二）；第二天＝一句旁白、營火（沛珊）；第三天＝早餐、結業。學測／哥／為什麼重考在第一天自由時間打牌的最後（10-5，阿哲不同寢室）。
+   迎新晚會、夜遊、法律闖關、水大地、夜談 retired（定義留給舊存檔）。新局不再設：CAMP_MOLE_*、CAMP_CLUE*、CAMP_F*、CAMP_KEVIN、CAMP_SEEN、MX_CAMP_PAIR；舊存檔照舊。 */
 /* Kevin 的立繪（使用者 2026-10-18 15:5x「營地差在Kevin沒有立繪」→ 選「潮流大哥型」；KEVIN-PORTRAIT-1018）：他不是 CHARACTERS 的人物，只登記立繪；
    台詞用 speaker:'npc_kevin'＋name（揭曉前「凱文」、揭曉後「Kevin」）。圖放進 assets/portraits/npc_kevin/campus/<表情>.webp、跑 build.py（或 tools/gen_portrait_manifest.py）就出現；沒放＝照舊沒有立繪 */
 if(typeof PORTRAITS!=='undefined'&&!PORTRAITS.npc_kevin){ const o={campus:{}}; for(const ex of ['neutral','smile','laugh','surprised']) o.campus[ex]='assets/portraits/npc_kevin/campus/'+ex+'.webp'; PORTRAITS.npc_kevin={characterId:'npc_kevin',displayName:'Kevin',tier:2,defaultOutfit:'campus',defaultPortrait:'assets/portraits/npc_kevin/campus/neutral.webp',outfits:o,silhouette:'m'}; }
 const CAMP_Y1_EVENTS=[
-  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白、6-1 坐阿哲旁邊；BB_177 第 1 節坐明軒旁邊；AA_195 4-10 坐窗邊、經濟系玩家到營地那句）*/
+  /* 8/22 08:30 校門集合、遊覽車（AA_205 2-2 開頭旁白；AA_608 第 10 節第 1 點：不給選項、坐窗邊（CAMP_BUS 固定 'win'）；10-1 明軒的印象一句（不寫名字、不記認識）；AA_195 4-10 經濟系玩家到營地那句）*/
   { id:'ev_camp_d1_bus', stage:'any', title:'迎新宿營：遊覽車', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'首都帝大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},
       {speaker:null,text:'（早上八點半，校門口停了兩台遊覽車。小隊名單前一天晚上貼出來了，你那一隊有七個人。）'},
       {scene:'遊覽車上',bg:'tour_bus'},
-      {choice:[{text:'坐阿哲旁邊',goto:'zhe'},{text:'坐明軒旁邊',goto:'mx'},{text:'自己坐窗邊',goto:'win'}]},
-      {label:'zhe'},
-      {speaker:'zhe',text:'欸，你也法律系的？'},
-      {speaker:'player',text:'嗯。'},
-      {speaker:'zhe',text:'我阿哲。張哲維。高雄上來的。'},
-      {speaker:'player',text:'{name}。'},
-      {speaker:'zhe',text:'你有帶零食嗎？我帶了一整袋，你要什麼自己拿。'},
-      {choice:[{text:'「洋芋片給我一包。」',goto:'chips'},{text:'「我暈車，先不要。」',goto:'sick'}]},
-      {label:'chips'},{speaker:'zhe',text:'拿去，海苔的。'},{goto:'met'},
-      {label:'sick'},{speaker:'zhe',text:'那你睡，到了我叫你。'},
-      {label:'met'},{set:{MET_ZHE:true,CAMP_BUS:'zhe'},meet:{id:'zhe',where:'camp'}},{goto:'arrive'},
-      {label:'mx'},
-      {speaker:null,text:'（他戴著帽子，頭靠在窗上，眼睛閉著。）'},
-      {speaker:'classmate_mingxuan',text:'（眼睛沒睜開）你坐。我睡一下。'},
-      {speaker:'classmate_mingxuan',text:'我五點搭客運上來的。'},
-      {speaker:null,text:'（車子轉進山路的時候，他醒了一次，看了一眼窗外，又睡回去。）'},
-      {speaker:'classmate_mingxuan',text:'到了叫我。'},
-      {set:{CAMP_BUS:'mx'}},{goto:'arrive'},
-      {label:'win'},
-      {speaker:null,text:'（車開上快速道路。後面有人在唱歌，唱到一半忘詞。）'},
+      {speaker:null,text:'（早上八點半，遊覽車從校門口出發。你坐在靠窗的位子，一路看著窗外。）'},
+      {speaker:null,text:'（後面一排有個戴帽子的男生，一上車就靠著窗睡著，到營地才醒。）'},
       {set:{CAMP_BUS:'win'}},
-      {label:'arrive'},
       {scene:'山上的青年活動中心',bg:'econ_camp'},
       {if:{flags:['PLAYED_Y0']},speaker:null,text:'（這個營地你去年來過，經濟系的宿營。）'}   /* AA-C 07:52 Q5：經濟系宿營改 2024-08-23～25（AA_218），拿掉「十一月，比較冷」*/ ] },
 
-  /* 8/22 10:30 小隊時間：破冰（AA_608 第 2 節，使用者 11-03「宿營活動蠻無聊的，可以只留認識過程嗎？」：拿掉隊呼、照生日排隊（凱文的破綻 0、1），只留名字接龍；
-     Alison 在這裡報名字（CAMP_SEEN 改在她這一句後面設）；接龍每人多一個特徵照 AA_606 第 1 節。祐廷那段照原本（AA_205 6-12）*/
+  /* 8/22 10:30 小隊時間：破冰（AA_608 第 10 節第 2 點、10-1（Alison 的印象一句，不寫名字、不設 CAMP_SEEN）、10-3（第七小隊：芯慈、沛珊；你只記住了芯慈））。
+     祐廷報自己的那段照原本（AA_205 6-12）；只認識芯慈（沛珊第二天晚上才到、阿哲在第八小隊）*/
   { id:'ev_camp_d1_ice', stage:'any', title:'迎新宿營：破冰', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地的空地',bg:'camp_yard_day'},
-      {speaker:null,text:'（營地的空地上，每個小隊圍成一圈。小隊輔發了名牌：「名字上面都有。」）'},
-      {speaker:null,text:'（隔壁小隊在喊隊呼，帶頭的女生聲音最大。她喊完，回頭朝你們這邊揮手。）'},
-      {speaker:'yu',text:'我叫 Alison！你們隊呼好小聲！'},
-      {set:{CAMP_SEEN:['yu']}},
-      {speaker:'小隊輔',text:'好。名字接龍，順便講你從哪裡來。要先把前面的人念一遍。'},
-      {speaker:'zhe',text:'張哲維，叫我阿哲。高雄上來的。要吃什麼問我。'},
-      {speaker:'classmate_xinci',text:'阿哲。吳芯慈，永和。我應該是全隊住最近的。'},
-      {speaker:'classmate_peishan',text:'……前面是阿哲、還有、呃……'},
-      {speaker:'npc_kevin',name:'凱文',text:'（小聲）芯慈。'},
-      {speaker:'classmate_peishan',text:'芯慈，謝謝。我是郭沛珊，台中來的。'},
-      {speaker:'classmate_mingxuan',text:'（一口氣念完前面的名字）江明軒。彰化，家裡開機車行。五點的客運。'},
-      {speaker:'classmate_bohan',text:'阿哲、芯慈、沛珊、明軒。許柏翰。新竹。……上課我坐第一排。'},
-      {speaker:'npc_kevin',name:'凱文',text:'（念完，一個都沒漏）凱文！台北人，土生土長！'},
-      {speaker:null,text:'（輪到你。你把前面六個人念了一遍，念到「凱文」的時候，他比了一個讚。）'},
+      {speaker:null,text:'（營地的空地上，每個小隊圍成一圈，輪流報名字和從哪裡來。）'},
+      {speaker:null,text:'（隔壁小隊喊隊呼，帶頭的女生聲音大到整個營地都聽得到。）'},
+      {speaker:'classmate_xinci',text:'吳芯慈，永和。我應該是全隊住最近的。'},
+      {speaker:null,text:'（另外幾個人也報了名字，你一下子記不住。輪到你。）'},
       {choice:[{text:'「臺北。我家就在這附近。」'},{text:'「臺北人。」'}]},   /* AA_205 6-12 定版（10-17）；AA_546 第 0 節（NO-COMPARE-1030）早餐改「從哪裡來」 */
       {speaker:'小隊輔',text:'好，七個人都記住了吧。'},
-      {speaker:'npc_kevin',name:'凱文',text:'記住了！'},
-      {set:{MET_ZHE:true,CAMP_KEVIN:true},rel:{zhe:{fam:1}},meet:[{id:'kevin',where:'camp'},{id:'zhe',where:'camp'},{id:'classmate_xinci',where:'camp'},{id:'classmate_peishan',where:'camp'},{id:'classmate_mingxuan',where:'camp'},{id:'classmate_bohan',where:'camp'}]} ] },
+      {speaker:'小隊輔',text:'還有一個沛珊，她明天晚上才到。'},
+      {speaker:null,text:'（你們小隊七個人，你只記住了芯慈。）'},
+      {meet:[{id:'classmate_xinci',where:'camp'}]} ] },
 
-  /* 8/22 12:00 午餐（AA_608 8-1：柏翰帶課本、數頁數；芯慈印好的彩色時間表）。選項不記旗標（只是聊天），結尾熟悉 +1 */
-  { id:'ev_camp_d1_lunch', stage:'any', title:'迎新宿營：午餐', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'營地・餐廳',bg:'camp_dining'},
-      {speaker:null,text:'（午餐。柏翰坐你對面，桌上攤著一本《民法總則》。）'},
-      {choice:[{text:'「你帶課本來宿營？」',goto:'book'},{text:'（先吃飯）',goto:'eat'}]},
-      {label:'book'},{speaker:'classmate_bohan',text:'開學前想把第一章讀完。還差十一頁。'},{goto:'slow'},
-      {label:'eat'},{speaker:null,text:'（你吃到一半，他翻了一頁。）'},{speaker:'classmate_bohan',text:'還差十頁。'},
-      {label:'slow'},
-      {speaker:'classmate_bohan',text:'我念得慢。先讀，上課才跟得上。'},
-      {speaker:null,text:'（芯慈坐下來，拿出一疊對摺的紙，一人發一張。）'},
-      {speaker:'classmate_xinci',text:'下午到晚上的時間表。我印了七份。'},
-      {speaker:null,text:'（每個活動用不同顏色標好，連洗澡都排了。）'},
-      {speaker:'classmate_xinci',text:'洗澡要排隊。我們這間排第三，七點十分。'},
-      {choice:[{text:'「妳印這個多久？」',goto:'long'},{text:'「謝了。」',goto:'thx'}]},
-      {label:'long'},{speaker:'classmate_xinci',text:'昨天晚上。我習慣先知道接下來要做什麼。'},{goto:'end'},
-      {label:'thx'},{speaker:'classmate_xinci',text:'不客氣。……七點十分，不要忘記。'},
+  /* 8/22 13:30 大地遊戲：撕名牌——認識阿哲（AA_608 10-4，取代第 9 節的搶旗；阿哲在隔壁第八小隊）。不設 CAMP_SEEN */
+  { id:'ev_camp_d1_field', stage:'any', title:'迎新宿營：撕名牌', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
+    dialogue:[ {scene:'營地・大地遊戲',bg:'camp_field'},
+      {speaker:null,text:'（下午的大地遊戲是撕名牌。每個人背後貼一張寫著自己名字的貼紙，被撕掉就出局。你們第七小隊對隔壁的第八小隊。）'},
+      {speaker:null,text:'（你躲在樹後面。背後忽然有腳步聲——你一轉身，跟一個男生撞個正著。）'},
+      {speaker:null,text:'（兩個人都晃了一下。他的手還是比較快。）'},
+      {speaker:null,text:'（嘶——你背後的名牌被撕走了。）'},
+      {speaker:'zhe',text:'（看著手上的貼紙）{name}……出局！'},
+      {choice:[{text:'「你偷襲。」',goto:'sneak'},{text:'（揉一下被撞到的肩膀）',goto:'rub'}]},
+      {label:'sneak'},{speaker:'zhe',text:'撕名牌本來就是偷襲啊。'},{goto:'name'},
+      {label:'rub'},{speaker:'zhe',text:'欸，撞很大力喔？……抱歉抱歉。'},
+      {label:'name'},
+      {speaker:'zhe',text:'張哲維，叫我阿哲。高雄上來的。'},
+      {speaker:null,text:'（對面有人在喊：「阿哲！後面！」）'},
+      {speaker:'zhe',text:'……我先走了！'},
+      {speaker:null,text:'（他轉身就跑。下一秒，他背後的名牌被芯慈撕掉了。）'},
+      {set:{MET_ZHE:true},meet:[{id:'zhe',where:'camp'}]} ] },
+
+  /* 8/22 19:30 自由時間：芯慈找你打牌（AA_608 第 10 節第 4 點、10-4 阿哲那句、10-5：原本夜談的學測／哥／為什麼重考移到打牌最後，阿哲在這一桌）。
+     分支 old／econ／said／same 與旗標照 10-2：ZHE_CALLS_GE、ECON_PAST_SHARED 'full'、「為什麼重考？」（AA_224 2-c、6-8；只問一次 WHY_RETAKE_ASKED，這裡沒說的，迎新選「念過經濟系」時 Alison 補問，events.js ev_welcome_y1s1）。
+     芯慈「……那你算學長？」阿哲「是哥。」只接在說出重考的分支（old／econ／said）後面——選「不想講。」的沒有人知道。結尾熟悉 +1（芯慈、阿哲）*/
+  { id:'ev_camp_d1_free', stage:'any', title:'迎新宿營：自由時間', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
+    dialogue:[ {scene:'寢室外面的走廊',bg:'econ_camp_room'},
+      {speaker:null,text:'（晚餐後是自由時間。你坐在寢室外面的走廊，芯慈拿著一副撲克牌走過來。）'},
+      {speaker:'classmate_xinci',text:'{name}，我們在玩大老二，三缺一。你要不要來？'},
+      {choice:[{text:'「好啊。」',goto:'ok'},{text:'「我不太會玩。」',goto:'teach'}]},
+      {label:'teach'},{speaker:'classmate_xinci',text:'我教你。很快。'},
+      {label:'ok'},
+      {speaker:null,text:'（交誼廳的角落，阿哲也在，看到你就笑了。）'},
+      {speaker:'zhe',text:'下午那個！……來來來，坐。'},
+      {speaker:null,text:'（玩了三局。芯慈贏了兩局，阿哲一直說牌不好。）'},
+      {speaker:'classmate_xinci',text:'我通勤，平常很少跟同學玩到這麼晚。……其實有點羨慕你們住宿舍的。'},
+      {speaker:null,text:'（打牌，第三局。阿哲又拿到一手爛牌。）'},
+      {speaker:'zhe',text:'今年運氣都很差。學測數學也是，難到我想哭。你數學幾級分？'},
+      {choice:[{text:'「今年還好，去年比較難。」',goto:'last'},{text:'「不想講。」',goto:'same'}]},
+      {label:'last'},{speaker:'zhe',text:'……去年？你去年也考過？'},
+      {choice:[
+        {text:'「嗯，我重考的。」',goto:'old'},
+        {text:'「我念過一個多月經濟系，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
+        {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'}]},
+      {label:'old'},{speaker:'zhe',text:'那你比我們大一屆欸。……那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，換你出牌。'},{set:{ZHE_CALLS_GE:true}},{goto:'senior'},
+      {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
+      {if:{flags:['WHY_RETAKE_ASKED']},goto:'senior'},
+      {speaker:'zhe',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
+      {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
+      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'zhe',text:'好，懂了。'},{goto:'senior'},
+      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'senior'},
+      {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},
+      {label:'senior'},
+      {speaker:'classmate_xinci',text:'（看了你一下）……那你算學長？'},
+      {speaker:'zhe',text:'是哥。'},{goto:'end'},
+      {label:'same'},{speaker:'zhe',text:'好啦，不逼你。……晚安。'},
       {label:'end'},
-      {rel:{classmate_bohan:{fam:1},classmate_xinci:{fam:1}}} ] },
+      {rel:{classmate_xinci:{fam:1},zhe:{fam:1}}} ] },
 
-  /* 8/22 13:30 步道（AA_608 第 3 節：原本的大地遊戲只演沛珊那一關（BB_177 3-2，P0：交換聯絡方式）；三關選單、兩人三腳、全隊跑完拿掉，不再設 MX_CAMP_PAIR
-     （events.js 明軒系籃那句「宿營兩人三腳那個」只剩舊存檔會出現））*/
-  { id:'ev_camp_d1_field', stage:'any', title:'迎新宿營：步道', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'營地後面的步道',bg:'camp_trail'},
-      {speaker:null,text:'（下午分組找東西。沛珊和你往營地後面的步道走。）'},
-      {speaker:null,text:'（步道走到一半，路中間拉了一條繩子，掛著一塊牌子：「工作區域　禁止進入」。）'},
-      {speaker:'classmate_peishan',text:'欸，你看。'},
-      {speaker:'classmate_peishan',text:'如果有人跨過去，會怎樣？罰錢嗎？還是只是被罵？'},
-      {choice:[{text:'「應該是被罵吧。」',goto:'p1'},{text:'「要不要問小隊輔？」',goto:'p2'},{text:'「這個以後上課應該會教。」',goto:'p3'}]},
-      {label:'p1'},{speaker:'classmate_peishan',text:'被誰罵？營地的人？……好，我不跨，我只是想知道。'},{goto:'pend'},
-      {label:'p2'},{speaker:'classmate_peishan',text:'好啊。'},{speaker:null,text:'（遠遠地，小隊輔喊：「那邊不要進去！裡面是廚房的倉庫！」）'},{speaker:'classmate_peishan',text:'（笑出來）原來是倉庫。'},{goto:'pend'},
-      {label:'p3'},{speaker:'classmate_peishan',text:'那你學到的時候要跟我說。'},
-      {label:'pend'},
-      {speaker:null,text:'（葉子你找到了，石頭是她撿的。剩下有字的紙。）'},
-      {speaker:'classmate_peishan',text:'有字的紙……'},
-      {speaker:null,text:'（她從背包拿出一本小筆記本，撕下一頁，上面是她自己寫得密密麻麻的字。）'},
-      {speaker:'classmate_peishan',text:'我自己寫的，應該算吧？'},
-      {speaker:null,text:'（回到集合點。小隊輔看了那張紙很久。）'},
-      {speaker:'小隊輔',text:'三樣都有。紙是……妳的筆記？算。'},
-      {speaker:'classmate_peishan',text:'{name}。你要不要加我？剛剛那個問題，之後知道答案跟我說。'},
-      {consequences:{contact:'classmate_peishan'},set:{CAMP_PS_P0:true}} ] },
-
-  /* 8/22 22:00 寢室的電風扇（AA_608 8-2：明軒＝機車行、什麼都會修、五點的客運）。選項不記旗標（只是聊天），結尾熟悉 +1 */
-  { id:'ev_camp_d1_room', stage:'any', title:'迎新宿營：寢室', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'八人寢室',bg:'econ_camp_room'},
-      {speaker:null,text:'（晚上的八人寢室。電風扇轉兩下就停了。）'},
-      {speaker:'zhe',text:'完了，今天晚上會熱死。'},
-      {speaker:'classmate_mingxuan',text:'（已經蹲下去，把背板拆開）誰有原子筆？借我。'},
-      {speaker:null,text:'（三分鐘後，電風扇轉了。）'},
-      {speaker:'classmate_mingxuan',text:'線鬆了。家裡開機車行，這種常修。'},
-      {choice:[{text:'「你也會修機車？」',goto:'moto'},{text:'「厲害。」',goto:'wow'}]},
-      {label:'moto'},{speaker:'classmate_mingxuan',text:'會一點。……不要跟學長講，他們會把整營的東西都拿來。'},{goto:'end'},
-      {label:'wow'},{speaker:'classmate_mingxuan',text:'沒有啦。睡了，我五點就起來了。'},
-      {label:'end'},
-      {speaker:'zhe',text:'明軒，你就是我們這間的神。'},
-      {speaker:null,text:'（燈關了。）'},
-      {rel:{classmate_mingxuan:{fam:1}}} ] },
-
-  /* ↓ 以下四段 retired（AA_608 第 1 節：迎新晚會、夜遊、法律闖關、水大地不演；定義留給舊存檔的 events.done，S.campY1 跳過）*/
+  /* ↓ 以下四段 retired（AA_608 第 1 節：迎新晚會、夜遊、法律闖關不演；水大地併進第二天的一句旁白（第 10 節第 5 點）；定義留給舊存檔的 events.done，S.campY1 跳過）*/
   /* 8/22 18:00 晚餐（AA_205 3-2：芯慈宿營版）、19:30 迎新晚會（AA_205 6-5 旁白；破綻 2）*/
   { id:'ev_camp_d1_party', retired:true, stage:'any', title:'迎新宿營：迎新晚會', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・餐廳',bg:'camp_dining'},
@@ -193,71 +164,64 @@ const CAMP_Y1_EVENTS=[
       {label:'c'},{speaker:null,text:'（樹下比較涼。沒多久，凱文拿著水桶走過來。）'},{speaker:'npc_kevin',name:'凱文',text:'找到了！躲樹下的都算我的！'},{speaker:null,text:'（一整桶水從頭上下來。）'},
       {label:'end'} ] },
 
-  /* 8/23 17:30 烤肉（AA_608 8-3 全文：Alison 借夾子；芯慈照時間表分肉、柏翰只要兩片）。選項不記旗標（只是聊天），結尾 Alison 熟悉 +1（還沒正式認識：不記 FIRST_MET，初遇照舊在開學後）*/
-  { id:'ev_camp_d2_bbq', stage:'any', title:'迎新宿營：烤肉', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'營地・烤肉',bg:'camp_bbq'},
-      {speaker:null,text:'（第二天晚上烤肉。芯慈照她的時間表分肉，一個人三片。柏翰說他只要兩片。）'},
-      {speaker:null,text:'（隔壁的烤肉架突然冒出一團火。）'},
-      {speaker:'yu',text:'（衝過來）欸欸欸！借我夾子！我們那架起火了！'},
-      {choice:[{text:'「給妳。」',goto:'give'},{text:'「我跟妳過去。」',goto:'go'}]},
-      {label:'give'},{speaker:'yu',text:'謝謝！！你哪一隊？……第七？好，我記住了！'},{goto:'end'},
-      {label:'go'},{speaker:null,text:'（你們跑過去的時候，學長已經用水把火澆熄了。）'},{speaker:'yu',text:'……好吧。不過謝謝你跑過來！我 Alison，記住喔！'},
-      {label:'end'},
-      {rel:{yu:{fam:1}}},
-      {speaker:null,text:'（天黑了。營火那邊有人在喊集合。）'} ] },
+  /* 8/23 白天（AA_608 第 10 節第 5 點：白天的活動一句旁白帶過；原本的烤肉、水大地合併成這一句）*/
+  { id:'ev_camp_d2_bbq', stage:'any', title:'迎新宿營：第二天', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
+    dialogue:[ {scene:'營地的空地',bg:'camp_yard_day'},
+      {speaker:null,text:'（第二天的活動排得很滿。你們小隊在水大地被潑得最慘。）'} ] },
 
-  /* 8/23 20:00 營火晚會（AA_608 第 5 節：只演凱文其實是大二學長 Kevin；短劇三選一、Alison 演樹、CAMP_MOLE_GUESSED 的兩句、「生日那個……」、柏翰翻名牌拿掉）*/
+  /* 8/23 20:00 營火晚會：沛珊到了（AA_608 第 10 節第 6 點＝第 9 節第 7 點拿掉 Kevin 揭曉和「我才剛來，就有人是假的？」）。認識沛珊、交換聯絡方式 */
   { id:'ev_camp_d2_fire', stage:'any', title:'迎新宿營：營火晚會', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・營火晚會',bg:'camp_bonfire'},
-      {speaker:null,text:'（營火晚會。各小隊演完短劇，主持的學長拿起麥克風。）'},
-      {speaker:'主持的學長',text:'各小隊的臥底，出列。'},
-      {speaker:null,text:'（你們小隊的凱文站了起來。）'},
-      {speaker:'npc_kevin',name:'凱文',text:'（走到營火前面，把名牌翻到背面）大二，系學會。我叫 Kevin，不叫凱文。'},
-      {speaker:'classmate_peishan',text:'（小聲）難怪他什麼都知道。'},
-      {speaker:'zhe',text:'……所以充電線要還學長嗎？'},
-      {set:{CAMP_MOLE_REVEALED:true}} ] },
+      {speaker:null,text:'（營火晚會開始的時候，一個女生揹著大背包，從停車場那邊跑過來。小隊輔朝她招手。）'},
+      {speaker:'classmate_peishan',text:'抱歉抱歉，我是郭沛珊。七小隊是這裡嗎？'},
+      {speaker:null,text:'（她在你旁邊坐下，還在喘。）'},
+      {choice:[{text:'「妳怎麼比較晚來？」',goto:'why'},{text:'「先喝口水吧。」',goto:'water'}]},
+      {label:'water'},{speaker:null,text:'（她喝了一口。）'},
+      {label:'why'},
+      {speaker:'classmate_peishan',text:'我先去參加中友會的宿營，台中同學的社團辦的。今天中午才結束，就直接坐車過來了。'},
+      {speaker:'classmate_peishan',text:'兩個宿營撞在一起，我想說兩個都去。……結果好累。'},
+      {choice:[{text:'「中友會好玩嗎？」',goto:'fun'},{text:'「妳錯過了搶旗。」',goto:'flag'}]},
+      {label:'fun'},{speaker:'classmate_peishan',text:'好玩，可是大家都講臺中的事。在這裡我才比較像新生。'},{goto:'add'},
+      {label:'flag'},{speaker:'classmate_peishan',text:'搶旗？誰贏？……你們輸了喔。'},
+      {label:'add'},
+      {speaker:'classmate_peishan',text:'{name}，你加我一下好不好？明天集合時間我都不知道。'},
+      {meet:[{id:'classmate_peishan',where:'camp'}],consequences:{contact:'classmate_peishan'},set:{CAMP_PS_P0:true}} ] },
 
-  /* 8/23 22:30 夜談（AA_205 6-8 開頭聊臥底；接 AA_195 4-10 的明軒「你幾年次的」三選一，一字不改）*/
-  { id:'ev_camp_d2_talk', stage:'any', title:'迎新宿營：夜談', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
+  /* AA_608 10-5：寢室照小隊分，阿哲不同寢室——夜談 retired（定義留給舊存檔；學測、哥、為什麼重考移到第一天的自由時間打牌）。下面是 10-2 的版本，不再演 */
+  /* 8/23 22:30 夜談（AA_608 10-2：不問年次，改成聊學測；10-3／10-4 開頭；說話的人是阿哲（第八小隊，同一間寢室）。分支 old／econ／said／same 與旗標照舊：
+     ZHE_CALLS_GE、ECON_PAST_SHARED 'full'、「為什麼重考？」（AA_224 2-c、6-8；只問一次 WHY_RETAKE_ASKED，夜談沒說的，迎新選「念過經濟系」時 Alison 補問，events.js ev_welcome_y1s1））*/
+  { id:'ev_camp_d2_talk', retired:true, stage:'any', title:'迎新宿營：夜談', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'八人寢室',bg:'econ_camp_room'},
-      {speaker:null,text:'（燈關了，還有幾支手機亮著。）'},
-      {speaker:null,text:'（Kevin 的床位空了，行李已經搬去學長姐那一間。）'},
-      {speaker:'zhe',text:'欸，Kevin 是學長欸。我還跟他借了充電線。'},
-      {speaker:'classmate_bohan',text:'隊呼他第一天就會喊。'},
-      {speaker:'classmate_mingxuan',text:'欸，你幾年次的？感覺你比我們大一點。'},
+      {speaker:null,text:'（燈關了。睡你隔壁床的，剛好是下午撕掉你名牌的阿哲。）'},
+      {speaker:'zhe',text:'欸，你學測數學幾級分？今年數學難到我想哭。'},
+      {choice:[{text:'「今年還好，去年比較難。」',goto:'last'},{text:'「不想講。」',goto:'same'}]},
+      {label:'last'},{speaker:'zhe',text:'……去年？你去年也考過？'},
       {choice:[
-        {text:'「我大一歲。」',goto:'old'},
-        {text:'「我念過經濟系，一個多月，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
-        {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'},
-        {text:'「跟你們一樣啦。」',goto:'same'}]},
-      {label:'old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
+        {text:'「嗯，我重考的。」',goto:'old'},
+        {text:'「我念過一個多月經濟系，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'econ'},
+        {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'}]},
+      {label:'old'},{speaker:'zhe',text:'那你比我們大一屆欸。……那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
       {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
-      /* 「為什麼重考？」（AA_224 2-c、6-8；AA-C 2026-10-17 Q3）：第一次說出口，明軒問；說法照經濟系那年阿勳問的（E24C_REASON：honest＝長句、其他和只玩法律系＝短句）。
-         只問一次（WHY_RETAKE_ASKED）：夜談沒說的，迎新選「念過經濟系」時 Alison 補問（events.js ev_welcome_y1s1）*/
       {if:{flags:['WHY_RETAKE_ASKED']},goto:'after'},
-      {speaker:'classmate_mingxuan',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
+      {speaker:'zhe',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
       {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
-      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'classmate_mingxuan',text:'好，懂了。'},{goto:'after'},
+      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'zhe',text:'好，懂了。'},{goto:'after'},
       {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'after'},
       {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
-      {label:'same'},{speaker:'zhe',text:'好喔。'},
+      {label:'same'},{speaker:'zhe',text:'好啦，不逼你。……晚安。'},
       {label:'after'},
-      {speaker:'zhe',text:'柏翰，手電筒借一下，我充電線不知道丟哪了。'},
-      {speaker:'classmate_bohan',text:'（沒抬頭，還在看書）在你枕頭下面。'},
-      {speaker:null,text:'（明軒的聲音越來越小，後來就沒了。）'},
       {speaker:'zhe',text:'欸你們明天幾點起來？'},
       {speaker:null,text:'（沒有人回答。）'} ] },
 
-  /* 8/24 07:30 早餐（AA_608 第 6 節：只留餐廳那一段（AA_205 6-3；BB_177 13-1 明軒「哥，你的蛋」），拿掉 09:00 金頭腦三題（BB_177 13-2））*/
+  /* 8/24 07:30 早餐（AA_608 第 6 節：只留餐廳那一段（AA_205 6-3），拿掉金頭腦；第 10 節第 8 點拿掉明軒那句；10-2 阿哲的解釋「他重考的，大我們一屆。」；10-5「哥？」改由沛珊問）*/
   { id:'ev_camp_d3_quiz', stage:'any', title:'迎新宿營：早餐', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・餐廳',bg:'camp_dining'},
       {unless:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（第三天早上，大家都很睏，餐廳裡沒什麼人講話。）'},   /* AA_205 6-14④ */
       {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'（隔著桌子）哥，你的蛋。'},
-      {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_xinci',text:'哥？'},
+      {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_peishan',text:'哥？'},   /* AA_608 10-5：芯慈打牌時已經知道了，改成第二天才到的沛珊問 */
       {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED==='full'},speaker:'zhe',text:'他念過經濟系。'},
-      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED!=='full'},speaker:'zhe',text:'他大我們一歲。'},
-      {if:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（芯慈「喔」了一聲，繼續吃。）'},
-      {if:{flags:['ZHE_CALLS_GE']},speaker:'classmate_mingxuan',text:'那顆蛋你不吃的話給我。'} ] },
+      {if:{custom:G=>G.flags.ZHE_CALLS_GE&&G.flags.ECON_PAST_SHARED!=='full'},speaker:'zhe',text:'他重考的，大我們一屆。'},
+      {if:{flags:['ZHE_CALLS_GE']},speaker:null,text:'（芯慈「喔」了一聲，繼續吃。）'} ] },
 
   /* 8/24 10:30 結業式、上車（AA_205 6-13⑤）、12:30 回到校門（AA_205 6-4）*/
   { id:'ev_camp_d3_end', stage:'any', title:'迎新宿營：結業式', participants:[], location:'any', trigger:'camp', once:true, background:'dark',

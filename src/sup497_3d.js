@@ -301,7 +301,7 @@ const SUP497=(function(){
   S.YU_MEET={ id:'ev_yu_meet_w3', title:'Alison', participants:[YU], location:'campus', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>S.yuMeetDue(G)},
     dialogue:[ ln(null,L.yu.tap),{call:async(G,GM)=>{ const I=typeof STORY!=='undefined'?STORY.YU_INTRO:null; if(!I) return; const who={name:nameOf(YU),charId:YU};
-        if(Array.isArray(G.flags.CAMP_SEEN)&&G.flags.CAMP_SEEN.includes('yu')) await GM.say(null,I.camp); for(const t of I.lines) await GM.say(who,t,{expr:'smile'}); }} ],
+        if(Array.isArray(G.flags.CAMP_SEEN)&&G.flags.CAMP_SEEN.includes('yu')) await GM.say(null,I.camp); for(const t of (STORY.yuIntroLines?STORY.yuIntroLines(G):I.lines)) await GM.say(who,t,{expr:'smile'}); }} ],   /* AA_606 3-3：已經在麵店認識＝「……欸，你剛剛講得很好。」 */
     after:(G,GM)=>{ G.flags.met_yu=true; if(G.flags.metYuDay==null) G.flags.metYuDay=G.day; if(GM&&GM.rel) GM.rel('yu',2); if(typeof SOCIAL!=='undefined'&&SOCIAL.talkedTo) SOCIAL.talkedTo('yu'); } };   /* 同 talkYu 第一次說話（met_yu、metYuDay、熟悉 +2）*/
   /* 3-3 一個人的早餐（大二下第 4～6 週，平日 08:20～09:05 傅鐘長椅，有點熟以上，已經在一起以後；一次）*/
   S.BKF={ id:'ev_yu_bkf', title:'一個人的早餐', participants:[YU], location:'campus', trigger:'auto', once:true, term:['Y2S2'], weeks:[4,5,6], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], npcNear:YU, background:'blur',
