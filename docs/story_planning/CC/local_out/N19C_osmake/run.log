@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_camp_oldsave_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N19C_osmake\out
+cc_camp_oldsave_probe  SHA=0f66c4215  URL=http://127.0.0.1:8810/index.html  CASES=make  MAKE_AFTER=ev_camp_d2_bbq
+---- make（舊版）URL=http://127.0.0.1:8810/index.html ----
+PASS make 遊戲載入
+  [  19.0s] make：版本字樣 ["v9.10.16"]；這一版的 CAMP_SEQ=["ev_camp_d1_bus", "ev_camp_d1_ice", "ev_camp_d1_field", "ev_camp_d1_party", "ev_camp_d1_walk", "ev_camp_d2_quiz", "ev_camp_d2_water", "ev_camp_d2_bbq", "ev_camp_d2_fire", "ev_camp_d2_talk", "ev_camp_d3_quiz", "ev_camp_d3_end"]
+PASS make 這一版的宿營表有 ev_camp_d2_bbq
+PASS make 標題畫面按「從法律系開始」
+PASS make 宿營第 2 天演完 ev_camp_d2_bbq 的自動存檔（campStep=8、8/23）  {"why": "ok", "day": -24, "hour": 17.5, "campStep": 8}
+  [ 121.3s] make 匯出 oldsave_camp_d2.json：day=-24 hour=17.5 campStep=8 campSeqV=None；events.done=["ev_camp_d1_bus", "ev_camp_d1_field", "ev_camp_d1_ice", "ev_camp_d1_party", "ev_camp_d1_walk", "ev_camp_d2_bbq", "ev_camp_d2_quiz", "ev_camp_d2_water"]；FIRST_MET={"zhe": {"tag": "FIRST_MET", "day": -25, "note": "camp"}, "kevin": {"tag": "FIRST_MET", "day": -25, "note": "camp"}, "classmate_xinci": {"tag": "FIRST_MET", "day": -25, "note": "camp"}, "classmate_peishan": {"tag": "FIRST_MET", "day": -25, "note": "camp"}, "classmate_mingxuan": {"tag": "FIRST_MET", "day": -25, "note": "camp"}, "classmate_bohan": {"tag": "FIRST_MET", "day": -25, "note": "camp"}}
+PASS make 沒有 JS 例外  []
+ALL PASS

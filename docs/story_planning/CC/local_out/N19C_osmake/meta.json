@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19C_osmake",
+  "sha": "0f66c4215",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_camp_oldsave_probe.py",
+  "env": "CASES=make",
+  "machine": "MSI",
+  "start": "2026-11-03T22:30:32",
+  "end": "2026-11-03T22:33:06",
+  "seconds": 154,
+  "exit": 0,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 53,
+    "mem": 56,
+    "used_gb": 17.8,
+    "chrome_testing": 29
+  }
+}

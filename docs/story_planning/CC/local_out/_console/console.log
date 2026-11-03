@@ -473,3 +473,16 @@
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [22:23:42] ==== END   N19S_diners  exit=1  746s   ====
 [22:25:22] [res] cpu=2% mem=44% (13.9/31.4 GB) chrome_testing=10  END 01_p0speed
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c390eb9e0..4aab21368  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:25:27] ==== END   01_p0speed  exit=0  154s   ====
+[22:27:34] 正在跑：FS112（已跑 144 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:30:32] memory 44% before starting N19C_c608 (1 running)
+[22:30:32] memory 44% before starting N19C_osmake (2 running)
+[22:30:32] ==== START N19C_c608  (probe @ b1ae1c390) ====
+[22:30:32] ==== START N19C_osmake  (probe @ 0f66c4215) ====
+[22:30:35] [res] cpu=10% mem=44% (14.0/31.4 GB) chrome_testing=10  START N19C_osmake
+[22:30:35] [res] cpu=10% mem=44% (14.0/31.4 GB) chrome_testing=10  START N19C_c608
+[22:32:34] 正在跑：FS112（已跑 149 分／上限 360 分）、N19C_c608（已跑 2 分／上限 30 分）、N19C_osmake（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:33:06] [res] cpu=23% mem=47% (15.0/31.4 GB) chrome_testing=18  END N19C_osmake
