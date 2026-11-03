@@ -234,9 +234,9 @@ for t, ss in sorted(tabs.items()):
     for s_ in ss:
         ox = math.sin(s_['yaw']) * -0.04; oz = math.cos(s_['yaw']) * -0.04
         K.shell_chair(sh, s_['x'] + ox, s_['z'] + oz, s_['yaw'], ccol())
-    if t in (6, 9): K.glass_cup(sh, tx + 0.08, tz - 0.05, 0.74, fill='#c9a27a')
-    if t == 12: continue   # v3：轉角那桌是參考圖的前景甜點組（daily_offbeat_v3_fill.py）
-    if t in (7, 10): K.mug(sh, tx - 0.06, tz + 0.04, 0.74, col='#f2efe8'); K.plate(sh, tx + 0.1, tz - 0.08, 0.74, r=0.09)
+    if t in (6, 9, 12): K.glass_cup(sh, tx + 0.08, tz - 0.05, 0.74, fill='#c9a27a')
+    if t == 10: continue   # v3b：東窗邊那桌是參考圖的前景甜點組（daily_offbeat_v3_fill.py）
+    if t in (7, 11): K.mug(sh, tx - 0.06, tz + 0.04, 0.74, col='#f2efe8'); K.plate(sh, tx + 0.1, tz - 0.08, 0.74, r=0.09)
     Xf(tx, tz, 0, 0.74).lathe(sh.a('glass'), [(0.0, 0.0), (0.025, 0.0), (0.028, 0.05), (0.012, 0.1)], 0, 0, 0, seg=10)   # 小花瓶
     Xf(tx, tz).cyl(sh.a('vc'), (0, 0.8, 0), (0.01, 0.92, 0.0), 0.003, col='#6a8a4a', seg=3)
     sh.a('vcg').add_bm(K.paint_bm(L.lathe([(0.0, -0.01), (0.02, -0.004), (0.022, 0.0), (0.0, 0.006)], seg=6), MUSTARD), Matrix.Translation(g2b(tx + 0.01, 0.92, tz)))

@@ -3,7 +3,7 @@
   2. 東牆整面社團佈告欄（corkboard_east）：標題牌、22 種傳單共 34 張（大小、顏色不一、互相疊、歪一點）、便利貼
   3. 地磚縮小、降飽和（aa_int_tex.py dof；主腳本 tile 0.6 → 0.5，一格 0.25 m）；地上多三盆植物
   4. 牆 #f1dfb8（主腳本）
-  5. 前景那桌（table 12，轉角）：磨石子桌面、冰拿鐵、檸檬冰美式（吸管）、肉桂捲、明太子厚片、雛菊玻璃瓶
+  5. 前景那桌（v3b 改 table 10，東窗邊）：磨石子桌面、冰拿鐵、檸檬冰美式（吸管）、肉桂捲、明太子厚片、雛菊玻璃瓶
 """
 R7 = random.Random(1105)
 
@@ -66,7 +66,7 @@ sh.plant(-2.55, Z1 - 0.35, h=0.9, r=0.18, pot_col='#b0653e')       # 店門東�
 sh.plant(3.95, Z1 - 0.3, h=0.7, r=0.15, pot_col='#7d8f52')
 
 # ---------------------------------------------------------------- 4. 前景那桌（table 12）：參考圖右下的甜點組
-t12 = [s_ for s_ in LAY['seats'] if s_['table'] == 12]; ftx = sum(s_['x'] for s_ in t12) / 2; ftz = sum(s_['z'] for s_ in t12) / 2; TH = 0.74
+t12 = [s_ for s_ in LAY['seats'] if s_['table'] == 10]; ftx = sum(s_['x'] for s_ in t12) / 2; ftz = sum(s_['z'] for s_ in t12) / 2; TH = 0.74   # v3b：甜點組搬到東窗邊 table 10（鏡頭改看東牆）
 def iced(x, z, fill_lo, fill_hi, lemon=False):
     Xf(x, z, 0, TH).lathe(sh.a('glass'), [(0.0, 0.0), (0.036, 0.0), (0.042, 0.14), (0.04, 0.145)], 0, 0, 0, seg=12)
     Xf(x, z, 0, TH + 0.005).lathe(sh.a('vcg'), [(0.0, 0.0), (0.033, 0.0), (0.037, 0.06), (0.0, 0.06)], 0, 0, 0, seg=10, col=fill_lo)
