@@ -37,14 +37,12 @@ for ob in list(bpy.data.objects):
 print('lamps', n, flush=True)
 for ob in bpy.data.objects:   # 窗景卡不擋陽光（遊戲裡是背景）
     if 'VIEW' in ob.name and ob.type == 'MESH': ob.visible_shadow = False
-for pat in [A[i + 1] for i, x in enumerate(A) if x == '--hide']:
-    for ob in bpy.data.objects:
-        if pat in ob.name: ob.hide_render = True
+GHIDE = [A[i + 1] for i, x in enumerate(A) if x == '--hide']   # 全部視角都藏（2026-11-03 修：以前每個視角會把它重設回來）
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 os.makedirs(outdir, exist_ok=True)
 for v in views:
     name, eye, look, lens = v[:4]; hide = v[4] if len(v) > 4 else []
     for ob in bpy.data.objects:
-        if ob.type == 'MESH' and ob.name != 'Plane': ob.hide_render = any(h in ob.name for h in hide)
+        if ob.type == 'MESH' and ob.name != 'Plane': ob.hide_render = any(h in ob.name for h in list(hide) + GHIDE)
     cam.data.lens = lens; cam.data.clip_start = 0.05; cam.location = g2b(*eye); d = g2b(*look) - g2b(*eye); cam.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
     sc.render.filepath = os.path.join(outdir, f'{prefix}_{name}.png'); bpy.ops.render.render(write_still=True); print('render', sc.render.filepath, flush=True)

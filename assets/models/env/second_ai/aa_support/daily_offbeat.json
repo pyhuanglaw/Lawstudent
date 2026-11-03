@@ -1,13 +1,13 @@
 {
- "objects": 30,
- "unique_meshes": 30,
- "tris": 47930,
- "tris_drawn": 47930,
- "materials": 18,
+ "objects": 33,
+ "unique_meshes": 33,
+ "tris": 53676,
+ "tris_drawn": 53676,
+ "materials": 12,
  "out": "assets/models/env/second_ai/aa_support/daily_offbeat.glb",
- "bytes": 2433060,
+ "bytes": 3102608,
  "texres": 512,
- "layout": 1,
+ "layout": 2,
  "seats": 32,
- "version": "v2"
+ "version": "v3"
 }

@@ -6,12 +6,12 @@
    yaw：人面向 (sin yaw, cos yaw)——0＝面向 +z（店門）、π＝面向 −z（吧檯）、π/2＝面向 +x、−π/2＝面向 −x。
    blocks：導航阻擋 [x中心, z中心, 寬(x), 深(z)]（牆由區域自己擋）。exit、enterAt 留空（LAWWW2 填）。 */
 const DAILY_OFFBEAT_LAYOUT = {
-  version: 1,
+  version: 2,   /* v2（2026-11-03 AA，LAWWW2 照 SCENE_RULES §12 退回）：前窗改落地窗（窗台 0.05、窗頂 3.15）；東牆的窗縮成 z −3.8～0.3，z 0.55～4.55 做整面社團佈告欄（corkboard_east）；互動點多一個；座位、blocks 沒動 */
   id: 'daily_offbeat', name: '日常失速', glb: 'assets/models/env/second_ai/aa_support/daily_offbeat.glb',
   w: 11.0, d: 10.0, h: 3.4, floor: 'checker_green_cream', wallColor: '#f0dfae',
   note: '轉角一樓 11×10×3.4 m。店門在 +z 西段，+z、+x 兩面大窗（轉角）。後牆西半是開放吧檯（綠磁磚吧檯正面、後面層板、咖啡機、黑板菜單），東半是桌遊櫃；中間一張八人長桌，西牆一排卡座＋軟木公告板，兩面窗邊各三張雙人桌，轉角一張雙人桌。共 32 席（長桌 8、吧檯高腳椅 4、卡座 6、前窗 6、側窗 6、轉角 2）；另有一張空椅子是貓「店長」的位置（不算席位）。',
-  front: {door: {x: -3.9, w: 1.2, h: 2.3}, windows: [[-3.0, 5.2]], sill: 0.45, head: 2.75},
-  side: {right: {windows: [[-3.8, 4.7]], sill: 0.45, head: 2.75}},
+  front: {door: {x: -3.9, w: 1.2, h: 2.3}, windows: [[-3.0, 5.2]], sill: 0.05, head: 3.15, note: 'v2 落地窗（黑鐵窗框每 1.1 m 一格、2.65 m 一道橫框）；外面一條綠色波浪邊遮雨棚（併在 WALL_front；外觀若另外做，LAWWW2 可以刪掉這一條）'},
+  side: {right: {windows: [[-3.8, 0.3]], sill: 0.45, head: 2.75}},
   spawn: {x: -3.9, z: 4.3, yaw: Math.PI},
   exit: null,     /* LAWWW2 填：{at:{x,z}, label:'離開日常失速', to:'wenzhou', spawn:{x,z,yaw}} */
   enterAt: null,  /* LAWWW2 填：溫州街上「進去日常失速」的互動點（世界座標） */
@@ -26,6 +26,7 @@ const DAILY_OFFBEAT_LAYOUT = {
     {kind: 'poster', x: 4.4, y: 1.85, z: -4.99, w: 1.0, h: 1.5, note: '首都帝大海報（後牆東段）'},
     {kind: 'poster', x: 2.1, y: 2.45, z: -4.99, w: 0.9, h: 0.9, note: '虛構的唱片行海報（桌遊櫃上方）'},
     {kind: 'cat_chair', x: 2.45, z: 0.15, ry: -Math.PI / 2, note: '貓「店長」的椅子（長桌東端，空的；椅背貼紙條「店長 請勿打擾」）——3D 的貓這一版沒做，只留位置'},
+    {kind: 'corkboard_east', x: 5.47, y: 1.75, z: 2.55, w: 4.0, h: 1.5, note: 'v2：東牆整面社團佈告欄（參考圖重點）：標題牌「首都帝大學生社團＆活動」、22 種傳單共 44 張互相疊、便利貼'},
     {kind: 'duct', note: '天花板下一條外露的圓風管（z=-1.6）'}
   ],
   blocks: [
@@ -64,7 +65,8 @@ const DAILY_OFFBEAT_LAYOUT = {
     {x: -1.85, z: 0.15, kind: 'boardgame', label: '玩桌遊（長桌；有朋友在的時候）', note: '長桌西端站的位置；桌遊盒在桌上'},
     {x: 2.95, z: 0.15, kind: 'cat', label: '看看店長／摸摸店長', note: '貓的椅子在 (2.45, 0.15)'},
     {x: -3.6, z: 0.3, kind: 'flyers', label: '看公告板', note: '西牆軟木板（社團傳單）'},
-    {x: 2.1, z: -4.0, kind: 'boardgame_shelf', label: '看桌遊櫃'}
+    {x: 2.1, z: -4.0, kind: 'boardgame_shelf', label: '看桌遊櫃'},
+    {x: 3.9, z: 2.35, kind: 'flyers', label: '看社團佈告欄', note: 'v2：東牆的大佈告欄（table 11、12 中間站的位置）'}
   ],
   floorSit: [],
   wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
