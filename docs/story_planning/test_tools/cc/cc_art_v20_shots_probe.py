@@ -2,6 +2,7 @@
 """CC（帳號 A）11-03：v9.10.20 第一批美術整合的遊戲截圖（BB 21:32；開發分支 2aaa7d22b「接 LAWWW2 美術一批」＋d2b962a3f）。
 每一張都是遊戲畫面（不是 Blender 渲染）。能量的照遊戲狀態量（PASS／FAIL）；好不好看留給 BB 看圖。
 CASES（逗號分開，預設全部）：
+- xinhai_ground（BB 22:45）：戶外玩家走得到的點（第 0 層、第 1 層各一）、地面高度、跟隨鏡頭看辛亥路彎道；候選點用射線挑看得到最多的。
 - xinhai：辛亥路彎道第二版（src/zones3d.js:393 XH／ribbon，網格 xinhai_curve_road）。
     ① 【前置／捷徑】讀檔到萬才館二樓陽台（校園第 1 層 (84.96,-87.45)，tests/flow_wancai_floors.py 用的同一點），滑畫面把鏡頭轉向彎道，截 2 張（直路結束處、彎道中段）；
     ② 【捷徑】劇情鏡頭 E.cinematic 放到彎道上空 70 m 俯視，截 1 張（只為了截圖，不是玩家看得到的角度）。
@@ -193,6 +194,61 @@ async def case_xinhai(pg, cdp):
     REC['data']['xinhai_overhead'] = vv
     check('xinhai：俯視看得到彎道中線一半以上的取樣點', vv['seen'] >= len(pts) // 2, '%d／%d' % (vv['seen'], len(pts)))
     await pg.evaluate("GAME.E.endCinematic()")
+
+
+# ---------------------------------------------------------------- xinhai_ground（BB 22:45 選 B：戶外、玩家走得到、地面高度、跟隨鏡頭）
+# 在瀏覽器裡找候選點：校園第 0 層、第 1 層（萬才館大樓梯／平台／陽台）站得住、而且從校園出生點找得到路（E.pathTo）的格子，3 m 一格，離彎道中線 ≤ 70 m；
+# 從眼睛高度（腳下高度＋1.6 m）往彎道中線取樣點打射線（略過人物、看不見的網格），數看得到幾個；每一層挑最多的那一點。
+XHG_FIND = r"""(async pts=>{ const E=GAME.E, Z=GAME.E.zone||{}, sp=Z.spawn||{x:0,z:0,lv:0}, V=(x,y,z)=>new THREE.Vector3(x,y,z);
+  const vis=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
+  const isChar=o=>{ for(let q=o;q;q=q.parent){ const u=q.userData||{}; if(u.vrm||u.driver||u.placeholder) return true; } return false; };
+  const okMat=o=>{ const m=o.material; if(!m) return false; const ms=Array.isArray(m)?m:[m]; return ms.some(x=>x&&x.visible!==false&&!(x.transparent&&x.opacity<0.05)&&x.colorWrite!==false); };
+  const objs=[]; E.scene.traverse(o=>{ if(o.isMesh&&vis(o)&&okMat(o)&&!isChar(o)) objs.push(o); });
+  const rc=new THREE.Raycaster();
+  const seenFrom=(eye,P)=>{ let n=0; for(const q of P){ const t=V(q[0],q[1]+0.05,q[2]), d=t.clone().sub(eye), L=d.length(); d.normalize(); rc.set(eye,d); rc.near=0.05; rc.far=L+0.5;
+      const h=rc.intersectObjects(objs,false)[0]; if(!h||h.object.name==='xinhai_curve_road'||h.distance>=L-1.5) n++; } return n; };
+  const near=(x,z)=>{ let m=1e9; for(const q of pts) m=Math.min(m,Math.hypot(q[0]-x,q[2]-z)); return m; };
+  const hy=(x,z,lv)=>{ try{ if(E.visualHeightAt) return +E.visualHeightAt(x,z,lv)||0; if(E.heightAt) return +E.heightAt(x,z,lv)||0; }catch(e){} return 0; };
+  const sub=pts.filter((q,i)=>i%3===0); const out={};
+  const levels=E.levels||[E.nav];
+  for(let lv=0;lv<levels.length&&lv<2;lv++){ const nv=levels[lv]; const cand=[];
+    let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9; for(const q of pts){ x0=Math.min(x0,q[0]); x1=Math.max(x1,q[0]); z0=Math.min(z0,q[2]); z1=Math.max(z1,q[2]); }
+    for(let x=Math.floor(x0-70);x<=x1+70;x+=3) for(let z=Math.floor(z0-70);z<=z1+70;z+=3){ if(!nv.free(x,z)) continue; const d=near(x,z); if(d>70) continue; cand.push([x,z,d]); }
+    cand.sort((a,b)=>a[2]-b[2]); const top=cand.slice(0,140); const res=[];
+    for(const c of top){ const r=E.pathTo(sp.x,sp.z,sp.lv|0,c[0],c[1],lv); if(!r||!r.length) continue; const y=hy(c[0],c[1],lv); const n=seenFrom(V(c[0],y+1.6,c[1]),sub); res.push({x:c[0],z:c[1],lv,y:+y.toFixed(2),d:+c[2].toFixed(1),seen:n}); }
+    res.sort((a,b)=>b.seen-a.seen||a.d-b.d); out[lv]={cands:cand.length, tried:top.length, reach:res.length, best:res.slice(0,5), of:sub.length};
+    await new Promise(r=>setTimeout(r,50)); }
+  return out; })(%s)"""
+
+
+async def case_xinhai_ground(pg, cdp):
+    await put(pg, cdp, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 3, 'weather': 'clear', 'pos': {'x': 84.96, 'z': -95.0, 'yaw': 0, 'lv': 0}},
+              '校園 10:00 晴（先讀出彎道、找候選點）', 12000); await helpers(pg)
+    g = await pg.evaluate(XH_JS)
+    check('xinhai_ground：背景有彎道路面網格', g.get('road'), J({k: g.get(k) for k in ('road', 'n', 'bbox')}))
+    if not g.get('road'): return
+    pts = g['pts']
+    fd = await pg.evaluate(XHG_FIND % J(pts))
+    note('候選點（每層前 5 名；seen＝眼睛高度看得到幾個取樣點／%s）：%s' % (fd.get('0', {}).get('of'), J(fd)))
+    REC['data']['xinhai_ground_find'] = fd
+    got = []
+    for lv in ('0', '1'):
+        b = (fd.get(lv) or {}).get('best') or []
+        if not b: note('第 %s 層：沒有走得到、離彎道 70 m 內的點' % lv); continue
+        c = b[0]
+        await put(pg, cdp, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 3, 'weather': 'clear', 'pos': {'x': c['x'], 'z': c['z'], 'yaw': 0, 'lv': int(lv), 'y': c['y']}},
+                  '第 %s 層看彎道最多的點（%s,%s）' % (lv, c['x'], c['z']), 10000); await helpers(pg)
+        # 鏡頭轉向離那一點最近的彎道中線點（滑畫面＝玩家的做法；跟隨鏡頭的俯角、距離都不動）
+        q = min(pts, key=lambda q: (q[0] - c['x']) ** 2 + (q[2] - c['z']) ** 2)
+        ok = await L.turn_camera_to(pg, cdp, q[0], q[2], tries=6); await pg.wait_for_timeout(2500)
+        s = await L.state(pg); vv = await pg.evaluate(XH_VIS_JS % J(pts)); cam = await pg.evaluate("window.__CC.cam()")
+        f = await shot(pg, 'xinhai_ground_lv%s' % lv)
+        note('第 %s 層 (%s,%s)：人在 %s、轉到了 %s；跟隨鏡頭 %s；中線點在畫面裡 %d、看得到 %d／%d、擋住 %s → %s' % (lv, c['x'], c['z'], J({k: s[k] for k in ('x', 'z', 'lv')}), ok, J(cam), vv['inView'], vv['seen'], len(pts), J(vv['blockers']), f))
+        got.append({'lv': lv, 'at': c, 'cam': cam, 'vis': vv, 'shot': f})
+    REC['data']['xinhai_ground'] = got
+    check('xinhai_ground：兩層都找到走得到的點並截圖', len(got) == 2, J([[x['lv'], x['at']] for x in got]))
+    # 量（記錄用，給 BB 判斷玩家會不會看到辛亥路）：跟隨鏡頭下看得到幾個中線點
+    note('結論資料：' + J([[x['lv'], x['vis']['inView'], x['vis']['seen']] for x in got]))
 
 
 # ---------------------------------------------------------------- study08
@@ -553,7 +609,7 @@ async def main():
         await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
         await helpers(pg)
         for c in CASES:
-            fn = {'xinhai': case_xinhai, 'study08': case_study08, 'sixlaw': case_sixlaw, 'teahouse': case_teahouse, 'aunts': case_aunts, 'cat': case_cat}.get(c)
+            fn = {'xinhai': case_xinhai, 'xinhai_ground': case_xinhai_ground, 'study08': case_study08, 'sixlaw': case_sixlaw, 'teahouse': case_teahouse, 'aunts': case_aunts, 'cat': case_cat}.get(c)
             if not fn: note('不認得的 CASE：%s' % c); continue
             t0 = time.time(); print('== %s' % c, flush=True)
             try:
