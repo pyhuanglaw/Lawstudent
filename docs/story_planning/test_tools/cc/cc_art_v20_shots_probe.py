@@ -30,7 +30,7 @@ CASES（逗號分開，預設全部）：
        玩家站著不動等貓走過來蹭。dir＝1（玩家在貓的左邊）、dir＝−1（右邊）各一次，蹭的時候每 0.5 秒截一張（共 6 張）。
        量：播的片段是 cat_rub（dir 1）／cat_rub_r（dir −1）；蹭的那幾格裡，玩家在貓身體的左邊（貓朝向的左手邊）／右邊的比例 ≥ 0.6。
     ② 每一段片段在遊戲裡的樣子：【捷徑】直接用貓的 mixer 播 cat_walk、cat_idle、cat_sit、cat_sit_idle、cat_lie_idle、cat_jump_down、cat_jump_up 各 1 張（貓停住、鏡頭拉近）；
-       量：九段都在 GLB 裡（mixer 的 action 有）、播了以後骨架有動（頭或尾巴尖的骨頭在 2 秒內移動 > 5 mm；第一次只看 0.6 秒，cat_sit_idle 4 秒一圈的慢甩尾只量到 3 mm）。
+       量：九段都在 GLB 裡（mixer 的 action 有）、播了以後骨架有動（任一根骨頭在 2 秒內移動 > 5 mm；也記錄頭、tail5；第一次只看 0.6 秒，cat_sit_idle 4 秒一圈的慢甩尾只量到 3 mm）。
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=xinhai,study08,sixlaw,teahouse,aunts,cat] python3 cc_art_v20_shots_probe.py <url> <out>   （PC 用 CC_HEADLESS=0）
 """
 import os, sys, json, math, asyncio, time
@@ -528,17 +528,18 @@ async def case_cat(pg, cdp):
     for clip in ('cat_walk', 'cat_idle', 'cat_sit', 'cat_sit_idle', 'cat_rub', 'cat_rub_r', 'cat_lie_idle', 'cat_jump_down', 'cat_jump_up'):
         r = await pg.evaluate(r"""(async name=>{ const c=WZCAT._cat(); if(!c||!c.act[name]) return {err:'沒有 '+name}; for(const k in c.act){ c.act[k].stop(); } const a=c.act[name]; a.reset(); a.setLoop(THREE.LoopRepeat,Infinity); a.clampWhenFinished=false; a.timeScale=1; a.enabled=true; a.setEffectiveWeight(1); a.play(); c.cur=name;
             const bones={}; c.obj.traverse(o=>{ if(o.isBone) bones[o.name]=o; }); const names=Object.keys(bones); const head=names.find(n=>/head/i.test(n)), tail=names.filter(n=>/tail/i.test(n)).pop(); const P=n=>bones[n]?bones[n].getWorldPosition(new THREE.Vector3()):null;
-            const ps=[]; for(let i=0;i<9;i++){ c.mixer.update(0.25); c.obj.updateMatrixWorld(true); ps.push([P(head),P(tail)]); }
-            let mh=0, mt=0; for(let i=1;i<ps.length;i++){ if(ps[i][0]&&ps[0][0]) mh=Math.max(mh,ps[i][0].distanceTo(ps[0][0])); if(ps[i][1]&&ps[0][1]) mt=Math.max(mt,ps[i][1].distanceTo(ps[0][1])); }
-            c.mixer.timeScale=0; return {head, tail, moveHead:+mh.toFixed(4), moveTail:+mt.toFixed(4)}; })(%s)""" % J(clip))
+            const ps=[]; for(let i=0;i<9;i++){ c.mixer.update(0.25); c.obj.updateMatrixWorld(true); ps.push(names.map(P)); }
+            const hi=names.indexOf(head), ti=names.indexOf(tail); let mh=0, mt=0, ma=0, mb=null;   /* ma＝所有骨頭裡動最多的（趴姿只有呼吸、尾巴尖：頭和 tail5 量不到）*/
+            for(let i=1;i<ps.length;i++) for(let k=0;k<names.length;k++){ const d=ps[i][k].distanceTo(ps[0][k]); if(k===hi) mh=Math.max(mh,d); if(k===ti) mt=Math.max(mt,d); if(d>ma){ ma=d; mb=names[k]; } }
+            c.mixer.timeScale=0; return {head, tail, moveHead:+mh.toFixed(4), moveTail:+mt.toFixed(4), moveMax:+ma.toFixed(4), maxBone:mb}; })(%s)""" % J(clip))
         await pg.evaluate("(()=>{ const c=WZCAT._cat(); const p=c.obj.position; const E=GAME.E; E.cinematic(new THREE.Vector3(p.x+1.1,0.75,p.z+1.1), new THREE.Vector3(p.x,0.18,p.z)); E.snapCinematic&&E.snapCinematic(); })()")
         await pg.wait_for_timeout(1500)
         f = await shot(pg, 'cat_clip_%s' % clip)
         await pg.evaluate("WZCAT._cat().mixer.timeScale=1")
         seg[clip] = r; note('%s：%s → %s' % (clip, J(r), f))
     REC['data']['cat_clips'] = seg
-    moved = {k: v for k, v in seg.items() if not v.get('err') and max(v['moveHead'], v['moveTail']) > 0.005}
-    check('cat：九段片段播了以後骨架有動（頭或尾巴 2 秒內 > 5 mm）', len(moved) == 9, J({k: [v.get('moveHead'), v.get('moveTail'), v.get('err')] for k, v in seg.items()}))
+    moved = {k: v for k, v in seg.items() if not v.get('err') and v['moveMax'] > 0.005}
+    check('cat：九段片段播了以後骨架有動（任一根骨頭 2 秒內 > 5 mm）', len(moved) == 9, J({k: [v.get('moveHead'), v.get('moveTail'), v.get('moveMax'), v.get('maxBone'), v.get('err')] for k, v in seg.items()}))
     await pg.evaluate("GAME.E.endCinematic()")
 
 
