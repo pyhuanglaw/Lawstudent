@@ -1,0 +1,26 @@
+{
+ "objects": 316,
+ "unique_meshes": 80,
+ "tris": 41500,
+ "tris_drawn": 73432,
+ "materials": 12,
+ "out": "../model/out_xs2/xinsheng.glb",
+ "bytes": 2515404,
+ "texres": 512,
+ "layout": 1,
+ "tris_per_level": {
+  "0": 58772,
+  "1": 14660
+ },
+ "materials_per_level": {
+  "0": 10,
+  "1": 10
+ },
+ "textures": [
+  "large_floor_tiles_02",
+  "painted_plaster_wall",
+  "walnut_veneer",
+  "granite_tile_03",
+  "xs_print（PIL 產生：球的接縫、背號）"
+ ]
+}
