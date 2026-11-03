@@ -2383,6 +2383,30 @@
       "kind": "原話",
       "status": "進行中",
       "task": "AA624-YT-BACKGROUND-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-36",
+      "at": "2026-11-03T11:2x",
+      "quote": "不等 BB，現在就發布（選擇題：v9.10.18 怎麼排）",
+      "kind": "選擇題答案",
+      "status": "進行中",
+      "task": "RELEASE-V91018-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-37",
+      "at": "2026-11-03T11:3x",
+      "quote": "你丟測試給GITHUB免費測試的",
+      "kind": "原話",
+      "status": "進行中",
+      "task": "RELEASE-V91018-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-38",
+      "at": "2026-11-03T11:3x",
+      "quote": "要瀏覽器測試的請bb優先建",
+      "kind": "原話",
+      "status": "進行中",
+      "task": "RELEASE-V91018-1103"
     }
   ]
 }

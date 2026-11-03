@@ -42963,6 +42963,26 @@
       "evidence": "AA_628（企劃線 e54b6470d）：18 支匯入工具重跑輸出一字不差；--check 差異＝白名單待前進（wish_aa、wish_bb、AA_127、BB_128、AA_373、date_locations、D13）",
       "note": "注意（所有職位）：過時產生器（wish_aa/wish_bb、以安閒聊階梯八支、D03、md_to_json_D13、solo_before_bb、exam_ai 兩支、syllabus 兩支）不要拿來重建，以 JSON 為準；exam_official 的 check_official.py 不要加 --sync（會把 8 門課從 ENABLED 改回 INSUFFICIENT）",
       "next": "白名單前進那幾個照語彤第三版批次一起做"
+    },
+    {
+      "first": {
+        "term": "Y0S1",
+        "week": null,
+        "earliest": "線上版",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "RELEASE-V91018-1103",
+      "title": "發布 v9.10.18（發布樹 0776cafc8＝候選 ffeec06e0＋版本字樣）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P0",
+      "note": "使用者 11-03 11:2x 選「不等 BB 現在就發布」，接著說「你丟測試給 GITHUB 免費測試的」「要瀏覽器測試的請 bb 優先建」：Node 交 GHA、瀏覽器發布前清單交 BB／CC 優先",
+      "next": "GHA Node（a64ddbf1 觸發）＋BB 瀏覽器清單 → PR dev→main → Pages 確認"
     }
   ]
 }
