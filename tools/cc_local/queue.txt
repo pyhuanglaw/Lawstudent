@@ -232,10 +232,11 @@ R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_pr
 R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
 R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 
-# ── D 類 B 項（BB 09:08，低優先；BB 10:42 改指 v9.10.18 候選 e79973830（取代 84c5））：有現成 flow 的直接排 PC
-D_B02_playfix | e79973830 | game  | tests/flow_playtest_fixes.py | index.html | 120 | XARGS={url} {out}
-#取代為 V18_LIBTOUR（原測試取樣漏記）# D_B08_libtour | e79973830 | game  | tests/flow_lib_tour.py       | index.html | 90  | XARGS={url} {out}
-D_B12_skybr   | e79973830 | game  | tests/flow_skybridge.py      | index.html | 90  | XARGS={url} {out}
-D_RUN_p0      | e79973830 | game  | tests/p0_movement.py         | index.html | 30  | XARGS={url}
-D_RUN_movreg  | e79973830 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
-V18_LIBTOUR   | e79973830 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
+# ── D 類 B 項（BB 09:08，低優先；BB 10:59 改指 v9.10.18 候選 ffeec06e0（取代 e799、84c5））：有現成 flow 的直接排 PC
+#取代為 V18_PLAYFIX（原測試讀檔後手機自己打開、tick 暫停）# D_B02_playfix | ffeec06e0 | game  | tests/flow_playtest_fixes.py | index.html | 120 | XARGS={url} {out}
+#取代為 V18_LIBTOUR（原測試取樣漏記）# D_B08_libtour | ffeec06e0 | game  | tests/flow_lib_tour.py       | index.html | 90  | XARGS={url} {out}
+D_B12_skybr   | ffeec06e0 | game  | tests/flow_skybridge.py      | index.html | 90  | XARGS={url} {out}
+D_RUN_p0      | ffeec06e0 | game  | tests/p0_movement.py         | index.html | 30  | XARGS={url}
+D_RUN_movreg  | ffeec06e0 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
+V18_LIBTOUR   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
+#HOLD雲端 V18_PLAYFIX   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_playfix_probe.py | index.html | 120 |
