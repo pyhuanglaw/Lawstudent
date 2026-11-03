@@ -41130,10 +41130,10 @@
       "id": "BUG-SLEEP-CINEMATIC-1103",
       "title": "每天睡覺不要再演走上床、躺下、熄燈；第二天只要從床上起來就好",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 08:1x 實玩回報（X155）",
-      "next": "LAWWW 找睡覺流程（home／dorm 上床那一段）改成：選睡覺→直接黑幕跳到隔天起床；起床照舊從床上起來。第一次（或劇情指定的）要不要保留，照使用者原話＝不保留"
+      "next": "已在開發分支（story3d.js goToBed：淡出裡直接放到床上、燈已熄；原本的演出留在 goToBedFull、S.SLEEP_FULL=false）；醒來照舊從床上爬下來；tests/dorm_sleep_scene_unit.js ⑩（修改前 FAIL）→ BB 瀏覽器驗"
     },
     {
       "first": {
