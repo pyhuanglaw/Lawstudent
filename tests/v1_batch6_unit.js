@@ -51,12 +51,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 阿哲在旁邊（6 m 內）才演；離太遠不演',!far&&!!near,JSON.stringify({far,near}));
     await new Promise(r=>setTimeout(r,0));
     const L=lines();
-    check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）；AA_606 3-3：大一上還不認識 Alison＝開頭 Alison 跟著來（預設第一個選項）',JSON.stringify(L)===JSON.stringify(['（麵店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。']),JSON.stringify(L));
+    check('A9 台詞（AA_542 1-2「第一次併桌」；原本 AA_40 哲 1「規矩很簡單：週二週四，麵店。不用約，來就有人。」收回）；AA_606 3-3：大一上還不認識 Alison＝開頭 Alison 跟著來（預設第一個選項）',JSON.stringify(L)===JSON.stringify(['（燒臘店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','好了啦，點菜。','（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃燒臘的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃飯就來，遇到就一起坐。']),JSON.stringify(L));
     { const k=said.findIndex(x=>x.t==='你們？法律系的？'); check('A9 阿姨的台詞名字是「阿姨」',k>=0&&said[k].who==='阿姨',JSON.stringify(said[k])); }
-    check('A9 記下哪一天（noodleTableDay）、只一次',G.flags.noodleTableDay===W4THU&&!EVENTS.check(e));
+    check('A9 只一次；不再記 noodleTableDay（AA_623：群組改在第一次桌遊夜由明軒建立，長桌不加群組）',G.flags.noodleTableDay==null&&!EVENTS.check(e));
     /* 麵店團群組 */
     run(18.2,20); const gm=G.msgs.filter(m=>m.th==='g:noodle_team');
-    check('A9 之後：加入「法一吃飯」群組（AA_542 2-1），一則系統訊息（阿哲建立了群組）＋阿哲兩則「吃飯用」「誰要吃什麼就喊」（AA_542 2-2），沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='法一吃飯'&&gm.length===3&&gm[0].text==='阿哲建立了群組「法一吃飯」，把你加了進來。'&&!gm[0].from&&gm[1].from==='zhe'&&gm[1].text==='吃飯用'&&gm[2].from==='zhe'&&gm[2].text==='誰要吃什麼就喊'&&!gm.some(m=>m.tag&&m.tag.startsWith('rt_zhe_ndl_')),JSON.stringify(gm.map(m=>m.text)));
+    check('A9 之後：不加入群組、沒有「阿哲建立了群組」（AA_623：群組是「桌遊團」，第一次桌遊夜明軒建立，見 tests/aa623_boardgame_unit.js），沒有揪',!PHONE.inGroup(G,'noodle_team')&&gm.length===0,JSON.stringify(gm.map(m=>m.text)));
     const pings=[]; let day=W4THU+1;
     for(;day<=W4THU+14;day++){ keepOn(day,7.5,'campus'); run(7.5,23.5,0.1); }
     const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/

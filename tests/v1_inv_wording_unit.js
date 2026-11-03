@@ -25,7 +25,7 @@ const AA194='docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md'
 const show=(sha,p)=>{ try{ return cp.execSync('git -C "'+H.ROOT+'" show '+sha+':"'+p+'"',{encoding:'utf8'}); }catch(e){ return ''; } };
 /* 這次換上去的句子（企劃原文）：[來源, 句子] */
 const NEW=[['A','「好。」'],['A','（她把手機遞過來，自己先掃了你的。）'],['A','「加了。」'],['A','「你有在看考古題嗎？有的話我傳給你。」'],['A','「我加你了。」'],['A','「有缺講義的話跟我說，我都有拍。」'],
-  ['A','「你寫題目都先想要件，還是先想結論？我都先想結論，最近在改。」'],['A','「沒事啦。」'],['A','「好啊！那家的乾麵我可以吃兩碗。」'],['A','「我要念書，{zh}可以。」'],['A','「好，我記一下。」'],['A','「今天的我都排好了，{zh}可以嗎？」'],
+  ['A','「你寫題目都先想要件，還是先想結論？我都先想結論，最近在改。」'],['A','「沒事啦。」'],['A','「好啊！那家的叉燒飯我可以吃兩盤。」'],['A','「我要念書，{zh}可以。」'],['A','「好，我記一下。」'],['A','「今天的我都排好了，{zh}可以嗎？」'],
   ['B','「我們那層的洗衣機又壞了，我衣服已經堆三天了。」'],['B','「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」'],['B','「喔，所以告跟叫警察不一樣。好，我學到了。」'],['B','「沒有啦，我只是想知道我能不能。」'],['B','「好，你吃。」'],['B','（過了十秒）'],['B','「……吃完了嗎？」'],
   ['B','「十二點？好，那是我的早餐。」'],['B','「茶屋要脫鞋嗎？……好，我襪子有洞。」'],['B','「那裡有插座嗎 我要帶電腦」'],['B','「那裡有插座嗎？我要帶電腦。」'],['B','「走 我剛好還沒吃」'],['B','「走，我剛好還沒吃。」'],['B','「散步要幹嘛？」'],['B','「好。」'],['B','「早上不行，我在睡覺。」'],['B','「總圖我會睡著。」'],['B','「考前一週我會去，真的。」'],
   ['B','「好。二四六晚上我在家教，九點以後才會回。」'],['B','「我家教那個學生問我，念法律是不是要背很多東西。」'],['B','「我跟他說，要背，背完還要會用。」'],['B','「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」'],['B','「他在看我們比賽的直播。……到現在還是看不懂。」'],['B','「這條路我每個禮拜都走好幾次，去家教都走這邊。」'],
@@ -65,7 +65,7 @@ await sec(2,()=>{ fresh('2025-10-15','heroine_01',45,30); let pk=INV.walkPick(H.
   check('2. 看過 Z6 以後：「芷若高中就這樣，下課都是她在講。」',seen2.includes('「芷若高中就這樣，下課都是她在講。」'),J(seen2)); });
 
 await sec(3,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'zhe',30,10);
-  check('3. 阿哲約吃飯：「好啊！那家的乾麵我可以吃兩碗。」（AA_194）',txt(ask('zhe','noodle',12+10/60).lines)==='「好啊！那家的乾麵我可以吃兩碗。」');
+  check('3. 阿哲約吃飯：「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194）',txt(ask('zhe','noodle',12+10/60).lines)==='「好啊！那家的叉燒飯我可以吃兩盤。」');
   fresh(key(MON),'kai',30,10);
   check('3. 阿凱約吃飯：手機「走 我剛好還沒吃」、當面「走，我剛好還沒吃。」（K6）',txt(ask('kai','noodle',12+10/60).lines)==='「走 我剛好還沒吃」'&&txt(ask('kai','noodle',12+10/60,null,true).lines)==='「走，我剛好還沒吃。」');
   check('3. 阿凱約 Café（認識）：手機「那裡有插座嗎 我要帶電腦」、當面「那裡有插座嗎？我要帶電腦。」（K5）',txt(ask('kai','cafe',15.5).lines)==='「那裡有插座嗎 我要帶電腦」'&&txt(ask('kai','cafe',15.5,null,true).lines)==='「那裡有插座嗎？我要帶電腦。」');
@@ -113,9 +113,9 @@ await sec(5,()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'heroine_01',25,
   const same=cp.execSync('git -C "'+H.ROOT+'" status --porcelain -- src/data/invite_replies.js',{encoding:'utf8'}).trim()==='';
   check('5. build_replies.py 照樣通過（AA_415 的「現有」都對得上），重新產生的檔案沒有變',rc===0&&/heroine_01 39 列/.test(out)&&same,out.slice(0,160)); });
 
-await sec(6,async()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去阿鳳麵店吃飯','今天 12:10']; await INV.flow(GM,'kai',null,false);
+await sec(6,async()=>{ const MON=termDay('Y1S1',6,1); fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去公館燒臘吃飯','今天 12:10']; await INV.flow(GM,'kai',null,false);
   check('6. 手機約阿凱吃飯：念手機版「走 我剛好還沒吃」',H.said.some(s=>s.t==='「走 我剛好還沒吃」'&&/手機/.test(s.who||'')),J(H.said));
-  fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去阿鳳麵店吃飯','今天 12:10']; const n={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; await INV.flow(GM,'kai',n,false);
+  fresh(key(MON),'kai',30,10); H.said=[]; H.picks=['去公館燒臘吃飯','今天 12:10']; const n={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; await INV.flow(GM,'kai',n,false);
   check('6. 當面約阿凱吃飯：念當面版「走，我剛好還沒吃。」',H.said.some(s=>s.t==='「走，我剛好還沒吃。」'),J(H.said)); });
 
 H.done();
