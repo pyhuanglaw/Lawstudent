@@ -1,4 +1,5 @@
 {
+ "_obsolete": "【作廢】（2026-11-03 使用者「標作廢就好」，AA_628）：這份比 BB_128 3-6 舊 16 句，遊戲不讀它（date_lines.js 已經是新句）。不要再用、不要重建；現行內容以 BB_128 3-6 和 src/data/date_lines.js 為準。",
  "_comment": "DATE_LINES_COMMON（BB_128 2-9、3-6）：BB 五位。每個 key 是好幾套，擇一、輪流（排除最近用過的）。一行 {who,text}。以安、語彤由 AA-B 另做。",
  "rules": {
   "cancel": "取消不扣分",

@@ -1178,6 +1178,16 @@
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "AA_625 那句改掉；AA_596 第八節第 7 點"
+  },
+  {
+   "id": "UA-AA-1103-84",
+   "at": "2026-11-03",
+   "quote": "標作廢就好",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "STALE-SCRIPTS-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "common_bb.json、BB_102 大四上 md 標作廢"
   }
  ]
 }

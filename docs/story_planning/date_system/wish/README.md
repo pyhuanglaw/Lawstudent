@@ -81,3 +81,5 @@
   - `ev_an_choice_y4`：以安新 18，公法研究所。
   - `ev_yutong_free_thursday`：語彤事件 13，空出來的週四。
   - `GROUP_TRIP_TAMSUI_WITH_YUTONG`：玩家揪過一群人去淡水，語彤也去了。
+
+- **common_bb.json 作廢**（2026-11-03，AA_628）：比 BB_128 3-6 舊，遊戲不讀；現行以 BB_128 3-6、src/data/date_lines.js 為準。
