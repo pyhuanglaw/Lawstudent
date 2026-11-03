@@ -47,7 +47,7 @@ const day=k=>STORY.dayOfKey(k);
   check('A5. 沒有大地遊戲三關（CAMP_FIELD_N、CAMP_F1～3）、不設 MX_CAMP_PAIR；營火認識沛珊＝有她的聯絡方式',F.CAMP_FIELD_N==null&&!F.CAMP_F1&&!F.CAMP_F2&&!F.CAMP_F3&&!F.MX_CAMP_PAIR&&INV.hasContact(G,'classmate_peishan'),JSON.stringify({n:F.CAMP_FIELD_N,mx:F.MX_CAMP_PAIR}));
   check('A6. 回家旁白（AA_205 2-2）在最後',said.some(t=>t==='（回到家，你把營地帶回來的衣服丟進洗衣機。）'));
   const grpNew=G.msgs.filter(m=>m.th==='g:law_new');
-  check('A7. 手機：系學會新生群組有 8/15 公告與 8/21 小隊名單（含玩家名字與凱文）',PHONE.inGroup(G,'law_new')&&grpNew.some(m=>m.day===day('2025-08-15')&&/新生都要參加/.test(m.text))&&grpNew.some(m=>m.day===day('2025-08-21')&&/祐廷/.test(m.text)&&/凱文/.test(m.text)),grpNew.map(m=>m.day+':'+m.text.slice(0,12)).join(' | '));
+  check('A7. 手機：系學會新生群組有 8/15 公告與 8/21 小隊名單（AA 11-03：旁白一句、不列名字）',PHONE.inGroup(G,'law_new')&&grpNew.some(m=>m.day===day('2025-08-15')&&/新生都要參加/.test(m.text))&&grpNew.some(m=>m.day===day('2025-08-21')&&m.text==='（小隊名單貼出來了。第七小隊七個人，你認得的只有自己的名字。）'&&!m.from)&&!grpNew.some(m=>/凱文|江明軒|許柏翰|張哲維/.test(m.text)),grpNew.map(m=>m.day+':'+m.text.slice(0,12)).join(' | '));
   const q=(G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
   check('A8. 第七小隊群組：8/24 21:00 合照、8/29 17:30 阿哲「我在高鐵上了」（AA_205 6-14①）',PHONE.inGroup(G,'camp_squad_y1')&&q.includes('camp_squad_photo@'+day('2025-08-24')+'/21')&&q.includes('camp_squad_829@'+day('2025-08-29')+'/17.5'),q.join(' '));
   check('A9. 接著 8/29 搬宿舍：第 −18 天、錢 7,000、進宿舍',G.day===day('2025-08-29')&&G.money===7000&&entered.includes('dorm')&&cards.some(c=>/8 月 29 日/.test(c)),G.day+' '+G.money+' '+entered.join());
@@ -55,11 +55,11 @@ const day=k=>STORY.dayOfKey(k);
   // ---------- F 8/29 搬進宿舍（AA_195 4-2＋BB_168 第 1 節 ev_kai_movein）----------
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0), km=(G.social.mem.kai||[]).find(m=>m.tag==='FIRST_MET');
     check('F1. 日期卡「8 月 29 日（五）｜16:05 · 男生宿舍」',cards.includes('8 月 29 日（五）｜16:05 · 男生宿舍'),cards.slice(-2).join(' / '));
-    const o=[ix('行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'),ix('（靠窗那張書桌已經有人用了。'),ix('柏翰：（從書裡抬頭）喔，是你。'),ix('柏翰：門口那張床是你的。我早上就來了。'),ix('（另一張書桌前也有人。'),ix('阿凱：（回頭）喔，嗨。'),ix('阿凱：你那組在門口那邊喔？我東西先放了一點過去，等一下拿走。'),ix('阿凱：好，謝謝。'),ix('（門被撞開。阿哲拖著一個超大的行李箱'),ix(F.ZHE_CALLS_GE?'阿哲：哥！你也這間喔！':'阿哲：欸！你也這間喔！'),ix('阿哲：（看到柏翰）柏翰也在？那宿營那間只差一個明軒。'),ix('柏翰：明軒住別棟。'),ix('阿凱：（戴著耳機，頭沒有回，舉了一下手）'),ix('阿凱：門關一下，冷氣會跑掉。'),ix('（你們各自整理到快十點。'),ix('以前遇到事情，你會去翻民法。'),ix('休學到重考的那幾個月，你不是一個人過的。'),ix('（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）'),ix('阿凱（手機）：你的冷氣遙控器在我這'),ix('（阿哲說他都可以，柏翰已經戴上耳塞了。）'),ix('（遙控器最後放在你和阿凱的書桌中間。）')];
+    const o=[ix('行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'),ix('（靠窗那張書桌已經有人用了。'),ix('柏翰：（從書裡抬頭）你也住這間？'),ix('柏翰：門口那張床是你的。我早上就來了。'),ix('（另一張書桌前也有人。'),ix('阿凱：（回頭）喔，嗨。'),ix('阿凱：你那組在門口那邊喔？我東西先放了一點過去，等一下拿走。'),ix('阿凱：好，謝謝。'),ix('（門被撞開。阿哲拖著一個超大的行李箱'),ix('阿哲：欸？撕名牌那個！你也住這間喔？'),ix('阿凱：（戴著耳機，頭沒有回，舉了一下手）'),ix('阿凱：門關一下，冷氣會跑掉。'),ix('（你們各自整理到快十點。'),ix('以前遇到事情，你會去翻民法。'),ix('休學到重考的那幾個月，你不是一個人過的。'),ix('（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）'),ix('阿凱（手機）：你的冷氣遙控器在我這'),ix('（阿哲說他都可以，柏翰已經戴上耳塞了。）'),ix('（遙控器最後放在你和阿凱的書桌中間。）')];
     check('F2. 順序：行李箱 → 柏翰已在（AA_208 2-1）→ 阿凱初遇（預設選第一個「好，謝謝」）→ 19:00 阿哲到（ZHE_CALLS_GE「哥！」／沒有「欸！」）→ 整理到快十點 → DAY1_NARR 三句 → 十點四十的旁白 → 22:40 冷氣訊息 → 阿哲、柏翰那句 → 遙控器',o.every((v,k)=>v>=0&&(k===0||v>o[k-1])),o.join(','));
     check('F3. MET_KAI、KAI_MOVEIN、阿凱 FIRST_MET＝dorm、ACQUAINTANCE、手機聯絡人有阿凱',F.MET_KAI===true&&F.KAI_MOVEIN===true&&km&&km.note==='dorm'&&SOCIAL.stage('kai')==='ACQUAINTANCE'&&G.contacts.kai!=null,JSON.stringify({km,st:SOCIAL.stage('kai')}));
-    { const bm=(G.social.mem.classmate_bohan||[]).find(m=>m.tag==='FIRST_MET'), i1=ix('柏翰：（從書裡抬頭）喔，是你。'), i2=ix('柏翰：許柏翰。新竹。'), i3=ix('柏翰：門口那張床是你的。我早上就來了。');
-      check('F3b. AA_608 10-3：柏翰宿營不出場，搬進 203 時以室友身分認識——「許柏翰。新竹。」接在「喔，是你。」後面、記 FIRST_MET dorm；對話框寫「柏翰」',i1>=0&&i2===i1+1&&i3===i2+1&&bm&&bm.note==='dorm',JSON.stringify([i1,i2,i3,bm])); }
+    { const bm=(G.social.mem.classmate_bohan||[]).find(m=>m.tag==='FIRST_MET'), i1=ix('柏翰：（從書裡抬頭）你也住這間？'), i2=ix('柏翰：許柏翰。新竹。'), i3=ix('柏翰：門口那張床是你的。我早上就來了。');
+      check('F3b. AA_608 10-3：柏翰宿營不出場，搬進 203 時以室友身分認識——「許柏翰。新竹。」接在「你也住這間？」後面（AA 11-03）、記 FIRST_MET dorm；對話框寫「柏翰」',i1>=0&&i2===i1+1&&i3===i2+1&&bm&&bm.note==='dorm',JSON.stringify([i1,i2,i3,bm])); }
     check('F4. 坐到書桌前（第一次）、站起來；22:40 以後、冷氣 27 度、目標「整理行李。缺的東西明天去公館買。」',GM.sat&&GM.sat.x===1.8&&GM.stood&&G.hour>=22+40/60-1e-6&&F.DORM_AC===27&&G.goal==='整理行李。缺的東西明天去公館買。'&&F.DAY1_NARR_SEEN===true,G.hour+' '+G.goal);
     { const want=[['kai','R2'],['classmate_bohan','R1'],['zhe','L1']], log=GM.spawnLog||[], at=id=>log.find(x=>x[0]===id);   /* QA-HANDOFF-B1：原本判斷 E.zone.id（區域物件沒有 id），三個室友一直沒生出來；替身的 E.zone 一樣沒有 id */
       check('F4b. 轉場後三個室友坐在四人房自己的書桌前：阿凱 R2、柏翰 R1、阿哲 L1（AA_208）',want.every(([id,u])=>{ const r=at(id), s=STORY.dormSeat(u); return r&&r[1]&&Math.abs(r[1].x-s.x)<1e-6&&Math.abs(r[1].z-s.z)<1e-6; }),JSON.stringify(log)); }
@@ -71,7 +71,7 @@ const day=k=>STORY.dayOfKey(k);
   { const fam=()=>G.msgs.filter(m=>m.th==='g:family_law'), q=(G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
     check('G1. 搬宿舍以後：已在家族群組；Kevin 的置頂和宿營那幾句排在 8/30 21:00（還沒發；學姊 8/25 那則刪，AA_218 L512、17-12）',PHONE.inGroup(G,'family_law')&&!fam().some(m=>m.from==='heroine_05')&&q.includes('fam_w0@'+day('2025-08-30')+'/21')&&!fam().some(m=>m.from==='kevin'),q.join(' '));
     G.day=day('2025-08-30'); G.hour=21.05; PHONE.tick(G); const kv=fam().filter(m=>m.from==='kevin'), last=kv[kv.length-1];
-    check('G2. 去過宿營的版本：Kevin 的置頂排第一（AA_218 L512），接著認出臥底那一隊（有玩家名字）、四則、最後一則可以回「是我。／（貼圖）」',kv.length===5&&kv[0].pin&&kv[2].text==='欸 祐廷？我當臥底那一隊的？原來你是我們家族的'&&kv[4].text==='考古題茶會那天給你們。'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='是我。/（貼圖）',kv.map(m=>m.text).join(' | '));
+    check('G2. 去過宿營的版本（AA 11-03：Kevin 不在宿營，和沒去的同一版）：Kevin 的置頂排第一（AA_218 L512），接著兩則、最後一則可以回「（舉手）／我在。」；沒有「臥底」「騙了自己家的學弟」',kv.length===3&&kv[0].pin&&kv[1].text==='新的家族學弟妹都進群了嗎？'&&kv[2].text==='有進來的舉個手，考古題茶會那天給你們。'&&!kv.some(m=>/臥底|騙了自己家/.test(m.text))&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | '));
     const r=PHONE.answer(G,last.ask.id,1);
     check('G3. 回了 → FAM_GROUP_REPLIED、Kevin「好，收到一個。」',G.flags.FAM_GROUP_REPLIED===true&&fam().some(m=>m.text==='好，收到一個。'),JSON.stringify(r&&r.out&&r.out.map(m=>m.text)));
     const n1=G.msgs.length; await STORY._v1.familyGroupD1(GM);
@@ -213,7 +213,7 @@ const day=k=>STORY.dayOfKey(k);
     setup(); G.hour=17.6; STORY.teaTick(GM);
     check('K1. 9/2 17:30 手機提醒＋任務欄「18:30 新生茶會（法律系館B一樓大廳）」',G.flags.TEA_REMIND===true&&G.goal==='18:30 新生茶會（法律系館B一樓大廳）',G.goal);
     G.hour=18.6; STORY.teaTick(GM); await flush();
-    check('K2. 18:30 進萬才館＝簽到桌 Kevin：「{name}。這次是真的學長了。」、家族那一桌在窗邊；不說直屬是誰（9/4 才分直屬）；認識 Kevin；任務欄、互動點',said.includes('Kevin：{name}。這次是真的學長了。')&&said.includes('Kevin：家族那一桌在窗邊，我等一下過去。')&&!has(/直屬|溫書瑀|學姊/)&&G.flags.TEA_STEP===1&&(G.social.mem.kevin||[]).some(m=>m.tag==='FIRST_MET')&&G.goal==='走到窗邊家族那一桌'&&GM.E.interactables.some(i=>i.teaTable),said.slice(0,4).join(' / '));
+    check('K2. 18:30 進萬才館＝簽到桌 Kevin（AA 11-03：第一次見面）：「我 Kevin，大二，系學會的。有事找我。」、家族那一桌在窗邊；不說直屬是誰（9/4 才分直屬）；認識 Kevin；任務欄、互動點',said.includes('Kevin：我 Kevin，大二，系學會的。有事找我。')&&!has(/這次是真的學長/)&&said.includes('Kevin：家族那一桌在窗邊，我等一下過去。')&&!has(/直屬|溫書瑀|學姊/)&&G.flags.TEA_STEP===1&&(G.social.mem.kevin||[]).some(m=>m.tag==='FIRST_MET')&&G.goal==='走到窗邊家族那一桌'&&GM.E.interactables.some(i=>i.teaTable),said.slice(0,4).join(' / '));
     check('K3. 學姊不在茶會（使用者 08:2x；BB-C 798e9b14）：沒有「學姊說她會來」的挽留、沒有 19:10 招手',typeof STORY.teaLeave==='undefined'&&typeof STORY.teaWave==='undefined'&&typeof STORY.teaSis==='undefined');
     setup({FAM_GROUP_REPLIED:true}); G.hour=18.6; await STORY.teaSignIn(GM); said=[]; picks=['要，謝謝學長']; await STORY.teaTable(GM);
     const q=(G.phone&&G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
