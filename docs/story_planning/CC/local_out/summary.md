@@ -444,3 +444,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19_libfl] | [gpu_wrap 282.7s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 282.8s] BROWSER DISCONNECTED
 - 2026-11-03T21:48:27  N19_wcst  sha=21ab92db0  exit=0  180s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19_wcst] | [gpu_wrap 145.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 145.7s] BROWSER DISCONNECTED
+- 2026-11-03T21:51:26  N19_wcst  sha=9f14aab23  exit=0  170s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N19_wcst] | [gpu_wrap 134.8s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 134.9s] BROWSER DISCONNECTED
