@@ -31,7 +31,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 START = os.environ.get('START', 'law')
-DAYS = int(os.environ.get('DAYS', '21'))
+END_KEY = os.environ.get('END_KEY', '2025-09-01')   # 開學那一天（src/data/calendar.js:21 Y1S1 start）
 MAX_MIN = float(os.environ.get('MAX_MIN', '85'))
 J = lambda o: json.dumps(o, ensure_ascii=False)
 HER = ['heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05']
@@ -60,10 +60,15 @@ SCAN_JS = r"""(()=>{ const G=GAME.G; if(!G||!GAME.running) return null; const HE
   const grp=(G.msgs||[]).filter(m=>{ const th=PHONE.th(m); return th.startsWith('g:')&&HER.includes(m.from); }).map(m=>({th:PHONE.th(m),from:m.from,shown:PHONE.who(m),text:String(m.text||'').slice(0,40),day:m.day,h:m.h,tag:m.tag||null}));
   return {day:G.day,key:CALENDAR.dateOf(G.day).key,h:+(+G.hour).toFixed(2),zone:G.zone,met,rel,rows,cts,grp}; })()""" % J(HER)
 
-UI_JS = r"""(()=>{ const B=document.getElementById('phoneBody'); if(!B) return null;
-  const rows=[...B.querySelectorAll('.chatRow')].map(b=>({th:b.dataset.th||'',name:((b.querySelector('.chatMid b')||{}).textContent||'').trim(),last:((b.querySelector('.chatLast')||{}).textContent||'').trim().slice(0,30)}));
-  const cts=[...B.querySelectorAll('.ctList button')].map(b=>({th:b.dataset.th||'',noct:b.dataset.noct||'',name:(b.childNodes[0]&&b.childNodes[0].textContent||'').trim(),why:((b.querySelector('div')||{}).textContent||'').trim()}));
-  return {rows,cts}; })()"""
+# 手機裡「選人」的面板：訊息頁上面的「傳訊息給」聯絡人（.ctList button，game3d.js:716-717）、訊息列表（.chatRow，:722-723）、
+# 「朋友」頁每一列（.item.phrow：直接過去／帶我去／資料／訊息／約，:666-675）。每一格記名字、頭像、透明度、data 屬性
+CELLS_JS = r"""(sel=>{ const B=document.getElementById('phoneBody'); if(!B) return [];
+  const op=e=>{ let o=1; for(let x=e;x&&x!==B.parentNode;x=x.parentElement){ const cs=getComputedStyle(x); o*=+cs.opacity; if(cs.visibility==='hidden'||cs.display==='none') return 0; } return +o.toFixed(2); };
+  return [...B.querySelectorAll(sel)].map(e=>{ const r=e.getBoundingClientRect(); const dat={}; for(const k in e.dataset) dat[k]=e.dataset[k];
+    e.querySelectorAll('[data-fgo],[data-find],[data-person],[data-msg],[data-inv]').forEach(c=>{ for(const k in c.dataset) dat[k]=c.dataset[k]; });
+    let nm=''; const bnm=e.querySelector('.chatMid b'); if(bnm) nm=bnm.textContent; else if(e.matches('.phrow')){ const d=e.firstElementChild; nm=d&&d.childNodes[0]?d.childNodes[0].textContent:''; } else nm=e.childNodes[0]?e.childNodes[0].textContent:'';
+    const av=e.querySelector('.chatAv'), img=e.querySelector('img'); let avatar=null; if(img) avatar='img:'+img.getAttribute('src'); else if(av){ const bg=getComputedStyle(av).backgroundImage; avatar=bg&&bg!=='none'?'bg:'+bg.slice(0,90):('字:'+av.textContent.trim()); }
+    return {name:(nm||'').trim(),text:(e.textContent||'').trim().replace(/\s+/g,' ').slice(0,70),avatar,opacity:op(e),disabled:!!e.disabled,gray:e.hasAttribute('data-noct'),w:Math.round(r.width),h:Math.round(r.height),data:dat}; }); })"""
 
 NEXT_HOP = """(()=>{ const G=GAME.G, E=GAME.E, z=G.zone, its=E.interactables||[];
   const pick=f=>{ const it=its.find(f); return it?{x:it.x,z:it.z,r:it.radius||1.5,label:it.label||'',lv:it.lv===undefined?null:it.lv}:null; };
@@ -116,30 +121,54 @@ async def quick_go(pg, cdp, key):
     return None
 
 
-async def ui_list(pg, cdp, run, tag):
-    """照玩家打開手機「訊息」分頁（CDP 觸控），記每一列；有「不認識」就截圖。回傳 {rows,cts,shot}"""
-    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
-    await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(900)
-    if await pg.evaluate("!!document.querySelector('#phoneBody [data-thback]')"):
-        await L.tap(pg, cdp, '#phoneBody [data-thback]'); await pg.wait_for_timeout(800)
-    u = await pg.evaluate(UI_JS) or {'rows': [], 'cts': []}
-    bad = [r for r in u['rows'] + u['cts'] if '不認識' in (r.get('name') or '')]
-    shot = None
-    if bad:
-        await pg.evaluate("(()=>{ const B=document.getElementById('phoneBody'); const e=[...B.querySelectorAll('.chatRow,.ctList button')].find(b=>/不認識/.test(b.textContent)); if(e) e.scrollIntoView({block:'center'}); })()")
-        await pg.wait_for_timeout(500)
-        shot = await run.shot(pg, 'msglist_unknown_' + tag)
-    u['shot'] = shot; u['bad'] = bad
+async def open_tab(pg, cdp, tab):
+    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await L.tap(pg, cdp, '#phoneTabs button[data-ptab="%s"]' % tab); await pg.wait_for_timeout(900)
+    for _ in range(2):   # 在某個對話／某人的資料頁裡：先返回列表
+        bk = await pg.evaluate("(()=>{ const e=document.querySelector('#phoneBody [data-thback],#phoneBody [data-personback]'); return e?(e.dataset.thback!==undefined?'#phoneBody [data-thback]':'#phoneBody [data-personback]'):null; })()")
+        if not bk: break
+        await L.tap(pg, cdp, bk); await pg.wait_for_timeout(700)
+
+
+def bad_cell(c, panel):
+    """違規的格子：名字「不認識…」、名字空白、整格透明（opacity<0.9／隱藏）、訊息列表那一列沒有頭像。回傳原因或 ''"""
+    why = []
+    if unk(c['name']): why.append('名字「%s」' % c['name'])
+    if not c['name']: why.append('名字空白')
+    if c['opacity'] < 0.9 or c['disabled']: why.append('透明／灰（opacity %s%s）' % (c['opacity'], '、disabled' if c['disabled'] else ''))
+    if panel == 'msg_rows' and not c['avatar']: why.append('沒有頭像')
+    return '、'.join(why)
+
+
+async def pickers(pg, cdp, run, tag, met):
+    """照玩家打開手機每一個「選人」的面板，記每一格；有可疑的格子就截圖。回傳 {panel: [cells]}, bad[]"""
+    out = {}; bad = []
+    for tab, panels in (('msg', (('msg_contacts', '.ctList button'), ('msg_rows', '.chatRow'))), ('friends', (('friends', '.item.phrow'),))):
+        await open_tab(pg, cdp, tab)
+        shot = None
+        for pn, sel in panels:
+            cells = await pg.evaluate(CELLS_JS, sel); out[pn] = cells
+            for c in cells:
+                w = bad_cell(c, pn)
+                if not w: continue
+                pid = c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or c['data'].get('person') or ''
+                if '透明' in w and not unk(c['name']) and c['name'] and met.get(pid, True) and len(w.split('、')) == 1:
+                    run.note('%s %s：「%s」灰著——見過、還沒有聯絡方式（msg3d.js:155 照設計），不算' % (tag, pn, c['name'])); continue
+                if shot is None:
+                    await pg.evaluate("(t=>{ const B=document.getElementById('phoneBody'); const e=[...B.querySelectorAll('.ctList button,.chatRow,.item.phrow')].find(b=>b.textContent.trim().replace(/\\s+/g,' ').startsWith(t.slice(0,12))); if(e) e.scrollIntoView({block:'center'}); })(%s)" % J(c['text']))
+                    await pg.wait_for_timeout(500); shot = await run.shot(pg, 'picker_%s_%s' % (tab, tag))
+                bad.append(dict(c, panel=pn, why=w, at=tag, shot=shot, pid=pid))
     await L.close_panels(pg, cdp)
-    return u
+    return out, bad
 
 
 async def main():
     os.makedirs(OUT, exist_ok=True)
     run = L.Run('cc_phone_unmet', OUT)
-    print('cc_phone_unmet_probe  SHA=%s  URL=%s  START=%s  DAYS=%d' % (SHA, URL, START, DAYS), flush=True)
+    print('cc_phone_unmet_probe  SHA=%s  URL=%s  START=%s  END_KEY=%s' % (SHA, URL, START, END_KEY), flush=True)
     if 'turbo' in URL: run.setup('網址有 ?turbo（測試加速：走位瞬間、dt 上限）。EVENTS.tick、PHONE.tick、劇情照常跑；時間仍一格一格走，不會因此漏掉時段的事件')
-    picks = []; ui_log = []; scans_first = {}; days = []; t_start = time.time()
+    picks = []; ui_log = []; done_p = set(); cur_met = {}; scans_first = {}; days = []; t_start = time.time()
     async with async_playwright() as p:
         for att in range(3):
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
@@ -180,9 +209,8 @@ async def main():
                             met_at = [sc['key'], sc['h'], sc['zone']]; run.note('和以安相遇（SOCIAL.metD）：%s' % J(met_at))
                         if sc['key'] != last_key:
                             last_key = sc['key']; days.append(sc['key']); run.note('== %s %.2f %s  rel=%s' % (sc['key'], sc['h'], sc['zone'], J(sc['rel'])))
-                            if len(days) > 1: ui_log.append(('day_' + days[-2], None))   # 換日了：空下來時照玩家看一次列表
-                        if met_at: end_reason = 'met'
-                        elif day0 is not None and sc['day'] - day0 >= DAYS: end_reason = 'days'
+                        cur_met = sc['met']
+                        if sc['key'] >= END_KEY and any(k[0] >= END_KEY for k in done_p): end_reason = 'school'
                 s = await L.state(pg)
                 free = not s['dlg'] and not s['choices'] and not s['busy']
                 if end_reason and free: break
@@ -210,11 +238,13 @@ async def main():
                 if time.time() - free_since < 7:
                     await pg.wait_for_timeout(800); continue
                 free_since = None
-                pend = [x for x in ui_log if x[1] is None]
-                if pend:
-                    u = await ui_list(pg, cdp, run, pend[0][0])
-                    ui_log[ui_log.index(pend[0])] = (pend[0][0], u)
-                    run.note('手機「訊息」列表（%s 之後，現在 %s %.2f）：列 %s；聯絡人 %s' % (pend[0][0], last_key, s['hour'], J([[r['th'], r['name']] for r in u['rows']]), J([[r['th'] or r['noct'], r['name']] for r in u['cts']])))
+                per = (last_key, '早' if s['hour'] < 12 else ('中' if s['hour'] < 17 else '晚'))
+                if last_key and per not in done_p:   # 這個時段還沒看過：照玩家打開每一個選人的面板
+                    done_p.add(per); tag = '%s%s_%02d' % (per[0][5:], per[1], int(s['hour']))
+                    cells, bad = await pickers(pg, cdp, run, tag, cur_met)
+                    ui_log.append((tag, {'cells': cells, 'bad': bad, 'met': dict(cur_met)}))
+                    run.note('選人面板 %s（%s %.2f %s）：%s' % (tag, last_key, s['hour'], s['zone'], J({k: [[c['name'], c['avatar'] and c['avatar'][:3], c['opacity']] for c in v] for k, v in cells.items()})))
+                    if bad: run.note('  可疑的格子：%s' % J(bad))
                     continue
                 if s['hour'] < 21 and skip_fail != (last_key, int(s['hour'])):
                     lab = await skip_time(pg, cdp)
@@ -230,38 +260,27 @@ async def main():
                 s = await L.state(pg)
                 if ok and not s['dlg'] and not s['choices'] and s['interact']:
                     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-            # 最後再看一次列表
-            u = await ui_list(pg, cdp, run, 'end'); ui_log.append(('end', u))
-            run.note('手機「訊息」列表（結束）：列 %s；聯絡人 %s' % (J([[r['th'], r['name']] for r in u['rows']]), J([[r['th'] or r['noct'], r['name']] for r in u['cts']])))
             await run.shot(pg, 'end')
             run.note('選項（都選第一個；睡覺選單例外）：%s' % J(picks)[:3000])
             W = await pg.evaluate("window.__PU.w")
             run.note('寫入紀錄 %d 筆；過了的日子 %s' % (len(W), J(days)))
             json.dump({'writes': W, 'ui': [[k, v] for k, v in ui_log], 'scan_first': scans_first, 'picks': picks, 'days': days, 'met_at': met_at}, open(os.path.join(OUT, 'unmet_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-            run.check('一路玩到和以安相遇或開局後第 %d 天（%s）' % (DAYS, end_reason or '時間到'), bool(end_reason), J({'days': days[-3:], 'met_at': met_at, 'min': round((time.time() - t_start) / 60, 1)}))
-            # 判斷：每位女主角
-            for id_ in HER:
-                bad = []
-                for w in W:
-                    if w['fn'] in ('PHONE.join',): continue
-                    h = her_of(w.get('th'), None, w.get('who'))
-                    if h == id_ and w['met'].get(id_) is False:
-                        bad.append(('寫入', w))
-                    elif w.get('from') == id_ and w['met'].get(id_) is False and unk(w.get('shown')) and w['fn'] != 'PHONE.at(排定)':
-                        bad.append(('群組以「不認識」說話', w))
-                for k, r in scans_first.items():
-                    if k.startswith('row:') and id_ in r.get('th', '') and not r['met'].get(id_): bad.append(('列表（掃描）', r))
-                    if k.startswith('grp:') and r.get('from') == id_: bad.append(('群組（掃描）', r))
-                for k, u in ui_log:
-                    if not u: continue
-                    for r in u['bad']:
-                        if id_ in (r.get('th') or '') + (r.get('noct') or ''): bad.append(('列表（UI %s）' % k, dict(r, shot=u['shot'])))
-                real = [x for x in bad if x[0] != '寫入' or x[1]['fn'] != 'PHONE.at(排定)']
-                first = real[0] if real else (bad[0] if bad else None)
-                run.check('%s：相遇前手機沒有她的對話列（寫入／列表／聯絡人／群組）' % id_, not real, ('第一筆 %s：%s' % (first[0], J(first[1]))) if first else ('排定但沒送出 %d 筆' % len(bad) if bad else ''))
-                if len(real) > 1: run.note('%s 其他違規（前 8 筆）：%s' % (id_, J([[a, {k2: v.get(k2) for k2 in ('fn', 'th', 'from', 'text', 'key', 'h', 'tag', 'title', 'name', 'shown')}] for a, v in real[1:9]])))
+            run.check('從新局一路玩到開學那一天（%s，%s）' % (END_KEY, end_reason or '時間到'), bool(end_reason), J({'days': days[-3:], 'met_at': met_at, 'min': round((time.time() - t_start) / 60, 1)}))
             allbad = [r for k, u in ui_log if u for r in u['bad']]
-            run.check('手機「訊息」列表（照玩家打開）沒有「不認識的…」那一列', not allbad, J(allbad[:4]))
+            NAMES = {'msg_contacts': '訊息頁「傳訊息給」聯絡人按鈕', 'msg_rows': '訊息列表的對話列', 'friends': '「朋友」頁（直接過去／帶我去／資料／訊息／約）'}
+            for pn, nm in NAMES.items():
+                bb = [r for r in allbad if r['panel'] == pn]
+                run.check('選人面板 %s：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子' % nm, not bb,
+                          ('第一格 %s；共 %d 格次' % (J(bb[0]), len(bb))) if bb else '看了 %d 次' % len(ui_log))
+            # 每位女主角：相遇前選人面板不能有她（格子的 data-th／data-noct／data-person＝她）
+            for id_ in HER:
+                bb = [r for r in allbad if r['pid'] == id_ or id_ in J(r['data'])]
+                run.check('%s：相遇前（SOCIAL.metD）手機選人面板沒有她的格子' % id_, not bb, ('第一格 %s' % J(bb[0])) if bb else '')
+            # 附帶資訊：相遇前寫進 G.msgs 的她的訊息（不算 FAIL）
+            for id_ in HER:
+                ws = [w for w in W if w['fn'] != 'PHONE.join' and her_of(w.get('th'), None, w.get('who')) == id_ and w['met'].get(id_) is False]
+                if ws: run.note('[附帶] %s 相遇前寫入 %d 筆，第一筆：%s' % (id_, len(ws), J(ws[0])))
+            for k, r in scans_first.items(): run.note('[附帶] 不開 UI 的掃描第一次看到：%s %s' % (k, J(r)))
             run.check('沒有 JS 例外（pageerror）', not errs, '; '.join(errs[:5]))
         except SystemExit:
             pass
