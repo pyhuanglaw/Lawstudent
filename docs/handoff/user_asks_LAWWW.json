@@ -2269,6 +2269,24 @@
       "status": "還沒做",
       "wants": "X164",
       "task": "STORY-KX-NCCU-MOVEIN-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-23",
+      "at": "2026-11-03T08:5x",
+      "quote": "然後家裡取車完全沒有功能欸",
+      "kind": "原話",
+      "status": "在開發分支",
+      "wants": "X165",
+      "task": "HOME-CAR-NOOP-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-24",
+      "at": "2026-11-03T08:5x",
+      "quote": "家裡的選項為什麼層級這麼混亂",
+      "kind": "原話",
+      "status": "在開發分支",
+      "wants": "X166",
+      "task": "HOME-MENU-ORDER-1103"
     }
   ]
 }

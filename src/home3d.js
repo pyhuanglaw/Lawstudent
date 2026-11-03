@@ -99,11 +99,16 @@ const HOME=(function(){
     const opts=exam?[{t:'直接去考場：'+it.c.name,hint},{t:'先在家',hint:'考試前記得出門'}]:[{t:'直接去上課：'+it.c.name,hint},{t:'今天不去',hint:'記沒去，不扣分。這堂課裡的事你會錯過。'},{t:'先在家',hint:'手機的「今天」隨時可以直接去'}]; const k=await GM.choose(opts);
     if(k===0){ if(G.hour<depart-0.02){ if(!(await confirmMiss(GM,depart))) return false; GM.advance(depart-G.hour); } await say(GM,S.pick(G,'back'),MOM); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await CLS.goClass(GM,it,{fromHome:true,mins}); return true; }
     if(!exam&&k===1) CLS.rec(G).note['plan_skip_'+it.key]=1; return false; };
-  S.takeCar=async function(GM){ const G=GM.G; G.flags.carWithMe=true; const c=S.pick(G,'car'); await say(GM,c,MOM); };   /* 取車（AA_128 S4：從家裡出發的約會不用再加取車的時間）*/
+  S.takeCar=async function(GM){   /* HOME-CAR-NOOP-1103：選單已經不給「取車」（開車從宿舍出發，AA_599；這一項沒有作用）；留著給舊存檔、舊測試呼叫 */ const G=GM.G; G.flags.carWithMe=true; const c=S.pick(G,'car'); await say(GM,c,MOM); };   /* 取車（AA_128 S4：從家裡出發的約會不用再加取車的時間）*/
   /* 在家也要赴約（AA_140 G48，AA-B 2026-10-16；AA_134 第 3 節）：原本人在家時 INV.tick、OUT.tick 不跑，排定的約（例：4/24 可昕 18:45）直接錯過、還被當成爽約。
      出遊（OUT）到了該出發的時間，選單最上面多「出發」——從家裡出發（車在家裡，不加取車時間）；當面約（INV）約定前 1 小時起多「出發」——回到約好的地方。
      會跳過約定時間的選項（睡覺、休息、等晚餐）先問一次「照樣／先不要」。在家錯過當面約＝延後、不扣分（不記 MISSED_DINNER）*/
   const T=(day,h)=>day*24+h;
+  /* HOME-MENU-ORDER-1103（使用者 11-03：「家裡的選項為什麼層級這麼混亂」）：在家的選單一律照固定順序排——
+     ①約好的出發（出遊、當面約、補修上課）②在家做的事（讀書、吃晚餐、休息、看手機、約可昕、其他模組加的）③快轉 ④出門／回宿舍 ⑤睡覺、今晚住家裡 ⑥存檔（最後）。
+     同一組照原本加進來的順序（穩定排序）；選單內容不變，只換位置。日本路線住家裡（jp3d.js）也用這個。*/
+  S.MENU_RANK={out:0,inv:0,y5cls:0, study:1,eat:1,wait:1,rest:1,phone:1,date:1,ext:1, ff:2,skip:2, go:3,school:3,back:3,dorm:3, sleep:4,stay:4, save:5};
+  S.menuOrder=function(O){ const r=o=>{ const v=S.MENU_RANK[o&&o.k]; return v==null?1:v; }; return O.map((o,i)=>[o,i]).sort((a,b)=>r(a[0])-r(b[0])||a[1]-b[1]).map(x=>x[0]); };
   S.dueOuting=G=>typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null;
   S.dueInvites=G=>{ if(typeof INV==='undefined'||!Array.isArray(G.invites)) return []; const h=G.hour%24; return G.invites.filter(iv=>iv.state==='accepted'&&iv.day===G.day&&h>=iv.h-1&&h<iv.h+(INV.WAIT_H||0.5)); };
   /* 這個動作做完會到 toH（今天的小時，可以超過 24）：會錯過的約（出遊：約好的時間後 45 分鐘；當面約：約好的時間＋等待）*/
@@ -205,7 +210,7 @@ const HOME=(function(){
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(S.y0ffOpts(G)) O.push({t:'快轉',hint:'到下一個有事的日子／過三天／過一週',k:'ff'});   /* D99：休學在家十個月，原本只能一天一天睡 */
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/ O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
-    const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
+    O.splice(0,O.length,...S.menuOrder(O)); const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep')||O[O.length-1];
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='ff'){ const F=S.y0ffOpts(G), f=F&&F[await GM.choose(F.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>T(G.day,G.hour)) await S.y0Jump(GM,f.to); return H.at; }
     if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const ok=await OUT.go(GM,o.q,{fromHome:true});
@@ -228,7 +233,7 @@ const HOME=(function(){
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(nx!=null) O.push({t:'過幾天',hint:'跳到 '+dateLabel(nx),k:'skip'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/ O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
-    const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
+    O.splice(0,O.length,...S.menuOrder(O)); const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep')||O[O.length-1];
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='eat') await S.dinner(GM); else if(o.k==='skip'){ const first=!H.skipped; H.skipped=true; await S.jumpTo(GM,nx); const l=first?'寒假。你睡到中午，下午幫媽媽跑腿。':S.WINTER_SKIP_LINE(nx); if(l) await GM.say(null,l); if(first&&S.WINTER_SKIP_LINE(nx)) await GM.say(null,S.WINTER_SKIP_LINE(nx)); }
     else { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake) await S.jumpTo(GM,nx); else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過固定點（E21 22:00 等）：停在那個時間 */
@@ -452,7 +457,7 @@ const HOME=(function(){
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});
     O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
     O.push({t:'回宿舍住',hint:'捷運＋公車 約 40 分鐘',k:'dorm'});   /* AA_197 1-3：隨時可以再回宿舍（房間還在）*/
-    const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep');
+    O.splice(0,O.length,...S.menuOrder(O)); const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep');
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const video=o.q.verb==='接起來'||o.q.place==='視訊'||!!o.q.call; const ok=await OUT.go(GM,o.q,{fromHome:true});
       if(ok&&!o.q.goto&&S.breakMode(G)){ if(!video){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); if(!video) await GM.fade(false); return true; }   /* 出遊演完回家；視訊、電話（q.call，AA_325 除夕「打給妳。」）不用出門 */
@@ -531,8 +536,8 @@ const HOME=(function(){
         if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
         O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/
         O.push({t:'睡覺',hint:sun?'明天有課：先回宿舍再睡':(wk!=null?'明天 '+hm(wk)+' 在家醒來（學校有事）':'隔天早上在家醒來'),k:'sleep'});
-        if(sun) O.push({t:'今晚住家裡，明天一早直接去學校',hint:monExam?'明天早上期末考，回宿舍睡吧':'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來，坐捷運＋公車約 40 分鐘',dim:monExam,k:'stay'});   /* DL-05（AA_160 1-6）：週日晚上可以住家裡 */ if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); if(G.hour<S.REST_UNTIL) O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); if(mo) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'}); else O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});   /* AA_357 1-5：退宿以後「回宿舍」換成「出門」三選一 */
-        const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
+        if(sun) O.push({t:'今晚住家裡，明天一早直接去學校',hint:monExam?'明天早上期末考，回宿舍睡吧':'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來，坐捷運＋公車約 40 分鐘',dim:monExam,k:'stay'});   /* DL-05（AA_160 1-6）：週日晚上可以住家裡 */ if(G.hour<S.REST_UNTIL) O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); if(mo) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'}); else O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});   /* AA_357 1-5：退宿以後「回宿舍」換成「出門」三選一 */
+        O.splice(0,O.length,...S.menuOrder(O)); const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='back'||x.k==='go')||O[O.length-1];
         if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); continue; }
         if(o.k==='y5cls'){ if(typeof Y5!=='undefined'&&Y5.attend) await Y5.attend(GM,o.it); continue; }   /* 上完課回到家的選單 */
         if(o.k==='ext'){ try{ await o.run(GM); }catch(e){ console.warn('HOME.MENU_OPTS',e); } if(H.at&&typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:bg()}); continue; }   /* 事件演完（EVENTS.run 會關 ADV）換回家裡的背景 */

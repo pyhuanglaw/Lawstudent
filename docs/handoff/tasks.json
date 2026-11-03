@@ -41448,6 +41448,46 @@
         "ack": "SENT",
         "owner": "AA"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "HOME-CAR-NOOP-1103",
+      "title": "家裡的「去玄關拿車鑰匙（取車）」沒有作用：拿掉（開車從宿舍出發，AA_599）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "使用者 11-03「然後家裡取車完全沒有功能欸」（UA-LAWWW-1103-23；X165）",
+      "next": "home3d.js、jp3d.js 選單不再給取車（home_unit 6，修改前 FAIL）→ BB 在 PC 看週末回家的選單"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "HOME-MENU-ORDER-1103",
+      "title": "在家的選單照固定順序：約好的出發 → 在家做的事 → 快轉 → 出門／回宿舍 → 睡覺、住家裡 → 存檔最後",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "使用者 11-03「家裡的選項為什麼層級這麼混亂」（UA-LAWWW-1103-24；X166）",
+      "next": "HOME.menuOrder 用在週末、放假、休學在家、寒假、日本路線住家裡五種選單（home_unit 6b、6c，修改前 FAIL）→ BB 在 PC 看"
     }
   ]
 }
