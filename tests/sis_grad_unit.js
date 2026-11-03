@@ -27,7 +27,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 let chooseN=0;
 global.GAME=undefined;
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone:zone||'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0,study:0},stage:'law'};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone:zone||'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0,study:0},stage:'law'};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; cards=[]; cgs.length=0; chooseN=0; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const ID='heroine_05';
 const R=(fam,trust,comf,o)=>{ const r=SOCIAL.rel(ID); r.fam=fam; r.trust=trust||0; r.comf=comf||0; if(o) Object.assign(r,o); SOCIAL.remember(ID,'FIRST_MET',''); };

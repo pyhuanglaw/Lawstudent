@@ -33,7 +33,7 @@ ADV.setBg=b=>{ bgs.push(b); };
 const has=n=>typeof globalThis[n]!=='undefined';
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
-const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); if(has('ROM')) ROM.rec(G); said=[]; opts=[]; picks=[]; caps=[]; bgs=[]; cards=[]; phoneCalls=[]; GM.npc={}; E.npcs.length=0; E.interactables=[]; E.player.busy=false; E.zone={roomAt:()=>null,seats:[]}; ADV.active=false; EVENTS.running=null; if(has('Y1FILL')&&Y1FILL.reset) Y1FILL.reset(); if(STORY._fy) STORY._fy.reset(); return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
