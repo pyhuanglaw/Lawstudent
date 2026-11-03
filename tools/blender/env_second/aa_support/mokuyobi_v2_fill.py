@@ -100,10 +100,9 @@ def stair_cell(xf, k, j, u0, u1, y, y1):
     if (k, j) == (0, 2): lying_books(xf, u0 + 0.16, 0.0, y, 5); K.book_rows(sh, 'books', xf, u0 + 0.32, u1, y, 0.13, hgt=min(0.3, y1 - y - 0.03), depth=0.24, rng=R2); return
     if (k, j) == (2, 3): clock(xf, (u0 + u1) / 2 - 0.12, y); K.book_rows(sh, 'books', xf, (u0 + u1) / 2 + 0.02, u1, y, 0.13, hgt=0.28, depth=0.24, rng=R2); return
     books_in(xf, u0, u1, y, y1, 0.34)
-sc = case(SW['x1'] + 0.1 + 0.17, 5.3, math.pi / 2, 2.4, 2.35, 0.34, 3, [0.08, 0.5, 0.9, 1.3, 1.7, 2.02], stair_cell)
-sh.hanging_pothos('pothos', SW['x1'] + 0.27, 2.45, 4.4, n=7, drop=0.8); sh.hanging_pothos('pothos', SW['x1'] + 0.27, 2.45, 6.1, n=6, drop=0.6)
-for zz in (4.4, 6.1): Xf(SW['x1'] + 0.27, zz, 0, 2.4).lathe(sh.a('vcg'), [(0.06, 0.0), (0.1, 0.05), (0.11, 0.13), (0.1, 0.13)], 0, 0, 0, seg=14, col='#b0653e')
-lying_books(Xf(SW['x1'] + 0.27, 5.3, math.pi / 2), 0.0, 0.0, 2.4, 4, w=0.28, d=0.2)
+_SB = [i for i in LAY['items'] if i['kind'] == 'stair_bookcase'][0]   # v3：矮櫃（h 0.9），海報掛在上方的隔間牆
+sc = case(SW['x1'] + 0.1 + 0.17, 5.3, math.pi / 2, 2.4, _SB['h'], 0.34, 3, [0.08, 0.48], stair_cell)
+lying_books(Xf(SW['x1'] + 0.27, 4.6, math.pi / 2), 0.0, 0.0, _SB['h'] + 0.05, 5, w=0.28, d=0.2); small_plant_at(Xf(SW['x1'] + 0.27, 6.2, math.pi / 2), 0.0, _SB['h'] + 0.05, h=0.3)
 sh.tally('v2 stair bookcase')
 
 # ---------------------------------------------------------------- 3. 北牆的格子展示櫃（x −0.5～1.3）
@@ -137,9 +136,10 @@ def east_cell(xf, k, j, u0, u1, y, y1):
     if (k, j) == (1, 3): small_plant_at(xf, mid, y, h=0.3); return
     if (k, j) == (0, 3): lying_books(xf, mid, 0.0, y, 5); return
     books_in(xf, u0, u1, y, y1, 0.38)
-ec = case(X1 - 0.19, 4.3, -math.pi / 2, 1.4, 1.95, 0.38, 2, [0.08, 0.45, 0.85, 1.3], east_cell)
-sh.plant(X1 - 0.2, 4.3 + 0.35, h=0.35, r=0.08, pot_col='#e8dcc0', y0=2.0); sh.hanging_pothos('pothos', X1 - 0.2, 2.1, 4.65, n=6, drop=0.7)
-K.table_lamp(sh, X1 - 0.2, 3.95, y=2.0, r=0.09)
+_EB = [i for i in LAY['items'] if i['kind'] == 'bookcase_east'][0]   # v3：東牆的高書櫃（參考圖左牆那座）
+ec = case(X1 - 0.19, _EB['z'], -math.pi / 2, _EB['w'], _EB['h'], 0.38, 2, [0.08, 0.48, 0.88, 1.28, 1.68, 2.02], east_cell)
+sh.plant(X1 - 0.2, _EB['z'] + 0.4, h=0.35, r=0.08, pot_col='#e8dcc0', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.15, _EB['z'] + 0.45, n=8, drop=1.0)
+sh.plant(X1 - 0.2, _EB['z'] - 0.45, h=0.3, r=0.07, pot_col='#b0653e', y0=_EB['h'] + 0.05); sh.hanging_pothos('pothos', X1 - 0.2, _EB['h'] + 0.12, _EB['z'] - 0.4, n=6, drop=0.7)
 es = Xf(X1 - 0.11, -1.0, -math.pi / 2)                                                                                 # 矮櫃上方的層板（z −1.95～−0.05、y 1.5）
 es.rbox(sh.w('right', 'walnut'), -0.95, 0.95, 1.47, 1.5, -0.11, 0.11, r=0.004)
 for u in (-0.75, 0.75): es.rbox(sh.w('right', 'vcm'), u - 0.012, u + 0.012, 1.3, 1.47, -0.11, -0.09, r=0.002, col='#2a2a2a')

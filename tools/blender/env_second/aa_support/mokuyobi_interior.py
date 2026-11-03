@@ -186,7 +186,7 @@ for t, ss in sorted(tabs.items()):
         ox = math.sin(s_['yaw']) * -0.05; oz = math.cos(s_['yaw']) * -0.05
         K.bentwood_chair(sh, s_['x'] + ox, s_['z'] + oz, s_['yaw'], key='walnut')
     lx, lz = (tx + 0.18, tz - 0.18) if t not in (1, 2) else (tx, tz + 0.2)
-    K.table_lamp(sh, lx, lz, y=0.74, r=0.09)
+    if t not in (1, 2, 5): K.table_lamp(sh, lx, lz, y=0.74, r=0.09)   # v3：窗邊兩桌點蠟燭、前景那桌放甜點（參考圖沒有檯燈）
 # 生活痕跡：窗邊那桌（布丁、巴斯克、拿鐵、小花瓶）、念書的桌子（攤開的書、筆記本、鉛筆、水）
 t1 = (-0.9, 6.15)
 K.plate(sh, t1[0] - 0.12, t1[1] - 0.1, 0.74, r=0.09); Xf(t1[0] - 0.12, t1[1] - 0.1, 0, 0.75).lathe(sh.a('vcg'), [(0.0, 0.0), (0.045, 0.0), (0.04, 0.05), (0.032, 0.06), (0.0, 0.062)], 0, 0, 0, seg=14, col='#e3b05a')
@@ -262,6 +262,11 @@ sh.plant(hb['x'] + 0.6, hb['z'], h=0.35, r=0.08, pot_col='#e8dcc0', y0=hh + 0.04
 
 # ---------------------------------------------------------------- 東牆的兩張電影海報（胡桃木框）
 for p_, cell in zip(IT['poster'], ((0, 0, 2, 3), (2, 0, 2, 3))):
+    if p_.get('wall') == 'stair':   # v3：樓梯間隔間牆（面向東）
+        pxf = Xf(p_['x'], p_['z'], math.pi / 2)
+        sh.img_quad(sh.a('print'), pxf, 0, p_['y'] - p_['h'] / 2, 0.02, p_['w'], p_['h'], K.cell_uv(*cell))
+        pxf.rbox(sh.a('walnut'), -p_['w'] / 2 - 0.04, p_['w'] / 2 + 0.04, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, -0.005, 0.015, r=0.005)
+        continue
     sh.wall_img('right', 'print', p_['z'], p_['y'], p_['w'], p_['h'], K.cell_uv(*cell), off=0.03)
     Xf(0, 0).rbox(sh.w('right', 'walnut'), X1 - 0.025, X1, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, p_['z'] - p_['w'] / 2 - 0.04, p_['z'] + p_['w'] / 2 + 0.04, r=0.005)
 
@@ -296,6 +301,7 @@ sh.plant(-4.1, 3.1, h=1.2, r=0.22, pot_col='#b0653e')
 for q in range(6): Xf(-4.2, -1.62, 0.15 * q).rbox(sh.a('vcg'), -0.12, 0.12, q * 0.04, q * 0.04 + 0.038, -0.16, 0.16, r=0.004, col=('#e8e0cc', '#7b2d26', '#1f2e45', '#c9b48a', '#2f4a3a', '#f2efe6')[q])
 
 sh.tally('v1 rest')
-exec(open(os.path.join(HERE, 'mokuyobi_v2_fill.py'), encoding='utf-8').read())   # v2：擺滿東西（另一個檔，比較好讀）
+exec(open(os.path.join(HERE, 'mokuyobi_v2_fill.py'), encoding='utf-8').read())
+exec(open(os.path.join(HERE, 'mokuyobi_v3_fill.py'), encoding='utf-8').read())   # v3：照參考圖的窗邊一角（SCENE_RULES §12）   # v2：擺滿東西（另一個檔，比較好讀）
 sh.tally('v2 fill')
 info = sh.finish(OUT, keep=lambda ob: 'VIEW' in ob.name, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})
