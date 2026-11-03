@@ -66,6 +66,7 @@ N19F_fav2   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav
 N19E_exw    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_examweek_trip_probe.py | index.html | 60 |
 # （N19E_exw：雲端 b1ae ALL PASS（④ 改成那天每個出發時間都沒灰掉），PC 再跑一次）
 MD_tx_v2    | 451bb65ee | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
+MD_tx_v2b   | bae31acad | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 # （MD_tx_v2：同弦樂器 WIP v2 的預覽渲染（六個鏡頭 960×540），CC 自己看；不是 BB 驗收）
 # BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
 #HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
