@@ -37,7 +37,7 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 PLAY_MAX = int(os.environ.get('PLAY_MAX', '900'))
 ALL = ['date_car', 'date_mrt', 'x81', 'x81_no', 'spring_noodle', 'spring_kexin']
 CASES = [c.strip() for c in os.environ.get('CASES', ','.join(ALL)).split(',') if c.strip()]
-BAD = ('取車', '回家開車', '把車開回家，再搭捷運', '再搭捷運回宿舍')
+BAD = ('取車', '還車', '回家開車', '回家把車', '把車開出來', '把車開回家', '車開回家', '再搭捷運回宿舍')   # AA_599：開車出門不寫取車、還車、搭捷運回宿舍
 BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True,
          'fundsV2': 1, 'KX_DEC3_MIGRATED': True, 'dating_kexin': False}
@@ -45,6 +45,8 @@ TRANS = {}
 
 HOOK = r"""(()=>{ if(!window.__DRV){ const W=window.__DRV={say:[],ch:[]}; const s0=GAME.say; GAME.say=function(w,t){ const r=s0.apply(this,arguments);
     try{ W.say.push({n:(w&&w.name)||(typeof w==='string'?w:''), t:String(t==null?'':t), h:+(+GAME.G.hour).toFixed(3), d:GAME.G.day}); }catch(e){} return r; };
+  const t0=GAME.titleCard; if(t0) GAME.titleCard=function(a,b){ try{ W.say.push({n:'[字卡]', t:String(a||'')+'｜'+String(b||''), h:+(+GAME.G.hour).toFixed(3), d:GAME.G.day}); }catch(e){} return t0.apply(this,arguments); };
+  const p0=GAME.caption; if(p0) GAME.caption=function(w,t){ try{ W.say.push({n:'[字幕]'+(w||''), t:String(t==null?'':t), h:+(+GAME.G.hour).toFixed(3), d:GAME.G.day}); }catch(e){} return p0.apply(this,arguments); };
   const c0=GAME.choose; GAME.choose=function(o){ try{ W.ch.push({o:(o||[]).map(q=>({t:String(q.t||q.text||''),hint:String(q.hint||''),dim:!!q.dim})), h:+(+GAME.G.hour).toFixed(3)}); }catch(e){} return c0.apply(this,arguments); }; }
   return [window.__DRV.say.length, window.__DRV.ch.length]; })()"""
 ST_JS = r"""(()=>{ const G=GAME.G, F=G.flags||{}; const outs=(G.outings||[]).map(q=>({id:q.id,state:q.state,day:q.day,h:q.h,place:q.place,title:q.title,travel:q.travel,travelH:q.travelH,dateTrip:q.dateTrip||null}));
