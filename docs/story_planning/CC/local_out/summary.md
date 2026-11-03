@@ -646,3 +646,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap8c] | [gpu_wrap 246.5s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 246.5s] BROWSER DISCONNECTED
 - 2026-11-04T05:15:27  LIVE19_deploy  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
 - 2026-11-04T05:15:31  LIVE19_ver  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
+- 2026-11-04T05:15:36  LIVE19_day12  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
