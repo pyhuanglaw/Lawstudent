@@ -39948,7 +39948,7 @@
       "id": "BAR-POOL-NOMAR-1102",
       "title": "律師一試不考海商法（使用者 10:2x，經 BB）",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "priority": "P2",
       "note": "2026-11-02 LAWWW：postgrad3d.js S.POOL_EXCLUDE=[/^Y4MAR_/]，S.pool() 排除；S.pool(true) 給 S.draw 讀舊存檔已抽好的（照舊不重抽）。LEGAL_REVIEW_REQUIRED。Y4IP_/Y4LSO_/Y4TAX_ 等使用者答覆（BB 在問）。tests/bar_pool_nomar_unit.js（修改前 FAIL 2）。 10:2x 使用者「智財勞社財稅也拿掉」：加 Y4IP_、Y4LSO_、Y4TAX_；一試題庫 483→434 題（五年 100 題夠、不重複），bar_pool_nomar_unit 擴充。",
       "first": {
@@ -39967,7 +39967,8 @@
         "ack": "ACK",
         "acceptance": "2029～2033 一試沒有 Y4MAR_；舊存檔不動"
       },
-      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
+      "next": "11-03 已在開發分支 c89a5f9be（全部 Node 902 支 ALL PASS）→ BB／CC 瀏覽器驗證；（LAWWW 2026-11-02 補欄位）照 status；見 note／title",
+      "evidence": "BB 11-03 01:18：Y_P1（使用者 PC，c89a5f9be）PASS——律師一試題池海商法等四科 0 題、抽 20000 題（企劃線 dd6bb0dae）；解除擋發布"
     },
     {
       "id": "WSEM-BG-1102",
