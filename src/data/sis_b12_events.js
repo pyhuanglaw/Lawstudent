@@ -56,7 +56,7 @@ const SISB12_EVENTS=(function(){
         {label:'a'},N('（她點了一下頭，把三本抽出來疊好。）'),{goto:'m'},
         {label:'b'},SIS('畢業了。書還是要讀。'),{goto:'m'},
         {label:'c'},SIS('算我的。……不會逾期。'),
-        {label:'m'},N('（櫃台蓋完章，她把三本書抱在手上。最上面那本的書名，你只看得懂一半。）'),
+        {label:'m'},Object.assign(N('（櫃台蓋完章，她把三本書抱在手上。最上面那本的書名，你只看得懂一半。）'),{libOut:true}),   /* libOut：櫃台以後不在讀書區，不加（小聲）（AA_595 1-B34 後半；AA 11-02 20:54）*/
         SIS('許老師開的書單。開學以前要讀完。'),
         SIS('你暑假讀什麼？'),
         {choice:[{text:'「還沒想。」',goto:'p'},{text:'「民法。」',goto:'q'},{text:'「什麼都不讀。」',goto:'r'}]},
@@ -142,7 +142,7 @@ const SISB12_EVENTS=(function(){
         {label:'a'},SIS('……好。題目我從那邊寄。'),{goto:'e'},
         {label:'b'},SIS('要不要，你們決定。'),{goto:'e'},
         {label:'c'},N('（她把板擦遞給你，自己去收桌上的考卷。）'),
-        {label:'e'},N('（走出法圖，Kevin 說他要去吃宵夜。她說她要回家收行李。）'),
+        {label:'e'},Object.assign(N('（走出法圖，Kevin 說他要去吃宵夜。她說她要回家收行李。）'),{libOut:true}),   /* libOut：走出法圖以後不加（小聲）（AA 11-02 20:54）*/
         Object.assign({unless:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。群組會說。')),
         Object.assign({if:{custom:G=>!!X()&&X().usDating(G)}},SIS('八月二號。你不用送，我們同一班。')),   /* 美國路線（交往中）：同一班飛機 */
         Object.assign({set:{SIS_FAM_STUDY_LAST:'went'}},mem('SIS_FAM_STUDY_LAST',{fam:1,comf:1})) ],

@@ -12,6 +12,8 @@
    討論室（AA_595 拿不準 Q1～Q5）：「AA 處理決定」拿不準的照小聲講的原則處理，不算讀書區的只列了大廳、影印機、閉館後離開、美國的會所和中庭——討論室照小聲講。
    2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、B1 討論室、社科圖閱覽區的背景算；門口、台階、簡餐等其他背景都不算（事件搬到館外演就不會加）。
    事件想整場不加：事件定義寫 loud:true（events3d.js 開演時 LIBQ.loudBegin()）；程式裡用 LIBQ.loud(async()=>{…})。
+   事件演到一半搬到館外（AA 2026-11-02 20:54 第 3 點）：那一步寫 libOut:true（events3d.js runLines：從那一步到這段對話結束都不加，前面的照加）。
+   約好在讀書區見面（第 2 點）：免點頭（S.invited），對話照加。前綴的位置（第 4 點）：開頭有動作括號的合成「（抬頭，小聲）」（S.quiet）；玩家選項不加。
    存檔：G.libNod＝{day, ids:{角色 id:1}}（今天在讀書區見過的人；換一天就清空）。舊存檔沒有這個欄位＝今天誰都還沒見過（LIBQ.rec 補預設值，壞掉的也重設）。
    測試：node tests/aa595_rules_unit.js */
 'use strict';
@@ -49,10 +51,16 @@ const LIBQ=(function(){
   S.mark=(G,id)=>{ if(G&&id) S.rec(G).ids[id]=1; };
   const isMale=id=>{ const c=typeof CHARACTERS!=='undefined'?CHARACTERS[id]:null; return !!c&&(c.gender==='m'||c.sex==='m'); };
   S.nodLine=id=>isMale(id)?S.NOD.m:S.NOD.f;
+  /* 約好在這裡見面（invites3d.js：當面約、傳訊息約都一樣）：今天、這一區，和這個人的約到時間了（INV.meetable：按說話就是見面），或今天已經在這一區見過面（state done）。
+     AA 2026-11-02 20:54 第 2 點：約好的免點頭（已經約好了），對話照加（小聲）*/
+  S.invited=function(G,id){ if(!G||!id) return false; const INVm=typeof INV!=='undefined'?INV:null;
+    try{ if(INVm&&INVm.meetable&&INVm.meetable(G,id)) return true; }catch(e){}
+    return Array.isArray(G.invites)&&G.invites.some(iv=>iv&&iv.who===id&&iv.day===G.day&&iv.zone===G.zone&&iv.state==='done'); };
   /* 按「和○○說話」之前：今天在讀書區第一次＝只點頭（回傳 true＝這次不說話）。跟著你走的人、坐你後座的人、櫃台後面的店員不算（已經在一起、或是在上班）*/
   S.gate=async function(GM,n){ const G=G_(GM), id=idOf(n); if(!G||!id||!n) return false;
     if(n.beh==='follow'||n.beh==='passenger'||n.staff) return false;
     if(!S.quietNow(GM)) return false; if(S.seen(G,id)) return false;
+    if(S.invited(G,id)){ S.mark(G,id); return false; }   /* 約好在這裡見面（AA 2026-11-02 20:54 第 2 點）：免點頭，對話照加（小聲）*/
     S.mark(G,id);
     if(GM.sceneBegin) GM.sceneBegin(); try{ if(GM.face&&!n.seat&&GM.E&&GM.E.player) GM.face(n,GM.E.player.obj.position.x,GM.E.player.obj.position.z); await GM.say(null,S.nodLine(id)); } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     return true; };
@@ -66,8 +74,16 @@ const LIBQ=(function(){
     if(SOFT.test(lead)) return false;
     return true; };
   const isPhone=who=>{ const nm=who&&typeof who==='object'?who.name:who; return typeof nm==='string'&&nm.indexOf('（手機）')>=0; };
+  /* 加上去（AA 2026-11-02 20:54 第 4 點）：開頭已經有動作括號的合成一個——「（抬頭）喔，hi。」→「（抬頭，小聲）喔，hi。」；好幾個括號的合進第一個；沒有括號的才在最前面加「（小聲）」*/
+  S.quiet=function(text){ if(!S.needsPrefix(text)) return text; const s=String(text), k0=s.length-s.trimStart().length, t=s.slice(k0);
+    if(!t.startsWith('（')) return S.PREFIX+s;
+    let depth=0, k=-1; for(let i=0;i<t.length;i++){ const ch=t[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } }
+    if(k<0) return S.PREFIX+s;
+    let inner=t.slice(1,k), tail='';
+    if(/[。]$/.test(inner)){ tail=inner.slice(-1); inner=inner.slice(0,-1); }   /* 「（抬頭。）」→「（抬頭，小聲。）」*/
+    return s.slice(0,k0)+'（'+inner+'，小聲'+tail+'）'+t.slice(k+1); };
   S.whisper=function(GM,who,text){ if(!who||text==null||isPhone(who)) return text; if(!S.quietNow(GM)) return text;
     const G=G_(GM); if(who&&typeof who==='object'&&who.charId) S.mark(G,who.charId);
-    return S.needsPrefix(text)?S.PREFIX+text:text; };
+    return S.quiet(text); };
   return S;
 })();

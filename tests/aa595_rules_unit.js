@@ -58,7 +58,7 @@ await sec('1',async()=>{
   check('1. whisper 本身：校園原樣、讀書區加前綴；旁白、手機、整句動作、已經小聲的不加',
     LIBQ.whisper(GM,{name:'許柏翰'},'早。')==='早。'&&(at('library',0,0,0),LIBQ.whisper(GM,{name:'許柏翰'},'早。')===PRE+'早。')&&LIBQ.whisper(GM,null,'（他翻了一頁。）')==='（他翻了一頁。）'
     &&LIBQ.whisper(GM,{name:'許柏翰（手機）'},'早。')==='早。'&&LIBQ.whisper(GM,{name:'許柏翰'},'（他抬頭看了你一眼）')==='（他抬頭看了你一眼）'&&LIBQ.whisper(GM,{name:'以安'},'（她小聲）外面說。')==='（她小聲）外面說。'
-    &&LIBQ.whisper(GM,{name:'以安'},PRE+'報告我寫完了。')===PRE+'報告我寫完了。'&&LIBQ.whisper(GM,{name:'學姊'},'（抬頭）喔，hi。')===PRE+'（抬頭）喔，hi。');
+    &&LIBQ.whisper(GM,{name:'以安'},PRE+'報告我寫完了。')===PRE+'報告我寫完了。'&&LIBQ.whisper(GM,{name:'學姊'},'（抬頭）喔，hi。')==='（抬頭，小聲）喔，hi。');   /* 開頭有動作括號的合成一個（AA 2026-11-02 20:54 第 4 點；tests/libq_aa_1102_unit.js 第 4 節）*/
   caps.length=0; GM.caption('以安','明天見。'); GM.caption('','（閉館的音樂響了。）'); check('1. 讀書區有名字的 caption 也小聲，沒名字的不加',caps[0]===PRE+'明天見。'&&caps[1]==='（閉館的音樂響了。）',J(caps));
   /* 各圖書館的範圍 */
   const L=LAWLIB_LAYOUT, cp=L.rooms.find(r=>r.id==='copy'), dA=L.rooms.find(r=>r.id==='discA'), T1=L.tables.find(t=>t.lv===0);
