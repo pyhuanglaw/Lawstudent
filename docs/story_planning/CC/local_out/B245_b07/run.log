@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_b245_b07_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\B245_b07\out
+cc_b245_b07_probe  SHA=ffeec06e0  URL=http://127.0.0.1:8813/index.html
+PASS [land] 遊戲載入
+  【前置／捷徑】load_state（quiet_events）宿舍第 7 天 20:00
+INFO [land] 選單頁籤：[["notes", "筆記"], ["journal", "日誌"], ["legal", "法律"], ["save", "存檔"], ["settings", "設定"], ["help", "說明"]]
+PASS [land] ① 點選單（#btnMenu）打得開
+PASS [land] ① 選單有筆記（notes）、存檔（save）  ["notes", "journal", "legal", "save", "settings", "help"]
+PASS [land] ① 選單沒有「人物」「地圖」（data-tab 沒有 people、map；文字沒有 startswith 人物／地圖）  [["notes", "筆記"], ["journal", "日誌"], ["legal", "法律"], ["save", "存檔"], ["settings", "設定"], ["help", "說明"]]
+INFO [land] 朋友列表：[{"name": "沈以安", "person": "heroine_01", "txt": "資料"}, {"name": "阿哲", "person": "zhe", "txt": "資料"}, {"name": "沛珊", "person": "classmate_peishan", "txt": "資料"}, {"name": "阿凱", "person": "kai", "txt": "資料"}, {"name": "杜可昕", "person": "kexin", "txt": "資料"}, {"name": "周教授", "person": "prof_zhou", "txt": "資料"}]
+PASS [land] ② 手機打得開、「朋友」有人（前置：阿哲、阿凱、以安、沛珊算認識）  [{"name": "沈以安", "person": "heroine_01", "txt": "資料"}, {"name": "阿哲", "person": "zhe", "txt": "資料"}, {"name": "沛珊", "person": "classmate_peishan", "txt": "資料"}, {"name": "阿凱", "person": "kai", "txt": "資料"}, {"name": "杜可昕", "person": "kexin", "txt": "資料"}, {"name": "周教授", "person": "prof_zhou", "txt": "資料"}]
+PASS [land] ② 朋友每一列都有「資料」按鈕（data-person、文字 startswith 資料）  []
+PASS [land] ② 點第一個「資料」：出現資料頁（有返回「朋友」的按鈕 data-personback）  {"back": true, "backTxt": "‹ 朋友", "name": "沈以安"}
+PASS [land] ③ 「地點」最上面（第一個 .item）是 data-bigmap 按鈕、文字 startswith「打開整張地圖」  {"item": "打開整張地圖（也可以點右上角的小地圖）", "btn": "打開整張地圖（也可以點右上角的小地圖）", "firstIsBig": true, "any": true}
+PASS [land] ③ 點「打開整張地圖」：手機收起來、大地圖（#bigmap）打開  {"bigmap": true, "phone": false}
+PASS [land] 沒有 JS 例外  []
+ALL PASS
