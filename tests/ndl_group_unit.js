@@ -45,8 +45,9 @@ const gmsg=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>[m.from||'',
 { const inv=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_noodle_invite'), out=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_long_table_out'), auto=(STORY_EVENTS||[]).find(e=>e.id==='ev_zhe_long_table');
   const T=e=>(e&&e.dialogue||[]).filter(x=>x.text).map(x=>x.text);
   check('6. 約：民總下課（afterClass civ_general、classAlso）阿哲「晚上吃麵？公館那家，阿鳳。」、選項「好。」「今天不行。」',!!inv&&inv.afterClass==='civ_general'&&inv.classAlso===true&&T(inv)[0]==='晚上吃麵？公館那家，阿鳳。'&&J((inv.dialogue.find(x=>x.choice)||{choice:[]}).choice.map(c=>c.text))===J(['「好。」','「今天不行。」'])&&T(inv).includes('六點半，店門口。')&&T(inv).includes('好啊，下次。'));
-  const L=['（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。'];
-  check('6. 第一次併桌：出遊版、在麵店遇到版台詞一樣（七句）；title「第一次併桌」；在麵店遇到版只在麵店日',!!out&&!!auto&&J(T(out))===J(L)&&J(T(auto))===J(L)&&out.title==='第一次併桌'&&auto.title==='第一次併桌'&&auto.ndlDay===true&&out.trigger==='outing');
+  const L=['（麵店。阿哲旁邊多了一個女生，已經在看菜單。）','Alison。宿營跟我同一隊，也是法律系。','嗨！我聽阿哲講過你，撕名牌被他撕掉的那個。','他說你轉身撞到他，他差點跌倒。','他說他偷襲成功。……他很得意。','好了啦，點菜。',   /* AA_606 3-3：大一上還不認識 Alison 才演的開頭（ZHE_FIRST_TABLE）*/
+    '（阿哲把兩張桌子併起來。）','你們？法律系的？','一年級。阿姨，我們之後會常來。','常來是多常？','（想了一下）想吃麵的時候。','那就是常來。','（對你）這家便宜，又近。之後想吃麵就來，遇到就一起坐。'];
+  check('6. 第一次併桌：出遊版、在麵店遇到版台詞一樣（七句，前面多 AA_606 3-3 Alison 那段）；title「第一次併桌」；在麵店遇到版只在麵店日',!!out&&!!auto&&J(T(out))===J(L)&&J(T(auto))===J(L)&&out.title==='第一次併桌'&&auto.title==='第一次併桌'&&auto.ndlDay===true&&out.trigger==='outing');
   const d=STORY.termDay('Y1S1',2,4);
   H.fresh(CALENDAR.dateOf(d).key,15.5,'campus',{zheNoodleInvDay:d,ZHE_NOODLE_INV:'yes'}); STORY.phoneRules(GM); PHONE.tick(H.G); const q=OUT.get(H.G,'zhe_first_table'); const g0=PHONE.inGroup(H.G,'noodle_team');
   H.at(CALENDAR.dateOf(d).key,21.1); STORY.phoneRules(GM); PHONE.tick(H.G); const g1=PHONE.inGroup(H.G,'noodle_team'), nt=H.G.flags.noodleTableDay;

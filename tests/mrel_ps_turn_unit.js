@@ -41,7 +41,7 @@ await sec(1,async()=>{
   fresh('2026-04-15',19,'noodle'); H.FRIEND(PS); H.FRIEND(YC); H.FRIEND('zhe');
   await EVENTS.run(ev);
   const i=H.said.findIndex(s=>s.t==='法條背那麼快的人，記得住別人說過的話嗎？');
-  check('1. 第一次（大一下麵店長桌＝考完的晚餐最後）：沛珊「法條背那麼快的人，記得住別人說過的話嗎？」宥辰「記得。可是我會假裝不記得。」',i>=0&&H.said[i+1]&&H.said[i+1].t==='記得。可是我會假裝不記得。'&&H.said[i].who==='郭沛珊'&&H.said[i+1].who==='賴宥辰'&&H.G.flags.PS_YC.n1===H.G.day,J(H.lines().slice(-4)));
+  check('1. 第一次（大一下麵店長桌＝考完的晚餐最後）：沛珊「法條背那麼快的人，記得住別人說過的話嗎？」宥辰「記得。可是我會假裝不記得。」',i>=0&&H.said[i+1]&&H.said[i+1].t==='記得。可是我會假裝不記得。'&&H.said[i].who==='沛珊'&&H.said[i+1].who==='賴宥辰'&&H.G.flags.PS_YC.n1===H.G.day,J(H.lines().slice(-4)));
   fresh('2026-04-15',19,'noodle'); H.FRIEND(PS); await EVENTS.run(ev);
   check('1. 不認識宥辰＝不演（只有認識的人說話）',!H.has('記得。可是我會假裝不記得。')&&!(H.G.flags.PS_YC||{}).n1);
 
