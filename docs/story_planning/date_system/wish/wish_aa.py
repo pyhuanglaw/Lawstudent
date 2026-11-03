@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 date_system/wish/wish_aa.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：51 個欄位：以安 20（「理由：」舊句、公法研究所兩句已作廢）、語彤 31（11-03 新背景：秀琴姨、「我媽的診所在那邊」等，AA_626）；build_wish_aa.py 跑了會報「原文沒有轉進去」。
+#   現行版本以 date_system/wish/wish_aa.json 為準。
 # 以安、語彤的心願事件（AA_127 第 1、2 節的 1-1～1-5、2-1～2-5）：格式照 BB-B 的 wish_bb.py（README.md），台詞照 AA_127 一字不改。AA-B 2026-10-16（AA_140 G33）。
 # python3 build_wish_aa.py → wish_aa.json（LAWWW-B 讀這個）＋檢查（AA_127 原文的每一句都在 JSON 裡）。
 # 一行：'＊…'＝旁白（who:narr）；'※…'＝開發註記（who:note，不顯示）；其他＝她說的話。

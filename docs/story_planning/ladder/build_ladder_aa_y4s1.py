@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 ladder/ladder_aa_y4s1.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：2 個欄位，以安（966c2dfd8 直接改 JSON）。
+#   現行版本以 ladder/ladder_aa_y4s1.json 為準。
 """大四上（Y4S1）的閒聊階梯：以安（heroine_01）、語彤（heroine_03）→ ladder_aa_y4s1.json。作者：AA-B 2026-10-16。
 原稿說明：../AA_151_閒聊階梯_大四上_以安語彤.md。格式同 ladder_aa_y3s1.json，term＝'Y4S1'。
 日本路線 8/5 回來；美國路線 2028-08-02～12-23 在美國，這學期碰不到階梯（AA_262）；以安 8/5 回來。路線差別用 linesIf（flagIs EXCHANGE_ROUTE）。

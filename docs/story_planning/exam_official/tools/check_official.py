@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 exam_official/course_bank_map.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：只有 --sync 過時：它不算 exam_ai 的 AI 補題，跑 --sync 會把 8 門課（憲法上下、民訴甲上甲下、公司法、保險法、票據法、勞動法）從 ENABLED 改回 INSUFFICIENT；course_bank_map.json 是 2026-10-18 AA-C 手動加進 exam_ai 來源的。只檢查（不加 --sync）照常可以用。
+#   現行版本以 exam_official/course_bank_map.json 為準。
 """檢查正式題庫（大一～大三）。
 用法：python3 check_official.py [QBANK 路徑]          # 檢查
       python3 check_official.py --sync [QBANK 路徑]   # 先照實際題數更新 course_bank_map.json 大一～大三各課的 confirmed／status，再檢查

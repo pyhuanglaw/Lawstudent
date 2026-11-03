@@ -1,5 +1,7 @@
 # 心願事件與不分地點的句子（BB 五位；AA_140 G33）
 
+> **【已修改，部分腳本過時】（2026-11-03 AA 清查，`AA_628_舊腳本清查.md`）**`wish_bb.py`（65 個欄位）、`wish_aa.py`（51 個欄位）過時：`wish_bb.json`、`wish_aa.json` 之後已經直接修改，不要用 `build_wish.py`、`build_wish_aa.py` 重建，否則會把新內容蓋回舊的；現行版本以兩個 JSON 為準。另外 `common_bb.json` 反過來**比原稿舊**（BB_128 3-6 改了 16 句、還沒重建；遊戲的 `date_lines.js` 已經是新句），要不要重建由 AA 定。
+
 > BB-B 2026-10-16。原稿是 `BB_128` 第 3 節（3-1～3-6），這裡只把它拆成資料，**台詞一字不改**（`build_wish.py` 會逐句比對 BB_128 原文，少一句就失敗）。以安、語彤的心願事件（`AA_127`）由 AA-B 照同一個格式做 `wish_aa.json`。
 > 狀態：`READY_FOR_REVIEW`（給 LAWWW-B 實作；照 AA-B 的交付流程）。
 

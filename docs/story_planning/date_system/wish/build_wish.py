@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# 【已修改，此腳本過時】（2026-11-03 AA 清查，AA_628）輸出檔 date_system/wish/wish_bb.json 之後已經直接修改，和這支腳本不同步；
+#   不要用這支重建，否則會把新內容蓋回舊的。差異摘要：原稿 wish_bb.py 過時（65 個欄位，見 wish_bb.py 開頭）；這支本身的程式沒問題，但用它重建會拿舊原稿。
+#   現行版本以 date_system/wish/wish_bb.json 為準。
 """心願事件（BB_128 第 3 節）：wish_bb.py → wish_bb.json＋檢查。作者：BB-B 2026-10-16（AA_140 G33）。
 用法：python3 build_wish.py
 檢查：
