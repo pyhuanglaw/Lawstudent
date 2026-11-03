@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N20_navb",
+  "sha": "d2b962a3f",
+  "kind": "node",
+  "script": "tests/nav_buildings_unit.js",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T07:18:03",
+  "end": "2026-11-04T07:19:20",
+  "seconds": 77,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 63,
+    "mem": 53,
+    "used_gb": 16.4,
+    "chrome_testing": 17
+  }
+}
