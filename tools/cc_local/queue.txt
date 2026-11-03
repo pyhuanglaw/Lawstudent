@@ -20,6 +20,7 @@
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 LIVE18_deploy | 0776cafc8 | game | tests/deploy_check.py    | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.18（2026-11-03）
 LIVE18_day12  | 0776cafc8 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
+LIVE18_deploy2 | 0776cafc8 | game | tests/deploy_check.py  | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.18（2026-11-03）
 V18R_deploy | 0776cafc8 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.18（2026-11-03）
 V18R_p0     | 0776cafc8 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 V18R_v7     | 0776cafc8 | game | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
