@@ -4964,3 +4964,88 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
     {label:'e'},{speaker:null,text:'（她用鉛筆在你的字旁邊，把一個問號擦掉了。）'},{speaker:'heroine_05',text:'好。文章你留著。'},
     {if:{custom:G=>!!(G.flags&&G.flags.dating_heroine_05)},speaker:null,text:'（她把文章推過來的時候，手指在你的鉛筆字上停了一下。）'},
     {mem:[{npc:'heroine_05',tag:'W3_TAUGHT',note:''}]},{consequences:{rel:{heroine_05:{resp:4,fam:2}}}} ] });
+/* ===== 好朋友的名片場（AA_606 第 3、4 節，X157 STORY-FRIENDS-EVENTS-1103；使用者 11-03「我除了女主角，連人名都記不起來」）=====
+     大一上第 1～5 週每人一場、自動播放（玩家本來就會在的地方：203、上課前的教室、下課）；法律系、大一上、和那個人還沒演過（FRIEND_CARD_<id>）。
+     演完記 FRIEND_CARD_<id>、記憶 FRIEND_CARD（note＝場名）、熟悉 +2，不給別的。課堂的那三場（柏翰、Alison 週三、明軒）同一堂撞到別的事件就延到下一次同一門課，最晚第 5 週（carryTo，AA_606 第 5 節「撞到已有場次就往後」）。*/
+(function(){ const card=(id,note)=>({set:{['FRIEND_CARD_'+id]:true},mem:[{npc:id,tag:'FRIEND_CARD',note}],rel:{[id]:{fam:2}}}), F=G=>G.flags||{}, dk=k=>typeof STORY!=='undefined'?STORY.dayOfKey(k):null;
+    const inDorm=(G,id)=>typeof STORY!=='undefined'&&!!STORY.dormWho&&STORY.dormWho(G).some(w=>w[0]===id);   /* 照 203 的作息現在在房間（書桌前）*/
+    const YU_CARD=[ {speaker:null,text:'（八點多，教室只有你一個人。門被推開。）'},
+      {speaker:'yu',expression:'smile',text:'欸，你也這麼早？我坐板橋第一班捷運，到了才發現太早。'},
+      {speaker:'yu',expression:'smile',text:'我 Alison！宿營隔壁小隊，帶隊呼那個。'},
+      {choice:[{text:'「我記得，很大聲。」',goto:'loud'},{text:'「妳每天都這麼早？」',goto:'early'}]},
+      {label:'loud'},{speaker:'yu',expression:'laugh',text:'對！！那是我。'},{goto:'end'},
+      {label:'early'},{speaker:'yu',expression:'neutral',text:'嗯。……在家也是醒著，不如來學校。'},
+      {label:'end'},
+      {speaker:'yu',expression:'smile',text:'（坐到你前面右邊，回頭）下課要不要一起吃早午餐？我不想一個人吃。'},
+      card('yu','第一班捷運') ];
+  STORY_EVENTS.push(
+    /* 3-1 阿凱「凌晨的作業」：第 1 週，9/2（二）23:30 以後第一次在 203（阿凱在房間）*/
+    { id:'ev_card_kai', title:'凌晨的作業', participants:['kai'], location:'dorm', trigger:'auto', once:true, term:['Y1S1'], weeks:[1], time:[23.5,26], background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_kai&&G.day>=dk('2025-09-02')&&inDorm(G,'kai')},
+      dialogue:[ {speaker:null,text:'（十二點。房間只剩阿凱的螢幕亮著。）'},
+        {speaker:'kai',text:'你還沒睡？'},
+        {speaker:'kai',text:'我在寫程式作業。資工系的，明天早上交。'},
+        {choice:[{text:'「要我關燈嗎？」',goto:'light'},{text:'「寫多久了？」',goto:'long'}]},
+        {label:'light'},{speaker:'kai',text:'不用。我戴耳機，你睡你的。'},{goto:'end'},
+        {label:'long'},{speaker:'kai',text:'九點開始。……不要跟阿哲說，他會拉我去吃宵夜。'},
+        {label:'end'},
+        {speaker:null,text:'（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'},
+        card('kai','凌晨的作業') ] },
+    /* 3-2 柏翰「第一排」：第 2 週民法總則上課前（教室）；9/1 已經有柏翰第一排那場（ev_bohan_w1_front）的，第一句改「{name}。今天也坐這裡。」*/
+    { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', beforeClass:'civ_general', once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_bohan},
+      dialogue:[ {speaker:null,text:'（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）'},
+        {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_bohan_w1_front)},speaker:'classmate_bohan',text:'{name}。這裡。'},
+        {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_bohan_w1_front)},speaker:'classmate_bohan',text:'{name}。今天也坐這裡。'},
+        {speaker:'classmate_bohan',text:'第一排聽得最清楚。我量過，第八排開始，老師的聲音會被冷氣蓋掉。'},
+        {choice:[{text:'「你真的量過？」',goto:'q'},{text:'「好，我坐這。」',goto:'sit'}]},
+        {label:'q'},{speaker:'classmate_bohan',text:'上週。每一排坐五分鐘。'},{goto:'end'},
+        {label:'sit'},{speaker:null,text:'（他把旁邊的桌面擦了一下。）'},
+        {label:'end'},
+        {speaker:'classmate_bohan',text:'我念得慢。坐前面，回去可以少讀一遍。'},
+        card('classmate_bohan','第一排') ] },
+    /* 3-3 Alison「第一班捷運」：第 2 週第一次在 8:30 以前走進法律系館A的教室（201，classroom 區）；沒有＝第 2 週週三第一堂課前（下一個事件）。
+       不記認識（met_yu、FIRST_MET 照舊在第 3 週的初遇 ev_yu_meet_w3／talkYu 記；那時 Alison 那句改「……欸對，我們早上見過。」，STORY.yuIntroLines）*/
+    { id:'ev_card_yu', title:'第一班捷運', participants:['yu'], noMeet:['yu'], location:'classroom', trigger:'enter', once:true, term:['Y1S1'], weeks:[2], time:[5,8.5], background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_yu}, dialogue:YU_CARD },
+    { id:'ev_card_yu_wed', title:'第一班捷運', participants:['yu'], noMeet:['yu'], location:'any', trigger:'class', beforeClass:it=>!!(it&&it.c&&it.c.kind==='required'), weekday:[3], once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_yu}, dialogue:YU_CARD },
+    /* 3-4 明軒「公館便宜好吃.xlsx」：第 3 週第一次上完法律系的必修下課（明軒和你同班，每一門必修都有修）*/
+    { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', afterClass:it=>!!(it&&it.c&&it.c.kind==='required'), once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_mingxuan},
+      dialogue:[ {speaker:null,text:'（下課鐘一響，明軒第一個收好書包。）'},
+        {speaker:'classmate_mingxuan',text:'欸，{name}，我先走，公車要趕。'},
+        {speaker:null,text:'（他把一張摺好的紙塞給你。）'},
+        {speaker:'classmate_mingxuan',text:'公館便宜好吃的店，我自己整理的。不要外流喔。'},
+        {choice:[{text:'「你要去哪？」',goto:'where'},{text:'「謝了。」',goto:'thx'}]},
+        {label:'where'},{speaker:'classmate_mingxuan',text:'家教。國中生，數學。……你什麼都沒看到。'},{goto:'end'},
+        {label:'thx'},{speaker:'classmate_mingxuan',text:'下次我請。……一顆滷蛋。'},
+        {label:'end'},
+        {speaker:null,text:'（你打開那張紙。第一行寫著：「江明軒製」。）'},
+        card('classmate_mingxuan','公館便宜好吃.xlsx') ] },
+    /* 3-5 阿哲「四碗麵」：第 4 週，9/23（二）22:00 以後第一次在 203、阿凱和柏翰都在房間（203 四人房，STORY.dormWho）*/
+    { id:'ev_card_zhe', title:'四碗麵', participants:['zhe','kai','classmate_bohan'], location:'dorm', trigger:'auto', once:true, term:['Y1S1'], weeks:[4], time:[22,26], background:'blur',
+      prereq:{custom:G=>!F(G).FRIEND_CARD_zhe&&G.day>=dk('2025-09-23')&&inDorm(G,'kai')&&inDorm(G,'classmate_bohan')},
+      dialogue:[ {speaker:null,text:'（晚上十點，阿哲提著四碗麵進門。）'},
+        {speaker:'zhe',text:'阿凱、柏翰、{name}。宵夜。我揪的，算我的。'},
+        {speaker:'classmate_bohan',text:'一碗六十五。我轉你。'},
+        {speaker:'zhe',text:'沒事啦。'},
+        {speaker:'kai',text:'那下次我買。……所以下次是什麼時候。'},
+        {choice:[{text:'「謝啦，阿哲。」',goto:'thx'},{text:'「我也轉你。」',goto:'pay'}]},
+        {label:'thx'},{speaker:'zhe',text:'吃啦，要冷了。'},{goto:'end'},
+        {label:'pay'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'不用啦。'},{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'不用啦，哥。'},
+        {label:'end'},
+        {speaker:null,text:'（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'},
+        card('zhe','四碗麵') ] },
+    /* 第 4 節 群像「考完吃哪家」：第 13 週最後一堂刑總下課，自動；和阿哲 FRIEND 以上、或演過四碗麵。芯慈不在場（只被提到）。
+       選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK 'mx'（之後考完吃飯那則手機邀約照舊；那頓飯的旁白還沒接這個旗標）*/
+    { id:'ev_friends_exam_meal', title:'考完吃哪家', participants:['zhe','classmate_bohan','classmate_mingxuan','yu'], location:'any', trigger:'class', afterClass:'crim_gen1', once:true, term:['Y1S1'], weeks:[13], background:'blur',
+      prereq:{custom:G=>!!F(G).FRIEND_CARD_zhe||(typeof SOCIAL!=='undefined'&&SOCIAL.STAGES.indexOf(SOCIAL.friendLevel('zhe'))>=SOCIAL.STAGES.indexOf('FRIEND'))},
+      dialogue:[ {speaker:null,text:'（刑總下課。走廊上，阿哲已經在點人數。）'},
+        {speaker:'zhe',text:'考完那天，吃飯。柏翰、明軒、Alison、{name}。芯慈呢？'},
+        {speaker:'yu',text:'她說要提前一天約才算數。我幫她約了！'},
+        {speaker:'classmate_bohan',text:'最後一科考完是下午三點十分。'},
+        {speaker:'classmate_mingxuan',text:'麵店四點半才開。……我知道一家三點就開的。'},
+        {speaker:'zhe',text:'所以哪家？'},
+        {speaker:'classmate_mingxuan',text:'（拿出手機）表上第三列。'},
+        {choice:[{text:'「我都可以。」'},{text:'「明軒那家。」',set:{Y1S1_EXAM_MEAL_PICK:'mx'}}]} ] } ); })();
