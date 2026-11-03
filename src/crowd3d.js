@@ -368,7 +368,7 @@ const CROWD=(function(){
   S.shopPeople=function(def,ui,spot,G,slot,E){ const u=def.units[ui], out=[], seats=(E&&E.zone&&E.zone.seats)||[];
     const zs=q=>{ let b=null, bd=0.12; for(const s of seats){ const d=Math.hypot(s.x-q.x,s.z-q.z); if(d<bd&&(s.lv|0)===0){ bd=d; b=s; } } return b; };
     (slot.who||[]).forEach((w,k)=>{ const spec=6000+def.ix*400+ui*16+((slot.vix*2+k)%8)*2+(w.sex==='m'?1:0), base={key:spot.id+'|'+slot.key+'|'+k,spec,pose:'idle',role:u.stand?'shop_'+u.kind:'diner'};
-      if(u.stand){ const [x,z,yaw]=u.stand; if(E&&E.interactables&&E.interactables.some(i=>!i.seat&&!i.hidden&&Math.hypot(i.x-x,i.z-z)<(i.exit?1.0:0.45))) return; out.push(Object.assign(base,{x,z,yaw})); return; }
+      if(u.stand){ const [x,z,yaw]=u.stand; if(E&&E.interactables&&E.interactables.some(i=>!i.seat&&!i.hidden&&Math.hypot(i.x-x,i.z-z)<(i.exit?1.0:0.45))) return; if(S.shopStandReserved(def.zone,x,z,G)) return;   /* 店內偶遇的朋友站在這裡（SHOPENC，shopStandTake）*/ out.push(Object.assign(base,{x,z,yaw})); return; }
       const q=u.seats[k], st=q&&zs(q); if(!st) return;
       out.push(Object.assign(base,{x:st.x,z:st.z,yaw:st.yaw||0,seat:st,sitPose:w.pose!=='sit'?w.pose:null,prop:w.prop,props:w.prop?[w.prop]:null})); });
     return out; };
@@ -395,6 +395,10 @@ const CROWD=(function(){
       for(const id of Object.keys(live)){ if(id.indexOf('shop_'+zone+'_')!==0) continue; const L=live[id]; if(!L.npcs.some(n=>n&&(near(n.seat)||near(n.seatTarget)))) continue;   /* 坐在那裡的那一桌：一起走 */
         const sp=S.SPOTS.find(q=>q.id===id); for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(o.instant||!GM||!GM.E){ E.removeNPC(n); continue; } n.lookAt=null; if(n.seat) standNPC(E,n); n.seatTarget=null; walkAwayCrowd(GM,sp,n,'door'); } L.npcs=[]; L.yielded=true; } }
     const R=S.shopRes[zone]||(S.shopRes[zone]={}); R[k]={day:o.day!=null?o.day:(G?G.day:null),until:o.until!=null?o.until:null,who:o.who&&o.who.id||o.whoId||null}; return st||true; };
+  /* 站的地方（店內偶遇的朋友站在書架、貨架、櫃台前面；SHOPENC）：CROWD.shopStandTake(zone,[x,z],{day,until}) 那一點 0.45 m 內路人不站；隔天、until 以後自動失效 */
+  S.shopStandRes={};
+  S.shopStandTake=function(zone,p,o){ o=o||{}; if(!zone||!p) return false; const G=o.G||G0(); const R=S.shopStandRes[zone]||(S.shopStandRes[zone]={}); R[(+p[0]).toFixed(2)+','+(+p[1]).toFixed(2)]={x:+p[0],z:+p[1],day:o.day!=null?o.day:(G?G.day:null),until:o.until!=null?o.until:null,who:o.whoId||null}; return true; };
+  S.shopStandReserved=function(zone,x,z,G){ const R=S.shopStandRes[zone]; if(!R) return false; G=G||G0(); for(const k of Object.keys(R)){ const r=R[k]; if(G&&((r.day!=null&&r.day!==G.day)||(r.until!=null&&G.hour>=r.until))){ delete R[k]; continue; } if(Math.hypot(r.x-x,r.z-z)<0.45) return true; } return false; };
   S.shopSeatFree=function(zone,seat){ const R=S.shopRes[zone]; if(!R) return false; if(seat==null){ delete S.shopRes[zone]; return true; } const k=resKey(zone,seat); if(!k||!R[k]) return false; delete R[k]; return true; };
   /* 留給約好一起來的人的那一組兩人座（keep）：照作息進店的有名字的人（story3d populateSchedule）也先不坐（BB 11-03：沛珊、阿哲 12:30 坐掉一個）*/
   S.shopKeepSeats=function(G){ const def=G&&S.SHOP_ZONES[G.zone]; if(!def) return []; const pl=S.shopPlan(def,G), u=pl.keep>=0?def.units[pl.keep]:null; return (u&&u.seats)||[]; };
@@ -627,6 +631,7 @@ const CROWD=(function(){
       if(spot.bind) spot.bind(GM,n,p);
       npcs.push(n); });
     if(spot.pairTalk&&npcs.length===2){ npcs[0].lookAt=npcs[1].obj.position; npcs[1].lookAt=npcs[0].obj.position; }   /* 一桌兩個人：轉頭看對方（聊天）*/
+    if(spot.shop&&typeof SHOPENC!=='undefined'&&SHOPENC.bindDiners){ try{ SHOPENC.bindDiners(GM,spot,npcs,slot); }catch(e){ console.warn('SHOPENC.bindDiners',e); } }   /* 店裡的客人點了聽一句（AA_640，src/shopenc3d.js）*/
     live[spot.id]={slotKey:slot.key,npcs}; }
   function runPend(GM){ const h=hr(GM.G); for(const q of pend.slice()){ if(h<q.h-1e-9) continue; dropPend(q.n); if(GM.E.npcs.includes(q.n)) q.go(); } }
   function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0; const h=hr(GM.G);
