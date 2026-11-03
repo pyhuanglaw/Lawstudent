@@ -103,7 +103,7 @@ def floor(path, rough_path, tables, aisle):
     ppm = 128; W, H = int(6 * ppm), int(13 * ppm); t = int(0.2 * ppm)
     rng = np.random.RandomState(61)
     n1 = _noise(H, W, 150, 62); n2 = _noise(H, W, 3, 63, 2)
-    base = np.array([214, 204, 184], np.float32)   # 參考圖地板 #d6ccb8
+    base = np.array([226, 216, 196], np.float32)   # 參考圖地板 #d6ccb8（再亮一點：反光）
     col = base[None, None] * (0.94 + 0.08 * n1[..., None]) * np.ones((H, W, 1), np.float32)
     for i in range(H // t + 1):
         for j in range(W // t + 1):
@@ -118,7 +118,7 @@ def floor(path, rough_path, tables, aisle):
     xs = (np.arange(W) + 0.5) / ppm - 3.0; zs = (np.arange(H) + 0.5) / ppm - 6.5   # 影像第 0 列＝z −6.5（後牆）
     X, Z = np.meshgrid(xs, zs)
     dirt = np.clip(1 - (np.minimum.reduce([X + 3, 3 - X, Z + 6.5, 6.5 - Z]) / 0.35), 0, 1) ** 1.5
-    for tz in tables: dirt = np.maximum(dirt, 0.55 * np.exp(-(((X + 2.1) / 0.55) ** 2 + ((Z - tz) / 0.7) ** 2)))
+    for tz in tables: dirt = np.maximum(dirt, 0.8 * np.exp(-(((X + 2.1) / 0.55) ** 2 + ((Z - tz) / 0.7) ** 2)))
     dirt = np.maximum(dirt, 0.45 * np.clip(1 - np.abs(X - 0.95) / 0.25, 0, 1) * (Z > -4.5) * (Z < 5.4))
     dirt *= (0.6 + 0.8 * n1)
     col = col * (1 - 0.45 * dirt[..., None]) + np.array([96, 84, 64]) * 0.45 * dirt[..., None]

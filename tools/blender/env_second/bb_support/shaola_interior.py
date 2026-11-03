@@ -32,12 +32,11 @@ SHELF = dict(x0=2.7, x1=3.0, z0=-4.5, z1=3.0)
 KDOOR = (1.0, 2.0)
 FRIDGE = dict(x0=1.8, x1=3.0, z0=-6.05, z1=-5.15)          # 配置的 [2.4, −5.6, 1.2, 0.9]
 DOOR = (-0.8, 0.8)
-LEAF_DEG = 78                                                  # 左邊門扇往裡開 78°（參考圖左前景的玻璃門框、紅線）
+LEAF_DEG = -100                                                # 左邊門扇往外開（開在騎樓那一側）：參考圖的鏡頭在門的右邊，遊戲的門在 x −0.8～0.8、鏡頭照參考圖的桌子位置要站在 x −1.2，往裡開的門扇會擋在鏡頭右前方
 BACKTABLE = dict(x0=-2.9, x1=-0.35, z0=-6.5, z1=-5.92)        # 後牆不鏽鋼工作檯（參考圖第 10 項）
 EXTRA_BLOCKS = [[round((BACKTABLE['x0'] + BACKTABLE['x1']) / 2, 3), round((BACKTABLE['z0'] + BACKTABLE['z1']) / 2, 3), round(BACKTABLE['x1'] - BACKTABLE['x0'], 3), round(BACKTABLE['z1'] - BACKTABLE['z0'], 3), '後牆不鏽鋼工作檯'],
-                [-0.72, 6.06, 0.22, 0.82, '左邊門扇（開著 78°）'],
                 [-2.75, 0.0, 0.4, 0.0, '靠牆的圓凳（每桌一張，z＝桌子；見 README）']]
-EXTRA_BLOCKS = EXTRA_BLOCKS[:2] + [[-2.74, z, 0.36, 0.36, f'靠牆的圓凳（第 {i + 1} 桌）'] for i, z in enumerate(TABLES_Z)]
+EXTRA_BLOCKS = EXTRA_BLOCKS[:1] + [[-2.74, z, 0.36, 0.36, f'靠牆的圓凳（第 {i + 1} 桌）'] for i, z in enumerate(TABLES_Z)]
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
 
 random.seed(612); R = random.Random(612)
@@ -62,7 +61,7 @@ def img_mat(name, path, rough=0.6, metal=0.0, emit=0.0, rough_img=None, cull=Fal
 
 
 M = dict(
-    floor=img_mat('sl_floor', P['floor'], rough=0.4),
+    floor=img_mat('sl_floor', P['floor'], rough=0.22),
     wall=img_mat('sl_wall', P['wall'], rough=0.88),
     ceil=img_mat('sl_ceiling', P['ceil'], rough=0.92, cull=True),       # 單面朝下（剖面視角）
     steel=img_mat('sl_steel', P['steel'], rough=0.3, metal=0.45),
@@ -71,7 +70,7 @@ M = dict(
     gloss=L.vc_material('sl_vc_gloss', rough=0.2),                         # 燒臘油亮、人造皮、玻璃罐
     vm=L.vc_metal('sl_vc_metal', rough=0.32, metal=0.45),                  # 鋼管、鋁框、銅燈罩、勾子
     glass=L.flat('sl_glass', '#e4ecee', rough=0.04, alpha=0.12),
-    tube=L.flat('GLOW_sl_tube', '#ffffff', rough=0.3, emit=tuple(v * 4.0 for v in B.srgb('#eef2ff'))),
+    tube=L.flat('GLOW_sl_tube', '#ffffff', rough=0.3, emit=tuple(v * 8.0 for v in B.srgb('#eef2ff'))),
     warm=L.flat('GLOW_sl_warm', '#ffe2b0', rough=0.4, emit=tuple(v * 2.5 for v in B.srgb('#ffb85c'))),
     screen=img_mat('GLOW_sl_screen', P['screen'], rough=0.15, emit=1.2),
 )
@@ -219,10 +218,10 @@ VC.cbox(-0.7, 0.7, 0.0, 0.012, 5.9, 6.45, '#7a2a24')
 def tube(x, z, ax, Ln=1.22):
     if ax == 'x':
         VC.cbox(x - Ln / 2 - 0.05, x + Ln / 2 + 0.05, H - 0.07, H, z - 0.09, z + 0.09, '#e6e4dc')
-        for dz in (-0.04, 0.04): MS['tube'].cyl((x - Ln / 2, H - 0.095, z + dz), (x + Ln / 2, H - 0.095, z + dz), 0.016, seg=8)
+        for dz in (-0.045, 0.045): MS['tube'].cyl((x - Ln / 2, H - 0.095, z + dz), (x + Ln / 2, H - 0.095, z + dz), 0.02, seg=8)
     else:
         VC.cbox(x - 0.09, x + 0.09, H - 0.07, H, z - Ln / 2 - 0.05, z + Ln / 2 + 0.05, '#e6e4dc')
-        for dx in (-0.04, 0.04): MS['tube'].cyl((x + dx, H - 0.095, z - Ln / 2), (x + dx, H - 0.095, z + Ln / 2), 0.016, seg=8)
+        for dx in (-0.045, 0.045): MS['tube'].cyl((x + dx, H - 0.095, z - Ln / 2), (x + dx, H - 0.095, z + Ln / 2), 0.02, seg=8)
 
 
 TUBES = [(-1.1, z, 'x') for z in (5.4, 3.3, 1.2, -0.9, -3.0, -5.1)] + [(1.45, z, 'z') for z in (0.9, -1.9, -4.6)]
@@ -568,7 +567,7 @@ for z in (kz0 + 0.4, kz0 + 1.2, kz0 + 2.0, kz0 + 2.8):
     MS['warm'].sphere((1.62, top - 0.1, z), 0.03, seg=10, rings=6)
 # 價目卡（貼在玻璃內側，面向走道）
 for k, key in enumerate(('card0', 'card1')):
-    y0 = 1.62 - k * 0.27; za, zb = 4.15, 4.95
+    y0 = 1.28 - k * 0.27; za, zb = 4.15, 4.95
     uvq(PR, [(gx0 - 0.025, y0, za), (gx0 - 0.025, y0, zb), (gx0 - 0.025, y0 + 0.24, zb), (gx0 - 0.025, y0 + 0.24, za)], C[key])   # 貼在玻璃外側（面向走道）
 # 櫃台後面（老闆那一側）的地墊、腳下
 VC.cbox(c['x1'] + 0.05, SHELF['x0'] - 0.05, 0.0, 0.015, -4.2, 2.8, '#3a3a36')
