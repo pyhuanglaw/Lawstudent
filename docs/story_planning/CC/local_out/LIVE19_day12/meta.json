@@ -1,22 +1,23 @@
 {
-  "rerun": "fetchmain",
+  "rerun": "fetchmain2",
   "id": "LIVE19_day12",
   "sha": "e1603907e",
   "kind": "game",
   "script": "tests/flow_main_day12.py",
-  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out};RERUN=fetchmain",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out};RERUN=fetchmain2",
   "machine": "MSI",
-  "start": "2026-11-04T05:31:45",
-  "end": "2026-11-04T05:31:52",
-  "seconds": 7,
-  "exit": null,
-  "error": "worktree add e1603907e failed: fatal: invalid reference: e1603907e",
-  "runner": "fa98538ce5",
-  "rf_round": "21",
+  "start": "2026-11-04T05:44:11",
+  "end": "2026-11-04T05:49:27",
+  "seconds": 317,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
   "res_peak": {
-    "cpu": 10,
-    "mem": 39,
-    "used_gb": 12.2,
-    "chrome_testing": 0
+    "cpu": 82,
+    "mem": 58,
+    "used_gb": 18.5,
+    "chrome_testing": 17
   }
 }
