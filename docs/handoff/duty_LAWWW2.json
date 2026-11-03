@@ -3,10 +3,8 @@
  "account": "A",
  "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
  "branch": "claude/second-ai-env-art",
- "since": "2026-11-02T03:37Z",
- "state": "off",
- "sinceSha": "e16b32ad",
- "userOk": false,
- "handoffAt": "2026-11-02T22:5xZ",
- "handoffNote": "使用者「現在換班」；見 docs/art-rebuild/second_ai/HANDOFF.md 最上面一節"
+ "since": "2026-11-03T08:2xZ",
+ "state": "on",
+ "sinceSha": "b5c2e47c",
+ "userOk": true
 }
