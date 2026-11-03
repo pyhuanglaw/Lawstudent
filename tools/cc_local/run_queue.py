@@ -60,6 +60,14 @@ LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
 REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結束時，多久重讀一次佇列
 
 
+def blender_threads():
+    """Blender 用幾個 CPU 執行緒：全部核心減 2（留給系統和瀏覽器），至少 1；CC_BLENDER_THREADS 可以覆寫"""
+    try:
+        return max(1, int(os.environ.get('CC_BLENDER_THREADS') or (os.cpu_count() or 4) - 2))
+    except ValueError:
+        return max(1, (os.cpu_count() or 4) - 2)
+
+
 def is_solo(it):
     """ENV 有 SOLO=1：這一項要單獨跑（不和別的項目同時跑）"""
     return str(getattr(it, 'envd', {}).get('SOLO', '')).strip() == '1'
@@ -691,7 +699,7 @@ class Runner(object):
             script = os.path.join(wt, it.script)
             if blender_is_python(self.blender):
                 return [self.blender, script, '--'] + xa, wt
-            return [self.blender, '-b', '--python-exit-code', '1', '--python', script, '--'] + xa, wt
+            return [self.blender, '-b', '-t', env.get('CC_BLENDER_THREADS', str(blender_threads())), '--python-exit-code', '1', '--python', script, '--'] + xa, wt
         raise RuntimeError('unknown kind %s' % k)
 
     def run_item(self, it):
@@ -764,6 +772,13 @@ class Runner(object):
                 env['CC_HEADLESS'] = '0'           # 預設有視窗，讓使用者看得到遊戲畫面（佇列 ENV 有寫 CC_HEADLESS 的照佇列）
             for kk, vv in it.envd.items():
                 env[kk] = vv
+            if it.kind == 'blender':
+                # 使用者 11-03 13:3x 選「改成只用 CPU」：PC 上的 Blender 一律 CPU，不用 HIP（佇列寫 HIP 也改回 CPU，記在 meta）；留兩個核心給系統
+                if env.get('CC_BLENDER_DEVICE', 'CPU').upper() != 'CPU':
+                    meta['device_forced'] = '%s -> CPU' % env.get('CC_BLENDER_DEVICE')
+                env['CC_BLENDER_DEVICE'] = 'CPU'
+                env.setdefault('CC_BLENDER_THREADS', str(blender_threads()))
+                meta['blender_threads'] = env['CC_BLENDER_THREADS']
             cmd, cwd = self.build_cmd(it, wt, od, url, url2, env)
             with open(os.path.join(od, 'run.log'), 'wb') as fo, open(os.path.join(od, 'err.log'), 'wb') as fe:
                 p = subprocess.Popen(cmd, cwd=cwd, env=env, stdout=fo, stderr=fe, stdin=subprocess.DEVNULL, **popen_flags())
