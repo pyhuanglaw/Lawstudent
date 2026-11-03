@@ -47,6 +47,7 @@ const SHOPENC=(function(){
   S.key=(G,spot)=>G.day+':'+spot+':'+period(G.hour%24);
   /* 她原本的作息（不算店內偶遇自己加的那一筆）*/
   let guard=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['shopenc3d:guard']=()=>{ guard=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）*/
   S.baseSched=function(c,G){ if(typeof STORY==='undefined'||!STORY.schedEnt||!c) return null; const g=guard; guard=true; try{ return STORY.schedEnt(c,G); } finally { guard=g; } };
   /* 「整段的背景作息」：作息表裡一筆在遊戲場景裡、做自己的事、時間長（6 小時以上）的（阿凱大一 18:00～08:00 在 203 的書桌、學姊大一大二平日 9～17 在總圖）——
      那是她平常大概在哪裡，不是約好的事。店內偶遇可以把那一段的一小時換成這間店（STORY.SCHED_X 換掉，別的地方就不生她：還是不會同時兩個地方）。
