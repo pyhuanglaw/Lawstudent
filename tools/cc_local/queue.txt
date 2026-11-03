@@ -20,11 +20,11 @@
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 # BB 17:08：候選換成 033242ae9（和 15e78dff7 只差 index.html 版本字樣 v9.10.19）；其餘 V19 項目照 15e78dff7 跑、算這一版；deploy、p0b 跑 033242ae9
-#HOLD修正 V19P_tour_tap | <合照修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
-#HOLD修正 V19P_tour_joy | <合照修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
-#HOLD修正 V19P_deploy   | <合照修正> | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
-#HOLD修正 V19P_p0       | <合照修正> | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
-# （V19P：BB 18:22 BUG-TOUR-PHOTO-MISSED-1103 修好的 SHA 下來就填、拿掉 #HOLD修正；其他項目沿用之前的結果）
+V19D_tour_tap3 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
+V19D_tour_joy3 | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
+V19R_deploy4  | ddda3d829 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
+V19R_p0d      | ddda3d829 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+# （BB 18:25 P0：候選 ddda3d829（outings3d.js 導覽中 tourHeld、結束後寬限至少 15 分鐘）；這四支最前面，其他沿用）
 # BB 18:00：候選改成 b267b0534（多了 library_view_trees 兩張圖），這四支排最前面；還沒跑的 V19 項目、重跑項目也改用 b267b0534
 V19R_deploy3 | b267b0534 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
 V19R_p0c     | b267b0534 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
