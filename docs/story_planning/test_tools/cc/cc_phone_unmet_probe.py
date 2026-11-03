@@ -12,17 +12,21 @@
   相遇怎麼判斷：SOCIAL.metD（src/social3d.js:96：FIRST_MET 記憶，或舊旗標 met_<id>／LEGACY_MET）；SOCIAL.meet（:97）記 FIRST_MET。
     可是 MSG.contactRows 用的「認識」是 msg3d.js:52 met＝SOCIAL.stage(id)!=='STRANGER'（熟悉 fam≥5，social3d.js:44）或 knownIds 有她（game3d.js:460），
     hasContact（msg3d.js:53 → invites3d.js:33）把 INVITE_DATA.contacts0（src/data/invites.js:25：zhe、kai、kexin、heroine_05）也算有聯絡方式——這兩條都不看 metD，探針一起記。
+範圍（BB 08:46 更正）：位置是「訊息頁上面的聯絡人列」（game3d.js:716-717 contactsHTML → MSG.contactRows msg3d.js:159-165）。
+  BB 讀碼的原因：contactRows 用 msg3d.js:52 met＝SOCIAL.stage(id)!=='STRANGER' 決定列不列，名字卻走 SOCIAL.metD（social3d.js:91/96）——
+  stage 離開 STRANGER（熟悉 fam≥5，social3d.js:44）而 metD 還沒成立時，列出一格 gray（disabled、opacity .5）的「不認識的女生」。探針只驗證。
 探針做的事（只記錄、不改行為）：
-  包住 PHONE.post／postAt／at／join、INV.msg／msgAt：每次記 key（th）、from、who、文字前 40 字、G.day、G.hour、tag、new Error().stack 前 6 行、當下五位女主角 metD；
-  PHONE.at 排進去的 stack 依 tag 記著，之後 tick 送出時一起列（真正的來源）。每 ~5 秒在頁面裡算一次 PHONE.threads＋MSG.contactRows 的標題（不開 UI），
-  記第一次出現「不認識的…」的時間；每過一天（和最後）照玩家打開手機「訊息」分頁（CDP 觸控），把每一列的 data-th／data-noct 和名字記下來，有「不認識」就截圖。
+  1. 開學前每天（空下來時）照玩家打開手機「訊息」分頁（CDP 觸控），記聯絡人列每一格：名字、gray（data-noct）、opacity、disabled、data 屬性；有可疑的格子就截圖，
+     並記當下 SOCIAL.stage(id)、SOCIAL.metD(id)、fam、有沒有聯絡方式。
+  2. 包住 SOCIAL.adjust／activity／meet／remember：五位女主角的 stage 一變就記（前後 stage、metD、fam、EVENTS.running、呼叫來源 stack 前 6 行）＝找出把 stage 推離 STRANGER 的事件。
+  3. 附帶：包住 PHONE.post／postAt／at／join、INV.msg／msgAt（G.msgs 的寫入，phone3d.js:44-58、invites3d.js:28-31），相遇前寫進她的訊息只列出來、不算 FAIL。
 流程：照玩家從標題點「從法律系開始」（START=econ 改點「從經濟系開始」），名字用預設；對話點過去、選項選第一個（睡覺選單例外：選「睡到明天早上」類，才過得了夜）；
   空下來 21:00 前：手機「今天」有「直接去上課」就按，沒有就按時間最早的「跳過時間」（不一次跳整天：早→中午→下午→傍晚→晚上都經過）；
   21:00 以後：手機「地點」快速前往宿舍（照樣花遊戲時間）、走到床邊按「睡覺」。不改旗標、不撥時間、不用 GAME.advance。
   網址建議加 ?turbo（測試加速：走位瞬間、dt 上限；條件事件 EVENTS.tick、PHONE.tick、劇情照常跑，不會漏時段）和 ?lowres。
-  一路玩到 SOCIAL.metD('heroine_01')（和以安相遇），或開局後第 DAYS 天（預設 21），兩者取先到的。
-判斷：和她相遇之前（五位女主角各自），寫入 key 含 heroine_0x（th＝p:heroine_0x，或 who＝heroine_0x）、訊息列表／聯絡人按鈕有她（名字「不認識的…」）、群組裡她以「不認識的…」說話 → FAIL。
-用法：LW_TESTS=<wt>/tests SHA=<sha> [START=law|econ] [DAYS=21] [MAX_MIN=85] python3 cc_phone_unmet_probe.py '<URL>/index.html?turbo&lowres' <輸出資料夾>
+  一路玩到開學那一天（END_KEY，預設 2025-09-01）看過一次聯絡人列為止。
+判斷：聯絡人列出現名字「不認識…」、名字空白、或沒見過（metD=false）的女主角卻列出來（含 gray）→ FAIL；見過、沒有聯絡方式的 gray 照設計，不算。
+用法：LW_TESTS=<wt>/tests SHA=<sha> [START=law|econ] [END_KEY=2025-09-01] [MAX_MIN=85] python3 cc_phone_unmet_probe.py '<URL>/index.html?turbo&lowres' <輸出資料夾>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED n；exit 0／1。"""
 import os, sys, json, asyncio, time, traceback
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
