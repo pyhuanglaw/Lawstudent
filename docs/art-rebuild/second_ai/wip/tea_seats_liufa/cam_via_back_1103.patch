@@ -1,0 +1,61 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -440,7 +440,7 @@
+     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
+   E.autoSwing=autoSwing;
+   const _lookPt=new THREE.Vector3();
+-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.via||s.pos,Math.min(1,dt*2.4)); if(s.via&&camera.position.distanceTo(s.via)<0.15) s.via=null;   /* via：先經過這一點再去 pos（宿舍書桌：先在走道降下來、再從床板下面平移過去，不穿過梯子、床欄；BB 11-03 16:16）*/ C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
++  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.via||s.pos,Math.min(1,dt*2.4)); if(s.via&&camera.position.distanceTo(s.via)<0.15) s.via=null; if(s.ending){ s.endT=(s.endT||0)+dt; if(camera.position.distanceTo(s.pos)<0.15||s.endT>1.6){ C.cine.back=null; E.endCinematic(); return; } }   /* 拉回之前先退回 via（BB 11-03 22:43：拉回的那一段穿過上舖床板 2.6 cm）；1.6 秒還沒到就照常拉回 */   /* via：先經過這一點再去 pos（宿舍書桌：先在走道降下來、再從床板下面平移過去，不穿過梯子、床欄；BB 11-03 16:16）*/ C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
+     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
+     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
+        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */
+@@ -485,10 +485,11 @@
+      階梯教室後排的座位離地板超過 0.5 m，displayLv 會當成在樓梯上、算成二樓（博雅一樓的階梯教室）。測試：node tests/shadow_levels_unit.js */
+   function shadowLevels(SM){ const smr=SM.render; SM.render=function(){ const z=E.zone, LG=z&&z.levelGroups, hid=[], P=E.player; if(LG&&LG.length>1){ const dl=P&&P.lv!=null?(P.lv|0):(z.displayLv|0); for(let k=dl+1;k<LG.length;k++){ const g=LG[k]&&LG[k].group; if(g&&g.visible){ g.visible=false; hid.push(g); } } }
+       try{ return smr.apply(SM,arguments); } finally{ for(const g of hid) g.visible=true; } }; }
+-  E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null}; };
++  E.cinematic=function(pos,look,via){ if(E.cam.mode!=='cinematic'||!E.cam.look){ /* 從目前的視線方向開始平滑轉過去（舊版注視點從世界原點出發，第一次運鏡會甩頭） */ const fwd=new THREE.Vector3(); camera.getWorldDirection(fwd); E.cam.look=camera.position.clone().addScaledVector(fwd,Math.max(1,camera.position.distanceTo(look))); } E.cam.mode='cinematic'; E.cam.cine={pos:pos.clone(),look:look.clone(),via:via?via.clone():null,back:via?via.clone():null}; };
+   /* 劇情鏡頭結束回到跟隨鏡頭（2026-10-18 使用者：「轉換視角太快了，在宿舍認識阿勳的時候轉回來玩的視角也很暈，隔天起來也是」）：
+      原本看的點瞬間跳回玩家、位置 0.3 秒內拉回背後（還會繞半圈）。改成：跟隨鏡頭的方向接在劇情鏡頭現在的方位（不繞），1.1 秒內慢慢拉回距離、看的點慢慢移過去 */
+-  E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;
++  E.endCinematic=function(){ const C=E.cam; if(C.mode==='cinematic'&&C.cine&&C.cine.back&&!C.cine.ending&&camera.position.distanceTo(C.cine.back)>0.15){ C.cine={pos:C.cine.back,look:C.cine.look.clone(),via:null,back:null,ending:true}; return; }   /* 有 via 的運鏡（宿舍書桌）：先退回走道上的 via，再拉回跟隨鏡頭（不從床板下面直接往上拉）*/
++    if(C.mode==='cinematic'&&E.player){ const p=E.player.obj.position, dx=camera.position.x-p.x, dz=camera.position.z-p.z;
+       if(Math.hypot(dx,dz)>0.6) C.yaw=Math.atan2(dx,dz); C.blend={t:0,dur:1.1,look:(C.look||camera.getWorldDirection(new THREE.Vector3()).add(camera.position)).clone()}; }
+     C.mode='follow'; C.cine=null; };
+   E.snapCinematic=function(){ const s=E.cam.cine; if(!s) return; camera.position.copy(s.pos); E.cam.look=(E.cam.look||new THREE.Vector3()).copy(s.look); camera.lookAt(E.cam.look); camera.updateMatrixWorld(); };   /* 直接放到運鏡位置（換區域、淡入之前用：不從上一個區域的座標飛過來）*/
+diff --git a/tests/cam_via_back_unit.js b/tests/cam_via_back_unit.js
+new file mode 100644
+index 000000000..5ec00b414
+--- /dev/null
++++ b/tests/cam_via_back_unit.js
+@@ -0,0 +1,29 @@
++/* 有 via 的運鏡（宿舍書桌「看看房間裡的東西」，liufa_camvia）：進去先經過 via、拉回之前也先退回 via（BB 11-03 22:43：拉回那一段穿過上舖床板 2.6 cm）。
++   用真的 engine3d.js 的 updateCamera／E.cinematic／E.endCinematic（測試時把模組內的 camera 換成一個 PerspectiveCamera）。用法：node tests/cam_via_back_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global; global.document={createElement:()=>({getContext:()=>null,style:{}}),getElementById:()=>null,addEventListener(){}}; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js']){ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); s=s.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }
++let src=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8').replace(/^const (\w+)\s*=/m,'globalThis.$1=');
++const k=src.lastIndexOf('return E;'); src=src.slice(0,k)+'E._t={setCam:c=>{camera=c;},upd:updateCamera};\n'+src.slice(k);
++vm.runInThisContext(src,{filename:'engine3d.js'});
++let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3, cam=new THREE.PerspectiveCamera(46,1,0.1,200); E._t.setCam(cam);
++E.cam=E.cam||{}; E.cam.mode='follow'; E.player={obj:{position:new THREE.Vector3(-1.5,0,1.5)},lv:0};
++// 宿舍 203 的書桌那一格（dorm_desk_items.py：eye 在床板下面 y 1.25、via 在走道 x −0.6 同高同 z）；床板底面 y 1.5、x −2.0～−0.9
++const eye=new THREE.Vector3(-1.4,1.25,0.9), via=new THREE.Vector3(-0.6,1.25,0.9), look=new THREE.Vector3(-1.8,0.8,0.4), BOARD={x0:-2.0,x1:-0.9,y:1.5};
++cam.position.set(0.5,2.6,3.2);
++E.cinematic(eye,look,via); let inBoard=0, minX=9; for(let i=0;i<400;i++){ E._t.upd(1/30); const p=cam.position; if(p.x>BOARD.x0&&p.x<BOARD.x1&&p.y>BOARD.y-0.05) inBoard++; }
++check('1. 進去：鏡頭到了 eye（床板下面）',cam.position.distanceTo(eye)<0.05,cam.position.toArray().map(v=>v.toFixed(2)).join(','));
++E.endCinematic(); check('2. endCinematic 以後還在運鏡（先退回 via）',E.cam.mode==='cinematic'&&!!E.cam.cine&&E.cam.cine.ending===true);
++let trail=[]; for(let i=0;i<120&&E.cam.mode==='cinematic';i++){ E._t.upd(1/30); trail.push(cam.position.clone()); }
++const hit=trail.filter(p=>p.x>BOARD.x0&&p.x<BOARD.x1&&p.y>BOARD.y-0.05).length;
++check('3. 退回的路上沒有一格在床板的高度（x −2.0～−0.9、y > 1.45）',hit===0,hit+' 格');
++check('4. 退回 via 以後切回跟隨鏡頭',E.cam.mode==='follow'&&trail.length>0&&trail[trail.length-1].distanceTo(via)<0.2,trail.length+' 格');
++// 沒有 via 的運鏡照舊：endCinematic 馬上切回跟隨
++E.cinematic(new THREE.Vector3(1,2,1),new THREE.Vector3(0,1,0)); for(let i=0;i<10;i++) E._t.upd(1/30); E.endCinematic();
++check('5. 沒有 via 的運鏡：endCinematic 馬上回跟隨鏡頭（行為照舊）',E.cam.mode==='follow');
++// 退回途中又開始下一件（連續看下一件東西）：直接去下一件的 via
++E.cinematic(eye,look,via); for(let i=0;i<400;i++) E._t.upd(1/30); E.endCinematic(); for(let i=0;i<3;i++) E._t.upd(1/30);
++const eye2=new THREE.Vector3(-1.2,1.25,0.4), via2=new THREE.Vector3(-0.6,1.25,0.4); E.cinematic(eye2,look,via2); let hit2=0; for(let i=0;i<400;i++){ E._t.upd(1/30); const p=cam.position; if(p.x>BOARD.x0&&p.x<BOARD.x1&&p.y>BOARD.y-0.05) hit2++; }
++check('6. 退回途中接著看下一件：沒有穿床板、到得了下一件的 eye',hit2===0&&cam.position.distanceTo(eye2)<0.05,hit2+' 格');
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

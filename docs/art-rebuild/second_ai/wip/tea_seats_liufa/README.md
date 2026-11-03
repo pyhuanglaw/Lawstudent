@@ -45,3 +45,18 @@
 - 測試 `tests/dorm_desk_items_unit.js` 25 項 ALL PASS，新增的是第 21～25 項（六法節點與包住方塊、deskItemKeys、via、roomItemFocus 傳 via、engine 的 via）。
 - 一起跑過、都通過：`dorm_lightmap_unit`、`dorm_seethru_unit`、`dorm_205_unit`、`dorm_sleep_scene_unit`、`dorm_y3_items_unit`、`room_ceiling_unit`、`ladder_headroom_unit`、`room_y4_unit`、`v0_dorm_props_unit`。
 - **還沒做**：實際在遊戲裡選一項、錄下鏡頭的路線（SwiftShader 很慢）。
+
+## 鏡頭退回 via（BB 11-03 22:43，CC 在 d2b962a3f 量到；LAWWW 22:46 派，P2）
+- **問題**：宿舍「看看房間裡的東西」第 2～6 項，鏡頭有 1～4 格跑進上舖床板，差 2.6 cm。
+  - 原因是 `E.endCinematic` 直接切回跟隨鏡頭，鏡頭從床板下面的 eye 往上、往後拉，穿過床板。
+  - 進去的時候有 via（走道），回來沒有。
+- **修法**（`cam_via_back_1103.patch`，接在 `liufa_camvia_1103.patch` 後面套）：
+  - `E.cinematic(pos,look,via)` 有 via 的時候也記下 `back`。
+  - `E.endCinematic` 遇到有 back、鏡頭還沒在 back 的，先退回 back（`ending`），到了再切回跟隨鏡頭；1.6 秒還沒到就照常切回。
+  - 退回的途中接著看下一件，就直接往下一件的 via 去。
+  - 沒有 via 的運鏡行為照舊。
+- **測試**：新 `tests/cam_via_back_unit.js`，用真的 engine3d.js 的 updateCamera、E.cinematic、E.endCinematic。
+  - 修正後：6 項 ALL PASS。
+  - 修正前（只套 liufa patch）：第 2、4 項 FAIL。
+  - `dorm_desk_items_unit` 也是 ALL PASS。
+- **瀏覽器驗證**：照 D131 排使用者電腦（CC 的 cc-local）。
