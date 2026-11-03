@@ -308,8 +308,8 @@ const R2Y4A_EVENTS=(function(){
       {scene:'椰影大道',bg:'ntu_avenue'},
       nar('（你帶他走過椰影大道。他一直回頭看晨思鐘。）'),
       {speaker:'新生',text:'學長，大四會很忙嗎？'},
-      {choice:[{text:'「忙。可是還是會去吃麵。」',goto:'a'},{text:'「看你想做什麼。」',goto:'b'},{text:'（指著法律系館B）「先記得這棟就好。」',goto:'c'}]},
-      {label:'a'},{speaker:'新生',text:'吃麵？'},nar('（你往公館的方向指了一下。）'),{goto:'e'},
+      {choice:[{text:'「忙。可是還是會去吃燒臘。」',goto:'a'},{text:'「看你想做什麼。」',goto:'b'},{text:'（指著法律系館B）「先記得這棟就好。」',goto:'c'}]},
+      {label:'a'},{speaker:'新生',text:'吃燒臘？'},nar('（你往公館的方向指了一下。）'),{goto:'e'},
       {label:'b'},{speaker:'新生',text:'……我還不知道想做什麼。'},me('那先念民總。'),{goto:'e'},
       {label:'c'},nar('（他把法律系館B拍了一張照片。）'),
       {label:'e'},nar('（法律系館B門口。他說了謝謝，跑回草地。）'),
@@ -384,8 +384,8 @@ const R2Y4A_EVENTS=(function(){
   const ITEM={notebook:'一本小筆記本',coffee:'一包咖啡豆',card:'一張手寫卡片'}, Y1G=G=>!!ITEM[G.flags.XMAS_GIFT];   /* 大一帶過的（ev_xmas_exchange 的 XMAS_GIFT）*/
   const TO=(id,t)=>({if:{flagIs:{XMAS_Y4_TO:id}},speaker:id,text:t});
   EV.push({ id:'ev_y4_xmas', title:'聖誕交換禮物（大四）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
-      nar('（麵店最裡面那張桌子。禮物疊在中間，吃完再抽。）'),
+    dialogue:[ {scene:'公館燒臘',bg:'noodle_table'},
+      nar('（燒臘店最裡面那張桌子。禮物疊在中間，吃完再抽。）'),
       {choice:[{text:'一本小筆記本',set:{XMAS_GIFT_Y4:'notebook'}},{text:'一包咖啡豆',set:{XMAS_GIFT_Y4:'coffee'}},{text:'一張手寫卡片',set:{XMAS_GIFT_Y4:'card'}}]},   /* 這次帶什麼（同大一）*/
       nar('（抽完，大家一起打開。）'),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'（手上是一本空白手帳）……這是我會送的那種。'}),
@@ -427,8 +427,8 @@ const R2Y4A_EVENTS=(function(){
       {set:{PUSH_INTERVIEW:true}} ] });
   const PASS=G=>G.flags.Y4_PUSH==='pass', bh=t=>({speaker:BH,text:t});
   EV.push({ id:'ev_bh_dinner', title:'柏翰的晚餐', participants:[BH], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
-      nar('（週五的麵店，長桌空著。你們坐在角落那張兩人桌。）'),
+    dialogue:[ {scene:'公館燒臘',bg:'noodle_table'},
+      nar('（週五的燒臘店，長桌空著。你們坐在角落那張兩人桌。）'),
       bh('（看著菜單）我請。你點貴一點的。'),
       bh('……最貴的是一百一。我查過了。'),
       {unless:{custom:PASS},goto:'f'},
@@ -443,7 +443,7 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「謝謝。」',goto:'f1'},{text:'「十年份太多了。」',goto:'f2'}]},
       {label:'f1'},bh('嗯。'),{goto:'e'},
       {label:'f2'},bh('那先讀五年。'),
-      {label:'e'},nar('（他付了錢。走出麵店的時候，他說：「下次換你請。」）'),
+      {label:'e'},nar('（他付了錢。走出燒臘店的時候，他說：「下次換你請。」）'),
       {set:{BH_DINNER:'went'}} ],
     outingMissed:G=>{ G.flags.BH_DINNER='missed'; const d=D('2028-11-24'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,19.5,[{th:'p:'+BH,from:BH,text:'我先吃了。……下次還是我請。'}],'y4_bh_dinner_missed'); } });
 
@@ -641,12 +641,12 @@ const R2Y4A_EVENTS=(function(){
       IF(PV('family'),{speaker:'Kevin',text:'學姊妳今天話好多！'}),   /* Kevin 在後座 */
       IF(PV('lover'),sis('……還有。（她轉過頭看著你。）親一下。')),   /* AA_398 第 35 列 */
       {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',unless:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'c'},
-        {text:'「麵店？說好的。」',if:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'nd',aa512:true}]},   /* AA_512 6-1 (c)：J4「麵店。」（第一天就去）＝第三個選項換成這一個；其他兩個照舊 */
+        {text:'「燒臘店？說好的。」',if:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'nd',aa512:true}]},   /* AA_512 6-1 (c)：J4「麵店。」（第一天就去）＝第三個選項換成這一個；其他兩個照舊 */
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
       {label:'b'},sis('好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。不要再說明天。」（r2y4a3d.js；AA_398 第 36 列）*/
       {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),{goto:'e'},
-      {label:'nd'},Object.assign(sis('對。第一天。'),{aa512:true}),Object.assign(nar('（你們開回公館。麵店的鐵門拉下一半，阿姨看到你，又把門拉上去。）'),{aa512:true}),
-      Object.assign(nar('（阿姨端了兩碗麵，又多放一碗滷肉飯在她面前。她先吃滷肉飯。）'),{aa512:true}),
+      {label:'nd'},Object.assign(sis('對。第一天。'),{aa512:true}),Object.assign(nar('（你們開回公館。燒臘店的鐵門拉下一半，阿姨看到你，又把門拉上去。）'),{aa512:true}),
+      Object.assign(nar('（阿姨端了兩盤飯，又多放一碗例湯在她面前。她先喝湯。）'),{aa512:true}),
       {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });
 
@@ -661,7 +661,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（兩節。第二節最後一題，你寫到鐘響。）'),
       {set:{GRAD_EXAM_2029:true}} ] });
   EV.push({ id:'ev_grad_exam_after', title:'研究所筆試', participants:[AN], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ an('考完了。……先吃麵。') ] });   /* 12:30 門口（和以安 FAMILIAR 以上）*/
+    dialogue:[ an('考完了。……先吃飯。') ] });   /* 12:30 門口（和以安 FAMILIAR 以上）*/
 
   /* ---- 2-Y4-11 芷若第二輪明信片（BB_99 3-1、10-2；AA_262 附錄 B ZR1～ZR6）：每月一張，中午以後在宿舍（美國路線九～十二月在公寓 214）。r2y4a3d.js 放、讀、回寄 ---- */
   EV.PC2={
@@ -669,7 +669,7 @@ const R2Y4A_EVENTS=(function(){
     cards:[ {key:'2028-09-22',m:9,text:['到英國了。宿舍窗戶看出去，是一棵很大的樹。','我還不知道它叫什麼。'],gf:'熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。'},
       {key:'2028-10-20',m:10,text:['這次我知道要帶雨衣了。','班上有一個人跟我一樣，看電影會坐倒數第三排。','我們沒有講話，但每週都坐同一排。']},
       {key:'2028-11-17',m:11,text:['又到四點就天黑的時候了。去年很不習慣，今年還好。','我開始在下午看電影。出來的時候，像看了兩場。']},
-      {key:'2028-12-15',m:12,text:['我在寫一篇關於『一個人看電影』的報告。','教授說題目很小。我說，小的我才寫得完。'],us:'你也在國外。我們今天都不在家。',back:['（背面最後一行）','麵店生日快樂。']},
+      {key:'2028-12-15',m:12,text:['我在寫一篇關於『一個人看電影』的報告。','教授說題目很小。我說，小的我才寫得完。'],us:'你也在國外。我們今天都不在家。',back:['（背面最後一行）','燒臘店生日快樂。']},
       {key:'2029-01-05',m:1,text:['寒假我沒有回去。宿舍剩我和一個管理員。','她請我喝茶。英國的茶要加牛奶，我加了。……還好。']},
       {key:'2029-02-19',m:2,text:['今天下雪。很小，落地就不見了。','我拍了照，可是照片裡什麼都沒有。']},
       {key:'2029-03-16',m:3,text:['我開始存錢了。','回去以後，我想開一間很小的戲院。四十個座位就好。']},

@@ -92,7 +92,7 @@ await sec(4,async()=>{ const busy0=INV.busyAt, reach0=STORY.reachable; INV.busyA
   const q=OUT.get(H.G,'wz_grpb_'+sat); check('4. 成立：出門提醒那週六 10:00、帶到半熟',!!q&&q.h===10&&q.goto&&q.goto.zone==='wz_brunch'&&q.title==='大家的早午餐',J(q));
   check('4. 那一週不能再約',!A.show(H.G));
   at(sat,10,'wz_brunch'); H.said=[]; const m0={}; for(const id of ['zhe','yu','classmate_bohan','classmate_xinci']) m0[id]=SOCIAL.rel(id).fam; await tickUntil();
-  check('4. 那一場：（四人桌，加一張椅子。）、Alison「欸，這裡的蛋好好吃。為什麼我們都在吃麵？」、阿哲「下次換晚餐。」、（他說的晚餐，還是麵店。）',J(H.said.map(s=>s.t))===J(['（四人桌，加一張椅子。）','欸，這裡的蛋好好吃。為什麼我們都在吃麵？','下次換晚餐。','（他說的晚餐，還是麵店。）']),J(L()));
+  check('4. 那一場：（四人桌，加一張椅子。）、Alison「欸，這裡的蛋好好吃。為什麼我們都在吃燒臘？」、阿哲「下次換晚餐。」、（他說的晚餐，還是燒臘店。）',J(H.said.map(s=>s.t))===J(['（四人桌，加一張椅子。）','欸，這裡的蛋好好吃。為什麼我們都在吃燒臘？','下次換晚餐。','（他說的晚餐，還是燒臘店。）']),J(L()));
   check('4. 時間到 11:30、四個人熟悉 +1、上午的時段佔掉',Math.abs(H.G.hour-11.5)<1e-6&&['zhe','yu','classmate_bohan','classmate_xinci'].every(id=>SOCIAL.rel(id).fam===m0[id]+1)&&CLS.slotRec(H.G).used.am>0,J(H.G.slots));
   /* 柏翰：法服值班的週六（大二起） */
   const thu7=TD('Y2S1',7,4); setup(key(thu7),20); H.picks=['週六 10:00']; await A.run(GM); at(thu7,20.5); const M7=msgs(TH);

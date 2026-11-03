@@ -34,7 +34,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   spawnCharacter(id,x,z,o){ const n=Object.assign({id,charId:id,name:(CHARACTERS[id]||{}).name||id,obj:mkObj()},o||{}); GM.npc[id]=n; return n; },
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x), K=d=>CALENDAR.dateOf(d).key;
-const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; ADV.active=false; E.npcs=[]; E.interactables=[]; return G; };
 const to=(key,h)=>{ G.day=typeof key==='number'?key:D(key); G.hour=h; G.weekday=wdOf(G.day); };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
@@ -187,7 +187,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('15. 20:30 群組「麵店分店」不算 Alison、柏翰',J(G.flags.NOODLE_BRANCH_MEMBERS)===J(['kexin','yule','zhe']),J(G.flags.NOODLE_BRANCH_MEMBERS)); }
   // ===== 第 16 項：語彤第 8～9 週 =====
   { fresh('2027-04-13',18,'dorm'); const a=sched('heroine_03'); to('2027-04-20',18); const b=sched('heroine_03'); to('2027-03-30',18); const c=sched('heroine_03');
-    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；對照第 6 週（3/30）在麵店',!!a&&a.zone!=='noodle'&&!!b&&b.zone!=='noodle'&&!!c&&c.zone==='noodle',J([a&&a.zone,b&&b.zone,c&&c.zone])); }
+    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；第 6 週（3/30）也不在（AA_610／AA_624：她從來不在燒臘店）',!!a&&a.zone!=='noodle'&&!!b&&b.zone!=='noodle'&&!(c&&c.zone==='noodle'),J([a&&a.zone,b&&b.zone,c&&c.zone])); }
   // ===== 第 17 項：以安「上次那份公文」=====
   { fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); STORY.neededRec(G).shown.an_admin=D('2026-12-06'); const L=await play('ev_an_mother_map',[0]);
     check('17. an_admin 發過（聽過）：「上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。」，不再當新消息講',L.includes('上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。')&&!L.includes('我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'),J(L.slice(0,2)));
@@ -220,8 +220,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
     const nd1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-15');d++) if(STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; return null; })(), nn1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-01');d++){ const w=CALENDAR.dateOf(d).wd; if(w>=1&&w<=5&&!STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
-    check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
-    { const SP1='（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中週過了，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）';
+    check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
+    { const SP1='（春假回來以後，第一次在燒臘店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中週過了，第一次在燒臘店遇到大家。春假去了哪裡，到現在還有人在講。）';
       const ndw=w=>{ for(let i=1;i<=5;i++){ const d=STORY.termDay('Y2S2',w,i); if(d!=null&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; }, w7=ndw(7), w10=ndw(10), w11=ndw(11);
       const sayAt=k=>{ fresh(k,18,'noodle'); return b.dialogue.filter(l=>!l.if||!l.if.custom||l.if.custom(G)).map(l=>l.text); };
       check('AA_342／AA_542 9-2. 春假回來以後第一個麵店日：第 7 週（'+w7+'）「'+SP1+'」；第 8～9 週期中沒有麵店日；第 7 週錯過、第 10 週（'+w10+'）才遇到換「'+SP10+'」；第 11 週（'+w11+'）不演',
@@ -233,7 +233,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('AA_342. 3/12（五）21:00 柏翰私訊「債各第一章的筆記，我做了表格。」「要的話傳給你。」（要。／我自己整理。）',J(bh.map(m=>m.text))===J(['債各第一章的筆記，我做了表格。','要的話傳給你。'])&&!!bh[1].ask&&J(bh[1].ask.opts.map(o=>o.t))===J(['要。','我自己整理。'])&&bh[1].ask.opts[0].say[0].text==='（照片：一張表格，欄位比內容多）',J(bh.map(m=>m.text)));
     fresh('2027-03-12',20.5,'dorm'); R('classmate_bohan','ACQ'); run(20.9,21.2); check('AA_342. 對照：和柏翰不到 FAMILIAR 不傳',TH('p:classmate_bohan').length===0);
     fresh('2027-04-21',21.5,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('yu','FAM'); run(21.9,22.2); const g=TH('g:noodle_team').map(m=>m.from+':'+m.text);
-    check('AA_342. 4/21（三）22:00 群組：Alison「這週的報告交完了」「我要吃三碗麵」、阿哲「我請一碗」',J(g)===J(['yu:這週的報告交完了','yu:我要吃三碗麵','zhe:我請一碗']),J(g));
+    check('AA_342. 4/21（三）22:00 群組：Alison「這週的報告交完了」「我要吃三個便當」、阿哲「我請一個」（AA_612 A-437 備註）',J(g)===J(['yu:這週的報告交完了','yu:我要吃三個便當','zhe:我請一個']),J(g));
     fresh('2027-05-21',21.5,'dorm'); R('kai','FAM'); run(21.9,22.2); const k=TH('p:kai');
     check('AA_342. 5/21（五）22:00 阿凱私訊「暑假你回家還是留宿舍」（還沒想。／回家吧。）',k.length===1&&k[0].text==='暑假你回家還是留宿舍'&&J(k[0].ask.opts.map(o=>[o.t,o.say[0].text]))===J([['還沒想。','我也是。'],['回家吧。','那我一個人吃宵夜']]),J(k.map(m=>m.text))); }
   // ===== 第 4 節：AA_255 =====

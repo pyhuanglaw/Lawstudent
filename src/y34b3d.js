@@ -76,9 +76,9 @@ const Y34B=(function(){
   S.sendoffJPDue=G=>{ const d=D('sendoff'), F=G.flags, r=STORY.ROUTE_DATES&&STORY.ROUTE_DATES.JP?DK(STORY.ROUTE_DATES.JP.ret):null; return law(G)&&d!=null&&JP(G)&&(G.day>d||(G.day===d&&G.hour>=8))&&(r==null||G.day<r)&&F.AN_SENDOFF==null&&F.JP_DEPARTED==null; };   /* AA_341 J-S12：日本路線的玩家 3/25 一定出發（交往中、挽回中都是；原本只有交往中或前任、而且只在 3/25 當天——paused、friend_after_catch、睡過頭、那天在出遊就沒有出發）*/
   S.anPhone=function(G){ const F=G.flags, d23=D('farewellAsk'), d24=D('farewell'), d25=D('sendoff'); if(d23==null||G.day<d23||G.day>d25+1||!fam('heroine_01')) return;
     const th=anTh(G), Z=t=>({th,from:'zhe',text:t});
-    if(th&&NOW(G)>=T(d23,21)&&NOW(G)<T(d24,19.25)) at(G,d23,G.day===d23?Math.max(21,G.hour):G.hour,[Z('明天 以安餞行'),Z('七點 麵店')],'y3_an_farewell_ask');   /* 新寫（AA_322 1B-12 第 1 節）*/
+    if(th&&NOW(G)>=T(d23,21)&&NOW(G)<T(d24,19.25)) at(G,d23,G.day===d23?Math.max(21,G.hour):G.hour,[Z('明天 以安餞行'),Z('七點 燒臘店')],'y3_an_farewell_ask');   /* 新寫（AA_322 1B-12 第 1 節）*/
     if(sent(G,'y3_an_farewell_ask')&&F.AN_FAREWELL==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_farewell')&&G.day===d24&&G.hour<19.25&&G.zone!=='noodle')
-      OUT.plan(G,{id:'y3_an_farewell',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:d24,h:19,late:0.25,place:'公館',title:'阿鳳麵店',travelH:1/6});
+      OUT.plan(G,{id:'y3_an_farewell',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:d24,h:19,late:0.25,place:'公館',title:'公館燒臘',travelH:1/6});
     if(F.AN_FAREWELL==null&&NOW(G)>=T(d24,19.25)) F.AN_FAREWELL='missed';
     if(!JP(G)){ if(th&&NOW(G)>=T(d24,21)&&NOW(G)<T(d25,9)) at(G,d24,G.day===d24?Math.max(21,G.hour):G.hour,[Z('明天以安的飛機 早上十點，桃園機場 要去的舉手')],'y3_an_sendoff_ask');   /* AA_201 */
       if(sent(G,'y3_an_sendoff_ask')&&F.AN_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_sendoff')&&NOW(G)<T(d25,10.5))
@@ -361,8 +361,8 @@ const Y34B=(function(){
   S.a23CallDue=G=>{ const d=D('a23'); return law(G)&&!US(G)&&d!=null&&G.day===d&&G.hour>=19.5&&G.hour<23&&G.flags.ANNIV23==null&&G.zone!=='noodle'&&!(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)); };   /* 一定會發生：19:30 還沒到＝電話帶到場 */
   S.a23TueDue=G=>{ const d=D('a23tue'); return law(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&!G.flags.ANNIV23_TOLD&&fam('heroine_03')&&!!(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf('heroine_03')); };   /* 12/12（二）語彤的班：人在店裡才說 */
   S.a23Phone=function(G){ const F=G.flags, d=D('a23'), m=D('a23msg'); if(d==null||G.day<m||G.day>d+1||!law(G)) return;
-    { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次。'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店。'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
-    if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 麵店二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
+    { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次。'},{th:'g:public_law',from:'heroine_01',text:'大家去燒臘店。'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
+    if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 燒臘店二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
       const dd=D(k), hh=dd!=null?tzH(G,dd,21):21; if(dd!=null&&NOW(G)>=T(dd,hh)&&G.day<=dd+1) at(G,dd,hh,L,'y4_a23_count_'+k); }   /* 麵店團群組的倒數（AA_337 第 3 節）：12/11、12/12、12/13 21:00 */
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
       at(G,d,22.5,[{th:'p:kexin',who:null,text:'（你傳了一張長桌的照片給可昕。）'},DM('kexin','人好多。'),DM('kexin','……下次帶我去。人少的時候。')],'y4_a23_kx_photo');   /* 和可昕交往、她沒見過麵店團（AA_337 第 3 節）：系統字＋她兩句 */
@@ -505,9 +505,9 @@ const Y34B=(function(){
     {if:C(G=>JP(G)&&met('zhe')),speaker:'zhe',text:'兩個人都要傳照片'},
     {if:C(()=>met('yu')),speaker:'yu',text:'（把一個小紙袋塞給她）路上吃。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'好。'},
     {speaker:'heroine_01',text:'八月五號回來。位子幫我占著。'} ];
-  const FAREWELL=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-    {speaker:null,text:'（麵店的長桌。）'},{speaker:null,text:'（白飯是阿姨自己端過來的，堆得很高。）'},   /* AA_519 1-3：送小菜第六處＝第 5 句（「麵店的長桌。」照舊，拆成兩句）*/
-    {speaker:'zhe',text:'（舉起麵店的塑膠杯）敬以安。半年。'},
+  const FAREWELL=[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+    {speaker:null,text:'（燒臘店的長桌。）'},{speaker:null,text:'（白飯是阿姨自己端過來的，堆得很高。）'},   /* AA_519 1-3：送小菜第六處＝第 5 句（「麵店的長桌。」照舊，拆成兩句）*/
+    {speaker:'zhe',text:'（舉起燒臘店的塑膠杯）敬以安。半年。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'每天太多了。一個禮拜一張。'},
     {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
@@ -807,7 +807,7 @@ const Y34B=(function(){
     {set:{ANNIV23:'there'}},{mem:[{npc:'heroine_03',tag:'ANNIVERSARY_23',note:''}]},{rel:{heroine_03:{fam:2},zhe:{fam:1}}} ];
   const A23_TUE=[ {speaker:'heroine_03',text:'週四，二十三週年。你要來。'},{set:{ANNIV23_TOLD:true}} ];
   const A23_AUNT=[ {speaker:'阿姨',text:'你錯過了，明年再來。'},{set:{ANNIV23_AUNT:true}} ];
-  const ZR_CARD=[ {speaker:null,text:'（麵店的牆上多了一張明信片，英國的郵戳。背面寫著：「麵店生日快樂。」）'} ];
+  const ZR_CARD=[ {speaker:null,text:'（燒臘店的牆上多了一張明信片，英國的郵戳。背面寫著：「燒臘店生日快樂。」）'} ];
   /* 1B-21 */
   const y4p=G=>G.flags.Y4_PATH, told=G=>['bar','grad','other'].includes(y4p(G));
   const PATHS_Q=[ {choice:[{text:'（照實說自己的選擇）',if:C(told),goto:'p_told'},{text:'「還在想。」',unless:C(told),goto:'p_think'},{text:'「妳選什麼，我就配合。」',goto:'p_follow'}]},
@@ -846,7 +846,7 @@ const Y34B=(function(){
     {if:C(G=>ANY(G)==null),speaker:'heroine_01',text:'好。那你畢業以前要告訴我。'},
     {label:'a_end'},{set:{AN_YOUR_TURN:true}},{mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'換祐廷問她'}]},{rel:{heroine_01:{fam:2,trust:2}}} ];
   const AN20_CAFE=[ {scene:'兩點半 Café・窗邊',bg:false},{if:C(G=>!!G.flags.AN20_LATE),speaker:null,text:'（你走進兩點半的時候，她已經點了第二杯。）'} ].concat(AN20_BODY);
-  const AN20_NOODLE=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'} ].concat(AN20_BODY);
+  const AN20_NOODLE=[ {scene:'公館燒臘・長桌',bg:'noodle_table'} ].concat(AN20_BODY);
   /* 1B-25 */
   const M9=[ {scene:'法律系館A・研究室的走廊',bg:'linze_prof_hall'},
     {speaker:null,text:'（研究室門口的長椅，門上貼著「口試中」。）'},
@@ -897,8 +897,8 @@ const Y34B=(function(){
       outingMissed:G=>S.an18Dm(G) },
     { id:'ev_noodle_23rd', title:'二十三週年', participants:['heroine_03'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:A23 },
     { id:'ev_yt_23rd_notice', title:'二十三週年', participants:['heroine_03'], location:'noodle', trigger:'manual', once:true, background:'blur', dialogue:A23_TUE },
-    { id:'ev_noodle_23rd_missed', title:'阿鳳麵店', participants:[], location:'noodle', trigger:'manual', once:true, background:'blur', dialogue:A23_AUNT },
-    { id:'ev_noodle_zr_postcard', title:'阿鳳麵店', participants:[], location:'noodle', trigger:'auto', once:true, background:'blur',   /* 芷若在英國的明信片（AA_337 第 3 節）：12/17 以後、和她 FAMILIAR 以上，第一次進麵店 */
+    { id:'ev_noodle_23rd_missed', title:'公館燒臘', participants:[], location:'noodle', trigger:'manual', once:true, background:'blur', dialogue:A23_AUNT },
+    { id:'ev_noodle_zr_postcard', title:'公館燒臘', participants:[], location:'noodle', trigger:'auto', once:true, background:'blur',   /* 芷若在英國的明信片（AA_337 第 3 節）：12/17 以後、和她 FAMILIAR 以上，第一次進麵店 */
       prereq:{custom:G=>{ const d=D('zrCard'); return law(G)&&d!=null&&G.day>=d&&fam('heroine_02'); }}, dialogue:ZR_CARD },
     { id:'ev_kexin_own_paths', title:'各自的路', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5, dialogue:PATHS },
     { id:'ev_kexin_own_paths_call', title:'各自的路（電話）', participants:[], location:'any', trigger:'manual', once:true, background:'dark', dialogue:PATHS_CALL },

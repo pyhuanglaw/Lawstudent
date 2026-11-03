@@ -29,7 +29,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },
   choose:async o=>{ const T=o.map(q=>q.t||q.text); opts.push(T); full.push(o); if(opts.length>80) throw new Error('選項一直重來：'+J(opts.slice(-3))); if(picks.length){ const w=picks[0]; if(typeof w==='number'){ picks.shift(); return w; } const k=T.findIndex(x=>w instanceof RegExp?w.test(x):x.includes(w)); if(k>=0){ picks.shift(); return k; } } return o.length-1; }};
-const fresh=(day,hour,flags,stage)=>{ G={v:3,stage:stage||'law',day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],trips:[],stats:{classes:0}};
+const fresh=(day,hour,flags,stage)=>{ G={v:3,stage:stage||'law',day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],trips:[],stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; picks=[]; opts=[]; full=[]; GM.npc={}; if(STORY._fy) STORY._fy.reset(); return G; };
 const S2={fam:12,trust:6,comf:3,npcRom:0,rom:0}, S4={fam:30,trust:20,comf:15,npcRom:10,rom:0}, S6={fam:60,trust:45,comf:40,npcRom:55,rom:30};
 const know=(id,rel)=>{ SOCIAL.remember(id,'FIRST_MET',''); Object.assign(SOCIAL.rel(id),rel); G.contacts[id]=1; };
@@ -41,19 +41,19 @@ const pickSlot=(id,P,from,h0)=>{ for(let d=from;d<from+14;d++){ if(STORY.reachab
 const once=async(id,pid,day,h)=>{ const P=INV.place(pid); return INV.personal(G,id,P,day,h,INV.decide(G,id,pid,day,h)); };
 (async()=>{
   // ===== 0. 稿 =====
-  let spec=''; try{ spec=cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  let spec=''; try{ spec=require('./alison.js').ndl(cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
   spec=require('./an_rev_doc.js').overlay(spec,/^date3d\.js/)[0];   /* 以安改稿④b（AA_594 第 24～26、367 列：date3d.js 出發、走完、早早回去）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
   check('0. 讀得到稿 AA_535b@'+SPEC_SHA,!!spec&&/映月湖/.test(spec)&&/法律學院圖書館/.test(spec));
   { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
     check('0. 匯入白名單：'+SPEC_PATH.split('/').pop()+' 一筆 approved＝'+SPEC_SHA+'（INVITE-OPTS-1030）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='INVITE-OPTS-1030'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   /* 以安的 meet 旁白（cafe A／F／R、wenzhou R）2026-11-02 照 AA_576 #32～35 改（BB_226 PASS、使用者確認）：也接受 AA_576 的稿 */
-  let spec576=''; try{ spec576=cp.execSync('git show 179f227ca:"docs/story_planning/AA_576_以安改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  let spec576=''; try{ spec576=require('./alison.js').ndl(cp.execSync('git show 179f227ca:"docs/story_planning/AA_576_以安改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
   /* 學姊的 meet.lawlib F、meet.lake R 2026-11-02 照 AA_579 第 55、56 列改（BB_228 PASS；第 55 列是使用者選的句子）：也接受 AA_579 的稿（企劃線 759e5c000）*/
   /* 以安的法圖 firstAt、walk、映月湖 walk 2026-11-02 照 AA_580 第 38～41 列改：也接受 AA_580 的稿（企劃線 759e5c000）*/
-  let spec580=''; try{ spec580=cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  let spec579=''; try{ spec579=cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  let spec580=''; try{ spec580=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
+  let spec579=''; try{ spec579=require('./alison.js').ndl(cp.execSync('git show 759e5c000:"docs/story_planning/AA_579_學姊改稿_第一批_手機與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
   /* 學姊的法圖 first／acc.A／here／walk、映月湖 acc／firstAt 2026-11-02 照 AA_584 第 82～87 列改（BB_230 PASS、使用者確認第 82 列）：也接受 AA_584 的稿（企劃線 14154434b）*/
-  let spec584=''; try{ spec584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  let spec584=''; try{ spec584=require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}));}catch(e){}
   /* 沛珊法圖 firstAt 第二句前面的「（走出法圖）」：AA_595 1-D10（AA 11-02 22:30 定稿，圖書館小聲講），其餘照稿 */
   const inSpec=t=>{ const x=String(t).replace(/^（走出法圖）/,'').replace(/^「|」$/g,'').replace(/^（|）$/g,''); return !spec||spec.includes(x)||(!!spec576&&spec576.includes(x))||(!!spec579&&spec579.includes(x))||(!!spec580&&spec580.includes(x))||(!!spec584&&spec584.includes(x)); };
   { const bad=[]; const walk=(tag,v)=>{ if(v==null) return; if(typeof v==='function') return walk(tag,v(null,{r:{}})); if(typeof v==='string'){ if(!inSpec(v)) bad.push(tag+':'+v); return; } if(Array.isArray(v)) return v.forEach(x=>walk(tag,x)); if(v.l) return walk(tag,v.l); for(const k in v) walk(tag+'.'+k,v[k]); };

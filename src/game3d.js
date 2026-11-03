@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,stage:'law',name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,stage:'law',name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true,YT_JOB_V:1},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
@@ -352,6 +352,7 @@ const GAME = (function(){
     if(typeof EVENTS!=='undefined'&&EVENTS.habitTrim){ try{ EVENTS.habitTrim(s); }catch(e){ console.warn('EVENTS.habitTrim',e); } }   /* BUG-SAVE-QUOTA-1102：舊的大存檔讀進來先把習慣鍵減到上限（讀檔照常，下一次自動存檔就變小）*/
     if(typeof FD!=='undefined'&&FD.migrate){ try{ FD.migrate(s); }catch(e){ console.warn('FD.migrate',e); } }   /* BUG-Y4S2-NOFINAL-1102：大四下沒有期末考日被誤判延畢的舊存檔 */
     if(typeof ADV!=='undefined'&&ADV.backfillCG){ try{ ADV.backfillCG(s); }catch(e){ console.warn('ADV.backfillCG',e); } }   /* CG 補記（BB 2026-11-02；adv3d.js）*/
+    if(typeof YTJOB!=='undefined'&&YTJOB.migrate){ try{ YTJOB.migrate(s); }catch(e){ console.warn('YTJOB.migrate',e); } }   /* AA_610：已經認識語彤的舊存檔＝記 YT_MET_JOB（照舊）；沒認識的要去一盞茶屋打工才認識（src/ytjob3d.js）*/
     if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }

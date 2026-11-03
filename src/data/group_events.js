@@ -90,8 +90,8 @@ const GROUP_EVENTS=(function(){
     outingMissed:G=>{ const g=G1(); if(g) g.midautumnPhoto(G); } },
   /* ---------- 1C-03 聖誕「寄到英國的那一箱」（2027-12-26 18:30 麵店；AA_180 Y3S1-XMAS 原文）。和芷若 FAMILIAR 以上才有放東西的選項；交往中多一個 ---------- */
   { id:'ev_xmas_y3_box', title:'寄到英國的那一箱', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（燒臘店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'},
       {if:kn('yu'),speaker:'yu',text:'每個人放一樣東西。不能超過手掌大。'},
       {if:nfam('heroine_02'),set:{XMAS_Y3_BOX:'snack'}},
       {if:nfam('heroine_02'),speaker:null,text:'（Alison 說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）'},
@@ -108,7 +108,7 @@ const GROUP_EVENTS=(function(){
       {if:kn('classmate_xinci'),speaker:null,text:'（芯慈已經在填海關的單子。）'},
       {if:kn('heroine_03'),speaker:null,text:'（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）'},
       {if:kn('heroine_03'),speaker:'heroine_03',text:'阿姨說，箱子不夠大的話，店裡有。'} ],
-    consequences:{memo:'寄到英國的那一箱（麵店）'},
+    consequences:{memo:'寄到英國的那一箱（公館燒臘）'},
     after:G=>{ const g=G1(); if(g) g.xmasBoxAfter(G); },
     outingMissed:G=>{ const g=G1(); if(g) g.xmasBoxPhoto(G); } },
   /* ---------- 1C-04 哲 4「有事」（2028-04-28 23:00；AA_40 哲 4）：在宿舍＝十分鐘後宿舍樓下的便利商店外；在家、日本路線＝視訊（同一段話）。記憶 ZHE_SAID_IT ---------- */
@@ -153,8 +153,8 @@ const GROUP_EVENTS=(function(){
       {label:'m3'},{speaker:'classmate_mingxuan',text:'……交換那個，我放棄了。畢業以後自己存錢去。'},
       {label:'dad'},{speaker:null,text:'（阿哲的爸爸在場邊沒有說話，只拍了五十張照片。）'},
       {advance:G=>Math.max(0,20+40/60-G.hour)},
-      {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（晚上全隊去麵店。阿哲的爸爸吃了三碗。）'},
+      {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（晚上全隊去燒臘店。阿哲的爸爸吃了三盤。）'},
       {speaker:'阿姨',text:'你很會吃喔。'},
       {speaker:'阿哲爸爸',text:'我兒子都在這裡吃喔？……難怪。'},
       {speaker:null,text:'（那天，阿姨晚了一個小時才拉下鐵門。）'} ],
@@ -163,7 +163,7 @@ const GROUP_EVENTS=(function(){
   /* 選「冠軍耶，明天請客。」：隔週第一次在麵店遇到明軒（npcNear，BB_98 5-2）；日本路線看直播回「恭喜！」的：回國後第一次在麵店遇到才補。沒遇到就不補 */
   { id:'ev_mx_egg_y3', title:'冠軍那天欠的', participants:['classmate_mingxuan'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'classmate_mingxuan',
     prereq:{custom:G=>{ const g=G1(); return !!g&&g.eggDue(G); }},
-    dialogue:[ {speaker:null,text:'（他把一碗大碗的乾麵推到你面前。）'},{speaker:'classmate_mingxuan',text:'冠軍那天欠的。大碗。'} ],
+    dialogue:[ {speaker:null,text:'（他把一盤雙拼推到你面前。）'},{speaker:'classmate_mingxuan',text:'冠軍那天欠的。大碗。'} ],
     consequences:{flags:{MX_EGG_PAID:true}} },
   /* ---------- 1C-05 G5 子晴、芷若同一天畢業（2028-06-03；高子晴_角色企劃 Q13＋AA_13 G5）。上午椰林大道（6/2 21:00 子晴邀約回了「去。」）；和子晴交往中先演 BB_119 1c-2 ---------- */
   { id:'ev_zq_zr_graduation', title:'子晴、芷若的畢業典禮', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
@@ -193,7 +193,7 @@ const GROUP_EVENTS=(function(){
     after:G=>{ const F=G.flags; F.GRAD_ZQ_ZR=F.GRAD_ZQ_ZR==='zq'||F.GRAD_ZQ_ZR==='both'?'both':'zr'; } },
   /* ---------- 1C-06 大四下開學第一頓（2029-02-22 19:00 麵店；AA_181 第 4 節）：17:00 阿哲把群組改名「最後一學期」並揪；2/25 21:00 改回來 ---------- */
   { id:'ev_last_term_first_dinner', title:'最後一學期的開學第一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
       {speaker:null,text:'（長桌。阿姨看到你們，說了一句「又一年」，就轉身去煮了。）'},
       {if:kn('yu'),speaker:'yu',text:'群組名字是誰改的。'},
       {if:kn('yu'),speaker:'zhe',text:'我。'},
@@ -204,7 +204,7 @@ const GROUP_EVENTS=(function(){
       {label:'a'},{speaker:null,text:'（阿姨沒有問，已經在煮了。）'},{goto:'end'},
       {label:'b'},{speaker:'阿姨',text:'換什麼換。'},{speaker:null,text:'（她還是煮了你平常那一碗。）'},
       {label:'end'},{speaker:null,text:'（大家吃完，沒有人先站起來。）'} ],
-    consequences:{flags:{LAST_TERM_DINNER:'went'},memo:'最後一學期的開學第一頓（麵店）'},
+    consequences:{flags:{LAST_TERM_DINNER:'went'},memo:'最後一學期的開學第一頓（公館燒臘）'},
     outingMissed:G=>{ const g=G1(); if(g) g.lastTermPhoto(G); } }
   ];
 })();

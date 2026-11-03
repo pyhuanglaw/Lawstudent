@@ -22,7 +22,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},S:{},
   choose:async o=>{ menus.push(o.map(q=>(q.t||q.text)+(q.hint?'〔'+q.hint+'〕':''))); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const FL={introDone:true,classDone:true,afternoonDone:true,campusIntro:true};
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},FL,flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},courses:{},invites:[],visited:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},FL,flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},courses:{},invites:[],visited:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; menus=[]; picks=[]; caps=[]; enters=[]; seatCalls=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; E.player.obj.position.x=0; E.player.obj.position.z=0; if(CLS.clearPending) CLS.clearPending(); };
 const hm=h=>CLS.hhmm(h);
 const flush=async()=>{ for(let i=0;i<20;i++) await new Promise(r=>setImmediate(r)); };

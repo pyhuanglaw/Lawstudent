@@ -18,14 +18,14 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,classDone:true,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,classDone:true,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; caps=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const advCalls=[]; ADV.begin=o=>{ advCalls.push(o); ADV.active=true; }; ADV.end=()=>{ ADV.active=false; };
 (async()=>{
   const day=STORY.termDay('Y1S1',4,2);
-  for(const [meal,img,price] of [['阿鳳麵店','noodle_table',70],['便利商店','cvs_table_day',75],['小松',null,90]]){
+  for(const [meal,img,price] of [['公館燒臘','noodle_table',100],['便利商店','cvs_table_day',75],['小松',null,90]]){
     fresh(day,12,'classroom',{}); advCalls.length=0; const m0=G.money, h0=G.hour; picks=[meal];
     const r=await CLS.lunchBreak(GM); const bg=advCalls[0]&&advCalls[0].background;
     check(meal+'：吃飯那一段開了 ADV（換到店裡，不是停在教室的 3D）',r===true&&advCalls.length===1,JSON.stringify(advCalls));

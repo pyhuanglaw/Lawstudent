@@ -16,7 +16,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -52,7 +52,7 @@ let notes=[]; GM.addNote=(id,t,b)=>{ notes.push({id,t,b}); return true; };
   const play=async(whyLaw,pk)=>{ fresh(d,14,'campus',whyLaw?{whyLaw}:{}); G.stage='law'; meet('zhe'); R('zhe',30,0,0); notes=[]; picks=pk.slice(); await EVENTS.run(e); return lines(); };
   let L=await play('help',['先認識人','你看我','念了一個多月經濟','也是大碗']);
   check('3. 開頭旁白「（一群新生圍成一圈，手上拿著名牌。）」→ 三題 → 新生「……學長，那我還有四年可以想。」→ 阿哲「我們這隊的口號是：吃飽！」（AA_313 5-3）→ 新生「……學長，我們的口號是什麼？」',L[0]==='（一群新生圍成一圈，手上拿著名牌。）'&&L.includes('新生：學長，大一要先念什麼？')&&L.includes('新生：法律系會很難交朋友嗎？')&&L.includes('新生：為什麼念法律？')&&L.includes('新生：……學長，那我還有四年可以想。')&&L.some(t=>/我們這隊的口號是：吃飽！$/.test(t))&&L[L.length-1]==='新生：……學長，我們的口號是什麼？',JSON.stringify(L));
-  check('3. 前兩題各兩個選項；第 3 題四個、第二天選的（help）排第一',JSON.stringify(opts[0])==='["「民總。」","「先認識人。」"]'&&JSON.stringify(opts[1])==='["「去麵店就好。」","「不會，你看我。」"]'&&opts[2].length===4&&opts[2][0]==='「想幫身邊的人把事情弄清楚。」'&&opts[2].includes('「我先念了一個多月經濟。還是想念這個。」'),JSON.stringify(opts.slice(0,3)));
+  check('3. 前兩題各兩個選項；第 3 題四個、第二天選的（help）排第一',JSON.stringify(opts[0])==='["「民總。」","「先認識人。」"]'&&JSON.stringify(opts[1])==='["「去燒臘店就好。」","「不會，你看我。」"]'&&opts[2].length===4&&opts[2][0]==='「想幫身邊的人把事情弄清楚。」'&&opts[2].includes('「我先念了一個多月經濟。還是想念這個。」'),JSON.stringify(opts.slice(0,3)));
   check('3. 記 MENTOR_STYLE {q1:people,q2:me}、MENTOR_WHY＝econ（玩家這次選的）、MENTOR_SLOGAN、Y2_WELCOME；筆記「我認識的人：迎新的學弟妹」',JSON.stringify(G.flags.MENTOR_STYLE)==='{"q1":"people","q2":"me"}'&&G.flags.MENTOR_WHY==='econ'&&G.flags.MENTOR_SLOGAN==='bowl'&&G.flags.Y2_WELCOME===true&&notes.length===1&&notes[0].t==='我認識的人：迎新的學弟妹'&&notes[0].b==='學弟問我為什麼念法律。我說：『我先念了一個多月經濟。還是想念這個。』',JSON.stringify(notes));
   await play('hero',[]); check('3. 舊存檔的 hero＝help 排第一',opts[2][0]==='「想幫身邊的人把事情弄清楚。」');
   await play(null,[]); check('3. 沒有 whyLaw＝照固定順序（curious 第一）',opts[2][0]==='「小時候遇到事情就去翻民法。翻得到，看不懂。」'&&opts[2].length===4);

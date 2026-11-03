@@ -395,7 +395,7 @@ const JP=(function(){
     return true; };   /* 之後 home3d.js 的 loop：當晚 20:00 1A-08「大四要怎麼過？」（STORY.y4HomeDue）、9/3 搬進 409 */
   /* ---------------- 住家裡（J-S11；home3d.js 的 loop 每一輪叫）---------------- */
   S.goList=function(G){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], V=G.visited||{}, K0=(typeof PLACES!=='undefined'&&PLACES.known0)||{};
-    return ['公館商圈','阿鳳麵店','溫州街','兩點半 Café','校門口'].map(n=>L.find(p=>p[1]===n)).filter(p=>p&&(K0[p[0]]||V[p[0]])); };   /* 出門：照手機「地點」的名字；店要去過一次（D54 ①）*/
+    return ['公館商圈','公館燒臘','溫州街','兩點半 Café','校門口'].map(n=>L.find(p=>p[1]===n)).filter(p=>p&&(K0[p[0]]||V[p[0]])); };   /* 出門：照手機「地點」的名字；店要去過一次（D54 ①）*/
   S.homeRound=async function(GM){ const G=GM.G, H=HOME.rec(G), h=G.hour, A=A_(), bg=()=>HOME.bgNow?HOME.bgNow():'dark';
     const st=S.dueStop(G,'home'); if(st){ await S.playStop(GM,st,'home'); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; }   /* 摘要日（G0、8/12）*/
     { const ev=HOME.breakEvent?HOME.breakEvent(G):(HOME.homeEvent?HOME.homeEvent(G):null); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(ev); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; } }

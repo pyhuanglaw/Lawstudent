@@ -19,7 +19,7 @@ const GM={get G(){ return G; },E:{q:{level:'medium'},player:{busy:false,obj:{pos
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const wk=(term,w,wd)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w&&(!wd||CALENDAR.dateOf(d).wd===wd)) return d; } return null; };
-const fresh=(day,hour,zone,flags)=>{ G={day,hour,zone,weekday:wdOf(day),weather:'clear',flags:Object.assign({},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,energy:80,money:5000}; SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; };
+const fresh=(day,hour,zone,flags)=>{ G={day,hour,zone,weekday:wdOf(day),weather:'clear',flags:Object.assign({YT_MET_JOB:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,energy:80,money:5000}; SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; };
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 (async()=>{
@@ -27,7 +27,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { const e=ev('ev_yutong_absent'); const prep=day=>{ fresh(day,18,'noodle'); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); };
     const w3=wk('Y1S2',3,2), w8=wk('Y1S2',8,2), w9=wk('Y1S2',9,4), w10=wk('Y1S2',10,2);
     const r=[w3,w8,w9,w10].map(d=>{ prep(d); return EVENTS.check(e); });
-    check('語彤 4：大一下期中這兩週（第 8、9 週）的週二、週四晚上才有；第 3 週、第 10 週沒有',JSON.stringify(r)==='[false,true,true,false]',JSON.stringify(r));
+    /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店＝阿姨扭到手這個事件退休（retired），哪一週都不觸發；下面直接 EVENTS.run 的是保留下來的內容（舊存檔的記憶備註要對得上）*/
+    check('語彤 4：退休（AA_610／AA_624）＝第 3、8、9、10 週都不觸發（原本第 8、9 週才有）',e.retired===true&&JSON.stringify(r)==='[false,false,false,false]',JSON.stringify(r));
     prep(w8); await EVENTS.run(e); const L=lines();
     check('語彤 4（AA_178 ①：阿姨兩句的說話人是阿姨）：「阿姨右手包著護腕，用左手撈麵。」＋「手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。」＋「你是她同學喔？…」（AA_209）',L[0]==='櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'&&L[1]==='阿姨：手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。'&&L[2]==='阿姨：你是她同學喔？她喔，累了也不會講。'&&!L.some(t=>/醫院|回診/.test(t)),JSON.stringify(L));
     const m=SOCIAL.memories('heroine_03').find(x=>x.tag==='IMPORTANT_CONVERSATION');

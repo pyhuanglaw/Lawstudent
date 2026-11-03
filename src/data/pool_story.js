@@ -253,12 +253,12 @@ const POOL_STORY=(function(){
       day:[ {scene:'晨思鐘'}, N('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Z)},speaker:null,text:'（長椅另一頭有人說了一聲「早安」——是靖雯。）'},
         {scene:'法律系館A・穿堂'}, N('（中午，法律系館A的穿堂。光從另一頭照進來。你什麼都不用做，走過去就好。）'),
-        {scene:'阿鳳麵店'}, {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'（傍晚，麵店。阿哲在你對面吃第二碗。）'},   /* 麵店團的（PHONE 的 noodle_team 群組）*/
+        {scene:'公館燒臘'}, {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'（傍晚，燒臘店。阿哲在你對面吃第二盤。）'},   /* 麵店團的（PHONE 的 noodle_team 群組）*/
         ys('不要看鏡頭，繼續吃。'),
         {scene:'總圖門口'}, N('（晚上，總圖門口。他把相機放下來。）'), ys('最後一張了。謝啦。'), {set:{YS_MODEL:true}} ],
       /* 7-4 展覽（霖澤館一樓穿堂：只有旁白，不用新美術）*/
       expo:[ N('（穿堂的牆上貼了一排黑白照片，標題寫著「法律系的一天」。）'),
-        {if:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是你：晨思鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）'},
+        {if:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是你：晨思鐘的早上、穿堂的中午、燒臘店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）'},
         {unless:{flags:['YS_MODEL']},speaker:null,text:'（照片裡的人是邱家齊。每一張，他都在看鏡頭。）'},
         {if:{flags:['YS_PHOTO']},speaker:null,text:'（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）'},
         {if:{custom:(G,GM)=>typeof POOL!=='undefined'&&POOL.here(YS)},speaker:YS,text:'展覽的照片，還是沒有我。……這樣剛好。'} ],
@@ -274,7 +274,7 @@ const POOL_STORY=(function(){
       fish:'（虱目魚丸。袋子上用麥克筆寫著「家齊」。）',
       talk:[ {t:'「台北的豆花太甜了。……好啦，是台南的太甜，台北的剛好。」',when:'met'}, {t:'「我媽又寄了一箱虱目魚丸上來。冰箱塞不下，你要不要分一點？」',when:'met'},
         {t:'「阿凱說虱目魚丸要配泡麵。我們台南人聽到會哭。」',when:'metKai'}, {t:'「元碩拍照不准我看鏡頭。可是他一舉相機，我就會看過去。」',when:'metYS'},
-        {t:'「公館那家麵店的乾麵不錯。……我們台南的比較甜。」',when:'Y1S1'}, {t:'「每次搭高鐵回台南，過了嘉義就開始想吃早餐。」',when:'secret'},
+        {t:'「公館那家燒臘店的叉燒不錯。……我們台南的比較甜。」',when:'Y1S1'}, {t:'「每次搭高鐵回台南，過了嘉義就開始想吃早餐。」',when:'secret'},
         {t:'「我阿公住院了。這學期每個週末我都回去。」',when:'Y1S2'}, {t:'「畢業以後我要回台南。我媽說，台南也有法院。」',when:'Y2S2'} ],
       greet:['「學弟。冰箱還有魚丸，自己拿。」','（他在講電話，用台語。看到你，舉手揮了一下。）','「我們台南今天三十二度。……我就問一下台北幾度。」'],
       secret:[ q('其實……我很想家。'),

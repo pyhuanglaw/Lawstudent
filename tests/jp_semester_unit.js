@@ -264,7 +264,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     try{ await S.loop(GM); } finally{ S.round=r0; console.warn=w0; }
     check('R1 J1 便利商店（AA_326 2-Y3-34）：日本 22:00（遊戲時鐘＝日本時間）；據點只有「出發」一個選項（must）；演完回到宿舍', !!q&&q.h===22&&q.must===true&&H.opts[0]&&H.opts[0].length===1&&/^出發：/.test(H.opts[0][0])&&q.state==='done'&&caps.includes('回到宿舍。')&&G.zone==='jp_hub', JSON.stringify([q&&q.h,H.opts[0],q&&q.state,caps])); }
   { const G=inJapan('2028-04-12',22.5); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('zhe'); phone(); PHONE.answer(G,'y3_far_call',0); at('2028-04-13',20); phone(); const q=OUT.get(G,'y3_far_call'); const nx=S.nextStop(G,T(D('2028-04-13'),8),'jp');
-    check('R1 主線 8「遠方」：4/12 臺灣 21:00＝日本 22:00 阿哲私訊、4/13 臺灣 19:30＝日本 20:30 視訊；快轉停在接起來的時間', th('p:zhe').includes('明天七點半 視訊 麵店')&&!!q&&q.h===20.5&&q.verb==='接起來'&&Math.abs(nx-(T(D('2028-04-13'),20.5)-0.25))<1e-6, JSON.stringify([q&&q.h,nx])); }
+    check('R1 主線 8「遠方」：4/12 臺灣 21:00＝日本 22:00 阿哲私訊、4/13 臺灣 19:30＝日本 20:30 視訊；快轉停在接起來的時間', th('p:zhe').includes('明天七點半 視訊 燒臘店')&&!!q&&q.h===20.5&&q.verb==='接起來'&&Math.abs(nx-(T(D('2028-04-13'),20.5)-0.25))<1e-6, JSON.stringify([q&&q.h,nx])); }
   /* ===================== R2 裁定 10：日本路線 8/5 晚上只演 1A-08，沒有大三暑假的三選一 ===================== */
   { const G=fresh('2028-08-05',21.5,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')}); phone(); const st=(R2Y3B.stops(G)||[]).map(x=>x-T(D('2028-08-05'),0));
     const tw=fresh('2028-06-19',21.5,'dorm','TW'); phone();
