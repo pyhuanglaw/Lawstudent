@@ -41436,10 +41436,10 @@
       "id": "STORY-KX-NCCU-MOVEIN-1103",
       "title": "可昕去政大宿舍前不該自己住在祐廷家；應該是當天搭高鐵上台北、祐廷去接她",
       "owner": "AA",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 08:4x（UA-LAWWW-1103-22；X164）：「可昕去政大宿舍前為什麼會自己住我家啦 有夠奇怪 他應該當天才搭高鐵上台北 直接我去接他就好」",
-      "next": "AA 找出可昕搬進政大宿舍前住祐廷家的那一段（經濟系那年或法律系大一前）改成當天搭高鐵上來、祐廷去高鐵站接 → LAWWW 照稿改",
+      "next": "AA_607（企劃 2f0e87b16）已實作 8f4fcdd84（v0_e37、x81_law_e37 含舊存檔）→ BB 在 PC 看 8/30 接可昕",
       "xai": {
         "spec": "使用者 11-03 原話",
         "branch": "claude/story-planning",
@@ -41488,6 +41488,46 @@
       "priority": "P1",
       "note": "使用者 11-03「家裡的選項為什麼層級這麼混亂」（UA-LAWWW-1103-24；X166）",
       "next": "HOME.menuOrder 用在週末、放假、休學在家、寒假、日本路線住家裡五種選單（home_unit 6b、6c，修改前 FAIL）→ BB 在 PC 看"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上宿營／第 1～13 週",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA608-CAMP-TRIM-1103",
+      "title": "宿營只留認識過程＋多一點聊天（AA_608）：退場迎新晚會、夜遊、法律闖關、水大地；破冰、大地遊戲、營火、金頭腦改短；新增午餐、寢室、烤肉三段聊天",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 對 AA「宿營活動蠻無聊的，可以只留認識過程嗎」「認識人物可以多一些聊天嗎」；AA 定稿 71e27e22f",
+      "next": "照 AA_608 實作 camp_y1.js／events.js＋測試 → BB"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上宿營／第 1～13 週",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA606-FRIEND-CARDS-1103",
+      "title": "好朋友的自動劇情（AA_606）：宿營接龍特徵、名字一律用叫的、五場名片場、群像「考完吃哪家」",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "X157；AA 定稿 2bfa85d2d",
+      "next": "照 AA_606 實作＋測試 → BB"
     }
   ]
 }
