@@ -33,7 +33,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 ADV.setBg=b=>{ scenes.push(b); };
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; scenes=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; ADV.active=false; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -125,9 +125,9 @@ const NAME=id=>SOCIAL.displayName(id);
   // ===== 3. 1C-03 寄到英國的那一箱 =====
   const x25=D('2027-12-25'), x26=D('2027-12-26');
   fresh(x25,20,'dorm'); team(); run(x25,20,21.25);
-  { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 麵店', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半麵店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
+  { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 燒臘店（AA_612）', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半燒臘店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
   fresh(x26,18.5,'noodle'); team(); R('heroine_02','FAM'); let X1=await play('ev_xmas_y3_box',['杯墊']);
-  check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
+  check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（燒臘店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
   check('3. X1 杯墊＝以安「她會知道是哪一家。」；語彤封箱「阿姨說，箱子不夠大的話，店裡有。」；XMAS_Y3_BOX coaster', X1.includes(NAME('heroine_01')+'：她會知道是哪一家。')&&has('（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）')&&X1[X1.length-1]===NAME('heroine_03')+'：阿姨說，箱子不夠大的話，店裡有。'&&G.flags.XMAS_Y3_BOX==='coaster');
   fresh(x26,18.5,'noodle'); team(); date('heroine_02'); X1=await play('ev_xmas_y3_box',['只有你看得懂']);
   check('3. 和芷若交往中：多「（放一張只有你看得懂的便條）」→ Alison「……好，我們都不看。」', opts[0].length===4&&opts[0][3]==='（放一張只有你看得懂的便條）'&&X1.includes(NAME('yu')+'：……好，我們都不看。')&&G.flags.XMAS_Y3_BOX==='note');
@@ -183,7 +183,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(f29,19,'gym'); team(); R('classmate_mingxuan','FAM'); await play('ev_final_game_y3',['請客']);
   /* 2026-10-28 改：AA_497 第 8 節第 4 點（企劃線 60fc3b9a3）明軒的滷蛋只留 M1、M2、德文三處——冠軍那一串改「一碗大的／大碗」（旗標名 MX_EGG* 不改；tests/aa497_supporting_unit.js 第 8 節）*/
   check('4. 選「冠軍耶，明天請客。」：「好。請你吃一碗大的。」（AA_497 第 8 節）、記欠的那一碗（MX_EGG_DAY；當週不補、下週一起補）', has('好。請你吃一碗大的。')&&!has('好。請你吃滷蛋。一顆。')&&G.flags.MX_EGG_DAY===f29&&(G.day=f29+1,!GROUP.eggDue(G))&&(G.day=f29+2,GROUP.eggDue(G)));
-  { const e=ev('ev_mx_egg_y3'); check('4. 補那一碗（ev_mx_egg_y3）：在麵店、明軒在旁邊（npcNear）才演；「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」（AA_497 第 8 節）', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[0].text==='（他把一碗大碗的乾麵推到你面前。）'&&e.dialogue[1].text==='冠軍那天欠的。大碗。'); }
+  { const e=ev('ev_mx_egg_y3'); check('4. 補那一碗（ev_mx_egg_y3）：在麵店、明軒在旁邊（npcNear）才演；「（他把一盤雙拼推到你面前。）」（AA_612 A 表）「冠軍那天欠的。大碗。」（AA_497 第 8 節）', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[0].text==='（他把一盤雙拼推到你面前。）'&&e.dialogue[1].text==='冠軍那天欠的。大碗。'); }
   fresh(f29,19.5,'dorm'); team(); ev('ev_final_game_y3').outingMissed(G,GM,{}); run(f29,21.5,21.75);
   check('4. 沒去：FINAL_GAME_Y3 missed、21:30 群組照片', G.flags.FINAL_GAME_Y3==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（獎盃在明軒手上。阿哲在旁邊比讚。）');
   // 日本路線
@@ -231,7 +231,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('6. L1 麵店：Alison「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); run(l25,20,20.75); check('6. 2/25 21:00 以前還是「最後一學期」', PHONE.title(G,'g:noodle_team')==='最後一學期');
   run(l25,21,21.25);
-  check('6. L2 2/25 21:00 改回「法四吃飯」（AA_542 2-1）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='法四吃飯'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「法四吃飯」。）','zhe:改回來了','zhe:Alison 說很難過']));
+  check('6. L2 2/25 21:00 改回「桌遊團」（AA_623 第 2 節）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='桌遊團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「桌遊團」。）','zhe:改回來了','zhe:Alison 說很難過']));
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); G.hour=19.5; ev('ev_last_term_first_dinner').outingMissed(G,GM,{}); run(l22,21.5,21.75);
   check('6. 沒去：LAST_TERM_DINNER missed、21:30 群組照片', G.flags.LAST_TERM_DINNER==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（長桌上的碗，跟大一的時候一樣多。）');
   fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在麵店團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));

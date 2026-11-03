@@ -28,7 +28,7 @@ if(fails){ console.log('FAILED '+fails); process.exit(1); }
   const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); const se=ev.slice(0,ev.indexOf('const SMALLTALK'));
   check('2. R7：劇情事件（STORY_EVENTS）不讀 ENC_',se.indexOf('ENC_')<0); }
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'gongguan',flags:{dating_kexin:true},social:{mem:{}},courses:{},invites:[],money:5000,weather:'clear',stage:'law'},o||{}); GG=G; return G; };
+const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'gongguan',flags:{dating_kexin:true},social:{mem:{}},courses:{},invites:[],money:5000,weather:'clear',stage:'law'},o||{}); GG=G; if(G.flags&&G.flags.YT_MET_JOB===undefined) G.flags.YT_MET_JOB=true;   /* AA_610：舊測試當成已經認識語彤的存檔 */ return G; };
 const SAT=STORY.termDay('Y1S1',5,6), SUN=STORY.termDay('Y1S1',5,7), SUN6=STORY.termDay('Y1S1',6,7);
 const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?'':':'+c.tier.t)).sort().join(',');
 // 3. 誰會出現

@@ -55,8 +55,10 @@ const LBV2=(function(){
         nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0,0);
         for(let i=0;i<(f.seats||4);i++){ const sx=f.x-f.w/2+(i+0.5)*f.w/(f.seats||4), cz=f.z+f.d/2+0.42, seat={x:sx,z:cz,yaw:Math.PI,lv}; Z3.chair(grp,sx,cz,Math.PI,'#2e3440'); seats.push(seat); IT.push({x:sx,z:cz,radius:0.8,lv,label:'坐下（用電腦）',seat}); } }
       else if(f.type==='stack'){ const d=f.d||0.62, h=f.h||2.1, cap=M(f.cap||'#888888',{rough:0.5});   /* 二樓的雙面書架（平面圖：西半邊中日韓文、東半邊西文）：備用模型＝木頭量體＋兩端色板 */
-        b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
-        nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); }
+        const ns=Math.abs(f.ry||0)>0.1;   /* 第四版二樓（LIB-PLAN-1103）：ry≈90° 是南北向的書架（平面圖一排一排從北到南） */
+        if(ns){ b.add(B3.MAT.woodD(),TK.boxG(d,h,f.w),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(d+0.02,h,0.03),f.x,y+h/2,f.z+e*(f.w/2+0.015)); nav.blockRect(f.x,f.z,d,f.w+0.06,0,0.05); }
+        else { b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
+        nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); } }
       else if(f.type==='roundTable'){ b.add(M('#d8d2c6',{rough:0.6}),new THREE.CylinderGeometry(f.r,f.r,0.04,20),f.x,y+0.73,f.z); b.add(M('#3a3f45',{rough:0.5}),new THREE.CylinderGeometry(0.05,0.05,0.7,8),f.x,y+0.35,f.z);
         nav.blockCircle(f.x,f.z,f.r+0.25);
         for(let i=0;i<(f.seats||3);i++){ const a=i*2*Math.PI/(f.seats||3)+Math.PI/6, cx=f.x+Math.sin(a)*(f.r+0.45), cz=f.z+Math.cos(a)*(f.r+0.45), yaw=a+Math.PI, seat={x:cx,z:cz,yaw,lv}; Z3.chair(grp,cx,cz,yaw,'#7a5a46'); seats.push(seat); IT.push({x:cx,z:cz,radius:0.8,lv,label:'坐下',seat}); } } }
@@ -97,8 +99,8 @@ const LBV2=(function(){
       const rc=new THREE.Mesh(new THREE.CircleGeometry(R.r,32,Math.PI,Math.PI),MAT.ceil()); rc.rotation.x=Math.PI/2; rc.position.set(R.cx,RY,R.cz); fb1.add(rc); }   /* 下半圓（local y<0）轉 +90° 後在 z<cz（北邊）、面朝下 */
     // 窗外的景（備用模型：牆的內側貼一張）
     const outPlane=(w,h,x,y,z,ry,grp,kind)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:LB3.outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; grp.add(m); outs.push(m); return m; };
-    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(const z of L.windowsV2.xWallZ){ if(grp===lv0&&L.b1Door&&Math.abs(z-L.b1Door.z)<0.6) continue; outPlane(1.6,2.4,B.x0+T/2+0.02,y0+1.2,z,Math.PI/2,grp,'lawn'); }
-    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r-0.12), z=R.cz-Math.sin(a)*(R.r-0.12); outPlane(1.5,3.4,x,2.6,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'lawn'); }   /* 平面朝圓心（local +z → (−cos a, sin a)）*/
+    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(const z of L.windowsV2.xWallZ){ if(grp===lv0&&L.b1Door&&L.b1Door.wall!=='vestibule'&&Math.abs(z-L.b1Door.z)<0.6) continue;   /* 第四版（LIB-PLAN-1103）B1 的門搬到門廳西牆：外牆的窗照舊 */ outPlane(1.6,2.4,B.x0+T/2+0.02,y0+1.2,z,Math.PI/2,grp,'lawn'); }
+    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r-0.12), z=R.cz-Math.sin(a)*(R.r-0.12); outPlane(1.5,3.4,x,2.6,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'trees'); }   /* 平面朝圓心（local +z → (−cos a, sin a)）。第三版（BB_244）：展演廳窗外是樹（library_view_trees），照片 2 */
     { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,B.z1-0.02); gp.rotation.y=Math.PI; lv0.add(gp); outPlane(gw+8,RY+2,0,RY/2,B.z1+3.0,Math.PI,lv0,'avenue'); }
     b0.build(fb0); b1.build(fb1); }
 
@@ -106,7 +108,7 @@ const LBV2=(function(){
   function parallaxViews(zone,L,lv0,lv1){ const B=L.bounds, Y1=L.floors[1].y, RY=L.roofY, R=L.rotunda, V=L.vestibule, PO=zone.pOuts=[]; const Dd=B.z1-B.z0, cz=(B.z0+B.z1)/2;
     const mk=(w,h,x,y,z,ry,grp,kind,depth)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),W3.windowMat(depth)); m.material.uniforms.sxy.value.set(1,0.5); m.position.set(x,y,z); m.rotation.y=ry; m.userData.view=kind; m.userData.libOut=true; grp.add(m); PO.push(m); };
     for(const [sx,ry] of [[-1,Math.PI/2],[1,-Math.PI/2]]){ mk(Dd+2,3.6,sx*(B.x1+0.35),2.3,cz,ry,lv0,'lawn',14); mk(Dd+2,3.6,sx*(B.x1+0.35),Y1+2.2,cz,ry,lv1,'lawn',14); }
-    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r+0.6), z=R.cz-Math.sin(a)*(R.r+0.6); mk(2.6,RY+1,x,RY/2,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'lawn',14); }
+    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r+0.6), z=R.cz-Math.sin(a)*(R.r+0.6); mk(2.6,RY+1,x,RY/2,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'trees',14); }   /* 第三版（BB_244）：窗外是樹 */
     mk(V.x1-V.x0+12,RY*2+4,0,2.0,B.z1+1.2,Math.PI,lv0,'avenue',35);
     if(zone.applyTime&&typeof GAME!=='undefined'&&GAME.G) zone.applyTime(GAME.G.hour,GAME.G.weather); }
 
@@ -150,7 +152,7 @@ const LBV2=(function(){
     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
     if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }
     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
-    IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，一圈高窗，弧形的展示櫃裡放著這學期的館藏特展。'});
+    IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，上下兩排窗外都是樹。中間一排矮矮的木頭展示櫃，上面立著這學期館藏特展的書。'});
     IT.push({x:0,z:BS.z1+0.9,radius:1.2,lv:0,label:'看台階書牆',look:'中庭的大階梯：中間走的樓梯上二樓，兩旁是可以坐的木頭階梯，每一階的立面都是書架。'});
     // 指標（中文字一直顯示：正式模型沒有字）——和第一版一樣
     for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }

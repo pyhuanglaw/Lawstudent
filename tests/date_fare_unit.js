@@ -18,7 +18,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },
   choose:async o=>{ const T=o.map(q=>q.t||q.text); T.all=[].concat(...o.map(q=>q.sub||[q.t||q.text])); opts.push(T); if(picks.length){ const w=picks[0]; if(typeof w==='number'){ picks.shift(); return w; } const k=T.findIndex(x=>x.includes(w)); if(k>=0){ picks.shift(); return k; } const g=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(w))); if(g>=0){ if(o[g].dim) picks.shift(); return g; } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ } return 0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,flags)=>{ G={v:3,day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:20000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,flags)=>{ G={v:3,day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:20000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; if(STORY._fy) STORY._fy.reset(); };
 const S6={fam:60,trust:45,comf:40,npcRom:55,rom:30}, J=x=>JSON.stringify(x);
 const fare=(loc,mode)=>((DATE_DATA.locations[loc].transport||[]).find(x=>x.mode===mode)||{}).fare;   /* 照資料：祐廷自己的來回交通費 */

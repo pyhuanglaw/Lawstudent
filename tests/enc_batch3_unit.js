@@ -23,7 +23,7 @@ const B3={heroine_01:'D26',heroine_03:'D14',classmate_bohan:'D11',yu:'D01',class
 const BB3={heroine_04:'D01',heroine_02:'D02',heroine_05:'D11',classmate_peishan:'D08'};   /* 可昕 D10 不在台大的作息表（kexin:true）*/
 const rowOf=(who,spot)=>ENCOUNTERS.rows.find(r=>r.who===who&&r.spot===spot);
 const K=k=>STORY.dayOfKey(k);
-const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'gongguan',flags:{},social:{mem:{}},courses:{},invites:[],money:5000,weather:'clear',stage:'law'},o||{}); GG=G; return G; };
+const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'gongguan',flags:{},social:{mem:{}},courses:{},invites:[],money:5000,weather:'clear',stage:'law'},o||{}); GG=G; if(G.flags&&G.flags.YT_MET_JOB===undefined) G.flags.YT_MET_JOB=true;   /* AA_610：舊測試當成已經認識語彤的存檔 */ return G; };
 const at=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who).sort().join(',');
 const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); };
 (async()=>{

@@ -33,7 +33,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x), K=d=>CALENDAR.dateOf(d).key, termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; ADV.active=false; E.npcs=[]; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -100,7 +100,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   { const th=(t,w,done)=>{ fresh(termDay(t,w,2),21.5,'library',{yutong_hospital:true}); R('heroine_03','FRI'); if(done) G.events.done[done]=1; return EVENTS.check(ev('ev_yutong_thanks')); };
     const mw=(t,w,done)=>{ fresh(termDay(t,w,2),21,'noodle',{}); R('heroine_03','FRI'); if(done) G.events.done[done]=1; return EVENTS.check(ev('ev_yutong_midterm_week')); };
     check('9. ev_yutong_thanks（「……阿姨跟你講了吧。」）：大一下照常；大二上不演',th('Y1S2',10)&&!th('Y2S1',3),J([th('Y1S2',10),th('Y2S1',3)]));
-    check('9. ev_yutong_midterm_week（「大一期中考那週…」）：大一下第 10 週起演；大二上、大二下都不補',mw('Y1S2',10)&&!mw('Y1S2',9)&&!mw('Y2S1',11)&&!mw('Y2S2',3),J([mw('Y1S2',10),mw('Y1S2',9),mw('Y2S1',11),mw('Y2S2',3)]));
+    check('9. ev_yutong_midterm_week（「大一期中考那週…」）：AA_624 拿掉阿姨扭到手＝retired，哪一週都不演',ev('ev_yutong_midterm_week').retired===true&&!mw('Y1S2',10)&&!mw('Y1S2',9)&&!mw('Y2S1',11)&&!mw('Y2S2',3),J([mw('Y1S2',10),mw('Y1S2',9),mw('Y2S1',11),mw('Y2S2',3)]));
     check('9. 互斥：演了一件，另一件不演',!th('Y1S2',10,'ev_yutong_midterm_week')&&!mw('Y1S2',10,'ev_yutong_thanks')); }
   // ===== 第 10 項：芯慈慈 3 =====
   { const xc=async lent=>{ fresh(termDay('Y2S1',12,1)+1,0.5,'cvs',{}); R('classmate_xinci','FAM'); if(lent) SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; picks=[0]; await EVENTS.run(ev('ev_xinci_second')); return said.map(s=>s.t); };

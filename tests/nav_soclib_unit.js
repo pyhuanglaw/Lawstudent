@@ -33,14 +33,14 @@ const L=SOCLIB_LAYOUT;
   if(door){ const nd=standNear(door); check('門的互動點旁邊站得住（按得到）',!!nd,JSON.stringify(nd));
     const C=SL3.CAMPUS; check('從圖書館出來的位置站得住、離門的互動點 ≥ 半徑＋0.2 m（一出來不會又跳出按鈕）',stand(C.x,C.z)&&Math.hypot(C.x-door.x,C.z-door.z)>=door.radius+0.2,`(${C.x},${C.z}) 距離 ${Math.hypot(C.x-door.x,C.z-door.z).toFixed(2)}`);
     check('出來時面向北（中庭；人物面向 (sin yaw, cos yaw)）',Math.abs(Math.sin(C.yaw))<1e-6&&Math.abs(Math.cos(C.yaw)+1)<1e-6,`yaw ${C.yaw}`);
-    if(nd){ for(const [nm,p] of [['霖澤館前',[34,-98]],['萬才館門口（出來的位置）',[93.8,-98.4]],['總圖門口',[80,0]]]){ const r=walk(p,nd); check(`從${nm}走到社科院圖書館的門（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
+    if(nd){ for(const [nm,p] of [['霖澤館前',[34,-98]],['萬才館門口（出來的位置）',[WC3.CAMPUS_1F.x,WC3.CAMPUS_1F.z]],['總圖門口',[80,0]]]){ const r=walk(p,nd); check(`從${nm}走到社科院圖書館的門（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
       const r=walk([C.x,C.z],[34,-98]); check('從社科院圖書館出來走回霖澤館前',r.ok,fmt(r)); } }
   check('大地圖有「社會科學院」的地名',PLACES.landmarks.campus.some(q=>q[0]==='社會科學院'));
   /* 新社科院的導航（src/data/socsci_layout.js，LAWWW2 campus_socsci.json；X75 搬家、轉 180°）：圖書館、大樓站不住；中庭、大樓一樓東面與南面的柱廊、往小椰林道的步道站得住、走得到；萬才館東南（社科院原本的位置）照舊走得到 */
   const SX=SOCSCI_LAYOUT; check('socsci_layout：22 個阻擋、1 個樹穴、3 個鏡頭碰撞、4 張長椅',SX.rects.length===22&&SX.circles.length===1&&SX.cams.length===3&&SX.benches.length===4);
   const blocked=[[2,-54,'圖書館中間'],[15,-45,'圖書館東南角裡面'],[-11,-63,'圖書館西北角裡面'],[1,-86,'大樓一樓大廳裡面'],[-10.8,-66.4,'樹穴'],[112,-62,'社科院原本的位置：沒有名字的系館']].filter(([x,z])=>stand(x,z));
   check('圖書館、大樓、樹穴、原本位置的系館站不住',!blocked.length,JSON.stringify(blocked));
-  const open_=[[2,-71,'中庭中間'],[12,-71,'中庭東邊'],[15.7,-85,'大樓東面柱廊（正門）'],[2,-78.1,'大樓南面柱廊'],[21,-66.5,'小椰林道往中庭的步道'],[21,-85,'法學院廣場往大樓正門的步道'],[97,-95,'萬才館東南（社科院原本的位置旁邊；x≥100、z≤-84 照舊是北側邊界）'],[93,-75,'往萬才館的小路'],[98,-60,'z=-60 那條路的東端（原本位置的系館門口）']].filter(([x,z])=>!stand(x,z));
+  const open_=[[2,-71,'中庭中間'],[12,-71,'中庭東邊'],[15.7,-85,'大樓東面柱廊（正門）'],[2,-78.1,'大樓南面柱廊'],[21,-66.5,'小椰林道往中庭的步道'],[21,-85,'法學院廣場往大樓正門的步道'],[99,-74,'萬才館東南（LAW-RELAYOUT-1102 起萬才館搬到 (94,−96)、轉 42°；舊的點 (97,-95) 在萬才館裡）'],[93,-75,'往萬才館的小路'],[98,-60,'z=-60 那條路的東端（原本位置的系館門口）']].filter(([x,z])=>!stand(x,z));
   check('中庭、柱廊、往小椰林道的步道、萬才館東南站得住',!open_.length,JSON.stringify(open_));
   for(const [nm,p] of [['大樓正門（東面）',[SX.mainDoor.x+0.3,SX.mainDoor.z]],['大樓面中庭的入口',[SX.courtDoor.x,SX.courtDoor.z+0.4]],['中庭',[2,-71]]]){ const r=walk([34,-98],p); check(`從霖澤館前走到${nm}（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
   { const r=walk([30,-40],[2,-71]); check('從小椰林道走進社科院的中庭（走路、跑步＋低幀率）',r.ok,fmt(r)); }

@@ -20,10 +20,10 @@ const at=(hour,zone,extra)=>{ const day=2; G={day,hour,zone:zone||'gongguan',wee
 at(18.2); STORY.tick(GM,0.016);
 check('1. 18:12：目標照舊「18:30 公館 阿鳳麵店（阿哲）」',G.goal==='18:30 公館 阿鳳麵店（阿哲）',G.goal);
 at(19.7,'wz_bookstore'); STORY.tick(GM,0.016);
-check('2. 19:42（在別的地方）：不再寫 18:30，改成還在等、20:30 前到；目的地還是阿鳳麵店',!/18:30/.test(G.goal)&&/20:30 前/.test(G.goal)&&/阿鳳麵店（阿哲）/.test(G.goal)&&G.goalDest&&G.goalDest.zone==='noodle',G.goal);
+check('2. 19:42（在別的地方）：不再寫 18:30，改成還在等、20:30 前到；目的地還是燒臘店（字照 AA_612：公館燒臘；舊存檔的目標字也認）',!/18:30/.test(G.goal)&&/20:30 前/.test(G.goal)&&/公館燒臘（阿哲）/.test(G.goal)&&G.goalDest&&G.goalDest.zone==='noodle',G.goal);
 STORY.tick(GM,0.016); const g2=G.goal;
 G.hour=20.6; STORY.tick(GM,0.016);
-check('3. 同一晚到了 20:36 還沒去：換成「今晚沒去吃麵」',/今晚沒去吃麵/.test(G.goal),g2+' → '+G.goal);
+check('3. 同一晚到了 20:36 還沒去：換成「今晚沒去吃燒臘」（AA_612）',/今晚沒去吃燒臘/.test(G.goal),g2+' → '+G.goal);
 at(19.0,'noodle',{zheNoodleDone:true}); G.goal='吃完麵了'; STORY.tick(GM,0.016);
 check('4. 已經吃過（zheNoodleDone）：不動目標',G.goal==='吃完麵了',G.goal);
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

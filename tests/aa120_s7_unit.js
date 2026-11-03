@@ -19,7 +19,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 const dOf=(term,w,wd)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w&&(wd==null||CALENDAR.dateOf(d).wd===wd)) return d; } return null; };
 let G;
 const GMstub={get G(){ return G; },E:{player:{obj:{position:{x:0,z:0}},busy:false},zone:null,npcs:[]},D:{active:false},npc:{}};
-const fresh=(day)=>{ G={day,hour:15,weekday:CALENDAR.dateOf(day).wd%7,zone:'campus',flags:{},energy:70,money:20000,events:{done:{},last:{},count:0},social:null,courses:{}}; SOCIAL.bind(G); EVENTS.bind(GMstub,G); return G; };
+const fresh=(day)=>{ G={day,hour:15,weekday:CALENDAR.dateOf(day).wd%7,zone:'campus',flags:{YT_MET_JOB:true},energy:70,money:20000,events:{done:{},last:{},count:0},social:null,courses:{}}; SOCIAL.bind(G); EVENTS.bind(GMstub,G); return G; };
 const ST=id=>SMALLTALK[id]||[];
 const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 /* ---------- 7-1 五處改字 ---------- */

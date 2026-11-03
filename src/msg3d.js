@@ -120,6 +120,7 @@ const MSG=(function(){
     const out=[]; for(const t of ['chat','share_cat','share_food','share_notes','night']){ for(const v of V){ const L=Y.replies.filter(e=>e.topic===t&&e.variant===v); if(L.length){ out.push(...L); break; } } } return out; };   /* 同一個話題：這個時期最具體的那一版；都沒有就不出（AA_301 第 1 節）*/
   S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有',quiet:true}; }
     if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有',quiet:true};   /* quiet：手機畫面不寫這一句（經濟系那一年還沒有這個功能，不是她的原因；game3d.js threadHTML）*/
+    if(S.EXTRA[id]&&S.EXTRA[id].open) return S.EXTRA[id].open(G);   /* 宋知寧（S.EXTRA）*/
     const sisAdded=id==='heroine_05'&&!!(G.flags&&G.flags.SIS_CONTACTED)&&hasContact(G,id);   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：學姊加了好友（9/3 她接受交友邀請＝SIS_CONTACTED）起就開，還沒在現實見過也一樣 */
     if(!sisAdded&&!hasContact(G,id)) return {ok:false,why:S.noContactWhy(G,id),noContact:true};   /* 原因照約人那一句（INVITE_DATA.why：再熟一點／可以當面問，PHONE-UNIFY-1030）*/
     if(!sisAdded&&!met(G,id)) return {ok:false,why:'還沒見過面'};
@@ -164,8 +165,11 @@ const MSG=(function(){
       out.push({id,th:'p:'+id,has,ok:!!o.ok,sent,why:o.ok?(sent?'今天傳過了':''):(o.quiet?'':(o.why||'')),gray:!has}); }
     return out; };
   S.ROMANTIC=ROMANTIC;
+  /* 不在回覆池的人，由她自己的模組決定能不能傳、有哪些話題、回什麼（SHOP-ENCOUNTER-1103：宋知寧，AA_641 第 2 節「回了也只回一句」，src/shopenc3d.js）：
+     S.EXTRA[id]＝{open(G)→{ok,why}, topics(G)→[{k,t}], reply(G,topic,sub)→她回的那一句, at(G)→{day,h}（沒寫＝S.replyAt）}。祐廷傳的字照舊（S.playerText）；熟悉度不加（她不在 SOCIAL 裡）*/
+  S.EXTRA={};
   /* 這個人現在有哪些話題 */
-  S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
+  S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; if(S.EXTRA[id]&&S.EXTRA[id].topics) return S.EXTRA[id].topics(G); const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
     if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out.concat(S.ukTopics2?S.ukTopics2(G,id,o):[]); }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；第二批只開生日（9/28）、新年（1/1）兩個，句子和回覆在 src/zr_uk3d.js（AA_419 第 3 節，MSG.ukTopics2）；謝謝、還好嗎照舊不開。每月／每週的視訊也在那裡 */
     for(const q of TOPICS){
@@ -448,6 +452,7 @@ const MSG=(function(){
     if(typeof PHONE!=='undefined') PHONE.post(G,{th,from:'player',who:null,text});
     R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++;
     if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
+    { const X=S.EXTRA[id]; if(X&&X.reply){ const at=X.at?X.at(G):S.replyAt(G,id), t=X.reply(G,topic,sub); if(t&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,name:X.name,text:t}],null); return {ok:true,text,at}; } }   /* 宋知寧（S.EXTRA）：只回一句 */
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
     if(id==='heroine_05'&&typeof V6EX!=='undefined'&&V6EX.sisExMsg&&V6EX.noContact(G,id)){ const n=V6EX.sisExMsg(G,topic), at=S.replyAt(G,id);   /* AA_600 S8（企劃線 031414cad）：前任的學姊——第 1、2 則已讀不回；第 3 則才回最短的一句（「嗯。」「好。」「謝謝。」），回完計數歸零 */
       if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[n<3?{th,text:V6EX.SIS_EX_READ}:{th,from:id,text:V6EX.sisExShort(topic)}],null);

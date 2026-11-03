@@ -80,7 +80,7 @@ const SISJP_EVENTS=(function(){
         SIS('……那件外套？'),{speaker:'player',text:'那件。'},SIS('回來我看一下。'),{goto:'end'},
         {label:'j3b'},SIS('照片裡那隻看起來不乖。'),{goto:'end'},
         {label:'j4'},SIS('我在想，十二月回來要先吃什麼。'),SIS('你推薦一家。'),
-        {choice:[{text:'「麵店。」',set:{SIS_JP_FIRST:'noodle'},goto:'j4a'},{text:'「妳決定。」',set:{SIS_JP_FIRST:'secret'},goto:'j4b'}]},   /* AA_512 6-1：記 SIS_JP_FIRST（12/23 接機戀人版 (b)(c)）*/
+        {choice:[{text:'「燒臘店。」',set:{SIS_JP_FIRST:'noodle'},goto:'j4a'},{text:'「妳決定。」',set:{SIS_JP_FIRST:'secret'},goto:'j4b'}]},   /* AA_512 6-1：記 SIS_JP_FIRST（12/23 接機戀人版 (b)(c)）*/
         {label:'j4a'},SIS('好。第一天就去。'),{goto:'end'},
         {label:'j4b'},SIS('那我十二月再告訴你。……先保密。'),
         {label:'end'},{consequences:{rel:{[ID]:{comf:2,npcRom:1}}}} ],

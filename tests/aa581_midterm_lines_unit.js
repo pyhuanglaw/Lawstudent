@@ -34,7 +34,7 @@ const ROWS = [
   ['11', 'src/data/twfill_events.js', '大四的期中考 為什麼還是期中考', '大四的期中週 為什麼還是要交報告'],
   ['12', 'src/data/twfill_events.js', '最後一次期中考', '最後一次期中週'],
   ['13', 'src/data/twfill_events.js', "['yu','考完了'],['zhe','最後一次']", "['yu','過一半了'],['zhe','最後一次']"],
-  ['14', 'src/y2r2_3d.js', '（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）', '（期中週過了，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）'],
+  ['14', 'src/y2r2_3d.js', '（期中考完，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）', '（期中週過了，第一次在燒臘店遇到大家。春假去了哪裡，到現在還有人在講。）'],
   ['15', 'src/y2r2_3d.js', "N('yu','期中考完了')", "N('yu','這週的報告交完了')"],
   ['16', 'src/data/r2y3b_events.js', '期中考版的春假。只有兩個小時。', '趕報告版的春假。只有兩個小時。'],
   ['17', 'src/data/r2y3b_events.js', '「期中考完再來一次？」', '「期中週過完再來一次？」'],
@@ -83,9 +83,9 @@ const ROWS = [
   ['66/67', 'src/data/syllabus.js', '（群組）柏翰：期中考範圍更新了。', '（群組）柏翰：期末考範圍表更新了。'],
   ['68', 'src/story3d.js', '刑訴的筆記我幫你印了。後天才考，不要慌。', '刑訴的筆記我幫你印了。上禮拜的都在裡面，不要慌。'],
   ['69', 'src/story3d.js', '好。考完再跟我講一次。', '好。病好了再跟我講一次。'],
-  ['70', 'src/data/events.js', null, "text:'明天晚上滷味，來不來？'"],
-  ['71', 'src/data/events.js', null, "text:'明天晚上麵店，七點，來不來？'"],
-  ['72', 'src/story3d.js', null, "s2.day!==s2.exam?'考完了 今天麵店，七點，長桌':'刑總考完了 今天麵店，七點，長桌'"],
+  ['70', 'src/data/events.js', null, "text:'明天晚上日常失速，來不來？'"],   /* AA_623 第 3 節：A15 改日常失速 */
+  ['71', 'src/data/events.js', null, "text:'明天晚上燒臘店，七點，來不來？'"],
+  ['72', 'src/story3d.js', null, "s2.day!==s2.exam?'考完了 今天燒臘店，七點，長桌':'刑總考完了 今天燒臘店，七點，長桌'"],   /* AA_612 A-373 */
   ['7B', 'src/data/events.js', '（阿姨的手腕綁著護腕。', '（阿姨的手好了，今天端麵的還是語彤。）'],
   ['7B', 'src/data/events.js', null, "text:'（今天端麵的是一個沒見過的女生。）'"],
   ['7C', 'src/data/noodle_table.js', "if:{weeks:[6,7,14,15]}", "{who:['zhe'],if:{weeks:[14,15]}"],
@@ -104,10 +104,10 @@ for (const [row, f, oldS, newS] of ROWS) {
     s.includes("['y1s1_bh_count',BH,G=>S.bhCountDay(G),22,") && /S\.bhCountDay=G=>\{[^\n]*CLS\.examList\(G,'Y1S1'\)[^\n]*L\[0\]\.day-21[^\n]*TD\('Y1S1',13,1\)/.test(s) && s.includes('const d=dayFn(G);') && !s.includes("()=>TD('Y1S1',5,1)")); }
 /* 第 70～72 列：宵夜順延到隔天（S.supperLate）才換句；平常照舊 */
 { const ev = R('src/data/events.js'), st = R('src/story3d.js');
-  check('(a) 第 70、71 列：平常那句照舊（「晚上滷味，來不來？」「晚上麵店，七點，來不來？」），順延時（STORY.supperLate）換「明天晚上…」',
-    cnt(ev, "text:'晚上滷味，來不來？'") === 1 && cnt(ev, "text:'晚上麵店，七點，來不來？'") === 1 && cnt(ev, "STORY.supperLate(G,'Y1S1','civ_general')") === 2 && cnt(ev, "STORY.supperLate(G,'Y1S2','crim_gen2')") === 2);
-  check('(a) 第 70～72 列：STORY.supperDay／supperLate（day!==exam＝順延）；群組「考完了 滷味」照舊（保30）',
-    /S\.supperLate=\(G,term,cid\)=>\{ const x=S\.supperDay\(G,term,cid\); return !!x&&x\.day!==x\.exam; \}/.test(st) && st.includes("text:'考完了 滷味'")); }
+  check('(a) 第 70、71 列：平常那句（AA_623「晚上日常失速，來不來？」、AA_612「晚上燒臘店，七點，來不來？」），順延時（STORY.supperLate）換「明天晚上…」',
+    cnt(ev, "text:'晚上日常失速，來不來？'") === 1 && cnt(ev, "text:'晚上燒臘店，七點，來不來？'") === 1 && cnt(ev, "STORY.supperLate(G,'Y1S1','civ_general')") === 2 && cnt(ev, "STORY.supperLate(G,'Y1S2','crim_gen2')") === 2);
+  check('(a) 第 70～72 列：STORY.supperDay／supperLate（day!==exam＝順延）；群組改 AA_618 2-4 第 1 點「考完了！日常失速，八人桌我先佔。」（AA_623）',
+    /S\.supperLate=\(G,term,cid\)=>\{ const x=S\.supperDay\(G,term,cid\); return !!x&&x\.day!==x\.exam; \}/.test(st) && st.includes("text:'考完了！日常失速，八人桌我先佔。'")); }
 /* 第 73 列：沛珊① 大三上提前到 12/23（四）21:00、她的話換、已經約好去台南就不發 */
 { global.window = global; let CT = null;
   try { vm.runInThisContext(R('src/data/cracktalk_lines.js').replace(/^const CRACKTALK_LINES\s*=/m, 'globalThis.CRACKTALK_LINES='), { filename: 'cracktalk_lines.js' }); CT = globalThis.CRACKTALK_LINES; } catch (e) { CT = null; }

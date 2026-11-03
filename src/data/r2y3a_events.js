@@ -153,8 +153,8 @@ const R2Y3A_EVENTS=(function(){
   const TA_DUE={custom:G=>!(G.flags&&G.flags.YT_TA)&&!done(G,'ev_yt_ta_news')&&!done(G,'ev_yt_ta_news_lib')&&stAt(G,'heroine_03','FRIEND')};
   const TA_LINES=((TA_SRC&&TA_SRC.dialogue)||[]).map(l=>l.label?Object.assign({},l):Object.assign({},l,{if:TA_DUE}));   /* 標籤照原本的（t1～t3），這裡的標籤用 fm_ 開頭不撞 */
   const FIRST_MEAL={ id:'ev_y3_first_meal', title:'開學第一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的長桌。阿姨換了新的菜單，每一樣多五塊。）'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（燒臘店的長桌。阿姨換了新的菜單，每一樣多五塊。）'},
       {if:kn('zhe'),speaker:'zhe',text:'五塊。……大三就是這種感覺。'},
       {if:kn('yu'),speaker:'yu',text:'欸，這學期刑訴，聽說林教授點名都點後面。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
@@ -191,8 +191,8 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-06 可昕 K15「三十分鐘的晚餐」：9/22（三）18:00～18:30 公館。吃什麼：麵店／便利商店／水餃（背景跟著換）---------- */
   const THIRTY={ id:'ev_kexin_30min', title:'三十分鐘的晚餐', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5, kxAway:true,   /* 最後她先走了 */
     dialogue:[ {scene:'公館',bg:'gongguan'},
-      {choice:[{text:'「麵店。阿姨的麵三分鐘就來。」',goto:'e1'},{text:'「便利商店。」',goto:'e2'},{text:'「妳選。」',goto:'e3'}]},
-      {label:'e1'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},{speaker:'kexin',expression:'surprised',text:'你們的麵店？好。我還沒在週三來過。'},{goto:'t'},
+      {choice:[{text:'「燒臘店。阿姨的飯三分鐘就來。」',goto:'e1'},{text:'「便利商店。」',goto:'e2'},{text:'「妳選。」',goto:'e3'}]},
+      {label:'e1'},{scene:'公館燒臘・長桌',bg:'noodle_table'},{speaker:'kexin',expression:'surprised',text:'你們的燒臘店？好。我還沒在週三來過。'},{goto:'t'},
       {label:'e2'},{speaker:'kexin',expression:'teasing',text:'……我們大三了，可以吃好一點。'},{speaker:null,text:'（她還是買了兩個飯糰。）'},{goto:'t'},
       {label:'e3'},{scene:'公館・水餃店',bg:'y0_dumpling'},{speaker:'kexin',expression:'thinking',text:'三十分鐘的話，水餃。數得出來吃了幾顆。'},
       {label:'t'},
@@ -200,7 +200,7 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'kexin',expression:'serious',text:'還有九分鐘。……你說一件今天的事。只說一件。'},
       {choice:[{text:'「刑訴老師昨天點了後面三排。」',goto:'s1'},   /* AA_376 #12：刑訴在週二、五（K15 是週三）*/{text:'「阿哲當隊長了。」',if:{flags:['ZHE3']},goto:'s2'},{text:'「今天沒什麼事。」',goto:'s3'}]},
       {label:'s1'},{speaker:'kexin',expression:'thinking',text:'你坐第幾排？'},{speaker:'player',text:'第四排。'},{speaker:'kexin',expression:'laugh',text:'……好險。'},{goto:'end'},
-      {label:'s2'},{speaker:'kexin',expression:'laugh',text:'他？……他會每場都請全隊吃麵吧。'},{goto:'end'},
+      {label:'s2'},{speaker:'kexin',expression:'laugh',text:'他？……他會每場都請全隊吃燒臘吧。'},{goto:'end'},
       {label:'s3'},{speaker:'kexin',expression:'teasing',text:'那就說你中午吃什麼。……現在這碗不算。'},
       {label:'end'},
       {speaker:null,text:'（六點半整，她站起來，拿了外套就走。走到門口又回頭。）'},
@@ -342,7 +342,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-13 以安新 14「她選了行政法院」（LEGAL_REVIEW_REQUIRED：告區公所的行政訴訟由哪一級法院審，旁白只寫「行政法院」）：10/21（四）17:30～19:40 麵店（作息在 r2y3a3d.js），走到她旁邊就演 ---------- */
   const ADMIN={ id:'ev_an_admin_court', title:'她選了行政法院', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'heroine_01', nearDist:3,
     prereq:{custom:G=>on(G,'2027-10-21',17.5,19+40/60)&&stAt(G,'heroine_01','FAMILIAR')&&!(G.flags&&G.flags.AN14)},
-    dialogue:[ {speaker:null,text:'（麵店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）'},
+    dialogue:[ {speaker:null,text:'（燒臘店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）'},
       {speaker:'heroine_01',text:'今天下午，我先去了一趟行政法院。'},   /* AA_462 第 8 節③：「我自己去了」換字（同 an14Phone 那一則，AA_462 第 1 節）*/
       {speaker:'heroine_01',text:'一個人告區公所。他坐左邊，區公所的人坐右邊。'},
       {speaker:'heroine_01',text:'他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'},
@@ -352,10 +352,10 @@ const R2Y3A_EVENTS=(function(){
       {choice:[{text:'「一個人對兩台筆電？」',goto:'a1'},{text:'「妳怎麼不去刑事庭？」',goto:'a2'},{text:'「下次我也想去。」',goto:'a3'}]},
       {label:'a1'},{speaker:'heroine_01',text:'嗯。可是法官一直讓他講完。'},{speaker:null,text:'（她把開庭表摺起來。）'},{speaker:'heroine_01',expression:'thinking',text:'……我在想，那是規定，還是那個法官。'},{goto:'end'},
       {label:'a2'},{speaker:'heroine_01',text:'禮拜五去。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_01',text:'刑事庭的旁聽席，有人會認得我。行政法院不會。'},
-        {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'……不是。麵要糊了。'},{goto:'end'},
+        {if:kn('zhe'),speaker:'zhe',text:'認得妳？妳是明星喔。'},{if:kn('zhe'),speaker:'heroine_01',text:'……不是。飯要涼了。'},{goto:'end'},
       {label:'a3'},{speaker:'heroine_01',text:'好。開庭表我傳給你。……要早到，旁聽席很小。'},{set:{AN_ADMIN_NEXT:true}},   /* AA_601 第 1 節第 1 點：接 10/27 她傳開庭表 */
       {label:'end'},{advance:toH(19+40/60)},
-      {speaker:null,text:'（七點四十，她看了一下錶，把麵吃完。）'},
+      {speaker:null,text:'（七點四十，她看了一下錶，把飯吃完。）'},
       {speaker:'heroine_01',text:'讀書會。我先走。'},
       {set:{AN14:'there'}},(mem('heroine_01','AN_ADMIN_COURT')) ] };
 

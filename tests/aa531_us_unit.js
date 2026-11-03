@@ -288,15 +288,16 @@ await sec('8-2',()=>{
   const pick=()=>{ const e=MSG.pick(H.G,YT,'chat'); return e?e.msgs[0]:null; };
   fresh('2028-10-17',18,'dorm',TW()); date(YT,'2028-06-01'); const tw=[MSG.tagOk(H.G,YT,'店裡的時間'),pick()];
   at('2028-10-17',15); const tw15=[MSG.tagOk(H.G,YT,'店裡的時間'),pick()]; at('2028-10-21',10); const sat=MSG.tagOk(H.G,YT,'店裡的時間'); at('2028-10-18',18); const wed=MSG.tagOk(H.G,YT,'店裡的時間');
-  check('8-2. 臺灣路線、交往中：週二 18:00（麵店顧店）「在幹嘛」L 層＝「在店裡。阿姨問你怎麼沒來。」；週二 15:00、週三 18:00 不是店裡的時間（不用這一句）；週六 10:00 是',
-    J(tw)===J([true,'在店裡。阿姨問你怎麼沒來。'])&&tw15[0]===false&&tw15[1]!=='在店裡。阿姨問你怎麼沒來。'&&sat===true&&wed===false,J({tw,tw15,sat,wed}));
+  /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店（麵店的作息拿掉）＝「店裡的時間」那幾句（「在店裡。…」）不再出現 */
+  check('8-2. 臺灣路線、交往中：週二 18:00、15:00、週六 10:00、週三 18:00 都不是「店裡的時間」，「在幹嘛」不用「在店裡。阿姨問你怎麼沒來。」',
+    tw[0]===false&&tw[1]!=='在店裡。阿姨問你怎麼沒來。'&&tw15[0]===false&&tw15[1]!=='在店裡。阿姨問你怎麼沒來。'&&sat===false&&wed===false,J({tw,tw15,sat,wed}));
   /* 美國：當地 10/17（二）06:00＝臺灣 18:00（店裡）；當地 10/19（四）18:00＝臺灣 10/20（五）06:00（照當地時間會是店裡的時間：照她那邊就不是）*/
   const send=(d,h)=>{ fresh(d,h,'us_apartment',US()); date(YT,'2028-06-01'); const r=MSG.send(H.G,YT,'chat'); const q=PHONE.rec(H.G).q; return {ok:!!(r&&r.ok),t:q.length?q[q.length-1].items.map(x=>x.text):[]}; };
   const u1=send('2028-10-17',6), u2=send('2028-10-19',18);
   const T0=MSG.herG?MSG.herG(H.G,{tz:STORY.tzOffset(H.G)}):null;
-  check('8-2. 美國路線（照她那邊的時間）：當地週二 06:00 傳（臺灣週二 18:00）回「在店裡。阿姨問你美國有沒有麵。」；當地週四 18:00 傳（臺灣週五 06:00）不用這一句',
-    u1.ok&&u1.t.includes('在店裡。阿姨問你美國有沒有麵。')&&!u1.t.includes('在店裡。阿姨問你怎麼沒來。')&&u2.ok&&!u2.t.some(t=>/^在店裡。/.test(t)),J({u1,u2,T0:T0&&[keyOf(T0.day),T0.hour]}));
-  check('8-2. 不是語彤（沒有作息那一筆、或不在麵店顧店）：店裡的時間＝否',(fresh('2028-10-17',18,'dorm',TW()),MSG.atShop(H.G,AN)===false&&MSG.atShop(H.G,YT)===true)); });
+  check('8-2. 美國路線：當地週二 06:00（臺灣週二 18:00）、當地週四 18:00 都不用「在店裡。…」那幾句（她不在店裡）',
+    u1.ok&&!u1.t.some(t=>/^在店裡。/.test(t))&&u2.ok&&!u2.t.some(t=>/^在店裡。/.test(t)),J({u1,u2,T0:T0&&[keyOf(T0.day),T0.hour]}));
+  check('8-2. 店裡的時間（MSG.atShop）：以安＝否、語彤也＝否（AA_610／AA_624）',(fresh('2028-10-17',18,'dorm',TW()),MSG.atShop(H.G,AN)===false&&MSG.atShop(H.G,YT)===false)); });
 await sec('8-3',()=>{
   const row=w=>T83.find(r=>r.who.indexOf(w)>=0)||{};
   const AB=row('以安'), PB=row('沛珊'), YB=row('生日'), YO=T83.find(r=>r!==YB&&r.who.indexOf('語彤')>=0)||{};

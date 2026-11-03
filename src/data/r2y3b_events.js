@@ -29,7 +29,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-26 開學第一頓（大三下）：2028-02-22（二）19:00 麵店長桌（17:00 阿哲揪；沒去＝21:30 群組照片）---------- */
   const FIRST_MEAL={ id:'ev_y3s2_first_meal', title:'開學第一頓（大三下）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
       {speaker:null,text:'（麵店的長桌。語彤在廚房門口，圍裙還沒脫。）'},
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
@@ -42,7 +42,7 @@ const R2Y3B_EVENTS=(function(){
       {label:'a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她回廚房了。）'},
       {label:'end'} ],
-    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（麵店）'},
+    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（公館燒臘）'},
     outingMissed:G=>{ const x=X(); if(x) x.firstMealPhoto(G); } };
 
   /* ---------- 2-Y3-27 228 河濱：2028-02-28（一）14:00～17:00 公館河濱（2/27 21:00 阿哲揪；沒去＝17:30 Alison 在群組）---------- */
@@ -137,7 +137,7 @@ const R2Y3B_EVENTS=(function(){
     outingMissed:G=>{ const x=X(); if(x) x.xunPhoto(G); } };
 
   /* ---------- 2-Y3-33 語 4「一個人的晚上」：第 3～6 週平日 9:30～12:00 傅鐘旁的長椅（經過就演）；沒遇到＝4/2（日）21:00 她打來（日本路線＝視訊）---------- */
-  const YU4_TAIL=[ {speaker:'yu',text:'我算過了，我兩年沒有一個晚上是一個人。有社團，有阿哲，有麵店。'},
+  const YU4_TAIL=[ {speaker:'yu',text:'我算過了，我兩年沒有一個晚上是一個人。有社團，有阿哲，有燒臘店。'},
     {speaker:'yu',text:'我要考司法官。那個考試，要一個人坐在總圖一整年。'},
     {speaker:'yu',text:'所以我跟阿哲說，我想每週留一個晚上給自己。'},
     {speaker:'yu',text:'他說好。然後他問我要不要他幫我找好看的電影。'},
@@ -244,7 +244,7 @@ const R2Y3B_EVENTS=(function(){
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從廚房探出頭，舉起田野筆記，沒說話。）'},
       {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
-      {speaker:'zhe',text:'好了，麵要糊了。……你自己也要吃飯。'},
+      {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
       {set:{FAR_CALL:'jp'}} ],   /* 不在麵店團、和阿哲 FAMILIAR 以上：阿哲一個人在宿舍頂樓打來，只留阿哲的台詞（上面群組那幾行都不出）*/
     outingMissed:G=>{ const x=X(); if(x) x.farPhoto(G); } };
@@ -265,7 +265,7 @@ const R2Y3B_EVENTS=(function(){
       {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},
-      {speaker:'zhe',text:'好了，麵要糊了。……你自己也要吃飯。'},
+      {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。平台上很安靜，遠處有人在割草。）'},
       {set:{FAR_CALL:'us'}} ],
     outingMissed:G=>{ const x=X(); if(x) x.farPhotoUS(G); } };
@@ -447,7 +447,7 @@ const R2Y3B_EVENTS=(function(){
         [['我去機場接妳。','好。班機號碼我再傳給你。'],['東西變多了嗎？','多了很多書。箱子關不起來。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句；原本四則的回覆照舊 */
     /* AA_524 A10：沒交往的朋友（r2y3b3d.js 的 tier 1）沒有接機那一場——「我去機場接妳。」她的回覆換這一句；交往中照上面（8/5 接機）*/
     t1OFriend:{9:{'我去機場接妳。':'不用。我媽會來。……謝謝。'}},
-    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊報告交了嗎？'],O:['交了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
+    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊報告交了嗎？'],O:['交了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','燒臘店。']},
         {L:['讀書會 Alison 有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
     t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你吃晚餐了嗎？我這邊剛吃完。'},{speaker:'heroine_01',text:'這禮拜的課很難。不講課了，你最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],

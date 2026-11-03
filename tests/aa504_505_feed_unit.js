@@ -212,8 +212,8 @@ await asec('4a',async()=>{ if(!HAS()||!SET.Y1S2){ check('4. 語彤放榜',false,
   try{ fresh(D73,20); who('heroine_03','FRIEND'); walk(D73,20.75); H.G.zone='noodle'; at(D73+4,18); check('4. 私訊傳了以後：FEED.ytTreatDue',FEED.ytTreatDue(H.G)===true);
     H.picks=[0]; H.said=[]; await STORY.interact(it,GM); const s1=H.said.map(x=>(x.who?x.who+'：':'')+x.t);
     check('4. 之後第一次到麵店點乾麵：阿姨「語彤上了！今天你的麵我請。」、那一碗不用錢（沒有扣錢）',s1[0]==='阿姨：語彤上了！今天你的麵我請。'&&!paid.length&&FEED.ytTreatDue(H.G)===false&&H.G.flags.FEED.ytTreat===D73+4,J({s1,paid}));
-    H.picks=[1]; H.said=[]; await STORY.interact(it,GM); check('4. 下一次照付（餛飩湯 70 元）、阿姨不再說',J(paid)===J([-70])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)),J({paid,said:H.said}));
-    fresh(D73-1,20); who('heroine_03','FRIEND'); H.G.zone='noodle'; paid.length=0; H.picks=[0]; H.said=[]; await STORY.interact(it,GM); check('4. 放榜以前（沒收到那則）：照付、阿姨不說',J(paid)===J([-60])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)));
+    H.picks=[1]; H.said=[]; await STORY.interact(it,GM); check('4. 下一次照付（燒鴨飯 110 元，AA_612 菜單）、阿姨不再說',J(paid)===J([-110])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)),J({paid,said:H.said}));
+    fresh(D73-1,20); who('heroine_03','FRIEND'); H.G.zone='noodle'; paid.length=0; H.picks=[0]; H.said=[]; await STORY.interact(it,GM); check('4. 放榜以前（沒收到那則）：照付（叉燒飯 100）、阿姨不說',J(paid)===J([-100])&&!H.said.some(x=>/今天你的麵我請/.test(x.t)));
     fresh(D73,20); who('heroine_03','ACQ'); walk(D73,21); check('4. 語彤只認識：沒有放榜私訊（x:stage）、麵店也不請',!tagged('yt_pass').length&&R().dm.yt_pass==='x:stage'&&FEED.ytTreatDue(H.G)===false); }
   finally{ GM.money=m0; } });
 sec('4b',()=>{ if(!HAS()||!SET.Y1S2) return;

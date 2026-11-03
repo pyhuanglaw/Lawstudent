@@ -61,8 +61,8 @@ const MSG_POOL={
   "zhe":{"name":"阿哲","rules":{"replyFree": [1, 3], "noReplyText": "練球時不回", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "極快；「走啦」「+1」、語音、食物照片；叫你「哥」要有 `ZHE_CALLS_GE`，沒有的版本把「哥」拿掉", "wakeLine": [], "otherText": ["阿哲：「走啦」「+1」、語音、食物照片；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["練球"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["吃飯 你要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛"},
-   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（語音訊息，背景很吵）在麵店啦！"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
-   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在麵店 哥要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛", "geFlag": "ZHE_CALLS_GE"},
+   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（語音訊息，背景很吵）在燒臘店啦！"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
+   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在燒臘店 哥要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛", "geFlag": "ZHE_CALLS_GE"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["打球 缺一個"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["躺"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["我也沒抄到", "問 Alison 她都有抄"], "tags": ["認識 Alison 才有"], "ask": null, "src": "AA_202 6-4 問課"},

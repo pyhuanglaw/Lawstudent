@@ -405,11 +405,12 @@ const CLS=(function(){
   const TOUR=[
     {x:-3.0,z:2.8,lv:0,say:'新生導覽，十五分鐘。跟著我走，問題留到最後。'},
     {x:0,z:4.4,lv:0,say:'進出都要刷學生證。忘記帶的，服務台可以臨時登記，一學期三次。'},
-    {x:7.8,z:3.2,lv:0,say:'借書、還書、預約研究小間，都在這裡問。'},
+    (()=>{ const d=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.furniture?LIBRARY_LAYOUT.furniture.find(f=>f.type==='desk'&&(f.lv|0)===0):null;   /* LIB-PLAN-1103：服務台前（讀配置；第四版服務台搬到閘門北邊 (3.0,1.0)，站在讀者那一側 (3.0,−0.3)；第三版 (7.8,4.4) → (7.8,3.2) 照舊）*/
+      return d&&d.z<3?{x:d.x,z:+(d.z-d.d/2-0.9).toFixed(2),lv:0,say:'借書、還書都在這邊。找不到書也可以來問。'}:{x:7.8,z:3.2,lv:0,say:'借書、還書都在這邊。找不到書也可以來問。'}; })(),
     {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
-    {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
+    {x:10.6,z:5.6,lv:1,say:'研究小間不用預約，有空的就能進去，一個人也可以。要跟同學討論的話，B1 有討論室，兩個人以上，要上網預約。'},   /* 同一站（新生導覽照舊七站，tests/flow_lib_tour.py）；AA_635（企劃線 db117b0f8；AA 11-03 12:06 AA_399 3-1 更正：研究小間一個人用、討論室兩人以上上網預約）；「大四以後」照使用者 11-03 選擇題「大一就能用，免預約」改（CARREL-FREE-1103）*/
     {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
-    {x:0,z:3.2,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];
+    {x:0,z:4.4,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];   /* LIB-3F-1102 第二版：最後一站 (0, 4.4)（第一版 (0, 3.2) 在第二版的科技中文書架上）*/
   S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
     if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
     const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
@@ -423,7 +424,7 @@ const CLS=(function(){
     const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
     for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
-      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); try{ await GM.enter(st.zone,{x:0,z:7,yaw:Math.PI}); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; spawnCrew(0.8,5.6,0); }
+      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
       await waitFor(near,90); if(left) break; GM.caption('館員',st.say,5200); await GM.sleep(2600); }
@@ -431,6 +432,9 @@ const CLS=(function(){
     else { A[k]={h:A[k].h,end:'full'}; if(withAn&&GM.npc.heroine_01){ await GM.sleep(1800); GM.caption(SOCIAL.displayName('heroine_01'),'三樓要安靜。……那我還是坐二樓。',4200); } }
     setTimeout(()=>{ try{ for(const n of crew.concat(lib?[lib]:[])){ if(n&&!n.charId&&E.npcs.includes(n)) E.removeNPC(n); } }catch(e){} },6000);
     S.refreshGoal(GM); if(GM.autosave) GM.autosave(); return !left; };
+  /* 導覽進行中（BB 11-03：大一第 1 週 15:55 系學會合照的出發選單在導覽中間跳出來，按了就離開導覽）：OUT.tick 先不跳出發選單，導覽結束再跳 */
+  S.touring=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:touring']=()=>{ S.touring=false; };
+  { const run0=S.runLibTour; S.runLibTour=async function(GM,a){ S.touring=true; try{ return await run0(GM,a); } finally { S.touring=false; } }; }
   S.attendActivity=async function(GM,a,o){ o=o||{}; const G=GM.G; if(!a||typeof ACTIVITIES==='undefined'||ACTIVITIES.attended(G,a.id,G.day)) return false;
     if(a.id==='lib_tour_y1s1'&&GM.E&&GM.E.player&&GM.E.moveTo&&typeof CHAR!=='undefined'&&GM.G.zone==='library_hall'&&!o.inScene) return S.runLibTour(GM,a);   /* 沒有 3D 引擎（單元測試）照舊快轉 */   /* 總圖新生導覽：館員帶著走一圈（AA_134 第 2 節）*/
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';
@@ -890,7 +894,7 @@ const CLS=(function(){
   /* 各區域在校園座標裡大概的位置（公館、溫州街照 zones3d.js 的換算：公館 (gx,gz) → 校園 (x=-170-gz, z=gx)；溫州街和公館在巷口 (-71,16.5) 相接）。只用來估時間。
      遊戲的校園比真的小（校門到霖澤館 160 m，真的大約 1 km）：時間照真實步行算——遊戲距離 ×6、每分鐘 80 m，加 2 分鐘進出建築，四捨五入到 5 分鐘、最少 5 分鐘
      （宿舍→霖澤館約 15 分鐘、霖澤館→溫州街 Café 約 20 分鐘）*/
-  const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[93.8,-100], lawlib:[85,-102], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
+  const ANCHOR={ linze:[34,-112], classroom:[34,-112], gongtong:[2,33], boya:[-38,-83], putong:[-38,-58.5], wancai:[90.28,-83.2], lawlib:[85.08,-90.58], soclib:(typeof SL3!=='undefined'?[SL3.DOOR.x,SL3.DOOR.z]:[11,-65.7]), library_hall:[80,0], library:[80,0], dorm:[20,68], dorm_hall:[20,68],
                  gongguan:[-140,0], cvs:[-188,-29], bookstore:[-188,-42], noodle:[-188,-63], wenzhou:[-200,-95], cafe:[-192,-75] };
   S.travelMinutes=function(G,fromZone,toZone,pos,toPos){ if(fromZone===toZone&&toZone==='gongguan'&&pos&&toPos){ const d=Math.hypot(pos.x-toPos.x,pos.z-toPos.z); return d<12?0:Math.max(5,Math.round((2+d/13)/5)*5); }   /* 公館有兩個落點（商圈、捷運站）：照距離算，和校園一樣（BB-B 10-23：人在公館時捷運站也寫「你在這裡」）*/
     if(fromZone===toZone&&toZone!=='campus') return 0;
@@ -1014,7 +1018,7 @@ const CLS=(function(){
   S.routeVia=function(from,to){ const a=upTo(from), b=upTo(to); if(!a||!b) return []; const k=a.findIndex(z=>b.includes(z)); if(k<0) return []; const j=b.indexOf(a[k]);
     return a.slice(1,k+1).concat(b.slice(0,j).reverse()).filter(z=>z!==to&&z!==from); };
   /* 停在校園時站的地方：要走進去的那一棟門口（和各棟「走出去」的落點、手機快速前往的落點一樣）。其他的區域照那一區的出生點（大門、大廳）*/
-  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:93.8,z:-98.4,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:74,z:58,yaw:Math.PI}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
+  const CAMPUS_AT={ linze:{x:34,z:-98,yaw:0}, wancai:{x:89.21,z:-82.01,yaw:0}, gongtong:{x:2,z:21.4,yaw:0}, putong:{x:-38,z:-47.4,yaw:0}, boya:{x:-38,z:-71.4,yaw:0}, gym:{x:74,z:58,yaw:Math.PI}, library_hall:{x:80,z:0,yaw:-Math.PI/2}, dorm_hall:{x:20,z:54,yaw:Math.PI} };
   /* 到達時就會演的事件（R2）：enter，或不用走近、不是隨機的 auto；地點明確寫了那一區；不靠人物在場、在旁邊、玩家在哪一間（那些要到了現場才知道，走過去的時候再演）*/
   S.arriveEv=(e,z)=>!!e&&(e.trigger==='enter'||(e.trigger==='auto'&&!e.near))&&e.random_weight===undefined&&!e.npcPresent&&!e.npcNear&&!e.npcRoom&&!e.room&&!!e.location&&e.location!=='any'&&[].concat(e.location).includes(z);
   /* 路上第一個要停的地方：照路線順序，每一區「到那裡的時間」照 goPlan 的算法倒推（剩下的路程＝從那一區到教室；到那裡＝現在＋總路程−剩下的），
@@ -1117,9 +1121,9 @@ const CLS=(function(){
       const nb=free.filter(q=>!used.has(q)&&Math.hypot(q.seat.x-n.seat.x,q.seat.z-n.seat.z)<1.3&&(q.seat.lv|0)===(n.seat.lv|0)).sort((a,b)=>Math.hypot(a.seat.x-n.seat.x,a.seat.z-n.seat.z)-Math.hypot(b.seat.x-n.seat.x,b.seat.z-n.seat.z))[0];
       if(nb){ used.add(nb); out.push({t:'坐在'+(SOCIAL.displayName?SOCIAL.displayName(id):(CHARACTERS[id].name||id))+'旁邊',it:nb,who:id}); } }
     return out; };
-  S.seatPick=async function(GM,it){ const G=GM.G, E=GM.E; if(E.zone&&(roomy(E.zone)||G.zone==='classroom')){ try{ S.syncRoom(GM); }catch(e){} }
+  S.seatPick=async function(GM,it,o){ const G=GM.G, E=GM.E; if(E.zone&&(roomy(E.zone)||G.zone==='classroom')){ try{ S.syncRoom(GM); }catch(e){} }
     const ch=S.seatChoices(GM,it); if(!ch.length||!GM.seatMenu){ GM.toast('上課的教室：'+(it.room.name||'')+'（找個位子坐下）',4200); return false; }
-    let k=ch.length; GM.sceneBegin(); try{ k=await GM.choose(ch.map(q=>({t:q.t,hint:q.hint})).concat([{t:'自己找位子',hint:'走過去坐下就可以上課'}])); } finally { GM.sceneEnd(); }
+    let k=ch.length; if(o&&o.autoSeat) k=0; else { GM.sceneBegin(); try{ k=await GM.choose(ch.map(q=>({t:q.t,hint:q.hint})).concat([{t:'自己找位子',hint:'走過去坐下就可以上課'}])); } finally { GM.sceneEnd(); } }   /* o.autoSeat：一鍵到下一堂課（ONE-TAP-GO-1103）＝第一個（老位子；沒有就中間的位子），不問 */
     if(k>=ch.length){ GM.toast('教室是 '+(it.room.name||'')+'，找個位子坐下就可以上課（'+hhmm(it.t0)+' 開始）',4200); return false; }
     await GM.seatMenu(ch[k].it,{autoClass:true}); return true; };
   /* 下課選單（1-4）：課後事件演完、玩家站起來以後；今天還有下一堂才出 */
@@ -1132,7 +1136,7 @@ const CLS=(function(){
     if(c==='go') await S.goClass(GM,nx); else if(c==='skip') await S.skipClass(GM,nx); else if(c==='eat'){ if(await S.lunchBreak(GM)) await S.goClass(GM,nx); } else if(c==='study'){ if(opts[i].dim){ GM.toast(opts[i].hint,3000); return true; } if(await S.studyUntil(GM,nx,pl.depart)) await S.goClass(GM,nx); }
     return true; };
   /* 先去吃飯（1-4）：一頓飯 40 分鐘、照價錢扣錢（吃飯不扣時段次數）；只寫一般的場面（和誰一起吃、偶遇是第 5 節第二批）*/
-  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'阿鳳麵店，一碗乾麵加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
+  const MEALS=[{t:'小松',price:90,line:'小松的自助餐，夾了三樣菜。'},{t:'公館燒臘',price:100,line:'公館燒臘，一盤叉燒飯加一顆滷蛋。',bg:'noodle_table'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。',bg:'cvs_table_day',bgNight:'cvs_table_night'}];   /* bg：吃飯那一段的 2D 背景（BUG-EAT-AFTER-CLASS-SCENE-1103）；小松／學活還沒有圖＝深色底＋地點字幕，不再停在教室 */
   /* 小福（AA_186 4-4：小福樓 2025/12/31 停業、2026/1/10 拆除重建）：經濟系那一年、大一上照常；大一下起改成活大的自助餐 */
   const mealsOf=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, id=t?t.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null); return id&&!/^Y0/.test(id)&&id!=='Y1S1'?MEALS.map(m=>m.t==='小松'?{t:'學活',price:m.price,line:'學活的自助餐，夾了三樣菜。'}:m):MEALS; };
   /* AA_350 R2（AA_294 第 3 節「翹了經原下也還有機會」）：大一下那個週五沒去經原下、12:00～13:00 選了「先去吃飯→活大」＝ ev_sk03_lunch 在活大演（阿勳已經坐在那裡，不出選項）。
@@ -1180,6 +1184,9 @@ const CLS=(function(){
   S.slotsOn=G=>!!G&&!opening(G);
   S.periodAt=t=>t<12?'am':(t<18?'pm':'ev');
   S.examWeek=G=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!(t&&t.exam); };
+  /* AA_638 ①-4（取代 AA_126 1-1）：出遊（一日遊、兩天一夜、遠程自由出遊、去她的縣市）只擋「自己有考試的那一天」和「前一天」；考試週裡沒考試的日子照一般日子 */
+  S.examNear=(G,d)=>{ if(d==null) d=G.day; const has=x=>(S.dayItems(G,x)||[]).some(it=>it.exam); try{ return has(d)||has(d+1); }catch(e){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null; return !!(t&&t.exam); } };
+  S.EXAM_NEAR_WHY='那幾天有考試。';
   S.slotRec=G=>{ if(!G.slots||typeof G.slots!=='object'||G.slots.day!==G.day||!G.slots.used) G.slots={day:G.day,used:{am:0,pm:0,ev:0}}; return G.slots; };
   S.slotCap=(G,p,kind)=>S.SLOT_BASE[p]+(kind==='study'&&S.examWeek(G)?1:0);
   S.slotLeft=(G,p,kind)=>Math.max(0,S.slotCap(G,p,kind)-(S.slotRec(G).used[p]||0));

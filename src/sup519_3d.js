@@ -134,7 +134,7 @@ const SUP519=(function(){
   let NOODLE_EVS=null;
   S.noodleEvs=function(){ if(NOODLE_EVS) return NOODLE_EVS; const set=new Set(); if(typeof STORY_EVENTS==='undefined') return set;
     for(const ev of STORY_EVENTS){ if(!ev||ev.retired) continue; const lc=ev.location; let at=lc==='noodle'||(Array.isArray(lc)&&lc.includes('noodle'));
-      if(!at) for(const l of (ev.dialogue||[])){ if(l&&l.scene!==undefined&&/麵店/.test(String(l.scene))&&!/麵舖/.test(String(l.scene))){ at=true; break; } if(l&&/^noodle/.test(String(l.bg||''))){ at=true; break; } }
+      if(!at) for(const l of (ev.dialogue||[])){ if(l&&l.scene!==undefined&&/麵店|燒臘/.test(String(l.scene))&&!/麵舖/.test(String(l.scene))){ at=true; break; } if(l&&/^noodle/.test(String(l.bg||''))){ at=true; break; } }
       if(at) set.add(ev.id); }
     return NOODLE_EVS=set; };
   S.noodleCtx=G=>G.zone==='noodle'||(typeof EVENTS!=='undefined'&&!!EVENTS.running&&S.noodleEvs().has(EVENTS.running));
@@ -242,14 +242,14 @@ const SUP519=(function(){
     for(const ev of STORY_EVENTS){ if(!ev||!N.has(ev.id)) continue; let s=''; try{ s=JSON.stringify(ev.dialogue||[]); }catch(e){ s=''; } if(/阿姨/.test(s)) set.add(ev.id); }
     return AUNT_EVS=set; };
   S.auntEvDay=function(G){ if(!law(G)) return false; const last=(G.events&&G.events.last)||{}; for(const id of S.auntEvs()) if(last[id]===G.day) return true;
-    const OUTS=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]; if(OUTS.some(q=>q&&q.day===G.day&&(q.state==='planned'||q.state==='done')&&((q.ev&&S.auntEvs().has(q.ev))||(/麵店/.test(q.place||'')&&!/麵舖/.test(q.place||''))||(q.goto&&q.goto.zone==='noodle')))) return true;
+    const OUTS=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G):[]; if(OUTS.some(q=>q&&q.day===G.day&&(q.state==='planned'||q.state==='done')&&((q.ev&&S.auntEvs().has(q.ev))||(/麵店|燒臘/.test(q.place||'')&&!/麵舖/.test(q.place||''))||(q.goto&&q.goto.zone==='noodle')))) return true;
     return false; };
   S.auntRow=r=>!!r&&(r.with||[]).includes('hc_ayi');
 
   /* ---------- 8-4 2029-04-19～25 阿姨出國 ---------- */
   S.TRIP=['2029-04-19','2029-04-25'];
   S.tripDay=function(d){ const a=DK(S.TRIP[0]), b=DK(S.TRIP[1]); return a!=null&&b!=null&&d!=null&&d>=a&&d<=b; };
-  S.tripBlocks=(G,o)=>law(G)&&!!o&&S.tripDay(o.day)&&((/麵店/.test(o.place||'')&&!/麵舖/.test(o.place||''))||(o.goto&&o.goto.zone==='noodle')||/阿鳳麵店/.test(o.title||''));
+  S.tripBlocks=(G,o)=>law(G)&&!!o&&S.tripDay(o.day)&&((/麵店|燒臘/.test(o.place||'')&&!/麵舖/.test(o.place||''))||(o.goto&&o.goto.zone==='noodle')||/阿鳳麵店|公館燒臘/.test(o.title||''));
   /* 語彤那一週在總圖（照她 4/19 那則的回覆「我在總圖。期中考，店剛好也沒開。」）：顧店的兩個時段（週二晚上、週六早上）換總圖；放在作息最前面 */
   S.SCHED_YT=[{days:[2,4],from:17.5,to:20.5,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：2029-04-19～25 阿姨出國、店沒開，語彤那一週在總圖（顧店的時段）'},
     {days:[6],from:9,to:12,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：同上，週六早上的備料不去'}];   /* pri：比寫了 terms 的顧店作息優先（週六早上那一筆有 terms）*/

@@ -66,7 +66,7 @@ const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1
   { const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; const want=STORY.bedOptions(gm.G)[0];
     await STORY.interact({sleep:true},gm); const Fr=gm.frames;
     check('① 選「睡覺」以後先走到梯子前（sleep_scene.approach）',gm.walks.length>=1&&near(gm.walks[0][0],A[0])&&near(gm.walks[0][1],A[1]),JSON.stringify(gm.walks));
-    const lie0=Fr.findIndex(f=>inBed(f)); const up=Fr.slice(0,lie0<0?Fr.length:lie0).filter(f=>f.pose==='climb'&&f.bed);   /* 上床那一段（第一次躺下以前）*/
+    const lie0=Fr.findIndex(f=>inBed(f)); const up=Fr.slice(0,lie0<0?Fr.length:lie0).filter(f=>(f.pose==='climb'||f.pose==='kneel')&&f.bed);   /* 上床那一段（第一次躺下以前；最後跪上床＝kneel，DORM-LADDER-STOOP-1103）*/
     const hit=ST.map(s=>up.findIndex(f=>near(f.x,s[0])&&near(f.y,s[1])&&near(f.z,s[2])));
     let mono=true; for(let i=1;i<up.length;i++) if(up[i].y<up[i-1].y-1e-9) mono=false;
     check('② 沿四階踏點一階一階往上：每一階的 (x,y,z) 都到過、順序對、高度不往下、姿勢 climb',hit.every(i=>i>=0)&&hit.every((v,i)=>i===0||v>hit[i-1])&&mono&&up.length>=8,'踏點在第 '+hit.join('、')+' 格（共 '+up.length+' 格）');

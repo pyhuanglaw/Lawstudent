@@ -13,7 +13,7 @@ global.window=global;
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/characters.js'),'utf8').replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS)\s*=/mg,'globalThis.$1='),{filename:'characters.js'});
 vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8').replace(/^const SOCIAL\s*=/m,'global.SOCIAL='),{filename:'src/social3d.js'});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-const G={rel:{},flags:{},social:null,day:20}; SOCIAL.bind(G);
+const G={rel:{},flags:{YT_MET_JOB:true},social:null,day:20};   /* AA_610：語彤要在茶屋認識過才算數 */ SOCIAL.bind(G);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','test'); meet('heroine_05'); meet('heroine_01'); meet('heroine_03');
 const fresh=()=>{ SOCIAL.feelOn=true; SOCIAL.feel={}; SOCIAL.feelStage={}; SOCIAL.capNotes=[]; };
 // 1

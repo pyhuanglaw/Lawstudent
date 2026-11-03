@@ -125,9 +125,9 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
       J(Lg)===J([L().gradNarr,L().gradZhe,L().gradBohan])&&H.G.flags.Y4_GRAD_PHOTO==='went'&&!msgs(NG).some(m=>m.tag==='tw_y4s2_grad_miss'),J(Lg));
     G=fresh('2029-04-26',21.05); rules(); setT('2029-04-28',12.4); rules(); const before=msgs(NG).some(m=>m.tag==='tw_y4s2_grad_miss'); setT('2029-04-28',12.6); rules();
     check('4. 沒去（沒回）：4/28 12:30 Alison「（照片：椰影大道，一排人穿著學士服，中間空了一個位子）」「你的位子我們留了」',!before&&J(grp(NG,'tw_y4s2_grad_miss'))===J(['yu:（照片：椰影大道，一排人穿著學士服，中間空了一個位子）','yu:你的位子我們留了'])&&G.flags.Y4_GRAD_PHOTO==='missed');
-    for(const [k,t,flag,reply] of [[0,'謝謝麵店的阿姨。','auntie',null],[1,'謝謝那幾年的週四。','thursday',null],[2,'還沒想好。','notyet','我幫你寫：還沒想好。']]){
+    for(const [k,t,flag,reply] of [[0,'謝謝燒臘店的阿姨。','auntie',null],[1,'謝謝那幾年的週四。','thursday',null],[2,'還沒想好。','notyet','我幫你寫：還沒想好。']]){
       G=fresh('2029-05-04',21.05); rules(); const y=msgs(NG).filter(m=>m.tag==='tw_y4s2_yearbook'); const opts=y.length?y[0].ask.opts.map(o=>o.t):[]; PHONE.answer(G,'tw_y4s2_yearbook',k); const last=msgs(NG).slice(-1)[0];
-      check('4. 5/4（五）21:00 柏翰「畢業紀念冊的一句話，今天截止。」三選一：「'+t+'」＝YEARBOOK_LINE '+flag+(reply?'、柏翰「'+reply+'」':''),y.length===1&&y[0].from===BH&&y[0].text===L().yearbook&&J(opts)===J(['謝謝麵店的阿姨。','謝謝那幾年的週四。','還沒想好。'])&&G.flags.YEARBOOK_LINE===flag&&(reply?last.from===BH&&last.text===reply:last.text===t),J([opts,last])); }
+      check('4. 5/4（五）21:00 柏翰「畢業紀念冊的一句話，今天截止。」三選一：「'+t+'」＝YEARBOOK_LINE '+flag+(reply?'、柏翰「'+reply+'」':''),y.length===1&&y[0].from===BH&&y[0].text===L().yearbook&&J(opts)===J(['謝謝燒臘店的阿姨。','謝謝那幾年的週四。','還沒想好。'])&&G.flags.YEARBOOK_LINE===flag&&(reply?last.from===BH&&last.text===reply:last.text===t),J([opts,last])); }
     G=fresh('2029-05-04',21.05); rules(); setT('2029-05-05',0.5); check('4. 畢業紀念冊：當天截止（5/5 就不能回）',!PHONE.answer(G,'tw_y4s2_yearbook',0));
     G=fresh('2029-05-17',21.05); rules(); check('4. 5/17（四）21:00：Alison「畢業典禮的位子按學號排」、阿哲「我跟 Alison 只差一號」、Alison「差兩號」',J(grp(NG,'tw_y4s2_seats'))===J(['yu:畢業典禮的位子按學號排','zhe:我跟 Alison 只差一號','yu:差兩號']));
     const N2=ev('ev_y4s2_noodle_0524'); G=fresh('2029-05-24',18,'noodle'); const d1=EVENTS.check(N2); setT('2029-05-17',18); const d2=EVENTS.check(N2);

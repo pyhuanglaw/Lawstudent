@@ -36,37 +36,39 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   r=both([34,-125.5],[26,-90]); check('後面的小廣場 → 穿堂 → 前台階 → 霖澤館前（第二天劇情的出生點）',r.ok,fmt(r));
   const B=B3.CAMPUS_DOOR; check('從大廳出來的位置站得住、離大廳門口 ≥ 1.8 m（不會一出來就跳出「進入霖澤館」）',E.canStand(B.x,B.z,0.32,0)&&Math.hypot(B.x-door.x,B.z-door.z)>=1.8,`(${B.x},${B.z}) 距離 ${Math.hypot(B.x-door.x,B.z-door.z).toFixed(2)}`);
   check('穿堂的地面可以點（點地面移動的透明地板）',(z.walkMeshes||[]).length>=4,`${(z.walkMeshes||[]).length} 片`);
-  r=both([34,-94],[93.8,-98.6]); check('萬才館入口照樣走得到（沒被改壞）',r.ok,fmt(r));
+  const WCO=[WC3.CAMPUS_1F.x,WC3.CAMPUS_1F.z], WCI=[WCO[0],WCO[1]-0.2];   /* 萬才館一樓出來的位置、入口前（LAW-RELAYOUT-1102 起搬到 (95.8,−86.4)；舊 (93.8,−98.4)）*/
+  r=both([34,-94],WCI); check('萬才館入口照樣走得到（沒被改壞）',r.ok,fmt(r));
   // ---------- 萬才館大樓梯（第二階段：可以走上去；兩層導航格）----------
-  { const wb=z.buildings.find(b=>b.userData.ck&&b.userData.ck.wancai), W=wb&&wb.userData.ck.wancai, bx=88, bz=-112; const L1=z.levels&&z.levels[1];
+  { const wb=z.buildings.find(b=>b.userData.ck&&b.userData.ck.wancai), W=wb&&wb.userData.ck.wancai, bx=wb?wb.position.x:88, bz=wb?wb.position.z:-112; const L1=z.levels&&z.levels[1];
     check('校園：兩層導航格（第 1 層＝萬才館樓梯頂端平台＋弧形陽台，高 3.63 m）',!!W&&!!L1&&z.levels.length===2&&Math.abs(L1.y0-W.PF)<1e-9,W?`PF=${W.PF}`:'沒有 ck.wancai');
-    const SX=bx+W.SX, Z0=bz+W.z0, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>L1.heightAt(x,zz), V0=(x,zz)=>z.levels[0].visualHeightAt(x,zz), V1=(x,zz)=>L1.visualHeightAt(x,zz);
-    let bad=[]; for(let k=0;k<W.NS;k++){ const zc=Z0+(k+0.5)*W.TR, want=(W.NS-k)*W.RS; for(const dx of [0,-1.2,1.2]){ const h0=V0(SX+dx,zc), h1=V1(SX+dx,zc), c0=H0(SX+dx,zc), c1=H1(SX+dx,zc); if(Math.abs(h0-want)>1e-6||Math.abs(h1-want)>1e-6) bad.push(`第${k}階 dx=${dx}：畫面 ${h0.toFixed(3)}/${h1.toFixed(3)}≠${want.toFixed(3)}`); if(Math.abs(c0-want)>W.RS*0.6||Math.abs(c1-c0)>1e-9) bad.push(`第${k}階 dx=${dx}：連續高度 ${c0.toFixed(3)}/${c1.toFixed(3)} 和踏面差超過半階`); } }
+    const ry=wb?wb.rotation.y:0, T=(lx,lz)=>[bx+lx*Math.cos(ry)+lz*Math.sin(ry), bz-lx*Math.sin(ry)+lz*Math.cos(ry)], Pw=(dx,zl)=>T(W.SX+dx,W.z0+zl), Lc=(x,zz)=>{ const dx=x-bx, dz=zz-bz; return [dx*Math.cos(ry)-dz*Math.sin(ry), dx*Math.sin(ry)+dz*Math.cos(ry)]; };   /* 萬才館可以轉向（第五版轉 42°）：樓梯的點都用建築本地座標寫，再轉回校園 */
+    const H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>L1.heightAt(x,zz), V0=(x,zz)=>z.levels[0].visualHeightAt(x,zz), V1=(x,zz)=>L1.visualHeightAt(x,zz);
+    let bad=[]; for(let k=0;k<W.NS;k++){ const zl=(k+0.5)*W.TR, want=(W.NS-k)*W.RS; for(const dx of [0,-1.2,1.2]){ const q=Pw(dx,zl), h0=V0(...q), h1=V1(...q), c0=H0(...q), c1=H1(...q); if(Math.abs(h0-want)>1e-6||Math.abs(h1-want)>1e-6) bad.push(`第${k}階 dx=${dx}：畫面 ${h0.toFixed(3)}/${h1.toFixed(3)}≠${want.toFixed(3)}`); if(Math.abs(c0-want)>W.RS*0.6||Math.abs(c1-c0)>1e-9) bad.push(`第${k}階 dx=${dx}：連續高度 ${c0.toFixed(3)}/${c1.toFixed(3)} 和踏面差超過半階`); } }
     check('樓梯每一階畫面上的高度＝畫出來的台階（踏面中心，兩層相同；從頂端往下 22 階、每階 16.5 cm）；碰撞用的連續高度和踏面差不到半階',!bad.length,bad.slice(0,3).join(' | '));
-    check('樓梯底下是地面、樓梯外側（石牆外面）是地面',H0(SX,Z0+W.L+0.3)===0&&H0(SX+6.5,Z0+3)===0);
-    check('最下面幾階往外張開的地方也有台階的高度（人物不會浮在空中）',Math.abs(V0(SX+(W.hw(1)+0.3),Z0+W.L-0.15)-W.RS)<1e-6,`h=${V0(SX+(W.hw(1)+0.3),Z0+W.L-0.15)}`);
-    check('石牆盡頭旁邊高的地方，往外是走不下去的邊（不能從 1 m 高的台階側面直接走到地面）',!E.canStand(SX+3.45,Z0+5.5,0.32,0),`連續高度 ${H0(SX+3.45,Z0+5.5).toFixed(2)}、畫面 ${V0(SX+3.45,Z0+5.5).toFixed(2)}`);
-    check('樓梯中間站得住（第 0 層、第 1 層都是）',E.canStand(SX,Z0+W.L/2,0.32,0)&&E.canStand(SX,Z0+W.L/2,0.32,1));
-    check('兩側石牆站不住',!E.canStand(SX-(W.hw(0.3)+0.26),Z0+0.3*W.L,0.3,0)&&!E.canStand(SX+(W.hw(0.3)+0.26),Z0+0.3*W.L,0.3,0));
-    check('平台在地面那一層是實心的（站不住）、在第 1 層站得住',!E.canStand(SX,Z0-2,0.32,0)&&E.canStand(SX,Z0-2,0.32,1));
-    const balc=[bx+5,bz+W.d/2+1.6]; check('陽台在第 1 層站得住、高 3.63；陽台正下方（一樓入口）在地面那一層站得住、高 0',E.canStand(balc[0],balc[1],0.32,1)&&Math.abs(H1(...balc)-W.PF)<1e-9&&E.canStand(balc[0],balc[1],0.32,0)&&H0(...balc)===0);
-    check('陽台欄杆外面、平台以外的地方在第 1 層站不住（不能從陽台跳下去）',!E.canStand(bx+5,bz+W.bzf(5)+0.4,0.3,1)&&!E.canStand(bx+5,-80,0.3,1)&&!E.canStand(SX+W.hw(1)+1.5,Z0+W.L+1,0.3,1));
-    const plaza=[SX,Z0+W.L+5,0], top=[balc[0],balc[1],1];
+    check('樓梯底下是地面、樓梯外側（石牆外面）是地面',H0(...Pw(0,W.L+0.3))===0&&H0(...Pw(6.5,3))===0);
+    check('最下面幾階往外張開的地方也有台階的高度（人物不會浮在空中）',Math.abs(V0(...Pw(W.hw(1)+0.3,W.L-0.15))-W.RS)<1e-6,`h=${V0(...Pw(W.hw(1)+0.3,W.L-0.15))}`);
+    check('石牆盡頭旁邊高的地方，往外是走不下去的邊（不能從 1 m 高的台階側面直接走到地面）',!E.canStand(...Pw(3.45,5.5),0.32,0),`連續高度 ${H0(...Pw(3.45,5.5)).toFixed(2)}、畫面 ${V0(...Pw(3.45,5.5)).toFixed(2)}`);
+    check('樓梯中間站得住（第 0 層、第 1 層都是）',E.canStand(...Pw(0,W.L/2),0.32,0)&&E.canStand(...Pw(0,W.L/2),0.32,1));
+    check('兩側石牆站不住',!E.canStand(...Pw(-(W.hw(0.3)+0.26),0.3*W.L),0.3,0)&&!E.canStand(...Pw(W.hw(0.3)+0.26,0.3*W.L),0.3,0));
+    check('平台在地面那一層是實心的（站不住）、在第 1 層站得住',!E.canStand(...Pw(0,-2),0.32,0)&&E.canStand(...Pw(0,-2),0.32,1));
+    const balc=T(5,W.d/2+1.6); check('陽台在第 1 層站得住、高 3.63；陽台正下方（一樓入口）在地面那一層站得住、高 0',E.canStand(balc[0],balc[1],0.32,1)&&Math.abs(H1(...balc)-W.PF)<1e-9&&E.canStand(balc[0],balc[1],0.32,0)&&H0(...balc)===0);
+    check('陽台欄杆外面、平台以外的地方在第 1 層站不住（不能從陽台跳下去）',!E.canStand(...T(5,W.bzf(5)+0.4),0.3,1)&&!E.canStand(...T(5,32),0.3,1)&&!E.canStand(...Pw(W.hw(1)+1.5,W.L+1),0.3,1));
+    const plaza=[...Pw(0,W.L+5),0], top=[balc[0],balc[1],1];
     r=both(plaza,top); check('廣場 → 大樓梯（一階一階）→ 平台 → 陽台（模擬走路，不瞬移；第 1 層、高 3.63）',r.ok&&r.lv===1&&Math.abs(r.y-W.PF)<0.05,fmt(r));
-    const p=E.pathTo(plaza[0],plaza[1],0,top[0],top[1],1); check('這條路經過大樓梯、在樓梯上換到第 1 層',!!p&&p.some(q=>q[1]>Z0&&q[1]<Z0+W.L&&Math.abs(q[0]-SX)<W.hw(1))&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
+    const p=E.pathTo(plaza[0],plaza[1],0,top[0],top[1],1); check('這條路經過大樓梯、在樓梯上換到第 1 層',!!p&&p.some(q=>{ const l=Lc(q[0],q[1]); return l[1]>W.z0&&l[1]<W.z0+W.L&&Math.abs(l[0]-W.SX)<W.hw(1); })&&p[p.length-1][2]===1,JSON.stringify(p&&p.map(q=>q.map(v=>+(+v).toFixed(1)))));
     r=both(top,plaza); check('陽台 → 平台 → 大樓梯往下 → 廣場（回到地面那一層、高 0）',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
-    r=run(top,[SX,Z0+W.L+5.5,0]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：陽台 → 大樓梯往下 → 廣場（真實流程：停在最下面一兩階）',r.ok,fmt(r));
-    r=run([SX,Z0+W.L+5.5,0],top); check('跑步＋低幀率：廣場 → 大樓梯往上 → 陽台',r.ok,fmt(r));
-    r=both([SX,Z0+W.L/2,0],top); check('從樓梯中間（地面那一層）往上走到陽台',r.ok&&r.lv===1,fmt(r));
+    r=run(top,[...Pw(0,W.L+5.5),0]); check('跑步＋低幀率（4.1 m/s、dt 0.1）：陽台 → 大樓梯往下 → 廣場（真實流程：停在最下面一兩階）',r.ok,fmt(r));
+    r=run([...Pw(0,W.L+5.5),0],top); check('跑步＋低幀率：廣場 → 大樓梯往上 → 陽台',r.ok,fmt(r));
+    r=both([...Pw(0,W.L/2),0],top); check('從樓梯中間（地面那一層）往上走到陽台',r.ok&&r.lv===1,fmt(r));
     const d2=E.interactables.find(i=>i.exit&&i.exit.to==='wancai'&&i.lv===1), d1=E.interactables.find(i=>i.label==='進入法律系館B');
     check('二樓入口在第 1 層、進到萬才館室內二樓（第三階段，D42）；一樓入口在地面那一層',!!d2&&d2.exit.spawn.lv===1&&!!d1&&d1.lv===0&&d1.exit.spawn.lv===undefined,d2&&JSON.stringify(d2.exit));
     const back=WC3.CAMPUS_2F; check('從萬才館二樓出來的位置（平台，第 1 層）站得住、離二樓入口 ≥ 半徑＋0.3（不會一出來就又跳出進門按鈕）',E.canStand(back.x,back.z,0.32,1)&&Math.hypot(back.x-d2.x,back.z-d2.z)>=d2.radius+0.3,`(${back.x},${back.z}) 距離 ${Math.hypot(back.x-d2.x,back.z-d2.z).toFixed(2)}`);
-    r=both(plaza,[d2.x,d2.z+0.3,1]); check('二樓入口走得到（平台）',r.ok&&r.lv===1,fmt(r));
-    r=both(top,[93.8,-98.6,0]); check('陽台 → 下樓梯 → 繞到陽台下面的一樓入口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
-    r=both([93.8,-98.4,0],[34,-98,0]); check('從萬才館一樓出來（陽台前）走回霖澤館前：路線經過大樓梯下面往外張開的地方，不會卡在石牆盡頭旁邊（reachability_all 抓到的）',r.ok&&Math.abs(r.y)<0.05,fmt(r));
+    r=both(plaza,[...T(W.SX,W.d/2+1.1),1]); check('二樓入口走得到（平台）',r.ok&&r.lv===1,fmt(r));
+    r=both(top,[WCI[0],WCI[1],0]); check('陽台 → 下樓梯 → 繞到陽台下面的一樓入口',r.ok&&r.lv===0&&Math.abs(r.y)<0.05,fmt(r));
+    r=both([WCO[0],WCO[1],0],[34,-98,0]); check('從萬才館一樓出來（陽台前）走回霖澤館前：路線經過大樓梯下面往外張開的地方，不會卡在石牆盡頭旁邊（reachability_all 抓到的）',r.ok&&Math.abs(r.y)<0.05,fmt(r));
     const walk=(z.walkMeshes||[]).filter(m=>m.userData.walkLv===1); check('平台＋陽台的地面可以點（點地面移動，第 1 層）',walk.length>=1,`${walk.length} 片`);
     // 找路的時間（兩層之後每次找路的格子數加倍；暫存陣列重用）：校門 → 霖澤館、宿舍 → 萬才館一樓入口，各 20 次
-    const t1=Date.now(); let okN=0; for(let i=0;i<20;i++){ if(E.pathTo(-120,0,0,34,-98,0)) okN++; if(E.pathTo(20,56,0,93.8,-98.6,0)) okN++; } const ms=(Date.now()-t1)/40;
+    const t1=Date.now(); let okN=0; for(let i=0;i<20;i++){ if(E.pathTo(-120,0,0,34,-98,0)) okN++; if(E.pathTo(20,56,0,WCI[0],WCI[1],0)) okN++; } const ms=(Date.now()-t1)/40;
     check('校園長距離找路還是找得到（兩層）',okN===40,`平均每次 ${ms.toFixed(1)} ms（Node）`); }
 }
 // ---------- 霖澤館室內 ----------
@@ -96,7 +98,7 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   let bad=OLD.filter(([x,zz])=>!E.canStand(x,zz,0.32,0)||H0(x,zz)!==0); check('一樓：v9.3 大廳的座標都還站得住、在地面（劇情、社團、助教、舊存檔）',!bad.length,bad.map(o=>o[2]+'('+o[0]+','+o[1]+')').join('、'));
   bad=[]; for(const [x,zz,n] of OLD){ const r=both([0,5,0],[x,zz,0]); if(!r.ok) bad.push(n+' '+fmt(r)); } check('一樓：從入口走得到這些位置',!bad.length,bad.slice(0,3).join(' | '));
   const ex1=IT.find(i=>i.exit&&i.exit.to==='campus'&&i.lv===0), ex2=IT.find(i=>i.exit&&i.exit.to==='campus'&&i.lv===1);
-  check('一樓「離開萬才館」（回到陽台下的一樓入口前面，和 v9.3 一樣）、二樓「走出去」（回到大樓梯頂端的平台，校園第 1 層）',!!ex1&&!!ex2&&ex1.x===0&&Math.abs(ex1.z-6.6)<1e-9&&ex1.exit.spawn.x===93.8&&ex1.exit.spawn.z===-98.4&&ex2.exit.spawn.lv===1,JSON.stringify([ex1&&ex1.exit.spawn,ex2&&ex2.exit.spawn]));
+  check('一樓「離開萬才館」（回到陽台下的一樓入口前面，和 v9.3 一樣）、二樓「走出去」（回到大樓梯頂端的平台，校園第 1 層）',!!ex1&&!!ex2&&ex1.x===0&&Math.abs(ex1.z-6.6)<1e-9&&ex1.exit.spawn.x===WC3.CAMPUS_1F.x&&ex1.exit.spawn.z===WC3.CAMPUS_1F.z&&ex2.exit.spawn.lv===1,JSON.stringify([ex1&&ex1.exit.spawn,ex2&&ex2.exit.spawn]));
   const US=L.upperDoor.spawn; check('從平台進來的位置（二樓門廳）站得住、離「走出去」≥ 半徑＋0.3',E.canStand(US.x,US.z,0.32,1)&&Math.hypot(US.x-ex2.x,US.z-ex2.z)>=ex2.radius+0.3,`距離 ${Math.hypot(US.x-ex2.x,US.z-ex2.z).toFixed(2)}`);
   check('樓梯（往南爬）：最下面在北邊 0 m、中間平台 2.18 m、最上面 4.2 m',Math.abs(H0(-8,-3.39))<0.02&&Math.abs(H0(-8,1.0)-2.184)<1e-6&&Math.abs(H0(-8,4.95)-Y1)<1e-6,`${H0(-8,-3.39).toFixed(3)} / ${H0(-8,1.0)} / ${H0(-8,4.95)}`);
   let r=both([0,5,0],[US.x,US.z,1]); check('一樓入口 → 大廳 → 樓梯 → 二樓門廳（模擬走路，不瞬移）',r.ok&&r.lv===1&&Math.abs(r.y-Y1)<0.05,fmt(r));

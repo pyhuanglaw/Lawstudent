@@ -53,7 +53,7 @@ const HCIRCLE_DATA={
     hc_kid:{label:'課輔班的小朋友',sex:'m',model:'char.npc_nm20',height:1.25,props:[{name:'backpack',color:'#d9534f'}],note:'沛珊課輔班的小朋友（AA_504 6-1）'}},
   /* 她要補的作息（放在她 daily_schedule 最前面；with、hc 由載入時從那一列帶進去）*/
   SCHED:[
-    {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[93.8,-97.6,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'法律系館B門口（讀書會前）'}},
+    {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[88.68,-81.42,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'法律系館B門口（讀書會前）'}},
     {hc:'c503_10_1',who:'classmate_peishan',e:{days:[2,4],from:13+20/60,to:15+10/60,zone:'campus',act:'linger',at:[-23.95,-12.6,-Math.PI/2,0],terms:['Y1S1'],noHoliday:true,label:'文學院前的長椅（哲學概論旁聽）'}},
     {hc:'c503_10_3',who:'classmate_peishan',e:{days:[4],from:20,to:21.5,zone:'wancai',act:'club',terms:['Y1S1'],weeks:[10,11,12,13,14,15],note:'AA_503 10-1：公法讀書會（作息補這一筆；週次同以安那一筆）'}},
     {hc:'c504_4_3',who:'heroine_04',e:{days:[2,4],from:13,to:18,zone:'gongguan',act:'linger',at:[12,20.6,Math.PI,0],dates:[['2026-07-01','2026-08-31']],label:'公館騎樓的咖啡店'}},
@@ -65,7 +65,7 @@ const HCIRCLE_DATA={
     {hc:'c505_5_2',who:'heroine_05',e:{days:[1,2,3,4],from:7,to:8,zone:'gym_b1',act:'linger',at:[8,-2.8,Math.PI,0],terms:['Y2S1'],dates:[['2026-09-09','2026-12-27']],noHoliday:true,label:'新體育館 B1 游泳池（池邊）'}},
     {hc:'c506_1_2',who:'heroine_01',e:{days:[1,2,3,4,5],from:21+50/60,to:22+10/60,zone:'campus',act:'linger',at:[-92.6,56.4,-Math.PI/2,0],terms:['Y2S2'],weeks:[10,11,12,13],label:'女生宿舍門口'}},
     {hc:'c506_3_1',who:'heroine_03',e:{days:[1],from:12.2,to:12.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（債各下課）'}},
-    {hc:'c506_3_3',who:'heroine_03',e:{days:[2,4],from:14.5,to:15.5,zone:'noodle',act:'read',dates:[['2027-07-09','2027-09-05']],label:'麵店（午休）'}},
+    /* c506_3_3 語彤暑假週二、四 14:30～15:30 在麵店（午休）的作息補：AA_624（使用者 11-03）她從來不在燒臘店，拿掉 */
     {hc:'c506_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:10,to:18,zone:null,act:'out',away:'在實習',dates:[['2027-07-06','2027-09-03']],note:'AA_506 4-1：暑假平日 10:00～18:00 實習（7/6 第一天、9/3 最後一天，AA_506 4-2 第 5 點），不在 3D'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],dates:[['2027-06-14','2027-09-05']],label:'公館騎樓（插座旁邊）'}},
@@ -225,7 +225,7 @@ const HCIRCLE_DATA={
     {id:'c519_2_3',doc:'AA_519',sec:'2-3',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-06-16','2028-06-16']],zone:'gongguan',heard:'陳助教：下禮拜二口試。／學姊：幾點。／陳助教：……妳要來？／學姊：最後一排。不講話。',
       place:'AA_519 2-3：6/16（五）週五公館和學姊吃飯那一列（放暑假了，學期的列不成立；只有這一天）；口試 2028-06-20（二），學姊沒有別的事'},
     /* ===================== AA_509 大四上＋寒假（CIRCLE3D-Y4-1028）===================== */
-    {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的麵？」以安：「沒有這種的。」阿姨：「那就好。」）',
+    {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的燒臘？」以安：「沒有這種的。」阿姨：「那就好。」）',
       place:'麵店長桌＝她的作息（characters.js 週四 18:30～19:30 麵店，AA_509 0-2 第 3 點，現有）；阿姨在廚房＝旁白，不生阿姨'},
     {id:'c509_1_2',doc:'AA_509',sec:'1-1',k:2,who:'heroine_01',with:['heroine_03'],always:true,anchor:'with',comp:{heroine_03:{behind:true}},days:[4],from:20,to:21.5,dates:[['2028-11-30','2029-02-18']],zone:'library',
       heard:'（以安坐在語彤後面那桌。九點半語彤先走，經過她旁邊，敲了一下桌子。）',

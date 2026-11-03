@@ -120,13 +120,15 @@ await sec(4,()=>{ fresh('2026-03-11','heroine_01',3); const n1=ask('heroine_01',
 
 await sec(5,()=>{ /* [階段, 地點, 時間, 那一階合用的句子有沒有三句以上（有＝前三次三句都不一樣）, 日期] */
   const PLAN=[['heroine_01',[[2,'cafe',15.5,true],[5,'noodle',15.5,false],[4,'cafe',19,true,'2026-03-11']]],['heroine_02',[[2,'cafe',15.5,true],['d','noodle',15.5,false]]],
-    ['heroine_03',[[2,'library',15.5,false],[4,'noodle',19,true],[6,'library',15.5,false]]],['heroine_04',[[2,'cafe',15.5,true],[4,'noodle',19,true]]],
+    ['heroine_03',[[2,'library',15.5,false],[4,'cafe',19,false],[6,'library',15.5,false]]],['heroine_04',[[2,'cafe',15.5,true],[4,'noodle',19,true]]],
     ['heroine_05',[[4,'noodle',19,true],[6,'noodle',19,false]]],['classmate_peishan',[[3,'cafe',15.5,false,'2026-03-11'],[4,'cafe',19,true,'2026-03-11'],['d','cafe',19,true,'2026-03-11']]],
     ['kexin',[[2,'cafe',15.5,false],['d','cafe',15.5,true,'2026-04-14']]]];
   for(const [id,L] of PLAN) for(const [s,pid,hh,three,key] of L){ fresh(key||(id==='kexin'&&s!=='d'?'2025-03-12':'2026-03-14'),id,s,{econ:id==='kexin'&&s!=='d'}); const out=[];
     for(let i=0;i<10;i++){ const r=id==='kexin'?INV.personal(H.G,id,INV.place(pid),H.G.day,hh,{res:'accept'}):ask(id,pid,hh); out.push(txt(r.lines)); }
     const rep=out.findIndex((t,i)=>i>0&&t===out[i-1]), n3=new Set(out.slice(0,3)).size;
-    check('5. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'連約 '+pid+' '+hh+' 10 次：都有台詞、沒有連續兩次同一句'+(three?'、前三次三句都不一樣':''),out.every(t=>t)&&rep<0&&(!three||n3===3),J(out.slice(0,4))+'…'); } });
+    check('5. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'連約 '+pid+' '+hh+' 10 次：都有台詞、沒有連續兩次同一句'+(three?'、前三次三句都不一樣':''),out.every(t=>t)&&rep<0&&(!three||n3===3),J(out.slice(0,4))+'…'); }
+  /* 語彤第 4 階原本連約 noodle 19:00：AA_610／AA_624 她不在燒臘店（INV.NEVER_AT）＝約不成，上面改連約 Café（那一階 19:00 合用的句子只有兩句＝不驗前三次三句都不一樣；原本三句裡有燒臘店專用的）；這裡另外驗燒臘店約不成 */
+  { fresh('2026-03-14','heroine_03',4); const r=ask('heroine_03','noodle',19); check('5. 語彤第 4 階約燒臘店 19:00：不成立（decline、why place；AA_610／AA_624）',r.res==='decline'&&r.why==='place',r.res+' '+r.why); } });
 
 await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
   for(let i=0;i<4;i++){ const r=ask('classmate_peishan','cafe',12+10/60); out.push({t:txt(r.lines),res:r.res,alt:r.alt}); }
@@ -142,7 +144,8 @@ await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
     check('6. 打開節日（3/14）：婉拒兩句輪流（節日那句先）',dd[0]==='「那天有讀書會，很早就排了。」'&&dd[1]==='「今天不行。我想一個人念。」'&&dd.every((t,i)=>!i||t!==dd[i-1]),J(dd)); } finally { INV.REPLY_ON['節日']=false; } });
 
 await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03','noodle',19), y2=ask('heroine_03','cafe',19), y3=ask('heroine_03','noodle',19);
-  check('7. 語彤週二晚上：約麵店＝「我就在店裡。你來。」（兩次都一樣）、約別的＝「麵店。」「你來店裡就好。」',y1.res==='here'&&txt(y1.lines)==='「我就在店裡。你來。」'&&txt(y3.lines)==='「我就在店裡。你來。」'&&y2.res==='decline'&&txt(y2.lines)==='「麵店。」「你來店裡就好。」',[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
+  /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店（作息拿掉）＝「麵店的班」那幾句（約麵店「我就在店裡」、約別的「麵店。」）不再出現，週二晚上照一般的回覆 */
+  check('7. 語彤週二晚上：不在燒臘店顧店＝沒有「我就在店裡。你來。」「麵店。」「你來店裡就好。」（照一般的回覆）',y1.res!=='here'&&!/我就在店裡/.test(txt(y1.lines))&&!/我就在店裡/.test(txt(y3.lines))&&!/「麵店。」/.test(txt(y2.lines)),[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
   fresh('2026-01-14','heroine_05',3); const s1=ask('heroine_05','wenzhou',15.5,null,{res:'accept'});
   check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。……」',s1.res==='decline'&&txt(s1.lines)==='「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」',txt(s1.lines));
   fresh('2028-10-11','heroine_04',3); const q1=ask('heroine_04','library',15.5,null,{res:'accept'});
@@ -156,7 +159,7 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   fresh('2026-03-10','heroine_02',3); const c1=ask('heroine_02','cafe',19);
   check('7. 芷若週二晚上上班：here「我會在 Café 啊，你直接過來，我幫你做一杯。」（BB_172 Z16；AA_415 沒有這一格）',c1.res==='here'&&txt(c1.lines)==='「我會在 Café 啊，你直接過來，我幫你做一杯。」',c1.res+' '+txt(c1.lines));
   fresh('2026-03-10','zhe',3); const z1=ask('zhe','noodle',12+10/60), z2=ask('zhe','noodle',17.5);
-  check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的乾麵我可以吃兩碗。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&txt(z2.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
+  check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='「好啊！那家的叉燒飯我可以吃兩盤。」'&&txt(z2.lines)==='「好啊！那家的叉燒飯我可以吃兩盤。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
   const keep=globalThis.INVITE_REPLIES; globalThis.INVITE_REPLIES=undefined;
   try{ fresh('2026-03-11','heroine_01',2); const o1=ask('heroine_01','cafe',15.5), o2=ask('heroine_01','cafe',17.5);
     check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「好啊。我本來就想去。」，AA_576 第 5 列）',txt(o1.lines)==='「好啊。我本來就想去。」'&&txt(o2.lines)==='「好啊。我本來就想去。」'); }

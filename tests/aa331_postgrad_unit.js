@@ -33,7 +33,7 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
     check('7/11 20:00 B1 那一段真的演（字卡「總圖 B1」、背景 ntu_lib_b1）',H.has('（總圖 B1。長桌只坐了一半，考古題疊得一樣高。）')&&H.cards.some(c=>c[1]==='總圖 B1')); }
   // 沒去
   { const G=H.fresh('2030-12-13',20,'dorm',{EXCHANGE_ROUTE:'JP'}); H.said=[]; await PG.noodleMissed2030(H.GM);
-    check('12/13 麵店沒去：一句旁白「（麵店門口的紅紙，多了你的名字。）」',H.has('（麵店門口的紅紙，多了你的名字。）')); }
+    check('12/13 麵店沒去：一句旁白「（燒臘店門口的紅紙，多了你的名字。）」',H.has('（燒臘店門口的紅紙，多了你的名字。）')); }
   // R3
   { const G=H.fresh('2030-10-01',21,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:10,BAR_STAGE_2029:'none',RETAKE_STYLE:'home'}); graduated(G); H.said=[]; await H.run('first');
     check('R3. RETAKE_STYLE home：照片「家裡的書桌。檯燈下面壓著一張讀書計畫。」＋「（你的第一天，還在後面。）」',H.msgs('g:noodle_team')[0]==='📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）'&&H.has('（你的第一天，還在後面。）'),H.msgs('g:noodle_team')[0]); }

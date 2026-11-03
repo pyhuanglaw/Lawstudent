@@ -103,7 +103,7 @@ const VDAY='我不太會過這種節。……可是我提前一天約你了。',
 
   /* ======================= 5 你的生日 ======================= */
   await sec('5',async()=>{
-  check('5. 祐廷的生日還沒定（PLAYER_BDAY null：人物設定留給使用者，AA_384 第 4 項）',FEST_DATA.PLAYER_BDAY===null);
+  check('5. 祐廷的生日 11-26（AA_639；使用者 11-01 選「交給 AA 挑」）',FEST_DATA.PLAYER_BDAY==='11-26');
   { let n=0; for(const k of ['2029-01-15','2029-03-28','2029-04-20','2029-05-01']){ setup(k,0.5,'dt'); rules(); n+=dms().length; } check('5. 沒定＝不發（隨便幾天的 00:30 都沒有）',n===0); }
   const keep=FEST_DATA.PLAYER_BDAY; FEST_DATA.PLAYER_BDAY='04-20';
   try{

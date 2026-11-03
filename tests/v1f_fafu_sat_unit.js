@@ -16,7 +16,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(id,d){ rels.push([id,d]); },walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags,stage)=>{ G={v:3,day,hour,zone,stage:stage||'econ',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags,stage)=>{ G={v:3,day,hour,zone,stage:stage||'econ',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=[]; rels=[]; };
 const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
@@ -38,7 +38,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   G.hour=12; check('4. 12:00 以後不能看',!(await STORY.fafuWatch(GM)));
   // 七句用完再重來、五次那句
   const duty=[]; for(let d=s5;d<s5+400&&duty.length<8;d++){ G.day=d; G.hour=10; if(STORY.fafuWatchable(G)) duty.push(d); } const seen=new Set(); for(let i=0;i<7;i++){ G.day=duty[i]; G.hour=9.5; G.weekday=6; said=[]; await STORY.fafuWatch(GM); if(said[0]) seen.add(said[0].t); }
-  check('5. 第 5 次去（不同的週六）：第一句是社長「你來五次了。明年可以報名當志工，來坐圓桌。」（AA_238 2-2；只一次）',[...seen].includes('你來五次了。明年可以報名當志工，來坐圓桌。'));
+  check('5. 第 2 次以後去（不同的週六）：社長「你又來了。明年可以報名當志工，來坐圓桌。」（AA_638 ④-7，原本第 5 次；只一次）',[...seen].includes('你又來了。明年可以報名當志工，來坐圓桌。')&&G.flags.LAWCLUB_SAT_FIVE===true);
   check('5. 池的七句都出現過（不重複到用完）',seen.size>=7,seen.size);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

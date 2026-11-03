@@ -62,7 +62,7 @@ const R2Y3B=(function(){
 
   /* ===================== 麵店團的群戲：邀約（不在群組＝阿哲私訊）＋出發提醒＋沒去的照片（照 story3d.js 大二的 v3 清單）===================== */
   S.GROUP=[
-    {id:'y3s2_first_meal',ev:'ev_y3s2_first_meal',key:'2028-02-22',inv:[0,17,['大三下第一頓 七點 長桌']],h:19,place:'阿鳳麵店',title:'開學第一頓（大三下）',travel:'走過去約 15 分鐘',travelH:0.25},   /* 2-Y3-26 */
+    {id:'y3s2_first_meal',ev:'ev_y3s2_first_meal',key:'2028-02-22',inv:[0,17,['大三下第一頓 七點 長桌']],h:19,place:'公館燒臘',title:'開學第一頓（大三下）',travel:'走過去約 15 分鐘',travelH:0.25},   /* 2-Y3-26 */
     {id:'y3s2_228',ev:'ev_y3s2_228',key:'2028-02-28',inv:[-1,21,['明天放假 河濱 兩點','Alison 說要帶風箏']],h:14,place:'公館的河濱',title:'228 河濱',travel:'走過去約 15 分鐘',travelH:0.25} ];   /* 2-Y3-27 */
   S.groupPhone=function(G){ for(const q of S.GROUP){ const d=D(q.key); if(d==null) continue; const di=d+q.inv[0]; if(G.day<di||G.day>d) continue; if(q.when&&!q.when(G)) continue;
       if(now(G)<T(di,q.inv[1])||PHONE.sent(G,q.id+'_ask')) continue;
@@ -70,7 +70,7 @@ const R2Y3B=(function(){
       PHONE.at(G,di,G.day===di?Math.max(q.inv[1],hh(G)):q.inv[1],q.inv[2].map(Z),q.id+'_ask');
       if(!outGet(G,q.id)&&(G.day<d||hh(G)<q.h+0.25)) plan(G,{id:q.id,ev:q.ev,day:d,h:q.h,late:0.25,place:q.place,title:q.title,travel:q.travel,travelH:q.travelH}); } };
   /* 2-Y3-26 沒去：21:30 群組（阿哲）*/
-  S.firstMealPhoto=G=>{ const d=D('2028-02-22'); if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[{th:NG,from:'zhe',text:'（照片：長桌上六碗麵，以安那碗加了兩顆滷蛋）'}],'y3s2_first_meal_photo'); };
+  S.firstMealPhoto=G=>{ const d=D('2028-02-22'); if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[{th:NG,from:'zhe',text:'（照片：長桌上六盤飯，以安那盤加了兩顆滷蛋）'}],'y3s2_first_meal_photo'); };
   /* 2-Y3-27 沒去：17:30 群組（Alison）*/
   S.r228Photo=G=>{ const d=D('2028-02-28'); if(d!=null&&grp(G)) PHONE.at(G,d,17.5,[{th:NG,from:'yu',text:'（照片：河濱的天空，一個風箏卡在樹上）'},{th:NG,from:'yu',text:'是風的問題！！'}],'y3s2_228_photo'); };
 
@@ -154,10 +154,10 @@ const R2Y3B=(function(){
   /* ===================== 2-Y3-38 主線 8「遠方」視訊（日本路線）：4/12 21:00 阿哲私訊；4/13 19:30 視訊（15 分鐘沒接＝沒接）===================== */
   S.farPhone=function(G){ const d12=D('2028-04-12'), d13=D('2028-04-13'); if(d12==null||G.day<d12||G.day>d13||!inJP(G,d13)) return; if(!(grp(G)||met(G,'zhe','FAMILIAR'))) return; const F=G.flags, Z=M('p:zhe','zhe');
     if(now(G)>=T(d12,lt(G,d12,21))&&now(G)<T(d13,lt(G,d13,19.5))&&!PHONE.sent(G,'y3_far_call'))
-      PHONE.at(G,d12,lt(G,d12,21),[Object.assign(Z('明天七點半 視訊 麵店'),{ask:{id:'y3_far_call',until:T(d13,lt(G,d13,19.5)),opts:[{t:'好。',say:[{from:'zhe',text:'記得吃飯'}]},{t:'明天不行。',say:[{from:'zhe',text:'好啦 那下次'}],set:{FAR_CALL_NO:true}}]}})],'y3_far_call');
+      PHONE.at(G,d12,lt(G,d12,21),[Object.assign(Z('明天七點半 視訊 燒臘店'),{ask:{id:'y3_far_call',until:T(d13,lt(G,d13,19.5)),opts:[{t:'好。',say:[{from:'zhe',text:'記得吃飯'}]},{t:'明天不行。',say:[{from:'zhe',text:'好啦 那下次'}],set:{FAR_CALL_NO:true}}]}})],'y3_far_call');
     if(G.day===d13&&PHONE.sent(G,'y3_far_call')&&F.FAR_CALL_NO!==true&&!outGet(G,'y3_far_call')&&hh(G)<lt(G,d13,19.75))
-      plan(G,{id:'y3_far_call',ev:'ev_far_call_jp',day:d13,h:lt(G,d13,19.5),late:0.25,place:'視訊',title:'阿哲打視訊來（麵店，日本 20:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
-  S.farPhoto=G=>{ const d=D('2028-04-13'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一碗麵）'}],'y3_far_photo'); };
+      plan(G,{id:'y3_far_call',ev:'ev_far_call_jp',day:d13,h:lt(G,d13,19.5),late:0.25,place:'視訊',title:'阿哲打視訊來（公館燒臘，日本 20:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
+  S.farPhoto=G=>{ const d=D('2028-04-13'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一盤飯）'}],'y3_far_photo'); };
   /* 主線 8「遠方」美國版（AA_412 第 2 節）：9/20（三）臺灣 21:00＝美國 09:00 阿哲私訊；9/21（四）美國 07:30（臺灣 19:30）視訊（15 分鐘沒接＝沒接＝美國 07:45 照片）。
      照日本版 S.farPhone（條件：在麵店團，或和阿哲 FAMILIAR 以上；「明天不行。」記 FAR_CALL_NO、不演）；遊戲時鐘＝美國當地，臺灣的時間用 lt 換。
      日本版是晚上、美國版是早上：私訊到了就排（不等到當天），標 alarm——睡覺會在 07:00 醒（同可昕週年視訊 story3d.js kx_anniv4v：沒有鬧鐘就睡到中午錯過）；之後回「明天不行。」就取消 */
@@ -168,8 +168,8 @@ const R2Y3B=(function(){
     const q=outGet(G,'us_far_call');
     if(F.FAR_CALL_NO===true){ if(q&&q.state==='planned') q.state='cancelled'; return; }
     if(PHONE.sent(G,'us_far_call')&&!q&&now(G)<T(d21,lt(G,d21,19.75)))
-      plan(G,{id:'us_far_call',ev:'ev_far_call_us',day:d21,h:lt(G,d21,19.5),late:0.25,alarm:true,place:'視訊',title:'阿哲打視訊來（麵店，臺灣 19:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
-  S.farPhotoUS=G=>{ const d=D('2028-09-21'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一碗麵）'}],'us_far_photo'); };
+      plan(G,{id:'us_far_call',ev:'ev_far_call_us',day:d21,h:lt(G,d21,19.5),late:0.25,alarm:true,place:'視訊',title:'阿哲打視訊來（公館燒臘，臺灣 19:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
+  S.farPhotoUS=G=>{ const d=D('2028-09-21'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一盤飯）'}],'us_far_photo'); };
 
   /* ===================== 2-Y3-39 語 5「一個人的電影」：4/22（六）21:00 她傳兩則；日本路線 4/24 10:00 視訊（日本 11:00）===================== */
   S.yu5Phone=function(G){ const d22=D('2028-04-22'), d24=D('2028-04-24'); if(d22==null||G.day<d22||G.day>d24||!met(G,'yu','FAMILIAR')||!dmOk(G,'yu')) return; const Y=M('p:yu','yu');

@@ -35,7 +35,8 @@ try{ doc+='\n'+cp.execSync('git show 691a26400:"docs/story_planning/AA_509_女�
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
-  const OK=['📷（一張手寫的便條：那邊三月還冷。外套不要收進行李箱最下面。）','📷（行李箱，上面放著那件外套）','（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）',...(doc.includes('7/10「第五章寫到一半。」改「第三章寫到一半。」')&&doc.includes('七月每天三點下雨。第五章寫到一半。')?['七月每天三點下雨。第三章寫到一半。']:[])];   /* 7/10：AA_470 4-5 原句＋AA_508 0-2 第 3 點只換後半句（兩份稿都要讀得到）；照片：稿只寫「她傳便條的照片」「文字版」——程式寫的照片說明；交往版的便條＝稿「便條換成『…』」套朋友版那一行的寫法 */
+  const OK=['「燒臘店。」',   /* AA_612 A 表 A-239（企劃線 a3879758c）：學姊日本那一場（sis_jp_events.js）的選項「麵店。」→「燒臘店。」；太短不放 tools/story/aa612_fix.json（會換到語彤的句子）*/
+    '📷（一張手寫的便條：那邊三月還冷。外套不要收進行李箱最下面。）','📷（行李箱，上面放著那件外套）','（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）',...(doc.includes('7/10「第五章寫到一半。」改「第三章寫到一半。」')&&doc.includes('七月每天三點下雨。第五章寫到一半。')?['七月每天三點下雨。第三章寫到一半。']:[])];   /* 7/10：AA_470 4-5 原句＋AA_508 0-2 第 3 點只換後半句（兩份稿都要讀得到）；照片：稿只寫「她傳便條的照片」「文字版」——程式寫的照片說明；交往版的便條＝稿「便條換成『…』」套朋友版那一行的寫法 */
   const A591=require('./aa591_doc.js');   /* AA_591（學姊改稿第四批，企劃線 6b35748c7）改過的句子在 AA_591 的表上 */
   const notIn=[...new Set(q)].filter(t=>doc.indexOf(t)<0&&!OK.includes(t)&&!A591.has(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差；照片說明兩則除外）',!!doc&&!notIn.length,J(notIn));

@@ -49,11 +49,11 @@ const cx=(all.x0+all.x1)/2, cz=(all.z0+all.z1)/2;
   for(const [nm,R] of [['路人',W],['腳踏車',Bk]]) if(!R) bad.push(nm+'：story3d.js 找不到路線'); else R.forEach((rt,i)=>rt.forEach(p=>{ if((p[2]||0)===0&&!stand(p[0],p[1])) bad.push(`${nm}第 ${i+1} 條 (${p[0]},${p[1]}) 站不住`); }));
   check('6. 校園路人、腳踏車的路線點（地面那一層）都站得住（沒有點落在搬過去的社科院或原本位置的系館裡面）', !bad.length, bad.slice(0,4).join(' | '));
   check('5. 路人有一條走進社科院的中庭', !!W&&W.some(rt=>rt.some(p=>p[0]>all.x0&&p[0]<all.x1&&p[1]>tower.z1&&p[1]<lib.z0)));
-  const mod=z.group.children.filter(o=>o.userData&&o.userData.ck&&Math.abs(o.position.x-112)<0.01&&Math.abs(o.position.z+62)<0.01);
-  check('6. 社科院原本的位置有一棟系館（校園套件，ckPlace 在 (112,−62)）', mod.length===1, mod.length+' 棟');
+  const mod=z.group.children.filter(o=>o.userData&&o.userData.ck&&(Math.abs(o.position.x-112)<0.01||Math.abs(o.position.x-119)<0.01)&&Math.abs(o.position.z+62)<0.01);
+  check('6. 社科院原本的位置有一棟系館（校園套件，ckPlace 在 (112,−62)；LAW-RELAYOUT-1102 起萬才館往東南搬，這棟往東讓 7 m 到 (119,−62)）', mod.length===1, mod.length+' 棟');
   const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
   check('6. 社科院新位置裡面原本的三棵樹（(8,−70)、(8,−50)、(0,−56)）有新模型時不種', /\.\.\.\(SOCX\?\[\]:\[\[8,-70\],\[8,-50\],\[0,-56\]\]\)/.test(zsrc));
-  check('6. 原本位置的系館不掛「社會科學院」', /const hall=CK\.modern\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85\}\); ckPlace\(hall,112,-62,-Math\.PI\/2\)/.test(zsrc)); }
+  check('6. 原本位置的系館不掛「社會科學院」', /const hall=CK\.modern\(\{w:44,d:20,floors:4,gfh:4\.4,fh:3\.85(,sign:'電機二館')?\}\); ckPlace\(hall,(?:112|LR\?119:112),-62,-Math\.PI\/2\)/.test(zsrc)); }
 // 3. layout＝LAWWW2 的 json 照 place 換算
 { const P=SX.place||{}, T=(x,z)=>[+(P.x-x).toFixed(2),+(P.z-z).toFixed(2)], near=(a,b)=>Math.abs(a[0]-b[0])<0.011&&Math.abs(a[1]-b[1])<0.011;
   check('3. place：轉 180°（ry＝π）、平移 (112, −135)', P.ry===Math.PI&&P.x===112&&P.z===-135, JSON.stringify(P));

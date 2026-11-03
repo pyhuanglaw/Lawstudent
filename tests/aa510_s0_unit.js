@@ -29,7 +29,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x), K=d=>d==null?null:CALENDAR.dateOf(d).key, termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},memo:[]};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},memo:[]};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; ADV.active=false; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -40,7 +40,7 @@ const ent=(k,h,id,flags)=>{ fresh(D(k),h,'campus',flags||{}); const e=STORY.sche
 { const a1=ent('2029-02-22',20.5,'heroine_01'), a15=ent('2029-05-31',20.5,'heroine_01'), y1=ent('2029-02-22',21,'heroine_03'), y15=ent('2029-05-31',21,'heroine_03'), a16=ent('2029-06-07',20.5,'heroine_01');
   check('1. 大四下週四：以安 20:30、語彤 21:00 都在總圖三樓（第 1 週 2/22、第 15 週 5/31）；畢業以後（6/7）以安不在這一筆',a1&&a1.zone==='library'&&a15&&a15.zone==='library'&&y1&&y1.zone==='library'&&y15&&y15.zone==='library'&&!(a16&&a16.zone==='library'&&a16.act==='read'),J({a1,a15,y1,y15,a16})); }
 { const s=ent('2029-06-07',18,'heroine_03'), t=ent('2029-05-31',18,'heroine_03'), aft=ent('2029-09-06',18,'heroine_03');
-  check('2. 語彤 2029 暑假週四 18:00 在麵店（6/7）；學期中（5/31）在總圖；9/6 開學以後回總圖',s&&s.zone==='noodle'&&t&&t.zone==='library'&&aft&&aft.zone==='library',J({s,t,aft})); }
+  check('2. 語彤 2029 暑假週四 18:00 不在燒臘店（6/7；AA_610／AA_624 拿掉麵店的作息）；學期中（5/31）在總圖；9/6 開學以後回總圖',!(s&&s.zone==='noodle')&&t&&t.zone==='library'&&aft&&aft.zone==='library',J({s,t,aft})); }
 { const st=(LADDER.byTerm.Y4S2.heroine_01.steps||[]).find(x=>x.id==='A8-L1');
   check('3. 以安 A8-L1：「這學期我多選了一門證券交易法。不是必修。」、回覆「證交法很好玩。真的。……你那個表情是什麼意思。」；台詞、選項沒有「保險法」（第二個回覆「公司、保險、證券」照舊）',!!st&&st.lines[0]==='這學期我多選了一門證券交易法。不是必修。'&&st.choices[0].reply==='證交法很好玩。真的。……你那個表情是什麼意思。'&&!J(st.lines).includes('保險法')&&!J(st.choices).includes('保險法'),J(st&&{l:st.lines,c:st.choices})); }
 { const s=rd('src/postgrad3d.js'); check("4. 芷若畢業那天的照片（pg_zr_photo）改 6/3 05:07（英國 6/2 22:07），字不改",s.includes("{tag:'pg_zr_photo',at:['2029-06-03',5+7/60],")&&rd('src/data/postgrad_lines.js').includes("'畢業快樂。今天下午替你看了一部。'")); }

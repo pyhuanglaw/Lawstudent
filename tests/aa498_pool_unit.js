@@ -126,8 +126,8 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
   const wd=TD('Y1S1',5,2);   /* 大一上第 5 週週二 */
   let s=at(wd,14,'campus',camSeats); const lyx=s.find(q=>q[0]==='pool_15');
   check('2. 廖芸萱（原本永遠不出現）：平日 13～16 在文學院前的長椅（seatAt (−25,−12.94)）',!!lyx&&lyx[2]===-25&&Math.abs(lyx[3]+12.94)<0.01,J(s));
-  s=at(wd,14,'library',[{x:5.6,z:-3.9,yaw:0},{x:-5.6,z:5.1,yaw:Math.PI},{x:0,z:0,yaw:0},{x:2,z:0,yaw:0},{x:4,z:0,yaw:0}]);
-  check('2. 嚴守誠（原本永遠不出現）：平日 13～15 在總圖三樓（閱覽室）；洪珮瑜坐窗邊那一排',s.some(q=>q[0]==='pool_18')&&(s.find(q=>q[0]==='pool_9')||[])[3]===-3.9,J(s));
+  s=at(wd,14,'library',[{x:5.6,z:-3.9,yaw:0},{x:10.55,z:1.6,yaw:-Math.PI/2},{x:-5.6,z:5.1,yaw:Math.PI},{x:0,z:0,yaw:0},{x:2,z:0,yaw:0},{x:4,z:0,yaw:0}]);   /* LIB-3F-1102 第二版：窗邊那一排＝東側靠窗的閱覽桌 (10.55, 1.6)（第一版 (5.6, −3.9)）*/
+  check('2. 嚴守誠（原本永遠不出現）：平日 13～15 在總圖三樓（閱覽室）；洪珮瑜坐窗邊那一排',s.some(q=>q[0]==='pool_18')&&(s.find(q=>q[0]==='pool_9')||[])[2]===10.55&&(s.find(q=>q[0]==='pool_9')||[])[3]===1.6,J(s));
   const sat=(()=>{ for(let d=TD('Y1S1',3,6);d<TD('Y1S1',16,6);d+=7){ H.G.day=d; if(STORY.fafuDuty(H.G)) return d; } return null; })();
   s=at(sat,10,'wancai');
   check('2. 馬佳蓉（原本永遠不出現）：法服值班的週六 9～12 在萬才館一樓',!!sat&&s.some(q=>q[0]==='pool_20'&&q[2]===1.9),keyOf(sat)+' '+J(s));
@@ -246,7 +246,7 @@ await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'
   H.said=[]; H.picks=[]; set(q.day,6.9); await OUT.go(GM,q);
   check('4. 鄭元碩：那一天（2D，四段）演完＝YS_MODEL、做完',has('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）')&&has('最後一張了。謝啦。')&&H.G.flags.YS_MODEL===true&&r.state==='done',J(said()));
   const ex=TD('Y2S2',15,1); set(ex,12.5,'campus'); GM.npc={}; spawn(YS); E.interactables=[]; P().populate('campus',GM); const it=E.interactables.find(x=>x.poolAct==='ysExpo'); H.said=[]; if(it&&!it.hidden) await STORY.interact(it,GM);
-  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：晨思鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
+  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：晨思鐘的早上、穿堂的中午、燒臘店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
 
 /* 邱家齊：魚丸；答應代收但週六沒去領 → 週日那一則、人物頁沒有那一行 */
 await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);
@@ -333,6 +333,6 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   const ih=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
   /* heroine_asks.js → heroine_asks3d.js → bbpack_events.js 緊接（tests/heroine_asks_unit.js 查）：pool 的兩個檔放在 heroine_asks 前面（rom1016_3d.js 後面）*/
   const ix=f=>sc.indexOf(f);
-  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?(<script src="src\/aa524_3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）；2026-10-30：再接 AA_524 的 aa524_3d.js（tests/aa524_promises_unit.js）*/
+  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?(<script src="src\/aa524_3d\.js[^"]*"><\/script>\s*)?(<script src="src\/onetap3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）；2026-10-30：再接 AA_524 的 aa524_3d.js（tests/aa524_promises_unit.js）；2026-11-03：再接一鍵 onetap3d.js（ONE-TAP-GO-1103）*/
 H.done();
 }

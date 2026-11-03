@@ -394,7 +394,7 @@ const WZL=(function(){
     cannot:{ zhe:['這週回高雄','下次'], yu:['週六有事','週日可以嗎'], classmate_bohan:['這週不行。法服有值班。'], classmate_xinci:['這週家裡有事。下次我要去。'] },
     zheShop:'哥你店裡那家？有員工價嗎', zheShift:['哥你那天不是要上班','那我們去你那家，你上菜'], nextWeek:'那下週',
     zheAsk:'週六早午餐有人嗎', zheAskShop:'哥那家', zheOpts:['+1','這週不行'], okay:'好喔',
-    open:[[null,'（四人桌，加一張椅子。）'],['yu','欸，這裡的蛋好好吃。為什麼我們都在吃麵？']], close:[['zhe','下次換晚餐。'],[null,'（他說的晚餐，還是麵店。）']],
+    open:[[null,'（四人桌，加一張椅子。）'],['yu','欸，這裡的蛋好好吃。為什麼我們都在吃燒臘？']], close:[['zhe','下次換晚餐。'],[null,'（他說的晚餐，還是燒臘店。）']],
     shiftNar:'（他們坐四人桌，加一張椅子。這次沒有人算過。）', title:'大家的早午餐', th:'g:noodle_team' };
   const ge=(G,t)=>G.flags&&G.flags.ZHE_CALLS_GE?t:t.replace(/^哥/,'');
   const termId=(G,d)=>{ const t=S.term(G,d); return t?t.id:null; };

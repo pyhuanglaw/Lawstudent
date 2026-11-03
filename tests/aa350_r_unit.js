@@ -23,7 +23,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,classDone:true,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,classDone:true,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; caps=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
@@ -33,7 +33,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   const base={P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true,MET_PINYU:true};
   const R2N='（學活二樓，靠窗那一桌。阿勳已經坐在那裡了。）';   /* AA_350 9-1 缺的字（2026-11-01 補）：R2 開頭多一句旁白，原本第一句變第二句（R2-1～R2-3 照新稿改查 L[0] 旁白＋L[1]；沒見過阿勳那一版在 tests/aa350_t_unit.js）*/
   const econIt=()=>CLS.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2');
-  /* 那個週五沒去經原下：h 點在下課選單選「先去吃飯」→ 選 meal（'活大'／'阿鳳麵店'）*/
+  /* 那個週五沒去經原下：h 點在下課選單選「先去吃飯」→ 選 meal（'活大'／'公館燒臘'）*/
   const huoda=async(day,h,flags,meal,attended)=>{ fresh(day,h,'putong',Object.assign({},base,flags)); if(attended){ const it=econIt(); if(it) CLS.rec(G).done[it.key]=1; } const m0=G.money; picks=[meal||'學活']; said=[]; opts=[]; caps=[]; const r=await CLS.lunchBreak(GM); return {r,L:lines(),opts:opts.slice(),paid:m0-G.money,caps:caps.slice()}; };
   check('R2-0. 第 11、12、13 週週五是有經原下的日子（不是放假、不是期中考：第 8、9 週期中考不能翹、也不演；第 10 週週五 5/1 放假）',[F13,F11,F12].every(d=>{ fresh(d,12.2,'putong',base); const it=econIt(); return !!it&&!it.exam; }));
   { const x=await huoda(F13,12.3,{SK03_FIRST:true,SK03_N:0});
@@ -45,8 +45,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('R2-2. 第一次去（沒有 SK03_FIRST）：學活那一句以後接 1-1（「週五的學活。阿勳占了靠窗的四人桌…」「重考生？你看起來很有覺悟。」）',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('週五的學活。阿勳占了靠窗的四人桌，品妤已經在吃了。')&&x.L.includes('品妤：重考生？你看起來很有覺悟。')&&G.flags.SK03_FIRST===true,JSON.stringify(x.L)); }
   { const x=await huoda(F11,12.3,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
     check('R2-3. 第 11 週週五（10-3 一起讀到閉館的隔天）沒去經原下、去學活：照樣還債（「昨天那題的。還債。」）、沒有走廊那句「昨天那題我想通了。」',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!x.L.includes('阿勳：昨天那題我想通了。')&&G.flags.XUN_REPAID===true,JSON.stringify(x.L)); }
-  { const a=await huoda(F13,12.3,{SK03_FIRST:true},'學活',true), b=await huoda(F13,13.1,{SK03_FIRST:true}), c=await huoda(F13,12.3,{SK03_FIRST:true},'阿鳳麵店'), d=await huoda(F13,12.3,{SK03_FIRST:true,SK03_ASKED:F13}), e=await huoda(F13+1,12.3,{SK03_FIRST:true}), f=await huoda(F13,11.9,{SK03_FIRST:true});
-    const plain=x=>x.r===true&&x.L.length===1&&/自助餐|乾麵/.test(x.L[0]);   /* 一般的吃飯：吃飯那一段換到店裡、那一句旁白用 ADV 說（BUG-EAT-AFTER-CLASS-SCENE-1103，原本是字幕、人留在教室）；ev_sk03_lunch 那一條不是這樣 */
+  { const a=await huoda(F13,12.3,{SK03_FIRST:true},'學活',true), b=await huoda(F13,13.1,{SK03_FIRST:true}), c=await huoda(F13,12.3,{SK03_FIRST:true},'公館燒臘'), d=await huoda(F13,12.3,{SK03_FIRST:true,SK03_ASKED:F13}), e=await huoda(F13+1,12.3,{SK03_FIRST:true}), f=await huoda(F13,11.9,{SK03_FIRST:true});
+    const plain=x=>x.r===true&&x.L.length===1&&/自助餐|乾麵|叉燒飯/.test(x.L[0]);   /* 一般的吃飯：吃飯那一段換到店裡、那一句旁白用 ADV 說（BUG-EAT-AFTER-CLASS-SCENE-1103，原本是字幕、人留在教室）；ev_sk03_lunch 那一條不是這樣 */
     check('R2-4. 不演的（照一般的吃飯）：去上了經原下、13:06、11:54、選阿鳳麵店、那天已經演過、週六',plain(a)&&plain(b)&&plain(c)&&plain(d)&&plain(e)&&plain(f),JSON.stringify([a,b,c,d,e,f].map(x=>[x.L.length,x.caps]))); }
   { fresh(F13,12.17,'putong',Object.assign({},base,{SK03_FIRST:true})); picks=['一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); const L=lines();
     check('R2-5. 走廊那一條照舊（防回歸）：「學活。走不走？」＋「一起去／今天不行」',L[0]==='阿勳：學活。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]'&&!L.includes('阿勳：……你今天沒來上課。坐。'),JSON.stringify([L,opts])); }

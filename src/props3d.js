@@ -172,5 +172,19 @@ const PROPS = (function(){
       bone.add(o); out[name]=o; }
     return out; }
   function detach(props){ for(const k in props){ const o=props[k]; if(o&&o.parent) o.parent.remove(o); } }
-  return {attach,detach,DEF};
+  /* ---- 坐著讀書（pose 'read'）手上那本打開的書（READ-POSE-BOOK-1103，使用者 11-03「不管事咖啡廳 還是圖書館 都給我這樣念書 會笑出來 書在哪」）----
+     正式模型 tools/blender/char_second/book_open.py → ASSETS 'prop.book_open'（原點＝書溝中間、x 左右、y 頁面往上、+z 朝向讀的人；一個網格一張貼圖＝每個人多 1 次 draw call）。
+     每一個人物（不只有 MODEL_PROPS 的）第一次讀書時由 character3d.js 建、掛在人物的 vrmWrap 底下，位置每一幀照骨頭量（readIK）；其他姿勢藏起來。
+     GLB 還沒到時先什麼都不顯示（不顯示方塊）；載入失敗才用簡單的兩片頁面當備用（D38 第 1 點：GLB 載入失敗時的備用）*/
+  function bookMat(src){ if(cache.bookMat) return cache.bookMat; const m=new THREE.MeshToonMaterial({color:0xffffff,map:src.map||null,gradientMap:gradTex()}); cache.bookMat=m; return m; }
+  function bookFallback(){ const g=new THREE.Group(); g.name='book_fallback'; const pg=mat('bookfp','#efe8da',null), cv=mat('bookfc','#2e4a5c',null);
+    for(const s of [-1,1]){ const p=new THREE.Mesh(new THREE.BoxGeometry(0.15,0.207,0.009),pg); p.position.set(s*0.075,0,0.004); p.rotation.y=-s*0.08; g.add(p); const c=new THREE.Mesh(new THREE.BoxGeometry(0.153,0.213,0.0025),cv); c.position.set(s*0.0765,0,-0.003); c.rotation.y=-s*0.08; g.add(c); } return g; }
+  function readBook(){ const g=new THREE.Group(); g.name='readBook'; g.userData.loading=true;
+    const done=n=>{ n.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=false; m.frustumCulled=false; } }); g.add(n); g.userData.loading=false; g.userData.ready=true; };
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['prop.book_open']) ASSETS.loadOne('prop.book_open').then(c=>{ if(!c||!c.scene) throw new Error('no scene'); const n=c.scene.clone(true); n.name='book_open_glb';
+        n.traverse(m=>{ if(m.isMesh) m.material=bookMat(m.material); });   /* 和人物一樣的卡通明暗（遊戲沒有環境貼圖）；所有的書共用一個材質 */
+        done(n); }).catch(e=>{ console.warn('book glb',e); done(bookFallback()); });
+    else done(bookFallback());
+    return g; }
+  return {attach,detach,DEF,readBook};
 })();

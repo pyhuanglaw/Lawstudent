@@ -16,7 +16,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -31,9 +31,9 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   fresh(thuB,18,'campus',{}); SOCIAL.remember(YT,'FIRST_MET',''); R(YT,...LV.FRI);
   const w1=STORY.whereIs(GM,YT); G.day=thuA; G.weekday=4; const w2=STORY.whereIs(GM,YT); G.day=termDay('Y3S2',1,4); G.weekday=4; const w2b=STORY.whereIs(GM,YT);
   /* AA_376 第 1 項（企劃線 69aa3b0c）：12/16 以後空出來的週四，大三上（含期末週）在總圖三樓讀書；田野（T1）大三下 2/24 起才開始 */
-  check('1. 語彤週四 18:00：12/16 以前在麵店顧店；12/16 以後不顧店——大三上在總圖（AA_376 #1）、大三下 2/24 起在做田野訪談',w1&&w1.zone==='noodle'&&w2&&w2.zone==='library'&&w2b&&w2b.zone===null&&/田野/.test(w2b.away||''),JSON.stringify([w1,w2,w2b]));
+  check('1. 語彤週四 18:00：12/16 以前也不在燒臘店（AA_610／AA_624：她從來不在燒臘店）；12/16 以後大三上在總圖（AA_376 #1）、大三下 2/24 起在做田野訪談',!(w1&&w1.zone==='noodle')&&w2&&w2.zone==='library'&&w2b&&w2b.zone===null&&/田野/.test(w2b.away||''),JSON.stringify([w1,w2,w2b]));
   G.day=termDay('Y3S2',3,2); G.weekday=2; const w3=STORY.whereIs(GM,YT); G.day=sat; G.weekday=6; G.hour=10; const w4=STORY.whereIs(GM,YT);
-  check('1. 週二照舊顧店；週六早上在麵店',w3&&w3.zone==='noodle'&&w4&&w4.zone==='noodle',JSON.stringify([w3,w4]));
+  check('1. 週二、週六早上都不在燒臘店（AA_610／AA_624：麵店的作息拿掉）',!(w3&&w3.zone==='noodle')&&!(w4&&w4.zone==='noodle'),JSON.stringify([w3,w4]));
   const PG=ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='public_law_group'):null;
   check('2. 公法讀書會大三下整學期（第 1～7、10～15 週；AA_377 第 3 項，原本 AA_260 第 4 節第 4 點只開第 1～5 週）',!!PG&&PG.term.includes('Y3S2')&&JSON.stringify(PG.termWeeks.Y3S2)==='[1,2,3,4,5,6,7,10,11,12,13,14,15]',JSON.stringify(PG&&PG.termWeeks));
   fresh(termDay('Y3S2',10,3),12,'campus',{}); 

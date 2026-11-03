@@ -17,10 +17,15 @@ check('0. STORY.ndlHere、STORY.ndlHereAll 存在',typeof STORY.ndlHere==='funct
 if(typeof STORY.ndlHere!=='function') H.done();
 // 作息
 { const bad=[]; for(const id of ['yu','classmate_bohan','classmate_xinci']){ const L=(CHARACTERS[id].daily_schedule||[]).filter(e=>e.zone==='noodle'&&e.ndlDay===true&&e.noExam===true&&e.from===17.5&&e.to===20.5&&Array.isArray(e.terms)&&e.terms.length===8); if(L.length!==1) bad.push(id); }
-  check('1. Alison、柏翰、芯慈各有一筆麵店日長桌作息（麵店日 17:30～20:30、八個學期；AA_542 第 5 節：麵店日＝每週不固定兩天，ndlDay；考試週不去 noExam）',!bad.length,J(bad)); }
+  const zl=(CHARACTERS.zhe.daily_schedule||[]).filter(e=>e.zone==='noodle'&&e.ndlDay===true);
+  check('1. AA_623 第 3 節：Alison、柏翰、芯慈的麵店日長桌作息拿掉了（桌遊團改到日常失速；阿哲自己的麵店日吃飯照留）',bad.length===3&&!['yu','classmate_bohan','classmate_xinci'].some(id=>(CHARACTERS[id].daily_schedule||[]).some(e=>e.zone==='noodle'&&e.ndlDay))&&zl.length===1,J(bad)); }
+{ const G=at('2025-09-16',18); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
+  check('1. 9/16（二）18:00 照遊戲的作息：阿哲在店裡，Alison、柏翰、芯慈不在（AA_623）',J(here)===J([['zhe',true],['yu',false],['classmate_bohan',false],['classmate_xinci',false]]),J(here)); }
+/* 下面測的是「說話的人要真的在店裡」的判斷（NDL-PRESENT-1030 的機制）：測試自己把三位放回麵店日的長桌（STORY.SCHED_X，只在這支測試）*/
+STORY.SCHED_X.push((c,G)=>{ if(!c||!['yu','classmate_bohan','classmate_xinci'].includes(c.id)||!G||G.day==null) return null; const T=CALENDAR.termOf(G.day), hr=G.hour%24; if(!T||T.exam||!STORY.noodleDay(G.day)||hr<17.5||hr>=20.5) return null; return {days:[1,2,3,4,5],from:17.5,to:20.5,zone:'noodle',act:'eat',noExam:true,note:'test：NDL-PRESENT 放回去'}; });
 // 1.
 { const G=at('2025-09-16',18); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
-  check('1. 9/16（二）18:00：麵店團四位都在店裡',here.every(x=>x[1]),J(here)); check('1. 閒聊照演',STORY.ndlTalkDue(G)); }
+  check('1. （放回去以後）9/16（二）18:00：麵店團四位都在店裡',here.every(x=>x[1]),J(here)); check('1. 閒聊照演',STORY.ndlTalkDue(G)); }
 // 2.
 { const G=at('2025-09-16',20.75); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
   check('2. 20:45：四位都走了（20:30）、閒聊不演',here.every(x=>!x[1])&&!STORY.ndlTalkDue(G),J(here)); }

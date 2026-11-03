@@ -37,7 +37,7 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const info=STUDY.reviewInfo(G,'final'); const ids=info?info.courses.map(x=>x.c.id):[];
     check('a1. 大一上期末考前一晚：開放；範圍＝這學期全部要期末考的法律課（憲法、刑總、民總）',!!info&&['const_1','crim_gen1','civ_general'].every(id=>ids.includes(id))&&ids.length===examCourses(G,'Y1S1').length,J(ids));
     const before=examCourses(G,'Y1S1').map(e=>STUDY.progress(G,e.c,'final','Y1S1'));
-    picks=['結束'];   /* 第一張卡就結束：跳過也算讀過 */
+    picks=['先讀到這裡'];   /* 第一張卡就結束：跳過也算讀過 */
     const r=await STUDY.review(GM,'final');
     const bad=[]; for(const [cid,qs] of draws(G,'Y1S1')) for(const q of qs) for(const u of STUDY.unitsOfQ(q)) if(STUDY.rank(G,u)<2) bad.push(cid+':'+q+':'+u.id);
     check('a2. 做一次總複習（第一張就按結束）以後：每一科 drawExam 會抽到的 5 題，對到的卡都是「讀過」以上',!!r&&!bad.length,J({r:!!r,bad:bad.slice(0,6)}));
@@ -47,7 +47,7 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     check('a4. 總圖 20:00（22:00 閉館）：變灰「閉館前讀不完」，不耗時間',!!o&&o.dim&&/閉館/.test(o.hint)&&r2===false&&G2.hour===20,J({o,r2})); });
   /* b drawExam 前後相同 */
   await sec('b',async()=>{ const G=freshAt(d1-1,19,'library_hall'); G.flags.examSeed=777; const R=CLS.rec(G); const ex0=J(R.exam||{}), d0=draws(G,'Y1S1');
-    picks=['結束']; await STUDY.review(GM,'final'); const dA=draws(G,'Y1S1');
+    picks=['先讀到這裡']; await STUDY.review(GM,'final'); const dA=draws(G,'Y1S1');
     check('b1. 做總複習前後，每一科 drawExam 抽到的題號完全相同',J(d0)===J(dA)&&d0.length>=3,J({d0,dA}));
     check('b2. 總複習不動 R.exam、examSeed、prep（成績公式 CLS.scoreOf 照舊）',J(CLS.rec(G).exam||{})===ex0&&G.flags.examSeed===777&&J(CLS.rec(G).prep)==='{}'&&CLS.scoreOf(3)===80); });
   /* c 時段次數用完也能做、3 小時、不跨天 */
@@ -55,17 +55,17 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     let calls=[]; const on0=STORY.onStudy; STORY.onStudy=function(GM2,hrs){ calls.push([hrs,GM2.G.zone]); };
     try{ const opt=STUDY.reviewOpt(G);
       check('c1. 時段次數用完：選項照樣可以選（不變灰）',!!opt&&!opt.dim&&opt.t==='考前總複習',J(opt));
-      picks=['結束']; const h0=G.hour, day0=G.day, s0=G.stats.study; const r=await STUDY.review(GM,'final');
+      picks=['先讀到這裡']; const h0=G.hour, day0=G.day, s0=G.stats.study; const r=await STUDY.review(GM,'final');
       check('c2. 耗 3 小時（14:00 → 17:00）、同一天、時段次數不扣、G.stats.study +3',!!r&&Math.abs(G.hour-h0-3)<1e-9&&G.day===day0&&J(G.slots)===sl&&G.stats.study===s0+3,J({h:G.hour,day:G.day,slots:G.slots,study:G.stats.study}));
       check('c3. 照常觸發 STORY.onStudy（讀 3 小時，地點＝實際讀書的地方）',calls.length===1&&calls[0][0]===3&&calls[0][1]==='library_hall',J(calls));
       /* 晚上在宿舍：21:30 不給（不跨天）；21:00 以前可以 */
       setDay(G,d1-1,21.5); G.zone='dorm'; const o2=STUDY.reviewOpt(G); calls=[]; toasts=[]; const r2=await STUDY.review(GM,'final');
       check('c4. 21:30：選項變灰（寫原因），按了不耗時間（不讀過午夜）',!!o2&&o2.dim&&/21:00/.test(o2.hint)&&r2===false&&G.hour===21.5&&calls.length===0&&toasts.some(t=>/21:00/.test(t)),J({o2,r2,h:G.hour,toasts}));
-      setDay(G,d1-1,20.5); picks=['結束']; const r3=await STUDY.review(GM,'final');
+      setDay(G,d1-1,20.5); picks=['先讀到這裡']; const r3=await STUDY.review(GM,'final');
       check('c5. 20:30 在宿舍：做完 23:30、同一天；onStudy 的地點是宿舍',!!r3&&G.hour===23.5&&G.day===d1-1&&calls.length===1&&calls[0][1]==='dorm',J({h:G.hour,calls}));
       /* 家裡（週末回家，2D 選單）：地點記「家」，不算宿舍 */
       setDay(G,d1-2,15); G.zone='dorm'; G.home={at:true}; calls=[]; const ho=HOME.MENU_OPTS.map(f=>f(G)).find(x=>x&&x.t==='考前總複習');
-      picks=['結束']; if(ho) await ho.run(GM);
+      picks=['先讀到這裡']; if(ho) await ho.run(GM);
       check('c6. 家裡的選單有「考前總複習」；做完地點記「家」（onStudy 那一下 G.zone＝home，之後恢復）',!!ho&&calls.length===1&&calls[0][1]==='home'&&G.zone==='dorm'&&G.hour===18,J({ho:!!ho,calls,zone:G.zone,h:G.hour})); delete G.home;
     } finally { STORY.onStudy=on0; } });
   /* d 重修課 */
@@ -75,7 +75,7 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const f2=termDays('Y1S2').find(d=>CALENDAR.termOf(d).exam==='final'); setDay(G,f2-3,10);   /* 大一下期末週的前一週週五 */
     const info=STUDY.reviewInfo(G,'final'); const rt=info&&info.courses.find(x=>x.c.id==='crim_gen1');
     check('d1. 大一下有重修「刑法總則（上）（重修）」：總複習的範圍包含它（卡＝原本大一上那一學期的）',!!rt&&!!rt.c.rt&&rt.units.length>0&&rt.units.every(u=>u.term==='Y1S1'),J({ids:info&&info.courses.map(x=>x.c.name),n:rt&&rt.units.length}));
-    picks=['結束']; await STUDY.review(GM,'final');
+    picks=['先讀到這裡']; await STUDY.review(GM,'final');
     const qs=CLS.drawExam(clone(G),'crim_gen1','Y1S2','final').qs||[]; const bad=qs.filter(q=>STUDY.unitsOfQ(q.id).some(u=>STUDY.rank(G,u)<2)).map(q=>q.id);
     check('d2. 重修的期末考（照大一上的題庫抽）5 題對到的卡都讀過',qs.length===5&&!bad.length,J({qs:qs.map(q=>q.id),bad}));
     check('d3. 這學期本來的課（刑法總則（下））也在範圍內',info.courses.some(x=>x.c.id==='crim_gen2'),J(info.courses.map(x=>x.c.id))); });
@@ -113,17 +113,17 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const G3=freshAt(weekDay('Y1S1',15,7),20,'dorm'); G3.msgs=[]; const st0=J(G3.study||null), sl0=J(G3.slots||null); STUDY.remind(G3); PHONE.tick(G3);
     check('f4. 提醒不扣任何東西（不動學習狀態、時段次數、錢）',(G3.msgs||[]).filter(x=>x.tag==='review_Y1S1').length===1&&J(G3.study||null)===st0&&J(G3.slots||null)===sl0&&G3.money===5000); });
   /* g 21 天不下降 */
-  await sec('g',async()=>{ const G=freshAt(d1-1,15,'library_hall'); picks=['結束']; await STUDY.review(GM,'final'); const s0=J(G.study); const cs=examCourses(G,'Y1S1').map(e=>e.c); const p0=cs.map(c=>STUDY.progress(G,c,'final','Y1S1'));
+  await sec('g',async()=>{ const G=freshAt(d1-1,15,'library_hall'); picks=['先讀到這裡']; await STUDY.review(GM,'final'); const s0=J(G.study); const cs=examCourses(G,'Y1S1').map(e=>e.c); const p0=cs.map(c=>STUDY.progress(G,c,'final','Y1S1'));
     for(let i=0;i<21;i++){ G.day++; G.hour=10; STUDY.rec(G); STUDY.remind(G); }
     const p1=cs.map(c=>STUDY.progress(G,c,'final','Y1S1'));
     check('g1. 21 天後：G.study 原封不動、每一科的進度不下降',J(G.study)===s0&&J(p0)===J(p1),J({p0,p1}));
     /* 答對過的卡不降回讀過 */
-    const G2=freshAt(d1-1,15,'library_hall'); const u=STUDY.units(G2,'const_1','Y1S1')[0]; STUDY.mark(G2,u.id,'got','test'); picks=['結束']; await STUDY.review(GM,'final');
+    const G2=freshAt(d1-1,15,'library_hall'); const u=STUDY.units(G2,'const_1','Y1S1')[0]; STUDY.mark(G2,u.id,'got','test'); picks=['先讀到這裡']; await STUDY.review(GM,'final');
     check('g2. 總複習只升不降：答對過的卡還是答對過',STUDY.status(G2,u)==='got',STUDY.status(G2,u)); });
   /* h 翻頁閱讀 */
   await sec('h',async()=>{ const G=freshAt(d1-1,14,'library_hall'); const info=STUDY.reviewInfo(G,'final'); const c0=info.courses[0], c1=info.courses[1];
     const us=c0.units, last=us[us.length-1]; STUDY.miss(G,last.id);   /* 答錯過的卡 */
-    H.said=[]; caps=[]; picks=['下一張','跳到下一科','結束'];
+    H.said=[]; caps=[]; picks=['下一張','跳到下一科','先讀到這裡'];
     await STUDY.review(GM,'final');
     const L=H.said.map(s=>s.t); const cards=L.filter(t=>/^【/.test(t));
     check('h1. 第一張是答錯過的那張（排最前面）',cards.length>=3&&cards[0].includes(c0.c.name)&&cards[0].includes(STUDY.view(last).title),J(cards.slice(0,3)));
@@ -135,7 +135,7 @@ const freshAt=(d,h,zone)=>{ const G=H.fresh('2025-09-01',9,zone||'library_hall',
     const ve=ue&&STUDY.view(ue), le=ue?STUDY.cardLines(ue):[]; if(bak) Object.assign(ue,bak);
     check('h2b. 白話還沒有的卡（'+(ue&&ue.id)+'）：第一句＝黑板第二、三行＋教授那一句（fallback）',!!ve&&!!le[0]&&le[0].includes(ve.board[1])&&(!ve.line||le[0].includes(ve.prof+'：'+ve.line)),J(le[0]));
     check('h3. 「跳到下一科」：第三張卡是下一科的第一張',!!c1&&cards[2].includes(c1.c.name)&&cards[2].includes('1／'),J(cards[2]));
-    const menu=H.opts.slice(-3); check('h4. 每張卡下面：下一張、跳到下一科、結束總複習',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('結束')))&&menu[0].some(t=>t.startsWith('跳到下一科')),J(menu));
+    const menu=H.opts.slice(-3); check('h4. 每張卡下面：下一張、跳到下一科、先讀到這裡（AA_638）',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('先讀到這裡')))&&menu[0].some(t=>t.startsWith('跳到下一科')),J(menu));
     check('h5. 結束字幕：每科一行 STUDY.line',info.courses.every(x=>caps.some(t=>t.includes(STUDY.line(G,x.c,info.term)))),J(caps));
     /* 課堂提問：有 askQid 的卡顯示題目、答案、考點 */
     const ua=STUDY_UNITS.units.find(u=>u.askQid&&u.term==='Y1S1'&&EXAM_BANK.questions.find(q=>q.id===u.askQid&&q.core)); const q=EXAM_BANK.questions.find(x=>x.id===ua.askQid);

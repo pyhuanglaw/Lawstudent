@@ -26,7 +26,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async(a,b)=>{ titles.push(a+(b?'｜'+b:'')); },enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,dating_kexin:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,dating_kexin:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; caps=[]; titles=[]; bgs=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; };
 const lines=()=>said.map(s=>s.t);
 const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
@@ -127,10 +127,10 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('烤肉：第 5 週週三 21:00 阿哲揪（沒有麵店團群組＝私訊）、兩個回覆',!!m&&m.th==='p:zhe'&&m.from==='zhe'&&Math.abs(m.h-21)<0.06&&m.ask.opts.length===2,JSON.stringify(m&&[m.th,m.text]));
     fresh(WED,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,22); const mg=G.msgs.find(x=>x.tag==='bbq_ask');
     check('烤肉：有麵店團群組＝在群組揪',!!mg&&mg.th==='g:noodle_team');
-    { const G0=G; G=JSON.parse(JSON.stringify(G0)); const m2=G.msgs.find(x=>x.tag==='bbq_ask'); G.day=SAT; G.hour=14.9; const open1=PHONE.askOpen(G,m2); G.hour=15.1; const open2=PHONE.askOpen(G,m2); G.day=SAT+100; const open3=PHONE.askOpen(G,m2); G=G0;
-      check('烤肉的揪：週六 15:00 開始以前可以回、之後就關（BB-C 10-21 P3：原本隔年一月還是「待回覆」）',open1&&!open2&&!open3); }
+    { const G0=G; G=JSON.parse(JSON.stringify(G0)); const m2=G.msgs.find(x=>x.tag==='bbq_ask'); G.day=SAT; G.hour=18.9; const open1=PHONE.askOpen(G,m2); G.hour=19.1; const open2=PHONE.askOpen(G,m2); G.day=SAT+100; const open3=PHONE.askOpen(G,m2); G=G0;
+      check('烤肉的揪：週六 19:00 開始以前可以回（AA ace533a43「中秋烤肉，河濱，七點。」＝19:00）、之後就關（BB-C 10-21 P3：原本隔年一月還是「待回覆」）',open1&&!open2&&!open3); }
     PHONE.answer(G,mg.ask.id,0); run(22,22.2); const o=OUT.get(G,'bbq');
-    check('烤肉：回「去。」＝排週六 15:00 河濱',!!o&&o.day===SAT&&o.h===15&&o.place==='河濱'&&o.ev==='ev_mid_autumn_bbq',JSON.stringify(o));
+    check('烤肉：回「去。」＝排週六 19:00 河濱（「七點」）',!!o&&o.day===SAT&&o.h===19&&o.place==='河濱'&&o.ev==='ev_mid_autumn_bbq',JSON.stringify(o));
     const F1=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(SAT-1,8,'campus',F1); G.msgs=msgs; G.phone=ph; G.outings=[o]; run(8,20.5); const k=G.msgs.find(x=>x.tag==='kx_bbq_ask');
     check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
     { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);

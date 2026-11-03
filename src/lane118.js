@@ -58,9 +58,11 @@ const L118=(function(){
      座位照店裡的配置（E.zone.seats）由前往後，有人坐的跳過；已經在的不重複。story3d.js 進區域（S.populate）、待在店裡（refreshSchedule）都叫它 */
   S.populateShop=function(GM,shopId){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.zone||!GM.spawnCharacter||!S.shop(shopId)) return 0; const seats=E.zone.seats||[]; let n=0, k=0;
     const busy=st=>(E.npcs||[]).some(q=>q&&(q.seat===st||q.seatTarget===st))||(E.player&&E.player.seat===st);
-    const put=(id,until)=>{ if(GM.npc[id]) return; let st=null; while(k<seats.length&&!st){ const q=seats[k++]; if(!busy(q)) st=q; } if(!st) return;
+    const put=(id,until,pair)=>{ if(GM.npc[id]) return; let st=null; if(!pair&&typeof CROWD!=='undefined'&&CROWD.shopSeatPick){ const q=CROWD.shopSeatPick(GM); if(q&&!busy(q)) st=q; }   /* 常客：先挑不是「留給約好的人那一組兩人座」的位子（SHOP-DINERS-1103 keep；BB 11-03 N19S l118_omu／noodle2 12:30 被常客坐掉一個）*/
+      while(k<seats.length&&!st){ const q=seats[k++]; if(!busy(q)) st=q; }
+      if(!st&&typeof CROWD!=='undefined'&&CROWD.shopMakeRoom&&CROWD.shopMakeRoom(GM,CROWD.shopFree(E)+1)){ k=0; while(k<seats.length&&!st){ const q=seats[k++]; if(!busy(q)) st=q; } }   /* 坐滿了路人客人（SHOP-DINERS-1103）：進門那一刻靠門口那一桌直接拿掉再找（待在店裡時 shopMakeRoom 不動，CROWD.shopTrim 讓客人自己走）*/ if(!st) return;
       const c=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); if(c){ c.idlePose='sit'; c.l118Shop=shopId; c.until=until; n++; } };
-    const L=S.lunchNow(G); if(L&&L.shop===shopId) for(const id of L.with) put(id,14);
+    const L=S.lunchNow(G); if(L&&L.shop===shopId) for(const id of L.with) put(id,14,true);   /* 約好的午餐：照原本從頭找（可以坐那一組）*/
     for(const r of S.regularsAt(G,shopId)) put(r.id,r.to);
     return n; };
   /* AA_311 H1（第②級，118 巷店員那一批）：一一八茶飲 × 學姊「她的老樣子」。大一上第 3 週～大一下第 16 週的平日 12:20～12:45 在 tea 點飲料、已經認識學姊（met_sis／FIRST_MET）、

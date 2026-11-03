@@ -33,7 +33,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 if(STORY._bindGM) STORY._bindGM(GM);
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x), K=d=>CALENDAR.dateOf(d).key;
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); if(typeof ROM!=='undefined'&&ROM.rec) ROM.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; ADV.active=false; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -85,7 +85,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     const pool=x=>TERMEND_LINES.POOL.Y1S2.heroine_03.map(f=>typeof f==='function'?f(x):f).filter(v=>v!=null);
     check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績單七月三號才寄。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績單七月三號才寄。']),J([txt('p:heroine_03'),pool(G)]));
     fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。']),J(pool(G))); }
-  check('4-4. 邀約選單「去阿鳳麵店吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去阿鳳麵店吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
+  check('4-4. 邀約選單「去公館燒臘吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去公館燒臘吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
   // 語彤大三跨年（4-1 第 13 點）：交往中 00:01 她打電話來
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');
     check('4-1 第 13 點. 大三跨年和語彤交往中：00:01 她打電話來（接起來／先不接）',!!c&&c.ev==='ev_yt_nye_call_y3'&&c.day===nye+1&&Math.abs(c.h-1/60)<1e-6&&c.verb==='接起來',J(c));
@@ -111,7 +111,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const d19=D('2026-12-19'); fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q=OUT.get(G,'y2_yu_call'); G.events.done.ev_yu_together=1; run(21.65,21.7);
     check('5-1 第 4 點. 語 3 的電話排好以後又在麵店聽她當面講了：電話取消',!!q&&q.state==='cancelled',J(q));
     fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q2=OUT.get(G,'y2_yu_call'); if(q2){ q2.state='missed'; OUT.onMissed(GM,q2); } G.hour=22.3; PHONE.tick(G);
-    check('5-1 第 4 點. 電話沒接：麵店團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（麵店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
+    check('5-1 第 4 點. 電話沒接：麵店團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（燒臘店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
   // 聖誕交換（5-3；12/17 他們還沒在一起）
   { const X=ev('ev_y2_xmas'); fresh(D('2026-12-17'),12.4,'campus'); onlyKnow(['zhe','yu']); G.flags.Y2_XMAS_FROM=null; said=[]; try{ await EVENTS.run(X); } finally { knowReset(); } const L=lines();
     check('5-3. 聖誕交換：「（阿哲先到。五分鐘後 Alison 也到了。）」；抽到阿哲的「你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。」',L.includes('（阿哲先到。五分鐘後 Alison 也到了。）')&&!L.includes('（阿哲和 Alison 一起來。）')&&L.includes('你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'),J(L)); }
@@ -165,9 +165,9 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. 大二拆箱的便利貼：刪「……她改得對。」（旁白不替玩家下結論）',S.includes("'她改了你的筆記。'")&&!S.includes('她改得對'));
     check('5-6. 慈 3（溫州街便利商店）開頭旁白：AA_547 2-1 新稿「（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）」（原本 AA_313 5-6 的「叫車」那一句，新稿沒有）',xs[0]&&xs[0].text==='（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'&&xs[0].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
-    { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
-      check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間麵店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間麵店，便宜，份量也夠。」'])),J(ops)); }
+    { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/燒臘店/.test(t)));   /* AA_612：麵店改燒臘店 */
+      check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間燒臘店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間燒臘店，便宜，份量也夠。」'])),J(ops)); }
     fresh(D('2025-09-01'),9,'dorm',{}); STORY.phoneRules(GM); const q=PHONE.rec(G).q.find(x=>x.tag==='bbq_ask');
-    check('5-3. 中秋烤肉的群組訊息不加句號「週六中秋烤肉 河濱 下午三點」',!!q&&q.items[0].text==='週六中秋烤肉 河濱 下午三點',q&&q.items[0].text); }
+    check('5-3. 中秋烤肉：明軒揪「中秋烤肉，河濱，七點。飲料自己帶。」（AA_623 第 3 節，ace533a43）',!!q&&q.items[0].text==='中秋烤肉，河濱，七點。飲料自己帶。',q&&q.items[0].text); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -19,7 +19,7 @@ const EAT=(function(){
   /* 店：key＝第 ③ 節的店名；first＝第 ② 節的店名（null＝不是吃的）；door＝沒有回收台（吃完在店門口分開）*/
   S.FIRST_KEY={'滇香小館':'118 巷・滇香小館','好家自助餐':'118 巷・好家自助餐','一一八茶飲':'118 巷・一一八茶飲','巷口家常菜':'118 巷・巷口家常菜','慢讀咖啡':'118 巷・慢讀咖啡',
     'Pasta 118':'118 巷・Pasta 118','韓食小廚':'118 巷・韓食小廚','蛋包飯研究所':'118 巷・蛋包飯研究所','六張犁麵舖':'118 巷・六張犁麵舖',
-    '兩點半 Café':'兩點半 Café','阿鳳麵店':'阿鳳麵店','溫州街・半熟':'溫州街・半熟','溫州街・一盞':'溫州街・一盞','公館的便利商店':'公館的便利商店','宵夜（滷味攤）':'宵夜（公館滷味攤）','阿德影印輸出':null};
+    '兩點半 Café':'兩點半 Café','阿鳳麵店':'公館燒臘','溫州街・半熟':'溫州街・半熟','溫州街・一盞':'溫州街・一盞','公館的便利商店':'公館的便利商店','宵夜（滷味攤）':'宵夜（公館滷味攤）','阿德影印輸出':null};
   /* 別的檔登記的店（AA_364 的四家：src/wzshops3d.js 的 WZS.eatReg 照 WZS.AA364 登記）：台詞在登記的那個檔，這裡只有程式。
      EAT.addShop(店, {shop:吃過的店名, staff:{who, line5（null＝不說）, same（選老樣子的回答）, alt}, first:第一次的旁白, door:沒有回收台}) */
   S.SHOPS_X={};
@@ -78,7 +78,7 @@ const EAT=(function(){
   S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };
   /* 點好了（扣完錢）：次數、上一次點的、吃過的；那間店第一次＝旁白 */
   S.ordered=async function(GM,key,item){ const G=GM.G, R=S.rec(G); R.n[key]=(R.n[key]|0)+1; R.last[key]=item; if(!S.isFood(key)) return false;
-    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&L().first[S.shopOf(key)])||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/
+    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&(L().first[S.shopOf(key)]||L().first[key]))||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/   /* AA_612：阿鳳麵店顯示「公館燒臘」（FIRST_KEY 的值），第一次的旁白照舊用店名鍵（eat_lines 的 first 鍵沒改，C-003）*/
   S.note=function(GM,key,item){ const G=GM.G, R=S.rec(G), shop=S.shopOf(key)||key; if(!shop||R.ate.some(a=>a.shop===shop&&a.item===item)) return false; R.ate.push({shop,item,day:G.day}); if(GM.toast) GM.toast('📓 吃過的：'+shop+'　'+item,2600); return true; };
   /* 筆記本「吃過的」那一格（game3d.js renderNotes）*/
   S.notesHTML=function(G,dayLab){ const A=G&&G.eat&&Array.isArray(G.eat.ate)?G.eat.ate:[]; if(!A.length) return ''; const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);

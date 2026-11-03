@@ -33,7 +33,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   money(n){ G.money+=n; },
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; toasts=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; return G; };
 const LV={ACQ:[8,0,0],FAM:[25,10,10],FRI:[45,30,10],LOW:[3,0,0]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -89,9 +89,10 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   check('A2（AA_336）沒有回收台的「麵店」＝阿鳳麵店、六張犁麵舖兩間都算', EAT.isDoor('阿鳳麵店')&&EAT.isDoor('六張犁麵舖'));
   // ---------- E7 ----------
   const tueY=td('Y1S2',4,2); fresh(tueY,18,'noodle'); npcAt('heroine_03'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}};
-  { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤在阿鳳麵店顧店（act help）', !!e&&e.zone==='noodle'&&e.act==='help', JSON.stringify(e&&{zone:e.zone,act:e.act})); }
+  /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝第 5 次那一句不會換她說（staffYutong 走不到），一律是阿姨那句 */
+  { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤不在燒臘店（不是 noodle／help）', !(e&&e.zone==='noodle'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   picks=['老樣子']; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const Y=EL.staffYutong||[], T7=EL.staff['阿鳳麵店']||{};
-  check('E7 第 5 次、語彤在顧店：那一句換她說（不是阿姨那句）；老樣子＝乾麵', Y[1]&&said.some(s=>s.who===SOCIAL.displayName('heroine_03')&&s.t===Y[1])&&!has(T7.line5)&&has(T7.same)&&has('乾麵很燙。阿姨多給了一匙肉燥。'), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E7 第 5 次（原本語彤顧店的時段）：阿姨那一句、不是語彤那句；老樣子＝舊存檔的乾麵照新菜單認（叉燒飯）；阿姨在＝「叉燒飯剛上桌。阿姨多切了兩片叉燒。」', !said.some(s=>s.who===SOCIAL.displayName('heroine_03'))&&has(T7.line5)&&has(T7.same)&&has('叉燒飯剛上桌。阿姨多切了兩片叉燒。')&&G.eat.last['阿鳳麵店']==='叉燒飯', said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   fresh(tueY,13,'noodle'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; picks=[1]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM);
   check('E7 語彤不在：阿姨那一句', has(T7.line5)&&said.some(s=>s.who===T7.who&&s.t===T7.line5));
   // ---------- E8 ----------

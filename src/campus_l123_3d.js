@@ -91,10 +91,14 @@ const CL123=(function(){
     {y:4,lines:[nar('（系學會每年在圓窗館前拍一張合照。）'),nar('（學弟妹請 Alison 回來拍。她站最邊邊，笑得最開心。）')]} ];
   S.L3_WD={1:5,2:4,3:5,4:5};   /* 第 3 週週五；大二 2026-09-25 是中秋（國定假日），AA-B 11-01 回第 4 題：改前一天 9/24（四）（那個時段沒有別的事件，不用退到 9/23）*/
   S.l3Day=y=>STORY.termDay?STORY.termDay('Y'+y+'S1',3,S.L3_WD[y]||5):null;
+  /* BUG-TOUR-PHOTO-NOEV-1103（BB 11-03 19:48，CC tap5）：合照原本只在 15:50～16:30 演；從出發選單去的（導覽結束後才出發、按「晚一點」再出發）走到時已經過 16:30＝一句都沒演、還被當成去過。
+     自己走過去照舊 16:30 為止；從「出發」去的（行程已經是 done）＝到得了就演：上限＝那一場最晚能出發的時間（含導覽延長的 lateTo）＋走過去的時間＋10 分鐘 */
+  S.l3TimeOk=function(G,y){ const h=+G.hour||0; if(h<16.5) return true; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'l123_l3_'+y):null; if(!q||q.state!=='done'||q.day!==G.day) return false;
+    const lastGo=Math.max(q.h+(q.late!=null?q.late:0.75),q.lateTo!=null?q.lateTo-q.day*24:-1e9); return h<=lastGo+(q.travelH||0)+1/6; };
   S.l3Went=function(G,y){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'l123_l3_'+y):null; if(q&&q.state==='planned') q.state='done'; };   /* 自己走過去演了＝行程不再問「出發」*/
-  S.EV_L3=S.L3.map(o=>({id:'ev_l3_photo_'+o.y,title:'圓窗館前的合照',participants:[YU],noMeet:[YU],location:'campus',trigger:'auto',once:true,term:['Y'+o.y+'S1'],weeks:[3],weekday:[S.L3_WD[o.y]||5],time:[15+50/60,16.5],
+  S.EV_L3=S.L3.map(o=>({id:'ev_l3_photo_'+o.y,title:'圓窗館前的合照',participants:[YU],noMeet:[YU],location:'campus',trigger:'auto',once:true,term:['Y'+o.y+'S1'],weeks:[3],weekday:[S.L3_WD[o.y]||5],time:[15+50/60,18],
     near:{x:S.L3_AT.x,z:S.L3_AT.z,r:S.L3_R},background:'blur',
-    prereq:{custom:G=>law(G)},
+    prereq:{custom:G=>law(G)&&S.l3TimeOk(G,o.y)},
     dialogue:o.lines.slice(),
     after:G=>S.l3Went(G,o.y) }));
   const hasYu=G=>typeof INV!=='undefined'&&INV.hasContact?!!INV.hasContact(G,YU):!!(G.contacts&&G.contacts[YU]!=null);

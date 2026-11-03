@@ -31,7 +31,7 @@ const MON=dayW(1), TUE=dayW(2), THU=dayW(4), SAT=dayW(6);
 // 1 以安吃飯
 fresh(MON,9); rel('heroine_01',25,10,5);
 let r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「有點熟」約吃飯：「好。」（答應；AA_576 第 7 列）',r.res==='accept'&&L(r)==='「好。」',r.res+' '+L(r));
-rel('heroine_01',45,30,10); r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「朋友」約吃飯：「好。我要乾麵。」（AA_255 第 4 節第 7 點）',r.res==='accept'&&L(r)==='「好。我要乾麵。」',L(r));
+rel('heroine_01',45,30,10); r=ask('heroine_01','noodle',MON,12+10/60); check('1. 以安「朋友」約吃飯：「好。我要叉燒飯。」（AA_255 第 4 節第 7 點；AA_612 A-121）',r.res==='accept'&&L(r)==='「好。我要叉燒飯。」',L(r));
 r=ask('heroine_01','cafe',MON,19); rel('heroine_01',25,10,5); r=ask('heroine_01','cafe',MON,19); check('1. 以安「有點熟」約 Café：「好啊。我本來就想去。」（AA_576 第 5 列）',r.res==='accept'&&L(r)==='「好啊。我本來就想去。」',L(r)); rel('heroine_01',45,30,10);
 // 2 就在那裡
 r=ask('heroine_01','library',MON,10); check('2. 以安平日上午本來就在總圖：「我本來就在總圖。二樓靠窗。」（就在那裡，不問改天）',r.res==='here'&&L(r)==='「我本來就在總圖。二樓靠窗。」'&&!r.alt,r.res+' '+L(r));
@@ -45,10 +45,10 @@ const Y2=(()=>{ for(let d=200;d<900;d++){ const t=CALENDAR.termOf(d); if(t&&t.id
 fresh(Y2,9); rel('heroine_01',45,30,10); r=ask('heroine_01','wenzhou',Y2,15.5); check('3. 以安大二以後：「好。」（AA_576 第 13 列）',r.res==='accept'&&L(r)==='「好。」',r.res+' '+L(r));
 // 4 語彤
 fresh(TUE,9); rel('heroine_03',25,8,4); r=ask('heroine_03','noodle',TUE,18);
-check('4. 語彤週二晚上約麵店：「我就在店裡。你來。」',r.res==='here'&&L(r)==='「我就在店裡。你來。」'&&!r.alt,r.res+' '+L(r));
-r=ask('heroine_03','cafe',TUE,18); check('4. 語彤週二晚上約 Café：「麵店。」「你來店裡就好。」（婉拒，不問改天）',r.res==='decline'&&L(r)==='「麵店。」｜「你來店裡就好。」'&&!r.alt,r.res+' '+L(r));
+check('4. 語彤週二晚上約公館燒臘：不成立（AA_610／AA_624：她不在燒臘店，INV.NEVER_AT），沒有「我就在店裡。你來。」',r.res==='decline'&&r.why==='place'&&!/我就在店裡/.test(L(r))&&!r.alt,r.res+' '+L(r));
+r=ask('heroine_03','cafe',TUE,18); check('4. 語彤週二晚上約 Café：不再用「麵店。」「你來店裡就好。」（她週二不顧店，AA_610／AA_624）',!/「麵店。」/.test(L(r))&&!/你來店裡就好/.test(L(r)),r.res+' '+L(r));
 r=ask('heroine_03','cafe',TUE,15.5); check('4. 語彤「有點熟」約 Café：「……那裡很貴。」「總圖可以。」（婉拒）',r.res==='decline'&&L(r)==='「……那裡很貴。」｜「總圖可以。」',r.res+' '+L(r));
-r=ask('heroine_03','noodle',MON,12+10/60); check('4. 語彤「有點熟」約吃飯：「……我阿姨的店？」「好。阿姨會多給你一顆滷蛋。」',r.res==='accept'&&L(r)==='「……我阿姨的店？」｜「好。阿姨會多給你一顆滷蛋。」',L(r));
+r=ask('heroine_03','noodle',MON,12+10/60); check('4. 語彤「有點熟」約公館燒臘：不成立（AA_610／AA_624，INV.NEVER_AT）',r.res==='decline'&&r.why==='place',L(r));
 rel('heroine_03',45,30,10); r=ask('heroine_03','wenzhou',MON,15.5);
 check('4. 語彤「朋友」第一次約散步（週一）：「週六。我本來就在。」→ 改到週六',r.res==='resched'&&L(r)==='「週六。我本來就在。」'&&r.alt&&wdOf(r.alt.day)===6,r.res+' '+L(r)+' '+JSON.stringify(r.alt));
 fresh(SAT,9); rel('heroine_03',45,30,10); r=ask('heroine_03','wenzhou',SAT,15.5); check('4. 語彤第一次約散步就在週六：答應「週六。我本來就在。」',r.res==='accept'&&L(r)==='「週六。我本來就在。」',r.res+' '+L(r));
@@ -79,7 +79,7 @@ r=ask('classmate_mingxuan','cafe',TUE,15.5); check('8. 明軒有空約 Café（�
 rel('classmate_mingxuan',45,30,10); r=ask('classmate_mingxuan','cafe',TUE,15.5); check('8. 明軒「朋友」以後不說「只能待一小時」（BB_120 1-6）',r.res==='accept'&&!r.lines,L(r));
 fresh(MON,9); rel('kai',30,10,5); r=ask('kai','library',MON,15.5); check('8. 阿凱約總圖：「總圖我會睡著」「考前一週我會去 真的」（婉拒）',r.res==='decline'&&L(r)==='「總圖我會睡著」｜「考前一週我會去 真的」',r.res+' '+L(r));
 r=ask('kai','noodle',MON,12+10/60); check('8. 阿凱約吃飯：「走 我剛好還沒吃」（手機版，BB_172 K6）',r.res==='accept'&&L(r)==='「走 我剛好還沒吃」',L(r));
-rel('zhe',30,10,5); r=ask('zhe','noodle',MON,12+10/60); check('8. 阿哲約吃飯：「好啊！那家的乾麵我可以吃兩碗。」（AA_194 第 4 節）',r.res==='accept'&&L(r)==='「好啊！那家的乾麵我可以吃兩碗。」',L(r));
+rel('zhe',30,10,5); r=ask('zhe','noodle',MON,12+10/60); check('8. 阿哲約吃飯：「好啊！那家的叉燒飯我可以吃兩盤。」（AA_194 第 4 節；AA_612 A-129）',r.res==='accept'&&L(r)==='「好啊！那家的叉燒飯我可以吃兩盤。」',L(r));
 // 9 時間
 check('9. 時間的中文：21:10＝九點十分、21:30＝九點半、22:30＝十點半、12:10＝十二點十分、9:00＝九點',INV.zhTime(21+10/60)==='九點十分'&&INV.zhTime(21.5)==='九點半'&&INV.zhTime(22.5)==='十點半'&&INV.zhTime(12+10/60)==='十二點十分'&&INV.zhTime(9)==='九點',[21+10/60,21.5,22.5,12+10/60,9].map(INV.zhTime).join('、'));
 // 10 流程（手機）

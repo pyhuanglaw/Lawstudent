@@ -17,7 +17,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -79,7 +79,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 沒去 → 21:30 照片；不在群組＝阿哲私訊
   fresh(d17,16,'campus',{}); G.stage='law'; run(16,17.1); check('7. 不在麵店團群組：阿哲私訊邀約',txt('p:zhe').some(t=>t==='zhe:開學第一頓 七點，長桌'));
   G.hour=19.3; OUT.expire(G); run(19.3,21.4); check('7. 沒出發＝沒去；21:30 以前沒有照片',OUT.get(G,'y2_first_meal').state==='missed'&&!txt('p:zhe').some(t=>/六碗麵/.test(t)));
-  run(21.5,21.6); check('7. 21:30 照片「（長桌上六碗麵，一碗是大碗。）」',txt('p:zhe').some(t=>t==='zhe:📷（長桌上六碗麵，一碗是大碗。）'));
+  run(21.5,21.6); check('7. 21:30 照片「（長桌上六碗麵，一碗是大碗。）」',txt('p:zhe').some(t=>t==='zhe:📷（長桌上六盤飯，一盤是雙拼。）'));
   // 8. 中秋烤肉
   const d25=dk('2026-09-25'); fresh(d25-1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_xinci'); meet('heroine_03'); G.flags.met_yu=true;
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
@@ -96,7 +96,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 10a. 語彤不在法服（AA_255 第 4 節第 2 點、AA_259 第 4 節第 3 點；STORY.YT_FAFU 固定 'no'）：9/26 不演、不記 YT_LEGALAID_Y2；週六 9～12 在麵店
   { const dd=dk('2026-09-26'); fresh(dd,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); const t0=tick(); fresh(dd,13,'dorm',{}); G.stage='law'; run(13,13.1);
     const sn=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='noodle'&&q.days.includes(6)&&q.from===9), sw=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6));
-    check('10a. 語彤不在法服：9/26 萬才館不演事件 7、不記 YT_LEGALAID_Y2；週六 9～12 在麵店（萬才館那一格不成立）',STORY.YT_FAFU==='no'&&!t0&&!G.flags.YT_LEGALAID_Y2&&!!sn&&sn.to===12&&sn.if.custom({day:dd,stage:'law',flags:{}})&&!sw.if.custom({day:dd,stage:'law',flags:{}})); }
+    check('10a. 語彤不在法服：9/26 萬才館不演事件 7、不記 YT_LEGALAID_Y2；萬才館那一格不成立；作息裡沒有任何燒臘店（noodle）的格子（AA_610／AA_624：原本週六 9～12 在麵店）',STORY.YT_FAFU==='no'&&!t0&&!G.flags.YT_LEGALAID_Y2&&!sn&&!CHARACTERS.heroine_03.daily_schedule.some(q=>q.zone==='noodle')&&!sw.if.custom({day:dd,stage:'law',flags:{}})); }
   STORY.YT_FAFU='yes';   /* 下面是事件 7 原本的內容（企劃保留）：只在 YT_FAFU='yes' 時演 */
   // 10. 語彤事件 7 法服的第一次值班（9/26）
   const d26=dk('2026-09-26'); check('10. 9/26 是大二上第 3 週週六、法服值班日（單週）',CALENDAR.termOf(d26).week===3&&CALENDAR.dateOf(d26).wd===6&&!!STORY.fafuDuty({day:d26,stage:'law',flags:{}}));

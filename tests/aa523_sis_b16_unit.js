@@ -389,7 +389,7 @@ await sec(6,async()=>{
   const s3=ladStep('Y4S2','S7-L3'); check('6. 6-1 S7-L3「研究室有人在白板上幫我倒數口試」週次 [9,14]（4/16 起）、第 14 週以後跳過照舊',!!s3&&J(s3.week)===J([9,14])&&s3.skipAfterWeek===14&&(ROW['6-1']||{}).to.indexOf('[9,14]')>=0,J(s3&&{w:s3.week,s:s3.skipAfterWeek}));
   const s8=ladStep('Y4S2','S7-L8'); check('6. 6-2 S7-L8 選項②「畢業以後要做什麼？」→「先把修正本交出去。七月，去上班。」（週次 [12,15] 在 3/28 回信以後）',!!s8&&s8.choices[1].reply==='先把修正本交出去。七月，去上班。'&&(ROW['6-2']||{toQ:[]}).toQ.includes(s8.choices[1].reply)&&J(s8.week)===J([12,15]),J(s8&&s8.choices));
   { const h=(HEARD_LINES.talk||[]).find(x=>x.id==='h509_ta_sis'); fresh('2029-01-12',12,'fam'); const w0=HEARD.inWin(H.G,h); at('2029-01-13',12); const w1=HEARD.inWin(H.G,h);
-    check('6. 6-3 陳助教「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」從 2029-01-13 起',!!h&&h.t==='書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。'&&h.from==='2029-01-13'&&w0===false&&w1===true&&(ROW['6-3']||{toQ:[]}).toQ.includes(h.t),J({h,w0,w1})); }
+    check('6. 6-3 陳助教「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。」（AA_612 A 表換字）從 2029-01-13 起',!!h&&h.t==='書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。'&&h.from==='2029-01-13'&&w0===false&&w1===true&&(ROW['6-3']||{toQ:[]}).toQ.includes(h.t),J({h,w0,w1})); }
   { const t4=TERMEND.heart(ID,'Y4S1'), t3=TERMEND.heart(ID,'Y3S2'), t2=TERMEND.heart(ID,'Y2S1');
     check('6. 6-4 心意版期末飯 大四上「這學期的計畫本寫完了。……下學期那本，第一頁還是空的。」；其他學期照舊',t4.table==='這學期的計畫本寫完了。……下學期那本，第一頁還是空的。'&&t3.table==='這學期，還有一件事沒做完。'&&t2.table==='這學期，還有一件事沒做完。'&&t3.decline==='好。那出發前再約。',J([t4.table,t3.table])); }
   { const c=(PG_DATES.six[ID]||[]).find(x=>x.ym==='2029-06'); check('6. 6-5 學姊 2029-06 那一格「修正本改完了。這禮拜印，下禮拜交。」（pg_dates.js 照 import_pg_dates.py 產生，來源寫 AA_523）',!!c&&c.line==='修正本改完了。這禮拜印，下禮拜交。'&&/AA_523/.test(J(PG_DATES.source)),J(c)); }

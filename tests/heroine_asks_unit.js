@@ -112,10 +112,9 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
 { const G=fresh('2025-09-22',9); friend('heroine_02'); let wk=null, off=null; const d0=G.day; for(let d=d0;d<d0+7;d++){ at(d,9); if(HASK.works(G,'heroine_02',d)) wk=wk==null?d:wk; else off=off==null?d:off; }
   check('9. 芷若：上班的日子 22:40 傳、沒班 20:00 傳',wk!=null&&off!=null&&Math.abs(HASK.sendH(G,'heroine_02',wk)-(22+40/60))<1e-9&&HASK.sendH(G,'heroine_02',off)===20,J({wk,off})); }
 { const G=fresh('2025-09-22',9); friend('heroine_03'); const d0=G.day; let x=null; for(let d=d0;d<d0+28&&!x;d++){ day(d); x=sent().find(q=>q.id==='heroine_03'&&q.place==='noodle'); }
-  if(x){ const m=G.msgs.find(q=>q.ask&&q.ask.id===x.ask); PHONE.answer(G,x.ask,0); const last=thread('heroine_03').slice(-1)[0];
-    check('9. 語彤的麵店（here）：手機問一聲（不是 INV 的邀約）；答應回「好。……我跟阿姨說。」',x.here===true&&!x.iv&&!!m&&last.text==='好。……我跟阿姨說。',J({x,last:last&&last.text})); }
-  else { const e=HASK_DATA.people.heroine_03.daily.find(q=>q.place==='noodle'); let okd=false; for(let d=d0+1;d<d0+28&&!okd;d++){ at(d-1,12); for(const h of e.pre.h) if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,h)) okd=true; }
-    check('9. 語彤的麵店（here）：四週內她在麵店的時間都約不到（沒有可以測的那一天）',false,J({okd,sent:sent().map(q=>[q.id,q.place])})); } }
+  /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店（作息拿掉）＝她不會約你去燒臘店（here 那一則不送）；四週內照樣會約別的地方 */
+  { const e=HASK_DATA.people.heroine_03.daily.find(q=>q.place==='noodle'); let okd=false; for(let d=d0+1;d<d0+28&&!okd;d++){ at(d-1,12); for(const h of e.pre.h) if(HASK.dailyOk(G,'heroine_03',e,e.pre,d,h)) okd=true; }
+    check('9. 語彤的麵店（here）：四週內一次都不約在燒臘店（她不在店裡＝dailyOk 都不成立）；會約別的地方',!x&&!okd&&sent().some(q=>q.id==='heroine_03'),J({okd,sent:sent().map(q=>[q.id,q.place])})); } }
 { const st0=H.G.stage; H.G.stage='econ'; const b=HASK.block(H.G,'kexin',H.G.day); H.G.stage=st0; const b2=HASK.block(H.G,'kexin',H.G.day);
   check('10. 經濟系那一年（stage econ）可昕不主動約：block＝econ；法律系照舊不是 econ（AA_529 第 1 點）',b==='econ'&&b2!=='econ',J({b,b2})); }
 H.done();

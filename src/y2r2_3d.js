@@ -426,7 +426,7 @@ const Y2R2=(function(){
       {choice:[{text:'「你也是啊。」',goto:'k1'},{text:'「三對三幾點？」',goto:'k2'},{text:'（陪他走，不說話）',goto:'quiet'}]},
       {label:'k1'},{speaker:'classmate_mingxuan',expression:'neutral',text:'家教多接了一個。……還好。'},{speaker:null,text:'（他笑了。）'},{speaker:'classmate_mingxuan',expression:'smile',text:'你們都很會擔心別人，這點很像。'},{goto:'end'},
       {label:'k2'},{speaker:'classmate_mingxuan',expression:'smile',text:'週六早上九點。……我知道你起不來，所以約九點。'},{goto:'end'},
-      {label:'quiet'},{speaker:null,text:'（走到宿舍門口，他把耳機戴上，又拿下來。）'},{speaker:'classmate_mingxuan',expression:'neutral',text:'明天麵店，你幫我留個位子。'},{speaker:null,text:'（以前都是他幫別人留。）'},
+      {label:'quiet'},{speaker:null,text:'（走到宿舍門口，他把耳機戴上，又拿下來。）'},{speaker:'classmate_mingxuan',expression:'neutral',text:'明天燒臘店，你幫我留個位子。'},{speaker:null,text:'（以前都是他幫別人留。）'},
       {label:'end'} ],
     after:G=>{ if(mxKnows(G)){ G.flags.MX_3ON3_ASKED=true; return; } remember('classmate_mingxuan','MX_TOLD','他跟以安說了'); G.flags.MX_HEARD=true; } });
   /* 2-Y2-19 子晴 Q9 第二次成發（activities.js guitar_show_y2s2）*/
@@ -491,11 +491,11 @@ const Y2R2=(function(){
   const ndl=G=>law(G)&&inGroup(G,'noodle_team');
   EV.push({ id:'ev_y2s2_thu_noodle_first', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[1,2,3], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 1 週 2/25：這學期第一次週四進麵店（第 3 週以前）*/
     prereq:{custom:ndl},
-    dialogue:[ {speaker:null,text:'（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'} ] });
+    dialogue:[ {speaker:null,text:'（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）'} ] });
   EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7,8,9,10], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 春假回來以後第一個麵店日（AA_542 9-2：第 7 週只挑到 1 天、錯過就整個錯過 → 第 7～10 週都可以；第 8～9 週期中週沒有麵店日）*/
     prereq:{custom:ndl},
-    dialogue:[ {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !t||t.week<10; }},speaker:null,text:'（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'},
-      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中週過了，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）'} ] });   /* 第 10 週才遇到的換一句（9-2）*/
+    dialogue:[ {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !t||t.week<10; }},speaker:null,text:'（春假回來以後，第一次在燒臘店遇到大家。每個人都在講自己這幾天去了哪裡。）'},
+      {if:{custom:G=>{ const t=CALENDAR.termOf(G.day); return !!t&&t.week>=10; }},speaker:null,text:'（期中週過了，第一次在燒臘店遇到大家。春假去了哪裡，到現在還有人在講。）'} ] });   /* 第 10 週才遇到的換一句（9-2）*/
   S.fillRules=function(G,GM){ if(!law(G)||!hasP()||!G.flags) return;
     /* 3/12（五）21:00 柏翰私訊（和柏翰 FAMILIAR 以上）*/
     { const m=d('f312'); if(m!=null&&knows('classmate_bohan',G)&&atLeast('classmate_bohan','FAMILIAR')&&win(G,m,21,1)&&!sent(G,'y2s2_bh_table')){ const B=t=>({th:'p:classmate_bohan',from:'classmate_bohan',text:t});
@@ -503,7 +503,7 @@ const Y2R2=(function(){
         at(G,m,21,[B('債各第一章的筆記，我做了表格。'),Object.assign(B('要的話傳給你。'),{ask:{id:'y2s2_bh_table',until:abs(m+2,21),opts:[{t:'要。',say:[{from:'classmate_bohan',text:'（照片：一張表格，欄位比內容多）'}]},{t:'我自己整理。',say:[{from:'classmate_bohan',text:'好。'}]}]}})],'y2s2_bh_table'); } }
     /* 4/21（三）22:00 麵店團群組 */
     { const m=d('f421'); if(m!=null&&inGroup(G,'noodle_team')&&knows('yu',G)&&win(G,m,22,1)&&!sent(G,'y2s2_grp_mid')){ const N=(f,t)=>({th:'g:noodle_team',from:f,text:t});
-        at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三碗麵'),N('zhe','我請一碗')],'y2s2_grp_mid'); } }
+        at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三個便當'),N('zhe','我請一個')],'y2s2_grp_mid'); } }
     /* 5/21（五）22:00 阿凱私訊（不影響 6/11 暑住的選擇）*/
     { const m=d('f521'); if(m!=null&&knows('kai',G)&&win(G,m,22,1)&&!sent(G,'y2s2_kai_summer')){ const A=t=>({th:'p:kai',from:'kai',text:t});
         at(G,m,22,[Object.assign(A('暑假你回家還是留宿舍'),{ask:{id:'y2s2_kai_summer',until:abs(m+2,22),opts:[{t:'還沒想。',say:[{from:'kai',text:'我也是。'}]},{t:'回家吧。',say:[{from:'kai',text:'那我一個人吃宵夜'}]}]}})],'y2s2_kai_summer'); } } };
@@ -590,9 +590,9 @@ const Y2R2=(function(){
         if(win(G,a,21,3)&&!sent(G,'y2r2_u_ask')){ const L=[]; const ask={id:'y2r2_u_ask',until:abs(m,12.5),opts:[{t:'去。',set:{KX_U:'yes'}},{t:'那天不行。',set:{KX_U:'no'}}]};
           L.push(N('yule','下週六下午一點，老街。搭公車去。司機這次放假。','予樂')); if(inBranch(G,'zhe')) L.push(N('zhe','+1')); if(inBranch(G,'yu')) L.push(N('yu','我也要！！')); if(inBranch(G,'classmate_bohan')) L.push(N('classmate_bohan','那天我在總圖。'));
           L[L.length-1]=Object.assign(L[L.length-1],{ask}); at(G,a,21,L,'y2r2_u_ask'); }
-        if(F.KX_U==='yes'&&!outGet(G,'y2r2_u')&&now(G)<abs(m,13.25)) plan(G,{id:'y2r2_u',ev:'ev_kexin_bus_home',day:m,h:13,late:0.25,place:'老街',title:'老街（麵店分店）',travel:'搭公車約 50 分鐘',travelH:5/6});
+        if(F.KX_U==='yes'&&!outGet(G,'y2r2_u')&&now(G)<abs(m,13.25)) plan(G,{id:'y2r2_u',ev:'ev_kexin_bus_home',day:m,h:13,late:0.25,place:'老街',title:'老街（公館燒臘分店）',travel:'搭公車約 50 分鐘',travelH:5/6});
         if(G.day===m&&G.hour>=13&&inGroup(G,'noodle_branch')&&!F.Y2R2_U_RENAMED){ F.Y2R2_U_RENAMED=1; const g=PHONE.rec(G).groups.noodle_branch; if(g){ F.Y2R2_U_OLDNAME=g.name; g.name='老街限定'; } }   /* 群組名稱當天改成「老街限定」，隔天改回「麵店分店」*/
-        if(G.day>m&&F.Y2R2_U_RENAMED===1){ F.Y2R2_U_RENAMED=2; const g=PHONE.rec(G).groups.noodle_branch; if(g) g.name=F.Y2R2_U_OLDNAME||'麵店分店'; }
+        if(G.day>m&&F.Y2R2_U_RENAMED===1){ F.Y2R2_U_RENAMED=2; const g=PHONE.rec(G).groups.noodle_branch; if(g) g.name=F.Y2R2_U_OLDNAME||'公館燒臘分店'; }
         if(F.KX_BUS_HOME==='kissed'&&win(G,m,23,2)&&!sent(G,'y2r2_u_kiss')) at(G,m,23,[Object.assign(K('你剛剛在公車上睡著了。靠在我肩上。'),{pin:true}),Object.assign(K('我親了你一下。你沒醒。'),{pin:true}),Object.assign(K('先跟你說一聲。'),{pin:true,ask:{id:'y2r2_u_kiss',opts:[{t:'我醒著。',say:[{from:'kexin',text:'騙人。你在打呼。'}]},{t:'那我要補一個。',say:[{from:'kexin',text:'……下次你醒著的時候。'}]},{t:'（傳一個長頸鹿貼圖）',post:'（貼圖：長頸鹿）',say:[{from:'kexin',text:'（她回一隻長頸鹿）'},{from:'kexin',text:'你就是這隻。睡著的那隻。'}]}]}})],'y2r2_u_kiss');
         const q=outGet(G,'y2r2_u'); if(F.KX_BUS_HOME!=='kissed'&&win(G,m,21.5,2)&&sent(G,'y2r2_u_ask')&&!done(G,'ev_kexin_bus_home')&&!sent(G,'y2r2_u_photo')){ if(!F.KX_BUS_HOME) F.KX_BUS_HOME='no'; at(G,m,21.5,[N('yule','📷（老街的階梯，一排人的背影）','予樂'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); }
         if(F.KX_BUS_HOME==='left'&&win(G,m,21.5,2)&&!sent(G,'y2r2_u_photo')) at(G,m,21.5,[N('yule','📷（老街的階梯，一排人的背影）','予樂'),N('zhe','📷（一桌試吃的小碟子）')],'y2r2_u_photo'); } }

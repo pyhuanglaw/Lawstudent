@@ -76,7 +76,7 @@ const YL='assets/portraits/yule/campus/';
   check('4. 可昕說話時換回可昕（予樂那一框變暗）',!!k&&['left','right'].some(q=>k.st[q].id==='kexin'&&!k.st[q].dim&&k.st.last===q)&&['left','right'].some(q=>k.st[q].id==='yule'&&k.st[q].dim),JSON.stringify(k&&k.st));
   check('4. speaker 寫 id「yule」：對話框也是「予樂」（不是 id）；表情 smile 用 smile 那張',!!b&&b.name==='予樂'&&b.charId==='yule'&&['left','right'].some(q=>b.st[q].id==='yule'&&b.st[q].img===YL+'smile.webp'),JSON.stringify(b&&b.st));
   check('4. 她沒有的表情（teasing）→ neutral',!!c&&['left','right'].some(q=>c.st[q].id==='yule'&&c.st[q].img===YL+'neutral.webp'),JSON.stringify(c&&c.st));
-  check('4. 邵鈞（沒有立繪）照舊：對話框「邵鈞」、那一框是 compact、沒有圖',!!s&&s.name==='邵鈞'&&['left','right'].some(q=>s.st[q].id==='邵鈞'&&s.st[q].compact&&!s.st[q].img),JSON.stringify(s&&s.st));
+  check('4. 邵鈞（沒有立繪）：對話框「邵鈞」、不佔框、台上的人都變暗（BUG-ADV-NOPORTRAIT-DIM-1103；原本佔一框 compact、只暗另一邊）',!!s&&s.name==='邵鈞'&&!['left','right'].some(q=>s.st[q].id==='邵鈞')&&['left','right'].every(q=>!s.st[q].show||s.st[q].dim),JSON.stringify(s&&s.st));
 
   // 5. 偶遇：西門町 D04 一起走（intro 的 speaker 'yule'）、淡水 D13 交往中（datingAfter 的 who '予樂'）
   check('5. ENC.sayer：yule、「予樂」→ {name:予樂, charId:yule}；綁馬尾的小女生只有名字；kexin → charId kexin',typeof ENC.sayer==='function'&&JSON.stringify(ENC.sayer('yule'))===JSON.stringify({name:'予樂',charId:'yule'})&&JSON.stringify(ENC.sayer('予樂'))===JSON.stringify({name:'予樂',charId:'yule'})&&JSON.stringify(ENC.sayer('綁馬尾的小女生'))===JSON.stringify({name:'綁馬尾的小女生'})&&ENC.sayer('kexin').charId==='kexin');

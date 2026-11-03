@@ -1,0 +1,26 @@
+{
+ "teishoku_diner_button": {
+  "zone": "wz_teishoku",
+  "dlg": false,
+  "dtext": "",
+  "dname": "",
+  "choices": [],
+  "interact": "聽一句"
+ },
+ "teishoku_diner_line": {
+  "zone": "wz_teishoku",
+  "dlg": true,
+  "dtext": "你那份報告交了沒？",
+  "dname": "路人",
+  "choices": [],
+  "interact": ""
+ },
+ "teishoku_diner_line2": {
+  "zone": "wz_teishoku",
+  "dlg": true,
+  "dtext": "交了。三點五十九分。",
+  "dname": "路人",
+  "choices": [],
+  "interact": ""
+ }
+}

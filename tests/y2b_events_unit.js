@@ -26,7 +26,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const D=k=>STORY.dayOfKey(k);
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(key,hour,zone,flags)=>{ const day=D(key); G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,ROOM_Y2:300,ROOM_Y3:600},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},msgs:[]};
+const fresh=(key,hour,zone,flags)=>{ const day=D(key); G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,ROOM_Y2:300,ROOM_Y3:600},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},msgs:[]};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; cgs=[]; caps=[]; toasts=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; ADV.active=false; return G; };
 const LV={FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -148,11 +148,11 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
 
   // ---------- 1B-07 可昕 K12 ----------
   fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true,YL_IMPRESSION:'funny'}); date('kexin'); SOCIAL.remember('yu','FIRST_MET',''); rules();
-  check('T1. 3/21 21:00 三則、兩個回覆', mine('p:kexin','kexin:兩邊的朋友該見面了。').slice(0,3).join('|')==='kexin:兩邊的朋友該見面了。|kexin:週四晚上六點，你們的麵店。|kexin:我負責予樂，你負責阿哲。'&&PHONE.byAsk(G,'y2_kx_circles').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
+  check('T1. 3/21 21:00 三則、兩個回覆', mine('p:kexin','kexin:兩邊的朋友該見面了。').slice(0,3).join('|')==='kexin:兩邊的朋友該見面了。|kexin:週四晚上六點，你們的燒臘店。|kexin:我負責予樂，你負責阿哲。'&&PHONE.byAsk(G,'y2_kx_circles').ask.opts.length===2, JSON.stringify(txt('p:kexin')));
   answer('y2_kx_circles',0); rules(); const q7=OUT.get(G,'y2_kx_circles');
   check('T1. 「好。」→ 予樂要穿得像面試；排出遊 3/25 18:00 麵店', txt('p:kexin').includes('kexin:好。我先跟予樂說，她會穿得很像要去面試。')&&q7&&q7.day===D('2027-03-25')&&q7.h===18&&q7.ev==='ev_kexin_two_circles');
   at('2027-03-25',18); picks=[2]; await run('ev_kexin_two_circles');
-  check('T1. 見過麵店團、K3 說了女朋友：「上次是烤肉，這次是麵。」、沒有介紹選項；予樂「司機你們都認識了。……今天換他當客人。」（AA_519 第 6 節，不再說「這是很好笑的司機。」）；綽號三選一；「麵店分店」群組', has('上次是烤肉，這次是麵。')&&opts.length===1&&opts[0].length===3&&has('司機你們都認識了。……今天換他當客人。')&&!has('這是很好笑的司機。')&&has('「麵店分店」。不准改。')&&PHONE.inGroup(G,'noodle_branch')&&G.flags.KX_CIRCLES_MET===true, JSON.stringify(opts));
+  check('T1. 見過麵店團、K3 說了女朋友：「上次是烤肉，這次是燒臘。」、沒有介紹選項；予樂「司機你們都認識了。……今天換他當客人。」（AA_519 第 6 節，不再說「這是很好笑的司機。」）；綽號三選一；「麵店分店」群組', has('上次是烤肉，這次是燒臘。')&&opts.length===1&&opts[0].length===3&&has('司機你們都認識了。……今天換他當客人。')&&!has('這是很好笑的司機。')&&has('「公館燒臘分店」。不准改。')&&PHONE.inGroup(G,'noodle_branch')&&G.flags.KX_CIRCLES_MET===true, JSON.stringify(opts));
   fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[1,0]; await run('ev_kexin_two_circles');
   check('T2. K3 沒去、介紹「木柵大學法律」：「你們就是麵店團？」；阿哲、Alison 不知道她是女友；記 KX_MET_NOODLE_TEAM；沒有 YL_IMPRESSION＝可昕「這是我的司機。」', has('你們就是他一直講的那群人？我聽了一年半。')&&!ROM.knowsGF(G,'zhe')&&!ROM.knowsGF(G,'yu')&&G.flags.KX_MET_NOODLE_TEAM===true&&has('這是我的司機。'));
   check('B3. 介紹「木柵大學法律」：旁白「（可昕看了你一眼，沒說什麼。）」（不是可昕說話）', said.some(s=>s.who===null&&s.t==='（可昕看了你一眼，沒說什麼。）'));

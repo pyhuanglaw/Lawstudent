@@ -571,7 +571,7 @@ await sec('17 圈子',async()=>{ const R=id=>HCIRCLE.row(id);
   check('17. 子晴的吉他社（AA_503 7-1）：晏如、晨希同框＝只換名牌（名字從外觀描述換成名字），不記 FIRST_MET、他那條線沒有「認識」那一段；晏如那裡沒有認識的版本（祐廷沒去過社課）＝照舊沒有按鈕',!!d&&hid0&&nm0!=='劉晏如'&&!SOCIAL.has(LY,'FIRST_MET')&&!SOCIAL.has(CX,'FIRST_MET')&&!(P().rec(H.G).seg[LY]||{}).meet&&!(P().rec(H.G).seg[CX]||{}).meet&&SOCIAL.npcName(LY)==='劉晏如'&&SOCIAL.npcName(CX)==='葉晨希'&&!yr.talk,J({d:d&&keyOf(d),hid0,nm0,seg:P().rec(H.G).seg}));
   ACTIVITIES.rec(H.G).att['club_guitar@'+d]={h:19,end:'in'}; await talk(LY,[]); const a=said(), metA=SOCIAL.has(LY,'FIRST_MET');
   const dx=(()=>{ for(let x=TD('Y1S1',1,1);x<TD('Y1S1',16,1);x++){ set(x,19.5,'campus'); const e=P().ent(H.G,CX); if(e&&e.zone==='campus'&&[1,3].includes(wdOf(x))) return x; } return null; })();
-  set(dx,19.5,'campus'); GM.npc={}; E.npcs.length=0; spawn(CX,97.5,-95); await talk(CX,[]); const b=said();
+  set(dx,19.5,'campus'); GM.npc={}; E.npcs.length=0; spawn(CX,99.5,-83); await talk(CX,[]); const b=said();
   check('17. 之後找晏如、晨希：他們自己的第一場照演（晏如：吉他社版「新的！吃這個。…」；晨希：萬才館旁邊、吉他社沒課的時候「……很難聽嗎？」）',a.some(s=>/新的！吃這個/.test(s))&&metA&&!!dx&&b.some(s=>/很難聽嗎/.test(s))&&SOCIAL.has(CX,'FIRST_MET'),J([a,b,dx&&keyOf(dx)]));
   /* 沛珊（c503_10_1）：芸萱 */
   const r2=R('c503_10_1'), d2=find(r2,'campus',14);

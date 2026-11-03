@@ -280,7 +280,7 @@ await sec(3,async()=>{
     fresh('2028-09-10',19.9,'dating'); const A=act(), s0=A&&A.show(H.G); at('2028-09-10',20.1); const s1=A&&A.show(H.G);
     check('3. 5 臺灣路線交往中 9/10（日）：20:00 起她的私訊對話框多一個「（傳一張照片給她）」（PHONE.GROUP_ACTS、th p:她）；20:00 以前沒有',!!A&&A.th==='p:'+ID&&A.label==='（傳一張照片給她）'&&s0===false&&s1===true&&wdOf('2028-09-10')===7&&wdOf('2028-11-12')===7,J({s0,s1}));
     H.said=[]; H.opts=[]; H.picks=[0]; await A.run(GM); phAt('2028-09-10',22.6); const T0=txt('p:'+ID);
-    check('3. 5 三選一（照稿）；選「（麵店的長桌）」→ 傳出去、她回「阿姨有沒有問我。」（照 MSG 的時間：22:30）；記 SIS15_PHOTO_9；一次一張',J(H.opts[0])===J(['（麵店的長桌）','（椰影大道）','（你的計畫本）'])&&J(T0)===J(['（麵店的長桌）','阿姨有沒有問我。'])&&H.G.flags.SIS15_PHOTO_9==='noodle'&&A.show(H.G)===false,J(T0));
+    check('3. 5 三選一（照稿）；選「（公館燒臘的長桌）」→ 傳出去、她回「阿姨有沒有問我。」（照 MSG 的時間：22:30）；記 SIS15_PHOTO_9；一次一張',J(H.opts[0])===J(['（公館燒臘的長桌）','（椰影大道）','（你的計畫本）'])&&J(T0)===J(['（公館燒臘的長桌）','阿姨有沒有問我。'])&&H.G.flags.SIS15_PHOTO_9==='noodle'&&A.show(H.G)===false,J(T0));
     const rep=async(key,k)=>{ fresh(key,20.5,'dating'); H.picks=[k]; await act().run(GM); phAt(key,23); return txt('p:'+ID).slice(-1)[0]; };
     const r9=await rep('2028-09-10',1), r11=await rep('2028-11-12',1), rp=await rep('2028-11-12',2), f11=H.G.flags.SIS15_PHOTO_11;
     check('3. 5 椰影大道：9/10「葉子還是綠的吧。這邊已經黃了。」、11/12「葉子還是綠的吧。這邊已經沒有葉子了。」；計畫本「這一頁太滿了。……睡覺那一格呢。」；11/12 記 SIS15_PHOTO_11',r9==='葉子還是綠的吧。這邊已經黃了。'&&r11==='葉子還是綠的吧。這邊已經沒有葉子了。'&&rp==='這一頁太滿了。……睡覺那一格呢。'&&f11==='plan',J([r9,r11,rp,f11]));
