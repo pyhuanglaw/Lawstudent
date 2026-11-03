@@ -1251,7 +1251,9 @@ const Z3 = (function(){
     const swg=L.items.find(i=>i.kind==='swings');
     for(const st of L.seats){ const pk=st.kind==='swing'?'swing':(/老樹下的圓椅/.test(st.label||'')?'tree':null);
       const ap=pk==='swing'?[st.x,(swg?swg.z:st.z)-1.4]:null;   /* 鞦韆：座位在座板上（ART-PARK2），前後左右 0.9 m 內都在鞦韆架的導航阻擋（z 23.9～25.7）裡，從架子前面走近（QA-HANDOFF-B1 reachability_all）*/
-      E.interactables.push(Object.assign({x:st.x,z:st.z,radius:1.3,label:st.label,seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},ap?{ap}:{})},pk?{park:pk}:{})); }
+      const iz=pk==='swing'?st.z-0.8:st.z;   /* BUG-SWING-FRONT-1103（CC／BB）：座位搬到座板上（z 25.0／24.8）以後，鞦韆 A 正面最近站得住的點（z 23.65）離互動點 1.35 m＞radius，從正面按不到；
+         互動點往正面移 0.8 m（A 24.2、B 24.0＝座位搬家以前的位置），座位照舊在座板上。兩座一樣 */
+      E.interactables.push(Object.assign({x:st.x,z:iz,radius:1.3,label:st.label,seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},ap?{ap}:{})},pk?{park:pk}:{})); }
     for(const q of (L.interact||[])){ const it={x:q.x,z:q.z,radius:1.4,label:q.label,park:q.kind};
       if(q.kind==='chess') Object.defineProperty(it,'hidden',{enumerable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return !!(G&&typeof PARK!=='undefined'&&PARK.rainy&&PARK.rainy(G)); }});   /* 下雨公園一個人都沒有＝沒有人下象棋（AA_283 第 1 節）*/
       E.interactables.push(it); }

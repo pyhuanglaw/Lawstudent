@@ -46,7 +46,7 @@ check('2b. 遊戲場北邊的通道（z 22.75）站得住、供桌（12.8,27.45�
 check('3. 擋住的：樹圍座椅中心、涼亭、遊戲場、北側花籬、入口兩側花籬',!E.canStand(26,21.2,0.1,0)&&!E.canStand(14.6,25.2,0.1,0)&&!E.canStand(15.2,19.4,0.1,0)&&!E.canStand(24,28.7,0.1,0)&&!E.canStand(21.4,5.4,0.1,0)&&!E.canStand(30.6,5.4,0.1,0));
 check('3. 西北角（巷底那棟 F1，x<11.8、z>21）不能走；公園外面（z 30、x 37）不能走',!E.canStand(10,24,0.1,0)&&!E.canStand(26,30.5,0.1,0)&&!E.canStand(37,22,0.1,0));
 { const seats=E.interactables.filter(i=>i.seat&&i.x>8&&i.x<37&&i.z>5&&i.z<30); const want=L.seats;
-  check('4. 座位的互動點：'+want.length+' 個（老樹下的圓椅＝坐在樹下、鞦韆＝20:00 以後；AA_171）',seats.length===want.length&&want.every(s=>seats.some(i=>Math.abs(i.x-s.x)<1e-6&&Math.abs(i.z-s.z)<1e-6&&i.seat.yaw===s.yaw&&i.label===s.label)),seats.length+'/'+want.length);
+  /* BUG-SWING-FRONT-1103：比坐下的位置（i.seat），鞦韆的互動點在座位前面 0.8 m（tests/wz_swing_front_unit.js 檢查正面按得到）*/ check('4. 座位的互動點：'+want.length+' 個（老樹下的圓椅＝坐在樹下、鞦韆＝20:00 以後；AA_171）',seats.length===want.length&&want.every(s=>seats.some(i=>Math.abs(i.seat.x-s.x)<1e-6&&Math.abs(i.seat.z-s.z)<1e-6&&i.seat.yaw===s.yaw&&i.label===s.label)),seats.length+'/'+want.length);
   const bad=[]; for(const i of seats){ const p=nearStand(i.x,i.z,i.radius-0.05); const r=p&&walk(LANE,p); if(!r||!r.ok) bad.push(i.label+'('+i.x+','+i.z+')'+(r?r.reason:'旁邊站不住')); }
   check('4. 每個座位旁邊站得住、從主巷走得到',!bad.length,bad.join('、')); }
 check('4. 小公園的互動（AA_171）：樹下 3、鞦韆 2、公布欄、象棋、土地公、直飲台各 1；貓在圓椅北邊',['tree','swing','notice','chess','shrine','fountain','cat'].map(k=>E.interactables.filter(i=>i.park===k).length).join()==='3,2,1,1,1,1,1',['tree','swing','notice','chess','shrine','fountain','cat'].map(k=>k+':'+E.interactables.filter(i=>i.park===k).length).join(' '));
