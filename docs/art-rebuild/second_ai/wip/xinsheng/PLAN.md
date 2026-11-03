@@ -170,3 +170,14 @@
   - index.html：在 `src/lane118.js` 後面加 `<script src="src/data/xinsheng_layout.js?v=…"></script>`、`<script src="src/xinsheng3d.js?v=…"></script>`；
   - assets3d.js 的 manifest：`'bldg.xinsheng_street':{url:'assets/models/env/second_ai/xinsheng_street.glb', type:'building', lazy:true, …}`；
   - GLB 本身等店面做好再交。
+
+## 下一班的順序（11-03 20:5x 整理）
+1. **側門外的遠景**：
+   - 現在校園背景在 x −189 那一排（z −88～−142）是公館（羅斯福路）往北延伸的公寓。正式模型 `bldg.campus_gongguan_bd`（`gg_backdrop.py`），套件 cityRows 是備用。
+   - 要改成新生南路：這一段（校園 z < −80）的店面照 xinsheng layout 換算。換算：校園 x ＝ xs.x − 142.4、校園 z ＝ xs.z − 94。側門對面是山嵐書店。
+   - z −80 以南照舊是公館（羅斯福路）。
+   - 要改 `gg_backdrop.py` 的那一段，以及 cityRows 第 424 行那個迴圈。
+2. 七家店照參考圖做店面（`wz_shopkit` 店面組件），sign_atlas 的招牌設計稿。
+3. 新生南路地面的正式模型：柏油、分隔島、斑馬線、紅磚、騎樓地磚、候車亭、側門門柱上「首都帝大」。
+4. 溫州街北口外面的遠景。
+5. 瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration）。都過了交 LAWWW，附上 index.html、manifest 要加的那幾行。
