@@ -231,7 +231,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('6. L1 麵店：Alison「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); run(l25,20,20.75); check('6. 2/25 21:00 以前還是「最後一學期」', PHONE.title(G,'g:noodle_team')==='最後一學期');
   run(l25,21,21.25);
-  check('6. L2 2/25 21:00 改回「法四吃飯」（AA_542 2-1）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='法四吃飯'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「法四吃飯」。）','zhe:改回來了','zhe:Alison 說很難過']));
+  check('6. L2 2/25 21:00 改回「桌遊團」（AA_623 第 2 節）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='桌遊團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「桌遊團」。）','zhe:改回來了','zhe:Alison 說很難過']));
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); G.hour=19.5; ev('ev_last_term_first_dinner').outingMissed(G,GM,{}); run(l22,21.5,21.75);
   check('6. 沒去：LAST_TERM_DINNER missed、21:30 群組照片', G.flags.LAST_TERM_DINNER==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（長桌上的碗，跟大一的時候一樣多。）');
   fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在麵店團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));
