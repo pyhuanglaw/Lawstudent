@@ -1,0 +1,433 @@
+{
+ "case": "jp_makeup_insurance_re",
+ "sha": "d75871437",
+ "readonly": {
+  "route": "JP",
+  "abroad": false,
+  "term": {
+   "id": "Y4S2",
+   "week": 15,
+   "exam": "final"
+  },
+  "redo": {
+   "id": "insurance",
+   "term": "Y3S2"
+  },
+  "isExam": true,
+  "EXAM_WEEKS": {
+   "mid": [
+    8,
+    9
+   ]
+  },
+  "examDay": {
+   "day": "2029-05-31",
+   "block": "am",
+   "makeup": false
+  },
+  "examList": [
+   {
+    "cid": "civpro_2_re",
+    "kind": "final",
+    "day": "2029-05-28"
+   },
+   {
+    "cid": "maritime",
+    "kind": "final",
+    "day": "2029-05-30"
+   },
+   {
+    "cid": "insurance_re",
+    "kind": "final",
+    "day": "2029-05-31"
+   }
+  ],
+  "pool": 11,
+  "pool0": 11,
+  "samePool": true,
+  "draw": [
+   {
+    "id": "DISC_09",
+    "course": "insurance",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "BBAI_INS_05",
+    "course": "insurance",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "BBAI_INS_06",
+    "course": "insurance",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "BBAI_INS_09",
+    "course": "insurance",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "BBAI_INS_02",
+    "course": "insurance",
+    "term": "Y3S2",
+    "inOrig": true
+   }
+  ],
+  "today": [
+   {
+    "key": "1353:insurance_re:am",
+    "cid": "insurance_re",
+    "exam": "final",
+    "block": "am",
+    "room": "法律系館B 多功能教室"
+   }
+  ],
+  "report": "缺考（不及格）"
+ },
+ "item": {
+  "key": "1353:insurance_re:am",
+  "cid": "insurance_re",
+  "name": "保險法",
+  "kind": "required",
+  "t0": 9.166666666666666,
+  "t1": 12.166666666666666,
+  "room": "法律系館B 多功能教室",
+  "zone": "wancai_multi",
+  "exam": "final",
+  "week": 15,
+  "term": "Y4S2",
+  "termExam": "final",
+  "isExamCourse": true,
+  "status": "upcoming",
+  "att": 0,
+  "prep": 0,
+  "dayLabel": "5/31 週四・大四下 第 15 週（期末考週）",
+  "todayLine": "今天考試：09:10 保險法"
+ },
+ "rows": [
+  {
+   "k": "go",
+   "n": "1353:insurance_re:am",
+   "t": "{\"exam\":\"final\"}",
+   "d": "2029-05-31",
+   "h": 8.03,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你在宿舍 房間待到 08:42。",
+   "d": "2029-05-31",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "走路到法律系館B。",
+   "d": "2029-05-31",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "enter",
+   "n": "",
+   "t": "wancai_multi",
+   "d": "2029-05-31",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "坐中間的位子〔第一次上這門課〕｜自己找位子〔走過去坐下就可以上課〕",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "attend",
+   "n": "1353:insurance_re:am",
+   "t": "{\"key\":\"1353:insurance_re:am\",\"exam\":\"final\",\"t0\":9.166666666666666,\"lateMin\":0,\"att0\":0,\"door\":false,\"status\":\"open\"}",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "ev",
+   "n": "",
+   "t": "ev_jp_redo_insurance",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "補修班",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你在座位上等。教室慢慢坐滿了。）",
+   "d": "2029-05-31",
+   "h": 9.004,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "考卷發下來。保險法期末考。五題。",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／5　要保人投保時，對保險人書面詢問的事項隱匿了一項病史。後來發生的保險事故和這項病史無關，而且要保人證明了這一點。依保險法第64條，保險人？",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）得解除契約，不負賠償責任｜（B）不得以此解除契約｜（C）只需賠償一半｜（D）須經主管機關同意才能解除",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／5　己想多領一點錢，把同一輛機車的竊盜險，同時向三家保險公司投保，而且故意不告訴各家公司另外還有投保。依保險法，這些保險契約的效力如何？",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）無效｜（B）有效，三家都要全額賠｜（C）有效，但只能領一家｜（D）效力未定，等保險公司承認",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／5　母親以自己為要保人，替已成年的兒子投保一張死亡保險（兒子是被保險人）。依保險法第105條，這張保險契約要有效，需要什麼？",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）只要母親付了保險費就有效｜（B）只要保險公司同意就有效｜（C）只要兒子口頭說好就有效｜（D）要經兒子（被保險人）書面同意，並約定保險金額",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／5　甲用自己的錢替自己買了一張壽險，約定由女兒乙領保險金。依保險法第3條至第5條，下列何者正確？",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）甲是要保人，也是被保險人；乙是受益人｜（B）甲是受益人；乙是要保人｜（C）甲是保險人；乙是被保險人｜（D）甲是要保人；乙是被保險人",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／5　依保險法第1條，保險人對於哪一種事故所致之損害，負擔賠償財物之責？",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）要保人故意造成的事故｜（B）因不可預料，或不可抗力之事故｜（C）簽約前就已經發生的事故｜（D）只限颱風、地震等天然災害",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。答對 2／5，70 分。",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 1 題的答案：（B）不得以此解除契約。考點：保險法・告知義務",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 3 題的答案：（D）要經兒子（被保險人）書面同意，並約定保險金額。考點：保險法・第三人訂立的死亡保險。由第三人訂立之死亡保險契約，未經被保險人書面同意，並約定保險金額，其契約無效（§105 I）。被保險人的同意得隨時撤銷，撤銷以書面通知保險人及要保人（§105 II）。",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 5 題的答案：（B）因不可預料，或不可抗力之事故。考點：保險法・保險的定義。保險，謂當事人約定，一方交付保險費於他方，他方對於因不可預料，或不可抗力之事故所致之損害，負擔賠償財物之行為（§1 I）。重點在事故的不可預料性；不限天災。",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "📓 筆記：保險法・大四下期末考訂正",
+   "d": "2029-05-31",
+   "h": 9.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "考完了。",
+   "d": "2029-05-31",
+   "h": 12.167,
+   "z": "wancai_multi"
+  },
+  {
+   "k": "attended",
+   "n": "1353:insurance_re:am",
+   "t": "{\"ret\":true,\"done\":true,\"att\":0,\"prep\":0,\"late\":false,\"abs\":false}",
+   "d": "2029-05-31",
+   "h": 12.167,
+   "z": "wancai_multi"
+  }
+ ],
+ "questions": [
+  "1／5　要保人投保時，對保險人書面詢問的事項隱匿了一項病史。後來發生的保險事故和這項病史無關，而且要保人證明了這一點。依保險法第64條，保險人？",
+  "2／5　己想多領一點錢，把同一輛機車的竊盜險，同時向三家保險公司投保，而且故意不告訴各家公司另外還有投保。依保險法，這些保險契約的效力如何？",
+  "3／5　母親以自己為要保人，替已成年的兒子投保一張死亡保險（兒子是被保險人）。依保險法第105條，這張保險契約要有效，需要什麼？",
+  "4／5　甲用自己的錢替自己買了一張壽險，約定由女兒乙領保險金。依保險法第3條至第5條，下列何者正確？",
+  "5／5　依保險法第1條，保險人對於哪一種事故所致之損害，負擔賠償財物之責？"
+ ],
+ "exam_rec": {
+  "qs": [
+   "DISC_09",
+   "BBAI_INS_06",
+   "BBAI_INS_04",
+   "BBAI_INS_02",
+   "BBAI_INS_01"
+  ],
+  "ans": [
+   "A",
+   "A",
+   "A",
+   "A",
+   "A"
+  ],
+  "correct": 2,
+  "score": 70,
+  "status": "done"
+ },
+ "q_source": [
+  {
+   "id": "DISC_09",
+   "inOrig": true,
+   "course": "insurance",
+   "term": "Y3S2"
+  },
+  {
+   "id": "BBAI_INS_06",
+   "inOrig": true,
+   "course": "insurance",
+   "term": "Y3S2"
+  },
+  {
+   "id": "BBAI_INS_04",
+   "inOrig": true,
+   "course": "insurance",
+   "term": "Y3S2"
+  },
+  {
+   "id": "BBAI_INS_02",
+   "inOrig": true,
+   "course": "insurance",
+   "term": "Y3S2"
+  },
+  {
+   "id": "BBAI_INS_01",
+   "inOrig": true,
+   "course": "insurance",
+   "term": "Y3S2"
+  }
+ ],
+ "trip": {
+  "ok": true,
+  "stuck": null
+ },
+ "shots": {
+  "today": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\05_jp_makeup_insurance_re_phone_today_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\06_jp_makeup_insurance_re_phone_today_port.png"
+  ],
+  "class": {
+   "line": "（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\07_jp_makeup_insurance_re_class_first_line_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\08_jp_makeup_insurance_re_class_first_line_port.png"
+   ]
+  }
+ },
+ "walkFallbacks": 0
+}

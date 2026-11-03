@@ -1,0 +1,491 @@
+{
+ "case": "jp_makeup_civpro_2_re",
+ "sha": "d75871437",
+ "readonly": {
+  "route": "JP",
+  "abroad": false,
+  "term": {
+   "id": "Y4S2",
+   "week": 15,
+   "exam": "final"
+  },
+  "redo": {
+   "id": "civpro_2",
+   "term": "Y3S2"
+  },
+  "isExam": true,
+  "EXAM_WEEKS": {
+   "mid": [
+    8,
+    9
+   ]
+  },
+  "examDay": {
+   "day": "2029-05-28",
+   "block": "am",
+   "makeup": false
+  },
+  "examList": [
+   {
+    "cid": "civpro_2_re",
+    "kind": "final",
+    "day": "2029-05-28"
+   },
+   {
+    "cid": "maritime",
+    "kind": "final",
+    "day": "2029-05-30"
+   },
+   {
+    "cid": "insurance_re",
+    "kind": "final",
+    "day": "2029-05-31"
+   }
+  ],
+  "pool": 10,
+  "pool0": 10,
+  "samePool": true,
+  "draw": [
+   {
+    "id": "AI_CP2_09",
+    "course": "civpro_2",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "AI_CP2_02",
+    "course": "civpro_2",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "AI_CP2_10",
+    "course": "civpro_2",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "AI_CP2_03",
+    "course": "civpro_2",
+    "term": "Y3S2",
+    "inOrig": true
+   },
+   {
+    "id": "AI_CP2_06",
+    "course": "civpro_2",
+    "term": "Y3S2",
+    "inOrig": true
+   }
+  ],
+  "today": [
+   {
+    "key": "1350:civpro_2_re:am",
+    "cid": "civpro_2_re",
+    "exam": "final",
+    "block": "am",
+    "room": "法律系館A 201"
+   },
+   {
+    "key": "1350:legal_research:pm1",
+    "cid": "legal_research",
+    "exam": null,
+    "block": "pm1",
+    "room": "法律系館B 研討室"
+   }
+  ],
+  "report": "缺考（不及格）"
+ },
+ "item": {
+  "key": "1350:civpro_2_re:am",
+  "cid": "civpro_2_re",
+  "name": "民事訴訟法甲下",
+  "kind": "required",
+  "t0": 9.166666666666666,
+  "t1": 12.166666666666666,
+  "room": "法律系館A 201",
+  "zone": "classroom",
+  "exam": "final",
+  "week": 15,
+  "term": "Y4S2",
+  "termExam": "final",
+  "isExamCourse": true,
+  "status": "upcoming",
+  "att": 0,
+  "prep": 0,
+  "dayLabel": "5/28 週一・大四下 第 15 週（期末考週）",
+  "todayLine": "今天考試：09:10 民事訴訟法甲下、13:20 法律專題研究"
+ },
+ "rows": [
+  {
+   "k": "go",
+   "n": "1350:civpro_2_re:am",
+   "t": "{\"exam\":\"final\"}",
+   "d": "2029-05-28",
+   "h": 8.01,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你在宿舍 房間待到 08:42。",
+   "d": "2029-05-28",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "走路到法律系館A。",
+   "d": "2029-05-28",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "enter",
+   "n": "",
+   "t": "classroom",
+   "d": "2029-05-28",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "board",
+   "n": "",
+   "t": "民事訴訟法甲下：期末考不可以翻書鈴響請停筆",
+   "d": "2029-05-28",
+   "h": 9.003,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "坐中間的位子〔第一次上這門課〕｜自己找位子〔走過去坐下就可以上課〕",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "attend",
+   "n": "1350:civpro_2_re:am",
+   "t": "{\"key\":\"1350:civpro_2_re:am\",\"exam\":\"final\",\"t0\":9.166666666666666,\"lateMin\":0,\"att0\":0,\"door\":false,\"status\":\"open\"}",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "ev",
+   "n": "",
+   "t": "ev_jp_redo_civpro",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "bg",
+   "n": "begin",
+   "t": "blur",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "補修班",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（補修班。教室裡都是大三的學弟妹。你坐在最後一排，旁邊的學弟看了你兩次。）",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "學弟",
+   "c": "學弟",
+   "t": "學長，你也來補這門喔？",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "「交換回來補的。」｜「嗯。」",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "學弟",
+   "c": "學弟",
+   "t": "喔，日本！那邊的民訴也這樣上嗎？",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你想了一下，說不出一樣還是不一樣。）",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你在座位上等。教室慢慢坐滿了。）",
+   "d": "2029-05-28",
+   "h": 9.006,
+   "z": "classroom"
+  },
+  {
+   "k": "board",
+   "n": "",
+   "t": "民事訴訟法甲下：期末考不可以翻書鈴響請停筆",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "考卷發下來。民事訴訟法甲下期末考。五題。",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "1／5　依民事訴訟法第 226 條，判決書應記載的事項，不包括下列何者？",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）承審法官對當事人人品的評價｜（B）主文｜（C）事實｜（D）理由",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "2／5　甲對乙有 100 萬元的借款債權。起訴前，甲發現乙正把名下的財產陸續轉給親友。甲為了保全日後的強制執行，最適合向法院聲請什麼？",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）假處分｜（B）再審｜（C）第三審上訴｜（D）假扣押",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "3／5　甲目擊了乙、丙之間的一場糾紛，法院通知甲到庭作證。甲認為「那是別人的官司，跟我無關」。依民事訴訟法，下列敘述何者正確？",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）要不要到庭作證，完全由甲自己決定｜（B）只有當事人的親屬才有作證的義務｜（C）除法律別有規定外，不問何人，於他人之訴訟，有為證人之義務｜（D）只有公務員才有作證的義務",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "4／5　依民事訴訟法第 222 條，關於法院判斷事實的真偽，下列敘述何者正確？",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）法官只要內心確信即可，判決不必寫理由｜（B）依自由心證判斷，不得違背論理及經驗法則，並應將得心證之理由記明於判決｜（C）依證人人數的多寡決定｜（D）依當事人的社會地位判斷可信度",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "5／5　甲不服第一審判決，想提起第二審上訴。依民事訴訟法，上訴期間是？",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "（A）第一審判決送達後二十日的不變期間內｜（B）第一審判決送達後十日內｜（C）第一審判決宣示後三十日內｜（D）沒有期間限制",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "交卷。答對 2／5，70 分。",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 2 題的答案：（D）假扣押。考點：民事訴訟法第 522 條：債權人就金錢請求或得易為金錢請求之請求，欲保全強制執行者，得聲請假扣押。假處分是保全金錢以外的請求（§532）。",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 3 題的答案：（C）除法律別有規定外，不問何人，於他人之訴訟，有為證人之義務。考點：民事訴訟法第 302 條：除法律別有規定外，不問何人，於他人之訴訟，有為證人之義務。（得拒絕證言的情形另有規定。）",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "第 4 題的答案：（B）依自由心證判斷，不得違背論理及經驗法則，並應將得心證之理由記明於判決。考點：民事訴訟法第 222 條：法院應斟酌全辯論意旨及調查證據之結果，依自由心證判斷事實之真偽；不得違背論理及經驗法則；得心證之理由，應記明於判決。",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "📓 筆記：民事訴訟法甲下・大四下期末考訂正",
+   "d": "2029-05-28",
+   "h": 9.167,
+   "z": "classroom"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "考完了。",
+   "d": "2029-05-28",
+   "h": 12.167,
+   "z": "classroom"
+  },
+  {
+   "k": "attended",
+   "n": "1350:civpro_2_re:am",
+   "t": "{\"ret\":true,\"done\":true,\"att\":0,\"prep\":0,\"late\":false,\"abs\":false}",
+   "d": "2029-05-28",
+   "h": 12.167,
+   "z": "classroom"
+  }
+ ],
+ "questions": [
+  "1／5　依民事訴訟法第 226 條，判決書應記載的事項，不包括下列何者？",
+  "2／5　甲對乙有 100 萬元的借款債權。起訴前，甲發現乙正把名下的財產陸續轉給親友。甲為了保全日後的強制執行，最適合向法院聲請什麼？",
+  "3／5　甲目擊了乙、丙之間的一場糾紛，法院通知甲到庭作證。甲認為「那是別人的官司，跟我無關」。依民事訴訟法，下列敘述何者正確？",
+  "4／5　依民事訴訟法第 222 條，關於法院判斷事實的真偽，下列敘述何者正確？",
+  "5／5　甲不服第一審判決，想提起第二審上訴。依民事訴訟法，上訴期間是？"
+ ],
+ "exam_rec": {
+  "qs": [
+   "AI_CP2_10",
+   "AI_CP2_08",
+   "AI_CP2_02",
+   "AI_CP2_03",
+   "AI_CP2_06"
+  ],
+  "ans": [
+   "A",
+   "A",
+   "A",
+   "A",
+   "A"
+  ],
+  "correct": 2,
+  "score": 70,
+  "status": "done"
+ },
+ "q_source": [
+  {
+   "id": "AI_CP2_10",
+   "inOrig": true,
+   "course": "civpro_2",
+   "term": "Y3S2"
+  },
+  {
+   "id": "AI_CP2_08",
+   "inOrig": true,
+   "course": "civpro_2",
+   "term": "Y3S2"
+  },
+  {
+   "id": "AI_CP2_02",
+   "inOrig": true,
+   "course": "civpro_2",
+   "term": "Y3S2"
+  },
+  {
+   "id": "AI_CP2_03",
+   "inOrig": true,
+   "course": "civpro_2",
+   "term": "Y3S2"
+  },
+  {
+   "id": "AI_CP2_06",
+   "inOrig": true,
+   "course": "civpro_2",
+   "term": "Y3S2"
+  }
+ ],
+ "trip": {
+  "ok": true,
+  "stuck": null
+ },
+ "shots": {
+  "today": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\01_jp_makeup_civpro_2_re_phone_today_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\02_jp_makeup_civpro_2_re_phone_today_port.png"
+  ],
+  "class": {
+   "line": "（補修班。教室裡都是大三的學弟妹。你坐在最後一排，旁邊的學弟看了你兩次。）",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\03_jp_makeup_civpro_2_re_class_first_line_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\29_jpmk\\out\\04_jp_makeup_civpro_2_re_class_first_line_port.png"
+   ]
+  }
+ },
+ "walkFallbacks": 0
+}
