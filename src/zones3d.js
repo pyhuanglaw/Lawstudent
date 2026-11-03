@@ -3,12 +3,27 @@
 const Z3 = (function(){
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.95},o||{}));
   const texMat=(t,rep,o)=>{ const m=new THREE.MeshStandardMaterial(Object.assign({map:t,roughness:0.95,metalness:0},o||{})); return m; };
-  function ground(g,w,d,tex,rep,x,z,y){ const t=tex.clone(); t.needsUpdate=true; t.repeat.set(rep[0],rep[1]); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),texMat(t)); m.rotation.x=-Math.PI/2; m.position.set(x||0,y||0,z||0); m.receiveShadow=true; g.add(m); return m; }
+  /* ART-LIB-FRONT-PAVING-1103（使用者 11-03「總圖前椰影大道地磚是怎樣」）：校園的路面、人行道、廣場改用照片做的 PBR 貼圖（Poly Haven CC0：granite_tile 調成淺米色石磚、asphalt_02 取沒有裂縫的那一塊、
+     去掉大面積的深淺＝不像污漬、調成 D30 的淺灰；tools/blender/env_second/textures/campus_paving_tex.py 重產），取代 Canvas 亂點的 W3.stoneTex／pathTex 和畫了污漬的 avenueRoadTex（D38 第 1 點）。
+     貼圖：assets/textures/campus/*.webp。法線貼圖記在 PHOTO_NOR（Texture.clone 會把 userData 轉成 JSON，物件放不進去）。載入失敗時照舊用 Canvas 的（同一個材質，載到才換圖）*/
+  const PHOTO={}, PHOTO_INFO=new WeakMap();   /* base 貼圖 → {nor:法線 base, clones:[…], ready} */
+  function photoTex(name,o){ o=o||{}; if(PHOTO[name]) return PHOTO[name]; const fb=o.fallback;
+    const t=new THREE.Texture(fb&&fb.image); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; t.needsUpdate=!!(fb&&fb.image); if(o.asphalt) t.userData.asphalt=true;   /* 自己的 Source：換圖不影響其他區域的 Canvas 貼圖 */
+    const info={nor:null,clones:[],norClones:[]}; PHOTO_INFO.set(t,info);
+    const load=(file,tex,list,cs)=>{ try{ new THREE.TextureLoader().load('assets/textures/campus/'+file,im=>{ tex.image=im.image; if(cs) tex.colorSpace=cs; tex.needsUpdate=true; for(const c of list){ c.needsUpdate=true; } },undefined,()=>{}); }catch(e){} };
+    load(name+'_diff.webp',t,info.clones,THREE.SRGBColorSpace);
+    if(o.nor){ const n=new THREE.Texture(); n.wrapS=n.wrapT=THREE.RepeatWrapping; info.nor=n; load(name+'_nor.webp',n,info.norClones,null); }
+    PHOTO[name]=t; return t; }
+  const pavingTex=()=>photoTex('paving_light',{nor:true,fallback:W3.pathTex()});   /* 淺米色石磚：一張貼圖 5×5 塊，每塊約 0.6 m＝一張 3 m */
+  const asphaltPhotoTex=()=>photoTex('asphalt_light',{asphalt:true,fallback:W3.asphaltTex()});
+  function photoNor(tex,t,m){ const info=PHOTO_INFO.get(tex); if(!info) return; info.clones.push(t); if(!info.nor) return; const c=info.nor.clone(); c.repeat.copy(t.repeat); info.norClones.push(c);
+    if(info.nor.image) c.needsUpdate=true; m.material.normalMap=c; m.material.normalScale=new THREE.Vector2(0.6,0.6); m.material.roughness=0.88; m.material.needsUpdate=true; }
+  function ground(g,w,d,tex,rep,x,z,y){ const t=tex.clone(); t.needsUpdate=true; t.repeat.set(rep[0],rep[1]); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),texMat(t)); m.rotation.x=-Math.PI/2; m.position.set(x||0,y||0,z||0); m.receiveShadow=true; photoNor(tex,t,m); g.add(m); return m; }
   /* 步道、路面（strip）都在 0.02 m：交叉的地方兩片疊在同一個高度，畫面一直閃（2026-10-14 使用者回報「男一舍前面的地板一直閃爍」：男一舍的步道和東西向的柏油路在 (20,47) 交叉；校園共 11 處）。
      交叉的路面分層（polygonOffset，層數只在真的重疊時加，通常 0～2 層）：柏油路在步道上面，其他照建立的先後（後蓋的在上面）。高度不變（導航、點地面、腳步都不受影響）*/
   const stripOf=new WeakMap();
   function stripLayer(m,L){ m.userData.stripLayer=L; const mt=m.material; if(L>0){ mt.polygonOffset=true; mt.polygonOffsetFactor=-L; mt.polygonOffsetUnits=-2*L; } else { mt.polygonOffset=false; mt.polygonOffsetFactor=0; mt.polygonOffsetUnits=0; } mt.needsUpdate=true; }
-  function strip(g,x0,z0,x1,z1,w,tex,rep){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); const t=tex.clone(); t.needsUpdate=true; t.repeat.set(w/rep,len/rep); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,len),texMat(t)); m.rotation.x=-Math.PI/2; m.rotation.z=-Math.atan2(dx,dz); m.position.set((x0+x1)/2,0.02,(z0+z1)/2); m.receiveShadow=true; g.add(m);
+  function strip(g,x0,z0,x1,z1,w,tex,rep){ const dx=x1-x0, dz=z1-z0; const len=Math.hypot(dx,dz); const t=tex.clone(); t.needsUpdate=true; t.repeat.set(w/rep,len/rep); const m=new THREE.Mesh(new THREE.PlaneGeometry(w,len),texMat(t)); m.rotation.x=-Math.PI/2; m.rotation.z=-Math.atan2(dx,dz); m.position.set((x0+x1)/2,0.02,(z0+z1)/2); m.receiveShadow=true; photoNor(tex,t,m); g.add(m);
     const ux=dx/(len||1), uz=dz/(len||1), hx=Math.abs(uz)*w/2, hz=Math.abs(ux)*w/2; const box={x0:Math.min(x0,x1)-hx,x1:Math.max(x0,x1)+hx,z0:Math.min(z0,z1)-hz,z1:Math.max(z0,z1)+hz,road:!!(t.userData&&t.userData.asphalt),m};
     let list=stripOf.get(g); if(!list){ list=[]; stripOf.set(g,list); } const hit=list.filter(b=>Math.min(b.x1,box.x1)-Math.max(b.x0,box.x0)>0.01&&Math.min(b.z1,box.z1)-Math.max(b.z0,box.z0)>0.01);
     let L=0; for(const b of hit) if(!(b.road&&!box.road)) L=Math.max(L,b.m.userData.stripLayer+1); stripLayer(m,L);
@@ -124,13 +139,15 @@ const Z3 = (function(){
        兩個正式模型都有時才換（?nobldg 或 manifest 沒有：照舊是大道到 x 72＋石板小廣場＋套件的總圖）*/
     const LIBF=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_lib_lawn']&&!!ASSETS.manifest['bldg.campus_library'];
     const AVE_X1=LIBF?35:72;
-    strip(g,-124,0,AVE_X1,0,16,W3.pathTex(),4); curb(g,-124,0,AVE_X1,0,16);
+    strip(g,-124,0,AVE_X1,0,16,pavingTex(),3); curb(g,-124,0,AVE_X1,0,16);
     // v9.3 第十八批：大道中間 12 m 是柏油路面（黃色虛線中線、白色邊線；照使用者給的椰林大道照片），兩側各 2 m 石磚人行道（原本整條 16 m 都是淺色石磚，像廣場）。
     // 只是路面貼圖，導航不變；騎腳踏車的路人走 z=±3（路面上），行人走 z=±7（人行道上）
-    { const RL=AVE_X1+124; const rt=avenueRoadTex().clone(); rt.needsUpdate=true; rt.repeat.set(1,RL/9);
-      const road=new THREE.Mesh(new THREE.PlaneGeometry(12,RL),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set((AVE_X1-124)/2,0.024,0); road.receiveShadow=true; g.add(road); }
+    { const RL=AVE_X1+124; const base=asphaltPhotoTex(); const rt=base.clone(); rt.repeat.set(12/3,RL/3); PHOTO_INFO.get(base).clones.push(rt); if(base.image) rt.needsUpdate=true;   /* ART-LIB-FRONT-PAVING-1103：照片柏油（每 3 m 一張，沒有污漬、裂縫）*/
+      const road=new THREE.Mesh(new THREE.PlaneGeometry(12,RL),texMat(rt,null,{roughness:0.9})); road.rotation.x=-Math.PI/2; road.rotation.z=-Math.PI/2; road.position.set((AVE_X1-124)/2,0.024,0); road.receiveShadow=true; g.add(road);
+      const lineM=(c)=>new THREE.MeshStandardMaterial({color:c,roughness:0.75,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-4});
+      for(const [zz,w,c] of [[0,0.15,'#d9a826'],[-5.55,0.12,'#e8e6df'],[5.55,0.12,'#e8e6df']]){ const ln=new THREE.Mesh(new THREE.PlaneGeometry(RL,w),lineM(c)); ln.rotation.x=-Math.PI/2; ln.position.set((AVE_X1-124)/2,0.026,zz); ln.receiveShadow=true; ln.name='avenue_line'; g.add(ln); } }   /* 黃色中線一整條（以前 Canvas 畫的是三分之一的虛線，到總圖前被石磚蓋到、看起來斷斷續續）、兩側白色邊線 */
     // 總圖前廣場（椰林大道盡頭）
-    const libPlaza=ground(g,17,36,W3.stoneTex('#e3d9c6'),[4,9],78.5,0,0.016);
+    const libPlaza=ground(g,17,36,pavingTex(),[17/3,12],78.5,0,0.016);
     /* 總圖前草皮（X133 LIB-LAWN-1030 第一版，LAWWW2-B；tools/blender/env_second/campus_lib_lawn.py → bldg.campus_lib_lawn）：中軸（z −5～5）兩邊各一塊 L 形草皮、
        紅磚步道、北側草皮的老樟樹（企劃：「總圖前面的樟樹比總圖老」「他在樟樹下等你」）、南側一棵中型的樹、沿中軸六張長椅、六盞路燈。
        有正式模型時才換：原本廣場兩邊的兩棵樹 (74,−12)、(78,14) 拿掉（位置在草皮上）。模型載入失敗時照舊是石板廣場（樹、長椅、路燈還在，走得到）。
@@ -154,18 +171,18 @@ const Z3 = (function(){
           nav.blockRect(x,z,2.6,0.9,0,0); } }
       const grp=new THREE.Group(); bin.build(grp); g.add(grp); }
     // 法學院道路：從椰林大道 x=30 向北到法學院區 z=-70
-    strip(g,30,0,30,-74,10,W3.pathTex(),4); curb(g,30,0,30,-63.8,10); curb(g,30,-68.2,30,-74,10);   /* X75：z −68～−64 的路緣斷開（往社科院中庭的路） */
-    strip(g,30,-60,LR?109:102,-60,10,W3.pathTex(),4); curb(g,30,-60,LR?109:102,-60,10);   /* 東端原本到 x=110（舊社科院的中庭）；X75 以後到那棟沒有名字的系館正門 */
+    strip(g,30,-8,30,-74,10,pavingTex(),3); curb(g,30,-8,30,-63.8,10);   /* ART-LIB-FRONT-PAVING-1103：從大道人行道外緣（z −8）開始；以前從大道中線 z 0 開始，石磚蓋掉大道北半邊 x 25～35 的柏油（使用者截圖裡「接縫錯開」、黃線被蓋住）*/ curb(g,30,-68.2,30,-74,10);   /* X75：z −68～−64 的路緣斷開（往社科院中庭的路） */
+    strip(g,30,-60,LR?109:102,-60,10,pavingTex(),3); curb(g,30,-60,LR?109:102,-60,10);   /* 東端原本到 x=110（舊社科院的中庭）；X75 以後到那棟沒有名字的系館正門 */
     if(typeof SOCSCI_LAYOUT!=='undefined'&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_socsci']){   /* X75 社科院（霖澤館西南）：小椰林道往中庭（兩棵椰子樹 z −62、−70 中間）、法學院廣場往大樓正門（東面）的兩小段步道 */
-      strip(g,17,-66.5,25,-66.5,3,W3.pathTex(),2); strip(g,17,-85,25,-85,4,W3.pathTex(),2); }   /* 中庭那段 z −68～−65：不疊到模型裡圖書館東側的鋪面（z −65 以南） */
+      strip(g,17,-66.5,25,-66.5,3,pavingTex(),3); strip(g,17,-85,25,-85,4,pavingTex(),3); }   /* 中庭那段 z −68～−65：不疊到模型裡圖書館東側的鋪面（z −65 以南） */
     // 通往醉月湖的小路（文學院東側往北）＋湖南岸步道
     /* 方案 A（D55／D56，使用者 2026-10-13：普通、博雅照官方地圖的真實位置）：醉月湖整組往北搬到 (-36,-112)；小路往北延長到新的湖南岸步道（z=-97）；
        原本的湖南岸步道（z=-51）改成文學院和普通教學館之間的路（z=-46.5）；普通、博雅之間有一條往博雅門口的路（z=-70.5） */
-    strip(g,-12,-8,-12,-97,5,W3.pathTex(),4); strip(g,-58,-46.5,-8,-46.5,4,W3.pathTex(),4); strip(g,-54,-97,-8,-97,4,W3.pathTex(),4); strip(g,-44,-70.5,-10,-70.5,3,W3.pathTex(),4);
+    strip(g,-12,-8,-12,-97,5,pavingTex(),3); strip(g,-58,-46.5,-8,-46.5,4,pavingTex(),3); strip(g,-54,-97,-8,-97,4,pavingTex(),3); strip(g,-44,-70.5,-10,-70.5,3,pavingTex(),3);
     // 舟山路（南側，行政大樓後面）
     strip(g,-110,47,110,47,9,W3.asphaltTex(),6); curb(g,-110,47,110,47,9);
     for(const x of [-97,-75,-53,-31,-9,14,26,48,70]){ const l=W3.lampPost(); place(g,l,x,52.6,Math.PI); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(x,52.6,0.5); }   /* 舟山路的路燈（LAWWW2-B 10-24 巡查 P3：整條 220 m 原本沒有一盞路燈，晚上大一女舍門口、回男生宿舍穿過的那一段都是黑的）：南側（宿舍那一側）路緣外 1.1 m、約 22 m 一盞，燈臂朝馬路、路面一圈光（roadPool，和椰林大道同一套）；−97 照女舍長椅後面那段馬路，14、26 夾著往男生宿舍的路（x 17～23）；避開大一女舍 A、B 門口和長椅那一盞 */
-    strip(g,20,0,20,58,6,W3.pathTex(),4);
+    strip(g,20,8,20,58,6,pavingTex(),3);   /* ART-LIB-FRONT-PAVING-1103：從大道南邊人行道外緣（z 8）開始，不蓋到大道的柏油 */
     // ---- 宿舍（舟山路南側）----
     // 校園建築套件：導航格只擋建築本體、拱廊柱子、門廊（拱廊底下可以走）；鏡頭碰撞＝建築本體＋拱廊上方的樓層（鏡頭不會穿到樓上，拱廊裡也不會被拉到臉前面）
     const campusWalk=[];   // 點地面移動時打得到的「有高度的地面」（霖澤館穿堂、台階）
@@ -193,7 +210,7 @@ const Z3 = (function(){
     for(let x=-90;x<=40;x+=32){ const r=parkedRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
     for(let x=-105;x<=(LIBF?27:55);x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
     // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
-    const plaza=ground(g,28,12,W3.stoneTex('#e3d9c6'),[7,3],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
+    const plaza=ground(g,28,12,pavingTex(),[28/3,4],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
     const bellGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_bell']; bell.userData.ckTag='bell'; if(bellGLB) bell.userData.dyn=true;   /* 傅鐘的 Blender 正式模型（第二個 AI：campus_bell.py → bldg.campus_bell）：和總圖同一套接法；導航阻擋照舊是套件的（placeBlocks） */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
     for(const x of [-46,-30]){ const b=BENCH(); place(g,b,x,21,Math.PI); nav.blockRect(x,21,1.4,0.7,0); seats.push({x,z:21-0.06,yaw:Math.PI,label:'坐在晨思鐘旁的長椅'}); }
     // ---- 行政大樓（大道南側、傅鐘後面）：大圓柱、對稱，正面朝北對著椰林大道 ----
@@ -232,7 +249,7 @@ const Z3 = (function(){
       E.interactables.push({x:-78,z:57.2,radius:1.6,lv:0,label:'大一女舍 B 棟',mark:true,look:'大一女舍 B 棟。大門要刷住宿生的學生證。女生宿舍，男賓止步。'}); }
     const admGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_admin']; admin.userData.ckTag='admin'; if(admGLB) admin.userData.dyn=true;   /* 行政大樓的 Blender 正式模型（第二個 AI：campus_hall.py --set admin → bldg.campus_admin）：和總圖同一套接法；導航、鏡頭碰撞、門口照舊是套件的（ckPlace） */
     // ---- 文學院（大道北側，正對行政大樓）：仿羅馬式拱窗 ----
-    const arts=CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'}); ckPlace(arts,-38,-34,0); buildings.push(arts); strip(g,-38,-8,-38,-24,4,W3.pathTex(),4);
+    const arts=CK.hall({w:40,d:18,floors:2,gfh:4.8,fh:4.4,wall:'#9b5a42',trim:'#d8cfbd',roof:'#43342e',roofH:4.8,arcade:true,porch:{bays:3,depth:3.0,pediment:true,pedH:1.8},sign:'文學院'}); ckPlace(arts,-38,-34,0); buildings.push(arts); strip(g,-38,-8,-38,-24,4,pavingTex(),3);
     const artsGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_arts']; arts.userData.ckTag='arts'; if(artsGLB) arts.userData.dyn=true;   /* 文學院的 Blender 正式模型（第二個 AI：campus_hall.py --set arts → bldg.campus_arts）：和總圖同一套接法；導航、鏡頭碰撞、門口照舊是套件的（ckPlace） */
     /* ---- 普通教學館、博雅教學館（方案 A，D55；查證：docs/campus/TEACHING_BUILDINGS_PLAN.md 第 1 節）：椰林大道 → 文學院 → 普通 →（二樓空橋）→ 博雅 → 醉月湖。
        外觀是校園套件（BLOCKOUT），等 LAWWW2 的 Blender 正式模型；正門都在南面中間（和室內 src/data/putong_layout.js、boya_layout.js 的入口同一側），
@@ -274,10 +291,10 @@ const Z3 = (function(){
     { const hb=new TK.Bin(); for(let x=-61.5;x<=4.5;x+=1.15) TK.plantClump(hb,x,0,-124.35+((x*7)%2)*0.08,0.9+Math.abs((x*13)%3)*0.06,5,[0.7,0.9,0.66]); hb.build(g); }   /* 方案 A 打開的西北角：北邊界 z=-124 原本只是草地中間一道看不見的牆，種一排矮灌木收邊（導航照舊是 blockOutside）*/
     // ---- 法學院區（東北上方）：霖澤館 ＋ 萬才館 ＋ 社科院 ----
     const BF2=typeof BLACKFOREST_LAYOUT!=='undefined'&&BLACKFOREST_LAYOUT.version>=2;   /* 黑森林第二版（使用者 11-02 21:3x 實景照片＋官方地圖：兩館之間的走道經過小湖，湖再往校園是一大片樹林）*/
-    if(BF2){ ground(g,37,22,W3.stoneTex('#e6dccb'),[9,6],43.5,-95,0.012); if(LR){ const ap=WCW(1.5,19.5); const m=ground(g,22,15,W3.stoneTex('#e6dccb'),[5,3],ap[0],ap[1],0.012); m.rotation.z=WRY; } else ground(g,35,9,W3.stoneTex('#e6dccb'),[9,2],79.5,-101.5,0.012);   /* 重排：萬才館大樓梯、陽台下一樓入口前的鋪面 x 81.5～101.5、z −88～−75 */   /* 霖澤館前庭（劇情的「法學院廣場」：站位 (50,−93)、(58,−90)、事件 (61,−94)）＋兩館正面一條；其餘是小湖和黑森林 */
-      strip(g,30,-70,30,-84,10,W3.pathTex(),4);
-      for(const pth of BLACKFOREST_LAYOUT.paths) if(pth.kind==='paved') for(let i=0;i<pth.pts.length-1;i++){ const a=pth.pts[i], b=pth.pts[i+1]; strip(g,a[0],a[1],b[0],b[1],pth.w,W3.pathTex(),pth.w>=4?4:3); } }   /* 兩館之間往南的走道（3 m）、往萬才館的路（4 m）*/
-    else { ground(g,72,24,W3.stoneTex('#e6dccb'),[18,6],61,-94,0.012); strip(g,30,-70,30,-84,10,W3.pathTex(),4); strip(g,92.5,(typeof BLACKFOREST_LAYOUT!=='undefined')?-78.6:-64,92.5,-84,4,W3.pathTex(),4); }   /* CAMPUS-BLACKFOREST-1102：z −78.6 以南是黑森林的土徑（配置 paths.wancai），地磚只留廣場那一段 */   /* 第二十四批：萬才館的互動點改到陽台下面的一樓入口（x≈93.8），小路跟著移；4 m 寬，不碰到社科院前 x=96 的白柱 */
+    if(BF2){ ground(g,37,22,pavingTex(),[37/3,22/3],43.5,-95,0.012); if(LR){ const ap=WCW(1.5,19.5); const m=ground(g,22,15,pavingTex(),[22/3,15/3],ap[0],ap[1],0.012); m.rotation.z=WRY; } else ground(g,35,9,pavingTex(),[35/3,9/3],79.5,-101.5,0.012);   /* 重排：萬才館大樓梯、陽台下一樓入口前的鋪面 x 81.5～101.5、z −88～−75 */   /* 霖澤館前庭（劇情的「法學院廣場」：站位 (50,−93)、(58,−90)、事件 (61,−94)）＋兩館正面一條；其餘是小湖和黑森林 */
+      strip(g,30,-70,30,-84,10,pavingTex(),3);
+      for(const pth of BLACKFOREST_LAYOUT.paths) if(pth.kind==='paved') for(let i=0;i<pth.pts.length-1;i++){ const a=pth.pts[i], b=pth.pts[i+1]; strip(g,a[0],a[1],b[0],b[1],pth.w,pavingTex(),3); } }   /* 兩館之間往南的走道（3 m）、往萬才館的路（4 m）*/
+    else { ground(g,72,24,pavingTex(),[24,8],61,-94,0.012); strip(g,30,-70,30,-84,10,pavingTex(),3); strip(g,92.5,(typeof BLACKFOREST_LAYOUT!=='undefined')?-78.6:-64,92.5,-84,4,pavingTex(),3); }   /* CAMPUS-BLACKFOREST-1102：z −78.6 以南是黑森林的土徑（配置 paths.wancai），地磚只留廣場那一段 */   /* 第二十四批：萬才館的互動點改到陽台下面的一樓入口（x≈93.8），小路跟著移；4 m 寬，不碰到社科院前 x=96 的白柱 */
     // 法學院前庭：樹列、花圃、矮籬
     for(const x of (BF2?[22]:[22,38,54,70,86])){ const b=TREE(1.15+((x/16)%2)*0.1); place(g,b,x,-80,x*0.4); nav.blockCircle(x,-80,0.9); }   /* 黑森林第二版：x 38～86 那幾棵在森林裡（森林自己的樹）*/
     for(const x of (BF2?[30,46]:[30,46,62,88])){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }   /* 黑森林第二版：62 在走道上、88 在森林裡 */   /* 第十九批：x=78 的花圃會擋在往萬才館的新小路上，移到 88 */
@@ -498,7 +515,7 @@ const Z3 = (function(){
     else { // 第二十四批（配置圖：法學院靠校園那一側的一片樹林，裡面有步道；霖澤館東南邊有一個小水池）：法學院廣場南邊、到 z=-60 的路之間
     { const fb=new TK.Bin(); const fg=new THREE.Group();
       ground(g,34,14,W3.canvasTex('forestFloor',128,128,(x,w,h)=>{ x.fillStyle='#4d5a37'; x.fillRect(0,0,w,h); let s=11; const r=()=>{ s=(s*16807)%2147483647; return s/2147483647; }; for(let i=0;i<900;i++){ const v=r(); x.fillStyle=v<0.4?'rgba(92,70,44,0.5)':(v<0.75?'rgba(60,82,40,0.55)':'rgba(120,98,60,0.4)'); x.fillRect(r()*w,r()*h,2+r()*3,1+r()*2); } }),[8,3.5],72,-72,0.008);   // 落葉地面
-      strip(g,62,-81,68,-72,2.2,W3.pathTex(),2); strip(g,68,-72,78,-65,2.2,W3.pathTex(),2);   // 穿過樹林的小步道（廣場 → 南邊的路）
+      strip(g,62,-81,68,-72,2.2,pavingTex(),3); strip(g,68,-72,78,-65,2.2,pavingTex(),3);   // 穿過樹林的小步道（廣場 → 南邊的路）
       const FT=[[58.5,-75.5],[61,-68.5],[61.8,-77.5],[66,-66.5],[71,-75.5],[75,-71.5],[77.5,-77],[80,-70.5],[84,-76.5],[86.5,-68.5],[82.5,-66]];   /* 每棵離步道中線 ≥ 2.5 m */
       FT.forEach(([x,z],i)=>{ const t=TK.tree(6.4*(1.4+(i%3)*0.12),300+i,{spread:1.25,dark:0.72}); place(fg,t,x,z,i*1.7); nav.blockCircle(x,z,0.6); });
       g.add(W3.mergeGroup(fg));
