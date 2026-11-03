@@ -222,3 +222,12 @@
 [20:13:57] ==== START LIVE18_day12  (game @ 0776cafc8) ====
 [20:14:02] [res] cpu=38% mem=52% (16.2/31.4 GB) chrome_testing=19  START LIVE18_day12
 [20:15:57] [res] cpu=20% mem=48% (15.2/31.4 GB) chrome_testing=19  END LIVE18_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       72f187803..50c496a0a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:16:03] ==== END   LIVE18_deploy  exit=1  196s   ====
+[20:16:05] memory 48% before starting 00_gpu (2 running)
+[20:16:05] ==== START 00_gpu  (gpu @ 0f16f98a3) ====
+[20:16:08] [res] cpu=27% mem=48% (15.2/31.4 GB) chrome_testing=19  START 00_gpu
+[20:17:34] 正在跑：FS112（已跑 14 分／上限 360 分）、LIVE18_day12（已跑 3 分／上限 60 分）、00_gpu（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:18:32] [res] cpu=12% mem=49% (15.6/31.4 GB) chrome_testing=19  END 00_gpu
