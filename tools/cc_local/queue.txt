@@ -43,6 +43,14 @@ V19D_tour_joy | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tou
 V19D_swingshot | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
 V19D_swing    | 15e78dff7 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
 V19D_stairarm | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
+# --- V18 非門檻那批（子代理 11-03：ffee 上 unmet、journal ALL PASS，gym 只有拉筋裙子 FAIL，popin ⑤ 要看 PC）：改在 V19 候選跑，_C 是修正前的對照、應該 FAIL ---
+V19X_popin   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0
+V19X_popin_C | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0;EXPECT=FAIL
+V19X_gym     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_gym_shot_probe.py | index.html | 60 | CC_HEADLESS=0;CASES=rack,pool,plate,closed,motion
+V19X_gym_C   | f9d8cce09 | probe | docs/story_planning/test_tools/cc/cc_gym_shot_probe.py | index.html | 40 | CASES=rack,motion;EXPECT=FAIL
+V19X_unmet   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_phone_unmet_probe.py | index.html?lowres | 60 | MAX_MIN=55
+V19X_jnl     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 |
+V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 | EXPECT=FAIL
 # ===== V19 結束 =====
 # ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
 N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
