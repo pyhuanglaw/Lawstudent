@@ -62,6 +62,11 @@ const YTJOB=(function(){
     back:[[YT,'……嗯。上禮拜那個是我媽。她臨時來找我，樓下警衛跟她說我在這裡。'],[YT,'她說，我讓妳來台北是念書的，不是端茶的。'],[YT,'她說，妳要不要再考一次牙醫。'],[YT,'我說，這是我自己選的。'],[YT,'她說隨便我。……她沒有說隨便我，可是我就當她說了。']],
     opts:[{t:'「那妳還要做嗎？」',say:[[YT,'要。我才做一年。']]},{t:'「妳想考牙醫嗎？」',say:[[YT,'不想。……我想知道別人怎麼過日子。']]},{t:'（不說話，幫她把杯子收完。）',say:[[null,'（你們收完杯子。她說：「謝謝。」）']]}],
     fam:[[YT,'我媽在淡水開牙醫診所。……我一個人住學校對面，是她買的房子。']] };
+  /* AA_625 第 6 節「房東來過了」在茶屋聽她說（YT-REWRITE-1103）：大一下第 10 週以後、她回來上班那一班（10'）之後的下一個週末班打烊；記 RENT_RUMOR，ev_yutong_landlord 記成演過（舊的麵店版退場，接它的訊息、邀約照舊讀「演過」）。
+     「在她家當面」那一版要 YT_HOME_SEEN（交往以後才去得到她家），大一下幾乎不會有——還沒做，列給 AA／LAWWW */
+  S.RENT=[[YT,'……嗯。昨天秀琴姨煮完飯，沒有馬上走。'],[YT,'她說她的房東要把房子賣了。她住了十四年。'],[YT,'賣了她要住哪裡。……她問我，我也不知道。'],['player','我上課有聽過，房子賣了租約不一定就沒了。我再查。'],[YT,'嗯。你查到再跟我說。']];
+  S.rentDue=G=>{ const F=G.flags; return afterW(G,'Y1S2',10)&&!!F.YT_MOM_BACK&&F.YT_MOM_BACK!==G.day&&!(G.events&&G.events.done&&G.events.done.ev_yutong_landlord)&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(YT,'RENT_RUMOR')); };
+  S.rent=async function(GM){ const G=GM.G; await JOBS.play(GM,S.RENT); if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(YT,'RENT_RUMOR','秀琴姨的房東要把房子賣了'); (G.events.done=G.events.done||{}).ev_yutong_landlord=G.day; return true; };
   S.momDay=G=>at(G,'Y1S2',9,6); S.absentDay=G=>at(G,'Y1S2',9,7);   /* 第 9 週週六媽媽來（她在班上）、週日她請假 */
   S.absent=G=>!!G&&typeof CALENDAR!=='undefined'&&S.absentDay(G);   /* story3d.js schedEnt：那一天她不在茶屋 */
   S.momKnown=G=>{ const F=G.flags; if(!F.YT_PARENTS_KNOW&&F.YT_MET_JOB&&afterW(G,'Y1S2',9)&&!S.momDay(G)) F.YT_PARENTS_KNOW=true; };   /* 第 9 週週六過了＝她媽媽已經知道（玩家沒去上班也一樣）*/
@@ -73,7 +78,8 @@ const YTJOB=(function(){
     if(!S.absentDay(G)) await JOBS.play(GM,S.shiftLine(G)); return false; };
   S.closeExtra=async function(GM,k){ const G=GM.G, F=G.flags; if(k!=='tea'||!S.met(G)||S.absentDay(G)) return false; S.sync(G); S.momKnown(G);
     F.TEA_SHIFTS=(+F.TEA_SHIFTS||0)+1;
-    if(afterW(G,'Y1S2',10)&&!F.YT_MOM_BACK){ F.YT_MOM_BACK=true; await JOBS.play(GM,S.MOM.back); await ch(GM,S.MOM.opts); if(!F.YT_FAMILY_HEARD){ await JOBS.play(GM,S.MOM.fam); F.YT_FAMILY_HEARD=true; } F.YT_PARENTS_KNOW=true; return true; }
+    if(afterW(G,'Y1S2',10)&&!F.YT_MOM_BACK){ F.YT_MOM_BACK=G.day; await JOBS.play(GM,S.MOM.back); await ch(GM,S.MOM.opts); if(!F.YT_FAMILY_HEARD){ await JOBS.play(GM,S.MOM.fam); F.YT_FAMILY_HEARD=true; } F.YT_PARENTS_KNOW=true; return true; }
+    if(S.rentDue(G)) return S.rent(GM);   /* AA_625 第 6 節 */
     if(!F.YT_FIRST_PAY&&afterW(G,'Y1S1',8)&&(!at(G,'Y1S1',8)||wdOf(G.day)===7)) return S.firstPay(GM);   /* 第 8 週週日（或之後第一個班）打烊 */
     if(F.TEA_SHIFTS===3) return S.cats(GM);   /* 祐廷第三次上班（和她一起的第三個班）打烊 */
     return false; };

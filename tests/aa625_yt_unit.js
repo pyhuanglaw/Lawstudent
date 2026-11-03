@@ -63,6 +63,10 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   check('4. 第 9 週週日：她請假（蘇姨「她說家裡有事。」）；作息那天不在茶屋',said.some(s=>/她說家裡有事/.test(s))&&YTJOB.absent(G));
   G.day=tdOf('Y1S2',10,6); said=[]; picks=['妳想考牙醫']; await shift(13);
   check('4. 第 10 週回來上班：「這是我自己選的。」；沒聽過家裡的補一句、記 YT_FAMILY_HEARD、YT_PARENTS_KNOW',said.some(s=>/這是我自己選的/.test(s))&&said.some(s=>/我媽在淡水開牙醫診所/.test(s))&&G.flags.YT_PARENTS_KNOW===true&&G.flags.YT_FAMILY_HEARD===true,said.slice(-4).join(' | '));
+  /* 6 房東來過了（AA_625 第 6 節，在茶屋聽她說）：10' 之後的下一個週末班打烊；記 RENT_RUMOR、ev_yutong_landlord 演過；一次 */
+  G.day=tdOf('Y1S2',10,7); said=[]; await shift(14); const R6=YTJOB.RENT.map(x=>x[1]);
+  check('6. 第 10 週週日（10\' 的下一班）打烊：「……嗯。昨天秀琴姨煮完飯，沒有馬上走。」…祐廷「我上課有聽過…」→「嗯。你查到再跟我說。」；記 RENT_RUMOR、ev_yutong_landlord',R6.every(t=>said.some(x=>x.endsWith(t)))&&R6.every(t=>DOC.includes(t))&&SOCIAL.has('heroine_03','RENT_RUMOR')&&G.events.done.ev_yutong_landlord===G.day&&!!(STORY_EVENTS.find(e=>e.id==='ev_yutong_landlord')||{}).retired,JSON.stringify(said));
+  G.day=tdOf('Y1S2',11,6); said=[]; await shift(15); check('6. 下一班不再說',!said.some(x=>/秀琴姨煮完飯/.test(x)),JSON.stringify(said));
   fresh(); G.flags.YT_MET_JOB=true; G.day=tdOf('Y1S2',11,2); YTJOB.momKnown(G); check('4. 沒去上班的玩家：第 9 週週六過了也記 YT_PARENTS_KNOW（閒聊階梯的條件）',G.flags.YT_PARENTS_KNOW===true);
   check('5. 接線：jobs3d.js 有 MID_EV、story3d.js schedEnt 看 YTJOB.absent',/S\.MID_EV=\[\]/.test(fs.readFileSync(path.join(ROOT,'src/jobs3d.js'),'utf8'))&&/YTJOB\.absent/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8')));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
