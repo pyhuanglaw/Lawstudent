@@ -189,6 +189,16 @@ def t_ceiling(im, d):     # 輕鋼架天花板：60 cm 一格
     for k in range(0, w, w // 4): d.rectangle([k, 0, k + 3, h], fill=(206, 204, 200)); d.rectangle([0, k, w, k + 3], fill=(206, 204, 200))
 
 
+def t_floor(im, d):       # 地板：淺灰大磁磚（60 cm，一張貼圖 2×2 片），細縫、淡淡的石紋——floor_tiles_06 是黑白交錯的，太像棋盤
+    w, h = im.size; r = random.Random(21)
+    for j in range(2):
+        for i in range(2):
+            g = 200 + r.randint(-4, 4); d.rectangle([i * w // 2, j * h // 2, (i + 1) * w // 2, (j + 1) * h // 2], fill=(g, g - 1, g - 4))
+    for _ in range(9000):
+        x, y = r.randint(0, w - 1), r.randint(0, h - 1); g = r.randint(186, 212); d.point((x, y), fill=(g, g - 1, g - 5))
+    for k in (0, w // 2): d.rectangle([k, 0, k + 2, h], fill=(168, 166, 162)); d.rectangle([0, k, w, k + 2], fill=(168, 166, 162))
+
+
 def t_poster(im, d):      # 牆上的小海報：漢堡＋飲料（自己畫的）
     w, h = im.size; d.rectangle([0, 0, w, h], fill=NAVY); logo(d, w // 2 - 40, h // 2, 70)
     d.rounded_rectangle([w // 2 + 60, h // 2 - 60, w // 2 + 120, h // 2 + 60], 10, fill=(250, 248, 242)); d.rectangle([w // 2 + 60, h // 2 - 20, w // 2 + 120, h // 2 + 10], fill=ORANGE)
@@ -216,11 +226,11 @@ def t_night(im, d):       # 只給渲染：窗外的新生南路夜景（樹、�
 P = {k: tex(f'{k}.png', s, f) for k, s, f in (('mural', (1400, 330), t_mural), ('study', (420, 840), t_study), ('counter', (1600, 200), t_counter),
                                                ('sign_order', (420, 170), t_sign('點餐')), ('sign_pick', (420, 170), t_sign('取餐')),
                                                ('kiosk', (420, 760), t_kiosk), ('ceiling', (512, 512), t_ceiling), ('poster', (520, 700), t_poster),
-                                               ('staff', (340, 110), t_staff), ('night', (1600, 500), t_night))}
+                                               ('staff', (340, 110), t_staff), ('night', (1600, 500), t_night), ('floor', (512, 512), t_floor))}
 for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 
 # ---------------- 材質（≤12，最後 vc_consolidate／atlas_small 合併）----------------
-m_floor = L.pbr('dk_floor', 'floor_tiles_06', tile=1.2, target='#c9c7c2', normal=0.3, maps=('diff', 'nor'), rough_value=0.35)
+m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
 m_wall = L.flat('dk_wall', '#f1ede4', rough=0.8)
 m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
@@ -230,7 +240,7 @@ m_panel = glowmat('dk_lightpanel', '#fbf8f0', 3.0)
 m_warm = glowmat('dk_warm', '#ffd9a0', 3.5)
 m_vc = L.vc_material('dk_props_vc', rough=0.6)
 m_ceil = img_mat('dk_ceiling', P['ceiling'], rough=0.9); m_ceil.use_backface_culling = True
-IM = {k: img_mat('dk_' + k, p, rough=0.5) for k, p in P.items() if k != 'ceiling'}   # 選單螢幕不另外發光：全部併進一張貼圖集（材質 ≤ 12）；要亮由 LAWWW2 烘
+IM = {k: img_mat('dk_' + k, p, rough=0.5) for k, p in P.items() if k not in ('ceiling', 'floor')}   # 選單螢幕不另外發光：全部併進一張貼圖集（材質 ≤ 12）；要亮由 LAWWW2 烘
 T = 0.2
 
 
