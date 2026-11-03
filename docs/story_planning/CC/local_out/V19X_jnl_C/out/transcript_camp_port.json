@@ -1,0 +1,116 @@
+{
+ "orient": "port",
+ "shots": {
+  "menu": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl_C\\out\\02_camp_port_no_journal.png",
+  "notes": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl_C\\out\\03_camp_port_notes.png"
+ },
+ "play": {
+  "secs": 164,
+  "steps": 284,
+  "btnNew": true,
+  "state": {
+   "day": -18,
+   "h": 22.67,
+   "zone": "dorm",
+   "camp": true,
+   "kai": true,
+   "memo": 12
+  },
+  "free": {
+   "busy": false,
+   "dlg": false,
+   "depth": 0,
+   "adv": false,
+   "phone": false,
+   "zone": "dorm",
+   "day": -18,
+   "h": 22.67
+  }
+ },
+ "src": "play",
+ "exp": {
+  "day": -18,
+  "raw": 12,
+  "list": [
+   {
+    "day": -25,
+    "t": "迎新宿營：遊覽車"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：破冰"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：大地遊戲"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：迎新晚會"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：夜遊"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：法律闖關"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：水大地"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：烤肉"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：營火晚會"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：夜談"
+   },
+   {
+    "day": -23,
+    "t": "迎新宿營：金頭腦"
+   },
+   {
+    "day": -23,
+    "t": "迎新宿營：結業式"
+   }
+  ]
+ },
+ "j0": {
+  "hasBtn": false,
+  "btnText": "",
+  "menuOpen": true,
+  "tabOn": false,
+  "menuTitle": "筆記本",
+  "hasBox": false
+ },
+ "notes": {
+  "ok": true,
+  "on": true,
+  "heads": [
+   "第一頁",
+   "日誌"
+  ],
+  "dots": [
+   "· 8/22：迎新宿營：夜遊",
+   "· 8/23：迎新宿營：法律闖關",
+   "· 8/23：迎新宿營：水大地",
+   "· 8/23：迎新宿營：烤肉",
+   "· 8/23：迎新宿營：營火晚會",
+   "· 8/23：迎新宿營：夜談",
+   "· 8/24：迎新宿營：金頭腦",
+   "· 8/24：迎新宿營：結業式"
+  ],
+  "nDots": 8
+ },
+ "errs": [],
+ "sha": "ec4a1db0b",
+ "tag": "camp_port",
+ "url": "http://127.0.0.1:8810/index.html?turbo&start1"
+}

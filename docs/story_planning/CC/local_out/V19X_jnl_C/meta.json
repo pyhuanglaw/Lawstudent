@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19X_jnl_C",
+  "sha": "ec4a1db0b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_journal_cal_probe.py",
+  "env": "EXPECT=FAIL",
+  "machine": "MSI",
+  "start": "2026-11-04T02:41:58",
+  "end": "2026-11-04T02:48:11",
+  "seconds": 373,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 60,
+    "used_gb": 18.8,
+    "chrome_testing": 28
+  }
+}
