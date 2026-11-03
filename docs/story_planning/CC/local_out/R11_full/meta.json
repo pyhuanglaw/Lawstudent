@@ -1,0 +1,23 @@
+{
+  "rerun": "retap1102",
+  "id": "R11_full",
+  "sha": "b1b249873",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_d118b4_probe.py",
+  "env": "RERUN=retap1102",
+  "machine": "MSI",
+  "start": "2026-11-03T11:54:07",
+  "end": "2026-11-03T12:06:50",
+  "seconds": 764,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 71,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 30
+  }
+}
