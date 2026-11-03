@@ -41567,7 +41567,14 @@
       "status": "待開工",
       "priority": "P1",
       "note": "使用者 11-03 截圖（UA-LAWWW-1103-27；X168）；camp_y1.js:255 ev_camp_d2_talk",
-      "next": "AA 改稿 → LAWWW 照稿改（AA_608 宿營精簡同時在做，同一個檔）"
+      "next": "AA 改稿 → LAWWW 照稿改（AA_608 宿營精簡同時在做，同一個檔）",
+      "xai": {
+        "spec": "使用者 11-03 截圖＋原話；camp_y1.js:255 ev_camp_d2_talk",
+        "branch": "企劃線",
+        "acceptance": "AA 改稿：大家怎麼知道祐廷大一歲（不問年次），ZHE_CALLS_GE／ECON_PAST_SHARED 照設",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
     },
     {
       "first": {
