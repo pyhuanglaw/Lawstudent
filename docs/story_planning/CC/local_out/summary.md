@@ -167,3 +167,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 454.5s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 454.6s] BROWSER DISCONNECTED
 - 2026-11-03T08:09:02  F2_fps_hd  sha=b1b249873  exit=0  472s    OK   linze         rain  avg 62.01 fps  1%low 30.7 fps  worst 36.6 ms  n=931  zone=linze h=15.03 w=rain q=medium draw=157  / JS 例外 0 個 / ALL PASS（量測完成 18 格）
       err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [F2_fps_hd] | [gpu_wrap 438.7s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 438.8s] BROWSER DISCONNECTED
+- 2026-11-03T08:11:00  R1_x2  sha=b1b249873  exit=0  414s    統計：29 個區域、1113 個互動點、13 個劇情走路目的地、76 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [R1_x2] | [gpu_wrap 379.3s] page close url=http://127.0.0.1:8809/index.html?turbo?turbo | [gpu_wrap 379.4s] BROWSER DISCONNECTED
