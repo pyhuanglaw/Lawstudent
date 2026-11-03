@@ -26,39 +26,30 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-02 23:0x UTC 交班（使用者「現在交班」，HANDOFF-A-1102；LAWWW2 22:56、BB 22:59 已先交班）
+### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-03 02:0x UTC 交班（使用者「現在交班」；這一班＝11-03 00:4x 重新接班以後，HANDOFF-A-1103）
 
-> **11-03 更新（帳號 A LAWWW 重新接班後）**：int/m591＋sisdate＋libq2 已併進開發分支 **`c89a5f9be`**（全部 Node 902 支 ALL PASS）——**接班的 BB／CC 請用這個 SHA 驗 BAR-POOL-PREFIX、ADV-SKIP 打字中略過**（BB 11-02 22:59 說擋發布的兩項）。還沒進的：libq3、anb、ex600（見 B3）。
+**A｜本班成果（都在開發分支 `claude/confident-ritchie-8rwh7t`，最後 `0f66c4215`＋本次交班 commit；沒有發布）**
+- **上一班中斷的全部併進來了**：int/m591（學姊第四批、宿舍、AA_603、國考題池、ADV 打字中略過、尾聲、B1、爬梯手勢）＋sisdate（AA_598）＋libq2／libq3（小聲講、走出館外旁白）＋anb（以安改稿 AA_587§14／589／592／594／601、CG-119）＋ex600（AA_600／602、AA_591 九件）。合併衝突的處理寫在各 merge commit（七夕短冊照 AA_600 3-2、借六法留 AA_595 便利貼、date_lines.js 用工具重產）。
+- **測試**：7224af47a 全部 Node 在 GitHub 有 7 支失敗——全是期望值過時（改稿後的新句子），`cb7957fb2` 照現行定稿改好；save_compat_v95 照 BB X_G6b 判定改成先按「收起來」（`df70106e8`）。
+- **GitHub Actions 免費跑全部 Node**（使用者 01:0x 選「現在就丟給 GitHub」；GHA-TEST-OFFLOAD-1103）：分支 `claude/gha-node-sweep`、`.github/workflows/node-sweep.yml`；改 `gha/target.txt` 的 SHA＝跑一次；失敗清單印在執行紀錄最後（用 get_job_logs 讀，artifact 網址被雲端代理擋）。實測：GitHub 12 分鐘、Claude 雲端機器約 13 分鐘、使用者 PC 49 分鐘（BB_250：Node 以後給 GHA）。細節 `docs/handoff/GHA_TEST_OFFLOAD_1103.md` 第六節。
+- **規則**：D129／HV-23 交班以後就不用喚醒（使用者 11-03）；AA、CC 的保險喚醒 00:54 已關。
+- **BB 驗收**：BUG-ADV-SKIP（Y_A1）、BAR-POOL（Y_P1）都 PASS→已驗收；BB_247 五項 ART_APPROVED→已驗收。
+- **新任務**：GHA-TEST-OFFLOAD-1103（進行中）、PERF-WZ-DAY-1103（LAWWW2，P1）、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103（LAWWW2）、RULE-NO-WAKE-AFTER-HANDOFF-1103、GHA-NODE-TRIAL-1103。
 
-**A｜本班成果（11-02 接班以後；細節在 tasks.json、deliveries.json、docs/RELEASES.md）**
-- **發布**：v9.10.16 在線上（見 docs/RELEASES.md）。之後的都在開發分支 `claude/confident-ritchie-8rwh7t`（遠端 `5ec3a0836`＋本次交班 commit）和整合線，**沒有發布**。
-- **開發分支已合併**：int/m590（`ec2814492`→ 開發分支 `62d98bfa5`）：AA_590／AA_595（小聲講、空保溫瓶拿掉、家）、AA_599 不接送、AA_603 重考生、CG 批次＋CG-27、ADV 視窗 GAME 修正、NTU_ZONES gym、LAWWW2 library_hall_v2、LIB-FRONT v3.1／v3.2、宿舍閣樓比例。
-- **規則**：D128（美術驗收全部不經使用者，CLAUDE.md 第 8 點、PROJECT_DECISIONS）；D123 現況（Python runner、run_forever.ps1、cc-testing 自動換版）；AI_SESSION_HANDOFF 第 4 節第 5 步（BB／CC 先讀 BB_00、CC_29）。
-- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER、BUG-CLIMB-ZOMBIE、DORM-LADDER-HEAD-GRIP。
+**B｜全部未完成工作**（以 tasks.json 為準）
+1. **下一版**：最後驗收版本＝**`0f66c4215`**（BB 已收到）。擋發布兩項都 PASS；BB 在 PC 跑 Y_ 回歸、X_G5b、X_G6b、新三支探測。**GO 等這些＋GHA 確認 run https://github.com/pyhuanglaw/Lawstudent/actions/runs/41563231494 （0f66c4215，交班時還在跑）**。下一班 LAWWW：先看這個 run（失敗清單在紀錄最後；success＝全過）→ 有失敗就修 → BB GO 後跑 TESTING.md 第五節發布前清單、發布。
+2. **GHA-TEST-OFFLOAD-1103**：照 GHA_TEST_OFFLOAD_1103.md 交白話評估報告（使用者要的六問）。
+3. **LAWWW2 下一班**：PERF-WZ-DAY-1103、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103、DORM-LADDER-HEAD-GRIP-1102、LAW-RELAYOUT-1102（d73588749 WIP）。
+4. **AA_593 學姊手機**（待開工）、D118 STUDY-EXAM-SYS-1102。
+5. 其餘照 D99 → D81，`check_handoff.py queue --owner LAWWW`。
 
-**B｜全部未完成工作**（以 tasks.json 為準；LAWWW 未結：進行中 28、待開工 24、等待其他AI／素材 19、已實作待整合 7、暫停 4、已整合待測試 629）
-1. **下一版擋在 BB 的 GO**：BB 22:59「擋發布的是 BAR-POOL-PREFIX、ADV-SKIP 打字中按略過，兩項都在 int/m591。請把下一批 SHA 交給接班的 BB 和 CC。」→ **下一班 LAWWW 第一件**：把 int/m591 併進開發分支、跑整套 Node，SHA 交接班的 BB／CC。
-2. **整合線 int/m591 `f47d4849a`**（還沒進開發分支，比遠端開發分支多 33 個 commit）：AA_591 學姊第四批、宿舍、AA_603、國考題池（BAR-POOL-PREFIX＋舊題組濾掉四科補抽）、ADV 打字中略過、尾聲 atTable 要見過、B1 落點、爬梯手勢 climbIK（使用者「好像殭屍」）、3 支 Windows 測試修正、flow_ladder_y1s2 迴圈上限。國考相關 11 支測試只跑完 7 支 ALL PASS（bar_exam、bar_pool_nomar、d118_b6、bar_years＋先前 d118_b8／b8b／b8c、pg_longjump_phone、pg_cardline、postgrad_days、termend），其餘被交班中止。
-3. **還沒合進 int/m591 的分支**（全部在 `wip_backup/handoff_A_1102_2310.bundle`，基準＝遠端開發分支；還原：`git fetch wip_backup/handoff_A_1102_2310.bundle '*:refs/remotes/wip/*'`）：
-   - `sisdate` `ab474ff72`：AA_598 學姊約會（AA598-SIS-1C-1102），測試已過，待合併。
-   - `libq2` `38d65bd27`：小聲講 5 件（LIBQ 約好免點頭、libOut、前綴合括號、空保溫瓶記憶改名、沛珊三段論）。
-   - `libq3` `419764f1a`（接在 libq2 後）：AA 22:30 定稿的走出館外旁白、1-D10、Q16 libOut；**子代理被交班中止**，測試寫了但沒跑完。
-   - `anb` `719a57231`：以安改稿 AA_587 §14、AA_589（含 56～58 列）、AA_592、AA_594、AA_601、CG-119；**子代理被交班中止，全部 unit 跑到一半**（最後兩支舊測試期望值已改、未驗）。
-   - `ex600` `ae38c31b1`：AA_600 分手後不主動聯絡、AA_602、AA_591 九件回覆（restartYes、multirel、father→mother 等）＋大量舊測試期望值；**子代理被交班中止，全部 unit 沒跑完**。
-4. **排隊**：AA_593 學姊手機（AA600 之後）；LAWWW2 交件 LAW-RELAYOUT-1102（`d73588749`，WIP，萬才館搬、湖、黑森林）、DORM-LADDER-HEAD-GRIP-1102（LAWWW2 下一班）。
-5. **D118 法律學習／考試／職涯**（STUDY-EXAM-SYS-1102）照任務總表繼續。
-6. 其餘照 D99 → D81，`check_handoff.py queue --owner LAWWW`。
+**C｜正在做的**：沒有。本機分支全部已併進開發分支（int/m591、ex600、anb、libq3、sisdate、libq2 都是 0 個未合併 commit）；沒有沒 commit 的檔案。GHA run 41563231494 在 GitHub 上自己跑，不需要本機。
 
-**C｜正在做的工作**：交班時停了三個子代理（anb、ex600、libq3）和國考測試；worktree 裡沒 commit 的已 commit（anb `719a57231`），三條分支＋int/m591、sisdate、libq2 都在上面那個 bundle。本機 worktree：`.claude/worktrees/agent-*`（ex600、anb、libq3）、scratchpad 的 wt_m591——**下一班不要依賴本機，用 bundle**。
+**D｜最新決策與規則**：D129／HV-23；使用者要求 UA-LAWWW-1103-01～09。
 
-**D｜最新決策與規則**：D128（11-02 19:5x，美術驗收全部不經使用者；選擇題「全部交出去」）；UA-1102-28～30。沒有新的 HV 編號。
+**E｜跨 AI 協作**：BB、CC 值班中（使用者 01:0x 叫回），0f66c4215 與 7 支失敗說明已送 BB（DELIVERED）。LAWWW2、AA 休班（D75）。
 
-**E｜跨 AI 協作**：LAWWW2、BB 已交班（D75：不要傳訊息給休班帳號）。BB 要的 SHA 還沒交（見 B1）。AA、CC 本帳號狀態以 duty.json 為準。
-
-**F｜測試與問題**：
-- int/m591 的整套 Node 還沒跑；國考 11 支只跑完 7（見 B2）。
-- 交班前看到 `flow_ladder` 類瀏覽器測試兩份舊輸出有 FAIL（階梯選項按鈕點了「None」、互動按鈕空白）：那是 5f238fc9d 修正**以前**的輸出；修正後雲端 ALL PASS（5f238fc9d）。下一班 BB 用最新 SHA 重跑確認。
-- 瀏覽器、iPhone 實機都沒驗本班改動（Playwright 由 BB／CC 跑；Playwright ≠ iPhone）。
+**F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER、BUG-CLIMB-ZOMBIE、SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -334,6 +325,41 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+### 帳號 A → 下一個帳號（看使用者對哪一邊說話）｜LAWWW（`session_01Eds6msqpsuzNEw98sdw8JX`）｜2026-11-02 23:0x UTC 交班（使用者「現在交班」，HANDOFF-A-1102；LAWWW2 22:56、BB 22:59 已先交班）
+
+> **11-03 更新（帳號 A LAWWW 重新接班後）**：int/m591＋sisdate＋libq2 已併進開發分支 **`c89a5f9be`**（全部 Node 902 支 ALL PASS）——**接班的 BB／CC 請用這個 SHA 驗 BAR-POOL-PREFIX、ADV-SKIP 打字中略過**（BB 11-02 22:59 說擋發布的兩項）。還沒進的：libq3、anb、ex600（見 B3）。
+
+**A｜本班成果（11-02 接班以後；細節在 tasks.json、deliveries.json、docs/RELEASES.md）**
+- **發布**：v9.10.16 在線上（見 docs/RELEASES.md）。之後的都在開發分支 `claude/confident-ritchie-8rwh7t`（遠端 `5ec3a0836`＋本次交班 commit）和整合線，**沒有發布**。
+- **開發分支已合併**：int/m590（`ec2814492`→ 開發分支 `62d98bfa5`）：AA_590／AA_595（小聲講、空保溫瓶拿掉、家）、AA_599 不接送、AA_603 重考生、CG 批次＋CG-27、ADV 視窗 GAME 修正、NTU_ZONES gym、LAWWW2 library_hall_v2、LIB-FRONT v3.1／v3.2、宿舍閣樓比例。
+- **規則**：D128（美術驗收全部不經使用者，CLAUDE.md 第 8 點、PROJECT_DECISIONS）；D123 現況（Python runner、run_forever.ps1、cc-testing 自動換版）；AI_SESSION_HANDOFF 第 4 節第 5 步（BB／CC 先讀 BB_00、CC_29）。
+- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER、BUG-CLIMB-ZOMBIE、DORM-LADDER-HEAD-GRIP。
+
+**B｜全部未完成工作**（以 tasks.json 為準；LAWWW 未結：進行中 28、待開工 24、等待其他AI／素材 19、已實作待整合 7、暫停 4、已整合待測試 629）
+1. **下一版擋在 BB 的 GO**：BB 22:59「擋發布的是 BAR-POOL-PREFIX、ADV-SKIP 打字中按略過，兩項都在 int/m591。請把下一批 SHA 交給接班的 BB 和 CC。」→ **下一班 LAWWW 第一件**：把 int/m591 併進開發分支、跑整套 Node，SHA 交接班的 BB／CC。
+2. **整合線 int/m591 `f47d4849a`**（還沒進開發分支，比遠端開發分支多 33 個 commit）：AA_591 學姊第四批、宿舍、AA_603、國考題池（BAR-POOL-PREFIX＋舊題組濾掉四科補抽）、ADV 打字中略過、尾聲 atTable 要見過、B1 落點、爬梯手勢 climbIK（使用者「好像殭屍」）、3 支 Windows 測試修正、flow_ladder_y1s2 迴圈上限。國考相關 11 支測試只跑完 7 支 ALL PASS（bar_exam、bar_pool_nomar、d118_b6、bar_years＋先前 d118_b8／b8b／b8c、pg_longjump_phone、pg_cardline、postgrad_days、termend），其餘被交班中止。
+3. **還沒合進 int/m591 的分支**（全部在 `wip_backup/handoff_A_1102_2310.bundle`，基準＝遠端開發分支；還原：`git fetch wip_backup/handoff_A_1102_2310.bundle '*:refs/remotes/wip/*'`）：
+   - `sisdate` `ab474ff72`：AA_598 學姊約會（AA598-SIS-1C-1102），測試已過，待合併。
+   - `libq2` `38d65bd27`：小聲講 5 件（LIBQ 約好免點頭、libOut、前綴合括號、空保溫瓶記憶改名、沛珊三段論）。
+   - `libq3` `419764f1a`（接在 libq2 後）：AA 22:30 定稿的走出館外旁白、1-D10、Q16 libOut；**子代理被交班中止**，測試寫了但沒跑完。
+   - `anb` `719a57231`：以安改稿 AA_587 §14、AA_589（含 56～58 列）、AA_592、AA_594、AA_601、CG-119；**子代理被交班中止，全部 unit 跑到一半**（最後兩支舊測試期望值已改、未驗）。
+   - `ex600` `ae38c31b1`：AA_600 分手後不主動聯絡、AA_602、AA_591 九件回覆（restartYes、multirel、father→mother 等）＋大量舊測試期望值；**子代理被交班中止，全部 unit 沒跑完**。
+4. **排隊**：AA_593 學姊手機（AA600 之後）；LAWWW2 交件 LAW-RELAYOUT-1102（`d73588749`，WIP，萬才館搬、湖、黑森林）、DORM-LADDER-HEAD-GRIP-1102（LAWWW2 下一班）。
+5. **D118 法律學習／考試／職涯**（STUDY-EXAM-SYS-1102）照任務總表繼續。
+6. 其餘照 D99 → D81，`check_handoff.py queue --owner LAWWW`。
+
+**C｜正在做的工作**：交班時停了三個子代理（anb、ex600、libq3）和國考測試；worktree 裡沒 commit 的已 commit（anb `719a57231`），三條分支＋int/m591、sisdate、libq2 都在上面那個 bundle。本機 worktree：`.claude/worktrees/agent-*`（ex600、anb、libq3）、scratchpad 的 wt_m591——**下一班不要依賴本機，用 bundle**。
+
+**D｜最新決策與規則**：D128（11-02 19:5x，美術驗收全部不經使用者；選擇題「全部交出去」）；UA-1102-28～30。沒有新的 HV 編號。
+
+**E｜跨 AI 協作**：LAWWW2、BB 已交班（D75：不要傳訊息給休班帳號）。BB 要的 SHA 還沒交（見 B1）。AA、CC 本帳號狀態以 duty.json 為準。
+
+**F｜測試與問題**：
+- int/m591 的整套 Node 還沒跑；國考 11 支只跑完 7（見 B2）。
+- 交班前看到 `flow_ladder` 類瀏覽器測試兩份舊輸出有 FAIL（階梯選項按鈕點了「None」、互動按鈕空白）：那是 5f238fc9d 修正**以前**的輸出；修正後雲端 ALL PASS（5f238fc9d）。下一班 BB 用最新 SHA 重跑確認。
+- 瀏覽器、iPhone 實機都沒驗本班改動（Playwright 由 BB／CC 跑；Playwright ≠ iPhone）。
+
 
 ### 帳號 B → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）｜2026-11-01 09:0x UTC 交班（使用者「現在交班 等別的ai交班你要最後收尾」，HANDOFF-B-1101）
 
