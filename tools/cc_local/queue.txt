@@ -43,6 +43,11 @@ V19D_tour_joy | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tou
 V19D_swingshot | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
 V19D_swing    | 15e78dff7 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
 V19D_stairarm | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
+# --- V19 重跑（CC 17:5x）：touch 第一次手機自己打開、搖桿沒動；tour_tap 結束後合照選單沒跳（加出遊狀態記錄）；grandma 媽媽那句台上還沒人（探針改）；diners noodle2 18:30 同一批人不同（改成列出差的人和時間）---
+V19R_touch2  | 15e78dff7 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r2;XARGS={url}
+V19D_tour_tap2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=outst
+V19D_grandma2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1;RERUN=mom
+V19S_noodle2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 30 | CC_HEADLESS=0;SHOPS=l118_noodle2;HOURS=18.5;RERUN=diff
 # --- V18 非門檻那批（子代理 11-03：ffee 上 unmet、journal ALL PASS，gym 只有拉筋裙子 FAIL，popin ⑤ 要看 PC）：改在 V19 候選跑，_C 是修正前的對照、應該 FAIL ---
 V19X_popin   | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0
 V19X_popin_C | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_popin_probe.py | index.html | 30 | CC_HEADLESS=0;EXPECT=FAIL
@@ -53,11 +58,6 @@ V19X_jnl     | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_journal_
 V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_cal_probe.py | index.html | 60 | EXPECT=FAIL
 #HOLD修正 GYM_skirt   | <修正> | probe | docs/story_planning/test_tools/cc/cc_gym_skirt_probe.py | index.html | 40 |
 # （GYM_skirt：BUG-GYM-SKIRT-1103 修好以後填 SHA；雲端 ffeec06e0 修正前 FAILED 2）
-# --- V19 重跑（CC 17:5x）：touch 第一次手機自己打開、搖桿沒動；tour_tap 結束後合照選單沒跳（加出遊狀態記錄）；grandma 媽媽那句台上還沒人（探針改）；diners noodle2 18:30 同一批人不同（改成列出差的人和時間）---
-V19R_touch2  | 15e78dff7 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r2;XARGS={url}
-V19D_tour_tap2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=outst
-V19D_grandma2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1;RERUN=mom
-V19S_noodle2 | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 30 | CC_HEADLESS=0;SHOPS=l118_noodle2;HOURS=18.5;RERUN=diff
 # ===== V19 結束 =====
 # ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
 N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
