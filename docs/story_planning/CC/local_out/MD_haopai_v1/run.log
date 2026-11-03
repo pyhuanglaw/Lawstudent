@@ -1,0 +1,48 @@
+06:28:21 | INFO: Data are loaded, start creating Blender stuff
+06:28:21 | INFO: Blender create Mesh node hp_alpha_mesh
+06:28:21 | INFO: Blender create Mesh node hp_ceiling_ceil
+06:28:21 | INFO: Blender create Mesh node hp_emit
+06:28:21 | INFO: Blender create Mesh node hp_floor_floor
+06:28:21 | INFO: Blender create Mesh node hp_glasscase_glass
+06:28:21 | INFO: Blender create Mesh node hp_goods
+06:28:21 | INFO: Blender create Mesh node hp_soffit_wall
+06:28:21 | INFO: Blender create Mesh node hp_vc
+06:28:21 | INFO: Blender create Mesh node hp_vc_metal
+06:28:21 | INFO: Blender create Mesh node hp_wood
+06:28:21 | INFO: Blender create Mesh node PLATE_FACE_HAOPAI
+06:28:21 | INFO: Blender create Mesh node WALL_back_curtain_goods
+06:28:21 | INFO: Blender create Mesh node WALL_back_curtain_vcm
+06:28:21 | INFO: Blender create Mesh node WALL_back_curtain_wood
+06:28:21 | INFO: Blender create Mesh node WALL_back_hp_vc
+06:28:21 | INFO: Blender create Mesh node WALL_back_wall_wall
+06:28:21 | INFO: Blender create Mesh node WALL_front_front_glass
+06:28:21 | INFO: Blender create Mesh node WALL_front_front_vcm
+06:28:21 | INFO: Blender create Mesh node WALL_front_front_wall
+06:28:21 | INFO: Blender create Mesh node WALL_left_grid_alpha
+06:28:21 | INFO: Blender create Mesh node WALL_left_hp_goods
+06:28:21 | INFO: Blender create Mesh node WALL_left_hp_vc
+06:28:21 | INFO: Blender create Mesh node WALL_left_hp_vc_metal
+06:28:22 | INFO: Blender create Mesh node WALL_left_hp_wood
+06:28:22 | INFO: Blender create Mesh node WALL_left_tv_emit
+06:28:22 | INFO: Blender create Mesh node WALL_left_wall_wall
+06:28:22 | INFO: Blender create Mesh node WALL_right_hp_alpha_mesh
+06:28:22 | INFO: Blender create Mesh node WALL_right_hp_goods
+06:28:22 | INFO: Blender create Mesh node WALL_right_hp_vc
+06:28:22 | INFO: Blender create Mesh node WALL_right_hp_vc_metal
+06:28:22 | INFO: Blender create Mesh node WALL_right_ttboard_wood
+06:28:22 | INFO: Blender create Mesh node WALL_right_wall_wall
+06:28:22 | INFO: glTF import finished in 0.78s
+00:07.485  cycles           | WARNING CUEW initialization failed: Error opening the library
+01:23.953  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_01_ref_door.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_01_ref_door.png
+02:41.047  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_02_racket_wall.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_02_racket_wall.png
+03:56.344  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_03_counter.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_03_counter.png
+05:16.016  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_04_stringer.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_04_stringer.png
+06:21.766  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_05_back.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_haopai_v1\out\haopai_05_back.png
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

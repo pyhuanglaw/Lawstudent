@@ -1,0 +1,24 @@
+{
+  "rerun": "",
+  "id": "MD_haopai_v1",
+  "sha": "c876f5ecd",
+  "kind": "blender",
+  "script": "tools/blender/env_second/render_cycles.py",
+  "env": "SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} haopai docs/story_planning/test_tools/cc/blender/haopai_views.json --res 960x540 --samples 64 --exposure -0.3 --point -3.0,3.25,-6.0,45 --point -3.0,3.25,-3.0,45 --point -3.0,3.25,0.0,45 --point -3.0,3.25,3.0,45 --point -3.0,3.25,6.0,45 --point 0.0,3.25,-6.0,45 --point 0.0,3.25,-3.0,45 --point 0.0,3.25,0.0,45 --point 0.0,3.25,3.0,45 --point 0.0,3.25,6.0,45 --point 3.0,3.25,-6.0,45 --point 3.0,3.25,-3.0,45 --point 3.0,3.25,0.0,45 --point 3.0,3.25,3.0,45 --point 3.0,3.25,6.0,45",
+  "machine": "MSI",
+  "start": "2026-11-04T06:27:54",
+  "end": "2026-11-04T06:34:44",
+  "seconds": 409,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "blender_threads": "14",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 49,
+    "used_gb": 15.5,
+    "chrome_testing": 0
+  }
+}
