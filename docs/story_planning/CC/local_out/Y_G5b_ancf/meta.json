@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Y_G5b_ancf",
+  "sha": "c89a5f9be",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_next1102_ui_probe.py",
+  "env": "SHA=c89a5f9be;CASES=ancf2;ORIENTS=port;REAL=1",
+  "machine": "MSI",
+  "start": "2026-11-03T09:33:53",
+  "end": "2026-11-03T09:38:16",
+  "seconds": 264,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 51,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 28
+  }
+}

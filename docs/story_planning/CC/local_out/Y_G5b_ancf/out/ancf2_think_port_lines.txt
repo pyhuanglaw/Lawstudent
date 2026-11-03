@@ -1,0 +1,57 @@
+==== Y1S1 ====
+手機：["考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。"]
+［ADV.begin］{"background": "dark", "right": null, "left": null}
+［ADV.begin］{"background": {"image": "assets/bg/xiaofu.webp", "label": null}, "right": "heroine_01", "left": null}
+（旁白）：（簡餐店的電視在播新聞。靠窗的兩人座。）
+沈以安：民總最後一題，我寫到時間到。
+祐廷：嗯。
+沈以安：下學期的課我排了一版，你要的話傳給你。
+沈以安：我這學期很少出來吃飯。……今天是特地訂的。
+沈以安：寒假我先留在臺北，白天都在總圖。
+［選項］["「我也會去總圖。」", "（笑了一下，沒有接話。）"]
+（旁白）：（餐盤疊好，拿去回收。外面的路燈已經亮了。）
+［ADV.begin］{"background": {"image": "assets/bg/gongguan.webp", "label": null}, "right": "heroine_01", "left": null}
+（旁白）：（走出店門，她沒有往宿舍那邊走。）
+沈以安：走一下。我有東西給你看。
+［選項］["「我喜歡妳。」", "「我們可以不只是朋友嗎？」", "「我喜歡妳。妳不用現在回答。」", "（先不說）"]
+（旁白）：（她從包包拿出手帳，翻到最後面那一頁，推到你面前。）
+（旁白）：（那一頁的標題是「想去的店」。一行一家，有幾家已經打了勾，今天這一家也勾了。最下面一行沒有店名，只寫著：和你。）
+［ADV.cg］"cg_reason_column_heroine01"
+（旁白）：（她把手帳拿回去，舉到下巴前面。只露出眼睛。）
+沈以安：你不說的話，我寫了。
+沈以安：……你先回答。
+［選項］["「好。」", "「讓我想想。」"]
+沈以安：好。這一行我先不劃掉。
+［ADV.begin］{"background": "dark", "right": null, "left": null}
+［字幕］學期末的飯
+［ADV.end］null
+［字幕］回到首都帝大。
+結果：{"picked": {"who": "heroine_01", "kind": "heart", "day": 93}, "done": {"who": "heroine_01", "kind": "heart", "day": 95}, "result": "think", "second": {"heroine_01": false}, "think": {"heroine_01": "Y1S1"}, "dating": false, "confessed": null, "out": {"day": 95, "key": "2025-12-20", "h": 19, "state": "done", "title": "學期末的飯：沈以安（公館巷子裡的小店）"}, "msgs": [{"tag": "te_Y1S1_heroine_01", "day": "2025-12-18", "h": 20.5, "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。", "ask": ["好。", "那天有約了。"]}], "queued": true}
+
+==== Y1S2 ====
+手機：["考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。", "考完了。七點，同一家。"]
+［ADV.begin］{"background": "dark", "right": null, "left": null}
+［ADV.begin］{"background": {"image": "assets/bg/xiaofu.webp", "label": null}, "right": "heroine_01", "left": null}
+（旁白）：（簡餐店的電視在播新聞。靠窗的兩人座。）
+沈以安：這學期的筆記，我想整理成一本。
+祐廷：嗯。
+沈以安：7/25 回台中兩週。
+沈以安：我這學期很少出來吃飯。……今天是特地訂的。
+沈以安：暑假我要上日語課。
+［選項］["「我也想報。」", "（笑了一下，沒有接話。）"]
+（旁白）：（兩個碗都空了。窗外的路燈已經亮了。）
+［ADV.begin］{"background": {"image": "assets/bg/xiaofu.webp", "label": null}, "right": "heroine_01", "left": null}
+［選項］["「我喜歡妳。」", "「我們可以不只是朋友嗎？」", "「我喜歡妳。妳不用現在回答。」", "（先不說）"]
+沈以安：上次那一頁，最下面那一行還沒勾。……你要看嗎？
+［選項］["「好。」", "「讓我想想。」"]
+［ADV.cg］"cg_shop_page_check_heroine01"
+（旁白）：（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）
+沈以安：……勾了。
+（旁白）：（餐盤疊好，拿去回收。）
+（旁白）：（走出店門，她沒有往宿舍那邊走。）
+［ADV.begin］{"background": "dark", "right": null, "left": null}
+［字幕］學期末的飯
+［ADV.end］null
+［字幕］回到首都帝大。
+結果：{"picked": {"who": "heroine_01", "kind": "heart", "day": 268}, "done": {"who": "heroine_01", "kind": "heart", "day": 270}, "result": "sheSaid", "second": {"heroine_01": true}, "think": {}, "dating": true, "confessed": {"heroine_01": 270}, "out": {"day": 270, "key": "2026-06-13", "h": 19, "state": "done", "title": "學期末的飯：沈以安（公館巷子裡的小店）"}, "msgs": [{"tag": "te_Y1S1_heroine_01", "day": "2025-12-18", "h": 20.5, "text": "考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。", "ask": ["好。", "那天有約了。"]}, {"tag": "te_Y1S2_heroine_01", "day": "2026-06-11", "h": 20.5, "text": "考完了。七點，同一家。", "ask": ["好。", "那天有約了。"]}], "queued": true}
+
