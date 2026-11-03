@@ -343,6 +343,8 @@ async def main():
                 run.check('camp_peishan：宿營照玩家點完、拿到沛珊的聯絡方式', bool(ps_got), J(ps_got))
                 for dk in PS_DAYS:
                     r = ps_res.get(dk)
+                    if r is None and ps_tries.get(dk):
+                        run.note('camp_peishan %s：宿營劇情中試了 %d 次，每次點沛珊的同時劇情都把手機收起來、這一天就過了（看截圖 *_interrupted），不算 FAIL' % (dk, ps_tries[dk])); continue
                     if r is None and ps_got and ps_got[0] and ps_got[0] > dk:
                         run.note('camp_peishan %s：這一天還沒有沛珊的聯絡方式（%s %s 時才拿到；AA_608 宿營 8/23 營火才認識），不算 FAIL' % (dk, ps_got[0], ps_got[1])); continue
                     if r and not r.get('opened'):
