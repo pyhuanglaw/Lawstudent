@@ -41548,6 +41548,26 @@
       "priority": "P1",
       "note": "使用者 11-03 截圖「日誌跟筆記同一頁太亂了 我希望日誌以月曆出現 發生什麼事就寫在當天日期那一格 可以查詢」（UA-LAWWW-1103-26；X167）",
       "next": "src/journal3d.js＋index.html＋game3d.js（journal_calendar_unit 16 項，修改前 FAIL）；Playwright 直向／橫向截圖看過 → BB 在 PC 看"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上宿營 8/23 夜談",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-CAMP-AGE-ASK-1103",
+      "title": "宿營夜談明軒問「你幾年次的？」不自然（大一同學大部分同年，不會問年次）：AA 改怎麼知道祐廷大一歲（ZHE_CALLS_GE「哥」的由來）",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 截圖（UA-LAWWW-1103-27；X168）；camp_y1.js:255 ev_camp_d2_talk",
+      "next": "AA 改稿 → LAWWW 照稿改（AA_608 宿營精簡同時在做，同一個檔）"
     }
   ]
 }
