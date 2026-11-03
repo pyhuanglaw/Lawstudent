@@ -48,6 +48,49 @@ const NANYANG_LAYOUT = {
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]},
     exit: null, enterAt: null,
     todo: 'AA_615 的場次（12:00、15:00、18:30、21:30）照外觀圖改成 10:00／13:00／16:00／19:30（README 指示），黑板架寫「今日放映 A片 13:00 B片 15:10」；AA 要跟著改 AA_615'
+  },
+  /* ===== 1 廳（nanyang_hall）v1：BB 2026-11-03（使用者：「盡量接近我給你的圖 復古風」）=====
+     照大廳參考圖門後看得到的那一角：紅地毯、亮紅高背座椅一排一排、右邊一條直走道、走道邊的小地燈、白銀幕。
+     其他照大廳的復古語彙：深紅直條護牆板＋米色灰泥、Art Deco 層層燈罩的壁燈、紅絨布幕＋金流蘇、米色拱框（台口）、綠色「太平門」燈箱、後牆放映窗。
+     座標：房間中心在原點；+z 是後牆（往大廳的門，接大廳右邊那組開著的門），−z 是銀幕。地板是平的（老戲院多半有坡，這一版先平的，導航簡單）。
+     座椅一整排是導航阻擋；可以坐的是靠右走道的那一張（從走道走過去坐）。 */
+  hall: {
+    id: 'nanyang_hall', name: '南洋戲院 1 廳', glb: 'assets/models/env/second_ai/bb_support/nanyang_hall.glb', v: 1,
+    w: 11.0, d: 16.0, h: 5.6, floor: 'carpet_red',
+    door: {x: 3.5, w: 2.0, h: 2.7},
+    aisleR: {x0: 2.7, x1: 4.6}, aisleL: {x0: -5.5, x1: -4.7},
+    seatBlock: {x0: -4.55, x1: 2.55, n: 12, pitch: 0.58},
+    rows: {z0: 4.3, n: 9, pitch: 0.98},
+    stage: {z0: -8.0, z1: -6.6, h: 0.6},
+    screen: {x: 0.0, y: 1.4, w: 7.4, h: 3.3, z: -7.75},
+    proscenium: {x0: -4.6, x1: 4.6, top: 5.0},
+    booth: {y: 3.8, xs: [-0.8, 0.8]},
+    spawn: {x: 3.5, z: 7.3, yaw: Math.PI},
+    blocks: [],   // 下面的 HALL_BLOCKS() 依 rows 算出來
+    seats: [],    // HALL_SEATS()
+    interact: [
+      {kind: 'lobby', x: 3.5, z: 7.6, yaw: 0, label: '回大廳'},
+      {kind: 'screen', x: 0.0, z: -5.8, yaw: Math.PI, label: '看銀幕'}
+    ],
+    lights: [],   // HALL_LIGHTS()
+    wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]},
+    exit: null, enterAt: null,
+    note: '暗的影廳：開演時燈全暗、只剩銀幕和走道地燈（LAWWW2 烘光影：lights 的 kind 分 house（場燈）／aisle（地燈）／exit（太平門）／screen）'
   }
 };
+(function () {
+  const H = NANYANG_LAYOUT.hall, sb = H.seatBlock, rw = H.rows;
+  const rowZ = r => rw.z0 - r * rw.pitch;
+  H.rowZ = Array.from({length: rw.n}, (_, r) => +rowZ(r).toFixed(3));
+  H.blocks = H.rowZ.map(z => [+((sb.x0 + sb.x1) / 2).toFixed(3), +(z + 0.05).toFixed(3), +(sb.x1 - sb.x0).toFixed(3), 0.72])
+    .concat([[0, (H.stage.z0 + H.stage.z1) / 2, H.w, H.stage.z1 - H.stage.z0]]);
+  // 可以坐的：每一排靠右走道那一張（x＝最右邊的座位），面向銀幕（yaw π＝面向 −z）
+  const xR = sb.x1 - sb.pitch / 2;
+  H.seats = H.rowZ.map((z, r) => ({x: +xR.toFixed(3), z: +z.toFixed(3), yaw: Math.PI, row: r + 1, label: '坐下看電影', approach: {x: H.aisleR.x0 + 0.5, z: +z.toFixed(3)}}));
+  H.lights = [].concat(
+    [-5.3, 5.3].flatMap(x => [3.0, -0.5, -4.0].map(z => ({x: x, y: 2.9, z: z, kind: 'house'}))),
+    H.rowZ.map(z => ({x: H.aisleR.x0 + 0.08, y: 0.18, z: z + 0.3, kind: 'aisle'})),
+    [{x: H.door.x, y: 3.0, z: H.d / 2 - 0.1, kind: 'exit'}, {x: -5.4, y: 2.6, z: -5.6, kind: 'exit'}],
+    [{x: 0, y: H.screen.y + H.screen.h / 2, z: H.screen.z + 0.3, kind: 'screen'}]);
+})();
 if (typeof module !== 'undefined') module.exports = NANYANG_LAYOUT;
