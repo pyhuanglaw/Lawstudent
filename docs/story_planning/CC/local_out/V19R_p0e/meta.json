@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19R_p0e",
+  "sha": "9e0684663",
+  "kind": "game",
+  "script": "tests/p0_movement.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T04:01:50",
+  "end": "2026-11-04T04:04:39",
+  "seconds": 169,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "10",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 19,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 18
+  }
+}
