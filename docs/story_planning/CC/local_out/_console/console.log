@@ -1,20 +1,21 @@
-[19:44:01] run_forever round: 2   runner sha256: 3ef8d2df55
-[19:44:01] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[19:44:01]          playwright 1.64.1 OK
-[19:44:01] git    : git version 2.56.0.windows.4
-[19:44:01] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[19:44:01] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[19:44:01] repo   : C:\Users\USER\Documents\Lawstudent
-[19:44:01] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[19:44:01] parallel: 2  (blender items run alone)
-[19:44:01] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[19:44:02] git fetch
+[20:02:17] run_forever round: 3   runner sha256: 8565f3aa98
+[20:02:17] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[20:02:18]          playwright 1.64.1 OK
+[20:02:18] git    : git version 2.56.0.windows.4
+[20:02:18] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[20:02:19] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[20:02:19] repo   : C:\Users\USER\Documents\Lawstudent
+[20:02:19] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[20:02:19] parallel: 2  (blender items run alone)
+[20:02:19] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[20:02:19] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       309ddc71e..e6dc20343  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
-       79ab8efba..b12d3bb5d  claude/second-ai-env-art -> origin/claude/second-ai-env-art
+       4f9477b33..9317da25c  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -42,134 +43,6 @@
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
     Already up to date.
-[19:44:18] dev head = 578f5a0d4   lawww2 head = b12d3bb5d
-[19:44:20] config.txt: PARALLEL 2 -> 3
-[19:44:20] memory used: 49%  (new items wait while >= 85%)
-[19:44:26] queue: V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18G_sleep, V18G_eat, V18G_camp608, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
-[19:44:26] skip V18R_deploy (already done on 0776cafc8)
-[19:44:26] skip V18R_p0 (already done on 0776cafc8)
-[19:44:26] skip V18R_v7 (already done on 0776cafc8)
-[19:44:26] memory 50% before starting V18R_zone (0 running)
-[19:44:26] memory 50% before starting V18R_mini (1 running)
-[19:44:26] ==== START V18R_zone  (game @ 0776cafc8) ====
-[19:44:26] memory 50% before starting V18R_touch (2 running)
-[19:44:26] ==== START V18R_mini  (game @ 0776cafc8) ====
-[19:44:26] ==== START V18R_touch  (game @ 0776cafc8) ====
-[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_zone
-[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_mini
-[19:44:30] [res] cpu=51% mem=50% (15.8/31.4 GB) chrome_testing=0  START V18R_touch
-[19:46:53] [res] cpu=99% mem=62% (19.3/31.4 GB) chrome_testing=16  END V18R_mini
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       a18ac8caa..dabc1ee42  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:47:07] ==== END   V18R_mini  exit=0  147s   ====
-[19:47:16] memory 65% before starting V18R_class (2 running)
-[19:47:16] ==== START V18R_class  (game @ 0776cafc8) ====
-[19:47:21] [res] cpu=79% mem=64% (20.5/31.4 GB) chrome_testing=17  START V18R_class
-[19:48:24] [res] cpu=93% mem=59% (18.6/31.4 GB) chrome_testing=17  END V18R_zone
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       dabc1ee42..197f71098  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:48:33] ==== END   V18R_zone  exit=0  238s   ====
-[19:48:43] memory 62% before starting V18R_reach (2 running)
-[19:48:43] ==== START V18R_reach  (game @ 0776cafc8) ====
-[19:48:49] [res] cpu=96% mem=62% (19.6/31.4 GB) chrome_testing=17  START V18R_reach
-[19:49:26] 正在跑：V18R_touch（已跑 4 分／上限 60 分）、V18R_class（已跑 2 分／上限 110 分）、V18R_reach（已跑 0 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:50:19] [res] cpu=85% mem=54% (17.2/31.4 GB) chrome_testing=8  END V18R_touch
-[19:50:25] [res] cpu=53% mem=54% (17.2/31.4 GB) chrome_testing=8  END V18R_class
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       197f71098..75c1ca4ca  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:50:27] ==== END   V18R_touch  exit=1  354s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       75c1ca4ca..0e385aaca  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:50:36] ==== END   V18R_class  exit=0  189s   ====
-[19:50:41] memory 55% before starting V18G_sleep (2 running)
-[19:50:41] ==== START V18G_sleep  (probe @ ffeec06e0) ====
-[19:50:45] [res] cpu=76% mem=55% (17.5/31.4 GB) chrome_testing=8  START V18G_sleep
-[19:50:45] memory 55% before starting V18G_eat (2 running)
-[19:50:45] ==== START V18G_eat  (probe @ ffeec06e0) ====
-[19:50:49] [res] cpu=84% mem=56% (17.3/31.4 GB) chrome_testing=8  START V18G_eat
-[19:52:37] [res] cpu=79% mem=62% (19.4/31.4 GB) chrome_testing=16  END V18G_sleep
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0e385aaca..afee874fe  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:52:44] ==== END   V18G_sleep  exit=0  117s   ====
-[19:52:48] memory 61% before starting V18G_camp608 (2 running)
-[19:52:48] ==== START V18G_camp608  (probe @ ffeec06e0) ====
-[19:52:52] [res] cpu=68% mem=61% (19.3/31.4 GB) chrome_testing=17  START V18G_camp608
-[19:54:26] 正在跑：V18R_reach（已跑 5 分／上限 90 分）、V18G_eat（已跑 3 分／上限 90 分）、V18G_camp608（已跑 1 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
-[19:56:37] [res] cpu=63% mem=62% (19.5/31.4 GB) chrome_testing=18  END V18G_eat
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       afee874fe..5a55d2d35  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:56:47] ==== END   V18G_eat  exit=0  352s   ====
-[19:56:56] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
-[19:56:56] memory 62% before starting V18R_touch2 (2 running)
-[19:56:56] ==== START V18R_touch2  (game @ 0776cafc8) ====
-[19:57:00] [res] cpu=44% mem=62% (19.8/31.4 GB) chrome_testing=18  START V18R_touch2
-[19:59:01] [res] cpu=58% mem=58% (18.2/31.4 GB) chrome_testing=20  END V18R_reach
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5a55d2d35..f2828c148  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[19:59:08] ==== END   V18R_reach  exit=0  619s   ====
-[19:59:12] skip V18_ANSMOKE (already done on 6a8033f4e)
-[19:59:12] skip G1_reach (already done on ef63b1877)
-[19:59:12] skip G2_libfl (already done on ef63b1877)
-[19:59:12] skip G3_libsc (already done on ef63b1877)
-[19:59:12] skip G5_termend (already done on ef63b1877)
-[19:59:12] skip G6a_v7 (already done on ef63b1877)
-[19:59:12] skip G6b_v95 (already done on ef63b1877)
-[19:59:12] skip G6c_fm (already done on ef63b1877)
-[19:59:12] skip G7_class (already done on ef63b1877)
-[19:59:12] skip P3_ladder (already done on ef63b1877)
-[19:59:12] skip P4_legal (already done on ef63b1877)
-[19:59:12] skip P5_ui (already done on ef63b1877)
-[19:59:12] skip A1_advskip (already done on b1b249873)
-[19:59:12] skip A2_dorm (already done on b1b249873)
-[19:59:12] skip A3_late15 (already done on b1b249873)
-[19:59:12] skip A1_adv_ef63 (already done on ef63b1877)
-[19:59:12] skip A2_dorm_ef63 (already done on ef63b1877)
-[19:59:12] skip A3_l15_ef63 (already done on ef63b1877)
-[19:59:12] skip A1pre (already done on 03b2721af)
-[19:59:12] skip A2pre (already done on 3c6207b60)
-[19:59:12] skip A3pre (already done on dc36b401e)
-[19:59:12] skip ART_cop (already done on b1b249873)
-[19:59:12] skip ART_lband (already done on b1b249873)
-[19:59:12] skip ART_night (already done on b1b249873)
-[19:59:12] skip ART_uskit (already done on b1b249873)
-[19:59:12] skip P3b_sl (already done on ef63b1877)
-[19:59:12] skip B4main (already done on 27e6ce77e)
-[19:59:12] skip R1_reach (already done on b1b249873)
-[19:59:12] skip R3_touchwz (already done on b1b249873)
-[19:59:12] skip R6_layout (already done on b1b249873)
-[19:59:12] skip R6b_layoutcss (already done on b1b249873)
-[19:59:12] skip R7_quota (already done on b1b249873)
-[19:59:13] skip R7b_quota15 (already done on b1b249873)
-[19:59:13] skip R8b_y4s2jp (already done on b1b249873)
-[19:59:13] skip R6_rr (already done on b1b249873)
-[19:59:13] skip R12_fasat (already done on b1b249873)
-[19:59:13] skip R12b_fasatpre (already done on ba125d6f3)
-[19:59:13] skip R6_rr2 (already done on b1b249873)
-[19:59:13] skip F1_fps_hl (already done on b1b249873)
-[19:59:13] skip F2_fps_hd (already done on b1b249873)
-[19:59:13] skip R1_x2 (already done on b1b249873)
-[19:59:13] skip R3_x2 (already done on b1b249873)
-[19:59:13] skip R1_x3 (already done on b1b249873)
-[19:59:13] skip R3_x3 (already done on b1b249873)
-[19:59:13] memory 57% before starting 00_gpu (2 running)
-[19:59:13] ==== START 00_gpu  (gpu @ 309ddc71e) ====
-[19:59:17] [res] cpu=57% mem=58% (18.2/31.4 GB) chrome_testing=20  START 00_gpu
-[19:59:26] 正在跑：V18G_camp608（已跑 6 分／上限 240 分）、V18R_touch2（已跑 2 分／上限 60 分）、00_gpu（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[20:00:02] [res] cpu=24% mem=57% (17.8/31.4 GB) chrome_testing=18  END V18G_camp608
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f2828c148..e8042f287  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:00:10] ==== END   V18G_camp608  exit=1  433s   ====
-[20:00:41] [res] cpu=22% mem=50% (15.8/31.4 GB) chrome_testing=4  END V18R_touch2
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e8042f287..3f1b95ac9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[20:00:47] ==== END   V18R_touch2  exit=0  225s   ====
-[20:02:09] [res] cpu=26% mem=47% (14.9/31.4 GB) chrome_testing=0  END 00_gpu
+[20:02:28] dev head = e6dc20343   lawww2 head = 9317da25c
+[20:02:29] config.txt: PARALLEL 2 -> 3
+[20:02:29] memory used: 47%  (new items wait while >= 85%)
