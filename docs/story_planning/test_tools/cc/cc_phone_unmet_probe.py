@@ -45,7 +45,9 @@ END_KEY = os.environ.get('END_KEY', '2025-09-01')   # 開學那一天（src/data
 MAX_MIN = float(os.environ.get('MAX_MIN', '85'))
 CASES = [x.strip() for x in os.environ.get('CASES', 'contacts,camp_peishan').split(',') if x.strip()]   # 同一趟新局；CASES 只決定報哪幾項
 PS = 'classmate_peishan'
-PS_DAYS = ('2025-08-22', '2025-08-25', '2025-08-30')
+PS_DAYS = ('2025-08-22', '2025-08-23', '2025-08-24', '2025-08-25', '2025-08-30')
+CAMP_DAYS = ('2025-08-22', '2025-08-23', '2025-08-24')   # 宿營整天是劇情：在對話之間試著打開手機
+# AA_608（bc6b13bbb 等）起宿營改成 8/23 營火才認識沛珊（camp_y1.js:186 meet＋contact）；拿到聯絡方式以前的那幾天記「還沒有聯絡方式」，不算 FAIL
 J = lambda o: json.dumps(o, ensure_ascii=False)
 HER = ['heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05']
 SLEEP_PREF = ('睡到明天早上', '先睡。明天再拆。', '睡覺', '直接睡')
@@ -168,7 +170,7 @@ async def pickers(pg, cdp, run, tag, met):
         for pn, sel in panels:
             cells = await pg.evaluate(CELLS_JS, sel); out[pn] = cells
             ids = sorted({(c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or '') for c in cells} - {''})
-            metAll = await pg.evaluate("ids=>{ const o={}; for(const id of ids){ try{ o[id]=!!SOCIAL.metD(id); }catch(e){ o[id]=null; } } return o; }", ids)   # BB 10:57：任何還沒見過的人（不只女主角）
+            metAll = await pg.evaluate("ids=>{ const o={}; for(const id of ids){ try{ const c=CHARACTERS[id]; o[id]=(c&&c.social_layer==='D')?!!SOCIAL.metD(id):null; }catch(e){ o[id]=null; } } return o; }", ids)   # metD（FIRST_MET）只對 D 層算數；可昕這類開局前就認識的人（contacts0）不是 D 層   # BB 10:57：任何還沒見過的人（不只女主角）
             for c in cells:
                 w = bad_cell(c, pn)
                 pid = c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or c['data'].get('person') or ''
@@ -238,7 +240,7 @@ async def main():
                 if await pg.evaluate("!!GAME.G&&GAME.running"): break
                 await pg.wait_for_timeout(500)
             day0 = None; last_key = None; last_sig = None; stuck_t = time.time(); recover = 0; free_since = None; skip_fail = None
-            end_reason = None; met_at = None; last_scan = 0; ps_res = {}; ps_got = None; ps_tries = 0
+            end_reason = None; met_at = None; last_scan = 0; ps_res = {}; ps_got = None; ps_tries = {}
             while time.time() - t_start < MAX_MIN * 60:
                 if not await pg.evaluate("!!GAME.G&&GAME.running"):
                     await pg.wait_for_timeout(800); continue
@@ -266,10 +268,10 @@ async def main():
                     if ps_got is None and await pg.evaluate("id=>!!INV.hasContact(GAME.G,id)", PS):
                         ps_got = [last_key, s['hour']]; run.note('宿營裡拿到沛珊的聯絡方式（camp_y1.js:116 consequences.contact）：%s' % J(ps_got))
                     if ps_got and last_key in PS_DAYS and last_key not in ps_res:
-                        if last_key == '2025-08-22' and not free and ps_tries < 6:   # 宿營整天是劇情：在對話之間試著打開手機（像玩家按右上角手機）
-                            ps_tries += 1; r = await ps_check(pg, cdp, run, '0822_scene%d' % ps_tries)
+                        if last_key in CAMP_DAYS and not free and ps_tries.get(last_key, 0) < 6:   # 宿營整天是劇情：在對話之間試著打開手機（像玩家按右上角手機）
+                            ps_tries[last_key] = ps_tries.get(last_key, 0) + 1; r = await ps_check(pg, cdp, run, '%s_scene%d' % (last_key[5:].replace('-', ''), ps_tries[last_key]))
                             if r['opened']: ps_res[last_key] = r
-                            elif ps_tries >= 6: ps_res[last_key] = r
+                            elif ps_tries[last_key] >= 6: ps_res[last_key] = r
                         elif free:
                             ps_res[last_key] = await ps_check(pg, cdp, run, last_key[5:].replace('-', '')); continue
                     if ps_got and last_key and '2025-08-25' not in ps_res and '2025-08-25' < last_key < '2025-08-30' and free:   # 8/25～28 不演（story3d.js:152）：用回家後第一個能動的那天代替
@@ -337,6 +339,8 @@ async def main():
                 run.check('camp_peishan：宿營照玩家點完、拿到沛珊的聯絡方式', bool(ps_got), J(ps_got))
                 for dk in PS_DAYS:
                     r = ps_res.get(dk)
+                    if r is None and ps_got and ps_got[0] and ps_got[0] > dk:
+                        run.note('camp_peishan %s：這一天還沒有沛珊的聯絡方式（%s %s 時才拿到；AA_608 宿營 8/23 營火才認識），不算 FAIL' % (dk, ps_got[0], ps_got[1])); continue
                     if r and not r.get('opened'):
                         run.note('camp_peishan %s：%s（不算 FAIL，記下來）' % (dk, r.get('why'))); continue
                     run.check('camp_peishan %s：訊息頁聯絡人列點沛珊點得開、有「傳訊息」、不是「聯絡不上」' % dk, bool(r and r['ok']),
