@@ -47,5 +47,5 @@ check('2f 還沒有對話的朋友也可以先設（朋友頁）：之後一有�
 { const G2=JSON.parse(JSON.stringify(G)); check('4 存檔、讀檔（JSON）以後最愛還在、順序一樣',JSON.stringify(G2.phone.fav)===JSON.stringify(G.phone.fav)&&order(PHONE.threads(G2,{sys:true,fav:true}))===order(PHONE.threads(G,{sys:true,fav:true}))); }
 { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
   check('5a 訊息列表用 PHONE.threads(G,{sys:true,fav:true})，最愛的名字前面有 ★',/PHONE\.threads\(G,\{sys:true,fav:true\}\)/.test(src)&&/t\.fav\?'<span class="favStar"/.test(src));
-  check('5b 對話表頭、朋友列表、人物頁都有星號按鈕（favBtn → data-fav），按了 toggleFav＋存檔＋重畫',/\+favBtn\(th\)\+msgBtn/.test(src)&&/favBtn\('p:'\+id\)\+\(pl&&st/.test(src)&&/<b>'\+esc\(name\)\+'<\/b>'\+favBtn\('p:'\+id\)/.test(src)&&/\[data-fav\]'\)\.forEach\(b=>b\.onclick=ev=>\{[^}]*PHONE\.toggleFav\(G,b\.dataset\.fav\)[^}]*autosave\(\); renderPhone\(\);/.test(src)); }
+  check('5b 對話表頭、朋友列表、人物頁都有星號按鈕（favBtn → data-fav），按了 toggleFav＋存檔＋重畫',/\+favBtn\(th\)\+msgBtn/.test(src)&&/<div class="favName">'\+esc\(nm\)\+favBtn\('p:'\+id\)/.test(src)&&/<b>'\+esc\(name\)\+'<\/b>'\+favBtn\('p:'\+id\)/.test(src)&&/\[data-fav\]'\)\.forEach\(b=>b\.onclick=ev=>\{[^}]*PHONE\.toggleFav\(G,b\.dataset\.fav\)[^}]*autosave\(\); renderPhone\(\);/.test(src)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

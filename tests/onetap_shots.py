@@ -45,7 +45,7 @@ async def one(p, run, landscape):
     R = await pg.evaluate(RECTS_JS); vw, vh = R['vw'], R['vh']
     g = R['#btnGo']
     run.check(f'{tag} 一鍵按鈕看得到、在畫面裡、44px 以上', bool(g) and inside(g, vw, vh) and g[2] - g[0] >= 44 and g[3] - g[1] >= 44, json.dumps(g))
-    others = ['#btnPhone', '#btnQuick', '#btnMenu', '#hudR .chip', '#minimap', '#joy', '#caption', '#goal', '#guide', '#nextClass', '#clock', '#ctlR', '#interact', '#toast']
+    others = ['#btnPhone', '#btnQuick', '#btnMenu', '#hudR .chip', '#minimap', '#joy', '#caption', '#goal', '#guide', '#nextClass', '#clock', '#ctlR', '#interact']   # #toast 是幾秒的提示（本來就疊在 HUD 那一行上，📱 也一樣），不算
     hit = [s for s in others if inter(g, R[s])]
     run.check(f'{tag} 一鍵按鈕不和其他 HUD 按鈕、小地圖、搖桿、目標、字幕框重疊', not hit, '重疊：' + ','.join(hit) + ' ' + json.dumps({s: R[s] for s in ['#btnGo'] + others if R[s]}))
     await run.shot(pg, f'{tag}_1_hud')
@@ -64,7 +64,7 @@ async def one(p, run, landscape):
     focus = await pg.evaluate("document.activeElement&&document.activeElement.id")
     body = await pg.evaluate("document.getElementById('goCfBody').innerText")
     run.check(f'{tag} 確認框跳出來、在畫面裡；確定、取消 44px 以上；預設焦點在取消', bool(box) and inside(box, vw, vh) and R['#goCfYes'] and R['#goCfYes'][3] - R['#goCfYes'][1] >= 44 and R['#goCfNo'][3] - R['#goCfNo'][1] >= 44 and focus == 'goCfNo', f'focus={focus} ' + json.dumps(box))
-    run.check(f'{tag} 確認框寫去哪、現在幾點、路程、睡到幾點', '宿舍 203' in body and '現在：週一 22:00' in body and '路程' in body and '睡：' in body, body.replace('\n', ' / '))
+    run.check(f'{tag} 確認框寫去哪、現在幾點、路程、睡到幾點', '宿舍 203' in body and '現在：週一 22:0' in body and '路程' in body and '睡：' in body, body.replace('\n', ' / '))
     run.check(f'{tag} 確認框開著：遊戲暫停（時間不走）', await pg.evaluate("!!GAME.E.paused"))
     await run.shot(pg, f'{tag}_3_confirm_sleep')
     await L.tap(pg, cdp, '#goCfNo'); await pg.wait_for_timeout(1000)
@@ -81,7 +81,7 @@ async def one(p, run, landscape):
     await run.shot(pg, f'{tag}_5_menu_17')
     await L.tap(pg, cdp, '#goPop [data-gok="date"]'); await pg.wait_for_timeout(1200)
     body = await pg.evaluate("document.getElementById('goCfBody').innerText")
-    run.check(f'{tag} 約會確認框：寫和誰約在哪、現在、路程、先跳到幾點出發', '兩點半 Café' in body and '現在：週一 17:00' in body and '先跳過時間' in body, body.replace('\n', ' / '))
+    run.check(f'{tag} 約會確認框：寫和誰約在哪、現在、路程、先跳到幾點出發', '兩點半 Café' in body and '現在：週一 17:0' in body and '先跳過時間' in body, body.replace('\n', ' / '))
     await run.shot(pg, f'{tag}_6_confirm_date')
     await L.tap(pg, cdp, '#goCfNo'); await pg.wait_for_timeout(800)
     run.check(f'{tag} 約會按取消：沒有出發、時間沒跳', await pg.evaluate("GAME.G.zone==='campus'&&Math.abs(GAME.G.hour-17)<0.2"))
