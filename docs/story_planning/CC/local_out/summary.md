@@ -582,3 +582,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19L_libfl] | [gpu_wrap 282.5s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 282.6s] BROWSER DISCONNECTED
 - 2026-11-04T02:12:22  V19L_libsc  sha=b267b0534  exit=0  165s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0） / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19L_libsc] | [gpu_wrap 133.4s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 133.5s] BROWSER DISCONNECTED
+- 2026-11-04T02:17:24  V19D_tour_tap2  sha=b267b0534  exit=1  295s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / FAILED: A 導覽結束後 5 分鐘內跳出合照的「出發：」
+      err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap2] | [gpu_wrap 263.2s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 263.3s] BROWSER DISCONNECTED
