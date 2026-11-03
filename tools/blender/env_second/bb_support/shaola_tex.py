@@ -61,6 +61,19 @@ def wall(path):
         # 斑駁：一點一點掉漆、黑點
         spots = (n3 > 0.83).astype(np.float32) * (n1 > 0.5)
         col = col * (1 - 0.12 * spots[..., None])
+        # v6：一塊一塊的黃斑、剝落（有邊緣），不是噴槍的漸層
+        nb = _noise(h, W, 60, 91 + k, 3); nc = _noise(h, W, 14, 95 + k, 2)
+        m_y = ((nb + 0.2 * nc) / 1.2 > 0.66).astype(np.float32)                       # 黃斑（舊水漬乾掉）
+        m_y = np.asarray(Image.fromarray((m_y * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
+        rim = np.clip(np.abs(np.gradient(m_y, axis=0)) + np.abs(np.gradient(m_y, axis=1)), 0, 1) * 3
+        col = col * (1 - 0.32 * m_y[..., None]) + np.array([186, 150, 86]) * 0.32 * m_y[..., None]
+        col *= (1 - 0.22 * np.clip(rim, 0, 1))[..., None]                       # 黃斑的深色邊
+        np_ = _noise(h, W, 40, 99 + k, 3) + 0.3 * _noise(h, W, 6, 101 + k, 2)
+        m_p = ((np_ / 1.3 > 0.71) * np.clip((yy - 0.08) * 8, 0, 1) > 0.5).astype(np.float32)   # 剝落：露出底下比較白的灰泥、邊緣一圈深色
+        m_p = np.asarray(Image.fromarray((m_p * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8)), np.float32) / 255
+        rp = np.clip(np.abs(np.gradient(m_p, axis=0)) + np.abs(np.gradient(m_p, axis=1)), 0, 1) * 4
+        col = col * (1 - 0.38 * m_p[..., None]) + np.array([226, 218, 196]) * 0.38 * m_p[..., None]
+        col *= (1 - 0.24 * np.clip(rp, 0, 1))[..., None]
         img[y0:y0 + h] = col
     im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im); r = random.Random(7)
     for k in range(3):   # 撕掉的海報、膠帶痕
@@ -137,21 +150,25 @@ def floor(path, rough_path, tables, aisle):
 
 # ---------------- 不鏽鋼（512：橫向髮絲紋、凹痕、指紋、邊緣變暗） ----------------
 def steel(path):
+    """v6：亮一點、髮絲紋對比高；凹痕（暗心＋亮邊）、反光的亮條（斜的、柔邊）、刮痕、手印"""
     W = H = 512; rng = np.random.RandomState(71)
-    lines = rng.normal(0, 1, (H, 1)) * 6 + _noise(H, 1, 2, 72, 1) * 0
-    a = np.repeat(lines, W, 1) + rng.normal(0, 3, (H, W))
-    a = np.asarray(Image.fromarray(np.clip(a * 4 + 128, 0, 255).astype(np.uint8)).filter(ImageFilter.BoxBlur(0)), np.float32) / 4 - 32
+    lines = rng.normal(0, 1, (H, 1)) * 11
+    a = np.repeat(lines, W, 1) + rng.normal(0, 4, (H, W))
     n1 = _noise(H, W, 120, 73); n2 = _noise(H, W, 20, 74, 3)
-    v = 168 + a + 26 * (n1 - 0.5) + 8 * (n2 - 0.5)
-    col = np.stack([v, v + 3, v + 6], -1)
+    v = 188 + a + 30 * (n1 - 0.5) + 10 * (n2 - 0.5)
     yy, xx = np.mgrid[0:H, 0:W]
-    for _ in range(18):   # 凹痕、髒手印（暗一點的圓）
-        cx, cy, rr = rng.randint(0, W), rng.randint(0, H), rng.randint(8, 40)
-        dd = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2) / rr; col *= (1 - 0.14 * np.clip(1 - dd, 0, 1) ** 2)[..., None]
-    for _ in range(40):   # 刮痕
-        x0, y0 = rng.randint(0, W), rng.randint(0, H); l = rng.randint(30, 200)
-        col[y0:y0 + 1, x0:x0 + l] += 26
-    col *= (0.92 + 0.08 * n1[..., None])
+    for k in range(3):   # 反光亮條（斜、柔邊）：日光燈映在不鏽鋼上
+        c0 = rng.uniform(0, W); w_ = rng.uniform(18, 50); d = (xx + 0.35 * yy - c0) % W
+        v += 46 * np.exp(-((np.minimum(d, W - d)) / w_) ** 2)
+    for _ in range(9):   # 凹痕：中間暗、上緣亮
+        cx, cy, rr = rng.randint(0, W), rng.randint(0, H), rng.randint(6, 30)
+        dx, dy = (xx - cx) / rr, (yy - cy) / rr; dd = np.sqrt(dx ** 2 + dy ** 2)
+        v -= 16 * np.clip(1 - dd, 0, 1) ** 1.5; v += 10 * np.exp(-((dd - 1.0) * 4) ** 2) * (dy < 0)
+    for _ in range(60):   # 刮痕
+        x0, y0 = rng.randint(0, W), rng.randint(0, H); l = rng.randint(30, 220)
+        v[y0:y0 + 1, x0:x0 + l] += rng.choice([-30, 34])
+    v *= (0.9 + 0.12 * n1)
+    col = np.stack([v, v + 3, v + 7], -1)
     return _save(col, path)
 
 
@@ -283,6 +300,21 @@ def prints(path):
     x0, y0, x1, y1 = _cell('towel', 1280, 1168, 256, 256)
     d.rectangle([x0, y0, x1, y1], fill=(236, 234, 226))
     for k in (40, 56, 200, 216): d.line([(x0, y0 + k), (x1, y0 + k)], fill=(190, 50, 50), width=6)
+    # 17 外送單（手寫、夾在牆上的夾子）× 2、紙箱的印刷 × 1、延長線插座面板
+    for k in range(2):
+        x0, y0, x1, y1 = _cell(f'order{k}', 1536 + k * 256, 1168 + 260, 256, 300)
+        d.rectangle([x0, y0, x1, y1], fill=(246, 244, 236))
+        d.text((x0 + 16, y0 + 10), '外送單', font=font(34), fill=(30, 60, 140))
+        for r_ in range(7):
+            d.line([(x0 + 14, y0 + 62 + r_ * 32), (x1 - 14, y0 + 62 + r_ * 32)], fill=(170, 180, 200), width=1)
+            _hand(d, (x0 + 18, y0 + 34 + r_ * 32), rng.choice(['叉燒2', '油雞1', '雙拼3', '燒鴨飯', '加滷蛋', '三寶1', '不要蔥']), 26, (40, 40, 60), rng, 2)
+        d.rectangle([x0 + 100, y0 - 2, x0 + 156, y0 + 14], fill=(60, 60, 64))
+    x0, y0, x1, y1 = _cell('box', 0, 1680, 512, 256)
+    d.rectangle([x0, y0, x1, y1], fill=(176, 136, 88))
+    d.text((x0 + 30, y0 + 40), '免洗餐盒', font=font(64), fill=(60, 40, 30)); d.text((x0 + 30, y0 + 130), '500入　易碎', font=font(40), fill=(140, 40, 30))
+    d.rectangle([x0, y0 + 110, x1, y0 + 124], fill=(196, 170, 120))
+    x0, y0, x1, y1 = _cell('box2', 512, 1680, 512, 256)
+    d.rectangle([x0, y0, x1, y1], fill=(168, 128, 80)); d.text((x0 + 30, y0 + 50), '台灣白米', font=font(70), fill=(40, 80, 40)); d.text((x0 + 30, y0 + 150), '30公斤', font=font(44), fill=(60, 40, 30))
     im.save(path); return path
 
 
