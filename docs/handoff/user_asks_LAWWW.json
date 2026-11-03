@@ -2160,6 +2160,15 @@
       "kind": "原話",
       "status": "進行中",
       "task": "HANDOFF-A-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-11",
+      "at": "2026-11-03T02:0x",
+      "quote": "你改規則，然後你也可以自己聯絡CC",
+      "kind": "原話",
+      "status": "規則（永久）",
+      "task": "RULE-LAWWW-CC-DIRECT-1103",
+      "note": "D130：改 D119「CC 只和 BB 溝通」，LAWWW 也可以直接聯絡；判定照舊 BB（AI 讀法：「改規則」指的就是這條）"
     }
   ]
 }

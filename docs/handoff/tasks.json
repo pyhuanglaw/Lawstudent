@@ -41063,6 +41063,27 @@
       "priority": "P0",
       "note": "使用者 11-03 02:0x（UA-LAWWW-1103-10）：「你要等其他AI都交班完你才交班 我已經通知他們要交班了」；AI_SESSION_HANDOFF 第 5 節「LAWWW 最後做」",
       "next": "收到 BB、CC 交班（duty_BB.json、duty_CC.json state handed-off）→ duty sync → roles／check → 確認五個保險喚醒都 enabled=false → snapshot＋duty handoff → commit＋push"
+    },
+    {
+      "first": {
+        "term": "META",
+        "week": null,
+        "earliest": "交班／測試協調",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "RULE-LAWWW-CC-DIRECT-1103",
+      "title": "D130／HV-24 LAWWW 可以直接聯絡 CC（交班、duty handoff、SHA、測試進度結果；判定照舊 BB）",
+      "owner": "LAWWW",
+      "status": "已驗收",
+      "priority": "P2",
+      "note": "UA-LAWWW-1103-11",
+      "evidence": "CLAUDE.md D130＋D100 第 2a 點、PROJECT_DECISIONS D130、AI_SESSION_HANDOFF HV-24；11-03 02:0x LAWWW 已直接請 CC 補 duty handoff",
+      "next": "CC 的啟動提示詞（AI_SESSION_HANDOFF 第 7.13、7.14 節）下次改版時補一句「LAWWW 可以直接找你」"
     }
   ]
 }
