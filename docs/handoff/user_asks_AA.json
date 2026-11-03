@@ -893,50 +893,55 @@
    "at": "2026-11-03",
    "quote": "吉他社 有 社遊 安排可攻略對象的劇情",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "GUITAR-CLUB-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_619 已寫；待 LAWWW 開任務"
+   "checked": "AA_619 已寫；待 LAWWW 開任務",
+   "wants": "X196"
   },
   {
    "id": "UA-AA-1103-56",
    "at": "2026-11-03",
    "quote": "要有運動用品店阿 球鞋 球衣 羽球拍",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "SPORT-SHOPS-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_620 已寫；待 LAWWW 開任務"
+   "checked": "AA_620 已寫；待 LAWWW 開任務",
+   "wants": "X197"
   },
   {
    "id": "UA-AA-1103-57",
    "at": "2026-11-03",
    "quote": "而且不只一家 有的主要很多球鞋 有的主要是各種桌球 羽球 用品",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "SPORT-SHOPS-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_620 已寫；待 LAWWW 開任務"
+   "checked": "AA_620 已寫；待 LAWWW 開任務",
+   "wants": "X197"
   },
   {
    "id": "UA-AA-1103-58",
    "at": "2026-11-03",
    "quote": "速食怎麼可以沒有??速食開24小時 也是考試前很多人念書的地方",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "FASTFOOD-24H-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_621 已寫；新店面位置改新生南路（AA_614/615/619/620）；建模分工已傳 LAWWW2、BB，等回覆"
+   "checked": "AA_621 已寫；新店面位置改新生南路（AA_614/615/619/620）；建模分工已傳 LAWWW2、BB，等回覆",
+   "wants": "X198"
   },
   {
    "id": "UA-AA-1103-59",
    "at": "2026-11-03",
    "quote": "這些新增的店面都放在新生南路那一側",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "XINSHENG-SIDE-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_621 已寫；新店面位置改新生南路（AA_614/615/619/620）；建模分工已傳 LAWWW2、BB，等回覆"
+   "checked": "AA_621 已寫；新店面位置改新生南路（AA_614/615/619/620）；建模分工已傳 LAWWW2、BB，等回覆",
+   "wants": "X178"
   },
   {
    "id": "UA-AA-1103-60",
@@ -953,10 +958,11 @@
    "at": "2026-11-03",
    "quote": "不可以叫承品　太像誠品　不要諧音耿",
    "kind": "原話",
-   "status": "進行中",
+   "status": "規則（永久）",
    "task": "BOOKSTORE-2F-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "承品→山嵐書店；同理麥丹勞→大口漢堡（AA 擴大：不要諧音梗）"
+   "checked": "承品→山嵐書店；同理麥丹勞→大口漢堡（AA 擴大：不要諧音梗）",
+   "wants": "X180"
   },
   {
    "id": "UA-AA-1103-62",
@@ -964,9 +970,12 @@
    "quote": "（AA 解讀）不要諧音梗也適用麥丹勞，改大口漢堡",
    "kind": "AI解讀",
    "confirmed": false,
-   "status": "進行中",
+   "status": "還沒做",
    "task": "FASTFOOD-24H-1103",
-   "src": "AA 從 UA-AA-1103-61 推論"
+   "src": "AA 從 UA-AA-1103-61 推論",
+   "wants": "X198",
+   "delegatedBy": "UA-AA-1103-61",
+   "note": "店名不要諧音梗（UA-AA-1103-61）直接涵蓋麥丹勞"
   },
   {
    "id": "UA-AA-1103-63",
@@ -994,40 +1003,44 @@
    "at": "2026-11-03",
    "quote": "明軒是會主動約大家玩桌遊　固定在其中一家新的店裡",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "WZ-CAFES-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_618 2-4 第 3 點改成明軒隔週五日常失速桌遊夜"
+   "checked": "AA_618 2-4 第 3 點改成明軒隔週五日常失速桌遊夜",
+   "wants": "X181"
   },
   {
    "id": "UA-AA-1103-66",
    "at": "2026-11-03",
    "quote": "麵店團改成桌遊團",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "WZ-CAFES-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_623、AA_618 已寫"
+   "checked": "AA_623、AA_618 已寫",
+   "wants": "X182"
   },
   {
    "id": "UA-AA-1103-67",
    "at": "2026-11-03",
    "quote": "要有慈昕",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "WZ-CAFES-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_623、AA_618 已寫"
+   "checked": "AA_623、AA_618 已寫",
+   "wants": "X182"
   },
   {
    "id": "UA-AA-1103-68",
    "at": "2026-11-03",
    "quote": "沛珊偶爾也會去桌遊",
    "kind": "原話",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "WZ-CAFES-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_623、AA_618 已寫"
+   "checked": "AA_623、AA_618 已寫",
+   "wants": "X182"
   },
   {
    "id": "UA-AA-1103-69",
@@ -1037,17 +1050,19 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "LAWWW 已停語彤部分；背景已給使用者，等他說"
+   "checked": "LAWWW 已停語彤部分；背景已給使用者，等他說",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-70",
    "at": "2026-11-03",
    "quote": "跟其他ａｉ說新的電等我給你店面外部建築　和內部美術參考圖才能開始",
    "kind": "原話",
-   "status": "等待",
+   "status": "已完成",
    "task": "MODEL-HELP-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "已通知 LAWWW2、BB（轉 CC）、LAWWW"
+   "checked": "已通知 LAWWW2、BB（轉 CC）、LAWWW",
+   "note": "使用者 11-03 給了店面外觀與內部參考圖（ref_images/shops/），之後才開工；AA 室內第一、二版已交 LAWWW2"
   },
   {
    "id": "UA-AA-1103-71",
@@ -1057,7 +1072,8 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624 已寫"
+   "checked": "AA_624 已寫",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-72",
@@ -1067,7 +1083,8 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624"
+   "checked": "AA_624",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-73",
@@ -1077,7 +1094,8 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624"
+   "checked": "AA_624",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-74",
@@ -1087,7 +1105,8 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624"
+   "checked": "AA_624",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-75",
@@ -1097,7 +1116,8 @@
    "status": "進行中",
    "task": "AA610-YT-JOB-ONLY-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624"
+   "checked": "AA_624",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-76",
@@ -1107,7 +1127,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624、AA_625 第二版"
+   "checked": "AA_624、AA_625 第二版",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-77",
@@ -1117,7 +1138,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624、AA_625 第二版"
+   "checked": "AA_624、AA_625 第二版",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-78",
@@ -1127,7 +1149,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624/625/626 第三版；AA_628 子代理跑中"
+   "checked": "AA_624/625/626 第三版；AA_628 子代理跑中",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-79",
@@ -1137,7 +1160,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_624/625/626 第三版；AA_628 子代理跑中"
+   "checked": "AA_624/625/626 第三版；AA_628 子代理跑中",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-80",
@@ -1157,7 +1181,8 @@
    "status": "已完成",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "不改，社會系＋雙主修法律"
+   "checked": "不改，社會系＋雙主修法律",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-82",
@@ -1167,7 +1192,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_625 改貼文、加「語彤約一起念書」"
+   "checked": "AA_625 改貼文、加「語彤約一起念書」",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-83",
@@ -1177,7 +1203,8 @@
    "status": "規則（永久）",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_625 那句改掉；AA_596 第八節第 7 點"
+   "checked": "AA_625 那句改掉；AA_596 第八節第 7 點",
+   "note": "永久規則：AA_596 §八第 7 條（不拿科系互相對比）"
   },
   {
    "id": "UA-AA-1103-84",
@@ -1197,7 +1224,8 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者對 LAWWW 說，LAWWW 轉述原話",
-   "checked": "AA_629"
+   "checked": "AA_629",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-86",
@@ -1207,17 +1235,19 @@
    "status": "進行中",
    "task": "AA624-YT-BACKGROUND-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_629；00_現行設定總表改 2029 考律師"
+   "checked": "AA_629；00_現行設定總表改 2029 考律師",
+   "wants": "X174"
   },
   {
    "id": "UA-AA-1103-87",
    "at": "2026-11-03",
    "quote": "南洋戲院看起來是二輪片欸 那要看院線就要去信義區了 我直接cg處理 →（選擇題）加一個信義區，西門町照留（建議）",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "還沒做",
    "task": "CINEMA-GG-1103",
    "src": "使用者直接對 AA（帳號 A）說",
-   "checked": "AA_631 D33 光年影城"
+   "checked": "AA_631 D33 光年影城",
+   "wants": "X183"
   },
   {
    "id": "UA-AA-1103-88",
