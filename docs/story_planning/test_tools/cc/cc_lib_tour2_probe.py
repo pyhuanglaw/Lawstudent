@@ -118,10 +118,11 @@ async def main():
                 if l in cap and i not in seen: seen.append(i); await run.shot(pg, f'A_stop{i}')
             st = await pg.evaluate(ST); zones.add(await pg.evaluate("GAME.G.zone"))
             if st == 'full': break
+            if MODE == 'stay' and '你離開了' in cap: break
             s = await L.state(pg)
             if s['choices'] and await handle_choices(pg, cdp, run): acts.append([round(time.time() - t0), 'choice']); continue
             if s['dlg']: acts.append([round(time.time() - t0), 'dlg']); await L.tap(pg, cdp, '#dlg'); continue
-            lib = await pg.evaluate(LIB)
+            lib = None if MODE == 'stay' else await pg.evaluate(LIB)   # stay：玩家留在集合點不跟（BB 21:32：走遠 20 秒提醒、40 秒才判離開）
             if lib:
                 d = await pg.evaluate("(l=>{ const P=GAME.E.player; return (P.lv|0)!==l.lv?99:Math.hypot(P.obj.position.x-l.x,P.obj.position.z-l.z); })(%s)" % json.dumps(lib))
                 if d > 2.5:
@@ -156,6 +157,14 @@ async def main():
         seen.sort(key=lambda i: cap.find(LINES[i]))
         print('  館員字幕（依出現順序）:', json.dumps([c[:24] for c in cap.split(chr(10))], ensure_ascii=False))
         st = await pg.evaluate(ST)
+        if MODE == 'stay':   # d2b962a3f BUG-TOUR-STAIRS-FAR-1103 的兩句（classes3d.js:425）
+            UP = '（館員站在樓梯平台上，回頭等你們跟上來。）'; WARN = '導覽往這邊喔，還要一起走嗎？'
+            tw = next((e['t'] for e in trk if WARN in e['cap']), None); tl = next((e['t'] for e in trk if e['cap'].startswith('你離開了')), None)
+            print('  stay：提醒句 t=%s、判離開 t=%s（追蹤每秒一筆，真實秒數）' % (tw, tl), flush=True)
+            run.check('S 館員在上一層時，旁白「%s」出現' % UP, UP in cap or any(UP in e['cap'] for e in trk), '')
+            run.check('S 走遠以後出現提醒句「%s」' % WARN, tw is not None, '')
+            run.check('S 提醒句之後才判「你離開了」（20 秒提醒、40 秒離開）', tw is not None and tl is not None and tl > tw, json.dumps({'warn': tw, 'left': tl}))
+            await b.close(); return run.finish()
         run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
         run.check('A 跟著館員從總圖大廳走到三樓閱覽區（換區域）', 'library' in zones and 'library_hall' in zones, json.dumps(sorted(zones)))
         run.check('A 走完：記為參加完（full）', st == 'full', str(st))

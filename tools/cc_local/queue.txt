@@ -26,6 +26,16 @@ LIVE19_day12  | e1603907e | game  | tests/flow_main_day12.py | index.html | 60 |
 DC_ver_ok  | e1603907e | game | tests/deploy_check.py | index.html | 30 | SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）;RERUN=fetchmain
 DC_ver_bad | 039a9227a | game | tests/deploy_check.py | index.html | 30 | SCRIPT_FROM=d2b962a3f;XARGS={url} v9.10.19（2026-11-03）;EXPECT=FAIL;RERUN=fetchmain
 # （DC_ver_*：BB 21:11，LAWWW d2b962a3f 的 deploy_check 新加「?v= 全部同一個版號、和標題字樣一樣」；ok＝main 要 PASS、bad＝#25 漏改那一版要在新的那一項 FAIL）
+# ===== N20：v9.10.20 第一批 d2b962a3f（BB 21:32；排在 LIVE19／DC_ver 後面）=====
+N20_tour_joy   | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=v20
+N20_tour_stay  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=stay;CC_HEADLESS=0
+N20_tour_tap8  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=v20
+N20_navb       | d2b962a3f | node  | tests/nav_buildings_unit.js | index.html | 10 |
+N20_reach      | d2b962a3f | game  | tests/reachability_all.py | index.html?turbo | 90 | XARGS={url}
+N20_libfl      | d2b962a3f | game  | tests/flow_library_floors.py | index.html | 60 | XARGS={url} {out}
+N20_libsc      | d2b962a3f | game  | tests/flow_library_scene.py | index.html | 60 | XARGS={url} {out}
+N20_zone       | d2b962a3f | game  | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
+# （N20 的語彤第三版、美術整合截圖：探針寫好、雲端跑過再加）
 # ===== V19：v9.10.19 候選 15e78dff7（BB 17:02 P0：發布前回歸，排最前面；跑完一項報一項） =====
 V19W_tour_tap8  | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
 V19W_tour_later | 55939fc71 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
