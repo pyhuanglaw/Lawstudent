@@ -85,6 +85,11 @@ AA609_grandma_c | 1ef4e2763 | probe | docs/story_planning/test_tools/cc/cc_aa609
 # BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
 #HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
 #HOLD候選 N19O_onetap_s | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 40 | SCRIPT_FROM=story;CASES=sleep;CC_HEADLESS=0
+#HOLD候選 N19D_yule_shao | <候選> | probe | docs/story_planning/test_tools/cc/cc_yule_shao_adv_probe.py | index.html | 30 |
+#HOLD候選 N19D_grandma  | <候選> | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1
+#HOLD候選 N19D_tour_tap | <候選> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
+#HOLD候選 N19D_tour_joy | <候選> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
+# （N19D_*：BB 16:11／16:27，候選定了以後填 SHA、拿掉 #HOLD候選；yule_shao 雲端 f110787dd ALL PASS）
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
 #V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}

@@ -28,7 +28,7 @@ URL0, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 # DIM=1（BUG-ADV-NOPORTRAIT-DIM-1103 修好以後；BB 16:23）：奶奶（沒有立繪的名字說話人）那一句時，台上學姊的 .advSlot 要有 .dim，橫向、直向都驗
 DIM = os.environ.get('DIM', '') == '1'
-SLOTS = "[...document.querySelectorAll('#adv .advSlot')].map(e=>({id:e.id, show:e.classList.contains('show'), dim:e.classList.contains('dim'), img:!!e.querySelector('img'), filter:getComputedStyle(e).filter}))"
+SLOTS = "[...document.querySelectorAll('#adv .advSlot')].map(e=>({id:e.id, show:e.classList.contains('show'), dim:e.classList.contains('dim'), off:e.classList.contains('off'), img:!!e.querySelector('img'), filter:getComputedStyle(e).filter}))"
 DIMSEEN = {}
 J = lambda o: json.dumps(o, ensure_ascii=False)
 WAIT_S = int(os.environ.get('WAIT_S', '900')); PLAY_S = int(os.environ.get('PLAY_S', '900'))
@@ -160,10 +160,11 @@ async def main():
                 if s['ch']:
                     run.note('事件裡的選項 %s → 點第一個' % J(s['ch'])); await tap_choice(pg, cdp, 0); await pg.wait_for_timeout(1200); continue
                 if s['dlg']:
-                    if s['name'] == '學姊的奶奶' and not os.path.exists(os.path.join(OUT, 'grandma_line.png')):
-                        await pg.wait_for_timeout(1200); await pg.screenshot(path=os.path.join(OUT, 'grandma_line.png')); DIMSEEN['land'] = await pg.evaluate(SLOTS)
+                    who = {'學姊的奶奶': 'grandma', '學姊的媽媽': 'mom'}.get(s['name'])
+                    if who and (who, 'land') not in DIMSEEN:   # 沒有立繪的名字說話人：橫向、直向各截一張、記下台上立繪的狀態（BB 16:27）
+                        await pg.wait_for_timeout(1200); await pg.screenshot(path=os.path.join(OUT, '%s_line.png' % who)); DIMSEEN[(who, 'land')] = await pg.evaluate(SLOTS)
                         await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(2000)
-                        await pg.screenshot(path=os.path.join(OUT, 'grandma_line_port.png')); DIMSEEN['port'] = await pg.evaluate(SLOTS)
+                        await pg.screenshot(path=os.path.join(OUT, '%s_line_port.png' % who)); DIMSEEN[(who, 'port')] = await pg.evaluate(SLOTS)
                         await pg.set_viewport_size({'width': 844, 'height': 390}); await pg.wait_for_timeout(2000)
                     await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
                 await pg.wait_for_timeout(900)
@@ -171,11 +172,13 @@ async def main():
             W = await pg.evaluate("(()=>window.__A609||{scr:[],say:[],ev:[]})()")
             with open(os.path.join(OUT, 'transcript.json'), 'w', encoding='utf-8') as f: json.dump(W, f, ensure_ascii=False, indent=1)
             evi = next((e for e in W['ev'] if e['id'] == EVID), None)
-            print('  奶奶那一句時台上的立繪：' + J(DIMSEEN), flush=True)
-            if DIM:
-                for o in ('land', 'port'):
-                    on = [x for x in DIMSEEN.get(o, []) if x['show'] and x['img']]
-                    run.check('⑦ 奶奶說話時（%s）台上的人（學姊）變暗：.advSlot 有 .dim' % ('橫向' if o == 'land' else '直向'), bool(on) and all(x['dim'] for x in on), J(DIMSEEN.get(o)))
+            print('  媽媽、奶奶那一句時台上的立繪：' + J({'_'.join(k): v for k, v in DIMSEEN.items()}), flush=True)
+            if DIM:   # 修好以後（f110787dd）：學姊還在台上（show、有圖、沒有 .off）而且變暗（.dim）
+                for who, nm in (('mom', '媽媽'), ('grandma', '奶奶')):
+                    for o in ('land', 'port'):
+                        sl = DIMSEEN.get((who, o)); on = [x for x in (sl or []) if x['show'] and x['img']]
+                        run.check('⑦ %s說話時（%s）學姊還在台上（有圖、沒有 .off）而且變暗（.dim）' % (nm, '橫向' if o == 'land' else '直向'),
+                                  bool(on) and all(x['dim'] and not x['off'] for x in on), J(sl))
             run.check('④ 演了 %s（EVENTS.run 叫到、events.done 記上）' % EVID, bool(evi) and await pg.evaluate(EVDONE, EVID), J([e['id'] for e in W['ev']]))
             says = W['say'][evi['n']:] if evi else []
             nxt = next((e['n'] for e in W['ev'] if evi and e['n'] > evi['n']), None)
