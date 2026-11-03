@@ -1,7 +1,7 @@
 // 開學前迎新宿營 8/22～24（CAMP-L1；AA_205、BB_177 第五版）——不需要瀏覽器。在 Node 裡用遊戲自己的事件引擎跑 STORY.campY1 整段：
 //   A 預設選項（都選第一個）：8 段都演（AA_608 第 10 節：迎新晚會、夜遊、法律闖關、水大地、夜談 retired；多自由時間打牌）、時間照 8/22 08:30 → 8/24、演完回家旁白；宿營只認識阿哲、芯慈、沛珊（FIRST_MET note 'camp'）、MET_ZHE、CAMP_Y1；
 //     手機：「法律系 114 新生（系學會）」有 8/15 公告與 8/21 名單、第七小隊群組排好 8/24 21:00 合照與 8/29 18:00 阿哲；接著 8/29 搬宿舍（startLawWeek1：錢 7,000、第 −18 天）。
-//   B AA_608 第 10 節（10-1～10-5）：遊覽車（坐窗邊、明軒一句印象）、破冰（只有芯慈、Alison 一句印象）、撕名牌（認識阿哲）、自由時間打牌（學測／哥／為什麼重考，四個分支）、營火（沛珊到了）、早餐（沛珊問「哥？」）；明軒、柏翰、Alison、Kevin 沒有台詞。
+//   B AA_608 第 10 節（10-1～10-7）：遊覽車（坐窗邊、明軒一句印象）、破冰（只有芯慈、Alison 一句印象）、撕名牌（認識阿哲）、自由時間打牌（學測十五級分／哥／為什麼重考，三個分支）、營火（小隊輔帶沛珊來）、早餐（沛珊問「哥？」）；明軒、柏翰、Alison、Kevin 沒有台詞。
 //   D 中途讀檔：新版存檔（campSeqV 2）從 campStep 接著演；舊版存檔（12 段的表）照最後演完那一段的時間換到新表。
 //   E 宿營之後：9/1 ev_zhe_w1_meet 宿營版（AA_205 6-2：書包放旁邊、「欸，早。」／有 ZHE_CALLS_GE「哥，早。」、不換名字、不加熟悉）；明軒系籃開頭（BB_177 第 12 節）；9/27 舊迎新不排（有 CAMP_Y1）。
 // 修改前（沒有 camp_y1.js、沒有 STORY.campY1）全部 FAIL。用法：node tests/camp_y1_unit.js
@@ -20,7 +20,7 @@ const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>n
   advance(h){ G.hour+=h; },sitAt(p,seat){ GM.sat=seat; },standUp(){ GM.stood=true; },rel(id,n){ GM.rels=(GM.rels||[]).concat([[id,n]]); },
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){ GM.saves=(GM.saves|0)+1; },energy(){},money(){},setGoal(g){ G.goal=g; },toast(){},updateHUD(){},letterbox(){},fade:()=>Promise.resolve(),
   titleCard:async(a,b)=>{ cards.push(a+'｜'+(b||'')); },
-  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/下午的大地遊戲是撕名牌|晚餐後是自由時間|營火晚會開始的時候|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
+  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/下午的大地遊戲是撕名牌|晚餐後是自由時間|營火晚會開始沒多久|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
   choose:async opts=>{ optsSeen.push(opts.map(o=>o.t).join('/')); if(GM.prefer){ const k=opts.findIndex(o=>GM.prefer.some(w=>o.t.indexOf(w)>=0)); if(k>=0) return k; } const want=picks.shift(); if(want==null) return 0; const k=opts.findIndex(o=>o.t.indexOf(want)>=0); return k<0?0:k; },
   enter:async(z,sp)=>{ entered.push(z); G.zone=z; },
   spawnNPC(id,spec,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; },spawnCharacter(id,x,z,o){ GM.spawnLog=(GM.spawnLog||[]).concat([[id,o&&o.seat]]); return null; }};   /* 只記下來、回傳 null（不放進 GM.npc，事件照舊當作人物沒生出來；後面的段落不受影響）*/
@@ -131,26 +131,26 @@ const day=k=>STORY.dayOfKey(k);
     const tag=['（下午的大地遊戲是撕名牌。每個人背後貼一張寫著自己名字的貼紙，被撕掉就出局。你們第七小隊對隔壁的第八小隊。）','（你躲在樹後面。背後忽然有腳步聲——你一轉身，跟一個男生撞個正著。）','（兩個人都晃了一下。他的手還是比較快。）','（嘶——你背後的名牌被撕走了。）','（看著手上的貼紙）祐廷……出局！','撕名牌本來就是偷襲啊。','張哲維，叫我阿哲。高雄上來的。','（對面有人在喊：「阿哲！後面！」）','……我先走了！','（他轉身就跑。下一秒，他背後的名牌被芯慈撕掉了。）'];
     check('B3. 撕名牌認識阿哲（10-4，預設「你偷襲。」）',!block(tag)&&optsSeen.includes('「你偷襲。」/（揉一下被撞到的肩膀）')&&said.includes('阿哲：……我先走了！'),block(tag));
     const free=['（晚餐後是自由時間。你坐在寢室外面的走廊，芯慈拿著一副撲克牌走過來。）','祐廷，我們在玩大老二，三缺一。你要不要來？','（交誼廳的角落，阿哲也在，看到你就笑了。）','下午那個！……來來來，坐。','（玩了三局。芯慈贏了兩局，阿哲一直說牌不好。）','我通勤，平常很少跟同學玩到這麼晚。……其實有點羨慕你們住宿舍的。',
-      '（打牌，第三局。阿哲又拿到一手爛牌。）','今年運氣都很差。學測數學也是，難到我想哭。你數學幾級分？','……去年？你去年也考過？','那你比我們大一屆欸。……那我們叫你哥？','不要。','哥，換你出牌。','（看了你一下）……那你算學長？','是哥。'];
-    check('B4. 自由時間打牌（10 第 4 點、10-5；預設「好啊。」→「今年還好，去年比較難。」→「嗯，我重考的。」［old］）：ZHE_CALLS_GE；芯慈「那你算學長？」阿哲「是哥。」',!block(free)&&G.flags.ZHE_CALLS_GE===true&&optsSeen.includes('「好啊。」/「我不太會玩。」')&&optsSeen.includes('「今年還好，去年比較難。」/「不想講。」')&&optsSeen.includes('「嗯，我重考的。」/「我念過一個多月經濟系，重考的。」')&&said.includes('芯慈：（看了你一下）……那你算學長？'),block(free));
-    const fire=['（第二天的活動排得很滿。你們小隊在水大地被潑得最慘。）','（營火晚會開始的時候，一個女生揹著大背包，從停車場那邊跑過來。小隊輔朝她招手。）','抱歉抱歉，我是郭沛珊。七小隊是這裡嗎？','（她在你旁邊坐下，還在喘。）','我先去參加中友會的宿營，台中同學的社團辦的。今天中午才結束，就直接坐車過來了。','兩個宿營撞在一起，我想說兩個都去。……結果好累。','好玩，可是大家都講臺中的事。在這裡我才比較像新生。','祐廷，你加我一下好不好？明天集合時間我都不知道。'];
-    check('B5. 第二天一句旁白、營火沛珊到了（10 第 5、6 點；預設「妳怎麼比較晚來？」「中友會好玩嗎？」）；沒有 Kevin 揭曉、「就有人是假的？」',!block(fire)&&optsSeen.includes('「妳怎麼比較晚來？」/「先喝口水吧。」')&&optsSeen.includes('「中友會好玩嗎？」/「妳錯過了搶旗。」')&&!said.some(t=>/臥底|就有人是假的/.test(t)),block(fire));
+      '（打牌，第三局。阿哲又拿到一手爛牌。）','今年運氣都很差。學測數學也是，難到我想哭。你數學幾級分？','十五級分。','……滿級分？厲害欸。','我考第二次了。第一次沒有。','第二次？你重考的喔？','那你比我們大一屆欸。……那我們叫你哥？','不要。','哥，換你出牌。','（看了你一下）……那你算學長？','是哥。'];
+    check('B4. 自由時間打牌（10 第 4 點、10-5、10-6；預設「好啊。」→ 十五級分 → 考第二次 →「嗯。」［old］）：ZHE_CALLS_GE；芯慈「那你算學長？」阿哲「是哥。」；沒有「不想講」',!block(free)&&G.flags.ZHE_CALLS_GE===true&&optsSeen.includes('「好啊。」/「我不太會玩。」')&&optsSeen.includes('「嗯。」/「我念過一個多月經濟系，才重考的。」')&&!optsSeen.some(o=>/不想講/.test(o))&&said.includes('祐廷：十五級分。')&&said.includes('芯慈：（看了你一下）……那你算學長？'),block(free));
+    const fire=['（第二天的活動排得很滿。你們小隊在水大地被潑得最慘。）','（營火晚會開始沒多久，小隊輔帶著一個揹大背包的女生走過來。）','這是沛珊。妳先坐這邊。','（她在你旁邊坐下，把背包放在腳邊。）','嗨。……我錯過很多嗎？','那還好。我先去中友會的宿營，台中同學的那個，今天中午才結束。','（營火那邊開始喊各小隊的名字。）','我們小隊有群組嗎？可以拉我進去嗎？','（你把她拉進小隊的群組。她傳了一個貼圖。）'];
+    check('B5. 第二天一句旁白、營火沛珊到了（10 第 5 點、10-7；預設「還好，昨天主要在玩遊戲。」）；沒有 Kevin 揭曉、「抱歉抱歉」「你加我一下好不好」',!block(fire)&&said.includes('小隊輔：這是沛珊。妳先坐這邊。')&&optsSeen.includes('「還好，昨天主要在玩遊戲。」/「妳怎麼今天才來？」')&&!said.some(t=>/臥底|就有人是假的|抱歉抱歉|你加我一下好不好|比較像新生/.test(t)),block(fire));
     const bkf=['（隔著桌子）哥，你的蛋。','哥？','他重考的，大我們一屆。','（芯慈「喔」了一聲，繼續吃。）'];
     check('B6. 早餐（10 第 8 點、10-2、10-5）：「哥？」是沛珊問、「他重考的，大我們一屆。」、沒有明軒要蛋、沒有金頭腦',!block(bkf)&&said.includes('沛珊：哥？')&&!said.some(t=>/那顆蛋你不吃|他大我們一歲|水大地總共用了幾桶/.test(t)),block(bkf));
     const sp=camp0().filter(t=>/^(明軒|江明軒|柏翰|許柏翰|Alison|凱文|Kevin|主持的學長)：/.test(t));
     check('B7. 宿營裡明軒、柏翰、Alison、Kevin 都沒有台詞（10：不出場）',camp0().length>20&&sp.length===0,sp.join(' / '));
     check('B8. retired 的段落沒演（迎新晚會、夜遊、法律闖關、水大地、夜談：10-5 阿哲不同寢室）；沒有「睡你隔壁床」',!said.some(t=>/晚會是學長姐的場子|九點半，小隊輔帶小隊走|這關很簡單|三大桶水球|睡你隔壁床|燈關了/.test(t)));
     check('B9. next:false 不接 8/29（還在 8/24）',G.day===day('2025-08-24'),String(G.day));
-    fresh(); GM.prefer=['「我不太會玩。」','（揉一下被撞到的肩膀）','「先喝口水吧。」','「妳錯過了搶旗。」','「不想講。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
-    check('B10. 另一組選項：撕名牌「欸，撞很大力喔？……抱歉抱歉。」；打牌「我教你。很快。」、「不想講。」→「好啦，不逼你。……晚安。」（沒有那你算學長、不設 ZHE_CALLS_GE）；營火「（她喝了一口。）」、「搶旗？誰贏？……你們輸了喔。」；早餐沒有「哥」',
-      !inOrder(['欸，撞很大力喔？……抱歉抱歉。','張哲維，叫我阿哲。高雄上來的。','我教你。很快。','（交誼廳的角落，阿哲也在，看到你就笑了。）','好啦，不逼你。……晚安。','（她喝了一口。）','我先去參加中友會的宿營，台中同學的社團辦的。今天中午才結束，就直接坐車過來了。','搶旗？誰贏？……你們輸了喔。','祐廷，你加我一下好不好？明天集合時間我都不知道。','（第三天早上，大家都很睏，餐廳裡沒什麼人講話。）'])
-      &&!said.some(t=>/撕名牌本來就是偷襲|那你算學長|是哥。|哥，你的蛋|好玩，可是大家都講/.test(t))&&!G.flags.ZHE_CALLS_GE,said.filter(t=>/抱歉抱歉|不逼你|喝了一口|你們輸了/.test(t)).join(' / '));
-    fresh(); GM.prefer=['「今年還好，去年比較難。」','「我念過一個多月經濟系，重考的。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+    fresh(); GM.prefer=['「我不太會玩。」','（揉一下被撞到的肩膀）','「妳怎麼今天才來？」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+    check('B10. 另一組選項：撕名牌「欸，撞很大力喔？……抱歉抱歉。」；打牌「我教你。很快。」；營火「中友會也辦宿營，日期撞到了。……」',
+      !inOrder(['欸，撞很大力喔？……抱歉抱歉。','張哲維，叫我阿哲。高雄上來的。','我教你。很快。','（交誼廳的角落，阿哲也在，看到你就笑了。）','嗨。……我錯過很多嗎？','中友會也辦宿營，日期撞到了。那邊今天中午結束，我就直接過來。','我們小隊有群組嗎？可以拉我進去嗎？'])
+      &&!said.some(t=>/撕名牌本來就是偷襲|那還好。我先去中友會/.test(t)),said.filter(t=>/抱歉抱歉|很快|中友會/.test(t)).join(' / '));
+    fresh(); GM.prefer=['「我念過一個多月經濟系，才重考的。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
     check('B11. ［econ］：「真假！那你是學長欸。」「……不對，哥。」→ 阿哲問「為什麼重考？」→ 短句＋阿哲「好，懂了。」→ 那你算學長／是哥；ZHE_CALLS_GE、ECON_PAST_SHARED full、WHY_RETAKE_ASKED；早餐「他念過經濟系。」',
-      !inOrder(['真假！那你是學長欸。','……不對，哥。','為什麼重考？','本來就想念法律。第一次沒考上。','好，懂了。','（看了你一下）……那你算學長？','是哥。','他念過經濟系。'])&&said.includes('阿哲：為什麼重考？')&&said.includes('阿哲：好，懂了。')&&G.flags.ZHE_CALLS_GE===true&&G.flags.ECON_PAST_SHARED==='full'&&G.flags.WHY_RETAKE_ASKED===true,said.filter(t=>/重考|懂了|學長/.test(t)).join(' / '));
-    fresh(); G.flags.ECON_PAST_SHARED='full'; G.flags.E24C_REASON='honest'; optsSeen=[]; GM.prefer=['「今年還好，去年比較難。」','「我不是說過了嗎？」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
-    check('B12. ECON_PAST_SHARED 已是 full：第二個選項換成「我不是說過了嗎？」→［said］「對齁。哥。」→ 那你算學長／是哥',optsSeen.includes('「嗯，我重考的。」/「我不是說過了嗎？」')&&!inOrder(['對齁。哥。','（看了你一下）……那你算學長？','是哥。'])&&G.flags.ZHE_CALLS_GE===true&&!G.flags.WHY_RETAKE_ASKED,optsSeen.join(' | '));
-    fresh(); G.flags.E24C_REASON='honest'; GM.prefer=['「今年還好，去年比較難。」','「我念過一個多月經濟系，重考的。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+      !inOrder(['第二次？你重考的喔？','真假！那你是學長欸。','……不對，哥。','為什麼重考？','本來就想念法律。第一次沒考上。','好，懂了。','（看了你一下）……那你算學長？','是哥。','他念過經濟系。'])&&said.includes('阿哲：為什麼重考？')&&said.includes('阿哲：好，懂了。')&&G.flags.ZHE_CALLS_GE===true&&G.flags.ECON_PAST_SHARED==='full'&&G.flags.WHY_RETAKE_ASKED===true,said.filter(t=>/重考|懂了|學長/.test(t)).join(' / '));
+    fresh(); G.flags.ECON_PAST_SHARED='full'; G.flags.E24C_REASON='honest'; optsSeen=[]; GM.prefer=['「我不是說過了嗎？」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
+    check('B12. ECON_PAST_SHARED 已是 full：第二個選項換成「我不是說過了嗎？」→［said］「對齁。哥。」→ 那你算學長／是哥；ZHE_CALLS_GE',optsSeen.includes('「嗯。」/「我不是說過了嗎？」')&&!inOrder(['對齁。哥。','（看了你一下）……那你算學長？','是哥。'])&&G.flags.ZHE_CALLS_GE===true&&!G.flags.WHY_RETAKE_ASKED,optsSeen.join(' | '));
+    fresh(); G.flags.E24C_REASON='honest'; GM.prefer=['「我念過一個多月經濟系，才重考的。」']; await STORY.campY1(GM,{next:false}); GM.prefer=null;
     check('B13. ［econ］＋E24C_REASON honest：長句「第一次社會考壞了，差四分。……」→ 阿哲「差四分喔……那真的很煩。」',!inOrder(['為什麼重考？','第一次社會考壞了，差四分。先去念了一個多月的經濟。','差四分喔……那真的很煩。','（看了你一下）……那你算學長？']));
     const fam=id=>SOCIAL.rel(id).fam|0; fresh(); SOCIAL.meet('zhe','camp'); SOCIAL.meet('classmate_xinci','camp'); const b0=[fam('zhe'),fam('classmate_xinci')]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_camp_d1_free'));
     check('B14. 自由時間結尾熟悉 +1（芯慈、阿哲）',fam('zhe')-b0[0]===1&&fam('classmate_xinci')-b0[1]===1,JSON.stringify([b0,fam('zhe'),fam('classmate_xinci')])); }
@@ -158,16 +158,16 @@ const day=k=>STORY.dayOfKey(k);
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=4; G.flags.campSeqV=2; G.day=day('2025-08-22'); await STORY.campY1(GM,{next:false});
   check('D1. 新版存檔 campStep=4：第一天四段不重演，從第二天接著演到結束',!said.some(t=>/遊覽車從校門口出發|撕名牌。每個人|晚餐後是自由時間/.test(t))&&said.some(t=>/第二天的活動排得很滿/.test(t))&&G.flags.CAMP_Y1===true&&!G.events.done.ev_camp_d1_bus);
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=5; G.day=day('2025-08-22'); await STORY.campY1(GM,{next:false});
-  check('D2. 舊版存檔 campStep=5（演完夜遊 21:30）：從第二天接著演，沒有第一天的段落、沒有法律闖關',!said.some(t=>/遊覽車從校門口出發|撕名牌。每個人|晚餐後是自由時間|這關很簡單/.test(t))&&said.some(t=>/營火晚會開始的時候/.test(t))&&G.flags.CAMP_Y1===true,said.slice(0,2).join(' / '));
+  check('D2. 舊版存檔 campStep=5（演完夜遊 21:30）：從第二天接著演，沒有第一天的段落、沒有法律闖關',!said.some(t=>/遊覽車從校門口出發|撕名牌。每個人|晚餐後是自由時間|這關很簡單/.test(t))&&said.some(t=>/營火晚會開始沒多久/.test(t))&&G.flags.CAMP_Y1===true,said.slice(0,2).join(' / '));
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=2; G.day=day('2025-08-22'); let seqV=[]; const as0=GM.autosave; GM.autosave=()=>{ seqV.push(G.flags.campSeqV); as0(); }; await STORY.campY1(GM,{next:false}); GM.autosave=as0;
   check('D3. 舊版存檔 campStep=2（演完破冰）：接撕名牌、破冰不重演；接著演的存檔記 campSeqV 2，演完拿掉',said.some(t=>/撕名牌。每個人/.test(t))&&!said.some(t=>/輪流報名字/.test(t))&&seqV.length>0&&seqV.every(v=>v===2)&&G.flags.campSeqV==null,JSON.stringify(seqV));
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=3; G.day=day('2025-08-22'); await STORY.campY1(GM,{next:false});
   check('D4. 舊版存檔 campStep=3（演完舊的大地遊戲 13:30）：接自由時間（19:30）',!said.some(t=>/撕名牌。每個人/.test(t))&&said.some(t=>/晚餐後是自由時間/.test(t)));
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=10; G.day=day('2025-08-24'); await STORY.campY1(GM,{next:false});
-  check('D5. 舊版存檔 campStep=10（演完夜談）：只剩早餐、結業',!said.some(t=>/營火晚會開始/.test(t))&&said.some(t=>/第三天早上/.test(t))&&said.some(t=>/十二點半，遊覽車停在校門口/.test(t))&&G.flags.CAMP_Y1===true);
+  check('D5. 舊版存檔 campStep=10（演完夜談）：只剩早餐、結業',!said.some(t=>/營火晚會開始沒多久/.test(t))&&said.some(t=>/第三天早上/.test(t))&&said.some(t=>/十二點半，遊覽車停在校門口/.test(t))&&G.flags.CAMP_Y1===true);
   // ---------- E 宿營之後 ----------
-  fresh(); picks=[]; GM.prefer=['不想講']; await STORY.campY1(GM,{next:false}); GM.prefer=null; const evZ=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'); G.day=day('2025-09-01'); G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13;
-  check('E1. 9/1 宿營認識阿哲：ev_zhe_w1_meet 的條件成立（已經 MET_ZHE 也演宿營版）',EVENTS.cond(evZ.prereq)===true||(evZ.prereq.custom&&evZ.prereq.custom(G)===true));
+  fresh(); picks=[]; await STORY.campY1(GM,{next:false}); delete G.flags.ZHE_CALLS_GE; const evZ=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'); G.day=day('2025-09-01'); G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13;
+  check('E1. 9/1 宿營認識阿哲：ev_zhe_w1_meet 的條件成立（已經 MET_ZHE 也演宿營版；AA_608 10-6 起新局一定有 ZHE_CALLS_GE，這裡拿掉旗標＝沒被叫哥的舊存檔）',EVENTS.cond(evZ.prereq)===true||(evZ.prereq.custom&&evZ.prereq.custom(G)===true));
   const fam0=JSON.stringify(G.rel.zhe||null); said=[]; await EVENTS.run(evZ);
   check('E2. 宿營版：書包放旁邊、「欸，早。」、問中午吃什麼；不換名字、不加熟悉、記 ZHE_W1_CAMP',said.includes('（你坐下沒多久，有人把書包放到你旁邊的位子。）')&&said.includes('阿哲：欸，早。')&&said.some(t=>/我昨天在公館繞了半小時/.test(t))&&!said.some(t=>/我阿哲。張哲維。/.test(t))&&!said.some(t=>/用筆輕輕戳/.test(t))&&JSON.stringify(G.rel.zhe||null)===fam0&&G.flags.ZHE_W1_CAMP===true,said.join(' / '));
   fresh(); picks=[]; await STORY.campY1(GM,{next:false}); G.day=day('2025-09-01'); said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'));
