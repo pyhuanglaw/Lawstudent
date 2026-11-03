@@ -1,0 +1,509 @@
+{
+ "orient": "port",
+ "shots": {
+  "cal": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\02_camp_port_cal.png",
+  "day823": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\03_camp_port_day823.png",
+  "sep": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\04_camp_port_sep.png",
+  "search_date": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\05_camp_port_search_823.png",
+  "search_kw": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\06_camp_port_search_kw.png",
+  "search_jump": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\07_camp_port_search_jump.png",
+  "notes": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\08_camp_port_notes.png"
+ },
+ "play": {
+  "secs": 91,
+  "steps": 152,
+  "btnNew": true,
+  "state": {
+   "day": -18,
+   "h": 22.67,
+   "zone": "dorm",
+   "camp": true,
+   "kai": true,
+   "memo": 8
+  },
+  "free": {
+   "busy": false,
+   "dlg": false,
+   "depth": 0,
+   "adv": false,
+   "phone": false,
+   "zone": "dorm",
+   "day": -18,
+   "h": 22.674
+  }
+ },
+ "src": "play",
+ "exp": {
+  "day": -18,
+  "raw": 8,
+  "list": [
+   {
+    "day": -25,
+    "t": "迎新宿營：遊覽車"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：破冰"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：撕名牌"
+   },
+   {
+    "day": -25,
+    "t": "迎新宿營：自由時間"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：第二天"
+   },
+   {
+    "day": -24,
+    "t": "迎新宿營：營火晚會"
+   },
+   {
+    "day": -23,
+    "t": "迎新宿營：早餐"
+   },
+   {
+    "day": -23,
+    "t": "迎新宿營：結業式"
+   }
+  ]
+ },
+ "j0": {
+  "hasBtn": true,
+  "btnText": "日誌",
+  "menuOpen": true,
+  "tabOn": true,
+  "menuTitle": "日誌",
+  "hasBox": true,
+  "title": "2025 年 8 月",
+  "q": "",
+  "qFocus": false,
+  "nav": {
+   "prev": true,
+   "next": true,
+   "today": true
+  },
+  "wd": [
+   "一",
+   "二",
+   "三",
+   "四",
+   "五",
+   "六",
+   "日"
+  ],
+  "cells": [
+   {
+    "i": 0,
+    "day": -50,
+    "d": "28",
+    "it": [],
+    "more": null,
+    "cls": [
+     "jrOut"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 1,
+    "day": -49,
+    "d": "29",
+    "it": [],
+    "more": null,
+    "cls": [
+     "jrOut"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 2,
+    "day": -48,
+    "d": "30",
+    "it": [],
+    "more": null,
+    "cls": [
+     "jrOut"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 3,
+    "day": -47,
+    "d": "31",
+    "it": [],
+    "more": null,
+    "cls": [
+     "jrOut"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 4,
+    "day": -46,
+    "d": "1",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 5,
+    "day": -45,
+    "d": "2",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 6,
+    "day": -44,
+    "d": "3",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 7,
+    "day": -43,
+    "d": "4",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 8,
+    "day": -42,
+    "d": "5",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 9,
+    "day": -41,
+    "d": "6",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 10,
+    "day": -40,
+    "d": "7",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 11,
+    "day": -39,
+    "d": "8",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 12,
+    "day": -38,
+    "d": "9",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 13,
+    "day": -37,
+    "d": "10",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 14,
+    "day": -36,
+    "d": "11",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 15,
+    "day": -35,
+    "d": "12",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 16,
+    "day": -34,
+    "d": "13",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 17,
+    "day": -33,
+    "d": "14",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 18,
+    "day": -32,
+    "d": "15",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 19,
+    "day": -31,
+    "d": "16",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 20,
+    "day": -30,
+    "d": "17",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 21,
+    "day": -29,
+    "d": "18",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 22,
+    "day": -28,
+    "d": "19",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 23,
+    "day": -27,
+    "d": "20",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 24,
+    "day": -26,
+    "d": "21",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 25,
+    "day": -25,
+    "d": "22",
+    "it": [
+     "迎新宿營：遊覽車",
+     "迎新宿營：破冰"
+    ],
+    "more": "＋2",
+    "cls": [
+     "jrHas"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 26,
+    "day": -24,
+    "d": "23",
+    "it": [
+     "迎新宿營：第二天",
+     "迎新宿營：營火晚會"
+    ],
+    "more": null,
+    "cls": [
+     "jrHas"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 27,
+    "day": -23,
+    "d": "24",
+    "it": [
+     "迎新宿營：早餐",
+     "迎新宿營：結業式"
+    ],
+    "more": null,
+    "cls": [
+     "jrHas"
+    ],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 28,
+    "day": -22,
+    "d": "25",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 29,
+    "day": -21,
+    "d": "26",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 30,
+    "day": -20,
+    "d": "27",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 31,
+    "day": -19,
+    "d": "28",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 32,
+    "day": -18,
+    "d": "29",
+    "it": [],
+    "more": null,
+    "cls": [
+     "jrNow",
+     "jrSel"
+    ],
+    "bc": "rgb(233, 185, 106)",
+    "ol": "solid rgb(233, 185, 106)"
+   },
+   {
+    "i": 33,
+    "day": -17,
+    "d": "30",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   },
+   {
+    "i": 34,
+    "day": -16,
+    "d": "31",
+    "it": [],
+    "more": null,
+    "cls": [],
+    "bc": "rgba(255, 255, 255, 0.14)",
+    "ol": "none rgb(232, 226, 214)"
+   }
+  ],
+  "dayHead": "8/29",
+  "dayItems": [
+   "這一天沒有紀錄。"
+  ],
+  "hits": [],
+  "noHit": false
+ },
+ "kw": {
+  "kw": "自由時間",
+  "from": [
+   "8/22",
+   "迎新宿營：自由時間"
+  ],
+  "hits": [
+   {
+    "day": -25,
+    "t": "8/22　迎新宿營：自由時間"
+   }
+  ]
+ },
+ "notes": {
+  "ok": true,
+  "on": true,
+  "heads": [
+   "第一頁"
+  ],
+  "dots": [],
+  "nDots": 0
+ },
+ "errs": [],
+ "sha": "b267b0534",
+ "tag": "camp_port",
+ "url": "http://127.0.0.1:8813/index.html?turbo&start1"
+}

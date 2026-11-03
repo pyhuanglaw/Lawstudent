@@ -1,0 +1,74 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_journal_cal_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_jnl\out
+==== CASE camp（SHA b267b0534，ORIENTS port,land）====
+PASS camp_port：遊戲載入
+  [  23.7s] camp_port：直向提示「請把手機轉成橫向」→ 點掉（玩家的方式）
+  [前置／捷徑] camp_port：網址 http://127.0.0.1:8813/index.html?turbo&start1（?start1＝法律系開局；?turbo 只加快對話等待）、清空 localStorage、標題按 #btnNew
+  [ 116.5s] camp_port：真的玩宿營 91 秒、152 步；{"day": -18, "h": 22.67, "zone": "dorm", "camp": true, "kai": true, "memo": 8}
+  [ 116.6s] camp_port：快照存到 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_jnl\out\camp_snapshot.json（之後的方向讀它）
+PASS camp_port 前置：宿營演完、在 8/29 宿舍、日誌有實際紀錄（8 筆；8/22 4 筆、8/23 2 筆）  {"today": "8/29", "days": {"8/22": ["迎新宿營：遊覽車", "迎新宿營：破冰", "迎新宿營：撕名牌", "迎新宿營：自由時間"], "8/23": ["迎新宿營：第二天", "迎新宿營：營火晚會"], "8/24": ["迎新宿營：早餐", "迎新宿營：結業式"]}}
+PASS camp_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 8 月"}
+PASS camp_port 1b 月曆從週一開始（表頭 一…日、每一格在對的星期欄、2025 年 8 月 標題）  {"header": ["一", "二", "三", "四", "五", "六", "日"], "first": -46, "firstIdx": 4, "bad": [], "n": 35, "outCls": true}
+PASS camp_port 1c 今天（8/29）那一格有框（jrNow 只有那一格、框線顏色和別格不同）  {"now": [["8/29", "rgb(233, 185, 106)"]], "today": "8/29", "other_bc": "rgba(255, 255, 255, 0.14)"}
+PASS camp_port 1d 每一格寫當天的事：最多兩行、多的「＋N」（和 G.memo 一致）  {"bad": [], "cells_more_than_2": ["8/22"], "cells_with_items": 3}
+PASS camp_port 1e 點 8/23：下面列出那一天全部 2 筆（標題 8/23、格子選起來）  {"head": "8/23", "items": ["· 迎新宿營：第二天", "· 迎新宿營：營火晚會"], "want": ["· 迎新宿營：第二天", "· 迎新宿營：營火晚會"], "sel": ["8/23"]}
+PASS camp_port 1f 「‹」到 2025 年 7 月、「›」兩次到 9 月、「今天」回到 8 月（選今天）  {"titles": ["2025 年 7 月", "2025 年 9 月", "2025 年 8 月"], "jul": true, "sep": true, "today": true, "head": "8/29"}
+PASS camp_port 1g 搜尋「8/23」：列出那天 2 筆、都是 8/23（data-jrday）、每筆以「8/23」開頭  {"q": "8/23", "hits": [{"day": -24, "t": "8/23　迎新宿營：營火晚會"}, {"day": -24, "t": "8/23　迎新宿營：第二天"}]}
+PASS camp_port 1h 搜尋關鍵字「自由時間」（取自 8/22「迎新宿營：自由時間」）：1 筆和日誌資料一致；點 8/22 那筆→跳到那個月、選那天、清空搜尋框  {"hits": [["8/22", "8/22　迎新宿營：自由時間"]], "want": ["8/22"], "after": {"title": "2025 年 8 月", "q": "", "sel": ["8/22"], "head": "8/22"}}
+PASS camp_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁"], "leaked": []}
+PASS camp_port：沒有 JS 例外  []
+PASS camp_land：遊戲載入
+  [前置／捷徑] [前置] camp_land：讀 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_jnl\out\camp_snapshot.json（同一次跑法、camp_port 真的玩完宿營後的 GAME.snapshot()，日誌是遊戲自己寫的；關條件事件、手機自動打開）
+PASS camp_land 前置：宿營演完、在 8/29 宿舍、日誌有實際紀錄（8 筆；8/22 4 筆、8/23 2 筆）  {"today": "8/29", "days": {"8/22": ["迎新宿營：遊覽車", "迎新宿營：破冰", "迎新宿營：撕名牌", "迎新宿營：自由時間"], "8/23": ["迎新宿營：第二天", "迎新宿營：營火晚會"], "8/24": ["迎新宿營：早餐", "迎新宿營：結業式"]}}
+PASS camp_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 8 月"}
+PASS camp_land 1b 月曆從週一開始（表頭 一…日、每一格在對的星期欄、2025 年 8 月 標題）  {"header": ["一", "二", "三", "四", "五", "六", "日"], "first": -46, "firstIdx": 4, "bad": [], "n": 35, "outCls": true}
+PASS camp_land 1c 今天（8/29）那一格有框（jrNow 只有那一格、框線顏色和別格不同）  {"now": [["8/29", "rgb(233, 185, 106)"]], "today": "8/29", "other_bc": "rgba(255, 255, 255, 0.14)"}
+PASS camp_land 1d 每一格寫當天的事：最多兩行、多的「＋N」（和 G.memo 一致）  {"bad": [], "cells_more_than_2": ["8/22"], "cells_with_items": 3}
+PASS camp_land 1e 點 8/23：下面列出那一天全部 2 筆（標題 8/23、格子選起來）  {"head": "8/23", "items": ["· 迎新宿營：第二天", "· 迎新宿營：營火晚會"], "want": ["· 迎新宿營：第二天", "· 迎新宿營：營火晚會"], "sel": ["8/23"]}
+PASS camp_land 1f 「‹」到 2025 年 7 月、「›」兩次到 9 月、「今天」回到 8 月（選今天）  {"titles": ["2025 年 7 月", "2025 年 9 月", "2025 年 8 月"], "jul": true, "sep": true, "today": true, "head": "8/29"}
+PASS camp_land 1g 搜尋「8/23」：列出那天 2 筆、都是 8/23（data-jrday）、每筆以「8/23」開頭  {"q": "8/23", "hits": [{"day": -24, "t": "8/23　迎新宿營：營火晚會"}, {"day": -24, "t": "8/23　迎新宿營：第二天"}]}
+PASS camp_land 1h 搜尋關鍵字「自由時間」（取自 8/22「迎新宿營：自由時間」）：1 筆和日誌資料一致；點 8/22 那筆→跳到那個月、選那天、清空搜尋框  {"hits": [["8/22", "8/22　迎新宿營：自由時間"]], "want": ["8/22"], "after": {"title": "2025 年 8 月", "q": "", "sel": ["8/22"], "head": "8/22"}}
+PASS camp_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁"], "leaked": []}
+PASS camp_land：沒有 JS 例外  []
+==== CASE old（SHA b267b0534，ORIENTS port,land）====
+PASS old_2026-10-15_v97_day7_port：遊戲載入
+  [前置／捷徑] [前置] old_2026-10-15_v97_day7_port：GAME.applySave(docs/history/user_saves/2026-10-15_v97_day7.json)（存檔原樣，day 7、noodle、日誌 18 筆；關條件事件、手機自動打開）
+PASS old_2026-10-15_v97_day7_port 2 讀檔後日誌資料原封不動（G.memo 18 筆＝存檔 18 筆、day 一樣）  {"raw": 18, "G": 18, "shown": 18, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "day": 7, "h": 17.211}}
+PASS old_2026-10-15_v97_day7_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 9 月"}
+PASS old_2026-10-15_v97_day7_port 2 打開是今天（9/23）這個月、今天有框、每格最多兩行＋N  {"title": "2025 年 9 月", "wd": true, "now": "{\"now\": [[\"9/23\", \"rgb(233, 185, 106)\"]], \"today\": \"9/23\", \"other_bc\": \"rgba(255, 255, 255, 0.14)\"}", "content": "{\"bad\": [], \"cells_more_than_2\": [\"9/18\", \"9/19\", \"9/23\"], \"cells_with_items\": 7}"}
+PASS old_2026-10-15_v97_day7_port 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格  {"title": "2025 年 9 月", "cell": {"d": "17", "col": "三", "it": ["熬夜讀完了網拍相機的案例"], "more": null}, "pos": 0, "head": "9/17", "items": ["· 熬夜讀完了網拍相機的案例"]}
+PASS old_2026-10-15_v97_day7_port 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  {"title": "2025 年 9 月", "cell": {"d": "20", "col": "六", "it": ["第一次去木柵大學：可昕當導遊", "導遊"], "more": null}, "pos": 0, "head": "9/20", "items": ["· 第一次去木柵大學：可昕當導遊", "· 導遊"]}
+PASS old_2026-10-15_v97_day7_port 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格  {"title": "2025 年 9 月", "cell": {"d": "23", "col": "二", "it": ["腳踏車沒氣", "喝了一杯不是自己點的咖啡"], "more": "＋1"}, "pos": 2, "head": "9/23", "items": ["· 腳踏車沒氣", "· 喝了一杯不是自己點的咖啡", "· 咖啡買錯"]}
+PASS old_2026-10-15_v97_day7_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "指定案例：網拍相機 1,000 元", "民法 §154：要約與要約之引誘", "民法 §88：意思表示錯誤", "民法 §91：撤銷後的賠償", "法律服務社", "民法 §153：契約成立"], "leaked": []}
+PASS old_2026-10-15_v97_day7_port：沒有 JS 例外  []
+PASS old_fatiao3d_save_day25_1027_port：遊戲載入
+  [前置／捷徑] [前置] old_fatiao3d_save_day25_1027_port：GAME.applySave(wip_backup/saves/fatiao3d_save_day25_1027.json)（存檔原樣，day 25、dorm、日誌 39 筆；關條件事件、手機自動打開）
+PASS old_fatiao3d_save_day25_1027_port 2 讀檔後日誌資料原封不動（G.memo 39 筆＝存檔 39 筆、day 一樣）  {"raw": 39, "G": 39, "shown": 39, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "dorm", "day": 25, "h": 19.057}}
+PASS old_fatiao3d_save_day25_1027_port 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 10 月"}
+PASS old_fatiao3d_save_day25_1027_port 2 打開是今天（10/11）這個月、今天有框、每格最多兩行＋N  {"title": "2025 年 10 月", "wd": true, "now": "{\"now\": [[\"10/11\", \"rgb(233, 185, 106)\"]], \"today\": \"10/11\", \"other_bc\": \"rgba(255, 255, 255, 0.14)\"}", "content": "{\"bad\": [], \"cells_more_than_2\": [], \"cells_with_items\": 5}"}
+PASS old_fatiao3d_save_day25_1027_port 2 舊存檔第 1 筆「沒有讀案例就睡了」（day 1＝原本 9/17 週三）排在 9/17 那一格  {"title": "2025 年 9 月", "cell": {"d": "17", "col": "三", "it": ["沒有讀案例就睡了"], "more": null}, "pos": 0, "head": "9/17", "items": ["· 沒有讀案例就睡了"]}
+PASS old_fatiao3d_save_day25_1027_port 2 舊存檔第 2 筆「喝了一杯不是自己點的咖啡」（day 7＝原本 9/23 週二）排在 9/23 那一格  {"title": "2025 年 9 月", "cell": {"d": "23", "col": "二", "it": ["直屬學姊", "好像認識的人"], "more": "＋2"}, "pos": 2, "head": "9/23", "items": ["· 直屬學姊", "· 好像認識的人", "· 喝了一杯不是自己點的咖啡", "· 咖啡買錯"]}
+PASS old_fatiao3d_save_day25_1027_port 2 舊存檔第 3 筆「她來首都帝大找你」（day 25＝原本 10/11 週六）排在 10/11 那一格  {"title": "2025 年 10 月", "cell": {"d": "11", "col": "六", "it": ["可昕來首都帝大找你", "她來首都帝大找你"], "more": null}, "pos": 1, "head": "10/11", "items": ["· 可昕來首都帝大找你", "· 她來首都帝大找你"]}
+PASS old_fatiao3d_save_day25_1027_port 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "民法 §154：要約與要約之引誘", "刑法總則（一）", "法律服務社", "憲法（一）：憲法是什麼", "憲法的最高性", "中華民國憲法與增修條文", "罪刑法定（§1）"], "leaked": []}
+PASS old_fatiao3d_save_day25_1027_port：沒有 JS 例外  []
+PASS old_2026-10-15_v97_day7_land：遊戲載入
+  [前置／捷徑] [前置] old_2026-10-15_v97_day7_land：GAME.applySave(docs/history/user_saves/2026-10-15_v97_day7.json)（存檔原樣，day 7、noodle、日誌 18 筆；關條件事件、手機自動打開）
+PASS old_2026-10-15_v97_day7_land 2 讀檔後日誌資料原封不動（G.memo 18 筆＝存檔 18 筆、day 一樣）  {"raw": 18, "G": 18, "shown": 18, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "noodle", "day": 7, "h": 17.211}}
+PASS old_2026-10-15_v97_day7_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 9 月"}
+PASS old_2026-10-15_v97_day7_land 2 打開是今天（9/23）這個月、今天有框、每格最多兩行＋N  {"title": "2025 年 9 月", "wd": true, "now": "{\"now\": [[\"9/23\", \"rgb(233, 185, 106)\"]], \"today\": \"9/23\", \"other_bc\": \"rgba(255, 255, 255, 0.14)\"}", "content": "{\"bad\": [], \"cells_more_than_2\": [\"9/18\", \"9/19\", \"9/23\"], \"cells_with_items\": 7}"}
+PASS old_2026-10-15_v97_day7_land 2 舊存檔第 1 筆「熬夜讀完了網拍相機的案例」（day 1＝原本 9/17 週三）排在 9/17 那一格  {"title": "2025 年 9 月", "cell": {"d": "17", "col": "三", "it": ["熬夜讀完了網拍相機的案例"], "more": null}, "pos": 0, "head": "9/17", "items": ["· 熬夜讀完了網拍相機的案例"]}
+PASS old_2026-10-15_v97_day7_land 2 舊存檔第 2 筆「第一次去木柵大學：可昕當導遊」（day 4＝原本 9/20 週六）排在 9/20 那一格  {"title": "2025 年 9 月", "cell": {"d": "20", "col": "六", "it": ["第一次去木柵大學：可昕當導遊", "導遊"], "more": null}, "pos": 0, "head": "9/20", "items": ["· 第一次去木柵大學：可昕當導遊", "· 導遊"]}
+PASS old_2026-10-15_v97_day7_land 2 舊存檔第 3 筆「咖啡買錯」（day 7＝原本 9/23 週二）排在 9/23 那一格  {"title": "2025 年 9 月", "cell": {"d": "23", "col": "二", "it": ["腳踏車沒氣", "喝了一杯不是自己點的咖啡"], "more": "＋1"}, "pos": 2, "head": "9/23", "items": ["· 腳踏車沒氣", "· 喝了一杯不是自己點的咖啡", "· 咖啡買錯"]}
+PASS old_2026-10-15_v97_day7_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "指定案例：網拍相機 1,000 元", "民法 §154：要約與要約之引誘", "民法 §88：意思表示錯誤", "民法 §91：撤銷後的賠償", "法律服務社", "民法 §153：契約成立"], "leaked": []}
+PASS old_2026-10-15_v97_day7_land：沒有 JS 例外  []
+PASS old_fatiao3d_save_day25_1027_land：遊戲載入
+  [前置／捷徑] [前置] old_fatiao3d_save_day25_1027_land：GAME.applySave(wip_backup/saves/fatiao3d_save_day25_1027.json)（存檔原樣，day 25、dorm、日誌 39 筆；關條件事件、手機自動打開）
+PASS old_fatiao3d_save_day25_1027_land 2 讀檔後日誌資料原封不動（G.memo 39 筆＝存檔 39 筆、day 一樣）  {"raw": 39, "G": 39, "shown": 39, "free": {"busy": false, "dlg": false, "depth": 0, "adv": false, "phone": false, "zone": "dorm", "day": 25, "h": 19.058}}
+PASS old_fatiao3d_save_day25_1027_land 1a 選單 ☰ 有「日誌」分頁，點了打開月曆（標題「日誌」、35 格）  {"hasBtn": true, "btnText": "日誌", "menuOpen": true, "tabOn": true, "menuTitle": "日誌", "title": "2025 年 10 月"}
+PASS old_fatiao3d_save_day25_1027_land 2 打開是今天（10/11）這個月、今天有框、每格最多兩行＋N  {"title": "2025 年 10 月", "wd": true, "now": "{\"now\": [[\"10/11\", \"rgb(233, 185, 106)\"]], \"today\": \"10/11\", \"other_bc\": \"rgba(255, 255, 255, 0.14)\"}", "content": "{\"bad\": [], \"cells_more_than_2\": [], \"cells_with_items\": 5}"}
+PASS old_fatiao3d_save_day25_1027_land 2 舊存檔第 1 筆「沒有讀案例就睡了」（day 1＝原本 9/17 週三）排在 9/17 那一格  {"title": "2025 年 9 月", "cell": {"d": "17", "col": "三", "it": ["沒有讀案例就睡了"], "more": null}, "pos": 0, "head": "9/17", "items": ["· 沒有讀案例就睡了"]}
+PASS old_fatiao3d_save_day25_1027_land 2 舊存檔第 2 筆「喝了一杯不是自己點的咖啡」（day 7＝原本 9/23 週二）排在 9/23 那一格  {"title": "2025 年 9 月", "cell": {"d": "23", "col": "二", "it": ["直屬學姊", "好像認識的人"], "more": "＋2"}, "pos": 2, "head": "9/23", "items": ["· 直屬學姊", "· 好像認識的人", "· 喝了一杯不是自己點的咖啡", "· 咖啡買錯"]}
+PASS old_fatiao3d_save_day25_1027_land 2 舊存檔第 3 筆「她來首都帝大找你」（day 25＝原本 10/11 週六）排在 10/11 那一格  {"title": "2025 年 10 月", "cell": {"d": "11", "col": "六", "it": ["可昕來首都帝大找你", "她來首都帝大找你"], "more": null}, "pos": 1, "head": "10/11", "items": ["· 可昕來首都帝大找你", "· 她來首都帝大找你"]}
+PASS old_fatiao3d_save_day25_1027_land 3 筆記頁沒有日誌（沒有「日誌」那一項、沒有「· 日期：日誌內容」）  {"heads": ["第一頁", "吃過的", "民法 §154：要約與要約之引誘", "刑法總則（一）", "法律服務社", "憲法（一）：憲法是什麼", "憲法的最高性", "中華民國憲法與增修條文", "罪刑法定（§1）"], "leaked": []}
+PASS old_fatiao3d_save_day25_1027_land：沒有 JS 例外  []
+SHA b267b0534 CASES camp,old ORIENTS port,land
+ALL PASS

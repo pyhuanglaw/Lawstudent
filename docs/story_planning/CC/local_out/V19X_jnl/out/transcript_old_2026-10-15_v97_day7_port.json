@@ -1,0 +1,125 @@
+{
+ "orient": "port",
+ "save": "docs/history/user_saves/2026-10-15_v97_day7.json",
+ "shots": {
+  "cal": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\16_old_2026-10-15_v97_day7_port_cal.png",
+  "pick1": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\17_old_2026-10-15_v97_day7_port_pick1.png",
+  "pick2": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\18_old_2026-10-15_v97_day7_port_pick2.png",
+  "pick3": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\19_old_2026-10-15_v97_day7_port_pick3.png",
+  "notes": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\V19X_jnl\\out\\20_old_2026-10-15_v97_day7_port_notes.png"
+ },
+ "exp": {
+  "day": 7,
+  "raw": 18,
+  "list": [
+   {
+    "day": 1,
+    "t": "熬夜讀完了網拍相機的案例"
+   },
+   {
+    "day": 2,
+    "t": "上了民法總則：要約之引誘"
+   },
+   {
+    "day": 2,
+    "t": "和小安一起去溫州街的咖啡廳"
+   },
+   {
+    "day": 2,
+    "t": "和小安在兩點半 Café 待到黃昏"
+   },
+   {
+    "day": 2,
+    "t": "和阿哲在阿鳳麵店吃麵"
+   },
+   {
+    "day": 2,
+    "t": "兩點半的店員"
+   },
+   {
+    "day": 3,
+    "t": "咖啡買錯"
+   },
+   {
+    "day": 3,
+    "t": "總圖門口"
+   },
+   {
+    "day": 3,
+    "t": "兩點半的店員"
+   },
+   {
+    "day": 4,
+    "t": "第一次去木柵大學：可昕當導遊"
+   },
+   {
+    "day": 4,
+    "t": "導遊"
+   },
+   {
+    "day": 5,
+    "t": "通識「城市與散步」備取，打算加簽"
+   },
+   {
+    "day": 5,
+    "t": "選課結果"
+   },
+   {
+    "day": 6,
+    "t": "兩點半的店員"
+   },
+   {
+    "day": 6,
+    "t": "凌晨三點的螢幕"
+   },
+   {
+    "day": 7,
+    "t": "腳踏車沒氣"
+   },
+   {
+    "day": 7,
+    "t": "喝了一杯不是自己點的咖啡"
+   },
+   {
+    "day": 7,
+    "t": "咖啡買錯"
+   }
+  ]
+ },
+ "picks": [
+  {
+   "day": 1,
+   "t": "熬夜讀完了網拍相機的案例"
+  },
+  {
+   "day": 4,
+   "t": "第一次去木柵大學：可昕當導遊"
+  },
+  {
+   "day": 7,
+   "t": "咖啡買錯"
+  }
+ ],
+ "notes": {
+  "ok": true,
+  "on": true,
+  "heads": [
+   "第一頁",
+   "吃過的",
+   "指定案例：網拍相機 1,000 元",
+   "民法 §154：要約與要約之引誘",
+   "民法 §88：意思表示錯誤",
+   "民法 §91：撤銷後的賠償",
+   "法律服務社",
+   "民法 §153：契約成立"
+  ],
+  "dots": [
+   "· 兩點半 Café　檸檬塔　9/23"
+  ],
+  "nDots": 1
+ },
+ "errs": [],
+ "sha": "b267b0534",
+ "tag": "old_2026-10-15_v97_day7_port",
+ "url": "http://127.0.0.1:8813/index.html?turbo&start1"
+}
