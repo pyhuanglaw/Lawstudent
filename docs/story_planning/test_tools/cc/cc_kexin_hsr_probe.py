@@ -53,6 +53,7 @@ async def quick_go(pg, cdp, run, zone):
         await pg.wait_for_timeout(1000)
         s = await C.ts(pg)
         if s['zone'] == zone or s['dlg'] or s['ch']: break
+    if (await C.ts(pg))['phone']: await L.phone_away(pg, cdp, tries=2); await L.close_panels(pg, cdp)   # 到了（或中途有劇情）就把手機收起來
     return True
 
 

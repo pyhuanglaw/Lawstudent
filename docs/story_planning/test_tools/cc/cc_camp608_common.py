@@ -88,6 +88,9 @@ async def phone_unblock(pg, cdp):
 
 async def step(pg, cdp, s, picks, prefer=(), skip=()):
     """像玩家一樣處理畫面上的一件事：選項（prefer／第一個）、對話框（點一下）、手機（回覆、收起來）。有做事回 True"""
+    if s['ch'] and s['phone']:
+        # 手機蓋在選項上面（雲端 11-03 friends606：9/1 教室「坐中間的位子…」的選項被「地點」頁蓋住 420 秒）：玩家會先把手機收起來再選
+        await L.phone_away(pg, cdp, tries=2); await L.close_panels(pg, cdp); await pg.wait_for_timeout(600); return True
     if s['ch']:
         k, why = pick_index(s['ch'], prefer, skip)
         picks.append({'d': s['key'], 'h': hm(s['h']), 'opts': [o['t'][:30] for o in s['ch']], 'pick': s['ch'][k]['t'][:40], 'why': why})
