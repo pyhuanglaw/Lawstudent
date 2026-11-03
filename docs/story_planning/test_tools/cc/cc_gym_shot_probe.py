@@ -216,7 +216,7 @@ async def case_motion(pg, cdp, od, tag, rec):
             continue
         n0 = f['npc']
         check('motion %s：%s 的 crowdRole 是 %s' % (tag, zh, role), n0['role'] == role, str(n0['role']))
-        spot = await pg.evaluate(SPOT_JS % json.dumps([n0['x'], n0['z'], n0['yaw']]))
+        spot = await pg.evaluate(SPOT_JS.replace('%s', json.dumps([n0['x'], n0['z'], n0['yaw']])))
         if not spot:
             check('motion %s：%s 旁邊找得到玩家站的位置' % (tag, zh), False, n0); continue
         await put(pg, f['day'], f['wd'], f['hour'], {'x': spot['x'], 'z': spot['z'], 'yaw': 0}, tag, '站在%s的人旁邊 %.1f m（同一天同一時段進場是同一批人）' % (zh, spot['r']))
@@ -228,7 +228,7 @@ async def case_motion(pg, cdp, od, tag, rec):
         s0 = await L.state(pg); dx, dz = n['x'] - s0['x'], n['z'] - s0['z']; c, si = math.cos(0.38), math.sin(0.38)
         await L.turn_camera_to(pg, cdp, s0['x'] + dx * c - dz * si, s0['z'] + dx * si + dz * c)
         await pg.wait_for_timeout(1500)
-        m = await pg.evaluate(SAMPLE_JS % json.dumps(n['key']))
+        m = await pg.evaluate(SAMPLE_JS.replace('%s', json.dumps(n['key'])))
         f1 = await shot(pg, od, 'motion_%s_%s_1' % (tag, pose[4:]), rec)
         await pg.wait_for_timeout(1200)
         f2 = await shot(pg, od, 'motion_%s_%s_2' % (tag, pose[4:]), rec)
