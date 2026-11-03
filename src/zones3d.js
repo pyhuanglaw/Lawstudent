@@ -1444,7 +1444,7 @@ const Z3 = (function(){
     // 平台側面的牆裙（走道和平台之間看得到的高低差）
     { const fl=g.children.find(o=>o.isMesh&&o.geometry&&o.geometry.type==='PlaneGeometry'&&Math.abs(o.rotation.x+Math.PI/2)<1e-6&&o.position.y===0); if(fl){ fl.userData.walkLv=0; walk.push(fl); } }
     z.walkMeshes=walk; z.camMaxY=5.0; roomBackdrop(g0,W,D,H);   /* 牆外暗色的殼（窗都有窗景板）*/
-    for(const [r,c] of [[1,1],[3,5],[2,6],[4,2]]){ const st=z.seats.find(s=>s.row===r&&s.col===c); if(st) PROP(g0,'prop.bag',st.x+0.3,st.y,st.z+0.55,0.6); } { const st=z.seats.find(s=>s.row===1&&s.col===3); PROP(g0,'prop.bottle',st.x,st.y+0.78,st.z-0.55); } { const st=z.seats.find(s=>s.row===2&&s.col===5); PROP(g0,'prop.cup',st.x,st.y+0.78,st.z-0.55); }
+    /* 地上的紙袋拿掉（使用者 11-03「為什麼教室地板有奇怪的袋子」：放在座位後面 0.55 m，看起來浮在走道上；CLASSROOM-BAGS-1103）*/ { const st=z.seats.find(s=>s.row===1&&s.col===3); PROP(g0,'prop.bottle',st.x,st.y+0.78,st.z-0.55); } { const st=z.seats.find(s=>s.row===2&&s.col===5); PROP(g0,'prop.cup',st.x,st.y+0.78,st.z-0.55); }
     // 座位互動：全部 48 個（v9.4：使用者「教室內所有可使用的座位，都必須真的能走到、坐下、站起來」）
     for(const s of z.seats) E.interactables.push({x:s.x,z:s.z+0.35,y:s.y,radius:0.62,label:'坐下',seat:s});
     E.interactables.push({x:C.door.x,z:C.door.exitZ,y:CR.rowH(CR.rows-1),radius:1.2,label:'離開教室',exit:{to:'linze',spawn:{x:-2.0,z:-6.0,lv:1,yaw:0}}});

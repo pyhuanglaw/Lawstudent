@@ -105,5 +105,12 @@ await one('2. 大一國文（博雅 101 階梯教室）第 3 週上課前：前�
   const D=JR_D('2025-09-17'), wd=CALENDAR.dateOf(D).wd, mon=D-(wd-1), mk=(day,heard)=>({G:{day,zone:'puton',flags:{deptTalkDay:{l2:heard}}},enterN:day});
   const L=[{n:2}], p1=CROWD.deptTalkPick(mk(mon+2,mon),'law:pre',L,'l'), p2=CROWD.deptTalkPick(mk(mon+7,mon),'law:pre',L,'l');
   check('9. l2 每週最多一次：同一週（週一聽過、週三）不演；下週一照演（AA 11-03）',!p1&&!!p2,J([p1,p2])); }
+{ /* BUG-SEATTALK-FADE-1103：#fade 還開著（或還在淡出）時不說第一句，亮了才說 */
+  const g=globalThis, d0=g.document, gcs0=g.getComputedStyle; let op=1; const cls=new Set(['on']); const f={classList:{contains:k=>cls.has(k)}};
+  g.document={getElementById:id=>id==='fade'?f:null}; g.getComputedStyle=()=>({opacity:String(op)});
+  setTimeout(()=>{ cls.delete('on'); op=0.5; },60); setTimeout(()=>{ op=0; },160);
+  const t0=Date.now(); const ok=await CROWD.waitLit(1500); const dt=Date.now()-t0;
+  g.document=d0; g.getComputedStyle=gcs0;
+  check('10. 畫面還暗（#fade on、淡出中）時等，全亮才說（BUG-SEATTALK-FADE-1103）',ok&&dt>=150,String(dt)+'ms'); }
 console.warn=warn0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
