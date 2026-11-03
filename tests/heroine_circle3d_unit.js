@@ -58,6 +58,13 @@ const allowOf=k=>ALLOW.find(q=>q.path===DOCS0[k][0]);
 const DOCS={}; for(const k in DOCS0){ const e=allowOf(k); DOCS[k]=[DOCS0[k][0],(e&&e.status==='approved'&&e.sha)?String(e.sha):DOCS0[k][1]]; }
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:process.env.PRIV_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };   /* PRIV_GIT_DIR：在別的資料夾跑舊版時，對稿用這個 repo */
 const DOC={}; for(const k in DOCS) DOC[k]=show(DOCS[k][1],DOCS[k][0]);
+/* AA_587（以安改稿第三批，白名單 1cf992d66；使用者 11-02 第 14 節看完）第 21、22、28 列換了圈子裡的三格（「手帳」少出現、不用手帳當動作）：
+   對稿以前先把 AA_503、AA_504 稿上那三格照 AA_587 的表換掉（表上的原句、改成都要在 AA_587 那一版找得到；稿上找不到原句＝這支測試 FAIL，不默默略過）*/
+const SPEC587='docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md', DOC587=show('1cf992d66',SPEC587);
+const REV587=[['AA_503','21','Alison：欸妳今天手帳寫了幾頁？','Alison：欸妳今天筆記寫了幾頁？'],['AA_503','22','（她在手帳上畫線。看到你，先把那一頁蓋起來。）','（她在整理筆記，旁邊那杯茶已經冷了。看到你，點了一下頭。）'],
+  ['AA_504','28','（她一個人走，手帳拿在手上，沒有打開。）','（她一個人走，走得比平常慢。）']];
+const REV587_BAD=REV587.filter(([k,n,o,w])=>!DOC587.includes('| '+n+' |')||!DOC587.includes('| '+o+' | '+w+' |')||!DOC[k].includes(o));
+for(const [k,n,o,w] of REV587) DOC[k]=DOC[k].split(o).join(w);
 /* AA_519（NPC-STORY2-1028，白名單上的那一版；配角第二批）：3-4 新來的工讀生 2027-06-04 起叫小禾（AA_508 2-1 那兩列說話人改「小禾」）、2-3 6/16 週五公館和學姊那一列（c519_2_3）*/
 const SPEC519='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md', E519=ALLOW.find(q=>q.path===SPEC519);
 const SHA519=(E519&&E519.status==='approved'&&E519.sha)?String(E519.sha):'d75cd0228', DOC519=show(SHA519,SPEC519);
@@ -127,6 +134,7 @@ const dist=(a,b)=>Math.hypot(a.obj.position.x-b.obj.position.x,a.obj.position.z-
 /* ---------- 0 載入、對稿 ---------- */
 await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iS=sc('src/story3d.js'), iP=sc('src/pool3d.js'), iM=sc('src/multirel3d.js'), iHe=sc('src/heard3d.js'), iD=sc('src/data/heroine_circle.js'), iC=sc('src/hcircle3d.js'), iB=sc('src/data/bbpack_events.js');
   check('0. 載得到；index.html：heroine_circle.js → hcircle3d.js 在 story3d.js、multirel3d.js、pool3d.js、heard3d.js 以後，bbpack_events.js 前面',!errs.length&&HAS()&&iD>iHe&&iC>iD&&iC>iS&&iC>iP&&iC>iM&&iB>iC&&iS>0,J(errs));
+  check('0. AA_587 第 21、22、28 列（1cf992d66）：表上有這三列、原句在 AA_503／AA_504 稿上找得到，對稿前換成改成欄',DOC587.length>3000&&!REV587_BAD.length,J(REV587_BAD.map(r=>r[1])));
   check('0. 八份稿都讀得到（git show 劇情匯入白名單上的那一版；AA_503～510）',Object.keys(DOC).length===8&&Object.values(DOC).every(d=>d.length>3000),J(Object.keys(DOC).map(k=>[k,DOCS[k][1],DOC[k].length])));
   check('0. 稿上的圈子表一共 107 列（AA_509 七列、AA_510 五列、AA_503 第 14 節後補第 9 點五列）',TABLE.length===107&&TABLE.filter(t=>t.doc==='AA_509').length===7&&TABLE.filter(t=>t.doc==='AA_510').length===5&&TABLE.filter(t=>t.sec==='14-後補9').length===5,TABLE.length+' 列');
   const D=HD(), byPos={}; for(const r of D.ROWS) byPos[r.doc+' '+r.sec+' '+r.k]=r;

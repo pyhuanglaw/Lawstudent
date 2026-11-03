@@ -3997,6 +3997,51 @@
    "task": "AA598-SIS-1C-1102",
    "kind": "text",
    "note": "學姊①c：date_lines.js 學姊（heroine_05）約會地點台詞第 1～92 列（＋第 8 節第 6 點九份保753）。企劃線源稿 Dxx.py／Dxx.json、BB_128 還沒改，tools/date/import_date_lines.py 照稿的表疊上去（第 8 節第 4、9 點蓋過表上第 16、85 列）；企劃線源稿改好以後，現在是新句＝跳過。tests/aa598_sis_date_unit.js。子代理 2026-11-02 代登（sisdate 分支，基準 int/m590 d7a468868），給值班 LAWWW 核"
+    },
+    {
+   "path": "docs/story_planning/AA_587_以安改稿_第三批_大一大二事件.md",
+   "sha": "1cf992d66",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；S4 方案 A、S3 A 案、CG-11 想去的店）、BB_232 口氣審與法律查核（第 10 節：訴願）、使用者 2026-11-02 11:4x 告白那一場（第 11 節）＋19:xx 選擇題 1～4（第 14 節：「以安第三批使用者看完，照第 12～14 節可以交 LAWWW」）",
+   "task": "AA587-AN-B3-1102",
+   "kind": "text",
+   "note": "以安改稿第三批（大一、大二事件）：第 13 節（期末飯 HEART、第 58～71 列）先前已整合；這一筆＝第 2 節第 1～57 列（tools/story/apply_line_table.py 自動換 45 列，其餘手改：第 27、34、41 列、保51 刪、保61、第 29 列小考前提換成祐廷）、第 7-2 節 S4 新1～新9（開學第二天追出來分組＋LINE，CG-28 cg_line_qr_heroine01 放在「LINE。」那一拍；「為什麼念法律」整段拿掉；ev_an_report_split 加 notMemory REPORT_PARTNER）、第 7-3 節 S3（第 57 列）、第 10 節新10「我在查訴願怎麼寫。」；tests/aa587_b3_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_589_以安改稿_第四批_大三大四畢業後.md",
+   "sha": "2414f251c",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決22＝第 76～97 列）、BB_233 第 10 節 PASS、使用者 2026-11-02 晚上回覆樣 1～4（第 11 節，AA 照方向定稿）、樣 5～10 由 AA 照既有規則定（第 12 節）；第 56～58 列 AA 2026-11-02 22:14 照使用者定的寫第 13 節（2414f251c）解除保留",
+   "task": "AA589-AN-B4-1102",
+   "kind": "text",
+   "note": "以安改稿第四批（大三、大四、畢業後）：tools/story/apply_line_table.py 自動換 75 列；第 56～58 列（為什麼念法律）照第 13 節手改 AN20_BODY（新13、新14 兩句加在「……沒有人問過我。」後面）；手改第 16、27～29（町公所轉述宿舍管理員阿姨；挽回中祐廷先問「要幫忙嗎？」、選項照表）、42～44、67、68（APART_HEAR 鍵）、71、72、82 列；第 10 節「想去的店」看過那一頁（AN_SHOP_PAGE）的承接寫法（TE.HEART she、七夕、日本的手帳、七月最後一次）；第 7-5 節 S6 國考放榜改祐廷自己查到（postgrad3d.js anCall、AN 資料、群組阿哲先貼）；CG-23 換新圖（62395d7da）；tests/aa589_an_b4_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_592_以安改稿_1b_手機訊息與一般閒聊.md",
+   "sha": "4162d22e1",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決6＝第 50～55 列、新1 兔子貼圖）、BB_238 口氣審 PASS（第 1 列退回原句）、第 10 節 AA 照既有規則定（AA_596 第六節）：「本批全部可以交 LAWWW 整合」",
+   "task": "AA592-AN-1B-1102",
+   "kind": "text",
+   "note": "以安改稿①b（手機訊息＋一般閒聊）：tools/story/apply_line_table.py 自動換 46 列（第 1 列照 BB_238 原句）；手改第 11、12（vacfill 7/24 只換那兩處）、15、16（送機兩處）、26、29、32、48 列（標點，原句出現多次只換那一處）、新1（開學第二天第一則私訊後面加「（兔子揮手）」）；第 53 列 date_wish.js 是產生檔：tools/date/import_wish.py 疊這份第 53 列（法庭那一句）重匯；tests/aa592_an_1b_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_594_以安改稿_4b_不分年級系統事件.md",
+   "sha": "4162d22e1",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決4＝第 366～368 列）、BB_240 口氣審 PASS（22 列補回原句、7 列留轉折那一個「……」）、第 10 節 AA 照既有規則定（使1～使8 採新版、「本批全部可以交 LAWWW 整合」）",
+   "task": "AA594-AN-4B-1102",
+   "kind": "text",
+   "note": "以安改稿④b（不分年級的系統事件）：手抄檔、程式用 tools/story/apply_line_table.py（使1～使8 採新版；使2 只換 multirel_lines.js:416）；第 33 列（v6ex_lines.js 前任那一句）先不改，交 AA_600；date_wish.js（第 2-13 節 16 列＋第 368 列記憶名稱）由 tools/date/import_wish.py 疊這份重匯；date_lines.js（第 2-14 節 314 列，位置欄是 JSON 路徑）由 tools/date/import_date_lines.py 疊這份重匯；源稿（wish_aa.json、lines/Dxx.json、AA_127）沒改；tests/aa594_an_4b_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_601_以安_一起去行政法院旁聽_CG29.md",
+   "sha": "ebab78c45",
+   "status": "approved",
+   "approvedBy": "AA 定稿（第②級，照已定的以安大三上主線 AA_113 事件 14；D109）",
+   "task": "AA601-AN-ADMIN-1102",
+   "kind": "text",
+   "note": "以安一起去行政法院旁聽（CG-29 的場）：ev_an_admin_court a3 多記 AN_ADMIN_NEXT；r2y3a3d.js anAdminPhone（10/27 21:00 私訊三則＋回覆，FRIEND 以上、不是前任）；「好。」＝出遊 11/3（三）13:50（11/3 下午沒有必修，不用挪）；ev_an_admin_court_together（r2y3a_events.js，法庭裡全是旁白、CG-29）；記憶 AN_ADMIN_TOGETHER；第 3 節的回聲（可選）沒做；LEGAL_REVIEW_REQUIRED 同 ev_an_admin_court；tests/aa601_admin_court_unit.js"
   }
  ]
 }

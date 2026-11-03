@@ -132,7 +132,7 @@ const WZ_EVENTS=(function(){
     {speaker:YU,text:'欸等一下，日治的時候有登記，戰後又要重新登記一次？那沒趕上的人怎麼辦？'},
     {speaker:AN,text:'這就是問題。'},
     {speaker:YU,text:'可是這樣不公平吧！'},
-    {speaker:AN,text:'不公平要說得出理由。理由在這疊紙裡。'},
+    {speaker:AN,text:'不公平，要先排出來。都在這疊紙裡。'},
     N('三個人把每一張紙依日期排好，寫在白板的時間線上。九點半，管理員來敲門。'),
     {if:{flags:['WZ_YE_MAP']},speaker:null,text:'以安指著那本地圖：「這張地圖很有用。哪裡來的？」'},{if:{flags:['WZ_YE_MAP']},speaker:'player',text:'公園的二手市集。'},{if:{flags:['WZ_YE_MAP']},speaker:AN,text:'……你很會逛。'},
     N('以安收白板的時候，把時間線拍了三張照片。'),

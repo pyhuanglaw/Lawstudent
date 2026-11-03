@@ -77,7 +77,7 @@ const NAME=id=>SOCIAL.displayName(id);
   // S1、S2
   fresh(SD.trip,8,'dorm'); team(); R('classmate_peishan','ACQ'); let L1=await play('ev_spring_y2_noodle',[0]);
   check('1. S1 車上：「（你回家把車開出來。後座擠了三個人。）」→ 市場 → 海邊 → 回程', L1[0]==='（你回家把車開出來。後座擠了三個人。）'&&has('（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）')&&has('（第二站是海邊。四月的風還有點冷。）')&&L1[L1.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）', JSON.stringify(L1.slice(0,3)));
-  check('1. S1 市場「這個好吃。我不知道是什麼。」、以安「第一站選得很有理由。」（不是「理由很充分」）', L1.includes(NAME('zhe')+'：（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。')&&L1.includes(NAME('heroine_01')+'：第一站選得很有理由。')&&!L1.some(t=>/理由很充分/.test(t)));
+  check('1. S1 市場「這個好吃。我不知道是什麼。」、以安「這裡選得好。早上來是對的。」（不是「理由很充分」）', L1.includes(NAME('zhe')+'：（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。')&&L1.includes(NAME('heroine_01')+'：這裡選得好。早上來是對的。')&&!L1.some(t=>/理由很充分/.test(t)));
   check('1. S1 海邊二選一（下去踩水／坐在堤防上）；沒有沛珊', JSON.stringify(opts[0])===JSON.stringify(['（下去踩水）','（坐在堤防上）'])&&!L1.some(t=>/沛珊/.test(t))&&has('（水真的很冷。Alison 在後面笑到蹲下。）'));
   check('1. 背景：車上（早上）→ 小鎮的市場（town_market，11-02 使用者生成；原本深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&JSON.stringify(scenes[1])===JSON.stringify(OUT.bg('town_market'))&&!!(OUT.bg('town_market')||{}).image&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
   fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要 Alison、語彤在車上 */
@@ -115,7 +115,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(m15,18,'gongguan'); team(); let M1=await play('ev_midautumn_y3',['擋風']);
   const bday='（九月十五日。中秋，也是以安的生日。）', pom=NAME('heroine_03')+'：（拿出一顆柚子，上面插了一根蠟燭）蛋糕店關了。……柚子可以。';
   check('2. M1 不知道她生日：那一句在語彤拿出柚子之後；柚子插蠟燭', M1.indexOf(pom)===0&&M1[1]===bday, JSON.stringify(M1.slice(0,2)));
-  check('2. M1 三選一、「（吹熄了）……謝謝。風是你擋的，願望是我的。」、收尾、記 AN_BDAY_POMELO', JSON.stringify(opts[0])===JSON.stringify(['「生日快樂。」','「許什麼願？」','（幫她擋風）'])&&M1.includes(NAME('heroine_01')+'：（吹熄了）……謝謝。風是你擋的，願望是我的。')&&M1[M1.length-1]==='（柚子後來被阿哲剝了。蠟燭插過的那一瓣，沒有人吃。）'&&SOCIAL.has('heroine_01','AN_BDAY_POMELO')&&!M1.some(t=>/理由/.test(t)));
+  check('2. M1 三選一、「（吹熄了）……謝謝。」、收尾、記 AN_BDAY_POMELO', JSON.stringify(opts[0])===JSON.stringify(['「生日快樂。」','「許什麼願？」','（幫她擋風）'])&&M1.includes(NAME('heroine_01')+'：（吹熄了）……謝謝。')&&M1[M1.length-1]==='（柚子後來被阿哲剝了。蠟燭插過的那一瓣，沒有人吃。）'&&SOCIAL.has('heroine_01','AN_BDAY_POMELO')&&!M1.some(t=>/理由/.test(t)));
   fresh(m15,18,'gongguan'); team(); SOCIAL.remember('heroine_01','AN5_BIRTHDAY',''); M1=await play('ev_midautumn_y3',[1]);
   check('2. 知道她生日（AN5_BIRTHDAY）：第一句在開頭；「說出來就不準。我媽說的。」', M1[0]===bday&&M1[1]===pom&&M1.includes(NAME('heroine_01')+'：說出來就不準。我媽說的。'));
   fresh(m15,18,'gongguan'); team(); ev('ev_midautumn_y3').outingMissed(G,GM,{}); run(m15,21.5,21.75);

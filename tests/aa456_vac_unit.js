@@ -30,6 +30,8 @@ const oldMsg=(tag,th,from,text,d,h)=>{ PHONE.rec(H.G); H.G.msgs.push({th,from,te
 
 /* ---- 讀稿（企劃線 71f260ecc）---- */
 let doc=''; try{ doc=cp.execSync('git show 71f260ecc:"docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+/* 以安改稿④b（AA_594 第 19～23 列：termend_lines.js 女朋友版的邀約與飯桌）改了這份稿上她的幾格：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
+const AN594_USED=(()=>{ const [d,u]=require('./an_rev_doc.js').overlay(doc,/^termend_lines\.js/); doc=d; return u; })();
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const ORIG=/（原句）$/, orig=s=>s.replace(ORIG,'').trim(), cut=s=>orig(s).split('／').map(orig);

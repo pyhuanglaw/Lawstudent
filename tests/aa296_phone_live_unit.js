@@ -45,6 +45,7 @@ const said=()=>H.said.map(s=>({who:s.who,t:s.t}));
 const same=(got,exp)=>!!exp&&got.length===exp.length&&exp.every((x,i)=>!!x&&got[i].t===x.t&&((got[i].who==null)===(x.who==null))&&(x.who==null||String(got[i].who||'').includes(x.who)));
 const I1=ITEM('①'), I2=ITEM('②'), I3=ITEM('③'), I4=ITEM('④'), I5=ITEM('⑤');
 const P1=parse(blocks(I1)[0]), P2a=parse(blocks(I2)[0]), P2b=parse(blocks(I2)[1]), P3=parse(blocks(I3)[0]), P4=parse(blocks(I4)[0]), P5=parse(blocks(I5)[0]);
+{ const AN=require('./an_rev_doc.js'); for(const x of P1.intro.concat(P1.after)) if(x&&x.t) x.t=AN.rev(x.t); }   /* ① 是以安 AN18 視訊：AA_589 第 42、45、46 列改過的句子照改成欄比（逐列核對在 tests/aa589_an_b4_unit.js）*/
 const nowDm=s=>q((String(s).split('\n').find(l=>/^- 現在/.test(l))||''));   /* 「現在只有兩則私訊：「…」「…」」那一行 */
 const DM1=nowDm(I1), DM3=nowDm(I3), DM4=nowDm(I4);
 const EXE_OPTS=q((I2.split('\n').find(l=>/直接在場面裡給兩個選項/.test(l))||'').replace(/^[^：]*：/,'')).slice(0,2);
@@ -83,7 +84,7 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     check('① 09:45 起問「接起來」（09:42 還沒）',!nd&&!!due&&due.id===V,J(due&&due.id));
     await goOut(V,[0]);
     const s=said(), m0=P1.intro.length, a0=s.slice(0,m0), z0=s.slice(-P1.after.length);
-    check('① 視訊：開頭旁白＋她四句、結尾「……你那邊早上十點了。先去上課。」「（她先掛了。）」照稿一字不差',same(a0,P1.intro)&&same(z0,P1.after),J(s));
+    check('① 視訊：開頭旁白＋她四句、結尾「你那邊早上十點了。先去上課。」「（她先掛了。）」照稿一字不差',same(a0,P1.intro)&&same(z0,P1.after),J(s));
     check('① 地點字幕「視訊」、背景視訊；三個選項照 AN18「'+q(P1.notes[0]||'').slice(0,3).join('」「')+'」',caps.includes('視訊')&&H.bgs.some(b=>J(b)===J(OUT.bg('video')))&&J(H.opts[0])===J(q(P1.notes[0]||'').slice(0,3).map(x=>'「'+x+'」')),J({caps,opts:H.opts}));
     check('① 接了：AN_CHOICE video、AN_CHOICE_TOLD「第一批知道」、視訊 done；沒有私訊、沒有群組',G.flags.AN_CHOICE==='video'&&memNote('heroine_01','AN_CHOICE_TOLD')==='第一批知道'&&OUT.get(G,V).state==='done'&&!th('p:heroine_01').length&&!th('g:noodle_team').length,J([G.flags.AN_CHOICE,memNote('heroine_01','AN_CHOICE_TOLD'),OUT.get(G,V).state]));
     /* 三選一的回答＝AN18 交往版同一個選項的回答（臺灣路線萬才館走廊那一場）*/

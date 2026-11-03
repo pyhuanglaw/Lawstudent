@@ -69,7 +69,7 @@ await sec('C',async()=>{
 });
 
 /* ======================= A 以安 ======================= */
-const AN_BODY=['你最近都說『都可以』。','我不要『都可以』。我要理由。'];
+const AN_BODY=['你最近都說『都可以』。','我不要『都可以』。我想知道你怎麼想。'];
 const AN_O1=['（給一個真的理由）','「我想我們要的不一樣。」',NONE], AN_O2=['「我累了，但我不想放棄。」','「我怕說了妳會反駁。」','「我在想我自己要什麼。」'];
 await sec('A',async()=>{
   const thu=D('2026-09-24');   /* 大二上第 3 週，有讀書會 */
@@ -77,17 +77,17 @@ await sec('A',async()=>{
   let p=setup(); check('A1. 學期中、到 3（週一）：下一個週四讀書會散會後，沒去＝隔天 16:00 Café',p&&p.mode==='meet'&&p.att[0].m==='plg'&&p.att[0].day===thu&&p.att[1].m==='zone'&&p.att[1].zone==='cafe'&&p.att[1].day===thu+1&&p.att[1].h===16,J(p&&p.att));
   /* 讀書會有去：散會後「你留一下。」→ 研討室 */
   for(const [picks,res] of [[[0,1],'mend'],[[1],'apart_talk'],[[2],'drift']]){ setup(); at(thu,21.6); H.G.zone='wancai'; H.G.acts.att['public_law_group@'+thu]={end:'full'}; H.said=[]; H.opts=[]; H.bgs=[]; H.picks=picks.slice(); await tick(); const s=said();
-    const want=['你留一下。'].concat(AN_BODY, res==='mend'?['……這個理由我收下。','（她把兩個人的規則改成一條：「有事，要說理由。」）']:res==='apart_talk'?['（以安翻開手帳，在理由欄寫一行給你看：「分開。理由：我們都沒有錯。」）','這樣寫，可以嗎？']:[]);
+    const want=['你留一下。'].concat(AN_BODY, res==='mend'?['……好。這個我收下。','（她把兩個人的規則改成一條：「有事，要講出來。」）']:res==='apart_talk'?['（以安在筆記本上寫了一行，轉過來給你看：「分開。我們都沒有錯。」）','這樣寫，可以嗎？']:[]);
     check('A2. 讀書會散會後（'+res+'）：台詞逐字、選項',J(s)===J(want)&&J(H.opts[0])===J(AN_O1)&&(res!=='mend'||J(H.opts[1])===J(AN_O2))&&caps.includes('法律系館B 研討室')&&H.bgs.some(b=>b&&b.image==='assets/bg/wancai_seminar.webp'),J({s,o:H.opts}));
     if(res==='mend') check('A3. 修補：計數歸零、還在交往、這學期不再排',cnt(AN)===0&&H.G.flags.dating_heroine_01===true&&pr(AN).talked.Y2S1===1&&!pr(AN).plan);
     if(res==='apart_talk') check('A3. 好好分開：EX、EX_REASON talk、歷史 apart_talk、CLEANUP_DONE false',H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01===true&&H.G.flags.EX_heroine_01_REASON==='talk'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_talk')&&H.G.flags.CLEANUP_DONE===false);
     if(res==='drift'){ const dd=pr(AN).drift; at(thu+14,20.9); rules(); const a=dm(AN).length; at(thu+14,21); rules();
-      check('A3. 不回答：兩週後 21:00「我們先回到讀書會的同學。理由欄我先空著。」、慢慢淡（apart_drift、EX_REASON drift）',dd&&dd.day===thu+14&&a===0&&J(dm(AN))===J(['heroine_01:我們先回到讀書會的同學。理由欄我先空著。'])&&H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01_REASON==='drift'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_drift'),J(dm(AN))); } }
+      check('A3. 不回答：兩週後 21:00「我們先回到讀書會的同學。」、慢慢淡（apart_drift、EX_REASON drift）',dd&&dd.day===thu+14&&a===0&&J(dm(AN))===J(['heroine_01:我們先回到讀書會的同學。'])&&H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01_REASON==='drift'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_drift'),J(dm(AN))); } }
   /* 讀書會沒去：22:00 私訊 → 隔天 Café */
   setup(); at(thu,21.9); rules(); const a0=dm(AN).length; at(thu,22); rules();
   check('A4. 那晚沒去讀書會：22:00「明天下午四點，兩點半窗邊。」「理由：有一件事，要當面說。」',a0===0&&J(dm(AN))===J(['heroine_01:明天下午四點，兩點半窗邊。','heroine_01:理由：有一件事，要當面說。'])&&pr(AN).plan.i===1,J(dm(AN)));
   at(thu+1,16.5); rules(); check('A5. 隔天 16:30「我在窗邊。」',dm(AN).slice(-1)[0]==='heroine_01:我在窗邊。');
-  at(thu+1,16.7); H.G.zone='cafe'; H.said=[]; H.picks=[0,0]; await tick(); check('A5. 16:40 走進 Café：談話（模糊的 3D），修補',J(said())===J(AN_BODY.concat(['……這個理由我收下。','（她把兩個人的規則改成一條：「有事，要說理由。」）']))&&cnt(AN)===0,J(said()));
+  at(thu+1,16.7); H.G.zone='cafe'; H.said=[]; H.picks=[0,0]; await tick(); check('A5. 16:40 走進 Café：談話（模糊的 3D），修補',J(said())===J(AN_BODY.concat(['……好。這個我收下。','（她把兩個人的規則改成一條：「有事，要講出來。」）']))&&cnt(AN)===0,J(said()));
   setup(); at(thu,22); rules(); at(thu+1,17.3); rules(); check('A6. Café 17:15 還沒到＝不回答（慢慢淡排兩週後）',!pr(AN).plan&&!!pr(AN).drift&&pr(AN).drift.day===thu+1+14);
   /* 讀書會不開的週（期中第 8 週）*/
   fresh('2026-10-26',10,'dorm'); date(AN); for(let i=0;i<3;i++) crack(AN,1); p=pr(AN).plan; const t8=D('2026-10-29');
@@ -95,14 +95,14 @@ await sec('A',async()=>{
   check('A7. 讀書會不開的週：週四 21:00 私訊兩句 → 隔天 16:00 Café',p.att.length===1&&p.att[0].zone==='cafe'&&p.att[0].day===t8+1&&b0===0&&dm(AN).length===2,J(p.att));
   /* 她在日本、你不在：視訊；不回答＝修補（沒有誰對誰錯的一次，最多一次）*/
   fresh('2028-04-10',10,'dorm',{EXCHANGE_ROUTE:'TW'}); date(AN); for(let i=0;i<3;i++) crack(AN,1); p=pr(AN).plan;
-  check('A8. 她在日本（2028-04）：視訊 21:00、20:00「今晚九點，視訊。我有一件事要說理由。」',p&&p.mode==='jp_video'&&p.att[0].video&&p.att[0].h===21&&p.att[0].invite.h===20&&p.att[1].day===p.att[0].day+1,J(p&&p.att));
+  check('A8. 她在日本（2028-04）：視訊 21:00、20:00「今晚九點，視訊。我有一件事要說。」',p&&p.mode==='jp_video'&&p.att[0].video&&p.att[0].h===21&&p.att[0].invite.h===20&&p.att[1].day===p.att[0].day+1,J(p&&p.att));
   at(p.att[0].day,20); rules(); const q1=outOf(AN)[0];
-  check('A8. 20:00 私訊、排視訊（接起來／先不接）',dm(AN).slice(-1)[0]==='heroine_01:今晚九點，視訊。我有一件事要說理由。'&&q1&&q1.place==='視訊'&&q1.verb==='接起來'&&q1.h===21);
+  check('A8. 20:00 私訊、排視訊（接起來／先不接）',dm(AN).slice(-1)[0]==='heroine_01:今晚九點，視訊。我有一件事要說。'&&q1&&q1.place==='視訊'&&q1.verb==='接起來'&&q1.h===21);
   at(p.att[0].day,21.4); expire(); rules(); at(p.att[0].day+1,21.4); rules(); expire(); rules();
   check('A9. 兩天都沒接＝不回答；她在日本那一次＝修補（還在交往、歸零、不排慢慢淡）',!pr(AN).plan&&!pr(AN).drift&&pr(AN).jpUsed===true&&H.G.flags.dating_heroine_01===true&&cnt(AN)===0,J(pr(AN)));
   /* 視訊接起來 */
   fresh('2028-04-17',10,'dorm',{EXCHANGE_ROUTE:'TW'}); date(AN); for(let i=0;i<3;i++) crack(AN,1); p=pr(AN).plan; at(p.att[0].day,20.9); rules(); const q2=outOf(AN)[0]; await go(q2,[1]);
-  check('A10. 視訊接起來：背景視訊、台詞逐字；選「我想我們要的不一樣。」＝分開',J(said())===J(AN_BODY.concat(['（以安翻開手帳，在理由欄寫一行給你看：「分開。理由：我們都沒有錯。」）','這樣寫，可以嗎？']))&&H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&H.G.flags.dating_heroine_01===false,J(said()));
+  check('A10. 視訊接起來：背景視訊、台詞逐字；選「我想我們要的不一樣。」＝分開',J(said())===J(AN_BODY.concat(['（以安在筆記本上寫了一行，轉過來給你看：「分開。我們都沒有錯。」）','這樣寫，可以嗎？']))&&H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&H.G.flags.dating_heroine_01===false,J(said()));
   /* 寒假：視訊 */
   fresh('2027-01-11',10,'dorm'); date(AN); for(let i=0;i<3;i++) crack(AN,1); p=pr(AN).plan; check('A11. 寒假（她回台中）：視訊',p&&p.mode==='video'&&p.att[0].video);
 });

@@ -32,7 +32,8 @@ const thus=(from,to)=>{ const a=[]; for(let d=D(from);d<=D(to);d++) if(wdOf(d)==
 const plgThus=(from,to)=>thus(from,to).filter(plgOn);
 const after=()=>{ const e=CLS.afterActEvent(H.G,PLG); return e?e.id:null; };   /* classes3d.js：散會後接著演的那一件（afterActivity）*/
 const norm=t=>String(t).replace(/^「|」$/g,'');
-const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf(norm(t))>=0; };   /* 讀不到企劃線（沒 fetch）就只比對程式 */
+const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587／589／592／594）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3、aa589_an_b4、aa592_an_1b、aa594_an_4b）*/
+const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf(norm(t))>=0||ANREV.has(t)||ANREV.has(norm(t)); };   /* 讀不到企劃線（沒 fetch）就只比對程式 */
 (async()=>{
   const ok=!!X();
   check('0. src/aa187_3d.js 載得到、五個事件進了 STORY_EVENTS',ok&&!loadErr.length&&['ev_an_counted','ev_an_walk_home','ev_yt_umbrella_hook','ev_yt_family_dinner','ev_yt_thu_seat'].every(id=>!!ev(id)),J(loadErr));
@@ -65,7 +66,7 @@ const inDoc=(t,doc)=>{ doc=doc||DOC; return !doc||doc.indexOf(t)>=0||doc.indexOf
     { const y3s2=plgThus('2028-02-20','2028-03-20')[0]; at(y3s2); check('1. 大三下（'+keyOf(y3s2)+'）不演（大三上才有）',after()!=='ev_an_counted',after()); }
     { at('2027-10-21'); const was=AA187.countedOk(H.G); CRACKTALK.pr(H.G,AN).plan={att:[{m:'plg',day:H.G.day,t1:21.5}],i:0}; check('1. 那晚排了以安的裂縫談話（「你留一下。」）：先不演',was===true&&AA187.countedOk(H.G)===false); }
     at('2027-10-21'); const L=await run('ev_an_counted');
-    check('1. 台詞照稿（2026-10-18 最新版：「……樣本還不夠。」）、沒有選項、記 AN_COUNTED',J(L)===J(['（其他人都走了。她的手帳攤在桌上，你看到一頁寫著「反駁」兩個字，下面一排正字。）','祐廷：這是什麼？','沈以安：（把手帳闔上）統計。','沈以安：……讀書會上，有人反駁我的次數。','祐廷：幾次？','沈以安：十七。','沈以安：其他人加起來是三。','（她把手帳收進包包。拉鍊拉到一半，停住。）','沈以安：……樣本還不夠。'].map(t=>t.replace(/^祐廷：/,H.G.name+'：').replace(/^沈以安：/,SOCIAL.displayName(AN)+'：')))&&H.opts.length===0&&H.G.flags.AN_COUNTED===true,J(L));
+    check('1. 台詞照稿（2026-10-18 最新版：「……樣本還不夠。」）、沒有選項、記 AN_COUNTED',J(L)===J(['（其他人都走了。她的筆記本攤在桌上，你看到一頁寫著「反駁」兩個字，下面一排正字。）','祐廷：這是什麼？','沈以安：（把筆記本闔上）統計。','沈以安：讀書會上，有人反駁我的次數。','祐廷：幾次？','沈以安：十七。','沈以安：其他人加起來是三。','（她把筆記本收進包包。拉鍊拉到一半，停住。）','沈以安：……樣本還不夠。'].map(t=>t.replace(/^祐廷：/,H.G.name+'：').replace(/^沈以安：/,SOCIAL.displayName(AN)+'：')))&&H.opts.length===0&&H.G.flags.AN_COUNTED===true,J(L));
     ACTIVITIES.markAttended(H.G,PLG); check('1. 只演一次（演過以後同一晚、之後的週四都不再演）',after()!=='ev_an_counted');
   });
 

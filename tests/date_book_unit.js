@@ -124,9 +124,9 @@ const ADV2=global.ADV; ADV2.active=false;
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 再改一次：輪到第 2 句',lines().some(x=>/下午我空得出來/.test(x)),lines().join(' | '));
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 同一個行程改到第三次：「第三次了。」那一句',tr2.moves===3&&lines().some(x=>/第三次了。/.test(x)),lines().join(' | '));
   said=[]; picks=['改到明天同一個時間']; await DATE.move(GM,qm2,tr2); check('9. 第四次：照一般改時間（第三次那句只說一次）',!lines().some(x=>/第三次了/.test(x))&&lines().some(x=>/新的時間|空得出來/.test(x)),lines().join(' | '));
-  said=[]; await DATE.drop(GM,qm2,tr2); check('9. 今天不去了：以安「取消」那一句（連發：「好。理由？」「……好。下次你要說理由。」）、還沒有 FLAKED',!G.flags.FLAKED_heroine_01&&lines().some(x=>/好。理由？/.test(x))&&lines().some(x=>/下次你要說理由/.test(x)),lines().join(' | '));
+  said=[]; await DATE.drop(GM,qm2,tr2); check('9. 今天不去了：以安「取消」那一句（連發：「好。怎麼了？」「……好。下次早一點講。」——AA_594 第 53、54 列，原本「好。理由？」「……好。下次你要說理由。」）、還沒有 FLAKED',!G.flags.FLAKED_heroine_01&&lines().some(x=>/好。怎麼了？$/.test(x))&&lines().some(x=>/……好。下次早一點講。$/.test(x))&&!lines().some(x=>/理由/.test(x)),lines().join(' | '));
   const tm3=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:day+1,depart:15}); said=[]; await DATE.drop(GM,OUT.get(G,'date_'+tm3.trip),DATE.trip(G,tm3.trip));
-  check('9. 30 天內第二次取消：FLAKED、放鴿子那一句（AA_389 第 7 點：「第二次了。我在手帳上記了一筆。」「……下次證明我記錯。」）',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/第二次了。我在手帳上記了一筆。/.test(x))&&lines().some(x=>/下次證明我記錯。/.test(x))&&!lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
+  check('9. 30 天內第二次取消：FLAKED、放鴿子那一句（AA_389 第 7 點；AA_594 第 55、56 列改成「第二次了。」「下次不能來，先跟我說。」，原本「第二次了。我在手帳上記了一筆。」「……下次證明我記錯。」）',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/：第二次了。$/.test(x))&&lines().some(x=>/下次不能來，先跟我說。$/.test(x))&&!lines().some(x=>/手帳|證明我記錯/.test(x))&&!lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
   check('9. 輪流的位置存在 dateLog（存檔裡；讀檔補預設）',!!DATE.log(G,'heroine_01').lineIdx&&DATE.log(G,'heroine_01').lineIdx.move===3&&DATE.log(G,'heroine_01').lineIdx.move3===1,JSON.stringify(DATE.log(G,'heroine_01').lineIdx));
   // ---------- 10 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）----------
   { fresh(day,22,'dorm',{dating_heroine_03:true}); G.contacts.heroine_03=1; const t=DATE.book(G,{who:'heroine_03',locs:['D13'],transport:'mrt',day:day+1,depart:11});

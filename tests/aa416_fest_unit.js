@@ -29,6 +29,7 @@ const row614=(doc523.split('\n').find(l=>l.startsWith('| 6-14 |'))||'');   /* AA
 let doc550=''; for(const r of ['2664ed6f1','origin/claude/story-planning']){ try{ doc550=cp.execSync('git show '+r+':"docs/story_planning/AA_550_假期人物不在臺北_跨年訊息_大三大四房間旁白順序.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc550) break; }catch(e){ doc550=''; } }
 const sec550=(doc550.split('## 4.')[1]||'');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
+const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587／589／592／594）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3、aa589_an_b4、aa592_an_1b、aa594_an_4b）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
 const D=k=>H.D(k);
@@ -62,7 +63,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('0. index.html：fest_events.js、fest3d.js 接在 an_yt_hol3d.js 後面（?v= 照舊）',/src\/an_yt_hol3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/fest_events\.js\?v=\1"><\/script>\n<script src="src\/fest3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES、STORY.TICKS、OUT.BEFORE（校外約會）、OUT.AFTER（子晴跨年）都接了',STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0&&OUT.BEFORE.length>0&&OUT.AFTER.length>0);
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
-  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
+  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
     const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
     const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.aa550){ if(sec550.indexOf('> 芷若：'+l.text)<0) bad.push('（AA_550 第 4 節）'+l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
@@ -135,14 +136,14 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   /* ======================= 3 以安 ======================= */
   await sec('3',async()=>{ const x=X();
   { setup('2026-03-13',10,{lv:{[AN]:6},flags:{AN_VDAY_Y1:'went'}}); const a=await ask(AN,[1,0]); at('2026-03-14',18.5); const r0=relOf(AN); const m=await play({id:AN,k:'white',y:2026,mode:'meet'},[0]);
-    check('3. 以安 3/14 第 6 階、2/14 她送過東西：「白色情人節。日本是收到東西的人要回禮。」「……所以今天是你。我查過了。」→（給她一盒手工餅乾）「……你自己做的？」「焦的那一塊我吃。」',J(m.L)===J(['白色情人節。日本是收到東西的人要回禮。','……所以今天是你。我查過了。','……你自己做的？','焦的那一塊我吃。'])&&J(m.O[0])===J(['（給她一盒手工餅乾）','「我忘了。」']),J(m));
+    check('3. 以安 3/14 第 6 階、2/14 她送過東西：「白色情人節。日本是收到東西的人要回禮。」「……所以今天是你。我查過了。」→（給她一盒手工餅乾）「你自己做的？」「焦的那一塊我吃。」',J(m.L)===J(['白色情人節。日本是收到東西的人要回禮。','……所以今天是你。我查過了。','你自己做的？','焦的那一塊我吃。'])&&J(m.O[0])===J(['（給她一盒手工餅乾）','「我忘了。」']),J(m));
     check('3. 情人節（第 6 階）熟悉 +4、自在 +5、她的戀愛 +6；記憶 HOL_WHITE_2026；不受每天上限',dRel(AN,r0)===J({fam:4,comf:5,npcRom:6})&&SOCIAL.has(AN,'HOL_WHITE_2026'),dRel(AN,r0)); }
   { setup('2026-03-14',10,{lv:{[AN]:6},flags:{AN_VDAY_Y1:'went'}}); const m=await play({id:AN,k:'white',y:2026,mode:'meet'},[1]);
     setup('2027-03-14',10,{lv:{[AN]:'dt'},flags:{AN_CRACK:2}}); const r0=relOf(AN); const n=await play({id:AN,k:'white',y:2027,mode:'meet'});
     check('3. 「我忘了。」→「我知道你會忘，所以先說了。」「下次不准忘。」；2027 沒一起過 2/14：「白色情人節。……我們都沒送東西。」「那今天就是出來走走。」',J(m.L.slice(2))===J(['我知道你會忘，所以先說了。','下次不准忘。'])&&J(n.L)===J(['白色情人節。……我們都沒送東西。','那今天就是出來走走。']),J({m,n}));
     check('3. 交往中的情人節 +3／+6／+5、這學期的裂縫 -1（2→1）',dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.flags.AN_CRACK===1,dRel(AN,r0)); }
   { setup('2026-03-13',20,{lv:{[AN]:'dt'}}); rules(); const pre=dms(AN).length; at('2026-03-13',21.05); rules(); const m=PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026');
-    check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」「晚上六點半，總圖門口。手帳上這一格，我先寫了。」（AA_460 4-2 照節日換整組）；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
+    check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」「晚上六點半，總圖門口。這一天，我先排了。」（AA_460 4-2 照節日換整組）；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。這一天，我先排了。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
     PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',0); rules(); const q=OUT.get(H.G,'fest_heroine_01_white_2026'); at('2026-03-14',18.1); const r0=relOf(AN); const g=await goOut(q.id);
     check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night，圖是第 110b 組的 ntu_library_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='ntu_library_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
     setup('2026-03-13',21.05,{lv:{[AN]:'dt'}}); rules(); PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',1); rules();
@@ -160,7 +161,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('3. 2028 生日美國路線：視訊（臺灣 21:00＝美國 09:00，手機上是 09:00）',!!q&&q.fest.mode==='video'&&q.h===9&&J(a.O[0])===J(['視訊（09:00）','算了']),J({q,O:a.O}));
     at('2028-09-15',8.9); const g=await goOut(q.id); check('3. 「你那邊是早上吧。我這邊快睡了。」「……生日還剩三個小時。你剛好趕上。」（視訊沒有禮物）',J(g.L)===J(['你那邊是早上吧。我這邊快睡了。','……生日還剩三個小時。你剛好趕上。'])&&!H.opts.length,J(g.L)); }
   { setup('2025-12-24',10,{lv:{[AN]:'dt'}}); const m=await play({id:AN,k:'xmas',y:2025,mode:'meet'},[4]); setup('2026-12-24',10,{lv:{[AN]:5}}); const n=await play({id:AN,k:'xmas',y:2026,mode:'meet'},[4]);
-    check('3. 聖誕：交往中（她遞過來一張卡片）「字很少。回去再看。」旁白（卡片上只有一行……）；第 5 階「聖誕節。……我手帳上這一天本來是空的。」「現在不是了。」；接禮物',J(m.L.slice(0,3))===J(['（她遞過來一張卡片）','字很少。回去再看。','（卡片上只有一行：「明年也一起過。——以安」）'])&&J(n.L.slice(0,2))===J(['聖誕節。……我手帳上這一天本來是空的。','現在不是了。'])&&J(n.O[0])===J(['一支好寫的鋼筆','一本空白的手帳','一本商事法的書','一束花','（沒有準備）'])&&n.L.slice(-1)[0]==='你人來了就好。',J({m:m.L,n})); }
+    check('3. 聖誕：交往中（她遞過來一張卡片）「字很少。回去再看。」旁白（卡片上只有一行……）；第 5 階「聖誕節。……這一天我本來沒排事情。」「現在有了。」；接禮物',J(m.L.slice(0,3))===J(['（她遞過來一張卡片）','字很少。回去再看。','（卡片上只有一行：「明年也一起過。——以安」）'])&&J(n.L.slice(0,2))===J(['聖誕節。……這一天我本來沒排事情。','現在有了。'])&&J(n.O[0])===J(['一支好寫的鋼筆','一本空白的手帳','一本商事法的書','一束花','（沒有準備）'])&&n.L.slice(-1)[0]==='你人來了就好。',J({m:m.L,n})); }
   });
 
   /* ======================= 4 芷若 ======================= */
@@ -312,9 +313,9 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2/13 21:00 照樣約「明天店休。」',dms(YT)[0]==='明天店休。');
     setup('2026-09-24',21.05,{lv:{[YT]:6}}); rules(); check('11. 中秋照 AA_414 只有交往中',!dms(YT).length); }
   { setup('2029-02-14',9,{lv:{[AN]:6}}); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4'); H.said=[]; H.opts=[]; H.picks=[1]; await EVENTS.run(ev('ev_an_vday_y4')); const L=said();
-    check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「……她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('……她說那就是快有了。')&&!L.includes('……她說那就是有。'),J({O:H.opts,L}));
+    check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('她說那就是快有了。')&&!L.includes('她問了二十分鐘。'),J({O:H.opts,L}));
     setup('2029-02-14',9,{lv:{[AN]:'dt'}}); rules(); H.said=[]; H.opts=[]; H.picks=[2]; await EVENTS.run(ev('ev_an_vday_y4')); const L2=said(); rules(); const qr=OUT.get(H.G,'anyt_an_vday_tc');
-    check('11. 選「我明天開車下去。」→「……初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('……初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===2.5,J({L2,qr}));   /* 2/15 在寒假：從家出發（DATE-C7）*/
+    check('11. 選「我明天開車下去。」→「初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===2.5,J({L2,qr}));   /* 2/15 在寒假：從家出發（DATE-C7）*/
     REG({cg_valentine_taichung_heroine01:{file:'x',title:'t'}}); at('2029-02-15',10.9); const g=await goOut('anyt_an_vday_tc',[0]);
     check('11. 補救那一場：台中的公園、紙袋、休息站，放 CG；記 AN_VDAY_Y4B went（3/14 算她 2/14 送過東西）',g.L.includes('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）')&&J(H.cgs)===J(['cg_valentine_taichung_heroine01'])&&H.G.flags.AN_VDAY_Y4B==='went',J({L:g.L,cgs:H.cgs})); delete global.CG_REGISTRY;
     setup('2029-02-14',9,{lv:{[AN]:'dt'},flags:{AN_VDAY_CG:true}}); rules(); H.opts=[]; H.picks=[0]; await EVENTS.run(ev('ev_an_vday_y4'));

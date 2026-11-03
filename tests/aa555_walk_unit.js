@@ -17,7 +17,8 @@ const L3=(f,exp)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.
 L3('src/r3_3d.js',/^R3$/); L3('src/aa555_3d.js',/^AA555$/);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
-const git=p=>{ try{ return cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const git0=p=>{ try{ return cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
+const git=p=>require('./an_rev_doc.js').overlay(git0(p),/^(aa555_3d|invites)\.js/)[0].split('白板上只寫一條規則：說理由').join('白板上只寫一條規則：每個人講完');   /* 以安改稿①b（AA_592 第 3、9、10、14、24、52 列）改了 AA_555 稿上她的幾則：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b_unit.js）*/
 const ls=()=>{ try{ return cp.execSync('git -c core.quotepath=false ls-tree -r --name-only 56c11668d -- docs/story_planning',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}).split('\n'); }catch(e){ return []; } };
 const files=ls(), fOf=re=>files.find(f=>re.test(f))||'';
 const A118=git(fOf(/AA_118_/)), A555=git(fOf(/AA_555_/)), A185=git(fOf(/AA_185_/));
@@ -60,6 +61,8 @@ for(const [id,a,b] of AA1101_WALK){ const r=(EXP[id]||[]).find(x=>x.text===a); i
 const A580=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 759e5c000:"docs/story_planning/AA_580_以安改稿_第二批_閒聊階梯與邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 for(const ln of A580.split('\n')){ const c=ln.split('|').map(x=>x.trim()); if(c.length<8||!/^\d+$/.test(c[1])||!/^invites\.js:\d+ w118_an_/.test(c[2])||/第 1 則/.test(c[2])) continue; const r=(EXP.heroine_01||[]).find(x=>x.text===c[4]); if(r) r.text=c[5]; else UNMATCHED.push('AA580 '+c[1]+' '+c[4].slice(0,12)); }
 if(!A580) UNMATCHED.push('AA_580 讀不到（git fetch 企劃線 759e5c000）');
+/* AA_592 以安改稿①b 第 52 列（企劃線 4162d22e1；AA_589 第 9 節第 8 點：媽媽那一句統一）：w118_an_10 的 AA_580 改成→AA_592 改成（逐列核對在 tests/aa592_an_1b_unit.js）*/
+for(const r of require('./an_rev_doc.js').ROWS.filter(r=>/AA_592_/.test(r.doc)&&/^invites\.js/.test(r.where))){ const x=(EXP.heroine_01||[]).find(e=>e.text===r.old); if(x) x.text=r.nw; else UNMATCHED.push('AA592 '+r.n); }
 const splitVar=t=>{ const m=/^有 `([A-Z_]+)`：(「[^」]*」)／沒有：(「[^」]*」)$/.exec(t); return m?[m[2],m[3]]:[t]; };   /* Alison 大四上總圖：有 YU_ALONE／沒有 兩個版本 */
 check('0. 稿讀得到（AA_118、AA_555、AA_185 @56c11668d）；模組都載得到',A118.length>10000&&A555.length>4000&&!!AN185&&!loadErr.length,loadErr.join('　')||'git fetch 企劃線（56c11668d）');
 check('0. 同行聊天：AA_118 六人各 24 句、AA_555 的改稿每一列都對到原句（芯慈 1-4 整張 24 列）',Object.keys(W118).length===6&&Object.values(W118).every(L=>L.length===24)&&!UNMATCHED.length&&EXP.classmate_xinci&&EXP.classmate_xinci.length===24,J({n:Object.fromEntries(Object.entries(W118).map(([k,v])=>[k,v.length])),UNMATCHED}));

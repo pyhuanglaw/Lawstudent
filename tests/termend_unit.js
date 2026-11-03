@@ -283,7 +283,7 @@ GM.money=function(n){ G.money+=n; };
   { const gfDin=async(who,term,_d,flags)=>{ fresh(TERMEND.windowOf(term).from+2,19,'campus',flags||{}); G.stage='law'; meet(who); R(who,70,60,50); G.flags['dating_'+who]=true; said=[]; picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_'+term+'_'+who,te:{term,who,kind:'gf'}}); return said.map(x=>x.t); };
     const has=(L,a)=>a.every(t=>L.includes(t)), T=k=>D(k);
     const a=await gfDin('heroine_01','Y2S1',T('2027-01-14')), a0=await gfDin('heroine_01','Y1S2',T('2026-06-15'));
-    check('15. AA_352 以安大二上「寒假東京那兩個禮拜，時差一個小時。……」（AA_524 A3 改原句）；大一下照原本「這學期的手帳……」',has(a,['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。'])&&!a.includes('這學期的手帳，很多頁都寫到你。……你不准翻。')&&a0.includes('這學期的手帳，很多頁都寫到你。……你不准翻。'),JSON.stringify(a));
+    check('15. AA_352 以安大二上「寒假東京那兩個禮拜，時差一個小時。……」（AA_524 A3 改原句）；大一下照原本「這學期的手帳……」',has(a,['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。'])&&!a.includes('這學期我手機裡的照片，一半都是你。……你不准看。')&&a0.includes('這學期我手機裡的照片，一半都是你。……你不准看。'),JSON.stringify(a));
     const y=await gfDin('heroine_03','Y2S2',T('2027-06-17')), y1=await gfDin('heroine_03','Y2S1',T('2027-01-14'));
     check('15. 語彤大二下「（她把兩碗麵推過來。她那碗多了一把蔥。）」（旁白）「……今天想吃蔥。」；大二上照寒假那句（AA_524 Y1：大二上換「我媽又問年菜了。……我說再等等。」）',has(y,['（她把兩碗麵推過來。她那碗多了一把蔥。）','……今天想吃蔥。'])&&y1.includes('我媽又問年菜了。……我說再等等。'),JSON.stringify(y));
     const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));

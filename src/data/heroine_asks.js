@@ -24,7 +24,7 @@ const HASK_DATA={
         {place:'library',th:3,pre:{d:'next',h:[15.5],line:'明天下午三點半，總圖二樓靠窗。我帶憲法筆記，你帶題目。',vac:{line:'放假的總圖人很少。明天下午三點半，二樓靠窗。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。我幫你留了位子，在我旁邊。'}},
         {place:'cafe',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我要去 Café 寫報告。你要寫東西的話，一起。',vac:{line:'明天下午我要去 Café 整理上學期的筆記。你要寫東西的話，一起。'}},dat:{d:'next',h:[15.5,17.5],line:'明天 Café。今天不寫報告，就喝咖啡。',vac:{line:'明天 Café。放假，就喝咖啡。'}}},
         {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，阿鳳麵店。吃完我要回去寫報告，所以準時。',vac:{line:'明天六點，阿鳳麵店。吃完我要回去讀書，所以準時。'}},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃乾麵。'}},
-        {place:'wenzhou',th:5,pre:{d:'next',h:[16],line:'我在手帳排了一個「沒有目的」的時段。明天下午四點，溫州街。'},dat:{d:'next',h:[16,15.5],line:'明天下午，溫州街。這次手帳上什麼都沒寫。'}},
+        {place:'wenzhou',th:5,pre:{d:'next',h:[16],line:'明天下午四點，溫州街。我空了兩個小時，沒有要做什麼。'},dat:{d:'next',h:[16,15.5],line:'明天下午，溫州街。這次什麼都沒排。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天六點半，椰影大道。起得來就來。'},dat:{d:'next',h:[6.5],line:'明天六點半。我在晨思鐘前面。'}}],
       out:[
         {loc:'D12',pre:{d:'sat',depart:13,line:'週六下午有空嗎？我想去大稻埕。我查了，碼頭的夕陽是五點四十分。'},dat:{d:'sat',depart:13,line:'週六，大稻埕。夕陽五點四十分。你負責準時。'}},
@@ -32,7 +32,7 @@ const HASK_DATA={
         {loc:'D26',kind:'day',dat:{d:'sat',depart:9,line:'這個週末我回臺中。……你要不要一起？我帶你走草悟道。'}}],
       vacTerm:{ summer:{place:'library',v:{d:'next',h:[15.5,17.5],line:'暑假總圖開到九點。明天下午，我在三樓。',first:'暑假的總圖，冷氣比較冷。你有帶外套嗎？'}},
         winter:{place:'library',v:{d:'next',h:[15.5,17.5],line:'寒假人少。明天要不要來總圖？我帶熱茶。',first:'一人一杯。不要灑在書上。'}} },   /* AA_549 3-6：換總圖那一句（Café、麵店照 AA_532 放假版）*/
-      later:'好。我在手帳上改一格。', no:'好。那下次換你約。', yes:'好。我記在手帳上了。' },
+      later:'好。那改天。', no:'好。那下次換你約。', yes:'好。' },
     heroine_02:{ send:22+40/60, sendOff:20,
       daily:[
         {place:'cafe',th:3,pre:{d:'next',h:[15],off:true,line:'欸我明天沒班，可是我想去店裡當客人。你要不要來？下午三點。'},dat:{d:'next',h:[15,15.5],off:true,line:'明天我沒班。我們去當客人，換我點你的那一杯。'}},

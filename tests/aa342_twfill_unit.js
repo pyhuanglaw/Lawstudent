@@ -34,7 +34,8 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     for(const k in L()) walk(L()[k]);
     const ids=/^(classmate_xinci|classmate_bohan|zhe|yu|sister|heroine_01|auntie|thursday|notyet)$/;
     const A581={'過一半了':'考完了'};   /* AA_581 第 13 列（D118 沒有期中考）：稿的「考完了」→「過一半了」（短句，不放進 d118_fix.json，這裡逐句對）*/
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!(A581[t]&&DOC.indexOf(A581[t])>=0));   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
+    const ANREV=require('./an_rev_doc.js');   /* AA_592 第 54 列（白板「說理由。」→「每個人講完。」）：在改成欄也算（逐列核對在 tests/aa592_an_1b_unit.js）*/
+    const bad=all.filter(t=>!ids.test(t)&&!ANREV.has(t)&&DOC.indexOf(t)<0&&DOC.indexOf(t.replace(/^「|」$/g,''))<0&&!(A581[t]&&DOC.indexOf(A581[t])>=0));   /* D118：海商法那一句（AA_578 #2）、大四上 11/3 摘要日（AA_578 第 3 節第 1 點）讀稿時照 tools/story/d118_fix.json 換（tests/alison.js）*/
     check('0. TWFILL_LINES 的每一句都在 AA_342（人物 id、記錄的代號除外）',bad.length===0,bad.join('｜'));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/twfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);
@@ -95,7 +96,7 @@ const ents=(G,k,h)=>{ setT(k,h); G.zone='noodle'; return EVENTS.check; };
     G=fresh('2028-11-17',21.05); H.rel(BH,10,0,0); rules(); check('3. 11/17 和柏翰只是認識：沒有',!msgs('p:'+BH).length);
     const A=ACTIVITIES.list.find(a=>a.id==='public_law_group');
     G=fresh('2028-12-07',20,'wancai',{CLUB_public_law_group:true,PLG_HANDOVER:'there'}); const ce=CLS.clubEvent(G,A); let Lp=await run('ev_y4_plg_last');
-    check('3. 12/7（四）最後一次讀書會（有 PLG_HANDOVER）：「（大四上最後一次讀書會。學弟把白板擦得很乾淨，只留最上面那一行沒擦：說理由。）」',!!ce&&ce.id==='ev_y4_plg_last'&&J(Lp)===J([L().plgLast]),ce&&ce.id);
+    check('3. 12/7（四）最後一次讀書會（有 PLG_HANDOVER）：「（大四上最後一次讀書會。學弟把白板擦得很乾淨，只留最上面那一行沒擦：每個人講完。）」',!!ce&&ce.id==='ev_y4_plg_last'&&J(Lp)===J([L().plgLast]),ce&&ce.id);
     G=fresh('2028-12-07',20,'wancai',{CLUB_public_law_group:true}); const ce2=CLS.clubEvent(G,A); check('3. 12/7 沒有 PLG_HANDOVER：不演這一句',!ce2||ce2.id!=='ev_y4_plg_last');
     G=fresh('2028-12-08',18.6); check('3. 12/8（五）摘要日（沒參加讀書會的）：「（十二月。總圖前面的聖誕樹立起來了。）」',J(sumAt('2028-12-08',18.6))===J([L().sum1208]));
     G=fresh('2028-12-08',18.6,'dorm',{CLUB_public_law_group:true}); check('3. 12/8 參加讀書會的：沒有（12/7 有讀書會）',sumAt('2028-12-08',18.6).length===0);

@@ -119,9 +119,9 @@ const NYE_ROOF_Y1=[
   {speaker:'classmate_bohan',text:'我回房間了。'},
   {speaker:'yu',text:'我要去趕捷運！'},
   {if:{custom:G=>NYE_AN(G)&&!G.flags.dating_heroine_01},speaker:'heroine_01',text:'我也回去了。'},
-  {if:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'明天早上我要去跑步。你要不要一起？'},   /* 和以安交往中（2-5）*/
-  {if:{flags:['dating_heroine_01']},choice:[{text:'「六點？」',goto:'nye_r_an_a'},{text:'「我想睡到中午。」',goto:'nye_r_an_b'}]},
-  {label:'nye_r_an_a'},{if:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'七點。元旦，晚一點。'},{if:{flags:['dating_heroine_01']},set:{AN_RUN_NY_Y1:true}},{if:{flags:['dating_heroine_01']},goto:'nye_r_last'},
+  {if:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'明天大家都會睡很晚。……午餐一起吃？'},   /* 和以安交往中（2-5）*/
+  {if:{flags:['dating_heroine_01']},choice:[{text:'「幾點？」',goto:'nye_r_an_a'},{text:'「我想睡到中午。」',goto:'nye_r_an_b'}]},
+  {label:'nye_r_an_a'},{if:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'中午。睡飽再說。'},{if:{flags:['dating_heroine_01']},set:{AN_RUN_NY_Y1:true}},{if:{flags:['dating_heroine_01']},goto:'nye_r_last'},
   {label:'nye_r_an_b'},{if:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'好。那我自己去。'},
   {label:'nye_r_last'},
   {speaker:null,text:'（大家一個一個下樓。阿哲最後一個，把空罐子都收走了。）'},
@@ -612,12 +612,12 @@ const STORY_EVENTS=[
       {speaker:'classmate_peishan',expression:'thinking',text:'（舉手，停了一下）……我們為什麼要背這個？'},
       {speaker:'classmate_bohan',expression:'serious',text:'因為會考。'},
       {speaker:null,text:'（有人笑出來。）'},
-      {speaker:'heroine_01',expression:'thinking',text:'（想了一下）這個我下次回答妳。我想一下怎麼講比較清楚。'},
+      {speaker:'heroine_01',expression:'thinking',text:'（想了一下）……我下次回答妳。現在講會講不清楚。'},
       {set:{PEISHAN_ASKED_WHY:true},stamp:['peishanAskedDay']} ] },
   { id:'ev_peishan_why_answer_plg', title:'以安的回答', participants:['heroine_01','classmate_peishan'], location:'wancai', trigger:'activity', once:true, background:'blur',
     prereq:{flags:['PEISHAN_ASKED_WHY'],notFlags:['PS_WHY_ANSWERED','SIS_ANSWERED_WHY'],custom:G=>{ const d=G.flags.peishanAskedDay; return d!=null&&G.day>d&&G.day-d<=7; }},
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'上禮拜沛珊問的，為什麼要背審查標準。'},
-      {speaker:'heroine_01',expression:'thinking',text:'我想了一下。不背的話，討論的時候只能說「我覺得不合理」，可是講不出哪裡不合理。'},
+      {speaker:'heroine_01',expression:'thinking',text:'不背的話，討論的時候只能說「我覺得不合理」。講不出哪裡不合理。'},
       {speaker:'heroine_01',expression:'neutral',text:'背起來，至少大家吵的時候用的是同一套話。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'……好，這樣我可以接受。'},
       {speaker:'heroine_01',expression:'smile',text:'那今天讀比例原則。'} ],
@@ -738,12 +738,12 @@ const STORY_EVENTS=[
      條件：第二天和以安一起度過下午（Café 或總圖：afternoonDone，cafeView 兩邊都有）；沒有的玩家沒有這一段，以安自己寫。舊存檔已經演過「報告的結論」（她自己寫完了）的也沒有。
      「好，一起寫。」＝記憶 REPORT_PARTNER、照第二天的看法分工；「我已經有組了。」不扣分。之後：沒有一起寫的，她寫完在總圖給你看（ev_an_report_followup）；第 6 週報告發回來兩種都接得上 */
   { id:'ev_an_report_split', title:'民總的報告', participants:['heroine_01'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[4,5], weekday:[4], once:true, npcPresent:'heroine_01', background:'blur',
-    prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_followup']},
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（把講義收好）民總的報告，兩人一組。我還沒找人。'},
+    prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_followup'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},   /* AA_587 第 7-2 節 S4：第二天她追出來就分組了（meetAn 記 REPORT_PARTNER）——這一場、_late、_followup 只剩舊存檔會演 */
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（把講義收好）民總的報告兩人一組。我還沒有組。'},
       /* AA_313 第 0 節（X70）：「你那天講的」是第二天 Café 那段——錯過的玩家（沒有 cafeView）換一句：上課回答過（classAnswer）／兩個都沒有 */
       {if:{custom:G=>!!(G.choices&&G.choices.cafeView)},speaker:'heroine_01',expression:'neutral',text:'你那天講的，我想放進去。'},
       {if:{custom:G=>!(G.choices&&G.choices.cafeView)&&!!(G.flags&&G.flags.classAnswer)},speaker:'heroine_01',expression:'neutral',text:'你上課回答的那題，我想放進去。'},
-      {if:{custom:G=>!(G.choices&&G.choices.cafeView)&&!(G.flags&&G.flags.classAnswer)},speaker:'heroine_01',expression:'neutral',text:'你要不要跟我一組？'},
+      {if:{custom:G=>!(G.choices&&G.choices.cafeView)&&!(G.flags&&G.flags.classAnswer)},speaker:'heroine_01',expression:'neutral',text:'你呢？'},
       {choice:[{text:'「好，一起寫。」',consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'民總'}]},goto:'yes'},{text:'「我已經有組了。」',goto:'no'}]},
       {label:'yes'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'那結論你寫。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'smile',text:'那反方你寫。'},
       {if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'那判斷標準你寫，你比我會講。'},
@@ -758,7 +758,7 @@ const STORY_EVENTS=[
      她說把你寫進她那組了；記同一個 REPORT_PARTNER（備註 assigned_absent）＋REPORT_PARTNER_LATE，後面讀 REPORT_PARTNER 的事件照常接。分組是事實、不是玩家經歷的場面（R4）*/
   { id:'ev_an_report_split_late', title:'民總的報告（分組那天你沒來）', participants:['heroine_01'], location:['classroom','library','library_hall'], trigger:'auto', near:{npc:'heroine_01',r:5}, term:['Y1S1'], weeks:[6,7,8,9,10,11,12,13,14,15], once:true, keep:'must', background:'blur',
     prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_split'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'} ],
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。剩下的人裡，你最不會遲交。'} ],
     consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'分組那天沒來，以安把你寫進她那組'}],flags:{REPORT_PARTNER_LATE:'assigned_absent'}} },
   { id:'ev_welcome_y1s1', title:'迎新', participants:['classmate_peishan'], location:'campus', trigger:'activity', once:true, background:'blur',   /* 不寫 term：8/31 在大一上開學前（AA_310），日期由 activities.js welcome_y1s1 管 */
     dialogue:[ {speaker:null,text:'星期天上午，晨思鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'},   /* AA_310 第 1 節：8/31（日）上午 */
@@ -909,8 +909,7 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_xinci',expression:'neutral',text:'我自己的。'},
       {if:EV_KNOWS('classmate_xinci','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'……可以這樣寫嗎？'},
       {if:EV_KNOWS('classmate_mingxuan'),speaker:'classmate_mingxuan',expression:'neutral',text:'不要對了啦，去吃飯。'},
-      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'（從教室出來，把筆收進筆袋）對答案沒有用。考完了就是考完了。'},
-      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'……我寫引誘。'},
+      {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'（從教室出來，把筆收進筆袋）對答案又不會加分。'},
       {choice:[{text:'「我寫引誘，第二天那個案子就是這個。」',unless:{flagIs:{readCase:['none',undefined]}},set:{G1_PICK:'case'},goto:'c1'},{text:'「我寫要約。」',set:{G1_PICK:'offer'},goto:'c2'},{text:'「去吃飯。」',set:{G1_PICK:'eat'},goto:'c3'}]},
       {label:'c1'},{if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'surprised',text:'你也讀了判決？'},{goto:'end'},
       {label:'c2'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'laugh',text:'同一國的！'},{goto:'end'},
@@ -1349,7 +1348,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「最小，要問被限制的人。」',set:{B5_THOUGHT:'ask_them'},goto:'t1'},{text:'「最小，要看大家換到了什麼。」',set:{B5_THOUGHT:'trade'},goto:'t2'},{text:'「我還不知道。我想知道他最後去了哪裡。」',set:{B5_THOUGHT:'where'},goto:'t3'}]},
       {label:'t1'},{speaker:'heroine_01',expression:'thinking',text:'那他說『全部都太多』呢？'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'那就……再問一次？'},{goto:'end'},
       {label:'t2'},{speaker:'heroine_01',expression:'neutral',text:'好。那換到的東西，要誰來證明？'},{goto:'end'},
-      {label:'t3'},{speaker:'heroine_01',expression:'neutral',text:'……那就是講者最後那一題。'},
+      {label:'t3'},{speaker:'heroine_01',expression:'neutral',text:'那就是講者最後那一題。'},
       {label:'end'},
       {if:EV_KNOWS('yu'),speaker:null,text:'她把三張便利貼並排貼在筆記本上：她的、Alison 的、你的。'},{unless:EV_KNOWS('yu'),speaker:null,text:'她把兩張便利貼並排貼在筆記本上：她的、你的。'},
       {speaker:'heroine_01',expression:'smile',text:'九點半了。我回宿舍讀刑總。'} ],
@@ -1364,7 +1363,7 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'heroine_01',expression:'thinking',text:'你那天聽完就走了。你怎麼想？'},
       {choice:[{text:'「最後那題有點難。」',goto:'hard'},{text:'「那天有事先走了。」',goto:'busy'}]},   /* AA_209 附錄A §2（第 6 節第 4 點：加兩個選項）*/
       {label:'hard'},{speaker:'heroine_01',expression:'neutral',text:'對吧，我們在小桌子那邊講到九點半。'},{goto:'end'},
-      {label:'busy'},{speaker:'heroine_01',expression:'neutral',text:'沒關係，講者最後那題我有抄，要的話給你看。'},
+      {label:'busy'},{speaker:'heroine_01',expression:'neutral',text:'講者最後那題我有抄。明天拿給你。'},
       {label:'end'} ] },
   /* 可玩切片的選擇③（AA_115 第 1、2 節；BB_96 3-7）——沛珊的那張表：有沛珊聯絡方式的玩家，週二中午她私訊「刑總二未遂那一章，我做了一張表……週四演講完，來女舍門口拿？」（story3d.js phoneRules）；
      週四 20:40 她傳「對不起。課輔班的作業還沒改完……今天下不去了。」（所有人都收到）。玩家這時候在大一女舍門口的長椅附近＝這一段：手機上她的兩句（只顯示，手機裡已經有），三選一。
@@ -1444,7 +1443,7 @@ const STORY_EVENTS=[
       {if:{flagIs:{XMAS_TO:'heroine_01'}},speaker:null,text:'抽到你禮物的是以安。'},
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'notebook'}},speaker:'heroine_01',expression:'smile',text:'剛好。我的快用完了。'},
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我在 Café 都點茶。……開學以後會用到。謝謝。'},   /* AA_313 4-3：她每天下午在 Café 讀書，不說「不太喝咖啡」*/
-      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字很工整。我收著。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字比我想的整齊。……謝謝。'},
       {if:{flagIs:{XMAS_TO:'heroine_03'}},speaker:null,text:'抽到你禮物的是語彤。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},speaker:'heroine_03',expression:'neutral',text:'嗯。……我還不知道要寫什麼。先收著。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'放店裡好了。阿姨會想喝喝看。'},
@@ -1698,7 +1697,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_01',expression:'neutral',text:'一份說規定本身有問題，一份說規定沒問題，只是沒考慮到這種情況。'},   /* AA_209 附錄A §2 */
       {choice:[{text:'「寫第一份。規定錯了，就該改。」',consequences:{flags:{AN_APPEAL:'rule'}},goto:'rule'},{text:'「寫第二份。規定沒錯，是沒想到。」',consequences:{flags:{AN_APPEAL:'case'}},goto:'case'},
         {text:'「先寫一件事：記點以前，應該先問她。」',consequences:{flags:{AN_APPEAL:'ask'}},goto:'ask'},{text:'「我想先聽妳的。」',consequences:{flags:{AN_APPEAL:'listen'}},goto:'listen'}]},
-      {label:'rule'},{speaker:'heroine_01',expression:'thinking',text:'可是門禁本身有道理吧？這樣寫，舍監一看就會擋。'},{speaker:'heroine_01',expression:'thinking',text:'要寫的話，你要證明它對每個人都不合理。'},/* AA_209 第 8 節第 3 點 */{speaker:null,text:'（她在第一份旁邊畫了一個問號。）'},{goto:'end'},   /* AA_209 附錄A §2 */
+      {label:'rule'},{speaker:'heroine_01',expression:'thinking',text:'可是門禁本身沒錯啊。這樣寫，舍監一看就會擋。'},{speaker:'heroine_01',expression:'thinking',text:'要寫的話，你要證明它對每個人都不合理。'},/* AA_209 第 8 節第 3 點 */{speaker:null,text:'（她在第一份旁邊畫了一個問號。）'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'case'},{speaker:'heroine_01',expression:'smile',text:'我也比較想寫這份。那你挑挑看，哪裡會被打回來？'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'ask'},{speaker:null,text:'（她停住，在草稿最上面寫了一行。）'},/* AA_209 附錄A §2 */{speaker:'heroine_01',expression:'neutral',text:'先問。……對，要先問。'},{goto:'end'},
       {label:'listen'},{speaker:'heroine_01',expression:'neutral',text:'好，我先說。'},{speaker:'heroine_01',expression:'neutral',text:'我最討厭『規定就是規定』這種話。我家以前很多事都這樣，不解釋。'},   /* AA_209 附錄A §2（AA_194 第 1 節要補的那句）*/
@@ -2279,10 +2278,10 @@ const STORY_EVENTS=[
       {speaker:null,text:'迎面走來一個人，你確定在{flag:POOL_GREET_AT|教室}看過。對方也放慢了一步。'},{choice:[{text:'點頭',consequences:{flags:{pool_greeted:true}}},{text:'假裝看手機',consequences:{}}]},{speaker:null,text:'（有些人就是這樣，從「好像認識」開始的。）'} ],
     after:(G,GM)=>{ const id=G.flags.POOL_GREET_ID||Object.keys(GM.npc).find(k=>k.startsWith('pool_')&&SOCIAL.reveal(k)==='RECOGNIZABLE'&&!G.flags['greet_'+k]); if(id){ G.flags['greet_'+id]=true; if(G.flags.pool_greeted) SOCIAL.adjust(id,{fam:3}); } delete G.flags.pool_greeted; delete G.flags.POOL_GREET_ID; delete G.flags.POOL_GREET_AT; } },
   { id:'ev_an_report_followup', title:'報告的結論', participants:['heroine_01'], location:'library', trigger:'interact', priority:9, once:true, prereq:{flags:['afternoonDone'],events:['ev_an_report_split'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]}, day_min:3, background:'blur',   /* 交接包 v1 A12 之後（LAWWW 2026-10-14；AA_355 第 2 節：AA 看過、照用）：報告分工問過、你說「我已經有組了」——她寫完在總圖給你看。一起寫的、沒有分工那一段的玩家沒有這一場 */
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）報告我寫完了。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'（小聲）結論用了那天你說的「無過失」。周老師如果打槍我，我就說是你的主意。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'（小聲）我把你說的「後果自己承擔」寫進反方。寫的時候一直想到你那天的表情。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'（小聲）「不能讓人因為一個手誤賠十倍」——我放在結論。'},{if:{custom:G=>!!(G.choices&&(G.choices.cafeView==='A'||G.choices.cafeView==='B'))},speaker:'heroine_01',expression:'neutral',text:'（小聲）……謝謝你那天陪我。'},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（小聲）報告我寫完了。'},{if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'（小聲）結論用了那天你說的「無過失」。周老師如果打槍我，我就說是你的主意。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'thinking',text:'（小聲）我把你說的「後果自己承擔」寫進反方。寫起來比正方順。'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'（小聲）「不能讓人因為一個手誤賠十倍」——我放在結論。'},{if:{custom:G=>!!(G.choices&&(G.choices.cafeView==='A'||G.choices.cafeView==='B'))},speaker:'heroine_01',expression:'neutral',text:'（小聲）那天謝謝。'},
       {if:{custom:G=>!!(G.choices&&G.choices.cafeView)},choice:[{text:'「妳寫得出來，我只是坐在旁邊。」',consequences:{rel:{heroine_01:{comf:4,aff:2}},mem:[{npc:'heroine_01',tag:'HELPED_WITH_REPORT'}]}},{text:'「下次換我請。」',set:{AN_TREAT_OWED:true},consequences:{rel:{heroine_01:{fam:3,aff:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'你說下次換你請'}]}}]},
       /* AA_358 2-4（AA-C 2026-10-21 659d9d81）：拒絕咖啡廳（沒有 cafeView）的玩家沒有「那天」——換一句、換選項（數值照原本兩個選項；第一個不記「幫她寫報告」：沒有一起寫）*/
-      {unless:{custom:G=>!!(G.choices&&G.choices.cafeView)},speaker:'heroine_01',expression:'neutral',text:'（小聲）……寫完了，先給你看。'},
+      {unless:{custom:G=>!!(G.choices&&G.choices.cafeView)},speaker:'heroine_01',expression:'neutral',text:'（小聲）你先看。哪裡不通直接講。'},
       {unless:{custom:G=>!!(G.choices&&G.choices.cafeView)},choice:[{text:'「妳寫得出來的。」',consequences:{rel:{heroine_01:{comf:4,aff:2}}}},{text:'「改天請妳喝咖啡。」',set:{AN_TREAT_OWED:true},consequences:{rel:{heroine_01:{fam:3,aff:3}},mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'你說改天請她喝咖啡'}]}}]},
       {speaker:'heroine_01',expression:'smile',text:'（小聲）好。'} ] },
   /* ---------- 經濟系那一年（stage:'econ'）----------
@@ -3558,16 +3557,16 @@ const STORY_EVENTS=[
   { id:'ev_zhe_court_skip', title:'上次沒事啦', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], once:true, npcPresent:'zhe', background:'blur',
     prereq:{custom:G=>{ const F=G.flags||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-11-17'):null; return d!=null&&G.day>=d&&!!F.ZHE2_ASKED&&!F.ZHE2; }},
     dialogue:[ {speaker:'zhe',expression:'smile',text:'上次沒事啦。'},{set:{ZHE2:'none'}} ] },
-  /* D9 以安新 10「家教學生的家（一）」（交接包 v3 第 3b 節、AA_177 4-8；BB 法律查核過：哪一種補助、救濟程序都不說）：12/1（二）麵店，麵店團的時段 17:30～20:30；
+  /* D9 以安新 10「家教學生的家（一）」（交接包 v3 第 3b 節、AA_177 4-8；BB 法律查核過：哪一種補助不說；救濟程序：訴願（BB_232；AA_587 第 10 節新10、第 57 列 S3「媽媽生病」））：12/1（二）麵店，麵店團的時段 17:30～20:30；
      祐廷不在現場（那個家的事他只聽說）。認識語彤＝她在店裡（週二晚上她在幫忙）說社工那一句、選項多「法服週六有值班。」；不認識＝Alison 說法服那句。記 AN_TUTOR_FAMILY:1；沒到＝沒有 */
   { id:'ev_an_tutor_family_1', title:'家教學生的家', participants:['heroine_01'], location:'noodle', trigger:'auto', term:['Y2S1'], weekday:[2], time:[17.5,20.5], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-12-01')&&!!STORY.knows&&STORY.knows('heroine_01',G)},
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我家教的學生，家裡申請了一個補助，被駁回了。'},{speaker:'heroine_01',expression:'thinking',text:'我想幫忙。可是我不是律師，我不該說超過我會的。'},
-      {if:EV_KNOWS('heroine_03'),speaker:'heroine_01',expression:'neutral',text:'社會系的人，申請被駁回的家庭，通常第一個找誰？'},{if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'通常先找社工吧，我們課上是這樣講的。'},
-      {unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'法服週六有值班啊。'},{unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'heroine_01',expression:'neutral',text:'我知道。我想先知道我不該說什麼。'},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'我家教的學生家裡，媽媽生病，這學期沒辦法上班。申請了補助，被駁回了。'},{speaker:'heroine_01',expression:'neutral',text:'我在查訴願怎麼寫。'},{speaker:'heroine_01',expression:'thinking',text:'我想幫忙。可是我又不是律師，不能亂講。'},
+      {if:EV_KNOWS('heroine_03'),speaker:'heroine_01',expression:'neutral',text:'社會系會教這個嗎？被駁回的家庭，通常先找誰？'},{if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'neutral',text:'通常先找社工吧，我們課上是這樣講的。'},
+      {unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'法服週六有值班啊。'},{unless:EV_KNOWS('heroine_03'),if:EV_KNOWS('yu'),speaker:'heroine_01',expression:'neutral',text:'我知道。我是怕我講錯。'},
       {choice:[{text:'「法服週六有值班。」',if:EV_KNOWS('heroine_03'),set:{AN10_PICK:'fafu'},goto:'a'},{text:'「妳可以先陪他們看駁回的理由。」',set:{AN10_PICK:'reason'},goto:'b'},{text:'「妳已經在幫了。」',set:{AN10_PICK:'help'},goto:'c'}]},
-      {label:'a'},{speaker:'heroine_01',expression:'neutral',text:'我知道。我想先知道我不該說什麼。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'看理由。……對，先看理由。還有寫期限的那一段。'},{speaker:null,text:'（她拿出手機記下來。）'},{goto:'end'},
+      {label:'a'},{speaker:'heroine_01',expression:'neutral',text:'我知道。我是怕我講錯。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',expression:'thinking',text:'先看駁回的原因。……對。還有寫期限的那一段。'},{speaker:null,text:'（她拿出手機記下來。）'},{goto:'end'},
       {label:'c'},{speaker:'heroine_01',expression:'neutral',text:'這不算。'},{speaker:null,text:'她停了一下。'},{speaker:'heroine_01',expression:'smile',text:'……好，算一點。'},
       {label:'end'},{set:{AN_TUTOR_FAMILY:1}} ] },
   /* D10 慈 3「第二名」（AA_40、AA_177 第 5 節：寫成芯慈的作息）：大二上第 14～18 週，週一到週四的深夜（隔天 00:15～00:45）她在溫州街的便利商店，第一次遇到就演；
@@ -3772,7 +3771,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'classmate_bohan',text:'我回去了。'},{if:{custom:G=>NYE_AN(G)},speaker:'heroine_01',text:'我也回去了。'},
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:null,text:'（樓梯間的燈還是壞的。柏翰走在前面，已經轉過彎了。）'},
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'……手給我。'},
-      {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'看不到台階。……你走慢一點。'},   /* AA_313 4-3 */
+      {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'看不到台階。你走慢一點。'},   /* AA_313 4-3 */
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:null,text:'（一直走到你住的那一層，她才放開。）'},
       {set:{NYE_Y2:'roof'}},{rel:{classmate_bohan:{fam:1}}},{if:{custom:G=>NYE_AN(G)},rel:{heroine_01:{fam:1}}} ],
     consequences:{memo:'跨年：宿舍頂樓（大二）'} },
@@ -3835,7 +3834,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'neutral',text:'妳在準備交換？'},
       {speaker:'heroine_01',expression:'neutral',text:'日檢。我要去日本。學姊呢？'},
       {speaker:'heroine_05',expression:'neutral',text:'明年夏天，美國。'},
-      {speaker:'heroine_01',expression:'neutral',text:'……我男朋友也在想交換。他還沒決定去哪裡。'},
+      {speaker:'heroine_01',expression:'neutral',text:'我男朋友也在想交換。他還沒決定去哪裡。'},
       {speaker:'heroine_05',expression:'neutral',text:'我男朋友也是。'},
       {speaker:null,text:'（兩個人都停了一下。）'},
       {speaker:'heroine_01',expression:'serious',text:'他叫什麼名字？'},
@@ -3853,7 +3852,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（店裡很安靜。吧台的冰箱一直在響。）'},
       {choice:[{text:'「學姊。」',unless:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「貝貝。」',if:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},   /* AA_350 R7（裁定 12）：交往當天起祐廷說出口的「學姊。」→「書瑀。」（這一場兩個都在交往中）；AA_591 決7：交往後叫「貝貝」*/
       {label:'sis'},{speaker:'heroine_01',expression:'serious',text:'……好。'},
-      {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）理由我不用聽了。'},
+      {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）我知道了。'},
       {speaker:null,text:'（她走出去的時候，門上的鈴響了一聲。）'},
       {speaker:'heroine_05',expression:'neutral',text:'……我們也先回去。明天再說。'},{goto:'end'},
       {label:'an'},{speaker:'heroine_05',expression:'serious',text:'……好。'},
@@ -4871,7 +4870,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃麵先。'},
     /* AA_524 A1：餞行（y34b3d.js fw_b）或閒聊階梯 A5-L8 說了「回來第一碗我請。」（AN_FIRST_BOWL）——以安在場：放在語彤「吃麵先。」之後；沒有語彤那幾句的放在阿哲第一句之後（上面）*/
     {if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:null,text:'（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）'},{if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:'heroine_01',text:'說好的。'},
-    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。……是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/
+    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/
     {unless:{custom:G=>TW(G)&&fam('yu')},goto:'r1_late'},
     {speaker:'yu',text:'欸，你一直在臺灣。這半年發生什麼事？'},
     {choice:[{text:'「語彤每個禮拜四都去市場訪問。我跟過幾次。」',if:{custom:G=>!!G.flags.YT_T1},goto:'r1_yt'},   /* 1B-13 週四的田野（AA_322 YT_T1）*/
@@ -4886,7 +4885,7 @@ const Y4_EVENTS=(function(){
     {unless:{custom:all('heroine_04','heroine_01')},goto:'r1_end'},
     {speaker:null,text:'（長桌還有一個空位。過了半小時，門口有人喘著氣。）'},{advance:0.5},
     {speaker:'heroine_04',text:'欸不是，我下班了。（坐下，第一句就問以安）日本的貓胖嗎？'},
-    {speaker:'heroine_01',text:'……胖。'},
+    {speaker:'heroine_01',text:'胖。很胖。'},
     {if:{custom:()=>fam('heroine_02')},speaker:'heroine_04',text:'（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'},
     {label:'r1_end'},
     {advance:G=>Math.max(0,21-(G.hour%24))},

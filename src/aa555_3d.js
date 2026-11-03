@@ -42,7 +42,7 @@ const AA555=(function(){
     ['y1s1_bh_folder',BH,wk('Y1S1'),(G,d)=>got(G,BH,d)&&done(G,'ev_bohan_score'),()=>[M(BH,'📎（一個資料夾：「民總考古題（十年）」）')]],   /* 翰 1（ev_bohan_score）之後；沒有字 */
     ['y1s1_xc_note',XC,wk('Y1S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_notes'),()=>[M(XC,'筆記第三頁有一張便利貼，是我的問題。不用回答，只是想讓你知道我有問題。')]],   /* 慈 1 */
     ['y1s1_xc_late',XC,wk('Y1S1'),(G,d)=>got(G,XC,d),()=>SQ(XC,['你睡了嗎','沒睡也不用回','我在追的那部劇，這集太扯了','當我沒說']),24+40/60],
-    ['y1s1_an_row',AN,wk('Y1S1'),(G,d)=>got(G,AN,d)&&classOn('civ_general',d+1),()=>[M(AN,'明天民總，第二排。……我是說我坐第二排，不是要你坐。')]],   /* 隔天有民總 */
+    ['y1s1_an_row',AN,wk('Y1S1'),(G,d)=>got(G,AN,d)&&classOn('civ_general',d+1),()=>[M(AN,'明天民總，我坐第二排。旁邊通常沒人。')]],   /* 隔天有民總 */
     ['y1s1_an_notice',AN,wk('Y1S1'),(G,d)=>got(G,AN,d),()=>SQ(AN,['📷（宿舍公告欄）','這張公告的第三行和第五行矛盾。我寫信問了。'])],
     /* ---- 大一下 ---- */
     ['y1s2_yt_noodle',YT,wk('Y1S2'),(G,d)=>got(G,YT,d),()=>[M(YT,'阿姨今天試做新的麵。不好吃。她自己說的。')]],
@@ -63,8 +63,8 @@ const AA555=(function(){
     ['y2s1_bh_group',BH,wk('Y2S1'),(G,d)=>got(G,BH,d)&&done(G,'ev_bohan_exam_group'),()=>[M(BH,'這週第三題全組都錯。出題的人想考什麼，我也不知道。我去問老師。')]],   /* 翰 2 */
     ['y2s1_xc_cvs',XC,wk('Y2S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_second'),()=>[M(XC,'便利商店那杯，下次換你請。')]],   /* AA_555〔慈〕：慈 3 新版 */
     ['y2s1_xc_mid',XC,wk('Y2S1',5,7),(G,d)=>got(G,XC,d),()=>[M(XC,'要不要一起讀債總。我讀要件，你讀例外。……我最怕例外。')]],
-    ['y2s1_an_rules',AN,wk('Y2S1',4,6),(G,d)=>got(G,AN,d)&&grp(G,'public_law'),()=>[M(AN,'新規則：第一條，每人十分鐘。第二條，不准離題。……第十條，不准賴。')],null,{days:21,items:()=>[M(AN,'規則改成三條了。')]}],   /* 新 8（第 7 週週四）以前；「三週後」＝21 天後同一時間 */
-    ['y2s1_an_tutor',AN,wk('Y2S1'),(G,d)=>{ const x=lastDay(G,'ev_an_tutor_family_1'); return got(G,AN,d)&&x!=null&&d-x>=7; },()=>[M(AN,'我今天問了家教學生家裡的事。他說了。……我還不知道怎麼辦，但我知道該問誰。')]],   /* 新 10（家教學生的家）一週以後 */
+    ['y2s1_an_rules',AN,wk('Y2S1',4,6),(G,d)=>got(G,AN,d)&&grp(G,'public_law'),()=>[M(AN,'讀書會的規則我寫好了。第一條，每人十分鐘。第二條，不准離題。……一共十二條。')],null,{days:21,items:()=>[M(AN,'規則改成三條了。')]}],   /* 新 8（第 7 週週四）以前；「三週後」＝21 天後同一時間 */
+    ['y2s1_an_tutor',AN,wk('Y2S1'),(G,d)=>{ const x=lastDay(G,'ev_an_tutor_family_1'); return got(G,AN,d)&&x!=null&&d-x>=7; },()=>[M(AN,'今天照常去家教。學生寫完了兩張考卷，比上週多一張。')]],   /* 新 10（家教學生的家）一週以後 */
     /* ---- 大二下 ---- */
     ['y2s2_yt_garlic',YT,wk('Y2S2'),(G,d)=>got(G,YT,d)&&has(YT,'RENT_CONSULTATION'),()=>[M(YT,'今天店裡很安靜。我在剝蒜頭。')]],   /* 事件 9 新版（RENT_CONSULTATION）之後 */
     ['y2s2_yt_ta_form',YT,wk('Y2S2',13),(G,d)=>got(G,YT,d),()=>SQ(YT,['📷（社會系助教的申請表）','填好了。還沒交。'])],
@@ -87,7 +87,7 @@ const AA555=(function(){
     ['y3s1_xc_pens',XC,wk('Y3S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_an_answers','ev_xinci_an_answers_far'),()=>SQ(XC,['以安借我刑訴筆記。我借她我的五色筆。','她說她要學我的顏色。'])],   /* AA_555〔比〕〔慈〕：慈 5 之後 */
     ['y3s1_xc_late',XC,wk('Y3S1'),(G,d)=>got(G,XC,d),()=>SQ(XC,['這集的律師在法庭上大吼。我爸說他執業二十年，沒有吼過一次。','不用回答。']),24+40/60],   /* AA_555〔慈〕*/
     ['y3s1_an_court',AN,wk('Y3S1'),(G,d)=>{ const x=DK('2027-10-21'); return got(G,AN,d)&&x!=null&&d>x; },()=>[M(AN,'今天去了行政法院。旁聽席只有我和一個阿伯。他也在抄筆記。')]],   /* 新 14（10/21）之後 */
-    ['y3s1_an_suitcase',AN,wk('Y3S1',14),(G,d)=>got(G,AN,d),()=>SQ(AN,['📷（行李箱，一半是書）','書比衣服多。理由：日本的書比較貴。'])],   /* 出發前 */
+    ['y3s1_an_suitcase',AN,wk('Y3S1',14),(G,d)=>got(G,AN,d),()=>SQ(AN,['📷（行李箱，一半是書）','書比衣服多。日本的書比較貴。'])],   /* 出發前 */
     /* ---- 大三下（以安在日本；祐廷可能在國外）---- */
     ['y3s2_yt_sign',YT,wk('Y3S2'),(G,d)=>got(G,YT,d)&&route(G)==='TW',()=>SQ(YT,['📷（一家老店的招牌）','今天訪問這家。老闆說招牌是他爸寫的。'])],
     ['y3s2_yt_abroad',YT,wk('Y3S2'),(G,d)=>got(G,YT,d)&&abroad(G),()=>[M(YT,'你那邊幾點。……我這邊在下雨。麵店人很多。')]],
@@ -109,7 +109,7 @@ const AA555=(function(){
     ['y4s1_yu_junior',YU,wk('Y4S1',4,6),(G,d)=>got(G,YU,d),()=>[M(YU,'學妹說謝謝我陪她吃飯。我差點哭出來。我在學活。很丟臉。')]],   /* 迎新之後 */
     ['y4s1_xc_intern',XC,wk('Y4S1',6),(G,d)=>got(G,XC,d),()=>SQ(XC,['實習第一天，我的工作是整理一百頁的契約。我很快樂。','這是真的。'])],
     ['y4s1_xc_six',XC,wk('Y4S1'),(G,d)=>got(G,XC,d),()=>[M(XC,'今天吃飯的有六個人。阿姨多煮了一碗。')]],   /* AA_555〔麵〕：以安回來之後 */
-    ['y4s1_an_handover',AN,wk('Y4S1'),(G,d)=>{ const x=DK('2028-12-01'); return got(G,AN,d)&&x!=null&&d>=x&&!(typeof PHONE!=='undefined'&&PHONE.sent(G,'y4_plg_photo')); },()=>SQ(AN,['📷（白板上只寫一條規則：說理由）','交棒了。'])],   /* 新 19（11/30）之後；Alison 已經在群組傳過白板照片（r2y4a3d.js y4_plg_photo）就不再傳 */
+    ['y4s1_an_handover',AN,wk('Y4S1'),(G,d)=>{ const x=DK('2028-12-01'); return got(G,AN,d)&&x!=null&&d>=x&&!(typeof PHONE!=='undefined'&&PHONE.sent(G,'y4_plg_photo')); },()=>SQ(AN,['📷（白板上只寫一條規則：每個人講完）','交棒了。'])],   /* 新 19（11/30）之後；Alison 已經在群組傳過白板照片（r2y4a3d.js y4_plg_photo）就不再傳 */
     /* ---- 大四下 ---- */
     ['y4s2_yt_photo',YT,wk('Y4S2',10),(G,d)=>got(G,YT,d),()=>SQ(YT,['我在想畢業照要不要在麵店拍。','阿姨說要。'])],
     ['y4s2_zhe_gown',ZHE,wk('Y4S2',14,15),(G,d)=>{ const x=DK('2029-06-02'); return got(G,ZHE,d)&&x!=null&&d<x; },()=>SQ(ZHE,['哥你的學士服借我比一下','我的好像太短','還是我太長'])],

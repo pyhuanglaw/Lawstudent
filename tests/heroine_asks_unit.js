@@ -1,7 +1,7 @@
 // 她們主動約你（HEROINE-ASKS-1028；AA_494 b3ecc563c；使用者 2026-10-28 00:0x「為什麼都要我主動約女生 如果變熟好感度高 他們不能自己約我嗎 戶外景點也可阿」「超沒有互動感」）——不需要瀏覽器。
 //   src/data/heroine_asks.js（地點、時間、台詞）、src/heroine_asks3d.js（HASK）；INV.offer 的 at、INV.ON_ANSWER、PHONE.ON_ANSWER、DATE.settle 的 acceptInvite
 //   0  載得到、index.html 在 story3d.js 以後、事件包（bbpack_events.js）前面；每一句都在 AA_494 稿裡（一字不差）；心願地點不在任何一位的校外表裡
-//   1  以安朋友（第 3 階）：兩週內收到一則總圖或 Café 的邀約；訊息在前一天 21:30（睡過也照這個時間）；答應→排進行程（INV accepted、by npc）→她回「好。我記在手帳上了。」
+//   1  以安朋友（第 3 階）：兩週內收到一則總圖或 Café 的邀約；訊息在前一天 21:30（睡過也照這個時間）；答應→排進行程（INV accepted、by npc）→她回「好。」
 //   2  同一週四位都夠格：一週最多 3 則、一天最多 1 則
 //   3  考試週（第 8 週）、考前一週（第 7 週）沒有
 //   4  學期末心意邀約的窗口沒有
@@ -22,6 +22,7 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js（相鄰）在 story3d.js 以後、事件包（bbpack）前面（中間可以有別的新模組，例 dorm203）',ok&&typeof HASK!=='undefined'&&/<script src="src\/data\/heroine_asks\.js\?v=[^"]+"><\/script>\n<script src="src\/heroine_asks3d\.js\?v=[^"]+"><\/script>\n/.test(html)&&html.indexOf('src/heroine_asks3d.js')<html.indexOf('src/data/bbpack_events.js')&&html.indexOf('src/story3d.js')<html.indexOf('src/heroine_asks3d.js'),err);
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+{ const [d]=require('./an_rev_doc.js').overlay(doc,/^heroine_asks\.js/); doc=d; }   /* 以安改稿④b（AA_594 第 15～18 列：她主動約你的溫州街兩句、回覆兩句）：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 { const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
   check('0. 每一句都在 AA_494 稿裡（一字不差；'+n+' 句）',doc.length>1000&&!bad.length&&n>=100,doc?J(bad):'git fetch origin claude/magical-albattani-bk7b4n'); }
 { const W=DATE.HEROINES.filter(h=>!(DATE.WISH_X&&DATE.WISH_X[h])).map(h=>DATE.wishOf(h)).filter(Boolean), hit=[];   /* 2026-10-30 芯慈的 D04（DATE.WISH_X，XINCI-ROMANCE-1030）不算：她的心願是午夜場這件事，芷若、子晴的西門 D04 照舊（AA-B 16:31；heroine_asks3d.js wishLocs 同）*/ for(const [id,p] of Object.entries(HASK_DATA.people)) for(const e of p.out) if(W.includes(e.loc)) hit.push(id+' '+e.loc);
@@ -46,7 +47,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   check('1. 以安朋友（第 3 階）：兩週內收到一則總圖或 Café 的邀約（INV、by npc、答應／改天／不了）',!!got&&got.k==='d'&&['library','cafe'].includes(got.place)&&!!iv&&iv.state==='offered'&&iv.by==='npc'&&iv.hask===got.sid,J(got));
   check('1. 訊息是她 21:30 傳的、約隔天（句子照稿）',!!m&&m.h===21.5&&m.day===got.send.day&&got.day===got.send.day+1&&HASK_DATA.people.heroine_01.daily.some(e=>e.pre.line===m.text),J(m));
   const r=INV.answer(G,iv.id,'yes'); const last=thread('heroine_01').slice(-1)[0];
-  check('1. 答應：排進行程（accepted）、她回「好。我記在手帳上了。」',r&&r.res==='accept'&&iv.state==='accepted'&&!!last&&last.text==='好。我記在手帳上了。'&&last.from==='heroine_01',J({r,last})); }
+  check('1. 答應：排進行程（accepted）、她回「好。」',r&&r.res==='accept'&&iv.state==='accepted'&&!!last&&last.text==='好。'&&last.from==='heroine_01',J({r,last})); }
 { const G=fresh('2025-09-22',9); friend('heroine_01'); const d0=G.day; let x=null;
   for(let d=d0;d<d0+14&&!x;d++){ at(d,12); HASK.phone(G); x=R().sent.find(q=>q.id==='heroine_01'&&q.state==='planned'); if(!x){ at(d,23.98); HASK.phone(G); } }
   at(x.send.day+1,8); HASK.phone(G); const iv=ivOf(x), m=iv&&G.msgs.find(q=>q.iv===iv.id);
@@ -100,7 +101,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
   check('8. 暫停期間不約',more===0,more); }
 { const G=fresh('2025-09-22',9); friend('heroine_01'); let d=G.day, x=null; for(let n=0;n<20&&!x;n++,d++){ day(d); x=sent().find(q=>q.id==='heroine_01'); }
   const r=INV.answer(G,x.iv,'later'); const last=thread('heroine_01').slice(-1)[0], rd=R().redo.find(q=>q.sid===x.sid);
-  check('8. 改天：她回「好。我在手帳上改一格。」、不打開自己選時間（noFlow）、3 天後同一個地點',!!r&&r.noFlow===true&&last.text==='好。我在手帳上改一格。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
+  check('8. 改天：她回「好。那改天。」、不打開自己選時間（noFlow）、3 天後同一個地點',!!r&&r.noFlow===true&&last.text==='好。那改天。'&&!!rd&&rd.due===G.day+3&&rd.place===x.place,J({r,rd}));
   let y=null; for(let n=0;n<12&&!y;n++,d++){ day(d); y=sent().find(q=>q.id==='heroine_01'&&q.sid!==x.sid); }
   check('8. 改天以後：同一個地點再約一次（標 redo）',!!y&&y.place===x.place&&y.redo===x.sid&&y.send.day>=rd.due,J(y));
   INV.answer(G,y.iv,'later'); check('8. 再約的那一次又改天：不會再排第三次',!R().redo.some(q=>q.sid===y.sid),J(R().redo)); }

@@ -228,7 +228,7 @@ const WZL=(function(){
     if(F.AN_MOM_TEA&&F.AN_YE_STUDY&&!PHONE.sent(G,'wz_t_hint')){ const d=Math.max(+F.WZ_YE_STUDY_DAY||0,+F.WZ_AN_MOM_DAY||0)+1, A=t=>({th:'p:heroine_01',from:'heroine_01',text:t});
       if(G.day>=d){ PHONE.at(G,d,21,[A('我媽問起那位老師的事。我只說了大概。'),A('她說：先去調最早的那一份，再往後看。'),Object.assign(A('……她只說了這兩句。她平常不會說這麼多。'),{ask:{id:'wz_t_hint',opts:[{t:'替我謝謝媽媽。',say:[A('好。她會說『不用』。')]},{t:'最早的那一份，是哪一份？',say:[A('這就是我們下次讀書會要查的。')]}]}})],'wz_t_hint'); F.WZ_YE_HINT=true; if(typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_01',{fam:1}); } }
     /* WZ-T5 晚上以安的私訊 */
-    if(F.WZ_AN_MOM_DAY!=null&&!PHONE.sent(G,'wz_t5_msg')){ const A=t=>({th:'p:heroine_01',from:'heroine_01',text:t}); PHONE.at(G,F.WZ_AN_MOM_DAY,21,[A('今天謝謝你'),A('我媽回家路上問，那間茶屋週末都有開嗎')],'wz_t5_msg'); }
+    if(F.WZ_AN_MOM_DAY!=null&&!PHONE.sent(G,'wz_t5_msg')){ const A=t=>({th:'p:heroine_01',from:'heroine_01',text:t}); PHONE.at(G,F.WZ_AN_MOM_DAY,21,[A('今天謝謝你。'),A('我媽回家路上問，那間茶屋週末都有開嗎？')],'wz_t5_msg'); }
     /* WZ-P4 → 6/18 沛珊的私訊（只給 6/18 以前演過的玩家）、6/25 法律小教室、沒來＝18:30 那一句 */
     { const d18=DK('2026-06-18'), d25=DK('2026-06-25'), P=t=>({th:'p:classmate_peishan',from:'classmate_peishan',text:t});
       if(F.WZ_P4_DAY!=null&&d18!=null&&F.WZ_P4_DAY<=d18&&G.day>=d18&&G.day<=d25&&!PHONE.sent(G,'wz_p4_invite'))

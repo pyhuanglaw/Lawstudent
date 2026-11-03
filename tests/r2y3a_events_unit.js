@@ -55,9 +55,9 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 (async()=>{
   // ===== 0. 登記、接線 =====
   const IDS=['ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_fangyt_mountain','ev_y3_welcome','ev_y3_first_meal','ev_zhe_captain','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_ziqing_dad_stuck',
-    'ev_typhoon_y3_noodle','ev_typhoon_y3_family','ev_kexin_call_helper','ev_kexin_call_helper2','ev_crimpro_court_visit','ev_an_admin_court','ev_bohan_third_floor','ev_fair_booth_y3','ev_fair_booth_y3_pass','ev_zhe_scooter',
+    'ev_typhoon_y3_noodle','ev_typhoon_y3_family','ev_kexin_call_helper','ev_kexin_call_helper2','ev_crimpro_court_visit','ev_an_admin_court','ev_an_admin_court_together','ev_bohan_third_floor','ev_fair_booth_y3','ev_fair_booth_y3_pass','ev_zhe_scooter',
     'ev_yt_lease_renew','ev_yt_lease_retell','ev_xinci_an_answers','ev_xinci_an_answers_far','ev_kexin_tutor_practice','ev_kexin_juniors_dinner','ev_kexin_juniors_video','ev_yt_thursday_free','ev_kexin_xmas_y3','ev_kexin_kn_call_y3','ev_kexin_valentine_y3'];
-  check('0. 33 個事件都在 STORY_EVENTS、id 不重複（慈 4 ev_xinci_bad_line 照 AA_547 拿掉）',IDS.every(i=>STORY_EVENTS.filter(e=>e.id===i).length===1)&&R2Y3A_EVENTS.length===IDS.length&&!STORY_EVENTS.some(e=>e.id==='ev_xinci_bad_line'),IDS.filter(i=>STORY_EVENTS.filter(e=>e.id===i).length!==1).join(','));
+  check('0. 34 個事件都在 STORY_EVENTS、id 不重複（慈 4 ev_xinci_bad_line 照 AA_547 拿掉；AA_601 加 ev_an_admin_court_together，測試在 tests/aa601_admin_court_unit.js）',IDS.every(i=>STORY_EVENTS.filter(e=>e.id===i).length===1)&&R2Y3A_EVENTS.length===IDS.length&&!STORY_EVENTS.some(e=>e.id==='ev_xinci_bad_line'),IDS.filter(i=>STORY_EVENTS.filter(e=>e.id===i).length!==1).join(','));
   check('0. 掛勾：STORY.PHONE_RULES、STORY.TICKS、STORY.WAKE_AT、CLS.IN_CLASS 都有這一包',STORY.PHONE_RULES.some(f=>/S\.phone\(G,GM\)/.test(String(f)))&&STORY.TICKS.some(f=>/S\.tick\(GM,dt\)/.test(String(f)))&&STORY.WAKE_AT.some(f=>/S\.wakeAt\(G\)/.test(String(f)))&&CLS.IN_CLASS.some(f=>/S\.crClass/.test(String(f))));
   check('0. index.html 照順序載入：story3d.js、classes3d.js、y2b_events.js 之後、GAME.boot() 之前',(()=>{ const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const a=h.indexOf('src/data/r2y3a_events.js'), b=h.indexOf('src/r2y3a3d.js'), g=h.indexOf('GAME.boot()');
     return a>0&&b>a&&b<g&&a>h.indexOf('src/story3d.js')&&a>h.indexOf('src/data/y2b_events.js')&&b>h.indexOf('src/classes3d.js')&&b>h.indexOf('src/data/syllabus.js'); })());
@@ -161,7 +161,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('4. 9/9 17:00 阿哲在麵店團「大三第一頓 七點 長桌」→ 排 19:00 阿鳳麵店（19:15 還沒出發＝沒去）',txt('g:noodle_team').slice(-1)[0]==='zhe:大三第一頓 七點 長桌'&&(q=>!!q&&q.h===19&&q.late===0.25)(OUT.get(G,'y3_first_meal')));
   fresh('2027-09-09',16,'dorm'); R('zhe','FAM'); run('2027-09-09',16.75,17.25); check('4. 不在群組、和阿哲 FAMILIAR：阿哲私訊同一句',txt('p:zhe').slice(-1)[0]==='zhe:大三第一頓 七點 長桌');
   fresh('2027-09-09',16,'dorm'); join('noodle_team'); ['zhe','yu','classmate_bohan','heroine_01','heroine_03'].forEach(meet); run('2027-09-09',16.75,17.25); picks=[]; await go('y3_first_meal');
-  { const W=['（麵店的長桌。阿姨換了新的菜單，每一樣多五塊。）','五塊。……大三就是這種感覺。','欸，這學期刑訴，聽說林教授點名都點後面。','後面三排。我問過學長了。','（翻開手帳）讀書會八點。……我們先走。','（端麵過來）……今天乾麵剩四碗。','對。先吃。'];
+  { const W=['（麵店的長桌。阿姨換了新的菜單，每一樣多五塊。）','五塊。……大三就是這種感覺。','欸，這學期刑訴，聽說林教授點名都點後面。','後面三排。我問過學長了。','（看了一下錶）讀書會八點。……我們先走。','（端麵過來）……今天乾麵剩四碗。','對。先吃。'];
     check('4. D1 去了：都認識＝五個人各一句（逐字；以安那句照 AA_376 第 7 項）；選項兩個；「對。先吃。」；Y3_FIRST_MEAL',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「先吃。」','「真的點後面三排？」'])&&G.flags.Y3_FIRST_MEAL===true,JSON.stringify(all())); }
   fresh('2027-09-09',19,'dorm'); ['zhe','classmate_bohan'].forEach(meet); await play('ev_y3_first_meal',[1]);
   check('4. 只認識阿哲、柏翰：Alison、以安、語彤的句子不出現；「真的點後面三排？」→「真的。所以我坐第一排。」',!any(/點名都點後面|讀書會照常|乾麵剩四碗/)&&has('真的。所以我坐第一排。'));
@@ -453,7 +453,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { const W=['（以安和芯慈在對刑訴的考古題。你坐下來的時候，她們剛好對到第三題。）','第三題，妳的整理比我的清楚。我可以抄嗎？','可以。第五題妳的條文比我記得細，換我抄。','（兩個人同時把筆記推到中間。）','……我們分工好了。','可以。你負責第七題。'];
     check('18. 慈 5（AA_547 2-3，逐字）：開場五句＋「我可以加入嗎？」→「可以。你負責第七題。」；三個選項；CI5 near、XC5_RECONCILE（開始一起讀書）；沒有補習班、排名',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「我可以加入嗎？」','「妳們開學就坐在一起了吧。」','（聽她們對）'])&&G.flags.CI5==='near'&&G.flags.XC5_RECONCILE===true&&!any(/補習班|排名|第二名/),JSON.stringify(all())); }
   fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers',[1]);
-  check('18. 「妳們開學就坐在一起了吧。」→ 以安「第一排。她把課表推過來給我看。……我那時候想，這個人好細心。」',has('第一排。她把課表推過來給我看。……我那時候想，這個人好細心。'));
+  check('18. 「妳們開學就坐在一起了吧。」→ 以安「第一排。她把課表推過來給我看。我那時候想，這個人好細心。」',has('第一排。她把課表推過來給我看。我那時候想，這個人好細心。'));
   fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers',[2]);
   check('18. （聽她們對）→「（對到第十題，三個人都錯了同一題。芯慈笑出來。）」',has('（對到第十題，三個人都錯了同一題。芯慈笑出來。）'));
   fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers_far');

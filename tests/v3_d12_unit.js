@@ -109,7 +109,7 @@ GM.money=function(n){ G.money+=n; };
     check('芷若好朋友（大四，AA_446 第 8 節）：1/1 08:00「新年快樂。今年我在這邊跨第二次了。」＋「去年說臺灣的煙火比較大。……今年還是。」',f4.includes('heroine_02:新年快樂。今年我在這邊跨第二次了。')&&f4.includes('heroine_02:去年說臺灣的煙火比較大。……今年還是。'),JSON.stringify(f4));
     fresh(d4+1,7.5,'dorm'); meet(zr); run(7.5,8.2); check('芷若只是認識：什麼都不收（5-7 第 2 點）',!txt('p:'+zr).length); }
   const N=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_heroine_01:true}); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
-  check('3. 頂樓：「頂樓只有幾個人」；以安在場（交往中）；大一沒走信義區那條＝「今年風比較小。」（AA_313 4-3）；沒有期末考週的句子；交往中下樓「……手給我。」「看不到台階。……你走慢一點。」',L.includes('（十一點半。頂樓只有幾個人。）')&&L.includes('沈以安：今年風比較小。')&&!L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&L.includes('沈以安：看不到台階。……你走慢一點。')&&!L.some(t=>/回去念|宵夜|安全上的考量/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
+  check('3. 頂樓：「頂樓只有幾個人」；以安在場（交往中）；大一沒走信義區那條＝「今年風比較小。」（AA_313 4-3）；沒有期末考週的句子；交往中下樓「……手給我。」「看不到台階。你走慢一點。」',L.includes('（十一點半。頂樓只有幾個人。）')&&L.includes('沈以安：今年風比較小。')&&!L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&L.includes('沈以安：看不到台階。你走慢一點。')&&!L.some(t=>/回去念|宵夜|安全上的考量/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
   fresh(d31,23.5,'dorm',{dating_heroine_01:true,NYE_Y1:'roof',NYE_Y1_AN:true}); G.events.done.ev_nye_dinner=1; meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
   check('3. 大一走「一起去信義區」那條、她也在（ev_nye_dinner、NYE_Y1 roof、NYE_Y1_AN）：「去年這時候還在捷運上。」（AA_313 4-3）',L.includes('沈以安：去年這時候還在捷運上。')&&!L.includes('沈以安：今年風比較小。'),JSON.stringify(L));
   const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));

@@ -69,7 +69,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('4-3. 偶遇 D09 以安：terms 拿掉 Y4S2（encounters.js、characters.js 作息兩邊）',!!row&&!row.terms.includes('Y4S2')&&row.terms.includes('Y4S1')&&!!sch&&!sch.terms.includes('Y4S2'),J([row&&row.terms,sch&&sch.terms])); }
   check('4-3. 以安 career_goal 照 AA_285 第 5 節',CHARACTERS.heroine_01.career_goal==='一定考首都帝大法研所；司法官或大事務所律師還沒決定',CHARACTERS.heroine_01.career_goal);
   { const H=TERMEND_LINES.HEART.heroine_01, all=J(H); check('4-1 第 12 點. 告白不寫死「祐廷」（AA_587 第 58～68 列起改成手帳「想去的店」那一頁、最下面「和你」，白板那一句拿掉）',all.includes('最下面一行沒有店名，只寫著：和你。')&&!all.includes('沈以安喜歡祐廷')&&/function subst\(t\)\{ return t\.replace\(\/\\\{name\\\}\/g,G\.name\)/.test(SRC('src/game3d.js'))); }
-  check('4-1 第 7 點. ev_an_report_split_late 不說「理由：」',evTexts('ev_an_report_split_late').some(t=>t==='我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'));
+  check('4-1 第 7 點. ev_an_report_split_late 不說「理由：」',evTexts('ev_an_report_split_late').some(t=>t==='我把你寫在我這組了。剩下的人裡，你最不會遲交。'));
   // ===================== 第 4 節：語彤 =====================
   // 總圖門口（4-4）：那一行是旁白；選「點個頭就走」直接結束、不記 FIRST_MET；另外兩個選項才自我介紹
   { const X=ev('ev_library_door_phone'), go=async k=>{ fresh(10,18,'campus',{}); said=[]; picks=[k]; await EVENTS.run(X); return lines(); };

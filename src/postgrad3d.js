@@ -254,9 +254,9 @@ const PG=(function(){
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
-    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
+    {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('zhe',L().AN.group[0]),GR('heroine_01',L().AN.group[1])]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
     /* win:6（AA-B 10-30 13:33 回 B）：以安二試、司法官放榜那兩則群組和電話版 an1／an2 同一段——到隔天 03:00 以前條件成立才補（訊息照樣標 21:00），過了就不補（BB-B R43 PGF10_AN_EX_LATE：沒寫 win＝48 小時內都補）。測試：node tests/pg_an_ex_win_unit.js */
-    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('heroine_01',L().AN.exGroup1)]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
+    {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('zhe',L().AN.exGroup1[0]),GR('heroine_01',L().AN.exGroup1[1])]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
     {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
@@ -507,9 +507,11 @@ const PG=(function(){
   S.noodleScene2030=async function(GM){ const A=adv(); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,S.noodle2030Lines(GM.G)); };
   S.noodleMissed2030=async function(GM){ if(!GM||!GM.say) return; GM.sceneBegin(); try{ await GM.say(null,L().R2_2030.missed); } finally { GM.sceneEnd(); } };
   S.noodleScene=async function(GM){ const A=adv(), R=L().R2, sg=S.studyGroup(GM.G); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,sg==='three'?R.study.three:(sg==='kexin'?R.study.kexin:R.noodle)); };   /* 12/14 18:00（AA_319 1A-18）：讀書小組三個人／只有可昕／麵店團 */
-  async function anCall(GM,n){ const G=GM.G, A_=L().AN, me={name:nmD(G,'heroine_01')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
-    GM.sceneBegin(); try{ if(n===1){ await GM.say(me,A_.call1[0]); await GM.say(me,S.dating(G,'heroine_01')?A_.call1Dating:A_.call1[1]); }
-      else { for(const t of A_.call2) await GM.say(me,t); const k=await GM.choose(A_.call2Opts.map(o=>({t:o.t}))); for(const t of (A_.call2Opts[k]||A_.call2Opts[0]).say) await GM.say(me,t); } } finally { GM.sceneEnd(); } }
+  /* S6（AA_589 第 7-5 節 A 案）：不是她打來——祐廷自己查到榜單、傳訊息，她回。函式名 anCall、步驟 id an1／an2 照舊（舊存檔 rec.done.an1／an2 演過的不重演）*/
+  async function anCall(GM,n){ const G=GM.G, A_=L().AN, an={name:nmD(G,'heroine_01'),charId:'heroine_01'}, me={name:G.name||'祐廷'}, dating=S.dating(G,'heroine_01');
+    GM.sceneBegin(); try{ if(n===1){ await GM.say(null,A_.see1); await GM.say(me,A_.me1); for(const t of A_.call1) await GM.say(an,t); if(dating) await GM.say(an,A_.call1Dating); }
+      else { await GM.say(null,A_.see2); const k=await GM.choose(A_.call2Opts.map(o=>({t:(!dating&&o.tNot)||o.t})));   /* 選項本身就是祐廷傳的那一則；兩個選項她都回一樣的（共創第十六批）*/
+        for(const t of A_.call2) await GM.say(an,t); await GM.say(an,dating?A_.call2Dating:A_.call2Not); } } finally { GM.sceneEnd(); } }
   /* 可昕考上律師（AA_296 2-3-1 ③，企劃線 3f406dbc）：交往中、沒報 2029 國考＝12/14 15:05 她打來的電話（原本兩則私訊 pg_r2kx_2029；寫法照上面以安的電話）。
      「下午三點多」：15:05～16:00 玩家空下來就演（場景 kx_bar_2029；跳到下一件事、睡覺都停在這裡）；沒接（在出遊、在劇情裡，過了 16:00）＝原本那兩則私訊（S.kxBarMissed）。
      最後那一句旁白是那天晚上的宵夜，不另外排出遊。9/7「一試過了。二試十月。」（pg_r1kx_2029）是中途的結果，照用私訊 */

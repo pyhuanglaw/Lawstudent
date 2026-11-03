@@ -387,8 +387,8 @@ await sec('8. 第 4 項 沛珊說和柏翰分開了（第 6 週的週五）',asy
 await sec('8. 第 5 項 以安「明軒的事……」（期限 9/5）',async()=>{ const T='明軒的事……'; fresh(DK('2027-06-10'),15,'campus',{MX_HEARD:true}); H.FAMILIAR('heroine_01'); SOCIAL.meet('heroine_01','campus'); crowd('heroine_01',['yu']);
     const o1=await optsOf('heroine_01'); crowd('heroine_01',false); const o2=await optsOf('heroine_01'); crowd('heroine_01',['yu']); day(DK('2027-06-20')); const o3=await optsOf('heroine_01'); day(DK('2027-06-28')); const o4=await optsOf('heroine_01');
     day(DK('2027-09-05')); H.opts=[]; H.said=[]; H.picks=['明軒的事']; await STORY.offerInvite(GM,'heroine_01',npc('heroine_01')); const o5=H.opts[0]||[];
-    check('8. 第 5 項 以安「明軒的事……」：旁邊有人不出、她一個人出；有期限 9/5：之後再有人＝第 9 天（6/28）還不出；9/5 照出，選了先一句旁白再「他問了，我答了。我們還是朋友。」',
-      !o1.includes(T)&&o2.includes(T)&&!o3.includes(T)&&!o4.includes(T)&&o5.includes(T)&&narrFirst()&&(H.said[1]||{}).t==='他問了，我答了。我們還是朋友。'&&!!H.G.flags.AN_MX_ASKED,J({o1,o2,o3,o4,o5,s:said()})); });
+    check('8. 第 5 項 以安「明軒的事……」：旁邊有人不出、她一個人出；有期限 9/5：之後再有人＝第 9 天（6/28）還不出；9/5 照出，選了先一句旁白再「他還好嗎？」→祐廷「他今天還跟阿哲去打球。」→「嗯。」「……你今天晚餐吃什麼。」（AA_587 第 41 列）',
+      !o1.includes(T)&&o2.includes(T)&&!o3.includes(T)&&!o4.includes(T)&&o5.includes(T)&&narrFirst()&&JSON.stringify(H.said.slice(1).map(x=>x&&x.t))===JSON.stringify(['他還好嗎？','他今天還跟阿哲去打球。','嗯。','……你今天晚餐吃什麼。'])&&!!H.G.flags.AN_MX_ASKED,J({o1,o2,o3,o4,o5,s:said()})); });
 /* 第 6 項 語彤租約「幫她」三個選項：不擋 */
 await sec('8. 第 6 項 語彤租約「幫她」三個選項：不擋',async()=>{ fresh(DK('2027-05-20'),18,'noodle'); H.FRIEND('heroine_03'); SOCIAL.meet('heroine_03','noodle'); SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); crowd('heroine_03',['hc_ayi','npc_huangxh']); const o=await optsOf('heroine_03');
     check('8. 第 6 項 語彤麵店租約「幫她」三個選項：旁邊有人（阿姨、筱涵）照出（不擋）',['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。'].every(t=>o.includes(t)),J(o)); });
