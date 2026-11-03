@@ -168,7 +168,9 @@ function SIS_HOT_WATER(first){ return [
   {label:'end'} ]; }
 /* 麵店團群組的補救（AA_496 第 9 節第 3 點；第 4 節「只在大一上 ev_zhe_long_table 建立，錯過的人到 2030 年才被加進去」）：大一上錯過哲 1、還不在麵店團的人，
    大一下第 2 週起（之後的學期也算）。兩個入口（ev_zhe_group_late、ev_zhe_group_late_talk）共用這個條件，演過其中一個（記 noodleTableDay）兩個都關 */
-const ZHE_GROUP_LATE=G=>{ const F=G.flags||{}, DN=(G.events&&G.events.done)||{}; if((G.stage||'law')!=='law'||F.noodleTableDay!=null||DN.ev_zhe_long_table||DN.ev_zhe_group_late||DN.ev_zhe_group_late_talk) return false;
+/* AA_623 第 2 節：ev_zhe_long_table 不再加群組，演過它也照樣可以補救；補救入口照留，說話的人改明軒 */
+const BGN_NOT_IN=G=>{ const F=G.flags||{}; return F.noodleTableDay==null&&!(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')); };
+const ZHE_GROUP_LATE=G=>{ const F=G.flags||{}, DN=(G.events&&G.events.done)||{}; if((G.stage||'law')!=='law'||F.noodleTableDay!=null||DN.ev_zhe_group_late||DN.ev_zhe_group_late_talk) return false;
   if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')) return false;
   const d=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',2,1):null; return d!=null&&G.day>=d; };
 /* 第一次併桌（AA_542 1-2，NOODLE-TEAM-SHRINK-1030；使用者 10-30 X144 麵店團縮小成背景）：原本「規矩很簡單：週二週四，麵店。不用約，來就有人。」。
@@ -720,19 +722,18 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'公館燒臘',bg:'noodle_table'} ].concat(ZHE_FIRST_TABLE) },   /* 群組照約的那天 21:00 建（story3d.js phoneRules 設 noodleTableDay）*/
   { id:'ev_zhe_long_table', title:'第一次併桌', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[1,2,3,4,5], ndlDay:true, time:[17.5,20.5], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)&&!(G.events&&G.events.done&&G.events.done.ev_zhe_long_table_out)&&!(G.flags.ZHE_NOODLE_INV==='yes'&&G.day===G.flags.zheNoodleInvDay)},   /* A13（AA_195 4-7）的日子；約好當天晚上的那一頓由出遊演 */
-    dialogue:ZHE_FIRST_TABLE.slice(),
-    after:G=>{ if(G.flags.noodleTableDay==null) G.flags.noodleTableDay=G.day; } },   /* 沒被約過的（那天沒上民總）：這一場才建群組；約過的已經在約的那天 21:00 建了，不改日子 */
+    dialogue:ZHE_FIRST_TABLE.slice() },   /* AA_623 第 2 節：這一頓不再加群組（原本 after 記 noodleTableDay），只留著認識 Alison（AA_606 3-3）*/   /* 沒被約過的（那天沒上民總）：這一場才建群組；約過的已經在約的那天 21:00 建了，不改日子 */
   /* 麵店團群組的補救（AA_496 第 9 節第 3 點，NPC-STORY-1028）：錯過哲 1 的人（ZHE_GROUP_LATE），大一下第 2 週起第一次在麵店遇到阿哲（同哲 1：麵店、阿哲在旁邊 6 m 內），
      或和阿哲說話、有點熟以上（下一個事件）：阿哲當面一句（當面說的，有標點：口氣表），然後照長桌那一場的做法加進麵店團——記 noodleTableDay（story3d.js 的 phoneRules 加群組、
      阿哲兩則規矩、之後的揪、期末最後一頓都照它）；NDL_LATE_ADD＝群組早就有了，系統訊息寫「把你加進了」，不寫「建立了」。只一次 */
-  { id:'ev_zhe_group_late', title:'拉進群組', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, once:true, background:'blur',
+  { id:'ev_zhe_group_late', title:'拉進群組', participants:['classmate_mingxuan'], location:'noodle', trigger:'auto', near:{npc:'classmate_mingxuan',r:6}, once:true, background:'blur',   /* AA_623 第 2 節：說話的人改明軒 */
     prereq:{custom:G=>ZHE_GROUP_LATE(G)},
-    dialogue:[ {speaker:'zhe',text:'欸，你還沒進群組？我拉你。'} ],
-    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true}} },
-  { id:'ev_zhe_group_late_talk', title:'拉進群組', participants:['zhe'], location:'any', trigger:'interact', priority:6, once:true, background:'blur',
-    prereq:{stage:{npc:'zhe',min:'FAMILIAR'},custom:G=>ZHE_GROUP_LATE(G)},   /* 有點熟以上＝SOCIAL.STAGES 的 FAMILIAR 起算（AA_497 開頭）*/
-    dialogue:[ {speaker:'zhe',text:'欸，你還沒進群組？我拉你。'} ],
-    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true}} },
+    dialogue:[ {speaker:'classmate_mingxuan',text:'欸，你還沒進群組？我拉你。'} ],
+    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true,BGN_JOIN:'late'}} },
+  { id:'ev_zhe_group_late_talk', title:'拉進群組', participants:['classmate_mingxuan'], location:'any', trigger:'interact', priority:6, once:true, background:'blur',   /* AA_623 第 2 節：說話的人改明軒 */
+    prereq:{stage:{npc:'classmate_mingxuan',min:'FAMILIAR'},custom:G=>ZHE_GROUP_LATE(G)},   /* 有點熟以上＝SOCIAL.STAGES 的 FAMILIAR 起算（AA_497 開頭）*/
+    dialogue:[ {speaker:'classmate_mingxuan',text:'欸，你還沒進群組？我拉你。'} ],
+    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true,BGN_JOIN:'late'}} },
   /* 語 1：傅鐘旁邊的早餐（AA_40 語 1；交付清單 A10）：大一上第 3～5 週的早上，Alison 坐在傅鐘旁邊的長椅（她的日程：平日上課前 08:20～09:05，AA_156 第 4 節；原本 9:30–12:00），找她說話時；
      要先認識她（第一次說話是 talkYu 的自我介紹），而且不是認識的同一天（自我介紹已經講過三個社團）；只一次。
      「坐下來一起吃」記憶 BREAKFAST_YU（之後早上經過傅鐘她會先揮手：AA_118，之後再做）。吉他社的入口之一（另一個是阿凱）*/
@@ -859,12 +860,11 @@ const STORY_EVENTS=[
      AA 的「小事」是條列，旁白照條列的字寫成句子。AA 2026-10-14：沒有麵店團群組的玩家第一句是「大家借了」；加「你被分到顧火。火一直熄。」；
      只記 MIDAUTUMN_Y1，不加數值、不記 SHARED_MEAL */
   { id:'ev_mid_autumn_bbq', title:'中秋烤肉', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-    dialogue:[ {scene:'河濱',bg:'riverside'},
-      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。阿哲借了一個烤肉架。'},
-      {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},speaker:null,text:'中秋節前的河濱。大家借了一個烤肉架。'},
+    dialogue:[ {scene:'溫州街・日常失速・騎樓',bg:'dark'},   /* AA_623 第 3 節：18:00 日常失速的騎樓（明軒揪、店裡借烤肉架）；日常失速還沒有圖＝深色底。河濱的 CG-14 不用（畫的是河濱）*/
+      {speaker:null,text:'中秋節前，日常失速的騎樓。明軒跟店裡借了一個烤肉架。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤，Alison 負責吃。'},
       {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤。'},
-      {cg:'cg_midautumn_riverside'},   /* CG-14 中秋的河濱（BB 2026-10-14 ART_APPROVED）：去烤肉的玩家都有，從這一句起 */
+      /* CG-14 中秋的河濱（cg_midautumn_riverside）：AA_623 搬到日常失速騎樓以後不播（畫的是河濱）*/
       {speaker:null,text:'你被分到顧火。火一直熄。'},
       {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* AA_195 4-9（CAMP-FIX-614 程式 7）：到中秋烤肉還沒有「哥」的玩家（夜談選「跟你們一樣啦」），阿哲問同一段；選項、效果同夜談 */
       {speaker:'zhe',text:'欸，明軒說你比我們大一屆？'},   /* AA_372 第 10 項：宿營時明軒問過一字不差的同一句 */
@@ -899,7 +899,7 @@ const STORY_EVENTS=[
       {label:'zw'},{speaker:'kexin',expression:'smile',text:'好，我回去練。'},{goto:'end'},
       {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。不要問跟誰。'},   /* AA_305 第 9 節 */
       {label:'end'} ],
-    consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
+    consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（日常失速騎樓）'},
     after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
   /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。麵店團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
      沒有加入麵店團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
@@ -929,8 +929,8 @@ const STORY_EVENTS=[
       {label:'c3'},{if:EV_KNOWS('classmate_mingxuan'),speaker:'阿哲、明軒',text:'走！'},{unless:EV_KNOWS('classmate_mingxuan'),speaker:'zhe',expression:'laugh',text:'走！'},
       {label:'end'},
       /* 考完的宵夜（A15，AA 2026-10-14）：沒有麵店團群組的玩家，阿哲當面問；有群組的在群組揪（story3d.js 的 phoneRules）*/
-      {unless:{custom:G=>(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||(typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general'))},speaker:'zhe',expression:'smile',text:'晚上滷味，來不來？'},
-      {if:{custom:G=>!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))&&typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general')},speaker:'zhe',expression:'smile',text:'明天晚上滷味，來不來？'},   /* AA_581 第 70 列：民總期末考是大一上最後一科、宵夜順延到隔天（story3d.js S.supperDay）*/
+      {unless:{custom:G=>(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||(typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general'))},speaker:'zhe',expression:'smile',text:'晚上日常失速，來不來？'},
+      {if:{custom:G=>!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))&&typeof STORY!=='undefined'&&!!STORY.supperLate&&STORY.supperLate(G,'Y1S1','civ_general')},speaker:'zhe',expression:'smile',text:'明天晚上日常失速，來不來？'},   /* AA_581 第 70 列：民總期末考是大一上最後一科、宵夜順延到隔天（story3d.js S.supperDay）*/
       {unless:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},choice:[{text:'「去。」',set:{SUPPER_MID1:'yes'}},{text:'「這次不行。」',set:{SUPPER_MID1:'no'}}]} ],
     after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','民總期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   /* 翰 1 你考幾分（交付清單 A16：AA_40 翰 1，接 ev_bohan_kaogu；AA 2026-10-14）：大一上期中放榜——第 10 週的民總下課（第 10 週沒去上課的話第 11 週那堂），霖澤館走廊。
@@ -951,19 +951,26 @@ const STORY_EVENTS=[
      背景 gongguan_luwei 在 MISSING_EXTERNAL_ART）。誰揪：有麵店團群組＝阿哲在群組「考完了。滷味。」；沒有＝G1 結束時當面問。去不去由玩家選，不去不扣分。
      只有認識的人在場：明軒認識才有阿哲那句（考完當晚還沒有成績：「成績出來一定比我高」）；有 SAW_HIM_STUDY 多一個選項「……他有念啦。」→ 明軒瞪你一眼、請你一顆滷蛋；
      柏翰、芯慈、Alison 三個人都認識才有吵第三題那段。AA 的「小事」是條列，旁白照條列的字寫成句子 */
-  { id:'ev_midterm_supper', title:'考完的宵夜', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'公館・滷味攤',bg:'gongguan_luwei'},
-      {speaker:null,text:'公館的滷味攤前，大家在對答案。'},
-      {speaker:null,text:'有人只想吃，不想對：「不要跟我講第二題。」'},
+  /* AA_623 第 3 節（使用者 11-03 桌遊團）：A15 改成 AA_618 第 2-4 節第 1 點那一場——日常失速、阿哲在群組揪（「考完了！日常失速，八人桌我先佔。」，story3d.js phoneRules）；
+     原本句子裡的「明軒從來不念書」（阿哲那句＋SAW_HIM_STUDY 的選項）照留。日常失速還沒有 3D：2D 背景先用現有的桌遊店 boardgame_gg（BB 跟使用者要日常失速的圖）。
+     原本 20:30 公館滷味攤的四句、柏翰和芯慈吵第三題那段（AA_71 2-4）拿掉 */
+  { id:'ev_midterm_supper', title:'考完的聚餐', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
+    dialogue:[ {scene:'溫州街・日常失速・長桌',bg:'boardgame_gg'},
+      {speaker:null,text:'（長桌坐了七個人。）'},
+      {speaker:'zhe',expression:'laugh',text:'我民總最後一題寫了一整面。……寫什麼我已經忘了。'},
+      {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',text:'我寫完那題就沒時間了。'},
+      {if:EV_KNOWS('classmate_bohan'),speaker:'zhe',text:'那你還好，你至少寫完了。'},
       {if:EV_KNOWS('classmate_mingxuan'),speaker:'zhe',expression:'laugh',text:'明軒說他沒念。……我不信，他筆記比我多。'},
-      {if:{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}],custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_mingxuan',G)},choice:[{text:'「……他有念啦。」',set:{SUPPER_MX_EGG:true},goto:'egg'},{text:'（繼續吃滷味）',goto:'tri'}]},
-      {goto:'tri'},
+      {if:{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}],custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_mingxuan',G)},choice:[{text:'「……他有念啦。」',set:{SUPPER_MX_EGG:true},goto:'egg'},{text:'（繼續聽）',goto:'ps'}]},
+      {goto:'ps'},
       {label:'egg'},{speaker:null,text:'明軒瞪了你一眼。'},{speaker:null,text:'然後請你一顆滷蛋。'},
-      {label:'tri'},
-      {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:null,text:'柏翰和芯慈為了第三題的答案吵到滷味都冷了。'},
-      {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:'yu',expression:'neutral',text:'你們兩個要不要結婚。'},
-      {if:EV_KNOWS('classmate_bohan','classmate_xinci','yu'),speaker:'柏翰、芯慈',text:'不要。'} ],
-    consequences:{stamp:['supperMid1Day'],memo:'考完的宵夜（公館滷味攤）'} },
+      {label:'ps'},
+      {if:EV_KNOWS('classmate_peishan'),speaker:'classmate_peishan',text:'我們不要對答案好不好。'},
+      {if:EV_KNOWS('classmate_peishan'),speaker:'大家',text:'好。'},
+      {if:EV_KNOWS('classmate_peishan'),speaker:null,text:'（安靜三秒）'},
+      {if:EV_KNOWS('classmate_peishan'),speaker:'zhe',text:'第二題是不是選 C？'},
+      {speaker:null,text:'（十一點，店員來收第三輪的杯子。店長從頭到尾都在旁邊那張椅子上睡覺。）'} ],
+    consequences:{stamp:['supperMid1Day'],memo:'考完的聚餐（日常失速）'} },
   /* 期中考完（大一下，交接包 v2 C11、C21 第二個畫面；AA 2026-10-14 64ceb70）：刑總二期中考那天（第 8 週週三 4/15，上午考完）。
      D118 沒有期中考：AA_578 第 2 節 #9、#11 改到刑總二期末考那天（afterExam:'final'；晚上的麵店照舊）。
      G1 大一下版：旁白沿用大一上，加阿哲那句，沒有選項；沒有麵店團群組的玩家，最後阿哲當面問晚上的麵店（「去。」才排）。
@@ -5051,4 +5058,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {speaker:'classmate_mingxuan',text:'燒臘店四點半才開。……我知道一家三點就開的。'},
         {speaker:'zhe',text:'所以哪家？'},
         {speaker:'classmate_mingxuan',text:'（拿出手機）表上第三列。'},
-        {choice:[{text:'「我都可以。」'},{text:'「明軒那家。」',set:{Y1S1_EXAM_MEAL_PICK:'mx'}}]} ] } ); })();
+        {choice:[{text:'「我都可以。」'},{text:'「明軒那家。」',set:{Y1S1_EXAM_MEAL_PICK:'mx'}}]},
+        /* AA_623 第 2 節：一直沒去桌遊夜、還不在桌遊團的玩家＝明軒當場加進群組（story3d.js phoneRules 照 noodleTableDay 加；BGN_JOIN 'w13'＝「明軒把你加進了群組」）*/
+        {if:{custom:G=>BGN_NOT_IN(G)},speaker:'classmate_mingxuan',text:'你也進來吧。'},
+        {call:async(G)=>{ if(BGN_NOT_IN(G)){ G.flags.noodleTableDay=G.day; G.flags.BGN_JOIN='w13'; } }} ] } ); })();

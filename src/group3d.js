@@ -169,8 +169,8 @@ const GROUP=(function(){
     if(G.day<=d&&now>=T(d,17)&&!PHONE.sent(G,'y4_last_term_ask')){ rename(G,'最後一學期'); F.LAST_TERM_RENAMED=true;
       PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓 七點，長桌')],'y4_last_term_ask');
       if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'公館燒臘',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
-    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'法四吃飯'); F.LAST_TERM_RENAMED=false;
-      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「法四吃飯」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
+    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'桌遊團'); F.LAST_TERM_RENAMED=false;
+      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「桌遊團」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
   S.lastTermPhoto=G=>{ const d=DK(LT.d); if(G.flags.LAST_TERM_DINNER==null) G.flags.LAST_TERM_DINNER='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[Z('📷（長桌上的碗，跟大一的時候一樣多。）')],'y4_last_term_photo'); };
 
   /* ---------- 掛勾 ---------- */

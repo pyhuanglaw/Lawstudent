@@ -28,7 +28,7 @@ const WHOIS=(()=>{
   S.R=R; S.DESC={};
   const f=k=>G=>{ const v=F(G)[k]; return v!=null&&v!==false; };   /* 旗標有值（字串、數字、true）*/
   const ev=id=>G=>done(G,id);
-  const grp=G=>typeof STORY!=='undefined'&&STORY.ndlGroupName?STORY.ndlGroupName(G):'法一吃飯';
+  const grp=G=>typeof STORY!=='undefined'&&STORY.ndlGroupName?STORY.ndlGroupName(G):'桌遊團';
   const inGrp=(G,g)=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,g);
   const y=(G,n)=>{ const v=year(G); return v!=null&&v>=n; };
   /* 室友（依序換）：搬進那一間那天起（ROOM_Y2 312、ROOM_Y3 507、ROOM_Y4 409；DORM_FOUR＝大一 203 四人房）*/
@@ -43,7 +43,7 @@ const WHOIS=(()=>{
     {c:2,id:'w1',if:G=>done(G,'ev_zhe_w1_meet')&&!camp(G,'zhe'),t:'開學第一堂課，他從後面戳你肩膀，問附近中午吃什麼。'},
     {c:2,id:'room',if:G=>{ const r=rm(G); return r.four||r.y2; },t:G=>{ const r=rm(G); return (r.y2?(r.four?'室友：大一 203、大二 312。':'大二同住 312。'):'大一同住 203。')+((r.y3||r.y4)&&y(G,3)?'大三起他搬去別間。':''); }},   /* 5-1：室友＋大三搬走一行 */
     {c:3,id:'ge',keep:true,if:f('ZHE_CALLS_GE'),t:'知道你比大家大一歲以後，他都叫你「哥」。'},
-    {c:3,id:'grp',if:G=>{ const d=F(G).noodleTableDay; return d!=null&&(G.day>d||inGrp(G,'noodle_team')); },t:G=>'常揪大家吃飯。群組「'+grp(G)+'」是他建的。'},   /* 群組那天 21:00 才建好 */
+    {c:3,id:'grp',if:G=>{ const d=F(G).noodleTableDay; return !F(G).BGN_JOIN&&d!=null&&(G.day>d||inGrp(G,'noodle_team')); },t:G=>'常揪大家吃飯。群組「'+grp(G)+'」是他建的。'},   /* 群組那天 21:00 才建好 */
     {c:3,id:'ball',t:G=>(done(G,'ev_zhe_game_y2')?'打系籃，17 號。':'打系籃。')+(F(G).ZHE3?'大三當上隊長。':''),ord:G=>F(G).ZHE3?R.zhe.findIndex(r=>r.id==='fin')-0.5:(done(G,'ev_zhe_game_y2')?R.zhe.findIndex(r=>r.id==='yu')-0.5:R.zhe.findIndex(r=>r.id==='ball'))},   /* 5-1：系籃一行（演過 ev_zhe_game_y2＝17 號、ZHE3＝隊長）；擠的順序照最後一次換說法的時候 */
     {c:3,id:'ballyou',if:G=>!!(F(G).CLUB_dept_basketball||F(G).ball_invite),t:'你也在系籃，幫忙記分。'},
     {c:3,id:'z2s',if:G=>F(G).ZHE2==='study',t:'大二上他民法差點被當，你陪他念了四個禮拜。'},
@@ -121,6 +121,7 @@ const WHOIS=(()=>{
     {c:3,id:'tutor',if:f('JOB_TUTOR'),t:'你的家教是他介紹的。'},
     {c:3,id:'told',if:G=>mem(G,MX,'MX_TOLD'),t:'大二下，他跟以安告白，被拒絕了。是他自己跟你說的。'},
     {c:3,id:'try',if:G=>mem(G,MX,'SAW_HIM_TRY'),t:'大三下冠軍賽那天，他說交換那個他放棄了。'},
+    {c:3,id:'bgn',if:G=>(F(G).BGN_N|0)>=3,t:'隔週五在日常失速辦桌遊。'},   /* AA_618 2-4 第 3 點（AA_623）：桌遊夜去過三次以上 */
     {c:3,id:'de',if:G=>F(G).MX_SAVED==='there'||F(G).MX_SAVED==='heard',t:'大四下，他存夠了錢，要去德國一年。'} ];
 
   /* ---------------- 1-6 賴宥辰 ---------------- */

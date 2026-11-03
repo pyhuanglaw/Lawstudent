@@ -1082,20 +1082,20 @@ const STORY = (function(){
   S.ndlFirstOfWeek=function(day){ if(!S.noodleDay(day)) return false; const wd=CALENDAR.dateOf(day).wd; for(let k=1;k<wd;k++) if(S.noodleDay(day-k)) return false; return true; };
   S.ndlPair=function(t){ let h=2166136261; const k=t.id+':'+t.week; for(let i=0;i<k.length;i++){ h^=k.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return NDL_PAIRS[h%NDL_PAIRS.length]; };
   S.noodleDay=function(day){ if(typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(day).wd, t=CALENDAR.termOf(day); if(!t||t.exam||CALENDAR.kind(day)!=='term') return false; return S.ndlPair(t).includes(wd); };
-  /* 朋友的吃飯群組（noodle_team；id 照舊，AA_542 第 2 節：麵店團縮小成背景，使用者 10-30 X144）：
-     名字「法一吃飯」，大二、大三、大四上課第一天 12:00 阿哲改名（法二、法三、法四）；畢業以後、延畢的大五停在「法四吃飯」。
-     原本傍晚 17:30 的定時揪人（NDL_PINGS）、連三次沒來的追問（AA_469「你最近都沒來 還好嗎」）拿掉（2-3）。測試：node tests/ndl_group_unit.js */
-  S.NDL_NAMES=['法一吃飯','法二吃飯','法三吃飯','法四吃飯']; S.NDL_REN=[['Y2S1',1],['Y3S1',2],['Y4S1',3]];
-  S.NDL_RULE=['吃飯用','誰要吃什麼就喊'];
-  const NDL_OLD_RULE={'以後週二週四 麵店長桌':'吃飯用','有空就來 沒空不用講':'誰要吃什麼就喊'};
-  const ndlRenDay=id=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.TERMS&&CALENDAR.TERMS.find(x=>x.id===id); return T&&S.dayOfKey?S.dayOfKey(T.start):null; };
-  S.ndlGroupName=function(G){ const now=G.day*24+G.hour; let k=0; for(const [id,i] of S.NDL_REN){ const d=ndlRenDay(id); if(d!=null&&now>=d*24+12) k=i; } return S.NDL_NAMES[k]; };
-  S.ndlGroupFix=function(G){ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')) return; const F=G.flags, g=PHONE.rec(G).groups.noodle_team, R=F.ndlRen||(F.ndlRen={});
-    if(g.name==='麵店團'){ g.name=S.ndlGroupName(G); const now=G.day*24+G.hour; for(const [id] of S.NDL_REN){ const d=ndlRenDay(id); if(d!=null&&now>=d*24+12) R[id]=1; }   /* 舊存檔（2-4）：名字換成當學年的；已經過了的改名不補發 */
-      for(const m of (G.msgs||[])){ if(m.th!=='g:noodle_team') continue; if(m.tag==='noodle_team_rule'&&NDL_OLD_RULE[m.text]) m.text=NDL_OLD_RULE[m.text]; else if(m.tag==='noodle_team_new'&&typeof m.text==='string') m.text=m.text.replace('「麵店團」','「法一吃飯」'); } }
-    for(const [id,i] of S.NDL_REN){ if(R[id]) continue; const d=ndlRenDay(id); if(d==null||G.day*24+G.hour<d*24+12) continue; R[id]=1;
-      if((g.day|0)>=d){ continue; }   /* 這一年才加進來的：建立時就是當學年的名字 */
-      if(g.name==='最後一學期') continue; g.name=S.NDL_NAMES[i]; PHONE.at(G,d,12,[{th:'g:noodle_team',text:'（阿哲把群組名稱改成「'+S.NDL_NAMES[i]+'」。）'}],'ndl_rename_'+id); } };
+  /* 朋友的群組（noodle_team；id 照舊）＝桌遊團（AA_623 第 2 節，使用者 11-03「麵店團改成桌遊團」）：明軒揪的桌遊團，名字一直叫「桌遊團」（不再每年改成法二、法三、法四吃飯；
+     最後一學期照舊改成「最後一學期」、開學第一頓以後改回來，src/group3d.js）。規矩那一則改「隔週五 桌遊」「沒空不用講」。
+     舊存檔：群組叫「麵店團」或「法X吃飯」的一律改成「桌遊團」；之前出現過的「阿哲把群組名稱改成法X吃飯」訊息照留（不補不刪）；舊名字、舊的規矩句子照樣認得（NDL_OLD_RULE）。
+     原本（AA_542 第 2 節）：「法一吃飯」，大二、大三、大四上課第一天 12:00 阿哲改名。測試：node tests/ndl_group_unit.js、node tests/aa623_boardgame_unit.js */
+  S.NDL_TEAM='桌遊團';
+  S.NDL_NAMES=['桌遊團','桌遊團','桌遊團','桌遊團']; S.NDL_REN=[];   /* AA_623 2：不用每年改名 */
+  S.NDL_OLD_NAMES=['麵店團','法一吃飯','法二吃飯','法三吃飯','法四吃飯'];
+  S.NDL_RULE=['隔週五 桌遊','沒空不用講'];
+  const NDL_OLD_RULE={'以後週二週四 麵店長桌':'隔週五 桌遊','吃飯用':'隔週五 桌遊','有空就來 沒空不用講':'沒空不用講','誰要吃什麼就喊':'沒空不用講'};   /* 舊存檔兩代的規矩句子（NOODLE-TEAM-WHY-1027、AA_542 2-2）→ AA_623 2 的新句子 */
+  S.ndlGroupName=function(G){ return S.NDL_TEAM; };
+  S.ndlGroupFix=function(G){ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')) return; const F=G.flags, g=PHONE.rec(G).groups.noodle_team;
+    if(S.NDL_OLD_NAMES.includes(g.name)) g.name=S.NDL_TEAM;   /* 舊存檔（AA_623 2）：麵店團、法X吃飯 → 桌遊團（「最後一學期」照舊）*/
+    if(!F.NDL_TEAM_FIX){ F.NDL_TEAM_FIX=1;
+      for(const m of (G.msgs||[])){ if(m.th!=='g:noodle_team'||typeof m.text!=='string') continue; if(m.tag==='noodle_team_rule'&&NDL_OLD_RULE[m.text]) m.text=NDL_OLD_RULE[m.text]; else if(m.tag==='noodle_team_new') m.text=m.text.replace(/「(麵店團|法[一二三四]吃飯)」/,'「'+S.NDL_TEAM+'」'); } } };
   /* 長桌閒聊（NOODLE-TEAM-WHY-1027；AA_486 第 1-4 節〔企劃線 cd824bf41〕、AA_487〔b830dd5eb〕；句子在 src/data/noodle_table.js）：使用者 10-27「麵店團存在的必要到底是?」——
      平常的麵店日去了沒有東西演，只剩群組在揪。麵店日 17:00～21:00 人在阿鳳麵店、這一天沒有別的麵店事件要演（有的話讓給它：S.ndlOtherDue）、在麵店團群組＝一則；
      一天一則（F.ndlTalkDay），每一年一組照順序輪（F.ndlTalkN[組]＝下一則；那一則有不認識的人、條件不符合就跳下一則，下一輪再從頭看）；在場的人熟悉 +1（SOCIAL 的 classmate，一天一次）。
@@ -2107,8 +2107,8 @@ const STORY = (function(){
     const supperDay=(term,cid)=>S.supperDay(G,term,cid);
     if(typeof CLS!=='undefined'&&typeof OUT!=='undefined'){ const t=CALENDAR.termOf(G.day);
       const s1=t&&t.id==='Y1S1'&&t.week>=16?supperDay('Y1S1','civ_general'):null;
-      if(s1&&G.day>=s1.exam&&G.day<=s1.day){ const plan=()=>{ if(G.day<s1.day||G.hour<20.5+0.75) OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:s1.day,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); };
-        if(G.day===s1.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid1')&&G.hour<20.5){ PHONE.at(G,G.day,Math.max(G.hour,s1.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'考完了 滷味'}],'zhe_supper_mid1'); plan(); }
+      if(s1&&G.day>=s1.exam&&G.day<=s1.day){ const plan=()=>{ if(G.day<s1.day||G.hour<20+0.75) OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:s1.day,h:20,place:'日常失速',title:'考完的聚餐（日常失速）',travel:'走過去約 15 分鐘',travelH:0.25}); };   /* AA_623 第 3 節＋AA_618 2-4 第 1 點：20:00 日常失速 */
+        if(G.day===s1.day&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'zhe_supper_mid1')&&G.hour<20){ PHONE.at(G,G.day,Math.max(G.hour,s1.t1+0.1),[{th:'g:noodle_team',from:'zhe',text:'考完了！日常失速，八人桌我先佔。',ask:{until:s1.day*24+20,opts:[{t:'好。',set:{SUPPER_MID1:'yes'}},{t:'今天先不去。',set:{SUPPER_MID1:'no'}}]}}],'zhe_supper_mid1'); }   /* AA_618 2-4 第 1 點：回「好。」才排（下一行）*/
         else if(F.SUPPER_MID1==='yes'&&!OUT.get(G,'supper_mid1')) plan(); }
       /* 期中考完的晚餐（大一下，交接包 v2 C11、C21；AA 64ceb70）：刑總二期中考那天，考完阿哲在麵店團群組「刑總考完了 今天麵店，七點，長桌」＝排 19:00 阿鳳麵店長桌；
          沒有群組的玩家：G1 大一下版最後阿哲當面問，回「去。」（SUPPER_MID2）才排
@@ -2120,11 +2120,12 @@ const STORY = (function(){
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
        阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。
        有沒有來：麵店日 17:00–21:00 在麵店（ndlDays，最近 12 個）；開始記以前（ndlTrack0：舊存檔）的麵店日當作有來 */
-    if(F.zheNoodleInvDay!=null&&F.noodleTableDay==null){ const d=F.zheNoodleInvDay;   /* AA_542 1-1：阿哲第一次民總下課約吃麵（events.js ev_zhe_noodle_invite）*/
-      if(F.ZHE_NOODLE_INV==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'zhe_first_table')&&G.day*24+G.hour<d*24+18.75) OUT.plan(G,{id:'zhe_first_table',ev:'ev_zhe_long_table_out',day:d,h:18.5,late:0.25,place:'公館燒臘',title:'第一次併桌 18:30（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25});
-      if(G.day*24+G.hour>=d*24+21) F.noodleTableDay=d; }   /* 不管答應不答應，當天 21:00 建群組 */
-    if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ const gn=S.ndlGroupName(G); PHONE.join(G,'noodle_team',gn); PHONE.post(G,{th:'g:noodle_team',text:F.NDL_LATE_ADD?'阿哲把你加進了群組「'+gn+'」。':'阿哲建立了群組「'+gn+'」，把你加了進來。',tag:'noodle_team_new'});   /* NDL_LATE_ADD：錯過第一次併桌、之後才被阿哲拉進來的（events.js ev_zhe_group_late，AA_496 第 9 節第 3 點）：群組早就有了，不寫「建立了」；群組名照當學年（AA_542 2-1）*/
-        for(const t of S.NDL_RULE) PHONE.post(G,{th:'g:noodle_team',from:'zhe',text:t,tag:'noodle_team_rule'}); }   /* AA_542 2-2：建好的下一則（手機訊息，不加句號）；原本「以後週二週四 麵店長桌」「有空就來 沒空不用講」（NOODLE-TEAM-WHY-1027）收回 */
+    if(F.zheNoodleInvDay!=null&&F.noodleTableDay==null){ const d=F.zheNoodleInvDay;   /* AA_542 1-1：阿哲第一次民總下課約吃飯（events.js ev_zhe_noodle_invite）*/
+      if(F.ZHE_NOODLE_INV==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'zhe_first_table')&&G.day*24+G.hour<d*24+18.75) OUT.plan(G,{id:'zhe_first_table',ev:'ev_zhe_long_table_out',day:d,h:18.5,late:0.25,place:'公館燒臘',title:'第一次併桌 18:30（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25}); }
+      /* AA_623 2：這一頓不再建群組（原本當天 21:00 記 noodleTableDay）。群組＝第一次去明軒的桌遊夜結束時明軒加（src/bgnight3d.js），一直沒去的＝第 13 週「考完吃哪家」明軒當場加（events.js ev_friends_exam_meal）*/
+    if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ const gn=S.ndlGroupName(G), mx=!!F.BGN_JOIN, who=mx?'明軒':'阿哲';   /* BGN_JOIN：明軒加的（AA_623 2）；沒有＝舊存檔的阿哲 */
+          PHONE.join(G,'noodle_team',gn); PHONE.post(G,{th:'g:noodle_team',text:(F.NDL_LATE_ADD||(mx&&F.BGN_JOIN!=='night'))?who+'把你加進了群組「'+gn+'」。':who+'建立了群組「'+gn+'」，把你加了進來。',tag:'noodle_team_new'});   /* NDL_LATE_ADD／第 13 週：群組早就有了，不寫「建立了」*/
+        for(const t of S.NDL_RULE) PHONE.post(G,{th:'g:noodle_team',from:mx?'classmate_mingxuan':'zhe',text:t,tag:'noodle_team_rule'}); }   /* AA_623 2：規矩改「隔週五 桌遊」「沒空不用講」*/
       S.ndlGroupFix(G);   /* AA_542 2-1、2-4：每學年上課第一天 12:00 阿哲改名；舊存檔的「麵店團」換成當學年的名字、舊的兩則規矩顯示新句子 */
       if(F.ndlTrack0==null) F.ndlTrack0=G.day;
       if(G.zone==='noodle'&&S.noodleDay(G.day)&&G.hour>=17&&G.hour<21){ const L=F.ndlDays||(F.ndlDays=[]); if(L[L.length-1]!==G.day){ L.push(G.day); if(L.length>12) L.shift(); } }
@@ -2153,11 +2154,11 @@ const STORY = (function(){
       if(sat&&!F._bbqUntilFix){ F._bbqUntilFix=1; const fix=it=>{ if(it&&it.ask&&it.ask.until==null) it.ask.until=sat*24+15; };   /* 舊存檔：5c471a79（10-21）以前排進去的 bbq_ask、kx_bbq_ask 沒有 until，到隔年還是「待回覆」、每個假期一開始手機自己打開（BB-C 10-21 P3；10-22 子代理用 9/25 底檔查到）→ 補上和新局同一個期限（一次）*/
         for(const m of (G.msgs||[])) if(m.tag==='bbq_ask'||m.tag==='kx_bbq_ask') fix(m);
         for(const q of (PHONE.rec(G).q||[])) if(q.tag==='bbq_ask'||q.tag==='kx_bbq_ask') (q.items||[]).forEach(fix); }
-      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe'; PHONE.at(G,wed,21,[{th,from:'zhe',text:'週六中秋烤肉 河濱 下午三點',ask:{until:sat*24+15,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
-      if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25});
+      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const mx=S.knows('classmate_mingxuan',G), th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':(mx?'p:classmate_mingxuan':'p:zhe'); PHONE.at(G,wed,21,[{th,from:mx?'classmate_mingxuan':'zhe',text:'週六中秋烤肉 日常失速騎樓 晚上六點',ask:{until:sat*24+18,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* AA_623 第 3 節：明軒揪（不認識明軒＝照舊阿哲私訊），18:00 日常失速的騎樓 */   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
+      if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:18,place:'日常失速',title:'中秋烤肉（日常失速騎樓）',travel:'走過去約 15 分鐘',travelH:0.25});
       /* 可昕 K3（BB_95 9-4）：前一天（週五）20:00 她問；回「來我們這邊」她就來；「妳去妳們系的」她去她們系的（烤玉米的照片 AA_503 改成動態第 2 則，去沒去都出）*/
       if(sat&&F.dating_kexin&&(F.BBQ_YES||!F.BBQ_NO)&&!PHONE.sent(G,'kx_bbq_ask')&&G.day>=sat-1&&G.day<=sat){ const K=t=>({from:'kexin',text:t});
-        PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{until:sat*24+15,opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
+        PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{until:sat*24+18,opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
       /* 烤玉米的照片「我們的玉米比較好。」：原本「妳去妳們系的。」才私訊（kx_bbq_corn）；AA_503 9-2、9-3 改成可昕的動態第 2 則，一定出（她來了＝照片裡有你的手，src/data/feed_y1s1.js kx2）*/ }
     /* 以安新 3 宿舍的規則（A14，交接包_v1 第 3 節）：第 7 週週二晚上麵店團群組，Alison 轉述（她是聽說的）、阿哲、以安隔一陣子才回；只給在群組裡的玩家（其他人由沛珊當面說：ev_an_dorm_rules_peishan）*/
     if(PHONE.inGroup(G,'noodle_team')&&!F.AN_DORM_RULES){ const d=termDay('Y1S1',7,2), gj=PHONE.rec(G).groups.noodle_team; if(d&&G.day>=d-1&&gj.day<=d){ const th='g:noodle_team';   /* 那天以前就在群組裡（之後才加入的，看不到加入以前的訊息：由沛珊當面說）*/
