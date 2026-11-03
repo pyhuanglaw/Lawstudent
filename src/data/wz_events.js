@@ -264,18 +264,18 @@ const WZ_EVENTS=(function(){
     {if:C((w,G)=>w.dating(G,SIS)),speaker:SIS,text:'你幾點下班？我在外面等。'},
     {set:{WZ_SIS_THESIS:true},rel:{[SIS]:{trust:2}}} ] }));
   /* WZ-C6 田野的照片（AA_167）＋走廊小展（選「很好看。」照 AA_420 7-3）*/
-  L.push(ev('ev_wz_c6','田野的照片',{ participants:[YT], dialogue:[ N('語彤把一個信封放在櫃台上，裡面是二十張照片。'),
+  L.push(ev('ev_wz_c6','田野的照片',{ participants:[YT], dialogue:[ N('語彤把一個信封放在吧檯上，裡面是二十張照片。'),
     {speaker:YT,text:'放大。再放大。'},
     {speaker:YT,text:'……手要看得到紋路。'},
-    N('照片裡都是手：包麵的手、算錢的手、寫字的手。你看出其中一張，是阿鳳阿姨的手。'),
+    N('照片裡都是手：泡茶的手、算錢的手、寫字的手。你看出其中一張，是秀琴姨的手。'),
     {speaker:YT,text:'週五，社科院走廊。……你要來的話，五點以後。'},
     {stamp:['WZ_YT_PHOTO_DAY']} ] }));
   L.push(ev('ev_wz_c6_show','走廊小展',{ participants:[YT], trigger:'outing', background:'dark', hours:1, dialogue:[ {scene:'社科院・一樓的走廊',bg:'ntu_soc'},
     N('社科院一樓的走廊，二十張照片貼成一排。來的人不多。'),
-    N('語彤站在最後一張前面。那一張是一雙年輕的手，在麵店的櫃台上寫菜單。'),
+    N('語彤站在最後一張前面。那一張是一雙年輕的手，在茶屋的吧檯上寫菜單。'),
     {speaker:'player',text:'這是妳的手？'},
     {speaker:YT,text:'……嗯。'},
-    {speaker:YT,text:'每個人都拍了別人。……最後一張，是我請阿姨幫我拍的。'},
+    {speaker:YT,text:'每個人都拍了別人。……最後一張，是我請蘇姨幫我拍的。'},
     {choice:[{text:'「很好看。」',goto:'a'},{text:'（什麼都不說，站在旁邊看完）',goto:'b'}]},
     {label:'a'},{speaker:YT,text:'……我的手很粗。'},N('（她把手收到背後。）'),{goto:'end'},
     {label:'b'},{speaker:YT,text:'……你看得很慢。'},

@@ -22,16 +22,16 @@ const NEEDED_MSGS=(function(){
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。'],
       miss:['讀書會換人帶那則，你沒回。……這週我繼續帶。沒關係。'],missDating:['讀書會換人帶那則，你沒回。這週我繼續帶。下週換你，不准躲。']},
     // 語彤（AA_179）
-    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,16],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['好，我跟她說。'],
-      miss:['阿姨上週問了你三次。……我說你很忙。'],missDating:['阿姨上週問了你三次。我說你很忙。她說那更要來吃。']},
+    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,16],every:4,cond:noodle,msg:['秀琴姨問你週末來不來吃飯。'],reply:'來。',resp:['好，我跟她說。'],
+      miss:['秀琴姨上週問了你三次。……我說你很忙。'],missDating:['秀琴姨上週問了你三次。我說你很忙。她說那更要來吃。']},
     {id:'yt_fafu',who:'heroine_03',term:'Y2S1',w:[2,2],msg:['法律系的課，我上禮拜第一次去上。','教室好大。'],   /* AA_374 第 23 項：9/20（週日）發，第一次去上是上禮拜 */reply:'坐我旁邊。',resp:['……我習慣坐最後一排。你坐過來。'],   /* AA_255：語彤不加入法服，改成雙主修第一週（id 照舊，舊存檔收過法服那則的不再收這則）*/
       miss:['上課那則你沒回。……我找到位子了。'],missDating:['上課那則你沒回。……我找到位子了。你忙的時候，回一個『忙』就好。']},
-    {id:'yt_floor',who:'heroine_03',term:'Y2S1',w:[8,9],msg:['期中考你在總圖哪一層？我想找一個不會遇到麵店客人的地方。'],reply:'三樓。最裡面。',resp:['好。……阿姨以為我在家讀。'],
+    {id:'yt_floor',who:'heroine_03',term:'Y2S1',w:[8,9],msg:['期中考你在總圖哪一層？我想找一個不會遇到茶屋客人的地方。'],reply:'三樓。最裡面。',resp:['好。……秀琴姨以為我在家讀。'],
       miss:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],missDating:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。']},
-    {id:'yt_rent',who:'heroine_03',term:'Y2S2',w:[10,12],tie:true,cond:G=>done(G,'ev_yutong_landlord')||!!F(G).RENT_RUMOR,msg:['仲介又帶人來店裡看了。','沒事，跟你說一聲。'],reply:'要不要帶阿姨去法服問問看？',resp:['我問問看阿姨。'],
+    {id:'yt_rent',who:'heroine_03',term:'Y2S2',w:[10,12],tie:true,cond:G=>done(G,'ev_yutong_landlord')||!!F(G).RENT_RUMOR,msg:['仲介又帶人去秀琴姨家看了。','沒事，跟你說一聲。'],reply:'要不要帶秀琴姨去法服問問看？',resp:['我問問看秀琴姨。'],
       miss:['仲介那件事，你上週很忙吧。沒事。'],missDating:['仲介那件事，沒事了。……你上週是不是很累？']},
     {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[15,16],tie:true,cond:G=>mem(G,'heroine_03','APOLOGIZED'),   /* 語彤事件 11 洗完碗（AA_325 2-Y2-22；AA_255 第 4 節第 6 點：w[15,16]）*/
-     msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
+     msg:['秀琴姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
     // 阿哲（AA_179；沒回的那一句都用「你上週很忙齁。」開頭）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總課本借我 我的還在學長那'],reply:'拿去。',resp:['讚。我請你一碗大的。'],miss:['你上週很忙齁。債總我跟學長拿到了。']},
     {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,9],tie:true,   /* AA_313 5-3：只在第 9 週（第 10 週週日是哲 2 之後，可能已經借過筆記）*/msg:['民法借我。筆記。全部。'],reply:'好。明天上課拿給你。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},

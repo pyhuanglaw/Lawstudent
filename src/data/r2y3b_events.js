@@ -29,20 +29,20 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-26 開學第一頓（大三下）：2028-02-22（二）19:00 麵店長桌（17:00 阿哲揪；沒去＝21:30 群組照片）---------- */
   const FIRST_MEAL={ id:'ev_y3s2_first_meal', title:'開學第一頓（大三下）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（麵店的長桌。語彤在廚房門口，圍裙還沒脫。）'},
+    dialogue:[ {scene:'日常失速・長桌',bg:<日常失速>},
+      {speaker:null,text:'（日常失速的八人長桌。語彤坐在最裡面，背包還沒放下。）'},
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
       {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天週二。週四我不在店裡了。'},
+      {if:kn('heroine_03'),speaker:'heroine_03',text:'……這學期週四，我去做田野。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
       {choice:[{text:'「先吃。」',goto:'a'},{text:'「週四妳去哪？」',if:kn('heroine_03'),goto:'b'}]},
       {label:'a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'end'},
-      {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她回廚房了。）'},
+      {label:'b'},{speaker:'heroine_03',text:'……去問人問題。'},{speaker:null,text:'（她低頭吃飯了。）'},
       {label:'end'} ],
-    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（公館燒臘）'},
+    consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（日常失速）'},
     outingMissed:G=>{ const x=X(); if(x) x.firstMealPhoto(G); } };
 
   /* ---------- 2-Y3-27 228 河濱：2028-02-28（一）14:00～17:00 公館河濱（2/27 21:00 阿哲揪；沒去＝17:30 Alison 在群組）---------- */
@@ -241,8 +241,8 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。'},   /* AA_377 第 14 項：日本路線（原「這週的筆記我留了。回來再給你。」是臺灣的說法）*/
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},   /* AA_377 第 3 項：玩家參加過讀書會才說 */
-      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從廚房探出頭，舉起田野筆記，沒說話。）'},
-      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從吧檯後面探出頭，舉起田野筆記，沒說話。）'},
+      {if:inG,speaker:'蘇姨',name:'蘇姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
       {speaker:'zhe',text:'好了，飯要涼了。……你自己也要吃。'},
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
@@ -261,7 +261,7 @@ const R2Y3B_EVENTS=(function(){
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
       {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'強制執行法的筆記，我留了一份。你大五補修用得到。'},
       {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
-      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從廚房探出頭，舉起田野筆記，沒說話。）'},
+      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從吧檯後面探出頭，舉起田野筆記，沒說話。）'},
       {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
       {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},

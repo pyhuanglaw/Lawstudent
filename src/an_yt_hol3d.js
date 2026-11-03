@@ -67,25 +67,25 @@ const ANYTHOL=(function(){
     {k:'yt_y1',who:YT,ask:'2026-02-13',h:21,lines:L.yt1Ask,flag:'YT_VDAY_Y1',go:'YT_VDAY_Y1_GO',shop:'closed',until:16,   /* 幫忙的 16:00：回覆開到 16:00 */
       opts:[o(L.yt1YesT,L.yt1Yes),o(L.yt1HelpT,L.yt1Help,{set:{YT_VDAY_Y1_HELP:true}}),o(L.yt1NoT,L.yt1No,{no:true})],
       hOf:G=>G.flags.YT_VDAY_Y1_HELP?16:17,
-      out:{id:'anyt_yt_vday_y1',ev:'ev_yt_vday_y1',day:'2026-02-14',h:17,late:0.25,place:'阿鳳麵店門口',title:'情人節（麵店門口）',travel:'走路約 10 分鐘',travelH:1/6},
+      out:{id:'anyt_yt_vday_y1',ev:'ev_yt_vday_y1',day:'2026-02-14',h:17,late:0.25,place:'一盞茶屋門口',title:'情人節（茶屋門口）',travel:'走路約 10 分鐘',travelH:1/6},
       miss:{day:'2026-02-14',at:[[17.5,L.yt1Miss1],[19,L.yt1Miss2]]}},
     {k:'yt_y2',who:YT,ask:'2027-02-13',h:21,lines:L.yt2Ask,flag:'YT_VDAY_Y2',go:'YT_VDAY_Y2_GO',shop:'open',
       opts:[o(L.yt2YesT,L.yt2Yes),o(L.yt2WhyT,L.yt2Why),o(L.yt2NoT,L.yt2No,{no:true})],
-      out:{id:'anyt_yt_vday_y2',ev:'ev_yt_vday_y2',day:'2027-02-14',h:12,late:0.5,place:'阿鳳麵店',title:'情人節（阿鳳麵店）',travel:'走路',travelH:1/6},
+      out:{id:'anyt_yt_vday_y2',ev:'ev_yt_vday_y2',day:'2027-02-14',h:17.5,late:0.5，交往中 place:'新生南路・她家',title:'情人節（她家）'／沒交往 place:'一盞茶屋門口',title:'情人節（茶屋門口）',travel:'走路',travelH:1/6},
       miss:{day:'2027-02-14',at:[[13,L.yt2Miss1],[13+1/60,L.yt2Miss2]]}},
     {k:'yt_y3',who:YT,ask:'2028-02-13',h:21,lines:L.yt3Ask,flag:'YT_VDAY_Y3',go:'YT_VDAY_Y3_GO',shop:'open',
       opts:[o(L.yt3YesT,L.yt3Yes),o(L.yt3NoT,L.yt3No,{no:true})],
-      out:{id:'anyt_yt_vday_y3',ev:'ev_yt_vday_y3',day:'2028-02-14',h:14,late:0.25,place:'阿鳳麵店門口',title:'情人節（語彤要帶你去的地方）',travel:'走路約 15 分鐘',travelH:0.25},
+      out:{id:'anyt_yt_vday_y3',ev:'ev_yt_vday_y3',day:'2028-02-14',h:14,late:0.25,place:'校門口',title:'情人節（語彤要帶你去的地方）',travel:'走路約 15 分鐘',travelH:0.25},
       miss:{day:'2028-02-14',at:[[15,L.yt3Miss1],[15+1/60,L.yt3Miss2]]}},
     {k:'yt_y4',who:YT,ask:'2029-02-13',h:21,lines:L.yt4Ask,flag:'YT_VDAY_Y4',go:'YT_VDAY_Y4_GO',shop:'closed',
       opts:[o(L.yt4YesT,L.yt4Yes),o(L.yt4NoT,L.yt4No,{no:true})],
-      out:{id:'anyt_yt_vday_y4',ev:'ev_yt_vday_y4',day:'2029-02-14',h:19,late:0.25,place:'河濱',title:'情人節（河濱）',travel:'走路約 15 分鐘',travelH:0.25},
+      out:{id:'anyt_yt_vday_y4',ev:'ev_yt_vday_y4',day:'2029-02-14',h:19,late:0.25,交往中 place:'新生南路・她家',title:'情人節（她家）'／沒交往 place:'新生南路・她家樓下',title:'情人節',travel:'走路約 15 分鐘',travelH:0.25},
       miss:{day:'2029-02-14',at:[[19.5,L.yt4Miss1],[19.5+1/60,L.yt4Miss2]]}} ];
   /* 2-5 中秋（AA_127 4-2 的時段，和麵店團的中秋烤肉同一天）*/
   S.MOON=[[2026,'2026-09-24','2026-09-25'],[2027,'2027-09-14','2027-09-15'],[2028,'2028-10-02','2028-10-03']];
   for(const [y,ask,day] of S.MOON) S.HOL.push({k:'yt_moon_'+y,who:YT,ask,h:21,lines:L.moonAsk,flag:'YT_MOON_'+y,go:'YT_MOON_'+y+'_GO',moon:y,
     opts:[o(L.moonYesT,L.moonYes),o(L.moonNoT,L.moonNo,{no:true})],
-    out:{id:'anyt_yt_moon_'+y,ev:'ev_yt_moon',day,h:15,late:0.5,place:'阿鳳麵店門口',title:'中秋（麵店門口）',travel:'走路',travelH:1/6},
+    out:{id:'anyt_yt_moon_'+y,ev:'ev_yt_moon',day,h:15,late:0.5,place:'河濱',title:'中秋（河濱）',travel:'走路',travelH:1/6},
     miss:{day,at:[[16,L.moonMiss]]}});
   /* 1-4 2029-02-14（三，初二）21:00 以安打電話來（台中外婆家；沒有前一天的私訊）*/
   S.CALL={k:'an_y4',who:AN,flag:'AN_VDAY_Y4',ok:'called',where:['台中'],

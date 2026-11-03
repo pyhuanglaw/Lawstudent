@@ -337,7 +337,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（河濱。兩個烤肉架，一支夾子。）'),
       IF(G=>knows('yu',G)&&done(G,'ev_y2_midautumn'),{speaker:'yu',text:'又來了。'}),
       IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'……兩個架子，一支夾子？'}),
-      IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨今年醃了兩倍。她說你們最後一年了。'}),
+      IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨今年醃了兩倍。她說你們最後一年了。'}),
       IF(here(BH),{speaker:BH,text:'夾子排班。一人十分鐘。'}),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'……我贊成。'}),   /* 大四只說「……我贊成。」（裁定第 4 點）*/
       IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',expression:'laugh',text:'……今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
@@ -396,9 +396,9 @@ const R2Y4A_EVENTS=(function(){
       TO('heroine_01','我收著。'),TO('heroine_03','嗯。'),TO('zhe','好，我帶回宿舍。'),TO(BH,'謝謝。'),TO('classmate_xinci','謝謝。……我會用。'),TO('yu','我要拍照！'),
       IF(Y1G,{pick:{flag:'XMAS_Y4_SAME',from:G=>[ITEM[G.flags.XMAS_GIFT]]}}),
       IF(Y1G,nar('（你抽到的是{flag:XMAS_Y4_SAME}。和你三年前帶來的那一個，幾乎一樣。）')),
-      UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨的。……不要一次吃完。'})),
-      nar('（阿姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
-      {speaker:'阿姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_519 1-3：「吃好一點」只留大一上那一次 */
+      UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨的。……不要一次吃完。'})),
+      nar('（秀琴姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
+      {speaker:'秀琴姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_519 1-3：「吃好一點」只留大一上那一次 */
       {set:{XMAS_Y4:'went'}} ] });
 
   /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */

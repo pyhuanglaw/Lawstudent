@@ -108,9 +108,9 @@ const PRIVTALK=(function(){
     {key:'zr_exch_lad',cat:'還沒公開',topic:'芷若交換申請',who:'heroine_02',kind:'ladder',gate:'hold',until:'2027-05-11',except:KNOW.zrExch,steps:{'Z2-L6':['extraIf',0],'Z2-L8':['linesIf',0],'Z3-L6':['linesIf',0],'Z4-L4':['linesIf',0]},
       desc:'閒聊階梯（知道她申請的玩家才換進來的那一版：交換的申請也是一直拖、還沒交、送出去以後、英國那邊的信）',note:'這一層這一次不播、不前進；下次她一個人時播；等了 7 天照播'},
     /* ---- 語彤媽媽回診（旁邊是阿姨不算，第 12 項）---- */
-    {key:'yt_mom_lad',cat:'還沒公開',topic:'語彤媽媽回診',who:'heroine_03',kind:'ladder',gate:'hold',except:KNOW.ytMom,steps:{'Y-L7':null,'Y7-L8':null},desc:'閒聊階梯 Y-L7（大一上「我媽每個月要回診一次」）、Y7-L8（大四上「期末考完，我要陪我媽去回診」）',
+    {key:'yt_mom_lad',cat:'還沒公開',topic:'語彤媽媽要她考牙醫',who:'heroine_03',kind:'ladder',gate:'hold',except:KNOW.ytMom,steps:{'Y7-L8':null},desc:'閒聊階梯 Y7-L8（大四上「期末考完，我要回淡水一趟。我媽說要談一下」）',
       note:'這一層這一次不播、不前進；下次她一個人時播；等了 7 天照播；旁邊只有阿姨＝照播'},
-    {key:'yt_mom_ask',cat:'還沒公開',topic:'語彤媽媽回診',who:'heroine_03',kind:'ladderChoice',gate:'choiceIf',step:'Y4-L6',choice:'「妳媽媽身體還好嗎？」',except:KNOW.ytMom,desc:'閒聊階梯 Y4-L6 的第二個選項',
+    {key:'yt_mom_ask',cat:'還沒公開',topic:'語彤媽媽要她考牙醫',who:'heroine_03',kind:'ladderChoice',gate:'choiceIf',step:'Y4-L6',choice:'「妳媽媽還反對嗎？」',except:KNOW.ytMom,desc:'閒聊階梯 Y4-L6 的第二個選項',
       note:'這一次只出第一個選項；等了 7 天照出（選了先一句旁白）；旁邊只有阿姨＝照出'},
     /* ---- 第三輪（AA_503 第 14 節）：第 1 項 芷若×子晴交往中、其中一人自己告訴祐廷（旁邊是對方本人不算）---- */
     {key:'zz_told_zr',cat:'還沒公開',topic:'芷若×子晴',who:'heroine_02',kind:'pre',gate:'wrap',ev:'ev_zz_told_zr',except:['heroine_04'],desc:'src/zrzq3d.js ZRZQ.preTalk（AA_385 第 4 節：她們交往中、祐廷還不知道，芷若自己告訴他；說話前接演，吧檯上班時也一樣）',

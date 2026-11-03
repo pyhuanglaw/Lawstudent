@@ -14,7 +14,7 @@
        (b) ev_yt_umbrella_hook：大三上第一個下雨的週二（下雨＝rain／typhoon、麵店那天有開；遊戲的天氣每天隨機，所以「第一個」＝遊戲裡第一次遇到的那一個，S.umbDay 在 TICKS 記下來），
            有 HELPED（大一把傘給她）的玩家那天走進麵店：旁白一句，只一次。櫃台後面那把傘的 3D 模型不在這裡（3D 美術歸 LAWWW2）。
    ■ 2-3 打烊後的那一桌 ev_yt_family_dinner：2029-04-26（四）20:30～21:00 人在麵店（3D）、和語彤交往中＝演（只一次），記 YT_FAMILY_DINNER；
-       當天 17:00 語彤私訊兩則；21:00 還沒演＝兩則（「阿姨說下次」…）。尾聲（postgrad3d.js epilogue）語彤的句子前面多一句旁白（交往中、有 YT_FAMILY_DINNER）。
+       當天 17:00 語彤私訊兩則；21:00 還沒演＝兩則（「su=t=>({speaker:'蘇姨',text:t})說下次」…）。尾聲（postgrad3d.js epilogue）語彤的句子前面多一句旁白（交往中、有 YT_FAMILY_DINNER）。
    ■ 2-4 週四的斜對面 ev_yt_thu_seat：和語彤交往中、事件 13 以後（STORY.ytThuFree）、週四 17:30～18:30 在總圖三樓（zone library）坐下、她在旁邊（npcNear：2.5 m 內或同一張桌子＝「斜對面」），
        四組照順序輪、每個月最多一次（「下雨了」那一組只在下雨）。cracktalk3d.js 已經有的是 12:10 那則「斜對面的位子我留了。」（和輪的四句私訊），坐下以後的這四組遊戲裡沒有，不重複。
        那天是語彤的裂縫談話（ev_yt_talk，人到三樓就演）＝不出。
@@ -38,7 +38,7 @@ const AA187=(function(){
   const plgToday=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group',G.day);
   /* 那天排了她的裂縫談話（cracktalk3d.js S.build 的 att：以安讀書會散會後 m:'plg'；語彤總圖三樓 m:'zone'）*/
   S.talkToday=function(G,id){ if(typeof CRACKTALK==='undefined'||!CRACKTALK.pr) return false; const r=CRACKTALK.pr(G,id), p=r&&r.plan, a=p&&p.att&&p.att[p.i]; return !!a&&a.day===G.day; };
-  const nar=t=>({speaker:null,text:t}), me=t=>({speaker:'player',text:t}), an=t=>({speaker:AN,text:t}), yt=t=>({speaker:YT,text:t}), aunt=t=>({speaker:'阿姨',text:t});
+  const nar=t=>({speaker:null,text:t}), me=t=>({speaker:'player',text:t}), an=t=>({speaker:AN,text:t}), yt=t=>({speaker:YT,text:t}), su=t=>({speaker:'蘇姨',text:t});
   const DM=(id,t)=>({th:'p:'+id,from:id,text:t});
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
   const now=G=>G.day*24+(+G.hour||0);
@@ -99,17 +99,17 @@ const AA187=(function(){
 
   /* ===================== 2-3 打烊後的那一桌 ===================== */
   S.FD_DAY='2029-04-26';
-  S.FD_MSG=['今天打烊後留下來','阿姨說的 不是我說的'];
-  S.FD_MISS=['阿姨說下次','她多煮了一碗 我吃掉了'];
-  S.FD_EPI='（語彤的手機桌布，是麵店那張照片：三個人，一張桌子。）';
+  S.FD_MSG=['今天茶屋打烊後留下來','蘇姨說的 不是我說的'];
+  S.FD_MISS=['蘇姨說下次','她多煮了一碗 我吃掉了'];
+  S.FD_EPI='（語彤的手機桌布，是茶屋吧檯那張照片：三個人，一張桌子。）';
   S.fdOk=G=>law(G)&&G.day===D(S.FD_DAY)&&dating(G,YT)&&here(YT,G)&&!abroad(G);
-  S.EV_FD={id:'ev_yt_family_dinner',title:'打烊後的那一桌',participants:[YT],location:'noodle',trigger:'auto',once:true,time:[20.5,21],background:'blur',
+  S.EV_FD={id:'ev_yt_family_dinner',title:'她家的晚餐',participants:[YT],location:'wz_teahouse',trigger:'auto',once:true,time:[20.5,21],background:'blur',
     prereq:{custom:G=>S.fdOk(G)},
     dialogue:[ nar('（鐵門拉下一半。桌上擺了三副碗筷。）'),
       aunt('坐。今天你不是客人。'),
       nar('（語彤把自己那碗推過來一點，又推回去。）'),
       aunt('她以前不讓同學進廚房的。'),
-      yt('……阿姨。'),
+      yt('……秀琴姨。'),
       aunt('日本的寺廟，我幫你們兩個都拜了。'),
       yt('（低頭吃麵）……我們沒有要你拜。'),
       aunt('我拜我的。'),

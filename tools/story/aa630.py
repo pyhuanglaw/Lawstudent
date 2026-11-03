@@ -46,7 +46,26 @@ def load(ROOT, ALLOW, G=None):
     ok, why = G.allowed(P630, sha, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
     md = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{sha}:{P630}'], text=True))
-    return {'sha': sha, 'rows': parse(md), 'md': md}
+    R = {'sha': sha, 'rows': parse(md), 'md': md, 'b627': []}
+    # AA_627 表 B（自動產生檔，位置＝企劃線的來源）：ladder、Dxx 以 AA_630 第 1、2 節為準；其他（msg2_pool、eat_lines、pg_dates、invite_replies、solo_before、syllabus）的【改句】【換字】照「建議改成」
+    A7 = G.approved_files(ALLOW, P627)
+    if A7:
+        ok, why = G.allowed(P627, A7[P627], ALLOW)
+        if not ok: sys.exit('拒絕匯入：' + why)
+        md7 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{A7[P627]}:{P627}'], text=True))
+        for line in md7.split('\n'):
+            if not re.match(r'\|\s*B-\d{3}\s*\|', line): continue
+            c = cells(line)
+            if len(c) < 6 or ':' not in c[1]: continue
+            path, q = c[1].strip('`').split(':', 1); tag = re.match(r'【([^】]+)】', c[5])
+            if '/ladder/' in path or '/date_system/lines/' in path or path.endswith('AA_127_以安語彤_心願約會與邀約變化.md'): continue
+            if not tag or tag.group(1) not in ('改句', '換字') or c[4] == c[3]: continue
+            if any(r['orig'] == c[3] for r in R['rows']): continue   # AA_630 有同一句＝照 AA_630
+            R['b627'].append({'no': 'AA_627 ' + c[0], 'file': path, 'at': q, 'orig': c[3], 'new': c[4], 'note': c[5]})
+    return R
+
+
+P627 = 'docs/story_planning/AA_627_語彤舊設定清查.md'
 
 
 def _toks(p):
@@ -141,7 +160,17 @@ TEXT_SRC = {
     'AA_329_吃東西_一起吃_吃過的_店員認得你.md': ['src/data/eat_lines.js'],
     'AA_415_邀約回覆照階段變_七位定稿.md': ['src/data/invite_replies.js'],
     'AA_531_D99美國交換_人在美國還被揪118午餐_在臺灣的伴侶四個月沒聯絡_上課期末.md': ['src/data/msg2_pool.js'],
+    'AA_202_玩家主動傳訊息_規格.md': ['src/data/msg2_pool.js'],   # 下面三個是 AA_627 表 B
+    'AA_367_畢業以後的交往節奏_六位.md': ['src/data/pg_dates.js'],
+    'y4s1.py': ['src/data/syllabus.js'],
 }
+
+
+def patch_file(R, game_file, root, log=None):
+    """直接改現在的遊戲檔（自動產生的檔；那支匯入工具下次重跑時也會呼叫 patch_text，結果一樣）"""
+    p = os.path.join(root, game_file); t = open(p, encoding='utf8').read(); t2 = patch_text(R, game_file, t, log)
+    if t2 != t: open(p, 'w', encoding='utf8').write(t2)
+    return t2 != t
 
 
 def _pairs(r):
@@ -159,9 +188,10 @@ def patch_text(R, game_file, text, log=None):
     """匯入工具寫檔以前：把 AA_630 對到這個遊戲檔的列換掉（整句相同才換；已經換好的跳過；都找不到＝停下來）"""
     if not R: return text
     n = 0; miss = []
-    for r in R['rows']:
+    for r in R['rows'] + R.get('b627', []):
         if game_file not in TEXT_SRC.get(os.path.basename(r['file']), []): continue
         if '＝' in r['note'][:2]: continue
+        if r['new'].startswith('（刪') or r['new'].startswith('（AA 定'): continue
         for o, nw in _pairs(r):
             if nw is None: continue
             if o in text:

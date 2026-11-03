@@ -23,19 +23,19 @@ const MSG2_POOL={
   "heroine_03":Object.assign({"name": "語彤", "birthday": "07-09", "birthdayText": "語彤 7/9", "style": "常傳沒有字的照片；沒有貼圖", "calls": {"ok_abroad": {"src": "AA_531 8-5", "lines": ["（電話接通，她一開始沒有說話。）", "……你不用說什麼。", "（過了十分鐘，她說：）", "好了。謝謝。"]}}, "conds": {"thanks": [], "ok": [{"key": "aunt_hand", "text": "阿姨扭到手（`AA_11` 事件 4）", "src": "AA_202 7-2"}, {"key": "dm_exam_eve", "text": "雙主修筆試前一天（6/17）", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["……嗯。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不用謝。"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["（照片：一碗乾麵，加了蛋）"], "tags": [], "src": "AA_202 7-3 語彤"},
+   {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["（照片：一杯烏龍，旁邊一塊茶點）"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。阿姨今天幫我煮了豬腳麵線。"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你今天會來店裡嗎？"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你今天會來店裡嗎？", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "會。", "r": ["好。"]}, {"t": "今天沒辦法。", "r": ["好。那明天。"]}]}},
-   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你那邊幾點？"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本", "ask": {"q": "你那邊幾點？", "src": "AA_531 8-5 語彤國外版的回問", "opts": [{"t": "比妳那邊快一個小時。", "r": ["……那你比我先過完今天。"]}, {"t": "生日快樂。回去請妳吃麵。", "r": ["阿姨不會收錢的。……你還是要請。"]}]}},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。秀琴姨今天幫我煮了豬腳麵線。"], "tags": [], "src": "AA_202 7-3 語彤"},
+   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你今天會來茶屋嗎？"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你今天會來店裡嗎？", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "會。", "r": ["好。"]}, {"t": "今天沒辦法。", "r": ["好。那明天。"]}]}},
+   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……你那邊幾點？"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本", "ask": {"q": "你那邊幾點？", "src": "AA_531 8-5 語彤國外版的回問", "opts": [{"t": "比妳那邊快一個小時。", "r": ["……那你比我先過完今天。"]}, {"t": "生日快樂。回去請妳喝茶。", "r": ["茶屋的茶，我有員工價。……你還是要請。"]}]}},
    {"topic": "ok", "cond": null, "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_202 7-3 語彤"},
    {"topic": "ok", "cond": "aunt_hand", "tier": "R", "msgs": ["還好。阿姨比較不好。"], "tags": ["阿姨扭到手"], "src": "AA_202 7-3 語彤", "alt": "1/2"},
    {"topic": "ok", "cond": "dm_exam_eve", "tier": "R", "msgs": ["明天考試。……有點緊張。"], "tags": ["筆試前一天"], "src": "AA_202 7-3 語彤", "alt": "2/2"},
-   {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以來店裡坐一下嗎。"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你可以來店裡坐一下嗎。", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "我現在過去。", "r": ["嗯。"]}, {"t": "現在走不開，晚點打給妳。", "r": ["好。"]}]}},
+   {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以來我家樓下坐一下嗎。"], "tags": ["祐廷在臺灣"], "src": "AA_202 7-3 語彤", "ask": {"q": "你可以來店裡坐一下嗎。", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "我現在過去。", "r": ["嗯。"]}, {"t": "現在走不開，晚點打給妳。", "r": ["好。"]}]}},
    {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以打給我嗎。"], "tags": ["祐廷在國外"], "src": "AA_531 8-3 在國外的版本", "ask": {"q": "你可以打給我嗎。", "src": "AA_531 8-5 語彤國外版的回問", "opts": [{"t": "我現在打。", "call": {"key": "ok_abroad", "min": 0}}, {"t": "等我十分鐘，我在外面。", "r": ["好。我等。"], "call": {"key": "ok_abroad", "min": 10}}]}},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）"], "tags": ["過年"], "src": "AA_202 7-3 語彤"},
-   {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], "tags": ["過年"], "src": "AA_202 7-3 語彤", "copiedFrom": "R", "added": ["初四開店。你要第一個來。"], "cellText": "同 R，加「初四開店。你要第一個來。」"}
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：茶屋拉下來的木門，貼著紅紙）"], "tags": ["過年"], "src": "AA_202 7-3 語彤"},
+   {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["（照片：茶屋拉下來的木門，貼著紅紙）", "初四開店。你要第一個來喝。"], "tags": ["過年"], "src": "AA_202 7-3 語彤", "copiedFrom": "R", "added": ["初四開店。你要第一個來。"], "cellText": "同 R，加「初四開店。你要第一個來。」"}
   ]}),
   "zhe":Object.assign({"name": "阿哲", "birthday": "11-02", "birthdayText": "阿哲 11/2", "style": "極快；「哥」要有 `ZHE_CALLS_GE`", "conds": {"thanks": [], "ok": [{"key": "team_loss", "text": "系籃輸球那天", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["小事"], "tags": [], "src": "AA_202 7-3 阿哲"},

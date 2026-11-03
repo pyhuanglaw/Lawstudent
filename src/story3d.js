@@ -2524,7 +2524,7 @@ const STORY = (function(){
     /* 大二下第 5 週 3/23（二）21:00 起，麵店團群組排春假（AA_185 3-3）。句子照 AA_255 第 4 節第 3 點＝附錄 A 群組列（企劃線 52900eb23，AA-C 定稿）：群組一句一則、不打句號；
        芯慈已讀、沒回（她那句「住哪裡要先決定。」刪掉）。沛珊在消失期（12/18～2027-08-06），群組裡沒有人提她。3/30 接 1C-01（group3d.js，AA_324：「阿哲最後說那下週再排」）。測試：node tests/aa255_y2s2_unit.js */
     { const d=S.dayOfKey('2027-03-23'); if(d!=null&&G.day===d&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'y2_spring_plan')){ const g=(from,text)=>({th:'g:noodle_team',from,text});
-        PHONE.at(G,d,21,[g('zhe','春假四天，要不要去哪'),g('yu','海邊！！'),g('classmate_bohan','要去的話要先訂車 誰會開車'),g('zhe','@'+(G.name||'祐廷')),g('yu','@語彤 妳可以嗎'),g('heroine_03','我問阿姨'),g('zhe','好啦那下週再排')],'y2_spring_plan'); } }
+        PHONE.at(G,d,21,[g('zhe','春假四天，要不要去哪'),g('yu','海邊！！'),g('classmate_bohan','要去的話要先訂車 誰會開車'),g('zhe','@'+(G.name||'祐廷')),g('yu','@語彤 妳可以嗎'),g('heroine_03','我問蘇姨能不能排休'),g('zhe','好啦那下週再排')],'y2_spring_plan'); } }
     /* 沛珊說分開，沒在霖澤館遇到的（AA_185 3-2）：第 6 週週五 21:00 麵店團群組她自己說（直接說、對全桌說），阿哲回；記 HEARD_PS_SPLIT。
        AA_374 第 18 項：句子換 BB_97 版（AA_211 第 5 節：大一下公開交往時已經說過「你們吃你們的」）；演過那一件的（含合併前的 ev_peishan_bohan_split）不發。第 11 項：和她交往中的沒有這一段 */
     { const f6=termDay('Y2S1',6,5), D0=(G.events&&G.events.done)||{}; if(f6!=null&&G.day===f6&&!D0.ev_peishan_split&&!D0.ev_peishan_bohan_split&&!F.dating_classmate_peishan&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'ps_split_group')){ F.HEARD_PS_SPLIT=true;
@@ -2864,7 +2864,7 @@ const STORY = (function(){
   const REVISIT_MSG={
     /* AA 的人物（AA 2026-10-14 2100018）。Alison 和阿哲大二上才在一起，這時候還單身，算數 */
     heroine_01:G=>['考完了。民總我暑假想再讀一次。'],   /* AA_209 第 3 節（AA 四位）*/
-    heroine_03:G=>['考完了喔。阿姨說今天滷了一大鍋。'],
+    heroine_03:G=>['考完了喔。秀琴姨說今天煮了一大鍋。'],
     yu:G=>['考完了！！！','暑假要約喔'],
     classmate_xinci:G=>['成績要二十九號才出來，好久。'],
     heroine_02:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','SHARED_SECRET')?['期末辛苦了。','跟你說，交換的申請表我印出來了。還沒交。']:['期末辛苦了。','我媽學會用貼圖了。她傳的第一張是一隻戴眼鏡的貓。'],   /* BB_167 4-3 */
@@ -2896,7 +2896,7 @@ const STORY = (function(){
       if(k==='noodle'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我去。'),{th:ng,from:'heroine_01',text:'收到。行程表多一個人。'}],'spring_pick_msg');
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
       if(k==='dorm'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我這次留在宿舍。'),{th:ng,from:'zhe',text:'好啦，照片會傳給你'}],'spring_pick_msg'); }
-    if(F.dating_heroine_03&&(k==='noodle'||k==='dorm')){ const YT=t=>({th:'p:heroine_03',from:'heroine_03',text:t}); PHONE.at(G,D.d0,18,k==='noodle'?[YT('看到群組了。你們那邊也在下雨喔。'),YT('店裡今天很空。')]:[YT('春假店裡很空。你要來吃嗎？')],'yt_spring_msg'); }   /* 和語彤交往中：她春假照樣顧店；第一天傍晚私訊（AA_71 2-10，AA-C e2bdcece；AA_216 大一下 #7）*/
+    if(F.dating_heroine_03&&(k==='noodle'||k==='dorm')){ const YT=t=>({th:'p:heroine_03',from:'heroine_03',text:t}); PHONE.at(G,D.d0,18,k==='noodle'?[YT('看到群組了。你們那邊也在下雨喔。'),YT('茶屋今天很空。')]:[YT('春假茶屋很空。你要來喝茶嗎？')],'yt_spring_msg'); }   /* 和語彤交往中：她春假照樣顧店；第一天傍晚私訊（AA_71 2-10，AA-C e2bdcece；AA_216 大一下 #7）*/
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'好，明天下午改去室內的地方，我再排一下。'}/* AA_209 第 8 節第 8 點；AA_459 第 5 節：晚上八點半傳的、說的是第二天＝「明天下午」（旅行事件 ev_noodle_trip_spring_y1 裡的同一句不動）*/,{th,from:'zhe',text:'下次你要來'}],'ndl_spring_photos'); } };
   /* 模擬法庭的準備分（AA_143 3-2；0～4，不顯示數字）：模 2 去了機車行、模 3 提第三種寫法、模 4 有去、第 8～10 週和以安或柏翰一起準備（MOOT_TOGETHER） */
   S.MOOT_OFF=true;   /* 使用者 2026-10-17：模擬法庭整段刪除（AA_252）*/
@@ -4100,7 +4100,7 @@ const STORY = (function(){
     return !!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&['zhe','yu','classmate_bohan'].some(cf)); };
   /* 3-2 每個人那一句（被告知／沒被告知照 COLD_WEEK_TOLD）。[說話的人（null＝旁白）, 台詞] */
   const CW_PARTNER={heroine_01:t=>[...(t?[]:[['heroine_01','……你為什麼不說？']]),['heroine_01','我幫你排好了。'],[null,'（她把一張讀書計畫表放在矮桌上。這週那一格只寫了兩個字：「睡覺」。）']],
-    heroine_03:t=>[['heroine_03',t?'嗯。阿姨煮的粥。我跟她說是你，她多放了薑。':'嗯。阿姨煮的粥。……你為什麼不說？']],
+    heroine_03:t=>[['heroine_03',t?'嗯。秀琴姨煮的粥。我跟她說是你，她多放了薑。':'嗯。秀琴姨煮的粥。……你為什麼不說？']],
     heroine_05:(t,C)=>[...(t?[]:[['heroine_05',C&&(C.visitors||[]).includes('heroine_03')?'語彤說你兩天沒出門。':'你兩天沒出門了吧。……我猜的。']]),   /* AA_376 #17：語彤知道（她有來＝送湯那一條的條件）才說「語彤說」；不然她是猜的 */
      ['heroine_05','粥。還是熱的。你先吃，我坐一下就走。'],[null,'（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）'],['heroine_05','明天早上我傳訊息給你。有回就好。']],
     heroine_04:t=>[['heroine_04',t?'你說你感冒。我帶了兩樣東西。':'你兩天沒回我訊息。我還以為你被當了。']]};
@@ -4128,7 +4128,7 @@ const STORY = (function(){
     out.cg=!pt&&['zhe','yu','classmate_bohan'].every(id=>out.rows[id]==='group')&&V.length>=3;   /* 3-3：一般版、三位群組來的都在、交往對象不在、不是只有一兩位 */
     return out; };
   S.coldWeekLines=function(G,id,C){ C=C||S.coldWeekCast(G); const row=C.rows[id];
-    if(row==='partner') return CW_PARTNER[id](C.told===id,C); if(row==='yt') return [['heroine_03','嗯。阿姨煮的粥。不要問我怎麼知道的。']]; if(row==='group') return [[id,CW_GROUP[id]]];
+    if(row==='partner') return CW_PARTNER[id](C.told===id,C); if(row==='yt') return [['heroine_03','嗯。秀琴姨煮的粥。不要問我怎麼知道的。']]; if(row==='group') return [[id,CW_GROUP[id]]];
     if(row==='zhe') return [['zhe',S.knows('heroine_01',G)?'你的筆記我幫你借了。小安的，她叫我跟你說不准還。':'刑訴的筆記我幫你印了。上禮拜的都在裡面，不要慌。']];   /* 第 4 節第 7 點：「小安的筆記」只給認識以安的 */
     if(row==='kai') return [['kai','你室友傳訊息給我說你要死了。我帶泡麵。']];
     if(row==='zq'){ const q=!!(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)||(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','PLAYTESTED')); return [['heroine_04','你兩天沒回我訊息。我還以為你被當了。'],[null,'（她打開筆電）'],['heroine_04',q?'先看這個。測試版。':'先看這個。期末的作業。']]; }   /* Q6＝ev_ziqing_secret_game（PLAYTESTED）；Q8b 還沒有事件 */
@@ -4137,7 +4137,7 @@ const STORY = (function(){
   const CW_Q='你每次都在幫別人查。你自己呢？你想用法律做什麼？';
   const cwQLines=(id,how)=>how==='kexin'?['你每次都在幫別人查。','你自己呢？你想用法律做什麼？']:(how!=='noodle'&&id==='heroine_05')?['你每次都在幫別人查。你自己呢？','你想用法律做什麼？']:[CW_Q];
   const cwRent=G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','RENT_RUMOR'))||!!(G.events&&G.events.done&&G.events.done.ev_yt_lease_class);   /* 看過語彤家房東的事（RENT_RUMOR）或 1B-02 演過 */
-  S.coldWeekOpts=function(G,again){ const L=[{t:cwRent(G)?'「我想讓麵店那種事，每次都有人幫得上忙。」':'「我想讓遇到事情的人，旁邊有一個看得懂的人。」',k:'help'},{t:'「我想知道條文為什麼是這樣寫的。小時候看不懂，現在想看得更深。」',k:'why'},{t:'「我想知道法律以外，大家是怎麼過日子的。」',k:'life'}];
+  S.coldWeekOpts=function(G,again){ const L=[{t:cwRent(G)?'「我想讓秀琴姨那種事，每次都有人幫得上忙。」':'「我想讓遇到事情的人，旁邊有一個看得懂的人。」',k:'help'},{t:'「我想知道條文為什麼是這樣寫的。小時候看不懂，現在想看得更深。」',k:'why'},{t:'「我想知道法律以外，大家是怎麼過日子的。」',k:'life'}];
     if(!again) L.push({t:'「……我想先吃東西。」',k:'food'}); return L; };
   const CW_AFTER={kexin:'好。那你先把粥吃完。',heroine_01:'好。這句我會記得。',heroine_03:'嗯。……那你要先好起來。',zhe:'好。病好了再跟我講一次。',heroine_04:'好。那你先把這瓶喝完。',kai:'……你發燒講話比較像人。',yu:'好啦。那你先吃。',classmate_bohan:'……我會記得你今天說的。'};
   S.coldWeekAfter=(G,id)=>id==='heroine_05'?(cwDating(G,'heroine_05')?'……好。先吃，要冷了。':'……好。先喝湯，要冷了。'):(CW_AFTER[id]||null);
@@ -4466,7 +4466,7 @@ const STORY = (function(){
      子晴：D03 和她轉過扭蛋（date3d.js 的 dateMemory.heroine_04.D03.picks 有 D03.gacha，或做完的那一趟 spots 有）＝扭蛋；沒有＝測試帳號卡。
      第三步「留一件在紙箱裡」的選單不列這個紙箱；第三步又留了一件東西＝BOX_KEPT_Y4 記那一件（那一件不拿出來、主線 11 先拿它；EXBOX_Y4 還是 'kept'）。
      主線 11（S.packY4）：EXBOX_Y4 'kept'＝第一個拿起來的是它，兩句旁白（AA_437 第 10 節第 3 點）；「你從紙箱裡拿出{東西}」那一段照舊只給房間的東西 */
-  S.EXBOX_Y4={heroine_01:'（一頁影印紙。她手帳那一頁的影本，最上面那一行被劃掉了。）',heroine_03:'（麵店的筷套，背面寫著一個週四的日期。是她的字。）',heroine_02:'（兩張票根，用迴紋針夾在一起。）',
+  S.EXBOX_Y4={heroine_01:'（一頁影印紙。她手帳那一頁的影本，最上面那一行被劃掉了。）',heroine_03:'（茶屋的杯墊，背面寫著一個週末的日期。是她的字。）',heroine_02:'（兩張票根，用迴紋針夾在一起。）',
     heroine_04:'（一隻扭蛋，拿著搖桿的貓。）',heroine_05:'（一張便條。「回到家傳訊息給我。」她的字。）',kexin:'（摩天輪的票根、寫滿的筆記本、河堤的相簿。三樣疊在一起。）',classmate_peishan:'（她借你的漫畫，第三集。你一直沒有還。）'};
   S.EXBOX_ZQ_NO='（一張她做的遊戲的測試帳號卡。）';   /* 子晴：沒有在 D03 轉過扭蛋 */
   S.EXBOX_LINES={top:'（最下面那個紙箱，膠帶是你自己貼的。）',opts:['（打開）','（不打開，放到床底下）'],close:'（你把箱子蓋起來。這次沒有貼膠帶。）',kept:'（你把它推到床底下最裡面。）'};
@@ -4693,7 +4693,7 @@ const STORY = (function(){
       PHONE.at(G,nye,24+5/60,P,'nye_y2_photo'); if(S.knows('classmate_xinci',G)) PHONE.at(G,nye,24+6/60,[M('classmate_xinci','新年快樂。')],'nye_y2_xc'); }
     if(!F.dating_heroine_01&&fam('heroine_01')&&!fam('heroine_01','FRIEND')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_01',from:'heroine_01',text:'新年快樂。'}],'nye_y2_an');
     if(fam('kai')) PHONE.at(G,nye,24+9/60,[{th:'p:kai',from:'kai',text:'新年快樂。我們這棟頂樓也有人，但沒有你們那邊吵。'}],'nye_y2_kai');   /* 阿凱大二起住別棟、不上這棟頂樓（AA_210 1-5，9c641efa）*/
-    if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+8/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'},{th:'p:heroine_03',from:'heroine_03',text:'（照片：店門口拉下一半的鐵門）'}],'nye_y2_yt');
+    if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+8/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'},{th:'p:heroine_03',from:'heroine_03',text:'（照片：茶屋門口拉下一半的鐵門）'}],'nye_y2_yt');
     /* 阿哲的「我明天回高雄」改在海邊那天 21:00（AA_264 第 5 節第 1 點），在 vac3d.js 的 c01Phone */ };
   S.psGone=(G,day)=>{ const p=S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})); return p.kind==='unreachable'||!!p.keep; };   /* 交往中的例外（keep）也算：群組、其他人照樣聯絡不到她 */
   /* AA_276 第 4 節（使用者 23:5x「除非玩家有跟他交往」）：消失期開始那天（d0）玩家和她交往中、到現在還在交往＝例外。交往是 d0 以前開始的（ROM 的 sinceDay；舊存檔、測試沒有紀錄的算以前）*/

@@ -117,7 +117,7 @@ await sec('0',async()=>{
   check('0. 子晴：她的一句、又來、她回的都沒有句號；回的拆成兩則（每組她兩句）',zqHer.length===15&&zqHer.every(x=>!/。/.test(x))&&zq.cm.concat(zq.dm).every(g=>g.length===3),J(zqHer.filter(x=>/。/.test(x))));
   check('0. 其他六位回的都是一則（每組＝你一句、她一句）',ALL.filter(id=>id!==ZQ).every(id=>D.who[id].cm.concat(D.who[id].dm).every(g=>g.length===2)));
   check('0. 每一張照片都有你（寫「你」，或兩個人的影子、倒影）；D07 不貼',Object.keys(D.pic).every(k=>k==='D07'?D.pic[k]===null:/你|兩個人/.test(D.pic[k])),J(Object.keys(D.pic).filter(k=>D.pic[k]&&!/你|兩個人/.test(D.pic[k]))));
-  check('0. 只有臺灣的 D01～D32：約會地點表和照片表同一組',J(Object.keys(DATE_DATA.locations).sort())===J(Object.keys(D.pic).sort()));
+  check('0. 只有臺灣的 D01～D32：約會地點表和照片表同一組（D33 信義區・光年影城 AA_631 新加、CG 處理，照片表還沒有）',J(Object.keys(DATE_DATA.locations).filter(k=>k!=='D33').sort())===J(Object.keys(D.pic).sort()));
 });
 
 /* ======================= 1 以安 D01（BB 第 1 條）======================= */

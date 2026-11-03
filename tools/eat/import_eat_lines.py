@@ -88,3 +88,8 @@ out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢
        "'use strict';\nconst EAT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
 open(os.path.join(ROOT, 'src/data/eat_lines.js'), 'w', encoding='utf-8').write(out)
 print(f'wrote src/data/eat_lines.js：一起吃 {len(together)} 人、{n} 句；吃過的 {len(first)} 間；店員 {len(staff)} 間；來源 AA_329@{SHA}、AA_336@{SHA_A}')
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/eat_lines.js', _R0)

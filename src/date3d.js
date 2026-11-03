@@ -348,15 +348,18 @@ const DATE=(function(){
   S.EXTRA_LINES={
     heroine_01:{depart:['我到了。早到十分鐘。你慢慢來。','出門了。傘帶了。','車上。我在看等一下要去的地方的地圖。'],enough:['……今天差不多了。明天早上有課。','排的都走完了。……多走的那一段，我很喜歡。'],
       leaveEarly:['……這樣就回去了？好。排好的，下次再用。'],noPair:['照片？……我幫你拍。我拍得比較正。']},
-    heroine_03:{depart:['我到了。','出門了。阿姨叫我帶傘。','車上。人很多。'],enough:['……差不多了。晚上我要幫阿姨。','走累了。回去吧。'],leaveEarly:['……就這樣？好。那我回店裡。'],noPair:['我不用。……我幫你拍。']} };
+    heroine_03:{depart:['我到了。','出門了。秀琴姨叫我帶傘。','車上。人很多。'],enough:['……差不多了。晚上我要回去，秀琴姨煮了飯。','走累了。回去吧。'],leaveEarly:['……就這樣？好。那我回店裡。'],noPair:['我不用。……我幫你拍。']} };
   const inTerm=day=>typeof CALENDAR!=='undefined'&&!!CALENDAR.termOf&&!!CALENDAR.termOf(day)&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(day));
   const ytShop=(G,day)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_03',Object.assign({},G,{day})):{here:true}; return (p.here||p.kind==='taipei')&&!noodleOff(day)&&!(typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('noodle',18,day)); };
-  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休/.test(String(x))||noodleOff(t.day),enough:(G,t,x)=>!/幫阿姨/.test(String(x))||ytShop(G,t.day!=null?t.day:G.day)},
+  /* AA_627 P-25、P-26（AA_624）：「可以。那天我沒有班。」只在那天她茶屋沒有班（週六、日 13～17 以外）說；「晚上我要回去，秀琴姨煮了飯。」只在她那天在臺北 */
+  const ytTea=(G,day)=>[13,14,15,16].some(h=>{ const e=typeof STORY!=='undefined'&&STORY.schedEnt&&typeof CHARACTERS!=='undefined'?STORY.schedEnt(CHARACTERS.heroine_03,{day,hour:h,weekday:CALENDAR.dateOf(day).wd%7,flags:G.flags||{},noInvite:true}):null; return !!e&&e.zone==='wz_teahouse'; });
+  const ytHere=(G,day)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_03',Object.assign({},G,{day})):{here:true}; return !!(p.here||p.kind==='taipei'); };
+  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休|沒有班/.test(String(x))||(/公休/.test(String(x))?noodleOff(t.day):!ytTea(G,t.day)),enough:(G,t,x)=>!/幫阿姨|秀琴姨煮了飯/.test(String(x))||ytHere(G,t.day!=null?t.day:G.day)},
     heroine_01:{enough:(G,t,x)=>!/讀書會|明天早上有課/.test(String(x))||inTerm(t.day!=null?t.day:G.day)}};   /* 可昕的出發三句都輪流：BB_128 3-6 那一句 AA_432 改成「我到了。你在哪？」（企劃線 1ced2f8b3；原本的「這是告知」先不播，已拿掉）*/   /* 語彤「那天店裡公休」只在麵店已定的公休日（AA_127 第 8 節；沒有固定的每週公休日＝其他日子用第一句）*/
   S.lineFor=function(G,id,kind,t){ let L=((LN().lines||{})[id]||{})[kind]; if(!L||!L.length) L=(S.EXTRA_LINES[id]||{})[kind]; if(!L||!L.length) return null;   /* 匯入的 date_lines.js 沒有的格子＝AA_535b 1-3（S.EXTRA_LINES）*/ const f=(S.LINE_IF[id]||{})[kind]; const ok=L.filter(x=>!f||f(G,t||{},x)); if(!ok.length) return null;
     const lg=S.log(G,id); if(!lg.lineIdx||typeof lg.lineIdx!=='object') lg.lineIdx={}; const k=(lg.lineIdx[kind]|0)%ok.length; lg.lineIdx[kind]=(lg.lineIdx[kind]|0)+1; return [].concat(ok[k]); };
   S.speak=async function(GM,id,kind,t,n){ const G=GM.G, msgs=S.lineFor(G,id,kind,t); if(!msgs) return false; return S.sayLines(GM,id,msgs,n); };
-  S.sayLines=async function(GM,id,msgs,n){ const G=GM.G;   /* 當面＝她的名字；手機＝「（手機）」＋寫進手機的對話串（T7a 那一句也走這裡）*/
+  S.sayLines=async function(GM,id,msgs,n){ const G=GM.G; if(id==='heroine_03') msgs=(msgs||[]).map(m=>Array.isArray(m)?m.map(x=>S.xiuqin(G,id,x)):S.xiuqin(G,id,m));   /* 沒有 YT_FAMILY_HEARD＝「煮飯的阿姨」（AA_630 第 2 節）*/   /* 當面＝她的名字；手機＝「（手機）」＋寫進手機的對話串（T7a 那一句也走這裡）*/
     for(const m of msgs){ if(n) await GM.say({name:nameOf(id),obj:n.obj,charId:id},m); else { if(typeof PHONE!=='undefined'&&PHONE.post) PHONE.post(G,{th:'p:'+id,from:id,text:m}); await GM.say({name:nameOf(id)+'（手機）',charId:id},m); } }
     if(!n&&GM.phoneBadge) GM.phoneBadge(); return true; };
   S.prefOf=(id,locId)=>(((LN().prefs||{})[id]||{})[locId]||{}).transport||null;   /* 她指定的交通（DATE_PREFS）：預約時預設選她的，玩家改了她說一句（不扣分）*/
@@ -468,7 +471,10 @@ const DATE=(function(){
 
   /* ===== 半互動約會（第一版：文字選單；2D 底圖＋熱區＋人物圖層是 DATE-S6）＝AA_128 第 5 節 =====
      抵達一句 → 選 2～4 個互動點（時間、花費照 point_specs；時間不夠的灰掉）→ 收尾 → 結算（5-3 的數值；不顯示數字）→ DATE.complete 計次 */
-  S.points=function(locId){ const P=(D().points||{}).points||{}; return Object.keys(P).filter(k=>k.startsWith(locId+'.')).map(k=>Object.assign({id:k},P[k])); };
+  /* D33 信義區・光年影城（AA_631，2026-11-03）：企劃的 point_specs.json 沒有 D33 的互動點時間、花費——LAWWW 暫定，照 D04 西門町電影院（散場大廳 20 分、美食街照 D04 小吃、天橋 20 分）；
+     名字照 D33.json 的 points。底圖 d33_base 還沒有（CG 由使用者處理），S.listable 有底圖才列 */
+  S.POINT_X={'D33.lobby':{name:'散場的影城大廳',min:20,cost:0,extra:0,act:'散場後在大廳聊電影',when:'fixed後',src:'AA_631（時間花費 LAWWW 暫定）'},'D33.food':{name:'百貨公司美食街',min:40,cost:180,extra:180,act:'百貨公司美食街',src:'AA_631（時間花費 LAWWW 暫定）'},'D33.bridge':{name:'信義區天橋',min:20,cost:0,extra:0,act:'信義區天橋看夜景',src:'AA_631（時間花費 LAWWW 暫定）'}};
+  S.points=function(locId){ const P=Object.assign({},S.POINT_X,(D().points||{}).points||{}); return Object.keys(P).filter(k=>k.startsWith(locId+'.')).map(k=>Object.assign({id:k},P[k])); };
   S.GAIN=[{npcRom:5,rom:4,comf:4,fam:2,trust:2},{npcRom:3,rom:2,comf:2,fam:1,trust:1},{npcRom:2,rom:2,comf:1,fam:1,trust:0}];
   S.LIKE={like:{npcRom:1,comf:1},normal:{comf:1},dislike:{}};
   S.likeOf=(id,spot)=>((((LN().loc||{})[spot.split('.')[0]]||{}).likes||{})[id]||{})[spot]||'normal';   /* 她喜歡哪些互動點（BB／AA 標，lines/Dxx.json；還沒匯入的地點都算普通）*/
@@ -495,11 +501,13 @@ const DATE=(function(){
   S.pickSet=function(G,id,pool,t,key){ const m=S.mem(G,id,t.locs[0]), tier=S.tierOf(G,id); const all=(pool||[]).map((x,i)=>({x,k:key+'#'+i})).filter(o=>setUsable(G,id,o.x,t));
     let ok=all.filter(o=>!o.x.tier||o.x.tier==='any'||o.x.tier===tier); if(!ok.length) ok=all; if(!ok.length) return null; const fresh=ok.filter(o=>!m.recent.includes(o.k)); const c=fresh.length?fresh[0]:ok.slice().sort((a,b)=>m.recent.indexOf(a.k)-m.recent.indexOf(b.k))[0];   /* 都用過了：挑最久以前用的 */
     m.recent=m.recent.filter(k=>k!==c.k); m.recent.push(c.k); while(m.recent.length>3) m.recent.shift(); return c.x; };
+  /* AA_630 第 2 節：沒聽過她家裡的事（沒有 YT_FAMILY_HEARD）的玩家，語彤約會台詞和選項裡的「秀琴姨」換成「煮飯的阿姨」（程式換字，一條規則）*/
+  S.xiuqin=(G,id,s)=>id==='heroine_03'&&!(G&&G.flags&&G.flags.YT_FAMILY_HEARD)&&typeof s==='string'?s.replace(/秀琴姨/g,'煮飯的阿姨'):s;
   S.playSet=async function(GM,id,set,t){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};
-    const fill=x=>String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||'');
+    const fill=x=>S.xiuqin(G,id,String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||''));
     const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
         const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
-    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:c.t}))), c=set.choice[k]||set.choice[0]; await run(c.reply); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
+    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:S.xiuqin(G,id,c.t)}))), c=set.choice[k]||set.choice[0]; await run(c.reply); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
@@ -594,7 +602,7 @@ const DATE=(function(){
      晚上旁白一句、不演住宿（交往中也不演房間裡的事）；第二天早上旁白「（第二天早上。）」＋她一句。她住自己家、租的地方的那幾種換成 S.MORNING_OWN（沛珊在台中老家的 D26＝S.MORNING_HOME）。 */
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
-  S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有阿姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
+  S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有秀琴姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
     heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我四點半就醒了。……習慣了。我在大廳等你。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
   S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊「四點半起床」照 BB_198 2-3 */
   S.MORNING_HOME={classmate_peishan:'我在樓下。早餐從我家店裡帶來的。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：她家開早餐店，不借 D28 那句）*/

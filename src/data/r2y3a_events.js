@@ -160,7 +160,7 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（看了一下錶）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天乾麵剩四碗。'},
+      {if:kn('heroine_03'),speaker:'heroine_03',text:'（倒茶過來）……今天凍頂剩四壺。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
       {label:'fm_a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'fm_end'},
       {label:'fm_b'},{speaker:'classmate_bohan',text:'真的。所以我坐第一排。'},

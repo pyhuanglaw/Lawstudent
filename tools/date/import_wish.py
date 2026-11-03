@@ -190,6 +190,12 @@ def all_text(o, path=''):
         for n, v in enumerate(o): yield from all_text(v, path + f'[{n}]')
 def norm(t): return re.sub(r'[\s　]', '', t).replace('『', '「').replace('』', '」')
 MDN = {k: norm(v) for k, v in MD.items()}
+# AA_626（語彤 D13 照新背景改寫，2026-11-03，白名單 9ba14498e）：wish_aa.json 語彤那一段的新句子對 AA_626（AA_127 第 2 節衝突的句子被它取代）
+A626 = G.approved_files(ALLOW, SP + 'AA_626_')
+if A626:
+    _p, _s = next(iter(A626.items())); _ok, _why = G.allowed(_p, _s, ALLOW)
+    if not _ok: sys.exit('拒絕匯入：' + _why)
+    MDN['aa'] += norm(G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{_s}:{_p}'], text=True)))
 miss, extra = [], []
 FROM_FREE = re.compile(r'freeVisited')   # 「你來過一次」（AA_160 4-4）：AA_271 第 3 節、BB_213／AB-25 後來加的，不在 AA_127、BB_128
 def found(md, p):

@@ -108,7 +108,7 @@ const NYE_ROOF_Y1=[
   {speaker:'heroine_03',text:'新年快樂。'},
   {speaker:'heroine_03',text:'你們在頂樓喔？好吵。'},
   {speaker:null,text:'（她那邊很安靜，只聽得到電視的聲音。）'},
-  {choice:[{text:'「幫我跟阿姨說新年快樂。」',goto:'nye_r_yt_a'},{text:'「妳們在看什麼？」',goto:'nye_r_yt_b'}]},
+  {choice:[{text:'「幫我跟秀琴姨說新年快樂。」',goto:'nye_r_yt_a'},{text:'「妳們在看什麼？」',goto:'nye_r_yt_b'}]},
   {label:'nye_r_yt_a'},{speaker:'heroine_03',text:'好。'},{speaker:null,text:'（電話那頭，她媽媽的聲音：『新年快樂喔！』）'},{set:{YT_NYE_CALL_Y1:true}},{goto:'nye_r_after_yt'},
   {label:'nye_r_yt_b'},{speaker:'heroine_03',text:'跨年晚會。我媽在跟著唱。'},{set:{YT_NYE_CALL_Y1:true}},
   {label:'nye_r_after_yt'},
@@ -877,13 +877,13 @@ const STORY_EVENTS=[
       {label:'ge_after'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:null,text:'以安帶了一張「烤肉時間表」。'},
       /* YT-BBQ-WHY-1027（AA_486 第 2 節，企劃線 cd824bf41；使用者 10-27「為什麼中秋烤肉會有語彤是法律系還是?」）：原本一句「語彤帶了阿姨醃的肉。全場最好吃。」換三行，交代社會系的她怎麼會在這裡 */
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'語彤也來了，提著一盒阿姨醃的肉。阿哲在麵店揪人那天，阿姨在旁邊聽到了。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',expression:'neutral',text:'阿姨叫我拿來的。她說常來吃麵的，都算自己人。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'阿姨醃的肉，全場最好吃。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'語彤也來了，提著一盒秀琴姨醃的肉。前一個週末在茶屋，你跟她說過今天要烤肉。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',expression:'neutral',text:'秀琴姨叫我拿來的。她說人多的地方要有肉。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'秀琴姨醃的肉，全場最好吃。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_bohan',G)},speaker:null,text:'柏翰帶了考古題，被沒收了。'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_bohan',G)},set:{BBQ_BOHAN_SEIZED:true}},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:null,text:'隔壁房的方奕廷也來了，一直在講河邊的植物。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'阿姨醃的肉被搶光了。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'zhe',expression:'laugh',text:'可以叫阿姨開一個烤肉的菜單嗎？'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'秀琴姨醃的肉被搶光了。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'zhe',expression:'laugh',text:'可以叫秀琴姨開一個烤肉的菜單嗎？'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',expression:'neutral',text:'不行。她會真的開。'},
       {unless:{flags:['KX_BBQ_COME']},goto:'end'},
       {speaker:null,text:'可昕來了。'},
@@ -1467,7 +1467,7 @@ const STORY_EVENTS=[
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字比我想的整齊。……謝謝。'},
       {if:{flagIs:{XMAS_TO:'heroine_03'}},speaker:null,text:'抽到你禮物的是語彤。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},speaker:'heroine_03',expression:'neutral',text:'嗯。……我還不知道要寫什麼。先收著。'},
-      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'放店裡好了。阿姨會想喝喝看。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'放茶屋好了。蘇姨會想喝喝看。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'card'}},speaker:'heroine_03',expression:'neutral',text:'嗯。回去再看。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},mem:[{npc:'heroine_03',tag:'GIFT_NOTEBOOK_YT',note:'聖誕交換禮物：抽到你送的筆記本，還不知道要寫什麼'}]},
       {if:{flagIs:{XMAS_TO:'zhe'}},speaker:null,text:'抽到你禮物的是阿哲。'},
@@ -1494,7 +1494,7 @@ const STORY_EVENTS=[
       {pick:{flag:'XMAS_FROM',from:G=>XMAS_FROM_POOL(G)}},
       {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的禮物：一本空白的手帳。'},
       {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'neutral',text:'我自己也用這一款。'},
-      {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的禮物：一包阿姨的辣椒醬。'},
+      {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的禮物：一包茶屋的烏龍。'},
       {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:'heroine_03',expression:'neutral',text:'很辣。不要一次吃完。'},
       {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:null,text:'你抽到阿哲的禮物：一盒滷味。'},
       {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:'zhe',expression:'laugh',text:'冷掉了，但很好吃。'},
@@ -3769,7 +3769,7 @@ const STORY_EVENTS=[
       {speaker:'拆到的人',text:'……為什麼有兩個一樣的保溫杯？'},{if:EV_KNOWS('yu'),speaker:'阿哲、Alison',text:'不是我們。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'laugh',text:'不是我們。'},
       {pick:{flag:'Y2_XMAS_FROM',from:G=>{ const k=id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G); return ['heroine_01','heroine_03','classmate_xinci','classmate_bohan','zhe'].filter(k); }}},
       {if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的：一本空白手帳。'},{if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'smile',text:'跟我用的同一款。你不用寫得很整齊。'},   /* AA_313 4-3（理由欄不當收尾小句）。AA_428 §2 第 8 點「聖誕以安用 AA_416」：AA_416 的以安聖誕是單獨約會那兩欄（fest_events.js），團體交換禮物這一句 AA_416 沒有寫（開頭：團體事件保留），照現行 */
-      {if:{flagIs:{Y2_XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的：一包阿姨的滷包。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的：一包茶屋的茶點。'},
       {if:{flagIs:{Y2_XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的：一組螢光筆。'},
       {if:{flagIs:{Y2_XMAS_FROM:'classmate_bohan'}},speaker:null,text:'你抽到柏翰的：考古題索引卡。'},
       {if:{custom:G=>G.flags.Y2_XMAS_FROM==='zhe'&&!(typeof STORY!=='undefined'&&STORY.knows&&STORY.knows('yu',G))},speaker:null,text:'你抽到阿哲的：一個保溫杯。'},
@@ -3958,7 +3958,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「算。」',goto:'yt3_a'},{text:'「不算。」',goto:'yt3_b'}]},
       {label:'yt3_a'},{speaker:'heroine_03',text:'……嗯。'},{goto:'yt3_back'},
       {label:'yt3_b'},{speaker:'heroine_03',text:'我知道。'},
-      {label:'yt3_back'},{speaker:'heroine_03',text:'店裡今天提早收。阿姨說跨年沒有人吃麵。'},{speaker:'heroine_03',text:'你那邊好吵。……好，你去看。我掛了。'},
+      {label:'yt3_back'},{speaker:'heroine_03',text:'茶屋今天提早收。蘇姨說跨年沒有人喝茶。'},{speaker:'heroine_03',text:'你那邊好吵。……好，你去看。我掛了。'},
       {set:{YT_NYE_CALL_Y3:true}} ] },
   /* 和語彤交往中（AA_210 1-6）：00:01 她打電話來（收完店回家陪媽媽；在頂樓也可以接）*/
   { id:'ev_yt_nye_call_y2', title:'語彤的電話（大二跨年）', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
@@ -3973,7 +3973,7 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:null,text:'（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）'},{speaker:null,text:'（桌上多了一碟小黃瓜。沒有人點。）'},{if:{custom:G=>G.weather==='rain'||G.weather==='typhoon'},speaker:'阿姨',text:'吃完再走。外面在下雨。'},{unless:{custom:G=>G.weather==='rain'||G.weather==='typhoon'},speaker:'阿姨',text:'吃完再走。'},   /* AA_519 1-3：送小菜第四處＝第 3 句；「吃好一點」換掉（不下雨的那一版：「吃完再走。」）*/   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字，後面三句照舊 */
       {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||!!G.flags.YU_ZHE_TOLD},speaker:null,text:'（Alison 和阿哲坐在一起。）'},
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安在手帳上寫：「大二上：完成」。）'},
-      {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天阿姨叫我坐下來吃。'} ],
+      {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天我是客人。……秀琴姨叫我出來吃。'} ],
     consequences:{memo:'期末最後一頓（大二上）'} },
   /* 期末最後一頓（大二下；AA_143 2-7，AA143-Y2S2-LASTMEAL-1031）：麵店那一頓照 1-8，大二版的一句是阿姨「明年你們大三了。……我記得你們大一的樣子。」。
      最後一科考完那天 17:00 阿哲「考完了 七點，麵店」（同大二上，story3d.js）；走進麵店就演。稿只給阿姨那一句：開頭一句旁白是技術上的場景交代 */
@@ -4029,7 +4029,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（暑假以後第一次，長桌又併起來了。）'},   /* AA_428 §2 第 1 點：9/17（四）不是開學第一晚；scene 後面、阿哲第一句前面 */
       {speaker:'zhe',text:'大二了，要有學長的樣子。'},{speaker:'zhe',text:'（三秒後）阿姨，大碗。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:'heroine_01',text:'我把大家的課表排在一起了，週四晚上大家都沒課。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',text:'（端麵過來）阿姨說開學，每碗多一顆滷蛋。'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',text:'（倒茶過來）蘇姨說開學，每杯多一塊茶點。'},
       {choice:[{text:'「行政法妳選哪一班？」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},goto:'a'},{text:'「先吃。」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_01',text:'許老師那班，聽說他很愛點人。'},{goto:'end'},
       {label:'b'},{speaker:null,text:'（阿哲已經開始吃了。）'},
@@ -4044,7 +4044,7 @@ const STORY_EVENTS=[
       /* AA_428 §2 第 2 點：以安「我贊成。這樣公平。」刪掉（照 AA_211 3-2「以安這場不說話」）*/
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'（Alison 已經拿筷子在翻肉了。）'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_xinci',G)},speaker:'classmate_xinci',text:'左邊火比較大，肉先放左邊。'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'（語彤從袋子裡拿出一罐阿姨的醬。）'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'（語彤從袋子裡拿出一罐秀琴姨做的醬。）'},
       {choice:[{text:'「我去便利商店買一支夾子。」',set:{MA_Y2_TONGS:'buy'},goto:'a'},{text:'「用筷子就好。」',set:{MA_Y2_TONGS:'chop'},goto:'b'}]},
       {label:'a'},{speaker:null,text:'（回來時，大家已經用筷子烤完第一輪。）'},{speaker:'zhe',text:'你回來了喔，第一輪吃完了。'},{goto:'end'},
       {label:'b'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'對嘛。'},
@@ -4886,9 +4886,9 @@ const Y4_EVENTS=(function(){
     {if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'heroine_03',text:'你曬黑了。'},{if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'player',text:'日本的夏天。'},{if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'heroine_03',text:'那就是吃太多。'},
     {if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'妳曬黑了。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_01',text:'日本的夏天。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'那就是吃太多。'},
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'語彤，妳上學期都在幹嘛？'},
-    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……阿姨是第二十三個。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……秀琴姨是第二十三個。'},
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'給我看。'},
-    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃麵先。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃飯先。'},
     /* AA_524 A1：餞行（y34b3d.js fw_b）或閒聊階梯 A5-L8 說了「回來第一碗我請。」（AN_FIRST_BOWL）——以安在場：放在語彤「吃麵先。」之後；沒有語彤那幾句的放在阿哲第一句之後（上面）*/
     {if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:null,text:'（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）'},{if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:'heroine_01',text:'說好的。'},
     {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/

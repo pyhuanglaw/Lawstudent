@@ -25,7 +25,7 @@ const Y1FILL_LINES={
     zhe_three:[['zhe','系籃練習 今天投進三顆'],['zhe','三十顆裡面'],['yu','進步了']],
     bohan_closed:[['classmate_bohan','總圖十點關。'],['classmate_bohan','我被趕出來了。'],['zhe','你根本住那裡吧']],   /* AA_373 #19：總圖十點關（y1fill3d.js 22:10）*/
     an_ac:['總圖三樓的冷氣壞了。','我換到二樓。……二樓的也壞了。'],
-    yt_board:['📷（麵店門口的黑板，今天的小菜寫錯一個字）','阿姨說不要改。客人看得懂。'],
+    yt_board:['📷（茶屋門口的黑板，今天的茶點寫錯一個字）','蘇姨說不要改。客人看得懂。'],
     xinci_drama:['最近在追《檔案室的燈》。','第三集有一個律師講錯了一條。','……我還是會看完。'],   /* 《檔案室的燈》是虛構的劇名（AA_347）*/
     kaiApp1:['我做了一個 App','宿舍洗衣機排隊用的','你下載一下 拜託'],
     kaiApp2:['目前使用者：五人','我 你 還有三個我不認識的'] },
@@ -73,15 +73,15 @@ const Y1FILL_EVENTS=(function(){
       after:G=>{ G.flags.Y1_RELAY='went'; } },
     /* ---------- 2-1 店休前的麵店：2/7（六）18:00 ----------
        AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（「過年前最後一個週末。長桌只坐了三個人……」）＝換成語彤的場景 */
-    { id:'ev_y1w_noodle_last', title:'阿鳳麵店', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark',
+    { id:'ev_y1w_noodle_last', title:'日常失速', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark',
       dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-        {speaker:null,text:'（寒假的麵店，客人只有兩桌。語彤在櫃台後面包餛飩。）'},
+        {speaker:null,text:'（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）'},
         {speaker:'heroine_03',text:'你來了。'},
-        {speaker:'heroine_03',text:'今天的餛飩是我包的。形狀不一樣，味道一樣。'},
-        {speaker:'阿姨',text:'她包的比我包的好看。不要跟她說。'},
-        {choice:[{text:'「（點一碗餛飩湯）」',goto:'a'},{text:'「妳寒假都在店裡？」',goto:'b'}]},
-        {label:'a'},{speaker:null,text:'（她端過來。）'},{speaker:'heroine_03',text:'最醜的那顆是第一顆。你吃到了。'},{goto:'e'},
-        {label:'b'},{speaker:'heroine_03',text:'嗯。過年那一個禮拜休息。'},
+        {speaker:'heroine_03',text:'下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。'},
+        {speaker:'（這一行換成旁白）（一隻虎斑貓從隔壁椅子跳下來，走到她腳邊。）＋語彤：牠叫店長。……牠不讓我摸。',text:'她包的比我包的好看。不要跟她說。'},
+        {choice:[{text:'「（點一份明太子厚片）」',goto:'a'},{text:'「妳寒假都在台北？」',goto:'b'}]},
+        {label:'a'},{speaker:null,text:'（厚片送來了。她把邊撕下來，放到你盤子上。）'},{speaker:'heroine_03',text:'邊邊最好吃。你吃到了。'},{goto:'e'},
+        {label:'b'},{speaker:'heroine_03',text:'嗯。週末回來上班。過年那一個禮拜回家。'},
         {label:'e'} ],
       after:G=>{ G.flags.Y1W_NOODLE_LAST='went'; } },
     /* ---------- 5-1 寒流日（STORY.firstColdDay，大一上第 15 週週一 12/8）：y1fill3d.js 在醒來的那一刻叫 ---------- */

@@ -155,6 +155,7 @@ const INV=(function(){
     if(['02-14','03-14','12-24','12-25'].includes(md)||QIXI.includes(d.key)) return true;
     const B=typeof MSG2_POOL!=='undefined'&&MSG2_POOL.people&&MSG2_POOL.people[id]?MSG2_POOL.people[id].birthday:null; return !!B&&B===md; };
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
+  const teaOn=(G,id,day)=>[13,14,15,16].some(t=>{ const e=entAt(G,id,day,t); return !!e&&e.zone==='wz_teahouse'; });
   const actOn=(G,id,day,act,hs)=>hs.some(t=>{ const e=entAt(G,id,day,t); return !!e&&e.act===act; });
   const ytThuFree=(G,day)=>{ const d=DK('2027-12-16'); return !!(G.flags&&G.flags.YT_EV13)||(d!=null&&day>=d); };   /* 語彤事件 13「空出來的週四」（STORY.ytThuFree，照約的那一天）*/
   /* 「條件：」照字面接（AA_415 0-2）。c＝S.personal 的 ctx（pid、P、day、h、wd、year、term、postExam、r＝decide 的結果）。
@@ -165,8 +166,9 @@ const INV=(function(){
     '上班':(G,id,c)=>!!c.r&&c.r.why==='busy'&&c.r.act==='barista',   /* 芷若的改天：那時候在 Café 上班 */
     '下雨':G=>G.weather==='rain',
     '週四、續約以後（AA_126 4-2 事件 13）':(G,id,c)=>c.wd===4&&ytThuFree(G,c.day),
-    '週二週四、續約以前':(G,id,c)=>(c.wd===2||c.wd===4)&&!ytThuFree(G,c.day),
-    '麵店的班':(G,id,c)=>actOn(G,id,c.day,'help',[17.5,18,19,20]),   /* 語彤那天晚上在阿鳳麵店（作息 help）*/
+    /* AA_627 P-27～P-29（AA_624：語彤的班＝週六、日 13～17 在一盞茶屋，作息 zone wz_teahouse）：兩個條件名是 invite_replies.js 的 key（AA_415 產生），不改名，意思改成「那天她在茶屋有班」*/
+    '週二週四、續約以前':(G,id,c)=>teaOn(G,id,c.day),
+    '麵店的班':(G,id,c)=>teaOn(G,id,c.day),
     '週六上午':(G,id,c)=>c.wd===6&&c.h<12,
     '昨天才約過':(G,id)=>(G.invites||[]).some(iv=>iv.who===id&&iv.day===G.day-1&&['done','accepted','going','missed'].includes(iv.state)),
     '早上':(G,id,c)=>c.h<12,

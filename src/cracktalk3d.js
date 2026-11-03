@@ -199,7 +199,7 @@ const CRACKTALK=(function(){
     S.EV.push({id:evId,title:TITLE[id],participants:[id],location:'any',trigger:OUTING.has(evId)?'outing':'manual',background:evId==='ev_an_talk_plg'?'blur':(OUTING.has(evId)?'dark':'blur'),hours:evId==='ev_ziqing_direct_statement'?1:0.5,
       dialogue:(PRE[evId]||[]).concat(L.BODY[id]),
       beforeOuting:G=>S.prep(G,id), afterOuting:G=>{ S.after(G,id); }, outingMissed:(G,GM,q)=>S.outMissed(G,q)}); }
-  S.EV.push({id:'ev_yt_drift_noodle',title:'麵店',participants:[YT],location:'noodle',trigger:'manual',background:'blur',dialogue:L.yt_noodle});
+  S.EV.push({id:'ev_yt_drift_noodle',title:'茶屋',participants:[YT],location:'noodle',trigger:'manual',background:'blur',dialogue:L.yt_noodle});
   for(const e of S.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('CRACKTALK',e)).finally(()=>{ busy=false; }); return true; };
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['cracktalk3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */

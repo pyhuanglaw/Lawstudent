@@ -312,3 +312,8 @@ js.append('}};')
 open(os.path.join(ROOT, OUT), 'w', encoding='utf-8').write('\n'.join(js) + '\n')
 tot = {w: (counts[w], len(rows_out[w]), sum(1 for r in rows_out[w] if r.get('off'))) for w in ppl}
 print(f'{OUT}：' + '、'.join(f'{w} {a} 列（{b} 筆，off {c}）' for w, (a, b, c) in tot.items()))
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/invite_replies.js', _R0)
