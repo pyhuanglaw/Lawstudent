@@ -1,0 +1,553 @@
+16:45:26 | INFO: Data are loaded, start creating Blender stuff
+16:45:26 | INFO: Blender create Mesh node BAKEONLY_opposite
+16:45:26 | INFO: Blender create Mesh node BAKEONLY_street
+16:45:26 | INFO: Blender create Mesh node dorm_bath_floor
+16:45:26 | INFO: Blender create Mesh node dorm_bath_outer
+16:45:26 | INFO: Blender create Mesh node dorm_bath_tile
+16:45:26 | INFO: Blender create Mesh node dorm_bathmat
+16:45:26 | INFO: Blender create Mesh node dorm_ceiling
+16:45:26 | INFO: Blender create Mesh node dorm_ceramic
+16:45:26 | INFO: Blender create Mesh node dorm_chair_white
+16:45:26 | INFO: Blender create Mesh node dorm_chrome
+16:45:26 | INFO: Blender create Mesh node dorm_fixtures
+16:45:26 | INFO: Blender create Mesh node dorm_floor
+16:45:26 | INFO: Blender create Mesh node dorm_frame_white
+16:45:26 | INFO: Blender create Mesh node dorm_items
+16:45:26 | INFO: Blender create Mesh node dorm_led
+16:45:26 | INFO: Blender create Mesh node dorm_metal
+16:45:26 | INFO: Blender create Mesh node dorm_mirror
+16:45:26 | INFO: Blender create Mesh node dorm_shower_curtain
+16:45:26 | INFO: Blender create Mesh node dorm_tubes
+16:45:26 | INFO: Blender create Mesh node dorm_wood
+16:45:26 | INFO: Blender create Mesh node JACKET_CHAIR_cloth
+16:45:26 | INFO: Blender create Mesh node BEDDING_L1_duvet
+16:45:26 | INFO: Blender create Mesh node BEDDING_L1_pillow
+16:45:26 | INFO: Blender create Mesh node LOFT_L1_frame
+16:45:26 | INFO: Blender create Mesh node LOFT_L1_rod
+16:45:26 | INFO: Blender create Mesh node LOFT_L1_sheet
+16:45:26 | INFO: Blender create Mesh node BEDDING_L2_duvet
+16:45:26 | INFO: Blender create Mesh node BEDDING_L2_pillow
+16:45:26 | INFO: Blender create Mesh node LOFT_L2_frame
+16:45:26 | INFO: Blender create Mesh node LOFT_L2_rod
+16:45:26 | INFO: Blender create Mesh node LOFT_L2_sheet
+16:45:26 | INFO: Blender create Mesh node BEDDING_R1_duvet
+16:45:26 | INFO: Blender create Mesh node BEDDING_R1_pillow
+16:45:26 | INFO: Blender create Mesh node LOFT_R1_frame
+16:45:26 | INFO: Blender create Mesh node LOFT_R1_rod
+16:45:26 | INFO: Blender create Mesh node LOFT_R1_sheet
+16:45:26 | INFO: Blender create Mesh node BEDDING_R2_duvet
+16:45:26 | INFO: Blender create Mesh node BEDDING_R2_pillow
+16:45:26 | INFO: Blender create Mesh node LOFT_R2_frame
+16:45:26 | INFO: Blender create Mesh node LOFT_R2_rod
+16:45:26 | INFO: Blender create Mesh node LOFT_R2_sheet
+16:45:26 | INFO: Blender create Mesh node NAMETAG_TANGRUI_card
+16:45:26 | INFO: Blender create Mesh node NAMETAG_WEILUN_card
+16:45:26 | INFO: Blender create Mesh node ROOMMATE_KAI_black
+16:45:26 | INFO: Blender create Mesh node ROOMMATE_KAI_bulb
+16:45:26 | INFO: Blender create Mesh node ROOMMATE_KAI_items
+16:45:26 | INFO: Blender create Mesh node ROOMMATE_KAI_screen
+16:45:26 | INFO: Blender create Mesh node WALL_back_ac
+16:45:26 | INFO: Blender create Mesh node WALL_back_alu
+16:45:26 | INFO: Blender create Mesh node WALL_back_black
+16:45:26 | INFO: Blender create Mesh node WALL_back_blind
+16:45:26 | INFO: Blender create Mesh node WALL_back_glass
+16:45:26 | INFO: Blender create Mesh node WALL_back_rod
+16:45:26 | INFO: Blender create Mesh node WALL_back_sill
+16:45:26 | INFO: Blender create Mesh node WALL_back_skirt
+16:45:26 | INFO: Blender create Mesh node WALL_back_trim
+16:45:26 | INFO: Blender create Mesh node WALL_back_wall
+16:45:26 | INFO: Blender create Mesh node WALL_bath_n_skirt
+16:45:26 | INFO: Blender create Mesh node WALL_bath_n_wall
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_bdoor
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_black
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_chrome
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_sign
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_skirt
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_trim
+16:45:26 | INFO: Blender create Mesh node WALL_bath_w_wall
+16:45:26 | INFO: Blender create Mesh node WALL_front_black
+16:45:26 | INFO: Blender create Mesh node WALL_front_blind
+16:45:26 | INFO: Blender create Mesh node WALL_front_chrome
+16:45:26 | INFO: Blender create Mesh node WALL_front_door
+16:45:26 | INFO: Blender create Mesh node WALL_front_pillow
+16:45:26 | INFO: Blender create Mesh node WALL_front_skirt
+16:45:26 | INFO: Blender create Mesh node WALL_front_trim
+16:45:26 | INFO: Blender create Mesh node WALL_front_wall
+16:45:26 | INFO: Blender create Mesh node WALL_left_skirt
+16:45:26 | INFO: Blender create Mesh node WALL_left_wall
+16:45:26 | INFO: Blender create Mesh node WALL_right_wall
+16:45:26 | INFO: Blender create Mesh node Y203_BOHAN_black
+16:45:26 | INFO: Blender create Mesh node Y203_BOHAN_bulb
+16:45:26 | INFO: Blender create Mesh node Y203_BOHAN_items
+16:45:26 | INFO: Blender create Mesh node Y203_BOHAN_metal
+16:45:26 | INFO: Blender create Mesh node Y203_YUTING_black
+16:45:26 | INFO: Blender create Mesh node Y203_YUTING_items
+16:45:26 | INFO: Blender create Mesh node Y203_YUTING_metal
+16:45:26 | INFO: Blender create Mesh node Y203_YUTING_screen
+16:45:26 | INFO: Blender create Mesh node Y203_ZHE_items
+16:45:26 | INFO: Blender create Mesh node Y203_ZHE_metal
+16:45:26 | INFO: Blender create Mesh node Y312_BOHAN_black
+16:45:26 | INFO: Blender create Mesh node Y312_BOHAN_bulb
+16:45:26 | INFO: Blender create Mesh node Y312_BOHAN_items
+16:45:26 | INFO: Blender create Mesh node Y312_BOHAN_metal
+16:45:26 | INFO: Blender create Mesh node Y312_FRESH_items
+16:45:26 | INFO: Blender create Mesh node Y312_YUTING_black
+16:45:26 | INFO: Blender create Mesh node Y312_YUTING_items
+16:45:26 | INFO: Blender create Mesh node Y312_YUTING_screen
+16:45:26 | INFO: Blender create Mesh node Y312_ZHE_items
+16:45:26 | INFO: Blender create Mesh node Y312_ZHE_metal
+16:45:26 | INFO: Blender create Mesh node Y409_BOHAN_black
+16:45:26 | INFO: Blender create Mesh node Y409_BOHAN_bulb
+16:45:26 | INFO: Blender create Mesh node Y409_BOHAN_items
+16:45:26 | INFO: Blender create Mesh node Y409_BOHAN_metal
+16:45:26 | INFO: Blender create Mesh node Y409_FRESH_black
+16:45:26 | INFO: Blender create Mesh node Y409_FRESH_items
+16:45:26 | INFO: Blender create Mesh node Y409_FRESH_screen
+16:45:26 | INFO: Blender create Mesh node Y409_SOPH_black
+16:45:26 | INFO: Blender create Mesh node Y409_SOPH_items
+16:45:26 | INFO: Blender create Mesh node Y409_SOPH_screen
+16:45:26 | INFO: Blender create Mesh node Y409_YUTING_black
+16:45:26 | INFO: Blender create Mesh node Y409_YUTING_items
+16:45:26 | INFO: Blender create Mesh node Y409_YUTING_screen
+16:45:26 | INFO: Blender create Mesh node Y412_TANGRUI_items
+16:45:26 | INFO: Blender create Mesh node Y412_TANGRUI_metal
+16:45:26 | INFO: Blender create Mesh node Y412_WEILUN_items
+16:45:26 | INFO: Blender create Mesh node Y412_YUTING_black
+16:45:26 | INFO: Blender create Mesh node Y412_YUTING_items
+16:45:26 | INFO: Blender create Mesh node Y412_YUTING_screen
+16:45:26 | INFO: Blender create Mesh node Y507_BOHAN_black
+16:45:26 | INFO: Blender create Mesh node Y507_BOHAN_bulb
+16:45:26 | INFO: Blender create Mesh node Y507_BOHAN_items
+16:45:26 | INFO: Blender create Mesh node Y507_BOHAN_metal
+16:45:26 | INFO: Blender create Mesh node Y507_PEER_black
+16:45:26 | INFO: Blender create Mesh node Y507_PEER_items
+16:45:26 | INFO: Blender create Mesh node Y507_PEER_screen
+16:45:26 | INFO: Blender create Mesh node Y507_SOPH_black
+16:45:26 | INFO: Blender create Mesh node Y507_SOPH_items
+16:45:26 | INFO: Blender create Mesh node Y507_SOPH_screen
+16:45:26 | INFO: Blender create Mesh node Y507_YUTING_black
+16:45:26 | INFO: Blender create Mesh node Y507_YUTING_items
+16:45:26 | INFO: Blender create Mesh node Y507_YUTING_screen
+16:45:26 | INFO: glTF import finished in 0.56s
+import 160 objects
+bake objects 47
+back faces dropped 0
+split materials（不烘的物件用 _rt 的複製） ['dorm_wall']
+hidden faces 212
+uv pack margin 4.0 max 0.996
+00:12.141  cycles           | WARNING CUEW initialization failed: Error opening the library
+DEVICE HIP：AMD Radeon RX 6600M blender 5.2.3 LTS
+area lights 7 day-only fill 0
+shell ['SHELL_E', 'SHELL_W', 'SHELL_S', 'SHELL_UP', 'SHELL_DOWN'] room bbox [-2.1, -3.5, -0.02, 2.1, 3.5, 3.01]
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+day lm mean 0.12707559764385223 p99 1.0514239072799683
+saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_hip_a\out\d_day.png
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+night lm mean 0.14873291552066803 p99 1.0841913223266602
+saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_hip_a\out\d_night.png
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+Info: Baking map saved to internal image, save it externally or pack it
+dark lm mean 0.003410473233088851 p99 0.065867118537426
+saved C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_hip_a\out\d_dark.png
+black faces collapsed 1127
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+16:54:38 | INFO: Starting glTF 2.0 export
+16:54:38 | INFO: Extracting primitive: dorm_bath_floor
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_bath_outer
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_bath_tile
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_bathmat
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_ceiling
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_ceramic
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_chair_white
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_chrome
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_fixtures
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_floor
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_frame_white
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_led
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_mirror
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_shower_curtain
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_tubes
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: dorm_wood
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: JACKET_CHAIR_cloth
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_L1_duvet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_L1_pillow
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L1_frame
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L1_rod
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L1_sheet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_L2_duvet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_L2_pillow
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L2_frame
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L2_rod
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_L2_sheet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_R1_duvet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_R1_pillow
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R1_frame
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R1_rod
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R1_sheet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_R2_duvet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: BEDDING_R2_pillow
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R2_frame
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R2_rod
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: LOFT_R2_sheet
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: NAMETAG_TANGRUI_card
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: NAMETAG_WEILUN_card
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: ROOMMATE_KAI_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: ROOMMATE_KAI_bulb
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: ROOMMATE_KAI_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: ROOMMATE_KAI_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_ac
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_alu
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_blind
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_glass
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_rod
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_sill
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_skirt
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_trim
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_back_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_n_skirt
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_n_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_bdoor
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_chrome
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_sign
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_skirt
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_trim
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_bath_w_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_blind
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_chrome
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_door
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_pillow
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_skirt
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_trim
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_front_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_left_skirt
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_left_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: WALL_right_wall
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_BOHAN_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_BOHAN_bulb
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_BOHAN_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_BOHAN_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_YUTING_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_YUTING_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_YUTING_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_YUTING_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_ZHE_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y203_ZHE_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_BOHAN_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_BOHAN_bulb
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_BOHAN_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_BOHAN_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_FRESH_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_YUTING_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_YUTING_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_YUTING_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_ZHE_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y312_ZHE_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_BOHAN_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_BOHAN_bulb
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_BOHAN_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_BOHAN_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_FRESH_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_FRESH_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_FRESH_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_SOPH_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_SOPH_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_SOPH_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_YUTING_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_YUTING_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y409_YUTING_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_TANGRUI_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_TANGRUI_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_WEILUN_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_YUTING_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_YUTING_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y412_YUTING_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_BOHAN_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_BOHAN_bulb
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_BOHAN_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_BOHAN_metal
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_PEER_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_PEER_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_PEER_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_SOPH_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_SOPH_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_SOPH_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_YUTING_black
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_YUTING_items
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Extracting primitive: Y507_YUTING_screen
+16:54:38 | INFO: Primitives created: 1
+16:54:38 | INFO: Finished glTF 2.0 export in 0.6639082431793213 s
+
+exported C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BK2_hip_a\out\d.glb
+PCBAKE {"res": 1024, "samples": 512, "total_seconds": 553.7, "images": {"day": {"mean": 0.17259, "p50": 0.0, "p95": 0.56652, "pixels": 1048576}, "night": {"mean": 0.18802, "p50": 0.0, "p95": 0.60831, "pixels": 1048576}, "dark": {"mean": 0.01518, "p50": 0.0, "p95": 0.06752, "pixels": 1048576}}, "device": "HIP：AMD Radeon RX 6600M", "blender": "5.2.3 LTS", "bake_seconds": 545.9}
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit
