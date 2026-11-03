@@ -1,0 +1,55 @@
+# -*- coding: utf-8 -*-
+"""店內偶遇第三批（AA_634）：新店（新生南路、溫州街兩家咖啡廳）開了以後用。spot 用暫定 zone id（和配置檔同名），LAWWW 照實際 zone 改。格式同 v1。"""
+import json, os
+HERE=os.path.dirname(os.path.abspath(__file__))
+LAW=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']
+YT=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']
+ROWS=[
+ dict(who='heroine_03',spot='mokuyobi',why='她坐在窗邊那桌，紙本攤開，檯燈下面一杯焙茶拿鐵。',days=[2,4],from_=15,to=18,terms=YT,stageMin='ACQUAINTANCE',needFlags=['YT_MET_JOB'],busy={'acq':'short','friend':'no'},join='friend',memo='SHOP_MOK_YT',away='在木曜日',
+   lines={'acq':['（小聲）……嗯。你也來念書。','（小聲）這裡沒有插座。我只帶紙本。'],'friend':['（小聲）坐。我剛好讀到債總。','（小聲）你看得懂這一段嗎。……我看不懂。'],'dating':['（小聲）……你怎麼知道我在這。','（小聲）坐我對面。不要一直看我。']},
+   ex={'apart_life':['（小聲）……嗯。我快讀完了。']}),
+ dict(who='heroine_03',spot='dakou',why='二樓靠牆那一排，她戴著耳機，旁邊一杯喝到一半的熱咖啡。',days=[0,1,2,3,4,5,6],from_=21,to=25,terms=YT,weeks=[7,8,15,16],examOK=True,stageMin='ACQUAINTANCE',needFlags=['YT_MET_JOB'],busy='short',join='friend',memo='SHOP_DK_YT',away='在大口漢堡',
+   lines={'acq':['……嗯。考試週。','我在這裡比較讀得下去。家裡太安靜。'],'friend':['你也來了。旁邊有插座，坐。','……我請你一杯。不要讓我睡著。']}),
+ dict(who='heroine_04',spot='tongxian',why='她在試琴椅上，抱著一把木吉他，一直在調同一根弦。',days=[6],from_=15,to=16,terms=['Y1S1','Y1S2','Y2S1','Y2S2'],weeks=[6,10,14],stageMin='ACQUAINTANCE',busy='short',join=False,memo='SHOP_TX_ZQ',away='在同弦樂器',
+   lines={'acq':['你也來這家？','我來買弦。……這把琴好好聽，可是我買不起。'],'friend':['你聽這個音。……有沒有比剛剛那把亮？','嗯。我也覺得。可是我還是買弦就好。']}),
+ dict(who='zhe',spot='dabu',why='他坐在試穿的長椅上，兩隻腳各穿一隻不一樣的鞋。',days=[6],from_=14,to=16,terms=LAW,stageMin='ACQUAINTANCE',busy='no',join=True,memo='SHOP_DB_ZHE',away='在大步球鞋',
+   lines={'acq':['欸！{name}，你來幫我看。','左邊還是右邊？……兩雙都很像對吧。'],'friend':['哥，你來得剛好。左邊三千六，右邊兩千八。','……我就知道你會說右邊。好啦，右邊。']}),
+ dict(who='classmate_bohan',spot='haopai',why='他站在穿線機旁邊，等老闆穿他的桌球拍膠皮。',days=[4],from_=20,to=21,terms=['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],stageMin='ACQUAINTANCE',busy='short',join=False,memo='SHOP_HP_BH',away='在好拍運動',
+   lines={'acq':['……{name}。','我高中打桌球。念書念到受不了，就去打一下。'],'friend':['禮拜四晚上 B1 桌球室，你要不要來？','……我會讓你一點。只有一點。']}),
+ dict(who='classmate_mingxuan',spot='daily_offbeat',why='他在長桌一端擺好桌遊，正在數牌。',days=[5],onlyBoardgameNight=True,from_=19.5,to=20,terms=LAW,stageMin='ACQUAINTANCE',busy='no',join=True,memo='SHOP_DO_MX',away='在日常失速',
+   lines={'acq':['{name}！今天桌遊夜，你要不要一起？','八點開始，現在還缺一個人。'],'friend':['你來了。坐那邊，牌我發好了。','這款你沒玩過。……沒關係，我也是。']}),
+ dict(who='classmate_peishan',spot='shanlan',why='她坐在二樓書架之間的地板上，抱著一本繪本。',days=[0],from_=14,to=17,terms=['Y1S1','Y1S2','Y2S1','Y2S2'],stageMin='ACQUAINTANCE',busy='short',join='friend',memo='SHOP_SL_PS',away='在山嵐書店',
+   lines={'acq':['（小聲）{name}！你也來。','（小聲）這本繪本好好看。我想買給課輔班的小孩。'],'friend':['（小聲）坐。地板很涼。','（小聲）……你看這一頁。我每次看都想哭。']}),
+]
+NEW=dict(id='npc_linyc',name='以晨',fullname='林以晨',dept='建築系・三年級',
+  intro_spot='shanlan',days=[6,0],from_=15,to=18,terms=['Y1S2','Y2S1','Y2S2','Y3S1'],
+  first=dict(why='二樓的走道很窄。你蹲下來拿最下層的書，旁邊坐在地板上的人把腳收了一下。',
+    lines=['……啊，你要這本？我剛看完，給你。','（她手上攤著一本建築的攝影集，旁邊一本素描本。）'],
+    choices=[('「妳在畫這裡嗎？」',['嗯。這個書店的樓梯。……畫了三個禮拜了。','（她把素描本翻給你看。樓梯畫得很仔細，人都只有幾筆。）']),
+             ('「謝謝。」',['不會。……下層的書比較少人看，比較好看。'])],
+    memo='SHOP_YC_MET'),
+  later=[ ['……又是你。','今天樓梯畫完了。我在畫窗戶。'],
+          ['你都看哪一區？……法律喔。那邊的書好重。'],
+          ['我下學期要去交換，荷蘭。','回來以後，再來畫這裡的冬天。'] ],
+  contact=dict(after=2,line='（她在素描本撕下一角，寫了帳號給你。）「我畫好了傳給你看。」',flag='SHOP_YC_CONTACT'),
+  note='外系、朋友關係，不是可攻略對象；大三下去荷蘭交換一學期（之後不在）；加聯絡人以後偶爾傳她畫的速寫（照 msg_pool 普通訊息，一學期最多兩則）。')
+RULES={'inherit':'照 AA_632（打招呼／一起坐／不打擾；不會遇到的情況）、AA_633（examOK、months）',
+ 'zones':'spot 是暫定 id：mokuyobi、daily_offbeat、shanlan、dakou、tongxian、dabu、haopai（和 src/data/<店>_layout.js 同名），LAWWW 照實際 zone 改；店還沒進遊戲以前這些列不會出現',
+ 'needFlags':'needFlags 全部要有才會遇到（語彤要 YT_MET_JOB，AA_610）',
+ 'library':'木曜日、山嵐二樓照圖書館讀書區規則，說話加「（小聲）」（D127 第 3 點）'}
+def check():
+    err=[]
+    def walk(o):
+        if isinstance(o,str):
+            if len(o)>40: err.append('太長：'+o)
+        elif isinstance(o,dict):
+            for v in o.values(): walk(v)
+        elif isinstance(o,(list,tuple)):
+            for v in o: walk(v)
+    walk([r['lines'] for r in ROWS]); walk(NEW['first']['lines']); walk(NEW['later'])
+    return err
+e=check()
+if e: raise SystemExit('\n'.join(e))
+out={'source':'AA_634（企劃線）','rules':RULES,'rows':[{**{k:v for k,v in r.items() if k!='from_'},'from':r['from_'],'src':'AA_634'} for r in ROWS],'newPeople':[{**{k:v for k,v in NEW.items() if k!='from_'},'from':NEW['from_']}]}
+json.dump(out,open(os.path.join(HERE,'shop_enc_aa_v3.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)
+print('ok',len(ROWS),'rows')
