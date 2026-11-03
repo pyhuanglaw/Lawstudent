@@ -3,16 +3,18 @@
 ## 🔨 現在在做（11-03 20:5x UTC 更新）
 - **總圖第五版：BB ART_APPROVED（20:14，第二輪 `52dbf7f8e`）**。條件：LAWWW 整合後，候選版的 flow_library_floors、flow_library_scene、nav、reachability 都要 PASS。patch 是 `wip/library_v5/library_v5_1103.patch`。
 - **研究小間讀者第二版**：已交 `12ac5e5f9`。
-- **AA 室內驗收（20:1x 回 AA）**：
+- **AA 室內驗收**：
   - 木曜日 v2 收（MODEL_READY）；
-  - 山嵐 v2 要 v3：實木寬樓梯、格樑嵌燈、暖色。
+  - 山嵐 v3（企劃線 65e2308cc）收（MODEL_READY，20:5x）。
+  - 接下來由我接成區域：山嵐兩層導航（levels、stairs、void，格式照 wz_shops_layout）、木曜日的一樓鐵門和樓梯、烘焙、遊戲截圖給 BB。
 - **D108 新生南路（ART-XINSHENG-GATE-1103）WIP**，全部在 `wip/xinsheng/`，`PLAN.md` 寫得最完整：
   - LAWWW 同意校園側門、溫州街西端（20:20、20:24）。
   - layout v2：店的順序照 AA_617 的路線。
   - 街景 GLB 是 BLOCKOUT：`wz_street.py --set xinsheng`。
-  - 新區域 `src/xinsheng3d.js` 和校園側門 (−124, −84)，在 `xinsheng_zone_WIP.patch`（接 b049c84e3），xinsheng_unit 12 項 ALL PASS。
+  - 新區域 `src/xinsheng3d.js`、校園側門 (−124, −84)、溫州街西側橫巷北口（拿掉遠景 F4），都在 `xinsheng_zone_WIP.patch`（接 b049c84e3）。
+  - xinsheng_unit 16 項 ALL PASS；第一次遊戲截圖在 `game_wip_v0.jpg`、`campus_gate_v0.jpg`。
   - **下一步**：
-    1. 溫州街接口：拿掉遠景 F4、打開西側橫巷北口（PLAN 最後一節）；
+    1. 側門外的遠景改成新生南路（`gg_backdrop.py` 那一段，PLAN「下一班的順序」）；
     2. 七家店照參考圖做店面；
     3. 地面、校園那一側的正式模型；
     4. index.html、manifest、瀏覽器測試；
