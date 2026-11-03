@@ -486,15 +486,12 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   ans('y3_yt13',0); check('20. 「有，我過去。」→「嗯」',txt('p:heroine_03').slice(-1)[0]==='heroine_03:嗯');
   to('2027-12-16',18.5); G.zone='library'; { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('20. 作息：12/16 18:00～19:45 語彤在總圖三樓',!!e&&e.zone==='library'); }
   { const T=ev('ev_yt_thursday_free'); npc('heroine_03',1,1,0); me(1,2,0); check('20. 走到她旁邊才演；不到 FRIEND 不演；19:45 以後不演',EVENTS.check(T)&&(()=>{ R('heroine_03','FAM'); const a=!EVENTS.check(T); R('heroine_03','FRI'); to('2027-12-16',19.8); const b=!EVENTS.check(T); to('2027-12-16',18.5); return a&&b; })()); }
-  G.flags.JOB_NOODLE=true; await play('ev_yt_thursday_free',[0]);
-  { const W=['阿姨請了一個工讀生。今天第一天。','她叫我今天不要去。……我不知道週四晚上要幹嘛。','我在這裡坐了一個小時。只是坐著。','（兩個人坐到閉館。走出總圖時她說：）','好安靜。我平常這時候在切蔥。'];   /* AA_519 1-5：「……你週二來切蔥，週四來陪我發呆。很忙喔。」（JOB_NOODLE）刪掉 */
-    check('20. Y1 FRIEND 以上、去了：「我在這裡坐了一個小時。只是坐著。」；有 JOB_NOODLE 也沒有「你週二來切蔥…」那一句（AA_519 1-5：遊戲沒有麵店打工）；坐到閉館（逐字）；YT_EV13_SEEN sat；22:00',JSON.stringify(all())===JSON.stringify(W)&&G.flags.YT_EV13_SEEN==='sat'&&Math.abs(G.hour-22)<0.01,JSON.stringify(all())); }
+  /* AA_625 第 13 節（YT-REWRITE-1103）：整場換（秀琴姨的事解決了、溫州街的筆記）；兩個選項、記 FIELD_NOTES_IDEA；交往中同一段 */
+  const W13=["……嗯。秀琴姨的事解決了。", "這兩年我一直在想她的事。現在不用想了，突然空出一塊。", "我想做一件自己的事。", "（她從背包拿出一本新的筆記本。第一頁寫著：「溫州街。」）", "我想把這條街上的人說的話記下來。茶屋的客人、巷口的老闆、秀琴姨。", "社會系教我們做田野。我以前覺得那是作業。"];
+  await play('ev_yt_thursday_free',[0]);
+  check('20. Y1 FRIEND 以上、去了：開頭六句（AA_625 第 13 節逐字）→「我可以幫妳問。」→「不用。這是我自己的。……不過你可以陪我去。」；記 FIELD_NOTES_IDEA、YT_EV13_SEEN ask',JSON.stringify(all())===JSON.stringify(W13.concat(['不用。這是我自己的。……不過你可以陪我去。']))&&SOCIAL.has('heroine_03','FIELD_NOTES_IDEA')&&G.flags.YT_EV13_SEEN==='ask'&&JSON.stringify(opts[0])===JSON.stringify(['「我可以幫妳問。」','「先從秀琴姨開始？」']),JSON.stringify(all()));
   fresh('2027-12-16',18.5,'library',{RENT_RENEWED:true}); date('heroine_03'); R('heroine_03','FRI'); await play('ev_yt_thursday_free',[1]);
-  check('20. Y3 交往中：「我第一個想到的是你。」開頭換；去溫州街＝（她站起來，把手伸過來。）＋走回來的旁白',has('她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。')&&has('所以我先來這裡坐。等你下課。')&&!has('我在這裡坐了一個小時。只是坐著。')&&has('（她站起來，把手伸過來。）')&&!has('（她站起來。）')&&has('（你們從總圖走到溫州街，又走回來。她一路沒講什麼，走得很慢。）')&&G.flags.YT_EV13_SEEN==='walk');
-  fresh('2027-12-16',18.5,'library',{RENT_RENEWED:true}); R('heroine_03','FRI'); await play('ev_yt_thursday_free',[2]);
-  { const W=['妳暑假訪問的那些，要不要整理成自己的東西？','整理成什麼？','不是給阿姨的。給妳自己的。','……我可以拿去問老師，能不能當專題。']; const i=idx(W[0]);
-    check('20. Y2 選第三個：祐廷、語彤四句；記 FIELD_NOTES_IDEA；不是交往中沒有「寫好了，給你讀。」',i>0&&JSON.stringify(said.map(s=>s.t).slice(i,i+4))===JSON.stringify(W)&&said[i].who==='祐廷'&&SOCIAL.has('heroine_03','FIELD_NOTES_IDEA')&&!has('寫好了，給你讀。')&&G.flags.YT_EV13_SEEN==='write'); }
-  fresh('2027-12-16',18.5,'library',{RENT_RENEWED:true}); date('heroine_03'); R('heroine_03','FRI'); await play('ev_yt_thursday_free',[2]); check('20. 交往中的第三個：「寫好了，給你讀。」（不是「你第一個讀」）',has('寫好了，給你讀。')&&!any(/第一個讀/));
+  check('20. Y2 交往中、選「先從秀琴姨開始？」→「她說她沒什麼好講的。……她講了兩個小時。」（同一段）；記 FIELD_NOTES_IDEA',JSON.stringify(all())===JSON.stringify(W13.concat(['她說她沒什麼好講的。……她講了兩個小時。']))&&SOCIAL.has('heroine_03','FIELD_NOTES_IDEA')&&G.flags.YT_EV13_SEEN==='aunt',JSON.stringify(all()));
   fresh('2027-12-16',19.9,'dorm'); STORY.y3Facts(G); to('2027-12-16',20); STORY.y3Facts(G); check('20. Y4 12/16 20:00 一律記 YT_EV13（沒演也記）；演過的另外記 YT_EV13_SEEN',G.flags.YT_EV13===true&&G.flags.YT_EV13_SEEN==null);
 
   // ===== 21. 2-Y3-21 可昕 聖誕「她還在趕報告」 =====

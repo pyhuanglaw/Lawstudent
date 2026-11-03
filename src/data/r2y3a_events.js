@@ -502,21 +502,20 @@ const R2Y3A_EVENTS=(function(){
 
   /* ---------- 2-Y3-20 語彤事件 13「空出來的週四」（裁定 #11）：12/16（四）18:00～19:45 總圖三樓（作息在 r2y3a3d.js），和語彤 FRIEND 以上，走到她旁邊就演。YT_EV13 一律記（S.y3Facts）；演過的另外記 YT_EV13_SEEN ---------- */
   const NGF_YT=ndt('heroine_03');
-  const THU={ id:'ev_yt_thursday_free', title:'空出來的週四', participants:['heroine_03'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:'heroine_03', nearDist:3,
+  const THU={ id:'ev_yt_thursday_free', title:'自己選的週四',   /* AA_625 第 13 節 */ participants:['heroine_03'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:'heroine_03', nearDist:3,
     prereq:{custom:G=>on(G,'2027-12-16',18,19.75)&&stAt(G,'heroine_03','FRIEND')&&!!(G.flags&&G.flags.RENT_RENEWED)},
     dialogue:[ {speaker:null,text:'（她看到你，闔上書，指了指外面。）',libOut:true},   /* libOut（AA_595 1-B51 開頭；AA 11-02 22:30 定稿）*/
-      {speaker:'heroine_03',text:'阿姨請了一個工讀生。今天第一天。'},
-      {if:NGF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我不知道週四晚上要幹嘛。'},
-      {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
-      {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},
-      {if:GF_YT,speaker:'heroine_03',text:'所以我先來這裡坐。等你下課。'},
-      {choice:[{text:'「那就坐著。我陪妳。」',set:{YT_EV13_SEEN:'sat'},goto:'y1'},{text:'「去溫州街走走？」',set:{YT_EV13_SEEN:'walk'},goto:'y2'},{text:'「妳要不要寫點什麼？」',set:{YT_EV13_SEEN:'write'},goto:'y3'}]},
-      {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）',libOut:true},   /* libOut：走出總圖以後不加（小聲）（AA_595 1-B51；AA 11-02 20:54）*/{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
-        {if:GF_YT,speaker:'heroine_03',text:'下禮拜四也這樣。'},{goto:'end'},
-      {label:'y2'},{speaker:'heroine_03',text:'我從小住公館，沒有在週四晚上走過溫州街。'},{if:NGF_YT,speaker:null,text:'（她站起來。）'},{if:GF_YT,speaker:null,text:'（她站起來，把手伸過來。）'},
-        {speaker:null,text:'（你們從總圖走到溫州街，又走回來。她一路沒講什麼，走得很慢。）'},{goto:'end'},
-      {label:'y3'},{speaker:'player',text:'妳暑假訪問的那些，要不要整理成自己的東西？'},{speaker:'heroine_03',text:'整理成什麼？'},{speaker:'player',text:'不是給阿姨的。給妳自己的。'},
-        {speaker:'heroine_03',text:'……我可以拿去問老師，能不能當專題。'},{if:GF_YT,speaker:'heroine_03',text:'寫好了，給你讀。'},(mem('heroine_03','FIELD_NOTES_IDEA')),
+      /* AA_625 第 13 節（YT-REWRITE-1103，AA 定稿）：秀琴姨的事解決了，她想做一件自己的事（溫州街的田野筆記）；記 FIELD_NOTES_IDEA。日子照舊（12/16，續約以後；YT_EV13 照 story3d.js S.y3Facts）*/
+      {speaker:'heroine_03',text:'……嗯。秀琴姨的事解決了。'},
+      {speaker:'heroine_03',text:'這兩年我一直在想她的事。現在不用想了，突然空出一塊。'},
+      {speaker:'heroine_03',text:'我想做一件自己的事。'},
+      {speaker:null,text:'（她從背包拿出一本新的筆記本。第一頁寫著：「溫州街。」）'},
+      {speaker:'heroine_03',text:'我想把這條街上的人說的話記下來。茶屋的客人、巷口的老闆、秀琴姨。'},
+      {speaker:'heroine_03',text:'社會系教我們做田野。我以前覺得那是作業。'},
+      {choice:[{text:'「我可以幫妳問。」',set:{YT_EV13_SEEN:'ask'},goto:'y1'},{text:'「先從秀琴姨開始？」',set:{YT_EV13_SEEN:'aunt'},goto:'y2'}]},
+      {label:'y1'},{speaker:'heroine_03',text:'不用。這是我自己的。……不過你可以陪我去。'},{goto:'m'},
+      {label:'y2'},{speaker:'heroine_03',text:'她說她沒什麼好講的。……她講了兩個小時。'},
+      {label:'m'},(mem('heroine_03','FIELD_NOTES_IDEA')),
       {label:'end'} ] };
 
   /* ---------- 2-Y3-21 可昕 聖誕「她還在趕報告」：12/25（六）21:00 視訊（10 分鐘沒接＝沒接）；禮物在學期末那一場換（termend_lines.js KX.Y3S1，不另外做）---------- */
