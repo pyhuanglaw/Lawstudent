@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "11_reach",
+  "sha": "d75871437",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:02:00",
+  "end": "2026-11-03T09:08:46",
+  "seconds": 406,
+  "exit": 0,
+  "error": null,
+  "runner": "a98287fbd6",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 51,
+    "mem": 59,
+    "used_gb": 18.6,
+    "chrome_testing": 26
+  }
+}
