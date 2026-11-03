@@ -634,3 +634,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_later] | [gpu_wrap 294.1s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 294.2s] BROWSER DISCONNECTED
 - 2026-11-04T04:26:08  V19D_tour_tap8  sha=9e0684663  exit=0  296s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap8] | [gpu_wrap 266.5s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 266.5s] BROWSER DISCONNECTED
+- 2026-11-04T04:30:46  V19W_tour_tap8  sha=55939fc71  exit=0  265s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19W_tour_tap8] | [gpu_wrap 235.5s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 235.6s] BROWSER DISCONNECTED
