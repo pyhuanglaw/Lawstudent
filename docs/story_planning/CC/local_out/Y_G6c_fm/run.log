@@ -1,0 +1,12 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_Y_G6c_fm\tests\save_firstmet_migration.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\Y_G6c_fm\out
+PASS 遊戲載入
+  [前置／捷徑] 放一份舊版風格的自動存檔：第 10 天、校園；芷若 FIRST_MET（一般自我介紹，事件沒播過）、子晴 FIRST_MET（吉他社事件播過）
+PASS 1 按「繼續」讀得進來（第 10 天、校園）  {"day": 10, "zone": "campus"}
+PASS 1 芷若的 FIRST_MET → GREETED（打過招呼），熟悉度 12 不變；遊戲當作還沒見過  {"tags": ["GREETED"], "met": false, "fam": 12}
+PASS 2 改之前的原始存檔在 fatiao3d_backup（一模一樣）  {"v":2,"stage":"law","name":"舊版玩家","day":10,"weekday":5,"hour":15,"energy":100,"
+PASS 2 這個存檔專用的備份 fatiao3d_backup_fm120_<savedAt>（之後存到欄位也不會被蓋掉，D61 ①）也一模一樣  {"v":2,"stage":"law","name":"舊版玩家","day":10,"weekday":5,"hour":15,"energy":100,"
+PASS 1 芷若同一次記下的 met_ 旗標也拿掉（人物名單不會先出現她，D61 ②）
+PASS 3 子晴（吉他社事件播過）不動（FIRST_MET、met_ 旗標都在）
+PASS 4 再讀一次：不再改（還是 GREETED）、備份還是原始的那一份  ["GREETED"]
+PASS 沒有 JS 例外  []
+ALL PASS
