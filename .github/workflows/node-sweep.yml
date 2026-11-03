@@ -2,6 +2,7 @@
 # 用法：把 gha/target.txt 改成要測的 commit SHA，commit 到 claude/gha-node-sweep → 自動跑。
 # 只在這條分支觸發，不影響 main、開發分支、BB／CC 的分支；瀏覽器測試照舊是 BB／CC（使用者電腦）。
 # 下載完整歷史（fetch-depth: 0）：有些測試要 git show 舊版本或企劃線，淺層下載會讓它們跳過卻顯示通過。
+# 結果同時寫在執行摘要、artifact、執行紀錄（「整理結果」那一步）；Claude 的雲端機器連不到 artifact 的儲存網址，只能讀紀錄。
 name: node-sweep
 on:
   push:
@@ -53,7 +54,11 @@ jobs:
             echo "### 最後一行看不出結果（要人看）"; echo '```'; cat unknown.tsv; echo '```'
             echo "### 輸出裡有「跳過／skip／找不到」（要確認不是缺資料被略過）"; echo '```'; cat skipped.txt; echo '```'
             echo "### 最慢 15 支（秒）"; echo '```'; cut -f1,3 slowest.tsv; echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "===== 失敗的測試：最後 30 行 ====="
+          cut -f1 fail.tsv | while read f; do n=$(basename "$f" .js); echo "----- $f"; grep -E 'FAIL|Error|錯誤|找不到' "$n.log" | head -20 | cut -c1-400; tail -5 "$n.log" | cut -c1-400; done
+          echo "===== 跳過字樣出現的那一行 ====="
+          while read f; do echo "----- $f"; grep -m3 -E '跳過|skip|SKIP|找不到' "$f" | cut -c1-300; done < skipped.txt
           test ! -s fail.tsv
       - uses: actions/upload-artifact@v4
         if: always()
