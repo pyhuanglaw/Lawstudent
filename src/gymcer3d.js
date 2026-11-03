@@ -12,7 +12,7 @@ const GYMCER=(function(){
   S.enterSeat=async function(GM,kind){ const G=GM.G; if(!ok()||GY3.ceremonyDay(G)!==kind||!GM.enter) return null;
     await GM.enter('gym_arena',{x:0,z:15.4,yaw:Math.PI},{noFade:true}); const E=GM.E, z=E&&E.zone; if(!z||!z.ceremonyOn||!z.cerSpots) return null;
     const me=seatOf(z.cerSpots.me); if(me&&GM.sitAt&&E.player) GM.sitAt(E.player,clean(me)); return z; };
-  S.FRIENDS=[['heroine_01','an'],['zhe','zhe'],['yu','alison']];
+  S.FRIENDS=[['classmate_xinci','an'],['zhe','zhe'],['classmate_peishan','alison']];   /* AA 11-03：宿營只認識阿哲、芯慈、沛珊（以安、Alison 拿掉）；位子沿用 gym_layout.js 的 an、alison 兩格（玩家右手邊、後面一排）*/
   S.placeFriends=function(GM,z){ const G=GM.G; if(!GM.spawnCharacter) return 0; let k=0;
     for(const [id,key] of S.FRIENDS){ if(!(typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,id))) continue; const st=seatOf(z.cerSpots[key]); if(!st||(GM.npc&&GM.npc[id])) continue;
       const n=GM.spawnCharacter(id,st.x,st.z,{seat:clean(st)}); if(n){ n.frozen=true; n.cerSeat=true; k++; } }

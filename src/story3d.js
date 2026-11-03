@@ -1357,7 +1357,7 @@ const STORY = (function(){
     try{ const kai=GM.npc.kai, who=kaiWho(GM), npcWho=id=>GM.npc[id]||{name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id,charId:id}, bo=npcWho('classmate_bohan'), zhe=npcWho('zhe');
       if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'classmate_bohan'});   /* 四人房（AA_208 2-1，使用者 00:5x）：柏翰早上就搬好了 */
       await GM.say(null,'（靠窗那張書桌已經有人用了。書排得很整齊，旁邊一盞檯燈、一疊資料夾。）');
-      await GM.say(bo,'（從書裡抬頭）喔，是你。'); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_bohan','FIRST_MET'))){ await GM.say(bo,'許柏翰。新竹。'); if(typeof SOCIAL!=='undefined') SOCIAL.meet('classmate_bohan','dorm'); } await GM.say(bo,'門口那張床是你的。我早上就來了。');   /* AA_608 10-3：柏翰不在宿營出場，搬進 203 時以室友身分認識（自我介紹一句、記 FIRST_MET dorm）；宿營就認識的舊存檔照舊不報名字 */
+      await GM.say(bo,'（從書裡抬頭）你也住這間？'); if(!(typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_bohan','FIRST_MET'))){ await GM.say(bo,'許柏翰。新竹。'); if(typeof SOCIAL!=='undefined') SOCIAL.meet('classmate_bohan','dorm'); } await GM.say(bo,'門口那張床是你的。我早上就來了。');   /* AA_608 10-3：柏翰不在宿營出場，搬進 203 時以室友身分認識（自我介紹一句、記 FIRST_MET dorm）；宿營就認識的舊存檔照舊不報名字 */
       if(kai&&P) GM.cine('two',P.obj,kai.obj); if(typeof ADV!=='undefined'&&ADV.show) ADV.show('right','kai');
       await GM.say(null,'（另一張書桌前也有人。他背對著門，正在把一台很大的主機塞進書桌底下。地上一堆紙箱。）');   /* 四人房：柏翰已經在了（BB-B 01:12 建議；AA_355 第 2 節：AA 看過、照用）*/
       await GM.say(who,'（回頭）喔，嗨。'); await GM.say(who,'你那組在門口那邊喔？我東西先放了一點過去，等一下拿走。');   /* AA_208 第 6 節：四人房每人一組床桌（原「你睡那邊喔？…等一下移。」；BB 確認口氣中）*/
@@ -1369,7 +1369,7 @@ const STORY = (function(){
       if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); if(G.hour<19) GM.advance(19-G.hour); if(E&&E.zone&&E.zone.dormSet) E.zone.dormSet('203'); await GM.fade(false);   /* 黑畫面時阿哲的床桌東西出現（8/29 下午是 '203_movein'）；阿哲約 19:00 從高雄上來（AA_208 2-1；AA_205 6-4「29 號再上來搬宿舍」）*/
       if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'zhe'});
       await GM.say(null,'（門被撞開。阿哲拖著一個超大的行李箱，背上還有一顆籃球。）');
-      await GM.say(zhe,F.ZHE_CALLS_GE?'哥！你也這間喔！':'欸！你也這間喔！'); await GM.say(zhe,'（看到柏翰）柏翰也在？那宿營那間只差一個明軒。'); await GM.say(bo,'明軒住別棟。'); await GM.say(who,'（戴著耳機，頭沒有回，舉了一下手）'); await GM.say(who,'門關一下，冷氣會跑掉。');   /* BB-B 01:12（BB_168 第 1 節，BB 分支 030bbce4）：還是不轉身、不自我介紹；冷氣接 22:40 的遙控器訊息 */
+      await GM.say(zhe,'欸？撕名牌那個！你也住這間喔？');   /* AA 11-03：取代「（看到柏翰）柏翰也在？那宿營那間只差一個明軒。」和柏翰「明軒住別棟。」；原本前一句「哥／欸！你也這間喔！」和新句重複，拿掉 */ await GM.say(who,'（戴著耳機，頭沒有回，舉了一下手）'); await GM.say(who,'門關一下，冷氣會跑掉。');   /* BB-B 01:12（BB_168 第 1 節，BB 分支 030bbce4）：還是不轉身、不自我介紹；冷氣接 22:40 的遙控器訊息 */
       F.DORM_FOUR=true;   /* 四人房：阿哲、柏翰也住 203 */
       await GM.say(null,'（你們各自整理到快十點。他的電腦開機的聲音很大。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
       await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();
@@ -1405,8 +1405,8 @@ const STORY = (function(){
      Kevin 是同家族的大二學長（不是直屬，直屬只有學姊）。去過宿營（CAMP_Y1）的玩家：Kevin 認出臥底那一隊的學弟（BB_177 11-1）；沒去的照 BB_168 6-3。回了設 FAM_GROUP_REPLIED（9/2 茶會、學姊第一次見面會讀）；不回就是不回 */
   S.familyW0=function(G,o){ o=o||{}; const F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return false; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
     const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t}), nm=G.name||'祐廷';
-    const camp=!!F.CAMP_Y1, L=camp?['新的家族學弟妹都進群了嗎？','欸 '+nm+'？我當臥底那一隊的？原來你是我們家族的','所以我宿營騙了自己家的學弟三天 好啦對不起','考古題茶會那天給你們。']:['新的家族學弟妹都進群了嗎？','有進來的舉個手，考古題茶會那天給你們。'];
-    const opts=(camp?['是我。','（貼圖）']:['（舉手）','我在。']).map(t=>({t,set:{FAM_GROUP_REPLIED:true},say:[kv('好，收到一個。')]}));
+    const L=['新的家族學弟妹都進群了嗎？','有進來的舉個手，考古題茶會那天給你們。'];   /* AA 11-03：Kevin 不在宿營，「臥底那一隊」「騙了自己家的學弟三天」刪；去過宿營的和沒去的同一版 */
+    const opts=['（舉手）','我在。'].map(t=>({t,set:{FAM_GROUP_REPLIED:true},say:[kv('好，收到一個。')]}));
     const items=[Object.assign(kv('學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'),{pin:true})].concat(L.map((t,k)=>k===L.length-1?Object.assign(kv(t),{ask:{opts}}):kv(t)));   /* 置頂：Kevin 8/30 21:00 發、排在宿營那幾句前面（AA_218 L512 家族群組 (A)：家族開學前就分好，9/4 分的是家族裡的直屬；學姊 8/25 那則刪，17-12）*/
     if(o.now) for(const it of items) PHONE.post(G,it); else PHONE.at(G,S.dayOfKey('2025-08-30'),21,items,'fam_w0');
     PHONE.at(G,S.dayOfKey('2025-09-05'),20,[kv('周老師說的那本，我有舊的。'),kv('📷（一本書的封面，邊角捲起來）'),Object.assign(kv('要的說，先說先拿。'),{ask:{opts:[{t:'我要。',set:{KEVIN_OLD_BOOK:true},say:[kv('好，下禮拜一放系學會辦公室，寫你名字。')]}]}})],'kevin_old_book');   /* 9/5（五）20:00 Kevin 的舊書（BB_168 第 7 節「影響」、AA_200 2-11a）：群組裡所有人都看得到；不回就沒有後續 */
@@ -1466,7 +1466,7 @@ const STORY = (function(){
   S.teaSignIn=async function(GM){ const G=GM.G, F=G.flags; if(F.TEA_STEP) return false; F.TEA_STEP=1; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:'blur'});
       await teaLines(GM,['（法律系館B一樓大廳。領名牌的桌子後面坐著三個大二，中間那個是 Kevin，一手拿名牌貼紙，一手滑名單。）']);
-      await teaLines(GM,F.CAMP_Y1?[KV('{name}。這次是真的學長了。')]:[KV('{name}？喔，我們家族的。我 Kevin，大二。')]);   /* 防呆：開發用起點沒有宿營的 */
+      await teaLines(GM,F.CAMP_Y1?[KV('我 Kevin，大二，系學會的。有事找我。')]:[KV('{name}？喔，我們家族的。我 Kevin，大二。')]);   /* AA 11-03：Kevin 不在宿營，這裡是第一次見面（原「{name}。這次是真的學長了。」）；防呆：開發用起點沒有宿營的 */
       await teaLines(GM,[KV('家族那一桌在窗邊，我等一下過去。')]);   /* 直屬是誰、學姊會來的兩句拿掉（9/4 才分直屬、學姊不在茶會）*/
       if(typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')) SOCIAL.meet('kevin','wancai');
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
@@ -1744,7 +1744,7 @@ const STORY = (function(){
         PHONE.at(G,d1+2,21,[P('學姊好，謝謝妳的留言。想問一下，民總要先買哪一本嗎？'),H('先不要買。第一堂課老師會說用哪一本。'),H('真的想先看的話，系圖有，二樓。'),P('好，謝謝學姊。'),H('不會。')],'sis_b_dm'); }
       if(F.FAM_GROUP_SENT&&PHONE.inGroup(G,'family_law')&&PHONE.sent(G,'sis_b_comment')&&past(d1+3,21)&&G.day<=d1+5&&!PHONE.sent(G,'sis_b_fam')){ const FT='g:family_law';
         const KV=t=>({th:FT,from:'kevin',name:'Kevin',text:t});   /* AA_372 第 2 項：宿營他當了三天臥底、8/30 群組、9/2 茶會都講過了，不再自我介紹；沒有宿營的局（開發用起點的防呆）只留第二句 */
-        PHONE.at(G,d1+3,21,(F.CAMP_Y1?[KV('家族群組開好了。學弟，這次不用臥底了。'),KV('上面那位是你的直屬學姊。')]:[KV('上面那位是你的直屬學姊。')]).concat([{th:FT,from:'heroine_05',name:'溫學姊',text:'學弟好。我們留言區見過了。'},{th:FT,from:'kevin',name:'Kevin',text:'你們認識？'},{th:FT,from:'heroine_05',name:'溫學姊',text:'他自介我有留言。'}]),'sis_b_fam'); } }
+        PHONE.at(G,d1+3,21,(F.CAMP_Y1?[KV('家族群組開好了。學弟。'),KV('上面那位是你的直屬學姊。')]:[KV('上面那位是你的直屬學姊。')]).concat([{th:FT,from:'heroine_05',name:'溫學姊',text:'學弟好。我們留言區見過了。'},{th:FT,from:'kevin',name:'Kevin',text:'你們認識？'},{th:FT,from:'heroine_05',name:'溫學姊',text:'他自介我有留言。'}]),'sis_b_fam'); } }
     { const r=S.dayOfKey('2026-03-23'); if(r!=null&&G.day>=r&&!F.SIS_RESULT_OUT) F.SIS_RESULT_OUT=true; }
     if(typeof ROM!=='undefined'&&ROM.spreadTick){ ROM.spreadTick(G); ROM.zqAskTick(G); }   /* 誰知道祐廷和可昕在交往：朋友聊天傳開、子晴問阿凱（BB_191 9-7、9-8；src/romance3d.js）*/   /* 她研究所放榜（AA_218 第 1 節；C1 的前置）*/
     /* C2 她家搬家（AA_218 15-7、17-13 第 4 點）：7/11（六）已經交往＝當天 15:00 房間（ev_sis_c2_room）、16:00 私訊；之後才交往＝交往成立隔 3 天以上的第一個週六。一直沒交往不演 */

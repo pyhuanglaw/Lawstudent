@@ -30,10 +30,10 @@ await sec(0,()=>{ const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8
   check('0. 載入 src/gymcer3d.js；index.html 在 story3d.js、gym3d.js 後面；包住 STORY.ceremonyY1',ok&&!!X()&&at('src/gymcer3d.js')>at('src/story3d.js')&&at('src/gymcer3d.js')>at('src/gym3d.js')&&STORY.ceremonyY1!==o0,err); });
 if(!X()){ H.done(); return; }
 
-await sec(1,async()=>{ cerDay='open'; const G=setup('2025-08-31',14,['heroine_01','yu']); H.said=[];
+await sec(1,async()=>{ cerDay='open'; const G=setup('2025-08-31',14,['classmate_xinci','classmate_peishan','heroine_01','yu']); H.said=[];   /* AA 11-03：宿營只認識阿哲、芯慈、沛珊；以安、Alison 就算舊存檔記了宿營認識也不放 */
   await STORY.ceremonyY1(GM);
   check('1. 進體育館 3F（gym_arena），玩家坐法律學院走道邊（spots.me）',H.entered.includes('gym_arena')&&sat.length>=1&&sat[0].x===1.2&&sat[0].z===-0.95,J({entered:H.entered,sat}));
-  check('1. 宿營認識的以安、Alison 坐旁邊；沒認識的阿哲不放',J(spawned.map(s=>s.id).sort())===J(['heroine_01','yu'])&&spawned.find(s=>s.id==='heroine_01').x===1.82,J(spawned));
+  check('1. 宿營認識的芯慈、沛珊坐旁邊（以安、Alison 不在名單）；沒認識的阿哲不放',J(spawned.map(s=>s.id).sort())===J(['classmate_peishan','classmate_xinci'])&&spawned.find(s=>s.id==='classmate_xinci').x===1.82&&spawned.find(s=>s.id==='classmate_peishan').z===0.1,J(spawned));
   check('1. 旁白三句（照原本的 2D 版；位置那一句換成 AA_437 第 1 節的 3D 版）',J(H.said.map(s=>s.t))===J(['四千多個新生，每個人都穿著同一件新生上衣。','法律學院的位置在場地中間。椅背上貼著系名。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。','校長致詞講到一半，手機震了一下。你被加進一個群組。']),J(H.lines()));
   check('1. 演完：CEREMONY_Y1、15:30、起身、沒有叫原本的 2D',G.flags.CEREMONY_Y1===true&&Math.abs(G.hour-15.5)<1e-6&&stood===1&&origCalls===0,J({h:G.hour,stood,origCalls}));
   check('1. 加進全班群組',typeof PHONE==='undefined'||!PHONE.inGroup||PHONE.inGroup(G,'law_class')); });
