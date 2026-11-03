@@ -80,7 +80,7 @@ const AA555=(function(){
     /* ---- 大三上 ---- */
     ['y3s1_yt_lease',YT,wk('Y3S1'),(G,d)=>got(G,YT,d)&&done(G,'ev_yt_lease_renew'),()=>SQ(YT,['📷（阿姨在新合約上簽名，手有點抖）','她說是因為冷。'])],
     ['y3s1_zhe_captain',ZHE,wk('Y3S1'),(G,d)=>got(G,ZHE,d)&&!!G.flags.ZHE3,()=>SQ(ZHE,['明天練球','不來的要買飲料','來的也要買','我是隊長'])],   /* 哲 3 當隊長（ZHE3）；AA-B 11-01：遊戲沒有系籃群組，改阿哲私訊祐廷 */
-    ['y3s1_zhe_scooter',ZHE,wk('Y3S1'),(G,d)=>got(G,ZHE,d)&&done(G,'ev_zhe_scooter'),()=>SQ(ZHE,['修車行說兩千','對方付了','我請你吃燒臘','大碗'])],   /* AA_117 C4 */
+    ['y3s1_zhe_scooter',ZHE,wk('Y3S1'),(G,d)=>got(G,ZHE,d)&&done(G,'ev_zhe_scooter'),()=>SQ(ZHE,['修車行說兩千','對方付了','我請你吃燒臘','雙拼'])],   /* AA_117 C4 */
     ['y3s1_yu_tuesday',YU,wk('Y3S1'),(G,d)=>got(G,YU,d),()=>SQ(YU,['我現在每週二晚上沒有事','好奇怪','我在宿舍走來走去'])],
     ['y3s1_bh_exam',BH,wk('Y3S1',10,12),(G,d)=>got(G,BH,d)&&!G.flags.BH4_DONE&&!done(G,'ev_bohan_third_floor'),()=>SQ(BH,['📷（考卷，紅字很多）','不用安慰我。我只是要讓你知道，我也會考差。'])],   /* 刑訴期中之後、翰 4 之前 */
     ['y3s1_bh_handover',BH,wk('Y3S1',12),(G,d)=>got(G,BH,d),()=>[M(BH,'交接文件第一頁寫好了。你幫我看一句就好：『不要只教他們考試。』通順嗎？')]],

@@ -503,7 +503,7 @@ const Y2R2=(function(){
         at(G,m,21,[B('債各第一章的筆記，我做了表格。'),Object.assign(B('要的話傳給你。'),{ask:{id:'y2s2_bh_table',until:abs(m+2,21),opts:[{t:'要。',say:[{from:'classmate_bohan',text:'（照片：一張表格，欄位比內容多）'}]},{t:'我自己整理。',say:[{from:'classmate_bohan',text:'好。'}]}]}})],'y2s2_bh_table'); } }
     /* 4/21（三）22:00 麵店團群組 */
     { const m=d('f421'); if(m!=null&&inGroup(G,'noodle_team')&&knows('yu',G)&&win(G,m,22,1)&&!sent(G,'y2s2_grp_mid')){ const N=(f,t)=>({th:'g:noodle_team',from:f,text:t});
-        at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三個便當'),N('zhe','我請一碗')],'y2s2_grp_mid'); } }
+        at(G,m,22,[N('yu','這週的報告交完了'),N('yu','我要吃三個便當'),N('zhe','我請一個')],'y2s2_grp_mid'); } }
     /* 5/21（五）22:00 阿凱私訊（不影響 6/11 暑住的選擇）*/
     { const m=d('f521'); if(m!=null&&knows('kai',G)&&win(G,m,22,1)&&!sent(G,'y2s2_kai_summer')){ const A=t=>({th:'p:kai',from:'kai',text:t});
         at(G,m,22,[Object.assign(A('暑假你回家還是留宿舍'),{ask:{id:'y2s2_kai_summer',until:abs(m+2,22),opts:[{t:'還沒想。',say:[{from:'kai',text:'我也是。'}]},{t:'回家吧。',say:[{from:'kai',text:'那我一個人吃宵夜'}]}]}})],'y2s2_kai_summer'); } } };
