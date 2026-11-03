@@ -42318,7 +42318,7 @@
       "id": "AA608-CAMP-TRIM-1103",
       "title": "宿營只留認識過程（AA_608 第 9、10、10-1～10-3 節為準）：宿營只認識阿哲、芯慈、沛珊；阿哲搶旗撞到才認識、芯慈邀打大老二、沛珊第二天晚上到；夜談改聊學測（X168）；柏翰 8/29 室友才認識",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 對 AA「宿營活動蠻無聊的，可以只留認識過程嗎」「認識人物可以多一些聊天嗎」；AA 定稿 71e27e22f；AA 11-03 08:55～09:03 連續改版（使用者共創）：5348b3373、dd0f53901、f4e4eeb66、d62ebbe9c、187e3ecfa；已轉子代理",
       "next": "照 AA_608 實作 camp_y1.js／events.js＋測試 → BB"
@@ -42338,7 +42338,7 @@
       "id": "AA606-FRIEND-CARDS-1103",
       "title": "好朋友的自動劇情（AA_606）：宿營接龍特徵、名字一律用叫的、五場名片場、群像「考完吃哪家」",
       "owner": "LAWWW",
-      "status": "待開工",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "X157；AA 定稿 2bfa85d2d；3-3 Alison 改成透過阿哲在麵店認識（2d7376652），原本第一班捷運作廢",
       "next": "照 AA_606 實作＋測試 → BB"
@@ -42378,7 +42378,7 @@
       "id": "STORY-CAMP-AGE-ASK-1103",
       "title": "宿營夜談明軒問「你幾年次的？」不自然（大一同學大部分同年，不會問年次）：AA 改怎麼知道祐廷大一歲（ZHE_CALLS_GE「哥」的由來）",
       "owner": "AA",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03 截圖（UA-LAWWW-1103-27；X168）；camp_y1.js:255 ev_camp_d2_talk",
       "next": "AA_608 第 10-2 節（d62ebbe9c）已定稿：改聊學測；子代理隨 AA608-CAMP-TRIM-1103 一起做",
@@ -42434,7 +42434,7 @@
         "branch": "LAWWW2 自己的分支",
         "acceptance": "游泳池開館時水道裡有 2～4 個人來回游，手機效能不掉",
         "receiver": "LAWWW",
-        "ack": "未派"
+        "ack": "SENT"
       }
     },
     {
@@ -42452,10 +42452,10 @@
       "id": "GYM-FIT-ACTIVE-1103",
       "title": "健身中心的人真的在用器材：深蹲、啞鈴彎舉、重訓椅推舉、飛輪踩踏、划船、墊子上拉筋（程序化動作，character3d.js；crowd3d.js B1 fit），不再有站著不動的人",
       "owner": "LAWWW",
-      "status": "進行中",
+      "status": "已整合待測試",
       "priority": "P1",
       "note": "使用者 11-03「你就設計健身房真的有人在用很難嗎」（UA-LAWWW-1103-29；X170）；子代理在 worktree 做",
-      "next": "子代理交件 → 合併、測試、截圖 → BB"
+      "next": "已合併（03242e789→df63cb10c）；gym_pose_unit 新增；58 支相關測試通過 → BB 在 PC 看；手持道具交 LAWWW2（GYM-FIT-PROPS-1103）"
     },
     {
       "first": {
@@ -42476,6 +42476,33 @@
       "priority": "P1",
       "note": "使用者 11-03 直接對 AA 定（第③級）；企劃線 4fc0e0095＋第 2 節開頭改字；子代理在 worktree 做",
       "next": "子代理交件 → 合併、測試 → BB"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "體育館 B1 健身中心",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "GYM-FIT-PROPS-1103",
+      "title": "健身中心手持道具（啞鈴、槓、划船把手）＋飛輪踏板、划船座椅會動（接 character3d gymIK）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "GYM-FIT-ACTIVE-1103 合併後的缺點（子代理截圖：空手、器材不動）",
+      "next": "LAWWW2 總圖重排之後",
+      "xai": {
+        "spec": "GYM-FIT-ACTIVE-1103（df63cb10c 以後的 gym_b1）",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "彎舉、推舉、深蹲手上有東西；飛輪踏板、划船座椅跟著動作；手機效能不掉",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
     }
   ]
 }
