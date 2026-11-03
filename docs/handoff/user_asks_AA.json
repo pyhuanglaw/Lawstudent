@@ -736,6 +736,46 @@
    "task": "HANDOFF-ABC",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "2026-11-02 AA（帳號 A）：接班完成（duty_AA on）、通訊測試三方都回了；待辦估時盤點 workflow 跑中"
+  },
+  {
+   "id": "UA-AA-1103-40",
+   "at": "2026-11-03",
+   "quote": "附近書店要有一間有兩層樓 也有人會坐在地板看書 誠品風格",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "BOOKSTORE-2F-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_613 已寫；待 LAWWW 開任務、整合"
+  },
+  {
+   "id": "UA-AA-1103-41",
+   "at": "2026-11-03",
+   "quote": "社團博覽會要有同學邀請一起去啊",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "OPENING-INVITE-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_613 已寫；待 LAWWW 開任務、整合"
+  },
+  {
+   "id": "UA-AA-1103-42",
+   "at": "2026-11-03",
+   "quote": "系藍怎麼參加的要說阿",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "OPENING-INVITE-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_613 已寫；待 LAWWW 開任務、整合"
+  },
+  {
+   "id": "UA-AA-1103-43",
+   "at": "2026-11-03",
+   "quote": "學校開學的活動要有同學約一起去啊 不然先認識同學要幹嘛",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "OPENING-INVITE-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_613 已寫；待 LAWWW 開任務、整合"
   }
  ]
 }
