@@ -48,6 +48,7 @@ BROW_COL = (0.39, 0.28, 0.215)
 BROW_A = 0.85             # 眉毛濃度
 BROW_SCALE_Z = 1.0        # 眉毛網格（FaceBrow）上下放大（男生的粗眉：原本的網格太窄，畫粗的眉會被網格邊緣切掉）
 EYE_TINT_K = 0.0          # 眼睛周圍皮膚的粉紅色調拿掉多少（男生：VRoid 貼圖眼周的粉色像眼影）
+AGE_K = 0.0              # 中年的痕跡（LAWWW2 11-03 秀琴姨，BB：近看像國中生）：眼下淡淡的陰影＋法令紋；0＝不畫（其他人物都不受影響）
 CHEEK_TINT_K = 0.0        # 臉頰腮紅拿掉多少（VRoid 女性貼圖的腮紅是動畫式的大塊粉紅；林芷若 0.7）
 LIP_OUT, LIP_IN, LIP_HI = (0.86, 0.54, 0.56), (0.77, 0.36, 0.43), (0.94, 0.72, 0.72)
 LIP_A = 0.9              # 唇色濃度
@@ -833,6 +834,20 @@ def paint_skin(f, R, eyes, loops):
         rgb[sel] = mix(rgb[sel], [0.62, 0.42, 0.38], a[sel])
         a2 = 0.16 * ss(0.15, 0.4, t) * (1 - ss(0.95, 1.08, t)) * ss(-0.0002, 0.0002, dl) * (1 - ss(0.0006, 0.0018, dl))
         rgb[sel] = mix(rgb[sel], [0.78, 0.55, 0.50], a2[sel])
+    # (b2) AGE_K：眼下陰影（下眼瞼往下 2～7 mm、中間偏外）、法令紋（鼻翼旁邊到嘴角外面的一條淡淡的斜線）；只變暗、不換顏色
+    if AGE_K > 0:
+        for s_, E in eyes.items():
+            sel = mask & ((x > 0) == (s_ > 0)) & (y > 0.03)
+            t, du, dl = eye_coords(E, ax, z)
+            a = AGE_K * 0.16 * ss(0.05, 0.35, t) * (1 - ss(0.95, 1.15, t)) * np.exp(-((dl - 0.0042) / 0.0022) ** 2)
+            rgb[sel] = rgb[sel] * (1 - a[sel, None] * np.array([0.30, 0.36, 0.30]))
+        sp_ = R[loops['mouth']]; mw_ = float(np.abs(sp_[:, 0]).max()); sg_, sz_ = slit_fit(sp_); zm = float(np.interp(0.0, sg_, sz_))
+        P0 = np.array([mw_ * 1.30, zm + 0.0140]); P1 = np.array([mw_ * 1.75, zm - 0.0030])   # 鼻翼外側 → 嘴角外面（離嘴角 0.6～0.7 個嘴寬；第一版太靠近嘴角，看起來像兩塊污漬）
+        q = np.stack([ax, z], -1); dv = P1 - P0; tt = np.clip(((q - P0) @ dv) / float(dv @ dv), 0, 1)
+        dd = np.linalg.norm(q - (P0 + tt[..., None] * dv), axis=-1)
+        a = AGE_K * 0.13 * np.exp(-(dd / 0.0013) ** 2) * ss(0.0, 0.25, tt) * (1 - ss(0.75, 1.0, tt)) * mask * (y > 0.03)
+        rgb[:] = rgb * (1 - a[..., None] * np.array([0.30, 0.36, 0.34]))
+        print('  age lines: under-eye + nasolabial (AGE_K %.2f, mouth half-width %.4f)' % (AGE_K, mw_))
     # (c) 嘴唇
     B = C.co(f); sp = R[loops['mouth']]; mw = float(np.abs(sp[:, 0]).max()); sg, sz = slit_fit(sp)
     zs = np.interp(ax, sg, sz); d = z - zs; zs0 = float(np.interp(0.0, sg, sz))

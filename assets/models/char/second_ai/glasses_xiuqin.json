@@ -1,0 +1,16 @@
+{
+ "glb": "assets/models/char/second_ai/glasses_xiuqin.glb",
+ "tris": {
+  "glasses_frame": 1252,
+  "glasses_lens": 96,
+  "glasses_chain": 86
+ },
+ "bytes": 38084,
+ "ipd": 0.08,
+ "rim_w": 0.048,
+ "rim_h": 0.029,
+ "shape_power": 3.5,
+ "wire_d": 0.0017,
+ "origin": "兩個鏡片中心的中點；前方 −z、鏡腳往 +z（three.js 模型座標）",
+ "replaces": "src/props3d.js glasses()（程式產生的版本）"
+}

@@ -48,6 +48,12 @@ def make_atlas(seed=SEED):
     put('lock', HB._strand_color(rng, h, w, 0.72, sheen=(0.10, 0.22), tip_light=0.08, base=BASE), HB._clumps(rng, h, w, 5, 0.84, 0.94, 1.0, edge_taper=0.03, hw_k=(1.2, 1.55), lean=0.06, power=0.7, full=3.5, minw=4.0))   # 可昕第八版：髮尾鈍一點（參考圖是整齊的長直髮，背面看是平剪）
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
+    if P.get('grey'):   # 白頭髮（秀琴姨，LAWWW2 11-03）：每一區隨機幾條髮絲換成淺灰，比例＝P['grey']；直的（髮絲方向＝貼圖的 y）
+        g = np.array(P.get('grey_col', (0.66, 0.65, 0.64)), float)
+        for name in ('card', 'cardB', 'bang', 'lock', 'shell'):
+            x0, x1, y0, y1 = REG[name]; n = int((x1 - x0) * P['grey'] / 2)
+            for xx in rng.integers(x0, x1 - 1, n):
+                k = float(rng.uniform(0.55, 0.9)); img[y0:y1, xx:xx + int(rng.integers(1, 3)), :3] = img[y0:y1, xx:xx + 1, :3] * (1 - k) + g * k
     return img
 
 

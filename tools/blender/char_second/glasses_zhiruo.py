@@ -21,7 +21,9 @@ ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 STYLE = ARGS[ARGS.index('--style') + 1] if '--style' in ARGS else 'zhiruo'
 # 鏡框形狀：超橢圓 |x/RX|^NP + |y/RY|^NP = 1（NP 2＝橢圓；越大越方）；顏色、主人
 SPEC = {'zhiruo': dict(RX=0.022, RY=0.022 * 0.96, NP=2.0, col='#a68b80', owner='heroine_02', SEP=0.0766),   # SEP：芷若新的臉（使用者 10-22「好憨」）眼睛往中間 3.4 mm：84→76.6 mm
-        'wei': dict(RX=0.025, RY=0.0165, NP=4.5, col='#3e3f44', owner='prof_wei', SEP=0.084)}[STYLE]
+        'wei': dict(RX=0.025, RY=0.0165, NP=4.5, col='#3e3f44', owner='prof_wei', SEP=0.084),
+        # 秀琴姨（BB 11-03 16:32：老花眼鏡＋鏡鍊更有阿姨感）：酒紅褐色、扁一點的圓角長方框（4.8 × 2.9 cm）、從鏡腳尾端垂下一條細金鍊，在脖子後面繞成 U
+        'xiuqin': dict(RX=0.024, RY=0.0145, NP=3.5, col='#6a3c34', owner='xiuqin', SEP=0.080, chain=True)}[STYLE]
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/glasses_%s.glb' % STYLE)
 SEP, R_RIM, WIRE = SPEC['SEP'], SPEC['RX'], 0.00085      # 鏡片中心距、鏡框半寬（中心線）、金屬線半徑
 SEP = float(os.environ.get('GLASSES_SEP') or SEP)   # 使用者 10-22「好憨」：臉的眼距改了，鏡片中心距跟著改（環境變數試尺寸，不改檔）
@@ -29,6 +31,7 @@ RY, NP = SPEC['RY'], SPEC['NP']; RYN = RY / 0.96    # RYN：鼻托、鉸鏈的�
 B.reset(texres=256)
 M = {'frame': L.flat('glasses_frame', SPEC['col'], rough=0.32, metal=0.45),
      'lens': L.flat('glasses_lens', '#dfe8ee', rough=0.05, alpha=0.12)}
+if SPEC.get('chain'): M['chain'] = L.flat('glasses_chain', '#c9a95e', rough=0.30, metal=0.45)
 root = B.group('glasses_' + STYLE, props={'kind': 'prop_glasses', 'owner': SPEC['owner'], 'ipd': SEP, 'front': '-z'})
 
 
@@ -78,9 +81,14 @@ for k in range(1, 8):
     t = k / 8; x = br[0][0] * (1 - 2 * t); br.append((x, br[0][1] + 0.0035 * math.sin(math.pi * t), -0.0012 * math.sin(math.pi * t)))
 br.append((-br[0][0], br[0][1], 0.0))
 tube(fr, br, WIRE, 6)
+if SPEC.get('chain'):   # 鏡鍊：兩邊鏡腳尾端往下、往後，在脖子後面（髮尾裡）接成 U
+    ch = Mesh('glasses_chain', M['chain']); ex = SEP / 2 + R_RIM + 0.0006 + 0.005
+    pts = [(ex, -0.012, 0.104), (ex - 0.002, -0.040, 0.112), (ex - 0.010, -0.075, 0.118), (ex - 0.030, -0.102, 0.122), (0.0, -0.114, 0.124)]
+    tube(ch, [(-x, y, z) for (x, y, z) in pts] + [(x, y, z) for (x, y, z) in reversed(pts[:-1])], 0.00045, 5)
+    co = ch.finish(root, uv=False, smooth=False)
 fo = fr.finish(root, uv=False, smooth=False); L.smooth_mesh(fo, angle=1.2)
 lo = ln.finish(root, uv=False, smooth=False); L.smooth_mesh(lo, angle=1.2)
-tris = {ob.name: sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in (fo, lo)}
+tris = {ob.name: sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in (fo, lo) + ((co,) if SPEC.get('chain') else ())}
 print('glasses tris', tris, 'total', sum(tris.values()))
 st = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {'glb': os.path.relpath(OUT, L.ROOT), 'tris': tris, 'bytes': st['bytes'], 'ipd': SEP, **({'rim_diameter': 2 * R_RIM} if STYLE == 'zhiruo' else {'rim_w': 2 * R_RIM, 'rim_h': 2 * RY, 'shape_power': NP}), 'wire_d': 2 * WIRE,
