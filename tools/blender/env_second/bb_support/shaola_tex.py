@@ -142,7 +142,7 @@ def steel(path):
     a = np.repeat(lines, W, 1) + rng.normal(0, 3, (H, W))
     a = np.asarray(Image.fromarray(np.clip(a * 4 + 128, 0, 255).astype(np.uint8)).filter(ImageFilter.BoxBlur(0)), np.float32) / 4 - 32
     n1 = _noise(H, W, 120, 73); n2 = _noise(H, W, 20, 74, 3)
-    v = 150 + a + 26 * (n1 - 0.5) + 8 * (n2 - 0.5)
+    v = 168 + a + 26 * (n1 - 0.5) + 8 * (n2 - 0.5)
     col = np.stack([v, v + 3, v + 6], -1)
     yy, xx = np.mgrid[0:H, 0:W]
     for _ in range(18):   # 凹痕、髒手印（暗一點的圓）
