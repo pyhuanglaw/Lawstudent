@@ -18,7 +18,7 @@ const PHONE=(function(){
     if(cn&&SOCIAL.displayName&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&(SOCIAL.displayName(id)===CHARACTERS[id].name||(SOCIAL.contactKnown&&SOCIAL.contactKnown(id)))) return cn;   /* contactKnown：手機上已經知道名字（學姊 9/3 接受交友邀請起，AA_372 第 6 節第 10 題）*/
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
   S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
-    if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0;
+    if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0; if(!Array.isArray(P.fav)) P.fav=[];   /* 最愛的對話串（PHONE-FAV-1103）：舊存檔沒有＝空的 */
     if(!P.filmRen){ P.filmRen=1; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.filmRename; if(fr){ for(const k in P.groups){ const g=P.groups[k]; if(g&&typeof g.name==='string'&&/東京物語|晚春/.test(g.name)) g.name=fr(g.name).replace(/[《》]/g,''); } for(const m of (G.msgs||[])) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); for(const m of P.q) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); } }   /* 舊存檔：手機裡的真實片名換成虛構的（AA_313 6-2，D77；只做一次）*/
     if(!P.worldRen){ P.worldRen=1; const wn=typeof SOCIAL!=='undefined'&&SOCIAL.worldName, ws=typeof SOCIAL!=='undefined'&&SOCIAL.worldSpoken; if(wn&&ws){ for(const k in P.groups){ const g=P.groups[k]; if(g&&typeof g.name==='string') g.name=wn(g.name); }
       const fix=m=>{ if(m&&typeof m.text==='string') m.text=((m.from||m.who)&&(m.th||'')!=='sys'?ws:wn)(m.text); }; for(const m of (G.msgs||[])) fix(m); for(const m of P.q) fix(m); } }   /* 舊存檔：手機裡的真實校名、館名換成虛構的（WORLD-RENAME-1030，D115；人物傳的＝口語 A館、系統＝正式；只做一次）*/
@@ -78,7 +78,14 @@ const PHONE=(function(){
   S.threads=function(G,o){ const P=S.rec(G); const by=new Map(), old=G.day!=null?abs(G.day,G.hour||0)-S.UNREAD_DAYS*24:-1e9;   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/
     for(const m of G.msgs){ const th=S.th(m); if(th==='sys'&&!(o&&o.sys)) continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
       if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&abs(m.day,m.h)>old&&!m.pin) r.unread++; if(S.askOpen(G,m)) r.pending++; }   /* 待回覆＝還回得了的（askOpen：沒回、沒過期、群組次數沒用完）。原本只看「有 ask、沒回」：過期的（例：週四家人群組 22:00 過了，爸爸「？」）一直掛著「待回覆」、點進去沒有選項（使用者 10-28 01:1x，PHONE-PENDING-STALE-1028）*/
-    return [...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); };
+    const L=[...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); if(!(o&&o.fav)) return L;
+    for(const r of L) r.fav=P.fav.includes(r.th); return L.filter(r=>r.fav).concat(L.filter(r=>!r.fav)); };   /* o.fav：最愛的在最上面（PHONE-FAV-1103）；sort 是穩定的，兩邊各自照最新一則 */
+  /* 最愛（PHONE-FAV-1103，使用者 2026-11-03：「可以把某位朋友設為最愛」「他的聊天會放在最上面」）：G.phone.fav＝對話串 id 的陣列（'p:人物'、'g:群組'；通知 sys 不能設）；可以很多個。
+     訊息列表（threads 的 o.fav）：最愛的排最上面，最愛之間、其他的照舊照最新一則排 */
+  S.favOk=th=>typeof th==='string'&&(th.startsWith('p:')||th.startsWith('g:'))&&th.length>2;
+  S.isFav=(G,th)=>S.rec(G).fav.includes(th);
+  S.setFav=function(G,th,on){ const P=S.rec(G); if(!S.favOk(th)) return false; const i=P.fav.indexOf(th); if(on&&i<0) P.fav.push(th); else if(!on&&i>=0) P.fav.splice(i,1); return S.isFav(G,th); };
+  S.toggleFav=(G,th)=>S.setFav(G,th,!S.isFav(G,th));
   S.thread=(G,th)=>{ S.rec(G); return G.msgs.filter(m=>S.th(m)===th); };
   S.markSeen=function(G,th){ const P=S.rec(G); const L=S.thread(G,th); if(L.length){ const m=L[L.length-1]; P.seen[th]=abs(m.day,m.h); } };
   S.unread=G=>S.threads(G).reduce((s,r)=>s+r.unread,0);
