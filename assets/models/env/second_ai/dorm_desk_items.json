@@ -7,18 +7,18 @@
   "ITEM_desk_econ": 2,
   "ITEM_desk_ferris": 4,
   "ITEM_desk_highlighters": 216,
-  "ITEM_desk_notebook": 4,
+  "ITEM_desk_notebook": 80,
   "ITEM_desk_phone": 14,
   "ITEM_desk_board": 14,
   "ITEM_desk_film1": 26,
   "ITEM_desk_film3": 26,
-  "ITEM_desk_kai_sheet": 30,
+  "ITEM_desk_kai_sheet": 58,
   "ITEM_desk_trip_oldtown": 26,
   "ITEM_desk_trip_sea": 26,
   "ITEM_desk_trip_stars": 26
  },
- "tris_total": 420,
- "bytes": 115144,
+ "tris_total": 524,
+ "bytes": 135968,
  "pos": {
   "ITEM_desk_anniv": {
    "min": [
@@ -35,12 +35,12 @@
   "ITEM_desk_board": {
    "min": [
     -2.0,
-    1.285,
+    1.445,
     0.385
    ],
    "max": [
     -1.979,
-    1.555,
+    1.69,
     0.63
    ]
   },
@@ -119,25 +119,25 @@
   "ITEM_desk_kai_sheet": {
    "min": [
     -1.977,
-    1.308,
+    1.463,
     0.417
    ],
    "max": [
     -1.965,
-    1.53,
+    1.672,
     0.598
    ]
   },
   "ITEM_desk_notebook": {
    "min": [
-    -1.646,
-    0.771,
-    -0.76
+    -1.718,
+    0.76,
+    -0.781
    ],
    "max": [
-    -1.484,
-    0.771,
-    -0.59
+    -1.482,
+    0.779,
+    -0.474
    ]
   },
   "ITEM_desk_phone": {

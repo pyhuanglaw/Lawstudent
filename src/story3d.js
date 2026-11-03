@@ -3247,7 +3247,13 @@ const STORY = (function(){
      沒有 3D 的標籤（事件包 ROOM_EXTRA 加的）不回傳；系外套 jacket 照舊由 dorm_room4 的 JACKET_ 開關。*/
   const ROOM_ITEM_KEY={'書架上的舊《民法》':'civil','經濟學原理':'econ','寫滿的筆記本':'notebook','摩天輪的票根（夾在桌墊下）':'ferris','手機相簿的一張照片':'phone','桌上的三色螢光筆':'highlighters',
     '阿凱的泡麵評鑑表':'kai_sheet','三張連號的票根':'film3','電影票根':'film1','她的週年卡片':'anniv','經濟系的系外套':'jacket'};
-  S.roomItemKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; for(const r of S.roomItemList(G)){ let k=ROOM_ITEM_KEY[r[0]]; if(!k&&r[0]==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } if(k&&!K.includes(k)) K.push(k); } return K; };
+  S.roomItemKeyOf=function(G,label){ const F=(G&&G.flags)||{}; let k=ROOM_ITEM_KEY[label]; if(!k&&label==='旅行的照片'){ const T=F.KX_TRIP&&F.KX_TRIP.Y1S2; if(T) k='trip_'+T; } return k||null; };
+  S.roomItemKeys=function(G){ const K=[]; for(const r of S.roomItemList(G)){ const k=S.roomItemKeyOf(G,r[0]); if(k&&!K.includes(k)) K.push(k); } return K; };
+  /* 選了那一項：鏡頭轉去看那件東西（BB 2026-11-03 14:03 第 4 點：選單和畫面要對得上）。鏡頭位置在 dorm_desk_items.glb 節點的 userData.eye／look（GLB 根節點座標＝房間座標）；
+     那件東西沒顯示（別的年份、沒有這個旗標）或沒有鏡頭資料就不轉。旁白講完 E.endCinematic 回到原本的鏡頭；sceneEnd 也會再收一次 */
+  S.roomItemFocus=function(GM,label){ const E=GM&&GM.E, k=S.roomItemKeyOf(GM&&GM.G,label); if(!E||!E.scene||!k||!E.cinematic) return false; const o=E.scene.getObjectByName('ITEM_desk_'+k), u=o&&o.userData;
+    if(!o||!u||!u.eye||!u.look||!o.parent) return false; let v=o; while(v){ if(v.visible===false) return false; v=v.parent; } o.parent.updateMatrixWorld(true);
+    E.cinematic(o.parent.localToWorld(new THREE.Vector3(u.eye[0],u.eye[1],u.eye[2])),o.parent.localToWorld(new THREE.Vector3(u.look[0],u.look[1],u.look[2]))); return true; };
   /* ★主線 3 第二個房間（AA_12 主線 3；AA_177 第 7 節；劇情事實 AA_176 R8）：大二上開學前一天 9/6（日）以後、還沒搬（ROOM_Y2）。
      在家（週末回家）＝下一輪選單之前：旁白「明天開學。今天搬進新的房間。」→ 字卡「回宿舍」「捷運＋公車 約 40 分鐘」→ 新房間（home3d.js 的 loop）；
      人在宿舍房間＝直接拆箱。四個紙箱，物件一件一件拿出來（只有大一經歷過的才有，AA_12 的表；驗收要點：不能出現玩家沒經歷過的東西），
@@ -3346,7 +3352,7 @@ const STORY = (function(){
       GM.memo('搬進第三個房間'); if(GM.autosave) GM.autosave(); }
     finally{ delete F.ROOM_Y3_MOVING; GM.sceneEnd(); }
     return true; };
-  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; if(typeof L[i][2]==='function'){ await L[i][2](GM); break; } for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }   /* 第三欄＝動作（例：玩子晴的測試版，src/zq_testbuild3d.js）：做完就離開選單 */
+  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; const cam=S.roomItemFocus(GM,L[i][0]); if(typeof L[i][2]==='function'){ await L[i][2](GM); break; } for(const t of [].concat(L[i][1])) await GM.say(null,t); if(cam) GM.E.endCinematic(); } } finally { GM.sceneEnd(); } }   /* 第三欄＝動作（例：玩子晴的測試版，src/zq_testbuild3d.js）：做完就離開選單 */
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛 prop_pothos.glb（ART-04，LAWWW2-C 639f0188）由 zones3d.js 的 z.setPothos 放、照澆水次數換大小 */
   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);
