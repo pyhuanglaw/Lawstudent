@@ -107,7 +107,7 @@ const ENCOUNTERS={
     {who:'heroine_04',spot:'D18',why:'她坐在石階上，平板上畫著九份的燈籠。',days:[0],from:16,to:20,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[13],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D18_ZQ',away:'在九份',
       lines:{acq:['你怎麼也在九份。','我在畫燈籠。……畫好玩的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是……你怎麼知道我在這？','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
     {who:'heroine_05',spot:'D24',why:'她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',
-      lines:{acq:['學弟。我陪爸媽來泡腳。（溫爸爸點了一下頭。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我爸問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我爸媽在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
+      lines:{acq:['學弟。我陪家人來泡腳。（她奶奶朝你點了一下頭。阿公在旁邊看報紙。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我奶奶問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我家人在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
     {who:'heroine_02',spot:'D25',why:'她坐在堤防上，手上一台底片相機，等著一道浪。',days:[6],from:14,to:18.5,terms:['Y1S1','Y2S1','Y3S2'],weeks:[4],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D25_ZR',away:'在外澳拍照',
       lines:{acq:['你也來看海？','我在拍照。底片的，一卷只有三十六張。'],friend:['別動。你站在那裡，風就小了。','這一張我想拍很久了。浪剛好要碎掉的那一秒。'],dating:['你怎麼會在這裡？','我還剩最後一張。拍你好了。']},src:'BB_150 1、2-5'}
   ],

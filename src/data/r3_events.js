@@ -152,7 +152,7 @@ const R3_EVENTS=(function(){
       SIS('她說叫你一起。六點半，公館。',{if:FATHER_HERE}),
       {if:FATHER_HERE,choice:[{text:'「好。」',set:{SIS_FATHER_GO:true,SIS_FATHER_ASKED:'face'},goto:'fy'}]},   /* AA_609 第 7 節：一定會去——「那天不行。」（→「好。我跟她說。」）不給 */
       {goto:'desk'},
-      {label:'fy'},SIS('好。不用穿太正式。'),
+      {label:'fy'},SIS('好。我跟她說。'),SIS('好。不用穿太正式。'),   /* AA 11-03 10:05：「好。我跟她說。」照留，接在「好。」後面 */
       {label:'desk'},
       {if:{custom:G=>deskN(G)>0},goto:'again'},
       {advance:toH(23.5)},

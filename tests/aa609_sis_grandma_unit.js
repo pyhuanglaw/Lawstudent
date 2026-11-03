@@ -38,8 +38,8 @@ const LABEL=k=>SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL[k];
 await sec(1,async()=>{
   { const G=setup('2029-03-14',21,'dorm','CLOSE',{SIS_DESK_NIGHTS:2}); H.date(ID); const L=await runEv('ev_sis_y4_desks',[0]);
     const i=L.indexOf('我奶奶週六要請吃飯。');
-    check('1. 3/14 人在研究室：「我奶奶週六要請吃飯。」「她說叫你一起。六點半，公館。」→「好。」→「好。不用穿太正式。」',i>=0&&J(L.slice(i,i+3))===J(['我奶奶週六要請吃飯。','她說叫你一起。六點半，公館。','好。不用穿太正式。']),J(L));
-    check('1. 選項只有「好。」（第 7 節一定會去：沒有「那天不行。」、沒有「好。我跟她說。」）',J(H.opts[0])===J(['「好。」'])&&!L.includes('好。我跟她說。'),J(H.opts));
+    check('1. 3/14 人在研究室：「我奶奶週六要請吃飯。」「她說叫你一起。六點半，公館。」→「好。」→「好。我跟她說。」「好。不用穿太正式。」（AA 11-03 10:05）',i>=0&&J(L.slice(i,i+4))===J(['我奶奶週六要請吃飯。','她說叫你一起。六點半，公館。','好。我跟她說。','好。不用穿太正式。']),J(L));
+    check('1. 選項只有「好。」（第 7 節一定會去：沒有「那天不行。」）',J(H.opts[0])===J(['「好。」']),J(H.opts));
     check('1. 當面說過：SIS_FATHER_ASKED face、SIS_FATHER_GO true；沒有「爸」',G.flags.SIS_FATHER_ASKED==='face'&&G.flags.SIS_FATHER_GO===true&&!L.some(t=>DAD.test(t)));
     G.hour=23.6; R3.father(G); const q=OUT.get(G,'r3_sis_father');
     check('1. 當面說過：手機不再傳；3/17 18:30 出遊、must、標題「她奶奶的晚餐」',!PHONE.sent(G,'r3_sis_father')&&!!q&&q.day===H.D('2029-03-17')&&q.h===18.5&&q.must===true&&q.ev==='ev_sis_y4_father'&&q.title==='她奶奶的晚餐',J(q)); }
@@ -135,4 +135,7 @@ await sec(8,()=>{
 });
 
 H.done();
-})();
+})();  { const enc=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/encounters.js'),'utf8'), r3=require('fs').readFileSync(require('path').join(__dirname,'..','src/r3_3d.js'),'utf8'), ev=require('fs').readFileSync(require('path').join(__dirname,'..','src/data/r3_events.js'),'utf8');
+    check('AA 10:05 ① 3/14 答應以後「好。我跟她說。」（當面、私訊都有）；18:45 晚到的私訊照留、改「我奶奶先點菜了」、只有「快到了。」',/SIS\('好。我跟她說。'\),SIS\('好。不用穿太正式。'\)/.test(ev)&&/text:'好。我跟她說。'\},\{from:SIS,text:'好。不用穿太正式。'\}/.test(r3)&&/我奶奶先點菜了。……你在路上嗎？/.test(r3)&&/opts:\[\{t:'快到了。',say:\[\{from:SIS,text:'好。'\}\]\}\]\}/.test(r3));
+    check('AA 10:05 ② 礁溪三句沒有爸爸：「我陪家人來泡腳。（她奶奶朝你點了一下頭。阿公在旁邊看報紙。）」「我奶奶問你是誰」「我家人在那邊」',/我陪家人來泡腳。（她奶奶朝你點了一下頭。阿公在旁邊看報紙。）/.test(enc)&&/我奶奶問你是誰，我說是學弟。/.test(enc)&&/我家人在那邊。今天我是女兒。/.test(enc)&&!/溫爸爸|我爸問你|我爸媽在那邊|我陪爸媽/.test(enc)); }
+
