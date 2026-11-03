@@ -1,0 +1,62 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_an_smoke_probe.py http://127.0.0.1:8811/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\Z_ANSMOKE\out
+cc_an_smoke_probe  SHA=7224af47a  URL=http://127.0.0.1:8811/index.html?turbo  CASES=tana_ok,tana_low,admin
+== case tana_ok ==
+PASS tana_ok：遊戲載入
+  [前置／捷徑] [前置] tana_ok 讀檔 2028-07-07 18:45 日本據點 jp_hub（日本路線 JPF、挽回中＝沒有 dating_heroine_01、REPAIR.heroine_01=3）
+PASS tana_ok 前置：人在日本、挽回中、REPAIR=3、這一版有 ev_jp_tanabata_repair  {"key": "2028-07-07", "h": 18.754, "zone": "jp_hub", "inJapan": true, "dating": false, "repair": 3, "hasEvT": true}
+  [  31.2s] tana_ok：畫面上的選單 ["共用廚房", "便利商店", "河邊", "看手機和朋友聯絡", "在房間休息一下走進你的房間", "快轉到下一個有事的日子、過三天、過一週", "存檔存到存檔欄位", "睡覺明天 08:30 醒來"]
+  [  31.2s] tana_ok：點「快轉到下一個有事的日子、過三天、過一週」（像玩家；遊戲時間 {"day": 1025, "key": "2028-07-07", "h": 18.754, "zone": "jp_hub"}）
+  [  32.9s] tana_ok：畫面上的選單 ["到下一個有事的日子跳到 7/7（五）19:00", "過三天到 7/10（一）08:30（中間有事會先停）", "過一週到 7/14（五）08:30（中間有事會先停）", "不用了"]
+  [  32.9s] tana_ok：點「到下一個有事的日子跳到 7/7（五）19:00」（像玩家；遊戲時間 {"day": 1025, "key": "2028-07-07", "h": 18.754, "zone": "jp_hub"}）
+PASS tana_ok：18:45 據點選單照玩家點「快轉→到下一個有事的日子」→ 7/7 19:00 據點自己演 ev_jp_tanabata_repair（JP.playStop g7_tanabata，沒有用捷徑）  {"taps": ["快轉到下一個有事的日子、", "到下一個有事的日子跳到 "], "stops": ["g7_tanabata"], "evs": ["ev_jp_tanabata_repair"], "clock": {"day": 1025, "key": "2028-07-07", "h": 19, "zone": "jp_hub"}}
+  [  40.7s] tana_ok：GAME.say [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她在自己那張上面寫了一個字，掛在你那張旁邊。上面寫著：「好。」）"], ["沈以安", "……不准賴。"]]；選項 []
+PASS tana_ok：事件演完（600 秒內）  {"ended": true, "done": 1}
+PASS tana_ok：沒有選項（AA_600 3-2：「再一次。」祐廷寫、「好。」她寫，不是玩家選）  []
+PASS tana_ok：台詞照 7224（AA_600 3-2）["（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）", "（她在自己那張上面寫了一個字，掛在你那張旁邊。上面寫著：「好。」）", "……不准賴。"]  {"got": [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她在自己那張上面寫了一個字，掛在你那張旁邊。上面寫著：「好。」）"], ["沈以安", "……不准賴。"]]}
+PASS tana_ok：沒有另一支（（她看了很久，把短冊還給）也沒有舊稿（你要看嗎？）  {"got": [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她在自己那張上面寫了一個字，掛在你那張旁邊。上面寫著：「好。」）"], ["沈以安", "……不准賴。"]]}
+PASS tana_ok：最後一句是以安說的、前面都是旁白  ["", "", "", "沈以安"]
+PASS tana_ok：旗標 AN_TANABATA_JP_REPAIR=again、AN_JP_RECONCILED、after＝回到交往（dating_heroine_01）  {"tana": "again", "recon": true, "dating": true, "romance": "dating", "repair": 3}
+PASS tana_ok：這一場不記記憶（7224 的 TANABATA_R 沒有 mem）——以安的記憶沒有新增七夕  []
+PASS tana_ok：結束後不卡（EVENTS.running 清掉、據點選單回來；據點 sceneBegin 時 busy 本來就是 true）  {"dlg": false, "name": "", "txt": "", "ch": [{"t": "共用廚房", "dim": false}, {"t": "便利商店", "dim": false}, {"t": "河邊", "dim": false}, {"t": "看手機和朋友聯絡", "dim": false}, {"t": "在房間休息一下走進你的房間", "dim": false}, {"t": "快轉到下一個有事的日子、過三天、過一週", "dim": false}, {"t": "存檔存到存檔欄位", "dim": false}, {"t": "睡覺明天 08:30 醒來", "dim": false}], "busy": true, "depth": 1, "phone": false, "running": null, "h": 19, "day": 1025, "zone": "jp_hub", "lab": "", "adv": true}
+PASS tana_ok：沒有 JS 例外（pageerror、事件 reject、G.events.failed）  [][]
+== case tana_low ==
+PASS tana_low：遊戲載入
+  [前置／捷徑] [前置] tana_low 讀檔 2028-07-07 18:45 日本據點 jp_hub（日本路線 JPF、挽回中＝沒有 dating_heroine_01、REPAIR.heroine_01=2）
+PASS tana_low 前置：人在日本、挽回中、REPAIR=2、這一版有 ev_jp_tanabata_repair  {"key": "2028-07-07", "h": 18.757, "zone": "jp_hub", "inJapan": true, "dating": false, "repair": 2, "hasEvT": true}
+  [  72.2s] tana_low：畫面上的選單 ["共用廚房", "便利商店", "河邊", "看手機和朋友聯絡", "在房間休息一下走進你的房間", "快轉到下一個有事的日子、過三天、過一週", "存檔存到存檔欄位", "睡覺明天 08:30 醒來"]
+  [  72.3s] tana_low：點「快轉到下一個有事的日子、過三天、過一週」（像玩家；遊戲時間 {"day": 1025, "key": "2028-07-07", "h": 18.757, "zone": "jp_hub"}）
+  [  73.9s] tana_low：畫面上的選單 ["到下一個有事的日子跳到 7/7（五）19:00", "過三天到 7/10（一）08:30（中間有事會先停）", "過一週到 7/14（五）08:30（中間有事會先停）", "不用了"]
+  [  73.9s] tana_low：點「到下一個有事的日子跳到 7/7（五）19:00」（像玩家；遊戲時間 {"day": 1025, "key": "2028-07-07", "h": 18.757, "zone": "jp_hub"}）
+PASS tana_low：18:45 據點選單照玩家點「快轉→到下一個有事的日子」→ 7/7 19:00 據點自己演 ev_jp_tanabata_repair（JP.playStop g7_tanabata，沒有用捷徑）  {"taps": ["快轉到下一個有事的日子、", "到下一個有事的日子跳到 "], "stops": ["g7_tanabata"], "evs": ["ev_jp_tanabata_repair"], "clock": {"day": 1025, "key": "2028-07-07", "h": 19, "zone": "jp_hub"}}
+  [  81.1s] tana_low：GAME.say [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她看了很久，把短冊還給你。）"], ["沈以安", "掛上去吧。"]]；選項 []
+PASS tana_low：事件演完（600 秒內）  {"ended": true, "done": 1}
+PASS tana_low：沒有選項（AA_600 3-2：「再一次。」祐廷寫、「好。」她寫，不是玩家選）  []
+PASS tana_low：台詞照 7224（AA_600 3-2）["（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）", "（她看了很久，把短冊還給你。）", "掛上去吧。"]  {"got": [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她看了很久，把短冊還給你。）"], ["沈以安", "掛上去吧。"]]}
+PASS tana_low：沒有另一支（（她在自己那張上面寫了一）也沒有舊稿（你要看嗎？）  {"got": [["", "（宿舍門口的竹子上掛滿了短冊。以安站在旁邊，手上那一張還沒寫。）"], ["", "（你寫了一張，拿給她看。上面只有一行：「再一次。」）"], ["", "（她看了很久，把短冊還給你。）"], ["沈以安", "掛上去吧。"]]}
+PASS tana_low：最後一句是以安說的、前面都是旁白  ["", "", "", "沈以安"]
+PASS tana_low：旗標 AN_TANABATA_JP_REPAIR=hung、沒有 RECONCILED、沒有交往  {"tana": "hung", "recon": false, "dating": false, "romance": null, "repair": 2}
+PASS tana_low：這一場不記記憶（7224 的 TANABATA_R 沒有 mem）——以安的記憶沒有新增七夕  []
+PASS tana_low：結束後不卡（EVENTS.running 清掉、據點選單回來；據點 sceneBegin 時 busy 本來就是 true）  {"dlg": false, "name": "", "txt": "", "ch": [{"t": "共用廚房", "dim": false}, {"t": "便利商店", "dim": false}, {"t": "河邊", "dim": false}, {"t": "看手機和朋友聯絡", "dim": false}, {"t": "在房間休息一下走進你的房間", "dim": false}, {"t": "快轉到下一個有事的日子、過三天、過一週", "dim": false}, {"t": "存檔存到存檔欄位", "dim": false}, {"t": "睡覺明天 08:30 醒來", "dim": false}], "busy": true, "depth": 1, "phone": false, "running": null, "h": 19, "day": 1025, "zone": "jp_hub", "lab": "", "adv": true}
+PASS tana_low：沒有 JS 例外（pageerror、事件 reject、G.events.failed）  [][]
+== case admin ==
+PASS admin：遊戲載入
+  [前置／捷徑] [前置] admin 讀檔 2027-10-27 21:00 宿舍；AN_ADMIN_NEXT（10/21 麵店選「下次我也想去。」）、ev_an_admin_court 記成演過
+  [前置／捷徑] 【捷徑】SOCIAL.meet 以安＋熟悉 45、信任 30（FRIEND）：{"stage": "FRIEND", "fam": 45, "trust": 30}
+PASS admin 前置：FRIEND、AN_ADMIN_NEXT、這一版有 ev_an_admin_court_together  {"key": "2027-10-27", "h": 21.06, "zone": "dorm", "stage": "FRIEND", "adminNext": true, "hasEvA": true, "reg": "assets/cg/heroine_01/cg_admin_court.webp"}
+PASS admin：10/27 21:00 以安私訊三則（AA_601 §1-2）  [{"t": "下禮拜三下午兩點半，行政法院。", "ask": null, "ans": null}, {"t": "📷（一張開庭表，第二行用螢光筆畫了一條線。）", "ask": null, "ans": null}, {"t": "旁聽席很小。我一點五十到。", "ask": "y3_an_admin", "ans": null}]
+PASS admin：手機照玩家點「好。」→ AN_ADMIN_GO  {"answered": true, "adminGo": true, "msgs": [{"t": "旁聽席很小。我一點五十到。", "ask": "y3_an_admin", "ans": 0}, {"t": "好。", "ask": null, "ans": null}]}
+PASS admin：出遊 y3_an_admin 排進去（2027-11-03 13:50 ev_an_admin_court_together）  {"state": "planned", "day": "2027-11-03", "h": 13.833333333333334, "ev": "ev_an_admin_court_together"}
+  [前置／捷徑] [前置] 同一份進度跳到 2027-11-03（Y3S1 第 9 週）13.10 時 dorm；同一份進度（出遊已經約好）跳到出遊那天 13:06 宿舍，不是遊戲裡的睡覺
+  [ 134.1s] admin：遊戲跳出 ["出發：行政法院旁聽（以安）13:50行政法院・旁聽席　捷運約 30 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 點「出發：行政法院旁聽（以安）13:50行政法院・旁聽席　捷運約 30 分鐘」（像玩家）
+PASS admin：11/3 遊戲跳出「出發：…行政法院…」照玩家點、ev_an_admin_court_together 開演（沒有用捷徑）  {"tapped": true, "started": true, "menus": [], "clock": {"day": 778, "key": "2027-11-03", "h": 13.833, "zone": "dorm"}}
+  [ 145.1s] admin：GAME.say [["", "（行政法院的旁聽席只有三排。你們坐在最後一排。）"], ["", "（左邊是一個人和他的律師，右邊是機關的兩個代理人。法官進來，大家站起來，再坐下。）"], ["", "（一個小時。以安的筆一直停在筆記本上，一個字都沒寫。）"], ["", "（退庭以後，你們走出法院。外面的太陽很大。）"], ["沈以安", "……他講完了。"], ["沈以安", "嗯。這次我自己看到了。"]]；選項 ["「法官一直讓他講完。」"]
+PASS admin：事件演完  {"ended": true, "done": 1}
+PASS admin：台詞照 AA_601 §2（a 支）  {"got": [["", "（行政法院的旁聽席只有三排。你們坐在最後一排。）"], ["", "（左邊是一個人和他的律師，右邊是機關的兩個代理人。法官進來，大家站起來，再坐下。）"], ["", "（一個小時。以安的筆一直停在筆記本上，一個字都沒寫。）"], ["", "（退庭以後，你們走出法院。外面的太陽很大。）"], ["沈以安", "……他講完了。"], ["沈以安", "嗯。這次我自己看到了。"]]}
+PASS admin：CG-29（cg_admin_court_heroine01）在第二句旁白之後、「一個小時」那一句之前放出來  [["say", "（行政法院的旁聽席只"], ["say", "（左邊是一個人和他的"], ["cg", "cg_admin_court_heroine01"], ["say", "（一個小時。以安的筆"], ["say", "（退庭以後，你們走出"], ["say", "……他講完了。"]]
+PASS admin：CG_REGISTRY 有 CG-29、G.cg.unlocked 記到  {"reg": "assets/cg/heroine_01/cg_admin_court.webp", "unlocked": ["cg_admin_court_heroine01"]}
+PASS admin：選項三個、點「法官一直讓他講完。」  {"picked": ["「法官一直讓他講完。」"], "menus": [["「法官一直讓他講完。」", "「妳怎麼一個字都沒寫？」", "（不說話，陪她走到捷運站）"]]}
+PASS admin：AN_ADMIN_TOGETHER=there、記憶 AN_ADMIN_TOGETHER、熟悉 +2 信任 +1  {"adminTog": "there", "mems": ["FIRST_MET", "AN_ADMIN_TOGETHER"], "fam": [45, 47], "trust": [30, 31]}
+PASS admin：結束後不卡（player.busy 回到 false、對話框收起、ADV 關、EVENTS.running 清掉）  {"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "running": null, "h": 15.838, "day": 778, "zone": "dorm", "lab": "走出房間", "adv": false}
+PASS admin：沒有 JS 例外（pageerror、事件 reject、G.events.failed）  [][]
+用時 146 秒
+ALL PASS

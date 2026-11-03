@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Z_ANSMOKE",
+  "sha": "7224af47a",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_an_smoke_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T17:55:16",
+  "end": "2026-11-03T17:58:19",
+  "seconds": 183,
+  "exit": 0,
+  "error": null,
+  "runner": "02a9caf4ba",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 56,
+    "used_gb": 18.0,
+    "chrome_testing": 27
+  }
+}

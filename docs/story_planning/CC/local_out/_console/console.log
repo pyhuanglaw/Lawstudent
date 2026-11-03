@@ -367,3 +367,11 @@
 [17:52:39] [res] cpu=17% mem=52% (16.1/31.4 GB) chrome_testing=18  START 00_gpu
 [17:54:17] 正在跑：FS112（已跑 9 分／上限 360 分）、D_B02_playfix（已跑 6 分／上限 120 分）、00_gpu（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:55:07] [res] cpu=26% mem=51% (16.1/31.4 GB) chrome_testing=18  END 00_gpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       03b4f3c68..abe3a8a6f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:55:12] ==== END   00_gpu  exit=0  151s   ====
+[17:55:16] memory 50% before starting Z_ANSMOKE (2 running)
+[17:55:16] ==== START Z_ANSMOKE  (probe @ 7224af47a) ====
+[17:55:19] [res] cpu=33% mem=51% (15.9/31.4 GB) chrome_testing=18  START Z_ANSMOKE
+[17:58:19] [res] cpu=58% mem=51% (16.0/31.4 GB) chrome_testing=18  END Z_ANSMOKE
