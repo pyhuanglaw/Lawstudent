@@ -34,6 +34,11 @@
 ## 測試（雲端；Node）
 `nav_buildings`（含總圖 82 個互動點都走得到、閘門四道）、`library_hall_v2_oldsave`、`library_upper`、`library_b1`、`b1story`、`aa379_sis_lib`、`library_copier`、`library_media`、`library_hall_cam_core`、`library_hall_lightmap`、`libq_aa_1102`、`libq_out_1102`、`library_3f_v2` ALL PASS。背景路人的新路線四段模擬走路都走得到。
 
+## 進度（11-03 09:5x）
+- 光照烘焙完成（lm_probe 10 個點 ALL PASS）；模型、光照貼圖在本分支 `assets/models/env/second_ai/library_hall_v2*`（三角形 7.6 萬 → 10.9 萬，多的是照平面圖加的書架；檔案 6.6 → 9.8 MB）。
+- 遊戲內截圖（14:00，7 個鏡頭）：`game_v4_14h_contact.jpg`。
+- 總圖相關 Node 單元測試 20 支 ALL PASS（烘焙後）。
+
 ## 還沒做
-- 光照烘焙（跑 `bake_library_hall_v2.sh`）→ 遊戲內截圖（平面圖同角度）→ 瀏覽器測試（flow_library_floors、flow_library_scene、flow_lib_tour、reachability_all、seats_on_furniture）→ 交 LAWWW、BB。
+- 瀏覽器測試（跑中）（flow_library_floors、flow_library_scene、flow_lib_tour、reachability_all、seats_on_furniture）→ 交 LAWWW、BB。
 - 3F、B1 的平面圖對照圖。
