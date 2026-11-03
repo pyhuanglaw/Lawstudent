@@ -9,7 +9,7 @@
 #   七盞吊燈（暖色燈罩，燈罩下緣 2.37 m）：燈罩裡一顆暖色點光源；燈罩上面漏一點光到天花板（燈罩頂的開口），另一顆小的；
 #   櫃台的黃銅檯燈（燈罩在 (0.95, 1.25, 3.05)）：一顆小的暖色點光源。二手書店的燈本來就偏暖、偏暗，白天燈照開。
 # 外殼（--shell S）：店面（+z）有玻璃，天光從這一面進來；其他包黑殼。
-# --nolm（照舊即時光）：書（一萬五千多個三角形，頂點色）、燈罩、檯燈、吊燈電線、黃銅、黑色小零件、紙袋、海報、手寫牌（SIGN_FACE：字由遊戲 canvas 畫）、窗框。
+# --nolm（照舊即時光）：靠牆書架背板的背面（bk_shelfback，11-03：牆淡出時看得到，烘焙照不到＝純黑）、書（一萬五千多個三角形，頂點色）、燈罩、檯燈、吊燈電線、黃銅、黑色小零件、紙袋、海報、手寫牌（SIGN_FACE：字由遊戲 canvas 畫）、窗框。
 #   地板、天花板、樑、牆、書架、櫃台桌照樣烘。
 # 10-31 遊戲內試了四版（64 取樣；截圖在 docs/art-rebuild/second_ai/test_shots/bookstore_lm_1031/README.md）：
 #   吊燈 30 W、天光 0.5：整間偏暗，淺色木地板看起來是深咖啡色（D112：不要深色木地板）。四面牆、兩排都是深色木書架，光幾乎都被吃掉：
@@ -21,7 +21,7 @@ OUTDIR=${2:-assets/models/env/second_ai}
 RES=${3:-1024}
 TMP=$(mktemp -d)
 HIDE='glass'
-NOLM='bk_books|lampshade|desklamp|lamp_cord|lamp_brass|bk_brass|bk_black|bk_bags|posters|SIGN_FACE|frame'
+NOLM='bk_shelfback|bk_books|lampshade|desklamp|lamp_cord|lamp_brass|bk_brass|bk_black|bk_bags|posters|SIGN_FACE|frame'
 WARM=${LCOL:-1.0,0.86,0.68}
 PW=${PENDW:-400}; TOPW=${TOPW:-40}; DW=${DESKW:-5}
 PT=""

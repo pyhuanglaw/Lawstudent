@@ -34,6 +34,9 @@ M = {
     'wall': L.pbr('bk_wall', 'white_plaster_02', tile=1.4, target='#e6dcc8', maps=('diff',), res=256, rough_value=0.9),
     'ceil': L.flat('bk_ceiling', '#efe7d8', rough=0.9, cull=True), 'beam': L.flat('bk_beam', '#5a4130', rough=0.7, cull=True),
     'shelf': L.pbr('bk_shelf', 'black_walnut_veneer_01', tile=1.0, target='#4e3624', maps=('diff',), res=256, rough_value=0.7),
+    # 靠牆書架背板的「背面」（ART-OLDROAD-SHELF-1103，BB 11-03：鏡頭在牆外、牆淡出時，書架背面全黑）：背板離牆 3.5 cm，烘焙時那一面照不到光＝光照貼圖 0＝純黑。
+    # 另做一片貼在背板後面 2 mm、不烘（即時光，bake_bookstore.sh 的 --nolm 有 shelfback），淺色木紋（D112 不要深色木頭）
+    'shelfback': L.pbr('bk_shelfback', 'fine_grained_wood', tile=1.0, target='#b89470', maps=('diff',), res=256, rough_value=0.75),
     'books': L.vc_material('bk_books', rough=0.75), 'paper': L.flat('bk_paper', '#e8e0cc', rough=0.9),
     'table': L.pbr('bk_table', 'walnut_veneer', tile=1.0, target='#6e4b30', maps=('diff',), res=256, rough_value=0.6),
     'brass': L.flat('bk_brass', '#9a7840', rough=0.35, metal=0.45), 'shade': L.flat('bk_lampshade', '#e9c98f', rough=0.5, emit=B.srgb('#ffcf8a')),
@@ -80,7 +83,10 @@ def shelf_unit(cx, cz, ang, ln, levels=(0.1, 0.66, 1.22, 1.78), Hs=2.4, Ds=0.4, 
     def boxw(u0, u1, y0, y1, v0, v1):
         pts = [fr.p(u, y, v) for u in (u0, u1) for y in (y0, y1) for v in (v0, v1)]
         xs, zs = [q[0] for q in pts], [q[2] for q in pts]; sh.box(min(xs), max(xs), y0, y1, min(zs), max(zs))
-    if back: boxw(0, ln, 0, Hs, 0.0, 0.02)
+    if back:
+        boxw(0, ln, 0, Hs, 0.0, 0.02)
+        pts = [fr.p(u, y, v) for u in (0, ln) for y in (0, Hs) for v in (-0.006, -0.002)]   # 背板後面那一片（不烘、即時光）
+        xs, zs = [q[0] for q in pts], [q[2] for q in pts]; shelfback.box(min(xs), max(xs), 0.0, Hs, min(zs), max(zs))
     nb = max(1, round(ln / 1.0))
     for i in range(nb + 1): u = ln * i / nb; boxw(max(0, u - 0.015), min(ln, u + 0.015), 0, Hs, 0.0 if not double else -0.38, Ds)
     boxw(0, ln, 0, 0.1, 0.0 if not double else -0.38, Ds); boxw(0, ln, Hs - 0.04, Hs, -0.0 if not double else -0.39, Ds + 0.02)
@@ -106,7 +112,7 @@ def shelf_unit(cx, cz, ang, ln, levels=(0.1, 0.66, 1.22, 1.78), Hs=2.4, Ds=0.4, 
     return fr
 
 
-shelf = Mesh('bk_shelf', M['shelf'])
+shelf = Mesh('bk_shelf', M['shelf']); shelfback = Mesh('bk_shelfback', M['shelfback'])
 # ---- 地板、天花板（木梁）、吊燈
 Mesh('bk_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
 ce = Mesh('bk_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
@@ -174,7 +180,7 @@ for side, ms in walls.items():
     for m in ms:
         m.name = f'WALL_{m.name}'; m.finish(root, uv=True, props={'dir': DIRS[side]})
 for m, props in signs: uv01(m.finish(root, uv=True, props=props))
-shelf.finish(root); books.finish(root, uv=False)
+shelf.finish(root); shelfback.finish(root); books.finish(root, uv=False)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)
