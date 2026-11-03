@@ -396,6 +396,8 @@ const CROWD=(function(){
         const sp=S.SPOTS.find(q=>q.id===id); for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(o.instant||!GM||!GM.E){ E.removeNPC(n); continue; } n.lookAt=null; if(n.seat) standNPC(E,n); n.seatTarget=null; walkAwayCrowd(GM,sp,n,'door'); } L.npcs=[]; L.yielded=true; } }
     const R=S.shopRes[zone]||(S.shopRes[zone]={}); R[k]={day:o.day!=null?o.day:(G?G.day:null),until:o.until!=null?o.until:null,who:o.who&&o.who.id||o.whoId||null}; return st||true; };
   S.shopSeatFree=function(zone,seat){ const R=S.shopRes[zone]; if(!R) return false; if(seat==null){ delete S.shopRes[zone]; return true; } const k=resKey(zone,seat); if(!k||!R[k]) return false; delete R[k]; return true; };
+  /* 留給約好一起來的人的那一組兩人座（keep）：照作息進店的有名字的人（story3d populateSchedule）也先不坐（BB 11-03：沛珊、阿哲 12:30 坐掉一個）*/
+  S.shopKeepSeats=function(G){ const def=G&&S.SHOP_ZONES[G.zone]; if(!def) return []; const pl=S.shopPlan(def,G), u=pl.keep>=0?def.units[pl.keep]:null; return (u&&u.seats)||[]; };
   S.shopSeatPick=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, def=G&&S.SHOP_ZONES[G.zone]; if(!E||!E.zone||!Array.isArray(E.zone.seats)) return null; let keep=[];
     if(def){ const pl=S.shopPlan(def,G), u=pl.keep>=0?def.units[pl.keep]:null; if(u&&u.seats) keep=u.seats; }
     const free=E.zone.seats.filter(st=>!st.label&&!S.seatBusy(E,st)), notKeep=free.filter(st=>!keep.some(q=>Math.hypot(q.x-st.x,q.z-st.z)<0.12));
