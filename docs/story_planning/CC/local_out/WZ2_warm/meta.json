@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ2_warm",
+  "sha": "3670b96eb",
+  "kind": "probe",
+  "script": "tools/cc_local/fps_zones.py",
+  "env": "CC_HEADLESS=0;ZONES=wenzhou;SLOTS=day,night,rain;WARM=20",
+  "machine": "MSI",
+  "start": "2026-11-03T16:41:21",
+  "end": "2026-11-03T16:44:30",
+  "seconds": 189,
+  "exit": 0,
+  "error": null,
+  "runner": "02a9caf4ba",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 60,
+    "mem": 62,
+    "used_gb": 19.6,
+    "chrome_testing": 26
+  }
+}
