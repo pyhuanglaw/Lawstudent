@@ -25,9 +25,9 @@ LIT = re.compile(r"'([^']*)'")
 for r in rows:
     o, n = r['orig'].strip(), r['new'].strip()
     lo, ln = LIT.findall(o), LIT.findall(n)
-    if lo and len(lo) == len(ln) and not re.search(r'<|見 H-|見表下|改成：|交往中：|沒交往', n):   # 程式寫法的列（narr:'…',yt:'…'）：引號裡的字一對一換（5 個字以上）
+    if lo and len(lo) == len(ln) and not re.search(r'<|見 H-|見表下|改成：|交往中：|沒交往', n):   # 程式寫法的列（narr:'…',yt:'…'）：引號裡的字一對一換（8 個字以上，和一般列一樣；短句會換到別人）
         for x, y in zip(lo, ln):
-            if x != y and len(x) >= 5 and x not in y and re.search(r'[一-鿿]', x): pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
+            if x != y and len(x) >= 8 and x not in y and re.search(r'[一-鿿]', x): pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
         continue
     if BAD.search(o) or BAD.search(n) or o == n: continue
     o = o.strip('「」'); n = n.strip('「」')
