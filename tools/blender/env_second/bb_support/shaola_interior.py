@@ -109,21 +109,39 @@ def tv_screen(im, d):
     w, h = im.size; d.rectangle([0, 0, w, h], fill=(60, 90, 140)); d.rectangle([0, int(h * 0.7), w, h], fill=(200, 40, 40)); d.rectangle([20, 20, int(w * 0.4), int(h * 0.6)], fill=(220, 200, 170))
 
 
-P = {k: tex(f'{k}.png', s, f) for k, s, f in (('menu', (900, 420), menu_board), ('sign', (1024, 260), shop_sign), ('card1', (512, 160), price_card('叉燒飯', '100')),
+def brushed(im, d):      # 不鏽鋼：橫向刷紋＋一點髒污、指紋
+    w, h = im.size; r = random.Random(14)
+    for y in range(h):
+        v = 196 + int(r.gauss(0, 7)); d.line([(0, y), (w, y)], fill=(v, v + 3, v + 6))
+    for _ in range(260):
+        x_, y_ = r.randint(0, w), r.randint(0, h); l_ = r.randint(20, 160); g_ = r.randint(170, 220); d.line([(x_, y_), (x_ + l_, y_)], fill=(g_, g_ + 2, g_ + 4))
+    for _ in range(40):
+        x_, y_ = r.randint(0, w), r.randint(0, h); rr = r.randint(6, 30); d.ellipse([x_ - rr, y_ - rr, x_ + rr, y_ + rr], outline=(176, 178, 178))
+
+
+def vinyl(im, d):        # 圓凳的暗紅人造皮：有一點皺、磨亮的地方
+    w, h = im.size; r = random.Random(8)
+    for y in range(h):
+        for x in range(0, w, 4):
+            v = 1.0 + r.gauss(0, 0.05); d.rectangle([x, y, x + 3, y], fill=(int(122 * v), int(28 * v), int(34 * v)))
+
+
+P = {k: tex(f'{k}.png', s, f) for k, s, f in (('brushed', (512, 512), brushed), ('vinyl', (256, 256), vinyl), ('menu', (900, 420), menu_board), ('sign', (1024, 260), shop_sign), ('card1', (512, 160), price_card('叉燒飯', '100')),
                                                ('card2', (512, 160), price_card('燒鴨飯', '110')), ('fu', (200, 200), fu), ('ceil', (512, 512), ceiling_tiles),
                                                ('wall', (256, 512), stained_wall), ('tv', (256, 180), tv_screen))}
 
 # ---------------- 材質（≤12，最後合併）----------------
 m_floor = L.pbr('sl_floor', 'terrazzo_tiles', tile=1.2, target='#d6d0c2', normal=0.4, maps=('diff', 'nor'), rough_value=0.35)
-m_steel = L.flat('sl_steel', '#c6cacd', rough=0.32, metal=0.25)
+m_steel = None   # 下面用刷紋貼圖
 m_steel_d = L.flat('sl_steel_dark', '#9da2a7', rough=0.4, metal=0.25)
-m_glass = L.flat('sl_glass', '#dfe9ec', rough=0.05, alpha=0.18)
+m_glass = L.flat('sl_glass', '#e8f0f2', rough=0.03, alpha=0.1)
 m_tube = glowmat('sl_tube', '#fff6e6', 3.0)
 m_lamp = glowmat('sl_lamp', '#ffcf86', 5.0)
 m_vc = L.vc_material('sl_props_vc', rough=0.5)
 m_meat = L.vc_material('sl_meat_vc', rough=0.25)       # 燒臘油亮
 IM = {k: img_mat('sl_' + k, p, rough=0.7 if k != 'tv' else 0.2, emit=(0.8 if k == 'tv' else 0.0)) for k, p in P.items()}
 
+m_steel = IM['brushed']; m_steel.node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.25; m_steel.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.32
 # ---------------- 地板、天花板、日光燈 ----------------
 Mesh('FLOOR', m_floor, tile=1.2).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
 cq = bmesh.new(); ul = cq.loops.layers.uv.new()
@@ -150,16 +168,15 @@ def wplane(side, a0, a1, y0, y1, nm):   # 有貼圖（水漬）的牆面：一�
     return uvquad(f'WALL_{side}_{nm}', *p, IM['wall'], G[side])
 
 
-shell = {s: Mesh(f'WALL_{s}_shell', L.flat('sl_wall_back', '#d8ccb0', rough=0.9)) for s in DIRS}
+m_wall = L.pbr('sl_plaster', 'painted_plaster_wall', tile=2.0, target='#e6dcc4', normal=0.35, maps=('diff', 'nor'))
+shell = {s: Mesh(f'WALL_{s}_shell', m_wall, tile=2.0) for s in DIRS}
 shell['back'].box(X0, X1, 0, H, Z0, Z0 + WT); shell['left'].box(X0, X0 + WT, 0, H, Z0, Z1); shell['right'].box(X1 - WT, X1, 0, H, Z0, Z1)
-for s in ('back', 'left', 'right'):
-    a0, a1 = (X0, X1) if s == 'back' else (Z0, Z1); wplane(s, a0, a1, 0.12, H, 'paint')
 kick = Mesh('WALL_KICK', m_steel_d)
 kick.box(X0 + WT, X1 - WT, 0, 0.12, Z0 + WT, Z0 + WT + 0.01); kick.box(X0 + WT, X0 + WT + 0.01, 0, 0.12, Z0, Z1); kick.box(X1 - WT - 0.01, X1 - WT, 0, 0.12, Z0, Z1)
 xs = [X0, -4.3, -1.7, -0.95, 0.95, 1.7, 4.3, X1]
 fr = Mesh('WALL_front_frame', m_steel); gl = Mesh('WALL_front_glass', m_glass); rs = Mesh('WALL_front_redline', L.flat('sl_red', '#c8342c', rough=0.5))
 for a0, a1 in ((xs[0], xs[1]), (xs[2], xs[3]), (xs[4], xs[5]), (xs[6], xs[7])):
-    shell['front'].box(a0, a1, 0, H, Z1 - WT, Z1); wplane('front', a0, a1, 0.12, H, f'paint{int(a0 * 10)}')
+    shell['front'].box(a0, a1, 0, H, Z1 - WT, Z1)
 for a0, a1 in ((xs[1], xs[2]), (xs[5], xs[6])):
     shell['front'].box(a0, a1, 0, 0.6, Z1 - WT, Z1); shell['front'].box(a0, a1, 2.95, H, Z1 - WT, Z1)
     for y in (0.6, 2.9): fr.box(a0, a1, y, y + 0.05, Z1 - 0.12, Z1 - 0.02)
@@ -193,11 +210,15 @@ ctd = Mesh('COUNTER_PANELS', m_steel_d)
 for x in (-3.0, -1.0, 1.0): ctd.box(x - 0.92, x + 0.92, 0.1, 0.8, kz1 + 0.0, kz1 + 0.006)
 ct.finish(root); ctd.finish(root)
 sh = Mesh('SHELF', m_steel)   # 後牆的層架（備料台上方）
-for y in (1.45, 1.85): sh.box(kx0 + 0.1, kx1 - 0.1, y, y + 0.025, Z0 + WT, Z0 + WT + 0.32)
+for y in (1.45, 1.85): sh.box(-1.1, kx1 - 0.1, y, y + 0.025, Z0 + WT, Z0 + WT + 0.32)
+for x in (-1.08, kx1 - 0.12):
+    for y in (1.45, 1.85): sh.box(x - 0.015, x + 0.015, y - 0.2, y, Z0 + WT, Z0 + WT + 0.3)   # 層架托
 sh.finish(root)
 pr = CMesh('PROPS', m_vc)
-pr.crbox(0.5, 1.3, 0.92, 1.12, -3.95, -3.45, '#8a6440', r=0.08)   # 砧板（圓木墩）：方的倒角
-pr.crbox(0.65, 0.95, 1.12, 1.125, -3.8, -3.72, '#c8ccd0', r=0.005); pr.cbox(0.95, 1.1, 1.12, 1.13, -3.78, -3.74, '#6a4a2a')   # 菜刀
+n0 = set(pr.bm.faces); pr.add_bm(L.lathe([(0.0, 0.0), (0.29, 0.0), (0.3, 0.02), (0.3, 0.16), (0.29, 0.18), (0.0, 0.18)], seg=28), Matrix.Translation(g2b(0.9, 0.92, -3.72)))   # 砧板（圓木墩）
+pr.paint([f for f in pr.bm.faces if f not in n0], '#8a6440'); n0 = set(pr.bm.faces)
+pr.add_bm(L.lathe([(0.0, 0.0), (0.275, 0.0), (0.0, 0.002)], seg=28), Matrix.Translation(g2b(0.9, 1.101, -3.72))); pr.paint([f for f in pr.bm.faces if f not in n0], '#b89a70')
+pr.crbox(0.7, 1.0, 1.103, 1.108, -3.8, -3.68, '#c8ccd0', r=0.003); pr.cbox(1.0, 1.15, 1.103, 1.125, -3.76, -3.72, '#6a4a2a')   # 菜刀
 for i in range(3): pr.crbox(-1.6 + i * 0.5, -1.15 + i * 0.5, 0.92, 0.98, -3.95, -3.45, '#b8bcc0', r=0.01)   # 肉盤（不鏽鋼）
 for i in range(3):
     for k in range(9): pr.cbox(-1.55 + i * 0.5 + (k % 3) * 0.13, -1.45 + i * 0.5 + (k % 3) * 0.13, 0.98, 1.02, -3.9 + (k // 3) * 0.14, -3.8 + (k // 3) * 0.14, ['#8a2a1e', '#a0522d', '#c99a5a'][i])
@@ -207,10 +228,24 @@ for k in range(4):
 pr.paint([f for f in pr.bm.faces if f not in n0], '#f2efe6')
 n0 = set(pr.bm.faces)
 pr.crbox(1.45, 1.85, 0.92, 1.02, -3.95, -3.6, '#e8e8e4', r=0.01); pr.cbox(1.5, 1.8, 1.0, 1.04, -3.7, -3.62, '#2a3a2a')   # 電子秤
-for i in range(6): pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-3.7 + i * 0.25, 1.875, -4.15)))   # 層架上的罐子
+for i in range(6): pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-0.9 + i * 0.25, 1.875, -4.15)))   # 層架上的罐子
 pr.paint([f for f in pr.bm.faces if f not in n0], '#c87a3a'); n0 = set(pr.bm.faces)
-for i in range(4): pr.add_bm(L.lathe([(0.0, 0.0), (0.16, 0.0), (0.17, 0.28), (0.0, 0.28)], seg=14), Matrix.Translation(g2b(-1.8 + i * 0.5, 1.475, -4.1)))   # 層架上的鍋
+for i in range(4): pr.add_bm(L.lathe([(0.0, 0.0), (0.16, 0.0), (0.17, 0.28), (0.0, 0.28)], seg=14), Matrix.Translation(g2b(-0.7 + i * 0.6, 1.475, -4.1)))   # 層架上的鍋
 pr.paint([f for f in pr.bm.faces if f not in n0], '#9aa0a5'); n0 = set(pr.bm.faces)
+# 雜物：外帶餐盒堆、紅色塑膠籃、大電鍋、湯桶、抹布（讓店看起來有在用）
+for k in range(8): pr.crbox(-3.95, -3.55, 0.92 + k * 0.055, 0.97 + k * 0.055, -4.3, -4.0, '#f6f4ee', r=0.008)
+for k in range(6): pr.crbox(-3.45, -3.1, 0.92 + k * 0.06, 0.975 + k * 0.06, -4.3, -4.02, '#f6f4ee', r=0.008)
+pr.crbox(3.55, 4.3, 0.0, 0.32, -4.35, -3.85, '#c8342c', r=0.02); pr.crbox(3.6, 4.25, 0.32, 0.62, -4.3, -3.9, '#c8342c', r=0.02)   # 紅色塑膠籃（冰箱旁）
+pr.add_bm(L.lathe([(0.0, 0.0), (0.24, 0.0), (0.26, 0.04), (0.26, 0.36), (0.22, 0.42), (0.0, 0.44)], seg=20), Matrix.Translation(g2b(-2.4, 0.92, -3.75)))   # 大電鍋
+pr.add_bm(L.lathe([(0.0, 0.0), (0.2, 0.0), (0.21, 0.4), (0.0, 0.4)], seg=18), Matrix.Translation(g2b(-1.85, 0.92, -3.7)))   # 湯桶
+pr.paint([f for f in pr.bm.faces if f not in n0], '#c4c8cb'); n0 = set(pr.bm.faces)
+pr.crbox(1.25, 1.45, 0.92, 0.93, -3.45, -3.2, '#f2f2ee', r=0.002); pr.crbox(1.3, 1.36, 0.6, 0.93, -3.21, -3.19, '#f2f2ee', r=0.002)   # 抹布（白底紅線，掛在檯邊）
+pr.cbox(1.3, 1.36, 0.8, 0.82, -3.19, -3.185, '#c8342c')
+for z in (-2.6, -1.9, -1.2):   # 左牆的調味料小層架
+    pass
+pr.crbox(X0 + WT, X0 + WT + 0.22, 1.2, 1.23, -2.9, -1.0, '#c4c8cb', r=0.004)
+for k in range(8): pr.add_bm(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.13), (0.015, 0.17), (0.0, 0.17)], seg=8), Matrix.Translation(g2b(X0 + WT + 0.1, 1.23, -2.8 + k * 0.23)))
+pr.paint([f for f in pr.bm.faces if f not in n0], '#5a2a14'); n0 = set(pr.bm.faces)
 # 每一桌：筷筒、辣椒罐、醬油、粉紅面紙盒
 for x in TABLE_X:
     n1 = set(pr.bm.faces); pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.13), (0.0, 0.13)], seg=12), Matrix.Translation(g2b(x - 0.4, 0.78, TABLE_Z - 0.1)))
@@ -231,7 +266,7 @@ for x in TABLE_X:
         for sz in (-1, 1): tl.cyl((x + sx * 0.64, 0.0, TABLE_Z + sz * 0.39), (x + sx * 0.64, 0.7, TABLE_Z + sz * 0.39), 0.02, seg=8)
     tl.box(x - 0.64, x + 0.64, 0.2, 0.22, TABLE_Z - 0.4, TABLE_Z - 0.38); tl.box(x - 0.64, x + 0.64, 0.2, 0.22, TABLE_Z + 0.38, TABLE_Z + 0.4)
 tt.finish(root); tl.finish(root)
-ss = Mesh('STOOL_SEATS', L.flat('sl_stool', '#7a1e22', rough=0.35)); sl = Mesh('STOOL_LEGS', m_steel_d)
+ss = Mesh('STOOL_SEATS', IM['vinyl']); sl = Mesh('STOOL_LEGS', m_steel_d)
 for x in TABLE_X:
     for z in STOOL_Z:
         for dx in (-0.5, 0.0, 0.5):   # 中間那張＝遊戲坐的位置（套件的椅子）
@@ -250,17 +285,29 @@ Mesh('CASE_GLASS', m_glass).box(c['x0'] + 0.03, c['x1'] - 0.03, 0.95, 2.55, c['z
 rail = Mesh('CASE_RAIL', L.flat('sl_brass', '#b58a43', rough=0.32, metal=0.4)); rz = (c['z0'] + c['z1']) / 2
 rail.cyl((c['x0'] + 0.05, 2.3, rz), (c['x1'] - 0.05, 2.3, rz), 0.015, seg=8)
 meat = CMesh('MEATS', m_meat); hooks = []
-for i in range(5):        # 叉燒：一條一條（暗紅、邊緣焦）
-    x = c['x0'] + 0.22 + i * 0.13; hooks.append(x)
-    meat.crbox(x - 0.04, x + 0.04, 1.55, 2.15, rz - 0.035, rz + 0.035, '#8a1e18' if i % 2 else '#a2291c', r=0.02, seg=2)
-n_duck = set(meat.bm.faces)
-for i in range(2):        # 燒鴨：油亮的深褐，頭垂下來
-    x = c['x0'] + 1.05 + i * 0.38; hooks.append(x)
-    meat.ell((x, 1.85, rz), 0.13, 0.26, 0.1, seg=12, rings=8); meat.ell((x, 1.5, rz + 0.02), 0.03, 0.12, 0.03, seg=6, rings=4)
-meat.paint([f for f in meat.bm.faces if f not in n_duck], '#7a3a14'); n0 = set(meat.bm.faces)
-for i in range(2):        # 油雞：金黃
-    x = c['x0'] + 1.9 + i * 0.32; hooks.append(x); meat.ell((x, 1.9, rz), 0.12, 0.2, 0.1, seg=12, rings=8)
-meat.paint([f for f in meat.bm.faces if f not in n0], '#e8b04a')
+SQ = Matrix.Diagonal((1.0, 0.72, 1.0, 1.0))   # 前後壓扁一點（Blender 的 y＝遊戲的 −z）
+
+
+def hang(prof, x, ytop, col, flat=True, seg=16):   # 旋轉體掛在勾子上：prof 由下往上 (半徑, 高)，頂端在 ytop
+    n1 = set(meat.bm.faces); htop = prof[-1][1]
+    meat.add_bm(L.lathe(prof, seg=seg), Matrix.Translation(g2b(x, ytop - htop, rz)) @ (SQ if flat else Matrix.Identity(4)))
+    meat.paint([f for f in meat.bm.faces if f not in n1], col)
+
+
+for i in range(5):        # 叉燒：一條一條往下垂、微微彎（每段錯開一點），尾端焦黑
+    x = c['x0'] + 0.2 + i * 0.12; hooks.append(x); n1 = set(meat.bm.faces)
+    for k in range(9):
+        y1 = 2.12 - k * 0.062; dx = 0.008 * math.sin(k * 0.5 + i)
+        meat.crbox(x - 0.038 + dx, x + 0.038 + dx, y1 - 0.075, y1 + 0.01, rz - 0.022, rz + 0.022, '#8e1f16' if (k + i) % 3 else '#a8301e', r=0.004, seg=1)
+    meat.crbox(x - 0.03, x + 0.03, 1.5, 1.56, rz - 0.018, rz + 0.018, '#3a120c', r=0.015, seg=1)
+DUCK = [(0.0, 0.0), (0.05, 0.02), (0.11, 0.09), (0.145, 0.19), (0.15, 0.27), (0.13, 0.35), (0.07, 0.43), (0.032, 0.48), (0.026, 0.62), (0.03, 0.66), (0.0, 0.67)]
+CHICK = [(0.0, 0.0), (0.06, 0.02), (0.12, 0.08), (0.14, 0.16), (0.13, 0.24), (0.08, 0.31), (0.03, 0.35), (0.022, 0.44), (0.0, 0.45)]
+for i in range(2):        # 燒鴨：油亮的深紅褐，脖子掛在勾子上
+    x = c['x0'] + 1.02 + i * 0.36; hooks.append(x); hang(DUCK, x, 2.14, '#7c2e10')
+    for sx in (-1, 1): meat.crbox(x + sx * 0.12 - 0.03, x + sx * 0.12 + 0.03, 1.56, 1.72, rz - 0.03, rz + 0.03, '#6a240c', r=0.02, seg=1)   # 翅膀
+for i in range(2):        # 油雞：金黃、皮亮
+    x = c['x0'] + 1.86 + i * 0.3; hooks.append(x); hang(CHICK, x, 2.14, '#e3a845')
+    for sx in (-1, 1): meat.crbox(x + sx * 0.06 - 0.022, x + sx * 0.06 + 0.022, 1.6, 1.72, rz - 0.022, rz + 0.022, '#d89838', r=0.018, seg=1)   # 雞腿
 # 下層一盤盤切好的肉
 for i in range(4):
     x = c['x0'] + 0.25 + i * 0.6; meat.crbox(x, x + 0.5, 0.95, 1.0, c['z0'] + 0.06, c['z1'] - 0.04, '#b8bcc0', r=0.01)
@@ -276,7 +323,7 @@ lp_.finish(root, smooth=True); lg.finish(root)
 for i, k in enumerate(('card1', 'card2')):   # 價目卡（貼在玻璃內側，面向店裡）
     y0 = 1.05 + i * 0.26
     uvquad(f'CASE_CARD{i}', (c['x1'] - 0.06, y0, c['z0'] + 0.02), (c['x1'] - 0.66, y0, c['z0'] + 0.02), (c['x1'] - 0.66, y0 + 0.2, c['z0'] + 0.02), (c['x1'] - 0.06, y0 + 0.2, c['z0'] + 0.02), IM[k])
-uvquad('SHOP_SIGN', (X1 - WT - 0.02, 2.4, 2.6), (X1 - WT - 0.02, 2.4, 0.0), (X1 - WT - 0.02, 3.05, 0.0), (X1 - WT - 0.02, 3.05, 2.6), IM['sign'], G['right'])   # 店裡右牆高處的招牌
+uvquad('SHOP_SIGN', (X1 - WT - 0.02, 2.4, 0.0), (X1 - WT - 0.02, 2.4, 2.6), (X1 - WT - 0.02, 3.05, 2.6), (X1 - WT - 0.02, 3.05, 0.0), IM['sign'], G['right'])   # 面向 −x：看的人右手是 +z   # 店裡右牆高處的招牌
 
 # ---------------- 牆上的小東西：壁扇、冷氣、圓鐘、福、相框、電視 ----------------
 wd = CMesh('WALL_ITEMS', m_vc)
@@ -289,6 +336,17 @@ wd.add_bm(L.lathe([(0.0, 0.0), (0.19, 0.0), (0.19, 0.04), (0.0, 0.04)], seg=24),
 wd.crbox(-1.0 + 0.0, -0.5 + 0.0, 2.65, 3.0, Z0 + WT, Z0 + WT + 0.45, '#1a1a1c', r=0.03)   # 電視（掛在後牆高處、往前凸）——暫用；畫面另外貼
 wd.finish(root, smooth=True)
 Mesh('CLOCK_FACE', L.flat('sl_clockface', '#f6f2e6', rough=0.4)).cyl((-0.5, 2.45, Z0 + WT + 0.041), (-0.5, 2.45, Z0 + WT + 0.045), 0.16, seg=24).finish(root)
+hd = Mesh('CLOCK_HANDS', L.flat('sl_hand', '#1a1a1a', rough=0.5)); cz_ = Z0 + WT + 0.048
+hd.box(-0.505, -0.495, 2.45, 2.58, cz_, cz_ + 0.004); hd.box(-0.5, -0.41, 2.445, 2.455, cz_, cz_ + 0.004)
+for k in range(12): a = k * math.pi / 6; hd.box(-0.5 + 0.13 * math.cos(a) - 0.006, -0.5 + 0.13 * math.cos(a) + 0.006, 2.45 + 0.13 * math.sin(a) - 0.006, 2.45 + 0.13 * math.sin(a) + 0.006, cz_, cz_ + 0.003)
+hd.finish(root)
+nt_ = CMesh('NOTICES', m_vc); r_ = random.Random(31)   # 牆上貼的紙（公告、發票、外送單）
+for k in range(7):
+    z = -3.6 + k * 0.5 + r_.uniform(-0.1, 0.1); y = 1.3 + r_.uniform(0, 0.5)
+    nt_.cbox(X0 + WT + 0.002, X0 + WT + 0.006, y, y + r_.uniform(0.18, 0.3), z, z + r_.uniform(0.14, 0.22), r_.choice(['#f4f0e4', '#f2e6b8', '#e8eef2']))
+for k in range(4):
+    x = 2.0 + k * 0.42; y = 1.25 + r_.uniform(0, 0.35); nt_.cbox(x, x + 0.2, y, y + 0.27, Z0 + WT + 0.002, Z0 + WT + 0.006, r_.choice(['#f4f0e4', '#f2e6b8']))
+nt_.finish(root)
 uvquad('TV_SCREEN', (-0.97, 2.68, Z0 + WT + 0.451), (-0.53, 2.68, Z0 + WT + 0.451), (-0.53, 2.97, Z0 + WT + 0.451), (-0.97, 2.97, Z0 + WT + 0.451), IM['tv'])
 uvquad('FU', (X0 + WT + 0.01, 1.55, -1.75), (X0 + WT + 0.01, 1.55, -2.15), (X0 + WT + 0.01, 1.95, -2.15), (X0 + WT + 0.01, 1.95, -1.75), IM['fu'], G['left'])
 
@@ -296,7 +354,7 @@ uvquad('FU', (X0 + WT + 0.01, 1.55, -1.75), (X0 + WT + 0.01, 1.55, -2.15), (X0 +
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('sl_vc_matte', rough=0.7); vc_g = L.vc_material('sl_vc_gloss', rough=0.3); vc_x = L.vc_metal('sl_vc_metal', rough=0.32, metal=0.25)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'sl_glass', 'sl_tube', 'sl_lamp', 'sl_tv', 'sl_meat_vc'})
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'sl_glass', 'sl_tube', 'sl_lamp', 'sl_tv', 'sl_meat_vc', 'sl_brushed'})
 grp['sl_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'sl_atlas.png'), 'sl_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.7)
