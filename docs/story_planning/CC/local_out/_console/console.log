@@ -117,3 +117,18 @@
 [16:34:17] ==== START BK1_hip  (blender @ 457027df9) ====
 [16:34:20] [res] cpu=35% mem=39% (12.2/31.4 GB) chrome_testing=0  START BK1_hip
 [16:38:44] [res] cpu=21% mem=39% (12.5/31.4 GB) chrome_testing=0  END BK1_hip
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b39102bff..fd6010b4e  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:38:49] ==== END   BK1_hip  exit=0  267s   ====
+[16:38:52] memory 39% before starting LIVE1_deploy (0 running)
+[16:38:52] memory 39% before starting LIVE2_day12 (1 running)
+[16:38:52] memory 39% before starting WZ1_order (2 running)
+[16:38:52] ==== START LIVE1_deploy  (game @ 1d0904473) ====
+[16:38:52] ==== START LIVE2_day12  (game @ 1d0904473) ====
+[16:38:52] ==== START WZ1_order  (probe @ 3670b96eb) ====
+[16:38:56] [res] cpu=18% mem=40% (12.5/31.4 GB) chrome_testing=0  START WZ1_order
+[16:38:56] [res] cpu=18% mem=39% (12.5/31.4 GB) chrome_testing=0  START LIVE2_day12
+[16:38:56] [res] cpu=18% mem=39% (12.5/31.4 GB) chrome_testing=0  START LIVE1_deploy
+[16:39:17] 正在跑：LIVE1_deploy（已跑 0 分／上限 30 分）、LIVE2_day12（已跑 0 分／上限 60 分）、WZ1_order（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:41:11] [res] cpu=68% mem=52% (16.5/31.4 GB) chrome_testing=18  END WZ1_order

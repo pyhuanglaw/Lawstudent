@@ -1,0 +1,6 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ1_order\out
+OK   wenzhou       night avg 23.98 fps  1%low 1.43 fps  worst 1879.9 ms  n=360  zone=wenzhou h=21.01 w=sunny q=medium draw=263 
+OK   wenzhou       day   avg 36.15 fps  1%low 6.79 fps  worst 253.3 ms  n=543  zone=wenzhou h=11.03 w=sunny q=medium draw=313 
+OK   wenzhou       rain  avg 37.68 fps  1%low 5.19 fps  worst 343.3 ms  n=566  zone=wenzhou h=15.03 w=rain q=medium draw=321 
+JS 例外 0 個
+ALL PASS（量測完成 3 格）

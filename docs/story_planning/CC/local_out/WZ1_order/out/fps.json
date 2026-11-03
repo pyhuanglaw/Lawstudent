@@ -1,0 +1,60 @@
+{
+ "url": "http://127.0.0.1:8810/index.html",
+ "land": true,
+ "headless_env": "0",
+ "secs": 15.0,
+ "rows": [
+  {
+   "zone": "wenzhou",
+   "slot": "night",
+   "hour": 21.01,
+   "weather": "sunny",
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+   "dpr": 1,
+   "q": "medium",
+   "draw": 263,
+   "tris": 441330,
+   "n": 360,
+   "avg_fps": 23.98,
+   "low1_fps": 1.43,
+   "worst_ms": 1879.9,
+   "p50_ms": 33.3,
+   "ok": true
+  },
+  {
+   "zone": "wenzhou",
+   "slot": "day",
+   "hour": 11.03,
+   "weather": "sunny",
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+   "dpr": 1,
+   "q": "medium",
+   "draw": 313,
+   "tris": 467163,
+   "n": 543,
+   "avg_fps": 36.15,
+   "low1_fps": 6.79,
+   "worst_ms": 253.3,
+   "p50_ms": 26.6,
+   "ok": true
+  },
+  {
+   "zone": "wenzhou",
+   "slot": "rain",
+   "hour": 15.03,
+   "weather": "rain",
+   "renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+   "dpr": 1,
+   "q": "medium",
+   "draw": 321,
+   "tris": 510543,
+   "n": 566,
+   "avg_fps": 37.68,
+   "low1_fps": 5.19,
+   "worst_ms": 343.3,
+   "p50_ms": 23.3,
+   "ok": true
+  }
+ ],
+ "js_errors": []
+}
