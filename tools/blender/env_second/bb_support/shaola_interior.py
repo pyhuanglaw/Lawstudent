@@ -109,13 +109,30 @@ def tv_screen(im, d):
     w, h = im.size; d.rectangle([0, 0, w, h], fill=(60, 90, 140)); d.rectangle([0, int(h * 0.7), w, h], fill=(200, 40, 40)); d.rectangle([20, 20, int(w * 0.4), int(h * 0.6)], fill=(220, 200, 170))
 
 
-P = {k: tex(f'{k}.png', s, f) for k, s, f in (('menu', (900, 420), menu_board), ('sign', (1024, 260), shop_sign), ('card1', (512, 160), price_card('叉燒飯', '100')),
+def brushed(im, d):      # 不鏽鋼：橫向刷紋＋一點髒污、指紋
+    w, h = im.size; r = random.Random(14)
+    for y in range(h):
+        v = 196 + int(r.gauss(0, 7)); d.line([(0, y), (w, y)], fill=(v, v + 3, v + 6))
+    for _ in range(260):
+        x_, y_ = r.randint(0, w), r.randint(0, h); l_ = r.randint(20, 160); g_ = r.randint(170, 220); d.line([(x_, y_), (x_ + l_, y_)], fill=(g_, g_ + 2, g_ + 4))
+    for _ in range(40):
+        x_, y_ = r.randint(0, w), r.randint(0, h); rr = r.randint(6, 30); d.ellipse([x_ - rr, y_ - rr, x_ + rr, y_ + rr], outline=(176, 178, 178))
+
+
+def vinyl(im, d):        # 圓凳的暗紅人造皮：有一點皺、磨亮的地方
+    w, h = im.size; r = random.Random(8)
+    for y in range(h):
+        for x in range(0, w, 4):
+            v = 1.0 + r.gauss(0, 0.05); d.rectangle([x, y, x + 3, y], fill=(int(122 * v), int(28 * v), int(34 * v)))
+
+
+P = {k: tex(f'{k}.png', s, f) for k, s, f in (('brushed', (512, 512), brushed), ('vinyl', (256, 256), vinyl), ('menu', (900, 420), menu_board), ('sign', (1024, 260), shop_sign), ('card1', (512, 160), price_card('叉燒飯', '100')),
                                                ('card2', (512, 160), price_card('燒鴨飯', '110')), ('fu', (200, 200), fu), ('ceil', (512, 512), ceiling_tiles),
                                                ('wall', (256, 512), stained_wall), ('tv', (256, 180), tv_screen))}
 
 # ---------------- 材質（≤12，最後合併）----------------
 m_floor = L.pbr('sl_floor', 'terrazzo_tiles', tile=1.2, target='#d6d0c2', normal=0.4, maps=('diff', 'nor'), rough_value=0.35)
-m_steel = L.flat('sl_steel', '#c6cacd', rough=0.32, metal=0.25)
+m_steel = None   # 下面用刷紋貼圖
 m_steel_d = L.flat('sl_steel_dark', '#9da2a7', rough=0.4, metal=0.25)
 m_glass = L.flat('sl_glass', '#e8f0f2', rough=0.03, alpha=0.1)
 m_tube = glowmat('sl_tube', '#fff6e6', 3.0)
@@ -124,6 +141,7 @@ m_vc = L.vc_material('sl_props_vc', rough=0.5)
 m_meat = L.vc_material('sl_meat_vc', rough=0.25)       # 燒臘油亮
 IM = {k: img_mat('sl_' + k, p, rough=0.7 if k != 'tv' else 0.2, emit=(0.8 if k == 'tv' else 0.0)) for k, p in P.items()}
 
+m_steel = IM['brushed']; m_steel.node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value = 0.25; m_steel.node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.32
 # ---------------- 地板、天花板、日光燈 ----------------
 Mesh('FLOOR', m_floor, tile=1.2).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
 cq = bmesh.new(); ul = cq.loops.layers.uv.new()
@@ -248,7 +266,7 @@ for x in TABLE_X:
         for sz in (-1, 1): tl.cyl((x + sx * 0.64, 0.0, TABLE_Z + sz * 0.39), (x + sx * 0.64, 0.7, TABLE_Z + sz * 0.39), 0.02, seg=8)
     tl.box(x - 0.64, x + 0.64, 0.2, 0.22, TABLE_Z - 0.4, TABLE_Z - 0.38); tl.box(x - 0.64, x + 0.64, 0.2, 0.22, TABLE_Z + 0.38, TABLE_Z + 0.4)
 tt.finish(root); tl.finish(root)
-ss = Mesh('STOOL_SEATS', L.flat('sl_stool', '#7a1e22', rough=0.35)); sl = Mesh('STOOL_LEGS', m_steel_d)
+ss = Mesh('STOOL_SEATS', IM['vinyl']); sl = Mesh('STOOL_LEGS', m_steel_d)
 for x in TABLE_X:
     for z in STOOL_Z:
         for dx in (-0.5, 0.0, 0.5):   # 中間那張＝遊戲坐的位置（套件的椅子）
@@ -336,7 +354,7 @@ uvquad('FU', (X0 + WT + 0.01, 1.55, -1.75), (X0 + WT + 0.01, 1.55, -2.15), (X0 +
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('sl_vc_matte', rough=0.7); vc_g = L.vc_material('sl_vc_gloss', rough=0.3); vc_x = L.vc_metal('sl_vc_metal', rough=0.32, metal=0.25)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'sl_glass', 'sl_tube', 'sl_lamp', 'sl_tv', 'sl_meat_vc'})
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'sl_glass', 'sl_tube', 'sl_lamp', 'sl_tv', 'sl_meat_vc', 'sl_brushed'})
 grp['sl_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'sl_atlas.png'), 'sl_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.7)
