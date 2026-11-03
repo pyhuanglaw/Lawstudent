@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Z_A2_dorm",
+  "sha": "7224af47a",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_dorm_moveout_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T10:11:37",
+  "end": "2026-11-03T10:14:05",
+  "seconds": 148,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 49,
+    "mem": 55,
+    "used_gb": 17.6,
+    "chrome_testing": 28
+  }
+}

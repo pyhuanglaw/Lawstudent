@@ -1,0 +1,80 @@
+{
+ "rows": [
+  {
+   "i": 0,
+   "name": "回家",
+   "place": null,
+   "gohome": true,
+   "sub": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "i": 1,
+   "name": "公館商圈",
+   "place": "gongguan|公館商圈",
+   "gohome": false,
+   "sub": "約 5 分鐘"
+  },
+  {
+   "i": 2,
+   "name": "捷運公館站",
+   "place": null,
+   "gohome": false,
+   "sub": "你在這裡"
+  },
+  {
+   "i": 3,
+   "name": "阿鳳麵店",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過"
+  },
+  {
+   "i": 4,
+   "name": "日日便利",
+   "place": "cvs|日日便利",
+   "gohome": false,
+   "sub": "約 5 分鐘"
+  },
+  {
+   "i": 5,
+   "name": "舊路書房",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過"
+  },
+  {
+   "i": 6,
+   "name": "溫州街",
+   "place": "wenzhou|溫州街",
+   "gohome": false,
+   "sub": "約 10 分鐘"
+  },
+  {
+   "i": 7,
+   "name": "118 巷",
+   "place": "lane118|118 巷",
+   "gohome": false,
+   "sub": "約 15 分鐘"
+  },
+  {
+   "i": 8,
+   "name": "兩點半 Café",
+   "place": null,
+   "gohome": false,
+   "sub": "還沒去過・11:00–02:30"
+  }
+ ],
+ "tab": "places",
+ "stage": "econ",
+ "zone": "gongguan",
+ "hour": 19.02,
+ "Y0_MOVED_OUT": true,
+ "MOVED_OUT": null,
+ "baseMode": true,
+ "movedOut": false,
+ "canGo": true,
+ "atHome": false,
+ "v": 2,
+ "hasSocial": true,
+ "phoneOpen": true
+}
