@@ -45,10 +45,10 @@ N19_wcst    | 9f14aab23 | game  | tests/flow_wancai_stairs.py    | index.html   
 N19_wcfl    | 9f14aab23 | game  | tests/flow_wancai_floors.py    | index.html       | 60  | XARGS={url} {out}
 N19_wcglb   | 9f14aab23 | game  | tests/wancai_glb_integration.py | index.html      | 60  | XARGS={url} {out}
 N19_zone    | 9f14aab23 | game  | tests/zone_transitions.py      | index.html?turbo | 60  | XARGS={url}
-N19_reach   | 9f14aab23 | game  | tests/reachability_all.py      | index.html?turbo | 90  | XARGS={url}
+N19_reach   | b1ae1c390 | game  | tests/reachability_all.py      | index.html?turbo | 90  | XARGS={url}
 # BB 13:53：SHOP-DINERS-1103（X187，9950721c4）店裡的客人；cc_shop_diners_probe 已在雲端驗過（noodle、cvs ALL PASS）
-N19S_diners | 9950721c4 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 90 | CC_HEADLESS=0
-N19S_shots  | 9950721c4 | game  | tests/shop_diners_shots.py | index.html?turbo | 45 | XARGS={url} {out}
+N19S_diners | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 90 | CC_HEADLESS=0
+N19S_shots  | b1ae1c390 | game  | tests/shop_diners_shots.py | index.html?turbo | 45 | XARGS={url} {out}
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
 #V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
