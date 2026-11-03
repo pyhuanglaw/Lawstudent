@@ -214,3 +214,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G3_libsc] | [gpu_wrap 133.6s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 133.7s] BROWSER DISCONNECTED
 - 2026-11-03T09:23:08  Y_G2_libfl  sha=c89a5f9be  exit=0  351s    PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G2_libfl] | [gpu_wrap 298.9s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 299.0s] BROWSER DISCONNECTED
+- 2026-11-03T09:23:41  Y_G5_term  sha=c89a5f9be  exit=0  155s    PASS 黑幕沒有擋住對話 / PASS 全程沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [Y_G5_term] | [gpu_wrap 123.2s] page close url=http://127.0.0.1:8811/index.html?turbo | [gpu_wrap 123.3s] BROWSER DISCONNECTED
