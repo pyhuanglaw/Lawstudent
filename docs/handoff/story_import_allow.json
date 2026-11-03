@@ -4138,6 +4138,42 @@
    "task": "YT-REWRITE-1103",
    "kind": "text",
    "note": "表 A（src 手寫檔）tools/story/apply_aa630_src.py 照「建議改成」換；表 B 的 ladder、Dxx 以 AA_630 第 1、2 節為準"
+  },
+  {
+   "path": "docs/story_planning/shop_enc/shop_enc_aa_v1.json",
+   "sha": "6adb0e47c",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_632 店內偶遇第一批，第②級，D109；AA_641 修正：以安 Café 的 why、沛珊巷口茶飲拿掉 Y2S2）",
+   "task": "SHOP-ENCOUNTER-1103",
+   "kind": "text",
+   "note": "店內偶遇第一批（USER_WANTS X188，使用者 11-03「我希望除了路人 也會隨機在不同店面遇到朋友 或可以認識人」）：五家店九列＋新認識的人宋知寧（npc_songzn）。tools/shop_enc/import_shop_enc.py → src/data/shop_enc.js；src/shopenc3d.js；tests/shop_enc_unit.js、tests/shop_enc_seat_unit.js"
+  },
+  {
+   "path": "docs/story_planning/shop_enc/shop_enc_aa_v2.json",
+   "sha": "6adb0e47c",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_633 店內偶遇第二批，第②級，D109；AA_641 修正：沛珊冰菓室改週五 18:30～20:30、學期 Y1S2、Y2S1）",
+   "task": "SHOP-ENCOUNTER-1103",
+   "kind": "text",
+   "note": "第二批五列（燒臘阿哲、影印柏翰 examOK、乾麵明軒、冰菓室沛珊 months、定食學姊）＋影印店老闆阿德四句（shopkeepers）。學姊「一週最多一次、只有玩家自己走進去」照 AA_633 表下第一點（JSON 沒有欄位，匯入工具加 weekMax、selfOnly）"
+  },
+  {
+   "path": "docs/story_planning/AA_640_店裡客人的路人句.md",
+   "sha": "22c966e4a",
+   "status": "approved",
+   "approvedBy": "AA 定稿（第②級，D109）",
+   "task": "SHOP-DINERS-1103",
+   "kind": "text",
+   "note": "店裡客人點了聽一句：吃飯的店兩人一桌 8 組、Café／書店小聲 7 句（書店 1～6、Café 2～5、7）、便利商店結帳 6 句；考試週那一句「（小聲）考完這科就解脫了。」LAWWW 決定加（放 quiet、只在考試週）。匯入讀最後一節的 JSON"
+  },
+  {
+   "path": "docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md",
+   "sha": "6adb0e47c",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_641，第②級，D109）",
+   "task": "SHOP-ENCOUNTER-1103",
+   "kind": "text",
+   "note": "店內偶遇回 LAWWW 四件：宋知寧加聯絡人以後的六則「看到一本書」訊息（每學期最多兩則、平日 21:00 左右、考試週寒暑假不發；第 5 則以後她改到山嵐書店，山嵐還沒開就先跳過）＋她只回「哈哈。」「好。」；「一起坐」30 分鐘、旁白一句、撞到課或約變灰「等一下有…」。匯入讀第 2、5 節（tools/shop_enc/import_shop_enc.py）"
   }
  ]
 }

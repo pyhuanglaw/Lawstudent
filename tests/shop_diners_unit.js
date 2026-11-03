@@ -152,4 +152,7 @@ const KCAP={bookstore:6,cvs:6,wz_print:2,l118_tea:3};
   else { enter('l118_korea',mkG(DAYS[1],12.5)); const f0=shopFree(E), n0=ppl().length; const k=CROWD.shopMakeRoom(GM,f0+3); const f1=shopFree(E), n1=ppl().length;
     CROWD.tick(GM,1.6); const k2=CROWD.shopMakeRoom(GM,shopFree(E)+3);
     check('12. 進門那一刻空位不夠：直接拿掉靠門口的客人到空位夠；待在店裡（tick 以後）不拿',k>0&&f1>=f0+3&&n1<n0&&k2===0,'空位 '+f0+' → '+f1+'、客人 '+n0+' → '+n1+'、tick 以後 '+k2); } }
+/* 13. 照作息進店的有名字的人也先不坐留給約好的人那一組兩人座（BB 11-03：l118_omu 沛珊、l118_noodle2 阿哲 12:30）：CROWD.shopKeepSeats 給 story3d populateSchedule 用 */
+{ enter('l118_omu',mkG(DAYS[1],12.5)); const K=CROWD.shopKeepSeats?CROWD.shopKeepSeats(GAME.G):null; const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/story3d.js'),'utf8');
+  check('13. shopKeepSeats 給那一組兩人座；story3d 的 seatFree 先跳過那一組',Array.isArray(K)&&K.length===2&&/CROWD\.shopKeepSeats\(G\)/.test(src)&&/pass\|\|!isKeep\(st\)/.test(src),JSON.stringify(K&&K.length)); }
 console.log(fails?('\n'+fails+' 項 FAIL'):'\n全部 PASS'); process.exit(fails?1:0);

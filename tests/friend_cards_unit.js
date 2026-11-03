@@ -46,6 +46,9 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
   { const e=ev('ev_card_kai'); fresh(); at('2025-09-02',23.6,{DORM_FOUR:true});
     const ok1=EVENTS.check(e); G.hour=23.2; const ok0=EVENTS.check(e); G.day=day('2025-09-01'); G.hour=23.6; const okD=EVENTS.check(e); at('2025-09-09',23.6,{DORM_FOUR:true}); const okW=EVENTS.check(e); G.zone='linze'; at('2025-09-02',23.6); const okZ=EVENTS.check(e);
     check('C1. 3-1 條件：9/2 23:36 在 203＝演；23:12、9/1、第 2 週、不在 203＝不演；自動（trigger auto）',e&&e.trigger==='auto'&&ok1&&!ok0&&!okD&&!okW&&!okZ,JSON.stringify([ok1,ok0,okD,okW,okZ]));
+    /* BUG-NIGHTWIN-DAY-1103（BB 11-03）：跨午夜的時段，換日以後那一段照前一天判斷——9/2 00:01（＝9/1 深夜）不演、9/3 00:30（＝9/2 深夜）演 */
+    { fresh(); at('2025-09-02',0.02,{DORM_FOUR:true}); const n1=EVENTS.check(e); at('2025-09-03',0.5,{DORM_FOUR:true}); const n2=EVENTS.check(e); at('2025-09-02',23.67,{DORM_FOUR:true}); const n3=EVENTS.check(e); const d0=G.day, w0=G.weekday;
+      check('C1b. 跨午夜：9/2 00:01 不演（那是 9/1 晚上）、9/3 00:30 演（9/2 晚上）、9/2 23:40 演；判斷完 G.day、星期不變',!n1&&n2&&n3&&G.day===d0&&G.weekday===w0,JSON.stringify([n1,n2,n3])); }
     fresh(); at('2025-09-02',23.6,{DORM_FOUR:true}); SOCIAL.meet('kai','dorm'); const f0=fam('kai'); await EVENTS.run(e);
     check('C2. 3-1 台詞（預設「要我關燈嗎？」）；FRIEND_CARD_kai、記憶 FRIEND_CARD「凌晨的作業」、熟悉 +2；演過不再演',!block(['（十二點。房間只剩阿凱的螢幕亮著。）','你還沒睡？','我在寫程式作業。資工系的，明天早上交。','不用。我戴耳機，你睡你的。','（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'])&&optsSeen.includes('「要我關燈嗎？」/「寫多久了？」')&&G.flags.FRIEND_CARD_kai===true&&card('kai')==='凌晨寫作業，隔天桌上多了一杯豆漿'&&fam('kai')-f0===2&&!EVENTS.check(e),said.join(' / '));
     fresh(); at('2025-09-02',23.6); picks=['寫多久了']; await EVENTS.run(e);

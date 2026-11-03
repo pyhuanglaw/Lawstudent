@@ -75,7 +75,7 @@ const fakeGLB=(anims)=>{ const sc=new THREE.Group(); for(const p of ['sit','lie'
       check('⑩ release 以後貓接著走',moved); } }
   scene.remove(par); WZCAT.update(0.1,E3); check('⑧ 離開溫州街（貓不在場景裡）：不再更新',WZCAT.state()===null); }
 { const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), ix=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
-  check('⑨ zones3d.js：正式模型載入後先問 WZCAT.attach（下雨、寒流的石桌底下不接手），接手就不放趴著的貓；把晚上趴著的位置交給 WZCAT（hold 用）',/if\(!under&&typeof WZCAT!=='undefined'&&WZCAT\.attach\(E,catG,c,\{G:G0,lie:\{x:bf\.x\+0\.05,y:0\.47,z:bf\.z-0\.45,yaw:bf\.yaw\+Math\.PI\}\}\)\)\{ cg\.visible=false; return; \}/.test(zs));
+  check('⑨ zones3d.js：正式模型載入後先問 WZCAT.attach（下雨、寒流的石桌底下不接手），接手就不放趴著的貓；把趴在圓椅上、石桌底下的位置（wzCatSpot，WZ-CAT-FLOAT-RUB-1103）交給 WZCAT',/const bench=wzCatSpot\(L,'bench','lie'\), tbl=wzCatSpot\(L,'under','lie'\);\s*if\(!under&&typeof WZCAT!=='undefined'&&WZCAT\.attach\(E,catG,c,\{G:G0,lie:bench,under:tbl\}\)\)\{ cg\.visible=false; return; \}/.test(zs));
   check('⑨ index.html 在 wzpark3d.js 後面載入 src/wzcat3d.js',ix.indexOf('src/wzcat3d.js')>ix.indexOf('src/wzpark3d.js')&&ix.indexOf('src/wzpark3d.js')>0); }
 delete global.GAME;
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
