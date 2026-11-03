@@ -43030,6 +43030,53 @@
         "receiver": "LAWWW",
         "ack": "SENT"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "宿舍上床／起床（每天）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "DORM-CEIL-1103",
+      "title": "宿舍天花板太低、上床撞頭：天花板 3.0→3.4 m＋光照重烘＋sleep_scene 加 ceil_y／head_max／bed_entry_pose",
+      "owner": "LAWWW2",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "使用者 11-03 對 LAWWW2：「宿舍天花板太低了 走上去都撞到頭 不合理」「至少微微彎腰不要整個頭卡進去天花板」",
+      "next": "LAWWW2 交 GLB＋光照＋layout patch → LAWWW 合併",
+      "xai": {
+        "spec": "使用者原話",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "天花板 3.4 m；改前改後截圖",
+        "receiver": "LAWWW",
+        "ack": "ACK"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "宿舍上床／起床（每天）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "DORM-LADDER-STOOP-1103",
+      "title": "爬梯上床動作：最上面一兩階微微彎腰（頭頂含頭髮不超過 head_max）、上床那一步跪或爬進去不站直（character3d／story3d）",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "DORM-CEIL-1103 的動作部分（LAWWW2 11-03 分工）",
+      "next": "子代理做（climbIK 加彎腰、bed_entry kneel）→ 合併 → LAWWW2 同鏡頭截圖"
     }
   ]
 }
