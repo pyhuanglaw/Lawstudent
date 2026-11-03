@@ -345,3 +345,17 @@
 [00:59:34] skip D_RUN_movreg (already done on ffeec06e0)
 [00:59:34] skip V18_LIBTOUR (already done on ffeec06e0)
 [01:00:32] [res] cpu=7% mem=45% (14.2/31.4 GB) chrome_testing=10  END AA609_grandma_c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       283b3764e..0f4cc806c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:00:38] ==== END   AA609_grandma_c  exit=1  88s   ====
+[01:00:40] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[01:00:40] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[01:04:14] 正在跑：N19C_f606wf（已跑 14 分／上限 620 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:05:45] memory 45% before starting V19R_deploy (1 running)
+[01:05:45] memory 45% before starting V19R_p0 (2 running)
+[01:05:45] ==== START V19R_deploy  (game @ 15e78dff7) ====
+[01:05:45] ==== START V19R_p0  (game @ 15e78dff7) ====
+[01:05:48] [res] cpu=5% mem=46% (14.4/31.4 GB) chrome_testing=10  START V19R_deploy
+[01:05:48] [res] cpu=5% mem=46% (14.4/31.4 GB) chrome_testing=10  START V19R_p0
+[01:08:53] [res] cpu=33% mem=45% (14.3/31.4 GB) chrome_testing=10  END V19R_p0
