@@ -131,9 +131,8 @@ const STORY = (function(){
   S.campGroups=function(G,d0){ if(typeof PHONE==='undefined') return; const NEW='g:law_new', SQ='g:camp_squad_y1';
     if(!PHONE.inGroup(G,'law_new')){ PHONE.join(G,'law_new','法律系 114 新生（系學會）');
       PHONE.postAt(G,{th:NEW,from:'law_assoc',name:'系學會',text:'迎新宿營 8/22～8/24，三天兩夜，山上的青年活動中心。新生都要參加，車子、住宿、吃的系學會處理。8/22 早上八點半校門集合。'},d0-7,20);
-      PHONE.postAt(G,{th:NEW,from:'law_assoc',name:'系學會',text:'小隊名單｜第七小隊：'+(G.name||'祐廷')+'、張哲維、吳芯慈、郭沛珊、江明軒、許柏翰、凱文'},d0-1,21); }
-    if(!PHONE.sent(G,'camp_squad_photo')) PHONE.at(G,d0+2,21,[{th:SQ,text:'（小隊輔傳了一張照片：營地門口，七個人，Kevin 拿著翻到背面的名牌。）'},{th:SQ,from:'camp_leader',name:'小隊輔',text:'照片都在相簿了 自己存'},{th:SQ,text:'（群組裡「凱文」變成「Kevin 大二」）'},
-      {th:SQ,from:'kevin',name:'Kevin 大二',text:'改名了 以後叫學長'},{th:SQ,from:'kevin',name:'Kevin 大二',text:'民總考古題我有 開學再說'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'（一張他睡在車上的照片，不知道誰拍的）'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'這張誰拍的 哈哈'},{th:SQ,from:'zhe',name:'阿哲',text:'29 號見'}],'camp_squad_photo');
+      PHONE.postAt(G,{th:NEW,text:'（小隊名單貼出來了。第七小隊七個人，你認得的只有自己的名字。）'},d0-1,21); }   /* AA 11-03：宿營只認識阿哲（第八小隊）、芯慈、沛珊（第七小隊），名單不列名字 */
+    if(!PHONE.sent(G,'camp_squad_photo')) PHONE.at(G,d0+2,21,[{th:SQ,from:'classmate_xinci',name:'芯慈',text:'📷（小隊合照）'},{th:SQ,from:'classmate_xinci',name:'芯慈',text:'宿營辛苦了。'},{th:SQ,from:'classmate_peishan',name:'沛珊',text:'我只有半張臉在裡面'}],'camp_squad_photo');   /* AA 11-03：Kevin、明軒、柏翰不在宿營；阿哲在第八小隊（不在這個群組說話）*/
     if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:SQ,from:'zhe',name:'阿哲',text:'我在高鐵上了'},{th:SQ,from:'zhe',name:'阿哲',text:'七點到宿舍'}],'camp_squad_829');   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
   S.CAMP_DAY='2025-08-22';
   S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
