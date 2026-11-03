@@ -1,6 +1,6 @@
 # 總圖一樓、二樓第五版（LIB-PLAN-1103 第五版，BB 11-03 12:11 的九點）——LAWWW2 2026-11-03
 
-狀態：`READY_FOR_REVIEW`。建築美術照 D128，由 BB 驗收；整合由 LAWWW 做。patch 接開發分支 `b049c84e3`。
+狀態：**`ART_APPROVED`（BB，11-03 20:14，第二輪 52dbf7f8e，D128）**，有條件：patch 接進開發分支以後，候選版要跑 flow_library_floors、flow_library_scene、nav、reachability，全部 PASS。出現走不到或卡住的地方，這個標記就取消。BB 記成 P3 的有四項：研究小間的窗偏灰、新書是色塊、研究小間的門長一樣、小房間的牆可以再多一點東西。原本的狀態：`READY_FOR_REVIEW`。建築美術照 D128，由 BB 驗收；整合由 LAWWW 做。patch 接開發分支 `b049c84e3`。
 
 - 配置：照舊由 `tools/blender/env_second/library_hall_v2_layout.py` 產生。新增 `plan_1f_v5`、`plan_2f_v5`；用法是 `--base <第一版 library_layout.js 的 repo>`，第一版取自 `3b74f9b24`。
 - 研究小間的關門說明照用開發分支 4fc0dda22 的句子（「研究小間。閉館時間，門鎖著。」）。和開發分支現在的 library_layout.js 比過，只差這一句。
