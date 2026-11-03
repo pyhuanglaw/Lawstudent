@@ -571,3 +571,13 @@
 [07:42:15] [res] cpu=59% mem=55% (17.6/31.4 GB) chrome_testing=19  START MAP_fix2
 [07:42:19] 正在跑：YT3-E（已跑 16 分／上限 45 分）、YT3-C（已跑 12 分／上限 45 分）、MAP_fix2（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [07:45:35] [res] cpu=60% mem=54% (17.5/31.4 GB) chrome_testing=19  END MAP_fix2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eb11db836..a5c6a687c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:45:41] ==== END   MAP_fix2  exit=1  203s   ====
+[07:45:47] memory 55% before starting PE644 (2 running)
+[07:45:47] ==== START PE644  (probe @ 933f8e08d) ====
+[07:45:50] [res] cpu=64% mem=55% (17.4/31.4 GB) chrome_testing=19  START PE644
+[07:47:19] 正在跑：YT3-E（已跑 21 分／上限 45 分）、YT3-C（已跑 17 分／上限 45 分）、PE644（已跑 1 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:52:19] 正在跑：YT3-E（已跑 26 分／上限 45 分）、YT3-C（已跑 22 分／上限 45 分）、PE644（已跑 6 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
+[07:55:28] [res] cpu=63% mem=56% (17.6/31.4 GB) chrome_testing=19  END PE644

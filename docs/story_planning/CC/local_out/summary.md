@@ -719,3 +719,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [PE_fix] | [gpu_wrap 113.4s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 113.5s] BROWSER DISCONNECTED
 - 2026-11-04T07:45:35  MAP_fix2  sha=f157d0ff6  exit=1  203s    PASS U ① 沒有「帶我去」  [] / PASS 沒有 JS 例外  [] / FAILED 2: 前置：找到「同一區、走得到」的人；前置：找到「別區、走得到」的人
       err.log (last 5): [gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [MAP_fix2] | [gpu_wrap 164.3s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 164.4s] BROWSER DISCONNECTED
+- 2026-11-04T07:55:28  PE644  sha=933f8e08d  exit=1  582s    FAIL econ：上課的對話有出現  null / PASS 沒有 JS 例外  [] / FAILED 2: econ：選單有「進去上課…」並選了它；econ：上課的對話有出現
+      err.log (last 5): [gpu_wrap 1.7s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [PE644] | [gpu_wrap 543.1s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 543.2s] BROWSER DISCONNECTED
