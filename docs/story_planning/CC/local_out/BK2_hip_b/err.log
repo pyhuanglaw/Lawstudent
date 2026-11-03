@@ -1,0 +1,6 @@
+C:\Users\USER\Documents\wt_cc_BK2_hip_b\tools\blender\env_second\lightbake\pc_ref\..\bake_room.py:261: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  done.add(m.name); m.use_nodes = True; nt = m.node_tree
+C:\Users\USER\Documents\wt_cc_BK2_hip_b\tools\blender\env_second\lightbake\pc_ref\..\bake_room.py:310: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; nt = w.node_tree; bg = nt.nodes['Background']
+C:\Users\USER\Documents\wt_cc_BK2_hip_b\tools\blender\env_second\lightbake\pc_ref\..\bake_room.py:369: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  blk = bpy.data.materials.new('SHELL_black'); blk.use_nodes = True

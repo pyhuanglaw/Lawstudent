@@ -1,0 +1,28 @@
+{
+ "res": 1024,
+ "samples": 512,
+ "total_seconds": 556.1,
+ "images": {
+  "day": {
+   "mean": 0.17259,
+   "p50": 0.0,
+   "p95": 0.56652,
+   "pixels": 1048576
+  },
+  "night": {
+   "mean": 0.18802,
+   "p50": 0.0,
+   "p95": 0.60831,
+   "pixels": 1048576
+  },
+  "dark": {
+   "mean": 0.01518,
+   "p50": 0.0,
+   "p95": 0.06752,
+   "pixels": 1048576
+  }
+ },
+ "device": "HIP：AMD Radeon RX 6600M",
+ "blender": "5.2.3 LTS",
+ "bake_seconds": 548.4
+}
