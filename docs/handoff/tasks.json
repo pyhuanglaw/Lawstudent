@@ -43258,6 +43258,26 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 201 上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "CLASSROOM-BAGS-1103",
+   "title": "201 階梯教室座位後面的紙袋（prop.bag，浮在走道上）拿掉",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "note": "使用者 11-03 截圖",
+   "next": "BB 測（下一版）"
   }
  ]
 }
