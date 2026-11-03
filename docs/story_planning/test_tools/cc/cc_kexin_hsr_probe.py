@@ -14,7 +14,7 @@
   不用 ?turbo、不瞬移、不改劇情狀態。
 檢查（每項一行 PASS／FAIL）：
   1 收到可昕的私訊「明天一點半的高鐵到台北。」（8/29 21:30 起，或 8/30 早上補）；行程排好 y0_e37（8/30、13:30、台北車站（高鐵出口）、開車）
-  2 可以出發：8/30 出現「出發：…」選單（或 13:45 的電話），出發的時間在合理範圍
+  2 可以出發：8/30 被鬧鐘叫醒以後出現「出發：…」選單（玩家等選單、不回床；13:45 的電話也算出發，另外記），出發的時間在合理範圍
   3 到達：演 ev_y0_e37、第一句照 AA_607、8/30、抵達時間＝max(出發＋車程, 13:30)
   4 回來：演完回到 3D、玩家空下來；還是 8/30；時間＝抵達＋ev.hours（±15 分鐘）；回到出發的區域
   5 時鐘：8/30 起床以後每一次看到的遊戲時鐘都不倒退；單次跳超過 0.75 小時的都列出原因，除了「出遊 ev.hours」和「出發到抵達的車程」，沒有超過 1 小時的跳
@@ -39,6 +39,8 @@ if '?turbo' in URL or '&turbo' in URL: raise SystemExit('真實流程不能用 ?
 
 OUTQ = r"""(()=>{ try{ const q=OUT.get(GAME.G,'y0_e37'); if(!q) return null; return {day:q.day,key:CALENDAR.dateOf(q.day).key,h:q.h,late:q.late,place:q.place,travel:q.travel,travelH:q.travelH,state:q.state,alarm:!!q.alarm}; }catch(e){ return {err:String(e)}; } })()"""
 MSG = r"""(()=>{ try{ return (GAME.G.msgs||[]).filter(m=>String(m.text||'').startsWith('明天一點半的高鐵到台北')).map(m=>({day:m.day,h:m.h,key:CALENDAR.dateOf(m.day).key})); }catch(e){ return []; } })()"""
+DUE = "(()=>{ try{ const q=OUT.due(GAME.G); return q?q.id:null; }catch(e){ return null; } })()"
+DUE_WAIT_S = int(os.environ.get('DUE_WAIT_S', '120'))
 BED = "(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z,it.lv|0,it.label||'']:null; })()"
 
 
@@ -100,7 +102,7 @@ async def main():
             if not ok_c:
                 await run.shot(pg, 'camp_not_done'); await b.close(); print('FAILED %d' % len(run.fails), flush=True); return 1
         t0 = time.time(); last = None; since = time.time(); ended = None
-        dep = arr = ret = None; dep_how = None; prompt_at = None; call_at = None; shots = set()
+        dep = arr = ret = None; dep_how = None; due_wait = None; prompt_at = None; call_at = None; shots = set()
         while time.time() - t0 < MAX_S:
             s = await C.ts(pg)
             if not s: await pg.wait_for_timeout(800); continue
@@ -137,6 +139,11 @@ async def main():
             if not C.is_free(s): continue
             if s['zone'] != 'dorm':
                 run.note('%s %s 在 %s：手機「地點」回宿舍' % (s['key'], C.hm(s['h']), s['zone'])); await quick_go(pg, cdp, run, 'dorm'); continue
+            due = await pg.evaluate(DUE)
+            if due:   # 鬧鐘叫醒、已經到了該出發的時間：玩家等「出發」選單，不會又回床上（雲端 11-03 第一次跑：12:40 被叫醒 1.6 秒就又去睡，變成 13:45 電話那一條）
+                if due_wait is None: due_wait = time.time(); run.note('%s %s 行程 %s 到了出發時間：等「出發」選單' % (s['key'], C.hm(s['h']), due))
+                if time.time() - due_wait < DUE_WAIT_S: await pg.wait_for_timeout(1500); continue
+                run.note('等了 %d 秒沒有出現「出發」選單：照玩家去床' % DUE_WAIT_S)
             run.note('%s %s 空下來在宿舍：去床（%s）' % (s['key'], C.hm(s['h']), '晚上' if (s['h'] % 24 >= 17.5 or s['h'] % 24 < 5) else '白天'))
             await go_bed(pg, cdp, run)
         else:
@@ -152,6 +159,7 @@ async def main():
         dep_how = 'phone_call' if call_at and (not prompt_at or call_at['i'] < prompt_at['i']) else ('prompt' if prompt_at else None)
         run.note('出發選單：%s；電話：%s' % (J(prompt_at and {'d': prompt_at['d'], 'h': C.hm(prompt_at['h']), 't': prompt_at['t'][:40]}), J(call_at and {'d': call_at['d'], 'h': C.hm(call_at['h'])})))
         run.check('2 可以出發（OUT.go y0_e37；方式=%s）' % dep_how, dep is not None, J(dep))
+        run.check('2 鬧鐘叫醒以後出現「出發：…接可昕」選單（不是等到 13:45 的電話）', prompt_at is not None, J(prompt_at and {'d': prompt_at['d'], 'h': C.hm(prompt_at['h'])}))
         if dep:
             run.check('2 出發的時間在 %s～%s（約好的 %s − 車程 %.0f 分 − 15 分；最晚 %s＋late）' % (C.hm(lo), C.hm(hi), C.hm(qh), tH * 60, C.hm(qh)),
                       dep['day'] == d30 and lo - 0.01 <= dep['h'] <= hi + (0.4 if dep_how == 'phone_call' else 0), '%s %s' % (dep['d'], C.hm(dep['h'])))
