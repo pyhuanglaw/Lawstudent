@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "22_boya",
+  "sha": "6f0122821",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_boya203_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T10:37:59",
+  "end": "2026-11-03T10:40:24",
+  "seconds": 145,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8809/index.html",
+  "res_peak": {
+    "cpu": 59,
+    "mem": 54,
+    "used_gb": 17.2,
+    "chrome_testing": 28
+  }
+}

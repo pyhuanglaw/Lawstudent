@@ -1,0 +1,25 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_boya203_probe.py http://127.0.0.1:8809/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\22_boya\out
+PASS 遊戲載入
+==== CASE b203（SHA 6f0122821）====
+  [前置／捷徑] [前置] b203：法律系最小存檔 2026-05-27（Y1S2 第 14 週週三，SK07 那一晚）18:40 博雅教學館 2F 203 門口
+  [前置／捷徑] [前置] 站到203 門口 5 m 外：{"x": -6.6, "z": 1.5, "R": 5}
+  [  31.7s] b203：203 門口的互動（只讀）[{"label": "進入 博思 203", "look": null, "x": -11.6, "z": 1.5, "r": 1, "lv": 1, "hidden": false, "seat": false, "exit": "boya_203", "npc": false}, {"label": "博思 203 討論室（之後開放）", "look": "博思 203：討論室，門鎖著。門邊貼著借用登記表——之後開放。", "x": -11.6, "z": 1.5, "r": 1, "lv": 1, "hidden": true, "seat": false, "exit": null, "npc": false}]
+  [  57.4s] 到達「203 門口」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，26 秒
+PASS b203：走到 203 門口、按鈕「進入 博思 203」（那一晚開）  {"btn": "進入 博思 203", "pos": {"x": -11.38, "z": 1.51, "lv": 1, "zone": "boya", "formal": true, "h": 20.54}, "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\22_boya\\out\\01_b203_door.png"}
+PASS b203：進到博思 203、正式模型載入（E.zone.formal）  {"pl": {"x": -0.15, "z": -1.95, "lv": 0, "zone": "boya_203", "formal": true, "h": 20.55}, "rows": []}
+  [  62.3s] b203：博思 203 的互動清單（GAME.E.interactables，只讀；座位只數個數）：[{"label": "白板", "look": "白板", "x": -4.75, "z": -1.4, "r": 0.9, "lv": 0, "hidden": false, "seat": false, "exit": null, "npc": false}, {"label": "「給我一個詞」", "look": "「給我一個詞」", "x": -2.9, "z": -0.9, "r": 0.7, "lv": 0, "hidden": false, "seat": false, "exit": null, "npc": false}, {"label": "離開 203", "look": null, "x": -0.15, "z": -2.8, "r": 0.6, "lv": 0, "hidden": false, "seat": false, "exit": "boya", "npc": false}]；座位 18 個
+PASS b203：整間沒有任何 label／look 含「簽到」的互動（修改前有「簽到表」(2.5,−2.1)）  []
+  [  76.3s] 到達「小桌前」附近（0.21 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [  77.5s] b203：站在小桌前 {"x": 2.3, "z": -1.91, "lv": 0, "zone": "boya_203", "formal": true, "h": 20.66}；按鈕「」；1.2 m 內的互動 [{"label": "坐下（看演出）", "look": null, "x": 1.6, "z": -1.2, "r": 0.7999999999999999, "lv": 0, "hidden": false, "seat": true, "exit": null, "npc": false}]
+PASS b203：走到小桌前（離 (2.50, -1.85) ≤0.45 m）  {"x": 2.3, "z": -1.91, "lv": 0, "zone": "boya_203", "formal": true, "h": 20.66}
+PASS b203：站在小桌前，按鈕不是「簽到表」、附近沒有簽到互動  {"btn": "", "near": [{"label": "坐下（看演出）", "look": null, "x": 1.6, "z": -1.2, "r": 0.7999999999999999, "lv": 0, "hidden": false, "seat": true, "exit": null, "npc": false}]}
+  [  87.5s] b203：鏡頭轉向桌面 True；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\22_boya\out\02_b203_table.png、C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\22_boya\out\03_b203_table_portrait.png——桌上的字（節目單／簽到）看截圖（READY_FOR_ART_REVIEW，探針不判）
+==== CASE cram（SHA 6f0122821）====
+  [  87.6s] cram：頁面裡 RETAKE_HOME RH-C3（只讀）{"date": "2025-06-17", "time": "10:20", "place": "補習班・櫃台", "bg": "cram_class", "lines": ["（早上十點二十。第二堂已經上了一半。）", "（今天你們兩個都睡過頭。）", "（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）", "（小聲）……今天兩個人都輸。", "早餐誰請？"]}
+PASS cram：資料裡 RH-C3 有補習班簽到那一句（含「簽到表」）  "（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）"
+  [前置／捷徑] [前置] cram：經濟系退宿後最小存檔 2025-06-17 09:30 在家（和可昕交往中；事件模式；衝刺班 6/9～7/9）
+  [ 109.2s] cram：RH-C3 前後的台詞 [["", "（早上十點二十。第二堂已經上了一半。）", "2025-06-17", "10:20"], ["", "（今天你們兩個都睡過頭。）", "2025-06-17", "10:20"], ["", "（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）", "2025-06-17", "10:20"], ["杜可昕", "（小聲）……今天兩個人都輸。", "2025-06-17", "10:20"], ["杜可昕", "早餐誰請？", "2025-06-17", "10:20"]]；事件 ["rh_RH-C3"]；背景 ["{\"image\":\"assets/bg/home_room_day.webp\"}", "{\"image\":\"assets/bg/cram_class.webp\"}", "dark"]
+PASS cram：衝刺班 RH-C3（2025-06-17 10:20 補習班・櫃台）旁白「（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）」照舊出現、和資料一字不差（截圖 ["C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\22_boya\\out\\04_cram_line.png", "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\22_boya\\out\\05_cram_line_portrait.png"]）  ["", "（管理人員看了一眼牆上的鐘，在簽到表上畫了一個記號。什麼都沒說。）", "2025-06-17", "10:20"]
+PASS 沒有 JS 例外  []
+SHA 6f0122821 CASES b203,cram
+ALL PASS
