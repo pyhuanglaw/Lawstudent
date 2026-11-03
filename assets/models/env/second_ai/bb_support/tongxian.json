@@ -1,0 +1,17 @@
+{
+ "objects": 37,
+ "unique_meshes": 37,
+ "tris": 56759,
+ "tris_drawn": 56759,
+ "materials": 12,
+ "out": "../../../../../../home/user/Lawstudent/assets/models/env/second_ai/bb_support/tongxian.glb",
+ "bytes": 3656696,
+ "texres": 512,
+ "layout": 1,
+ "guitars": {
+  "electric": 22,
+  "acoustic": 21,
+  "owner": 1,
+  "on_stand": 1
+ }
+}
