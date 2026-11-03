@@ -340,7 +340,8 @@ const PG=(function(){
   S.yt17=async function(GM){ const G=GM.G, Y17=L().YT17, A=adv(); await S.play(GM,Y17.lines); const d=S.dating(G,'heroine_03'), other=!d&&S.partners(G).length>0;
     const cg=!!(d&&Y17.cgDating&&A&&A.cg&&A.cg(Y17.cgDating));   /* CG-21 一把傘（交往中那一句；沒登錄的圖＝不顯示）*/
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?DLY(G,'yt17Other',Y17.other):DLY(G,'yt17Friend',Y17.friend)));
-    if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
+    if(cg&&A.setBg) A.setBg(BG('graduation_avenue'));   /* 離開 CG-21 那一拍 */
+    if(Array.isArray(Y17.fb)&&typeof PHONE!=='undefined'&&PHONE.at&&!PHONE.sent(G,'yt17_fb')) PHONE.at(G,G.day,21,Y17.fb.map(t=>({th:'p:heroine_03',from:'heroine_03',text:t})),'yt17_fb'); };   /* AA_625 第 17 節：當天晚上語彤傳她媽媽 FB 貼文的截圖＋兩句 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
   S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_476 A-1：視訊不搬到 12:00，句子照原句）*/
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */

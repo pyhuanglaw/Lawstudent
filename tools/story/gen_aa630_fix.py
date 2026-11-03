@@ -21,8 +21,14 @@ for line in md7.split('\n'):
     if tag and tag.group(1) in ('改句', '換字'): rows.append({'no': c[0], 'file': c[1], 'orig': c[3], 'new': c[4], 'note': c[5]})
 BAD = re.compile(r"[{}\[\]<>]|^'|:'|',|\bif\b|^（刪|^（照(第|舊|原|AA|這)|^（不改|整段|見 H-|見表下|改成：|交往中：|沒交往|^—$")
 pairs = {}
+LIT = re.compile(r"'([^']*)'")
 for r in rows:
     o, n = r['orig'].strip(), r['new'].strip()
+    lo, ln = LIT.findall(o), LIT.findall(n)
+    if lo and len(lo) == len(ln) and not re.search(r'<|見 H-|見表下|改成：|交往中：|沒交往', n):   # 程式寫法的列（narr:'…',yt:'…'）：引號裡的字一對一換（5 個字以上）
+        for x, y in zip(lo, ln):
+            if x != y and len(x) >= 5 and x not in y and re.search(r'[一-鿿]', x): pairs.setdefault(x, y) if pairs.get(x, y) == y else pairs.__setitem__(x, None)
+        continue
     if BAD.search(o) or BAD.search(n) or o == n: continue
     o = o.strip('「」'); n = n.strip('「」')
     if '」「' in o or '」「' in n: continue
