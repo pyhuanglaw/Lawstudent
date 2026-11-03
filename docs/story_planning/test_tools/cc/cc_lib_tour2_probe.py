@@ -159,6 +159,8 @@ async def main():
                 if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
                 await pg.wait_for_timeout(1000)
             post = [o for o in OUTSEEN if o['post']]
+            ost = await pg.evaluate("(()=>{ const G=GAME.G; let r=null; try{ r=(OUT.rec?OUT.rec(G):[]).map(q=>({id:q.id,state:q.state,day:q.day,h:q.h,late:q.late,ask:q.ask})); }catch(e){ r=String(e); } return {h:+(+G.hour).toFixed(3), day:G.day, zone:G.zone, touring:!!(typeof CLS!=='undefined'&&CLS.touring), due:(()=>{ try{ const q=OUT.due&&OUT.due(G); return q?q.id:null; }catch(e){ return String(e); } })(), rec:r}; })()")
+            print('  導覽結束後的出遊狀態（等了 %.0f 秒）：%s' % (time.time() - t1, json.dumps(ost, ensure_ascii=False)[:1200]), flush=True)
             run.check('A 導覽結束後 5 分鐘內跳出合照的「出發：」', 'went' in POST and POST['went'] <= h0 + 5 / 60 + 0.005, json.dumps({'end': h0, 'seen': post}, ensure_ascii=False))
             if 'went' in POST:   # 選了出發：要真的到得了（圓窗館前 (−104,−17)），沒有「錯過／來不及」
                 t2 = time.time(); arrived = None

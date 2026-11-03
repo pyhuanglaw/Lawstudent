@@ -105,9 +105,9 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
         # BB 16:07：walkFallbacks 要知道是哪一段——遊戲 game3d.js:170 console.warn('walkTo 卡住 → 放到目的地', 誰, 起點, '→', 終點)；包一層，記下當時的日期、時間、區域、樓層
-        await pg.add_init_script("""(()=>{ const w0=console.warn.bind(console); window.__wf=[]; console.warn=function(...a){ try{ if(typeof a[0]==='string'&&a[0].indexOf('walkTo 卡住')===0){ const G=window.GAME&&GAME.G;
-          window.__wf.push({who:a[1], from:a[2], to:a[4], d:(window.CALENDAR&&G)?CALENDAR.dateOf(G.day).key:(G&&G.day), h:G&&+(+G.hour).toFixed(2), zone:G&&G.zone, lv:GAME.E&&GAME.E.player?GAME.E.player.lv|0:null,
-            ev:(window.EVENTS&&EVENTS.running)||null, dlg:(()=>{ const e=document.getElementById('dlgText'); return e?e.textContent.slice(0,40):null; })()}); } }catch(e){} return w0(...a); }; })()""")
+        await pg.add_init_script("""(()=>{ const w0=console.warn.bind(console); window.__wf=[]; console.warn=function(...a){ try{ if(typeof a[0]==='string'&&a[0].indexOf('walkTo 卡住')===0){ const GM=(typeof GAME!=='undefined')?GAME:null, G=GM&&GM.G;   /* GAME 是最外層 const、不在 window 上（V19 PC：d、h、zone 都是 null）*/
+          window.__wf.push({who:a[1], from:a[2], to:a[4], d:(typeof CALENDAR!=='undefined'&&G)?CALENDAR.dateOf(G.day).key:(G&&G.day), h:G&&+(+G.hour).toFixed(2), zone:G&&G.zone, lv:GM&&GM.E&&GM.E.player?GM.E.player.lv|0:null,
+            ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, dlg:(()=>{ const e=document.getElementById('dlgText'); return e?e.textContent.slice(0,40):null; })()}); } }catch(e){} return w0(...a); }; })()""")
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg, 600))
         d0 = await pg.evaluate("STORY.dayOfKey('2025-08-22')"); d901 = await pg.evaluate("STORY.dayOfKey('2025-09-01')")
