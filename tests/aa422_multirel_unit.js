@@ -327,25 +327,10 @@ await sec(3,async()=>{
   check('3. 芷若變體：曾說謊＝「……多久了？」前面「你那時候說不是這樣。」；未滿 7 天＝之後「……這禮拜？」',seq(['（她擦吧檯。同一個地方，擦了很久。）','你那時候說不是這樣。','……多久了？','這禮拜才開始。','……這禮拜？','（她把抹布折好，放在水槽旁邊。）']),J(T()));
   fresh('2026-10-01',12,'cafe',{dating_kexin:true}); H.CLOSE(ZR); ROM.start(H.G,ZR); H.G.flags.YT_PROMISED={heroine_02:'exclusive'}; X().rec(H.G).prom[ZR]={ys:[KX],day:H.G.day}; setT('2026-10-05',12); learn(ZR,KX); setT('2026-10-05',21.9); await play(X().dueAuto(H.G));
   check('3. 芷若說會講卻沒講：（她沒有說話。她把你的杯子收走，洗乾淨，倒扣在架子上。）「打烊了。」（AA_425 2-3）',seq(['（她沒有說話。她把你的杯子收走，洗乾淨，倒扣在架子上。）','打烊了。']));
-  /* 語彤 */
+  /* 語彤：AA_610／AA_624（使用者 11-03）她從來不在燒臘店顧店＝原本「她顧店的晚上來麵店」那一場（《等我下班一下》、說會講卻沒講）走不到；新的場地、台詞等 AA_625（原本這一段的 7 項檢查換成這兩項）*/
   fresh('2026-10-01',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2026-10-19',12); learn(YT,KX);
-  setT('2026-10-20',18); H.G.zone='noodle'; d=X().dueAuto(H.G); check('3. 語彤：她顧店的晚上來麵店＝演（照她的作息，不綁星期幾）',!!d&&d.x===YT);
-  ayi(false); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤《等我下班一下》（原文；3D 的阿姨不在麵店＝阿姨去買東西，AA_503 第 14 節後補第 7 點）',seq(['今天很忙喔？','還好。','阿姨呢？','去買東西。','（她把桌子擦乾淨。）','你等一下有事嗎？','沒有啊。','那等我收完。','怎麼了？','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）','我聽說你跟可昕也在一起。','……嗯。','多久了？','一年多。','喔。','（她把抹布擰乾。）','所以你一直都沒跟我講。','對不起。','嗯。','（她停了一會兒。）','我今天有點不想跟你講話。','好。','你先回去吧。']),J(T()));
-  const ytZq=h=>{ fresh('2026-10-01',12,'campus',{}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2026-10-20',12); H.G.flags.dating_heroine_04=true; ROM.get(H.G,ZQ).sinceDay=H.G.day-2; learn(YT,ZQ); setT('2026-10-22',h); H.G.zone='noodle'; return X().dueAuto(H.G); };
-  d=ytZq(18.5); ayi(true); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：3D 的阿姨在麵店（圈子表 c503_6_2 那幾列）、18:30：沒有「阿姨呢？」；最後那三句照原本 19:00 以後（AA_503 第 14 節後補第 8 點，f6069e42d）＝還沒有「阿姨，我等一下自己收。」；未滿 7 天＝「你這禮拜才開始的？」「……那你為什麼還來找我吃麵？」',
-    !!d&&d.x===YT&&seq(['今天很忙喔？','還好。','（她把桌子擦乾淨。）','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）','你這禮拜才開始的？','……那你為什麼還來找我吃麵？'])&&!H.has('阿姨呢？')&&!H.has('去買東西。')&&!H.has('阿姨，我等一下自己收。')&&!H.said.some(s=>s.who==='阿姨'),J(H.lines()));
-  d=ytZq(19.5); ayi(true); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：3D 的阿姨在麵店、19:30（19:00 以後）：沒有「阿姨呢？」，「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）',
-    !!d&&d.x===YT&&seq(['有事問你。','阿姨，我等一下自己收。','好啦，你們年輕人。','（阿姨先上樓）','（打烊。鐵門拉下一半，只剩一盞燈。）','你這禮拜才開始的？'])&&!H.has('阿姨呢？')&&!H.has('去買東西。')&&H.said.some(s=>s.who==='阿姨'),J(H.lines()));
-  d=ytZq(19.5); ayi(false); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：19:30 來、3D 的阿姨不在麵店＝照樣「阿姨呢？」「去買東西。」，沒有「阿姨，我等一下自己收。」（不再看幾點）',
-    !!d&&d.x===YT&&seq(['今天很忙喔？','還好。','阿姨呢？','去買東西。','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）'])&&!H.has('阿姨，我等一下自己收。')&&!H.said.some(s=>s.who==='阿姨'),J(H.lines()));
-  fresh('2027-12-10',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2027-12-20',12); learn(YT,KX); setT('2027-12-23',18); H.G.zone='noodle';
-  check('3. 語彤大三上 12/16 續約以後：週四不顧店＝週四來麵店不演、照作息其他晚上',(()=>{ const thu=!X().dueAuto(H.G); setT('2027-12-21',18); return thu&&!!X().dueAuto(H.G); })());
-  fresh('2026-10-01',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); H.G.flags.YT_PROMISED={heroine_03:'handle:kexin'}; X().rec(H.G).prom[YT]={ys:[KX],day:H.G.day}; setT('2026-10-19',12); learn(YT,KX); setT('2026-10-20',18); H.G.zone='noodle'; await play(X().dueAuto(H.G));
-  check('3. 語彤說會講卻沒講：「你說你會講。」她把抹布放下。「……我等了。」「你回去吧。」',seq(['你說你會講。','她把抹布放下。','……我等了。','你回去吧。']));
+  setT('2026-10-20',18); H.G.zone='noodle'; d=X().dueAuto(H.G); check('3. 語彤：週二晚上在燒臘店＝不演（她不在店裡）',!(d&&d.x===YT),J(d));
+  setT('2026-10-22',18); d=X().dueAuto(H.G); check('3. 語彤：週四晚上在燒臘店＝也不演',!(d&&d.x===YT),J(d));
   /* 沛珊 */
   fresh('2026-09-20',12,'campus',{dating_kexin:true}); H.CLOSE(PS); H.CLOSE(A1); ROM.start(H.G,PS); learn(A1,KX,'k3');
   setT('2026-10-22',22); X().spreadTick(H.G); ROM.spreadTick(H.G);

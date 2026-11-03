@@ -31,7 +31,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x), K=d=>CALENDAR.dateOf(d).key, termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; ADV.active=false; E.npcs=[]; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -46,7 +46,7 @@ const {execSync}=require('child_process');
 let DOC=''; try{ DOC=execSync('git -c core.quotepath=false show 2af03a63:"docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
 const s1=(DOC.split('## 1.')[1]||'').split('\n## ')[0], bq=s1.split('\n').filter(l=>l.startsWith('> ')).map(l=>l.slice(2).replace(/^(柏翰|阿哲)：/,''));
 let D409=''; try{ D409=execSync('git -c core.quotepath=false show 86016b84:"docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
-const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
+const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的飯錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
 const W4=['（讀書會結束。你收白板的時候，沛珊站在門口等。）','今天那一題，你講得很好。……我想多聽你講。',   /* AA_525 2-4 P-6：原「下週那一題，你報。……我想聽你講。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js） */
   '（你們一起走出法律系館B。柏翰走在前面，一個人。）'], TOLD='（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）';
 const W4_409=W4.map(t=>t==='今天那一題，你講得很好。……我想多聽你講。'?'下週那一題，你報。……我想聽你講。':t);   /* AA_409 的稿還是原句（AA_525 2-4 改的那一句對 AA_525：tests/aa525_promises_unit.js）*/

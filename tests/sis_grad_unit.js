@@ -27,7 +27,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 let chooseN=0;
 global.GAME=undefined;
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone:zone||'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0,study:0},stage:'law'};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone:zone||'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,afternoonDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0,study:0},stage:'law'};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; cards=[]; cgs.length=0; chooseN=0; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const ID='heroine_05';
 const R=(fam,trust,comf,o)=>{ const r=SOCIAL.rel(ID); r.fam=fam; r.trust=trust||0; r.comf=comf||0; if(o) Object.assign(r,o); SOCIAL.remember(ID,'FIRST_MET',''); };
@@ -84,7 +84,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     { const d=td('Y1S1',14,3), r=tryInv(d,12+10/60), rl=tryInv(td('Y1S1',14,2),19,'library'), rj=tryInv(K('2026-01-13'),19), rx=tryInv(K('2026-02-02'),12+10/60), rp=tryInv(K('2026-02-03'),19);
       check('2-1. 第 14 週午餐照樣答應；總圖（一起念書）不受上限；1 月晚餐婉拒；2/2 午餐（她在考試、不在學校）婉拒；2/3（筆試以後）照一般規則',r.res==='accept'&&!(rl.res==='decline'&&rl.why==='exam')&&rj.res==='decline'&&rj.why==='exam'&&rx.res==='decline'&&rx.why==='exam'&&!(rp.why==='exam'),[r.res,rl.res+':'+rl.why,rj.res,rx.res,rp.res+':'+rp.why].join(' ')); }
     /* 當面約（INV.flow）：婉拒句講出來、數值沒動 */
-    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['阿鳳麵店','明天 19:00','不用了。']; const iv=await INV.flow(GM,ID,null,false);
+    fresh(td('Y1S1',15,2),15,'campus',{SIS_W1:true}); FRI(); const r0=relOf(); picks=['公館燒臘','明天 19:00','不用了。']; const iv=await INV.flow(GM,ID,null,false);
     check('2-1. 手機約她（第 15 週）：她說婉拒句（AA_535 1-3 的兩句）、接「那一起念書。」／「不用了。」；選「不用了。」沒有約成、數值沒動',iv===null&&said.some(s=>SISG.DECLINE_OFF.includes(s.t))&&opts.some(o=>o.join('|')==='那一起念書。|不用了。')&&!(G.invites||[]).length&&JSON.stringify(relOf())===JSON.stringify(r0),JSON.stringify(lines().slice(-2)));
     /* 校外約會：第 10 週起「等我考完。」；第 9 週以前照一般條件 */
     const dateOk=()=>{ const r=SOCIAL.rel(ID); Object.assign(r,{fam:50,trust:35,comf:20,npcRom:35,rom:10}); };
@@ -265,7 +265,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     check('2-12. 6/6（六）早上私訊「今天十一點，A館。不用帶花。」（AA_459 第 5 節補句號）→ 11:00 出遊（有點熟以上）',her().length===1&&her()[0].text==='今天十一點，A館。不用帶花。'&&!!q&&q.h===11&&q.ev==='ev_sis_graduation',JSON.stringify(q));
     { fresh(d,7.5,'dorm',{}); R(10); span(Tm(d,7.9),Tm(d,9)); check('2-12. 只認識：沒有私訊、沒有出遊',!her().length&&!OUT.get(G,'sisg_grad')); }
     fresh(d,11,'dorm',{}); FAM(); await EVENTS.run(ev('ev_sis_graduation'));
-    check('2-12. 台詞（AA_590 第 78、79 列，決2 乙：爸爸的兩句改成媽媽問「九月開學？」、「來，拍一張。」刪）：媽媽「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 →「你來了。」「……我本來想了很多要說的。」「今天只說一句：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的媽媽：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。',SOCIAL.displayName(ID)+'：……我本來想了很多要說的。',SOCIAL.displayName(ID)+'：今天只說一句：謝謝你來。']),JSON.stringify(lines()));
+    check('2-12. 台詞（AA_590 第 78、79 列，決2 乙：爸爸的兩句改成媽媽問「九月開學？」；「來，拍一張。」AA_609 第 6 節改給學姊的奶奶）：媽媽「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 → 學姊的奶奶「來，拍一張。」→「你來了。」「……我本來想了很多要說的。」「今天只說一句：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的媽媽：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','學姊的奶奶：來，拍一張。','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。',SOCIAL.displayName(ID)+'：……我本來想了很多要說的。',SOCIAL.displayName(ID)+'：今天只說一句：謝謝你來。']),JSON.stringify(lines()));
     { const sc=ev('ev_sis_graduation').dialogue.find(l=>l.scene!==undefined); check('2-12. 背景 2D linze_auditorium（霖澤館一樓大廳）',sc&&sc.bg==='linze_auditorium'); }
   });
   /* ---------- G1 只有點熟、沒解鎖 ---------- */

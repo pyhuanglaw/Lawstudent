@@ -1,7 +1,7 @@
 // AA_588（企劃線 1edea905f；AA 2026-11-02 定稿 D109；任務 AA588-AA581-TAIL-1102）AA_581 收尾＋交換延畢又被當（K1）——不需要瀏覽器。
 //   0  讀稿：AA_588 的句子（4/15 群組兩則、記憶標籤、K1 七句＋新卡）一字不差在稿裡
 //   1  沛珊和柏翰公開搬回 4/15 傍晚麵店（ev_psbh_public_0415；AA_581 第 11 節第 2 點）：只演 PS_BH 那幾行、只在 4/15 17:00～20:30 的麵店、交往中不演；
-//      17:00 麵店團群組柏翰「今天晚上麵店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
+//      17:00 麵店團群組柏翰「今天晚上燒臘店，有空的來。」沛珊「我會到。」；沒到＝20:30 阿哲滷蛋照片（聽說）；到過＝沒有照片；隔天才回到遊戲的補；期末那頓（考完的晚餐）沒有公開、沒去也沒有照片
 //   2  記憶標籤 AN_L8_MIDTERM＝「和她聊過期中週讀書的進度」（id 不動）
 //   3  課堂內容照 AA 改過的源稿重匯（claude/story-planning@1edea905f）：第 7 週黑板三門、柏翰缺課訊息兩門；經濟系會計學那句不動；AA_389 第 9 點勞動法那句一起進來；白名單
 //   4  home_lines：import_home_lines.py 讀的是 AA_138；晚餐第 8 題換成 AA_588 的三句（週次 8～10 不動）
@@ -15,13 +15,13 @@ global.CG_REGISTRY=global.CG_REGISTRY||{};
 for(const f of ['src/data/study_units.js','src/study3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/faildelay3d.js']) try{ load(f); }catch(e){ console.log('載入失敗 '+f+'：'+e); }
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const git=a=>{ try{ return cp.execFileSync('git',['-C',H.ROOT].concat(a),{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } };
-const P588='docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md', DOC=git(['show','1edea905f:'+P588]);
+const P588='docs/story_planning/AA_588_回LAWWW_AA581收尾與交換延畢又被當.md', DOC=require('./alison.js').ndl(git(['show','1edea905f:'+P588]));   /* 讀稿照 tools/story/*_fix.json 換字 */
 const ALLOW=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
 const allow=(p,s)=>ALLOW.some(e=>e.path===p&&e.sha===s&&e.status==='approved'&&!!e.approvedBy);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
 const D415=termDay('Y1S2',8,3);
-const ASK=['今天晚上麵店，有空的來。','我會到。'], EGG=['📷（一顆切成兩半的滷蛋）','柏翰幫沛珊切的','……他們在一起了'];
+const ASK=['今天晚上燒臘店，有空的來。','我會到。'], EGG=['📷（一顆切成兩半的滷蛋）','柏翰幫沛珊切的','……他們在一起了'];
 const PUB=['柏翰幫沛珊把滷蛋切成兩半。','……喔。','全桌安靜三秒。','對，我們在一起了。你們吃你們的。','上禮拜的事。','（他把另一半滷蛋推回她碗裡。）'];
 const K1={exJP:'（同屆的人都畢業了。你還差一門實習，還有{課名}要重修。九月再回學校。）',exUS:'（同屆的人都畢業了。你還差一門實習、兩門補修，還有{課名}要重修。九月再回學校。）',
   y5US:'（週一、週三補修兩門課，{課名}照課表重修。教室裡坐的，都是學弟妹。）',y5JP:'（這學期，{課名}重修。教室裡坐的，都是學弟妹。）',fafu:'（週二去法扶，一週一堂{課名}。其他的日子，一天和一天很像。）',
@@ -55,7 +55,7 @@ await sec(1,async()=>{ const e=ev('ev_psbh_public_0415'), sup=ev('ev_midterm_sup
   const day=CALENDAR.dateOf(D415), key=day.y+'-'+String(day.m).padStart(2,'0')+'-'+String(day.d).padStart(2,'0');
   const ph=(o)=>{ H.fresh(key,15,'dorm',{}); psKnow(!!o.dating); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); tickAt(16); tickAt(16.9); const before=grp().length; tickAt(17); const at17=grp().map(m=>[m.from,m.text,m.h]); return {before,at17}; };
   const a=ph({}), b=ph({group:false}), c=ph({dating:true});
-  check('1. 17:00 麵店團群組：柏翰「今天晚上麵店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
+  check('1. 17:00 麵店團群組：柏翰「今天晚上燒臘店，有空的來。」、沛珊「我會到。」（17:00 以前沒有）',a.before===0&&J(a.at17.map(x=>[x[0],x[1]]))===J([['classmate_bohan',ASK[0]],['classmate_peishan',ASK[1]]])&&a.at17.every(x=>x[2]===17),J(a));
   check('1. 不在群組、和沛珊交往中＝沒有那兩則',b.at17.length===0&&c.at17.length===0,J([b,c]));
   /* 20:30 照片 */
   const eggOf=()=>grp().filter(m=>m.tag==='zhe_supper_mid2_egg').map(m=>m.text);

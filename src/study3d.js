@@ -90,14 +90,14 @@ const STUDY=(function(){
      按一次：先過 3 小時（GM.advance；不呼叫 slotUse，時段次數用完也能做）、G.stats.study +3、照常 STORY.onStudy（地點照實際讀書的地方；家裡記 'home'）；
        範圍內全部的卡設成「讀過」（只升不降，答對過的不動）——先設好再開閱讀，跳過、提早結束也算讀過（D118：讓玩家「有機會」讀完，不是逼他點完）；
        翻頁閱讀（GM.say／GM.choose，不新做 DOM）：一科一節、答錯過的卡（miss）排最前面；每張卡＝標題、白話（AA 的稿還沒到＝黑板＋教授那一句＋重點）、課堂提問的題目／答案／考點；
-       「下一張」「跳到下一科」「結束總複習」；結束時字幕每科一行（S.line）。
+       「下一張」「跳到下一科」「先讀到這裡」；結束時字幕每科一行（S.line）。
      不跨天：開始時間 +3 小時會到午夜（21:00 以後）就不給——選項變灰、寫原因（選「直接不給」，不做「只讀到 23:59」：讀不滿三小時的總複習要另外定效果，D118 沒有要）。
        閉館前讀不完、會錯過今天還沒考的期末考：也變灰；會錯過一般的課：只寫在提示裡（和自習的長度選單一樣）。
      可以重複做，沒有次數限制；不存任何新欄位（狀態只寫進 G.study.u）。成績照舊只看答題（CLS.scoreOf、HONOR、GRADES、pushLevel 都不動；drawExam 抽到的題號不變）。
-     介面字（入口「考前總複習」、提示、開始那一句、提醒）都是暫定字，AA 定稿後換（D118_PLAN 第 5 節第 7 項）。 ===== */
+     介面字照 AA_638（企劃線 3271973c6）定稿。 ===== */
   S.REVIEW_HRS=3;
-  S.REVIEW_LABEL='考前總複習';   /* 暫定字，AA 定稿後換 */
-  S.REMIND_TEXT='【期末】下週期末考。考前可以在讀書的地方做一次總複習。';   /* 暫定字，AA 定稿後換 */
+  S.REVIEW_LABEL='考前總複習';   /* AA_638 定稿（企劃線 3271973c6）*/
+  S.REMIND_TEXT='【期末】下週開始期末考。坐到書桌或讀書的位子，可以把這學期一次讀過一遍。';   /* AA_638 定稿 */
   const lawStage=G=>!!G&&(G.stage||'law')==='law';
   const finalMemo={};
   /* 這學期期末週的第一天（日曆 exam==='final'）；沒有＝null */
@@ -123,16 +123,16 @@ const STUDY=(function(){
       if(poolN(e.c.id,t.id)<5) continue; const us=S.units(G,e.c,t.id,'final'); if(!us.length) continue; out.push({c:e.c,exam:e,units:us}); }
     return out.length?{kind:'final',term:t.id,courses:out}:null; };
   /* 現在按下去能不能做：{dim,why,warn}（o.home：在家，不看閉館）*/
-  S.reviewCheck=function(G,o){ o=o||{}; const h=G.hour, hh=S.REVIEW_HRS; if(h+hh>24-1e-6) return {dim:true,why:'總複習要三個小時，21:00 以前才能開始（不讀過午夜）。'};
+  S.reviewCheck=function(G,o){ o=o||{}; const h=G.hour, hh=S.REVIEW_HRS; if(h+hh>24-1e-6) return {dim:true,why:'要讀三個小時。21:00 以後開始就太晚了。'};
     for(const f of S.REVIEW_CHECKS){ let w=null; try{ w=f(G,hh); }catch(e){ console.warn('STUDY.REVIEW_CHECKS',e); } if(w) return {dim:true,why:w}; }
     const sc=CLS.spanCheck?CLS.spanCheck(G,hh,{noClose:!!o.home}):{closed:false,miss:[],exam:[]};
-    if(sc.closed) return {dim:true,why:'閉館前讀不完（總複習要三個小時）。'};
+    if(sc.closed) return {dim:true,why:'快閉館了，讀不完三個小時。'};
     if(sc.hard&&sc.hard.length) return {dim:true,why:'會錯過：'+sc.hard.join('、')+'。'};   /* CLS.HARD_FNS（補考）*/
     if(sc.exam.length) return {dim:true,why:'會錯過'+sc.exam.join('、')+'的期末考。'};
     return {dim:false,why:'',warn:sc.miss.length?'會錯過：'+sc.miss.join('、'):''}; };
   /* 選單的那一項（座位、書桌、Café、家裡）：不開＝null */
   S.reviewOpt=function(G,o){ const info=S.reviewInfo(G,'final'); if(!info) return null; const ck=S.reviewCheck(G,o); const n=info.courses.reduce((a,x)=>a+x.units.length,0);
-    return {t:S.REVIEW_LABEL,review:true,dim:ck.dim,hint:ck.dim?ck.why:(info.what||'這學期還要考的')+' '+info.courses.length+' 科、'+n+' 張觀念卡讀一遍。三小時，不占時段次數。'+(ck.warn?ck.warn:'')}; };   /* 提示：暫定字 */
+    return {t:S.REVIEW_LABEL,review:true,dim:ck.dim,hint:ck.dim?ck.why:(info.what||'這學期還要考的')+' '+info.courses.length+' 科，'+n+' 張觀念卡。要三個小時，今天其他的事照常可以做。'+(ck.warn?ck.warn:'')}; };   /* 提示：暫定字 */
   const askQ=u=>{ if(!u||!u.askQid||typeof EXAM_BANK==='undefined') return null; return EXAM_BANK.questions.find(q=>q.id===u.askQid)||null; };
   const ansText=q=>q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
   /* 一張卡要說的幾句（不含標題列）：白話（＋例子）或 fallback（黑板第二三行＋教授那一句、重點）、課堂提問 */
@@ -155,14 +155,14 @@ const STUDY=(function(){
     let total=0; for(const x of info.courses) for(const u of x.units){ total++; try{ S.mark(G,u.id,'read','review'); }catch(e){ console.warn('STUDY.mark',e); } }
     await GM.fade(false);
     let shown=0; const L=info.courses.map(x=>Object.assign({c:x.c},ordered(G,x.units)));
-    await GM.say(null,'（'+S.REVIEW_LABEL+'：'+(info.what||'這學期還要考的')+' '+L.length+' 科，一共 '+total+' 張觀念卡。）');   /* 暫定字（開始字幕，AA 定稿後換）*/
+    await GM.say(null,'（你把這學期的筆記攤開。'+(info.what||'這學期還要考的')+' '+L.length+' 科，一共 '+total+' 張觀念卡。）');   /* AA_638 定稿（開始字幕）*/
     outer: for(let ci=0;ci<L.length;ci++){ const X=L[ci], N=X.cards.length;
       for(let k=0;k<N;k++){ const u=X.cards[k], v=S.view(u); shown++;
-        await GM.say(null,'【'+X.c.name+'　'+(k+1)+'／'+N+'】'+v.title+(X.miss.has(u.id)?'（答錯過）':''));
+        await GM.say(null,'【'+X.c.name+'　'+(k+1)+'／'+N+'】'+v.title+(X.miss.has(u.id)?'（之前答錯過）':''));
         for(const t of S.cardLines(u)) await GM.say(null,t);
         const lastAll=ci===L.length-1&&k===N-1; if(lastAll) break outer;
-        const opts=[{t:'下一張',hint:k===N-1?'下一科：'+L[ci+1].c.name:(k+2)+'／'+N}]; if(ci<L.length-1&&k<N-1) opts.push({t:'跳到下一科',hint:L[ci+1].c.name}); opts.push({t:'結束總複習',hint:'沒看的也算讀過'});
-        const j=await GM.choose(opts), pick=(opts[j]||opts[0]).t; if(pick.startsWith('結束')) break outer; if(pick.startsWith('跳到下一科')) continue outer; } }
+        const opts=[{t:'下一張',hint:k===N-1?'下一科：'+L[ci+1].c.name:(k+2)+'／'+N}]; if(ci<L.length-1&&k<N-1) opts.push({t:'跳到下一科',hint:L[ci+1].c.name}); opts.push({t:'先讀到這裡',hint:'沒翻到的，也算讀過一遍',end:true});   /* AA_638 定稿 */
+        const j=await GM.choose(opts), po=(opts[j]||opts[0]), pick=po.t; if(po.end) break outer;   /* AA_638：選項字改成「先讀到這裡」，用 end 判斷 */ if(pick.startsWith('跳到下一科')) continue outer; } }
     const lines=info.courses.map(x=>S.line(G,x.c,info.term)).filter(Boolean); if(lines.length&&GM.caption) GM.caption('',lines.join('<br>'),2400+1200*lines.length);   /* 每科一行（和「法律」頁同一行）*/
     return {ok:true,term:info.term,courses:info.courses.map(x=>x.c.id),cards:total,shown}; };
   /* 考試週前一週的週日 20:00 系統提醒（只發一次；只在那一週排——之後才讀到的存檔不補發；不提醒也不扣任何東西）*/
@@ -172,7 +172,7 @@ const STUDY=(function(){
     if(!CLS.examList(G,t.id).some(e=>poolN(e.c.id,t.id)>=5)) return false;
     return PHONE.at(G,sun,20,[{th:'sys',text:S.REMIND_TEXT}],tag); };
   /* D118-B4：考試裡的 cue——那一題的觀念卡讀過以上（read、got）才出一行提醒（只提醒觀念、不點出選項）；cue 是 AA 的稿，空的時候先用卡片標題（黑板第一行）。不影響計分 */
-  S.CUE_PREFIX='（你想起筆記上寫的：';   /* 暫定字（AA 定稿後換，D118_PLAN 第 6 節第 7 點）*/
+  S.CUE_PREFIX='（你想起筆記上寫的：';   /* AA_638 定稿（照留）*/
   /* BUG-B4-CUE-LEAK-1102（BB 07:28）：提示的字出現在正確選項、卻沒有出現在任何錯誤選項＝等於指答案，這一題不出提示（例：CRIM45_34「因果關係」只在 (B)）*/
   /* BUG-B4-CUE-LEAK-1102 第二輪（BB 08:54，CC N3 掃描 cc-testing b9a6f885）：只比整段字串擋不到「標題裡某個術語只出現在正確選項」。
      改成看詞（和 CC 的 test_tools/cc/n3_cue_leak_scan.js 同一套切法）：提示字串（cue，和卡片標題）切成 2 字以上的連續片段、去掉虛詞與泛用詞；

@@ -25,15 +25,21 @@ await sec(0,()=>{ const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8
   check('0. 載入 src/lupstory3d.js；index.html 在 library_upper3d.js、loans3d.js、story3d.js 後面',ok&&!!X()&&at('src/lupstory3d.js')>at('src/loans3d.js')&&at('src/lupstory3d.js')>at('src/library_upper3d.js')&&at('src/lupstory3d.js')>at('src/story3d.js'),err); });
 if(!X()){ H.done(); return; }
 
-await sec(1,async()=>{ const G=fresh('2028-09-12',10,'library_hall');
-  const O=LOANS.deskOptions(G); check('1. 大四（2028-09-12）：服務台有「預約研究小間（三小時）」',O.some(o=>o.t==='預約研究小間（三小時）'),J(O.map(o=>o.t)));
-  H.picks=['預約研究小間']; await LOANS.desk(GM); check('1. 預約了：今天 10:00 起三小時（08 開門）',LUP.booked(G)&&G.flags.carrelDay===G.day&&G.flags.carrelUntil===13,J(G.flags));
-  check('1. 一天一次：再去服務台沒有預約的選項',!LOANS.deskOptions(G).some(o=>/研究小間/.test(o.t)));
-  G.hour=13.1; check('1. 三小時以後 08 關門',!LUP.booked(G));
-  G.day+=1; G.hour=10; check('1. 隔天又可以預約',LOANS.deskOptions(G).some(o=>/研究小間/.test(o.t)));
-  const G2=fresh('2028-03-14',10,'library_hall'); check('1. 大三下：沒有',!LOANS.deskOptions(G2).some(o=>/研究小間/.test(o.t))); });
+await sec(1,async()=>{ /* CARREL-FREE-1103（使用者 11-03「大一就能用，免預約」）：服務台沒有預約選項；法律系開館時間 08 開著 */
+  const G=fresh('2025-09-17',10,'library_hall');
+  check('1. 大一（2025-09-17）10:00：08 開著（免預約）、服務台沒有預約選項',LUP.booked(G)&&!LOANS.deskOptions(G).some(o=>/研究小間/.test(o.t)),J(LOANS.deskOptions(G).map(o=>o.t)));
+  G.hour=22.2; check('1. 22:00 閉館以後關門',!LUP.booked(G)); G.hour=7.5; check('1. 08:00 以前關門',!LUP.booked(G));
+  const G2=fresh('2028-09-12',10,'library_hall'); check('1. 大四也一樣（沒有預約選項、開著）',LUP.booked(G2)&&!LOANS.deskOptions(G2).some(o=>/研究小間/.test(o.t)));
+  const G3=fresh('2025-09-17',10,'library_hall'); G3.stage='econ'; check('1. 經濟系那一年：不開',!LUP.booked(G3));
+  const G4=fresh('2025-09-17',10,'library_carrels'); H.said=[]; STORY.populate('library_carrels',GM); await new Promise(r=>setTimeout(r,20)); const q1=H.lines().filter(t=>/翻書的聲音/.test(t)).length;
+  G4.day+=1; H.said=[]; STORY.populate('library_carrels',GM); await new Promise(r=>setTimeout(r,20)); const q2=H.lines().filter(t=>/翻書的聲音/.test(t)).length;
+  check('1. 第一次進研究小間演「小間裡只聽得到自己翻書的聲音」，隔天再來不演',q1===1&&q2===0,J([q1,q2]));
+  /* BUG-CARREL-SIGN-1103（BB 11-03）：牌子不再叫人預約；預約表不放 */
+  { const L=LIBRARY_UPPER_LAYOUTS.carrels.interact, txt=id=>LUP.lookText(L.find(q=>q.id===id)), all=L.map(q=>q.id==='booking'||q.id==='hall'?'':LUP.lookText(q)).join('|');
+    check('1. 免預約：使用須知、08 關門的字沒有「預約」，寫開放時間',!/請到.{0,8}預約|預約制/.test(txt("rules")+txt("door08"))&&/08:00～22:00/.test(txt('rules'))&&/08:00～22:00/.test(txt('door08')),J([txt('rules'),txt('door08')]));
+    check('1. 免預約：預約表換成門上的紙（AA 11-03）：「免預約。離開時請把椅子推回去。」',!LUP.FREE_HIDE.booking&&LUP.FREE_LABEL.booking==='門上的紙'&&/免預約。離開時請把椅子推回去/.test(txt('booking'))&&!/請到.{0,8}預約|預約制|預約表/.test(all+txt('booking'))); } });
 
-await sec(2,async()=>{ const G=fresh('2028-03-14',15,'library_carrels'); lv(SIS,'FRIEND');
+await sec(2,async()=>{ const G=fresh('2028-03-14',15,'library_carrels'); lv(SIS,'FRIEND'); G.flags.CARREL_QUIET=1;   /* 以前進來過（第一次的旁白另外測）*/
   check('2. 2028-03-14（二）15:00：學姊在 03（燈亮）、能敲玻璃',LUP.sisHere(G)&&X().knockOk(G));
   STORY.populate('library_carrels',GM); check('2. 進研究小間：學姊放在 03 的座位（看書）',spawned.some(s=>s.id===SIS&&s.o&&s.o.pose==='read'),J(spawned));
   H.said=[]; await STORY.interact(Object.assign(door03(),{lupKnock:true}),GM); check('2. 朋友：便利貼「五點出去。」',J(H.lines())===J(['便利貼：五點出去。'])&&G.flags.carrelNoteDay===G.day,J(H.lines()));

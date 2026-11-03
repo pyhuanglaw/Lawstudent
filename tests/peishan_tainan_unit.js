@@ -3,7 +3,7 @@
 //      手機「現在大概在」：重新聯絡上以前「很久沒聯絡」、以後「在台中」「在台南」（第 1 節的表）
 //   2. 大三起沒有臺北的作息、偶遇（溫州街課輔班、公館書店、美術館 D06、烏來 D20、動物園 D08 的大三下／大四下）；大一下的 D08 照舊；enc_walk D06.cafe 拿掉
 //   3. 第 2 節的訊息：8/07 21:00 消失期傳過訊息的回一則（AA_296 2-3-1 ④ 起是她打來的電話，沒接才是那兩則；2026-10-22 改了期待值）；之後第一次傳訊息「好久不見。……我現在在台南。」「你要來的話，跟我說。」
-//   4. 邀約：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn）、寒暑假「我去台中找妳？」；約臺北的地點＝「郭沛珊在台南，不在臺北。」；還沒重新聯絡上的不能約；沒有視訊（沒交往的不開）
+//   4. 邀約：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn）、寒暑假「我去台中找妳？」；約臺北的地點＝「沛珊在台南，不在臺北。」；還沒重新聯絡上的不能約；沒有視訊（沒交往的不開）
 //   5. 閒聊階梯：大三上～大四下 context:'date'，3D 搭話不推進，去台南那一天演完接著聊一層（一天一層）；寒暑假去台中不推進
 //   6. 學期末心意邀約、女朋友的學期末約會：大三起在台南她學校附近（地點字幕、走回她租的地方、搭最後一班高鐵回臺北、票錢 2700）；時段在她回台中以前；朋友的邀約不發；還沒重新聯絡上的不發
 //   7. AA_349（2026-10-21）：K1 第一次回覆分台中／台南；K3 北部全部擋、去台南／台中算正式約會、心願地點「台南・美術館」（聊天提到、她主動約、玩家主動約、那一天）；K4 寒假去台中、台南的期末飯、公開課、視訊都推進一層（同一天最多一層）；K5 交往中的視訊；K11 字
@@ -34,7 +34,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))})); const want=picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; caps=[]; GM.npc={}; ADV.active=false; return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv||'FAM']; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -113,7 +113,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     picks=['算了']; opts=[]; await INV.flow(GM,ID,null,false); const O=opts[0]||[];
     check('4. 手機約她的清單：有「我去台南找妳？」、沒有視訊（沒交往的不開視訊）', O.includes('我去台南找妳？')&&!O.some(t=>/視訊/.test(t)), JSON.stringify(O));
     const r=INV.decide(G,ID,'cafe',d+1,15);
-    check('4. 約臺北的地點（Café）：不行，「郭沛珊在台南，不在臺北。」', r.res==='decline'&&r.why==='away'&&INV.reply(G,ID,'cafe',r)==='郭沛珊在台南，不在臺北。', JSON.stringify([r,INV.reply(G,ID,'cafe',r)]));
+    check('4. 約臺北的地點（Café）：不行，「沛珊在台南，不在臺北。」', r.res==='decline'&&r.why==='away'&&INV.reply(G,ID,'cafe',r)==='沛珊在台南，不在臺北。', JSON.stringify([r,INV.reply(G,ID,'cafe',r)]));
     picks=[0]; said=[]; const day=await HV.ask(GM,ID); const q=OUT.rec(G).find(x=>x.hv&&x.hv.id===ID);
     check('4. 約好：出遊「去台南找郭沛珊」（ev_hv_ps_tn，回程一小時四十五分）', day===d+1&&!!q&&q.ev==='ev_hv_ps_tn'&&q.place==='台南'&&q.travelH===1.75&&q.hv.key===ID+'@台南'&&!!STORY_EVENTS.find(e=>e.id==='ev_hv_ps_tn'&&e.hours===1.75), JSON.stringify(q));
     fresh(d,12,'dorm',{}); R(ID,'FRI'); C(ID);

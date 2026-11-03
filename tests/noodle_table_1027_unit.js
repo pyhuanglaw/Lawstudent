@@ -14,6 +14,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;
 let ok=true, err=''; try{ let src=fs.readFileSync(path.join(H.ROOT,'src/data/noodle_table.js'),'utf8'); src=src.replace(/^const (NOODLE_TABLE)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:'noodle_table.js'}); }catch(e){ ok=false; err=String(e); }
 let ytOn=true; global.MREL={ytShift:()=>ytOn};
+/* AA_623 第 3 節：麵店日長桌的作息（Alison、柏翰、芯慈，NDL-PRESENT-1030）拿掉了＝他們平常不在店裡，長桌閒聊只剩阿哲在的那幾則。
+   這支測的是長桌閒聊的輪法（順序、跳過、熟悉、條件）：測試自己把他們放回麵店日的長桌（STORY.SCHED_X，只在這支測試；ndlBack＝false 時照遊戲的作息，第 9 項）*/
+let ndlBack=true; STORY.SCHED_X.push((c,G)=>{ if(!ndlBack||!c||!['yu','classmate_bohan','classmate_xinci'].includes(c.id)||!G||G.day==null) return null; const hr=G.hour%24; if(!STORY.noodleDay(G.day)||hr<17.5||hr>=20.5) return null; return {days:[1,2,3,4,5],from:17.5,to:20.5,zone:'noodle',act:'eat',note:'test：NDL-PRESENT 放回去'}; });
 const meet=(...ids)=>{ for(const id of ids){ SOCIAL.remember(id,'FIRST_MET',''); if(id==='yu') H.G.flags.met_yu=true; } };
 const ALL=['zhe','yu','classmate_bohan','classmate_xinci','heroine_03','heroine_01'];
 const at=(key,hh,o)=>{ o=o||{}; H.fresh(key,hh,'noodle',Object.assign({afternoonDone:true},o.flags)); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); meet(...(o.know||ALL)); return H.G; };   /* afternoonDone：第二天下午以後（阿哲、Alison 才有作息；NDL-PRESENT-1030 閒聊要人在店裡）*/
@@ -29,22 +32,22 @@ if(!ok||typeof STORY.ndlTalk!=='function'){ check('0. STORY.ndlTalk 存在',fals
 /* 0. 逐字對稿 */
 const SPEC={
   Y1:[['長桌已經坐了一半。阿哲把菜單推給你，雖然大家都只點那幾樣。','民總的作業誰寫完了？','寫完了。……不給抄。'],['Alison 把滷蛋切成四份，分給整桌。','阿姨今天心情很好！！滷蛋多一顆！','那是因為我昨天幫她搬瓦斯。'],
-    ['期末考範圍我整理成一張表了。','他把表放在桌子中間。三個人同時拿出手機拍。'],['芯慈一坐下就趴在桌上。','昨天讀書讀到兩點。……麵來了再叫我。'],   /* 2026-10-28 改：AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）芯慈追劇減量——「昨天追劇追到兩點。」換成「昨天讀書讀到兩點。」（tests/aa497_supporting_unit.js 第 8 節）*/
+    ['期末考範圍我整理成一張表了。','他把表放在桌子中間。三個人同時拿出手機拍。'],['芯慈一坐下就趴在桌上。','昨天讀書讀到兩點。……飯來了再叫我。'],   /* 2026-10-28 改：AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）芯慈追劇減量——「昨天追劇追到兩點。」換成「昨天讀書讀到兩點。」（tests/aa497_supporting_unit.js 第 8 節）*/
     ['哥，下禮拜系籃練球，你來不來？','欸，下禮拜系籃練球，你來不來？','你還沒回答，他已經在記事本上寫了你的名字。'],['語彤從櫃台後面走過來，放下一盤燙青菜。','阿姨說你們都不吃菜。這盤不用錢。','阿姨萬歲。'],
-    ['憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。','「這位同學，你的看法呢？」','我的看法是我想吃麵。'],['吃到一半停電了三秒。燈亮的時候，阿哲的筷子停在 Alison 的碗上面。','……你在幹嘛。','我在保護它。']],
+    ['憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。','「這位同學，你的看法呢？」','我的看法是我想吃叉燒。'],['吃到一半停電了三秒。燈亮的時候，阿哲的筷子停在 Alison 的碗上面。','……你在幹嘛。','我在保護它。']],
   Y2:[['阿哲和 Alison 坐在同一邊。阿哲的滷蛋少了半顆。','我幫你吃一半，比較健康。','……謝謝喔。'],['法服這禮拜三個個案，兩個是房東不還押金。','那你可以開一門課了。'],
-    ['經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。','公車今天塞了二十分鐘。我以為趕不上了。'],['考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。','吃飯的時候不准讀。……好啦，讀到麵來。'],
+    ['經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。','公車今天塞了二十分鐘。我以為趕不上了。'],['考試前的燒臘店，長桌比平常安靜。每個人的盤子旁邊都有一本書。','吃飯的時候不准讀。……好啦，讀到飯來。'],
     ['欸，下禮拜的報告分組，你們不要又全部丟給柏翰。','我已經習慣了。','就是因為你習慣了。'],['語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。']],
-  Y3:[['他暑假要去事務所實習。他自己不講，我先講。','……沒事啦。吃麵。'],['阿姨把電視轉到新聞。整桌在吵剛剛那則報導，吵到麵都涼了。','好了，下課了。'],['對了，司法官的補習班，我上禮拜去聽了試聽課。……我還在想。'],
+  Y3:[['他暑假要去事務所實習。他自己不講，我先講。','……沒事啦。吃飯。'],['阿姨把電視轉到新聞。整桌在吵剛剛那則報導，吵到飯都涼了。','好了，下課了。'],['對了，司法官的補習班，我上禮拜去聽了試聽課。……我還在想。'],
     ['推甄要兩封推薦信。我想好要找誰了，還沒想好怎麼開口。'],['以安不在，作業的問題都跑來問我。……我答得出來。'],['長桌少了一個人。阿姨還是多拿了一副筷子。']],
-  Y4:[['最後一年了。……不要那個表情，還有一整年。'],['我在想畢業以後要不要搬出來住。……我還沒跟我媽說。'],['國考讀書會的表，我貼在群組了。不想讀的，也可以只來吃麵。'],
-    ['欸，畢業以後還是要來吃麵。誰先不來，誰請客。'],['牆上的紅紙又多了兩張，寫的是新菜。阿姨說價錢沒變。'],['阿哲把大家的碗疊起來，拿去櫃台。四年了，他每次都這樣，沒有人叫過他。']] };
+  Y4:[['最後一年了。……不要那個表情，還有一整年。'],['我在想畢業以後要不要搬出來住。……我還沒跟我媽說。'],['國考讀書會的表，我貼在群組了。不想讀的，也可以只來吃飯。'],
+    ['欸，畢業以後還是要來吃燒臘。誰先不來，誰請客。'],['牆上的紅紙又多了兩張，寫的是新菜。阿姨說價錢沒變。'],['阿哲把大家的碗疊起來，拿去櫃台。四年了，他每次都這樣，沒有人叫過他。']] };
 for(const k of ['Y1','Y2','Y3','Y4']){ const got=(NOODLE_TABLE[k]||[]).map(text); check('0. '+k+'：'+SPEC[k].length+' 則、句子逐字照 AA 的稿',J(got)===J(SPEC[k]),J(got)); }
 check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.dialogue.some(l=>l.speaker==null&&/^（/.test(l.text)))));
 
 /* 1. 建群組 */
 { H.fresh('2025-09-11',18,'noodle',{}); H.G.flags.noodleTableDay=H.G.day; STORY.phoneRules(GM); const gm=H.G.msgs.filter(m=>m.th==='g:noodle_team');
-  check('1. 建群組：系統訊息，接著阿哲「吃飯用」「誰要吃什麼就喊」',J(gm.map(m=>[m.from||null,m.text]))===J([[null,'阿哲建立了群組「法一吃飯」，把你加了進來。'],['zhe','吃飯用'],['zhe','誰要吃什麼就喊']]),J(gm.map(m=>[m.from,m.text])));
+  check('1. 建群組（舊存檔：阿哲建的）：系統訊息「桌遊團」，接著「隔週五 桌遊」「沒空不用講」（AA_623 第 2 節）',J(gm.map(m=>[m.from||null,m.text]))===J([[null,'阿哲建立了群組「桌遊團」，把你加了進來。'],['zhe','隔週五 桌遊'],['zhe','沒空不用講']]),J(gm.map(m=>[m.from,m.text])));
   STORY.phoneRules(GM); check('1. 只在建群組那一刻（再跑一次不重複）',H.G.msgs.filter(m=>m.th==='g:noodle_team').length===3); }
 
 /* 2. 什麼時候演 */
@@ -60,14 +63,16 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 { const days=NDs('2025-09-15',9), seq=[];   /* 接下來九個麵店日（AA_542 第 5 節：麵店日每週不固定兩天）*/ let flags=null, soc=null;
   for(const k of days){ H.fresh(k,18,'noodle',Object.assign({afternoonDone:true},flags||{})); if(soc){ H.G.social=soc; SOCIAL.bind(H.G); } PHONE.join(H.G,'noodle_team','麵店團'); meet(...ALL); const {L}=await play(); seq.push(L[0]); flags=H.G.flags; soc=H.G.social; }
   const first=SPEC.Y1.map(x=>x[0]);
-  check('3. 每個麵店日一則，照順序 1→8，用完從頭輪（第 9 個麵店日又是第 1 則）',J(seq)===J(first.slice(0,4).concat(['欸，下禮拜系籃練球，你來不來？'],first.slice(5),[first[0]])),J(seq)); }
+  /* 第 6 則（語彤顧店）：AA_610／AA_624 她從來不在燒臘店＝一律跳過；其他照順序、用完從頭輪 */
+  const want=first.slice(0,4).concat(['欸，下禮拜系籃練球，你來不來？'],first.slice(6),[first[0],first[1]]);
+  check('3. 每個麵店日一則，照順序 1→8（第 6 則語彤那一則跳過），用完從頭輪',seq.length>=8&&J(seq.slice(0,want.length))===J(want.slice(0,seq.length))&&!seq.includes(first[5]),J(seq)); }
 { at('2025-09-16',18,{know:['zhe','yu','classmate_bohan','heroine_03']}); H.G.flags.ndlTalkN={Y1:3}; const {L}=await play();
   check('3. 不認識芯慈：第 4 則跳過，演第 5 則（沒有「哥」＝「欸，」那一句）',J(L)===J(['欸，下禮拜系籃練球，你來不來？','你還沒回答，他已經在記事本上寫了你的名字。']),J(L));
   check('3. 跳過的那一則下一輪再看：下一則從第 6 則開始',H.G.flags.ndlTalkN.Y1===5); }
 { at('2025-09-16',18,{flags:{ZHE_CALLS_GE:true}}); H.G.flags.ndlTalkN={Y1:4}; const {L}=await play(); check('3. 有「哥」：「哥，下禮拜系籃練球，你來不來？」',L[0]==='哥，下禮拜系籃練球，你來不來？'&&L.length===2,J(L)); }
 { ytOn=false; at('2025-09-16',18); H.G.flags.ndlTalkN={Y1:5}; const {L}=await play(); ytOn=true;
   check('3. 語彤不在顧店：第 6 則跳過，演第 7 則',L[0]==='憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。',J(L));
-  at('2025-09-16',18); H.G.flags.ndlTalkN={Y1:5}; const r=await play(); check('3. 語彤在顧店：第 6 則（說話人是語彤）',r.L[1]==='阿姨說你們都不吃菜。這盤不用錢。'&&/語彤/.test(H.said[1].who||''),J(H.said[1])); }
+  at('2025-09-16',18); H.G.flags.ndlTalkN={Y1:5}; const r=await play(); check('3. 語彤「在顧店」（MREL.ytShift 強制 true）也不演第 6 則：她不在店裡（AA_610／AA_624：作息沒有燒臘店）',!r.L.includes('阿姨說你們都不吃菜。這盤不用錢。')&&!H.said.some(x=>/語彤/.test(x.who||'')),J(H.said[1])); }
 { at('2025-09-16',18,{know:['heroine_01']}); const {L}=await play(); check('3. 只認識以安（舊局一開始就認識阿哲）：只有阿哲的第 5 則演得了',J(L)===J(['欸，下禮拜系籃練球，你來不來？','你還沒回答，他已經在記事本上寫了你的名字。']),J(L));
   at('2025-09-16',18,{know:['heroine_01'],flags:{LAW_START_DAY:D('2025-09-01'),MAIN_D1:D('2025-09-04')}}); check('3. 新局（開學改 9/1）、麵店團一個都不認識（還沒遇到阿哲）：每一則都跳過＝不演',!STORY.ndlTalkDue(H.G)); }
 
@@ -111,8 +116,12 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 { at('2025-09-16',18); GM.enterN=7; let started=0; for(let i=0;i<3;i++) if(STORY.ndlTalkTick(GM)) started++; check('8. 走進來前三次（1.5 秒）不演',!started);
   const r=STORY.ndlTalkTick(GM); await new Promise(res=>setTimeout(res,20)); check('8. 第四次（2 秒）開始演',r&&H.G.flags.ndlTalkDay===H.G.day&&H.said.length>0);
   check('8. S.tick 有接（出遊以外、在 OUT.tick 後面）',/if\(!outP&&S\.ndlTalkTick\(GM\)\) return;/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'))); }
-{ const e=NOODLE_TABLE.Y2.find(x=>x.dialogue[0]&&x.dialogue[0].text==='考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。');
+{ const e=NOODLE_TABLE.Y2.find(x=>x.dialogue[0]&&x.dialogue[0].text==='考試前的燒臘店，長桌比平常安靜。每個人的盤子旁邊都有一本書。');
   const wk=w=>{ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y2S1'&&t.week===w) return d; } return null; };
   check('9. AA_491 第 7 點：大二「考試前的麵店」只在第 14～15 週輪到（D118 沒有期中考，AA_581 第 7 節 C、第 11 節第 3 點：拿掉期中第 6～7 週）',!!e&&J(e.if&&e.if.weeks)===J([14,15])&&!STORY.ndlTalkIf({day:wk(6),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(7),flags:{}},e.if)&&STORY.ndlTalkIf({day:wk(14),flags:{}},e.if)&&STORY.ndlTalkIf({day:wk(15),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(3),flags:{}},e.if)&&!STORY.ndlTalkIf({day:wk(10),flags:{}},e.if)); }
+/* 9. AA_623：照遊戲的作息（沒有放回去）：Alison、柏翰、芯慈不在麵店日的長桌；只有阿哲在的那幾則照演 */
+{ ndlBack=false; const k=NDs('2025-10-01',3).find(x=>x!=null); const day=k!=null?k:STORY.dayOfKey('2025-10-07'); H.fresh(CALENDAR.dateOf(day).key,18,'noodle',{afternoonDone:true}); PHONE.join(H.G,'noodle_team','桌遊團'); meet(...ALL);
+  const here=['yu','classmate_bohan','classmate_xinci'].map(id=>STORY.ndlHere(H.G,id)); const p=STORY.ndlTalkPick(H.G);
+  check('9. 照遊戲的作息：Alison、柏翰、芯慈不在麵店日的長桌（AA_623：桌遊團改到日常失速）；挑到的那一則只有阿哲',here.every(x=>!x)&&(!p||(p.e.who||[]).every(id=>id==='zhe')),J({here,p:p&&p.e.who})); ndlBack=true; }
 H.done();
 })();

@@ -120,10 +120,8 @@ await sec('1-沒回',async()=>{
 
 /* ======================= 第 1 節 七句照表；不搶那一場的第一句 ======================= */
 await sec('1-表',async()=>{
-  /* AA_591 決2：3-3 剪報整場刪（七場變六場）——10/14 那個週末沒有該演的、不傳「臺灣寄來的東西到了。」；10/21 是 3-4（不用先演 3-3）*/
-  { const G=w208('2028-10-14',13.9,'us_apartment'); at('2028-10-14',14); rules(); const m=dm208();
-    check('1. 3-3 已刪（AA_591 決2）：10/14 不傳、沒有該演的',!m.length&&US208.due(G)===null&&!US208.SCENES.some(s=>s.n==='3-3'),J(m.map(x=>x.text))); }
-  const SET=[['3-1','2028-09-16',[]],['3-2','2028-09-23',['3-1']],['3-4','2028-10-21',[]],['3-5','2028-11-05',[]],['3-6','2028-11-18',[]],['3-7','2028-12-09',[]]];
+  /* 3-3 剪報：AA_591 決2 刪過，AA_609（使用者 2026-11-03：學姊的爸爸改成奶奶）恢復——七場照原本的表 */
+  const SET=[['3-1','2028-09-16',[]],['3-2','2028-09-23',['3-1']],['3-3','2028-10-14',[]],['3-4','2028-10-21',['3-3']],['3-5','2028-11-05',[]],['3-6','2028-11-18',[]],['3-7','2028-12-09',[]]];
   for(const [n,k,pre] of SET){ const G=w208(k,13.9,'us_apartment'); for(const p of pre) G.events.done[EVN[p]]=1; at(k,14); rules(); const m=dm208();
     const e=ev(EVN[n]), first=e.dialogue.find(l=>l&&l.speaker===S5), all=e.dialogue.filter(l=>l&&typeof l.text==='string').map(l=>l.text);
     check('1. '+n+'（'+k.slice(5)+'）：她傳「'+DM[n]+'」（一則、要回）；不搶那一場的第一句（不是那一場裡的任何一句）',m.length===1&&m[0].text===DM[n]&&!!m[0].ask&&US208.due(G)===US208.SCENES.find(s=>s.n===n)&&!!first&&first.text!==DM[n]&&all.indexOf(DM[n])<0,J({m:m.map(x=>x.text),first:first&&first.text})); }

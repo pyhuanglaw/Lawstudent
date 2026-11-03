@@ -23,7 +23,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
@@ -37,24 +37,24 @@ const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST
   run(21,21.4); check('1a. 8/29 21:30 以前沒有；sleepNow 的舊「第一則訊息」先不演（e37LawPending）',!PHONE.sent(G,'y0_e37_law_ask')&&!OUT.get(G,'y0_e37')&&STORY.e37LawPending(G));
   said=[]; run(21.5,21.6); await tick(); run(21.6,21.6); const K=TH('p:kexin'), q=OUT.get(G,'y0_e37');
   check('1a2. 21:30 先旁白「休學到重考的那幾個月，你不是一個人過的。」（一次）、記 KX_FIRST_MSG、之後不再是 pending',said.filter(x=>x.t==='休學到重考的那幾個月，你不是一個人過的。').length===1&&G.flags.KX_FIRST_MSG===true&&!STORY.e37LawPending(G),JSON.stringify(said.map(x=>x.t)));
-  check('1b. 21:30 可昕兩則（字照 AA_303「法律系開局的 8/30」）',K.map(m=>m.text).join('｜')==='我到你家了。阿姨留我住一晚，還煮了麵。｜明天下午兩點，載我上山。行李兩箱。',K.map(m=>m.text).join('｜'));
-  const ask=(K[1]&&K[1].ask)||{}; check('1c. 回覆按鈕只有「好。兩點。」→「嗯。不要遲到。」（沒有拒絕）',(ask.opts||[]).length===1&&ask.opts[0].t==='好。兩點。'&&ask.opts[0].say.map(x=>x.text).join()==='嗯。不要遲到。',JSON.stringify(ask));
-  check('1d. 不用回也排了出遊：8/30 14:00「家（載可昕上山）14:00」、捷運約 30 分鐘、從宿舍出發、鬧鐘；記 E37_LAW',!!G.flags.E37_LAW&&!!q&&q.day===D30&&q.h===14&&q.title==='家（載可昕上山）14:00'&&q.travel==='捷運 約 30 分鐘'&&q.travelH===0.5&&q.alarm===true&&q.ev==='ev_y0_e37',JSON.stringify(q));
+  check('1b. 21:30 可昕兩則（字照 AA_303「法律系開局的 8/30」）',K.map(m=>m.text).join('｜')==='明天一點半的高鐵到台北。｜行李兩箱。你來車站接我，直接上山。',K.map(m=>m.text).join('｜'));
+  const ask=(K[1]&&K[1].ask)||{}; check('1c. 回覆按鈕只有「好。一點半，車站。」→「嗯。不要遲到。」（沒有拒絕）',(ask.opts||[]).length===1&&ask.opts[0].t==='好。一點半，車站。'&&ask.opts[0].say.map(x=>x.text).join()==='嗯。不要遲到。',JSON.stringify(ask));
+  check('1d. 不用回也排了出遊：8/30 13:30「台北車站 13:30：接可昕」、開車、從宿舍出發、鬧鐘；記 E37_LAW（AA_607）',!!G.flags.E37_LAW&&!!q&&q.day===D30&&q.h===13.5&&q.title==='台北車站 13:30：接可昕'&&q.travel==='開車'&&Math.abs(q.travelH-2/3)<1e-9&&q.alarm===true&&q.ev==='ev_y0_e37',JSON.stringify(q));
   const snap=JSON.stringify(G); const back=()=>{ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); };
   { lawStart(D29,22.7,{KX_FIRST_MSG:true}); said=[]; run(22.7,22.75); await tick(); check('1e. 已經有 KX_FIRST_MSG 的（v9.10.2 的法律系開局存檔）：直接收到兩則、沒有旁白',PHONE.sent(G,'y0_e37_law_ask')&&TH('p:kexin').length===2&&!said.length,JSON.stringify(said)); }
   // 2
   { const no=[['經濟系轉過來的（PLAYED_Y0）',{PLAYED_Y0:true}],['沒交往',{dating_kexin:false}]]; for(const [n,f] of no){ lawStart(D29,21,f); run(21.5,21.6); check('2. '+n+'：沒有法律系開局這一版',!PHONE.sent(G,'y0_e37_law_ask')); }
     lawStart(D29,21,{MAIN_D1:undefined,LAW_START_DAY:undefined}); delete G.flags.MAIN_D1; delete G.flags.LAW_START_DAY; run(21.5,21.6); check('2. 舊開局（9/17，不是 week1Start）：沒有',!PHONE.sent(G,'y0_e37_law_ask')); }
   // 3
-  back(); G.hour=22; const A=STORY.wakeAlarms(G,D30); check('3a. 8/29 晚上：明天的鬧鐘有 13:00「約好的時間：家（載可昕上山）14:00」',A.some(a=>Math.abs(a.h-13)<0.01&&a.why==='約好的時間：家（載可昕上山）14:00'),JSON.stringify(A));
-  const bo=STORY.bedOptions(G).filter(o=>o.kind==='sleep'); check('3b. 睡到明天下午、晚上都改成 13:00 叫醒（只列一次）',bo.length>=1&&bo.every(o=>o.wake<=13+1e-6)&&bo.some(o=>/鬧鐘 13:00/.test(o.hint||'')),bo.map(o=>o.t+'@'+o.wake+'｜'+o.hint).join(' / '));
-  back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=10; const ss=CLS.skipStops(GM,18); check('3c. 8/30 10:00 小睡、跳過時間到 18:00：13:20 停（約好的出發時間）',ss.length&&Math.abs(ss[0].h-(13+20/60))<0.01&&/約好的出發時間：家（載可昕上山）/.test(ss[0].why),JSON.stringify(ss.slice(0,2)));
+  back(); G.hour=22; const A=STORY.wakeAlarms(G,D30); check('3a. 8/29 晚上：明天的鬧鐘有 12:20「約好的時間：台北車站 13:30：接可昕」（13:30－開車 40 分鐘－30 分鐘）',A.some(a=>Math.abs(a.h-(13.5-2/3-0.5))<0.01&&a.why==='約好的時間：台北車站 13:30：接可昕'),JSON.stringify(A));
+  const bo=STORY.bedOptions(G).filter(o=>o.kind==='sleep'); check('3b. 睡到明天下午、晚上都改成 12:20 叫醒（只列一次；AA_607 13:30 到）',bo.length>=1&&bo.every(o=>o.wake<=13.5-2/3-0.5+1e-6)&&bo.some(o=>/鬧鐘 12:20/.test(o.hint||'')),bo.map(o=>o.t+'@'+o.wake+'｜'+o.hint).join(' / '));
+  back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=10; const ss=CLS.skipStops(GM,18); check('3c. 8/30 10:00 小睡、跳過時間到 18:00：12:40 停（約好的出發時間；AA_607）',ss.length&&Math.abs(ss[0].h-(12+40/60))<0.01&&/約好的出發時間：台北車站 13:30：接可昕/.test(ss[0].why),JSON.stringify(ss.slice(0,2)));
   // 4
-  back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=13.5; said=[]; picks=['我也以為']; const qq=OUT.get(G,'y0_e37'); await OUT.go(GM,qq); const L=said.map(x=>x.t);
-  check('4a. 演 E37（字照 AA_303「法律系 8/30」）：開家裡的車、搬三趟、「這是我的床」、湯餃、「我也以為我會在經濟系。」那一支、一個人開車下山',L.includes('（八月三十日。你開家裡的車，載她和兩個行李箱上山。）')&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('結果兩個人都繞了一圈。')&&L.includes('（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'),JSON.stringify(L.slice(-4)));
+  back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=13.5-2/3; said=[]; picks=['我也以為']; const qq=OUT.get(G,'y0_e37'); await OUT.go(GM,qq); const L=said.map(x=>x.t);
+  check('4a. 演 E37（字照 AA_303「法律系 8/30」、AA_607）：台北車站高鐵出口接她、搬三趟、「這是我的床」、湯餃、「我也以為我會在經濟系。」那一支、一個人開車下山',L.includes('（八月三十日下午。你在台北車站的高鐵出口接到她，兩個行李箱放進後車廂，開車上山。）')&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('結果兩個人都繞了一圈。')&&L.includes('（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'),JSON.stringify(L.slice(-4)));
   check('4a. AA_368 L7：小吃街「（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查木柵大學附近的店，就想吃這家了。）」（原本「說上次來看宿舍的時候就想吃了」）',L.includes('（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查木柵大學附近的店，就想吃這家了。）')&&!L.some(t=>/上次來看宿舍/.test(t)),JSON.stringify(L.filter(t=>/湯餃/.test(t))));
   check('4b. 最後一句是「（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）」，沒有「（你把車開回家，再搭捷運回宿舍。）」（AA_599：不寫取車過程，時間照算）',L[L.length-1]==='（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'&&!L.includes('（你把車開回家，再搭捷運回宿舍。）'),L[L.length-1]);
-  check('4c. 回到宿舍 18:00 左右（14:00 到、演完直接開車回宿舍；AA_599 更正拿掉「開車回家、捷運回宿舍」那 1 小時）、人還在宿舍、E37 演過',Math.abs(G.hour-18)<0.01&&G.zone==='dorm'&&!!G.events.done.ev_y0_e37&&qq.state==='done',G.hour+' '+G.zone);
+  check('4c. 回到宿舍 17:30 左右（AA_607 13:30 到、演完直接開車回宿舍；AA_599 更正拿掉「開車回家、捷運回宿舍」那 1 小時）、人還在宿舍、E37 演過',Math.abs(G.hour-17.5)<0.01&&G.zone==='dorm'&&!!G.events.done.ev_y0_e37&&qq.state==='done',G.hour+' '+G.zone);
   // AA_368 M8：經濟系路線（8/29 已經轉法律系、搬進宿舍）8/30 住在宿舍＝一樣有這一句、多 1 小時；出發地點照舊（家樓下、開車）
   { fresh(D30,13.5,'dorm',{dating_kexin:true,PLAYED_Y0:true}); G.stage='law'; OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:D30,h:14,late:0.25,place:'家樓下',title:'家樓下 14:00',travel:'開車',travelH:2/3,alarm:true}); said=[]; picks=['我也以為']; await OUT.go(GM,OUT.get(G,'y0_e37')); const L2=said.map(x=>x.t);
     check('4d. AA_368 M8＋AA_599 更正：經濟系那一版住在宿舍：沒有「（你把車開回家，再搭捷運回宿舍。）」、不多 1 小時（18:10）；原本多 1 小時（13:30 出發開車 40 分鐘＝14:10 到，演 4 小時＋開車回家、捷運回宿舍 1 小時＝19:10；原本沒有這一句、18:10）',!L2.includes('（你把車開回家，再搭捷運回宿舍。）')&&Math.abs(G.hour-(13.5+2/3+4))<0.01&&!G.flags.E37_LAW,G.hour+' '+L2[L2.length-1]); }
@@ -65,6 +65,9 @@ const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST
   // 5
   back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=14.3; said=[]; picks=['現在呢']; check('5a. 14:15 以後還沒出發：S.e37CallDue',STORY.e37CallDue(G));
   run(14.3,14.3); await new Promise(r=>setTimeout(r,50)); const L3=said.map(x=>x.t);
-  check('5b. 可昕打電話「你在哪？行李我都搬到樓下了。」→ 直接出遊 → 演完回宿舍',L3[0]==='你在哪？行李我都搬到樓下了。'&&L3.includes('（擦汗）……好。這是我的床。')&&L3[L3.length-1]==='（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'&&!!G.events.done.ev_y0_e37,JSON.stringify(L3.slice(0,2)));
+  check('5b. 可昕打電話「你在哪？我已經出閘門了。行李好重。」→ 直接出遊 → 演完回宿舍',L3[0]==='你在哪？我已經出閘門了。行李好重。'&&L3.includes('（擦汗）……好。這是我的床。')&&L3[L3.length-1]==='（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'&&!!G.events.done.ev_y0_e37,JSON.stringify(L3.slice(0,2)));
+  // 6 AA_607 舊存檔：已經排好「家（載可昕上山）14:00」的照新地點、新時間（不補發訊息）
+  back(); G.day=D30-1; G.weekday=CALENDAR.dateOf(D30-1).wd%7; G.hour=22; { const q=OUT.get(G,'y0_e37'); Object.assign(q,{h:14,place:'家',title:'家（載可昕上山）14:00',travel:'捷運 約 30 分鐘',travelH:0.5}); const n0=(G.msgs||[]).length; run(22,22.1);
+    check('6. AA_607 舊存檔：「家 14:00」改成「台北車站 13:30：接可昕」、開車；不補發訊息',q.place==='台北車站（高鐵出口）'&&q.h===13.5&&q.title==='台北車站 13:30：接可昕'&&q.travel==='開車'&&(G.msgs||[]).length===n0,JSON.stringify(q)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -18,7 +18,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -50,9 +50,9 @@ GM.money=function(n){ G.money+=n; };
   const play=async(id,pick,o)=>{ base(o.day,o); said=[]; opts=[]; picks=[pick]; await EVENTS.run(ev(id)); return {L:L0(),O:opts[0]||[]}; };
   let r=await play('ev_peishan_handover',0,{day:w1,att:5});
   check('2. 三句：下學期的題目……（AA_281 改字：她什麼都不說）／誰要接？／不要變成比分數的地方',r.L.slice(0,3).join('｜')==='沛珊：下學期的題目，我想換人整理。我一個人出的都太簡單。｜沛珊：每週的題目整理……（看柏翰，又看你）誰要接？｜沛珊：只有一個條件：要好玩。',JSON.stringify(r.L));
-  check('2. 大一去過 5 次：「我接。」／（不說話）；選「我接。」＝STUDYGROUP_LEADER',JSON.stringify(r.O)==='["「我接。」","（不說話）"]'&&G.flags.STUDYGROUP_LEADER===true&&STORY.plgY1Count(G)===5);
-  r=await play('ev_peishan_handover',0,{day:w1,att:4});
-  check('2. 只去過 4 次：只有（不說話）、不設 STUDYGROUP_LEADER',JSON.stringify(r.O)==='["（不說話）"]'&&!G.flags.STUDYGROUP_LEADER);
+  check('2. 大一去過 5 次（AA_638 ④-8 起 1 次就可以）：「我接。」／（不說話）；選「我接。」＝STUDYGROUP_LEADER',JSON.stringify(r.O)==='["「我接。」","（不說話）"]'&&G.flags.STUDYGROUP_LEADER===true&&STORY.plgY1Count(G)===5);
+  r=await play('ev_peishan_handover',0,{day:w1,att:0});
+  check('2. 大一一次都沒去（AA_638 ④-8：原本 4 次以下）：只有（不說話）、不設 STUDYGROUP_LEADER',JSON.stringify(r.O)==='["（不說話）"]'&&!G.flags.STUDYGROUP_LEADER);
   base(w1); y1att(3); ACTIVITIES.rec(G).att['public_law_group@'+(termDay('Y2S1',3,4))]={h:20,end:'full'}; ACTIVITIES.rec(G).att['public_law_group@'+(termDay('Y2S1',4,4))]={h:20,end:'left'};
   check('2. 大二上去的不算（大一只有 3 次）',STORY.plgY1Count(G)===3);
   base(w1); y1att(3); ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y1S1',5,3))]={h:19,end:'full'}; ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y1S1',6,3))]={h:19,end:'full'};

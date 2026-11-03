@@ -1,7 +1,7 @@
 """真實玩家流程：萬才館的弧形大樓梯（萬才館第二階段，D36；使用者需求 21：「萬才館的弧形大樓梯必須能讓玩家走上去」「玩家能從室外地面走上樓梯，到達二樓平台」）
 
 不用 ?turbo、不瞬移；手機模擬（iPhone 橫向、is_mobile、CDP 觸控）。玩家的操作只用：搖桿、點地面（遊戲的自動找路）、點互動按鈕、點對話。
-  [前置／捷徑] 只有一個：讀檔到星期六 10:00、法學院廣場（萬才館大樓梯前面 (87,-84)，面向樓梯）。之後全部是玩家操作：
+  [前置／捷徑] 只有一個：讀檔到星期六 10:00、法學院廣場（萬才館大樓梯前面 (74.52,-75.86)，面向樓梯）。之後全部是玩家操作：
   1. 推搖桿往前：從廣場走上大樓梯（一階一階：經過樓梯中段 1–3 m 的高度）→ 樓梯頂端的平台（第 1 層、3.63 m）
   2. 點地面走到弧形陽台；站在一樓入口正上方時不會跳出「進入萬才館」（那是陽台下面一樓的門）
   3. 二樓入口（萬才館第三階段，D42：第二階段是關著的告示）：出現「進入萬才館（二樓）」→ 進到萬才館二樓的門廳（第 1 層、4.2 m）
@@ -12,7 +12,7 @@
   7. 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）、沒有 JS 例外
 這是 Playwright 手機模擬，不是 iPhone 實機。
 用法：python3 tests/flow_wancai_stairs.py URL [輸出資料夾]"""
-import asyncio, json, sys, time, math
+import asyncio, math, json, sys, time, math
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
@@ -20,7 +20,7 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_wancai_stairs'
 PF = 3.63
-PLAZA = (87.0, -84.0)
+PLAZA = (74.52, -75.86)
 
 
 async def press(pg, cdp, run, label, wait_zone=None, timeout=60):
@@ -40,8 +40,8 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：星期六 10:00（第 8 天）、法學院廣場（萬才館大樓梯前 (87,-84)，面向樓梯）、晴天')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': PLAZA[0], 'z': PLAZA[1], 'yaw': 3.1416},
+        run.setup('讀檔：星期六 10:00（第 8 天）、法學院廣場（萬才館大樓梯前 (74.52,-75.86)，面向樓梯）、晴天')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': PLAZA[0], 'z': PLAZA[1], 'yaw': 2.4086},   # 面向大樓梯（萬才館轉 42° 以後樓梯往東北爬：π−0.733）
                                 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}}, quiet_phone=True)
         await pg.wait_for_timeout(3000)
         s = await L.state(pg); await run.shot(pg, 'plaza')
@@ -52,14 +52,14 @@ async def main():
             await L.joystick(pg, cdp, 0, -40, 1500); pushes += 1
             s = await L.state(pg); ys.append((s['y'], s['lv'], s['z']))
             if not shot_mid and 1.2 < s['y'] < 2.6: await run.shot(pg, 'stairs_mid'); shot_mid = True
-            if s['lv'] == 1 and s['z'] < -99.0: break
+            if s['lv'] == 1 and s['y'] > 3.5: break   # 到第 1 層的平台（萬才館轉向以後不能用 z 判斷）
             if s['busy'] or s['dlg']: await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['busy'], max_steps=20)
         s = await L.state(pg); await run.shot(pg, 'platform')
         mids = [y for (y, lv, z) in ys if 1.0 < y < 3.0]
         run.check('推搖桿走上大樓梯：經過樓梯中段（高度 1–3 m）、到樓梯頂端的平台（第 1 層、3.63 m）', s['lv'] == 1 and abs(s['y'] - PF) < 0.1 and len(mids) >= 1,
                   f'推了 {pushes} 次；中段取樣 {len(mids)} 個；' + json.dumps(s, ensure_ascii=False))
         # 2. 陽台
-        ok = await L.go_to(pg, cdp, run, 93.8, -100.6, 0.7, '弧形陽台（一樓入口正上方）', lv=1)
+        ok = await L.go_to(pg, cdp, run, 90.68, -83.65, 0.7, '弧形陽台（一樓入口正上方）', lv=1)
         s = await L.state(pg); await run.shot(pg, 'balcony')
         run.check('點地面走到弧形陽台（第 1 層、3.63 m）', ok and s['lv'] == 1 and abs(s['y'] - PF) < 0.1, json.dumps(s, ensure_ascii=False))
         run.check('站在一樓入口正上方：不會跳出「進入法律系館B」（那是陽台下面的門）', not s['interact'].startswith('進入法律系館B'), f'按鈕：「{s["interact"]}」')
@@ -77,7 +77,7 @@ async def main():
         await pg.wait_for_timeout(2000); s = await L.state(pg)
         run.check('回到平台（校園第 1 層、3.63 m）、站得住、沒有馬上又跳出進門按鈕', s['zone'] == 'campus' and s['lv'] == 1 and abs(s['y'] - PF) < 0.1 and s['stand'] and not s['interact'].startswith('進入法律系館B'), json.dumps(s, ensure_ascii=False))
         # 4. 在陽台上存檔 → 重新整理 → 讀檔
-        ok = await L.go_to(pg, cdp, run, 92.5, -100.4, 0.7, '陽台', lv=1)
+        ok = await L.go_to(pg, cdp, run, 89.58, -84.37, 0.7, '陽台', lv=1)
         await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)
         await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔'); const e=b[b.length-1]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
@@ -95,7 +95,7 @@ async def main():
         run.check('讀檔：回到萬才館陽台（第 1 層、3.63 m）', s['zone'] == 'campus' and s['lv'] == 1 and abs(s['y'] - PF) < 0.1, json.dumps(s, ensure_ascii=False))
         mm = await pg.evaluate("(()=>{ const m=document.getElementById('minimap'); return m?getComputedStyle(m).display:'none'; })()")
         run.check('讀檔在陽台上：小地圖照常顯示（畫地面那一層）', mm != 'none', mm)
-        ok = await L.go_to(pg, cdp, run, 95.5, -100.9, 0.7, '陽台東側', lv=1)
+        ok = await L.go_to(pg, cdp, run, 92.15, -82.73, 0.7, '陽台東側', lv=1)
         s = await L.state(pg)
         run.check('讀檔之後走得動（走到陽台東側，還在第 1 層）', ok and s['lv'] == 1 and abs(s['y'] - PF) < 0.1, json.dumps(s, ensure_ascii=False))
         # 5. 下樓梯回到廣場
@@ -103,7 +103,7 @@ async def main():
         async def watch_y():
             for i in range(600):
                 st = await L.state(pg); ys.append((st['y'], st['lv'], st['z']))
-                if st['lv'] == 0 and st['y'] < 0.05 and st['z'] > -90.0: return
+                if st['lv'] == 0 and st['y'] < 0.05 and math.hypot(st['x'] - PLAZA[0], st['z'] - PLAZA[1]) < 6.0: return
                 await pg.wait_for_timeout(500)
         wt = asyncio.ensure_future(watch_y())
         ok = await L.go_to(pg, cdp, run, PLAZA[0], PLAZA[1] - 1, 1.2, '廣場（樓梯下）', lv=0)

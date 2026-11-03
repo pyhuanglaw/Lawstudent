@@ -69,7 +69,7 @@ const NEW={
   A10:['不用。我媽會來。……謝謝。'],
   A11:['讀書會在山上的茶館，一個月一次。','我們讀到七點。……你不用等，先下山。'],
   A12:['會。第三課的單字，你先背。'],
-  A13:['哪一家？……看起來比麵店的辣。','看起來好好吃'],
+  A13:['哪一家？……看起來很辣。','看起來好好吃'],
   A14:['發回來你先對。不懂的問我。','例如？……你講。我聽十五分鐘。'],
   Z1:['（把筆電轉過去，螢幕上是一部片的片頭）……我排的那部。','機票太貴了，你不用來。我們一人一邊，按同一個播放。','（你們隔著視訊看完一部片。她那邊下午，你這邊半夜。）','……好。看過了。'],
   Z2:['好，你贏了。林芷若，外文系的。……你們法律系，有人看老片嗎？陪審團吵一整晚的那種。','問你看不看老片'],
@@ -255,7 +255,7 @@ await sec('A13',()=>{
   for(let h=8;h<=12.01;h+=0.1){ H.G.hour=+h.toFixed(3); ph(); }
   const m=PHONE.byAsk(H.G,'cny_noodle_reply'); if(m) answer('cny_noodle_reply',0);
   const A=TH('g:noodle_team').slice(-3).map(x=>(x.from||'')+':'+x.text);
-  check('A13. 過年群組回牛肉麵：阿哲「牛肉麵！！看起來好好吃」、以安「哪一家？……看起來比麵店的辣。」',J(A)===J(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！'+NEW.A13[1],'heroine_01:'+NEW.A13[0]]),J(A));
+  check('A13. 過年群組回牛肉麵：阿哲「牛肉麵！！看起來好好吃」、以安「哪一家？……看起來很辣。」',J(A)===J(['player:📷（姊姊帶你去吃的牛肉麵）','zhe:牛肉麵！！'+NEW.A13[1],'heroine_01:'+NEW.A13[0]]),J(A));
 });
 await sec('A14',async()=>{
   fresh('2026-04-20',12); H.FAMILIAR(AN); await ladPlay('Y1S2',AN,'A2-L5',['我也寫得不太好']);   /* AA_581 第 49 列：選項字「我也考得不太好。」→「我也寫得不太好。」*/ const a=has(NEW.A14[0]);
@@ -453,7 +453,7 @@ await sec('Y5',async()=>{
   const m=PHONE.byAsk(H.G,'aa524_y5');
   check('Y5. 11/13 21:00 私訊「今天我顧到打烊。」（第一個週四 11/6 沒有）；選項「我過去。」「今天不行。」、期限 21:40',n6===0&&n0===0&&!!m&&m.text===NEW.Y5[0]&&m.day===d&&Math.abs(m.h-21)<0.01&&J(m.ask.opts.map(o=>o.t))===J([NEW.Y5[1],NEW.Y5[2]])&&Math.abs(m.ask.until-T(d,21+40/60))<1e-6,J(m&&{t:m.text,d:m.day,h:m.h}));
   answer('aa524_y5',0); PHONE.tick(H.G); at(d,21.6); H.G.zone='wenzhou'; H.said=[]; let r=await NOODLE_CLOSED.door(GM);
-  check('Y5. 「我過去。」→ 在麵店門口按「進入阿鳳麵店」：21:50 旁白「（你到的時候，她在拉鐵門。阿姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
+  check('Y5. 「我過去。」→ 在麵店門口按「進入公館燒臘」：21:50 旁白「（你到的時候，她在拉鐵門。阿姨在裡面算錢。）」、她「……你真的來了。」，不進去',r===true&&J(said())===J(NEW.Y5.slice(4))&&H.said[1].who===SOCIAL.displayName(YT)&&Math.abs(H.G.hour-(21+50/60))<1e-6,J({r,L:said(),h:H.G.hour}));
   H.said=[]; r=await NOODLE_CLOSED.door(GM); check('Y5. 演一次（再按就照常進去）',r===false&&!said().length);
   setup(); await ladPlay('Y1S1',YT,'Y-L8',[0]); phAt(d,21.1); answer('aa524_y5',1); PHONE.tick(H.G);
   at(d,21.9); H.said=[]; r=await NOODLE_CLOSED.door(GM);
@@ -480,7 +480,7 @@ await sec('Y8',async()=>{
   const d=D('2026-07-09'); fresh(d,12.2); H.FAMILIAR(YT); PHONE.join(H.G,'noodle_team','麵店團'); ph(); answer('yt_bday_y1',0); PHONE.tick(H.G);
   check('Y8. 語彤生日「傳一句生日快樂」→「……謝謝。阿姨說要請你吃滷蛋。下次來。」、記 YT_BDAY_Y1（照舊）',H.G.flags.YT_BDAY_Y1===true&&txt('g:noodle_team').includes('……謝謝。阿姨說要請你吃滷蛋。下次來。'));
   at('2026-07-12',18); H.G.zone='noodle'; const m0=H.G.money; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
-  check('Y8. 之後第一次在麵店點餐（付完錢那個位置）：「（阿姨把一顆滷蛋放進你的碗裡。）」「阿姨：生日那天說的。」、記 YT_BDAY_EGG；那一碗照付',adj(NEW.Y8)&&H.said[idx(NEW.Y8[1])].who==='阿姨'&&H.G.flags.YT_BDAY_EGG===H.G.day&&H.G.money===m0-60,J({L:said(),m:m0-H.G.money}));
+  check('Y8. 之後第一次在麵店點餐（付完錢那個位置）：「（阿姨把一顆滷蛋放進你的碗裡。）」「阿姨：生日那天說的。」、記 YT_BDAY_EGG；那一盤照付（叉燒飯 100，AA_612 菜單）',adj(NEW.Y8)&&H.said[idx(NEW.Y8[1])].who==='阿姨'&&H.G.flags.YT_BDAY_EGG===H.G.day&&H.G.money===m0-100,J({L:said(),m:m0-H.G.money}));
   H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);
   check('Y8. 演過了：下一次不再說',!has(NEW.Y8[0]),J(said()));
   fresh('2026-07-12',18,{},{zone:'noodle'}); H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:1,z:1}},GM);

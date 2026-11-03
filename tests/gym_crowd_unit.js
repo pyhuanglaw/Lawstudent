@@ -31,7 +31,7 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 const mkG=(key,h)=>({day:dayOf(key),hour:h,flags:{},weekday:CALENDAR.dateOf(dayOf(key)).wd%7,stage:'law'});
 const ppl=()=>E.npcs.filter(n=>n.crowd&&/^gym_/.test(n.crowd));
 const role=r=>ppl().filter(n=>n.crowdRole===r);
-const TUE='2025-09-23', SAT='2025-09-27', SUN='2025-09-28', MON4='2025-09-22';
+const S_open=G=>!!CROWD.gymHours(G), TUE='2025-09-23', SAT='2025-09-27', SUN='2025-09-28', MON4='2025-09-22';
 /* 有玩家體育課的星期一（大一上第 3 週以後、不是國定假日、不是第四個星期一）：照課表找，不寫死 */
 const MONPE=(()=>{ for(let d=1;d<120;d++){ const q=CALENDAR.dateOf(d), t=CALENDAR.termOf(d); if(!t||t.week<3||q.wd!==1||(q.d>=22&&q.d<=28)) continue; const G={day:d,hour:15.8,flags:{},stage:'law'}; if(CLS.dayItems(G).some(it=>it.room&&it.room.door==='gym')) return q.key; } return null; })();
 // ---------- 1. 開館時間內三層都有人 ----------
@@ -47,16 +47,17 @@ const MONPE=(()=>{ for(let d=1;d<120;d++){ const q=CALENDAR.dateOf(d), t=CALENDA
   const TMs=(GYM_LAYOUT.b1.equipment.find(e=>e.node==='GYM_TREADMILL')||{at:[]}).at;
   check('1. 跑步機上原地跑：姿勢 run（停下來也是 run）、在跑步機上、站在皮帶上（0.18 m）',tm.every(n=>n.pose==='run'&&n.idlePose==='run'&&TMs.some(q=>Math.abs(q[0]-n.obj.position.x)<0.05&&Math.abs(n.obj.position.z-12.2)<0.05)&&Math.abs(n.obj.position.y-0.18)<0.01),tm.length+' 人'); }
 { let sd=4242; const R0=Math.random; Math.random=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; };   /* 小動作用到亂數：固定種子 */
-  const G=mkG(SAT,10.2), {GM}=enter('gym_b1',G); const st=ppl().filter(n=>!n.fixedPos&&!n.seat&&n.beh!=='route'); for(let i=0;i<16;i++){ G.hour+=0.01; CROWD.tick(GM,1.5); for(const n of E.npcs) if(n.path&&n.path.length){ const p=n.path[n.path.length-1]; E.placeAt(n,p[0],p[1],0); n.path=null; const f=n.onArrive; n.onArrive=null; if(f) f(n); } }
-  const fx=ppl().filter(n=>n.fixedPos);
-  check('1. B1 站著運動的人（器材旁、墊子上）也有小動作；櫃台阿姨、跑步機上的人不亂走',st.length>=1&&st.every(n=>(n.fid|0)>=1)&&fx.every(n=>!n.fid),st.map(n=>n.crowdRole+':'+(n.fid|0)).join(' '));
+  const G=mkG(SAT,10.2), {GM}=enter('gym_b1',G); const fit=ppl().filter(n=>n.crowdSpot==='gym_b1'&&n.crowdRole!=='desk_b1'), p0=fit.map(n=>n.obj.position.clone());
+  for(let i=0;i<16;i++){ G.hour+=0.01; CROWD.tick(GM,1.5); for(const n of E.npcs) if(n.path&&n.path.length){ const p=n.path[n.path.length-1]; E.placeAt(n,p[0],p[1],0); n.path=null; const f=n.onArrive; n.onArrive=null; if(f) f(n); } }
+  /* GYM-USE-1103：健身中心的人都在器材上（fixed）、動作由 character3d.js 的 gymIK 一直在動；小動作（走一兩步、轉身）不動他們，位置不變 */
+  check('1. B1 健身中心的人都在器材上（照位置放、不走動，小動作不動他們）：12 秒後位置、姿勢不變',fit.length>=1&&fit.every((n,k)=>n.fixedPos&&!n.fid&&n.obj.position.distanceTo(p0[k])<1e-6&&(n.pose==='run'||/^gym_/.test(n.pose))),fit.map(n=>n.crowdRole+':'+n.pose).join(' '));
   Math.random=R0; }
 { const {z}=enter('gym_arena',mkG(SAT,15)); const bb=role('basketball'), rest=role('rest');
   check('1. 3F 主球場（週六 15:00）：北邊籃框半場有人打球（跑一段停一下、停下來面向籃框）、場邊有人休息',bb.length>=3&&rest.length>=1&&bb.every(n=>n.run&&n.pauseAt&&n.beh==='route'&&n.waypoints.every(q=>q[1]<-6)),'打球 '+bb.length+'、休息 '+rest.length); }
 // ---------- 2. 站得住、走得到、坐得下；同一時段同一批人 ----------
 const audit=(zid,G)=>{ const {z}=enter(zid,G); const bad=[]; for(const n of ppl()){ const P=n.obj.position;
     if(n.seat){ if(!CROWD.seatSide(E,n.seat)) bad.push(n.crowdRole+' 坐的位子旁邊站不起來'); continue; }
-    if(['desk_1f','desk_b1','treadmill'].includes(n.crowdRole)) continue;   /* 照位置放（櫃台後面、跑步機上）*/
+    if(n.fixedPos) continue;   /* 照位置放（櫃台後面、跑步機上、健身中心的器材上：導航擋住的地方，人不走動）*/
     if(!E.canStand(P.x,P.z,0.3,0)) bad.push(n.crowdRole+' 站不住 '+P.x.toFixed(1)+','+P.z.toFixed(1));
     if(n.waypoints){ const w=n.waypoints; for(let i=0;i<w.length;i++){ const a=w[i], b=w[(i+1)%w.length]; if(!E.canStand(a[0],a[1],0.3,0)) bad.push(n.crowdRole+' 路線點站不住 '+a.join(',')); const r=E.simWalk(a[0],a[1],b[0],b[1],{dt:1/30,speed:2.6}); if(!r.ok) bad.push(n.crowdRole+' 走不到 '+a.join(',')+'→'+b.join(',')); } } }
   return bad; };
@@ -87,4 +88,24 @@ for(const [zid,key,h] of [['gym',TUE,12.6],['gym',SAT,19],['gym',MONPE,15.8],['g
 (async()=>{ const G=Object.assign(mkG(TUE,18.5),{money:1000,daily:{}}); enter('gym_b1',G); const said=[]; const GM={G,E,say:async(w,t)=>{ said.push(w); },choose:async()=>0,money(){},toast(){}};
   await GY3.deskB1(GM); const w=said.find(x=>x&&x.name==='櫃台阿姨');
   check('6. 第一次在 B1 櫃台辦卡：說話的是櫃台後面那位阿姨（3D 人物：轉頭看你、嘴巴動），不是只有名字',!!w&&!!w.obj&&w.crowdRole==='desk_b1',w?(w.obj?'3D 人物':'只有名字'):'沒有她說的話');
+  /* BUG-GYM-CROWD-STIFF-1103（使用者 11-03：「健身房新增了人 但是都不太會動 更詭異」）→ GYM-USE-1103（「你就設計健身房真的有人在用很難嗎」）：
+     B1 健身中心（x＜10、z＞3）沒有站著不動的人：每個人都是在跑步機上跑（run）或用器材（gym_* 動作） */
+  { let idle=[], total=0; for(const [key,h] of [[TUE,18.5],[SAT,10],[TUE,12.6],[SAT,19],[TUE,9.5],['2025-09-24',15]]){ enter('gym_b1',mkG(key,h)); for(const n of ppl()){ const P=n.obj.position; if(!(P.x<10&&P.z>3)) continue; total++; if(!(n.pose==='run'||/^gym_/.test(n.pose))) idle.push(n.crowdRole+':'+n.pose); } }
+    check('9. B1 健身中心沒有站著不動的人：每個人都在跑步機上跑或用器材（gym_* 動作）',!idle.length&&total>0,'不是運動姿勢的 '+idle.length+'／'+total+(idle.length?'：'+idle.slice(0,5).join(' '):'')); }
+  /* 12. GYM-USE-1103：每一種動作在對的器材上（人物的原點、朝向照器材）；六種動作在一天裡都看得到 */
+  { const EQ=n=>(GYM_LAYOUT.b1.equipment.find(e=>e.node===n)||{at:[]}), on=(n,node,dx,dz,yaw,tol)=>{ const e=EQ(node); return e.at.some(q=>Math.hypot(n.obj.position.x-(q[0]+dx),n.obj.position.z-(q[1]+dz))<(tol||0.12))&&Math.cos(n.obj.rotation.y-yaw)>0.99; };
+    const RULE={gym_squat:n=>on(n,'GYM_SQUAT_RACK',0,1.15,0,0.2), gym_curl:n=>on(n,'GYM_DB_RACK',0,-0.95,0,0.7)&&n.obj.position.z<EQ('GYM_DB_RACK').at[0][1]-0.6,
+      gym_press:n=>on(n,'GYM_BENCH',0,0,0), gym_bike:n=>on(n,'GYM_BIKE',0,0,0), gym_row:n=>on(n,'GYM_ROWER',0,0,Math.PI/2), gym_stretch:n=>on(n,'GYM_MAT',0,-0.55,0)};
+    const seen={}, bad=[]; for(let d=0;d<14;d++) for(const h of [9.5,12.6,15,19]){ const G=mkG('2025-09-23',h); G.day+=d; G.weekday=CALENDAR.dateOf(G.day).wd%7; if(!S_open(G)) continue; enter('gym_b1',G);
+      for(const n of ppl()){ const f=RULE[n.pose]; if(!f) continue; seen[n.pose]=(seen[n.pose]|0)+1; if(!f(n)||!n.fixedPos||Math.abs(n.obj.position.y)>0.01) bad.push(n.pose+'@'+n.obj.position.x.toFixed(2)+','+n.obj.position.z.toFixed(2)); } }
+    check('12. 六種動作都有人做（兩週、四個時段）',Object.keys(RULE).every(k=>seen[k]>0),JSON.stringify(seen));
+    check('12. 每個人在對的器材上：深蹲架前、啞鈴架前（面向鏡子）、臥推椅上、飛輪上、划船機上（面向 +x）、墊子上；人物的原點在地上（高度由動作算）',!bad.length,bad.slice(0,6).join(' ')); }
+  /* 10. BUG-GYM-B1-MARK-THRU-WALL-1103（使用者 11-03 截圖：游泳池邊看得到走廊的「去健身房」）：那個名牌只在牆的南邊（走廊、健身中心）顯示 */
+  { enter('gym_b1',mkG(SAT,19.9)); const it=E.interactables.find(q=>q.label==='去健身房'), gd=require('fs').readFileSync(require('path').join(__dirname,'..','src/guide3d.js'),'utf8');
+    check('10. B1「去健身房」：人在游泳池看不到名牌、在走廊看得到（visIf；guide3d.js 名牌照 visIf）',!!it&&typeof it.visIf==='function'&&!it.visIf({x:2,z:-5})&&it.visIf({x:4,z:1.5})&&/m\.it\.visIf\(p\)/.test(gd)); }
+  /* 11. BUG-GYM-POOL-EMPTY-1103（使用者 11-03「游泳池完全沒人？」）：開館時游泳池有救生員（面向池子）、長椅上有人；閉館沒有 */
+  { enter('gym_b1',mkG(SAT,19.9)); const lg=role('lifeguard'), pb=role('pool_bench');
+    check('11. B1 游泳池（週六 19:54）：救生員一個（池邊、面向池子）＋長椅上至少一個人、都在游泳池那一側',lg.length===1&&pb.length>=1&&lg.concat(pb).every(n=>n.obj.position.z<-0.2)&&Math.abs(lg[0].obj.position.x-13.2)<0.3,JSON.stringify({lg:lg.map(n=>[n.name,+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]),pb:pb.length}));
+    enter('gym_b1',mkG('2025-08-30',19.9)); check('11. 暑假 8/30（週六）19:54（使用者截圖那一刻）：救生員＋長椅至少一個人',role('lifeguard').length===1&&role('pool_bench').length>=1,role('pool_bench').length+'');
+    enter('gym_b1',mkG(MON4,15)); check('11. 第四個星期一休館：游泳池沒有人',role('lifeguard').length===0&&role('pool_bench').length===0); }
   console.warn=warn0; console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

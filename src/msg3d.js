@@ -123,7 +123,7 @@ const MSG=(function(){
     const sisAdded=id==='heroine_05'&&!!(G.flags&&G.flags.SIS_CONTACTED)&&hasContact(G,id);   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：學姊加了好友（9/3 她接受交友邀請＝SIS_CONTACTED）起就開，還沒在現實見過也一樣 */
     if(!sisAdded&&!hasContact(G,id)) return {ok:false,why:S.noContactWhy(G,id),noContact:true};   /* 原因照約人那一句（INVITE_DATA.why：再熟一點／可以當面問，PHONE-UNIFY-1030）*/
     if(!sisAdded&&!met(G,id)) return {ok:false,why:'還沒見過面'};
-    const pr=presence(G,id); if(pr&&pr.here===false&&(pr.kind==='before'||pr.kind==='after')) return {ok:false,why:'聯絡不上'};
+    const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='after') return {ok:false,why:'聯絡不上'};   /* PHONE-LIST-CLEAN-1103（使用者 11-03「朋友『聯絡不上』不對」）：開學前（presence before＝還沒到學校）見過、有聯絡方式的朋友照樣傳得了訊息；原本開學前一律「聯絡不上」*/
     if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
@@ -159,7 +159,7 @@ const MSG=(function(){
   S.contactRows=function(G,ids){ ids=Array.isArray(ids)?ids:[]; const law=(G.stage||'law')==='law', out=[], seen=new Set();
     for(const id of ROMANTIC.concat(ids)){ if(seen.has(id)) continue; seen.add(id); if(!ROMANTIC.includes(id)&&!S.pooled(id)) continue;
       const has=hasContact(G,id), o=S.open(G,id)||{}, known=ids.includes(id)||met(G,id);
-      if(!law){ if(!o.ok) continue; } else if(!has){ if(!ROMANTIC.includes(id)||!known) continue; } else if(!known&&!o.ok) continue;
+      if(!o.ok) continue;   /* PHONE-LIST-CLEAN-1103（使用者 11-03 選擇題：「朋友『聯絡不上』不對」「『不認識的女生』不要出現」「版面太亂／看不懂」）：只列現在傳得了訊息的人；還沒有聯絡方式、還沒見過、還沒到學校（聯絡不上）的都不列（原本灰著寫原因，PHONE-UNIFY-1030）*/
       const sent=!!o.ok&&S.sentToday(G,id);
       out.push({id,th:'p:'+id,has,ok:!!o.ok,sent,why:o.ok?(sent?'今天傳過了':''):(o.quiet?'':(o.why||'')),gray:!has}); }
     return out; };

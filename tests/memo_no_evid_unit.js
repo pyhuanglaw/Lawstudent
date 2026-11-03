@@ -17,6 +17,6 @@ const ev3=fs.readFileSync(path.join(H.ROOT,'src/events3d.js'),'utf8'), g3=fs.rea
   H.G.memo=[{day:H.G.day,t:'ev_prof_lin_nod'},{day:H.G.day,t:'和學姊吃了滷肉飯'},{day:H.G.day,t:''}];
   const shown=typeof STORY!=='undefined'&&STORY.memoShown?STORY.memoShown(H.G).map(m=>m.t):null;
   check('3. 舊存檔裡的 ev_ 代號、空白那一筆，日誌不顯示（STORY.memoShown）；一般的句子照舊',J(shown)===J(['和學姊吃了滷肉飯']),J(shown));
-  check('4. game3d.js 筆記頁的日誌用 STORY.memoShown',/'<b>日誌<\/b>'\+\(typeof STORY!=='undefined'&&STORY\.memoShown\?STORY\.memoShown\(G\):G\.memo\)\.slice\(-8\)/.test(g3));
+  check('4. 日誌（選單「日誌」分頁的月曆，src/journal3d.js；JOURNAL-CALENDAR-1103 以前是筆記頁）用 STORY.memoShown／memoText',/STORY\.memoShown\)\?STORY\.memoShown\(G\)/.test(fs.readFileSync(path.join(H.ROOT,'src/journal3d.js'),'utf8'))&&/STORY\.memoText\(G,m\)/.test(fs.readFileSync(path.join(H.ROOT,'src/journal3d.js'),'utf8')));
   if(H.fails){ console.log('FAILED '+H.fails); process.exit(1); } console.log('ALL PASS');
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

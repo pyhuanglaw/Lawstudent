@@ -31,7 +31,7 @@
 //   每一句照第 4 欄找稿、句數 121→123；第 4 段 h503_yule 三則。加句子以後、這裡還沒改的時候實際跑：FAILED 2（第 0 段兩句找不到稿、第 4 段 h503_yule 多兩則）；改了以後 ALL PASS。
 //   予樂自己的事（第 3～6 節）、h509_yule 的選項在 tests/aa520_yule_unit.js。
 // （2026-10-28 AA_519 3-3（企劃線 d75cd0228，NPC-STORY2-1028）：「沒做」清單裡小婷、新來的工讀生（小禾）那幾句改成 Café 點餐以後一句接上（src/data/aa519_lines.js cafe.heard，不在 heard_lines.js）——這裡只改原因的字，查法照舊；那幾句在 tests/aa519_support2_unit.js 查）
-// 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis 改字（「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」、2029-01-13 起），
+// 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis 改字（「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的叉燒都太甜。」、2029-01-13 起），
 //   src 照 h508_cx_zq（AA_514）的做法寫 'AA_523 6-3'——第 0 段 SPEC 加 AA_523（句數照舊 123）。改了以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段那一句找不到稿）；改了以後 ALL PASS。
 'use strict';
 require('./alison.js');   // 讀企劃稿照匯入工具同一套換（Alison、虛構校名、麵店團 ndl542、不跟別人比 nocmp：D116／AA_546）
@@ -176,10 +176,11 @@ await sec('3',async()=>{ if(!HAS()||typeof NOODLE_TABLE==='undefined'){ check('3
   /* 大一下第 9 週是期中週（不算麵店日；麵店團考試週不去麵店，AA-B 10-30 14:30）：weekFrom 9 實際第 10 週起第一個麵店日演 */
   const W9=NDt('Y1S2',10,0); setup(W9); H.G.flags.ndlTalkN={Y1:3}; const p=STORY.ndlTalkPick(H.G);
   H.said=[]; await STORY.ndlTalk(GM); const s=said();
-  check('3. AA_504 3-4：大一下第 9 週起第一個麵店日（第 10 週）先挑阿哲「期中那兩個禮拜，阿姨的手包著。……」（只演一次、不動輪到第幾則）',!!p&&p.e.once==='h504_zhe_hand'&&J(s)===J(['期中那兩個禮拜，阿姨的手包著。語彤一個人顧店。我去吃麵順便幫忙收碗，她說你坐著。'])&&H.G.flags.ndlTalkN.Y1===3&&H.G.flags.ndlTalkOnce.h504_zhe_hand===W9,J({s,N:H.G.flags.ndlTalkN}));
-  at(NDt('Y1S2',10,1),18); const p2=STORY.ndlTalkPick(H.G); check('3. 同一週的下一個麵店日：照原本輪到的第 4 則',!!p2&&p2.i===3,J(p2&&[p2.i,p2.e.once]));
+  /* AA_624（使用者 11-03）拿掉「阿姨扭到手」：阿哲那一則 h504_zhe_hand＝retired、不挑；長桌照原本的順序輪 */
+  check('3. AA_504 3-4 那一則（h504_zhe_hand）retired：大一下第 10 週的麵店日不挑它、照原本的順序輪（不動到別則）、不記 ndlTalkOnce',!!p&&p.e.once!=='h504_zhe_hand'&&!p.e.pri&&!s.some(t=>/阿姨的手包著/.test(t))&&H.G.flags.ndlTalkN.Y1>3&&!(H.G.flags.ndlTalkOnce||{}).h504_zhe_hand&&Y1[ih].retired===true,J({s,N:H.G.flags.ndlTalkN}));
+  at(NDt('Y1S2',10,1),18); const p2=STORY.ndlTalkPick(H.G); check('3. 同一週的下一個麵店日：照順序輪（不是 retired 的那一則）',!!p2&&p2.e.once!=='h504_zhe_hand'&&!Y1[p2.i].retired,J(p2&&[p2.i,p2.e.once]));
   setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; H.G.flags.ndlTalkOnce={h504_zhe_hand:W9}; const p3=STORY.ndlTalkPick(H.G); check('3. 第 10 週演過了：第 11 週沒有那一則',!!p3&&p3.e.once!=='h504_zhe_hand');
-  setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點（2026-10-30）：第 10 週沒演到＝第 11 週的麵店日先挑它（大一下學期內順延）',!!p4&&p4.e.once==='h504_zhe_hand');
+  setup(NDt('Y1S2',11,0)); H.G.flags.ndlTalkN={Y1:3}; const p4=STORY.ndlTalkPick(H.G); check('3. AA_527 第 2 點的順延也不會挑它（retired）',!!p4&&p4.e.once!=='h504_zhe_hand');
   /* 大一上：輪到才演、只演一次 */
   const W6=NDt('Y1S1',6,0); setup(W6); H.G.flags.ndlTalkN={Y1:8}; const g=STORY.ndlTalkPick(H.G); H.said=[]; await STORY.ndlTalk(GM); const sg=said();
   check('3. AA_503：大一上輪到第 9 則＝阿哲「語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。」；演完輪到第 10 則',!!g&&g.e.once==='h503_zhe_garlic'&&J(sg)===J(['語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'])&&H.G.flags.ndlTalkN.Y1===9,J({sg,N:H.G.flags.ndlTalkN}));

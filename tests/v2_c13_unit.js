@@ -20,7 +20,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -118,7 +118,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await playB(0);
     check('10. 「沒關係。」：手機上她的兩句 →「……好。週一前給你。」；手機裡照順序是她的兩句、你「沒關係。」、她的回覆；PS_CANCEL＝ok',JSON.stringify(L)===JSON.stringify(['沛珊（手機）：對不起。課輔班的作業還沒改完，明天要發回去。','沛珊（手機）：今天下不去了。','沛珊（手機）：……好。週一前給你。'])&&JSON.stringify(TH(thP).slice(-4).map(m=>m.from+':'+m.text))===JSON.stringify(['classmate_peishan:對不起。課輔班的作業還沒改完，明天要發回去。','classmate_peishan:今天下不去了。','player:沒關係。','classmate_peishan:……好。週一前給你。'])&&G.flags.PS_CANCEL==='ok'&&!G.flags.PS_TABLE_GOT,JSON.stringify({L,T:TH(thP).map(m=>m.from+':'+m.text)}));
     L=await playB(1);
-    check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','郭沛珊：你真的在等。','郭沛珊：表給你。第二頁我還沒畫完。','郭沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
+    check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','沛珊：你真的在等。','沛珊：表給你。第二頁我還沒畫完。','沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
     run(G.hour,23.9); G.day=thu+1; G.weekday=wdOf(G.day); run(0,13);
     check('10. 等了十分鐘：隔天 12:00「上次謝謝你等。下次我會早點講。」（AA_209 第 8 節）',TH(thP).some(m=>m.text==='上次謝謝你等。下次我會早點講。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
     L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
@@ -127,7 +127,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     /* AA_294 ②（企劃 b3ec8820）：週四上債總一前給（beforeClass oblig_gen1；原本是 12:00～13:20 走進 201），第 12 週沒去延到下一次出席，到第 14 週 */
     const thu14=termDay('Y1S2',14,4), thu15=termDay('Y1S2',15,4);
     check('10. 改天：週三法服讀書會散場那個版本停用（法服沒有讀書會，BB_191 §8-7）；週四上債總一前給（還沒拿到才給；AA_294 ② 延到第 14 週、第 15 週沒有）',!later(wed12,21,'wancai')[0]&&ek.beforeClass==='oblig_gen1'&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&later(thu14,13.3,'classroom')[1]&&!later(thu15,13.3,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom'),later(thu14,13.3,'classroom'),later(thu15,13.3,'classroom')]));
-    { withC(thu12,13,'classroom'); G.flags.PS_CANCEL='later'; await EVENTS.run(ek); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["郭沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
+    { withC(thu12,13,'classroom'); G.flags.PS_CANCEL='later'; await EVENTS.run(ek); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
     const mail=(k,day,sent)=>{ withC(day,10,'dorm_hall'); if(k) G.flags.PS_CANCEL=k; if(sent!==false) PHONE.post(G,{th:thP,from:PS,text:'今天下不去了。',tag:'ps_table_cancel'}); return EVENTS.check(em); };
     check('10. 信箱：「沒關係。」、沒去（沒回）＝第 12 週週一起回宿舍；等了、改天＝沒有；第 12 週以前沒有；沒收到改約（沒有聯絡方式）沒有',mail('ok',mon12)&&mail(null,mon12)&&!mail('waited',mon12)&&!mail('later',mon12)&&!mail('ok',mon12-1)&&!mail(null,mon12,false),JSON.stringify([mail('ok',mon12),mail(null,mon12),mail('waited',mon12),mail('later',mon12),mail('ok',mon12-1),mail(null,mon12,false)]));
     check('10. 信箱（AA_294 ②）：改天、第 14 週週四過了還沒出席債總一＝也走信箱版；第 14 週週四當天還沒有',mail('later',thu14+1)&&!mail('later',thu14),JSON.stringify([mail('later',thu14+1),mail('later',thu14)]));

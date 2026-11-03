@@ -40,8 +40,8 @@ const sp=id=>TRIP.spot(id);
   check('2b. 貓空週一：「纜車今天停駛」（不是「今天休館」）',TRIP.check(mkG(MON,14),sp('D09')).why==='纜車今天停駛',TRIP.check(mkG(MON,14),sp('D09')).why);
   check('2b. 貓空下雨、颱風天氣：「下雨，纜車停了」',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D09')).why==='下雨，纜車停了'&&TRIP.check(mkG(SAT,14,{weather:'typhoon'}),sp('D09')).why==='下雨，纜車停了');
   check('2b. 九份下雨照樣能去',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).ok,TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).why);
-  let xw=null; for(let d=SAT;d<SAT+80&&xw==null;d++){ if(CLS.examWeek(mkG(d,9))&&CALENDAR.dateOf(d).wd%7===6) xw=d; }
-  check('2b. 礁溪、外澳考試週不能去：「考試週，太遠了」；烏來照常',xw!=null&&TRIP.check(mkG(xw,10),sp('D24')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,14),sp('D25')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,10),sp('D20')).why!=='考試週，太遠了',String(xw));
+  let xw=null; for(let d=SAT;d<SAT+160&&xw==null;d++){ if(CLS.examNear(mkG(d,9),d)) xw=d; }   /* AA_638 ①-4：考試那天或前一天（原本考試週的週六）*/
+  check('2b. 礁溪、外澳考試那天或前一天不能去：「那幾天有考試。」；烏來照常（AA_638 ①-4）',xw!=null&&TRIP.check(mkG(xw,10),sp('D24')).why==='那幾天有考試。'&&TRIP.check(mkG(xw,14),sp('D25')).why==='那幾天有考試。'&&TRIP.check(mkG(xw,10),sp('D20')).why!=='那幾天有考試。',String(xw));
 }
 // 3. 出發：扣次數、車資、到達時間；選單、回程
 (async()=>{
@@ -126,8 +126,8 @@ const sp=id=>TRIP.spot(id);
     // 這一項自己的關門時間、休館日；考試週
     { const r1=await run(TUE,15,'D26',['回去','回公館']); const r2=await run(MON,12.5,'D26',['回去','回公館']); const r3=await run(TUE,12.5,'D26',['回去','回公館']);
       check('2c. D26 臺中：16:30 抵達，美術館 40 分鐘會超過 17:00＝「關門了」；週一「今天休館」；14:00 抵達照常',m0(r1).includes('國立臺灣美術館〔灰：關門了〕')&&m0(r2).includes('國立臺灣美術館〔灰：今天休館〕')&&m0(r3).includes('國立臺灣美術館'),JSON.stringify([m0(r1),m0(r2)]));
-      let xw=null; for(let d=SAT;d<SAT+120;d++){ const G=mkG(d,10); if(typeof CLS!=='undefined'&&CLS.examWeek&&CLS.examWeek(G)){ xw=d; break; } }
-      check('2c. 外縣市（D26～D31）考試週不能去：「考試週」',xw!=null&&['D26','D27','D28','D29','D30','D31'].every(id=>TRIP.check(mkG(xw,8),sp(id)).why==='考試週'),String(xw)); }
+      let xw=null; for(let d=SAT;d<SAT+160;d++){ const G=mkG(d,10); if(CLS.examNear(G,d)){ xw=d; break; } }
+      check('2c. 外縣市（D26～D31）考試那天或前一天不能去：「那幾天有考試。」（AA_638 ①-4）',xw!=null&&['D26','D27','D28','D29','D30','D31'].every(id=>TRIP.check(mkG(xw,8),sp(id)).why==='那幾天有考試。'),String(xw)); }
     // 看第一顆星
     { const r=await run(SAT,13.3,'D30',['回去','回公館']); check('2c. D30 七星潭：15:30 抵達，「看第一顆星」灰掉寫「天還沒黑」',m0(r).includes('看第一顆星〔灰：天還沒黑〕'),JSON.stringify(m0(r))); }
     // 固定段落（看電影）

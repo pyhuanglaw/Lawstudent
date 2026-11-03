@@ -17,7 +17,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -44,14 +44,14 @@ GM.money=function(n){ G.money+=n; };
   const Y=ev('ev_yu_together'); { fresh(d19,19,'noodle'); G.flags.met_yu=true; const a=EVENTS.check(Y); fresh(d19,17,'noodle'); G.flags.met_yu=true; const b=EVENTS.check(Y); fresh(d19+7,19,'noodle'); G.flags.met_yu=true; const c=EVENTS.check(Y);
     check('3. 語 3：12/19 19:00 麵店、認識 Alison＝會演；17:00、下週六不演',a&&!b&&!c); }
   fresh(d19,19,'noodle'); G.flags.met_yu=true; meet('yu'); said=[]; await EVENTS.run(Y); L=L0();
-  check('3. Alison 四句照 AA_40（第四句照 AB65-3（AA_211 附錄 A） 小語一列：「反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。」＋旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」）；之後她和阿哲的伴侶期間開始（startEvent）',L.length===5&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。'&&L[4]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
+  check('3. Alison 四句照 AA_40（第四句照 AB65-3（AA_211 附錄 A） 小語一列：「反正就這樣。以後在燒臘店吃完，他說要陪我走去捷運站。」＋旁白「（阿哲端著兩盤飯走過來，她馬上坐正。）」）；之後她和阿哲的伴侶期間開始（startEvent）',L.length===5&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：反正就這樣。以後在燒臘店吃完，他說要陪我走去捷運站。'&&L[4]==='（阿哲端著兩盤飯走過來，她馬上坐正。）'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
   fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu'), yc=OUT.get(G,'y2_yu_call');
   check('4. 都沒去、認識 Alison：22:00 她打電話來（接起來／先不接；AA_313 5-1 第 4 點，原本私訊三則）',!dm.length&&!!yc&&yc.ev==='ev_yu_together_call'&&yc.day===d19&&yc.h===22&&yc.verb==='接起來'&&yc.no==='先不接',JSON.stringify([dm,yc]));
   { said=[]; picks=[0]; await EVENTS.run(ev('ev_yu_together_call')); const Lc=L0();
-    check('4. 電話照稿（AA_313 5-1 第 4 點）：「（電話。她那邊很吵，有人在唱歌。）」「欸欸欸你今天怎麼沒來！」「……跟你說一件事。我跟阿哲在一起了。」「你不要笑。我聽得到。」→「恭喜。」→「謝謝！！……阿哲在旁邊，他叫你明天來麵店。」；YU_ZHE_TOLD＝call',JSON.stringify(Lc)===JSON.stringify(['（電話。她那邊很吵，有人在唱歌。）','Alison：欸欸欸你今天怎麼沒來！','Alison：……跟你說一件事。我跟阿哲在一起了。','Alison：你不要笑。我聽得到。','Alison：謝謝！！……阿哲在旁邊，他叫你明天來麵店。'])&&G.flags.YU_ZHE_TOLD==='call',JSON.stringify(Lc));
+    check('4. 電話照稿（AA_313 5-1 第 4 點）：「（電話。她那邊很吵，有人在唱歌。）」「欸欸欸你今天怎麼沒來！」「……跟你說一件事。我跟阿哲在一起了。」「你不要笑。我聽得到。」→「恭喜。」→「謝謝！！……阿哲在旁邊，他叫你明天來燒臘店。」；YU_ZHE_TOLD＝call',JSON.stringify(Lc)===JSON.stringify(['（電話。她那邊很吵，有人在唱歌。）','Alison：欸欸欸你今天怎麼沒來！','Alison：……跟你說一件事。我跟阿哲在一起了。','Alison：你不要笑。我聽得到。','Alison：謝謝！！……阿哲在旁邊，他叫你明天來燒臘店。'])&&G.flags.YU_ZHE_TOLD==='call',JSON.stringify(Lc));
     said=[]; picks=[1]; G.events.done.ev_yu_together_call=0; await EVENTS.run(ev('ev_yu_together_call')); check('4. 選「我早就知道了。」→「騙人。……你真的知道？」',L0()[L0().length-1]==='Alison：騙人。……你真的知道？',JSON.stringify(L0())); }
   fresh(d19,21,'dorm'); PHONE.join(G,'noodle_team','麵店團'); const k1=STORY.knows; STORY.knows=id=>id==='zhe'; run(21,22.2); STORY.knows=k1;
-  check('4. 都沒去、不認識 Alison、在麵店團：22:00 阿哲的照片',txt('g:noodle_team').includes('zhe:📷（麵店的長桌。Alison 比了一個 YA。）'),JSON.stringify(txt('g:noodle_team')));
+  check('4. 都沒去、不認識 Alison、在麵店團：22:00 阿哲的照片',txt('g:noodle_team').includes('zhe:📷（燒臘店的長桌。Alison 比了一個 YA。）'),JSON.stringify(txt('g:noodle_team')));
   fresh(d19,21,'dorm'); G.flags.met_yu=true; G.events.done.ev_yu_together=1; run(21,22.2); check('4. 去了麵店：沒有私訊、不打電話',!txt('p:yu').length&&!OUT.get(G,'y2_yu_call'));
   const g=NEEDED_MSGS.list.find(x=>x.id==='yu_gift'); check('5. 主線 4 Alison「聖誕禮物」在語 3 以後（演過或收到訊息）',!g.cond({flags:{},events:{done:{}}})&&g.cond({flags:{},events:{done:{ev_yu_together:1}}})&&g.cond({flags:{YU_ZHE_TOLD:'msg'},events:{done:{}}}));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

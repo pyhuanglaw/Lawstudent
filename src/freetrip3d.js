@@ -34,8 +34,8 @@ const TRIP=(function(){
     const R=SPOT_RULE[s.id]||{};
     if((s.closedWd||[]).includes(wd)) return {ok:false,why:R.closedWhy||'今天休館'};
     if(R.rainWhy&&(G.weather==='rain'||G.weather==='typhoon')) return {ok:false,why:R.rainWhy};
-    if(R.noExamWeek&&c&&c.examWeek&&c.examWeek(G)) return {ok:false,why:'考試週，太遠了'};
-    if(s.noExamWeek&&c&&c.examWeek&&c.examWeek(G)) return {ok:false,why:'考試週'};   /* 第三批的外縣市（spots_v3 rulesV3.noExamWeek）*/
+    { const near=c&&(c.examNear?c.examNear(G,G.day):(c.examWeek&&c.examWeek(G)));   /* AA_638 ①-4：只擋自己有考試的那天和前一天 */
+      if((R.noExamWeek||s.noExamWeek)&&near) return {ok:false,why:(c&&c.EXAM_NEAR_WHY)||'那幾天有考試。'}; }   /* 第三批的外縣市（spots_v3 rulesV3.noExamWeek）*/
     if(arr<s.open[0]-1e-6&&arr+1<=s.open[1]){ /* 到得太早：在外面等到開門也行，看等多久 */ if(s.open[0]-arr>1) return {ok:false,why:'現在去還沒開（'+hm(s.open[0])+' 開）'}; }
     if(Math.max(arr,s.open[0])+1>s.open[1]+1e-6) return {ok:false,why:arr>=s.open[1]?'現在去，到了就關了':'現在去，待不到一小時就關了'};
     if(Math.max(arr,s.open[0])+1+m>24+1e-6) return {ok:false,why:'太晚了，回不來'};

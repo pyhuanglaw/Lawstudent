@@ -17,7 +17,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
 const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
 const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
@@ -80,6 +80,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('5. 三個按鈕',JSON.stringify(opts[opts.length-1])===JSON.stringify(['（穿去法律系館A上課）','（送給阿勳）','（收進衣櫃）']),JSON.stringify(opts));
   check('5. ①穿去上課：ECON_JACKET wear、SOC_WRONG_BUILDING、SK02_DAY、15 分鐘',G.flags.ECON_JACKET==='wear'&&G.flags.SOC_WRONG_BUILDING&&G.flags.SK02_DAY===mon4&&Math.abs(G.hour-15.75)<1e-6);
   const room=it=>({c:{id:'civ_general'},room:{zone:'classroom'}});
+  G.flags.FRIEND_CARD_classmate_bohan=true;   /* AA_606 3-2 柏翰「第一排」（民總上課前，第 2～5 週）不在這裡測：先當作演過 */
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 同一天霖澤館的課：阿哲還沒說',!said.length);
   G.day=mon4+1; G.weekday=wdOf(G.day); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'english_y1'},room:{zone:'gongtong'}}); check('5. 隔天共同的課：沒有',!said.some(s=>/臥底/.test(s.t)));
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 隔天霖澤館的課：阿哲「你是經濟系派來的臥底嗎？」',lines()[0]==='阿哲：你是經濟系派來的臥底嗎？',JSON.stringify(lines()));

@@ -130,8 +130,8 @@ await sec('0',async()=>{
 await sec('1-1',async()=>{
   const door=one(/改成「(（麵店門口貼著一張紙：「[^」]+」）)」/,S11);
   check('1-1 門口那張紙＝稿上「改成」那一句（r2y4b3d.js S.AUNT_DOOR）；舊的「老闆出國，休息七天」不在遊戲裡',!!door&&R2Y4B.AUNT_DOOR===door&&!CODE('src/r2y4b3d.js').includes('老闆出國，休息七天'),J({door,game:R2Y4B.AUNT_DOOR}));
-  /* 不再用「老闆娘」：稿上三處（story3d.js 一個人吃麵、events.js 聖誕交換禮物、跨年）*/
-  const OLD={ev_xmas_exchange:'（麵店最裡面那張桌子。老闆娘多拿了兩張椅子過來。）',ev_nye_dinner:'（十二月三十一日，晚上七點。麵店比平常擠，老闆娘把門口那張桌子也搬了進來。）'};
+  /* 不再用「老闆娘」：稿上三處（story3d.js 一個人吃麵、events.js 聖誕交換禮物、跨年）*/   /* AA_612 A-050、A-053：麵店改燒臘店 */
+  const OLD={ev_xmas_exchange:'（燒臘店最裡面那張桌子。老闆娘多拿了兩張椅子過來。）',ev_nye_dinner:'（十二月三十一日，晚上七點。燒臘店比平常擠，老闆娘把門口那張桌子也搬了進來。）'};
   const bad=Object.keys(OLD).filter(id=>evText(id).includes('老闆娘')||!nar(id,OLD[id].split('老闆娘').join('阿姨')));
   const nEv=X()?[...X().noodleEvs()].filter(id=>id!=='ev_yt_essay'&&evText(id).includes('老闆娘')):['（沒有 SUP519）'];
   check('1-1 不再用「老闆娘」：story3d.js 一個人吃麵、events.js 聖誕交換禮物、跨年的旁白改「阿姨」（其他字照舊）；麵店的事件都沒有「老闆娘」（語彤的系刊文章 ev_yt_essay 是她文章裡的稱呼，照舊）',
@@ -153,7 +153,7 @@ await sec('1-1',async()=>{
   fresh(D('2025-12-20'),19,'dorm',{},{nar:true}); const r4=await runEv('ev_xmas_exchange',[0,0,0,0]);
   check('1-1 旁白第一次寫「阿姨（阿鳳）」、之後「阿姨」；對話框照舊「阿姨」；麵店以外不算；已經寫了「阿鳳」的那一句不動；正在演麵店的 2D 事件（人不在麵店）也算',
     S11.includes('旁白第一次寫「阿姨（阿鳳）」，之後寫「阿姨」')&&J(r1)===J(['（阿姨（阿鳳）看了你一眼。）','（阿姨看了你一眼。）','阿姨：坐。'])&&J(r2)===J(['（阿姨看了你一眼。）'])
-    &&J(r3)===J(['阿鳳阿姨講了店名的由來。她說她要記下來。','（阿姨（阿鳳）看了你一眼。）'])&&r4.includes('（麵店最裡面那張桌子。阿姨（阿鳳）多拿了兩張椅子過來。）'),J({r1,r2,r3,r4:r4.slice(0,3)})); });
+    &&J(r3)===J(['阿鳳阿姨講了店名的由來。她說她要記下來。','（阿姨（阿鳳）看了你一眼。）'])&&r4.includes('（燒臘店最裡面那張桌子。阿姨（阿鳳）多拿了兩張椅子過來。）'),J({r1,r2,r3,r4:r4.slice(0,3)})); });
 /* 1-2 */
 await sec('1-2',async()=>{
   const T12=table(S12), docRows=T12.map(r=>{ if(/YT_AUNT_PHOTO/.test(r[1])){ const m={}; for(const x of r[1].matchAll(/`(\w+)`：「([^」]+)」/g)) m[x[1]]=x[2]; const n=one(/沒有選的：「([^」]+)」/,r[1]); if(n) m.none=n; return {photo:m}; } return {t:qs(r[1])[0]}; });
@@ -216,8 +216,8 @@ await sec('1-5',async()=>{
   check('1-5 遊戲沒有麵店打工（JOB_NOODLE）：宿舍期滿那一段（阿姨「暑假你還要來的話，週二一樣。」）、語彤事件 13 那一句（「……你週二來切蔥，週四來陪我發呆。很忙喔。」）都刪掉；不再寫 JOB_NOODLE_SUMMER',
     S15.includes('遊戲沒有麵店打工')&&!SRC('src/story3d.js').includes('暑假你還要來的話')&&!J(R2Y3A_EVENTS).includes('你週二來切蔥')&&!/JOB_NOODLE_SUMMER\s*=/.test(SRC('src/story3d.js'))&&!/\bJOB_NOODLE\b/.test(SRC('src/data/r2y3a_events.js').replace(/\/\*[\s\S]*?\*\//g,'')));
   let want=null; try{ want=JSON.parse(one(/改成 `(\['阿鳳麵店'[^`]+\])`/,S15).replace(/'/g,'"')); }catch(e){}
-  const row=STORY.MX_FM1.rows.find(r=>r[0]==='阿鳳麵店');
-  check('1-5 公館一百元清單（明軒）阿鳳麵店那一列＝稿上「改成」的四格（不再是「乾麵＋餛飩湯 85」）',!!want&&J(row)===J(want)&&!J(STORY.MX_FM1).includes('乾麵＋餛飩湯'),J({want,row})); });
+  const row=STORY.MX_FM1.rows.find(r=>r[0]==='公館燒臘'); if(want) want=['公館燒臘','叉燒飯','90','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。'];   /* AA_612 A-368（麵店改燒臘店）蓋過 AA_519 1-5 的那一列：讀得到 AA_519 的稿才比（稿的格式照舊驗）*/
+  check('1-5 公館一百元清單（明軒）阿鳳麵店那一列＝AA_612 A-368 的四格（公館燒臘、叉燒飯 90；不再是「乾麵＋餛飩湯 85」）',!!want&&J(row)===J(want)&&!J(STORY.MX_FM1).includes('乾麵＋餛飩湯'),J({want,row})); });
 
 /* ===================== 2 陳助教（陳冠廷）===================== */
 await sec('2-1',async()=>{
@@ -446,13 +446,13 @@ await sec('8-1',async()=>{
     S8.includes('**語彤顧店的時段，阿姨一定在廚房**')&&S8.includes('寒暑假週二、四晚上，大二下起週六早上')&&S8.includes('過年店休（`NOODLE_CLOSED` 的日子）、2029-04-19～25 阿姨出國')&&S8.includes('「去買東西」那句可以留著當備用')
     &&J((((MULTIREL_LINES.DISC||{}).heroine_03||{}).base||[]).find(x=>x&&x.if==='auntIn'&&x.else).else)===J([{p:'阿姨呢？'},'去買東西。']));
   /* 語彤照作息顧店、阿姨那幾列不成立（寒暑假、週六早上、學期中沒擲到的那一天）＝廚房那位（阿姨）照常在 */
-  const dOff=(()=>{ const r=HCIRCLE.row('c503_6_2'); for(let w=2;w<=15;w++){ const x=TD('Y1S1',w,2); fresh(x,18.2,'noodle'); if(!HCIRCLE.on(r,H.G)&&minding()) return x; } return null; })();
-  const vac=(a,b)=>{ for(let d=D(a);d<=D(b);d++){ const wd=wdOf(d); if(wd!==2&&wd!==4) continue; fresh(d,18.5,'noodle'); if(minding()&&!NOODLE_CLOSED.closed(H.G)) return d; } return null; };   /* 寒假裡第一個她照作息顧店的週二、四晚上（不是過年店休）*/
+  const dOff=(()=>{ const r=HCIRCLE.row('c503_6_2'); for(let w=2;w<=15;w++){ const x=TD('Y1S1',w,2); fresh(x,18.2,'noodle'); if(!HCIRCLE.on(r,H.G)&&!minding()) return x; } return null; })();   /* AA_610／AA_624：語彤不在燒臘店顧店（minding 一定 false）*/
+  const vac=(a,b)=>{ for(let d=D(a);d<=D(b);d++){ const wd=wdOf(d); if(wd!==2&&wd!==4) continue; fresh(d,18.5,'noodle'); if(!minding()&&!NOODLE_CLOSED.closed(H.G)) return d; } return null; };   /* 寒假裡第一個她照作息顧店的週二、四晚上（不是過年店休）*/
   const wv=vac('2028-01-15','2028-02-20');
   const C=[['大二暑假週二晚上','2027-07-06',18.5],['大三寒假週二、四晚上',wv,18.5],['大二下週六早上',TD('Y2S2',3,6),10],['大三上週六早上',TD('Y3S1',4,6),10.5],['大一上週二沒擲到',dOff,18.2]], R=[];
   for(const [lab,d,h] of C){ if(d==null){ R.push([lab,'找不到那一天']); continue; } const k=noodleK(D(d),h,true); R.push([lab,minding(),HCIRCLE.labelIn(H.G,'hc_ayi','noodle'),ckVis(k.ck),HCIRCLE.auntOut(GM),MREL.auntIn(H.G),EAT.staffAway(GM,'阿鳳麵店')]); }
-  check('8-1 語彤照作息顧店、阿姨那幾列不成立（大二暑假週二晚上、大三寒假週二四晚上（'+(wv!=null?keyOf(wv):'?')+'）、大二下起週六早上、大一上週二沒擲到的那一天）：廚房那位（阿姨）照常在、不是 auntOut、MREL.auntIn 在、點餐阿姨的話照說',
-    R.every(x=>x[1]===true&&x[2]===false&&x[3]===true&&x[4]===false&&x[5]===true&&x[6]===false),J(R));
+  check('8-1 原本語彤顧店的時段（大二暑假週二晚上、大三寒假週二四晚上（'+(wv!=null?keyOf(wv):'?')+'）、大二下起週六早上、大一上週二沒擲到的那一天）：AA_610／AA_624 她不在店裡（minding false）；廚房那位（阿姨）照常在、不是 auntOut、MREL.auntIn 在、點餐阿姨的話照說',
+    R.every(x=>x[1]===false&&x[2]===false&&x[3]===true&&x[4]===false&&x[5]===true&&x[6]===false),J(R));
   /* 例外：過年店休、出國那一週（店沒開）＝阿姨不在（HCIRCLE.auntAway）；出國那一週語彤在總圖，廚房那位也不在 */
   const cny=D('2027-02-02'); noodleK(cny,18.5,true); const c1=[NOODLE_CLOSED.closed(H.G),HCIRCLE.auntAway(H.G),MREL.auntIn(H.G)];
   const k2=noodleK(D('2029-04-24'),18.5,false); const c2=[R2Y4B.aunTrip(H.G),HCIRCLE.auntAway(H.G),ckVis(k2.ck),MREL.auntIn(H.G)];
@@ -461,33 +461,34 @@ await sec('8-1',async()=>{
     J(c1)===J([true,true,false])&&J(c2)===J([true,true,false,false])&&J(c3)===J([false,true,true]),J({c1,c2,c3}));
   /* 「去買東西」留著當備用：阿姨真的不在（強制 auntAway）＝語彤顧店時店員藏起來、auntOut */
   const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>true; let f=null; try{ const k=noodleK(D('2027-07-06'),18.5,true); f=[ckVis(k.ck),HCIRCLE.auntOut(GM),MREL.auntIn(H.G)]; } finally { HCIRCLE.auntAway=a0; }
-  check('8-1 備用：阿姨真的不在（測試強制 auntAway）＝廚房沒有人（店員藏起來、auntOut）、auntIn 不在（「阿姨呢？」「去買東西。」那一支還接得上）',J(f)===J([false,true,false]),J(f)); });
+  check('8-1 備用：阿姨真的不在（測試強制 auntAway）：語彤不顧店（AA_610／AA_624）＝沒有「語彤顧店、阿姨不在」（店員照常、不是 auntOut）；auntIn 不在',J(f)===J([true,false,false]),J(f)); });
 await sec('8-2',async()=>{
   const IN=one(/阿姨在：「([^」]+)」/,S8), OUTL=one(/阿姨不在：「([^」]+)」/,S8);
   const eat=async(d,h,yt)=>{ noodleK(D(d),h,yt); H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return said(); };
   const a=await eat('2027-07-06',18.5,true), b=await eat(TD('Y1S1',3,3),12.5,false);
   const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>true; let c; try{ c=await eat('2027-07-06',18.5,true); } finally { HCIRCLE.auntAway=a0; }
-  check('8-2 一個人吃麵（乾麵）：阿姨在＝「'+IN+'」（語彤顧店的暑假晚上、平常的中午都是）；阿姨不在（測試強制）＝「'+OUTL+'」；不再寫「老闆娘」',
-    !!IN&&!!OUTL&&a.includes(IN)&&b.includes(IN)&&c.includes(OUTL)&&!c.includes(IN)&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
+  check('8-2 一個人吃麵（乾麵）：阿姨在＝「'+IN+'」（語彤顧店的暑假晚上、平常的中午都是）；阿姨不在（測試強制）也是阿姨在那一句（AA_610／AA_624：語彤不顧店＝沒有「阿姨不在、語彤顧店」，「'+OUTL+'」走不到）；不再寫「老闆娘」',
+    !!IN&&!!OUTL&&a.includes(IN)&&b.includes(IN)&&c.includes(IN)&&!c.includes(OUTL)&&![...a,...b,...c].some(x=>/老闆娘/.test(x)),J({a:a.slice(-1),b:b.slice(-1),c:c.slice(-1)}));
   fresh(TD('Y1S1',3,3),12.5,'noodle',{},{nar:true}); noodleK(TD('Y1S1',3,3),12.5,false); delete H.G.flags.AA519; H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const n=said();
   check('8-2 新的存檔第一次在麵店：第一句提到阿姨的旁白寫「阿姨（阿鳳）」（1-1），之後照原文',n.filter(x=>/阿姨（阿鳳）/.test(x)).length===1&&n.includes(IN),J(n)); });
 await sec('8-3',async()=>{
   const S=X().auntEvs(), NAMED=['ev_zhe_long_table','ev_yutong_landlord','ev_term_last_meal','ev_term_last_meal_y1s2','ev_term_last_meal_y2s1','ev_y3_tue_noodle'];
   const bad=[...S].filter(id=>!X().noodleEvs().has(id)||!/阿姨/.test(evText(id)));
   check('8-3 麵店的 2D 事件（阿姨在場或說話：在麵店、台詞提到阿姨的，載入後掃）：'+S.size+' 個（稿「約 25 個」），含 LAWWW 點名的那幾個；每一個都在麵店、都提到阿姨',S.size>=25&&NAMED.every(id=>S.has(id)&&!!ev(id))&&!bad.length,J({n:S.size,bad}));
-  const r=HCIRCLE.row('c503_6_2'); let d=null; for(let w=2;w<=15&&d==null;w++){ const x=TD('Y1S1',w,2); fresh(x,18.2,'noodle'); if(!HCIRCLE.on(r,H.G)&&minding()) d=x; }
+  const r=HCIRCLE.row('c503_6_2'); let d=null; for(let w=2;w<=15&&d==null;w++){ const x=TD('Y1S1',w,2); fresh(x,18.2,'noodle'); if(!HCIRCLE.on(r,H.G)) d=x; }   /* AA_610／AA_624：語彤不在店裡＝不看 minding */
   fresh(d,18.2,'noodle'); const a=HCIRCLE.on(r,H.G); H.G.events.last.ev_zhe_long_table=H.G.day; const b=HCIRCLE.on(r,H.G);
   fresh(d,18.2,'noodle'); OUT.rec(H.G).push({id:'t_ndl',day:d,h:19,state:'planned',place:'阿鳳麵店',title:'麵店'}); const c=HCIRCLE.on(r,H.G);
   fresh(d,18.2,'noodle'); H.G.events.last.ev_zhe_long_table=d-7; const e=HCIRCLE.on(r,H.G);
-  check('8-3 那一天演了麵店的 2D 事件（ev_zhe_long_table）或排了麵店的出遊＝阿姨那幾列擲骰當成功（3D 一定有阿姨）；別天照原本擲的',a===false&&b===true&&c===true&&e===false,J({d:keyOf(d),a,b,c,e})); });
+  /* 阿姨那幾列（c503_6_2 等）都是語彤的圈子（who heroine_03、with hc_ayi）：AA_610／AA_624 她不在燒臘店＝那幾列不會成立，「擲骰當成功」也不會讓她出現；廚房那位阿姨照舊（第 1-1 節）*/
+  check('8-3 語彤的阿姨那幾列（c503_6_2）：不管那一天有沒有麵店的 2D 事件、出遊，都不成立（她不在燒臘店）',a===false&&b===false&&c===false&&e===false,J({d:keyOf(d),a,b,c,e})); });
 await sec('8-4',async()=>{
   const GRP=quotes(part('4/23（一）21:00 群組換這四則','- 沒有麵店日的就不用',S8));
-  const A527={'這週麵店沒開':'這週麵店沒開。'};   /* AA_527 2-4（企劃線 bfede0a62）：阿哲的訊息不加句號（口氣表 2-1）——AA_519 原稿那一句有句號，遊戲照 AA_527 拿掉 */
-  check('8-4 對稿：群組四則（阿哲兩則、Alison、語彤）＝aunt.tripGroup（阿哲「這週麵店沒開」照 AA_527 2-4 不加句號）；語彤那一週在總圖（4/19 那則的回覆）；門口那張紙照第 1 節',
-    GRP.length===4&&J(GRP)===J(LN().aunt.tripGroup.map(([w,t])=>pairDoc(w,A527[t]||t,NM)))&&LN().aunt.tripGroup[0][1]==='這週麵店沒開'&&S8.includes('「我在總圖。期中考，店剛好也沒開。」')&&S8.includes('「出國，休息七天。——阿鳳」'),J(GRP));
+  const A527={'這週燒臘店沒開':'這週燒臘店沒開。'};   /* AA_527 2-4（企劃線 bfede0a62）：阿哲的訊息不加句號（口氣表 2-1）——AA_519 原稿那一句有句號，遊戲照 AA_527 拿掉 */
+  check('8-4 對稿：群組四則（阿哲兩則、Alison、語彤）＝aunt.tripGroup（阿哲「這週燒臘店沒開」照 AA_527 2-4 不加句號）；語彤那一週在總圖（4/19 那則的回覆）；門口那張紙照第 1 節',
+    GRP.length===4&&J(GRP)===J(LN().aunt.tripGroup.map(([w,t])=>pairDoc(w,A527[t]||t,NM)))&&LN().aunt.tripGroup[0][1]==='這週燒臘店沒開'&&S8.includes('「我在總圖。期中考，店剛好也沒開。」')&&S8.includes('「出國，休息七天。——阿鳳」'),J(GRP));
   /* 語彤：那一週顧店的時段在總圖 */
   const Y=[]; for(const [k,h] of [['2029-04-19',18],['2029-04-21',10],['2029-04-24',18.5],['2029-04-28',10],['2029-05-01',18.5],['2029-04-17',18.5]]){ fresh(k,h,'dorm'); const e=ytEnt(); Y.push([k,e&&e.zone]); }
-  check('8-4 語彤那一週（4/19～4/25）週二、四晚上、週六早上在總圖；回來以後（4/28 週六早上、5/1 週二晚上）、出國前（4/17）在麵店',J(Y.map(x=>x[1]))===J(['library','library','library','noodle','noodle','noodle']),J(Y));
+  check('8-4 語彤那一週（4/19～4/25）週二、四晚上、週六早上在總圖；回來以後、出國前也不在燒臘店（AA_610／AA_624）',J(Y.slice(0,3).map(x=>x[1]))===J(['library','library','library'])&&Y.slice(3).every(x=>x[1]!=='noodle'),J(Y));
   /* 麵店團：那一週沒有麵店日（阿哲不揪）；4/23 21:00 四則（那一週本來有麵店日才發；不在群組沒有）*/
   const nd=['2029-04-19','2029-04-24','2029-04-26'].map(k=>[k,STORY.noodleDay(D(k)),X()._nd0.call(STORY,D(k))]);
   fresh('2029-04-23',20.5,'dorm',{noodleTableDay:D('2028-09-06')}); for(const id of ['zhe','yu','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','麵店團'); ph(); const g0=txt('g:noodle_team').length; phAt('2029-04-23',21.1);
@@ -652,12 +653,13 @@ await sec('10',async()=>{
   check('10 遊戲 → 稿：aa519_lines.js 的每一句（'+out.length+' 句）都在稿裡',out.length>=90&&!miss.length,J(miss.slice(0,6)));
   /* (b) 各檔帶 AA_519 註解的行、sup519_3d.js：程式裡玩家看得到的字（去掉註解以後的字串）都在稿裡；照舊的半句、系統字、別份稿的句子列出原因 */
   const WHY={
+    '公館燒臘':'AA_612 A-368（麵店改燒臘店：明軒清單那一列的店名）','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。':'AA_612 A-368（那一列的註解）','叉燒飯剛上桌，還冒著熱氣。':'AA_612 A-401（阿姨不在的那一句，原本「乾麵很燙。」）',
     '林家乾麵（溫州街）':'一百元清單同一行的第一列（照舊）','小碗乾麵＋貢丸湯':'同上','飽足感除以價錢，第一名。沒有之一。':'同上',
-    '餛飩湯上面漂著一點油蔥。':'一個人吃麵點餛飩湯的那一句（8-2 只改乾麵那一句）',
-    '（麵店的長桌。）':'1-3 送小菜第六處：原句前半照舊（拆成兩句）','（期末最後一科考完。長桌已經併好了。）':'1-3 第二處：原句前半照舊','（大一最後一科考完。長桌又併起來了。）':'1-3 第三處：同一行的第一句照舊',
+    '燒鴨的皮還是脆的。':'一個人吃麵點餛飩湯的那一句（8-2 只改乾麵那一句）',
+    '（燒臘店的長桌。）':'1-3 送小菜第六處：原句前半照舊（拆成兩句）','（期末最後一科考完。長桌已經併好了。）':'1-3 第二處：原句前半照舊','（大一最後一科考完。長桌又併起來了。）':'1-3 第三處：同一行的第一句照舊',
     '（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）':'1-3 第四處：同一行的第一句照舊','（九點。）':'1-3 第五處：原句前半照舊','（長桌只坐了一半。）':'1-3 第七處：原句前半照舊',
     '寒假還有誰在臺北':'vacfill 同一行的群組訊息（照舊）','我在。店裡':'同上','我！！':'同上','我也在。':'同上',
-    '（十二月三十一日，晚上七點。麵店比平常擠，阿姨把門口那張桌子也搬了進來。）':'1-1 原句的「老闆娘」改「阿姨」（第 1 段查）',
+    '（十二月三十一日，晚上七點。燒臘店比平常擠，阿姨把門口那張桌子也搬了進來。）':'1-1 原句的「老闆娘」改「阿姨」（第 1 段查）',
     '（二十分鐘後，阿凱全身濕，站在門口，手上這次是一袋滷味。）':'5-3 稿上「→」右邊那一句加原句的開頭「（二十分鐘後，」（第 5 段查）',
     '（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）':'5-3 同上，加原句的後半（柏翰…）',
     '（打開筆電）你看，我的作業會頂嘴了。':'5-2 大二上照舊的那一句（AA_328）','新室友說我話很多。……真的很多嗎？':'5-2 大二上照舊三句之一',
