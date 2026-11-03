@@ -47,7 +47,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     const ok1=EVENTS.check(e); G.hour=23.2; const ok0=EVENTS.check(e); G.day=day('2025-09-01'); G.hour=23.6; const okD=EVENTS.check(e); at('2025-09-09',23.6,{DORM_FOUR:true}); const okW=EVENTS.check(e); G.zone='linze'; at('2025-09-02',23.6); const okZ=EVENTS.check(e);
     check('C1. 3-1 條件：9/2 23:36 在 203＝演；23:12、9/1、第 2 週、不在 203＝不演；自動（trigger auto）',e&&e.trigger==='auto'&&ok1&&!ok0&&!okD&&!okW&&!okZ,JSON.stringify([ok1,ok0,okD,okW,okZ]));
     fresh(); at('2025-09-02',23.6,{DORM_FOUR:true}); SOCIAL.meet('kai','dorm'); const f0=fam('kai'); await EVENTS.run(e);
-    check('C2. 3-1 台詞（預設「要我關燈嗎？」）；FRIEND_CARD_kai、記憶 FRIEND_CARD「凌晨的作業」、熟悉 +2；演過不再演',!block(['（十二點。房間只剩阿凱的螢幕亮著。）','你還沒睡？','我在寫程式作業。資工系的，明天早上交。','不用。我戴耳機，你睡你的。','（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'])&&optsSeen.includes('「要我關燈嗎？」/「寫多久了？」')&&G.flags.FRIEND_CARD_kai===true&&card('kai')==='凌晨的作業'&&fam('kai')-f0===2&&!EVENTS.check(e),said.join(' / '));
+    check('C2. 3-1 台詞（預設「要我關燈嗎？」）；FRIEND_CARD_kai、記憶 FRIEND_CARD「凌晨的作業」、熟悉 +2；演過不再演',!block(['（十二點。房間只剩阿凱的螢幕亮著。）','你還沒睡？','我在寫程式作業。資工系的，明天早上交。','不用。我戴耳機，你睡你的。','（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'])&&optsSeen.includes('「要我關燈嗎？」/「寫多久了？」')&&G.flags.FRIEND_CARD_kai===true&&card('kai')==='凌晨寫作業，隔天桌上多了一杯豆漿'&&fam('kai')-f0===2&&!EVENTS.check(e),said.join(' / '));
     fresh(); at('2025-09-02',23.6); picks=['寫多久了']; await EVENTS.run(e);
     check('C3. 3-1 另一個選項：「九點開始。……不要跟阿哲說，他會拉我去吃宵夜。」',said.includes('阿凱：九點開始。……不要跟阿哲說，他會拉我去吃宵夜。')); }
   // ---------- 3-2 柏翰「第一排」----------
@@ -56,7 +56,7 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     { fresh(); at('2025-09-11',13); const d={id:'ev_test_before',trigger:'class',location:'any',beforeClass:'civ_general',once:true,dialogue:[]}; STORY_EVENTS.push(d); const y=e.beforeClass({c:{id:'civ_general'}}); STORY_EVENTS.pop();
       check('C4b. AA_606 第 5 節：同一堂民總已經有別的上課前事件＝柏翰這場讓位（延到下一次）',y===false&&e.beforeClass({c:{id:'civ_general'}})===true); }
     fresh(); at('2025-09-11',13); SOCIAL.meet('classmate_bohan','dorm'); const f0=fam('classmate_bohan'); await EVENTS.run(e);
-    check('C5. 3-2 台詞（沒有 9/1 那場：「{name}。這裡。」；預設「你真的量過？」）；記 FRIEND_CARD、熟悉 +2',!block(['（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）','祐廷。這裡。','第一排聽得最清楚。我量過，第八排開始，老師的聲音會被冷氣蓋掉。','上週。每一排坐五分鐘。','我念得慢。坐前面，回去可以少讀一遍。'])&&said.includes('柏翰：祐廷。這裡。')&&G.flags.FRIEND_CARD_classmate_bohan===true&&card('classmate_bohan')==='第一排'&&fam('classmate_bohan')-f0===2,said.join(' / '));
+    check('C5. 3-2 台詞（沒有 9/1 那場：「{name}。這裡。」；預設「你真的量過？」）；記 FRIEND_CARD、熟悉 +2',!block(['（民總。第一排正中間，柏翰已經把課本、筆記本、三支筆排好。）','祐廷。這裡。','第一排聽得最清楚。我量過，第八排開始，老師的聲音會被冷氣蓋掉。','上週。每一排坐五分鐘。','我念得慢。坐前面，回去可以少讀一遍。'])&&said.includes('柏翰：祐廷。這裡。')&&G.flags.FRIEND_CARD_classmate_bohan===true&&card('classmate_bohan')==='民總坐第一排'&&fam('classmate_bohan')-f0===2,said.join(' / '));
     fresh(); at('2025-09-11',13); G.events.done.ev_bohan_w1_front=1; picks=['好，我坐這']; await EVENTS.run(e);
     check('C6. 3-2 已有 9/1 第一排那場：第一句「{name}。今天也坐這裡。」；選「好，我坐這。」→「（他把旁邊的桌面擦了一下。）」',said.includes('柏翰：祐廷。今天也坐這裡。')&&!said.includes('柏翰：祐廷。這裡。')&&said.includes('（他把旁邊的桌面擦了一下。）'),said.join(' / ')); }
   // ---------- 3-3 Alison：第一次和阿哲去麵店 ----------
@@ -78,14 +78,14 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
     { fresh(); at('2025-09-15',12.2); const d={id:'ev_test_after',trigger:'class',location:'any',afterClass:'const_1',once:true,dialogue:[]}; STORY_EVENTS.push(d); global.CLS={afterClassOk:it=>x=>(x.afterClass===it.c.id||(typeof x.afterClass==='function'&&x.afterClass(it)))&&EVENTS.check(x,{chain:true})}; const it={c:{id:'const_1',kind:'required'}}, y=e.afterClass(it); STORY_EVENTS.pop(); const y2=e.afterClass(it); delete global.CLS;
       check('C12b. AA_606 第 5 節：同一堂下課已經有別的下課事件（例：sup497 的固定場次）＝明軒這場讓位',y===false&&y2===true,JSON.stringify([y,y2])); }
     fresh(); at('2025-09-15',12.2); await EVENTS.run(e);
-    check('C13. 3-4 台詞（AA_608 10-1 回扣：遊覽車上睡覺的那個人；預設「你要去哪？」）；記 FRIEND_CARD「公館便宜好吃.xlsx」、熟悉 +2',!block(['（下課鐘一響，前排一個戴帽子的男生第一個收好書包。是宿營遊覽車上一直在睡的那個人。）','欸，祐廷，我先走，公車要趕。','（他把一張摺好的紙塞給你。）','公館便宜好吃的店，我自己整理的。不要外流喔。','家教。國中生，數學。……你什麼都沒看到。','（你打開那張紙。第一行寫著：「江明軒製」。）'])&&said.includes('明軒：欸，祐廷，我先走，公車要趕。')&&card('classmate_mingxuan')==='公館便宜好吃.xlsx'&&G.flags.FRIEND_CARD_classmate_mingxuan===true,said.join(' / '));
+    check('C13. 3-4 台詞（AA_608 10-1 回扣：遊覽車上睡覺的那個人；預設「你要去哪？」）；記 FRIEND_CARD「公館便宜好吃.xlsx」、熟悉 +2',!block(['（下課鐘一響，前排一個戴帽子的男生第一個收好書包。是宿營遊覽車上一直在睡的那個人。）','欸，祐廷，我先走，公車要趕。','（他把一張摺好的紙塞給你。）','公館便宜好吃的店，我自己整理的。不要外流喔。','家教。國中生，數學。……你什麼都沒看到。','（你打開那張紙。第一行寫著：「江明軒製」。）'])&&said.includes('明軒：欸，祐廷，我先走，公車要趕。')&&card('classmate_mingxuan')==='公館便宜好吃的清單'&&G.flags.FRIEND_CARD_classmate_mingxuan===true,said.join(' / '));
     fresh(); at('2025-09-15',12.2); picks=['謝了']; await EVENTS.run(e); check('C14. 3-4 另一個選項：「下次我請。……一顆滷蛋。」',said.includes('明軒：下次我請。……一顆滷蛋。')); }
   // ---------- 3-5 阿哲「四碗麵」----------
   { const e=ev('ev_card_zhe'), setup=h=>{ fresh(); at('2025-09-23',h,{DORM_FOUR:true}); G.zone='dorm'; };
     setup(22.7); const w=STORY.dormWho(G).map(x=>x[0]).join(); const ok=EVENTS.check(e); setup(22.1); const okEarly=EVENTS.check(e); setup(22.7); G.day=day('2025-09-22'); G.weekday=1; const okMon=EVENTS.check(e); setup(22.7); delete G.flags.DORM_FOUR; const ok2=EVENTS.check(e);
     check('C15. 3-5 條件：9/23 22:00 以後在 203、阿凱和柏翰都在房間（22:42 都在＝演；22:06 柏翰還沒回來、9/22、沒有四人房＝不演）',e.trigger==='auto'&&ok&&!okEarly&&!okMon&&!ok2,JSON.stringify({w,ok,okEarly,okMon,ok2}));
     setup(22.7); for(const id of ['zhe','kai','classmate_bohan']) SOCIAL.meet(id,'dorm'); const f0=fam('zhe'); await EVENTS.run(e);
-    check('C16. 3-5 台詞（預設「謝啦，阿哲。」）；記 FRIEND_CARD「四碗麵」、阿哲熟悉 +2',!block(['（晚上十點，阿哲提著四碗麵進門。）','阿凱、柏翰、祐廷。宵夜。我揪的，算我的。','一碗六十五。我轉你。','沒事啦。','那下次我買。……所以下次是什麼時候。','吃啦，要冷了。','（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'])&&card('zhe')==='四碗麵'&&fam('zhe')-f0===2,said.join(' / '));
+    check('C16. 3-5 台詞（預設「謝啦，阿哲。」）；記 FRIEND_CARD「四碗麵」、阿哲熟悉 +2',!block(['（晚上十點，阿哲提著四碗麵進門。）','阿凱、柏翰、祐廷。宵夜。我揪的，算我的。','一碗六十五。我轉你。','沒事啦。','那下次我買。……所以下次是什麼時候。','吃啦，要冷了。','（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'])&&card('zhe')==='提了四碗麵回來'&&fam('zhe')-f0===2,said.join(' / '));
     setup(22.7); picks=['我也轉你']; await EVENTS.run(e); const a=said.includes('阿哲：不用啦。');
     setup(22.7); G.flags.ZHE_CALLS_GE=true; picks=['我也轉你']; await EVENTS.run(e);
     check('C17. 3-5「我也轉你。」→「不用啦。」；有 ZHE_CALLS_GE＝「不用啦，哥。」',a&&said.includes('阿哲：不用啦，哥。')&&!said.includes('阿哲：不用啦。')); }

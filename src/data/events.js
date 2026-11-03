@@ -4998,7 +4998,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {label:'long'},{speaker:'kai',text:'九點開始。……不要跟阿哲說，他會拉我去吃宵夜。'},
         {label:'end'},
         {speaker:null,text:'（隔天早上，你桌上多了一杯豆漿。阿凱已經去上課了。）'},
-        card('kai','凌晨的作業') ] },
+        card('kai','凌晨寫作業，隔天桌上多了一杯豆漿') ] },
     /* 3-2 柏翰「第一排」：第 2 週民法總則上課前（教室）；9/1 已經有柏翰第一排那場（ev_bohan_w1_front）的，第一句改「{name}。今天也坐這裡。」*/
     { id:'ev_card_bohan', title:'第一排', participants:['classmate_bohan'], location:'any', trigger:'class', yieldClass:true, beforeClass:function(it){ return !!(it&&it.c&&it.c.id==='civ_general')&&!busyBefore(it,this); }, once:true, term:['Y1S1'], weeks:[2], carryTo:5, background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_classmate_bohan},
@@ -5011,7 +5011,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {label:'sit'},{speaker:null,text:'（他把旁邊的桌面擦了一下。）'},
         {label:'end'},
         {speaker:'classmate_bohan',text:'我念得慢。坐前面，回去可以少讀一遍。'},
-        card('classmate_bohan','第一排') ] },
+        card('classmate_bohan','民總坐第一排') ] },
     /* 3-3 Alison：改成第一次和阿哲去麵店時認識（ZHE_FIRST_TABLE 開頭，AA_606 3-3 11-03 版；原本的「第一班捷運」作廢）*/
     /* 3-4 明軒「公館便宜好吃.xlsx」：第 3 週第一次上完法律系的必修下課（明軒和你同班，每一門必修都有修）*/
     { id:'ev_card_mingxuan', title:'公館便宜好吃.xlsx', participants:['classmate_mingxuan'], location:'any', trigger:'class', yieldClass:true, afterClass:function(it){ return !!(it&&it.c&&it.c.kind==='required')&&!busyAfter(it,this); }, once:true, term:['Y1S1'], weeks:[3], carryTo:5, background:'blur',
@@ -5025,7 +5025,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {label:'thx'},{speaker:'classmate_mingxuan',text:'下次我請。……一顆滷蛋。'},
         {label:'end'},
         {speaker:null,text:'（你打開那張紙。第一行寫著：「江明軒製」。）'},
-        card('classmate_mingxuan','公館便宜好吃.xlsx') ] },
+        card('classmate_mingxuan','公館便宜好吃的清單') ] },
     /* 3-5 阿哲「四碗麵」：第 4 週，9/23（二）22:00 以後第一次在 203、阿凱和柏翰都在房間（203 四人房，STORY.dormWho）*/
     { id:'ev_card_zhe', title:'四碗麵', participants:['zhe','kai','classmate_bohan'], location:'dorm', trigger:'auto', once:true, term:['Y1S1'], weeks:[4], time:[22,26], background:'blur',
       prereq:{custom:G=>!F(G).FRIEND_CARD_zhe&&G.day>=dk('2025-09-23')&&inDorm(G,'kai')&&inDorm(G,'classmate_bohan')},
@@ -5039,7 +5039,7 @@ STORY_EVENTS.push({ id:'ev_grad_debate_teach', title:'這一段你來講', parti
         {label:'pay'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'不用啦。'},{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'不用啦，哥。'},
         {label:'end'},
         {speaker:null,text:'（四個人坐在地板上吃。阿凱的螢幕還亮著，柏翰把湯喝完才開口：「好吃。」）'},
-        card('zhe','四碗麵') ] },
+        card('zhe','提了四碗麵回來') ] },
     /* 第 4 節 群像「考完吃哪家」：第 13 週最後一堂刑總下課，自動；和阿哲 FRIEND 以上、或演過四碗麵。芯慈不在場（只被提到）。
        選「明軒那家。」記 Y1S1_EXAM_MEAL_PICK 'mx'（之後考完吃飯那則手機邀約照舊；那頓飯的旁白還沒接這個旗標）*/
     { id:'ev_friends_exam_meal', title:'考完吃哪家', participants:['zhe','classmate_bohan','classmate_mingxuan','yu'], location:'any', trigger:'class', afterClass:'crim_gen1', once:true, term:['Y1S1'], weeks:[13], background:'blur',
