@@ -84,7 +84,7 @@ const OUT=(function(){
     GAME.toast(F._planHint?'排進行程：'+when+'　'+what:'排進行程：'+when+'　'+what+'。時間到會跳出「出發」，手機的「今天」也看得到。',F._planHint?3200:5200); F._planHint=(F._planHint|0)+1; };
   const t=(day,h)=>day*24+h;
   /* 該問了：該出發的時間（約好的時間減車程）前 15 分鐘起、約好的時間後 45 分鐘內；「晚一點」之後等到 ask 那個時間 */
-  const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
+  const lateEnd=q=>Math.max(t(q.day,q.h)+(q.late!=null?q.late:0.75),q.lateTo!=null?q.lateTo:-1e9);   /* lateTo：總圖導覽擋到的那一場，從導覽結束重新給寬限（BUG-TOUR-PHOTO-MISSED-1103）*/   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);   /* 人在家裡＝照家裡出發算車程（PG-ASKAT-HOME-1021：原本只有經濟系那一年 HOME.baseMode 才算，法律系以後在家（寒暑假、畢業後住家裡）該問「出發」的時間照學校算、從家裡的選單出發卻照家裡算 30 分鐘，問得太晚、到了就遲到——OUT.due、PG 固定格的 askAt、鬧鐘都用這裡）*/
   S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&!q.call&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:q.homeTravel||'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的；homeTravel：從家裡出發那一行有自己的寫法（例：2029 中秋河濱「捷運＋走路 約 30 分鐘」，AA_363 T9），沒寫＝照舊 */
@@ -105,7 +105,14 @@ const OUT=(function(){
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
-  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
+  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ /* BUG-TOUR-PHOTO-MISSED-1103（BB 11-03 18:22，CC tour_tap2）：導覽 15:30～16:2x、系學會合照 16:00（late 15 分）＝導覽中被記成錯過、導覽結束也不跳。
+     導覽進行中：已經到出發時間的那幾場先記 tourHeld，不算錯過；導覽結束後的第一個 tick：從現在起再給 late（至少 15 分鐘）*/
+    { const touring=typeof CLS!=='undefined'&&CLS.touring, now=t(G.day,G.hour);
+      for(const q of S.rec(G)){ if(q.state!=='planned') continue;
+        if(touring){ if(now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25) q.tourHeld=true; }
+        else if(q.tourHeld){ delete q.tourHeld; q.lateTo=Math.max(lateEnd(q),now+Math.max(q.late!=null?q.late:0.75,0.25)); } }
+      if(touring) return null; }
+    for(const q of S.expire(G)) S.onMissed(GM,q);
     if(typeof CLS!=='undefined'&&CLS.touring) return null;   /* 總圖新生導覽進行中：出發選單等導覽結束（BB 11-03）*/
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
