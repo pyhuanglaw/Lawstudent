@@ -42456,6 +42456,26 @@
       "priority": "P1",
       "note": "使用者 11-03「你就設計健身房真的有人在用很難嗎」（UA-LAWWW-1103-29；X170）；子代理在 worktree 做",
       "next": "子代理交件 → 合併、測試、截圖 → BB"
+    },
+    {
+      "first": {
+        "term": "Y4S2",
+        "week": null,
+        "earliest": "大四下 3/14 學姊邀約（交往中）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA609-SIS-GRANDMA-1103",
+      "title": "學姊的爸爸全部改成奶奶（AA_609）：3/14 邀約、3/17 奶奶的晚餐（交往中一定演）、畢業典禮奶奶道賀、美國 208 剪報、sis_b13 剪報、礁溪、D12 茶、畢業照",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "使用者 11-03 直接對 AA 定（第③級）；企劃線 4fc0e0095＋第 2 節開頭改字；子代理在 worktree 做",
+      "next": "子代理交件 → 合併、測試 → BB"
     }
   ]
 }
