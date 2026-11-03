@@ -1,0 +1,12 @@
+[gpu_wrap 2.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [YT3-A]
+[gpu_wrap 3.5s] page close url=about:blank
+[gpu_wrap 105.5s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 189.9s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 255.0s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 326.9s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 382.2s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 462.0s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 521.8s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 601.0s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 661.4s] page close url=http://127.0.0.1:8811/index.html
+[gpu_wrap 661.6s] BROWSER DISCONNECTED

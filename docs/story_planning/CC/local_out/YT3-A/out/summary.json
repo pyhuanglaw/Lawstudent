@@ -1,0 +1,56 @@
+[
+ {
+  "name": "tea_first",
+  "title": "第一班（AA_610 第 2 節）＋之後讀檔一次",
+  "pass": false,
+  "rows": []
+ },
+ {
+  "name": "tea_cats",
+  "title": "找公園的貓（第三班打烊）",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "tea_pay",
+  "title": "3' 第一次領薪水",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "mom_here",
+  "title": "10' 媽媽發現（在場）",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "absent",
+  "title": "4 她今天沒來（蘇姨）",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "mom_back",
+  "title": "10' 沒在場（蘇姨轉述）＋第 10 週她回來上班",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "rent",
+  "title": "6 房東來過了（茶屋，10' 的下一班）",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "ev11",
+  "title": "11 想幫秀琴姨（大二下第 15 週茶屋打烊，選①吵架）",
+  "pass": true,
+  "rows": []
+ },
+ {
+  "name": "ev15b_tea",
+  "title": "15b 當面（系刊出刊後第一次茶屋班打烊；讀過期刊架）",
+  "pass": true,
+  "rows": []
+ }
+]
