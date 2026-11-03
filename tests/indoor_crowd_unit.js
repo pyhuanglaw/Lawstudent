@@ -1,10 +1,10 @@
 // 教學館室內的人流（src/crowd3d.js 的室內等候點＋src/classes3d.js 的下課；D55「上課前等候、下課後聊天」「講座前後人潮」「場景隨時間改變」）——不需要瀏覽器。
 // 在 Node 建出遊戲真正的共同教學館、博雅教學館，用引擎真正的找路與移動模擬檢查：
-//   上課前 20 分鐘：博雅 101 門口有 2～4 個人在等（大一國文；方案 A 之前是共同 101）（站得住、照日期固定）；週末、國定假日沒有；
-//   上課開始：他們走進教室、各自找一個空位（不和已經坐著的同學、玩家搶位子），路線走得到、坐下的高度＝那一排；變成那堂課的同學；
-//   下課（時間正常往前，不是跳過）：坐著的同學站起來、從座位旁邊走向建築出口（不是瞬間消失）；下課後 10 分鐘門口有人出來聊天；
+//   CROWD-NO-DOOR-1103（使用者 2026-11-03「教室外面可以不要有一坨人嗎」）：教室門口沒有等的人、聊天的人（原本上課前 20 分鐘門口有 2～4 個人等、下課後 10 分鐘門口有人聊天）；
+//   上課前 10 分鐘起：同學從建築大門走進教室、各自找一個空位（不和已經坐著的同學、玩家搶位子），路線走得到、坐下的高度＝那一排；變成那堂課的同學；
+//   下課（時間正常往前，不是跳過）：坐著的同學站起來、從座位旁邊走向建築出口（不是瞬間消失）；下課後教室門口沒有人聊天；
 //   時間跳了（跳過時間、讀檔）：直接移除，不走；
-//   博雅 101 的演講（測試資料）：開始前 15 分鐘門口有 3～6 個人、開始時走進去坐下。
+//   博雅 101 的演講（測試資料）：開始前 15 分鐘門口沒有人，聽眾從大門直接走進去坐下。
 // 用法：node tests/indoor_crowd_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -26,39 +26,39 @@ function load(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[
 E.addNPC=n=>{ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.lv=n.lv|0; if(n.seat&&n.seat.y!=null) n.obj.position.y=n.seat.y; E.npcs.push(n); return n; }; E.removeNPC=n=>{ E.npcs=E.npcs.filter(m=>m!==n); };
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 const TUE=dayOf('2025-09-23'), SAT=dayOf('2025-09-27'), HOL=dayOf('2025-10-10');
+const sitAt=(n,st)=>{ n.seat=st; n.pose='sit'; n.frozen=true; n.path=null; n.obj.position.set(st.x,st.y||0,st.z); n.obj.rotation.y=st.yaw||0; };   /* game3d.js 的 GM.sitAt（同學從大門走進來坐下：classes3d.js 的 walkInSeat 要用）*/
 const walkTo=(n,x,z,lv)=>E.simWalk(n.obj.position.x,n.obj.position.z,x,z,{lv0:n.lv|0,lv1:lv|0,dt:1/30,speed:1.25});
 // ---------- 博雅教學館 101：大一國文（週二 09:10–12:10；AA_103 第 8 節，方案 A 之後在博雅）----------
-{ const z=load('boya'); const G={day:TUE,hour:8.92,zone:'boya',flags:{},weekday:2}; const GM={G,E};
-  const spot=CROWD.SPOTS.find(s=>s.id==='boya_101'); check('博雅教學館 101 門口的等候點（照配置的 waitSpots）',!!spot&&spot.zone==='boya'&&spot.seatRoom==='101',spot&&spot.label);
-  CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya'); const wait=E.npcs.filter(n=>n.crowd==='boya_101');
-  check('08:55（上課前 15 分鐘）：101 門口有 2～4 個人在等、都站得住',wait.length>=2&&wait.length<=4&&wait.every(n=>E.canStand(n.obj.position.x,n.obj.position.z,0.3,0)),wait.length+' 人 '+wait.map(n=>n.obj.position.x.toFixed(1)+','+n.obj.position.z.toFixed(1)).join(' '));
-  const pos1=wait.map(n=>n.obj.position.x.toFixed(2)+','+n.obj.position.z.toFixed(2)).join('|'); for(const n of E.npcs.filter(n=>n.crowd)) E.removeNPC(n); CROWD.enter(GM,'boya');
-  check('出去再進來（同一個時段）：同一批人、同一些位置',E.npcs.filter(n=>n.crowd==='boya_101').map(n=>n.obj.position.x.toFixed(2)+','+n.obj.position.z.toFixed(2)).join('|')===pos1);
-  const seated0=E.npcs.filter(n=>n.clsStudent).length; G.hour=9.0; CROWD.tick(GM,2); G.hour=9.18; CROWD.tick(GM,2);
-  const goers=E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length); const seats=goers.map(n=>n.seat);
-  check('09:11（上課開始）：門口的人走進教室、各自找一個空位（不重複、不和坐著的同學搶）',goers.length===wait.length&&new Set(seats).size===seats.length&&seats.every(st=>st.room==='101'&&E.npcs.filter(m=>m.seat===st).length===1),goers.length+' 人走進去；本來坐著 '+seated0+' 人');
-  const bad=[]; for(const n of goers){ const st=n.seat, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
-  check('走得到座位旁邊（真的移動模擬）、高度＝那一排的平台',!bad.length,bad.join(' | '));
+{ const z=load('boya'); const G={day:TUE,hour:8.92,zone:'boya',flags:{},weekday:2}; const GM={G,E,sitAt};
+  check('博雅教學館 101 門口沒有等候點了（CROWD-NO-DOOR-1103：教室門口不放人）',!CROWD.SPOTS.some(s=>s.zone==='boya'));
+  CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya'); const wait=E.npcs.filter(n=>n.crowd);
+  check('08:55（上課前 15 分鐘）：101 門口沒有人在等',!wait.length,wait.length+' 人');
+  const ex=CLS.entryPoint(E), seated0=E.npcs.filter(n=>n.clsStudent).length; G.hour=9.0; CLS.syncRooms(GM); G.hour=9.08; CLS.syncRooms(GM);
+  const goers=E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length); const seats=goers.map(n=>n.seatTarget);
+  check('09:00～09:05（上課前 10 分鐘起）：同學從建築大門走進來、各自找一個空位（不重複、不和坐著的同學搶）',goers.length>=4&&goers.every(n=>Math.hypot(n.obj.position.x-ex.x,n.obj.position.z-ex.z)<0.1)&&new Set(seats).size===seats.length&&seats.every(st=>st&&st.room==='101'&&E.npcs.filter(m=>m.seat===st||m.seatTarget===st).length===1),goers.length+' 人走進去；本來坐著 '+seated0+' 人');
+  const bad=[]; for(const n of goers){ const st=n.seatTarget, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
+  check('從大門走得到座位旁邊（真的移動模擬）、高度＝那一排的平台',!bad.length,bad.join(' | '));
   for(const n of goers){ const p=n.path[n.path.length-1]; n.obj.position.set(p[0],0,p[1]); n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(); } }
-  check('坐下：姿勢 sit、在座位上、那堂課的同學（clsKey 一樣）',goers.every(n=>n.pose==='sit'&&n.frozen&&Math.abs(n.obj.position.x-n.seat.x)<0.01&&Math.abs(n.obj.position.y-n.seat.y)<0.01&&n.clsKey===TUE+':chinese_y1:am'),goers.map(n=>n.pose+':'+n.clsKey).join(','));   /* 2026-10-16：08:55 教室裡還沒有人坐（AA_137 第 8 節：上課前 10 分鐘起陸續進來），改成直接比那堂課的 key */
+  check('坐下：姿勢 sit、在座位上、那堂課的同學（clsKey 一樣）',goers.every(n=>n.pose==='sit'&&n.frozen&&n.seat&&Math.abs(n.obj.position.x-n.seat.x)<0.01&&Math.abs(n.obj.position.y-n.seat.y)<0.01&&n.clsKey===TUE+':chinese_y1:am'),goers.map(n=>n.pose+':'+n.clsKey).join(','));   /* 2026-10-16：08:55 教室裡還沒有人坐（AA_137 第 8 節：上課前 10 分鐘起陸續進來），改成直接比那堂課的 key */
   // 下課：時間正常往前（每 15 分鐘同步一次）
   G.hour=12.0; CLS.syncRooms(GM); const n0=E.npcs.filter(n=>n.clsStudent).length; G.hour=12.25; CLS.syncRooms(GM);
   const out=E.npcs.filter(n=>n.crowd==='cls'); check('12:15（下課，時間正常往前）：坐著的 '+n0+' 個同學站起來、走向建築出口（不是瞬間消失）',out.length===n0&&!E.npcs.some(n=>n.clsStudent)&&out.every(n=>n.leaving&&n.path&&n.path.length&&!n.seat),out.length+' 人');
   const okStand=out.every(n=>E.canStand(n.obj.position.x,n.obj.position.z,0.3,n.lv|0)); check('站起來的位置在椅子旁邊、站得住（不在桌椅裡）',okStand);
   const bad2=[]; for(const n of out.slice(0,6)){ const r=walkTo(n,0,6.8,0); if(!r.ok) bad2.push(JSON.stringify(r).slice(0,80)); } check('從座位走得到大廳出口（移動模擬，取 6 個人）',!bad2.length,bad2.join(' | '));
-  G.hour=12.17; for(const n of E.npcs.filter(n=>n.crowd)) E.removeNPC(n); CROWD.enter(GM,'boya'); const post=E.npcs.filter(n=>n.crowd==='boya_101');
-  check('12:10–12:20：門口有剛下課的人在聊天（2～4 人）',post.length>=2&&post.length<=4,post.length+' 人');
+  G.hour=12.17; for(const n of E.npcs.filter(n=>n.crowd)) E.removeNPC(n); CROWD.enter(GM,'boya'); const post=E.npcs.filter(n=>n.crowd&&n.crowd!=='cls');
+  check('12:10–12:20：教室門口沒有剛下課在聊天的人（CROWD-NO-DOOR-1103：下課直接走出建築）',!post.length,post.length+' 人');
   // 時間跳了：直接移除
   G.hour=9.25; CLS.syncRooms(GM,{instant:true}); const k=E.npcs.filter(n=>n.clsStudent).length; G.hour=12.6; CLS.syncRooms(GM); check('跳過時間（09:15 → 12:36，下一堂 13:20 的同學還沒來）：同學直接移除，不走',k>0&&!E.npcs.some(n=>n.clsStudent||n.crowd==='cls'),k+' → '+E.npcs.filter(n=>n.clsStudent||n.crowd==='cls').length);
   G.day=SAT; G.hour=8.92; for(const n of E.npcs.slice()) E.removeNPC(n); CROWD.enter(GM,'boya'); const sat=E.npcs.filter(n=>n.crowd).length; G.day=HOL; for(const n of E.npcs.slice()) E.removeNPC(n); CROWD.enter(GM,'boya'); const hol=E.npcs.filter(n=>n.crowd).length;
   check('週六、國慶日：教室門口沒有人等',!sat&&!hol,sat+' / '+hol); }
 // ---------- 博雅 101：演講（測試資料）----------
 { const z=load('boya'); const LD=dayOf('2025-10-22'); ACTIVITIES.list=[{id:'t_boya',title:'測試演講',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',dates:['2025-10-22'],t0:18.5,t1:20.5,crowd:{n:10}}];
-  const G={day:LD,hour:18.35,zone:'boya',flags:{},weekday:3}; const GM={G,E}; CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya'); const w=E.npcs.filter(n=>n.crowd==='boya_101');
-  check('博雅 101 演講前 15 分鐘（18:21）：門口有 3～6 個人、站得住',w.length>=3&&w.length<=6&&w.every(n=>E.canStand(n.obj.position.x,n.obj.position.z,0.3,0)),w.length+' 人');
-  G.hour=18.45; CROWD.tick(GM,2); G.hour=18.52; CROWD.tick(GM,2); const g=E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length);
-  check('18:31（演講開始）：他們走進去、各自找空位（101 的階梯教室）',g.length===w.length&&g.every(n=>n.seat&&n.seat.room==='101'&&n.seat.kind==='lecture'),g.length+' 人');
-  const bad=[]; for(const n of g){ const st=n.seat, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
+  const G={day:LD,hour:18.2,zone:'boya',flags:{},weekday:3}; const GM={G,E,sitAt}; CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
+  G.hour=18.35; CROWD.tick(GM,2); const w=E.npcs.filter(n=>n.crowd);
+  check('博雅 101 演講前 15 分鐘（18:21）：教室門口沒有人等（CROWD-NO-DOOR-1103）',!w.length,w.length+' 人');
+  CLS.syncRooms(GM); const ex=CLS.entryPoint(E), g=E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length);
+  check('18:21：聽眾從建築大門直接走進去、各自找空位（101 的階梯教室）',g.length>=3&&g.every(n=>Math.hypot(n.obj.position.x-ex.x,n.obj.position.z-ex.z)<0.1&&n.seatTarget&&n.seatTarget.room==='101'&&n.seatTarget.kind==='lecture')&&new Set(g.map(n=>n.seatTarget)).size===g.length,g.length+' 人');
+  const bad=[]; for(const n of g){ const st=n.seatTarget, ap=CROWD.seatSide(E,st); const r=walkTo(n,ap[0],ap[1],st.lv|0); if(!r.ok||Math.abs(r.y-st.y)>0.05) bad.push(JSON.stringify(r).slice(0,80)); }
   check('走側邊台階到座位那一排（移動模擬、高度對）',!bad.length,bad.join(' | '));
   ACTIVITIES.list=[]; }
 // ---------- 坐著上完課（CLS.attend 快轉到下課）之後，下一次 CROWD.tick 不會把走出去的同學一起拿掉（2026-10-13 審查第 2 項）----------

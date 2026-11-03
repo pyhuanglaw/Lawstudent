@@ -1,13 +1,13 @@
 // CROWD-CLASS-ARRIVE-1027（使用者 2026-10-27 20:1x：「而且博雅上課門口為什麼一坨人都不會動 開始上課教室突然出現更多人已經坐在位置上?」）——不需要瀏覽器。
 // 在 Node 建出遊戲真正的博雅教學館、普通教學館、霖澤館 201，用課表（classes3d.js）、人流（crowd3d.js）、引擎真正的找路檢查：
-//   1. 門口等上課的人有小動作：每個人 4～10 秒（真實時間）換一個——轉頭看旁邊的人／聊兩句、手插口袋、轉身、走一兩步（離原本的位置 0.8 m 以內、站得住）；不是每一格都動。
-//   2. 上課前 10 分鐘起，門口的人分批走進教室坐下（開始前 10 分鐘以前沒有人進去；開始前 7、4、1 分鐘陸續增加；不是等到開始那一刻一起進去）；各自一個空位；
-//      門口還沒進去的人算在這堂課的人數裡（大門不會多排人進來）；剛走進博雅（開始前 5 分鐘）：已經過了走進去時間的人不在門口（人在教室裡）。
+//   1. 門口等的人有小動作（校園上共同教學館門口等上課的人；CROWD-NO-DOOR-1103 起教學館裡的教室門口沒有等的人）：每個人 4～10 秒（真實時間）換一個——轉頭看旁邊的人／聊兩句、手插口袋、轉身、走一兩步（離原本的位置 0.8 m 以內、站得住）；不是每一格都動。
+//   2. 上課前 10 分鐘起，同學從建築大門分批走進教室坐下（開始前 10 分鐘以前沒有人進去；開始前 7、4、1 分鐘陸續增加；不是等到開始那一刻一起進去）；各自一個空位；
+//      教室門口沒有人等（CROWD-NO-DOOR-1103）；剛走進博雅（開始前 5 分鐘）：門口沒有人，教室裡照時間坐了一部分。
 //   3. 玩家人在教室裡：上課前 10 分鐘到開始上課，沒有人憑空出現在座位上（同學都從門口走進來、替身不會在玩家眼前出現）；
 //      開始前 25 分鐘坐下選「上課」：先轉暗、等到上課時間，黑畫面裡同學坐好（上課的對話裡同學都在、老師在講台）；開始後 2 分鐘才坐下上課：還沒到的同學從門口走進來，不在座位上冒出來。
-//   4. 沒有空位的時候，門口的人走出建築（2026-10-18「博雅 101 疊成一團」不要回來）。
+//   4. 沒有空位的時候，教室門口也不會疊成一團（2026-10-18「博雅 101 疊成一團」不要回來；CROWD-NO-DOOR-1103 起門口本來就沒有等的人）。
 //   5. 霖澤館 201 下課：同學起身從門口走出去（原本在座位上當場消失）。
-// 修改前：門口的人一動也不動、開始上課那一刻才一起進去、選「上課」時沒到的同學一起出現在座位上（第 1、2、3 項 FAIL）。用法：node tests/class_arrive_unit.js
+// 修改前（CROWD-CLASS-ARRIVE-1027 之前）：門口的人一動也不動、開始上課那一刻才一起進去、選「上課」時沒到的同學一起出現在座位上（第 1、2、3 項 FAIL）。用法：node tests/class_arrive_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -35,33 +35,36 @@ const mkGM=G=>({G,E,say:async()=>{},choose:async()=>0,fade:async on=>{ faded=!!o
 /* 簡化的引擎：有路線的人直接走到終點、叫 onArrive（和引擎走完一樣）；記下終點 */
 const arriveAll=()=>{ const ends=[]; for(const n of E.npcs.slice()) if(n.path&&n.path.length){ const p=n.path[n.path.length-1]; ends.push({n,x:p[0],z:p[1]}); E.placeAt(n,p[0],p[1],p[2]!=null?p[2]:n.lv); n.path=null; const f=n.onArrive; n.onArrive=null; if(f) f(n); } return ends; };
 const T0=9+10/60, SPOT='boya_101';
-// ---------- 1. 門口等的人有小動作 ----------
-{ enter('boya',0,6.5); const G={day:TUE,hour:T0-19/60,zone:'boya',flags:{},weekday:2}; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
-  const wait=E.npcs.filter(n=>n.crowd===SPOT); const home=new Map(wait.map(n=>[n,{x:n.obj.position.x,z:n.obj.position.z,pose:n.pose,ry:n.obj.rotation.y,pk:!!n.pockets}]));
+// ---------- 1. 門口等的人有小動作（校園：共同教學館門口）----------
+{ enter('campus',2,14); const G={day:TUE,hour:T0-19/60,zone:'campus',flags:{},weekday:2}; const GM=mkGM(G); CROWD.enter(GM,'campus');
+  const wait=E.npcs.filter(n=>n.crowd==='gongtong'); const home=new Map(wait.map(n=>[n,{x:n.obj.position.x,z:n.obj.position.z,pose:n.pose,ry:n.obj.rotation.y,pk:!!n.pockets}]));
   const seen=new Map(wait.map(n=>[n,new Set()])); let far=0, bad=[], ticks=0;
   for(let i=0;i<16;i++){ G.hour+=0.01; CROWD.tick(GM,1.5); ticks++;   /* 遊戲時間每真實秒 1/150 小時：1.5 秒＝0.01 小時（16 次＝24 秒、9.6 遊戲分鐘：08:51 → 09:01 以前）*/
     for(const n of wait){ const h=home.get(n), S=seen.get(n); if(n.pose!==h.pose) S.add('pose'); if(!!n.pockets!==h.pk) S.add('pockets'); if(n.faceYaw!=null&&Math.abs(n.faceYaw-h.ry)>0.05) S.add('turn'); if(n.lookAt) S.add('look'); if(n.path&&n.path.length) S.add('step');
       if(n.path&&n.path.length){ const p=n.path[n.path.length-1]; far=Math.max(far,Math.hypot(p[0]-h.x,p[1]-h.z)); if(!E.canStand(p[0],p[1],0.3,n.lv|0)) bad.push(p.map(v=>+v.toFixed(2)).join(',')); } }
     arriveAll(); }
   const moved=wait.filter(n=>(n.fid|0)>=1), kinds=new Set(); for(const S of seen.values()) for(const k of S) kinds.add(k);
-  check('1. 博雅 101 門口等上課的 '+wait.length+' 個人：24 秒裡每個人都有小動作（轉頭、聊兩句、手插口袋、轉身、走一兩步），不是一動也不動',wait.length>=4&&moved.length===wait.length,moved.length+'／'+wait.length+' 人');
+  check('1. 共同教學館門口（校園）等上課的 '+wait.length+' 個人：24 秒裡每個人都有小動作（轉頭、聊兩句、手插口袋、轉身、走一兩步），不是一動也不動',wait.length>=4&&moved.length===wait.length,moved.length+'／'+wait.length+' 人');
   check('1. 小動作有好幾種（不是同一個動作）',kinds.size>=3,[...kinds].join('、'));
   check('1. 不是每一格都動：一個人 24 秒最多換 6 次（4～10 秒一次）',wait.every(n=>(n.fid|0)<=6),wait.map(n=>n.fid|0).join(','));
   check('1. 走一兩步：離原本的位置 0.8 m 以內、站得住',far<=0.81&&!bad.length,'最遠 '+far.toFixed(2)+' m'+(bad.length?' 站不住 '+bad.join(' '):'')); }
-// ---------- 2. 上課前 10 分鐘起分批走進教室 ----------
+// ---------- 2. 上課前 10 分鐘起，同學從大門分批走進教室 ----------
+const DOOR101=(()=>{ const w=BOYA_LAYOUT.waitSpots.find(q=>q.room==='101'); return {x:w.x,z:w.z}; })();
+const idleAtDoor=()=>E.npcs.filter(n=>!n.seat&&!n.seatTarget&&!(n.path&&n.path.length)&&!n.leaving&&!n.clsTeacher&&!n.tSpot&&(n.lv|0)===0&&Math.hypot(n.obj.position.x-DOOR101.x,n.obj.position.z-DOOR101.z)<3);
 { enter('boya',0,6.5); seed=777; const G={day:TUE,hour:T0-19/60,zone:'boya',flags:{},weekday:2}; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
-  const wait=E.npcs.filter(n=>n.crowd===SPOT); const went=()=>wait.filter(n=>n.clsStudent).length; const log=[]; const seats=new Set(); let dup=0, notRoom=0, maxSeated=0;
+  const ex=CLS.entryPoint(E), came=new Set(); const log=[]; let maxSeated=0, fromDoor=0, door=0;
   for(let m=-19;m<=0;m++){ G.hour=T0+m/60; CROWD.tick(GM,2); CLS.syncRooms(GM);
-    for(const n of wait) if(n.clsStudent&&n.seat&&!seats.has(n)){ seats.add(n); }
-    if([-11,-7,-4,-1,0].includes(m)) log.push(m+' 分：'+went()); arriveAll(); maxSeated=Math.max(maxSeated,E.npcs.filter(n=>n.clsStudent).length); }
-  const st=wait.filter(n=>n.seat).map(n=>n.seat); dup=st.length-new Set(st).size; notRoom=st.filter(q=>q.room!=='101').length;
+    for(const n of E.npcs) if(n.clsStudent&&n.path&&n.path.length&&!came.has(n)){ came.add(n); if(Math.hypot(n.obj.position.x-ex.x,n.obj.position.z-ex.z)<0.1) fromDoor++; }
+    door=Math.max(door,idleAtDoor().length);
+    if([-11,-7,-4,-1,0].includes(m)) log.push(m+' 分：'+came.size); arriveAll(); maxSeated=Math.max(maxSeated,E.npcs.filter(n=>n.clsStudent).length); }
+  const st=[...came].map(n=>n.seat).filter(Boolean), dup=st.length-new Set(st).size, notRoom=st.filter(q=>q.room!=='101').length;
   const at=k=>+((log.find(s=>s.indexOf(k+' 分')===0)||'').split('：')[1]);
-  check('2. 門口的人分批走進教室：開始前 11 分鐘還沒有人進去，開始前 7、4、1 分鐘陸續增加（不是等到開始那一刻一起進去）',at(-11)===0&&at(-7)>0&&at(-4)>at(-7)&&at(-1)>at(-4)&&at(-1)<=wait.length,log.join('、')+'（共 '+wait.length+' 人）');
-  check('2. 走進去的人各自一個空位、都在 101',st.length===wait.length&&!dup&&!notRoom,st.length+' 個位子、重複 '+dup+'、不在 101 '+notRoom);
-  check('2. 大門進來的同學加上門口進去的人＝這堂課的名額（不會因為門口的人另外多排）',maxSeated<=16,'教室裡最多 '+maxSeated+' 人'); }
+  check('2. 同學從建築大門分批走進教室：開始前 11 分鐘還沒有人進來，開始前 7、4、1 分鐘陸續增加（不是等到開始那一刻一起進去）',at(-11)===0&&at(-7)>0&&at(-4)>at(-7)&&at(-1)>at(-4)&&fromDoor===came.size,log.join('、')+'（從大門進來 '+fromDoor+'／'+came.size+'）');
+  check('2. 走進來的人各自一個空位、都在 101；教室門口沒有人等（CROWD-NO-DOOR-1103）',st.length===came.size&&!dup&&!notRoom&&door===0,st.length+' 個位子、重複 '+dup+'、不在 101 '+notRoom+'、門口站著 '+door);
+  check('2. 這堂課的名額不超過 16 人',maxSeated<=16,'教室裡最多 '+maxSeated+' 人'); }
 { enter('boya',0,6.5); const G={day:TUE,hour:T0-5/60,zone:'boya',flags:{},weekday:2}; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
-  const grp=CROWD.group(G,CROWD.SPOTS.find(s=>s.id===SPOT),CROWD.slotAt(G,CROWD.SPOTS.find(s=>s.id===SPOT))); const at=E.npcs.filter(n=>n.crowd===SPOT).length;
-  check('2. 開始前 5 分鐘才走進博雅：已經過了走進去時間的人不在門口（人在教室裡了）',at>0&&at<grp.length,'門口 '+at+' 人／這一群 '+grp.length+' 人'); }
+  const at=E.npcs.filter(n=>n.crowd).length, sat=E.npcs.filter(n=>n.clsStudent&&n.seat).length;
+  check('2. 開始前 5 分鐘才走進博雅：教室門口沒有人；教室裡照時間坐了一部分（還沒坐滿）',at===0&&sat>0&&sat<16,'門口 '+at+' 人、教室裡 '+sat+' 人'); }
 // ---------- 3. 玩家人在教室裡：沒有人憑空出現在座位上 ----------
 const inRoom=(z,room)=>{ const sts=z.seats.filter(q=>q.room===room); const s=sts[sts.length-1]; const ap=CROWD.seatSide(E,s); return {s,ap}; };
 { const z=enter('boya',0,6.5); const G={day:TUE,hour:T0-22/60,zone:'boya',flags:{},weekday:2}; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
@@ -83,12 +86,12 @@ async function attendAt(min,zid,cid,room){ const z=enter(zid,0,0); const c=COURS
     check('3. 開始後 2 分鐘才坐下上課：沒有人出現在座位上（還沒到的同學從門口走進來）',sit===0&&r.atSay&&r.atSay.seated+r.atSay.walking>=8,'座位上冒出來 '+sit+' 人；坐好 '+(r.atSay&&r.atSay.seated)+'、走進來 '+(r.atSay&&r.atSay.walking)); }
   { const r=await attendAt(-25,'putong','ge_film_y1s1','101');
     check('3. 普通 101（平面教室）開始前 25 分鐘坐下上「電影與敘事」：轉暗以前沒有人出現在座位上，上課時有老師、同學',r.pop0.length===0&&r.atSay&&r.atSay.seated>=5&&r.atSay.teacher,'轉暗前出現 '+r.pop0.length+' 人；坐好 '+(r.atSay&&r.atSay.seated)+'、老師 '+(r.atSay&&r.atSay.teacher)); }
-  // ---------- 4. 沒有空位：門口的人走出建築，不在教室門口疊成一團 ----------
+  // ---------- 4. 沒有空位：教室門口不會疊成一團 ----------
   { const z=enter('boya',0,6.5); const G={day:TUE,hour:T0-15/60,zone:'boya',flags:{},weekday:2}; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,'boya');
     for(const st of z.seats.filter(q=>q.room==='101')) st.taken='full';   /* 位子都被佔了（替身）*/
-    const wait=E.npcs.filter(n=>n.crowd===SPOT); const ends=[]; for(let m=-14;m<=1;m++){ G.hour=T0+m/60; CROWD.tick(GM,2); for(const n of wait) if(n.leaving&&n.path&&n.path.length&&!ends.some(e=>e.n===n)){ const p=n.path[n.path.length-1]; ends.push({n,x:p[0],z:p[1]}); } arriveAll(); }   /* 走開的路線（等的時候走一兩步的不算）*/
-    const ex=BOYA_LAYOUT.entrance.exit; const atExit=ends.filter(e=>Math.hypot(e.x-ex.x,e.z-(ex.z-0.7))<1.0).length;
-    check('4. 101 沒有空位：門口的人走向建築出口（不在教室門口疊成一團）',wait.length>0&&ends.length===wait.length&&atExit===ends.length&&wait.every(n=>n.leaving&&!n.clsStudent),atExit+'／'+wait.length+' 人走向出口');
+    let door=0; for(let m=-14;m<=1;m++){ G.hour=T0+m/60; CROWD.tick(GM,2); CLS.syncRooms(GM); door=Math.max(door,idleAtDoor().length); arriveAll(); door=Math.max(door,idleAtDoor().length); }
+    const extra=E.npcs.filter(n=>n.clsStudent||n.crowd).length;
+    check('4. 101 沒有空位：教室門口沒有人站著（不疊成一團）、也沒有人走進來找不到位子',door===0&&extra===0,'門口最多 '+door+' 人、多出來 '+extra+' 人');
     for(const st of z.seats) if(st.taken==='full') st.taken=null; }
   // ---------- 5. 霖澤館 201 下課：同學走出去 ----------
   { const z=enter('classroom'); const MON=dayOf('2025-09-22'); const G={day:MON,hour:10,zone:'classroom',flags:{afternoonDone:true},weekday:1}; const GM=mkGM(G); CLS.syncRoom(GM,{instant:true}); const n0=E.npcs.filter(n=>n.clsStudent).length;
