@@ -41622,6 +41622,26 @@
         "receiver": "LAWWW",
         "ack": "未派"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "體育館 B1 健身中心（開館時）",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "GYM-FIT-ACTIVE-1103",
+      "title": "健身中心的人真的在用器材：深蹲、啞鈴彎舉、重訓椅推舉、飛輪踩踏、划船、墊子上拉筋（程序化動作，character3d.js；crowd3d.js B1 fit），不再有站著不動的人",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "使用者 11-03「你就設計健身房真的有人在用很難嗎」（UA-LAWWW-1103-29；X170）；子代理在 worktree 做",
+      "next": "子代理交件 → 合併、測試、截圖 → BB"
     }
   ]
 }
