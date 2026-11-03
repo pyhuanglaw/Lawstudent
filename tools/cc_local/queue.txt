@@ -69,6 +69,18 @@ N19E_exw    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_examweek_
 # （N19E_exw：雲端 b1ae ALL PASS（④ 改成那天每個出發時間都沒灰掉），PC 再跑一次）
 MD_tx_v2    | 451bb65ee | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 MD_tx_v2b   | bae31acad | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
+# ===== B245／AA_609（子代理 11-03：ffee 上 ALL PASS；舊版對照在雲端 FAIL；這裡 PC 再跑一次，_c 是對照、應該 FAIL） =====
+B245_bench      | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_bench_probe.py | index.html | 40 | 
+B245_wind       | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_wind_probe.py | index.html | 40 | 
+B245_stairarm   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | 
+B245_b07        | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_b07_probe.py | index.html | 40 | 
+B245_swingshot  | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
+B245_swing      | ffeec06e0 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 | 
+B245_runspeed   | ffeec06e0 | node  | docs/story_planning/test_tools/cc/cc_b245_runspeed.js | index.html | 5 | 
+AA609_grandma   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | 
+B245_bench_c    | a09d3055e | probe | docs/story_planning/test_tools/cc/cc_b245_bench_probe.py | index.html | 40 | EXPECT=FAIL
+B245_swing_c    | 54f03d0bd | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 | EXPECT=FAIL
+AA609_grandma_c | 1ef4e2763 | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | EXPECT=FAIL
 # （MD_tx_v2：同弦樂器 WIP v2 的預覽渲染（六個鏡頭 960×540），CC 自己看；不是 BB 驗收）
 # BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
 #HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
