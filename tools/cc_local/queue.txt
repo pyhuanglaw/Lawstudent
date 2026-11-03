@@ -43,6 +43,9 @@ V19D_swingshot | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_s
 V19D_swing    | 15e78dff7 | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
 V19D_stairarm | 15e78dff7 | probe | docs/story_planning/test_tools/cc/cc_b245_stairsarm_probe.py | index.html | 40 | RERUN=arm45
 # ===== V19 結束 =====
+# ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
+N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
+# （N20_tour_joy：LAWWW 630e8cff3 導覽不同層水平 > 8 m 才算走遠＋提醒句；搖桿版照遊戲的路推）
 
 LIVE18_deploy | 0776cafc8 | game | tests/deploy_check.py    | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.18（2026-11-03）
 LIVE18_day12  | 0776cafc8 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
