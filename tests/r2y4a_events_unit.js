@@ -426,7 +426,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-02-02',23.2,'dorm',TWF()); join('noodle_team','麵店團'); R('heroine_01','FRI'); date('heroine_01'); rules();
   check('EX2. 和以安交往、不考：23:10「明天考完，我想吃麵店的大碗。」「你可以先去排嗎？」', JSON.stringify(txt('p:heroine_01'))===JSON.stringify(['heroine_01:明天考完，我想吃麵店的大碗。','heroine_01:你可以先去排嗎？']));
   fresh('2029-02-02',23.2,'dorm',EXF()); join('noodle_team','麵店團'); R('heroine_01','FRI'); date('heroine_01'); rules(); answer('y4_an_eve_dm',0);
-  check('EX3. 和以安交往、也考：「明天考完，一起去麵店。」「大碗」→「好。……早點睡。」', txt('p:heroine_01').slice(0,2).join('|')==='heroine_01:明天考完，一起去麵店。|heroine_01:大碗'&&txt('p:heroine_01').includes('heroine_01:好。……早點睡。'));
+  check('EX3. 和以安交往、也考：「明天考完，一起去麵店。」「大碗。」（AA_592 第 29 列）→「好。……早點睡。」', txt('p:heroine_01').slice(0,2).join('|')==='heroine_01:明天考完，一起去麵店。|heroine_01:大碗。'&&txt('p:heroine_01').includes('heroine_01:好。……早點睡。'));
   goals=[]; GM.setGoal=(t,d)=>{ goals.push(t); };
   fresh('2029-02-03',8.1,'campus',EXF()); R('heroine_01','FAM'); E.player.obj.position={x:30,y:0,z:30}; await tick(); const g27=goals.includes('09:00 教學館（研究所筆試）');
   E.player.obj.position={x:2,y:0,z:21.5}; G.hour=8.6; said=[]; await tick();

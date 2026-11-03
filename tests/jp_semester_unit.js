@@ -230,7 +230,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('G7／AA_355 第 5 節 4c：挽回中（分手以後，和以安 FRIEND 以上）、冷靜中（對質後「等你說清楚」paused）都不約；沒交往過、FRIEND 以上照舊收到；只有 FAMILIAR（挽回中）：沒有', !a&&!b&&!c&&d, [a,b,c,d].join()); }
   { const G=inJapan('2028-06-24',16,{REPAIR:{heroine_01:2}},false); H.picks=['對不起']; H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     /* AA_600 3-1、3-2（企劃線 031414cad；使用者 11-02 選「祐廷先開口」）：河邊祐廷先說、七夕祐廷寫「再一次。」她寫「好。」——原本她先開口的期望照 AA_600 換；旗標、REPAIR 照舊 */
-    check('G7 6/24 16:00 挽回第 4 步（河邊，AA_600 3-1）：祐廷「那時候的事，我想跟妳說。」→「……你說。」；「對不起。……」→「……嗯。你那時候應該要說的。」REPAIR +1', has('那時候的事，我想跟妳說。')&&has('……你說。')&&!has('那時候我很生氣，生氣到不想聽你講。')&&!has('……現在可以聽了。你說。')&&has('……嗯。你那時候應該要說的。')&&G.flags.REPAIR.heroine_01===3);
+    check('G7 6/24 16:00 挽回第 4 步（河邊，AA_600 3-1；「嗯。」照 AA_589 第 31 列拿掉……）：祐廷「那時候的事，我想跟妳說。」→「……你說。」；「對不起。……」→「嗯。你那時候應該要說的。」REPAIR +1', has('那時候的事，我想跟妳說。')&&has('……你說。')&&!has('那時候我很生氣，生氣到不想聽你講。')&&!has('……現在可以聽了。你說。')&&has('嗯。你那時候應該要說的。')&&G.flags.REPAIR.heroine_01===3);
     at('2028-06-24',16); G.jp.done={}; S.repair(G); check('挽回：一週最多 +1（AA_254 第 10 節）', G.flags.REPAIR.heroine_01===3); }
   { const G=inJapan('2028-07-07',19); H.picks=['偷看']; H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 7/7 七夕（交往中）：竹子、短冊；偷看＝「明年的七夕，在臺灣。」；AN_TANABATA_JP', has('（宿舍門口立了一枝竹子，掛滿了短冊。）')&&has('一人一張。寫願望。')&&has('她把短冊按住：「說了不要看。」（過了一下，她把手移開。）短冊上寫著：「明年的七夕，在臺灣。」')&&G.flags.AN_TANABATA_JP===true); }
