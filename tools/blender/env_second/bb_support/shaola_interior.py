@@ -117,7 +117,7 @@ P = {k: tex(f'{k}.png', s, f) for k, s, f in (('menu', (900, 420), menu_board), 
 m_floor = L.pbr('sl_floor', 'terrazzo_tiles', tile=1.2, target='#d6d0c2', normal=0.4, maps=('diff', 'nor'), rough_value=0.35)
 m_steel = L.flat('sl_steel', '#c6cacd', rough=0.32, metal=0.25)
 m_steel_d = L.flat('sl_steel_dark', '#9da2a7', rough=0.4, metal=0.25)
-m_glass = L.flat('sl_glass', '#dfe9ec', rough=0.05, alpha=0.18)
+m_glass = L.flat('sl_glass', '#e8f0f2', rough=0.03, alpha=0.1)
 m_tube = glowmat('sl_tube', '#fff6e6', 3.0)
 m_lamp = glowmat('sl_lamp', '#ffcf86', 5.0)
 m_vc = L.vc_material('sl_props_vc', rough=0.5)
@@ -150,16 +150,15 @@ def wplane(side, a0, a1, y0, y1, nm):   # 有貼圖（水漬）的牆面：一�
     return uvquad(f'WALL_{side}_{nm}', *p, IM['wall'], G[side])
 
 
-shell = {s: Mesh(f'WALL_{s}_shell', L.flat('sl_wall_back', '#d8ccb0', rough=0.9)) for s in DIRS}
+m_wall = L.pbr('sl_plaster', 'painted_plaster_wall', tile=2.0, target='#e6dcc4', normal=0.35, maps=('diff', 'nor'))
+shell = {s: Mesh(f'WALL_{s}_shell', m_wall, tile=2.0) for s in DIRS}
 shell['back'].box(X0, X1, 0, H, Z0, Z0 + WT); shell['left'].box(X0, X0 + WT, 0, H, Z0, Z1); shell['right'].box(X1 - WT, X1, 0, H, Z0, Z1)
-for s in ('back', 'left', 'right'):
-    a0, a1 = (X0, X1) if s == 'back' else (Z0, Z1); wplane(s, a0, a1, 0.12, H, 'paint')
 kick = Mesh('WALL_KICK', m_steel_d)
 kick.box(X0 + WT, X1 - WT, 0, 0.12, Z0 + WT, Z0 + WT + 0.01); kick.box(X0 + WT, X0 + WT + 0.01, 0, 0.12, Z0, Z1); kick.box(X1 - WT - 0.01, X1 - WT, 0, 0.12, Z0, Z1)
 xs = [X0, -4.3, -1.7, -0.95, 0.95, 1.7, 4.3, X1]
 fr = Mesh('WALL_front_frame', m_steel); gl = Mesh('WALL_front_glass', m_glass); rs = Mesh('WALL_front_redline', L.flat('sl_red', '#c8342c', rough=0.5))
 for a0, a1 in ((xs[0], xs[1]), (xs[2], xs[3]), (xs[4], xs[5]), (xs[6], xs[7])):
-    shell['front'].box(a0, a1, 0, H, Z1 - WT, Z1); wplane('front', a0, a1, 0.12, H, f'paint{int(a0 * 10)}')
+    shell['front'].box(a0, a1, 0, H, Z1 - WT, Z1)
 for a0, a1 in ((xs[1], xs[2]), (xs[5], xs[6])):
     shell['front'].box(a0, a1, 0, 0.6, Z1 - WT, Z1); shell['front'].box(a0, a1, 2.95, H, Z1 - WT, Z1)
     for y in (0.6, 2.9): fr.box(a0, a1, y, y + 0.05, Z1 - 0.12, Z1 - 0.02)
@@ -196,8 +195,10 @@ sh = Mesh('SHELF', m_steel)   # 後牆的層架（備料台上方）
 for y in (1.45, 1.85): sh.box(kx0 + 0.1, kx1 - 0.1, y, y + 0.025, Z0 + WT, Z0 + WT + 0.32)
 sh.finish(root)
 pr = CMesh('PROPS', m_vc)
-pr.crbox(0.5, 1.3, 0.92, 1.12, -3.95, -3.45, '#8a6440', r=0.08)   # 砧板（圓木墩）：方的倒角
-pr.crbox(0.65, 0.95, 1.12, 1.125, -3.8, -3.72, '#c8ccd0', r=0.005); pr.cbox(0.95, 1.1, 1.12, 1.13, -3.78, -3.74, '#6a4a2a')   # 菜刀
+n0 = set(pr.bm.faces); pr.add_bm(L.lathe([(0.0, 0.0), (0.29, 0.0), (0.3, 0.02), (0.3, 0.16), (0.29, 0.18), (0.0, 0.18)], seg=28), Matrix.Translation(g2b(0.9, 0.92, -3.72)))   # 砧板（圓木墩）
+pr.paint([f for f in pr.bm.faces if f not in n0], '#8a6440'); n0 = set(pr.bm.faces)
+pr.add_bm(L.lathe([(0.0, 0.0), (0.275, 0.0), (0.0, 0.002)], seg=28), Matrix.Translation(g2b(0.9, 1.101, -3.72))); pr.paint([f for f in pr.bm.faces if f not in n0], '#b89a70')
+pr.crbox(0.7, 1.0, 1.103, 1.108, -3.8, -3.68, '#c8ccd0', r=0.003); pr.cbox(1.0, 1.15, 1.103, 1.125, -3.76, -3.72, '#6a4a2a')   # 菜刀
 for i in range(3): pr.crbox(-1.6 + i * 0.5, -1.15 + i * 0.5, 0.92, 0.98, -3.95, -3.45, '#b8bcc0', r=0.01)   # 肉盤（不鏽鋼）
 for i in range(3):
     for k in range(9): pr.cbox(-1.55 + i * 0.5 + (k % 3) * 0.13, -1.45 + i * 0.5 + (k % 3) * 0.13, 0.98, 1.02, -3.9 + (k // 3) * 0.14, -3.8 + (k // 3) * 0.14, ['#8a2a1e', '#a0522d', '#c99a5a'][i])
@@ -250,17 +251,29 @@ Mesh('CASE_GLASS', m_glass).box(c['x0'] + 0.03, c['x1'] - 0.03, 0.95, 2.55, c['z
 rail = Mesh('CASE_RAIL', L.flat('sl_brass', '#b58a43', rough=0.32, metal=0.4)); rz = (c['z0'] + c['z1']) / 2
 rail.cyl((c['x0'] + 0.05, 2.3, rz), (c['x1'] - 0.05, 2.3, rz), 0.015, seg=8)
 meat = CMesh('MEATS', m_meat); hooks = []
-for i in range(5):        # 叉燒：一條一條（暗紅、邊緣焦）
-    x = c['x0'] + 0.22 + i * 0.13; hooks.append(x)
-    meat.crbox(x - 0.04, x + 0.04, 1.55, 2.15, rz - 0.035, rz + 0.035, '#8a1e18' if i % 2 else '#a2291c', r=0.02, seg=2)
-n_duck = set(meat.bm.faces)
-for i in range(2):        # 燒鴨：油亮的深褐，頭垂下來
-    x = c['x0'] + 1.05 + i * 0.38; hooks.append(x)
-    meat.ell((x, 1.85, rz), 0.13, 0.26, 0.1, seg=12, rings=8); meat.ell((x, 1.5, rz + 0.02), 0.03, 0.12, 0.03, seg=6, rings=4)
-meat.paint([f for f in meat.bm.faces if f not in n_duck], '#7a3a14'); n0 = set(meat.bm.faces)
-for i in range(2):        # 油雞：金黃
-    x = c['x0'] + 1.9 + i * 0.32; hooks.append(x); meat.ell((x, 1.9, rz), 0.12, 0.2, 0.1, seg=12, rings=8)
-meat.paint([f for f in meat.bm.faces if f not in n0], '#e8b04a')
+SQ = Matrix.Diagonal((1.0, 0.72, 1.0, 1.0))   # 前後壓扁一點（Blender 的 y＝遊戲的 −z）
+
+
+def hang(prof, x, ytop, col, flat=True, seg=16):   # 旋轉體掛在勾子上：prof 由下往上 (半徑, 高)，頂端在 ytop
+    n1 = set(meat.bm.faces); htop = prof[-1][1]
+    meat.add_bm(L.lathe(prof, seg=seg), Matrix.Translation(g2b(x, ytop - htop, rz)) @ (SQ if flat else Matrix.Identity(4)))
+    meat.paint([f for f in meat.bm.faces if f not in n1], col)
+
+
+for i in range(5):        # 叉燒：一條一條往下垂、微微彎（每段錯開一點），尾端焦黑
+    x = c['x0'] + 0.2 + i * 0.12; hooks.append(x); n1 = set(meat.bm.faces)
+    for k in range(9):
+        y1 = 2.12 - k * 0.062; dx = 0.012 * math.sin(k * 0.7 + i)
+        meat.crbox(x - 0.038 + dx, x + 0.038 + dx, y1 - 0.066, y1, rz - 0.022, rz + 0.022, '#8e1f16' if (k + i) % 3 else '#a8301e', r=0.015, seg=1)
+    meat.crbox(x - 0.03, x + 0.03, 1.5, 1.56, rz - 0.018, rz + 0.018, '#3a120c', r=0.015, seg=1)
+DUCK = [(0.0, 0.0), (0.05, 0.02), (0.11, 0.09), (0.145, 0.19), (0.15, 0.27), (0.13, 0.35), (0.07, 0.43), (0.032, 0.48), (0.026, 0.62), (0.03, 0.66), (0.0, 0.67)]
+CHICK = [(0.0, 0.0), (0.06, 0.02), (0.12, 0.08), (0.14, 0.16), (0.13, 0.24), (0.08, 0.31), (0.03, 0.35), (0.022, 0.44), (0.0, 0.45)]
+for i in range(2):        # 燒鴨：油亮的深紅褐，脖子掛在勾子上
+    x = c['x0'] + 1.02 + i * 0.36; hooks.append(x); hang(DUCK, x, 2.14, '#7c2e10')
+    for sx in (-1, 1): meat.crbox(x + sx * 0.12 - 0.03, x + sx * 0.12 + 0.03, 1.56, 1.72, rz - 0.03, rz + 0.03, '#6a240c', r=0.02, seg=1)   # 翅膀
+for i in range(2):        # 油雞：金黃、皮亮
+    x = c['x0'] + 1.86 + i * 0.3; hooks.append(x); hang(CHICK, x, 2.14, '#e3a845')
+    for sx in (-1, 1): meat.crbox(x + sx * 0.06 - 0.022, x + sx * 0.06 + 0.022, 1.6, 1.72, rz - 0.022, rz + 0.022, '#d89838', r=0.018, seg=1)   # 雞腿
 # 下層一盤盤切好的肉
 for i in range(4):
     x = c['x0'] + 0.25 + i * 0.6; meat.crbox(x, x + 0.5, 0.95, 1.0, c['z0'] + 0.06, c['z1'] - 0.04, '#b8bcc0', r=0.01)
@@ -276,7 +289,7 @@ lp_.finish(root, smooth=True); lg.finish(root)
 for i, k in enumerate(('card1', 'card2')):   # 價目卡（貼在玻璃內側，面向店裡）
     y0 = 1.05 + i * 0.26
     uvquad(f'CASE_CARD{i}', (c['x1'] - 0.06, y0, c['z0'] + 0.02), (c['x1'] - 0.66, y0, c['z0'] + 0.02), (c['x1'] - 0.66, y0 + 0.2, c['z0'] + 0.02), (c['x1'] - 0.06, y0 + 0.2, c['z0'] + 0.02), IM[k])
-uvquad('SHOP_SIGN', (X1 - WT - 0.02, 2.4, 2.6), (X1 - WT - 0.02, 2.4, 0.0), (X1 - WT - 0.02, 3.05, 0.0), (X1 - WT - 0.02, 3.05, 2.6), IM['sign'], G['right'])   # 店裡右牆高處的招牌
+uvquad('SHOP_SIGN', (X1 - WT - 0.02, 2.4, 0.0), (X1 - WT - 0.02, 2.4, 2.6), (X1 - WT - 0.02, 3.05, 2.6), (X1 - WT - 0.02, 3.05, 0.0), IM['sign'], G['right'])   # 面向 −x：看的人右手是 +z   # 店裡右牆高處的招牌
 
 # ---------------- 牆上的小東西：壁扇、冷氣、圓鐘、福、相框、電視 ----------------
 wd = CMesh('WALL_ITEMS', m_vc)
@@ -289,6 +302,17 @@ wd.add_bm(L.lathe([(0.0, 0.0), (0.19, 0.0), (0.19, 0.04), (0.0, 0.04)], seg=24),
 wd.crbox(-1.0 + 0.0, -0.5 + 0.0, 2.65, 3.0, Z0 + WT, Z0 + WT + 0.45, '#1a1a1c', r=0.03)   # 電視（掛在後牆高處、往前凸）——暫用；畫面另外貼
 wd.finish(root, smooth=True)
 Mesh('CLOCK_FACE', L.flat('sl_clockface', '#f6f2e6', rough=0.4)).cyl((-0.5, 2.45, Z0 + WT + 0.041), (-0.5, 2.45, Z0 + WT + 0.045), 0.16, seg=24).finish(root)
+hd = Mesh('CLOCK_HANDS', L.flat('sl_hand', '#1a1a1a', rough=0.5)); cz_ = Z0 + WT + 0.048
+hd.box(-0.505, -0.495, 2.45, 2.58, cz_, cz_ + 0.004); hd.box(-0.5, -0.41, 2.445, 2.455, cz_, cz_ + 0.004)
+for k in range(12): a = k * math.pi / 6; hd.box(-0.5 + 0.13 * math.cos(a) - 0.006, -0.5 + 0.13 * math.cos(a) + 0.006, 2.45 + 0.13 * math.sin(a) - 0.006, 2.45 + 0.13 * math.sin(a) + 0.006, cz_, cz_ + 0.003)
+hd.finish(root)
+nt_ = CMesh('NOTICES', m_vc); r_ = random.Random(31)   # 牆上貼的紙（公告、發票、外送單）
+for k in range(7):
+    z = -3.6 + k * 0.5 + r_.uniform(-0.1, 0.1); y = 1.3 + r_.uniform(0, 0.5)
+    nt_.cbox(X0 + WT + 0.002, X0 + WT + 0.006, y, y + r_.uniform(0.18, 0.3), z, z + r_.uniform(0.14, 0.22), r_.choice(['#f4f0e4', '#f2e6b8', '#e8eef2']))
+for k in range(4):
+    x = 2.0 + k * 0.42; y = 1.25 + r_.uniform(0, 0.35); nt_.cbox(x, x + 0.2, y, y + 0.27, Z0 + WT + 0.002, Z0 + WT + 0.006, r_.choice(['#f4f0e4', '#f2e6b8']))
+nt_.finish(root)
 uvquad('TV_SCREEN', (-0.97, 2.68, Z0 + WT + 0.451), (-0.53, 2.68, Z0 + WT + 0.451), (-0.53, 2.97, Z0 + WT + 0.451), (-0.97, 2.97, Z0 + WT + 0.451), IM['tv'])
 uvquad('FU', (X0 + WT + 0.01, 1.55, -1.75), (X0 + WT + 0.01, 1.55, -2.15), (X0 + WT + 0.01, 1.95, -2.15), (X0 + WT + 0.01, 1.95, -1.75), IM['fu'], G['left'])
 
