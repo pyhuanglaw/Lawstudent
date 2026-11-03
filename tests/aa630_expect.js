@@ -16,7 +16,7 @@ const load=()=>{ if(BY) return BY; BY={}; const LIT=/'([^']*)'/g;
         if(a&&b) BY[file].push(['第 '+a[1]+' 週週'+a[2]+' '+a[3],'第 '+b[1]+' 週週'+b[2]+' '+b[3]]); }); return; }
     const st=s=>s.replace(/^(選項|語彤：)/,'').replace(/^「([^「」]*)」$/,'$1'); BY[file].push([st(o),st(n)]); };
   for(const l of show('bb4401fd3','docs/story_planning/AA_630_語彤台詞改寫.md').split('\n')){ if(!/^\|\s*[A-Z]-\d{3}/.test(l)) continue; const c=cells(l); if(c.length<4) continue; const f=c[1].replace(/`/g,'').split(':')[0]; add(f,c[2],c[3]); }
-  for(const l of show('40374c664','docs/story_planning/AA_627_語彤舊設定清查.md').split('\n')){ if(!/^\|\s*A-\d{3}/.test(l)) continue; const c=cells(l); if(c.length<6||!/^【(改句|換字)】/.test(c[5])) continue; const f=c[1].replace(/`/g,'').split(':')[0];
+  for(const l of show('40374c664','docs/story_planning/AA_627_語彤舊設定清查.md').split('\n')){ if(!/^\|\s*A-\d{3}/.test(l)||/^\|\s*A-26[34]\s*\|/.test(l)) continue;   /* A-263 不換（燒臘店那一場）*/ const c=cells(l); if(c.length<6||!/^【(改句|換字)】/.test(c[5])) continue; const f=c[1].replace(/`/g,'').split(':')[0];
     if((BY[f]||[]).some(([x])=>x===c[3])) continue;   /* AA_630 有同一句＝照 AA_630 */ add(f,c[3],c[4]); }
   for(const f in BY) BY[f].sort((a,b)=>b[0].length-a[0].length);
   return BY; };

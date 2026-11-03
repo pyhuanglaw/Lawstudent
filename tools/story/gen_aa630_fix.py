@@ -14,6 +14,7 @@ rows = aa630.parse(raw(aa630.P630))
 md7 = raw(aa630.P627)
 for line in md7.split('\n'):
     if not re.match(r'\|\s*[AB]-\d{3}\s*\|', line): continue
+    if re.match(r'\|\s*A-26[34]\s*\|', line): continue   # A-263「在她家才成立；場景在燒臘店就刪」：那一場在燒臘店、送小菜的是燒臘店的阿姨，不換（列給 AA）
     c = aa630.cells(line)
     if len(c) < 6: continue
     tag = re.match(r'【([^】]+)】', c[5])

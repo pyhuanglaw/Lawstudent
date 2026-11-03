@@ -41,7 +41,7 @@ for r in R['rows']:
     jobs.append({'src': 'AA_630 ' + r['no'], 'file': f, 'at': r['at'], 'orig': r['orig'], 'new': r['new'], 'note': r['note']})
 for r in rows627(md627):
     if not r['file'].startswith('src/'): continue
-    if r['no'] in seen627: continue
+    if r['no'] in seen627 or r['no'] in ('A-263', 'A-264'): continue   # A-263：那一場在燒臘店（送小菜的是燒臘店的阿姨），不換
     if any(j['file'] == r['file'] and j['orig'] == r['orig'] for j in jobs): continue
     if r['tag'] not in ('改句', '換字'):
         if r['tag'] != 'AA 決定': manual.append(('AA_627 ' + r['no'], r['file'], r['at'], r['orig'], r['new'], '【' + r['tag'] + '】'))
