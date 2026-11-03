@@ -26,6 +26,7 @@ V18R_touch  | 0776cafc8 | game | tests/touch_flow_wenzhou.py  | index.html?turbo
 V18R_class  | 0776cafc8 | game | tests/flow_class_real.py     | index.html       | 110 | XARGS={url} {out}
 V18R_reach  | 0776cafc8 | game | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
 V18R_touch2 | 0776cafc8 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r2;XARGS={url}
+V18R_touch3 | 0776cafc8 | game | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | SOLO=1;RERUN=r3;XARGS={url}
 # ===== BB 11:37：V18R 之後接 ffee 五支發布門檻（雲端已驗：sleep ffee ALL PASS、eat e799 ALL PASS、camp608 c84/cf ALL PASS）=====
 V18G_sleep    | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_sleep_cine_probe.py       | index.html | 60  | CC_HEADLESS=0
 V18G_eat      | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_eat_after_class_probe.py  | index.html | 90  | CC_HEADLESS=0
