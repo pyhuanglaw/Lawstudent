@@ -15,6 +15,9 @@ CASES（同一個瀏覽器依序跑）：
              重新整理 → 標題畫面「讀取／匯入存檔」→ 欄位 1「讀取」（照玩家點；走 validate＋migrate）→ 沒有宿舍（econ 另查有回家）
 驗證動作照玩家：CDP 觸控點 #btnPhone（手機）→ #phoneTabs 的「地點」分頁；讀 #phoneBody 的 .phrow（名稱、data-place 的 zone、data-gohome），不讀畫面判斷別的。
 讀檔後的條件事件、手機自動打開關掉（quiet_events／STORY.phoneAuto；【前置】）。
+經濟系退宿（休學在家）人在外面、空下來 3 秒，遊戲會自動回家（src/econff3d.js ECONFF.tick2，D102 ③）——PC（快）上 3.5 秒的等待裡就回家了，
+  手機沒開、HOME.at=true，讀到的是上一個案例留下來的舊列表（2026-11-03 A2_dorm FAIL 的原因）。【前置】讀檔前把 ECONFF.tick2 換成空函式（只關自動回家，
+  判斷不變），讀檔後等「旗標、stage、zone、遊戲在跑、不在家、沒有對話」真的成立才打開手機；讀列表時再要求手機開著、不在家。
 用法：LW_TESTS=<工作樹>/tests [SHA=<sha>] [CASES=econ_ctrl,...] python3 cc_dorm_moveout_probe.py '<URL>/index.html' <輸出資料夾>
 exit 0＝ALL PASS；1＝有 FAIL。"""
 import os, sys, json, asyncio
@@ -41,6 +44,19 @@ def check(name, ok, info=''):
 
 
 def info(s): print('INFO ' + s, flush=True)
+
+
+async def close_panels(pg, cdp):
+    """有 playlib.close_panels（10-17 以後的 tests/playlib.py）就用它；舊版沒有（例如 dc36b401e、v9.5）：照同樣的做法像玩家按「收起來／返回遊戲」"""
+    if hasattr(L, 'close_panels'):
+        return await L.close_panels(pg, cdp)
+    shut = []
+    for pid, btn in (('phone', '#btnPhoneClose'), ('menu', '#btnClose'), ('bigmap', '#bmClose')):
+        if await pg.evaluate("(id=>{ const e=document.getElementById(id); return !!e&&!e.classList.contains('hide'); })('%s')" % pid):
+            if await pg.evaluate("(s=>!!document.querySelector(s))('%s')" % btn): await L.tap(pg, cdp, btn)
+            else: await pg.keyboard.press('Escape')
+            await pg.wait_for_timeout(600); shut.append(pid)
+    return shut
 
 
 def setup(s): print('  [前置／捷徑] ' + s, flush=True)
@@ -74,7 +90,7 @@ PLACES_JS = """(()=>{ const body=document.getElementById('phoneBody'); if(!body)
 
 async def open_places(pg, cdp):
     """照玩家：點手機按鈕 → 點「地點」分頁"""
-    await L.close_panels(pg, cdp)
+    await close_panels(pg, cdp)
     s = await L.state(pg)
     if s['dlg'] or s['choices']:
         info('讀檔後有對話／選項，先照玩家點掉：' + J({k: s[k] for k in ('dtext', 'choices')}))
@@ -82,6 +98,31 @@ async def open_places(pg, cdp):
     ok1 = await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1500)
     ok2 = await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(1500)
     return ok1 and ok2
+
+
+QUIET_HOME_JS = "(()=>{ if(typeof ECONFF!=='undefined'&&ECONFF.tick2){ ECONFF.tick2=function(){}; return true; } return false; })()"
+
+
+async def quiet_autohome(pg):
+    setup('關掉經濟系休學在家「人在外面空下來 3 秒自動回家」（ECONFF.tick2→空函式；沒有這個函式的舊版=%s）' % (not await pg.evaluate(QUIET_HOME_JS)))
+
+
+async def wait_ready(pg, case, st, econ, moved):
+    """等讀檔的狀態真的成立（不是固定秒數）：遊戲在跑、標題收起、stage／zone 對、退宿旗標對、不在家、沒有對話／選項／ADV"""
+    js = """(()=>{ const G=GAME.G; if(!G||!GAME.running) return null; const H=(typeof HOME!=='undefined')?HOME:null;
+      return {stage:G.stage||'law', zone:G.zone, Y0:G.flags.Y0_MOVED_OUT===undefined?null:G.flags.Y0_MOVED_OUT, MO:G.flags.MOVED_OUT===undefined?null:G.flags.MOVED_OUT,
+        title:!document.getElementById('titleScreen').classList.contains('hide'), at:!!(H&&H.at&&H.at(G)), adv:!!(typeof ADV!=='undefined'&&ADV.active),
+        dlg:!!(GAME.D&&GAME.D.active), ev:!!(typeof EVENTS!=='undefined'&&EVENTS.running), hour:+G.hour.toFixed(2)}; })()"""
+    want_flag = (True if econ else 8) if moved else None
+    q = None
+    for i in range(80):
+        q = await pg.evaluate(js)
+        if q and not q['title'] and q['stage'] == st['stage'] and q['zone'] == st['zone'] and (q['Y0'] if econ else q['MO']) == want_flag \
+                and not q['at'] and not q['adv'] and not q['dlg'] and not q['ev']:
+            if i >= 2: break   # 至少連看 1 秒，讀檔後的 enter 跑完
+        await pg.wait_for_timeout(500)
+    info('%s 讀檔後狀態（打開手機前）：%s' % (case, J(q)))
+    return q
 
 
 def dorm_rows(r): return [x for x in r['rows'] if (x['place'] and x['place'].split('|')[0] in DORMS) or x['name'].startswith('宿舍') or x['name'].startswith('男生宿舍')]
@@ -99,6 +140,7 @@ async def run_case(pg, cdp, case):
         await pg.reload(); await L.wait_loaded(pg)
         setup('讀檔前關掉條件事件、要回覆訊息自動打開手機（EVENTS.onEnter/tick、STORY.phoneAuto）')
         await pg.evaluate("(()=>{ EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; })()")
+        await quiet_autohome(pg)
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
         c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>(x.textContent||'').trim().startsWith('讀取')); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 1')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         check('%s 標題畫面欄位 1 有「讀取」' % case, bool(c))
@@ -107,18 +149,21 @@ async def run_case(pg, cdp, case):
         for _ in range(60):
             if await pg.evaluate("!!GAME.G&&!!GAME.running&&document.getElementById('titleScreen').classList.contains('hide')"): break
             await pg.wait_for_timeout(500)
-        await pg.wait_for_timeout(3000)
+        await wait_ready(pg, case, st, econ, moved)
         g = await pg.evaluate("({v:GAME.G.v,stage:GAME.G.stage,zone:GAME.G.zone,social:!!GAME.G.social,Y0:GAME.G.flags.Y0_MOVED_OUT,MO:GAME.G.flags.MOVED_OUT})")
         check('%s 舊存檔讀進來（migrate 後 v=2、stage、zone、旗標都在）' % case, g['v'] == 2 and g['stage'] == st['stage'] and g['zone'] == st['zone'] and (g['Y0'] if econ else g['MO'] == 8), J(g))
     else:
         setup('load_state（quiet_events）：%s %s %s %s；退宿旗標=%s' % (st['stage'], st['day'], st['hour'], st['zone'],
               (st['flags'].get('Y0_MOVED_OUT') if econ else st['flags'].get('MOVED_OUT'))))
+        await quiet_autohome(pg)
         await L.load_state(pg, st, quiet_events=True)
-        await pg.wait_for_timeout(3500)
+        await wait_ready(pg, case, st, econ, moved)
     ok = await open_places(pg, cdp)
     r = await pg.evaluate(PLACES_JS)
     check('%s 照玩家打開手機「地點」分頁' % case, ok and r and r['phoneOpen'] and r['tab'] == 'places' and len(r['rows']) > 0,
-          'tab=%s rows=%d' % (r and r['tab'], len(r['rows']) if r else -1))
+          'tab=%s rows=%d phoneOpen=%s' % (r and r['tab'], len(r['rows']) if r else -1, r and r['phoneOpen']))
+    if r and r['atHome'] and r['zone'] == st['zone']:
+        info('%s 讀列表時 HOME.at=true（人被送回家了）：列表可能是舊的' % case)
     await pg.screenshot(path=os.path.join(OUT, '%s_places.png' % case))
     json.dump(r, open(os.path.join(OUT, '%s_places.json' % case), 'w'), ensure_ascii=False, indent=1)
     info('%s 狀態：stage=%s zone=%s baseMode=%s movedOut=%s canGo=%s atHome=%s；列表=%s' % (case, r['stage'], r['zone'], r['baseMode'], r['movedOut'], r['canGo'], r['atHome'],
@@ -136,7 +181,7 @@ async def run_case(pg, cdp, case):
             exp = r['canGo'] and not r['atHome']
             info('%s b 法律系退宿：「回臺北的家」%s（HOME.canGo=%s、HOME.at=%s）' % (case, '有' if gh else '沒有', r['canGo'], r['atHome']))
             check('%s b 「回臺北的家」有無＝HOME.canGo&&!HOME.at（照程式）' % case, bool(gh) == exp, 'gohome=%s 預期=%s' % (bool(gh), exp))
-    await L.close_panels(pg, cdp)
+    await close_panels(pg, cdp)
 
 
 async def main():

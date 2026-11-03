@@ -1,13 +1,13 @@
-"""CC（帳號 A）11-02 BB 22:03：AA_595「圖書館小聲講」（D127，src/libquiet3d.js；開發分支 62d98bfa5）瀏覽器探針。
+"""CC（帳號 A）11-02 BB 22:03：AA_595「圖書館小聲講」（D127，src/libquiet3d.js；開發分支 bc8ffc08f；62d98bfa5 起）瀏覽器探針。
 不是 iPhone：Playwright 手機橫向模擬（844×390、is_mobile、CDP 觸控；SwiftShader 1～4 fps）。
 
-讀碼看到的規則（62d98bfa5）：
-- src/game3d.js:246 doInteract：it.onInteract 之前 LIBQ.gate(GM,it.npc)——src/libquiet3d.js:60 S.gate：跟著走、後座、店員不算；
-  S.quietNow（:39）在讀書區、今天還沒見過這個人（G.libNod＝{day,ids}，:44 S.rec）＝記下來、只播一句點頭旁白（:23 S.NOD：
+讀碼看到的規則（bc8ffc08f；行號照 bc8）：
+- src/game3d.js:246 doInteract：it.onInteract 之前 LIBQ.gate(GM,it.npc)——src/libquiet3d.js:69 S.gate：跟著走、後座、店員不算；
+  S.quietNow（:51）在讀書區、今天還沒見過這個人（G.libNod＝{day,ids}，:44 S.rec）＝記下來、只播一句點頭旁白（:23 S.NOD：
   女「（她抬頭看到你，點了一下頭。）」男「（他抬頭看到你，點了一下頭。）」），這次不說話。
-- src/game3d.js:95 say、:139 caption（有名字的）：LIBQ.whisper（libquiet3d.js:76）——讀書區裡有名字的台詞前面加「（小聲）」；
-  旁白、手機、整句動作、已經寫小聲／氣音／口型的不加（:63 S.needsPrefix）；說話的人記成今天見過。
-- 讀書區（libquiet3d.js:24 S.ZONES、:27 S.studyAt）：總圖大廳只算 lv≥1（library_hall 二樓自習區）、法圖 lawlib（北邊影印室、館員辦公室、
+- src/game3d.js:95 say、:139 caption（有名字的）：LIBQ.whisper（libquiet3d.js:95；bc8 起 :88 S.quiet 把開頭動作括號合成「（抬頭，小聲）」）——讀書區裡有名字的台詞前面加「（小聲）」；
+  旁白、手機、整句動作、已經寫小聲／氣音／口型的不加（:78 S.needsPrefix）；說話的人記成今天見過。
+- 讀書區（libquiet3d.js:24 S.ZONES、:31 S.studyAt）：總圖大廳只算 lv≥1（library_hall 二樓自習區）、法圖 lawlib（北邊影印室、館員辦公室、
   東南角櫃台不算）、總圖 B1 只算 study24／disc1／disc2 房間範圍內；其他館整區算。圖書館以外（Café 等）＝不點頭、不加。
   2D 背景照背景圖判斷（:26 S.BG_STUDY）；事件 loud:true 整場不加（src/events3d.js:106）。
 - 人在哪裡（讀碼＋node 用 STORY.whereIs 查過）：沛珊大二上週一二四五 16～19 總圖二樓自習區（src/data/characters.js:144）；
@@ -22,7 +22,7 @@
   第 1 次：走到他旁邊、按「和…說話」、點對話（選項點「就這樣」那一類）。
   第 2 次：同一天再找他說一次（同上）。
   三處讀書區（總圖二樓 library_hall lv1、法圖 lawlib、B1 自習室 library_b1 study24）：第 1 次只有點頭那一句（GAME.say 原文、說話的人＝旁白）、G.libNod 記到今天這個人；
-    第 2 次沒有點頭、有人說話，每一句有名字的台詞（GAME.say 實際顯示的 D.full、有名字的 caption）都以「（小聲）」開頭（只有動作的、已經小聲的除外），至少一句有前綴。
+    第 2 次沒有點頭、有人說話，每一句有名字的台詞（GAME.say 實際顯示的 D.full、有名字的 caption）都以「（小聲）」開頭、或開頭動作括號合成「（…，小聲）」（bc8ffc08f 的 S.quiet；只有動作的、已經小聲的、「（走出」的除外），至少一句有。
   反例（Café）：第 1 次就照常說話、沒有點頭、沒有任何「（小聲）」、G.libNod 沒記她。
 判斷讀遊戲狀態（GAME.say 的原文與實際顯示文字 GAME.D.full、G.libNod）；對話框文字只確認玩家看得到（startswith）。
 用法：LW_TESTS=<受測工作樹>/tests SHA=<sha> python3 cc_libwhisper_probe.py <URL index.html> <輸出資料夾>
@@ -70,10 +70,20 @@ PREP_JS = r"""(([id,sis])=>{ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,GAME
   return {id, stage:SOCIAL.stage(id), fam:r.fam}; })"""
 
 
+QUIET_RE = re.compile(r'^（[^（）]*，小聲。?）')
+
+
+def is_quiet(t):
+    """加了小聲的樣子：開頭「（小聲）」，或 bc8ffc08f 起開頭動作括號合成的「（抬頭，小聲）」（libquiet3d.js S.quiet，AA 11-02 20:54 第 4 點）"""
+    t = (t or '').strip()
+    return t.startswith(PRE) or bool(QUIET_RE.match(t))
+
+
 def needs_prefix(t):
     """libquiet3d.js:63 S.needsPrefix 的同一套規則（Python）：只有動作（整句在（）裡）、已經小聲的不加"""
     t = (t or '').strip()
-    if not t or t.startswith(PRE): return False
+    if not t or is_quiet(t): return False
+    if t.startswith('（走出'): return False   # bc8ffc08f：走出館外那一句本身不加（1-D10）
     rest, lead = t, ''
     while rest.startswith('（'):
         depth, k = 0, -1
@@ -184,15 +194,15 @@ async def quiet_scene(pg, cdp, run, sc):
     run.check('%s：記在存檔 G.libNod（今天、%s）' % (sc['name'], sc['cid']), n1['seen'] and n1['today'], J(n1))
     r2, s2, n2, l2 = await talk(pg, cdp, run, sc, 2)
     sp = spoken(s2)
-    bad = [x['shown'] for x in sp if not x['shown'].startswith(PRE) and needs_prefix(x['shown'])]
-    pref = [x['shown'] for x in sp if x['shown'].startswith(PRE)]
+    bad = [x['shown'] for x in sp if not is_quiet(x['shown']) and needs_prefix(x['shown'])]
+    pref = [x['shown'] for x in sp if is_quiet(x['shown'])]
     me = [x['shown'] for x in sp if x['n'] in ('祐廷',)]
     run.check('%s：第二次照常說話、不再點頭' % sc['name'], bool(r2 and r2['started']) and len(sp) > 0 and not any(x['raw'] == nod for x in s2),
               J({'say': [[x['n'], x['shown']] for x in s2][:12]}))
-    run.check('%s：第二次每一句有名字的台詞都以「（小聲）」開頭（只有動作／已經小聲的除外），至少一句有前綴' % sc['name'], len(sp) > 0 and not bad and len(pref) > 0,
+    run.check('%s：第二次每一句有名字的台詞都以「（小聲）」或「（…，小聲）」開頭（只有動作／已經小聲的除外），至少一句有' % sc['name'], len(sp) > 0 and not bad and len(pref) > 0,
               J({'沒加的': bad[:6], '有加的': pref[:6], '祐廷的': me[:4], '位置': {'玩家讀書區': l2.get('meStudy'), 'quietNow': l2.get('quietNow')}}))
     if pref:
-        run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % sc['name'], any(t.startswith(PRE) for _, t in ((r2 or {}).get('lines') or [])), J((r2 or {}).get('lines')))
+        run.check('%s：玩家看得到「（小聲）」（對話框 startswith）' % sc['name'], any(is_quiet(t) for _, t in ((r2 or {}).get('lines') or [])), J((r2 or {}).get('lines')))
 
 
 async def loud_scene(pg, cdp, run, sc):
@@ -201,7 +211,7 @@ async def loud_scene(pg, cdp, run, sc):
     r1, s1, n1, l1 = await talk(pg, cdp, run, sc, 1)
     sp = spoken(s1)
     run.check('%s：第一次就照常說話、沒有點頭' % sc['name'], bool(r1 and r1['started']) and len(sp) > 0 and not any(x['raw'] in NOD.values() for x in s1), J({'say': [[x['n'], x['shown']] for x in s1][:10]}))
-    run.check('%s：沒有任何一句加「（小聲）」' % sc['name'], len(sp) > 0 and not any(PRE in x['shown'] for x in s1), J([x['shown'] for x in sp][:10]))
+    run.check('%s：沒有任何一句加「（小聲）」' % sc['name'], len(sp) > 0 and not any(PRE in x['shown'] or '，小聲' in x['shown'] for x in s1), J([x['shown'] for x in sp][:10]))
     run.check('%s：G.libNod 沒有記 %s' % (sc['name'], sc['cid']), not n1['seen'], J(n1))
 
 
