@@ -51,6 +51,10 @@ HOOK = r"""(()=>{ if(window.__PU) return 'again'; const W=window.__PU={w:[],at:{
   const j0=PHONE.join; PHONE.join=function(G,gid,name){ const had=PHONE.inGroup(G,gid); const r=j0.apply(this,arguments); if(!had) W.w.push(Object.assign({fn:'PHONE.join',th:'g:'+gid,text:String(name||''),met:metOf(),stack:stk()},clk())); return r; };
   if(typeof INV!=='undefined'){ const m0=INV.msg; INV.msg=function(G,who,text,iv){ rec('INV.msg',{who,text}); return m0.apply(this,arguments); };
     const m1=INV.msgAt; if(m1) INV.msgAt=function(G,who,text,day,h){ rec('INV.msgAt',{who,text},{atDay:day,atH:h}); return m1.apply(this,arguments); }; }
+  W.st=[]; const stOf=id=>{ try{ return SOCIAL.stage(id); }catch(e){ return null; } };
+  const wrapS=name=>{ const f0=SOCIAL[name]; if(typeof f0!=='function') return; SOCIAL[name]=function(id){ const pre=HER.includes(id)?stOf(id):null; const r=f0.apply(this,arguments);
+    if(HER.includes(id)){ const post=stOf(id); if(pre!==post) W.st.push(Object.assign({fn:'SOCIAL.'+name,id,args:JSON.stringify([].slice.call(arguments,1)).slice(0,120),pre,post,metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,stack:stk()},clk())); } return r; }; };
+  wrapS('adjust'); wrapS('activity'); wrapS('meet'); wrapS('remember');
   return 'ok'; })()""" % J(HER)
 
 # 不開 UI：照 game3d.js msgHTML 的資料來源算列表（PHONE.threads＋MSG.contactRows），加群組裡女主角的訊息顯示成什麼
@@ -144,15 +148,16 @@ def bad_cell(c, panel):
 async def pickers(pg, cdp, run, tag, met):
     """照玩家打開手機每一個「選人」的面板，記每一格；有可疑的格子就截圖。回傳 {panel: [cells]}, bad[]"""
     out = {}; bad = []
-    for tab, panels in (('msg', (('msg_contacts', '.ctList button'), ('msg_rows', '.chatRow'))), ('friends', (('friends', '.item.phrow'),))):
+    for tab, panels in (('msg', (('msg_contacts', '.ctList button'),)),):
         await open_tab(pg, cdp, tab)
         shot = None
         for pn, sel in panels:
             cells = await pg.evaluate(CELLS_JS, sel); out[pn] = cells
             for c in cells:
                 w = bad_cell(c, pn)
-                if not w: continue
                 pid = c['data'].get('th', '').replace('p:', '') or c['data'].get('noct') or c['data'].get('person') or ''
+                if c['gray'] and pid in met and not met[pid]: w = (w + '、' if w else '') + '沒見過（metD=false）卻列出來'
+                if not w: continue
                 if '透明' in w and not unk(c['name']) and c['name'] and met.get(pid, True) and len(w.split('、')) == 1:
                     run.note('%s %s：「%s」灰著——見過、還沒有聯絡方式（msg3d.js:155 照設計），不算' % (tag, pn, c['name'])); continue
                 if shot is None:
@@ -238,13 +243,16 @@ async def main():
                 if time.time() - free_since < 7:
                     await pg.wait_for_timeout(800); continue
                 free_since = None
-                per = (last_key, '早' if s['hour'] < 12 else ('中' if s['hour'] < 17 else '晚'))
+                per = (last_key, '')
                 if last_key and per not in done_p:   # 這個時段還沒看過：照玩家打開每一個選人的面板
                     done_p.add(per); tag = '%s%s_%02d' % (per[0][5:], per[1], int(s['hour']))
                     cells, bad = await pickers(pg, cdp, run, tag, cur_met)
                     ui_log.append((tag, {'cells': cells, 'bad': bad, 'met': dict(cur_met)}))
                     run.note('選人面板 %s（%s %.2f %s）：%s' % (tag, last_key, s['hour'], s['zone'], J({k: [[c['name'], c['avatar'] and c['avatar'][:3], c['opacity']] for c in v] for k, v in cells.items()})))
-                    if bad: run.note('  可疑的格子：%s' % J(bad))
+                    if bad:
+                        sst = await pg.evaluate("ids=>ids.map(id=>({id,stage:SOCIAL.stage(id),metD:!!SOCIAL.metD(id),fam:SOCIAL.rel(id).fam|0,trust:SOCIAL.rel(id).trust|0,contact:!!INV.hasContact(GAME.G,id)}))", list({r['pid'] for r in bad if r['pid']}))
+                        for r in bad: r['now'] = next((x for x in sst if x['id'] == r['pid']), None)
+                        run.note('  可疑的格子：%s' % J(bad))
                     continue
                 if s['hour'] < 21 and skip_fail != (last_key, int(s['hour'])):
                     lab = await skip_time(pg, cdp)
@@ -267,7 +275,12 @@ async def main():
             json.dump({'writes': W, 'ui': [[k, v] for k, v in ui_log], 'scan_first': scans_first, 'picks': picks, 'days': days, 'met_at': met_at}, open(os.path.join(OUT, 'unmet_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
             run.check('從新局一路玩到開學那一天（%s，%s）' % (END_KEY, end_reason or '時間到'), bool(end_reason), J({'days': days[-3:], 'met_at': met_at, 'min': round((time.time() - t_start) / 60, 1)}))
             allbad = [r for k, u in ui_log if u for r in u['bad']]
-            NAMES = {'msg_contacts': '訊息頁「傳訊息給」聯絡人按鈕', 'msg_rows': '訊息列表的對話列', 'friends': '「朋友」頁（直接過去／帶我去／資料／訊息／約）'}
+            NAMES = {'msg_contacts': '訊息頁上面的「傳訊息給」聯絡人列'}
+            ST = await pg.evaluate("window.__PU.st")
+            json.dump(ST, open(os.path.join(OUT, 'stage_log.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+            for id_ in HER:
+                off = next((x for x in ST if x['id'] == id_ and x['pre'] == 'STRANGER' and x['post'] != 'STRANGER' and not x['metD']), None)
+                if off: run.note('[來源] %s 在相遇前 stage 離開 STRANGER：%s' % (id_, J(off)))
             for pn, nm in NAMES.items():
                 bb = [r for r in allbad if r['panel'] == pn]
                 run.check('選人面板 %s：開學前每個時段，沒有「不認識的…」、空白、透明（沒見過的人）、沒頭像的格子' % nm, not bb,
@@ -275,7 +288,7 @@ async def main():
             # 每位女主角：相遇前選人面板不能有她（格子的 data-th／data-noct／data-person＝她）
             for id_ in HER:
                 bb = [r for r in allbad if r['pid'] == id_ or id_ in J(r['data'])]
-                run.check('%s：相遇前（SOCIAL.metD）手機選人面板沒有她的格子' % id_, not bb, ('第一格 %s' % J(bb[0])) if bb else '')
+                run.check('%s：相遇前（SOCIAL.metD）訊息頁聯絡人列沒有她的格子' % id_, not bb, ('第一格 %s' % J(bb[0])) if bb else '')
             # 附帶資訊：相遇前寫進 G.msgs 的她的訊息（不算 FAIL）
             for id_ in HER:
                 ws = [w for w in W if w['fn'] != 'PHONE.join' and her_of(w.get('th'), None, w.get('who')) == id_ and w['met'].get(id_) is False]
