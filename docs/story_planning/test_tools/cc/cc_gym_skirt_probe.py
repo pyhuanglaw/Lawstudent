@@ -4,7 +4,7 @@
   【前置／捷徑】每個時段都直接讀檔進 gym_b1（條件事件關閉）——只為了看路人的網格，不是玩家流程。
   每一位在拉筋的人：在一個動作循環（6.5 秒）裡取樣，量看得見的 SkinnedMesh 最低的頂點（含蒙皮），記下是哪一個網格、哪一根骨頭。
   檢查：
-    前置：至少找到 1 位穿裙子（網格名稱符合 SKIRT_RE，預設 NF10／NF14／skirt）在拉筋的人（找不到＝這次路人沒抽到，FAIL 並列出看到的衣服，不是 PASS）
+    前置：至少找到 1 位穿裙子（網格名稱符合 SKIRT_RE，預設 NF10／NF14／NF17／NF19／skirt）在拉筋的人（找不到＝這次路人沒抽到，FAIL 並列出看到的衣服，不是 PASS）
     ① 每一位在拉筋的人（不論衣服）最低點離地 ≥ −0.05 m（不穿進地板）
     ② 穿裙子的那幾位最低點離地 ≥ −0.05 m（修正前約 −0.45 m）
   截圖：每一位穿裙子在拉筋的人，鏡頭從側上方。
@@ -18,7 +18,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 SHA = os.environ.get('SHA', '?')
 SKIRT_N = int(os.environ.get('SKIRT_N', '2'))
-SKIRT_RE = re.compile(os.environ.get('SKIRT_RE', r'NF1[04]|[Ss]kirt'))
+SKIRT_RE = re.compile(os.environ.get('SKIRT_RE', r'NF1[0479]|[Ss]kirt'))   # 雲端 ffee：NF10 −0.498、NF17 −0.329、NF19 −0.485、NF14（第一次）都掛在 J_Bip_C_Hips
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True}
 # (第幾天, 週幾, 幾點)：第 1 天＝2025-09-17（三）；傍晚、週末人多（crowd3d.js daySlots）
