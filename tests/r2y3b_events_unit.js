@@ -56,7 +56,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-02-22',19,'dorm',{EXCHANGE_ROUTE:'JP'}); ['zhe','heroine_01'].forEach(id=>R(id,'FRI')); date('heroine_01'); picks=[0]; await run('ev_y3s2_first_meal');
   check('D2. 日本路線：阿哲「（轉向你）你也是。一個月又三天。」；不認識語彤：沒有她那一句、只有「先吃。」', has('（轉向你）你也是。一個月又三天。')&&!has('（端麵過來）……今天週二。週四我不在店裡了。')&&opts[0].length===1&&has('對。先吃。'));
   fresh('2028-02-22',17.1,'dorm'); grpJoin(); R('zhe','FRI'); rules(); at('2028-02-22',19.3); OUT.tick(GM); at('2028-02-22',21.6); rules();
-  check('D. 沒去：21:30 群組照片', txt('g:noodle_team').includes('zhe:（照片：長桌上六碗麵，以安那碗加了兩顆滷蛋）')&&OUT.get(G,'y3s2_first_meal').state==='missed');
+  check('D. 沒去：21:30 群組照片', txt('g:noodle_team').includes('zhe:（照片：長桌上六盤飯，以安那盤加了兩顆滷蛋）')&&OUT.get(G,'y3s2_first_meal').state==='missed');
 
   // ---------- 2-Y3-27 228 河濱 ----------
   fresh('2028-02-27',21.1,'dorm'); grpJoin(); ['zhe','yu','heroine_01','classmate_bohan'].forEach(id=>R(id,'FRI')); rules(); const q228=OUT.get(G,'y3s2_228');
@@ -193,7 +193,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
 
   // ---------- 2-Y3-38 主線 8「遠方」（日本路線）----------
   fresh('2028-04-12',22.1,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); ['zhe','yu','classmate_bohan','classmate_xinci','heroine_03'].forEach(id=>R(id,'FRI')); date('heroine_01'); rules();
-  check('F0. 4/12 臺灣 21:00＝日本 22:00（人在日本：遊戲時鐘＝日本時間，AA_341 J-S13）阿哲「明天七點半 視訊 麵店」、兩個回覆', txt('p:zhe').includes('zhe:明天七點半 視訊 麵店')&&PHONE.byAsk(G,'y3_far_call').ask.opts.length===2);
+  check('F0. 4/12 臺灣 21:00＝日本 22:00（人在日本：遊戲時鐘＝日本時間，AA_341 J-S13）阿哲「明天七點半 視訊 燒臘店」、兩個回覆', txt('p:zhe').includes('zhe:明天七點半 視訊 燒臘店')&&PHONE.byAsk(G,'y3_far_call').ask.opts.length===2);
   answer('y3_far_call',0); at('2028-04-13',20); rules(); const fq=OUT.get(G,'y3_far_call');
   check('F0. 「好。」→「記得吃飯」；4/13 臺灣 19:30＝日本 20:30 視訊（接起來）', txt('p:zhe').includes('zhe:記得吃飯')&&fq&&fq.h===20.5&&fq.verb==='接起來');
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'};   /* 芯慈那句要參加過讀書會（AA_377 第 3 項）*/
@@ -203,7 +203,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-13',19.5,'dorm',{EXCHANGE_ROUTE:'JP'}); R('zhe','FAM'); date('heroine_01'); await run('ev_far_call_jp');
   check('F. 不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的台詞', has('就這樣？')&&!has('你瘦了！……不對，是鏡頭。')&&!has('滷蛋要不要！隔著螢幕也要問！')&&!said.some(s=>/他吃飯糰/.test(s.t)));
   fresh('2028-04-12',22.1,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); R('zhe','FRI'); date('heroine_01'); rules(); at('2028-04-13',20); rules(); at('2028-04-13',20.8); OUT.tick(GM); PHONE.tick(G);
-  check('F. 沒接：臺灣 19:45＝日本 20:45 長桌空位的照片', txt('g:noodle_team').includes('zhe:（照片：長桌上空著一個位子，前面放了一碗麵）'));
+  check('F. 沒接：臺灣 19:45＝日本 20:45 長桌空位的照片', txt('g:noodle_team').includes('zhe:（照片：長桌上空著一個位子，前面放了一盤飯）'));
   fresh('2028-04-12',21.1,'dorm'); grpJoin(); R('zhe','FRI'); rules(); check('F. 台灣路線：沒有', !PHONE.sent(G,'y3_far_call'));
 
   // ---------- 2-Y3-39 語 5 ----------
@@ -384,8 +384,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   { const O=R2Y3B_EVENTS.AB.t1O, W=[['臺北的已經謝了。','嗯。這邊才剛開。','好看。','嗯。'],['照 1、2、3 的順序拉。','……你早點說。','拉破了也能吃。','我知道。我吃了三個破的。'],['一百圓是多少？','二十幾塊。我記了匯率。','記幾頁了？','十一頁。'],['辛苦了。','嗯。','排到了嗎？','排到了。辦完只要五分鐘。']];
     check('AB1. D3 原本四則 T1（十則的第 3、2、4、5 則，AA_463 第 1 節）的回覆按鈕和她的那一句照舊（逐字）', (O||[]).length===10&&JSON.stringify([2,1,3,4].map(i=>O[i].flat()))===JSON.stringify(W)); }
   fresh('2028-04-09',20.05,'dorm'); R('heroine_01','CLO'); ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(2,[true,true]),tier:1,wk:2,n1:2,n2:0,n3:0}; rules();
-  { const m=PHONE.byAsk(G,'y3_ab_w3'); check('AB3. 第 4 階＋最近三則回了兩則：T2（長一點、會問你的事；4/9 是臺灣第 7 週，期中那則不出，AA_377 第 5 項）；每則兩個回覆按鈕', G.flags.AN_ABROAD_TIER===2&&txt('p:heroine_01').join('|')==='heroine_01:町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。|heroine_01:你最近都去哪裡讀書？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='總圖。|麵店。', JSON.stringify(txt('p:heroine_01'))); }
-  answer('y3_ab_w3',1); check('AB3. 回了＝她不再回（一來一回就停）；算回了', txt('p:heroine_01').slice(-1)[0]==='player:麵店。'&&(S2=>{ R2Y3B.abSettle(G); return G.flags.AN_ABROAD.log.slice(-1)[0].replied===true; })());
+  { const m=PHONE.byAsk(G,'y3_ab_w3'); check('AB3. 第 4 階＋最近三則回了兩則：T2（長一點、會問你的事；4/9 是臺灣第 7 週，期中那則不出，AA_377 第 5 項）；每則兩個回覆按鈕', G.flags.AN_ABROAD_TIER===2&&txt('p:heroine_01').join('|')==='heroine_01:町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。|heroine_01:你最近都去哪裡讀書？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='總圖。|燒臘店。', JSON.stringify(txt('p:heroine_01'))); }
+  answer('y3_ab_w3',1); check('AB3. 回了＝她不再回（一來一回就停）；算回了', txt('p:heroine_01').slice(-1)[0]==='player:燒臘店。'&&(S2=>{ R2Y3B.abSettle(G); return G.flags.AN_ABROAD.log.slice(-1)[0].replied===true; })());
   fresh('2028-04-16',20.05,'dorm'); R('heroine_01','CLO'); SOCIAL.rel('heroine_01').npcRom=30; ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(3,[true,true,true]),tier:2,wk:3,n1:2,n2:1,n3:0}; rules(); const vq=OUT.get(G,'y3_ab_v4');
   check('AB4. 第 5 階＋回了：T3 視訊（她那邊 21:00、接起來）', G.flags.AN_ABROAD_TIER===3&&!!vq&&vq.h===20&&vq.verb==='接起來'&&vq.place==='視訊');
   await goOut('y3_ab_v4');

@@ -107,7 +107,7 @@ const date=id=>H.date(id);
     check('R3 二選一：「（書桌上，二月那份考古題還攤著。）」「明年再考。」→ GRAD_RETRY；「不考了。」也在選項裡', has('（書桌上，二月那份考古題還攤著。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「明年再考。」','「不考了。」'])&&H.G.flags.GRAD_RETRY===true&&!EVENTS.check(ev('ev_grad_result'))); }
   { fresh('2029-03-22',17.9,'dorm'); H.FRIEND('heroine_01'); date('heroine_01');
     check('2-Y4-34 和以安交往中：17:50 她打來', S.anCallDue(H.G)); H.said=[]; await S.anCall(GM);
-    check('2-Y4-34 電話：「……上了。」「晚上麵店，我自己跟大家說。」', has('……上了。')&&has('晚上麵店，我自己跟大家說。')&&!S.anCallDue(H.G)); }
+    check('2-Y4-34 電話：「……上了。」「晚上燒臘店，我自己跟大家說。」', has('……上了。')&&has('晚上燒臘店，我自己跟大家說。')&&!S.anCallDue(H.G)); }
   { fresh('2029-03-22',20,'dorm'); H.FRIEND('heroine_01'); H.FAMILIAR('zhe'); grp(); contact('heroine_01'); at('2029-03-22',22); phone(); at('2029-03-22',22.1); phone();
     check('R4 沒去麵店：22:00 群組「商法組放榜。上了。」＋FRIEND 以上私訊「八月還有司法官。一樣，先考上。」', th('g:noodle_team').includes('商法組放榜。上了。')&&th('p:heroine_01').includes('八月還有司法官。一樣，先考上。')); }
   { fresh('2029-03-22',20,'dorm'); H.FAMILIAR('heroine_01'); grp(); contact('heroine_01'); at('2029-03-22',22); phone();
@@ -128,7 +128,7 @@ const date=id=>H.date(id);
     OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); at('2029-04-03',7.9); await goOut('y4_spring',[0]);
     check('S1 麵店團：行程表「最後一次」（旁白，不唸）；阿哲、Alison；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。最上面寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
     fresh('2029-04-03',7.9,'dorm',{SPRING_Y4:'noodle'}); TEAM(); date('heroine_01'); OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'首都帝大校門口',title:'t',travelH:1/6}); await goOut('y4_spring',[1]);
-    check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去麵店。」→「你點了招牌乾麵。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌乾麵。大家都是。')); }
+    check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去燒臘店。」→「你點了招牌叉燒飯。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌叉燒飯。大家都是。')); }
   { fresh('2029-03-25',20,'dorm'); TEAM(); H.FRIEND('heroine_03'); date('heroine_03'); at('2029-03-25',20.5); phone(); H.picks=['留在宿舍']; await S.springPrompt(GM); at('2029-04-03',21.6); phone(); PHONE.tick(H.G);
     check('2-Y4-35 和語彤交往中：4/3 傍晚「看到群組了。……店裡今天很空。」；留在宿舍＝21:30 火車站的照片', th('p:heroine_03').includes('看到群組了。……店裡今天很空。')&&H.G.flags.SPRING_Y4==='dorm'&&th('g:noodle_team').includes('📷（火車站的月台。他們改搭火車。）')); }
   { fresh('2029-04-03',7.6,'dorm',{KX_TRIP:{Y1S2:'stars',Y2S2:'sea'}}); date('kexin'); OUT.plan(H.G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D('2029-04-03'),h:7+40/60,place:'木柵大學校門口',title:'t',travelH:40/60});
@@ -225,9 +225,9 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-43 期末最後一頓 ===== */
   { fresh('2029-06-22',16,'dorm',{GRADUATED:D('2029-06-02')}); TEAM(); at('2029-06-22',17); pg();
     const q=OUT.get(H.G,'y4_last_meal');
-    check('2-Y4-43 17:00 阿哲「今天 期末最後一頓」「七點 麵店」；出遊 6/22 19:00', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['今天 期末最後一頓','七點 麵店'])&&!!q&&q.h===19&&q.day===D('2029-06-22'));
+    check('2-Y4-43 17:00 阿哲「今天 期末最後一頓」「七點 燒臘店」；出遊 6/22 19:00', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['今天 期末最後一頓','七點 燒臘店'])&&!!q&&q.h===19&&q.day===D('2029-06-22'));
     H.G.flags.ANNIV23='there'; at('2029-06-22',18.8); await goOut('y4_last_meal',[1]);   /* AA_519 1-5：讀 y34b3d.js 設的 ANNIV23（原本 ANNIVERSARY_23 沒有人設）*/
-    check('L1 去了：牆上的照片；阿姨「照片我貼起來了。你們自己找，找不到的下次帶一張來。」；「二十三週年那一張。」（有 ANNIV23 there，AA_519 1-5）；Alison「這是最後一頓了。」阿哲「這不是最後一頓。下禮拜還是麵店。」；LAST_MEAL_Y4 went', has('（麵店的牆上貼滿了照片。四年來，大家在長桌拍的。）')&&has('照片我貼起來了。你們自己找，找不到的下次帶一張來。')&&H.opts[0].length===3&&has('（長桌坐滿，你被擠在角落，只照到半張臉。）')&&has('這是最後一頓了。')&&has('這不是最後一頓。下禮拜還是麵店。')&&H.G.flags.LAST_MEAL_Y4==='went'); }
+    check('L1 去了：牆上的照片；阿姨「照片我貼起來了。你們自己找，找不到的下次帶一張來。」；「二十三週年那一張。」（有 ANNIV23 there，AA_519 1-5）；Alison「這是最後一頓了。」阿哲「這不是最後一頓。下禮拜還是燒臘店。」；LAST_MEAL_Y4 went', has('（燒臘店的牆上貼滿了照片。四年來，大家在長桌拍的。）')&&has('照片我貼起來了。你們自己找，找不到的下次帶一張來。')&&H.opts[0].length===3&&has('（長桌坐滿，你被擠在角落，只照到半張臉。）')&&has('這是最後一頓了。')&&has('這不是最後一頓。下禮拜還是燒臘店。')&&H.G.flags.LAST_MEAL_Y4==='went'); }
   { const O=[]; for(const f of [{ANNIVERSARY_23:true},{ANNIV23:'remote'},{}]){ fresh('2029-06-22',16,'dorm',Object.assign({GRADUATED:D('2029-06-02')},f)); TEAM(); at('2029-06-22',17); pg(); at('2029-06-22',18.8); await goOut('y4_last_meal',[0]); O.push((H.opts[0]||[]).slice()); }
     check('L1 AA_519 1-5：只有舊的 ANNIVERSARY_23、ANNIV23 remote（美國路線，不在照片裡）、都沒有＝沒有「二十三週年那一張。」（兩個選項）', O.every(o=>o.length===2&&!o.some(t=>/二十三週年/.test(t))), JSON.stringify(O)); }
   { fresh('2029-06-22',16,'dorm',{GRADUATED:D('2029-06-02')}); TEAM(); at('2029-06-22',17); pg(); at('2029-06-22',21.6);
@@ -312,9 +312,9 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-50 以安：哥大＋紐約送機 ===== */
   const ANF=()=>{ H.FRIEND('heroine_01'); contact('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); grp(); };
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();
-    check('2-Y4-50 3/27 21:00 私訊「明天晚上七點，麵店。」「有事想說。」（去／不去）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上七點，麵店。','有事想說。'])&&!!PHONE.byAsk(H.G,'y6_an_col'));
+    check('2-Y4-50 3/27 21:00 私訊「明天晚上七點，燒臘店。」「有事想說。」（去／不去）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['明天晚上七點，燒臘店。','有事想說。'])&&!!PHONE.byAsk(H.G,'y6_an_col'));
     answer('y6_an_col',0); phone(); const q=OUT.get(H.G,'y6_an_col'); at('2030-03-28',18.4); await goOut('y6_an_col',[0]);
-    check('C1 朋友：3/28 麵店當面「紐約的法學院上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（麵店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約的法學院上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
+    check('C1 朋友：3/28 麵店當面「紐約的法學院上了。我要去。」＋她的三句、兩個選項；朋友沒有「八月走。一年。」；記憶 AN_COLUMBIA', !!q&&q.h===19&&has('（燒臘店。長桌的人還沒到，她坐在角落那張兩人桌。）')&&has('紐約的法學院上了。我要去。')&&has('司法官學院，我寫信說不去報到。研究所辦休學。')&&has('我媽聽了一個小時。最後她說：你講得比我想的清楚。')&&has('都考上，是要知道我做得到。可是我想做的是公司、證券那些案子。法官很少遇到。')&&!has('八月走。一年。')&&SOCIAL.has('heroine_01','AN_COLUMBIA'));
     at('2030-03-28',22.1); pg(); check('2-Y4-50 當面說過的：22:00 沒有群組那一則', !th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。'));
     at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('C1 8/10 21:00 阿哲「明天以安的飛機」「早上十點 桃園 要去的舉手」；8/11 朋友版「你們不用全部都來的。」「回來的時候，我會在事務所。你來找我，要預約。」；AN_NY_SENDOFF went', th('g:noodle_team').includes('明天以安的飛機')&&th('g:noodle_team').includes('早上十點 桃園 要去的舉手')&&has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')&&has('……嗯。')&&!has('……你不用預約。')&&H.G.flags.AN_NY_SENDOFF==='went'); }
@@ -332,7 +332,7 @@ const date=id=>H.date(id);
     check('AA_447 1-1 2028 沒去送機（missed）：照原本三句', has('（桃園機場，出境的門口。大家站成一排。）')&&has('（看了一下手錶）你們不用全部都來的。')&&!has('上次你也知道我們會來。')); }
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg(); answer('y6_an_col',1); at('2030-03-28',22); pg();
     check('G6-50 3/27 選「那天不行。」：以安回「好。……那我寫在群組。」（AA_345 G6）；3/28 22:00 群組「紐約的法學院上了。八月去紐約。」照常；沒有排麵店', (()=>{ const T=th('p:heroine_01'), i=T.indexOf('那天不行。'); return i>=0&&T[i+1]==='好。……那我寫在群組。'; })()&&th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。')&&!OUT.get(H.G,'y6_an_col'), JSON.stringify(th('p:heroine_01'))); }
-  { const ML=SOCIAL.MEMORY_LABEL; check('G7 人物面板名稱定稿（AA_345 第 4 節）：AN_GRAD_PASS「她研究所放榜那晚，在麵店」、AN_COLUMBIA「她說紐約的法學院上了，八月要去紐約」', ML.AN_GRAD_PASS==='她研究所放榜那晚，在麵店'&&ML.AN_COLUMBIA==='她說紐約的法學院上了，八月要去紐約', JSON.stringify([ML.AN_GRAD_PASS,ML.AN_COLUMBIA])); }
+  { const ML=SOCIAL.MEMORY_LABEL; check('G7 人物面板名稱定稿（AA_345 第 4 節）：AN_GRAD_PASS「她研究所放榜那晚，在燒臘店」、AN_COLUMBIA「她說紐約的法學院上了，八月要去紐約」', ML.AN_GRAD_PASS==='她研究所放榜那晚，在燒臘店'&&ML.AN_COLUMBIA==='她說紐約的法學院上了，八月要去紐約', JSON.stringify([ML.AN_GRAD_PASS,ML.AN_COLUMBIA])); }
   { fresh('2030-03-28',20,'dorm',GD); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); grp(); at('2030-03-28',22); pg(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
     check('2-Y4-50 不到 FRIEND：3/28 22:00 群組「紐約的法學院上了。八月去紐約。」；8/10 群組沒有「我去。」；8/11 只有群組的登機證照片', th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。')&&!PHONE.byAsk(H.G,'y6_an_ny')&&th('g:noodle_team').includes('（照片：登機證）')&&!th('p:heroine_01').length&&H.G.flags.AN_NY_SENDOFF==='missed'); }
   { fresh('2030-08-10',20,'dorm',GD); ANF(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
@@ -481,9 +481,9 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-58 律師讀書小組 ===== */
   { fresh('2029-02-22',23,'dorm',{Y4_PATH:'bar'},'TW'); date('kexin'); H.FRIEND('heroine_03'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-02-23',8); phone();
     const q=OUT.get(H.G,'y4_bar_group_start');
-    check('BG1 台灣路線、選國考、和可昕交往、和語彤 FRIEND、兩人都知道：2/23 21:30 三個人（麵店打烊以後）；BAR_STUDY_GROUP [kexin, yutong]', H.G.flags.BAR_GROUP_KIND==='three'&&JSON.stringify(H.G.flags.BAR_STUDY_GROUP)==='["kexin","yutong"]'&&!!q&&q.h===21.5&&/麵店/.test(q.place));
+    check('BG1 台灣路線、選國考、和可昕交往、和語彤 FRIEND、兩人都知道：2/23 21:30 三個人（公館燒臘打烊以後）；BAR_STUDY_GROUP [kexin, yutong]', H.G.flags.BAR_GROUP_KIND==='three'&&JSON.stringify(H.G.flags.BAR_STUDY_GROUP)==='["kexin","yutong"]'&&!!q&&q.h===21.5&&/公館燒臘/.test(q.place));
     at('2029-02-23',21.2); await goOut('y4_bar_group_start');
-    check('BG1 成立：長桌上可昕寫的表；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週二我在店裡。…」；「……好。那表上多一格。」', has('（開學第一個週五晚上，麵店打烊以後。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週二我在店裡。你們在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
+    check('BG1 成立：長桌上可昕寫的表；「每週一、三、五晚上，週六整天。……有意見現在說。」；語彤「週二我在店裡。…」；「……好。那表上多一格。」', has('（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）')&&has('每週一、三、五晚上，週六整天。……有意見現在說。')&&has('週二我在店裡。你們在這裡讀，我順便考你們。')&&has('……好。那表上多一格。'));
     at('2029-02-26',21.5); H.G.zone='noodle'; const due=EVENTS.check(ev('ev_bar_group_night')); await run('ev_bar_group_night');
     check('2-Y4-58 作息：週一 21:00～23:00 走到麵店就是讀書，一晚一句（可昕「刑總那題，你先講結論，再講理由。講完我再問。」）；BAR_GROUP_N', due&&H.said.length===1&&has('刑總那題，你先講結論，再講理由。講完我再問。')&&H.G.flags.BAR_GROUP_N===1&&!EVENTS.check(ev('ev_bar_group_night')));
     at('2029-02-27',21.5); const tue=!EVENTS.check(ev('ev_bar_group_night')); at('2029-02-28',21.5); const hol=!EVENTS.check(ev('ev_bar_group_night')); at('2029-03-02',21.5); await run('ev_bar_group_night');
