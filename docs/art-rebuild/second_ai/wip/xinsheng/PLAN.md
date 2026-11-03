@@ -156,3 +156,15 @@
   - 瀏覽器測試：reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration；
   - 新生南路的店面、地面正式模型；
   - 北口外面的遠景（現在走出去前看到的是空地）。
+
+## 遊戲截圖（11-03 20:4x，第一次在遊戲裡看）
+- **條件**：開發分支 b049c84e3 加上這份 patch；只在我的測試 worktree 裡，index.html 加兩行 script、assets 的 manifest 加 `bldg.xinsheng_street`。這兩樣都不在 patch 裡。15:00，Playwright＋SwiftShader，是桌機模擬，不是手機。
+- `game_wip_v0.jpg`：
+  - 左上：從新生南路側門看對面。立面 GLB 載入了，招牌字遊戲畫得出來，看得到「山嵐書店」；有樟樹、路燈。
+  - 右上：騎樓。
+  - 左下：校園側門。門洞開了，看出去是公館的遠景；**兩根門柱沒有出現**，下一班查。
+  - 右下：溫州街西側橫巷北口打開了。
+- **整合時要加的**（給 LAWWW；index.html、assets3d.js 是 LAWWW 的檔案）：
+  - index.html：在 `src/lane118.js` 後面加 `<script src="src/data/xinsheng_layout.js?v=…"></script>`、`<script src="src/xinsheng3d.js?v=…"></script>`；
+  - assets3d.js 的 manifest：`'bldg.xinsheng_street':{url:'assets/models/env/second_ai/xinsheng_street.glb', type:'building', lazy:true, …}`；
+  - GLB 本身等店面做好再交。
