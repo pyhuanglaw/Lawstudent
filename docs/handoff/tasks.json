@@ -42503,6 +42503,53 @@
         "receiver": "LAWWW",
         "ack": "SENT"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "開局（大一上第 1 週）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "JOBS-FROM-START-1103",
+      "title": "打工一開始就有（原本大一下第 1 週才開放）：溫州街各店、家教等照開局就能應徵；經濟系那一年要不要也開由 AA 定",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 選擇題回覆：「一開始就要有」（UA-LAWWW-1103-32；X172）",
+      "next": "jobs3d.js S.startDay 改 Y1S1；AA 確認老闆台詞、家教時間、經濟系那年"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "開局（大一上第 1 週）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-JOB-COWORKER-ROMANCE-1103",
+      "title": "新增至少一位只能透過打工當同事認識的可攻略對象（不是法律系女主角）：人物設定、打工的店、感情線",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03：「我希望有至少一個除了法律系女主角的可攻略對象 是只能透過打工當同事認識」（UA-LAWWW-1103-33；X173）；人物設定、感情走向照 D109 由 AA 提、大方向給使用者確認",
+      "next": "AA 提人物設定與感情線企劃（用選擇題問使用者大方向）→ LAWWW 實作；LAWWW2 3D 人物；BB 要立繪 CG",
+      "xai": {
+        "spec": "使用者 11-03 原話",
+        "branch": "企劃線",
+        "acceptance": "AA 定稿：人物、哪家店、相遇與感情線（只能打工認識）",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
     }
   ]
 }
