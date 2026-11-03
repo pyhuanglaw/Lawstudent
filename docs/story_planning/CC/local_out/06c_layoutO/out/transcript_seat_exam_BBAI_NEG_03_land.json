@@ -1,0 +1,449 @@
+{
+ "qid": "BBAI_NEG_03",
+ "orient": "land",
+ "route_req": "goclass",
+ "q": {
+  "id": "BBAI_NEG_03",
+  "course": "negotiable",
+  "name": "票據及支付工具法",
+  "term": "Y3S2",
+  "q": "甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
+  "opts": [
+   "（A）可以，原因關係不存在，票據也跟著無效",
+   "（B）不可以；票據債務人不得以自己與執票人之前手間所存抗辯之事由對抗執票人，除非執票人取得票據出於惡意",
+   "（C）可以，只要甲能證明機車有瑕疵",
+   "（D）可以，但要先付一半"
+  ],
+  "answer": "B",
+  "right": 1,
+  "room": {
+   "id": "L202",
+   "zone": "linze_202",
+   "name": "法律系館A 202",
+   "door": false
+  },
+  "examDay": {
+   "day": 995,
+   "key": "2028-06-07",
+   "block": "pm1",
+   "t0": 13.333333333333334,
+   "t1": 15.166666666666666,
+   "makeup": false
+  },
+  "qs": [
+   "BBAI_NEG_03",
+   "BBAI_NEG_01",
+   "BBAI_NEG_02",
+   "BBAI_NEG_04",
+   "BBAI_NEG_05"
+  ]
+ },
+ "route": "goclass",
+ "base": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 271.2,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 104.8
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 307.3,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 345.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "shots": {
+  "q_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\06c_layoutO\\out\\07_seat_exam_BBAI_NEG_03_land_q1_say.png",
+  "choices": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\06c_layoutO\\out\\08_seat_exam_BBAI_NEG_03_land_q1_choices.png",
+  "next_say": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\06c_layoutO\\out\\09_seat_exam_BBAI_NEG_03_land_q2_say.png"
+ },
+ "seat": {
+  "pose": "read",
+  "seat": true,
+  "zone": "linze_202"
+ },
+ "choose": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "left": "50%",
+   "width": "min(760px, 100% - 28px)",
+   "transform": "none"
+  },
+  "dlgText": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
+  "samples": [],
+  "ch": {
+   "rect": {
+    "l": 430,
+    "t": 115,
+    "r": 830,
+    "b": 362,
+    "w": 400,
+    "h": 247
+   },
+   "cls": [],
+   "vis": true,
+   "display": "flex",
+   "grid": "none",
+   "left": "430px",
+   "width": "400px",
+   "scrollH": 247,
+   "clientH": 247
+  },
+  "btns": [
+   {
+    "t": "（A）可以，原因關係不存在，票據也跟著無效",
+    "rect": {
+     "l": 430,
+     "t": 115,
+     "r": 830,
+     "b": 161,
+     "w": 400,
+     "h": 46
+    }
+   },
+   {
+    "t": "（B）不可以；票據債務人不得以自己與執票人之前手間所存抗辯之事由對抗執票人，除非執票人取得票據出於惡意",
+    "rect": {
+     "l": 430,
+     "t": 169,
+     "r": 830,
+     "b": 254,
+     "w": 400,
+     "h": 85
+    }
+   },
+   {
+    "t": "（C）可以，只要甲能證明機車有瑕疵",
+    "rect": {
+     "l": 430,
+     "t": 262,
+     "r": 830,
+     "b": 308,
+     "w": 400,
+     "h": 46
+    }
+   },
+   {
+    "t": "（D）可以，但要先付一半",
+    "rect": {
+     "l": 430,
+     "t": 316,
+     "r": 830,
+     "b": 362,
+     "w": 400,
+     "h": 46
+    }
+   }
+  ]
+ },
+ "stable": true,
+ "keep": false,
+ "after": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "next": {
+  "W": 844,
+  "H": 390,
+  "safe": {
+   "l": 0,
+   "r": 0,
+   "t": 0,
+   "b": 0
+  },
+  "adv": false,
+  "dlg": {
+   "rect": {
+    "l": 42,
+    "t": 296,
+    "r": 802,
+    "b": 376,
+    "w": 760,
+    "h": 80
+   },
+   "cls": [],
+   "vis": true,
+   "left": "422px",
+   "width": "760px",
+   "transform": "matrix(1, 0, 0, 1, -380, 0)"
+  },
+  "dlgText": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
+  "samples": [
+   {
+    "x": 131.6,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 422,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 712.4,
+    "y": 324.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 276.8,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   },
+   {
+    "x": 567.2,
+    "y": 350.6,
+    "inDlg": true,
+    "inCh": false,
+    "el": "dlgText"
+   }
+  ],
+  "ch": {
+   "rect": {
+    "l": 0,
+    "t": 0,
+    "r": 0,
+    "b": 0,
+    "w": 0,
+    "h": 0
+   },
+   "cls": [
+    "hide"
+   ],
+   "vis": false,
+   "display": "none",
+   "grid": "none",
+   "left": "auto",
+   "width": "min(400px, 100% - 28px)",
+   "scrollH": 0,
+   "clientH": 0
+  },
+  "btns": []
+ },
+ "notes_errs": [],
+ "transcript": [
+  {
+   "k": "choose",
+   "t": [
+    "坐中間的位子",
+    "自己找位子"
+   ],
+   "h": 13.553,
+   "ms": 38699
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "考卷發下來。票據及支付工具法期末考。五題。",
+   "h": 13.553,
+   "ms": 47583
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契約解除了。丙向甲請求票款，甲可不可以用「我跟乙的買賣已經解除」拒絕付款？",
+   "h": 13.553,
+   "ms": 48438
+  },
+  {
+   "k": "choose",
+   "t": [
+    "（A）可以，原因關係不存在，票據也跟著無效",
+    "（B）不可以；票據債務人不得以自己與執票人之前手間所存抗辯之事由對抗執票人，除非執票人取得票據出於惡意",
+    "（C）可以，只要甲能證明機車有瑕疵",
+    "（D）可以，但要先付一半"
+   ],
+   "h": 13.553,
+   "ms": 50803
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "2／5　依票據法第1條，票據法所稱的「票據」是哪三種？",
+   "h": 13.553,
+   "ms": 52839
+  }
+ ],
+ "sha": "e27dd033e",
+ "case": "seat_exam_BBAI_NEG_03_land"
+}

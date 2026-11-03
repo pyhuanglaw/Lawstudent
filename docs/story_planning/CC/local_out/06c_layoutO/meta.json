@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "06c_layoutO",
+  "sha": "e27dd033e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_layout16_probe.py",
+  "env": "CASES=seat_exam,adv_safe,recall2",
+  "machine": "MSI",
+  "start": "2026-11-03T10:21:47",
+  "end": "2026-11-03T10:31:37",
+  "seconds": 590,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 53,
+    "used_gb": 16.7,
+    "chrome_testing": 28
+  }
+}
