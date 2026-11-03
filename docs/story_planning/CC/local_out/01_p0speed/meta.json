@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "01_p0speed",
-  "sha": "6a8033f4e",
+  "sha": "e6dc20343",
   "kind": "game",
   "script": "tests/p0_movement.py",
   "env": "",
   "machine": "MSI",
-  "start": "2026-11-03T17:44:29",
-  "end": "2026-11-03T17:47:26",
-  "seconds": 177,
+  "start": "2026-11-03T20:02:34",
+  "end": "2026-11-03T20:06:38",
+  "seconds": 243,
   "exit": 0,
   "error": null,
-  "runner": "02a9caf4ba",
-  "rf_round": "2",
-  "url": "http://127.0.0.1:8810/index.html",
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8811/index.html",
   "res_peak": {
-    "cpu": 84,
-    "mem": 56,
-    "used_gb": 17.5,
-    "chrome_testing": 27
+    "cpu": 69,
+    "mem": 66,
+    "used_gb": 20.7,
+    "chrome_testing": 29
   }
 }

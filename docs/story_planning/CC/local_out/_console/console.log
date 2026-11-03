@@ -172,3 +172,10 @@
 [20:02:38] [res] cpu=49% mem=49% (15.3/31.4 GB) chrome_testing=0  START FS112
 [20:03:25] leftover C:\Users\USER\Documents\wt_cc_FS112 cannot be removed - using C:\Users\USER\Documents\wt_cc_FS112_1793707405
 [20:06:13] [res] cpu=26% mem=54% (17.0/31.4 GB) chrome_testing=13  END 00_gpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e381f3ec8..b2c5c78e1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:06:27] ==== END   00_gpu  exit=0  219s   ====
+[20:06:38] [res] cpu=42% mem=54% (17.0/31.4 GB) chrome_testing=10  END 01_p0speed
+[20:06:59] memory 54% before starting 00_gpu (2 running)
+[20:06:59] ==== START 00_gpu  (gpu @ 0527e6ebc) ====
