@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "Y_G7_class",
+  "sha": "c89a5f9be",
+  "kind": "game",
+  "script": "tests/flow_class_real.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:26:12",
+  "end": "2026-11-03T09:28:17",
+  "seconds": 126,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 40,
+    "mem": 60,
+    "used_gb": 18.6,
+    "chrome_testing": 29
+  }
+}
