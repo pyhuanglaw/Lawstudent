@@ -499,123 +499,123 @@
   {
    "id": "UA-LAWWW2-1102-15",
    "at": "2026-11-02T21:3x",
-   "kind": "原話＋5 張實景照片",
-   "status": "進行中",
-   "task": "CAMPUS-BLACKFOREST-1102 第二版",
+   "kind": "原話",
+   "status": "在開發分支",
+   "task": "CAMPUS-BLACKFOREST-1102",
    "quote": "台大法學院黑森林，其實是兩個系館之間 而且是真的很大你參考一下校園的分布圖好嗎？他不會是只是很像一個。植栽 他真的就是很像樹林喔，而且旁邊還有一個小湖從一個系館之間的走道會經過那個小湖，然後那個湖再往校園才是黑森林",
    "src": "使用者直接對帳號 A 的 LAWWW2 說（照片存 docs/art-rebuild/second_ai/ref/blackforest_user_1102_*）",
-   "note": "取代：第一版（法學院廣場南邊一條、草皮換落葉泥土地）的位置與規模；BB_248 第 1 點「林下暗 40～50%」改照使用者照片（草地夾落葉、適度遮蔭）。停止：第一版繼續壓暗；請 LAWWW 暫停整合 f5fe9c7c6（21:4x 已送）；通知 BB。新做法：官方地圖 → 霖澤館前庭（劇情站位）保留、兩館之間往南的鋪面走道、走道東邊小湖（水泥弧形池邊、垂柳、石頭、水生植物）、湖和兩館南邊整片樹林（約 2,164 m²、67 棵）；俯視圖 docs/art-rebuild/second_ai/wip/blackforest/v2/plan_v2.png 已給使用者。"
+   "note": "取代：第一版（法學院廣場南邊一條、草皮換落葉泥土地）的位置與規模；BB_248 第 1 點「林下暗 40～50%」改照使用者照片（草地夾落葉、適度遮蔭）。停止：第一版繼續壓暗；請 LAWWW 暫停整合 f5fe9c7c6（21:4x 已送）；通知 BB。新做法：官方地圖 → 霖澤館前庭（劇情站位）保留、兩館之間往南的鋪面走道、走道東邊小湖（水泥弧形池邊、垂柳、石頭、水生植物）、湖和兩館南邊整片樹林（約 2,164 m²、67 棵）；俯視圖 docs/art-rebuild/second_ai/wip/blackforest/v2/plan_v2.png 已給使用者。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話＋5 張實景照片」、status「進行中」、task「CAMPUS-BLACKFOREST-1102 第二版」）"
   },
   {
    "id": "UA-LAWWW2-1102-16",
    "at": "2026-11-02T22:1x",
-   "kind": "原話＋選項",
-   "status": "進行中",
+   "kind": "選擇題答案",
+   "status": "在開發分支",
    "task": "LAW-RELAYOUT-1102",
    "quote": "現在校園地圖不對阿霖澤館跟萬才不應該是平行隔壁（之後選「照提案做（建議）」）",
    "src": "使用者直接對帳號 A 的 LAWWW2 說；提案圖 docs/art-rebuild/second_ai/wip/campus_relayout/law_relayout_plan.jpg",
-   "note": "觸發 D31 的重新討論條件（使用者要求法學院區照真實配置）。使用者選：霖澤館不動、國青和研三舍在霖澤館東邊、萬才館移到東南、小湖在霖澤館南邊、黑森林在兩館之間。LAWWW 22:17 ACK：照 D108 由 LAWWW2 主導整包（萬才館外觀與入口、落點、wancaiStairs 第 1 層導航、國青／研三舍、小湖、黑森林、舊存檔落點遷移、7 支測試；zrzq3d.js:169、classes3d.js:1015、places.js 一起改）。實作差異：萬才館正面維持朝南（大樓梯的兩層導航整套照朝南寫，轉 90° 要重寫；朝南的正面對著樹林和 z −60 的路），已告訴使用者。",
+   "note": "觸發 D31 的重新討論條件（使用者要求法學院區照真實配置）。使用者選：霖澤館不動、國青和研三舍在霖澤館東邊、萬才館移到東南、小湖在霖澤館南邊、黑森林在兩館之間。LAWWW 22:17 ACK：照 D108 由 LAWWW2 主導整包（萬才館外觀與入口、落點、wancaiStairs 第 1 層導航、國青／研三舍、小湖、黑森林、舊存檔落點遷移、7 支測試；zrzq3d.js:169、classes3d.js:1015、places.js 一起改）。實作差異：萬才館正面維持朝南（大樓梯的兩層導航整套照朝南寫，轉 90° 要重寫；朝南的正面對著樹林和 z −60 的路），已告訴使用者。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話＋選項」、status「進行中」、task「LAW-RELAYOUT-1102」）",
    "progress": "22:4x：整包 patch（含黑森林 v4）WIP 5c33eb485：docs/art-rebuild/second_ai/wip/blackforest/law_relayout_blackforest_1102_wip.patch；10 支 Node 單元 ALL PASS；172 支校園 Node 單元、7 支瀏覽器測試、前後截圖排隊中；已通知 LAWWW（DELIVERED，舊黑森林 patch 先不要整合）。 22:5x 交班：Node 172 支＋campus_layout_nav ALL PASS；其他 6 支瀏覽器測試與前後截圖沒跑（見 HANDOFF.md）。"
   },
   {
    "id": "UA-LAWWW2-1103-01",
    "at": "2026-11-03T08:5x",
    "kind": "原話",
-   "status": "進行中",
-   "task": "LIB（總圖）、CAMPUS-RELAYOUT／LAW-RELAYOUT",
+   "status": "在開發分支",
+   "task": "LAW-RELAYOUT-1102",
    "quote": "你可以優先做總圖 還有系館改位置的東西嗎",
    "src": "使用者直接對帳號 A 的 LAWWW2 說",
-   "note": "排序改：①法學院區重排（測試跑完→交件）②系館名字 patch 和法學院區 patch 合併（電機二館的門牌跟著搬到 (119,−62)）③電機一館照 README 第六節方案 A（使用者 11-02 11:1x 說沒回覆的可以自己決定）④總圖：一樓展演廳第三版（BB_244）、3F 第二版（LIB-3F-1102）在開發分支最新版重測、截圖、交件；q4 沒跑完的總圖瀏覽器測試。延後：PERF-WZ-DAY 分析（PC 量測照排）、舊路書房書架重烘、宿舍梯子兩件、BAKE-PC 第二輪（PC 照排、只是等結果）。"
+   "note": "排序改：①法學院區重排（測試跑完→交件）②系館名字 patch 和法學院區 patch 合併（電機二館的門牌跟著搬到 (119,−62)）③電機一館照 README 第六節方案 A（使用者 11-02 11:1x 說沒回覆的可以自己決定）④總圖：一樓展演廳第三版（BB_244）、3F 第二版（LIB-3F-1102）在開發分支最新版重測、截圖、交件；q4 沒跑完的總圖瀏覽器測試。延後：PERF-WZ-DAY 分析（PC 量測照排）、舊路書房書架重烘、宿舍梯子兩件、BAKE-PC 第二輪（PC 照排、只是等結果）。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話」、status「進行中」、task「LIB（總圖）、CAMPUS-RELAYOUT／LAW-RELAYOUT」）"
   },
   {
    "id": "UA-LAWWW2-1103-02",
    "at": "2026-11-03T09:0x",
-   "kind": "原話（三則）",
-   "status": "進行中",
-   "task": "LIB（總圖）、CAMPUS-RELAYOUT",
+   "kind": "原話",
+   "status": "做好了沒進遊戲",
+   "task": "LIB-INTERIOR-1102",
    "quote": "總圖前還有台階這件事你還記得嗎／我還給你總圖每個樓層的位置圖 你至少弄得像一點吧／你先把代辦事項列出來 總圖 系館最優先",
    "src": "使用者直接對帳號 A 的 LAWWW2 說",
-   "note": "台階（UA-LAWWW2-1102-03、-08）：LIB-FRONT v3（平台＋往下的台階、走得上去）已進開發分支 ef63b1877，還沒發布到線上。樓層圖（0858_plan_1f／2f／3f／b1）：每一層做『平面圖 vs 遊戲俯視圖』疊圖對照，差的地方照圖改；先列待辦給使用者。"
+   "note": "台階（UA-LAWWW2-1102-03、-08）：LIB-FRONT v3（平台＋往下的台階、走得上去）已進開發分支 ef63b1877，還沒發布到線上。樓層圖（0858_plan_1f／2f／3f／b1）：每一層做『平面圖 vs 遊戲俯視圖』疊圖對照，差的地方照圖改；先列待辦給使用者。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（三則）」、status「進行中」、task「LIB（總圖）、CAMPUS-RELAYOUT」）"
   },
   {
    "id": "UA-LAWWW2-1103-03",
    "at": "2026-11-03T09:3x",
-   "kind": "原話（使用者對 BB 說，BB 09:31 轉來）",
-   "status": "進行中",
-   "task": "LAW-RELAYOUT-1102 第二輪",
+   "kind": "轉述",
+   "status": "在開發分支",
+   "task": "LAW-RELAYOUT-1102",
    "quote": "超不對 系館a不應該跟系館b平行!!!!",
    "src": "BB（session_01XVHYLaK9Vcnae3U1aAJoZv）09:31 轉述；BB 撤回法學院區配置的 ART_APPROVED",
-   "note": "取代 11-02 22:1x 我『萬才館正面維持朝南』的實作差異：萬才館（B）照官方地圖 map_ne.jpg 順著辛亥路弧線斜放（長軸轉 40～45°、西北—東南走向、正面朝西南對著霖澤館與廣場）；國青、研三舍在兩館之間偏北；黑森林範圍和走道跟著重排（植栽照舊）。已請 LAWWW 先不要套 43b715b1a 的 patch。要跑 nav_buildings、kit_nav_check、flow_wancai_stairs、wancai_glb_integration（GLB 外緣 --check）。"
+   "note": "取代 11-02 22:1x 我『萬才館正面維持朝南』的實作差異：萬才館（B）照官方地圖 map_ne.jpg 順著辛亥路弧線斜放（長軸轉 40～45°、西北—東南走向、正面朝西南對著霖澤館與廣場）；國青、研三舍在兩館之間偏北；黑森林範圍和走道跟著重排（植栽照舊）。已請 LAWWW 先不要套 43b715b1a 的 patch。要跑 nav_buildings、kit_nav_check、flow_wancai_stairs、wancai_glb_integration（GLB 外緣 --check）。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者對 BB 說，BB 09:31 轉來）」、status「進行中」、task「LAW-RELAYOUT-1102 第二輪」）"
   },
   {
    "id": "UA-LAWWW2-1103-04",
    "at": "2026-11-03T10:02",
-   "kind": "原話（使用者對 AA 說，AA 10:02／10:07 轉來）",
-   "status": "已記錄",
-   "task": "新生南路新店的美術分工",
+   "kind": "轉述",
+   "status": "進行中",
+   "task": "MODEL-HELP-1103",
    "quote": "lawww2在忙 你和bb cc協助建模 跟LAWWW2分工／這是的美術協助是臨時的 不是永久工作規則",
    "src": "AA（session_019Y3emYqxxC4Ch1GGf4fMzw）",
-   "note": "SCENE_RULES 第 10 節（aadba7d61→bf5848b25）：室內 AA（木曜日、日常失速、山嵐書店）、BB＋CC（南洋戲院、同弦、運動用品店三家、大口漢堡）；外觀、側門、整合、驗收 LAWWW2；標成臨時。"
+   "note": "SCENE_RULES 第 10 節（aadba7d61→bf5848b25）：室內 AA（木曜日、日常失速、山嵐書店）、BB＋CC（南洋戲院、同弦、運動用品店三家、大口漢堡）；外觀、側門、整合、驗收 LAWWW2；標成臨時。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者對 AA 說，AA 10:02／10:07 轉來）」、status「已記錄」、task「新生南路新店的美術分工」）"
   },
   {
    "id": "UA-LAWWW2-1103-05",
    "at": "2026-11-03T10:05",
-   "kind": "原話（使用者對 LAWWW、AA 說，轉來）",
-   "status": "已記錄",
-   "task": "店名",
+   "kind": "轉述",
+   "status": "規則（永久）",
    "quote": "不可以叫承品 太像誠品 不要諧音梗",
    "src": "LAWWW 10:05、AA 10:05",
-   "note": "承品書店→山嵐書店（ART-SHANLAN-BOOKSTORE-1103）、麥丹勞→大口漢堡；D77 修訂：店名一律原創。南洋戲院也在新生南路那一側（AA 轉述：這些新增的店面都放在新生南路那一側）。"
+   "note": "承品書店→山嵐書店（ART-SHANLAN-BOOKSTORE-1103）、麥丹勞→大口漢堡；D77 修訂：店名一律原創。南洋戲院也在新生南路那一側（AA 轉述：這些新增的店面都放在新生南路那一側）。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者對 LAWWW、AA 說，轉來）」、status「已記錄」、task「店名」）",
+   "wants": "X180"
   },
   {
    "id": "UA-LAWWW2-1103-06",
    "at": "2026-11-03T10:16",
-   "kind": "原話（使用者對 AA 說，AA 10:16 轉來）",
-   "status": "等待（使用者給參考圖）",
-   "task": "新生南路新店全部",
+   "kind": "轉述",
+   "status": "已完成",
+   "task": "XINSHENG-SIDE-1103",
    "quote": "跟其他ai說新的店等我給你店面外部建築 和內部美術參考圖才能開始",
    "src": "AA（session_019Y3emYqxxC4Ch1GGf4fMzw）",
-   "note": "山嵐書店、南洋戲院、同弦、大步球鞋、好拍運動、新生運動廣場、大口漢堡、公館燒臘、木曜日、日常失速、新生南路店面立面全部先不開工；側門和街道（馬路、斑馬線）為了保險也等參考圖。LAWWW2 這時還沒開工任何一家；BB 的南洋大廳 v1 先放著不整合。圖由 AA 存進企劃線 ref_images/ 後逐家通知。"
+   "note": "山嵐書店、南洋戲院、同弦、大步球鞋、好拍運動、新生運動廣場、大口漢堡、公館燒臘、木曜日、日常失速、新生南路店面立面全部先不開工；側門和街道（馬路、斑馬線）為了保險也等參考圖。LAWWW2 這時還沒開工任何一家；BB 的南洋大廳 v1 先放著不整合。圖由 AA 存進企劃線 ref_images/ 後逐家通知。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者對 AA 說，AA 10:16 轉來）」、status「等待（使用者給參考圖）」、task「新生南路新店全部」）"
   },
   {
    "id": "UA-LAWWW2-1103-07",
    "at": "2026-11-03T11:0x",
-   "kind": "原話（使用者對 AA 說，AA 11:03／11:05 轉來）",
-   "status": "排程中（總圖、萬才館交件後）",
-   "task": "新生南路新店＋公館燒臘",
+   "kind": "轉述",
+   "status": "還沒做",
+   "task": "XINSHENG-SIDE-1103",
    "quote": "麵店改成燒臘店 可以仍然是去吃飯的地方／燒臘改成公館燒臘",
    "src": "AA（session_019Y3emYqxxC4Ch1GGf4fMzw）；參考圖 企劃線 97a1bda43 docs/story_planning/ref_images/shops/",
-   "note": "參考圖全部到齊，可以開工。LAWWW2：所有外觀、新生南路街景（xinsheng_street_b）＋首都帝大側門、公館燒臘（取代阿鳳麵店：座標門口不動；模型、道具、招牌、立面、櫥窗貼圖照 AA_612 第 5 節；不留舊的）。改圖：大步勾勾標誌拿掉、同弦琴頭無字、南洋場次照時刻表、球衣不用真的學校名。室內：AA 山嵐／木曜日／日常失速；BB 南洋大廳／大口漢堡；CC 同弦／大步／好拍／新生運動廣場。台詞 AA（AA_612），接線、背景、事件 LAWWW。"
+   "note": "參考圖全部到齊，可以開工。LAWWW2：所有外觀、新生南路街景（xinsheng_street_b）＋首都帝大側門、公館燒臘（取代阿鳳麵店：座標門口不動；模型、道具、招牌、立面、櫥窗貼圖照 AA_612 第 5 節；不留舊的）。改圖：大步勾勾標誌拿掉、同弦琴頭無字、南洋場次照時刻表、球衣不用真的學校名。室內：AA 山嵐／木曜日／日常失速；BB 南洋大廳／大口漢堡；CC 同弦／大步／好拍／新生運動廣場。台詞 AA（AA_612），接線、背景、事件 LAWWW。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者對 AA 說，AA 11:03／11:05 轉來）」、status「排程中（總圖、萬才館交件後）」、task「新生南路新店＋公館燒臘」）"
   },
   {
    "id": "UA-LAWWW2-1103-08",
    "at": "2026-11-03T11:1x",
-   "kind": "原話（使用者直接對 LAWWW2 說）",
-   "status": "已轉 LAWWW，等回覆版本與時間",
-   "task": "DORM-LOFT-SCALE-1102 發布",
+   "kind": "原話",
+   "status": "在遊戲裡",
+   "task": "DORM-LOFT-SCALE-1102",
    "quote": "我不是請改宿舍內部床的比例？那個任務做到哪 你是不是很多忘記／好 請LAWWW排進下一次發布",
    "src": "使用者",
-   "note": "已完成：BB_249 ART_APPROVED、LAWWW 整合進開發分支 df1905883（11-02 21:38 UTC）；線上 main v9.10.16（e3d773589）還沒有。已 send_message 請 LAWWW 排進下一次發布並回版本、時間。"
+   "note": "已完成：BB_249 ART_APPROVED、LAWWW 整合進開發分支 df1905883（11-02 21:38 UTC）；線上 main v9.10.16（e3d773589）還沒有。已 send_message 請 LAWWW 排進下一次發布並回版本、時間。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者直接對 LAWWW2 說）」、status「已轉 LAWWW，等回覆版本與時間」、task「DORM-LOFT-SCALE-1102 發布」）"
   },
   {
    "id": "UA-LAWWW2-1103-09",
    "at": "2026-11-03T11:2x",
-   "kind": "原話（使用者直接對 LAWWW2 說）",
-   "status": "進行中",
+   "kind": "原話",
+   "status": "做好了沒進遊戲",
    "task": "DORM-CEIL-1103",
    "quote": "宿舍天花板太低了 走上去都撞到頭 不合理／至少微微彎腰不要整個頭卡進去天花板",
    "src": "使用者",
-   "note": "原因：房間高 3.0 m；梯子最上一階 1.60 m＋身高約 1.75＝頭頂 3.35 m；bed_entry（床墊 1.86 m）站直約 3.6 m。LAWWW2：天花板 3.0→3.4 m（吸頂燈 3.35、冷氣管頂 H−0.03）、sleep_scene 加 ceil_y／head_max（3.32）／bed_entry_pose='kneel'、重烘光照、layout 與 src/data/dorm_room_layout.js patch。LAWWW（已 send_message）：最上面一兩階微微彎腰、bed_entry 跪或爬。"
+   "note": "原因：房間高 3.0 m；梯子最上一階 1.60 m＋身高約 1.75＝頭頂 3.35 m；bed_entry（床墊 1.86 m）站直約 3.6 m。LAWWW2：天花板 3.0→3.4 m（吸頂燈 3.35、冷氣管頂 H−0.03）、sleep_scene 加 ceil_y／head_max（3.32）／bed_entry_pose='kneel'、重烘光照、layout 與 src/data/dorm_room_layout.js patch。LAWWW（已 send_message）：最上面一兩階微微彎腰、bed_entry 跪或爬。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者直接對 LAWWW2 說）」、status「進行中」、task「DORM-CEIL-1103」）"
   },
   {
    "id": "UA-LAWWW2-1103-10",
    "at": "2026-11-03T12:1x",
-   "kind": "原話（使用者直接對 LAWWW2 說）",
-   "status": "照做（自主進行；已轉 LAWWW、AA、BB）",
-   "task": "全部",
+   "kind": "原話",
+   "status": "規則（永久）",
    "quote": "我接下來要睡覺 有可以做的就先做 盡量自己判斷 別的ai也是 不要為了問題等我回答停下來",
    "src": "使用者",
-   "note": "不等使用者回答：遇到判斷題照最合理的做法先做，寫明理由，事後可以改。"
+   "note": "不等使用者回答：遇到判斷題照最合理的做法先做，寫明理由，事後可以改。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者直接對 LAWWW2 說）」、status「照做（自主進行；已轉 LAWWW、AA、BB）」、task「全部」）",
+   "wants": "X194"
   }
  ]
 }
