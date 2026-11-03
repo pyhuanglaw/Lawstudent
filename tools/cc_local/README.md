@@ -143,6 +143,6 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - 單元測試：`solo_unit.py`（SOLO、blender 不擋佇列、Blender 只用 CPU）。修改前的 runner（746f7e1af^）會 FAIL 3 項，然後當掉；新版 ALL PASS。
 - **別人的 Blender 工作（BB 13:30；使用者：「其他 AI 的 Blender 也可以給我的電腦做」）**：
   - 用 kind `blender`。SHA 可以寫 `lawww2`（second-ai-env-art 最新）或指定一個 commit，工作樹會用那個版本，lib2 也用那裡的。
-  - 腳本在別的分支時，ENV 寫 `SCRIPT_FROM=story`（企劃分支；也可以寫 lawww2、cc 或完整分支名）。需要的其他檔案用 `SCRIPT_FILES=a.py,b.json` 列出，逗號分隔，只支援文字檔。runner 會把這些檔放進工作樹裡相同的路徑再執行；讀不到就直接報錯，不會默默拿工作樹裡的舊檔來跑。
+  - 腳本在別的分支時，ENV 寫 `SCRIPT_FROM=story`（企劃分支；也可以寫 lawww2、cc 或完整分支名）。需要的其他檔案用 `SCRIPT_FILES=a.py,b.json` 列出，逗號分隔，文字檔和二進位檔（PNG 等）都可以。runner 會把這些檔放進工作樹裡相同的路徑再執行；讀不到就直接報錯，不會默默拿工作樹裡的舊檔來跑。
   - 結果檔中，PNG 以外超過 50 MB 的不推，只在 notes.txt 記路徑和大小。每一項的秒數在 meta.json 的 seconds。
   - 佇列寫法例：`AA_x | lawww2 | blender | tools/blender/env_second/aa_support/shanlan_interior.py | index.html | 120 | SCRIPT_FROM=story;XARGS=--out {out}`

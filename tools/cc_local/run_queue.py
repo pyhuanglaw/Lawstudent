@@ -701,16 +701,17 @@ class Runner(object):
             sf = env.get('SCRIPT_FROM', '').strip()
             if sf:
                 # BB 13:30：AA／BB 的 Blender 腳本在企劃分支，lib2 用工作樹（second-ai-env-art）那一份：把 SCRIPT_FROM 分支上的腳本
-                # （加上 SCRIPT_FILES 列的其他檔，逗號分隔）放進工作樹同一個路徑再跑
+                # （加上 SCRIPT_FILES 列的其他檔，逗號分隔；文字、二進位都可以）放進工作樹同一個路徑再跑
                 ref = {'story': STORY_BRANCH, 'lawww2': LAWWW2_BRANCH, 'cc': CC_BRANCH}.get(sf, sf)
                 for rel in [it.script] + [x.strip() for x in env.get('SCRIPT_FILES', '').split(',') if x.strip()]:
-                    rc, body = git('-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/')), capture=True)
-                    if rc != 0:
+                    pr = subprocess.run([GIT, '-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/'))],
+                                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)   # 位元組照原樣（貼圖 PNG 也可以）
+                    if pr.returncode != 0:
                         raise RuntimeError('SCRIPT_FROM %s: cannot read %s' % (ref, rel))
                     dst = os.path.join(wt, rel)
                     os.makedirs(os.path.dirname(dst), exist_ok=True)
-                    with open(dst, 'w', encoding='utf-8', newline='') as fh:
-                        fh.write(body)
+                    with open(dst, 'wb') as fh:
+                        fh.write(pr.stdout)
             if blender_is_python(self.blender):
                 return [self.blender, script, '--'] + xa, wt
             return [self.blender, '-b', '-t', env.get('CC_BLENDER_THREADS', str(blender_threads())), '--python-exit-code', '1', '--python', script, '--'] + xa, wt
