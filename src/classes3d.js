@@ -432,6 +432,9 @@ const CLS=(function(){
     else { A[k]={h:A[k].h,end:'full'}; if(withAn&&GM.npc.heroine_01){ await GM.sleep(1800); GM.caption(SOCIAL.displayName('heroine_01'),'三樓要安靜。……那我還是坐二樓。',4200); } }
     setTimeout(()=>{ try{ for(const n of crew.concat(lib?[lib]:[])){ if(n&&!n.charId&&E.npcs.includes(n)) E.removeNPC(n); } }catch(e){} },6000);
     S.refreshGoal(GM); if(GM.autosave) GM.autosave(); return !left; };
+  /* 導覽進行中（BB 11-03：大一第 1 週 15:55 系學會合照的出發選單在導覽中間跳出來，按了就離開導覽）：OUT.tick 先不跳出發選單，導覽結束再跳 */
+  S.touring=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:touring']=()=>{ S.touring=false; };
+  { const run0=S.runLibTour; S.runLibTour=async function(GM,a){ S.touring=true; try{ return await run0(GM,a); } finally { S.touring=false; } }; }
   S.attendActivity=async function(GM,a,o){ o=o||{}; const G=GM.G; if(!a||typeof ACTIVITIES==='undefined'||ACTIVITIES.attended(G,a.id,G.day)) return false;
     if(a.id==='lib_tour_y1s1'&&GM.E&&GM.E.player&&GM.E.moveTo&&typeof CHAR!=='undefined'&&GM.G.zone==='library_hall'&&!o.inScene) return S.runLibTour(GM,a);   /* 沒有 3D 引擎（單元測試）照舊快轉 */   /* 總圖新生導覽：館員帶著走一圈（AA_134 第 2 節）*/
     const lec=a.kind==='lecture', tour=a.kind==='tour', club=a.kind==='club';

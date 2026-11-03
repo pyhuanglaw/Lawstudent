@@ -106,6 +106,7 @@ const OUT=(function(){
   let busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
+    if(typeof CLS!=='undefined'&&CLS.touring) return null;   /* 總圖新生導覽進行中：出發選單等導覽結束（BB 11-03）*/
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
