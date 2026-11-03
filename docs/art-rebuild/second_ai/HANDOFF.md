@@ -1,22 +1,33 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔨 現在在做（11-03 19:4x UTC 更新）
-- **總圖第五版：BB ART_APPROVED（20:14，第二輪 `52dbf7f8e`；條件是整合後瀏覽器測試都 PASS）**；第一輪是（`7f3f04f41`，`wip/library_v5/library_v5_1103.patch`，接 b049c84e3）。
-  - 已通知 LAWWW（整合）、BB（D128 驗收）。
-  - 烘焙全部通過：2F 西翼原本 0.249，西翼加屋頂採光條後 0.361，門檻沒改。
-  - 前後比較圖是 `v4_vs_v5_1f.jpg`、`_2f.jpg`。
-- **研究小間讀者第二版**：已交件，`12ac5e5f9`。
-- **今天交過的**（都是 patch 或檔案，等 LAWWW 整合；v9.10.19 發布以後才整合）：
+## 🔨 現在在做（11-03 20:5x UTC 更新）
+- **總圖第五版：BB ART_APPROVED（20:14，第二輪 `52dbf7f8e`）**。條件：LAWWW 整合後，候選版的 flow_library_floors、flow_library_scene、nav、reachability 都要 PASS。patch 是 `wip/library_v5/library_v5_1103.patch`。
+- **研究小間讀者第二版**：已交 `12ac5e5f9`。
+- **AA 室內驗收（20:1x 回 AA）**：
+  - 木曜日 v2 收（MODEL_READY）；
+  - 山嵐 v2 要 v3：實木寬樓梯、格樑嵌燈、暖色。
+- **D108 新生南路（ART-XINSHENG-GATE-1103）WIP**，全部在 `wip/xinsheng/`，`PLAN.md` 寫得最完整：
+  - LAWWW 同意校園側門、溫州街西端（20:20、20:24）。
+  - layout v2：店的順序照 AA_617 的路線。
+  - 街景 GLB 是 BLOCKOUT：`wz_street.py --set xinsheng`。
+  - 新區域 `src/xinsheng3d.js` 和校園側門 (−124, −84)，在 `xinsheng_zone_WIP.patch`（接 b049c84e3），xinsheng_unit 12 項 ALL PASS。
+  - **下一步**：
+    1. 溫州街接口：拿掉遠景 F4、打開西側橫巷北口（PLAN 最後一節）；
+    2. 七家店照參考圖做店面；
+    3. 地面、校園那一側的正式模型；
+    4. index.html、manifest、瀏覽器測試；
+    5. 交 LAWWW。
+- **今天交過的**（都等 LAWWW 整合，v9.10.19 以後）：
   - 秀琴姨第四版 `d2a809aa4`；
   - 蘇姨第二版 `7dc6db1ec`；
-  - 茶屋座位＋六法厚書＋鏡頭 via `c43b12aa2`；
-  - 總圖第五版 `7f3f04f41`。
+  - 茶屋座位＋六法＋鏡頭 via `c43b12aa2`；
+  - 總圖第五版 `52dbf7f8e`；
+  - 研究小間讀者 `12ac5e5f9`。
 - **還沒做的佇列**：
-  - D108 新店外觀和公館燒臘；
-  - 宿舍門口在 LAWWW 的跪姿接上以後重拍；
-  - 看 AA 的室內（木曜日、山嵐 v2）；
-  - 辛亥路東北的草地，之後改成人行道或店面；
-  - 總圖第五版等 BB 的意見（小房間牆面、新書展台的書、研究小間門）。
+  - 宿舍門口在跪姿接上以後重拍；
+  - 辛亥路東北的草地；
+  - 總圖 P3（研究小間的窗偏灰、新書色塊、門都一樣、小房間牆面）；
+  - 好拍、運動廣場、大口漢堡、公館燒臘的室內（BB／CC 分工，我負責接區域）。
 
 ## ✅ 值班登記（2026-11-03 08:2x UTC＝16:2x 台灣；使用者：「你上次交班之後沒有其他帳號接班 繼續工作」）
 - 值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `b5c2e47c0`｜2026-11-03 08:2x UTC

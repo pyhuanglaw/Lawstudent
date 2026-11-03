@@ -120,3 +120,16 @@
   2. 日常失速放在巷口轉角（W1 或 W2 的一樓，AA_617：綠遮雨棚、從學校過來第一眼看到）。室內是 AA 的。
   3. xinsheng 的 `wenzhouLane.exit.spawn` 改成溫州街西端的真座標。
   4. 跑 nav_buildings、reachability_all、touch_flow_wenzhou、wz 系列單元測試。
+
+### 溫州街那一端：改成打開西側橫巷的北口（11-03 20:5x，取代上面「拿掉 W0」）
+- **為什麼不拿掉 W0**：W0 是巷底的住家公寓（7 號）。門口有走失貓的告示、盆栽，`WZ_PROP_BLOCKS` 兩個導航阻擋也在它的門邊。拿掉會動到已經做好、驗收過的東西。
+- **改法**：西端本來就有一條南北向的橫巷（x −36.8～−30.2，z −15～15）。北口被遠景 F4（−33.4, −16.2，招牌「新生大樓」）擋住，套件和 GLB 都有它。
+  1. 拿掉 F4。它是遠景（far），沒有劇情道具；拿掉以後橫巷往北接到導航格邊 z ≈ −29.5，出口「往新生南路」放在 (−33.4, −28.5)。
+     - 要改的地方：`zones3d.js` buildWenzhou 的 F3／F4 迴圈（只留 F3）、`open()` 多開一段、互動點。
+     - `wz_street.py` 的 SPECS 拿掉 F4，重出 wenzhou_street.glb。
+     - F4 在 GLB 裡和別的樓合併成一個網格，不能只藏一個節點，所以要重出 GLB。
+     - `tests/wz_street_integration.py` 的名單拿掉 F4（照實寫原因）。
+  2. 日常失速放在 W2（−37.2, −13）一樓：橫巷北口的轉角。從新生南路走進來第一眼看到，對得上 AA_617。
+  3. xinsheng 的 `wenzhouLane.exit.spawn` 改成 (−33.4, −27.5, yaw 0：面向南，走進橫巷)。
+  4. 要跑的測試：nav_buildings、reachability_all、touch_flow_wenzhou、wz 系列單元、wz_street_integration。
+- 這還是 LAWWW 同意的「西端」：橫巷在 x −33，就是巷子的西端。
