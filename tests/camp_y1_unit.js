@@ -165,6 +165,14 @@ const day=k=>STORY.dayOfKey(k);
   check('D4. 舊版存檔 campStep=3（演完舊的大地遊戲 13:30）：接自由時間（19:30）',!said.some(t=>/撕名牌。每個人/.test(t))&&said.some(t=>/晚餐後是自由時間/.test(t)));
   fresh(); G.flags.CAMP_Y1_ON=true; G.flags.campStep=10; G.day=day('2025-08-24'); await STORY.campY1(GM,{next:false});
   check('D5. 舊版存檔 campStep=10（演完夜談）：只剩早餐、結業',!said.some(t=>/營火晚會開始沒多久/.test(t))&&said.some(t=>/第三天早上/.test(t))&&said.some(t=>/十二點半，遊覽車停在校門口/.test(t))&&G.flags.CAMP_Y1===true);
+  /* BUG-CAMP-RESUME-824-1103（BB 11-03）：最後一段演完的那一份自動存檔（campStep 8；ev_camp_d3_end 自己已經設了 CAMP_Y1）讀回來，要接著演「回到家」→ 8/29 搬宿舍 */
+  { fresh(); const n=STORY.CAMP_SEQ.length; Object.assign(G.flags,{CAMP_Y1_ON:true,CAMP_Y1:true,campStep:n,campSeqV:2}); G.day=day('2025-08-24'); G.hour=12+56/60; let w1=0; const sw=STORY.startLawWeek1; STORY.startLawWeek1=async()=>{ w1++; };
+    const ok=await STORY.campY1(GM,{resume:true}); STORY.startLawWeek1=sw;
+    check('D6. campStep '+n+'＋CAMP_Y1 true＋CAMP_Y1_ON true：不重演任何一段、演「回到家」、接 8/29 搬宿舍（startLawWeek1）；收尾後 CAMP_Y1_ON false、沒有 campStep',ok===true&&said.some(t=>/回到家，你把營地帶回來的衣服/.test(t))&&!said.some(t=>/十二點半，遊覽車停在校門口|遊覽車從校門口出發/.test(t))&&w1===1&&G.flags.CAMP_Y1===true&&G.flags.CAMP_Y1_ON===false&&G.flags.campStep==null,JSON.stringify({ok,w1,said:said.slice(0,3)}));
+    fresh(); G.flags.CAMP_Y1=true; G.flags.CAMP_Y1_ON=false; const ok2=await STORY.campY1(GM,{resume:true});
+    check('D7. 宿營已經收尾（CAMP_Y1 true、CAMP_Y1_ON false）：不再演',ok2===false&&!said.length);
+    const g3=require('fs').readFileSync(require('path').join(ROOT,'src/game3d.js'),'utf8');
+    check('D8. 讀檔（game3d applySave）：CAMP_Y1 已經 true 但 campMidway 也會接著演',/CAMP_Y1_ON&&\(!G\.flags\.CAMP_Y1\|\|\(STORY\.campMidway&&STORY\.campMidway\(G\.flags\)\)\)&&STORY\.campY1/.test(g3)); }
   // ---------- E 宿營之後 ----------
   fresh(); picks=[]; await STORY.campY1(GM,{next:false}); delete G.flags.ZHE_CALLS_GE; const evZ=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'); G.day=day('2025-09-01'); G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13;
   check('E1. 9/1 宿營認識阿哲：ev_zhe_w1_meet 的條件成立（已經 MET_ZHE 也演宿營版；AA_608 10-6 起新局一定有 ZHE_CALLS_GE，這裡拿掉旗標＝沒被叫哥的舊存檔）',EVENTS.cond(evZ.prereq)===true||(evZ.prereq.custom&&evZ.prereq.custom(G)===true));
