@@ -196,7 +196,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     const a=stepOf('heroine_01','Y3S1','A5-L8'), y=stepOf('heroine_03','Y3S1','Y5-L8');
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'JP'}); const aj=STORY.ladChoices(a).map(c=>c.t), yj=STORY.ladChoices(y), yr=yj.find(c=>c.t==='「我們同一班。」');
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'TW'}); const at=STORY.ladChoices(a).map(c=>c.t), yt=STORY.ladChoices(y).map(c=>c.t);
-    check('18. 以安 A5-L8 日本路線：「那我們在日本找一家麵店。」（不出「我們幫妳把位子占著。」）；臺灣路線照舊',J(aj)===J(['「那我們在日本找一家麵店。」','「回來第一碗我請。」'])&&J(at)===J(['「我們幫妳把位子占著。」','「回來第一碗我請。」']),J([aj,at]));
+    check('18. 以安 A5-L8 日本路線：「那我們在日本找一家燒臘店。」（不出「我們幫妳把位子占著。」）；臺灣路線照舊',J(aj)===J(['「那我們在日本找一家燒臘店。」','「回來第一碗我請。」'])&&J(at)===J(['「我們幫妳把位子占著。」','「回來第一碗我請。」']),J([aj,at]));
     check('18. 語彤 Y5-L8 日本路線：「我們同一班。」→「……那我十點去機場。送兩個。」；臺灣路線照舊「一起去。」',J(yj.map(c=>c.t))===J(['「我們同一班。」','「以安會想念麵店。」'])&&!!yr&&STORY.ladReply(y,yr)==='……那我十點去機場。送兩個。'&&J(yt)===J(['「一起去。」','「以安會想念麵店。」']),J([yj.map(c=>c.t),yt]));
   });
   // ===== 19. 大一的初識事件限大一 =====
@@ -216,7 +216,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
   const NOODLE=()=>{ for(const id of ['zhe','yu','classmate_bohan','heroine_01']) R(id,'FAM'); join('noodle_team'); G.flags.noodleTableDay=D('2026-03-01'); };
   await sec('342a',async()=>{
     fresh('2027-09-21',17.5,'noodle'); NOODLE(); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0)); const a=all();
-    check('3-1 9/21（二）這學期第一次週二進麵店：旁白（逐字），只演一次',a.includes('（大三第一次在麵店遇到大家。阿姨看了一圈：「大三了，點的還是一樣。」）')&&!!G.events.done.ev_y3_tue_noodle&&!EVENTS.check(ev('ev_y3_tue_noodle')),J(a));
+    check('3-1 9/21（二）這學期第一次週二進麵店：旁白（逐字），只演一次',a.includes('（大三第一次在燒臘店遇到大家。阿姨看了一圈：「大三了，點的還是一樣。」）')&&!!G.events.done.ev_y3_tue_noodle&&!EVENTS.check(ev('ev_y3_tue_noodle')),J(a));
     const ndBefore=(()=>{ for(let d=D('2027-09-06');d<D('2027-09-21');d++) if(STORY.noodleDay(d)) return d; return D('2027-09-14'); })();   /* AA_542：麵店日每週不固定兩天，這學期 9/21 以前第一個麵店日 */
     fresh('2027-09-21',17.5,'noodle'); NOODLE(); G.flags.ndlDays=[ndBefore]; check('3-1 這學期 9/21 以前的麵店日已經去過麵店的：9/21 不演（不是第一次）',!EVENTS.check(ev('ev_y3_tue_noodle')));
     fresh('2027-09-14',17.5,'noodle'); NOODLE(); check('3-1 9/14（第 2 週）還不演（9/21 起）',!EVENTS.check(ev('ev_y3_tue_noodle')));
@@ -252,9 +252,9 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     fresh('2027-11-05',21.9,'dorm'); NOODLE(); runPhone('2027-11-05',21.9,22.2,0.1);
     check('3-1 11/5（五）22:00 群組：Alison「沒課的一週」「我睡了三天」',J(txt('g:noodle_team').slice(-2))===J(['yu:沒課的一週','yu:我睡了三天']),J(txt('g:noodle_team')));
     fresh('2027-12-08',20.9,'dorm'); NOODLE(); runPhone('2027-12-08',20.9,21.2,0.1);
-    check('3-1 12/8（三）21:00 群組：阿哲「期末前最後一頓 明天 麵店」',J(txt('g:noodle_team').slice(-1))===J(['zhe:期末前最後一頓 明天 麵店']),J(txt('g:noodle_team')));
+    check('3-1 12/8（三）21:00 群組：阿哲「期末前最後一頓 明天 燒臘店」',J(txt('g:noodle_team').slice(-1))===J(['zhe:期末前最後一頓 明天 燒臘店']),J(txt('g:noodle_team')));
     fresh('2027-12-09',18,'noodle'); NOODLE(); G.events.done.ev_y3_tue_noodle=D('2027-09-21'); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0));   /* 這學期已經在麵店遇過大家（AA_542 起「第一次在麵店遇到大家」不只週二，沒演過的話 12/9 會先演它）*/
-    check('3-1 12/9（四）進麵店：「（期末前最後一次在麵店。大家都帶了講義，沒有人翻開。）」',has('（期末前最後一次在麵店。大家都帶了講義，沒有人翻開。）'),J(all()));
+    check('3-1 12/9（四）進麵店：「（期末前最後一次在燒臘店。大家都帶了講義，沒有人翻開。）」',has('（期末前最後一次在燒臘店。大家都帶了講義，沒有人翻開。）'),J(all()));
   });
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

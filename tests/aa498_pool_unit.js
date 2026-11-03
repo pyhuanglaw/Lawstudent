@@ -246,7 +246,7 @@ await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'
   H.said=[]; H.picks=[]; set(q.day,6.9); await OUT.go(GM,q);
   check('4. 鄭元碩：那一天（2D，四段）演完＝YS_MODEL、做完',has('（早上七點，晨思鐘。你坐在長椅的一頭，他蹲在遠遠的地方。）')&&has('最後一張了。謝啦。')&&H.G.flags.YS_MODEL===true&&r.state==='done',J(said()));
   const ex=TD('Y2S2',15,1); set(ex,12.5,'campus'); GM.npc={}; spawn(YS); E.interactables=[]; P().populate('campus',GM); const it=E.interactables.find(x=>x.poolAct==='ysExpo'); H.said=[]; if(it&&!it.hidden) await STORY.interact(it,GM);
-  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：晨思鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
+  check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：晨思鐘的早上、穿堂的中午、燒臘店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰影大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
 
 /* 邱家齊：魚丸；答應代收但週六沒去領 → 週日那一則、人物頁沒有那一行 */
 await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);

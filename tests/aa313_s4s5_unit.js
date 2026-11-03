@@ -111,7 +111,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const d19=D('2026-12-19'); fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q=OUT.get(G,'y2_yu_call'); G.events.done.ev_yu_together=1; run(21.65,21.7);
     check('5-1 第 4 點. 語 3 的電話排好以後又在麵店聽她當面講了：電話取消',!!q&&q.state==='cancelled',J(q));
     fresh(d19,21.4,'dorm',{met_yu:true}); PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); const q2=OUT.get(G,'y2_yu_call'); if(q2){ q2.state='missed'; OUT.onMissed(GM,q2); } G.hour=22.3; PHONE.tick(G);
-    check('5-1 第 4 點. 電話沒接：麵店團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（麵店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
+    check('5-1 第 4 點. 電話沒接：麵店團群組阿哲的照片（YU_ZHE_TOLD＝photo；之後聖誕禮物那則照常）',txt('g:noodle_team').includes('📷（燒臘店的長桌。Alison 比了一個 YA。）')&&G.flags.YU_ZHE_TOLD==='photo'&&!txt('p:yu').length,J([txt('g:noodle_team'),G.flags.YU_ZHE_TOLD])); }
   // 聖誕交換（5-3；12/17 他們還沒在一起）
   { const X=ev('ev_y2_xmas'); fresh(D('2026-12-17'),12.4,'campus'); onlyKnow(['zhe','yu']); G.flags.Y2_XMAS_FROM=null; said=[]; try{ await EVENTS.run(X); } finally { knowReset(); } const L=lines();
     check('5-3. 聖誕交換：「（阿哲先到。五分鐘後 Alison 也到了。）」；抽到阿哲的「你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。」',L.includes('（阿哲先到。五分鐘後 Alison 也到了。）')&&!L.includes('（阿哲和 Alison 一起來。）')&&L.includes('你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'),J(L)); }
@@ -166,7 +166,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. 慈 3（溫州街便利商店）開頭旁白：AA_547 2-1 新稿「（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）」（原本 AA_313 5-6 的「叫車」那一句，新稿沒有）',xs[0]&&xs[0].text==='（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'&&xs[0].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
     { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
-      check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間麵店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間麵店，便宜，份量也夠。」'])),J(ops)); }
+      check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間燒臘店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間燒臘店，便宜，份量也夠。」'])),J(ops)); }
     fresh(D('2025-09-01'),9,'dorm',{}); STORY.phoneRules(GM); const q=PHONE.rec(G).q.find(x=>x.tag==='bbq_ask');
     check('5-3. 中秋烤肉的群組訊息不加句號「週六中秋烤肉 河濱 下午三點」',!!q&&q.items[0].text==='週六中秋烤肉 河濱 下午三點',q&&q.items[0].text); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

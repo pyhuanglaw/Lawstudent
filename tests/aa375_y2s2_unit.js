@@ -220,8 +220,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
     const nd1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-15');d++) if(STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; return null; })(), nn1=(()=>{ for(let d=D('2027-02-22');d<D('2027-03-01');d++){ const w=CALENDAR.dateOf(d).wd; if(w>=1&&w<=5&&!STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
-    check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
-    { const SP1='（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中週過了，第一次在麵店遇到大家。春假去了哪裡，到現在還有人在講。）';
+    check('AA_342. 大二下第一個麵店日（'+nd1+'）：「（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）」；不是麵店日（'+nn1+'）不演',!!a&&J(evTexts(a))===J(['（大二下第一次在燒臘店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&!!nd1&&okIn(a,nd1,18)&&!!nn1&&!okIn(a,nn1,18));
+    { const SP1='（春假回來以後，第一次在燒臘店遇到大家。每個人都在講自己這幾天去了哪裡。）', SP10='（期中週過了，第一次在燒臘店遇到大家。春假去了哪裡，到現在還有人在講。）';
       const ndw=w=>{ for(let i=1;i<=5;i++){ const d=STORY.termDay('Y2S2',w,i); if(d!=null&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return null; }, w7=ndw(7), w10=ndw(10), w11=ndw(11);
       const sayAt=k=>{ fresh(k,18,'noodle'); return b.dialogue.filter(l=>!l.if||!l.if.custom||l.if.custom(G)).map(l=>l.text); };
       check('AA_342／AA_542 9-2. 春假回來以後第一個麵店日：第 7 週（'+w7+'）「'+SP1+'」；第 8～9 週期中沒有麵店日；第 7 週錯過、第 10 週（'+w10+'）才遇到換「'+SP10+'」；第 11 週（'+w11+'）不演',

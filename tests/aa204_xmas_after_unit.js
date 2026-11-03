@@ -82,7 +82,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
     check('1. 12/23 約以安：晚上場和 18:30 群戲重疊也可以約（小字「聖誕交換禮物散場以後」）、不另外選地點、不排邀約或另外的出遊',!!q0&&J(a.O[0].slice(0,2))===J(['中午場（11:30～14:30）','晚上場（18:00～21:30）'])&&a.O.length===1&&!!b&&b.slot==='eve'&&b.grp==='xmas_y1'&&!(H.G.invites||[]).some(iv=>iv.who===AN&&iv.state==='accepted')&&!OUT.get(H.G,'fest_heroine_01_xmas_2025')&&a.L.slice(-1)[0]==='約好 12/24（三），聖誕交換禮物散場以後。',J({O:a.O,b,L:a.L}));
     at('2025-12-24',18.2); money=[]; const r0=relOf(AN); const g=await goOut('xmas_y1',[0,0]);
     const T=tail(g,exp(0)[0]);
-    check('1. 群戲演完接著演：（大家在麵店門口散了。以安沒有往女舍的方向走。）「剛剛那個是抽的。」「我另外有帶一個。走一段再給你。」→ 送她禮物（鋼筆：「……我的筆快沒水了。你怎麼知道。」）',g.L.includes('（禮物先疊在桌子中間，吃完再抽。）')&&J(T)===J(exp(0).concat(['……我的筆快沒水了。你怎麼知道。']))&&whoAt(g,exp(0)[0])[0]===null&&J(g.O.slice(-1)[0])===J(GIFT_AN),J({T,O:g.O}));
+    check('1. 群戲演完接著演：（大家在燒臘店門口散了。以安沒有往女舍的方向走。）「剛剛那個是抽的。」「我另外有帶一個。走一段再給你。」→ 送她禮物（鋼筆：「……我的筆快沒水了。你怎麼知道。」）',g.L.includes('（禮物先疊在桌子中間，吃完再抽。）')&&J(T)===J(exp(0).concat(['……我的筆快沒水了。你怎麼知道。']))&&whoAt(g,exp(0)[0])[0]===null&&J(g.O.slice(-1)[0])===J(GIFT_AN),J({T,O:g.O}));
     check('1. 不演 AA_416 原本的聖誕台詞（「聖誕節。……這一天我本來沒排事情。」）',!g.L.includes(ORIG_AN_S6));
     check('1. 好感照 AA_416 1-7 聖誕（+4／+4／+4）＋禮物合適（+2 戀愛／+3 信任）；記憶 HOL_XMAS_2025；錢扣 800；done＝meet',sub(dRel(AN,r0),base)===plus(FEST_DATA.REL.day,FEST_DATA.REL.giftOk)&&SOCIAL.has(AN,'HOL_XMAS_2025')&&J(money)===J([-800])&&X().rec(H.G).done[AN+':xmas:2025']==='meet',J({d:dRel(AN,r0),base,money}));
     check('1. 時間：兩個人走溫州街回學校，到 21:30（12/24）',H.G.day===D('2025-12-24')&&Math.abs(H.G.hour-21.5)<1e-6,J([H.G.day,H.G.hour]));
@@ -93,7 +93,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   await sec('2',async()=>{
     const base=await baseline(AN,true);
     setup({lv:{[AN]:'dt'}}); const a=await ask(AN,[1]); at('2025-12-24',18.2); money=[]; const r0=relOf(AN); const g=await goOut('xmas_y1',[0,1]); const T=tail(g,exp(1)[0]);
-    check('2. 交往中：（大家在麵店門口散了。以安從包包裡拿出一個小盒子。）「這個不是抽的。」「鋼筆。申論題寫比較快。」→ 送她禮物（手帳：「明年的。……我會從第一頁開始寫。」）',!!a.r&&J(T)===J(exp(1).concat(['明年的。……我會從第一頁開始寫。']))&&J(g.O.slice(-1)[0])===J(GIFT_AN),J({T,O:g.O}));
+    check('2. 交往中：（大家在燒臘店門口散了。以安從包包裡拿出一個小盒子。）「這個不是抽的。」「鋼筆。申論題寫比較快。」→ 送她禮物（手帳：「明年的。……我會從第一頁開始寫。」）',!!a.r&&J(T)===J(exp(1).concat(['明年的。……我會從第一頁開始寫。']))&&J(g.O.slice(-1)[0])===J(GIFT_AN),J({T,O:g.O}));
     check('2. 不演 AA_416 交往中那張卡片（「字很少。回去再看。」）',!g.L.includes(ORIG_AN_DT)&&!g.L.includes('（她遞過來一張卡片）'));
     check('2. 好感聖誕＋禮物；HOL_XMAS_2025；錢扣 250；21:30',sub(dRel(AN,r0),base)===plus(FEST_DATA.REL.day,FEST_DATA.REL.giftOk)&&SOCIAL.has(AN,'HOL_XMAS_2025')&&J(money)===J([-250])&&Math.abs(H.G.hour-21.5)<1e-6,J({d:dRel(AN,r0),base,money,h:H.G.hour}));
   });

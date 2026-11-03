@@ -76,7 +76,7 @@ if(typeof US208==='undefined'||!ev('ev_far_call_us')){ H.done(); return; }
 /* ======================= F 主線 8「遠方」美國版 ======================= */
 const FAR_ALL=['（早上七點半。你端著一碗麥片，走到門外的平台上。這裡的收訊比房間好。）','你那邊幾點？……你吃什麼？給我看。','（你舉起那碗麥片。）','就這樣？',
   '你瘦了！……不對，是鏡頭。','強制執行法的筆記，我留了一份。你大五補修用得到。','讀書會你的位子，我們沒有人坐。','（語彤從廚房探出頭，舉起田野筆記，沒說話。）','滷蛋要不要！隔著螢幕也要問！',
-  '（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）','Hello，台灣！','好了，麵要糊了。……你自己也要吃飯。','（畫面關掉。平台上很安靜，遠處有人在割草。）'];
+  '（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）','Hello，台灣！','好了，飯要涼了。……你自己也要吃。','（畫面關掉。平台上很安靜，遠處有人在割草。）'];
 const FAR_SOLO=[0,1,2,3,11,12].map(i=>FAR_ALL[i]);
 const farSetup=(key,h,o)=>{ o=o||{}; fresh(key,h,'us_apartment',US(o.flags)); if(o.grp!==false) grp(); R('zhe',o.zhe||'FRI'); for(const id of (o.ppl||[])) R(id,'FRI'); dateSis(); return H.G; };
 await sec('F0',()=>{ const G=farSetup('2028-09-20',8.9);
@@ -85,7 +85,7 @@ await sec('F0',()=>{ const G=farSetup('2028-09-20',8.9);
   at('2028-09-20',9.05); rules(); const m=PHONE.byAsk(G,'us_far_call');
   check('F0. 9/20（三）美國 09:00 阿哲私訊（p:zhe）「明天你那邊早上七點半 視訊 給我起床」，兩個回覆「好。」「明天不行。」',J(txt('p:zhe'))===J(['zhe:明天你那邊早上七點半 視訊 給我起床'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天不行。'])&&m.day===D('2028-09-20')&&m.h>=9&&m.h<9.06,J([txt('p:zhe'),m&&{d:m.day,h:m.h}]));
   PHONE.answer(G,'us_far_call',0); rules(); const q=OUT.get(G,'us_far_call');
-  check('F0. 「好。」→「記得吃飯」；排 9/21（四）美國 07:30（臺灣 19:30）：「接起來：阿哲打視訊來（麵店，臺灣 19:30）」「先不接」、15 分鐘',txt('p:zhe').includes('zhe:記得吃飯')&&!!q&&q.day===D('2028-09-21')&&q.h===7.5&&q.late===0.25&&q.verb==='接起來'&&q.no==='先不接'&&q.title==='阿哲打視訊來（麵店，臺灣 19:30）'&&q.ev==='ev_far_call_us',J(q));
+  check('F0. 「好。」→「記得吃飯」；排 9/21（四）美國 07:30（臺灣 19:30）：「接起來：阿哲打視訊來（公館燒臘，臺灣 19:30）」「先不接」、15 分鐘',txt('p:zhe').includes('zhe:記得吃飯')&&!!q&&q.day===D('2028-09-21')&&q.h===7.5&&q.late===0.25&&q.verb==='接起來'&&q.no==='先不接'&&q.title==='阿哲打視訊來（公館燒臘，臺灣 19:30）'&&q.ev==='ev_far_call_us',J(q));
   const al=STORY.wakeAlarms(G,D('2028-09-21')).find(a=>/阿哲打視訊來/.test(a.why));
   check('F0. 早上的視訊有鬧鐘：9/20 晚上睡覺 07:00 醒（不會睡到中午錯過）',!!al&&Math.abs(al.h-7)<1e-6,J(al));
   check('F0. 9/21 下午 13:00 Comparative 不衝突（同一天照常有課）',USL.items(G,D('2028-09-21')).some(it=>it.c.id==='us_comp'&&it.t0===13)); });
@@ -117,15 +117,15 @@ await sec('F4',async()=>{ let G=farSetup('2028-09-20',9.1); rules(); PHONE.answe
   check('F4. 07:42 還在 15 分鐘裡：還沒算沒接',OUT.get(G,'us_far_call').state==='planned'&&!(G.msgs||[]).some(m=>/長桌上空著一個位子/.test(m.text||'')));
   at('2028-09-21',7.76); rules(); OUT.tick(GM); PHONE.tick(G);
   const q2=OUT.get(G,'us_far_call'), ph=(G.msgs||[]).find(m=>/長桌上空著一個位子/.test(m.text||''));
-  check('F4. 答應了、15 分鐘沒接：沒接（missed）、美國 07:45（臺灣 19:45）群組一張照片「（照片：長桌上空著一個位子，前面放了一碗麵）」',q2.state==='missed'&&!!ph&&ph.th==='g:noodle_team'&&ph.from==='zhe'&&ph.text==='（照片：長桌上空著一個位子，前面放了一碗麵）'&&ph.day===D('2028-09-21')&&ph.h>=7.75&&ph.h<7.77,J([q2&&q2.state,ph]));
+  check('F4. 答應了、15 分鐘沒接：沒接（missed）、美國 07:45（臺灣 19:45）群組一張照片「（照片：長桌上空著一個位子，前面放了一盤飯）」',q2.state==='missed'&&!!ph&&ph.th==='g:noodle_team'&&ph.from==='zhe'&&ph.text==='（照片：長桌上空著一個位子，前面放了一盤飯）'&&ph.day===D('2028-09-21')&&ph.h>=7.75&&ph.h<7.77,J([q2&&q2.state,ph]));
   G=farSetup('2028-09-20',9.1,{grp:false,zhe:'FAM'}); rules(); PHONE.answer(G,'us_far_call',0); rules(); at('2028-09-21',7.5); H.picks=[2]; await OUT.prompt(GM,OUT.get(G,'us_far_call')); at('2028-09-21',7.8); PHONE.tick(G);
-  check('F4. 「先不接」（不在麵店團）：照片傳到阿哲私訊',OUT.get(G,'us_far_call').state==='missed'&&txt('p:zhe').includes('zhe:（照片：長桌上空著一個位子，前面放了一碗麵）'),J(txt('p:zhe')));
+  check('F4. 「先不接」（不在麵店團）：照片傳到阿哲私訊',OUT.get(G,'us_far_call').state==='missed'&&txt('p:zhe').includes('zhe:（照片：長桌上空著一個位子，前面放了一盤飯）'),J(txt('p:zhe')));
   G=farSetup('2028-09-20',9.1); rules(); PHONE.answer(G,'us_far_call',0); rules(); at('2028-09-21',7.5); H.picks=[0]; H.said=[]; await OUT.prompt(GM,OUT.get(G,'us_far_call'));
   check('F4. 「接起來」：演 ev_far_call_us、FAR_CALL us、沒有照片',G.flags.FAR_CALL==='us'&&H.has('就這樣？')&&!(G.msgs||[]).some(m=>/長桌上空著一個位子/.test(m.text||''))); });
 await sec('F5',()=>{ fresh('2028-09-20',21.1,'dorm',{EXCHANGE_ROUTE:'TW',EXCH_RULE:1}); grp(); R('zhe','FRI'); rules();
   check('F5. 臺灣路線：沒有美國版的私訊',!PHONE.sent(H.G,'us_far_call'));
   fresh('2028-04-12',22.1,'dorm',{EXCHANGE_ROUTE:'JP',EXCH_RULE:1}); grp(); R('zhe','FRI'); rules();
-  check('F5. 日本路線照舊（4/12 日本 22:00 的「明天七點半 視訊 麵店」，沒有美國版）',txt('p:zhe').includes('zhe:明天七點半 視訊 麵店')&&!PHONE.sent(H.G,'us_far_call')); });
+  check('F5. 日本路線照舊（4/12 日本 22:00 的「明天七點半 視訊 燒臘店」，沒有美國版）',txt('p:zhe').includes('zhe:明天七點半 視訊 燒臘店')&&!PHONE.sent(H.G,'us_far_call')); });
 
 /* ======================= W 208 的週末 ======================= */
 const W={

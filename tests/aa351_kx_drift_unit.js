@@ -101,7 +101,7 @@ await sec(3,async()=>{ const run=async(pick,o)=>{ o=o||{}; const G=fresh('2026-1
     const iv=await mkInv(G,'heroine_01',o.place||'noodle',D('2026-10-08'),o.h||18,1); await meet(G,iv); tick(G); const q=outs(G,/^kx_drift_r1_/)[0];
     let L=[]; if(q&&pick!=null) L=await go(G,q,[pick]); return {G,q,L}; };
   let {G,q,L}=await run(null); const k5=OUT.rec(G).some(x=>x.kxod&&x.state==='planned'&&x.day===D('2026-10-10'));
-  check('3. 沒說就和以安去公館（阿鳳麵店 18:00～18:45）：那天 21:00 她打來（接起來／先不接）',!!q&&q.day===D('2026-10-08')&&q.h===21&&q.call&&q.verb==='接起來'&&q.no==='先不接',JSON.stringify(q&&{d:key(q.day),h:q.h}));
+  check('3. 沒說就和以安去公館（公館燒臘 18:00～18:45）：那天 21:00 她打來（接起來／先不接）',!!q&&q.day===D('2026-10-08')&&q.h===21&&q.call&&q.verb==='接起來'&&q.no==='先不接',JSON.stringify(q&&{d:key(q.day),h:q.h}));
   check('3. 她打來的電話不算「她的出遊」：那週六的「我們的日子」照排',k5,JSON.stringify(OUT.rec(G).filter(x=>x.kxod).map(x=>key(x.day)+':'+x.state)));
   ({G,q,L}=await run(0));
   check('3. 接起來：（手機響了。可昕。）→「你今天在公館？」→ 兩句；「我忘了講。對不起。」＝「……好。下次講。」（電話掛得很快。）、+0、沒有 D2',L[0]==='（手機響了。可昕。）'&&/你今天在公館？$/.test(L[1]||'')&&/予樂說看到你，跟一個女生。$/.test(L[2]||'')&&/……好。下次講。$/.test(L[L.length-2]||'')&&L[L.length-1]==='（電話掛得很快。）'&&cr(G)===0&&!R(G).r2,JSON.stringify(L));

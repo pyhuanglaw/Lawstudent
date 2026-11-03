@@ -714,14 +714,14 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     const SW=[
       ['src/data/events.js','你抽到芯慈的禮物：一張劇單。','你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。'],
       ['src/data/needed_msgs.js','那部劇大結局了。你不准爆雷。','永和的公車今天提早到了。……我多讀了一章。'],
-      ['src/data/noodle_table.js','昨天追劇追到兩點。……麵來了再叫我。','昨天讀書讀到兩點。……麵來了再叫我。'],
+      ['src/data/noodle_table.js','昨天追劇追到兩點。……麵來了再叫我。','昨天讀書讀到兩點。……飯來了再叫我。'],
       ['src/data/msg_pool.js','在追劇，這集好扯。','在讀書。等我一章。'],
       ['src/data/encounters.js','我來看一個劇的特展。周邊買太多了，在對收據。','我來看一個設計展。周邊買太多了，在對收據。'],
       ['src/data/encounters.js','她和高中同學在一間茶樓的窗邊，拿著手機比對一部韓劇的截圖。','她和高中同學在一間茶樓的窗邊，兩個人在對一份旅遊的帳。'],
       ['src/data/eat_lines.js','剛好。我昨天看了一部劇，沒有人可以講。','剛好。我昨天把筆記重抄了一遍，沒有人可以講。'],
       ['src/data/wz_jobs.js','她手機在放劇：「這是一部很重要的劇。」','她把耳機拿下來：「我在等永和的末班車。……沒等到。」'],
       ['src/data/group_events.js','好。請你吃滷蛋。一顆。','好。請你吃一碗大的。'],
-      ['src/data/group_events.js','（他把一顆滷蛋夾到你碗裡。）','（他把一碗大碗的乾麵推到你面前。）'],
+      ['src/data/group_events.js','（他把一顆滷蛋夾到你碗裡。）','（他把一盤雙拼推到你面前。）'],
       ['src/data/group_events.js','冠軍那天欠的。一顆。','冠軍那天欠的。大碗。'],
       ['src/group3d.js','回來請你吃滷蛋。一顆。','回來請你吃一碗大的。'],
       ['src/data/msg_pool.js','一家多一顆滷蛋 哈哈','一家多送一碗湯 哈哈'] ];
@@ -735,14 +735,14 @@ const inDoc=t=>DOC.indexOf(t)>=0||X547.indexOf(t)>=0;
     check('8. 一起吃（產生器重匯）：芯慈朋友以上「剛好。我昨天把筆記重抄了一遍，沒有人可以講。」',(EAT_LINES.together[XC].FRI||[]).some(x=>x[1]==='剛好。我昨天把筆記重抄了一遍，沒有人可以講。')&&!JSON.stringify(EAT_LINES).includes('我昨天看了一部劇'));
     { const e=ENCOUNTERS.find?ENCOUNTERS.find(x=>x.who===XC&&x.spot==='D18'):null; const all=JSON.stringify(ENCOUNTERS);
       check('8. 偶遇：松菸 D02「我來看一個設計展。……」、九份 D18 why「……兩個人在對一份旅遊的帳。」',all.includes('我來看一個設計展。周邊買太多了，在對收據。')&&(!e||e.why==='她和高中同學在一間茶樓的窗邊，兩個人在對一份旅遊的帳。')&&!/劇的特展|韓劇的截圖/.test(all)); }
-    check('8. 麵店長桌、溫州街打工、聖誕禮物照稿換',JSON.stringify(NOODLE_TABLE).includes('昨天讀書讀到兩點。……麵來了再叫我。')&&JSON.stringify(WZ_JOBS_DATA).includes('她把耳機拿下來：「我在等永和的末班車。……沒等到。」')&&STORY_EVENTS.some(e=>(e.dialogue||[]).some(l=>l&&l.text==='你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。')));
+    check('8. 麵店長桌、溫州街打工、聖誕禮物照稿換',JSON.stringify(NOODLE_TABLE).includes('昨天讀書讀到兩點。……飯來了再叫我。')&&JSON.stringify(WZ_JOBS_DATA).includes('她把耳機拿下來：「我在等永和的末班車。……沒等到。」')&&STORY_EVENTS.some(e=>(e.dialogue||[]).some(l=>l&&l.text==='你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。')));
     /* 照留：慈 3、慈 6、R1、尾聲、大一的 y1fill */
     /* AA_547 換了慈 3、慈 6、尾聲那一句：慈 3 的追劇留在 B1 版的開頭（3-1）、慈 6 新稿沒有追劇、尾聲換成「我在國際所做併購。昨天追劇追到三點……」*/
     { const t=[['慈 3（B1 版）','（B1 的自習室。芯慈在收書，手機在放韓劇，沒有關聲音。）','src/data/sup497_lines.js'],['R1','我跟妳說一部劇。','src/data/events.js'],
         ['尾聲','我在國際所做併購。昨天追劇追到三點，今天早上差點起不來。','src/data/postgrad_lines.js'],['大一 y1fill','最近在追《檔案室的燈》。','src/data/y1fill_events.js']].filter(([n,s,f])=>!noCmt(f).includes(s)).map(x=>x[0]);
       check('8. 追劇照留的四處（AA_547 以後）：慈 3 B1 版、R1、尾聲、大一的 y1fill',!t.length,J(t)); }
     /* 明軒的滷蛋 */
-    { await play('ev_mx_egg_y3'); check('8. ev_mx_egg_y3：「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」',J(H.said.map(x=>x.t))===J(['（他把一碗大碗的乾麵推到你面前。）','冠軍那天欠的。大碗。']),J(H.said.map(x=>x.t))); }
+    { await play('ev_mx_egg_y3'); check('8. ev_mx_egg_y3：「（他把一盤雙拼推到你面前。）」「冠軍那天欠的。大碗。」',J(H.said.map(x=>x.t))===J(['（他把一盤雙拼推到你面前。）','冠軍那天欠的。大碗。']),J(H.said.map(x=>x.t))); }
     check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」、量詞「一塊」（第 8 節後補 b70bed855）；旗標名 MX_EGG* 不改（2026-10-28 AA_519 1-5 再改那一列：乾麵 60、「湯另外點就超過了。阿姨有時候多給一塊豆干，這個不能算進排名。」——豆干、一塊照舊）',JSON.stringify(STORY.MX_FM1.rows[1])===JSON.stringify(['阿鳳麵店','乾麵','60','湯另外點就超過了。阿姨有時候多給一塊豆干，這個不能算進排名。'])&&in8('「滷蛋」改「豆干」')&&DOC0.indexOf('「阿姨有時候多給一顆」改「阿姨有時候多給一塊」')>=0&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
     check('8. 明軒的滷蛋只留 M1「他有念啦」那一晚、M2 推滷蛋、德文「不是滷蛋」',noCmt('src/data/events.js').includes('然後請你一顆滷蛋。')&&noCmt('src/y2r2_3d.js').includes('（明軒把自己碗裡的滷蛋，推到你碗裡。）')&&L().mx.german.scene.some(x=>x[1].endsWith('……不是滷蛋。')));
     /* 學妹改名佳穎：family_junior 全部換；姊姊宜蓁不動 */

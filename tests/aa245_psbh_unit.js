@@ -46,7 +46,7 @@ const {execSync}=require('child_process');
 let DOC=''; try{ DOC=execSync('git -c core.quotepath=false show 2af03a63:"docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
 const s1=(DOC.split('## 1.')[1]||'').split('\n## ')[0], bq=s1.split('\n').filter(l=>l.startsWith('> ')).map(l=>l.slice(2).replace(/^(柏翰|阿哲)：/,''));
 let D409=''; try{ D409=execSync('git -c core.quotepath=false show 86016b84:"docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
-const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
+const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的飯錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
 const W4=['（讀書會結束。你收白板的時候，沛珊站在門口等。）','今天那一題，你講得很好。……我想多聽你講。',   /* AA_525 2-4 P-6：原「下週那一題，你報。……我想聽你講。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js） */
   '（你們一起走出法律系館B。柏翰走在前面，一個人。）'], TOLD='（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）';
 const W4_409=W4.map(t=>t==='今天那一題，你講得很好。……我想多聽你講。'?'下週那一題，你報。……我想聽你講。':t);   /* AA_409 的稿還是原句（AA_525 2-4 改的那一句對 AA_525：tests/aa525_promises_unit.js）*/

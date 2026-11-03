@@ -11,7 +11,7 @@
 //   5 摘要池（AA_440 第 5 節＋AA_443 第 2 節：住家裡寒假 14、暑假 16；留宿舍寒假 12、暑假 20）：醒來（家裡的床／宿舍的床）、沒有任何一件的日子才放、照順序、一個假期內用完從頭；有事的日子、快轉停下來的那一天不放
 // 修改前（開發分支 HEAD：舊稿 718c06a30 的版本）：修訂的句子、日子、23 個事件、摘要池加寫都對不上——FAIL。用法：node tests/aa440_vacfill_unit.js
 // （2026-10-28 AA_519 1-3（企劃線 d75cd0228，NPC-STORY2-1028）：送小菜第七處＝大二寒假 1/16 麵店長桌那一句拆成兩句——前半「（長桌只坐了一半。）」照舊，
-//   後半換成 AA_519 的第 6 句「（阿姨沒說話，在你碗裡多放了一匙肉燥。）」（「人少，吃多一點。」拿掉）。第 0 項、第 4 項 1/16 照這個比：前半要是稿上那一句的開頭、新句要在 AA_519 裡）
+//   後半換成 AA_519 的第 6 句「（阿姨沒說話，在你盤子裡多放了一塊叉燒。）」（「人少，吃多一點。」拿掉）。第 0 項、第 4 項 1/16 照這個比：前半要是稿上那一句的開頭、新句要在 AA_519 裡）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -45,7 +45,7 @@ const fx=(t,F)=>F.reduce((x,[a,b])=>x.split(a).join(b),t);
 /* AA_519 1-3（企劃線 d75cd0228）：1/16 麵店長桌那一句（送小菜第七處）拆成兩句 */
 const P519='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md';
 const DOC519=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show d75cd0228:"'+P519+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
-const OLD0114='（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）', NEW0114=['（長桌只坐了一半。）','（阿姨沒說話，在你碗裡多放了一匙肉燥。）'];
+const OLD0114='（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）', NEW0114=['（長桌只坐了一半。）','（阿姨沒說話，在你盤子裡多放了一塊叉燒。）'];
 const ok519=t=>(t===NEW0114[0]&&DOC.indexOf(OLD0114)>=0&&OLD0114.indexOf(t.slice(0,-1))===0)||(t===NEW0114[1]&&DOC519.indexOf('6. '+t)>=0);
 const NEW507=FIX507_33.concat(FIX507_0115).map(x=>x[1]);
 const back507=t=>FIX507_33.concat(FIX507_0115).reduce((x,[a,b])=>x.split(b).join(a),t);   /* 新句換回舊句：舊句要在 AA_440 */
@@ -226,7 +226,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2027-06-18',21.05); rules(); rep=answer('vf_y2_0618',0); check('2-1. 「在家。」→ 阿哲「好喔」',J(rep)===J(['zhe:好喔']));
     G=lawG('2027-06-18',21.05,{groups:[]}); rules(); check('2-1. 不在麵店團：沒有',!tagged('vf_y2_0618').length);
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); const t23=qs(part('- **6/23','## 2-2')||part('- **6/23','### 2-2.'));
-    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「麵店暑假開始賣涼麵了。」「阿姨說你上次吃很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J([t23[2],t23[3]]),J(t23));
+    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「阿姨說你上次吃很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J([t23[2],t23[3]]),J(t23));
     answer('vf_y2_0623',0); rules(); const q=out('vf_y2_0623'); check('2-1. 「我去吃。」＝當天 18:00 一鍵到麵店（照麵店一般的吃飯）',isAt(q,'2027-06-23',18)&&q.goto&&q.goto.zone==='noodle',J(q));
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); rep=answer('vf_y2_0623',1); check('2-1. 「下次。」→「嗯。」',J(rep)===J([YT+':'+t23[4]]),J(rep));
     G=lawG('2027-06-23',15.05,{know:[YT]}); rules(); check('2-1. 和語彤只是認識：沒有',!tagged('vf_y2_0623').length);
@@ -328,7 +328,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     let rep=answer('vf_y1s_0624',0); check('4. 「我也來打。」→ 阿凱「所以今晚 線上」（AA_556 第 4 節：對話串那一句旁白換成當晚 22:00 的線上語音，tests/aa556_vacgap2_unit.js）',J(rep)===J(['kai:'+qs(r0624)[3]]),J(rep));
     G=lawG('2026-06-24',21.05); rules(); check('4. 不認識阿凱：沒有',!tagged('vf_y1s_0624').length);
     const r0803=row4('8/3（一）');
-    G=lawG('2026-08-03',21.05,{fam:[YT]}); rules(); check('4. 8/3（一）語彤（FAMILIAR 以上）「阿姨問你暑假有沒有回來吃麵。」＋「明天去。」',J(tagged('vf_y1s_0803').map(m=>m.text))===J([qs(r0803)[0]])&&J(optsOf('vf_y1s_0803'))===J([qs(r0803)[1]]));
+    G=lawG('2026-08-03',21.05,{fam:[YT]}); rules(); check('4. 8/3（一）語彤（FAMILIAR 以上）「阿姨問你暑假有沒有回來吃飯。」＋「明天去。」',J(tagged('vf_y1s_0803').map(m=>m.text))===J([qs(r0803)[0]])&&J(optsOf('vf_y1s_0803'))===J([qs(r0803)[1]]));
     answer('vf_y1s_0803',0); rules(); check('4. 「明天去。」＝8/4 麵店一鍵（18:00）',isAt(out('vf_y1s_0804'),'2026-08-04',18)&&out('vf_y1s_0804').goto.zone==='noodle');
     G=lawG('2026-08-05',21.55,{date:[AN]}); rules(); check('4. 交往以安的：8/5 21:30 她從台中「我媽今天問你是誰。」「我說是男朋友。……她說好。」（不用回）',J(tagged('vf_y1s_0805').map(m=>m.text))===J(qs(r0803).slice(2,4))&&!optsOf('vf_y1s_0805').length);
     G=lawG('2026-08-05',21.55,{fam:[AN]}); rules(); check('4. 沒交往：沒有',!tagged('vf_y1s_0805').length);
@@ -339,7 +339,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     const r0114=row4('1/14（四）');
     G=lawG('2027-01-14',21.05); rules(); check('4. 大二寒假 1/14（四）21:00 麵店團：阿哲「寒假還有誰在臺北」、語彤「我在。店裡」、Alison「我！！」＋「我也在。」',J(pairs('vf_y2w_0114'))===J(['zhe:'+qs(r0114)[0],YT+':'+qs(r0114)[1],'yu:'+qs(r0114)[2]])&&J(optsOf('vf_y2w_0114'))===J([qs(r0114)[3]]),J(pairs('vf_y2w_0114')));
     answer('vf_y2w_0114',0); rules(); Ls=await run('ev_vf_y2w_0116');
-    check('4. 「我也在。」＝1/16（六）18:00 麵店長桌一鍵：（長桌只坐了一半。）（阿姨沒說話，在你碗裡多放了一匙肉燥。）（AA_519 1-3：稿上的「（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）」拆兩句、後半換第 6 句）',
+    check('4. 「我也在。」＝1/16（六）18:00 麵店長桌一鍵：（長桌只坐了一半。）（阿姨沒說話，在你盤子裡多放了一塊叉燒。）（AA_519 1-3：稿上的「（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）」拆兩句、後半換第 6 句）',
       isAt(out('vf_y2w_0116'),'2027-01-16',18)&&J(Ls)===J([NEW0114[0]].concat(AA533.y2w_0116,[NEW0114[1]]))&&J([L().y2w_0114.narr,L().y2w_0114.narr2])===J(NEW0114)&&r0114.indexOf(OLD0114)>=0&&ok519(NEW0114[0])&&ok519(NEW0114[1]),J(Ls));
     const r0122=row4('1/22（五）');
     G=lawG('2027-01-22',21.05); rules(); rep=answer('vf_y2w_0122',0);
