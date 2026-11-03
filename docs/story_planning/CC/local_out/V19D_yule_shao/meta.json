@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19D_yule_shao",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_yule_shao_adv_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T01:30:23",
+  "end": "2026-11-04T01:32:03",
+  "seconds": 100,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 54,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 28
+  }
+}

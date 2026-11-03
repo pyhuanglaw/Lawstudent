@@ -486,3 +486,11 @@
 [01:28:33] [res] cpu=42% mem=51% (16.0/31.4 GB) chrome_testing=18  START V19D_grandma
 [01:29:14] 正在跑：V19S_diners（已跑 6 分／上限 90 分）、V19C_f606（已跑 2 分／上限 620 分）、V19D_grandma（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [01:30:12] [res] cpu=35% mem=52% (16.4/31.4 GB) chrome_testing=18  END V19D_grandma
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3748d7c8f..381086818  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:30:18] ==== END   V19D_grandma  exit=1  103s   ====
+[01:30:23] memory 51% before starting V19D_yule_shao (2 running)
+[01:30:23] ==== START V19D_yule_shao  (probe @ 15e78dff7) ====
+[01:30:26] [res] cpu=38% mem=51% (16.2/31.4 GB) chrome_testing=18  START V19D_yule_shao
+[01:32:03] [res] cpu=54% mem=52% (16.9/31.4 GB) chrome_testing=18  END V19D_yule_shao
