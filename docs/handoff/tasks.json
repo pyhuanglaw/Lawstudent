@@ -41153,7 +41153,7 @@
       "status": "待開工",
       "priority": "P1",
       "note": "使用者 11-03 08:1x 實玩回報（X156）",
-      "next": "AA 掃全遊戲（老師點名、看名單、認出交換生）給改稿表 → LAWWW 照表改；AA 還沒接班前 LAWWW 先列出程式裡找得到的位置給 AA",
+      "next": "LAWWW 查過（11-03）：程式裡找到的只有 src/data/jp_events.js:133 REDO_INS（日本路線大四補修保險法：老師點名停一下「交換回來的？」在名單上打勾）；請 AA 掃企劃稿與其他（老師認出、看名單、點名問）給改稿表，LAWWW 照表改",
       "xai": {
         "spec": "使用者 11-03 原話；已知一處 src/data/jp_events.js:133 REDO_INS（保險法老師點名「交換回來的？」）",
         "branch": "claude/story-planning",
@@ -41205,11 +41205,19 @@
       "area": null,
       "id": "BUG-GE-NOT-SELECTED-1103",
       "title": "「通識城市與散步沒選上」的事件和開局課表都排好的設計矛盾",
-      "owner": "LAWWW",
-      "status": "進行中",
+      "owner": "AA",
+      "status": "待開工",
       "priority": "P2",
       "note": "使用者 11-03 08:1x 實玩回報（X158）",
-      "next": "events.js ev_course_selection（第 5 天後宿舍：通識「城市與散步」沒選上、備取十七）：和固定課表矛盾＝劇情內容，請 AA 定（拿掉或改成合理的）；LAWWW 先查它有沒有接到任何後續"
+      "next": "LAWWW 查過（11-03）：大一上課表是固定的（沒有選課畫面）；ev_course_selection（events.js，第 5 天起宿舍 7～12 點）只是旁白「通識城市與散步沒選上、備取十七」＋兩個選項（加簽／下學期再選，只設 ge_walk_waitlist 旗標）；大一下開學選課（classes3d.js 選課畫面）才用到這個旗標說一句「備取三」再選「天文與我們」。沒有真的選課抽籤系統→玩家看不懂。請 AA 定：拿掉大一上這段、或改成玩家看得懂的（例：大一下選課那時才講）；LAWWW 照稿改",
+      "xai": {
+        "spec": "使用者 11-03 原話＋LAWWW 查到的程式現況（本任務 next）",
+        "branch": "claude/story-planning",
+        "acceptance": "AA 定留不留／怎麼改，LAWWW 照稿改",
+        "receiver": "LAWWW",
+        "ack": "未派",
+        "owner": "AA"
+      }
     },
     {
       "first": {
@@ -41277,7 +41285,7 @@
       "status": "待開工",
       "priority": "P2",
       "note": "使用者 11-03 08:1x 實玩回報（X161）",
-      "next": "人群：LAWWW 查教室外人群是誰放的（indoor_crowd／下課人潮）並減少；SK04：AA 決定",
+      "next": "LAWWW 查過（11-03）：「插座是壞的」＝SK04 便利貼（events.js ev_sk04_note1～，大一上週四大一英文共同教學館：同一個座位下午是經濟系大二的唐睿，兩個人用便利貼對話，第 15 週揭曉是誰）。使用者覺得看不出意義——請 AA 決定留不留、怎麼讓玩家一開始就看得懂（或拿掉）。教室外的人群：LAWWW 下一步查是哪個系統放的（下課人潮／indoor_crowd）並減少",
       "xai": {
         "spec": "使用者 11-03 原話；SK04 便利貼＝events.js ev_sk04_note1～（大一英文的座位，和經濟系的唐睿用便利貼對話，第 15 週揭曉）",
         "branch": "claude/story-planning",
