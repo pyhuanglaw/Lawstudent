@@ -160,6 +160,7 @@ const JOBS=(function(){
       if(G.hour<s.t0){ if(GM.fade) await GM.fade(true); GM.advance(s.t0-G.hour); if(GM.fade) await GM.fade(false); }
       const end=T(d,s.t1), seg=Math.max(0,(end-now(G))/3);
       if(n===1) await S.play(GM,D().first[k]);   /* WZ-B1／C1／T1 */
+      if(k==='tea'&&typeof YTJOB!=='undefined'&&YTJOB.firstShift) await YTJOB.firstShift(GM,ctx);   /* AA_610 第 2 節：茶屋的班第一次遇到語彤（接在蘇姨「水不要滾太久……」之後；收店那兩句在 SHIFT_EV）*/
       if(j.missPend){ await S.play(GM,S.missLines(k,j)); j.missN=(j.missN|0)+1; }   /* 上週沒去（第 6 條）*/
       const sg=S.segs(G,k,n);
       await S.play(GM,sg.a); GM.advance(seg);

@@ -43,7 +43,9 @@ const SOCIAL = (function(){
     if(Object.keys(add).length) S.adjust(id,add); else if(capped&&!P.cap&&S.feelOn&&!S.capNotes.includes(id)) S.capNotes.push(id);   /* 這一次因為上限什麼都沒加（玩家會以為壞掉）：那一天第一次才提示 */ return add; };
   S.stage=function(id,o){ let r=S.rel(id); if(o&&o.before){ r=Object.assign({},r); r[o.before.k]=o.before.v0; } const flags=G.flags||{}; if(flags['dating_'+id]) return 'RELATIONSHIP'; if(r.rom>=55&&r.npcRom>=45&&r.fam>=55) return 'ROMANTIC_TENSION'; if((r.rom>=30||r.npcRom>=30)&&r.fam>=45&&r.trust>=30) return 'POSSIBLE_ROMANTIC_INTEREST'; if(r.fam>=60&&r.trust>=45&&r.comf>=40) return 'CLOSE_FRIEND'; if(r.fam>=40&&r.trust>=25) return 'FRIEND'; if(r.fam>=20) return 'FAMILIAR'; if(r.fam>=5) return 'ACQUAINTANCE'; return 'STRANGER'; };
   // ---- NPC 記憶 ----
-  S.remember=function(id,tag,note){ const M=G.social.mem; if(!M[id]) M[id]=[]; if(tag!=='ADJUST'&&M[id].some(m=>m.tag===tag&&m.day===G.day)) return; M[id].push({tag,day:G.day,note:note||''}); if(M[id].length>S.MEM_CAP) S.memTrim(M[id]); };
+  /* AA_610（YT-MET-JOB）：語彤只有在一盞茶屋打工當同事才認識（YT_MET_JOB，src/ytjob3d.js）；認識以前不記她的任何記憶、不算見過面 */
+  S.ytLocked=id=>id==='heroine_03'&&!!G&&!!G.flags&&!G.flags.YT_MET_JOB;
+  S.remember=function(id,tag,note){ if(S.ytLocked(id)) return; const M=G.social.mem; if(!M[id]) M[id]=[]; if(tag!=='ADJUST'&&M[id].some(m=>m.tag===tag&&m.day===G.day)) return; M[id].push({tag,day:G.day,note:note||''}); if(M[id].length>S.MEM_CAP) S.memTrim(M[id]); };
   /* 每人最多 S.MEM_CAP 筆。超過時刪哪一筆（BUG-MEM-FIRSTMET-1102）：原本從最舊的整筆刪，第一次見面（FIRST_MET）會被刪掉＝S.has 以為還不認識、metAtCamp 讀不到。
      現在依序：最舊的 ADJUST（劇情不讀）→ 最舊的「同一個 tag 後面還有」的那一筆（S.has、lastDay 不變）→ 最舊的、不是 FIRST_MET 的那一筆；FIRST_MET 永遠留著 */
   S.MEM_CAP=80;
@@ -94,7 +96,7 @@ const SOCIAL = (function(){
      原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
   const LEGACY_MET={heroine_01:'met_an',heroine_05:'met_sis'};
   S.metD=function(id){ if(S.has(id,'FIRST_MET')) return true; const F=G&&G.flags; return !!(F&&(F['met_'+id]||(LEGACY_MET[id]&&F[LEGACY_MET[id]]))); };
-  S.meet=function(id,where){ if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
+  S.meet=function(id,where){ if(S.ytLocked(id)) return; if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
   // ---- 教授 ----
   S.prof=function(id){ const P=G.social.prof; if(!P[id]) P[id]={perf:0,part:0,office:0,research:0,rep:0,notes:[]}; return P[id]; };
   S.profEvent=function(id,kind,delta,note){ const p=S.prof(id); p[kind]=Math.max(0,Math.min(100,(p[kind]||0)+delta)); if(note){ p.notes.push({day:G.day,note}); if(p.notes.length>30) p.notes.shift(); } S.remember(id,kind.toUpperCase(),note); };
