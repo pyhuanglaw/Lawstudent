@@ -1,0 +1,96 @@
+06:47:10 | INFO: Data are loaded, start creating Blender stuff
+06:47:10 | INFO: Blender create Mesh node L0_dark
+06:47:10 | INFO: Blender create Mesh node L0_floor
+06:47:10 | INFO: Blender create Mesh node L0_glass
+06:47:10 | INFO: Blender create Mesh node xs_jersey_grey
+06:47:10 | INFO: Blender create Mesh node xs_jersey_maroon
+06:47:10 | INFO: Blender create Mesh node xs_tee_royal
+06:47:10 | INFO: Blender create Mesh node xs_bag_0
+06:47:10 | INFO: Blender create Mesh node xs_bag_1
+06:47:10 | INFO: Blender create Mesh node xs_bag_2
+06:47:10 | INFO: Blender create Mesh node xs_ball_basket
+06:47:10 | INFO: Blender create Mesh node xs_ball_tennis
+06:47:10 | INFO: Blender create Mesh node xs_ball_volley
+06:47:10 | INFO: Blender create Mesh node xs_bottle_0
+06:47:10 | INFO: Blender create Mesh node xs_bottle_1
+06:47:10 | INFO: Blender create Mesh node xs_bottle_2
+06:47:10 | INFO: Blender create Mesh node xs_bottle_3
+06:47:10 | INFO: Blender create Mesh node xs_bottle_4
+06:47:10 | INFO: Blender create Mesh node xs_bottle_5
+06:47:10 | INFO: Blender create Mesh node xs_bottle_6
+06:47:10 | INFO: Blender create Mesh node xs_jersey_red
+06:47:10 | INFO: Blender create Mesh node xs_shorts_black
+06:47:10 | INFO: Blender create Mesh node xs_shorts_navy
+06:47:10 | INFO: Blender create Mesh node xs_tee_black
+06:47:10 | INFO: Blender create Mesh node xs_tee_grey
+06:47:10 | INFO: Blender create Mesh node xs_tee_heather
+06:47:10 | INFO: Blender create Mesh node xs_tee_navy
+06:47:10 | INFO: Blender create Mesh node xs_tee_red
+06:47:10 | INFO: Blender create Mesh node xs_tee_white
+06:47:10 | INFO: Blender create Mesh node L0_paint
+06:47:10 | INFO: Blender create Mesh node L0_steel
+06:47:10 | INFO: Blender create Mesh node L0_stone
+06:47:10 | INFO: Blender create Mesh node L0_vc
+06:47:10 | INFO: Blender create Mesh node L0_vcg
+06:47:10 | INFO: Blender create Mesh node L0_wood
+06:47:10 | INFO: Blender create Mesh node L1_ceil
+06:47:10 | INFO: Blender create Mesh node L1_dark
+06:47:10 | INFO: Blender create Mesh node L1_floor
+06:47:10 | INFO: Blender create Mesh node L1_glass
+06:47:10 | INFO: Blender create Mesh node xs_jersey_black
+06:47:10 | INFO: Blender create Mesh node xs_jersey_lightblue
+06:47:10 | INFO: Blender create Mesh node xs_jersey_navy
+06:47:10 | INFO: Blender create Mesh node xs_tee_lightblue
+06:47:10 | INFO: Blender create Mesh node xs_tee_maroon
+06:47:10 | INFO: Blender create Mesh node xs_jersey_white
+06:47:10 | INFO: Blender create Mesh node xs_shorts_white
+06:47:10 | INFO: Blender create Mesh node L1_paint
+06:47:10 | INFO: Blender create Mesh node L1_print
+06:47:10 | INFO: Blender create Mesh node L1_steel
+06:47:10 | INFO: Blender create Mesh node L1_tube
+06:47:11 | INFO: Blender create Mesh node L1_vc
+06:47:11 | INFO: Blender create Mesh node L1_wood
+06:47:11 | INFO: Blender create Mesh node WALL_back_L0_dark
+06:47:11 | INFO: Blender create Mesh node WALL_back_L0_glass
+06:47:11 | INFO: Blender create Mesh node WALL_back_L0_paint
+06:47:11 | INFO: Blender create Mesh node WALL_back_L0_vc
+06:47:11 | INFO: Blender create Mesh node WALL_back_L1_paint
+06:47:11 | INFO: Blender create Mesh node WALL_back_L1_print
+06:47:11 | INFO: Blender create Mesh node WALL_back_L1_steel
+06:47:11 | INFO: Blender create Mesh node WALL_back_L1_vc
+06:47:11 | INFO: Blender create Mesh node WALL_front_L0_dark
+06:47:11 | INFO: Blender create Mesh node WALL_front_L0_glass
+06:47:11 | INFO: Blender create Mesh node WALL_front_L0_paint
+06:47:11 | INFO: Blender create Mesh node WALL_front_L0_steel
+06:47:11 | INFO: Blender create Mesh node WALL_front_L0_vc
+06:47:11 | INFO: Blender create Mesh node WALL_front_L1_dark
+06:47:11 | INFO: Blender create Mesh node WALL_front_L1_glass
+06:47:11 | INFO: Blender create Mesh node WALL_front_L1_paint
+06:47:11 | INFO: Blender create Mesh node WALL_left_L0_dark
+06:47:11 | INFO: Blender create Mesh node WALL_left_L0_glass
+06:47:11 | INFO: Blender create Mesh node WALL_left_L0_paint
+06:47:11 | INFO: Blender create Mesh node WALL_left_L0_vc
+06:47:11 | INFO: Blender create Mesh node WALL_left_L1_dark
+06:47:11 | INFO: Blender create Mesh node WALL_left_L1_glass
+06:47:11 | INFO: Blender create Mesh node WALL_left_L1_paint
+06:47:11 | INFO: Blender create Mesh node WALL_left_L1_vc
+06:47:11 | INFO: Blender create Mesh node WALL_right_L0_paint
+06:47:11 | INFO: Blender create Mesh node WALL_right_L0_vc
+06:47:11 | INFO: Blender create Mesh node WALL_right_L1_paint
+06:47:11 | INFO: Blender create Mesh node WALL_right_L1_steel
+06:47:11 | INFO: Blender create Mesh node WALL_right_L1_vc
+06:47:11 | INFO: glTF import finished in 0.63s
+00:06.407  cycles           | WARNING CUEW initialization failed: Error opening the library
+01:10.563  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_01_ref_door.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_01_ref_door.png
+02:10.688  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_02_ball_wall.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_02_ball_wall.png
+03:17.250  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_03_stairs.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_03_stairs.png
+04:22.657  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_04_mezz_jersey.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_04_mezz_jersey.png
+05:38.391  render           | Saved: 'C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_05_mezz_overlook.png'
+render C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MD_xinsheng_v2\out\xinsheng_05_mezz_overlook.png
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit
