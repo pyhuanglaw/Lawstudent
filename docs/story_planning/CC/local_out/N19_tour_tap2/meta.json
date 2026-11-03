@@ -1,0 +1,23 @@
+{
+  "rerun": "gostop",
+  "id": "N19_tour_tap2",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py",
+  "env": "SOLO=1;MODE=tap;CC_HEADLESS=0;RERUN=gostop",
+  "machine": "MSI",
+  "start": "2026-11-04T00:23:01",
+  "end": "2026-11-04T00:49:46",
+  "seconds": 1605,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 23,
+    "mem": 44,
+    "used_gb": 14.1,
+    "chrome_testing": 9
+  }
+}
