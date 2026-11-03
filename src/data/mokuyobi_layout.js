@@ -6,7 +6,7 @@
    一樓的深綠鐵門、樓梯、外觀不在這裡（LAWWW2）：樓梯上到二樓的西南角 stairWell，樓梯口有一道木框門（店門），進門是 spawn。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。exit、enterAt 留空（LAWWW2 填）。 */
 const MOKUYOBI_LAYOUT = {
-  version: 3,   /* v3（2026-11-03 AA，SCENE_RULES §12 照參考圖）：唱片櫃＋《夏の残光》搬到臨街那面牆窗右邊的實牆（前窗縮成 x −2.6～2.6）、東牆小展示櫃換成高書櫃、樓梯間前的高書櫃改矮櫃＋《雨後的車站》掛在隔間牆；blocks、互動點跟著改；座位沒動 */
+  version: 3,   /* v3b（同日 LAWWW2 驗收第二輪）：中景加 table 10 方桌 (2.3, 4.2)、table 11 圓桌 (−0.45, 4.45) 各 2 席（共 24 席）＋落地植物 (−2.15, 3.75)；blocks 跟著加。v3（2026-11-03 AA，SCENE_RULES §12 照參考圖）：唱片櫃＋《夏の残光》搬到臨街那面牆窗右邊的實牆（前窗縮成 x −2.6～2.6）、東牆小展示櫃換成高書櫃、樓梯間前的高書櫃改矮櫃＋《雨後的車站》掛在隔間牆；blocks、互動點跟著改；座位沒動 */
  /* v2 註：   /* v2（2026-11-03）：加了窗下矮書櫃、樓梯間前的高書櫃、北牆格子展示櫃、東牆小展示櫃、第四盆大盆栽、中間一桌（table 9，2 席；共 20 席）——blocks 跟著加；其他座位、出口、樓梯、stairWell 都沒動 */
   id: 'mokuyobi', name: '木曜日', glb: 'assets/models/env/second_ai/aa_support/mokuyobi.glb',
   w: 9.0, d: 14.0, h: 3.0, floorY: 0, floor: 'terrazzo_light_with_rugs', wallColor: '#efe6d3',
@@ -37,7 +37,7 @@ const MOKUYOBI_LAYOUT = {
     {kind: 'stair_bookcase', x: -2.73, z: 5.3, w: 2.4, d: 0.34, h: 0.9, note: 'v3：樓梯間隔間牆前的矮櫃（面向東；上面一疊書、海報掛在上方）；v2 是 2.4 m 高書櫃'},
     {kind: 'display_case', x: 0.4, z: -6.81, w: 1.8, d: 0.38, h: 2.35, note: 'v2：北牆的格子展示櫃（抽屜、時鐘、相框、植物、書）'},
     {kind: 'bookcase_east', x: 4.31, z: 5.65, w: 1.6, d: 0.38, h: 2.35, note: 'v3：東牆的高書櫃（參考圖左牆那座，頂上黃金葛；緊靠唱片櫃那個角落，照參考圖）；取代 v2 的小展示櫃'},
-    {kind: 'plant_big', x: 4.1, z: -3.5, note: 'v2'}, {kind: 'rug', x: 0.45, z: -1.9, w: 2.0, d: 1.8, note: 'v2'}
+    {kind: 'plant_big', x: 4.1, z: -3.5, note: 'v2'}, {kind: 'plant_big', x: -2.15, z: 3.75, note: 'v3b：中景圓桌旁的落地植物'}, {kind: 'rug', x: 0.45, z: -1.9, w: 2.0, d: 1.8, note: 'v2'}
   ],
   blocks: [
     [-3.75, 5.3, 1.5, 3.4],
@@ -45,7 +45,8 @@ const MOKUYOBI_LAYOUT = {
     [3.0, -6.62, 2.8, 0.76], [4.12, -5.5, 0.76, 1.5], [2.9, -5.45, 1.0, 0.6], [2.3, -4.05, 1.8, 0.34],
     [-0.9, 6.15, 0.7, 0.7], [2.4, 6.15, 0.7, 0.7], [-3.0, 1.3, 0.7, 0.7], [-3.0, -1.3, 0.7, 0.7], [0.5, 2.6, 0.7, 0.7], [3.6, 2.2, 0.7, 0.7],
     [4.1, 3.9, 0.6, 0.6], [4.27, -1.0, 0.46, 2.0], [-2.75, 3.25, 0.4, 0.4], [-4.1, 3.1, 0.5, 0.5], [-0.9, -6.65, 0.45, 0.45], [-4.2, -1.62, 0.3, 0.36],
-    /* v2 */ [0.0, 6.83, 5.0, 0.3], [-2.73, 5.3, 0.36, 2.4], [0.4, -6.81, 1.8, 0.38], [4.31, 5.65, 0.38, 1.6], [4.1, -3.5, 0.45, 0.45], [0.45, -1.9, 0.7, 0.7]
+    /* v2 */ [0.0, 6.83, 5.0, 0.3], [-2.73, 5.3, 0.36, 2.4], [0.4, -6.81, 1.8, 0.38], [4.31, 5.65, 0.38, 1.6], [4.1, -3.5, 0.45, 0.45], [0.45, -1.9, 0.7, 0.7],
+    /* v3b */ [2.3, 4.2, 0.7, 0.7], [-0.45, 4.45, 0.7, 0.7], [-2.15, 3.75, 0.5, 0.5]
   ],
   walkNote: '店門 (−3.75, 3.6) 進來往東、往北都有 ≥ 1 m 的走道；吧檯前 z −5.3～−4.4（老闆在 z −6.6～−5.9）；沙發區從 x 1.4 以西、z −4.6 進去（半高書櫃擋著 z −4.05 那一段）',
   seats: [
@@ -58,7 +59,9 @@ const MOKUYOBI_LAYOUT = {
     {x: 2.2, z: -6.45, yaw: 0, table: 7, seatH: 0.44, canStudy: true, label: '坐沙發'}, {x: 3.2, z: -6.45, yaw: 0, table: 7, seatH: 0.44, canStudy: true, label: '坐沙發'},
     {x: 3.95, z: -5.3, yaw: -Math.PI / 2, table: 7, seatH: 0.44, canStudy: true, label: '坐沙發'}, {x: 2.9, z: -4.62, yaw: Math.PI, table: 7, seatH: 0.44, canStudy: true, label: '坐單人沙發'},
     {x: -2.45, z: -4.92, yaw: Math.PI, table: 8, seatH: 0.7, canStudy: true, label: '坐吧檯'}, {x: -1.75, z: -4.92, yaw: Math.PI, table: 8, seatH: 0.7, canStudy: true, label: '坐吧檯旁邊'},
-    {x: -0.1, z: -1.9, yaw: Math.PI / 2, table: 9, canStudy: true, label: '坐下'}, {x: 1.0, z: -1.9, yaw: -Math.PI / 2, table: 9, canStudy: true, label: '坐下'}   /* v2 */
+    {x: -0.1, z: -1.9, yaw: Math.PI / 2, table: 9, canStudy: true, label: '坐下'}, {x: 1.0, z: -1.9, yaw: -Math.PI / 2, table: 9, canStudy: true, label: '坐下'},   /* v2 */
+    {x: 2.3, z: 3.65, yaw: 0, table: 10, canStudy: true, label: '坐下'}, {x: 2.3, z: 4.75, yaw: Math.PI, table: 10, canStudy: true, label: '坐下'},   /* v3b：中景的方桌（LAWWW2 驗收：參考圖窗前左邊那張） */
+    {x: -0.45, z: 3.9, yaw: 0, table: 11, canStudy: true, label: '坐下'}, {x: -0.45, z: 5.0, yaw: Math.PI, table: 11, canStudy: true, label: '坐下'}   /* v3b：中景的圓桌（參考圖窗前右邊那張） */
   ],
   interact: [
     {x: -3.3, z: -4.95, kind: 'order', label: '點東西（焙茶拿鐵／焦糖布丁／巴斯克乳酪蛋糕）'},

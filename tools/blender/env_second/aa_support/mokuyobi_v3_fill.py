@@ -9,14 +9,14 @@ T5 = [s_ for s_ in LAY['seats'] if s_['table'] == 5]; t5x = sum(s_['x'] for s_ i
 def scallop_plate(x, z, y, r=0.12, col='#f4efe4'):
     """波浪邊的白盤（參考圖布丁那個）"""
     pts = [(0.0, 0.0), (r * 0.55, 0.0), (r * 0.6, 0.006), (r * 0.92, 0.014), (r, 0.022), (r * 0.98, 0.026)]
-    Xf(x, z, 0, y).lathe(sh.a('vcg'), pts, 0, 0, 0, seg=16, col=col)
+    Xf(x, z, 0, y).lathe(sh.a('vcg'), pts, 0, 0, 0, seg=12, col=col)
 
 
 def babys_breath(x, z, y):
     """玻璃花瓶（直條紋）＋滿天星"""
-    Xf(x, z, 0, y).lathe(sh.a('glass'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.03), (0.05, 0.13), (0.035, 0.17), (0.038, 0.18)], 0, 0, 0, seg=10)
-    for k in range(10):
-        a = k * 0.45; rr = 0.03 + (k % 4) * 0.035; fy = y + 0.26 + (k % 5) * 0.035
+    Xf(x, z, 0, y).lathe(sh.a('glass'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.03), (0.05, 0.13), (0.035, 0.17), (0.038, 0.18)], 0, 0, 0, seg=8)
+    for k in range(7):   # v3b：10 → 7 枝（6 萬上限）
+        a = k * 0.65; rr = 0.03 + (k % 4) * 0.035; fy = y + 0.26 + (k % 5) * 0.035
         fx, fz = x + math.cos(a) * rr, z + math.sin(a) * rr
         Xf(x, z).cyl(sh.a('vc'), (0, y + 0.16, 0), (fx - x, fy, fz - z), 0.0025, col='#7a8a52', seg=3, caps=False)
         for q in range(2):
@@ -46,7 +46,7 @@ babys_breath(x0 + 0.22, z0 + 0.14, TH)
 sh.tally('v3 foreground table')
 
 # ---------------------------------------------------------------- 2. 窗邊兩桌：小花瓶、蠟燭（參考圖窗邊那桌）
-for t in (1, 2):
+for t in (1, 2, 10, 11):   # v3b：中景兩桌也點蠟燭、放小花瓶
     ss = [s_ for s_ in LAY['seats'] if s_['table'] == t]; tx = sum(s_['x'] for s_ in ss) / 2; tz = ss[0]['z']
     Xf(tx - 0.08, tz + 0.05, 0, TH).lathe(sh.a('glass'), [(0.0, 0.0), (0.03, 0.0), (0.032, 0.09), (0.022, 0.12)], 0, 0, 0, seg=10)
     for k in range(5): sh.a('vcg').add_bm(K.paint_bm(L.lathe([(0.0, -0.005), (0.012, 0.0), (0.0, 0.005)], seg=5), '#f8f6ee'), Matrix.Translation(g2b(tx - 0.08 + R6.uniform(-0.03, 0.03), TH + 0.17 + R6.uniform(0, 0.04), tz + 0.05 + R6.uniform(-0.03, 0.03))))
@@ -54,3 +54,7 @@ for t in (1, 2):
     sh.a('bulb').cyl((tx + 0.1, TH + 0.01, tz - 0.05), (tx + 0.1, TH + 0.045, tz - 0.05), 0.022, seg=8)
     CL.glow(sh.root, 'candle', tx + 0.1, TH + 0.08, tz - 0.05, color='rgba(255,190,110,1)', size=0.4, day=0.15, night=0.5)
 sh.tally('v3 window tables')
+
+# ---------------------------------------------------------------- 3. v3b：中景圓桌旁的落地植物
+sh.plant(-2.15, 3.75, h=0.68, r=0.2, pot_col='#e8dcc0')   # 矮的一叢（葉片卡，三角形少）
+sh.tally('v3b plant')

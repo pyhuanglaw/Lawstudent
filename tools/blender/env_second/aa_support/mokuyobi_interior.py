@@ -19,7 +19,8 @@ X0, X1, Z0, Z1 = sh.X0, sh.X1, sh.Z0, sh.Z1
 sh._imgkeys = {'print', 'books', 'view'}
 P = 'mok_'
 sh.M.update({
-    'floor': L.pbr(P + 'floor_terrazzo', 'terrazzo_tiles', tile=1.5, target='#d3c4a7', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.4),
+    'floor': L.pbr(P + 'floor_terrazzo', 'terrazzo_tiles', tile=3.0, target='#d3c4a7', normal=0.15,   # v3b：顆粒放大、凹凸減半（LAWWW2：像地毯紋）；v2 tile 1.5、normal 0.3
+                    maps=('diff', 'nor'), res=512, rough_value=0.4),
     'wall': CL.soft_plaster(P + 'wall_cream', '#e4d5b8', 0.9, cull=True, tile=1.6, k=0.3),   # v2：暖一點、暗一點（傍晚）；單面（天花板也用它）
     'walnut': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#5e3e29', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
@@ -177,16 +178,16 @@ sh.tally('bookcase/record/counter')
 # ---------------------------------------------------------------- 桌子、曲木椅、每張桌子一盞小檯燈
 tabs = {}
 for s_ in LAY['seats']:
-    if s_['table'] <= 6 or s_['table'] == 9: tabs.setdefault(s_['table'], []).append(s_)   # 9＝v2 加的中間那桌
+    if s_['table'] <= 6 or s_['table'] in (9, 10, 11): tabs.setdefault(s_['table'], []).append(s_)   # 9＝v2 加的中間那桌
 for t, ss in sorted(tabs.items()):
     tx = sum(s_['x'] for s_ in ss) / 2; tz = sum(s_['z'] for s_ in ss) / 2
-    if t in (1, 2, 5, 9): K.round_table(sh, tx, tz, r=0.34, h=0.74, top_key='walnut', base_col='#2a2622', base='claw')
+    if t in (1, 2, 5, 9, 11): K.round_table(sh, tx, tz, r=0.34, h=0.74, top_key='walnut', base_col='#2a2622', base='claw')
     else: K.rect_table(sh, tx, tz, 0.0, 0.66, 0.66, h=0.74, top_key='walnut', leg_key='walnut', leg='wood')
     for s_ in ss:
         ox = math.sin(s_['yaw']) * -0.05; oz = math.cos(s_['yaw']) * -0.05
         K.bentwood_chair(sh, s_['x'] + ox, s_['z'] + oz, s_['yaw'], key='walnut')
     lx, lz = (tx + 0.18, tz - 0.18) if t not in (1, 2) else (tx, tz + 0.2)
-    if t not in (1, 2, 5): K.table_lamp(sh, lx, lz, y=0.74, r=0.09)   # v3：窗邊兩桌點蠟燭、前景那桌放甜點（參考圖沒有檯燈）
+    if t not in (1, 2, 3, 4, 5, 9, 10, 11): K.table_lamp(sh, lx, lz, y=0.74, r=0.09)   # v3b：3、4、9 三桌的檯燈拿掉（三角形給中景兩桌；6 萬上限）   # v3：窗邊兩桌點蠟燭、前景那桌放甜點（參考圖沒有檯燈）
 # 生活痕跡：窗邊那桌（布丁、巴斯克、拿鐵、小花瓶）、念書的桌子（攤開的書、筆記本、鉛筆、水）
 t1 = (-0.9, 6.15)
 K.plate(sh, t1[0] - 0.12, t1[1] - 0.1, 0.74, r=0.09); Xf(t1[0] - 0.12, t1[1] - 0.1, 0, 0.75).lathe(sh.a('vcg'), [(0.0, 0.0), (0.045, 0.0), (0.04, 0.05), (0.032, 0.06), (0.0, 0.062)], 0, 0, 0, seg=14, col='#e3b05a')
