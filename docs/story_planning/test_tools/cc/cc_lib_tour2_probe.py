@@ -164,7 +164,10 @@ async def main():
                 if s['choices']:
                     c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
                     if any(x.startswith('出發') for x in c): await handle_choices(pg, cdp, run); continue
-                    run.note('等合照時跳出別的選單 %s：不點，記下來' % json.dumps([x[:30] for x in c], ensure_ascii=False)); await pg.wait_for_timeout(1500); continue
+                    # tap4：導覽後先跳 pool_story 的偶遇問題（「看。」／「很少。」／「法律系的課本算嗎？」，選單開著時間停住）＝玩家要先回答。
+                    #   像玩家一樣只點這一個選單的第一個選項（不用 advance_dialogs：它會連後面接著跳的「出發：」一起點掉＝tap3 的情形）
+                    run.note('等合照時先跳出別的選單 %s：像玩家一樣只點第一個' % json.dumps([x[:30] for x in c], ensure_ascii=False))
+                    await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(1500); continue
                 if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
                 await pg.wait_for_timeout(1000)
             print('  等合照這段：選單出現 %s；按鈕被按 %s' % (json.dumps(await pg.evaluate("window.__ch||[]"), ensure_ascii=False)[:800], json.dumps(await pg.evaluate("window.__chClick||[]"), ensure_ascii=False)[:600]), flush=True)
