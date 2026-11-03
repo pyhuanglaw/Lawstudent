@@ -29,6 +29,8 @@ DC_ver_bad | 039a9227a | game | tests/deploy_check.py | index.html | 30 | SCRIPT
 # ===== N20：v9.10.20 第一批 d2b962a3f（BB 21:32；排在 LIVE19／DC_ver 後面）=====
 N20_tour_joy   | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=v20
 N20_tour_stay  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=stay;CC_HEADLESS=0
+N20_tour_joy2  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90
+# （N20_tour_joy2：第一次 16:44 到、22 秒遊戲時間後就查合照＝可能太早；改成在門口等最多 90 秒）
 N20_tour_tap8  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=v20
 N20_navb       | d2b962a3f | node  | tests/nav_buildings_unit.js | index.html | 10 |
 N20_reach      | d2b962a3f | game  | tests/reachability_all.py | index.html?turbo | 90 | XARGS={url}

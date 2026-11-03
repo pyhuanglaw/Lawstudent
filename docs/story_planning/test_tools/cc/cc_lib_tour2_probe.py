@@ -216,7 +216,14 @@ async def main():
                 late = [x for x in dl if any(k in x for k in ('錯過', '來不及', '已經拍完', '拍完了'))]
                 run.check('A 選「出發」以後到得了圓窗館前、沒有「錯過／來不及」', arrived is not None and not late, json.dumps({'arrived': arrived, 'late': late}, ensure_ascii=False))
                 # tap5（ddda3d829）：到了 16:42，合照事件 ev_l3_photo_1 的時段是 [15:50, 16:30]（campus_l123_3d.js:95），到了卻沒演＝要驗合照真的演了
-                ph = await pg.evaluate("(()=>{ const D=((GAME.G.events||{}).done||{}); const ids=Object.keys(D).filter(k=>k.startsWith('ev_l3_photo')); return {done:ids, h:+(+GAME.G.hour).toFixed(3)}; })()")
+                PH = "(()=>{ const D=((GAME.G.events||{}).done||{}); const ids=Object.keys(D).filter(k=>k.startsWith('ev_l3_photo')); return {done:ids, h:+(+GAME.G.hour).toFixed(3), running:(typeof EVENTS!=='undefined'&&EVENTS.running)||null}; })()"
+                ph = await pg.evaluate(PH); t3 = time.time()
+                while not ph['done'] and time.time() - t3 < 90:   # N20 joy（d2b962a3f）：到了 16:44、8 秒後就查＝可能只是還沒觸發；像玩家一樣在門口等、點對話，最多 90 秒
+                    s = await L.state(pg)
+                    if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
+                    if s['choices']: await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(1200); continue
+                    await pg.wait_for_timeout(1500); ph = await pg.evaluate(PH)
+                ph['waited_s'] = round(time.time() - t3)
                 run.check('A 到了以後合照真的演了（events.done 有 ev_l3_photo_*；對話裡有合照的句子）', bool(ph['done']), json.dumps({'photo': ph, 'dialog': [x[:30] for x in dl[-8:]]}, ensure_ascii=False))
                 await pg.screenshot(path=OUT + '/A_photo.png')
             POST['on'] = False; POST.pop('went', None); POST.pop('later', None)   # B 段照舊：出發選單選「不去了」
