@@ -281,3 +281,23 @@
 [20:27:03] ==== END   D_RUN_movreg  exit=1  294s   ====
 [20:27:34] 正在跑：FS112（已跑 24 分／上限 360 分）、V18_LIBTOUR（已跑 3 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
 [20:28:20] [res] cpu=16% mem=48% (15.3/31.4 GB) chrome_testing=10  END V18_LIBTOUR
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d6831eb47..ffb86c5ae  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:28:25] ==== END   V18_LIBTOUR  exit=0  254s   ====
+[20:32:34] 正在跑：FS112（已跑 29 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:37:34] 正在跑：FS112（已跑 34 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:42:34] 正在跑：FS112（已跑 39 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:47:34] 正在跑：FS112（已跑 44 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:52:34] 正在跑：FS112（已跑 49 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:57:34] 正在跑：FS112（已跑 54 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:02:34] 正在跑：FS112（已跑 59 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:07:34] 正在跑：FS112（已跑 64 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:12:34] 正在跑：FS112（已跑 69 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:17:34] 正在跑：FS112（已跑 74 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:22:34] 正在跑：FS112（已跑 79 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:27:34] 正在跑：FS112（已跑 84 分／上限 360 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:28:55] memory 44% before starting LIVE18_deploy2 (1 running)
+[21:28:55] ==== START LIVE18_deploy2  (game @ 0776cafc8) ====
+[21:28:58] [res] cpu=12% mem=44% (14.0/31.4 GB) chrome_testing=10  START LIVE18_deploy2
+[21:32:06] [res] cpu=23% mem=44% (13.9/31.4 GB) chrome_testing=10  END LIVE18_deploy2

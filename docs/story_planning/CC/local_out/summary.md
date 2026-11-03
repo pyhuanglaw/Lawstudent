@@ -427,3 +427,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [D_RUN_movreg] | [gpu_wrap 259.8s] page close url=http://127.0.0.1:8811/index.html?turbo | [gpu_wrap 259.9s] BROWSER DISCONNECTED
 - 2026-11-03T20:28:20  V18_LIBTOUR  sha=ffeec06e0  exit=0  254s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V18_LIBTOUR] | [gpu_wrap 221.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 221.7s] BROWSER DISCONNECTED
+- 2026-11-03T21:32:06  LIVE18_deploy2  sha=0776cafc8  exit=0  191s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [LIVE18_deploy2] | [gpu_wrap 158.4s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 158.5s] BROWSER DISCONNECTED
