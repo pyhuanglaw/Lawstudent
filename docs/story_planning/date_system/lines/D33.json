@@ -1,0 +1,2085 @@
+{
+ "loc": "D33",
+ "points": {
+  "D33.lobby": "散場的影城大廳",
+  "D33.food": "百貨公司美食街",
+  "D33.bridge": "信義區天橋"
+ },
+ "likes": {
+  "heroine_01": {
+   "D33.lobby": "like",
+   "D33.food": "normal",
+   "D33.bridge": "like"
+  },
+  "heroine_02": {
+   "D33.lobby": "like",
+   "D33.food": "like",
+   "D33.bridge": "like"
+  },
+  "heroine_03": {
+   "D33.lobby": "like",
+   "D33.food": "dislike",
+   "D33.bridge": "normal"
+  },
+  "heroine_04": {
+   "D33.lobby": "like",
+   "D33.food": "normal",
+   "D33.bridge": "like"
+  },
+  "heroine_05": {
+   "D33.lobby": "like",
+   "D33.food": "normal",
+   "D33.bridge": "like"
+  },
+  "classmate_peishan": {
+   "D33.lobby": "like",
+   "D33.food": "like",
+   "D33.bridge": "like"
+  },
+  "kexin": {
+   "D33.lobby": "like",
+   "D33.food": "like",
+   "D33.bridge": "normal"
+  }
+ },
+ "dislikeLine": {
+  "heroine_01": {},
+  "heroine_02": {},
+  "heroine_03": {
+   "D33.food": "好吵。……我們買了，拿到外面吃好不好？"
+  },
+  "heroine_04": {},
+  "heroine_05": {},
+  "classmate_peishan": {},
+  "kexin": {}
+ },
+ "lines": {
+  "heroine_01": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "新片要來這裡看。……二輪的我都等不及。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "市政府站的出口好多。我照著指標走，沒有走錯。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "我中午就把票買好了。位子是我挑的，你不要有意見。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "今天晚上我都空下來了。家教改到明天。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "我訂了兩個靠走道的位子。……出來比較快，不是別的原因。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_01",
+       "text": "十點多了。捷運還有。"
+      },
+      {
+       "who": "heroine_01",
+       "text": "今天的片，我回去會再想一次結局。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "回去吧。明天早上有日文課。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "走吧。再晚捷運人會變多。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "到了傳訊息給我。我等你傳了再睡。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "結局那裡，你覺得他是故意的嗎？……我覺得是。理由我想一下。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "中間那段我差點睡著。……後面有補回來。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我們找個地方坐。站著講我會講不完。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "下次你挑片。我想看你會挑什麼。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那部的結局，我後來想通了。你要聽嗎？"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你剛剛有一段一直在看我。……我沒有在怪你。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "我吃這家。每次都吃這家。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "人好多。你先去占位子，我幫你一起點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你要吃什麼？我點好了，等你。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "吃完我想去樓上的書店看一下。……十分鐘就好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次那家今天沒開。……我只好換一家。不太習慣。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "你那份給我吃一口。我的也給你。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "這裡的燈太多了。……但是好看。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "風好大。頭髮一直亂。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "從這裡走到捷運站要十分鐘。我們慢慢走。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_01",
+         "text": "我小時候覺得信義區是大人來的地方。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_01",
+        "text": "上次站在這裡，我好像也說燈太多。……今天也是。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她靠在欄杆上，往你這邊靠近一點。"
+        },
+        {
+         "who": "heroine_01",
+         "text": "這樣比較不冷。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_02": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "首映週的人好多。……字幕我會先看一遍再看畫面。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "這間的大廳好亮。比我常去的那間亮好多。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "今天沒班。我中午就到了，先在樓下逛了一圈。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "位子我挑的，第七排中間。你坐我右邊。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我買了一桶大的。我們一起吃，你不准吃太快。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_02",
+       "text": "出來都十點了。"
+      },
+      {
+       "who": "heroine_02",
+       "text": "你明天幾點的課？我早班，要早點回去。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "回去吧。我明天開店。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "下次換你挑片，我都看。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "捷運站我陪你走到。……走慢一點。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "翻譯把那句雙關翻掉了。……不過翻得很努力。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "配角那個女生，我覺得她才是主角。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你哪一場最喜歡？你先講，我再講。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想再看一次。這次一個人來就好。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那部，我後來又自己看了一次。這次有看懂。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你中間是不是睡著了？沒關係，我有幫你看。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "我要那家拉麵。排隊也要。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你去占位子。我端兩碗過去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "美食街的拉麵，湯都偏鹹。可是我就是想吃。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "你幫我拿筷子跟湯匙。我手上沒空了。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次那家拉麵，我回去還想了兩天。今天再吃一次。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我點大碗，你幫我吃半碗。我吃不完。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "從這裡看過去，像倫敦的某一個晚上。……我亂講的。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "這裡拍照的人好多。我們站旁邊一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "風好大。早知道就穿外套。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "我想在這裡多站一下。你趕時間嗎？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_02",
+        "text": "上次在這裡看的燈，今天好像又多了幾盞。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她把手放進你的外套口袋。"
+        },
+        {
+         "who": "heroine_02",
+         "text": "好冷。就放一下。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_03": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "……嗯。信義區。我很少來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "我照地圖，從市政府站走過來。走了好久。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "我早到了。在樓下看別人排隊。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "今天茶屋沒有班。整個晚上都可以。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "narr",
+        "text": "她站在電梯口等你，看到你才把手機收起來。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_03",
+       "text": "好晚了。"
+      },
+      {
+       "who": "heroine_03",
+       "text": "……今天很好。我先回去。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "我坐捷運回去。你也是嗎？"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "……那我先走了。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "你送我到捷運站就好。……到家我傳給你。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "片尾字幕我想看完。"
+       },
+       {
+        "who": "heroine_03",
+        "text": "（她坐到燈全亮才起身）"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "散場的時候，大家走路都好快。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "那個配角最後沒有說話。我覺得那樣比較好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "下次還要來。你挑，我都可以。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次那部，我後來又想了一下。……還是覺得那樣比較好。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……你剛剛一直在看我。我知道。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "太多選擇了。……你幫我選一家。不對，我自己選。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……嗯。我要那家咖哩。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "那邊有位子。你先去坐。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我一個人的時候，不會來這種地方吃。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次我自己選的那家，今天也吃那家。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "你的看起來比較好吃。……給我一口。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "人好多。……可是都在走自己的路。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "風好大。我們站裡面一點。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "……嗯。那棟大樓的燈，一層一層在關。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_03",
+         "text": "我想走慢一點。你不急吧？"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_03",
+        "text": "上次站在這裡，你也一直在看那棟樓。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她的手碰到你的手，沒有收回去。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_04": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "音響好的廳，我才願意花這個錢。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我先查過了，今天是最大的那一廳。音響最好。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "你有先吃東西嗎？這部很長。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我把電腦留在家了。今天不做東西。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "手機我關靜音了。你負責幫我看時間。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_04",
+       "text": "好累。可是很值得。"
+      },
+      {
+       "who": "heroine_04",
+       "text": "回去的路上，我要先把那段配樂找出來。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "手機快沒電了，回家。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "下次有好片我再叫你。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我陪你走到捷運站。……就到閘門口。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "配樂那段我起雞皮疙瘩。……你有聽到那個低音嗎？"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "開頭那個長鏡頭，我想知道他們怎麼拍的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "片尾有彩蛋。你又先站起來了。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我回去要查那段配樂是誰做的。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那段配樂，我回去找到了。聽了一整晚。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "剛剛那一段，你抓我的手抓好緊。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "我隨便。……好啦我要咖哩。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "這裡的插座都被占走了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "那家的炸物看起來不錯。我點一份，你也吃。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "吃完要不要去樓上的電玩區？就看一下。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次那家咖哩，今天我直接點，不用想。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我吃不完。你幫我。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "這裡的聲音很亂。我喜歡。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "我想在這裡錄一段聲音。你先不要講話。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "那棟樓的燈一直在換顏色。應該是排好的。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_04",
+         "text": "在這裡站著，我腦子比較安靜。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_04",
+        "text": "上次在這裡錄的聲音，我後來真的拿來用了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她把耳機的一邊塞給你。"
+        },
+        {
+         "who": "heroine_04",
+         "text": "聽這首。不要問為什麼。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "heroine_05": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "好久沒有看院線了。……考完試那天我想來，結果睡著了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我把今天下午空下來了。書都放在家裡。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "捷運比我想的快。筆記還沒看完就到了。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "手機我關靜音了。今天不看。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "今天不講學校的事。你也不要問我進度。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "heroine_05",
+       "text": "十點了。比我平常睡得晚。"
+      },
+      {
+       "who": "heroine_05",
+       "text": "你明天幾點的課？"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "回去吧。我明天要早起。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "下次你選片。不要太長的。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "到家傳一下給我。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "我猜到結局了。……可是還是很好看。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "中間那段我差點睡著。後面有醒過來。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "爆米花我只吃了幾顆。剩下的你拿去。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "好久沒有坐這麼久，什麼都不做。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那部，我後來又想了一下。還是我猜的那個結局比較好。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "你剛剛有一半的時間在看我，不是在看片。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "吃完再走一走。今天不急。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "你先去占位子。我買好了過去。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我吃清淡一點。那家湯麵就好。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "今天吃完不用趕回去看書。很奇怪。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次那家湯麵，今天我還是點那個。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我吃不完，分你一半。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "以前覺得信義區離學校好遠。其實只有二十五分鐘。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "風好大。你冷不冷？"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "那邊有人在拍照。我們往旁邊站一點。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_05",
+         "text": "我想在這裡多站一下。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "heroine_05",
+        "text": "上次在這裡，我們也站了很久。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她勾著你的手臂，走得很慢。"
+        },
+        {
+         "who": "heroine_05",
+         "text": "走到捷運站就好。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "classmate_peishan": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "我第一次在這裡看電影！好大！"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我早到了，在樓下的書店逛了一下。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我查好了，這一廳的位子比較寬。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "你等一下想吃什麼？我先查了幾家。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我穿了新買的外套。……你有發現嗎？"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "classmate_peishan",
+       "text": "今天好開心。"
+      },
+      {
+       "who": "classmate_peishan",
+       "text": "回去的路上，我要把劇情講給室友聽。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "好晚了，回去吧。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "下次換我約你。我會先查好。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "到家跟我說一聲。我會等。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "我哭了。……你不准說出去。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "那個小女孩演得好好。她幾歲啊？"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "片尾那首歌，我要回去找。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我有一段想問你。等一下吃飯再問。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那部，我後來又想了一次。還是好想哭。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "你剛剛遞面紙給我。……你眼眶也紅紅的。"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "這個美食街比我們台中的百貨公司大好多。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我想吃那家鍋燒。你呢？"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "那邊有位子！我先去坐。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我現在比較能吃辣了。你看。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次那家鍋燒，我跟我媽說了。她說下次也要來。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "你那份看起來比較好吃。給我一口！"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "拍一張！……你也進來。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "燈好多喔。我眼睛都花了。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "那邊有人在彈吉他。我們聽一首再走？"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "classmate_peishan",
+         "text": "我們走慢一點。我還不想回去。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "classmate_peishan",
+        "text": "上次拍的那張，我設成手機桌布了。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她靠在你肩膀上一下，又站好。"
+        },
+        {
+         "who": "classmate_peishan",
+         "text": "人好多。……等一下再靠。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "kexin": {
+   "arrive": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "台北的影城好貴。……不過這部我等很久了。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "我從木柵大學過來，轉了一次車。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "出口我先查好了。這次沒走錯。"
+       }
+      ]
+     },
+     {
+      "tier": "high",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "予樂問我今天去哪。我說信義區，她叫我拍照。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "先跟你說，我等一下很想吃東西。"
+       }
+      ]
+     }
+    ]
+   },
+   "closing": {
+    "first": {
+     "tier": "any",
+     "lines": [
+      {
+       "who": "kexin",
+       "text": "好晚了。我回去還要坐好久。"
+      },
+      {
+       "who": "kexin",
+       "text": "你明天早八嗎？我是。"
+      }
+     ]
+    },
+    "normal": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回去了。明天早八。"
+       }
+      ]
+     },
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "下次再約。我先看一下我的行程。"
+       }
+      ]
+     }
+    ],
+    "dating": [
+     {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "narr",
+        "text": "她把兩張票根疊好，收進包包。"
+       },
+       {
+        "who": "kexin",
+        "text": "下次換你買票。"
+       }
+      ]
+     }
+    ]
+   },
+   "hotspots": {
+    "D33.lobby": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "我們那邊的影城，這部只上一週。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "結局那裡我不服。你先說你的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "爆米花你吃比較多。我有算。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我們每次看完都要吵一下。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那部我跟予樂講了。她說我們兩個很奇怪。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "剛剛那段，你是不是有偷看我？"
+        },
+        {
+         "who": "narr",
+         "text": "她把爆米花的空桶遞給你，順手勾了一下你的手。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.food": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "美食街好多家。……我們學校附近只有自助餐。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我要那家韓式的。你不要跟我點一樣的。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我去占位子。你點好了叫我。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "跟你出來，我都會吃太多。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次那家今天換菜單了。我們吃新的。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我們點兩種，一人一半。"
+        }
+       ]
+      }
+     ]
+    },
+    "D33.bridge": {
+     "first": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "回去以後，我要跟室友說我來過信義區。"
+       }
+      ]
+     },
+     "normal": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "風好大。我頭髮弄了很久耶。"
+        }
+       ]
+      },
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "那棟大樓的燈好亮。我拍給予樂看。"
+        }
+       ]
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "kexin",
+         "text": "我們再站一下。等這一波人潮過了再走。"
+        }
+       ]
+      }
+     ],
+     "remember": {
+      "tier": "any",
+      "lines": [
+       {
+        "who": "kexin",
+        "text": "上次拍的照片，予樂說燈太多看不到我。今天重拍。"
+       }
+      ]
+     },
+     "dating": [
+      {
+       "tier": "any",
+       "lines": [
+        {
+         "who": "narr",
+         "text": "她勾著你的手臂。"
+        },
+        {
+         "who": "kexin",
+         "text": "不要走太快。我穿這雙鞋。"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ }
+}
