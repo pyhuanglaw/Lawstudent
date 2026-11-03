@@ -136,10 +136,7 @@ const STORY = (function(){
     if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,17.5,[{th:'p:zhe',from:'zhe',name:'阿哲',text:'我在高鐵上了。'},{th:'p:zhe',from:'zhe',name:'阿哲',text:'七點到宿舍。你到了沒？'}],'camp_squad_829');   /* AA 11-03：阿哲是第八小隊，改成私訊（宿營時加了好友）*/   /* AA_205 6-4／6-14①：阿哲 19:00 才拖行李進門（AA_208 2-1）；不用回 */ };
   S.CAMP_DAY='2025-08-22';
   S.campCallDue=G=>{ if(!S.isEcon(G)||typeof OUT==='undefined'||(G.flags||{}).CAMP_Y1) return false; const q=OUT.get(G,'y1_camp'), d0=S.dayOfKey(S.CAMP_DAY); return !!q&&q.state!=='done'&&G.day===d0&&G.hour>=8; };   /* 經濟系路線：8/22 08:00 還在家＝直接出發（AA_205 2-3）*/
-  /* BUG-CAMP-RESUME-824-1103（BB 11-03）：最後一段 ev_camp_d3_end 自己就設了 CAMP_Y1，接著用 campStep＝段數自動存檔；那一份讀回來 CAMP_Y1 已經是 true，
-     以前就不接著演「回到家」和 8/29 搬宿舍（停在 8/24 12:56）。CAMP_Y1_ON 還開著、campStep 還在＝宿營還沒收尾，照樣接著演 */
-  S.campMidway=F=>!!(F&&F.CAMP_Y1_ON&&F.campStep!=null);
-  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||(F.CAMP_Y1&&!S.campMidway(F))) return false;
+  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey(S.CAMP_DAY); if(d0==null||F.CAMP_Y1) return false;
     const econ=S.isEcon(G); if(econ) F.PLAYED_Y0=true;   /* 經濟系路線（AA_205 2-3）：營地旁白「這個營地你去年來過」看 PLAYED_Y0（轉進法律系時本來也會記）*/
     F.CAMP_Y1_ON=true; const from=S.campFrom(F); F.campStep=from; F.campSeqV=2; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
     if(GM.sceneBegin) GM.sceneBegin(); try{

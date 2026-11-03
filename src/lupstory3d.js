@@ -18,12 +18,9 @@ const LUPS=(function(){
     note:{FAMILIAR:'圖書館裡不能講話。',FRIEND:'五點出去。',CLOSE:'我在寫第五章。你去念你的。',DATING:'（便利貼上畫了一個時鐘，指著五點。）'} };
   /* ---------- 3-1 玩家預約 ---------- */
   S.y4=G=>{ const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y4S1'):null; return !!r&&(G.day|0)>=r.from; };
-  /* CARREL-FREE-1103（使用者 11-03 選擇題「大一就能用，免預約」，取代 AA_399 3-1 的大四預約）：法律系開館時間（08:00～22:00）08 的門開著、直接進去坐；服務台不再有預約選項。
-     舊存檔的 carrelDay／carrelUntil 不再讀（留著不刪）。學姊 03 的時段、敲玻璃照舊 */
-  S.FREE=true;
-  S.canBook=G=>!S.FREE&&law(G)&&S.y4(G)&&G.flags.carrelDay!==(G.day|0)&&hr(G)>=8&&hr(G)<21;   /* 一天一次；開館時間內（三小時讀得完：21:00 以前）*/
+  S.canBook=G=>law(G)&&S.y4(G)&&G.flags.carrelDay!==(G.day|0)&&hr(G)>=8&&hr(G)<21;   /* 一天一次；開館時間內（三小時讀得完：21:00 以前）*/
   S.book=function(G){ if(!S.canBook(G)) return false; G.flags.carrelDay=G.day|0; G.flags.carrelUntil=Math.min(hr(G)+3,24); return true; };
-  S.booked=G=>!!G&&(S.FREE?law(G)&&hr(G)>=8&&hr(G)<22:!!(G.flags&&G.flags.carrelDay===(G.day|0)&&(G.flags.carrelUntil==null||hr(G)<G.flags.carrelUntil)));
+  S.booked=G=>!!(G&&G.flags&&G.flags.carrelDay===(G.day|0)&&(G.flags.carrelUntil==null||hr(G)<G.flags.carrelUntil));
   /* ---------- 3-1 學姊 ---------- */
   S.sisAway=G=>typeof STORY!=='undefined'&&STORY.present&&!STORY.present(SIS,{day:G.day|0});   /* 美國那學期、回家：那天不在臺北 */
   S.noteKey=G=>{ if(dating(G,SIS)) return 'DATING'; const r=rank(stage(SIS)); if(r>=rank('CLOSE_FRIEND')) return 'CLOSE'; if(r>=rank('FRIEND')) return 'FRIEND'; if(r>=rank('FAMILIAR')) return 'FAMILIAR'; return null; };
@@ -55,7 +52,7 @@ const LUPS=(function(){
     if(STORY.populate&&!STORY._lupsPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments);
         try{ if(GM&&GM.E&&GM.G){ const G=GM.G;
             if(zoneId==='library_carrels'){ S.placeSis(GM); for(const it of GM.E.interactables) if(it&&it.id==='door03') it.lupKnock=true;
-              if(S.booked(G)&&(S.FREE?G.flags.CARREL_QUIET==null:G.flags.CARREL_QUIET!==(G.day|0))){ G.flags.CARREL_QUIET=G.day|0;   /* 免預約（CARREL-FREE-1103）：第一次進去才演一次 */ if(GM.say){ GM.sceneBegin(); Promise.resolve().then(()=>GM.say(null,S.LINES.quiet)).catch(e=>console.warn('LUPS.quiet',e)).finally(()=>{ if(GM.G===G){ GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); } } }   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
+              if(S.booked(G)&&G.flags.CARREL_QUIET!==(G.day|0)){ G.flags.CARREL_QUIET=G.day|0; if(GM.say){ GM.sceneBegin(); Promise.resolve().then(()=>GM.say(null,S.LINES.quiet)).catch(e=>console.warn('LUPS.quiet',e)).finally(()=>{ if(GM.G===G){ GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); } } }   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
             if(zoneId==='library_stacks') S.placeFang(GM); } }catch(e){ console.warn('LUPS.populate',e); }
         return r; }; STORY._lupsPopulate=true; }
     if(STORY.interact&&!STORY._lupsInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
