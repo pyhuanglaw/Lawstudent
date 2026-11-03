@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 125, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_pt106_probe.py", line 78, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'

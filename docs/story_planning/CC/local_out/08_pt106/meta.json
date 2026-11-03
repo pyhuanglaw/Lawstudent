@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "08_pt106",
+  "sha": "c2d0c24bc",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_pt106_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T11:26:41",
+  "end": "2026-11-03T11:27:15",
+  "seconds": 34,
+  "exit": 1,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 46,
+    "mem": 45,
+    "used_gb": 13.8,
+    "chrome_testing": 19
+  }
+}
