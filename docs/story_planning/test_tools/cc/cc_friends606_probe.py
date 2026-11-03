@@ -104,6 +104,10 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda dd: asyncio.ensure_future(dd.accept()))
+        # BB 16:07：walkFallbacks 要知道是哪一段——遊戲 game3d.js:170 console.warn('walkTo 卡住 → 放到目的地', 誰, 起點, '→', 終點)；包一層，記下當時的日期、時間、區域、樓層
+        await pg.add_init_script("""(()=>{ const w0=console.warn.bind(console); window.__wf=[]; console.warn=function(...a){ try{ if(typeof a[0]==='string'&&a[0].indexOf('walkTo 卡住')===0){ const G=window.GAME&&GAME.G;
+          window.__wf.push({who:a[1], from:a[2], to:a[4], d:(window.CALENDAR&&G)?CALENDAR.dateOf(G.day).key:(G&&G.day), h:G&&+(+G.hour).toFixed(2), zone:G&&G.zone, lv:GAME.E&&GAME.E.player?GAME.E.player.lv|0:null,
+            ev:(window.EVENTS&&EVENTS.running)||null, dlg:(()=>{ const e=document.getElementById('dlgText'); return e?e.textContent.slice(0,40):null; })()}); } }catch(e){} return w0(...a); }; })()""")
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg, 600))
         d0 = await pg.evaluate("STORY.dayOfKey('2025-08-22')"); d901 = await pg.evaluate("STORY.dayOfKey('2025-09-01')")
@@ -210,7 +214,10 @@ async def main():
         for _, _, cid, _ in CARDS:
             if cid == 'yu': continue
             run.check('4 旗標 FRIEND_CARD_%s' % cid, bool(fl.get('FRIEND_CARD_' + cid)), J(fl))
-        run.check('5 walkFallbacks 0', fin['fb'] == 0, str(fin['fb']))
+        wf = await pg.evaluate("window.__wf||[]")
+        for w in wf: print('  walkTo 卡住（被放到目的地）：' + J(w), flush=True)
+        summary['walkFallbacks'] = wf
+        run.check('5 walkFallbacks 0', fin['fb'] == 0, str(fin['fb']) + ('  ' + J(wf)[:600] if wf else ''))
         run.check('5 沒有 JS 例外', not errs, J(errs[:3]))
         summary.update(ended=ended, flags=fl, picks=picks[-400:], fails=run.fails)
         json.dump(summary, open(os.path.join(OUT, 'summary.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
