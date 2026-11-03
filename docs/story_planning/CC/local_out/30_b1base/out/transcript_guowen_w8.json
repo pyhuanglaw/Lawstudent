@@ -1,0 +1,165 @@
+{
+ "case": "guowen_w8",
+ "sha": "a3b1bd647",
+ "url": "http://127.0.0.1:8810/index.html",
+ "item": {
+  "key": "35:chinese_y1:am",
+  "cid": "chinese_y1",
+  "name": "大一國文（上）",
+  "kind": "general",
+  "t0": 9.166666666666666,
+  "t1": 12.166666666666666,
+  "room": "博思教學館 101",
+  "zone": "boya",
+  "exam": "mid",
+  "week": 8,
+  "term": "Y1S1",
+  "termExam": "mid",
+  "isExamCourse": false,
+  "status": "upcoming",
+  "att": 0,
+  "prep": 0,
+  "dayLabel": "10/21 週二・大一上 第 8 週（期中考週）",
+  "todayLine": "今天考試：09:10 大一國文（上）、13:20 通識：電影與敘事"
+ },
+ "phone_row_before": "09:10–12:10 大一國文（上）（考試） 博思教學館 101・國文老師・還沒開始 直接去上課",
+ "phone_row_after": "09:10–12:10 大一國文（上）（考試） 博思教學館 101・國文老師・上過了",
+ "btn": "直接去上課",
+ "rows": [
+  {
+   "k": "go",
+   "n": "35:chinese_y1:am",
+   "t": "{\"exam\":\"mid\"}",
+   "d": "2025-10-21",
+   "h": 8.009,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "你在宿舍 房間待到 08:42。",
+   "d": "2025-10-21",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "走路到博思教學館。",
+   "d": "2025-10-21",
+   "h": 8.7,
+   "z": "dorm"
+  },
+  {
+   "k": "enter",
+   "n": "",
+   "t": "boya",
+   "d": "2025-10-21",
+   "h": 9,
+   "z": "dorm"
+  },
+  {
+   "k": "choose",
+   "n": "",
+   "t": "坐中間的位子〔第一次上這門課〕｜自己找位子〔走過去坐下就可以上課〕",
+   "d": "2025-10-21",
+   "h": 9.005,
+   "z": "boya"
+  },
+  {
+   "k": "attend",
+   "n": "35:chinese_y1:am",
+   "t": "{\"key\":\"35:chinese_y1:am\",\"exam\":\"mid\",\"t0\":9.166666666666666,\"lateMin\":0,\"att0\":0,\"door\":false,\"status\":\"open\"}",
+   "d": "2025-10-21",
+   "h": 9.005,
+   "z": "boya"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你在座位上等。教室慢慢坐滿了。）",
+   "d": "2025-10-21",
+   "h": 9.005,
+   "z": "boya"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "考卷發下來。大一國文（上）期中考。",
+   "d": "2025-10-21",
+   "h": 9.167,
+   "z": "boya"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "你認得題目裡的每一個字，合起來就不太認得了。",
+   "d": "2025-10-21",
+   "h": 9.167,
+   "z": "boya"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "考完了。",
+   "d": "2025-10-21",
+   "h": 12.167,
+   "z": "boya"
+  },
+  {
+   "k": "attended",
+   "n": "35:chinese_y1:am",
+   "t": "{\"ret\":true,\"done\":true,\"att\":0,\"prep\":0,\"late\":false,\"abs\":false}",
+   "d": "2025-10-21",
+   "h": 12.167,
+   "z": "boya"
+  }
+ ],
+ "boards": [],
+ "board_captions": [],
+ "exam_questions": [],
+ "attend": {
+  "key": "35:chinese_y1:am",
+  "exam": "mid",
+  "t0": 9.166666666666666,
+  "lateMin": 0,
+  "att0": 0,
+  "door": false,
+  "status": "open"
+ },
+ "attended": {
+  "ret": true,
+  "done": true,
+  "att": 0,
+  "prep": 0,
+  "late": false,
+  "abs": false
+ },
+ "end": {
+  "status": "done",
+  "done": true,
+  "late": false,
+  "abs": false,
+  "att": 0
+ },
+ "stuck": null,
+ "walkFallbacks": 0,
+ "extra": {},
+ "shots": {
+  "today": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\08_guowen_w8_phone_today_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\09_guowen_w8_phone_today_port.png"
+  ],
+  "class": {
+   "line": "（你在座位上等。教室慢慢坐滿了。）",
+   "shots": [
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\10_guowen_w8_class_first_line_land.png",
+    "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\11_guowen_w8_class_first_line_port.png"
+   ]
+  },
+  "after": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\12_guowen_w8_phone_after.png"
+ }
+}

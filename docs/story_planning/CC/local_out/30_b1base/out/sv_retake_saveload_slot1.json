@@ -1,0 +1,1792 @@
+{
+ "v": 2,
+ "stage": "law",
+ "name": "祐廷",
+ "day": 1781,
+ "weekday": 5,
+ "hour": 20.011,
+ "energy": 100,
+ "money": 30000,
+ "zone": "gongguan",
+ "pos": {
+  "x": 0,
+  "z": -30,
+  "yaw": 3.142,
+  "lv": 0,
+  "y": 0
+ },
+ "weather": "clear",
+ "flags": {
+  "introDone": true,
+  "campusIntro": true,
+  "readCase": "full",
+  "classDone": true,
+  "afternoonDone": true,
+  "metAn": true,
+  "met_an": true,
+  "MET_ZHE": true,
+  "zheNoodleDone": true,
+  "KX_FIRST_MSG": true,
+  "KX_EVE_MSG": true,
+  "FAM_GROUP_SENT": true,
+  "CEREMONY_Y1": true,
+  "KAI_MOVEIN": true,
+  "LAW_RECAP_SEEN": true,
+  "fundsV2": 1,
+  "KX_DEC3_MIGRATED": true,
+  "dating_kexin": false,
+  "ROOM_Y2": 355,
+  "ROOM_Y3": 719,
+  "ROOM_Y4": 1083,
+  "BAR_REG": true,
+  "BAR_SIT_2029": true,
+  "BAR_SCORE_2029": 5,
+  "BAR_STAGE_2029": "none",
+  "RETAKE_STYLE": "home",
+  "GRADUATED": 1355,
+  "GRAD_DONE": true,
+  "GRAD_EVENING": "none",
+  "PACKED_Y4": 1354,
+  "MOVED_OUT": 1381,
+  "HOME_AFTER": "gongguan",
+  "FAIL_DELAY_COURSES": [],
+  "PG": {
+   "done": {
+    "grad": 1,
+    "exam_2029": 1,
+    "r1_2029": 1,
+    "b1": "missed",
+    "b1_2030": "missed",
+    "r2y4b_rt_1020": "missed",
+    "r2y4b_rt_1214": "missed",
+    "r2y4b_rt_0109": "missed",
+    "r2y4b_rt_0308": "missed",
+    "r2y4b_rt_reg": "missed"
+   }
+  },
+  "LIFELINE_V": 1,
+  "ROMANCE_HISTORY": [],
+  "CLEANUP_DONE": true,
+  "romance": {
+   "kexin": {
+    "status": "none",
+    "since": null,
+    "knows": [],
+    "suspicion": 0,
+    "history": []
+   },
+   "heroine_01": {
+    "status": "none",
+    "since": null,
+    "knows": [],
+    "suspicion": 0,
+    "history": []
+   }
+  },
+  "knowsRel_V": 1,
+  "knowsRel": {},
+  "ytKnows": {},
+  "YT_CONFESSED": {},
+  "YT_PROMISED": {},
+  "YT_BROKE_PROMISE": {},
+  "YT_LIED": {},
+  "OPEN_OK": {},
+  "YT_HONEST": {},
+  "YT_DODGED": {},
+  "YT_INTENT": {},
+  "DATE_OVERNIGHT": {},
+  "EXCHANGE_ROUTE": "TW",
+  "EXCH_APPLIED_DAY": 1781,
+  "EXCH_RULE": 1,
+  "HCIRCLE": {
+   "heard": {},
+   "once": {},
+   "intro": {}
+  },
+  "deptHear": {
+   "經濟:寒暑假": 0
+  },
+  "HEARD": {
+   "said": {},
+   "day": {},
+   "ph": {
+    "h503_kevin": "x:late",
+    "h503_pinyu": "x:late",
+    "h503_yule": "x:late",
+    "h504_kevin": "x:late",
+    "h504_yule": "x:late",
+    "h505_kevin": "x:late",
+    "h505_yule": "x:late",
+    "h505_pinyu": "x:late",
+    "h506_kevin": "x:late",
+    "h506_yule": "x:late",
+    "h506_pinyu": "x:late",
+    "h507_kevin": "x:late",
+    "h507_yule": "x:late",
+    "h507_pinyu": "x:late",
+    "h508_yu_an": "x:late",
+    "h508_zq_zr": "x:late",
+    "h508_yu_yt": "x:late",
+    "h508_yule": "x:late",
+    "h508_pinyu": "x:late",
+    "h509_yu_an": "x:late",
+    "h509_zq_zr": "x:late",
+    "h509_kevin": "x:late",
+    "h509_yule": "x:late",
+    "h509_pinyu": "x:late",
+    "h510_yu_an": "x:late",
+    "h510_yule": "x:late",
+    "h510_pinyu": "x:late",
+    "h510_zq_zr": "x:late",
+    "h513_kai_lab": "x:late",
+    "h513_kai_blanket": "x:late",
+    "h513_kai_cat": "x:late"
+   }
+  },
+  "LAWCLUB_SAT_VISITS": 10,
+  "RENT_RENEWED": true,
+  "YT_EV13": true,
+  "STUDY_AT_LAW": 0,
+  "CRIMPRO_HW": "none",
+  "SUMMER_Y3": "study",
+  "ZZ": {
+   "v": 1,
+   "state": "friends",
+   "since": 1781,
+   "ev": {},
+   "yt": "none",
+   "sem": {},
+   "fy": null,
+   "f3": null,
+   "forceB": false,
+   "held": null,
+   "version": null,
+   "month": null,
+   "ending": null
+  },
+  "ZZ_STATE": "friends",
+  "ZZ_DATING": false,
+  "ZR_UK_BACK": 1781,
+  "AN_JP_DEPARTED": 921,
+  "WZ_COPY_SHOP": "moved",
+  "MREL": {
+   "v": 1,
+   "disc": {},
+   "pend": {},
+   "st": {},
+   "zr": {},
+   "zz": {},
+   "gh": {},
+   "scan": {},
+   "block": {},
+   "prom": {},
+   "once": {},
+   "like": {},
+   "liked": {},
+   "cpend": {},
+   "rb": {}
+  },
+  "PS_YC": {},
+  "CRACKTALK": {
+   "r": {
+    "heroine_01": {
+     "talked": {}
+    },
+    "heroine_03": {
+     "talked": {}
+    },
+    "classmate_peishan": {
+     "talked": {}
+    },
+    "heroine_02": {
+     "talked": {}
+    },
+    "heroine_04": {
+     "talked": {}
+    }
+   },
+   "seat": {},
+   "pc": {
+    "from": 0,
+    "note": {}
+   },
+   "src": {
+    "an1": {},
+    "an2": {
+     "used": {}
+    },
+    "yt2": {
+     "next": null
+    },
+    "ps": {
+     "visits": []
+    },
+    "zr": {},
+    "zq": {}
+   }
+  },
+  "V6EX": {
+   "starts": [],
+   "notes": []
+  },
+  "FEED": {
+   "start": 1781,
+   "items": [],
+   "done": {
+    "kx1": "old",
+    "an1": "old",
+    "yt1": "old",
+    "zr1": "old",
+    "ps1": "old",
+    "zq1": "old",
+    "kx2": "old",
+    "yt2": "old",
+    "kx3": "old",
+    "sis1": "old",
+    "an2": "old",
+    "zq2": "old",
+    "kx4": "old",
+    "yt3": "old",
+    "ps2": "old",
+    "zr2": "old",
+    "an3": "old",
+    "zr4": "old",
+    "zq3": "old",
+    "sis2": "old",
+    "kx5": "old",
+    "an4": "old",
+    "ps3": "old",
+    "yt4": "old",
+    "zr3": "old",
+    "zq4": "old",
+    "kx6": "old",
+    "zr5": "old",
+    "an5": "old",
+    "ps4": "old",
+    "an6": "old",
+    "an7": "old",
+    "zq5": "old",
+    "kx7": "old",
+    "ps5": "old",
+    "sis3": "old",
+    "zq6": "old",
+    "an8": "old",
+    "yt5": "old",
+    "ps6": "old",
+    "kx8": "old",
+    "zr6": "old",
+    "zq7": "old",
+    "yt6": "old",
+    "sis1b": "old",
+    "zr1b": "old",
+    "zq1b": "old",
+    "ps1b": "old",
+    "zq2b": "old",
+    "kx1b": "old",
+    "an1b": "old",
+    "ps2b": "old",
+    "kx2b": "old",
+    "zq3b": "old",
+    "an2b": "old",
+    "yt1b": "old",
+    "zr2b": "old",
+    "ps3b": "old",
+    "zr3b": "old",
+    "kx3b": "old",
+    "zq4b": "old",
+    "yt2b": "old",
+    "an3b": "old",
+    "ps4b": "old",
+    "sis2b": "old",
+    "an4b": "old",
+    "an5b": "old",
+    "sis3b": "old",
+    "ps5b": "old",
+    "sis4b": "old",
+    "zq5b": "old",
+    "yt3b": "old",
+    "kx4b": "old",
+    "zr4b": "old",
+    "ps6b": "old",
+    "zq6b": "old",
+    "zr5b": "old",
+    "kx5b": "old",
+    "yt4b": "old",
+    "kx6b": "old",
+    "an6b": "old",
+    "ps7b": "old",
+    "zq7b": "old",
+    "zr6b": "old",
+    "yt5b": "old",
+    "kx7b": "old",
+    "an7b": "old",
+    "ps8b": "old",
+    "sis5b": "old",
+    "yt6b": "old",
+    "zq8b": "old",
+    "sis1c": "old",
+    "zr1c": "old",
+    "sis2c": "old",
+    "yt1c": "old",
+    "ps1c": "old",
+    "kx1c": "old",
+    "an1c": "old",
+    "sis3c": "old",
+    "ps2c": "old",
+    "yt2c": "old",
+    "an2c": "old",
+    "zq1c": "old",
+    "zr2c": "old",
+    "kx2c": "old",
+    "ps3c": "old",
+    "zr3c": "old",
+    "kx3c": "old",
+    "an3c": "old",
+    "ps4c": "old",
+    "yt3c": "old",
+    "zq3c": "old",
+    "zq2c": "old",
+    "zr4c": "old",
+    "ps5c": "old",
+    "sis4c": "old",
+    "zq4c": "old",
+    "kx4c": "old",
+    "an4c": "old",
+    "sis5c": "old",
+    "zr5c": "old",
+    "an5c": "old",
+    "zr6c": "old",
+    "kx4bc": "old",
+    "zq5c": "old",
+    "yt4c": "old",
+    "an6c": "old",
+    "kx5c": "old",
+    "zq6c": "old",
+    "zr1d": "old",
+    "zq1d": "old",
+    "yt1d": "old",
+    "kx1d": "old",
+    "an1d": "old",
+    "sis1d": "old",
+    "zr2d": "old",
+    "zq2d": "old",
+    "yt2d": "old",
+    "sis2d": "old",
+    "zr3d": "old",
+    "an2d": "old",
+    "kx2d": "old",
+    "zq3d": "old",
+    "an3d": "old",
+    "sis3d": "old",
+    "yt3d": "old",
+    "zr4d": "old",
+    "an4d": "old",
+    "zr5d": "old",
+    "zq4d": "old",
+    "zr6d": "old",
+    "yt4d": "old",
+    "sis4d": "old",
+    "an5d": "old",
+    "kx3d": "old",
+    "zq5d": "old",
+    "yt5d": "old",
+    "zr7d": "old",
+    "an6d": "old",
+    "an7d": "old",
+    "kx4d": "old",
+    "zq6d": "old",
+    "yt6d": "old",
+    "sis5d": "old",
+    "zr8d": "old",
+    "yt7d": "old",
+    "an8d": "old",
+    "zq7d": "old",
+    "ps1d": "old",
+    "zr1e": "old",
+    "sis1e": "old",
+    "zq1e": "old",
+    "kx1e": "old",
+    "zr2e": "old",
+    "an1e": "old",
+    "yt1e": "old",
+    "zq2e": "old",
+    "sis2e": "old",
+    "an2e": "old",
+    "kx2e": "old",
+    "yt2e": "old",
+    "zr3e": "old",
+    "ps1e": "old",
+    "zq3e": "old",
+    "sis3e": "old",
+    "zr4e": "old",
+    "yt3e": "old",
+    "ps2e": "old",
+    "an3e": "old",
+    "yt4e": "old",
+    "zq4e": "old",
+    "zr5e": "old",
+    "an4e": "old",
+    "ps3e": "old",
+    "kx3e": "old",
+    "zq5e": "old",
+    "sis4e": "old",
+    "an5e": "old",
+    "zr6e": "old",
+    "an6e": "old",
+    "ps4e": "old",
+    "kx4e": "old",
+    "zq6e": "old",
+    "yt5e": "old",
+    "zr7e": "old",
+    "an7e": "old",
+    "sis5e": "old",
+    "yt6e": "old",
+    "zr8e": "old",
+    "zq7e": "old",
+    "zq1f": "old",
+    "an1f": "old",
+    "yt1f": "old",
+    "sis1f": "old",
+    "kx1f": "old",
+    "zr1f": "old",
+    "ps1f": "old",
+    "sis2f": "old",
+    "yt2f": "old",
+    "zq2f": "old",
+    "kx2f": "old",
+    "ps2f": "old",
+    "an2f": "old",
+    "zq3f": "old",
+    "zr2f": "old",
+    "an3f": "old",
+    "yt3f": "old",
+    "ps3f": "old",
+    "zr3f": "old",
+    "sis3f": "old",
+    "kx3f": "old",
+    "zq4f": "old",
+    "yt4f": "old",
+    "zr4f": "old",
+    "ps4f": "old",
+    "an4f": "old",
+    "sis4f": "old",
+    "zq5f": "old",
+    "yt5f": "old",
+    "zq6f": "old",
+    "zr5f": "old",
+    "kx4f": "old",
+    "an5f": "old",
+    "yt6f": "old",
+    "ps5f": "old",
+    "zr6f": "old",
+    "an6f": "old",
+    "yt7f": "old",
+    "zq7f": "old",
+    "an7f": "old",
+    "zr7f": "old",
+    "yt1g": "old",
+    "an1g": "old",
+    "sis1g": "old",
+    "kx1g": "old",
+    "zr1g": "old",
+    "zq1g": "old",
+    "an2g": "old",
+    "ps1g": "old",
+    "zq2g": "old",
+    "kx2g": "old",
+    "sis2g": "old",
+    "zr2g": "old",
+    "yt2g": "old",
+    "ps2g": "old",
+    "zq3g": "old",
+    "kx3g": "old",
+    "an3g": "old",
+    "sis3g": "old",
+    "zr3g": "old",
+    "ps3g": "old",
+    "yt3g": "old",
+    "zq4g": "old",
+    "sis4g": "old",
+    "zr4g": "old",
+    "an4g": "old",
+    "ps4g": "old",
+    "yt4g": "old",
+    "kx4g": "old",
+    "an5g": "old",
+    "yt5g": "old",
+    "zq5g": "old",
+    "an6g": "old",
+    "zr5g": "old",
+    "kx1h": "old",
+    "an1h": "old",
+    "sis1h": "old",
+    "zq1h": "old",
+    "zr1h": "old",
+    "yt1h": "old",
+    "ps1h": "old",
+    "ps2h": "old",
+    "zq2h": "old",
+    "yt2h": "old",
+    "kx2h": "old",
+    "zr2h": "old",
+    "an2h": "old",
+    "sis2h": "old",
+    "zq3h": "old",
+    "ps3h": "old",
+    "yt3h": "old",
+    "zr3h": "old",
+    "kx3h": "old",
+    "sis3h": "old",
+    "an3h": "old",
+    "sis4h": "old",
+    "an4h": "old",
+    "yt4h": "old",
+    "zr4h": "old",
+    "zq4h": "old",
+    "ps4h": "old",
+    "kx4h": "old",
+    "an5h": "old",
+    "yt5h": "old",
+    "zr5h": "old",
+    "zq5h": "old",
+    "an6h": "old",
+    "zr1i": "old",
+    "yt1i": "old",
+    "an1i": "old",
+    "sis1i": "old",
+    "ps1i": "old",
+    "zq1i": "old",
+    "yt2i": "old",
+    "an2i": "old",
+    "kx1i": "old",
+    "ps2i": "old",
+    "zr2i": "old",
+    "sis2i": "old",
+    "zq2i": "old",
+    "kx2i": "old",
+    "an3i": "old",
+    "yt3i": "old",
+    "zr3i": "old",
+    "zq3i": "old",
+    "ps3i": "old"
+   },
+   "dm": {
+    "yt_subject": "old",
+    "ps_phil": "old",
+    "an_mom": "old",
+    "kx_rpt": "old",
+    "zr_exch": "old",
+    "kx_rpt2": "old",
+    "zq_practice": "old",
+    "zr_menu": "old",
+    "an_list": "old",
+    "sis_ch3": "old",
+    "yt_aunt": "old",
+    "zr_spring": "old",
+    "an_mom2": "old",
+    "sis_cap": "old",
+    "yt_pass": "old",
+    "kx_mei": "old",
+    "an_done": "old",
+    "kx_moot": "old",
+    "sis_chishang": "old",
+    "yt_sea": "old",
+    "kx_win": "old",
+    "sis_rest": "old",
+    "yt_ask_aunt": "old"
+   },
+   "seen": -1000000000,
+   "dq": [],
+   "dt": {},
+   "dtTrip": {}
+  },
+  "HASK": {
+   "sent": [],
+   "st": {},
+   "redo": [],
+   "plan": 1781
+  },
+  "YL_PH": {
+   "yl_run": "x:late",
+   "yl_halfmara": "x:late",
+   "yl_ahuang": "x:late",
+   "yl_officer": "x:late",
+   "yl_photo": "x:late",
+   "yl_chiayi": "x:late",
+   "yl_bday": "x:late",
+   "yl_family_law": "x:late",
+   "yl_interview": "x:late",
+   "yl_crayons": "x:late",
+   "yl_decide": "x:late",
+   "yl_report": "x:late",
+   "yl_study": "x:late",
+   "yl_after_exam": "x:late",
+   "yl_lec_ask": "x:late",
+   "yl_rpt_after": "x:late",
+   "yl_kx_family": "x:late"
+  },
+  "EF_PH": {
+   "ef_chain": "x:late",
+   "ef_scatter": "x:late",
+   "ef_script": "x:late",
+   "ef_nine_hours": "x:late",
+   "ef_grad": "x:late",
+   "jpc_vet_level2": "x:late",
+   "jpc_korean": "x:late",
+   "jpc_vet_ask": "x:late"
+  },
+  "AA519": {
+   "talk": {}
+  },
+  "VA10": "no",
+  "SIS_RESULT_OUT": true,
+  "spreadScan": {},
+  "_bbqUntilFix": 1,
+  "dpDay": 1781,
+  "_autoAsk": [],
+  "Y4_PATH": "undecided",
+  "Y4_PATH_ASK2": 1781,
+  "kaiDorm": {},
+  "SIS_EXAM_DONE": true,
+  "amb": {}
+ },
+ "rel": {
+  "an": 6,
+  "zhe": 12,
+  "sis": 2,
+  "kai": 8,
+  "yu": 3
+ },
+ "notes": [],
+ "memo": [],
+ "visited": {
+  "noodle": true,
+  "cafe": true,
+  "library_hall": true,
+  "library": true,
+  "lawlib": true,
+  "wancai": true,
+  "linze": true,
+  "gongguan": true,
+  "wenzhou": true,
+  "soclib": true,
+  "cvs": true,
+  "bookstore": true
+ },
+ "stats": {
+  "steps": 0,
+  "classes": 0,
+  "study": 0
+ },
+ "choices": {},
+ "social": {
+  "rel": {
+   "heroine_01": {
+    "fam": 6,
+    "trust": 4,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "zhe": {
+    "fam": 12,
+    "trust": 7,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0,
+    "_migrated": true
+   },
+   "heroine_05": {
+    "fam": 2,
+    "trust": 1,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0,
+    "_migrated": true
+   },
+   "kai": {
+    "fam": 8,
+    "trust": 5,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "yu": {
+    "fam": 3,
+    "trust": 2,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "classmate_youchen": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "npc_ta_chen": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "heroine_02": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "pool_1": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "pool_13": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "pool_20": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "pool_9": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "heroine_03": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "heroine_04": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "classmate_peishan": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "kexin": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "classmate_xinci": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "classmate_mingxuan": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "prof_zhou": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   }
+  },
+  "mem": {},
+  "reveal": {},
+  "prof": {},
+  "grad": {
+   "interest": "NONE",
+   "field": null,
+   "prep": 0
+  },
+  "_relSync": 1
+ },
+ "events": {
+  "done": {
+   "ev_pack_y4": 1,
+   "ev_grad_family": 1,
+   "ev_grad_lunch": 1,
+   "ev_grad_envelope": 1,
+   "ev_move_out_y4": 1,
+   "ev_sis_results": 1
+  },
+  "last": {
+   "ev_sis_results": 1781
+  },
+  "count": 0
+ },
+ "legal": {
+  "q": {
+   "Q001": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q002": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q003": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q004": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q005": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q006": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q007": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q008": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q009": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q010": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q011": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q012": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q013": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q014": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q015": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q016": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q017": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q018": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q019": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q020": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q021": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q022": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q023": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q024": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q025": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q026": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q027": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q028": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q029": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q030": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q031": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q032": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q033": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q034": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q035": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q036": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q037": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q038": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q039": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q040": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q041": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q042": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q043": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q044": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q045": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q046": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q047": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q048": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q049": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q050": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q051": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q052": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q053": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q054": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q055": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q056": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q057": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q058": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q059": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q060": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q061": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q062": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q063": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q064": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q065": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q066": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q067": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q068": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q069": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q070": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q071": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q072": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q073": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q074": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q075": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q076": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q077": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q078": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q079": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q080": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q081": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q082": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q083": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q084": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   }
+  },
+  "misc": {},
+  "log": []
+ },
+ "cg": {
+  "unlocked": []
+ },
+ "savedAt": 1793680728431,
+ "contacts": {
+  "heroine_01": 1781
+ },
+ "dateLog": {
+  "classmate_peishan": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "heroine_01": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "heroine_03": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "heroine_02": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "heroine_04": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "heroine_05": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "kexin": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "classmate_xinci": {
+   "count": 0,
+   "wishKnown": false,
+   "wish": false,
+   "byLoc": {},
+   "cancels": [],
+   "last": null
+  },
+  "_daily": 1781
+ },
+ "trips": [],
+ "groupTrips": [],
+ "dateMemory": {},
+ "bike": {
+  "riding": false,
+  "zone": "campus",
+  "x": 25,
+  "z": 57.9,
+  "yaw": 1.5707963267948966
+ },
+ "side": {},
+ "goal": "—",
+ "goalDest": null,
+ "courses": {
+  "done": {},
+  "attend": {},
+  "prep": {},
+  "electives": {},
+  "grades": {
+   "Y4S2": {}
+  },
+  "note": {},
+  "disc": {},
+  "ask": {},
+  "late": {},
+  "abs": {},
+  "idv": 3
+ },
+ "invites": [],
+ "msgs": [
+  {
+   "day": -34,
+   "h": 23.5,
+   "who": null,
+   "text": "📷（公館的宵夜攤，四個人和準備收攤的老闆。桌上多擺了兩副碗筷。）",
+   "iv": null,
+   "th": "g:econ_friends",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "econ_photo_0813"
+  }
+ ],
+ "phone": {
+  "groups": {
+   "noodle_team": {
+    "name": "麵店團",
+    "day": 1781
+   },
+   "econ_friends": {
+    "name": "走啦",
+    "day": -34
+   },
+   "law_class": {
+    "name": "法律系（全班）",
+    "day": 1
+   }
+  },
+  "seen": {
+   "g:econ_friends": -792.5
+  },
+  "q": [],
+  "n": 0,
+  "filmRen": 1,
+  "worldRen": 1
+ },
+ "home": {
+  "at": false,
+  "used": {},
+  "ate": {}
+ },
+ "outings": [],
+ "jobs": {
+  "_meta": {
+   "n": {},
+   "asked": {}
+  }
+ },
+ "fest": {
+  "bk": [],
+  "done": {},
+  "gifts": {},
+  "miss": {}
+ },
+ "loans": [],
+ "pool": {
+  "deeds": {},
+  "did": {},
+  "seg": {},
+  "secret": {},
+  "mv": {},
+  "chat": [],
+  "v": 1
+ },
+ "vac": {
+  "reg": {},
+  "seen": {},
+  "log": [],
+  "c01": {}
+ },
+ "needed": {
+  "asked": 0,
+  "answered": 0,
+  "byWho": {},
+  "shown": {},
+  "prev": [],
+  "batches": [],
+  "missLast": {}
+ },
+ "daily": {
+  "gym": {
+   "seen": []
+  }
+ },
+ "fav": {
+  "know": {},
+  "right": {}
+ }
+}

@@ -1,0 +1,110 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_d118b1_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\30_b1base\out
+==== CASE retake_skip（SHA a3b1bd647，http://127.0.0.1:8810/index.html?turbo）====
+PASS retake_skip：遊戲載入
+  [前置／捷徑] [前置] retake_skip：最小存檔 2030-08-04 07:00 公館（重考生、HOME_AFTER gongguan；exam_2030 沒演＝一試時間窗 8/3 08:00～8/4 06:00 已過、沒去考。【捷徑】理由：遊戲沒有「不去考」的選項，見檔頭）；【捷徑】讀檔後用遊戲 API 補：拿掉可昕交往、大四下成績單已發、加入麵店團、傾向 A（F.LAWCLUB_SAT_VISITS=10;）→ {"lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "delayed": false, "retaker": true, "sits2029": true, "sits2030": true, "stage2029": "none", "zone": "gongguan", "day": "2030-08-04", "h": 7.009066000000003, "home": false}
+PASS retake_skip：前置成立：畢業後篇（PG.on）、重考生（PG.retaker）、2030 會考（PG.sits 2030）、沒有延畢  {"flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "done": {"grad": 1, "exam_2029": 1, "r1_2029": 1, "b1": "missed", "b1_2030": "missed", "exam_2030": "missed", "r2y4b_rt_1020": "missed", "r2y4b_rt_1214": "missed", "r2y4b_rt_0109": "missed", "r2y4b_rt_0308": "missed", "r2y4b_rt_reg": "missed"}, "exam2030": "missed", "path": "A_none", "lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "retaker": true, "sits2030": true, "pendingExam": true, "epiCond": false, "due": null, "nextStop": 43599, "nextStopKey": "2030-09-06 15.00", "pending": ["first"], "title": false, "home": false, "clock": {"key": "2030-08-04", "h": 7.25, "zone": "gongguan"}, "nmsg": 3, "wf": 0}
+  [  35.1s] retake_skip：讀檔後 exam_2030＝missed、pendingExam＝True、epi cond＝False、nextStop＝2030-09-06 15.00、pending＝["first"]
+  [  57.6s] retake_skip：第一份工作（手機群組）畫面文字：‹ 訊息
+麵店團
+8/3 07:30
+阿哲：出發
+8/3 07:31
+Alison：帶准考證。
+9/6 15:00
+阿哲：一試放榜了 今年換我先講
+9/6 15:00
+Alison：……去年那三秒，好長。
+9/6 15:00
+阿哲：宵夜
+今天 21:00
+📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）
+  [  59.6s] retake_skip：SV 第一份工作後 2030-10-01 21:00
+  [4235.7s] retake_skip：場景順序 ["first"]
+  [4235.7s] retake_skip：日期卡 [["2030-09-06", "9/6（五）15:00", ""], ["2030-10-01", "10/1（二）21:00", ""], ["2030-12-13", "12/13（五）15:00", ""], ["2030-12-13", "公館的套房", ""], ["2030-12-14", "12 月 14 日", "週六 07:30"]]
+  [4235.7s] retake_skip：錯過一試那兩天（8/4、8/5）的旁白／台詞（D118-B1 第 1 點「錯過的人給一句旁白」；ba7983b6f 還沒做——D118_PLAN 第 13 節「B1 還沒做的兩件」①，字等 AA；預期空的）：[]
+  [4235.7s] retake_skip：第一份工作（pg_first_day）原文：[["player", "📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）"]]；FIRST_RETAKE 對照 {"cram": "（照片：補習班的自習室。）", "home": "（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）", "zhe": "（照片：總圖 B1 的長桌。對面那疊考古題是阿哲的。）"}
+  [4235.7s] retake_skip：CC 初判（只記不判）：讀碼 postgrad3d.js firstDay：S.firstLate＝報了 2030、沒有 BAR_YEAR＝錯過一試的人也算「還在準備」→ 第一張照片照 RETAKE_STYLE＝"📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）"；畫面第一句 "📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）"（一樣＝True）。錯過的人用「還在準備二試」那一版合不合理交 BB／AA（D118_PLAN 第 13 節②同一類）
+  [4235.7s] retake_skip：錯過一試以後還收到的 2030 放榜相關訊息（只記，BB 判斷合不合理）：[["pg_r1g_2030", "一試放榜了 今年換我先講"], ["pg_r1g_2030", "……去年那三秒，好長。"], ["pg_r1g_2030", "宵夜"], ["pg_r2g_2030", "放榜了。最後一次。"], ["pg_r2g_2030", "最後一次宵夜"]]
+PASS retake_skip：exam_2030＝missed（沒考、錯過）、沒有 BAR_SIT_2030  {"exam2030": "missed", "flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "FIRST_DAY_SEEN": true}}
+PASS retake_skip：第一份工作那一段演了（FIRST_DAY_SEEN）  {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": [], "FIRST_DAY_SEEN": true}
+  [4235.7s] retake_skip：尾聲最後一句 []；PG.path＝A_none
+FAIL retake_skip：尾聲演完（EPILOGUE_DONE）、回到標題  {"clock": {"key": "2030-12-14", "h": 21.471, "zone": "gongguan"}, "title": false}
+PASS retake_skip：沒有卡住（修改前預期卡住：epi cond false、nextStop null）  null
+PASS retake_skip：逐字稿、新訊息沒有 debug 字（undefined、NaN、null、{name}、內部 id）  []
+PASS retake_skip：GAME.walkFallbacks＝0  0
+  [4235.7s] retake_skip：結束 {"key": "2030-12-14", "h": 21.471, "zone": "gongguan"}（timeout）；截圖 {}
+PASS retake_skip：沒有 JS 例外  []
+==== CASE retake_saveload（SHA a3b1bd647，http://127.0.0.1:8810/index.html?turbo）====
+PASS retake_saveload：遊戲載入
+  [前置／捷徑] [前置] retake_saveload ①：最小存檔 2030-08-02 20:00 公館（重考生、還沒考 2030）；【捷徑】讀檔後用遊戲 API 補傾向 A 等（同 retake_skip）→ {"lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "delayed": false, "retaker": true, "sits2029": true, "sits2030": true, "stage2029": "none", "zone": "gongguan", "day": "2030-08-02", "h": 20.005688000000003, "home": false}；讀進來馬上存（畢業後篇空下來 2 秒就會跳）
+  [4264.5s] retake_saveload：存到欄位 1（畫面那一格原本：欄位 1 （空） 存檔）→ 欄位內容 {"day": "2030-08-02", "h": 20.011, "zone": "gongguan", "home": false, "exam2030": null, "r1_2030": null, "first": null, "epi": null, "BAR_SIT_2029": true, "BAR_STAGE_2029": "none", "BAR_SIT_2030": null, "BAR_YEAR": null, "FIRST_DAY_SEEN": null, "EPILOGUE_DONE": null, "savedAt": 1793680728431}；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\30_b1base\out\03_retake_saveload_save_slot1.png
+PASS retake_saveload：重新整理後遊戲載入
+  [前置／捷徑] retake_saveload：重新整理 → 標題「讀取／匯入存檔」→ 欄位 1「讀取」（欄位 1 8 月 2 日 20:00 · 公館 · 祐廷 2026/11/3 下午12:38:48 存檔 讀取）→ 讀進來 {"clock": {"key": "2030-08-02", "h": 20.011, "zone": "gongguan"}, "exam2030": null, "flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "pendingExam": true, "epiCond": false}
+PASS retake_saveload ①：讀欄位 1 以後還在 2030-08-02、exam_2030 沒演、BAR 旗標和存檔前一樣（重考生）  {"slot": {"day": "2030-08-02", "h": 20.011, "zone": "gongguan", "home": false, "exam2030": null, "r1_2030": null, "first": null, "epi": null, "BAR_SIT_2029": true, "BAR_STAGE_2029": "none", "BAR_SIT_2030": null, "BAR_YEAR": null, "FIRST_DAY_SEEN": null, "EPILOGUE_DONE": null, "savedAt": 1793680728431}, "loaded": {"flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "done": {"grad": 1, "exam_2029": 1, "r1_2029": 1, "b1": "missed", "b1_2030": "missed", "r2y4b_rt_1020": "missed", "r2y4b_rt_1214": "missed", "r2y4b_rt_0109": "missed", "r2y4b_rt_0308": "missed", "r2y4b_rt_reg": "missed"}, "exam2030": null, "path": "A_none", "lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "retaker": true, "sits2030": true, "pendingExam": true, "epiCond": false, "due": null, "nextStop": 42775.5, "nextStopKey": "2030-08-03 7.50", "pending": ["exam_2030", "first"], "title": false, "home": false, "clock": {"key": "2030-08-02", "h": 20.011, "zone": "gongguan"}, "nmsg": 1, "wf": 0}}
+  [前置／捷徑] retake_saveload ①→②：【捷徑】讀欄位 1 的進度只把時間改到 2030-08-04 07:00（一試時間窗已過、沒考；遊戲沒有「不去考」的選項，見檔頭）再讀一次
+  [4283.0s] retake_saveload ②：讀檔後 exam_2030＝missed、pendingExam＝True、epi cond＝False、nextStop＝2030-09-06 15.00
+  [4299.1s] retake_saveload：存到欄位 2（畫面那一格原本：欄位 2 （空） 存檔）→ 欄位內容 {"day": "2030-09-06", "h": 15.009, "zone": "gongguan", "home": false, "exam2030": "missed", "r1_2030": null, "first": null, "epi": null, "BAR_SIT_2029": true, "BAR_STAGE_2029": "none", "BAR_SIT_2030": null, "BAR_YEAR": null, "FIRST_DAY_SEEN": null, "EPILOGUE_DONE": null, "savedAt": 1793680760550}；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\30_b1base\out\04_retake_saveload_save_slot2.png
+PASS retake_saveload：重新整理後遊戲載入
+  [前置／捷徑] retake_saveload：重新整理 → 標題「讀取／匯入存檔」→ 欄位 2「讀取」（欄位 2 9 月 6 日 15:00 · 公館 · 祐廷 2026/11/3 下午12:39:20 存檔 讀取）→ 讀進來 {"clock": {"key": "2030-09-06", "h": 15.009, "zone": "gongguan"}, "exam2030": "missed", "flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "pendingExam": true, "epiCond": false}
+PASS retake_saveload ②：讀欄位 2 以後 exam_2030 仍是 missed、沒有 BAR_SIT_2030、日期和存檔時一樣  {"slot": {"day": "2030-09-06", "h": 15.009, "zone": "gongguan", "home": false, "exam2030": "missed", "r1_2030": null, "first": null, "epi": null, "BAR_SIT_2029": true, "BAR_STAGE_2029": "none", "BAR_SIT_2030": null, "BAR_YEAR": null, "FIRST_DAY_SEEN": null, "EPILOGUE_DONE": null, "savedAt": 1793680760550}, "loaded": {"flags": {"BAR_REG": true, "BAR_SIT_2029": true, "BAR_SCORE_2029": 5, "BAR_STAGE_2029": "none", "RETAKE_STYLE": "home", "GRADUATED": 1355, "MOVED_OUT": 1381, "HOME_AFTER": "gongguan", "FAIL_DELAY_COURSES": []}, "done": {"grad": 1, "exam_2029": 1, "r1_2029": 1, "b1": "missed", "b1_2030": "missed", "r2y4b_rt_1020": "missed", "r2y4b_rt_1214": "missed", "r2y4b_rt_0109": "missed", "r2y4b_rt_0308": "missed", "r2y4b_rt_reg": "missed", "exam_2030": "missed"}, "exam2030": "missed", "path": "A_none", "lean": {"A": 10, "B": 0, "C": 0, "top": "A"}, "pgOn": true, "retaker": true, "sits2030": true, "pendingExam": true, "epiCond": false, "due": null, "nextStop": 44205, "nextStopKey": "2030-10-01 21.00", "pending": ["first"], "title": false, "home": false, "clock": {"key": "2030-09-06", "h": 15.009, "zone": "gongguan"}, "nmsg": 6, "wf": 0}}
+  [4329.3s] retake_saveload_seg3：第一份工作（手機群組）畫面文字：‹ 訊息
+麵店團
+8/3 07:30
+阿哲：出發
+8/3 07:31
+Alison：帶准考證。
+9/6 15:00
+阿哲：一試放榜了 今年換我先講
+9/6 15:00
+Alison：……去年那三秒，好長。
+9/6 15:00
+阿哲：宵夜
+今天 21:00
+📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）
+  [4331.4s] retake_saveload_seg3：SV 第一份工作後 2030-10-01 21:00
+PASS retake_saveload ②：讀檔後沒有重演讀檔前演過的句子／選單（同一句、同一天）  []
+  [4341.8s] retake_saveload：存到欄位 3（畫面那一格原本：欄位 3 （空）存檔）→ 欄位內容 null；截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\30_b1base\out\07_retake_saveload_save_slot3.png
+PASS retake_saveload：重新整理後遊戲載入
+FAIL retake_saveload：標題「讀取」頁有欄位 3 的「讀取」  null
+FAIL retake_saveload：三次存讀檔都做完、走到尾聲  {"stuck": null, "segs": ["②前（錯過、存欄位 2 以前）:until", "②後～③前（讀欄位 2 → 第一份工作、存欄位 3 以前）:until"]}
+PASS retake_saveload：沒有 JS 例外  []
+==== CASE guowen_w8（SHA a3b1bd647，http://127.0.0.1:8810/index.html）====
+PASS guowen_w8：遊戲載入
+  [前置／捷徑] [前置] guowen_w8：最小存檔 2025-10-21（二）08:00 宿舍（大一上第 8 週；不用 turbo）
+PASS guowen_w8：2025-10-21 有 chinese_y1 那一堂（CLS.dayItems，只讀）  {"key": "35:chinese_y1:am", "cid": "chinese_y1", "name": "大一國文（上）", "kind": "general", "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "博思教學館 101", "zone": "boya", "exam": "mid", "week": 8, "term": "Y1S1", "termExam": "mid", "isExamCourse": false, "status": "upcoming", "att": 0, "prep": 0, "dayLabel": "10/21 週二・大一上 第 8 週（期中考週）", "todayLine": "今天考試：09:10 大一國文（上）、13:20 通識：電影與敘事"}
+  [4379.1s] guowen_w8：那一堂 {"key": "35:chinese_y1:am", "cid": "chinese_y1", "name": "大一國文（上）", "kind": "general", "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "博思教學館 101", "zone": "boya", "exam": "mid", "week": 8, "term": "Y1S1", "termExam": "mid", "isExamCourse": false, "status": "upcoming", "att": 0, "prep": 0, "dayLabel": "10/21 週二・大一上 第 8 週（期中考週）", "todayLine": "今天考試：09:10 大一國文（上）、13:20 通識：電影與敘事"}（修改前預期 exam＝mid；修改後預期 null）
+PASS guowen_w8：前置成立：大一上第 8 週、日曆是期中考週（calendar exam:mid）  {"key": "35:chinese_y1:am", "cid": "chinese_y1", "name": "大一國文（上）", "kind": "general", "t0": 9.166666666666666, "t1": 12.166666666666666, "room": "博思教學館 101", "zone": "boya", "exam": "mid", "week": 8, "term": "Y1S1", "termExam": "mid", "isExamCourse": false, "status": "upcoming", "att": 0, "prep": 0, "dayLabel": "10/21 週二・大一上 第 8 週（期中考週）", "todayLine": "今天考試：09:10 大一國文（上）、13:20 通識：電影與敘事"}
+  [4386.4s] guowen_w8：手機「今天」那一列：09:10–12:10 大一國文（上）（考試） 博思教學館 101・國文老師・還沒開始 直接去上課；按鈕「直接去上課」；全文 10/21 週二・大一上 第 8 週（期中考週）
+現在 08:01
+今天的時間　上午 ○○　下午 ○○　晚上 ○○
+每個時段一件主要的事：上課、社團活動、出遊約會、自習、打工、自由出行、健身都算一件（上課、約好的出遊照樣能去）；吃飯、聊天、約好的見面不算。考試週：每個時段多一次（金色），只能拿來自習。
+09:10–12:10 大一國文（上）（考試）
+博思教學館 101・國文老師・還沒開始
+直接去上課
+13:20–15:10 通識：電影與敘事（考試）
+普通教學館 101・通識老師・還沒開始
+直接去上課
+法律學院圖書館：今天 08:10–21:45　總圖：08:00–22:00
+跳過時間
+沒有想做的事可以跳過；遇到特殊課堂、約好的時間、劇情會停下來。
+等到下一堂課前（09:00）
+等到中午（12:00）
+等到下午（14:00）
+等到傍晚（17:30）
+等到晚上（20:00）
+翹課不會被扣分；沒去的課，可以在宿舍、圖書館、Café 讀書補回來。
+FAIL guowen_w8：手機「今天」大一國文（上）那一列沒有「（考試）」  "09:10–12:10 大一國文（上）（考試） 博思教學館 101・國文老師・還沒開始 直接去上課"
+PASS guowen_w8：手機「今天」有「直接去上課」  "直接去上課"
+  [4399.3s] guowen_w8 09:00 boya 選項 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課（pick）
+  [4430.3s] guowen_w8：3D 黑板 []；黑板字幕 []；字幕 ["你在宿舍 房間待到 08:42。", "走路到博思教學館。", "考完了。"]；上課 {"key": "35:chinese_y1:am", "exam": "mid", "t0": 9.166666666666666, "lateMin": 0, "att0": 0, "door": false, "status": "open"} → {"ret": true, "done": true, "att": 0, "prep": 0, "late": false, "abs": false}；台詞 [["", "（你在座位上等。教室慢慢坐滿了。）", "boya", "09:00"], ["", "考卷發下來。大一國文（上）期中考。", "boya", "09:10"], ["", "你認得題目裡的每一個字，合起來就不太認得了。", "boya", "09:10"]]
+PASS guowen_w8：進教室上完那一堂（CLS.attend 跑完、done）、沒有卡住  {"end": {"status": "done", "done": true, "late": false, "abs": false, "att": 0}, "stuck": null}
+FAIL guowen_w8：一般上課、不是考試畫面（CLS.attend 收到的 exam 是 null）  {"key": "35:chinese_y1:am", "exam": "mid", "t0": 9.166666666666666, "lateMin": 0, "att0": 0, "door": false, "status": "open"}
+PASS guowen_w8：沒有考卷題目（「n／5　」那種台詞 0 句）  []
+FAIL guowen_w8：逐字稿、字幕、黑板沒有考試的字（考卷發下來、期中考。、：期中考、考完了。、認得題目裡的每一個字、題目你都見過——、有幾題你有印象、不可以翻書、鈴響請停筆）  [["say", "考卷發下來。大一國文（上）期中考。"], ["say", "你認得題目裡的每一個字，合起來就不太認得了。"], ["cap", "考完了。"]]
+FAIL guowen_w8：字幕是「下課了。…」不是「考完了。」  ["你在宿舍 房間待到 08:42。", "走路到博思教學館。", "考完了。"]
+FAIL guowen_w8：出席次數 +1（R.attend.chinese_y1：0 → 0）  {"att": {"key": "35:chinese_y1:am", "exam": "mid", "t0": 9.166666666666666, "lateMin": 0, "att0": 0, "door": false, "status": "open"}, "fin": {"ret": true, "done": true, "att": 0, "prep": 0, "late": false, "abs": false}}
+FAIL guowen_w8：上完以後手機「今天」那一列是「上過了」  "09:10–12:10 大一國文（上）（考試） 博思教學館 101・國文老師・上過了"
+PASS guowen_w8：GAME.walkFallbacks＝0（這一趟 +0）  0
+PASS guowen_w8：沒有 JS 例外  []
+SHA a3b1bd647 CASES retake_skip,retake_saveload,guowen_w8
+FAILED: retake_skip：尾聲演完（EPILOGUE_DONE）、回到標題, retake_saveload：標題「讀取」頁有欄位 3 的「讀取」, retake_saveload：三次存讀檔都做完、走到尾聲, guowen_w8：手機「今天」大一國文（上）那一列沒有「（考試）」, guowen_w8：一般上課、不是考試畫面（CLS.attend 收到的 exam 是 null）, guowen_w8：逐字稿、字幕、黑板沒有考試的字（考卷發下來、期中考。、：期中考、考完了。、認得題目裡的每一個字、題目你都見過——、有幾題你有印象、不可以翻書、鈴響請停筆）, guowen_w8：字幕是「下課了。…」不是「考完了。」, guowen_w8：出席次數 +1（R.attend.chinese_y1：0 → 0）, guowen_w8：上完以後手機「今天」那一列是「上過了」

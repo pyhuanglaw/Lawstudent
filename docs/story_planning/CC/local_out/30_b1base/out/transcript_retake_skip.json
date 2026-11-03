@@ -1,0 +1,299 @@
+{
+ "case": "retake_skip",
+ "sha": "a3b1bd647",
+ "url": "http://127.0.0.1:8810/index.html?turbo",
+ "result": "timeout",
+ "rows": [
+  {
+   "k": "card",
+   "n": "9/6（五）15:00",
+   "t": "",
+   "d": "2030-09-06",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "10/1（二）21:00",
+   "t": "",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "start",
+   "t": "first",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "（你的第一天，還在後面。）",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "step",
+   "n": "end",
+   "t": "first",
+   "d": "2030-10-01",
+   "h": 21,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "12/13（五）15:00",
+   "t": "",
+   "d": "2030-12-13",
+   "h": 15,
+   "z": "gongguan"
+  },
+  {
+   "k": "say",
+   "n": "",
+   "c": null,
+   "t": "已經凌晨了。",
+   "d": "2030-12-13",
+   "h": 26.502,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "公館的套房",
+   "t": "",
+   "d": "2030-12-13",
+   "h": 26.503,
+   "z": "gongguan"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
+   "t": "gongguan",
+   "d": "2030-12-13",
+   "h": 26.504,
+   "z": "gongguan"
+  },
+  {
+   "k": "card",
+   "n": "12 月 14 日",
+   "t": "週六 07:30",
+   "d": "2030-12-14",
+   "h": 7.5,
+   "z": "gongguan"
+  },
+  {
+   "k": "enter",
+   "n": "{\"x\":-35.6,\"z\":13.2,\"yaw\":0}",
+   "t": "gongguan",
+   "d": "2030-12-14",
+   "h": 7.501,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "",
+   "t": "家裡匯來這個月的生活費：30,000 元",
+   "d": "2030-12-14",
+   "h": 7.504,
+   "z": "gongguan"
+  },
+  {
+   "k": "toast",
+   "n": "dom",
+   "t": "家裡匯來這個月的生活費：30,000 元",
+   "d": "2030-12-14",
+   "h": 7.504,
+   "z": "gongguan"
+  },
+  {
+   "k": "cap",
+   "n": "",
+   "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
+   "d": "2030-12-14",
+   "h": 17.001,
+   "z": "gongguan"
+  }
+ ],
+ "msgs": [
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "who": null,
+   "name": null,
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "一試放榜了 今年換我先講"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "who": null,
+   "name": null,
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "……去年那三秒，好長。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "who": null,
+   "name": null,
+   "tag": "pg_r1g_2030",
+   "day": 1816,
+   "h": 15,
+   "text": "宵夜"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "player",
+   "who": null,
+   "name": null,
+   "tag": "pg_first_day",
+   "day": 1841,
+   "h": 21,
+   "text": "📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "who": null,
+   "name": null,
+   "tag": "pg_r2g_2030",
+   "day": 1914,
+   "h": 15,
+   "text": "放榜了。最後一次。"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "who": null,
+   "name": null,
+   "tag": "pg_r2g_2030",
+   "day": 1914,
+   "h": 15,
+   "text": "最後一次宵夜"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "zhe",
+   "who": null,
+   "name": null,
+   "tag": "pg_zhe_2030_r2",
+   "day": 1914,
+   "h": 15.1,
+   "text": "我們兩個都上了 宵夜走"
+  },
+  {
+   "th": "g:noodle_team",
+   "from": "yu",
+   "who": null,
+   "name": null,
+   "tag": "pg_yu_2030_r2",
+   "day": 1914,
+   "h": 15.13,
+   "text": "司法官還是沒上。檢察事務官那個，筆試考完了，還在等。"
+  }
+ ],
+ "days": [
+  [
+   "2030-08-04",
+   "07:15"
+  ],
+  [
+   "2030-09-06",
+   "15:00"
+  ],
+  [
+   "2030-10-01",
+   "21:00"
+  ],
+  [
+   "2030-12-13",
+   "15:00"
+  ],
+  [
+   "2030-12-14",
+   "07:30"
+  ]
+ ],
+ "end": {
+  "flags": {
+   "BAR_REG": true,
+   "BAR_SIT_2029": true,
+   "BAR_SCORE_2029": 5,
+   "BAR_STAGE_2029": "none",
+   "RETAKE_STYLE": "home",
+   "GRADUATED": 1355,
+   "MOVED_OUT": 1381,
+   "HOME_AFTER": "gongguan",
+   "FAIL_DELAY_COURSES": [],
+   "FIRST_DAY_SEEN": true
+  },
+  "done": {
+   "grad": 1,
+   "exam_2029": 1,
+   "r1_2029": 1,
+   "b1": "missed",
+   "b1_2030": "missed",
+   "exam_2030": "missed",
+   "r2y4b_rt_1020": "missed",
+   "r2y4b_rt_1214": "missed",
+   "r2y4b_rt_0109": "missed",
+   "r2y4b_rt_0308": "missed",
+   "r2y4b_rt_reg": "missed",
+   "first": 1
+  },
+  "exam2030": "missed",
+  "path": "A_none",
+  "lean": {
+   "A": 10,
+   "B": 0,
+   "C": 0,
+   "top": "A"
+  },
+  "pgOn": true,
+  "retaker": true,
+  "sits2030": true,
+  "pendingExam": true,
+  "epiCond": false,
+  "due": null,
+  "nextStop": null,
+  "nextStopKey": null,
+  "pending": [],
+  "title": false,
+  "home": false,
+  "clock": {
+   "key": "2030-12-14",
+   "h": 21.471,
+   "zone": "gongguan"
+  },
+  "nmsg": 11,
+  "wf": 0
+ },
+ "first_phone": {
+  "text": "‹ 訊息\n麵店團\n8/3 07:30\n阿哲：出發\n8/3 07:31\nAlison：帶准考證。\n9/6 15:00\n阿哲：一試放榜了 今年換我先講\n9/6 15:00\nAlison：……去年那三秒，好長。\n9/6 15:00\n阿哲：宵夜\n今天 21:00\n📷（照片：家裡的書桌。檯燈下面壓著一張讀書計畫。）",
+  "shot": [
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\01_retake_skip_first_day_phone_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\30_b1base\\out\\02_retake_skip_first_day_phone_port.png"
+  ]
+ },
+ "stuck": null,
+ "shots": {},
+ "exam_q": 0
+}
