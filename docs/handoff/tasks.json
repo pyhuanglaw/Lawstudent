@@ -10167,7 +10167,7 @@
       "title": "阿哲第二天台詞、法服方案 A",
       "area": "DONE",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "next": "瀏覽器實玩驗收",
       "priority": "P1",
       "first": {
@@ -10184,7 +10184,8 @@
       "authorized": "D79",
       "sha": [
         "c7c991c5"
-      ]
+      ],
+      "evidence": "BB_251（BB 11-03）：AA 確認法服 F1、F2 仍有效；v1_batch2、v1_batch4 在 GHA 0f66c4215 全過"
     },
     {
       "id": "DONE-B06",
@@ -11053,7 +11054,7 @@
       "title": "MEMORY_LABEL 9 條改字（ZR、ZQ、SIS、KX、KAI）",
       "area": "V1",
       "owner": "LAWWW",
-      "status": "已整合待測試",
+      "status": "已驗收",
       "next": "人物面板截圖確認字樣（第 2 級）",
       "priority": "P2",
       "first": {
@@ -11067,7 +11068,8 @@
         "confirmed": true
       },
       "source": "BB-B 10-16 01:43",
-      "authorized": "D79"
+      "authorized": "D79",
+      "evidence": "BB_251（BB 11-03）：以現行 social3d.js MEMORY_LABEL 為準（AA 確認）；另定的四條（那杯黑咖啡、注意到她的小事、三月在公館吃過的那一頓、在礁溪遇到學姊和她媽媽）都在；ladder_unit 19 通過"
     },
     {
       "id": "V1-HOMEGATE",
