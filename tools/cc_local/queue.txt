@@ -35,6 +35,8 @@ N20_tour_joy   | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_to
 N20_tour_stay  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=stay;CC_HEADLESS=0
 N20_tour_joy2  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90
 N20_tour_joy3  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90b
+N20_libcorner  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_corner_shot_probe.py | index.html | 15 | CC_HEADLESS=0
+# （N20_libcorner：BB 22:29 要 (11.39,−2.8) 的截圖；雲端 Node 已經看過導航格＝東南角、西北可走）
 # （N20_tour_joy3：joy2 這次搖桿卡在東側 (11.4,−2.8) 6 秒、館員在西側上一層 18 m，被判離開；第一次同一個 SHA 走完了——再跑一次看是不是探針偶發）
 # （N20_tour_joy2：第一次 16:44 到、22 秒遊戲時間後就查合照＝可能太早；改成在門口等最多 90 秒）
 N20_tour_tap8  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=v20
