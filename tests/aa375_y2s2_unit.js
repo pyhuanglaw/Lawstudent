@@ -157,7 +157,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     const T=evTexts(e); check('8. Alison「債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。」（贈與第 14 週才教）',T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')&&!T.includes('債各的第二題，我寫了『買賣不破租賃』。……題目問的是贈與。'),J(T)); }
   // ===== 第 9 項 =====
   { const ta=fs.readFileSync(path.join(ROOT,'src/data/y2b_events.js'),'utf8');
-    check('9. 語彤轉述：「上次我陪阿姨去法服。」（原本「禮拜六我陪阿姨去法服。」）',ta.includes("text:'上次我陪阿姨去法服。'")&&!ta.includes("text:'禮拜六我陪阿姨去法服。'")); }
+    check('9. 語彤轉述：AA_625 第 9 節（YT-REWRITE-1103，取代 AA_375 第 9 項的「上次」）＝「禮拜六我陪秀琴姨去法服。」；沒有「我陪阿姨去法服」',ta.includes("text:'禮拜六我陪秀琴姨去法服。'")&&!/我陪阿姨去法服/.test(ta)); }
   // ===== 第 10 項：明軒說明會 3/15 21:00 =====
   { fresh('2027-03-14',21.2,'dorm'); R('classmate_mingxuan','FAM'); STORY.neededRules(GM); PHONE.tick(G); const N=G.needed, b14=(N.batches||[]).find(b=>b.d===D('2027-03-14'));
     check('10. 3/14（日）21:00 那一組沒有明軒說明會那則',!(b14&&b14.ids.some(x=>x[0]==='mx_seat'))&&!(N.shown&&N.shown.mx_seat!=null),J(b14&&b14.ids));

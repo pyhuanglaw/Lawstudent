@@ -475,7 +475,7 @@ await sec('8-2',async()=>{
   fresh(TD('Y1S1',3,3),12.5,'noodle',{},{nar:true}); noodleK(TD('Y1S1',3,3),12.5,false); delete H.G.flags.AA519; H.G.eat={}; H.said=[]; H.picks=[0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const n=said();
   check('8-2 新的存檔第一次在麵店：第一句提到阿姨的旁白寫「阿姨（阿鳳）」（1-1），之後照原文',n.filter(x=>/阿姨（阿鳳）/.test(x)).length===1&&n.includes(IN),J(n)); });
 await sec('8-3',async()=>{
-  const S=X().auntEvs(), NAMED=['ev_zhe_long_table','ev_yutong_landlord','ev_term_last_meal','ev_term_last_meal_y1s2','ev_term_last_meal_y2s1','ev_y3_tue_noodle'];
+  const S=X().auntEvs(), NAMED=['ev_zhe_long_table','ev_term_last_meal',   /* ev_yutong_landlord：AA_625 第 6 節搬到茶屋、麵店版退場（不再算麵店的 2D 事件）*/'ev_term_last_meal_y1s2','ev_term_last_meal_y2s1','ev_y3_tue_noodle'];
   const bad=[...S].filter(id=>!X().noodleEvs().has(id)||!/阿姨/.test(evText(id)));
   check('8-3 麵店的 2D 事件（阿姨在場或說話：在麵店、台詞提到阿姨的，載入後掃）：'+S.size+' 個（稿「約 25 個」），含 LAWWW 點名的那幾個；每一個都在麵店、都提到阿姨',S.size>=25&&NAMED.every(id=>S.has(id)&&!!ev(id))&&!bad.length,J({n:S.size,bad}));
   const r=HCIRCLE.row('c503_6_2'); let d=null; for(let w=2;w<=15&&d==null;w++){ const x=TD('Y1S1',w,2); fresh(x,18.2,'noodle'); if(!HCIRCLE.on(r,H.G)) d=x; }   /* AA_610／AA_624：語彤不在店裡＝不看 minding */
