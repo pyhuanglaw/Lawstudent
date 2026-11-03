@@ -48,3 +48,38 @@
 [23:29:07] dev head = ae788cb9f   lawww2 head = af94189c1
 [23:29:08] config.txt: PARALLEL 2 -> 3
 [23:29:08] memory used: 37%  (new items wait while >= 85%)
+[23:29:14] queue: LIVE18_deploy, LIVE18_day12, LIVE18_deploy2, V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18R_touch2, V18G_sleep, V18G_eat, V18G_camp608, N19_libfl, N19_libsc, N19_libtour, N19_wcst, N19_wcfl, N19_wcglb, N19_zone, N19_reach, N19S_diners, N19S_shots, N19_tour_tap, N19_tour_joy, N19C_c608, N19C_osmake, N19C_osload, N19C_f606, N19C_kx607, N19F_fav, N19F_fav2, N19E_exw, MD_tx_v2, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
+[23:29:14] skip LIVE18_deploy (already done on 0776cafc8)
+[23:29:14] skip LIVE18_day12 (already done on 0776cafc8)
+[23:29:14] skip LIVE18_deploy2 (already done on 0776cafc8)
+[23:29:14] skip V18R_deploy (already done on 0776cafc8)
+[23:29:14] skip V18R_p0 (already done on 0776cafc8)
+[23:29:14] skip V18R_v7 (already done on 0776cafc8)
+[23:29:14] skip V18R_zone (already done on 0776cafc8)
+[23:29:14] skip V18R_mini (already done on 0776cafc8)
+[23:29:14] skip V18R_touch (already done on 0776cafc8)
+[23:29:14] skip V18R_class (already done on 0776cafc8)
+[23:29:14] skip V18R_reach (already done on 0776cafc8)
+[23:29:14] skip V18R_touch2 (already done on 0776cafc8)
+[23:29:14] skip V18G_sleep (already done on ffeec06e0)
+[23:29:14] skip V18G_eat (already done on ffeec06e0)
+[23:29:14] skip V18G_camp608 (already done on ffeec06e0)
+[23:29:14] skip N19_libfl (already done on 21ab92db0)
+[23:29:14] skip N19_libsc (already done on 21ab92db0)
+[23:29:14] skip N19_libtour (already done on 21ab92db0)
+[23:29:14] skip N19_wcst (already done on 9f14aab23)
+[23:29:14] skip N19_wcfl (already done on 9f14aab23)
+[23:29:14] skip N19_wcglb (already done on 9f14aab23)
+[23:29:14] skip N19_zone (already done on 9f14aab23)
+[23:29:14] skip N19_reach (already done on b1ae1c390)
+[23:29:14] skip N19S_diners (already done on b1ae1c390)
+[23:29:14] skip N19S_shots (already done on b1ae1c390)
+[23:29:14] memory 37% before starting N19_tour_tap (0 running)
+[23:29:14] ==== START N19_tour_tap  (probe @ b1ae1c390) ====
+[23:29:17] [res] cpu=12% mem=37% (11.8/31.4 GB) chrome_testing=0  START N19_tour_tap
+[23:34:14] 正在跑：N19_tour_tap（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:39:14] 正在跑：N19_tour_tap（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:44:14] 正在跑：N19_tour_tap（已跑 14 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:49:14] 正在跑：N19_tour_tap（已跑 19 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:54:14] 正在跑：N19_tour_tap（已跑 25 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:55:57] [res] cpu=2% mem=38% (12.0/31.4 GB) chrome_testing=0  END N19_tour_tap
