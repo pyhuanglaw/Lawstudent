@@ -192,7 +192,9 @@ ctd = Mesh('COUNTER_PANELS', m_steel_d)
 for x in (-3.0, -1.0, 1.0): ctd.box(x - 0.92, x + 0.92, 0.1, 0.8, kz1 + 0.0, kz1 + 0.006)
 ct.finish(root); ctd.finish(root)
 sh = Mesh('SHELF', m_steel)   # 後牆的層架（備料台上方）
-for y in (1.45, 1.85): sh.box(kx0 + 0.1, kx1 - 0.1, y, y + 0.025, Z0 + WT, Z0 + WT + 0.32)
+for y in (1.45, 1.85): sh.box(-1.1, kx1 - 0.1, y, y + 0.025, Z0 + WT, Z0 + WT + 0.32)
+for x in (-1.08, kx1 - 0.12):
+    for y in (1.45, 1.85): sh.box(x - 0.015, x + 0.015, y - 0.2, y, Z0 + WT, Z0 + WT + 0.3)   # 層架托
 sh.finish(root)
 pr = CMesh('PROPS', m_vc)
 n0 = set(pr.bm.faces); pr.add_bm(L.lathe([(0.0, 0.0), (0.29, 0.0), (0.3, 0.02), (0.3, 0.16), (0.29, 0.18), (0.0, 0.18)], seg=28), Matrix.Translation(g2b(0.9, 0.92, -3.72)))   # 砧板（圓木墩）
@@ -208,10 +210,24 @@ for k in range(4):
 pr.paint([f for f in pr.bm.faces if f not in n0], '#f2efe6')
 n0 = set(pr.bm.faces)
 pr.crbox(1.45, 1.85, 0.92, 1.02, -3.95, -3.6, '#e8e8e4', r=0.01); pr.cbox(1.5, 1.8, 1.0, 1.04, -3.7, -3.62, '#2a3a2a')   # 電子秤
-for i in range(6): pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-3.7 + i * 0.25, 1.875, -4.15)))   # 層架上的罐子
+for i in range(6): pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(-0.9 + i * 0.25, 1.875, -4.15)))   # 層架上的罐子
 pr.paint([f for f in pr.bm.faces if f not in n0], '#c87a3a'); n0 = set(pr.bm.faces)
-for i in range(4): pr.add_bm(L.lathe([(0.0, 0.0), (0.16, 0.0), (0.17, 0.28), (0.0, 0.28)], seg=14), Matrix.Translation(g2b(-1.8 + i * 0.5, 1.475, -4.1)))   # 層架上的鍋
+for i in range(4): pr.add_bm(L.lathe([(0.0, 0.0), (0.16, 0.0), (0.17, 0.28), (0.0, 0.28)], seg=14), Matrix.Translation(g2b(-0.7 + i * 0.6, 1.475, -4.1)))   # 層架上的鍋
 pr.paint([f for f in pr.bm.faces if f not in n0], '#9aa0a5'); n0 = set(pr.bm.faces)
+# 雜物：外帶餐盒堆、紅色塑膠籃、大電鍋、湯桶、抹布（讓店看起來有在用）
+for k in range(8): pr.crbox(-3.95, -3.55, 0.92 + k * 0.055, 0.97 + k * 0.055, -4.3, -4.0, '#f6f4ee', r=0.008)
+for k in range(6): pr.crbox(-3.45, -3.1, 0.92 + k * 0.06, 0.975 + k * 0.06, -4.3, -4.02, '#f6f4ee', r=0.008)
+pr.crbox(3.55, 4.3, 0.0, 0.32, -4.35, -3.85, '#c8342c', r=0.02); pr.crbox(3.6, 4.25, 0.32, 0.62, -4.3, -3.9, '#c8342c', r=0.02)   # 紅色塑膠籃（冰箱旁）
+pr.add_bm(L.lathe([(0.0, 0.0), (0.24, 0.0), (0.26, 0.04), (0.26, 0.36), (0.22, 0.42), (0.0, 0.44)], seg=20), Matrix.Translation(g2b(-2.4, 0.92, -3.75)))   # 大電鍋
+pr.add_bm(L.lathe([(0.0, 0.0), (0.2, 0.0), (0.21, 0.4), (0.0, 0.4)], seg=18), Matrix.Translation(g2b(-1.85, 0.92, -3.7)))   # 湯桶
+pr.paint([f for f in pr.bm.faces if f not in n0], '#c4c8cb'); n0 = set(pr.bm.faces)
+pr.crbox(1.25, 1.45, 0.92, 0.93, -3.45, -3.2, '#f2f2ee', r=0.002); pr.crbox(1.3, 1.36, 0.6, 0.93, -3.21, -3.19, '#f2f2ee', r=0.002)   # 抹布（白底紅線，掛在檯邊）
+pr.cbox(1.3, 1.36, 0.8, 0.82, -3.19, -3.185, '#c8342c')
+for z in (-2.6, -1.9, -1.2):   # 左牆的調味料小層架
+    pass
+pr.crbox(X0 + WT, X0 + WT + 0.22, 1.2, 1.23, -2.9, -1.0, '#c4c8cb', r=0.004)
+for k in range(8): pr.add_bm(L.lathe([(0.0, 0.0), (0.035, 0.0), (0.035, 0.13), (0.015, 0.17), (0.0, 0.17)], seg=8), Matrix.Translation(g2b(X0 + WT + 0.1, 1.23, -2.8 + k * 0.23)))
+pr.paint([f for f in pr.bm.faces if f not in n0], '#5a2a14'); n0 = set(pr.bm.faces)
 # 每一桌：筷筒、辣椒罐、醬油、粉紅面紙盒
 for x in TABLE_X:
     n1 = set(pr.bm.faces); pr.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.045, 0.13), (0.0, 0.13)], seg=12), Matrix.Translation(g2b(x - 0.4, 0.78, TABLE_Z - 0.1)))
@@ -263,8 +279,8 @@ def hang(prof, x, ytop, col, flat=True, seg=16):   # 旋轉體掛在勾子上：
 for i in range(5):        # 叉燒：一條一條往下垂、微微彎（每段錯開一點），尾端焦黑
     x = c['x0'] + 0.2 + i * 0.12; hooks.append(x); n1 = set(meat.bm.faces)
     for k in range(9):
-        y1 = 2.12 - k * 0.062; dx = 0.012 * math.sin(k * 0.7 + i)
-        meat.crbox(x - 0.038 + dx, x + 0.038 + dx, y1 - 0.066, y1, rz - 0.022, rz + 0.022, '#8e1f16' if (k + i) % 3 else '#a8301e', r=0.015, seg=1)
+        y1 = 2.12 - k * 0.062; dx = 0.008 * math.sin(k * 0.5 + i)
+        meat.crbox(x - 0.038 + dx, x + 0.038 + dx, y1 - 0.075, y1 + 0.01, rz - 0.022, rz + 0.022, '#8e1f16' if (k + i) % 3 else '#a8301e', r=0.004, seg=1)
     meat.crbox(x - 0.03, x + 0.03, 1.5, 1.56, rz - 0.018, rz + 0.018, '#3a120c', r=0.015, seg=1)
 DUCK = [(0.0, 0.0), (0.05, 0.02), (0.11, 0.09), (0.145, 0.19), (0.15, 0.27), (0.13, 0.35), (0.07, 0.43), (0.032, 0.48), (0.026, 0.62), (0.03, 0.66), (0.0, 0.67)]
 CHICK = [(0.0, 0.0), (0.06, 0.02), (0.12, 0.08), (0.14, 0.16), (0.13, 0.24), (0.08, 0.31), (0.03, 0.35), (0.022, 0.44), (0.0, 0.45)]
