@@ -1,22 +1,22 @@
 {
-  "rerun": "",
+  "rerun": "fetchmain",
   "id": "LIVE19_deploy",
   "sha": "e1603907e",
   "kind": "game",
   "script": "tests/deploy_check.py",
-  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19（2026-11-03）",
+  "env": "XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19（2026-11-03）;RERUN=fetchmain",
   "machine": "MSI",
-  "start": "2026-11-04T05:15:20",
-  "end": "2026-11-04T05:15:27",
+  "start": "2026-11-04T05:31:45",
+  "end": "2026-11-04T05:31:52",
   "seconds": 7,
   "exit": null,
   "error": "worktree add e1603907e failed: fatal: invalid reference: e1603907e",
-  "runner": "c9cac8a6aa",
-  "rf_round": "17",
+  "runner": "fa98538ce5",
+  "rf_round": "21",
   "res_peak": {
-    "cpu": 11,
-    "mem": 38,
-    "used_gb": 12.3,
+    "cpu": 12,
+    "mem": 39,
+    "used_gb": 12.2,
     "chrome_testing": 0
   }
 }

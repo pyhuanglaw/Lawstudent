@@ -651,3 +651,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T05:16:03  DC_ver_ok  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
 - 2026-11-04T05:31:52  LIVE19_day12  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
 - 2026-11-04T05:31:56  LIVE19_ver  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
+- 2026-11-04T05:32:00  LIVE19_deploy  sha=e1603907e  exit=  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e  
