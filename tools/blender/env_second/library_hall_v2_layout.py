@@ -128,6 +128,7 @@ def build(v1):
     L['windowsV2'] = {'xWallZ': [round(-15.6 + 2.4 * k, 2) for k in range(11)], 'rotundaDeg': [-48, 0, 48]}   # 展演廳的窗：弧牆 15 段（一段 12°）的第 3、7、11 段（library_hall_v2.py 的 WIN_AT；第三版 BB_244 第 4 點：照片 2 上下各三扇，第二版是五扇）
     L['directory'] = {'x': -3.6, 'z': 0.0, 'note': '樓層簡介立牌：入口閘門後面、西側展示櫃前面，面朝南（門口）；第一版掛在核心書架上 (−3.2, −0.48)。字是遊戲畫的 canvas，架子在正式模型、備用模型各一份'}
     plan_1f_v4(L)
+    plan_2f_v4(L)
     L['furnitureNote'] = 'v2 新的型別：groupTable（一樓四人桌）、pcDesk（電腦桌）、roundTable（圓桌）、stack（二樓雙面書架）——src/library_hall_v2.js 處理；prop 的 kind 只影響 Blender 畫什麼'
     return L
 
@@ -182,6 +183,39 @@ def plan_1f_v4(L):
     L['signs'] = [s for s in L['signs'] if not (s['lv'] == 0 and 'B1' in s['text'])] + [
         {'lv': 0, 'text': 'B1 24小時自習室 ↓', 'x': -5.0, 'z': 6.2, 'y': 2.62, 'ry': 1.5708, 'w': 1.8},
         {'lv': 0, 'text': '總服務台', 'x': 2.6, 'z': 1.18, 'y': 1.25, 'ry': 0, 'w': 1.4}]
+
+
+def plan_2f_v4(L):
+    """第四版二樓（LIB-PLAN-1103）：照 08:58 的二樓平面圖（0858_plan_2f.jpg）。
+      - 西半邊：黃色「人社中日韓文圖書」書架改成南北向（平面圖一排一排從北到南）；北半邊三排（x −10.9、−8.0、−5.3，z −15.6～−9.2），
+        討論室 225、226 的門（北牆 x −9.4、−6.6）在書架之間的走道上。靠西牆的四張長桌（閱覽座位；小安「總圖的下午」是 z 3.0 那一張）照舊，座位順序不變。
+      - 東半邊：藍色「人社西文圖書」南北向；中間留一條東西向的走道（z −6.0：往 3F 的樓梯間門、spawn (10.8,−6)）。
+        北段（z −8.3～−6.9）是紫色「藝術資料」（平面圖的藝術資料在東北；遊戲東北是多媒體中心，照舊）。東南兩排（z 0.4～4.6），研究小間的門（東牆 z 5.6）前面留空。
+      - 背景路人的路線點 (8.0,−3.4)、(−8.0,−2.0)（story3d.js）都不在書架上（x 6.2 和 9.0 兩排中間）。
+    """
+    F = L['furniture']
+    old = [f for f in F if f['type'] == 'stack' and f.get('lv') == 1]
+    F[:] = [f for f in F if not (f['type'] == 'stack' and f.get('lv') == 1)]
+    olds = {(round(f['x'], 3), f['z']) for f in old}
+    L['signs'] = [sg for sg in L['signs'] if not (sg['lv'] == 1 and (sg['text'] in ('000–299', '300–699', '700–999', 'A–H', 'J–Z', '人社中日韓文圖書', '人社西文圖書')))]
+    new = []
+    def stackNS(x, z0, z1, cap, label):   # 南北向：stack 是沿 x 的，轉 90°（ry）
+        new.append({'type': 'stack', 'lv': 1, 'x': x, 'z': round((z0 + z1) / 2, 3), 'w': round(z1 - z0, 3), 'd': 0.62, 'h': 2.1, 'ry': 1.5708, 'cap': cap, 'label': label})
+    for x, lab in ((-10.9, '000–299'), (-8.0, '300–699'), (-5.3, '700–999')):
+        stackNS(x, -15.6, -9.2, '#e8b923', lab)
+    stackNS(-4.9, -7.6, -1.4, '#e8b923', '820–899')   # 長桌和中庭欄杆中間那條：書架兩邊各留 0.9 m 走道（背景路人 (−8,−2) 不在上面）
+    for x, lab in ((6.2, '900–949 藝術'), (9.0, '950–999 藝術')):
+        stackNS(x, -8.3, -6.9, '#9b59b6', lab)
+    for x, lab in ((6.2, 'A–H'), (9.0, 'J–Q')):
+        stackNS(x, -5.1, -1.0, '#3a7ca5', lab)
+    for x, lab in ((7.0, 'R–Z'), (9.4, 'PN–PQ')):
+        stackNS(x, 0.4, 4.6, '#3a7ca5', lab)
+    F.extend(new)
+    for f in new:   # 端板上的索書號：北端（朝走道）
+        L['signs'].append({'lv': 1, 'text': f['label'], 'x': f['x'], 'z': round(f['z'] - f['w'] / 2 - 0.035, 3), 'y': 1.72, 'ry': 0.0, 'w': 0.52})
+    L['signs'] += [{'lv': 1, 'text': '人社中日韓文圖書', 'x': -8.0, 'z': -16.84, 'y': 2.42, 'ry': 0, 'w': 1.9},
+                   {'lv': 1, 'text': '人社西文圖書', 'x': 7.6, 'z': -0.66, 'y': 2.42, 'ry': 3.1416, 'w': 1.6},
+                   {'lv': 1, 'text': '藝術資料', 'x': 7.6, 'z': -8.82, 'y': 2.42, 'ry': 0, 'w': 1.2}]
 
 def write_js(L, repo):
     p = os.path.join(repo, 'src', 'data', 'library_layout.js')

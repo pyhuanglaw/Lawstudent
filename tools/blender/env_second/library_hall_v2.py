@@ -199,13 +199,13 @@ for (x, z) in COLS:
 # =====================================================================
 # 三、外牆（每一層每一面一個 WALL_ 物件，淡出）＋窗、門
 # =====================================================================
-WZ = LAY['windowsV2']['xWallZ']; b1z = LAY['b1Door']['z']
+WZ = LAY['windowsV2']['xWallZ']; b1z = LAY['b1Door']['z']; B1V = LAY['b1Door'].get('wall') == 'vestibule'   # 第四版（LIB-PLAN-1103）：B1 的門在門廳西牆，大廳西牆的窗照舊
 for (lv, par, y0, y1, wy0, wy1) in ((0, R0, 0.0, Y1, 1.1, 3.5), (1, R1, Y1, RY, Y1 + 1.0, Y1 + 3.4)):
     c = C0 if lv == 0 else C1
     # 西牆：窗（一樓 z −2.4 那一扇換成往 B1 的樓梯間門）
     holes = []
     for z in WZ:
-        if lv == 0 and abs(z - b1z) < 0.6: holes.append((z - 0.55, z + 0.55, 0.0, 2.3)); continue
+        if lv == 0 and not B1V and abs(z - b1z) < 0.6: holes.append((z - 0.55, z + 0.55, 0.0, 2.3)); continue
         holes.append((z - 0.8, z + 0.8, wy0, wy1))
     wall_holes(wallmesh(f'W{lv}', par, [1, 0, 0]), 'z', X0, Z0, Z1, y0, y1, holes)
     for (a, b, ya, yb) in holes:
@@ -237,13 +237,16 @@ def door_leaf(c, axis, at, cpos, y0, inward, w=1.1, h=2.3, col='#6e7377'):
     hx = cpos + w * 0.32
     if axis == 'z': c.vm.cbox(d + inward * 0.05, d + inward * 0.09, y0 + 1.0, y0 + 1.06, hx - 0.12, hx + 0.12, '#c9ccd0')
     else: c.vm.cbox(hx - 0.12, hx + 0.12, y0 + 1.0, y0 + 1.06, min(d + inward * 0.05, d + inward * 0.09), max(d + inward * 0.05, d + inward * 0.09), '#c9ccd0')
-door_leaf(C0, 'z', X0, b1z, 0.0, +1)
+if B1V: door_leaf(C0, 'z', V['x0'], b1z, 0.0, +1)   # 門廳西牆、門片朝門廳（東）
+else: door_leaf(C0, 'z', X0, b1z, 0.0, +1)
 door_leaf(C1, 'z', X1, LAY['stairDoor']['z'], Y1, -1)
 cr = next(q for q in LAY['doors'] if q['id'] == 'carrels'); door_leaf(C1, 'z', X1, cr['z'], Y1, -1, col='#8a6a4a')
 # 館員辦公室（一樓東南、辦公室隔間牆上，門朝北）、二樓北牆的討論室 225、226（11-02 二樓平面圖；關著）：遊戲的備用門框在正式模型載入後會藏起來，門要畫在模型裡
 OW = next((f for f in LAY['furniture'] if f['type'] == 'officeWall'), None)
 for dd in LAY['doors']:
-    if dd['id'] == 'staff' and OW: door_leaf(C0, 'x', OW['z'] + 0.05, dd['x'], 0.0, -1, w=1.0, col='#6e5a48')   # 牆北面 z−0.06：門片貼在北面
+    if dd['id'] in ('staff', 'alumni', 'av1', 'av2', 'av3') and OW:   # 第四版：辦公室在西南、東南是校友中心＋視聽室；門片貼在那道隔間牆的北面
+        ow_ = next((f for f in LAY['furniture'] if f['type'] == 'officeWall' and f['x0'] - 0.01 <= dd['x'] <= f['x1'] + 0.01), OW)
+        door_leaf(C0, 'x', ow_['z'] + 0.05, dd['x'], 0.0, -1, w=1.0, col='#6e5a48' if dd['id'] == 'staff' else '#8a6a4a')
     elif dd['id'] in ('disc225', 'disc226'): door_leaf(C1, 'x', Z0, dd['x'], Y1, +1, w=1.0, col='#8a6a4a'); C1.get('glass').box(dd['x'] - 0.2, dd['x'] + 0.2, Y1 + 1.3, Y1 + 2.0, Z0 + T / 2 + 0.055, Z0 + T / 2 + 0.065)   # 門上的小窗
 # 正面：門廳的挑高玻璃帷幕（一樓那段 L0、二樓那段 L1）＋兩扇自動門
 for (c, ya, yb) in ((C0, 0.0, Y1), (C1, Y1, RY - 0.2)):
@@ -555,6 +558,20 @@ def stack(c, cx, cz, w, y0, H=2.1, D=0.62, cap='#888888'):
                 x += bw + 0.004
     for e in (-1, 1):                                                                        # 端板（平面圖的顏色）
         xe = cx + e * (w / 2 + 0.015); c.vc.cbox(xe - 0.015, xe + 0.015, y0, y0 + H, z0 - 0.01, z1 + 0.01, cap)
+class _SwapXZ:
+    """南北向的書架（第四版二樓，LIB-PLAN-1103）：把 stack() 畫的 cbox 以 (cx, cz) 為中心互換 x、z（對稱的雙面書架，鏡射＝轉 90°）"""
+    def __init__(self, c, cx, cz): self.c, self.cx, self.cz = c, cx, cz
+    class _M:
+        def __init__(self, m, cx, cz): self.m, self.cx, self.cz = m, cx, cz
+        def cbox(self, x0, x1, y0, y1, z0, z1, col):
+            self.m.cbox(self.cx + (z0 - self.cz), self.cx + (z1 - self.cz), y0, y1, self.cz + (x0 - self.cx), self.cz + (x1 - self.cx), col)
+    @property
+    def vm(self): return _SwapXZ._M(self.c.vm, self.cx, self.cz)
+    @property
+    def vc(self): return _SwapXZ._M(self.c.vc, self.cx, self.cz)
+    def get(self, *a, **k): return _SwapXZ._M(self.c.get(*a, **k), self.cx, self.cz)
+
+
 def exhibit(c, x, z, w, h, y0):
     """二樓展示區：北牆上的展板（白底、三張圖、幾行字；顏色都是頂點色）"""
     c.vc.cbox(x - w / 2, x + w / 2, y0 + 0.7, y0 + 0.7 + h, z - 0.025, z + 0.025, '#f2efe8')
@@ -610,7 +627,7 @@ for f in LAY['furniture']:
             LAMPS[1].append((sxx, z, 0.0))                                                    # 綠色銀行燈（2D 背景 ntu_library_2f：桌子中線一排）
             C1.get('warm').box(sxx - 0.13, sxx + 0.13, y + 0.995, y + 0.999, z - 0.05, z + 0.05)   # 燈罩下面亮的一條（GLOW_，晚上亮）
     elif t == 'shelf': shelf(c, f['x'], f['z'], f['w'], ry, y)
-    elif t == 'stack': stack(c, f['x'], f['z'], f['w'], y, H=f.get('h', 2.1), D=f.get('d', 0.62), cap=f.get('cap', '#888888'))
+    elif t == 'stack': stack(_SwapXZ(c, f['x'], f['z']) if abs(f.get('ry', 0.0)) > 0.1 else c, f['x'], f['z'], f['w'], y, H=f.get('h', 2.1), D=f.get('d', 0.62), cap=f.get('cap', '#888888'))   # ry≈90°：南北向（第四版二樓）
     elif t == 'groupTable':                            # 一樓多元共享區的四人桌（淺色木頭、中間一支腳）
         x, z = f['x'], f['z']
         c.get('wood', tile=1.6).box(x - f['w'] / 2, x + f['w'] / 2, y + 0.71, y + 0.75, z - f['d'] / 2, z + f['d'] / 2)
@@ -645,6 +662,11 @@ for f in LAY['furniture']:
             c.vm.cbox(f['x'] - w / 2, f['x'] + w / 2, y + h, y + h + 0.03, f['z'] - 0.045, f['z'] + 0.045, '#3a3f45')
         elif k in ('newsRack', 'mediaShelf'):
             shelf(c, f['x'], f['z'], d if k == 'newsRack' else d, ry, y, H=h, Dp=w + 0.05)
+        elif k == 'crossShelf':                            # 第四版：數位媒體區中間的十字形影音櫃（兩片矮櫃交叉；端板是平面圖的顏色）
+            for rr in (0.0, PI / 2):
+                shelf(c, f['x'], f['z'], w, rr, y, H=h, Dp=0.38)
+            for (dx, dz) in ((w / 2, 0), (-w / 2, 0), (0, w / 2), (0, -w / 2)):
+                c.vc.cbox(f['x'] + dx - 0.02 - (0.19 if dz else 0), f['x'] + dx + 0.02 + (0.19 if dz else 0), y, y + h + 0.02, f['z'] + dz - 0.02 - (0 if dz else 0.19), f['z'] + dz + 0.02 + (0 if dz else 0.19), f.get('col', '#888888'))
         elif k in ('curveCase', 'benchLow'): pass        # 展演廳那一段畫了
         elif k == 'umbrellas':
             clathe(c.vm, [(0.0, 0.0), (0.17, 0.0), (0.18, 0.55), (0.0, 0.55)], f['x'], y, f['z'], '#6b7075', seg=14)

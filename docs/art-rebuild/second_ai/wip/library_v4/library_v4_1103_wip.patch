@@ -1,0 +1,1961 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index a57786769..be6ef421a 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -200,6 +200,7 @@
+ | 萬才館 法律學院圖書館室內 `assets/models/env/lawlib_interior.glb`；萬才館西牆的門（`assets/models/env/wancai_interior.glb` 的一部分） | 本作 Blender 腳本 `tools/blender/lawlib_interior.py`（配置 `src/data/lawlib_layout.js`，LAWWW 製作）、`tools/blender/wancai_interior.py` 的門洞與門；書背、封面、出口標示燈的圖集是程式畫的（`tools/blender/env_second/lawlib_atlas.py`，書名只寫科目，沒有真實作者、出版社、刊名；字用系統字型**文泉驛正黑**（WenQuanYi Zen Hei，GPLv2＋字型嵌入例外）畫成點陣圖，GLB 裡沒有字型）；貼圖 Poly Haven `granite_tile`、`dirty_carpet`、`granite_tile_03`、`walnut_veneer`、`ceiling_interior`、`terrazzo_tiles`（**CC0**） | 本作（模型、圖集）＋CC0（貼圖） | 法律學院圖書館（區域 `src/lawlib3d.js`，LAWWW） |
+ | 總圖書館外觀 `assets/models/env/second_ai/campus_library.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_library.py`（位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「總圖書館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道東端的總圖（取代套件 `CK.hall` 的外觀）。貼圖：`exterior_wall_cladding_02`（面磚）、`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（大門、窗框；2026-10-11 起窗框也用木紋）、以及 `granite_tile_03`（勒腳、地坪；第一個 AI 已下載到 `tools/blender/textures/`，只讀使用） |
+ | Poly Haven `sandstone_blocks_08`（Rob Tuytel） | https://polyhaven.com/a/sandstone_blocks_08 | CC0 | 總圖的石材：拱廊柱頭柱腳、拱圈、門廊、樓層腰帶、簷口、窗框窗台（降低彩度、校正成淺米灰）；傅鐘的台基、柱子、梁、石碑 |
++| Poly Haven `large_sandstone_blocks`（Rob Tuytel） | https://polyhaven.com/a/large_sandstone_blocks ，`lib2.fetch()` 下載 1k JPG 到 `tools/blender/env_second/textures/` | CC0 | 總圖大廳第三版（11-02，BB_244）展演廳的白色石牆（降低彩度、調白、壓低對比）；美國校園的石灰岩台基（`tools/blender/env_second/us_campus_kit.py`，之前漏登） |
+ | 傅鐘 `assets/models/env/second_ai/campus_bell.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_bell.py`（尺寸照套件 `CK.bell`；石碑的「傅鐘」是遊戲裡的 canvas 字；柱面暖光的漸層貼圖本作程式產生） | 本作 | 校園傅鐘廣場（取代套件 `CK.bell` 的外觀）。貼圖：`sandstone_blocks_08`（切石）、`grey_roof_tiles`（屋瓦）、`dark_wood`（木橫梁），上面列過的 Poly Haven CC0 |
+ | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
+ | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
+diff --git a/index.html b/index.html
+index bab955742..d099c7327 100644
+--- a/index.html
++++ b/index.html
+@@ -225,6 +225,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/library_layout.js?v=9.10.16"></script>
+ <script src="src/library3d.js?v=9.10.16"></script>
+ <script src="src/library_hall_v2.js?v=9.10.16"></script>
++<script src="src/data/library_3f_layout.js?v=9.10.16"></script>
++<script src="src/library_3f_v2.js?v=9.10.16"></script>
+ <script src="src/data/library_b1_layout.js?v=9.10.16"></script>
+ <script src="src/library_b1_3d.js?v=9.10.16"></script>
+ <script src="src/data/library_upper_layouts.js?v=9.10.16"></script>
+diff --git a/src/classes3d.js b/src/classes3d.js
+index 71749aa71..f217d67c9 100644
+--- a/src/classes3d.js
++++ b/src/classes3d.js
+@@ -407,7 +407,7 @@ const CLS=(function(){
+     {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
+     {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
+     {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
+-    {x:0,z:3.2,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];
++    {x:0,z:4.4,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];   /* LIB-3F-1102 第二版：最後一站 (0, 4.4)（第一版 (0, 3.2) 在第二版的科技中文書架上）*/
+   S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
+     if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
+     const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
+@@ -421,7 +421,7 @@ const CLS=(function(){
+     const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
+     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
+     for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
+-      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); try{ await GM.enter(st.zone,{x:0,z:7,yaw:Math.PI}); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; spawnCrew(0.8,5.6,0); }
++      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
+       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
+       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
+       await waitFor(near,90); if(left) break; GM.caption('館員',st.say,5200); await GM.sleep(2600); }
+diff --git a/src/data/library_3f_layout.js b/src/data/library_3f_layout.js
+new file mode 100644
+index 000000000..bf9abab70
+--- /dev/null
++++ b/src/data/library_3f_layout.js
+@@ -0,0 +1,822 @@
++/* ===== 總圖 3F 閱覽區第二版的配置（LIB-3F-1102）=====
++   由 tools/blender/env_second/library_3f_v2_layout.py 產生，不要手改。遊戲 src/library_3f_v2.js、Blender tools/blender/env_second/library_3f_v2.py 讀同一份。
++   座標：x 往東、z 往南（+z 是正面）、y 往上；和大廳（src/data/library_layout.js version 2）同一個外框。 */
++const LIBRARY3F_LAYOUT={
++  "version": 2,
++  "W": 24.0,
++  "D": 26.0,
++  "bounds": {
++    "x0": -12.0,
++    "x1": 12.0,
++    "z0": -17.0,
++    "z1": 9.0
++  },
++  "h": 4.0,
++  "rotunda": {
++    "cx": 0.0,
++    "cz": -17.0,
++    "r": 5.4,
++    "open": {
++      "x0": -1.6,
++      "x1": 1.6
++    }
++  },
++  "navBox": {
++    "x0": -13.0,
++    "x1": 13.0,
++    "z0": -23.6,
++    "z1": 10.0
++  },
++  "elevator": {
++    "x0": 9.4,
++    "x1": 11.4,
++    "z0": -2.6,
++    "z1": -0.4,
++    "doorX0": 9.8,
++    "doorX1": 11.0,
++    "doorZ": -2.6,
++    "callZ": -3.6
++  },
++  "stairDoor": {
++    "x": 11.8,
++    "z": -6.0,
++    "w": 1.2
++  },
++  "spawnFromStairs": {
++    "x": 10.6,
++    "z": -6.0,
++    "yaw": -1.5707963267948966
++  },
++  "note": "總圖 3F 第二版（LIB-3F-1102，LAWWW2 2026-11-02）：使用者 11-02 08:58 的 3F 平面圖。產生：tools/blender/env_second/library_3f_v2_layout.py，不要手改。",
++  "furniture": [
++    {
++      "type": "desk",
++      "x": -11.35,
++      "z": -8.4,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "west"
++    },
++    {
++      "type": "desk",
++      "x": -11.35,
++      "z": -5.0,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "west"
++    },
++    {
++      "type": "desk",
++      "x": -11.35,
++      "z": -1.6,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "west"
++    },
++    {
++      "type": "desk",
++      "x": -11.35,
++      "z": 1.8,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "west"
++    },
++    {
++      "type": "desk",
++      "x": 11.35,
++      "z": 1.6,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "east"
++    },
++    {
++      "type": "desk",
++      "x": 11.35,
++      "z": 4.6,
++      "w": 0.8,
++      "d": 3.0,
++      "h": 0.76,
++      "lamp": true,
++      "side": "east"
++    },
++    {
++      "type": "desk",
++      "x": -3.0,
++      "z": 6.4,
++      "w": 3.4,
++      "d": 1.2,
++      "h": 0.76,
++      "lamp": true,
++      "side": "both"
++    },
++    {
++      "type": "desk",
++      "x": 3.0,
++      "z": 6.4,
++      "w": 3.4,
++      "d": 1.2,
++      "h": 0.76,
++      "lamp": true,
++      "side": "both"
++    },
++    {
++      "type": "desk",
++      "x": 8.0,
++      "z": -12.6,
++      "w": 1.6,
++      "d": 1.0,
++      "h": 0.76,
++      "lamp": false,
++      "side": "both",
++      "outlets": true
++    },
++    {
++      "type": "desk",
++      "x": 10.4,
++      "z": -12.6,
++      "w": 1.6,
++      "d": 1.0,
++      "h": 0.76,
++      "lamp": false,
++      "side": "both",
++      "outlets": true
++    },
++    {
++      "type": "roundTable",
++      "x": -2.4,
++      "z": -10.4,
++      "r": 0.45
++    },
++    {
++      "type": "roundTable",
++      "x": 2.4,
++      "z": -10.4,
++      "r": 0.45
++    },
++    {
++      "type": "stack",
++      "x": -9.0,
++      "z": -15.4,
++      "w": 4.6,
++      "d": 0.62,
++      "h": 2.1,
++      "cap": "#f2b8a0",
++      "label": "人社西文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": -9.0,
++      "z": -13.0,
++      "w": 4.6,
++      "d": 0.62,
++      "h": 2.1,
++      "cap": "#f2b8a0",
++      "label": "人社西文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": -7.4,
++      "z": -3.4,
++      "w": 0.62,
++      "d": 8.6,
++      "h": 2.1,
++      "cap": "#e8b923",
++      "label": "人社中文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": -5.6,
++      "z": -3.4,
++      "w": 0.62,
++      "d": 8.6,
++      "h": 2.1,
++      "cap": "#e8b923",
++      "label": "人社中文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": 5.6,
++      "z": -5.4,
++      "w": 0.62,
++      "d": 6.6,
++      "h": 2.1,
++      "cap": "#3a7ca5",
++      "label": "科技西文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": 7.4,
++      "z": -5.4,
++      "w": 0.62,
++      "d": 6.6,
++      "h": 2.1,
++      "cap": "#3a7ca5",
++      "label": "科技西文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": -1.6,
++      "z": 2.6,
++      "w": 2.4,
++      "d": 0.62,
++      "h": 1.6,
++      "cap": "#2bb3a0",
++      "label": "科技中文裝訂期刊"
++    },
++    {
++      "type": "stack",
++      "x": 1.6,
++      "z": 2.6,
++      "w": 2.4,
++      "d": 0.62,
++      "h": 1.6,
++      "cap": "#2bb3a0",
++      "label": "科技中文裝訂期刊"
++    },
++    {
++      "type": "display",
++      "x": 0.0,
++      "z": -7.4,
++      "w": 3.6,
++      "d": 0.6,
++      "h": 1.4,
++      "cap": "#b3283a",
++      "label": "現期期刊"
++    },
++    {
++      "type": "display",
++      "x": 0.0,
++      "z": -5.4,
++      "w": 3.6,
++      "d": 0.6,
++      "h": 1.4,
++      "cap": "#b3283a",
++      "label": "現期期刊"
++    },
++    {
++      "type": "display",
++      "x": 0.0,
++      "z": -3.4,
++      "w": 3.6,
++      "d": 0.6,
++      "h": 1.4,
++      "cap": "#b3283a",
++      "label": "現期期刊"
++    },
++    {
++      "type": "wallShelf",
++      "x": 11.65,
++      "z": -13.6,
++      "w": 0.45,
++      "d": 4.4,
++      "h": 2.1,
++      "ry": -1.5707963267948966,
++      "label": "考古題"
++    },
++    {
++      "type": "wallShelf",
++      "x": 7.0,
++      "z": 8.65,
++      "w": 3.0,
++      "d": 0.45,
++      "h": 2.1,
++      "ry": 3.141592653589793,
++      "label": "指定參考書"
++    },
++    {
++      "type": "wallShelf",
++      "x": 10.2,
++      "z": 8.65,
++      "w": 3.0,
++      "d": 0.45,
++      "h": 2.1,
++      "ry": 3.141592653589793,
++      "label": "四庫全書"
++    },
++    {
++      "type": "wallShelf",
++      "x": 11.65,
++      "z": 7.6,
++      "w": 0.45,
++      "d": 1.8,
++      "h": 2.1,
++      "ry": -1.5707963267948966,
++      "label": "參考書"
++    },
++    {
++      "type": "carrel",
++      "x": -11.0,
++      "z": 7.8,
++      "w": 1.5,
++      "d": 2.2,
++      "label": "研究小間 356"
++    },
++    {
++      "type": "carrel",
++      "x": -9.4,
++      "z": 7.8,
++      "w": 1.5,
++      "d": 2.2,
++      "label": "研究小間 357"
++    },
++    {
++      "type": "carrel",
++      "x": -7.8,
++      "z": 7.8,
++      "w": 1.5,
++      "d": 2.2,
++      "label": "研究小間 358"
++    },
++    {
++      "type": "carrel",
++      "x": -6.2,
++      "z": 7.8,
++      "w": 1.5,
++      "d": 2.2,
++      "label": "研究小間 359"
++    },
++    {
++      "type": "room",
++      "id": "disc344",
++      "x0": -9.2,
++      "x1": -5.6,
++      "z0": -17.0,
++      "z1": -14.6,
++      "label": "討論室 344"
++    },
++    {
++      "type": "room",
++      "id": "disc346",
++      "x0": 5.6,
++      "x1": 9.2,
++      "z0": -17.0,
++      "z1": -14.6,
++      "label": "討論室 346"
++    }
++  ],
++  "windows": {
++    "y0": 0.95,
++    "y1": 3.05,
++    "hw": 0.85,
++    "west": [
++      -15.4,
++      -13.0,
++      -10.6,
++      -8.2,
++      -5.8,
++      -3.4,
++      -1.0,
++      1.4,
++      3.8,
++      6.2
++    ],
++    "east": [
++      -15.4,
++      -13.0,
++      -10.6,
++      -8.2,
++      1.4,
++      3.8,
++      6.2
++    ],
++    "south": [
++      -10.6,
++      -8.2,
++      -5.8,
++      -3.4,
++      -1.0,
++      1.4,
++      3.8,
++      6.2,
++      8.6
++    ]
++  },
++  "seats": [
++    {
++      "x": -10.55,
++      "z": -9.4,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -8.4,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -7.4,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -6.0,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -5.0,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -4.0,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -2.6,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -1.6,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": -0.6,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": 0.8,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": 1.8,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": -10.55,
++      "z": 2.8,
++      "yaw": -1.5708,
++      "label": "西側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 0.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 1.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 2.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 3.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 4.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": 10.55,
++      "z": 5.6,
++      "yaw": 1.5708,
++      "label": "東側靠窗"
++    },
++    {
++      "x": -4.05,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": -4.05,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": -3.0,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": -3.0,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": -1.95,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": -1.95,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": 1.95,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": 1.95,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": 3.0,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": 3.0,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": 4.05,
++      "z": 5.55,
++      "yaw": 0.0,
++      "label": "南側長桌"
++    },
++    {
++      "x": 4.05,
++      "z": 7.25,
++      "yaw": 3.1416,
++      "label": "南側長桌"
++    },
++    {
++      "x": 7.6,
++      "z": -13.4,
++      "yaw": 0.0,
++      "label": "無線上網區"
++    },
++    {
++      "x": 7.6,
++      "z": -11.8,
++      "yaw": 3.1416,
++      "label": "無線上網區"
++    },
++    {
++      "x": 8.4,
++      "z": -13.4,
++      "yaw": 0.0,
++      "label": "無線上網區"
++    },
++    {
++      "x": 8.4,
++      "z": -11.8,
++      "yaw": 3.1416,
++      "label": "無線上網區"
++    },
++    {
++      "x": 10.0,
++      "z": -13.4,
++      "yaw": 0.0,
++      "label": "無線上網區"
++    },
++    {
++      "x": 10.0,
++      "z": -11.8,
++      "yaw": 3.1416,
++      "label": "無線上網區"
++    },
++    {
++      "x": 10.8,
++      "z": -13.4,
++      "yaw": 0.0,
++      "label": "無線上網區"
++    },
++    {
++      "x": 10.8,
++      "z": -11.8,
++      "yaw": 3.1416,
++      "label": "無線上網區"
++    },
++    {
++      "x": -2.4,
++      "z": -9.45,
++      "yaw": 3.142,
++      "label": "現期期刊休息區"
++    },
++    {
++      "x": -3.22,
++      "z": -10.88,
++      "yaw": 1.047,
++      "label": "現期期刊休息區"
++    },
++    {
++      "x": -1.58,
++      "z": -10.88,
++      "yaw": 5.236,
++      "label": "現期期刊休息區"
++    },
++    {
++      "x": 2.4,
++      "z": -9.45,
++      "yaw": 3.142,
++      "label": "現期期刊休息區"
++    },
++    {
++      "x": 1.58,
++      "z": -10.88,
++      "yaw": 1.047,
++      "label": "現期期刊休息區"
++    },
++    {
++      "x": 3.22,
++      "z": -10.88,
++      "yaw": 5.236,
++      "label": "現期期刊休息區"
++    }
++  ],
++  "seatMap": [
++    {
++      "what": "學姊（story3d.js:303，seats[2]）",
++      "v1": [
++        -2.4,
++        -3.9
++      ],
++      "v2": [
++        -10.55,
++        -7.4
++      ]
++    },
++    {
++      "what": "pool「愛睡覺的男生」seatAt（pool_more3d.js:70）",
++      "v1": [
++        -2.4,
++        1.5
++      ],
++      "v2": [
++        -3.0,
++        7.25
++      ]
++    },
++    {
++      "what": "pool「坐窗邊的人」seatAt（pool_story.js:72）",
++      "v1": [
++        5.6,
++        -3.9
++      ],
++      "v2": [
++        10.55,
++        1.6
++      ]
++    },
++    {
++      "what": "課程導覽最後一站（classes3d.js:410）",
++      "v1": [
++        0,
++        3.2
++      ],
++      "v2": [
++        0.0,
++        4.4
++      ]
++    },
++    {
++      "what": "從樓梯間進來（library_layout.js reading.spawnFromStairs）",
++      "v1": [
++        0,
++        7
++      ],
++      "v2": [
++        10.6,
++        -6.0
++      ]
++    },
++    {
++      "what": "電梯（library_layout.js reading.elevator）",
++      "v1": [
++        [
++          8.8,
++          10.8
++        ],
++        [
++          -1,
++          1.2
++        ]
++      ],
++      "v2": [
++        [
++          9.4,
++          11.4
++        ],
++        [
++          -2.6,
++          -0.4
++        ]
++      ]
++    },
++    {
++      "what": "「看桌上的紙條」（守誠那張桌子；pool_more3d.js 的 POP）",
++      "v1": [
++        -2.4,
++        0.6
++      ],
++      "v2": [
++        -3.0,
++        6.75
++      ]
++    },
++    {
++      "what": "「看期刊架」（語彤的系刊；r2y4a3d.js 的 shelfPlace）",
++      "v1": [
++        -9.7,
++        2.4
++      ],
++      "v2": [
++        0.0,
++        -2.75
++      ]
++    }
++  ],
++  "signs": [
++    {
++      "text": "臺大人文庫",
++      "x": 0.0,
++      "z": -16.88,
++      "y": 3.0,
++      "ry": 0,
++      "w": 2.4
++    },
++    {
++      "text": "現期期刊",
++      "x": 0.0,
++      "z": -8.6,
++      "y": 2.6,
++      "ry": 0,
++      "w": 1.8
++    },
++    {
++      "text": "無線上網區",
++      "x": 9.2,
++      "z": -16.88,
++      "y": 2.9,
++      "ry": 0,
++      "w": 2.2
++    },
++    {
++      "text": "樓梯間 ↓ 2F・1F",
++      "x": 11.88,
++      "z": -6.0,
++      "y": 2.7,
++      "ry": -1.5707963267948966,
++      "w": 1.8
++    },
++    {
++      "text": "研究小間",
++      "x": -8.6,
++      "z": 6.5,
++      "y": 2.6,
++      "ry": 0,
++      "w": 1.6
++    },
++    {
++      "text": "指定參考書・四庫全書",
++      "x": 8.6,
++      "z": 8.42,
++      "y": 2.6,
++      "ry": 3.141592653589793,
++      "w": 3.0
++    }
++  ]
++};
+diff --git a/src/data/library_layout.js b/src/data/library_layout.js
+index a553ce547..b123ff6ec 100644
+--- a/src/data/library_layout.js
++++ b/src/data/library_layout.js
+@@ -2,6 +2,12 @@
+    遊戲（src/library3d.js：導航格、地板高度、互動點、程序化備用模型）和 Blender（tools/blender/library_interior.py：正式模型）
+    讀同一份資料，兩邊的牆、樓梯、樓板、電梯、門的位置一定一致。這份檔案必須是「
+ /* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
++/* v2（LIB-INTERIOR-1102）：由 tools/blender/env_second/library_hall_v2_layout.py 產生（沿用上面第一版的說明；第二版改了什麼看那支腳本的開頭）*/
+ const LIBRARY_LAYOUT={
+   "version": 2,
+   "W": 24,
+@@ -205,18 +211,19 @@ const LIBRARY_LAYOUT={
+     }
+   },
+   "b1Door": {
+-    "x": -11.8,
+-    "z": -2.4,
++    "x": -5.05,
++    "z": 6.2,
+     "lv": 0,
+     "w": 1.1,
+     "label": "走樓梯下 B1",
+     "spawn": {
+-      "x": -10.1,
+-      "z": -3.1,
++      "x": -3.4,
++      "z": 6.2,
+       "lv": 0,
+       "yaw": 1.5708
+     },
+-    "note": "總圖 B1（CLOSED-SPACES-1023 第 2 項，LAWWW2-B 10-23；LAWWW-B 選 A）：一樓西牆的樓梯間門，換那一扇窗（z −2.4）；B1 是 library_b1 區域（src/library_b1_3d.js），spawn＝從 B1 走上來站的位置"
++    "note": "第四版（LIB-PLAN-1103）：一樓平面圖的 B1 樓梯在入口門禁兩旁 → 門廳西牆（x −5.2）；不用過閘門就能下 B1 24 小時自習室。第一～三版在大廳西牆 z −2.4。spawn＝從 B1 走上來站的位置（離門的互動點 1.1 m 以上）",
++    "wall": "vestibule"
+   },
+   "reading": {
+     "spawnFromStairs": {
+@@ -354,11 +361,13 @@ const LIBRARY_LAYOUT={
+     {
+       "id": "staff",
+       "lv": 0,
+-      "x": 10.8,
+-      "z": 5.7,
++      "x": -9.6,
++      "z": 4.55,
+       "ry": 3.1416,
+       "label": "館員辦公室",
+-      "closed": "館員辦公室。門上寫著「非請勿入」。"
++      "closed": "館員辦公室。門上寫著「非請勿入」。",
++      "wall": "office_sw",
++      "note": "第四版：一樓平面圖的辦公室在西南；第一～三版在東南 (10.8, 5.7)"
+     },
+     {
+       "id": "disc225",
+@@ -377,6 +386,42 @@ const LIBRARY_LAYOUT={
+       "ry": 0,
+       "label": "討論室 226",
+       "closed": "討論室 226。玻璃門裡面有四個人在白板前面討論，門上寫著「使用中」。"
++    },
++    {
++      "id": "alumni",
++      "lv": 0,
++      "x": 6.4,
++      "z": 5.75,
++      "ry": 3.1416,
++      "label": "校友中心",
++      "closed": "校友中心。今天沒有開放，玻璃門上貼著下週校友座談的海報。"
++    },
++    {
++      "id": "av1",
++      "lv": 0,
++      "x": 8.3,
++      "z": 5.75,
++      "ry": 3.1416,
++      "label": "視聽室 166-1",
++      "closed": "視聽室 166-1。要在服務台登記才能用，現在有人在裡面看電影。"
++    },
++    {
++      "id": "av2",
++      "lv": 0,
++      "x": 9.8,
++      "z": 5.75,
++      "ry": 3.1416,
++      "label": "視聽室 166-2",
++      "closed": "視聽室 166-2。門上的牌子寫「使用中」。"
++    },
++    {
++      "id": "av3",
++      "lv": 0,
++      "x": 11.2,
++      "z": 5.75,
++      "ry": 3.1416,
++      "label": "視聽室 166-3",
++      "closed": "視聽室 166-3。要先到服務台登記。"
+     }
+   ],
+   "furniture": [
+@@ -384,10 +429,11 @@ const LIBRARY_LAYOUT={
+       "type": "lockers",
+       "lv": 0,
+       "x": -4.85,
+-      "z": 7.1,
+-      "w": 3.2,
++      "z": 7.95,
++      "w": 1.6,
+       "d": 0.5,
+-      "ry": 1.5708
++      "ry": 1.5708,
++      "note": "第四版：縮短讓出門廳西牆南段給 B1 樓梯間的門"
+     },
+     {
+       "type": "returnBox",
+@@ -406,10 +452,11 @@ const LIBRARY_LAYOUT={
+     {
+       "type": "desk",
+       "lv": 0,
+-      "x": 7.8,
+-      "z": 4.4,
+-      "w": 3.6,
+-      "d": 0.8
++      "x": 3.0,
++      "z": 1.0,
++      "w": 3.0,
++      "d": 0.8,
++      "note": "第四版：閘門北邊、主走道東側（一樓平面圖的紅色服務台）；櫃台後面（+z）是館員站的地方，導航擋到 z 2.4，閘門四道往北都走得過去"
+     },
+     {
+       "type": "copier",
+@@ -425,28 +472,13 @@ const LIBRARY_LAYOUT={
+       ],
+       "note": "影印機（NPC-STORY-1028，AA_497 芯慈 2-2；LAWWW2-C）：靠東牆、正面朝西；nav＝世界座標的擋住範圍 [中心 x, 中心 z, 寬 x, 深 z]（含正面的觸控面板、南邊的投幣盒、北邊的出紙盤）。站在影印機前：(10.35, 2.35)、(10.35, 2.95) 朝 +x"
+     },
+-    {
+-      "type": "partition",
+-      "lv": 0,
+-      "x": 5.8,
+-      "z": 4.9,
+-      "w": 0.1,
+-      "d": 1.8
+-    },
+-    {
+-      "type": "partition",
+-      "lv": 0,
+-      "x": 9.8,
+-      "z": 4.9,
+-      "w": 0.1,
+-      "d": 1.8
+-    },
+     {
+       "type": "officeWall",
+       "lv": 0,
+       "x0": 5.3,
+       "x1": 11.9,
+-      "z": 5.8
++      "z": 5.8,
++      "label": "校友中心・視聽室"
+     },
+     {
+       "type": "display",
+@@ -478,7 +510,7 @@ const LIBRARY_LAYOUT={
+       "type": "sofa",
+       "lv": 0,
+       "x": -11.0,
+-      "z": 6.2,
++      "z": -2.2,
+       "w": 2.2,
+       "d": 0.9,
+       "ry": 1.5708,
+@@ -520,7 +552,7 @@ const LIBRARY_LAYOUT={
+       "type": "planter",
+       "lv": 0,
+       "x": 4.4,
+-      "z": 0.4,
++      "z": -0.5,
+       "r": 0.45
+     },
+     {
+@@ -657,8 +689,8 @@ const LIBRARY_LAYOUT={
+       "type": "prop",
+       "kind": "bookcart",
+       "lv": 0,
+-      "x": -6.45,
+-      "z": -6.4,
++      "x": -11.35,
++      "z": 0.6,
+       "w": 0.9,
+       "d": 0.45,
+       "h": 1.05,
+@@ -744,13 +776,13 @@ const LIBRARY_LAYOUT={
+       "type": "prop",
+       "kind": "displayCase",
+       "lv": 0,
+-      "x": -3.05,
++      "x": -4.7,
+       "z": -2.9,
+       "w": 0.7,
+       "d": 3.4,
+       "h": 1.05,
+       "nav": [
+-        -3.05,
++        -4.7,
+         -2.9,
+         0.8,
+         3.5
+@@ -760,13 +792,13 @@ const LIBRARY_LAYOUT={
+       "type": "prop",
+       "kind": "displayCase",
+       "lv": 0,
+-      "x": 3.05,
++      "x": 4.7,
+       "z": -2.9,
+       "w": 0.7,
+       "d": 3.4,
+       "h": 1.05,
+       "nav": [
+-        3.05,
++        4.7,
+         -2.9,
+         0.8,
+         3.5
+@@ -873,17 +905,18 @@ const LIBRARY_LAYOUT={
+       "kind": "mediaShelf",
+       "lv": 0,
+       "x": 11.6,
+-      "z": -12.6,
++      "z": -12.4,
+       "w": 0.45,
+-      "d": 4.6,
++      "d": 8.4,
+       "h": 1.8,
+       "ry": -1.5708,
+       "nav": [
+         11.6,
+-        -12.6,
++        -12.4,
+         0.55,
+-        4.7
+-      ]
++        8.5
++      ],
++      "note": "第四版：東牆一整排（一樓平面圖的家用版中文影片，藍綠色）"
+     },
+     {
+       "type": "prop",
+@@ -965,104 +998,222 @@ const LIBRARY_LAYOUT={
+         0.5
+       ]
+     },
++    {
++      "type": "prop",
++      "kind": "exhibit",
++      "lv": 1,
++      "x": -4.2,
++      "z": -16.84,
++      "w": 1.4,
++      "d": 0.05,
++      "h": 1.6,
++      "nav": [
++        -4.2,
++        -16.84,
++        1.4,
++        0.1
++      ]
++    },
++    {
++      "type": "prop",
++      "kind": "exhibit",
++      "lv": 1,
++      "x": 4.2,
++      "z": -16.84,
++      "w": 1.4,
++      "d": 0.05,
++      "h": 1.6,
++      "nav": [
++        4.2,
++        -16.84,
++        1.4,
++        0.1
++      ]
++    },
++    {
++      "type": "officeWall",
++      "lv": 0,
++      "x0": -11.9,
++      "x1": -7.6,
++      "z": 4.6,
++      "label": "辦公室",
++      "id": "office_sw",
++      "note": "第四版：一樓平面圖的辦公室在西南"
++    },
++    {
++      "type": "groupTable",
++      "lv": 0,
++      "x": -9.4,
++      "z": -7.0,
++      "w": 1.6,
++      "d": 1.0,
++      "seats": 4
++    },
++    {
++      "type": "groupTable",
++      "lv": 0,
++      "x": -6.4,
++      "z": -7.0,
++      "w": 1.6,
++      "d": 1.0,
++      "seats": 4
++    },
++    {
++      "type": "prop",
++      "kind": "crossShelf",
++      "lv": 0,
++      "x": 6.5,
++      "z": -6.6,
++      "w": 1.6,
++      "d": 1.6,
++      "h": 1.4,
++      "col": "#e8743b",
++      "nav": [
++        6.5,
++        -6.6,
++        1.7,
++        1.7
++      ]
++    },
++    {
++      "type": "prop",
++      "kind": "crossShelf",
++      "lv": 0,
++      "x": 6.5,
++      "z": -3.4,
++      "w": 1.6,
++      "d": 1.6,
++      "h": 1.4,
++      "col": "#8db33a",
++      "nav": [
++        6.5,
++        -3.4,
++        1.7,
++        1.7
++      ]
++    },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": -9.0,
+-      "z": -15.2,
+-      "w": 4.0,
++      "x": -10.9,
++      "z": -12.4,
++      "w": 6.4,
+       "d": 0.62,
+       "h": 2.1,
++      "ry": 1.5708,
+       "cap": "#e8b923",
+       "label": "000–299"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": -8.8,
++      "x": -8.0,
+       "z": -12.4,
+-      "w": 4.4,
++      "w": 6.4,
+       "d": 0.62,
+       "h": 2.1,
++      "ry": 1.5708,
+       "cap": "#e8b923",
+       "label": "300–699"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": -8.8,
+-      "z": -10.2,
+-      "w": 4.4,
++      "x": -5.3,
++      "z": -12.4,
++      "w": 6.4,
+       "d": 0.62,
+       "h": 2.1,
++      "ry": 1.5708,
+       "cap": "#e8b923",
+       "label": "700–999"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": 6.6,
+-      "z": -6.9,
+-      "w": 3.8,
++      "x": -4.9,
++      "z": -4.5,
++      "w": 6.2,
+       "d": 0.62,
+       "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#e8b923",
++      "label": "820–899"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 6.2,
++      "z": -7.6,
++      "w": 1.4,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#9b59b6",
++      "label": "900–949 藝術"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 9.0,
++      "z": -7.6,
++      "w": 1.4,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#9b59b6",
++      "label": "950–999 藝術"
++    },
++    {
++      "type": "stack",
++      "lv": 1,
++      "x": 6.2,
++      "z": -3.05,
++      "w": 4.1,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
+       "cap": "#3a7ca5",
+       "label": "A–H"
+     },
+     {
+       "type": "stack",
+       "lv": 1,
+-      "x": 6.6,
+-      "z": -4.7,
+-      "w": 3.8,
++      "x": 9.0,
++      "z": -3.05,
++      "w": 4.1,
+       "d": 0.62,
+       "h": 2.1,
++      "ry": 1.5708,
+       "cap": "#3a7ca5",
+-      "label": "J–Z"
++      "label": "J–Q"
+     },
+     {
+-      "type": "prop",
+-      "kind": "exhibit",
++      "type": "stack",
+       "lv": 1,
+-      "x": -4.2,
+-      "z": -16.84,
+-      "w": 1.4,
+-      "d": 0.05,
+-      "h": 1.6,
+-      "nav": [
+-        -4.2,
+-        -16.84,
+-        1.4,
+-        0.1
+-      ]
++      "x": 7.0,
++      "z": 2.5,
++      "w": 4.2,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "R–Z"
+     },
+     {
+-      "type": "prop",
+-      "kind": "exhibit",
++      "type": "stack",
+       "lv": 1,
+-      "x": 4.2,
+-      "z": -16.84,
+-      "w": 1.4,
+-      "d": 0.05,
+-      "h": 1.6,
+-      "nav": [
+-        4.2,
+-        -16.84,
+-        1.4,
+-        0.1
+-      ]
++      "x": 9.4,
++      "z": 2.5,
++      "w": 4.2,
++      "d": 0.62,
++      "h": 2.1,
++      "ry": 1.5708,
++      "cap": "#3a7ca5",
++      "label": "PN–PQ"
+     }
+   ],
+   "signs": [
+-    {
+-      "lv": 0,
+-      "text": "樓梯間　B1 自習室・討論室 ↓",
+-      "x": -11.84,
+-      "z": -2.4,
+-      "y": 2.78,
+-      "ry": 1.5708,
+-      "w": 2.4
+-    },
+     {
+       "lv": 1,
+       "text": "自習區　請保持安靜",
+@@ -1117,24 +1268,6 @@ const LIBRARY_LAYOUT={
+       "ry": 0,
+       "w": 2.6
+     },
+-    {
+-      "lv": 1,
+-      "text": "人社中日韓文圖書",
+-      "x": -6.56,
+-      "z": -12.4,
+-      "y": 2.42,
+-      "ry": 1.5708,
+-      "w": 1.9
+-    },
+-    {
+-      "lv": 1,
+-      "text": "人社西文圖書",
+-      "x": 4.66,
+-      "z": -5.8,
+-      "y": 2.42,
+-      "ry": -1.5708,
+-      "w": 1.6
+-    },
+     {
+       "lv": 1,
+       "text": "展示區",
+@@ -1144,50 +1277,140 @@ const LIBRARY_LAYOUT={
+       "ry": 0,
+       "w": 1.6
+     },
++    {
++      "lv": 0,
++      "text": "B1 24小時自習室 ↓",
++      "x": -5.0,
++      "z": 6.2,
++      "y": 2.62,
++      "ry": 1.5708,
++      "w": 1.8
++    },
++    {
++      "lv": 0,
++      "text": "總服務台",
++      "x": 2.6,
++      "z": 1.18,
++      "y": 1.25,
++      "ry": 0,
++      "w": 1.4
++    },
+     {
+       "lv": 1,
+       "text": "000–299",
+-      "x": -6.965,
+-      "z": -15.2,
++      "x": -10.9,
++      "z": -15.635,
+       "y": 1.72,
+-      "ry": 1.5708,
++      "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+       "text": "300–699",
+-      "x": -6.565,
+-      "z": -12.4,
++      "x": -8.0,
++      "z": -15.635,
+       "y": 1.72,
+-      "ry": 1.5708,
++      "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+       "text": "700–999",
+-      "x": -6.565,
+-      "z": -10.2,
++      "x": -5.3,
++      "z": -15.635,
+       "y": 1.72,
+-      "ry": 1.5708,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "820–899",
++      "x": -4.9,
++      "z": -7.635,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "900–949 藝術",
++      "x": 6.2,
++      "z": -8.335,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "950–999 藝術",
++      "x": 9.0,
++      "z": -8.335,
++      "y": 1.72,
++      "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+       "text": "A–H",
+-      "x": 4.665,
+-      "z": -6.9,
++      "x": 6.2,
++      "z": -5.135,
+       "y": 1.72,
+-      "ry": -1.5708,
++      "ry": 0.0,
+       "w": 0.52
+     },
+     {
+       "lv": 1,
+-      "text": "J–Z",
+-      "x": 4.665,
+-      "z": -4.7,
++      "text": "J–Q",
++      "x": 9.0,
++      "z": -5.135,
+       "y": 1.72,
+-      "ry": -1.5708,
++      "ry": 0.0,
+       "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "R–Z",
++      "x": 7.0,
++      "z": 0.365,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "PN–PQ",
++      "x": 9.4,
++      "z": 0.365,
++      "y": 1.72,
++      "ry": 0.0,
++      "w": 0.52
++    },
++    {
++      "lv": 1,
++      "text": "人社中日韓文圖書",
++      "x": -8.0,
++      "z": -16.84,
++      "y": 2.42,
++      "ry": 0,
++      "w": 1.9
++    },
++    {
++      "lv": 1,
++      "text": "人社西文圖書",
++      "x": 7.6,
++      "z": -0.66,
++      "y": 2.42,
++      "ry": 3.1416,
++      "w": 1.6
++    },
++    {
++      "lv": 1,
++      "text": "藝術資料",
++      "x": 7.6,
++      "z": -8.82,
++      "y": 2.42,
++      "ry": 0,
++      "w": 1.2
+     }
+   ],
+   "note": "總圖大廳第二版（LIB-INTERIOR-1102，LAWWW2 2026-11-02）：使用者 11-02 的 1F 平面圖＋兩張一樓照片（台階書牆、半圓形展演廳）；南半邊（門廳、閘門、電梯、B1 門、二樓西翼長桌、3F 樓梯間）沿用第一版。產生：tools/blender/env_second/library_hall_v2_layout.py，不要手改。",
+@@ -1311,11 +1534,9 @@ const LIBRARY_LAYOUT={
+       8.4
+     ],
+     "rotundaDeg": [
+-      -72,
+-      -36,
++      -48,
+       0,
+-      36,
+-      72
++      48
+     ]
+   },
+   "directory": {
+diff --git a/src/data/pool_story.js b/src/data/pool_story.js
+index acf8b8be8..cd0bfaee8 100644
+--- a/src/data/pool_story.js
++++ b/src/data/pool_story.js
+@@ -69,7 +69,7 @@ const POOL_STORY=(function(){
+       where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰影大道'} ] },
+     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
+       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
+-      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
++      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[10.55,1.6],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子。LIB-3F-1102 第二版（src/library_3f_v2.js）：東側靠窗的閱覽桌 (10.55, 1.6)；第一版的 (5.6, −3.9) */
+     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
+       model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
+       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
+diff --git a/src/library3d.js b/src/library3d.js
+index 4e80fc9ae..866a78b0a 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -120,7 +120,7 @@ const LB3=(function(){
+       for(const sx of [-1,1]) wall(sx*(V.x1+W/2)/2,D/2,W/2-V.x1,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
+     /* 窗外的景：備用模型的牆沒有洞，景貼在牆的內側；正式模型的牆有窗洞，景搬到牆外面（fpos）、放大一點（斜著看也蓋得住窗洞）*/
+     const outPlane=(w,h,x,y,z,ry,grp,fpos,kind,fx)=>{ const geo=new THREE.PlaneGeometry(w,h); cropUV(geo,w/h,fx==null?0.5:fx); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
+-    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ if(grp===lv0&&L.b1Door&&Math.abs(z-L.b1Door.z)<0.1) continue;   /* 一樓 z −2.4 那一扇換成往 B1 的樓梯間門 */ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z),'lawn',(7.2-z)/14.4); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
++    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ if(grp===lv0&&L.b1Door&&L.b1Door.wall!=='vestibule'&&Math.abs(z-L.b1Door.z)<0.1) continue;   /* 一樓 z −2.4 那一扇換成往 B1 的樓梯間門 */ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z),'lawn',(7.2-z)/14.4); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
+     { const gw=LD.x1-LD.x0-0.6, gh=RY-LD.y-1.6; outPlane(gw,gh,0,LD.y+1.0+gh/2,-D/2+T/2+0.02,0,lv0,new THREE.Vector3(0,LD.y+1.0+gh/2,-D/2-0.6)); for(let x=-gw/2;x<=gw/2+0.01;x+=gw/4) b0.add(MAT.frame(),TK.boxG(0.1,gh,0.1),x,LD.y+1.0+gh/2,-D/2+T/2+0.05); for(const y of [LD.y+1.0,LD.y+1.0+gh/2,LD.y+1.0+gh]) b0.add(MAT.frame(),TK.boxG(gw,0.1,0.1),0,y,-D/2+T/2+0.05); }
+     { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,D/2-0.02); gp.rotation.y=Math.PI; lv0.add(gp);
+       for(let x=V.x0;x<=V.x1+0.01;x+=gw/6) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.06); for(const y of [3.0,Y1,Y1+2.4,gh]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),0,y,D/2-0.06);
+diff --git a/src/library_3f_v2.js b/src/library_3f_v2.js
+new file mode 100644
+index 000000000..c4ea71d6b
+--- /dev/null
++++ b/src/library_3f_v2.js
+@@ -0,0 +1,112 @@
++/* ===== 總圖 3F 閱覽區第二版（LIB-3F-1102，LAWWW2 帳號 A 2026-11-02；WIP）=====
++   使用者 11-02 08:58 的 3F 平面圖（docs/art-rebuild/second_ai/ref/lib1102_user/0858_plan_3f.jpg）：臺大人文庫（北側半圓）、討論室 344／346、
++   無線上網區、現期期刊（中間）、人社西文／人社中文／科技西文／科技中文裝訂期刊、研究小間、考古題、指定參考書、四庫全書、參考書、兩面窗前的閱覽桌。
++   配置：src/data/library_3f_layout.js（tools/blender/env_second/library_3f_v2_layout.py 產生）；正式模型：bldg.library_3f_v2（tools/blender/env_second/library_3f_v2.py）。
++   這支只在 LIBRARY3F_LAYOUT.version===2 時接手 zones3d.js 的 library 區域（第一版 22×16 的閱覽室照舊留在 zones3d.js，沒載入這支就用它）。
++   和大廳同一個外框（x −12～12、z −17～9）：東牆 z −6 是樓梯間（大廳二樓同一個位置的門），電梯和大廳同一個井（x 9.4～11.4、z −2.6～−0.4）。
++   接手時把 LIBRARY_LAYOUT.reading 的 spawnFromStairs、elevator 換成第二版（大廳二樓的樓梯間門、電梯到 3F 的落點都讀這兩個）；第一版的值留在 reading.v1。
++   劇情：seats 的順序照配置檔（seats[2]＝學姊，西側靠窗）；pool、課程導覽寫死的座標由 patch 改（對照表 LIBRARY3F_LAYOUT.seatMap）。 */
++'use strict';
++const L3F=(function(){
++  const LAY=()=>(typeof LIBRARY3F_LAYOUT!=='undefined'&&LIBRARY3F_LAYOUT&&LIBRARY3F_LAYOUT.version===2)?LIBRARY3F_LAYOUT:null;
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.9},o||{}));
++  if(typeof ASSETS!=='undefined'&&ASSETS.manifest) ASSETS.manifest['bldg.library_3f_v2']={url:'assets/models/env/second_ai/library_3f_v2.glb',type:'building',lazy:true,
++    source:'本作 Blender 腳本 tools/blender/env_second/library_3f_v2.py（總圖 3F 閱覽區第二版；配置 library_3f_v2_layout.py；照使用者 11-02 的 3F 平面圖，遊戲化設計、不是實測；貼圖 Poly Haven CC0）',license:'CC0（貼圖 Poly Haven）／本作'};
++  // 第二版的樓梯間落點、電梯位置寫回 LIBRARY_LAYOUT.reading（大廳二樓的樓梯間門、電梯「3F 閱覽區」的落點、5F 書庫的電梯都讀這裡）
++  (function(){ const L3=LAY(); if(!L3||typeof LIBRARY_LAYOUT==='undefined'||!LIBRARY_LAYOUT.reading) return; const R=LIBRARY_LAYOUT.reading; if(R.v1) return;
++    R.v1={spawnFromStairs:Object.assign({},R.spawnFromStairs),elevator:Object.assign({},R.elevator)}; R.spawnFromStairs=Object.assign({},L3.spawnFromStairs); Object.assign(R.elevator,L3.elevator); })();
++
++  const inRot=(R,x,z,pad)=>z<=R.cz+1e-6&&Math.hypot(x-R.cx,z-R.cz)<=R.r-pad;
++  // ---- 導航：一層（範圍 navBox：閱覽區＋北牆外的人文庫）----
++  function buildNav(L){ const B=L.bounds, NB=L.navBox, R=L.rotunda;
++    const nav=new E3.NavGrid(NB.x1-NB.x0,NB.z1-NB.z0,0.4,NB.x0,NB.z0);
++    nav.fillBlocked(); nav.freeRect(B.x0+0.4,B.z0+0.4,B.x1-0.4,B.z1-0.4);
++    for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [x,z]=nav.toWorld(cx,cz); if(z>=B.z0+0.4) continue;
++      const opening=x>R.open.x0+0.3&&x<R.open.x1-0.3&&z>=B.z0-0.3, room=z<B.z0-0.2&&inRot(R,x,z,0.35); if(opening||room) nav.b[nav.idx(cx,cz)]=0; }   /* 北牆只在人文庫的玻璃門那一段打通 */
++    for(const f of L.furniture) blockFurn(nav,f);
++    const RS=L.rotundaShelves||{r0:R.r-0.75}; for(let cz=0;cz<nav.rows;cz++) for(let cx=0;cx<nav.cols;cx++){ const [x,z]=nav.toWorld(cx,cz); if(z<B.z0-0.2&&Math.hypot(x-R.cx,z-R.cz)>RS.r0-0.1&&z<=R.cz) nav.b[nav.idx(cx,cz)]=1; }   /* 人文庫的弧形書牆 */
++    nav.blockRect(R.cx,R.cz-2.2,1.6,0.9,0);   /* 人文庫中間的展示桌 */
++    return nav; }
++  function blockFurn(nav,f){ switch(f.type){
++    case 'desk': case 'stack': case 'display': case 'wallShelf': case 'carrel': nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0); break;
++    case 'roundTable': nav.blockCircle(f.x,f.z,f.r+0.1); break;
++    case 'room': nav.blockRect((f.x0+f.x1)/2,(f.z0+f.z1)/2,f.x1-f.x0,f.z1-f.z0,0); break; } }
++
++  // ---- 程序化備用模型（正式模型載入前、載入失敗時；D38 分類 ③）----
++  function wallBox(fb,walls,x0,z0,x1,z1,h,dir,mat){ const w=Math.max(0.05,x1-x0), d=Math.max(0.05,z1-z0); const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat.clone()); m.material.transparent=true;
++    m.position.set((x0+x1)/2,h/2,(z0+z1)/2); m.userData.dir=new THREE.Vector3(dir[0],0,dir[2]); m.userData.center=m.position.clone(); fb.add(m); walls.push(m); return m; }
++  function fallback(L,g,fb,walls,walkMeshes){ const B=L.bounds, R=L.rotunda, H=L.h, T=0.2;
++    const floorM=M('#cfc4b2',{rough:0.75}), carpetM=M('#5b6470',{rough:0.95}), wallM=M('#ece6da',{rough:0.85}), woodM=M('#a67b52',{rough:0.6}), shelfM=M('#7b5a3c',{rough:0.7}), glassM=new THREE.MeshStandardMaterial({color:0xbfd8e6,transparent:true,opacity:0.32,roughness:0.1});
++    const fl=new THREE.Mesh(new THREE.PlaneGeometry(B.x1-B.x0,B.z1-B.z0),floorM); fl.rotation.x=-Math.PI/2; fl.position.set((B.x0+B.x1)/2,0,(B.z0+B.z1)/2); fb.add(fl); walkMeshes.push(fl);
++    const rf=new THREE.Mesh(new THREE.CircleGeometry(R.r,40,0,Math.PI),carpetM); rf.rotation.x=-Math.PI/2; rf.position.set(R.cx,0.004,R.cz); fb.add(rf); walkMeshes.push(rf);
++    const ce=new THREE.Mesh(new THREE.PlaneGeometry(B.x1-B.x0,B.z1-B.z0),M('#f2efe8')); ce.rotation.x=Math.PI/2; ce.position.set((B.x0+B.x1)/2,H,(B.z0+B.z1)/2); fb.add(ce);
++    // 外牆：北（人文庫門的兩邊）、南、西、東（樓梯間門、電梯門留開口）
++    wallBox(fb,walls,B.x0,B.z0-T,R.open.x0,B.z0,H,[0,0,1],wallM); wallBox(fb,walls,R.open.x1,B.z0-T,B.x1,B.z0,H,[0,0,1],wallM);
++    wallBox(fb,walls,B.x0,B.z1,B.x1,B.z1+T,H,[0,0,-1],wallM); wallBox(fb,walls,B.x0-T,B.z0,B.x0,B.z1,H,[1,0,0],wallM);
++    const SD=L.stairDoor, EL=L.elevator; wallBox(fb,walls,B.x1,B.z0,B.x1+T,SD.z-SD.w/2,H,[-1,0,0],wallM); wallBox(fb,walls,B.x1,SD.z+SD.w/2,B.x1+T,B.z1,H,[-1,0,0],wallM);
++    // 人文庫：弧牆（不淡出：在北牆外面；three.js 圓柱 x＝sinθ、z＝cosθ，θ π/2～3π/2＝北半邊）＋玻璃門
++    const arc=new THREE.Mesh(new THREE.CylinderGeometry(R.r+0.1,R.r+0.1,H,40,1,true,Math.PI/2,Math.PI),M('#e6dccb',{side:THREE.BackSide})); arc.position.set(R.cx,H/2,R.cz); fb.add(arc);
++    const door=new THREE.Mesh(new THREE.PlaneGeometry(R.open.x1-R.open.x0,2.4),glassM); door.position.set(R.cx,1.2,B.z0-0.02); fb.add(door);
++    // 家具
++    for(const f of L.furniture){ const add=(w,h,d,x,y,z,mat)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat); m.position.set(x,y,z); fb.add(m); return m; };
++      if(f.type==='desk'){ add(f.w,0.05,f.d,f.x,f.h-0.025,f.z,woodM); add(f.w-0.1,f.h-0.05,0.05,f.x,(f.h-0.05)/2,f.z,woodM); }
++      else if(f.type==='stack'||f.type==='display'||f.type==='wallShelf'){ add(f.w,f.h,f.d,f.x,f.h/2,f.z,shelfM); if(f.cap){ const cm=M(f.cap); if(f.w>f.d){ add(0.04,f.h,f.d+0.02,f.x-f.w/2,f.h/2,f.z,cm); add(0.04,f.h,f.d+0.02,f.x+f.w/2,f.h/2,f.z,cm); } else { add(f.w+0.02,f.h,0.04,f.x,f.h/2,f.z-f.d/2,cm); add(f.w+0.02,f.h,0.04,f.x,f.h/2,f.z+f.d/2,cm); } } }
++      else if(f.type==='roundTable'){ const t=new THREE.Mesh(new THREE.CylinderGeometry(f.r,f.r,0.04,20),woodM); t.position.set(f.x,0.72,f.z); fb.add(t); add(0.08,0.7,0.08,f.x,0.35,f.z,shelfM); }
++      else if(f.type==='carrel'){ add(f.w,2.4,0.08,f.x,1.2,f.z-f.d/2,wallM); add(0.08,2.4,f.d,f.x-f.w/2,1.2,f.z,wallM); add(f.w*0.6,2.1,0.05,f.x,1.05,f.z-f.d/2-0.03,M('#8a6a4a')); }
++      else if(f.type==='room'){ const w=f.x1-f.x0, d=f.z1-f.z0; add(w,2.6,0.06,(f.x0+f.x1)/2,1.3,f.z1,glassM); add(0.06,2.6,d,f.x0,1.3,(f.z0+f.z1)/2,wallM); add(0.06,2.6,d,f.x1,1.3,(f.z0+f.z1)/2,wallM); } }
++    // 椅子（座位）
++    const chM=M('#9a6a3e',{rough:0.6}); for(const s of L.seats){ const c=new THREE.Group(); const a=new THREE.Mesh(new THREE.BoxGeometry(0.44,0.05,0.42),chM); a.position.y=0.45; c.add(a); const bk=new THREE.Mesh(new THREE.BoxGeometry(0.44,0.5,0.04),chM); bk.position.set(0,0.72,-0.2); c.add(bk); c.position.set(s.x,0,s.z); c.rotation.y=s.yaw; fb.add(c); }
++    return {glassM}; }
++
++  // ---- 區域 ----
++  function build(E){ const L=LAY(), B=L.bounds, R=L.rotunda, H=L.h;
++    const g=new THREE.Group(), fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; g.add(fb);
++    const nav=buildNav(L); const walls=[], walkMeshes=[], lights=[];
++    const zone={group:g,nav,walls,walkMeshes,spawn:Object.assign({},L.spawnFromStairs),bounds:{w:B.x1-B.x0,d:2*Math.max(-L.navBox.z0,L.navBox.z1)},camMaxY:3.4,version:2,cool:true,
++      fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
++      onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
++    fallback(L,g,fb,walls,walkMeshes);
++    // 窗外的景（遊戲裡拍的照片＋視差，W3.windowMat；第一版 3F 也是 views/library_3f）：每一扇窗外面一片，窗的位置照配置（Blender 開的窗洞同一份）
++    const WN=L.windows, wins=[]; if(WN&&typeof W3!=='undefined'&&W3.windowMat){ const ww=2*WN.hw, wh=WN.y1-WN.y0, wy=(WN.y0+WN.y1)/2;
++      const add=(x,z,ry)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(ww,wh),W3.windowMat(45)); m.position.set(x,wy,z); m.rotation.y=ry; m.userData.dyn=true; g.add(m); wins.push(m); };
++      for(const z of WN.west) add(B.x0-0.16,z,Math.PI/2); for(const z of WN.east) add(B.x1+0.16,z,-Math.PI/2); for(const x of WN.south) add(x,B.z1+0.16,Math.PI); }
++    /* 窗外的景：室內區域的 applyTime 引擎每 5 格叫一次。照片是非同步載入的（W3.viewPhoto 載好之前回 null）——每次都重新套（載好的下一次就換上；W3.setWindowView 值沒變就不動），
++       載好之前用 LB3.outsideTex 的漸層，不是空的（11-02 20:1x 截圖：只在白天↔晚上切換時才套，照片載好以後一直沒換上，白天的窗全黑）；白天照片照時段調色、黃昏慢慢換夜景，和大廳同一套 */
++    zone.applyTime=function(h,weather){ h=((h%24)+24)%24; const night=(h<6||h>=19.2), ph=W3.viewPhoto('library_3f',night), fbT=(typeof LB3!=='undefined'&&LB3.outsideTex)?LB3.outsideTex(night):null;
++      const tint=(ph&&W3.photoTint)?W3.photoTint(h,weather==='rain'):0xffffff, xf=W3.photoFade?W3.photoFade(h):0; for(const w of wins) W3.setWindowView(w.material,'library_3f',night,fbT,tint,xf); };
++    zone.applyTime(12);
++    for(const [x,z] of [[-6,-12],[6,-12],[-6,-3],[6,-3],[-6,5],[6,5],[0,-19.5]]){ const l=new THREE.PointLight(0xfff2dc,6,16,2); l.position.set(x,H-0.4,z); l.userData.on=10; l.userData.off=6; g.add(l); lights.push(l); }
++    // 座位：順序照配置（seats[2]＝學姊）
++    zone.seats=L.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw}));
++    for(const s of zone.seats) E.interactables.push({x:s.x,z:s.z,radius:0.9,label:'坐下讀書',seat:s,study:true});
++    // 樓梯間（東牆）：下樓到大廳二樓
++    const SD=L.stairDoor; E.interactables.push({x:SD.x-0.6,z:SD.z,radius:1.2,label:'樓梯間：下樓（2F 自習區、1F 大廳）',exit:{to:'library_hall',spawn:Object.assign({},LIBRARY_LAYOUT.stairDoor.spawn)}});
++    // 電梯（和大廳同一個井）：讀寫回去的 LIBRARY_LAYOUT.reading.elevator（樓層照第一版：1F／2F 大廳、3F 這裡、5F 書庫）
++    { const EL=LIBRARY_LAYOUT.reading.elevator; nav.blockRect(EL.x0-0.1,(EL.z0+EL.z1)/2,0.24,EL.z1-EL.z0+0.2,0); nav.blockRect(EL.x1+0.1,(EL.z0+EL.z1)/2,0.24,EL.z1-EL.z0+0.2,0); nav.blockRect((EL.x0+EL.x1)/2,EL.z1+0.1,EL.x1-EL.x0+0.44,0.24,0);
++      const RL={floors:[{lv:0,y:0}],roofY:H,elevator:Object.assign({},EL,{floors:LB3.readingFloors(LIBRARY_LAYOUT)})};
++      zone.elev=B3.buildElevator(RL,g,nav,null,zone); { const sh=E.spawnHint; if(sh&&sh.elev) zone.elev.placeAt(0,true); }
++      zone.update=function(dt){ zone.elev.update(dt); }; E.interactables.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,label:'搭電梯',elevator:true}); }
++    // 關著的房間：討論室 344／346、研究小間（看得懂的說明，D36）
++    for(const f of L.furniture){ if(f.type==='room') E.interactables.push({x:(f.x0+f.x1)/2,z:f.z1+0.7,radius:1.0,label:f.label,look:f.label+'。門上貼著「請上網預約，憑學生證開門」，今天的時段都被借走了。'});
++      if(f.type==='carrel') E.interactables.push({x:f.x,z:f.z-f.d/2-0.7,radius:0.8,label:f.label,look:f.label+'：要上網預約，兩個人以上才能借。玻璃上貼著今天的預約表，排滿了。'}); }
++    E.interactables.push({x:R.cx,z:B.z0+0.9,radius:1.4,label:'看臺大人文庫',look:'臺大人文庫：半圓形的房間，一圈書牆放的是臺大老師、校友寫的書。'});
++    // 指標（中文字：正式模型沒有字）
++    for(const s of L.signs){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,s.y,s.z); sp.rotation.y=s.ry||0; g.add(sp); }
++    // 正式模型
++    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_3f_v2']){ ASSETS.loadOne('bldg.library_3f_v2').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attach(zone,c.scene.clone(true),fb,walls,walkMeshes,E); zone.formal=true; }).catch(e=>console.warn('總圖 3F 第二版正式模型載入失敗，用程序化備用模型',e)); }
++    return zone; }
++  function attach(zone,root,fb,walls,walkMeshes,E){ const LMS=root.userData&&root.userData.lightmap;
++    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined'&&!LMS) TK.bounce(o.material,0.5,0.5); } });
++    zone.group.add(root); root.updateMatrixWorld(true); const nw=[];
++    root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); nw.push(o); } });
++    const hid=new THREE.MeshBasicMaterial({visible:false}); for(const m of walkMeshes){ m.material=hid; m.userData.dyn=true; zone.group.attach(m); }
++    fb.visible=false; walls.length=0; for(const w of nw) walls.push(w);
++    /* 書架（2.1 m 高）擋住玩家時網點透空（engine3d.js 的樹幹透視；大廳第二版的書架同一套）*/
++    zone.seeThru=true; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||m.userData.seeThrough||!/l3_books|l3_vcm|l3_walnut/.test(m.name||'')) continue; m.userData.seeThrough=true; if(E&&E.patchSeeThrough) E.patchSeeThrough(m); } });
++    /* 光照貼圖最後才接（GLB 的 extras.lightmap；tools/blender/env_second/lightbake/bake_library_3f_v2.sh）：外牆的材質上面才複製過（clone 不會帶 onBeforeCompile），書架的透空也先包好（roomLightmap 會接著呼叫前一個 onBeforeCompile）*/
++    if(LMS&&typeof Z3!=='undefined'&&Z3.roomLightmap) zone.lightmappedN=Z3.roomLightmap(zone,root,LMS); }
++
++  // 接手 zones3d.js 的 library（第二版的配置有載入才換）
++  if(LAY()&&typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES.library){ const Z=Z3.ZONES.library; Z.buildV1=Z.build; Z.build=build; Z.name='總圖書館 3F 閱覽區'; }
++  return {build,buildNav,active:()=>!!LAY()};
++})();
+diff --git a/src/library_hall_v2.js b/src/library_hall_v2.js
+index e4d0a75a8..87dd88fdd 100644
+--- a/src/library_hall_v2.js
++++ b/src/library_hall_v2.js
+@@ -55,8 +55,10 @@ const LBV2=(function(){
+         nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0,0);
+         for(let i=0;i<(f.seats||4);i++){ const sx=f.x-f.w/2+(i+0.5)*f.w/(f.seats||4), cz=f.z+f.d/2+0.42, seat={x:sx,z:cz,yaw:Math.PI,lv}; Z3.chair(grp,sx,cz,Math.PI,'#2e3440'); seats.push(seat); IT.push({x:sx,z:cz,radius:0.8,lv,label:'坐下（用電腦）',seat}); } }
+       else if(f.type==='stack'){ const d=f.d||0.62, h=f.h||2.1, cap=M(f.cap||'#888888',{rough:0.5});   /* 二樓的雙面書架（平面圖：西半邊中日韓文、東半邊西文）：備用模型＝木頭量體＋兩端色板 */
+-        b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
+-        nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); }
++        const ns=Math.abs(f.ry||0)>0.1;   /* 第四版二樓（LIB-PLAN-1103）：ry≈90° 是南北向的書架（平面圖一排一排從北到南） */
++        if(ns){ b.add(B3.MAT.woodD(),TK.boxG(d,h,f.w),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(d+0.02,h,0.03),f.x,y+h/2,f.z+e*(f.w/2+0.015)); nav.blockRect(f.x,f.z,d,f.w+0.06,0,0.05); }
++        else { b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
++        nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); } }
+       else if(f.type==='roundTable'){ b.add(M('#d8d2c6',{rough:0.6}),new THREE.CylinderGeometry(f.r,f.r,0.04,20),f.x,y+0.73,f.z); b.add(M('#3a3f45',{rough:0.5}),new THREE.CylinderGeometry(0.05,0.05,0.7,8),f.x,y+0.35,f.z);
+         nav.blockCircle(f.x,f.z,f.r+0.25);
+         for(let i=0;i<(f.seats||3);i++){ const a=i*2*Math.PI/(f.seats||3)+Math.PI/6, cx=f.x+Math.sin(a)*(f.r+0.45), cz=f.z+Math.cos(a)*(f.r+0.45), yaw=a+Math.PI, seat={x:cx,z:cz,yaw,lv}; Z3.chair(grp,cx,cz,yaw,'#7a5a46'); seats.push(seat); IT.push({x:cx,z:cz,radius:0.8,lv,label:'坐下',seat}); } } }
+@@ -97,8 +99,8 @@ const LBV2=(function(){
+       const rc=new THREE.Mesh(new THREE.CircleGeometry(R.r,32,Math.PI,Math.PI),MAT.ceil()); rc.rotation.x=Math.PI/2; rc.position.set(R.cx,RY,R.cz); fb1.add(rc); }   /* 下半圓（local y<0）轉 +90° 後在 z<cz（北邊）、面朝下 */
+     // 窗外的景（備用模型：牆的內側貼一張）
+     const outPlane=(w,h,x,y,z,ry,grp,kind)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:LB3.outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; grp.add(m); outs.push(m); return m; };
+-    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(const z of L.windowsV2.xWallZ){ if(grp===lv0&&L.b1Door&&Math.abs(z-L.b1Door.z)<0.6) continue; outPlane(1.6,2.4,B.x0+T/2+0.02,y0+1.2,z,Math.PI/2,grp,'lawn'); }
+-    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r-0.12), z=R.cz-Math.sin(a)*(R.r-0.12); outPlane(1.5,3.4,x,2.6,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'lawn'); }   /* 平面朝圓心（local +z → (−cos a, sin a)）*/
++    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(const z of L.windowsV2.xWallZ){ if(grp===lv0&&L.b1Door&&L.b1Door.wall!=='vestibule'&&Math.abs(z-L.b1Door.z)<0.6) continue;   /* 第四版（LIB-PLAN-1103）B1 的門搬到門廳西牆：外牆的窗照舊 */ outPlane(1.6,2.4,B.x0+T/2+0.02,y0+1.2,z,Math.PI/2,grp,'lawn'); }
++    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r-0.12), z=R.cz-Math.sin(a)*(R.r-0.12); outPlane(1.5,3.4,x,2.6,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'trees'); }   /* 平面朝圓心（local +z → (−cos a, sin a)）。第三版（BB_244）：展演廳窗外是樹（library_view_trees），照片 2 */
+     { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,B.z1-0.02); gp.rotation.y=Math.PI; lv0.add(gp); outPlane(gw+8,RY+2,0,RY/2,B.z1+3.0,Math.PI,lv0,'avenue'); }
+     b0.build(fb0); b1.build(fb1); }
+ 
+@@ -106,7 +108,7 @@ const LBV2=(function(){
+   function parallaxViews(zone,L,lv0,lv1){ const B=L.bounds, Y1=L.floors[1].y, RY=L.roofY, R=L.rotunda, V=L.vestibule, PO=zone.pOuts=[]; const Dd=B.z1-B.z0, cz=(B.z0+B.z1)/2;
+     const mk=(w,h,x,y,z,ry,grp,kind,depth)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),W3.windowMat(depth)); m.material.uniforms.sxy.value.set(1,0.5); m.position.set(x,y,z); m.rotation.y=ry; m.userData.view=kind; m.userData.libOut=true; grp.add(m); PO.push(m); };
+     for(const [sx,ry] of [[-1,Math.PI/2],[1,-Math.PI/2]]){ mk(Dd+2,3.6,sx*(B.x1+0.35),2.3,cz,ry,lv0,'lawn',14); mk(Dd+2,3.6,sx*(B.x1+0.35),Y1+2.2,cz,ry,lv1,'lawn',14); }
+-    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r+0.6), z=R.cz-Math.sin(a)*(R.r+0.6); mk(2.6,RY+1,x,RY/2,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'lawn',14); }
++    for(const deg of L.windowsV2.rotundaDeg){ const a=(90-deg)*Math.PI/180, x=R.cx+Math.cos(a)*(R.r+0.6), z=R.cz-Math.sin(a)*(R.r+0.6); mk(2.6,RY+1,x,RY/2,z,Math.atan2(-Math.cos(a),Math.sin(a)),lv0,'trees',14); }   /* 第三版（BB_244）：窗外是樹 */
+     mk(V.x1-V.x0+12,RY*2+4,0,2.0,B.z1+1.2,Math.PI,lv0,'avenue',35);
+     if(zone.applyTime&&typeof GAME!=='undefined'&&GAME.G) zone.applyTime(GAME.G.hour,GAME.G.weather); }
+ 
+@@ -150,7 +152,7 @@ const LBV2=(function(){
+     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
+     if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }
+     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
+-    IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，一圈高窗，弧形的展示櫃裡放著這學期的館藏特展。'});
++    IT.push({x:R.cx,z:R.cz-1.6,radius:1.6,lv:0,label:'看展演廳',look:'展演廳：半圓形的大廳挑高兩層，上下兩排窗外都是樹。中間一排矮矮的木頭展示櫃，上面立著這學期館藏特展的書。'});
+     IT.push({x:0,z:BS.z1+0.9,radius:1.2,lv:0,label:'看台階書牆',look:'中庭的大階梯：中間走的樓梯上二樓，兩旁是可以坐的木頭階梯，每一階的立面都是書架。'});
+     // 指標（中文字一直顯示：正式模型沒有字）——和第一版一樣
+     for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
+diff --git a/src/pool_more3d.js b/src/pool_more3d.js
+index e70c99e9f..9aed2a735 100644
+--- a/src/pool_more3d.js
++++ b/src/pool_more3d.js
+@@ -67,7 +67,7 @@ const POOL_MORE=(function(){
+       {days:WD,from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,PI,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'背吉他袋的女生',label:'法律系館B旁邊'} ],   /* 4-4 她畢業那一週 */
+     [ZY]:[ {days:WD,from:14,to:18,zone:'library_hall',act:'read',terms:['Y2S1'],weeks:[15],pri:true,noHoliday:true,desc:'騎腳踏車超快的男生',label:'總圖，念書'},   /* 5-4 大二上期末前一週（在總圖）*/
+       {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[-117,3.6,-PI/2,0],terms:['Y3S2'],weeks:[16],pri:true,desc:'騎腳踏車超快的男生',label:'校門口，牽著車'} ],   /* 5-5 畢業那一週，校門口 */
+-    [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-2.4,1.5],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/
++    [YS]:[ {days:WD,from:13,to:15,zone:'library',act:'read',seatAt:[-3.0,7.25],terms:['Y2S2'],weeks:[16],pri:true,desc:'愛睡覺的男生',label:'總圖三樓'} ],   /* 4-5 畢業那一週：那張桌子（桌上的紙條在 (−2.4,0.6)）*/   /* LIB-3F-1102 第二版：南側長桌 (−3.0, 7.25)；第一版 (−2.4, 1.5) */
+     [M]:[ {days:[6],from:12,to:12.5,zone:'wancai',act:'linger',at:[1.9,1.6,-PI/2,0],terms:['Y1S2'],weeks:[12,13,14,15],pri:true,if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)},desc:'法服攤位那個人',label:'法律系館B一樓，值班結束'} ],   /* 5-3：值班的週六 12:00（值班結束）*/
+     [H]:[ {days:[4],from:8.5,to:10,zone:'linze',act:'linger',at:[4.6,2.6,PI/2,0],dates:[['2028-10-26','2028-10-26']],pri:true,desc:'常跟助教說話的男生',label:'法律系館A一樓，等推甄面試'} ] };   /* 1-6 推甄面試那天 */
+   for(const B of [B2,B3,B4]) if(B) P.extend(B,null);
+@@ -490,7 +490,8 @@ const POOL_MORE=(function(){
+     pool_nw_sold:(G,m,o,k)=>{ P.seg(G,NW,'soldAns'); } });
+ 
+   /* ---------- 互動點、房間物品 ---------- */
+-  P.POP.push((zoneId,GM,add,g)=>{ if(zoneId==='library') add({x:-2.4,z:0.6,radius:1.2,prio:0.4,lv:0,label:'看桌上的紙條',poolAct:'yscNote',get hidden(){ const G=g(); return !(G&&gradWk(G,'Y2S2')); }}); });   /* 4-5 守誠畢業那一週，總圖三樓那張桌子 */
++  P.POP.push((zoneId,GM,add,g)=>{ const v2=typeof L3F!=='undefined'&&L3F.active&&L3F.active();   /* LIB-3F-1102 第二版：守誠那張桌子是南側長桌，紙條在他座位 (−3.0, 7.25) 前面的桌上；第一版 (−2.4, 0.6) */
++    if(zoneId==='library') add({x:v2?-3.0:-2.4,z:v2?6.75:0.6,radius:1.2,prio:0.4,lv:0,label:'看桌上的紙條',poolAct:'yscNote',get hidden(){ const G=g(); return !(G&&gradWk(G,'Y2S2')); }}); });   /* 4-5 守誠畢業那一週，總圖三樓那張桌子 */
+   P.ACTS.yscNote=async(GM)=>{ await GM.say(null,L[YS].note); P.mark(GM.G,'yscNote'); };
+   S.room=function(G,Lst){ const F=G.flags||{}, R=R_(G);
+     if(R.nw&&R.nw.back==null) Lst.push(['乃文學姊的民總筆記',L[NW].noteLook]);   /* 借了還沒還 */
+diff --git a/src/r2y4a3d.js b/src/r2y4a3d.js
+index b9ae5e323..a45593a10 100644
+--- a/src/r2y4a3d.js
++++ b/src/r2y4a3d.js
+@@ -462,7 +462,8 @@ const R2Y4A=(function(){
+   S.shelfOn=G=>{ const d=D('2028-10-16'), u=D('2028-12-24'); return law(G)&&d!=null&&G.day>=d&&(!isUS(G)||(u!=null&&G.day>=u)); };
+   S.shelfPlace=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables||G.zone!=='library') return; const k=E.interactables.findIndex(it=>it.ytEssayShelf);
+     if(!S.shelfOn(G)){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
+-    E.interactables.push({x:-9.7,z:2.4,radius:1.0,lv:0,label:'看期刊架',ytEssayShelf:true,onInteract:()=>{ S.shelfLook(GM).catch(e=>console.warn('R2Y4A 期刊架',e)); }}); };   /* 西側書牆（zones3d.js 的 library：shelfWall x=-10.8）*/
++    const v2=typeof L3F!=='undefined'&&L3F.active&&L3F.active();   /* LIB-3F-1102 第二版：中間紅色的現期期刊展示架（最南那一座 z −3.4）前面 (0, −2.75)；第一版西側書牆前 (−9.7, 2.4)，第二版那裡是靠窗的閱覽桌 */
++    E.interactables.push({x:v2?0:-9.7,z:v2?-2.75:2.4,radius:1.0,lv:0,label:'看期刊架',ytEssayShelf:true,onInteract:()=>{ S.shelfLook(GM).catch(e=>console.warn('R2Y4A 期刊架',e)); }}); };   /* 西側書牆（zones3d.js 的 library：shelfWall x=-10.8）*/
+   S.shelfLook=async function(GM){ const G=GM.G; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'}); await GM.say(null,'（系刊。目錄第三篇：〈公館的時間〉。作者：陳語彤。）'); }
+     finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); } if(!G.flags.YT_ESSAY) G.flags.YT_ESSAY='shelf'; return true; };
+ 
+diff --git a/src/story3d.js b/src/story3d.js
+index 74b2d8211..5c6ea3954 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -306,7 +306,7 @@ const STORY = (function(){
+       if(hr>=8&&hr<22){ const dk=L.furniture.find(f=>f.type==='desk'); if(dk) mk(dk.x-0.6,dk.z+0.75,0,Math.PI,'idle');
+         const sts=E.zone.seats.slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts[k]; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
+         GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-3.4,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）；東翼那一點 (8,−5) 在第二版（11-02 二樓平面圖）是西文圖書的書架，改 (8,−3.4)（第一版也是空地）*/
+-        if(hr<18) GM.spawnExtra(extraSpec(xi++),[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }
++        if(hr<18) GM.spawnExtra(extraSpec(xi++),(LIBRARY_LAYOUT.b1Door&&LIBRARY_LAYOUT.b1Door.wall==='vestibule')?[[5.6,-8.6,0],[1.0,3.0,0],[-3.5,3.0,0],[-7.9,-5.0,0]]:[[6.5,-6.5,0],[2.5,2.0,0],[-3.5,3.0,0],[-7.0,-6.5,0]],{}); }   /* 總圖第四版（LIB-PLAN-1103：一樓照平面圖，服務台、十字影音櫃、多一排四人桌）一樓走動的人改走空地；舊配置照舊 */
+       if(F.companion==='an') spawnCompanion(GM); }
+     /* 法律學院圖書館（D46，2026-10-13）的背景人物：櫃台的館員、一樓自習區和二樓讀書的人、走樓梯上下樓的人。不是劇情人物、沒有對話 */
+     if(zoneId==='lawlib'&&typeof LAWLIB_LAYOUT!=='undefined'){ const L=LAWLIB_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+diff --git a/tests/library_3f_v2_unit.js b/tests/library_3f_v2_unit.js
+new file mode 100644
+index 000000000..7b0ac9aec
+--- /dev/null
++++ b/tests/library_3f_v2_unit.js
+@@ -0,0 +1,81 @@
++// 總圖 3F 閱覽區第二版（LIB-3F-1102）：照使用者 11-02 的 3F 平面圖重排——不需要瀏覽器。
++//   第一版（version 1，ba125d6f3 的 src/data/library_layout.js）總圖大廳每 0.8 m 取樣、站得住的位置（兩層）＋座位＋互動點，共 715 個（[x, z, 層, 0 取樣／1 座位／2 互動點]）。
++//   照引擎進區域的做法（engine3d.js 換區域那一段：E.unstick 16 格 → 90 格 → 區域出生點）把玩家放上去，最後的位置要站得住、從入口（一樓）或二樓連廊走得到（不會被關在孤島）。
++//   也記下幾成原地不動、幾成挪了多遠（第二版的中庭從實心核心＋帝國式大樓梯改成台階書牆，原本站在核心旁、平台上的會被挪開）。
++// 用法：node tests/library_hall_v2_oldsave_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/library_3f_layout.js','src/library_3f_v2.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); const _warn=console.warn; console.warn=(...a)=>{ if(/正式模型載入失敗/.test(String(a[0]))) return; _warn(...a); };
++
++(async()=>{
++  const L=LIBRARY3F_LAYOUT;
++  check('配置是第二版、接手了 library 區域', L.version===2&&L3F.active()&&Z3.ZONES.library.build===L3F.build&&typeof Z3.ZONES.library.buildV1==='function');
++  check('LIBRARY_LAYOUT.reading 換成第二版（樓梯間落點、電梯和大廳同一個井），第一版留在 reading.v1',
++    LIBRARY_LAYOUT.reading.spawnFromStairs.x===L.spawnFromStairs.x&&LIBRARY_LAYOUT.reading.elevator.x0===LIBRARY_LAYOUT.elevator.x0&&LIBRARY_LAYOUT.reading.elevator.z0===LIBRARY_LAYOUT.elevator.z0&&!!LIBRARY_LAYOUT.reading.v1,
++    JSON.stringify({sp:LIBRARY_LAYOUT.reading.spawnFromStairs,el:[LIBRARY_LAYOUT.reading.elevator.x0,LIBRARY_LAYOUT.reading.elevator.z0],hall:[LIBRARY_LAYOUT.elevator.x0,LIBRARY_LAYOUT.elevator.z0]}));
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES.library.build(E); E.zone=z; E.nav=z.nav; E.levels=null; z.nav._cm=null;
++  const P={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; E.player=P;
++  const SP=z.spawn, n=z.nav;
++  check('從樓梯間進來的位置站得住', E.canStand(SP.x,SP.z,0.3,0), JSON.stringify(SP));
++  const reach=(x0,z0)=>{ const [c0,r0]=n.toCell(x0,z0), seen=new Uint8Array(n.cols*n.rows), q=[[c0,r0]]; seen[r0*n.cols+c0]=1;
++    while(q.length){ const [c,r]=q.pop(); for(const [dc,dr] of [[1,0],[-1,0],[0,1],[0,-1]]){ const cc=c+dc, rr=r+dr; if(cc<0||rr<0||cc>=n.cols||rr>=n.rows||seen[rr*n.cols+cc]||n.blocked(cc,rr)) continue; seen[rr*n.cols+cc]=1; q.push([cc,rr]); } } return seen; };
++  const R0=reach(SP.x,SP.z); const ok=(x,zz)=>{ const [c,r]=n.toCell(x,zz); return E.canStand(x,zz,0.3,0)&&!!R0[r*n.cols+c]; };
++  // 座位：坐下前站的位置（GAME.seatApproach 的做法：座位往後 0.5 m、兩側 0.6 m 找站得住的點）走得到
++  const bad=[]; for(const [i,s] of z.seats.entries()){ const bx=-Math.sin(s.yaw), bz=-Math.cos(s.yaw); const cand=[[s.x+bx*0.5,s.z+bz*0.5],[s.x+bz*0.6,s.z-bx*0.6],[s.x-bz*0.6,s.z+bx*0.6],[s.x+bx*0.8,s.z+bz*0.8]];
++    if(!cand.some(([x,zz])=>ok(x,zz))) bad.push(i+':'+s.x+','+s.z); }
++  check('座位 '+z.seats.length+' 個（第一版 36）：每一個旁邊都有站得住、從樓梯間走得到的地方', z.seats.length>=36&&bad.length===0, bad.slice(0,8).join(' '));
++  check('seats[2]（學姊，story3d.js）是西側靠窗那一排', L.seats[2].label==='西側靠窗'&&z.seats[2].x<-10, JSON.stringify(z.seats[2]));
++  const win=L.seats.filter(s=>/靠窗/.test(s.label)).length; check('靠窗的位子（「三樓靠窗」的台詞）至少 12 個', win>=12, String(win));
++  const it=E.interactables.filter(q=>!q.seat); const badIt=it.filter(q=>!ok(q.x,q.z)).map(q=>q.label+'@'+q.x.toFixed(1)+','+q.z.toFixed(1));
++  check('互動點（樓梯間、電梯、討論室、研究小間、人文庫）站得住、走得到（'+it.length+' 個）', badIt.length===0&&it.some(q=>q.exit&&q.exit.to==='library_hall')&&it.some(q=>q.elevator), badIt.join(' '));
++  const SM={}; for(const m of L.seatMap) SM[m.what]=m.v2;
++  const isSeat=(p)=>z.seats.some(s=>Math.hypot(s.x-p[0],s.z-p[1])<0.05);
++  check('pool「愛睡覺的男生」、「坐窗邊的人」的新座標是座位', isSeat(L.seatMap[1].v2)&&isSeat(L.seatMap[2].v2), JSON.stringify([L.seatMap[1].v2,L.seatMap[2].v2]));
++  check('課程導覽最後一站的新座標站得住、走得到', ok(L.seatMap[3].v2[0],L.seatMap[3].v2[1]), JSON.stringify(L.seatMap[3].v2));
++  { const sp=LIBRARY_LAYOUT.reading.spawnFromStairs, dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1, cx=sp.x+dx/dl*1.5-dz/dl*0.8, cz=sp.z+dz/dl*1.5+dx/dl*0.8;   /* classes3d.js 新生導覽上三樓：館員和同學站的位置（同一個算法）*/
++    check('新生導覽上三樓：從樓梯間進來、館員站的位置站得住、走得到', ok(sp.x,sp.z)&&ok(cx,cz), [cx.toFixed(2),cz.toFixed(2)].join(',')); }
++  { const note=L.seatMap.find(m=>/紙條/.test(m.what)).v2, shelf=L.seatMap.find(m=>/期刊架/.test(m.what)).v2, boy=L.seatMap[1].v2;
++    const near=(x,zz,rad)=>{ for(let d=0;d<=rad+1e-9;d+=0.1) for(let a=0;a<Math.PI*2;a+=Math.PI/12){ if(ok(x+Math.cos(a)*d,zz+Math.sin(a)*d)) return +d.toFixed(2); } return null; };
++    const dn=near(note[0],note[1],1.0);
++    check('「看桌上的紙條」在守誠那張桌子上（他的座位前面），1 m 內有站得住、走得到的地方（互動半徑 1.2 m）', dn!=null&&Math.hypot(note[0]-boy[0],note[1]-boy[1])<0.8&&L.furniture.some(f=>f.type==='desk'&&Math.abs(f.x-note[0])<f.w/2&&Math.abs(f.z-note[1])<f.d/2), 'note '+JSON.stringify(note)+' 最近 '+dn+' m');
++    check('「看期刊架」在現期期刊展示架前面，站得住、走得到', ok(shelf[0],shelf[1])&&L.furniture.some(f=>f.type==='display'&&Math.abs(f.x-shelf[0])<f.w/2&&Math.abs(f.z-shelf[1])<1.0), JSON.stringify(shelf));
++    const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), mN=src('src/pool_more3d.js').match(/x:v2\?(-?[\d.]+):-2\.4,z:v2\?(-?[\d.]+):0\.6/), mS=src('src/r2y4a3d.js').match(/x:v2\?(-?[\d.]+):-9\.7,z:v2\?(-?[\d.]+):2\.4/);
++    check('pool_more3d.js、r2y4a3d.js 第二版用的就是配置裡的這兩個點', !!mN&&!!mS&&+mN[1]===note[0]&&+mN[2]===note[1]&&+mS[1]===shelf[0]&&+mS[2]===shelf[1], JSON.stringify([mN&&mN.slice(1),mS&&mS.slice(1)])); }
++  const R=L.rotunda; check('人文庫（北牆外的半圓）走得進去', ok(R.cx,R.cz-1.0)&&ok(R.cx+2.5,R.cz-1.5), '');
++  check('電梯車廂在大廳同一個井的位置', !!z.elev&&Math.abs(z.elev.cx-(LIBRARY_LAYOUT.elevator.x0+LIBRARY_LAYOUT.elevator.x1)/2)<0.01, z.elev&&String(z.elev.cx));
++  // 窗外的景（11-02 20:1x 截圖：白天的窗全黑）：照片是非同步載入的——載好之前窗不能是空的（用漸層），載好以後同一個時段的下一次 applyTime 就要換上（不能只在白天↔晚上切換時才套）
++  { const wins=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.uniforms&&o.material.uniforms.photo&&o.material.uniforms.map) wins.push(o); });
++    const TL=THREE.TextureLoader.prototype.load, cbs=[]; THREE.TextureLoader.prototype.load=function(url,onLoad){ cbs.push([url,onLoad]); return new THREE.Texture(); };   /* 攔下載入，等一下自己「載好」*/
++    try{ W3.releaseViews(); z.applyTime(15,'clear'); } finally { THREE.TextureLoader.prototype.load=TL; }
++    const empty=wins.filter(w=>!w.material.uniforms.map.value).length;
++    check('窗外的景：照片還沒載入時每一扇窗都有圖（漸層），不是空的（空的＝黑窗）', wins.length>=10&&empty===0, wins.length+' 扇、空的 '+empty);
++    const fake=new THREE.Texture(); for(const [u,cb] of cbs) if(/library_3f_day/.test(u)&&cb) cb(fake);
++    z.applyTime(15.1,'clear'); const got=wins.filter(w=>w.material.uniforms.map.value===fake&&w.material.uniforms.photo.value===1).length;
++    check('窗外的景：照片載好以後，同一個時段的下一次 applyTime 就換上照片', wins.length>0&&got===wins.length, got+'/'+wins.length+'（攔到的載入 '+cbs.length+' 個）'); W3.releaseViews(); }
++  /* 正式模型（assets/models/env/second_ai/library_3f_v2.glb）的牆：朝室內（extras.dir）的那一面要在室內那一側。
++     11-02 人文庫的弧牆頂點順序反了（法線朝外），和大廳第二版展演廳同一個錯：烘焙照 dir 把朝室內的面縮成一點，遊戲裡看到一片一片的平三角 */
++  { const gp=path.join(ROOT,'assets/models/env/second_ai/library_3f_v2.glb');
++    if(!fs.existsSync(gp)) check('正式模型的牆朝室內（GLB 不在，跳過）', true, 'no glb');
++    else { const b=fs.readFileSync(gp), n0=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n0).toString('utf8')), bin=b.slice(20+n0+8);
++      const acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], o=(bv.byteOffset||0)+(a.byteOffset||0), nc={SCALAR:1,VEC2:2,VEC3:3}[a.type], ct=a.componentType, cs={5126:4,5125:4,5123:2,5121:1}[ct], st=bv.byteStride||nc*cs, out=[];
++        for(let k=0;k<a.count;k++) for(let c=0;c<nc;c++){ const q=o+k*st+c*cs; out.push(ct===5126?bin.readFloatLE(q):ct===5125?bin.readUInt32LE(q):ct===5123?bin.readUInt16LE(q):bin.readUInt8(q)); } return out; };
++      const bad=[]; let nw=0;
++      for(const nd of J.nodes.filter(nd=>/^WALL_/.test(nd.name||'')&&'mesh' in nd&&nd.extras&&nd.extras.dir)){ nw++; const d=nd.extras.dir, dl=Math.hypot(d[0],d[1],d[2]); let ai=0, pi=0, ao=0, po=0;
++        for(const pr of J.meshes[nd.mesh].primitives){ const P=acc(pr.attributes.POSITION), I=acc(pr.indices);
++          for(let t=0;t<I.length;t+=3){ const a=I[t], b2=I[t+1], c=I[t+2], u=[0,1,2].map(j=>P[b2*3+j]-P[a*3+j]), w=[0,1,2].map(j=>P[c*3+j]-P[a*3+j]);
++            const nn=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]], ar=Math.hypot(nn[0],nn[1],nn[2])/2; if(ar<1e-6) continue;
++            const dot=(nn[0]*d[0]+nn[1]*d[1]+nn[2]*d[2])/(2*ar*dl), pj=[0,1,2].reduce((q,j)=>q+(P[a*3+j]+P[b2*3+j]+P[c*3+j])*d[j],0)/(3*dl);
++            if(dot>0.3){ ai+=ar; pi+=ar*pj; } else if(dot<-0.3){ ao+=ar; po+=ar*pj; } } }
++        if(ai===0) bad.push(nd.name+' 沒有朝室內的面'); else if(ao>0&&pi/ai<po/ao-0.01) bad.push(nd.name+' 朝室內的面在外側'); }
++      check('正式模型的牆（'+nw+' 組）朝室內（dir）的那一面都在室內那一側（人文庫的弧牆頂點順序沒有反）', nw>=4&&bad.length===0, bad.join('、')); } }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tests/library_b1_unit.js b/tests/library_b1_unit.js
+index 4f5eba53e..3c4b8ccfd 100644
+--- a/tests/library_b1_unit.js
++++ b/tests/library_b1_unit.js
+@@ -24,10 +24,11 @@ check('1. 配置 library_b1、區域、正式模型 bldg.library_b1 登記、GLB
+ if(!LB||!LL){ console.log('\n'+(fails+1)+' FAIL（後面的檢查要 B1 的配置）'); process.exit(1); }
+ // 2. 大廳一樓西牆的門
+ { const BD=LL.b1Door, W=LL.W; const lib=fs.readFileSync(path.join(ROOT,'src/library3d.js'),'utf8'), bl=fs.readFileSync(path.join(ROOT,'tools/blender/library_interior.py'),'utf8');
+-  check('2. library_layout.js b1Door：一樓（lv 0）西牆（x≈−W/2）、z 在西牆那一排窗的位置（−7.2…7.2 每 2.4 m）、寬 1.1', !!BD&&BD.lv===0&&Math.abs(BD.x+W/2)<0.3&&Math.abs(((BD.z+7.2)/2.4)-Math.round((BD.z+7.2)/2.4))<1e-6&&BD.w>=1.0, JSON.stringify(BD&&{x:BD.x,z:BD.z,w:BD.w}));
++  const VB=BD&&BD.wall==='vestibule', V=LL.vestibule, WX=VB?V.x0:-W/2;   /* 第四版（LIB-PLAN-1103，使用者 11-03 一樓平面圖：B1 樓梯在入口門禁兩旁）：門在門廳西牆；第一～三版在大廳西牆 */
++  check('2. library_layout.js b1Door：一樓（lv 0）；大廳西牆（x≈−W/2、z 在西牆那一排窗的位置）或第四版的門廳西牆（x≈門廳 x0、z 在門廳裡）、寬 1.1', !!BD&&BD.lv===0&&Math.abs(BD.x-WX)<0.3&&(VB?BD.z>V.z0+0.6&&BD.z<V.z1-0.6:Math.abs(((BD.z+7.2)/2.4)-Math.round((BD.z+7.2)/2.4))<1e-6)&&BD.w>=1.0, JSON.stringify(BD&&{x:BD.x,z:BD.z,w:BD.w,wall:BD.wall}));
+   check('2. 那一扇窗換成門：備用模型（library3d.js）跳過那扇窗、畫一扇門；Blender（library_interior.py）牆上開門洞、不畫那扇窗、牆裙斷開、有門',
+-    /L\.b1Door&&Math\.abs\(z-L\.b1Door\.z\)<0\.1\) continue/.test(lib)&&/if\(L\.b1Door\)\{ const BD=L\.b1Door; const dg=new THREE\.Group\(\)/.test(lib)&&/B1SKIP/.test(bl)&&/door\('L0_b1stairs'/.test(bl)&&/牆裙在 B1 的門口斷開/.test(bl));
+-  const sg=LL.signs.find(s=>s.lv===0&&/B1/.test(s.text)); check('2. 門上的字（signs，一樓、貼西牆、在門上面）', !!sg&&Math.abs(sg.z-BD.z)<0.01&&Math.abs(sg.x+W/2)<0.3&&sg.y-sg.w*0.09>2.4, sg&&sg.text); }
++    /L\.b1Door&&(L\.b1Door\.wall!=='vestibule'&&)?Math\.abs\(z-L\.b1Door\.z\)<0\.1\) continue/.test(lib)&&/if\(L\.b1Door\)\{ const BD=L\.b1Door; const dg=new THREE\.Group\(\)/.test(lib)&&/B1SKIP/.test(bl)&&/door\('L0_b1stairs'/.test(bl)&&/牆裙在 B1 的門口斷開/.test(bl));
++  const sg=LL.signs.find(s=>s.lv===0&&/B1/.test(s.text)); check('2. 門上的字（signs，一樓、貼著門那面牆、在門上面）', !!sg&&Math.abs(sg.z-BD.z)<0.01&&Math.abs(sg.x-WX)<0.3&&sg.y-sg.w*0.09>2.4, sg&&sg.text); }
+ // 區域建起來（假的 E3、Z3.room）：拿互動點
+ const mkV=()=>({x:0,y:0,z:0,set(){ return this; },copy(){ return this; }});
+ global.THREE={Group:function(){ this.children=[]; this.add=o=>this.children.push(o); this.remove=()=>{}; this.position=mkV(); this.rotation=mkV(); this.userData={}; },
+diff --git a/tools/shots/library_views.py b/tools/shots/library_views.py
+index 200eb5614..6fb4c5f27 100644
+--- a/tools/shots/library_views.py
++++ b/tools/shots/library_views.py
+@@ -2,6 +2,7 @@
+ src/library3d.js 的 viewOf() 讀這些檔案（載不到就用程序化畫的）：
+   avenue：從總圖門口往西拍椰林大道（大廳正面的玻璃帷幕）
+   lawn：從總圖南側往南拍草地與系館（側窗、大樓梯平台後面的大窗）
++  trees：黑森林裡往北拍樹（大廳第三版的展演廳；照片 2 窗外是樹）
+ 白天 11:00、晚上 20:30；藏起路人與玩家。1024×1024（ART-LIB-VIEW-1018 起；之前是 1024×512）。拍的是遊戲畫面（Playwright＋SwiftShader），不是照片。
+ 用法（先開 http server）：python3 tools/shots/library_views.py http://127.0.0.1:8765/index.html"""
+ import json, os, subprocess, sys, tempfile
+@@ -13,7 +14,8 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
+ # 視線高度、正對窗外、水平和垂直都是 90°（1024×1024；遊戲端 sxy＝(1, 0.5)：景在 depth 公尺遠、寬 2×depth、高 2×depth）。
+ # 試做 2:1（垂直 53°）：正面 9.6 m 高的玻璃往上看超出照片，上緣被拉長成一條條。
+ # avenue：總圖門口外（門廊柱子後面）往西的椰林大道；lawn：總圖紅磚側翼和中庭草地（舊版從 7 m 高往南拍方盒系館）。
+-VIEWS = {'avenue': ([77, 2.0, 0], [30, 2.0, 0]), 'lawn': ([100, 2.3, 14.5], [100, 2.3, 60])}
++VIEWS = {'avenue': ([77, 2.0, 0], [30, 2.0, 0]), 'lawn': ([100, 2.3, 14.5], [100, 2.3, 60]),
++         'trees': ([70, 2.0, -61], [70, 4.5, -80])}   # trees：大廳第三版（BB_244，11-02）展演廳的窗景——黑森林裡往北拍（照片 2：窗外是樹）
+ FOV_JS = "(()=>{ const c=GAME.E.camera; c.fov=90; c.updateProjectionMatrix(); return c.fov; })()"
+ TIMES = {'day': 11.0, 'night': 20.5}
+ 
