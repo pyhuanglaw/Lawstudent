@@ -30,7 +30,7 @@ CASES（逗號分開，預設全部）：
        玩家站著不動等貓走過來蹭。dir＝1（玩家在貓的左邊）、dir＝−1（右邊）各一次，蹭的時候每 0.5 秒截一張（共 6 張）。
        量：播的片段是 cat_rub（dir 1）／cat_rub_r（dir −1）；蹭的那幾格裡，玩家在貓身體的左邊（貓朝向的左手邊）／右邊的比例 ≥ 0.6。
     ② 每一段片段在遊戲裡的樣子：【捷徑】直接用貓的 mixer 播 cat_walk、cat_idle、cat_sit、cat_sit_idle、cat_lie_idle、cat_jump_down、cat_jump_up 各 1 張（貓停住、鏡頭拉近）；
-       量：九段都在 GLB 裡（mixer 的 action 有）、播了以後骨架有動（頭的骨頭在 0.6 秒內移動 > 5 mm，cat_sit_idle／lie_idle 甩尾巴算尾巴尖）。
+       量：九段都在 GLB 裡（mixer 的 action 有）、播了以後骨架有動（頭或尾巴尖的骨頭在 2 秒內移動 > 5 mm；第一次只看 0.6 秒，cat_sit_idle 4 秒一圈的慢甩尾只量到 3 mm）。
 用法：LW_TESTS=<wt>/tests SHA=<sha> [CASES=xinhai,study08,sixlaw,teahouse,aunts,cat] python3 cc_art_v20_shots_probe.py <url> <out>   （PC 用 CC_HEADLESS=0）
 """
 import os, sys, json, math, asyncio, time
@@ -199,7 +199,7 @@ async def case_xinhai(pg, cdp):
 S8_JS = r"""(()=>{ const E=GAME.E, P=E.player, C=window.__CC, s=P.seat; const head=P.obj.position.clone(); head.y+=(typeof CHAR!=='undefined'&&CHAR.headY)?CHAR.headY(P.obj.children.find(c=>c.userData&&c.userData.driver)||P.obj):1.2;
   const body=P.obj.position.clone(); body.y+=0.9; let fb=null; E.zone.group&&E.zone.group.traverse(o=>{ if(o.name==='fallback'&&!fb) fb=o; });
   const npcs=C.npcs().filter(n=>n.carrelId);
-  return {seat:s?{x:s.x,z:s.z}:null, cam:C.cam(), head:C.hit(head,P.obj), body:C.hit(body,P.obj), pHead:C.proj(head), fbVisible:fb?visibleOf(fb):null, readers:npcs, zone:GAME.G.zone};
+  const pp=P.obj.position; return {seat:s?{x:s.x,z:s.z}:null, pose:P.pose||null, idlePose:P.idlePose||null, frozen:!!P.frozen, busy:!!P.busy, pxz:[+pp.x.toFixed(2),+pp.y.toFixed(2),+pp.z.toFixed(2)], cam:C.cam(), head:C.hit(head,P.obj), body:C.hit(body,P.obj), pHead:C.proj(head), fbVisible:fb?visibleOf(fb):null, readers:npcs, zone:GAME.G.zone};
   function visibleOf(o){ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; } })()"""
 
 
@@ -222,7 +222,7 @@ async def case_study08(pg, cdp):
         await pg.wait_for_timeout(5000)
     a = await pg.evaluate(S8_JS)
     f1 = await shot(pg, 'study08_1_sat_menu')
-    note('坐下（選單還開著）：%s → %s' % (J({k: a[k] for k in ('seat', 'cam', 'head', 'body', 'pHead')}), f1))
+    note('坐下（選單還開著）：%s → %s' % (J({k: a[k] for k in ('seat', 'pose', 'pxz', 'cam', 'head', 'body', 'pHead')}), f1))
     picked = await pick(pg, cdp, lambda t: t.startswith('坐一下'))
     note('選了：%r' % picked)
     for _ in range(20):
@@ -233,7 +233,8 @@ async def case_study08(pg, cdp):
     await pg.wait_for_timeout(3000)
     b = await pg.evaluate(S8_JS)
     f2 = await shot(pg, 'study08_2_sat')
-    note('選完：%s → %s' % (J({k: b[k] for k in ('seat', 'cam', 'head', 'body', 'pHead')}), f2))
+    note('選完：%s → %s' % (J({k: b[k] for k in ('seat', 'pose', 'idlePose', 'frozen', 'busy', 'pxz', 'cam', 'head', 'body', 'pHead')}), f2))
+    note('（只記錄）選「坐一下，看看四周」以後：%s——game3d.js seatMenu 這一項做完就起身（照設計），所以第二張是站在 08 裡' % J({k: b[k] for k in ('seat', 'pose', 'pxz')}))
     REC['data']['study08'] = {'stand': t0, 'sat_menu': a, 'sat': b, 'real_tap': sat}
     check('study08：坐在 08 的椅子 (0.2,2.45)', bool(a['seat']) and math.hypot(a['seat']['x'] - 0.2, a['seat']['z'] - 2.45) < 0.1, J(a['seat']))
     check('study08：坐下以後 distTarget＝1.7', a['cam']['distTarget'] == 1.7, J(a['cam']))
@@ -292,15 +293,19 @@ async def case_sixlaw(pg, cdp):
         note('[捷徑] 劇情鏡頭看書桌上的六法（不在「看東西」選單裡，只為了截圖）')
         await pg.evaluate("(([x,y,z])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(-0.75,y+0.55,z+0.25), new THREE.Vector3(x,y,z)); E.snapCinematic&&E.snapCinematic(); })(%s)" % J([cx, cy, cz]))
         await pg.wait_for_timeout(2500); f = await shot(pg, 'sixlaw_book'); note('六法 → %s' % f)
-        await pg.evaluate("GAME.E.endCinematic()"); await pg.wait_for_timeout(2500)
+        await pg.evaluate("GAME.E.endCinematic()"); await pg.wait_for_timeout(4000)
     # 走到「看看房間裡的東西」前（點地面）
     sp = await pg.evaluate("(()=>{ const z=GAME.E.zone; return z&&z.spots&&z.spots.roomItems; })()")
     if sp:
         await L.tap_ground(pg, cdp, sp[0], sp[1] + 0.25); await pg.wait_for_timeout(4000)
     results = []
     menu = None
-    opened = await tap_interact(pg, cdp, '看看房間裡的東西')
-    o = await wait_choices(pg, 10) if opened else []
+    o = []
+    for t in range(3):   # 第一次全跑：劇情鏡頭（看六法）收回來的時候按，選單沒有出來（選單 []）；按不到就再按一次
+        if await tap_interact(pg, cdp, '看看房間裡的東西'):
+            o = await wait_choices(pg, 12)
+            if o: break
+        await pg.wait_for_timeout(2000)
     menu = o; note('選單：%s' % J(o))
     items = [t for t in o if t != '不看了']
     for k, want in enumerate(items):
@@ -346,7 +351,11 @@ async def case_sixlaw(pg, cdp):
 
 
 # ---------------------------------------------------------------- teahouse / aunts
-TEA_GEO = r"""(()=>{ const E=GAME.E, C=window.__CC; const st=[]; E.scene.traverse(o=>{ if(o.isMesh&&/stool/i.test(o.name||'')){ const b=new THREE.Box3().setFromObject(o); st.push({name:o.name, c:[(b.min.x+b.max.x)/2,(b.min.z+b.max.z)/2].map(v=>+v.toFixed(2)), top:+b.max.y.toFixed(3)}); } });
+TEA_GEO = r"""(()=>{ const E=GAME.E, C=window.__CC; const st=[];
+  /* 正式模型照材質合併（wz_teahouse_interior.glb 的網格名字是 wzs_planks…，沒有 stool）：從木凳正上方往下打射線，第一個打到的看得見的網格＝木凳的座面（打到地板＝沒有木凳）*/
+  for(const [x,z] of [[3.05,3.35],[2.95,3.35],[3.15,3.35],[3.05,3.25],[3.05,3.45]]){ const rc=new THREE.Raycaster(new THREE.Vector3(x,2.2,z),new THREE.Vector3(0,-1,0),0,3); const hs=rc.intersectObjects(E.scene.children,true);
+    const h=hs.find(q=>{ const o=q.object; if(!o.isMesh||!o.material) return false; for(let p=o;p;p=p.parent) if(p.visible===false) return false; return (Array.isArray(o.material)?o.material:[o.material]).some(m=>m.visible!==false); });
+    if(h) st.push({name:h.object.name, c:[x,z], top:+h.point.y.toFixed(3)}); }
   const seats=(E.zone.seats||E.seats||[]).map(s=>[s.x,s.z,s.label||'']); const its=E.interactables.filter(i=>i.seat).map(i=>[i.x,i.z,i.label]);
   return {stools:st, seats, its, zone:GAME.G.zone}; })()"""
 
@@ -365,11 +374,22 @@ async def case_teahouse(pg, cdp):
     note('木凳網格 %s；座位 %s' % (J(g['stools']), J(g['seats'][:10])))
     check('teahouse：區域的座位有水屋旁的木凳 (3.05,3.35)', any(abs(s[0] - 3.05) < 0.05 and abs(s[1] - 3.35) < 0.05 for s in g['seats']), '')
     check('teahouse：長桌面向院子的兩個位子 (-0.7,0.95)、(-0.7,2.45) 都在', all(any(abs(s[0] + 0.7) < 0.05 and abs(s[1] - z) < 0.05 for s in g['seats']) for z in (0.95, 2.45)), '')
-    check('teahouse：遊戲畫面裡有木凳的網格（名字含 stool，在 (3.05,3.35) 0.3 m 內）', any(math.hypot(s['c'][0] - 3.05, s['c'][1] - 3.35) < 0.3 for s in g['stools']), J(g['stools']))
-    f = await tea_view(pg, cdp, 0.9, 3.6, 3.05, 3.35, 'teahouse_stool'); note('木凳 → %s' % f)
-    f = await tea_view(pg, cdp, 0.9, 3.6, -0.7, 1.7, 'teahouse_table'); note('長桌 → %s' % f)
+    tops = [x['top'] for x in g['stools']]
+    check('teahouse：木凳正上方往下打射線，打到 0.3～0.7 m 高的座面（不是地板＝有木凳）', len(tops) >= 3 and sorted(tops)[len(tops) // 2] > 0.3 and sorted(tops)[len(tops) // 2] < 0.7, J(g['stools']))
+    occ = await pg.evaluate("window.__CC.npcs().filter(n=>n.vis&&(Math.hypot(n.x-3.05,n.z-3.35)<0.4||Math.hypot(n.x+0.7,n.z-0.95)<0.4||Math.hypot(n.x+0.7,n.z-2.45)<0.4)).map(n=>[n.name,n.model,n.x,n.z,n.pose])")
+    note('坐在木凳、長桌那兩個位子上的 NPC：%s' % J(occ))
+    REC['data']['teahouse_occupied'] = occ
+    f = await tea_view(pg, cdp, 0.9, 3.6, 3.05, 3.35, 'teahouse_stool_follow'); note('木凳（跟隨鏡頭）→ %s' % f)
+    # 【捷徑】跟隨鏡頭在玩家背後、玩家會擋住木凳：用劇情鏡頭從茶席那一側斜看木凳、長桌（只為了截圖）
+    for nm, eye, look in (('teahouse_stool', [1.0, 1.55, 4.7], [3.05, 0.45, 3.35]), ('teahouse_table', [1.2, 1.7, 4.3], [-0.9, 0.6, 1.7])):
+        await pg.evaluate("(([e,l])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(e[0],e[1],e[2]), new THREE.Vector3(l[0],l[1],l[2])); E.snapCinematic&&E.snapCinematic(); })(%s)" % J([eye, look]))
+        await pg.wait_for_timeout(2500); f = await shot(pg, nm); note('[捷徑] %s → %s' % (nm, f))
+    await pg.evaluate("GAME.E.endCinematic()")
     # 像玩家走到木凳前、按「坐在水屋旁」
-    await L.tap_ground(pg, cdp, 2.3, 3.4); await pg.wait_for_timeout(4500)
+    await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': 14.0, 'day': 11, 'weekday': 6, 'pos': {'x': 2.3, 'z': 3.4, 'yaw': 1.5708}}, '一盞茶屋，站在木凳旁（c510_3_2 的 standAt (2.3,3.4)）', 9000)
+    await helpers(pg)
+    rm = await pg.evaluate("(()=>{ const E=GAME.E, out=[]; for(const n of (E.npcs||[]).slice()){ const p=n.obj&&n.obj.position; if(p&&Math.hypot(p.x-3.05,p.z-3.35)<0.4){ out.push([n.name||'',+p.x.toFixed(2),+p.z.toFixed(2)]); E.removeNPC(n); } } return out; })()")
+    if rm: note('[捷徑] 木凳上已經有路人坐著 %s：先把他拿掉，玩家才坐得下（只為了截圖；玩家實際上會看到「有人坐了」）' % J(rm))
     real = await tap_interact(pg, cdp, '坐在水屋旁')
     if not real:
         note('[捷徑] 互動鍵按不到「坐在水屋旁」，改用 GAME.sitAt 直接坐（只為了截圖）')
@@ -380,10 +400,10 @@ async def case_teahouse(pg, cdp):
     f = await shot(pg, 'teahouse_sat_stool'); note('坐在木凳上：%s → %s' % (J(a), f))
     await L.turn_camera_to(pg, cdp, 3.05 - 2.0, 3.35, tries=5); await low_cam(pg, 0.15, 2.6); await pg.wait_for_timeout(2500)
     f = await shot(pg, 'teahouse_sat_stool_side'); note('另一個角度 → %s' % f)
-    top = max([s['top'] for s in g['stools'] if math.hypot(s['c'][0] - 3.05, s['c'][1] - 3.35) < 0.3] or [None]) if g['stools'] else None
+    top = sorted(tops)[len(tops) // 2] if tops else None
     REC['data']['teahouse_sat'] = dict(a, stool_top=top, real_tap=real)
     check('teahouse：坐下了，坐的是木凳', bool(a['seat']) and abs(a['seat'][0] - 3.05) < 0.05 and abs(a['seat'][1] - 3.35) < 0.05, J(a['seat']))
-    note('（只記錄）玩家根節點高度 %s、木凳網格頂 %s' % (a['y'], top))
+    note('（只記錄）玩家根節點高度 %s、木凳座面（射線中位數）%s' % (a['y'], top))
     await pick(pg, cdp, lambda t: t.startswith('坐一下'))
     for _ in range(15):
         s = await L.state(pg)
@@ -399,7 +419,8 @@ FIND_SU = r"""(()=>{ if(typeof HCIRCLE==='undefined') return {err:'沒有 HCIRCL
 
 
 async def case_aunts(pg, cdp):
-    await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': 14.0, 'day': 11, 'weekday': 6, 'pos': {'x': -1.0, 'z': 3.8, 'yaw': -1.2}}, '一盞茶屋（先進來找蘇姨在的日子）', 9000)
+    AF = dict(FLAGS, YT_MET_JOB=True)   # 語彤的作息要有 YT_MET_JOB 才排（story3d.js:409 schedEnt）；沒有她，圈子表 wz_su 那幾列不成立（第一次跑 found []）
+    await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': 14.0, 'day': 11, 'weekday': 6, 'pos': {'x': -1.0, 'z': 3.8, 'yaw': -1.2}, 'flags': AF}, '一盞茶屋（先進來找蘇姨在的日子；flags.YT_MET_JOB）', 9000)
     await helpers(pg)
     fs = await pg.evaluate(FIND_SU)
     note('HCIRCLE 有 wz_su 那一列的日子：%s' % J(fs))
@@ -407,7 +428,7 @@ async def case_aunts(pg, cdp):
     days = fs.get('found') or []
     su = None
     for dd in days[:2]:
-        await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': dd['h'], 'day': dd['day'], 'weekday': dd['wd'], 'pos': {'x': -0.3, 'z': 3.4, 'yaw': -1.2}},
+        await put(pg, cdp, {'zone': 'wz_teahouse', 'hour': dd['h'], 'day': dd['day'], 'weekday': dd['wd'], 'pos': {'x': -0.3, 'z': 3.4, 'yaw': -1.2}, 'flags': AF},
                   '一盞茶屋第 %d 天（週%d）%.1f 時，圈子表 %s' % (dd['day'], dd['wd'], dd['h'], dd['row']), 16000)
         await helpers(pg)
         ns = await pg.evaluate("window.__CC.npcs()")
@@ -426,16 +447,18 @@ async def case_aunts(pg, cdp):
     xq = await pg.evaluate("(()=>{ const ns=window.__CC.npcs(); return ns.filter(n=>/xiuqin/.test(n.model||'')||n.name==='秀琴姨'); })()")
     check('aunts：秀琴姨由遊戲自己放在店裡（d2b962a3f src 沒有任何地方放 char.xiuqin／xiuqin_apron）', bool(xq), J(xq))
     note('[捷徑] 在茶屋用 CHAR.build 放一個秀琴姨（char.xiuqin_apron），站在長桌東邊，只為了看模型在遊戲光線下的樣子——不是遊戲自己放的')
+    await pg.evaluate("(async()=>{ try{ await ASSETS.loadOne('char.xiuqin_apron'); }catch(e){} try{ await ASSETS.loadOne('prop.glasses_xiuqin'); }catch(e){} })()")
     await pg.evaluate("(()=>{ const E=GAME.E; const o=CHAR.build({model:'char.xiuqin_apron',height:1.58,sex:'f'}); o.position.set(0.4,0,1.7); o.rotation.y=Math.PI/2; const n=E.addNPC({obj:o,name:'秀琴姨（捷徑）',beh:'idle',frozen:true,isExtra:true}); window.__xq=o; })()")
     for _ in range(40):
         m = await pg.evaluate("window.__CC.model(window.__xq)")
-        if m and m['driver'] == 'vrm': break
+        if m and m['driver'] == 'vrm' and m['model'] == 'char.xiuqin_apron': break
         await pg.wait_for_timeout(1000)
     await L.turn_camera_to(pg, cdp, 0.4, 1.7, tries=6); await low_cam(pg, 0.12, 2.4); await pg.wait_for_timeout(3000)
     m = await pg.evaluate("window.__CC.model(window.__xq)")
     f = await shot(pg, 'aunts_xiuqin_shortcut'); note('秀琴姨（捷徑）%s → %s' % (J(m), f))
     REC['data']['aunts_xiuqin_shortcut'] = m
-    check('aunts：（捷徑放的）秀琴姨模型載好是 VRM、有眼鏡配件', bool(m) and m['driver'] == 'vrm', J(m))
+    gl = await pg.evaluate("(()=>{ let g=0; window.__xq&&window.__xq.traverse(o=>{ if(/glass/i.test(o.name||'')) g++; }); return g; })()")
+    check('aunts：（捷徑放的）秀琴姨模型載好：VRM、model char.xiuqin_apron、有眼鏡配件（名字含 glass 的節點 %d 個）' % gl, bool(m) and m['driver'] == 'vrm' and m['model'] == 'char.xiuqin_apron' and gl > 0, J(m))
 
 
 # ---------------------------------------------------------------- cat
@@ -450,6 +473,14 @@ async def case_cat(pg, cdp):
     for dir_, tag in ((1, 'left'), (-1, 'right')):
         await put(pg, cdp, {'zone': 'wenzhou', 'hour': 10.0, 'day': 9, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 26.0, 'z': 21.3, 'yaw': 3.1416}}, '溫州街公園 10:00 晴，貓（圓椅前 (26.0,23.3)）北邊 2 m', 15000)
         await helpers(pg)
+        for _ in range(30):   # 進溫州街時的劇情、旁白（GAME.D.busyWho）先等它演完、點掉
+            bz = await pg.evaluate("(()=>({busy:!!GAME.E.player.busy, who:(GAME.D&&GAME.D.busyWho||[]).slice(), dlg:!!document.querySelector('#dlg:not(.hide)')}))()")
+            if not bz['busy']: break
+            s = await L.state(pg)
+            if s['dlg']: await L.tap(pg, cdp, '#dlg')
+            elif s['choices']: await pick(pg, cdp, lambda t: True)
+            await pg.wait_for_timeout(700)
+        note('讀檔後 busy：%s' % J(bz))
         st = await pg.evaluate(CAT_ST)
         note('貓：%s' % J(st))
         if not st:
@@ -489,7 +520,7 @@ async def case_cat(pg, cdp):
     for clip in ('cat_walk', 'cat_idle', 'cat_sit', 'cat_sit_idle', 'cat_rub', 'cat_rub_r', 'cat_lie_idle', 'cat_jump_down', 'cat_jump_up'):
         r = await pg.evaluate(r"""(async name=>{ const c=WZCAT._cat(); if(!c||!c.act[name]) return {err:'沒有 '+name}; for(const k in c.act){ c.act[k].stop(); } const a=c.act[name]; a.reset(); a.setLoop(THREE.LoopRepeat,Infinity); a.clampWhenFinished=false; a.timeScale=1; a.enabled=true; a.setEffectiveWeight(1); a.play(); c.cur=name;
             const bones={}; c.obj.traverse(o=>{ if(o.isBone) bones[o.name]=o; }); const names=Object.keys(bones); const head=names.find(n=>/head/i.test(n)), tail=names.filter(n=>/tail/i.test(n)).pop(); const P=n=>bones[n]?bones[n].getWorldPosition(new THREE.Vector3()):null;
-            const ps=[]; for(let i=0;i<4;i++){ c.mixer.update(0.15); c.obj.updateMatrixWorld(true); ps.push([P(head),P(tail)]); }
+            const ps=[]; for(let i=0;i<9;i++){ c.mixer.update(0.25); c.obj.updateMatrixWorld(true); ps.push([P(head),P(tail)]); }
             let mh=0, mt=0; for(let i=1;i<ps.length;i++){ if(ps[i][0]&&ps[0][0]) mh=Math.max(mh,ps[i][0].distanceTo(ps[0][0])); if(ps[i][1]&&ps[0][1]) mt=Math.max(mt,ps[i][1].distanceTo(ps[0][1])); }
             c.mixer.timeScale=0; return {head, tail, moveHead:+mh.toFixed(4), moveTail:+mt.toFixed(4)}; })(%s)""" % J(clip))
         await pg.evaluate("(()=>{ const c=WZCAT._cat(); const p=c.obj.position; const E=GAME.E; E.cinematic(new THREE.Vector3(p.x+1.1,0.75,p.z+1.1), new THREE.Vector3(p.x,0.18,p.z)); E.snapCinematic&&E.snapCinematic(); })()")
@@ -499,7 +530,7 @@ async def case_cat(pg, cdp):
         seg[clip] = r; note('%s：%s → %s' % (clip, J(r), f))
     REC['data']['cat_clips'] = seg
     moved = {k: v for k, v in seg.items() if not v.get('err') and max(v['moveHead'], v['moveTail']) > 0.005}
-    check('cat：九段片段播了以後骨架有動（頭或尾巴 0.6 秒內 > 5 mm）', len(moved) == 9, J({k: [v.get('moveHead'), v.get('moveTail'), v.get('err')] for k, v in seg.items()}))
+    check('cat：九段片段播了以後骨架有動（頭或尾巴 2 秒內 > 5 mm）', len(moved) == 9, J({k: [v.get('moveHead'), v.get('moveTail'), v.get('err')] for k, v in seg.items()}))
     await pg.evaluate("GAME.E.endCinematic()")
 
 
