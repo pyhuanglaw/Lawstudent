@@ -271,3 +271,14 @@
 [09:39:56] ==== START 01_p0speed  (game @ bbfdfbf25) ====
 [09:39:59] [res] cpu=15% mem=49% (15.4/31.4 GB) chrome_testing=13  START 01_p0speed
 [09:41:13] [res] cpu=19% mem=48% (15.2/31.4 GB) chrome_testing=20  END 00_gpu
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ba42887bf..7369f8ff9  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:41:18] ==== END   00_gpu  exit=0  150s   ====
+[09:41:20] skip 10_deploy (already done on d75871437)
+[09:41:20] skip 11_reach (already done on d75871437)
+[09:41:20] skip 12_flowcls (already done on d75871437)
+[09:41:20] memory 49% before starting 13_minimap (2 running)
+[09:41:20] ==== START 13_minimap  (game @ d75871437) ====
+[09:41:23] [res] cpu=32% mem=49% (15.5/31.4 GB) chrome_testing=20  START 13_minimap
+[09:42:33] [res] cpu=39% mem=48% (15.3/31.4 GB) chrome_testing=20  END 13_minimap
