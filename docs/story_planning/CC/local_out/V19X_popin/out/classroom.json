@@ -1,0 +1,2085 @@
+{
+ "case": "classroom",
+ "url": "http://127.0.0.1:8810/index.html",
+ "sha": "b267b0534",
+ "headless_env": "0",
+ "notes": [
+  "[前置／捷徑] 第一次進教室：法律系館A 二樓 201 門口外 → 走到門口 → 按「進入 201 階梯教室」；讀檔（GAME.applySave）到 linze (-2.0, -4.3, 第 1 層) 10:00、週六、條件事件和手機自動打開關掉（只看畫面，不演劇情）",
+  "讀檔後 {\"gz\": \"linze\", \"ez\": \"linze\", \"x\": -2, \"z\": -4.3, \"lv\": 1, \"hour\": 10.06, \"loading\": false, \"interact\": null}；互動點 {\"x\": -2, \"z\": -6.25, \"r\": 1.15, \"label\": \"進入 201 階梯教室\", \"lv\": 1, \"y\": null}",
+  "按鈕以前已經在快取的正式模型（building）26 個：[\"bldg.linze_interior\", \"bldg.linze_exterior\", \"bldg.wancai_exterior\", \"bldg.campus_gongguan_bd\", \"bldg.campus_lib_lawn\", \"bldg.campus_blackforest\", \"bldg.campus_library\", \"bldg.campus_bell\", \"bldg.campus_admin\", \"bldg.campus_arts\", \"bldg.campus_hist\", \"bldg.campus_pavilion\", \"prop.street\", \"bldg.campus_gongtong\", \"prop.bike_ride\", \"bldg.campus_lake\", \"bldg.bball_court\", \"bldg.skybridge\", \"bldg.campus_freshman\", \"bldg.campus_putong\", \"bldg.campus_boya\", \"bldg.campus_gate\", \"bldg.campus_male1\", \"bldg.campus_socsci\", \"prop.trees\", \"prop.book_open\"]",
+  "t=0 以後要的正式模型（building）7 個：{\"bldg.classroom_201\": {\"t\": 1223, \"cachedAtReq\": false, \"done\": 6883, \"err\": null}, \"prop.bag_yu\": {\"t\": 1996, \"cachedAtReq\": false, \"done\": 5687, \"err\": null}, \"prop.book_open\": {\"t\": 1244, \"cachedAtReq\": true, \"done\": 2655, \"err\": null}, \"prop.glasses_bohan\": {\"t\": 2064, \"cachedAtReq\": false, \"done\": 5688, \"err\": null}, \"prop.glasses_peishan\": {\"t\": 2265, \"cachedAtReq\": false, \"done\": 5690, \"err\": null}, \"prop.novel\": {\"t\": 2395, \"cachedAtReq\": false, \"done\": 6682, \"err\": null}, \"prop.thermos_silver\": {\"t\": 2505, \"cachedAtReq\": false, \"done\": 5693, \"err\": null}}",
+  "數字：{\"n\": 31, \"i_zone\": 12, \"t_zone\": 5568, \"t_black\": 1116, \"t_on\": 632, \"t_fade_end\": 12537, \"black_ms\": 11059, \"black_longest_ms\": 11059, \"at_end\": {\"t\": 12537, \"gz\": \"classroom\", \"ez\": \"classroom\", \"op\": 0, \"on\": false, \"req\": 7, \"pend\": 0, \"pendK\": [], \"kit\": {\"zone\": \"classroom\", \"formal\": true, \"vis\": 0, \"tot\": 1, \"names\": []}, \"zr\": [\"bldg.classroom_201\"], \"lzw\": {\"pending\": 1, \"waited\": 8331, \"timedOut\": false}, \"fr\": 609}, \"after2s_kit_max\": 0, \"after2s_pend_max\": 0, \"t_all_loaded\": 6901, \"t_kit_hidden\": 6901}",
+  "腳踏車 null；NPC {\"n\": 4, \"first\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"at_fade_end\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"last\": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], \"moved_before_fade_end_m\": 0, \"moved_total_m\": 0}",
+  "⑥ INFO：這一區沒有騎腳踏車的人（GAME.extras 沒有 rider）",
+  "連拍 4 張（8.0 秒內），截圖每張平均 2767 ms"
+ ],
+ "fails": [
+  "⑤ 黑畫面（opacity>0.5）≤ 6.5 秒"
+ ],
+ "shots": [
+  {
+   "file": "classroom\\000_t00164.png",
+   "k": 0,
+   "t_ms": 164,
+   "shot_ms": 431,
+   "sample": {
+    "now": 603,
+    "t": 507,
+    "gz": "linze",
+    "ez": "linze",
+    "ent": false,
+    "op": 0,
+    "on": false,
+    "fr": 575,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "linze",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": [
+     "bldg.linze_interior"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 7990,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      5.6,
+      -6.35
+     ],
+     [
+      0.1,
+      3.55
+     ],
+     [
+      4,
+      3.55
+     ],
+     [
+      1.2,
+      -3.95
+     ]
+    ],
+    "pl": [
+     -2,
+     -6.01
+    ]
+   }
+  },
+  {
+   "file": "classroom\\004_t00603.png",
+   "k": 4,
+   "t_ms": 603,
+   "shot_ms": 406,
+   "sample": {
+    "now": 1026,
+    "t": 1002,
+    "gz": "linze",
+    "ez": "linze",
+    "ent": true,
+    "op": 0.741,
+    "on": true,
+    "fr": 585,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "linze",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": [
+     "bldg.linze_interior"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 7990,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      5.6,
+      -6.35
+     ],
+     [
+      0.1,
+      3.55
+     ],
+     [
+      4,
+      3.55
+     ],
+     [
+      1.2,
+      -3.95
+     ]
+    ],
+    "pl": [
+     -2,
+     -6.01
+    ]
+   }
+  },
+  {
+   "file": "classroom\\006_t01026.png",
+   "k": 6,
+   "t_ms": 1026,
+   "shot_ms": 4813,
+   "sample": {
+    "now": 6283,
+    "t": 6278,
+    "gz": "classroom",
+    "ez": "classroom",
+    "ent": true,
+    "op": 1,
+    "on": true,
+    "fr": 596,
+    "paused": false,
+    "req": 7,
+    "pend": 2,
+    "pendK": [
+     "bldg.classroom_201",
+     "prop.novel"
+    ],
+    "kit": {
+     "zone": "classroom",
+     "formal": null,
+     "vis": 1,
+     "tot": 1,
+     "names": [
+      "fallback"
+     ]
+    },
+    "zr": [
+     "bldg.classroom_201"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 7990,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      -3.75,
+      0.4
+     ],
+     [
+      3.75,
+      -1.7
+     ],
+     [
+      -5.25,
+      -3.8
+     ],
+     [
+      -2.25,
+      -3.8
+     ]
+    ],
+    "pl": [
+     0,
+     7
+    ]
+   }
+  },
+  {
+   "file": "classroom\\041_t06283.png",
+   "k": 41,
+   "t_ms": 6283,
+   "shot_ms": 5419,
+   "sample": {
+    "now": 11792,
+    "t": 11702,
+    "gz": "classroom",
+    "ez": "classroom",
+    "ent": false,
+    "op": 1,
+    "on": false,
+    "fr": 605,
+    "paused": false,
+    "req": 7,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "classroom",
+     "formal": true,
+     "vis": 0,
+     "tot": 1,
+     "names": []
+    },
+    "zr": [
+     "bldg.classroom_201"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 8331,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      -3.75,
+      0.4
+     ],
+     [
+      3.75,
+      -1.7
+     ],
+     [
+      -5.25,
+      -3.8
+     ],
+     [
+      -2.25,
+      -3.8
+     ]
+    ],
+    "pl": [
+     0,
+     7
+    ]
+   }
+  }
+ ],
+ "js_errors": [],
+ "preloaded_building": [
+  "bldg.linze_interior",
+  "bldg.linze_exterior",
+  "bldg.wancai_exterior",
+  "bldg.campus_gongguan_bd",
+  "bldg.campus_lib_lawn",
+  "bldg.campus_blackforest",
+  "bldg.campus_library",
+  "bldg.campus_bell",
+  "bldg.campus_admin",
+  "bldg.campus_arts",
+  "bldg.campus_hist",
+  "bldg.campus_pavilion",
+  "prop.street",
+  "bldg.campus_gongtong",
+  "prop.bike_ride",
+  "bldg.campus_lake",
+  "bldg.bball_court",
+  "bldg.skybridge",
+  "bldg.campus_freshman",
+  "bldg.campus_putong",
+  "bldg.campus_boya",
+  "bldg.campus_gate",
+  "bldg.campus_male1",
+  "bldg.campus_socsci",
+  "prop.trees",
+  "prop.book_open"
+ ],
+ "analysis": {
+  "n": 31,
+  "i_zone": 12,
+  "t_zone": 5568,
+  "t_black": 1116,
+  "t_on": 632,
+  "t_fade_end": 12537,
+  "black_ms": 11059,
+  "black_longest_ms": 11059,
+  "at_end": {
+   "t": 12537,
+   "gz": "classroom",
+   "ez": "classroom",
+   "op": 0,
+   "on": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "fr": 609
+  },
+  "after2s_kit_max": 0,
+  "after2s_pend_max": 0,
+  "t_all_loaded": 6901,
+  "t_kit_hidden": 6901,
+  "bikes": null,
+  "npcs": {
+   "n": 4,
+   "first": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "at_fade_end": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "last": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "moved_before_fade_end_m": 0,
+   "moved_total_m": 0
+  }
+ },
+ "req": {
+  "bldg.classroom_201": {
+   "t": 1223,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 6883,
+   "err": null
+  },
+  "char.npc_nf6": {
+   "t": 1227,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 6782,
+   "err": null
+  },
+  "char.npc_nm6": {
+   "t": 1228,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 6738,
+   "err": null
+  },
+  "prop.book_open": {
+   "t": 1244,
+   "type": "building",
+   "cachedAtReq": true,
+   "done": 2655,
+   "err": null
+  },
+  "prop.bag_yu": {
+   "t": 1996,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 5687,
+   "err": null
+  },
+  "prop.glasses_bohan": {
+   "t": 2064,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 5688,
+   "err": null
+  },
+  "prop.glasses_peishan": {
+   "t": 2265,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 5690,
+   "err": null
+  },
+  "prop.novel": {
+   "t": 2395,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 6682,
+   "err": null
+  },
+  "prop.thermos_silver": {
+   "t": 2505,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 5693,
+   "err": null
+  },
+  "char.npc_nf17": {
+   "t": 2513,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 6878,
+   "err": null
+  },
+  "char.npc_nf15": {
+   "t": 2516,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 6928,
+   "err": null
+  },
+  "char.npc_nf2": {
+   "t": 2516,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 6952,
+   "err": null
+  }
+ },
+ "samples": [
+  {
+   "t": 1,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 553,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 186,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 562,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 237,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 564,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 320,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 568,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 427,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 573,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 507,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 575,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 632,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0,
+   "on": true,
+   "fr": 577,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 742,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.312,
+   "on": true,
+   "fr": 581,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 829,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.672,
+   "on": true,
+   "fr": 584,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 904,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.741,
+   "on": true,
+   "fr": 585,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 1002,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 0.741,
+   "on": true,
+   "fr": 585,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 1116,
+   "gz": "linze",
+   "ez": "linze",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 590,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "linze",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.linze_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     5.6,
+     -6.35
+    ],
+    [
+     0.1,
+     3.55
+    ],
+    [
+     4,
+     3.55
+    ],
+    [
+     1.2,
+     -3.95
+    ]
+   ],
+   "pl": [
+    -2,
+    -6.01
+   ]
+  },
+  {
+   "t": 5568,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 592,
+   "paused": false,
+   "req": 7,
+   "pend": 6,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.bag_yu",
+    "prop.glasses_bohan",
+    "prop.glasses_peishan",
+    "prop.novel",
+    "prop.thermos_silver"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 5717,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 593,
+   "paused": false,
+   "req": 7,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 6278,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 596,
+   "paused": false,
+   "req": 7,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 6400,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 597,
+   "paused": false,
+   "req": 7,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 6582,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 599,
+   "paused": false,
+   "req": 7,
+   "pend": 2,
+   "pendK": [
+    "bldg.classroom_201",
+    "prop.novel"
+   ],
+   "kit": {
+    "zone": "classroom",
+    "formal": null,
+    "vis": 1,
+    "tot": 1,
+    "names": [
+     "fallback"
+    ]
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 6901,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 601,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 7990,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 11574,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": true,
+   "op": 1,
+   "on": false,
+   "fr": 604,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 11702,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 1,
+   "on": false,
+   "fr": 605,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 11888,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0.209,
+   "on": false,
+   "fr": 607,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 12537,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 609,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 12838,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 611,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 12990,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 613,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13140,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 615,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13217,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 616,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13455,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 619,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13602,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 621,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13833,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 623,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 13989,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 625,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  },
+  {
+   "t": 14271,
+   "gz": "classroom",
+   "ez": "classroom",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 627,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "classroom",
+    "formal": true,
+    "vis": 0,
+    "tot": 1,
+    "names": []
+   },
+   "zr": [
+    "bldg.classroom_201"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 8331,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     -3.75,
+     0.4
+    ],
+    [
+     3.75,
+     -1.7
+    ],
+    [
+     -5.25,
+     -3.8
+    ],
+    [
+     -2.25,
+     -3.8
+    ]
+   ],
+   "pl": [
+    0,
+    7
+   ]
+  }
+ ]
+}

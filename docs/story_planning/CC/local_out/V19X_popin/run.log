@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_popin_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19X_popin\out
+==== CASE classroom（SHA b267b0534）====
+PASS classroom：遊戲載入
+  [前置／捷徑] classroom：第一次進教室：法律系館A 二樓 201 門口外 → 走到門口 → 按「進入 201 階梯教室」；讀檔（GAME.applySave）到 linze (-2.0, -4.3, 第 1 層) 10:00、週六、條件事件和手機自動打開關掉（只看畫面，不演劇情）
+PASS classroom：讀檔到 linze
+PASS classroom：找到互動點「進入 201…」  {"x": -2, "z": -6.25, "r": 1.15, "label": "進入 201 階梯教室", "lv": 1, "y": null}
+  classroom：讀檔後 {"gz": "linze", "ez": "linze", "x": -2, "z": -4.3, "lv": 1, "hour": 10.06, "loading": false, "interact": null}；互動點 {"x": -2, "z": -6.25, "r": 1.15, "label": "進入 201 階梯教室", "lv": 1, "y": null}
+  [   2.9s] 到達「進入 201」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS classroom：走到門口、互動鈕是「進入 201…」  {"go_to": true, "interact": "進入 201 階梯教室", "at": {"gz": "linze", "ez": "linze", "x": -2, "z": -6.01, "lv": 1, "hour": 10.08, "loading": false, "interact": "進入 201 階梯教室"}}
+  classroom：按鈕以前已經在快取的正式模型（building）26 個：["bldg.linze_interior", "bldg.linze_exterior", "bldg.wancai_exterior", "bldg.campus_gongguan_bd", "bldg.campus_lib_lawn", "bldg.campus_blackforest", "bldg.campus_library", "bldg.campus_bell", "bldg.campus_admin", "bldg.campus_arts", "bldg.campus_hist", "bldg.campus_pavilion", "prop.street", "bldg.campus_gongtong", "prop.bike_ride", "bldg.campus_lake", "bldg.bball_court", "bldg.skybridge", "bldg.campus_freshman", "bldg.campus_putong", "bldg.campus_boya", "bldg.campus_gate", "bldg.campus_male1", "bldg.campus_socsci", "prop.trees", "prop.book_open"]
+  classroom：t=0 以後要的正式模型（building）7 個：{"bldg.classroom_201": {"t": 1223, "cachedAtReq": false, "done": 6883, "err": null}, "prop.bag_yu": {"t": 1996, "cachedAtReq": false, "done": 5687, "err": null}, "prop.book_open": {"t": 1244, "cachedAtReq": true, "done": 2655, "err": null}, "prop.glasses_bohan": {"t": 2064, "cachedAtReq": false, "done": 5688, "err": null}, "prop.glasses_peishan": {"t": 2265, "cachedAtReq": false, "done": 5690, "err": null}, "prop.novel": {"t": 2395, "cachedAtReq": false, "done": 6682, "err": null}, "prop.thermos_silver": {"t": 2505, "cachedAtReq": false, "done": 5693, "err": null}}
+  classroom：數字：{"n": 31, "i_zone": 12, "t_zone": 5568, "t_black": 1116, "t_on": 632, "t_fade_end": 12537, "black_ms": 11059, "black_longest_ms": 11059, "at_end": {"t": 12537, "gz": "classroom", "ez": "classroom", "op": 0, "on": false, "req": 7, "pend": 0, "pendK": [], "kit": {"zone": "classroom", "formal": true, "vis": 0, "tot": 1, "names": []}, "zr": ["bldg.classroom_201"], "lzw": {"pending": 1, "waited": 8331, "timedOut": false}, "fr": 609}, "after2s_kit_max": 0, "after2s_pend_max": 0, "t_all_loaded": 6901, "t_kit_hidden": 6901}
+  classroom：腳踏車 null；NPC {"n": 4, "first": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], "at_fade_end": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], "last": [[-3.75, 0.4], [3.75, -1.7], [-5.25, -3.8], [-2.25, -3.8]], "moved_before_fade_end_m": 0, "moved_total_m": 0}
+PASS classroom：① 觸發換區成功（G.zone、E.zone＝classroom）  t_zone=5568 ms
+PASS classroom：② 有淡入（先全黑、再回到透明）  t_black=1116 ms、class on=632 ms、t_fade_end=12537 ms
+PASS classroom：③ 淡入結束時，這一區要的正式模型都載好了（pending 0）  pending=0／7 []；全部載好 t=6901 ms；淡入結束 t=12537 ms；lastZoneWait={"pending": 1, "waited": 8331, "timedOut": false}
+PASS classroom：④ 淡入結束時，方塊備用看不到（可見 0）  可見 0／1 []；方塊全部藏起來 t=6901 ms；淡入後 2 秒內可見最多 0、pending 最多 0
+FAIL classroom：⑤ 黑畫面（opacity>0.5）≤ 6.5 秒  黑 11.06 秒（最長連續 11.06 秒）
+  classroom：⑥ INFO：這一區沒有騎腳踏車的人（GAME.extras 沒有 rider）
+PASS classroom：⑦ 沒有 JS 例外  []
+  classroom：連拍 4 張（8.0 秒內），截圖每張平均 2767 ms
+==== CASE wz_cafe_out（SHA b267b0534）====
+PASS wz_cafe_out：遊戲載入
+  [前置／捷徑] wz_cafe_out：溫州街從咖啡廳出來：Café 店裡 → 走到門口 → 按「離開咖啡廳」；讀檔（GAME.applySave）到 cafe (0.0, 2.6, 第 0 層) 14:00、週六、條件事件和手機自動打開關掉（只看畫面，不演劇情）
+PASS wz_cafe_out：讀檔到 cafe
+PASS wz_cafe_out：找到互動點「離開咖啡廳…」  {"x": 0, "z": 5.6, "r": 1.6, "label": "離開咖啡廳", "lv": null, "y": null}
+  wz_cafe_out：讀檔後 {"gz": "cafe", "ez": "cafe", "x": 0, "z": 2.6, "lv": 0, "hour": 14.02, "loading": false, "interact": "坐在這一桌"}；互動點 {"x": 0, "z": 5.6, "r": 1.6, "label": "離開咖啡廳", "lv": null, "y": null}
+  [   5.1s] 到達「離開咖啡廳」附近（0.53 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS wz_cafe_out：走到門口、互動鈕是「離開咖啡廳…」  {"go_to": true, "interact": "離開咖啡廳", "at": {"gz": "cafe", "ez": "cafe", "x": -0.0, "z": 5.07, "lv": 0, "hour": 14.06, "loading": false, "interact": "離開咖啡廳"}}
+  wz_cafe_out：按鈕以前已經在快取的正式模型（building）30 個：["bldg.linze_exterior", "bldg.wancai_exterior", "bldg.cafe_interior", "bldg.wenzhou_street", "bldg.wz_props", "bldg.campus_gongguan_bd", "bldg.campus_lib_lawn", "bldg.campus_blackforest", "bldg.campus_library", "bldg.campus_bell", "bldg.campus_admin", "bldg.campus_arts", "bldg.campus_hist", "bldg.campus_pavilion", "prop.street", "bldg.campus_gongtong", "prop.bike_ride", "bldg.campus_lake", "bldg.bball_court", "bldg.skybridge", "bldg.campus_freshman", "bldg.campus_putong", "bldg.campus_boya", "bldg.campus_gate", "bldg.campus_male1", "bldg.campus_socsci", "prop.trees", "prop.glasses_zhiruo", "prop.mug", "prop.book_open"]
+  wz_cafe_out：t=0 以後要的正式模型（building）7 個：{"bldg.cafe_exterior": {"t": 1706, "cachedAtReq": false, "done": 15304, "err": null}, "bldg.wenzhou_street": {"t": 1656, "cachedAtReq": true, "done": 2011, "err": null}, "bldg.wz_cat": {"t": 1529, "cachedAtReq": false, "done": 14765, "err": null}, "bldg.wz_jphouse": {"t": 1706, "cachedAtReq": false, "done": 15216, "err": null}, "bldg.wz_park": {"t": 1706, "cachedAtReq": false, "done": 17020, "err": null}, "bldg.wz_props": {"t": 1706, "cachedAtReq": true, "done": 2018, "err": null}, "bldg.wz_scooter": {"t": 1705, "cachedAtReq": false, "done": 13919, "err": null}}
+  wz_cafe_out：數字：{"n": 29, "i_zone": 13, "t_zone": 13830, "t_black": 1236, "t_on": 831, "t_fade_end": 15167, "black_ms": 13717, "black_longest_ms": 13717, "at_end": {"t": 15167, "gz": "wenzhou", "ez": "wenzhou", "op": 0, "on": false, "req": 7, "pend": 3, "pendK": ["bldg.wz_park", "bldg.wz_jphouse", "bldg.cafe_exterior"], "kit": {"zone": "wenzhou", "formal": null, "vis": 19, "tot": 72, "names": ["wzJp:", "wzJp:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:"]}, "zr": ["bldg.wz_cat", "bldg.wenzhou_street", "bldg.wz_scooter", "bldg.wz_park", "bldg.wz_props", "bldg.wz_jphouse", "bldg.cafe_exterior"], "lzw": {"pending": 5, "waited": 12357, "timedOut": true}, "fr": 335}, "after2s_kit_max": 19, "after2s_pend_max": 3, "t_all_loaded": 17030, "t_kit_hidden": 17030}
+  wz_cafe_out：腳踏車 {"n": 2, "first": [[-28.75, 1.2], [49.79, -1.4]], "at_fade_end": [[-25.14, 1.2], [46.74, -1.4]], "last": [[-19.08, 1.2], [41.64, -1.4]], "moved_before_fade_end_m": 3.61, "moved_total_m": 9.67}；NPC {"n": 4, "first": [[44.3, -1.85], [-4.62, 1.36], [25.78, 3.68], [-33.76, -1.68]], "at_fade_end": [[43.21, -1.88], [-3.74, 1.39], [24.77, 3.52], [-32.77, -1.65]], "last": [[41.4, -1.91], [-2.26, 1.45], [23.07, 3.25], [-31.12, -1.6]], "moved_before_fade_end_m": 1.09, "moved_total_m": 2.901}
+PASS wz_cafe_out：① 觸發換區成功（G.zone、E.zone＝wenzhou）  t_zone=13830 ms
+PASS wz_cafe_out：② 有淡入（先全黑、再回到透明）  t_black=1236 ms、class on=831 ms、t_fade_end=15167 ms
+FAIL wz_cafe_out：③ 淡入結束時，這一區要的正式模型都載好了（pending 0）  pending=3／7 ["bldg.wz_park", "bldg.wz_jphouse", "bldg.cafe_exterior"]；全部載好 t=17030 ms；淡入結束 t=15167 ms；lastZoneWait={"pending": 5, "waited": 12357, "timedOut": true}
+FAIL wz_cafe_out：④ 淡入結束時，方塊備用看不到（可見 0）  可見 19／72 ["wzJp:", "wzJp:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:", "wzPark:"]；方塊全部藏起來 t=17030 ms；淡入後 2 秒內可見最多 19、pending 最多 3
+FAIL wz_cafe_out：⑤ 黑畫面（opacity>0.5）≤ 6.5 秒  黑 13.72 秒（最長連續 13.72 秒）
+  wz_cafe_out：⑥ INFO（程式沒有設計淡入前凍結騎士，只記錄）：騎士 2 個：區域建好 [[-28.75, 1.2], [49.79, -1.4]] → 淡入結束 [[-25.14, 1.2], [46.74, -1.4]]（移動最多 3.61 m）→ 最後 [[-19.08, 1.2], [41.64, -1.4]]（共 9.67 m）
+PASS wz_cafe_out：⑦ 沒有 JS 例外  []
+  wz_cafe_out：連拍 3 張（8.0 秒內），截圖每張平均 4943 ms
+SHA b267b0534 CASES classroom,wz_cafe_out
+FAILED 4

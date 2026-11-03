@@ -1,0 +1,2304 @@
+{
+ "case": "wz_cafe_out",
+ "url": "http://127.0.0.1:8810/index.html",
+ "sha": "b267b0534",
+ "headless_env": "0",
+ "notes": [
+  "[前置／捷徑] 溫州街從咖啡廳出來：Café 店裡 → 走到門口 → 按「離開咖啡廳」；讀檔（GAME.applySave）到 cafe (0.0, 2.6, 第 0 層) 14:00、週六、條件事件和手機自動打開關掉（只看畫面，不演劇情）",
+  "讀檔後 {\"gz\": \"cafe\", \"ez\": \"cafe\", \"x\": 0, \"z\": 2.6, \"lv\": 0, \"hour\": 14.02, \"loading\": false, \"interact\": \"坐在這一桌\"}；互動點 {\"x\": 0, \"z\": 5.6, \"r\": 1.6, \"label\": \"離開咖啡廳\", \"lv\": null, \"y\": null}",
+  "按鈕以前已經在快取的正式模型（building）30 個：[\"bldg.linze_exterior\", \"bldg.wancai_exterior\", \"bldg.cafe_interior\", \"bldg.wenzhou_street\", \"bldg.wz_props\", \"bldg.campus_gongguan_bd\", \"bldg.campus_lib_lawn\", \"bldg.campus_blackforest\", \"bldg.campus_library\", \"bldg.campus_bell\", \"bldg.campus_admin\", \"bldg.campus_arts\", \"bldg.campus_hist\", \"bldg.campus_pavilion\", \"prop.street\", \"bldg.campus_gongtong\", \"prop.bike_ride\", \"bldg.campus_lake\", \"bldg.bball_court\", \"bldg.skybridge\", \"bldg.campus_freshman\", \"bldg.campus_putong\", \"bldg.campus_boya\", \"bldg.campus_gate\", \"bldg.campus_male1\", \"bldg.campus_socsci\", \"prop.trees\", \"prop.glasses_zhiruo\", \"prop.mug\", \"prop.book_open\"]",
+  "t=0 以後要的正式模型（building）7 個：{\"bldg.cafe_exterior\": {\"t\": 1706, \"cachedAtReq\": false, \"done\": 15304, \"err\": null}, \"bldg.wenzhou_street\": {\"t\": 1656, \"cachedAtReq\": true, \"done\": 2011, \"err\": null}, \"bldg.wz_cat\": {\"t\": 1529, \"cachedAtReq\": false, \"done\": 14765, \"err\": null}, \"bldg.wz_jphouse\": {\"t\": 1706, \"cachedAtReq\": false, \"done\": 15216, \"err\": null}, \"bldg.wz_park\": {\"t\": 1706, \"cachedAtReq\": false, \"done\": 17020, \"err\": null}, \"bldg.wz_props\": {\"t\": 1706, \"cachedAtReq\": true, \"done\": 2018, \"err\": null}, \"bldg.wz_scooter\": {\"t\": 1705, \"cachedAtReq\": false, \"done\": 13919, \"err\": null}}",
+  "數字：{\"n\": 29, \"i_zone\": 13, \"t_zone\": 13830, \"t_black\": 1236, \"t_on\": 831, \"t_fade_end\": 15167, \"black_ms\": 13717, \"black_longest_ms\": 13717, \"at_end\": {\"t\": 15167, \"gz\": \"wenzhou\", \"ez\": \"wenzhou\", \"op\": 0, \"on\": false, \"req\": 7, \"pend\": 3, \"pendK\": [\"bldg.wz_park\", \"bldg.wz_jphouse\", \"bldg.cafe_exterior\"], \"kit\": {\"zone\": \"wenzhou\", \"formal\": null, \"vis\": 19, \"tot\": 72, \"names\": [\"wzJp:\", \"wzJp:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\", \"wzPark:\"]}, \"zr\": [\"bldg.wz_cat\", \"bldg.wenzhou_street\", \"bldg.wz_scooter\", \"bldg.wz_park\", \"bldg.wz_props\", \"bldg.wz_jphouse\", \"bldg.cafe_exterior\"], \"lzw\": {\"pending\": 5, \"waited\": 12357, \"timedOut\": true}, \"fr\": 335}, \"after2s_kit_max\": 19, \"after2s_pend_max\": 3, \"t_all_loaded\": 17030, \"t_kit_hidden\": 17030}",
+  "腳踏車 {\"n\": 2, \"first\": [[-28.75, 1.2], [49.79, -1.4]], \"at_fade_end\": [[-25.14, 1.2], [46.74, -1.4]], \"last\": [[-19.08, 1.2], [41.64, -1.4]], \"moved_before_fade_end_m\": 3.61, \"moved_total_m\": 9.67}；NPC {\"n\": 4, \"first\": [[44.3, -1.85], [-4.62, 1.36], [25.78, 3.68], [-33.76, -1.68]], \"at_fade_end\": [[43.21, -1.88], [-3.74, 1.39], [24.77, 3.52], [-32.77, -1.65]], \"last\": [[41.4, -1.91], [-2.26, 1.45], [23.07, 3.25], [-31.12, -1.6]], \"moved_before_fade_end_m\": 1.09, \"moved_total_m\": 2.901}",
+  "⑥ INFO（程式沒有設計淡入前凍結騎士，只記錄）：騎士 2 個：區域建好 [[-28.75, 1.2], [49.79, -1.4]] → 淡入結束 [[-25.14, 1.2], [46.74, -1.4]]（移動最多 3.61 m）→ 最後 [[-19.08, 1.2], [41.64, -1.4]]（共 9.67 m）",
+  "連拍 3 張（8.0 秒內），截圖每張平均 4943 ms"
+ ],
+ "fails": [
+  "③ 淡入結束時，這一區要的正式模型都載好了（pending 0）",
+  "④ 淡入結束時，方塊備用看不到（可見 0）",
+  "⑤ 黑畫面（opacity>0.5）≤ 6.5 秒"
+ ],
+ "shots": [
+  {
+   "file": "wz_cafe_out\\000_t00251.png",
+   "k": 0,
+   "t_ms": 251,
+   "shot_ms": 510,
+   "sample": {
+    "now": 793,
+    "t": 702,
+    "gz": "cafe",
+    "ez": "cafe",
+    "ent": false,
+    "op": 0,
+    "on": false,
+    "fr": 310,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "cafe",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": [
+     "bldg.cafe_interior"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 9008,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      0,
+      0.7
+     ],
+     [
+      -0.85,
+      1.5
+     ],
+     [
+      -0.6,
+      -5.25
+     ],
+     [
+      -2.5,
+      -5.15
+     ]
+    ],
+    "pl": [
+     -0.0,
+     5.07
+    ]
+   }
+  },
+  {
+   "file": "wz_cafe_out\\005_t00793.png",
+   "k": 5,
+   "t_ms": 793,
+   "shot_ms": 329,
+   "sample": {
+    "now": 1156,
+    "t": 1115,
+    "gz": "cafe",
+    "ez": "cafe",
+    "ent": true,
+    "op": 0.949,
+    "on": true,
+    "fr": 321,
+    "paused": false,
+    "req": 0,
+    "pend": 0,
+    "pendK": [],
+    "kit": {
+     "zone": "cafe",
+     "formal": true,
+     "vis": 0,
+     "tot": 0,
+     "names": []
+    },
+    "zr": [
+     "bldg.cafe_interior"
+    ],
+    "lzw": {
+     "pending": 1,
+     "waited": 9008,
+     "timedOut": false
+    },
+    "bikes": [],
+    "npcs": [
+     [
+      0,
+      0.7
+     ],
+     [
+      -0.85,
+      1.5
+     ],
+     [
+      -0.6,
+      -5.25
+     ],
+     [
+      -2.5,
+      -5.15
+     ]
+    ],
+    "pl": [
+     -0.0,
+     5.07
+    ]
+   }
+  },
+  {
+   "file": "wz_cafe_out\\007_t01154.png",
+   "k": 7,
+   "t_ms": 1154,
+   "shot_ms": 13991,
+   "sample": {
+    "now": 15298,
+    "t": 15167,
+    "gz": "wenzhou",
+    "ez": "wenzhou",
+    "ent": true,
+    "op": 0,
+    "on": false,
+    "fr": 335,
+    "paused": false,
+    "req": 7,
+    "pend": 3,
+    "pendK": [
+     "bldg.wz_park",
+     "bldg.wz_jphouse",
+     "bldg.cafe_exterior"
+    ],
+    "kit": {
+     "zone": "wenzhou",
+     "formal": null,
+     "vis": 19,
+     "tot": 72,
+     "names": [
+      "wzJp:",
+      "wzJp:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:",
+      "wzPark:"
+     ]
+    },
+    "zr": [
+     "bldg.wz_cat",
+     "bldg.wenzhou_street",
+     "bldg.wz_scooter",
+     "bldg.wz_park",
+     "bldg.wz_props",
+     "bldg.wz_jphouse",
+     "bldg.cafe_exterior"
+    ],
+    "lzw": {
+     "pending": 5,
+     "waited": 12357,
+     "timedOut": true
+    },
+    "bikes": [
+     [
+      -25.14,
+      1.2
+     ],
+     [
+      46.74,
+      -1.4
+     ]
+    ],
+    "npcs": [
+     [
+      43.21,
+      -1.88
+     ],
+     [
+      -3.74,
+      1.39
+     ],
+     [
+      24.77,
+      3.52
+     ],
+     [
+      -32.77,
+      -1.65
+     ]
+    ],
+    "pl": [
+     51.7,
+     0
+    ]
+   }
+  }
+ ],
+ "js_errors": [],
+ "preloaded_building": [
+  "bldg.linze_exterior",
+  "bldg.wancai_exterior",
+  "bldg.cafe_interior",
+  "bldg.wenzhou_street",
+  "bldg.wz_props",
+  "bldg.campus_gongguan_bd",
+  "bldg.campus_lib_lawn",
+  "bldg.campus_blackforest",
+  "bldg.campus_library",
+  "bldg.campus_bell",
+  "bldg.campus_admin",
+  "bldg.campus_arts",
+  "bldg.campus_hist",
+  "bldg.campus_pavilion",
+  "prop.street",
+  "bldg.campus_gongtong",
+  "prop.bike_ride",
+  "bldg.campus_lake",
+  "bldg.bball_court",
+  "bldg.skybridge",
+  "bldg.campus_freshman",
+  "bldg.campus_putong",
+  "bldg.campus_boya",
+  "bldg.campus_gate",
+  "bldg.campus_male1",
+  "bldg.campus_socsci",
+  "prop.trees",
+  "prop.glasses_zhiruo",
+  "prop.mug",
+  "prop.book_open"
+ ],
+ "analysis": {
+  "n": 29,
+  "i_zone": 13,
+  "t_zone": 13830,
+  "t_black": 1236,
+  "t_on": 831,
+  "t_fade_end": 15167,
+  "black_ms": 13717,
+  "black_longest_ms": 13717,
+  "at_end": {
+   "t": 15167,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "op": 0,
+   "on": false,
+   "req": 7,
+   "pend": 3,
+   "pendK": [
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 19,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "fr": 335
+  },
+  "after2s_kit_max": 19,
+  "after2s_pend_max": 3,
+  "t_all_loaded": 17030,
+  "t_kit_hidden": 17030,
+  "bikes": {
+   "n": 2,
+   "first": [
+    [
+     -28.75,
+     1.2
+    ],
+    [
+     49.79,
+     -1.4
+    ]
+   ],
+   "at_fade_end": [
+    [
+     -25.14,
+     1.2
+    ],
+    [
+     46.74,
+     -1.4
+    ]
+   ],
+   "last": [
+    [
+     -19.08,
+     1.2
+    ],
+    [
+     41.64,
+     -1.4
+    ]
+   ],
+   "moved_before_fade_end_m": 3.61,
+   "moved_total_m": 9.67
+  },
+  "npcs": {
+   "n": 4,
+   "first": [
+    [
+     44.3,
+     -1.85
+    ],
+    [
+     -4.62,
+     1.36
+    ],
+    [
+     25.78,
+     3.68
+    ],
+    [
+     -33.76,
+     -1.68
+    ]
+   ],
+   "at_fade_end": [
+    [
+     43.21,
+     -1.88
+    ],
+    [
+     -3.74,
+     1.39
+    ],
+    [
+     24.77,
+     3.52
+    ],
+    [
+     -32.77,
+     -1.65
+    ]
+   ],
+   "last": [
+    [
+     41.4,
+     -1.91
+    ],
+    [
+     -2.26,
+     1.45
+    ],
+    [
+     23.07,
+     3.25
+    ],
+    [
+     -31.12,
+     -1.6
+    ]
+   ],
+   "moved_before_fade_end_m": 1.09,
+   "moved_total_m": 2.901
+  }
+ },
+ "req": {
+  "bldg.wz_cat": {
+   "t": 1529,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 14765,
+   "err": null
+  },
+  "bldg.wenzhou_street": {
+   "t": 1656,
+   "type": "building",
+   "cachedAtReq": true,
+   "done": 2011,
+   "err": null
+  },
+  "bldg.wz_scooter": {
+   "t": 1705,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 13919,
+   "err": null
+  },
+  "bldg.wz_park": {
+   "t": 1706,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 17020,
+   "err": null
+  },
+  "bldg.wz_props": {
+   "t": 1706,
+   "type": "building",
+   "cachedAtReq": true,
+   "done": 2018,
+   "err": null
+  },
+  "bldg.wz_jphouse": {
+   "t": 1706,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 15216,
+   "err": null
+  },
+  "bldg.cafe_exterior": {
+   "t": 1706,
+   "type": "building",
+   "cachedAtReq": false,
+   "done": 15304,
+   "err": null
+  },
+  "char.npc_nf6": {
+   "t": 1730,
+   "type": "vrm",
+   "cachedAtReq": false,
+   "done": 15296,
+   "err": null
+  }
+ },
+ "samples": [
+  {
+   "t": 1,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 289,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 104,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 292,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 296,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 298,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 331,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 299,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 458,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 303,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 505,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 304,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 612,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 307,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 702,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 310,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 831,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": true,
+   "op": 0.079,
+   "on": true,
+   "fr": 313,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 905,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": true,
+   "op": 0.444,
+   "on": true,
+   "fr": 315,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 1004,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": true,
+   "op": 0.783,
+   "on": true,
+   "fr": 318,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 1115,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": true,
+   "op": 0.949,
+   "on": true,
+   "fr": 321,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 1236,
+   "gz": "cafe",
+   "ez": "cafe",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 324,
+   "paused": false,
+   "req": 0,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "cafe",
+    "formal": true,
+    "vis": 0,
+    "tot": 0,
+    "names": []
+   },
+   "zr": [
+    "bldg.cafe_interior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [],
+   "npcs": [
+    [
+     0,
+     0.7
+    ],
+    [
+     -0.85,
+     1.5
+    ],
+    [
+     -0.6,
+     -5.25
+    ],
+    [
+     -2.5,
+     -5.15
+    ]
+   ],
+   "pl": [
+    -0.0,
+    5.07
+   ]
+  },
+  {
+   "t": 13830,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": true,
+   "op": 1,
+   "on": true,
+   "fr": 326,
+   "paused": false,
+   "req": 7,
+   "pend": 5,
+   "pendK": [
+    "bldg.wz_cat",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 20,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wz_kit_scooters"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 1,
+    "waited": 9008,
+    "timedOut": false
+   },
+   "bikes": [
+    [
+     -28.75,
+     1.2
+    ],
+    [
+     49.79,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     44.3,
+     -1.85
+    ],
+    [
+     -4.62,
+     1.36
+    ],
+    [
+     25.78,
+     3.68
+    ],
+    [
+     -33.76,
+     -1.68
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 14393,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": true,
+   "op": 1,
+   "on": false,
+   "fr": 329,
+   "paused": false,
+   "req": 7,
+   "pend": 4,
+   "pendK": [
+    "bldg.wz_cat",
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 19,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -27.81,
+     1.2
+    ],
+    [
+     49,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     44.02,
+     -1.86
+    ],
+    [
+     -4.39,
+     1.37
+    ],
+    [
+     25.52,
+     3.63
+    ],
+    [
+     -33.5,
+     -1.68
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 14657,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": true,
+   "op": 1,
+   "on": false,
+   "fr": 331,
+   "paused": false,
+   "req": 7,
+   "pend": 4,
+   "pendK": [
+    "bldg.wz_cat",
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 19,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -26.89,
+     1.2
+    ],
+    [
+     48.22,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     43.74,
+     -1.86
+    ],
+    [
+     -4.16,
+     1.38
+    ],
+    [
+     25.26,
+     3.59
+    ],
+    [
+     -33.25,
+     -1.67
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 14721,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": true,
+   "op": 0.465,
+   "on": false,
+   "fr": 332,
+   "paused": false,
+   "req": 7,
+   "pend": 4,
+   "pendK": [
+    "bldg.wz_cat",
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 19,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -26.38,
+     1.2
+    ],
+    [
+     47.79,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     43.59,
+     -1.87
+    ],
+    [
+     -4.04,
+     1.38
+    ],
+    [
+     25.12,
+     3.57
+    ],
+    [
+     -33.11,
+     -1.66
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 15167,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": true,
+   "op": 0,
+   "on": false,
+   "fr": 335,
+   "paused": false,
+   "req": 7,
+   "pend": 3,
+   "pendK": [
+    "bldg.wz_park",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 19,
+    "tot": 72,
+    "names": [
+     "wzJp:",
+     "wzJp:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -25.14,
+     1.2
+    ],
+    [
+     46.74,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     43.21,
+     -1.88
+    ],
+    [
+     -3.74,
+     1.39
+    ],
+    [
+     24.77,
+     3.52
+    ],
+    [
+     -32.77,
+     -1.65
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 16762,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 336,
+   "paused": false,
+   "req": 7,
+   "pend": 1,
+   "pendK": [
+    "bldg.wz_park"
+   ],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 17,
+    "tot": 72,
+    "names": [
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:",
+     "wzPark:"
+    ]
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -24.63,
+     1.2
+    ],
+    [
+     46.32,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     43.06,
+     -1.88
+    ],
+    [
+     -3.62,
+     1.4
+    ],
+    [
+     24.63,
+     3.49
+    ],
+    [
+     -32.64,
+     -1.65
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17030,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 337,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -24.13,
+     1.2
+    ],
+    [
+     45.89,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.91,
+     -1.88
+    ],
+    [
+     -3.49,
+     1.4
+    ],
+    [
+     24.48,
+     3.47
+    ],
+    [
+     -32.5,
+     -1.65
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17412,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 338,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -23.62,
+     1.2
+    ],
+    [
+     45.47,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.76,
+     -1.88
+    ],
+    [
+     -3.37,
+     1.41
+    ],
+    [
+     24.34,
+     3.45
+    ],
+    [
+     -32.36,
+     -1.64
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17532,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 342,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -22.63,
+     1.2
+    ],
+    [
+     44.63,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.46,
+     -1.89
+    ],
+    [
+     -3.13,
+     1.42
+    ],
+    [
+     24.06,
+     3.4
+    ],
+    [
+     -32.09,
+     -1.63
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17609,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 345,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -22.24,
+     1.2
+    ],
+    [
+     44.31,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.35,
+     -1.89
+    ],
+    [
+     -3.03,
+     1.42
+    ],
+    [
+     23.96,
+     3.39
+    ],
+    [
+     -31.99,
+     -1.63
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17735,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 350,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -21.59,
+     1.2
+    ],
+    [
+     43.75,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.15,
+     -1.9
+    ],
+    [
+     -2.87,
+     1.43
+    ],
+    [
+     23.77,
+     3.36
+    ],
+    [
+     -31.81,
+     -1.62
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17812,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 353,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -21.25,
+     1.2
+    ],
+    [
+     43.47,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     42.05,
+     -1.9
+    ],
+    [
+     -2.79,
+     1.43
+    ],
+    [
+     23.68,
+     3.34
+    ],
+    [
+     -31.71,
+     -1.62
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 17905,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 357,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -20.75,
+     1.2
+    ],
+    [
+     43.04,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     41.9,
+     -1.9
+    ],
+    [
+     -2.67,
+     1.44
+    ],
+    [
+     23.54,
+     3.32
+    ],
+    [
+     -31.58,
+     -1.62
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 18027,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 361,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -20.11,
+     1.2
+    ],
+    [
+     42.5,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     41.71,
+     -1.91
+    ],
+    [
+     -2.51,
+     1.44
+    ],
+    [
+     23.36,
+     3.29
+    ],
+    [
+     -31.4,
+     -1.61
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 18110,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 365,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -19.69,
+     1.2
+    ],
+    [
+     42.15,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     41.58,
+     -1.91
+    ],
+    [
+     -2.41,
+     1.45
+    ],
+    [
+     23.24,
+     3.27
+    ],
+    [
+     -31.29,
+     -1.61
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  },
+  {
+   "t": 18233,
+   "gz": "wenzhou",
+   "ez": "wenzhou",
+   "ent": false,
+   "op": 0,
+   "on": false,
+   "fr": 371,
+   "paused": false,
+   "req": 7,
+   "pend": 0,
+   "pendK": [],
+   "kit": {
+    "zone": "wenzhou",
+    "formal": null,
+    "vis": 0,
+    "tot": 72,
+    "names": []
+   },
+   "zr": [
+    "bldg.wz_cat",
+    "bldg.wenzhou_street",
+    "bldg.wz_scooter",
+    "bldg.wz_park",
+    "bldg.wz_props",
+    "bldg.wz_jphouse",
+    "bldg.cafe_exterior"
+   ],
+   "lzw": {
+    "pending": 5,
+    "waited": 12357,
+    "timedOut": true
+   },
+   "bikes": [
+    [
+     -19.08,
+     1.2
+    ],
+    [
+     41.64,
+     -1.4
+    ]
+   ],
+   "npcs": [
+    [
+     41.4,
+     -1.91
+    ],
+    [
+     -2.26,
+     1.45
+    ],
+    [
+     23.07,
+     3.25
+    ],
+    [
+     -31.12,
+     -1.6
+    ]
+   ],
+   "pl": [
+    51.7,
+    0
+   ]
+  }
+ ]
+}
