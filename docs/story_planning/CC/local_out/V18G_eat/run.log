@@ -1,0 +1,82 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_eat_after_class_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V18G_eat\out
+==== CASE noodle（SHA ffeec06e0）====
+PASS noodle：遊戲載入
+  [前置／捷徑] noodle：最小存檔讀到 2025-11-10 8.92 法律系館A 201（classroom）；條件事件照常，只關「要回覆的訊息自動打開手機」
+PASS noodle：記錄鉤子都掛上  {"advBegin": true, "advSetBg": true, "advEnd": true, "caption": true, "say": true, "choose": true, "money": true, "enter": true, "lunch": true, "goClass": true}
+PASS noodle：那天有 201 的課、下午還有下一堂（課表 [["憲法（上）", 9.166666666666666, 12.166666666666666], ["體育", 15.5, 17.333333333333332]]）
+  [前置／捷徑] noodle：CLS.goClass(GAME, 憲法（上）)＝手機「今天」直接去上課（之後整堂課照玩家點）
+  noodle：上課中的選單 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  noodle：上課中的選單 ["不行，那不是他想說的話", "可以，但道歉要排在最後", "看有沒有一樣有效、更溫和的", "我想先聽別人說。"] → 不行，那不是他想說的話
+  noodle：上課中的選單 ["（A）包括，這是回復名譽最有效的方法", "（B）包括，但只限加害人同意時", "（C）不包括，才符合憲法保障言論自由及思想自由的意旨", "（D）由法官依個案自由決定"] → （A）包括，這是回復名譽最有效的方法
+PASS noodle：照玩家上完那堂課（憲法（上） done）  {"h": 12.194}
+PASS noodle：下課選單出現、有「先去吃飯」開頭的選項（["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:05 出門。用掉下午 1 次（還剩 0）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"]）
+PASS noodle：「先去吃飯」沒有變暗  {"t": "先去吃飯，再去下一堂約 40 分鐘", "dim": false}
+  noodle：點「先去吃飯，再去下一堂約 40 分鐘」
+PASS noodle：吃飯選單有「阿鳳麵店」開頭的選項  ["小松　90 元", "阿鳳麵店　70 元", "便利商店　75 元", "算了"]
+  noodle：點「阿鳳麵店　70 元」
+  noodle：ADV.begin [{"image": "assets/bg/noodle_table.webp", "night": false}, "blur"]；字幕 ["阿鳳麵店", "你在法律系館A 201 階梯教室待到 15:05。", "走路到體育館。", "體育：球類　本週：球類"]；錢 [-70]；enter ["campus"]
+PASS noodle：吃飯那一段開了 ADV（ADV.begin，不是停在教室的 3D）  [{"image": "assets/bg/noodle_table.webp", "night": false}, "blur"]
+PASS noodle：ADV 背景是那家店（background.image 含 noodle_table）  {"image": "assets/bg/noodle_table.webp", "night": false}
+PASS noodle：玩家看得到：吃飯那句旁白時 ADV 開著、#adv 的背景圖是 noodle_table  {"active": true, "vis": true, "imgs": ["url(\"http://127.0.0.1:8813/assets/bg/noodle_table.webp\")"]}
+PASS noodle：地點字幕是店名（開頭「阿鳳麵店」）  ["阿鳳麵店", "你在法律系館A 201 階梯教室待到 15:05。", "走路到體育館。", "體育：球類　本週：球類"]
+PASS noodle：旁白是那家店的那一句（GAME.say 開頭「阿鳳麵店」；對話框出現過）  {"say": ["阿鳳麵店，一碗乾麵加一顆滷蛋。", "體育會點名。不會每次點。"], "dlg": "阿鳳麵店，一碗乾麵加"}
+PASS noodle：扣 70 元（GAME.money(-70) 一次）  {"money_calls": [-70], "before": 30000}
+PASS noodle：吃飯過 40 分鐘（旁白時 12.194 → 12.8609，40.0 分）  {"before": 12.19424533333333, "line": 12.8609}
+PASS noodle：吃飯那一段 G.zone 還是原本的區域（沒有亂換區域；店是 2D 背景）  {"zone": "classroom", "before": "classroom"}
+PASS noodle：吃飯時是白天（< 18:00）  12.8609
+PASS noodle：吃完 ADV 關掉（吃飯的 ADV.begin 之後有 ADV.end，而且在出發去下一堂以前）  {"end_ms": [101071], "enter_ms": [103585]}
+PASS noodle：吃完接著去下一堂（體育 15.5）：GAME.enter 換了區域、到的時候還沒上課  {"enter": ["campus"], "zone": "campus", "h": 15.3398, "t0": 15.5}
+  noodle：吃完 G.hour=15.3398 money=29930 energy=100（遊戲沒有飽足度欄位）
+PASS noodle：沒有 JS 例外  []
+==== CASE cvs_day（SHA ffeec06e0）====
+PASS cvs_day：遊戲載入
+  [前置／捷徑] cvs_day：最小存檔讀到 2025-11-10 8.92 法律系館A 201（classroom）；條件事件照常，只關「要回覆的訊息自動打開手機」
+PASS cvs_day：記錄鉤子都掛上  {"advBegin": true, "advSetBg": true, "advEnd": true, "caption": true, "say": true, "choose": true, "money": true, "enter": true, "lunch": true, "goClass": true}
+PASS cvs_day：那天有 201 的課、下午還有下一堂（課表 [["憲法（上）", 9.166666666666666, 12.166666666666666], ["體育", 15.5, 17.333333333333332]]）
+  [前置／捷徑] cvs_day：CLS.goClass(GAME, 憲法（上）)＝手機「今天」直接去上課（之後整堂課照玩家點）
+  cvs_day：上課中的選單 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+  cvs_day：上課中的選單 ["不行，那不是他想說的話", "可以，但道歉要排在最後", "看有沒有一樣有效、更溫和的", "我想先聽別人說。"] → 不行，那不是他想說的話
+  cvs_day：上課中的選單 ["（A）包括，這是回復名譽最有效的方法", "（B）包括，但只限加害人同意時", "（C）不包括，才符合憲法保障言論自由及思想自由的意旨", "（D）由法官依個案自由決定"] → （A）包括，這是回復名譽最有效的方法
+PASS cvs_day：照玩家上完那堂課（憲法（上） done）  {"h": 12.189}
+PASS cvs_day：下課選單出現、有「先去吃飯」開頭的選項（["先去吃飯，再去下一堂約 40 分鐘", "在附近讀書，再去下一堂讀到 15:05 出門。用掉下午 1 次（還剩 0）", "先自由活動手機的「今天」隨時可以直接去", "下一堂不去"]）
+PASS cvs_day：「先去吃飯」沒有變暗  {"t": "先去吃飯，再去下一堂約 40 分鐘", "dim": false}
+  cvs_day：點「先去吃飯，再去下一堂約 40 分鐘」
+PASS cvs_day：吃飯選單有「便利商店」開頭的選項  ["小松　90 元", "阿鳳麵店　70 元", "便利商店　75 元", "算了"]
+  cvs_day：點「便利商店　75 元」
+  cvs_day：ADV.begin [{"image": "assets/bg/cvs_table_day.webp", "night": false}, "blur"]；字幕 ["便利商店", "你在法律系館A 201 階梯教室待到 15:05。", "走路到體育館。", "體育：球類　本週：球類"]；錢 [-75]；enter ["campus"]
+PASS cvs_day：吃飯那一段開了 ADV（ADV.begin，不是停在教室的 3D）  [{"image": "assets/bg/cvs_table_day.webp", "night": false}, "blur"]
+PASS cvs_day：ADV 背景是那家店（background.image 含 cvs_table_day）  {"image": "assets/bg/cvs_table_day.webp", "night": false}
+PASS cvs_day：玩家看得到：吃飯那句旁白時 ADV 開著、#adv 的背景圖是 cvs_table_day  {"active": true, "vis": true, "imgs": ["url(\"http://127.0.0.1:8813/assets/bg/cvs_table_day.webp\")"]}
+PASS cvs_day：地點字幕是店名（開頭「便利商店」）  ["便利商店", "你在法律系館A 201 階梯教室待到 15:05。", "走路到體育館。", "體育：球類　本週：球類"]
+PASS cvs_day：旁白是那家店的那一句（GAME.say 開頭「便利商店」；對話框出現過）  {"say": ["便利商店的微波義大利麵，在門口的桌子吃完。", "體育會點名。不會每次點。"], "dlg": "便利商店的微波義"}
+PASS cvs_day：扣 75 元（GAME.money(-75) 一次）  {"money_calls": [-75], "before": 30000}
+PASS cvs_day：吃飯過 40 分鐘（旁白時 12.189 → 12.8552，40.0 分）  {"before": 12.188556000000004, "line": 12.8552}
+PASS cvs_day：吃飯那一段 G.zone 還是原本的區域（沒有亂換區域；店是 2D 背景）  {"zone": "classroom", "before": "classroom"}
+PASS cvs_day：吃飯時是白天（< 18:00）  12.8552
+PASS cvs_day：吃完 ADV 關掉（吃飯的 ADV.begin 之後有 ADV.end，而且在出發去下一堂以前）  {"end_ms": [89682], "enter_ms": [92183]}
+PASS cvs_day：吃完接著去下一堂（體育 15.5）：GAME.enter 換了區域、到的時候還沒上課  {"enter": ["campus"], "zone": "campus", "h": 15.3406, "t0": 15.5}
+  cvs_day：吃完 G.hour=15.3406 money=29925 energy=100（遊戲沒有飽足度欄位）
+PASS cvs_day：沒有 JS 例外  []
+==== CASE cvs_night（SHA ffeec06e0）====
+PASS cvs_night：遊戲載入
+  [前置／捷徑] cvs_night：最小存檔讀到 2025-11-10 19.00 法律系館A 201（classroom）；條件事件照常，只關「要回覆的訊息自動打開手機」
+PASS cvs_night：記錄鉤子都掛上  {"advBegin": true, "advSetBg": true, "advEnd": true, "caption": true, "say": true, "choose": true, "money": true, "enter": true, "lunch": true, "goClass": true}
+  [前置／捷徑] cvs_night：課表沒有 18:00 以後的課（下課選單到不了晚上）→ 直接叫 CLS.lunchBreak(GAME)（下課選單「先去吃飯」的同一個函式）
+PASS cvs_night：吃飯選單有「便利商店」開頭的選項  ["小松　90 元", "阿鳳麵店　70 元", "便利商店　75 元", "算了"]
+  cvs_night：點「便利商店　75 元」
+  cvs_night：ADV.begin [{"image": "assets/bg/cvs_table_night.webp", "night": false}]；字幕 ["便利商店"]；錢 [-75]；enter []
+PASS cvs_night：吃飯那一段開了 ADV（ADV.begin，不是停在教室的 3D）  [{"image": "assets/bg/cvs_table_night.webp", "night": false}]
+PASS cvs_night：ADV 背景是那家店（background.image 含 cvs_table_night）  {"image": "assets/bg/cvs_table_night.webp", "night": false}
+PASS cvs_night：玩家看得到：吃飯那句旁白時 ADV 開著、#adv 的背景圖是 cvs_table_night  {"active": true, "vis": true, "imgs": ["url(\"http://127.0.0.1:8813/assets/bg/cvs_table_night.webp\")"]}
+PASS cvs_night：地點字幕是店名（開頭「便利商店」）  ["便利商店"]
+PASS cvs_night：旁白是那家店的那一句（GAME.say 開頭「便利商店」；對話框出現過）  {"say": ["便利商店的微波義大利麵，在門口的桌子吃完。"], "dlg": "便利商店的微波義"}
+PASS cvs_night：扣 75 元（GAME.money(-75) 一次）  {"money_calls": [-75], "before": 30000}
+PASS cvs_night：吃飯過 40 分鐘（旁白時 19.028 → 19.6951，40.0 分）  {"before": 19.028444666666626, "line": 19.6951}
+PASS cvs_night：吃飯那一段 G.zone 還是原本的區域（沒有亂換區域；店是 2D 背景）  {"zone": "classroom", "before": "classroom"}
+PASS cvs_night：吃飯時是晚上（>= 18:00）  19.6951
+PASS cvs_night：吃完 ADV 關掉（ADV.end、ADV.active false）  {"end_calls": 1, "active": false}
+PASS cvs_night：吃完留在原本的位置（區域 classroom 沒換、不卡：沒有對話、玩家不忙）  {"zone": "classroom", "post": {"busy": false, "dlg": false, "depth": 0, "h": 19.735}}
+  cvs_night：吃完 G.hour=19.747 money=29925 energy=100（遊戲沒有飽足度欄位）
+PASS cvs_night：沒有 JS 例外  []
+SHA ffeec06e0 CASES noodle,cvs_day,cvs_night
+ALL PASS

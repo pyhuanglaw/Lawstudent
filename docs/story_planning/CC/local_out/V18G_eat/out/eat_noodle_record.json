@@ -1,0 +1,259 @@
+{
+ "case": "noodle",
+ "sha": "ffeec06e0",
+ "hooks": {
+  "advBegin": true,
+  "advSetBg": true,
+  "advEnd": true,
+  "caption": true,
+  "say": true,
+  "choose": true,
+  "money": true,
+  "enter": true,
+  "lunch": true,
+  "goClass": true
+ },
+ "items": [
+  {
+   "key": "55:const_1:am",
+   "c": "憲法（上）",
+   "id": "const_1",
+   "t0": 9.166666666666666,
+   "t1": 12.166666666666666,
+   "zone": "classroom",
+   "room": "法律系館A 201",
+   "door": false
+  },
+  {
+   "key": "55:pe_y1s1:pm2",
+   "c": "體育",
+   "id": "pe_y1s1",
+   "t0": 15.5,
+   "t1": 17.333333333333332,
+   "zone": null,
+   "room": "體育館",
+   "door": true
+  }
+ ],
+ "class_choices": [
+  [
+   [
+    "坐中間的位子第一次上這門課",
+    "自己找位子走過去坐下就可以上課"
+   ],
+   "坐中間的位子第一次上這門課"
+  ],
+  [
+   [
+    "不行，那不是他想說的話",
+    "可以，但道歉要排在最後",
+    "看有沒有一樣有效、更溫和的",
+    "我想先聽別人說。"
+   ],
+   "不行，那不是他想說的話"
+  ],
+  [
+   [
+    "（A）包括，這是回復名譽最有效的方法",
+    "（B）包括，但只限加害人同意時",
+    "（C）不包括，才符合憲法保障言論自由及思想自由的意旨",
+    "（D）由法官依個案自由決定"
+   ],
+   "（A）包括，這是回復名譽最有效的方法"
+  ]
+ ],
+ "after_menu": [
+  {
+   "t": "先去吃飯，再去下一堂約 40 分鐘",
+   "dim": false
+  },
+  {
+   "t": "在附近讀書，再去下一堂讀到 15:05 出門。用掉下午 1 次（還剩 0）",
+   "dim": false
+  },
+  {
+   "t": "先自由活動手機的「今天」隨時可以直接去",
+   "dim": false
+  },
+  {
+   "t": "下一堂不去",
+   "dim": false
+  }
+ ],
+ "meal_menu": [
+  {
+   "t": "小松　90 元",
+   "dim": false
+  },
+  {
+   "t": "阿鳳麵店　70 元",
+   "dim": false
+  },
+  {
+   "t": "便利商店　75 元",
+   "dim": false
+  },
+  {
+   "t": "算了",
+   "dim": false
+  }
+ ],
+ "meal_line": "阿鳳麵店，一碗乾麵加",
+ "meal_adv": {
+  "active": true,
+  "domVis": true,
+  "body": true,
+  "imgs": [
+   "url(\"http://127.0.0.1:8813/assets/bg/noodle_table.webp\")"
+  ],
+  "zone": "classroom",
+  "ezone": null,
+  "h": 12.8609,
+  "money": 29930,
+  "energy": 100
+ },
+ "log": [
+  {
+   "k": "money",
+   "v": -70,
+   "ms": 98814,
+   "h": 12.1942,
+   "d": 55,
+   "z": "classroom",
+   "m": 30000
+  },
+  {
+   "k": "adv.begin",
+   "bg": {
+    "image": "assets/bg/noodle_table.webp",
+    "night": false
+   },
+   "ms": 98816,
+   "h": 12.8609,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "阿鳳麵店",
+   "ms": 98819,
+   "h": 12.8609,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "阿鳳麵店，一碗乾麵加一顆滷蛋。",
+   "ms": 99341,
+   "h": 12.8609,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "adv.end",
+   "ms": 101071,
+   "h": 12.8609,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "goClass",
+   "c": "體育",
+   "ms": 101072,
+   "h": 12.8609,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "你在法律系館A 201 階梯教室待到 15:05。",
+   "ms": 102508,
+   "h": 15.0833,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "走路到體育館。",
+   "ms": 103080,
+   "h": 15.0833,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "enter",
+   "to": "campus",
+   "ms": 103585,
+   "h": 15.3333,
+   "d": 55,
+   "z": "classroom",
+   "m": 29930
+  },
+  {
+   "k": "adv.begin",
+   "bg": "blur",
+   "ms": 113725,
+   "h": 15.3398,
+   "d": 55,
+   "z": "campus",
+   "m": 29930
+  },
+  {
+   "k": "caption",
+   "n": "黑板",
+   "t": "體育：球類　本週：球類",
+   "ms": 113726,
+   "h": 15.3398,
+   "d": 55,
+   "z": "campus",
+   "m": 29930
+  },
+  {
+   "k": "say",
+   "n": "老師",
+   "t": "體育會點名。不會每次點。",
+   "ms": 113729,
+   "h": 15.3398,
+   "d": 55,
+   "z": "campus",
+   "m": 29930
+  }
+ ],
+ "end": {
+  "active": true,
+  "domVis": true,
+  "body": true,
+  "imgs": [],
+  "zone": "campus",
+  "ezone": null,
+  "h": 15.3398,
+  "money": 29930,
+  "energy": 100
+ },
+ "post": {
+  "dlg": false,
+  "name": "",
+  "txt": "",
+  "ch": [],
+  "busy": false,
+  "depth": 0,
+  "phone": false,
+  "running": null,
+  "h": 15.337,
+  "day": 55,
+  "zone": "campus",
+  "lab": ""
+ },
+ "errs": []
+}

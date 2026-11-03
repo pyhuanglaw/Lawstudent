@@ -1,0 +1,147 @@
+{
+ "case": "cvs_night",
+ "sha": "ffeec06e0",
+ "hooks": {
+  "advBegin": true,
+  "advSetBg": true,
+  "advEnd": true,
+  "caption": true,
+  "say": true,
+  "choose": true,
+  "money": true,
+  "enter": true,
+  "lunch": true,
+  "goClass": true
+ },
+ "items": [
+  {
+   "key": "55:const_1:am",
+   "c": "憲法（上）",
+   "id": "const_1",
+   "t0": 9.166666666666666,
+   "t1": 12.166666666666666,
+   "zone": "classroom",
+   "room": "法律系館A 201",
+   "door": false
+  },
+  {
+   "key": "55:pe_y1s1:pm2",
+   "c": "體育",
+   "id": "pe_y1s1",
+   "t0": 15.5,
+   "t1": 17.333333333333332,
+   "zone": null,
+   "room": "體育館",
+   "door": true
+  }
+ ],
+ "meal_menu": [
+  {
+   "t": "小松　90 元",
+   "dim": false
+  },
+  {
+   "t": "阿鳳麵店　70 元",
+   "dim": false
+  },
+  {
+   "t": "便利商店　75 元",
+   "dim": false
+  },
+  {
+   "t": "算了",
+   "dim": false
+  }
+ ],
+ "meal_line": "便利商店的微波義",
+ "meal_adv": {
+  "active": true,
+  "domVis": true,
+  "body": true,
+  "imgs": [
+   "url(\"http://127.0.0.1:8813/assets/bg/cvs_table_night.webp\")"
+  ],
+  "zone": "classroom",
+  "ezone": null,
+  "h": 19.6951,
+  "money": 29925,
+  "energy": 100
+ },
+ "log": [
+  {
+   "k": "money",
+   "v": -75,
+   "ms": 37539,
+   "h": 19.0284,
+   "d": 55,
+   "z": "classroom",
+   "m": 30000
+  },
+  {
+   "k": "adv.begin",
+   "bg": {
+    "image": "assets/bg/cvs_table_night.webp",
+    "night": false
+   },
+   "ms": 37568,
+   "h": 19.6951,
+   "d": 55,
+   "z": "classroom",
+   "m": 29925
+  },
+  {
+   "k": "caption",
+   "n": "",
+   "t": "便利商店",
+   "ms": 37571,
+   "h": 19.6951,
+   "d": 55,
+   "z": "classroom",
+   "m": 29925
+  },
+  {
+   "k": "say",
+   "n": "",
+   "t": "便利商店的微波義大利麵，在門口的桌子吃完。",
+   "ms": 38085,
+   "h": 19.6951,
+   "d": 55,
+   "z": "classroom",
+   "m": 29925
+  },
+  {
+   "k": "adv.end",
+   "ms": 39576,
+   "h": 19.6951,
+   "d": 55,
+   "z": "classroom",
+   "m": 29925
+  }
+ ],
+ "end": {
+  "active": false,
+  "domVis": false,
+  "body": false,
+  "imgs": [],
+  "zone": "classroom",
+  "ezone": null,
+  "h": 19.747,
+  "money": 29925,
+  "energy": 100
+ },
+ "post": {
+  "dlg": false,
+  "name": "",
+  "txt": "",
+  "ch": [],
+  "busy": false,
+  "depth": 0,
+  "phone": false,
+  "running": null,
+  "h": 19.735,
+  "day": 55,
+  "zone": "classroom",
+  "lab": "離開教室"
+ },
+ "errs": []
+}
