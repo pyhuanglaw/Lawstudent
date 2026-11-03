@@ -42542,7 +42542,7 @@
       "status": "待開工",
       "priority": "P1",
       "note": "使用者 11-03：「我希望有至少一個除了法律系女主角的可攻略對象 是只能透過打工當同事認識」（UA-LAWWW-1103-33；X173）；人物設定、感情走向照 D109 由 AA 提、大方向給使用者確認",
-      "next": "AA 提人物設定與感情線企劃（用選擇題問使用者大方向）→ LAWWW 實作；LAWWW2 3D 人物；BB 要立繪 CG",
+      "next": "AA 定：語彤＝只能在一盞茶屋打工認識（AA_610）→ AA610-YT-JOB-ONLY-1103 實作",
       "xai": {
         "spec": "使用者 11-03 原話",
         "branch": "企劃線",
@@ -42550,6 +42550,234 @@
         "receiver": "LAWWW",
         "ack": "SENT"
       }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上（打工開放後）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA610-YT-JOB-ONLY-1103",
+      "title": "語彤只在打工認識（AA_610）：她在一盞茶屋打工（週末 13–17）；阿姨的店改成燒臘店「公館燒臘」；語彤所有入口加 YT_MET_JOB；舊存檔已認識的直接設 true（麵店對照表 AA_612 隨後）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上～大四",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA611-SIS-ALISON-SISTERS-1103",
+      "title": "學姊和 Alison 是姊妹（AA_609 第 8 節＋AA_611）：全遊戲 17 項改字（礁溪、Alison 第 3 週作息、family_context、阿公奶奶家搬家、學姊 2027-03 租屋、畢業日、KNOWS_SIS_ALISON 才有的句子）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上第 1～3 週",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA613-OPENING-ACTS-1103",
+      "title": "開學活動（AA_613）：社博阿哲約、法律資料講座芯慈約、第一次社課前群組通知、開學典禮和柏翰一起走；系籃四條加入路線講清楚",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-CHENGPIN-BOOKSTORE-1103",
+      "title": "兩層樓「承品書店」（有人坐地板看書，新生南路那一側；AA_613）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
+      "xai": {
+        "spec": "AA_613（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "兩層樓書店室內＋外觀，坐地板看書的人，位置在新生南路側",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA614-CLASSMATE-JOBS-1103",
+      "title": "同學打工（AA_614）：明軒家教、沛珊課輔班、阿凱程式教室助教、語彤茶屋；約到上班時間改約下班後；群組「我在上班」；路上遇得到他們上班",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-XINSHENG-GATE-1103",
+      "title": "地圖照實際（AA_615）：校園新生南路側門＋新生南路店面，過馬路是溫州街；公館巷口照留",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
+      "xai": {
+        "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "校園新生南路側門可進出、新生南路店面街、過馬路接溫州街；導航、存檔位置相容",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-NANYANG-CINEMA-1103",
+      "title": "新場景「南洋戲院」公館二輪戲院（AA_615）；Alison 週五、六晚上打工送爆米花（劇情 LAWWW 接）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
+      "xai": {
+        "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "公館的二輪戲院外觀＋大廳（售票、爆米花櫃台）＋影廳座位",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA615-ALISON-CINEMA-1103",
+      "title": "Alison 週五、六晚上在南洋戲院打工、送玩家爆米花（AA_615 劇情；等 ART-NANYANG-CINEMA-1103）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-WZ-CAFES-1103",
+      "title": "溫州街新增兩家咖啡廳「巷光」（白天）、「晚安咖啡」（18–05，考試週 24 小時）外觀＋室內（AA_616）",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "LAWWW2 排進佇列（總圖重排、法學院轉向之後）",
+      "xai": {
+        "spec": "AA_616（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "兩家店外觀＋可坐的室內；兩點半照舊",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "大一上",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "AA616-WZ-CAFES-1103",
+      "title": "溫州街三家咖啡廳的營業時間、同學作息、讀書旁白（AA_616；不另外加分；等 ART-WZ-CAFES-1103）",
+      "owner": "LAWWW",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
+      "next": "照 AA 稿實作"
     }
   ]
 }
