@@ -751,6 +751,7 @@ gs = IT['guitar_on_stand'][0]; stand_guitar(gs['x'], gs['z'], math.atan2(-1.55 -
 # ---------------- v2：店中間的矮木台（五把吉他站在琴架上，正面朝兩邊的走道） ----------------
 dp = IT['display_platform'][0]; dx0, dx1, dz0, dz1, dh = dp['x'] - dp['w'] / 2, dp['x'] + dp['w'] / 2, dp['z'] - dp['d'] / 2, dp['z'] + dp['d'] / 2, dp['h']
 WD.rbox(dx0, dx1, 0.0, dh, dz0, dz1, r=0.012, seg=2)
+uvquad(PR, [(dx0 - 0.45, 0.004, dz1 + 0.5), (dx1 + 0.45, 0.004, dz1 + 0.5), (dx1 + 0.45, 0.004, dz0 - 0.5), (dx0 - 0.45, 0.004, dz0 - 0.5)], pc('rug', 1))   # v3：木台下面的長地毯（地板中段太空；2 個三角形，和試琴角同一張圖）
 CV.cbox(dx0 + 0.03, dx1 - 0.03, 0.0, 0.025, dz0 + 0.03, dz1 - 0.03, '#2a2018')   # 踢腳（往內縮的暗色底）
 DSP = [(-0.25, -1.0, dict(kind='ac', top='sunburst_ac', side='side_mahog', pg='pg_black')), (0.25, -0.45, dict(kind='E', fin='e_cherry', pg='pg_black', fb='fb_rose', neck='neck_mahog')),
        (-0.25, 0.15, dict(kind='ac', top='spruce', side='side_rose', shape='om')), (0.25, 0.85, dict(kind='S', fin='e_seafoam', pg='pg_white', fb='fb_maple'))]   # 四把（三角形預算 6 萬）

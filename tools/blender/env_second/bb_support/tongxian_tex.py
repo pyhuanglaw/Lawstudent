@@ -262,7 +262,7 @@ def picks(seed):
 
 
 pput('picks_a', 512, 320, picks(1)); pput('picks_b', 640, 320, picks(2))
-pput('felt', 768, 320, hx('#2c3a34') * (0.85 + 0.15 * noise(128, 128, 2)[..., None]))   # 櫃台裡的絨布墊
+pput('felt', 768, 320, hx('#567a68') * (0.85 + 0.15 * noise(128, 128, 2)[..., None]))   # 櫃台裡的絨布墊（v3：#2c3a34 → #567a68，PC 渲染太暗、Pick 盒看不出來）
 pput('felt_red', 896, 320, hx('#6a2428') * (0.85 + 0.15 * noise(128, 128, 2)[..., None]))
 
 
