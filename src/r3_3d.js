@@ -240,10 +240,19 @@ const R3=(function(){
     if(!PHONE.sent(G,'r3_sis_desk')) return;
     for(const k of S.DESK_DAYS){ const dd=D(k); if(dd!=null&&G.day===dd&&t<T(dd,21.75)&&!OUT.get(G,'r3_desk_'+k)) OUT.plan(G,{id:'r3_desk_'+k,ev:'ev_sis_y4_desks',day:dd,h:21,late:0.75,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } };
   S.deskMissed=function(G,q){ const F=G.flags; if(F.SIS_DESK_MISSED||!q) return; F.SIS_DESK_MISSED=q.day; PHONE.at(G,q.day,23+10/60,[W('📷（同一張桌子，對面的位子空著）'),W('你今天沒來。我寫到十一點。')],'r3_sis_desk_miss'); };
-  /* 2-7b 她爸爸的晚餐（3/14 私訊、3/17 公館的出遊、18:45／19:30／21:00 的手機 7 則）：AA_591 決1 甲（使用者 2026-11-02「學姊爸爸不在了，不用特別提」）整條刪。
-     ev_sis_y4_father retired（r3_events.js）；S.father 只把舊存檔排好的那一趟取消、不再約；S.fatherMissed 留空殼給存檔裡已經排好的那一趟出遊（outingMissed 會叫它），不再傳訊息 */
-  S.fatherMissed=function(){};
-  S.father=function(G){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'r3_sis_father'):null; if(q&&q.state==='planned') q.state='missed'; };   /* 舊存檔已經答應、排好的那一趟：不去（同原本「今天去不了。」的做法）*/
+  /* 2-7b 她奶奶的晚餐：3/14 21:00 私訊（那晚人在研究室＝21:10 當面，r3_events.js）→ 3/17 18:30 公館的小館子（出遊）。
+     AA_591 決1 甲刪過；AA_609 第 1、7 節（使用者 2026-11-03）：改成奶奶、恢復；「交往後我也有跟奶奶吃飯，不要安排我沒去」＝交往中一定演：
+     邀約只有「好。」、出遊 must（出發選單只有「出發」）、沒有 outingMissed，原本 18:45「先點菜了」、19:30／21:00「下次」、3/16 再確認那幾則不再傳。
+     舊存檔：已經說過「那天不行。」（SIS_FATHER_GO false／'cancel'）的照舊不去；AA_591 那一版把排好的那一趟標成 missed 的，3/17 18:30 以前改回 planned */
+  S.FATHER_ASK=[W('我奶奶週六要請吃飯。'),W('她說叫你一起。六點半，公館。')];
+  S.fatherMissed=function(){};   /* 舊存檔裡 outingMissed 還指著它的那一趟（不再傳訊息）*/
+  S.father=function(G){ const F=G.flags, d14=D('2029-03-14'), d17=D('2029-03-17'), t=now(G); if(d14==null||d17==null||!dating(G,SIS)||typeof OUT==='undefined') return;
+    if(F.SIS_FATHER_ASKED==null&&t>=T(d14,21)&&t<T(d14+1,6)&&contact(G,SIS)){ F.SIS_FATHER_ASKED='msg';
+      PHONE.at(G,d14,21,[S.FATHER_ASK[0],Object.assign(W(S.FATHER_ASK[1].text),{ask:{id:'r3_sis_father',until:T(d14+1,18),opts:[{t:'好。',say:[{from:SIS,text:'好。不用穿太正式。'}],set:{SIS_FATHER_GO:true}}]}})],'r3_sis_father'); }
+    if(F.SIS_FATHER_ASKED==null||F.SIS_FATHER_GO===false||F.SIS_FATHER_GO==='cancel'||F.MET_SIS_FATHER) return;
+    const q=OUT.get(G,'r3_sis_father');
+    if(!q&&t<T(d17,18.5)) OUT.plan(G,{id:'r3_sis_father',ev:'ev_sis_y4_father',day:d17,h:18.5,late:1,must:true,place:'公館・餐廳',title:'她奶奶的晚餐',travel:'走過去 約 15 分鐘',travelH:0.25});
+    else if(q&&q.state==='missed'&&t<T(d17,18.5)){ q.state='planned'; q.must=true; q.title='她奶奶的晚餐'; } };
   /* 2-7c 她自己放的一天假：4/27 21:00 三選一（回覆到 4/28 09:00）→ 4/28 河堤 10:00／貓空 13:00（出遊）／「哪裡都不去」＝12:00、21:00 兩則；沒回＝16:00 河邊的照片。
      AA_523 5-3（企劃線 0d7b5388b）：2/14 電話選「開學以後，我們再補一天。」（SIS_VDAY_MAKEUP）的＝那一則換成三句、不給選項，直接排河堤 10:00（src/sis_b16_3d.js S.dayOffMakeup）*/
   const dayOffMark=G=>{ G.flags.SIS_DAY_OFF=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!has(SIS,'SIS_DAY_OFF')) SOCIAL.remember(SIS,'SIS_DAY_OFF',''); };
