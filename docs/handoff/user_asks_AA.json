@@ -1289,6 +1289,17 @@
    "task": "HANDOFF-ABC",
    "src": "使用者對 BB 說，BB 轉 AA（13:30Z）",
    "checked": "AA 繼續做 STORY-FRIENDS-EVENTS-1103（AA_637）、JP-STREAM-LINE-1101（AA_636）"
+  },
+  {
+   "id": "UA-AA-1103-92",
+   "at": "2026-11-03T22:0x",
+   "quote": "溫州街主要入口應該是新生南路側門 溫州街就在新生南路後面",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X178",
+   "task": "ART-XINSHENG-GATE-1103",
+   "src": "使用者直接對 AA 說",
+   "note": "公館西端巷口降為次要入口（舊存檔路線照留，AA_615 第 3 點）；劇情裡去溫州街一律寫從側門、過新生南路"
   }
  ]
 }
