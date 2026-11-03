@@ -17,6 +17,9 @@
 # P0（BB 13:37）：R4 對照組＋b4 對照，排在最前面。main＝27e6ce77e（v9.10.15，床的選單 566f60cd6 已經在裡面）
 # ===== BB 08:35：v9.10.17 已上線，線上版驗證（PC 才連得到 github.io）。測試程式取自發布樹 1d0904473 =====
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
+# ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
+LIVE18_deploy | 0776cafc8 | game | tests/deploy_check.py    | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.18（2026-11-03）
+LIVE18_day12  | 0776cafc8 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
 V18R_deploy | 0776cafc8 | game | tests/deploy_check.py        | index.html       | 30  | XARGS={url} v9.10.18（2026-11-03）
 V18R_p0     | 0776cafc8 | game | tests/p0_movement.py         | index.html       | 30  | XARGS={url}
 V18R_v7     | 0776cafc8 | game | tests/save_compat_v7.py      | index.html       | 60  | SHA2=385e194;XARGS={url2} {url}
