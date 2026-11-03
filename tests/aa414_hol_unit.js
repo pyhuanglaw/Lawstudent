@@ -52,8 +52,8 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('0. index.html：an_yt_hol_events.js、an_yt_hol3d.js 接在 sis_b4_3d.js 後面（?v= 照舊）',/src\/sis_b4_3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/an_yt_hol_events\.js\?v=\1"><\/script>\n<script src="src\/an_yt_hol3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES 有接；noodle_closed3d.js、r2y3b_events.js 載得到（店休、3/14）',STORY.PHONE_RULES.length>0&&okNC&&okWD&&!!ev('ev_an_white_day'));
   { const ML=SOCIAL.MEMORY_LABEL||{}, W={AN_VDAY_TC:'情人節去台中找她',AN_VDAY_OMAMORI:'她從東京帶回來一個學業御守',AN_VDAY_PEN:'送她一支鋼筆',AN_VDAY_CHOCO:'送她一盒巧克力',AN_VDAY_CALL:'初二那天，她躲到陽台打給你',
-      YT_VDAY_RIVER:'店休那天，蘇姨叫你們去別的地方',YT_VDAY_SHOP:'蘇姨在茶屋門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'秀琴姨叫她拿年糕給你',YT_MOON:'中秋烤肉前，在河濱剝柚子'};
-    const bad=Object.keys(W).filter(k=>ML[k]!==W[k]||!inDoc('`'+k+'`「'+W[k]+'」'));
+      YT_VDAY_RIVER:'情人節她下班，蘇姨叫你們去別的地方',YT_VDAY_SHOP:'情人節，她五點下班以後',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'她把媽媽買的年糕多拿一袋給你',YT_MOON:'中秋烤肉前，在河濱剝柚子'};
+    const NEW630=['YT_VDAY_RIVER','YT_VDAY_SHOP','YT_VDAY_NIANGAO'];   /* AA_630 H-025～H-027：面板名稱照新稿 */ const bad=Object.keys(W).filter(k=>ML[k]!==W[k]||(!NEW630.includes(k)&&!inDoc('`'+k+'`「'+W[k]+'」')));
     check('0. 人物頁記憶 10 個（稿裡「`代號`「名稱」」，social3d.js MEMORY_LABEL）',!bad.length,J(bad)); }
   { const bad=[]; const T=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
     for(const k in ANYTHOL_LINES){ const v=ANYTHOL_LINES[k]; if(k==='grp') v.forEach(x=>T(x[1])); else if(Array.isArray(v)) v.forEach(T); else T(v); }
@@ -155,122 +155,67 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-4. 21:15 以前沒接（沒按）：一樣記 missed、兩則',H.G.flags.AN_VDAY_Y4==='missed'&&J(dms(AN))===J(['打給你，沒接。','外婆家很吵。明天再說。']),J(dms(AN))); }
   });
 
-  /* ======================= 5 語彤 2-1 2026-02-14 店休、大掃除、河濱 ======================= */
+  /* ======================= 5～9 語彤（AA_630 第 5 節取代 AA_414 第 2 節，YT-REWRITE-1103；AA 定稿 D109）=======================
+     2026 那一年拿掉（第 10 節第 4 點，寒假她在淡水）；2027 她 13～17 有班＝17:30，交往中她家、沒交往茶屋門口；2028 校門口 → 寶藏巖；2029 她家／她家樓下、年糕；中秋改河濱 16:30（AA_623）*/
   await sec('5',async()=>{
   { setup('2026-02-13',21.05,YT,{YT_CRACK:1}); rules();
-    check('2-1. 2/13（五）21:00 語彤「明天店休。」「下午大掃除。……五點以後可以。」；回覆三個',J(dms(YT))===J(['明天店休。','下午大掃除。……五點以後可以。'])&&J(optsOf('anyt_yt_y1_ask'))===J(['五點，麵店門口。','我去幫忙掃。','明天不行。']),J(dms(YT)));
-    PHONE.answer(H.G,'anyt_yt_y1_ask',1); rules(); const r=dms(YT).slice(-3), q=OUT.get(H.G,'anyt_yt_vday_y1');
-    check('2-1. 「我去幫忙掃。」→「……蘇姨會很高興。」「四點。穿舊衣服。」、YT_VDAY_Y1_GO、YT_VDAY_Y1_HELP；出遊 16:00、走路約 10 分鐘、late 0.25、標題「情人節（茶屋門口）」',J(r)===J(['我去幫忙掃。','……蘇姨會很高興。','四點。穿舊衣服。'])&&H.G.flags.YT_VDAY_Y1_GO===true&&H.G.flags.YT_VDAY_Y1_HELP===true&&!!q&&q.h===16&&q.help===true&&q.travel==='走路約 10 分鐘'&&q.late===0.25&&q.title==='情人節（茶屋門口）'&&q.day===H.D('2026-02-14'),J(q));
-    at('2026-02-14',12); check('2-1. 那天麵店店休，有約在麵店＝鐵門照常開（noodle_closed3d.js storyDue）',NOODLE_CLOSED.closed(H.G)&&NOODLE_CLOSED.storyDue(H.G));
-    at('2026-02-14',15.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y1',[1]);
-    check('2-1. 幫忙的先演；阿姨兩句（說話框「阿姨」）；字幕「河濱」換 riverside；「下次店休也出來。」→「下次店休是明年。」「……那明年也出來。」',J(L)===J(['（鐵門拉下來一半。你彎腰鑽進去，語彤蹲在地上刷椅子腳。）','手套在那邊。','（你們把最後幾張椅子刷完。阿姨從廚房出來，看了一下時鐘。）','今天情人節耶，你們兩個還在這裡。','去去去，去別的地方。店我來關。','……阿姨叫我們去別的地方。','（河濱的風很大。跑步的人一個一個從旁邊過去。）','我很少這個時間出來。平常這時候在店裡。','下次店休是明年。','……那明年也出來。'])&&H.said[3].who==='阿姨',J(L));
-    check('2-1. 背景 noodle_table → riverside',J(H.bgs.map(img).filter((b,i,A)=>typeof b==='string'&&b!=='dark'&&A.indexOf(b)===i))===J(['noodle_table','riverside']),J(H.bgs.map(img)));
-    check('2-1. YT_VDAY_Y1 went、記憶 YT_VDAY_RIVER、+3／+6／+5、裂縫 1→0；幫忙的 16:00～18:30',H.G.flags.YT_VDAY_Y1==='went'&&SOCIAL.has(YT,'YT_VDAY_RIVER')&&dRel(YT,a)===VDAY&&H.G.flags.YT_CRACK===0&&H.G.hour===18.5,dRel(YT,a)+' h '+H.G.hour); }
-  { setup('2026-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y1_ask',0); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y1'); at('2026-02-14',16.7); const {L}=await goOut('anyt_yt_vday_y1',[0]);
-    check('2-1. 「五點，麵店門口。」→「嗯。」、17:00；沒有幫忙那三句，直接阿姨；「冷嗎？」→「……有一點。」旁白「（她把手縮進袖子。你們又走了一段。）」；17:00～18:30',r==='嗯。'&&q.h===17&&!q.help&&L[0]==='今天情人節耶，你們兩個還在這裡。'&&J(L.slice(-2))===J(['……有一點。','（她把手縮進袖子。你們又走了一段。）'])&&H.G.hour===18.5,J({q,L,h:H.G.hour})); }
-  { setup('2026-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y1_ask',0); rules(); at('2026-02-14',17.3); expire(); rules(); const n=dms(YT).length; at('2026-02-14',17.55); rules(); at('2026-02-14',19.05); rules();
-    check('2-1. 答應了沒到：17:30「（照片：拉下來的鐵門）」、19:00「我回家了。」',H.G.flags.YT_VDAY_Y1==='missed'&&J(dms(YT).slice(n))===J(['（照片：拉下來的鐵門）','我回家了。']),J(dms(YT))); }
-  { setup('2026-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y1_ask',2); rules(); const r=dms(YT).slice(-1)[0]; at('2026-02-14',19.1); rules();
-    check('2-1. 「明天不行。」→「嗯。沒關係。」、YT_VDAY_Y1 no、沒有出遊、沒有鐵門照片',r==='嗯。沒關係。'&&H.G.flags.YT_VDAY_Y1==='no'&&!OUT.get(H.G,'anyt_yt_vday_y1')&&!dms(YT).includes('（照片：拉下來的鐵門）'),J(dms(YT))); }
+    check('2-1. AA_630 第 10 節第 4 點：2026-02-14 這一年拿掉——2/13 21:00 不約、沒有出遊；ev_yt_vday_y1 retired',dms(YT).length===0&&!optsOf('anyt_yt_y1_ask')&&!OUT.get(H.G,'anyt_yt_vday_y1')&&ev('ev_yt_vday_y1').retired===true,J(dms(YT))); }
   });
-
-  /* ======================= 6 語彤 2-2 2027-02-14 中午麵店；第 3 節群組 ======================= */
   await sec('6',async()=>{
   { setup('2027-02-13',21.05,YT); rules();
-    check('2-2. 2/13（六）21:00「明天中午，麵店。」「我沒班。」；回覆「好。」「不去別的地方？」「明天不行。」',J(dms(YT))===J(['明天中午，麵店。','我沒班。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
+    check('2-2. 交往中：2/13 21:00「明天我五點下班。」「秀琴姨放假。……我煮。你要不要來吃。」；回覆三個',J(dms(YT))===J(['明天我五點下班。','秀琴姨放假。……我煮。你要不要來吃。'])&&J(optsOf('anyt_yt_y2_ask'))===J(['好。','不去別的地方？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y2_ask',1); rules(); const r=dms(YT).slice(-1)[0], q=OUT.get(H.G,'anyt_yt_vday_y2');
-    check('2-2. 「不去別的地方？」→「……麵店就好。今天外面人多，我會累。」；出遊 12:00、走路、late 0.5、標題「情人節（一盞茶屋）」',r==='……麵店就好。今天外面人多，我會累。'&&H.G.flags.YT_VDAY_Y2_GO===true&&!!q&&q.h===12&&q.late===0.5&&q.travel==='走路'&&q.title==='情人節（一盞茶屋）',J(q));
-    at('2027-02-14',11.6); const a=relOf(YT), n0=(H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0; const {L}=await goOut('anyt_yt_vday_y2',[0]);
-    check('2-2. 背景 noodle_door（門口，11-02 第六批；進店以後 noodle_table）；紅紙、滷蛋；「謝謝阿姨。」→阿姨「謝什麼。吃。」；「今天我沒班。」「……是我自己想在這裡吃的。」',img(H.bgs[0])==='noodle_door'&&J(L)===J(['（麵店門口貼了一張紅紙，是阿姨的字：「情人節：兩碗乾麵，送一顆滷蛋」。）','阿姨自己寫的。……我叫她不要貼。','（店裡坐滿了。阿姨把最裡面靠窗的那一桌留給你們，桌上已經放了兩顆滷蛋。）','送的。一人一顆。不是一桌一顆。','……阿姨。','謝什麼。吃。','今天我沒班。','……是我自己想在這裡吃的。']),J({b:img(H.bgs[0]),L}));
-    check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5；不是正式校外約會（dateLog 次數不加）',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY&&((H.G.dateLog&&H.G.dateLog[YT]&&H.G.dateLog[YT].count)|0)===n0,dRel(YT,a)); }
-  { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); const r=dms(YT).slice(-1)[0]; const L=await play('ev_yt_vday_y2',[1]);
-    check('2-2. 「好。」→「嗯。」；「（先吃）」→旁白「（你們吃得很慢。語彤一直沒有看手機。）」',r==='嗯。'&&L[5]==='（你們吃得很慢。語彤一直沒有看手機。）'&&!L.includes('謝什麼。吃。')&&J(H.opts[0])===J(['「謝謝阿姨。」','（先吃）']),J(L)); }
-  { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); rules(); at('2027-02-14',12.6); expire(); rules(); const n=dms(YT).length; at('2027-02-14',13.05); rules();
-    check('2-2. 答應了沒到：13:00「（照片：桌上兩碗麵、兩顆滷蛋）」、13:01「阿姨說留到兩點。」',H.G.flags.YT_VDAY_Y2==='missed'&&J(dms(YT).slice(n))===J(['（照片：桌上兩碗麵、兩顆滷蛋）','阿姨說留到兩點。']),J(dms(YT))); }
+    check('2-2. 「不去別的地方？」→「……家裡就好。今天外面人多，我會累。」；出遊 17:30、late 0.5、她家',r==='……家裡就好。今天外面人多，我會累。'&&!!q&&q.h===17.5&&q.late===0.5&&q.place==='新生南路・她家'&&q.title==='情人節（她家）',J(q));
+    at('2027-02-14',17.1); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y2',[0]);
+    check('2-2. 交往中、還沒去過她家：開頭「（新生南路、學校對面的大樓。電梯到七樓。兩房一廳。）」、記 YT_HOME_SEEN；「謝謝。」→「先喝再謝。」；蘇姨問她去哪',L[0]==='（新生南路、學校對面的大樓。電梯到七樓。兩房一廳。）'&&H.G.flags.YT_HOME_SEEN===true&&L.includes('先喝再謝。')&&L.includes('……我說回家煮飯。她笑了很久。'),J(L));
+    check('2-2. YT_VDAY_Y2 went、記憶 YT_VDAY_SHOP、+3／+6／+5',H.G.flags.YT_VDAY_Y2==='went'&&SOCIAL.has(YT,'YT_VDAY_SHOP')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
+  { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',0); rules(); at('2027-02-14',17.9); expire(); rules(); const n=dms(YT).length; at('2027-02-14',18.05); rules();
+    check('2-2. 答應了沒到（交往中）：18:00「（照片：桌上兩副碗筷，一鍋湯）」、18:01「湯我留著。」',H.G.flags.YT_VDAY_Y2==='missed'&&J(dms(YT).slice(n))===J(['（照片：桌上兩副碗筷，一鍋湯）','湯我留著。']),J(dms(YT))); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',2); const r=dms(YT).slice(-1)[0]; rules(); check('2-2. 「明天不行。」→「嗯。」、YT_VDAY_Y2 no',r==='嗯。'&&H.G.flags.YT_VDAY_Y2==='no'); }
-  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','麵店團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text); at('2027-02-14',22); rules();
-    check('第 3 節. 2027-02-14（日）21:00 麵店團群組（AA_446 第 5 節：阿哲在高雄）：阿哲「今天情人節 我在高雄」「跟 Alison 視訊了兩個小時」、Alison「你不用跟大家報告！！」、阿哲「我要讓大家知道」（沒交往也看得到，一次）',pre===0&&J(M)===J(['zhe:今天情人節 我在高雄','zhe:跟 Alison 視訊了兩個小時','yu:你不用跟大家報告！！','zhe:我要讓大家知道'])&&H.msgs('g:noodle_team').length===4,J(M));
-    setup('2027-02-14',21.05,null); rules(); check('第 3 節. 不在群組：沒有',!(H.G.msgs||[]).some(m=>m.th==='g:noodle_team')); }
+  { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','麵店團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
+    check('第 3 節. 2027-02-14（日）21:00 群組：阿哲「今天情人節 我在高雄」…（沒交往也看得到，一次）',pre===0&&M.length===4&&M[0]==='zhe:今天情人節 我在高雄',J(M)); }
   });
-
-  /* ======================= 7 語彤 2-3 2028-02-14 寶藏巖 ======================= */
   await sec('7',async()=>{
   { setup('2028-02-13',21.05,YT); rules();
-    check('2-3. 2/13（日）21:00「明天下午有空嗎」「想帶你去一個地方」；回覆「好。去哪裡？」「明天不行。」',J(dms(YT))===J(['明天下午有空嗎','想帶你去一個地方'])&&J(optsOf('anyt_yt_y3_ask'))===J(['好。去哪裡？','明天不行。']),J(dms(YT)));
+    check('2-3. 2/13（日）21:00「明天下午有空嗎」「想帶你去一個地方」',J(dms(YT))===J(['明天下午有空嗎','想帶你去一個地方'])&&J(optsOf('anyt_yt_y3_ask'))===J(['好。去哪裡？','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y3_ask',0); rules(); const r=dms(YT).slice(-2), q=OUT.get(H.G,'anyt_yt_vday_y3');
-    check('2-3. 「好。去哪裡？」→「去了就知道。」「兩點，麵店門口。走過去。」；出遊 14:00、走路約 15 分鐘、late 0.25、標題「情人節（語彤要帶你去的地方）」',J(r)===J(['去了就知道。','兩點，麵店門口。走過去。'])&&!!q&&q.h===14&&q.travel==='走路約 15 分鐘'&&q.travelH===0.25&&q.late===0.25&&q.title==='情人節（語彤要帶你去的地方）',J(q));
-    at('2028-02-14',13.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y3',[0]);
-    check('2-3. 寶藏巖用底圖 treasure_hill（BB_132 第 100 組第 2 張，11-02 使用者生成；原本深色底）＋字幕「寶藏巖」；「他講了什麼？」→「他年輕的時候怎麼搬來的。」「我寫了很多頁。報告只能用三頁。」',H.bgs.length>0&&H.bgs.every(b=>b&&b.image==='assets/bg/treasure_hill.webp')&&ev('ev_yt_vday_y3').dialogue[0].scene==='寶藏巖'&&J(L)===J(['（河邊的老聚落，房子一層一層疊在山坡上。巷子窄到兩個人要側身才過得去。）','上學期的田野，我在這裡做訪談。','有一個阿公，每天下午坐在那張椅子上。他跟我講了三個下午。','（她指的那張椅子是空的。）','……今天他不在。','他年輕的時候怎麼搬來的。','我寫了很多頁。報告只能用三頁。','（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）']),J({b:H.bgs,L}));
-    check('2-3. YT_VDAY_Y3 went、記憶 YT_VDAY_FIELD、+3／+6／+5',H.G.flags.YT_VDAY_Y3==='went'&&SOCIAL.has(YT,'YT_VDAY_FIELD')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
-  { setup('2028-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y3_ask',0); const L=await play('ev_yt_vday_y3',[1]);
-    check('2-3. 「為什麼帶我來？」→「……我想讓你看一次。」「我在做的事。」',J(L.slice(5,7))===J(['……我想讓你看一次。','我在做的事。']),J(L)); }
-  { setup('2028-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y3_ask',0); rules(); at('2028-02-14',14.3); expire(); rules(); const n=dms(YT).length; at('2028-02-14',15.05); rules();
-    check('2-3. 答應了沒到：15:00「（照片：一張空的塑膠椅）」、15:01「下次。」',H.G.flags.YT_VDAY_Y3==='missed'&&J(dms(YT).slice(n))===J(['（照片：一張空的塑膠椅）','下次。']),J(dms(YT))); }
-  { setup('2028-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y3_ask',1); const r=dms(YT).slice(-1)[0]; rules(); at('2028-02-14',15.1); rules();
-    check('2-3. 「明天不行。」→「嗯。下次。」、no、沒有椅子的照片',r==='嗯。下次。'&&H.G.flags.YT_VDAY_Y3==='no'&&!dms(YT).includes('（照片：一張空的塑膠椅）')); }
+    check('2-3. 「好。去哪裡？」→「去了就知道。」「兩點，校門口。走過去。」（AA_630 H-011、H-022）；出遊 14:00',J(r)===J(['去了就知道。','兩點，校門口。走過去。'])&&!!q&&q.h===14&&q.place==='校門口',J(q)); }
   });
-
-  /* ======================= 8 語彤 2-4 2029-02-14 店休、河濱、年糕 ======================= */
   await sec('8',async()=>{
   { setup('2029-02-13',21.05,YT,{YT_VDAY_Y1:'went'}); rules();
-    check('2-4. 2/13（二，初一）21:00「明天晚上，河濱。」「七點。」；回覆「好。」「明天不行。」',J(dms(YT))===J(['明天晚上，河濱。','七點。'])&&J(optsOf('anyt_yt_y4_ask'))===J(['好。','明天不行。']),J(dms(YT)));
+    check('2-4. 交往中：2/13（初一）21:00「明天晚上我回台北。」「七點。……來我家。」',J(dms(YT))===J(['明天晚上我回台北。','七點。……來我家。'])&&J(optsOf('anyt_yt_y4_ask'))===J(['好。','明天不行。']),J(dms(YT)));
     PHONE.answer(H.G,'anyt_yt_y4_ask',0); rules(); const q=OUT.get(H.G,'anyt_yt_vday_y4');
-    check('2-4. 「好。」→「嗯。」；出遊 19:00、走路約 15 分鐘、late 0.25、標題「情人節（河濱）」',dms(YT).slice(-1)[0]==='嗯。'&&!!q&&q.h===19&&q.travel==='走路約 15 分鐘'&&q.late===0.25&&q.title==='情人節（河濱）',J(q));
-    at('2029-02-14',18.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y4',[0]);
-    check('2-4. 背景 riverside（晚上）；2026 有去的多「上次店休碰到情人節，是大一。」；「替我謝謝阿姨。」→「你自己謝。初四開門，你來。」',img(H.bgs[0])==='riverside'&&J(L)===J(['（過年的河濱，跑步的人比平常少。對岸的燈一排一排亮著。）','上次店休碰到情人節，是大一。','秀琴姨叫我拿年糕給你。','她說你太瘦了。','你自己謝。初四開門，你來。','（她把裝年糕的袋子交給你，手沒有馬上收回去。）']),J(L));
+    check('2-4. 出遊 19:00、她家',!!q&&q.h===19&&q.place==='新生南路・她家'&&q.title==='情人節（她家）',J(q));
+    at('2029-02-14',18.6); const a=relOf(YT); const {L}=await goOut('anyt_yt_vday_y4',[1]);
+    check('2-4. 她家煎年糕；舊存檔 2026 去過＝「上次跟你過情人節，是大一。」；「同事？」→（交往中）「……過完年我再跟她說。」',L[0]==='（她家。廚房的燈亮著，平底鍋裡煎著兩片年糕。）'&&L.includes('上次跟你過情人節，是大一。')&&L.includes('我多拿了一袋。她問我要給誰。……我說給茶屋的同事。')&&L.includes('……過完年我再跟她說。'),J(L));
     check('2-4. YT_VDAY_Y4 went、記憶 YT_VDAY_NIANGAO、+3／+6／+5',H.G.flags.YT_VDAY_Y4==='went'&&SOCIAL.has(YT,'YT_VDAY_NIANGAO')&&dRel(YT,a)===VDAY,dRel(YT,a)); }
-  { setup('2029-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y4_ask',0); const L=await play('ev_yt_vday_y4',[1]);
-    check('2-4. 2026 沒去：沒有「上次店休」那句；「妳也很瘦。」→「……我吃很多。只是你沒看到。」',!L.includes('上次店休碰到情人節，是大一。')&&L[3]==='……我吃很多。只是你沒看到。',J(L)); }
   { setup('2029-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y4_ask',0); rules(); at('2029-02-14',19.3); expire(); rules(); const n=dms(YT).length; at('2029-02-14',19.6); rules();
-    check('2-4. 答應了沒到：19:30「（照片：一袋年糕）」、19:31「初四來店裡拿。」',H.G.flags.YT_VDAY_Y4==='missed'&&J(dms(YT).slice(n))===J(['（照片：一袋年糕）','初四來店裡拿。']),J(dms(YT))); }
-  { setup('2029-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y4_ask',1); const r=dms(YT).slice(-1)[0]; rules(); check('2-4. 「明天不行。」→「嗯。」、no、沒有出遊',r==='嗯。'&&H.G.flags.YT_VDAY_Y4==='no'&&!OUT.get(H.G,'anyt_yt_vday_y4')); }
+    check('2-4. 答應了沒到：19:30「（照片：一袋年糕）」、19:31「放冰箱了。開學給你。」',H.G.flags.YT_VDAY_Y4==='missed'&&J(dms(YT).slice(n))===J(['（照片：一袋年糕）','放冰箱了。開學給你。']),J(dms(YT))); }
   });
-
-  /* ======================= 9 中秋 2026～2028 ======================= */
   await sec('9',async()=>{
   const CG='cg_moon_pomelo_heroine03';
-  const moon=async(y,askKey,dayKey,flags,picks,o)=>{ setup(askKey,21.05,YT,flags,o); if(o&&o.cg) global.CG_REGISTRY={[CG]:{file:'assets/cg/heroine_03/cg_moon_pomelo.webp',title:'月亮。'}}; else delete global.CG_REGISTRY;
+  const moon=async(y,askKey,dayKey,flags,picks,o)=>{ setup(askKey,21.05,YT,Object.assign({YT_MET_JOB:true},flags||{}),o); if(o&&o.cg) global.CG_REGISTRY={[CG]:{file:'assets/cg/heroine_03/cg_moon_pomelo.webp',title:'月亮。'}}; else delete global.CG_REGISTRY;
     rules(); const d=dms(YT).slice(), op=optsOf('anyt_yt_moon_'+y+'_ask'); if(!op) return {d,op,q:null};
     PHONE.answer(H.G,'anyt_yt_moon_'+y+'_ask',(o&&o.ans)||0); rules(); const q=OUT.get(H.G,'anyt_yt_moon_'+y); if(!q) return {d,op,q};
-    at(dayKey,14.6); const a=relOf(YT); const r=await goOut('anyt_yt_moon_'+y,picks); return {d,op,q,L:r.L,a,cgs:H.cgs.slice(),said:H.said.slice()}; };
-  const BASE=(mid)=>['（麵店三點就收了。阿姨在裡面準備晚上烤肉的東西，叫你們去外面坐。）','（語彤搬了兩張塑膠椅到店門口，腿上放著一顆柚子。）','你會剝嗎？'].concat(mid);
+    at(dayKey,16.1); const a=relOf(YT); const r=await goOut('anyt_yt_moon_'+y,picks); return {d,op,q,L:r.L,a,cgs:H.cgs.slice(),said:H.said.slice()}; };
   { const r=await moon(2026,'2026-09-24','2026-09-25',{},[0],{cg:1});
-    check('2-5. 2026-09-24 21:00「明天麵店三點收」「……阿姨說你可以來」；回覆「好。」「明天不行。」；「好。」→「嗯。三點。」',J(r.d)===J(['明天麵店三點收','……阿姨說你可以來'])&&J(r.op)===J(['好。','明天不行。'])&&dms(YT).slice(-1)[0]==='嗯。三點。'&&H.G.flags.YT_MOON_2026_GO===true,J(r.d));
-    check('2-5. 出遊 9/25 15:00、走路、late 0.5、標題「中秋（麵店門口）」；背景 noodle_table；15:00～17:30',!!r.q&&r.q.day===H.D('2026-09-25')&&r.q.h===15&&r.q.late===0.5&&r.q.travel==='走路'&&r.q.title==='中秋（麵店門口）'&&img(H.bgs[0])==='noodle_table'&&H.G.hour===17.5,J({q:r.q,h:H.G.hour}));
-    check('2-5. 2026（第一次）：「會。」→旁白「（你剝了一半，皮斷成好幾塊。）」「……我來。」；「月亮。」那一句放 CG；沒有 2027、2028 的句子',J(r.L)===J(BASE(['（你剝了一半，皮斷成好幾塊。）','……我來。','（她把剝好的一瓣放到你手上。巷口開始有人在烤肉，煙飄過來。）','（快五點半的時候，語彤忽然抬頭。）','……欸。月亮。','（東邊的樓頂上，月亮剛出來，還是淡淡的白色。）','阿哲在群組叫了。……走吧。']))&&J(r.cgs)===J([CG]),J({L:r.L,cgs:r.cgs}));
-    const idx=ev('ev_yt_moon').dialogue.findIndex(l=>l.cg===CG); check('2-5. CG 接在「……欸。月亮。」那一句（前一行）',idx>0&&ev('ev_yt_moon').dialogue[idx+1].text==='……欸。月亮。');
-    check('2-5. YT_MOON_2026 went、記憶 YT_MOON、熟悉 +4、自在 +4、她的戀愛 +4',H.G.flags.YT_MOON_2026==='went'&&SOCIAL.has(YT,'YT_MOON')&&dRel(YT,r.a)===MOON,dRel(YT,r.a)); }
-  { const r=await moon(2026,'2026-09-24','2026-09-25',{},[1],{});
-    check('2-5. CG 還沒有圖（CG_REGISTRY 沒登錄）：照對話演、不放 CG；「不會。」→「看。」旁白「（她用指甲在柚子頂上劃了一圈，整片皮完整地剝了下來。）」',!r.cgs.length&&J(r.L.slice(3,5))===J(['看。','（她用指甲在柚子頂上劃了一圈，整片皮完整地剝了下來。）']),J(r)); }
-  { const r=await moon(2027,'2027-09-14','2027-09-15',{},[0],{cg:1});
-    check('2-5. 2027 是第一次的：有 CG＋「今天以安生日。這顆柚子，晚上帶去。」（在剝好那句之後）',J(r.cgs)===J([CG])&&r.L[6]==='今天以安生日。這顆柚子，晚上帶去。'&&r.L[5]==='（她把剝好的一瓣放到你手上。巷口開始有人在烤肉，煙飄過來。）'&&H.G.flags.YT_MOON_2027==='went',J(r.L)); }
-  { const r=await moon(2027,'2027-09-14','2027-09-15',{YT_MOON_2026:'went'},[0],{cg:1});
-    check('2-5. 2027、2026 去過：只有對話、沒有 CG；以安生日那一句照有',!r.cgs.length&&r.L.includes('今天以安生日。這顆柚子，晚上帶去。'),J(r)); }
-  { const r=await moon(2028,'2028-10-02','2028-10-03',{EXCHANGE_ROUTE:'TW',YT_MOON_2026:'went'},[0],{cg:1}); const w=r.said.find(s=>s.t==='明年你們還來不來剝？');
-    check('2-5. 2028（臺灣路線）：阿姨（從店裡）「明年你們還來不來剝？」、語彤「……來啊。」；沒有以安生日那句、沒有 CG',!!w&&w.who==='阿姨（從店裡）'&&r.L[6]==='明年你們還來不來剝？'&&r.L[7]==='……來啊。'&&!r.L.includes('今天以安生日。這顆柚子，晚上帶去。')&&!r.cgs.length,J(r.L)); }
-  { const r=await moon(2028,'2028-10-02','2028-10-03',{EXCHANGE_ROUTE:'US'},[0],{cg:1});
-    check('2-5. 2028 美國路線（在美國）：不演（沒有私訊、沒有出遊）',!r.op&&!r.d.length&&!OUT.get(H.G,'anyt_yt_moon_2028'),J(r)); }
-  { const r=await moon(2028,'2028-10-02','2028-10-03',{EXCHANGE_ROUTE:'JP'},[0],{});
-    check('2-5. 2028 日本路線（8/5 回來了）：照演',!!r.q&&r.L.includes('……來啊。')); }
-  { setup('2026-09-24',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_moon_2026_ask',0); rules(); at('2026-09-25',15.6); expire(); rules(); const n=dms(YT).length; at('2026-09-25',16.05); rules();
-    check('2-5. 答應了沒到：16:00「（照片：剝好的柚子，放在塑膠椅上）」',H.G.flags.YT_MOON_2026==='missed'&&J(dms(YT).slice(n))===J(['（照片：剝好的柚子，放在塑膠椅上）']),J(dms(YT))); }
-  { setup('2026-09-24',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_moon_2026_ask',1); const r=dms(YT).slice(-1)[0]; rules(); at('2026-09-25',16.1); rules();
-    check('2-5. 「明天不行。」→「嗯。晚上烤肉見。」、YT_MOON_2026 no、沒有出遊、沒有柚子照片',r==='嗯。晚上烤肉見。'&&H.G.flags.YT_MOON_2026==='no'&&!OUT.get(H.G,'anyt_yt_moon_2026')&&!dms(YT).includes('（照片：剝好的柚子，放在塑膠椅上）')); }
-  { const r1=await moon(2026,'2026-09-24','2026-09-25',{},[0],{}); const mem1=(H.G.social.mem[YT]||[]).filter(m=>m.tag==='YT_MOON').length;
-    H.G.day=H.D('2027-09-14'); H.G.hour=21.05; rules(); PHONE.answer(H.G,'anyt_yt_moon_2027_ask',0); rules(); at('2027-09-15',14.6); await goOut('anyt_yt_moon_2027',[0]);
-    const mem2=(H.G.social.mem[YT]||[]).filter(m=>m.tag==='YT_MOON').length;
-    check('2-5. 同一個存檔兩年都去：YT_MOON_2026、YT_MOON_2027 各記 went；記憶 YT_MOON 只記一次',H.G.flags.YT_MOON_2026==='went'&&H.G.flags.YT_MOON_2027==='went'&&mem1===1&&mem2===1,J({mem1,mem2})); }
+    check('2-5. 2026-09-24 21:00「明天烤肉 明軒叫我先去河濱占位子」「……你要不要一起」（AA_630 H-014）',J(r.d)===J(['明天烤肉 明軒叫我先去河濱占位子','……你要不要一起'])&&J(r.op)===J(['好。','明天不行。']),J(r.d));
+    check('2-5. 出遊 9/25 16:30、河濱、標題「中秋（河濱）」；背景 riverside',!!r.q&&r.q.h===16.5&&r.q.place==='河濱'&&r.q.title==='中秋（河濱）'&&img(H.bgs[0])==='riverside',J(r.q));
+    check('2-5. 第一次：河濱占位子、剝柚子、「月亮。」放 CG、「明軒他們到了。……走吧。」',r.L[0]==='（河濱的草地，烤肉的人還沒到。語彤鋪了一塊野餐墊，說明軒叫她先來占位子。）'&&J(r.cgs)===J([CG])&&r.L.includes('明軒他們到了。……走吧。'),J(r.L));
+    check('2-5. YT_MOON_2026 went、記憶 YT_MOON',H.G.flags.YT_MOON_2026==='went'&&SOCIAL.has(YT,'YT_MOON')&&dRel(YT,r.a)===MOON,dRel(YT,r.a)); }
+  { const r=await moon(2028,'2028-10-02','2028-10-03',{EXCHANGE_ROUTE:'TW',YT_MOON_2026:'went'},[0],{cg:1}); const w=r.said.find(s=>s.t==='明年你們還來不來占位子？');
+    check('2-5. 2028：明軒（提著烤肉架走過來）「明年你們還來不來占位子？」、語彤「……來啊。」；沒有 CG',!!w&&r.L.includes('……來啊。')&&!r.cgs.length,J(r.said.slice(0,12))); }
   delete global.CG_REGISTRY;
   });
 
   /* ======================= 10 沒交往、在國外、沒有聯絡方式 ======================= */
   await sec('10',async()=>{
-  const ASK=[['an_y1','2026-02-12'],['an_y2','2027-02-12'],['an_y3','2028-02-13'],['yt_y1','2026-02-13'],['yt_y2','2027-02-13'],['yt_y3','2028-02-13'],['yt_y4','2029-02-13'],['yt_moon_2026','2026-09-24'],['yt_moon_2027','2027-09-14'],['yt_moon_2028','2028-10-02']];
+  const ASK=[['an_y1','2026-02-12'],['an_y2','2027-02-12'],['an_y3','2028-02-13'],['yt_y2','2027-02-13'],['yt_y3','2028-02-13'],['yt_y4','2029-02-13'],['yt_moon_2026','2026-09-24'],['yt_moon_2027','2027-09-14'],['yt_moon_2028','2028-10-02']];   /* yt_y1（2026）AA_630 第 10 節第 4 點拿掉 */
   const who=k=>k.indexOf('an_')===0?AN:YT;
   const none=(o,flags)=>ASK.filter(([k,key])=>{ setup(key,21.05,who(k),flags,o); rules(); return !!PHONE.byAsk(H.G,'anyt_'+k+'_ask')||dms(who(k)).length>0; }).map(x=>x[0]);
   const call=(o,flags)=>{ setup('2029-02-14',9,AN,flags,o); rules(); return !!OUT.get(H.G,'anyt_an_vday_y4'); };
   { const all=ASK.filter(([k,key])=>{ setup(key,21.05,who(k)); rules(); return !!PHONE.byAsk(H.G,'anyt_'+k+'_ask'); }).map(x=>x[0]);
-    check('10. 交往中（臺灣路線、有聯絡方式）：十場私訊約都有、2029 電話有',all.length===ASK.length&&call({}),J(all)); }
+    check('10. 交往中（臺灣路線、有聯絡方式）：九場私訊約都有（語彤 2026 拿掉）、2029 電話有',all.length===ASK.length&&call({}),J(all)); }
   { const a=none({notDating:true}); check('10. 沒交往：十一場一場都不演（沒有私訊、沒有電話）',!a.length&&!call({notDating:true}),J(a)); }
   { const a=none({noContact:true}); check('10. 沒有她的聯絡方式：不約、不打',!a.length&&!call({noContact:true}),J(a)); }
   { const ab=STORY.abroad; STORY.abroad=()=>true; let a, c; try{ a=none({}); c=call({}); } finally { STORY.abroad=ab; }
