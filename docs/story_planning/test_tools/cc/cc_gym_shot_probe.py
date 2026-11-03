@@ -1,61 +1,208 @@
 # -*- coding: utf-8 -*-
-"""CC（帳號 A）：健身房（B1 重訓室）截圖探針（BUG-GYM-CROWD-STIFF-1103，55332d899；BB 2026-11-03 08:49）。
-使用者原話：「健身房新增了人 但是都不太會動 更詭異好嗎」。修正：深蹲架、啞鈴架前不再擺站著不動的人（CROWD.GYM_STAND_FIT=false）。
-用法：LW_TESTS=<wt>/tests SHA=<sha> python3 cc_gym_shot_probe.py <url> <out>   （PC 用 CC_HEADLESS=0 有視窗＋顯示卡）
-【前置／捷徑】用遊戲自己的讀檔（playlib.load_state，條件事件關閉）把玩家放進 gym_b1（週三 17:00、有人在練的時段），不是玩家走過去。
-檢查（只讀遊戲狀態）：E.zone 是 gym_b1；CROWD.GYM_STAND_FIT 是 false（舊版沒有這個開關＝記錄）；記下場上每個 NPC 的位置與 15 秒內移動距離（站著不動、
-   而且在深蹲架／啞鈴架前 1.5 m 內的人＝FAIL）。截圖：橫向、直向各一張，間隔 5 秒再各一張（BB／使用者看圖）。
+"""CC（帳號 A）：體育館 B1（重訓室＋游泳池）截圖探針。
+- rack：BUG-GYM-CROWD-STIFF-1103（55332d899；BB 2026-11-03 08:49）。使用者原話：「健身房新增了人 但是都不太會動 更詭異好嗎」。
+    修正：深蹲架、啞鈴架前不再擺站著不動的人（CROWD.GYM_STAND_FIT=false）。週三 17:00 讀檔進 gym_b1，記錄每個 NPC 15 秒內移動多少。
+- pool：BUG-GYM-POOL-EMPTY-1103（5af1accd8）。使用者原話：「游泳池完全沒人？而且為什麼會出現去健身房的選項」。
+    8/30（六）19:58 池邊：救生員（crowdRole lifeguard）一位、在高椅（GYM2_LIFEGUARD (14.2,-12)）西邊、面向池子（yaw≈-π/2）；
+    池邊長椅（crowdRole pool_bench）坐 1～2 人、在 B.poolBenches 的座位上；位置在 B.pool（游泳池廳）內、不在 B.pool.basin（水裡）、
+    y 和地面差 < 0.1 m、站著的人在導航可走的格子上。橫向、直向各截圖（看救生員一張、看長椅一張）。
+- plate：同一個修正的名牌。人在游泳池那一側（z ≤ B.pool.z1）時 GUIDE 名牌「去健身房」不顯示；用玩家方式（點地面走、走不動才推搖桿，playlib.go_to）
+    從池邊穿過泳池門走回走廊（z > B.pool.z1）以後才顯示。兩個位置各截一張圖、記錄名牌 sprite 的 visible 與螢幕座標。只跑橫向（CC_PLATE_PORT=1 加跑直向）。
+- closed：反例。2025-09-22（一）＝每月第四個星期一休館（src/crowd3d.js:151 S.gymHours、src/gym3d.js:139 fourthMonday），19:58 游泳池不能有人。
+用法：LW_TESTS=<wt>/tests SHA=<sha> CASES=rack,pool,plate,closed python3 cc_gym_shot_probe.py <url> <out>   （PC 用 CC_HEADLESS=0 有視窗＋顯示卡）
+【前置／捷徑】用遊戲自己的讀檔（playlib.load_state，條件事件關閉）把玩家放進 gym_b1 的指定時間與位置，不是玩家走過去；plate 的走路是玩家操作。
+判斷只讀遊戲狀態（E.npcs 的 crowdRole、obj.position、obj.rotation.y、pose；GUIDE._st.markers）；文字比對用 startswith。
 """
-import sys, os, json, asyncio
+import sys, os, json, math, asyncio
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
 from playwright.async_api import async_playwright
 
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
-NPCS = """(()=>{ const E=GAME.E, out=[]; for(const n of (E.npcs||[])){ const o=n.obj||n; if(!o||!o.position) continue;
-  out.push({id:n.charId||n.id||n.name||'', x:+o.position.x.toFixed(2), z:+o.position.z.toFixed(2), vis:o.visible!==false, pose:n.pose||null}); } return out; })()"""
-INFO = """(()=>({zone:(GAME.E.zone&&(GAME.E.zone.id||(GAME.E.zone.def&&GAME.E.zone.def.id)))||GAME.G.zone, hour:+(+GAME.G.hour).toFixed(2),
-  fit:(typeof CROWD!=='undefined'&&('GYM_STAND_FIT' in CROWD))?CROWD.GYM_STAND_FIT:'(沒有這個開關)'}))()"""
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'rack,pool,plate,closed').split(',') if c.strip()]
+HEADLESS = os.environ.get('CC_HEADLESS', '1') != '0'
+PLATE_PORT = os.environ.get('CC_PLATE_PORT') == '1'
+DAY_0830, DAY_0922 = -17, 6          # 第 1 天＝2025-09-17（src/data/calendar.js:2）；8/30＝第 -17 天（週六）、9/22＝第 6 天（第四個星期一）
+H1958 = 19 + 58 / 60.0
+
+NPCS = """(()=>{ const E=GAME.E, out=[]; for(const n of (E.npcs||[])){ const o=n.obj; if(!o||!o.position) continue; const p=o.position;
+  const h=E.heightAt?E.heightAt(p.x,p.z,n.lv|0):0, nv=E.navOf?E.navOf(n.lv|0):E.nav;
+  out.push({name:n.name||'', role:n.crowdRole||null, crowd:n.crowd||null, x:+p.x.toFixed(2), z:+p.z.toFixed(2), y:+p.y.toFixed(3), ground:+(+h).toFixed(3),
+    yaw:+o.rotation.y.toFixed(3), pose:n.pose||null, vis:o.visible!==false&&!n.hidden, free:nv?nv.free(p.x,p.z):null, seat:!!n.seat}); } return out; })()"""
+INFO = """(()=>{ const E=GAME.E, B=GYM_LAYOUT.b1, p=E.player.obj.position; return {zone:GAME.G.zone, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2),
+  date:(typeof CALENDAR!=='undefined')?CALENDAR.dateOf(GAME.G.day).key:null, wd:(typeof CALENDAR!=='undefined')?CALENDAR.dateOf(GAME.G.day).wd:null,
+  fit:(typeof CROWD!=='undefined'&&('GYM_STAND_FIT' in CROWD))?CROWD.GYM_STAND_FIT:'(沒有這個開關)', px:+p.x.toFixed(2), pz:+p.z.toFixed(2),
+  pool:{x0:B.pool.x0,x1:B.pool.x1,z0:B.pool.z0,z1:B.pool.z1}, basin:B.pool.basin, benches:B.poolBenches,
+  chair:((B.entryProps.find(e=>e.node==='GYM2_LIFEGUARD')||{}).at||[null])[0]}; })()"""
+MARK = """(()=>{ const E=GAME.E, st=(typeof GUIDE!=='undefined'&&GUIDE._st)||null; if(!st) return {err:'沒有 GUIDE._st'};
+  const m=(st.markers||[]).find(q=>q.it&&(q.it.label||'').startsWith('去健身房')); const p=E.player.obj.position;
+  if(!m) return {found:false, n:(st.markers||[]).length, px:+p.x.toFixed(2), pz:+p.z.toFixed(2)};
+  let scr=null; if(m.spr&&E.camera){ const v=new THREE.Vector3(); m.spr.getWorldPosition(v).project(E.camera); scr={sx:Math.round((v.x+1)/2*innerWidth), sy:Math.round((1-v.y)/2*innerHeight), front:v.z<1}; }
+  return {found:true, visible:!!(m.spr&&m.spr.visible), txt:m.txt, hasVisIf:typeof m.it.visIf==='function', it:[m.it.x,m.it.z],
+    d:+Math.hypot(m.it.x-p.x,m.it.z-p.z).toFixed(2), px:+p.x.toFixed(2), pz:+p.z.toFixed(2), scr}; })()"""
 fails = []
 
 
 def check(name, ok, info=''):
-    print(('PASS ' if ok else 'FAIL ') + name + ('  ' + str(info) if info != '' else ''), flush=True)
+    print(('PASS ' if ok else 'FAIL ') + name + ('  ' + (json.dumps(info, ensure_ascii=False) if not isinstance(info, str) else info) if info != '' else ''), flush=True)
     if not ok:
         fails.append(name)
+    return ok
+
+
+def wrap(a):
+    return (a + math.pi) % (2 * math.pi) - math.pi
+
+
+def in_rect(n, r):
+    return r['x0'] <= n['x'] <= r['x1'] and r['z0'] <= n['z'] <= r['z1']
+
+
+async def put(pg, day, wd, hour, pos, tag, what):
+    print('  [前置／捷徑] %s：讀檔進 gym_b1 第 %d 天（週%d）%.2f 時，位置 %s（條件事件關閉）——%s' % (tag, day, wd, hour, pos, what), flush=True)
+    await L.load_state(pg, {'zone': 'gym_b1', 'hour': hour, 'day': day, 'weekday': wd, 'weather': 'clear', 'pos': pos, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
+    await pg.wait_for_timeout(8000)
+
+
+async def shot(pg, od, name, rec):
+    f = os.path.join(od, name + '.png')
+    await pg.screenshot(path=f)
+    rec['shots'].append(f)
+    return f
+
+
+async def case_rack(pg, od, tag, rec):
+    await put(pg, 8, 3, 17.0, None, tag, '週三 17:00、有人在練的時段')
+    info = await pg.evaluate(INFO)
+    check('rack %s：人在 gym_b1' % tag, info.get('zone') == 'gym_b1', info.get('zone'))
+    a = await pg.evaluate(NPCS)
+    await shot(pg, od, 'rack_%s_1' % tag, rec)
+    await pg.wait_for_timeout(5000)
+    await shot(pg, od, 'rack_%s_2' % tag, rec)
+    await pg.wait_for_timeout(10000)
+    bb = await pg.evaluate(NPCS)
+    moves = []
+    for i, x in enumerate(bb):
+        y = a[i] if i < len(a) and a[i]['name'] == x['name'] and a[i]['role'] == x['role'] else None
+        if y:
+            moves.append({'name': x['name'], 'role': x['role'], 'x': x['x'], 'z': x['z'], 'moved': round(math.hypot(x['x'] - y['x'], x['z'] - y['z']), 2), 'vis': x['vis'], 'pose': x['pose']})
+    rec['rack_' + tag] = {'info': info, 'npcs': moves}
+    stand = [m for m in moves if m['role'] in ('rack', 'dumbbell')]
+    if tag == 'land':
+        check('rack：CROWD.GYM_STAND_FIT 是 false（修正版）', info.get('fit') is False, str(info.get('fit')))
+    check('rack %s：沒有 crowdRole rack／dumbbell（深蹲架、啞鈴架前站著的人）' % tag, not stand and len(moves) > 0, '%d 位、站著的 %s' % (len(moves), stand))
+    print('  rack %s：NPC %d 位；15 秒內沒動（<0.05 m）的：%s' % (tag, len(moves), [m for m in moves if m['moved'] < 0.05 and m['vis']]), flush=True)
+
+
+async def case_pool(pg, cdp, od, tag, rec):
+    await put(pg, DAY_0830, 6, H1958, {'x': 8.0, 'z': -2.0, 'yaw': 0}, tag, '8/30（六）19:58 使用者截圖那一刻、站在池邊')
+    info = await pg.evaluate(INFO)
+    check('pool %s：人在 gym_b1、日期 2025-08-30 週六' % tag, info.get('zone') == 'gym_b1' and info.get('date') == '2025-08-30' and info.get('wd') == 6, '%s %s 週%s' % (info.get('zone'), info.get('date'), info.get('wd')))
+    npcs = await pg.evaluate(NPCS)
+    pool, basin, chair = info['pool'], info['basin'], info['chair'] or [14.2, -12.0]
+    lg = [n for n in npcs if n['role'] == 'lifeguard']
+    pb = [n for n in npcs if n['role'] == 'pool_bench']
+    rec['pool_' + tag] = {'info': info, 'npcs': npcs}
+    print('  pool %s：救生員 %s' % (tag, lg), flush=True)
+    print('  pool %s：長椅 %s' % (tag, pb), flush=True)
+    check('pool %s：救生員一位' % tag, len(lg) == 1, '%d 位' % len(lg))
+    if lg:
+        g = lg[0]
+        check('pool %s：救生員在高椅旁（高椅 %s，1.2 m 內、在高椅西邊）' % (tag, chair), math.hypot(g['x'] - chair[0], g['z'] - chair[1]) < 1.2 and g['x'] < chair[0], '(%s,%s)' % (g['x'], g['z']))
+        check('pool %s：救生員面向池子（yaw≈-π/2，±0.35）' % tag, abs(wrap(g['yaw'] + math.pi / 2)) < 0.35, 'yaw %s' % g['yaw'])
+        check('pool %s：救生員站在導航可走的格子上（沒有穿牆、沒有在高椅裡）' % tag, g['free'] is True, str(g['free']))
+    check('pool %s：池邊長椅坐 1～2 人' % tag, 1 <= len(pb) <= 2, '%d 人' % len(pb))
+    for i, n in enumerate(pb):
+        near = min((math.hypot(n['x'] - b[0], n['z'] - (b[1] - 0.1)) for b in info['benches']), default=99)
+        check('pool %s：長椅 #%d 在長椅座位上、坐著（pose sit）' % (tag, i + 1), near < 0.3 and (n['pose'] or '').startswith('sit'), '(%s,%s) 離座位 %.2f m pose %s' % (n['x'], n['z'], near, n['pose']))
+    for n in lg + pb:
+        check('pool %s：%s 在游泳池廳內（B.pool）、不在水裡（B.pool.basin）' % (tag, n['role']), in_rect(n, pool) and not in_rect(n, basin), '(%s,%s)' % (n['x'], n['z']))
+        check('pool %s：%s 沒有浮空（y 和地面差 < 0.1 m）' % (tag, n['role']), abs(n['y'] - n['ground']) < 0.1, 'y %s 地面 %s' % (n['y'], n['ground']))
+    wet = [n for n in npcs if in_rect(n, basin)]
+    check('pool %s：沒有任何人站在水裡（B.pool.basin）' % tag, not wet, wet)
+    # 截圖：像玩家一樣滑畫面把鏡頭轉向救生員、再轉向坐著的人
+    await L.turn_camera_to(pg, cdp, chair[0] - 1.0, chair[1])
+    await pg.wait_for_timeout(1500)
+    await shot(pg, od, 'pool_%s_lifeguard' % tag, rec)
+    if pb:
+        await L.turn_camera_to(pg, cdp, pb[0]['x'], pb[0]['z'])
+        await pg.wait_for_timeout(1500)
+        await shot(pg, od, 'pool_%s_bench' % tag, rec)
+
+
+async def case_plate(pg, cdp, od, tag, rec):
+    await put(pg, DAY_0830, 6, H1958, {'x': -2.0, 'z': -2.0, 'yaw': 0}, tag, '池邊、泳池門東邊（離「去健身房」名牌約 7.5 m，在名牌顯示距離 12 m 內）')
+    info = await pg.evaluate(INFO)
+    z1 = info['pool']['z1']
+    run = L.Run('gym_plate_' + tag, od)
+    await L.turn_camera_to(pg, cdp, 4.1, 2.4)
+    await pg.wait_for_timeout(2500)
+    m1 = await pg.evaluate(MARK)
+    await shot(pg, od, 'plate_%s_pool' % tag, rec)
+    print('  plate %s 池邊：%s' % (tag, m1), flush=True)
+    check('plate %s：玩家在游泳池那一側（z ≤ %s）' % (tag, z1), m1.get('pz', 9) <= z1, 'z %s' % m1.get('pz'))
+    check('plate %s：找得到「去健身房」名牌' % tag, m1.get('found') is True, m1)
+    check('plate %s：池邊看不到「去健身房」名牌（sprite.visible false）' % tag, m1.get('found') is True and m1.get('visible') is False, 'visible %s d %s' % (m1.get('visible'), m1.get('d')))
+    ok = await L.go_to(pg, cdp, run, -4.1, -1.0, 0.6, '泳池門內', max_s=300)
+    ok = ok and await L.go_to(pg, cdp, run, -3.0, 1.6, 0.7, '走廊（泳池門外）', max_s=300)
+    s = await L.state(pg)
+    check('plate %s：用點地面／搖桿走回走廊（z > %s）' % (tag, z1), ok and s['z'] > z1, '(%s,%s) 走路改放到目的地 %s 次' % (s['x'], s['z'], s.get('fallbacks')))
+    await L.turn_camera_to(pg, cdp, 4.1, 2.4)
+    await pg.wait_for_timeout(2500)
+    m2 = await pg.evaluate(MARK)
+    await shot(pg, od, 'plate_%s_corridor' % tag, rec)
+    print('  plate %s 走廊：%s' % (tag, m2), flush=True)
+    check('plate %s：走廊看得到「去健身房」名牌（sprite.visible true）' % tag, m2.get('found') is True and m2.get('visible') is True, 'visible %s d %s scr %s' % (m2.get('visible'), m2.get('d'), m2.get('scr')))
+    rec['plate_' + tag] = {'pool': m1, 'corridor': m2}
+
+
+async def case_closed(pg, cdp, od, tag, rec):
+    await put(pg, DAY_0922, 1, H1958, {'x': 8.0, 'z': -2.0, 'yaw': 0}, tag, '2025-09-22（一）第四個星期一休館（crowd3d.js:151、gym3d.js:139）')
+    info = await pg.evaluate(INFO)
+    check('closed %s：日期 2025-09-22 週一' % tag, info.get('date') == '2025-09-22' and info.get('wd') == 1, '%s 週%s' % (info.get('date'), info.get('wd')))
+    npcs = await pg.evaluate(NPCS)
+    side = [n for n in npcs if in_rect(n, info['pool']) or (n['role'] or '').startswith('lifeguard') or (n['role'] or '').startswith('pool')]
+    rec['closed_' + tag] = {'info': info, 'npcs': npcs}
+    check('closed %s：休館日游泳池沒有人（沒有救生員、長椅、池邊的人）' % tag, not side, side)
+    await L.turn_camera_to(pg, cdp, 13.2, -12.0)
+    await pg.wait_for_timeout(1500)
+    await shot(pg, od, 'closed_%s_pool' % tag, rec)
 
 
 async def main(url, od):
     os.makedirs(od, exist_ok=True)
-    rec = {'sha': os.environ.get('SHA'), 'shots': []}
+    rec = {'sha': os.environ.get('SHA'), 'cases': CASES, 'shots': []}
+    print('CASES=%s  headless=%s  SHA=%s' % (','.join(CASES), HEADLESS, rec['sha']), flush=True)
     async with async_playwright() as p:
         for land in (True, False):
             tag = 'land' if land else 'port'
-            b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+            todo = [c for c in CASES if not (c == 'plate' and not land and not PLATE_PORT)]
+            if not todo:
+                continue
+            if HEADLESS:
+                b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+            else:
+                b = await p.chromium.launch(headless=False)
+                vp = {'width': 844, 'height': 390} if land else {'width': 390, 'height': 844}
+                ctx = await b.new_context(viewport=vp, device_scale_factor=1, has_touch=True, is_mobile=True, user_agent=L.UA)
+                pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []
+                pg.on('pageerror', lambda e: errs.append(str(e)))
             await pg.goto(url)
             check('%s：遊戲載入' % tag, await L.wait_loaded(pg))
-            print('[前置／捷徑] 讀檔進 gym_b1 週三 17:00（條件事件關閉）', flush=True)
-            await L.load_state(pg, {'zone': 'gym_b1', 'hour': 17.0, 'day': 8, 'weekday': 3, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}, quiet_events=True, quiet_phone=True)
-            await pg.wait_for_timeout(8000)
-            info = await pg.evaluate(INFO)
-            check('%s：人在 gym_b1' % tag, info.get('zone') == 'gym_b1', info)
-            a = await pg.evaluate(NPCS)
-            f1 = os.path.join(od, '%s_1.png' % tag); await pg.screenshot(path=f1)
-            await pg.wait_for_timeout(5000)
-            f2 = os.path.join(od, '%s_2.png' % tag); await pg.screenshot(path=f2)
-            await pg.wait_for_timeout(10000)
-            bb = await pg.evaluate(NPCS)
-            pos0 = {(x['id'], i): x for i, x in enumerate(a)}
-            moves = []
-            for i, x in enumerate(bb):
-                y = pos0.get((x['id'], i))
-                if y:
-                    moves.append({'id': x['id'], 'x': x['x'], 'z': x['z'], 'moved': round(((x['x'] - y['x']) ** 2 + (x['z'] - y['z']) ** 2) ** 0.5, 2), 'vis': x['vis'], 'pose': x['pose']})
-            rec['shots'] += [f1, f2]
-            rec[tag] = {'info': info, 'npcs': moves}
-            if tag == 'land':
-                check('CROWD.GYM_STAND_FIT 是 false（修正版）', info.get('fit') is False, info.get('fit'))
-            print('  %s：NPC %d 位；15 秒內沒動（<0.05 m）的：%s' % (tag, len(moves), [m for m in moves if m['moved'] < 0.05 and m['vis']]), flush=True)
+            for c in todo:
+                try:
+                    if c == 'rack':
+                        await case_rack(pg, od, tag, rec)
+                    elif c == 'pool':
+                        await case_pool(pg, cdp, od, tag, rec)
+                    elif c == 'plate':
+                        await case_plate(pg, cdp, od, tag, rec)
+                    elif c == 'closed':
+                        await case_closed(pg, cdp, od, tag, rec)
+                    else:
+                        check('未知的情境 %s' % c, False)
+                except Exception as e:
+                    check('%s %s：探針例外' % (c, tag), False, repr(e)[:300])
             check('%s：沒有 JS 例外' % tag, not errs, errs[:3])
             await b.close()
     json.dump(rec, open(os.path.join(od, 'gym.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
