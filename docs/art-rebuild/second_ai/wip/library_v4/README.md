@@ -1,8 +1,8 @@
-# 總圖一樓、二樓第四版（LIB-PLAN-1103）：照使用者給的樓層平面圖重排——WIP，還沒交件
+# 總圖一樓、二樓第四版（LIB-PLAN-1103）：照使用者給的樓層平面圖重排——交件（READY_FOR_REVIEW，11-03 12:2x）
 
 - **起因**：使用者 11-03 09:0x「我還給你總圖每個樓層的位置圖 你至少弄得像一點吧」「總圖 系館最優先」（UA-LAWWW2-1103-02）。平面圖：`docs/art-rebuild/second_ai/ref/lib1102_user/0858_plan_1f.png`、`0858_plan_2f.jpg`。
 - **對照圖**（平面圖／遊戲改前／遊戲改後，配置的俯視圖）：`plan_vs_game_1F.jpg`、`plan_vs_game_2F.jpg`。
-- **patch**：`library_v4_1103_wip.patch`，接在**開發分支 `3670b96eb`**（apply --cached --check 過）。內容＝展演廳第三版（BB_244）＋3F 第二版（LIB-3F-1102）＋這次的一樓二樓第四版；配置由 `tools/blender/env_second/library_hall_v2_layout.py` 產生（`plan_1f_v4`、`plan_2f_v4`）。
+- **patch**：`library_v4_1103.patch`，**接在開發分支最新版 `0527e6ebc`**（`git apply -3` 後重跑相關 33 支 Node 單元測試 ALL PASS）。不含 assets：`library_hall_v2.glb`＋`_lm_day/_night.webp`（第四版烘焙）、`library_3f_v2.glb` 從本分支 `claude/second-ai-env-art` 的 `assets/models/env/second_ai/` 拿。內容＝展演廳第三版（BB_244）＋3F 第二版（LIB-3F-1102）＋這次的一樓二樓第四版；配置由 `tools/blender/env_second/library_hall_v2_layout.py` 產生（`plan_1f_v4`、`plan_2f_v4`）。
 
 ## 一樓（照平面圖）
 | 平面圖 | 改前（第三版） | 改後（第四版） |
@@ -34,11 +34,18 @@
 ## 測試（雲端；Node）
 `nav_buildings`（含總圖 82 個互動點都走得到、閘門四道）、`library_hall_v2_oldsave`、`library_upper`、`library_b1`、`b1story`、`aa379_sis_lib`、`library_copier`、`library_media`、`library_hall_cam_core`、`library_hall_lightmap`、`libq_aa_1102`、`libq_out_1102`、`library_3f_v2` ALL PASS。背景路人的新路線四段模擬走路都走得到。
 
+## 測試（雲端；Playwright 手機模擬，實機沒測）
+- 瀏覽器（`3670b96eb`＋patch，一支一支跑）：flow_library_floors、flow_library_scene、seats_on_furniture（library_hall 74 座、library 44 座，有問題 0）、reachability_all（library_hall、library、library_b1）、flow_lib_tour **全部 ALL PASS**。
+  - flow_lib_tour 前兩次 FAIL 的原因與修法：①導覽第 2 站「借書、還書……都在這裡問」還在第三版服務台的位置 (7.8,3.2)——**遊戲的 bug**，`classes3d.js` 改成讀配置的服務台（第四版 (3.0,−0.3)，第三版照舊 (7.8,3.2)）；②測試每 1.2 秒輪詢畫面字幕，跟著館員走的那段（20～118 秒）看不到只顯示 5 秒的話——**只改測試的觀察方式**：記下 `GAME.caption` 每一句，判定照舊（七站的話依序都出現）。第三次 ALL PASS。
+  - 觀察：二樓南北向書架很高，鏡頭在後面時「點地面」常點到書架（測試改用搖桿推過去才跟上）；實際玩用搖桿沒問題，點地面的玩家可能要轉一下鏡頭。
+- Node：`3670b96eb`＋patch 跑整套 180 支 ALL PASS（blackforest_unit 不在這個分支＝不適用）；`0527e6ebc`＋patch 相關 33 支 ALL PASS。
+  - `aa498_pool_unit` 原本寫死 3F 第一版的窗邊座位 (5.6,−3.9)，改成第二版的窗邊座位 (10.55,1.6)（洪珮瑜「坐窗邊那一排」照舊）。
+
 ## 進度（11-03 09:5x）
 - 光照烘焙完成（lm_probe 10 個點 ALL PASS）；模型、光照貼圖在本分支 `assets/models/env/second_ai/library_hall_v2*`（三角形 7.6 萬 → 10.9 萬，多的是照平面圖加的書架；檔案 6.6 → 9.8 MB）。
 - 遊戲內截圖（14:00，7 個鏡頭）：`game_v4_14h_contact.jpg`。
 - 總圖相關 Node 單元測試 20 支 ALL PASS（烘焙後）。
 
 ## 還沒做
-- 瀏覽器測試（跑中）（flow_library_floors、flow_library_scene、flow_lib_tour、reachability_all、seats_on_furniture）→ 交 LAWWW、BB。
+- （已完成）瀏覽器測試（flow_library_floors、flow_library_scene、flow_lib_tour、reachability_all、seats_on_furniture）→ 交 LAWWW、BB。
 - 3F、B1 的平面圖對照圖。

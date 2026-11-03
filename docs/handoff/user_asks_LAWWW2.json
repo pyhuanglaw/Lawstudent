@@ -606,6 +606,16 @@
    "quote": "宿舍天花板太低了 走上去都撞到頭 不合理／至少微微彎腰不要整個頭卡進去天花板",
    "src": "使用者",
    "note": "原因：房間高 3.0 m；梯子最上一階 1.60 m＋身高約 1.75＝頭頂 3.35 m；bed_entry（床墊 1.86 m）站直約 3.6 m。LAWWW2：天花板 3.0→3.4 m（吸頂燈 3.35、冷氣管頂 H−0.03）、sleep_scene 加 ceil_y／head_max（3.32）／bed_entry_pose='kneel'、重烘光照、layout 與 src/data/dorm_room_layout.js patch。LAWWW（已 send_message）：最上面一兩階微微彎腰、bed_entry 跪或爬。"
+  },
+  {
+   "id": "UA-LAWWW2-1103-10",
+   "at": "2026-11-03T12:1x",
+   "kind": "原話（使用者直接對 LAWWW2 說）",
+   "status": "照做（自主進行；已轉 LAWWW、AA、BB）",
+   "task": "全部",
+   "quote": "我接下來要睡覺 有可以做的就先做 盡量自己判斷 別的ai也是 不要為了問題等我回答停下來",
+   "src": "使用者",
+   "note": "不等使用者回答：遇到判斷題照最合理的做法先做，寫明理由，事後可以改。"
   }
  ]
 }

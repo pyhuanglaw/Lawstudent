@@ -11,23 +11,29 @@ index a57786769..be6ef421a 100644
  | 行政大樓外觀 `assets/models/env/second_ai/campus_admin.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set admin`（和總圖同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「行政大樓」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道南側的行政大樓（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0：面磚降低彩度後校正成米黃） |
  | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
 diff --git a/index.html b/index.html
-index bab955742..d099c7327 100644
+index 3016a6b71..87cb9fbe6 100644
 --- a/index.html
 +++ b/index.html
-@@ -225,6 +225,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
- <script src="src/data/library_layout.js?v=9.10.16"></script>
- <script src="src/library3d.js?v=9.10.16"></script>
- <script src="src/library_hall_v2.js?v=9.10.16"></script>
-+<script src="src/data/library_3f_layout.js?v=9.10.16"></script>
-+<script src="src/library_3f_v2.js?v=9.10.16"></script>
- <script src="src/data/library_b1_layout.js?v=9.10.16"></script>
- <script src="src/library_b1_3d.js?v=9.10.16"></script>
- <script src="src/data/library_upper_layouts.js?v=9.10.16"></script>
+@@ -237,6 +237,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/library_layout.js?v=9.10.18"></script>
+ <script src="src/library3d.js?v=9.10.18"></script>
+ <script src="src/library_hall_v2.js?v=9.10.18"></script>
++<script src="src/data/library_3f_layout.js?v=9.10.18"></script>
++<script src="src/library_3f_v2.js?v=9.10.18"></script>
+ <script src="src/data/library_b1_layout.js?v=9.10.18"></script>
+ <script src="src/library_b1_3d.js?v=9.10.18"></script>
+ <script src="src/data/library_upper_layouts.js?v=9.10.18"></script>
 diff --git a/src/classes3d.js b/src/classes3d.js
-index 71749aa71..f217d67c9 100644
+index e4c7f4f4a..d8baf3ebb 100644
 --- a/src/classes3d.js
 +++ b/src/classes3d.js
-@@ -407,7 +407,7 @@ const CLS=(function(){
+@@ -405,11 +405,12 @@ const CLS=(function(){
+   const TOUR=[
+     {x:-3.0,z:2.8,lv:0,say:'新生導覽，十五分鐘。跟著我走，問題留到最後。'},
+     {x:0,z:4.4,lv:0,say:'進出都要刷學生證。忘記帶的，服務台可以臨時登記，一學期三次。'},
+-    {x:7.8,z:3.2,lv:0,say:'借書、還書、預約研究小間，都在這裡問。'},
++    (()=>{ const d=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.furniture?LIBRARY_LAYOUT.furniture.find(f=>f.type==='desk'&&(f.lv|0)===0):null;   /* LIB-PLAN-1103：服務台前（讀配置；第四版服務台搬到閘門北邊 (3.0,1.0)，站在讀者那一側 (3.0,−0.3)；第三版 (7.8,4.4) → (7.8,3.2) 照舊）*/
++      return d&&d.z<3?{x:d.x,z:+(d.z-d.d/2-0.9).toFixed(2),lv:0,say:'借書、還書、預約研究小間，都在這裡問。'}:{x:7.8,z:3.2,lv:0,say:'借書、還書、預約研究小間，都在這裡問。'}; })(),
      {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
      {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
      {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
@@ -36,7 +42,7 @@ index 71749aa71..f217d67c9 100644
    S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
      if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
      const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
-@@ -421,7 +421,7 @@ const CLS=(function(){
+@@ -423,7 +424,7 @@ const CLS=(function(){
      const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
      spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
      for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
@@ -1819,10 +1825,10 @@ index b9ae5e323..a45593a10 100644
      finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); } if(!G.flags.YT_ESSAY) G.flags.YT_ESSAY='shelf'; return true; };
  
 diff --git a/src/story3d.js b/src/story3d.js
-index 74b2d8211..5c6ea3954 100644
+index f764b435e..2fd64df5c 100644
 --- a/src/story3d.js
 +++ b/src/story3d.js
-@@ -306,7 +306,7 @@ const STORY = (function(){
+@@ -314,7 +314,7 @@ const STORY = (function(){
        if(hr>=8&&hr<22){ const dk=L.furniture.find(f=>f.type==='desk'); if(dk) mk(dk.x-0.6,dk.z+0.75,0,Math.PI,'idle');
          const sts=E.zone.seats.slice(2); for(const k of (hr<18?[3,8,13]:[8,13])){ const st=sts[k]; if(st) mk(st.x,st.z,1,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:1}); }
          GM.spawnExtra(extraSpec(xi++),[[0,2.0,0],[-2.6,0.2,1],[-8.0,-2.0,1],[-2.6,0.2,1],[0,2.0,0],[2.6,0.2,1],[8.0,-3.4,1],[2.6,0.2,1]],{});   /* 走大樓梯上下樓的人：大廳 ⇄ 二樓（西翼、東翼輪流）；東翼那一點 (8,−5) 在第二版（11-02 二樓平面圖）是西文圖書的書架，改 (8,−3.4)（第一版也是空地）*/
@@ -1831,6 +1837,45 @@ index 74b2d8211..5c6ea3954 100644
        if(F.companion==='an') spawnCompanion(GM); }
      /* 法律學院圖書館（D46，2026-10-13）的背景人物：櫃台的館員、一樓自習區和二樓讀書的人、走樓梯上下樓的人。不是劇情人物、沒有對話 */
      if(zoneId==='lawlib'&&typeof LAWLIB_LAYOUT!=='undefined'){ const L=LAWLIB_LAYOUT; const mk=(x,z,lv,yaw,pose,seat)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=yaw||0; return E.addNPC({obj:o,name:'',beh:'idle',pose:pose||'idle',idlePose:pose||'idle',frozen:true,isExtra:true,lv:lv|0,seat}); };
+diff --git a/tests/aa498_pool_unit.js b/tests/aa498_pool_unit.js
+index 92666e48f..3f79dc1b4 100644
+--- a/tests/aa498_pool_unit.js
++++ b/tests/aa498_pool_unit.js
+@@ -126,8 +126,8 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
+   const wd=TD('Y1S1',5,2);   /* 大一上第 5 週週二 */
+   let s=at(wd,14,'campus',camSeats); const lyx=s.find(q=>q[0]==='pool_15');
+   check('2. 廖芸萱（原本永遠不出現）：平日 13～16 在文學院前的長椅（seatAt (−25,−12.94)）',!!lyx&&lyx[2]===-25&&Math.abs(lyx[3]+12.94)<0.01,J(s));
+-  s=at(wd,14,'library',[{x:5.6,z:-3.9,yaw:0},{x:-5.6,z:5.1,yaw:Math.PI},{x:0,z:0,yaw:0},{x:2,z:0,yaw:0},{x:4,z:0,yaw:0}]);
+-  check('2. 嚴守誠（原本永遠不出現）：平日 13～15 在總圖三樓（閱覽室）；洪珮瑜坐窗邊那一排',s.some(q=>q[0]==='pool_18')&&(s.find(q=>q[0]==='pool_9')||[])[3]===-3.9,J(s));
++  s=at(wd,14,'library',[{x:5.6,z:-3.9,yaw:0},{x:10.55,z:1.6,yaw:-Math.PI/2},{x:-5.6,z:5.1,yaw:Math.PI},{x:0,z:0,yaw:0},{x:2,z:0,yaw:0},{x:4,z:0,yaw:0}]);   /* LIB-3F-1102 第二版：窗邊那一排＝東側靠窗的閱覽桌 (10.55, 1.6)（第一版 (5.6, −3.9)）*/
++  check('2. 嚴守誠（原本永遠不出現）：平日 13～15 在總圖三樓（閱覽室）；洪珮瑜坐窗邊那一排',s.some(q=>q[0]==='pool_18')&&(s.find(q=>q[0]==='pool_9')||[])[2]===10.55&&(s.find(q=>q[0]==='pool_9')||[])[3]===1.6,J(s));
+   const sat=(()=>{ for(let d=TD('Y1S1',3,6);d<TD('Y1S1',16,6);d+=7){ H.G.day=d; if(STORY.fafuDuty(H.G)) return d; } return null; })();
+   s=at(sat,10,'wancai');
+   check('2. 馬佳蓉（原本永遠不出現）：法服值班的週六 9～12 在萬才館一樓',!!sat&&s.some(q=>q[0]==='pool_20'&&q[2]===1.9),keyOf(sat)+' '+J(s));
+diff --git a/tests/flow_lib_tour.py b/tests/flow_lib_tour.py
+index 59c8fd74f..7511a47ab 100644
+--- a/tests/flow_lib_tour.py
++++ b/tests/flow_lib_tour.py
+@@ -50,6 +50,7 @@ async def main():
+         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
+         run.setup('讀檔：2025-09-19（週五）15:20 總圖大廳集合點旁；關掉條件事件')
++        await pg.evaluate("(()=>{ window.__caps=[]; const c0=GAME.caption; GAME.caption=function(w,t){ try{ window.__caps.push(String(t||'')); }catch(e){} return c0.apply(this,arguments); }; })()")   # 記下每一句字幕（館員的話只顯示 5 秒，跟著走的時候輪詢會漏看；判定照舊：七站都要依序出現）
+         await join(pg, cdp, run)
+         seen, t0, zones = [], time.time(), set()
+         while time.time() - t0 < 1500:
+@@ -67,7 +68,10 @@ async def main():
+                 if d > 2.5: await L.go_to(pg, cdp, run, lib['x'], lib['z'], 1.8, '跟著館員', max_s=60, lv=lib['lv'], stop=lambda q: q['choices'] > 0)   # 選單交給 handle_choices
+             await pg.wait_for_timeout(1200)
+         st = await pg.evaluate(ST)
+-        run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
++        caps = await pg.evaluate("window.__caps||[]")
++        order = [next(i for i, l in enumerate(LINES) if l in t) for t in caps if any(l in t for l in LINES)]
++        order = [i for k, i in enumerate(order) if i not in order[:k]]   # 同一句重複顯示只算第一次
++        run.check('A 七站的話依序都出現（館員說）', order == list(range(7)), json.dumps({'order': order, 'polled': seen}))
+         run.check('A 跟著館員從總圖大廳走到三樓閱覽區（換區域）', 'library' in zones and 'library_hall' in zones, json.dumps(sorted(zones)))
+         run.check('A 走完：記為參加完（full）', st == 'full', str(st))
+         # B 中途離開
 diff --git a/tests/library_3f_v2_unit.js b/tests/library_3f_v2_unit.js
 new file mode 100644
 index 000000000..7b0ac9aec
