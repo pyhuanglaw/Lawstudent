@@ -37,6 +37,7 @@ N20_tour_stay  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_to
 N20_tour_joy2  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90
 N20_tour_joy3  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0;RERUN=wait90b
 N20_libcorner  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_corner_shot_probe.py | index.html | 15 | CC_HEADLESS=0
+N20_libwin     | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_lib_window_view_probe.py | index.html | 15 | CC_HEADLESS=0
 # （N20_libcorner：BB 22:29 要 (11.39,−2.8) 的截圖；雲端 Node 已經看過導航格＝東南角、西北可走）
 # （CC 23:0x：BB P1 瀏覽器測試一律排 PC；子代理兩支探針直接排 PC，沒在雲端重跑。慢的先排）
 YT3-E | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 45 | CASES=ev8,grad_friend,grad_gf,end4;CASE_S=1200;CC_HEADLESS=0
