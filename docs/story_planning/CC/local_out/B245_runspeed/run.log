@@ -1,0 +1,6 @@
+cc_b245_runspeed　受測 C:\Users\USER\Documents\wt_cc_B245_runspeed（ffeec06e0）
+PASS 載入 three、engine3d 沒有例外
+PASS ① E3.SPD.run＝6.2　{"walk":1.8,"run":6.2,"bike":8.5}
+PASS ② 走路 1.8、腳踏車 8.5 不變　{"walk":1.8,"run":6.2,"bike":8.5}
+PASS ③ character3d.js 跑步動畫 timeScale 照速度（…/4.1）　timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1
+ALL PASS

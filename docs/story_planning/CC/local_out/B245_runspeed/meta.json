@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "B245_runspeed",
+  "sha": "ffeec06e0",
+  "kind": "node",
+  "script": "docs/story_planning/test_tools/cc/cc_b245_runspeed.js",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-04T00:56:04",
+  "end": "2026-11-04T00:56:40",
+  "seconds": 36,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 37,
+    "mem": 51,
+    "used_gb": 16.4,
+    "chrome_testing": 19
+  }
+}

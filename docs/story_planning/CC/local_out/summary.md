@@ -513,3 +513,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T00:55:16  B245_b07  sha=ffeec06e0  exit=0  83s    PASS [land] ③ 點「打開整張地圖」：手機收起來、大地圖（#bigmap）打開  {"bigmap": true, "phone": false} / PASS [land] 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [B245_b07] | [gpu_wrap 45.3s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 45.4s] BROWSER DISCONNECTED
 - 2026-11-04T00:55:57  B245_swing  sha=ffeec06e0  exit=0  33s    INFO 座位 2 對到的座板頂高 0.549 m（ART-PARK2 寫座面 0.48 m；遊戲的座位沒有高度欄位） / PASS 兩個鞦韆座位各對到不同的座板　2 / ALL PASS
+- 2026-11-04T00:56:40  B245_runspeed  sha=ffeec06e0  exit=0  36s    PASS ② 走路 1.8、腳踏車 8.5 不變　{"walk":1.8,"run":6.2,"bike":8.5} / PASS ③ character3d.js 跑步動畫 timeScale 照速度（…/4.1）　timeScale= a.cur==='walk'?Math.max(0.6,spd/1.45): (a.cur==='run'?Math.max(0.7,spd/4.1 / ALL PASS
