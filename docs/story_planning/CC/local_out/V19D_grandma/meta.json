@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19D_grandma",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py",
+  "env": "DIM=1",
+  "machine": "MSI",
+  "start": "2026-11-04T01:28:30",
+  "end": "2026-11-04T01:30:12",
+  "seconds": 103,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 58,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 27
+  }
+}
