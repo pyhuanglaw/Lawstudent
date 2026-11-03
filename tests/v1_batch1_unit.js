@@ -54,12 +54,18 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('A5 不出題（沒有 legal 那一行、演一次沒有問法律題）',legalAsked===0&&!e.dialogue.some(l=>l.legal),String(legalAsked)); }
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
-    const setup=day=>{ fresh(day,id==='ev_yutong_absent'?18:21.2,id==='ev_yutong_absent'?'noodle':'library');   /* ev_yutong_thanks：20:30～22:00（AA_178 ②）*/ while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
+    const setup=day=>{ fresh(day,id==='ev_yutong_absent'?18:21.2,id==='ev_yutong_absent'?'noodle':'library');   /* ev_yutong_thanks：20:30～22:00（AA_178 ②）*/ while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; G.flags.YT_MET_JOB=true; };   /* 舊存檔讀進來：認識過語彤＝YTJOB.migrate 記 YT_MET_JOB */
     /* 語彤 4 從交接包 v2 起放在期中這兩週（第 8～9 週，AA_11 事件 4）：大一上、下都用第 8 週比 */
     const wk=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
     const dA=id==='ev_yutong_absent'?wk('Y1S1',8):Y1S1+14, dB=id==='ev_yutong_absent'?wk('Y1S2',8):Y1S2+14;
-    setup(dA); const a=EVENTS.check(e); setup(dB); const b=EVENTS.check(e);
-    check('A7 '+id+'：大一上條件都成立也不觸發，大一下才會',a===false&&b===true,JSON.stringify({Y1S1:a,Y1S2:b})); }
+    if(id==='ev_yutong_absent'){   /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店＝這個事件退休（retired），大一上、下都不觸發 */
+      setup(dA); const a=EVENTS.check(e); setup(dB); const b=EVENTS.check(e);
+      check('A7 ev_yutong_absent：退休（AA_610／AA_624），大一上、下條件都成立也不觸發',e.retired===true&&a===false&&b===false,JSON.stringify({Y1S1:a,Y1S2:b})); continue; }
+    /* ev_yutong_thanks（AA 決定 ace533a43）：只留給舊存檔（沒有 YT_JOB_V）；舊存檔照原本：大一上不觸發、大一下才會。新遊戲（YT_JOB_V）一律不觸發 */
+    setup(dA); delete G.flags.YT_JOB_V; const a=EVENTS.check(e); setup(dB); delete G.flags.YT_JOB_V; const b=EVENTS.check(e);
+    check('A7 '+id+'（舊存檔）：大一上條件都成立也不觸發，大一下才會',a===false&&b===true,JSON.stringify({Y1S1:a,Y1S2:b}));
+    setup(dB); G.flags.YT_JOB_V=1; const c=EVENTS.check(e);
+    check('A7 '+id+'（新遊戲 YT_JOB_V）：大一下也不觸發',c===false,JSON.stringify({c})); }
   /* ---------- A8 ---------- */
   { const e=ev('ev_course_selection'); fresh(Y1S1+3,8,'dorm'); picks=[1]; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
     check('A8 「選課結果出來了。通識「城市與散步」——沒選上。備取十七。」',L[0]==='選課結果出來了。通識「城市與散步」——沒選上。備取十七。',L[0]);

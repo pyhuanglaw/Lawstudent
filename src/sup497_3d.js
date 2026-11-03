@@ -90,7 +90,7 @@ const SUP497=(function(){
   S.classBusy=function(G,it){ if(!G||!it||!it.c) return false; const safe=f=>{ try{ return !!f(); }catch(e){ return false; } };
     if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)&&CLS.IN_CLASS.some(f=>f&&!f.sup497&&typeof f.due==='function'&&safe(()=>f.due(G,it)))) return true;
     if(typeof STORY_EVENTS==='undefined') return false; const wd=wdOf(it.day);
-    return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.classAlso||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;   /* classAlso（阿哲約吃麵，AA_542 1-1）接在別的後面演，不佔這一堂 */
+    return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.classAlso||e.yieldClass||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;   /* yieldClass：AA_606 的課堂名片場自己會讓位（events.js），不佔這一堂 */   /* classAlso（阿哲約吃麵，AA_542 1-1）接在別的後面演，不佔這一堂 */
       if(!(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&safe(()=>e.afterClass(it))))) return false;
       if(e.afterExam?e.afterExam!==it.exam:!!it.exam) return false; if(e.once&&done(G,e.id)) return false;
       if(e.term&&[].concat(e.term).indexOf(it.term)<0) return false; if(e.weekday&&[].concat(e.weekday).indexOf(wd)<0) return false;
@@ -295,13 +295,14 @@ const SUP497=(function(){
     dialogue:lns(L.xc.group).concat([Object.assign(ln.apply(null,L.xc.groupAn),{if:{custom:G=>!!G.flags.XC5_RECONCILE&&!!(typeof STORY==='undefined'||!STORY.present||STORY.present(AN,G))}}),{set:{XC_Y4_GROUP:true}}]) };   /* 以安那一句：有 XC5_RECONCILE、以安在臺灣 */
 
   /* ===================================================================== 3 Alison ===================================================================== */
-  /* 3-1 保證認識：第 2 週結束還沒認識她（met_yu）＝第 3 週第一次上完霖澤館的必修、走出來（進校園）自動演一次；接 talkYu 的自我介紹原文 */
-  S.yuMeetDue=function(G){ if(!law(G)||!inTerm(G,'Y1S1')||week(G)!==3||(G.flags&&G.flags.met_yu)||typeof CLS==='undefined'||!CLS.dayItems||!CLS.rec) return false; const R=CLS.rec(G), h=hr(G);
+  /* 3-1 保證認識：第 2 週結束還沒認識她（met_yu）＝第 3 週第一次上完霖澤館的必修、走出來（進校園）自動演一次；接 talkYu 的自我介紹原文。
+     AA_606 3-3：已經在麵店（和阿哲第一次併桌）認識的（SOCIAL.meet 會記 met_yu）也照演一次，她那句改成「……欸，你剛剛講得很好。」（STORY.yuIntroLines）*/
+  S.yuMeetDue=function(G){ if(!law(G)||!inTerm(G,'Y1S1')||week(G)!==3||(G.flags&&G.flags.met_yu&&!(typeof STORY!=='undefined'&&STORY.yuNoodle&&STORY.yuNoodle(G)))||typeof CLS==='undefined'||!CLS.dayItems||!CLS.rec) return false; const R=CLS.rec(G), h=hr(G);
     return CLS.dayItems(G).some(it=>it.c&&it.c.kind==='required'&&!it.exam&&it.room&&(it.room.zone==='classroom'||it.room.zone==='linze')&&R.done&&R.done[it.key]&&!(R.abs&&R.abs[it.key])&&h>=it.t1-0.05&&h<=it.t1+0.75); };   /* 霖澤館 201（憲法、刑總、民總）*/
   S.YU_MEET={ id:'ev_yu_meet_w3', title:'Alison', participants:[YU], location:'campus', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>S.yuMeetDue(G)},
     dialogue:[ ln(null,L.yu.tap),{call:async(G,GM)=>{ const I=typeof STORY!=='undefined'?STORY.YU_INTRO:null; if(!I) return; const who={name:nameOf(YU),charId:YU};
-        if(Array.isArray(G.flags.CAMP_SEEN)&&G.flags.CAMP_SEEN.includes('yu')) await GM.say(null,I.camp); for(const t of I.lines) await GM.say(who,t,{expr:'smile'}); }} ],
+        if(Array.isArray(G.flags.CAMP_SEEN)&&G.flags.CAMP_SEEN.includes('yu')) await GM.say(null,I.camp); for(const t of (STORY.yuIntroLines?STORY.yuIntroLines(G):I.lines)) await GM.say(who,t,{expr:'smile'}); }} ],   /* AA_606 3-3：已經在麵店認識＝「……欸，你剛剛講得很好。」 */
     after:(G,GM)=>{ G.flags.met_yu=true; if(G.flags.metYuDay==null) G.flags.metYuDay=G.day; if(GM&&GM.rel) GM.rel('yu',2); if(typeof SOCIAL!=='undefined'&&SOCIAL.talkedTo) SOCIAL.talkedTo('yu'); } };   /* 同 talkYu 第一次說話（met_yu、metYuDay、熟悉 +2）*/
   /* 3-3 一個人的早餐（大二下第 4～6 週，平日 08:20～09:05 傅鐘長椅，有點熟以上，已經在一起以後；一次）*/
   S.BKF={ id:'ev_yu_bkf', title:'一個人的早餐', participants:[YU], location:'campus', trigger:'auto', once:true, term:['Y2S2'], weeks:[4,5,6], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], npcNear:YU, background:'blur',

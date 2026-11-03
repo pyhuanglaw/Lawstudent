@@ -38,7 +38,7 @@ const GUIDE=(function(){
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
     [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
     [/自習區|總圖/, LIB2F],
-    [/麵店/, {zone:'noodle',name:'阿鳳麵店'}],
+    [/麵店|燒臘/, {zone:'noodle',name:'公館燒臘'}],
   ];
   function infer(t){ t=String(t||''); if(!t||t==='—') return null; for(const [re,d] of RULES){ if(re.test(t)) return d?Object.assign({},d):null; } return null; }
 
@@ -123,7 +123,7 @@ const GUIDE=(function(){
   function fitMarker(m){ const cam=E.camera, vh=(E.h||window.innerHeight||400); const tanH=Math.tan((cam&&cam.fov?cam.fov:50)*Math.PI/360); const px=(m.indoor?0.33:0.38)*(m.gold?1.12:1); const sy=m.h*px/vh*2*tanH; m.spr.scale.set(sy*m.w/m.h,sy,1); m.vh=vh; }
   let goldIt=null; function markGold(it){ goldIt=on()?(it||null):null; for(const m of st.markers) setLabel(m,m.it===goldIt); }
   function updateMarkers(dt){ if(st.markerZone!==E.zone) buildMarkers(); const p=P(), py=p.y; st.hT=(st.hT||0)-dt; const refresh=st.hT<=0; if(refresh) st.hT=5;
-    for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&d>(m.it.radius||1.2)+0.8&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(m.ring){ const rv=(E.levels?(m.it.lv|0)===PLV():true)&&d<(m.it===goldIt?60:20)&&!(E.player.busy&&E.cam.mode!=='follow'); m.ring.visible=rv; if(rv) m.ring.material.opacity=0.42+0.22*Math.sin(performance.now()/420); }
+    for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&d>(m.it.radius||1.2)+0.8&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow')&&!(typeof m.it.visIf==='function'&&!m.it.visIf(p)); m.spr.visible=vis;   /* visIf(p)：隔著牆的名牌不顯示（BUG-GYM-B1-MARK-THRU-WALL-1103：游泳池裡看得到走廊的「去健身房」）*/ if(m.ring){ const rv=(E.levels?(m.it.lv|0)===PLV():true)&&d<(m.it===goldIt?60:20)&&!(E.player.busy&&E.cam.mode!=='follow'); m.ring.visible=rv; if(rv) m.ring.material.opacity=0.42+0.22*Math.sin(performance.now()/420); }
       if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
       if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } }
     hideOverlaps(p); }

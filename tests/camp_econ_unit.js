@@ -30,7 +30,7 @@ const econ=(day,hour,flags)=>{ fresh(); G.stage='econ'; G.day=day; G.hour=hour; 
   econ(d0-7,19.9,{dating_kexin:true}); run(); check('A. 8/15 20:00 以前：還沒進系學會群組、沒有宿營的出發',!PHONE.inGroup(G,'law_new')&&!OUT.get(G,'y1_camp'));
   G.hour=20.1; run(); const q=OUT.get(G,'y1_camp');
   check('A. 8/15 20:00：進「法律系 114 新生（系學會）」、看到 8/15 公告；排好 8/22 08:30 校門的出發（camp、must）',PHONE.inGroup(G,'law_new')&&PHONE.thread(G,'g:law_new').some(m=>/迎新宿營 8\/22/.test(m.text))&&!!q&&q.day===d0&&q.h===8.5&&q.camp&&q.must,JSON.stringify(q));
-  G.day=d0-1; G.hour=21.2; run(); check('A. 8/21 21:00 小隊名單',PHONE.thread(G,'g:law_new').some(m=>/小隊名單｜第七小隊/.test(m.text)));
+  G.day=d0-1; G.hour=21.2; run(); check('A. 8/21 21:00 小隊名單',PHONE.thread(G,'g:law_new').some(m=>/小隊名單貼出來了。第七小隊七個人，你認得的只有自己的名字/.test(m.text)&&!/凱文|江明軒|許柏翰/.test(m.text)));
   // B 叫醒、直接出發
   G.day=d0; G.weekday=5; G.hour=6; check('B. 8/22 睡著：08:00 叫醒（coreCallAt）',STORY.coreCallAt(G)===8,String(STORY.coreCallAt(G)));
   G.hour=7.9; check('B. 07:54 還不直接出發（家裡選單照常，有「出發：校門 08:30」）',!STORY.homeCall(G)&&OUT.due(G)===q,JSON.stringify(OUT.due(G)));

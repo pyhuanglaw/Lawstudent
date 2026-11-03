@@ -1,0 +1,15 @@
+{
+ "glb": "assets/models/char/second_ai/book_open.glb",
+ "tris": 392,
+ "bytes": 38728,
+ "tex": 512,
+ "page_w": 0.15,
+ "half_h": 0.1035,
+ "cover_over": 0.003,
+ "cover_t": 0.0025,
+ "pages_t": 0.009,
+ "outer_page_top_z": 0.011,
+ "outer_cover_back_z": -0.0005,
+ "gutter_back_z": -0.0157,
+ "frame": "原點＝書溝中間；x 左右、y 頁面往上、+z 朝向讀的人"
+}

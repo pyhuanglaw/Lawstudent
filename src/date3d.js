@@ -229,7 +229,7 @@ const DATE=(function(){
      homeCity：她那一天在老家的城市（S6 的以安、芷若；不在＝''）；homeOnly：今天照 T7a 只能列的地點，不是這種情況＝null */
   S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。',classmate_peishan:'你要來台中喔？好啊！我幫完早餐店就去車站接你！'};   /* 沛珊：AA_372 第 7 節（新寫）*/
   S.homeCity=function(G,id,day){ if(!S.HOME_NO[id]||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,day==null?G:Object.assign({},G,{day})); return awayCity(p,id); };
-  S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; { const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(T&&T.exam) return null; }   /* AA_383 第 2 節（企劃線 98516b51）：考試週的規則優先——一日遊在考試週本來就不能排（S.check「考試週」），T7a 只列的 D26 也約不成：手機照「回台中，不在臺北。」（以安第 8 週 10/25～26 期中考考完回台中）*/ const L=Object.keys(D().locations).filter(k=>cityOf((S.loc(k)||{}).area)===c&&S.listable(k)); return L.length&&S.canAskCore(G,id).ok?L:null; };
+  S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; { if(typeof CLS!=='undefined'&&CLS.examNear?CLS.examNear(G,G.day):(()=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return !!(T&&T.exam); })()) return null; }   /* AA_638 ①-4 */   /* AA_383 第 2 節（企劃線 98516b51）：考試週的規則優先——一日遊在考試週本來就不能排（S.check「考試週」），T7a 只列的 D26 也約不成：手機照「回台中，不在臺北。」（以安第 8 週 10/25～26 期中考考完回台中）*/ const L=Object.keys(D().locations).filter(k=>cityOf((S.loc(k)||{}).area)===c&&S.listable(k)); return L.length&&S.canAskCore(G,id).ok?L:null; };
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
   S.t7aYes=(G,id,only,day)=>only&&S.T7A_YES[id]&&S.homeCity(G,id,day)?S.T7A_YES[id]:null;
   /* 這個時間能不能約（o：who、locs、day、depart、transport、fromHome、skip＝改時間時排除的那一趟）→ {ok, why, warns, plan, cost} */
@@ -244,7 +244,7 @@ const DATE=(function(){
     if(!ov) for(const l of P.locs){ const cz=S.closedOn(l,day); if(cz) return no(cz); }   /* 整個地點的休館日（D06、D07 週一休館；AA_128 第 2 節地點表）*/   /* AA_128 11-1：日本、美國路線在國外的期間（STORY.ROUTE_DATES 出發日～返台日）不能預約 D01～D32 */
     /* 要看的時段：當天來回＝出發到回來；兩天一夜＝第一天出發到半夜、第二天到回來（她的作息看第一天到 22:00、第二天 08:30 起）*/
     const span=ov?[[day,a,24,a,O.dayEnd],[day+1,0,b,O.morning,P.leave]]:[[day,a,b,a,b]], dw=d=>d===day?'那天 ':'隔天 ';
-    if(ov||P.kind==='day') for(const [d] of span){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T&&T.exam) return no('考試週'); }   /* AA_126 1-1（企劃線第 41 行）：「一日遊和兩天一夜在考試週的日子不能選，行程表上直接標『考試週』」（期中第 8～9 週、期末第 16 週）；半日、晚上照舊（只避開考試時段）——BUG-DATE-EXAMWEEK-DAY-1021 */
+    if(ov||P.kind==='day') for(const [d] of span){ if(typeof CLS!=='undefined'&&CLS.examNear?CLS.examNear(G,d):(()=>{ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; return !!(T&&T.exam); })()) return no(typeof CLS!=='undefined'&&CLS.EXAM_NEAR_WHY||'那幾天有考試。'); }   /* AA_638 ①-4：只擋自己有考試的那天和前一天（原本整個考試週）*/   /* AA_126 1-1（企劃線第 41 行）：「一日遊和兩天一夜在考試週的日子不能選，行程表上直接標『考試週』」（期中第 8～9 週、期末第 16 週）；半日、晚上照舊（只避開考試時段）——BUG-DATE-EXAMWEEK-DAY-1021 */
     if(typeof CLS!=='undefined'&&CLS.dayItems){ for(const [d,x,y] of span) for(const it of (CLS.dayItems(G,d)||[])){ if(it.t1<=x||it.t0>=y) continue;
       if(it.examMain||(CLS.examAt&&CLS.examAt(G,d,it.t0,it.t1))) return no(dw(d)+hm(it.t0)+' 要考'+it.c.name);
       warns.push((ov&&d!==day?'隔天':'')+(isLaw(it.c)?'會錯過 '+hm(it.t0)+' 的'+it.c.name+'（法律課不點名）':'會少一次出席：'+hm(it.t0)+' 的'+it.c.name)); } }

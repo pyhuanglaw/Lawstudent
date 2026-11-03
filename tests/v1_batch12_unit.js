@@ -30,7 +30,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); said=[]; opts=[]; picks=[]; caps=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; E.player.obj.position.x=0; E.player.obj.position.z=0; };
 const keepOn=(day,hour,zone,flags)=>{ const ev=G.events, soc=G.social, msgs=G.msgs, phone=G.phone, contacts=G.contacts, ch=G.choices, act=G.activities; fresh(day,hour,zone,Object.assign({},G.flags,flags||{})); G.events=ev; G.social=soc; SOCIAL.bind(G); if(msgs) G.msgs=msgs; if(phone) G.phone=phone; if(contacts) G.contacts=contacts; G.choices=ch; if(act) G.activities=act; };
 const lines=()=>said.map(s=>s.t);
@@ -106,9 +106,9 @@ const KX={dating_kexin:true};
     const f=cgFile('cg_nye_rooftop');
     check('CG-15：登錄的是正式檔 assets/cg/zhe/event_nye_rooftop.webp、1920×1080、標題「頂樓的跨年」',!!f&&f.file==='assets/cg/zhe/event_nye_rooftop.webp'&&!f.missing&&JSON.stringify(f.size)==='[1920,1080]'&&CG_REGISTRY.cg_nye_rooftop.title==='頂樓的跨年',JSON.stringify(f)); }
   /* ---------- A15：考完的宵夜 ---------- */
-  { fresh(termDay(9,3),21,'campus',KX); meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); picks=['繼續吃滷味']; await EVENTS.run(ev('ev_midterm_supper'));
+  { fresh(termDay(9,3),21,'campus',KX); meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); picks=['繼續聽']; await EVENTS.run(ev('ev_midterm_supper'));
     const o=opts.find(x=>x.includes('「……他有念啦。」'));
-    check('A15：明軒那個選項：「……他有念啦。」／（繼續吃滷味）（BB 2026-10-14）',!!o&&JSON.stringify(o)==='["「……他有念啦。」","（繼續吃滷味）"]'&&!G.flags.SUPPER_MX_EGG&&!lines().includes('明軒瞪了你一眼。'),JSON.stringify(o)); }
+    check('A15：明軒那個選項：「……他有念啦。」／（繼續聽）（BB 2026-10-14；AA_618 2-4-1 宵夜改在日常失速，AA 定稿「（繼續聽）」）',!!o&&JSON.stringify(o)==='["「……他有念啦。」","（繼續聽）"]'&&!G.flags.SUPPER_MX_EGG&&!lines().includes('明軒瞪了你一眼。'),JSON.stringify(o)); }
   /* ---------- A19：以安的第一則訊息 ---------- */
   const anMsgs=()=>(G.msgs||[]).filter(m=>m.tag==='an_first_note'||m.tag==='an_split_table').map(m=>({tag:m.tag,day:m.day,h:m.h,th:m.th,from:m.from,text:m.text}));
   const D2=2;

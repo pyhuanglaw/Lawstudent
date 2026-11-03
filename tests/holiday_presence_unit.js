@@ -33,7 +33,7 @@ const P=(id,day)=>STORY.presence(id,{day,flags:{},stage:'law'});
 const NM={heroine_01:'以安',zhe:'阿哲',classmate_bohan:'柏翰',classmate_mingxuan:'明軒',heroine_02:'芷若',kai:'阿凱'};
 let G=null;
 const GM0={get G(){ return G; },E:{npcs:[],interactables:[],zone:{seats:[]},player:{obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0}},npc:{},D:{active:false}};
-const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone:zone||'campus',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],stats:{classes:0}};
+const fresh=(day,hour,zone,flags)=>{ G={v:3,stage:'law',day,hour,zone:zone||'campus',weekday:wdOf(day),weather:'clear',energy:70,money:50000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,afternoonDone:true,classDone:true,introDone:true,metAn:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,contacts:{},invites:[],stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM0); INV.rec(G); return G; };
 const know=(id,fam)=>{ SOCIAL.remember(id,'FIRST_MET',''); const r=SOCIAL.rel(id); r.fam=fam||30; r.trust=10; r.comf=10; G.contacts[id]=1; };
 

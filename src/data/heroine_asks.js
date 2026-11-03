@@ -23,7 +23,7 @@ const HASK_DATA={
       daily:[
         {place:'library',th:3,pre:{d:'next',h:[15.5],line:'明天下午三點半，總圖二樓靠窗。我帶憲法筆記，你帶題目。',vac:{line:'放假的總圖人很少。明天下午三點半，二樓靠窗。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。我幫你留了位子，在我旁邊。'}},
         {place:'cafe',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我要去 Café 寫報告。你要寫東西的話，一起。',vac:{line:'明天下午我要去 Café 整理上學期的筆記。你要寫東西的話，一起。'}},dat:{d:'next',h:[15.5,17.5],line:'明天 Café。今天不寫報告，就喝咖啡。',vac:{line:'明天 Café。放假，就喝咖啡。'}}},
-        {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，阿鳳麵店。吃完我要回去寫報告，所以準時。',vac:{line:'明天六點，阿鳳麵店。吃完我要回去讀書，所以準時。'}},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃乾麵。'}},
+        {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，公館燒臘。吃完我要回去寫報告，所以準時。',vac:{line:'明天六點，公館燒臘。吃完我要回去讀書，所以準時。'}},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃叉燒。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[16],line:'明天下午四點，溫州街。我空了兩個小時，沒有要做什麼。'},dat:{d:'next',h:[16,15.5],line:'明天下午，溫州街。這次什麼都沒排。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天六點半，椰影大道。起得來就來。'},dat:{d:'next',h:[6.5],line:'明天六點半。我在晨思鐘前面。'}}],
       out:[
@@ -108,7 +108,7 @@ const HASK_DATA={
       later:'好！那你想好哪天跟我說喔。', no:'好喔……那下次！', yes:'好！！' },
     kexin:{ send:21.5,
       daily:[   /* 交往中不另外約日常：已經有每週的「我們的日子」（KX_OUR_DAY，kxod3d.js）；表上只有交往前的句子（AA_494 第 7 節）*/
-        {place:'noodle',th:3,pre:{d:'next',h:[18],line:'明天我去首都帝大辦事。六點，阿鳳麵店。你沒事就來。'}},
+        {place:'noodle',th:3,pre:{d:'next',h:[18],line:'明天我去首都帝大辦事。六點，公館燒臘。你沒事就來。'}},
         {place:'cafe',th:3,pre:{d:'next',h:[15],line:'明天下午我在公館。三點，兩點半。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[19,21],line:'明天晚上我在公館。吃完走一段，溫州街。'}}],
       out:[

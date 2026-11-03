@@ -249,8 +249,8 @@ await sec(4,async()=>{ const L=YLX(), d0=D(LEC_DAY), h0=hOf(LEC_HM), d=D(md2key(
   const want1=qt(B42).slice(0,2).concat(qt(B42).slice(2,5),qt(B42).slice(5),B(0));
   check('4. ①「我去聽。」：她回「'+LEC_ROWS[0].r[0]+'」、YL_LEC listen；排 10/20（三）18:50 法律系館A 201 出遊（走過去約 10 分鐘）',J(o1.rep)===J([['player','我去聽。'],['yule',LEC_ROWS[0].r[0]]])&&
     !!o1.q&&o1.q.day===d&&Math.abs(o1.q.h-(18+50/60))<1e-9&&o1.q.place==='法律系館A 201'&&o1.q.ev==='ev_yule_lecture'&&o1.q.state==='planned'&&o1.due&&H.G.flags.YL_LEC==='listen'&&/18:50，A館 201/.test(LEC_ROWS[0].after),J(o1));
-  check('4. ①演：4-2（法律系館A 201）接 4-3、選「妳那時候怎麼說？」那一支，逐字；背景 法律系館A 201 → 阿鳳麵店；記 YL_ROOM、記憶 YL_LECTURE；演完 21:15 左右（不到 21:40）',J(o1.s)===J(want1)&&
-    J(scene1)===J(['法律系館A 201/linze_201','阿鳳麵店/noodle_table','阿鳳麵店/noodle_table'])&&H.G.flags.YL_ROOM===true&&SOCIAL.has('yule','YL_LECTURE')&&OUT.get(H.G,'yl_lecture').state==='done'&&!!H.G.events.done.ev_yule_lecture&&Math.abs(o1.t1-T(d,21.25))<0.05,J({s:o1.s,want1,scene1,t1:o1.t1-T(d,0)}));
+  check('4. ①演：4-2（法律系館A 201）接 4-3、選「妳那時候怎麼說？」那一支，逐字；背景 法律系館A 201 → 公館燒臘（AA_612）；記 YL_ROOM、記憶 YL_LECTURE；演完 21:15 左右（不到 21:40）',J(o1.s)===J(want1)&&
+    J(scene1)===J(['法律系館A 201/linze_201','公館燒臘/noodle_table','公館燒臘/noodle_table'])&&H.G.flags.YL_ROOM===true&&SOCIAL.has('yule','YL_LECTURE')&&OUT.get(H.G,'yl_lecture').state==='done'&&!!H.G.events.done.ev_yule_lecture&&Math.abs(o1.t1-T(d,21.25))<0.05,J({s:o1.s,want1,scene1,t1:o1.t1-T(d,0)}));
   phAt(d,hA+0.1); phAt(d+1,9); const none1=byTag('yl_lec_after').length;
   check('4. ①去了：21:40 沒有那一則私訊（記 x:went）',none1===0&&(H.G.flags.YL_PH||{}).yl_lec_after==='x:went',J((H.G.flags.YL_PH||{}).yl_lec_after));
   const o1b=await run1(1), o1c=await run1(2);
@@ -258,8 +258,8 @@ await sec(4,async()=>{ const L=YLX(), d0=D(LEC_DAY), h0=hOf(LEC_HM), d=D(md2key(
   /* ② 聽完去吃東西？ */
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',1); const rep2=replies('yl_lec_ask').map(m=>m.text); phAt(d,19); const q2=OUT.get(H.G,'yl_lecture'), q2c=q2&&Object.assign({},q2);
   at(d,20.05); await goOut('yl_lecture',[0]); const s2=yuleSaid(), t2=T(H.G.day,H.G.hour);
-  check('4. ②「聽完去吃東西？」：她回「'+LEC_ROWS[1].r[0]+'」、YL_LEC eat；排 10/20 20:15 阿鳳麵店（走過去約 15 分鐘）',J(rep2)===J(['聽完去吃東西？',LEC_ROWS[1].r[0]])&&!!q2c&&q2c.day===d&&q2c.h===20.25&&q2c.place==='阿鳳麵店'&&H.G.flags.YL_LEC==='eat'&&/20:15，阿鳳麵店/.test(LEC_ROWS[1].after),J(q2c));
-  check('4. ②演：4-2b（阿鳳麵店）接 4-3，逐字；記 YL_ROOM；演完 21:15',J(s2)===J(qt(B42b).concat(B(0)))&&H.G.flags.YL_ROOM===true&&Math.abs(t2-T(d,21.25))<0.05,J({s2,t2:t2-T(d,0)}));
+  check('4. ②「聽完去吃東西？」：她回「'+LEC_ROWS[1].r[0]+'」、YL_LEC eat；排 10/20 20:15 公館燒臘（走過去約 15 分鐘）',J(rep2)===J(['聽完去吃東西？',LEC_ROWS[1].r[0]])&&!!q2c&&q2c.day===d&&q2c.h===20.25&&q2c.place==='公館燒臘'&&H.G.flags.YL_LEC==='eat'&&/20:15，阿鳳麵店/.test(LEC_ROWS[1].after),J(q2c));
+  check('4. ②演：4-2b（公館燒臘）接 4-3，逐字；記 YL_ROOM；演完 21:15',J(s2)===J(qt(B42b).concat(B(0)))&&H.G.flags.YL_ROOM===true&&Math.abs(t2-T(d,21.25))<0.05,J({s2,t2:t2-T(d,0)}));
   /* ③、沒回 */
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',2); const rep3=replies('yl_lec_ask').map(m=>m.text); phAt(d,hA-1/60); const e3=byTag('yl_lec_after').length; phAt(d,hA); const M3=byTag('yl_lec_after');
   check('4. ③「那天不行。」：她回「'+LEC_ROWS[2].r[0]+'」、YL_LEC no；10/20 21:40 四則（逐字，21:39 還沒有）；沒有出遊、不記 YL_ROOM',J(rep3)===J(['那天不行。',LEC_ROWS[2].r[0]])&&H.G.flags.YL_LEC==='no'&&e3===0&&

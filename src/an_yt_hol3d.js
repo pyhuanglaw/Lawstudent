@@ -136,7 +136,7 @@ const ANYTHOL=(function(){
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; for(const f of [S.asks,S.call,S.group]){ try{ f(G); }catch(e){ console.warn('ANYTHOL phone',e); } } };
 
   /* 2-2 的背景：最裡面靠窗那一桌（assets/bg/noodle_table_window.webp，LAWWW2 dcc4cf7 長桌第二版，一直沒登記）*/
-  if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.noodle_table_window) OUT.BG.noodle_table_window={label:'阿鳳麵店・靠窗的桌子',image:'assets/bg/noodle_table_window.webp'};
+  if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.noodle_table_window) OUT.BG.noodle_table_window={label:'公館燒臘・靠窗的桌子',image:'assets/bg/noodle_table_window.webp'};
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
   return S;
 })();

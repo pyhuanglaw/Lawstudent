@@ -8,7 +8,7 @@
        events.js（6-6）、heroine_asks3d.js（6-7～6-9）、sis_b13_events.js（6-11）、sis_b12_events.js（6-12）、fest_events.js（6-14）、story3d.js talkSis 問這裡的 winterLine（6-15）、
        r3_events.js 書桌夜的旁白（七句輪流）、postgrad3d.js（3-3 生日的家族群組）。
    說話的人：她的 id（交往中 SOCIAL.displayName 自己會換成「書瑀」，AA_411 第 2 節）；家族的學妹＝family_junior「佳穎」（AA_497 第 8 節第 5 點）；Kevin 照 sis_b12／b15 寫 'Kevin'；
-   2-3 碩一的學妹沒有名字＝speaker '學妹'（同 r3_events.js「她爸爸」的寫法）。 */
+   2-3 碩一的學妹沒有名字＝speaker '學妹'（同 r3_events.js「她奶奶」的寫法）。 */
 'use strict';
 const SISB16_LINES={
   /* 1-2 1/19（五）21:00 私訊（回「好。」排出遊；「明天不行。」→ 她一句，不排、不補）*/

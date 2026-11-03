@@ -27,7 +27,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
 const Y2=['civ','noodle','pothos','y1_0','y1_1','y1_2','y1_3','y1_4'];
-const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,EXCH_RULE:1,EXCH_APPLIED_DAY:D('2027-11-18'),EXCHANGE_ROUTE:'TW',
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,YT_MET_JOB:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,EXCH_RULE:1,EXCH_APPLIED_DAY:D('2027-11-18'),EXCHANGE_ROUTE:'TW',
     ROOM_Y2:D('2026-09-06'),ROOM_Y2_ITEMS:Y2.slice(),POTHOS:true,pothosWaterN:2,ROOM_Y3:D('2027-09-05'),ROOM_Y3_ITEMS:['notes_y2','zq_usb'],ROOM_Y3_DISCARD:'noodle',Y4_PATH:'bar',Y4_PATH_DAY:D('2028-06-08')},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0,study:0},vac:{reg:{}}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; cards=[]; entered=[]; vis=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; ADV.active=false; return G; };
 const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);

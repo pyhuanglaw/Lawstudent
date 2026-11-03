@@ -45,7 +45,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     check('5. 阿哲「恭喜。……我明年一定跟上。」柏翰「上了。」「研究所的報告還沒寫完。」',H.msgs('g:noodle_team').join('|').includes('恭喜。……我明年一定跟上。|上了。|研究所的報告還沒寫完。'));
     check('5. 學姊 15:20「恭喜。」「……那張讀書計畫，可以收起來了。」（AA_327 2-Y4-60）',H.msgs('p:heroine_05').join('|').includes('恭喜。|……那張讀書計畫，可以收起來了。'));
     const nq=OUT.get(G,'pg_bar_noodle_2029'); check('5. 18:00 麵店是出遊（可以錯過）',nq&&nq.h===18);
-    H.said=[]; await PG.EVS[2].beforeOuting(G,GM,nq); check('5. Z2：紅紙；阿哲「（舉起碗）今天我請。……明年換你請我。」',H.has('（麵店的長桌。阿姨在門口貼了一張紅紙，上面是你的名字。）')&&H.has('（舉起碗）今天我請。……明年換你請我。'));
+    H.said=[]; await PG.EVS[2].beforeOuting(G,GM,nq); check('5. Z2：紅紙；阿哲「（舉起碗）今天我請。……明年換你請我。」',H.has('（燒臘店的長桌。阿姨在門口貼了一張紅紙，上面是你的名字。）')&&H.has('（舉起碗）今天我請。……明年換你請我。'));
     H.at('2029-12-14',21); const c=PG.due(G); check('6. 21:00 以安二試放榜那一步（FRIEND；S6 起是祐廷自己查到，AA_589 第 7-5 節）',c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c);
     check('6. S6（AA_589 第 90、91 列、第 7-5 節）：旁白「（你又打開考選部的網頁。…找到她的名字。）」→ 祐廷「看到妳的名字了。」→ 她「謝謝。一月面試。」；不是交往中不提美國；不是電話（沒有「（電話）」、不是群組）',H.said[0].who==null&&H.said[0].t==='（你又打開考選部的網頁。司法官二試的榜單，你往下拉，找到她的名字。）'&&H.said[1].t==='看到妳的名字了。'&&H.said[2].who==='沈以安'&&H.said[2].t==='謝謝。一月面試。'&&H.said.length===3&&!H.said.some(s=>/電話/.test(String(s.who))),JSON.stringify(H.said));
     H.at('2030-01-25',21); const c2=PG.due(G); H.said=[]; H.picks=['看到妳的名字了']; await PG.runStep(GM,c2);

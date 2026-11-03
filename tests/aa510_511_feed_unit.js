@@ -384,7 +384,7 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   const run=(d,h)=>{ at(d,h); HEARD.phone(H.G); PHONE.tick(H.G); };
   const msgs=tag=>(H.G.msgs||[]).filter(m=>m.tag==='heard_'+tag);
   const D323=DK('2029-03-23'); fresh(D323,21,{}); PHONE.join(H.G,'noodle_team','麵店團'); run(D323,21.3); const a0=msgs('h510_yu_an').length; run(D323,21.4);
-  check('8. AA_510 1-4：Alison 3/23（研究所放榜隔天）21:20 麵店團群組「以安放榜那天，在麵店點了一碗大的。吃不完，給阿哲。她說今天可以。」',a0===0&&J(msgs('h510_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安放榜那天，在麵店點了一碗大的。吃不完，給阿哲。她說今天可以。']]),J(msgs('h510_yu_an')));
+  check('8. AA_510 1-4：Alison 3/23（研究所放榜隔天）21:20 麵店團群組「以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。」',a0===0&&J(msgs('h510_yu_an').map(m=>[m.th,m.from,m.name,m.text]))===J([['g:noodle_team','yu','Alison','以安放榜那天，在燒臘店點了一份三寶飯。吃不完，給阿哲。她說今天可以。']]),J(msgs('h510_yu_an')));
   fresh(D323,21,{}); run(D323,21.4); check('8. 不在麵店團群組：沒有（x:noodleGroup）',!msgs('h510_yu_an').length&&HEARD.rec(H.G).ph.h510_yu_an==='x:noodleGroup');
   const D610=DK('2029-06-10'); fresh(D610,23,{}); run(D610,23.6); const yu0=msgs('h510_yule').length; fresh(D610,23,{yulePassDay:1}); run(D610,23.6); const yu1=msgs('h510_yule').map(m=>[m.th,m.text]);
   check('8. AA_510 7-4：予樂（見過她才有）6/10 23:30 兩則「可昕說她典禮沒哭 ……」「我有拍到 ……」',yu0===0&&J(yu1)===J([['p:yule','可昕說她典禮沒哭 拍大合照的時候她偷偷擦眼睛'],['p:yule','我有拍到 她叫我刪掉 我沒有']]),J(yu1));

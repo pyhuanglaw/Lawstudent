@@ -30,8 +30,10 @@ const CAFE1='芷若給祐廷一張紙，上面是常客的名字和點法：「�
 (async()=>{
 check('0. 載得到：JOBS 有 cafe、books；Café、書店的區域',ok&&JOBS.KEYS.includes('cafe')&&JOBS.KEYS.includes('books')&&JOBS.ZONE_KEY.cafe==='cafe'&&JOBS.ZONE_KEY.bookstore==='books',err);
 
-await sec(1,async()=>{ fresh('2025-11-08',15,'cafe'); H.E.interactables=[]; const it=JOBS.addDesk(GM,'cafe');
-  check('1. Café 門上的告示：大一上還沒有',!!it&&it.hidden===true);
+await sec(1,async()=>{ fresh('2025-11-08',15,'cafe'); H.G.stage='econ'; H.E.interactables=[]; const it=JOBS.addDesk(GM,'cafe');
+  check('1. Café 門上的告示：經濟系那一年沒有',!!it&&it.hidden===true);
+  fresh('2025-11-08',15,'cafe'); H.E.interactables=[]; const it1=JOBS.addDesk(GM,'cafe');
+  check('1. Café 門上的告示：法律系大一上就有（使用者 11-03「一開始就要有」；原本大一下第 1 週起）',!!it1&&it1.hidden===false);
   fresh(key(TD('Y1S2',1,6)),15,'cafe'); H.E.interactables=[]; const it2=JOBS.addDesk(GM,'cafe'); H.E.interactables=[]; const it3=JOBS.addDesk(GM,'bookstore');
   check('1. 大一下第 1 週起：「應徵：徵外場夥伴　週四晚上、週六下午　意者洽櫃台」、書店「應徵：週末缺人。會搬書、不怕灰塵。」',it2.hidden===false&&it2.label==='應徵：徵外場夥伴　週四晚上、週六下午　意者洽櫃台'&&it3.label==='應徵：週末缺人。會搬書、不怕灰塵。',it2.label+'｜'+it3.label);
   /* 第 3 次點餐：老闆開口 */
@@ -77,7 +79,7 @@ await sec(4,async()=>{ /* 芷若在英國的學期：沒有她那一句、Café 
   /* 書店 */
   const b1=TD('Y1S2',3,6); fresh(key(b1),9.5,'bookstore'); hire('books',[6,7]); const pay=await shift('books',b1,['「照作者排。」','「幫他找。」','「先擦乾淨。」']);
   const k=H.said.findIndex(s=>s.t==='（老闆經過，看了一眼，沒有說話。）');
-  check('4. 書店週六（沛珊在）：整理書架之後沛珊一句；第 1 件「藍色的書」（三段之後）',H.said[k+1]&&H.said[k+1].t==='（她蹲在最下面一排，小聲念書名給自己聽。）'&&said('我記得是藍色的封面。……書名忘了。')&&saidBy('郭沛珊','（小聲）他剛剛說，他媽媽以前常煮這道。'),J(L()));
+  check('4. 書店週六（沛珊在）：整理書架之後沛珊一句；第 1 件「藍色的書」（三段之後）',H.said[k+1]&&H.said[k+1].t==='（她蹲在最下面一排，小聲念書名給自己聽。）'&&said('我記得是藍色的封面。……書名忘了。')&&saidBy('沛珊','（小聲）他剛剛說，他媽媽以前常煮這道。')   /* AA_606 第 2 節：對話框寫叫的名字（原本「郭沛珊」）*/,J(L()));
   check('4. 書店：三段、借一本書、薪水 784（toast「舊路書房 薪水 784 元」）',said('（有人問有沒有一本書。你翻了三本目錄。）')&&said('（找到的時候，他已經在看別本了。）')&&said('（擦完的書放在門口那一格，下午就賣掉兩本。）')&&said('（你借了一本書回去。）')&&pay===784&&toasts.includes('舊路書房 薪水 784 元'),J(L()));
   await shift('books',b1+1); check('4. 週日：只有老闆（沒有沛珊那一句）',!said('（她蹲在最下面一排，小聲念書名給自己聽。）')&&!said('（她把一本書抽出來給你看：「這本封面好可愛。……我沒有要買，我只是給你看。」）'));
   await shift('books',b1+7); check('4. 第三班：第 2 件「老闆的規則」',saidBy('老闆','在這裡看書不用買，坐著看也可以。')&&said('不要把書弄濕就好。……上次有人邊看邊吃剉冰。'));

@@ -56,24 +56,24 @@ async def main():
         b, ctx, pg, cdp, errs = await PL.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await PL.wait_loaded(pg))
         # ---- 站在平台上 ----
-        run.setup('讀檔：法學院廣場、萬才館大樓梯頂端的平台 (87,-99.3)、第 1 層、3.63 m，10:00，關掉條件事件')
-        await PL.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'pos': {'x': 87, 'z': -99.3, 'yaw': 0, 'lv': 1, 'y': 3.63}}, quiet_events=True)
+        run.setup('讀檔：法學院廣場、萬才館大樓梯頂端的平台 (84.76,-87.23)、第 1 層、3.63 m，10:00，關掉條件事件')
+        await PL.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'pos': {'x': 84.76, 'z': -87.23, 'yaw': 0, 'lv': 1, 'y': 3.63}}, quiet_events=True)
         await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
         s = await pg.evaluate(POS); run.check('在平台上（第 1 層、3.63 m）', s['lv'] == 1 and abs(s['y'] - 3.63) < 0.05, json.dumps(s))
         run.setup('鏡頭轉向廣場（E.cam.yaw）')
-        await pg.evaluate(FACE + '([87,-86])')
+        await pg.evaluate(FACE + '([75.86,-77.35])')
         await run.shot(pg, 'platform_facing_plaza')
-        for lab, x, z in (('大樓梯正前方', 87, -86.5), ('偏東（弧形陽台前）', 93, -88), ('偏西（弧形量體前）', 81, -88)):
+        for lab, x, z in (('大樓梯正前方', 76.19, -77.72), ('偏東（弧形陽台前）', 81.66, -74.82), ('偏西（弧形量體前）', 72.74, -82.85)):
             await tap_point(pg, cdp, run, '站在平台上點廣場地面（%s）：落點是點到的地面、第 0 層' % lab, x, z, 0, 0, 0.0)
         run.setup('鏡頭轉向陽台')
-        await pg.evaluate(FACE + '([93.5,-100.6])')
-        await tap_point(pg, cdp, run, '站在平台上點陽台：落點在第 1 層、3.63 m', 93.5, -100.6, 1, 1, 3.63)
+        await pg.evaluate(FACE + '([90.46,-83.85])')
+        await tap_point(pg, cdp, run, '站在平台上點陽台：落點在第 1 層、3.63 m', 90.46, -83.85, 1, 1, 3.63)
         # ---- 只點一下走下大樓梯 ----
         await pg.evaluate("(()=>{ const P=GAME.E.player; P.path=null; })()")
-        await pg.evaluate(FACE + '([87,-86])')
+        await pg.evaluate(FACE + '([75.86,-77.35])')
         s0 = await pg.evaluate(POS); run.check('還在平台上', s0['lv'] == 1 and abs(s0['y'] - 3.63) < 0.05, json.dumps(s0))
         t0 = time.time()
-        tp = await tap_point(pg, cdp, run, '點一下大樓梯正前方的廣場：落點在第 0 層', 87, -86.5, 0, 0, 0.0, cancel=False); ok = bool(tp)
+        tp = await tap_point(pg, cdp, run, '點一下大樓梯正前方的廣場：落點在第 0 層', 76.19, -77.72, 0, 0, 0.0, cancel=False); ok = bool(tp)
         mids = 0; last = None
         while ok and time.time() - t0 < 300:
             s = await pg.evaluate(POS)
@@ -86,14 +86,14 @@ async def main():
         run.check('只點一下就沿著大樓梯走到點的地方（第 0 層、高度 0、離落點 < 0.6 m）', ok and last['lv'] == 0 and abs(last['y']) < 0.05 and d < 0.6 and mids > 0,
                   '%s；離落點 %.2f m；樓梯中段取樣 %d 次；%.0f 秒' % (json.dumps(last), d, mids, time.time() - t0))
         # ---- 站在廣場上 ----
-        run.setup('讀檔：法學院廣場 (87,-84)、第 0 層，10:00')
-        await PL.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'pos': {'x': 87, 'z': -84, 'yaw': 3.1416}}, quiet_events=True)
+        run.setup('讀檔：法學院廣場 (74.52,-75.86)、第 0 層，10:00')
+        await PL.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'pos': {'x': 74.52, 'z': -75.86, 'yaw': 3.1416}}, quiet_events=True)
         await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
-        await pg.evaluate(FACE + '([87,-95])')
+        await pg.evaluate(FACE + '([81.88,-84.04])')
         await run.shot(pg, 'plaza_facing_stairs')
-        await tap_point(pg, cdp, run, '站在廣場上點廣場地面：落點照舊（第 0 層、高度 0）', 90.5, -87.5, 0, 0, 0.0)
-        h = await pg.evaluate("GAME.E.heightAt(87,-93.5,0)")
-        await tap_point(pg, cdp, run, '站在廣場上點大樓梯中段：落點在樓梯上（高度 %.2f m）' % h, 87, -93.5, 0, 0, h)
+        await tap_point(pg, cdp, run, '站在廣場上點廣場地面：落點照舊（第 0 層、高度 0）', 79.46, -76.12, 0, 0, 0.0)
+        h = await pg.evaluate("GAME.E.heightAt(80.88,-82.92,0)")
+        await tap_point(pg, cdp, run, '站在廣場上點大樓梯中段：落點在樓梯上（高度 %.2f m）' % h, 80.88, -82.92, 0, 0, h)
         run.check('沒有 JS 例外', not errs, '; '.join(errs[:3]))
         await b.close()
     sys.exit(run.finish())
