@@ -473,11 +473,16 @@ async def run_case(BR, name, cs, docs, run):
         run.check('[%s] 畫面上沒有舊設定的字（%s）' % (name, '、'.join(BAN_OLD)), not bad, J(bad[:4]))
         rl_ok = True
         if cs.get('reload_name'):   # 第一班演完：照玩家「讀檔」一次（GAME.snapshot()→GAME.applySave，同「繼續」），名字還是語彤嗎
-            snap2 = await pg.evaluate("()=>GAME.snapshot()"); snap2 = snap2.get('G', snap2) if isinstance(snap2, dict) else snap2
-            pre = await pg.evaluate("(()=>({name:SOCIAL.displayName('heroine_03'), met:!!GAME.G.flags.met_heroine_03, fm:SOCIAL.has('heroine_03','FIRST_MET'), fm120:!!(GAME.G.social&&GAME.G.social.fm120), mem:(GAME.G.social.mem.heroine_03||[]).map(m=>m.tag)}))()")
-            await L.load_state(pg, snap2, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
-            post = await pg.evaluate("(()=>({name:SOCIAL.displayName('heroine_03'), met:!!GAME.G.flags.met_heroine_03, fm:SOCIAL.has('heroine_03','FIRST_MET'), job:!!GAME.G.flags.YT_MET_JOB, mem:(GAME.G.social.mem.heroine_03||[]).map(m=>m.tag)}))()")
-            rl_ok = run.check('[%s] 第一班以後讀檔一次（GAME.snapshot→applySave）：她的名字還是「陳語彤」（FIRST_MET、met_heroine_03 留著）' % name, post['name'] == '陳語彤' and post['fm'], J({'讀檔前': pre, '讀檔後': post}))
+            # BB 22:46（BUG-YT-FIRSTMET-RELABEL-1103）：讀檔兩次，每次都要名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET（G.social 沒有 fm120＝新遊戲、還沒讀過檔）
+            ST_JS = "(()=>({name:SOCIAL.displayName('heroine_03'), met:!!GAME.G.flags.met_heroine_03, fm:SOCIAL.has('heroine_03','FIRST_MET'), job:!!GAME.G.flags.YT_MET_JOB, fm120:!!(GAME.G.social&&GAME.G.social.fm120), mem:((GAME.G.social&&GAME.G.social.mem&&GAME.G.social.mem.heroine_03)||[]).map(m=>m.tag)}))()"
+            pre = await pg.evaluate(ST_JS)
+            run.setup('[%s] 讀檔前：%s' % (name, J(pre)))
+            for k in (1, 2):
+                snap2 = await pg.evaluate("()=>GAME.snapshot()"); snap2 = snap2.get('G', snap2) if isinstance(snap2, dict) else snap2
+                await L.load_state(pg, snap2, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
+                post = await pg.evaluate(ST_JS)
+                ok_k = run.check('[%s] 第 %d 次讀檔（GAME.snapshot→applySave，同「繼續」）：名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET' % (name, k), post['name'] == '陳語彤' and post['met'] and post['fm'], J({'讀檔前': pre, '讀檔後': post}))
+                rl_ok = rl_ok and ok_k
         res.update({'pass': ok and done and not bad and rl_ok, 'rows': rows})
     except Exception as e:
         run.check('[%s] 跑完（沒有探針例外）' % name, False, repr(e)[:500]); traceback.print_exc()
