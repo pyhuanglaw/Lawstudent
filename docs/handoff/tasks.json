@@ -43666,6 +43666,26 @@
    "priority": "P1",
    "note": "使用者 11-03 22:5x（X203）＋22:5x 四則",
    "next": "BB／CC 在 PC 驗（大地圖 👥 → 直接過去 → 到了接帶我去）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去公館燒臘（noodle）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "NOODLE-SHAOLA-SPOTS-1103",
+   "title": "公館燒臘（noodle）改窄長老店（6×13×3.2，門 +z）：story3d 的劇情站位照企劃線 src/data/shaola_layout.js spots 改（阿哲 zhe_seat (−2.1,−0.22)、週二週四固定客人 regular_1～3、點餐點 counter）",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "note": "BB 11-03 23:10（LAWWW2 23:08 定；配置 f8be1eba8；GLB BB 照 §12 重做中）",
+   "next": "等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元"
   }
  ]
 }
