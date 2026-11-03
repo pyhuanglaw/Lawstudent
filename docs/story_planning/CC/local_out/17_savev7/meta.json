@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "17_savev7",
+  "sha": "d75871437",
+  "kind": "game",
+  "script": "tests/save_compat_v7.py",
+  "env": "SHA2=385e194;XARGS={url2} {url}",
+  "machine": "MSI",
+  "start": "2026-11-03T09:45:25",
+  "end": "2026-11-03T09:50:22",
+  "seconds": 298,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html",
+  "url2": "http://127.0.0.1:8812/index.html",
+  "sha2": "385e194",
+  "res_peak": {
+    "cpu": 92,
+    "mem": 58,
+    "used_gb": 18.1,
+    "chrome_testing": 29
+  }
+}
