@@ -24,7 +24,7 @@ YT3FM_new  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yt_newgame
 YT3FM_newc | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
 YT3FM_fix  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=tea_first;CASE_S=900;CC_HEADLESS=0
 YT3FM_ctl  | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=tea_first;CASE_S=900;CC_HEADLESS=0
-PE_fix     | 4ce25dc1d | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CC_HEADLESS=0
+PE_fix     | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CC_HEADLESS=0
 PE_ctl     | c6814325c | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CASES=A;CC_HEADLESS=0
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
 MAP_ctl    | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
