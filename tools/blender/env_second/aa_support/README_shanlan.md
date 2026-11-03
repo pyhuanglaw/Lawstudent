@@ -51,3 +51,11 @@
 - **規格（glb_specs.py）**：三角形 **一樓 51,858、二樓 22,084、兩層共用的牆 1,630**（每層 ≤ 6 萬）；合計 75,572；材質 12；GLB **4.69 MB**（≤ 5 MB，v1 5.47）；33 個網格、貼圖 7 張。沒有用 meshopt：遊戲的 GLTFLoader 沒有設 MeshoptDecoder，壓了會讀不到；改用省三角形（同木曜日的 `AUTO_SEG`、書堆 44 → 10 個三角形）。
 - **渲染**：`model_renders/shanlan_v2_{front,diag45,stairs,close2f,mezz}.png`（同 v1 的 `shl_views.json`）；並排比較 `model_renders/shanlan_v1_v2_compare.png`。
 - **還差參考圖的**：天花板還是大片平的（參考圖有格樑、嵌燈多）；書架的書是書背圖集（沒有厚度、近看是畫的）；文具區的東西還是比參考圖少、小；挑空邊和二樓的植物比參考圖少；沒有烘焙 AO；坐地板的人（參考圖的氣氛）要 LAWWW 的姿勢＋NPC。
+
+## 第三版（2026-11-03，AA；回 LAWWW2 驗收三點）
+- **樓梯**：兩側加厚的實木側板（斜的整片）：西側 7 cm、高出踏面 0.14 m；東側 9 cm、高出踏面 0.30 m（實木矮牆）＋木壓條，上面是原本的玻璃欄杆。階數、一階高、踏面、寬度 1.7 m 都沒動（導航照舊；加寬到 2.2 m 沒做，要做的話先跟 LAWWW2 對新的 x 範圍）。
+- **天花板**：一樓、二樓都加木格樑（6×8 格，約 2.33×2.25 m），每格一盞方形嵌燈（發光材質＋木框；一樓 40 盞、二樓 48 盞，避開挑空）；v2 一樓那兩根樑拿掉。
+- **顏色**：木頭 #c29660 → **#c8955a**（樓梯、書架、樑共用）；牆 #d9cbb4 → #d7bf98；天花板 #ddd2bf → #d8c4a2。
+- 規格：一樓 52,910、二樓 23,380、共用牆 1,630 三角形；GLB 4.85 MiB（樑和燈框用沒倒角的方塊，才壓在 5 MB 以下）。
+- 檔案：`shanlan_v3_fill.py`（shanlan_interior.py 在 v2 之後 exec）。渲染：`docs/story_planning/ref_images/model_renders/shanlan_v3_{front,stairs,diag45}.png`（960×600、24 samples，參數同 v2）。
+- 匯出要用 `origin/claude/second-ai-env-art` 的 lib2.py、cafe_layout.py、plants.py（企劃線上的是舊版，沒有 soft_plaster）；laminate_floor_02 貼圖也要先放到 env_second/textures。
