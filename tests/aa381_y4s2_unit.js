@@ -19,7 +19,7 @@ const D=POSTGRAD_LINES.DELAYED;
     const ps=q(row('PHONE `peishan`').dly); check('0. 沛珊兩句＝企劃檔',ps[0]===D.peishan[1]&&ps[1]===D.peishan[2],JSON.stringify(ps));
     const ng=q(row('AUTO_NO_GRAD').dly); check('0. AUTO_NO_GRAD 兩句＝企劃檔',ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01)&&ng.includes(TERMEND_LINES.AUTO_NO_GRAD_DELAYED.yu)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_05===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED.classmate_xinci===TERMEND_LINES.AUTO_NO_GRAD_DELAYED.heroine_01,JSON.stringify(ng));
     /* THERMOS 第 2 句：企劃檔「現在」那一欄是「畢業快樂。」，AA_591 第 175 列改成「恭喜畢業。」（交換延畢那一句 thermos2 照 AA_381）*/
-    check('0. 原本那幾句照舊（企劃檔「現在」那一欄；THERMOS 第 2 句照 AA_591 第 175 列）',q(row('THERMOS 第 2 句').now)[0]==='畢業快樂。'&&POSTGRAD_LINES.THERMOS.lines[1][1]==='恭喜畢業。'&&POSTGRAD_LINES.YT17.friend==='恭喜。……我們同一天。'&&q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
+    check('0. 原本那幾句照舊（企劃檔「現在」那一欄；THERMOS 第 2 句照 AA_591 第 175 列）',q(row('THERMOS 第 2 句').now)[0]==='畢業快樂。'&&POSTGRAD_LINES.THERMOS.lines[1][1]==='恭喜畢業。'&&POSTGRAD_LINES.YT17.friend==='恭喜。……我們同一天畢業。'&&   /* 語彤事件 17 朋友那一句：AA_625 第 17 節（AA 2026-11-03 回 LAWWW，取代 AA_630 Z-128「恭喜。……我們同一天。」）*/q(row('`ps.card`').now)[0]===POSTGRAD_LINES.EPI.ps.card[0]); }
   // ---- 1. 典禮拍照：學姊遞保溫瓶、阿凱、語彤（交換延畢＝美國路線；臺灣路線照舊）----
   for(const route of ['US','JP',null]){ const G=H.fresh('2029-06-02',12,'campus',route?{EXCHANGE_ROUTE:route}:{}); H.FRIEND('heroine_05'); H.FRIEND('heroine_03'); await H.run('grad');
     const d=!!route, tag=route?route+' 路線（交換延畢）':'臺灣路線';

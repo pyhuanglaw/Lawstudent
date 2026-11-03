@@ -60,6 +60,9 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     for(const e of ANYTHOL_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); if(l.name!==undefined) T(l.name); for(const c of (l.choice||[])) T(c.text); }
     for(const a of X().HOL) T(a.out.title);
     { const A524=new Set(['（指了一下對岸）去年想帶你去的地方，在那邊。','山坡上那一排房子。','……今年從這裡看就好。']); for(let i=bad.length-1;i>=0;i--) if(A524.has(bad[i])) bad.splice(i,1); }   /* 2026-10-30 AA_524 Y4（企劃線 8fd10848d）在 2029 河濱加的三句：tests/aa524_promises_unit.js 對 AA_524 的稿 */
+    { const A630=(()=>{ try{ return require('child_process').execFileSync('git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();   /* 短的選項（tests/alison.js 的語料只收 4 字以上）：直接對 AA_630 H-017「選項：「謝謝。」」、H-018「「同事？」→ b」*/
+      const SHORT=[['「謝謝。」','選項：「謝謝。」→'],['「同事？」','／「同事？」→ b']], AA1103=new Set(['嗯。四點半，河濱見。']);   /* moonYes：AA 2026-11-03 回 LAWWW（中秋 16:30 河濱；還沒有企劃線的 commit）*/
+      for(let i=bad.length-1;i>=0;i--){ const sh=SHORT.find(x=>x[0]===bad[i]); if((sh&&A630.includes(sh[1]))||AA1103.has(bad[i])) bad.splice(i,1); } }
     check('0. 每一句台詞、選項、地點字幕、私訊、群組、出遊標題都在稿裡（一字不差）',!bad.length,J(bad)); }
   { const bad=[]; for(const e of ANYTHOL_EVENTS){ const Ls=new Set(e.dialogue.filter(l=>l.label).map(l=>l.label)); for(const l of e.dialogue){ if(l.goto&&!Ls.has(l.goto)) bad.push(e.id+':'+l.goto); for(const c of (l.choice||[])) if(c.goto&&!Ls.has(c.goto)) bad.push(e.id+':'+c.goto); } }
     check('0. 每一個 goto 都有 label',!bad.length,J(bad)); }

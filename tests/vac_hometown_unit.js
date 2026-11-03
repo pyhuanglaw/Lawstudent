@@ -131,7 +131,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('9. AA_369 H1：8/25、8/27 那兩句是柏翰說；以安不在香港（三場沒有她）、交往版「……下次只有我們兩個的時候，我再排。」拿掉',W0.includes('柏翰：……下一站等她。我第一天的行程有寫「走散的話在下一站等」。')&&W0.includes('柏翰：（看著對岸）……第二天以後都沒排，結果也走完了。')&&!said.some(x=>x.who==='沈以安')&&!S0.includes('……下次只有我們兩個的時候，我再排。'),J(W0));
     const AN=TH('p:heroine_01').find(m=>m.tag==='va10_dm_heroine_01');
     check('9. AA_369 H1：和以安交往中，8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」',!!AN&&AN.day===DK('2027-08-27')&&AN.h===21&&J(TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01').map(m=>m.text))===J(['📷（京都車站的月台）','明天回去。……香港好玩嗎？']),J(TH('p:heroine_01').map(m=>[m.day,m.h,m.text,m.tag])));
-    q.state='done'; step('2027-08-28',21.5); const B=TH(g).map(m=>m.text); check('9. 8/28 晚上群組四則（兩盒蛋塔…蛋用得比較少），去了的沒有「欠一次」',B.some(t=>/兩盒蛋塔/.test(t))&&B.some(t=>/蛋用得比較少/.test(t))&&!B.some(t=>/欠一次/.test(t)),J(B.slice(-4)));
+    q.state='done'; step('2027-08-28',21.5); const B=TH(g).map(m=>m.text); check('9. 8/28 晚上群組四則（兩盒蛋塔…語彤「茶點用得比較少」，AA_627 A-314），去了的沒有「欠一次」',B.some(t=>/兩盒蛋塔/.test(t))&&B.some(t=>/茶點用得比較少/.test(t))&&!B.some(t=>/欠一次/.test(t)),J(B.slice(-4)));
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
     check('9. 回「我那幾天不行。」→ 阿哲「靠 好啦 下次」、沒有行程',txt(g).includes('zhe:靠 好啦 下次')&&!OUT.get(G,'vac_va10'));
     step('2027-08-25',16.5); step('2027-08-28',21.5); const B2=txt(g);
