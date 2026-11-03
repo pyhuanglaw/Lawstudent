@@ -30,6 +30,19 @@ for r in rows:
     if o in n: continue   # 改成裡面還有原句（只加字）＝換兩次會疊，不收
     if o in pairs and pairs[o] != n: pairs[o] = None; continue   # 同一句兩種改法＝不收
     pairs[o] = n
+# 讀稿時 aa612_fix.json（麵店→燒臘店）先換：舊稿裡的語彤句子已經被它換過的，另外收換過以後的那一句（不然對不到）
+_E = []
+for _fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json', 'aa595_fix.json', 'aa602_fix.json', 'aa600_fix.json', 'aa612_fix.json'):
+    try: _E += json.load(open(os.path.join(ROOT, 'tools', 'story', _fn), encoding='utf-8'))['pairs']
+    except (OSError, ValueError, KeyError): pass
+def _early(t):
+    for x, y in _E:
+        if x in t: t = t.replace(x, y)
+    return t
+for o, n in list(pairs.items()):
+    if not n: continue
+    o2 = _early(o)
+    if o2 != o and o2 not in pairs and o2 not in n: pairs[o2] = n
 P = sorted(((a, b) for a, b in pairs.items() if b), key=lambda x: -len(x[0]))
 out = {'note': 'YT-REWRITE-1103（AA_630 bb4401fd3＋AA_627 40374c664 表 A／B【改句】【換字】，語彤新背景）：遊戲 src 已照表換；企劃源稿還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js）。tools/story/gen_aa630_fix.py 產生，不要手改。', 'pairs': [list(x) for x in P]}
 json.dump(out, open(os.path.join(ROOT, 'tools', 'story', 'aa630_fix.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

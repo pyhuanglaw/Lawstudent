@@ -226,7 +226,7 @@ const b532all=v=>typeof v==='string'?b532(v):Array.isArray(v)?v.map(b532all):(v&
     G=lawG('2027-06-18',21.05); rules(); rep=answer('vf_y2_0618',0); check('2-1. 「在家。」→ 阿哲「好喔」',J(rep)===J(['zhe:好喔']));
     G=lawG('2027-06-18',21.05,{groups:[]}); rules(); check('2-1. 不在麵店團：沒有',!tagged('vf_y2_0618').length);
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); const t23=qs(part('- **6/23','## 2-2')||part('- **6/23','### 2-2.'));
-    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「蘇姨說你上次喝很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J([t23[2],t23[3]]),J(t23));
+    check('2-1. 6/23（三）15:00 語彤（在臺北、FAMILIAR 以上）：「燒臘店暑假開始送冰的酸梅湯了。」「蘇姨說你上次喝很快。」＋「我去吃。」「下次。」',J(tagged('vf_y2_0623').map(m=>m.text))===J(t23.slice(0,2))&&J(optsOf('vf_y2_0623'))===J(['我去喝。',t23[3]])   /* AA_630 Z-158：選項「我去吃。」→「我去喝。」*/,J(t23));
     answer('vf_y2_0623',0); rules(); const q=out('vf_y2_0623'); check('2-1. 「我去吃。」＝當天 18:00 一鍵到麵店（照麵店一般的吃飯）',isAt(q,'2027-06-23',18)&&q.goto&&q.goto.zone==='noodle',J(q));
     G=lawG('2027-06-23',15.05,{fam:[YT]}); rules(); rep=answer('vf_y2_0623',1); check('2-1. 「下次。」→「嗯。」',J(rep)===J([YT+':'+t23[4]]),J(rep));
     G=lawG('2027-06-23',15.05,{know:[YT]}); rules(); check('2-1. 和語彤只是認識：沒有',!tagged('vf_y2_0623').length);

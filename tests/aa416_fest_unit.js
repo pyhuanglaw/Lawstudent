@@ -312,7 +312,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-02-12',21.05,{lv:{[AN]:6},flags:{AN_CRACK:2}}); rules(); check('11. 以安第 6 階（沒交往）：2/12 21:00 照樣約「十四號那天，你在臺北嗎？」',J(dms(AN))===J(['十四號那天，你在臺北嗎？']),J(dms(AN)));
     REG({cg_valentine_taichung_heroine01:{file:'x',title:'t'}}); PHONE.answer(H.G,'anyt_an_y1_ask',0); rules(); at('2026-02-14',10.8); const r0=relOf(AN); await goOut('anyt_an_vday_y1',[0]);
     check('11. 台中那一場：放 CG cg_valentine_taichung_heroine01（「開了兩個多小時……」那一拍）；第 6 階 +4／+5／+6、裂縫不動',J(H.cgs)===J(['cg_valentine_taichung_heroine01'])&&H.G.flags.AN_VDAY_CG===true&&dRel(AN,r0)===J({fam:4,comf:5,npcRom:6})&&H.G.flags.AN_CRACK===2,J({cgs:H.cgs,r:dRel(AN,r0)})); delete global.CG_REGISTRY;
-    setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2/13 21:00 照樣約「明天店休。」',dms(YT)[0]==='明天店休。');
+    setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2026-02-13 不約（AA_630 第 10 節第 4 點拿掉這一年）',dms(YT).length===0   /* AA_630 第 10 節第 4 點：2026 那一年拿掉 */);
     setup('2026-09-24',21.05,{lv:{[YT]:6}}); rules(); check('11. 中秋照 AA_414 只有交往中',!dms(YT).length); }
   { setup('2029-02-14',9,{lv:{[AN]:6}}); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4'); H.said=[]; H.opts=[]; H.picks=[1]; await EVENTS.run(ev('ev_an_vday_y4')); const L=said();
     check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('她說那就是快有了。')&&!L.includes('她問了二十分鐘。'),J({O:H.opts,L}));
