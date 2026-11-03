@@ -42882,6 +42882,26 @@
       "priority": "P1",
       "note": "使用者 11-03 對 AA 重新定（企劃線 757d696d8）",
       "next": "AA_625 台詞已到（企劃線 72798605f）：等 AA610＋AA612＋AA623 那批子代理交件合併（YT_MET_JOB 基礎）後，另派子代理接線；秀琴姨先用 2D／通用路人"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "提早坐下等上課",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-SEATTALK-FADE-1103",
+      "title": "教室座位對話第一句在畫面還暗的時候就說（#fade 還開著）：等全亮才說",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "BB 11-03 cc_x161_door_probe（84c5）",
+      "next": "crowd3d.js S.waitLit（crowd_seat_talk 10，修改前 FAIL）→ BB 重跑 cc_x161_door_probe"
     }
   ]
 }

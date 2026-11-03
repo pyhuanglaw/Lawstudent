@@ -417,7 +417,11 @@ const CROWD=(function(){
       if(!n) return null; n.pose='sit'; n.idlePose='sit'; n.frozen=true; ppl.push(n); }
     ppl.forEach((n,i)=>{ n.name=names[i]; n.dept=names[i].replace(/系的學生$/,''); n.deptTalk=(law?'l':'g')+conv.n; n.seatTalk=true; });
     return {id:(law?'l':'g')+conv.n,conv,ppl,names,ph}; };
-  S.seatTalkPlay=async function(GM,p){ if(!p||!GM||!GM.G) return false; const G=GM.G;
+  /* BUG-SEATTALK-FADE-1103（BB 11-03，cc_x161_door_probe）：第一句說出來時畫面還是暗的（#fade 還開著或還在淡出）＝看不到誰在講。等全亮了再說（最多 1.5 秒）*/
+  S.waitLit=async function(maxMs){ const d=typeof document!=='undefined'?document:null, f=d&&d.getElementById?d.getElementById('fade'):null; if(!f) return true; const t0=Date.now(), lim=maxMs==null?1500:maxMs;
+    for(;;){ const on=f.classList&&f.classList.contains('on'); let op=0; try{ op=typeof getComputedStyle==='function'?parseFloat(getComputedStyle(f).opacity)||0:(on?1:0); }catch(e){ op=on?1:0; }
+      if(!on&&op<0.05) return true; if(Date.now()-t0>=lim) return false; await new Promise(r=>setTimeout(r,50)); } };
+  S.seatTalkPlay=async function(GM,p){ if(!p||!GM||!GM.G) return false; const G=GM.G; await S.waitLit();
     try{ for(const s of S.deptTalkSteps(p.conv.d,p.names)) await GM.say(s.who?{name:s.who,obj:s.by>=0&&p.ppl[s.by]?p.ppl[s.by].obj:null}:null,s.t);
       const F=G.flags||(G.flags={}); (F.deptTalkDay||(F.deptTalkDay={}))[p.id]=G.day; return true; }   /* 一段一天一次 */
     finally { for(const n of p.ppl) n.seatTalk=false; } };
