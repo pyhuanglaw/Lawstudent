@@ -6,7 +6,7 @@
 - 被判離開（字幕「你離開了」）那一刻截圖、印出前 10 秒的軌跡；全部存 tour_trace.json。
 原說明（cc_lib_tour_probe 第一版：複製 tests/flow_lib_tour.py @6dc39be73，只改取樣）：用 MutationObserver 收集 #caption 出現過的每一句，
 避免「跟著館員」走路的那 60 秒裡字幕出現又消失而漏記（PC 上 D_B08 只記到 [1,2,4,6]）。判斷標準不變。
-用法：LW_TESTS=<wt>/tests python3 cc_lib_tour_probe.py URL OUT
+用法：LW_TESTS=<wt>/tests [MODE=tap|joy] [PHOTO=1] python3 cc_lib_tour2_probe.py URL OUT（PHOTO=1：3783ae554 以後的版本才加，見上面 PHOTO 的說明）
 原說明：真實玩家流程：總圖新生導覽（AA_134 第 2 節；使用者 2026-10-15「開始到結束就是一個按鈕？」）。不用 ?turbo。
 [前置／捷徑] 讀檔：2025-09-19（週五）15:20 總圖大廳的集合點旁；第一、二天主線已過、關掉條件事件。
 A. 按集合點 →「參加：總圖新生導覽」→ 館員（NPC）出現、說第一站 → 玩家自己點地面跟著館員走（一樓閘門、服務台 → 大樓梯上二樓 → 研究小間 → 樓梯間）
@@ -21,6 +21,10 @@ import playlib as L
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_lib_tour'
 MODE = os.environ.get('MODE', 'tap')
+# PHOTO=1（候選版 3783ae554 以後；BB 16:11）：導覽途中（15:55 前後）不能跳「出發：」選單；導覽結束後 5 分鐘（遊戲時間）內要跳系學會合照的「出發：」，選了還來得及去
+PHOTO = os.environ.get('PHOTO', '') == '1'
+OUTSEEN = []          # 每次看到「出發：」選單：{t（遊戲時間）, touring, tour（導覽狀態）, opts}
+POST = {'on': False}  # 導覽走完以後才 True：這時候的「出發：」照玩家想去合照，選「出發」
 DAY = 3   # 2025-09-19 週五
 PRE = {'zone': 'library_hall', 'hour': 15.33, 'day': DAY, 'weekday': 5, 'weather': 'clear', 'pos': {'x': -2.0, 'z': 3.6, 'lv': 0, 'yaw': 3.14},
        'flags': {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'plan': 'cafe'}}
@@ -53,6 +57,11 @@ async def handle_choices(pg, cdp, run):
     c = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
     if not c: return False
     if any(x.startswith('出發：') for x in c):
+        g = await pg.evaluate("({h:+(+GAME.G.hour).toFixed(3), touring:!!(typeof CLS!=='undefined'&&CLS.touring), tour:ACTIVITIES.stateOf(GAME.G,'lib_tour_y1s1',GAME.G.day)})")
+        OUTSEEN.append(dict(g, opts=[x[:30] for x in c], post=POST['on']))
+        if POST['on']:   # 導覽走完了：去合照
+            i = next((k for k, x in enumerate(c) if x.startswith('出發')), None)
+            run.note('導覽結束後跳出「%s」（%s）：選「出發」' % (c[i][:30], g['h'])); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1500); POST['went'] = g['h']; return True
         i = next((k for k, x in enumerate(c) if x.startswith('不去')), None)
         if i is not None:
             run.note('跳出「%s」：在導覽裡，選「%s」' % (c[0][:30], c[i])); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1200); return True
@@ -132,6 +141,38 @@ async def main():
         run.check('A 七站的話依序都出現（館員說）', seen == list(range(7)), json.dumps(seen))
         run.check('A 跟著館員從總圖大廳走到三樓閱覽區（換區域）', 'library' in zones and 'library_hall' in zones, json.dumps(sorted(zones)))
         run.check('A 走完：記為參加完（full）', st == 'full', str(st))
+        if PHOTO:
+            during = [o for o in OUTSEEN if not o['post']]
+            run.check('A 導覽途中沒有跳「出發：」選單（15:55 系學會合照要等導覽結束）', not during, json.dumps(during, ensure_ascii=False))
+            POST['on'] = True; h0 = await pg.evaluate("+GAME.G.hour"); t1 = time.time(); dl = []
+            run.note('導覽結束（遊戲時間 %.3f）：等合照的「出發：」選單，最多 5 分鐘遊戲時間' % h0)
+            while time.time() - t1 < 900 and 'went' not in POST:
+                if await pg.evaluate("+GAME.G.hour") > h0 + 5 / 60 + 0.005: break
+                s = await L.state(pg)
+                if s['choices']: await handle_choices(pg, cdp, run); continue
+                if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
+                await pg.wait_for_timeout(1000)
+            post = [o for o in OUTSEEN if o['post']]
+            run.check('A 導覽結束後 5 分鐘內跳出合照的「出發：」', 'went' in POST and POST['went'] <= h0 + 5 / 60 + 0.005, json.dumps({'end': h0, 'seen': post}, ensure_ascii=False))
+            if 'went' in POST:   # 選了出發：要真的到得了（圓窗館前 (−104,−17)），沒有「錯過／來不及」
+                t2 = time.time(); arrived = None
+                while time.time() - t2 < 600:
+                    s = await L.state(pg)
+                    if s['dlg']: dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg'); continue
+                    if s['choices']: await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['choices'] and not q['dlg'], max_steps=10); continue
+                    q = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return {z:GAME.G.zone, d:Math.hypot(p.x+104,p.z+17), h:+(+GAME.G.hour).toFixed(3)}; })()")
+                    if q['z'] == 'campus' and q['d'] < 10: arrived = q; break
+                    await pg.wait_for_timeout(1500)
+                await pg.wait_for_timeout(8000)
+                for _ in range(30):
+                    s = await L.state(pg)
+                    if not s['dlg']: break
+                    dl.append(await pg.evaluate("(document.getElementById('dlgText')||{}).textContent||''")); await L.tap(pg, cdp, '#dlg')
+                print('  合照前後的對話：' + json.dumps([x[:40] for x in dl], ensure_ascii=False), flush=True)
+                late = [x for x in dl if any(k in x for k in ('錯過', '來不及', '已經拍完', '拍完了'))]
+                run.check('A 選「出發」以後到得了圓窗館前、沒有「錯過／來不及」', arrived is not None and not late, json.dumps({'arrived': arrived, 'late': late}, ensure_ascii=False))
+                await pg.screenshot(path=OUT + '/A_photo.png')
+            POST['on'] = False; POST.pop('went', None)   # B 段照舊：出發選單選「不去了」
         # B 中途離開
         run.setup('重新讀同一個前置存檔')
         await join(pg, cdp, run); await pg.wait_for_timeout(3000)
