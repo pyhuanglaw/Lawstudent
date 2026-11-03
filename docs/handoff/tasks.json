@@ -43003,6 +43003,33 @@
       "priority": "P2",
       "note": "使用者 11-03 對 AA：「南洋戲院看起來是二輪片欸 那要看院線就要去信義區了 我直接cg處理」，選擇題「加一個信義區，西門町照留」（AA_631）",
       "next": "date_locations.json 照 AA_631 第 1 節＋第 2 節台詞匯入（白名單）；CG 使用者自己做，到之前用 2D 背景"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": 1,
+        "earliest": "椰影大道走到總圖前",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "ART-LIB-FRONT-PAVING-1103",
+      "title": "總圖前椰影大道地磚很怪：淺色石磚有隨機斑點（Canvas 亂點，違反 D38 第 1 點）、柏油上大塊深色污漬、廣場和道路接縫一格一格錯開、黃線斷斷續續",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 11:3x 截圖「總圖前椰影大道地磚是怎樣」（UA-LAWWW-1103-39；X184）；截圖 docs/history/user_feedback_images/lib_front_paving_1103.webp；程式：zones3d.js:125 libPlaza＝W3.stoneTex、柏油 W3.asphaltTex／TK.asphaltTex",
+      "next": "LAWWW2：照片參考改成 PBR 石材／柏油（Poly Haven），拿掉隨機斑點和深色大污漬，廣場與道路邊界對齊",
+      "xai": {
+        "spec": "使用者 11-03 截圖；LIB-FRONT-1102 照片",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "總圖前廣場、椰影大道路面同角度截圖改善（無隨機斑點、無大塊污漬、接縫對齊）；BB 驗收（D120）",
+        "receiver": "LAWWW",
+        "ack": "SENT"
+      }
     }
   ]
 }
