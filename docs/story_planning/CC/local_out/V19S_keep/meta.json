@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19S_keep",
+  "sha": "15e78dff7",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_shop_diners_probe.py",
+  "env": "CC_HEADLESS=0;DATE=2025-10-15;HOURS=12.5;SHOPS=l118_omu,l118_noodle2",
+  "machine": "MSI",
+  "start": "2026-11-04T01:23:29",
+  "end": "2026-11-04T01:25:20",
+  "seconds": 111,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 63,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 24
+  }
+}

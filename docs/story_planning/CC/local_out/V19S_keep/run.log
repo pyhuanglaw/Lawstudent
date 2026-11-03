@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_diners_probe.py http://127.0.0.1:8811/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V19S_keep\out
+PASS 遊戲載入
+店（CROWD.SHOPS）： ["noodle", "cvs", "bookstore", "wz_brunch", "wz_teahouse", "wz_lin", "wz_teishoku", "wz_print", "l118_dian", "l118_self", "l118_tea", "l118_home", "l118_cafe2", "l118_pasta", "l118_korea", "l118_omu", "l118_noodle2"]
+PASS CROWD.SHOPS 有 17 間  17
+【前置／捷徑】每一間直接讀檔到店裡：2025-10-15（day 29、週3），時段 [12.5]
+  l118_omu 12:30：營業=True 客人=8 位子=15 空位=6 留給玩家的兩人座=5（0/2 有人） 比例=53%
+PASS l118_omu 12:30：一間 ≤ 10 人  8
+PASS l118_omu 12:30：空位 ≥ 2（玩家還沒坐：自己＋一起來的人）  free=6 need=2
+PASS l118_omu 12:30：留給玩家的兩人座沒人坐  0/2
+PASS l118_omu 12:30：坐著的客人都在位子上（≤0.05 m，沒浮空、沒穿進桌子）  []
+PASS l118_omu 12:30：站著的那幾組（書店、便利商店、影印店等）沒有坐姿  []
+PASS l118_omu 12:30：同一時段讀檔兩次＝同一批人  [["shop_l118_omu_0|v1@12.31|0", "shop_l118_omu_1|v1@12.30|0", "shop_l118_omu_2|v1@12.09|0", "shop_l118_omu_3|v1@12.37|0", "shop_l118_omu_4|v1@12.49|0", "shop_l118_omu_8|v1@12.47|0", "shop_l118_omu_9|v1@12.52|0", "shop_l118_omu_9|v1@12.52|1"], ["shop_l118_omu_0|v1@12.31|0", "shop_l118_omu_1|v1@12.30|
+  l118_noodle2 12:30：營業=True 客人=7 位子=16 空位=8 留給玩家的兩人座=0（0/2 有人） 比例=44%
+PASS l118_noodle2 12:30：一間 ≤ 10 人  7
+PASS l118_noodle2 12:30：空位 ≥ 2（玩家還沒坐：自己＋一起來的人）  free=8 need=2
+PASS l118_noodle2 12:30：留給玩家的兩人座沒人坐  0/2
+PASS l118_noodle2 12:30：坐著的客人都在位子上（≤0.05 m，沒浮空、沒穿進桌子）  []
+PASS l118_noodle2 12:30：站著的那幾組（書店、便利商店、影印店等）沒有坐姿  []
+PASS l118_noodle2 12:30：同一時段讀檔兩次＝同一批人  [["shop_l118_noodle2_2|v1@11.95|0", "shop_l118_noodle2_2|v1@11.95|1", "shop_l118_noodle2_5|v1@12.50|0", "shop_l118_noodle2_5|v1@12.50|1", "shop_l118_noodle2_6|v1@12.34|0", "shop_l118_noodle2_7|v2@12.40|0", "shop_l118_noodle2_7|v2@12.40|1"], ["shop_l118_noodle2_2|v1@11.95|0", "shop_l118_noodle2_2|v1@
+PASS 沒有 JS 例外
+ALL PASS

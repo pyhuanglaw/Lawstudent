@@ -1,0 +1,189 @@
+{
+ "l118_omu 12:30": {
+  "zone": "l118_omu",
+  "kind": "meal",
+  "hour": 12.535556666666656,
+  "open": true,
+  "wins": [
+   [
+    11.5,
+    14.5
+   ],
+   [
+    17,
+    20.5
+   ]
+  ],
+  "cap": 10,
+  "seats": 15,
+  "free": 6,
+  "need": 2,
+  "count": 8,
+  "keep": 5,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_omu_0",
+    "spec": null,
+    "key": "shop_l118_omu_0|v1@12.31|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_1",
+    "spec": null,
+    "key": "shop_l118_omu_1|v1@12.30|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_2",
+    "spec": null,
+    "key": "shop_l118_omu_2|v1@12.09|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_3",
+    "spec": null,
+    "key": "shop_l118_omu_3|v1@12.37|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_4",
+    "spec": null,
+    "key": "shop_l118_omu_4|v1@12.49|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_8",
+    "spec": null,
+    "key": "shop_l118_omu_8|v1@12.47|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_9",
+    "spec": null,
+    "key": "shop_l118_omu_9|v1@12.52|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_omu_9",
+    "spec": null,
+    "key": "shop_l118_omu_9|v1@12.52|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ },
+ "l118_noodle2 12:30": {
+  "zone": "l118_noodle2",
+  "kind": "meal",
+  "hour": 12.542866000000073,
+  "open": true,
+  "wins": [
+   [
+    11,
+    14
+   ],
+   [
+    17,
+    20
+   ]
+  ],
+  "cap": 10,
+  "seats": 16,
+  "free": 8,
+  "need": 2,
+  "count": 7,
+  "keep": 0,
+  "keepSeats": 2,
+  "keepBusy": 0,
+  "cust": [
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v1@11.95|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_2",
+    "spec": null,
+    "key": "shop_l118_noodle2_2|v1@11.95|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v1@12.50|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_5",
+    "spec": null,
+    "key": "shop_l118_noodle2_5|v1@12.50|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_6",
+    "spec": null,
+    "key": "shop_l118_noodle2_6|v1@12.34|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v2@12.40|0",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   },
+   {
+    "crowd": "shop_l118_noodle2_7",
+    "spec": null,
+    "key": "shop_l118_noodle2_7|v2@12.40|1",
+    "pose": "sit",
+    "stand": false,
+    "seatD": 0,
+    "dy": 0
+   }
+  ]
+ }
+}
