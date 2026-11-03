@@ -392,3 +392,11 @@
 [01:11:58] ==== START V19R_zone  (game @ 15e78dff7) ====
 [01:12:01] [res] cpu=91% mem=56% (17.6/31.4 GB) chrome_testing=17  START V19R_zone
 [01:12:47] [res] cpu=76% mem=53% (17.0/31.4 GB) chrome_testing=18  END V19R_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       18f4b055e..472d6c2b3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:12:52] ==== END   V19R_deploy  exit=1  217s   ====
+[01:12:54] memory 54% before starting V19R_mini (2 running)
+[01:12:54] ==== START V19R_mini  (game @ 15e78dff7) ====
+[01:12:57] [res] cpu=77% mem=55% (17.2/31.4 GB) chrome_testing=18  START V19R_mini
+[01:14:09] [res] cpu=85% mem=56% (17.7/31.4 GB) chrome_testing=18  END V19R_mini

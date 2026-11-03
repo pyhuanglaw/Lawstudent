@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V19R_mini",
+  "sha": "15e78dff7",
+  "kind": "game",
+  "script": "tests/minimap_direction.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-04T01:12:54",
+  "end": "2026-11-04T01:14:09",
+  "seconds": 75,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8813/index.html?turbo",
+  "res_peak": {
+    "cpu": 88,
+    "mem": 59,
+    "used_gb": 18.8,
+    "chrome_testing": 26
+  }
+}
