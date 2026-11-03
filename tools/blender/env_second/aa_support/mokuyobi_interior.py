@@ -8,6 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import aa_kit as K   # noqa: E402
 from aa_kit import L, CL, B, Mesh, g2b, bpy, bmesh, Matrix, Xf   # noqa: E402
+K.AUTO_SEG = True   # v2：小零件倒角一段、細管不封口（省下來的三角形拿去擺東西）
 
 arg = K.args()
 LAY = K.layout('src/data/mokuyobi_layout.js', 'MOKUYOBI_LAYOUT')
@@ -15,15 +16,15 @@ OUT = os.path.join(L.ROOT, arg('--out', LAY['glb']))
 W, D, H = LAY['w'], LAY['d'], LAY['h']
 sh = K.Shop('mok_', 'mokuyobi_interior', W, D, H, texres=512, props={'layout': LAY['version']}, seed=618)
 X0, X1, Z0, Z1 = sh.X0, sh.X1, sh.Z0, sh.Z1
-sh._imgkeys = {'print', 'books'}
+sh._imgkeys = {'print', 'books', 'view'}
 P = 'mok_'
 sh.M.update({
-    'floor': L.pbr(P + 'floor_terrazzo', 'terrazzo_tiles', tile=1.5, target='#ddd2bd', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.4),
-    'wall': CL.soft_plaster(P + 'wall_cream', '#efe6d3', 0.9, tile=1.6, k=0.3),
+    'floor': L.pbr(P + 'floor_terrazzo', 'terrazzo_tiles', tile=1.5, target='#d3c4a7', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.4),
+    'wall': CL.soft_plaster(P + 'wall_cream', '#e4d5b8', 0.9, cull=True, tile=1.6, k=0.3),   # v2：暖一點、暗一點（傍晚）；單面（天花板也用它）
     'walnut': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#5e3e29', maps=('diff',), res=256, rough_value=0.48),
     'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
     'shade': L.flat(P + 'milkglass', '#f6e7c8', rough=0.35, emit=B.srgb('#ffd9a0')),
-    'ceil': L.flat(P + 'ceiling', '#f1e9d6', rough=0.92, cull=True),
+    'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.22),   # v2：窗景自己一張 2048×1024（v1 在圖集裡只有 512×256）；天花板改用牆的材質，材質數不變
     'print': K.img_mat(P + 'print', 'mok_print.png', rough=0.8),
     'books': K.img_mat(P + 'books', 'mok_bookrows.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
@@ -37,7 +38,7 @@ SW = LAY['stairWell']
 # ---------------------------------------------------------------- 地板（樓梯開口空著）、天花板、木樑
 fl = Mesh(P + 'floor', sh.M['floor'], tile=1.5)
 fl.box(X0, X1, -0.02, 0.0, Z0, SW['z0']); fl.box(SW['x1'], X1, -0.02, 0.0, SW['z0'], Z1); fl.box(SW['x0'], SW['x1'], -0.02, 0.0, SW['z0'], SW['z0'] + 1.0); fl.finish(sh.root)
-ce = Mesh(P + 'ceiling', sh.M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=False)
+ce = Mesh(P + 'ceiling', sh.M['wall'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
 for zz in (-3.4, 1.2, 5.2): xf0.rbox(sh.a('walnut'), X0, X1, H - 0.2, H, zz - 0.09, zz + 0.09, r=0.012)
 for (rx, rz, rw, rd_) in ((0.5, 1.3, 2.6, 3.6), (2.9, -5.5, 2.6, 2.0)):                                                 # 地毯
     m = sh.a('print'); xf0.quad(m, [(rx - rw / 2, 0.006, rz + rd_ / 2), (rx + rw / 2, 0.006, rz + rd_ / 2), (rx + rw / 2, 0.006, rz - rd_ / 2), (rx - rw / 2, 0.006, rz - rd_ / 2)], uv=K.cell_uv(0, 4, 4, 2))
@@ -66,12 +67,10 @@ for (a, b, c, e) in ((-0.45, 0.45, 0.0, 0.1), (-0.45, 0.45, 1.95, 2.05), (-0.45,
 dl.quad(sh.w('front', 'glass'), [(-0.37, 0.95, 0.0), (0.37, 0.95, 0.0), (0.37, 1.95, 0.0), (-0.37, 1.95, 0.0)])
 dl.cyl(sh.w('front', 'vcm'), (0.3, 1.0, 0.02), (0.3, 1.0, 0.07), 0.018, col='#a8884a', seg=8)
 Xf(d1 - 0.12, SW['z0'] + 0.06, 0, dw['h'] - 0.16).lathe(sh.w('front', 'vcm'), [(0.0, 0.0), (0.035, 0.0), (0.03, 0.04), (0.012, 0.07), (0.0, 0.075)], 0, 0, 0, seg=12, col='#b8944a')   # 門鈴
-for k, (c, z_) in enumerate(((6, 4.6), (7, 5.6))):                                                                     # 隔間牆上的兩個小相框（面向店內）
-    sh.img_quad(sh.w('front', 'print'), Xf(SW['x1'] + 0.12, z_, math.pi / 2), 0, 1.45, 0.0, 0.32, 0.32, K.cell_uv(c, 1))
-    Xf(SW['x1'] + 0.11, z_, math.pi / 2).rbox(fwal, -0.19, 0.19, 1.41, 1.81, -0.012, 0.0, r=0.004)
+# （v1 隔間牆上的兩個小相框：v2 這面牆前面放了書櫃，相框移到西牆的照片牆）
 # 窗外的老樹（窗景卡，離窗 2 m；併在 WALL_front）
-vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['print'])
-xf0.quad(vw, [(X1 + 1.5, -1.6, vz), (X0 - 1.5, -1.6, vz), (X0 - 1.5, 4.4, vz), (X1 + 1.5, 4.4, vz)][::-1], uv=K.cell_uv(4, 2, 4, 2))
+vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])   # v2：14 × 6.5 m（x −6.5～7.5、y −1～5.5），整張 mok_view.png
+xf0.quad(vw, [(7.5, -1.0, vz), (-6.5, -1.0, vz), (-6.5, 5.5, vz), (7.5, 5.5, vz)][::-1], uv=(1.0, 1.0, 0.0, 0.0))   # u 跟著遊戲 x（從店裡看是左右相反，圖上沒有字）
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
 # 紗簾（奶油白、有波浪；窗的兩端和中間各一組）＋窗簾桿
 cur = sh.w('front', 'vc')
@@ -86,6 +85,7 @@ wa, wb = fr['windows'][0]
 for (a, b) in ((wa - 0.15, wa + 0.45), (wb - 0.45, wb + 0.15), (0.55, 1.05)): curtain(a, b, Z1 - 0.12)
 xf0.cyl(sh.w('front', 'vcm'), (wa - 0.25, 2.68, Z1 - 0.1), (wb + 0.25, 2.68, Z1 - 0.1), 0.012, col='#6a5a3a', seg=8)
 
+sh.tally('shell')
 # ---------------------------------------------------------------- 西牆的胡桃木大書櫃
 bc = IT['bookcase'][0]; bxf = Xf(bc['x'], bc['z'], bc['ry']); bw, bd, bh = bc['w'], bc['d'], bc['h']; wm = sh.a('walnut')
 bxf.rbox(wm, -bw / 2, bw / 2, 0.0, bh, -bd / 2, -bd / 2 + 0.02, r=0.004)                     # 背板
@@ -102,7 +102,7 @@ for k in range(ndiv):
         if (k, j) == (1, 3):   # 擺東西的一格：小時鐘、黑膠唱片、一盆植物
             Xf(*bxf.p((u0 + u1) / 2 - 0.15, 0, 0.0)[::2], bc['ry']).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05, 0.0), (0.05, 0.02), (0.0, 0.02)], 0, y + 0.025, 0, seg=12, col='#8a6a3a')
             cxf = Xf(*bxf.p((u0 + u1) / 2 - 0.15, 0, 0.05)[::2], bc['ry'])
-            cxf.lathe(sh.a('vcg'), [(0.0, -0.02), (0.08, -0.02), (0.085, 0.0), (0.08, 0.02), (0.0, 0.02)], 0, 0, 0, seg=16, col='#b8944a')
+            sh.a('vcg').add_bm(K.paint_bm(L.lathe([(0.0, -0.02), (0.08, -0.02), (0.085, 0.0), (0.08, 0.02), (0.0, 0.02)], seg=16), '#b8944a'), cxf.M(0, y + 0.13, 0.0) @ Matrix.Rotation(math.pi / 2, 4, 'X'))   # v2 修：v1 這個鐘框是平放在地上的
             sh.a('vcg').add_bm(K.paint_bm(L.lathe([(0.0, 0.0), (0.075, 0.0), (0.075, 0.004), (0.0, 0.004)], seg=16), '#f4eedf'), cxf.M(0, y + 0.13, 0.025) @ Matrix.Rotation(math.pi / 2, 4, 'X'))
             sh.plant(*bxf.p((u0 + u1) / 2 + 0.2, 0, 0.0)[::2], h=0.3, r=0.07, pot_col='#e8dcc0', y0=y + 0.025)
             continue
@@ -139,7 +139,7 @@ K.table_lamp(sh, *rxf.p(0.0, 0, 0.12)[::2], y=rh, r=0.12)
 ct = IT['counter'][0]; cx0, cx1 = ct['x'] - ct['w'] / 2, ct['x'] + ct['w'] / 2; cz0, cz1 = ct['z'] - ct['d'] / 2, ct['z'] + ct['d'] / 2; chh = ct['h']
 xf0.rbox(wm, cx0, cx1, 0.08, chh - 0.04, cz0, cz1 - 0.02, r=0.01)
 k = cx0 + 0.04
-while k < cx1 - 0.04: xf0.rbox(sh.a('vc'), k, k + 0.035, 0.1, chh - 0.08, cz1 - 0.02, cz1 + 0.008, r=0.006, col='#6a4630'); k += 0.06   # 直條紋
+while k < cx1 - 0.04: xf0.rbox(sh.a('vc'), k, k + 0.035, 0.1, chh - 0.08, cz1 - 0.02, cz1 + 0.008, r=0.006, col='#6a4630'); k += 0.075   # 直條紋（v2：0.06 → 0.075）
 xf0.rbox(sh.a('vc'), cx0 + 0.02, cx1 - 0.02, 0.0, 0.08, cz0 + 0.02, cz1 - 0.04, r=0.004, col='#3a2a1e')
 xf0.rbox(sh.a('vcg'), cx0 - 0.03, cx1 + 0.03, chh - 0.045, chh, cz0 - 0.02, cz1 + 0.05, r=0.012, col='#e6dfd0')
 top = chh
@@ -173,13 +173,14 @@ for j, yy in enumerate((1.45, 1.85)):
 for s_ in LAY['seats']:
     if s_['table'] == 8: K.stool(sh, s_['x'], s_['z'], h=0.7, seat=WAL, metal='#2a2a2a')
 
+sh.tally('bookcase/record/counter')
 # ---------------------------------------------------------------- 桌子、曲木椅、每張桌子一盞小檯燈
 tabs = {}
 for s_ in LAY['seats']:
-    if s_['table'] <= 6: tabs.setdefault(s_['table'], []).append(s_)
+    if s_['table'] <= 6 or s_['table'] == 9: tabs.setdefault(s_['table'], []).append(s_)   # 9＝v2 加的中間那桌
 for t, ss in sorted(tabs.items()):
     tx = sum(s_['x'] for s_ in ss) / 2; tz = sum(s_['z'] for s_ in ss) / 2
-    if t in (1, 2, 5): K.round_table(sh, tx, tz, r=0.34, h=0.74, top_key='walnut', base_col='#2a2622', base='claw')
+    if t in (1, 2, 5, 9): K.round_table(sh, tx, tz, r=0.34, h=0.74, top_key='walnut', base_col='#2a2622', base='claw')
     else: K.rect_table(sh, tx, tz, 0.0, 0.66, 0.66, h=0.74, top_key='walnut', leg_key='walnut', leg='wood')
     for s_ in ss:
         ox = math.sin(s_['yaw']) * -0.05; oz = math.cos(s_['yaw']) * -0.05
@@ -216,6 +217,7 @@ for (x, z, ry) in ((-3.05, 1.1, 0.1), (-2.95, -1.55, 0.2), (3.55, 1.9, -0.1)):
 cg = Xf(0.5 + 0.55 + 0.05, 2.6, -math.pi / 2)                                                                             # 椅背上的針織外套
 cg.rbox(sh.a('vc'), -0.2, 0.2, 0.55, 0.86, -0.25, -0.17, r=0.03, col='#c9b48a'); cg.rbox(sh.a('vc'), -0.12, 0.12, 0.35, 0.6, -0.26, -0.2, r=0.03, col='#c9b48a')
 
+sh.tally('tables')
 # ---------------------------------------------------------------- 沙發區（L 形墨綠沙發、單人沙發、矮桌、立燈、半高書櫃）
 def sofa_run(x0, x1, z0, z1, face, seats_n):
     """沙發的一段：胡桃木腳的底座、坐墊（seats_n 塊）、靠背靠在牆那一側；face＝坐的人面向（'+z' 或 '-x'）"""
@@ -224,19 +226,19 @@ def sofa_run(x0, x1, z0, z1, face, seats_n):
     for (px, pz) in ((x0 + 0.06, z0 + 0.06), (x1 - 0.06, z0 + 0.06), (x0 + 0.06, z1 - 0.06), (x1 - 0.06, z1 - 0.06)): xf0.cyl(wm, (px, 0.0, pz), (px, 0.09, pz), 0.02, seg=8, r2=0.028)
     if face == '+z':
         sl = (x1 - x0) / seats_n
-        for k in range(seats_n): xf0.rbox(vg, x0 + k * sl + 0.01, x0 + (k + 1) * sl - 0.01, 0.3, 0.44, z0 + 0.2, z1, r=0.05, seg=3, col=GREEN)
-        for k in range(seats_n): xf0.rbox(vg, x0 + k * sl + 0.02, x0 + (k + 1) * sl - 0.02, 0.36, 0.82, z0, z0 + 0.22, r=0.06, seg=3, col=GREEN)
+        for k in range(seats_n): xf0.rbox(vg, x0 + k * sl + 0.01, x0 + (k + 1) * sl - 0.01, 0.3, 0.44, z0 + 0.2, z1, r=0.05, seg=2, col=GREEN)
+        for k in range(seats_n): xf0.rbox(vg, x0 + k * sl + 0.02, x0 + (k + 1) * sl - 0.02, 0.36, 0.82, z0, z0 + 0.22, r=0.06, seg=2, col=GREEN)
     else:
         sl = (z1 - z0) / seats_n
-        for k in range(seats_n): xf0.rbox(vg, x0, x1 - 0.2, 0.3, 0.44, z0 + k * sl + 0.01, z0 + (k + 1) * sl - 0.01, r=0.05, seg=3, col=GREEN)
-        for k in range(seats_n): xf0.rbox(vg, x1 - 0.22, x1, 0.36, 0.82, z0 + k * sl + 0.02, z0 + (k + 1) * sl - 0.02, r=0.06, seg=3, col=GREEN)
+        for k in range(seats_n): xf0.rbox(vg, x0, x1 - 0.2, 0.3, 0.44, z0 + k * sl + 0.01, z0 + (k + 1) * sl - 0.01, r=0.05, seg=2, col=GREEN)
+        for k in range(seats_n): xf0.rbox(vg, x1 - 0.22, x1, 0.36, 0.82, z0 + k * sl + 0.02, z0 + (k + 1) * sl - 0.02, r=0.06, seg=2, col=GREEN)
 sofa_run(1.6, 4.4, Z0, Z0 + 0.76, '+z', 3)
 sofa_run(X1 - 0.76, X1, Z0 + 0.76, Z0 + 2.2, '-x', 2)
 xf0.rbox(sh.a('vcg'), 1.48, 1.62, 0.3, 0.6, Z0 + 0.02, Z0 + 0.74, r=0.05, col=GREEN)                                     # 扶手
 xf0.rbox(sh.a('vcg'), X1 - 0.74, X1 - 0.02, 0.3, 0.6, Z0 + 2.2, Z0 + 2.34, r=0.05, col=GREEN)
 ac = Xf(2.9, -4.55, math.pi)                                                                                            # 單人沙發（背對半高書櫃）
-ac.rbox(wm, -0.38, 0.38, 0.08, 0.28, -0.36, 0.36, r=0.02); ac.rbox(sh.a('vcg'), -0.3, 0.3, 0.28, 0.43, -0.28, 0.34, r=0.05, seg=3, col='#8a4a3a')
-ac.rbox(sh.a('vcg'), -0.34, 0.34, 0.33, 0.82, -0.38, -0.2, r=0.06, seg=3, col='#8a4a3a')
+ac.rbox(wm, -0.38, 0.38, 0.08, 0.28, -0.36, 0.36, r=0.02); ac.rbox(sh.a('vcg'), -0.3, 0.3, 0.28, 0.43, -0.28, 0.34, r=0.05, seg=2, col="#8a4a3a")
+ac.rbox(sh.a('vcg'), -0.34, 0.34, 0.33, 0.82, -0.38, -0.2, r=0.06, seg=2, col="#8a4a3a")
 for sx in (-0.37, 0.37): ac.rbox(sh.a('vcg'), sx - 0.06, sx + 0.06, 0.28, 0.6, -0.36, 0.34, r=0.04, col='#8a4a3a')
 for (sx, sz) in ((-0.32, -0.3), (0.32, -0.3), (-0.32, 0.3), (0.32, 0.3)): ac.cyl(wm, (sx, 0.0, sz), (sx, 0.09, sz), 0.018, seg=8, r2=0.025)
 ctb = IT['coffee_table'][0]
@@ -263,6 +265,7 @@ for p_, cell in zip(IT['poster'], ((0, 0, 2, 3), (2, 0, 2, 3))):
     sh.wall_img('right', 'print', p_['z'], p_['y'], p_['w'], p_['h'], K.cell_uv(*cell), off=0.03)
     Xf(0, 0).rbox(sh.w('right', 'walnut'), X1 - 0.025, X1, p_['y'] - p_['h'] / 2 - 0.04, p_['y'] + p_['h'] / 2 + 0.04, p_['z'] - p_['w'] / 2 - 0.04, p_['z'] + p_['w'] / 2 + 0.04, r=0.005)
 
+sh.tally('sofa')
 # ---------------------------------------------------------------- 吊燈（波浪邊乳白玻璃）、植物
 for (x, z) in ((-0.9, 6.0), (2.4, 6.0), (0.5, 2.6), (-3.0, 1.3), (-3.0, -1.3), (3.6, 2.2), (-3.5, -5.5), (-2.3, -5.5), (2.9, -5.5)):
     K.dome_pendant(sh, x, z, 2.05 if z > -5 else 2.15, r=0.19 if z > -5 else 0.14, kind='scallop', glow_size=0.55)
@@ -292,4 +295,7 @@ cr_.cyl(sh.a('vc'), (0.15, 0.05, 0.05), (0.13, 0.95, 0.12), 0.025, col='#2a2a2a'
 sh.plant(-4.1, 3.1, h=1.2, r=0.22, pot_col='#b0653e')
 for q in range(6): Xf(-4.2, -1.62, 0.15 * q).rbox(sh.a('vcg'), -0.12, 0.12, q * 0.04, q * 0.04 + 0.038, -0.16, 0.16, r=0.004, col=('#e8e0cc', '#7b2d26', '#1f2e45', '#c9b48a', '#2f4a3a', '#f2efe6')[q])
 
+sh.tally('v1 rest')
+exec(open(os.path.join(HERE, 'mokuyobi_v2_fill.py'), encoding='utf-8').read())   # v2：擺滿東西（另一個檔，比較好讀）
+sh.tally('v2 fill')
 info = sh.finish(OUT, keep=lambda ob: 'VIEW' in ob.name, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})
