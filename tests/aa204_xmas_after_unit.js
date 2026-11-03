@@ -155,7 +155,8 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   /* ======================= 8 舊存檔、中午場、晚上場只能一位 ======================= */
   await sec('8',async()=>{ const x=X(), d=D('2025-12-24');
     setup({lv:{[AN]:5,[YT]:5}}); await ask(AN,[1]); const y=await ask(YT,[1,'算了']); const n=await ask(YT,[0]);
-    check('8. 晚上場已經約了以安（散場以後）：語彤的晚上場灰掉（「晚上場已經約了以安」）；中午場照舊可以約語彤',y.L.includes('晚上場已經約了'+SOCIAL.displayName(AN)+'。')&&!!n.r&&n.r.fest&&n.r.fest.slot==='noon',J({y:y.L,n:n.O}));
+    /* 中午場：語彤第 6 階的聖誕節地點寫死在麵店（fest_events.js venueBy s6:'noodle'）；AA_610／AA_624 她不在燒臘店（INV.NEVER_AT）＝中午場約不到地方、灰掉（原本可以約）。語彤的節日內容待 AA 改稿 */
+    check('8. 晚上場已經約了以安（散場以後）：語彤的晚上場灰掉（「晚上場已經約了以安」）；中午場（地點寫死在燒臘店）也灰掉「那個時段約不到地方」、不成立',y.L.includes('晚上場已經約了'+SOCIAL.displayName(AN)+'。')&&!n.r&&n.L.includes('那個時段約不到地方。'),J({y:y.L,n:n.L}));
     setup({lv:{[AN]:5}}); delete H.G.fest; H.G.fest={bk:[{d,who:AN,k:'xmas',y:2025,slot:'eve',mode:'meet',ref:'iv_old'}],done:{},gifts:{},miss:{}}; at('2025-12-24',18.2); const g=await goOut('xmas_y1',[0]);
     check('8. 舊存檔（G.fest 的約沒有 grp）：群戲散場以後照舊不演',!g.L.includes(exp(0)[0])&&!x.rec(H.G).done[AN+':xmas:2025'],J(g.L.slice(-3)));
     setup({lv:{[AN]:5}}); delete H.G.fest; at('2025-12-24',18.2); const g2=await goOut('xmas_y1',[0]); check('8. 舊存檔（沒有 G.fest）：群戲照演、不出錯',g2.L.includes('（禮物先疊在桌子中間，吃完再抽。）')&&!g2.L.includes(exp(0)[0]));

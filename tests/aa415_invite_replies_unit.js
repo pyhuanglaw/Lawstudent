@@ -120,13 +120,15 @@ await sec(4,()=>{ fresh('2026-03-11','heroine_01',3); const n1=ask('heroine_01',
 
 await sec(5,()=>{ /* [階段, 地點, 時間, 那一階合用的句子有沒有三句以上（有＝前三次三句都不一樣）, 日期] */
   const PLAN=[['heroine_01',[[2,'cafe',15.5,true],[5,'noodle',15.5,false],[4,'cafe',19,true,'2026-03-11']]],['heroine_02',[[2,'cafe',15.5,true],['d','noodle',15.5,false]]],
-    ['heroine_03',[[2,'library',15.5,false],[4,'noodle',19,true],[6,'library',15.5,false]]],['heroine_04',[[2,'cafe',15.5,true],[4,'noodle',19,true]]],
+    ['heroine_03',[[2,'library',15.5,false],[4,'cafe',19,false],[6,'library',15.5,false]]],['heroine_04',[[2,'cafe',15.5,true],[4,'noodle',19,true]]],
     ['heroine_05',[[4,'noodle',19,true],[6,'noodle',19,false]]],['classmate_peishan',[[3,'cafe',15.5,false,'2026-03-11'],[4,'cafe',19,true,'2026-03-11'],['d','cafe',19,true,'2026-03-11']]],
     ['kexin',[[2,'cafe',15.5,false],['d','cafe',15.5,true,'2026-04-14']]]];
   for(const [id,L] of PLAN) for(const [s,pid,hh,three,key] of L){ fresh(key||(id==='kexin'&&s!=='d'?'2025-03-12':'2026-03-14'),id,s,{econ:id==='kexin'&&s!=='d'}); const out=[];
     for(let i=0;i<10;i++){ const r=id==='kexin'?INV.personal(H.G,id,INV.place(pid),H.G.day,hh,{res:'accept'}):ask(id,pid,hh); out.push(txt(r.lines)); }
     const rep=out.findIndex((t,i)=>i>0&&t===out[i-1]), n3=new Set(out.slice(0,3)).size;
-    check('5. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'連約 '+pid+' '+hh+' 10 次：都有台詞、沒有連續兩次同一句'+(three?'、前三次三句都不一樣':''),out.every(t=>t)&&rep<0&&(!three||n3===3),J(out.slice(0,4))+'…'); } });
+    check('5. '+NM[id]+' 第 '+(s==='d'?'交往中':s+' 階')+'連約 '+pid+' '+hh+' 10 次：都有台詞、沒有連續兩次同一句'+(three?'、前三次三句都不一樣':''),out.every(t=>t)&&rep<0&&(!three||n3===3),J(out.slice(0,4))+'…'); }
+  /* 語彤第 4 階原本連約 noodle 19:00：AA_610／AA_624 她不在燒臘店（INV.NEVER_AT）＝約不成，上面改連約 Café（那一階 19:00 合用的句子只有兩句＝不驗前三次三句都不一樣；原本三句裡有燒臘店專用的）；這裡另外驗燒臘店約不成 */
+  { fresh('2026-03-14','heroine_03',4); const r=ask('heroine_03','noodle',19); check('5. 語彤第 4 階約燒臘店 19:00：不成立（decline、why place；AA_610／AA_624）',r.res==='decline'&&r.why==='place',r.res+' '+r.why); } });
 
 await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
   for(let i=0;i<4;i++){ const r=ask('classmate_peishan','cafe',12+10/60); out.push({t:txt(r.lines),res:r.res,alt:r.alt}); }
