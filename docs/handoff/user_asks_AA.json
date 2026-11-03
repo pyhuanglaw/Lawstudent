@@ -786,6 +786,36 @@
    "task": "CLASSMATE-JOBS-1103",
    "src": "使用者直接對 AA（帳號 A）說",
    "checked": "AA_614 已寫；待 LAWWW 開任務、整合"
+  },
+  {
+   "id": "UA-AA-1103-45",
+   "at": "2026-11-03",
+   "quote": "也要遇到在電影院打工的同學 遇到玩家送爆米花",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "CINEMA-GG-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_615 已寫；待 LAWWW 開任務、LAWWW2 地圖"
+  },
+  {
+   "id": "UA-AA-1103-46",
+   "at": "2026-11-03",
+   "quote": "不是有電影情節嗎 怎麼沒有電影院阿",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "CINEMA-GG-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_615 已寫；待 LAWWW 開任務、LAWWW2 地圖"
+  },
+  {
+   "id": "UA-AA-1103-47",
+   "at": "2026-11-03",
+   "quote": "學校不是公館那一側才有店面欸 新生南路那側也有阿 尤其溫州街 應該是新生南路那一側",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "XINSHENG-SIDE-1103",
+   "src": "使用者直接對 AA（帳號 A）說",
+   "checked": "AA_615 已寫；待 LAWWW 開任務、LAWWW2 地圖"
   }
  ]
 }
