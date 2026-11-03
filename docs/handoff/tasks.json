@@ -43559,6 +43559,26 @@
    "sha": "f110787dd",
    "note": "BB 11-03 16:23（CC aa609 grandma_line.jpg）；src/adv3d.js A.noPic；tests/adv_nopic_dim_unit.js",
    "next": "CC 瀏覽器重拍 grandma_line 橫／直"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "BUG-GYM-SKIRT-1103",
+   "title": "健身房墊子拉筋（gym_stretch）的路人穿裙子（npc_nf10／14／17／19 長裙）後片穿到地板下 0.33～0.50 m",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "note": "BB 11-03 17:20／17:29；CC 探針 cc_gym_skirt_probe（cc-testing 4d0ec34db）修正前 FAILED 2；v9.10.18 就有，不擋 v9.10.19",
+   "next": "v9.10.19 合進 main 以後：裙子底模（manifest source 有「裙」或 skirt 標記）不分到墊子拉筋，或拉筋時改用不坐地的姿勢；修好給 CC SHA 在使用者電腦跑"
   }
  ]
 }
