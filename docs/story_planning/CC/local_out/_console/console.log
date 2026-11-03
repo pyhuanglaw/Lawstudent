@@ -1,19 +1,22 @@
-[16:34:08] run_forever round: 2   runner sha256: 02a9caf4ba
-[16:34:08] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[16:34:08]          playwright 1.64.1 OK
-[16:34:08] git    : git version 2.56.0.windows.4
-[16:34:08] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[16:34:08] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[16:34:08] repo   : C:\Users\USER\Documents\Lawstudent
-[16:34:08] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[16:34:08] parallel: 2  (blender items run alone)
-[16:34:08] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[16:34:08] git fetch
+[19:36:43] run_forever round: 1   runner sha256: 02a9caf4ba
+[19:36:43] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[19:36:43]          playwright 1.64.1 OK
+[19:36:44] git    : git version 2.56.0.windows.4
+[19:36:45] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[19:36:45] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[19:36:45] repo   : C:\Users\USER\Documents\Lawstudent
+[19:36:45] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[19:36:45] parallel: 2  (blender items run alone)
+[19:36:45] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[19:36:46] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       0939186e7..746f7e1af  claude/cc-testing -> origin/claude/cc-testing
+       e79973830..578f5a0d4  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
+       9d8af03e4..79ab8efba  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -38,364 +41,102 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_main_pass.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/out/transcript_route_grades_retake.json
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
-    Your branch is ahead of 'origin/claude/cc-local' by 3 commits.
+    Your branch is ahead of 'origin/claude/cc-local' by 6 commits.
       (use "git push" to publish your local commits)
     Already up to date.
-    Already up to date.
-[16:34:12] dev head = a7a97d111   lawww2 head = 457027df9
-[16:34:13] config.txt: PARALLEL 2 -> 3
-[16:34:13] memory used: 39%  (new items wait while >= 85%)
-[16:34:16] queue: Z_G5_term, Z_G5b_ancf, Z_P5w, Z_A2_dorm, Z_A3_l15, Z_G6b_v95, Y_A1_adv, Y_P1_d124, Y_G1_reach, Y_G2_libfl, Y_G3_libsc, Y_G5_term, Y_G6a_v7, Y_G6b_v95, Y_G6c_fm, Y_G7_class, Y_P3_ladder, Y_P3b_sl, Y_P5_ui, Y_G5b_ancf, Y_A2pre, Y_A3pre, Y_G4v2, Y_P2_bar_a, Y_A2_dorm, Y_A3_l15, X_A1_adv, X_G5_term, X_G5b_ancf, X_G6a_v7, X_G6b_v95, X_G6c_fm, X_G3_libsc, X_P5_ui, X_P5w, X_G4v2, X_P3_ladder, X_P1_d124, X_P2_bar_a, X_P2_bar_b, X_P2_epi, X_P1pre, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, BK1_cpu, BK1_hip, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre
-[16:34:16] skip Z_G5_term (already done on 7224af47a)
-[16:34:16] skip Z_G5b_ancf (already done on 7224af47a)
-[16:34:16] skip Z_P5w (already done on 7224af47a)
-[16:34:16] skip Z_A2_dorm (already done on 7224af47a)
-[16:34:16] skip Z_A3_l15 (already done on 7224af47a)
-[16:34:16] skip Z_G6b_v95 (already done on 0f66c4215)
-[16:34:16] skip Y_A1_adv (already done on c89a5f9be)
-[16:34:16] skip Y_P1_d124 (already done on c89a5f9be)
-[16:34:16] skip Y_G1_reach (already done on c89a5f9be)
-[16:34:16] skip Y_G2_libfl (already done on c89a5f9be)
-[16:34:16] skip Y_G3_libsc (already done on c89a5f9be)
-[16:34:16] skip Y_G5_term (already done on c89a5f9be)
-[16:34:16] skip Y_G6a_v7 (already done on c89a5f9be)
-[16:34:16] skip Y_G6b_v95 (already done on c89a5f9be)
-[16:34:16] skip Y_G6c_fm (already done on c89a5f9be)
-[16:34:17] skip Y_G7_class (already done on c89a5f9be)
-[16:34:17] skip Y_P3_ladder (already done on c89a5f9be)
-[16:34:17] skip Y_P3b_sl (already done on c89a5f9be)
-[16:34:17] skip Y_P5_ui (already done on c89a5f9be)
-[16:34:17] skip Y_G5b_ancf (already done on c89a5f9be)
-[16:34:17] skip Y_A2pre (already done on 3c6207b60)
-[16:34:17] skip Y_A3pre (already done on dc36b401e)
-[16:34:17] skip Y_G4v2 (already done on c89a5f9be)
-[16:34:17] skip Y_P2_bar_a (already done on c89a5f9be)
-[16:34:17] skip Y_A2_dorm (already done on c89a5f9be)
-[16:34:17] skip Y_A3_l15 (already done on c89a5f9be)
-[16:34:17] skip X_A1_adv (already done on 62d98bfa5)
-[16:34:17] skip X_G5_term (already done on 62d98bfa5)
-[16:34:17] skip X_G5b_ancf (already done on 62d98bfa5)
-[16:34:17] skip X_G6a_v7 (already done on 62d98bfa5)
-[16:34:17] skip X_G6b_v95 (already done on 62d98bfa5)
-[16:34:17] skip X_G6c_fm (already done on 62d98bfa5)
-[16:34:17] skip X_G3_libsc (already done on 62d98bfa5)
-[16:34:17] skip X_P5_ui (already done on 62d98bfa5)
-[16:34:17] skip X_P5w (already done on 62d98bfa5)
-[16:34:17] skip X_G4v2 (already done on 62d98bfa5)
-[16:34:17] skip X_P3_ladder (already done on 5f238fc9d)
-[16:34:17] skip X_P1_d124 (already done on 62d98bfa5)
-[16:34:17] skip X_P2_bar_a (already done on 62d98bfa5)
-[16:34:17] skip X_P2_bar_b (already done on 62d98bfa5)
-[16:34:17] skip X_P2_epi (already done on 62d98bfa5)
-[16:34:17] skip X_P1pre (already done on a3d80d47a)
-[16:34:17] skip G1_reach (already done on ef63b1877)
-[16:34:17] skip G2_libfl (already done on ef63b1877)
-[16:34:17] skip G3_libsc (already done on ef63b1877)
-[16:34:17] skip G5_termend (already done on ef63b1877)
-[16:34:17] skip G6a_v7 (already done on ef63b1877)
-[16:34:17] skip G6b_v95 (already done on ef63b1877)
-[16:34:17] skip G6c_fm (already done on ef63b1877)
-[16:34:17] skip G7_class (already done on ef63b1877)
-[16:34:17] skip P3_ladder (already done on ef63b1877)
-[16:34:17] skip P4_legal (already done on ef63b1877)
-[16:34:17] skip P5_ui (already done on ef63b1877)
-[16:34:17] skip A1_advskip (already done on b1b249873)
-[16:34:17] skip A2_dorm (already done on b1b249873)
-[16:34:17] skip A3_late15 (already done on b1b249873)
-[16:34:17] skip A1_adv_ef63 (already done on ef63b1877)
-[16:34:17] skip A2_dorm_ef63 (already done on ef63b1877)
-[16:34:17] skip A3_l15_ef63 (already done on ef63b1877)
-[16:34:17] skip A1pre (already done on 03b2721af)
-[16:34:17] skip A2pre (already done on 3c6207b60)
-[16:34:17] skip A3pre (already done on dc36b401e)
-[16:34:17] skip ART_cop (already done on b1b249873)
-[16:34:17] skip ART_lband (already done on b1b249873)
-[16:34:17] skip ART_night (already done on b1b249873)
-[16:34:17] skip ART_uskit (already done on b1b249873)
-[16:34:17] skip BK1_cpu (already done on 457027df9)
-[16:34:17] memory 39% before starting BK1_hip (0 running)
-[16:34:17] ==== START BK1_hip  (blender @ 457027df9) ====
-[16:34:20] [res] cpu=35% mem=39% (12.2/31.4 GB) chrome_testing=0  START BK1_hip
-[16:38:44] [res] cpu=21% mem=39% (12.5/31.4 GB) chrome_testing=0  END BK1_hip
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       b39102bff..fd6010b4e  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:38:49] ==== END   BK1_hip  exit=0  267s   ====
-[16:38:52] memory 39% before starting LIVE1_deploy (0 running)
-[16:38:52] memory 39% before starting LIVE2_day12 (1 running)
-[16:38:52] memory 39% before starting WZ1_order (2 running)
-[16:38:52] ==== START LIVE1_deploy  (game @ 1d0904473) ====
-[16:38:52] ==== START LIVE2_day12  (game @ 1d0904473) ====
-[16:38:52] ==== START WZ1_order  (probe @ 3670b96eb) ====
-[16:38:56] [res] cpu=18% mem=40% (12.5/31.4 GB) chrome_testing=0  START WZ1_order
-[16:38:56] [res] cpu=18% mem=39% (12.5/31.4 GB) chrome_testing=0  START LIVE2_day12
-[16:38:56] [res] cpu=18% mem=39% (12.5/31.4 GB) chrome_testing=0  START LIVE1_deploy
-[16:39:17] 正在跑：LIVE1_deploy（已跑 0 分／上限 30 分）、LIVE2_day12（已跑 0 分／上限 60 分）、WZ1_order（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
-[16:41:11] [res] cpu=68% mem=52% (16.5/31.4 GB) chrome_testing=18  END WZ1_order
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       fd6010b4e..647e0bf7a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:41:16] ==== END   WZ1_order  exit=0  139s   ====
-[16:41:21] memory 53% before starting WZ2_warm (2 running)
-[16:41:21] ==== START WZ2_warm  (probe @ 3670b96eb) ====
-[16:41:24] [res] cpu=34% mem=52% (16.8/31.4 GB) chrome_testing=18  START WZ2_warm
-[16:43:19] [res] cpu=53% mem=52% (16.4/31.4 GB) chrome_testing=17  END LIVE1_deploy
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       647e0bf7a..0fafc1096  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:43:24] ==== END   LIVE1_deploy  exit=0  267s   ====
-[16:43:27] blender item BK2_hip_a waits until the 2 running item(s) finish
-[16:44:17] 正在跑：LIVE2_day12（已跑 5 分／上限 60 分）、WZ2_warm（已跑 2 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
-[16:44:30] [res] cpu=55% mem=45% (14.4/31.4 GB) chrome_testing=9  END WZ2_warm
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       0fafc1096..e6534a0b9  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:44:35] ==== END   WZ2_warm  exit=0  189s   ====
-[16:44:38] blender item BK2_hip_a waits until the 1 running item(s) finish
-[16:44:46] [res] cpu=18% mem=39% (12.2/31.4 GB) chrome_testing=0  END LIVE2_day12
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e6534a0b9..e58e6036a  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:44:52] ==== END   LIVE2_day12  exit=0  354s   ====
-[16:44:54] memory 38% before starting BK2_hip_a (0 running)
-[16:44:54] ==== START BK2_hip_a  (blender @ 7cb22d757) ====
-[16:44:57] [res] cpu=32% mem=38% (12.1/31.4 GB) chrome_testing=0  START BK2_hip_a
-[16:49:17] 正在跑：BK2_hip_a（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[16:54:17] 正在跑：BK2_hip_a（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[16:54:49] [res] cpu=41% mem=41% (13.2/31.4 GB) chrome_testing=0  END BK2_hip_a
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e58e6036a..f7ab9ad82  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[16:54:55] ==== END   BK2_hip_a  exit=0  595s   ====
-[16:54:59] memory 41% before starting BK2_hip_b (0 running)
-[16:54:59] ==== START BK2_hip_b  (blender @ 7cb22d757) ====
-[16:55:02] [res] cpu=18% mem=41% (13.1/31.4 GB) chrome_testing=0  START BK2_hip_b
-[16:59:17] 正在跑：BK2_hip_b（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:04:17] 正在跑：BK2_hip_b（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:04:55] [res] cpu=15% mem=40% (12.8/31.4 GB) chrome_testing=0  END BK2_hip_b
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f7ab9ad82..e014582dc  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:05:01] ==== END   BK2_hip_b  exit=0  596s   ====
-[17:05:06] memory 41% before starting BK2_cpu (0 running)
-[17:05:06] ==== START BK2_cpu  (blender @ 7cb22d757) ====
-[17:05:09] [res] cpu=27% mem=41% (13.0/31.4 GB) chrome_testing=0  START BK2_cpu
-[17:09:17] 正在跑：BK2_cpu（已跑 4 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:14:17] 正在跑：BK2_cpu（已跑 9 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:18:11] [res] cpu=20% mem=39% (12.4/31.4 GB) chrome_testing=0  END BK2_cpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e014582dc..923acc16b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:18:17] ==== END   BK2_cpu  exit=0  785s   ====
-[17:18:22] memory 40% before starting Z_P3b_sl (0 running)
-[17:18:22] blender item BK1_cpu waits until the 1 running item(s) finish
-[17:18:22] ==== START Z_P3b_sl  (probe @ 0f66c4215) ====
-[17:18:25] [res] cpu=35% mem=39% (12.7/31.4 GB) chrome_testing=0  START Z_P3b_sl
-[17:19:17] 正在跑：Z_P3b_sl（已跑 0 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:24:17] 正在跑：Z_P3b_sl（已跑 5 分／上限 75 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:24:45] [res] cpu=30% mem=39% (12.3/31.4 GB) chrome_testing=0  END Z_P3b_sl
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       923acc16b..e7df188b3  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:24:52] ==== END   Z_P3b_sl  exit=0  383s   ====
-[17:24:54] memory 39% before starting BK1_cpu (0 running)
-[17:24:54] ==== START BK1_cpu  (blender @ 2cf811bf1) ====
-[17:24:57] [res] cpu=34% mem=39% (12.4/31.4 GB) chrome_testing=0  START BK1_cpu
-[17:26:38] [res] cpu=12% mem=39% (12.4/31.4 GB) chrome_testing=0  END BK1_cpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       e7df188b3..82781317b  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:26:43] ==== END   BK1_cpu  exit=0  104s   ====
-[17:26:45] memory 39% before starting BK1_hip (0 running)
-[17:26:45] ==== START BK1_hip  (blender @ 2cf811bf1) ====
-[17:26:48] [res] cpu=23% mem=39% (12.4/31.4 GB) chrome_testing=0  START BK1_hip
-[17:29:17] 正在跑：BK1_hip（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:31:14] [res] cpu=34% mem=39% (12.5/31.4 GB) chrome_testing=0  END BK1_hip
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       82781317b..d1af03041  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:31:19] ==== END   BK1_hip  exit=0  269s   ====
-[17:31:23] memory 40% before starting BK1_cpu (0 running)
-[17:31:23] ==== START BK1_cpu  (blender @ 43b715b1a) ====
-[17:31:26] [res] cpu=24% mem=39% (12.7/31.4 GB) chrome_testing=0  START BK1_cpu
-[17:33:09] [res] cpu=32% mem=40% (12.8/31.4 GB) chrome_testing=0  END BK1_cpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d1af03041..daef1c39c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:33:13] ==== END   BK1_cpu  exit=0  105s   ====
-[17:33:16] memory 40% before starting BK1_hip (0 running)
-[17:33:16] ==== START BK1_hip  (blender @ 43b715b1a) ====
-[17:33:19] [res] cpu=13% mem=41% (12.8/31.4 GB) chrome_testing=0  START BK1_hip
-[17:34:17] 正在跑：BK1_hip（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:37:48] [res] cpu=21% mem=40% (12.6/31.4 GB) chrome_testing=0  END BK1_hip
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       daef1c39c..aa63685e2  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:37:53] ==== END   BK1_hip  exit=0  272s   ====
-[17:37:57] memory 39% before starting BK1_cpu (0 running)
-[17:37:57] ==== START BK1_cpu  (blender @ cf81f6460) ====
-[17:38:00] [res] cpu=21% mem=39% (12.4/31.4 GB) chrome_testing=0  START BK1_cpu
-[17:39:17] 正在跑：BK1_cpu（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:39:40] [res] cpu=26% mem=39% (12.5/31.4 GB) chrome_testing=0  END BK1_cpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       aa63685e2..aff6517c6  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:39:44] ==== END   BK1_cpu  exit=0  103s   ====
-[17:39:48] memory 40% before starting BK1_hip (0 running)
-[17:39:48] ==== START BK1_hip  (blender @ cf81f6460) ====
-[17:39:51] [res] cpu=18% mem=39% (12.7/31.4 GB) chrome_testing=0  START BK1_hip
-[17:44:17] 正在跑：BK1_hip（已跑 4 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:44:21] [res] cpu=29% mem=39% (12.7/31.4 GB) chrome_testing=0  END BK1_hip
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       aff6517c6..5e7d8a5a0  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:44:26] ==== END   BK1_hip  exit=0  273s   ====
-[17:44:29] skip P3b_sl (already done on ef63b1877)
-[17:44:29] skip R4main (already done on 27e6ce77e)
-[17:44:29] skip R4b1b_rr (already done on b1b249873)
-[17:44:29] skip R4v2_b1b (already done on b1b249873)
-[17:44:29] skip B4main (already done on 27e6ce77e)
-[17:44:29] skip R1_reach (already done on b1b249873)
-[17:44:29] skip R2_flowcls (already done on b1b249873)
-[17:44:29] skip R3_touchwz (already done on b1b249873)
-[17:44:29] skip R4_day12 (already done on b1b249873)
-[17:44:29] skip R6_layout (already done on b1b249873)
-[17:44:29] skip R6b_layoutcss (already done on b1b249873)
-[17:44:29] skip R7_quota (already done on b1b249873)
-[17:44:29] skip R7b_quota15 (already done on b1b249873)
-[17:44:29] skip R8b_y4s2jp (already done on b1b249873)
-[17:44:29] skip R8c_y4s2fin (already done on b1b249873)
-[17:44:29] skip R9_roll (already done on b1b249873)
-[17:44:29] skip R5_rr (already done on b1b249873)
-[17:44:29] skip R6_rr (already done on b1b249873)
-[17:44:29] skip R8_rr (already done on b1b249873)
-[17:44:29] skip R10_b3 (already done on b1b249873)
-[17:44:29] skip R11_b4 (already done on b1b249873)
-[17:44:29] skip R10_rr (already done on b1b249873)
-[17:44:29] skip R12_fasat (already done on b1b249873)
-[17:44:29] skip R12b_fasatpre (already done on ba125d6f3)
-[17:44:29] skip R10_rr2 (already done on b1b249873)
-[17:44:29] skip R6_rr2 (already done on b1b249873)
-[17:44:29] skip R8_rr2 (already done on b1b249873)
-[17:44:29] skip F1_fps_hl (already done on b1b249873)
-[17:44:29] skip F2_fps_hd (already done on b1b249873)
-[17:44:29] skip R1_x2 (already done on b1b249873)
-[17:44:29] skip R2_x2 (already done on b1b249873)
-[17:44:29] skip R3_x2 (already done on b1b249873)
-[17:44:29] skip R4_x2 (already done on b1b249873)
-[17:44:29] skip R5_x2 (already done on b1b249873)
-[17:44:29] skip R9_x2 (already done on b1b249873)
-[17:44:29] skip R1_x3 (already done on b1b249873)
-[17:44:29] skip R2_x3 (already done on b1b249873)
-[17:44:29] skip R3_x3 (already done on b1b249873)
-[17:44:29] skip R4_x3 (already done on b1b249873)
-[17:44:29] skip R5_x3 (already done on b1b249873)
-[17:44:29] skip R9_x3 (already done on b1b249873)
-[17:44:29] memory 40% before starting 00_gpu (0 running)
-[17:44:29] ==== START 00_gpu  (gpu @ 6a8033f4e) ====
-[17:44:29] memory 40% before starting 01_p0speed (1 running)
-[17:44:29] skip 10_deploy (already done on d75871437)
-[17:44:29] ==== START 01_p0speed  (game @ 6a8033f4e) ====
-[17:44:29] skip 11_reach (already done on d75871437)
-[17:44:29] skip 12_flowcls (already done on d75871437)
-[17:44:29] skip 13_minimap (already done on d75871437)
-[17:44:29] skip 14_zones (already done on d75871437)
-[17:44:29] skip 15_touchwz (already done on d75871437)
-[17:44:29] skip 16_p0 (already done on d75871437)
-[17:44:29] skip 17_savev7 (already done on d75871437)
-[17:44:29] skip 18_flowday12 (already done on d75871437)
-[17:44:29] skip 19_mkretake (already done on 690ac5f4d)
-[17:44:29] skip 19b_mkjp (already done on 690ac5f4d)
-[17:44:29] skip 02b_mk12dea (already done on dea6b1944)
-[17:44:29] skip 06b_layoutP (already done on c2d0c24bc)
-[17:44:29] skip 06c_layoutO (already done on e27dd033e)
-[17:44:29] skip 32_wsem (already done on d75871437)
-[17:44:29] skip 33_wsempre (already done on dea6b1944)
-[17:44:29] skip 20_roll (already done on 4c8f138f7)
-[17:44:29] skip 21_rollpre (already done on 82f8d28c5)
-[17:44:29] skip 22_boya (already done on 6f0122821)
-[17:44:29] skip 23_boyapre (already done on 2c8d47e70)
-[17:44:29] skip 24_b3 (already done on d75871437)
-[17:44:29] skip 25_b3pre (already done on 299e23345)
-[17:44:29] skip 26_b3pre2 (already done on 6ba2a22ad)
-[17:44:29] skip 27_b4 (already done on d75871437)
-[17:44:29] skip 28_b4pre (already done on f57e3ac75)
-[17:44:29] skip 29_jpmk (already done on d75871437)
-[17:44:29] skip 34_day9 (already done on d75871437)
-[17:44:29] skip 02_mk12new (already done on c2d0c24bc)
-[17:44:29] skip 04b_quota15 (already done on c2d0c24bc)
-[17:44:29] skip 04c_legal (already done on c2d0c24bc)
-[17:44:29] skip 05_mk12old (already done on b4f98ea4e)
-[17:44:29] skip 07_bg107 (already done on c2d0c24bc)
-[17:44:29] skip 08_pt106 (already done on c2d0c24bc)
-[17:44:29] skip 30_b1base (already done on a3b1bd647)
-[17:44:29] skip 31_b2base (already done on a3b1bd647)
-[17:44:29] skip G4_day12 (already done on ef63b1877)
-[17:44:29] memory 40% before starting FS112 (2 running)
-[17:44:29] ==== START FS112  (probe @ 0f66c4215) ====
-[17:44:32] [res] cpu=26% mem=40% (12.6/31.4 GB) chrome_testing=0  START 01_p0speed
-[17:44:32] [res] cpu=26% mem=40% (12.6/31.4 GB) chrome_testing=0  START 00_gpu
-[17:44:32] [res] cpu=26% mem=40% (12.6/31.4 GB) chrome_testing=0  START FS112
-[17:45:12] leftover C:\Users\USER\Documents\wt_cc_FS112 cannot be removed - using C:\Users\USER\Documents\wt_cc_FS112_1793699112
-[17:47:26] [res] cpu=47% mem=46% (14.5/31.4 GB) chrome_testing=10  END 01_p0speed
-[17:47:31] [res] cpu=36% mem=46% (14.6/31.4 GB) chrome_testing=10  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       5e7d8a5a0..940fe0730  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:47:32] ==== END   01_p0speed  exit=0  177s   ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       940fe0730..29ad67304  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:47:36] ==== END   00_gpu  exit=0  182s   ====
-[17:47:40] skip R11_full (already done on b1b249873)
-[17:47:40] skip R10pre (already done on 299e23345)
-[17:47:40] skip R11pre (already done on f57e3ac75)
-[17:47:40] memory 46% before starting D_B02_playfix (2 running)
-[17:47:40] ==== START D_B02_playfix  (game @ 6dc39be73) ====
-[17:47:42] memory 46% before starting D_B08_libtour (2 running)
-[17:47:42] ==== START D_B08_libtour  (game @ 6dc39be73) ====
-[17:47:43] [res] cpu=47% mem=46% (14.6/31.4 GB) chrome_testing=10  START D_B02_playfix
-[17:47:46] [res] cpu=33% mem=47% (14.7/31.4 GB) chrome_testing=10  START D_B08_libtour
-[17:49:17] 正在跑：FS112（已跑 4 分／上限 360 分）、D_B02_playfix（已跑 1 分／上限 120 分）、D_B08_libtour（已跑 1 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:52:27] [res] cpu=30% mem=50% (15.8/31.4 GB) chrome_testing=18  END D_B08_libtour
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       29ad67304..03b4f3c68  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:52:33] ==== END   D_B08_libtour  exit=1  284s   ====
-[17:52:36] memory 51% before starting 00_gpu (2 running)
-[17:52:36] ==== START 00_gpu  (gpu @ cad9cf3fd) ====
-[17:52:39] [res] cpu=17% mem=52% (16.1/31.4 GB) chrome_testing=18  START 00_gpu
-[17:54:17] 正在跑：FS112（已跑 9 分／上限 360 分）、D_B02_playfix（已跑 6 分／上限 120 分）、00_gpu（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
-[17:55:07] [res] cpu=26% mem=51% (16.1/31.4 GB) chrome_testing=18  END 00_gpu
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       03b4f3c68..abe3a8a6f  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:55:12] ==== END   00_gpu  exit=0  151s   ====
-[17:55:16] memory 50% before starting Z_ANSMOKE (2 running)
-[17:55:16] ==== START Z_ANSMOKE  (probe @ 7224af47a) ====
-[17:55:19] [res] cpu=33% mem=51% (15.9/31.4 GB) chrome_testing=18  START Z_ANSMOKE
-[17:58:19] [res] cpu=58% mem=51% (16.0/31.4 GB) chrome_testing=18  END Z_ANSMOKE
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       abe3a8a6f..d9976419c  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[17:58:25] ==== END   Z_ANSMOKE  exit=0  183s   ====
-[17:58:30] memory 51% before starting V18_ANSMOKE (2 running)
-[17:58:30] ==== START V18_ANSMOKE  (probe @ 6a8033f4e) ====
-[17:58:33] [res] cpu=24% mem=51% (16.1/31.4 GB) chrome_testing=18  START V18_ANSMOKE
-[17:59:17] 正在跑：FS112（已跑 14 分／上限 360 分）、D_B02_playfix（已跑 11 分／上限 120 分）、V18_ANSMOKE（已跑 0 分／上限 45 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:01:34] [res] cpu=34% mem=52% (16.4/31.4 GB) chrome_testing=18  END V18_ANSMOKE
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       d9976419c..fa02f37da  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[18:01:41] ==== END   V18_ANSMOKE  exit=0  184s   ====
-[18:01:43] blender item BK1_cpu waits until the 2 running item(s) finish
-[18:04:17] 正在跑：FS112（已跑 19 分／上限 360 分）、D_B02_playfix（已跑 16 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:09:17] 正在跑：FS112（已跑 24 分／上限 360 分）、D_B02_playfix（已跑 21 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:14:17] 正在跑：FS112（已跑 29 分／上限 360 分）、D_B02_playfix（已跑 26 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:19:17] 正在跑：FS112（已跑 34 分／上限 360 分）、D_B02_playfix（已跑 31 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:24:17] 正在跑：FS112（已跑 39 分／上限 360 分）、D_B02_playfix（已跑 36 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:29:17] 正在跑：FS112（已跑 44 分／上限 360 分）、D_B02_playfix（已跑 41 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:34:17] 正在跑：FS112（已跑 49 分／上限 360 分）、D_B02_playfix（已跑 46 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:39:17] 正在跑：FS112（已跑 54 分／上限 360 分）、D_B02_playfix（已跑 51 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
-[18:44:16] [res] cpu=48% mem=48% (15.3/31.4 GB) chrome_testing=10  END D_B02_playfix
-[18:44:17] 正在跑：FS112（已跑 59 分／上限 360 分）、D_B02_playfix（已跑 56 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+    Merge made by the 'ort' strategy.
+     ...272\244\346\216\245\347\264\200\351\214\204.md" |  12 +
+     docs/story_planning/CC/CC_39_D_B02_PC.md           |  34 +
+     ...250\202\345\231\250\345\256\244\345\205\247.md" |  67 ++
+     ...220\203\351\236\213\345\256\244\345\205\247.md" |  78 ++
+     ...201\213\345\213\225\345\256\244\345\205\247.md" |  78 ++
+     ...273\243\345\240\264\345\256\244\345\205\247.md" |  48 ++
+     .../CC/logs/eat_d231/eat_fix_d231.log              |  81 ++
+     .../CC/shots/b02/01_A_after_talk.png               | Bin 0 -> 78944 bytes
+     .../story_planning/CC/shots/b02/04_D_find_goal.png | Bin 0 -> 265362 bytes
+     .../test_tools/cc/cc_aa609_grandma_probe.py        | 210 +++++
+     .../test_tools/cc/cc_camp608_common.py             |  43 +
+     .../test_tools/cc/cc_camp608_probe.py              |  20 +-
+     .../test_tools/cc/cc_camp_oldsave_probe.py         |  17 +-
+     .../test_tools/cc/cc_friends606_probe.py           |  18 +-
+     .../test_tools/cc/cc_gym_shot_probe.py             |  13 +-
+     .../test_tools/cc/cc_kexin_hsr_probe.py            |  18 +-
+     .../test_tools/cc/cc_phone_unmet_probe.py          |  21 +-
+     .../test_tools/cc/cc_playfix_probe.py              | 253 ++++++
+     src/data/dabu_layout.js                            |  81 ++
+     src/data/haopai_layout.js                          |  69 ++
+     src/data/tongxian_layout.js                        |  62 ++
+     src/data/xinsheng_sports_layout.js                 |  89 +++
+     .../env_second/bb_support/cc_wip/dabu_run_final.sh |   7 +
+     .../env_second/bb_support/cc_wip/dabu_views.json   |   5 +
+     .../env_second/bb_support/cc_wip/render_tx.py      |  39 +
+     .../env_second/bb_support/cc_wip/run_build.sh      |   5 +
+     .../bb_support/cc_wip/tongxian_views.json          |   6 +
+     .../bb_support/cc_wip/xinsheng_views.json          |   5 +
+     .../env_second/bb_support/cc_wip/xs_nav_check.js   |  34 +
+     .../blender/env_second/bb_support/dabu_interior.py | 736 +++++++++++++++++
+     .../env_second/bb_support/haopai_interior.py       | 787 +++++++++++++++++++
+     tools/blender/env_second/bb_support/haopai_tex.py  | 196 +++++
+     .../env_second/bb_support/tongxian_interior.py     | 873 +++++++++++++++++++++
+     .../blender/env_second/bb_support/tongxian_tex.py  | 338 ++++++++
+     .../bb_support/xinsheng_sports_interior.py         | 815 +++++++++++++++++++
+     .../env_second/textures/gen/haopai_alpha.png       | Bin 0 -> 14047 bytes
+     .../env_second/textures/gen/haopai_atlas.json      | 146 ++++
+     .../env_second/textures/gen/haopai_emit.png        | Bin 0 -> 1734 bytes
+     .../env_second/textures/gen/haopai_goods.png       | Bin 0 -> 125469 bytes
+     .../env_second/textures/gen/tongxian_atlas.json    | 486 ++++++++++++
+     .../env_second/textures/gen/tongxian_guitar.png    | Bin 0 -> 357278 bytes
+     .../env_second/textures/gen/tongxian_props.png     | Bin 0 -> 545922 bytes
+     .../textures/gen/tongxian_props_emit.png           | Bin 0 -> 71328 bytes
+     tools/cc_local/queue.txt                           | 130 +--
+     tools/cc_local/run_queue.py                        |  15 +-
+     45 files changed, 5858 insertions(+), 77 deletions(-)
+     create mode 100644 docs/story_planning/CC/CC_39_D_B02_PC.md
+     create mode 100644 "docs/story_planning/CC/CC_40_\345\220\214\345\274\246\346\250\202\345\231\250\345\256\244\345\205\247.md"
+     create mode 100644 "docs/story_planning/CC/CC_41_\345\244\247\346\255\245\347\220\203\351\236\213\345\256\244\345\205\247.md"
+     create mode 100644 "docs/story_planning/CC/CC_42_\345\245\275\346\213\215\351\201\213\345\213\225\345\256\244\345\205\247.md"
+     create mode 100644 "docs/story_planning/CC/CC_43_\346\226\260\347\224\237\351\201\213\345\213\225\345\273\243\345\240\264\345\256\244\345\205\247.md"
+     create mode 100644 docs/story_planning/CC/logs/eat_d231/eat_fix_d231.log
+     create mode 100644 docs/story_planning/CC/shots/b02/01_A_after_talk.png
+     create mode 100644 docs/story_planning/CC/shots/b02/04_D_find_goal.png
+     create mode 100644 docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py
+     create mode 100644 docs/story_planning/test_tools/cc/cc_playfix_probe.py
+     create mode 100644 src/data/dabu_layout.js
+     create mode 100644 src/data/haopai_layout.js
+     create mode 100644 src/data/tongxian_layout.js
+     create mode 100644 src/data/xinsheng_sports_layout.js
+     create mode 100755 tools/blender/env_second/bb_support/cc_wip/dabu_run_final.sh
+     create mode 100644 tools/blender/env_second/bb_support/cc_wip/dabu_views.json
+     create mode 100644 tools/blender/env_second/bb_support/cc_wip/render_tx.py
+     create mode 100755 tools/blender/env_second/bb_support/cc_wip/run_build.sh
+     create mode 100644 tools/blender/env_second/bb_support/cc_wip/tongxian_views.json
+     create mode 100644 tools/blender/env_second/bb_support/cc_wip/xinsheng_views.json
+     create mode 100644 tools/blender/env_second/bb_support/cc_wip/xs_nav_check.js
+     create mode 100644 tools/blender/env_second/bb_support/dabu_interior.py
+     create mode 100644 tools/blender/env_second/bb_support/haopai_interior.py
+     create mode 100644 tools/blender/env_second/bb_support/haopai_tex.py
+     create mode 100644 tools/blender/env_second/bb_support/tongxian_interior.py
+     create mode 100644 tools/blender/env_second/bb_support/tongxian_tex.py
+     create mode 100644 tools/blender/env_second/bb_support/xinsheng_sports_interior.py
+     create mode 100644 tools/blender/env_second/textures/gen/haopai_alpha.png
+     create mode 100644 tools/blender/env_second/textures/gen/haopai_atlas.json
+     create mode 100644 tools/blender/env_second/textures/gen/haopai_emit.png
+     create mode 100644 tools/blender/env_second/textures/gen/haopai_goods.png
+     create mode 100644 tools/blender/env_second/textures/gen/tongxian_atlas.json
+     create mode 100644 tools/blender/env_second/textures/gen/tongxian_guitar.png
+     create mode 100644 tools/blender/env_second/textures/gen/tongxian_props.png
+     create mode 100644 tools/blender/env_second/textures/gen/tongxian_props_emit.png
+[19:37:01] dev head = 578f5a0d4   lawww2 head = 79ab8efba
+[19:37:03] killed leftover test browser pid 424: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:03] killed leftover test browser pid 30880: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:04] killed leftover test browser pid 3304: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:04] killed leftover test browser pid 31444: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:04] killed leftover test browser pid 14296: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:05] killed leftover test browser pid 5448: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:05] killed leftover test browser pid 4572: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:05] killed leftover test browser pid 10280: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:06] killed leftover test browser pid 14288: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:06] killed leftover test browser pid 16724: C:\Users\USER\AppData\Local\ms-playwright\chromium-1248\chrome-win64\chrome.exe
+[19:37:06] INTERRUPTED last round: FS112 (started 2026-11-03T17:44:29, last log change 2026-11-03T19:37:04) - it will run again from the start
+[19:37:06] config.txt: PARALLEL 2 -> 3
+[19:37:06] memory used: 47%  (new items wait while >= 85%)
