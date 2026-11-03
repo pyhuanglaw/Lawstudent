@@ -84,6 +84,17 @@ try:
 except RuntimeError as e:
     check('SCRIPT_FROM：找不到檔案時報錯（不默默跑舊檔）', 'cannot read' in str(e), str(e))
 
+# 5b. SCRIPT_FROM 也用在 probe（BB 14:40：BB 的探針在企劃分支）
+r.wtroot = tempfile.mkdtemp(); r.py = sys.executable; r.work = REPO
+itp = R.Item(['PRB', 'a', 'probe', REL, 'u', '1', 'SCRIPT_FROM=story'])
+itp.rsha = 'abc'
+try:
+    cmd, cwd = r.build_cmd(itp, wt, od, 'u', None, {'SCRIPT_FROM': 'story'})
+    sp = os.path.join(r.wtroot, '_script_from', 'PRB', REL)
+    check('SCRIPT_FROM（probe）：腳本放在 runner 暫存資料夾、指令跑那一份、內容和企劃分支一樣', sp in cmd and open(sp, encoding='utf-8').read() == want, cmd[:3])
+except Exception as e:
+    check('SCRIPT_FROM（probe）：build_cmd 不出錯', False, repr(e))
+
 # 6. 超過 50 MB 的結果檔不推
 check('BIG_CAP＝50 MB', R.BIG_CAP == 50 * 1024 * 1024, R.BIG_CAP)
 check('結果收集時超過 BIG_CAP 的檔寫進 notes.txt、不加進 add', "not pushed (over 50 MB)" in src)

@@ -58,6 +58,9 @@ N19C_f606   | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_friends60
 N19C_kx607  | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_kexin_hsr_probe.py | index.html | 120 | MAX_S=6600
 # BB 14:07：PHONE-FAV-1103（X190）；雲端 b1ae 直向＋橫向 ALL PASS（32 項）
 N19F_fav    | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_phone_fav_probe.py | index.html | 40 | CC_HEADLESS=0;ORIENTS=port,land
+# BB 14:40：BB 的一鍵探針（企劃線 52b9e7b88，SCRIPT_FROM=story）；候選 SHA 定了以後把 <候選> 換掉、解 HOLD
+#HOLD候選 N19O_onetap   | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 60 | SCRIPT_FROM=story;CASES=sleep,cls,date;CC_HEADLESS=0
+#HOLD候選 N19O_onetap_s | <候選> | probe | docs/story_planning/test_tools/bb/bb_onetap_flow_probe.py | index.html | 40 | SCRIPT_FROM=story;CASES=sleep;CC_HEADLESS=0
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
 #V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
