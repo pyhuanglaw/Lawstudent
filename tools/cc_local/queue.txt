@@ -49,6 +49,9 @@ N19_reach   | b1ae1c390 | game  | tests/reachability_all.py      | index.html?tu
 # BB 13:53：SHOP-DINERS-1103（X187，9950721c4）店裡的客人；cc_shop_diners_probe 已在雲端驗過（noodle、cvs ALL PASS）
 N19S_diners | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_shop_diners_probe.py | index.html?turbo | 90 | CC_HEADLESS=0
 N19S_shots  | b1ae1c390 | game  | tests/shop_diners_shots.py | index.html?turbo | 45 | XARGS={url} {out}
+# BB 14:14：N19_libtour 被判「離開導覽」，在 b1ae 上 SOLO 重跑兩個版本（點地面／只用搖桿），記軌跡和每一次點地面
+#HOLD雲端 N19_tour_tap | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;CC_HEADLESS=0
+#HOLD雲端 N19_tour_joy | b1ae1c390 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;CC_HEADLESS=0
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
 #V18R 暫停# LIVE2_day12  | 1d0904473 | game | tests/flow_main_day12.py | index.html | 60 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html {out}
