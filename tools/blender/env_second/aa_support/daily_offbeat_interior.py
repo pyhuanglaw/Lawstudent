@@ -16,16 +16,16 @@ OUT = os.path.join(L.ROOT, arg('--out', LAY['glb']))
 W, D, H = LAY['w'], LAY['d'], LAY['h']
 sh = K.Shop('dof_', 'daily_offbeat_interior', W, D, H, texres=512, props={'layout': LAY['version']}, seed=617)
 X0, X1, Z0, Z1 = sh.X0, sh.X1, sh.Z0, sh.Z1
-sh._imgkeys = {'print'}
+sh._imgkeys = {'print', 'view'}
 P = 'dof_'
 sh.M.update({
     'floor': K.img_mat(P + 'floor_checker', 'dof_checker.png', rough=0.32, tile=0.6),
-    'wall': CL.soft_plaster(P + 'wall_cream', '#efd6a6', 0.88, tile=1.6, k=0.25),   # v2：暖一點（參考圖奶油桃色）；v1 #f0e1b6
-    'tile': L.pbr(P + 'tile_olive', 'long_white_tiles', tile=0.9, target='#5f8058', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.25),
+    'wall': CL.soft_plaster(P + 'wall_cream', '#f1dfb8', 0.88, tile=1.6, k=0.25),   # v3：奶油色（LAWWW2：暖色交給陽光和燈）；v2 #efd6a6；v1 #f0e1b6
+    'tile': L.pbr(P + 'tile_olive', 'long_white_tiles', tile=0.9, target='#4a6a45', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.25),
     'wood': L.pbr(P + 'wood_light', 'walnut_veneer', tile=1.2, target='#c39a6c', maps=('diff',), res=256, rough_value=0.45),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
-    'ceil': L.flat(P + 'ceiling', '#8c857a', rough=0.92, cull=True),   # v2：外露工業天花板（參考圖深色、管線外露）；v1 #f3ead2 一整片白
+    'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.3),   # v3：窗外的樹（借木曜日的窗景圖）；天花板改用牆的材質（單面），材質數不變
     'print': K.img_mat(P + 'print', 'dof_print.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
@@ -47,8 +47,9 @@ def uvbox(m, xf, x0, x1, y0, y1, z0, z1, front, top, side):
 
 
 # ---------------------------------------------------------------- 地板、天花板、牆
-Mesh(P + 'floor', sh.M['floor'], tile=0.6).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
-ce = Mesh(P + 'ceiling', sh.M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=False)
+Mesh(P + 'floor', sh.M['floor'], tile=0.5).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
+sh.M['wall'].use_backface_culling = True
+ce = Mesh(P + 'ceiling', sh.M['wall'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
 fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']
 front_ops = [(dx - dw / 2, dx + dw / 2, 0.0, dh, 'door')] + [(a, b, fr['sill'], fr['head'], 'win') for a, b in fr['windows']]
 sh.wall_with_openings('front', front_ops, 'tile', 'wall', fr['sill'], 'wood')
@@ -233,7 +234,8 @@ for t, ss in sorted(tabs.items()):
     for s_ in ss:
         ox = math.sin(s_['yaw']) * -0.04; oz = math.cos(s_['yaw']) * -0.04
         K.shell_chair(sh, s_['x'] + ox, s_['z'] + oz, s_['yaw'], ccol())
-    if t in (6, 9, 12): K.glass_cup(sh, tx + 0.08, tz - 0.05, 0.74, fill='#c9a27a')
+    if t in (6, 9): K.glass_cup(sh, tx + 0.08, tz - 0.05, 0.74, fill='#c9a27a')
+    if t == 12: continue   # v3：轉角那桌是參考圖的前景甜點組（daily_offbeat_v3_fill.py）
     if t in (7, 10): K.mug(sh, tx - 0.06, tz + 0.04, 0.74, col='#f2efe8'); K.plate(sh, tx + 0.1, tz - 0.08, 0.74, r=0.09)
     Xf(tx, tz, 0, 0.74).lathe(sh.a('glass'), [(0.0, 0.0), (0.025, 0.0), (0.028, 0.05), (0.012, 0.1)], 0, 0, 0, seg=10)   # 小花瓶
     Xf(tx, tz).cyl(sh.a('vc'), (0, 0.8, 0), (0.01, 0.92, 0.0), 0.003, col='#6a8a4a', seg=3)
@@ -257,7 +259,7 @@ sh.plant(X1 - 0.25, 4.7, h=0.55, r=0.13, pot_col='#7d8f52', y0=0.0)
 sh.plant(-5.1, 2.85, h=0.9, r=0.18, pot_col='#d9673a'); sh.plant(-0.25, -4.68, h=0.6, r=0.14, pot_col='#e8dcc0')                   # 卡座南端、吧檯東端
 for px_ in (gs['x'] - 0.9, gs['x'] + 0.85): sh.plant(px_, gs['z'] + 0.02, h=0.32, r=0.08, pot_col=('#b0653e', '#e8dcc0')[px_ > gs['x']], y0=gs['h'])   # 桌遊櫃上的小盆栽
 sh.hanging_pothos('pothos', gs['x'] + 0.85, gs['h'] + 0.15, gs['z'] + 0.12, n=6, drop=0.5)
-for (px_, pz_) in ((-2.0, Z1 - 0.3), (2.0, Z1 - 0.3), (X1 - 0.3, -1.9), (X1 - 0.3, 2.2)):                           # 窗頂垂下來的黃金葛（吊盆）
+for (px_, pz_) in ((-2.0, Z1 - 0.3), (2.0, Z1 - 0.3), (X1 - 0.3, -1.9), (X1 - 0.3, -3.6)):   # v3：(X1−0.3, 2.2) 那盆擋在東牆佈告欄前面，移到 −3.6                           # 窗頂垂下來的黃金葛（吊盆）
     Xf(px_, pz_).cyl(sh.a('vcm'), (0, H, 0), (0, 2.75, 0), 0.003, col='#2a2a2a', seg=3)
     Xf(px_, pz_, 0, 2.6).lathe(sh.a('vcg'), [(0.05, 0.0), (0.11, 0.06), (0.12, 0.15), (0.11, 0.15)], 0, 0, 0, seg=14, col='#e8dcc0')
     sh.hanging_pothos('pothos', px_, 2.72, pz_, n=8, drop=0.7)
@@ -270,5 +272,6 @@ pk = Xf(-3.4, 1.85, 0.4)
 pk.rbox(sh.a('vc'), -0.15, 0.15, 0.0, 0.42, -0.1, 0.1, r=0.06, seg=3, col='#2f4a5a'); pk.rbox(sh.a('vc'), -0.11, 0.11, 0.06, 0.24, 0.09, 0.15, r=0.04, col='#2f4a5a')
 
 exec(open(os.path.join(HERE, 'daily_offbeat_v2_fill.py'), encoding='utf-8').read())   # v2：天花板、燈條、長桌、吊盆
+exec(open(os.path.join(HERE, 'daily_offbeat_v3_fill.py'), encoding='utf-8').read())   # v3：落地窗、遮雨棚、窗景、東牆佈告欄、前景那桌
 sh.tally('v2 fill')
 info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'seats': len(LAY['seats'])})

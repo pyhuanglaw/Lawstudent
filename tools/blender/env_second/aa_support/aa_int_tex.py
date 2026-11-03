@@ -51,7 +51,7 @@ def dof():
     S = 512; a = np.zeros((S, S, 3), np.float32); n = noise(S, S, 4, 1) - 0.5; n2 = noise(S, S, 32, 2) - 0.5
     for i in range(2):
         for j in range(2):
-            col = np.array(hexc('#5f7b5b' if (i + j) % 2 else '#ebe4cf'), np.float32) * (1 + rng.uniform(-0.04, 0.04))
+            col = np.array(hexc('#768470' if (i + j) % 2 else '#e7e0cd'), np.float32) * (1 + rng.uniform(-0.04, 0.04))   # v3：降飽和、綠格比白格暗（v2 #5f7b5b／#ebe4cf，LAWWW2：太搶眼）
             a[j * 256:(j + 1) * 256, i * 256:(i + 1) * 256] = col
     a *= (1 + n[..., None] * 0.06 + n2[..., None] * 0.05)
     yy, xx = np.mgrid[0:S, 0:S]; dx = np.minimum(xx % 256, 255 - xx % 256); dy = np.minimum(yy % 256, 255 - yy % 256); dd = np.minimum(dx, dy)
@@ -93,6 +93,26 @@ def dof():
         for j in range(3): d.line([x0 + 16, y0 + 64 + j * 12, x1 - 16 - (j * 17) % 30, y0 + 64 + j * 12], fill=fg, width=2)
         text_c(d, ((x0 + x1) / 2, y1 - 20), sub, F(10), fg)
         d.ellipse([x0 + 56, y0 + 2, x0 + 72, y0 + 14], fill='#c94f45')   # 圖釘
+    # v3：(6,3)、(7,3) 那兩張被盒子側面蓋掉了，傳單另外放在第 6、7 列（16 張）；(0,5) 2×1 是佈告欄的標題牌
+    clubs2 = [('籃球社', '#f6c58a', '#7a3a12', '新生盃 報名中'), ('熱舞社', '#e8c3ef', '#5a2a6b', '週五 學活 B1'), ('桌遊社', '#c9e6e0', '#24585a', '每週四 日常失速'),
+              ('電影社', '#3a3a46', '#f1d27a', '週二 放映 博思 101'), ('書畫社', '#f3ead2', '#3a2a1a', '新生 免費體驗'), ('系學會', '#f2c9c4', '#7a2f2a', '法律系 迎新宿營'),
+              ('排球社', '#cfe7f6', '#1f4e6b', '週一 新體 練球'), ('羽球社', '#e4f0c8', '#3f5a1a', '週三 新體 三樓'), ('志工隊', '#fbe0a8', '#6b4a12', '寒假 偏鄉 服務隊'),
+              ('天文社', '#20304a', '#f6e7b4', '觀星 映月湖'), ('動漫社', '#f7d0e0', '#7a2a4a', '社課 普通 102'), ('咖啡社', '#e2cdb0', '#4a2a14', '手沖 入門課'),
+              ('戲劇社', '#2e2a2a', '#e8875a', '期末公演 售票'), ('管樂社', '#f6efc2', '#5a4a12', '招生 樂器可借'), ('吉他社', '#f4d7b8', '#7a4318', '成果發表 週六'), ('登山社', '#dfe7cf', '#425a26', '合歡山 行前會')]
+    for k, (nm, bg, fg, sub) in enumerate(clubs2):
+        c, r = k % 8, 6 + k // 8; bx = box(c, r); paper(im, bx, bg, rng); x0, y0, x1, y1 = bx
+        if k % 3 == 0: d.rectangle([x0, y0, x1, y0 + 34], fill=fg); text_c(d, ((x0 + x1) / 2, y0 + 17), nm, F(22), bg)   # 色帶標題
+        else: d.rectangle([x0 + 5, y0 + 5, x1 - 6, y1 - 6], outline=fg, width=2); text_c(d, ((x0 + x1) / 2, y0 + 30), nm, F(24), fg)
+        sh_ = k % 4
+        if sh_ == 0: d.ellipse([x0 + 40, y0 + 46, x1 - 40, y0 + 94], outline=fg, width=4)
+        elif sh_ == 1: d.polygon([(x0 + 64, y0 + 44), (x0 + 92, y0 + 94), (x0 + 36, y0 + 94)], fill=fg)
+        elif sh_ == 2: d.rectangle([x0 + 34, y0 + 50, x1 - 34, y0 + 92], fill=fg)
+        else:
+            for j in range(3): d.line([x0 + 16, y0 + 56 + j * 12, x1 - 16 - (j * 17) % 30, y0 + 56 + j * 12], fill=fg, width=3)
+        text_c(d, ((x0 + x1) / 2, y1 - 18), sub, F(11), fg)
+    bx = box(0, 5, 2, 1); paper(im, bx, '#f6efdc', rng); x0, y0, x1, y1 = bx
+    d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#33483a', width=3)
+    text_c(d, ((x0 + x1) / 2, y0 + 46), '首都帝大學生社團＆活動', F(19), '#33483a'); text_c(d, ((x0 + x1) / 2, y0 + 84), 'SHOUDU DIDA CLUBS & EVENTS', F(13), '#7a4318')
     # (0,2) 1×1：店長的紙條、(1,2) 便利貼、(2,2) 唱片海報、(3,2) 植物盆貼紙
     bx = box(0, 2); paper(im, bx, '#f6f1e3', rng); text_c(d, ((bx[0] + bx[2]) / 2, bx[1] + 44), '店長', F(30), '#3a3a3a'); text_c(d, ((bx[0] + bx[2]) / 2, bx[1] + 88), '請勿打擾', F(22), '#3a3a3a')
     bx = box(1, 2)
