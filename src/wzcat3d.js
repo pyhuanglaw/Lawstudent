@@ -1,6 +1,6 @@
 /* ===== 溫州街的貓會走動（WZ-CAT-LIFE-1023／USER_WANTS J13「貓咪要能動」；LAWWW2-C 2026-10-27）=====
    正式模型 bldg.wz_cat 的 CAT_walk（v3）有骨架和四段動畫：cat_walk（1 秒一步、原地走）、cat_idle（站著甩尾巴、轉頭）、cat_sit（0.75 秒坐下；倒著播＝站起來）、cat_sit_idle（坐著甩尾巴）。
-   白天（07:00～17:30）、沒下雨、不是寒流那一週、沒有走失、沒被收養：貓醒著，在公園幾個點之間慢慢走——到一個點坐下待一陣子（真實時間 25～70 秒），站起來、看一下，再走到下一個點。
+   白天（07:00～17:30）、沒下雨、不是寒流那一週、沒有走失、沒被收養：貓醒著，在公園幾個點之間慢慢走——到一個點坐下待一陣子（真實時間 15～50 秒，S.SIT；進公園時已經坐著的那一段 4～14 秒，S.SIT0），站起來、看一下，再走到下一個點。
    - 玩家走到 1.6 m 內：貓停下來站著看玩家（走路的話停住）；劇情在演（GAME 忙）時坐著不動。
    - 「摸摸」的互動點（buildWzPark 推進 E.interactables、park:'cat' 那一個）跟著貓走。
    - 找路用公園的導航格（E.pathTo）；幾個點在 attach 時用 E.canStand 檢查，站不住的不用。
@@ -24,6 +24,7 @@ const WZCAT=(function(){
   S.SPEED=0.32;   /* m/s：cat_walk 一步一秒、步幅約 0.32 m（腳不滑）*/
   S.AWAKE=[7,17.5];
   S.NEAR=1.6; S.FAR=2.8;
+  S.SIT0=[4,14]; S.SIT=[15,50];   /* 秒：進公園時已經坐著的那一段、走到一個點坐下待多久（原本 15～45、25～70：玩家進公園看了半分鐘，貓都沒動，WZ-CAT-FLOAT-RUB-1103）*/
   S.RUB={R:4,WAIT:3,P:0.55,CD:45,MISS:20,RING:0.44,V:0.16,LEAN:0.25,CAT_R:0.12,MOVE:0.12};
   let cat=null, held=null; const breathers=[];
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzcat3d:held']=()=>{ held=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
@@ -53,7 +54,7 @@ const WZCAT=(function(){
     const blob=shadowBlob(); m.add(blob);
     const s0=spots[0]; m.position.set(s0.x,0,s0.z); m.rotation.y=Math.PI; parent.add(m);
     const it=(E.interactables||[]).find(q=>q&&q.park==='cat')||null;
-    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:15+rnd()*30,cur:null,rnd,it,yaw:Math.PI,glb,parent,G,lie:opts.lie||null,under:opts.under||null,it0:it&&{x:it.x,z:it.z},lieObj:null,lieAt:null,lieModel:null,
+    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:S.SIT0[0]+rnd()*(S.SIT0[1]-S.SIT0[0]),cur:null,rnd,it,yaw:Math.PI,glb,parent,G,lie:opts.lie||null,under:opts.under||null,it0:it&&{x:it.x,z:it.z},lieObj:null,lieAt:null,lieModel:null,
       rubCd:0,still:0,rolled:false,anchor:null,moved:false,rub:null,leave:false,pend:null,holdPrev:null};   /* lie：趴在圓椅上的位置（zones3d.js wzCatSpot）、it0：互動點原本的位置（圓椅）*/
     play('cat_sit_idle',0);
     if(!aw){ sleepNow(S.sleepWhere(G)); if(held) cat.holdPrev='sleep'; }   /* hold 期間進公園：release 以後照時段醒來 */
@@ -128,7 +129,7 @@ const WZCAT=(function(){
         else if(p&&p.length){ c.path=p.map(q=>({x:q[0],z:q[1]})); c.next=aw?tgt:{home:where,x:tgt.x,z:tgt.z}; c.state='walk'; play('cat_walk',0.25); } else c.t=3; } }
     else if(c.state==='walk'){
       if((dp<S.NEAR&&!c.leave)||bz||(!aw&&c.next&&!c.next.home)){ play('cat_idle',0.2); c.state='look'; c.t=bz?99:(aw?2.5:0); c.leave=false; }   /* 時間到了：先停下來，look 會改走回圓椅 */
-      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ sleepNow(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=25+c.rnd()*45; play('cat_sit',0.25); } } }
+      else if(walkStep(E,dt,o,turnTo)){ const n=c.next; c.leave=false; if(n&&n.home&&!aw&&!bz){ sleepNow(n.home); } else { c.at=n&&!n.home?n:c.at; c.state='sit'; c.t=S.SIT[0]+c.rnd()*(S.SIT[1]-S.SIT[0]); play('cat_sit',0.25); } } }
     else if(c.state==='approach'){
       if(!aw||bz||c.moved||c.t<=0){ c.rubCd=S.RUB.MISS; play(bz?'cat_sit':'cat_idle',0.2); c.state=bz?'sit':'look'; c.t=bz?20:2.5; c.path=null; }
       else if(dp<=S.RUB.RING+0.02||walkStep(E,dt,o,turnTo)) beginRub(pp); }

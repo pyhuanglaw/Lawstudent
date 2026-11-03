@@ -85,6 +85,12 @@ const f3=v=>v.toFixed(3);
     E3.player.obj.position.set(26,0,6); GAME.G.hour=17.6; let s=null; for(let i=0;i<4000;i++){ zone.update(0.1,E3); s=WZCAT.state(); if(s&&s.state==='sleep') break; }
     const V=lieVerts(), b=V.length?box(V):null;
     check('C2. 17:36：貓走回圓椅前、趴到圓椅上（state sleep；趴的位置在座面上）',!!s&&s.state==='sleep'&&s.lie==='bench'&&!!b&&b.z0>=SEAT.z0-0.006&&b.z1<=SEAT.z1+0.006&&Math.abs(b.y0-SEAT.top)<=0.005,JSON.stringify(s)); }
+  /* C3. 白天進公園：不用等半分鐘才動（玩家站在 7 m 外看，貓 20 秒內站起來走；3 分鐘裡走到 2 個以上的點）*/
+  await enter(mkG(10)); { const c=WZCAT._cat&&WZCAT._cat(); let tw=-1, walked=0, arrive=0, prevS=null;
+    if(c){ c.rnd=()=>0.999;   /* 最壞的情況：每次都擲到最長的那一端 */
+      E3.player.obj.position.set(20.5,0,18.0);
+      for(let i=0;i<1800;i++){ zone.update(0.1,E3); const s=WZCAT.state(); if(tw<0&&s.state==='walk') tw=i*0.1; if(prevS==='walk'&&s.state==='sit') arrive++; prevS=s.state; } }
+    check('C3. 白天 10:00 進公園、坐著的時間擲到最長：'+(tw>=0?tw.toFixed(1):'?')+' 秒開始走（20 秒內）、3 分鐘走到 '+arrive+' 個點（2 個以上）',tw>=0&&tw<=20&&arrive>=2); }
   /* ===== D. 蹭腳 ===== */
   await enter(mkG(10)); { const c=WZCAT._cat&&WZCAT._cat(); check('D0. 白天 10:00：WZCAT 接手（走路的貓）',!!c&&c.state!=='sleep');
     if(c&&WZCAT.RUB){ let r=0.3; c.rnd=()=>r;   /* 0.3：中籤（<0.55）、順時針、繞 1.3 圈的半圈…、繞完坐在旁邊 */
