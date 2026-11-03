@@ -63,6 +63,17 @@ button{font-family:var(--font);cursor:pointer}
 .tabs button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:#e8e2d6;font-size:14px}
 .tabs button.on{background:var(--accent);color:#1c1a17;border-color:transparent}
 .tab{display:none}.tab.on{display:block}
+/* 日誌月曆（JOURNAL-CALENDAR-1103）*/
+.jrTop{display:flex;align-items:center;gap:8px;margin-bottom:8px}.jrTitle{flex:1;text-align:center;font-size:16px}
+.jrNav,.jrToday{min-height:44px;min-width:44px;border-radius:10px;border:1px solid var(--line);background:transparent;color:#e8e2d6;font-size:18px}.jrToday{font-size:14px;padding:0 10px}
+.jrQ{width:100%;box-sizing:border-box;min-height:44px;margin-bottom:8px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:#1b1d22;color:#e8e2d6;font-size:15px}
+.jrGrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}.jrWd{text-align:center;font-size:12px;color:#a9a294;padding:2px 0}
+.jrCell{min-height:64px;display:flex;flex-direction:column;align-items:stretch;gap:2px;padding:3px;border-radius:8px;border:1px solid var(--line);background:transparent;color:#e8e2d6;text-align:left;overflow:hidden}
+.jrCell.jrOut{opacity:.35}.jrCell.jrHas{background:rgba(232,184,106,.08)}.jrCell.jrNow{border-color:var(--accent)}.jrCell.jrSel{outline:2px solid var(--accent)}
+.jrD{font-size:12px;color:#a9a294}.jrIt{font-size:10.5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jrMore{font-size:10px;color:var(--accent)}
+.jrDay{margin-top:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line)}.jrDay b{display:block;margin-bottom:4px;color:var(--accent)}
+@media (max-height:500px){.jrCell{min-height:46px}.jrTop{margin-bottom:4px}}
+.jrRes{display:flex;flex-direction:column;gap:4px}.jrHit{min-height:44px;text-align:left;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:transparent;color:#e8e2d6;font-size:14px}
 .row2{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .btn{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#f4efe6;font-size:15px}
 .btn.pri{background:var(--accent);color:#1c1a17;border-color:transparent;font-weight:500}
@@ -158,8 +169,9 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   </div></div>
   <div id="menu" class="panel hide"><div class="card">
     <div class="row2" style="justify-content:space-between"><h2 id="menuTitle">筆記本</h2><button class="btn" id="btnClose">返回遊戲</button></div>
-    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="legal">法律</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
+    <div class="tabs"><button data-tab="notes" class="on">筆記</button><button data-tab="journal">日誌</button><button data-tab="legal">法律</button><button data-tab="save">存檔</button><button data-tab="settings">設定</button><button data-tab="help">說明</button></div>
     <div class="tab on" id="tab-notes"><div class="list" id="notesList"></div></div>
+    <div class="tab" id="tab-journal"><div id="journalBox"></div></div>
     <div class="tab" id="tab-people"><div class="list" id="peopleList"></div></div>
     <div class="tab" id="tab-legal"><div class="list" id="legalList"></div></div>
     <div class="tab" id="tab-map"><button class="btn pri" id="btnBigMap" style="margin-bottom:10px">打開整張地圖（也可以點右上角的小地圖）</button><div class="muted" style="margin-bottom:8px">去過的地點可以快速前往（消耗一點時間）。</div><div class="list" id="mapList"></div></div>
@@ -307,6 +319,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/vac3d.js?v=9.10.17"></script>
 <script src="src/door3d.js?v=9.10.17"></script>
 <script src="src/libquiet3d.js?v=9.10.17"></script>
+<script src="src/journal3d.js?v=9.10.17"></script>
 <script src="src/game3d.js?v=9.10.17"></script>
 <script src="src/perfpanel3d.js?v=9.10.17"></script>
 <script src="src/guide3d.js?v=9.10.17"></script>

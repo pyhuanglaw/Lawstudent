@@ -2296,6 +2296,15 @@
       "status": "在開發分支",
       "wants": "X163",
       "task": "PHONE-LIST-CLEAN-1103"
+    },
+    {
+      "id": "UA-LAWWW-1103-26",
+      "at": "2026-11-03T09:1x",
+      "quote": "日誌跟筆記同一頁太亂了 我希望日誌以月曆出現 發生什麼事就寫在當天日期那一格 可以查詢",
+      "kind": "原話",
+      "status": "在開發分支",
+      "wants": "X167",
+      "task": "JOURNAL-CALENDAR-1103"
     }
   ]
 }

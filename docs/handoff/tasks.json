@@ -41528,6 +41528,26 @@
       "priority": "P1",
       "note": "X157；AA 定稿 2bfa85d2d",
       "next": "照 AA_606 實作＋測試 → BB"
+    },
+    {
+      "first": {
+        "term": "Y0S1",
+        "week": null,
+        "earliest": "一開局（選單）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "JOURNAL-CALENDAR-1103",
+      "title": "日誌從筆記頁拆出來：選單「日誌」分頁、月曆（那一天的事寫在那一格、點一格看全部、可以查詢）",
+      "owner": "LAWWW",
+      "status": "已整合待測試",
+      "priority": "P1",
+      "note": "使用者 11-03 截圖「日誌跟筆記同一頁太亂了 我希望日誌以月曆出現 發生什麼事就寫在當天日期那一格 可以查詢」（UA-LAWWW-1103-26；X167）",
+      "next": "src/journal3d.js＋index.html＋game3d.js（journal_calendar_unit 16 項，修改前 FAIL）；Playwright 直向／橫向截圖看過 → BB 在 PC 看"
     }
   ]
 }
