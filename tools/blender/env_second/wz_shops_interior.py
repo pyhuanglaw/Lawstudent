@@ -475,6 +475,12 @@ def build_teahouse():
             Xf(t['x'] + 0.35, t['z'] + 0.05).lathe(acc('ceramic'), [(0.0, 0.0), (0.05, 0.0), (0.08, 0.06), (0.05, 0.22), (0.035, 0.26), (0.0, 0.26)], 0, 0.12, 0, seg=12)
             for j in range(3): a = j * 2.1; acc('post').cyl((t['x'] + 0.35, 0.36, t['z'] + 0.05), (t['x'] + 0.35 + math.sin(a) * 0.18, 0.75 + j * 0.06, t['z'] + 0.05 + math.cos(a) * 0.1), 0.008, seg=4)
             random.seed(41); bush(acc('leaf'), t['x'] + 0.35, 0.72, t['z'] + 0.05, 0.16, n=5, span=0.3)
+        elif k == 'stool_round':   # 水屋旁的圓木凳（YT-TEAHOUSE-SEATS）：座面 Ø34 cm、高 45 cm（和茶席的椅子一樣高，遊戲的坐姿不用抬高）、四支腳往外斜、腳中間一圈橫撐
+            sx_ = Xf(t['x'], t['z']); sx_.lathe(acc('post'), [(0.0, 0.0), (0.17, 0.0), (0.172, 0.012), (0.168, 0.035), (0.0, 0.035)], 0, 0.43, 0, seg=20)
+            for j in range(4):
+                a_ = math.pi / 4 + j * math.pi / 2; ca, sa = math.cos(a_), math.sin(a_)
+                acc('post').cyl((t['x'] + ca * 0.15, 0.0, t['z'] + sa * 0.15), (t['x'] + ca * 0.11, 0.43, t['z'] + sa * 0.11), 0.017, seg=8)
+                b_ = a_ + math.pi / 2; acc('post').cyl((t['x'] + ca * 0.135, 0.16, t['z'] + sa * 0.135), (t['x'] + math.cos(b_) * 0.135, 0.16, t['z'] + math.sin(b_) * 0.135), 0.009, seg=6)
         elif k == 'mizuya':
             mx, mz = t['x'], t['z']; x0, x1, z0, z1 = mx - t['w'] / 2, mx + t['w'] / 2, mz - t['d'] / 2, mz + t['d'] / 2
             xf0.rbox(acc('post'), x0, x1, 0.0, 0.82, z0, z1, r=0.015); xf0.rbox(acc('ceil'), x0 - 0.03, x1, 0.82, 0.86, z0, z1, r=0.01)

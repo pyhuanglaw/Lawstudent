@@ -36,10 +36,11 @@ FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 AW, AH = 2048, 1024
 SOLID = {'c_cork': (178, 134, 88), 'c_frame': (122, 86, 56), 'c_pin_r': (200, 52, 48), 'c_pin_b': (52, 96, 190), 'c_pin_y': (226, 190, 40),
          'c_hl_y': (238, 226, 60), 'c_hl_p': (236, 108, 160), 'c_hl_b': (88, 170, 226), 'c_cap': (40, 40, 44), 'c_phone': (28, 28, 32), 'c_white': (244, 242, 236),
-         'c_cover': (36, 58, 98), 'c_edge': (228, 224, 212), 'c_pen': (24, 26, 34), 'c_gutter': (150, 146, 136)}
+         'c_cover': (36, 58, 98), 'c_edge': (228, 224, 212), 'c_pen': (24, 26, 34), 'c_gutter': (150, 146, 136),
+         'c_liufa': (128, 26, 28), 'c_liufa_pg': (232, 226, 208)}
 SIZES = [('spine_civil', 64, 300), ('spine_econ', 96, 420), ('nb_l', 240, 340), ('nb_r', 240, 340), ('ferris', 120, 280), ('phone', 120, 250),
          ('kai', 300, 400), ('film1', 260, 110), ('film3', 330, 110), ('trip_sea', 260, 180), ('trip_oldtown', 260, 180), ('trip_stars', 260, 180),
-         ('anniv', 180, 250), ('cork', 256, 256)] + [(k, 16, 16) for k in SOLID]
+         ('anniv', 180, 250), ('cork', 256, 256), ('liufa_cov', 300, 280), ('liufa_spine', 560, 140), ('liufa_pages', 256, 64)] + [(k, 16, 16) for k in SOLID]
 R = {}
 cx, cy, rowh = 4, 4, 0
 for nm, w, h in SIZES:
@@ -140,6 +141,23 @@ def draw_atlas():
     for yy in range(y0, y1):
         for xx in range(x0, x1, 2):
             v = r.randint(-26, 22); d.line((xx, yy, xx + 1, yy), fill=(178 + v, 134 + v, 88 + v // 2))
+    # 六法（P3，BB 11-03 16:16：書桌左端的紅色方塊像盒子 → 厚書）：深紅布面封面＋燙金字、書背字、書頁側面。書名、出版社是虛構的（D77）
+    r6 = random.Random(1103); x0, y0, x1, y1 = R['liufa_cov']
+    for yy in range(y0, y1):
+        for xx in range(x0, x1, 2): v = r6.randint(-10, 8); d.line((xx, yy, xx + 1, yy), fill=(128 + v, 26 + v // 3, 28 + v // 3))   # 布紋
+    gold = (214, 176, 96)
+    d.rectangle((x0 + 12, y0 + 12, x1 - 12, y1 - 12), outline=gold, width=3); d.rectangle((x0 + 20, y0 + 20, x1 - 20, y1 - 20), outline=gold, width=1)
+    for i, ch in enumerate('綜合六法'): d.text(((x0 + x1) / 2, y0 + 62 + i * 46), ch, fill=gold, font=F(40), anchor='mm')
+    d.text(((x0 + x1) / 2, y1 - 40), '二〇二七年版', fill=gold, font=F(18), anchor='mm')
+    x0, y0, x1, y1 = R['liufa_spine']
+    for yy in range(y0, y1):
+        for xx in range(x0, x1, 2): v = r6.randint(-10, 8); d.line((xx, yy, xx + 1, yy), fill=(118 + v, 22 + v // 3, 24 + v // 3))
+    for bx in (x0 + 26, x1 - 34): d.rectangle((bx, y0 + 8, bx + 8, y1 - 8), fill=gold)                  # 書背兩端的燙金線
+    d.text((x0 + 230, (y0 + y1) / 2), '綜 合 六 法', fill=gold, font=F(46), anchor='mm')
+    d.text((x1 - 120, (y0 + y1) / 2), '青松書局', fill=gold, font=F(24), anchor='mm')
+    x0, y0, x1, y1 = R['liufa_pages']; d.rectangle(R['liufa_pages'], fill=(234, 228, 210))
+    for k in range(y0 + 1, y1, 2): c = 216 + r6.randint(-10, 6); d.line((x0, k, x1, k), fill=(c, c - 5, c - 18))   # 一頁一頁的邊
+    for xx in range(x0, x1, 37): d.line((xx, y0, xx, y1), fill=(226, 220, 200))
     im = im.filter(ImageFilter.SMOOTH_MORE) if False else im
     im.save(ATLAS); return im
 
@@ -193,8 +211,12 @@ FOCUS = {
     'kai_sheet': ([-1.40, 1.50, 0.20], [-2.00, 1.57, 0.51]), 'film1': ([-1.55, 1.12, 0.44], [-2.00, 1.04, 0.44]), 'film3': ([-1.55, 1.12, 0.44], [-2.00, 1.04, 0.44]),
     'trip_sea': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]), 'trip_oldtown': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]), 'trip_stars': ([-1.55, 1.12, 0.56], [-2.00, 1.02, 0.567]),
     'anniv': ([-1.40, 1.52, -0.15], [-1.86, 1.49, 0.065])}
+# via：鏡頭先到走道上這一點（和 eye 同高、同 z），再平移到 eye（BB 11-03 16:16 P3：鏡頭轉過去會穿過梯子、床欄）。
+#   祐廷那組（L2）的床板、床欄、梯子都在 x −2.0～−0.9；eye 都在床板下面（x −0.95～−1.55、y ≤ 1.52）——走道 x −0.6 從上面降下來不會碰到東西，再橫著鑽到床板下面。
+#   遊戲：story3d.js S.roomItemFocus 把 via 傳給 E.cinematic(pos, look, via)（engine3d.js：先往 via 走、離 15 cm 以內再往 pos）
+VIA_X = -0.60
 def item(key, props=None):
-    fx = {'eye': FOCUS[key][0], 'look': FOCUS[key][1]} if key in FOCUS else {}
+    fx = {'eye': FOCUS[key][0], 'look': FOCUS[key][1], 'via': [VIA_X, FOCUS[key][0][1], FOCUS[key][0][2]]} if key in FOCUS else {}
     g = B.group('ITEM_desk_' + key, root, dict({'kind': 'room_item', 'key': key}, **fx, **(props or {})))
     return g, TMesh('desk_' + key, MAT)
 
@@ -230,9 +252,33 @@ g, t = item('ferris', {'room': '203'})
 flat_quad(t, -1.50, -1.445, 0.34, 0.47, 0.7604, 'ferris', rot=1)
 t.finish(g)
 pm = Mesh('desk_pad_glass', PAD); pm.quad([(-1.985, 0.7616, -0.775), (-1.39, 0.7616, -0.775), (-1.39, 0.7616, 0.48), (-1.985, 0.7616, 0.48)]); pm.finish(g, uv=False)
-# ---- 手機（面朝上，螢幕是河堤的腳踏車）
+# ---- 六法（P3，BB 11-03 16:16）：dorm_room4.py 畫的是紅色方塊（yuting203／yuting_y 的 lbox：高 6 cm，大三起 9 cm）。
+#   （上面寫的 lbox 座標是 dorm_room4.py 的參數，實際位置見 LFZ0 那一行）這裡做一本把它整個包住的厚書（每邊大 3～8 mm）：上下兩片倒角封面板（布面、燙金書名）、書頁那一疊（三個側面看得到一頁一頁）、書背朝走道（書名、出版社，虛構）。
+#   一年一個節點 ITEM_desk_liufa_<房間>（room＝那一年的房間；zones3d.js deskItemKeys 照房間加這個 key——不在「看東西」選單裡）
+LFX0, LFX1, LFZ0, LFZ1 = -1.928, -1.634, 0.252, 0.528   # 量 dorm_room4.glb（Y203／Y312／Y507_YUTING_items 的 #8e1d1d）：x −1.92～−1.64、z 0.26～0.52、頂 0.82（507 是 0.85）
+for room, h in (('203', 0.06), ('312', 0.06), ('507', 0.09), ('409', 0.09)):
+    g, t = item('liufa_' + room, {'room': room})
+    top = Y + h + 0.0045; bt = 0.004
+    t.rbox(LFX0 + 0.004, LFX1, Y + 0.0005, Y + 0.0005 + bt, LFZ0, LFZ1, r=0.0018, seg=2); t.rbox(LFX0 + 0.004, LFX1, top - bt, top, LFZ0, LFZ1, r=0.0018, seg=2)   # 封面板（倒角）
+    t.bm.faces.ensure_lookup_table(); u0, v0, u1, v1 = uvr('c_liufa')
+    for f in t.bm.faces:
+        for lp in f.loops: lp[t.uv].uv = ((u0 + u1) / 2, (v0 + v1) / 2)
+    t.rbox(LFX1 - 0.009, LFX1 + 0.0015, Y + 0.0005, top, LFZ0, LFZ1, r=0.004, seg=3)                       # 書背（圓一點）
+    t.bm.faces.ensure_lookup_table()
+    for f in t.bm.faces:
+        for lp in f.loops:
+            if lp[t.uv].uv.length == 0: lp[t.uv].uv = ((u0 + u1) / 2, (v0 + v1) / 2)
+    t.solid_box('c_liufa_pg', LFX0 + 0.007, LFX1 - 0.006, Y + 0.0005 + bt, top - bt, LFZ0 + 0.003, LFZ1 - 0.003)   # 書頁（包住方塊：x −1.921、z 0.255～0.525、頂高過方塊）
+    pg0, pg1 = Y + 0.0005 + bt + 0.0004, top - bt - 0.0004; e = 0.0006
+    t.tquad([(LFX0 + 0.007 - e, pg0, LFZ0 + 0.003), (LFX0 + 0.007 - e, pg0, LFZ1 - 0.003), (LFX0 + 0.007 - e, pg1, LFZ1 - 0.003), (LFX0 + 0.007 - e, pg1, LFZ0 + 0.003)], 'liufa_pages')   # 靠牆那一面
+    for zz in (LFZ0 + 0.003 - e, LFZ1 - 0.003 + e):
+        t.tquad([(LFX1 - 0.006, pg0, zz), (LFX0 + 0.007, pg0, zz), (LFX0 + 0.007, pg1, zz), (LFX1 - 0.006, pg1, zz)], 'liufa_pages')   # 左右兩面
+    flat_quad(t, LFX0 + 0.012, LFX1 - 0.012, LFZ0 + 0.008, LFZ1 - 0.008, top + 0.0004, 'liufa_cov')          # 封面（從走道看：書名的上面朝牆）
+    wall_quad(t, LFX1 + 0.0019, LFZ1 - 0.006, LFZ0 + 0.006, Y + 0.004, top - 0.003, 'liufa_spine')           # 書背（朝走道，從走道看由左到右）
+    t.finish(g)
+# ---- 手機（面朝上，螢幕是河堤的腳踏車）——六法的書背在 x −1.632，手機往走道挪 6 mm（原本 −1.628 起，會貼到書背）
 g, t = item('phone')
-t.solid_box('c_phone', -1.628, -1.562, 0.7616, 0.7696, 0.175, 0.318); flat_quad(t, -1.624, -1.566, 0.180, 0.313, 0.7700, 'phone', rot=1); t.finish(g)
+t.solid_box('c_phone', -1.622, -1.556, 0.7616, 0.7696, 0.175, 0.318); flat_quad(t, -1.618, -1.560, 0.180, 0.313, 0.7700, 'phone', rot=1); t.finish(g)
 # ---- 三色螢光筆（平放，稍微散開；綠的那支在左邊 dorm_y2_items）
 g, t = item('highlighters')
 for i, (col, dx, a) in enumerate((('c_hl_y', -1.515, 0.10), ('c_hl_p', -1.485, -0.06), ('c_hl_b', -1.455, 0.04))):

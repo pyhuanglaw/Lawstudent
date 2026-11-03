@@ -120,6 +120,7 @@ const WZ_SHOPS_LAYOUT = {
       {kind: 'long_table', x: -1.6, z: 1.7, w: 2.6, d: 0.85, ry: 0},
       {kind: 'chair_wood', x: -2.5, z: 0.95, ry: 0}, {kind: 'chair_wood', x: -1.6, z: 0.95, ry: 0}, {kind: 'chair_wood', x: -0.7, z: 0.95, ry: 0},
       {kind: 'chair_wood', x: -2.5, z: 2.45, ry: Math.PI}, {kind: 'chair_wood', x: -1.6, z: 2.45, ry: Math.PI}, {kind: 'chair_wood', x: -0.7, z: 2.45, ry: Math.PI},
+      {kind: 'stool_round', x: 3.05, z: 3.35, ry: -Math.PI / 2, note: '水屋西南角旁邊的木凳（YT-TEAHOUSE-SEATS，LAWWW2 11-03；AA_630 C-015「吧檯最旁邊」：茶屋沒有吧檯，水屋的工作台就是吧檯）：面向茶席，水屋南端的台面在她右手邊（書、考古題可以放在台面上，也可以攤在腿上）'},
       {kind: 'mizuya', x: 3.75, z: 1.3, w: 0.8, d: 3.4, ry: -Math.PI / 2, note: '水屋：流理台、電熱水壺、茶罐、計時沙漏、茶巾；上面開放層架'},
       {kind: 'tatami_room', x: -2.15, z: -2.8, w: 4.1, d: 4.4, note: '和室 A：床之間（掛軸、插花）在後牆左邊'},
       {kind: 'tatami_room', x: 2.15, z: -2.8, w: 4.1, d: 4.4, note: '和室 B：違い棚'},
@@ -137,7 +138,8 @@ const WZ_SHOPS_LAYOUT = {
     seats: [
       {x: -2.5, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -1.6, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -0.7, z: 0.95, yaw: 0, label: '坐下喝茶'},
       {x: -2.5, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -1.6, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -0.7, z: 2.45, yaw: Math.PI, label: '坐下喝茶'},
-      {x: 0.6, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'}, {x: 2.4, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'},
+      {x: 3.05, z: 3.35, yaw: -Math.PI / 2, label: '坐在水屋旁'},   /* 水屋旁的木凳：語彤顧店時坐（c510_3_2 seatAt），玩家也坐得下 */
+            {x: 0.6, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'}, {x: 2.4, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'},
       {x: -2.15, z: -3.5, yaw: 0, label: '在和室坐下', kind: 'floor'}, {x: -2.15, z: -2.1, yaw: Math.PI, label: '在和室坐下', kind: 'floor'},
       {x: 2.15, z: -3.5, yaw: 0, label: '在和室坐下', kind: 'floor'}, {x: 2.15, z: -2.1, yaw: Math.PI, label: '在和室坐下', kind: 'floor'}
     ],
