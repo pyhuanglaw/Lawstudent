@@ -205,16 +205,16 @@ class Shop:
                 a = k * 1.7 + 0.3; CL.card(s.a('pothos', lvl), x + math.cos(a) * r * 1.1, y0 + r * 1.2, z + math.sin(a) * r * 1.1, 0.16, 0.16, ry=a, rx=0.9, uv=CL.rand_uv(0.5))
             random.setstate(rs); return
         PL.potted(B.mesh_obj, s._PLM, pre, s.root, x, y0 + r * 1.5, z, r, seed=sd, h=h * 1.15)
-        if h >= 1.0: PL.broad_plant(B.mesh_obj, s._PLM, pre + 'b', s.root, x, y0 + r * 1.48, z, h * 1.2, max(0.45, h * 0.45), seed=sd + 6, stems=4)
+        if h >= (1.4 if AUTO_SEG else 1.0): PL.broad_plant(B.mesh_obj, s._PLM, pre + 'b', s.root, x, y0 + r * 1.48, z, h * 1.2, max(0.45, h * 0.45), seed=sd + 6, stems=4)
 
-    def hanging_pothos(s, leaf_mat_key, x, y, z, n=9, drop=0.6, lvl=''):
+    def hanging_pothos(s, leaf_mat_key, x, y, z, n=9, drop=0.6, lvl='', size=0.16):
         """垂下來的黃金葛：幾條往下垂的葉片卡串"""
         m = s.a(leaf_mat_key, lvl); rnd = random.Random(int(abs(x * 100 + z * 37 + y * 11)))
         for k in range(n):
             a = rnd.uniform(0, 2 * math.pi); rr = rnd.uniform(0.05, 0.22); L_ = rnd.uniform(0.3, drop)
             for j in range(4):
                 t = j / 3; px = x + math.cos(a) * (rr + t * 0.08); pz = z + math.sin(a) * (rr + t * 0.08); py = y - t * L_
-                CL.card(m, px, py, pz, 0.16, 0.16, ry=rnd.uniform(0, math.pi), rx=rnd.uniform(-0.6, 0.6), uv=CL.rand_uv(0.5))
+                CL.card(m, px, py, pz, size, size, ry=rnd.uniform(0, math.pi), rx=rnd.uniform(-0.6, 0.6), uv=CL.rand_uv(0.5))
 
     # ---- 收尾
     def finish(s, out, keep=lambda ob: False, extra_info=None):

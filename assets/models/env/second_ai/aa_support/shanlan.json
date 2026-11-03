@@ -1,18 +1,18 @@
 {
  "objects": 33,
  "unique_meshes": 33,
- "tris": 94936,
- "tris_drawn": 94936,
+ "tris": 75572,
+ "tris_drawn": 75572,
  "materials": 18,
  "out": "assets/models/env/second_ai/aa_support/shanlan.glb",
- "bytes": 5739112,
+ "bytes": 4921764,
  "texres": 512,
- "layout": 1,
+ "layout": 2,
  "seats": 16,
  "floorSit": 10,
  "tris_by_level": {
-  "L1": 57288,
-  "L2": 36018,
+  "L1": 51858,
+  "L2": 22084,
   "walls": 1630
  }
 }
