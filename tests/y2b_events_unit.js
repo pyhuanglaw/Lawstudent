@@ -67,14 +67,15 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   const it={c:COURSES.list.find(c=>c.id==='oblig_spec'),exam:null,key:'k'};
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); SOCIAL.remember('heroine_03','RENT_RUMOR','量店面'); ct('heroine_03');
   await Y2B.leaseClass(GM,it,null,{prof:'葉教授'});
-  check('Y1. 課堂段：葉教授兩句（時間）、看過事件 6＝想起捲尺', has('葉教授：房子賣了，房客怎麼辦？法律說：住進去了，租約就跟著房子走。新屋主要接著當房東。')&&has('葉教授：換句話說，法律給了房客一樣東西：時間。')&&has('（你想起去年在麵店，那個拿捲尺量店面的人。）')&&!!G.events.done.ev_yt_lease_class, JSON.stringify(lines()));
+  check('Y1. 課堂段：葉教授兩句（時間）、看過事件 6（RENT_RUMOR）＝「（你想起語彤說的，秀琴姨的房東要把房子賣了。）」（AA_643 第 4 節）', has('葉教授：房子賣了，房客怎麼辦？法律說：住進去了，租約就跟著房子走。新屋主要接著當房東。')&&has('葉教授：換句話說，法律給了房客一樣東西：時間。')&&has('（你想起語彤說的，秀琴姨的房東要把房子賣了。）')&&!!G.events.done.ev_yt_lease_class, JSON.stringify(lines()));
   picks=[0]; said=[]; await CLS.afterClassEvent(GM,it);
-  check('Y1. 下課後：傳／不傳；「阿姨的租約還有多久？」→「兩年」「你也在想剛剛那一條？」→ 照片；記 LAW_MEETS_LIFE、YT_LEASE_HELP', opts[0]&&opts[0][0]==='（傳訊息給語彤）'&&txt('p:heroine_03').join('|')==='player:阿姨的租約還有多久？|heroine_03:兩年|heroine_03:你也在想剛剛那一條？'&&has('（你傳了一張課本那一頁的照片。）')&&SOCIAL.has('heroine_03','LAW_MEETS_LIFE')&&G.flags.YT_LEASE_HELP===true, JSON.stringify(txt('p:heroine_03')));
-  at('2027-03-29',21.6); rules(); check('Y1. 當天 21:30「我拿給阿姨看了」「她叫我把那一頁影印給她」（一句一則、沒有句號）', txt('p:heroine_03').slice(-2).join('|')==='heroine_03:我拿給阿姨看了|heroine_03:她叫我把那一頁影印給她');
+  /* AA_625 第 8 節（YT-REWRITE-1103）：下課後那一段整段換——祐廷那一句是民法第 425 條第 1 項的白話（「出租人於租賃物交付後，承租人占有中，縱將其所有權讓與第三人，其租賃契約，對於受讓人仍繼續存在。」條文原文給 BB 核對；遊戲裡沒有引條文）*/
+  check('Y1. 下課後：傳／不傳；「今天上到買賣不破租賃。秀琴姨的房子…」→「……真的？」「我明天跟她說。」「謝謝。我不知道課本裡有寫這個。」（AA_625 第 8 節）；記 LAW_MEETS_LIFE、YT_LEASE_HELP', opts[0]&&opts[0][0]==='（傳訊息給語彤）'&&txt('p:heroine_03').join('|')==='player:今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。|heroine_03:……真的？|heroine_03:我明天跟她說。|heroine_03:謝謝。我不知道課本裡有寫這個。'&&SOCIAL.has('heroine_03','LAW_MEETS_LIFE')&&G.flags.YT_LEASE_HELP===true, JSON.stringify(txt('p:heroine_03')));
+  at('2027-03-29',21.6); rules(); check('Y1. 當天 21:30 沒有「我拿給阿姨看了」那兩則（AA_625 第 8 節換成當下「我明天跟她說。」）', !txt('p:heroine_03').some(t=>/拿給阿姨看了|影印給她/.test(t)));
   { const s=fs.readFileSync(path.join(ROOT,'src/data/syllabus.js'),'utf8'); check('Y1. 行政救濟第 13 週的回想讀 LAW_MEETS_LIFE（syllabus.js 已有）', /LAW_MEETS_LIFE/.test(s)); }
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); ct('heroine_03'); date('heroine_03'); await Y2B.leaseClass(GM,it,null,{prof:'葉教授'}); picks=[0]; said=[]; await CLS.afterClassEvent(GM,it);
-  check('Y2. 沒有 RENT_RUMOR：語彤低頭寫筆記；問句換「妳剛剛一直在寫筆記……」；她說房東想賣；補記 RENT_RUMOR', txt('p:heroine_03').join('|')==='player:妳剛剛一直在寫筆記。阿姨的店，是不是也有這種事？|heroine_03:兩年|heroine_03:……房東想把整棟賣掉。還沒確定。'&&SOCIAL.has('heroine_03','RENT_RUMOR'), JSON.stringify(txt('p:heroine_03')));
-  at('2027-03-29',21.6); rules(); check('Y2. 交往中：21:30 兩則後面多「謝謝你」', txt('p:heroine_03').slice(-1)[0]==='heroine_03:謝謝你');
+  check('Y2. 沒有 RENT_RUMOR（交往中也一樣）：沒有「傳訊息給語彤」、不記 LAW_MEETS_LIFE、課堂沒有回想句（AA_643 第 3、4 節）', !txt('p:heroine_03').length&&!SOCIAL.has('heroine_03','LAW_MEETS_LIFE')&&!has('（你想起語彤說的，秀琴姨的房東要把房子賣了。）'), JSON.stringify(txt('p:heroine_03')));
+  at('2027-03-29',21.6); rules(); check('Y2. 交往中：21:30 也沒有（AA_625 第 8 節）', !txt('p:heroine_03').some(t=>/拿給阿姨看了|謝謝你$/.test(t)));
   fresh('2027-03-29',9.5,'linze'); R('heroine_03','FRI'); ct('heroine_03'); said=[]; await CLS.afterClassEvent(GM,it);
   check('Y3. 翹這堂課（沒有課堂段）：下課後什麼都沒有、LAW_MEETS_LIFE 沒有值', said.length===0&&!SOCIAL.has('heroine_03','LAW_MEETS_LIFE'));
   fresh('2027-04-05',9.5,'linze'); R('heroine_03','FRI'); said=[]; const r7=await Y2B.leaseClass(GM,it,null,{prof:'葉教授'}); check('Y. 第 7 週那一堂：沒有課堂段', r7===false&&said.length===0);
@@ -83,17 +84,17 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-05-22',9.2,'wancai',{lawclub:true}); R('heroine_03','FRI'); R('classmate_bohan','FRI'); picks=[0];
   check('A0. 5/22 法服值班到期（成員、單週）', STORY.fafuShiftable(G)&&Y2B.auntDue(G));
   said=[]; await STORY.fafuShift(GM);
-  check('A1. 法服成員 5/22：阿姨和語彤進來；柏翰「那紀錄你照做，意見我來講」；門口三選一；記 RENT_CONSULTATION、IMPORTANT_CONVERSATION；值班算一次', has('（法律系館B的諮詢室。門開了，進來的是阿鳳阿姨，後面跟著語彤。）')&&has('好。那紀錄你照做，意見我來講。')&&has('好啦，聽妳們的。')&&opts[0].length===3&&SOCIAL.has('heroine_03','RENT_CONSULTATION')&&SOCIAL.has('heroine_03','IMPORTANT_CONVERSATION')&&G.flags.LAWCLUB_SAT_VISITS===1&&!!G.events.done.ev_yt_aunt_consult&&!has('（初談紀錄，一頁。學長在最下面簽名。）'), JSON.stringify(lines().slice(0,4)));
+  check('A1. 法服成員 5/22（AA_625 第 9 節）：秀琴姨和語彤進來；柏翰「那紀錄你照做，意見我來講」；門口三選一；記 RENT_CONSULTATION、IMPORTANT_CONVERSATION；值班算一次', has('（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）')&&has('我們在同一家茶屋打工。')&&has('十五年了。')&&has('好。那紀錄你照做，意見我來講。')&&has('好啦，聽妳們的。')&&opts[0].length===3&&SOCIAL.has('heroine_03','RENT_CONSULTATION')&&SOCIAL.has('heroine_03','IMPORTANT_CONVERSATION')&&G.flags.LAWCLUB_SAT_VISITS===1&&!!G.events.done.ev_yt_aunt_consult&&!has('（初談紀錄，一頁。學長在最下面簽名。）'), JSON.stringify(lines().slice(0,4)));
   fresh('2027-05-22',9.2,'wancai',{lawclub:true,YT_AUNT_KNOWS:true}); R('heroine_03','FRI'); date('heroine_03'); picks=[2]; said=[]; await STORY.fafuShift(GM);
-  check('A2. 交往中、阿姨知道：「認識啊，我們語彤的男朋友。」；柏翰叫他不要做紀錄；柏翰知道；門口第三個多一句手背', has('認識啊，我們語彤的男朋友。')&&has('……喔。那這件你不要做紀錄，坐旁邊聽就好。紀錄我自己來。')&&!has('我常去她們店裡吃麵。')&&ROM.knowsOf(G,'classmate_bohan','heroine_03')&&has('（她的手碰了一下你的手背，又收回去。）'));
+  check('A2. 交往中（AA_625 第 9 節：交往中的版本）：秀琴姨「認識啊，他是語彤的男朋友。」；柏翰叫他不要做紀錄；柏翰知道；門口第三個多一句手背', has('認識啊，他是語彤的男朋友。')&&has('……喔。那這件你不要做紀錄，坐旁邊聽就好。')&&!has('我們在同一家茶屋打工。')&&ROM.knowsOf(G,'classmate_bohan','heroine_03')&&has('（她的手碰了一下你的手背，又收回去。）'));
   fresh('2027-05-22',9.2,'wancai',{lawclub:true}); R('heroine_03','FRI'); date('heroine_03'); SOCIAL.remember('heroine_03','IMPORTANT_CONVERSATION','阿姨扭到手腕，那週她顧店到打烊；阿姨說她怕你來幫忙'); picks=[1]; said=[]; await STORY.fafuShift(GM);
-  check('A2. 舊存檔（沒有 YT_AUNT_KNOWS）照那條記憶的備註判斷；第二個多一句', has('認識啊，我們語彤的男朋友。')&&has('……你陪我送她回店裡。'));
+  check('A2. 交往中就是交往中的版本（AA_625：不再看「阿姨知道」YT_AUNT_KNOWS）；第二個多一句「……你陪我送她回家。」', has('認識啊，他是語彤的男朋友。')&&has('……你陪我送她回家。'));
   { const s=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('A2. 大一下事件 4 交往版記 YT_AUNT_KNOWS', /\{if:\{flags:\['dating_heroine_03'\]\},set:\{YT_AUNT_KNOWS:true\}\}/.test(s)); }
   fresh('2027-05-22',9.2,'wancai'); R('heroine_03','FRI'); said=[]; check('A3. 不是法服成員：5/22 沒有在場版', !Y2B.auntDue(G));
-  at('2027-05-25',18); G.zone='noodle'; SOCIAL.remember('heroine_03','LAW_MEETS_LIFE',''); said=[]; const hit=EVENTS.onInteract('heroine_03'); await new Promise(r=>setTimeout(r,5));
-  check('A3. 之後在麵店和語彤說話：三句（AA_375 第 9 項：「上次我陪阿姨去法服。」）＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('上次我陪阿姨去法服。')&&has('阿姨出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
+  at('2027-05-29',14); G.zone='wz_teahouse'; SOCIAL.remember('heroine_03','LAW_MEETS_LIFE',''); said=[]; const hit=EVENTS.onInteract('heroine_03'); await new Promise(r=>setTimeout(r,5));
+  check('A3. 之後在茶屋和語彤說話（AA_625 第 9 節不在場版；第一句 AA_643 第 2 節「上次」）：「上次我陪秀琴姨去法服。」「裡面的人說，租約到期以前，新屋主不能叫她搬。」「她出來的時候在笑。」＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('上次我陪秀琴姨去法服。')&&has('裡面的人說，租約到期以前，新屋主不能叫她搬。')&&has('她出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
   fresh('2027-06-12',21.2,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules();
-  check('A3. 都沒遇到：6/12 21:00 三句（第一句「前陣子」）', txt('p:heroine_03').join('|')==='heroine_03:前陣子我陪阿姨去法服。|heroine_03:裡面的人說，租約到期以前，他不能趕我們。|heroine_03:阿姨出來的時候在笑。');
+  check('A3. 都沒遇到：6/12 21:00 三句（第一句「前陣子」；其他照 AA_625 第 9 節不在場版）', txt('p:heroine_03').join('|')==='heroine_03:前陣子我陪秀琴姨去法服。|heroine_03:裡面的人說，租約到期以前，新屋主不能叫她搬。|heroine_03:她出來的時候在笑。');
   fresh('2027-05-25',18,'noodle'); said=[]; const hit4=EVENTS.onInteract('heroine_03'); fresh('2027-06-12',21.2,'dorm'); ct('heroine_03'); rules();
   check('A4. 不認識語彤：沒有轉述、沒有 6/12 那則', !hit4&&txt('p:heroine_03').length===0);
 
@@ -182,7 +183,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-09-14',12.3,'campus',{rain_umbrella:'share'}); R('heroine_03','FRI'); ct('heroine_03'); date('heroine_03'); rules(); answer('y3_yt_umb_noon',0); at('2027-09-14',17.6); picks=[0]; await run('ev_yt_umbrella_y3');
   check('U4. 交往中、中午回了「加油！！！」：「中午你傳的那三個驚嘆號……」；恭喜＝「中午說加油，現在說恭喜。」', G.flags.YT12_CHEER===true&&has('中午你傳的那三個驚嘆號，我上台前看了一下。')&&has('嗯。……中午說加油，現在說恭喜。')&&has('我後來買了一把跟你那天一樣的。很蠢吧。'));
   fresh('2027-09-14',17.6,'campus',{rain_umbrella:'give'}); R('heroine_03','FRI'); date('kexin'); ROM.learn(G,'heroine_03','kexin','test'); picks=[0]; await run('ev_yt_umbrella_y3');
-  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。阿姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
+  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。秀琴姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
   fresh('2027-09-14',18.6,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules(); PHONE.tick(G); at('2027-09-14',20.1); rules();
   check('U5. 沒去：20:00「今天講完了」「……傘我自己有帶」', txt('p:heroine_03').join('|')==='heroine_03:今天講完了|heroine_03:……傘我自己有帶'&&G.flags.YT_UMBRELLA_Y3==='missed');
 
@@ -217,7 +218,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('C. 一般版：回寄過的玩家沒有 12/17 那張', !Y2B.pcCards(G).some(c=>c.key==='2027-12-17'));
 
   // ---------- AA_336 B5 面板名稱、B6 芷若英國的生日 ----------
-  { const L=SOCIAL.MEMORY_LABEL; check('B5. 六個回憶面板的名稱照 AA_336 B5', L.LAW_MEETS_LIFE==='把買賣不破租賃那一頁傳給她'&&L.RENT_CONSULTATION==='聽她說陪阿姨去法服諮詢'&&L.TICKET_STUB==='她出國前給的電影票根'&&L.TOLD_HER_CHANGE==='跟她說過自己從經濟換到法律'&&L.POSTCARDS==='回寄過她從英國寄來的明信片'&&L.POSTCARDS_GROUP==='在寄給她的大明信片上寫了一句', JSON.stringify(['LAW_MEETS_LIFE','RENT_CONSULTATION','TICKET_STUB','TOLD_HER_CHANGE','POSTCARDS','POSTCARDS_GROUP'].map(k=>L[k]))); }
+  { const L=SOCIAL.MEMORY_LABEL; check('B5. 六個回憶面板的名稱照 AA_336 B5', L.LAW_MEETS_LIFE==='把買賣不破租賃那一頁傳給她'&&L.RENT_CONSULTATION==='聽她說陪秀琴姨去法服諮詢'&&L.TICKET_STUB==='她出國前給的電影票根'&&L.TOLD_HER_CHANGE==='跟她說過自己從經濟換到法律'&&L.POSTCARDS==='回寄過她從英國寄來的明信片'&&L.POSTCARDS_GROUP==='在寄給她的大明信片上寫了一句', JSON.stringify(['LAW_MEETS_LIFE','RENT_CONSULTATION','TICKET_STUB','TOLD_HER_CHANGE','POSTCARDS','POSTCARDS_GROUP'].map(k=>L[k]))); }
   const BACK='「9/28，台灣晚上十點。打給我。」', V3=['今天我一個人看了一部電影。','……你打來了，所以不算一個人。','好了。去睡。你那邊很晚了。'];
   const card924=async(zone,fl,dt)=>{ fresh('2027-09-24',13,zone,Object.assign({ZR_LAST_SHIFT:'seen'},fl||{})); R('heroine_02','FAM'); SOCIAL.remember('heroine_02','TICKET_STUB',''); if(dt) date(dt); picks=['先不回']; said=[]; await Y2B.pcScene(GM); };
   const tickWait=async()=>{ const r=Y2B.tick(GM,0.6); await new Promise(z=>setTimeout(z,30)); return r; };

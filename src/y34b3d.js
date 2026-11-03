@@ -509,7 +509,7 @@ const Y34B=(function(){
     {speaker:null,text:'（燒臘店的長桌。）'},{speaker:null,text:'（白飯是阿姨自己端過來的，堆得很高。）'},   /* AA_519 1-3：送小菜第六處＝第 5 句（「麵店的長桌。」照舊，拆成兩句）*/
     {speaker:'zhe',text:'（舉起燒臘店的塑膠杯）敬以安。半年。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'每天太多了。一個禮拜一張。'},
-    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
+    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端茶過來）日本有烏龍茶嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
     {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',set:{AN_FIRST_BOWL:true},goto:'fw_b'}]},
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
@@ -560,10 +560,10 @@ const Y34B=(function(){
     {if:C(dAn),speaker:null,text:'（她靠著窗，把手帳翻到四月那一頁。）'},
     {unless:C(dAn),speaker:null,text:'（座位分開。）'} ]);
   /* 1B-13 */
-  const T1_FIRST=[ {speaker:null,text:'（麵店門口。工讀生在顧店。語彤揹著背包，手上是田野筆記。）'},
+  const T1_FIRST=[ {speaker:null,text:'（溫州街口。語彤揹著背包，手上是田野筆記。）'},
     {unless:C(G=>US(G)||JP(G)),speaker:'heroine_03',text:'你沒去交換。'},{if:C(US),speaker:'heroine_03',text:'你下學期才去交換。'},{if:C(JP),speaker:'heroine_03',text:'你下個月才走。'},   /* 日本路線（AA_341 裁定 4）*/
     {speaker:'heroine_03',text:'……那你週四有空嗎。我要去水源市場訪問賣菜的阿嬤。一個人去有點怕生。'},
-    {choice:[{text:'「我想看看麵店續約以後的樣子。」',goto:'t1_a'},{text:'「我沒交志願表。」',unless:C(G=>US(G)||JP(G)),goto:'t1_b'},{text:'「我八月才走。」',if:C(US),goto:'t1_b2'},{text:'「我三月底才出發。」',if:C(JP),goto:'t1_b'},{text:'「我想留下來陪大家把這學期過完。」',goto:'t1_c'}]},
+    {choice:[{text:'「我想看看秀琴姨續約以後的樣子。」',goto:'t1_a'},{text:'「我沒交志願表。」',unless:C(G=>US(G)||JP(G)),goto:'t1_b'},{text:'「我八月才走。」',if:C(US),goto:'t1_b2'},{text:'「我三月底才出發。」',if:C(JP),goto:'t1_b'},{text:'「我想留下來陪大家把這學期過完。」',goto:'t1_c'}]},
     {label:'t1_a'},{speaker:'heroine_03',text:'那你要每週來。這是條件。'},{goto:'t1_end'},
     {label:'t1_b'},{speaker:'heroine_03',text:'嗯。那剛好。'},{goto:'t1_end'},
     {label:'t1_b2'},{speaker:'heroine_03',text:'嗯。那這學期剛好。'},{goto:'t1_end'},

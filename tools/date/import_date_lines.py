@@ -109,6 +109,8 @@ for k in ('pbb', 'paa'):
         prefs[who] = {loc: {'transport': v['transport']} for loc, v in m.items()}
 # 各地點的台詞（lines/Dxx.json；白名單逐檔列的才讀）：互動點名稱、她喜不喜歡、不太喜歡時的一句、抵達／互動點／收尾的句子
 LOC = {}
+import aa630   # AA_630 第 2 節（語彤 D01～D32，D13 不做）：照 JSON 路徑換在源稿上；AA_127 的預約句在寫檔前 patch_text
+R630 = aa630.load(ROOT, ALLOW, G); LOG630 = []
 for p in sorted(APPROVED):
     m = re.match(r'docs/story_planning/date_system/lines/(D\d\d)\.json$', p)
     if not m:
@@ -116,7 +118,7 @@ for p in sorted(APPROVED):
     ok, why = G.allowed(p, APPROVED[p], ALLOW)
     if not ok:
         sys.exit('拒絕匯入：' + why)
-    d = json.loads(show(p)); LOC[m.group(1)] = {k: d[k] for k in ('points', 'likes', 'dislikeLine', 'lines') if k in d}
+    d = json.loads(show(p)); aa630.apply_json(R630, p, d, LOG630); LOC[m.group(1)] = {k: d[k] for k in ('points', 'likes', 'dislikeLine', 'lines') if k in d}
     FILES['loc_' + m.group(1)] = p
 # AA_373 6-1「date_lines.js」那一列：疊在地點台詞上的改句（現在 → AA 定，一句對一句）
 md = show(FILES['fix373']); head = next((l for l in md.splitlines() if l.startswith('### 6-1. ')), None)
@@ -449,7 +451,9 @@ dst = os.path.join(ROOT, 'src', 'data', 'date_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 校外約會預約系統的句子與交通偏好（DATE-S6；AA_128 4-1、4-3；BB_128 3-6、3-7、AA_127 1-7、2-7、第 8 節、date_prefs_*.json）。'
              '產生器：tools/date/import_date_lines.py（不要手改）。來源：' + out['source'] + ' */\n')
-    fo.write("'use strict';\nconst DATE_LINES=" + json.dumps(out, ensure_ascii=False) + ';\n')
+    if R630: out['source'] += f'＋AA_630@{R630["sha"]}'; aa630.d14_before_sunset(R630, LOC)
+    fo.write("'use strict';\nconst DATE_LINES=" + aa630.patch_text(R630, 'src/data/date_lines.js', json.dumps(out, ensure_ascii=False), LOG630) + ';\n')
+print('AA_630：' + '；'.join(LOG630))
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
 print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o, n, c in FIXED))
 print('AA_359 5-2、5-3 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED359))

@@ -216,3 +216,8 @@ print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed',
 print('審查項目', len(rv['items']), '通過', sum(1 for it in rv['items'] if ((it.get('review') or {}).get('result')) in PASS))
 if stray: print('指到課表裡沒有的週（', len(stray), '）：', '、'.join(stray[:20]) + ('…' if len(stray) > 20 else ''))
 if dropped_seen: print('略過刪掉的課（AA_130）：', '、'.join(dropped_seen))
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/syllabus.js', _R0)

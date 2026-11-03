@@ -116,6 +116,9 @@ const WISH=(function(){
   S.willing=function(G,id){ if(dating(G,id)) return true; const D=DT(); if(D.canAskCore&&!D.canAskCore(G,id).ok) return false; if(typeof ROM!=='undefined'&&ROM.knows&&ROM.knows(G,id).length) return false; return true; };
   const P_=(id,t,o)=>({th:'p:'+id,from:id,text:S.fill(t,o)});
   const spoken=L=>(L||[]).filter(l=>l&&l.who!=='note'&&l.who!=='narr');
+  /* 語彤 D13 的 notTeaShift（wish_aa.json，AA_626 2-2）：約的那個週六和隔天週日，她在一盞茶屋都有班（13～17）＝請假 */
+  S.TEA_LEAVE='我跟蘇姨請假了。';
+  S.teaShiftBoth=function(G,id,day){ if(typeof INV==='undefined'||!INV.busyAt) return false; const w=d=>{ const e=INV.busyAt(G,id,d,13,4); return !!e&&e.act==='work'; }; return w(day)&&w(day+1); };
   S.askRule=function(G,id){ const ev=S.ev(id), I=ev&&ev.herInvite; if(!I||S.held(id)||S.done(G,id)) return false; const D=DT(), lg=D.log(G,id), A=lg.wishAsk;
     if(A&&A.state==='sent') return false;   /* 還沒回 */
     const T=CALENDAR.termOf(G.day); if(!T) return false;   /* 寒暑假不約 */
@@ -126,9 +129,10 @@ const WISH=(function(){
     if(!S.cond(G,id,I.if)||!S.willing(G,id)||!S.here(G,id)) return false;
     const day=S.nextDay(G,I.dateWeekday); if(day==null) return false; const T2=CALENDAR.termOf(day); if(!T2||(I.notExamWeek&&T2.exam)) return false;   /* 約的那天：學期中、不是考試週 */
     if(!S.here(Object.assign({},G,{day}),id)) return false;   /* 那一天她在臺北 */
-    const loc=ev.loc, depart=S.departOf(I.dateTime,day), tr=S.transOf(id,loc,I), c=D.check(G,{who:id,locs:[loc],day,depart,transport:tr}); if(!c.ok) return false;   /* 祐廷那天有空、錢夠、她那時候沒課沒班 */
+    const loc=ev.loc, depart=S.departOf(I.dateTime,day), tr=S.transOf(id,loc,I), c=D.check(G,{who:id,locs:[loc],day,depart,transport:tr,skipWork:!!I.notTeaShift}); if(!c.ok) return false;   /* 祐廷那天有空、錢夠、她那時候沒課沒班（notTeaShift：茶屋的班她請假，下面多一句）*/
     const o={depart}, base=(S.pickIf(G,id,I.linesIf)||I).lines, items=spoken(base).map(l=>P_(id,l.text,o)); if(!items.length) return false;
-    items[items.length-1].ask={id:tag,until:day*24,opts:[{t:'答應',post:false,say:spoken(I.accept).map(l=>P_(id,l.text,o)),set:{['WISH_ASK_'+id]:'yes'}},{t:'這週不行',post:false,say:spoken(I.decline).map(l=>P_(id,l.text,o)),set:{['WISH_ASK_'+id]:'no'}}]};   /* 選項照稿的「答應」「這週不行」，祐廷不另外說一句（同 hometown3d.js 沛珊的台南美術館）；約的那天 0:00 以前要回 */
+    const leave=I.notTeaShift&&S.teaShiftBoth(G,id,day)?[P_(id,S.TEA_LEAVE,o)]:[];   /* AA_626 2-2：那個週六有班就約週日，週日也有班就請假——她的班是週六、日都有，所以就是請假：「我跟蘇姨請假了。」 */
+    items[items.length-1].ask={id:tag,until:day*24,opts:[{t:'答應',post:false,say:spoken(I.accept).map(l=>P_(id,l.text,o)).concat(leave),set:{['WISH_ASK_'+id]:'yes'}},{t:'這週不行',post:false,say:spoken(I.decline).map(l=>P_(id,l.text,o)),set:{['WISH_ASK_'+id]:'no'}}]};   /* 選項照稿的「答應」「這週不行」，祐廷不另外說一句（同 hometown3d.js 沛珊的台南美術館）；約的那天 0:00 以前要回 */
     if(G.flags) delete G.flags['WISH_ASK_'+id];
     lg.wishAsk={term:T.id,day:G.day,date:day,depart,transport:tr,state:'sent'}; PHONE.at(G,G.day,h,items,tag); S.learn(G,id); return true; };
   /* 回了以後：答應＝訂下那一趟（by:'her'）；這週不行＝不扣分；沒回、約的那天過了＝作罷 */
