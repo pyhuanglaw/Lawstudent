@@ -170,6 +170,9 @@ const Y34B=(function(){
   S.zq3rd=G=>{ if(!dating(G,'heroine_04')) return false; const v=G.flags.ZQ_STICKER3; if(v===true) return true; if(v===false) return false;   /* AA_525 1-1（Z-1）：大二下成發「第二張。明年還有第三張。」的第三張；AA_526 第 2 節：只給聽過那一句的（ZQ_STICKER3，「去年的份。」那一支不補）*/
     return done(G,'ev_ziqing_show2')&&['clap','came','half'].includes(G.flags.ZQ_SHOW); };   /* 舊存檔（沒有 ZQ_STICKER3）：演過 ev_ziqing_show2、去過大一的 Q5（y2r2_3d.js q5Went）、現在交往中＝算聽過 */
   S.zqCallDue=G=>{ const d=D('zq'); return law(G)&&JP(G)&&d!=null&&G.day===d&&G.hour>=tzH(G,d,21)&&G.hour<tzH(G,d,24)&&G.flags.ZQ_Q12_SEEN==null&&fam('heroine_04'); };   /* 台灣 21:00＝日本 22:00（AA_341 J-S13）*/
+  /* AA_636（企劃線 81a9a8fd2；JP-STREAM-LINE-1101）：日本路線發表會當天日本 15:00（臺灣 14:00）起、當晚電話以前，手機看直播四句旁白（一次）*/
+  S.ZQ_STREAM=['（手機。資工系館展示廳的直播，阿凱拿手機在拍，畫面有點晃。）','（子晴站在投影幕前，講到一半停下來，喝了一口水。）','（收音不太好。只聽得清楚一句：「……《九點以後》。」）','（最後一張是製作名單。畫面拉近的時候，直播斷了。）'];
+  S.zqStreamDue=G=>{ const d=D('zq'); return law(G)&&JP(G)&&d!=null&&G.day===d&&G.hour>=tzH(G,d,14)&&G.hour<tzH(G,d,21)&&G.flags.ZQ_Q12_SEEN==null&&!(G.events&&G.events.done&&G.events.done.ev_ziqing_q12_stream)&&fam('heroine_04'); };
   S.zqCall=GM=>{ const F=GM.G.flags; if(F.ZQ_Q12==null) F.ZQ_Q12=S.zqGame(GM.G); return play('ev_ziqing_q12_call')(GM); };   /* 電話一律《九點以後》那一句（S.zqGame；AA_341 J-S18「依 ZQ_Q12 分兩版」AA_360 第 1 節作廢）。Q12_CALL 貓那句留著不刪：只有舊存檔已經記了 cat 才會用到 */
   /* 收不到子晴 5/19 那則的玩家（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊（AA_337 第 5 節，新寫）。跟阿凱不熟的沒有入口；
      日本路線人在日本＝沒有。去＝出遊 5/20 13:45（同一場 ev_ziqing_q12）；不了＝「好。我幫你拍。」→ 16:30 阿凱傳一張照片 */
@@ -448,6 +451,7 @@ const Y34B=(function(){
       [()=>S.farewellDue(G),'ev_an_farewell_dinner',()=>{ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'y3_an_farewell'); if(q&&q.state==='planned') q.state='done'; } return play('ev_an_farewell_dinner')(GM); }],
       [()=>S.t1FirstDue(G,E),'ev_yt_thursday_first',()=>play('ev_yt_thursday_first')(GM)],
       [()=>S.t1WeekDue(G,E),'ev_yt_thursday',()=>S.t1Week(GM)],
+      [()=>S.zqStreamDue(G),'ev_ziqing_q12_stream',()=>play('ev_ziqing_q12_stream')(GM)],
       [()=>S.zqCallDue(G),'ev_ziqing_q12_call',()=>S.zqCall(GM)],
       [()=>S.bdayCafeDue(G),'ev_sis_birthday_y3',()=>{ if(typeof OUT!=='undefined') for(const id of ['y3_sis_bday','y3_sis_bday_next']){ const q=OUT.get(G,id); if(q&&q.state==='planned') q.state='done'; } return play('ev_sis_birthday_y3')(GM); }],
       [()=>S.bdayVideoDue(G),'ev_sis_birthday_video_y3',()=>play('ev_sis_birthday_video_y3')(GM)],
@@ -870,6 +874,7 @@ const Y34B=(function(){
       prereq:{custom:G=>S.zrWindow(G)&&fam('heroine_02')}, dialogue:Z11 },
     { id:'ev_ziqing_q12', title:'發表會', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:Q12,
       beforeOuting:async(G)=>{ G.flags.ZQ_Q12=S.zqGame(G); }, outingMissed:G=>{ if(G.flags.ZQ_Q12_SEEN==null) G.flags.ZQ_Q12_SEEN='missed'; } },
+    { id:'ev_ziqing_q12_stream', title:'發表會（直播）', participants:[], location:'any', trigger:'manual', once:true, background:'dark', dialogue:[{scene:'手機'}].concat(S.ZQ_STREAM.map(t=>({speaker:null,text:t}))) },
     { id:'ev_ziqing_q12_call', title:'發表會（電話）', participants:[], location:'any', trigger:'manual', once:true, background:'dark', dialogue:Q12_CALL },
     { id:'ev_kexin_presentation', title:'最後一排', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5, dialogue:K19,
       outingMissed:G=>{ G.flags.KX19_GO=false; } },

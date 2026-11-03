@@ -136,6 +136,10 @@ const date=id=>H.date(id);
     check('1B-15 沒去：當晚 21:00 製作名單的照片', th('p:heroine_04').includes('（照片：製作名單）')&&H.G.flags.ZQ_Q12_SEEN==='missed'); }
   { fresh('2028-05-20',21,'dorm',{},'JP'); H.FAMILIAR('heroine_04'); phone(); const a=S.zqCallDue(H.G); at('2028-05-20',22); phone(); check('Q3 日本路線：沒有邀約；人在日本＝當地 22:00（台灣 21:00，AA_341 J-S13）電話到期', !th('p:heroine_04').length&&!a&&S.zqCallDue(H.G));
     H.G.flags.ZQ_Q10='nameless'; H.said=[]; await S.zqCall(GM); phone(); check('Q3 《九點以後》（ZQ_Q12 nine，AA_341 J-S18）：「他打了五次。第五次過了。……」；阿凱「子晴的製作名單。」；WATCHED_SHOW_ONLINE', has('他打了五次。第五次過了。……我在後面笑到不行。')&&H.G.flags.ZQ_Q12==='nine'&&H.G.flags.WATCHED_SHOW_ONLINE===true&&th('p:kai').includes('子晴的製作名單。')); }
+  /* AA_636（JP-STREAM-LINE-1101）：日本路線 5/20 日本 15:00 起、電話以前，直播四句旁白（一次）；台灣路線沒有 */
+  { fresh('2028-05-20',14,'dorm',{},'JP'); H.FAMILIAR('heroine_04'); const a=S.zqStreamDue(H.G); at('2028-05-20',15.2); const b=S.zqStreamDue(H.G); H.said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_ziqing_q12_stream'));
+    check('AA_636 日本路線：日本 15:00 以前不到期、15:00 以後到期；四句旁白照順序；演過不再到期；電話照舊 22:00（當地）',!a&&b&&has('（手機。資工系館展示廳的直播，阿凱拿手機在拍，畫面有點晃。）')&&has('（最後一張是製作名單。畫面拉近的時候，直播斷了。）')&&!S.zqStreamDue(H.G));
+    fresh('2028-05-20',15.2,'dorm'); H.FAMILIAR('heroine_04'); check('AA_636 臺灣路線：沒有直播旁白',!S.zqStreamDue(H.G)); }
   /* AA_337 第 5 節：收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）＝5/18（四）21:00 阿凱私訊 */
   { fresh('2028-05-18',20,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); at('2028-05-18',20.9); phone(); const a=th('p:kai').length; at('2028-05-18',21); phone(); const mk=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_zq_kai');
     check('AA_337 第 5 節 5/18 21:00 阿凱：「週六下午兩點，子晴學姊的發表會。資工系館一樓。」「我要去占位子。你要不要？」→「去。」「不了。」', a===0&&th('p:kai').join('|')==='週六下午兩點，子晴學姊的發表會。資工系館一樓。|我要去占位子。你要不要？'&&!!mk&&mk.ask.opts.map(o=>o.t).join('|')==='去。|不了。');

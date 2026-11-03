@@ -39400,9 +39400,9 @@
    "title": "日本交換路線 1B-15「直播畫面（2D 手機）」：AA 寫一句直播旁白（AA_322 只有「直播畫面」沒有字；使用者 11-01 23:1x 選請 AA 寫）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【11-01 23:1x LAWWW-B】開任務；AA 寫好交 LAWWW 接進日本路線（現在只有當晚電話、阿凱一則）",
+   "next": "BB 測（AA_636 已接）",
    "first": {
     "term": "Y3S2",
     "week": 0,
