@@ -41114,6 +41114,264 @@
       "priority": "P2",
       "note": "CC_00 11-03 交班「做完（CC 初判，已報 BB）」列的候選 bug（同列還有 BUG-Y4S2-NOFINAL-1102）；LAWWW 11-03 交班核對補進總表",
       "next": "等 BB 判定是不是 bug（讀 CC_00 第 185 行附近與 CC_01 的證據）→ 是的話 LAWWW 修"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-SLEEP-CINEMATIC-1103",
+      "title": "每天睡覺不要再演走上床、躺下、熄燈；第二天只要從床上起來就好",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P1",
+      "note": "使用者 11-03 08:1x 實玩回報（X155）",
+      "next": "LAWWW 找睡覺流程（home／dorm 上床那一段）改成：選睡覺→直接黑幕跳到隔天起床；起床照舊從床上起來。第一次（或劇情指定的）要不要保留，照使用者原話＝不保留"
+    },
+    {
+      "first": {
+        "term": "Y3S2",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-NO-TEACHER-EXCHANGE-1103",
+      "title": "老師不會知道祐廷是交換回來的、不會從名單看到（一堂課很多學生）：掃全遊戲拿掉這種句子",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 08:1x 實玩回報（X156）",
+      "next": "AA 掃全遊戲（老師點名、看名單、認出交換生）給改稿表 → LAWWW 照表改；AA 還沒接班前 LAWWW 先列出程式裡找得到的位置給 AA",
+      "xai": {
+        "spec": "使用者 11-03 原話；已知一處 src/data/jp_events.js:133 REDO_INS（保險法老師點名「交換回來的？」）",
+        "branch": "claude/story-planning",
+        "acceptance": "AA 掃全遊戲列出老師／教授認出祐廷交換、看名單的句子＋改稿表；LAWWW 照表改",
+        "receiver": "LAWWW",
+        "ack": "未派",
+        "owner": "AA"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-FRIENDS-EVENTS-1103",
+      "title": "祐廷的好朋友（阿哲、阿凱、柏翰、明軒、Alison 等）要有自己的事件、甚至自動播放的劇情，讓玩家記得名字",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 08:1x 實玩回報（X157）",
+      "next": "AA 盤點好朋友現有戲份、設計大一上開始的自動劇情（介紹名字與個性）→ LAWWW 實作",
+      "xai": {
+        "spec": "使用者 11-03 原話",
+        "branch": "claude/story-planning",
+        "acceptance": "AA 交好朋友事件企劃＋台詞（大一上起、會自動播放、名字和個性第一次出場就記得住）；LAWWW 實作",
+        "receiver": "LAWWW",
+        "ack": "未派",
+        "owner": "AA"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-GE-NOT-SELECTED-1103",
+      "title": "「通識城市與散步沒選上」的事件和開局課表都排好的設計矛盾",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P2",
+      "note": "使用者 11-03 08:1x 實玩回報（X158）",
+      "next": "events.js ev_course_selection（第 5 天後宿舍：通識「城市與散步」沒選上、備取十七）：和固定課表矛盾＝劇情內容，請 AA 定（拿掉或改成合理的）；LAWWW 先查它有沒有接到任何後續"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": true,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "BUG-EAT-AFTER-CLASS-SCENE-1103",
+      "title": "下課選去吃飯：扣錢、吃飽了，但場景還是教室",
+      "owner": "LAWWW",
+      "status": "進行中",
+      "priority": "P0",
+      "note": "使用者 11-03 08:1x 實玩回報（X159）",
+      "next": "LAWWW 找下課選單「去吃飯」的流程：要真的換到餐廳（或至少換背景／移到吃飯的地方），不是只扣錢加飽足"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "PERF-ZONE-POPIN-1103",
+      "title": "進新場景先出現畫質很爛的版本（方塊）卡一下才出現完整的；溫州街還沒讀完、腳踏車就在動",
+      "owner": "LAWWW2",
+      "status": "待開工",
+      "priority": "P1",
+      "note": "使用者 11-03 08:1x 實玩回報（X160）",
+      "next": "LAWWW2（D108 場景載入）：進場景時用載入遮罩等正式 GLB 和貼圖好了再顯示、車流等場景好了才開；LAWWW 先查 zone_prewarm／GAME.enter 有沒有現成的遮罩可以延長",
+      "xai": {
+        "spec": "使用者 11-03 原話",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "進區域時正式模型載好前不顯示備用方塊（或載入遮罩蓋住），車流／腳踏車等場景載完才開始動；BB 用 PC 錄影驗",
+        "receiver": "LAWWW（engine3d 改動先告知）、BB",
+        "ack": "未派",
+        "owner": "LAWWW2"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "玩家實玩回報（使用者 11-03）",
+        "mainline": true,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "STORY-CLASSROOM-CROWD-SOCKET-1103",
+      "title": "教室外面不要有一坨人；「插座是壞的」便利貼那條（SK04）到底有什麼意義",
+      "owner": "AA",
+      "status": "待開工",
+      "priority": "P2",
+      "note": "使用者 11-03 08:1x 實玩回報（X161）",
+      "next": "人群：LAWWW 查教室外人群是誰放的（indoor_crowd／下課人潮）並減少；SK04：AA 決定",
+      "xai": {
+        "spec": "使用者 11-03 原話；SK04 便利貼＝events.js ev_sk04_note1～（大一英文的座位，和經濟系的唐睿用便利貼對話，第 15 週揭曉）",
+        "branch": "claude/story-planning",
+        "acceptance": "AA 決定 SK04 留不留／怎麼讓玩家看得懂意義；教室外的人群由 LAWWW 查是哪個系統放的、減到合理",
+        "receiver": "LAWWW",
+        "ack": "未派",
+        "owner": "AA"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "校園法學院區",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "CAMPUS-BLACKFOREST-1102",
+      "title": "法學院黑森林（第一版位置錯，使用者暫停；由 LAW-RELAYOUT-1102 取代）",
+      "owner": "LAWWW2",
+      "status": "取消／被取代",
+      "priority": "P2",
+      "note": "LAWWW 11-03 補登（LAWWW2 user_asks 指到、總表沒有）",
+      "next": "—",
+      "xai": {
+        "spec": "LAWWW2 user_asks 1102-12～16",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB 驗",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "owner": "LAWWW2"
+      },
+      "reason": "位置錯，使用者要求改；併進法學院重排",
+      "replacedBy": "LAW-RELAYOUT-1102"
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "校園法學院區",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "DORM-LOFT-SCALE-1102",
+      "title": "宿舍閣樓床比例（LAWWW2 dc41197b7；已整合 int/m591 df1905883，進開發分支）",
+      "owner": "LAWWW2",
+      "status": "已整合待測試",
+      "priority": "P2",
+      "note": "LAWWW 11-03 補登（LAWWW2 user_asks 指到、總表沒有）",
+      "next": "BB 驗",
+      "xai": {
+        "spec": "LAWWW2 user_asks 1102-12～16",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB 驗",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "owner": "LAWWW2"
+      }
+    },
+    {
+      "first": {
+        "term": "Y1S1",
+        "week": null,
+        "earliest": "校園法學院區",
+        "mainline": false,
+        "blocks": false,
+        "prereq": false,
+        "parallel": true,
+        "confirmed": true
+      },
+      "area": null,
+      "id": "LAW-RELAYOUT-1102",
+      "title": "法學院區重排：萬才館搬位、湖、黑森林（LAWWW2 d73588749 WIP；使用者給 5 張實景照片）",
+      "owner": "LAWWW2",
+      "status": "進行中",
+      "priority": "P2",
+      "note": "LAWWW 11-03 補登（LAWWW2 user_asks 指到、總表沒有）",
+      "next": "LAWWW2 下一班接著做，交 LAWWW 整合",
+      "xai": {
+        "spec": "LAWWW2 user_asks 1102-12～16",
+        "branch": "claude/second-ai-env-art",
+        "acceptance": "BB 驗",
+        "receiver": "LAWWW",
+        "ack": "ACK",
+        "owner": "LAWWW2"
+      }
     }
   ]
 }
