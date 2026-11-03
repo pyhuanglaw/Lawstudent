@@ -263,6 +263,159 @@ const CROWD=(function(){
     n.talk=()=>{ const vk=(GM.enterN|0)+':'+G.zone; if(!bballVisit||bballVisit.key!==vk){ const F=G.flags||(G.flags={}); bballVisit={key:vk,used:0,start:F.bballHear|0}; F.bballHear=((F.bballHear|0)+1)%L.length; }
       if(bballVisit.used>=L.length) return; const t=L[(bballVisit.start+bballVisit.used)%L.length]; bballVisit.used++; const who=S.GYM_HEAR.basketball.who; n.hear={who,t}; return S.overhear(GM,n,[{who,t}]); }; };
   S.SPOTS.push(S.bballSpot());
+  /* ===== 店裡的客人（SHOP-DINERS-1103，USER_WANTS X187；使用者 2026-11-03 附 10/18 週六 18:22 巷子裡定食的截圖：「店內都沒有人 幾乎所有店」「好詭異」）=====
+     進得去的店（兩點半 Café 以外：Café 照舊用 story3d.js 的 S.cafeCustomers，X71、芷若 Z3 那一套不動）營業時間內有沒有名字的客人：
+     - 吃飯的店（阿鳳麵店、林家乾麵、巷子裡定食、118 巷的七間餐廳）坐在位子上吃，一桌兩個人的會轉頭看對方（聊天）；半熟（早午餐）、一盞（茶屋）坐著；
+       慢讀咖啡：一個人的看書（read）、用筆電（坐著＋腿上的筆電 laptop_lap）、發呆；一一八茶飲：高腳椅坐一個、櫃台前等飲料的一個。
+     - 書店站在書架前看書、便利商店逛貨架和排隊結帳、影印店站在櫃台和文具架前（都面向架子、櫃台）。
+     - 人數照時段：午餐 11:30～13:30、晚餐 17:30～19:30 坐滿四到六成，下午、晚上一到兩成；早午餐、咖啡、茶屋照自己的尖峰；打烊（places.js、118 巷資料的營業時間、颱風假、麵店過年店休）沒有人。
+       週末：吃飯的店少一點（學生回家）、早午餐咖啡茶屋多一點；寒暑假學區的店少四成（便利商店少兩成）；考試週影印店、咖啡多。
+     - 每一桌（兩個位子一組：面對面的兩張、或吧台相鄰的兩張；剩下的一個位子一組）一天的客人照（店＋桌＋日期）當種子排好：幾點來、坐多久、幾個人、做什麼——
+       同一天同一時間出去再進來是同一批人坐同一些位子（D55）；時間跳了照新的時間直接排（和其他地點一樣）；一桌一桌各自進出，不會整間店同時起身。
+     - 玩家的位子：每天留一組兩人座整天不排客人（約好一起來、和她坐一桌：invites3d.js 的 pairSeats），玩家沒坐下時店裡至少留兩個空位、坐下以後至少一個；
+       有名字的人（常客、麵店團、照作息來的同學）後來才走進來、空位不夠時，離門口最近的那一桌客人吃完先走（S.shopTrim）；客人不坐有人坐的位子（玩家、劇情的人）。
+       劇情的位子不排：阿鳳麵店中間那張桌（玩家和阿哲、麵店團）、麵店團常客的日子 17:30～19:00 麵店整段不排（他們自己的固定客人，story3d.js noodleRegulars）。
+       有人跟著你（companion）、今天約好在這間店：客人少一半。
+     - 一間店同時最多 S.SHOP_CAP（10）位完整人物（手機效能；室內 7 m 外自動換遠距離版本 PERF-CROWD-LOD）。路人底模（STORY.extraSpec，6000 起一段，不和體育館、小公園撞）、坐姿照現有的 sit／read。
+     - 點了不會說話（沒有台詞：台詞歸 AA）。碗盤、茶杯還沒有放在桌上（每張桌子的高度不一樣，要美術給桌面高度：LAWWW2）。
+     測試：node tests/shop_diners_unit.js */
+  S.SHOP_CAP=10;
+  const ramp=(pts,h)=>{ if(h<=pts[0][0]) return pts[0][1]; for(let i=1;i<pts.length;i++){ const a=pts[i-1], b=pts[i]; if(h<=b[0]) return a[1]+(b[1]-a[1])*(h-a[0])/Math.max(1e-6,b[0]-a[0]); } return pts[pts.length-1][1]; };
+  /* 一天的客人比例（坐滿幾成；[時刻, 比例]，中間線性）、坐多久（小時）、一組兩個人一起來的機會（面對面／吧台相鄰）、一個人來的在做什麼 */
+  S.SHOP_KIND={
+    /* cap：這一種店同時最多幾位（沒寫＝S.SHOP_CAP）：書店、便利商店、影印店、茶飲站著的人不要擠成一團 */
+    meal:{L:[[10,0.15],[11.25,0.2],[11.6,0.85],[13.4,0.85],[13.8,0.22],[14.5,0.14],[16.5,0.14],[17.25,0.25],[17.6,0.85],[19.4,0.85],[19.8,0.2],[21,0.12],[24,0.1]],dur:[0.45,0.85],face:0.6,side:0.3},
+    brunch:{L:[[7.5,0.22],[9,0.35],[10.5,0.45],[11.6,0.6],[13.4,0.55],[14,0.22],[15,0.12]],dur:[0.6,1.2],face:0.7,side:0.3,alone:[['read',0.25]]},
+    cafe:{L:[[9,0.18],[11,0.22],[11.6,0.45],[13.4,0.45],[14,0.4],[16.5,0.45],[17.5,0.2],[18,0.15]],dur:[0.8,1.8],face:0.35,side:0.15,alone:[['read',0.45],['laptop',0.3]]},
+    tea:{L:[[12,0.2],[13.5,0.3],[14.5,0.4],[16.5,0.4],[17.5,0.25],[20,0.15]],dur:[0.7,1.4],face:0.6,side:0.4},
+    drink:{L:[[10,0.2],[11.6,0.5],[13.4,0.5],[14,0.3],[17,0.45],[19,0.45],[20,0.2],[21,0.1]],dur:[0.15,0.35],face:0.3,side:0.3,standDur:[0.08,0.15],cap:3},
+    book:{L:[[10,0.15],[12,0.25],[13,0.25],[14,0.2],[17,0.35],[20,0.35],[21.5,0.15]],dur:[0.12,0.35],cap:6},
+    cvs:{L:[[0,0.15],[2,0.05],[6,0.05],[7.5,0.45],[9,0.3],[11.6,0.55],[13.4,0.5],[14,0.25],[17.5,0.5],[19.5,0.45],[22,0.3],[24,0.15]],dur:[0.1,0.25],payDur:[0.06,0.12],cap:6},
+    print:{L:[[9,0.3],[12,0.55],[13,0.5],[17,0.45],[22,0.2]],dur:[0.15,0.4],cap:2} };
+  /* 這一天、這個時刻坐滿幾成（0～0.85）*/
+  S.shopLoad=function(def,G,h){ const K=S.SHOP_KIND[def.kind]; if(!K) return 0; let L=ramp(K.L,h); const C=typeof CALENDAR!=='undefined'?CALENDAR:null; if(!C) return Math.min(0.85,L);
+    const kd=C.kind(G.day), wk=C.weekend(G.day)||kd==='holiday', T=C.termOf?C.termOf(G.day):null, k=def.kind;
+    if(kd!=='term') L*=k==='cvs'?0.8:0.6;   /* 寒暑假：學區的店（台大附近）少四成；便利商店少兩成 */
+    if(wk) L*=k==='meal'?0.85:(k==='brunch'||k==='cafe'||k==='tea'||k==='book'?1.35:1);   /* 週末、國定假日：吃飯的店學生少一點，早午餐、咖啡、茶屋、書店多一點 */
+    if(T&&T.exam&&(k==='print'||k==='cafe')) L*=1.7;   /* 考試週：影印、咖啡店念書的人多 */
+    return Math.max(0,Math.min(0.85,L)); };
+  /* 營業時段（[[開, 關], …]；不開＝[]）：places.js 有營業時間的照 places.js（溫州街的店）、118 巷照它的資料（L118.isOpen：公休、老闆開刀那兩週）；
+     阿鳳麵店、書店沒有寫營業時間（門整天開著）：客人只在 11:00～14:00、17:00～21:00（麵店）、11:00～21:00（書店）；便利商店 24 小時 */
+  const typhoon=(zone,G)=>typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&!!CALENDAR.typhoon(G.day)&&zone!=='cvs';
+  S.shopWindows=function(def,G){ if(typhoon(def.zone,G)) return []; const z=def.zone;
+    if(/^l118_/.test(z)){ const id=z.slice(5), s=typeof L118!=='undefined'&&L118.shop?L118.shop(id):null; if(!s||!s.hours) return []; return s.hours.open.filter(([a,b])=>L118.isOpen(id,Object.assign({},G,{hour:(a+b)/2}))).map(w=>w.slice()); }
+    if(z==='noodle') return typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G)?[]:[[11,14],[17,21]];
+    if(z==='bookstore') return [[11,21]]; if(z==='cvs') return [[0,24]];
+    if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); return ws?ws.map(w=>[w[0],Math.min(24,w[1])]):[]; }
+    return []; };
+  /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
+  const INV_PLACE={noodle:'noodle',wz_brunch:'brunch',wz_teahouse:'teahouse'};
+  S.shopCalm=function(G,zone){ const F=G.flags||{}; if(F.companion) return true; const p=INV_PLACE[zone]; return !!p&&(G.invites||[]).some(iv=>iv&&iv.day===G.day&&iv.accepted&&!iv.done&&iv.place===p); };
+  /* 位子分組：面對面的兩張（同一張桌子）、吧台相鄰的兩張；剩下的一個人一組。seats＝[{x,z,yaw,table,bar}] */
+  S.pairUnits=function(seats){ const used=new Set(), out=[]; const dyaw=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)));
+    seats.forEach((s,i)=>{ if(used.has(i)) return; let best=-1, bs=1e9, kind='one';
+      seats.forEach((q,j)=>{ if(j===i||used.has(j)) return; if(s.table!=null&&q.table!=null&&s.table!==q.table) return; const d=Math.hypot(q.x-s.x,q.z-s.z), dy=dyaw(s.yaw,q.yaw); let sc=null, k=null;
+        if(dy>2.6&&d<1.8&&((q.x-s.x)*Math.sin(s.yaw)+(q.z-s.z)*Math.cos(s.yaw))>0.5){ sc=d; k='face'; }   /* 對面那一張（在他前面）*/
+        else if(dy<0.3&&d<1.0){ sc=d+2; k='side'; }   /* 旁邊那一張（同一個方向：吧台、長桌）*/
+        if(sc!=null&&sc<bs){ bs=sc; best=j; kind=k; } });
+      used.add(i); if(best>=0){ used.add(best); out.push({seats:[s,seats[best]],kind}); } else out.push({seats:[s],kind:'one'}); });
+    return out; };
+  /* 站著的地方：架子、櫃台前面（[x, z, 面向]）*/
+  const standUnits=(pts,kind)=>pts.map(p=>({stand:[+p[0].toFixed(2),+p[1].toFixed(2),+(+p[2]).toFixed(4)],kind:kind||'stand'}));
+  /* 架子前面每 1.6 m 站一個人（shelfWall／goodsWall：x, z, 轉向, 長度, 站哪一邊 [1／−1]；離架子中線 0.75 m，面向架子；和 zones3d.js 擺架子的同一組數字）*/
+  const shelfPts=list=>{ const out=[]; for(const [x,z,r,len,sides] of list){ const nx=Math.sin(r), nz=Math.cos(r), ax=Math.cos(r), az=-Math.sin(r), n=Math.max(1,Math.floor(len/1.6));
+      for(const s of sides) for(let i=0;i<n;i++){ const a=(i+0.5)*len/n-len/2, px=x+nx*s*0.75+ax*a, pz=z+nz*s*0.75+az*a; out.push([px,pz,Math.atan2(-nx*s,-nz*s)]); } } return out; };
+  S.shopDefs=function(){ const out=[]; const WZ=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT:null, LS=typeof L118_SHOP_LAYOUTS!=='undefined'?L118_SHOP_LAYOUTS:null;
+    const seatsOf=arr=>(arr||[]).map(s=>({x:+s.x,z:+s.z,yaw:+s.yaw||0,table:Array.isArray(s.table)?s.table.join(','):s.table,bar:!!s.lift}));   /* 118 巷的 table 是桌子中心 [x, z] */
+    const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
+    /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
+    add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
+    add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
+    add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
+    if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
+        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||''))))); }
+      if(WZ.print&&WZ.print.spawn) add('wz_print','print',[WZ.print.spawn.x,WZ.print.spawn.z],standUnits([[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]])); }
+    /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
+    if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');
+      let units=S.pairUnits(seatsOf(L.seats)); if(id==='tea'&&L.order) units=units.concat(standUnits([[L.order.x+0.7,L.order.z+0.1,Math.PI]],'wait'));
+      add('l118_'+id,kind,[L.spawn.x,L.spawn.z],units,{noKeep:id==='tea'}); }
+    return out; };
+  S.SHOPS=S.shopDefs(); S.SHOP_ZONES={}; for(const d of S.SHOPS) S.SHOP_ZONES[d.zone]=d;
+  /* 這一天這間店每一組位子的客人（一天算一次，照日期＋店＋組當種子）：一組空著的時候，照那個時刻的比例 L 決定接下來 D 小時有沒有人（有＝來坐 D 小時），
+     長期下來坐滿的比例≈L。一組兩個位子：兩個人一起來的機會照 face／side。留給玩家的那一組（keep）整天不排；同時在店裡的人超過 S.SHOP_CAP 的那一組不排。 */
+  const planCache=new Map();
+  S.shopPlan=function(def,G){ const calm=S.shopCalm(G,def.zone), key=def.zone+'|'+G.day+'|'+(calm?1:0)+'|'+(G.stage||''); const c=planCache.get(def.zone); if(c&&c.key===key) return c.plan;
+    const K=S.SHOP_KIND[def.kind], wins=S.shopWindows(def,G), U=def.units, r0=prng(hash('shopkeep|'+def.zone+'|'+G.day));
+    const pairs=U.map((u,i)=>i).filter(i=>U[i].kind==='face'); const keep=def.noKeep||!pairs.length?-1:pairs[Math.floor(r0()*pairs.length)];   /* 留給玩家（和她）的兩人座 */
+    const ndl=def.zone==='noodle'&&typeof STORY!=='undefined'&&STORY.noodleDay&&STORY.noodleDay(G.day);   /* 麵店團常客的日子：17:30～19:00 那一段是他們（noodleRegulars）*/
+    const cand=[];
+    U.forEach((u,ui)=>{ if(ui===keep) return; const r=prng(hash('shopu|'+def.zone+'|'+ui+'|'+G.day)); let vix=0; const stand=!!u.stand;
+      const dur=u.kind==='pay'&&K.payDur?K.payDur:(stand&&K.standDur?K.standDur:K.dur);
+      for(const [a,b] of wins){ let t=a+r()*0.25;
+        while(t<b-0.2){ const D=dur[0]+r()*(dur[1]-dur[0]); let L=S.shopLoad(def,G,t+D/2); if(calm) L*=0.5; if(u.kind==='pay') L*=0.7;
+          if(r()<L){ const t1=Math.min(b-0.05,t+D); if(t1-t>=0.1&&!(ndl&&t<19&&t1>17.5)){ const n=stand?1:(u.seats.length>1&&r()<(u.kind==='face'?K.face:K.side)?2:1);
+              const who=[]; for(let k=0;k<n;k++){ let pose='sit', prop=null; if(stand) pose='idle'; else if(n===1&&K.alone){ let q=r(); for(const [ps,pr] of K.alone){ if(q<pr){ pose=ps; break; } q-=pr; } }
+                if(pose==='laptop'){ pose='sit'; prop='laptop_lap'; } who.push({sex:r()<0.5?'f':'m',pose,prop}); }
+              cand.push({ui,vix:vix++,t0:+t.toFixed(4),t1:+t1.toFixed(4),n,who}); }
+            t+=D+0.05+r()*0.15; }
+          else t+=D*(0.5+r()); } } });
+    cand.sort((p,q)=>p.t0-q.t0||p.ui-q.ui); const acc=[], units=U.map(()=>[]);
+    for(const v of cand){ let busy=0; for(const a of acc) if(a.t0<=v.t0&&a.t1>v.t0) busy+=a.n; if(busy+v.n>Math.min(S.SHOP_CAP,K.cap||S.SHOP_CAP)) continue; acc.push(v);
+      units[v.ui].push({key:'v'+v.vix+'@'+v.t0.toFixed(2),t0:v.t0,t1:v.t1,n:[v.n,v.n],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',who:v.who,vix:v.vix}); }
+    const plan={keep,units,wins}; planCache.set(def.zone,{key,plan}); return plan; };
+  /* 這一組位子這個時段的客人（spot.people）：座位用區域真正的座位（E.zone.seats：坐墊、高腳椅的高度、走近點都在那裡）；站著的離出口、點餐這些按鈕太近就不站 */
+  S.shopPeople=function(def,ui,spot,G,slot,E){ const u=def.units[ui], out=[], seats=(E&&E.zone&&E.zone.seats)||[];
+    const zs=q=>{ let b=null, bd=0.12; for(const s of seats){ const d=Math.hypot(s.x-q.x,s.z-q.z); if(d<bd&&(s.lv|0)===0){ bd=d; b=s; } } return b; };
+    (slot.who||[]).forEach((w,k)=>{ const spec=6000+def.ix*400+ui*16+((slot.vix*2+k)%8)*2+(w.sex==='m'?1:0), base={key:spot.id+'|'+slot.key+'|'+k,spec,pose:'idle',role:u.stand?'shop_'+u.kind:'diner'};
+      if(u.stand){ const [x,z,yaw]=u.stand; if(E&&E.interactables&&E.interactables.some(i=>!i.seat&&!i.hidden&&Math.hypot(i.x-x,i.z-z)<(i.exit?1.0:0.45))) return; out.push(Object.assign(base,{x,z,yaw})); return; }
+      const q=u.seats[k], st=q&&zs(q); if(!st) return;
+      out.push(Object.assign(base,{x:st.x,z:st.z,yaw:st.yaw||0,seat:st,sitPose:w.pose!=='sit'?w.pose:null,prop:w.prop,props:w.prop?[w.prop]:null})); });
+    return out; };
+  S.shopSpots=function(){ const out=[]; for(const def of S.SHOPS) def.units.forEach((u,ui)=>{ const c=u.stand?[u.stand[0],u.stand[1]]:[(u.seats[0].x+u.seats[u.seats.length-1].x)/2,(u.seats[0].z+u.seats[u.seats.length-1].z)/2];
+      out.push({ id:'shop_'+def.zone+'_'+ui, zone:def.zone, label:((typeof PLACES!=='undefined'&&PLACES.names[def.zone])||def.zone)+'的客人', shop:def.zone, unit:ui, c, spread:[1,1], door:def.door, road:def.door, pairTalk:u.kind==='face'||u.kind==='side',
+        slots(G){ return S.shopPlan(def,G).units[ui]; },
+        people(G,slot,r,E){ return S.shopPeople(def,ui,this,G,slot,E); } }); }); return out; };
+  S.SPOTS.push(...S.shopSpots());
+  /* 有人坐（或正走過去要坐）的位子：玩家、劇情的人、其他客人、替身（taken）*/
+  /* 預約位子（給之後的「朋友偶遇」AA_632 這種有名字的人用）：CROWD.shopSeatTake(zone, seat[, {day, until}]) 把這間店的一個位子留下來，路人不坐、不走過去；
+     seat＝區域的座位（E.zone.seats 的一個、或 {x,z}、或 E.zone.seats 的編號）；預約只算當天（day，預設今天），until＝幾點以後自動失效（小時，可以不寫）。
+     現在人就在這間店、那個位子已經有客人：那一桌客人起身走出去（instant：直接拿掉，進門前用）；玩家、有名字的人坐著＝不能預約（回傳 false）。
+     CROWD.shopSeatFree(zone, seat)：取消；不寫 seat＝這間店的全部取消。CROWD.shopSeatPick(GM)：這間店現在一個可以給有名字的人坐的空位（不是留給玩家那一組）。*/
+  S.shopRes={};
+  const resKey=(zone,seat)=>{ let s=seat; if(typeof s==='number'){ const E=typeof E3!=='undefined'?E3:null; s=E&&E.zone&&E.zone.seats&&G0()&&G0().zone===zone?E.zone.seats[s]:null; } return s&&typeof s.x==='number'?(+s.x).toFixed(2)+','+(+s.z).toFixed(2)+','+(s.lv|0):null; };
+  const G0=()=>typeof GAME!=='undefined'&&GAME.G?GAME.G:null;
+  S.shopReserved=function(zone,st,G){ const R=S.shopRes[zone]; if(!R||!st) return false; const k=resKey(zone,st); const r=k&&R[k]; if(!r) return false; G=G||G0();
+    if(G&&r.day!=null&&r.day!==G.day){ delete R[k]; return false; } if(G&&r.until!=null&&G.hour>=r.until){ delete R[k]; return false; } return true; };
+  S.shopSeatTake=function(zone,seat,o){ o=o||{}; const G=o.G||G0(), k=resKey(zone,seat); if(!zone||!k) return false; const E=o.E||(typeof E3!=='undefined'?E3:null);
+    const here=!!E&&!!G&&G.zone===zone&&!!E.zone&&Array.isArray(E.zone.seats), st=here?E.zone.seats.find(q=>resKey(zone,q)===k)||null:null;
+    if(st){ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; if(E.player&&near(E.player.seat)) return false;
+      if((E.npcs||[]).some(m=>m&&!(typeof m.crowd==='string'&&/^shop_/.test(m.crowd))&&m!==o.who&&(near(m.seat)||near(m.seatTarget)))) return false;   /* 有名字的人（或別的路人系統的人）坐著 */
+      const GM=o.GM||(typeof GAME!=='undefined'?GAME:null);
+      for(const id of Object.keys(live)){ if(id.indexOf('shop_'+zone+'_')!==0) continue; const L=live[id]; if(!L.npcs.some(n=>n&&(near(n.seat)||near(n.seatTarget)))) continue;   /* 坐在那裡的那一桌：一起走 */
+        const sp=S.SPOTS.find(q=>q.id===id); for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(o.instant||!GM||!GM.E){ E.removeNPC(n); continue; } n.lookAt=null; if(n.seat) standNPC(E,n); n.seatTarget=null; walkAwayCrowd(GM,sp,n,'door'); } L.npcs=[]; L.yielded=true; } }
+    const R=S.shopRes[zone]||(S.shopRes[zone]={}); R[k]={day:o.day!=null?o.day:(G?G.day:null),until:o.until!=null?o.until:null,who:o.who&&o.who.id||o.whoId||null}; return st||true; };
+  S.shopSeatFree=function(zone,seat){ const R=S.shopRes[zone]; if(!R) return false; if(seat==null){ delete S.shopRes[zone]; return true; } const k=resKey(zone,seat); if(!k||!R[k]) return false; delete R[k]; return true; };
+  S.shopSeatPick=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, def=G&&S.SHOP_ZONES[G.zone]; if(!E||!E.zone||!Array.isArray(E.zone.seats)) return null; let keep=[];
+    if(def){ const pl=S.shopPlan(def,G), u=pl.keep>=0?def.units[pl.keep]:null; if(u&&u.seats) keep=u.seats; }
+    const free=E.zone.seats.filter(st=>!st.label&&!S.seatBusy(E,st)), notKeep=free.filter(st=>!keep.some(q=>Math.hypot(q.x-st.x,q.z-st.z)<0.12));
+    return notKeep[0]||free[0]||null; };
+  /* 有名字的人要進門就坐好（118 巷約好的午餐、常客；L118.populateShop）：空位不夠 need 個，靠門口那一桌客人直接拿掉（進門前、玩家沒看到）*/
+  S.shopMakeRoom=function(GM,need){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G||!S.SHOP_ZONES[G.zone]||!entering||G.zone!==zoneNow) return 0;   /* 只在進門那一刻（S.enter 以後、第一次 tick 以前）：待在店裡時不在眼前把人拿掉 */ const def=S.SHOP_ZONES[G.zone]; let k=0;
+    const dd=id=>{ const sp=S.SPOTS.find(q=>q.id===id); return sp?Math.hypot(sp.c[0]-def.door[0],sp.c[1]-def.door[1]):0; };
+    while(S.shopFree(E)<need){ const ids=Object.keys(live).filter(id=>id.indexOf('shop_'+G.zone+'_')===0&&live[id].npcs.some(n=>(n.seat||n.seatTarget)&&E.npcs.includes(n))).sort((a,b)=>dd(a)-dd(b)); if(!ids.length) break;
+      const L=live[ids[0]]; for(const n of L.npcs) if(E.npcs.includes(n)) E.removeNPC(n); L.npcs=[]; L.yielded=true; k++; }
+    return k; };
+  S.seatBusy=function(E,st,self){ if(!st) return false; if(st.taken) return true; { const G=G0(); if(G&&S.shopRes[G.zone]&&S.shopReserved(G.zone,st,G)) return true; }   /* 預約的位子（shopSeatTake）*/ const near=q=>!!q&&(q.lv|0)===(st.lv|0)&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; const P=E&&E.player; if(P&&near(P.seat)) return true;
+    return !!E&&(E.npcs||[]).some(m=>m&&m!==self&&(near(m.seat)||near(m.seatTarget))); };
+  S.shopFree=E=>((E&&E.zone&&E.zone.seats)||[]).filter(st=>!S.seatBusy(E,st)).length;
+  S.shopNeed=E=>E&&E.player&&E.player.seat?1:Math.min(2,Math.max(1,((E&&E.zone&&E.zone.seats)||[]).length-1));   /* 玩家還沒坐：至少兩個空位（自己＋一起來的人；一一八茶飲只有兩張高腳椅＝一個）；坐下了：一個 */
+  S.shopCount=(E,zone)=>((E&&E.npcs)||[]).filter(n=>n&&typeof n.crowd==='string'&&n.crowd.indexOf('shop_'+zone+'_')===0&&!n.leaving).length;
+  /* 有名字的人後來才走進來（常客、麵店團、照作息的同學）、空位不夠的時候：離門口最近的那一桌客人吃完先走（同一桌一起走；那一段時間不再排他們）*/
+  S.shopTrim=function(GM){ const E=GM.E, G=GM.G, def=G&&S.SHOP_ZONES[G.zone]; if(!def||!E.zone||!(E.zone.seats||[]).length) return 0; if(S.shopFree(E)>=S.shopNeed(E)) return 0;
+    const ids=Object.keys(live).filter(id=>id.indexOf('shop_'+G.zone+'_')===0&&live[id].npcs.some(n=>n.seat&&!n.leaving&&E.npcs.includes(n)));
+    if(!ids.length) return 0; const dd=id=>{ const sp=S.SPOTS.find(q=>q.id===id); return sp?Math.hypot(sp.c[0]-def.door[0],sp.c[1]-def.door[1]):0; }; ids.sort((a,b)=>dd(a)-dd(b));
+    const id=ids[0], L=live[id], sp=S.SPOTS.find(q=>q.id===id); for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; n.lookAt=null; if(n.seat) standNPC(E,n); walkAwayCrowd(GM,sp,n,'door'); } L.npcs=[]; L.yielded=true; return 1; };
   /* ===== 路人分科系（AA_495，AA-C 2026-10-28 定稿，句子照抄；CROWD-DEPTS-1028、USER_WANTS X120；句子在 src/data/crowd_depts.js）=====
      使用者 10-28：「路人也是 一堆 上課坐在後排的 路上遇到的 有必要嗎 都沒有別的系的學生 當台大只有法律系嗎」。
      - 一個人一句（第 1 節）：校園（椰）、總圖和社科圖（圖）、體育館（體）、公館（館）的路人生出來時照地點抽一個系（同一群人先把那個地點的系輪一遍再重複；同一天同一群人是同一些系），
@@ -430,7 +583,7 @@ const CROWD=(function(){
     if(d) S.deptOne(GM,n,d,typeof p.spec==='number'?(p.spec%2===0?'f':'m'):S.npcSex(n),{yield:true}); };
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定（spot.people：每個人的位置由那個地點自己排，小公園）*/
-  S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); if(spot.people) return spot.people(G,slot,r); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*(slot.fixed?1:((typeof STORY!=='undefined'&&STORY.CROWD_X)||1)));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）；fixed：攤位的社員這種固定人數的不加倍 */ const out=[]; const base=1000+Math.floor(r()*500);
+  S.group=function(G,spot,slot,E){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); if(spot.people) return spot.people(G,slot,r,E); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*(slot.fixed?1:((typeof STORY!=='undefined'&&STORY.CROWD_X)||1)));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）；fixed：攤位的社員這種固定人數的不加倍 */ const out=[]; const base=1000+Math.floor(r()*500);
     for(let k=0;k<n;k++){ const x=spot.c[0]+(r()-0.5)*2*spot.spread[0], z=spot.c[1]+(r()-0.5)*2*spot.spread[1]; let spec=base+k*(spot.female?2:1); if(spot.female&&spec%2) spec++;   /* extraSpec：偶數＝女生 */
       out.push({x:+x.toFixed(2),z:+z.toFixed(2),spec,pose:r()<slot.talk?'talk':slot.pose}); }
     /* 聊天的人轉向彼此（找最近的另一個人），其他的面向門口或馬路 */
@@ -439,7 +592,7 @@ const CROWD=(function(){
     return out; };
   // ---------- 遊戲裡 ----------
   const live={};   // spot.id → {slotKey, npcs:[...]}
-  let lastH=null, tAcc=0, zoneNow=null;
+  let lastH=null, tAcc=0, zoneNow=null, entering=false;
   function inView(E,p){ const cam=E.camera; if(!cam||!THREE.Vector3.prototype.project) return true; const v=new THREE.Vector3(p.x,(p.y||0)+1.0,p.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; }
   /* ---------- 小公園（spot.people）：每個人照自己的安排放 ----------
      seat：坐在那個位子（時段開始時玩家看得到＝從入口走過來、走到 seat.ap 再坐下）；beh route／wander：繞圈、在附近走動；其他：站著。
@@ -452,23 +605,26 @@ const CROWD=(function(){
   /* 課輔班第 k 個人現在走到哪裡（公尺；負的＝還沒出發）：遊戲時間一小時走 walkSpeed／hourRate 公尺 */
   const passMph=(GM,p)=>(p.walkSpeed||0.85)/(GM.hourRate||1/150);
   const passD=(GM,slot,p,k,fromDoor)=>(fromDoor?0:Math.max(0,hr(GM.G)-slot.t0)*passMph(GM,p))-k*PASS_GAP;
-  function spawnPeople(GM,spot,slot,fromDoor){ const E=GM.E, G=GM.G, lv=spot.lv|0, npcs=[]; const grp=S.group(G,spot,slot); const route=slot.pass?S.passRoute(E,spot):null;
+  function spawnPeople(GM,spot,slot,fromDoor){ const E=GM.E, G=GM.G, lv=spot.lv|0, npcs=[]; const grp=S.group(G,spot,slot,E); const route=slot.pass?S.passRoute(E,spot):null;
+    if(spot.shop){ const ns=grp.filter(p=>p.seat).length;   /* 店裡的客人（SHOP-DINERS-1103）：坐下以後空位不夠玩家（S.shopNeed）、或店裡已經 S.SHOP_CAP 位：這一組這一段不來 */
+      if(grp.some(p=>p.seat&&S.seatBusy(E,p.seat))||(ns&&S.shopFree(E)-ns<S.shopNeed(E))||S.shopCount(E,spot.shop)+grp.length>S.SHOP_CAP){ live[spot.id]={slotKey:slot.key,npcs:[]}; return; } }
     grp.forEach((p,k)=>{ const st=p.seat||null; let d=0;
       if(p.pass){ if(!route) return; d=passD(GM,slot,p,k,fromDoor); if(d>=route.len) return; }   /* 已經走過去了 */
-      else if(st){ if(!S.seatSide(E,st)) return; } else if(!p.fixed&&!E.canStand(p.x,p.z,0.3,lv)) return;   /* fixed：照位置放（跑步機上、櫃台後面：導航擋住的地方，人不走動）*/
-      const spec=p.rawSpec?Object.assign({},p.spec):STORY.extraSpec(p.spec); if(p.height) spec.height=p.height; if(st&&st.surf!=null) st.lift=Math.max(0,+(st.surf-0.47*(spec.height||1.7)/1.75).toFixed(3));   /* 鞦韆：坐姿的屁股（身高 1.75 m＝0.47 m）抬到座面 */
-      const o=CHAR.build(spec); const start=fromDoor&&!p.pass?spot.door:(st?[st.x,st.z]:[p.x,p.z]); o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw||0;
+      else if(st){ if(!S.seatSide(E,st)||S.seatBusy(E,st)) return; }   /* 有人坐了（玩家、劇情的人）不坐上去 */ else if(!p.fixed&&!E.canStand(p.x,p.z,0.3,lv)) return;   /* fixed：照位置放（跑步機上、櫃台後面：導航擋住的地方，人不走動）*/
+      const spec=p.rawSpec?Object.assign({},p.spec):STORY.extraSpec(p.spec); if(p.height) spec.height=p.height; if(p.props) spec.props=p.props.slice(); if(st&&st.surf!=null) st.lift=Math.max(0,+(st.surf-0.47*(spec.height||1.7)/1.75).toFixed(3));   /* 鞦韆：坐姿的屁股（身高 1.75 m＝0.47 m）抬到座面 */
+      const o=CHAR.build(spec); if(p.prop){ const u=o.userData||(o.userData={}); (u.propOn=u.propOn||{})[p.prop]=true; if(CHAR.setProp) CHAR.setProp(o,p.prop,true); }   /* 腿上的筆電（慢讀咖啡）：坐下才看得到（PROPS laptop_lap sit:'only'）；模型還在載入時先記在 propOn，換上正式模型時照它打開 */ const start=fromDoor&&!p.pass?spot.door:(st?[st.x,st.z]:[p.x,p.z]); o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw||0;
       const n=E.addNPC({obj:o,name:p.name||'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,crowd:spot.id,crowdSpot:spot.id,crowdKey:p.key,crowdRole:p.role,frozen:true,walkSpeed:p.walkSpeed||1.15,lv});
-      const settle=()=>{ if(st){ sitNPC(GM,n,st); return; } if(p.beh){ n.beh=p.beh; n.waypoints=p.waypoints; n.ri=p.ri|0; n.pauseAt=!!p.pauseAt; n.run=!!p.run; n.frozen=false; n.pose=n.idlePose=p.pose||'idle'; n.timer=0; if(p.faceYaw!=null) n.faceYaw=p.faceYaw; return; }   /* run：跑步（打球）；pauseAt：每一段跑完停 1～4 秒；faceYaw：停下來面向網子、籃框 */
+      const settle=()=>{ if(st){ n.seatTarget=null; if(S.seatBusy(E,st,n)){ n.pose=n.idlePose='idle'; walkAwayCrowd(GM,spot,n,'door'); return; } sitNPC(GM,n,st); if(p.sitPose){ n.pose=n.idlePose=p.sitPose; } return; }   /* 走到了位子被坐走（玩家先坐了）：走出去；sitPose：坐著看書（read）*/ if(p.beh){ n.beh=p.beh; n.waypoints=p.waypoints; n.ri=p.ri|0; n.pauseAt=!!p.pauseAt; n.run=!!p.run; n.frozen=false; n.pose=n.idlePose=p.pose||'idle'; n.timer=0; if(p.faceYaw!=null) n.faceYaw=p.faceYaw; return; }   /* run：跑步（打球）；pauseAt：每一段跑完停 1～4 秒；faceYaw：停下來面向網子、籃框 */
         if(p.fixed){ n.fixedPos=true; if(E.placeAt) E.placeAt(n,p.x,p.z,lv); else n.obj.position.set(p.x,0,p.z); if(p.y) n.obj.position.y+=p.y; }   /* 跑步機的皮帶、櫃台後面（小動作不動他們）*/
         n.frozen=true; n.pose=n.idlePose=p.pose||'idle'; if(p.idlePose) n.idlePose=p.idlePose; n.obj.rotation.y=p.yaw||0; };   /* 跑步機上：pose、idlePose 都是 run（原地跑；引擎停下來時回到 idlePose）*/
       if(p.pass){ const arrive=()=>{ n.passing=false; n.leaving=true; n.arrived=true; }, go=()=>{ n.hidden=false; n.frozen=false; n.passing=true; n.pose='walk'; if(!E.moveTo(n,route.to[0],route.to[1],arrive,lv)) arrive(); };
         if(d>=0){ const q=along(route.pts,d); E.placeAt(n,q[0],q[1],lv); go(); }
         else { E.placeAt(n,route.pts[0][0],route.pts[0][1],lv); n.hidden=true; n.passing=true; pend.push({n,h:slot.t0+(k*PASS_GAP)/passMph(GM,p),go}); } }   /* 還沒輪到他出發：先藏在起點 */
-      else if(fromDoor){ const tgt=st?S.seatSide(E,st):[p.x,p.z]; n.frozen=false; n.pose='walk'; if(!E.moveTo(n,tgt[0],tgt[1],settle,lv)){ E.placeAt(n,tgt[0],tgt[1],lv); settle(); } }
+      else if(fromDoor){ const tgt=st?S.seatSide(E,st):[p.x,p.z]; n.frozen=false; n.pose='walk'; if(st) n.seatTarget=st;   /* 走過去的路上這個位子算有人（GAME.freeSeat、有名字的人不坐）*/ if(!E.moveTo(n,tgt[0],tgt[1],settle,lv)){ E.placeAt(n,tgt[0],tgt[1],lv); settle(); } }
       else settle();
       if(spot.bind) spot.bind(GM,n,p);
       npcs.push(n); });
+    if(spot.pairTalk&&npcs.length===2){ npcs[0].lookAt=npcs[1].obj.position; npcs[1].lookAt=npcs[0].obj.position; }   /* 一桌兩個人：轉頭看對方（聊天）*/
     live[spot.id]={slotKey:slot.key,npcs}; }
   function runPend(GM){ const h=hr(GM.G); for(const q of pend.slice()){ if(h<q.h-1e-9) continue; dropPend(q.n); if(GM.E.npcs.includes(q.n)) q.go(); } }
   function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0; const h=hr(GM.G);
@@ -523,16 +679,17 @@ const CROWD=(function(){
       if(L&&(!slot||slot.key!==L.slotKey)){ const old=spot.slots(G).find(s=>s.key===L.slotKey)||{}; L.leave=old.leave||'road'; leaveGroup(GM,spot,instant); }
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
-  S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true);
+  S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; entering=true; lastH=GM.G.hour; sync(GM,true);
     try{ S.deptEnter(GM,zoneId); }catch(e){ console.warn('CROWD.deptEnter',e); } };   /* AA_495：story3d.js 生好的路人（走路的人）一人一句、兩個人的對話 */
   /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
   S.keep=function(G){ lastH=G.hour; };
   /* 轉暗、時間過去以後（classes3d.js：提早坐下上課，先等到上課時間）：照新的時間直接重排門口的人（和「時間跳了」一樣；玩家在黑畫面裡沒看到中間那段）*/
   S.resync=function(GM){ const G=GM.G, E=GM.E; if(!G||G.zone!==zoneNow) return; for(const n of E.npcs.slice()) if(n.crowd&&n.crowd!=='cls') E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; lastH=G.hour; sync(GM,true); };
-  S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
+  S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; entering=false; if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
     const jump=lastH!=null&&Math.abs(G.hour-lastH)>0.2; lastH=G.hour;   /* 時間突然跳了：直接重排 */
     if(jump){ const E=GM.E; for(const n of E.npcs.slice()) if(n.crowd) E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; sync(GM,true); }   /* 正在走開的人也一起拿掉（玩家沒有看到中間那段時間）*/
     else sync(GM,false);
+    if(S.SHOP_ZONES[G.zone]){ try{ S.shopTrim(GM); }catch(e){ console.warn('CROWD.shopTrim',e); } }   /* 店裡：有名字的人走進來、空位不夠時一桌客人先走 */
     fidget(GM,1.5); sweep(GM); };
   S.live=live; S.pend=pend;
   return S;
