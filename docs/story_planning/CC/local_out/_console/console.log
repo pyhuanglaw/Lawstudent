@@ -1,19 +1,22 @@
-[16:15:46] run_forever round: 1   runner sha256: 88d80543f6
-[16:15:46] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[16:15:46]          playwright 1.64.1 OK
-[16:15:46] git    : git version 2.56.0.windows.4
-[16:15:47] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[16:15:48] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[16:15:48] repo   : C:\Users\USER\Documents\Lawstudent
-[16:15:48] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[16:15:48] parallel: 2  (blender items run alone)
-[16:15:48] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[16:15:48] git fetch
+[16:31:46] run_forever round: 1   runner sha256: 88d80543f6
+[16:31:46] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[16:31:46]          playwright 1.64.1 OK
+[16:31:46] git    : git version 2.56.0.windows.4
+[16:31:46] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[16:31:47] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[16:31:47] repo   : C:\Users\USER\Documents\Lawstudent
+[16:31:47] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[16:31:47] parallel: 2  (blender items run alone)
+[16:31:47] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[16:31:47] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+       90a3cd480..a7b08b1fd  claude/cc-testing -> origin/claude/cc-testing
+       3670b96eb..1d0904473  claude/confident-ritchie-8rwh7t -> origin/claude/confident-ritchie-8rwh7t
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
+       b5c2e47c0..457027df9  claude/second-ai-env-art -> origin/claude/second-ai-env-art
     Already on 'claude/cc-local'
     M	docs/story_planning/CC/local_out/02_mk12/err.log
     M	docs/story_planning/CC/local_out/02_mk12/run.log
@@ -40,7 +43,17 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Already up to date.
-[16:15:54] dev head = 3670b96eb   lawww2 head = b5c2e47c0
-[16:15:55] config.txt: PARALLEL 2 -> 3
-[16:15:55] memory used: 40%  (new items wait while >= 85%)
+    Merge made by the 'ort' strategy.
+     docs/handoff/duty_CC.json                          |   8 +-
+     ...272\244\346\216\245\347\264\200\351\214\204.md" |  13 +
+     .../test_tools/cc/cc_an_smoke_probe.py             | 322 +++++++++++++++++++++
+     .../test_tools/cc/cc_backfillcg_probe.py           |   4 +-
+     .../test_tools/cc/cc_drive_x81_probe.py            |  10 +-
+     tools/cc_local/README.md                           |   5 +
+     tools/cc_local/queue.txt                           |   2 +-
+     tools/cc_local/run_queue.py                        |  47 +++
+     8 files changed, 400 insertions(+), 11 deletions(-)
+     create mode 100644 docs/story_planning/test_tools/cc/cc_an_smoke_probe.py
+[16:31:55] dev head = 1d0904473   lawww2 head = 457027df9
+[16:31:56] config.txt: PARALLEL 2 -> 3
+[16:31:56] memory used: 39%  (new items wait while >= 85%)
