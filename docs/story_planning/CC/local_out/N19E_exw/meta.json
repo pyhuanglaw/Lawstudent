@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N19E_exw",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_examweek_trip_probe.py",
+  "env": "",
+  "machine": "MSI",
+  "start": "2026-11-03T22:57:38",
+  "end": "2026-11-03T22:59:40",
+  "seconds": 122,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "4",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 47,
+    "mem": 58,
+    "used_gb": 18.1,
+    "chrome_testing": 30
+  }
+}
