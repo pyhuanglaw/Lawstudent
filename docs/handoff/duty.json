@@ -53,11 +53,11 @@
    "account": "A",
    "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
    "branch": "claude/story-planning",
-   "sha": "3b6765ba",
-   "since": null,
-   "state": "handed-off",
+   "sha": "bb34d27e",
+   "since": "2026-11-03T08:15Z",
+   "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "f6a59f5f",
    "handedOffAt": "2026-11-03T02:08Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-03T0208Z_A_AA.json"
   },
@@ -65,11 +65,11 @@
    "account": "A",
    "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
    "branch": "claude/story-planning",
-   "sha": "210080d2",
-   "since": null,
-   "state": "handed-off",
+   "sha": "bb34d27e",
+   "since": "2026-11-03T08:18Z",
+   "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "c363d8d4",
    "handedOffAt": "2026-11-03T02:05Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-03T0205Z_A_BB.json"
   },
@@ -77,11 +77,11 @@
    "account": "A",
    "session": "session_01TdESzxBpdGoPhdkPD2ENce",
    "branch": "claude/cc-testing",
-   "sha": "eddddf17",
-   "since": null,
-   "state": "handed-off",
+   "sha": "b90f5872",
+   "since": "2026-11-03T08:16Z",
+   "state": "on",
    "progressFile": "docs/story_planning/CC/CC_00_交接紀錄.md（claude/cc-testing）",
-   "sinceSha": null,
+   "sinceSha": "90a3cd48",
    "handedOffAt": "2026-11-03T02:06Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-03T0206Z_A_CC.json"
   }
@@ -848,7 +848,7 @@
    "note": "LAWWW-B 11-01 22:5x 查核：帳號 C 這條分支最後 commit 3e23808e7（10-28 15:2x～15:33），比帳號 B 10-30 02:07 接班早，而且已經是帳號 B 同一職位分支的祖先（接班時合併了）——不是兩個帳號同時寫；duty.json 記的 C 交班 SHA 是舊的"
   }
  ],
- "seq": 52,
+ "seq": 53,
  "chain": [
   {
    "seq": 1,
@@ -1213,6 +1213,13 @@
    "account": "A",
    "role": "LAWWW",
    "event": "register"
+  },
+  {
+   "seq": 53,
+   "at": "2026-11-03T08:24Z",
+   "account": "A",
+   "role": "AA,BB,CC",
+   "event": "sync"
   }
  ],
  "pending": null

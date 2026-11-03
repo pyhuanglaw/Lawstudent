@@ -3447,15 +3447,7 @@ const STORY = (function(){
   S.bedSavePos=function(GM){ const B=S._bed; if(!B||!GM||!GM.G||GM.G.zone!=='dorm') return null; const a=B.sc.approach, s0=B.sc.steps[0]; return {x:+a[0].toFixed(2),z:+a[1].toFixed(2),yaw:+Math.atan2(a[0]-s0[0],a[1]-s0[2]).toFixed(3),lv:0,y:0}; };
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:bed']=()=>{ S._bed=null; S._bedBusy=false; S._dark=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的爬梯子、醒來走不到 finally。曝光：讀檔一定換區域，S.populate 第一行還原（darkSave）；床欄透空（E.cam.seeThru）也是 S.populate 清（登記只放開旗標：tests/loadgen_locks_unit.js）；GM.onBlack：game3d.js 的 loadRelease 清掉 */
   /* 上床：走到梯子前 → 爬 → 躺下 → 熄燈。回傳 true＝人已經躺在床上（S._bed），之後照原本的睡覺 */
-  /* BUG-SLEEP-CINEMATIC-1103（使用者 11-03：「不要每天都給我撥放走上床躺下熄燈 只要第二天從床上起來就好」）：上床不再演走到梯子前、爬梯子、躺下、熄燈——
-     淡出裡直接放到床上、燈已經熄、閉眼，接著照原本的睡覺（黑幕、睡前訊息、半夜的事件、醒來字卡都不動）；醒來照舊從床上起來、爬下來（wakeUp／getUp）。
-     原本的上床演出留在 goToBedFull（S.SLEEP_FULL=true 才用；測試、之後要恢復時用）。回傳 true＝人已經躺在床上（S._bed）*/
-  S.SLEEP_FULL=false;
-  async function goToBed(GM,sc){ if(S.SLEEP_FULL) return goToBedFull(GM,sc); const E=GM.E, P=E.player; let ok=false; S._bedBusy=true; GM.sceneBegin();
-    try{ await GM.fade(true); if(P.seat&&GM.standUp) GM.standUp(P); S._bed={sc,zone:E.zone,day:GM.G.day}; S.lieDown(GM,sc); camOn(GM,bedCam(sc),true); S.roomDark(GM,1); if(P.obj.userData) P.obj.userData.eyesShut=true; await GM.fade(false); ok=true; }
-    finally { S._bedBusy=false; GM.sceneEnd(); if(ok&&S._bed) camOn(GM,bedCam(sc),true); }
-    return ok; }
-  async function goToBedFull(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps, L=sc.lie; let ok=false; S._bedBusy=true; GM.sceneBegin();
+  async function goToBed(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps, L=sc.lie; let ok=false; S._bedBusy=true; GM.sceneBegin();
     try{ if(P.seat&&GM.standUp) GM.standUp(P); await GM.walkTo(P,sc.approach[0],sc.approach[1]); const c=S.climbCam(sc); camOn(GM,c); faceTo(P.obj,st[0][0],st[0][2]); P.pose='idle'; await GM.sleep(300);
       P.pose='climb'; S._bed={sc,zone:E.zone,day:GM.G.day}; if(P.obj.userData) P.obj.userData.climbTop=(L.mattress_top_y!=null?L.mattress_top_y:L.feet[1])+0.26;   /* 爬梯子的手最高抓到床欄頂（床墊頂＋0.26 m；character3d.js 的 climbIK，CLIMB-POSE-1102）*/
       for(const s of st){ faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }

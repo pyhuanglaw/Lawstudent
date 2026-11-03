@@ -46,7 +46,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { const x=await huoda(F11,12.3,{XUN_NIGHT:true,XUN_DAY:W11T,SK03_FIRST:true});
     check('R2-3. 第 11 週週五（10-3 一起讀到閉館的隔天）沒去經原下、去學活：照樣還債（「昨天那題的。還債。」）、沒有走廊那句「昨天那題我想通了。」',x.L[0]===R2N&&x.L[1]==='阿勳：……你今天沒來上課。坐。'&&x.L.includes('阿勳：（把一個便當推過來）昨天那題的。還債。')&&!x.L.includes('阿勳：昨天那題我想通了。')&&G.flags.XUN_REPAID===true,JSON.stringify(x.L)); }
   { const a=await huoda(F13,12.3,{SK03_FIRST:true},'學活',true), b=await huoda(F13,13.1,{SK03_FIRST:true}), c=await huoda(F13,12.3,{SK03_FIRST:true},'阿鳳麵店'), d=await huoda(F13,12.3,{SK03_FIRST:true,SK03_ASKED:F13}), e=await huoda(F13+1,12.3,{SK03_FIRST:true}), f=await huoda(F13,11.9,{SK03_FIRST:true});
-    const plain=x=>x.r===true&&x.L.length===1&&/自助餐|乾麵/.test(x.L[0]);   /* 一般的吃飯：吃飯那一段換到店裡、那一句旁白用 ADV 說（BUG-EAT-AFTER-CLASS-SCENE-1103，原本是字幕、人留在教室）；ev_sk03_lunch 那一條不是這樣 */
+    const plain=x=>x.r===true&&!x.L.length&&x.caps.some(t=>/自助餐|乾麵/.test(t));
     check('R2-4. 不演的（照一般的吃飯）：去上了經原下、13:06、11:54、選阿鳳麵店、那天已經演過、週六',plain(a)&&plain(b)&&plain(c)&&plain(d)&&plain(e)&&plain(f),JSON.stringify([a,b,c,d,e,f].map(x=>[x.L.length,x.caps]))); }
   { fresh(F13,12.17,'putong',Object.assign({},base,{SK03_FIRST:true})); picks=['一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); const L=lines();
     check('R2-5. 走廊那一條照舊（防回歸）：「學活。走不走？」＋「一起去／今天不行」',L[0]==='阿勳：學活。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]'&&!L.includes('阿勳：……你今天沒來上課。坐。'),JSON.stringify([L,opts])); }
