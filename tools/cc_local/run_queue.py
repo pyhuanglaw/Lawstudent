@@ -703,6 +703,12 @@ class Runner(object):
         srv = srv2 = p = None
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
+        running_f = os.path.join(od, 'running.json')   # BB 11-03：被打斷的項目要記下來（中斷時間、跑到哪）；正常結束會刪掉
+        try:
+            with open(running_f, 'w', encoding='utf-8') as fh:
+                json.dump({'id': it.id, 'sha': sha, 'start': meta['start'], 'rf_round': os.environ.get('CC_RF_ROUND'), 'runner': self.self_hash[:10]}, fh, ensure_ascii=False)
+        except OSError:
+            pass
         peak = {'cpu': None, 'mem': None, 'used_gb': None, 'chrome_testing': None}
         stop_res = threading.Event()
 
@@ -781,6 +787,10 @@ class Runner(object):
         except Exception:
             pass
         meta['res_peak'] = peak
+        try:
+            os.remove(running_f)
+        except OSError:
+            pass
         meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         meta['seconds'] = int(round(time.time() - t0))
         with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
@@ -883,6 +893,39 @@ class Runner(object):
             log('console.log not written: %r' % (e,))
             return None
 
+    def record_interrupted(self):
+        """啟動時：上一輪留下 running.json 的項目＝被打斷（重開、當機、Ctrl+C）。記到 local_out/_interrupted.jsonl，log 一行；
+        連同 run.log 的最後幾行（跑到哪）。running.json 搬走，免得下次重複記。回傳筆數。"""
+        n = 0
+        rec_f = os.path.join(self.out_root, '_interrupted.jsonl')
+        try:
+            names = sorted(os.listdir(self.out_root))
+        except OSError:
+            return 0
+        for name in names:
+            rf = os.path.join(self.out_root, name, 'running.json')
+            if not os.path.isfile(rf):
+                continue
+            try:
+                with open(rf, encoding='utf-8') as fh:
+                    info = json.load(fh)
+            except Exception:
+                info = {'id': name}
+            last = [x[:200] for x in self.tail(os.path.join(self.out_root, name, 'run.log'), 5)]
+            info.update({'noticed': datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+                         'last_log_change': datetime.fromtimestamp(os.path.getmtime(os.path.join(self.out_root, name, 'run.log'))).strftime('%Y-%m-%dT%H:%M:%S') if os.path.exists(os.path.join(self.out_root, name, 'run.log')) else None,
+                         'last_lines': last})
+            try:
+                os.makedirs(self.out_root, exist_ok=True)
+                with open(rec_f, 'a', encoding='utf-8') as fh:
+                    fh.write(json.dumps(info, ensure_ascii=False) + '\n')
+                os.replace(rf, rf + '.interrupted')
+            except OSError:
+                pass
+            log('INTERRUPTED last round: %s (started %s, last log change %s) - it will run again from the start' % (info.get('id'), info.get('start'), info.get('last_log_change')))
+            n += 1
+        return n
+
     def start_commit(self):
         """啟動時推一次 console.log（設定那幾行、run_forever 第幾輪、runner 雜湊）"""
         with GIT_LOCK:
@@ -890,6 +933,9 @@ class Runner(object):
             if not cf:
                 return
             git('-C', self.work, 'reset', '-q', quiet=True)
+            itf = os.path.join(self.out_root, '_interrupted.jsonl')
+            if os.path.exists(itf):
+                git('-C', self.work, 'add', '--', itf, quiet=True)
             git('-C', self.work, 'add', '--', cf, quiet=True)
             rc, _ = git('-C', self.work, 'commit', '-q', '-m', 'CC-local: runner start (rf_round %s, runner %s)' % (os.environ.get('CC_RF_ROUND') or '-', self.self_hash[:10]), quiet=True)
             if rc != 0 or self.a.no_push:
@@ -908,6 +954,7 @@ class Runner(object):
         self.banner()
         self.setup()
         kill_leftover_browsers()
+        self.record_interrupted()
         self.apply_config()
         log('memory used: %s%%  (new items wait while >= %d%%)' % (mem_used_pct(), MEM_LIMIT))
         self.start_commit()

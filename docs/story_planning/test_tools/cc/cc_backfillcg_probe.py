@@ -1,7 +1,7 @@
-"""CC（帳號 A）11-02 BB 22:05：舊存檔 CG 補記（ADV.backfillCG，開發分支 62d98bfa5 的 1f13db45d）瀏覽器探針。
+"""CC（帳號 A）11-02 BB 22:05：舊存檔 CG 補記（ADV.backfillCG，1f13db45d 起；驗收版 7224af47a）瀏覽器探針。
 不是 iPhone：Playwright 手機橫向模擬（844×390、is_mobile、CDP 觸控；SwiftShader 1～4 fps）。
 
-讀碼看到的規則（62d98bfa5）：
+讀碼看到的規則（7224af47a，行號 62d 起沒變）：
 - src/adv3d.js:105 A.CG_SEEN_FLAGS＝{AN_VDAY_CG→cg_valentine_taichung_heroine01（以安台中情人節）, YT_CG20→cg_saved_seat_heroine03（語彤斜對面的位子）,
   PS_WHITE_CG→cg_last_page_peishan（沛珊白色情人節最後一頁）}；adv3d.js:106 A.backfillCG(s)：旗標＝true 才補、已經有的不重複加（includes）。
 - src/game3d.js:353 migrate() 讀檔時呼叫 ADV.backfillCG(s)（每次讀檔都跑，靠 includes 不重複）；game3d.js:355 s.v=SAVE_VER——

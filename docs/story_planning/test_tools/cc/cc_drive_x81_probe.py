@@ -1,17 +1,17 @@
-"""CC（帳號 A）11-02 BB 22:03：AA_599「開車出門不寫取車」（開發分支 62d98bfa5 的 2d2ceaeb5；企劃線 AA_599 @8842d6105）瀏覽器探針。
+"""CC（帳號 A）11-02 BB 22:03：AA_599「開車出門不寫取車」（2d2ceaeb5 起；驗收版 7224af47a；企劃線 AA_599 @8842d6105）瀏覽器探針。
 不是 iPhone：Playwright 手機橫向模擬（844×390、is_mobile、CDP 觸控；SwiftShader 1～4 fps）。
 
-讀碼看到的規則（62d98bfa5）：
+讀碼看到的規則（7224af47a；行號照 7224）：
 ① 開車從宿舍直接出發，不算取車（校外約會）：src/date3d.js:155 S.plan pick＝0（ef63 是 tr.mode==='car'&&!fromHome?0.5:0）、:163 兩天一夜同；
    :409 選交通方式的小字拿掉「（從宿舍要先回家取車，多 30 分）」；約好的摘要「…開車單程約 N 分鐘…」N＝地點表的分鐘數（烏來 D20 開車 50 分）。
    觸發：手機「朋友」→「約」（INV.flow，src/invites3d.js:557；要有聯絡方式、INV.whyNot 空白）→「出去玩…」（DATE.canAsk，date3d.js:203：交往中或第 5 階）
    → 地點分類 → 地點 → 交通方式 → 日期 → 時間 → 「就這樣約」（date3d.js:384 S.menu、:333 S.pickWhen）；出發 date3d.js:435 S.prompt →「出發」→ OUT.go → S.scene（:551）。
    狀態：OUT 出遊（G.outings，id date_T…）的 travelH＝50/60、h＝出發＋50 分；到了的那一刻 G.hour＝出發＋50 分；結算 S.complete → dateLog 次數。
    反例：選「捷運轉公車」（不開車）＝travelH 60 分、摘要寫捷運轉公車、沒有「開車」。
-② X81 載可昕上山（法律系開局）：src/story3d.js:1921～1930（S.phoneRules 那一段）；條件 story3d.js:3529 S.e37LawOn＝沒有 PLAYED_Y0、dating_kexin、stage law、
+② X81 載可昕上山（法律系開局）：src/story3d.js:1923～1932（S.phoneRules 那一段）；條件 story3d.js:3533 S.e37LawOn＝沒有 PLAYED_Y0、dating_kexin、stage law、
    week1Start（LAW_START_DAY＜MAIN_D1）。8/29 21:30 旁白「休學到重考的那幾個月，你不是一個人過的。」→ 可昕兩則（第二則 62d＝「明天下午兩點，載我上山。行李兩箱。」，
    ef63＝「…你回家開車，載我上山…」）→ OUT y0_e37（8/30 14:00「家（載可昕上山）14:00」）、E37_LAW；
-   8/30 出發 → ev_y0_e37（src/data/events.js:2983 附近）：最後一句「（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）」，
+   8/30 出發 → ev_y0_e37（src/data/events.js:2988）：最後一句「（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）」，
    62d 沒有「（你把車開回家，再搭捷運回宿舍。）」、afterOuting 不再 advance(1)（14:00 到、演完約 18:00；ef63 約 19:00）。
    反例：dating_kexin＝false（沒交往）→ 8/29 21:30 以後沒有那兩則、沒有 y0_e37 出遊、沒有 E37_LAW。
 ③ 春假（大二下）兩條路線：src/group3d.js:43 S.springPending（3/30～4/1、收到邀約）、:46 S.springPrompt（選單：跟阿哲他們出去＝在麵店團群組才有；和可昕開車旅行＝dating_kexin 才有）、
@@ -23,6 +23,8 @@
 CASES（逗號隔開，預設全部）：date_car、date_mrt（①反例）、x81、x81_no（②反例）、spring_noodle（含可昕那一條的反例）、spring_kexin（含麵店團那一條的反例）。
 【前置／捷徑】讀檔（GAME.applySave，安靜模式：條件事件不自動演；STORY 的手機規則、出遊、春假選單照常）到那一天那個時間；用遊戲 API 補關係、交往、群組，快照再讀；
   等很久的日期（約會那天、8/30、春假出發那天）用同一份進度跳過去（不是遊戲裡的睡覺）。其餘照玩家：手機按鈕、頁籤、「約」、點選項、點對話、手機回覆鍵、出遊「出發」。
+整段台詞、選單、字卡、字幕都查 BAD（取車、還車、回家開車、回家把車、把車開出來、把車開回家、車開回家、再搭捷運回宿舍）——
+  7224 實測 ev_spring_y2_noodle 開頭旁白 src/data/group_events.js:26「（你回家把車開出來。後座擠了三個人。）」會被抓到（AA_599 規則：不寫取車過程）。
 判斷讀遊戲狀態（G.outings、G.flags、G.events.done、G.msgs、G.hour、GAME.say／GAME.choose 原文）；畫面只確認玩家看得到（startswith）。
 用法：LW_TESTS=<受測工作樹>/tests SHA=<sha> python3 cc_drive_x81_probe.py <URL index.html> <輸出資料夾>
 環境變數：CASES、PLAY_MAX（秒，每一段劇情上限 900）。最後一行 ALL PASS 或 FAILED n；exit 0／1；transcript.json。"""

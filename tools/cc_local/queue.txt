@@ -216,7 +216,7 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 
 # ===== 長項目（逾時 ≥120 分鐘）一律在最後（BB 20:23）；ef63 的長項目也排這裡 =====
 G4_day12    | ef63b1877 | game  | tests/flow_main_day12.py     | index.html | 180 | XARGS={url} {out}
-FS112       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
+FS112       | 0f66c4215 | probe | docs/story_planning/test_tools/cc/cc_flow_semester_probe.py | index.html | 360 | DAYS=112
 R11_full    | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
 R10pre      | 299e23345 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
 R11pre      | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | RERUN=retap1102
