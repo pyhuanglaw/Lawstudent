@@ -563,3 +563,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19C_f606] | [gpu_wrap 1170.7s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 1170.7s] BROWSER DISCONNECTED
 - 2026-11-04T01:51:45  V19D_tour_tap  sha=15e78dff7  exit=1  260s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / FAILED: A 導覽結束後 5 分鐘內跳出合照的「出發：」
       err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_tap] | [gpu_wrap 229.2s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 229.3s] BROWSER DISCONNECTED
+- 2026-11-04T01:56:10  V19D_tour_joy  sha=15e78dff7  exit=1  256s    PASS B 參加後走出總圖：記「去過但沒走完」（partial），清單不打勾  partial / PASS 沒有 JS 例外  [] / FAILED: A 導覽結束後 5 分鐘內跳出合照的「出發：」
+      err.log (last 5): [gpu_wrap 1.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_tour_joy] | [gpu_wrap 224.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 224.7s] BROWSER DISCONNECTED
