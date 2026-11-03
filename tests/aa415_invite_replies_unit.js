@@ -142,7 +142,8 @@ await sec(6,()=>{ fresh('2026-03-10','classmate_peishan',3); const out=[];
     check('6. 打開節日（3/14）：婉拒兩句輪流（節日那句先）',dd[0]==='「那天有讀書會，很早就排了。」'&&dd[1]==='「今天不行。我想一個人念。」'&&dd.every((t,i)=>!i||t!==dd[i-1]),J(dd)); } finally { INV.REPLY_ON['節日']=false; } });
 
 await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03','noodle',19), y2=ask('heroine_03','cafe',19), y3=ask('heroine_03','noodle',19);
-  check('7. 語彤週二晚上：約麵店＝「我就在店裡。你來。」（兩次都一樣）、約別的＝「麵店。」「你來店裡就好。」',y1.res==='here'&&txt(y1.lines)==='「我就在店裡。你來。」'&&txt(y3.lines)==='「我就在店裡。你來。」'&&y2.res==='decline'&&txt(y2.lines)==='「麵店。」「你來店裡就好。」',[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
+  /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店顧店（作息拿掉）＝「麵店的班」那幾句（約麵店「我就在店裡」、約別的「麵店。」）不再出現，週二晚上照一般的回覆 */
+  check('7. 語彤週二晚上：不在燒臘店顧店＝沒有「我就在店裡。你來。」「麵店。」「你來店裡就好。」（照一般的回覆）',y1.res!=='here'&&!/我就在店裡/.test(txt(y1.lines))&&!/我就在店裡/.test(txt(y3.lines))&&!/「麵店。」/.test(txt(y2.lines)),[y1.res,txt(y1.lines),y2.res,txt(y2.lines)].join(' '));
   fresh('2026-01-14','heroine_05',3); const s1=ask('heroine_05','wenzhou',15.5,null,{res:'accept'});
   check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。……」',s1.res==='decline'&&txt(s1.lines)==='「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」',txt(s1.lines));
   fresh('2028-10-11','heroine_04',3); const q1=ask('heroine_04','library',15.5,null,{res:'accept'});
