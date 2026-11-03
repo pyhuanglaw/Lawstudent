@@ -12,6 +12,7 @@
     5-3 的兩個到達句另一版（沛珊住臺南的 D28、D31＋D32 同一趟可昕到清境）是條件式的：src/date3d.js 的 DATE.ARRIVE_VAR。
     兩種都只換一字不差的 text（e75d1cce 起 6-1 兩欄都是整句，原本「……」開頭只換後面那一段的做法拿掉）；找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
     AA_524（說了沒發生（一））A8、A9、Z7 的七句：那個地點、那個人的台詞整句相同才換（每句剛好一處，不然停下來）。
+    AA_598（學姊改稿①c，AA598-SIS-1C-1102）第 2 節逐句表的第 1～92 列＋第 8 節九份一句：那個地點學姊的台詞整句等於「原句」才換（已經是新句＝源稿改好了，跳過）。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -332,6 +333,55 @@ if A537:
         sys.exit(f'AA_537b 第 3 節應該是八個地點，拆出 {n3} 個')
     FILES['xc537b'] = P537
     print(f'AA_537b：一般台詞 {len(L[XC])} 個 key、喜好 {nlk} 點、不喜歡的句子 {ndl} 句、常去地點 {n3} 個')
+# AA_598（學姊改稿①c：約會地點台詞，任務 AA598-SIS-1C-1102；AA 定稿＝第 8 節 AA 審查決定，企劃線 c389462be）：第 2 節逐句表「#」是數字的 92 列（第 1～92 列）——
+# 那個地點（`Dxx`）學姊（heroine_05）的台詞（lines 底下的 text，或 dislikeLine 的那一句）整句等於「原句」才換成「改成」（每句要剛好一處）；
+# 已經是「改成」＝企劃線源稿（Dxx.py → Dxx.json、BB_128 → D13.json）自己改好了，跳過；兩個都不是＝停下來（源稿改過了要重看）。白名單沒有 AA_598＝不換。
+# 第 8 節的決定蓋過表上沒跟著改的兩列：第 4 點 北投圖書館第一次「合成一個括號」（第 16 列；「……」照表上那一列的說明拿掉）、第 9 點 九份「家裡的茶都是我泡的。」（第 85 列）；
+# 第 6 點 九份階梯（表上保753，不在 92 列裡）改成「老街是慢慢蓋出來的。」。
+A598 = G.approved_files(ALLOW, SP + 'AA_598_')
+FIXED598 = []
+if A598:
+    P598, S598 = next(iter(A598.items()))
+    ok, why = G.allowed(P598, S598, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md598 = G.read_fix(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S598}:{P598}'], text=True))
+    tag598 = f'AA_598@{S598}'
+    s8 = section(md598, '## 8. AA 審查決定')
+    OVER598 = {16: ('（木造的圖書館。她小聲說）我想在這裡寫論文。', '「（木造的圖書館。她小聲說）……」'),
+               85: ('家裡的茶都是我泡的。', '換「家裡的茶都是我泡的。」')}
+    R598 = []
+    for ln in md598.split('\n'):
+        m = re.match(r'^\|\s*(\d+)\s*\|\s*`(D\d\d)`[^|]*\|\s*學姊\s*\|([^|]*)\|([^|]*)\|', ln)
+        if m:
+            n, loc, old, new = int(m.group(1)), m.group(2), m.group(3).strip(), m.group(4).strip()
+            if n in OVER598:
+                new, quote = OVER598[n]
+                if quote not in s8:
+                    sys.exit(f'{tag598} 第 8 節找不到第 {n} 列的決定：{quote}')
+            R598.append((str(n), loc, old, new))
+    if sorted(int(r[0]) for r in R598) != list(range(1, 93)):
+        sys.exit(f'{tag598}：表上數字列應該是第 1～92 列，拆出 {sorted(int(r[0]) for r in R598)}')
+    if '改成「老街是慢慢蓋出來的。」' not in s8:
+        sys.exit(f'{tag598} 第 8 節找不到九份的決定')
+    R598.append(('第 8 節第 6 點（保753）', 'D18', '老街是慢慢蓋出來的。……每一家砌自己門口那一段。', '老街是慢慢蓋出來的。'))
+    for item, loc, old, new in R598:
+        L5 = (LOC.get(loc) or {}).get('lines', {}).get('heroine_05')
+        objs = [o for o in texts(L5) if o.get('who') in ('heroine_05', 'narr')]
+        dl = (LOC.get(loc) or {}).get('dislikeLine', {}).get('heroine_05') or {}
+        n_old = sum(1 for o in objs if o['text'] == old) + sum(1 for v in dl.values() if v == old)
+        n_new = sum(1 for o in objs if o['text'] == new) + sum(1 for v in dl.values() if v == new)
+        if n_old == 0 and n_new >= 1:
+            FIXED598.append((item + ' ' + loc, old, new, 0)); continue
+        if n_old != 1:
+            sys.exit(f'{tag598} 第 {item} 列：{loc} 學姊的台詞裡「{old}」有 {n_old} 句（應該是 1 句；或已經是新句）')
+        for o in objs:
+            if o['text'] == old: o['text'] = new
+        for k, v in dl.items():
+            if v == old: dl[k] = new
+        FIXED598.append((item + ' ' + loc, old, new, 1))
+    FILES['fix598'] = P598
+    print(f'{tag598}：學姊約會地點台詞 換 {sum(c for *_, c in FIXED598)} 句、已經是新句 {sum(1 for *_, c in FIXED598 if not c)} 句（共 {len(FIXED598)} 列）')
 # 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
 # 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
 NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
