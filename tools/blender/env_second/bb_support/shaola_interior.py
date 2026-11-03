@@ -266,7 +266,7 @@ def table(z):
 def stool(x, z):
     # 座墊：暗紅人造皮，中間磨亮（頂點色漸層）、邊緣捲邊
     fs = clathe(GL, [(0.0, 0.0), (0.155, 0.0), (0.17, 0.02), (0.172, 0.045), (0.16, 0.068), (0.11, 0.078), (0.0, 0.08)], x, 0.4, z, None, seg=20)
-    paint_fn(GL, fs, lambda px, py, pz: mix('#5a1418', '#8a2c30', max(0.0, min(1.0, 1 - math.hypot(px - x, pz - z) / 0.16)) * (1 if py > 0.46 else 0.3)))
+    paint_fn(GL, fs, lambda px, py, pz: mix('#3e0c10', '#7a2228', max(0.0, min(1.0, 1 - math.hypot(px - x, pz - z) / 0.16)) * (1 if py > 0.46 else 0.3)))
     for k in range(4):
         a = k * PI / 2 + PI / 4; ccyl(VM, (x + 0.15 * math.cos(a), 0.0, z + 0.15 * math.sin(a)), (x + 0.11 * math.cos(a), 0.4, z + 0.11 * math.sin(a)), 0.011, '#b4b8bc', seg=6)
     clathe(VM, [(0.122, 0.0), (0.13, 0.0), (0.13, 0.012), (0.122, 0.012)], x, 0.15, z, '#a8acb0', seg=16)
@@ -481,7 +481,8 @@ for z in (kz0, kz0 + 1.07, kz0 + 2.14, kz1):
     for x in (gx0 - 0.015, gx1 - 0.02): VM.cbox(x - 0.018, x + 0.018, c['h'], top, z - 0.02 if z > kz0 else z, z + 0.02 if z < kz1 else z, '#c0c4c8')
 MS['glass'].quad([(gx0 - 0.02, c['h'], kz1), (gx0 - 0.02, c['h'], kz0), (gx0 - 0.02, top, kz0), (gx0 - 0.02, top, kz1)])   # 面向走道的玻璃
 MS['glass'].quad([(gx0, c['h'], kz1 - 0.01), (gx1, c['h'], kz1 - 0.01), (gx1, top, kz1 - 0.01), (gx0, top, kz1 - 0.01)])  # 門那一端
-VM.cbox(gx0 - 0.03, gx0 - 0.015, c['h'] + 0.26, c['h'] + 0.28, kz0, kz1, '#c0c4c8')                                  # 玻璃中段的橫條
+VM.cbox(gx0 - 0.03, gx0 - 0.015, c['h'] + 0.26, c['h'] + 0.28, kz0, kz1, '#c0c4c8')
+VM.cbox(gx1 - 0.02, gx1, c['h'], top, kz0, kz1, '#55585a')   # 櫃子背面（老闆那一側的拉門，暗一點的不鏽鋼）                                  # 玻璃中段的橫條
 # 吊桿＋勾子（兩根桿，前低後高）
 RAIL_X, RAIL_Y = 1.42, 2.3
 ccyl(VM, (RAIL_X, RAIL_Y, kz0 + 0.05), (RAIL_X, RAIL_Y, kz1 - 0.05), 0.012, '#b0b4b8', seg=8)
@@ -494,50 +495,51 @@ def hook(x, z, y1):
 
 
 def bird(x, z, kind):
-    """燒鴨、油雞：脖子掛在勾子上、頭垂下來，身體（胸、背、尾）、兩條腿、翅膀；焦糖色漸層（上淺下深、邊緣深）"""
-    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h = 1.0, '#8c3a14', '#4e1606', '#2a0a03', 0.13, 0.32
-    else: sc, col_hi, col_lo, col_edge, body_r, body_h = 0.88, '#d8a448', '#b07424', '#7a4a14', 0.12, 0.28
-    ytop = RAIL_Y - 0.06; hook(x, z, ytop)
-    neck_len = 0.22 * sc; yb = ytop - neck_len - body_h          # 身體底
-    prof = [(0.0, 0.0), (0.05, 0.01), (body_r * 0.75, 0.06), (body_r * 0.97, body_h * 0.32), (body_r, body_h * 0.55), (body_r * 0.86, body_h * 0.78), (body_r * 0.5, body_h * 0.93), (0.035 * sc, body_h)]
-    sq = Matrix.Diagonal((1.0, 0.68, 1.0, 1.0))   # 前後扁一點（Blender y＝遊戲 −z）
+    """燒鴨、油雞：勾子穿過脖子吊著；身體是長水滴形（下面寬）、脖子往上變細、頭彎過勾子；兩條腿往下斜、翅膀貼兩側。
+    焦糖色漸層：中間亮、下面和邊緣深（頂點色），材質粗糙度 0.2 看起來油亮"""
+    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h = 1.0, '#8a3410', '#4a1404', '#260a02', 0.155, 0.32
+    else: sc, col_hi, col_lo, col_edge, body_r, body_h = 0.9, '#dcac52', '#b07424', '#764812', 0.14, 0.27
+    ytop = RAIL_Y - 0.05; hook(x, z, ytop)
+    neck_len = 0.17 * sc; yb = ytop - neck_len - body_h
+    prof = [(0.0, 0.0), (body_r * 0.45, 0.012), (body_r * 0.85, body_h * 0.12), (body_r, body_h * 0.3), (body_r * 0.97, body_h * 0.5), (body_r * 0.8, body_h * 0.7),
+            (body_r * 0.5, body_h * 0.86), (0.03 * sc, body_h * 0.97), (0.022 * sc, body_h + neck_len * 0.6), (0.018 * sc, body_h + neck_len), (0.0, body_h + neck_len + 0.005)]
+    sq = Matrix.Diagonal((1.0, 0.58, 1.0, 1.0))   # 前後扁（Blender y＝遊戲 −z）
     f0 = set(GL.bm.faces); GL.add_bm(L.lathe(prof, seg=16), Matrix.Translation(g2b(x, yb, z)) @ sq); fs = newfaces(GL, f0)
     def grad(px, py, pz):
         t = (py - yb) / body_h; e = min(1.0, abs(px - x) / body_r)
-        base = mix(col_lo, col_hi, max(0.0, min(1.0, 0.25 + 0.9 * t - 0.2 * max(0.0, t - 0.7) * 3)))
-        k = 1 - 0.45 * e ** 3; return [base[0] * k, base[1] * k, base[2] * k, 1.0]
+        base = mix(col_lo, col_hi, max(0.0, min(1.0, 0.15 + 1.1 * t if t < 0.6 else 0.81 - (t - 0.6) * 1.2)))
+        k = 1 - 0.5 * e ** 2.5; return [base[0] * k, base[1] * k, base[2] * k, 1.0]
     paint_fn(GL, fs, grad)
-    # 脖子（勾子上來）＋垂下來的頭
+    # 頭：彎過勾子垂在前面（小、深色）
     f0 = set(GL.bm.faces)
-    ccyl(GL, (x, yb + body_h - 0.01, z), (x + 0.01, ytop, z), 0.026 * sc, col_lo, seg=8, r2=0.02 * sc)
-    GL.ell((x + 0.035, ytop - 0.03, z), 0.034 * sc, 0.045 * sc, 0.028 * sc, seg=8, rings=5); paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.5))
-    if kind == 'duck':
-        f0 = set(GL.bm.faces); ccyl(GL, (x + 0.06, ytop - 0.05, z), (x + 0.1, ytop - 0.11, z), 0.014, '#2a1208', seg=6, r2=0.006)
-    # 腿（從身體下段往外上方翹起）、翅膀（貼在兩側）
+    GL.ell((x + 0.03, ytop - 0.005, z), 0.03 * sc, 0.022 * sc, 0.02 * sc, seg=8, rings=5)
+    GL.ell((x + 0.055, ytop - 0.04, z), 0.022 * sc, 0.035 * sc, 0.018 * sc, seg=8, rings=5)
+    paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.4))
     for s in (-1, 1):
-        f0 = set(GL.bm.faces)
-        GL.ell((x + s * body_r * 0.7, yb + body_h * 0.2, z), 0.045 * sc, 0.075 * sc, 0.045 * sc, seg=8, rings=5)
-        ccyl(GL, (x + s * body_r * 0.78, yb + body_h * 0.12, z), (x + s * body_r * 1.05, yb - 0.06 * sc, z), 0.016 * sc, col_lo, seg=6, r2=0.01)
-        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.6))
-        f0 = set(GL.bm.faces)
-        GL.ell((x + s * body_r * 0.92, yb + body_h * 0.62, z), 0.03 * sc, 0.11 * sc, 0.06 * sc, seg=8, rings=5)
-        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_hi, 0.45))
+        f0 = set(GL.bm.faces)   # 腿：從身體下段往外下斜（棒腿）
+        GL.ell((x + s * body_r * 0.75, yb + body_h * 0.1, z), 0.036 * sc, 0.07 * sc, 0.034 * sc, seg=8, rings=5,
+               matrix=Matrix.Rotation(s * 0.5, 4, 'Y'))
+        ccyl(GL, (x + s * body_r * 0.9, yb + body_h * 0.02, z), (x + s * body_r * 1.25, yb - 0.07 * sc, z), 0.012 * sc, col_lo, seg=6, r2=0.008)
+        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_lo, 0.55))
+        f0 = set(GL.bm.faces)   # 翅膀：貼著身體兩側
+        GL.ell((x + s * body_r * 0.88, yb + body_h * 0.58, z), 0.025 * sc, 0.1 * sc, 0.05 * sc, seg=8, rings=5, matrix=Matrix.Rotation(-s * 0.18, 4, 'Y'))
+        paint_fn(GL, newfaces(GL, f0), lambda px, py, pz: mix(col_edge, col_hi, 0.4))
 
 
 def charsiu(x, z, ln):
-    """叉燒：一條長的、扁的、微彎，紅色往內漸淡、邊緣焦黑"""
+    """叉燒：一條長的、扁的、微彎（不規則的粗細），紅色往內漸淡、邊緣和下端焦黑；勾子穿過上端"""
     ytop = RAIL_Y - 0.04; hook(x, z, ytop)
-    n = 10; f0 = set(GL.bm.faces)
-    for k in range(n):
-        y1 = ytop - k * ln / n; y0 = y1 - ln / n - 0.004; dx = 0.012 * math.sin(k * 0.6 + x * 9)
-        w_ = 0.034 * (1 - 0.25 * (k / n) ** 2) + 0.004 * math.sin(k * 1.7 + z * 5)
-        GL.rbox(x - w_ + dx, x + w_ + dx, y0, y1, z - 0.024, z + 0.024, r=0.012, seg=2)
-    fs = newfaces(GL, f0)
+    rr = random.Random(int(z * 1000)); n = 9
+    prof = [(0.0, 0.0), (0.024, 0.005)] + [(0.036 * (0.88 + 0.12 * math.sin(PI * k / n)) * (1 + rr.uniform(-0.1, 0.1)), ln * k / n) for k in range(1, n)] + [(0.026, ln), (0.0, ln + 0.004)]
+    f0 = set(GL.bm.faces); bm = L.lathe(prof, seg=10)
+    bend = rr.uniform(-0.04, 0.04)
+    for v in bm.verts: t = v.co.z / ln; v.co.x += bend * math.sin(PI * t); v.co.y *= 0.62
+    GL.add_bm(bm, Matrix.Translation(g2b(x, ytop - ln, z))); bm.free(); fs = newfaces(GL, f0)
     def grad(px, py, pz):
-        e = max(abs(px - x) / 0.04, abs(pz - z) / 0.026)
-        edge = max(0.0, min(1.0, (e - 0.55) / 0.45)); char_ = 0.5 + 0.5 * math.sin(py * 40 + px * 70)
-        base = mix('#a8301e', '#7a1a10', edge)
-        k = 1 - 0.7 * edge * char_; return [base[0] * k, base[1] * k, base[2] * k, 1.0]
+        e = min(1.0, math.hypot((px - x) / 0.036, (pz - z) / 0.022)); t = (py - (ytop - ln)) / ln
+        edge = max(0.0, min(1.0, (e - 0.5) / 0.5)) ** 1.5; spot = 0.5 + 0.5 * math.sin(py * 53 + px * 91 + pz * 37)
+        base = mix('#b03420', '#701a10', edge)
+        k = (1 - 0.65 * edge * spot) * (0.55 + 0.45 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
     paint_fn(GL, fs, grad)
 
 

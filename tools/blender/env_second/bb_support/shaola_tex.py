@@ -28,7 +28,7 @@ def _save(a, p):
 # ---------------- 牆（2048 × 1536：上 512＝左牆 13 m、中 512＝右牆 13 m、下 512＝後牆 6 m（0～945）＋前牆 6 m（1024～1969）） ----------------
 def wall(path):
     W, H = 2048, 1536; img = np.zeros((H, W, 3), np.float32)
-    base = np.array([226, 212, 178], np.float32)   # 參考圖左牆中段 #e2d4b2 左右（發黃的米色）
+    base = np.array([216, 198, 158], np.float32)   # 參考圖左牆中段 #e2d4b2 左右（發黃的米色）
     for k in range(3):
         y0 = k * 512; h = 512
         n1 = _noise(h, W, 180, 11 + k); n2 = _noise(h, W, 24, 21 + k, 3); n3 = _noise(h, W, 6, 31 + k, 2)
@@ -36,8 +36,8 @@ def wall(path):
         col = base[None, None] * (0.93 + 0.1 * n1[..., None] + 0.05 * (n2[..., None] - 0.5) + 0.04 * (n3[..., None] - 0.5))
         # 下緣：1.0 m 以下（y＞0.69）一圈灰綠的髒（拖地水、椅子撞）
         low = np.clip((yy - 0.66) / 0.08, 0, 1)
-        grime = np.array([176, 170, 146], np.float32)
-        col = col * (1 - 0.55 * low[..., None]) + grime * 0.55 * low[..., None] * (0.9 + 0.2 * n2[..., None])
+        grime = np.array([150, 144, 120], np.float32)
+        col = col * (1 - 0.7 * low[..., None]) + grime * 0.7 * low[..., None] * (0.9 + 0.2 * n2[..., None])
         # 踢腳 12 cm 更暗
         col *= (1 - 0.25 * np.clip((yy - 0.96) / 0.02, 0, 1))[..., None]
         # 上緣：天花板滲水的黃褐水漬（一條一條往下流）
@@ -49,8 +49,8 @@ def wall(path):
             drip = np.clip(1 - yy / ln, 0, 1) ** 0.7
             stain = np.maximum(stain, prof[None, :] * drip * rng.uniform(0.4, 1.0))
         stain *= (0.6 + 0.6 * n2)
-        sc = np.array([168, 132, 82], np.float32)
-        col = col * (1 - 0.55 * stain[..., None]) + sc * 0.55 * stain[..., None]
+        sc = np.array([150, 112, 64], np.float32)
+        col = col * (1 - 0.62 * stain[..., None]) + sc * 0.62 * stain[..., None]
         # 水漬的邊（深一點的線）
         edge = np.clip(np.abs(np.gradient(stain, axis=0)) * 40, 0, 1)
         col *= (1 - 0.18 * edge[..., None])
@@ -79,7 +79,7 @@ def wall(path):
 def ceiling(path):
     W, H = 512, 1110; ppm = W / 6.0
     n1 = _noise(H, W, 90, 51); n2 = _noise(H, W, 8, 52, 2)
-    base = np.array([196, 188, 166], np.float32)
+    base = np.array([178, 170, 148], np.float32)
     col = base[None, None] * (0.9 + 0.12 * n1[..., None] + 0.08 * (n2[..., None] - 0.5))
     rng = np.random.RandomState(53)
     yy, xx = np.mgrid[0:H, 0:W]
@@ -93,8 +93,8 @@ def ceiling(path):
         for j in range(11):
             v = rng.uniform(0.96, 1.03) if rng.rand() > 0.06 else 1.08
             col[i * t:(i + 1) * t, j * t:(j + 1) * t] *= v
-    for i in range(0, H, t): col[max(0, i - 2):i + 2] = [150, 146, 136]   # T 型鋼架
-    for j in range(0, W, t): col[:, max(0, j - 2):j + 2] = [150, 146, 136]
+    for i in range(0, H, t): col[max(0, i - 2):i + 2] = [118, 114, 104]   # T 型鋼架
+    for j in range(0, W, t): col[:, max(0, j - 2):j + 2] = [118, 114, 104]
     return _save(col, path)
 
 
@@ -121,7 +121,7 @@ def floor(path, rough_path, tables, aisle):
     for tz in tables: dirt = np.maximum(dirt, 0.55 * np.exp(-(((X + 2.1) / 0.55) ** 2 + ((Z - tz) / 0.7) ** 2)))
     dirt = np.maximum(dirt, 0.45 * np.clip(1 - np.abs(X - 0.95) / 0.25, 0, 1) * (Z > -4.5) * (Z < 5.4))
     dirt *= (0.6 + 0.8 * n1)
-    col = col * (1 - 0.32 * dirt[..., None]) + np.array([120, 104, 80]) * 0.32 * dirt[..., None]
+    col = col * (1 - 0.45 * dirt[..., None]) + np.array([96, 84, 64]) * 0.45 * dirt[..., None]
     # 走道磨亮（亮一點）
     pol = np.exp(-((X - (aisle[0] + aisle[1]) / 2) / 0.6) ** 2) * np.clip((Z + 6) / 2, 0, 1)
     col *= (1 + 0.06 * pol[..., None])
@@ -138,7 +138,7 @@ def steel(path):
     a = np.repeat(lines, W, 1) + rng.normal(0, 3, (H, W))
     a = np.asarray(Image.fromarray(np.clip(a * 4 + 128, 0, 255).astype(np.uint8)).filter(ImageFilter.BoxBlur(0)), np.float32) / 4 - 32
     n1 = _noise(H, W, 120, 73); n2 = _noise(H, W, 20, 74, 3)
-    v = 176 + a + 22 * (n1 - 0.5) + 8 * (n2 - 0.5)
+    v = 150 + a + 26 * (n1 - 0.5) + 8 * (n2 - 0.5)
     col = np.stack([v, v + 3, v + 6], -1)
     yy, xx = np.mgrid[0:H, 0:W]
     for _ in range(18):   # 凹痕、髒手印（暗一點的圓）
