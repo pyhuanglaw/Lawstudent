@@ -2,7 +2,7 @@
 # 用法：把 gha/target.txt 改成要測的 commit SHA，commit 到 claude/gha-node-sweep → 自動跑。
 # 只在這條分支觸發，不影響 main、開發分支、BB／CC 的分支；瀏覽器測試照舊是 BB／CC（使用者電腦）。
 # 下載完整歷史（fetch-depth: 0）：有些測試要 git show 舊版本或企劃線，淺層下載會讓它們跳過卻顯示通過。
-# 結果同時寫在執行摘要、artifact、執行紀錄（「整理結果」那一步）；Claude 的雲端機器連不到 artifact 的儲存網址，只能讀紀錄。
+# 結果同時寫在執行摘要、artifact、執行紀錄（「整理結果」那一步，失敗清單在紀錄的最後）；Claude 的雲端機器連不到 artifact 的儲存網址，只能讀紀錄。
 name: node-sweep
 on:
   push:
@@ -44,21 +44,22 @@ jobs:
           cd out
           awk -F'\t' '$2!=0 || $4 ~ /FAIL/ {print}' summary.tsv > fail.tsv
           awk -F'\t' '$2==0 && $4 !~ /FAIL/ && $4 !~ /ALL PASS|全部通過|PASS/ {print}' summary.tsv > unknown.tsv
-          grep -l -E '跳過|skip|SKIP|找不到' *.log > skipped.txt || true
+          grep -l -E '^（找不到|跳過逐點|SKIPPED|not found|No such file' *.log > skipped.txt || true
           sort -t$'\t' -k3 -nr summary.tsv | head -15 > slowest.tsv
           {
             echo "## 全部 Node 單元測試"
             echo "- 版本：$(git -C .. rev-parse --short HEAD)"
-            echo "- 共 $(wc -l < summary.tsv) 支；失敗 $(wc -l < fail.tsv)；最後一行看不出結果 $(wc -l < unknown.tsv)；輸出裡有「跳過／skip／找不到」 $(wc -l < skipped.txt)"
-            echo "### 失敗"; echo '```'; cat fail.tsv; echo '```'
-            echo "### 最後一行看不出結果（要人看）"; echo '```'; cat unknown.tsv; echo '```'
-            echo "### 輸出裡有「跳過／skip／找不到」（要確認不是缺資料被略過）"; echo '```'; cat skipped.txt; echo '```'
+            echo "- 共 $(wc -l < summary.tsv) 支；失敗 $(wc -l < fail.tsv)；最後一行看不出結果 $(wc -l < unknown.tsv)；疑似缺資料（找不到／SKIPPED／not found） $(wc -l < skipped.txt)"
             echo "### 最慢 15 支（秒）"; echo '```'; cut -f1,3 slowest.tsv; echo '```'
+            echo "### 疑似缺資料被略過（要確認）"; echo '```'; cat skipped.txt; echo '```'
+            echo "### 最後一行看不出結果（要人看）"; echo '```'; cat unknown.tsv; echo '```'
+            echo "### 失敗"; echo '```'; cat fail.tsv; echo '```'
           } | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "===== 失敗的測試：最後 30 行 ====="
-          cut -f1 fail.tsv | while read f; do n=$(basename "$f" .js); echo "----- $f"; grep -E 'FAIL|Error|錯誤|找不到' "$n.log" | head -20 | cut -c1-400; tail -5 "$n.log" | cut -c1-400; done
-          echo "===== 跳過字樣出現的那一行 ====="
-          while read f; do echo "----- $f"; grep -m3 -E '跳過|skip|SKIP|找不到' "$f" | cut -c1-300; done < skipped.txt
+          echo "===== 疑似缺資料的那一行 ====="
+          while read f; do echo "----- $f"; grep -m3 -E '^（找不到|跳過逐點|SKIPPED|not found|No such file' "$f" | cut -c1-300; done < skipped.txt
+          echo "===== 失敗的測試（FAIL 行＋最後 5 行）====="
+          cut -f1 fail.tsv | while read f; do n=$(basename "$f" .js); echo "----- $f"; grep -E '^FAIL|Error|錯誤' "$n.log" | head -12 | cut -c1-400; tail -5 "$n.log" | cut -c1-400; done
+          echo "===== 失敗清單 ====="; cut -f1,2,4 fail.tsv
           test ! -s fail.tsv
       - uses: actions/upload-artifact@v4
         if: always()
