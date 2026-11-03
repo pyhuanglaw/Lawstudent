@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "MAP_ctl",
+  "sha": "bf6dbda44",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py",
+  "env": "CASES=M,P;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T07:09:07",
+  "end": "2026-11-04T07:12:18",
+  "seconds": 192,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 58,
+    "mem": 55,
+    "used_gb": 17.6,
+    "chrome_testing": 17
+  }
+}
