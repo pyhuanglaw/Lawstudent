@@ -69,7 +69,7 @@ const POOL_STORY=(function(){
       where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰影大道'} ] },
     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
-      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
+      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[10.55,1.6],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子。LIB-3F-1102 第二版（src/library_3f_v2.js）：東側靠窗的閱覽桌 (10.55, 1.6)；第一版的 (5.6, −3.9) */
     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
       model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/

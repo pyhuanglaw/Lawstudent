@@ -405,11 +405,12 @@ const CLS=(function(){
   const TOUR=[
     {x:-3.0,z:2.8,lv:0,say:'新生導覽，十五分鐘。跟著我走，問題留到最後。'},
     {x:0,z:4.4,lv:0,say:'進出都要刷學生證。忘記帶的，服務台可以臨時登記，一學期三次。'},
-    {x:7.8,z:3.2,lv:0,say:'借書、還書、預約研究小間，都在這裡問。'},
+    (()=>{ const d=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.furniture?LIBRARY_LAYOUT.furniture.find(f=>f.type==='desk'&&(f.lv|0)===0):null;   /* LIB-PLAN-1103：服務台前（讀配置；第四版服務台搬到閘門北邊 (3.0,1.0)，站在讀者那一側 (3.0,−0.3)；第三版 (7.8,4.4) → (7.8,3.2) 照舊）*/
+      return d&&d.z<3?{x:d.x,z:+(d.z-d.d/2-0.9).toFixed(2),lv:0,say:'借書、還書，都在這裡問。'}:{x:7.8,z:3.2,lv:0,say:'借書、還書，都在這裡問。'}; })(),
     {x:-7.0,z:-5.3,lv:1,say:'二樓的長桌不用預約，晚上很搶。插座在桌子底下。'},
-    {x:10.6,z:5.6,lv:1,say:'研究小間要上網預約，兩個人以上才能借。'},
+    {x:10.6,z:5.6,lv:1,say:'研究小間不用預約，有空的就能進去，一個人也可以。要跟同學討論的話，B1 有討論室，兩個人以上，要上網預約。'},   /* 同一站（新生導覽照舊七站，tests/flow_lib_tour.py）；AA_635（企劃線 db117b0f8；AA 11-03 12:06 AA_399 3-1 更正：研究小間一個人用、討論室兩人以上上網預約）；「大四以後」照使用者 11-03 選擇題「大一就能用，免預約」改（CARREL-FREE-1103）*/
     {x:10.8,z:-6.0,lv:1,say:'三樓比較安靜。講話請到樓梯間。',up:true},
-    {x:0,z:3.2,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];
+    {x:0,z:4.4,lv:0,say:'以上。法律的書在四樓以上，這學期在整理，下學期再帶你們上去。',zone:'library'} ];   /* LIB-3F-1102 第二版：最後一站 (0, 4.4)（第一版 (0, 3.2) 在第二版的科技中文書架上）*/
   S.runLibTour=async function(GM,a){ const G=GM.G, E=GM.E, A=ACTIVITIES.rec(G).att, k=a.id+'@'+G.day; A[k]={h:+(G.hour%24).toFixed(2),end:'left'};
     if(hr(G)<a.t0){ await GM.fade(true); GM.advance(a.t0-hr(G)); await GM.fade(false); }
     const D19=(()=>{ for(let d=1;d<30;d++){ const x=CALENDAR.dateOf(d); if(x.m===9&&x.d===19) return d; } return -1; })(), withAn=G.day===D19&&!(G.flags.plan==='library'&&G.flags.afternoonDone);
@@ -423,7 +424,7 @@ const CLS=(function(){
     const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
     for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
-      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); try{ await GM.enter(st.zone,{x:0,z:7,yaw:Math.PI}); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; spawnCrew(0.8,5.6,0); }
+      if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
       await waitFor(near,90); if(left) break; GM.caption('館員',st.say,5200); await GM.sleep(2600); }

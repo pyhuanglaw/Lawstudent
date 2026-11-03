@@ -43153,16 +43153,16 @@
    "id": "SHOP-ENCOUNTER-1103",
    "title": "店裡偶遇：進店時照作息與機率遇到已認識的朋友（坐著吃、聊幾句、可以併桌）；也可以在店裡認識新的人（AA 定人物與台詞）",
    "owner": "LAWWW",
-   "status": "等待其他AI",
+   "status": "待開工",
    "priority": "P1",
    "note": "X188；擴充 ENC（encounter3d.js，DL-07）到店家；等 AA 交規格",
-   "next": "AA 交誰在哪家店、什麼時段、台詞、新認識的人 → LAWWW 子代理實作（接 SHOP-DINERS-1103 的店清單）",
+   "next": "SHOP-DINERS-1103 合併以後，子代理接（座位共用）；白名單前進到 f6b207b30",
    "xai": {
-    "spec": "AA（待交）",
+    "spec": "企劃線 f6b207b30 AA_632＋docs/story_planning/shop_enc/shop_enc_aa_v1.json",
     "branch": "claude/confident-ritchie-8rwh7t",
     "acceptance": "玩家進店時會遇到朋友或認識新人，台詞照 AA 定稿",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -43204,6 +43204,100 @@
    "priority": "P1",
    "note": "X190",
    "next": "子代理（和 ONE-TAP-GO-1103 同一個）實作 → 合併 → BB 測"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "8/29 搬進宿舍 203",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "DORM-DESK-ITEMS-3D-1103",
+   "title": "宿舍 203 祐廷書桌：S.roomItemList 列的東西在 3D 看得到（書架上的書、桌上筆記本／卡片／螢光筆、桌墊下票根、書桌上方牆面軟木板貼照片與評鑑表…），照旗標出現",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "note": "X191；DORM-CEIL 同一個房間，排在它後面",
+   "next": "LAWWW2 建模＋接線（D108 場景程式）→ LAWWW 合併 → BB 測",
+   "xai": {
+    "spec": "使用者 11-03 截圖＋src/story3d.js S.roomItemList（約 3111、3224 行）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "選單每一項在房間裡都有對應的物件、照旗標顯示；遊戲內截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "開局的對話（可昕、經濟系同學）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "PORTRAIT-HIRES-1103",
+   "title": "對話立繪高解析度：原因＝從多人設定圖裡切出 160～250 px 寬的小人再放大到 600×1000；要每個人一張高解析度單人全身圖（和現有立繪同一個人、同一套衣服）＋表情，重新去背",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "note": "X192；清晰度量測（拉普拉斯變異數，低＝糊）：芷若部分 57、方奕廷 122、品妤 129、宥辰 153、黃筱涵 153、唐睿 158、芯慈 167、明軒 182、林教授 210、沛珊 216、可昕 218、周教授 241、鄭勳 273、韋綸 321、Alison 329、家豪 332、柏翰 371、阿哲 390；清楚的：予樂 1909、徐教授 1483、以安 567～609",
+   "next": "BB 照 D97 寫提示詞跟使用者要（先可昕、沛珊、芯慈、明軒、經濟系四位）→ LAWWW 角色美術驗收（D100a）→ 去背、接進遊戲",
+   "xai": {
+    "spec": "使用者 11-03 截圖；tools/portraits/cut_reference_portraits.py 的 SRC 裁切範圍",
+    "branch": "BB 企劃線",
+    "acceptance": "對話立繪在手機上看得清楚（和予樂、徐教授同一個等級）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次去 201 上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "CLASSROOM-BAGS-1103",
+   "title": "201 階梯教室座位後面的紙袋（prop.bag，浮在走道上）拿掉",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "note": "使用者 11-03 截圖",
+   "next": "BB 測（下一版）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一第一次進總圖 2F",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "area": null,
+   "id": "CARREL-FREE-1103",
+   "title": "總圖研究小間大一就能用、免預約：法律系開館時間 08 開著直接坐；服務台不再有預約；第一次進去演一次「翻書的聲音」；其他小間有路人（LAWWW2）、導覽那句改（AA）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "note": "X193；lupstory3d.js S.FREE",
+   "next": "BB 測；AA 改導覽句；LAWWW2 其他小間玻璃後面放路人"
   }
  ]
 }
