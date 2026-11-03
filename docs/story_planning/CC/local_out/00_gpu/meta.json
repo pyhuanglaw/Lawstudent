@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "00_gpu",
-  "sha": "21ab92db0",
+  "sha": "63d159c86",
   "kind": "gpu",
   "script": "tools/cc_local/gpu_check.py",
   "env": "",
   "machine": "MSI",
-  "start": "2026-11-03T21:37:25",
-  "end": "2026-11-03T21:39:52",
-  "seconds": 147,
+  "start": "2026-11-03T22:20:13",
+  "end": "2026-11-03T22:22:41",
+  "seconds": 149,
   "exit": 0,
   "error": null,
   "runner": "8565f3aa98",
   "rf_round": "3",
   "url": "http://127.0.0.1:8810/index.html",
   "res_peak": {
-    "cpu": 46,
-    "mem": 55,
-    "used_gb": 17.8,
-    "chrome_testing": 29
+    "cpu": 51,
+    "mem": 59,
+    "used_gb": 19.8,
+    "chrome_testing": 28
   }
 }
