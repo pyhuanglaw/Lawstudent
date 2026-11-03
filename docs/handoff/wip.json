@@ -1990,7 +1990,7 @@
    "id": "WIP-LAWWW-LIBQ3-1102",
    "role": "LAWWW",
    "task": "AA595-LIB-NOD-THERMOS-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "libq3（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -2000,13 +2000,15 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "419764f1a"
+   "branchSha": "419764f1a",
+   "closedBy": "7224af47a",
+   "note": "11-03 併進開發分支 7224af47a（相關 Node 測試 ALL PASS；全部 Node 交 GitHub Actions gha-node-sweep）"
   },
   {
    "id": "WIP-LAWWW-ANB-1102",
    "role": "LAWWW",
    "task": "AA592-AN-1B-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "anb（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -2016,13 +2018,15 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "719a57231"
+   "branchSha": "719a57231",
+   "closedBy": "7224af47a",
+   "note": "11-03 併進開發分支 7224af47a（相關 Node 測試 ALL PASS；全部 Node 交 GitHub Actions gha-node-sweep）"
   },
   {
    "id": "WIP-LAWWW-EX600-1102",
    "role": "LAWWW",
    "task": "AA600-EX-NO-CONTACT-1102",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "2b7605638",
    "branch": "ex600（本機；交班 bundle wip_backup/handoff_A_1102_2310.bundle，基準＝遠端開發分支 5ec3a0836）",
    "files": [
@@ -2032,7 +2036,9 @@
    "next": "還原 bundle → 合併進 int/m591 → 相關測試＋整套 Node → 併開發分支 → SHA 交 BB／CC",
    "noDirectIntegrate": true,
    "source": "LAWWW 帳號 A 11-02 交班",
-   "branchSha": "ae38c31b1"
+   "branchSha": "ae38c31b1",
+   "closedBy": "7224af47a",
+   "note": "11-03 併進開發分支 7224af47a（相關 Node 測試 ALL PASS；全部 Node 交 GitHub Actions gha-node-sweep）"
   }
  ]
 }
