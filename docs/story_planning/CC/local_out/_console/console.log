@@ -1,18 +1,17 @@
-[05:15:09] run_forever round: 17   runner sha256: c9cac8a6aa
-[05:15:09] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
-[05:15:09]          playwright 1.64.1 OK
-[05:15:09] git    : git version 2.56.0.windows.4
-[05:15:09] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
-[05:15:09] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
-[05:15:09] repo   : C:\Users\USER\Documents\Lawstudent
-[05:15:09] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
-[05:15:09] parallel: 2  (blender items run alone)
-[05:15:09] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
-[05:15:09] git fetch
+[05:15:42] run_forever round: 18   runner sha256: fa98538ce5
+[05:15:42] python : C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\python.exe (3.15.2)
+[05:15:42]          playwright 1.64.1 OK
+[05:15:42] git    : git version 2.56.0.windows.4
+[05:15:42] node   : C:\Program Files\nodejs\node.EXE  v26.13.0
+[05:15:43] blender: C:\Program Files\Blender Foundation\Blender 5.2\blender.exe  Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+[05:15:43] repo   : C:\Users\USER\Documents\Lawstudent
+[05:15:43] work   : C:\Users\USER\Documents\Lawstudent_cclocal  (branch claude/cc-local, push to origin)
+[05:15:43] parallel: 2  (blender items run alone)
+[05:15:43] browser: visible windows side by side (probe/game/webkit; queue ENV CC_HEADLESS wins) - please do not click them
+[05:15:43] git fetch
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/cc-testing -> FETCH_HEAD
      * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
-       a6f545fa1..ae8fe906b  claude/cc-testing -> origin/claude/cc-testing
     From https://github.com/pyhuanglaw/Lawstudent
      * branch                claude/second-ai-env-art -> FETCH_HEAD
     Already on 'claude/cc-local'
@@ -41,36 +40,7 @@
     M	docs/story_planning/CC/local_out/R8_y4s2rt/run.log
     Your branch is up to date with 'origin/claude/cc-local'.
     Already up to date.
-    Merge made by the 'ort' strategy.
-     .../test_tools/cc/cc_live_ver_probe.py             | 59 ++++++++++++++++++++++
-     tools/cc_local/queue.txt                           |  8 +++
-     tools/cc_local/run_queue.py                        |  6 ++-
-     3 files changed, 71 insertions(+), 2 deletions(-)
-     create mode 100644 docs/story_planning/test_tools/cc/cc_live_ver_probe.py
-[05:15:15] dev head = d2b962a3f   lawww2 head = b0a547cee
-[05:15:16] config.txt: PARALLEL 2 -> 3
-[05:15:16] memory used: 38%  (new items wait while >= 85%)
-[05:15:20] queue: LIVE19_deploy, LIVE19_ver, LIVE19_day12, DC_ver_ok, DC_ver_bad, V19W_tour_tap8, V19W_tour_later, V19R_deploy6, V19R_p0f, V19D_tour_tap8c, V19D_tour_tap7, V19R_deploy5, V19R_p0e, V19D_tour_later2, V19D_tour_tap3, V19D_tour_joy3, V19R_deploy4, V19R_p0d, V19D_tour_tap4, V19D_tour_tap5, V19D_tour_tap6, V19D_tour_later, V19R_deploy3, V19R_p0c, V19L_libfl, V19L_libsc, V19R_deploy, V19R_p0b, V19R_p0, V19R_v7, V19R_zone, V19R_mini, V19R_touch, V19R_class, V19R_reach, V19O_onetap, V19O_onetap_s, V19S_diners, V19S_keep, V19C_c608, V19C_f606, V19D_grandma, V19D_yule_shao, V19D_tour_tap, V19D_tour_joy, V19D_swingshot, V19D_swing, V19D_stairarm, V19R_touch2, V19D_tour_tap2, V19D_grandma2, V19S_noodle2, V19X_popin, V19X_popin_C, V19X_gym, V19X_gym_C, V19X_unmet, V19X_jnl, V19X_jnl_C, N20_tour_joy, LIVE18_deploy, LIVE18_day12, LIVE18_deploy2, V18R_deploy, V18R_p0, V18R_v7, V18R_zone, V18R_mini, V18R_touch, V18R_class, V18R_reach, V18R_touch2, V18G_sleep, V18G_eat, V18G_camp608, N19_libfl, N19_libsc, N19_libtour, N19_wcst, N19_wcfl, N19_wcglb, N19_zone, N19_reach, N19S_diners, N19S_shots, N19_tour_tap, N19_tour_joy, N19_tour_tap2, N19C_c608, N19C_osmake, N19C_osload, N19C_f606, N19C_f606wf, N19C_kx607, N19F_fav, N19F_fav2, N19E_exw, MD_tx_v2, MD_tx_v2b, B245_bench, B245_wind, B245_stairarm, B245_stairarm2_c, B245_b07, B245_swingshot, B245_swing, B245_runspeed, AA609_grandma, B245_bench_c, B245_swing_c, AA609_grandma_c, V18_ANSMOKE, G1_reach, G2_libfl, G3_libsc, G5_termend, G6a_v7, G6b_v95, G6c_fm, G7_class, P3_ladder, P4_legal, P5_ui, A1_advskip, A2_dorm, A3_late15, A1_adv_ef63, A2_dorm_ef63, A3_l15_ef63, A1pre, A2pre, A3pre, ART_cop, ART_lband, ART_night, ART_uskit, P3b_sl, R4main, R4b1b_rr, R4v2_b1b, B4main, R1_reach, R2_flowcls, R3_touchwz, R4_day12, R6_layout, R6b_layoutcss, R7_quota, R7b_quota15, R8b_y4s2jp, R8c_y4s2fin, R9_roll, R5_rr, R6_rr, R8_rr, R10_b3, R11_b4, R10_rr, R12_fasat, R12b_fasatpre, R10_rr2, R6_rr2, R8_rr2, F1_fps_hl, F2_fps_hd, R1_x2, R2_x2, R3_x2, R4_x2, R5_x2, R9_x2, R1_x3, R2_x3, R3_x3, R4_x3, R5_x3, R9_x3, 00_gpu, 01_p0speed, 10_deploy, 11_reach, 12_flowcls, 13_minimap, 14_zones, 15_touchwz, 16_p0, 17_savev7, 18_flowday12, 19_mkretake, 19b_mkjp, 02b_mk12dea, 06b_layoutP, 06c_layoutO, 32_wsem, 33_wsempre, 20_roll, 21_rollpre, 22_boya, 23_boyapre, 24_b3, 25_b3pre, 26_b3pre2, 27_b4, 28_b4pre, 29_jpmk, 34_day9, 02_mk12new, 04b_quota15, 04c_legal, 05_mk12old, 07_bg107, 08_pt106, 30_b1base, 31_b2base, G4_day12, FS112, R11_full, R10pre, R11pre, D_B12_skybr, D_RUN_p0, D_RUN_movreg, V18_LIBTOUR
-[05:15:20] memory 39% before starting LIVE19_deploy (0 running)
-[05:15:20] memory 39% before starting LIVE19_ver (1 running)
-[05:15:20] ==== START LIVE19_deploy  (game @ e1603907e) ====
-[05:15:20] memory 39% before starting LIVE19_day12 (2 running)
-[05:15:20] ==== START LIVE19_ver  (probe @ e1603907e) ====
-[05:15:20] ==== START LIVE19_day12  (game @ e1603907e) ====
-[05:15:23] [res] cpu=7% mem=38% (12.3/31.4 GB) chrome_testing=0  START LIVE19_deploy
-[05:15:23] [res] cpu=7% mem=38% (12.3/31.4 GB) chrome_testing=0  START LIVE19_ver
-[05:15:23] [res] cpu=7% mem=38% (12.3/31.4 GB) chrome_testing=0  START LIVE19_day12
-[05:15:23] ERROR LIVE19_deploy : worktree add e1603907e failed: fatal: invalid reference: e1603907e
-[05:15:23] ERROR LIVE19_ver : worktree add e1603907e failed: fatal: invalid reference: e1603907e
-[05:15:23] ERROR LIVE19_day12 : worktree add e1603907e failed: fatal: invalid reference: e1603907e
-[05:15:27] [res] cpu=11% mem=38% (12.1/31.4 GB) chrome_testing=0  END LIVE19_deploy
-[05:15:28] [res] cpu=12% mem=38% (12.1/31.4 GB) chrome_testing=0  END LIVE19_ver
-[05:15:28] [res] cpu=11% mem=38% (12.1/31.4 GB) chrome_testing=0  END LIVE19_day12
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       87318a961..f5a0ea0eb  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:15:31] ==== END   LIVE19_deploy  exit=None  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e ====
-    To https://github.com/pyhuanglaw/Lawstudent.git
-       f5a0ea0eb..03ec6ef14  claude/cc-local -> claude/cc-local
-    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
-[05:15:36] ==== END   LIVE19_ver  exit=None  7s  worktree add e1603907e failed: fatal: invalid reference: e1603907e ====
+    Already up to date.
+[05:15:47] dev head = d2b962a3f   lawww2 head = b0a547cee
+[05:15:48] config.txt: PARALLEL 2 -> 3
+[05:15:48] memory used: 38%  (new items wait while >= 85%)
