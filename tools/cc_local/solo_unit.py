@@ -61,5 +61,32 @@ src = open(R.__file__, encoding='utf-8').read()
 check("run_item 對 blender 強制 CC_BLENDER_DEVICE='CPU'", "env['CC_BLENDER_DEVICE'] = 'CPU'" in src)
 check("blender 執行檔模式加 -t（執行緒數）", "'-b', '-t'," in src)
 
+# 5. SCRIPT_FROM：從企劃分支取腳本放進工作樹（BB 13:30）
+import subprocess
+REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
+REL = '.claude/skills/blender-web-3d/assets/blender/export_glb.py'
+r = make([['BLX', 'a', 'blender', REL, 'u', '1', 'SCRIPT_FROM=story']])
+r.repo = REPO; r.blender = '/opt/blenv/bin/python'
+wt = tempfile.mkdtemp(); od = tempfile.mkdtemp()
+it = R.Item(['BLX', 'a', 'blender', REL, 'u', '1', 'SCRIPT_FROM=story'])
+env = {'SCRIPT_FROM': 'story', 'CC_BLENDER_THREADS': '2'}
+try:
+    cmd, cwd = r.build_cmd(it, wt, od, 'u', None, env)
+    want = subprocess.run(['git', '-C', REPO, 'show', 'origin/claude/story-planning:' + REL], capture_output=True, text=True).stdout
+    got = open(os.path.join(wt, REL), encoding='utf-8').read()
+    check('SCRIPT_FROM=story：工作樹裡的腳本和企劃分支上的一樣', got == want and len(got) > 0, len(got))
+    check('SCRIPT_FROM：指令跑的是工作樹裡的那一份', os.path.join(wt, REL) in cmd, cmd[:3])
+except Exception as e:
+    check('SCRIPT_FROM=story：build_cmd 不出錯', False, repr(e))
+it2 = R.Item(['BLY', 'a', 'blender', 'no/such/file.py', 'u', '1', 'SCRIPT_FROM=story'])
+try:
+    r.build_cmd(it2, wt, od, 'u', None, {'SCRIPT_FROM': 'story'}); check('SCRIPT_FROM：找不到檔案時報錯', False)
+except RuntimeError as e:
+    check('SCRIPT_FROM：找不到檔案時報錯（不默默跑舊檔）', 'cannot read' in str(e), str(e))
+
+# 6. 超過 50 MB 的結果檔不推
+check('BIG_CAP＝50 MB', R.BIG_CAP == 50 * 1024 * 1024, R.BIG_CAP)
+check('結果收集時超過 BIG_CAP 的檔寫進 notes.txt、不加進 add', "not pushed (over 50 MB)" in src)
+
 print('ALL PASS' if not fails else 'FAILED %d' % len(fails))
 sys.exit(1 if fails else 0)

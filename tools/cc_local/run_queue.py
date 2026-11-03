@@ -58,6 +58,7 @@ RESTART_EXIT = 75     # BB 2026-11-02 20:08：runner 自己有新版 → 跑完�
 SELF_FILE = os.path.abspath(__file__)
 LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
 REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結束時，多久重讀一次佇列
+BIG_CAP = 50 * 1024 * 1024   # 結果檔（PNG 以外）超過這個大小就不推，只在 notes.txt 記路徑和大小
 
 
 def blender_threads():
@@ -697,6 +698,19 @@ class Runner(object):
                 raise RuntimeError('blender not found (set CC_BLENDER)')
             os.makedirs(out, exist_ok=True)
             script = os.path.join(wt, it.script)
+            sf = env.get('SCRIPT_FROM', '').strip()
+            if sf:
+                # BB 13:30：AA／BB 的 Blender 腳本在企劃分支，lib2 用工作樹（second-ai-env-art）那一份：把 SCRIPT_FROM 分支上的腳本
+                # （加上 SCRIPT_FILES 列的其他檔，逗號分隔）放進工作樹同一個路徑再跑
+                ref = {'story': STORY_BRANCH, 'lawww2': LAWWW2_BRANCH, 'cc': CC_BRANCH}.get(sf, sf)
+                for rel in [it.script] + [x.strip() for x in env.get('SCRIPT_FILES', '').split(',') if x.strip()]:
+                    rc, body = git('-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/')), capture=True)
+                    if rc != 0:
+                        raise RuntimeError('SCRIPT_FROM %s: cannot read %s' % (ref, rel))
+                    dst = os.path.join(wt, rel)
+                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+                    with open(dst, 'w', encoding='utf-8', newline='') as fh:
+                        fh.write(body)
             if blender_is_python(self.blender):
                 return [self.blender, script, '--'] + xa, wt
             return [self.blender, '-b', '-t', env.get('CC_BLENDER_THREADS', str(blender_threads())), '--python-exit-code', '1', '--python', script, '--'] + xa, wt
@@ -851,7 +865,22 @@ class Runner(object):
             pngs = sorted(f for f in files if f.lower().endswith('.png'))
             acc = 0
             skipped = 0
-            add = [f for f in files if not f.lower().endswith('.png')]
+            add = []
+            big = []
+            for f in files:
+                if f.lower().endswith('.png'):
+                    continue
+                if os.path.getsize(f) > BIG_CAP:   # BB 13:30：超過 50 MB 的不推，只記路徑和大小
+                    big.append(f)
+                else:
+                    add.append(f)
+            if big:
+                nf = os.path.join(od, 'notes.txt')
+                with open(nf, 'a', encoding='utf-8') as fh:
+                    for f in big:
+                        fh.write('not pushed (over 50 MB): %s  %d bytes\n' % (f, os.path.getsize(f)))
+                if nf not in add:
+                    add.append(nf)
             for f in pngs:
                 sz = os.path.getsize(f)
                 if acc + sz <= PNG_CAP:
