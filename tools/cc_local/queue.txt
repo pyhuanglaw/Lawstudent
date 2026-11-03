@@ -22,8 +22,13 @@
 # BB 19:53 P0：候選 9e0684663（合照時間上限跟著出遊走、l3TimeOk）：tap7、deploy5、p0e 排最前面；later2 是加跑的情境
 V19D_tour_tap8  | 9e0684663 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
 V19D_tour_tap8c | ddda3d829 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon;EXPECT=FAIL
-V19D_tour_later3 | 9e0684663 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
+#BB 20:16 等新 SHA# V19D_tour_later3 | 9e0684663 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
 # （tap8：tap5～7 的探針前置 quiet_events 把條件事件關了＝合照不可能演；改成導覽結束後還原 EVENTS.tick／onEnter。8c＝修正前對照）
+#HOLD修正 V19W_tour_tap8  | <晚一點修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0;RERUN=evon
+#HOLD修正 V19W_tour_later | <晚一點修正> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;PHOTO_LATER=1;CC_HEADLESS=0;RERUN=evon
+#HOLD修正 V19W_deploy     | <晚一點修正> | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
+#HOLD修正 V19W_p0         | <晚一點修正> | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+# （V19W：BB 20:16 BUG-OUT-LATER-MISS-1103 修好的 SHA 下來就填、排最前面）
 V19D_tour_tap7 | 9e0684663 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
 V19R_deploy5  | 9e0684663 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19（2026-11-03）
 V19R_p0e      | 9e0684663 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
