@@ -130,13 +130,10 @@ for k in range(ST['n'] - 1):
     xf0.rbox(sw, sx0, sx1, y1 - 0.035, y1, z0, z1 + 0.025, r=0.008, seg=1)                                              # 踏板（前緣凸出 2.5 cm、倒角）
     if k > 0: sw.box(sx0, sx1, 0.0, y1 - ri, z0, z1)
 sw.box(sx0, sx1, 0.0, Y2 - 0.03, VD['z0'] - 0.0, VD['z0'] + 0.001)
-pts = [(sx1 + 0.06, 0.0, zb), (sx1 + 0.06, 0.0, VD['z0']), (sx1 + 0.06, Y2 - ri, VD['z0']), (sx1 + 0.06, 0.0, zb)]   # 東側的實心側板（三角形：每階的鋸齒由下面的小方塊補）
-side = sh.a('wood'); bm = side.bm
-for xs_ in (sx1 + 0.001, sx1 + 0.06):
-    vs = [bm.verts.new(g2b(xs_, q[1], q[2])) for q in pts[:3]]; f = bm.faces.new(vs[::-1] if xs_ > sx1 + 0.01 else vs)
-for k in range(ST['n']):                                                                                                # 側板的鋸齒上緣：每階一小塊
-    z1 = zb - k * tr; z0 = max(VD['z0'], z1 - tr); y1 = (k + 1) * ri
-    sw.box(sx1, sx1 + 0.06, 0.0 if k == 0 else (k * ri), y1, z0, z1 + (0.03 if k == 0 else 0.0))
+for k in range(ST['n'] - 1):                                                                                            # 東側的實心側板：每階一根從地面到踏板的柱（合起來是鋸齒上緣的整片側板）
+    z1 = zb - k * tr; z0 = z1 - tr; y1 = (k + 1) * ri
+    sw.box(sx1, sx1 + 0.06, 0.0, y1, z0, z1 + (0.03 if k == 0 else 0.0))
+sw.box(sx1, sx1 + 0.06, 0.0, Y2, VD['z0'] - 0.001, VD['z0'] + 0.001)
 gl = sh.a('glass'); hr = sh.a('vcm')
 for k in range(5):                                                                                                      # 玻璃欄杆（五片，跟著斜度）＋木扶手
     za = zb - k * ST['len'] / 5; zc = za - ST['len'] / 5; ya = ri + (zb - za) / tr * ri; yc = ri + (zb - zc) / tr * ri
