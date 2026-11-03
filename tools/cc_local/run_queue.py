@@ -649,6 +649,24 @@ class Runner(object):
             time.sleep(1)
         return srv, port
 
+    def script_from(self, it, env, base):
+        """ENV 有 SCRIPT_FROM（story／lawww2／cc／分支名）：從那個分支把腳本（加上 SCRIPT_FILES 列的檔，逗號分隔；文字、二進位都可以）
+        原樣放到 base 底下同一個相對路徑，回傳腳本的完整路徑；沒寫 SCRIPT_FROM 回傳 None。讀不到就報錯，不默默跑舊檔。
+        BB 13:30：AA／BB 的 Blender 腳本在企劃分支（blender：base＝工作樹，lib2 用工作樹那一份）；BB 14:40：BB 的探針也在企劃分支（probe：base＝runner 的暫存資料夾）"""
+        sf = env.get('SCRIPT_FROM', '').strip()
+        if not sf: return None
+        ref = {'story': STORY_BRANCH, 'lawww2': LAWWW2_BRANCH, 'cc': CC_BRANCH}.get(sf, sf)
+        for rel in [it.script] + [x.strip() for x in env.get('SCRIPT_FILES', '').split(',') if x.strip()]:
+            pr = subprocess.run([GIT, '-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/'))],
+                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+            if pr.returncode != 0:
+                raise RuntimeError('SCRIPT_FROM %s: cannot read %s' % (ref, rel))
+            dst = os.path.join(base, rel)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            with open(dst, 'wb') as fh:
+                fh.write(pr.stdout)
+        return os.path.join(base, it.script)
+
     def build_cmd(self, it, wt, od, url, url2, env):
         wrap = os.path.join(self.work, 'tools', 'cc_local', 'gpu_wrap.py')
         out = os.path.join(od, 'out')
@@ -668,7 +686,8 @@ class Runner(object):
             env['SHA'] = it.rsha
             if k == 'webkit':
                 env['CC_BROWSER'] = 'webkit'
-            return [self.py, wrap, os.path.join(self.work, it.script), url, out], self.work
+            sp = self.script_from(it, env, os.path.join(self.wtroot, '_script_from', it.id)) or os.path.join(self.work, it.script)
+            return [self.py, wrap, sp, url, out], self.work
         # 受測程式自己叫的 git（單元測試 git show 企劃稿）也照 LF：PC 的 repo 設了 core.autocrlf=true，N1 lf2 有一批「讀稿 0 句、行尾帶 \\r」的 FAIL（CC 2026-11-03）
         env['GIT_CONFIG_COUNT'] = '2'
         env['GIT_CONFIG_KEY_0'] = 'core.autocrlf'
@@ -698,20 +717,7 @@ class Runner(object):
                 raise RuntimeError('blender not found (set CC_BLENDER)')
             os.makedirs(out, exist_ok=True)
             script = os.path.join(wt, it.script)
-            sf = env.get('SCRIPT_FROM', '').strip()
-            if sf:
-                # BB 13:30：AA／BB 的 Blender 腳本在企劃分支，lib2 用工作樹（second-ai-env-art）那一份：把 SCRIPT_FROM 分支上的腳本
-                # （加上 SCRIPT_FILES 列的其他檔，逗號分隔；文字、二進位都可以）放進工作樹同一個路徑再跑
-                ref = {'story': STORY_BRANCH, 'lawww2': LAWWW2_BRANCH, 'cc': CC_BRANCH}.get(sf, sf)
-                for rel in [it.script] + [x.strip() for x in env.get('SCRIPT_FILES', '').split(',') if x.strip()]:
-                    pr = subprocess.run([GIT, '-C', self.repo, 'show', 'origin/%s:%s' % (ref, rel.replace(os.sep, '/'))],
-                                        stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)   # 位元組照原樣（貼圖 PNG 也可以）
-                    if pr.returncode != 0:
-                        raise RuntimeError('SCRIPT_FROM %s: cannot read %s' % (ref, rel))
-                    dst = os.path.join(wt, rel)
-                    os.makedirs(os.path.dirname(dst), exist_ok=True)
-                    with open(dst, 'wb') as fh:
-                        fh.write(pr.stdout)
+            script = self.script_from(it, env, wt) or script
             if blender_is_python(self.blender):
                 return [self.blender, script, '--'] + xa, wt
             return [self.blender, '-b', '-t', env.get('CC_BLENDER_THREADS', str(blender_threads())), '--python-exit-code', '1', '--python', script, '--'] + xa, wt
