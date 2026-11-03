@@ -596,6 +596,16 @@
    "quote": "我不是請改宿舍內部床的比例？那個任務做到哪 你是不是很多忘記／好 請LAWWW排進下一次發布",
    "src": "使用者",
    "note": "已完成：BB_249 ART_APPROVED、LAWWW 整合進開發分支 df1905883（11-02 21:38 UTC）；線上 main v9.10.16（e3d773589）還沒有。已 send_message 請 LAWWW 排進下一次發布並回版本、時間。"
+  },
+  {
+   "id": "UA-LAWWW2-1103-09",
+   "at": "2026-11-03T11:2x",
+   "kind": "原話（使用者直接對 LAWWW2 說）",
+   "status": "進行中",
+   "task": "DORM-CEIL-1103",
+   "quote": "宿舍天花板太低了 走上去都撞到頭 不合理／至少微微彎腰不要整個頭卡進去天花板",
+   "src": "使用者",
+   "note": "原因：房間高 3.0 m；梯子最上一階 1.60 m＋身高約 1.75＝頭頂 3.35 m；bed_entry（床墊 1.86 m）站直約 3.6 m。LAWWW2：天花板 3.0→3.4 m（吸頂燈 3.35、冷氣管頂 H−0.03）、sleep_scene 加 ceil_y／head_max（3.32）／bed_entry_pose='kneel'、重烘光照、layout 與 src/data/dorm_room_layout.js patch。LAWWW（已 send_message）：最上面一兩階微微彎腰、bed_entry 跪或爬。"
   }
  ]
 }

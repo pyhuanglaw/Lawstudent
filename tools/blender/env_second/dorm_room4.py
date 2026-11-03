@@ -33,7 +33,7 @@ ONLY = arg('--only')                               # --only 205：只做那一�
 ROOM_LAYOUT_OUT = arg('--room-layout')             # --only 時：rooms_glb3d.js 格式的配置（bounds、blocks、seats、spots、open…）
 EXTRA_SETS = ('205',)                              # 只在 --only 時做的那幾間（玩家的房間不能有：zones3d.js 的 DORM_SETS 不會藏 Y205_）
 
-W, D, H = 4.2, 7.0, 3.0   # 11-02 使用者：「宿舍走道太大了……床之間大概只能走同時站三個人的寬度……打開門看起來會是深的」：寬 6.0 → 4.2（兩排床桌組中間的走道 4 m → 1.8 m），深 7 m 照舊
+W, D, H = 4.2, 7.0, 3.4   # DORM-CEIL-1103（使用者 11-03「宿舍天花板太低了 走上去都撞到頭」「至少微微彎腰不要整個頭卡進去天花板」）：3.0 → 3.4 m（梯子最上面一階 1.60 m＋身高 1.75＝3.35 m；跪在床墊 1.86 m 上頭頂約 3.05 m）。 11-02 使用者：「宿舍走道太大了……床之間大概只能走同時站三個人的寬度……打開門看起來會是深的」：寬 6.0 → 4.2（兩排床桌組中間的走道 4 m → 1.8 m），深 7 m 照舊
 X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
 T = 0.1
 IX0, IX1, IZ0, IZ1 = X0 + T, X1 - T, Z0 + T, Z1 - T          # 牆的內面
@@ -224,7 +224,7 @@ soft_box(wm('front', 'pillow'), -0.98, -0.66, 1.22, 1.62, zi - 0.1, zi - 0.04, r
 # 冷氣（後牆、窗的右上方）＋冷媒管蓋板
 ac = wm('back', 'ac'); soft_box(ac, 0.25, 1.15, 2.55, 2.84, IZ0, IZ0 + 0.22, r=0.03, seg=2)
 wm('back', 'black').box(0.3, 1.1, 2.555, 2.575, IZ0 + 0.12, IZ0 + 0.225)
-wm('back', 'trim').box(1.14, 1.4, 2.6, 2.66, IZ0, IZ0 + 0.06); wm('back', 'trim').box(1.34, 1.4, 2.66, 2.97, IZ0, IZ0 + 0.06)
+wm('back', 'trim').box(1.14, 1.4, 2.6, 2.66, IZ0, IZ0 + 0.06); wm('back', 'trim').box(1.34, 1.4, 2.66, H - 0.03, IZ0, IZ0 + 0.06)
 
 # ======================================================================= 洗手間（進門右邊）：隔間牆＋門；裡面：馬桶、洗手台、鏡子、淋浴間
 bx0, bx1, bz0, bz1, bt = BATH['x0'], BATH['x1'], BATH['z0'], BATH['z1'], BATH['t']
@@ -555,7 +555,9 @@ def loft(uid, side, ua, ub, sets):
         'bed_entry': [r3(wx(side, 0.25)), r3(mtop), r3(ust - 0.25)],
         'lie': {'head': [r3(wx(side, mv)), r3(mtop + 0.1), r3(ua + 0.155)], 'feet': [r3(wx(side, mv)), r3(mtop + 0.05), r3(ua + 1.775)], 'head_dir_yaw': 3.1416, 'mattress_top_y': r3(mtop),
                 'mattress': {'x': sorted([r3(wx(side, 0.03)), r3(wx(side, VD - 0.05))]), 'z': [r3(ua + 0.025), r3(ust - 0.025)]}},
-        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]}}
+        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]},
+        # DORM-CEIL-1103：頭不能進天花板——人物（含頭髮）最高到 head_max；最上面一階站直頭頂約 3.35 m（微微彎腰）、上床那一步（bed_entry，床墊上）要跪或爬（站直會到 3.6 m）
+        'ceil_y': H, 'head_max': r3(H - 0.08), 'bed_entry_pose': 'kneel'}
 
 
 # ---- 每個人的東西
