@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "FS112",
+  "sha": "0f66c4215",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_flow_semester_probe.py",
+  "env": "DAYS=112",
+  "machine": "MSI",
+  "start": "2026-11-03T20:02:35",
+  "end": "2026-11-03T22:53:13",
+  "seconds": 10238,
+  "exit": 1,
+  "error": null,
+  "runner": "8565f3aa98",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 66,
+    "used_gb": 20.5,
+    "chrome_testing": 29
+  }
+}
