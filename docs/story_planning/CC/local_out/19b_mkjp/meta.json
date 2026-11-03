@@ -1,0 +1,23 @@
+{
+  "rerun": "paper1102",
+  "id": "19b_mkjp",
+  "sha": "690ac5f4d",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_makeup_probe.py",
+  "env": "FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102",
+  "machine": "MSI",
+  "start": "2026-11-03T09:50:29",
+  "end": "2026-11-03T10:10:38",
+  "seconds": 1209,
+  "exit": 0,
+  "error": null,
+  "runner": "88d80543f6",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 76,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 29
+  }
+}
