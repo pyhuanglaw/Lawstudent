@@ -11,7 +11,7 @@ const {check,GM}=H, J=JSON.stringify;
 const L3=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
 if(typeof TWFILL_LINES==='undefined'){ try{ L3('src/data/twfill_events.js'); L3('src/twfill3d.js'); }catch(e){} }
 let ok=false; try{ L3('src/practice3d.js'); ok=typeof PRACTICE!=='undefined'; }catch(e){ console.log('（載入失敗：'+e.message+'）'); }
-let DOC=''; try{ DOC=cp.execSync("git -c core.quotepath=false show '70d31d938:docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md'",{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+let DOC=''; try{ DOC=cp.execFileSync('git',['-c','core.quotepath=false','show','70d31d938:docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md'],{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 const goOn=async(key,flags,attend)=>{ const G=H.fresh(key,8,'dorm'); G.stage='law'; Object.assign(G.flags,flags||{}); const R=CLS.rec(G); if(attend) R.attend.legal_practice=attend; const it=CLS.dayItems(G).find(q=>q.c&&q.c.id==='legal_practice'); H.said=[]; if(it) await CLS.goClass(GM,it,{forced:true}); return {G,it,L:H.lines()}; };
 (async()=>{
   const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');

@@ -239,23 +239,10 @@ const R3=(function(){
     if(!PHONE.sent(G,'r3_sis_desk')) return;
     for(const k of S.DESK_DAYS){ const dd=D(k); if(dd!=null&&G.day===dd&&t<T(dd,21.75)&&!OUT.get(G,'r3_desk_'+k)) OUT.plan(G,{id:'r3_desk_'+k,ev:'ev_sis_y4_desks',day:dd,h:21,late:0.75,place:'法律系館A・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } };
   S.deskMissed=function(G,q){ const F=G.flags; if(F.SIS_DESK_MISSED||!q) return; F.SIS_DESK_MISSED=q.day; PHONE.at(G,q.day,23+10/60,[W('📷（同一張桌子，對面的位子空著）'),W('你今天沒來。我寫到十一點。')],'r3_sis_desk_miss'); };
-  /* 2-7b 她爸爸的晚餐：3/14 21:00 私訊（那晚人在研究室＝21:10 當面，r3_events.js）；答應＝3/17 18:30 公館的餐廳（出遊）；18:45 還沒到、19:30 還沒到、婉拒 */
-  S.father=function(G){ const F=G.flags, d14=D('2029-03-14'), d17=D('2029-03-17'), t=now(G); if(d14==null||d17==null||!dating(G,SIS)||typeof OUT==='undefined') return;
-    if(F.SIS_FATHER_ASKED==null&&t>=T(d14,21)&&t<T(d14+1,6)&&contact(G,SIS)){ F.SIS_FATHER_ASKED='msg';
-      PHONE.at(G,d14,21,[W('我爸週六會過來，他要請吃飯。'),Object.assign(W('……你要不要來。六點半，公館。'),{ask:{id:'r3_sis_father',until:T(d14+1,18),opts:[{t:'好。',say:[{from:SIS,text:'好。不用穿太正式。'}],set:{SIS_FATHER_GO:true}},{t:'那天不行。',say:[{from:SIS,text:'好。我跟他說。'}],set:{SIS_FATHER_GO:false}}]}})],'r3_sis_father'); }
-    if(F.SIS_FATHER_GO===true&&!OUT.get(G,'r3_sis_father')&&t<T(d17,19.5)) OUT.plan(G,{id:'r3_sis_father',ev:'ev_sis_y4_father',day:d17,h:18.5,late:1,place:'公館・餐廳',title:'她爸爸的晚餐',travel:'走過去 約 15 分鐘',travelH:0.25});
-    const q=OUT.get(G,'r3_sis_father');
-    if(q&&q.state==='planned'&&t>=T(d17,18.75)&&!PHONE.sent(G,'r3_sis_father_late')) PHONE.at(G,d17,18.75,[Object.assign(W('我爸先點菜了。……你在路上嗎？'),{ask:{id:'r3_sis_father_late',until:T(d17,19.5),opts:[{t:'快到了。',say:[{from:SIS,text:'好。'}]},{t:'今天去不了。',say:[{from:SIS,text:'好。'}],set:{SIS_FATHER_GO:'cancel'}}]}})],'r3_sis_father_late');
-    if(q&&q.state==='planned'&&F.SIS_FATHER_GO==='cancel') q.state='missed';   /* 「今天去不了。」：不再問出發、沒有 19:30 那一則 */
-    if(F.SIS_FATHER_GO===false&&t>=T(d17,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_no')) PHONE.at(G,d17,21,[W('我爸說下次。他記住你的名字了。')],'r3_sis_father_no');
-    /* 沒回（AA_343 C2）：她爸爸的飯，她再確認一次（只提這一次）——3/16（五）21:00；還是沒回＝3/17 不排出遊、21:00 一則，不記 MET_SIS_FATHER。
-       3/14 當面說的那一版（人在研究室，SIS_FATHER_ASKED 'face'）沒有「沒回」*/
-    if(F.SIS_FATHER_ASKED==='msg'&&F.SIS_FATHER_GO==null){ const m=PHONE.byAsk(G,'r3_sis_father');
-      if(m&&m.ans==null&&t>=T(d17-1,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_re'))
-        PHONE.at(G,d17-1,21,[Object.assign(W('週六六點半，公館。……不能來也跟我說一聲。'),{ask:{id:'r3_sis_father_re',until:T(d17,18),opts:[{t:'好。',say:[{from:SIS,text:'好。不用穿太正式。'}],set:{SIS_FATHER_GO:true}},{t:'那天不行。',say:[{from:SIS,text:'好。我跟他說。'}],set:{SIS_FATHER_GO:false}}]}})],'r3_sis_father_re');
-      const m2=PHONE.byAsk(G,'r3_sis_father_re');
-      if(PHONE.sent(G,'r3_sis_father_re')&&(!m2||m2.ans==null)&&t>=T(d17,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_none')) PHONE.at(G,d17,21,[W('我們吃完了。我爸說下次。')],'r3_sis_father_none'); } };
-  S.fatherMissed=function(G,q){ if(G.flags.SIS_FATHER_GO==='cancel'||!q) return; PHONE.at(G,q.day,19.5,[W('我們吃完了。我爸說下次。')],'r3_sis_father_miss'); };   /* 19:30 還沒到：不記 MET_SIS_FATHER */
+  /* 2-7b 她爸爸的晚餐（3/14 私訊、3/17 公館的出遊、18:45／19:30／21:00 的手機 7 則）：AA_591 決1 甲（使用者 2026-11-02「學姊爸爸不在了，不用特別提」）整條刪。
+     ev_sis_y4_father retired（r3_events.js）；S.father 只把舊存檔排好的那一趟取消、不再約；S.fatherMissed 留空殼給存檔裡已經排好的那一趟出遊（outingMissed 會叫它），不再傳訊息 */
+  S.fatherMissed=function(){};
+  S.father=function(G){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'r3_sis_father'):null; if(q&&q.state==='planned') q.state='missed'; };   /* 舊存檔已經答應、排好的那一趟：不去（同原本「今天去不了。」的做法）*/
   /* 2-7c 她自己放的一天假：4/27 21:00 三選一（回覆到 4/28 09:00）→ 4/28 河堤 10:00／貓空 13:00（出遊）／「哪裡都不去」＝12:00、21:00 兩則；沒回＝16:00 河邊的照片。
      AA_523 5-3（企劃線 0d7b5388b）：2/14 電話選「開學以後，我們再補一天。」（SIS_VDAY_MAKEUP）的＝那一則換成三句、不給選項，直接排河堤 10:00（src/sis_b16_3d.js S.dayOffMakeup）*/
   const dayOffMark=G=>{ G.flags.SIS_DAY_OFF=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!has(SIS,'SIS_DAY_OFF')) SOCIAL.remember(SIS,'SIS_DAY_OFF',''); };

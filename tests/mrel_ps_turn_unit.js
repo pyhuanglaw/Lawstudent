@@ -191,7 +191,7 @@ await sec(6,async()=>{
     const st=X().startStrain(H.G,SIS,KX,{ver:'base'}); st.phase='talked'; st.intent='both'; st.meets=2; st.lies0=0;
     const a=X().FLOW.heroine_05.meet(H.G,st,'talk'); clr(); await a.run(GM); };
   await sisB();
-  check('6. 學姊：還想兩個都要、戀愛 90、沒說謊＝接受（BB_194 4-6；第三句 AA_474 第 5 節改）＝OPEN_OK',H.has('我還是喜歡你。這個我不想騙自己。')&&H.has('……你去見她那天，出門前傳一句給我就好。')&&H.G.flags.dating_heroine_05===true&&!!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
+  check('6. 學姊：還想兩個都要、戀愛 90、沒說謊＝接受（BB_194 4-6；第三句 AA_474 第 5 節改；「我還是喜歡你。這個我不想騙自己。」照 AA_591 第 11 節第 13 點拿掉）＝OPEN_OK',!H.has('我還是喜歡你。這個我不想騙自己。')&&H.has('我想過了。')&&H.has('……你去見她那天，出門前傳一句給我就好。')&&H.G.flags.dating_heroine_05===true&&!!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
   ROM.PARAMS.acceptsOpen[SIS]=false; await sisB(); ROM.PARAMS.acceptsOpen[SIS]=true;
   check('6. 學姊的開關改回 false（AA_474 第 0 節：使用者之後想讓某一位永遠不接受）＝「不接受」那一格（Bno＝BB_194 13-4 的 D：分開）',H.has('我沒辦法。我會一直在想你現在在哪裡。')&&!H.has('我還是喜歡你。這個我不想騙自己。')&&!H.G.flags.dating_heroine_05&&!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
   const psA=async()=>{ fresh('2027-03-01',12); datePS(); H.G.flags.dating_kexin=true; const s2=X().startStrain(H.G,PS,KX,{ver:'base'}); s2.phase='psA'; s2.aDay=H.G.day-8; s2.talkAt=H.G.day;

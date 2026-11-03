@@ -30,7 +30,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G1. 畢業以後 2029-12-21：子晴的 presence 是工作室（taipei，不在首都帝大）——原本 termAt＝null 變成「在」',STORY.presence('heroine_04',H.G).here===false&&STORY.presence('heroine_04',H.G).kind==='taipei',JSON.stringify(STORY.presence('heroine_04',H.G)));
     check('G1. 畢業以後 2029-12-21：不熟的同學不再寫「一年級」',!/一年級/.test(tag('pool_1')),tag('pool_1')); }
   { grad('2029-10-01',10);
-    const want={heroine_01:'首都帝大法研所・碩一',heroine_02:'兩點半 Café',heroine_03:'社會系・延畢（修法律必修）',heroine_04:'獨立遊戲工作室',heroine_05:'研究單位',kexin:'木柵大學法律系畢業',zhe:'準備國考',classmate_bohan:'首都帝大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
+    const want={heroine_01:'首都帝大法研所・碩一',heroine_02:'兩點半 Café',heroine_03:'社會系・延畢（修法律必修）',heroine_04:'獨立遊戲工作室',heroine_05:'大學研究中心（助理）',kexin:'木柵大學法律系畢業',zhe:'準備國考',classmate_bohan:'首都帝大法研所・碩一',kai:'資工系畢業・上班',classmate_mingxuan:'德國',yu:'準備司法官',classmate_xinci:'事務所',npc_fangyt:'嘉義'};
     const bad=Object.keys(want).filter(id=>tag(id)!==want[id]), ps=tag('classmate_peishan');
     check('G1. 2-1 表：畢業以後 2029-10-01，十三個人照表寫「現在在做什麼」；沛珊「照現在（台南）」不換',!bad.length&&ps==='法律系・二年級',bad.map(id=>id+'='+tag(id)).join('、')+'｜沛珊='+ps); }
   { grad('2029-12-14',10); const a=tag('kexin'); grad('2030-07-02',10); const b=tag('heroine_03'); grad('2030-08-11',10); const c=tag('heroine_01'), m=tag('classmate_mingxuan');
@@ -181,7 +181,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
       ok&&exprOk,JSON.stringify(runs.map(r=>[r.L.slice(-4),r.O[0]]))+' expr='+exprOk); }
   // ===== G5 3-4 大五上女朋友的學期末約會（延畢、交往中，12/19～12/23）=====
   const INV5={heroine_01:'你實習結束了吧。……今天我訂位子。',heroine_02:'禮拜五九點，等我下班。',heroine_03:'打烊以後。我煮。',heroine_04:'你實習完了吧 宵夜 我想吃兩份',heroine_05:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。',classmate_peishan:'學期結束了吧！你下來，我們吃熱的。'};
-  const TB5={heroine_01:['碩一的課，每一堂都要先讀一整本。','……我讀得完。只是睡得少。'],heroine_02:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。'],heroine_03:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。'],heroine_04:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。'],heroine_05:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。'],classmate_peishan:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']};
+  const TB5={heroine_01:['碩一的課，每一堂都要先讀一整本。','……我讀得完。只是睡得少。'],heroine_02:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。'],heroine_03:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。'],heroine_04:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。'],heroine_05:['上班以後，計畫本裡都是中心的事。','……今天這一頓，是我自己約的。'],classmate_peishan:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']};
   { const bad=[]; for(const id in INV5){ const G=grad('2029-12-19',20,{EXCHANGE_ROUTE:'JP'}); H.FRIEND(id); H.date(id); H.at('2029-12-19',20.6); STORY.phoneRules(GM); PHONE.tick(G);
       { const dd=((TERMEND.rec(G,'Y5S1').gfDay)||{})[id]; if(dd!=null&&dd>=0){ PG.setT(G,H.E,dd,12.1); STORY.phoneRules(GM); PHONE.tick(G); } else bad.push(id+' 沒排日子'); }   /* AA_378 #3：先排好那一天，當天 12:00 才傳 */ const got=H.msgs('p:'+id);
       if(!got.includes(INV5[id])) bad.push(id+' 邀約='+JSON.stringify(got)); const P=TERMEND.rec(G,'Y5S1').plan||{}; if((P.heart||[]).length||(P.friend||[]).length||P.fallback) bad.push(id+' 只能有女朋友的約');

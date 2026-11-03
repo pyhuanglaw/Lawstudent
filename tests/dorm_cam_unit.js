@@ -24,7 +24,7 @@ const R=DORM_ROOM, H=R.room.h, PITCH=0.38, DIST=Z3.ZONES.dorm.camDist||3.6, DT=1
 check('引擎有 E.followCam、E.autoSwing',typeof E.followCam==='function'&&typeof E.autoSwing==='function');
 check('鏡頭碰撞（zone.camCols[0]）：洗手間＋四組上鋪',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length===1+R.units.length,z.camCols&&z.camCols[0]?z.camCols[0].length+' 塊':'沒有');
 /* 擋鏡頭的東西（照配置自己算，不拿 camCols 來量）：{x0,x1,z0,z1,y0,y1,unit} */
-const OBST=[{x0:R.bath.block.x[0],x1:R.bath.block.x[1],z0:R.bath.block.z[0],z1:R.bath.block.z[1],y0:0,y1:H}].concat(R.units.map(u=>({x0:u.block.x[0],x1:u.block.x[1],z0:u.block.z[0],z1:u.block.z[1],y0:1.56,y1:2.02,unit:true})));
+const OBST=[{x0:R.bath.block.x[0],x1:R.bath.block.x[1],z0:R.bath.block.z[0],z1:R.bath.block.z[1],y0:0,y1:H}].concat(R.units.map(u=>({x0:u.block.x[0],x1:u.block.x[1],z0:u.block.z[0],z1:u.block.z[1],y0:(u.bed_top_y||1.76)-0.2,y1:(u.bed_top_y||1.76)+0.26,unit:true})));   /* 上鋪床板到床欄頂（DORM-LOFT-SCALE-1102 起照配置的 bed_top_y；以前寫死 1.56～2.02）*/
 const under=(o,p)=>o.unit&&p.x>o.x0-0.1&&p.x<o.x1+0.1&&p.z>o.z0-0.1&&p.z<o.z1+0.1;
 /* 線段穿過方盒（盒子每邊縮 3 cm：擦邊不算）：slab 法 */
 function hitBox(a,b,o){ let t0=0,t1=1; const lo=[o.x0+0.03,o.y0+0.03,o.z0+0.03], hi=[o.x1-0.03,o.y1-0.03,o.z1-0.03], A=[a.x,a.y,a.z], D=[b.x-a.x,b.y-a.y,b.z-a.z];
@@ -43,7 +43,8 @@ function sim(x,zz,yaw,o){ o=o||{}; const P=E.player; setP(x,zz); P.obj.rotation.
   const C=E.cam={yaw,pitch:PITCH,dist:DIST,distTarget:DIST,target:new THREE.Vector3(x,1.45,zz),mode:'follow',manualT:0,dragging:false,ctl:false,swing:0,swingAcc:0};
   const cam=new THREE.Vector3(); let flips=0, last=0; for(let i=0;i<90;i++){ const r=E.followCam(C.target,C.yaw,PITCH,DIST,0,cam); const st=E.autoSwing(C,P,PITCH,r,DT); if(st&&last&&Math.sign(st)!==Math.sign(last)) flips++; if(st) last=st; }
   E.followCam(C.target,C.yaw,PITCH,DIST,0,cam); return {cam,tgt:C.target,h:Math.hypot(cam.x-x,cam.z-zz),turned:Math.round((C.yaw-yaw)*180/Math.PI),flips}; }
-for(const [name,yaw] of [['R2 書桌旁・鏡頭在東（artrev3 01）',Math.PI/2],['R2 書桌旁・鏡頭在南（artrev3 04）',0]]){ const x=1.0, zz=0.25; setP(x,zz);
+const R2AP=(R.units.find(u=>u.id==='R2')||{}).seat_approach||[1.0,0.25];   /* BB 站的位置：R2 書桌旁的走道（6 m 寬的房間是 x 1.0；DORM-LOFT-SCALE-1102 房間 4.2 m 寬，走道邊＝R2 的 seat_approach）*/
+for(const [name,yaw] of [['R2 書桌旁・鏡頭在東（artrev3 01）',Math.PI/2],['R2 書桌旁・鏡頭在南偏東 11°（artrev3 04）',0.2]]){   /* DORM-LOFT-SCALE-1102：房間 4.2 m 寬以後，從 R2 書桌旁（x 0.55）正南那條線離洗手間隔間只差 5 cm、量不到被擋；偏東 11° 才重現 BB 04「鏡頭在南被洗手間磁磚牆擋住」*/ const x=R2AP[0], zz=0.25; setP(x,zz);
   const was=blocked(new THREE.Vector3(x,1.45,zz),oldCam(new THREE.Vector3(x,1.45,zz),yaw),E.player.obj.position); const r=sim(x,zz,yaw);
   check(name+'：修改前的鏡頭在上鋪／洗手間後面（重現得到 BB 的畫面）',!!was);
   check(name+'：3 秒內轉開——不穿過、鏡頭水平離頭 ≥ 1.0 m、沒有左右來回',!blocked(r.tgt,r.cam,E.player.obj.position)&&r.h>=1.0&&r.flips===0,`水平 ${r.h.toFixed(2)} m、比頭高 ${(r.cam.y-r.tgt.y).toFixed(2)} m、轉了 ${r.turned}°、來回 ${r.flips} 次`); }

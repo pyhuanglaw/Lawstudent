@@ -28,7 +28,7 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 check('有 STORY.sleepSceneOf（宿舍睡覺的畫面）',typeof STORY.sleepSceneOf==='function');
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 const U=DORM_ROOM.units.find(u=>u.id===(DORM_ROOM.player_unit||'L2')); const SC0=JSON.parse(JSON.stringify(U.sleep_scene||null));
-check('DORM_ROOM 玩家那一組（L2）有 sleep_scene（approach、四階 steps、lie、cam）',!!SC0&&SC0.steps.length===4&&!!SC0.lie&&!!SC0.cam,JSON.stringify(SC0&&SC0.approach));
+check('DORM_ROOM 玩家那一組（L2）有 sleep_scene（approach、steps ≥ 4 階而且每階往上 0～0.35 m、lie、cam）',!!SC0&&SC0.steps.length>=4&&SC0.steps.every((q,i)=>{ const d=q[1]-(i?SC0.steps[i-1][1]:0); return d>0&&d<=0.35; })&&!!SC0.lie&&!!SC0.cam,JSON.stringify(SC0&&SC0.approach)+' '+(SC0?SC0.steps.length:0)+' 階');   /* DORM-LOFT-SCALE-1102：床板 1.56→1.66 m，梯子 4 階（每階 0.32）→ 5 階 */
 const F0={afternoonDone:true,classDone:true,metAn:true,zheInvite:true,zheNoodleDone:true,introDone:true};
 const near=(a,b,e)=>Math.abs(a-b)<(e||1e-6);
 const angN=a=>Math.atan2(Math.sin(a),Math.cos(a));

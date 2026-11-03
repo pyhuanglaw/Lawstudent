@@ -10,10 +10,14 @@ const H=require('./pg_harness.js'); const {check}=H, J=JSON.stringify;
   const XR=/^(Y4MAR_|Y4IP_|Y4LSO_|Y4TAX_)/; const mar=EXAM_BANK.questions.filter(q=>XR.test(q.id)).length;
   check('0. 題庫裡有海商法、智財、勞社、財稅的題目（'+mar+' 題）',mar>0);
   const p=PG.pool(), pa=PG.pool(true);
+  { const C=['maritime','ip_law','labor_social','tax_law'], n=C.map(c=>p.filter(q=>q.course===c).length), na=C.map(c=>pa.filter(q=>q.course===c).length);
+    check('1b. 用科目算（BUG-BAR-POOL-PREFIX，CC_34：id 寫成 Y4_MAR_01 的 7 題原本漏掉）：一試題庫 maritime、ip_law、labor_social、tax_law 都是 0 題；全部（讀舊存檔用）都有',n.every(x=>x===0)&&na.every(x=>x>0),J({pool:n,all:na})); }
   check('1. 一試題庫沒有這四組；全部（讀舊存檔用）有（一試題庫 '+p.length+' 題，五年各 20 題要 100 題）',!p.some(q=>XR.test(q.id))&&pa.filter(q=>XR.test(q.id)).length===mar&&p.length>=5*PG.N_Q,J({p:p.length,pa:pa.length}));
   let bad=[]; for(const seed of [1,7,12345,987654321,42424242,5]){ H.fresh('2029-06-30',10,'dorm',{examSeed:seed}); for(const y of [2029,2030,2031,2032,2033]){ const qs=PG.draw(H.G,y); if(qs.length!==PG.N_Q||new Set(qs.map(q=>q.id)).size!==PG.N_Q||qs.some(q=>XR.test(q.id))) bad.push([seed,y,qs.length]); } const all=[2029,2030,2031,2032,2033].flatMap(y=>PG.rec(H.G).exam[y].qs); if(new Set(all).size!==all.length) bad.push([seed,'五年有重複']); }
   check('2. 2029～2033、6 個 examSeed：每一年 20 題不重複、五年之間也不重複、沒有這四組',!bad.length,J(bad));
   H.fresh('2029-06-30',10,'dorm',{examSeed:3}); const R=PG.rec(H.G); R.exam=R.exam||{}; const old=pa.filter(q=>/^Y4MAR_/.test(q.id)).slice(0,2).concat(p.slice(0,18)).map(q=>q.id); R.exam[2029]={qs:old.slice()};
-  const got=PG.draw(H.G,2029).map(q=>q.id); check('3. 舊存檔已經抽好（含 2 題 Y4MAR_）：照舊不重抽',J(got)===J(old),J(got.slice(0,3)));
+  { const got=PG.draw(H.G,2029); check('3. 舊存檔已經抽好（含 2 題 Y4MAR_）但還沒作答（開考中途關掉）：那 2 題換掉、其餘 18 題照舊，共 20 題、沒有四科（BB 2026-11-02 22:15）',got.length===PG.N_Q&&!got.some(q=>['maritime','ip_law','labor_social','tax_law'].includes(q.course))&&old.slice(2).every(id=>got.some(q=>q.id===id)),J(got.map(q=>q.id).slice(0,4))); }
+  { const o2=['Y4_MAR_01'].concat(p.slice(0,19).map(q=>q.id)); R.exam[2030]={qs:o2.slice()}; const got=PG.draw(H.G,2030); check('3c. 舊存檔抽到 Y4_MAR_01（另一種寫法）、還沒作答：開考題目沒有 maritime',got.length===PG.N_Q&&!got.some(q=>q.course==='maritime'),J(got.map(q=>q.id).slice(0,3))); delete R.exam[2030]; }
+  { R.exam[2029]={qs:old.slice(),ans:[0]}; const got=PG.draw(H.G,2029).map(q=>q.id); check('3b. 已經作答過（ans 有記）：照舊不重抽（分數、放榜要對得上）',J(got)===J(old),J(got.slice(0,3))); }
   H.done();
 })();

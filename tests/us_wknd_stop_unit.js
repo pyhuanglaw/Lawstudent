@@ -100,7 +100,7 @@ await sec(4,async()=>{
   let why=null, other=[]; for(let i=0;i<6;i++){ why=await USL.jump(GM,T(D('2028-11-06'),9)); const p=why==='msg'?PHONE.pending(H.G).filter(m=>!/^us208_ask_/.test(m.ask.id)):[]; if(!p.length) break;
     for(const m of p){ other.push(stop()+' '+m.ask.id); PHONE.answer(H.G,m.ask.id,0); } rules(); }   /* 別的要回的訊息（11/3 21:00 芝加哥的邀約）先回掉，再接著快轉 */
   const m=byTag('us208_dm_1105');
-  check('4. 一路快轉：不停在 11/4；停在 11/5（日）14:00 她傳 3-5 那一句',why==='msg'&&stop()==='2028-11-05 14'&&m.length===1&&m[0].text===US208.SCENES[4].dm&&!byTag('us208_dm_1104').length,J({why,at:stop(),m:m.map(x=>x.text),other}));
+  check('4. 一路快轉：不停在 11/4；停在 11/5（日）14:00 她傳 3-5 那一句',why==='msg'&&stop()==='2028-11-05 14'&&m.length===1&&m[0].text===US208.SCENES.find(s=>s.n==='3-5').dm&&!byTag('us208_dm_1104').length,J({why,at:stop(),m:m.map(x=>x.text),other}));
 });
 
 /* ======================= 5. 七場都演完以後的週末不停 ======================= */

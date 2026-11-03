@@ -104,15 +104,22 @@ const PG=(function(){
   S.N_Q=20;
   /* LEGAL_REVIEW_REQUIRED：使用者 11-02：一試不考海商法、智財、勞社、財稅（10:2x，經 BB）——海商法與海洋法（Y4MAR_）、智慧財產法（Y4IP_）、勞動社會法（Y4LSO_）、財稅法（Y4TAX_）不放進一試的抽題範圍；題目、答案不改，期末考照用。
      已經抽好的舊存檔（R.exam[y].qs 記著的）照舊（S.draw 先讀存下來的那一份：S.pool(true)）*/
-  S.POOL_EXCLUDE=[/^Y4MAR_/,/^Y4IP_/,/^Y4LSO_/,/^Y4TAX_/];
-  S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!S.POOL_EXCLUDE.some(r=>r.test(q.id)))) out.push(q);
+  S.POOL_EXCLUDE=[/^Y4_?MAR_/,/^Y4_?IP_/,/^Y4_?LSO_/,/^Y4_?TAX_/];   /* id 有兩種寫法（Y4MAR_01、Y4_MAR_01）*/
+  S.POOL_EXCLUDE_COURSES=['maritime','ip_law','labor_social','tax_law'];   /* BUG-BAR-POOL-PREFIX（CC_34，BB 2026-11-02 22:15）：主要看 q.course——只比 id 開頭會漏 Y4_MAR_01 這種寫法的 7 題 */
+  S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!(S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id))))) out.push(q);
     if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(q); return out; };   /* 四年各科期末考的題庫＋刑訴（AA_126 第 3 節）*/
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
   const rng=seed=>()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
   S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), pool=S.pool(), byId=new Map(S.pool(true).map(q=>[q.id,q]));
-    if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length) return qs; }
     const used=new Set(); for(const k in X) if(+k!==+y) for(const id of (X[k].qs||[])) used.add(id);   /* 第二年換一組（AA_286 2-1）*/
     const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);
+    if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length){
+      if(X[y].ans) return qs;   /* 已經作答（ans 記了）：照舊，分數、放榜要對得上 */
+      const bad=q=>S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id));   /* BB 2026-11-02 22:15：抽好還沒作答（開考中途關掉）的舊存檔——四科拿掉、從題池補抽，不讓舊存檔考到海商法 */
+      if(!qs.some(bad)) return qs;
+      const keep=qs.filter(q=>!bad(q)), have=new Set(keep.map(q=>q.id)), r0=rng(hashStr(F.examSeed+'|bar-refill|'+y)), extra=pool.filter(q=>!used.has(q.id)&&!have.has(q.id));
+      for(let i=extra.length-1;i>0;i--){ const j=Math.floor(r0()*(i+1)); const x=extra[i]; extra[i]=extra[j]; extra[j]=x; }
+      const out=keep.concat(extra.slice(0,S.N_Q-keep.length)); X[y].qs=out.map(q=>q.id); return out; } }
     const r=rng(hashStr(F.examSeed+'|bar|'+y)), a=pool.filter(q=>!used.has(q.id)); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; }
     const qs=a.slice(0,S.N_Q); X[y]={qs:qs.map(q=>q.id)}; return qs; };
   S.opts=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));   /* 照期末考的介面（classes3d.js optList）*/
@@ -318,13 +325,9 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過卻沒吃到（婉拒、取消、沒到、沒回）——她那一段之前，她爸爸那一小段；當面說過畢業快樂，後面就不再轉述「我爸叫我跟你說：恭喜。」*/
-  S.fatherGradDue=G=>{ const F=G.flags; return S.dating(G,'heroine_05')&&F.SIS_FATHER_ASKED!=null&&!F.MET_SIS_FATHER; };
-  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
-    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); G.flags.MET_SIS_FATHER='grad'; };
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+  /* AA_392 第 8 節 fatherGradDue／fatherGrad（典禮上的她爸爸）：AA_591 決1 甲刪 */
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,[].concat(...W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='恭喜畢業。'?(W.hug&&S.dating(G,'heroine_05')?[[null,W.hug]]:[]).concat([[x[0],DLY(G,'thermos2',x[1])]]):[x])));   /* AA_591 第 175 列「恭喜畢業。」；決9（新7）交往中先抱一下 */   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater);   /* 黑咖啡那一句（THERMOS 的 helped）拿掉：連著空的保溫瓶那一次（AA 2026-11-02 20:26，D127、AA_595）*/
-    if(F.MET_SIS_FATHER&&F.MET_SIS_FATHER!=='grad') await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
     if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
     F.SIS_THERMOS=true; };
   S.mother=async function(GM,partner){ const G=GM.G, M=L().MOTHER, A=adv(); await S.play(GM,M.lines);
@@ -533,7 +536,8 @@ const PG=(function(){
     if(late){ GM.sceneBegin(); try{ await GM.say(null,Fi.lateNarr); } finally { GM.sceneEnd(); } } }
   /* ---------- 尾聲（1A-20；BB 人物照 AA_327 2-Y4-53 的表：條件由低到高，取符合的最後一列）---------- */
   const yes=v=>!!v;
-  S.atTable=(G,id)=>!S.isEx(G,id)&&S.at(G,id,'FAMILIAR');
+  S.seen=id=>typeof SOCIAL==='undefined'||!!((SOCIAL.metD&&SOCIAL.metD(id))||(SOCIAL.has&&(SOCIAL.has(id,'FIRST_MET')||SOCIAL.has(id,'GREETED'))));   /* 見過（叫得出名字）：BB 2026-11-02 CC_34——只靠搭話累積熟悉度、相遇事件被遷移成 GREETED 的舊存檔，不認識的人不上尾聲那一桌 */
+  S.atTable=(G,id)=>!S.isEx(G,id)&&S.at(G,id,'FAMILIAR')&&(S.dating(G,id)||S.seen(id));
   S.ytEnd=function(G){ const F=G.flags, h=t=>has('heroine_03',t); const e1=h('RENT_CONSULTATION')&&h('LAW_MEETS_LIFE'), e2=h('FIELD_NOTES_IDEA')&&yes(F.YT_NOTES_NEXT), e3=e1&&S.pathTop(G)==='A'&&h('APOLOGIZED');   /* AA_11 結局表：5 → 3 → 2 → 1 → 4 */
     const job=e3?3:(e2?2:(e1?1:4)); if(S.dating(G,'heroine_03')) return {end:5,job}; if(e3) return {end:3,job:3}; if(e2) return {end:2,job:2}; if(e1) return {end:1,job:1}; if(S.at(G,'heroine_03','FRIEND')) return {end:4,job:4}; return {end:0,job}; };
   S.epiLine=function(G,id){ const F=G.flags, E=L().EPI, lw=F.BAR_YEAR!=null, me=x=>x.map(t=>[id,t]);

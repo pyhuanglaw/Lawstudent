@@ -212,7 +212,7 @@ const LIBRARY_LAYOUT={
     "label": "走樓梯下 B1",
     "spawn": {
       "x": -10.1,
-      "z": -2.4,
+      "z": -3.1,
       "lv": 0,
       "yaw": 1.5708
     },

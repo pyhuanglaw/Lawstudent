@@ -540,7 +540,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D12.json",
-   "sha": "a5b936a69",
+   "sha": "43d27cd80",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
    "task": "DATE-S6",
@@ -548,9 +548,13 @@
     {
      "sha": "57de1709",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_439 禁用句總掃描；AA_591 整合決定第 9 點以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；43d27cd80（2026-11-02 子代理代登 sisdate，給值班 LAWWW 核）：AA_591「整合時的 AA 決定」第 9 點，學姊 D12.tea 第一次「這種茶我爸以前每天喝。我那時候覺得好苦。」→「這種茶我媽每天喝。我小時候覺得好苦。」（她爸爸在遊戲開始前過世、不提；任務 AA598-SIS-1C-1102 一起做）。a5b936a69→43d27cd80 這個檔另外只有可昕兩處政大→木柵大學（RENAME-1030；import_guard 讀稿時本來就換名，遊戲不變）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
@@ -3975,6 +3979,24 @@
    "task": "AA595-LIB-NOD-THERMOS-1102",
    "kind": "text",
    "note": "四條新規則：①圖書館讀書區第一次遇到只點頭、之後台詞加「（小聲）」＝共用機制 src/libquiet3d.js（game3d.js say／caption／doInteract；存檔 G.libNod），1-B～1-D 的縮短由 AA 分批寫，不在這一筆；②學姊「你們系的交換名單」→「系上的交換名單」；③空的保溫瓶那條線（ev_sis_flask_full、flaskCoffeeDay、「上次是黑咖啡」、心願約會選項）retired／拿掉、其餘 9 處旁白不寫「空的」；④src 全部「臺北的家」→「家」（字卡、地點、提示「回家」），以安 A-L10「寒假你會回家住嗎？」（tools/ladder/import_ladder.py 疊稿）。tests/aa595_rules_unit.js。子代理 2026-11-02 代登（aa595 分支，基準 int/m590 0e11c43a3），給值班 LAWWW 核"
+  },
+  {
+   "path": "docs/story_planning/AA_591_學姊改稿_第四批_大三大四畢業後.md",
+   "sha": "6b35748c7",
+   "status": "approved",
+   "approvedBy": "AA 2026-11-02 審查（第 9 節，D109；決1～決9 定案）、BB_237 口氣審 PASS、使用者 2026-11-02 18:5x 起選擇題 14 題確認（第 11 節：「學姊第四批 14 題使用者看完，照第 11 節可以交 LAWWW」）",
+   "task": "AA591-SIS-B4-1102",
+   "kind": "text",
+   "note": "學姊改稿第四批（大三、大四、畢業以後）：手抄檔、程式，沒有產生器——tools/story/apply_line_table.py 自動換 171 列，其餘手改；你的大四你自己排（ev_sis_adv_y4，第 23～25 列）、她爸爸的晚餐（ev_sis_y4_father，決1）、208 剪報（ev_us208_clipping，決2）retired（定義留給舊存檔）；第 11 節：她不先說（大峽谷保467～469、畢業那天保630、631、AA_590 期末飯、AA_593 重新開始那一版、多段感情 Byes）；AA 對 AA_584 的補充（交往中『林{name}』、sis3h、修正本私訊、family_context）一起做"
+    },
+    {
+   "path": "docs/story_planning/AA_598_學姊改稿_1c_約會地點台詞.md",
+   "sha": "c389462be",
+   "status": "approved",
+   "approvedBy": "AA 定稿（本檔第 8 節 AA 審查決定，2026-11-02 晚：決1 研究室採甲、決2 採甲、第 6 節 12 題全部採 A（新版）、7-5 北投圖書館合成一個括號、7-7 九份改「老街是慢慢蓋出來的。」；D109 劇情 AA 自主決定）",
+   "task": "AA598-SIS-1C-1102",
+   "kind": "text",
+   "note": "學姊①c：date_lines.js 學姊（heroine_05）約會地點台詞第 1～92 列（＋第 8 節第 6 點九份保753）。企劃線源稿 Dxx.py／Dxx.json、BB_128 還沒改，tools/date/import_date_lines.py 照稿的表疊上去（第 8 節第 4、9 點蓋過表上第 16、85 列）；企劃線源稿改好以後，現在是新句＝跳過。tests/aa598_sis_date_unit.js。子代理 2026-11-02 代登（sisdate 分支，基準 int/m590 d7a468868），給值班 LAWWW 核"
   }
  ]
 }

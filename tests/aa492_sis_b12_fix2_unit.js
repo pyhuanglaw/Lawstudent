@@ -51,8 +51,9 @@ await sec(0,async()=>{ const L=LN(), A=L.lastAway||{}, B=L.bookLate||{};
   const q=s=>doc.indexOf(s)>=0;
   check('0. 「我在{國}。」→ Kevin「對齁 學弟在{國}」→ 學姊「題目傳給你。」照稿',A.t==='我在{國}。'&&J(A.say)===J([['k','對齁 學弟在{國}'],['s','題目傳給你。']])&&q('選項：「我在{國}。」')&&q('Kevin：對齁 學弟在{國}')&&q('學姊：題目傳給你。'),J(A));
   check('0. 行程取消的系統提示照稿',L.lastCancel==='行程取消：法圖・討論室（讀書會最後一次）。那天你在國外。'&&q('> '+L.lastCancel),L.lastCancel);
-  const both=[['law','（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。'],['novel','（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。']];
-  check('0. 約會補演兩版（旁白、書瑀）照稿',both.every(([k,n,s])=>J(B[k])===J([n,s])&&q('旁白：'+n)&&q('書瑀：'+s)),J(B)); });
+  const both=[['law','（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。還沒看完。'],   /* law 那一句：AA_591 第 117 列拿掉「……」（稿上照原句）*/
+             ['novel','（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。']];
+  check('0. 約會補演兩版（旁白、書瑀）照稿（law 那一句照 AA_591 第 117 列）',both.every(([k,n,s])=>J(B[k])===J([n,s])&&q('旁白：'+n)&&(q('書瑀：'+s)||(k==='law'&&q('書瑀：回來以後開始看。……還沒看完。')&&require('./aa591_doc.js').MAP['回來以後開始看。……還沒看完。']===s))),J(B)); });
 
 /* ---- 1 12-6b 出國中的替代選項 ---- */
 await sec(1,async()=>{ const a=D('2028-07-10'), d=D('2028-07-13');
@@ -109,7 +110,7 @@ await sec(3,async()=>{ const Q1=['十月那份讀書計畫。後來照著做了�
   check('3. 12-7 演了「另外一本」（law、novel）記 SIS_BOOK_BACK；both、沒選書的不記',!bk.length,J(bk)); });
 
 /* ---- 4 朋友版之後才交往的：下一次正式約會的結尾補演 ---- */
-await sec(4,async()=>{ const NAR={law:'（她的包包裡露出那本小說。書籤還在快一半的地方。）',novel:'（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）'}, SAY={law:'回來以後開始看。……還沒看完。',novel:'回來第一個禮拜翻完了。問號少了一點。'};
+await sec(4,async()=>{ const NAR={law:'（她的包包裡露出那本小說。書籤還在快一半的地方。）',novel:'（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）'}, SAY={law:'回來以後開始看。還沒看完。',novel:'回來第一個禮拜翻完了。問號少了一點。'};
   let tn=0; const date=async(o)=>{ o=o||{}; const G=H.G, t={trip:'T49'+String(++tn).padStart(3,'0'),who:o.who||ID,locs:['D15'],day:G.day,depart:18,back:22,transport:'car',departed:true,status:'booked',spots:['D15.view']};
     H.said=[]; H.opts=[]; H.picks=[]; if(o.overnight) await DATE.settleOvernight(GM,t,['D15.view'],[{id:'D15.view',name:'夜景'}],1,G.money|0); else await DATE.settle(GM,t,['D15.view'],[{id:'D15.view',name:'夜景'}],1,G.money|0,o.quick?{quick:true}:undefined);
     return H.said.map(x=>[x.who,x.t]); };

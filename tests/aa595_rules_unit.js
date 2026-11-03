@@ -58,7 +58,7 @@ await sec('1',async()=>{
   check('1. whisper 本身：校園原樣、讀書區加前綴；旁白、手機、整句動作、已經小聲的不加',
     LIBQ.whisper(GM,{name:'許柏翰'},'早。')==='早。'&&(at('library',0,0,0),LIBQ.whisper(GM,{name:'許柏翰'},'早。')===PRE+'早。')&&LIBQ.whisper(GM,null,'（他翻了一頁。）')==='（他翻了一頁。）'
     &&LIBQ.whisper(GM,{name:'許柏翰（手機）'},'早。')==='早。'&&LIBQ.whisper(GM,{name:'許柏翰'},'（他抬頭看了你一眼）')==='（他抬頭看了你一眼）'&&LIBQ.whisper(GM,{name:'以安'},'（她小聲）外面說。')==='（她小聲）外面說。'
-    &&LIBQ.whisper(GM,{name:'以安'},PRE+'報告我寫完了。')===PRE+'報告我寫完了。'&&LIBQ.whisper(GM,{name:'學姊'},'（抬頭）喔，hi。')===PRE+'（抬頭）喔，hi。');
+    &&LIBQ.whisper(GM,{name:'以安'},PRE+'報告我寫完了。')===PRE+'報告我寫完了。'&&LIBQ.whisper(GM,{name:'學姊'},'（抬頭）喔，hi。')==='（抬頭，小聲）喔，hi。');   /* 開頭有動作括號的合成一個（AA 2026-11-02 20:54 第 4 點；tests/libq_aa_1102_unit.js 第 4 節）*/
   caps.length=0; GM.caption('以安','明天見。'); GM.caption('','（閉館的音樂響了。）'); check('1. 讀書區有名字的 caption 也小聲，沒名字的不加',caps[0]===PRE+'明天見。'&&caps[1]==='（閉館的音樂響了。）',J(caps));
   /* 各圖書館的範圍 */
   const L=LAWLIB_LAYOUT, cp=L.rooms.find(r=>r.id==='copy'), dA=L.rooms.find(r=>r.id==='discA'), T1=L.tables.find(t=>t.lv===0);
@@ -144,7 +144,7 @@ await sec('6',async()=>{
   check('6. (b) THERMOS.helped 拿掉；postgrad3d.js 不再叫 helpedCoffee',!('helped' in T)&&!/helpedCoffee|W\.helped/.test(fs.readFileSync(path.join(H.ROOT,'src/postgrad3d.js'),'utf8'))&&typeof PG.helpedCoffee==='undefined');
   const run=async(fl,mem)=>{ H.fresh('2029-06-02',12,'campus',fl); if(mem) SOCIAL.remember('heroine_05',mem[0],mem[1]); H.said=[]; H.opts=[]; H.picks=[]; await PG.thermos(GM); return H.said.map(s=>s.t); };
   const a=await run({},['HELPED','空的保溫瓶，買了黑咖啡']);
-  check('6. 舊存檔（空保溫瓶選黑咖啡 HELPED）：新保溫瓶照演、遞保溫瓶「裡面是熱水。」，沒有黑咖啡那一句；記 SIS_THERMOS（尾聲 epiThermos 用）',a.includes('畢業快樂。')&&a.some(t=>t.endsWith('裡面是熱水。'))&&!a.some(t=>/黑咖啡|不是咖啡/.test(t))&&H.G.flags.SIS_THERMOS===true,J(a));
+  check('6. 舊存檔（空保溫瓶選黑咖啡 HELPED）：新保溫瓶照演、遞保溫瓶「裡面是熱水。」，沒有黑咖啡那一句；記 SIS_THERMOS（尾聲 epiThermos 用）',a.includes('恭喜畢業。')&&a.some(t=>t.endsWith('裡面是熱水。'))&&!a.some(t=>/黑咖啡|不是咖啡/.test(t))&&H.G.flags.SIS_THERMOS===true,J(a));
   const b=await run({HOT_WATER:true});
   check('6. 陪她等過熱水（HOT_WATER）：多一句「大一那年冬天，你陪我等熱水。我記到現在。」',b.includes(T.hotWater)&&!b.some(t=>/黑咖啡/.test(t)),J(b));
   const D=typeof SISB16_LINES!=='undefined'?SISB16_LINES:null;

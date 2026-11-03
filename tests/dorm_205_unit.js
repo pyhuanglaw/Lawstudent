@@ -49,6 +49,7 @@ check('3. 配置：205 的門接到 dorm_205（d.to、有時段 d.gate、門上�
   const ex=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('4. 「離開 205」的落點＝back_spawn', !!ex&&ex.exit.spawn&&ex.exit.spawn.lv===1&&Math.abs(ex.exit.spawn.x-L.back_spawn.x)<1e-6&&Math.abs(ex.exit.spawn.z-L.back_spawn.z)<1e-6);
   const S=L.spots; check('5. 方奕廷站在窗台前、玩家的位置站得住、走得到', [S.fang_stand,S.player].every(p=>E.canStand(p.x,p.z,0.05,0)&&reachNear(p.x,p.z,0.4)));
   const u=DORM_ROOM.units.find(q=>q.id==='R1'); check('5. 方奕廷坐的是 R1 的書桌椅（和祐廷房間的配置同一個位置）', Math.abs(S.fang.x-u.seat.x)<1e-6&&Math.abs(S.fang.z-u.seat.z)<1e-6);
-  check('6. 鏡頭只在中間走道（camBox）、上鋪網點透空（seeThru）', !!z.camBox&&z.camBox.x[0]===-1.6&&z.camBox.x[1]===1.6&&z.seeThru===true);
+  const CBX=Math.min(...DORM_ROOM.units.map(q=>Math.min(Math.abs(q.block.x[0]),Math.abs(q.block.x[1]))))-0.1;   /* 和祐廷房間（zones3d.js dorm）同一個算法：床桌組阻擋的內緣 −0.1（DORM-LOFT-SCALE-1102 房間 6→4.2 m；以前寫死 ±1.6）*/
+  check('6. 鏡頭只在中間走道（camBox）、上鋪網點透空（seeThru）', !!z.camBox&&Math.abs(z.camBox.x[0]+CBX)<1e-6&&Math.abs(z.camBox.x[1]-CBX)<1e-6&&z.seeThru===true, JSON.stringify(z.camBox));
   const DB=DORM_ROOM.blocks.map(b=>b.id).sort().join(','), LB=L.blocks.map(b=>b.why).sort().join(','); check('6. 導航阻擋和祐廷的房間同一組（四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間）', DB===LB, LB); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -16,7 +16,7 @@ const LB1=(function(){
   const lookText=q=>String(q.note||'').trim()||q.label;
   S_.lookText=lookText;
   /* 回到大廳：一樓西牆的樓梯間門前（library_layout.js 的 b1Door.spawn）*/
-  const hallSpawn=()=>{ const D=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.b1Door; return D?Object.assign({},D.spawn):{x:-10.1,z:-2.4,lv:0,yaw:Math.PI/2}; };
+  const hallSpawn=()=>{ const D=typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.b1Door; return D?Object.assign({},D.spawn):{x:-10.1,z:-3.1,lv:0,yaw:Math.PI/2}; };
   /* 背景的同學（路人，沒有名字、沒有台詞；有名字的人照各自的作息，AA 排）：24 小時自習室，期末考前兩週加倍。
      人數：8:00–12:00 四位、12:00–18:00 六位、18:00–23:00 八位、23:00–2:00 三位、其他一位；放假日減半。坐哪幾號：日期當種子（出去再進來是同一批人坐同樣的位子）*/
   S_.want=function(G,seats){ const h=G.hour%24, term=typeof CALENDAR==='undefined'||CALENDAR.kind(G.day)==='term';

@@ -210,7 +210,7 @@ check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(
   check('四人房：互動點（'+E.interactables.length+' 個：書桌、睡覺、出口、房間物件）範圍內站得住、從門口走得到',E.interactables.length>=4&&!bad.length,bad.join(' | '));
   const desk=E.interactables.find(i=>i.deskStudy); check('四人房：玩家的書桌是 '+R.player_unit+'、走近點 ap 站得住也走得到',!!desk&&Math.abs(desk.seat.x-me.seat.x)<1e-6&&E.canStand(desk.seat.ap[0],desk.seat.ap[1],0.3,0)&&both(sp,[desk.seat.ap[0],desk.seat.ap[1],0]).ok);
   const sl=E.interactables.find(i=>i.sleep); check('四人房：睡覺在梯子前（'+me.sleep+'）',!!sl&&Math.abs(sl.x-me.sleep[0])<1e-6&&Math.abs(sl.z-me.sleep[1])<1e-6);
-  check('四人房：四組床桌、洗手間擋住；房間中間、窗前、兩邊書桌前站得住',R.units.every(u=>!E.nav.free((u.block.x[0]+u.block.x[1])/2,(u.block.z[0]+u.block.z[1])/2))&&!E.nav.free(1.75,2.4)&&[[0,0],[0,-2.6],[-1.5,-0.1],[1.5,-0.1],[1.5,-2.5],[-1.5,-2.5]].every(p=>E.canStand(p[0],p[1],0.3,0)));
+  check('四人房：四組床桌、洗手間擋住；房間中間、窗前、兩邊書桌前站得住',R.units.every(u=>!E.nav.free((u.block.x[0]+u.block.x[1])/2,(u.block.z[0]+u.block.z[1])/2))&&!E.nav.free(1.75,2.4)&&[[0,0],[0,-2.6]].concat(R.units.map(u=>u.seat_approach)).every(p=>E.canStand(p[0],p[1],0.3,0)));   /* 兩邊書桌前＝四組的走近點 seat_approach（DORM-LOFT-SCALE-1102 房間 6→4.2 m 寬；以前寫死 (±1.5, −0.1)、(±1.5, −2.5)）*/
   check('四人房：z.spots（黃金葛、盒子、三盆植物、房間物件、背包）都在走得到的地方附近（0.7 m 內站得住）',Object.entries(zr.spots||{}).every(([k,p])=>{ for(let a=0;a<16;a++) for(const d of [0,0.3,0.5,0.7]){ const x=p[0]+Math.sin(a*Math.PI/8)*d, zz=p[1]+Math.cos(a*Math.PI/8)*d; if(E.canStand(x,zz,0.3,0)&&both(sp,[x,zz,0]).ok) return true; } return false; }),JSON.stringify(zr.spots));
   check('四人房：年份 sets（法律系 203、經濟系 412）照旗標',typeof zr.dormSet==='function'&&zr.dormSetKey==='203'); }
 // 每一年的房間（AA_208 第 7、8 節，取代 AA_183 的 112／218／105；房號只是門牌，都在走廊樓上那一層）：203 → 312（用 204 那扇門）→ 507（201 那扇）→ 409（202 那扇）；經濟系 412（門用大一的）

@@ -60,7 +60,7 @@ GM.money=function(n){ G.money+=n; };
   for(const [pick,lose,route,say] of [['學姊','heroine_01','US','書瑀'],['以安','heroine_05','JP','以安']]){   /* AA_350 R7：兩個都在交往中，祐廷叫學姊「書瑀。」*/
     setup(d11,22.6); G.zone='cafe'; STORY.twoHeartsMet(G); const e=evr('ev_two_hearts_cafe'); const ok=EVENTS.check(e); picks=[say]; await EVENTS.run(e); const L=lines();
     const R=ROM.get(G,lose); const two=opts.find(o=>o.length===2);
-    check('4. 選「'+pick+'」：進 Café 就演、選項只有「書瑀。」「以安。」（AA_350 R7：交往中不叫「學姊。」）', ok!==false&&!!two&&two.join('|')==='「書瑀。」|「以安。」', JSON.stringify(opts));
+    check('4. 選「'+pick+'」：進 Café 就演、選項只有「貝貝。」「以安。」（AA_350 R7：交往中不叫「學姊。」；AA_591 決7：交往後叫「貝貝」）', ok!==false&&!!two&&two.join('|')==='「貝貝。」|「以安。」', JSON.stringify(opts));
     check('4. 選「'+pick+'」：沒被選的那位分手（ex、by her）、被選的還在交往', G.flags['dating_'+lose]===false&&R.status==='ex'&&R.by==='her'&&G.flags['dating_'+(lose==='heroine_01'?'heroine_05':'heroine_01')]===true, JSON.stringify({st:R.status,by:R.by}));
     check('4. 選「'+pick+'」：逐字（'+(pick==='學姊'?'以安「理由我不用聽了。」':'學姊「志願表的事，你自己決定。不要因為今天。」')+'）', pick==='學姊'?L.includes('以安：（站起來，把椅子推回去）理由我不用聽了。')||L.some(x=>/理由我不用聽了。$/.test(x)):L.some(x=>/志願表的事，你自己決定。不要因為今天。$/.test(x)), JSON.stringify(L.slice(-5)));
     G.day=D('2027-11-18'); G.hour=12; STORY.routeDecide(G); check('5. 選「'+pick+'」：11/18 12:00 路線＝'+route, G.flags.EXCHANGE_ROUTE===route);

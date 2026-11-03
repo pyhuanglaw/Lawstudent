@@ -341,7 +341,7 @@ const R2Y4B=(function(){
     heroine_03:{loc:'麵店打烊以後，她在櫃台後面剝蒜頭',lines:['……嗯。',{narr:'（很久以後）'},'蒜頭剝完了。','……我要想。你先回去。']},
     heroine_02:{loc:'約好的視訊（她在英國，那邊下午）',loc30:'打烊後的 Café',lines:['……嗯。','我先掛了。……我會寫一張明信片給你。寫完才寄。'],last30:'……今天先這樣。我收店了。'},
     heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','……我還以為你要問社課的事。','我要想一下啦。想完我會找你。']},
-    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究單位樓下',lines:['……口試前一週。','口試以後才知道的話，我會很生氣。……現在也有一點。','我需要時間。口試完再說。'],first30:'……你特地在樓下等我，就是要講這個。',first30n:2,last30:'我需要時間。……我會再找你。'},   /* 2030：first30 換掉講口試的前兩句（原本是一整句）；last30＝2030 沒有口試（AA_482 第 4 節）*/
+    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究中心樓下',lines:['口試前一週。','口試以後才知道的話，我會很生氣。……現在也有一點。','我需要時間。口試完再說。'],first30:'……你特地在樓下等我，就是要講這個。',first30n:2,last30:'我需要時間。……我會再找你。'},   /* 2030：first30 換掉講口試的前兩句（原本是一整句）；last30＝2030 沒有口試（AA_482 第 4 節）*/
     classmate_peishan:{loc:'電話（她在台南）',lines:['……你特地打來說這個。','……所以你現在是兩邊都要？','我可以想一下嗎？想完我打給你。']},   /* AA_483 第 2-3 節（BB-C 審稿後，取代 AA_482 第 4 節沛珊那一列）*/
     kexin:{loc:'木柵大學山下的小吃店',loc30:'她家樓下',lines:['……你說完了？',{narr:'（她把筷子放下。）'},'……我要想。','今天你先走。']} };   /* AA_482 第 4 節：七位的收尾只改最後一句（芷若不改）＝當場不決定（acceptsOpen 使用者 10-27 回答 C 打開以後，坦白照她們自己的條件，不再一律退回朋友）*/   /* AA_350 R0b（企劃線 cae5cc76）：「謝謝你（自己）說／講」七位換句，結果不變 */   /* C 表（以安、語彤照 AA_127 5-4；BB 的五位照 BB_164 第 2 節，裁定 #31、#33、#48）*/
   S.multiPreDue=G=>{ const P=partners(G); if(P.length<2||G.flags.MULTI_PRE!=null) return false; if(typeof ROM==='undefined'||!ROM.knowsOf) return true; return P.some(x=>P.some(y=>y!==x&&!(y==='kexin'?ROM.knowsGF(G,x):ROM.knowsOf(G,x,y)))); };   /* 至少一位還不知道 */
@@ -425,8 +425,8 @@ const R2Y4B=(function(){
       open29:'（吉他社辦外面的樓梯。裡面在上社課，有人一直彈錯同一個和弦。）',open30:'（工作室樓下。她外套的帽子拉起來一半，手上拿著一杯便利商店的咖啡。）',
       knew:['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:['……你喜歡上別人了。','好喔。好。……那個——',{narr:'（她沒有講完。）'}],
       quiet:['……好。',{narr:'（她把帽子拉起來，蓋住半張臉。）'},'那我也不講了。'],last:['之後還是朋友。……我說真的。']},
-    heroine_05:{h:[17,18.5],fix29:'2029-05-30',at29:Object.assign({place:'研究室走廊',bg:'linze_prof_hall'},NEAR),at30:Object.assign({place:'她上班的研究單位樓下',bg:'dark'},Y30),
-      open29:'（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）',open30:'（她上班的研究單位樓下。她剛下班，識別證還掛在脖子上。）',
+    heroine_05:{h:[17,18.5],fix29:'2029-05-30',at29:Object.assign({place:'研究室走廊',bg:'linze_prof_hall'},NEAR),at30:Object.assign({place:'她上班的研究中心樓下',bg:'dark'},Y30),
+      open29:'（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）',open30:'（她上班的研究中心樓下。她剛下班，識別證還掛在脖子上。）',
       knew:['……我知道。','走一段吧。這種事，站著講不好。'],told:['……嗯。','我需要一點時間。……不用太久。'],quiet:['好。',{narr:'（她把計畫本闔上，沒有寫任何東西。）'}],
       last:[{t:'謝謝你。……畢業快樂，先說了。',t30:'謝謝你。……你也要好好吃飯。'}]},
     classmate_peishan:{h:[21,21],at29:{place:'電話',call:true},at30:{place:'電話',call:true},
@@ -547,7 +547,7 @@ const R2Y4B=(function(){
     await scene(GM,async()=>{ await GM.say(null,n===1?'秋假。社區的停車場空了一半。':(G.flags.MET_LONG?'何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。':'你把三門課的閱讀都讀完了。')); }); return true; };   /* AA 稿這兩句沒有括號，照原樣 */
   S.canyonAfter=function(G,kind){ if(typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,'heroine_05'); L.count=(L.count|0)+2; if(kind==='tw'){ L.wish=true; L.wishKnown=true; } }   /* 算 2 次正式約會（台灣路線也算她的心願地點）*/
     if(kind==='us'&&typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_05',{rom:2,npcRom:2});   /* 她和祐廷的戀愛各 +2（AA_291 2-1）*/
-    if(kind==='tw'&&G.flags.SIS_CANYON!=='knows'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')){ (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; G.flags.SIS_GF_CANYON=G.day; } };   /* SIS_GF_CANYON：大峽谷才交往（AA_392 第 1-3 節：中秋那組不演；從第一組開始）*/   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）；知情對話沒答應（SIS_CANYON 'knows'）＝不交往 */
+    if(kind==='tw'&&G.flags.SIS_CANYON!=='knows'&&G.flags.SIS_CANYON!=='silent'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')){ (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; G.flags.SIS_GF_CANYON=G.day; } };   /* SIS_GF_CANYON：大峽谷才交往（AA_392 第 1-3 節：中秋那組不演；從第一組開始）*/   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）；知情對話沒答應（SIS_CANYON 'knows'）＝不交往；AA_591：祐廷沒開口（'silent'）＝不交往 */
   /* AA_474 3b：大峽谷告白的那一刻她知道祐廷正在和別人交往（臺灣路線）＝接 KNOW.heroine_05（她第一次知情＝一律讓我想想，AA_474 1-2）。
      接受（第二次才可能）＝照原本的交往（ROM.start＋OPEN_OK＋confessed、SIS_GF_CANYON）；不交往＝SIS_CANYON 'knows'：行程照算兩次約會＋心願地點（canyonAfter），SIS_GF_CANYON 不記、不叫書瑀 */
   S.knowsOther=(G,id)=>typeof MREL!=='undefined'&&!!MREL.knowsOther&&MREL.knowsOther(G,id);

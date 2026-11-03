@@ -57,14 +57,14 @@ const SISB16_EVENTS=(function(){
     { id:'ev_sis16_lurou', title:'滷肉飯', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
       dialogue:[ {scene:'公館・那家滷肉飯',bg:'gongguan'},   /* 稿：公館的店有就用，沒有用深色底——公館的滷肉飯沒有店內的圖：用公館的街（隊排到騎樓外面），子代理解讀 */
         N('（公館。中午的滷肉飯，隊排到騎樓外面。）'),
-        SIS('（點完）大碗。……再一顆滷蛋。'),
+        SIS('（點完）大碗。再一顆滷蛋。'),
         N('（她吃了一半，停下來。）'),
         SIS('在美國，我每個禮拜都想一次這一碗。'),
         SIS('……味道一樣。好。'),
         {choice:[{text:'「我的滷蛋給妳。」',goto:'a'},{text:'（看她吃）',goto:'b'}]},
-        {label:'a'},SIS('（接過去）……我不客氣了。'),{goto:'e'},
+        {label:'a'},SIS('（接過去）我不客氣了。'),{goto:'e'},
         {label:'b'},N('（她把整碗吃完，湯也喝了。）'),
-        {label:'e'},SIS('晚上六點半，法圖旁邊。……那頓我會少吃一點。'),
+        {label:'e'},SIS('晚上六點半，法圖旁邊。那頓我會少吃一點。'),
         {set:{SIS16_LUROU:true}} ] },
     /* ---------- 1-2 1/20（六）14:00 美國寄回來的最後一箱（A，三條路線；1/19 21:00 私訊回「好。」；她的新家＝12/31 咖哩那一張 sis_new_home）---------- */
     { id:'ev_sis16_box', title:'美國寄回來的最後一箱', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
@@ -72,7 +72,7 @@ const SISB16_EVENTS=(function(){
         N('（她家的客廳。地上一個紙箱，貼滿了海關的單子。）'),
         SIS('海運。十月寄的，今天才到。'),
         N('（她用鑰匙劃開膠帶。最上面是一疊論文的影印資料，下面是那本在美國用的計畫本。）'),
-        SIS('（翻到最後一頁）……這裡。'),
+        SIS('（翻到最後一頁）這裡。'),
         N('（最後一格寫著「回臺灣」。）'),
         Object.assign({if:{custom:G=>!!X()&&X().planNote(G)==='exit'}},N('（旁邊多了一行小字，是後來補的：「出口有人。」）')),   /* 臺灣、日本路線，接機是戀人版 */
         Object.assign({if:{custom:G=>!!X()&&X().planNote(G)==='us'}},N('（旁邊多了一行小字，是後來補的：「旁邊的人睡得比我好。」）')),   /* 美國路線（同一班回來）；其他（接機沒到、兩個人版、家族共乘）沒有 */
@@ -80,22 +80,22 @@ const SISB16_EVENTS=(function(){
         SIS('一個給你。……我買了兩個。'),
         {choice:[{text:'（收下）',goto:'a'},{text:'「Shu，謝謝。」',if:F1('SIS16_H3B'),goto:'b'}]},   /* h3b（美國視訊選「Shu 很好聽。」，r2y4b_events.js 記 SIS16_H3B）的玩家多一個選項 */
         {label:'a'},N('（杯子很重。她把另一個放進廚房的櫃子。）'),{goto:'e'},
-        {label:'b'},SIS('……（她沒有抬頭。）只准在這個房間。'),{set:{SIS16_SHU:true}},
+        {label:'b'},SIS('（她沒有抬頭。）在這個房間可以。'),{set:{SIS16_SHU:true}},
         {label:'e'},
         Object.assign({if:F1('SIS16_COAT')},N('（她從椅背上拿起一件外套。）')),   /* g6b「外套。」、12/23 接機時借給她的（第 5 節第 1 點記 SIS16_COAT）*/
         Object.assign({if:F1('SIS16_COAT')},SIS('你的。洗過了。')),
-        SIS('箱子空了。……晚上吃什麼。'),
+        SIS('箱子空了。晚上吃什麼。'),
         {set:{SIS16_BOX:true}} ] },
     /* ---------- 1-3 研究單位回信了（A；ev_sis_y4_desks 3/28 那一晚 again 那一段的輪流旁白換成這一段，一次；3/28 沒去＝之後第一個有去的週三（到 4/11）照演。
          r3_events.js 的書桌夜問 SISB16.jobDue、用 call 接演這一筆（EVENTS.runLines；這一筆只放台詞，不會自己觸發）---------- */
-    { id:'ev_sis16_job', title:'研究單位的回信', participants:[ID], location:'any', trigger:'manual', once:true,
+    { id:'ev_sis16_job', title:'研究中心的回信', participants:[ID], location:'any', trigger:'manual', once:true,
       dialogue:[ N('（十一點。她的手停在鍵盤上，很久沒有動。第四章縮到螢幕旁邊，前面開著一封信。）'),
-        SIS('研究單位那邊，下午回信了。'),
+        SIS('研究中心那邊，下午回信了。'),
         SIS('七月二號報到。……口試完一個多月。'),
         {choice:[{text:'「恭喜。」',goto:'a'},{text:'「妳想去嗎？」',goto:'b'},{text:'（走過去看那封信）',goto:'c'}]},
-        {label:'a'},SIS('嗯。……我還沒跟我爸說。'),{goto:'e'},
+        {label:'a'},SIS('嗯。我還沒跟我媽說。'),{goto:'e'},
         {label:'b'},SIS('想。那邊在做的事，我的論文寫了一半。'),{goto:'e'},
-        {label:'c'},N('（信不長。最後一行寫著：七月二日報到。）'),SIS('……你看完了。那我就不用唸給你聽。'),
+        {label:'c'},N('（信不長。最後一行寫著：七月二日報到。）'),SIS('你看完了。那我就不用唸給你聽。'),
         {label:'e'},SIS('論文還是要先寫完。'),
         N('（她把信關掉，第四章回到螢幕上。）'),
         {set:{SIS16_JOB_A:'desk'}} ] },
@@ -110,32 +110,32 @@ const SISB16_EVENTS=(function(){
         N('（她又游了兩趟才上來。）'),
         {scene:'新體育館門口',bg:'gym_gate'},   /* 第六批背景（使用者 11-02 生成，BB_132 第 103 組）*/
         N('（新體育館門口。她的頭髮還在滴水。）'),
-        SIS('美國的池子五十公尺。這裡二十五。……轉身轉到頭暈。'),
+        SIS('美國的池子五十公尺。這裡二十五。轉身轉到頭暈。'),
         SIS('走。我家樓下那家早餐店。'),
         {scene:'她家樓下的早餐店',bg:'soymilk_shop'},
         N('（她家樓下的早餐店。老闆娘看到她，愣了一下：「好久沒來了。」）'),
-        SIS('……半年。'),
+        SIS('半年。'),
         Object.assign({if:{custom:G=>!!X()&&X().day40Shop(G)}},SIS('在美國想到的就是這一家。')),   /* 美國路線、第四十天的私訊選「想什麼？」（她回「家裡樓下那家早餐店。……很奇怪，平常我都沒吃。」）*/
-        Object.assign({if:{custom:G=>!!X()&&X().day40Shop(G)}},SIS('……現在補。')),
+        Object.assign({if:{custom:G=>!!X()&&X().day40Shop(G)}},SIS('現在補。')),
         {choice:[{text:'「妳游得很快。」',goto:'a'},{text:'「頭髮還在滴水。」',goto:'b'}]},
         {label:'a'},SIS('沒有。是池子短。'),{goto:'e'},
         {label:'b'},SIS('七點半要到研究室。乾不了。'),
         {label:'e'},
-        Object.assign({if:F1('SIS16_JOB_A')},SIS('七月以後，早上要上班。……游泳要改到晚上了。')),
-        Object.assign({unless:F1('SIS16_JOB_A')},SIS('七月要去上班了。研究單位。……游泳要改到晚上了。')),   /* 第 1-3 節三種都沒收到（正常不會發生）*/
+        Object.assign({if:F1('SIS16_JOB_A')},SIS('七月以後，早上要上班。游泳要改到晚上了。')),
+        Object.assign({unless:F1('SIS16_JOB_A')},SIS('七月要去上班了。學校的研究中心。游泳要改到晚上了。')),   /* 第 1-3 節三種都沒收到（正常不會發生）*/
         {set:{SIS16_SWIM_A:true}} ] },
     /* ---------- 1-5 6/5（二）19:00 修正本（A；6/2 研究室生日選「修正本我陪妳改。」SIS16_REV_PROMISE；6/4 21:00 私訊；研究室 linze_prof_hall；到 23:00）---------- */
     { id:'ev_sis16_rev', title:'修正本', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
       dialogue:[ {scene:'法律系館A・研究室',bg:'linze_prof_hall'},
         N('（研究室。桌上攤著口試委員的意見，紅筆、藍筆、黃色的便利貼。）'),
         SIS('指導教授說要刪二十頁。我找了一個禮拜，找到十八頁。'),
-        SIS('剩下兩頁，你幫我找。你不懂財經法，所以你看得出來哪裡讀起來累。'),
+        SIS('剩下兩頁，可以幫我找嗎？你不懂財經法，哪裡讀起來累，你看得出來。'),
         {choice:[{text:'「第三章比較的那一段。」',goto:'a'},{text:'「美國那一節。」',goto:'b'},{text:'「我看不出來。都很好。」',goto:'c'}]},
         {label:'a'},SIS('……那一段我最喜歡。（停了一下）好。刪。'),{goto:'e'},
         {label:'b'},SIS('那一節是在美國寫的。……你說得對，太長了。'),{goto:'e'},
         {label:'c'},SIS('這不算幫忙。……好，我自己來。'),N('（十分鐘後，她刪了兩頁。）'),   /* 稿同一行的括號是旁白（十分鐘以後的事）：分成兩行，字照稿 */
         {label:'e'},N('（十一點。檔案存好。右下角的頁數是 122。）'),
-        SIS('一百二十二頁。……這禮拜印。'),
+        SIS('一百二十二頁。這禮拜印。'),
         {set:{SIS16_REV:true}} ],
       outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.revMissed(G,q); } },   /* 沒到＝6/5 23:00「我自己刪完了。」*/
     /* ---------- 2-1 2/20（二）17:00 總圖門口，下學期要的書（B、C：演過 12-7、沒交往、不是前任；2/16 21:00 私訊選「有一本，我找了很久。」）---------- */
@@ -151,13 +151,13 @@ const SISB16_EVENTS=(function(){
     { id:'ev_sis16_reader', title:'受訪的阿姨', participants:[ID], location:'campus', trigger:'auto', once:true, weekday:[6], time:[10,12], near:{npc:ID,r:3}, background:'blur',
       prereq:{custom:G=>!!X()&&X().readerOk(G)},
       dialogue:[ N('（週六上午。她坐在晨思鐘旁邊的長椅，膝蓋上放著幾張印出來的紙，紅筆咬在嘴裡。）'),
-        SIS('……你來得剛好。'),
-        SIS('讀一段給我聽。不用懂法律。讀完告訴我，你覺得這個人是什麼樣的人。'),
+        SIS('你來得剛好。'),
+        SIS('可以讀一段給我聽嗎？不用懂法律。讀完跟我說，你覺得這個人是什麼樣的人。'),
         N('（那一段沒有名字。一個開了二十年早餐店的人，一張借據，一個她說「那時候不懂」的簽名。）'),
         {choice:[{text:'「很努力的人。」',goto:'a'},{text:'「被騙的人。」',goto:'b'},{text:'「她自己會怎麼說？」',goto:'c'}]},
-        {label:'a'},SIS('嗯。……她自己也會這樣說。'),{goto:'e'},
-        {label:'b'},SIS('（把紅筆拿下來）……這一段要再改。她不會說自己被騙。她會說「那時候不懂」。'),{goto:'e'},
-        {label:'c'},SIS('「那時候不懂。」……所以那一句，我原封不動放進去了。'),
+        {label:'a'},SIS('嗯。她自己也會這樣說。'),{goto:'e'},
+        {label:'b'},SIS('（把紅筆拿下來）這一段要再改。她不會說自己被騙。她會說「那時候不懂」。'),{goto:'e'},
+        {label:'c'},SIS('「那時候不懂。」所以那一句，我原封不動放進去了。'),
         {label:'e'},SIS('下禮拜寄給她。她說要看自己那一段。'),
         SIS('這一段我改了很久。一開始寫得像判決書。'),
         SIS('……你剛剛讀的，是不像判決書的那一版。'),
@@ -171,8 +171,8 @@ const SISB16_EVENTS=(function(){
         JR('好！謝謝學姊！（跑走）'),
         SIS('（看到你）……碩一的。她每天來問一題。'),
         {choice:[{text:'「妳以前也這樣問人嗎？」',goto:'a'},{text:'「她很幸運。」',goto:'b'}]},
-        {label:'a'},SIS('沒有。我都自己查。……查三天的東西，其實問一句就好。'),{goto:'e'},
-        {label:'b'},SIS('……她問的問題都很好。是她自己想出來的。'),
+        {label:'a'},SIS('沒有。我都自己查。查三天的東西，其實問一句就好。'),{goto:'e'},
+        {label:'b'},SIS('她問的問題都很好。是她自己想出來的。'),
         {label:'e'},SIS('七月以後，她要去問別人了。'),
         {set:{SIS16_JUNIOR:true}} ] },
     /* ---------- 2-4 6/23（六）10:00 法圖門口，還書（A、B；6/22 22:00 私訊回「好。」；畢業以後篇）---------- */
@@ -186,15 +186,15 @@ const SISB16_EVENTS=(function(){
         N('（機器嗶了一聲。）'),
         SIS('七月以後，我就不是學生了。法圖要換證才進得來。'),
         Object.assign({if:dt},N('（走出法圖，她回頭看了一下門口。）')),   /* A 多 */
-        Object.assign({if:dt},SIS('……走吧。今天沒有要寫的東西。')),
-        Object.assign({unless:dt},SIS('謝謝。……這種事，不好意思找家族。')),   /* B 多 */
+        Object.assign({if:dt},SIS('走吧。今天沒有要寫的東西。')),
+        Object.assign({unless:dt},SIS('謝謝。這種事，不好意思找家族。')),   /* B 多 */
         {set:{SIS16_RETURN:true}} ] },
     /* ---------- 2-5 12/25（一）白天的電話（B，臺灣、日本路線，美國那一通選「那換我打給妳。」SIS16_T7B；12/25 14:00 私訊選「（打過去）」）---------- */
     { id:'ev_sis16_day_call', title:'白天的電話', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
       dialogue:[ {scene:'電話'},
         SIS('……喂。現在是白天。'),
         SIS('我的身體還在美國的晚上。所以是真的醒著。'),
-        SIS('……好。說完了。') ] },   /* 通話多久稿沒寫：算 15 分鐘 */
+        SIS('好。說完了。') ] },   /* 通話多久稿沒寫：算 15 分鐘 */
     /* ---------- 3-2 3/22（四）19:00～21:00 家族讀書會：她去旁聽（在家族群組、見過她〔met_sis〕、不是前任；A、B、C、12/28 才認識的 D 都可以；
          走到法圖討論室 A 先演，一次；和 AA_518 第 2 節同一間、同一個時段；2D 法圖討論室＝AA_518 第 2 節那一張 law_library）---------- */
     { id:'ev_sis16_study_visit', title:'家族讀書會：學姊旁聽', participants:[ID], location:'lawlib', trigger:'auto', once:true, weekday:[4], time:[19,21], near:{npc:ID,r:4}, background:'blur',
@@ -215,7 +215,7 @@ const SISB16_EVENTS=(function(){
         N('（走出討論室，學姊走在你旁邊。）'),
         SIS('在美國，白板的照片她每個禮拜都傳。我每張都有看。'),
         {choice:[{text:'「妳有回她嗎？」',goto:'a'},{text:'「她講得很好。」',goto:'b'}]},
-        {label:'a'},SIS('……沒有。今天來，就是回了。'),{goto:'e'},
+        {label:'a'},SIS('沒有。今天來，就是回了。'),{goto:'e'},
         {label:'b'},SIS('嗯。你跟她說。她會比較相信你。'),
         {label:'e'},{set:{SIS16_STUDY_VISIT:true}},
         {call:G=>{ const x=X(); if(x) x.visitRel(G); }} ] },   /* 熟悉 +3、安心 +1；12/28 才認識的 D 演完到「熟悉」*/

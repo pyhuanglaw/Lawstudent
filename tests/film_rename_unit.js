@@ -5,7 +5,7 @@
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
-const bad=[]; for(const d of ['src','src/data']) for(const f of fs.readdirSync(path.join(ROOT,d))){ if(!/\.js$/.test(f)) continue; const p=path.join(d,f); if(p==='src/data/ladder.js') continue;
+const bad=[]; for(const d of ['src','src/data']) for(const f of fs.readdirSync(path.join(ROOT,d))){ if(!/\.js$/.test(f)) continue; const p=path.join(d,f).split(path.sep).join('/'); if(p==='src/data/ladder.js') continue;   /* Windows 的 path.join 是反斜線（BB 2026-11-02 PC）*/
   fs.readFileSync(path.join(ROOT,p),'utf8').split('\n').forEach((line,i)=>{ if(/filmRename|AA_313 6-2/.test(line)) return;   /* 改名的程式本身、它的說明 */ for(const w of ['《東京物語》','《晚春》','笠智眾','鷗律師','Facebook']) if(line.includes(w)) bad.push(p+':'+(i+1)+' '+w); }); }
 check('1. 遊戲資料沒有真實片名、演員、品牌（企劃註記 ladder.js 除外）', bad.length===0, bad.slice(0,8).join(' '));
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|SOCIAL|CALENDAR|PHONE)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };

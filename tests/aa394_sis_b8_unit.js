@@ -26,8 +26,9 @@ let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_394
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_jp3d.js 後面',ok1&&ok2&&!!X()&&/sis_jp3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b8_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b8_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB8_EVENTS)+J(SISB8_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB8_LINES).flat().filter(x=>typeof x==='string'));
+  /* 「債總一定要周老師那班嗎？」「不一定。可是你會想上他的課。」：AA 2026-11-02 20:26 定稿（LAWWW 轉給 aa591 子代理；企劃線還沒有稿）*/
   const A590=require('./aa590_doc.js');   /* AA_590（學姊改稿第三批，企劃線 68ceea665，使用者 11-02 確認）改過的句子在 AA_590 的表上，不在這份原稿 */
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!A590.has(t)&&!['「債總一定要周老師那班嗎？」','不一定。可是你會想上他的課。'].includes(t)&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisb8），前面幾層的記號還在',!!SISY23.preTalk._sisb8&&!!SISY23.preTalk._sisb4&&!!SISY23.preTalk._sisjp); });
 /* ---- 1 ---- */
@@ -36,7 +37,7 @@ await sec(1,async()=>{ fresh('2026-08-12',20); H.at('2026-08-12',21); ph(); cons
   PHONE.answer(H.G,'sisb8_course_ask',1); ph(); PHONE.tick(H.G); const q=OUT.get(H.G,'sisb8_course');
   check('1. 「我已經排好了。」→「那帶來給我看。排好的最需要看。」；排 8/14（五）15:00 Café',th().includes('那帶來給我看。排好的最需要看。')&&!!q&&keyOf(q.day)==='2026-08-14'&&q.h===15&&CALENDAR.dateOf(q.day).wd===5,J(q));
   const r0=Object.assign({},SOCIAL.rel(ID)); H.at('2026-08-14',14.6); await goOut('sisb8_course',[0]); const r1=SOCIAL.rel(ID);
-  check('1. 選課那一場照稿；AA_590 第 35 列、保147（使用者 11-02）：「這樣排可以。」、「那堂很好過。」→「好。」祐廷「……沒有。」；SIS_COURSE_Y2、熟悉 +2',seq(['（她把你的課表印出來，用紅筆在上面畫。）','債總選周老師那班。他會點人，你會被逼著想。','這樣排可以。','好。','……沒有。','剩下的你自己決定。我只看我看得出來的。'])&&H.G.flags.SIS_COURSE_Y2===true&&r1.fam-r0.fam===2,J(H.said.map(x=>x.t)));
+  check('1. 選課那一場照稿；AA_590 第 35 列、保147（使用者 11-02）：「這樣排可以。」；AA 2026-11-02 20:26：選項「債總一定要周老師那班嗎？」→「不一定。可是你會想上他的課。」、祐廷「……沒有。」刪；SIS_COURSE_Y2、熟悉 +2',seq(['（她把你的課表印出來，用紅筆在上面畫。）','債總選周老師那班。他會點人，你會被逼著想。','這樣排可以。','不一定。可是你會想上他的課。','（她把紅筆蓋起來，課表推回給你。）','剩下的你自己決定。我只看我看得出來的。'])&&!H.has('……沒有。')&&H.G.flags.SIS_COURSE_Y2===true&&r1.fam-r0.fam===2,J(H.said.map(x=>x.t)));
   fresh('2026-08-12',21); ph(); PHONE.answer(H.G,'sisb8_course_ask',2); ph(); H.at('2026-08-14',20); ph();
   check('1. 「那天不行。」→「好。截圖傳給我。」；8/14 20:00「債總選周老師那班。他會點人，你會被逼著想。」；不排出遊',th().includes('好。截圖傳給我。')&&th().includes('債總選周老師那班。他會點人，你會被逼著想。')&&!OUT.get(H.G,'sisb8_course'));
   fresh('2026-11-04',21); ph(); PHONE.answer(H.G,'sisb8_lunch_ask',0); ph(); const ql=OUT.get(H.G,'sisb8_lunch'); H.at('2026-11-06',12); await goOut('sisb8_lunch',[0]);
