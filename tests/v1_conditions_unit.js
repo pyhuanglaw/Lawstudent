@@ -34,7 +34,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   at('Y1S1',5,2,18.2,'campus',{introDone:true,classDone:true,afternoonDone:true}); G.weather='rain'; GM.E.player.obj.position={x:81,y:0,z:0};
   const tue=chk('ev_rain_library_door'); G.hour=21; const tueLate=chk('ev_rain_library_door');
   at('Y1S1',5,3,18.2,'campus',{introDone:true,classDone:true,afternoonDone:true}); G.weather='rain'; GM.E.player.obj.position={x:81,y:0,z:0}; const wed=chk('ev_rain_library_door');
-  check('2a. 雨天總圖：週二 18:10 不觸發（語彤在麵店）',!tue);
+  check('2a. 雨天總圖：AA_625 第 1 節（YT-REWRITE-1103）她不在麵店了，週二不再擋；還沒在茶屋認識（YT_MET_JOB）＝不演',tue===wed);
   check('2b. 週二 21:00、週三 18:10：照常可以',tueLate&&wed,JSON.stringify({tueLate,wed}));
   // A5
   at('Y1S1',3,2,12,'library',{introDone:true,classDone:true,afternoonDone:true}); const k3=chk('ev_bohan_kaogu');

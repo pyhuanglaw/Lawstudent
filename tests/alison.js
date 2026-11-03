@@ -20,7 +20,11 @@ const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffe
 // YT-REWRITE-1103（語彤新背景，AA 定稿 D109）：AA_630／AA_627／AA_625／AA_626 取代舊稿裡語彤的句子（一句一句的換字表在 aa630_fix.json；整段換、交往中／沒交往兩版、AA 決定的列沒辦法逐句換）——
 // 讀 docs/story_planning/ 的 .md 稿（不是這四份本身）時，後面接上這四份（白名單上的版本），「每一句都在稿裡」的測試也認得新句（src 是 tools/story/apply_aa630_src.py 照這四份改的）。
 const YT_DOCS=[['bb4401fd3','docs/story_planning/AA_630_語彤台詞改寫.md'],['40374c664','docs/story_planning/AA_627_語彤舊設定清查.md'],['9ba14498e','docs/story_planning/AA_625_語彤新版事件台詞.md'],['9ba14498e','docs/story_planning/AA_626_語彤D13淡水_新背景改寫.md']];
-let YTX=null; const ytx=()=>{ if(YTX==null){ YTX=''; for(const [sha,p] of YT_DOCS){ try{ YTX+='\n\n<!-- YT-REWRITE-1103 '+p+' -->\n'+ef0.call(cp,'git',['-C',path.join(__dirname,'..'),'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){} } } return YTX; };
+let YTX=null; const ytx=()=>{ if(YTX==null){ YTX='\n<!-- YT-REWRITE-1103 -->\n'; const seen=new Set();
+    for(const [sha,p] of YT_DOCS){ let t=''; try{ t=ef0.call(cp,'git',['-C',path.join(__dirname,'..'),'show',sha+':'+p],{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ continue; }
+      const add=x=>{ x=String(x).replace(/[「」]/g,' ').trim(); for(const y of x.split(/\s{2,}|／/)){ const z=y.trim(); if(z.length>=2&&!seen.has(z)){ seen.add(z); YTX+='〔YT〕'+z+'\n'; } } };
+      for(const l of t.split('\n')){ for(const m of l.matchAll(/「([^「」]{2,})」/g)){ const z='「'+m[1]+'」'; if(!seen.has(z)){ seen.add(z); YTX+='〔YT〕'+z+'\n'; } add(m[1]); } if(/^\|\s*[A-Z]-\d{3}/.test(l)){ const c=l.split('|'); if(c.length>5) add(c[4]); } else if(/^>\s/.test(l)) add(l.replace(/^>\s*/,'').replace(/^[^：]{1,12}：/,'')); else if(/^[^|#>-].*：/.test(l)&&/^(語彤|蘇姨|秀琴姨|祐廷|柏翰|指導律師|新屋主|語彤的媽媽|明軒)：/.test(l)) add(l.replace(/^[^：]+：/,'')); } } }
+    return YTX; };   /* 只收這四份的「改成」欄、> 引文、台詞行（去掉「」，一行一句，前面加〔YT〕）：給「這一句在不在稿裡」用；解析稿的表格、引文、選項的測試讀不到 */
 const fixDoc=(r,cmd)=>{ const out=fix(r); if(!/\.md/.test(cmd)||/AA_62[5-7]_|AA_630_/.test(cmd)) return out; const x=ytx(); return typeof out==='string'?out+x:(Buffer.isBuffer(out)?Buffer.concat([out,Buffer.from(x,'utf8')]):out); };
 const isDoc=s=>/\bshow\b/.test(s)&&/docs\/story_planning\//.test(s);
 if(!cp.__alison){

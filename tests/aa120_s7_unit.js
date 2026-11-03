@@ -72,7 +72,7 @@ check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
   check('applySave：先備份再改（firstMetMigrate；備份與失敗時不改的細節在 tests/save_firstmet_unit.js，D61）',/s=firstMetMigrate\(s,raw\)/.test(src)); }
 { fresh(dOf('Y1S1',4,5)); G.social.mem.heroine_02=[{tag:'GREETED',day:5}]; check('標成一般招呼以後：芷若算還沒見過（相遇事件會把她當第一次見面）',!SOCIAL.has('heroine_02','FIRST_MET')); }
 /* ---------- 7-5 ---------- */
-{ const ev=STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'); fresh(10); check('雨天的總圖門口：還沒見過語彤才演（notMemory FIRST_MET），對話沒動',JSON.stringify(ev.prereq)==='{"notMemory":[{"npc":"heroine_03","tag":"FIRST_MET"}]}'&&EVENTS.cond(ev.prereq)&&(SOCIAL.meet('heroine_03','campus'),!EVENTS.cond(ev.prereq))&&ev.dialogue[1].text==='……'); }
+{ const ev=STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'); fresh(10); check('雨天的總圖門口（AA_625 第 1 節重寫）：要先在茶屋認識（YT_MET_JOB），一起躲過雨（SHARED_UMBRELLA）就不再演',JSON.stringify(ev.prereq)==='{"flags":["YT_MET_JOB"],"notMemory":[{"npc":"heroine_03","tag":"SHARED_UMBRELLA"}]}'&&ev.dialogue[1].text==='……嗯。我忘了帶傘。'); }
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_zhiruo_ge_group');
   check('經原分組：標題「經原分組」、大一上、週五、12:06–13:00、普通教學館、第 4 週週五起（2025-09-26；AA_195 4-7 A4 起改看週次 minWeek，不再用 day_min 10），沒有 FIRST_MET 前置',ev.title==='經原分組'&&JSON.stringify(ev.term)==='["Y1S1"]'&&JSON.stringify(ev.weekday)==='[5]'&&JSON.stringify(ev.time)==='[12.1,13]'&&ev.location==='putong'&&!ev.day_min&&ev.minWeek&&ev.minWeek.term==='Y1S1'&&ev.minWeek.week===4&&dayOf('2025-09-26')===10&&CALENDAR.termOf(10).week===4&&!(ev.prereq&&ev.prereq.memory)&&ev.dialogue[0].text==='欸，是你。你也修經原喔？'&&ev.dialogue[1].text==='不好意思，你是法律系的嗎？剛剛點名有聽到。'); }   /* AA_207 §2：開場兩版（原本「欸！法律系！你也修「經濟學原理」？」）*/
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_zhiruo_bell'); const ch=ev.dialogue.find(d=>d.choice).choice;
