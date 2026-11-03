@@ -1,0 +1,161 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_layout16_probe.py http://127.0.0.1:8809/index.html?turbo C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\06b_layoutP\out
+==== CASE seat_exam（SHA c2d0c24bc，EXAM_ROUTE goclass）====
+PASS seat_exam_Y4LSO_08_land：遊戲載入
+  [前置／捷徑] [前置] seat_exam_Y4LSO_08_land：最小存檔 2028-12-21 13.23 時 linze_202（勞動社會法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:labor_social:final].qs＝["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]（第 1 題＝Y4LSO_08）；條件事件關掉
+PASS seat_exam_Y4LSO_08_land：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4LSO_08）  ["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]
+  [  39.3s] seat_exam_Y4LSO_08_land：讀檔後區域是 linze_202（要的是 dorm）
+  [  39.4s] seat_exam_Y4LSO_08_land：goList 那一堂 {"key": "1192:labor_social:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [  46.8s] seat_exam_Y4LSO_08_land：手機「今天」按 1192:labor_social:pm1 的出發鈕
+  [  46.9s] seat_exam_Y4LSO_08_land：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_Y4LSO_08_land：第 1 題（Y4LSO_08）出現在畫面上
+  [  53.5s] seat_exam_Y4LSO_08_land：選項出現（穩定 True）innerWidth 844 innerHeight 390 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static", "side"] rect {"l": 14, "t": 271.2, "r": 416, "b": 376, "w": 402, "h": 104.8}；#choices rect {"l": 430, "t": 82, "r": 830, "b": 362, "w": 400, "h": 280}
+PASS seat_exam_Y4LSO_08_land：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static", "side"], "vis": true, "text": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如"}
+PASS seat_exam_Y4LSO_08_land：題目在左欄（有 side 時 #dlg 右緣 ≤ #choices 左緣；沒有 side＝選項放得下，題目和選項不重疊）  {"dlg": {"l": 14, "t": 271.2, "r": 416, "b": 376, "w": 402, "h": 104.8}, "ch": {"l": 430, "t": 82, "r": 830, "b": 362, "w": 400, "h": 280}, "cls": ["static", "side"]}
+PASS seat_exam_Y4LSO_08_land：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 14, "t": 271.2, "r": 416, "b": 376, "w": 402, "h": 104.8}, "ch": {"l": 430, "t": 82, "r": 830, "b": 362, "w": 400, "h": 280}, "hitBtns": [], "samples": [{"x": 67.8, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 215, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 362.2, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 141.4, "y": 345.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 288.6, "y": 345.6, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_Y4LSO_08_land：選項不超出 viewport（#choices 與每個按鈕在 844x390 內）  {"ch": {"l": 430, "t": 82, "r": 830, "b": 362, "w": 400, "h": 280}, "out": [], "scroll": [280, 280]}
+PASS seat_exam_Y4LSO_08_land：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_Y4LSO_08_land：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "next": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "cls": []}
+PASS seat_exam_Y4LSO_08_land：沒有 JS 例外  []
+PASS seat_exam_Y4LSO_08_port：遊戲載入
+  [前置／捷徑] [前置] seat_exam_Y4LSO_08_port：最小存檔 2028-12-21 13.23 時 linze_202（勞動社會法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:labor_social:final].qs＝["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]（第 1 題＝Y4LSO_08）；條件事件關掉
+PASS seat_exam_Y4LSO_08_port：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4LSO_08）  ["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]
+  [  93.9s] seat_exam_Y4LSO_08_port：讀檔後區域是 linze_202（要的是 dorm）
+  [  94.0s] seat_exam_Y4LSO_08_port：goList 那一堂 {"key": "1192:labor_social:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 101.1s] seat_exam_Y4LSO_08_port：手機「今天」按 1192:labor_social:pm1 的出發鈕
+  [ 101.2s] seat_exam_Y4LSO_08_port：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_Y4LSO_08_port：第 1 題（Y4LSO_08）出現在畫面上
+  [ 107.4s] seat_exam_Y4LSO_08_port：選項出現（穩定 True）innerWidth 390 innerHeight 844 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static"] rect {"l": 14, "t": 699.6, "r": 376, "b": 830, "w": 362, "h": 130.4}；#choices rect {"l": 14, "t": 398, "r": 376, "b": 678, "w": 362, "h": 280}
+PASS seat_exam_Y4LSO_08_port：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如"}
+PASS seat_exam_Y4LSO_08_port：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 14, "t": 699.6, "r": 376, "b": 830, "w": 362, "h": 130.4}, "ch": {"l": 14, "t": 398, "r": 376, "b": 678, "w": 362, "h": 280}, "hitBtns": [], "samples": [{"x": 63.8, "y": 743.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 195, "y": 743.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 326.2, "y": 743.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 129.4, "y": 794.5, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 260.6, "y": 794.5, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_Y4LSO_08_port：選項不超出 viewport（#choices 與每個按鈕在 390x844 內）  {"ch": {"l": 14, "t": 398, "r": 376, "b": 678, "w": 362, "h": 280}, "out": [], "scroll": [280, 280]}
+PASS seat_exam_Y4LSO_08_port：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_Y4LSO_08_port：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 14, "t": 699.6, "r": 376, "b": 830, "w": 362, "h": 130.4}, "next": {"l": 14, "t": 725.2, "r": 376, "b": 830, "w": 362, "h": 104.8}, "cls": []}
+PASS seat_exam_Y4LSO_08_port：沒有 JS 例外  []
+PASS seat_exam_BBAI_NEG_03_land：遊戲載入
+  [前置／捷徑] [前置] seat_exam_BBAI_NEG_03_land：最小存檔 2028-06-07 13.23 時 linze_202（票據及支付工具法 Y3S2 期末考日 2028-06-07 第 pm1 節）；R.exam[Y3S2:negotiable:final].qs＝["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]（第 1 題＝BBAI_NEG_03）；條件事件關掉
+PASS seat_exam_BBAI_NEG_03_land：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝BBAI_NEG_03）  ["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]
+  [ 150.4s] seat_exam_BBAI_NEG_03_land：讀檔後區域是 linze_202（要的是 dorm）
+  [ 150.5s] seat_exam_BBAI_NEG_03_land：goList 那一堂 {"key": "995:negotiable:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 158.3s] seat_exam_BBAI_NEG_03_land：手機「今天」按 995:negotiable:pm1 的出發鈕
+  [ 158.4s] seat_exam_BBAI_NEG_03_land：選單 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_BBAI_NEG_03_land：第 1 題（BBAI_NEG_03）出現在畫面上
+  [ 165.0s] seat_exam_BBAI_NEG_03_land：選項出現（穩定 True）innerWidth 844 innerHeight 390 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static", "side"] rect {"l": 14, "t": 220, "r": 416, "b": 376, "w": 402, "h": 156}；#choices rect {"l": 430, "t": 115, "r": 830, "b": 362, "w": 400, "h": 247}
+PASS seat_exam_BBAI_NEG_03_land：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static", "side"], "vis": true, "text": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契"}
+PASS seat_exam_BBAI_NEG_03_land：題目在左欄（有 side 時 #dlg 右緣 ≤ #choices 左緣；沒有 side＝選項放得下，題目和選項不重疊）  {"dlg": {"l": 14, "t": 220, "r": 416, "b": 376, "w": 402, "h": 156}, "ch": {"l": 430, "t": 115, "r": 830, "b": 362, "w": 400, "h": 247}, "cls": ["static", "side"]}
+PASS seat_exam_BBAI_NEG_03_land：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 14, "t": 220, "r": 416, "b": 376, "w": 402, "h": 156}, "ch": {"l": 430, "t": 115, "r": 830, "b": 362, "w": 400, "h": 247}, "hitBtns": [], "samples": [{"x": 67.8, "y": 271.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 215, "y": 271.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 362.2, "y": 271.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 141.4, "y": 335.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 288.6, "y": 335.4, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_BBAI_NEG_03_land：選項不超出 viewport（#choices 與每個按鈕在 844x390 內）  {"ch": {"l": 430, "t": 115, "r": 830, "b": 362, "w": 400, "h": 247}, "out": [], "scroll": [247, 247]}
+PASS seat_exam_BBAI_NEG_03_land：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_BBAI_NEG_03_land：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}, "next": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "cls": []}
+PASS seat_exam_BBAI_NEG_03_land：沒有 JS 例外  []
+PASS seat_exam_BBAI_NEG_03_port：遊戲載入
+  [前置／捷徑] [前置] seat_exam_BBAI_NEG_03_port：最小存檔 2028-06-07 13.23 時 linze_202（票據及支付工具法 Y3S2 期末考日 2028-06-07 第 pm1 節）；R.exam[Y3S2:negotiable:final].qs＝["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]（第 1 題＝BBAI_NEG_03）；條件事件關掉
+PASS seat_exam_BBAI_NEG_03_port：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝BBAI_NEG_03）  ["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]
+  [ 206.5s] seat_exam_BBAI_NEG_03_port：讀檔後區域是 linze_202（要的是 dorm）
+  [ 206.6s] seat_exam_BBAI_NEG_03_port：goList 那一堂 {"key": "995:negotiable:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 214.8s] seat_exam_BBAI_NEG_03_port：手機「今天」按 995:negotiable:pm1 的出發鈕
+  [ 214.9s] seat_exam_BBAI_NEG_03_port：選單 ["坐中間的位子第一次上這門課", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_BBAI_NEG_03_port：第 1 題（BBAI_NEG_03）出現在畫面上
+  [ 220.9s] seat_exam_BBAI_NEG_03_port：選項出現（穩定 True）innerWidth 390 innerHeight 844 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static"] rect {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}；#choices rect {"l": 14, "t": 405, "r": 376, "b": 652, "w": 362, "h": 247}
+PASS seat_exam_BBAI_NEG_03_port：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　甲向乙買二手機車，簽發一張本票給乙。乙把本票背書轉讓給不知情、也沒有惡意的丙。後來甲發現機車有瑕疵、和乙的買賣契"}
+PASS seat_exam_BBAI_NEG_03_port：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}, "ch": {"l": 14, "t": 405, "r": 376, "b": 652, "w": 362, "h": 247}, "hitBtns": [], "samples": [{"x": 63.8, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 195, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 326.2, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 129.4, "y": 789.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 260.6, "y": 789.4, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_BBAI_NEG_03_port：選項不超出 viewport（#choices 與每個按鈕在 390x844 內）  {"ch": {"l": 14, "t": 405, "r": 376, "b": 652, "w": 362, "h": 247}, "out": [], "scroll": [247, 247]}
+PASS seat_exam_BBAI_NEG_03_port：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_BBAI_NEG_03_port：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}, "next": {"l": 14, "t": 750, "r": 376, "b": 830, "w": 362, "h": 80}, "cls": []}
+PASS seat_exam_BBAI_NEG_03_port：沒有 JS 例外  []
+PASS seat_exam_Y4TAX_06_land：遊戲載入
+  [前置／捷徑] [前置] seat_exam_Y4TAX_06_land：最小存檔 2028-12-21 13.23 時 linze_202（財稅法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:tax_law:final].qs＝["Y4TAX_06", "Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08", "Y4TAX_01"]（第 1 題＝Y4TAX_06）；條件事件關掉
+PASS seat_exam_Y4TAX_06_land：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4TAX_06）  ["Y4TAX_06", "Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08", "Y4TAX_01"]
+  [ 265.0s] seat_exam_Y4TAX_06_land：讀檔後區域是 linze_202（要的是 dorm）
+  [ 265.1s] seat_exam_Y4TAX_06_land：goList 那一堂 {"key": "1192:tax_law:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 272.6s] seat_exam_Y4TAX_06_land：手機「今天」按 1192:tax_law:pm1 的出發鈕
+  [ 272.7s] seat_exam_Y4TAX_06_land：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_Y4TAX_06_land：第 1 題（Y4TAX_06）出現在畫面上
+  [ 279.1s] seat_exam_Y4TAX_06_land：選項出現（穩定 True）innerWidth 844 innerHeight 390 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static"] rect {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}；#choices rect {"l": 430, "t": 44, "r": 830, "b": 249, "w": 400, "h": 205}
+PASS seat_exam_Y4TAX_06_land：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售"}
+PASS seat_exam_Y4TAX_06_land：題目在左欄（有 side 時 #dlg 右緣 ≤ #choices 左緣；沒有 side＝選項放得下，題目和選項不重疊）  {"dlg": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}, "ch": {"l": 430, "t": 44, "r": 830, "b": 249, "w": 400, "h": 205}, "cls": ["static"]}
+PASS seat_exam_Y4TAX_06_land：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}, "ch": {"l": 430, "t": 44, "r": 830, "b": 249, "w": 400, "h": 205}, "hitBtns": [], "samples": [{"x": 131.6, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 422, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 712.4, "y": 307.3, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 276.8, "y": 345.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 567.2, "y": 345.6, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_Y4TAX_06_land：選項不超出 viewport（#choices 與每個按鈕在 844x390 內）  {"ch": {"l": 430, "t": 44, "r": 830, "b": 249, "w": 400, "h": 205}, "out": [], "scroll": [208, 205]}
+PASS seat_exam_Y4TAX_06_land：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_Y4TAX_06_land：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 42, "t": 271.2, "r": 802, "b": 376, "w": 760, "h": 104.8}, "next": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "cls": []}
+PASS seat_exam_Y4TAX_06_land：沒有 JS 例外  []
+PASS seat_exam_Y4TAX_06_port：遊戲載入
+  [前置／捷徑] [前置] seat_exam_Y4TAX_06_port：最小存檔 2028-12-21 13.23 時 linze_202（財稅法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:tax_law:final].qs＝["Y4TAX_06", "Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08", "Y4TAX_01"]（第 1 題＝Y4TAX_06）；條件事件關掉
+PASS seat_exam_Y4TAX_06_port：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4TAX_06）  ["Y4TAX_06", "Y4_TAX_03", "Y4_TAX_06", "Y4_TAX_08", "Y4TAX_01"]
+  [ 321.4s] seat_exam_Y4TAX_06_port：讀檔後區域是 linze_202（要的是 dorm）
+  [ 321.5s] seat_exam_Y4TAX_06_port：goList 那一堂 {"key": "1192:tax_law:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 329.4s] seat_exam_Y4TAX_06_port：手機「今天」按 1192:tax_law:pm1 的出發鈕
+  [ 329.5s] seat_exam_Y4TAX_06_port：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS seat_exam_Y4TAX_06_port：第 1 題（Y4TAX_06）出現在畫面上
+  [ 336.0s] seat_exam_Y4TAX_06_port：選項出現（穩定 True）innerWidth 390 innerHeight 844 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static"] rect {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}；#choices rect {"l": 14, "t": 444, "r": 376, "b": 652, "w": 362, "h": 208}
+PASS seat_exam_Y4TAX_06_port：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　在中華民國境內居住的個人甲，2025年買進一間房屋（不是自住，也沒有調職、非自願離職等特殊情形），持有一年後出售"}
+PASS seat_exam_Y4TAX_06_port：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}, "ch": {"l": 14, "t": 444, "r": 376, "b": 652, "w": 362, "h": 208}, "hitBtns": [], "samples": [{"x": 63.8, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 195, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 326.2, "y": 725.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 129.4, "y": 789.4, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 260.6, "y": 789.4, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS seat_exam_Y4TAX_06_port：選項不超出 viewport（#choices 與每個按鈕在 390x844 內）  {"ch": {"l": 14, "t": 444, "r": 376, "b": 652, "w": 362, "h": 208}, "out": [], "scroll": [208, 208]}
+PASS seat_exam_Y4TAX_06_port：選完 #choices 收起、#dlg 沒有 side  {"ch": ["hide"], "dlg": []}
+PASS seat_exam_Y4TAX_06_port：下一題那一句 #dlg 回到原位（left、bottom 和第 1 題那一句一樣 ±2 px、沒有 side／static）  {"base": {"l": 14, "t": 674, "r": 376, "b": 830, "w": 362, "h": 156}, "next": {"l": 14, "t": 725.2, "r": 376, "b": 830, "w": 362, "h": 104.8}, "cls": []}
+PASS seat_exam_Y4TAX_06_port：沒有 JS 例外  []
+==== CASE adv_safe（SHA c2d0c24bc，EXAM_ROUTE goclass）====
+PASS adv_safe_Y4LSO_08_safe47：遊戲載入
+  [前置／捷徑] [前置] adv_safe_Y4LSO_08_safe47：最小存檔 2028-12-21 13.35 時 linze_202（勞動社會法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:labor_social:final].qs＝["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]（第 1 題＝Y4LSO_08）；條件事件關掉
+PASS adv_safe_Y4LSO_08_safe47：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4LSO_08）  ["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]
+  [前置／捷徑] [前置] adv_safe_Y4LSO_08_safe47：safe-area 模擬 左 47 右 47 下 21，方式＝cdp
+  [前置／捷徑] 【捷徑】adv_safe_Y4LSO_08_safe47：在 linze_202 直接 GAME.sceneBegin({adv:true})＋CLS.runExam(GAME,it)（沒有走座位流程）
+PASS adv_safe_Y4LSO_08_safe47：第 1 題出現（ADV）
+  [ 386.9s] adv_safe_Y4LSO_08_safe47：ADV True；innerWidth 844 safe(探針) {"l": 47, "r": 47, "t": 0, "b": 21} 模擬 左47 右47；#choices display grid grid 371px 371px left 47px width 750px rect {"l": 47, "t": 131, "r": 797, "b": 267, "w": 750, "h": 136}；按鈕 [{"t": "（A）按離職退保當月起前六個", "l": 47, "r": 418}, {"t": "（B）按平均月投保薪資百分之", "l": 426, "r": 797}, {"t": "（C）按平均月投保薪資百分之", "l": 47, "r": 418}, {"t": "（D）按平均月投保薪資百分之", "l": 426, "r": 797}]
+PASS adv_safe_Y4LSO_08_safe47：ADV 開著（body.adv-on）
+PASS adv_safe_Y4LSO_08_safe47：（只記）4 個以上選項＝兩欄 grid  {"display": "grid", "grid": "371px 371px", "n": 4}
+PASS adv_safe_Y4LSO_08_safe47：每個按鈕右緣 ≤ innerWidth 844  {"maxRight": 797, "chRect": {"l": 47, "t": 131, "r": 797, "b": 267, "w": 750, "h": 136}}
+PASS adv_safe_Y4LSO_08_safe47：每個按鈕右緣 ≤ innerWidth − safe 右（797）  {"maxRight": 797}
+PASS adv_safe_Y4LSO_08_safe47：每個按鈕左緣 ≥ safe 左（47）  {"minLeft": 47}
+PASS adv_safe_Y4LSO_08_safe47：選項在 viewport 內（上下）  {"l": 47, "t": 131, "r": 797, "b": 267, "w": 750, "h": 136}
+PASS adv_safe_Y4LSO_08_safe47：沒有 JS 例外  []
+PASS adv_safe_BBAI_NEG_03_safe47：遊戲載入
+  [前置／捷徑] [前置] adv_safe_BBAI_NEG_03_safe47：最小存檔 2028-06-07 13.35 時 linze_202（票據及支付工具法 Y3S2 期末考日 2028-06-07 第 pm1 節）；R.exam[Y3S2:negotiable:final].qs＝["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]（第 1 題＝BBAI_NEG_03）；條件事件關掉
+PASS adv_safe_BBAI_NEG_03_safe47：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝BBAI_NEG_03）  ["BBAI_NEG_03", "BBAI_NEG_01", "BBAI_NEG_02", "BBAI_NEG_04", "BBAI_NEG_05"]
+  [前置／捷徑] [前置] adv_safe_BBAI_NEG_03_safe47：safe-area 模擬 左 47 右 47 下 21，方式＝cdp
+  [前置／捷徑] 【捷徑】adv_safe_BBAI_NEG_03_safe47：在 linze_202 直接 GAME.sceneBegin({adv:true})＋CLS.runExam(GAME,it)（沒有走座位流程）
+PASS adv_safe_BBAI_NEG_03_safe47：第 1 題出現（ADV）
+  [ 436.2s] adv_safe_BBAI_NEG_03_safe47：ADV True；innerWidth 844 safe(探針) {"l": 47, "r": 47, "t": 0, "b": 21} 模擬 左47 右47；#choices display grid grid 371px 371px left 47px width 750px rect {"l": 47, "t": 103, "r": 797, "b": 242, "w": 750, "h": 139}；按鈕 [{"t": "（A）可以，原因關係不存在，", "l": 47, "r": 418}, {"t": "（B）不可以；票據債務人不得", "l": 426, "r": 797}, {"t": "（C）可以，只要甲能證明機車", "l": 47, "r": 418}, {"t": "（D）可以，但要先付一半", "l": 426, "r": 797}]
+PASS adv_safe_BBAI_NEG_03_safe47：ADV 開著（body.adv-on）
+PASS adv_safe_BBAI_NEG_03_safe47：（只記）4 個以上選項＝兩欄 grid  {"display": "grid", "grid": "371px 371px", "n": 4}
+PASS adv_safe_BBAI_NEG_03_safe47：每個按鈕右緣 ≤ innerWidth 844  {"maxRight": 797, "chRect": {"l": 47, "t": 103, "r": 797, "b": 242, "w": 750, "h": 139}}
+PASS adv_safe_BBAI_NEG_03_safe47：每個按鈕右緣 ≤ innerWidth − safe 右（797）  {"maxRight": 797}
+PASS adv_safe_BBAI_NEG_03_safe47：每個按鈕左緣 ≥ safe 左（47）  {"minLeft": 47}
+PASS adv_safe_BBAI_NEG_03_safe47：選項在 viewport 內（上下）  {"l": 47, "t": 103, "r": 797, "b": 242, "w": 750, "h": 139}
+PASS adv_safe_BBAI_NEG_03_safe47：沒有 JS 例外  []
+==== CASE recall2（SHA c2d0c24bc，EXAM_ROUTE goclass）====
+PASS recall2_Y4LSO_08_land：遊戲載入
+  [前置／捷徑] [前置] recall2_Y4LSO_08_land：最小存檔 2028-12-21 13.23 時 linze_202（勞動社會法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:labor_social:final].qs＝["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]（第 1 題＝Y4LSO_08）；有教科書《勞動社會法》；條件事件關掉
+PASS recall2_Y4LSO_08_land：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4LSO_08）  ["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]
+  [ 477.1s] recall2_Y4LSO_08_land：讀檔後區域是 linze_202（要的是 dorm）
+  [ 477.2s] recall2_Y4LSO_08_land：goList 那一堂 {"key": "1192:labor_social:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 484.9s] recall2_Y4LSO_08_land：手機「今天」按 1192:labor_social:pm1 的出發鈕
+  [ 485.0s] recall2_Y4LSO_08_land：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS recall2_Y4LSO_08_land：第 1 題（Y4LSO_08）出現在畫面上
+  [ 491.9s] recall2_Y4LSO_08_land：選項出現（穩定 True）innerWidth 844 innerHeight 390 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static", "side"] rect {"l": 14, "t": 271.2, "r": 416, "b": 376, "w": 402, "h": 104.8}；#choices rect {"l": 430, "t": 82, "r": 830, "b": 362, "w": 400, "h": 280}
+  [前置／捷徑] 【捷徑】recall2_Y4LSO_08_land：讀題庫正解（第 1 個，只讀）→ 故意按第 2 個「（B）按平均月投保薪資百分之六十按月發給」
+PASS recall2_Y4LSO_08_land：旁白「（你想起課本上那一段。…）」之後下一句是「1／5　題幹」  ["（你想起課本上那一段。旁邊還有你自己畫的線。）", "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"]
+PASS recall2_Y4LSO_08_land：第二次選單出現時畫面上看得到題幹（#dlg 看得到、#dlgText 含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"}
+PASS recall2_Y4LSO_08_land：第二次選單少一個選項、沒有選錯的那一個  {"btns": ["（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月", "（C）按平均月投保薪資百分之八十按月發給，最長六個月", "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"], "picked": "（B）按平均月投保薪資百分之六十按月發給，最長九個月"}
+PASS recall2_Y4LSO_08_land_2nd：選項出現時題目仍可見（#dlg 沒有 .hide、看得到、文字含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如"}
+PASS recall2_Y4LSO_08_land_2nd：題目在左欄（有 side 時 #dlg 右緣 ≤ #choices 左緣；沒有 side＝選項放得下，題目和選項不重疊）  {"dlg": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "ch": {"l": 430, "t": 66, "r": 830, "b": 274, "w": 400, "h": 208}, "cls": ["static"]}
+PASS recall2_Y4LSO_08_land_2nd：選項不覆蓋題目（#dlg 和 #choices／每個按鈕矩形不相交、題目上取樣點最上層是 #dlg）  {"dlg": {"l": 42, "t": 296, "r": 802, "b": 376, "w": 760, "h": 80}, "ch": {"l": 430, "t": 66, "r": 830, "b": 274, "w": 400, "h": 208}, "hitBtns": [], "samples": [{"x": 131.6, "y": 324.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 422, "y": 324.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 712.4, "y": 324.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 276.8, "y": 350.6, "inDlg": true, "inCh": false, "el": "dlgText"}, {"x": 567.2, "y": 350.6, "inDlg": true, "inCh": false, "el": "dlgText"}]}
+PASS recall2_Y4LSO_08_land_2nd：選項不超出 viewport（#choices 與每個按鈕在 844x390 內）  {"ch": {"l": 430, "t": 66, "r": 830, "b": 274, "w": 400, "h": 208}, "out": [], "scroll": [208, 208]}
+  [ 498.8s] recall2_Y4LSO_08_land：第二次選單畫面文字（#dlgText）＝"1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"；選項 ["（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月", "（C）按平均月投保薪資百分之八十按月發給，最長六個月", "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"]
+PASS recall2_Y4LSO_08_land：沒有 JS 例外  []
+PASS recall2_Y4LSO_08_port：遊戲載入
+  [前置／捷徑] [前置] recall2_Y4LSO_08_port：最小存檔 2028-12-21 13.23 時 linze_202（勞動社會法 Y4S1 期末考日 2028-12-21 第 pm1 節）；R.exam[Y4S1:labor_social:final].qs＝["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]（第 1 題＝Y4LSO_08）；有教科書《勞動社會法》；條件事件關掉
+PASS recall2_Y4LSO_08_port：前置成立（CLS.drawExam 照預先寫好的 5 題、第 1 題＝Y4LSO_08）  ["Y4LSO_08", "Y4_LSO_06", "Y4_LSO_08", "Y4LSO_01", "Y4LSO_02"]
+  [ 538.9s] recall2_Y4LSO_08_port：讀檔後區域是 linze_202（要的是 dorm）
+  [ 539.1s] recall2_Y4LSO_08_port：goList 那一堂 {"key": "1192:labor_social:pm1", "exam": "final", "t0": 13.333333333333334, "room": "法律系館A 202", "status": "open"}
+  [ 547.3s] recall2_Y4LSO_08_port：手機「今天」按 1192:labor_social:pm1 的出發鈕
+  [ 547.4s] recall2_Y4LSO_08_port：選單 ["坐中間的位子第一次上這門課", "坐在沈以安旁邊", "自己找位子走過去坐下就可以上課"] → 坐中間的位子第一次上這門課
+PASS recall2_Y4LSO_08_port：第 1 題（Y4LSO_08）出現在畫面上
+  [ 553.6s] recall2_Y4LSO_08_port：選項出現（穩定 True）innerWidth 390 innerHeight 844 safe {"l": 0, "r": 0, "t": 0, "b": 0}；#dlg cls ["static"] rect {"l": 14, "t": 699.6, "r": 376, "b": 830, "w": 362, "h": 130.4}；#choices rect {"l": 14, "t": 398, "r": 376, "b": 678, "w": 362, "h": 280}
+  [前置／捷徑] 【捷徑】recall2_Y4LSO_08_port：讀題庫正解（第 1 個，只讀）→ 故意按第 2 個「（B）按平均月投保薪資百分之六十按月發給」
+PASS recall2_Y4LSO_08_port：旁白「（你想起課本上那一段。…）」之後下一句是「1／5　題幹」  ["（你想起課本上那一段。旁邊還有你自己畫的線。）", "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"]
+PASS recall2_Y4LSO_08_port：第二次選單出現時畫面上看得到題幹（#dlg 看得到、#dlgText 含題幹）  {"cls": ["static"], "vis": true, "text": "1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"}
+PASS recall2_Y4LSO_08_port：第二次選單少一個選項、沒有選錯的那一個  {"btns": ["（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月", "（C）按平均月投保薪資百分之八十按月發給，最長六個月", "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"], "picked": "（B）按平均月投保薪資百分之六十按月發給，最長九個月"}
+  [ 560.3s] recall2_Y4LSO_08_port：第二次選單畫面文字（#dlgText）＝"1／5　申請人離職退保時未滿四十五歲，也沒有身心障礙證明，而且沒有延長給付的情形。依就業保險法第16條第1項，失業給付如何發給？"；選項 ["（A）按離職退保當月起前六個月平均月投保薪資百分之六十按月發給，最長六個月", "（C）按平均月投保薪資百分之八十按月發給，最長六個月", "（D）按平均月投保薪資百分之五十按月發給，最長十二個月"]
+PASS recall2_Y4LSO_08_port：沒有 JS 例外  []
+SHA c2d0c24bc CASES seat_exam,adv_safe,recall2
+ALL PASS
