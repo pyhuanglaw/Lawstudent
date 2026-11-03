@@ -1,0 +1,23 @@
+{
+  "rerun": "r2",
+  "id": "V19R_touch2",
+  "sha": "15e78dff7",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "SOLO=1;RERUN=r2;XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T01:58:05",
+  "end": "2026-11-04T02:01:10",
+  "seconds": 185,
+  "exit": 0,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 49,
+    "mem": 47,
+    "used_gb": 15.1,
+    "chrome_testing": 10
+  }
+}

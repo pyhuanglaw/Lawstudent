@@ -570,3 +570,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_swingshot] | [gpu_wrap 49.0s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 49.1s] BROWSER DISCONNECTED
 - 2026-11-04T01:57:58  V19D_stairarm  sha=15e78dff7  exit=0  100s    PASS ③ 鏡頭切過去以後第一格看得到她：左上臂夾角 ≤ 45°  {"f": 1539, "vis": true, "cd": 3.57, "upd": true, "arm": 21.1, "y": 0.81, "z": 3.74} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19D_stairarm] | [gpu_wrap 47.8s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 47.9s] BROWSER DISCONNECTED
+- 2026-11-04T02:01:10  V19R_touch2  sha=15e78dff7  exit=0  185s    PASS 讀檔後可以走  9.2 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V19R_touch2] | [gpu_wrap 152.5s] page close url=http://127.0.0.1:8810/index.html?turbo&turbo | [gpu_wrap 152.5s] BROWSER DISCONNECTED
