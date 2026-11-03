@@ -364,3 +364,15 @@
        0f4cc806c..45c1db164  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [01:09:00] ==== END   V19R_p0  exit=0  188s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       45c1db164..01447ffe5  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[01:09:05] ==== END   V19R_deploy  exit=1  194s   ====
+[01:09:08] memory 45% before starting V19R_p0b (2 running)
+[01:09:08] ==== START V19R_p0b  (game @ 033242ae9) ====
+[01:09:10] memory 46% before starting V19R_deploy (2 running)
+[01:09:10] ==== START V19R_deploy  (game @ 033242ae9) ====
+[01:09:11] [res] cpu=26% mem=46% (14.4/31.4 GB) chrome_testing=10  START V19R_p0b
+[01:09:13] [res] cpu=38% mem=46% (14.4/31.4 GB) chrome_testing=10  START V19R_deploy
+[01:09:14] 正在跑：N19C_f606wf（已跑 19 分／上限 620 分）、V19R_p0b（已跑 0 分／上限 30 分）、V19R_deploy（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[01:10:18] [res] cpu=43% mem=53% (16.5/31.4 GB) chrome_testing=17  END N19C_f606wf

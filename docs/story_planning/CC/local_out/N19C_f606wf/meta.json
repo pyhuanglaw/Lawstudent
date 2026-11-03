@@ -1,0 +1,23 @@
+{
+  "rerun": "wf",
+  "id": "N19C_f606wf",
+  "sha": "b1ae1c390",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_friends606_probe.py",
+  "env": "SAVE=docs/story_planning/CC/local_out/N19C_c608/out/camp608_824_save.json;SAVE_SHA=b1ae1c390;SAVE_WAIT_MIN=40;MAX_S=36000;RERUN=wf",
+  "machine": "MSI",
+  "start": "2026-11-04T00:49:54",
+  "end": "2026-11-04T01:10:18",
+  "seconds": 1224,
+  "exit": 1,
+  "error": null,
+  "runner": "c9cac8a6aa",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 94,
+    "mem": 62,
+    "used_gb": 19.9,
+    "chrome_testing": 28
+  }
+}
