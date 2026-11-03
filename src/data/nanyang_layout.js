@@ -90,7 +90,7 @@ const NANYANG_LAYOUT = {
   H.lights = [].concat(
     [-5.3, 5.3].flatMap(x => [3.0, -0.5, -4.0].map(z => ({x: x, y: 2.9, z: z, kind: 'house'}))),
     H.rowZ.map(z => ({x: H.aisleR.x0 + 0.08, y: 0.18, z: z + 0.3, kind: 'aisle'})),
-    [{x: H.door.x, y: 3.0, z: H.d / 2 - 0.1, kind: 'exit'}, {x: -5.4, y: 2.6, z: -5.6, kind: 'exit'}],
+    [{x: H.door.x, y: 3.0, z: H.d / 2 - 0.1, kind: 'exit'}, {x: -5.4, y: 2.6, z: -6.0, kind: 'exit'}],
     [{x: 0, y: H.screen.y + H.screen.h / 2, z: H.screen.z + 0.3, kind: 'screen'}]);
 })();
 if (typeof module !== 'undefined') module.exports = NANYANG_LAYOUT;
