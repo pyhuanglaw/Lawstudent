@@ -1,11 +1,11 @@
 {
  "objects": 37,
  "unique_meshes": 37,
- "tris": 56759,
- "tris_drawn": 56759,
+ "tris": 56675,
+ "tris_drawn": 56675,
  "materials": 12,
- "out": "../../../../../../home/user/Lawstudent/assets/models/env/second_ai/bb_support/tongxian.glb",
- "bytes": 3656696,
+ "out": "../model/out_tx/tongxian_v2.glb",
+ "bytes": 3651572,
  "texres": 512,
  "layout": 1,
  "guitars": {
