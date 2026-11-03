@@ -654,6 +654,12 @@ class Runner(object):
             if k == 'webkit':
                 env['CC_BROWSER'] = 'webkit'
             return [self.py, wrap, os.path.join(self.work, it.script), url, out], self.work
+        # 受測程式自己叫的 git（單元測試 git show 企劃稿）也照 LF：PC 的 repo 設了 core.autocrlf=true，N1 lf2 有一批「讀稿 0 句、行尾帶 \\r」的 FAIL（CC 2026-11-03）
+        env['GIT_CONFIG_COUNT'] = '2'
+        env['GIT_CONFIG_KEY_0'] = 'core.autocrlf'
+        env['GIT_CONFIG_VALUE_0'] = 'false'
+        env['GIT_CONFIG_KEY_1'] = 'core.eol'
+        env['GIT_CONFIG_VALUE_1'] = 'lf'
         if k == 'node':
             # BB 22:37：單元測試會 execSync('python3 …')；Windows 沒有 python3 這個指令 → PATH 前面放一個 python3.cmd 指到 runner 自己的 python（不改測試）
             if IS_WIN:
