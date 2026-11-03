@@ -165,3 +165,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [P3b_sl] | [gpu_wrap 313.1s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 313.2s] BROWSER DISCONNECTED
 - 2026-11-03T08:04:00  F1_fps_hl  sha=b1b249873  exit=0  523s    OK   linze         rain  avg 51.34 fps  1%low 23.3 fps  worst 83.3 ms  n=771  zone=linze h=15.03 w=rain q=medium draw=157  / JS 例外 0 個 / ALL PASS（量測完成 18 格）
       err.log (last 5): [gpu_wrap 454.5s] page close url=http://127.0.0.1:8809/index.html | [gpu_wrap 454.6s] BROWSER DISCONNECTED
+- 2026-11-03T08:09:02  F2_fps_hd  sha=b1b249873  exit=0  472s    OK   linze         rain  avg 62.01 fps  1%low 30.7 fps  worst 36.6 ms  n=931  zone=linze h=15.03 w=rain q=medium draw=157  / JS 例外 0 個 / ALL PASS（量測完成 18 格）
+      err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [F2_fps_hd] | [gpu_wrap 438.7s] page close url=http://127.0.0.1:8807/index.html | [gpu_wrap 438.8s] BROWSER DISCONNECTED

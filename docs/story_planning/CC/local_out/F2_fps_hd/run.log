@@ -1,0 +1,21 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\fps_zones.py http://127.0.0.1:8807/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\F2_fps_hd\out
+OK   campus        day   avg 37.35 fps  1%low 11.11 fps  worst 186.6 ms  n=561  zone=campus h=11.02 w=sunny q=medium draw=406 
+OK   campus        night avg 45.23 fps  1%low 18.35 fps  worst 86.6 ms  n=679  zone=campus h=21.03 w=sunny q=medium draw=368 
+OK   campus        rain  avg 34.56 fps  1%low 19.22 fps  worst 66.6 ms  n=519  zone=campus h=15.03 w=rain q=medium draw=448 
+OK   wenzhou       day   avg 40.41 fps  1%low 7.35 fps  worst 293.4 ms  n=607  zone=wenzhou h=11.01 w=sunny q=medium draw=292 
+OK   wenzhou       night avg 41.38 fps  1%low 22.76 fps  worst 63.4 ms  n=621  zone=wenzhou h=21.03 w=sunny q=medium draw=281 
+OK   wenzhou       rain  avg 39.21 fps  1%low 20.26 fps  worst 83.3 ms  n=589  zone=wenzhou h=15.03 w=rain q=medium draw=342 
+OK   gongguan      day   avg 53.95 fps  1%low 19.03 fps  worst 130 ms  n=810  zone=gongguan h=11.02 w=sunny q=medium draw=169 
+OK   gongguan      night avg 62.29 fps  1%low 22.88 fps  worst 90 ms  n=935  zone=gongguan h=21.03 w=sunny q=medium draw=135 
+OK   gongguan      rain  avg 64.65 fps  1%low 32.48 fps  worst 36.7 ms  n=970  zone=gongguan h=15.03 w=rain q=medium draw=172 
+OK   library_hall  day   avg 50.56 fps  1%low 16.66 fps  worst 143.3 ms  n=762  zone=library_hall h=11.01 w=sunny q=medium draw=184 
+OK   library_hall  night avg 68.1 fps  1%low 31.23 fps  worst 40 ms  n=1022  zone=library_hall h=21.03 w=sunny q=medium draw=165 
+OK   library_hall  rain  avg 54.81 fps  1%low 30.43 fps  worst 33.3 ms  n=823  zone=library_hall h=15.03 w=rain q=medium draw=188 
+OK   wancai        day   avg 68.24 fps  1%low 13.89 fps  worst 369.9 ms  n=1024  zone=wancai h=11.02 w=sunny q=medium draw=174 
+OK   wancai        night avg 73.64 fps  1%low 33.66 fps  worst 33.3 ms  n=1106  zone=wancai h=21.03 w=sunny q=medium draw=153 
+OK   wancai        rain  avg 70.21 fps  1%low 31.59 fps  worst 36.7 ms  n=1054  zone=wancai h=15.03 w=rain q=medium draw=178 
+OK   linze         day   avg 54.09 fps  1%low 27.61 fps  worst 39.9 ms  n=812  zone=linze h=11.02 w=sunny q=medium draw=168 
+OK   linze         night avg 69.85 fps  1%low 29.97 fps  worst 50 ms  n=1048  zone=linze h=21.03 w=sunny q=medium draw=134 
+OK   linze         rain  avg 62.01 fps  1%low 30.7 fps  worst 36.6 ms  n=931  zone=linze h=15.03 w=rain q=medium draw=157 
+JS 例外 0 個
+ALL PASS（量測完成 18 格）
