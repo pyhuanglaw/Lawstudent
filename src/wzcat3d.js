@@ -87,7 +87,9 @@ const WZCAT=(function(){
   function endRub(E,stopped){ const c=cat; c.rubCd=stopped?S.RUB.MISS+10:S.RUB.CD; c.rub=null;
     if(stopped){ play('cat_idle',0.2); c.state='look'; c.t=2.5; return; }
     if(c.rnd()<0.5){ play('cat_sit',0.25); c.state='sit'; c.at=null; c.t=8+c.rnd()*12; return; }   /* 坐在玩家旁邊 */
-    const tgt=pick(c.at,c.rnd), o=c.obj.position, p=E.pathTo?E.pathTo(o.x,o.z,0,tgt.x,tgt.z,0):[[tgt.x,tgt.z]];
+    const o=c.obj.position, pp=E.player&&E.player.obj&&E.player.obj.position, side=pp?c.spots.filter(s=>(s.x-pp.x)*(o.x-pp.x)+(s.z-pp.z)*(o.z-pp.z)>0&&Math.hypot(s.x-pp.x,s.z-pp.z)>1):c.spots;   /* 往貓這一側的點走開（不從玩家身上穿過去）*/
+    if(!side.length){ play('cat_sit',0.25); c.state='sit'; c.at=null; c.t=8+c.rnd()*12; return; }
+    let tq=side.reduce((a,s)=>a+s.w,0)*c.rnd(), tgt=side[side.length-1]; for(const s of side){ tq-=s.w; if(tq<=0){ tgt=s; break; } } const p=E.pathTo?E.pathTo(o.x,o.z,0,tgt.x,tgt.z,0):[[tgt.x,tgt.z]];
     if(p&&p.length){ c.path=p.map(q=>({x:q[0],z:q[1]})); c.next=tgt; c.leave=true; c.state='walk'; play('cat_walk',0.25); } else { play('cat_idle',0.2); c.state='look'; c.t=2; } }   /* 走開（玩家在旁邊也照走）*/
   function walkStep(E,dt,o,turnTo){ const c=cat, w=c.path[0], dx=w.x-o.position.x, dz=w.z-o.position.z, d=Math.hypot(dx,dz), st=S.SPEED*dt;
     if(d<=st){ o.position.x=w.x; o.position.z=w.z; c.path.shift(); return !c.path.length; }
@@ -136,6 +138,8 @@ const WZCAT=(function(){
         else { o.position.x=nx; o.position.z=nz; r.a=na; r.left-=da; r.swept+=da;
           const h=Math.atan2(r.dir*Math.cos(na),-r.dir*Math.sin(na)), cy=na+Math.PI; let dd=cy-h; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); turnTo(h+Math.sign(dd)*S.RUB.LEAN,6);   /* 身體沿著腳邊、頭往玩家那邊偏 */
           if(r.left<=0) endRub(E,false); } } }
+    if(c.state!=='sleep'&&pp){ const R=S.RUB.RING, ddx=o.position.x-pp.x, ddz=o.position.z-pp.z, dd=Math.hypot(ddx,ddz);   /* 不穿過玩家：貓的中心離玩家中心至少 0.44 m（玩家碰撞半徑 0.33＋貓半寬 0.11）；玩家走過來就讓開 */
+      if(dd<R-0.005&&dd>1e-4){ const nx=pp.x+ddx/dd*R, nz=pp.z+ddz/dd*R; if(!E.canStand||E.canStand(nx,nz,S.RUB.CAT_R,0)){ o.position.x=nx; o.position.z=nz; } } }
     if(c.state!=='sleep'){ o.position.y=E.heightAt?E.heightAt(o.position.x,o.position.z,0):0; if(c.it){ c.it.x=o.position.x; c.it.z=o.position.z; } c.mixer.update(dt); } };
   S.state=()=>cat?{state:cat.state,t:+cat.t.toFixed(1),busy:busy(),x:+cat.obj.position.x.toFixed(2),z:+cat.obj.position.z.toFixed(2),yaw:+cat.obj.rotation.y.toFixed(2),clip:cat.cur,at:cat.at&&[cat.at.x,cat.at.z],path:cat.path?cat.path.length:0,lie:cat.lieAt,still:+cat.still.toFixed(1),rubCd:+cat.rubCd.toFixed(1),rub:cat.rub?{left:+cat.rub.left.toFixed(2),swept:+cat.rub.swept.toFixed(2),dir:cat.rub.dir}:null}:null;
   S._cat=()=>cat;   /* 測試用 */
