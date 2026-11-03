@@ -89,6 +89,9 @@ AA609_grandma_c | 1ef4e2763 | probe | docs/story_planning/test_tools/cc/cc_aa609
 #HOLD候選 N19D_grandma  | <候選> | probe | docs/story_planning/test_tools/cc/cc_aa609_grandma_probe.py | index.html | 40 | DIM=1
 #HOLD候選 N19D_tour_tap | <候選> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=tap;PHOTO=1;CC_HEADLESS=0
 #HOLD候選 N19D_tour_joy | <候選> | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
+#HOLD候選 N19D_swingshot | <候選> | probe | docs/story_planning/test_tools/cc/cc_b245_shots_probe.py | index.html | 40 | SUBS=swing
+#HOLD候選 N19D_swing     | <候選> | node  | docs/story_planning/test_tools/cc/cc_b245_swing.js | index.html | 5 |
+# （N19D_swing*：BB 16:34，LAWWW2 50347eff4 鞦韆互動點移到座位前 0.8 m；A、B 都要從正面按得到（REACH 檢查）、坐下在座板上（swing.js））
 # （N19D_*：BB 16:11／16:27，候選定了以後填 SHA、拿掉 #HOLD候選；yule_shao 雲端 f110787dd ALL PASS）
 # ===== 以下是較舊的項目（BB 11:32：不要擋在 V18R 前面）=====
 #V18R 暫停# LIVE1_deploy | 1d0904473 | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.17（2026-11-03）
