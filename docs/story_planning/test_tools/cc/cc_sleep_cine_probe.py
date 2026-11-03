@@ -173,6 +173,14 @@ async def main():
                     (await pg.evaluate("(()=>!STORY._bed&&GAME.E.player.pose!=='lie')()"))
             chose, stopped = await play(pg, cdp, ('先起床', '起床', '照樣', '好'), max_s=900, until=woke)
             rec['chose'] = chose
+            t2 = time.time()   # play() 可能在起床前的空檔（8 秒沒有對話）就停：再等爬下來、床的狀態清掉（最多 120 秒）
+            while time.time() - t2 < 120:
+                q = await pg.evaluate(STATE)
+                if q['day'] == d0 + 1 and q['pose'] not in ('lie', 'climb', 'climbdown') and not q['busy'] and not q['bed']: break
+                s = await P.ts(pg)
+                if s['dlg']: await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(1000)
+            note('play() 停下 %s；之後等起床 %.1f 秒' % ('（等到醒來）' if stopped else '（空檔逾時）', time.time() - t2))
             await pg.wait_for_timeout(3000)
             s2 = await pg.evaluate(STATE); rec['s_end'] = s2; await shot('woke')
             W = await pg.evaluate("(()=>({log:window.__SC.log,fr:window.__SC.fr,pick:window.__SC.pick}))()")

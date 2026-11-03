@@ -89,7 +89,7 @@ def note(s): print('  ' + s, flush=True)
 
 
 FIND_JS = r"""(([cid,date])=>{ let day=null; for(let d=-60;d<400;d++){ if(CALENDAR.dateOf(d).key===date){ day=d; break; } } if(day===null) return {err:'找不到日期 '+date};
-  const D0=GAME.defaults('祐廷'), wd=CALENDAR.dateOf(day).wd; const G=Object.assign({},D0,{day,hour:6,weekday:wd%7,zone:'campus',stage:'law',flags:{}});
+  const D0=GAME.defaults('祐廷'), wd=CALENDAR.dateOf(day).wd; const G=Object.assign({},D0,{day,hour:6,weekday:wd%%7,zone:'campus',stage:'law',flags:{}});
   const it=CLS.dayItems(G).find(q=>q.c.id===cid); if(!it) return {err:'那天沒有 '+cid,day};
   const T=CALENDAR.termOf(day); return {day,wd,key:it.key,name:it.c.name,kind:it.c.kind,t0:it.t0,t1:it.t1,zone:it.room.zone,room:it.room.room,term:T&&T.id,week:T&&T.week}; })(%s)"""
 
