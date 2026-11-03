@@ -45,7 +45,7 @@ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y4S2:show(SHA510,SPEC510),PG:show(SHA511,SPEC511)}, doc509=show(SHA510,SPEC509);
 /* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
-{ const Y630=require('./aa630_expect.js'), FF={Y4S2:'src/data/feed_y4s2.js',PG:'src/data/feed_pg.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
+{ const Y630=require('./aa630_expect.js'), FF={Y4S2:'src/data/feed_y4s2.js',PG:'src/data/feed_pg.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-|^## 3\. 陳語彤/.test(h)); }   /* AA_511 的語彤是「## 3. 陳語彤」*/
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
