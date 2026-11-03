@@ -43,7 +43,7 @@ const date=id=>H.date(id);
 (async()=>{
   /* ===== 2-Y4-31 杜鵑花第四張 ===== */
   { fresh('2029-03-08',11,'dorm'); ACQ('heroine_01'); H.FAMILIAR('yu'); contact('heroine_01'); grp(); at('2029-03-08',12+10/60); phone();
-    check('2-Y4-31 12:10 有點熟以上：以安私訊「杜鵑開了」「十二點半，老位置。」', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['杜鵑開了','十二點半，老位置。']), JSON.stringify(th('p:heroine_01')));
+    check('2-Y4-31 12:10 有點熟以上：以安私訊「杜鵑開了。」（AA_592 第 32 列）「十二點半，老位置。」', JSON.stringify(th('p:heroine_01'))===JSON.stringify(['杜鵑開了。','十二點半，老位置。']), JSON.stringify(th('p:heroine_01')));
     at('2029-03-08',12.5); H.G.zone='campus'; E.player.obj.position.x=-20; E.player.obj.position.z=8;
     check('2-Y4-31 12:25～12:55 走到椰影大道的杜鵑＝演（不在大道上＝不演）', S.azaleaDue(H.G,GM)&&(()=>{ E.player.obj.position.z=40; const r=S.azaleaDue(H.G,GM); E.player.obj.position.z=8; return !r; })());
     H.picks=[0]; await run('ev_azalea_y4',[0]);
@@ -336,7 +336,7 @@ const date=id=>H.date(id);
   { fresh('2030-03-28',20,'dorm',GD); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); grp(); at('2030-03-28',22); pg(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
     check('2-Y4-50 不到 FRIEND：3/28 22:00 群組「紐約的法學院上了。八月去紐約。」；8/10 群組沒有「我去。」；8/11 只有群組的登機證照片', th('g:noodle_team').includes('紐約的法學院上了。八月去紐約。')&&!PHONE.byAsk(H.G,'y6_an_ny')&&th('g:noodle_team').includes('（照片：登機證）')&&!th('p:heroine_01').length&&H.G.flags.AN_NY_SENDOFF==='missed'); }
   { fresh('2030-08-10',20,'dorm',GD); ANF(); at('2030-08-10',21); pg(); at('2030-08-11',11.7); pg();
-    check('2-Y4-50 FRIEND 以上、沒去：11:40 以安（照片：登機證）「要登機了」「到了再傳」', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['（照片：登機證）','要登機了','到了再傳']));
+    check('2-Y4-50 FRIEND 以上、沒去：11:40 以安（照片：登機證）「要登機了。」「到了再傳。」（AA_592 第 15、16 列）', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['（照片：登機證）','要登機了。','到了再傳。']));
     at('2030-09-01',12); const p=STORY.presence('heroine_01',H.G); check('2-Y4-50 以安 presence：2030-08-11 起在紐約（到 2031 夏天）', p.here===false&&p.kind==='abroad'); }
   /* ===== 2-Y4-51 一試不到 12 題：2030 重考的那一年 ===== */
   const RT={BAR_REG:true,BAR_SIT_2029:true,BAR_STAGE_2029:'none'};

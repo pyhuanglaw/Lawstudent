@@ -11,7 +11,7 @@ const m=INV.match(/\n  S\.badClip=async function\(GM,iv,who\)\{[\s\S]*?return ok
 check('0. 抽得到 S.badClip',!!m);
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 // 1. 順序
-check('1. 見面：第一次那一句 → 短片 → 一起的時候',/if\(sp\)\{ const FA=FAof\(\); if\(FA\) await S\.playLines\(GM,who,FA\); if\(P\.id==='gym_badminton'\) await S\.badClip\(GM,iv,who\); if\(sp\.during\.length\) await S\.playLines\(GM,who,sp\.during\);/.test(INV));
+check('1. 見面：第一次那一句 → 短片 → 一起的時候',/if\(sp\)\{ const FA=FAof\(\); if\(FA\) await S\.playLines\(GM,who,FA(?:,[^)]*)?\); if\(P\.id==='gym_badminton'\) await S\.badClip\(GM,iv,who\); if\(sp\.during\.length\) await S\.playLines\(GM,who,sp\.during\);/.test(INV));
 check('1. 卡住偵測：BADCLIP.busy 算還在動',/live=[^\n]*\(typeof BADCLIP!=='undefined'&&BADCLIP\.busy\)/.test(GAME));
 function run(o){ const log=[]; const ADV={active:o.adv!==false,end(){ this.active=false; log.push('adv.end'); },begin(op){ this.active=true; log.push('adv.begin:'+op.right); }};
   const BADCLIP={LINES:{heroine_03:'……你說不笑的。'},play:async(GM,op)=>{ log.push('play:'+op.who+':'+(op.full?'full':'short')+':adv='+ADV.active); return o.skip?false:true; }};

@@ -85,7 +85,7 @@ await sec('A',async()=>{
       check('A3. 不回答：兩週後 21:00「我們先回到讀書會的同學。」、慢慢淡（apart_drift、EX_REASON drift）',dd&&dd.day===thu+14&&a===0&&J(dm(AN))===J(['heroine_01:我們先回到讀書會的同學。'])&&H.G.flags.dating_heroine_01===false&&H.G.flags.EX_heroine_01_REASON==='drift'&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===AN&&h.how==='apart_drift'),J(dm(AN))); } }
   /* 讀書會沒去：22:00 私訊 → 隔天 Café */
   setup(); at(thu,21.9); rules(); const a0=dm(AN).length; at(thu,22); rules();
-  check('A4. 那晚沒去讀書會：22:00「明天下午四點，兩點半窗邊。」「理由：有一件事，要當面說。」',a0===0&&J(dm(AN))===J(['heroine_01:明天下午四點，兩點半窗邊。','heroine_01:理由：有一件事，要當面說。'])&&pr(AN).plan.i===1,J(dm(AN)));
+  check('A4. 那晚沒去讀書會：22:00「明天下午四點，兩點半窗邊。」「有一件事，要當面說。」（AA_594 第 3 列）',a0===0&&J(dm(AN))===J(['heroine_01:明天下午四點，兩點半窗邊。','heroine_01:有一件事，要當面說。'])&&pr(AN).plan.i===1,J(dm(AN)));
   at(thu+1,16.5); rules(); check('A5. 隔天 16:30「我在窗邊。」',dm(AN).slice(-1)[0]==='heroine_01:我在窗邊。');
   at(thu+1,16.7); H.G.zone='cafe'; H.said=[]; H.picks=[0,0]; await tick(); check('A5. 16:40 走進 Café：談話（模糊的 3D），修補',J(said())===J(AN_BODY.concat(['……好。這個我收下。','（她把兩個人的規則改成一條：「有事，要講出來。」）']))&&cnt(AN)===0,J(said()));
   setup(); at(thu,22); rules(); at(thu+1,17.3); rules(); check('A6. Café 17:15 還沒到＝不回答（慢慢淡排兩週後）',!pr(AN).plan&&!!pr(AN).drift&&pr(AN).drift.day===thu+1+14);
