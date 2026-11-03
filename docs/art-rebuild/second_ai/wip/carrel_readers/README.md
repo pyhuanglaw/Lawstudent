@@ -17,6 +17,18 @@
   - populateCarrels 放好、不重複、閉館藏起來；story3d 有叫。
 - 開發分支 b049c84e3 上 ALL PASS。同樣跑過、都通過：`lupstory_unit`、`door_open_unit`、`library_media_unit`、`aa595_rules_unit`、`phone_unify_unit`、`say_cover_unit`、`sis_y3_sched_unit`。
 
+## 第二版（11-03 19:4x）：加上 08 號座位的鏡頭（BB 13:42 P3）
+- 起因：小間只有 2.4 × 2.2 m。坐下以後鏡頭被隔板擋住，畫面左半邊是牆。
+- `src/library_upper3d.js`：`seatsOf` 後面加一段 `z.update`。
+  - 坐在 `spots.my_seat`（距離 < 0.3 m）時，鏡頭距離 `distTarget` 是 1.7 m，鏡頭轉到背後（yaw π，門那一側）。
+  - 玩家自己轉鏡頭（`manualT > 0`）時不搶鏡頭。
+  - 站起來時，距離恢復成區域的 `camDist`（4.2）。
+- `tests/library_upper_unit.js` 第 9 項：坐下 60 格後 yaw ≈ π、dist 1.7；站起來 dist 4.2。在 b049c84e3 上 ALL PASS。
+- 這一版的 patch 只有研究小間：`src/library_upper3d.js`、`tests/library_upper_unit.js`，以及 `src/story3d.js` 的兩行。總圖第五版（`wip/library_v5/`）和六法 via（`wip/tea_seats_liufa/`）的 patch 也改 story3d.js，但改的是不同的行。三份依序套在 b049c84e3 上，`git apply --check` 都通過。
+- 遊戲截圖（開發分支 b049c84e3＋這三份 patch，15:00，已預約 08）：左邊是站在 08 門口，右邊是坐下以後。坐下時鏡頭在背後 1.7 m，看得到人、桌子、檯燈、軟木板，隔板不擋。實際值 yaw 3.14、dist 1.7。
+  ![08 站著／坐下](c08_stand_vs_seated.jpg)
+- 對話框那一行（「小間裡只聽得到自己翻書的聲音。」）是區域本來就有的旁白，不是這次加的。
+
 ## 沒做
 - 瀏覽器裡從門上小窗看的截圖還沒拍。
 - 讀者的外觀用 `STORY.extraSpec(880+…)`，就是路人池。
