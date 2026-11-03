@@ -9,7 +9,7 @@ const show=(sha,p)=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',
 const cells=line=>{ const out=[]; let cur='', s=line.trim().slice(1,-1); for(let i=0;i<s.length;i++){ const ch=s[i]; if(ch==='\\'&&s[i+1]==='|'){ cur+='|'; i++; continue; } if(ch==='|'){ out.push(cur.trim()); cur=''; continue; } cur+=ch; } out.push(cur.trim()); return out; };
 let BY=null;
 const load=()=>{ if(BY) return BY; BY={}; const LIT=/'([^']*)'/g;
-  const add=(file,o,n)=>{ if(!o||o===n||/<|見 H-|見表下|改成：|交往中：|沒交往|^（刪|^（不改|整段|^（照第/.test(n)) return; (BY[file]=BY[file]||[]);
+  const add=(file,o,n)=>{ if(!o||o===n||/<|見 H-|見表下|改成：|交往中：|沒交往|^（刪|^（不改|整段|^（照第|^（這一行/.test(n)) return; (BY[file]=BY[file]||[]);
     const lo=[...o.matchAll(LIT)].map(m=>m[1]), ln=[...n.matchAll(LIT)].map(m=>m[1]);
     if(lo.length&&lo.length===ln.length){ lo.forEach((x,i)=>{ if(!x||x===ln[i]) return; BY[file].push([x,ln[i]]);
         const w=/^W(\d+)([一二三四五六日]) (\d\d:\d\d)$/, a=w.exec(x), b=w.exec(ln[i]);   /* 動態的時間：遊戲寫 W5二 21:00，稿寫「第 5 週週二 21:00」*/

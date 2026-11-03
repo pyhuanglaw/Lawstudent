@@ -64,13 +64,16 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
   check('2t. 第五批後五張接上：社福中心教室（蘇承恩家教）、文學院教室（哲學咖啡館）、心理系實驗室（黃筱涵）、日本學校後面的小餐館（以安 6 月）、日本國際學生辦公室（報到）',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&ok.every(([f,x])=>rd(f).includes(x)),ok.filter(([f,x])=>!rd(f).includes(x)).map(([f,x])=>x).join('、')); }
 { const K=['vet_clinic','hwaxin_street','kh_hotel_front','noodle_door','jp_beach','gym_gate','gym_court','cafe_door_night','wancai_lobby','us_c_door'];   // 第六批 10 張（使用者 11-02 生成，BB_132 第 103 組；LAWWW 帳號 A 接）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
-  const ok=[['src/data/an_yt_hol_events.js',"return BG('noodle_door')"],['src/data/an_yt_hol_events.js',"{scene:'阿鳳麵店',bg:'noodle_table'}"],['src/data/jp_events.js',"{scene:'海邊',bg:'jp_beach'}"],['src/data/sis_b4_events.js',"{scene:'兩點半 Café 門口',bg:'cafe_door_night'}"],
+  /* 語彤情人節（an_yt_hol_events.js）原本用麵店門口、麵店長桌：AA_630 H-017／Z-014 整段換成茶屋下班後的新生南路、她家（YT-REWRITE-1103）——不再用麵店的圖（noodle_door 照舊登記，留給之後的場次）*/
+  const ytV=fs.readFileSync(path.join(ROOT,'src/data/an_yt_hol_events.js'),'utf8');
+  check('2u. 語彤情人節不再用麵店的圖（AA_630 H-017）',!/noodle_door|noodle_table/.test(ytV.slice(ytV.indexOf("id:'ev_yt_vday_y2'"),ytV.indexOf("id:'ev_yt_vday_y3'"))));
+  const ok=[['src/data/jp_events.js',"{scene:'海邊',bg:'jp_beach'}"],['src/data/sis_b4_events.js',"{scene:'兩點半 Café 門口',bg:'cafe_door_night'}"],
     ['src/data/events.js',"{scene:'新體育館',bg:'gym_court'}"],['src/y2r2_3d.js',"{scene:'新體育館',bg:'gym_court'}"],['src/data/group_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],['src/data/r2y4b_events.js',"{scene:'新體育館・球場',bg:'gym_court'}"],
     ['src/data/r2y4b_events.js',"{scene:'法律系館B大廳',bg:'wancai_lobby'}"],['src/data/sis_b16_events.js',"{scene:'新體育館門口',bg:'gym_gate'}"],['src/data/events.js',"background:'gym_court', hours:3"],['src/data/r2y3a_events.js',"background:'kh_hotel_front'"],
     ['src/data/sis_b14_events.js',"us_c_door"],['src/sideq3d.js',"bg:'hwaxin_street'"],['src/sideq3d.js',"bg:'vet_clinic'"],
     ['src/data/jpprep_events.js',"ev('ev_jpp_0221',[ {scene:'家',bg:'home_room_day'}"],['src/data/jpprep_events.js',"ev('ev_jpp_0319',[ {scene:'家',bg:'home_living_day'}"]];
   const miss=ok.filter(([f,t])=>!rd(f).includes(t));
-  check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（語彤情人節）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
+  check('2u. 第六批 10 張接上：獸醫診所（SQ14）、華新街（SQ10）、高雄旅館門口（可昕七夕）、麵店門口（登記）、日本海邊（以安海之日）、新體育館門口（看學姊游泳）、球場（四場系籃）、Café 門口聖誕夜（學姊）、法律系館B大廳（成發）、美國 C 棟門口（兩把傘）；家四場改用既有圖',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&!miss.length,JSON.stringify(miss)); }
 { const K=['kh_hill_harbor_night','jp_konbini_summer','us_lake_bare','us_lake_summer','gg_luggage_shop'];   // 第七批第 1～5 張（使用者 11-02 生成，BB_132 第 104 組）
   const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const ok=[['src/data/r2y3a_events.js',"{scene:'高雄・港邊的山上',bg:'kh_hill_harbor_night'}"],['src/data/jp_events.js',"const LAST=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"const LAST_ALONE=[ {scene:'便利商店',bg:'jp_konbini_summer'}"],['src/data/jp_events.js',"{scene:'公館',bg:'gg_luggage_shop'}"]];

@@ -15,7 +15,7 @@
      第一次選了哪一個記在 G.dateMemory[人][地點].fp（這一版起才記）。
    - A2 以安告白（TERMEND.walkHome 包一層）：她先說或玩家先說、答應了（'yes'／'sheSaid'），有 AN_REASON_HIDDEN 的最後兩句；演一次。
    - Y5 「我過去。」：當天 23:00 以前在麵店門口按「進入阿鳳麵店」（NOODLE_CLOSED.door 包一層）＝旁白兩句、不進去（不排出遊，走過去就演；早於 21:50 到的時間跳到 21:50）。
-   - Y8 滷蛋：story3d.js noodleScene 點餐、付完錢那個位置叫 S.ytEgg（阿姨不在店裡＝等下一次，同 FEED.ytTreat）；記 YT_BDAY_EGG。
+   - Y8 茶點（AA_630 Z-002）：wzshops3d.js 一盞茶屋點茶、付完錢那個位置叫 S.ytEgg；記 YT_BDAY_EGG（旗標名不改，舊存檔照舊）。
    存檔：新旗標（稿第 4 節）＋G.flags.AA524＝{a2, z5, z8, y5d, y5}（演過的那一天、Y5 的那個週四）；舊存檔沒有＝沒演過。補的旗標從這一版起才記，之前就選過的看不到兌現。
    AA_526（企劃線 4ada43291，AA-B 回 LAWWW-B；這裡是 AA_524 那四題）：Z3 去了早場的當天早上摘要（S.tick：字卡那一天、09:10，旁白兩句，跳到 11:30）；
    Y3 有 YT_CLOSED_OUT 的第二個選項換「我在外面等妳。」（noodle_closed3d.js）；Y5 只給 Y-L8 選「那哪天陪妳等一次。」的（YT_WAIT_CLOSE＝那一天，舊存檔分不出來的不發）；
@@ -85,9 +85,9 @@ const AA524=(function(){
       for(const t of L.sum) await GM.say(null,t); const h=+G.hour||0; if(h<11.5&&GM.advance) GM.advance(11.5-h); } finally { GM.sceneEnd(); } return true; };
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)||!S.z3SumDue(G)) return false; void S.z3Sum(GM).catch(e=>console.warn('AA524 z3',e)); return true; };
 
-  /* ---------------- Y8 滷蛋（story3d.js noodleScene）---------------- */
+  /* ---------------- Y8 茶點（wzshops3d.js 一盞茶屋點茶、付完錢那個位置；AA_630 Z-002、第 10 節第 3 條：語彤搬到茶屋，蘇姨放一塊茶點）---------------- */
   S.ytEggDue=G=>!!G&&!!G.flags&&!!G.flags.YT_BDAY_Y1&&!G.flags.YT_BDAY_EGG;
-  S.ytEgg=async function(GM){ const G=GM.G; if(!S.ytEggDue(G)) return false; if(typeof EAT!=='undefined'&&EAT.staffAway&&EAT.staffAway(GM,'阿鳳麵店')) return false;   /* 阿姨不在店裡：等下一次 */
+  S.ytEgg=async function(GM){ const G=GM.G; if(!S.ytEggDue(G)) return false;
     G.flags.YT_BDAY_EGG=G.day; for(const x of S.L.y8) await say(GM,x); return true; };
 
   /* ---------------- A2 以安告白的最後兩句 ---------------- */

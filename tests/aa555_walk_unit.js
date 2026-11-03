@@ -17,7 +17,7 @@ const L3=(f,exp)=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)){ loadErr.
 L3('src/r3_3d.js',/^R3$/); L3('src/aa555_3d.js',/^AA555$/);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
-const git0=p=>{ try{ return require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})); }catch(e){ return ''; } };   /* 讀稿照 tools/story/*_fix.json 換字（AA_612 麵店改燒臘店：A-003、A-005、A-007）*/
+const git0=p=>{ try{ return require('./aa630_expect.js').fix(require('./alison.js').ndl(cp.execSync('git -c core.quotepath=false show 56c11668d:"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']})),'src/aa555_3d.js'); }catch(e){ return ''; } };   /* 讀稿照 tools/story/*_fix.json 換字（AA_612 麵店改燒臘店：A-003、A-005、A-007）；語彤那幾則再照 AA_627 表 A（A-006～A-017，位置 src/aa555_3d.js）換（YT-REWRITE-1103）*/
 const git=p=>require('./an_rev_doc.js').overlay(git0(p),/^(aa555_3d|invites)\.js/)[0].split('白板上只寫一條規則：說理由').join('白板上只寫一條規則：每個人講完');   /* 以安改稿①b（AA_592 第 3、9、10、14、24、52 列）改了 AA_555 稿上她的幾則：讀稿時照改成欄換（逐列核對在 tests/aa592_an_1b_unit.js）*/
 const ls=()=>{ try{ return cp.execSync('git -c core.quotepath=false ls-tree -r --name-only 56c11668d -- docs/story_planning',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}).split('\n'); }catch(e){ return []; } };
 const files=ls(), fOf=re=>files.find(f=>re.test(f))||'';
@@ -163,6 +163,7 @@ for(const r of P118){ const mods=MP.filter(m=>m.term===r.term&&m.who===r.who); l
   let b=bubbles(r.content), special=null;
   if(mod){ if(/^\*\*遊戲裡已改過/.test(mod.to)) special='han3'; else if(/照用|條件改|換 Alison|^「……|……」$/.test(mod.to)) {} else b=bubbles(mod.to); }
   if(r.who==='zhe'&&b[0]==='哥我今天在總圖'&&ZHE_GE) b[0]=ZHE_GE[1];
+  if(r.who==='heroine_03') b=b.map(t=>require('./aa630_expect.js').fix(t,'src/aa555_3d.js'));   /* 語彤的照片句照 AA_627 表 A（A-007、A-009、A-017，位置 src/aa555_3d.js）換：稿寫「（照片：…）」，換字表寫「📷（…）」*/
   PEXP.push({term:r.term,who:r.who,cond:r.cond,b,special,skip:skipKey(r),mod:!!mod}); }
 /* AA-B 11-01 回 12 題：阿哲系籃改私訊（第 1 題）、芯慈 2028 暑假換句（第 10 題）、柏翰期中倒數二十一天每天一則（第 11 題；AA_581 改成期末倒數）*/
 { const CN=n=>{ const d='零一二三四五六七八九'; return n<10?d[n]:(n===10?'十':(n<20?'十'+d[n-10]:d[Math.floor(n/10)]+'十'+(n%10?d[n%10]:''))); }, SP={14:'期末前十四天。進度落後半天。',7:'期末前七天。……今天念得很慢，可是記得住。',1:'明天考。我今天十點就睡。'};   /* AA_581 第 1～3 列（D118 沒有期中考）：稿的「期中前」→ 遊戲「期末前」*/
@@ -218,7 +219,7 @@ const only=(ids,k,h0,h1,setup)=>{ const G=STATE('none'); H.G=G; SOCIAL.bind(G); 
 const msgs=(G,re)=>(G.msgs||[]).filter(m=>re.test(m.tag||'')).map(m=>(m.from||'')+':'+m.text);
 sec('6',()=>{ if(!A5){ check('6. 沒有 aa555_3d.js',false); return; }
   let G=only(['a118_y1s1_yt_dish'],'2025-10-22',7,23.9); const hs=(G.msgs||[]).filter(m=>/^dp_a118_y1s1_yt_dish_/.test(m.tag)).map(m=>m.h);
-  check('6. dailyPhone：語彤「📷（一碟小菜）」21:20、十分鐘後「阿姨說是送的。」（大一上第 8 週）',J(msgs(G,/^dp_a118_y1s1_yt_dish_/))===J(['heroine_03:📷（一碟小菜）','heroine_03:阿姨說是送的。'])&&hs.length===2&&Math.abs(hs[0]-(21+20/60))<0.06&&Math.abs(hs[1]-21.5)<0.06,J((G.msgs||[]).map(m=>[m.tag,m.h])));
+  check('6. dailyPhone：語彤「📷（一碟小菜）」21:20、十分鐘後「秀琴姨說是送的。」（AA_627 A-006；大一上第 8 週）',J(msgs(G,/^dp_a118_y1s1_yt_dish_/))===J(['heroine_03:📷（一碟小菜）','heroine_03:秀琴姨說是送的。'])&&hs.length===2&&Math.abs(hs[0]-(21+20/60))<0.06&&Math.abs(hs[1]-21.5)<0.06,J((G.msgs||[]).map(m=>[m.tag,m.h])));
   G=only(['a118_y1s2_yt_noodle'],STORY.termDay('Y1S2',3,3),7,23.9); const n3=msgs(G,/a118/).length; G=only(['a118_y1s2_yt_noodle'],STORY.termDay('Y1S2',4,3),7,23.9); const n4=msgs(G,/a118/).length;
   check('6. 每學期第 4 週起（大一下第 3 週沒有、第 4 週有）',n3===0&&n4===1,J([n3,n4]));
   { const G1=STATE('none'); H.G=G1; SOCIAL.bind(G1); const d=STORY.termDay('Y2S2',5,1); const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(x=>x.id==='a118_y2s2_xc_report'));

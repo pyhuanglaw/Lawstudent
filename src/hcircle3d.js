@@ -185,7 +185,7 @@ const HCIRCLE=(function(){
     if(rs&&rs.length){ const p=P(n), dq=q=>Math.hypot(q[0]-p.x,q[1]-p.z), r=rs.slice().sort((a,b)=>Math.min(...a.map(dq))-Math.min(...b.map(dq)))[0]; n.beh='wander'; n.waypoints=r; n.frozen=false; n.timer=0.3; }
     else { n.beh='idle'; n.frozen=false; } n.pose=n.idlePose='idle'; };
   /* 吧檯、廚房的店員（story3d.js S.populate 的 clerk）*/
-  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:{x:-2.0,z:-2.75,yaw:Math.PI}};
+  S.CLERK={cafe:{x:-0.6,z:-5.25,yaw:0},noodle:{x:-2.0,z:-2.75,yaw:Math.PI},wz_teahouse:{x:2.95,z:1.3,yaw:-Math.PI/2}};   /* 一盞茶屋＝水屋（story3d.js S.populate 的 clerk）：AA_630 第 4 節蘇姨站這裡 */
   const clerkNpc=(E,zone)=>{ const c=S.CLERK[zone]; if(!c) return null; return (E.npcs||[]).find(m=>m&&m.clerk&&m.obj&&Math.hypot(m.obj.position.x-c.x,m.obj.position.z-c.z)<0.6)||null; };
   /* 一個同伴站好 */
   S.place=function(GM,r,hn,cn,cid,k,refresh){ const E=GM.E, opt=(r.comp&&r.comp[cid])||{}, quiet=quietFor(GM,cn,refresh)&&quietFor(GM,hn,refresh), hp=P(hn); if(!hp||!P(cn)) return;
@@ -299,7 +299,7 @@ const HCIRCLE=(function(){
      ・阿姨在＝阿姨站語彤旁邊、店員藏起來（S.arrange 原本的做法），兩個不會同時出現。
      範圍只在語彤人在麵店的時候（後補第 9 點：語彤不在的平常時段店員照常在）。進區域（PRE_PAIR）、待在區域裡每秒（TICKS）都照 S.arrange 重算：語彤進來、走開、時間跨過 17:30／20:30、那一天擲到沒有都跟著變。
      阿姨不在店裡的時候，阿姨說的話不說：S.auntOut（src/eat3d.js 老樣子那一句；src/story3d.js noodleScene 阿姨請的那一碗等阿姨在店裡的那一次）。*/
-  S.KITCHEN={noodle:{who:'heroine_03',act:'help',label:'hc_ayi'}};
+  S.KITCHEN={};   /* AA_627 P-15、P-16（AA_630 第 4 節）：語彤不在燒臘店顧店了＝「語彤顧店、廚房那位是阿姨／阿姨不在」整套拿掉（燒臘店的店員照常；S.auntOut、S.kitchen 永遠沒有）。函式留著給舊的呼叫 */
   /* 語彤（KITCHEN 的 who）現在在這一區顧店：回傳她的 3D 人物，不是＝null */
   S.minding=function(GM,zone){ const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!G||G.zone!==zone||!GM.npc) return null; const n=S.npcOf(GM,k.who); if(!n||n.leaving||!P(n)) return null;
     const e=S.entOf(k.who,G); return e&&e.zone===zone&&e.act===k.act&&!e.invite?n:null; };

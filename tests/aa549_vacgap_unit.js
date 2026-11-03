@@ -14,7 +14,9 @@ const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '
 const A549='docs/story_planning/AA_549_寒暑假空白缺口表_第一批稿.md';
 const doc=git('origin/claude/story-planning',A549);
 check('0. AA_549（企劃線）讀得到；模組都載得到',doc.length>3000&&!loadErr,loadErr||'git fetch origin claude/story-planning');
-const inDoc=t=>!doc||doc.includes(String(t).replace(/^「(.*)」$/,'$1'));
+/* YT-REWRITE-1103：語彤的句子照 AA_630（企劃線 bb4401fd3）第 7 節 Z-059～Z-063、Z-164～Z-166 改了（日常失速、厚片、店長）；7/28 那一則照 AA_627 表 A（「回去顧店」→「回去上班」）——新句在 AA_630／AA_627 的改成欄也算 */
+const A630=git('bb4401fd3','docs/story_planning/AA_630_語彤台詞改寫.md')+git('40374c664','docs/story_planning/AA_627_語彤舊設定清查.md');
+const inDoc=t=>{ t=String(t).replace(/^「(.*)」$/,'$1'); return !doc||doc.includes(t)||A630.includes(t); };
 const notIn=L=>L.filter(t=>!inDoc(t));
 /* AA 2026-10-31 回 11 題（D109，作者定案；企劃線的稿之後也會更新）：新句先比對這裡 */
 const AA_REPLY=['實習公司樓下的午餐','（那棟大樓的一樓，自助餐。芯慈的識別證反過來別在衣服上。）','法務部比我想的安靜。大部分的時間，大家都在看合約。','平日十二點到一點。公司樓下有一間。','芯慈實習公司樓下的自助餐',
@@ -81,11 +83,11 @@ const atHome=()=>{ const Hm=HOME.rec(H.G); Hm.at=true; Hm.day=H.G.day; const B=H
 
   /* ================= 2-5／3-3 只有一句旁白的兩次「約」 ================= */
   { fresh('2026-02-07',18);
-    const head=['（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）','陳語彤：你來了。','陳語彤：下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。','阿姨：她包的比我包的好看。不要跟她說。'];
+    const head=['（寒假的日常失速，客人只有兩桌。語彤坐在靠窗的位子，圍裙還塞在背包裡。）','陳語彤：你來了。','陳語彤：下班以後，我不想一個人吃。……蘇姨說這家的厚片可以。','（一隻虎斑貓從隔壁椅子跳下來，走到她腳邊。）','陳語彤：牠叫店長。……牠不讓我摸。'];   /* AA_630 Z-061～Z-063（阿姨那一行換成旁白＋店長）*/
     const nm=SOCIAL.npcName('heroine_03'), fix=L=>L.map(t=>t.replace(nm+'：','陳語彤：'));
     const a=fix(await playEv('ev_y1w_noodle_last',['點一碗'])), o=H.opts[0], b=fix(await playEv('ev_y1w_noodle_last',['寒假都在']));
-    check('3-3. 2026-02-07 語彤的麵店：場景＋「（點一碗餛飩湯）」→（她端過來。）「最醜的那顆是第一顆。你吃到了。」',J(a)===J(head.concat(['（她端過來。）','陳語彤：最醜的那顆是第一顆。你吃到了。']))&&J(o)===J(['「（點一碗餛飩湯）」','「妳寒假都在店裡？」']),J([a,o]));
-    check('3-3. 「妳寒假都在店裡？」→「嗯。過年那一個禮拜休息。」；Y1W_NOODLE_LAST 記 went',J(b)===J(head.concat(['陳語彤：嗯。過年那一個禮拜休息。']))&&H.G.flags.Y1W_NOODLE_LAST==='went',J(b));
+    check('3-3. 2026-02-07 語彤下班後的日常失速（AA_630 Z-059～Z-063、Z-164、Z-165）：場景＋「（點一份明太子厚片）」→（厚片送來了。…）「邊邊最好吃。你吃到了。」',J(a)===J(head.concat(['（厚片送來了。她把邊撕下來，放到你盤子上。）','陳語彤：邊邊最好吃。你吃到了。']))&&J(o)===J(['「（點一份明太子厚片）」','「妳寒假都在台北？」']),J([a,o]));
+    check('3-3. 「妳寒假都在台北？」→「嗯。週末回來上班。過年那一個禮拜回家。」（AA_630 Z-166）；Y1W_NOODLE_LAST 記 went',J(b)===J(head.concat(['陳語彤：嗯。週末回來上班。過年那一個禮拜回家。']))&&H.G.flags.Y1W_NOODLE_LAST==='went',J(b));
     fresh('2027-08-01',15); const zn=SOCIAL.npcName('heroine_04'), fz=L=>L.map(t=>t.replace(zn+'：','高子晴：'));
     const zh=['（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）','高子晴：一杯是你的。我猜你會遲到，所以先點了。冰塊都化了。','高子晴：我在做一個小遊戲。你幫我玩一關。'];
     const c=fz(await playEv('ev_vf_y2_0801',['好'])), o2=H.opts[0], d=fz(await playEv('ev_vf_y2_0801',['實習']));
