@@ -95,3 +95,28 @@
   - 校園側門那一端、溫州街西端那一端；
   - 瀏覽器截圖。
   - **所以現在套上去，遊戲裡也還走不到這裡。**
+
+## 校園那一端：做好了（11-03 20:4x，在 `xinsheng_zone_WIP.patch` 裡）
+- **側門位置改成 (−124, −84)**，原本計畫是 z −88。
+  - 圍牆內 z −88 那一帶是走不到的西北角樹林；z −84 的圍牆內本來就走得到，不用另外開步道（`campus_probe`：z −80、−84 從 x −122 到 −54 都走得到）。
+- **改了什麼**：
+  - 西側圍牆北段原本 z −141～−80 一整段，改成兩段，中間 z −87.2～−80.8 是門洞；
+  - 兩根門柱（套件暫代）；
+  - 出口「往新生南路（側門）」在 (−122.6, −84)，`typeof XS3` 有才加，沒載入 xinsheng3d.js 時照舊沒有這個出口；
+  - 從新生南路回來落在 (−122, −84)，面向東。
+- **測試**：
+  - `xinsheng_unit` 12 項 ALL PASS（新增第 9～12 項：校園出口、校園出生點站得住而且走得到校門口、側門以外的圍牆照舊擋）。
+  - 這份 patch 單獨套在 b049c84e3 的乾淨 worktree 上：xinsheng_unit、nav_buildings ALL PASS。
+  - 套 patch 後（另一個 worktree）又跑了：campus_l123、campus_public、ground_zfight、campus_backdrop_ground、blackforest、lib_lawn、world_rename、seat_reach，都 ALL PASS。
+  - **還沒跑**（瀏覽器，慢）：reachability_all、campus_layout_nav、zone_transitions。
+
+## 溫州街那一端：下一班做（LAWWW 11-03 20:24 同意西端）
+- 現在溫州街西端是**巷底**：W0 公寓在 (−37.2, −1)，面向東、寬 14，把巷子封住。兩側是 W1 (−37.2, 11)、W2 (−37.2, −13)。
+- 要做的：
+  1. 拿掉 W0，巷子往西延伸到導航格邊 x ≈ −57，出口「往新生南路」放在那裡。要改的地方：
+     - `wz_street.py` 的 SPECS；
+     - zones3d.js buildWenzhou 的 endB 套件、導航；
+     - 溫州街 GLB 重出。
+  2. 日常失速放在巷口轉角（W1 或 W2 的一樓，AA_617：綠遮雨棚、從學校過來第一眼看到）。室內是 AA 的。
+  3. xinsheng 的 `wenzhouLane.exit.spawn` 改成溫州街西端的真座標。
+  4. 跑 nav_buildings、reachability_all、touch_flow_wenzhou、wz 系列單元測試。

@@ -1,7 +1,25 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -2247,5 +2247,5 @@
+@@ -441,7 +441,8 @@
+               if(/gg_bd_facade/.test(nm)) TK.addNight(m,0.85,0); else if(/gg_bd_shopfront/.test(nm)) TK.addNight(m,1.0,0.3); else if(/gg_bd_signs/.test(nm)) TK.addNight(m,1.0,0.15); });
+             far.add(r); rowsFB.visible=false; zone.gongguanBD=true; }).catch(e=>console.warn('公館背景正式模型載入失敗，用方盒',e)); }
+       // 校園圍牆（北側＋西側往南北延長）＋牆頭石材
+-      { const wb=new TK.Bin(); const wt=campusWallMat(); wb.add(wt,TK.boxG(254,1.8,0.8,1.0),3,0.9,-141); wb.add(TK.paint('#d9d3c6'),TK.boxG(254.4,0.14,1.0),3,1.87,-141); wb.add(wt,TK.boxG(0.8,1.8,61,1.0),-124,0.9,-110.5); wb.add(wt,TK.boxG(0.8,1.8,70,1.0),-124,0.9,115); wb.build(far); }   /* 西側圍牆原本只有 z -80–80，往北接到北側圍牆、往南延伸到宿舍區後面 */
++      { const wb=new TK.Bin(); const wt=campusWallMat(); wb.add(wt,TK.boxG(254,1.8,0.8,1.0),3,0.9,-141); wb.add(TK.paint('#d9d3c6'),TK.boxG(254.4,0.14,1.0),3,1.87,-141); wb.add(wt,TK.boxG(0.8,1.8,53.8,1.0),-124,0.9,-114.1); wb.add(wt,TK.boxG(0.8,1.8,0.8,1.0),-124,0.9,-80.4);   /* 新生南路側門（ART-XINSHENG-GATE-1103，LAWWW 11-03 20:20 同意）：西側圍牆北段在 z −87.2～−80.8 開一個門洞（原本一整段 z −141～−80）*/ wb.add(wt,TK.boxG(0.8,1.8,70,1.0),-124,0.9,115); wb.build(far); }
++      { const pm=TK.paint('#bdb5a6'), cm=TK.paint('#d9d3c6'); for(const zz of [-87.4,-80.6]){ const p=new THREE.Mesh(TK.boxG(1.0,3.0,1.0),pm); p.position.set(-124,1.5,zz); far.add(p); const c=new THREE.Mesh(TK.boxG(1.2,0.16,1.2),cm); c.position.set(-124,3.08,zz); far.add(c); } }   /* 側門的兩根門柱（套件暫代；門柱上「首都帝大」的字、鐵柵門、門燈等正式模型）*/   /* 西側圍牆原本只有 z -80–80，往北接到北側圍牆、往南延伸到宿舍區後面 */
+       // 公館：捷運出口、路燈、行道樹、機車（照公館區域的位置）；北側馬路的路燈、行道樹；校園外圍的樹帶——全部合併
+       { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-181,0,-36.6); far.add(mrt);
+         const props=new THREE.Group(), trees=new THREE.Group();
+@@ -537,6 +538,7 @@
+     // 出口
+     const exits=[...gateExits(gate,-124,0,-Math.PI/2,1.5,2.5,{to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'}),   /* 門房在校門正中間：兩側通道各一個（世界座標 (-125.5,±5.27)，2026-10-18；原本是開口正中間 (-126,0) r3）*/
+       {x:34,z:-126.6,r:1.8,to:'lane118',spawn:{x:0,z:47.6,yaw:Math.PI},label:'從後門出去（118 巷）'},   /* 霖澤館穿堂後面的小廣場＝法學院的後門（辛亥路那一側；D46、使用者 10-18 02:2x）*/{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入法律系館A',door:true},{x:WCW(5.8,11.4)[0],z:WCW(5.8,11.4)[1],r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入法律系館B',door:true,lv:0,y:0},(typeof LIBRARY_LAYOUT!=='undefined'?{x:86.4,z:0,r:3.8,to:'library_hall',spawn:Object.assign({},LIBRARY_LAYOUT.entrance.spawn),label:'進入總圖書館',door:true}:{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true}),(typeof DORM_LAYOUT!=='undefined'?{x:20,z:59.6,r:2.6,to:'dorm_hall',spawn:Object.assign({},DORM_LAYOUT.entrance.spawn),label:'回宿舍',door:true}:{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true})];
++    if((typeof XS3!=='undefined')&&typeof XINSHENG_LAYOUT!=='undefined') exits.push({x:-122.6,z:-84,r:2.0,to:'xinsheng',spawn:Object.assign({},XINSHENG_LAYOUT.sideGate.spawn),label:'往新生南路（側門）',lv:0,y:0});   /* 新生南路側門（ART-XINSHENG-GATE-1103，LAWWW 11-03 20:20 同意）：西側圍牆北段 (−124, −84)；src/xinsheng3d.js 沒有載入時沒有這個出口 */
+     /* 社科院圖書館（D56 社科院第①步）：門在現在的社科院正面中間（src/soclib3d.js 的 SL3.DOOR）；一樓才有（萬才館陽台那一層不算）*/
+     if(typeof SL3!=='undefined'&&typeof SOCLIB_LAYOUT!=='undefined') exits.push({x:SL3.DOOR.x,z:SL3.DOOR.z,r:SL3.DOOR.r,to:'soclib',spawn:Object.assign({},SOCLIB_LAYOUT.entrance.spawn),label:'進入社科院圖書館',door:true,lv:0,y:0});
+     // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
+@@ -2247,5 +2249,5 @@
          if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
        const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
      setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
@@ -81,7 +99,7 @@ index 000000000..e7eb55f59
 +})();
 diff --git a/src/data/xinsheng_layout.js b/src/data/xinsheng_layout.js
 new file mode 100644
-index 000000000..24a81cbaa
+index 000000000..ee31685be
 --- /dev/null
 +++ b/src/data/xinsheng_layout.js
 @@ -0,0 +1,412 @@
@@ -157,8 +175,8 @@ index 000000000..24a81cbaa
 +  "label": "回到首都帝大（新生南路側門）",
 +  "name": "新生南路側門",
 +  "campusSpawn": {
-+   "x": -121.5,
-+   "z": -88.0,
++   "x": -122.0,
++   "z": -84.0,
 +   "yaw": 1.5708
 +  },
 +  "spawn": {
@@ -166,7 +184,7 @@ index 000000000..24a81cbaa
 +   "z": 10.0,
 +   "yaw": -1.5708
 +  },
-+  "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門在圍牆 (−124, −88)（PLAN.md 第 1 節，等 LAWWW 同意）"
++  "note": "門柱寫「首都帝大」、鐵柵門開著、門柱上一盞燈（參考圖）。校園那一側的門在圍牆 (−124, −84)（z −88 那一帶圍牆內是走不到的樹林，z −84 圍牆內就走得到，不用另外開步道）（PLAN.md 第 1 節，等 LAWWW 同意）"
 + },
 + "crossings": [
 +  {
@@ -499,10 +517,10 @@ index 000000000..24a81cbaa
 +}
 diff --git a/tests/xinsheng_unit.js b/tests/xinsheng_unit.js
 new file mode 100644
-index 000000000..384cc3f6e
+index 000000000..c17c74883
 --- /dev/null
 +++ b/tests/xinsheng_unit.js
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,47 @@
 +/* 新生南路（ART-XINSHENG-GATE-1103，LAWWW2 11-03）：區域建得起來；從側門進來走得到溫州街巷口、七間店的門口、兩條斑馬線的對面；斑馬線以外的車道走不到；
 +   互動點：側門回校園、往溫州街。用法：node tests/xinsheng_unit.js */
 +const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -535,4 +553,18 @@ index 000000000..384cc3f6e
 +check('6. 側門「回到首都帝大」→ campus（校園西側圍牆北段那一側）',!!g&&g.exit.spawn.x===L.sideGate.campusSpawn.x&&g.exit.spawn.z===L.sideGate.campusSpawn.z&&reach(sp,[g.x,g.z]));
 +check('7. 「往溫州街」→ wenzhou',!!w&&reach(sp,[w.x,w.z]));
 +check('8. 每間店門口有互動點（室內還沒做的是「看」）',L.shops.every(q=>E.interactables.some(it=>Math.abs(it.z-q.door.z)<0.01&&(it.look||it.exit))));
++// 校園那一端（西側圍牆北段的側門）
++{ const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8'); const more=eval(T.match(/const files=(\[[^\]]+\])/)[1]).filter(f=>!files.includes(f));
++  process.on('unhandledRejection',()=>{});   // 校園的正式模型在 node 裡載不到（fetch 相對網址），不影響導航
++  for(const f of more){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const cz=Z3.ZONES.campus.build(E); const cn=cz.nav;
++  const cOf=(x,zz)=>[Math.floor((x-cn.ox)/cn.cell),Math.floor((zz-cn.oz)/cn.cell)];
++  const cFree=(x,zz)=>{ const [c,r]=cOf(x,zz); return c>=0&&r>=0&&c<cn.cols&&r<cn.rows&&!cn.b[cn.idx(c,r)]; };
++  function cReach(a,b){ const [sx,sz]=cOf(...a), [tx,tz]=cOf(...b); const seen=new Uint8Array(cn.cols*cn.rows), q=[[sx,sz]]; seen[cn.idx(sx,sz)]=1;
++    while(q.length){ const [x,y]=q.shift(); if(Math.abs(x-tx)<=1&&Math.abs(y-tz)<=1) return true; for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=x+dx, ny=y+dy; if(nx<0||ny<0||nx>=cn.cols||ny>=cn.rows) continue; const i=cn.idx(nx,ny); if(seen[i]||cn.b[i]) continue; seen[i]=1; q.push([nx,ny]); } } return false; }
++  const ex=E.interactables.find(q=>q.exit&&q.exit.to==='xinsheng'), cs=L.sideGate.campusSpawn;
++  check('9. 校園有「往新生南路（側門）」出口，進去落在新生南路側門內',!!ex&&ex.exit.spawn.x===L.sideGate.spawn.x&&ex.exit.spawn.z===L.sideGate.spawn.z);
++  check('10. 從新生南路回來的校園出生點站得住、走得到側門出口',cFree(cs.x,cs.z)&&!!ex&&cReach([cs.x,cs.z],[ex.x,ex.z]),cs.x+','+cs.z);
++  check('11. 校園出生點走得到校門口（校門內側 (−110, 0)）',cReach([cs.x,cs.z],[-110,0]));
++  check('12. 圍牆在側門以外照舊擋住（z −100、−70 圍牆外走不到）',!cFree(-125.5,-100)&&!cFree(-125.5,-70)); }
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
