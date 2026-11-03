@@ -42,3 +42,11 @@
 - 3D 的貓（只有位置）。
 - 遊戲內截圖（要 LAWWW2 接進區域）。
 - 烘焙 AO、光照（LAWWW2）。
+
+## 第二版（2026-11-03，AA；照參考圖 daily_offbeat_ref_v2.webp 補）
+- 椅子統一橘色（兩種深淺）；牆 #f0e1b6 → #efd6a6；天花板 #f3ead2 → #8c857a（外露工業天花板）。
+- `daily_offbeat_v2_fill.py`（主腳本最後 exec）：第二條風管、兩條黑色軌道燈（各 7 盞）、吧檯正面下緣黃色燈條、長桌兩瓶雛菊＋兩疊書＋綠色檯燈、五個吊盆黃金葛（長桌上方三、吧檯上方二）。
+- 開 `K.AUTO_SEG`：47,930 三角形（v1 52,790）、2.43 MB。配置（座位、互動點、導航）沒動。
+- 渲染：`docs/story_planning/ref_images/model_renders/daily_offbeat_v2_{front,bar,close}.png`（960×600、24 samples、傍晚）。
+- 還沒到參考圖：咖啡機是簡單方塊、牆偏橘（參考圖是奶油色被陽光照暖）、貓「店長」沒做 3D。
+- 匯出要用 `origin/claude/second-ai-env-art` 的 lib2.py、cafe_layout.py、plants.py。
