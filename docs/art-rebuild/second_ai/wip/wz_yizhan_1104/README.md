@@ -19,3 +19,7 @@
 - 溫州街那一側的冠木門外觀（wz_jphouse.py）沒改。
 - 美術：Blender 渲染（不是遊戲截圖）照參考圖還差：老樹的樹蔭、植物密度、木頭顏色；遊戲內截圖要 PC。
 - 出生點、出口、劇情站位最後由 LAWWW 定（AA_656 第 3 節）；AA 的新室內要做到 z 6.2 為止（已通知 AA）。
+
+## 11-04 07:2x：和 AA 一盞 v1d（0c284b614）合拍
+- `yard_x_aa_v1d.jpg`：AA v1c 修掉的那兩條黑縫（腰板、長押改貼在柱子外面 2 cm）在合拍裡已經不見；v1d 的地板每片深淺不一。
+- 前院 GLB（`assets/models/env/second_ai/wz_teahouse_yard.glb`）＋`yard_patch_3424d8e66.patch` 可以和 AA 的 yizhan.glb（0c284b614）一起接。
