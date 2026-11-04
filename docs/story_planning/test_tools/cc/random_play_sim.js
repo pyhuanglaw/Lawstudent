@@ -10,8 +10,8 @@
  *     --max-steps N            格數上限（一格＝主迴圈一格），預設 6,000,000
  *     --track law|econ         法律系大一（標題「從法律系開始」，預設 2025-08-29 → 2026-06-30）／經濟系那一年（「從經濟系開始」，2024-08-23 → 2025-08-28）
  *     --procedural             人物模型沒有 VRM 骨架（＝設定「使用正式人物模型」關掉、或 VRM 載不到的程序化人物）
- *     --jobs N（預設 4 和 CPU 數取小）、--json <結果檔>、--out <心跳檔資料夾>、--hang-ms N（子程序多久沒有輸出算卡死，預設 120000）、-v（印每個動作和遊戲的 console）
- *   結束碼：全部 PASS＝0，有 FAIL＝1。
+ *     --jobs N（預設 2：雲端只有 4 核、還要跑瀏覽器測試；一個種子一整年約 9～10 分鐘）、--json <結果檔>、--out <心跳檔資料夾>、--hang-ms N（子程序多久沒有輸出算卡死，預設 120000）、-v（印每個動作和遊戲的 console）
+ *   結束碼：全部 PASS＝0，有 FAIL＝1。跑到一半要讓出 CPU：在 --out 資料夾放一個 STOP 檔，還沒開始的種子會直接回報「略過」。
  *
  * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
  *   - 照 index.html 的順序載入 src/ 全部的 script，包括 game3d.js——GM 是遊戲本來的（say、choose、enter、quickGo、seatMenu、doInteract、手機、autosave、applySave、snapshot、validate、migrate）。
@@ -44,7 +44,7 @@ const SELF=__filename;
 
 /* ====================== 參數 ====================== */
 function parseArgs(argv){
-  const o={seeds:20,seed:null,from:null,to:null,root:path.resolve(__dirname,'../../../..'),maxSteps:6000000,track:'law',jobs:Math.max(1,Math.min(4,os.cpus().length)),child:false,verbose:false,json:null,hangMs:120000,out:null};
+  const o={seeds:20,seed:null,from:null,to:null,root:path.resolve(__dirname,'../../../..'),maxSteps:6000000,track:'law',jobs:Math.max(1,Math.min(2,os.cpus().length)),child:false,verbose:false,json:null,hangMs:120000,out:null};
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
     if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
