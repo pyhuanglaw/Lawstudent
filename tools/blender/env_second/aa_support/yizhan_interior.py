@@ -22,7 +22,7 @@ K.DIRS['engawa'] = [0, 0, -1]; sh.walls['engawa'] = {}
 sh._imgkeys = {'print'}   # v1b：榻榻米要盒狀 UV（v1 放在這裡沒有 UV，整片取到深綠布邊的顏色＝黑）
 P = 'yzn_'
 sh.M.update({
-    'floor': L.pbr(P + 'floor_wood', 'laminate_floor_02', tile=2.2, target='#c9ac84', maps=('diff',), res=512, rough_value=0.5),
+    'floor': K.img_mat(P + 'floor_wood', 'yzn_floor.png', rough=0.5, tile=2.2),   # v1d：每片木板深淺不一（aa_int_tex.yzn_floor；BB_257 §12 建議）
     'tatami': K.img_mat(P + 'tatami', 'yzn_tatami.png', rough=0.85, tile=1.8),
     'wall': CL.soft_plaster(P + 'wall_plaster', '#efe2c6', 0.9, cull=True, tile=1.4, k=0.3),
     'post': L.pbr(P + 'post', 'walnut_veneer', tile=0.8, target='#5e4028', maps=('diff',), res=256, rough_value=0.5, cull=True),

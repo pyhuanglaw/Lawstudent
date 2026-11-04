@@ -751,6 +751,31 @@ def yzn():
     g = np.where(((X - ww * 0.62) ** 2 + (Y - hh * 0.42) ** 2) < (ww * 0.1) ** 2, 0.9, g)
     g += rng.normal(0, 0.03, g.shape); im.paste(Image.fromarray(np.stack([g * 232, g * 210, g * 176], -1).clip(0, 255).astype(np.uint8)), (ix0, iy0)); d.rectangle(bx, outline='#3a2a1e', width=6)
     im.save(os.path.join(GEN, 'yzn_print.png'))
+    yzn_floor()
+
+
+def yzn_floor():
+    """yzn_floor.png（v1d，BB_257 §12 建議）：laminate_floor_02 的木紋＋每片木板深淺不一（舊宿舍的木地板，有的換過、有的被曬淡）。
+    顏色和 v1c 的 L.pbr(target='#c9ac84') 一樣（sRGB 像素的平均調到 target，同 b3lib.img_adj），再乘每片的係數 0.82～1.12、冷暖微調；
+    靠牆、門口那一側的木板中間被走淡一點（橫向的磨損帶）。木板是橫的，一列 128 px（1k 圖），一列裡用接縫切成幾片。"""
+    src = Image.open(os.path.join(os.path.dirname(HERE), 'textures', 'laminate_floor_02', 'laminate_floor_02_diff_1k.jpg')).convert('RGB')
+    a = np.asarray(src, np.float32) / 255.0; lin = a.copy()   # b3lib.img_adj 是直接在 sRGB 像素上調平均，這裡一樣
+    t = np.array(hexc('#c9ac84'), np.float32) / 255.0; lin *= t / lin.reshape(-1, 3).mean(0)
+    L_ = a.mean(2); rng = np.random.default_rng(1107); S_ = lin.shape[0]
+    rows = [66 + 128 * k for k in range(8)]
+    for k in range(8):
+        y0 = rows[k - 1] if k else rows[-1] - S_; y1 = rows[k]
+        ys = [y % S_ for y in range(y0 + 2, y1 - 1)]
+        col = L_[ys].mean(0); thr = col.mean() - 2.2 * col.std()
+        cuts = [x for x in range(S_) if col[x] < thr and col[x] == col[max(0, x - 6):x + 7].min()]
+        edges = sorted(set([0] + cuts + [S_]))
+        for x0, x1 in zip(edges[:-1], edges[1:]):
+            f = rng.uniform(0.82, 1.12); w_ = rng.uniform(-0.04, 0.04)
+            m = np.array([f * (1 + w_), f, f * (1 - w_ * 1.5)], np.float32)
+            for y in ys: lin[y, x0:x1] *= m
+    wear = 1 + 0.06 * np.exp(-((np.arange(S_) - S_ * 0.5) / (S_ * 0.18)) ** 2)[None, :, None] * (0.6 + 0.4 * noise(S_, S_, 16, 1108)[..., None])
+    out = np.clip(lin * wear, 0, 1)
+    Image.fromarray((out * 255).clip(0, 255).astype(np.uint8)).resize((512, 512), Image.LANCZOS).save(os.path.join(GEN, 'yzn_floor.png'))
 
 
 def spines():
