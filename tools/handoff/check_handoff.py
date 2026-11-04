@@ -726,7 +726,7 @@ def incr_run(root, ref=None, remote=True, src=None):
         probs += r['problems']
         for s_, subj in r['unclassified']:
             probs.append(f'{role}：{r["branch"]} 的 {s_}「{subj}」沒有分類（登記進 outbox／deliveries，或 ignored 加 kind）')
-        info.append(f'{role}：{r["branch"]} 水位線 {str((wm["roles"].get(role) or {}).get("sha", ""))[:8]} 以後 {r["new"]} 個 commit，扣掉別的職位已核對的要看 {r["scanned"]} 個（已分類 {r["classified"]}、未分類 {len(r["unclassified"])}）')
+        info.append(f'{role}：{r["branch"]} 水位線 {str((wm["roles"].get(role) or {}).get("sha", ""))[:8]} 以後 {r["new"]} 個 commit，扣掉別的職位已核對的要看 {r["scanned"]} 個（已分類 {r["classified"]}（其中沒改到遊戲、由交班全部待辦涵蓋 {r.get("docsOnly", 0)}，D135）、未分類 {len(r["unclassified"])}）')
     if wip is not None:
         probs += INC.wip_problems(wip, tasks, root)
         snaps = sorted(f for f in src.listdir(SNAPDIR) if f.endswith('.json'))
