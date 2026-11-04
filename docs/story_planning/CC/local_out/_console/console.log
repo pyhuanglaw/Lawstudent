@@ -418,3 +418,19 @@
 [22:16:03] [res] cpu=85% mem=50% (15.4/31.4 GB) chrome_testing=18  START WZ4_komichi_r2
 [22:16:03] worktree add 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938: invalid reference - fetching main and the commit itself
 [22:17:00] [res] cpu=53% mem=50% (15.7/31.4 GB) chrome_testing=17  END SUNNY_seatfix_sit_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8b39016ab..8d498923d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:17:08] ==== END   SUNNY_seatfix_sit_r2  exit=1  1622s   ====
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:17:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:17:12] memory 51% before starting FETCH_FRESHMAN_HOUSE (2 running)
+[22:17:12] ==== START FETCH_FRESHMAN_HOUSE  (probe @ 322cd967db8188ae8c81fe3de473d0b5b7ad871c) ====
+[22:17:15] [res] cpu=44% mem=49% (16.1/31.4 GB) chrome_testing=17  START FETCH_FRESHMAN_HOUSE
+[22:17:15] worktree add 322cd967db8188ae8c81fe3de473d0b5b7ad871c: invalid reference - fetching main and the commit itself
+[22:18:16] [res] cpu=58% mem=49% (16.0/31.4 GB) chrome_testing=18  END FETCH_FRESHMAN_HOUSE

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "FETCH_FRESHMAN_HOUSE",
+  "sha": "322cd967db8188ae8c81fe3de473d0b5b7ad871c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_fetch_site_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:17:12",
+  "end": "2026-11-04T22:18:16",
+  "seconds": 64,
+  "exit": 0,
+  "error": null,
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 63,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 26
+  }
+}

@@ -1,0 +1,302 @@
+[
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/template/5/assets/dorm-logo@2x.png",
+  "alt": "",
+  "title": "國立臺灣大學",
+  "w": 152,
+  "h": 152,
+  "file": null,
+  "skip": "寬 152 < 300"
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/template/5/assets/ntu-calligraphy-w.png",
+  "alt": "",
+  "title": "國立臺灣大學",
+  "w": 524,
+  "h": 240,
+  "file": "images/001_國立臺灣大學.png",
+  "bytes": 28082
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/images/icon-print2.svg",
+  "alt": "列印文章內容",
+  "title": "",
+  "w": 609,
+  "h": 609,
+  "file": "images/002_列印文章內容.svg",
+  "bytes": 3486
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/images/icon-facebook.svg",
+  "alt": "分享到Facebook(開啟新視窗)",
+  "title": "",
+  "w": 150,
+  "h": 150,
+  "file": null,
+  "skip": "寬 150 < 300"
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/images/icon-twitter.svg",
+  "alt": "分享到twitter(開啟新視窗)",
+  "title": "",
+  "w": 150,
+  "h": 150,
+  "file": null,
+  "skip": "寬 150 < 300"
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/images/icon-line.svg",
+  "alt": "分享到Line(開啟新視窗)",
+  "title": "",
+  "w": 150,
+  "h": 150,
+  "file": null,
+  "skip": "寬 150 < 300"
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpeg",
+  "alt": "",
+  "title": "",
+  "w": 675,
+  "h": 506,
+  "file": "images/003_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpg",
+  "bytes": 202179
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "alt": "",
+  "title": "",
+  "w": 2364,
+  "h": 1773,
+  "file": "images/004_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 6191476
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%203.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/005_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%203.png",
+  "bytes": 2706912
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%204.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/006_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%204.png",
+  "bytes": 2022798
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%205.png",
+  "alt": "",
+  "title": "",
+  "w": 687,
+  "h": 474,
+  "file": "images/007_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%205.png",
+  "bytes": 543745
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%206.png",
+  "alt": "",
+  "title": "",
+  "w": 678,
+  "h": 701,
+  "file": "images/008_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%206.png",
+  "bytes": 978323
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%207.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/009_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%207.png",
+  "bytes": 2154781
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%208.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/010_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%208.png",
+  "bytes": 1847454
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%209.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/011_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%209.png",
+  "bytes": 1917438
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2010.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/012_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 2131449
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2011.jpeg",
+  "alt": "",
+  "title": "",
+  "w": 1280,
+  "h": 960,
+  "file": "images/013_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpg",
+  "bytes": 133867
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2012.jpeg",
+  "alt": "",
+  "title": "",
+  "w": 1280,
+  "h": 960,
+  "file": "images/014_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpg",
+  "bytes": 179713
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2013.jpeg",
+  "alt": "",
+  "title": "",
+  "w": 1280,
+  "h": 960,
+  "file": "images/015_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpg",
+  "bytes": 120903
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2014.jpeg",
+  "alt": "",
+  "title": "",
+  "w": 1280,
+  "h": 960,
+  "file": "images/016_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.jpg",
+  "bytes": 165477
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2015.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/017_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 2393292
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2016.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/018_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 2250629
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2017.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/019_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 2514137
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2018.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/020_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 2665796
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2019.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/021_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%201.png",
+  "bytes": 1735426
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2020.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/022_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 1703010
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2021.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/023_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 2032161
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2022.png",
+  "alt": "",
+  "title": "",
+  "w": 2364,
+  "h": 1773,
+  "file": "images/024_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 4822020
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2023.png",
+  "alt": "",
+  "title": "",
+  "w": 1477,
+  "h": 1108,
+  "file": "images/025_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 1840422
+ },
+ {
+  "kind": "img",
+  "url": "https://osa_dorm.ntu.edu.tw/cm/paragraph_file/1/170/%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%2024.png",
+  "alt": "",
+  "title": "",
+  "w": 1330,
+  "h": 1773,
+  "file": "images/026_%E5%A4%A7%E4%B8%80%E5%A5%B3%E8%88%8D%202.png",
+  "bytes": 3475284
+ }
+]

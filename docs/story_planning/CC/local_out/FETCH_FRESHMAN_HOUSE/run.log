@@ -1,0 +1,7 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_fetch_site_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\FETCH_FRESHMAN_HOUSE\out
+CC FETCH_FRESHMAN_HOUSE：https://osa_dorm.ntu.edu.tw/Freshman_House（只抓同一個網站的圖；不是測試）
+PASS 開得了網頁（HTTP 200）  https://osa_dorm.ntu.edu.tw/Freshman_House
+  頁面標題：國立臺灣大學 學務處│學生住宿服務組 大一女舍簡介；找到候選 39 個
+PASS 有抓到圖  26 張、44.6 MB
+INFO 抓到 26 張（44.6 MB），沒抓 4 個（別的網站、太小、超量、失敗）
+ALL PASS
