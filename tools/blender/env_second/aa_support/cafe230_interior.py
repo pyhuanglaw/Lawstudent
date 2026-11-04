@@ -217,25 +217,44 @@ for y in (top + 0.2, top + 0.34): sh.a('glass').box(pc0 + 0.02, pc1 - 0.02, y, y
 for row, y in enumerate((top + 0.06, top + 0.21, top + 0.35)):
     for k in range(4): Xf(pc0 + 0.15 + k * 0.26, CF.BAR['z'] + 0.05, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.08, 0.0), (0.08, 0.07), (0.0, 0.075)], 0, 0, 0, seg=10, col=('#f4ecd8', '#e8c890', '#c98a5a', '#f0d0c8')[(k + row) % 4])
 RB = random.Random(2301)
-for (y, kind) in ((1.55, 'jar'), (1.95, 'mug'), (2.35, 'jar'), (2.75, 'bottle')):   # v1c（BB 遊戲內截圖 H：不能等距排滿）：間距、高矮、顏色都隨機，成群擺、中間留空位                                         # 後牆層架（固定位置 z −5.75）
+BOTC = ('#2e4a2e', '#4a2e1e', '#6a5a3a', '#1e2a22', '#7a3a22', '#2a2a3a', '#8a6a3a', '#3a4a2a'); LABC = ('#e8e0cc', '#d8c8a0', '#f2efe8', '#c9b48a')
+
+
+def sh_bottle(x, z, y):
+    shp = RB.random(); hh = RB.uniform(0.28, 0.4) if shp < 0.6 else RB.uniform(0.18, 0.26); rr = RB.uniform(0.036, 0.05) if shp < 0.85 else RB.uniform(0.05, 0.065)
+    prof = [(0.0, 0.0), (rr, 0.0), (rr, hh * 0.62), (0.014, hh * 0.85), (0.013, hh), (0.0, hh)] if shp < 0.6 else ([(0.0, 0.0), (rr, 0.0), (rr * 1.05, hh * 0.45), (rr * 0.5, hh * 0.75), (0.016, hh), (0.0, hh)] if shp < 0.85 else [(0.0, 0.0), (rr, 0.0), (rr, hh * 0.8), (0.02, hh), (0.0, hh)])
+    Xf(x, z, 0, y).lathe(sh.a('vcg'), prof, 0, 0, 0, seg=6, col=RB.choice(BOTC))
+    if RB.random() < 0.45: Xf(x, z, 0, y).rbox(sh.a('vc'), -rr * 0.85, rr * 0.85, hh * 0.25, hh * 0.5, rr * 0.98, rr + 0.002, r=0.0, seg=1, col=RB.choice(LABC))   # 酒標
+
+
+def sh_jar(x, z, y):
+    h = RB.uniform(0.11, 0.24); r = RB.uniform(0.04, 0.065)
+    Xf(x, z, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (r, 0.0), (r, h * 0.86), (r * 0.8, h * 0.9), (r * 0.82, h), (0.0, h)], 0, 0, 0, seg=8, col=RB.choice(('#5a3a22', '#6a4a2a', '#3a2418', '#8a6a3a', '#c9a26a', '#e8dcc0')))
+    Xf(x, z, 0, y + h * 0.86).lathe(sh.a('vcm'), [(r * 0.84, 0.0), (r * 0.84, h * 0.12), (0.0, h * 0.14)], 0, 0, 0, seg=6, col=RB.choice(('#b8944a', '#3a3a3a', '#8a6a3a')))
+
+
+def sh_cup(x, z, y, n=1):
+    col = RB.choice(('#f2efe8', '#e8dcc8', '#d8d4cc', '#3a4a5a', '#7a5a3a'))
+    for q in range(n): Xf(x, z, 0, y + q * 0.07).lathe(sh.a('vcg'), [(0.0, 0.0), (0.032, 0.0), (0.04, 0.085), (0.036, 0.085)], 0, 0, 0, seg=8, col=col)
+
+
+for (y, kind) in ((1.55, 'jar'), (1.95, 'mug'), (2.35, 'jar'), (2.75, 'bottle')):   # v1d（BB：不能等距排滿、也不能太空）：一群一群擠在一起（每群 3～7 件、大小顏色不同），群和群之間留空；偶爾一盆小植物
     xf0.rbox(sh.a('wood'), bx0 + 0.1, bx1 - 0.1, y - 0.035, y, Z0 + 0.012, Z0 + 0.32, r=0.004, seg=1)
     sh.a('bulb').box(bx0 + 0.15, bx1 - 0.15, y - 0.045, y - 0.035, Z0 + 0.28, Z0 + 0.3)
-    xx = bx0 + 0.22 + RB.uniform(0, 0.15); sg_ = IT['sign'][0]
+    xx = bx0 + 0.22 + RB.uniform(0, 0.2); sg_ = IT['sign'][0]
     while xx < bx1 - 0.22:
-        if kind == 'bottle' and abs(xx - sg_['along']) < sg_['w'] / 2 + 0.15: xx = sg_['along'] + sg_['w'] / 2 + 0.2; continue   # 招牌前面不放酒瓶
-        roll = RB.random(); zz = Z0 + 0.16 + RB.uniform(-0.04, 0.05)
-        if roll < 0.12: xx += RB.uniform(0.35, 0.6); continue                                                            # 空位
-        if roll < 0.18: sh.plant(xx, Z0 + 0.16, h=RB.uniform(0.22, 0.34), r=RB.uniform(0.06, 0.085), pot_col=RB.choice(('#d8d0c0', '#b0653e', '#3a3a38')), y0=y); xx += RB.uniform(0.25, 0.4); continue
-        k_ = kind if roll < 0.78 else RB.choice(('jar', 'mug', 'bottle'))
-        if k_ == 'bottle':
-            hh = RB.uniform(0.24, 0.36); rr = RB.uniform(0.032, 0.045)
-            Xf(xx, zz, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (rr, 0.0), (rr, hh * 0.62), (0.014, hh * 0.85), (0.013, hh), (0.0, hh)], 0, 0, 0, seg=7, col=RB.choice(('#2e4a2e', '#4a2e1e', '#6a5a3a', '#1e2a22', '#7a3a22', '#2a2a3a')))
-        elif k_ == 'jar': K.jar(sh, xx, zz, y, h=RB.uniform(0.12, 0.24), r=RB.uniform(0.045, 0.065), col=RB.choice(('#5a3a22', '#6a4a2a', '#3a2418', '#8a6a3a', '#c9a26a')), lid=RB.choice(('#b8944a', '#3a3a3a', '#8a6a3a')))
-        else:
-            n_ = RB.choice((1, 1, 1, 2))                                                                                  # 杯子：有時疊兩三個
-            for q in range(n_): K.mug(sh, xx, zz, y + q * 0.085, col=RB.choice(('#f2efe8', '#e8dcc8', '#d8d4cc', '#3a4a5a')), r=0.04, h=0.085, handle=(q == n_ - 1 and RB.random() < 0.35))
-        xx += RB.uniform(0.32, 0.58)
-for xx in (bx0 + 0.5, bx0 + 2.9, bx1 - 0.6): sh.hanging_pothos('pothos', xx, 2.82, Z0 + 0.2, n=9, drop=0.9)
+        if kind == 'bottle' and abs(xx - sg_['along']) < sg_['w'] / 2 + 0.12: xx = sg_['along'] + sg_['w'] / 2 + 0.15; continue   # 招牌前面不放酒瓶
+        if RB.random() < 0.14:
+            sh.plant(xx + 0.08, Z0 + 0.16, h=RB.uniform(0.22, 0.34), r=RB.uniform(0.06, 0.085), pot_col=RB.choice(('#d8d0c0', '#b0653e', '#3a3a38')), y0=y); xx += RB.uniform(0.35, 0.6); continue
+        for q in range(RB.randint(3, 5)):
+            if xx > bx1 - 0.2: break
+            zz = Z0 + 0.16 + RB.uniform(-0.05, 0.06); k_ = kind if RB.random() < 0.8 else RB.choice(('jar', 'mug', 'bottle'))
+            if k_ == 'bottle': sh_bottle(xx, zz, y)
+            elif k_ == 'jar': sh_jar(xx, zz, y)
+            else: sh_cup(xx, zz, y, n=RB.choice((1, 1, 2, 3)))
+            xx += RB.uniform(0.095, 0.14)
+        xx += RB.uniform(0.32, 0.65)
+for xx in (bx0 + 0.5, bx0 + 2.9, bx1 - 0.6): sh.hanging_pothos('pothos', xx, 2.82, Z0 + 0.2, n=6, drop=0.9)
 sg = IT['sign'][0]; sh.wall_img('back', 'print', sg['along'], sg['y'], sg['w'], sg['h'], K.cell_uv(0, 0, 4, 1), off=0.03)
 xf0.rbox(sh.w('back', 'wood'), sg['along'] - sg['w'] / 2 - 0.04, sg['along'] + sg['w'] / 2 + 0.04, sg['y'] - sg['h'] / 2 - 0.04, sg['y'] + sg['h'] / 2 + 0.04, Z0, Z0 + 0.025, r=0.006, seg=1)
 hr = IT['hours'][0]; sh.wall_img('back', 'print', hr['along'], hr['y'], hr['w'], hr['h'], K.cell_uv(6, 2, 2, 1), off=0.03)
@@ -325,8 +344,8 @@ for q in range(4): Xf(rp['x'] + 0.25, BZ, RK.uniform(-0.2, 0.2), rh + q * 0.008)
 for k, (along, cy, w_, cell) in enumerate(((rp['x'] - 0.45, 1.62, 0.5, (6, 0)), (rp['x'] + 0.4, 1.5, 0.34, (2, 1)))):  # 唱片櫃上方牆上兩個框
     sh.wall_img('back', 'print', along, cy, w_ - 0.06, w_ * 0.8 - 0.06, K.cell_uv(cell[0], cell[1], 2, 2), off=0.026)
     xf0.rbox(sh.w('back', 'wood'), along - w_ / 2, along + w_ / 2, cy - w_ * 0.4, cy + w_ * 0.4, Z0, Z0 + 0.02, r=0.004, seg=1)
-sh.plant(bk0 + 0.35, BZ, h=0.4, r=0.1, pot_col='#d8d0c0', y0=2.45); sh.hanging_pothos('pothos', bk0 + 0.35, 2.6, BZ + 0.05, n=8, drop=1.0)
-sh.hanging_pothos('pothos', bk1 - 0.4, 2.47, BZ + 0.1, n=9, drop=1.1)
+sh.plant(bk0 + 0.35, BZ, h=0.4, r=0.1, pot_col='#d8d0c0', y0=2.45); sh.hanging_pothos('pothos', bk0 + 0.35, 2.6, BZ + 0.05, n=6, drop=1.0)
+sh.hanging_pothos('pothos', bk1 - 0.4, 2.47, BZ + 0.1, n=7, drop=1.1)
 for q in range(3): Xf(bk1 - 1.1, BZ, 0.1 * q, 2.45 + q * 0.04).rbox(sh.a('vcg'), -0.13, 0.13, 0.0, 0.04, -0.1, 0.1, r=0.003, seg=1, col=BOOKC[q * 3])
 sh.tally('bookcase')
 
