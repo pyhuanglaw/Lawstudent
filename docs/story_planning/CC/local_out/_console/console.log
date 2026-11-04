@@ -321,3 +321,36 @@
        0fe476180..c9c8f38e7  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [21:54:37] ==== END   PARK_glb_r2b  exit=1  137s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c9c8f38e7..a234c764b  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:54:42] ==== END   PARK_glb_groups  exit=0  88s   ====
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[21:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[21:54:46] memory 40% before starting PARK_ride_r2 (2 running)
+[21:54:46] ==== START PARK_ride_r2  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[21:54:48] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[21:54:48] memory 40% before starting GG_shops2_afar_seat_00 (2 running)
+[21:54:48] ==== START GG_shops2_afar_seat_00  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[21:54:49] [res] cpu=4% mem=40% (12.7/31.4 GB) chrome_testing=10  START PARK_ride_r2
+[21:54:51] [res] cpu=7% mem=41% (12.7/31.4 GB) chrome_testing=10  START GG_shops2_afar_seat_00
+[21:59:28] 正在跑：SUNNY_seatfix_sit_r2（已跑 9 分／上限 60 分）、PARK_ride_r2（已跑 4 分／上限 60 分）、GG_shops2_afar_seat_00（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:59:54] [res] cpu=62% mem=47% (14.9/31.4 GB) chrome_testing=20  END PARK_ride_r2
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[21:59:54] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')

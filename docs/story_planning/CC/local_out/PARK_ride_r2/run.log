@@ -1,0 +1,79 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_bike_shop_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PARK_ride_r2\out
+PASS 遊戲載入
+== R 騎車實走（555b9e0cb 停車架）
+  [前置／捷徑] 讀檔：校園體育館南邊 (74, 50)、2025-09-23（二）10:00、條件事件關閉（先算停車位）
+PASS R 前置：校園有合法停車處  [{"x": 69.6, "z": 59.5, "yaw": 0, "src": "rack"}, {"x": 63.4, "z": 59.5, "yaw": 0, "src": "rack"}, {"x": 60.1, "z": 24, "yaw": 0, "src": "rack"}]
+  [前置／捷徑] 讀檔：同一個地方、車停在校園最近的合法停車處 [69.6, 59.5]（rack）
+  到達「車旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [R_start] 上車之前：{"zone": "campus", "lv": 0, "y": 0, "x": 69.68, "z": 60.25, "busy": false, "riding": false, "bOk": true, "bike": {"zone": "campus", "x": 69.6, "z": 59.5, "riding": false}, "dBike": 0.76, "followers": [], "toast": "", "caption": "", "interact": "騎腳踏車"}
+PASS [R_start] 車旁邊出現「騎腳踏車」  騎腳踏車
+  [R_start] 按「騎腳踏車」1 秒：{"zone": "campus", "lv": 0, "y": 0, "x": 69.6, "z": 59.5, "busy": false, "riding": true, "bOk": true, "bike": {"zone": "campus", "x": 69.6, "z": 59.5, "riding": true}, "dBike": 0, "followers": [], "toast": "", "caption": "", "interact": "騎腳踏車"}
+PASS [R_start] 上車
+== R gym（campus，門口 [74.0, 59.4]，門口按下車）
+PASS [R_gym] 門口互動點在 [74.0, 59.4]（555b9e0cb）  {"x": 74, "z": 59.4, "r": 1.6, "label": "體育館", "to": "gym", "look": false, "lv": 0}
+  到達「gym 門口（騎車）」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS [R_gym] 騎到門口（還在騎）  {"zone": "campus", "riding": true, "parked": null, "bike": {"zone": "campus", "x": 69.6, "z": 59.5, "yaw": 0, "riding": true, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}}
+PASS [R_gym] 按「下車」：車停在門口  {"zone": "campus", "riding": false, "parked": [73.85, 57.47], "bike": {"zone": "campus", "x": 73.8451806471144, "z": 57.47389129527435, "yaw": 2.015104793680545, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}}
+  到達「體育館」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [R_gym] 門口的按鈕是「體育館…」  {"x": 73.96, "z": 59.17, "interact": "體育館"}
+PASS [R_gym] 進去（gym）  {"zone": "gym", "x": 0, "z": 17.6, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [R_gym] 在裡面：先下車、G.bike.zone 還是 campus  {"zone": "campus", "x": 73.8451806471144, "z": 57.47389129527435, "yaw": 2.015104793680545, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}
+PASS [R_gym_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gym", "dlg": false, "depth": 0, "moved": 8.12, "fb": [0, 0], "errs": []}
+PASS [R_gym_out] 有「」互動點  {"x": 0, "z": 18.5, "r": 0.8, "label": "離開體育館", "to": "campus", "lv": 0}
+  到達「離開體育館」附近（0.02 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [R_gym_out] 走到旁邊：互動按鈕是「…」  {"x": -0.0, "z": 18.48, "interact": "離開體育館"}
+PASS [R_gym_out] 按「離開體育館」：gym → campus  {"zone": "campus", "x": 74, "z": 58, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+INFO [R_gym] 實際的停車路徑：門口按「下車」→ 停在下車的地方 [73.85, 57.47]；進門時車停在 [73.85, 57.47]；出來以後車在 [69.6, 59.5]
+PASS [R_gym] ① 車還在：G.bike 在 campus、場景裡停著的車就在 G.bike 的位置、3 秒後沒動  {"a": {"zone": "campus", "x": 69.6, "z": 59.5, "pk": [69.6, 59.5]}, "b": {"zone": "campus", "x": 69.6, "z": 59.5, "pk": [69.6, 59.5]}}
+  [R_gym] 截圖 park_gym.png（車＋最近的停車處 {"k": "rack", "x": 66.5, "z": 59.5, "d": 3.1}）
+  [R_gym] 車：{"zone": "campus", "x": 69.6, "z": 59.5, "yaw": 0, "kind": "city", "color": null, "inSpot": "rack", "ok": true, "nSpots": 50, "legal": {"x": 69.6, "z": 59.5, "d": 4.6}, "maxd": 30, "dPlayer": 4.65, "doors": [{"l": "體育館", "d": 2.8}, {"l": "回宿舍", "d": 47}]}
+PASS [R_gym] 車在這一區（campus）、場景裡看得到停著的車  {"bike": "campus", "parked": [69.6, 59.5]}
+PASS [R_gym] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "rack", "legal": {"x": 69.6, "z": 59.5, "d": 4.6}, "at": [69.6, 59.5]}
+PASS [R_gym] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "體育館", "d": 2.8}, {"l": "回宿舍", "d": 47}]
+INFO [R_gym] campus 沒有騎樓的判斷（車在 [69.6, 59.5]）
+INFO [R_gym] 最近的停車架／停車位：{"nearest": {"k": "rack", "x": 66.5, "z": 59.5, "d": 3.1}, "inSpot": "rack", "bike": [69.6, 59.5]}
+PASS [R_gym] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": 69.24, "x1": 69.96, "z0": 58.62, "z1": 60.44}, "nDoors": 10, "hit": []}
+  到達「車停的地方（站上去）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [R_gym_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 1.47, "fb": [0, 0], "errs": []}
+  到達「車旁邊（離門遠的那一邊）」附近（0.09 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [R_gym] 車旁邊出現「騎腳踏車」  騎腳踏車
+PASS [R_gym] 上車
+PASS [R_gym_end] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 1.29, "fb": [0, 0], "errs": []}
+== R library（campus，門口 [86.4, 0.0]，騎著按門）
+PASS [R_library] 門口互動點在 [86.4, 0.0]（555b9e0cb）  {"x": 86.4, "z": 0, "r": 3.8, "label": "進入總圖書館", "to": "library_hall", "look": false, "lv": 0}
+  到達「library 門口（騎車）」附近（0.41 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，17 秒
+  [R_library] 到門口：{"zone": "campus", "lv": 0, "y": 0.9, "x": 86.07, "z": 0.25, "busy": false, "riding": false, "bOk": true, "bike": {"zone": "campus", "x": 73.95, "z": 15.86, "riding": false}, "dBike": 19.76, "followers": [], "toast": "", "caption": "", "interact": "進入總圖書館"}
+PASS [R_library] 騎到門口：門口在平台上，平台前自動下車、車停在下面（照設計）  {"k": {"zone": "campus", "riding": false, "parked": [73.95, 15.86], "bike": {"zone": "campus", "x": 73.94807877919239, "z": 15.856459162633758, "yaw": -3.7926416075708396, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}], "fix": false}}, "lv": 0, "y": 0.9, "toast": "", "caption": ""}
+PASS [R_library] 門口的按鈕是「進入總圖書館…」  {"x": 86.07, "z": 0.25, "interact": "進入總圖書館"}
+PASS [R_library] 進去（library_hall）  {"zone": "library_hall", "x": 0, "z": 6.6, "toast": "（樓梯不能騎，車停在下面。）"}
+PASS [R_library] 在裡面：先下車、G.bike.zone 還是 campus  {"zone": "campus", "x": 73.94807877919239, "z": 15.856459162633758, "yaw": -3.7926416075708396, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}], "fix": false}
+PASS [R_library_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "library_hall", "dlg": false, "depth": 0, "moved": 10.13, "fb": [0, 0], "errs": []}
+PASS [R_library_out] 有「」互動點  {"x": 0, "z": 8.3, "r": 1.4, "label": "離開總圖", "to": "campus", "lv": 0}
+  到達「離開總圖」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+PASS [R_library_out] 走到旁邊：互動按鈕是「…」  {"x": -0.0, "z": 8.09, "interact": "離開總圖"}
+PASS [R_library_out] 按「離開總圖」：library_hall → campus  {"zone": "campus", "x": 80, "z": 0, "toast": "（樓梯不能騎，車停在下面。）"}
+INFO [R_library] 實際的停車路徑：騎著按門；進門時車停在 [73.95, 15.86]；出來以後車在 [64.6, 9]
+PASS [R_library] ① 車還在：G.bike 在 campus、場景裡停著的車就在 G.bike 的位置、3 秒後沒動  {"a": {"zone": "campus", "x": 64.6, "z": 9, "pk": [64.6, 9]}, "b": {"zone": "campus", "x": 64.6, "z": 9, "pk": [64.6, 9]}}
+  [R_library] 截圖 park_library.png（車＋最近的停車處 {"k": "rack", "x": 61.5, "z": 9, "d": 3.1}）
+  [R_library] 車：{"zone": "campus", "x": 64.6, "z": 9, "yaw": 0, "kind": "city", "color": null, "inSpot": "rack", "ok": true, "nSpots": 50, "legal": {"x": 64.6, "z": 9, "d": 17.8}, "maxd": 30, "dPlayer": 17.84, "doors": [{"l": "進入總圖書館", "d": 19.78}, {"l": "體育館", "d": 49.67}]}
+PASS [R_library] 車在這一區（campus）、場景裡看得到停著的車  {"bike": "campus", "parked": [64.6, 9]}
+PASS [R_library] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "rack", "legal": {"x": 64.6, "z": 9, "d": 17.8}, "at": [64.6, 9]}
+PASS [R_library] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "進入總圖書館", "d": 19.78}, {"l": "體育館", "d": 49.67}]
+INFO [R_library] campus 沒有騎樓的判斷（車在 [64.6, 9]）
+INFO [R_library] 最近的停車架／停車位：{"nearest": {"k": "rack", "x": 61.5, "z": 9, "d": 3.1}, "inSpot": "rack", "bike": [64.6, 9]}
+PASS [R_library] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": 64.24, "x1": 64.96, "z0": 8.12, "z1": 9.94}, "nDoors": 10, "hit": []}
+  到達「車停的地方（站上去）」附近（0.08 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [R_library_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 6.63, "fb": [0, 0], "errs": []}
+  到達「車旁邊（離門遠的那一邊）」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [R_library] 車旁邊出現「騎腳踏車」  騎腳踏車
+PASS [R_library] 上車
+PASS [R_library_end] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 13.83, "fb": [0, 0], "errs": []}
+  到達「車旁邊」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [R_library_remount] 上車之前：{"zone": "campus", "lv": 0, "y": 0, "x": 73.35, "z": 2.58, "busy": false, "riding": false, "bOk": true, "bike": {"zone": "campus", "x": 74.08, "z": 2.68, "riding": false}, "dBike": 0.73, "followers": [], "toast": "", "caption": "", "interact": "騎腳踏車"}
+PASS [R_library_remount] 車旁邊出現「騎腳踏車」  騎腳踏車
+  [R_library_remount] 按「騎腳踏車」1 秒：{"zone": "campus", "lv": 0, "y": 0.18, "x": 74.08, "z": 2.68, "busy": false, "riding": false, "bOk": true, "bike": {"zone": "campus", "x": 74.08, "z": 2.68, "riding": false}, "dBike": 0, "followers": [], "toast": "（樓梯不能騎，車停在下面。）", "caption": "", "interact": "騎腳踏車"}
+  [R_library_remount] 30 秒還沒上車：{"zone": "campus", "lv": 0, "y": 0.18, "x": 74.08, "z": 2.68, "busy": false, "riding": false, "bOk": true, "bike": {"zone": "campus", "x": 74.08, "z": 2.68, "riding": false}, "dBike": 0, "followers": [], "toast": "", "caption": "", "interact": "騎腳踏車"}
+FAIL [R_library_remount] 上車
+FAIL R library 沒跑完，後面的出口不測
+PASS 沒有 JS 例外  []
+FAILED 2: [R_library_remount] 上車；R library 沒跑完，後面的出口不測
