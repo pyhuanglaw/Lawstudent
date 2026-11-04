@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "CVS24_r3",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_cvs24_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T20:16:55",
+  "end": "2026-11-04T20:31:04",
+  "seconds": 849,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "res_peak": {
+    "cpu": 91,
+    "mem": 59,
+    "used_gb": 18.6,
+    "chrome_testing": 29
+  }
+}
