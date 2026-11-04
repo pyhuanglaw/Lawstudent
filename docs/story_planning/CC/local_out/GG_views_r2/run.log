@@ -1,0 +1,23 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_shop_views_gg.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_views_r2\out
+done 0 of 8
+wt_cc_GG_views_r2\tools/blender/env_second/shots/fast_shots.py", line 22, in main
+    b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\async_api\_generated.py", line 4177, in launch
+    await self._impl_obj.launch(
+    ...<17 lines>...
+    )
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_browser_type.py", line 101, in launch
+    await self._channel.send(
+        "launch", TimeoutSettings.launch_timeout, params
+    )
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: BrowserType.launch: Failed to launch chromium because executable doesn't exist at \opt\pw-browsers\chromium
+
