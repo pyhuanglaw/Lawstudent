@@ -40025,9 +40025,9 @@
    "title": "法服改純劇情（機制部分）",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
-   "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5a",
+   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5a",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40048,9 +40048,9 @@
    "title": "法服固定日期劇情場次",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
-   "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5b",
+   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b5-1104，從 530a72ff4）：B5a 機制＋B5b 四場照 AA_604（企劃線 23581d5b6）、LAWCLUB_SAT_FIVE 照 AA_638 ④-7（3271973c6）；新測試 d118_b5a／b5b（修改前要 FAIL）；缺 AA 的字（5/22 前一晚提醒）不自己寫、交件時列出｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B5b",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40095,9 +40095,9 @@
    "title": "國考題目範圍＋國考總複習",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
-   "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
+   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b7-1104，從 530a72ff4）：CLS.takenCourses、PG.poolFor、STUDY.review(GM,'bar')（一試前 30 天、6 小時）、PG.examDay 回寫卡片與 cue；國考版介面字只照 AA_638 機械替換並標暫定、交件時列給 AA；新測試 d118_b7（修改前要 FAIL）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -44598,7 +44598,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 14923bc1（拍攝位置 patch＋接法說明）還沒整合；等照片",
+   "next": "【LAWWW-C 11-04 22:5x】A_shots_script.patch 進開發分支 530a72ff4（只改拍照腳本）；send_message BB-C 排 PC 拍（cc-local）；照片回來以後 LAWWW 填 VIEW_LAYERS、照現在的 zones3d 重做 B｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 14923bc1（拍攝位置 patch＋接法說明）還沒整合；等照片",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2 14923bc1",
@@ -46719,7 +46719,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "每一處 AA 給新字或寫照留；LAWWW 照字改、跑 aa688_yt_pg 等相關單元測試",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    },
    "next": "【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
    "sha": null
