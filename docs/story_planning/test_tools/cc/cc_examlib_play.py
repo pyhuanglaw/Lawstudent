@@ -8,7 +8,14 @@
       玩家用手機：朋友 → 柏翰「訊息」→「傳訊息」→「明天幫我占位子」：回「可以。我七點二十到。3F 靠窗第二排，左邊那個給你。」
       A 組：【捷徑】讀檔到隔天 09:00 的總圖 3F（閱覽室 library；跳過睡覺）→ 柏翰旁邊那一位顯示「有人了」→ 玩家走進讀書區＝直接走過去坐下（不跳找不到位子）→ 柏翰「（小聲）你的位子旁邊有插座，我順便看了。」
       B 組：同一個私訊，【捷徑】讀檔到隔天 12:05（人不去）→ 收到「十二點零一分。位子收了。」；關係值（fam／trust／comf／rom）和私訊前一樣。
-  用法：LW_TESTS=<wt>/tests [CASES=ta,tb] [DAY=2025-12-01] python3 cc_examlib_play.py <url> <out>"""
+  CASES=t42（EXAMLIB_42_reserve，BB-C 18:2x；36d2172dd D42-RESERVE-1104：答應 4-2 的那天，那一間先保留兩個連著的空位）：阿哲前一晚 21:00 私訊（AA_669 4-2 表：「明天你先到的話 幫我占一個」「我九點半到 應該」），
+      玩家用手機回「好。」（訊息 → 阿哲 → 「好。」）；【前置／捷徑】阿哲設成朋友、有聯絡方式；隔天用同一份存檔跳時間（跳過睡覺）。四組：
+      A    隔天 09:30 進總圖 B1（library_b1）→ 直接走到保留的那一對、坐下 →「（你把一本講義放在旁邊的位子上。）」→ 10:40 阿哲走進來坐下：「（他喘著氣坐下。）」「（小聲）……鬧鐘沒響。謝啦。」
+      F    同 A，但問的那一天換成明天是期末週的那一天（【捷徑】EXLIB.ask42Day 指定日子），進 B1 以後其他讀書的位子全部標成有人（【捷徑】seat.taken）＝一樣放得了講義
+      none 沒去：隔天 12:30 在宿舍 → 收到「沒位子 我回宿舍讀」、關係值不變
+      late 11:00 才到 B1 → 不放講義、收到「沒位子 我回宿舍讀」、關係值不變
+      每一組都記保留的那一對（ZS.pair42）有沒有老位子（seat.old）。
+  用法：LW_TESTS=<wt>/tests [CASES=ta,tb,t42] [T42=A,F,none,late] [DAY=2025-12-01] python3 cc_examlib_play.py <url> <out>"""
 import os, sys, json, asyncio, time, math
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -229,6 +236,129 @@ async def case_tb(pg, cdp, group):
         R.check('[T-bB] 關係值不變（fam／trust／comf／rom）', all(abs((rel1.get(k) or 0) - (rel0.get(k) or 0)) < 1e-6 for k in ('fam', 'trust', 'comf', 'rom')), J({'前': rel0, '後': rel1}))
 
 
+X42 = {'ask': ['明天你先到的話 幫我占一個', '我九點半到 應該'], 'place': '（你把一本講義放在旁邊的位子上。）', 'arrive': ['（他喘著氣坐下。）', '（小聲）……鬧鐘沒響。謝啦。'], 'miss': '沒位子 我回宿舍讀', 'at': 10 + 40 / 60}   # AA_669 4-2 表、BB_260 T-c
+D42 = r"""(()=>{ const G=GAME.G, R=G.exlib||{}, Z=EXLIB._zs&&EXLIB._zs(), E=GAME.E, P=Z&&Z.pair42, ps=E.player.seat;
+  return {d42:R.d42?Object.assign({},R.d42):null, pair:P?P.map(q=>({x:+q.x.toFixed(2),z:+q.z.toFixed(2),lv:q.lv|0,taken:q.taken||null,old:!!q.old})):null, zone:G.zone, seat:!!ps, seatAt:ps&&ps.x!=null?{x:+ps.x.toFixed(2),z:+ps.z.toFixed(2)}:null,
+    hour:+(+G.hour).toFixed(3), auto:EXLIB.auto42Due?EXLIB.auto42Due(GAME):null, inStudy:EXLIB.inStudy?EXLIB.inStudy(GAME):null, busy:!!E.player.busy}; })()"""
+ASKDAY = r"""(grp=>{ const G=GAME.G, t=CALENDAR.termOf(G.day), tid=t&&t.id; let d0=EXLIB.ask42Day(G,tid,'zhe'), why='EXLIB.ask42Day（遊戲自己挑的日子）';
+  if(grp==='F'){ d0=null; const r=CALENDAR.termDays(tid); for(let d=r.from;d<=r.to;d++){ const t1=CALENDAR.termOf(d+1); if(!t1||t1.id!==tid||!(t1.exam==='final'||(CALENDAR.termOf(d+8)||{}).exam==='final')) continue;
+      const Gd=Object.assign({},G,{day:d,hour:21}); const P=EXLIB.inCast(Gd,'zhe'); let ok=false; try{ ok=!!P&&!!P.ask&&EXLIB.ask42Ok(Gd,'zhe',P); }catch(e){ ok=false; } if(ok){ d0=d; break; } }
+    why='明天是期末週（或前一週）、ask42Ok 成立的第一天【捷徑：EXLIB.ask42Day 指定這一天】'; }
+  return {term:tid, d0, key:d0!=null?CALENDAR.dateOf(d0).key:null, next:d0!=null?CALENDAR.dateOf(d0+1).key:null, nextWk:d0!=null?(CALENDAR.termOf(d0+1)||{}).week:null, nextExam:d0!=null?(CALENDAR.termOf(d0+1)||{}).exam||null:null, why}; })"""
+FILLB1 = r"""(()=>{ const E=GAME.E, Z=EXLIB._zs&&EXLIB._zs(), P=(Z&&Z.pair42)||[]; let n=0, tot=0; for(const it of E.interactables){ const q=it&&it.seat; if(!q) continue; if(!(EXLIB.studySeat&&EXLIB.studySeat(GAME.G.zone,q))) continue; tot++;
+    if(P.includes(q)||q.taken||(EXLIB.occupied&&EXLIB.occupied(E,q))) continue; q.taken='cc_full'; n++; } return {filled:n, studySeats:tot, fill:+(EXLIB.fill?EXLIB.fill(GAME.G,GAME.G.zone):0).toFixed(2)}; })()"""
+
+
+async def answer_ui(pg, cdp, tag, who, k=0):
+    """手機：訊息 → 那個人的對話 → 問句的選項（data-ask="<id>|k"）"""
+    await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+    await L.tap(pg, cdp, '#phoneTabs [data-ptab="msg"]'); await pg.wait_for_timeout(1200)
+    ok1 = await L.tap(pg, cdp, '#phoneBody [data-th="p:%s"]' % who); await pg.wait_for_timeout(1200)
+    sel = '#phoneBody [data-ask="%s|%d"]' % (tag, k)
+    ok2 = await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1500)
+    body = (await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"))[-200:]
+    await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800); await L.close_panels(pg, cdp)
+    return ok1, ok2, body
+
+
+async def case_t42(pg, cdp, group):
+    tag0 = '[4-2 %s]' % group
+    base = await pg.evaluate("STORY.dayOfKey(%s)" % J(DAYKEY))
+    await L.load_state(pg, {'zone': 'dorm', 'hour': 20.9, 'day': base, 'weather': 'clear'}, quiet_phone=True)
+    await pg.wait_for_timeout(2500)
+    ad = await pg.evaluate(ASKDAY, group)
+    if not R.check('%s 這學期阿哲 4-2 問的那一天（%s）' % (tag0, ad['why']), ad['d0'] is not None, J(ad)): return
+    R.setup('%s 讀檔：宿舍、%s（問的那一天）21:00；阿哲設成朋友、有聯絡方式（SETUP_JS）' % (tag0, ad['key']))
+    await L.load_state(pg, {'zone': 'dorm', 'hour': 21.0, 'day': ad['d0'], 'weather': 'clear'}, quiet_phone=True)
+    await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp)
+    r0 = await pg.evaluate(SETUP_JS, {'id': 'zhe', 'rel': FRIEND}); R.note('%s 阿哲：%s' % (tag0, J(r0)))
+    if group == 'F': await pg.evaluate("(d=>{ const f=EXLIB.ask42Day; EXLIB.__ccAsk=f; EXLIB.ask42Day=(G,t,id)=>id==='zhe'?d:f(G,t,id); })", ad['d0'])
+    tag = 'exlib42_%d_zhe' % ad['d0']; got = []
+    for i in range(30):
+        got = await pg.evaluate("(t=>(GAME.G.msgs||[]).filter(m=>m.tag===t||(m.ask&&m.ask.id===t)).map(m=>({day:m.day,h:m.h,from:m.from||m.who||null,text:m.text,ask:m.ask?m.ask.opts.map(o=>o.t):null})))", tag)
+        if got: break
+        if i == 10: R.note('%s 10 秒還沒收到 → 讓遊戲時間往前 6 分鐘（GAME.advance）' % tag0); await pg.evaluate("(async()=>{ await GAME.advance(0.1); })()")
+        await pg.wait_for_timeout(1000)
+    R.note('%s 收到的私訊：%s' % (tag0, J(got)))
+    R.check('%s 21:00 阿哲私訊（逐字 AA_669 4-2 表）：%s，選項「好。」' % (tag0, '／'.join(X42['ask'])), [m['text'] for m in got] == X42['ask'] and bool(got) and (got[-1]['ask'] or [None])[0] == '好。', J(got))
+    if not got: return
+    ok1, ok2, body = await answer_ui(pg, cdp, tag, 'zhe', 0)
+    d = await pg.evaluate(D42)
+    if not ok2:
+        R.note('%s 手機上點不到「好。」（對話 %s、按鈕 %s；畫面 %s）→【捷徑】PHONE.answer' % (tag0, ok1, ok2, J(body))); await pg.evaluate("(t=>PHONE.answer(GAME.G,t,0))", tag); d = await pg.evaluate(D42)
+    R.check('%s 回「好。」以後 G.exlib.d42.ok' % tag0, bool(d['d42']) and d['d42'].get('ok'), J(d['d42']))
+    rel0 = await pg.evaluate("Object.assign({},SOCIAL.rel('zhe'))")
+    snap = await pg.evaluate("JSON.stringify(GAME.snapshot())")
+    await pg.evaluate(SAYHOOK)
+    if group in ('A', 'F', 'late'):
+        hh = 9.5 if group != 'late' else 11.0
+        R.setup('%s 讀檔（同一份存檔）跳到隔天 %02d:%02d、總圖 B1（library_b1）——跳過睡覺' % (tag0, int(hh), int(round(hh % 1 * 60))))
+        await pg.evaluate("(([s,h])=>{ const G=JSON.parse(s); G.day=G.day+1; G.hour=h; G.zone='library_b1'; delete G.pos; window.__ccSnap=G; })", [snap, hh])
+        n0 = await pg.evaluate("(window.__ccSay||[]).length")
+        await pg.evaluate("(async()=>{ await GAME.applySave(window.__ccSnap); })()")
+        for _ in range(40):
+            if await pg.evaluate("GAME.G.zone==='library_b1'&&!!(EXLIB._zs&&EXLIB._zs())"): break
+            await pg.wait_for_timeout(250)
+        if group == 'F':
+            fb = await pg.evaluate(FILLB1); R.setup('%s 【捷徑】B1 其他讀書的位子全部標成有人：%s' % (tag0, J(fb)))
+        d = await pg.evaluate(D42)
+        R.note('%s 進 B1：%s' % (tag0, J(d)))
+        if group != 'late':
+            R.check('%s 進 B1 時保留了兩個連著的空位（ZS.pair42，taken＝exlib42）' % tag0, bool(d['pair']) and len(d['pair']) == 2 and all(q['taken'] == 'exlib42' for q in d['pair']) and math.hypot(d['pair'][0]['x'] - d['pair'][1]['x'], d['pair'][0]['z'] - d['pair'][1]['z']) < 1.3, J(d['pair']))
+            R.check('%s 保留的那一對不是老位子（seat.old）' % tag0, bool(d['pair']) and not any(q['old'] for q in d['pair']), J(d['pair']))
+            pair0 = d['pair'] or []
+        lines = []
+        t1 = time.time(); st = await pg.evaluate(D42)
+        while time.time() - t1 < 40 and not st['seat']:
+            ln, u = await read_until(pg, cdp, 4)
+            lines += ln
+            if u['opts']:
+                op = next((o for o in u['opts'] if o.startswith('讀')), u['opts'][0]); R.note('%s 座位選單 %s → 按「%s」' % (tag0, J(u['opts']), op)); await pick(pg, cdp, op)
+            st = await pg.evaluate(D42)
+        await pg.wait_for_timeout(1500); ln, u = await read_until(pg, cdp, 6); lines += ln
+        if u['opts']:
+            op = next((o for o in u['opts'] if o.startswith('讀')), u['opts'][0]); R.note('%s 座位選單 %s → 按「%s」' % (tag0, J(u['opts']), op)); await pick(pg, cdp, op); ln, u = await read_until(pg, cdp, 6); lines += ln
+        said = await says_since(pg, n0); st = await pg.evaluate(D42)
+        R.note('%s 進來以後：台詞 %s；%s' % (tag0, J(said), J(st)))
+        if group == 'late':
+            R.check('%s 11:00 才到：不放講義（沒有「%s」）、d42.placed 是 false' % (tag0, X42['place']), X42['place'] not in said and not (st['d42'] or {}).get('placed'), J(st['d42']))
+        else:
+            in_pair = bool(st['seatAt']) and any(math.hypot(q['x'] - st['seatAt']['x'], q['z'] - st['seatAt']['z']) < 0.3 for q in pair0)
+            R.check('%s 玩家直接坐到保留的那一對其中一個' % tag0, st['seat'] and in_pair, J({'seatAt': st['seatAt'], 'pair': pair0}))
+            R.check('%s 坐下時「%s」（d42.placed）' % (tag0, X42['place']), X42['place'] in said and bool((st['d42'] or {}).get('placed')), J({'said': said, 'd42': st['d42']}))
+            await R.shot(pg, 't42%s_placed' % group)
+            # 10:40 阿哲走進來：【捷徑】遊戲時間往前（GAME.advance，每次 15 分鐘、空下來的時候）
+            n1 = await pg.evaluate("(window.__ccSay||[]).length"); t2 = time.time(); arr = []
+            while time.time() - t2 < 150:
+                s2 = await pg.evaluate(D42)
+                if s2['hour'] < X42['at'] + 0.25 and not s2['busy']: await pg.evaluate("(async()=>{ await GAME.advance(0.25); })()")
+                ln, u = await read_until(pg, cdp, 3)
+                if u['opts']: await pick(pg, cdp, next((o for o in u['opts'] if o.startswith('讀')), u['opts'][0]))
+                arr = await says_since(pg, n1)
+                if X42['arrive'][-1] in arr: break
+                await pg.wait_for_timeout(800)
+            zp = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc.zhe; if(!n) return null; const p=n.obj.position; return {x:+p.x.toFixed(2), z:+p.z.toFixed(2), seat:!!n.seat, hour:+(+GAME.G.hour).toFixed(2)}; })()")
+            dd = (await pg.evaluate(D42))['d42'] or {}
+            R.note('%s 10:40 前後：台詞 %s；阿哲 %s；d42 %s' % (tag0, J(arr), J(zp), J(dd)))
+            R.check('%s 阿哲照時間（10:40）走進來坐下、說「%s」' % (tag0, '／'.join(X42['arrive'])), all(t in arr for t in X42['arrive']) and bool(zp) and zp['seat'], J({'said': arr, 'zhe': zp}))
+            if zp and dd.get('seat'): R.check('%s 阿哲坐的是放講義的那一個' % tag0, math.hypot(zp['x'] - dd['seat'][0], zp['z'] - dd['seat'][1]) < 0.5, J({'zhe': zp, 'seat': dd['seat']}))
+            await R.shot(pg, 't42%s_arrived' % group)
+    else:
+        R.setup('%s 讀檔（同一份存檔）跳到隔天 12:30、宿舍（人不去）' % tag0)
+        await pg.evaluate("(s=>{ const G=JSON.parse(s); G.day=G.day+1; G.hour=12.5; G.zone='dorm'; delete G.pos; window.__ccSnap=G; })", snap)
+        await pg.evaluate("(async()=>{ await GAME.applySave(window.__ccSnap); })()"); await pg.wait_for_timeout(7000); await L.close_panels(pg, cdp)
+    if group in ('none', 'late'):
+        t3 = time.time(); got = []
+        while time.time() - t3 < 15:
+            got = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>m.th==='p:zhe').slice(-4).map(m=>({day:m.day, h:m.h, text:m.text, tag:m.tag||null}))")
+            if any(m['text'] == X42['miss'] for m in got): break
+            await pg.wait_for_timeout(1000)
+        R.check('%s 收到「%s」（10:40 那一則）' % (tag0, X42['miss']), any(m['text'] == X42['miss'] for m in got), J(got))
+        rel1 = await pg.evaluate("Object.assign({},SOCIAL.rel('zhe'))")
+        R.check('%s 關係值不變（fam／trust／comf／rom）' % tag0, all(abs((rel1.get(k) or 0) - (rel0.get(k) or 0)) < 1e-6 for k in ('fam', 'trust', 'comf', 'rom')), J({'前': rel0, '後': rel1}))
+    if group == 'F': await pg.evaluate("(()=>{ if(EXLIB.__ccAsk){ EXLIB.ask42Day=EXLIB.__ccAsk; delete EXLIB.__ccAsk; } })()")
+
+
 async def main():
     print('CC EXAMLIB T-a／T-b（瀏覽器、玩家操作）：DAY=%s；SHA=%s；Windows＋GPU／SwiftShader ≠ iPhone' % (DAYKEY, os.environ.get('SHA', '?')), flush=True)
     async with async_playwright() as p:
@@ -241,6 +371,8 @@ async def main():
         if 'ta' in CASES: await case_ta(pg, cdp)
         if 'tb' in CASES:
             await case_tb(pg, cdp, 'A'); await case_tb(pg, cdp, 'B')
+        if 't42' in CASES:
+            for g in [x.strip() for x in (os.environ.get('T42') or 'A,F,none,late').split(',') if x.strip()]: await case_t42(pg, cdp, g)
         R.check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not R.fails else 'FAILED %d: %s' % (len(R.fails), '；'.join(R.fails)), flush=True)
