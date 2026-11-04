@@ -74,6 +74,11 @@ RAY_JS = """(p=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const o
     const par=[]; for(let q=h.object.parent;q&&par.length<10;q=q.parent) par.push(q.name||('('+q.type+')'));
     let bb=null; try{ const B=new THREE.Box3().setFromObject(h.object); bb=[B.min.x,B.min.y,B.min.z,B.max.x,B.max.y,B.max.z].map(v=>+v.toFixed(2)); }catch(e){}
     return {mesh:h.object.name, mat:mt&&mt.name, dist:+h.distance.toFixed(2), uv1:!!u1, uv1name:a&&(a.uv1?'uv1':(a.uv2?'uv2':null)), uv1x:u, attrs:a?Object.keys(a):[],
+      detail:(h.object.name?null:(()=>{ try{ const o=h.object,ch=[]; for(let p=o;p;p=p.parent) ch.push((p.name||'('+p.type+')')+(p===E.zone.group?'【zone.group】':'')+(p.userData&&Object.keys(p.userData).length?JSON.stringify(Object.keys(p.userData)):''));
+      o.geometry.computeBoundingBox(); const b=o.geometry.boundingBox, m=Array.isArray(o.material)?o.material[0]:o.material;
+      return {chain:ch,type:o.type,geo:o.geometry.type,verts:o.geometry.attributes.position.count,bbox:[b.min.toArray().map(v=>+v.toFixed(2)),b.max.toArray().map(v=>+v.toFixed(2))],world:o.getWorldPosition(new THREE.Vector3()).toArray().map(v=>+v.toFixed(2)),
+        mat:m&&{name:m.name,type:m.type,map:m.map&&String(m.map.name||(m.map.image&&(m.map.image.src||m.map.image.width+'x'+m.map.image.height))||'').slice(0,160),emissive:m.emissive&&m.emissive.getHexString(),emissiveIntensity:m.emissiveIntensity,transparent:m.transparent,opacity:m.opacity},
+        ud:JSON.parse(JSON.stringify(o.userData,(k,v)=>typeof v==='object'&&v&&v.isObject3D?'[Object3D]':v))}; }catch(e){ return 'ERR '+e; } })()),
       parents:par, map:!!(mt&&mt.map), emissiveMap:!!(mt&&mt.emissiveMap), transparent:!!(mt&&mt.transparent), opacity:mt&&mt.opacity, verts:a&&a.position?a.position.count:null, bbox:bb, uuid:h.object.uuid.slice(0,8), ud:Object.keys(h.object.userData||{}).slice(0,8)}; }); })"""
 
 

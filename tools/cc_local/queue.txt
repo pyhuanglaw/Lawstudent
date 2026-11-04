@@ -51,6 +51,8 @@ CAFE230_glb | d432de8ba | game | tests/cafe_glb_integration.py | index.html | 40
 CAFE230_seats | d432de8ba | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
 CAFE230_reach | d432de8ba | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
 CAFE230_shots | d432de8ba | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
+# GG_night_r6（LAWWW 07:37，擋發布，排在 CAFE230v2 前）：75a095355、14 對 21；無名 mesh 的 parent 鏈／userData／包圍盒／材質（LAWWW2 那段）
+GG_night_r6 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,21;CC_HEADLESS=0
 # CAFE230_v2（LAWWW 07:29）：75a095355 四項修正；舊版 d432de8ba 已 FAIL（glb／seats／reach）
 CAFE230v2_glb | 75a095355 | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
 CAFE230v2_seats | 75a095355 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
