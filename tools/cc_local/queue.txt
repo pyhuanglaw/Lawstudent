@@ -533,3 +533,6 @@ D_RUN_p0      | ffeec06e0 | game  | tests/p0_movement.py         | index.html | 
 D_RUN_movreg  | ffeec06e0 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
 V18_LIBTOUR   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
 #HOLD雲端 V18_PLAYFIX   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_playfix_probe.py | index.html | 120 |
+MD_bike_v1 | 08378f56d | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1_views.json --res 1672x941
+NICHI_final_ctl | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 40 | CASES=nichijo_final,nichijo_final_y2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
+#HOLD NICHI_final_fix | (等 LAWWW SHA) | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 40 | CASES=nichijo_final,nichijo_final_y2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
