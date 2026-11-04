@@ -23,6 +23,7 @@ STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck
 STUCK_1104_dev  | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 PE644b | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # （BB 00:44 補三項，排在社交冒煙後面；社交冒煙寫好會插在 PE644b 前面）
+PE644-CARD | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 25 | CASES=econ_card;CC_HEADLESS=0
 YT3-F1 | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 30 | CASES=grad_gf;CASE_S=1500;CC_HEADLESS=0
 YT3-F2 | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=pgdate_month;CASE_S=900;CC_HEADLESS=0
 YT3-F3 | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
