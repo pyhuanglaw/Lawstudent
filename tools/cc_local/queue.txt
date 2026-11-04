@@ -65,9 +65,9 @@ CAFE230v2_shots | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_cafe2
 # GG_night_r7（LAWWW2 07:51）：75a095355、14 對 21；①著色器有沒有 uShopLit ②lit 全部 0 再拍 ③藏 cafe_glass 再拍
 GG_night_r7 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;DIAG2=1;CC_HEADLESS=0
 # CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
-CAFE230v3_shots | 8b71a5c4f | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
-CAFE230v3_seats | 8b71a5c4f | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
-CAFE230v3_reach | 8b71a5c4f | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
+CAFE230v3_shots | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
+CAFE230v3_seats | 0c2d4997b | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
+CAFE230v3_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
 # WZ_ITDIFF（LAWWW 07:51）：wz_street_integration 互動點 39 對 39 不完全相同——印出差在哪（label＋座標）
 WZ_ITDIFF | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_wz_it_diff_probe.py | index.html | 10 | CC_HEADLESS=0
 # WZ3（BB 07:43）：b53bfab72 小路 v1f、SUNNY SIDE v1d、一盞 v1d＋前院；8 角度拼圖 14／22；一盞門外／前院／緣側＋坐墊；qa_w1；小路拿掉的 5 張座位只記 INFO
