@@ -43802,8 +43802,8 @@
    "owner": "LAWWW2",
    "priority": "P1",
    "title": "公館互動店照新店名、外觀、室內重做（青木茶室、頁間書屋、日和便利店、慢輪單車；AA_647；USER_WANTS X206）",
-   "status": "待開工",
-   "next": "LAWWW 先照 AA 的改名清單改顯示文字（內部 id 不改）；外觀 LAWWW2、室內 AA 兩間／BB 一間／CC 一間；併 GG-SHOPS-REDESIGN-1103",
+   "status": "進行中",
+   "next": "外觀 v1 已接（fb5d7f367）；店名改、頁間書屋門口移 x −36.4、慢輪單車室內（cc-testing 08378f56d bike.glb＋bike_layout.js）在單車子代理；待接：青木茶室室內（企劃線 16c1c6f16 aoki.glb＋src/data/aoki_layout.js v2，區域 aoki、22 席、點茶吧台東端 (3.9,−1.2)）、頁間書屋 v2（a6d78f484）——單車子代理合併後 LAWWW 接",
    "xai": {
     "spec": "AA_647（企劃線 24ff8562e）",
     "branch": "claude/second-ai-env-art",
