@@ -395,7 +395,7 @@ seats.finish(root, smooth=True); seatl.finish(root)
 
 # ---------------- v5b（LAWWW2 11-04 選 B：配置不縮，近景加東西）----------------
 EXTRA = []
-# 1)「本日放映」立牌（右前方、長椅和放映機中間，不擋中間走道）：黑色鐵架＋一張虛構的電影海報
+# 1)「本日放映」立牌（大廳右前方的空地毯上、面向入口；中間走道剩 x −1.77～2.45）：黑色鐵架＋一張虛構的電影海報
 def standee_tex(im, d):
     w, h = im.size; r = random.Random(11)
     for y in range(h): t = y / h; d.line([(0, y), (w, y)], fill=(int(40 + 140 * t), int(60 + 70 * t), int(110 - 40 * t)))   # 黃昏的天空
@@ -406,7 +406,7 @@ def standee_tex(im, d):
     d.rectangle([0, int(h * 0.8), w, h], fill=(30, 24, 22)); d.text((int(w * 0.08), int(h * 0.82)), '晚風月台', font=font(int(w * 0.16)), fill=(250, 236, 200))
     d.text((int(w * 0.1), int(h * 0.93)), '13:00　15:10', font=font(int(w * 0.07)), fill=(230, 214, 170))
 P['standee'] = tex('standee.png', (420, 640), standee_tex); IM['standee'] = img_mat('ny_standee', P['standee'], rough=0.6)
-sx_, sz_ = 3.35, 3.0
+sx_, sz_ = 2.9, 0.4
 stn = Mesh('STANDEE_FRAME', m_iron)
 stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
 for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
@@ -424,18 +424,18 @@ for k in range(n):   # 絨繩：中間垂下來的懸鏈線
     rope.cyl((qx, y0_, qz0 + (qz1 - qz0) * t0), (qx, y1_, qz0 + (qz1 - qz0) * t1), 0.022, seg=8)
 rp.finish(root, smooth=True); rope.finish(root, smooth=True)
 EXTRA.append([qx, (qz0 + qz1) / 2, 0.36, qz1 - qz0 + 0.36, '紅龍柱＋絨繩（櫃檯排隊那一條和中間走道中間；走道剩 x −1.77～3.3）'])
-# 3) 牆邊放傳單的鐵架（前牆、入口右邊）
-fx_, fz_ = 2.25, Z1 - 0.22
+# 3) 牆邊放傳單的鐵架（右牆、劇照板和入口之間，面向大廳）
+fz_, fx_ = 1.25, X1 - 0.02
 fr_ = Mesh('FLYER_RACK', m_iron); fl_ = CMesh('FLYERS', L.vc_material('ny_flyer_vc', rough=0.6))
-for dx in (-0.3, 0.3): fr_.box(fx_ + dx - 0.012, fx_ + dx + 0.012, 0.0, 1.45, fz_ - 0.12, fz_ - 0.1)
+for dz in (-0.3, 0.3): fr_.box(fx_ - 0.12, fx_ - 0.1, 0.0, 1.45, fz_ + dz - 0.012, fz_ + dz + 0.012)
 for k in range(4):
-    y = 0.45 + k * 0.28; z_ = fz_ - 0.1 - 0.06 * (3 - k)
-    fr_.box(fx_ - 0.3, fx_ + 0.3, y, y + 0.012, z_ - 0.12, z_); fr_.box(fx_ - 0.3, fx_ + 0.3, y + 0.012, y + 0.12, z_ - 0.125, z_ - 0.115)
-    for j in range(4):
-        x_ = fx_ - 0.27 + j * 0.14; c_ = ['#e8d8a8', '#c8443a', '#3a6a9a', '#f0ece0', '#6a8a4a', '#d89a3a'][(k * 4 + j) % 6]
-        fl_.cbox(x_, x_ + 0.12, y + 0.012, y + 0.22, z_ - 0.1, z_ - 0.085, c_)
-fr_.box(fx_ - 0.3, fx_ + 0.3, 1.43, 1.45, fz_ - 0.12, fz_ - 0.1); fr_.finish(root); fl_.finish(root)
-EXTRA.append([fx_, fz_ - 0.15, 0.7, 0.35, '放傳單的鐵架'])
+    y = 0.45 + k * 0.28; x_ = fx_ - 0.1 - 0.06 * (3 - k)
+    fr_.box(x_ - 0.12, x_, y, y + 0.012, fz_ - 0.3, fz_ + 0.3); fr_.box(x_ - 0.125, x_ - 0.115, y + 0.012, y + 0.12, fz_ - 0.3, fz_ + 0.3)
+    for j_ in range(4):
+        z_ = fz_ - 0.27 + j_ * 0.14; c_ = ['#e8d8a8', '#c8443a', '#3a6a9a', '#f0ece0', '#6a8a4a', '#d89a3a'][(k * 4 + j_) % 6]
+        fl_.cbox(x_ - 0.1, x_ - 0.085, y + 0.012, y + 0.22, z_, z_ + 0.12, c_)
+fr_.box(fx_ - 0.12, fx_ - 0.1, 1.43, 1.45, fz_ - 0.3, fz_ + 0.3); fr_.finish(root); fl_.finish(root)
+EXTRA.append([X1 - 0.2, fz_, 0.4, 0.7, '放傳單的鐵架（右牆）'])
 root['extraBlocks'] = json.dumps(EXTRA, ensure_ascii=False)
 
 # ---------------- 減量（SCENE_RULES 第 10 節：材質 ≤ 12）----------------
