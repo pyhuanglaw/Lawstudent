@@ -1871,7 +1871,7 @@ const Z3 = (function(){
     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
   /* ---------- 公館三間新室內（GG-SHOPS-REDO-1104；USER_WANTS X206；AA_647；LAWWW2 驗收 MODEL_READY）----------
      日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v4＝模型 v2b，story-planning 61a107016）、
-     頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v2，a6d78f484）、
+     頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v3＝模型 v3b，d593be119）、
      青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v3＝模型 v2c，697ed69cf）。
      接法照溫州街 wzShop、慢輪單車：room()（尺寸照配置）＋配置的導航阻擋（備用的家具色塊，D38 ③）＋座位＋互動點，正式模型 attachRoomGLB。
      配置檔沒有載入（Node 測試沒載、或拿掉）時 cvs、bookstore 照舊是舊的程序化室內，也沒有 aoki 區域（公館門口照舊外帶）。
@@ -1909,7 +1909,7 @@ const Z3 = (function(){
   /* 正式模型的資產登錄（url 照配置；不動 assets3d.js 的舊登錄：配置沒載入時 cvs、bookstore 照舊用舊模型）*/
   function ggReg(){ if(typeof ASSETS==='undefined'||!ASSETS.manifest) return; const reg=(key,L,src)=>{ if(L&&!ASSETS.manifest[key]) ASSETS.manifest[key]={url:L.glb,type:'building',lazy:true,source:src,license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; };
     reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 61a107016（v2b），配置 src/data/cvs_layout.js v4）');
-    reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning a6d78f484，配置 src/data/yejian_layout.js v2）');
+    reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning d593be119（v3b），配置 src/data/yejian_layout.js v3）');
     reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 697ed69cf（v2c），配置 src/data/aoki_layout.js v3）'); }
   ggReg();   /* 載入時登錄；建區域時再登錄一次（Node 測試 assets3d.js 可能比這個檔晚載入）*/
   /* AA 的兩間（頁間、青木）：GLOW_* 空節點＝燈的光暈（合成一個網格，照路燈開了沒切白天／晚上，和體育館一樣）；窗外的景是模型裡的一張圖（WALL_front_VIEW_*）：晚上調暗（和木曜日的街景卡一樣）*/
@@ -1931,7 +1931,7 @@ const Z3 = (function(){
   const GGS_KINDS={cvs:['hotfood','coffee','parcel','microwave','cooler'],bookstore:['shelf_browse','new_books','cafe_order'],aoki:['bookcase','vitrine','tea_tins','order']};
   function ggLooks(E,L,k){ for(const q of (L.interact||[])) if(GGS_KINDS[k].includes(q.kind)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind}); }
   function buildYejian(E){ const L=GG_L.bookstore();
-    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true,ap:s=>s.table===4?[3.45,-3.05]:null});   /* 沙發（table 4）：前面的茶几離沙發只有 0.3 m、東邊被盆栽擋住，從茶几西端 (3.45,−3.05) 走近 */   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
+    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true});   /* 頁間 v3b（AA d593be119，LAWWW2 驗過導航）：茶几往南 0.6 m、沙發往北 0.2 m，沙發前留 0.9 m——兩個位子照一般的走近（原本茶几離沙發只有 0.3 m，用 ap 從茶几西端走近，拿掉）*/   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
     const law=L.interact.find(q=>q.kind==='shelf_law');
     E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）*/
     ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
