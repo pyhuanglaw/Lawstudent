@@ -45708,7 +45708,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 23:1x】LAWWW2-C 補件 048f3498c 接進 07877ab98：右手筷子 hand_chopsticks、吃飯片段照筷子尖重擺、筆尖碰到紙；吃飯照舊不開（BB-C 22:43：坐的高度不對、桌子在胸口，先改坐下的高度）→ SIT-HEIGHT-1104（LAWWW2）｜【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "next": "【LAWWW-C 11-04 23:0x】補件 2（另外兩組骨架 F2／M2）LAWWW2 已交 bc862203f（寫字 24→38、打字 38→43 的覆蓋率），LAWWW2 說先不要接：坐下的高度（SIT-HEIGHT-1104）改了以後所有片段要重出，F、M、F2、M2 一起重交｜【LAWWW-C 11-04 23:1x】LAWWW2-C 補件 048f3498c 接進 07877ab98：右手筷子 hand_chopsticks、吃飯片段照筷子尖重擺、筆尖碰到紙；吃飯照舊不開（BB-C 22:43：坐的高度不對、桌子在胸口，先改坐下的高度）→ SIT-HEIGHT-1104（LAWWW2）｜【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
    "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
    "authorized": "使用者直接要求（X222）",
    "xai": {
@@ -45729,7 +45729,7 @@
    "title": "坐下的高度：女生、男生坐在 0.75 桌前，桌子在胸口（女生肩膀只比桌面高 11 cm），吃飯時頭幾乎埋到碗上——先改好坐下的高度，再開 NPC 吃飯片段（S.TASK_EAT 併回 S.TASK）；階梯教室的椅子高度、深度和坐姿對不上（大腿陷進扶手和椅面，BB-C 22:55，舊的靜態坐姿也一樣）一起看",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45748,9 +45748,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "character3d.js 部分交 patch（以 07877ab98 為底）；Node 座位相關測試 ALL PASS；CC 拍林家乾麵近景、總圖、教室女生坐著（NPCTASK_shots）BB 判",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 23:1x】派 LAWWW2-C（排在另外兩組骨架、Café 0.20 前面）；好了 LAWWW 接、再開吃飯片段",
+   "next": "【LAWWW-C 11-04 23:0x】LAWWW2-C ACK 23:04（開始做；character3d.js 給 patch、座位場景照 D108 直接改、附改前改後高度與頭離碗的距離）｜【LAWWW-C 11-04 23:1x】派 LAWWW2-C（排在另外兩組骨架、Café 0.20 前面）；好了 LAWWW 接、再開吃飯片段",
    "sha": null
   },
   {
@@ -46775,9 +46775,10 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
+   "next": "【LAWWW-C 11-04 23:0x】AA-C 23:03 AA_689 補（企劃線 fc3da48ca）：以安 2030 分開談那一場也改燒臘店（at30 字幕、開場旁白「點了兩份叉燒飯，一盤推到你面前」），3572a0c82｜【LAWWW-C 11-04 23:1x】AA-C 22:36 回 AA_689（企劃線 1f2983981）：39e6f0ca5 照做——PG_TAG 語彤四列、feed_pg yt1i 2029-11-22／yt4i 2029-12-15（字不動）、以安 S.TELL loc30「燒臘店，兩人桌」、study.yutong「她說我的那張明天貼。」；語彤不加 loc30、title 公館燒臘・長桌照現在、AA530 照 P3。還沒做：4-5 註解裡的「麵店」（postgrad3d.js 等 D118-B7 子代理合併以後再改）；要問 AA：r2y4b3d.js 分開談那一場以安 2030（at30 place「麵店，兩人桌」、open30「（麵店，兩人桌。她先到，點了兩碗……）」）要不要也改燒臘店｜【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
    "sha": [
-    "39e6f0ca5"
+    "39e6f0ca5",
+    "3572a0c82"
    ]
   }
  ]
