@@ -45955,6 +45955,59 @@
    "notWaitUser": "引擎修正，不用問使用者",
    "next": "【LAWWW-C 11-04 17:3x】原因：遠近只在 figTick 換，figTick 在 S.tick 裡——每 30 格一次（SwiftShader 1～4 fps＝8～30 秒；CC 只等 3 秒），而且對話中、玩家 busy（上課坐著）、睡覺時 S.tick 開頭就 return。修正：CLS.figLod，game3d.js frame 每 0.5 秒（真實時間）呼叫、不看 busy；tests/seated_figures_lod_unit.js ⑧ 修改前 FAILED 2、修改後 ALL PASS；相關 7 支 0 失敗。下一步：BB 排 CC 同一個鏡頭（NEAR=1）拍前後；替身方塊（SITAMB ⑧）是不是遠處版本才有，換近處以後一起看",
    "tests": "node tests/seated_figures_lod_unit.js"
+  },
+  {
+   "id": "AA681-LINES-1104",
+   "title": "AA_681 台詞第十三批 8 處：fit3d.js NOTICE、NOTICE_NOCARD 6 句（以安、沛珊「我只是看到了／觀察」、沛珊「我不是質疑」兩句、學姊「這句是稱讚」）、r2y4b3d.js:416 語彤 last（＝AA_677 cracktalk_lines.js:36 同一句）、ytjob3d.js:142 語彤「蘇姨聽到會難過」",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "健身房公告、語彤打工、大二以後的冷戰",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 17:24（企劃線 8f7ed02dd，第 1 列 96cfe9ada；outbox 6a430b829；D109）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_681（企劃線 96cfe9ada）",
+    "acceptance": "8 處換字；line_lint 照 D137；相關 Node 測試",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 17:3x】和 AA674、676、677、678 一起，在台詞八批子代理（664～673）和 AA675 子代理合併以後做；r2y4b3d.js:416 和 AA_677 cracktalk_lines.js:36 同一句，一起換"
+  },
+  {
+   "id": "ADV-LETTERBOX-1104",
+   "title": "ADV 圖片背景、CG 的時候收起劇情黑邊（GM.letterbox 的 8% 黑邊在 2D 圖片背景上看得到）",
+   "area": "UI",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P3",
+   "sha": "7b8474817",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次 ADV 圖片背景／CG",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 BB_255 P3",
+   "authorized": "D85",
+   "notWaitUser": "UI 修正，不用問使用者",
+   "evidence": "BB-C 11-04 17:24 PASS（雲端只看版面，BB_255 8b647e648；CC shots/ADV_LETTERBOX_1104）：圖片背景直向、橫向上下黑邊 0；3D 模糊背景照舊 8%；修改前 afd931ca0 看得到",
+   "tests": "node tests/adv_letterbox_unit.js",
+   "next": "不進 v9.10.20，進下一版"
   }
  ]
 }

@@ -17019,6 +17019,19 @@
    "task": "TEACH-PTBOYA-REF-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 16:3x 整合 031cb3e01"
+  },
+  {
+   "id": "DL-AA-8f7ed02dd",
+   "date": "2026-11-04T17:24Z",
+   "from": "AA",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8f7ed02dd",
+   "msg": "SENT",
+   "what": "AA_681 台詞第十三批 8 處（fit3d.js NOTICE／NOTICE_NOCARD 6 句、r2y4b3d.js:416 語彤 last＝AA_677 cracktalk_lines.js:36 同一句、ytjob3d.js:142 語彤）；第 1 列 96cfe9ada 又改一次；outbox 6a430b829（task DIALOGUE-DEPTH-1031）",
+   "task": "AA681-LINES-1104",
+   "integration": "未整合",
+   "note": "LAWWW-C 17:3x 登記；和 AA674／676／677／678 同一批"
   }
  ],
  "ignored": [
@@ -22351,6 +22364,14 @@
    "branch": "claude/cc-testing",
    "reason": "新生運動廣場 xinsheng_sports WIP（看改的檔案分類）；LAWWW-C 11-04 接班分類（D94／D135）",
    "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "308df73ce4",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "SOCLIB-2F-1104 WIP 檢查點（社科院圖書館東側館一樓＋二樓自習室 49 位、討論室；src/soclib2f3d.js、src/data/soclib2f_layout.js、tests/soclib2f_unit.js；還沒交付）；LAWWW-C 11-04 17:3x 分類（D94）",
+   "task": "SOCLIB-2F-1104"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"
