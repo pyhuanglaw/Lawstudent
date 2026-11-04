@@ -4262,12 +4262,18 @@
   },
   {
    "path": "docs/story_planning/AA_659_溫州街新室內_店內台詞.md",
-   "sha": "21beb9d12",
+   "sha": "bc021c7e1",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "WZ-SHOPS1-1104",
    "kind": "text",
-   "note": "這一版只接第 1 節 2:30 AM：「看唱片」三句（輪流第 1、2 句，22:00 以後固定第 3 句）、「看蛋糕櫃」20:00 前後各一句＋芷若在吧檯時第一次那一句、吧檯高腳椅「坐吧檯」與長桌兩端「坐下」（可以點杯咖啡慢慢讀）。照抄進 src/wzshops3d.js S.CAFE230、src/zones3d.js cafe230Add（tests/cafe230_aa657_unit.js 逐字對照）。第 2 節 SUNNY SIDE、第 3 節一盞前院先不做（模型還沒進遊戲）；WZ-SHOPS1-1104 第二批（SUNNY SIDE、小路、一盞室內接進遊戲）：第 2 節 SUNNY SIDE 六樣菜單與吃完的旁白、「看今日推薦」固定那句＋S.BOARD、舊存檔「半熟蛋吐司套餐」的老樣子對到班尼迪克蛋、吧台兩張高腳凳 tag bar（阿哲「坐在吧檯」）；第 3 節只接「看床之間的掛軸」第 1 句（新室內的掛軸是水墨山水）——前院四個互動、看院子搬家、第一次進冠木門的旁白等前院互動點的位置（tests/wz_interiors_aa659_unit.js）"
+   "note": "bc021c7e1（AA 11-04 07:49）：第 1 節 2:30 AM（看唱片、看蛋糕櫃、坐吧檯）、第 2 節 SUNNY SIDE（菜單、看今日推薦、舊存檔老樣子、吧台 tag bar）照舊；第 3 節一盞全部接：掛軸兩句（第 2 句加括號）、前院五個互動點（看院子搬到 (0.2, 8.2)、看石燈籠 (−1.5, 8.2)、看樟樹 (3.1, 8.4)、看貓碗 (4.05, 8.3)＋碗 (4.0, 8.7) 只在 WZ_CATBOWL、看門口的木牌 (−2.1, 9.0)）、第一次進前院的旁白（旗標 WZ_TEA_YARD_IN）。照抄進 src/wzshops3d.js S.TOKONOMA／S.YARD、src/data/wz_shops_layout.js 一盞前院 interact（tests/wz_interiors_aa659_unit.js、tests/cafe230_aa657_unit.js 逐字對照）。21beb9d12 在 history",
+   "history": [
+    {
+     "sha": "21beb9d12",
+     "approvedBy": "AA（D109）；2026-11-04 換成 bc021c7e1（AA 回 LAWWW 07:43：前院五個互動點座標、掛軸兩句統一加括號）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_657_一盞茶屋_劇情對位置的決定.md",

@@ -106,7 +106,7 @@ for(const f of ['src/data/shop_enc.js','src/shopenc3d.js','src/wzshops3d.js']){ 
 const W=typeof WZS!=='undefined'?WZS:null;
 check('B WZS.cafe230Line、S.CAFE230 在',!!W&&typeof W.cafe230Line==='function'&&!!W.CAFE230);
 if(!W||!W.CAFE230) return H.done();
-const DOC=git('origin/claude/story-planning',AA659)||git('21beb9d12',AA659);
+const DOC=git('bc021c7e1',AA659)||git('origin/claude/story-planning',AA659);   /* 2026-11-04 改：白名單換成 bc021c7e1（原本先讀企劃線最新、再 21beb9d12）——照白名單那一版對 */
 const C=W.CAFE230, all=[...C.record,...C.pastry,'芷若：'+C.pastryZr];
 if(!DOC) console.log('SKIP B 讀不到 '+AA659+'（企劃線沒 fetch）：逐字對照略過');
 else { const sec1=DOC.slice(DOC.indexOf('## 1. 2:30 AM'),DOC.indexOf('## 2.'));
@@ -179,6 +179,6 @@ const knock=async(key,h,sent)=>{ const d=DK(key); const G=fresh(d,h,'wenzhou'); 
   check('C 那天 21:00 以後照舊擋；邀請沒送出照舊擋；其他天（4/25 週三、4/27 週五）20:30 照舊擋',closed(x3)&&closed(x4)&&closed(x5)&&closed(x6),J({x3,x4,x5,x6}));
   check('C 那天 15:00（照常營業）進門不說旁白',x7.r!==true&&!x7.toasts.length&&!x7.said.length,J(x7));
   const al=JSON.parse(rd('docs/handoff/story_import_allow.json')).files, e659=al.find(q=>q.path===AA659), e657=al.find(q=>q.path===AA657);
-  check('C 劇情匯入白名單：AA_659（21beb9d12）、AA_657（65a1b2fe9，1aadca7e4 在 history），approved、AA（D109）',!!e659&&e659.sha==='21beb9d12'&&e659.status==='approved'&&e659.approvedBy==='AA（D109）'&&!!e657&&e657.sha==='65a1b2fe9'&&(e657.history||[]).some(h=>h.sha==='1aadca7e4')&&e657.status==='approved'&&e657.approvedBy==='AA（D109）');
+  check('C 劇情匯入白名單：AA_659（bc021c7e1，21beb9d12 在 history；2026-11-04 改期望：AA 前院五個互動點、掛軸加括號）、AA_657（65a1b2fe9，1aadca7e4 在 history），approved、AA（D109）',!!e659&&e659.sha==='bc021c7e1'&&(e659.history||[]).some(h=>h.sha==='21beb9d12')&&e659.status==='approved'&&e659.approvedBy==='AA（D109）'&&!!e657&&e657.sha==='65a1b2fe9'&&(e657.history||[]).some(h=>h.sha==='1aadca7e4')&&e657.status==='approved'&&e657.approvedBy==='AA（D109）');
   H.done(); })().catch(e=>{ check('C 例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); H.done(); });
 }
