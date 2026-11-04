@@ -396,6 +396,15 @@ await sec('11 TE-HEART-AVOID：一般的邀約避開語彤那一晚',()=>{
     else if(r.mode==='genFirst') check('11. '+r.t+'（一般的先接）：真的先回了一般的那一則、語彤那一則晚一點才回',r.ans.findIndex(a=>a.who!==YT&&a.k===0)>=0&&r.ans.findIndex(a=>a.who!==YT&&a.k===0)<r.ans.findIndex(a=>a.who===YT),J(r.ans));
     if(r.notSent.length) info('11. '+r.t+' '+r.mode+'：接了一般的那一則以後，'+r.notSent.map(id=>SOCIAL.displayName(id)).join('、')+' 的期末邀約沒有傳（「只能接一個」：接了就不再發，不是傳了再婉拒）');
     const ov=r.outs.some((a,i)=>r.outs.some((b,j)=>j>i&&a.day===b.day&&a.h<b.end&&b.h<a.end)); check('11. '+r.t+' '+r.mode+'：同一天沒有兩頓重疊',!ov,''); }
+  /* 【捷徑】（BB-C 21:45）：語彤那一則到以前，已經接了同一個週六 22:00 的一般邀約（子晴）——她那一則到了、接下來：時間不重疊＝兩頓都留 */
+  { const t='Y1S1', w=TERMEND.windowOf(t); teSetup(w); const G2='heroine_04'; SOCIAL.remember(G2,'FIRST_MET',''); H.FRIEND(G2); const TE=H.G.termend||(H.G.termend={}), C=TE.contact||(TE.contact={}); (C[t]||(C[t]={}))[G2]={pts:10,k:{}};
+    const P=TERMEND.plan(H.G,w), R0=TERMEND.rec(H.G,t); let sat=w.from; while(WD(sat)!==6) sat++;
+    OUT.plan(H.G,{id:'te_'+t,ev:'ev_termend_dinner',day:sat,h:22,late:0.25,place:'（測試）',title:'學期末的飯：'+SOCIAL.displayName(G2)+'（【捷徑】）',te:{term:t,who:G2,kind:'friend'}}); R0.picked={who:G2,kind:'friend'};
+    info('11. 【捷徑】'+t+'：語彤那一則到以前先放好、接好 '+SOCIAL.displayName(G2)+' '+K(sat)+'（六）22:00 的期末飯（OUT＋R.picked）；plan '+J({heart:P.heart,friend:P.friend}));
+    let asked=null; walk(w.from,9,w.to,23.75,0.25,(d,hh)=>{ if(asked) return; const m=(H.G.msgs||[]).find(x=>x.ask&&x.from===YT&&/^te_/.test(x.ask.id)); if(m&&(d>m.day||(d===m.day&&hh>=m.h))){ asked={day:m.day,h:m.h}; PHONE.answer(H.G,m.ask.id,0); STORY.phoneRules(GM); } });
+    const outs=OUT.rec(H.G).filter(q=>q&&/^te_/.test(q.id||'')).map(q=>({who:q.te&&q.te.who,d:K(q.day)+'（'+WDN(q.day)+'）',day:q.day,h:q.h,end:q.h+(q.hours||2),state:q.state}));
+    const g=outs.find(o=>o.who===G2), y=outs.find(o=>o.who===YT), ov=g&&y&&g.day===y.day&&g.h<y.end&&y.h<g.end;
+    check('11.【捷徑】先接的同一個週六 22:00、語彤那一頓時間不重疊：兩頓都留（BB-C 21:45）',!!asked&&!!g&&!!y&&g.state==='planned'&&y.state==='planned'&&g.day===sat&&y.day===sat&&!ov,J({asked:asked&&[K(asked.day),asked.h],outs})); }
   const fb=LOG.filter(x=>/^TE-HEART-AVOID 找不到別的晚上/.test(x)), lit=LOG.filter(x=>/^TE-HEART-AVOID 照字面互斥/.test(x)), other=LOG.filter(x=>/^TE-HEART-AVOID/.test(x)&&!fb.includes(x)&&!lit.includes(x));
   info('11. console.info 分開數（'+rows.length+' 輪）：「TE-HEART-AVOID 找不到別的晚上…」'+fb.length+' 次、「…照字面互斥…」'+lit.length+' 次、其他 TE-HEART-AVOID '+other.length+' 次；例 '+J([].concat(fb.slice(0,2),lit.slice(0,2),other.slice(0,2))).slice(0,500));
 });
