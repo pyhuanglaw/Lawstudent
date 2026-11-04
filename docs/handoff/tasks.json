@@ -39176,11 +39176,9 @@
    "title": "祐廷的生日（MM-DD）：人物設定、留給使用者（AA_384 第 4 項）。定了填 FEST_DATA.PLAYER_BDAY，芯慈交往中 00:00 那則（以及之後其他人的「你的生日」）才會發",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "pausedReason": "使用者的人物設定，AA 不定",
-   "resumeWhen": "使用者回來時一次問（選擇題，D117）",
-   "next": "【11-01 23:1x LAWWW-B】使用者選「交給 AA 挑」（不撞現有劇情、節日的日子）→ AA 定了寫進 FEST_DATA.PLAYER_BDAY 的稿，LAWWW 接｜【11-01 04:5x LAWWW-B】列進給使用者的選擇題批次",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：帳號 A 11-03 已做完——AA_639 祐廷生日 11/26（企劃線 afed9e592）；遊戲 src/data/fest_events.js PLAYER_BDAY:'11-26'（main 也有）；經濟系那年不發；剩瀏覽器看 11/26 那則訊息（排 CC）｜【11-01 23:1x LAWWW-B】使用者選「交給 AA 挑」（不撞現有劇情、節日的日子）→ AA 定了寫進 FEST_DATA.PLAYER_BDAY 的稿，LAWWW 接｜【11-01 04:5x LAWWW-B】列進給使用者的選擇題批次",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -39314,12 +39312,10 @@
    "title": "問使用者五個現行名稱：許教授的全名、小小福、杜鵑花節、女九、哥大（D115 改名以後怎麼叫）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
-   "pausedReason": "等使用者回答",
-   "resumeWhen": "使用者回來、適當時機用選擇題問（D117）",
    "nextCheck": "2026-11-08",
-   "next": "【11-02 03:0x LAWWW-B】LAWWW 的部分做完：哥大→紐約的法學院、杜鵑花節→松鼠節進換字規則（tools/rename/world_names.py _COMMON＋OLD、src/social3d.js WN_COMMON＋WN_OLD、tests/world_rename_unit.js），apply_game --apply 改 6 處（以安 ev_an_columbia 標題與台詞、群組那句、記憶名稱 AN_COLUMBIA、可昕動態的一句、邀約條件鍵「松鼠節（3 月）」），舊存檔比對鍵 NOTE_RENAMED_N9 照留（game_overrides skip）；重跑 import_ladder（AA_377 第 6 項的字改新名）、build_replies；apply_tests 改 aa377、r2y4b 兩支測試；WORLD_NAMING 第 8 節寫定案。AA 下一班：企劃稿換名（world_names.py apply）、女九→女生宿舍要不要進換字規則、「紐約的法學院上了。八月去紐約。」要不要換說法｜【11-01 23:2x LAWWW-B】使用者選擇題確認：另外三個照 AA 建議（許志遠不變、小小福→小小松、女九→女生宿舍）——五個都定了｜【11-01 23:1x LAWWW-B】使用者回：哥大→「紐約的法學院」、杜鵑花節→「松鼠節」（原話「哥大：紐約的法學院 杜鵑花節：松鼠節」）；其他三個（許志遠、小小福→小小松、女九→女生宿舍）使用者沒提＝照 AA 建議（AI解讀，沒確認）→ AA 更新 WORLD_NAMING、改稿上的句子（哥大那幾句要順，例：「哥大上了。八月去紐約。」），LAWWW 改遊戲裡的顯示文字（哥大約 9 處、杜鵑花節 4 處）｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：帳號 A 11-03 已做完——AA 企劃稿換名 53 檔 305 處＋WORLD_NAMING 第 8 節定案（企劃線 afed9e592）；LAWWW 的換字規則早就做完｜【11-02 03:0x LAWWW-B】LAWWW 的部分做完：哥大→紐約的法學院、杜鵑花節→松鼠節進換字規則（tools/rename/world_names.py _COMMON＋OLD、src/social3d.js WN_COMMON＋WN_OLD、tests/world_rename_unit.js），apply_game --apply 改 6 處（以安 ev_an_columbia 標題與台詞、群組那句、記憶名稱 AN_COLUMBIA、可昕動態的一句、邀約條件鍵「松鼠節（3 月）」），舊存檔比對鍵 NOTE_RENAMED_N9 照留（game_overrides skip）；重跑 import_ladder（AA_377 第 6 項的字改新名）、build_replies；apply_tests 改 aa377、r2y4b 兩支測試；WORLD_NAMING 第 8 節寫定案。AA 下一班：企劃稿換名（world_names.py apply）、女九→女生宿舍要不要進換字規則、「紐約的法學院上了。八月去紐約。」要不要換說法｜【11-01 23:2x LAWWW-B】使用者選擇題確認：另外三個照 AA 建議（許志遠不變、小小福→小小松、女九→女生宿舍）——五個都定了｜【11-01 23:1x LAWWW-B】使用者回：哥大→「紐約的法學院」、杜鵑花節→「松鼠節」（原話「哥大：紐約的法學院 杜鵑花節：松鼠節」）；其他三個（許志遠、小小福→小小松、女九→女生宿舍）使用者沒提＝照 AA 建議（AI解讀，沒確認）→ AA 更新 WORLD_NAMING、改稿上的句子（哥大那幾句要順，例：「哥大上了。八月去紐約。」），LAWWW 改遊戲裡的顯示文字（哥大約 9 處、杜鵑花節 4 處）｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；併進「使用者回來要問的」那一批（祐廷生日、圖 100～102、照片比對、iPhone ?debug）",
    "first": {
     "term": "META",
     "week": 0,
@@ -39338,7 +39334,8 @@
     "acceptance": "五個名稱定案、寫進 WORLD_NAMING",
     "receiver": "AA",
     "ack": "自領"
-   }
+   },
+   "evidence": "企劃線 afed9e592"
   },
   {
    "id": "LAKE-LAMPS-STAGGER-1101",
@@ -43341,10 +43338,10 @@
    "id": "GUITAR-CLUB-1103",
    "title": "吉他店＋吉他社劇情（參加要買吉他、社遊、可攻略對象劇情）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "note": "X196",
-   "next": "同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：AA_619 已交（企劃線 22a6c4d43）；原本 next 寫「新店建模等使用者給參考圖」是貼錯的；系統接線開 AA619-GUITAR-1104（LAWWW，v9.10.20 以後）｜同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA",
    "xai": {
     "spec": "X196；任務 next 欄",
     "branch": "claude/story-planning",
@@ -43482,17 +43479,19 @@
    "id": "CLASSMATE-JOBS-1103",
    "title": "同學在打工：約了來不了因為在打工",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "X177；同 AA614-CLASSMATE-JOBS-1103",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：被 AA614-CLASSMATE-JOBS-1103 取代｜照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
    "xai": {
     "spec": "X177；同 AA614-CLASSMATE-JOBS-1103；任務 next 欄",
     "branch": "claude/story-planning",
     "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "replacedBy": "AA614-CLASSMATE-JOBS-1103",
+   "reason": "AA 的稿已交（AA_613／AA_614），系統實作是 AA614-CLASSMATE-JOBS-1103（LAWWW）；next 欄原本貼錯成新店建模"
   },
   {
    "first": {
@@ -43509,17 +43508,19 @@
    "id": "OPENING-INVITE-1103",
    "title": "開學活動、社團博覽會有同學約一起去；系籃怎麼參加要說",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "X176；同 AA613-OPENING-ACTS-1103",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:18：被 AA613-OPENING-ACTS-1103 取代｜照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
    "xai": {
     "spec": "X176；同 AA613-OPENING-ACTS-1103；任務 next 欄",
     "branch": "claude/story-planning",
     "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "replacedBy": "AA613-OPENING-ACTS-1103",
+   "reason": "AA 的稿已交（AA_613／AA_614），系統實作是 AA613-OPENING-ACTS-1103（LAWWW）；next 欄原本貼錯成新店建模"
   },
   {
    "first": {
@@ -43620,17 +43621,18 @@
    "id": "STALE-SCRIPTS-1103",
    "title": "舊企劃腳本和現行不同的標「作廢」或備註已修改（全面清查）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "note": "AA 自己的企劃線",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:20 更正：帳號 A 11-03 已做完（AA_628）；文件工作、不進遊戲｜照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
    "xai": {
     "spec": "AA 自己的企劃線；任務 next 欄",
     "branch": "claude/story-planning",
     "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "evidence": "企劃線 61959f161（AA_628：64 支同步、20 支過時加「已修改，此腳本過時」）、487572f8f（common_bb.json、BB_102 大四上標作廢）"
   },
   {
    "first": {
@@ -44229,7 +44231,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【11-04 12:3x LAWWW-C】duty find＝claude/modest-rubin-2lyp7g（上一任 B，已交班）；快轉 1827 個 commit 到 b61337187；check／duty verify／roles／asks OK；incr 918 項（LAWWW2 192、AA 179、BB 179、CC 359 未分類＋LAWWW2 outbox 寫法）待分類；LAWWW-C duty register 完成；下一步：通訊測試（LAWWW2-C、AA-C、BB-C、CC-C）、duty sync、check_orphans、branch_audit、incr 分類",
+   "next": "【LAWWW-C 11-04 13:3x】duty sync 修好（45e64135d：上一筆沒有 since 拿 handedOffAt 比，handoff_duty_sim 26／26）；CC-C 登記 sync（fd989b03c）——五職位都是帳號 C；剩：duty verify 異常 6 三項誤報（交班紀錄 commit）、check 第 6 項、incr 104 項分類、兩個舊 worktree bundle、接班確認｜【11-04 12:3x LAWWW-C】duty find＝claude/modest-rubin-2lyp7g（上一任 B，已交班）；快轉 1827 個 commit 到 b61337187；check／duty verify／roles／asks OK；incr 918 項（LAWWW2 192、AA 179、BB 179、CC 359 未分類＋LAWWW2 outbox 寫法）待分類；LAWWW-C duty register 完成；下一步：通訊測試（LAWWW2-C、AA-C、BB-C、CC-C）、duty sync、check_orphans、branch_audit、incr 分類",
    "first": {
     "term": "META",
     "week": 0,
@@ -44251,7 +44253,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【11-04 12:5x LAWWW-C】使用者選：①合併重複章節（D135；沒選「流程只寫一處」「提示詞一份範本」）②incr 只逐筆分類會改遊戲的 commit（D135）。做法：check_handoff.py incr 改＋回歸測試；CLAUDE.md 合併（舊條文搬 docs/history/CLAUDE_superseded_1104.md，對照表）；HV-26；另外 LAWWW 自己修三種誤報（duty sync 上一筆沒有 since、duty verify 交班紀錄 commit、check 第 6 項和 incr 重複）｜【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
+   "next": "【LAWWW-C 11-04 13:3x】加 ASK-USER-LIST-1104（要問使用者的清單，守住第二個原則）｜【11-04 12:5x LAWWW-C】使用者選：①合併重複章節（D135；沒選「流程只寫一處」「提示詞一份範本」）②incr 只逐筆分類會改遊戲的 commit（D135）。做法：check_handoff.py incr 改＋回歸測試；CLAUDE.md 合併（舊條文搬 docs/history/CLAUDE_superseded_1104.md，對照表）；HV-26；另外 LAWWW 自己修三種誤報（duty sync 上一筆沒有 since、duty verify 交班紀錄 commit、check 第 6 項和 incr 重複）｜【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
    "first": {
     "term": "META",
     "week": 0,
@@ -44662,6 +44664,129 @@
    "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 F13 起身點、F12 走近點（yaw π：前面是出餐檯、站不住）和 seatMenu／freeSeat",
    "source": "BB-C 11-04 13:10（CC-C 雲端 r2，46d459625）",
    "evidence": ""
+  },
+  {
+   "id": "HAIR-NOODLE-1104",
+   "title": "人物的頭髮太像泡麵（使用者 11-04 13:2x 對 CC-C：「人物的頭髮真的太像泡麵了」；UA-CC-1104-03）：先找原因（近景探針），再提改法",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開新遊戲第一次看到人物近景",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:3x】LAWWW2-C 13:1x：人物 3D 是 LAWWW2 的，請 CC 排近景探針先找原因（髮片幾何、matcap、法線、彈簧骨？），原因出來提改法；人物外觀改法 LAWWW 驗收（D100a、D128），BB 可給意見；不擋 v9.10.20",
+   "source": "使用者 11-04 13:2x 對 CC-C（UA-CC-1104-03，CC-C 13:16 轉 LAWWW-C）",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "spec": "UA-CC-1104-03（user_asks_CC.json）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "近景截圖頭髮不再像一條條泡麵（髮束有層次、不是等粗圓管）；LAWWW 看遊戲內截圖驗收",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "CANON-PURGE-1104",
+   "title": "人物設定檔刪掉和現行設定不符的字（使用者 11-04 13:4x 對 AA-C：「人物設定如果作廢的部分可以直接刪掉嗎……那就把每個人物不符合現在設定的都刪掉」「我不是叫你整個文件刪掉，我是叫你把文件裡面和現在不符合的字刪掉」；UA-AA-1104-19）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:3x】AA-C 13:24：檔案留著、只刪不符的字——00_現行設定總表、00_人物口氣表、voice_canon 17 份、AA_10／113／11／112／545／12／159／162、BB_05／103／02／139／144；AA 派子代理分四組；遊戲 characters.js 的部分是 CANON-PURGE-SRC-1104（LAWWW）",
+   "source": "使用者 11-04 13:4x 對 AA-C（UA-AA-1104-19，AA-C 13:24 轉 LAWWW-C）",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "spec": "UA-AA-1104-19",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "列出的人物設定檔裡沒有和 00_現行設定總表不符的句子（語彤的麵店背景、舊志向等）；檔案都還在",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "CANON-PURGE-SRC-1104",
+   "title": "遊戲 src/data/characters.js 刪改和現行人物設定不符的欄位（CANON-PURGE-1104 的程式部分；例：語彤 family_context 還是麵店、career_goal 舊志向、social_circle 的 sis）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "手機人物頁、人物資料",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:3x】等 AA-C 列清單（哪個人物、哪個欄位、改成什麼）；收到後改 characters.js、跑人物資料相關 Node 單元測試；台詞與畫面字樣照 AA 清單，不自己改設定",
+   "source": "AA-C 11-04 13:24（使用者 13:4x UA-AA-1104-19）",
+   "authorized": "使用者直接要求",
+   "pausedReason": "等 AA 清單",
+   "resumeWhen": "AA-C 交 characters.js 刪改清單"
+  },
+  {
+   "id": "ASK-USER-LIST-1104",
+   "title": "接班／交班一定列出「要問使用者」的任務（AA-C 11-04 13:18 提議；使用者 13:2x 問 AA-C：「做到一半的東西，為什麼之後的帳號沒有收到還沒做完的訊息」；起因 VAC-GAP-ROUTES 暫停的恢復條件是「使用者說繼續」，帳號 A 記了醒來要問、沒問就交班）",
+   "area": "HANDOFF",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:3x】做法：check_handoff.py 新子指令（或 check 的一項）列出狀態暫停／待開工／等待、而且 resumeWhen 或 next 寫「使用者」（說繼續、回來問、選擇題、等使用者）的任務；接班確認要逐項寫「問了／沒問、原因」，交班快照的「下一班第一步」自動帶進去；回歸測試用 VAC-GAP-ROUTES 的真實案例（舊工具看不到、新工具列出）；屬於 HANDOFF-SLIM-1104 守住的第二個原則（做到一半的事一定有人接）",
+   "source": "AA-C 11-04 13:18（使用者 13:2x 問 AA-C）",
+   "authorized": "使用者直接要求（守住交接原則，HANDOFF-SLIM-1104）"
+  },
+  {
+   "id": "AA619-GUITAR-1104",
+   "title": "AA_619 同弦樂器（吉他店）、買吉他、吉他社社遊（宜蘭兩天一夜、陽明山，子晴）接進遊戲（GUITAR-CLUB-1103 的系統部分）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "社團博覽會以後加入吉他社",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "next": "【LAWWW-C 11-04 13:3x】v9.10.20 發布以後派子代理照 AA_619（企劃線 22a6c4d43）實作；同弦二樓室內 tongxian.glb 照舊等 MODEL_READY 驗收（BB 代驗，D132）",
+   "source": "AA-C 11-04 13:18（GUITAR-CLUB-1103 next 欄貼錯，LAWWW 決定開系統任務）",
+   "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
+   "pausedReason": "v9.10.20 擋發布項目先做",
+   "resumeWhen": "v9.10.20 發布以後"
   }
  ]
 }

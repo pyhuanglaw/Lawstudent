@@ -557,6 +557,8 @@
 | X217 | 坐下「讀書」的人不一定在讀書：咖啡廳、圖書館裡坐著的人要有筆記型電腦、平板、滑手機、看書、寫筆記各種樣子，桌上要有東西 | 11-04 06:2x（對 LAWWW；UA-LAWWW-1104-73） | 在開發分支 | SEAT-ACTIVITY-1104（LAWWW 程式；桌上小物用 LAWWW2 desk_props.glb 的 rset／tset／lset／hold_phone；平板模型要新做）；開發分支 1fa3cfee0 之後合併（seatact3d.js；筆電、寫筆記、看書、滑手機、休息＋桌上小物）；平板等 LAWWW2 做 item_tablet／hold_tablet；吃飯的店碗盤沒模型；瀏覽器實看排 CC | 11-05 |
 | X218 | 週額度 93%（還有約兩小時、還沒要交班）：手邊做到一半的先放到 GitHub，通知每個 AI（含 CC） | 11-04 07:4x（對 LAWWW；UA-LAWWW-1104-74） | 已完成 | LAWWW：子代理成果全部合併推上開發分支、SEAT-ACTIVITY WIP 先 bundle 備份；已通知 LAWWW2、AA、BB、CC 各自 commit＋push 回 SHA | — |
 | X219 | 帳號 A 交班：等其他 AI 交班後 LAWWW 檢查完畢再交班；不用再每小時啟動（D129 保險喚醒停用） | 11-04 09:0x（對 LAWWW；UA-LAWWW-1104-75） | 已完成 | LAWWW：收子代理、確認 LAWWW2／AA／BB／CC 交班登記、roles／incr／duty verify、存快照、duty handoff、停用每小時保險喚醒 | 11-04 |
+| X220 | 人物的頭髮太像泡麵：近景看起來一條條等粗的麵條，要改 | 11-04 13:2x（對 CC-C；UA-CC-1104-03） | 進行中 | HAIR-NOODLE-1104（LAWWW2：CC 排近景探針先找原因，再提改法；人物外觀 LAWWW 驗收，D100a、D128）；不擋 v9.10.20 | 11-05 |
+| X221 | 人物設定檔裡和現在設定不符的字直接刪掉（檔案留著，只刪不符的字；不是整份刪） | 11-04 13:4x（對 AA-C；UA-AA-1104-19） | 進行中 | CANON-PURGE-1104（AA：00_現行設定總表、00_人物口氣表、voice_canon 17 份、各人物事件書與企劃的設定段落，子代理分四組）；CANON-PURGE-SRC-1104（LAWWW：遊戲 characters.js 不符的欄位，等 AA 清單） | 11-05 |
 
 ---
 

@@ -209,6 +209,20 @@ dv['scannedThrough'] = {br: 'deadbeef'}
 open(os.path.join(d, 'docs/handoff/deliveries.json'), 'w').write(json.dumps(dv, ensure_ascii=False))
 code, out = run(d, 'git')
 expect('6 掃描：commit 找不到 → 「沒有檢查」、不報 OK', code == 1 and '[沒有檢查]' in out, out)
+# 6 和 incr 不重複報（2026-11-04 帳號 C 快轉後 24 項誤報）：分支是現在某職位的分支、那個職位有水位線 → 交給 incr，不用關鍵字再報；
+#   沒有水位線的職位照舊掃（incr 會因為沒有水位線報異常，兩邊都不會漏）
+g('update-ref', 'refs/remotes/origin/lw2', 'HEAD')
+dv['scannedThrough'] = {'origin/lw2': base}
+dv['deliveries'] = [x for x in dv['deliveries'] if x['id'] != 'DLV-2']
+dv['ignored'] = []
+open(os.path.join(d, 'docs/handoff/deliveries.json'), 'w').write(json.dumps(dv, ensure_ascii=False))
+os.makedirs(os.path.join(d, 'docs/handoff'), exist_ok=True)
+open(os.path.join(d, 'docs/handoff/duty.json'), 'w').write(json.dumps({'roles': {'LAWWW2': {'account': 'C', 'branch': 'lw2', 'state': 'on'}}}, ensure_ascii=False))
+code, out = run(d, 'git')
+expect('6 掃描：職位沒有水位線 → 照舊用關鍵字報（兩個）', out.count('[異常 6]') == 2, out)
+open(os.path.join(d, 'docs/handoff/watermarks.json'), 'w').write(json.dumps({'roles': {'LAWWW2': {'branch': 'lw2', 'sha': g('rev-parse', base)}}}, ensure_ascii=False))
+code, out = run(d, 'git')
+expect('6 掃描：職位有水位線 → 交給 incr、不重複報（結束碼 0、印出交給 incr）', code == 0 and '[異常 6]' not in out and '交給 incr' in out, out)
 shutil.rmtree(d)
 
 # 10 跨 AI 任務的 xai 欄位（D84 第 3 條）

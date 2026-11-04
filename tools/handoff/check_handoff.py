@@ -273,7 +273,15 @@ def check(args):
                     except Exception:
                         pass
             path_ok = lambda br, sha: bool(INC.any_owner(INC.commit_files(args.root, sha), _role_of.get(br, 'LAWWW'), _ob))
+            try:   # 現在職位的分支有水位線＝incr 逐筆核對（水位線以後每個 commit 都要結構化分類，D94；只改文件的由交班全部待辦涵蓋，D135）
+                _wm = json.loads(src.read(INC.WM)).get('roles') or {}
+            except (FileNotFoundError, ValueError):
+                _wm = {}
             for br, base in (dv.get('scannedThrough') or {}).items():
+                _r = _role_of.get(br)
+                if _r and (_wm.get(_r) or {}).get('sha'):   # 2026-11-04：關鍵字掃描和 incr 重複報同一批 commit（帳號 C 快轉 1827 個 commit 後 24 項誤報）
+                    info.append(f'{br}：{_r} 有水位線，交付登記交給 incr 逐筆核對（D94、D135；不用關鍵字重複報）')
+                    continue
                 lines = git_lines(args.root, 'log', '--no-merges', '--format=%h %s', f'{base}..{br}')
                 if lines is None:
                     skipped.append(f'6（{br} 從 {base} 以後）：git 找不到這個分支或 commit（先 git fetch）')
