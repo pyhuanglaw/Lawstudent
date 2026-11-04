@@ -1,0 +1,23 @@
+{
+  "rerun": "wz1",
+  "id": "WZ2_perf_B1",
+  "sha": "10b6ebbf8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_perf_probe.py",
+  "env": "RUN=wzB1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={\"x\":10,\"z\":0,\"yaw\":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={\"wz_east\":[[2,1.7,1.5],[40,3.5,-3]],\"wz_west\":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:14:59",
+  "end": "2026-11-04T21:17:22",
+  "seconds": 144,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 27,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 27
+  }
+}

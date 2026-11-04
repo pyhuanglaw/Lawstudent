@@ -1,0 +1,20 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_perf_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ2_perf_B1\out
+CC 溫州街效能原始數字；RUN=wzB1；SHA=10b6ebbf8；ZONE=wenzhou；GLB=wenzhou_street_glb；VIEWS=wz_east,wz_west；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 一般網址：遊戲載入  17.2 秒
+  [前置／捷徑] 讀檔到溫州街 17.5 時 {"x": 10, "z": 0, "yaw": 1.5708}，條件事件關閉
+PASS 一般網址：正式模型 wenzhou_street_glb 有載入  {"讀檔到區域建好_s": 12.28, "讀檔到正式模型出現_s": 14.24}
+  一般網址：讀檔→區域 12.28 秒；讀檔→正式模型 14.24 秒；GLB 下載 []
+  一般網址：記憶體／貼圖 {"textures": 300, "geometries": 589, "texCount": 233, "texPixels": 39746374, "texMP": 39.75, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}
+  一般網址 wz_east：draw call 299、三角形 425862（藏路人）；FPS 平均 44.71、最低 14.99、1%low 22.2（358 格；路人在：call 332／tris 506769）；遊戲時間 17.597、路人 8（在場景 8）
+  一般網址 wz_west：draw call 252、三角形 342059（藏路人）；FPS 平均 50.42、最低 29.94、1%low 32.34（404 格；路人在：call 336／tris 461368）；遊戲時間 17.666、路人 8（在場景 8）
+PASS 一般網址：沒有 JS 例外  []
+PASS ?nobldg：遊戲載入  15.5 秒
+  [前置／捷徑] 讀檔到溫州街 17.5 時 {"x": 10, "z": 0, "yaw": 1.5708}，條件事件關閉
+  ?nobldg：讀檔→區域 9.45 秒；讀檔→正式模型 None 秒；GLB 下載 []
+  ?nobldg：記憶體／貼圖 {"textures": 167, "geometries": 226, "texCount": 126, "texPixels": 8823395, "texMP": 8.82, "biggest": {"w": 2048, "h": 256, "name": "map"}}
+  ?nobldg wz_east：draw call 247、三角形 228766（藏路人）；FPS 平均 61.6、最低 13.64、1%low 24.56（493 格；路人在：call 262／tris 260827）；遊戲時間 17.591、路人 8（在場景 8）
+  ?nobldg wz_west：draw call 253、三角形 285282（藏路人）；FPS 平均 63.52、最低 30.03、1%low 33.33（509 格；路人在：call 292／tris 380362）；遊戲時間 17.658、路人 8（在場景 8）
+PASS ?nobldg：沒有 JS 例外  []
+表：{"wz_east": {"calls": 299, "nobldg_calls": 247, "limit_1.3x": 321.1, "margin": 22.1, "ratio": 1.2105, "tris": 425862, "tris_limit": 420000, "tris_margin": -5862, "fps_avg": 44.71, "fps_min": 14.99, "fps_low1": 22.2, "nobldg_fps_avg": 61.6, "nobldg_fps_min": 13.64}, "wz_west": {"calls": 252, "nobldg_calls": 253, "limit_1.3x": 328.9, "margin": 76.9, "ratio": 0.996, "tris": 342059, "tris_limit": 420000, "tris_margin": 77941, "fps_avg": 50.42, "fps_min": 29.94, "fps_low1": 32.34, "nobldg_fps_avg": 63.52, "nobldg_fps_min": 30.03}, "_mem": {"formal": {"textures": 300, "geometries": 589, "texCount": 233, "texPixels": 39746374, "texMP": 39.75, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}, "nobldg": {"textures": 167, "geometries": 226, "texCount": 126, "texPixels": 8823395, "texMP": 8.82, "biggest": {"w": 2048, "h": 256, "name": "map"}}, "glb_kb_total": 0, "glb_files": [], "glb_s": 14.24}}
+GLB 載入：讀檔→正式模型 14.24 秒；檔案 []
+ALL PASS
