@@ -1,0 +1,391 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_ctl\out
+CASES=["heroine_01", "heroine_03", "classmate_bohan"] STEPS=["invite", "invite_study", "phone_date"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=False PHONE_AUTO=False
+PASS [heroine_01] 遊戲載入
+== 人物 heroine_01 沈以安 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 9, "Y2S2": 8, "Y3S1": 8, "Y3S2": 4, "Y4S1": 8, "Y4S2": 8, "Y1S1": 11}、店內偶遇 [{"spot": "cafe", "join": "friend"}]、自由出行 ["D06", "D26", "D09"]）
+-- [heroine_01] invite
+  [前置／捷徑] [heroine_01] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_01] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 9.5, "library", "看書"], ["2025-09-16", 9.5, "library", "看書"], ["2025-09-17", 9.5, "library", "看書"], ["2025-09-18", 9.5, "library", "看書"], ["2025-09-23", 9.5, "library", "看書"], ["2025-09-25", 9.5, "library", "看書"], ["2025-09-29", 9.5, "library", "看書"], ["2025-09-30", 9.5, "library", "看書"]]
+  [前置／捷徑] [heroine_01] 讀檔：invite：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] 到達「沈以安 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_01] invite：約「去總圖一起念書」（總圖，library_hall；同一區）
+  [heroine_01] invite 約現在：按「和沈以安說話」
+PASS [heroine_01] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] invite 約現在 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [heroine_01] invite 約現在：對話一路點得完  0 個選單
+PASS [heroine_01] invite 約現在：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] invite 約現在：15 秒內回到可以自由移動
+PASS [heroine_01] invite 約現在：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] invite 約現在：沒有新的 JS 例外
+PASS [heroine_01] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] invite 約現在：搖桿推得動（≥0.3 m）  2.71 m
+PASS [heroine_01] invite 約現在：點地走得動（≥0.3 m）  點 [0.76, -8.66]，走了 1.00 m
+PASS [heroine_01] invite 約現在：遊戲時間有在走  9.6702→9.6905
+PASS [heroine_01] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] invite：約好的 []
+INFO [heroine_01] invite：她沒有答應（或時間不對）  ["｜（她抬頭看到你，點了一下頭。）"]
+-- [heroine_01] invite_study
+-- [heroine_01] phone_date
+  [前置／捷徑] [heroine_01] 讀檔：phone_date：平日早上在校園（今天還有很多時段可以約）（campus 21 9.00）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] phone_date 開始前：15 秒內回到可以自由移動
+PASS [heroine_01] phone_date 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] phone_date 開始前：搖桿推得動（≥0.3 m）  2.36 m
+PASS [heroine_01] phone_date 開始前：點地走得動（≥0.3 m）  點 [27.16, 32.54]，走了 1.00 m
+PASS [heroine_01] phone_date 開始前：遊戲時間有在走  9.0992→9.1194
+PASS [heroine_01] phone_date 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_01] phone_date：手機約得到的地點×時間（照 INV.decide 預測她的回答）67 種：[["去兩點半 Café 坐坐", "今天 12:10", "accept"], ["去兩點半 Café 坐坐", "今天 15:30", "accept"], ["去兩點半 Café 坐坐", "今天 17:30", "accept"], ["去兩點半 Café 坐坐", "今天 19:00", "accept"], ["去兩點半 Café 坐坐", "今天 21:00", "accept"], ["去兩點半 Café 坐坐", "明天 12:10", "accept"], ["去兩點半 Café 坐坐", "明天 19:00", "accept"], ["去總圖一起念書", "今天 12:10", "accept"], ["去總圖一起念書", "今天 15:30", "accept"], ["去總圖一起念書", "今天 17:30", "accept"], ["去總圖一起念書", "今天 19:00", "accept"], ["去總圖一起念書", "今天 21:00", "accept"], ["去總圖一起念書", "明天 12:10", "accept"], ["去總圖一起念書", "明天 19:00", "accept"], ["去公館燒臘吃飯", "今天 12:10", "accept"], ["去公館燒臘吃飯", "今天 15:30", "accept"], ["去公館燒臘吃飯", "今天 17:30", "accept"], ["去公館燒臘吃飯", "今天 19:00", "accept"], ["去公館燒臘吃飯", "今天 21:00", "accept"], ["去公館燒臘吃飯", "明天 12:10", "accept"], ["去公館燒臘吃飯", "明天 19:00", "accept"], ["去溫州街散步", "今天 12:10", "resched"], ["去溫州街散步", "今天 15:30", "resched"], ["去溫州街散步", "今天 17:30", "resched"]]
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書）：約之前）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+以安
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_01] phone_date 念書（去總圖一起念書） 約 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_01] phone_date 念書（去總圖一起念書） 約 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_01] phone_date 念書（去總圖一起念書） 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_01] phone_date 念書（去總圖一起念書） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_01] phone_date 念書（去總圖一起念書） 約（去總圖一起念書 今天 12:10，預期 accept）台詞：["沈以安（手機）｜「好。那天你不要排別的。」", "｜約好 今天 12:10，總圖。"]
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約：手機約一路點得完
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：沒有新的 JS 例外
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：搖桿推得動（≥0.3 m）  3.08 m
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：點地走得動（≥0.3 m）  點 [27.15, 37.95]，走了 0.99 m
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：遊戲時間有在走  9.2184→9.2385
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 約：約成（library 21 12.17）
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書）：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["直接過去：和沈以安約在總圖（12:10）", "自己走過去"] → 選「直接過去：和沈以安約在總圖（12:10）」
+  [heroine_01] phone_date 念書（去總圖一起念書） 選單 ["「因為人身自由最重要？」", "「因為以前被拿走過？」", "「我沒有想過。」"] → 選「「因為人身自由最重要？」」
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：約會中時間有往前走  遊戲時間 1.72 小時（21 11.73 → 21 13.45）
+INFO [heroine_01] phone_date 念書（去總圖一起念書）：錢 30000 → 30000（+0）  
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 2, "comf": 1, "rom": 1, "npcRom": 1}, "mem": "1→3 ['FIRST_MET', 'STUDIED_TOGETHER', 'REPORT_PARTNER']"}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：對話沒有空白的句子  []
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：說話的人名字不是 id  []
+  [heroine_01] phone_date 念書（去總圖一起念書）：對話紀錄 9 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_ctl\out\heroine_01_phone_date__transcript.json
+    （旁白）｜閉館音樂響了，她才抬頭問你晚餐吃什麼。
+    沈以安｜憲法第八條，是本文裡最長的一條。你知道為什麼嗎？
+    沈以安｜這是一半。
+    沈以安｜新店有一個地方，以前是軍事法庭和看守所。現在是博物館。
+    沈以安｜我一直想去看一次。
+    沈以安｜一個人去的話，我會一直寫筆記。……所以還沒去。
+    沈以安｜下次換我挑地方。
+    沈以安｜民總的報告，老師分組那天你沒來。
+    沈以安｜我把你寫在我這組了。剩下的人裡，你最不會遲交。
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 3.6, "spawnD": 8.11}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 2 次，最遠 1.29 m：[1.29, 1.29]
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "library_hall", "doorD": 3.76, "nD": 1.29, "pseat": false, "nseat": true}
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 坐下旁白  （你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）  ["（小聲）我讀行政法，你讀你的。……不懂再問我。", "（小聲）我讀到六點。你呢？", "（小聲）手機先收起來。"]
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）  ["（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）", "（小聲）……休息五分鐘。", "（小聲）你的筆借我。我的沒水了。", "（她讀到一半，把一顆喉糖放在你的書旁邊。）"]
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 收書  ["（閉館前十分鐘的廣播響了。）", "（她闔上書，伸了一個懶腰。）", "（小聲）走吧。"]
+FAIL [heroine_01] phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））  ["下次換你決定讀哪一科。", "今天讀得比我想的多。……下次再約。", "好累。……可是很好。"]
+INFO [heroine_01] phone_date 念書（去總圖一起念書）：總圖裡她說的話沒有「（小聲）」的（道別以外）  ["憲法第八條，是本文裡最長的一條。你知道為什麼嗎？", "這是一半。", "新店有一個地方，以前是軍事法庭和看守所。現在是博物館。", "我一直想去看一次。", "一個人去的話，我會一直寫筆記。……所以還沒去。"]
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：15 秒內回到可以自由移動
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：沒有新的 JS 例外
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：搖桿推得動（≥0.3 m）  2.43 m
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：點地走得動（≥0.3 m）  點 [-5.74, 8.25]，走了 1.01 m
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：遊戲時間有在走  13.4728→13.4929
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：結束後玩家起身了  {"seat": false}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：約念書結束後她也起身（或走了）  {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 2.22, "spawnD": 5.91, "npc": true, "nD": 14.08, "nbeh": "leave", "nleaving": true, "nx": 6.38, "nz": 0.88, "p": [-5.73, 8.05]}
+PASS [heroine_01] phone_date 念書（去總圖一起念書）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 2.22, "spawnD": 5.91, "npc": true, "nD": 14.08, "nbeh": "leave", "nleaving": true, "nx": 6.38, "nz": 0.88, "p": [-5.73, 8.05]}}
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書） X207-二樓滿了：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] phone_date 念書（去總圖一起念書） X207-二樓滿了：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）
+  [heroine_01] phone_date 念書（去總圖一起念書） X207-二樓滿了 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_01] phone_date 念書（去總圖一起念書） X207-二樓滿了：出發、到場、見面那一場一路點得完
+FAIL [heroine_01] phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.89, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_01] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：出發、到場、見面那一場一路點得完
+FAIL [heroine_01] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.5647, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [heroine_01] phone_date 念書（去總圖一起念書）：見面那一場的選單 2 個，換選項重跑 2 次
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「「因為以前被拿走」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] phone_date 念書（去總圖一起念書） 分支1-1「「因為以前被拿走」 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 分支1-1「「因為以前被拿走」：出發、到場、見面那一場一路點得完
+FAIL [heroine_01] phone_date 念書（去總圖一起念書） 分支1-1「「因為以前被拿走」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.3562, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [前置／捷徑] [heroine_01] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-2「「我沒有想過。」」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] phone_date 念書（去總圖一起念書） 分支1-2「「我沒有想過。」」 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_01] phone_date 念書（去總圖一起念書） 分支1-2「「我沒有想過。」」：出發、到場、見面那一場一路點得完
+FAIL [heroine_01] phone_date 念書（去總圖一起念書） 分支1-2「「我沒有想過。」」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.3736, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+== 人物 heroine_01 結果 FAIL（10）：phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」；phone_date 念書（去總圖一起念書）：AA_649 坐下旁白；phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）；phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）；phone_date 念書（去總圖一起念書）：AA_649 收書；phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））；phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-1「「因為以前被拿走」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-2「「我沒有想過。」」：到了約定的地方、見面那一場有開始
+   用了 22.8 分鐘
+PASS [heroine_03] 遊戲載入
+== 人物 heroine_03 陳語彤 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 9, "Y1S1": 8}、店內偶遇 []、自由出行 ["D12", "D13", "D14", "D18"]）
+-- [heroine_03] invite
+  [前置／捷徑] [heroine_03] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_03] 她在 3D 的時段（前 8 個，照區域排）：[]
+SKIP [heroine_03] invite：找不到她在 3D 的時段
+-- [heroine_03] invite_study
+-- [heroine_03] phone_date
+  [前置／捷徑] [heroine_03] 讀檔：phone_date：平日早上在校園（今天還有很多時段可以約）（campus 21 9.00）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_03] 前置：第 5 階、有聯絡方式：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] phone_date 開始前：15 秒內回到可以自由移動
+PASS [heroine_03] phone_date 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] phone_date 開始前：搖桿推得動（≥0.3 m）  2.43 m
+PASS [heroine_03] phone_date 開始前：點地走得動（≥0.3 m）  點 [27.15, 32.6]，走了 0.98 m
+PASS [heroine_03] phone_date 開始前：遊戲時間有在走  9.1002→9.1203
+PASS [heroine_03] phone_date 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_03] phone_date：手機約得到的地點×時間（照 INV.decide 預測她的回答）60 種：[["去兩點半 Café 坐坐", "今天 12:10", "accept"], ["去兩點半 Café 坐坐", "今天 15:30", "accept"], ["去兩點半 Café 坐坐", "今天 17:30", "accept"], ["去兩點半 Café 坐坐", "今天 19:00", "accept"], ["去兩點半 Café 坐坐", "今天 21:00", "accept"], ["去兩點半 Café 坐坐", "明天 12:10", "accept"], ["去兩點半 Café 坐坐", "明天 19:00", "accept"], ["去總圖一起念書", "今天 12:10", "accept"], ["去總圖一起念書", "今天 15:30", "accept"], ["去總圖一起念書", "今天 17:30", "accept"], ["去總圖一起念書", "今天 19:00", "accept"], ["去總圖一起念書", "今天 21:00", "accept"], ["去總圖一起念書", "明天 12:10", "accept"], ["去總圖一起念書", "明天 19:00", "accept"], ["去溫州街散步", "今天 12:10", "resched"], ["去溫州街散步", "今天 15:30", "resched"], ["去溫州街散步", "今天 17:30", "resched"], ["去溫州街散步", "今天 19:00", "resched"], ["去溫州街散步", "今天 21:00", "resched"], ["去溫州街散步", "明天 12:10", "resched"], ["去溫州街散步", "明天 19:00", "resched"], ["去半熟吃早午餐", "今天 12:10", "resched"], ["去半熟吃早午餐", "今天 15:30", "resched"], ["去半熟吃早午餐", "今天 17:30", "resched"]]
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書）：約之前）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+語彤
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_03] phone_date 念書（去總圖一起念書） 約 選單 ["念書…", "去半熟吃早午餐", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_03] phone_date 念書（去總圖一起念書） 約 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_03] phone_date 念書（去總圖一起念書） 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 12:10」
+INFO [heroine_03] phone_date 念書（去總圖一起念書） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_03] phone_date 念書（去總圖一起念書） 約（去總圖一起念書 今天 12:10，預期 accept）台詞：["陳語彤（手機）｜「好。那天茶屋，我叫蘇姨找別人。」", "｜約好 今天 12:10，總圖。"]
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約：手機約一路點得完
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：沒有新的 JS 例外
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：搖桿推得動（≥0.3 m）  2.98 m
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：點地走得動（≥0.3 m）  點 [27.16, 37.88]，走了 0.98 m
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：遊戲時間有在走  9.2174→9.2377
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 約：約成（library 21 12.17）
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書）：離約好的時間還有 2.5 小時，存檔的時間改到 21 11.72（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] phone_date 念書（去總圖一起念書） 選單 ["直接過去：和陳語彤約在總圖（12:10）", "自己走過去"] → 選「直接過去：和陳語彤約在總圖（12:10）」
+  [heroine_03] phone_date 念書（去總圖一起念書） 選單 ["「下次去看到最後。」", "「住校好玩嗎？」", "（聽她說完）"] → 選「「下次去看到最後。」」
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：約會中時間有往前走  遊戲時間 1.72 小時（21 11.73 → 21 13.45）
+INFO [heroine_03] phone_date 念書（去總圖一起念書）：錢 30000 → 30000（+0）  
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 2, "comf": 1, "rom": 1, "npcRom": 1}, "mem": "1→2 ['FIRST_MET', 'STUDIED_TOGETHER']"}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：對話沒有空白的句子  []
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：說話的人名字不是 id  []
+  [heroine_03] phone_date 念書（去總圖一起念書）：對話紀錄 9 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_ctl\out\heroine_03_phone_date__transcript.json
+    （旁白）｜她念到一半趴著睡了十分鐘，醒來第一句是：「我有沒有打呼。」
+    陳語彤｜你去過淡水嗎。
+    陳語彤｜……我家在淡水。
+    陳語彤｜可是我從來沒有跟朋友一起看過那裡的夕陽。
+    陳語彤｜我以前念的學校都不在淡水，要住校。週末回家，也是去補習。
+    陳語彤｜同學都住別的地方。……沒有人會特地跑去淡水看夕陽。
+    陳語彤｜所以我到現在還不知道，淡水的夕陽最後長什麼樣子。
+    陳語彤｜……嗯。
+    陳語彤｜下次一樣？
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 3.6, "spawnD": 8.11}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 1 次，最遠 0.13 m：[0.13]
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "library_hall", "doorD": 3.6, "nD": 1.05, "pseat": true, "nseat": true}
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 坐下旁白  （你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）  ["（小聲）我讀民總。你讀什麼？", "（小聲）我讀到六點。你呢？", "（小聲）手機先收起來。"]
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）  ["（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）", "（小聲）……休息五分鐘。", "（小聲）你的筆借我。我的沒水了。", "（她讀到一半，把一顆喉糖放在你的書旁邊。）"]
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 收書  ["（閉館前十分鐘的廣播響了。）", "（她闔上書，伸了一個懶腰。）", "（小聲）走吧。"]
+FAIL [heroine_03] phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））  ["謝謝你陪我讀。……下次我請你喝茶。", "今天讀得比我想的多。……下次再約。", "好累。……可是很好。"]
+INFO [heroine_03] phone_date 念書（去總圖一起念書）：總圖裡她說的話沒有「（小聲）」的（道別以外）  ["你去過淡水嗎。", "……我家在淡水。", "可是我從來沒有跟朋友一起看過那裡的夕陽。", "我以前念的學校都不在淡水，要住校。週末回家，也是去補習。", "同學都住別的地方。……沒有人會特地跑去淡水看夕陽。"]
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：15 秒內回到可以自由移動
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：沒有新的 JS 例外
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：搖桿推得動（≥0.3 m）  1.12 m
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：點地走得動（≥0.3 m）  點 [-5.91, 5.18]，走了 1.02 m
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：遊戲時間有在走  13.4704→13.4904
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：結束後玩家起身了  {"seat": false}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：約念書結束後她也起身（或走了）  {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.93, "spawnD": 6.27, "npc": true, "nD": 12.37, "nbeh": "leave", "nleaving": true, "nx": 5.46, "nz": 0.64, "p": [-6.08, 5.09]}
+PASS [heroine_03] phone_date 念書（去總圖一起念書）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": null, "npc": {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.93, "spawnD": 6.27, "npc": true, "nD": 12.37, "nbeh": "leave", "nleaving": true, "nx": 5.46, "nz": 0.64, "p": [-6.08, 5.09]}}
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） X207-二樓滿了：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_03] phone_date 念書（去總圖一起念書） X207-二樓滿了：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）
+  [heroine_03] phone_date 念書（去總圖一起念書） X207-二樓滿了 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_03] phone_date 念書（去總圖一起念書） X207-二樓滿了：出發、到場、見面那一場一路點得完
+FAIL [heroine_03] phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.5262, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_03] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：出發、到場、見面那一場一路點得完
+FAIL [heroine_03] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.9525, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [heroine_03] phone_date 念書（去總圖一起念書）：見面那一場的選單 2 個，換選項重跑 2 次
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-1「「住校好玩嗎？」」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「「住校好玩嗎？」」 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「「住校好玩嗎？」」：出發、到場、見面那一場一路點得完
+FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支1-1「「住校好玩嗎？」」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.588, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+  [前置／捷徑] [heroine_03] 讀回存檔（phone_date 念書（去總圖一起念書） 分支1-2「（聽她說完）」：約好、時間快到的那一刻）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] phone_date 念書（去總圖一起念書） 分支1-2「（聽她說完）」 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [heroine_03] phone_date 念書（去總圖一起念書） 分支1-2「（聽她說完）」：出發、到場、見面那一場一路點得完
+FAIL [heroine_03] phone_date 念書（去總圖一起念書） 分支1-2「（聽她說完）」：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 13.6298, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 12.167}]}
+== 人物 heroine_03 結果 FAIL（10）：phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」；phone_date 念書（去總圖一起念書）：AA_649 坐下旁白；phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）；phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）；phone_date 念書（去總圖一起念書）：AA_649 收書；phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））；phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-1「「住校好玩嗎？」」：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） 分支1-2「（聽她說完）」：到了約定的地方、見面那一場有開始
+   用了 23.2 分鐘
+PASS [classmate_bohan] 遊戲載入
+== 人物 classmate_bohan 柏翰 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "cafe", "join": "friend"}, {"spot": "wz_print", "join": null}]、自由出行 ["D06", "D11", "D09"]）
+-- [classmate_bohan] invite
+  [前置／捷徑] [classmate_bohan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [classmate_bohan] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 9.5, "library", "看書"], ["2025-09-16", 15.5, "library", "看書"], ["2025-09-17", 9.5, "library", "看書"], ["2025-09-18", 9.5, "library", "看書"], ["2025-09-19", 15.5, "library", "看書"], ["2025-09-22", 15.5, "library", "看書"], ["2025-09-23", 15.5, "library", "看書"], ["2025-09-24", 15.5, "library", "看書"]]
+  [前置／捷徑] [classmate_bohan] 讀檔：invite：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "柏翰", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [classmate_bohan] invite：約「去總圖一起念書」（總圖，library_hall；同一區）
+  [classmate_bohan] invite 約現在：按「和柏翰說話」
+PASS [classmate_bohan] invite 約現在：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] invite 約現在 台詞（1 句）：["｜（他抬頭看到你，點了一下頭。）"]
+PASS [classmate_bohan] invite 約現在：對話一路點得完  0 個選單
+PASS [classmate_bohan] invite 約現在：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] invite 約現在：15 秒內回到可以自由移動
+PASS [classmate_bohan] invite 約現在：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] invite 約現在：沒有新的 JS 例外
+PASS [classmate_bohan] invite 約現在：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_bohan] invite 約現在：搖桿推得動（≥0.3 m）  3.05 m
+PASS [classmate_bohan] invite 約現在：點地走得動（≥0.3 m）  點 [-1.31, -8.56]，走了 1.00 m
+PASS [classmate_bohan] invite 約現在：遊戲時間有在走  9.6711→9.6913
+PASS [classmate_bohan] invite 約現在：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] invite 約現在：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] invite 約現在：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_bohan] invite：約好的 []
+INFO [classmate_bohan] invite：她沒有答應（或時間不對）  ["｜（他抬頭看到你，點了一下頭。）"]
+-- [classmate_bohan] invite_study
+-- [classmate_bohan] phone_date
+  [前置／捷徑] [classmate_bohan] 讀檔：phone_date：平日早上在校園（今天還有很多時段可以約）（campus 21 9.00）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：朋友（FRIEND）、有聯絡方式：{"stage": "FRIEND", "name": "柏翰", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_bohan] phone_date 開始前：15 秒內回到可以自由移動
+PASS [classmate_bohan] phone_date 開始前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_bohan] phone_date 開始前：搖桿推得動（≥0.3 m）  2.45 m
+PASS [classmate_bohan] phone_date 開始前：點地走得動（≥0.3 m）  點 [27.17, 32.63]，走了 0.91 m
+PASS [classmate_bohan] phone_date 開始前：遊戲時間有在走  9.0993→9.1195
+PASS [classmate_bohan] phone_date 開始前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 開始前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 開始前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [classmate_bohan] phone_date：手機約得到的地點×時間（照 INV.decide 預測她的回答）67 種：[["去兩點半 Café 坐坐", "今天 12:10", "resched"], ["去兩點半 Café 坐坐", "今天 15:30", "resched"], ["去兩點半 Café 坐坐", "今天 17:30", "resched"], ["去兩點半 Café 坐坐", "今天 19:00", "resched"], ["去兩點半 Café 坐坐", "今天 21:00", "resched"], ["去兩點半 Café 坐坐", "明天 12:10", "resched"], ["去兩點半 Café 坐坐", "明天 19:00", "resched"], ["去總圖一起念書", "今天 12:10", "resched"], ["去總圖一起念書", "今天 15:30", "accept"], ["去總圖一起念書", "今天 17:30", "accept"], ["去總圖一起念書", "今天 19:00", "accept"], ["去總圖一起念書", "今天 21:00", "accept"], ["去總圖一起念書", "明天 12:10", "accept"], ["去總圖一起念書", "明天 19:00", "accept"], ["去公館燒臘吃飯", "今天 12:10", "resched"], ["去公館燒臘吃飯", "今天 15:30", "resched"], ["去公館燒臘吃飯", "今天 17:30", "resched"], ["去公館燒臘吃飯", "今天 19:00", "resched"], ["去公館燒臘吃飯", "今天 21:00", "resched"], ["去公館燒臘吃飯", "明天 12:10", "resched"], ["去公館燒臘吃飯", "明天 19:00", "resched"], ["去溫州街散步", "今天 12:10", "resched"], ["去溫州街散步", "今天 15:30", "resched"], ["去溫州街散步", "今天 17:30", "resched"]]
+  [前置／捷徑] [classmate_bohan] 讀回存檔（phone_date 念書（去總圖一起念書）：約之前）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+柏翰
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 約 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 約 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 約 選單 ["今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 15:30」
+INFO [classmate_bohan] phone_date 念書（去總圖一起念書） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 約（去總圖一起念書 今天 15:30，預期 accept）台詞：["｜柏翰答應了。約好 今天 15:30，總圖。"]
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約：手機約一路點得完
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：15 秒內回到可以自由移動
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：沒有新的 JS 例外
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：搖桿推得動（≥0.3 m）  2.29 m
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：點地走得動（≥0.3 m）  點 [27.18, 37.38]，走了 0.89 m
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：遊戲時間有在走  9.2159→9.2360
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 約：約成（library 21 15.50）
+  [classmate_bohan] phone_date 念書（去總圖一起念書）：手機「今天」→ 跳過時間到 14.00
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 跳過時間 選單 ["照樣跳過", "先不要"] → 選「照樣跳過」
+  [前置／捷徑] [classmate_bohan] 讀回存檔（phone_date 念書（去總圖一起念書）：離約好的時間還有 1.0 小時，存檔的時間改到 21 15.05（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] phone_date 念書（去總圖一起念書） 選單 ["直接過去：和柏翰約在總圖（15:30）", "自己走過去"] → 選「直接過去：和柏翰約在總圖（15:30）」
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：出發、到場、見面那一場一路點得完
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：約會中時間有往前走  遊戲時間 1.73 小時（21 15.06 → 21 16.79）
+INFO [classmate_bohan] phone_date 念書（去總圖一起念書）：錢 30000 → 30000（+0）  
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 2, "comf": 1, "rom": 1, "npcRom": 1}, "mem": "1→2 ['FIRST_MET', 'STUDIED_TOGETHER']"}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：對話沒有空白的句子  []
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：說話的人名字不是 id  []
+  [classmate_bohan] phone_date 念書（去總圖一起念書）：對話紀錄 2 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUDY_ctl\out\classmate_bohan_phone_date__transcript.json
+    （旁白）｜你和柏翰在總圖一起念書。
+    柏翰｜我先回去了，這章今天要看完。
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1, "pseat": true, "nseat": true, "seatD": 1.05, "sameGroup": false, "doorD": 3.6, "spawnD": 8.11, "npc": true, "nD": 1.05, "nbeh": "idle", "nleaving": false, "nx": -7.02, "nz": 5.8, "p": [-8.07, 5.8]}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 3.6, "spawnD": 8.11}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "library_hall", "lv": 1}
+INFO [classmate_bohan] phone_date 念書（去總圖一起念書）：X207 ② 沒有取到帶路途中的距離（一進大廳就開演？）  []
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "library_hall", "doorD": 3.6, "nD": 1.05, "pseat": true, "nseat": true}
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 坐下旁白  （你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）  ["（小聲）我讀到六點。你呢？", "（小聲）手機先收起來。"]
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）  ["（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）", "（小聲）……休息五分鐘。", "（小聲）你的筆借我。我的沒水了。", "（她讀到一半，把一顆喉糖放在你的書旁邊。）"]
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 收書  ["（閉館前十分鐘的廣播響了。）", "（她闔上書，伸了一個懶腰。）", "（小聲）走吧。"]
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））  ["今天讀得比我想的多。……下次再約。", "好累。……可是很好。"]
+INFO [classmate_bohan] phone_date 念書（去總圖一起念書）：總圖裡她說的話沒有「（小聲）」的（道別以外）  ["我先回去了，這章今天要看完。"]
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：15 秒內回到可以自由移動
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：沒有新的 JS 例外
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：搖桿推得動（≥0.3 m）  1.12 m
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：點地走得動（≥0.3 m）  點 [-5.86, 5.18]，走了 1.01 m
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：遊戲時間有在走  16.8114→16.8318
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：人在約定的地點（G.zone＝library_hall）  library_hall
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "library", "zone": "library_hall", "day": 21, "h": 15.5}]
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：結束後玩家起身了  {"seat": false}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：約念書結束後她也起身（或走了）  {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.92, "spawnD": 6.24, "npc": true, "nD": 10.44, "nbeh": "leave", "nleaving": true, "nx": 3.39, "nz": 0.61, "p": [-6.05, 5.07]}
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "library", "away": null, "act": "看書"}, "npc": {"zone": "library_hall", "lv": 1, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.92, "spawnD": 6.24, "npc": true, "nD": 10.44, "nbeh": "leave", "nleaving": true, "nx": 3.39, "nz": 0.61, "p": [-6.05, 5.07]}}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（phone_date 念書（去總圖一起念書） X207-二樓滿了：約好、時間快到的那一刻）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] phone_date 念書（去總圖一起念書） X207-二樓滿了：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）
+  [classmate_bohan] phone_date 念書（去總圖一起念書） X207-二樓滿了 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） X207-二樓滿了：出發、到場、見面那一場一路點得完
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 16.6696, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 15.5}]}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：約好、時間快到的那一刻）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔 選單 ["點頭", "假裝看手機"] → 選「點頭」
+PASS [classmate_bohan] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：出發、到場、見面那一場一路點得完
+FAIL [classmate_bohan] phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始  {"zone": "campus", "hour": 16.8877, "iv": [{"id": "iv1", "state": "missed", "place": "library", "zone": "library_hall", "day": 21, "h": 15.5}]}
+  [classmate_bohan] phone_date 念書（去總圖一起念書）：見面那一場的選單 1 個，換選項重跑 0 次
+== 人物 classmate_bohan 結果 FAIL（8）：phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」；phone_date 念書（去總圖一起念書）：AA_649 坐下旁白；phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）；phone_date 念書（去總圖一起念書）：AA_649 念書中途一則（小聲的要帶「（小聲）」）；phone_date 念書（去總圖一起念書）：AA_649 收書；phone_date 念書（去總圖一起念書）：AA_649 道別（她自己的或一般句；大廳門外照平常說話、不加（小聲））；phone_date 念書（去總圖一起念書） X207-二樓滿了：到了約定的地方、見面那一場有開始；phone_date 念書（去總圖一起念書） X207-帶路途中讀檔：到了約定的地方、見面那一場有開始
+   用了 12.7 分鐘
+==== 總結：3 人，FAIL 3 人：[["heroine_01", ["phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」", "phone_date 念書（去總圖一起念書）：AA_649 坐下旁白", "phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）"]], ["heroine_03", ["phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」", "phone_date 念書（去總圖一起念書）：AA_649 坐下旁白", "phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）"]], ["classmate_bohan", ["phone_date 念書（去總圖一起念書）：AA_649 帶路句「（小聲）二樓靠窗那排比較安靜。」", "phone_date 念書（去總圖一起念書）：AA_649 坐下旁白", "phone_date 念書（去總圖一起念書）：AA_649 坐下她的一句（她自己的或一般句）"]]]
+FAILED 28

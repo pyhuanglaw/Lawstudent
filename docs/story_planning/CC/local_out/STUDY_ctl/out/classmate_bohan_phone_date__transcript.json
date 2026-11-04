@@ -1,0 +1,139 @@
+{
+ "pid": "classmate_bohan",
+ "tag": "phone_date 念書（去總圖一起念書）",
+ "rec0": {
+  "day": 21,
+  "hour": 15.0596,
+  "t": 519.0596,
+  "money": 30000,
+  "rel": {
+   "fam": 45,
+   "trust": 30,
+   "comf": 25,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 16.7903,
+  "t": 520.7903,
+  "money": 30000,
+  "rel": {
+   "fam": 48,
+   "trust": 32,
+   "comf": 26,
+   "aff": 0,
+   "rom": 1,
+   "npcRom": 1
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 1.7306999999999562,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "你和柏翰在總圖一起念書。",
+   "h": 15.267,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "柏翰",
+   "c": "classmate_bohan",
+   "t": "我先回去了，這章今天要看完。",
+   "h": 16.767,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "你和柏翰在總圖一起念書。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "柏翰",
+   "text": "（小聲）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "柏翰",
+   "text": "（小聲）我先回去了，這章今天要看完。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.05,
+  "sameGroup": false,
+  "doorD": 3.6,
+  "spawnD": 8.11,
+  "npc": true,
+  "nD": 1.05,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 5.8,
+  "p": [
+   -8.07,
+   5.8
+  ]
+ }
+}
