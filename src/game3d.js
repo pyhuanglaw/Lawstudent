@@ -369,10 +369,21 @@ const GAME = (function(){
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   /* BUG-SAVE-QUOTA-1102（CC M5、BB 10:07）：寫入失敗要分得出是「空間不足」（QuotaExceededError）還是瀏覽器不能存；GM.saveErr＝最後一次失敗的原因（成功＝null）*/
   const isQuota=e=>!!e&&(e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED'||e.code===22||e.code===1014);
-  function write(key,obj){ const st=ls(); if(!st){ GM.saveErr='nostore'; return false; } try{ st.setItem(key,JSON.stringify(obj)); GM.saveErr=null; return true; }catch(e){ GM.saveErr=isQuota(e)?'quota':'other'; return false; } }
+  /* SAVE-LZ-1104（使用者 11-04 13:5x 選「加 lz-string」：重度玩家 7 份存檔約 5.9 MB，超過瀏覽器 5 MB）：存檔可以用 lib/lz-string.js（MIT）壓縮。
+     壓縮的存檔前面是 LZ1:，讀的時候認前綴；沒有前綴照舊 JSON（舊存檔、匯出檔照讀）。現在先只在「空間不足」時改存壓縮版（GM.lzSave＝false）；
+     v9.10.20 發布、測試探針改用 GAME.readSave 以後，GM.lzSave 改 true（每次都壓）。網址加 ?lzsave 可以先開來測。壓完先解回來比對，對不上就存原本的 JSON。*/
+  const LZP='LZ1:', lzOk=()=>typeof LZString!=='undefined'&&!!LZString.compressToUTF16;
+  if(GM.lzSave===undefined) GM.lzSave=typeof location!=='undefined'&&/[?&]lzsave(?:[=&]|$)/.test(location.search||'');
+  function encSave(j,force){ if((force||GM.lzSave)&&lzOk()){ try{ const c=LZString.compressToUTF16(j); if(c&&LZString.decompressFromUTF16(c)===j) return LZP+c; }catch(e){} } return j; }
+  function decSave(t){ if(typeof t!=='string'||!t) return null; if(t.slice(0,LZP.length)===LZP){ if(!lzOk()) return null; const j=LZString.decompressFromUTF16(t.slice(LZP.length)); return j?JSON.parse(j):null; } return JSON.parse(t); }
+  function write(key,obj){ const st=ls(); if(!st){ GM.saveErr='nostore'; return false; } const j=JSON.stringify(obj);
+    try{ st.setItem(key,encSave(j)); GM.saveErr=null; return true; }catch(e){
+      if(isQuota(e)&&!GM.lzSave&&lzOk()){ const c=encSave(j,true); if(c!==j){ try{ st.setItem(key,c); GM.saveErr=null; return true; }catch(e2){ GM.saveErr=isQuota(e2)?'quota':'other'; return false; } } }   /* 空間不足：改存壓縮版再試一次 */
+      GM.saveErr=isQuota(e)?'quota':'other'; return false; } }
   GM.SAVE_FULL_TEXT='儲存空間不足，這次沒有存進去。到選單 → 存檔，刪掉不用的欄位或備份，或先「匯出存檔檔案」留一份。';
   GM.saveFailText=()=>GM.saveErr==='quota'?GM.SAVE_FULL_TEXT:'存檔失敗（瀏覽器儲存不可用）';
-  function read(key){ const st=ls(); if(!st) return null; try{ const t=st.getItem(key); return t?JSON.parse(t):null; }catch(e){ return null; } }
+  function read(key){ const st=ls(); if(!st) return null; try{ return decSave(st.getItem(key)); }catch(e){ return null; } }
+  GM.readSave=read;   /* 測試、探針讀存檔用（解好的物件；壓縮過的也讀得到）*/
   function autosave(force){ if(!G||!E.player||(D.busyDepth>0&&!force)||GM.titleIdle) return;   /* force：劇情中途的存檔點（出遊到了那裡，outings3d.js）*/ /* 標題畫面（還沒開始或讀檔）不能自動存檔：否則會用空白的第一天蓋掉玩家真正的進度 */ const ok=write(KEY_AUTO,snapshot()); GM.lastAuto=performance.now();
     if(!ok){ const t=Date.now(); if(!GM.autoFailAt||t-GM.autoFailAt>5*60*1000){ GM.autoFailAt=t; toast(GM.saveErr==='quota'?'自動存檔：'+GM.SAVE_FULL_TEXT:'自動存檔失敗（瀏覽器儲存不可用）',6000); } } else GM.autoFailAt=0; return ok; }   /* 失敗不再安靜（BUG-SAVE-QUOTA-1102）：提示一次，5 分鐘內不重複；存成功就重置 */
   GM.autosave=autosave;
