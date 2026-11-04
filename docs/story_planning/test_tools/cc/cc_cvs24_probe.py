@@ -193,8 +193,11 @@ async def force_case(pg, cdp, key, errs):
     print('== 02:30 forceHome：%s（02:24 在店裡等過 02:30）' % sh['name'], flush=True)
     fl = dict(FLAGS)
     if key == 'wz': fl['CVS_FROM'] = 'wenzhou'
-    print('  [前置／捷徑] 讀檔：便利商店裡 (0, 1.5)、G.hour＝26.4（凌晨 02:24）、條件事件關閉', flush=True)
-    await L.load_state(pg, {'zone': 'cvs', 'hour': h0, 'day': DAY, 'weekday': WD, 'weather': 'clear', 'flags': fl, 'money': 3000, 'pos': {'x': 0, 'z': 1.5, 'yaw': math.pi, 'lv': 0}}, quiet_events=True)
+    # BB-C 11-04：睡醒以後自動去上課是照設計（舊版 day 7＝週二晚上，隔天週三早上有課，卡住檢查時人在 classroom、busyDepth 2）→ 改挑「隔天沒課」的週五晚上（隔天週六）
+    fd = await pg.evaluate("(d0=>{ try{ for(let d=d0; d<d0+40; d++){ const w=CALENDAR.dateOf(d).wd%7; if(w===5&&!(CALENDAR.typhoon&&(CALENDAR.typhoon(d)||CALENDAR.typhoon(d+1)))) return [d,w,CALENDAR.dateOf(d).key]; } }catch(e){} return null; })(%d)" % DAY)
+    fday, fwd = (fd[0], fd[1]) if fd else (DAY, WD)
+    print('  [前置／捷徑] 讀檔：便利商店裡 (0, 1.5)、%s（週五，隔天週六沒課）G.hour＝26.4（凌晨 02:24）、條件事件關閉' % (fd[2] if fd else '（找不到週五，照舊 day %d）' % DAY), flush=True)
+    await L.load_state(pg, {'zone': 'cvs', 'hour': h0, 'day': fday, 'weekday': fwd, 'weather': 'clear', 'flags': fl, 'money': 3000, 'pos': {'x': 0, 'z': 1.5, 'yaw': math.pi, 'lv': 0}}, quiet_events=True)
     await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
     t0 = time.time(); lines = []; toasts = []; caps = []; left = None
