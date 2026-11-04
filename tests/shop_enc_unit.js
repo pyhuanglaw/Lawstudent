@@ -143,7 +143,7 @@ const rowOf=(who,spot)=>SHOP_ENC.rows.find(r=>r.who===who&&r.spot===spot);
     { const Gk=mk(STORY.termDay('Y1S1',5,2),23.5), Rk=SHOPENC.rec(Gk), kk=SHOPENC.key(Gk,'cvs'); Rk.dec[kk]={who:'kai',spot:'cvs',place:{stand:[1,2,0]}}; Rk.who.kai=kk; const ek=STORY.schedEnt(CHARACTERS.kai,Gk);
       check('6. 阿凱決定在便利商店：作息換成便利商店（站著 linger），203 就不生他（不會同時兩個地方）',!!ek&&ek.zone==='cvs'&&ek.act==='linger'&&ek.at[0]===1,JSON.stringify(ek)); Gk.hour=25.2; const ek2=STORY.schedEnt(CHARACTERS.kai,Gk); check('6. 01:00 以後回到 203 的書桌',!!ek2&&ek2.zone==='dorm'); }
     const ps=rowOf('classmate_peishan','wz_tea'), Gt=findSlot(ps); const Rt=SHOPENC.rec(Gt); Rt.dec[SHOPENC.key(Gt,'wz_tea')]={who:'classmate_peishan',spot:'wz_tea'}; const et=STORY.schedEnt(CHARACTERS.classmate_peishan,Gt);
-    check('6. 外帶窗口：她在外面（zone null、away「在巷口茶飲」）',!!et&&et.zone===null&&et.act==='out'&&et.away==='在巷口茶飲',JSON.stringify(et)); }
+    check('6. 外帶窗口：她在外面（zone null、away「在帝大紅茶」）',!!et&&et.zone===null&&et.act==='out'&&et.away==='在帝大紅茶',JSON.stringify(et)); }
   // ---------- 窗口 ----------
   { const ps=rowOf('classmate_peishan','wz_tea'), Gt=findSlot(ps); let got=null; for(let k=0;k<40&&!got;k++){ const G=mk(Gt.day+7*k,Gt.hour); if(!SHOPENC.eligible(G,ps)) continue; const d=SHOPENC.decide(G,'wz_tea'); if(d&&d.who==='classmate_peishan') got=G; }
     const gm=mkGM(got,['打招呼']); const r=await SHOPENC.window(gm,'wz_tea'); check('窗口：巷口茶飲前遇到沛珊（why、兩句）；再按一次不再遇到',r==='greet'&&gm.L.says[0]===ps.why&&(await SHOPENC.window(mkGM(got),'wz_tea'))===null,JSON.stringify(gm.L.says));
