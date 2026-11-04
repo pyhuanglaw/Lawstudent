@@ -100,7 +100,7 @@ const WZS=(()=>{
   /* 登記到 src/eat3d.js（EAT.addShop）：吃過的店名「溫州街・<店名>」、店員（第 5 次那一句不說：熟客的招呼這裡自己演；老樣子的回答）、第一次的旁白、
      沒有回收台（內用兩家：林家是麵攤、定食是店員帶位的店，一起吃的結尾在店門口分開）。點餐前登記（eat3d.js 在這個檔之後才載入）*/
   S.eatReg=function(){ if(typeof EAT==='undefined'||!EAT.addShop) return null; for(const k of Object.keys(S.AA364)){ const D=S.AA364[k];
-      if(!(EAT.SHOPS_X&&EAT.SHOPS_X[D.key])) EAT.addShop(D.key,{shop:'溫州街・'+D.key,staff:{who:D.who,line5:null,same:D.same,alt:null},first:D.firstLine,door:!!D.dine}); }
+      if(!(EAT.SHOPS_X&&EAT.SHOPS_X[D.key])) EAT.addShop(D.key,{shop:'溫州街・'+D.key,show:D.name?'溫州街・'+D.name:null,staff:{who:D.who,line5:null,same:D.same,alt:null},first:D.firstLine,door:!!D.dine}); }
     return EAT; };
   /* 外帶窗口的位置（溫州街世界座標；LAWWW2 交件 README test_shots/wz_aa364_1022「外帶窗口：給 LAWWW 的座標」）：x、z＝點餐的人站的地方（騎樓，走得到）；
      clerk＝店員（店裡，導航格不能站，不 unstick）；shutter＝冰菓室 10～4 月看鐵捲門的地方。zones3d.js 的溫州街照這裡加按鈕（S.windowItems），story3d.js 照這裡放店員 */
