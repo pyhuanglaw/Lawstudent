@@ -247,9 +247,9 @@ T6_gpu_noise_on_b | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/stor
 # 阿德 v2（BB-C 15:33，不進 v9.10.20）：ADE_v2_lanewest＝wz_street_integration 的 lane_west calls／tris（LAWWW2 估 +5.4k 面、+5 calls）；ADE_v2_shots 探針寫好、雲端驗完再排
 # 阿德 v2.1（BB-C 16:12）：ADE_v2_lanewest／ADE_v2_shots 改到 d63fed15e（還沒開跑，直接改 SHA）；refcam 換成 v2.1 的鏡頭；拍完雲端跑 same_angle_check --mode shop --fov 45.7
 # ADE-PROPS-1104（BB-C 17:48）：改到 1a191554d（含 d63fed15e；電線桿 x −9.2→−12.7、門西邊兩台機車拿掉；還沒開跑，直接改 SHA）；同一個 SHA 加溫州街 reachability（電線桿挪過，看導航、互動點有沒有被擋）
-ADE_v2_lanewest | 1a191554d6a5dd45079e4fd7b1d3e1ebbd6eb058 | game | tests/wz_street_integration.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
-ADE_v2_shots | 1a191554d6a5dd45079e4fd7b1d3e1ebbd6eb058 | probe | docs/story_planning/test_tools/cc/cc_ade_v2_shots_probe.py | index.html | 20 | HOURS=14,20.5;CC_HEADLESS=0
-ADE_v2_reach_wz | 1a191554d6a5dd45079e4fd7b1d3e1ebbd6eb058 | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
+ADE_v2_lanewest | 79da20245e0ae7f064062e20e38458c4816cf816 | game | tests/wz_street_integration.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+ADE_v2_shots | 79da20245e0ae7f064062e20e38458c4816cf816 | probe | docs/story_planning/test_tools/cc/cc_ade_v2_shots_probe.py | index.html | 20 | HOURS=14,20.5;CC_HEADLESS=0
+ADE_v2_reach_wz | 79da20245e0ae7f064062e20e38458c4816cf816 | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
 # SAVE_LZ_perf（BB-C 15:42；SAVE-LZ-1104 第一步 a8755309f，不進 v9.10.20）：灌到 1.25M 字元，lz／JSON 各 5 次自動存檔＋讀回；BB 判準 PC 最大 ≤300 OK、300～800 P2、>800 改閒置時壓；PC≠手機
 #   雲端 15:5x 驗過流程（ALL PASS；SwiftShader 數字不採信：lz 存 650／744 ms、JSON 23 ms、壓縮率 7.7%——灌的訊息是 155 句輪流，壓縮率比真實存檔好）
 SAVE_LZ_perf | a8755309fce8492182fd6b8b028884604565f7cd | probe | docs/story_planning/test_tools/cc/cc_save_lz_perf_probe.py | index.html | 20 | TARGET=1250000;N=5;CC_HEADLESS=0

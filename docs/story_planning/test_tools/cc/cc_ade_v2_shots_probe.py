@@ -63,6 +63,11 @@ WALL = """(()=>{ const z=GAME.E.zone, re=/price|board|notice|bulletin|menu|價�
   z.group.updateMatrixWorld(true); z.group.traverse(o=>{ if(!o.isMesh) return; let nm=''; for(let p=o;p&&p!==z.group;p=p.parent){ if(re.test(p.name||'')){ nm=p.name; break; } } if(!nm) return;
     const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()); if(c.x<-13.2||c.x>-8.4||c.z<3.5||c.z>7) return; hits.push({name:nm, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], min:[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)], max:[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]}); });
   return {hits}; })()"""
+POLES = r"""(()=>{ const z=GAME.E.zone, V=THREE.Vector3, out=[]; if(!z||!z.group) return out; z.group.updateMatrixWorld(true);
+  z.group.traverse(o=>{ if(!o.isMesh||!o.visible) return; let nm='', hid=false; for(let p=o;p&&p!==z.group;p=p.parent){ if(!p.visible) hid=true; if(!nm&&/pole|電線桿|utility|lamp_arm|streetlight/i.test(p.name||'')) nm=p.name; } if(!nm||hid) return;
+    const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()), sz=b.getSize(new V()); if(c.x<-16||c.x>-5||c.z<2.5||c.z>7) return; if(sz.y<4) return;   /* 店門前那一段（x −16～−5、店面那一側）、高過 4 m 的＝桿子 */
+    out.push({name:nm, x:+c.x.toFixed(2), z:+c.z.toFixed(2), h:+sz.y.toFixed(2)}); });
+  const seen={}; return out.filter(q=>{ const k=q.name+'@'+q.x.toFixed(1); if(seen[k]) return false; seen[k]=1; return true; }); })()"""
 COPY = """(()=>{ const z=GAME.E.zone, r={flag:(GAME.G.flags||{}).WZ_COPY_SHOP||'', nodes:{}}; if(z&&z.group) z.group.traverse(o=>{ if(/^COPY_/.test(o.name||'')){ let v=true; for(let p=o;p;p=p.parent) if(!p.visible){ v=false; break; } r.nodes[o.name]=v; } });
   const it=GAME.E.interactables.find(i=>/阿德影印/.test(i.label||'')); r.door=it?[+(+it.x).toFixed(2),+(+it.z).toFixed(2)]:null; return r; })()"""
 
@@ -110,6 +115,10 @@ async def main():
                     await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=e, look=l, state='A1', hour=h, labels=True)
                     print('  %s（不藏出口標籤）：calls %s、tris %s' % (fn, ri['calls'], ri['tris']), flush=True)
                 print('  藏起來的出口標籤：%d' % (await pg.evaluate(cc_det.HIDE_LABELS_JS)), flush=True)
+                if not state:   # BB-C 21:37（79da20245）：店門前那一段不能同時有兩支電線桿——列出 x −16～−5 高過 4 m 的桿子（正式模型＋程序化，看得見的）
+                    pl = await pg.evaluate(POLES)
+                    near92 = [q for q in pl if abs(q['x'] + 9.2) < 0.8]; near127 = [q for q in pl if abs(q['x'] + 12.7) < 0.8]
+                    check('[A1 %02d%02d] 店門前沒有留在 x −9.2 的電線桿、x −12.7 有一支（ADE-PROPS-1104 補件）' % (int(h), int(round(h % 1 * 60))), not near92 and bool(near127), J(pl))
                 if not state:   # wall_front：價目表、布告欄正面（BB-C 19:03）
                     w = await pg.evaluate(WALL)
                     hs = w.get('hits') or []
