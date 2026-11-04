@@ -154,7 +154,7 @@ xf0.rbox(sh.a('vcm'), X0 + 0.4, X1 - 0.4, H - 0.62, H - 0.3, -1.25, -0.75, r=0.0
 for k in range(9): x_ = X0 + 0.9 + k * (W - 1.8) / 8; xf0.rbox(sh.a('vcm'), x_ - 0.02, x_ + 0.02, H - 0.64, H - 0.28, -1.27, -0.73, r=0.004, seg=1, col=DUCT2)   # 風管接縫
 for x_ in (-4.5, 0.5, 4.5): xf0.rbox(sh.a('vcm'), x_ - 0.16, x_ + 0.16, H - 0.7, H - 0.62, -1.16, -0.84, r=0.01, seg=1, col='#3a3a38')     # 出風口
 for (zz, r_, col) in ((-3.2, 0.06, '#9a9a94'), (-3.0, 0.03, '#2a2a28'), (2.6, 0.08, DUCT), (3.6, 0.04, '#9a9a94'), (3.75, 0.02, '#2a2a28')): xf0.cyl(sh.a('vcm'), (X0, H - 0.5, zz), (X1, H - 0.5, zz), r_, col=col, seg=8, caps=False)   # 管線、電線管
-for x_ in (-5.6, -1.6, 2.4, 5.8): xf0.cyl(sh.a('vcm'), (x_, H - 0.5, Z0), (x_, H - 0.5, Z1), 0.02, col='#2a2a28', seg=6, caps=False)
+for x_ in (-5.6, -3.0, 2.4, 5.8): xf0.cyl(sh.a('vcm'), (x_, H - 0.5, Z0), (x_, H - 0.5, Z1), 0.02, col='#2a2a28', seg=6, caps=False)   # v1e（BB 07:54）：x −1.6 那條會從招牌（x −2.3～−0.5）中間穿過，搬到 −3.0
 xf0.rbox(sh.a('vcm'), -1.0, 0.2, H - 0.36, H - 0.32, 0.6, 1.8, r=0.02, seg=1, col='#e6e4dd'); xf0.rbox(sh.a('vcm'), -0.85, 0.05, H - 0.365, H - 0.355, 0.75, 1.65, r=0.005, seg=1, col='#a8a8a4')   # 冷氣
 for zz in (3.0, -0.6):                                                                                                    # 兩條黑色軌道燈
     xf0.rbox(sh.a('vcm'), X0 + 0.6, X1 - 0.6, H - 0.36, H - 0.33, zz - 0.02, zz + 0.02, r=0.004, seg=1, col='#24221f')
@@ -200,9 +200,36 @@ for k in range(10):                                                             
 sh.a('bulb').box(bx0 + 0.05, bx1 - 0.05, bh - 0.11, bh - 0.095, bz1 + 0.02, bz1 + 0.03)                                # 檯面下的燈條
 xf0.rbox(sh.a('vcg'), bx0 - 0.03, bx1 + 0.03, bh - 0.05, bh, bz0 - 0.02, bz1 + 0.06, r=0.012, seg=1, col=STONE)       # 深色石材檯面
 top = bh; m = sh.a('vcm')
-em = Xf(bx0 + 1.6, CF.BAR['z'] - 0.1, 0.0, top); em.rbox(sh.a('vcg'), -0.5, 0.5, 0.0, 0.5, -0.25, 0.22, r=0.03, seg=2, col='#d8d8d6'); em.rbox(sh.a('vcg'), -0.5, 0.5, 0.5, 0.55, -0.25, 0.22, r=0.01, seg=1, col='#2e2e2e')
-for k in range(3): em.cyl(m, (-0.3 + k * 0.3, 0.22, 0.22), (-0.3 + k * 0.3, 0.18, 0.3), 0.04, col='#2e2e2e', seg=8)
-for k in range(8): K.mug(sh, bx0 + 1.2 + (k % 4) * 0.25, CF.BAR['z'] - 0.2 + (k // 4) * 0.18, top + 0.55, col='#f2efe8', r=0.03, h=0.06, handle=False)
+RE = random.Random(2303)
+
+
+def espresso(x, z, y):
+    """v1e（BB 07:54：白色方盒＋三顆圓鈕＝§9-7 低品質替代物）：不鏽鋼義式咖啡機——倒角機身、黑色前面板、三個沖煮頭＋黑把手、兩根蒸氣管、兩個儀表、滴水盤；上面的溫杯架疊著杯子（照 SUNNY SIDE v1c 的做法）"""
+    t = Xf(x, z, 0.0, y); m = sh.a('vcm')
+    t.rbox(m, -0.5, 0.5, 0.06, 0.46, -0.22, 0.17, r=0.05, seg=2, col='#c8c8c6')
+    t.rbox(m, -0.46, 0.46, 0.14, 0.4, 0.165, 0.19, r=0.02, seg=2, col='#2e2e2c')
+    t.rbox(m, -0.48, 0.48, 0.0, 0.06, -0.2, 0.25, r=0.015, seg=2, col='#3a3a38')                                     # 滴水盤
+    for k in range(6): t.rbox(m, -0.44 + k * 0.17, -0.36 + k * 0.17, 0.059, 0.062, 0.0, 0.24, r=0.0, seg=1, col='#9a9a96')   # 滴水盤的格柵
+    for sx in (-0.26, 0.0, 0.26):
+        t.cyl(m, (sx, 0.34, 0.19), (sx, 0.25, 0.22), 0.045, col='#d8d8d6', seg=12)
+        t.cyl(m, (sx, 0.24, 0.22), (sx + 0.02, 0.21, 0.43), 0.014, col='#1e1e1e', seg=6)                               # 把手
+        if sx != 0.0: t.lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.033, 0.05), (0.0, 0.01)], sx, 0.06, 0.22, seg=10, col='#f4f2ea')   # 接著的小杯
+    for sx in (-0.43, 0.43):                                                                                          # 蒸氣管：兩段彎下來＋頂上的旋鈕
+        t.cyl(m, (sx, 0.36, 0.17), (sx * 1.08, 0.32, 0.27), 0.007, col='#d8d8d6', seg=5); t.cyl(m, (sx * 1.08, 0.32, 0.27), (sx * 1.1, 0.12, 0.28), 0.006, col='#d8d8d6', seg=5)
+        t.cyl(m, (sx, 0.46, 0.05), (sx, 0.5, 0.05), 0.025, col='#1e1e1e', seg=8)
+    for sx in (-0.1, 0.1): Xf(x + sx, z + 0.192, 0.0, y + 0.35).rbox(m, -0.03, 0.03, -0.03, 0.03, 0.0, 0.012, r=0.012, seg=2, col='#e8e8e4')   # 兩個儀表
+    t.rbox(m, -0.49, 0.49, 0.46, 0.49, -0.22, 0.17, r=0.01, seg=1, col='#a8a8a4')                                       # 上面的溫杯架
+    for sx in (-0.49, 0.49): t.rbox(m, sx - 0.006, sx + 0.006, 0.49, 0.56, -0.22, 0.17, r=0.0, seg=1, col='#b8b8b4')   # 杯架的欄杆
+    cx = -0.44
+    while cx < 0.42:                                                                                                  # 杯子：大小不一、有的疊兩三個
+        r = RE.uniform(0.028, 0.042); cx += r + RE.uniform(0.005, 0.03)
+        if cx + r > 0.46: break
+        n = RE.choice((1, 1, 1, 2)); hh = RE.uniform(0.05, 0.08); col = RE.choice(('#f2efe8', '#e8dcc8', '#d8d4cc')); zz = RE.uniform(-0.15, 0.08)
+        for q in range(n): Xf(x + cx, z + zz, 0, y + 0.49 + q * hh * 0.82).lathe(sh.a('vcg'), [(0.0, 0.0), (r * 0.8, 0.0), (r, hh), (r * 0.9, hh)], 0, 0, 0, seg=8, col=col)
+        cx += r
+
+
+espresso(bx0 + 1.6, CF.BAR['z'] - 0.1, top)
 for gx in (bx0 + 2.5, bx0 + 2.8):                                                                                       # 兩台磨豆機
     g = Xf(gx, CF.BAR['z'] - 0.15, 0, top); g.rbox(m, -0.09, 0.09, 0.0, 0.3, -0.09, 0.09, r=0.02, seg=1, col='#2e2e2e'); g.lathe(sh.a('glass'), [(0.03, 0.3), (0.08, 0.5), (0.07, 0.52)], 0, 0, 0, seg=10)
     Xf(gx, CF.BAR['z'] - 0.15, 0, top + 0.32).lathe(sh.a('vcg'), [(0.0, 0.0), (0.06, 0.0), (0.07, 0.14), (0.0, 0.14)], 0, 0, 0, seg=10, col='#3a2418')
@@ -246,14 +273,14 @@ for (y, kind) in ((1.55, 'jar'), (1.95, 'mug'), (2.35, 'jar'), (2.75, 'bottle'))
         if kind == 'bottle' and abs(xx - sg_['along']) < sg_['w'] / 2 + 0.12: xx = sg_['along'] + sg_['w'] / 2 + 0.15; continue   # 招牌前面不放酒瓶
         if RB.random() < 0.14:
             sh.plant(xx + 0.08, Z0 + 0.16, h=RB.uniform(0.22, 0.34), r=RB.uniform(0.06, 0.085), pot_col=RB.choice(('#d8d0c0', '#b0653e', '#3a3a38')), y0=y); xx += RB.uniform(0.35, 0.6); continue
-        for q in range(RB.randint(3, 5)):
+        for q in range(RB.randint(3, 4)):
             if xx > bx1 - 0.2: break
             zz = Z0 + 0.16 + RB.uniform(-0.05, 0.06); k_ = kind if RB.random() < 0.8 else RB.choice(('jar', 'mug', 'bottle'))
             if k_ == 'bottle': sh_bottle(xx, zz, y)
             elif k_ == 'jar': sh_jar(xx, zz, y)
             else: sh_cup(xx, zz, y, n=RB.choice((1, 1, 2, 3)))
             xx += RB.uniform(0.095, 0.14)
-        xx += RB.uniform(0.32, 0.65)
+        xx += RB.uniform(0.4, 0.75)
 for xx in (bx0 + 0.5, bx0 + 2.9, bx1 - 0.6): sh.hanging_pothos('pothos', xx, 2.82, Z0 + 0.2, n=6, drop=0.9)
 sg = IT['sign'][0]; sh.wall_img('back', 'print', sg['along'], sg['y'], sg['w'], sg['h'], K.cell_uv(0, 0, 4, 1), off=0.03)
 xf0.rbox(sh.w('back', 'wood'), sg['along'] - sg['w'] / 2 - 0.04, sg['along'] + sg['w'] / 2 + 0.04, sg['y'] - sg['h'] / 2 - 0.04, sg['y'] + sg['h'] / 2 + 0.04, Z0, Z0 + 0.025, r=0.006, seg=1)

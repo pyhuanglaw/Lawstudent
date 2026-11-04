@@ -498,7 +498,13 @@ def a23():
     (6,0) 2×2 舊照片一（街景）、(0,1) 2×2 舊照片二（山城）、(2,1) 2×2 舊照片三（港邊）、(0,3) 8×1 黑膠封面 8 張、(6,2) 2×1 營業時間牌"""
     rng = np.random.default_rng(1109); im = Image.new('RGB', (1024, 1024), '#e8dcc4'); d = ImageDraw.Draw(im)
     bx = box(0, 0, 4, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#2f3d30'); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#b8944a', width=3)
-    text_c(d, ((x0 + x1) / 2, y0 + 62), '2:30 AM', F(58), '#e8d29a')
+    # v1e（BB 07:54：遊戲裡縮小以後冒號像句點）：參考圖是金色襯線字；冒號自己畫兩顆大一點的圓點，縮小也看得出是「:」
+    fs = ImageFont.truetype('/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf', 76); gold = '#e8d29a'
+    parts = [('2', 0), (':', 1), ('30 AM', 0)]; ws = [d.textlength(t, font=fs) if c == 0 else 30 for t, c in parts]; xx = (x0 + x1) / 2 - sum(ws) / 2; base = y0 + 64
+    for (t, c), w_ in zip(parts, ws):
+        if c: [d.ellipse([xx + 15 - 8, base + dy - 8, xx + 15 + 8, base + dy + 8], fill=gold) for dy in (-15, 19)]
+        else: d.text((xx, base), t, font=fs, fill=gold, anchor='lm')
+        xx += w_
     bx = box(4, 0, 2, 2); paper(im, bx, '#2a2e2a', rng, grain=0.12); x0, y0, x1, y1 = bx
     d.rectangle(bx, outline='#5a3e28', width=9); d.text((x0 + 22, y0 + 18), '2:30 AM', font=F(30), fill='#f1ead8'); d.text((x0 + 22, y0 + 56), 'COFFEE & NIGHT', font=F(14), fill='#e8e0cc')
     for k, (n_, p_) in enumerate((('Hand Drip', 160), ('Latte', 150), ('Mocha', 160), ('Earl Grey', 140), ('Cheesecake', 130), ('Toast', 90))):
