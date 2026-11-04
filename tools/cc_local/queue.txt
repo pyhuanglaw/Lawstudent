@@ -22,6 +22,8 @@
 # ===== P0 熱修 v9.10.19.1 GO 組（BB；LAWWW fd8d447d2＝main＋attended 修正＋guardTalk）：最前面 =====
 # ===== P0 LIVE 驗證 v9.10.19.1（BB 02:15；main b0c3032af＝fd8d447d2＋RELEASES.md；排最前面）=====
 # ===== BB 05:17：GG 系列最前面（3dce31a93）=====
+# ===== 06:1x：日和微波後走不回結帳（疑似卡在後牆走道）＝開 CC_AUTORETRY 重跑拿 trace（排最前）=====
+GG_int_cvs_menu_tt | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0
 GG_night | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 GG_night_typhoon | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
 GATE_out2 | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 15 | CASES=shot;GATE_VIEWS=out;CC_HEADLESS=0
