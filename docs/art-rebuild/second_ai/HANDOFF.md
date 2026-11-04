@@ -6,7 +6,29 @@
 - 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
 - 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
 
-## 🔨 現在在做（11-03 20:5x UTC 更新）
+## 🔨 現在在做（11-04 00:5x UTC 更新）
+- **LAWWW 已經整合**（開發分支 aa8cb5beb）：新生南路區域、木曜日。瀏覽器測試已經派 BB 排到 PC。
+- **新生南路店面 v1**（ART-XINSHENG-FRONTS-1104）：已交 LAWWW，patch `wip/xinsheng/xinsheng_fronts_v1.patch`（接 a141fce2c），WORK_IN_PROGRESS。
+  - 做法：從參考圖裁出貼圖（`xs_front_tex.py`）＋3D 框、招牌板、騎樓。說明在 PLAN.md 最後一節。
+  - 下一步：
+    - 山嵐的白磁磚飾帶、深色柱子；
+    - 同弦二樓吉他窗太暗；
+    - 地面、行道樹；
+    - 側門外遠景；
+    - 每家 ref_match。
+- **店面驗收**（紀錄在 `wip/shop_review_1103/README.md`）：
+  - 收（MODEL_READY）：木曜日 v3b／v3c、燒臘 v7、好拍 v2、大步 v2、山嵐 v5、日常失速 v3c、同弦 v4、南洋大廳 v5（加近景物件 B）、南洋 1 廳 v2。
+  - 等：BB 大口漢堡；CC 運動廣場、好拍 v2b、大步 v2b。
+- **BB PC 回報的兩項 FAIL**：
+  - 六法鏡頭：在 d2b962a3f 測的，那一版沒有 c6814325c 的修正，已請 BB 在新版重測；
+  - 橘貓：方向由 rub.dir 亂數決定，不是 bug，已說明。
+- **接下來由我接成區域**：
+  - 山嵐（xs_shanlan，兩層）；
+  - 日常失速（溫州街 W2 一樓）；
+  - 南洋（大廳＋1 廳斜地板）；
+  - 好拍、大步、同弦、燒臘、大口漢堡。
+
+## 🔨 之前（11-03 20:5x UTC）
 - **總圖第五版：BB ART_APPROVED（20:14，第二輪 `52dbf7f8e`）**。條件：LAWWW 整合後，候選版的 flow_library_floors、flow_library_scene、nav、reachability 都要 PASS。patch 是 `wip/library_v5/library_v5_1103.patch`。
 - **研究小間讀者第二版**：已交 `12ac5e5f9`。
 - **AA 室內驗收**：
