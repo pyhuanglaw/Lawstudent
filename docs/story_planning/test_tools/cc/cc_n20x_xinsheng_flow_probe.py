@@ -1012,6 +1012,14 @@ async def final_case(pg, cdp, errs, year):
         adj = d <= 0.9 or same_side
         print('  玩家與揪的人：距離 %.2f m；layout 座位 %s／%s' % (d, pl.get('i'), hn['i']), flush=True)
     check('%s ③：玩家坐在揪的人旁邊（≤ 0.9 m 或相鄰座位）' % tag, adj)
+    # ③b（BB 11-04 (d)）：揪的人坐長桌一端＝沿長邊離桌子中心最遠的座位（layout 0、3、4、7；兩側各兩端）
+    ls = snap.get('longSeats') or []
+    end_ok = False
+    if hn and hn['seat'] and ls:
+        cx = sum(q[0] for q in ls) / len(ls); far = max(abs(q[0] - cx) for q in ls)
+        end_ok = abs(abs(hn['seat']['x'] - cx) - far) <= 0.15
+        print('  揪的人座位 x=%.2f；長桌中心 x=%.2f，一端離中心 %.2f m' % (hn['seat']['x'], cx, far), flush=True)
+    check('%s ③b：揪的人坐長桌一端（離中心最遠的座位）' % tag, end_ok, J(hn and hn['seat']))
     # ④ 有名字的最多 6 個；空位是不認識的同學，不講話
     strangers = [n for n in seated if n['long'] and (n['extra'] or not n['known'])]
     snames = {n['name'] for n in strangers if n['name']}
