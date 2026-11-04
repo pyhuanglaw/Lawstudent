@@ -675,3 +675,9 @@
 [21:18:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
 [21:18:30] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
 [21:18:37] [res] cpu=3% mem=39% (12.4/31.4 GB) chrome_testing=10  END WZ2_perf_C1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4726dc1b6..88cfd1eb2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:18:43] ==== END   WZ2_perf_C1  exit=0  216s   ====
+[21:19:05] 正在跑：GG_shops2_afar_seat（已跑 74 分／上限 90 分）——還沒測完，請不要關 (tests still running - please do not close)
+[21:19:09] [res] cpu=0% mem=34% (10.8/31.4 GB) chrome_testing=0  END GG_shops2_afar_seat
