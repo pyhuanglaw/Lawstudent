@@ -82,8 +82,8 @@ SK['enamel_red'] = flat('wz_sf_enamel_red', '#b8322a', rough=0.35)   # 麵攤正
 SK['noren'] = _img_mat('wz_noren', 'shop_noren.png', rough=0.9)   # 定食店的暖簾（shopkit_tex.noren）
 SK['bowl_w'] = flat('wz_sf_bowl_white', '#f2efe8', rough=0.3); SK['bowl_b'] = flat('wz_sf_bowl_indigo', '#2f4a6a', rough=0.3)   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
 # 有使用者核可招牌圖（BB-B signs_approved）的店：棟號 → 貼圖集的名字（_h 橫、_v 直）
-SIGNMAP = {'A1': 'ade_print', 'A3': 'xiangkou_books', 'A4': 'lin_noodle', 'A5': 'riri_mart', 'B2': 'laundry', 'B3': 'xiangzi_teishoku',
-           'B5': 'xiangkou_tea', 'B5i': 'summer_ice', 'B6': 'azhong_fruit', 'B7': 'banshu'}
+SIGNMAP = {'A1': 'wz_ade', 'A3': 'xiangkou_books', 'A4': 'wz_lin', 'A5': 'riri_mart', 'B2': 'laundry', 'B3': 'wz_komichi',
+           'B5': 'xiangkou_tea', 'B5i': 'summer_ice', 'B6': 'azhong_fruit', 'B7': 'wz_sunnyside'}   # WZ-FIVE-1104：林家、小路、SUNNY SIDE、阿德換成使用者 11-04 參考圖的招牌（舊的設計稿 lin_noodle／xiangzi_teishoku／banshu／ade_print 留在圖集裡）
 
 
 def sign_tex(xf, key, cx, y0, w, zf, name):
@@ -330,6 +330,8 @@ NOTE_Q = []   # (四點世界座標, 圖集格名稱)：最後合成一個網格
 
 
 def note(xf, cellname, x, y, w, h, z):
+    if cellname in XS_ATLAS:   # WZ-FIVE-1104：參考圖裁的價目牌／菜單（xs_front_tex.py 的 wz_* 那幾格），貼 wz_xs_fronts 圖集，不是紙條圖集
+        xs_quad(cellname, [xf.p(x - w / 2, y, z), xf.p(x + w / 2, y, z), xf.p(x + w / 2, y + h, z), xf.p(x - w / 2, y + h, z)]); return
     NOTE_Q.append(([xf.p(x - w / 2, y, z), xf.p(x + w / 2, y, z), xf.p(x + w / 2, y + h, z), xf.p(x - w / 2, y + h, z)], cellname))
 
 
@@ -348,7 +350,9 @@ def cork_board(xf, x, y0, w, h, z, cells=('tutor', 'rent', 'lostcat', 'hours2', 
         xf.box(acc(flat('wz_pin_' + ('red' if i % 2 else 'blue'), '#c0392b' if i % 2 else '#2f5fa8', rough=0.4)), cx - 0.008, cx + 0.008, cy + ch / 2 - 0.03, cy + ch / 2 - 0.014, zz, zz + 0.01)
 
 
-def note_tilt(pts_world, cellname): NOTE_Q.append((pts_world, cellname))
+def note_tilt(pts_world, cellname):
+    if cellname in XS_ATLAS: xs_quad(cellname, pts_world); return   # WZ-FIVE-1104：A 字立牌貼參考圖裁的黑板
+    NOTE_Q.append((pts_world, cellname))
 
 
 def build_notes():
@@ -419,7 +423,11 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
                 a_, b_ = x0 + 0.015 + j * 0.47 / 6, x0 + 0.015 + (j + 1) * 0.47 / 6
                 za, zb_ = gz + 0.12 + 0.012 * math.sin(j * 1.9 + k), gz + 0.12 + 0.012 * math.sin((j + 1) * 1.9 + k)
                 u0, u1 = (k + j / 6) / 3, (k + (j + 1) / 6) / 3
-                uvquad(f'sk_noren_{spec["id"]}_{k}_{j}', SK['noren'], [xf.p(a_, ih - 0.62, za), xf.p(b_, ih - 0.62, zb_), xf.p(b_, ih + 0.05, zb_), xf.p(a_, ih + 0.05, za)], (u0, 0.0, u1, 1.0))
+                pq = [xf.p(a_, ih - 0.62, za), xf.p(b_, ih - 0.62, zb_), xf.p(b_, ih + 0.05, zb_), xf.p(a_, ih + 0.05, za)]
+                nk = sf['noren'] if isinstance(sf['noren'], str) else None
+                if nk in XS_ATLAS:   # WZ-FIVE-1104：參考圖裁的暖簾（小路），每一條照位置取圖集裡那一段
+                    U0, V0, U1, V1 = XS_ATLAS[nk][:4]; _XSQ.append((pq, (U0 + (U1 - U0) * u0, V0, U0 + (U1 - U0) * u1, V1), False)); continue
+                uvquad(f'sk_noren_{spec["id"]}_{k}_{j}', SK['noren'], pq, (u0, 0.0, u1, 1.0))
         xf.cyl(acc(SK['wood_dk']), (dx - 0.8, ih + 0.07, gz + 0.12), (dx + 0.8, ih + 0.07, gz + 0.12), 0.02, seg=6)
     # 鐵捲門箱＋導軌
     if sf.get('rollbox', True):
@@ -1712,25 +1720,25 @@ SF = {
     'A3': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_quarry', step=0.1, door_x=1.4,
                notes=[('hours', -1.2, 1.2, 0.36, 0.36), ('poster', 3.6, 1.0, 0.5, 0.6)],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'menu'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
-    'A4': dict(inner=True, door='open', sign='panel', awning='stripe_red', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,
-               notes=[('menu', 2.4, 1.2, 0.6, 0.66)],
-               clutter=[('noodle', -1.6, 0.42), ('stool_r', 0.6, 0.55), ('stool_b', 1.1, 0.4), ('stool_r', 2.9, 0.55)]),
+    'A4': dict(inner=True, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
+               notes=[('wz_lin_menu', 2.4, 1.05, 0.62, 0.97)],
+               clutter=[('noodle', -1.6, 0.42), ('stool_r', 0.6, 0.55), ('stool_b', 1.1, 0.4), ('pot', 3.3, 0.35, 'broad'), ('pot', -3.45, 0.35, 'broad')]),
     'A5': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
                notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)],
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),
     'B2': dict(inner=True, door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4)], board=(1.35, 1.0, 0.9, 0.7),   # AA_413（10-23）：門右邊的布告欄（尋貓的紙條搬到布告欄上；「看布告欄」在世界 x −16.4）
                clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
-    'B3': dict(inner=True, door='lattice', sign='wood', awning='stripe_navy', floor='f_floral', step=0.12, noren=True, light='warm', door_x=-2.0, door_w=1.8, ac=4.8,
-               notes=[('menu', 2.2, 1.0, 0.58, 0.62), ('hours', 3.0, 1.2, 0.34, 0.34)],
-               clutter=[('aboard', 4.4, 0.45, 'menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', -5.2, 0.32), ('umb', 5.6, 0.3)]),
+    'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', light='warm', door_x=-2.0, door_w=1.8, ac=4.8,   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
+               notes=[],
+               clutter=[('aboard', 0.2, 0.45, 'wz_komichi_menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', 2.6, 0.32, 'broad'), ('pot', 5.4, 0.32)]),
     'B5': dict(split=[dict(id='B5', kind='tea', x0=-7.0, x1=0.0, floor='f_white', shop=dict(name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a'),
                            notes=[('pay', -2.9, 0.62, 0.26, 0.26), ('hiring', 2.75, 1.1, 0.4, 0.44)], clutter=[('bins', 3.0, 0.4)]),
                       dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・古早味', signBg='#f7efe0', signColor='#b0322a', band='#2f7a8a', serif=True),
                            notes=[('hours', 2.95, 1.3, 0.34, 0.34)], clutter=[('aboard', 3.0, 0.5, 'menu')])]),
-    'B7': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # 半熟：新裝潢的小店（原木、大片玻璃、黑板菜單）
-               notes=[('hours', -1.0, 1.25, 0.34, 0.34), ('pay', -0.55, 1.3, 0.26, 0.26)],
-               clutter=[('aboard', 2.2, 0.5, 'chalk'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('bench', 0.9, 0.45)]),
+    'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
+               notes=[('hours', -1.0, 1.25, 0.34, 0.34)],
+               clutter=[('aboard', 0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', 1.5, 0.32)]),
     'B6': dict(inner=True, door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', ac=-3.7,
                notes=[('pay', 3.5, 1.6, 0.32, 0.32)],
                clutter=[('fruitstall', -0.1, 0.5), ('boxes', 3.4, 0.35), ('stool_b', 2.4, 0.45)]),   # AA_413（10-23）：門廊前緣的攤子（原本是 x −1.2 的三層木架 crates）；老闆站在攤子後面＝世界 (34.9, −6.15)

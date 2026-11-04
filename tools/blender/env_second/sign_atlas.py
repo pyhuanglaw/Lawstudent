@@ -29,6 +29,11 @@ SIGNS = {
     'xiangzi_teishoku_h': ('xiangzi_teishoku', 'h', T, False), 'xiangzi_teishoku_v': ('xiangzi_teishoku', 'v', None, False),
     'xiaoshubao_decal': ('xiaoshubao', 'decal', None, False), 'xiaoshubao_v': ('xiaoshubao', 'v', None, False),
     'yizhan_lantern': ('yizhan_lantern', 'lantern', None, True), 'yizhan_plaque': ('yizhan_lantern', 'plaque', None, False),
+    # 溫州街第一批五間（WZ-FIVE-1104，使用者 11-04 04:4x，AA_654）：參考圖 ref_images/shops/wz_<店>_ext.webp 的招牌拉正（tools/blender/env_second/xs_front_tex.py 同一組四角），整張用
+    'wz_lin_h': ('wz_lin_h_fit', 'full_h', None, False),            # 林家乾麵：深綠底金字（白天照明，不是燈箱）
+    'wz_sunnyside_h': ('wz_sunnyside_h_fit', 'full_h', None, False), # SUNNY SIDE（原本的半熟）：米白飾帶深綠字
+    'wz_komichi_h': ('wz_komichi_h_fit', 'full_h', None, False),     # 小路（原本的巷子裡定食）：深色木招牌
+    'wz_ade_h': ('wz_ade_h_fit', 'full_h', None, True),              # 阿德影印輸出：白底藍字燈箱
 }
 # 公館（--set gongguan → gg_signs_atlas.*）：BB-B 補好比例的 _fit 版（6.50×0.64 m 橫、0.74×2.60 m 直），整張用、不切不拉（BB-B 00:08 通過 S1～S4，00:1x、00:2x 再通過兩家）
 GG = {'riri_mart_h': ('hiyori_mart_fit', 'full_h', None, True),   # 11-04 日和便利店

@@ -33,16 +33,16 @@ SPECS = [
     dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile', color='#d9c9a8', ground='shop', shop=SHOP(type='print', name='阿德影印輸出', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='巷口書房', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
-    dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='plaster', color='#e8e1d4', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#f4ead8', signColor='#9c2f2a', vertical='麵', vBg='#ffffff', vColor='#9c2f2a', vBand='#9c2f2a', awning='#9c2f2a')),
+    dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='plaster', color='#e8e1d4', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#2f5a47', signColor='#e9d9a8', awning='#2f5a47', atlas='wz_lin_h')),
     dict(id='A5', side='A', x0=40, x1=48, floors=3, wall='tile', color='#b8a088', roofAdd=True, ground='shop', shop=SHOP(type='cvs', name='日和便利店', sub='24H', signBg='#f4efe2', signColor='#4b4a2c', band='#8a9a4a', frame='#cfd6d6')),   # 11-04 日日便利 → 日和便利店（AA_647 §6，和公館 G03 同一家連鎖：米白燈箱、橄欖綠字和色帶、橘色太陽）
     # B 側（z<0，立面朝 +z）：aptB → 位置 ((x0+x1)/2, −5)、rotation.y=0
     dict(id='B1', side='B', x0=-30, x1=-21, floors=3, wall='plaster', color='#d8d0c0', roofAdd=True, ground='shutter'),
     dict(id='B2', side='B', x0=-21, x1=-15, floors=4, wall='tile', color='#bfb3a3', ground='shop', shop=SHOP(type='laundry', name='自助洗衣', sub='24 小時・投幣式', signBg='#e9f2f6', signColor='#2a5f8a', frame='#cfd6d6')),
-    dict(id='B3', side='B', x0=-9.6, x1=4, floors=5, wall='tile', color='#d5c7b0', ground='shop', shop=SHOP(type='teishoku', name='巷子裡定食', sub='日式家庭料理', signBg='#1f2e45', signColor='#f4ead8', serif=True, awning='#1f2e45', vertical='定食', vBg='#f4ead8', vColor='#1f2e45', vBand='#1f2e45')),
+    dict(id='B3', side='B', x0=-9.6, x1=4, floors=5, wall='tile', color='#d5c7b0', ground='shop', shop=SHOP(type='teishoku', name='小路', sub='居酒屋', signBg='#2e2219', signColor='#f4ead8', serif=True, awning='#3a2a1f', atlas='wz_komichi_h')),
     dict(id='B4', side='B', x0=4, x1=16, floors=4, wall='mosaic', color='#d8d2c6', ground='door', door='#2f4a3a'),
     dict(id='B5', side='B', x0=16, x1=30, floors=4, wall='tile', color='#cbbba3', ground='arcade', shop=SHOP(type='tea', name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a')),
     dict(id='B6', side='B', x0=30, x1=40, floors=5, wall='plaster', color='#e6dccb', ground='shop', shop=SHOP(type='fruit', name='阿忠水果', sub='當季水果・果汁', signBg='#f2b33e', signColor='#5c2a1a')),
-    dict(id='B7', side='B', x0=40, x1=48, floors=4, wall='tile', color='#a89a88', ground='shop', shop=SHOP(type='brunch', name='半熟', sub='早午餐', signBg='#a07850', signColor='#ffffff', frame='#6b4a30')),   # ART-WZ2：原本是住家，改成早午餐店（AA_164）
+    dict(id='B7', side='B', x0=40, x1=48, floors=4, wall='tile', color='#a89a88', ground='shop', shop=SHOP(type='brunch', name='SUNNY SIDE', sub='Brunch', signBg='#f1ead8', signColor='#3f5a3c', frame='#3f5a3c', atlas='wz_sunnyside_h')),   # ART-WZ2：原本是住家，改成早午餐店（AA_164）
     # Café 南北兩側（立面朝西，rotation.y=−π/2）
     dict(id='C1', pos=(55.4, -12.4), ry=-math.pi / 2, w=10, d=12, floors=5, wall='tile', color='#cbbba6', ground='shutter'),
     dict(id='C2', pos=(55.4, 11.2), ry=-math.pi / 2, w=7, d=12, floors=4, wall='mosaic', color='#d3cbbd', balcony=True, ground='door', door='#2f4a3a'),
