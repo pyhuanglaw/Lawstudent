@@ -348,9 +348,16 @@ for side in ('left', 'right', 'back'):
     else: p['wall'].box(X0, X1, 0, H, Z0, ZI0); p['vc'].cbox(XI0, XI1, 0, 0.09, ZI0, ZI0 + 0.012, '#b8bab8')
     p.done()
 # 天花板和牆的接縫：一圈白色收邊（L 形鋁條）
+
+
+def down_rect(c, x0, x1, z0, z1, y, col):
+    """朝下的一片（天花板上的東西只做朝下的面：遊戲鏡頭在天花板上面往下看時看不到，和天花板一樣單面）"""
+    return c.poly([(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], col)
+
+
 cm = Part('ceil_trim', smooth=False)
-for (a, b, c0, c1) in ((XI0, XI0 + 0.025, ZI0, ZI1), (XI1 - 0.025, XI1, ZI0, ZI1)): cm['vc'].cbox(a, b, H - 0.02, H, c0, c1, '#f2f2f0')
-cm['vc'].cbox(XI0, XI1, H - 0.02, H, ZI0, ZI0 + 0.025, '#f2f2f0'); cm['vc'].cbox(XI0, XI1, H - 0.02, H, ZI1 - 0.025, ZI1, '#f2f2f0'); cm.done()
+for (a, b, c0, c1) in ((XI0, XI0 + 0.03, ZI0, ZI1), (XI1 - 0.03, XI1, ZI0, ZI1), (XI0, XI1, ZI0, ZI0 + 0.03), (XI0, XI1, ZI1 - 0.03, ZI1)): down_rect(cm['vc'], a, b, c0, c1, H - 0.003, '#f6f6f4')
+cm.done()
 
 fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']
 pf = Part('front', side='front', smooth=False)
@@ -399,9 +406,9 @@ LT = LAY['lights']
 
 def panel_build(pt):
     """嵌在輕鋼架裡的 LED 平板燈（1.2 × 0.3 m；燈面會亮、白色鋁框）：原點在燈面中心，長邊沿 z"""
-    c = pt['vc']; hw, hl = 0.15, 0.6
-    c.cbox(-hw - 0.02, hw + 0.02, -0.012, 0.0, -hl - 0.02, -hl, '#f4f4f2'); c.cbox(-hw - 0.02, hw + 0.02, -0.012, 0.0, hl, hl + 0.02, '#f4f4f2')
-    c.cbox(-hw - 0.02, -hw, -0.012, 0.0, -hl, hl, '#f4f4f2'); c.cbox(hw, hw + 0.02, -0.012, 0.0, -hl, hl, '#f4f4f2')
+    c = pt['vc']; hw, hl = 0.15, 0.6; y = -0.004
+    down_rect(c, -hw - 0.025, hw + 0.025, -hl - 0.025, -hl, y, '#f4f4f2'); down_rect(c, -hw - 0.025, hw + 0.025, hl, hl + 0.025, y, '#f4f4f2')
+    down_rect(c, -hw - 0.025, -hw, -hl, hl, y, '#f4f4f2'); down_rect(c, hw, hw + 0.025, -hl, hl, y, '#f4f4f2')
     pt['emit'].rect((0, -0.006, 0), (1, 0, 0), (0, 0, 1), hw, hl, ATL['panel'])   # 朝下
 
 
@@ -410,15 +417,18 @@ for (x, z) in LT['panels']:
     PANEL.place(fm((x, H, z)))
     CL.glow(root, 'panel', x, H - 0.1, z, color='rgba(240,246,255,1)', size=1.3, day=0.25, night=1.0)
 ac = IT['ac']; pa = Part('ac'); aw = ac['w']
-crb(pa['vc'], ac['x'] - aw / 2, ac['x'] + aw / 2, H - 0.05, H, ac['z'] - aw / 2, ac['z'] + aw / 2, '#ecebe6', r=0.008)
-pa['goods'].rect((ac['x'], H - 0.051, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.01, aw / 2 - 0.01, ATL['ac_grille'])
+for (a, b, c0, c1) in ((-aw / 2, aw / 2, -aw / 2, -aw / 2 + 0.03), (-aw / 2, aw / 2, aw / 2 - 0.03, aw / 2), (-aw / 2, -aw / 2 + 0.03, -aw / 2 + 0.03, aw / 2 - 0.03), (aw / 2 - 0.03, aw / 2, -aw / 2 + 0.03, aw / 2 - 0.03)):
+    down_rect(pa['vc'], ac['x'] + a, ac['x'] + b, ac['z'] + c0, ac['z'] + c1, H - 0.004, '#ecebe6')   # 冷氣面板的外框（只做朝下的面）
+pa['goods'].rect((ac['x'], H - 0.006, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.03, aw / 2 - 0.03, ATL['ac_grille'])
 for (x, z) in ((-1.0, 0.6), (1.0, 2.4), (-1.0, -3.0), (1.0, -1.2), (0.0, 3.9)):   # 灑水頭
     ccyl(pa['vcm'], (x, H, z), (x, H - 0.05, z), 0.012, '#d8d8d4', seg=6); ccyl(pa['vcm'], (x, H - 0.05, z), (x, H - 0.06, z), 0.03, '#c9a24a', seg=8)
 for (x, z) in ((0.0, -1.2), (0.0, 2.4)):   # 偵煙器
     clathe(pa['vc'], [(0.0, 0.0), (0.06, 0.0), (0.055, -0.03), (0.0, -0.035)], x, H, z, '#f4f4f0', seg=12)
-crb(pa['vc'], -0.18, 0.18, H - 0.33, H - 0.2, ZI1 - 0.06, ZI1, '#f0f0ec', r=0.005)   # 店門上面的出口燈（綠色面板）
-pa['emit'].rect((0, H - 0.265, ZI1 - 0.061), (-1, 0, 0), (0, 1, 0), 0.16, 0.055, sub('led_g', 0.2, 0.2, 0.8, 0.8))
 pa.done()
+pex = Part('exit_sign', side='front')   # 店門上面的出口燈（綠色面板）：放進店面那面牆的淡出組
+crb(pex['vc'], -0.18, 0.18, H - 0.33, H - 0.2, ZI1 - 0.06, ZI1, '#f0f0ec', r=0.005)
+pex['emit'].rect((0, H - 0.265, ZI1 - 0.061), (-1, 0, 0), (0, 1, 0), 0.16, 0.055, sub('led_g', 0.2, 0.2, 0.8, 0.8))
+pex.done()
 
 # ======================================================================
 # 左：自助影印機兩台、價目表、盆栽、大圖輸出機、紙樣櫃、公告板、時鐘、月曆
@@ -463,6 +473,12 @@ clathe(plw['vc'], [(0.0, 0.0), (0.16, 0.0), (0.165, 0.03), (0.0, 0.035)], XI0 + 
 plw['goods'].rect((XI0 + 0.038, 2.45, -0.35), (0, 0, -1), (0, 1, 0), 0.15, 0.15, ATL['clock'])
 plw['goods'].rect((XI0 + 0.003, 1.75, -2.25), (0, 0, -1), (0, 1, 0), 0.16, 0.24, ATL['calendar'])
 plw.done()
+rb_ = IT['recycle_bin']; prb = Part('recycle_bin')   # 廢紙回收桶（藍色、上面一圈白、丟進去的紙）
+clathe(prb['vc'], [(0.0, 0.0), (rb_['r'] * 0.85, 0.0), (rb_['r'], 0.52), (rb_['r'] * 0.93, 0.52), (rb_['r'] * 0.8, 0.03), (0.0, 0.03)], rb_['x'], 0, rb_['z'], '#2b56a8', seg=16)
+clathe(prb['vc'], [(rb_['r'] * 0.98, 0.5), (rb_['r'] * 1.02, 0.5), (rb_['r'] * 1.02, 0.54), (rb_['r'] * 0.92, 0.54)], rb_['x'], 0, rb_['z'], '#f2f2ee', seg=16)
+for k in range(5):
+    a_ = k * 1.3; prb['goods'].rect((rb_['x'] + 0.05 * math.cos(a_), 0.46 + k * 0.012, rb_['z'] + 0.05 * math.sin(a_)), (math.cos(a_), 0, math.sin(a_)), (0.2 * math.sin(a_), 0.6, -0.2 * math.cos(a_)), 0.08, 0.06, WHITE_PAPER, both=True)
+prb.done()
 fp_ = IT['front_plant']; broad_leaf('front_plant', fp_['x'], fp_['z'], 31, hmax=1.15, nst=7, potr=0.17)
 
 pl_ = IT['plotter']; ppl = Part('plotter', T=fm((pl_['x'], 0, pl_['z']), rot('Y', math.pi / 2)))   # 自己的座標：長邊沿 x（1.5）、正面 +z（轉了以後朝 +x）
