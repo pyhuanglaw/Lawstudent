@@ -53,7 +53,7 @@
       ],
       "dir": "attempt1",
       "run_tail": [
-        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_cases.py http://127.0.0.1:8801/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trace_s",
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_cases.py http://127.0.0.1:8801/index.html <SCRATCH>/trace_s",
         "  這一次的 CASES=A,B",
         "  [前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）",
         "== A 一定會過",
@@ -82,7 +82,7 @@
       ],
       "dir": "attempt2",
       "run_tail": [
-        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_cases.py http://127.0.0.1:8801/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trace_s",
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_cases.py http://127.0.0.1:8801/index.html <SCRATCH>/trace_s",
         "  這一次的 CASES=B",
         "  [前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）",
         "== B 一定會 FAIL",

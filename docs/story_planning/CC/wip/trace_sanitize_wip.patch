@@ -1,5 +1,5 @@
 diff --git a/tools/cc_local/cc_trace.py b/tools/cc_local/cc_trace.py
-index 752765793..41c3848c9 100644
+index 752765793..203ed6e94 100644
 --- a/tools/cc_local/cc_trace.py
 +++ b/tools/cc_local/cc_trace.py
 @@ -70,6 +70,28 @@ def _pairs():
@@ -19,7 +19,7 @@ index 752765793..41c3848c9 100644
 +    (re.compile(r'(?i)((?:[A-Za-z]:)?)(' + _SEP + r')(Users|home)(' + _SEP + r')(?!<USER>)([^/\\\s"\'<>%]+)'),
 +     lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(4) + '<USER>'),
 +]
-+GENERIC_LEFT = re.compile(r'(?i)claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+')
++GENERIC_LEFT = re.compile(r'claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?i:(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+)')
 +
 +
 +def scrub_generic(s):
@@ -40,7 +40,7 @@ index 752765793..41c3848c9 100644
          s = _USER_RE.sub('<USER>', s)
      return _SECRET_RE.sub(lambda m: m.group(1) + m.group(2) + '<REDACTED>', s)
 diff --git a/tools/cc_local/run_queue.py b/tools/cc_local/run_queue.py
-index 8cc4c7c47..73db155d6 100644
+index 8cc4c7c47..496a1d115 100644
 --- a/tools/cc_local/run_queue.py
 +++ b/tools/cc_local/run_queue.py
 @@ -506,6 +506,28 @@ def input_hash(envd, xargs):
@@ -60,7 +60,7 @@ index 8cc4c7c47..73db155d6 100644
 +    (re.compile(r'(?i)((?:[A-Za-z]:)?)(' + _SEP + r')(Users|home)(' + _SEP + r')(?!<USER>)([^/\\\s"\'<>%]+)'),
 +     lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(4) + '<USER>'),
 +]
-+GENERIC_LEFT = re.compile(r'(?i)claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+')
++GENERIC_LEFT = re.compile(r'claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?i:(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+)')
 +
 +
 +def scrub_generic(s):
