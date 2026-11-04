@@ -533,6 +533,9 @@ async def loc_cafe(pg, cdp, mode, R, ctl):
             Rz2['lookStale'] = [{k: s.get(k) for k in ('i', 'x', 'z', 'act', 'look', 'lookNear', 'pose')} for s in stale]
             Rz2.setdefault('missing', []).append({'seg': 'cafe2_chat', 'why': '沒有 u.sitChat（SEATACT.pairs()=%s；互相看著 %d 人）' % (r['pairs'], len(mut))})
             if mut: await seg_close(pg, mode, Rz2, ppl, 'cafe2_mutual', 'chat', ['look'], used=set())
+        # 兩點半這個時段沒有手上空的人（全部在讀書、滑手機＝pose read）：撥頭髮改在這裡補
+        if 'hair' in KINDS and not any(q['ok'] is True and q.get('live') and q.get('got') == 'hair' for sg in Rz.get('segs', []) for q in sg['fid']):
+            await seg_close(pg, mode, Rz2, ppl, 'cafe2_hair', 'hair', ['hair', 'side'], prefer_f=True, used=set(), fallback=())
         # 滑手機的拇指（每 2～6 秒自己滑一下，不用叫）＋抬頭
         await seg_close(pg, mode, Rz2, ppl, 'cafe2_phone', 'phone', ['glance'], used=set(), fallback=())
         await pg.evaluate(UNCAM_JS)
