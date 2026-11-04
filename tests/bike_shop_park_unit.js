@@ -132,6 +132,9 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
       P.obj.position.set(q.x,0,q.z); BIKE.mount(GM); const rode=P.riding; P.obj.position.set(-20,0,0); G.flags.CVS_FROM='wenzhou'; await enter('cvs',{x:0,z:3.4,yaw:Math.PI});
       check('9c 騎車快速前往溫州街 A5 的日和便利店（CVS_FROM wenzhou）：車停在溫州街 A5 門外（WZS.AA413.cvs.out 旁），不是公館（CC／BB 11-04）',rode&&!!m&&G.bike.zone==='wenzhou'&&Math.hypot(G.bike.x-out.x,G.bike.z-out.z)<3,J({rode,m:!!m,bike:G.bike})); }
     finally { G.flags.CVS_FROM=null; if(W0===undefined) delete globalThis.WZS; else globalThis.WZS=W0; } }
+  { loadZone('gongguan',{x:-26.25,z:15.51,yaw:Math.PI}); G.zone='gongguan'; G.bike={zone:'gongguan',x:-26.25,z:15.51,yaw:Math.PI,riding:false}; P.obj.position.set(-26.25,0,15.51); P.obj.rotation.y=Math.PI; BIKE.mount(GM); const r=P.riding;
+    BIKE.dismount(GM); const d=Math.hypot(P.obj.position.x+26.25,P.obj.position.z-15.51);
+    check('9d 窄的地方下車（公館 (−26.25,15.51)：兩側 0.65 m 都站不住）：人還是讓開（0.3～1.0 m）、站得住（CC 11-04 flow_bike E stand 0）',r&&d>0.3&&d<1.0&&E.canStand(P.obj.position.x,P.obj.position.z,0.3,0),J({d,x:P.obj.position.x,z:P.obj.position.z})); }
   // 校園：回宿舍再出來＝宿舍門口；法律系館A＝最近的停車架
   G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false}; G.hour=15;
   await enter('campus',{x:20,z:56,yaw:0}); G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false};

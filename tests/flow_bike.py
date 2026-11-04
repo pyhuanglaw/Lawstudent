@@ -27,8 +27,9 @@ FIT_JS = """(()=>{ const h=GAME.E.player.obj, vrm=h.userData.vrm, bk=h.children.
 
 
 # 從玩家的位置往 24 個方向看，哪一個方向能一直站得住最遠（導航格，人物半徑 0.35 m）：回傳那個方向 30 m 內最遠的點
+# 找最空的方向：每一步離障礙 0.9 m 以上（CC 11-04：原本 0.35 m，挑到貼著男一舍石牆的方向、一路擦牆 0.94 m/s；只改測試）
 OPEN_JS = """(()=>{ const E=GAME.E, P=E.player, x0=P.obj.position.x, z0=P.obj.position.z, lv=P.lv|0; let best=null;
-  for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, dx=Math.sin(a), dz=Math.cos(a); let d=0; while(d<30&&E.canStand(x0+dx*(d+0.5),z0+dz*(d+0.5),0.35,lv)) d+=0.5;
+  for(let k=0;k<24;k++){ const a=k/24*Math.PI*2, dx=Math.sin(a), dz=Math.cos(a); let d=0; while(d<30&&E.canStand(x0+dx*(d+0.5),z0+dz*(d+0.5),0.9,lv)) d+=0.5;
     if(!best||d>best.d) best={d,tx:x0+dx*d,tz:z0+dz*d}; } return best; })()"""
 
 
@@ -125,7 +126,9 @@ async def main():
         ok = await wait_until(pg, "GAME.G.zone==='gongguan'", 60)
         ok2 = await wait_until(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
         k = await bike(pg)
-        run.check('D 出店：車停在門口', ok and ok2 and k['parked'] and math.hypot(k['parked'][0] - bz['x'], k['parked'][1] - bz['z']) < 0.01, json.dumps(k['parked']))
+        # BIKE-SHOP-PARK-1104（使用者 11-04「單車自動出現在我剛離開的建築外合法停車的地方」，AA_646 第 3 節）：出店＝車停在出口最近的合法停車處（騎樓前那排機車的端點），不是進店時放的門口那一點
+        pk_ok = await pg.evaluate("(()=>{ const b=GAME.G.bike, ex=GAME.E.player.obj.position; return !!b&&BIKE.parkOK(GAME.E,{x:b.x,z:b.z,yaw:b.yaw||0})&&Math.hypot(b.x-ex.x,b.z-ex.z)<=BIKE.MAXD; })()")
+        run.check('D 出店：車停在出口最近的合法停車處（站得住、不擋門、離出口 ≤ BIKE.MAXD）', ok and ok2 and k['parked'] and pk_ok and abs(k['parked'][0] - k['bike']['x']) < 0.01 and abs(k['parked'][1] - k['bike']['z']) < 0.01, json.dumps({'parked': k['parked'], 'bike': k['bike']}))
         ux, uz = k['parked'][0] - door['x'], k['parked'][1] - door['z']; ul = math.hypot(ux, uz) or 1   # 站在車離店門遠的那一邊（候選 14：站在靠門那邊，按鈕是「進入便利商店」——門比車近）
         await L.go_to(pg, cdp, run, k['parked'][0] + 0.8 * ux / ul, k['parked'][1] + 0.8 * uz / ul, 0.9, '腳踏車旁邊（離店門遠的那一邊）')
         s = await L.state(pg)

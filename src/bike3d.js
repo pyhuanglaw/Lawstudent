@@ -148,7 +148,9 @@ const BIKE=(function(){
     if(ride&&ride.obj.parent) ride.obj.parent.remove(ride.obj); ride=null; P.obj.rotation.z=0;
     s.riding=false; P.riding=false; P.ride=null; if(P.pose==='ride') P.pose='idle'; if(P.idlePose==='ride') P.idlePose='idle';
     s.zone=opts.zone||G.zone; s.x=at.x; s.z=at.z; s.yaw=at.yaw;
-    if(!opts.away&&!opts.at){ const y=P.obj.rotation.y, lx=Math.cos(y), lz=-Math.sin(y); for(const sd of [1,-1]){ const x=P.obj.position.x+lx*0.65*sd, z=P.obj.position.z+lz*0.65*sd; if(!E.canStand||E.canStand(x,z,0.3,P.lv|0)){ P.obj.position.x=x; P.obj.position.z=z; break; } } }
+    if(!opts.away&&!opts.at){ const y=P.obj.rotation.y, lx=Math.cos(y), lz=-Math.sin(y), fx=Math.sin(y), fz=Math.cos(y), x0=P.obj.position.x, z0=P.obj.position.z;
+      const C=[[lx*0.65,lz*0.65],[-lx*0.65,-lz*0.65],[lx*0.9,lz*0.9],[-lx*0.9,-lz*0.9],[-fx*0.9,-fz*0.9],[(lx-fx)*0.6,(lz-fz)*0.6],[(-lx-fx)*0.6,(-lz-fz)*0.6],[fx*0.9,fz*0.9]];   /* 兩側 0.65 → 兩側 0.9 → 車後 → 斜後 → 車前：窄的地方（公館捷運出口旁）兩側都站不住時也讓開（CC 11-04 flow_bike E：stand 0）*/
+      for(const [dx,dz] of C){ const x=x0+dx, z=z0+dz; if(!E.canStand||E.canStand(x,z,0.3,P.lv|0)){ P.obj.position.x=x; P.obj.position.z=z; break; } } }
     showBtn(false); if(!opts.away) placeParked(GM); return true; };
   /* 換區域（GM.enter 開頭）：要去的地方騎得到就連車一起過去；不行就把車停下 */
   B.beforeEnter=function(GM,to,opts){ opts=opts||{}; const E=GM.E, G=GM.G, s=st(G); pendingPark=false; relocated=false;
