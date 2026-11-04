@@ -69,7 +69,13 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         if DET: await pg.add_init_script(SEED_INIT)
-        if CLOCK: await pg.clock.install(time=T_BASE)
+        clock_on = False
+        if CLOCK:
+            try:
+                await pg.clock.install(time=T_BASE); clock_on = True
+            except Exception as e:   # 舊版 Playwright 沒有 page.clock（1.45 起才有）：照樣跑，報告寫明
+                print('INFO 這台的 Playwright 沒有 page.clock（%s）：這一輪沒有固定時鐘' % (repr(e)[:80],), flush=True)
+        print('  [前置／捷徑] 固定時鐘（page.clock）：%s' % ('開' if clock_on else '關'), flush=True)
         nshot = 0
         t0 = time.time(); await pg.goto(URL); ok = await L.wait_loaded(pg); check('遊戲載入', ok, '%.1f 秒' % (time.time() - t0))
         if not ok:
@@ -93,7 +99,7 @@ async def main():
                     await pg.evaluate(HIDE)
                     if DET:
                         nshot += 1
-                        if CLOCK: await pg.clock.pause_at(T_BASE + datetime.timedelta(hours=nshot))
+                        if clock_on: await pg.clock.pause_at(T_BASE + datetime.timedelta(hours=nshot))
                         ri = await pg.evaluate(AIM_DET + '(%s)' % J([e, l, HOUR, SEED + k]))
                     else:
                         ri = await pg.evaluate(AIM_LIVE + '(%s)' % J([e, l])); await pg.wait_for_timeout(300)
@@ -101,11 +107,11 @@ async def main():
                     png = await pg.screenshot(path=os.path.join(OUT, name + '.png'))
                     res[name] = dict(ri, cam=e, look=l, png_sha1=hashlib.sha1(png).hexdigest()[:12], pnow=await pg.evaluate('performance.now()'))
                     print('  %s：calls %s、tris %s、E.time %.2f、時刻 %.3f、sha1 %s' % (name, ri['calls'], ri['tris'], ri['time'], ri['hour'], res[name]['png_sha1']), flush=True)
-            if CLOCK: await pg.clock.resume()
+            if clock_on: await pg.clock.resume()
             await pg.evaluate("GAME.E.paused=false"); await pg.evaluate(HUD + '(true)')
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
-    json.dump({'det': DET, 'seed': SEED, 'hour': HOUR, 'shots': res}, open(os.path.join(OUT, 'baseline.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    json.dump({'det': DET, 'seed': SEED, 'hour': HOUR, 'clock': clock_on, 'shots': res}, open(os.path.join(OUT, 'baseline.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True)
     sys.exit(1 if FAILS else 0)
 
