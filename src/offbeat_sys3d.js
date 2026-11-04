@@ -3,7 +3,7 @@
    - 營業 13:00～01:00 每天開（PLACES.hours.wz_offbeat，跨午夜照兩點半 Café 的 open／close 寫法）、颱風天關（typhoonShops）；關門時按「進去日常失速」寫開放時間；打烊（01:00）人還在店裡＝請你出來（稿上沒有句子：只寫開放時間）。
    - 不給「讀書」（座位本來就沒有 study）。
    - 2-1 第一次進去（一個人）：進門那一刻兩句旁白＋店員一句；只一次（G.offbeat.first）。
-   - 2-2 點東西：吧檯「點東西吃」＋每一趟第一次坐下（和木曜日同一個做法）；價錢照稿扣錢，點完那一樣的旁白（稿上三句各對一樣：肉桂捲、明太子厚片、檸檬氣泡美式；冰拿鐵稿上沒有＝不說）；吃過的登記到 EAT（「溫州街・日常失速」）。
+   - 2-2 點東西：吧檯「點東西吃」＋每一趟第一次坐下（和木曜日同一個做法）；價錢照稿扣錢，點完那一樣的旁白（稿上三句各對一樣：肉桂捲、明太子厚片、檸檬氣泡美式；冰拿鐵那句在 AA_648 第 3 節，已接）；吃過的登記到 EAT（「溫州街・日常失速」）。
    - 2-3 店長（貓）：「看看店長／摸摸店長」→「看看」：每天第一次一句、之後另一句；「摸摸」：三句隨機、同一句不連續出。
    - 2-4 群聚事件：第 1 點期中考完那天（ev_midterm_supper，story3d.js phoneRules）、第 3 點明軒的桌遊夜（src/bgnight3d.js）：AA_648 第 2 節搬進 3D——出遊抵達時換到這裡（OUT.STAGE，S.stage），
      玩家和來的朋友坐長桌、對話照舊 ADV（模糊的 3D 底，不用 2D 的桌遊店圖）；演完回到原本的地方。
@@ -202,6 +202,25 @@ const OFFB=(function(){
     let done=false;
     return {spawned, restore:async()=>{ if(done) return; done=true; S.staged=null; if(P.seat&&GM.standUp) GM.standUp(P);
       await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
+  /* AA_648 第 6 節（企劃線 adf1c2f78）：期末考完的聚餐要真的坐到長桌——揪的人坐長桌一端、玩家坐他旁邊，其他認識的人照熟悉度從玩家附近往外排，
+     加起來最多六個（含揪的人）；坐不滿的位子給不認識的同學（路人，不說話）。玩家走進店裡、事件開頭（events.js ev_term_last_meal* 的 wz_offbeat 那一版第一行）叫 S.finalSeat，
+     事件最後一行叫 S.finalUnseat（朋友、路人收掉，玩家起身，照常在店裡）*/
+  S.FINAL_HOST={Y1:'zhe',Y2:'yu',Y3:'classmate_xinci',Y4:'zhe'};   /* 大一阿哲、大二 Alison、大三芯慈、大四阿哲 */
+  S.FINAL_POOL=['zhe','yu','classmate_bohan','classmate_mingxuan','classmate_peishan','classmate_xinci','heroine_01','kai'];
+  S.finalCast=function(G,term){ const host=S.FINAL_HOST[String(term||'').slice(0,2)]||'zhe', fam=id=>{ try{ return (typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id).fam:0)||0; }catch(e){ return 0; } };
+    const rest=S.FINAL_POOL.filter(id=>id!==host&&knows(G,id)).sort((a,b)=>fam(b)-fam(a)); return [host].concat(rest).slice(0,6); };
+  let finalSpawned=null;
+  S.finalSeat=function(GM,term){ const G=GM.G, E=GM.E, P=E&&E.player, seats=S.longSeats(); if(!G||!P||G.zone!==ZONE||seats.length<2||!GM.sitAt) return null; S.finalUnseat(GM,true);
+    const st=q=>({x:q.x,z:q.z,yaw:q.yaw,lv:0}), ids=S.finalCast(G,term), order=[0,1].concat(seats.map((q,i)=>i).filter(i=>i>1).sort((a,b)=>Math.hypot(seats[a].x-seats[1].x,seats[a].z-seats[1].z)-Math.hypot(seats[b].x-seats[1].x,seats[b].z-seats[1].z)));
+    const sp={ids:[],extras:[]}; if(P.seat&&GM.standUp) GM.standUp(P); GM.sitAt(P,st(seats[order[1]]));   /* 玩家坐揪的人旁邊 */
+    const put=(id,q)=>{ if(GM.npc&&GM.npc[id]&&GM.removeNPC) GM.removeNPC(id); const n=GM.spawnCharacter?GM.spawnCharacter(id,q.x,q.z,{seat:st(q),pose:'sit'}):null; if(n){ n.idlePose='sit'; n.frozen=true; sp.ids.push(id); } };
+    put(ids[0],seats[order[0]]); ids.slice(1).forEach((id,i)=>{ const k=order[i+2]; if(k!=null) put(id,seats[k]); });
+    for(let i=ids.length+1;i<order.length;i++){ const q=seats[order[i]]; if(typeof CHAR==='undefined'||!CHAR.build||!E.addNPC) break; const spec=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(60+i):{}; const o=CHAR.build(spec); if(!o) break;
+      const n=E.addNPC({obj:o,lv:0,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,offFinalExtra:true}); if(n){ GM.sitAt(n,st(q)); n.frozen=true; sp.extras.push(n); } }
+    finalSpawned=sp; return sp; };
+  S.finalUnseat=function(GM,quiet){ const sp=finalSpawned; finalSpawned=null; if(!sp||!GM) return false; for(const id of sp.ids) if(GM.removeNPC) GM.removeNPC(id); const E=GM.E; for(const n of sp.extras) if(E&&E.removeNPC) E.removeNPC(n);
+    if(!quiet&&E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['offbeat:finalSpawned']=()=>{ finalSpawned=null; };   /* 讀檔：演到一半讀檔，舊的那一批跟著區域重建消失 */
   S.outingStage=async function(GM,q,ev){ if(!ev||!S.cast[ev.id]||!S.canStage(GM)) return null; return S.stage(GM,ev.id); };
   if(typeof OUT!=='undefined'&&!OUT._offbStage){ OUT._offbStage=true; if(Array.isArray(OUT.STAGE)) OUT.STAGE.push(S.outingStage);
     if(OUT.bg){ const b0=OUT.bg; OUT.bg=function(id){ if(S.staged&&id==='boardgame_gg') return 'blur'; return b0.apply(this,arguments); }; } }

@@ -194,5 +194,16 @@ const T=()=>said.map(s=>s.t);
     fresh(fri,20); G.flags.companion='an'; check('22. 有人跟著你：照舊 2D（不換區域）',(await OFFB.outingStage(GM,{},{id:'ev_midterm_supper'}))===null);
     check('22. 別的事件不換',(await OFFB.outingStage(GM,{},{id:'ev_y2_first_meal'}))===null);
     delete GM.spawnCharacter; delete GM.removeNPC; GM.sitAt=()=>{}; }
+  // ===== 23. AA_648 第 6 節（adf1c2f78）：期末聚餐真的坐到長桌 =====
+  { const day=TD('Y2S1',16,3); fresh(day,19); G.zone='wz_offbeat'; know('classmate_bohan',S4); know('zhe',S4);
+    const sp=[], ex=[]; GM.spawnCharacter=(id,x,z,o)=>{ sp.push([id,x,z]); return {obj:mkObj()}; }; GM.removeNPC=id=>{ sp.rm=(sp.rm||[]).concat(id); }; let sitP=null; GM.sitAt=(e,s)=>{ if(e===E.player){ sitP=s; E.player.seat=s; } else if(e) e.seat=s; };
+    const addN0=E.addNPC, rmN0=E.removeNPC; E.addNPC=n=>{ ex.push(n); return n; }; E.removeNPC=n=>{ ex.rm=(ex.rm||0)+1; };
+    const long=L.seats.filter(q=>q.table===1); const r=OFFB.finalSeat(GM,'Y2S1');
+    check('23. 大二上：揪的人 Alison 坐長桌一端（第一個位子）、玩家坐她旁邊（第二個位子）',!!r&&sp[0]&&sp[0][0]==='yu'&&sp[0][1]===long[0].x&&sp[0][2]===long[0].z&&!!sitP&&sitP.x===long[1].x&&sitP.z===long[1].z,J([sp.slice(0,2),sitP]));
+    check('23. 認識的人上桌（柏翰、阿哲），加起來最多六個（含揪的人）；空位給路人（不說話）',sp.length<=6&&sp.some(x=>x[0]==='classmate_bohan')&&sp.some(x=>x[0]==='zhe')&&sp.length+1+ex.length===long.length&&ex.every(n=>n.isExtra&&n.frozen),J({ppl:sp.map(x=>x[0]),extras:ex.length,seats:long.length}));
+    OFFB.finalUnseat(GM); check('23. 結束：朋友、路人收掉，玩家起身',(sp.rm||[]).length===sp.length&&ex.rm===ex.length&&!E.player.seat,J({rm:sp.rm,exrm:ex.rm}));
+    check('23. 大一揪的人阿哲、大二 Alison',OFFB.finalCast(G,'Y1S2')[0]==='zhe'&&OFFB.finalCast(G,'Y2S2')[0]==='yu');
+    const ev=STORY_EVENTS.find(e=>e.id==='ev_term_last_meal_y2s1'); check('23. 事件第一行坐下、最後一行收掉（日常失速那一版）',/OFFB\.finalSeat\(GM,'Y2S1'\)/.test(String(ev.dialogue[0].call))&&/OFFB\.finalUnseat/.test(String(ev.dialogue[ev.dialogue.length-1].call)));
+    E.addNPC=addN0; E.removeNPC=rmN0; delete GM.spawnCharacter; delete GM.removeNPC; GM.sitAt=()=>{}; }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
