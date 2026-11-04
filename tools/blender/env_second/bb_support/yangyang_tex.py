@@ -37,12 +37,23 @@ def ceiling(path):
 
 
 def wall(path):
-    """暖黃色舊漆（1024＝2 m 寬、3.2 m 高），下緣稍髒、有一點點色差"""
-    W, H = 1024, 1024; n1 = _noise(H, W, 160, 521); n2 = _noise(H, W, 10, 522, 3)
+    """暖黃色舊漆（1024＝2 m 寬、3.2 m 高）：色差、一塊一塊補漆、水漬、下緣被椅子磨髒、手印"""
+    W, H = 1024, 1024; rng = np.random.RandomState(521)
+    n1 = _noise(H, W, 160, 521); n2 = _noise(H, W, 10, 522, 3); n3 = _noise(H, W, 40, 523, 3)
     yy = np.linspace(0, 1, H)[:, None]
-    col = np.array([230, 186, 104], np.float32)[None, None] * (0.93 + 0.08 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))
-    col *= (1 - 0.12 * np.clip((yy - 0.85) / 0.15, 0, 1))[..., None]
-    return _save(col, path)
+    col = np.array([230, 186, 104], np.float32)[None, None] * (0.9 + 0.12 * n1[..., None] + 0.05 * (n2[..., None] - 0.5))
+    patch = (n3 > 0.66).astype(np.float32); col = col * (1 - 0.08 * patch[..., None]) + np.array([240, 206, 130]) * 0.08 * patch[..., None]   # 補過的漆
+    stain = np.clip((n3 - 0.3) * 3, 0, 1) * np.clip((yy - 0.6) / 0.3, 0, 1)   # 下半的水漬、油漬
+    col = col * (1 - 0.18 * stain[..., None]) + np.array([150, 110, 60]) * 0.18 * stain[..., None]
+    low = np.clip((yy - 0.72) / 0.06, 0, 1) * np.clip((yy - 0.72) / 0.06 * 0 + 1, 0, 1) * (0.5 + 0.5 * _noise(H, W, 30, 524, 2))
+    col = col * (1 - 0.25 * low[..., None]) + np.array([120, 96, 60]) * 0.25 * low[..., None]   # 椅背高度以下磨髒
+    col *= (1 - 0.15 * np.clip((yy - 0.93) / 0.07, 0, 1))[..., None]
+    im = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
+    for _ in range(14):   # 撕掉的膠帶痕、刮痕
+        x, y = rng.randint(0, W - 60), rng.randint(200, 900)
+        if rng.random() < 0.5: d.rectangle([x, y, x + rng.randint(20, 40), y + 6], fill=(214, 172, 96))
+        else: d.line([(x, y), (x + rng.randint(40, 160), y + rng.randint(-10, 10))], fill=(196, 150, 80), width=2)
+    im.save(path); return path
 
 
 def wood(path):
