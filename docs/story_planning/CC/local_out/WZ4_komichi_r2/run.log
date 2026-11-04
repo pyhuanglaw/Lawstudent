@@ -1,0 +1,67 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ4_komichi_r2\out
+PASS 遊戲載入
+== komichi 2200
+  [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "desk_props", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF2_HairCard_HAIR", "NM2_HairCard_HAIR", "NM3_HairCard_HAIR", "NF3_HairCard_HAIR", "NM4_HairCard_HAIR"]
+INFO [2200] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_east_to_west：calls 120、tris 245618
+  [2200] door_in：calls 129、tris 289784
+  [2200] bar：calls 124、tris 289538
+  [2200] booth_west：calls 73、tris 139638
+  [2200] window_seats：calls 87、tris 186132
+  [2200] kitchen：calls 57、tris 135888
+  [2200] table_mid：calls 131、tris 290024
+  [2200] seat_window_out_big 窗那一塊平均亮度：[null, {"box": [0, 0, 844, 326], "luma": 69.4}]
+  [2200] seat_window_out_big：calls 23、tris 36560
+  [2200] seat_window_out_small 窗那一塊平均亮度：[{"box": [321, 0, 523, 326], "luma": 81.6}, null]
+  [2200] seat_window_out_small：calls 24、tris 35100
+  [前置／捷徑] 讀檔：wenzhou (-4.8, -2.4)、2200、條件事件關閉
+  [2200] street_in：從溫州街 (-4.8, -0.8) 往店裡看
+PASS [2200] 溫州街有「進去小路」  {"x": -4.8, "z": -4.6, "r": 1.4, "label": "進去小路"}
+  [   5.7s] 到達「進去小路」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== komichi 1400
+  [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF5_HairCard_HAIR"]
+INFO [1400] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_east_to_west：calls 59、tris 87658
+  [1400] door_in：calls 53、tris 87254
+  [1400] bar：calls 51、tris 87014
+  [1400] booth_west：calls 34、tris 37434
+  [1400] window_seats：calls 34、tris 37018
+  [1400] kitchen：calls 39、tris 85680
+  [1400] table_mid：calls 55、tris 87494
+  [1400] seat_window_out_big 窗那一塊平均亮度：[null, {"box": [0, 0, 844, 326], "luma": 103.2}]
+  [1400] seat_window_out_big：calls 22、tris 36522
+  [1400] seat_window_out_small 窗那一塊平均亮度：[{"box": [321, 0, 523, 326], "luma": 108.3}, null]
+  [1400] seat_window_out_small：calls 23、tris 35062
+  [前置／捷徑] 讀檔：wenzhou (-4.8, -2.4)、1400、條件事件關閉
+  [1400] street_in：從溫州街 (-4.8, -0.8) 往店裡看
+PASS [1400] 溫州街有「進去小路」  {"x": -4.8, "z": -4.6, "r": 1.4, "label": "進去小路"}
+  [   2.7s] 到達「進去小路」附近（0.84 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [-4.8, 2.78, 1.31], "player": [-4.8, 0, -3.76], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+INFO [1400] 玩家視角：沒有進到店裡（14:00 這個時間可能沒開），只截了門口  {"mode": "follow", "cam": [-4.8, 2.78, 1.31], "player": [-4.8, 0, -3.76], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== komichi 1854
+  [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、1854、條件事件關閉
+  [1854] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "desk_props", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF7_HairCard_HAIR", "NF8_HairCard_HAIR", "NM7_HairCard_HAIR", "NF9_HairCard_HAIR", "NF10_HairCard_HAIR"]
+INFO [1854] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1854] ref_east_to_west：calls 157、tris 335502
+  [1854] door_in：calls 148、tris 334854
+  [1854] bar：calls 69、tris 134266
+  [1854] booth_west：calls 70、tris 134928
+  [1854] window_seats：calls 90、tris 187964
+  [1854] kitchen：calls 75、tris 185866
+  [1854] table_mid：calls 115、tris 235002
+  [1854] seat_window_out_big 窗那一塊平均亮度：[null, {"box": [0, 0, 844, 326], "luma": 69.4}]
+  [1854] seat_window_out_big：calls 23、tris 36560
+  [1854] seat_window_out_small 窗那一塊平均亮度：[{"box": [321, 0, 523, 326], "luma": 81.6}, null]
+  [1854] seat_window_out_small：calls 24、tris 35100
+  [前置／捷徑] 讀檔：wenzhou (-4.8, -2.4)、1854、條件事件關閉
+  [1854] street_in：從溫州街 (-4.8, -0.8) 往店裡看
+PASS [1854] 溫州街有「進去小路」  {"x": -4.8, "z": -4.6, "r": 1.4, "label": "進去小路"}
+  [   2.7s] 到達「進去小路」附近（0.62 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [1854] 玩家視角鏡頭：{"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [1854] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS 沒有 JS 例外  []
+ALL PASS

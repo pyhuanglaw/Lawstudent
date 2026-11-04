@@ -434,3 +434,19 @@
 [22:17:15] [res] cpu=44% mem=49% (16.1/31.4 GB) chrome_testing=17  START FETCH_FRESHMAN_HOUSE
 [22:17:15] worktree add 322cd967db8188ae8c81fe3de473d0b5b7ad871c: invalid reference - fetching main and the commit itself
 [22:18:16] [res] cpu=58% mem=49% (16.0/31.4 GB) chrome_testing=18  END FETCH_FRESHMAN_HOUSE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8d498923d..60953b2e0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:18:31] ==== END   FETCH_FRESHMAN_HOUSE  exit=0  64s   ====
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:18:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:18:33] memory 50% before starting V20_wzstreet (2 running)
+[22:18:33] ==== START V20_wzstreet  (game @ 322cd967db8188ae8c81fe3de473d0b5b7ad871c) ====
+[22:18:37] [res] cpu=60% mem=50% (16.0/31.4 GB) chrome_testing=19  START V20_wzstreet
+[22:19:28] 正在跑：WZ4_yizhan_r3（已跑 4 分／上限 25 分）、WZ4_komichi_r2（已跑 3 分／上限 40 分）、V20_wzstreet（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:20:36] [res] cpu=37% mem=49% (15.5/31.4 GB) chrome_testing=17  END WZ4_komichi_r2

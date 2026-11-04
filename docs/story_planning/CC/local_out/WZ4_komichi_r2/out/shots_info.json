@@ -1,0 +1,188 @@
+{
+ "22.0": {
+  "ref_east_to_west": {
+   "calls": 120,
+   "tris": 245618
+  },
+  "door_in": {
+   "calls": 129,
+   "tris": 289784
+  },
+  "bar": {
+   "calls": 124,
+   "tris": 289538
+  },
+  "booth_west": {
+   "calls": 73,
+   "tris": 139638
+  },
+  "window_seats": {
+   "calls": 87,
+   "tris": 186132
+  },
+  "kitchen": {
+   "calls": 57,
+   "tris": 135888
+  },
+  "table_mid": {
+   "calls": 131,
+   "tris": 290024
+  },
+  "seat_window_out_big": {
+   "calls": 23,
+   "tris": 36560,
+   "window_luma": [
+    null,
+    {
+     "box": [
+      0,
+      0,
+      844,
+      326
+     ],
+     "luma": 69.4
+    }
+   ]
+  },
+  "seat_window_out_small": {
+   "calls": 24,
+   "tris": 35100,
+   "window_luma": [
+    {
+     "box": [
+      321,
+      0,
+      523,
+      326
+     ],
+     "luma": 81.6
+    },
+    null
+   ]
+  }
+ },
+ "14.0": {
+  "ref_east_to_west": {
+   "calls": 59,
+   "tris": 87658
+  },
+  "door_in": {
+   "calls": 53,
+   "tris": 87254
+  },
+  "bar": {
+   "calls": 51,
+   "tris": 87014
+  },
+  "booth_west": {
+   "calls": 34,
+   "tris": 37434
+  },
+  "window_seats": {
+   "calls": 34,
+   "tris": 37018
+  },
+  "kitchen": {
+   "calls": 39,
+   "tris": 85680
+  },
+  "table_mid": {
+   "calls": 55,
+   "tris": 87494
+  },
+  "seat_window_out_big": {
+   "calls": 22,
+   "tris": 36522,
+   "window_luma": [
+    null,
+    {
+     "box": [
+      0,
+      0,
+      844,
+      326
+     ],
+     "luma": 103.2
+    }
+   ]
+  },
+  "seat_window_out_small": {
+   "calls": 23,
+   "tris": 35062,
+   "window_luma": [
+    {
+     "box": [
+      321,
+      0,
+      523,
+      326
+     ],
+     "luma": 108.3
+    },
+    null
+   ]
+  }
+ },
+ "18.9": {
+  "ref_east_to_west": {
+   "calls": 157,
+   "tris": 335502
+  },
+  "door_in": {
+   "calls": 148,
+   "tris": 334854
+  },
+  "bar": {
+   "calls": 69,
+   "tris": 134266
+  },
+  "booth_west": {
+   "calls": 70,
+   "tris": 134928
+  },
+  "window_seats": {
+   "calls": 90,
+   "tris": 187964
+  },
+  "kitchen": {
+   "calls": 75,
+   "tris": 185866
+  },
+  "table_mid": {
+   "calls": 115,
+   "tris": 235002
+  },
+  "seat_window_out_big": {
+   "calls": 23,
+   "tris": 36560,
+   "window_luma": [
+    null,
+    {
+     "box": [
+      0,
+      0,
+      844,
+      326
+     ],
+     "luma": 69.4
+    }
+   ]
+  },
+  "seat_window_out_small": {
+   "calls": 24,
+   "tris": 35100,
+   "window_luma": [
+    {
+     "box": [
+      321,
+      0,
+      523,
+      326
+     ],
+     "luma": 81.6
+    },
+    null
+   ]
+  }
+ }
+}
