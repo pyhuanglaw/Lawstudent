@@ -97,7 +97,7 @@ const PLACES={
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、宿舍 205→dorm_hall）；
      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
   base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';
-    if(/^(linze|wancai|gym|gongtong|boya|putong|us_lawlib)_/.test(z)) return z.replace(/_[^_]+$/,''); return z; },
+    if(/^(linze|wancai|gym|gongtong|boya|putong|us_lawlib)_/.test(z)) return z.replace(/_[^_]+$/,''); if(z==='soclib_2f') return 'soclib'; return z; },   /* soclib_2f：社科圖東側館（二樓自習室，SOCLIB-2F-1104）＝社科圖那一棟（開放時間、路程照閱覽室）*/
   /* 「已知」的地點（D54 ①）：開學第三週的大一生本來就知道的地方（校園、上課的教室、圖書館、宿舍、公館、溫州街、便利商店）；
      特定的店（麵店、書店、Café）自己走去過一次才會出現在清單上，留給探索去發現 */
   known0:{campus:1,linze:1,classroom:1,wancai:1,lawlib:1,soclib:1,library_hall:1,library:1,gongguan:1,cvs:1,wenzhou:1,lane118:1,dorm:1,dorm_hall:1,gym:1},   /* gym：體育課（必修）的新體育館，一開始就知道 */   /* 118 巷：法學院後門那條巷子，一開始就知道（使用者 2026-10-20「118巷也要可及時到達吧手機地圖那邊」，X65；落點＝從霖澤館後門走過去的出生點）*/

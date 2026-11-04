@@ -7,7 +7,8 @@
    - LIBQ.whisper(GM,who,text)：game3d.js 的 say、caption 呼叫；在讀書區＝加前綴，順便把說話的人記成「今天見過」（事件自己開口的也算見過）。
    讀書區（AA_595 開頭的區域；「AA 處理決定」：圖書館大廳、影印機、閉館後離開、美國的會所和中庭不算）：
      總圖 3F 閱覽區 library、總圖大廳只算二樓以上的自習區 library_hall（lv≥1）、研究小間 library_carrels、5F 書庫 library_stacks、
-     法圖 lawlib（一樓的影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、總圖 B1 只算 24 小時自習室和討論室（study24、disc1、disc2；影印中心、門廳、走廊不算）、
+     法圖 lawlib（一樓的影印室、館員辦公室、櫃台和門口不算）、社科圖 soclib、社科圖東側館 soclib_2f 只算二樓的自習室（AA_669 第 6 節：自習室「進門後就要安靜」、討論室「可以講話（裡面不用「（小聲）」）」；
+     一樓門廳、影印區、樓梯、二樓走廊、洗手間前不算；SOCLIB-2F-1104）、總圖 B1 只算 24 小時自習室和討論室（study24、disc1、disc2；影印中心、門廳、走廊不算）、
      美國法學院圖書館只算 2F 書庫 us_lawlib_2f（一樓中庭不算）。
    討論室（AA_595 拿不準 Q1～Q5）：「AA 處理決定」拿不準的照小聲講的原則處理，不算讀書區的只列了大廳、影印機、閉館後離開、美國的會所和中庭——討論室照小聲講。
    2D 場景（ADV 背景是圖片）：照背景判斷——法圖二樓、總圖二樓、B1 自習室、B1 討論室、社科圖閱覽區的背景算；門口、台階、簡餐等其他背景都不算（事件搬到館外演就不會加）。
@@ -36,6 +37,8 @@ const LIBQ=(function(){
       return true; }
     if(zone==='library_b1'){ const L=typeof LIBRARY_B1_LAYOUT!=='undefined'?LIBRARY_B1_LAYOUT:null; if(!L||!L.rooms||typeof x!=='number'||typeof z!=='number') return false;
       return L.rooms.some(r=>/^(study24|disc\d)$/.test(r.id)&&x>=r.x0&&x<=r.x1&&z>=r.z0&&z<=r.z1); }
+    if(zone==='soclib_2f'){ if(lv<1) return false; const R=typeof SOCLIB2F_LAYOUT!=='undefined'&&SOCLIB2F_LAYOUT.study; if(!R||typeof x!=='number'||typeof z!=='number') return true;   /* 二樓自習室（配置的 study：牆的中心線）*/
+      return x>=R.x0&&x<=R.x1&&z>=R.z0&&z<=R.z1; }
     return true; };
   let loudN=0;
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };

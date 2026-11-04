@@ -1,7 +1,7 @@
 /* ===== 期末考前的圖書館：位子很滿、請朋友占位子、看到同學在念書（AA_669 第 0～5、7 節，企劃線 468a1d0b9，AA-C 定稿 D109；任務 EXAM-LIB-CROWD-1104、USER_WANTS X228）=====
    使用者 2026-11-04 16:1x：「期末考前一定要看到圖書館，反正幾乎是不管哪個圖書館就是位子會很滿還要請同學佔位子，然後會看到很多同學在唸書不一定有約，但是就是會看到也可以跟朋友約過去喔，你可以請朋友佔位子」。
-   台詞：src/data/examlib_lines.js（EXAMLIB_LINES，照稿一字不差）。第 6 節（社科圖二樓的場景）是 LAWWW2 的（SOCLIB-2F-1104）：區域還沒有＝社科圖二樓的人照一樓（S.PLACES.soc2f 的 fallback），
-   區域做好（Z3.ZONES 有 soclib_2f）就自動用二樓；二樓第一次坐下的旁白、SOCLIB_2F_SEAT、「老位子」那兩句跟著場景一起接（這裡沒有）。
+   台詞：src/data/examlib_lines.js（EXAMLIB_LINES，照稿一字不差）。第 6 節的場景（社科圖二樓）是 LAWWW2 的（SOCLIB-2F-1104，src/soclib2f3d.js；2026-11-04 接進開發分支）：
+   區域沒有載入＝社科圖二樓的人照一樓（S.PLACES.soc2f 的 fallback）；劇情的部分（第一次坐下的旁白、SOCLIB_2F_SEAT、「老位子」那兩句）在下面「■ 第 6 節」。
    ■ 第 0 節 時段（S.on）：每學期第 14 週起，到這學期的期末考考完（CLS.examList 最後一場的結束時間；沒有考試的學期＝期末週的最後一天）；國外那一學期沒有（CLS.termAway）。
      法律系八個學期都有；經濟系那一年的兩個學期也有，人換成經濟系的朋友（第 5 節，S.cast）。
      地點（S.ZONES）：總圖（大廳二樓自習區 library_hall 的二樓、3F 閱覽區 library、B1 自習室 library_b1 的 study24、研究小間 library_carrels）、社科圖（soclib，二樓 soclib_2f 做好以後）、法圖（lawlib）、法律系館A 4F（linze_4f）。
@@ -24,9 +24,14 @@
    ■ 第 4-2 節 朋友請你占（S.ask42）：阿哲、Alison、芯慈、語彤每學期最多一次，前一天 21:00 私訊（語彤只在明天是平日；芯慈的便利貼和 4-1 同一學期只用一個）；回「好。」＝隔天 10:00 以前（語彤 09:20）
      在那一間坐下＝「（你把一本講義放在旁邊的位子上。）」、旁邊留一個位子；他照時間走進來坐下、說那一句。沒去、太晚＝他照時間傳沒占到那一則（不扣任何數值）。
    ■ 第 5 節 經濟系那一年：同一套（人換成品妤、阿勳、韋綸）；稿上沒寫的欄（沒到、不行、品妤和阿勳到了以後）不出。休學（Y0_LEFT）、退宿以後不能約（使用者 2026-10-18「重考中不要讓我去台大」）。
+   ■ 第 6 節 社科圖二樓（soclib_2f；S.seat2fDue／S.seat2f、S.useOld41、S.holdPick）：這一段第一次在二樓自習室靠窗那排坐下（自己搶到、有人占、招手坐過去都一樣；旁白寫「你在靠窗那排坐下」，
+     所以只算靠窗那排）＝旁白一次，記 G.flags.SOCLIB_2F_SEAT＝{x,z,lv,term,day}（那一個位子＝玩家的「老位子」）。之後的學期（記下的不是這一學期、而且是同一個階段：法律系的人不知道經濟系那一年的位子）：
+     語彤（經濟系那一年＝阿勳）答應占位子那一句換成「老位子」那一句（hold.yesOld），隔天占的是那一個位子。語彤、阿勳在二樓常坐的位子＝靠窗那排、老位子（seat.old，北往南第三個）的南邊那一個
+     （第 6 節「劇情和占位子會用到其中一排」）；「我旁邊」旁邊是老位子就占老位子。二樓「滿」只算自習室的長桌和靠窗（討論室不算）。背景讀書的人：src/soclib2f_people3d.js（S.keepSeats＝哪些位子不要坐）。
    ■ D118：這是氣氛和人際，不是讀書打卡——不扣關係、不影響成績、不強迫每天去（這個檔不呼叫 SOCIAL.adjust、不碰成績）。
    存檔：G.exlib＝{v, atm:{n,seen}, nod:{學期:{區域:{人:1}}}, said:{學期:{人:用了幾句}}, pool:{n,said}, prompt:{日:區域}, ask41, hold, noShow:{學期:{人:1}}, asked42:{學期:{人:日}}, d42, note:{學期:1}}；
      舊存檔沒有＝讀到時補預設；已經過了的學期不補演（全部照現在的日期即時算）。
+     第 6 節：G.flags.SOCLIB_2F_SEAT（{x,z,lv,term,day}；沒有＝還沒在這一段坐過二樓靠窗那排：舊存檔照沒有，下一次坐下才演）；hold 多一個 old（[x,z,lv]：之後的學期占老位子；舊的 hold 沒有＝照旁邊的位子）。
    測試：node tests/exam_lib_crowd_unit.js */
 'use strict';
 const EXLIB=(function(){
@@ -104,23 +109,28 @@ const EXLIB=(function(){
   const present=(id,G)=>typeof STORY==='undefined'||!STORY.present||STORY.present(id,G);
 
   /* ---------- 座位 ---------- */
-  /* 讀書的位子（「滿」只算這些）：總圖大廳只有二樓、B1 只有 24 小時自習室、社科圖的長桌和窗邊、法圖的長桌和個人座、A館 4F 的自習座 */
+  /* 讀書的位子（「滿」只算這些）：總圖大廳只有二樓、B1 只有 24 小時自習室、社科圖的長桌和窗邊、社科圖二樓的自習室（長桌、靠窗；討論室不算）、法圖的長桌和個人座、A館 4F 的自習座 */
   S.studySeat=function(z,st){ if(!st) return false; switch(z){
       case 'library_hall': return (st.lv|0)===1;
       case 'library_b1': return st.room==='study24';
       case 'soclib': return st.kind==='table'||st.kind==='window';
+      case 'soclib_2f': return st.kind==='study'||st.kind==='window';   /* 討論室（discuss）不算：AA_669 第 6 節「可以講話」的小房間，不是自習室 */
       case 'lawlib': return /^T\d+$/.test(String(st.table||''))||st.table==='carrel';
       case 'linze_4f': return !!st.study;
       default: return true; } };
   /* 劇情寫死的位子不放東西：總圖大廳 0、1（小安「總圖的下午」）、3F 2、8（學姊、小安）、社科圖 16（SK12 品妤）*/
   S.KEEP={library_hall:[0,1],library:[2,8],soclib:[16]};
-  S.PREF={library_hall:{heroine_01:1},soclib:{econ_pinyu:16}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；品妤＝SK12 那張 */
+  S.PREF={library_hall:{heroine_01:1},soclib:{econ_pinyu:16},soclib_2f:{heroine_03:'byOld',econ_zhengxun:'byOld'}};   /* 以安「二樓靠牆那張長桌」＝總圖的下午那個位子；品妤＝SK12 那張；
+     社科圖二樓：語彤、阿勳＝靠窗那排、老位子的南邊那一個（AA_669 第 6 節「劇情和占位子會用到其中一排（例：靠窗那排的第三個位子當「老位子」）」：她旁邊就是老位子）*/
+  /* PREF 的值：數字＝座位表的第幾號；'byOld'＝老位子（seat.old）南邊那一個（同一層、同一種、x 一樣、往南 0.45～1.2 m）；找不到＝null（照種子）*/
+  S.prefIdx=function(seats,v){ if(typeof v==='number') return v; if(v!=='byOld') return null; const o=seats.find(q=>q&&q.old); if(!o) return null;
+    const i=seats.findIndex(q=>q&&q!==o&&(q.lv|0)===(o.lv|0)&&q.kind===o.kind&&Math.abs(q.x-o.x)<0.05&&q.z-o.z>0.45&&q.z-o.z<1.2); return i>=0?i:null; };
   const skey=st=>(+st.x).toFixed(2)+','+(+st.z).toFixed(2)+','+(st.lv|0);
   S.occupied=function(E,st){ const near=q=>!!q&&(q.lv==null||(q.lv|0)===(st.lv|0))&&Math.hypot(q.x-st.x,q.z-st.z)<0.4; if(E&&E.player&&near(E.player.seat)) return true;
     return !!E&&(E.npcs||[]).some(n=>n&&(near(n.seat)||near(n.seatTarget))); };
   S.cands=function(E,z){ const seats=(E&&E.zone&&E.zone.seats)||[], keep=S.KEEP[z]||[]; const out=[]; seats.forEach((st,i)=>{ if(S.studySeat(z,st)&&!keep.includes(i)) out.push(st); }); return out; };
   /* 一個人在這一間常坐的位子（照 S.PREF，其他照人＋區域當種子）*/
-  S.spotSeat=function(E,z,id){ const seats=(E&&E.zone&&E.zone.seats)||[]; const pi=S.PREF[z]&&S.PREF[z][id]; if(pi!=null&&seats[pi]&&S.studySeat(z,seats[pi])) return seats[pi];
+  S.spotSeat=function(E,z,id){ const seats=(E&&E.zone&&E.zone.seats)||[]; const pi=S.PREF[z]?S.prefIdx(seats,S.PREF[z][id]):null; if(pi!=null&&seats[pi]&&S.studySeat(z,seats[pi])) return seats[pi];
     const C=S.cands(E,z); return C.length?C[hash('exspot|'+z+'|'+id)%C.length]:null; };
   /* 旁邊的位子：同一排（同一個方向、左右 0.45～1.5 m、前後 0.3 m 內）；side＝right／left 照坐的人的手邊（SEATACT：+x 是 yaw 0 的人的左手邊）；沒有＝對面 */
   S.adjacent=function(E,st,side,ok){ const seats=(E&&E.zone&&E.zone.seats)||[]; const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), lx=fz, lz=-fx; let best=null, bs=1e9;
@@ -130,6 +140,15 @@ const EXLIB=(function(){
       else if(Math.hypot(dx,dz)<=2.0) s=20+Math.hypot(dx,dz);   /* 圓桌（3F 閱覽區三人一桌，相鄰的位子差 1.65 m）：同一張桌子最近的那一個 */
       if(s!=null&&s<bs){ bs=s; best=q; } }
     return best; };
+
+  /* 同一排的旁邊（S.adjacent 的第一種：同一層、同一個方向、左右 0.45～1.5 m、前後 0.3 m 內）*/
+  S.sameRow=function(st,q){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), dx=q.x-st.x, dz=q.z-st.z, f=dx*fx+dz*fz, l=dx*fz-dz*fx, dy=Math.abs(Math.atan2(Math.sin((q.yaw||0)-yaw),Math.cos((q.yaw||0)-yaw)));
+    return (q.lv|0)===(st.lv|0)&&dy<0.3&&Math.abs(f)<0.3&&Math.abs(l)>=0.45&&Math.abs(l)<=1.5; };
+  /* 4-1 占哪一個（第 6 節）：之後的學期答應的是「老位子」那一句（H.old）＝玩家的老位子；社科圖二樓「我旁邊」：旁邊就是老位子（seat.old）＝占老位子；其他＝旁邊（S.adjacent，照舊）*/
+  S.holdPick=function(E,z,H,fs,P,free){ const seats=(E&&E.zone&&E.zone.seats)||[];
+    if(Array.isArray(H.old)){ const q=seats.find(q=>q&&(q.lv|0)===(H.old[2]|0)&&Math.hypot(q.x-H.old[0],q.z-H.old[1])<0.1); if(q&&free(q)) return q; }
+    if(!fs) return null; if(z==='soclib_2f'){ const o=seats.find(q=>q&&q.old); if(o&&o!==fs&&free(o)&&S.sameRow(fs,o)) return o; }
+    return S.adjacent(E,fs,P&&P.hold&&P.hold.side,free); };
 
   /* ---------- 這一間的位子狀態（換區域就重來；座位物件是區域建好時才有的）---------- */
   let ZS=null;   /* {zone:E.zone, id, day, order, held:Set, lastH, holdSeat, holdIt, d42Seat} */
@@ -156,7 +175,7 @@ const EXLIB=(function(){
   /* 4-1 的位子：今天、這一間、還沒到時間＝標 taken、加一個「坐到○○占的位子」的按鈕；不是了＝拿掉 */
   S.syncHold=function(GM){ const E=GM.E, G=GM.G, z=G.zone, H=holdToday(G,z);
     if(!H){ if(ZS.holdSeat){ if(ZS.holdSeat.taken==='exlib41') ZS.holdSeat.taken=null; ZS.holdSeat=null; } if(ZS.holdIt){ const i=E.interactables.indexOf(ZS.holdIt); if(i>=0) E.interactables.splice(i,1); ZS.holdIt=null; } return null; }
-    if(!ZS.holdSeat){ const fs=S.spotSeat(E,z,H.who); const P=S.cast(G)[H.who]||{}; const st=fs&&S.adjacent(E,fs,P.hold&&P.hold.side,q=>S.studySeat(z,q)&&!S.occupied(E,q)&&!q.taken);
+    if(!ZS.holdSeat){ const fs=S.spotSeat(E,z,H.who); const P=S.cast(G)[H.who]||{}; const st=S.holdPick(E,z,H,fs,P,q=>S.studySeat(z,q)&&!S.occupied(E,q)&&!q.taken);
       if(!st) return null; st.taken='exlib41'; if(st.exHeld) S.unhold(E,st); ZS.holdSeat=st;
       const it={x:st.x,z:st.z,lv:st.lv|0,radius:0.9,prio:0.2,label:'坐到'+nameOf(H.who)+'占的位子',exHoldSeat:st}; E.interactables.push(it); ZS.holdIt=it; }
     return ZS.holdSeat; };
@@ -218,7 +237,7 @@ const EXLIB=(function(){
     try{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], te=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null; if(te&&te.talkEvent) return true; }catch(e){}
     try{ if(typeof STORY_EVENTS!=='undefined'&&typeof EVENTS!=='undefined'&&EVENTS.check&&STORY_EVENTS.some(ev=>ev.trigger==='interact'&&ev.participants&&ev.participants[0]===id&&EVENTS.check(ev))) return true; }catch(e){}
     return false; };
-  /* 讀書區：LIBQ 管的區域照 LIBQ（D127③）；LIBQ 沒管的（A館 4F 自習討論區、還沒有的社科圖二樓）＝整間都算（稿上那幾位的句子本來就寫了（小聲））*/
+  /* 讀書區：LIBQ 管的區域照 LIBQ（D127③；社科圖二樓只算自習室，AA_669 第 6 節）；LIBQ 沒管的（A館 4F 自習討論區）＝整間都算（稿上那幾位的句子本來就寫了（小聲））*/
   const libqZone=z=>typeof LIBQ!=='undefined'&&!!LIBQ.ZONES&&!!LIBQ.ZONES[z];
   S.here=function(GM){ const G=GM&&GM.G; if(!G||!S.isLib(G.zone)||!S.on(G)) return false; if(!libqZone(G.zone)) return S.inStudy(GM)&&!(typeof LIBQ!=='undefined'&&LIBQ.isLoud&&LIBQ.isLoud()); return !LIBQ.quietNow||LIBQ.quietNow(GM); };
   S.nodRec=(G,z)=>{ const R=S.rec(G), t=termOf(G); return sub(sub(R.nod,t?t.id:'-'),z); };
@@ -319,8 +338,8 @@ const EXLIB=(function(){
     if(MSG.rec){ const M=MSG.rec(G); M.sent[id]=G.day|0; }
     R.ask41={day:G.day|0,who:id};
     const goes=S.goes(G,id,day), items=[]; if(R.noShow[t.id]&&R.noShow[t.id][id]) items.push(L().again41);
-    if(goes){ for(const m of P.hold.yes) items.push(m); const z=S.zoneOf(P.place), o=S.openH(z,day)||8; const until=Math.min(12,P.hold.until||12);
-      R.hold={who:id,day,zone:z,place:P.place,from:Math.max(o,P.hold.from||o),until,stay:12,arrived:false,missSent:false,atDone:false,term:t.id};
+    if(goes){ const old=S.useOld41(G,id); for(const m of (old?P.hold.yesOld:P.hold.yes)) items.push(m); const z=S.zoneOf(P.place), o=S.openH(z,day)||8; const until=Math.min(12,P.hold.until||12);   /* 第 6 節：之後的學期＝「老位子」那一句、隔天占老位子 */
+      R.hold={who:id,day,zone:z,place:P.place,from:Math.max(o,P.hold.from||o),until,stay:12,arrived:false,missSent:false,atDone:false,term:t.id,old:old?[old.x,old.z,old.lv|0]:null};
       if(id==='classmate_xinci') R.note[t.id]=1; }
     else for(const m of (weekendDay(day)&&P.hold.noWe?P.hold.noWe:(P.hold.no||[]))) items.push(m);
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day|0,h:hr(G)+0.1}; if(items.length&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items.map(text=>({th,from:id,text})),'exlib41_'+(G.day|0));
@@ -367,6 +386,29 @@ const EXLIB=(function(){
   S.arrive42=async function(GM,n){ const G=GM.G, D=S.rec(G).d42, P=S.cast(G)[D.who]; D.done=true; if(!P||!P.ask) return false; const who={name:nameOf(D.who),obj:n.obj,charId:D.who,pose:n.pose};
     GM.sceneBegin({adv:D.who}); try{ await play(GM,who,P.ask.at||[]); } finally { GM.sceneEnd(); } S.nodRec(G,G.zone)[D.who]=1; return true; };
 
+  /* ---------- 第 6 節：社科圖二樓（SOCLIB-2F-1104）---------- */
+  S.SEAT2F='SOCLIB_2F_SEAT';
+  /* 記下的老位子（G.flags.SOCLIB_2F_SEAT＝{x,z,lv,term,day}）；沒有、壞掉的＝null */
+  S.old2f=function(G){ const v=G&&G.flags&&G.flags[S.SEAT2F]; return v&&typeof v==='object'&&typeof v.x==='number'&&typeof v.z==='number'?v:null; };
+  S.isOld2f=(G,st)=>{ const o=S.old2f(G); return !!o&&!!st&&(st.lv|0)===(o.lv|0)&&Math.hypot(st.x-o.x,st.z-o.z)<0.1; };
+  /* 旁白：這一段、二樓自習室靠窗那排（kind window；旁白寫「你在靠窗那排坐下」）、還沒記過 */
+  S.seat2fDue=function(G,seat){ if(!G||G.zone!=='soclib_2f'||!seat||seat.kind!=='window'||(seat.lv|0)!==1) return false; if(!S.on(G)) return false; return !S.old2f(G); };
+  S.seat2f=async function(GM,seat){ const G=GM.G, t=termOf(G); if(!G.flags) G.flags={}; G.flags[S.SEAT2F]={x:+seat.x,z:+seat.z,lv:seat.lv|0,term:t?t.id:null,day:G.day|0};
+    const txt=L().seat2f; if(txt) await say(GM,null,txt); return true; };
+  /* 之後的學期（記下的不是這一學期；同一個階段——經濟系那一年的人不知道法律系的位子，反過來也一樣）：語彤、阿勳答應那一句換成「老位子」那一句；回傳記下的位子或 null */
+  const stageOfTerm=id=>/^Y0/.test(String(id||''))?'econ':'law';
+  S.useOld41=function(G,id){ const P=S.inCast(G,id); if(!P||!P.hold||!Array.isArray(P.hold.yesOld)||!P.hold.yesOld.length||S.zoneOf(P.place)!=='soclib_2f') return null; const o=S.old2f(G), t=termOf(G);
+    if(!o||!t||!o.term||o.term===t.id||stageOfTerm(o.term)!==(econ(G)?'econ':'law')) return null; return o; };
+  /* 背景讀書的人（src/soclib2f_people3d.js）不要坐的位子：4-1 占的位子和占位子的人自己的位子、4-2 留的位子和那個人的位子、這一段表上的人在這一間常坐的位子 */
+  S.keepSeats=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, out=new Set(); if(!E||!G||!E.zone||!Array.isArray(E.zone.seats)) return out; const z=G.zone, seats=E.zone.seats, day=G.day|0;
+    const at=a=>Array.isArray(a)?seats.find(q=>q&&(q.lv|0)===(a[2]|0)&&Math.hypot(q.x-a[0],q.z-a[1])<0.1):null, add=q=>{ if(q) out.add(q); };
+    if(ZS&&ZS.zone===E.zone&&ZS.holdSeat) add(ZS.holdSeat);
+    const R=rec0(G), H=R&&R.hold, D=R&&R.d42;
+    if(H&&H.day===day&&H.zone===z){ add(S.spotSeat(E,z,H.who)); add(at(H.old)); }
+    if(D&&D.day===day&&D.zone===z){ add(S.spotSeat(E,z,D.who)); add(at(D.seat)); }
+    if(S.on(G)) for(const id of Object.keys(S.cast(G))){ const P=S.inCast(G,id); if(P&&S.zoneOf(P.place)===z) add(S.spotSeat(E,z,id)); }
+    return out; };
+
   /* ---------- 手機（STORY.PHONE_RULES）：沒到、沒占到、21:00 的私訊 ---------- */
   S.phone=function(G){ if(!G||typeof PHONE==='undefined'||!G.flags) return; const R0=rec0(G), t=now(G);   /* 沒有 G.exlib（沒用過這一段）＝不建 */
     if(R0){ const R=S.rec(G);
@@ -409,6 +451,7 @@ const EXLIB=(function(){
     if(!STORY._exlibSeat){ const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ const r=os?await os.apply(this,arguments):false;
         try{ if(GM&&GM.G&&seat&&S.isLib(GM.G.zone)&&S.on(GM.G)){ const G=GM.G;
             if(S.studySeat(G.zone,seat)) S.rec(G).prompt[(G.day|0)+':'+G.zone]=1;   /* 今天在這一間坐過了（早上搶到位子）：起來走動不再跳「找不到位子」*/
+            if(S.seat2fDue(G,seat)) await S.seat2f(GM,seat);   /* 第 6 節：第一次在這一段坐到二樓靠窗那排（自己搶到、有人占、招手都一樣）＝旁白一次、記老位子；接著照下面（占位子的人說那一句…）*/
             if(await S.arrive41(GM,seat)) return r;
             const W=S._waveGreet; if(W&&W.day===(G.day|0)&&Math.hypot(W.st.x-seat.x,W.st.z-seat.z)<0.1){ S._waveGreet=null; const n=GM.npc&&GM.npc[W.id]; if(n) await S.greet(GM,W.id,n); return r; }
             await S.place42(GM,seat); } }catch(e){ console.warn('EXLIB.onSeat',e); }
