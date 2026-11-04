@@ -1,32 +1,32 @@
 {
  "ref": "boya_web_06.jpg（不進 repo）",
- "shot": "by06_new.png（v1＝old、v2＝new）",
+ "shot": "by06_new.png（v2b）",
  "size": [
   640,
   480
  ],
  "tol_px": 7.7,
  "edge": {
-  "precision": 0.326,
-  "recall": 0.225,
-  "F": 0.266
+  "precision": 0.335,
+  "recall": 0.236,
+  "F": 0.277
  },
  "line": {
-  "precision": 0.206,
+  "precision": 0.212,
   "recall": 0.252,
-  "F": 0.226,
+  "F": 0.23,
   "n_ref": 146,
-  "n_shot": 123
+  "n_shot": 121
  },
  "line_after_best_shift": {
-  "F": 0.322
+  "F": 0.336
  },
  "lift_vs_shifted_decoys": 0.067,
  "decoy_F": [
-  0.127,
-  0.282,
-  0.149,
-  0.079
+  0.13,
+  0.29,
+  0.153,
+  0.081
  ],
  "vanishing_point": {
   "ref": [
@@ -36,10 +36,10 @@
   ],
   "shot": [
    0.103,
-   0.798,
-   0.56
+   0.797,
+   0.55
   ],
-  "diff_pct": 88.79,
+  "diff_pct": 88.77,
   "note": "[x/寬, y/高, 支持的線長比例]"
  },
  "vertical_tilt_deg": {
@@ -48,8 +48,8 @@
    1.7195120511362294
   ],
   "shot_left_right": [
-   -4.616591382783569,
-   4.434145601425494
+   -4.535873939267981,
+   4.371178518166571
   ],
   "note": "線往下走時往右偏為正。左正右負＝往下收攏＝鏡頭往下看；左負右正＝鏡頭往上看；兩邊都≈0＝鏡頭水平（或參考圖用了移軸／AI 圖常見）"
  },
@@ -59,10 +59,10 @@
   "note": "先對消失點（左右、上下），對好以後再看縮放：縮放 s＜1＝截圖要縮小才對得上＝遊戲 FOV 太窄。兩者混在一起時縮放不可靠。",
   "ref_axis_right_of_center_deg": 31.2,
   "ref_pitch_down_deg": -19.33,
-  "shot_axis_right_of_center_deg": -26.29,
-  "shot_pitch_down_deg": -15.54,
-  "turn_left_deg": 57.5,
-  "pitch_down_more_deg": -3.79,
+  "shot_axis_right_of_center_deg": -26.28,
+  "shot_pitch_down_deg": -15.5,
+  "turn_left_deg": 57.48,
+  "pitch_down_more_deg": -3.82,
   "how": "假設參考圖和截圖的 FOV 一樣（--fov）。消失點＝房間主軸的方向：參考圖的消失點在右邊＝參考的鏡頭偏左看；在上面＝鏡頭往下看（或移軸）。turn_left 正＝遊戲鏡頭要往左轉；pitch_down_more 正＝要再往下看。參考圖的垂直線幾乎平行、消失點卻偏高＝移軸（three.js camera.setViewOffset、Blender camera shift_y），不要用俯角。"
  },
  "best_shift": {
@@ -70,7 +70,7 @@
   "dx_pct": -10.0,
   "dy_pct": 0.6
  },
- "ssim_struct": 0.5,
+ "ssim_struct": 0.501,
  "region_color": [
   {
    "cell": "0,0",
@@ -94,13 +94,13 @@
   },
   {
    "cell": "1,1",
-   "dE_mean": 10.6,
+   "dE_mean": 11.1,
    "ab_hist_intersection": 0.28
   },
   {
    "cell": "1,2",
-   "dE_mean": 26.3,
-   "ab_hist_intersection": 0.49
+   "dE_mean": 26.4,
+   "ab_hist_intersection": 0.5
   },
   {
    "cell": "2,0",
@@ -109,13 +109,13 @@
   },
   {
    "cell": "2,1",
-   "dE_mean": 18.0,
+   "dE_mean": 18.5,
    "ab_hist_intersection": 0.43
   },
   {
    "cell": "2,2",
-   "dE_mean": 13.3,
-   "ab_hist_intersection": 0.43
+   "dE_mean": 13.5,
+   "ab_hist_intersection": 0.44
   }
  ],
  "detail_gap": [
@@ -128,20 +128,20 @@
   {
    "cell": "0,1",
    "ref": 0.012,
-   "shot": 0.057,
+   "shot": 0.056,
    "ratio": 0.27
   },
   {
    "cell": "0,2",
    "ref": 0.032,
-   "shot": 0.02,
+   "shot": 0.019,
    "ratio": 1.51
   },
   {
    "cell": "0,3",
    "ref": 0.102,
    "shot": 0.024,
-   "ratio": 3.7
+   "ratio": 3.72
   },
   {
    "cell": "0,4",
@@ -170,20 +170,20 @@
   {
    "cell": "1,2",
    "ref": 0.011,
-   "shot": 0.02,
-   "ratio": 0.65
+   "shot": 0.016,
+   "ratio": 0.77
   },
   {
    "cell": "1,3",
    "ref": 0.099,
-   "shot": 0.006,
-   "ratio": 9.65
+   "shot": 0.002,
+   "ratio": 15.77
   },
   {
    "cell": "1,4",
    "ref": 0.09,
    "shot": 0.022,
-   "ratio": 3.55
+   "ratio": 3.56
   },
   {
    "cell": "1,5",
@@ -194,32 +194,32 @@
   {
    "cell": "2,0",
    "ref": 0.043,
-   "shot": 0.081,
-   "ratio": 0.56
+   "shot": 0.082,
+   "ratio": 0.55
   },
   {
    "cell": "2,1",
    "ref": 0.055,
    "shot": 0.016,
-   "ratio": 2.86
+   "ratio": 2.88
   },
   {
    "cell": "2,2",
    "ref": 0.02,
-   "shot": 0.049,
-   "ratio": 0.46
+   "shot": 0.047,
+   "ratio": 0.48
   },
   {
    "cell": "2,3",
    "ref": 0.001,
-   "shot": 0.047,
-   "ratio": 0.12
+   "shot": 0.046,
+   "ratio": 0.13
   },
   {
    "cell": "2,4",
    "ref": 0.115,
-   "shot": 0.017,
-   "ratio": 5.57
+   "shot": 0.013,
+   "ratio": 6.77
   },
   {
    "cell": "2,5",
@@ -230,8 +230,8 @@
   {
    "cell": "3,0",
    "ref": 0.047,
-   "shot": 0.046,
-   "ratio": 1.02
+   "shot": 0.045,
+   "ratio": 1.03
   },
   {
    "cell": "3,1",
@@ -261,12 +261,12 @@
    "cell": "3,5",
    "ref": 0.079,
    "shot": 0.014,
-   "ratio": 4.46
+   "ratio": 4.44
   }
  ],
  "mode": "campus",
  "campus": {
-  "mass_ssim": 0.602,
+  "mass_ssim": 0.601,
   "rhythm": {
    "bay_px_ref": 24.0,
    "bay_px_shot": 29.0,
@@ -280,7 +280,7 @@
    {
     "cell": "0,0",
     "dE": 24.4,
-    "texture_ratio": 1.8,
+    "texture_ratio": 1.78,
     "ok": false
    },
    {
@@ -297,31 +297,31 @@
    },
    {
     "cell": "1,0",
-    "dE": 19.7,
-    "texture_ratio": 0.92,
+    "dE": 19.5,
+    "texture_ratio": 0.9,
     "ok": false
    },
    {
     "cell": "1,1",
-    "dE": 12.6,
-    "texture_ratio": 1.0,
+    "dE": 13.3,
+    "texture_ratio": 0.9,
     "ok": true
    },
    {
     "cell": "1,2",
-    "dE": 19.9,
+    "dE": 20.0,
     "texture_ratio": 0.35,
     "ok": false
    },
    {
     "cell": "2,0",
-    "dE": 7.3,
+    "dE": 7.2,
     "texture_ratio": 0.44,
     "ok": false
    },
    {
     "cell": "2,1",
-    "dE": 26.0,
+    "dE": 26.5,
     "texture_ratio": 0.61,
     "ok": false
    },
@@ -341,8 +341,8 @@
    null,
    {
     "cell": "0,4",
-    "F_fine": 0.33,
-    "ncc": 0.23,
+    "F_fine": 0.32,
+    "ncc": 0.22,
     "edge_density_ref": 0.091,
     "found_at": {
      "scale": 1.1,
@@ -352,7 +352,7 @@
    },
    {
     "cell": "0,5",
-    "F_fine": 0.41,
+    "F_fine": 0.4,
     "ncc": 0.26,
     "edge_density_ref": 0.069,
     "found_at": {
@@ -428,7 +428,7 @@
    {
     "cell": "3,1",
     "F_fine": 0.0,
-    "ncc": 0.91,
+    "ncc": 1.0,
     "edge_density_ref": 0.034
    },
    {
@@ -448,7 +448,7 @@
    {
     "cell": "3,6",
     "F_fine": 0.0,
-    "ncc": 0.4,
+    "ncc": 0.48,
     "edge_density_ref": 0.143
    },
    {
@@ -482,13 +482,13 @@
    },
    {
     "cell": "4,3",
-    "F_fine": 0.47,
-    "ncc": 0.41,
+    "F_fine": 0.45,
+    "ncc": 0.4,
     "edge_density_ref": 0.04,
     "found_at": {
      "scale": 0.9,
-     "dx_pct": -3.0,
-     "dy_pct": -12.5
+     "dx_pct": -6.4,
+     "dy_pct": -11.6
     }
    },
    null,
@@ -540,7 +540,7 @@
    {
     "cell": "5,2",
     "F_fine": 0.41,
-    "ncc": 0.34,
+    "ncc": 0.35,
     "edge_density_ref": 0.084,
     "found_at": {
      "scale": 1.1,
@@ -550,7 +550,7 @@
    },
    {
     "cell": "5,3",
-    "F_fine": 0.43,
+    "F_fine": 0.44,
     "ncc": 0.34,
     "edge_density_ref": 0.044,
     "found_at": {
@@ -590,7 +590,7 @@
   {
    "name": "[鏡頭] 垂直線傾斜差 ≤ 1.5°（俯仰／移軸一樣）",
    "ok": false,
-   "info": "3.6°"
+   "info": "3.5°"
   },
   {
    "name": "[鏡頭] 畫面比例相同（±3%）",
@@ -616,7 +616,7 @@
  "info": [
   {
    "name": "（參考）line_F 有方向的長直線",
-   "value": "0.23；移開 25% 的平均 0.16；lift +0.07；最佳 2D 對位後 0.32"
+   "value": "0.23；移開 25% 的平均 0.16；lift +0.07；最佳 2D 對位後 0.34"
   },
   {
    "name": "（參考）ssim_struct 大形狀",
@@ -631,6 +631,6 @@
    "value": "柱距 24.0→29.0 px；樓層 80.0→69.0 px"
   }
  ],
- "vertical_tilt_diff_deg": 3.6062104858096564,
+ "vertical_tilt_diff_deg": 3.5254930422940687,
  "pass_all": false
 }
