@@ -29,7 +29,7 @@ GG_ext_nav | c7fde4f3e | game | tests/gongguan_layout_nav.py | index.html | 40 |
 GG_ext_glb | c7fde4f3e | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 GG_ext_shots | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_ext_shots_probe.py | index.html | 45 | CC_HEADLESS=0
 BIKE_flow | c7fde4f3e | game | tests/flow_bike.py | index.html | 40 | XARGS={url} {out}
-BIKE_shop | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 70 | CC_HEADLESS=0
+BIKE_shop | 555b9e0cb | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 70 | CC_HEADLESS=0
 WZ_A5_shot | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_wz_a5_shot_probe.py | index.html | 15 | CC_HEADLESS=0
 CVS24 | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 N20X_nichijo2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 80 | CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close;CC_HEADLESS=0
@@ -40,6 +40,13 @@ GG_int_yejian | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_
 GG_int_wzbike | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 30 | CASES=wzbike;CC_HEADLESS=0
 GG_int_art | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
 GG_views | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 60 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
+# ===== PARK（BB 03:14；LAWWW2 停車架 555b9e0cb；排在 GG_int 後）=====
+PARK_reach | 555b9e0cb | game | tests/reachability_all.py | index.html?turbo | 90 | XARGS={url}
+PARK_campus_nav | 555b9e0cb | game | tests/campus_layout_nav.py | index.html | 40 | CC_HEADLESS=0
+PARK_zones | 555b9e0cb | game | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
+PARK_glb | 555b9e0cb | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+PARK_glb_prev | cb1d84290 | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+#HOLD（探針寫好再開）PARK_ride | 555b9e0cb | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 70 | CASES=R;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
