@@ -181,13 +181,15 @@ async def spawn_checks(pg, cdp, tag, want, s):
     check('%s：換區後搖桿往前推有位移（%.2f m，推 %d 次）' % (tag, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'y')}))
 
 
-async def setup(pg, cdp, zone, x, z, yaw, hour, lv=None, why=''):
-    day = await pg.evaluate("STORY.dayOfKey(%s)" % J(DAYKEY))
-    wd = await pg.evaluate("new Date(%s+'T12:00:00').getDay()" % J(DAYKEY))
+async def setup(pg, cdp, zone, x, z, yaw, hour, lv=None, why='', daykey=None, weather='clear', extra=None):
+    dk = daykey or DAYKEY
+    day = await pg.evaluate("STORY.dayOfKey(%s)" % J(dk))
+    wd = await pg.evaluate("new Date(%s+'T12:00:00').getDay()" % J(dk))
     pos = {'x': x, 'z': z, 'yaw': yaw}
     if lv is not None: pos['lv'] = lv
-    st = {'zone': zone, 'hour': hour, 'day': day, 'weekday': wd, 'weather': 'clear', 'flags': FLAGS, 'pos': pos}
-    print('  [前置／捷徑] 讀檔：%s（day %s、weekday %s）%02d:%02d %s %s；條件事件關閉、手機自動訊息關閉。%s' % (DAYKEY, day, wd, int(hour), round(hour % 1 * 60), zone, J(pos), why), flush=True)
+    st = {'zone': zone, 'hour': hour, 'day': day, 'weekday': wd, 'weather': weather, 'flags': FLAGS, 'pos': pos}
+    if extra: st.update(extra)
+    print('  [前置／捷徑] 讀檔：%s（day %s、weekday %s）%02d:%02d %s %s 天氣 %s%s；條件事件關閉、手機自動訊息關閉。%s' % (dk, day, wd, int(hour), round(hour % 1 * 60), zone, J(pos), weather, ('；另外 ' + J(extra)) if extra else '', why), flush=True)
     await pg.evaluate("STORY.phoneAuto=()=>{}")
     await L.load_state(pg, st, quiet_events=True)
     s = await wait_zone(pg, zone)
@@ -203,13 +205,18 @@ async def study_here(pg, cdp, tag):
     s0 = await zst(pg)
     await L.tap(pg, cdp, '#interact')
     picked = None; t0 = time.time()
-    while time.time() - t0 < 20 and not picked:
+    while time.time() - t0 < 40 and not picked:
         await pg.wait_for_timeout(700)
         bs = await btns(pg)
         if bs:
-            print('  座位選單：%s' % J(bs), flush=True); await shot(pg, tag + '_seat_menu')
+            print('  選單：%s' % J(bs), flush=True)
+            if any(b['t'].startswith('什麼都不點') for b in bs):   # a8c485729 起（AA_618 1-2）：這一趟第一次坐下先點東西，再出座位選單
+                await shot(pg, tag + '_order_menu'); await tap_choice(pg, cdp, '什麼都不點'); continue
+            await shot(pg, tag + '_seat_menu')
             picked = await tap_choice(pg, cdp, '讀書')
             if not picked: break
+            continue
+        if (await L.state(pg))['dlg']: await L.tap(pg, cdp, '#dlg')
     if not check('%s：座位選單有「讀書」並選了它' % tag, bool(picked), str(picked)): return
     t0 = time.time(); seen = []; last = None
     while time.time() - t0 < 240:
@@ -236,7 +243,7 @@ async def study_here(pg, cdp, tag):
 
 async def case_a(pg, cdp, errs):
     print('== a 溫州街 B4 → 木曜日（上樓、坐下讀書、下樓）→ 溫州街', flush=True)
-    await setup(pg, cdp, 'wenzhou', 9.5, 0.5, math.pi, 10.0, why='B4 鐵門 (7.4, −4.55) 東南邊 4.6 m 的巷子中間，面向北')
+    await setup(pg, cdp, 'wenzhou', 9.5, 0.5, math.pi, 14.0, why='B4 鐵門 (7.4, −4.55) 東南邊 4.6 m 的巷子中間，面向北；14:00＝a8c485729 起木曜日營業 13–22（週六）')
     s = await go_exit(pg, cdp, errs, 'a1 溫州街→木曜日', '上二樓（木曜日）', 'wz_mokuyobi', (7.4, -4.55))
     if not s: return
     await shot(pg, 'a_mok_stair_bottom'); await cam_ray(pg, 'a 樓梯底（剛進來）')

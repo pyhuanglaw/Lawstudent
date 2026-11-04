@@ -24,7 +24,9 @@ CLASSDONE=0／1 可以蓋掉每個 case 的 classDone。SAVE=<存檔.json>：改
 每個 case 記：GAME.walkFallbacks（開始／結束）、window.__wf（遊戲的 console.warn「walkTo 卡住」那一行＋當下 P.pose、P.frozen、P.seat、E.cam.mode、
   EVENTS.running、classNow）、GAME.walkTo 每一次（誰、起點、終點、**被叫那一刻**的 pose／frozen／seat、走完的位置）、GAME.sitAt、玩家狀態變化軌跡。
 截圖：坐下、卡片出現、classScene 開始走、走完（或卡住）、結束。
-判斷（goclass）：walkFallbacks 修正版要 0（BB：1ec7c8634 預期 0、d2b962a3f 預期 1）；還是 1＝印 __wf 那一行與當下的 pose／frozen／cam.mode。
+判斷（BB 11-04，LAWWW 根因修正 4cb41c3a0，合進 a8c485729：classScene 四處加 mainDay===2；過了第 2 天沒上＝classDone＋classAnswer absent）：
+  ① GAME.walkFallbacks＝0；② 9/11 只上一般課：classScene 沒叫玩家走到 (−0.75,−1.10)、沒有網拍相機劇情課的台詞（GAME.say 參數＋對話框；CS_LINES）。
+  修正版（a8c485729）兩項都要 PASS；對照組（3139e7b68）goclass 預期 ② FAIL（重演）、① 多半也 FAIL（walkFallbacks 1）；還是 1＝印 __wf 那一行與當下的 pose／frozen／cam.mode。
 不是 iPhone：Playwright 手機模擬（is_mobile、觸控；雲端 SwiftShader 1～4 fps，這支只給 PC 跑）。URL 不加 ?turbo（有的話拿掉）。
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=goclass,sit] [CLASSDONE=0|1] [SAVE=…] python3 cc_bohan_card_walk_probe.py '<URL>/index.html' <輸出資料夾>
 每項一行 PASS／FAIL，最後 ALL PASS 或 FAILED n；exit 0／1。"""
@@ -45,6 +47,8 @@ FAILS = []
 DAY_KEY = '2025-09-11'
 SEAT2 = (-0.75, 0.40)      # 第 2 排(row 2)第 3 個座位＝「坐中間的位子」
 WALK_TO = (-0.75, -1.10)   # classScene：第 1 排(row 1)第 3 個座位後面 0.6 m
+# 網拍相機那一堂劇情課（story3d.js classScene，a8c485729:3771）的台詞；src 裡只有 classScene 有這三句（git grep a8c485729 -- src 各 1 處）
+CS_LINES = ('今天不上進度，先問你們的直覺。', '網拍上標價一千元的相機', '民法一五四條')
 SPEC = {'goclass': dict(zone='dorm', h=12 + 35 / 60, classDone=False, via='phone'),
         'sit': dict(zone='classroom', h=12 + 52 / 60, classDone=True, via='walk'),
         'goclass_done': dict(zone='dorm', h=12 + 35 / 60, classDone=True, via='phone')}
@@ -83,10 +87,11 @@ HOOK = r"""(()=>{ if(window.__BW) return 'again'; const W=window.__BW={log:[],tr
   const w0=GM.walkTo; GM.walkTo=function(ent,x,z,opts){ const id=W.log.length; push({k:'walkTo',id,who:who(ent),from:pos(ent),to:[r2(x),r2(z)],pose:ent&&ent.pose,frozen:!!(ent&&ent.frozen),seat:seatOf(ent),stack:(new Error().stack||'').split('\n').slice(2,5).map(s=>s.trim().slice(0,120))},W.log);
     const pr=w0.apply(this,arguments); try{ pr.then(v=>push({k:'walkDone',id,who:who(ent),v,at:pos(ent),to:[r2(x),r2(z)],pose:ent&&ent.pose,frozen:!!(ent&&ent.frozen)},W.log)); }catch(e){} return pr; };
   const s0=GM.sitAt; GM.sitAt=function(ent,seat){ push({k:'sitAt',who:who(ent),seat:seat?{x:seat.x,z:seat.z,row:seat.row,col:seat.col}:null,from:pos(ent)},W.log); return s0.apply(this,arguments); };
+  const y0=GM.say; GM.say=function(w,t){ try{ push({k:'say',n:(w&&(w.charId||w.name))||(typeof w==='string'?w:''),t:String(t==null?'':t).slice(0,80)},W.log); }catch(e){} return y0.apply(this,arguments); };
   const u0=GM.standUp; GM.standUp=function(ent){ push({k:'standUp',who:who(ent),from:pos(ent),pose:ent&&ent.pose,frozen:!!(ent&&ent.frozen)},W.log); return u0.apply(this,arguments); };
   let last=''; setInterval(()=>{ try{ const Pl=E.player, F=GAME.G.flags||{}; const o={zone:GAME.G.zone,p:pos(Pl),pose:Pl.pose,frozen:!!Pl.frozen,seat:seatOf(Pl),path:!!(Pl.path&&Pl.path.length),busy:!!Pl.busy,classNow:!!F.classNow,classDone:!!F.classDone};
     const k=JSON.stringify([o.zone,o.p&&o.p.map(v=>Math.round(v*4)),o.pose,o.frozen,o.seat&&o.seat.row,o.path,o.busy,o.classNow,o.classDone,base().ev,base().cam]); if(k!==last){ last=k; push(o,W.trace); } }catch(e){} },250);
-  return {walkTo:typeof w0==='function',sitAt:typeof s0==='function',standUp:typeof u0==='function'}; })()"""
+  return {walkTo:typeof w0==='function',sitAt:typeof s0==='function',standUp:typeof u0==='function',say:typeof y0==='function'}; })()"""
 PSTATE = r"""(()=>{ const E=GAME.E, Pl=E.player, F=GAME.G.flags||{}, r2=v=>Math.round(v*100)/100;
   return {p:[r2(Pl.obj.position.x),r2(Pl.obj.position.z)],pose:Pl.pose,frozen:!!Pl.frozen,seat:Pl.seat?{x:Pl.seat.x,z:Pl.seat.z,row:Pl.seat.row,col:Pl.seat.col}:null,
     cam:E.cam&&E.cam.mode,wf:GAME.walkFallbacks|0,zone:GAME.G.zone,h:+(+GAME.G.hour).toFixed(3),classNow:!!F.classNow,classDone:!!F.classDone,classAnswer:F.classAnswer||null,
@@ -185,12 +190,14 @@ async def one(p, case):
             check('%s：走到座位旁邊：互動鍵是「坐下」、最近的座位是 %s' % (tag, J(SEAT2)), lab.startswith('坐下') and ns and dist((ns['x'], ns['z']), SEAT2) < 0.05, J({'lab': lab, 'near': ns}))
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); note('%s：按「坐下」（玩家按）' % tag)
         # ---- 上課：對話點下去、選項照玩家 ----
-        t0 = time.time(); chose = []; seen_wf = 0; idle0 = None; stop_why = ''
+        t0 = time.time(); chose = []; seen_wf = 0; idle0 = None; stop_why = ''; cs_dlg = []
         while time.time() - t0 < CLASS_S:
             s = await P.ts(pg); ps = await pg.evaluate(PSTATE)
             log = await pg.evaluate("window.__BW.log")
             wf = await pg.evaluate("window.__wf")
             if ps['pose'] == 'sit' and dist(ps['p'], SEAT2) < 0.1 and 'seated' not in shots: await shot('seated'); note('%s：坐在第 2 排正中間 %s（%.2f 時）' % (tag, J(ps['p']), ps['h']))
+            if s['txt'] and any(m in s['txt'] for m in CS_LINES) and s['txt'][:30] not in cs_dlg:
+                cs_dlg.append(s['txt'][:30]); await shot('class_scene_line'); note('%s：對話框出現網拍相機劇情課的台詞「%s」' % (tag, s['txt'][:40]))
             if (s['running'] == 'ev_card_bohan' or s['txt'].startswith('（民總。第一排')) and 'card' not in shots: await shot('card'); note('%s：柏翰卡片出現（%.2f 時）' % (tag, s['h']))
             cw = [x for x in log if x['k'] == 'walkTo' and x['who'] == 'player' and dist(x['to'], WALK_TO) < 0.05]
             if cw and 'class_walk' not in shots: await shot('class_walk'); note('%s：classScene 叫玩家走 %s（被叫那一刻 pose=%s frozen=%s seat=%s）' % (tag, J(cw[0]['to']), cw[0]['pose'], cw[0]['frozen'], J(cw[0]['seat'])))
@@ -227,18 +234,18 @@ async def one(p, case):
         note('%s：GAME.sitAt／standUp %s' % (tag, J([{k2: x.get(k2) for k2 in ('k', 'who', 'seat', 'from', 'h')} for x in log if x['k'] in ('sitAt', 'standUp')])))
         check('%s：沒有選單沒點、照玩家上完民法總則（done；%s）' % (tag, stop_why or '逾時'), bool(civ1) and civ1['done'] and bool(stop_why), J(civ1))
         check('%s：柏翰卡片播了（ev_card_bohan done、FRIEND_CARD_classmate_bohan）' % tag, ps1['cardDone'] and ps1['card'], J({k2: ps1[k2] for k2 in ('card', 'cardDone')}))
-        if case.startswith('goclass') and not cdone:
-            check('%s：坐下：「坐中間的位子」坐在 %s（狀態軌跡裡 pose sit）' % (tag, J(SEAT2)), bool(sits), J(sits[:1]))
-            check('%s：重現條件：classScene 叫玩家走到 %s（classDone 沒設＝9/11 也演）' % (tag, J(WALK_TO)), bool(cw), J(cw[:1]))
-            if cw:
-                c0 = cw[0]
-                note('%s：CC 初判用：classScene 的 walkTo 被叫那一刻 pose=%s frozen=%s seat=%s（坐著＝1ec7c8634 的 standUp 會作用；站著／走路＝碰不到）' % (tag, c0['pose'], c0['frozen'], J(c0['seat'])))
-                rec['class_walk_call'] = c0
-                check('%s：classScene 那一次走路走完（resolve），位置在 %s 附近（< 0.35 m）' % (tag, J(WALK_TO)), bool(cd) and dist(cd[0]['at'], WALK_TO) < 0.35, J(cd[:1]))
-        else:
-            check('%s：classDone=true：沒有 classScene 的走路（沒叫玩家走到 %s）' % (tag, J(WALK_TO)), not cw, J(cw[:1]))
-            if case == 'sit': check('%s：自己按「坐下」坐在 %s' % (tag, J(SEAT2)), bool(sits), J(sits[:1]))
-        check('%s：GAME.walkFallbacks %s → %s（要 0：劇情自動走路沒有卡 4 秒被放到目的地）' % (tag, ps0['wf'], ps1['wf']), ps1['wf'] == 0 and not wf,
+        cs_say = [x['t'] for x in log if x['k'] == 'say' and any(m in x['t'] for m in CS_LINES)]
+        rec['class_scene_say'] = cs_say; rec['class_scene_dlg'] = cs_dlg
+        if case == 'sit' or (case.startswith('goclass') and not cdone):
+            check('%s：坐下：%s坐在 %s（狀態軌跡裡 pose sit）' % (tag, '自己按「坐下」' if case == 'sit' else '「坐中間的位子」', J(SEAT2)), bool(sits), J(sits[:1]))
+        if cw:
+            c0 = cw[0]; rec['class_walk_call'] = c0
+            note('%s：classScene 的 walkTo 被叫那一刻 pose=%s frozen=%s seat=%s；走完 %s' % (tag, c0['pose'], c0['frozen'], J(c0['seat']), J(cd[:1])))
+        # ② BB（LAWWW 4cb41c3a0／a8c485729：classScene 只在主線第 2 天）：9/11 只上一般課，不重演網拍相機那一堂劇情課
+        check('%s：② 9/11 只有一般課：classScene 沒叫玩家走到 %s、沒有網拍相機劇情課的台詞（%s）' % (tag, J(WALK_TO), '／'.join(CS_LINES)),
+              not cw and not cs_say and not cs_dlg, J({'walk': [{k2: x.get(k2) for k2 in ('from', 'to', 'pose', 'frozen', 'h')} for x in cw[:1]], 'say': cs_say[:3], 'dlg': cs_dlg[:3],
+                                                      'classDone': ps1['classDone'], 'classAnswer': ps1['classAnswer'], 'mainDay': ps1['mainDay']}))
+        check('%s：① GAME.walkFallbacks %s → %s（要 0：劇情自動走路沒有卡 4 秒被放到目的地）' % (tag, ps0['wf'], ps1['wf']), ps1['wf'] == 0 and not wf,
               J([{k2: x.get(k2) for k2 in ('who', 'at', 'to', 'd', 'h', 'zone', 'pose', 'frozen', 'seat', 'cam', 'ev', 'classNow', 'dlg')} for x in wf]))
         for x in wf: note('%s：卡住那一刻 P.pose=%s P.frozen=%s P.seat=%s E.cam.mode=%s EVENTS.running=%s（%s → %s）' % (tag, x.get('pose'), x.get('frozen'), J(x.get('seat')), x.get('cam'), x.get('ev'), J(x.get('at')), J(x.get('to'))))
         note('%s：結束時 P.pose=%s P.frozen=%s E.cam.mode=%s 位置 %s zone=%s %.2f 時 classDone=%s classAnswer=%s' % (tag, ps1['pose'], ps1['frozen'], ps1['cam'], J(ps1['p']), ps1['zone'], ps1['h'], ps1['classDone'], ps1['classAnswer']))
