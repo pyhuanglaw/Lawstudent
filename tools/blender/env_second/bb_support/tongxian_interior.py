@@ -470,13 +470,13 @@ sw = G('plaster', 'left')   # 樓梯間的東牆（門的那一面）＋北牆
 sw.box(SX - T, SX, 0, H, SZ0 - T, dz0).box(SX - T, SX, 0, H, dz1, Z1).box(SX - T, SX, dh, H, dz0, dz1)
 G('plaster', 'front').box(X0, SX - T, 0, H, SZ0 - T, SZ0)
 for side, boxes in (('back', [(X0, X1, Z0, Z0 + 0.012)]), ('front', [(SX, X1, Z1 - 0.012, Z1), (X0, SX, SZ0 - 0.012, SZ0)]),
-                    ('left', [('x', X0, X0 + 0.012, Z0, SZ0), ('x', SX, SX + 0.012, SZ0, dz0 - 0.06), ('x', SX, SX + 0.012, dz1 + 0.06, Z1)])):   # 踢腳板
+                    ('left', [('x', X0, X0 + 0.012, Z0, SZ0), ('x', SX, SX + 0.012, SZ0, dz0 - 0.06), ('x', SX, SX + 0.012, min(dz1 + 0.06, Z1 - 0.01), Z1)])):   # 踢腳板
     w = G('wood', side)
     for bxs in boxes:
         if bxs[0] == 'x': w.rbox(bxs[1], bxs[2], 0, 0.08, bxs[3], bxs[4], r=0.003, seg=1)
         else: w.rbox(bxs[0], bxs[1], 0, 0.08, bxs[2], bxs[3], r=0.003, seg=1)
 # 牆腳的髒（踢腳板上面一條淡淡的灰）：歲月感
-for side, a in (('back', (X0, X1, 0.08, 0.13, Z0, Z0 + 0.002)), ('left', (SX, SX + 0.002, 0.08, 0.12, dz1 + 0.06, Z1))):
+for side, a in (('back', (X0, X1, 0.08, 0.13, Z0, Z0 + 0.002)), ('left', (SX, SX + 0.002, 0.08, 0.12, SZ0, dz0 - 0.06))):
     G('vc', side).cbox(*a, '#d2c4aa')
 
 # ---------------- 臨街的窗（鋁框兩扇橫拉、窗台、窗外的新生南路） ----------------
@@ -549,16 +549,16 @@ AP = [GProto(f'a{i}', dict(s, kind='ac'), 'right') for i, s in enumerate(A_SPECS
 def hook_fn(arm):
     def f(cv, cm):   # 原點＝托（Y 形）的中心；手臂往 +x 到牆（arm 長）
         col = '#1c1c1e'
-        cv.cbox(min(arm - 0.012, arm + 0.004), max(arm - 0.012, arm + 0.004), -0.06, 0.03, -0.022, 0.022, col)   # 牆上的底座（卡在溝槽裡）
-        n0 = set(cm.bm.faces); cm.cyl((arm, 0, 0), (0.0, 0.0, 0), 0.0055, seg=4, caps=False); cm.paint([f_ for f_ in cm.bm.faces if f_ not in n0], col)
-        n0 = set(cm.bm.faces); cm.cyl((0, 0, -0.032), (0, 0, 0.032), 0.005, seg=4, caps=False); cm.paint([f_ for f_ in cm.bm.faces if f_ not in n0], col)
-        lean = -0.008 if arm > 0 else 0.008
+        sg = 1 if arm > 0 else -1   # v4b：整個縮小一半（LAWWW2 P2：掛勾太搶眼）；手臂長度只縮到吉他轉 30～35° 不碰牆的最短
+        cv.cbox(min(arm - sg * 0.006, arm + sg * 0.002), max(arm - sg * 0.006, arm + sg * 0.002), -0.03, 0.015, -0.011, 0.011, col)   # 牆上的底座（卡在溝槽裡）
+        n0 = set(cm.bm.faces); cm.cyl((arm, 0, 0), (0.0, 0.0, 0), 0.003, seg=4, caps=False); cm.paint([f_ for f_ in cm.bm.faces if f_ not in n0], col)
+        n0 = set(cm.bm.faces); cm.cyl((0, 0, -0.028), (0, 0, 0.028), 0.003, seg=4, caps=False); cm.paint([f_ for f_ in cm.bm.faces if f_ not in n0], col)
         for s in (-1, 1):
-            n0 = set(cv.bm.faces); cv.cyl((0, 0, s * 0.032), (lean, 0.045, s * 0.036), 0.0062, seg=4); cv.paint([f_ for f_ in cv.bm.faces if f_ not in n0], '#2e2e30')
+            n0 = set(cv.bm.faces); cv.cyl((0, 0, s * 0.028), (-sg * 0.004, 0.022, s * 0.03), 0.0035, seg=4); cv.paint([f_ for f_ in cv.bm.faces if f_ not in n0], '#2e2e30')
     return f
 
 
-HOOK = {k: PProto(f'hook{k}', 'right', hook_fn(a)) for k, a in (('E', 0.16), ('A', 0.22))}
+HOOK = {k: PProto(f'hook{k}', 'right', hook_fn(a)) for k, a in (('E', 0.135), ('A', 0.195))}
 XS = X1 - 0.032   # 溝槽板的表面
 TAGS = []
 
@@ -578,8 +578,8 @@ def wall_row(protos, kind, yh, z0, z1, pitch, ang, arm, order, tag_every=0):
     return n
 
 
-NE = wall_row(EP, 'E', 2.80, GZ0 + 0.17, GZ1 - 0.17, 0.33, math.radians(33), 0.16, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
-NA = wall_row(AP, 'A', 1.78, GZ0 + 0.22, GZ1 - 0.2, 0.36, math.radians(30), 0.22, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], tag_every=3)
+NE = wall_row(EP, 'E', 2.80, GZ0 + 0.17, GZ1 - 0.17, 0.33, math.radians(33), 0.135, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+NA = wall_row(AP, 'A', 1.78, GZ0 + 0.22, GZ1 - 0.2, 0.36, math.radians(30), 0.195, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], tag_every=3)
 for (Pk, wdir, k) in TAGS:   # 價錢牌（掛在琴頭下面的弦鈕上，正面朝店裡）
     c = Pk + Vector((0, -0.11, 0)) + wdir * 0.03; r = Vector((wdir.z, 0, -wdir.x)) * -1
     q = [c - r * 0.04 - Vector((0, 0.03, 0)), c + r * 0.04 - Vector((0, 0.03, 0)), c + r * 0.04 + Vector((0, 0.03, 0)), c - r * 0.04 + Vector((0, 0.03, 0))]
@@ -845,23 +845,23 @@ UKE = [GProto(f'u{i}', dict(kind='ac', top=t, side=sd, shape='om', pg=None if i 
 CLS = [GProto(f'c{i}', dict(kind='ac', top=t, side='side_rose', shape='om'), 'left', scale=0.97) for i, t in enumerate(('spruce_aged', 'mahog_top'))]
 for p_ in UKE + CLS:
     if p_.spec.get('pg') is None: p_.spec.pop('pg', None)
-HOOK['U'] = PProto('hookU', 'left', hook_fn(-0.15))
+HOOK['U'] = PProto('hookU', 'left', hook_fn(-0.13)); HOOK['C'] = PProto('hookC', 'left', hook_fn(-0.19))
 XL = X0 + 0.032
 
 
-def wall_row_left(protos, yh, z0, z1, pitch, ang, arm, scl):
+def wall_row_left(protos, yh, z0, z1, pitch, ang, arm, scl, hk='U'):
     n = int((z1 - z0) / pitch) + 1
     for i in range(n):
         zc = z0 + i * pitch; pr = protos[i % len(protos)]; a = ang + random.uniform(-0.05, 0.05); wdir = Vector((math.cos(a), 0, -math.sin(a)))
         if pr.ob is None: pr.build()
         wy, vy = (pr.wt - 0.02) * scl, (pr.vn - 0.03) * scl
         Pk = Vector((XL + arm, yh, zc)); o = Pk - wdir * wy - Vector((0, vy, 0))
-        pr.place(Frame(tuple(o), tuple(wdir), (0, 1, 0)).M); HOOK['U'].place(T4(XL + arm, yh, zc))
+        pr.place(Frame(tuple(o), tuple(wdir), (0, 1, 0)).M); HOOK[hk].place(T4(XL + arm, yh, zc))
     return n
 
 
-NU = wall_row_left(UKE, 2.35, UZ0 + 0.2, UZ0 + 1.9, 0.3, math.radians(25), 0.15, 0.6)
-NC = wall_row_left(CLS, 2.35, UZ0 + 2.4, UZ1 - 0.2, 0.42, math.radians(25), 0.2, 0.97)
+NU = wall_row_left(UKE, 2.35, UZ0 + 0.2, UZ0 + 1.9, 0.3, math.radians(25), 0.13, 0.6)
+NC = wall_row_left(CLS, 2.35, UZ0 + 2.4, UZ1 - 0.2, 0.42, math.radians(25), 0.19, 0.97, hk='C')
 ak = IT['amp_shelf'][0]
 
 
