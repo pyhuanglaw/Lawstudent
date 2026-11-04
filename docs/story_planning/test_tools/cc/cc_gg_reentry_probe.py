@@ -34,13 +34,14 @@ ALLC = {   # key: (棟, 店, x0, x1, y0, y1, 卡面 z)——同 cc_gg_cards_shot
     'ggdb_int':     ('G14', 'Daybreak', 71.62, 76.41, 0.76, 2.53, 22.8),
 }
 SEL = [k for k in (os.environ.get('CARDS') or ','.join(ALLC)).split(',') if k in ALLC]
-HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,21').split(',') if x.strip()]
+HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,21,14,21').split(',') if x.strip()]   # BB-C 13:26：要看到第 4 輪也是 LINK true
 DRAWN_MIN = float(os.environ.get('DRAWN_MIN') or 4)
 LIT_MIN = float(os.environ.get('LIT_MIN') or 8)
 GLB = 'gongguan_shops_glb'
 SPAWN = {'x': -30, 'z': 14, 'yaw': 1.5708}
 EYE_Z, EYE_Y = 20.0, 1.6
 FAILS = []
+UNKN = []
 
 
 def check(name, ok, info=''):
@@ -120,17 +121,36 @@ async def measure(pg, tag):
         await pg.evaluate(AIM + '(%s,%s)' % (J([cx, EYE_Y, EYE_Z]), J([cx, EYE_Y, zz])))
         await pg.wait_for_timeout(400)
         box = await pg.evaluate(QUAD + '(%s)' % J([x0, x1, y0, y1, zz]))
-        kp = []
+        kp = []   # [原樣, 藏網格, 藏網格（再拍一次＝雜訊底）, 設黑]
         base = await shot_luma(pg, box, os.path.join(OUT, 'card_%s_%s.png' % (tag, k)), kp)
         await pg.evaluate(SET_JS + "('hide',true)"); await pg.wait_for_timeout(200)
-        hid = await shot_luma(pg, box, None, kp); await pg.evaluate(SET_JS + "('hide',false)")
-        pxd = await pg.evaluate(DIFF_JS + '(%s,%s,%s)' % (J(kp[0]), J(kp[1]), J(box))) if len(kp) == 2 else None
+        hid = await shot_luma(pg, box, None, kp); await pg.wait_for_timeout(150)
+        await shot_luma(pg, box, None, kp); await pg.evaluate(SET_JS + "('hide',false)")
         await pg.evaluate(SET_JS + "('black',true)"); await pg.wait_for_timeout(200)
-        blk = await shot_luma(pg, box); await pg.evaluate(SET_JS + "('black',false)"); await pg.wait_for_timeout(200)
-        r = {'shop': shop, 'idx': idx, 'open': open_, 'luma': base, 'hidden': hid, 'black': blk, 'pxdiff_hidden': pxd}
+        blk = await shot_luma(pg, box, None, kp); await pg.evaluate(SET_JS + "('black',false)"); await pg.wait_for_timeout(200)
+        pd = lambda a, b: pg.evaluate(DIFF_JS + '(%s,%s,%s)' % (J(kp[a]), J(kp[b]), J(box)))
+        noise, d_h, d_b = (await pd(1, 2), await pd(0, 1), await pd(0, 3)) if len(kp) == 4 else (None, None, None)
+        r = {'shop': shop, 'idx': idx, 'open': open_, 'luma': base, 'hidden': hid, 'black': blk, 'noise': noise, 'd_hidden': d_h, 'd_black': d_b}
+        # BB-C 13:26 判準定案：有畫＝d_hidden ≥ max(8, 3×noise) 而且 d_black ≥ max(15, 3×noise)；沒畫＝兩個都 ≤ max(3, 2×noise)；介於中間＝UNKNOWN（附三張圖）。
+        # CC-C：打烊的店窗卡本來就接近全黑（k＝0.03），d_black 一定很小——打烊的店「有畫」只看 d_hidden，暗不暗另外看（下面 ③）；數字照印，交 BB 決定
+        if None in (noise, d_h, d_b):
+            verdict = 'UNKNOWN'
+        else:
+            th_h, th_b, th_no = max(8, 3 * noise), max(15, 3 * noise), max(3, 2 * noise)
+            r.update({'th_hidden': round(th_h, 2), 'th_black': round(th_b, 2), 'th_none': round(th_no, 2)})
+            if d_h <= th_no and d_b <= th_no: verdict = 'NOT_DRAWN'
+            elif d_h >= th_h and (d_b >= th_b or not open_): verdict = 'DRAWN'
+            else: verdict = 'UNKNOWN'
+        r['verdict'] = verdict
         rows[k] = r
-        drawn = pxd is not None and pxd >= DRAWN_MIN   # 原樣和藏網格兩張圖，框內逐像素亮度差的平均（壞掉時 ≈0）
-        check('[%s] %s %s 窗卡有畫（原樣 vs 藏網格 逐像素差 ≥%s）' % (tag, G, k, DRAWN_MIN), drawn, J(r))
+        if verdict == 'UNKNOWN':   # 三張截圖附上來給 BB 看
+            for nm, b64 in (('hidden', kp[1] if len(kp) > 1 else None), ('black', kp[3] if len(kp) > 3 else None)):
+                if b64:
+                    with open(os.path.join(OUT, 'card_%s_%s_%s.png' % (tag, k, nm)), 'wb') as fh: fh.write(base64.b64decode(b64))
+            UNKN.append('%s %s' % (tag, k))
+            info('[%s] %s %s 有畫／沒畫 UNKNOWN（附 card_%s_%s{,_hidden,_black}.png）' % (tag, G, k, tag, k), J(r))
+        else:
+            check('[%s] %s %s 窗卡有畫（判準定案：%s）' % (tag, G, k, verdict), verdict == 'DRAWN', J(r))
         if None not in (base, blk):
             if open_: check('[%s] %s %s 營業→亮（原樣−黑≥%s）' % (tag, G, k, LIT_MIN), base - blk >= LIT_MIN, '%.1f−%.1f' % (base, blk))
             else: check('[%s] %s %s 打烊→暗（原樣−黑<%s）' % (tag, G, k, LIT_MIN), base - blk < LIT_MIN, '%.1f−%.1f' % (base, blk))
@@ -184,9 +204,10 @@ async def main():
         check('console 沒有著色器錯誤（THREE.WebGLProgram／Shader Error／redefinition）', not shad, '%d 則：%s' % (len(shad), J(shad[:3])))
         info('console 其他 error', '%d 則：%s' % (len(other), J(other[:5])))
         await b.close()
-    json.dump({'sha': os.environ.get('SHA'), 'hours': HOURS, 'drawn_min': DRAWN_MIN, 'lit_min': LIT_MIN, 'entries': res, 'shader_console': shad},
+    json.dump({'sha': os.environ.get('SHA'), 'hours': HOURS, 'unknown': UNKN, 'drawn_min': DRAWN_MIN, 'lit_min': LIT_MIN, 'entries': res, 'shader_console': shad},
               open(os.path.join(OUT, 'reentry.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:12]) + ('…' if len(FAILS) > 12 else '')), flush=True)
-    sys.exit(1 if FAILS else 0)
+    if UNKN: print('UNKNOWN %d（有畫／沒畫判不出來，三張圖給 BB 看）：%s' % (len(UNKN), '；'.join(UNKN[:12])), flush=True)
+    print('ALL PASS' if not FAILS and not UNKN else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:12]) + ('…' if len(FAILS) > 12 else '')), flush=True)
+    sys.exit(1 if (FAILS or UNKN) else 0)
 
 asyncio.run(main())

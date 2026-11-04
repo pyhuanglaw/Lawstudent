@@ -57,6 +57,12 @@ OCC_JS = r"""(([sx,sz,ix,iz])=>{ const E=GAME.E; const npcs=(E.npcs||[]).filter(
   const it=its[0]?{label:its[0].label, hidden:!!its[0].hidden, radius:its[0].radius||null, taken:its[0].seat.taken===undefined?null:its[0].seat.taken, x:+(+its[0].x).toFixed(2), z:+(+its[0].z).toFixed(2), n:its.length}:null;
   const near=npcs.filter(n=>n.d<=0.35); return {seat:[sx,sz], npcOnSeat:near, it, seatedNpcs:npcs.length, nearest:typeof E.nearestInteractable==='function'?(()=>{ try{ const q=E.nearestInteractable(); return q?q.label:null; }catch(e){ return 'ERR'; } })():null}; })(%s)"""
 
+SEATDIAG_JS = r"""(([sx,sz])=>{ const E=GAME.E, P=E.player, pp=P.obj.position; const near=(E.npcs||[]).filter(n=>n&&(n.seat||n.seatTarget)).map(n=>{ const st=n.seat||null, tg=n.seatTarget||null;
+    const ds=st?Math.hypot((+st.x)-sx,(+st.z)-sz):null, dt=tg?Math.hypot((+tg.x)-sx,(+tg.z)-sz):null; return {name:n.name||'(路人)', id:n.id||n.cid||null, seat:st?{x:+(+st.x).toFixed(2),z:+(+st.z).toFixed(2),id:st.id||null}:null, seatTarget:tg?{x:+(+tg.x).toFixed(2),z:+(+tg.z).toFixed(2),id:tg.id||null}:null, dSeat:ds==null?null:+ds.toFixed(2), dTarget:dt==null?null:+dt.toFixed(2)}; }).filter(q=>(q.dSeat!=null&&q.dSeat<=0.5)||(q.dTarget!=null&&q.dTarget<=0.5));
+  const t=document.getElementById('toast'); const toast=(t&&!t.classList.contains('hide')&&getComputedStyle(t).opacity!=='0')?(t.textContent||'').trim():'';
+  let ni=null; try{ const q=typeof E.nearestInteractable==='function'?E.nearestInteractable():null; ni=q?{label:q.label,seat:!!q.seat,x:+(+q.x).toFixed(2),z:+(+q.z).toFixed(2)}:null; }catch(e){ ni='ERR '+String(e).slice(0,60); }
+  return {player:{x:+pp.x.toFixed(2),z:+pp.z.toFixed(2),lv:P.lv|0,seat:!!P.seat,busy:!!P.busy,pose:P.pose||null}, near, toast, nearest:ni}; })(%s)"""
+
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok: FAILS.append(name)
@@ -183,9 +189,14 @@ async def floor_seats(pg, cdp, allseats=False):
         # BB-C 11-04（LAWWW-C 13:2x）：按鈕不出來／按了不坐，是不是那張有人坐著——同一時間點印 (a) 有 seat 的 NPC (b) 這張的 interactable
         occ = await pg.evaluate(OCC_JS % J([s['sx'], s['sz'], s['x'], s['z']]))
         print('  [%s] 座位佔用：%s' % (tag, J(occ)), flush=True)
+        sdiag = tag in [t.strip() for t in (os.environ.get('SEAT_DIAG') or '').split(',') if t.strip()]   # BB-C 13:20（LAWWW-C 查碼 freeSeat 0.4 m）：按坐下之前、之後 1 秒、6 秒
+        if sdiag: print('  [%s] SEAT_DIAG 按坐下之前：%s' % (tag, J(await pg.evaluate(SEATDIAG_JS % J([s['sx'], s['sz']])))), flush=True)
         if not check('[%s] 走到「%s」(%s, %s)：按鈕出現' % (tag, s['label'], s['sx'], s['sz']), st['interact'].startswith(s['label'][:2]), J({'interact': st['interact'], 'x': st['x'], 'z': st['z'], 'npcOnSeat': occ.get('npcOnSeat'), 'taken': (occ.get('it') or {}).get('taken')})):
             continue
         await L.tap(pg, cdp, '#interact')
+        if sdiag:
+            await pg.wait_for_timeout(1000); print('  [%s] SEAT_DIAG 按坐下之後 1 秒：%s' % (tag, J(await pg.evaluate(SEATDIAG_JS % J([s['sx'], s['sz']])))), flush=True)
+            await pg.wait_for_timeout(5000); print('  [%s] SEAT_DIAG 按坐下之後 6 秒：%s' % (tag, J(await pg.evaluate(SEATDIAG_JS % J([s['sx'], s['sz']])))), flush=True)
         for _ in range(30):
             await pg.wait_for_timeout(500)
             if await pg.evaluate("!!GAME.E.player.seat&&!GAME.E.player.busy"): break
