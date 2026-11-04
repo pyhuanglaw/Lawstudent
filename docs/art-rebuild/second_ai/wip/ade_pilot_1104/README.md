@@ -5,6 +5,21 @@
 - v2.1 等 BB 判 ART（D120／D133），過了再請 LAWWW-C 接。
 - 遊戲畫面（14:00、20:30、搬到轉角的 moved）和 lane_west 效能，要 CC 在 PC 上拍、量。
 
+## ADE-PROPS 補件（LAWWW2-C 11-04 21:3x）：正式模型的電線桿沒有跟著挪
+
+- **下面那個 patch 只挪了套件的電線桿**（`zones3d.js`）。正式模型 `wz_props.glb` 的電線桿和路燈臂還在 x −9.2。
+  - 正式模型一載入就把套件藏起來，所以遊戲裡（開發分支接了 patch 以後）：
+    - 畫面上的桿子還在 −9.2，照樣擋在價目表前面；
+    - −12.7 那裡有看不見的阻擋（套件的導航阻擋），路燈的地面光圈也在那裡；
+    - 電線照套件的桿頂畫，接到 −12.7 的半空中。
+  - 這是我交 patch 的時候漏看的。
+- 改法：`tools/blender/env_second/wz_props.py` 的 `POLES` 第 2 根 −9.2 → −12.7，重建 `wz_props.glb`。
+  - 只有那根桿子、路燈臂、桿號牌的位置變了：節點、材質、頂點數、貼圖都一樣。
+- 新測試 `tests/wz_props_poles_unit.js`（Node）：套件的電線桿、路燈臂和正式模型一根對一根（差 ≤ 5 cm）。
+  - 開發分支 `effb5d9b3` 原樣：① ② FAIL（−12.7 沒有正式桿、−9.2 多一根）。
+  - 換新 GLB：ALL PASS。`bike_park_1104_unit`、`street_props_nav_unit`、`wz_copy_shop_unit` 也 ALL PASS。
+- 拿檔：`git checkout <SHA> -- assets/models/env/second_ai/wz_props.glb assets/models/env/second_ai/wz_props.json tests/wz_props_poles_unit.js`（程式不用改）。
+
 ## ADE-PROPS-1104（BB_255 P3，LAWWW2-C 11-04 18:0x）：電線桿、機車擋到價目表
 
 BB 在遊戲裡看到，店門前溫州街本來的電線桿和機車，蓋住了店面右半和價目表。價目表、布告欄掛在玻璃右邊那段白磁磚壁面上（`pier_r=2.35`，世界座標大約 x −10.4～−11.9）。
