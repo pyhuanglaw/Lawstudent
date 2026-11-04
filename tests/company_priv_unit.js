@@ -508,11 +508,11 @@ const ytTwo=zone=>{ for(const id of ['heroine_03','heroine_01']){ H.CLOSE(id); S
 await sec('10. 對稿：第 6、7 點',async()=>{ const L=(HAS()&&PRIVTALK.LATER)||[], B=((MULTIREL_LINES.DISC||{}).heroine_03||{}).base||[];
   const if1=B.find(x=>x&&x.if==='auntIn'&&x.else), if2=B.find(x=>x&&(x.if==='auntIn'||x.if==='auntLate')&&x.then);   /* 最後那三句：第 8 點（f6069e42d）起看 auntLate（阿姨在、19:00 以後），第 11 段 */
   check('10. 對稿（白名單上 AA_503 那一版有後補第 6、7 點）：第 6 點「麵店只有阿姨在」、包含麵店裡所有私密的選項、「約她去…照擋」只限旁邊還有別的圈子同伴；第 7 點「阿姨在不在店裡，看 3D」、在／不在、3D 的時間不改；'
-    +'PRIVTALK.LATER 第 6、7 項、PLACE_EXCEPT＝語彤在麵店不算阿姨；遊戲裡「今天很忙喔？」那一段：auntIn 不在＝「阿姨呢？」「去買東西。」、在＝「蘇姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）（第 8 點起這三句還要 19:00 以後＝auntLate，第 11 段）',
+    +'PRIVTALK.LATER 第 6、7 項、PLACE_EXCEPT＝語彤在一盞茶屋不算蘇姨（AA_679 第 8 列；原本麵店不算阿姨）；遊戲裡「今天很忙喔？」那一段：auntIn 不在＝「阿姨呢？」「去買東西。」、在＝「蘇姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）（第 8 點起這三句還要 19:00 以後＝auntLate，第 11 段）',
     DOC503.includes('**麵店只有阿姨在：「約她去…」和 tell_later 也照出**')&&DOC503.includes('第 5 點「阿姨不算旁邊有人」包含麵店裡所有私密的選項：知情場景、「約她去…」、「（下次見面，自己跟她講…的事）」。')
     &&DOC503.includes('第 14 節第 12 項那句「『約她去…』照擋」，只限旁邊還有別的圈子同伴的時候。')&&DOC503.includes('**阿姨在不在店裡，看 3D**')
     &&DOC503.includes('`auntIn` 改看阿姨的 3D 人物現在在不在麵店（圈子表 `c503_6_2` 那幾列）。')&&DOC503.includes('- 在：不問「阿姨呢？」；')&&DOC503.includes('- 不在：「阿姨呢？」「去買東西。」。')&&DOC503.includes('3D 的時間不改（`AA_503` 第 6 節圈子表照舊）。')
-    &&L.length>=7&&L[5].n===6&&L[6].n===7&&/PLACE_EXCEPT/.test(L[5].impl)&&/labelIn/.test(L[6].impl)&&J(PRIVTALK.PLACE_EXCEPT)===J([])   /* 遊戲：AA_627 P-18 拿掉 PLACE_EXCEPT（語彤不在燒臘店顧店）；「今天很忙喔？」那一段照 AA_630 Z-032、Z-124、Z-127 搬到茶屋（蘇姨）（YT-REWRITE-1103）。稿上的字照舊對 */
+    &&L.length>=7&&L[5].n===6&&L[6].n===7&&/PLACE_EXCEPT/.test(L[5].impl)&&/labelIn/.test(L[6].impl)&&J(PRIVTALK.PLACE_EXCEPT)===J([{who:'heroine_03',zone:'wz_teahouse',except:['wz_su']}])   /* AA_679 第 8 列：PLACE_EXCEPT 改成一盞茶屋＋蘇姨（她在茶屋、旁邊只有蘇姨＝不算旁邊有人）。原本：AA_627 P-18 拿掉麵店那一筆（語彤不在燒臘店顧店）；「今天很忙喔？」那一段照 AA_630 Z-032、Z-124、Z-127 搬到茶屋（蘇姨）（YT-REWRITE-1103）。稿上的字照舊對 */
     &&!!if1&&J(if1.else)===J([{p:'蘇姨呢？'},'去批茶葉。'])&&!!if2&&J(if2.then)===J(['蘇姨，我等一下自己收。',{s:{name:'蘇姨'},t:'好啦，你們年輕人。'},{n:'（蘇姨先走了。）'}]),J({sha:SHA503,n:L.length})); });
 /* (A) 第 6 點：麵店只有阿姨＝「約她去…」、tell_later 照出（測試強制旁邊的人）；阿姨＋別的同伴、只有別的同伴＝照擋；校園強制阿姨＝照擋（照舊） */
 /* AA_627 P-18（YT-REWRITE-1103）：「語彤在麵店、旁邊只有阿姨＝照講」拿掉（她不在燒臘店顧店了）＝燒臘店強制阿姨在旁邊，跟別的地方一樣照擋 */
