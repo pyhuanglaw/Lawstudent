@@ -46320,7 +46320,7 @@
    "title": "語彤告白後的晚餐邀約（AA_684 examDay）不佔「期末邀約只能接一個」的名額；只有同一個時段（同一個週六 17:30）才互斥：兩個都先讓玩家看到再選，被推掉的照「改天」、不扣數值",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
@@ -46335,7 +46335,8 @@
    "source": "BB-C 11-04 19:15：「語彤告白後的晚餐邀約，不佔『邀約只能接一個』的名額……只有時間撞到同一個時段才互斥」（只改條件，不改台詞）",
    "authorized": "BB 判定（條件歸 BB）；D85",
    "notWaitUser": "BB 已定做法",
-   "next": "【LAWWW-C 11-04 19:2x】派子代理在 worktree 改 termend3d.js（R.picked 以外另外記，舊存檔照讀）＋測試（修改前 FAIL、修改後 PASS）"
+   "next": "【LAWWW-C 11-04 20:3x】合併 a11770b62（子代理 teheart-1104 8d6f1c3df）：她那一則記 R.heartPick、晚餐另一場出遊 te_ex_<學期>_heroine_03；撞到＝兩頓佔的時間有交集；撞到時先定的留下、另一邊照原本自動婉拒、不扣數值；舊存檔（plan 沒有 exempt）照原本只能接一個；tests/te_heart_exempt_unit.js 43 項修改前 FAILED 25、修改後 ALL PASS；子代理全套 989 支全過。要 BB 判的 6 件已傳｜【LAWWW-C 11-04 19:2x】派子代理在 worktree 改 termend3d.js（R.picked 以外另外記，舊存檔照讀）＋測試（修改前 FAIL、修改後 PASS）",
+   "sha": "8d6f1c3df"
   },
   {
    "id": "AA685-CANON-FIX2-1104",
