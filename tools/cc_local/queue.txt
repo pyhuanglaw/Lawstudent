@@ -53,20 +53,20 @@ BIKE_flow_r2 | e44ab9056 | game | tests/flow_bike.py | index.html | 40 | XARGS={
 # ===== BB 03:53：XS_view＋GG_cards_shot（23eaaa7ae；排 GG_int 前）=====
 XS_view | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_xs_view_probe.py | index.html | 15 | CC_HEADLESS=0
 XS_view_ref | 555b9e0cb | probe | docs/story_planning/test_tools/cc/cc_xs_view_probe.py | index.html | 10 | CC_HEADLESS=0;PERF_ONLY=1
-GG_cards_shot | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | CC_HEADLESS=0
+GG_cards_shot | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | CC_HEADLESS=0
 # ===== GG_int（BB 03:04；公館三間新室內＋溫州街日和 bike.zone；cb1d84290；排 STUDY 前）=====
-GG_int_cvs | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 40 | CASES=cvs;CC_HEADLESS=0
-GG_int_aoki | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 60 | CASES=aoki;CC_HEADLESS=0
-GG_int_yejian | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
-GG_int_wzbike | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 30 | CASES=wzbike;CC_HEADLESS=0
-GG_int_art | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_int_cvs | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 40 | CASES=cvs;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_int_aoki | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 60 | CASES=aoki;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_int_yejian | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_int_wzbike | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 30 | CASES=wzbike;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_int_art | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
 # ===== GG_shops2（BB 04:14；afar＋Daybreak；964d0ad11；排 GG_int 後）=====
-GG_shops2_afar | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 75 | CASES=afar_door,afar_hours,afar_closein,afar_order,afar_art;CC_HEADLESS=0
-GG_shops2_afar_seat | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 90 | CASES=afar_seats;CC_HEADLESS=0
-GG_shops2_afar_date | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;CC_HEADLESS=0
-GG_shops2_db | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 75 | CASES=db_door,db_hours,db_closein,db_order,db_art;CC_HEADLESS=0
-GG_shops2_db_seat | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 80 | CASES=db_seats;CC_HEADLESS=0
-GG_shops2_db_date | 964d0ad11 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=db_date;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_afar | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 75 | CASES=afar_door,afar_hours,afar_closein,afar_order,afar_art;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_afar_seat | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 90 | CASES=afar_seats;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_afar_date | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=afar_date;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_db | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 75 | CASES=db_door,db_hours,db_closein,db_order,db_art;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_db_seat | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 80 | CASES=db_seats;CC_HEADLESS=0
+#HOLD（探針照 809163ee4／AA_653 補完再開）GG_shops2_db_date | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 45 | CASES=db_date;CC_HEADLESS=0
 GG_views | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 60 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # ===== PARK（BB 03:14；LAWWW2 停車架 555b9e0cb；排在 GG_int 後）=====
 PARK_reach | 555b9e0cb | game | tests/reachability_all.py | index.html?turbo | 90 | XARGS={url}
