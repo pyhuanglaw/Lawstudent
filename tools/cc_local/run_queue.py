@@ -62,6 +62,38 @@ BIG_CAP = 50 * 1024 * 1024   # 結果檔（PNG 以外）超過這個大小就不
 
 
 
+def trace_roles(paths):
+    """每一段 trace 的角色：fail（FAIL 那一段）／prev（FAIL 的前一段）／next（FAIL 的後一段）／other。順序照 trace_push_order。"""
+    import re as _re
+    def cno(f):
+        m = _re.search(r'_c(\d+)(?:_FAIL)?\.zip$', os.path.basename(f))
+        return int(m.group(1)) if m else None
+    fails = {cno(f) for f in paths if '_FAIL' in os.path.basename(f) and cno(f) is not None}
+    out = []
+    for f in trace_push_order(paths):
+        b, n = os.path.basename(f), cno(f)
+        r = 'fail' if '_FAIL' in b else ('prev' if n is not None and (n + 1) in fails else ('next' if n is not None and (n - 1) in fails else 'other'))
+        out.append((f, r))
+    return out
+
+
+def plan_trace_commits(sized, acc0, cap, tmax):
+    """BB-C 11-04 TT_V15b：上限不放寬（每個 commit ≤ cap）。FAIL 那一段放第一個 commit（和截圖、結果一起）；
+    FAIL 的前一段放得進第一個就放，放不進就自己一個第二個 commit；後一段、其他：哪個 commit 還塞得下就放，都塞不下不推。一項最多兩個 commit。
+    sized＝[(路徑, 角色, 大小)]；回傳 (第一個 commit 的, 第二個 commit 的, 不推的 [(路徑, 原因)])"""
+    first, second, skip = [], [], []
+    a1, a2 = acc0, 0
+    for f, role, sz in sized:
+        if sz > tmax:
+            skip.append((f, 'over %d MB' % (tmax // 1048576))); continue
+        if a1 + sz <= cap:
+            first.append(f); a1 += sz; continue
+        if role in ('prev', 'next', 'other', 'fail') and a2 + sz <= cap:
+            second.append(f); a2 += sz; continue
+        skip.append((f, 'item over 25 MB with screenshots (two commits full)'))
+    return first, second, skip
+
+
 def trace_push_order(paths):
     """分段 trace 推上去的順序（BB-C 11-04 TT_V15b）：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（照檔名）。
     檔名像 trace_<ID>_<ctx>_c005_FAIL.zip；沒有 cNNN 的照舊排在後面。"""
@@ -1600,21 +1632,21 @@ class Runner(object):
                     fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                 if nf not in add:
                     add.append(nf)
+            trace2 = []
             if traces:
                 try:
                     tmax = float(it.envd.get('CC_TRACE_MAX_MB') or os.environ.get('CC_TRACE_MAX_MB') or 20) * 1024 * 1024
                 except ValueError:
                     tmax = 20 * 1024 * 1024
                 tnotes = []
-                for f in trace_push_order(traces):   # 分段 trace：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（TT_V15 c005 被 c004 擠掉；BB-C 11-04：找原因要看「怎麼走到 FAIL 的」）
-                    sz = os.path.getsize(f)
-                    if sz > tmax:
-                        tnotes.append('trace not pushed (over %d MB): %s  %d bytes' % (tmax // 1048576, os.path.relpath(f, od), sz))
-                    elif acc + sz > PNG_CAP:
-                        tnotes.append('trace not pushed (item over 25 MB with screenshots): %s  %d bytes' % (os.path.relpath(f, od), sz))
-                    else:
-                        acc += sz
-                        add.append(f)
+                # 分段 trace：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（TT_V15 c005 被 c004 擠掉）；BB-C 11-04：上限不放寬，前一段放不進就推第二個 commit（一項最多兩個）
+                sized = [(f, r, os.path.getsize(f)) for f, r in trace_roles(traces)]
+                t1, t2, tskip = plan_trace_commits(sized, acc, PNG_CAP, tmax)
+                add.extend(t1); trace2 = t2
+                for f, why in tskip:
+                    tnotes.append('trace not pushed (%s): %s  %d bytes' % (why, os.path.relpath(f, od), os.path.getsize(f)))
+                for f in t2:
+                    tnotes.append('trace in second commit (part 2): %s  %d bytes' % (os.path.relpath(f, od), os.path.getsize(f)))
                 if tnotes:
                     nf = os.path.join(od, 'notes.txt')
                     with open(nf, 'a', encoding='utf-8') as fh:
@@ -1639,15 +1671,28 @@ class Runner(object):
                 log('ERROR: git commit failed for %s (exit %s) - results are only on this PC in %s' % (it.id, rc, od))
                 gray(out)
                 self.summary.append('  !! commit failed for %s' % it.id)
-            if self.a.no_push:
-                return
-            for w in (0, 2, 4, 8, 16):
-                if w:
-                    time.sleep(w)
-                rc, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
-                if rc == 0:
-                    return
-            log('push failed for %s (results stay in %s, rerun later)' % (it.id, self.work))
+            def _push(label):
+                if self.a.no_push:
+                    return True
+                for w in (0, 2, 4, 8, 16):
+                    if w:
+                        time.sleep(w)
+                    rc, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
+                    if rc == 0:
+                        return True
+                log('push failed for %s%s (results stay in %s, rerun later)' % (it.id, label, self.work))
+                return False
+            ok1 = _push('')
+            if trace2 and ok1:   # 第二個 commit：FAIL 的前一段（第一個放不進的），自己一個 ≤25 MB，分開推（一次推太大會被擋）
+                for i in range(0, len(trace2), 50):
+                    git('-C', self.work, 'add', '-f', '--', *trace2[i:i + 50], quiet=True)
+                rc2, out2 = git('-C', self.work, 'commit', '-q', '-m',
+                                'CC-local: %s result part 2 (trace %d file(s))' % (it.id, len(trace2)), quiet=True)
+                if rc2 != 0:
+                    log('ERROR: git commit (part 2) failed for %s (exit %s)' % (it.id, rc2))
+                    gray(out2)
+                else:
+                    _push(' part 2')
 
     def apply_config(self):
         """每一輪讀 tools/cc_local/config.txt（從 cc-testing 合併來的）：PARALLEL=n（1～4）。改了就記一行"""
