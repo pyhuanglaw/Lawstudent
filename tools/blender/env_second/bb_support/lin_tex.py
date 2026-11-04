@@ -18,8 +18,8 @@ def floor(path, rough_path):
     col = np.array([206, 198, 186], np.float32)[None, None] * (0.94 + 0.07 * n1[..., None] + 0.03 * (n2[..., None] - 0.5)) * np.ones((H, W, 1), np.float32)
     im = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
     for _ in range(26000):
-        x, y = rng.randint(0, W), rng.randint(0, H); r = rng.choice([1, 1, 2, 2, 3, 4])
-        c = rng.choice([(110, 104, 98), (140, 120, 100), (90, 86, 84), (236, 232, 224), (170, 150, 130), (120, 90, 70)])
+        x, y = rng.randint(0, W), rng.randint(0, H); r = [1, 1, 2, 2, 3, 4][rng.randint(6)]
+        c = [(110, 104, 98), (140, 120, 100), (90, 86, 84), (236, 232, 224), (170, 150, 130), (120, 90, 70)][rng.randint(6)]
         d.ellipse([x - r, y - r, x + r, y + r], fill=c)
     for k in (0, 512): d.line([(0, k), (W, k)], fill=(176, 160, 130), width=2); d.line([(k, 0), (k, H)], fill=(176, 160, 130), width=2)
     im.save(path)
@@ -81,7 +81,7 @@ def prints(path, menu_items):
     frame_sign(d, _cell('cashsign', 0, 320, 900, 420), '林家乾麵', 170)                                    # 收銀台正面（有燈）
     # 紅紙菜單：一張一條（直書），每張 120 × 560
     for k, it in enumerate(menu_items):
-        name, price = it.rsplit(' ', 1); x0, y0 = 920 + (k % 9) * 124, 320
+        name, price = it.rsplit(' ', 1); x0, y0 = 920 + (k % 9) * 124, 380
         b = _cell(f'menu{k}', x0, y0, 120, 560); a = np.random.RandomState(k)
         d.rectangle(b, fill=(PAPER[0] + a.randint(-12, 12), PAPER[1] + a.randint(-6, 6), PAPER[2] + a.randint(-6, 6)))
         n = len(name); sz = 76 if n <= 3 else (64 if n == 4 else 56)
@@ -103,7 +103,7 @@ def prints(path, menu_items):
         a = k * math.pi / 6; d.text((x0 + 128 + 92 * math.sin(a) - 10, y0 + 128 - 92 * math.cos(a) - 14), str(12 if k == 0 else k), font=font(24), fill=(30, 30, 30))
     d.line([(x0 + 128, y0 + 128), (x0 + 128 + 50, y0 + 128 - 30)], fill=(20, 20, 20), width=6); d.line([(x0 + 128, y0 + 128), (x0 + 128 - 10, y0 + 128 - 80)], fill=(20, 20, 20), width=4)
     # 相框（城市黑白照）260 × 320
-    x0, y0 = 1780, 270; b = _cell('photo', x0, y0, 260, 320); d.rectangle(b, fill=(110, 80, 50)); d.rectangle([x0 + 24, y0 + 24, x0 + 236, y0 + 296], fill=(232, 226, 212))
+    x0, y0 = 1580, 1050; b = _cell('photo', x0, y0, 260, 320); d.rectangle(b, fill=(110, 80, 50)); d.rectangle([x0 + 24, y0 + 24, x0 + 236, y0 + 296], fill=(232, 226, 212))
     for y in range(200): d.line([(x0 + 40, y0 + 40 + y), (x0 + 220, y0 + 40 + y)], fill=(int(190 - 40 * y / 200),) * 3)
     for k in range(9): bh = rng.randint(30, 120); d.rectangle([x0 + 44 + k * 19, y0 + 240 - bh, x0 + 58 + k * 19, y0 + 240], fill=(80, 80, 80))
     # 自助調味區 520 × 160
