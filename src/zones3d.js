@@ -801,7 +801,7 @@ const Z3 = (function(){
       const ix=x+s.w/2;
       if(s.type==='noodle') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入公館燒臘',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
       /* 青木茶室進得去坐（GG-SHOPS-REDO-1104，AA_647 第 1 節；新區域 aoki，配置 src/data/aoki_layout.js）：門在店面中間偏西（配置的門 x 1.85＝世界 cx−1.85，房間轉 180°）；
-         外帶的點餐（AA_647 第 6 節的三種茶）移到店裡吧台東端的「點茶」。沒有 aoki 區域（配置檔沒載入）時照舊是門口的「買一杯飲料」 */
+         門口的「外帶」照舊（AA_647 第 6 節的三種茶；AA_653 A：兩個都要），店裡吧台的「點茶」是內用（src/ggshops_sys3d.js）。沒有 aoki 區域（配置檔沒載入）時照舊是門口的「買一杯飲料」 */
       if(s.type==='tea'){ if(ZONES.aoki){ E.interactables.push({x:+(cx-SHOP_IN.aoki.door).toFixed(2),z:FZ+2,radius:2.2,label:'進入青木茶室',exit:{to:'aoki',spawn:inSp('aoki')}});
           E.interactables.push({x:+(cx-SHOP_IN.aoki.take).toFixed(2),z:FZ+2,radius:1.2,label:'外帶',shop:'tea',ggsTake:true}); }   /* AA_653 A：門口的外帶窗口照舊（AA_647 第 6 節三種茶、key「清葉茶行」）；窗口在門的西邊（配置 front.takeaway 的中間）；打烊、颱風天＝src/ggshops_sys3d.js 的門口那一句 */
         else E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'}); }
