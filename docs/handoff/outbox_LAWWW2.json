@@ -5405,7 +5405,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "6a9aecee3",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "WZ-LANEEAST-TRIS-1104",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
@@ -5414,11 +5414,32 @@
     "docs/art-rebuild/second_ai/wip/laneeast_tris2_1104/singleside_streets_unit_fd989b03c.patch",
     "docs/art-rebuild/second_ai/wip/laneeast_tris2_1104/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "瀏覽器數字沒量（CC 在 PC 上跑 tests/wz_street_integration.py：三個鏡頭 draw call ≤ 310、三角形 ≤ 42 萬）；lampshade_flip 的溫州街吊燈 FAIL 是修改前就有的，另外查",
    "next": "換 wenzhou_street.glb／.json 兩個檔＋套 singleside_streets_unit patch（固定三角形數 128,837→123,737）；跑 singleside_streets_unit、street_props_nav_unit、wz_copy_shop_unit",
    "noDirectIntegrate": false,
-   "note": "LANEEAST-TRIS2-1104（擋 v9.10.20）：BB 表上的 45.6 萬是 75a095355 量的（比第一次減面 d2a692410 早；d2a692410 在 PC 是 419,713）。這次：整條街一個網格的四種大材質照面的 x 切四段、店裡隔著玻璃的東西背對街道的面刪掉（−5,104）。GLB 128,837→123,737；lane_east 鏡頭估 85,190→71,289；Blender 同鏡頭修改前後差 >24 的像素 0"
+   "note": "LANEEAST-TRIS2-1104（擋 v9.10.20）：BB 表上的 45.6 萬是 75a095355 量的（比第一次減面 d2a692410 早；d2a692410 在 PC 是 419,713）。這次：整條街一個網格的四種大材質照面的 x 切四段、店裡隔著玻璃的東西背對街道的面刪掉（−5,104）。GLB 128,837→123,737；lane_east 鏡頭估 85,190→71,289；Blender 同鏡頭修改前後差 >24 的像素 0｜LAWWW-C 14:14 已接進開發分支 322cd967d（Node 全過），瀏覽器數字 BB 排 CC 量"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8aceeeaf4",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LAMPSHADE-FLIP-1104",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/wenzhou_street.json",
+    "tools/blender/env_second/wz2_windows.py",
+    "tools/blender/env_second/wz_window_view.py",
+    "docs/art-rebuild/second_ai/wip/lampshade_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/lampshade_1104/lampshade_flip_unit_e90636eb6.patch",
+    "docs/art-rebuild/second_ai/wip/lampshade_1104/singleside_streets_unit_e90636eb6.patch"
+   ],
+   "state": "已交付",
+   "remaining": "瀏覽器沒量（三角形 −6、draw call 不變；要量請 BB 排 CC 跑 wz_street_integration）",
+   "next": "換 wenzhou_street.glb／.json＋套兩個測試 patch；跑 lampshade_flip_unit、singleside_streets_unit、street_props_nav_unit、wz_copy_shop_unit",
+   "noDirectIntegrate": false,
+   "note": "LAWWW-C 14:14 問 lampshade_flip FAIL（溫州街店內吊燈 0 個三角形）是模型還是測試：兩個都是。①測試過時：1d64f3511 店內按店拆網格，節點 wz_in_shop→sk_in_<棟號>；②模型錯：WZ-SECOND v2 帝大紅茶、冰菓室兩盞新吊燈輪廓由上往下＝裡外相反（1d64f3511 以前的 GLB 舊測試也 FAIL 2）。修：輪廓反過來重匯（123,737→123,731，吊燈本身不變、重匯刪底面差 6；節點、props.json 一樣）；新版測試修改後 ALL PASS、修改前 FAIL；騎樓夜景修改前後差 >24 的像素 0（燈在牆後）"
   }
  ]
 }
