@@ -65,9 +65,11 @@ CAFE230v2_shots | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_cafe2
 # GG_night_r7（LAWWW2 07:51）：75a095355、14 對 21；①著色器有沒有 uShopLit ②lit 全部 0 再拍 ③藏 cafe_glass 再拍
 GG_night_r7 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;DIAG2=1;CC_HEADLESS=0
 # CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
-CAFE230v3_shots | 33222ed89 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
-CAFE230v3_seats | 33222ed89 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
-CAFE230v3_reach | 33222ed89 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
+CAFE230v3_shots | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
+CAFE230v3_seats | 0c2d4997b | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
+CAFE230v3_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
+# WZ_ITDIFF（LAWWW 07:51）：wz_street_integration 互動點 39 對 39 不完全相同——印出差在哪（label＋座標）
+WZ_ITDIFF | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_wz_it_diff_probe.py | index.html | 10 | CC_HEADLESS=0
 # WZ3（BB 07:43）：b53bfab72 小路 v1f、SUNNY SIDE v1d、一盞 v1d＋前院；8 角度拼圖 14／22；一盞門外／前院／緣側＋坐墊；qa_w1；小路拿掉的 5 張座位只記 INFO
 WZ3_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=komichi;HOURS=14,22;CC_HEADLESS=0
 WZ3_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
@@ -75,11 +77,25 @@ WZ3_yizhan_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_s
 WZ3_yizhan_floor | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=yizhan;HOURS=;FLOOR=1;CC_HEADLESS=0
 WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py | index.html | 30 | CC_HEADLESS=0
 # SEAT_ACT（BB 07:44；X217 SEAT-ACTIVITY-1104）：31ce5f785；六區全景＋近景 1.5 m、小物浮空／穿桌、手機在手上、筆電頭向、同桌同事（H）
-SEAT_ACT | 31ce5f785 | probe | docs/story_planning/test_tools/cc/cc_seat_act_probe.py | index.html | 40 | CC_HEADLESS=0
+SEAT_ACT | ae0095d0d | probe | docs/story_planning/test_tools/cc/cc_seat_act_probe.py | index.html | 50 | ZONES=cafe,library_hall,library,lawlib,afar,daybreak,wz_teishoku@19;CC_HEADLESS=0
+# WZ4（BB 08:17，排在 ADE_int 前）：e9023bae7 小路 v4、SUNNY v1e、一盞 v1e；lane_east 超標記 FAIL 不重量
+WZ4_cafe_glb | e9023bae7 | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
+WZ4_wzstreet | e9023bae7 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
+WZ4_reach | e9023bae7 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url} --zones wz_teahouse,wz_teishoku,wz_brunch
+WZ4_komichi | e9023bae7 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0
+WZ4_sunny | e9023bae7 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
+WZ4_yizhan | e9023bae7 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0
+# ADE_int（BB 07:56，SEAT_ACT 後）：0c2d4997b（dfca69671 以後）阿德影印 v1c 進遊戲：走進去／四張椅子／印東西／買文具、8 角度、12:30 客人、阿德站位、柏翰站點、打工一班、SUNNY 轉角窗；加 touch_flow_wenzhou、reachability（wz_print）、zone_transitions
+ADE_int_in | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=IN,SHOTS;CC_HEADLESS=0
+ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=CUST,ENC;CC_HEADLESS=0
+ADE_int_job | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 50 | CASES=JOB,SUNNY;CC_HEADLESS=0
+ADE_touchwz | 0c2d4997b | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url}
+ADE_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wz_print
+ADE_zones | 0c2d4997b | game | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
 # WZ3r2：玩家視角改成從溫州街走進店門（e18f746c4）；固定角度照舊
-WZ3r2_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=komichi;HOURS=14,22;CC_HEADLESS=0
-WZ3r2_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
-WZ3r2_yizhan_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=yizhan;HOURS=14,22;CC_HEADLESS=0
+#HOLD（被 WZ4 取代）WZ3r2_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=komichi;HOURS=14,22;CC_HEADLESS=0
+#HOLD（被 WZ4 取代）WZ3r2_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
+#HOLD（BB 07:55：等 LAWWW2 修好前院給 SHA，和室內、籬外兩張、玩家視角一起重拍）WZ3r2_yizhan_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=yizhan;HOURS=14,22;CC_HEADLESS=0
 # GG_npc_main（BB 11-04 06:47）：路人在場的 calls／tris（探針的 calls_live／tris_live）＋路人數；線上 main b0c3032af 對開發分支 3424d8e66，交錯各 2 次
 GG_npc_main_M1 | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcM1;RERUN=npc1;CC_HEADLESS=0
 GG_npc_main_D1 | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcD1;RERUN=npc1;CC_HEADLESS=0

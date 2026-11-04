@@ -19,8 +19,10 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-ZONES = [z.strip() for z in (os.environ.get('ZONES') or 'cafe,library_hall,library,lawlib,afar,daybreak').split(',') if z.strip()]
+ZONES = [z.strip() for z in (os.environ.get('ZONES') or 'cafe,library_hall,library,lawlib,afar,daybreak,wz_teishoku@19').split(',') if z.strip()]   # 區域@時刻（BB 07:51：小路 19:00 有人吃飯）
 FAILS = []
+import re
+BOWL = re.compile(r'bowl|soup|noodle|ramen|plate|dish|碗|盤', re.I)
 AIM = """(async(e,l)=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=false;
   E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250)); return true; })"""
@@ -93,13 +95,16 @@ def judge(z, m):
             if a['lv'] == b['lv'] and math.hypot(a['x'] - b['x'], a['z'] - b['z']) < 1.05 and a['act'] == b['act'] and not a['named'] and not b['named'] and a['act'] != 'chat':
                 same.append([a['act'], (a['x'], a['z']), (b['x'], b['z'])])
     check('[%s] 同一張桌子（1.05 m 內）的路人做的事不一樣（H）' % z, not same, J(same[:5]))
-    info('[%s] 平板、碗盤：等 LAWWW2 的模型（TABLET_OK＝%s）' % (z, m.get('tablet')))
+    tb = [p for p in ppl if p['act'] == 'tablet' or p.get('hold') == 'tablet']
+    bw = [i for i in its if BOWL.search(i['name'] or '')]
+    info('[%s] 平板（ae0095d0d 起要判；TABLET_OK＝%s）%d 人、碗盤 %d 個；浮空／穿桌照上面兩項判' % (z, m.get('tablet'), len(tb), len(bw)))
 
 
-async def do_zone(pg, cdp, z):
-    print('== %s' % z, flush=True)
-    print('  [前置／捷徑] 讀檔到溫州街 14:00、條件事件關閉 → GAME.enter(%s)' % z, flush=True)
-    await L.load_state(pg, {'zone': 'wenzhou', 'hour': 14.0, 'day': 9, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 0, 'z': 1.6, 'yaw': 0, 'lv': 0}}, quiet_events=True)
+async def do_zone(pg, cdp, zh):
+    z, _, hh = zh.partition('@'); hour = float(hh) if hh else 14.0
+    print('== %s %s' % (z, hour), flush=True)
+    print('  [前置／捷徑] 讀檔到溫州街 %s、條件事件關閉 → GAME.enter(%s)' % (hour, z), flush=True)
+    await L.load_state(pg, {'zone': 'wenzhou', 'hour': hour, 'day': 9, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 0, 'z': 1.6, 'yaw': 0, 'lv': 0}}, quiet_events=True)
     await pg.wait_for_timeout(4000)
     await pg.evaluate("void GAME.enter(%s)" % J(z))
     for _ in range(60):
@@ -137,8 +142,14 @@ async def do_zone(pg, cdp, z):
     await pg.evaluate(AIM + '(%s,%s)' % (J(eye), J(look))); await pg.wait_for_timeout(800)
     await pg.screenshot(path=os.path.join(OUT, 'sa_%s_close_%s.png' % (z, t['act'])))
     info('[%s] 近景：%s（%s, %s）set %s、items %s' % (z, t['act'], t['x'], t['z'], t['set'], J(t['items'])))
+    bw = [i for i in (m.get('items') or []) if BOWL.search(i['name'] or '') and i['lv'] in (None, '') or BOWL.search(i['name'] or '')]
+    if bw:   # BB 07:51：湯麵碗的湯面上緣在 Blender 偏暗——俯角近景
+        b0 = bw[0]
+        await pg.evaluate(AIM + '(%s,%s)' % (J([b0['x'] + 0.15, b0['minY'] + 0.55, b0['z'] + 0.15]), J([b0['x'], b0['minY'] + 0.03, b0['z']]))); await pg.wait_for_timeout(800)
+        await pg.screenshot(path=os.path.join(OUT, 'sa_%s_bowl_top.png' % z))
+        info('[%s] 碗盤俯角近景：%s (%s, %s)' % (z, b0['name'], b0['x'], b0['z']))
     await pg.evaluate(UNAIM); await pg.evaluate(HUD + '(true)')
-    json.dump(m, open(os.path.join(OUT, 'sa_%s.json' % z), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    json.dump(m, open(os.path.join(OUT, 'sa_%s.json' % z.replace('@', '_')), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 
 async def main():
