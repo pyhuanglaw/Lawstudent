@@ -80,16 +80,17 @@ for i in range(6):
         x, y = min(int(i * 102.4), 508), min(int(j * 102.4), 508); d.ellipse([x - 4, y - 4, x + 4, y + 4], fill=hx('#6f7378'))
 uvbox('grid', 0, 0, 512, 512, (AW, AH))
 # 洞洞板（老的米色烤漆板，25 mm 一個洞、邊緣有點黃、有釘子痕）
-pb = Image.new('RGBA', (512, 512), hx('#cfc3a6')); pa = np.asarray(pb, np.float32); pa[..., :3] += noise(512, 512, 16, 10)[..., None]
+pb = Image.new('RGBA', (512, 512), hx('#8c7f68')); pa = np.asarray(pb, np.float32); pa[..., :3] += noise(512, 512, 16, 10)[..., None]   # v2b：右牆整面的洞洞板（舊的灰褐色烤漆纖維板）
 pb = Image.fromarray(np.clip(pa, 0, 255).astype(np.uint8)); pd = ImageDraw.Draw(pb)
 for i in range(13, 512, 26):
-    for j in range(13, 512, 26): pd.ellipse([i - 5, j - 5, i + 5, j + 5], fill=(0, 0, 0, 0))
+    for j in range(13, 512, 26): pd.ellipse([i - 5, j - 5, i + 5, j + 5], fill=hx('#2e2924'))   # 洞（不透空：後面是牆，畫成暗的）
 A.paste(pb, (0, 512)); uvbox('peg', 0, 512, 512, 1024, (AW, AH))
 # 羽球拍頭（一張卡：拍框 0.236 × 0.196 m＋拍喉；卡 0.22 × 0.30 m → 192 × 256 px）：框、線、拍喉三種東西；8 種框的顏色（參考圖：藍、紅、黃、黑、白、粉紅、綠、紫）
 HEAD = [('#1c3f96', '#f0d23a'), ('#b81c26', '#1d1d21'), ('#d8c41a', '#1d1d21'), ('#18181b', '#c8202a'), ('#18181b', '#2048a8'),
-        ('#c9468a', '#1d1d21'), ('#1f7a42', '#e8e6e0'), ('#2a2f6a', '#d8c41a')]
+        ('#c9468a', '#1d1d21'), ('#1f7a42', '#e8e6e0'), ('#2a2f6a', '#d8c41a'), ('#e0701e', '#1d1d21'), ('#3aa0d8', '#e8e6e0'), ('#8d9196', '#c8202a'), ('#7a1f8a', '#f0d23a')]
+HEAD_XY = [(512 + k * 192, 0) for k in range(8)] + [(1536, 768), (1728, 768), (1024, 256), (1216, 256)]   # v2b：多 4 種顏色（橘、天藍、銀灰、紫紅）
 for k, (fc, acc) in enumerate(HEAD):
-    cx0 = 512 + k * 192; c = Image.new('RGBA', (192, 256), (0, 0, 0, 0)); cd = ImageDraw.Draw(c)
+    cx0, cy0 = HEAD_XY[k]; c = Image.new('RGBA', (192, 256), (0, 0, 0, 0)); cd = ImageDraw.Draw(c)
     ex0, ey0, ex1, ey1 = 14, 6, 178, 206   # 外框（0.196 × 0.236 m 的比例）
     cd.ellipse([ex0 + 8, ey0 + 8, ex1 - 8, ey1 - 8], fill=(0, 0, 0, 0))
     for s in range(16, 170, 7): cd.line([s + 4, ey0 + 4, s + 4, ey1 - 4], fill=hx('#d9d6cc'), width=1)   # 主線（直）
@@ -102,7 +103,7 @@ for k, (fc, acc) in enumerate(HEAD):
     cd.arc([ex0 + 1, ey0 + 1, ex1 - 1, ey1 - 1], 20, 80, fill=hx(acc), width=4)                            # 框側面的配色
     cd.polygon([(84, 204), (108, 204), (99, 250), (93, 250)], fill=hx(fc))                                 # 拍喉（T 字接頭）
     cd.rectangle([94, 228, 98, 256], fill=hx('#3a3c40'))
-    A.paste(c, (cx0, 0)); uvbox(f'head{k}', cx0, 0, cx0 + 192, 256, (AW, AH))
+    A.paste(c, (cx0, cy0)); uvbox(f'head{k}', cx0, cy0, cx0 + 192, cy0 + 256, (AW, AH))
 # 網球拍線（米黃，15 mm 一條）
 for kk in range(4, 512, 21):
     d.rectangle([512 + kk, 512, 512 + kk + 3, 1023], fill=hx('#e6dcbc')); d.rectangle([512, 512 + kk, 1023, 512 + kk + 3], fill=hx('#d6cba6'))

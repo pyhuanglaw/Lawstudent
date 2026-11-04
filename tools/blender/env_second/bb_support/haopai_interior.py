@@ -213,8 +213,7 @@ def sub(cellname, a0, b0, a1, b1):
 def bad_build(k, grip):
     def f(pt):
         c = pt['vc']
-        ccyl(c, (0, 0.014, 0), (0, 0.2, 0), 0.0135, grip, seg=6)                    # 握把（纏握把布）
-        ccyl(c, (0, 0.0, 0), (0, 0.016, 0), 0.0148, '#202022', seg=6)              # 尾蓋
+        ccyl(c, (0, 0.0, 0), (0, 0.2, 0), 0.0135, grip, seg=6)                      # 握把（纏握把布；v2b 拿掉尾蓋省三角形，給更多拍子）
         ccyl(c, (0, 0.198, 0), (0, 0.43, 0), 0.0036, '#26272a', seg=3)             # 中管
         pt['alpha'].rect((0.0, 0.5585, 0.0), (0, 0, -1), (0, 1, 0), 0.11, 0.1465, ATL[f'head{k}'])   # 拍頭（框＋線＋拍喉）
     return f
@@ -274,7 +273,7 @@ def tube_build(cell, cap):
 
 
 GRIPS = ['#f2f0ea', '#1e1e20', '#1e1e20', '#f0d23a', '#1e1e20', '#f2f0ea', '#2f6fb8', '#1e1e20']
-BAD = [Proto(f'bad{k}{g}', bad_build(k, GRIPS[(k * 3 + g * 5) % len(GRIPS)]), side='right') for k in range(8) for g in range(2)]
+BAD = [Proto(f'bad{k:02d}{g}', bad_build(k, GRIPS[(k * 3 + g * 5) % len(GRIPS)]), side='right') for k in range(12) for g in range(2)]   # v2b：12 色框 × 2 種握把
 BAD_FREE = [Proto(f'badf{k}', bad_build(k, GRIPS[k % len(GRIPS)])) for k in range(3)]
 TEN = [Proto(f'ten{i}', tennis_build(*c), side='right') for i, c in enumerate((('#1d1d21', '#f2f0ea', '#e6d020'), ('#c8202a', '#1e1e20', '#e8e6e0'), ('#e6d020', '#1e1e20', '#1d1d21'),
                                                                               ('#2048a8', '#f2f0ea', '#e8e6e0'), ('#e8e6e0', '#d2303a', '#c8202a')))]
@@ -390,13 +389,29 @@ def wall_grid(side, z0, z1, y0, y1):
 
 # ---------------- 右牆：球拍牆（羽球拍四排、前段網球拍） ----------------
 RZ0, RZ1 = -1.25, 6.62
-wall_grid('right', RZ0, RZ1, 0.35, H - 0.04)
+def peg_wall(z0, z1, y0, y1):
+    """v2b：右牆整面洞洞板（灰褐色烤漆纖維板，每 0.5 m 一片、木條收邊）——取代網格＋白牆（LAWWW2：「牆面換成洞洞板，不要白磁磚」）"""
+    p = Part('pegwall', side='right'); u = p['alpha']; g = ATL['peg']; x = XI1 - 0.01
+    z = z0
+    while z < z1 - 1e-4:
+        zz = min(z + 0.5, z1); y = y0
+        while y < y1 - 1e-4:
+            yy = min(y + 0.5, y1); fu = (zz - z) / 0.5; fv = (yy - y) / 0.5
+            uv = [(g[0], g[1]), (g[0] + (g[2] - g[0]) * fu, g[1]), (g[0] + (g[2] - g[0]) * fu, g[1] + (g[3] - g[1]) * fv), (g[0], g[1] + (g[3] - g[1]) * fv)]
+            u.face(list(reversed([(x, y, z), (x, y, zz), (x, yy, zz), (x, yy, z)])), list(reversed(uv))); y = yy
+        z = zz
+    for (b0, b1) in ((y0 - 0.04, y0), (y1, y1 + 0.03)): p['wood'].rbox(x - 0.015, XI1, b0, b1, z0, z1, r=0.004)
+    for zc in (z0, z1): p['wood'].rbox(x - 0.015, XI1, y0, y1, zc - 0.02, zc + 0.02, r=0.004)
+    p.done()
+
+
+peg_wall(RZ0, RZ1, 0.35, H - 0.04)
 hooks = Part('hooks', side='right')
 XR = XI1 - 0.035
 
 
 def hook(y, z, L_=0.08):
-    ccyl(hooks['vcm'], (XR, y, z), (XR - L_, y + 0.01, z), 0.0026, '#9ba0a4', seg=3)
+    ccyl(hooks['vcm'], (XI1 - 0.01, y, z), (XR - L_, y + 0.01, z), 0.0026, '#9ba0a4', seg=3)   # 插在洞洞板上的掛勾
 
 
 n_b = 0
@@ -409,7 +424,7 @@ for ri, (yb, za, zb) in enumerate(ROWS):
         xo = XR - 0.012 - 0.11 * math.sin(sw) - (0.012 if n_b % 2 else 0.0)
         R_ = rot('Y', sw) @ TO_MX @ rot('X', random.uniform(-0.05, 0.05))
         pr.place(fm((xo, yb + random.uniform(-0.015, 0.015), z), R_)); hook(yb + 0.42, z)
-        n_b += 1; z -= 0.082
+        n_b += 1; z -= 0.062   # v2b：0.082 → 0.062（參考圖幾乎看不到牆）
 n_t = 0
 for za, zb in ((6.5, 4.7), (3.35, 2.25)):                                                   # 網球拍（第三排的前段，參考圖右前）
     z = za
@@ -533,6 +548,56 @@ def stool_high(x, z, y=0.72):
 
 
 stool_high(IT['stool_high']['x'], IT['stool_high']['z'], IT['stool_high']['h'])
+
+
+# ---------------- v2b：走道上的東西（LAWWW2：「中間走道太乾淨」）——圓凳、一桶球、地上兩箱貨 ----------------
+def stool_round(x, z, y=0.45):
+    """紅色塑膠圓凳（台灣老店的那種：座面一圈、四隻腳往外斜）"""
+    p = Part('stool_round', T=fm((x, 0, z), rot('Y', 0.4))); c = p['vc']
+    clathe(c, [(0.0, y - 0.03), (0.15, y - 0.03), (0.165, y - 0.015), (0.165, y), (0.0, y + 0.004)], 0, 0, 0, '#b8302c', seg=16)
+    for k in range(4):
+        a = math.pi / 4 + k * math.pi / 2
+        ccyl(c, (0.17 * math.cos(a), 0.0, 0.17 * math.sin(a)), (0.11 * math.cos(a), y - 0.03, 0.11 * math.sin(a)), 0.018, '#a82a26', seg=6)
+    clathe(c, [(0.0, y + 0.004), (0.05, y + 0.004), (0.0, y + 0.006)], 0, 0, 0, '#8a221f', seg=8)    # 座面中間的洞（磨亮、深一點）
+    p.done()
+
+
+def ball_bin(x, z):
+    """鐵網桶（特價區）：桶裡滿滿的桌球＋幾卷握把布，桶上插一張手寫紙條"""
+    p = Part('ball_bin'); cm, c = p['vcm'], p['vc']; r0, h0 = 0.22, 0.48
+    for y in (0.02, h0 * 0.5, h0): 
+        pts = [(x + r0 * math.cos(2 * math.pi * k / 14), y, z + r0 * math.sin(2 * math.pi * k / 14)) for k in range(14)]
+        for a_, b_ in zip(pts, pts[1:] + pts[:1]): ccyl(cm, a_, b_, 0.005 if y == h0 else 0.003, '#8d9196', seg=3)
+    for k in range(14):
+        a = 2 * math.pi * k / 14; ccyl(cm, (x + r0 * math.cos(a), 0.0, z + r0 * math.sin(a)), (x + r0 * math.cos(a), h0, z + r0 * math.sin(a)), 0.003, '#8d9196', seg=3)
+    clathe(c, [(0.0, 0.03), (r0 - 0.01, 0.03), (r0 - 0.01, h0 - 0.06), (0.0, h0 - 0.05)], x, 0, z, '#e07a22', seg=14)   # 桶裡的球（看不到的部分用一塊）
+    rb = random.Random(4)
+    for k in range(22):                                                                   # 最上面一層的球
+        a = rb.uniform(0, 2 * math.pi); rr = math.sqrt(rb.uniform(0, 1)) * (r0 - 0.03)
+        csph(c, (x + rr * math.cos(a), h0 - 0.045 + rb.uniform(0, 0.02), z + rr * math.sin(a)), 0.02, '#f08a24' if k % 4 else '#f4f2ec', seg=6, rings=4)
+    for k, col in enumerate(('#f2f0ea', '#1e1e20', '#e98fa8')):                            # 斜插的握把布
+        a = k * 2.1; px, pz = x + 0.1 * math.cos(a), z + 0.1 * math.sin(a); ccyl(c, (px, h0 - 0.06, pz), (px + 0.03, h0 + 0.12, pz + 0.02), 0.017, col, seg=6)
+    p['goods'].rect((x, h0 + 0.12, z - r0 - 0.005), (-1, 0, 0), (0, 1, 0), 0.09, 0.09, ATL['note_sale'])
+    ccyl(cm, (x, h0, z - r0), (x, h0 + 0.05, z - r0 - 0.003), 0.002, '#8d9196', seg=3)
+    p.done()
+
+
+def floor_boxes(x, z):
+    """地上兩箱剛到的貨（一箱開著、上面一疊羽球筒）"""
+    p = Part('floor_boxes', T=fm((x, 0, z), rot('Y', 0.15))); g = p['goods']
+    g.box(0.0, 0.2, 0.0, 0.5, 0.4, 0.42, 'kraft1', front='+x', cells={'+z': 'kraft2', '+y': 'kraft2'})
+    g.box(0.02, 0.4 + 0.15, -0.02, 0.42, 0.3, 0.36, 'kraft4', front='+x', cells={'+z': 'kraft2', '+y': 'kraft2'})
+    g.box(-0.05, 0.16, -0.46, 0.44, 0.32, 0.36, 'kraft3', front='+x', skip=('-y', '+y'), cells={'+z': 'kraft2'})   # 開著的那一箱（沒有蓋）
+    c = p['vc']
+    for k in range(3): crb(c, -0.27 + k * 0.01, -0.26 + k * 0.01, 0.32 - k * 0.04, 0.34 - k * 0.04, -0.64, -0.28, '#b08a5c', r=0.0)   # 翻開的紙箱蓋
+    p.done()
+    for k in range(4): TUBE[0].place(fm((x - 0.05 + (k % 2) * 0.1, 0.02, z - 0.51 + (k // 2) * 0.1)))   # 開著的箱子裡站著四筒
+
+
+for it in LAY['items']:
+    if it['kind'] == 'stool_round': stool_round(it['x'], it['z'], it['h'])
+    elif it['kind'] == 'ball_bin': ball_bin(it['x'], it['z'])
+    elif it['kind'] == 'floor_boxes': floor_boxes(it['x'], it['z'])
 
 
 # ======================================================================
