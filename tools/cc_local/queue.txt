@@ -108,6 +108,20 @@ PARK_zones | 555b9e0cb | game | tests/zone_transitions.py | index.html?turbo | 6
 PARK_glb | 555b9e0cb | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_prev | cb1d84290 | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 PARK_ride | 555b9e0cb | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 60 | CASES=R;CC_HEADLESS=0
+# ===== TEST-TRACE-1104 PC 驗收（BB_256 V2～V8、V12；CC_AUTORETRY=1；排 GG 系列後、STUDY 前）=====
+TT_V2_assert   | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_assert.py   | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_V3_flaky    | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_flaky.py    | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_V4_selector | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_selector.py | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_V5_jserror  | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_jserror.py  | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_V6_crash    | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_crash.py    | index.html | 10 | CC_AUTORETRY=1
+TT_V7_timeout  | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_timeout.py  | index.html | 1  | CC_AUTORETRY=1
+TT_V7_timeout_r| d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_timeout.py  | index.html | 1  | CC_AUTORETRY=1;CC_RETRY_TIMEOUT=1
+TT_V8_par_a    | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_parallel.py | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_V8_par_b    | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_parallel.py | index.html | 10 | CC_AUTORETRY=1;ST_PAGE=game
+TT_cases       | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_cases.py    | index.html | 10 | CC_AUTORETRY=1
+TT_V12_moku    | aa8cb5beb | node  | tests/mokuyobi_unit.js                                      | index.html | 5  | CC_AUTORETRY=1
+TT_V12_noodle  | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py   | index.html | 15 | CC_AUTORETRY=1;CC_HEADLESS=0
+TT_GG_ext_nav2 | 23eaaa7ae | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_AUTORETRY=1;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
