@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_shops2_afar_r2",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py",
+  "env": "CASES=afar_door,afar_hours;DOORDIAG=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:30:26",
+  "end": "2026-11-04T21:36:58",
+  "seconds": 392,
+  "exit": 0,
+  "error": null,
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 44,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 30
+  }
+}
