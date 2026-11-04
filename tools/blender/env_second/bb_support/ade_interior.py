@@ -596,15 +596,15 @@ for k, zz in enumerate((rz1 - 0.2, rz1 - 0.55, rz1 - 0.9, rz0 + 0.5, rz0 + 0.17)
     for j in range(n): tex_box(g, rx0 + 0.06, rx1 - 0.04, yb + j * 0.055, yb + j * 0.055 + 0.053, zz - 0.15, zz + 0.15, '-x', cell, side_cell=sub('paper_edge', 0, 0, 1, 0.6), top_cell=WHITE_PAPER)
 yb = SHY[2]   # 便利貼、口紅膠、筆記本小疊、修正帶
 for k in range(5):
-    zz = rz1 - 0.15 - k * 0.32; tex_box(g, rx0 + 0.05, rx0 + 0.13, yb, yb + 0.06 + 0.02 * (k % 2), zz - 0.12, zz + 0.12, '-x', 'sticky', top_cell=sub('sticky', k / 6, 0.1, (k + 1) / 6, 0.9))
-    for j in range(4): ccyl(c, (rx0 + 0.2 + (j % 2) * 0.05, yb, zz - 0.06 + (j // 2) * 0.12), (rx0 + 0.2 + (j % 2) * 0.05, yb + 0.1, zz - 0.06 + (j // 2) * 0.12), 0.012, ['#f0f0ec', '#e0b020', '#3a8ad0', '#d03a3a'][j], seg=6)
+    zz = rz1 - 0.15 - k * 0.32; tex_box(g, rx0 + 0.04, rx0 + 0.16, yb, yb + 0.09 + 0.03 * (k % 2), zz - 0.13, zz + 0.13, '-x', 'sticky', top_cell=sub('sticky', k / 6, 0.1, (k + 1) / 6, 0.9))
+    for j in range(4): ccyl(c, (rx0 + 0.22 + (j % 2) * 0.05, yb, zz - 0.06 + (j // 2) * 0.12), (rx0 + 0.2 + (j % 2) * 0.05, yb + 0.1, zz - 0.06 + (j // 2) * 0.12), 0.012, ['#f0f0ec', '#e0b020', '#3a8ad0', '#d03a3a'][j], seg=6)
 yb = SHY[3]   # 透明收納盒裡的筆、麥克筆
 for k in range(4):
     zz = rz1 - 0.22 - k * 0.43; z0_, z1_ = zz - 0.19, zz + 0.19; xa_, xb_ = rx0 + 0.03, rx0 + 0.2
     prk['glass'].quad([(xa_, yb, z1_), (xa_, yb, z0_), (xa_, yb + 0.12, z0_), (xa_, yb + 0.12, z1_)])
     cm.paint(bm_box(cm.bm, xa_, xb_, yb, yb + 0.005, z0_, z1_), '#c8ccd2')
     rr = random.Random(40 + k)
-    for j in range(16):
+    for j in range(30):
         px_, pz_ = rr.uniform(xa_ + 0.02, xb_ - 0.02), rr.uniform(z0_ + 0.02, z1_ - 0.02); tl = rr.uniform(-0.25, 0.25)
         ccyl(c, (px_, yb + 0.005, pz_), (px_ + 0.04 * tl, yb + 0.16 + rr.uniform(-0.02, 0.02), pz_ + 0.05 * tl), 0.006, rr.choice(['#2a5ad0', '#d02a2a', '#2a2a2a', '#30a050', '#e0b020', '#e06aa0', '#40b8d0', '#f08030']), seg=4)
 yb = SHY[4]   # 筆記本、活頁本（書背朝外）
