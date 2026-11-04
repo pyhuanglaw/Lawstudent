@@ -338,7 +338,9 @@ for (x, y, r, col) in ((-3.2, H - 0.12, 0.045, '#c9c2b4'), (-0.95, H - 0.09, 0.0
         crb(pp['vcm'], x - r - 0.01, x + r + 0.01, y - r - 0.01, H, zz - 0.012, zz + 0.012, '#6f6b64', r=0.002); zz -= 1.5
 for zz in (4.4, 1.0, -3.0): ccyl(pp['vcm'], (XI0 + 0.3, H - 0.2, zz), (XI1 - 0.3, H - 0.2, zz), 0.016, '#b9b4aa', seg=6)
 # v1b：老房子改的店——鍍鋅風管（方管沿 z、吊架）、一根軟風管接到冷氣、更多電線導管、灑水頭、線槽
-dx_ = 1.05; zf0, zf1 = ZI1 - 0.3, ZI0 + 0.4
+pp.done()
+pp = Part('duct', side='right')   # 靠右牆（鐵架上面），放進右牆的淡出組：遊戲鏡頭從上面看時不會在店中間擋一條
+dx_ = 2.95; zf0, zf1 = ZI1 - 0.3, ZI0 + 0.4
 crb(pp['vcm'], dx_ - 0.22, dx_ + 0.22, H - 0.62, H - 0.4, zf1, zf0, '#a8aaa8', r=0.01)
 zz = zf0 - 0.2
 while zz > zf1:
@@ -346,8 +348,9 @@ while zz > zf1:
     for sx_ in (-1, 1): ccyl(pp['vcm'], (dx_ + sx_ * 0.2, H - 0.62, zz), (dx_ + sx_ * 0.2, H, zz), 0.005, '#6f6b64', seg=4)
     zz -= 1.2
 for zg in (3.4, 0.6, -2.2): crb(pp['vcm'], dx_ - 0.2, dx_ + 0.2, H - 0.64, H - 0.62, zg - 0.12, zg + 0.12, '#5a5c5e', r=0.004)   # 出風口
-cpath(pp['vcm'], [(dx_ - 0.22, H - 0.5, -1.0), (0.6, H - 0.45, -0.85), (0.3, H - 0.3, -0.6)], 0.09, '#b9bbbc', seg=8)   # 軟風管 → 冷氣
-for (x, col) in ((-2.3, '#3a3a3a'), (-2.2, '#d8d2c4'), (2.2, '#3a3a3a'), (2.75, '#c9c4b8'), (-1.35, '#b9b4aa')):
+pp.done()
+pp = Part('pipes2')
+for (x, col) in ((-2.3, '#3a3a3a'), (-2.2, '#d8d2c4'), (2.2, '#3a3a3a'), (2.55, '#c9c4b8'), (-1.35, '#b9b4aa')):
     ccyl(pp['vcm'], (x, H - 0.05, ZI1), (x, H - 0.05, ZI0), 0.012, col, seg=5)
 for zz in (4.0, 1.4, -1.6, -4.4):
     for x in (-2.0, 0.2, 2.4): ccyl(pp['vcm'], (x, H - 0.1, zz), (x, H - 0.16, zz), 0.012, '#c9a24a', seg=6)   # 灑水頭
@@ -665,7 +668,7 @@ def bin_box(it, k):
     nrow = 1 if d < 1.4 else 2; rl = (d - 2 * t - 0.04) / nrow; n = int((rl - 0.03) / 0.03) + 1
     for j in range(n4):
         for rw in range(nrow):
-            stack_proto(n, (k * 4 + j + rw) % 12).place(fm((xa + t + (j + 0.5) * cw, h - IB, zb - t - 0.02 - rw * rl)))
+            stack_proto(n, (k * 4 + j + rw) % 6).place(fm((xa + t + (j + 0.5) * cw, h - IB, zb - t - 0.02 - rw * rl)))
 
 
 for k, it in enumerate([i for i in ITL if i['kind'] == 'bin']): bin_box(it, k)
@@ -780,6 +783,7 @@ ld = IT['listen_desk']; xd0, xd1, zd0, zd1, hd = XI1 - ld['w'], XI1, ld['z'] - l
 pld = Part('listen_desk', side='right'); w_, c, cm, g = pld['wood'], pld['vc'], pld['vcm'], pld['goods']
 w_.rbox(xd0, xd1, hd - 0.045, hd, zd0, zd1, r=0.008)
 w_.rbox(xd0 + 0.08, xd1, 0.28, 0.3, zd0 + 0.05, zd1 - 0.05, r=0.004)                     # 下面一層板
+w_.rbox(xd0 + 0.005, xd0 + 0.03, hd - 0.16, hd - 0.045, zd0 + 0.02, zd1 - 0.02, r=0.004)   # v1b：桌面下的前裙板（參考圖的吧台比較厚實）
 for zz in (zd0 + 0.06, (zd0 + zd1) / 2, zd1 - 0.06):
     crb(cm, xd0 + 0.04, xd0 + 0.08, 0.0, hd - 0.045, zz - 0.02, zz + 0.02, '#1f1f21', r=0.004)   # 黑鐵腳
     crb(cm, xd0 + 0.04, xd1, hd - 0.075, hd - 0.045, zz - 0.015, zz + 0.015, '#1f1f21', r=0.003)

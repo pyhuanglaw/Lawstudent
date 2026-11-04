@@ -50,7 +50,7 @@ def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
     return o
 
 
-WARM = (1.0, 0.7, 0.42); SPOTC = (1.0, 0.72, 0.46)   # 約 2700～3000K（參考圖整張偏暖）
+WARM = (1.0, 0.68, 0.4); SPOTC = (1.0, 0.7, 0.43)   # 約 2700～3000K（參考圖整張偏暖）
 H = LAY['h']; LT = LAY['lights']
 for (x, z, tx, ty) in LT['spots']:   # 軌道投射燈（照 corner_interior 的打光方向）
     y = H - 0.25; aim = g2b(tx, ty, z if abs(tx - x) > 0.5 else z - 0.8)
