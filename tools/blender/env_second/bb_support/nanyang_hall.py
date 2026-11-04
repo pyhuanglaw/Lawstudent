@@ -75,7 +75,7 @@ def screen_tex(im, d):  # 銀幕：中間亮、邊緣一點暗角（放映燈打
     for y in range(0, h, 4):
         for x in range(0, w, 4):
             dx, dy = (x - w / 2) / (w / 2), (y - h / 2) / (h / 2); v = int(200 - 50 * (dx * dx * 0.6 + dy * dy * 0.8))
-            d.rectangle([x, y, x + 3, y + 3], fill=(v, int(v * 0.8), int(v * 0.66)))   # v2：暗一點、偏暖（暖色的燈打在舊銀幕上，參考圖是米粉色）
+            d.rectangle([x, y, x + 3, y + 3], fill=(v, int(v * 0.72), int(v * 0.56)))   # v2：暗一點、偏暖（暖色的燈打在舊銀幕上，參考圖是米粉色）
 
 
 def velvet(im, d):      # 絨布：直條皺褶的明暗（布幕、牆板共用）
@@ -94,7 +94,7 @@ m_wall = L.pbr('nh_plaster', 'painted_plaster_wall', tile=2.5, target='#a87c50',
 m_wood = L.pbr('nh_wood', 'wood_table_001', tile=1.0, target='#4a2c1a', normal=0.3, maps=('diff', 'nor'), rough_value=0.5)   # 扶手、門（不是地板）
 m_maroon = L.flat('nh_maroon', '#7c1e24', rough=0.55)
 m_seat = L.flat('nh_seat', '#b4222a', rough=0.82)        # 參考圖的亮紅座椅（絨布）
-m_seatback = L.flat('nh_seatback', '#5a161b', rough=0.7)  # 椅背後面的殼
+m_seatback = L.flat('nh_seatback', '#8e1a20', rough=0.78)  # v2：椅背後面也是紅絨（參考圖從後面看是一排排紅椅背）
 m_ceil = L.flat('nh_ceil', '#3a2420', rough=0.9)
 m_cream = L.flat('nh_cream', '#a88660', rough=0.75)   # v2：壁柱、台口、天花板格樑：暖褐米色（不是白）
 m_gold = L.flat('nh_gold', '#c39a4c', rough=0.35, metal=0.42)
@@ -111,7 +111,7 @@ for (za, zb) in ((SL['z0'], Z1), (SL['z1'], SL['z0']), (Z0, SL['z1'])):
     fl.quad([(X0, floorY(zb), zb), (X1, floorY(zb), zb), (X1, floorY(za), za), (X0, floorY(za), za)])
 fl.finish(root, props={'slope': json.dumps(SL)})
 Mesh('CEILING', L.flat('nh_ceiling', '#3a2420', rough=0.9, cull=True)).quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]).finish(root, props={'ceiling': 1})   # v2：單面朝下
-cb = Mesh('CEIL_DECO', m_cream)   # 天花板的米色格樑（Art Deco 的階梯邊）
+cb = Mesh('CEIL_DECO', L.flat('nh_ceildeco', '#6e4c32', rough=0.85))   # v2：天花板格樑暗褐（暗的影廳裡不要一條條亮的米色）   # 天花板的米色格樑（Art Deco 的階梯邊）
 for z in [Z0 + 2.0 * i for i in range(1, int(D / 2.0))]:
     cb.rbox(X0, X1, H - 0.22, H, z - 0.14, z + 0.14, r=0.02, seg=1); cb.rbox(X0, X1, H - 0.3, H - 0.22, z - 0.08, z + 0.08, r=0.01, seg=1)
 for x in (X0 + 1.6, X1 - 1.6): cb.rbox(x - 0.14, x + 0.14, H - 0.22, H, Z0, Z1, r=0.02, seg=1)
