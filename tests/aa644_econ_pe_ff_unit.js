@@ -27,5 +27,5 @@ check('0. 經濟系那一年 9/2～10/31 有體育課（pe_y0s1）',peDays.lengt
   check('① S.advance 兩條路（停在訊息、一般）都在出日期卡（G.day!==d0）時加：r.lines 只記原本那一句',(src.match(/if\(G\.day!==d0\) (ln|line)=S\.peAdd\(G,\1\)/g)||[]).length===2&&/S\._peSkip=false; const res=S\.jumpTo/.test(src)); }
 { const g=POSTGRAD_LINES.TE.GF.heroine_03; check('② 語彤交往中畢業那天：18:30、她家（字幕「學期末的飯：陳語彤（她家）」）',g.h===18.5&&g.placeName==='她家'&&g.invite==='今天不排班。晚上來我家，我煮。',JSON.stringify(g));
   const h=POSTGRAD_LINES.TE.HEART.heroine_03; check('② 還沒交往（心意）那一格照舊一盞茶屋 17:30',h&&h.h===17.5&&h.placeName==='一盞茶屋',JSON.stringify(h)); }
-{ const src=fs.readFileSync(path.join(ROOT,'src/pgdates3d.js'),'utf8'); check('③ 畢業後每月見面：語彤 noodle＝「一盞茶屋打烊以後」（key 不改）',/noodle:\{kind:'meet',place:'一盞茶屋打烊以後'/.test(src)&&!/麵店打烊以後'/.test(src)); }
+{ const src=fs.readFileSync(path.join(ROOT,'src/pgdates3d.js'),'utf8'); check('③ 畢業後每月見面：語彤 noodle＝「一盞茶屋打烊以後」、背景 wenzhou_teahouse（同 termend_lines tea_closed；key 不改）',/noodle:\{kind:'meet',place:'一盞茶屋打烊以後',bg:'wenzhou_teahouse'/.test(src)&&!/麵店打烊以後'/.test(src)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
