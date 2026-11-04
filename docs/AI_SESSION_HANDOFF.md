@@ -160,7 +160,9 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：A 值班中（LAWWW；`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-11-02 03:3x 接 LAWWW-B 的班；使用者「現在你接班，我也會通知其他AI」）。RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`（快轉到 LAWWW-B 的 `02898d56c`）。帳號 A 的 LAWWW2、AA、BB 使用者各自通知接班（BB 03:3x 已登記）；第五個職位 CC（BB 的測試執行助手，D119）03:53 在 `claude/cc-testing` 開工，已登記在 duty.json；帳號 B 四個職位都已交班。**（以下是帳號 B 交班時的紀錄）現在：B 換班中（2026-11-02 03:09 UTC LAWWW-B 第四段結束再交班——使用者直接交辦生圖、接圖，44 張背景進開發分支、第五批 10 張提示詞已給使用者、圖還沒到；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`；交班紀錄 HANDOFF_GAP_MATRIX 第 1 節「第四段」、快照 2026-11-02T0309Z_B_LAWWW.json）**
+**現在：B 值班中（2026-11-04 12:1x UTC 起；使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」）。LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）12:17 接班、RULE_SOURCE＝`claude/modest-rubin-2lyp7g`（快轉合併帳號 A 的 `e52a77030`，登記 `9f4d237e2`）；AA-B 12:11 已登記（`699789b7f`，LAWWW-B duty sync 收了）；LAWWW2-B、BB-B、CC-B 12:1x 接班中（還沒登記）。帳號 A 五職位 11-04 09:19 都已交班。**
+
+（以下是帳號 A 11-02 03:3x～11-04 09:19 那一班的紀錄）現在：A 值班中（LAWWW；`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-11-02 03:3x 接 LAWWW-B 的班；使用者「現在你接班，我也會通知其他AI」）。RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`（快轉到 LAWWW-B 的 `02898d56c`）。帳號 A 的 LAWWW2、AA、BB 使用者各自通知接班（BB 03:3x 已登記）；第五個職位 CC（BB 的測試執行助手，D119）03:53 在 `claude/cc-testing` 開工，已登記在 duty.json；帳號 B 四個職位都已交班。**（以下是帳號 B 交班時的紀錄）現在：B 換班中（2026-11-02 03:09 UTC LAWWW-B 第四段結束再交班——使用者直接交辦生圖、接圖，44 張背景進開發分支、第五批 10 張提示詞已給使用者、圖還沒到；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`；交班紀錄 HANDOFF_GAP_MATRIX 第 1 節「第四段」、快照 2026-11-02T0309Z_B_LAWWW.json）**
 
 （以下是 11-01 22:5x 第三段結束時的紀錄）現在：B 換班中（2026-11-01 22:5x UTC LAWWW-B 第三段結束再交班；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`）
 
@@ -720,6 +722,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 測試 | 結果 | 日期 | 測試者 |
 |---|---|---|---|
+| 帳號 B 內部：LAWWW-B → AA-B、BB-B、LAWWW2-B、CC-B（`list_sessions` 看得到五個帳號 B 的工作階段） | 四則都回 DELIVERED（12:18 UTC）；ACK 結果寫在 GAP_MATRIX 第 1 節（送達≠已讀） | 2026-11-04 12:1x UTC | LAWWW-B（使用者要求「接班之後跟其他AI試著傳訊息」） |
 | 帳號 A 內部：LAWWW ⇄ LAWWW2、LAWWW → AA、BB | 工具大多回 DELIVERED，紀錄在 `docs/DUAL_AI_BOARD.md`。**但送達不保證對方看到**：2026-10-11 LAWWW → LAWWW2 有三則顯示 DELIVERED、對方的對話裡沒有，它是讀看板才知道的 | 2026-10-10～11 | LAWWW、LAWWW2 |
 | 帳號 B → 帳號 A（`list_sessions`、`send_message`） | **不通**：`list_sessions` 只看得到 LAWWW-B 自己；對 LAWWW `session_01Eds6msqpsuzNEw98sdw8JX` 的 `send_message` 回「the requested resource was not found」。跨帳號一律用 GitHub 文件交接 | 2026-10-15 23:0x UTC | LAWWW-B |
 | 帳號 A → 帳號 B | **不測**（D75：不傳訊息給已交班的另一個帳號） | — | — |
@@ -749,6 +752,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-11-04 12:1x | 帳號 A（五職位 11-04 09:19 交班）→ **帳號 B 接班**（LAWWW-B 12:17、AA-B 12:11；LAWWW2-B、BB-B、CC-B 接班中） | LAWWW | `e52a77030`（`claude/confident-ritchie-8rwh7t`，快轉進 `claude/modest-rubin-2lyp7g`，登記 `9f4d237e2`） | 使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」；check OK、roles OK、asks OK（522 筆）、duty verify 只有 AA-B 快轉的那一項（sync 後解決）；incr 918 項沒處理（帳號 A 交班就有，B6） |
 | 2026-11-02 03:3x | LAWWW-B（帳號 B）11-02 03:09 交班 → **LAWWW（帳號 A）接班** | LAWWW | `02898d56c`（`claude/modest-rubin-2lyp7g`，快轉合併進 `claude/confident-ritchie-8rwh7t`，我的分支沒有 B 沒有的 commit） | 使用者「現在你接班，我也會通知其他AI，你交班之後先跟他們測試通訊功能，然後先確定其他AI留下什麼事情還沒有做，預計還要多久每個階段每個任務」；接班核對：check OK、roles OK、asks OK（309 筆）、duty verify 第 6 項×2＝BB（帳號 A）03:3x 先接班把帳號 B 的企劃線合併進 `claude/story-planning`（不是同時寫）、incr 116 項＝LAWWW-B 交班時就有的 AA、LAWWW2 分支 outbox 用字（要那兩個職位接班後改） |
 | 2026-11-01 22:5x | LAWWW-B 第三段後再交班（22:0x 使用者「還有4%……繼續做兩小時」：DL-04 捷運 R1、DL-04B 快速前往 R2＋住家裡 R1、五個舊任務核對、incr 164→116、duty verify 帳號 C 舊帳清掉；整套 Node 840／840） | LAWWW | — | 其他三職位維持 09:0x 交班 |
 | 2026-11-01 21:4x | LAWWW-B 再交班（21:1x 使用者「剩 5%……手上兩小時內做得完的就做」回來一段：ZQ-ARCADE 整合 `0b4acc850`＋`5d84b825e`；整套 Node 835／835） | LAWWW | — | 其他三職位維持 09:0x 交班；incr 異常 164 項照舊 |
@@ -824,6 +828,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-11-04 12:1x | LAWWW | B | HV-24／`e52a77030`→`9f4d237e2`（RULE_SOURCE 改為 `claude/modest-rubin-2lyp7g`） | 是（含 D118～D133、HV-22～HV-24） | 有一件正在做：使用者要接班後跟其他 AI 試著傳訊息（12:18 對 AA-B、BB-B、LAWWW2-B、CC-B 各傳一則，都 DELIVERED，等 ACK） | 沒有 | 沒跑（接班中） | LAWWW-B 自己登記；每小時保險喚醒 trig_017NNfTyMTM1X5Bv9sFBGmBv 已建（D129） |
 | 2026-11-02 03:3x | LAWWW | A | HV-21／`02898d56c`（RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`） | 是（含 D111～D117、HV-19～HV-21） | 有一件正在做：使用者要先測通訊、整理其他職位留下沒做的事和每個階段每個任務的預估時間 | 沒有 | 沒跑（接班中） | LAWWW 自己登記 |
 | 2026-10-23 06:5x | LAWWW | B（LAWWW-B） | HV-18／`719cca3bc`（RULE_SOURCE `claude/confident-ritchie-8rwh7t`，接班後改為 `claude/modest-rubin-2lyp7g`） | 是（含 D92、D94～D96、D99～D101、HV-17、HV-18；duty register seq 24） | 沒有（使用者這次只要求同步、接續、確認通訊） | 沒有 | 252 回合、34 個超過上限（多數是 10-16～10-17 的舊回合） | 本工作階段 |
 | 2026-10-21 15:2x | AA | A | HV-18＠7c58b598（duty_AA.json `3d93b337`，`claude/story-planning` 快轉到 AA-C 的 `8d32ed63`；AA-C 沒跑 duty handoff，用 --user-ok） | 是 | （AA 自己的交接紀錄） | （未提） | （未提） | AA 15:25 send_message，LAWWW 代登記 |
