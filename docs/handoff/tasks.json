@@ -45134,7 +45134,7 @@
     "acceptance": "BB 照 D120／D133／D136：CC 在使用者電腦拍同角度（總表第 107～109 列）、和官網照片並排；tools/art/same_angle_check.py --mode campus 疊圖（D138：相似要接近、細部 1:1 照抄的格子要是 0）；每棟寫保留什麼、改掉什麼；導航、門口（DOORS.putong／boya）、空橋 Y0、樓層高度不動；node tests/nav_buildings_unit.js、tests/campus_layout_nav.py",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版"
+   "next": "【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版"
   },
   {
    "id": "OPEN-SRC-2D3D-1104",
