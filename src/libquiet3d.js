@@ -79,6 +79,7 @@ const LIBQ=(function(){
   S.needsPrefix=function(text){ const t=String(text==null?'':text).trim(); if(!t) return false;
     if(t.startsWith(S.PREFIX)) return false;
     if(t.startsWith(OUT_HEAD)) return false;   /* 「（走出法圖）「……」」：走出去以後才說的（1-D10）*/
+    if(t.startsWith('「'+S.PREFIX)) return false;   /* 稿上把（小聲）寫在引號裡的：「（小聲）二樓靠窗那排比較安靜。」（AA_649，invites.js 的 libStudy）——不再加一次 */
     let rest=t, lead='';
     while(rest.startsWith('（')){ let depth=0, k=-1; for(let i=0;i<rest.length;i++){ const ch=rest[i]; if(ch==='（') depth++; else if(ch==='）'){ depth--; if(depth===0){ k=i; break; } } } if(k<0) break; lead+=rest.slice(0,k+1); rest=rest.slice(k+1).trim(); }
     if(!rest) return false;   /* 整句都是動作 */

@@ -9,7 +9,7 @@ const INVITE_DATA={
      stay：一起待多久（小時）；memory：留下的小記憶（SOCIAL 的記憶標籤）；rainTo：下雨時改去哪裡 */
   places:[
     {id:'cafe',    zone:'cafe',         name:'兩點半 Café',  verb:'去兩點半 Café 坐坐',   kind:'reason', minStage:'ACQUAINTANCE', stay:1,    memory:'CAFE_AFTERNOON',  sitAct:'read'},
-    {id:'library', zone:'library_hall', name:'總圖',         verb:'去總圖一起念書',       kind:'reason', minStage:'ACQUAINTANCE', stay:1.5,  memory:'STUDIED_TOGETHER', sitAct:'read'},
+    {id:'library', zone:'library_hall', name:'總圖',         verb:'去總圖一起念書',       kind:'reason', minStage:'ACQUAINTANCE', stay:1.5,  memory:'STUDIED_TOGETHER', sitAct:'read', sitAt:{lead:true,lv:1,away:3,alt:'library'}},   /* sitAt（INV-SIT-TOGETHER-1104、AA_649）：到了大廳她帶路走到二樓（lv 1）的長桌、兩個人坐下才開演；離入口至少 3 m；二樓坐滿＝去三樓閱覽區（區域 library）*/
     {id:'noodle',  zone:'noodle',       name:'公館燒臘',     verb:'去公館燒臘吃飯', kind:'meal',   minStage:'FAMILIAR',     stay:0.75, memory:'SHARED_MEAL',     sitAct:'eat'},
     {id:'wenzhou', zone:'wenzhou',      name:'溫州街',       verb:'去溫州街散步',         kind:'walk',   minStage:'FRIEND',       stay:0.75, memory:'WALKED_TOGETHER', sitAct:'wait', rainTo:'cafe'},
     /* 溫州街的新店（DL-12；AA_164 2-1、2-3，AA-B 定）：days＝星期幾可以約（0＝週日）、hours＝那段時間裡（開始到結束都要在裡面）*/
@@ -518,3 +518,37 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
     yu:'「Yes！日常失速！」',classmate_xinci:'「好。我報告寫完就去。」'};
   INVITE_DATA.offbeatAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
+
+/* ===== 約念書走到桌子坐下（INV-SIT-TOGETHER-1104，USER_WANTS X207；台詞 AA_649，企劃線 37daf8027，D109 AA 定稿，一字照稿）=====
+   使用者 2026-11-04 01:3x：「如果你們真的約一起念書的話，不可以一直走到圖書館門口然後約會就結束了，至少要走到桌子旁邊一起坐下來。」
+   流程（系統 LAWWW，invites3d.js 的 S.leadStart／leadTick／leadScene）：門口會合（照現在的開場）→ lead（她帶路）→ 二樓長桌坐下（滿了：full 兩句 → 三樓閱覽區）
+     → sit 旁白＋她一句（每段關係第一次用 first 表，之後隨機 sit）→ 中途 mid 隨機一則 → 收書（閉館 close／沒到閉館 pack）→ 走出大廳道別（第一次 first 表，之後隨機 bye）。
+   說話的句子保留稿上的「」和（小聲）（libquiet3d.js 的 needsPrefix 認得「（小聲）……」，不會再加一次）；旁白整句在（）裡。*/
+INVITE_DATA.libStudy={
+  lead:['「（小聲）二樓靠窗那排比較安靜。」'],
+  full:['（二樓的長桌都坐滿了。）','「（小聲）去三樓好了。三樓沒有人講話。」'],
+  seated:'（你們在長桌的一角坐下。她把書攤開，把手機翻過來蓋在桌上。）',
+  mid:[['（她把一張便利貼推過來：「這一題你會嗎？」你在下面寫了答案推回去。她看了一眼，比了一個讚。）'],['「（小聲）……休息五分鐘。」','（她趴在桌上。五分鐘後準時坐起來。）'],['「（小聲）你的筆借我。我的沒水了。」'],['（她讀到一半，把一顆喉糖放在你的書旁邊。）']],
+  close:['（閉館前十分鐘的廣播響了。）'],
+  pack:['（她闔上書，伸了一個懶腰。）','「（小聲）走吧。」'],
+  sit:['「（小聲）我讀到六點。你呢？」','「（小聲）手機先收起來。」'],
+  bye:['「今天讀得比我想的多。……下次再約。」','「好累。……可是很好。」'],
+  first:{   /* AA_649 第 3 節：每段關係第一次約念書 */
+    heroine_01:{sit:'「（小聲）我讀行政法，你讀你的。……不懂再問我。」',bye:'「下次換你決定讀哪一科。」'},
+    heroine_02:{sit:'「（小聲）我帶了兩支螢光筆，一支給你。」',bye:'「……今天很安靜。我很喜歡。」'},
+    heroine_03:{sit:'「（小聲）我讀民總。你讀什麼？」',bye:'「謝謝你陪我讀。……下次我請你喝茶。」'},
+    heroine_04:{sit:'「（小聲）圖書館的冷氣好冷。……你外套借我。」',bye:'「我寫了一整頁的程式。你讀了幾頁？」'},
+    heroine_05:{sit:'「（小聲）我寫我的報告，你有問題可以問我。」',bye:'「讀得不錯。……下次我考你。」'},
+    classmate_peishan:{sit:'「（小聲）我第一次在這裡讀書耶。」',bye:'「下次我帶零食。……啊，圖書館不能吃。」'},
+    kexin:{sit:'「（小聲）你們的總圖好大。」',bye:'「我要趕車回木柵了。……今天謝謝你。」'} }
+};
+/* AA_649 第 4 節：其他約會兩個人一起坐下以後的開場句（每次隨機一則）。店自己有見面內容的（一盞、木曜日、日常失速、Pasta 118：地點的 scene／ownMeal）用店的，不加。
+   電影、頁間書屋：現在還不是可以約的地點（INVITE_DATA.places 沒有），等地點加進來再接 */
+INVITE_DATA.seatOpen={
+  meal:[['（你們在靠窗的位子坐下。她先把菜單推到你面前。）','「你先點。」'],['（位子有點擠，你們的膝蓋碰在一起。她往旁邊挪了一點，又挪回來。）']],
+  coffee:[['（你們點好飲料，在窗邊坐下。）','「這裡的位子我喜歡。」'],['（她把兩杯飲料的吸管都插好，一杯推給你。）']],
+  movie:[['（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）','「（小聲）預告片開始了。」']],
+  movieEnd:[['（燈亮了。她還在看片尾的字幕。）','「……等一下再走。」']],
+  bookstore:[['（你們在閱讀桌坐下。她從書牆上抽了一本書，放在你面前。）','「（小聲）這本你會喜歡。」']],
+  byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
+};
