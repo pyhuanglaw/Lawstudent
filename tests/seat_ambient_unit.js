@@ -8,11 +8,13 @@
 //   ③ read：手腕到 readIK 的目標每一格 ≤ 1.5 cm、書看得到、在兩手中間（≤ 6 cm）、每一格書的中心移動 ≤ 1 cm；翻頁的時候右手拇指在動（≥ 1 cm）、書不動；
 //      滑手機（手機＝desk_props 的 item_phone_on）：拇指在動、手機不動；讀書的人頭照舊低著（頭比書高、往前看書）
 //   ④ 坐著注視（st.lookAt）不累加：胸口偏離 < 26°、最後 1 秒變化 < 3°（同 tests/seated_look_unit.js）；正在看四周的時候有人跟他說話：0.6 秒內頭的小動作收回來
-//   ⑤ 片段沒載好：退回原本的靜態坐姿（脊椎、胸口、頭、手臂的角度和舊程式一模一樣）、不報錯；載入失敗以後不再試（不會每一格下載）
+//   ⑤ 片段沒載好：退回原本的靜態坐姿（脊椎、胸口、頭、手臂的角度和舊程式一模一樣）、不報錯；載入失敗以後不再試（不會每一格下載）；
+//      片段晚一點才好：已經坐著的人 0.8 秒內慢慢換過去（每一格 ≤ 8°、不到總變化的五分之一），不會一格跳過去
 //   ⑥ 同桌兩個人（SEATACT.tick：一桌兩個路人互相看著對方＝聊天的一組）：每一格剛好一個人在說話（Sitting_Talking_Loop）、一個在點頭（Sitting_Nodding_Loop）；
 //      15 秒內換過人；說話的人手在比劃（手腕移動 ≥ 3 cm）；一個人起身＝兩個人都拿掉
 //   ⑦ 不能壞：腿、骨盆照舊 SIT_VRM（膝蓋、腳踝位置和靜態坐姿差 ≤ 1 cm）；跪坐的腿照舊；腿上的筆電照舊（上臂、前臂和靜態一樣）；
-//      玩家（hero_m）不做頭的小動作（看四周、抬頭、伸脖子）；VRM 1.0 的模型（char.vrm_sample）也會動、手在大腿上方
+//      玩家（hero_m）不做頭的小動作（看四周、抬頭、伸脖子）；VRM 1.0 的模型（char.vrm_sample）也會動、手在大腿上方；
+//      坐著、手上拿著東西（小說：配件掛在手上）＝手臂照舊、不撥頭髮，身體和頭照樣動
 // 修改前（開發分支 c7fcc5b81）：①②⑥ FAIL（脊椎、胸口完全不動；兩個人一模一樣；沒有輪流說話）；③④⑤⑦ 只有舊的部分（不會動的部分）照樣 PASS。
 // 用法：node tests/seat_ambient_unit.js
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
@@ -119,13 +121,13 @@ const amb=h=>h.userData.amb||null;
     const E={zone:{seats:[sa,sb],group:new THREE.Group()},npcs:[na,nb],player:{obj:{position:new THREE.Vector3(3,0,3)}},scene}; const GM={E,G:{zone:'cafe',day:5}};
     SEATACT.tick(GM); await new Promise(r=>setTimeout(r,5)); SEATACT.tick(GM);
     const P=ha.userData.sitChat&&ha.userData.sitChat.pair; check('⑥ SEATACT：一桌兩個路人互相看著對方＝聊天的一組（兩個人的 userData.sitChat 是同一組）',!!P&&hb.userData.sitChat&&hb.userData.sitChat.pair===P);
-    let bad=0, n=0, swaps=0, lastTalker=null, hand0=null, wave=0; const T=hasAmb?CHAR.SIT_AMB.talk:'?', N=hasAmb?CHAR.SIT_AMB.nod:'?';
+    let bad=0, n=0, swaps=0, lastTalker=null, hand0=null, wave=0, onOk=0; const T=hasAmb?CHAR.SIT_AMB.talk:'?', N=hasAmb?CHAR.SIT_AMB.nod:'?';
     for(let i=0;i<30*16;i++){ step(ha,na.pose,{lookAt:hb.position}); step(hb,nb.pose,{lookAt:ha.position}); if(i<45) continue;
       const ma=amb(ha), mb=amb(hb); const ra=ma&&ma.chatRole, rb=mb&&mb.chatRole; n++; if(!((ra==='talk'&&rb==='nod')||(ra==='nod'&&rb==='talk'))) bad++;
       const talker=ra==='talk'?ha:(rb==='talk'?hb:null); if(talker&&lastTalker&&talker!==lastTalker) swaps++; if(talker) lastTalker=talker;
+      if(ma&&mb&&((ma.ov===T&&mb.ov===N)||(ma.ov===N&&mb.ov===T))&&ma.ow>0.5&&mb.ow>0.5) onOk++;   /* 疊的片段真的在播（換人的時候兩邊各有 0.6 秒在交叉淡入）*/
       if(talker===ha){ const w=ha.worldToLocal(W(ha,'rightHand')); if(!hand0) hand0=w.clone(); wave=Math.max(wave,w.distanceTo(hand0)); } }
-    const ovOk=hasAmb&&amb(ha)&&amb(hb)&&[amb(ha),amb(hb)].some(m=>m.ov===T&&m.ow>0.5)&&[amb(ha),amb(hb)].some(m=>m.ov===N&&m.ow>0.5);
-    check('⑥ 每一格剛好一個人在說話（Sitting_Talking_Loop）、一個在點頭（Sitting_Nodding_Loop）（換人那一格可以差一格：兩個人更新的先後）；15 秒內換過人；說話的人手在比劃（≥ 3 cm）',n>0&&bad<=swaps&&swaps>=1&&wave>=0.03&&ovOk,'不對的格數 '+bad+'／'+n+'、換人 '+swaps+' 次、手 '+cm(wave));
+    check('⑥ 每一格剛好一個人在說話（Sitting_Talking_Loop）、一個在點頭（Sitting_Nodding_Loop）（換人那一格可以差一格：兩個人更新的先後；片段真的在播 ≥ 六成的格）；15 秒內換過人；說話的人手在比劃（≥ 3 cm）',n>0&&bad<=swaps&&swaps>=1&&wave>=0.03&&onOk>=0.6*n,'不對的格數 '+bad+'／'+n+'、片段在播 '+onOk+'／'+n+'、換人 '+swaps+' 次、手 '+cm(wave));
     nb.pose='idle'; SEATACT.tick(GM); check('⑥ 一個人起身：兩個人的聊天都拿掉',!ha.userData.sitChat&&!hb.userData.sitChat);
     SEATACT.clear(); rm(ha); rm(hb); }
   /* ---------- ⑤ 片段沒載好：照舊靜止、不報錯、不再試 ---------- */
@@ -136,10 +138,25 @@ const amb=h=>h.userData.amb||null;
     try{ for(let i=0;i<60;i++){ step(h,'sit'); if(i===2) await new Promise(r=>setTimeout(r,20)); const t=u.anim.t;
         const exp={Spine:[0.06*sx,0,0],Spine1:[0,0,0],Head:[Math.sin(t*0.7)*0.03*sx,Math.sin(t*0.4)*0.15,0]}; for(const n in SIT) exp[n]=[SIT[n][0]*sx,SIT[n][1],SIT[n][2]*sx];
         for(const n in exp){ if(!B[n]) continue; const q=new THREE.Quaternion().setFromEuler(new THREE.Euler(...exp[n])); worst=Math.max(worst,B[n].quaternion.angleTo(q)); } } }catch(e){ err=e; }
-    console.warn=ow; ASSETS.loadOne=lo;
+    console.warn=ow;
     check('⑤ 片段沒載好：照舊的靜態坐姿（脊椎、胸口、頭、腿、手臂和舊程式一樣）、不報錯',!err&&worst<1e-4,err?String(err).slice(0,120):'最大差 '+deg(worst));
     check('⑤ 載入失敗以後不再試（60 格只下載 1 次）、記下失敗',calls<=1&&(!hasAmb||CHAR._amb.failed===true),'下載 '+calls+' 次'+(hasAmb?'、failed '+CHAR._amb.failed:''));
-    rm(h); if(raw){ ASSETS.cache['char.ual_sit_clips']=raw; if(hasAmb) CHAR._ambReset(); } }
+    if(hasAmb){ const now0=Date.now, c0=calls; Date.now=()=>now0()+31000; console.warn=()=>{}; step(h,'sit'); step(h,'sit'); Date.now=now0; await new Promise(r=>setTimeout(r,30)); console.warn=ow;
+      check('⑤ 30 秒後再試一次（手機網路斷一下不會整場都不動）',calls===c0+1,'過 31 秒以後下載 '+(calls-c0)+' 次'); }
+    ASSETS.loadOne=lo;
+    /* 片段晚一點才好（下載慢）：已經坐著（靜態）的人 0.8 秒內慢慢換過去，不會一格跳過去（手從身體兩側到大腿上差 60° 以上）*/
+    if(raw){ ASSETS.cache['char.ual_sit_clips']=raw; if(hasAmb) CHAR._ambReset(); }
+    { const bones=['leftUpperArm','rightUpperArm','chest','neck','head']; let prev=null, jump=0, i=0; const q0=bones.map(b=>relQ(h,b));
+      for(;i<45;i++){ step(h,'sit'); const q=bones.map(b=>relQ(h,b)); if(prev) jump=Math.max(jump,...q.map((x,j)=>x.angleTo(prev[j]))); prev=q; }
+      const tot=Math.max(...prev.map((x,j)=>x.angleTo(q0[j]))), m=amb(h);
+      check('⑤ 片段晚一點才好：已經坐著的人慢慢換過去（每一格 ≤ 8°、而且不到總變化的五分之一）、1.5 秒內換好',hasAmb&&!!h.userData.ambOn&&!!m&&m.inW>=1&&jump<=8*Math.PI/180&&tot>=10*Math.PI/180&&jump<=tot/5,'每一格最多 '+deg(jump)+'、總共 '+deg(tot)+(m?'、inW '+m.inW.toFixed(2):'')); }
+    rm(h); }
+  /* ---------- 手上拿著東西（采潔的小說）：手臂照舊、不撥頭髮 ---------- */
+  if(hasAmb){ const nv=ASSETS.manifest['prop.novel']&&ASSETS.manifest['prop.novel'].url; if(nv&&fs.existsSync(path.join(ROOT,nv))){ window.ASSET_DATA[nv]=fs.readFileSync(path.join(ROOT,nv)).toString('base64'); await ASSETS.loadOne('prop.novel').catch(()=>null); }
+    const h=mk('char.heroine_01',{props:['novel']}); for(let i=0;i<3;i++) step(h,'sit'); await new Promise(r=>setTimeout(r,5)); const u=h.userData, sx=u.sx||1, nov=u.props&&u.props.novel;
+    let worst=0; for(let i=0;i<30*70;i++){ step(h,'sit'); const ex=new THREE.Quaternion().setFromEuler(new THREE.Euler(0,0,-1.25*sx)); worst=Math.max(worst,u.bones.LeftArm.quaternion.angleTo(ex)); }
+    const m=amb(h)||{kinds:{}};
+    check('⑦ 坐著、手上拿著小說：手臂照舊（上臂＝SIT_VRM）、不撥頭髮；身體、頭照樣動',!!nov&&nov.visible&&worst<1e-3&&!m.kinds.hair&&m.n>=2,nov?('小說 '+(nov.visible?'看得到':'藏起來')+'、上臂差 '+deg(worst)+'、'+Object.entries(m.kinds).map(([k,v])=>k+'×'+v).join(' ')):'沒有小說的配件'); rm(h); }
   console.log(fails?`FAILED ${fails}`:'ALL PASS');
   process.exit(fails?1:0);
 })().catch(e=>{ console.error('ERR',e); process.exit(2); });

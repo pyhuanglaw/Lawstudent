@@ -584,7 +584,8 @@ const CHAR = (function(){
        兩邊的靜止姿勢都是 T 字、面向 +z、左手在 +x（來源量過；和 VRM 1.0 的 normalized 骨架一樣）：每一根骨頭的「世界旋轉差」D＝動畫中的世界旋轉 × 靜止世界旋轉的反矩陣，
        VRM 的本地旋轉＝（VRM 自己階層裡的）父骨頭的 D 的反矩陣 × 自己的 D——和 mixamoToVRM 同一個做法；VRM 少一根骨頭（例：沒有 upperChest）照樣對。VRM 0.x 的 x、z 反號（同 mixamoToVRM）。
        試過照骨頭方向補償（retargetClip v2 的 A）：鎖骨的方向兩邊差 41°，補償以後肩膀聳起來；兩邊都是 T 字就不補償。只取旋轉、不取骨盆位移（坐姿的高度照舊 −0.47×身高比例）。
-       第一次有人坐下才下載（manifest lazy）；每一個片段第一次用到才換算（30 fps 取樣，所有模型共用一份）。還沒載好、載入失敗、C.sitAmb=false（網址 ?nositamb）＝照舊的靜態坐姿。
+       第一次有人坐下才下載（manifest lazy）；每一個片段第一次用到才換算（30 fps 取樣，所有模型共用一份）。還沒載好、載入失敗（30 秒後再試，最多 3 次）、C.sitAmb=false（網址 ?nositamb）＝照舊的靜態坐姿；
+       片段晚一點才好的時候，已經坐著的人 0.8 秒內從靜態坐姿慢慢換過去（不跳格）。
      每一格（pose sit／read，VRM driver；GLB、程序化的備用人物照舊靜止）：
        ① 坐姿循環（C.SIT_AMB.base＝Sitting_Idle_Loop）：脊椎、胸口、脖子、頭（呼吸、身體微微前後）；每個人的速度 ±15%、起始相位不同（不會同步）；
           片段原本 1.7 秒一個循環＝一分鐘呼吸 36 次，太急：放慢成一半（baseRate）。每個人還有自己的坐姿（前後、左右、轉身各幾度，m.pst）。
@@ -602,7 +603,7 @@ const CHAR = (function(){
   C.sitAmb=!(typeof location!=='undefined'&&/[?&]nositamb\b/.test(location.search||''));
   C.SIT_AMB_KEY='char.ual_sit_clips';
   C.SIT_AMB={ base:['Sitting_Idle_Loop'], baseRate:0.5, look:'Sitting_Idle02_Loop', hair:'Sitting_Idle03_Loop', talk:'Sitting_Talking_Loop', nod:'Sitting_Nodding_Loop',
-    rate:0.15, gap:[8,25], first:[3,18], fade:0.9, ovFade:0.6, turn:[3,7], readPitch:0.3, scroll:[2,6], headYaw:0.18,
+    rate:0.15, gap:[8,25], first:[3,18], fade:0.9, ovFade:0.6, turn:[3,7], readPitch:0.3, scroll:[2,6], headYaw:0.18, blendIn:0.8,
     posture:{lean:[-0.07,0.05],side:[-0.05,0.05],twist:[-0.06,0.06],speed:2.5} };   /* headYaw：每個人平常頭往左右偏多少（±弧度，扣掉片段本身的 11°）；posture：每個人的坐姿（弧度：往前＋、往左右、轉身），speed＝換坐姿的快慢（1/秒）*/
   C.ambRand=Math.random;
   const UAL_BONE={pelvis:'Hips',spine_01:'Spine',spine_02:'Spine1',spine_03:'Spine2',neck_01:'Neck',Head:'Head'};
@@ -611,7 +612,7 @@ const CHAR = (function(){
   C.UAL_BONE=UAL_BONE;
   const AMB_FPS=30, SITA={raw:null,src:null,clips:{},failed:false,loading:false};
   C._amb=SITA; C.sitAmbReady=()=>!!SITA.src;
-  C._ambReset=function(){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=false; SITA.loading=false; };   /* 測試用 */
+  C._ambReset=function(){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=false; SITA.loading=false; SITA.broken=false; SITA.tries=0; SITA.failT=0; };   /* 測試用 */
   /* 來源的骨架（一次）：深度優先（父在前）、父節點、靜止的本地旋轉、靜止世界旋轉的反矩陣 */
   function ambSrc(raw){ const sc=raw.scene; sc.updateMatrixWorld(true); const list=[]; sc.traverse(o=>{ if(o!==sc) list.push(o); }); const ix=new Map(list.map((o,i)=>[o,i]));
     return {sc,list,ix,par:list.map(o=>ix.has(o.parent)?ix.get(o.parent):-1),rest:list.map(o=>o.quaternion.clone()),bsi:list.map(o=>o.getWorldQuaternion(new THREE.Quaternion()).invert()),base:sc.getWorldQuaternion(new THREE.Quaternion()),name:list.map(o=>UAL_BONE[o.name]||null)}; }
@@ -627,11 +628,14 @@ const CHAR = (function(){
     /* 頭的平均左右（世界旋轉差的 yaw）：坐姿片段的頭一直往左轉 11°（來源量過）——每個人都往同一邊看。sitAmbient 扣掉它、換成每個人自己的方向（m.hy）*/
     let hy=0; const HD=D.Head; if(HD){ const e=new THREE.Euler(); for(let f=0;f<nF;f++){ q.fromArray(HD,f*4); e.setFromQuaternion(q,'YXZ'); hy+=e.y; } hy/=nF; }
     return (SITA.clips[name]={name,dur:clip.duration,nF,D,hy}); }
-  /* 片段可以用了嗎（還沒＝第一次叫的時候開始下載；失敗＝之後一直照舊靜止，不再試）*/
-  function ambReady(){ if(SITA.src) return true; if(!C.sitAmb||SITA.failed||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[C.SIT_AMB_KEY]) return false;
+  /* 片段可以用了嗎（還沒＝第一次叫的時候開始下載）。下載失敗＝照舊靜止，30 秒後再試（最多 3 次；手機網路斷一下不會整場都不動）；檔案壞了（解析失敗、沒有循環）＝不再試 */
+  const AMB_RETRY_MS=30000, AMB_RETRIES=3;
+  function ambReady(){ if(SITA.src) return true; if(!C.sitAmb||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[C.SIT_AMB_KEY]) return false;
+    if(SITA.failed){ if(SITA.broken||(SITA.tries|0)>=AMB_RETRIES||Date.now()-(SITA.failT||0)<AMB_RETRY_MS) return false; SITA.failed=false; SITA.loading=false; if(ASSETS.status) delete ASSETS.status[C.SIT_AMB_KEY]; }
     const raw=ASSETS.getRaw&&ASSETS.getRaw(C.SIT_AMB_KEY);
-    if(raw&&raw.scene&&raw.animations){ try{ SITA.raw=raw; SITA.src=ambSrc(raw); if(!ambClip(C.SIT_AMB.base[0])) throw new Error('沒有 '+C.SIT_AMB.base[0]); return true; }catch(e){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=true; console.warn('坐姿動作片段不能用（照舊靜止）',e); return false; } }
-    if(!SITA.loading&&ASSETS.loadOne){ SITA.loading=true; try{ Promise.resolve(ASSETS.loadOne(C.SIT_AMB_KEY)).catch(e=>{ SITA.failed=true; console.warn('坐姿動作片段載入失敗（照舊靜止）',e&&e.message||e); }); }catch(e){ SITA.failed=true; } }
+    if(raw&&raw.scene&&raw.animations){ try{ SITA.raw=raw; SITA.src=ambSrc(raw); if(!ambClip(C.SIT_AMB.base[0])) throw new Error('沒有 '+C.SIT_AMB.base[0]); return true; }catch(e){ SITA.raw=null; SITA.src=null; SITA.clips={}; SITA.failed=true; SITA.broken=true; console.warn('坐姿動作片段不能用（照舊靜止）',e); return false; } }
+    if(!SITA.loading&&ASSETS.loadOne){ SITA.loading=true; SITA.tries=(SITA.tries|0)+1; const fail=e=>{ SITA.failed=true; SITA.failT=Date.now(); console.warn('坐姿動作片段載入失敗（照舊靜止，'+AMB_RETRY_MS/1000+' 秒後再試）',e&&e.message||e); };
+      try{ Promise.resolve(ASSETS.loadOne(C.SIT_AMB_KEY)).catch(fail); }catch(e){ fail(e); } }
     return false; }
   /* 這個人的骨頭（一次）：照 VRM normalized 階層排（父在前），par＝階層裡最近的、有對到的父骨頭（-1＝骨盆：骨盆照舊 SIT_VRM＝不轉）；grp 0＝腿（不吃片段）、1＝脊椎到頭、2＝肩膀到手指（看姿勢）*/
   function ambRig(u){ if(u.ambRig) return u.ambRig; const B=u.bones, nm=new Map(); for(const n in B) nm.set(B[n],n); const order=[];
@@ -671,9 +675,16 @@ const CHAR = (function(){
     /* side：往一邊看、停一下，一半的時候再往另一邊看 */
     const y1=sd*ambRnd(0.45,0.85), h1=ambRnd(0.8,1.6), two=C.ambRand()<0.5, y2=-sd*ambRnd(0.35,0.7), h2=ambRnd(0.6,1.2), p=ambRnd(-0.08,0.06);
     const keys=[[0,0,0,0],[0.6,p,y1,0],[0.6+h1,p,y1,0]]; let t=0.6+h1; if(two){ keys.push([t+0.8,p,y2,0],[t+0.8+h2,p,y2,0]); t+=0.8+h2; } keys.push([t+0.7,0,0,0]); m.fx={kind,t:0,dur:t+0.7,keys}; }
+  /* 手上拿著東西（小說、法典、馬克杯…：配件掛在前臂、手上，而且看得到）＝手臂照舊（不放到大腿上、不撥頭髮）*/
+  function handHeld(u){ const P=u.props; if(!P||typeof PROPS==='undefined'||!PROPS.DEF) return false;
+    if(!u.ambHandKeys){ u.ambHandKeys=[]; for(const k in P){ const d=PROPS.DEF[k]; if(d&&/LowerArm$|Hand$/.test(d.bone||'')&&k!=='bandage') u.ambHandKeys.push(k); } }
+    for(const k of u.ambHandKeys){ const o=P[k]; if(o&&o.visible) return true; } return false; }
+  /* 剛開始動的那一下（坐著等片段下載的人，u.ambWasStatic）：0.8 秒內從靜態坐姿慢慢換過去，不跳格。靜態坐姿的值（每一格從這裡開始內插，不累加）*/
+  function ambStatic(nd,name,pose,sx){ if(name==='Spine') nd.rotation.set(0.06*sx,0,0); else if(name==='Head') nd.rotation.set(pose==='read'?0.35*sx:0,0,0); else nd.quaternion.set(0,0,0,1); }
   /* 每一格：①～④ 都在這裡；回傳 false＝片段還沒好（照舊靜止）*/
   function sitAmbient(h,u,dt,st,pose){ if(!C.sitAmb||!ambReady()) return false; const K=C.SIT_AMB, R=ambRig(u); if(!R.order.length) return false; const m=u.amb||(u.amb=ambInit());
-    u.ambPose=pose; const kd=pose==='read'?readKind(u):null, armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible), talked=!!st.lookAt;
+    u.ambPose=pose; const kd=pose==='read'?readKind(u):null, armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible)&&!handHeld(u), talked=!!st.lookAt;
+    if(m.inW==null) m.inW=u.ambWasStatic?0:1; if(m.inW<1){ m.inW=Math.min(1,m.inW+(dt>0?dt/K.blendIn:0)); if(m.inW>=1) u.ambWasStatic=false; } const bw=amb01(m.inW);
     // 時間：坐姿循環、換循環的交叉淡入
     m.t+=dt*m.rate; if(m.prev){ m.pt+=dt*m.prate; m.fw=Math.min(1,m.fw+(dt>0?dt/K.fade:0)); if(m.fw>=1) m.prev=null; }
     // ④ 同桌聊天：說話／點頭輪流（兩個人共用 pair 的時鐘；兩個人都在動的時候各加一半）
@@ -698,20 +709,21 @@ const CHAR = (function(){
       ambSample(cur,m.t,true,nm,AW,o); if(prv){ ambSample(prv,m.pt,true,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AS,0,AW,o,m.fw); }
       if(ov){ ambSample(ov,m.ot,m.ovLoop,nm,AS,0); THREE.Quaternion.slerpFlat(AW,o,AW,o,AS,0,m.ow); } }
     // 世界旋轉差 → 本地旋轉（VRM 0.x：x、z 反號）
-    for(let i=0;i<n;i++){ const g=R.grp[i]; if(g===0||(g===2&&!armsFree)||(far&&R.finger[i])) continue; const p=R.par[i], q=AQ[0].fromArray(AW,i*4); if(p>=0) q.premultiply(AQ[1].fromArray(AW,p*4).invert()); if(u.v0){ q.x=-q.x; q.z=-q.z; } R.nodes[i].quaternion.copy(q); }
-    // 手臂不吃片段（read、腿上的筆電、跪坐）：肩膀、手、手指回到靜止；上臂、前臂照 SIT_VRM／SEIZA_VRM（外面先寫好了）、READ_VRM（外面之後寫）
-    if(!armsFree) for(let i=0;i<n;i++) if(R.grp[i]===2&&!R.tab[i]) R.nodes[i].quaternion.set(0,0,0,1);
     const sx=u.sx||1, B=u.bones;
+    for(let i=0;i<n;i++){ const g=R.grp[i]; if(g===0||(g===2&&!armsFree)||(far&&R.finger[i])) continue; const p=R.par[i], q=AQ[0].fromArray(AW,i*4); if(p>=0) q.premultiply(AQ[1].fromArray(AW,p*4).invert()); if(u.v0){ q.x=-q.x; q.z=-q.z; }
+      const nd=R.nodes[i]; if(bw<1){ if(!R.tab[i]) ambStatic(nd,R.order[i],pose,sx); nd.quaternion.slerp(q,bw); } else nd.quaternion.copy(q); }   /* 上臂、前臂的靜態值＝外面剛寫的 SIT_VRM */
+    // 手臂不吃片段（read、腿上的筆電、跪坐、手上拿著東西）：肩膀、手、手指回到靜止；上臂、前臂照 SIT_VRM／SEIZA_VRM（外面先寫好了）、READ_VRM（外面之後寫）
+    if(!armsFree) for(let i=0;i<n;i++) if(R.grp[i]===2&&!R.tab[i]) R.nodes[i].quaternion.set(0,0,0,1);
     // 每個人自己的坐姿（往前、往左右、轉身；脊椎、胸口各一半）：換坐姿的時候慢慢換過去
     { const ps=m.pst, pt=m.pstTo, k=dt>0?Math.min(1,dt*K.posture.speed):0; for(let j=0;j<3;j++) ps[j]+=(pt[j]-ps[j])*k;
-      AE.set(ps[0]*0.5*sx,ps[2]*0.5,ps[1]*0.5*sx); AQ[0].setFromEuler(AE); if(B.Spine) B.Spine.quaternion.multiply(AQ[0]); if(B.Spine1) B.Spine1.quaternion.multiply(AQ[0]); }
+      AE.set(ps[0]*0.5*sx*bw,ps[2]*0.5*bw,ps[1]*0.5*sx*bw); AQ[0].setFromEuler(AE); if(B.Spine) B.Spine.quaternion.multiply(AQ[0]); if(B.Spine1) B.Spine1.quaternion.multiply(AQ[0]); }
     // 頭的小動作（脖子 40%、頭 60%）＋讀書低頭
     const hk=m.fx&&m.fx.keys?ambKeys(m.fx.keys,m.fx.t):null;
     if(hk&&m.fx.kind!=='page'){ hk[0]*=m.fxW; hk[1]*=m.fxW; hk[2]*=m.fxW; }
     m.head[0]=hk?hk[0]:0; m.head[1]=hk?hk[1]:0; m.head[2]=hk?hk[2]:0;
-    if(hk&&B.Neck){ AE.set(hk[0]*0.4*sx,hk[1]*0.4,hk[2]*0.4*sx); B.Neck.quaternion.multiply(AQ[0].setFromEuler(AE)); }
+    if(hk&&B.Neck){ AE.set(hk[0]*0.4*sx*bw,hk[1]*0.4*bw,hk[2]*0.4*sx*bw); B.Neck.quaternion.multiply(AQ[0].setFromEuler(AE)); }
     if(B.Head){ const rp=pose==='read'?K.readPitch:0, cy=((cur.hy||0)*(prv?m.fw:1)+(prv?(prv.hy||0)*(1-m.fw):0))*(ov?1-m.ow:1)+(ov?(ov.hy||0)*m.ow:0);   /* 片段本身的頭的平均左右（扣掉）*/
-      AE.set(((hk?hk[0]*0.6:0)+rp)*sx,(hk?hk[1]*0.6:0)-cy+m.hy*(1-(ov?m.ow:0)),(hk?hk[2]*0.6:0)*sx); B.Head.quaternion.multiply(AQ[0].setFromEuler(AE)); }
+      AE.set(((hk?hk[0]*0.6:0)+rp)*sx*bw,((hk?hk[1]*0.6:0)-cy+m.hy*(1-(ov?m.ow:0)))*bw,(hk?hk[2]*0.6:0)*sx*bw); B.Head.quaternion.multiply(AQ[0].setFromEuler(AE)); }
     // 翻頁、滑手機（readIK 之後在真實骨架上做：u.readTurn、u.readScroll）
     u.readTurn=m.fx&&m.fx.kind==='page'?Math.min(1,m.fx.t/m.fx.dur):0;
     if(pose==='read'&&kd&&kd!=='book'&&!talked){ m.scT-=dt; if(m.scT<=0&&m.sc<=0){ m.sc=ambRnd(0.8,1.6); m.scT=ambRnd(K.scroll[0],K.scroll[1]); } } if(m.sc>0) m.sc=Math.max(0,m.sc-dt);
@@ -744,7 +756,7 @@ const CHAR = (function(){
     else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); if(u.amb){ const m=u.amb; m.fx=null; m.ov=null; m.ovWant=null; m.ow=0; m.prev=null; m.fw=1; m.sc=0; } } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx);
       /* 坐著也會動（NPC-AMBIENT-ANIM-1104，上面 sitAmbient）：脊椎、胸口、脖子、頭每一幀由坐姿循環重寫（注視在胸口「加」的轉角照樣不累加）；手上沒有東西的 sit 連手臂也是片段的；片段還沒好＝下面舊的靜態坐姿 */
       if(sitAmbient(h,u,dt,st,pose)){ u.ambOn=true; if(pose==='read') setBonesV(B,READ_VRM,sx); }
-      else { if(u.ambOn){ u.ambOn=false; vrm.humanoid.resetNormalizedPose(); setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); } u.readTurn=0; u.readScroll=0;
+      else { if(u.ambOn){ u.ambOn=false; vrm.humanoid.resetNormalizedPose(); setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); } u.readTurn=0; u.readScroll=0; u.ambWasStatic=true; if(u.amb) u.amb.inW=0;   /* 之後片段好了：從這個靜態坐姿慢慢換過去 */
         if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); } }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
     else if(GYM_SEATED[pose]){ if(!a.static||a.staticKind!=='gym'){ const from={}; for(const n in B) from[n]=B[n].quaternion.clone(); u.gym.from=from; for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='gym'; a.cur=null; vrm.humanoid.resetNormalizedPose(); }   /* 換過來那一刻的骨頭角度（站著的片段）：底子從它慢慢轉到坐姿，不跳格 */
       u.ikDrop=0; u.ikSt=null; setBonesV(B,GYM_BASE,sx); const fr=u.gym.from; if(fr){ const x=Math.min(1,u.gym.w||0), wb=x*x*(3-2*x); if(wb>=1) u.gym.from=null; else for(const n in fr) if(B[n]) B[n].quaternion.slerpQuaternions(fr[n],B[n].quaternion.clone(),wb); } }   /* 健身房坐著的動作：底子是坐姿（每一幀由表重設），臀部、手腳在 gymIK（真實骨架）*/
@@ -840,6 +852,7 @@ const CHAR = (function(){
     if(u.propOn) for(const k in u.propOn) C.setProp(nh,k,u.propOn[k]);
     if(u.readItem) nh.userData.readItem=u.readItem;   /* 手上拿的是手機、平板（SEAT-ACTIVITY-1104）：換成正式模型以後照樣 */
     if(u.sitChat) nh.userData.sitChat=u.sitChat;   /* 同桌聊天的那一組（NPC-AMBIENT-ANIM-1104）：換模型以後照樣輪流說話 */
+    if(u.amb){ nh.userData.amb=u.amb; nh.userData.ambWasStatic=u.ambWasStatic; }   /* 坐著的動作接著做（循環的相位、小動作、坐姿；沒有對模型的資料，換模型沒關係）*/
     if(u.jacket) C.setJacket(nh,true);   /* 祐廷的系外套（X140）：開發用模型換成正式 VRM 時照樣穿著（buildVRM 照 manifest hide 先藏）；之後 STORY.jacketSync 照規則對一次 */
     const p=h.parent; if(p){ p.add(nh); p.remove(h); } C.release(h); return nh; };
   function buildOne(spec){ spec=C.resolveModel(spec); if(C.canVRM(spec)){ try{ return buildVRM(spec); }catch(e){ console.error('VRM character failed, fallback',spec&&spec.model,e); C.failures.push((spec&&spec.model)+': '+e.message); } } else if(spec&&spec.model&&!spec.anonPick&&ASSETS.manifest[spec.model]&&ASSETS.manifest[spec.model].type==='vrm'){ C.failures.push(spec.model+': not loaded'); }   /* 路人底模還在背景下載：不算失敗 */ if(C.canGLB(spec)){ try{ return buildGLB(spec); }catch(e){ console.warn('GLB character failed, fallback to procedural',e); } } if(spec.fallbackModel){ const s2=Object.assign({},spec,{model:spec.fallbackModel,fallbackModel:null}); if(C.canGLB(s2)){ try{ return buildGLB(s2); }catch(e){ console.warn('fallback GLB failed',e); } } } const o=P3.build(spec); o.userData.driver='proc'; o.userData.placeholder=true; return o; };
