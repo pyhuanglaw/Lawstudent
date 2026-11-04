@@ -882,3 +882,28 @@
 [15:49:28] [res] cpu=22% mem=50% (15.7/31.4 GB) chrome_testing=19  START WZ3_yizhan_floor
 [15:49:37] 正在跑：GG_int_aoki_seats（已跑 29 分／上限 60 分）、WZ3_yizhan_shots（已跑 0 分／上限 30 分）、WZ3_yizhan_floor（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [15:50:49] [res] cpu=17% mem=50% (15.9/31.4 GB) chrome_testing=19  END WZ3_yizhan_shots
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       206b254cb..0e96e37c4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:50:56] ==== END   WZ3_yizhan_shots  exit=0  128s   ====
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:51:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:51:01] memory 51% before starting CAFE230v3_shots (2 running)
+[15:51:01] ==== START CAFE230v3_shots  (probe @ 33222ed89) ====
+[15:51:04] [res] cpu=26% mem=49% (16.1/31.4 GB) chrome_testing=19  START CAFE230v3_shots
+[15:54:37] 正在跑：GG_int_aoki_seats（已跑 34 分／上限 60 分）、WZ3_yizhan_floor（已跑 5 分／上限 40 分）、CAFE230v3_shots（已跑 3 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:56:28] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:56:28] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[15:59:37] 正在跑：GG_int_aoki_seats（已跑 39 分／上限 60 分）、WZ3_yizhan_floor（已跑 10 分／上限 40 分）、CAFE230v3_shots（已跑 8 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:00:38] [res] cpu=18% mem=51% (16.1/31.4 GB) chrome_testing=20  END CAFE230v3_shots

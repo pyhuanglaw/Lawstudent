@@ -1,0 +1,43 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_cafe230_shot_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CAFE230v3_shots\out
+PASS 遊戲載入
+== 1400
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、1400、條件事件關閉
+PASS [1400] 正式模型掛上（有 a23_ 材質；場景 mesh 183 → 187）  7 秒
+  [1400] 材質名：["brownLight", "leaves", "wood.002", "textile", "_defaultMat", "a23_bulb", "a23_wall_warm", "a23_floor_wood", "a23_glass", "a23_leaf_pothos", "a23_print", "a23_vc", "a23_vc_gloss", "a23_vc_metal", "a23_walnut", "a23_window_view", "wz_glow_batch", "lamp_paint", "wz_curb", "wz_brick_walk", "wz_vc_metal", "wz_vc_matte", "wz_road", "wz_mirror_glass", "wz_pole_concrete", "wz_lamp_lens", "cafe_sign_face", "cafe_glass", "cafe_vc_wz_gloss", "cafe_vc_wz_matte", "cafe_vc_wz_metal", "wz_copy_notices", "wz_shop_notes", "wz_shutter", "wz_signs_lit", "wz_sf_granite", "wz_sf_wood_light", "wz_tube", "wz_fruitprice", "wz_in_goods"]
+  [1400] ref_east_to_west：calls 253、tris 646586
+  [1400] door_in：calls 219、tris 543150
+  [1400] booth：calls 141、tris 384472
+  [1400] bar：calls 159、tris 422520
+  [1400] pastry：calls 157、tris 418286
+  [1400] record：calls 91、tris 266344
+  [1400] window_bar：calls 220、tris 509812
+  [1400] 玩家視角的鏡頭：{"mode": "follow", "cam": [0, 3.21, 0.5], "player": [0, 4.4], "yaw": 3.14}
+== 2200
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、2200、條件事件關閉
+PASS [2200] 正式模型掛上（有 a23_ 材質；場景 mesh 185 → 185）  4 秒
+  [2200] 材質名：["brownLight", "leaves", "wood.002", "textile", "_defaultMat", "a23_bulb", "a23_wall_warm", "a23_floor_wood", "a23_glass", "a23_leaf_pothos", "a23_print", "a23_vc", "a23_vc_gloss", "a23_vc_metal", "a23_walnut", "a23_window_view", "wz_glow_batch", "lamp_paint", "cafe_glass", "cafe_vc_wz_gloss", "cafe_vc_wz_matte", "cafe_vc_wz_metal", "wz_copy_notices", "wz_shop_notes", "wz_shutter", "wz_signs_lit", "wz_sf_granite", "wz_sf_wood_light", "wz_tube", "wz_fruitprice", "wz_in_goods", "wz_in_board_u", "wz_in_price_u", "wz_menu_ice", "wz7_street_props", "cafe_band", "cafe_bulb", "cafe_corrugated", "wz_vc_metal", "cafe_win_glass"]
+  [2200] ref_east_to_west：calls 136、tris 336139
+  [2200] door_in：calls 138、tris 328271
+  [2200] booth：calls 117、tris 319487
+  [2200] bar：calls 113、tris 303867
+  [2200] pastry：calls 111、tris 299633
+  [2200] record：calls 87、tris 254773
+  [2200] window_bar：calls 175、tris 394675
+  [2200] 玩家視角的鏡頭：{"mode": "follow", "cam": [0, 3.21, 0.5], "player": [0, 4.4], "yaw": 3.14}
+== SOFA 坐沙發椅
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、14:00、條件事件關閉
+PASS [SOFA] 有兩張「坐沙發椅」  [{"x": 6.3, "z": 3.85, "label": "坐沙發椅", "sx": 6.3, "sz": 3.85}, {"x": 6.3, "z": -4.65, "label": "坐沙發椅", "sx": 6.3, "sz": -4.65}]
+  [ 180.5s] 走不到「坐沙發椅」：最後位置 (5.57,3.85)，目標 (6.3,3.85)；點地面 62 次、轉鏡頭 1 次、搖桿 5 次
+  [ 180.5s]   這段時間：畫面 7501 格／180 秒、遊戲時間 14.06→15.26、paused=False、開著的面板 []
+PASS [S0] 走到旁邊：按鈕「坐沙發椅」  {"interact": "坐沙發椅", "x": 5.57, "z": 3.85}
+PASS [S0] 坐下了（seat）  {"seat": true, "pose": "sit", "x": 6.3, "y": 0, "z": 3.85, "cam": [2.4, 3.21, 4.04]}
+PASS [S0] 鏡頭在店裡（x −7～7、z −6～6、y ≤ 3.4）  [2.4, 3.21, 4.04]
+FAIL [S0] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）  {"moved": 0.0, "stand": false, "x": 6.3, "z": 3.85}
+  [ 398.6s] 走不到「坐沙發椅」：最後位置 (5.57,-4.25)，目標 (6.3,-4.65)；點地面 60 次、轉鏡頭 0 次、搖桿 8 次
+  [ 398.6s]   這段時間：畫面 8703 格／180 秒、遊戲時間 15.27→16.79、paused=False、開著的面板 []
+PASS [S1] 走到旁邊：按鈕「坐沙發椅」  {"interact": "坐沙發椅", "x": 5.57, "z": -4.25}
+PASS [S1] 坐下了（seat）  {"seat": true, "pose": "sit", "x": 6.3, "y": 0, "z": -4.65, "cam": [2.88, 3.21, -2.78]}
+PASS [S1] 鏡頭在店裡（x −7～7、z −6～6、y ≤ 3.4）  [2.88, 3.21, -2.78]
+FAIL [S1] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）  {"moved": 0.0, "stand": false, "x": 6.3, "z": -4.65}
+PASS 沒有 JS 例外  []
+FAILED 2: [S0] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）；[S1] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）
