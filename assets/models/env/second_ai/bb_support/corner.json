@@ -1,8 +1,8 @@
 {
- "objects": 172,
- "unique_meshes": 65,
- "tris": 31210,
- "tris_drawn": 41080,
+ "objects": 168,
+ "unique_meshes": 62,
+ "tris": 40678,
+ "tris_drawn": 50398,
  "materials": [
   "cr_alpha",
   "cr_concrete",
@@ -17,24 +17,27 @@
   "cr_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/corner.glb",
- "bytes": 2850396,
+ "bytes": 3522288,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
- "drawn_tris": 41080,
+ "drawn_tris": 50398,
  "protos": {
   "lpstack34_0": 2,
   "lpstack34_1": 2,
-  "lpstack34_2": 2,
-  "lpstack34_3": 2,
-  "lpstack23_0": 2,
-  "lpstack23_1": 2,
-  "lpstack23_2": 2,
+  "lpstack34_2": 1,
+  "lpstack34_3": 1,
+  "lpstack34_4": 1,
+  "lpstack34_5": 1,
+  "lpstack23_2": 1,
   "lpstack23_3": 2,
+  "lpstack23_4": 2,
+  "lpstack23_5": 2,
+  "lpstack23_0": 1,
   "lpstack17_1": 1,
   "lpstack17_2": 1,
   "spot": 18,
-  "pendant": 2,
+  "pendant": 3,
   "armchair": 2,
   "turntable": 5,
   "speaker": 12,
@@ -45,52 +48,52 @@
  },
  "records_in_bins": 490,
  "single_side": {
-  "cr_goods": [
-   2576,
-   0
-  ],
   "cr_vc_metal": [
-   4188,
+   5376,
    56
   ],
-  "cr_emit": [
-   80,
-   42
-  ],
-  "cr_alpha": [
-   2140,
-   0
-  ],
   "cr_vc": [
-   5760,
-   4080
+   6448,
+   6502
   ],
   "cr_wood": [
-   7932,
+   8704,
    0
   ],
   "cr_plaster": [
    108,
    0
   ],
-  "cr_sign": [
-   4,
-   0
-  ],
-  "（翻面）cr_emit": [
-   80,
+  "cr_goods": [
+   3228,
    0
   ],
   "（翻面）cr_vc": [
    482,
    0
   ],
-  "cr_floor_terrazzo": [
-   12,
+  "cr_emit": [
+   80,
+   42
+  ],
+  "cr_sign": [
+   4,
+   0
+  ],
+  "cr_alpha": [
+   3464,
    0
   ],
   "cr_concrete": [
    38,
+   0
+  ],
+  "（翻面）cr_emit": [
+   80,
+   0
+  ],
+  "cr_floor_terrazzo": [
+   12,
    0
   ]
  }
