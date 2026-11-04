@@ -45191,7 +45191,7 @@
    "title": "普通教學館、博雅教學館（遊戲裡叫博思）的外觀改得像真的（使用者 11-04 15:1x：「說到這個 普通 博雅 教學館目前感覺跟真正的太不像了」）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45212,8 +45212,11 @@
     "acceptance": "BB 照 D120／D133／D136：CC 在使用者電腦拍同角度（總表第 107～109 列）、和官網照片並排；tools/art/same_angle_check.py --mode campus 疊圖（D138：相似要接近、細部 1:1 照抄的格子要是 0）；每棟寫保留什麼、改掉什麼；導航、門口（DOORS.putong／boya）、空橋 Y0、樓層高度不動；node tests/nav_buildings_unit.js、tests/campus_layout_nav.py",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 16:2x】LAWWW2-C 16:21：普通、博雅兩顆 GLB 重建好，nav_buildings_unit ALL PASS，same_angle_check --mode campus 四個角度照抄格子 0；在拍最後的對照圖、寫保留／改掉，做完一起交；網格數和舊版一樣 15 個（普通 7→6、博雅 8→9），再壓要貼圖合併（BB P3）｜【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版",
-   "notWaitUser": "使用者 15:1x／15:3x 已說清楚範圍（改現有兩棟外觀，不新增）；LAWWW2 照官網照片做、BB 驗收（D128 美術不經使用者），不用等使用者"
+   "next": "【LAWWW-C 11-04 16:3x】LAWWW2 e030cc9af（MODEL_READY）接進開發分支：campus_putong／boya 的 .glb／.json、campus_teach.py、wip/teach_ptboya_1104（README 每棟保留／改掉、v1／v2 Blender 對照圖 ptby_cmp.jpg（沒有學校照片）、sac_*.json、cams.json）；普通＝一樓九開間盲拱＋拱門門廊、東邊綠色玻璃樓梯塔、中央三段階梯山牆；博雅＝南面二樓以上紅磚小方窗、清水混凝土大雨遮（長條橢圓天窗洞）、門廳圓柱木格柵、北面長草斜坡＋木格柵樓梯（鐵門「屋頂花園 整修中」）；same_angle_check --mode campus 照抄格子四個角度 0；導航、DOORS、空橋 Y0、樓層高度不動；nav_buildings_unit ALL PASS；等 CC 遊戲同角度＋campus_glb_integration.py、BB 判；不進 v9.10.20｜【LAWWW-C 11-04 16:2x】LAWWW2-C 16:21：普通、博雅兩顆 GLB 重建好，nav_buildings_unit ALL PASS，same_angle_check --mode campus 四個角度照抄格子 0；在拍最後的對照圖、寫保留／改掉，做完一起交；網格數和舊版一樣 15 個（普通 7→6、博雅 8→9），再壓要貼圖合併（BB P3）｜【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版",
+   "notWaitUser": "使用者 15:1x／15:3x 已說清楚範圍（改現有兩棟外觀，不新增）；LAWWW2 照官網照片做、BB 驗收（D128 美術不經使用者），不用等使用者",
+   "sha": [
+    "e030cc9af"
+   ]
   },
   {
    "id": "OPEN-SRC-2D3D-1104",
