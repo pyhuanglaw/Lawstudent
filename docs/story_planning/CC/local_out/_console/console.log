@@ -1672,3 +1672,18 @@
 [12:45:25] ==== START GG_groups  (probe @ 610c528cb) ====
 [12:45:29] [res] cpu=51% mem=55% (17.8/31.4 GB) chrome_testing=18  START GG_groups
 [12:46:02] [res] cpu=76% mem=48% (16.2/31.4 GB) chrome_testing=18  END GG_perf_fog_A2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       976ea8aa7..5f5f13b73  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:46:08] ==== END   GG_perf_fog_A2  exit=0  165s   ====
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[12:46:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[12:46:13] memory 54% before starting GG_ext_nav3 (2 running)
+[12:46:13] ==== START GG_ext_nav3  (game @ 610c528cb) ====
+[12:46:17] [res] cpu=60% mem=53% (17.0/31.4 GB) chrome_testing=18  START GG_ext_nav3
+[12:47:02] [res] cpu=46% mem=51% (16.6/31.4 GB) chrome_testing=16  END GG_perf_fog_B2
