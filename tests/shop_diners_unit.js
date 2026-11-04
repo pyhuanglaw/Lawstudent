@@ -65,7 +65,7 @@ const stat=(z,h,days,o)=>{ let nOpen=0, sum=0, occ=0, mx=0; for(const d of days|
 // ---------- 2. 人數照時段、打烊沒有人 ----------
 { const bad=[], info=[]; for(const z of MEAL){ const pk=Math.max(stat(z,12.5).occ,stat(z,18.5).occ); for(const h of [15.5,20.25,10.25]){ const s=stat(z,h); if(!s.nOpen) continue; info.push(z+'@'+h+'='+s.occ.toFixed(2)); if(!(s.occ<pk&&s.occ<=0.25)) bad.push(z+'@'+h+' '+s.occ.toFixed(2)+'（尖峰 '+pk.toFixed(2)+'）'); } }
   check('2. 吃飯的店尖峰以外（下午、晚上、早上開門時）比尖峰少、不到兩成五',!bad.length,bad.length?bad.join('、'):info.slice(0,6).join(' ')); }
-{ const cases=[['wz_teishoku','2025-10-14',18.5,'週二公休'],['wz_teishoku','2025-10-15',15.5,'兩段中間'],['wz_teishoku','2025-10-15',21,'打烊'],['wz_lin','2025-10-13',12.5,'週一公休'],['l118_pasta','2025-10-15',12.5,'週三公休'],
+{ const cases=[['wz_teishoku','2025-10-14',18.5,'週二公休'],['wz_teishoku','2025-10-15',15.5,'兩段中間'],['wz_teishoku','2025-10-16',3,'打烊（02:00 以後；2026-11-04 改期望：原本 21:00，小路 AA_655 改 18:00～02:00，21:00 開著）'],['wz_lin','2025-10-13',12.5,'週一公休'],['l118_pasta','2025-10-15',12.5,'週三公休'],
     ['l118_dian','2025-10-15',15.5,'兩段中間'],['l118_cafe2','2025-10-15',19,'18:00 關'],['wz_brunch','2025-10-15',16,'15:00 關'],['wz_teahouse','2025-10-14',15,'週二公休'],['bookstore','2025-10-15',22.5,'書店晚上'],['noodle','2025-10-15',15.5,'麵店下午'],['wz_print','2025-10-19',12.5,'週日公休']];
   const ty=(()=>{ for(let d=1;d<1500;d++) if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return d; return null; })();
   if(ty!=null){ cases.push(['wz_teishoku',ty,18.5,'颱風假']); cases.push(['l118_korea',ty,12.5,'颱風假']); }

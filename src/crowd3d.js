@@ -367,7 +367,7 @@ const CROWD=(function(){
     if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-0.45).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
-        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||''))))); }
+        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')&&!(typeof Z3!=='undefined'&&Z3.wzNoSit&&Z3.wzNoSit(k,L,s))))));   /* Z3.wzNoSit：小路走不進去的五張（zones3d.js WZ_AA_NOSIT）不排路人 */ }
       if(WZ.print&&WZ.print.spawn) add('wz_print','print',[WZ.print.spawn.x,WZ.print.spawn.z],standUnits([[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]])); }
     /* 118 巷九間（L118_SHOP_LAYOUTS，LAWWW2-C）：一一八茶飲（drink）兩張高腳椅＋櫃台前等飲料的一個；慢讀咖啡（cafe）；其他七間吃飯 */
     if(LS) for(const id of Object.keys(LS)){ const L=LS[id]; if(!L||!L.spawn) continue; const kind=id==='tea'?'drink':(id==='cafe2'?'cafe':'meal');

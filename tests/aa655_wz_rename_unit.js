@@ -90,7 +90,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
     check('3 點酒那一句每次來只說一次：同一次再點清酒＝不說；下一次來（再走進店裡）點清酒＝說；烏龍茶（沒有酒精）＝不說',two===0&&three===1&&tea===0,J([two,three,tea]));
     check('3 一起去的人點的（第 3 節）：學姊清酒、芯慈烏龍茶、阿哲生啤酒、其他人可爾必思',J(['heroine_05','classmate_xinci','zhe','heroine_01','classmate_bohan'].map(id=>WZS.withItem('teishoku',id)))===J(['清酒','烏龍茶','生啤酒','可爾必思','可爾必思']));
     EAT.lastTog={id:'heroine_05',key:'巷子裡定食',day:G.day}; const w=WZS.withOrder(GM,'teishoku');
-    check('3 一起吃的是學姊＝「（{她}點了清酒。）」（旁白的寫法：AA_280 那一句，稿沒寫）',typeof w==='string'&&/點了清酒。）$/.test(w),w); }
+    check('3 一起吃的是學姊＝「（學姊點了一合清酒。「一杯就好。」）」（2026-11-04 改期望：原本是共用那一句「（{她}點了清酒。）」；AA_655 第 7 節第 3 點，10020abda）',w==='（學姊點了一合清酒。「一杯就好。」）',w); }
   // ---------- 4 營業時間、門口 ----------
   { const P=PLACES, z='wz_teishoku', MON=nextWd('2026-03-02',1), TUE=nextWd('2026-03-02',2), WED=nextWd('2026-03-02',3);
     const r=[P.isOpen(z,11.5,MON),P.isOpen(z,13,MON),P.isOpen(z,17.99,MON),P.isOpen(z,18,MON),P.isOpen(z,23.5,MON),P.isOpen(z,24+59/60,MON),P.isOpen(z,25+59/60,MON),P.isOpen(z,26,MON),P.isOpen(z,1+59/60,MON),P.isOpen(z,2,MON)];
@@ -133,7 +133,7 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
       const miss=ln.filter(t=>!doc.includes(t));
       check('7 小路、門口、七夕、SQ19、學姊偶遇、黑板、招牌的字都在 AA_655 裡（一字不差）、菜單和稿一樣',!miss.length&&menuOk,J(miss));
       const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')), e=(allow.files||[]).filter(x=>/AA_655_/.test(x.path));
-      check('7 劇情匯入白名單：AA_655@a22e53016 approved、AA（D109）',e.length===1&&e[0].sha==='a22e53016'&&e[0].status==='approved'&&e[0].approvedBy==='AA（D109）',J(e)); } }
+      check('7 劇情匯入白名單：AA_655 approved、AA（D109）；sha 10020abda（第 7 節），歷史 a22e53016（2026-11-04 改期望：原本 sha＝a22e53016）',e.length===1&&e[0].sha==='10020abda'&&(e[0].history||[]).some(h=>h.sha==='a22e53016')&&e[0].status==='approved'&&e[0].approvedBy==='AA（D109）',J(e)); } }
   // ---------- 8 AA_658 ----------
   { const z=rd('src/zones3d.js');
     check('8 招牌（程式的備用）：溫州書屋、帝大紅茶、阿忠鮮果、常在洗衣；公館的「自助洗衣」照舊',z.includes("shop:{type:'books',name:'溫州書屋',")&&z.includes("shop:{type:'tea',name:'帝大紅茶',")&&z.includes("shop:{type:'fruit',name:'阿忠鮮果',")&&z.includes("shop:{type:'laundry',name:'常在洗衣',")&&z.includes("{n:'自助洗衣',"));

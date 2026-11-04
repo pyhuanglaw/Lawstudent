@@ -63,7 +63,7 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
   check('A1 '+L.name+'：正式模型登錄 '+mk+'＝'+X.L.glb+'（檔案在）；舊的 bldg.wz_'+k+'_interior 不動',!!man&&man.url===X.L.glb&&man.type==='building'&&fs.existsSync(path.join(ROOT,X.L.glb))&&(!ASSETS.manifest['bldg.wz_'+k+'_interior']||/second_ai\/wz_\w+_interior\.glb$/.test(ASSETS.manifest['bldg.wz_'+k+'_interior'].url)),J(man&&man.url));
   check('A1 '+L.name+'：LICENSES.md 有一行',rd('LICENSES.md').includes('`'+X.L.glb+'`'));
   const seatIts=its.filter(i=>i.seat&&i.shop===k), tagN={}; for(const q of z.seats) if(q.tag) tagN[q.tag]=(tagN[q.tag]|0)+1;
-  const zN=L.seats.filter(s=>!s.npcOnly).length;   /* 區域的座位表：配置的 npcOnly 拿掉；玩家坐不進去的（zones3d.js WZ_AA_NOSIT）留著、標 npcOnly（偶遇、路人照坐）*/
+  const zN=X.player;   /* 區域的座位表：配置的 npcOnly、玩家（路人）坐不進去的（zones3d.js WZ_AA_NOSIT）都不放 */
   check('A2 '+L.name+'：配置 '+X.n+' 個座位、區域座位 '+zN+' 個、玩家能坐（有按鈕）'+X.player+' 個；tag '+J(X.tags),L.seats.length===X.n&&z.seats.length===zN&&z.seats.filter(q=>!q.npcOnly).length===X.player&&seatIts.length===X.player&&J(Object.keys(X.tags).sort().map(t=>[t,tagN[t]]))===J(Object.keys(X.tags).sort().map(t=>[t,X.tags[t]]))&&Object.keys(tagN).length===Object.keys(X.tags).length,J({n:L.seats.length,z:z.seats.length,btn:seatIts.length,tagN}));
   const sp=[z.spawn.x,z.spawn.z]; check('A3 '+L.name+'：出生點站得住',E.canStand(sp[0],sp[1],0.32,0),J(sp));
   const ex=its.find(i=>i.exit&&i.exit.to==='wenzhou'); const tp=ex&&touchable(ex,sp);
@@ -84,8 +84,8 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
   check('A2 小路：(3.05, 3.45) 是配置唯一的 npcOnly；不在區域的座位、沒有「坐下」按鈕',np.length===1&&np[0].x===3.05&&np[0].z===3.45&&!z.seats.some(q=>Math.hypot(q.x-3.05,q.z-3.45)<0.05)&&!its.some(i=>i.seat&&Math.hypot(i.seat.x-3.05,i.seat.z-3.45)<0.05));
   const bar=its.filter(i=>i.seat&&i.label==='坐吧台'), booth=its.filter(i=>i.seat&&i.label==='坐卡座');
   check('A2 小路：吧台六張「坐吧台」（lift 0.27）',bar.length===6&&bar.every(i=>i.seat.lift===0.27));
-  const NS=[[-0.15,3.45],[1.1,3.45],[1.8,3.45],[-3.6,0.1],[-3.6,0.7]], nsZ=NS.map(p=>z.seats.find(q=>Math.hypot(q.x-p[0],q.z-p[1])<0.01));
-  check('A2 小路：玩家坐不進去的五張（窗邊隔板座靠窗三張、西牆卡座兩張；導航格 0.2 m 量到隔板以後）沒有按鈕、在區域座位表標 npcOnly（卡座照舊 tag corner）',booth.length===0&&nsZ.every(q=>q&&q.npcOnly)&&!its.some(i=>i.seat&&NS.some(p=>Math.hypot(i.seat.x-p[0],i.seat.z-p[1])<0.01))&&nsZ.slice(3).every(q=>q.tag==='corner'),J(nsZ));
+  const NS=[[-0.15,3.45],[1.1,3.45],[1.8,3.45],[-3.6,0.1],[-3.6,0.7]], nsZ=NS.filter(p=>z.seats.some(q=>Math.hypot(q.x-p[0],q.z-p[1])<0.01));
+  check('A2 小路：坐不進去的五張（窗邊隔板座靠窗三張、西牆卡座兩張；導航格 0.2 m 量到隔板以後，隔板到桌邊 0.47 m、卡座到桌邊 0.59 m，人半徑 0.32 站不進去）沒有按鈕、不在區域座位表',booth.length===0&&!nsZ.length&&!its.some(i=>i.seat&&NS.some(p=>Math.hypot(i.seat.x-p[0],i.seat.z-p[1])<0.01)),J(nsZ));
   check('A2 小路：導航格 0.2 m（0.1 m 厚的玻璃隔板擋得住：隔板上每一點都站不住）',z.nav.cell===0.2&&[-0.5,1.45,3.4].every(x=>[2.6,3.0,3.4,3.8].every(zz=>!E.canStand(x,zz,0.05,0))),J(z.nav.cell||z.nav.cs)); }
 { const its=Zs.brunch.its, bar=its.filter(i=>i.seat&&i.label==='坐吧台'); check('A2 SUNNY SIDE：出餐檯兩張「坐吧台」（lift 0.27，tag bar）',bar.length===2&&bar.every(i=>i.seat.lift===0.27)&&Zs.brunch.z.seats.filter(q=>q.tag==='bar').every(q=>q.lift===0.27)); }
 { const z=Zs.teahouse.z, fl=z.seats.filter(q=>q.floor===0.08); check('A2 一盞：茶席六個、緣側兩個、和室四個跪坐（floor 0.08）；水屋旁木凳 (3.05, 3.35) 是椅子',fl.length===12&&z.seats.some(q=>q.x===3.05&&q.z===3.35&&!q.floor),fl.length+''); }

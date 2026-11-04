@@ -129,7 +129,7 @@ check('B 芷若在吧檯：第一次看蛋糕櫃換她那一句（記 CAFE230_PA
   check('B 芷若不在：看蛋糕櫃照時段的旁白、不記 CAFE230_PASTRY_ZR',J(H.said.map(s=>[s.who,s.t]))===J([[null,C.pastry[0]]])&&!G4.flags.CAFE230_PASTRY_ZR);
   /* 店內偶遇：以安「她坐在沙發那一區」→ tag sofa */
   const row=SHOP_ENC.rows.find(r=>r.who==='heroine_01'&&r.spot==='cafe');
-  check('B shop_enc.js：以安 Café 那一列（「她坐在沙發那一區」）tag sofa（匯入工具加的）；其他列沒有 tag',!!row&&row.tag==='sofa'&&/坐在沙發/.test(row.why)&&SHOP_ENC.rows.filter(r=>r.tag).length===1&&/r\['tag'\] = 'sofa'/.test(rd('tools/shop_enc/import_shop_enc.py')));
+  check('B shop_enc.js：以安 Café 那一列（「她坐在沙發那一區」）tag sofa（匯入工具加的）；其他列除了 SUNNY SIDE 阿哲那一列（tag bar，AA_659 第 2 節；2026-11-04 改期望，原本「其他列沒有 tag」）都沒有 tag',!!row&&row.tag==='sofa'&&/坐在沙發/.test(row.why)&&J(SHOP_ENC.rows.filter(r=>r.tag).map(r=>[r.who,r.spot,r.tag]))===J([['heroine_01','cafe','sofa'],['zhe','wz_brunch','bar']])&&/r\['tag'\] = 'sofa'/.test(rd('tools/shop_enc/import_shop_enc.py')));
   const seats=[{x:4.5,z:-3.3},{x:4.5,z:-1.7},{x:4.5,z:0.7},{x:4.5,z:2.3},{x:0,z:0.7},{x:0,z:2.3},{x:-4,z:1.7},{x:-4,z:3.3},{x:-0.85,z:1.5},{x:0.85,z:1.5},{x:-4.5,z:-3.3,bar:true,tag:'bar'},{x:-2.9,z:-3.3,bar:true,tag:'bar'},{x:-1.3,z:-3.3,bar:true,tag:'bar'},{x:0.3,z:-3.3,bar:true,tag:'bar'},
     {x:-5.95,z:2.85,sofa:true,tag:'sofa'},{x:-5.95,z:3.4,sofa:true,tag:'sofa'},{x:-5.95,z:3.95,sofa:true,tag:'sofa'},{x:-6.55,z:-0.55,tag:'booth',late:true}];
   const fakeGM={G:H.fresh('2027-03-13',14.5,'cafe',{}),E:{zone:{seats},npcs:[],interactables:[]}};

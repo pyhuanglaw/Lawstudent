@@ -54,27 +54,36 @@ const PI=Math.PI, PITCH=0.38;
     const sb=L.seats.filter(s=>s.kind==='floor'&&s.z<sh.z).filter(s=>[0,4].some(k=>{ const tgt=new THREE.Vector3(s.x,1.45,s.z), cam=new THREE.Vector3(); E.followCam(tgt,k*PI/4,PITCH,dist,0,cam); return !!crossPart(cam,new THREE.Vector3(s.x,1.0,s.z)); }));
     check('一盞：和室的坐墊坐下，鏡頭在前、在後都看得到人',L.seats.some(s=>s.kind==='floor'&&s.z<sh.z)&&!sb.length,sb.map(s=>'('+s.x+','+s.z+')').join('、')); }
   // ---- 2. 網點透空：配置的材質接上正式模型以後標 seeThrough、patch 過 shader；區域打開 seeThru ----
-  for(const [key,others] of [['teahouse',['wzs_post','wzs_shoji','wzs_black_metal']],['brunch',['wzs_black_metal','wzs_steel','wzs_wood_light']]]){
-    const L=WZ_SHOPS_LAYOUT[key], want=L.seeThru||[]; FAKE={['bldg.wz_'+key+'_interior']:want.concat(others)}; pend=[];
+  /* 2026-11-04 改期望（WZ-SHOPS1-1104／WZ-YIZHAN-1104）：一盞、SUNNY SIDE 換成 AA 的新室內（yizhan.glb、sunnyside.glb；登錄 bldg.wz_<店>_interior_v<版本>）。
+     材質名的前綴換了（wzs_ → yzn_／sns_）：zones3d.js 照去掉前綴的名字比（wzs_bulb＝sns_bulb）；「其他材質」改成新模型裡的名字。
+     一盞的樟樹樹幹（tree_bark_camphor）搬到 LAWWW2 的前院 wz_teahouse_yard.glb（AA_656）：「在正式模型裡」算室內＋前院兩顆。
+     SUNNY SIDE 的吊燈罩沒有自己的材質（混在 sns_vcm）：AA sunnyside_layout 的 seeThruNote「LAWWW2 拍鏡頭遮擋時再定」——這裡只印出來（NOTE），不算 FAIL */
+  const SUF=n=>String(n).replace(/^(wzs|kmc|sns|yzn)_/,'');
+  for(const [key,others] of [['teahouse',['yzn_post','yzn_glass','yzn_vc']],['brunch',['sns_vcm','sns_walnut','sns_wall_cream']]]){
+    const L=WZ_SHOPS_LAYOUT[key], G0=glb(L.glb), YD=L.yard&&L.yard.glb?glb(L.yard.glb).mats:[], have=G0.mats.concat(YD);
+    const mapN=nm=>have.includes(nm)?nm:(have.find(m=>SUF(m)===SUF(nm))||null), pairs=(L.seeThru||[]).map(nm=>[nm,mapN(nm)]), want=pairs.filter(p=>p[1]).map(p=>p[1]), miss=pairs.filter(p=>!p[1]).map(p=>p[0]);
+    if(miss.length) console.log('NOTE '+L.name+'：配置的網點透空 '+miss.join('、')+' 在新模型裡沒有對應的材質（等 LAWWW2 定）');
+    FAKE={['bldg.wz_'+key+'_interior_v'+L.version]:want.concat(others)}; pend=[];
     const z=loadZone('wz_'+key); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
     const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name) mats[o.material.name]=o.material; });
     check(L.name+'：區域打開 seeThru',z.seeThru===true);
     check(L.name+'：'+want.join('、')+' 標了 seeThrough、patch 過 shader',want.length>0&&want.every(nm=>mats[nm]&&mats[nm].userData.seeThrough&&mats[nm].userData._st));
     check(L.name+'：其他材質不透空（'+others.join('、')+'）',others.every(nm=>mats[nm]&&!mats[nm].userData.seeThrough));
-    const G=glb(L.glb); check(L.name+'：配置的網點透空材質都在正式模型裡',want.every(nm=>G.mats.includes(nm)),want.filter(nm=>!G.mats.includes(nm)).join('、')); }
+    check(L.name+'：配置的網點透空材質在正式模型裡（室內'+(YD.length?'＋前院':'')+'；照去掉前綴的名字對）',want.length>0&&want.every(nm=>have.includes(nm))&&(key!=='teahouse'||!miss.length),want.join('、')+(miss.length?'；對不到：'+miss.join('、'):'')); }
   FAKE=null;
   // ---- 3. 正式模型：一盞正面那一排、簷下的柱子、簷口在會淡出的組；吊燈有自己的材質 ----
   { const L=WZ_SHOPS_LAYOUT.teahouse, G=glb(L.glb), Z1=5.0, H=L.h, hw=L.w/2;
     /* 從前院往屋裡看會擋在人前面的地方（房子的寬度裡）：正面那一排 z 5±0.07、簷下的柱子 z 6.15±0.1（高 1～H），簷口 z 6.9（2.3 m 以上）。
        天花板、屋簷下的板是朝下的單面（從上面看不到）；玄關的鞋櫃 0.85 m、院子兩側的竹籬（x ±4.5）不算 */
     const win=p=>Math.abs(p[0])<hw-0.05&&(((Math.abs(p[2]-Z1)<0.07||Math.abs(p[2]-(Z1+1.15))<0.1)&&p[1]>1.0&&p[1]<H-0.05)||(Math.abs(p[2]-(Z1+1.9))<0.05&&p[1]>2.3&&p[1]<H+0.1));
-    const stay=G.nodes.filter(nd=>!nd.trs&&!/^WALL_/.test(nd.name)&&nd.mat!=='wzs_ceiling_boards'&&nd.pos.some(win));   /* 天花板、屋簷下的板（wzs_ceiling_boards）是朝下的單面 */
+    const stay=G.nodes.filter(nd=>!nd.trs&&!/^WALL_/.test(nd.name)&&!/ceiling_boards$/.test(nd.mat)&&nd.pos.some(win));   /* 天花板、屋簷下的板（wzs_ceiling_boards；AA 新室內 yzn_ceiling_boards）是朝下的單面 */
     check('一盞：正面那一排、簷下的柱子、簷口都在會淡出的組（WALL_engawa）',!stay.length,stay.map(nd=>nd.name+'/'+nd.mat).join('、'));
     const eng=G.nodes.filter(nd=>/^WALL_engawa_/.test(nd.name)).map(nd=>nd.mat);
-    check('一盞：WALL_engawa 有柱子、紙拉門、簷口',['wzs_post','wzs_shoji','wzs_ceiling_batten'].every(m=>eng.includes(m)),eng.join('、'));
+    check('一盞：WALL_engawa 有柱子、格子玻璃拉門（2026-11-04 改期望：原本「柱子、紙拉門、簷口」；AA 一盞 v1d 正面是格子玻璃拉門 yzn_glass，簷口和外緣的柱子在 LAWWW2 的前院 GLB〔YARD_EAVE，人在前院才顯示〕）',['yzn_post','yzn_glass'].every(m=>eng.includes(m)),eng.join('、'));
     const tk=L.items.find(i=>i.kind==='tokonoma'), px=tk.x+tk.w/2;
-    const tkp=G.nodes.filter(nd=>!nd.trs&&!/^WALL_/.test(nd.name)&&nd.mat==='wzs_post'&&nd.pos.some(p=>Math.abs(p[0]-px)<0.07&&p[1]>1.5&&p[2]<tk.z-tk.d/2+0.13));
+    const tkp=G.nodes.filter(nd=>!nd.trs&&!/^WALL_/.test(nd.name)&&/post$/.test(nd.mat)&&nd.pos.some(p=>Math.abs(p[0]-px)<0.07&&p[1]>1.5&&p[2]<tk.z-tk.d/2+0.13));
     check('一盞：床柱歸後牆的組',!tkp.length,tkp.map(nd=>nd.name).join('、'));
-    for(const k of ['brunch','teahouse']){ const g=glb(WZ_SHOPS_LAYOUT[k].glb); check(WZ_SHOPS_LAYOUT[k].name+'：吊燈有自己的材質 wzs_pendant',g.mats.includes('wzs_pendant')); } }
+    { const g=glb(WZ_SHOPS_LAYOUT.teahouse.glb); check(WZ_SHOPS_LAYOUT.teahouse.name+'：吊燈有自己的材質 wzs_pendant',g.mats.includes('wzs_pendant')); }
+    { const g=glb(WZ_SHOPS_LAYOUT.brunch.glb); if(!g.mats.some(m=>/pendant/.test(m))) console.log('NOTE SUNNY SIDE：吊燈沒有自己的材質（AA sunnyside v1d 混在 sns_vcm；seeThruNote 等 LAWWW2 拍鏡頭遮擋再定）'); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

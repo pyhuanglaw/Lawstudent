@@ -21,7 +21,8 @@ const ok1=load('src/data/sis_qixi_events.js'), ok2=load('src/sis_qixi3d.js');
 const PATH='docs/story_planning/AA_388_學姊第五批_七夕.md';
 let doc=''; try{ doc=cp.execSync('git show 3a509150:"'+PATH+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc479=''; try{ doc479=cp.execSync('git show 02428913b:"docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc479=''; }   /* AA_479 第 2 點（10-27）：美國版「宿舍門口」→「社區門口」，新句在 AA_479 */
-const inDoc=t=>doc.indexOf(t)>=0||(t==='明天早上九點，我在社區門口等你。這邊週六有市集。'&&doc479.indexOf('社區門口')>=0);
+const A655_7=(()=>{ try{ const s=cp.execFileSync('git',['-C',H.ROOT,'show','10020abda:docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); return s.slice(s.indexOf('## 7.')); }catch(e){ return ''; } })();   /* AA_655 第 7 節（10020abda）：七夕的選項「薑汁燒肉。」改成「烤雞串。」*/
+const inDoc=t=>doc.indexOf(t)>=0||(t==='明天早上九點，我在社區門口等你。這邊週六有市集。'&&doc479.indexOf('社區門口')>=0)||(t==='烤雞串。'&&A655_7.indexOf('改成「烤雞串。」')>=0);
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISQX!=='undefined'?SISQX:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const T=(d,h)=>d*24+h;
@@ -72,13 +73,13 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('1-1. 「好。」＝8/19（三）19:00 溫州街・小路（AA_655；出遊、不算正式校外約會）',!!q&&q.day===H.D('2026-08-19')&&q.h===19&&q.ev==='ev_sis_qixi'&&q.place==='溫州街・小路'&&!q.dateTrip&&q.alarm===true,J(q));
     at('2026-08-19',19); H.G.flags.SIS_CRACK=2; const c0=logN(), r0=relOf(); const L=await play('ev_sis_qixi',[0,0]); const r1=relOf();
     check('1-1. 定食店：靠牆的位子、「這家今天不會客滿。我查過了。」「鯖魚。你呢？」；「跟妳一樣。」→「好。兩份鯖魚。」；研究室的位子；「那我去研究室找妳。」→「七點以後。七點以前我不理人。」；巷口的玫瑰',
-      J(L)===J(L11)&&J(H.opts)===J([['「跟妳一樣。」','「薑汁燒肉。」'],['「那我去研究室找妳。」','「週末呢？」']]),J({L,O:H.opts}));
+      J(L)===J(L11)&&J(H.opts)===J([['「跟妳一樣。」','「烤雞串。」'],['「那我去研究室找妳。」','「週末呢？」']]),J({L,O:H.opts}));   /* 2026-11-04 改期望：第二個選項「薑汁燒肉。」→「烤雞串。」（AA_655 第 7 節，10020abda；小路改成居酒屋）*/
     check('1-1. SIS_QIXI[2026] met；節日 熟悉 +3、自在 +6、她的戀愛 +5、裂縫 -1（2→1）；不進 dateLog',QX(2026)==='met'&&dRel(r0,r1)===VDAY&&H.G.flags.SIS_CRACK===1&&logN()===c0,dRel(r0,r1)+' crack '+H.G.flags.SIS_CRACK+' '+J(H.G.flags.SIS_QIXI));
     check('1-1. 1-1 的地點字幕「溫州街・定食店」（定食店裡面沒有 2D 底圖：深色底）',H.bgs.includes('dark')); }
   { setup('2026-08-17',21.05,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisqx_2026_ask',1); rules(); const q=OUT.get(H.G,'sisqx_2026');
     check('1-1. 「妳會過七夕喔？」→她回「不太會。所以今年試試看。」，照答應排 19:00 定食店（中間那個選項照稿意＝答應）',J(dms().slice(-2))===J(['妳會過七夕喔？','不太會。所以今年試試看。'])&&!!q&&q.h===19,J({d:dms(),q}));
     at('2026-08-19',19); const L=await play('ev_sis_qixi',[1,1]);
-    check('1-1. 「薑汁燒肉。」→「那我吃你一片。」；「週末呢？」→「週末空著。……先跟你說，免得你自己猜。」',L[3]==='那我吃你一片。'&&L[7]==='週末空著。……先跟你說，免得你自己猜。'&&!L.includes('好。兩份鯖魚。')&&!L.includes('七點以後。七點以前我不理人。'),J(L)); }
+    check('1-1. 「烤雞串。」（原本「薑汁燒肉。」，AA_655 第 7 節）→「那我吃你一片。」；「週末呢？」→「週末空著。……先跟你說，免得你自己猜。」',L[3]==='那我吃你一片。'&&L[7]==='週末空著。……先跟你說，免得你自己猜。'&&!L.includes('好。兩份鯖魚。')&&!L.includes('七點以後。七點以前我不理人。'),J(L)); }
   { setup('2026-08-17',21.05,'dorm','FRIEND'); dateSis(); rules(); const r0=relOf(), c0=H.G.flags.SIS_CRACK; PHONE.answer(H.G,'sisqx_2026_ask',2); rules(); const a=dms().slice(-1)[0], q=OUT.get(H.G,'sisqx_2026'); at('2026-08-19',21); rules(); const r1=relOf();
     check('1-1. 「那天不行。」→「好。」、不排出遊、記 declined；關係不扣、8/19 沒有其他訊息',a==='好。'&&!q&&QX(2026)==='declined'&&dRel(r0,r1)===J({})&&H.G.flags.SIS_CRACK===c0&&dms().length===4,J({a,q,f:H.G.flags.SIS_QIXI,d:dms()})); }
   { setup('2026-08-17',21.05,'dorm','FRIEND'); dateSis(); rules(); const r0=relOf(); at('2026-08-19',19.3); rules(); const nr=QX(2026), nq=OUT.get(H.G,'sisqx_2026'), r1=relOf();

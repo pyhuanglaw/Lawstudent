@@ -4,6 +4,7 @@
 //       文具四樣（0 分鐘、不放進背包）；錢不夠灰掉、選了也不扣；不扣時段次數；打工的句子要等 DL-10（沒有 JOBS 時不播，有 JOBS.at 熟練 3 時播）。
 // 修改前：沒有 WZS（第 1 項就失敗）。用法：node tests/dl09_shop_menu_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path');
+const J1=JSON.stringify;
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.location={search:''};
 for(const f of ['src/data/calendar.js','src/wzshops3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|WZS)\s*=/mg,'global.$1='),{filename:f});
@@ -24,13 +25,13 @@ const near=(a,b)=>Math.abs(a-b)<1e-6;
     check('2. SUNNY SIDE 點餐：選單六個品項＋價錢（280／320／290／120／150／140）＋「不用了」',g.L.menus[0].join('|')==='法式吐司　280 元|班尼迪克蛋　320 元|法式火腿起司三明治　290 元|美式　120 元|拿鐵　150 元|伯爵茶　140 元|不用了');
     check('2. 選法式吐司：扣 280、花 40 分鐘、吃完那一句',g.L.spent===280&&near(g.L.adv,40/60)&&g.L.says[0]==='甜的。窗外的騎樓有人在排隊，你吃得很慢。'&&g.L.says.length===1,JSON.stringify(g.L));
     const g2=mkGM(G,[1]); await WZS.interact(g2,{wzShop:'brunch',kind:'cashier'}); const g3=mkGM(G,[3]); await WZS.interact(g3,{wzShop:'brunch',kind:'cashier'});
-    check('2. 班尼迪克蛋 320（醬汁那一句）、美式 120（沒有那一句），各 40 分鐘',g2.L.spent===320&&g3.L.spent===120&&near(g2.L.adv,40/60)&&near(g3.L.adv,40/60)&&g2.L.says[0]==='醬汁很濃。你把最後一口麵包留下來擦盤子。'&&!g3.L.says.length,JSON.stringify(g3.L));
+    check('2. 班尼迪克蛋 320（三分四十秒那一句）、美式 120（窗邊那一句），各 40 分鐘（2026-11-04 改期望：原本班尼迪克蛋「醬汁很濃……」、美式不說；AA_659 第 2 節 21beb9d12 每一樣都有吃完的旁白）',g2.L.spent===320&&g3.L.spent===120&&near(g2.L.adv,40/60)&&near(g3.L.adv,40/60)&&g2.L.says[0]==='蛋黃剛好流到麵包邊。你終於知道，三分四十秒是什麼意思。'&&J1(g3.L.says)===J1(['你坐在窗邊喝完一杯美式。外面的光慢慢移到桌子另一頭。']),JSON.stringify(g3.L));
     const Gp=mk(G.day,10,200); const gp=mkGM(Gp,[1]); await WZS.interact(gp,{wzShop:'brunch',kind:'cashier'});
     check('2. 錢不夠（200 元）：法式吐司、班尼迪克蛋、三明治灰掉（AA_655 的價目），飲料不灰；選了也不扣錢、不花時間',[0,1,2].every(i=>gp.L.menus[0][i].endsWith('〔灰〕'))&&![3,4,5].some(i=>gp.L.menus[0][i].endsWith('〔灰〕'))&&gp.L.spent===0&&gp.L.adv===0&&gp.L.toasts[0]==='錢不夠'); }
-  { const want={2:'蛋是三分四十秒',3:'蛋是三分四十秒',4:'醬是早上現打的',5:'醬是早上現打的',6:'週末，甜一點也沒關係'}; let ok=true, info=[];
-    for(const [w,frag] of Object.entries(want)){ const G=mk(termDay('Y1S1',5,+w),10); const g=mkGM(G); await WZS.interact(g,{wzShop:'brunch',kind:'chalkboard'}); if(!(g.L.says.length===1&&g.L.says[0].includes(frag)&&g.L.adv===0)) ok=false; info.push(w+':'+g.L.says.join('/')); }
+  { const want={2:'今日推薦：班尼迪克蛋。蛋是三分四十秒',3:'今日推薦：班尼迪克蛋。蛋是三分四十秒',4:'今日推薦：法式火腿起司三明治',5:'今日推薦：法式火腿起司三明治',6:'週末，甜一點也沒關係'}, HEAD='（深綠色的菜單板最下面，用粉筆多寫了一行：）'; let ok=true, info=[];   /* 2026-11-04 改期望（AA_659 第 2 節 21beb9d12）：原本一句（週二三半熟蛋吐司、週四五「醬是早上現打的」）；現在先說固定那一句（菜單板），再說當天的推薦（週二三班尼迪克蛋、週四五三明治）*/
+    for(const [w,frag] of Object.entries(want)){ const G=mk(termDay('Y1S1',5,+w),10); const g=mkGM(G); await WZS.interact(g,{wzShop:'brunch',kind:'chalkboard'}); if(!(g.L.says.length===2&&g.L.says[0]===HEAD&&g.L.says[1].includes(frag)&&g.L.adv===0)) ok=false; info.push(w+':'+g.L.says.join('/')); }
     const Gs=mk(termDay('Y1S1',5,7),10); const gs=mkGM(Gs); await WZS.interact(gs,{wzShop:'brunch',kind:'chalkboard'});
-    check('3. 黑板照星期幾（週二三、週四五、週六）、0 分鐘；週日「老闆娘決定」＋小字',ok&&gs.L.says.join('|')==='今日推薦：老闆娘決定。|（下面一行小字：她今天心情很好。）',info.join(' ')+' / '+gs.L.says.join('|')); }
+    check('3. 黑板照星期幾（週二三、週四五、週六）、0 分鐘；週日「老闆娘決定」＋小字（前面都先說菜單板那一句）',ok&&gs.L.says.join('|')==='（深綠色的菜單板最下面，用粉筆多寫了一行：）|今日推薦：老闆娘決定。|（下面一行小字：她今天心情很好。）',info.join(' ')+' / '+gs.L.says.join('|')); }
   // 一盞
   { const G=mk(dayOf('2025-10-15'),14); const g=mkGM(G,[0]); await WZS.interact(g,{wzShop:'teahouse',kind:'tea'});
     check('4. 一盞（10 月）：凍頂烏龍 280、東方美人 330；沒有焙茶、沒有讀書',g.L.menus[0].join('|')==='凍頂烏龍（附一碟茶點）　280 元|東方美人（附一碟茶點）　330 元|不用了'&&!g.L.menus[0].some(t=>/讀書|六法/.test(t)));

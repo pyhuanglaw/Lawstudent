@@ -11,10 +11,10 @@
 //   E. 冰菓室：10 月窗口換成「看」＝（鐵捲門拉著。上面貼了一張紙：「五月見」。）；6 月有芒果冰；5 月、9 月沒有；4/30 關、5/1 開
 //   F. 店員站的位置（story3d.js 的 populate）：兩家店裡照配置的 clerk；溫州街窗口開門時才有人（冰菓室 10 月沒有）
 //   G. 一起吃（AA_329）：內用照問、結尾在店門口分開、吃完（一個人）的旁白不說；外帶不問。H. 吃過的（手機筆記，四家）。
-//   I. 白名單 AA_364@5ae04087（歷史 d56da150、d7708ebe）；明軒「小碗乾麵＋貢丸湯 70」不改、和菜單對得上
+//   I. 白名單 AA_364@5ae04087（歷史 d56da150、d7708ebe）；明軒「小碗乾麵＋貢丸湯」AA_655 第 7 節改 100、和菜單對得上
 //   J.（另一個 Node 行程，--zones）溫州街、兩家店的真正區域：按鈕在對的位置、站得住、從主巷／門口走得到、站在那裡最近的是它；騎樓的「看手搖飲菜單」拿掉
 // 2026-11-04 改期望（WZ-SHOPS1-1104；AA_655 企劃線 a22e53016，使用者 11-04 04:5x 小路 18:00～02:00）：巷子裡定食改成居酒屋「小路」（菜單、店員句、旁白、營業時間 18:00～02:00、門口那一句）、林家的菜單價目照 AA_655 第 5 節；
-//   明軒「小碗乾麵＋貢丸湯 70」那一則 AA_655 沒改、和新價目對不上（乾麵 60＋貢丸湯 40）：只檢查那一則照舊，對不上的報告給 AA。小路的細節在 tests/aa655_wz_rename_unit.js
+//   明軒「小碗乾麵＋貢丸湯」那一則：AA_655 第 7 節（10020abda）改成 100（乾麵 60＋貢丸湯 40）。小路的細節在 tests/aa655_wz_rename_unit.js
 // 修改前：開發分支 11707a19 沒有 WZS.AA364（第 A 項就失敗）；85127021（a3d3845e，第 5 節以前）林家沒有貢丸湯、熟客句不照上次點的、沒有老樣子回答／第一次／吃完的旁白、
 //   白名單版本不同——A、B、C、G、I 有 FAIL。用法：node tests/wz_aa364_shops_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -215,7 +215,7 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   { const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_364_/.test(e.path)), src=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8');
     check('I. 劇情匯入白名單：AA_364@5ae04087（一個版本、approved；歷史 d56da150、d7708ebe）；wzshops3d.js 寫了三個版本',allow.length===1&&allow[0].sha==='5ae04087'&&allow[0].status==='approved'&&['d56da150','d7708ebe'].every(v=>(allow[0].history||[]).some(h=>h.sha===v))&&/AA_364/.test(src)&&/5ae04087/.test(src)&&/d56da150/.test(src)&&/d7708ebe/.test(src),J(allow.map(e=>e.sha+':'+e.status)));
     const row=((STORY.MX_FM1&&STORY.MX_FM1.rows)||[]).find(r=>/林家乾麵/.test(r[0])), price=n=>(A.lin.menu.find(m=>m[0]===n)||[])[1];
-    check('I. 明軒「公館一百元以內」那一則不改（第 5 節第 2 點）：「林家乾麵（溫州街）小碗乾麵＋貢丸湯 70」（AA_655 第 5 節的新價目乾麵 60＋貢丸湯 40＝100，對不上：AA_655 沒改這一則，報告給 AA，這裡只查那一則照舊）',!!row&&row[1]==='小碗乾麵＋貢丸湯'&&row[2]==='70'&&price('乾麵')===60&&price('貢丸湯')===40,J(row)); }
+    check('I. 明軒「公館一百元以內」那一則：「林家乾麵（溫州街）小碗乾麵＋貢丸湯 100」＝乾麵 60＋貢丸湯 40（2026-11-04 改期望：原本 70；AA_655 第 7 節第 2 點，10020abda）',!!row&&row[1]==='小碗乾麵＋貢丸湯'&&row[2]==='100'&&price('乾麵')===60&&price('貢丸湯')===40,J(row)); }
   // ---------- J. 區域（另一個 Node 行程）----------
   { let out='', ok=false; try{ out=cp.execFileSync(process.execPath,[__filename,'--zones'],{encoding:'utf8',timeout:600000}); ok=true; }catch(e){ out=String(e.stdout||'')+String(e.stderr||e.message); }
     process.stdout.write(out); if(!ok&&!/FAIL /.test(out)) check('J. 區域那一段跑完',false,out.slice(-400)); else fails+=(out.match(/^FAIL /mg)||[]).length; }
