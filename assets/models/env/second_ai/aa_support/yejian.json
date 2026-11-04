@@ -1,12 +1,12 @@
 {
  "objects": 24,
  "unique_meshes": 24,
- "tris": 36728,
- "tris_drawn": 36728,
+ "tris": 36652,
+ "tris_drawn": 36652,
  "materials": 18,
  "out": "assets/models/env/second_ai/aa_support/yejian.glb",
  "bytes": 2664156,
  "texres": 512,
- "layout": 1,
- "seats": 15
+ "layout": 2,
+ "seats": 16
 }

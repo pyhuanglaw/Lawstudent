@@ -37,6 +37,23 @@ for ob in list(bpy.data.objects):
 print('lamps', n, flush=True)
 for ob in bpy.data.objects:   # 窗景卡不擋陽光（遊戲裡是背景）
     if 'VIEW' in ob.name and ob.type == 'MESH': ob.visible_shadow = False
+_gb = opt('--gobo', '')   # 窗外樹影（只擋陽光、鏡頭看不到）：--gobo x0,x1,y0,y1,z（遊戲座標，一片直立的板子，法線朝 ±z）；2026-11-04 AA 頁間書屋
+if _gb:
+    gx0, gx1, gy0, gy1, gz = map(float, _gb.split(','))
+    import random as _r; _rr = _r.Random(7); W_, H_ = 512, 512
+    img = bpy.data.images.new('gobo', W_, H_, alpha=True); pix = [1.0, 1.0, 1.0, 0.0] * (W_ * H_)
+    for _ in range(260):   # 一片一片橢圓的葉子影子
+        cx, cy, rx, ry = _rr.uniform(0, W_), _rr.uniform(0, H_), _rr.uniform(8, 26), _rr.uniform(5, 14)
+        for yy in range(max(0, int(cy - ry)), min(H_, int(cy + ry))):
+            for xx in range(max(0, int(cx - rx)), min(W_, int(cx + rx))):
+                if ((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2 <= 1: pix[(yy * W_ + xx) * 4 + 3] = 1.0
+    img.pixels = pix
+    me = bpy.data.meshes.new('gobo'); vs = [g2b(gx0, gy0, gz), g2b(gx1, gy0, gz), g2b(gx1, gy1, gz), g2b(gx0, gy1, gz)]
+    me.from_pydata(vs, [], [(0, 1, 2, 3)]); me.uv_layers.new(); ob_ = bpy.data.objects.new('gobo', me); sc.collection.objects.link(ob_)
+    for i_, uv in enumerate(((0, 0), (1, 0), (1, 1), (0, 1))): me.uv_layers[0].data[i_].uv = uv
+    gmat = bpy.data.materials.new('gobo'); gmat.use_nodes = True; gnt = gmat.node_tree; tx = gnt.nodes.new('ShaderNodeTexImage'); tx.image = img
+    gnt.links.new(tx.outputs['Alpha'], gnt.nodes['Principled BSDF'].inputs['Alpha']); gnt.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.05, 0.08, 0.04, 1)
+    me.materials.append(gmat); ob_.visible_camera = False; ob_.visible_glossy = False; ob_.visible_diffuse = False
 GHIDE = [A[i + 1] for i, x in enumerate(A) if x == '--hide']   # 全部視角都藏（2026-11-03 修：以前每個視角會把它重設回來）
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 os.makedirs(outdir, exist_ok=True)

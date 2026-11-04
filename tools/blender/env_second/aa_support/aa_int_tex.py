@@ -393,6 +393,15 @@ def yej():
         y = y0 + 92 + k * 34; d.text((x0 + 48, y), '・' + zh, font=F(24), fill='#f1ead8'); d.text((x1 - 140, y), p_, font=F(22), fill='#e8c43a')
     d.ellipse([x1 - 90, y1 - 70, x1 - 40, y1 - 30], outline='#f1ead8', width=3); d.line([x1 - 40, y1 - 58, x1 - 28, y1 - 50], fill='#f1ead8', width=3)
     im.save(os.path.join(GEN, 'yej_print.png'))
+    # v2：磨石子（LAWWW2：要有明顯的黑白小點）——512 px＝1.2 m；米灰底＋黑、白、灰、赭的碎石（1～6 px）
+    S = 512; r2 = random.Random(1104); a = np.ones((S, S, 3), np.float32) * np.array(hexc('#c9bfae'), np.float32)
+    a *= (1 + (noise(S, S, 24, 11) - 0.5)[..., None] * 0.08)
+    t = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); dt = ImageDraw.Draw(t)
+    for _ in range(5200):
+        x, y, rr = r2.uniform(0, S), r2.uniform(0, S), r2.choice((1, 1, 1.5, 2, 2, 3, 4, 5))
+        col = r2.choice(['#2b2826', '#3a3633', '#f4f0e8', '#ebe5da', '#8a8178', '#9c6b4a', '#6f6a62', '#d8cfc0'])
+        dt.polygon([(x + rr * math.cos(k * 1.3 + r2.uniform(0, 0.6)), y + rr * math.sin(k * 1.3 + r2.uniform(0, 0.6))) for k in range(5)], fill=col)
+    t.filter(ImageFilter.SMOOTH).save(os.path.join(GEN, 'yej_terrazzo.png'))
 
 
 def spines():
