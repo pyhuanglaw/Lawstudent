@@ -37,7 +37,7 @@ PT = LAY['partition']
 random.seed(646)
 B.reset(texres=1024)
 L.Mesh.rbox.__defaults__ = (0.03, 1)   # 倒角一段就好（木條、門框：三段的倒角在這個距離看不出來，三角形多三倍）
-root = B.group('bike_interior', props={'kind': 'bike_interior', 'w': W, 'd': D, 'h': H, 'layout': 1})
+root = B.group('bike_interior', props={'kind': 'bike_interior', 'w': W, 'd': D, 'h': H, 'layout': 2})
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
 
 
@@ -949,7 +949,7 @@ def fix_instanced_names(path):
 fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT); info['out'] = os.path.relpath(OUT, REPO)
 drawn = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in root.children_recursive if ob.type == 'MESH')
 protos = {p.name: p.n for p in list(WHEELS.values()) + HEL + LOCK + PUMP + TIREP + [STAND, PEND, FIXP]}
-info.update({'shop': 'bike', 'layout': 1, 'drawn_tris': drawn, 'protos': protos,
+info.update({'shop': 'bike', 'layout': 2, 'drawn_tris': drawn, 'protos': protos,
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
 L.write_json(OUT[:-4] + '.json', info)
 print('DRAWN', drawn, 'MATS', len(info['materials']))
