@@ -95,12 +95,13 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     await play(500); await Promise.race([pEnter,turn()]);
     check('1b. 先開始的說話演完、再見面：沒有被蓋掉的對話、劇情層數回到 0、ADV 關了（改前說話那一段停住）',D.busyDepth===0&&!log.orphans.length&&!ADV.active,st()+' 說話：'+talkLine);
     check('1b. 見面照樣演完（done、「和沈以安在公館燒臘。」）、她不再跟著',iv.state==='done'&&metMsg(G)&&an.beh!=='follow',JSON.stringify({st:iv.state,msg:metMsg(G),beh:an.beh})); }
-  /* ---------- 3 day 9：約好 17:30 麵店，進門時阿哲長桌也成立（同一格 autoStart＋EVENTS.tick）---------- */
-  { fresh('2025-09-25',17.6,'noodle'); delete G.flags.zheNoodleDone;
-    const iv=INV.accept(G,'heroine_01','noodle',G.day,17.5,{by:'player'}); const an=GM.spawnCharacter('heroine_01',-3,-0.3,{pose:'sit'}); an.seat=E.zone.seats[0];
+  /* ---------- 3 day 9：約好 18:00 麵店，進門時阿哲長桌也成立（同一格 autoStart＋EVENTS.tick）----------
+     AA_684 第 4 項：阿哲照作息週二、四 18:00～19:30 才在燒臘店（ev_zhe_long_table 看 npcZone）——原本 17:36、約 17:30（麵店日 17:30 起），同一個情境往後挪到 18:06、約 18:00 */
+  { fresh('2025-09-25',18.1,'noodle'); delete G.flags.zheNoodleDone;
+    const iv=INV.accept(G,'heroine_01','noodle',G.day,18,{by:'player'}); const an=GM.spawnCharacter('heroine_01',-3,-0.3,{pose:'sit'}); an.seat=E.zone.seats[0];
     const zhe=GM.spawnCharacter('zhe',1,2.5,{});
     const ev=STORY_EVENTS.find(e=>e.id==='ev_zhe_long_table');
-    check('3 前置：2025-09-25 週四 17:36、約好 17:30 麵店（accepted）、以安在、阿哲長桌（自動事件）這時候成立',G.weekday===4&&iv.state==='accepted'&&!!ev&&EVENTS.check(ev),JSON.stringify({wd:G.weekday,ev:!!ev}));
+    check('3 前置：2025-09-25 週四 18:06、約好 18:00 麵店（accepted）、以安在、阿哲長桌（自動事件；阿哲照作息在燒臘店）這時候成立',G.weekday===4&&iv.state==='accepted'&&!!ev&&EVENTS.check(ev),JSON.stringify({wd:G.weekday,ev:!!ev}));
     frame();   /* 同一格：INV.tick（autoStart）→ EVENTS.tick */
     await play(600);
     check('3. 兩段都演完、沒有哪一段停住（改前同一格一起開演：被蓋掉的那一段停住＝10-23 day 9 的 _stuck「X.run」）',D.busyDepth===0&&!log.orphans.length,st());

@@ -34,7 +34,8 @@ const BGN=(function(){
     kai:'我研究過了，這款有必勝法。', kaiN:'（他輸了。）', kaiAsk:'「要不要找阿凱？」', kaiNo:'「（先玩這一局）」',
     end:['（你們玩了三輪。最後一輪明軒輸了，他說是規則書寫得不清楚。）','（玩到第二局，店長跳上桌子，坐在牌堆上。大家只好等牠走。）','（十一點半，店員來問要不要最後點餐。你們又加了一份薯條。）','（明軒把每一局的分數記在手機裡。他說期末要結算。）'],
     group1:'我開個群組，之後在這裡約。',
-    away:'在日常失速玩桌遊' };
+    away:'在日常失速玩桌遊',
+    yuIn:'（十一點多，門口的風鈴響了一聲。Alison 還穿著戲院的外套，手上抱著一袋爆米花。）' };   /* AA_684 第 5 項（企劃線 0382b8a34，AA-C 定 D109）：Alison 23:00 從戲院趕到的那一晚，她進門的旁白（S.yuSign）*/
   S.natHoliday=d=>{ const h=CALENDAR.holiday&&CALENDAR.holiday(d); if(!h) return false; const k=CALENDAR.dateOf(d).key; if(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[k]) return false; if(CALENDAR.typhoon&&CALENDAR.typhoon(d)) return false; return true; };   /* 同 JOBS.natHoliday（勞基法的休假日；校定的不算）*/
   /* 那一天是不是桌遊夜 */
   S.isNight=function(d){ if(!hasCal()||d==null) return false; const t=CALENDAR.termOf(d); if(!t||!S.TERMS.includes(t.id)||t.exam) return false;
@@ -82,7 +83,7 @@ const BGN=(function(){
      1-2 長桌閒聊（NOODLE_TABLE，含 src/heard3d.js 加進來的「別人說起她」AA_503～505）搬到桌遊夜：玩家有去的那一次，場景演完、散場以前照原本的順序演一則——
        挑法同 story3d.js 的 S.ndlTalkPick：一年一組（STORY.ndlTalkGroup）、照 ndlTalkN 輪到第幾則（舊存檔記下的照讀、接著輪）、once／pri、那一則的條件（STORY.ndlTalkIf）、
        about＝她本人在旁邊就不說；只有在桌遊團群組的玩家才有；在場＝那一晚在桌遊夜的人（S.here；Alison 只有 S.yuLate 那一晚），旁白沒有點名的那幾則＝至少一位認識的長桌常客在；
-       句子裡有燒臘店的東西換不了的（noodle_table.js 標 bgn:false）跳過。在場的人熟悉 +1（SOCIAL 的 classmate），同燒臘店那一套。
+       句子裡有燒臘店的東西換不了的（noodle_table.js 標 bgn:false）跳過——AA_684 第 11 項那 10 則已經刪掉、補了四則桌遊夜版（bgn:false 照認，之後再有換不了的照樣標）。在場的人熟悉 +1（SOCIAL 的 classmate），同燒臘店那一套。
      1-3 ev_yu_sign_seat（events.js，「Alison 每次都坐阿哲旁邊。」）：Alison 23:00 趕到的那一次桌遊夜，接在場景後面演（2D，不等 3D）；條件照事件（認識 Alison、大一下第 13～15 週、只一次），
        記 yu2SeatDay（第三個徵兆 ev_yu_sign_question_* 照舊讀）、記成演過。 */
   const REG=['zhe','yu','classmate_bohan','classmate_xinci'];   /* 長桌常客（story3d.js NDL_REGULARS）*/
@@ -104,7 +105,10 @@ const BGN=(function(){
     if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(p.e.dialogue||[],{id:'bgn_table_'+p.k+'_'+(p.i+1)});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here){ try{ SOCIAL.activity(id,'classmate'); }catch(e){} }
     return true; };
-  S.yuSign=async function(GM){ const G=GM.G; if(!S.yuLate(G.day)||!pres(G,'yu')||typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return false;
+  /* AA_684 第 5 項：那一晚 Alison 進門先一句旁白（L.yuIn）——她真的有來（S.yuLate、那一天人在）、玩家認識她（旁白寫她的名字）就演，徵兆已經演過（舊存檔）也一樣；接著才是「Alison 每次都坐阿哲旁邊。」 */
+  S.yuSign=async function(GM){ const G=GM.G; if(!S.yuLate(G.day)||!pres(G,'yu')) return false;
+    if(knows('yu',G)&&GM.say) await GM.say(null,L.yuIn);
+    if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return false;
     const ev=STORY_EVENTS.find(e=>e&&e.id==='ev_yu_sign_seat'); if(!ev) return false; let ok=false; try{ ok=!!EVENTS.check(ev,{chain:true}); }catch(e){ ok=false; } if(!ok) return false;
     if(typeof ADV!=='undefined'&&ADV.preload) ADV.preload(ev.participants||[]);
     if(EVENTS.runLines) await EVENTS.runLines(ev.dialogue||[],ev); if(EVENTS.applyConsequences) EVENTS.applyConsequences(ev.consequences);

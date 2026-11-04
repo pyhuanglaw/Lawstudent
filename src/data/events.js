@@ -696,7 +696,8 @@ const STORY_EVENTS=[
     consequences:{stamp:['zheNoodleInvDay']} },
   { id:'ev_zhe_long_table_out', title:'第一次併桌', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'blur', hours:1.5,
     dialogue:[ {scene:'公館燒臘',bg:'noodle_table'} ].concat(ZHE_FIRST_TABLE) },   /* 群組照約的那天 21:00 建（story3d.js phoneRules 設 noodleTableDay）*/
-  { id:'ev_zhe_long_table', title:'第一次併桌', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[1,2,3,4,5], ndlDay:true, time:[17.5,20.5], once:true, background:'blur',
+  /* AA_684 第 4 項（企劃線 0382b8a34，AA-C 定 D109）：自己走進燒臘店的那一條——原本看麵店日（ndlDay），阿哲的麵店日拿掉（AA_675 1-2）以後演不到；改成看阿哲照作息在燒臘店（npcZone：週二、四 18:00～19:30，characters.js），台詞照舊 */
+  { id:'ev_zhe_long_table', title:'第一次併桌', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, term:['Y1S1'], weekday:[1,2,3,4,5], npcZone:'zhe', time:[17.5,20.5], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S1',STORY.week1Start&&STORY.week1Start(G)?2:4,4)&&!(G.events&&G.events.done&&G.events.done.ev_zhe_long_table_out)&&!(G.flags.ZHE_NOODLE_INV==='yes'&&G.day===G.flags.zheNoodleInvDay)},   /* A13（AA_195 4-7）的日子；約好當天晚上的那一頓由出遊演 */
     dialogue:ZHE_FIRST_TABLE.slice() },   /* AA_623 第 2 節：這一頓不再加群組（原本 after 記 noodleTableDay），只留著認識 Alison（AA_606 3-3）*/   /* 沒被約過的（那天沒上民總）：這一場才建群組；約過的已經在約的那天 21:00 建了，不改日子 */
   /* 麵店團群組的補救（AA_496 第 9 節第 3 點，NPC-STORY-1028）：錯過哲 1 的人（ZHE_GROUP_LATE），大一下第 2 週起第一次在麵店遇到阿哲（同哲 1：麵店、阿哲在旁邊 6 m 內），
@@ -1917,7 +1918,7 @@ const STORY_EVENTS=[
      「徵兆保證觸發」（AA_40 要開發組評估）的做法：
        ① 傅鐘的早餐：Alison 早上坐在傅鐘旁邊的長椅（她的作息：平日 08:20～09:05，AA_156 第 4 節），走到她附近就演（auto＋near，不用特地找她說話）；
        ② 桌遊夜：Alison 23:00 從戲院趕到的那一次桌遊夜，場景後面一句旁白（AA_675 1-3；原本麵店日走進麵店、麵店團才有）；
-       ③ 最後一個（Alison 問祐廷）：吉他社的玩家在社課結束後（afterActivity），其他玩家在麵店散場後走到騎樓（公館，今天有在麵店）；
+       ③ 最後一個（Alison 問祐廷）：吉他社的玩家在社課結束後（afterActivity），其他玩家在麵店散場後走到騎樓（公館，今天有在麵店；AA_684 第 4 項：今天在燒臘店的時候阿哲照作息在店裡＝週二、四 18:00～19:30）；
           要先看過 ① 或 ② 其中一個——所以看到 ③ 的玩家一定看過兩個以上；麵店團的玩家同一個晚上 ②＋③ 就湊齊。整個存檔只問一次（YU2_PICK）*/
   { id:'ev_yu_sign_soymilk', title:'剛好路過', participants:['yu','zhe'], location:'campus', trigger:'auto', near:{npc:'yu',r:4}, term:['Y1S2'], weeks:[13,14,15], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
     prereq:{flags:['met_yu']},
@@ -1933,7 +1934,7 @@ const STORY_EVENTS=[
     prereq:{flags:['met_yu','CLUB_club_guitar'],custom:G=>!G.flags.YU2_PICK&&(G.flags.yu2SoymilkDay!=null||G.flags.yu2SeatDay!=null)},
     dialogue:YU2_QUESTION },
   { id:'ev_yu_sign_question_arcade', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'gongguan', trigger:'enter', term:['Y1S2'], weeks:[13,14,15], weekday:[2,4], time:[17.5,22], once:true, background:'blur',
-    prereq:{flags:['met_yu'],custom:G=>{ const F=G.flags; return !F.YU2_PICK&&!F.CLUB_club_guitar&&(F.yu2SoymilkDay!=null||F.yu2SeatDay!=null)&&Array.isArray(F.ndlDays)&&F.ndlDays.includes(G.day); }},
+    prereq:{flags:['met_yu'],custom:G=>{ const F=G.flags; return !F.YU2_PICK&&!F.CLUB_club_guitar&&(F.yu2SoymilkDay!=null||F.yu2SeatDay!=null)&&F.zheNdlDay===G.day; }},   /* AA_684 第 4 項：今天有在燒臘店、那時候阿哲照作息在店裡（story3d.js 記 zheNdlDay，STORY.zheAtNoodle）；原本看麵店日的紀錄 ndlDays（只有麵店團的麵店日才記），阿哲的麵店日拿掉以後演不到 */
     dialogue:YU2_Q(true) },
   /* 以安新 7 前半「和 Alison 吵架」（交接包 v2 C14；草稿第 3 節、AA_113 新 7）：2026-10-17 改到大一下第 12 週週四的公法讀書會（萬才館研討室；AA_238 5-3：阿哲換柏翰計時，CLS.clubEvent 挑）。原本是第 11 週週二晚上的麵店（麵店日）。台詞、選項照原文；好感數字原文沒有，不加。
      記 AN_YU_ARGUMENT（選了哪一個；之後新 8 可以用）。不在場的玩家：那個週四 22:00 Alison 在麵店團群組連發三則（AA_238 5-4；story3d.js phoneRules，記「聽說」）。
@@ -3555,7 +3556,7 @@ const STORY_EVENTS=[
       {label:'s'},{speaker:'zhe',expression:'surprised',text:'你要陪我念？'},{speaker:null,text:'他停了一下。'},{speaker:'zhe',expression:'smile',text:'……好。我請。'},{goto:'end'},
       {label:'f'},{speaker:'zhe',expression:'neutral',text:'嗯。我知道。'},{speaker:null,text:'他又投了一球。'},{speaker:'zhe',expression:'neutral',text:'……你講話跟我爸一樣。'},
       {label:'end'} ] },
-  { id:'ev_zhe_court_skip', title:'上次沒事啦', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], once:true, npcPresent:'zhe', background:'blur',
+  { id:'ev_zhe_court_skip', title:'上次沒事啦', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], once:true, npcZone:'zhe', npcPresent:'zhe', background:'blur',   /* AA_684 第 4 項：阿哲照作息在燒臘店（npcZone；週二、四 18:00～19:30）——麵店日拿掉以後他不在店裡，演不到 */
     prereq:{custom:G=>{ const F=G.flags||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-11-17'):null; return d!=null&&G.day>=d&&!!F.ZHE2_ASKED&&!F.ZHE2; }},
     dialogue:[ {speaker:'zhe',expression:'smile',text:'上次沒事啦。'},{set:{ZHE2:'none'}} ] },
   /* D9 以安新 10「家教學生的家（一）」（交接包 v3 第 3b 節、AA_177 4-8；BB 法律查核過：哪一種補助不說；救濟程序：訴願（BB_232；AA_587 第 10 節新10、第 57 列 S3「媽媽生病」））：12/1（二）麵店，麵店團的時段 17:30～20:30；
@@ -4161,7 +4162,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>!(G.flags.BOHAN_GROUP_N|0)},speaker:null,text:'（四個人，一張考古題。柏翰按下手機的計時器。）'},   /* AB65-3（AA_211 附錄 A 第 3 節第 7 點）：第一次補一句旁白 */
       {if:{custom:G=>(G.flags.BOHAN_GROUP_N|0)===2},speaker:null,text:'（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）'} ],   /* AA_546 1-3 */
     after:G=>{ G.flags.BOHAN_GROUP_N=(G.flags.BOHAN_GROUP_N|0)+1; } },
-  { id:'ev_bohan_group_heard', title:'', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[7,8], once:true, background:'blur', near:{npc:'zhe',r:4},
+  { id:'ev_bohan_group_heard', title:'', participants:['zhe'], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[7,8], once:true, background:'blur', near:{npc:'zhe',r:4}, npcZone:'zhe',   /* AA_684 第 4 項：阿哲照作息在燒臘店（npcZone；週二、四 18:00～19:30）*/
     prereq:{custom:G=>G.flags.BOHAN_GROUP!=='yes'&&G.flags.BOHAN_GROUP!=='slow'},   /* 沒去的玩家（AA_546 1-3；slow 算加入，84b6c298f）*/
     dialogue:[ {speaker:'zhe',expression:'neutral',text:'柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。'} ] },
   /* 以安新 8 讀書會的規則太多（交接包 v3 3b，AA；後半照 AA_140 G13、AA_177 撞期 #2）：大二上第 7 週週四 20:00 的公法讀書會（萬才館研討室，classes3d.js clubEvent 先演這件），加入過的玩家在場（PUBLIC_LAW_GROUP）。
