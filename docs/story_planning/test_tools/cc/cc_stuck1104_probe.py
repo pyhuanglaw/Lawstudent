@@ -45,7 +45,7 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, D=GAME.D||{}, p=P.obj.posit
     dlg:!!D.active, depth:D.busyDepth|0, who:(D.busyWho||[]).slice(-4), adv:!!(typeof ADV!=='undefined'&&ADV.active), cam:E.cam&&E.cam.mode||null, frozen:!!P.frozen, busy:!!P.busy, pose:P.pose||null, paused:!!E.paused,
     name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60),
     choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim().slice(0,40)),
-    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():''}; })()"""
+    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, nch:document.querySelectorAll('#choices button').length}; })()"""
 
 
 async def boot(pg, cdp, save):
@@ -81,26 +81,31 @@ async def unstuck_check(pg, cdp, tag, err0):
     return ok, res
 
 
-async def talk(pg, cdp, save, n, pick, errs):
-    tag = '%s_%d' % (n['id'] or n['name'] or 'npc', pick)
+async def talk(pg, cdp, save, n, path, errs):
+    tag = '%s_%s' % (n['id'] or n['name'] or 'npc', '-'.join(str(x + 1) for x in path) or '1')
     ok, s = await boot(pg, cdp, save)
     if not ok: check('[%s] 讀檔（繼續）' % tag, False, J(s)); return None
     reached = await L.go_to(pg, cdp, Runner(), n['x'], n['z'], 1.2, n['name'] or str(n['id']), lv=n['lv'])
     await pg.wait_for_timeout(800); s = await pg.evaluate(ST)
     info = {'reached': reached, 'interact': s['interact']}
     if not s['interact']:
-        print('  [%s] 走到旁邊沒有互動按鈕：%s' % (tag, J(info)), flush=True); return {'interact': '', 'n_opts': 0}
+        print('  [%s] 走到旁邊沒有互動按鈕：%s' % (tag, J(info)), flush=True); return {'interact': '', 'menus': []}
     e0 = len(errs); await L.tap(pg, cdp, '#interact')
-    first_opts = None; t0 = time.time(); last = None; still = time.time()
+    menus = []; t0 = time.time(); last = None; still = time.time()
     while time.time() - t0 < 240:
         s = await pg.evaluate(ST)
         sig = (s['text'], tuple(s['choices']))
         if sig != last: last = sig; still = time.time()
         if time.time() - still > 15 and (s['dlg'] or s['choices'] or s['depth']):
-            break   # 對話停在同一處超過 15 秒：交給 unstuck_check 判
+            # 停在同一處 15 秒：④ 點「下一句」／選項有沒有反應
+            b4 = await pg.evaluate(ST)
+            await L.tap(pg, cdp, '#choices button:nth-child(1)' if s['choices'] else '#dlg'); await pg.wait_for_timeout(1500)
+            af = await pg.evaluate(ST)
+            print('  [%s] 卡在同一處 15 秒：①字幕／選單 %s ③busy=%s running=%s depth=%s adv=%s 按鈕 %s ④點了以後 %s' % (tag, J([b4['name'], b4['text'], b4['choices']]), b4['busy'], b4['running'], b4['depth'], b4['adv'], b4['nch'], '有反應' if (af['text'], af['choices']) != (b4['text'], b4['choices']) else '沒反應'), flush=True)
+            if (af['text'], af['choices']) != (b4['text'], b4['choices']): still = time.time(); continue
+            break
         if s['choices']:
-            if first_opts is None: first_opts = s['choices']; k = min(pick, len(s['choices']) - 1)
-            else: k = 0
+            lvl = len(menus); menus.append(s['choices']); k = min(path[lvl], len(s['choices']) - 1) if lvl < len(path) else 0
             print('  [%s] 選單 %s → %s' % (tag, J(s['choices']), s['choices'][k]), flush=True)
             await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(1200); continue
         if s['dlg']:
@@ -108,8 +113,8 @@ async def talk(pg, cdp, save, n, pick, errs):
         if not s['adv'] and s['depth'] == 0: break
         await pg.wait_for_timeout(600)
     ok, res = await unstuck_check(pg, cdp, tag, errs[e0:])
-    check('[%s] 和「%s」說話（第一個選單選第 %d 項）以後沒有卡住' % (tag, n['name'], pick + 1), ok, J({k: res[k] for k in ('moved', 'time_flows', 'phone_open')}) + ' ' + J({k: res['state'][k] for k in ('zone', 'dlg', 'depth', 'adv', 'frozen', 'cam', 'pose')}))
-    return {'interact': info['interact'], 'n_opts': len(first_opts or [])}
+    check('[%s] 和「%s」說話（選項路徑 %s）以後沒有卡住' % (tag, n['name'], J(menus and [m[min(path[i], len(m) - 1)] if i < len(path) else m[0] for i, m in enumerate(menus)])), ok, J({k: res[k] for k in ('moved', 'time_flows', 'phone_open')}) + ' ' + J({k: res['state'][k] for k in ('zone', 'dlg', 'depth', 'adv', 'frozen', 'cam', 'pose')}))
+    return {'interact': info['interact'], 'menus': menus}
 
 
 class Runner:
@@ -133,13 +138,23 @@ async def main():
         ok0, r0 = await unstuck_check(pg, cdp, 'after_load', list(errs))
         check('讀檔後（還沒找人說話）可以玩：搖桿、時間、手機', ok0, J({k: r0[k] for k in ('moved', 'time_flows', 'phone_open')}))
         todo = [n for n in npcs if not ONLY or (n['id'] in ONLY)]
-        todo.sort(key=lambda n: (n['crowd'] is not None, n['name'] or ''))   # 有名字的角色先、路人後
+        todo.sort(key=lambda n: (n['id'] != 'heroine_02', n['crowd'] is not None, n['name'] or ''))   # BB 00:45：LAWWW 從存檔推出卡住的是芷若（ZR_MEDIA_TALK）→ 先跑她；有名字的角色先、路人後
+        MAXRUN = int(os.environ.get('MAXRUN', '15'))
         for n in todo:
             print('== %s（%s）(%s,%s) pose=%s' % (n['name'], n['id'], n['x'], n['z'], n['pose']), flush=True)
-            r = await talk(pg, cdp, save, n, 0, errs)
-            if r and r['n_opts'] > 1:
-                for k in range(1, min(r['n_opts'], 6)):
-                    await talk(pg, cdp, save, n, k, errs)
+            queue = [[]]; seen = set(); runs = 0
+            while queue and runs < MAXRUN:
+                path = queue.pop(0); runs += 1
+                r = await talk(pg, cdp, save, n, path, errs)
+                if not r: continue
+                for lvl, opts in enumerate(r['menus'][:3]):   # 每一層沒試過的選項排進去（前面照這次的路徑）
+                    pre = [path[i] if i < len(path) else 0 for i in range(lvl)]
+                    for k in range(len(opts)):
+                        np_ = tuple(pre + [k])
+                        if np_ not in seen and list(np_) != [path[i] if i < len(path) else 0 for i in range(lvl + 1)]:
+                            seen.add(np_); queue.append(list(np_))
+                    seen.add(tuple(pre + [path[lvl] if lvl < len(path) else 0]))
+            print('== %s 跑了 %d 次（上限 %d，還有 %d 條沒試）' % (n['name'], runs, MAXRUN, len(queue)), flush=True)
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:8])), flush=True)

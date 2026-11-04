@@ -20,7 +20,8 @@
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
-STUCK_1104_dev  | 140cee01f | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+STUCK_1104_dev  | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+PE644b | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # ===== CC 23:0x 順序（BB 22:59）：YT3FM 四支 → 體育課在館裡（PE）、大地圖直接過去（MAP）→ N20 其他 → YT3 → ART；店面渲染最後（等 LAWWW2 的規則）=====
 # （PE_fix 4ce25dc1d 要 PASS、PE_ctl c6814325c（修正前）A 要 FAIL；MAP_fix f157d0ff6 要 PASS、MAP_ctl bf6dbda44（還有「帶我去」）① 要 FAIL；BB 23:0x 改條件）
 YT3FM_new  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
