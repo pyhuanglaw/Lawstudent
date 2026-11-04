@@ -96,7 +96,7 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
     const b=go(1);
     check('G1-1 回「我自己搭機捷。」：媽媽「那我五點起來煮早餐」→ 姊姊兩則、爸爸「？」',!!b.out&&J(tx(b.out))===J(['我自己搭機捷。','那我五點起來煮早餐','記得帶轉接頭','……不用 美國插座跟我們一樣 我剛查了','？']),J(b.out&&tx(b.out)));
     go(null); runAt('2028-07-27',23); const s0=byTag('aa660_us_flight_sis').length; runAt('2028-07-27',23.1); const s1=byTag('aa660_us_flight_sis');
-    check('G1-1 兩個小時沒回：23:00 那一刻還可以回、還不傳；過了 23:00（回不了了）照樣傳姊姊兩則、爸爸「？」（23:00 剛過）',s0===0&&J(tx(s1))===J(['記得帶轉接頭','……不用 美國插座跟我們一樣 我剛查了','？'])&&s1.every(m=>m.day===D('2028-07-27')&&m.h>=23&&m.h<23.3)&&PHONE.answer(H.G,'aa660_us_flight',0)==null,J(s1.map(m=>[m.text,m.h])));
+    check('G1-1 兩個小時沒回：23:00 那一刻還可以回、還不傳；過了 23:00（回不了了）照樣傳姊姊兩則、爸爸「？」（23:00 剛過；quiet＝快轉不停，同寒暑假週四爸爸的「？」）',s0===0&&J(tx(s1))===J(['記得帶轉接頭','……不用 美國插座跟我們一樣 我剛查了','？'])&&s1.every(m=>m.day===D('2028-07-27')&&m.h>=23&&m.h<23.3&&m.quiet===true)&&PHONE.answer(H.G,'aa660_us_flight',0)==null,J(s1.map(m=>[m.text,m.h])));
     const nope=[]; for(const fl of [TW0,JP0,{}]){ fresh('2028-07-27',20.5,'dorm',fl); runAt('2028-07-27',21.5); if(byTag('aa660_us_flight').length) nope.push(J(fl)); }
     fresh('2028-07-29',10,'dorm',US0); runAt('2028-07-29',10.5); const late=byTag('aa660_us_flight').length;
     check('G1-1 臺灣路線、日本路線、還沒定都沒有；舊存檔讀進來已經是 7/29（過了一天以上）不補',!nope.length&&late===0,J({nope,late})); }

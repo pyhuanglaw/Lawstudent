@@ -2,7 +2,8 @@
    任務 VAC-GAP-ROUTES → AA660-VAC-GAP-1104；第①級，AA 定稿 D109；D99 第二、三項）=====
    台詞照稿第 2 節一字不改（S.L）；接線照第 3 節：條件一律看 STORY.routeAbroadRoute（臺灣路線、還沒定都不出現）。
    G1 美國路線出發前一週（7/25 退宿以後住家裡，8/2 出發）：
-     G1-1 7/27（四）21:00 家人群組：媽媽問幾點的飛機（兩個回法，媽媽各回）→ 姊姊兩則、爸爸「？」接在回覆後面；兩個小時沒回（23:00）照樣傳那三則（同 home3d.js 週四那一則「兩小時沒回，爸爸傳「？」」）。
+     G1-1 7/27（四）21:00 家人群組：媽媽問幾點的飛機（兩個回法，媽媽各回；第一個回法照 090981ebe 的更正「早上九點半。」）→ 姊姊兩則、爸爸「？」接在回覆後面；
+          兩個小時沒回（過了 23:00）照樣傳那三則、quiet（同 home3d.js 寒暑假週四那一則「兩小時沒回，爸爸傳「？」」）。
      G1-2 7/29（六）摘要日：holff3d.js 的 HOLFF.SUMS（route:'US'；快轉、睡覺停在 18:30，日期卡下面那一行）。
      G1-3 7/30（日）21:00 桌遊團群組（noodle_team）＋7/31（一）19:00 出遊「餞行」（公館燒臘，ev_aa660_us_farewell）：
           到場的人＝那天在臺北（STORY.presence）而且認識的（STORY.knows）：Alison、明軒、芯慈；不在的不出現（她的台詞、提到她的旁白都不演）。
@@ -78,7 +79,7 @@ const AA660=(function(){
       '2028-08-29':'（晚上的溫州街有一點涼了。你走到巷口買了一杯冰的，站在路燈下面喝完。）'} };   /* G6 */
 
   /* ---------------- 日子 ---------------- */
-  S.K={flight:'2028-07-27',sum729:'2028-07-29',grp:'2028-07-30',farewell:'2028-07-31',eve:'2028-08-01',photo:'2028-08-05',usRet:'2028-12-23',jpRet:'2028-08-05'};
+  S.K={flight:'2028-07-27',grp:'2028-07-30',farewell:'2028-07-31',eve:'2028-08-01',photo:'2028-08-05',usRet:'2028-12-23',jpRet:'2028-08-05'};   /* 摘要日的日子在下面 S.SUMS、S.SCH */
   const D=k=>DK(S.K[k]);
   S.G21_ON=false;   /* G2-1：見檔頭（等 AA 確認；true＝照稿發）*/
   S.LAND_US=5+40/60;   /* 美國路線 12/23 落地（exchange3d.js EXCH.returnHome：travelOvernight 到 05:40）*/
@@ -100,8 +101,8 @@ const AA660=(function(){
       { const d=D('flight'), tag='aa660_us_flight', X=S.L.g11;
         if(d!=null&&!F.US_DEPARTED&&now>=T(d,21)&&G.day<=d+1&&!sent(G,tag)){ joinHome(G); const M=X.ask.map(fam);
           M[M.length-1].ask={id:tag,until:T(d,23),opts:X.opts.map(o=>({t:o.t,say:o.say.concat(X.after).map(fam)}))}; P.at(G,d,21,M,tag); }
-        const m=P.byAsk?P.byAsk(G,tag):null, t2=tag+'_sis';   /* 兩個小時沒回（過了 23:00、回不了了）：照樣傳姊姊、爸爸那三則，時間寫 23:00 */
-        if(d!=null&&m&&m.ans==null&&now>T(d,23)+1e-6&&G.day<=d+1&&!sent(G,t2)) P.at(G,d,23,X.after.map(fam),t2); }
+        const m=P.byAsk?P.byAsk(G,tag):null, t2=tag+'_sis';   /* 兩個小時沒回（過了 23:00、回不了了）：照樣傳姊姊、爸爸那三則，時間寫 23:00；quiet＝收進手機、快轉不停（同 home3d.js 寒暑假週四那一則爸爸的「？」）*/
+        if(d!=null&&m&&m.ans==null&&now>T(d,23)+1e-6&&G.day<=d+1&&!sent(G,t2)) P.at(G,d,23,X.after.map(x=>Object.assign(fam(x),{quiet:true})),t2); }
       /* G1-3 7/30 21:00 群組 → 7/31 19:00 出遊（群組那幾則也只在餞行還來得及的時候傳：舊存檔過了 7/31 19:45 才讀進來＝不補）*/
       { const d=D('grp'), d31=D('farewell'), tag='aa660_us_farewell_grp', Q=S.FAREWELL, open=d31!=null&&now<T(d31,Q.h)+Q.late;
         if(d!=null&&open&&!F.US_DEPARTED&&now>=T(d,21)&&inGrp(G,'noodle_team')&&!sent(G,tag)){ const M=S.farewellGrp(G); if(M) P.at(G,d,21,M,tag); }
