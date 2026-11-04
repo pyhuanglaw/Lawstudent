@@ -849,3 +849,11 @@
 [09:13:10] ==== START HOT_p0  (game @ fd8d447d2) ====
 [09:13:13] [res] cpu=56% mem=59% (18.5/31.4 GB) chrome_testing=18  START HOT_p0
 [09:14:22] [res] cpu=27% mem=55% (17.4/31.4 GB) chrome_testing=20  END HOT_deploy
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d31c2847a..455cdf6a3  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:14:27] ==== END   HOT_deploy  exit=0  209s   ====
+[09:14:31] memory 55% before starting HOT_smoke (2 running)
+[09:14:31] ==== START HOT_smoke  (game @ fd8d447d2) ====
+[09:14:35] [res] cpu=51% mem=55% (17.5/31.4 GB) chrome_testing=20  START HOT_smoke
+[09:16:07] [res] cpu=40% mem=54% (17.5/31.4 GB) chrome_testing=19  END HOT_p0
