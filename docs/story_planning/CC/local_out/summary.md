@@ -1206,3 +1206,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       autoretry: final FAIL  class GAME_BUG/assert-game  exit2 1
 - 2026-11-04T22:27:07  V20_reach_wz  sha=322cd967db8188ae8c81fe3de473d0b5b7ad871c  exit=0  79s    統計：1 個區域、35 個互動點、0 個劇情走路目的地、10 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V20_reach_wz] | [gpu_wrap 40.0s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 40.1s] BROWSER DISCONNECTED
+- 2026-11-04T22:29:14  WZ4_komichi_r2  sha=322cd967db8188ae8c81fe3de473d0b5b7ad871c  exit=0  313s    PASS [1854] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []} / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 2.0s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [WZ4_komichi_r2] | [gpu_wrap 226.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 226.6s] BROWSER DISCONNECTED
