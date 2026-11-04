@@ -83,8 +83,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const m=VAC_DATA.MSGS.find(x=>x.tag==='va11_exam_yt'); check('4-4. va11_exam_yt：6/18 18:00（筆試考完那天傍晚）',!!m&&m.day==='2026-06-18'&&m.h===18,J(m&&[m.day,m.h]));
     fresh(D('2026-06-18'),17,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(17,18.2); const got=PHONE.sent(G,'va11_exam_yt');
     const pool=x=>TERMEND_LINES.POOL.Y1S2.heroine_03.map(f=>typeof f==='function'?f(x):f).filter(v=>v!=null);
-    check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績單七月三號才寄。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績單七月三號才寄。']),J([txt('p:heroine_03'),pool(G)]));
-    fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。']),J(pool(G))); }
+    check('4-4. 交往中 6/18 18:00 收到「考完了」那幾則；期末飯她只說「成績七月三號才查得到。」',got&&txt('p:heroine_03')[0]==='考完了'&&J(pool(G))===J(['成績七月三號才查得到。']),J([txt('p:heroine_03'),pool(G)]));
+    fresh(D('2026-06-20'),17,'dorm',{}); check('4-4. 沒收過那則（沒交往）：期末飯照舊兩句',J(pool(G))===J(['考完了。……憲法最後一題寫不完。','成績七月三號才查得到。']),J(pool(G))); }
   check('4-4. 邀約選單「去公館燒臘吃飯」（首都帝大就在公館，不說「去公館」）',INVITE_DATA.places.find(p=>p.id==='noodle').verb==='去公館燒臘吃飯',INVITE_DATA.places.find(p=>p.id==='noodle').verb);
   // 語彤大三跨年（4-1 第 13 點）：交往中 00:01 她打電話來
   { const nye=D('2027-12-31'); fresh(nye,22.8,'dorm',{dating_heroine_03:true}); R('heroine_03','CLO'); run(22.8,23.2); const c=OUT.get(G,'yt_nye_call_y3');

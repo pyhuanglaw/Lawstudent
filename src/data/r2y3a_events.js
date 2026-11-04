@@ -388,7 +388,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:'classmate_bohan',expression:'tired',text:'（看到祐廷，沒有站起來）……你不要說話。'},
       {speaker:'classmate_bohan',expression:'serious',text:'刑訴。我最喜歡的一科。六十二。'},
       {speaker:'classmate_bohan',text:'你知道我為什麼每天念六小時嗎。'},
-      {speaker:'classmate_bohan',text:'不是因為我很認真。是因為我念得慢。一頁要看三次，才記得住。'},
+      {speaker:'classmate_bohan',text:'我念得慢。一頁要看三次，才記得住。'},
       {speaker:'classmate_bohan',text:'可是看三次的東西，我都不會忘。……這是我唯一確定的事。'},
       {speaker:'classmate_bohan',text:'我問大家第三題怎麼寫，是想知道別人怎麼想。我自己只會一種想法。'},
       {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我錯哪裡。我回家想了很久，我從來沒跟人說過我錯哪裡。'},

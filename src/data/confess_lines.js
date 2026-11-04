@@ -36,7 +36,7 @@ const CONFESS_LINES={
   heroine_05:{ src:'AA_223 第 1 節 @8dac7e49',
     say:(G,t)=>DATE.sisPreexam(G)||DATE.sisPrerank(G)?[]:['時間差不多了。……你剛剛好像一直想講什麼。'],
     choice:[{t:'「我喜歡妳。」'},{t:'「我們可以不只是直屬嗎？」'},{t:'「我喜歡妳。妳不用現在回答。」'}],
-    preexam:G=>G.flags&&G.flags.SIS_DECLINED_PREEXAM?['我上次說的，現在還是一樣。','不是你不好。是我現在真的沒辦法想這個。']
+    preexam:G=>G.flags&&G.flags.SIS_DECLINED_PREEXAM?['我上次說的，現在還是一樣。','我現在真的沒辦法想這個。']
       :['……謝謝你跟我說。','可是我現在不想交往。考完試以前，我只想把書讀完。','我們還是一起讀書，好嗎？',{choice:[{t:'「好。」',say:['嗯。明天八點，法圖。']},{t:'「我知道了。」',say:['……你不要因為這樣就不來喔。']}]}],
     preexamFlag:'SIS_DECLINED_PREEXAM',
     prerank:G=>G.flags&&G.flags.SIS_DECLINED_PRERANK?['還沒放榜啦。……我說過的，等放榜。']:['……謝謝你。','考完了，可是還沒放榜。我現在每天都在想那個數字。','等放榜好不好？放榜以後，你再跟我說一次。'],

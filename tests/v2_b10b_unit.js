@@ -89,7 +89,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   { const e4=ev('ev_sk03_xinci_class'); check('5. ev_sk03_xinci_class：beforeClass econ_principles_2、週五、大一下',!!e4&&e4.beforeClass==='econ_principles_2');
     const before=async(day,flags)=>{ fresh(day,9.05,'putong',Object.assign({P4D_ANSWER:'retake',ECON_HALLWAY_DAY:F2,MET_XUN:true},flags)); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'econ_principles_2'}}); return lines(); };
     const a=await before(F3,{}), b=await before(F8,{}), brB=G.flags.ECON_LAW_BRIDGE===true, c=await before(F8,{ECON_PAST_SHARED:'full'}), d=await before(F9,{}), e=await before(F8,{ECON_LAW_BRIDGE:true}), f=await before(F8,{P4D_ANSWER:null});
-    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('芯慈：你沒說過。……沒關係，不用說。')&&b[b.length-1]==='芯慈：你們週五都在學活吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
+    check('5. 第 8 週之前沒有；第 8 週（期中考）先「考卷還沒發。」再芯慈四句（「他說你還欠他一場保齡球。」AA_305 第 9 節；「你沒說過。」後面一句旁白 AA_672 第 1 列）、記 ECON_LAW_BRIDGE',!a.length&&b[0]==='考卷還沒發。'&&b.includes('芯慈：盧正勳。他說你還欠他一場保齡球。')&&b.includes('芯慈：你沒說過。')&&b[b.indexOf('芯慈：你沒說過。')+1]==='（她看了你一眼，又低頭寫自己的筆記。）'&&b[b.length-1]==='芯慈：你們週五都在學活吃？那我下次可以一起嗎？'&&brB,JSON.stringify([a,b]));
     check('5. full＝「原來你們以前住同一間。」（AA_209）；第 9 週（延到下一個有去的週五）沒有「考卷還沒發。」；已經有 ECON_LAW_BRIDGE、沒有 P4d＝沒有',c.includes('芯慈：原來你們以前住同一間。')&&d.length&&d[0]!=='考卷還沒發。'&&!e.length&&!f.length,JSON.stringify([c,d,e,f])); }
   /* 6. SK05 三閃，販賣機見（大一版） */
   { const D17=termDay('Y1S2',16,2)   /* SK05 三閃改第 16 週（AA_198 第 5 節）*/, XM=()=>G.msgs.filter(m=>m.th==='p:econ_zhengxun');

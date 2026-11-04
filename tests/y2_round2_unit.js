@@ -428,7 +428,7 @@ const K=t=>'kexin:'+t;
   fresh('2027-05-31',20,'dorm',{MET_PINYU:true,MET_XUN:true}); date('kexin'); run('2027-05-31',20.75,21.25); ans('y2r2_en_ask',1); run('2027-06-04',21.25,21.75); run('2027-06-05',11.75,12.25);
   check('21. E2 沒去、認識阿勳：6/5「經濟系之夜，阿勳問你怎麼沒來。」；KX_ECON_NIGHT alone',txt('p:kexin').slice(-1)[0]===K('經濟系之夜，阿勳問你怎麼沒來。')&&G.flags.KX_ECON_NIGHT==='alone');
   check('21. E3 6/4 沒有 K14（K14 在 6/2）',D('2027-06-02')!==D('2027-06-04')&&!OUT.rec(G).some(q=>q.day===D('2027-06-04')&&/k14/.test(q.id)));
-  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); run('2027-05-31',20.75,21.25); check('21. 單身：「經濟系之夜。你可以來。你又不是叛徒。」',txt('p:econ_pinyu')[0]==='econ_pinyu:經濟系之夜。你可以來。你又不是叛徒。');
+  fresh('2027-05-31',20,'dorm',{MET_PINYU:true}); run('2027-05-31',20.75,21.25); check('21. 單身：「經濟系之夜你可以來啊，你又不是叛徒。」',txt('p:econ_pinyu')[0]==='econ_pinyu:經濟系之夜你可以來啊，你又不是叛徒。');
   ans('y2r2_en_ask',0); await go('y2r2_en',18.5); check('21. 單身去：品妤「謝謝你來。我們這屆的人，少一個就看得出來。」',has('謝謝你來。我們這屆的人，少一個就看得出來。')&&!any(/一對/));
 
   // 22. 2-Y2-24 以安新 13

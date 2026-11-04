@@ -55,7 +55,7 @@ GM.money=function(n){ G.money+=n; };
   PHONE.answer(G,'sis_m3',2);
   check('3. 咖哩 →「……好。考完說好的那家。」＋最後一句',txt(FAM).slice(-3).join('｜')==='player:📷（咖哩）｜heroine_05:……好。考完說好的那家。｜'+LAST,JSON.stringify(txt(FAM).slice(-3)));
   setup(d,19.9); run(19.9,20.2); PHONE.answer(G,'sis_m3',1);
-  check('4. 「我就知道。」→「你不知道。你只是希望。……謝謝。」',txt(FAM).slice(-2)[0]==='heroine_05:你不知道。你只是希望。……謝謝。');
+  check('4. 「我就知道。」→「你又不知道。……謝謝。」',txt(FAM).slice(-2)[0]==='heroine_05:你又不知道。……謝謝。');
   setup(d,19.9); run(19.9,21.9);
   check('5. 沒回：21:54 還沒有最後一句',!txt(FAM).includes(LAST));
   run(22,22.2); m=TH(FAM).find(x=>x.ask&&x.ask.id==='sis_m3');

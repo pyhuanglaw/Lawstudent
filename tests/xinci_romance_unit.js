@@ -68,7 +68,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const Hx=TERMEND_LINES.HEART[XC];
     const strs=[Hx.invite,Hx.decline,Hx.table,Hx.think,Hx.invite2].concat(Hx.walk,Hx.she,Hx.she2,Hx.yes2);   /* askFirst／noOther／othersTail 拿掉（AA_548 第 7 節：她不問）*/
     check('0. termend_lines HEART.classmate_xinci（AA_537b 第 7 節；othersTail 照 AA_548 第 4 節）：每一句都在稿裡；巷口家常菜 18:00、羅斯福路・往公館站',!!Hx&&strs.every(t=>DOC537b.includes(t)||DOC537.includes(t)||DOC548.includes(t))&&Hx.placeName==='巷口家常菜'&&Hx.h===18&&Hx.walkPlace==='羅斯福路・往公館站',J(strs.filter(t=>!DOC537b.includes(t)&&!DOC537.includes(t)&&!DOC548.includes(t))));
-    check('0. NOPE 只留 low（AA_548 第 7 節：knows 拿掉）；舊的「今天的我排好了」作廢＝遊戲裡沒有',!TERMEND_LINES.NOPE.knows[XC]&&TERMEND_LINES.NOPE.low[XC]==='期末考完，我想先一個人待幾天。……下學期。'&&!TERMEND_LINES.NOPE.partner[XC]&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('今天的我排好了')); });
+    check('0. NOPE 只留 low（AA_548 第 7 節：knows 拿掉）；舊的「今天的我排好了」作廢＝遊戲裡沒有',!TERMEND_LINES.NOPE.knows[XC]&&TERMEND_LINES.NOPE.low[XC]==='期末考完，我想先一個人待幾天。下學期再約。'&&!TERMEND_LINES.NOPE.partner[XC]&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('今天的我排好了')); });
 
   /* ===== 第 1 節：門檻 ===== */
   await sec(1,()=>{ full(); const g=X().gates(H.G);
