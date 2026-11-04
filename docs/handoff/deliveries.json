@@ -17123,6 +17123,19 @@
    "task": "STANDIN-LOD-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍"
+  },
+  {
+   "id": "DL-LAWWW2-69e953668",
+   "date": "2026-11-04T19:01Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "69e953668",
+   "msg": "ACTIONED",
+   "what": "WZ-FIVE-1104 2:30 AM 外觀（AA_654 第 6 節，參考圖 wz_230am_ext 鏡像）：奶油色灰泥壁柱、深綠招牌帶包轉角、招牌「2:30 AM」、圓筒壁燈、門窗木格子、木畫架（Business Hours 11:00–02:30、背面手沖菜單）、轉角爬藤；名字、導航、店門互動點不變",
+   "task": "WZ-FIVE-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 19:0x 換檔（cafe_exterior.glb／.json／cafe_exterior.py／小圖集＋說明）；cafe_kit_glow、zone_prewarm、bookstore_interior_lm、cvs_interior_lm ALL PASS；瀏覽器 cafe_glb_integration、wz_street_integration 交 BB／CC（D131）；已知：玻璃看進去的店內是簡化版，不是 AA 的 v1d"
   }
  ],
  "ignored": [
