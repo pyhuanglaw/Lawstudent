@@ -2,6 +2,9 @@
 LAWWW 2026-10-13 20:02Z：配色用「預先烤好幾種、每種一個網格」。使用者：101 不先做 400 個完整 3D 人物；LAWWW2 做低成本坐姿人物。
   /opt/blenv/bin/python tools/blender/env_second/seated_figures.py [-- --out 輸出.glb] [--only npc_nf1]
 
+第四版（LAWWW2-C 2026-11-04，SEATFIG-LOD1-HAIR-1104；BB-C 17:19、CC 的 SITAMB_CLOUD_1104 ⑧「替身頭上有深色方塊」）：
+  遠處版（_lod1）原本從外殼直接減到 400 面，頭只剩幾十面：白衣黑髮的 nm13 頭頂變成一塊方的，男生的頭多半是尖角。
+  現在從 LOD0 再減、脖子以上整個不減（頭和頭髮照 LOD0，300～370 面），只減身體；總數 400 → 800（700 時 nf6 肚子、nm2 胸口會烤出深色斑）。
 第三版（LAWWW2-C 2026-10-18，ART-SEATFIG-1018，使用者「博雅 101 有人禿頭」）：頭頂、後腦勺烤到衣服的顏色（白、淺藍斑點）→ hair_cleanup()。
 第二版（LAWWW2-C 2026-10-17，ART-NPC-HAIR-STREAK：博雅 101 坐著的同學頭髮是黑白碎片）：
   第一版用舊的 VRoid 樣本路人（vroid_npc_f1／f2／m1／m2），直接減面成 1,500 個三角形再展 UV——頭髮的髮片減面後是很多細長的三角形，
@@ -32,7 +35,8 @@ OUT = ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/s
 ONLY = ARGS[ARGS.index('--only') + 1] if '--only' in ARGS else None
 TMP = os.path.join(HERE, 'textures', 'gen', 'seated')
 REG = 512                       # 每種配色的貼圖格子
-LOD0_TRIS, LOD1_TRIS = 2400, 400
+LOD0_TRIS, LOD1_TRIS = 2400, int(ARGS[ARGS.index('--lod1') + 1]) if '--lod1' in ARGS else 800   # 第四版 400 → 800（頭、頭髮占 300～370，見 decimated 的 keep_z）
+HEAD_KEEP = float(ARGS[ARGS.index('--head-keep') + 1]) if '--head-keep' in ARGS else 1.0   # >0：LOD1 從 LOD0 再減、脖子以上不減（Blender 的 Decimate 對權重 0 的頂點完全不動）；0＝第三版的做法（從外殼直接減）
 SHELL_T, VOXEL = 0.010, 0.010   # 外殼：加厚 1 cm（髮片變成薄板、重疊的合在一起）、體素 1 cm（7 mm 時外殼有 23 萬面，減面器減到 6,000 就停住）
 SEAT_Y, BACK_Z = 0.47, -0.17    # 座墊（坐下陷 1 cm）、椅背前緣
 EMIT = 0.3                      # 自發光強度（貼圖顏色×0.3）
@@ -109,13 +113,19 @@ def import_base(name):
 def tris_of(ob): return sum(len(p.vertices) - 2 for p in ob.data.polygons)
 
 
-def decimated(src, target, name):
+def decimated(src, target, name, keep_z=None, keep=0.0):
+    """減面到 target 個三角形；keep_z／keep：z 高於 keep_z（脖子以上）的頂點少減一點（頭和頭髮的面多留，遠看才是圓的，不是一塊方的）"""
     ob = src.copy(); ob.data = src.data.copy(); ob.name = name; bpy.context.scene.collection.objects.link(ob)
     for md in list(ob.modifiers): ob.modifiers.remove(md)
+    vgn = None   # 只存名字：套用 modifier 以後舊的 vertex_groups 參照會失效（第二輪讀 vg.name 讀到亂碼）
+    if keep_z is not None and keep > 0:
+        vgn = 'keep_head'; ob.vertex_groups.new(name=vgn).add([v.index for v in ob.data.vertices if v.co.z > keep_z], 1.0, 'REPLACE')
+        hv = {v.index for v in ob.data.vertices if v.co.z > keep_z}; print('   keep head tris', sum(len(p.vertices) - 2 for p in ob.data.polygons if all(i in hv for i in p.vertices)), flush=True)
     for it in range(8):   # 一次減不到（外殼的面很多時一次只到 6,000 左右）：分幾次減
         n = tris_of(ob)
         if n <= target * 1.08: break
         d = ob.modifiers.new('dec', 'DECIMATE'); d.decimate_type = 'COLLAPSE'; d.ratio = max(0.002, min(1.0, target / max(1, n))); d.use_collapse_triangulate = True
+        if vgn: d.vertex_group = vgn; d.invert_vertex_group = True; d.vertex_group_factor = keep   # 群組權重 1＝保護（invert 以後代價變大、晚一點才減）
         with ctx(ob, [ob]): bpy.ops.object.modifier_apply(modifier='dec')
         print('   decimate', name, n, '->', tris_of(ob), flush=True)
     return ob
@@ -213,6 +223,34 @@ def bake_target(ob, img):
     m = bpy.data.materials.new('bake_' + ob.name); m.use_nodes = True; nt = m.node_tree
     t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; nt.nodes.active = t
     ob.data.materials.append(m)
+
+
+def share_head_uv(low1, low0, keep_z):
+    """LOD1 脖子以上的面就是 LOD0 的面（減面時沒動）：UV 直接指到 LOD0 那一塊——LOD0 的貼圖解析度高、頭髮已經清過。
+    LOD1 自己那一條（格子下面四分之一）太小，頭頂有的三角形只分到 4 px，取到旁邊白衣服的顏色（nm13 頭頂一小塊白）"""
+    def key(co): return (round(co.x, 5), round(co.y, 5), round(co.z, 5))
+    v0, v1 = low0.data.vertices, low1.data.vertices; u0 = low0.data.uv_layers.active.data; u1 = low1.data.uv_layers.active.data; m0 = {}
+    for p in low0.data.polygons:
+        m0[frozenset(key(v0[v].co) for v in p.vertices)] = {key(v0[low0.data.loops[li].vertex_index].co): tuple(u0[li].uv) for li in p.loop_indices}
+    n = 0
+    for p in low1.data.polygons:
+        if min(v1[v].co.z for v in p.vertices) <= keep_z: continue
+        f = m0.get(frozenset(key(v1[v].co) for v in p.vertices))
+        if f is None: continue
+        for li in p.loop_indices: u1[li].uv = f[key(v1[low1.data.loops[li].vertex_index].co)]
+        n += 1
+    print('  lod1 head faces sharing lod0 uv', n, flush=True)
+
+
+def emit_source(ob, img):
+    """把烤好的 LOD0 當來源：材質換成「貼圖（bake 那一套 UV）→ 自發光」，再烤到 LOD1"""
+    m = bpy.data.materials.new('src_' + ob.name); m.use_nodes = True; nt = m.node_tree
+    for n in list(nt.nodes): nt.nodes.remove(n)
+    t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; t.interpolation = 'Closest'
+    uvn = nt.nodes.new('ShaderNodeUVMap'); uvn.uv_map = ob.data.uv_layers.active.name
+    e = nt.nodes.new('ShaderNodeEmission'); o = nt.nodes.new('ShaderNodeOutputMaterial')
+    nt.links.new(uvn.outputs['UV'], t.inputs['Vector']); nt.links.new(t.outputs['Color'], e.inputs['Color']); nt.links.new(e.outputs['Emission'], o.inputs['Surface'])
+    ob.data.materials.clear(); ob.data.materials.append(m)
 
 
 def bake(high, low, img, clear=True, extra=()):
@@ -404,17 +442,28 @@ def build():
         # 一格貼圖：上面四分之三給 LOD0、下面四分之一給 LOD1（LOD1 自己展 UV、自己烤）
         pw = part_weight(H(arm, 'J_Bip_C_Neck').z, H(arm, 'J_Bip_C_Hips').z)
         low0 = decimated(shell, LOD0_TRIS, 'LOW0'); smart_uv(low0, (0.0, 0.25, 1.0, 0.75), pw)
-        low1 = decimated(shell, LOD1_TRIS, 'LOW1'); smart_uv(low1, (0.0, 0.0, 1.0, 0.25), pw)
+        # LOD1（遠處版）：HEAD_KEEP > 0 時從 LOD0 再減、脖子以上整個不減（頭、頭髮照 LOD0 的圓），只減身體；HEAD_KEEP＝0 照舊從外殼直接減到 LOD1_TRIS
+        #   SEATFIG-LOD1-HAIR-1104（BB-C 17:19、CC SITAMB_CLOUD_1104 ⑧）：從外殼直接減到 400 面，頭只剩幾十面，白衣黑髮的 nm13 頭頂變成一塊方的
+        low1 = (decimated(low0, LOD1_TRIS, 'LOW1', keep_z=H(arm, 'J_Bip_C_Neck').z, keep=HEAD_KEEP) if HEAD_KEEP > 0 else decimated(shell, LOD1_TRIS, 'LOW1')); smart_uv(low1, (0.0, 0.0, 1.0, 0.25), pw)
         bpy.data.objects.remove(shell, do_unlink=True)
         transfer_weights(low0, high); transfer_weights(low1, high)
         add_armature(low0, arm); add_armature(low1, arm)
         pose_reset(arm)
         img = bpy.data.images.new(f'{base}_c0', REG, REG, alpha=False)
         fill = hair_fill(high, tuple(high.get('hair_col', (0.1, 0.08, 0.07)))); ex = (fill,) if fill else ()
-        bake_target(low0, img); bake_target(low1, img); bake(high, low0, img, clear=True, extra=ex); bake(high, low1, img, clear=False, extra=ex)
-        if fill: bpy.data.objects.remove(fill, do_unlink=True)
-        fill_misses(img)
-        hair_cleanup(img, (low0, low1), arm, high)
+        bake_target(low0, img); bake_target(low1, img)
+        if HEAD_KEEP > 0:   # 第四版：LOD1 從 LOD0 烤（LOD1 的頭就是 LOD0 的頭，顏色一樣；身體比較近，射線不會穿過去打到別的地方）
+            bake(high, low0, img, clear=True, extra=ex)
+            if fill: bpy.data.objects.remove(fill, do_unlink=True)
+            fill_misses(img); hair_cleanup(img, (low0,), arm, high); img.update()
+            emit_source(low0, img); bake(low0, low1, img, clear=False)
+            fill_misses(img); hair_cleanup(img, (low1,), arm, high)
+            share_head_uv(low1, low0, H(arm, 'J_Bip_C_Neck').z)
+        else:
+            bake(high, low0, img, clear=True, extra=ex); bake(high, low1, img, clear=False, extra=ex)
+            if fill: bpy.data.objects.remove(fill, do_unlink=True)
+            fill_misses(img)
+            hair_cleanup(img, (low0, low1), arm, high)
         img.filepath_raw = os.path.join(TMP, f'{base}_c0.png'); img.file_format = 'PNG'; img.save()
         for pose in POSES:
             T = apply_pose(arm, high, pose)
