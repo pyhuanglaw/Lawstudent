@@ -530,6 +530,63 @@ def a23():
     im.save(os.path.join(GEN, 'a23_print.png'))
 
 
+def kmc():
+    """小路（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04；AA_654／AA_655）：
+    (0,0) 2×1 「小路」木匾、(2,0) 2×1 營業時間木牌 18:00～02:00、(4,0) 4×1 牆上的紙菜單 8 張（直排）、
+    (0,1) 8×2 木札 16 枚（直排，每枚 64×256）、(0,3) 2×3 懷舊電影海報一、(2,3) 2×3 海報二、(4,3) 2×2 舊照片（街景）、(6,3) 2×2 舊照片（人像）、
+    (4,5) 2×1 小黑板「本日のおすすめ」、(0,6) 8×1 清酒標籤 8 張（虛構酒名，D77）、(0,7) 8×1 燒酎、啤酒箱、小瓶的標籤"""
+    rng = np.random.default_rng(1104); im = Image.new('RGB', (1024, 1024), '#e8dcc4'); d = ImageDraw.Draw(im)
+    def vtext(x, y0, s, f, fill, step):
+        for k, ch in enumerate(s): text_c(d, (x, y0 + k * step), ch, f, fill)
+    bx = box(0, 0, 2, 1); x0, y0, x1, y1 = bx; paper(im, bx, '#3a2618', rng, grain=0.25); d.rectangle([x0 + 5, y0 + 5, x1 - 6, y1 - 6], outline='#6a4a2e', width=4)
+    text_c(d, ((x0 + x1) / 2, (y0 + y1) / 2 + 2), '小 路', F(64), '#efe2c4')
+    bx = box(2, 0, 2, 1); x0, y0, x1, y1 = bx; paper(im, bx, '#6a4a2e', rng, grain=0.25); d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#3a2618', width=3)
+    text_c(d, ((x0 + x1) / 2, y0 + 36), '營業時間', F(26), '#f1e6cc'); text_c(d, ((x0 + x1) / 2, y0 + 86), '18:00 ～ 02:00', F(28), '#f1e6cc')
+    for k, s_ in enumerate(('ビール', '日本酒', '焼酎', 'ハイボール', '梅酒', '烏龍茶', 'カルピス', 'ラムネ')):   # 牆上的紙菜單（米色紙、黑字直排、紅色價錢）
+        x0 = 512 + k * 64; y0 = 0; paper(im, (x0 + 3, y0 + 3, x0 + 61, y0 + 125), '#efe4c8', rng, grain=0.08)
+        n = len(s_); st = min(24, 92 // n); vtext(x0 + 32, y0 + 16, s_, F(min(22, st)), '#2a2018', st)
+        d.rectangle([x0 + 22, y0 + 112, x0 + 42, y0 + 115], fill='#a8392e')
+    fuda = ('焼き鳥', '揚げ出し豆腐', '塩焼き鯖', 'だし巻き玉子', 'おひたし', '冷やっこ', '枝豆', '唐揚げ', '焼きおにぎり', '漬物', '生ビール', '冷酒', '熱燗', '烏龍茶', 'カルピス', '味噌汁')
+    for k, s_ in enumerate(fuda):   # 木札：淺木色、四邊略暗、頂端小孔、墨字直排
+        x0 = (k % 16) * 64; y0 = 128; paper(im, (x0 + 4, y0 + 4, x0 + 60, y0 + 252), ('#d9c29a', '#d2b98e', '#dcc6a0')[k % 3], rng, edge='#9a7a52', grain=0.12)
+        d.ellipse([x0 + 29, y0 + 12, x0 + 35, y0 + 18], fill='#5a4028')
+        n = len(s_); st = min(34, 200 // n); vtext(x0 + 32, y0 + 44, s_, F(min(30, st - 2)), '#1e1610', st)
+    def poster(c, title, red, seed):
+        bx = box(c, 3, 2, 3); x0, y0, x1, y1 = bx; r2 = np.random.default_rng(seed); paper(im, bx, '#e9dcbc', r2, grain=0.14)
+        w, h = x1 - x0, y1 - y0; cx = x0 + w * 0.58
+        d.ellipse([cx - 52, y0 + 70, cx + 52, y0 + 200], fill='#2a1e18')                    # 頭髮
+        d.ellipse([cx - 38, y0 + 92, cx + 38, y0 + 196], fill='#e8c4a4')                    # 臉
+        d.polygon([(cx - 90, y1 - 30), (cx - 40, y0 + 200), (cx + 40, y0 + 200), (cx + 95, y1 - 30)], fill=red)   # 衣服
+        d.ellipse([cx - 20, y0 + 130, cx - 10, y0 + 138], fill='#3a2a22'); d.ellipse([cx + 10, y0 + 130, cx + 20, y0 + 138], fill='#3a2a22')
+        d.ellipse([cx - 10, y0 + 166, cx + 10, y0 + 172], fill='#b0403a')
+        vtext(x0 + 40, y0 + 46, title, F(46), '#b8302a', 54)
+        d.text((x0 + 18, y1 - 40), '主演　白川 遥', font=F(16), fill='#3a2a22')
+        a = np.asarray(im.crop(bx), np.float32); a = a * 0.92 + 12; a *= (1 + (noise(w, h, 3, seed) - 0.5)[..., None] * 0.12); im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (x0, y0))
+        d.rectangle([x0 + 2, y0 + 2, x1 - 3, y1 - 3], outline='#3a2618', width=5)
+    poster(0, '青い季節', '#a8392e', 31); poster(2, '夕陽の街', '#c2783a', 32)
+    for c, kind in ((4, 0), (6, 1)):   # 舊照片：泛黃黑白、白邊、木框
+        bx = box(c, 3, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d4'); ix0, iy0, ix1, iy1 = x0 + 20, y0 + 20, x1 - 20, y1 - 20
+        hh, ww = iy1 - iy0, ix1 - ix0; yy = np.arange(hh)[:, None]; xx = np.arange(ww)[None, :]; a = np.zeros((hh, ww), np.float32) + 0.78
+        if kind == 0:
+            a = np.where(yy > hh * 0.58, 0.52, a)
+            for k in range(5):
+                bw = ww // 6; xa = k * bw + 6; h0 = int(hh * (0.18 + 0.08 * ((k * 31) % 4)))
+                if k != 2: a[h0:int(hh * 0.64), xa:xa + bw - 8] = 0.3 + 0.06 * (k % 3)
+        else:
+            a = np.where(((xx - ww / 2) ** 2 / (ww * 0.18) ** 2 + (yy - hh * 0.38) ** 2 / (hh * 0.2) ** 2) < 1, 0.62, a)
+            a = np.where((yy > hh * 0.58) & (np.abs(xx - ww / 2) < ww * 0.32 + (yy - hh * 0.58) * 0.5), 0.28, a)
+        a += rng.normal(0, 0.03, a.shape); im.paste(Image.fromarray(np.stack([a * 228, a * 204, a * 168], -1).clip(0, 255).astype(np.uint8)), (ix0, iy0)); d.rectangle(bx, outline='#3a2618', width=7)
+    bx = box(4, 5, 2, 1); paper(im, bx, '#262a26', rng, grain=0.12); x0, y0, x1, y1 = bx; d.rectangle(bx, outline='#5a3e28', width=7)
+    d.text((x0 + 16, y0 + 12), '本日のおすすめ', font=F(20), fill='#f1ead8'); d.text((x0 + 16, y0 + 46), '焼き鳥・だし巻き玉子', font=F(16), fill='#efe0b8'); d.text((x0 + 16, y0 + 76), '烤雞串・玉子燒', font=F(16), fill='#efe0b8')
+    for k, (nm, bg, fg) in enumerate((('松風', '#f1ead8', '#1e1610'), ('若竹', '#e8e2cc', '#2a4a2e'), ('月影', '#1e2a3a', '#e8dcc0'), ('白鷺', '#f4f0e6', '#a8392e'),
+                                       ('山桜', '#efe0d8', '#7a2a2a'), ('川霧', '#d8e0dc', '#1e2a2a'), ('雪見', '#f4f4f0', '#2a3a5a'), ('朝凪', '#e8d8b8', '#3a2618'))):   # 清酒標籤（虛構酒名）
+        x0, y0 = k * 128, 768; d.rectangle([x0 + 4, y0 + 4, x0 + 123, y0 + 123], fill=bg); d.rectangle([x0 + 10, y0 + 10, x0 + 117, y0 + 117], outline=fg, width=2)
+        vtext(x0 + 64, y0 + 38, nm, F(40), fg, 46); d.rectangle([x0 + 92, y0 + 20, x0 + 100, y0 + 52], fill='#a8392e')
+    for k, (bg, fg) in enumerate((('#2a2a2a', '#d9a441'), ('#f1ead8', '#2a4a2e'), ('#7a2a22', '#f1ead8'), ('#e8dcc0', '#1e1610'), ('#3a4a2a', '#e8dcc0'), ('#c8a44a', '#2a1e18'), ('#f4f0e6', '#2a3a5a'), ('#5a3a22', '#efe2c4'))):
+        x0, y0 = k * 128, 896; d.rectangle([x0 + 4, y0 + 4, x0 + 123, y0 + 123], fill=bg); d.ellipse([x0 + 34, y0 + 30, x0 + 94, y0 + 90], outline=fg, width=5); d.rectangle([x0 + 24, y0 + 100, x0 + 104, y0 + 108], fill=fg)
+    im.save(os.path.join(GEN, 'kmc_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -611,4 +668,5 @@ if __name__ == '__main__':
     if w in ('afr', 'all'): afr()
     if w in ('dbk', 'all'): dbk()
     if w in ('a23', 'all'): a23()
+    if w in ('kmc', 'all'): kmc()
     print('ok', w)

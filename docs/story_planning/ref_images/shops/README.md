@@ -25,6 +25,7 @@
 | **SUNNY SIDE**（溫州街 B7，取代半熟） | wz_sunnyside_ext.webp | wz_sunnyside_int.webp | 等使用者確認 |
 | **阿德影印輸出**（溫州街 A1，不改名） | wz_ade_ext.webp | wz_ade_int.webp | 等使用者確認 |
 | **小路**（溫州街 B3，取代巷子裡定食；居酒屋） | wz_komichi_ext.webp | wz_komichi_int.webp | 等使用者確認 |
+| **一盞茶屋**（溫州街日式宿舍改的茶屋，不改名；使用者 11-04 05:0x「一盞內外部改成這樣 庭院要能走到」，AA_656） | wz_yizhan_ext.webp | wz_yizhan_int.webp | 開工 |
 
 ## 照圖做的時候要改的地方
 - **大步球鞋**：圖上的鞋子有像真實品牌的勾勾標誌（內外都有），建模時**一律拿掉**，鞋側面用虛構的線條或不畫標誌（D77）。室內地板是中間色的木地板，D112 不要深色：照圖或再淺一點。
