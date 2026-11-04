@@ -45056,6 +45056,27 @@
    "next": "【LAWWW-C 11-04 16:5x】派背景子代理在 worktree 做（D113 檢查點 wip_backup/aa675/）；和台詞八批子代理可能同時改到 events.js、vac_activities.js，合併時處理"
   },
   {
+   "id": "AA679-YT-REMNANTS-1104",
+   "title": "AA_679：語彤舊設定（麵店、阿姨）全遊戲殘留 9 處——events.js 燒臘長桌兩句、y34b3d T1 地點、story3d 雙主修請客搬到一盞茶屋＋feed_y1s2「我去喝」、social3d 兩個記憶名稱、noodle_table:28、privtalk PLACE_EXCEPT、sup519 阿姨出國、確認 characters.js 語彤作息",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "語彤相關劇情",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 17:14（企劃線 ee055afbe、outbox 1939de80f；D109；接 CANON-PURGE-SRC-1104）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 17:1x】同主題、同幾個檔，追加給 AA675-CANON-FOLLOWUP 子代理一起做（另一個 commit）"
+  },
+  {
    "id": "ASK-USER-LIST-1104",
    "title": "接班／交班一定列出「要問使用者」的任務（AA-C 11-04 13:18 提議；使用者 13:2x 問 AA-C：「做到一半的東西，為什麼之後的帳號沒有收到還沒做完的訊息」；起因 VAC-GAP-ROUTES 暫停的恢復條件是「使用者說繼續」，帳號 A 記了醒來要問、沒問就交班）",
    "area": "HANDOFF",
