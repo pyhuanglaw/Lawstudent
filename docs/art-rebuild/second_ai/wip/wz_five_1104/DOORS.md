@@ -50,3 +50,13 @@
   - right：眼睛 (49.1, 1.5, −9.0)、看 (57, 1.7, −15.5)、16 mm——東邊路口對面那棟（鐵捲門、招租、樓上的窗）。往南拍會拍到遊戲裡只有套件、沒有正式模型的空白，所以朝北偏。
   - night 用 `--night`（點亮窗、路燈）。對照 `sunnyside_views.jpg`。
 - AA 室內的兩塊窗景卡（WALL_front_VIEW、WALL_right_VIEW）現在共用一個材質 sns_window_view；要兩面不同的景就分兩個材質（名字不動）。日夜怎麼換由 AA／LAWWW 決定。
+
+## 2:30 AM 室內光照烘焙＋窗景卡（AA v1c／v1d，BB 07:33 第 5 點「局部打亮、不要整片平均亮」；LAWWW2 11-04 08:xx）
+- `tools/blender/env_second/lightbake/bake_cafe230.sh <AA 的 cafe230.glb>`：照 AA 的 GLOW_* 位置放燈——吧台七盞吊燈（30 W）、軌道八盞往下照的投射燈（12 cm 小面光源、光束 55°、20 W：地上一圈一圈亮）、壁燈、窗邊小檯燈、桌上檯燈、立燈；白天燈 ×0.6、夜空 0.02。
+  - `bake_room.py` 的 `--lights` 多一個可選的第 14 個數＝光束擴散角（度）；沒寫照舊 180°，其他房間不受影響。
+  - 輸出 `assets/models/env/second_ai/cafe230.glb`（AA b140750c2 v1d＋TEXCOORD_1＋extras.lightmap）、`cafe230_lm_day.webp`、`cafe230_lm_night.webp`（384 取樣，488 秒）。放在 second_ai/ 不放 aa_support/：不和 AA 的原檔同一個路徑。
+  - 晚上地板那一塊：中位數 46、最亮 10% 180（第一次試烘照日光燈那樣不收光束，中位數 86、最亮 10% 114＝整片平均亮）。`cafe230_lm_night_floor.jpg`。
+- 窗景卡 `tools/blender/env_second/textures/gen/cafe230_view_{front,right}_{day,night}.jpg`（2048×1024）：
+  - front：眼睛 (54.2, 1.5, 0)、看 (40, 1.8, 0)、16 mm——往西看整條溫州街（日和便利店、SUNNY SIDE 轉角）。
+  - right：右牆窗朝南，但南邊只隔 0.7 m 就是隔壁公寓 C2——所以拍防火巷：眼睛 (61.5, 1.5, 7.35)、看 (50, 1.6, 7.6)、14 mm，左邊是隔壁的磚牆，巷口看出去是溫州街。巷子地面沒有模型（下緣一片灰藍）。
+  - 對照 `cafe230_views.jpg`。

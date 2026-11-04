@@ -320,7 +320,7 @@ to_sun = Vector((to_sun_game.x, -to_sun_game.z, to_sun_game.y))
 so.rotation_euler = to_sun.to_track_quat('Z', 'Y').to_euler()
 
 # 日光燈：在燈具的位置放真的面光源（發光的網格本身也亮，但 Cycles 從很小的發光面取樣很吵：10-28 第一次烘焙牆上一塊一塊的）
-# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
+# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b[,擴散角]]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
 # --points x,y,z,W[,r,g,b[,半徑]]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）；半徑預設 0.06 m（影子很硬），補光用大一點（0.4～0.6）
 AREAS = []
 for spec in (arg('--lights', '') or '').split(';'):
@@ -330,6 +330,7 @@ for spec in (arg('--lights', '') or '').split(';'):
         for j in range(int(nz)):
             x = x0 + (x1 - x0) * (i + 0.5) / nx; z = z0 + (z1 - z0) * (j + 0.5) / nz
             ld = bpy.data.lights.new(f'fx{i}_{j}', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = lsx; ld.size_y = lsz; ld.energy = Wt; ld.color = col
+            if len(v) >= 14: ld.spread = math.radians(v[13])   # 第 14 個數＝光束的擴散角（度；軌道投射燈 40°：地上一圈一圈亮，2:30 AM BB 11-04「局部打亮」）；沒寫＝180°（日光燈）
             lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y - 0.01)); AREAS.append(lo)   # 朝下（Blender 的面光源朝 −Z）
 for spec in (arg('--points', '') or '').split(';'):
     if not spec.strip(): continue
