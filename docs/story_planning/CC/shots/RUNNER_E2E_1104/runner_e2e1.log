@@ -1,0 +1,63 @@
+[13:52:50] run_forever round: - (not started by run_forever)   runner sha256: a839316f52
+[13:52:50] python : /usr/local/bin/python3 (3.13.18)
+[13:52:50]          playwright 1.63.0 OK
+[13:52:50] git    : git version 2.43.0
+[13:52:50] node   : /opt/node22/bin/node  v22.23.4
+[13:52:50] blender: not found (blender items will fail; set CC_BLENDER)
+[13:52:50] repo   : /home/user/pyhuanglaw/lawstudent
+[13:52:50] work   : /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rq_work  (branch claude/cc-local, no push)
+[13:52:50] parallel: 1  (blender items run alone)
+[13:52:50] browser: headless (no window)
+[13:52:50] git fetch
+    From https://github.com/pyhuanglaw/lawstudent
+     * branch                claude/cc-testing -> FETCH_HEAD
+     * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+    From https://github.com/pyhuanglaw/lawstudent
+     * branch                claude/second-ai-env-art -> FETCH_HEAD
+    Preparing worktree (detached HEAD f98b960ef)
+    Updating files: 100% (7065/7065), done.
+    HEAD is now at f98b960ef CC-C CC_01：GG_REENTRY 判準定案驗收——9f481443d ALL PASS（8 次進公館 LINK true、宣告 1 次）、060a1a093 FAILED 62（第 2～8 次 NOT_DRAWN、宣告 2→8）＋證據
+    Previous HEAD position was f98b960ef CC-C CC_01：GG_REENTRY 判準定案驗收——9f481443d ALL PASS（8 次進公館 LINK true、宣告 1 次）、060a1a093 FAILED 62（第 2～8 次 NOT_DRAWN、宣告 2→8）＋證據
+    Switched to a new branch 'claude/cc-local'
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+    Merge made by the 'ort' strategy.
+     ...237\267\350\241\214\347\264\200\351\214\204.md" |   7 +
+     .../shots/GG_REENTRY_final_cloud/reentry_060a.json | 935 +++++++++++++++++++++
+     .../shots/GG_REENTRY_final_cloud/reentry_9f48.json | 927 ++++++++++++++++++++
+     .../CC/shots/GG_REENTRY_final_cloud/run_060a.log   | 131 +++
+     .../CC/shots/GG_REENTRY_final_cloud/run_9f48.log   | 131 +++
+     5 files changed, 2131 insertions(+)
+     create mode 100644 docs/story_planning/CC/shots/GG_REENTRY_final_cloud/reentry_060a.json
+     create mode 100644 docs/story_planning/CC/shots/GG_REENTRY_final_cloud/reentry_9f48.json
+     create mode 100644 docs/story_planning/CC/shots/GG_REENTRY_final_cloud/run_060a.log
+     create mode 100644 docs/story_planning/CC/shots/GG_REENTRY_final_cloud/run_9f48.log
+[13:54:20] dev head = 28f5f5287   lawww2 head = 5f85444cd
+[13:54:20] config.txt: PARALLEL 1 -> 3
+[13:54:20] memory used: 8%  (new items wait while >= 85%)
+[13:54:20] queue: TT_V2a_game, TT_V2b_probe
+[13:54:20] memory 8% before starting TT_V2a_game (0 running)
+[13:54:20] ==== START TT_V2a_game  (probe @ d2e36f6eb) ====
+[13:54:20] memory 8% before starting TT_V2b_probe (1 running)
+[13:54:20] ==== START TT_V2b_probe  (probe @ d2e36f6eb) ====
+[13:54:21] [res] cpu=1% mem=8% (1.2/15.7 GB) chrome_testing=0  START TT_V2b_probe
+[13:54:21] [res] cpu=1% mem=8% (1.2/15.7 GB) chrome_testing=0  START TT_V2a_game
+[13:54:45] AUTORETRY TT_V2b_probe: first run exit 1 - rerun once with trace (whole probe)
+[13:55:05] AUTORETRY TT_V2a_game: first run exit 1 - rerun once with trace (whole probe)
+[13:55:28] [res] cpu=86% mem=23% (3.6/15.7 GB) chrome_testing=0  END TT_V2b_probe
+[13:55:28] AUTORETRY TT_V2b_probe: final FAIL  class TEST_BUG/assert-probe
+[13:55:29] ==== END   TT_V2b_probe  exit=1  67s   ====
+[13:55:43] [res] cpu=0% mem=11% (1.8/15.7 GB) chrome_testing=0  END TT_V2a_game
+[13:55:43] AUTORETRY TT_V2a_game: final FAIL  class GAME_BUG/assert-game
+[13:55:44] ==== END   TT_V2a_game  exit=1  83s   ====
+
+===== SUMMARY =====
+ran 2 item(s), skipped 0 already done
+TT_V2b_probe  sha=d2e36f6eb  exit=1  67s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8800/index.html（自測：只開頁、不玩） / FAIL 探針的兩個常數相等（故意寫錯）  [src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4 / FAILED 1: 探針的兩個常數相等（故意寫錯）
+    err.log (last 5): [cc_trace 0.0s] CC_TRACE on: <REPO>/docs/story_planning/CC/local_out/TT_V2b_probe/attempt2/trace | [gpu_wrap 39.4s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 39.4s] BROWSER DISCONNECTED
+    autoretry: final FAIL  class TEST_BUG/assert-probe  exit2 1
+TT_V2a_game  sha=d2e36f6eb  exit=1  83s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8801/index.html（自測：只開頁、不玩） / FAIL GAME.G.money 是 145457（故意寫錯的預期）  [src=game] 遊戲回報 GAME.G.money＝22000，預期 145457 / FAILED 1: GAME.G.money 是 145457（故意寫錯的預期）
+    err.log (last 5): [cc_trace 0.0s] CC_TRACE on: <REPO>/docs/story_planning/CC/local_out/TT_V2a_game/attempt2/trace | [gpu_wrap 34.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 34.8s] BROWSER DISCONNECTED
+    autoretry: final FAIL  class GAME_BUG/assert-game  exit2 1
+Results: /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rq_work/docs/story_planning/CC/local_out  (not pushed: --no-push)
+[13:55:46] 目前沒有測試在跑，可以關；不關的話 5 分鐘後會自己再檢查有沒有新的測試 (no test running now - safe to close)
+EXIT 0
