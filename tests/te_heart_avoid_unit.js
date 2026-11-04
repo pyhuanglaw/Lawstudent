@@ -69,7 +69,7 @@ await sec('a',async()=>{
   /* 朋友的邀約（最後一科在週五的大二下：原本隔天才傳來；TE-FRI-SAME-NIGHT-1104 起接在語彤那一則後面、同一個週五晚上到）也一樣避開 */
   { const w=setup('Y2S2',[YT],[XC]); TERMEND.plan(H.G,w); at('2027-06-11',20); run(20,21); PHONE.answer(H.G,tag('Y2S2',YT),0); rules(); at('2027-06-12',10); rules();
     const sx=TERMEND.askSlot(H.G,w,XC,'friend'); at('2027-06-12',20); run(20,21);
-    check('a. 大二下（最後一科 6/11 週五）：語彤 6/12（六）17:30；芯慈的朋友邀約 6/11（五）20:39 接在語彤那一則後面到（TE-FRI-SAME-NIGHT-1104，原本 6/12 才到），排日子避開 6/12＝6/13 以後',K(outOf(EXID('Y2S2',YT)).day)==='2027-06-12'&&isOpen('Y2S2',XC)&&K(ask('Y2S2',XC).day)==='2027-06-11'&&ask('Y2S2',XC).h===20.65&&!!sx&&sx.day>DK('2027-06-12'),J([sx&&[K(sx.day),sx.h],ask('Y2S2',XC)&&K(ask('Y2S2',XC).day)]));
+    check('a. 大二下（最後一科 6/11 週五）：語彤 6/12（六）17:30；芯慈的朋友邀約 6/11（五）和語彤那一則一起 20:30 到（TE-FRI-SAME-NIGHT／TE-SAME-TIME-1104，原本 6/12 才到），排日子避開 6/12＝6/13 以後',K(outOf(EXID('Y2S2',YT)).day)==='2027-06-12'&&isOpen('Y2S2',XC)&&K(ask('Y2S2',XC).day)==='2027-06-11'&&ask('Y2S2',XC).h===20.5&&!!sx&&sx.day>DK('2027-06-12'),J([sx&&[K(sx.day),sx.h],ask('Y2S2',XC)&&K(ask('Y2S2',XC).day)]));
     PHONE.answer(H.G,tag('Y2S2',XC),0); rules();
     check('a. 接芯慈：排在 6/13 以後（不在語彤那一晚）',!!outOf('te_Y2S2')&&outOf('te_Y2S2').day>DK('2027-06-12'),J(dayH(outOf('te_Y2S2')))); }
 });
@@ -81,8 +81,9 @@ await sec('b',async()=>{
   { const w=aSetup(); PHONE.answer(H.G,tag('Y1S1',YT),1); rules();
     check('b. 語彤那一則回了「那天有約了。」＝沒有她那一晚（不避開）：以安照原本排 12/20（六）19:00',TERMEND.exEvening(H.G,w)==null&&K(TERMEND.askSlot(H.G,w,AN,'heart').day)==='2025-12-20');
     PHONE.answer(H.G,tag('Y1S1',AN),0); rules(); check('b. 接以安＝12/20（六）19:00',J(dayH(outOf('te_Y1S1')))===J(['2025-12-20',6,19]),J(dayH(outOf('te_Y1S1')))); }
-  { const w=setup('Y1S1',[YT,AN],[]); TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,20.55);
-    check('b. 語彤那一則還沒到（20:33，只有以安那一則到了）＝沒有她那一晚：以安照原本 12/20（六）',!ask('Y1S1',YT)&&TERMEND.exEvening(H.G,w)==null&&K(TERMEND.askSlot(H.G,w,AN,'heart').day)==='2025-12-20'); }
+  /* TE-SAME-TIME-1104 以後同一晚的邀約 20:30 一起到，「她那一則還沒到」只剩舊版存的檔（舊版一則隔 9 分鐘）：名單先拿掉她（＝舊版還沒傳）跑到 20:33 */
+  { const w=setup('Y1S1',[YT,AN],[]); const P=TERMEND.plan(H.G,w); P.heart=P.heart.filter(x=>x!==YT); at('2025-12-18',20); run(20,20.55);
+    check('b. 語彤那一則還沒到（舊版存的檔：20:33 只有以安那一則到了）＝沒有她那一晚：以安照原本 12/20（六）',!ask('Y1S1',YT)&&TERMEND.exEvening(H.G,w)==null&&K(TERMEND.askSlot(H.G,w,AN,'heart').day)==='2025-12-20'); }
   { const w=aSetup(); PHONE.answer(H.G,tag('Y1S1',YT),0); rules();
     check('b. 她那一頓答應了＝排好的那一天（12/20）',K(TERMEND.exEvening(H.G,w))==='2025-12-20'&&!!outOf(EXID('Y1S1',YT))); }
 });
@@ -119,12 +120,13 @@ await sec('c3',async()=>{
 /* ---------- d 第 5 點：她那一則到以前已經接了同一個週六的一般邀約，時間不重疊＝兩頓都留 ---------- */
 await sec('d',async()=>{
   const HA=TERMEND_LINES.HEART[AN], h0=HA.h; HA.h=22;   /* 測試用：以安那一頓改到 22:00（和語彤 17:30 不重疊），測完改回來 */
-  try{ const w=setup('Y1S1',[YT,AN],[]); TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,20.55);
-    check('d. 前置：20:33 只有以安那一則到了',isOpen('Y1S1',AN)&&!ask('Y1S1',YT));
+  /* TE-SAME-TIME-1104 以後同一晚的邀約一起到，這一種只剩舊版存的檔：舊版 20:30 以安那一則到、20:33 接了、20:35 存檔（她那一則舊版 20:39 才到）→ 新版讀檔，她那一則一讀進來就到 */
+  try{ const w=setup('Y1S1',[YT,AN],[]); const P=TERMEND.plan(H.G,w); P.heart=P.heart.filter(x=>x!==YT); at('2025-12-18',20); run(20,20.55);
+    check('d. 前置（舊版存的檔）：20:33 只有以安那一則到了',isOpen('Y1S1',AN)&&!ask('Y1S1',YT));
     adj=[]; infos=[]; PHONE.answer(H.G,tag('Y1S1',AN),0); rules(); const qa=outOf('te_Y1S1');
     check('d. 先接以安：她那一則還沒到＝不避開，照原本排 12/20（六）22:00',!!qa&&J(dayH(qa))===J(['2025-12-20',6,22]),J(dayH(qa)));
-    H.G.hour=20.7; STORY.phoneRules(GM); PHONE.tick(H.G); run(20.75,21);
-    check('d. 語彤那一則 20:39 照樣傳到；和以安那一頓（22:00）時間不重疊＝不婉拒、還可以答應',!!ask('Y1S1',YT)&&isOpen('Y1S1',YT)&&!infos.length,J({yt:ans('Y1S1',YT),infos}));
+    P.heart.unshift(YT); H.G=JSON.parse(J(H.G)); SOCIAL.bind(H.G); H.G.hour=20.6; STORY.phoneRules(GM); PHONE.tick(H.G); run(20.65,21);   /* 讀檔：名單照存檔（有她） */
+    check('d. 讀檔以後語彤那一則照樣傳到；和以安那一頓（22:00）時間不重疊＝不婉拒、還可以答應',!!ask('Y1S1',YT)&&isOpen('Y1S1',YT)&&!infos.length,J({yt:ans('Y1S1',YT),infos}));
     PHONE.answer(H.G,tag('Y1S1',YT),0); rules(); const qx=outOf(EXID('Y1S1',YT));
     check('d. 答應語彤：兩頓都留，同一個週六 12/20——語彤 17:30、以安 22:00（第 5 點）；沒有扣任何數值',!!qx&&J(dayH(qx))===J(['2025-12-20',6,17.5])&&!!outOf('te_Y1S1')&&J(dayH(outOf('te_Y1S1')))===J(['2025-12-20',6,22])&&!negAdj().length,J({qx:dayH(qx),qa:dayH(outOf('te_Y1S1'))})); }
   finally{ HA.h=h0; }

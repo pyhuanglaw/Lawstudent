@@ -97,7 +97,7 @@ await sec('5',()=>{
   check('3. 那一頓 18:00（原本 17:30；稿「改成 **18:00**」）、溫州街・小路、週六；資料 h 18、examDay',TERMS.every(t=>!!R[t].dinner&&R[t].dinner[1]===6&&R[t].dinner[2]===18&&R[t].place==='溫州街・小路')&&TERMEND_LINES.FRIEND[YT].h===18&&TERMEND_LINES.FRIEND[YT].examDay===true&&TERMEND.dinnerH('Y2S1','friend',TERMEND.friend(YT,'Y2S1'))===18&&in687('改成 **18:00**'),J(TERMS.map(t=>[t,R[t].dinner,R[t].place])));
   /* 週五考完：別人的朋友邀約原本照舊隔天（週六）20:30；TE-FRI-SAME-NIGHT-1104（BB-C 22:09）起接在語彤那一則後面、同一個週五晚上到（20:39），飯的日子照原本 */
   { const {w}=setupTerm('Y2S2',[YT,AN]); at('2027-06-11',19.9); run(19.9,21.5); const a1=PHONE.byAsk(H.G,tagOf('Y2S2')), b1=PHONE.byAsk(H.G,'te_Y2S2_'+AN); at('2027-06-12',19.9); run(19.9,21.5); const b2=PHONE.byAsk(H.G,'te_Y2S2_'+AN);
-    check('5. 大二下：語彤那一則 6/11（五）20:30 到；另一位朋友（以安）的邀約同一晚 20:39 接在她後面到（TE-FRI-SAME-NIGHT-1104，原本隔天 6/12）、隔天不再傳',!!a1&&K(a1.day)==='2027-06-11'&&a1.h===20.5&&!!b1&&K(b1.day)==='2027-06-11'&&b1.h===20.65&&!!b2&&K(b2.day)==='2027-06-11'&&b2.h===20.65&&(H.G.msgs||[]).filter(m=>m.tag==='te_Y2S2_'+AN).length===1,J([a1&&[K(a1.day),a1.h],b1&&[K(b1.day),b1.h],b2&&[K(b2.day),b2.h]])); }
+    check('5. 大二下：語彤那一則 6/11（五）20:30 到；另一位朋友（以安）的邀約同一晚 20:30 一起到（TE-FRI-SAME-NIGHT／TE-SAME-TIME-1104，原本隔天 6/12）、隔天不再傳',!!a1&&K(a1.day)==='2027-06-11'&&a1.h===20.5&&!!b1&&K(b1.day)==='2027-06-11'&&b1.h===20.5&&!!b2&&K(b2.day)==='2027-06-11'&&b2.h===20.5&&(H.G.msgs||[]).filter(m=>m.tag==='te_Y2S2_'+AN).length===1,J([a1&&[K(a1.day),a1.h],b1&&[K(b1.day),b1.h],b2&&[K(b2.day),b2.h]])); }
 });
 
 /* ---------- 4 小路的開場、收尾；背景 ---------- */

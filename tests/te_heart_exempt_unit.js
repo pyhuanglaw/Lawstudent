@@ -49,7 +49,7 @@ await sec('a',async()=>{
   const w=setup('Y2S2',[YT,AN],[XC]); const P=TERMEND.plan(H.G,w), R=()=>H.G.termend.Y2S2;
   check('a. 名單：心意＝語彤、以安；朋友＝芯慈；不佔名額的（plan.exempt）只有語彤',P.heart.includes(YT)&&P.heart.includes(AN)&&P.friend.includes(XC)&&J(P.exempt)===J([YT]),J({heart:P.heart,friend:P.friend,exempt:P.exempt}));
   at('2027-06-11',20); run(20,21);
-  check('a. 前置：語彤那一則 6/11（五）20:30 傳來（AA_684）；以安 20:39、芯慈 20:48 同一晚接在她後面到（TE-FRI-SAME-NIGHT-1104），三則都還沒回',isOpen('Y2S2',YT)&&K(ask('Y2S2',YT).day)==='2027-06-11'&&ask('Y2S2',YT).h===20.5&&isOpen('Y2S2',AN)&&J([K(ask('Y2S2',AN).day),ask('Y2S2',AN).h])===J(['2027-06-11',20.65])&&isOpen('Y2S2',XC)&&J([K(ask('Y2S2',XC).day),ask('Y2S2',XC).h])===J(['2027-06-11',20.8]),J([ask('Y2S2',YT)&&[K(ask('Y2S2',YT).day),ask('Y2S2',YT).h],ask('Y2S2',AN)&&[K(ask('Y2S2',AN).day),ask('Y2S2',AN).h],ask('Y2S2',XC)&&[K(ask('Y2S2',XC).day),ask('Y2S2',XC).h]]));
+  check('a. 前置：語彤那一則 6/11（五）20:30 傳來（AA_684）；以安、芯慈同一晚 20:30 一起到、排在她後面（TE-FRI-SAME-NIGHT／TE-SAME-TIME-1104），三則都還沒回',isOpen('Y2S2',YT)&&K(ask('Y2S2',YT).day)==='2027-06-11'&&ask('Y2S2',YT).h===20.5&&isOpen('Y2S2',AN)&&J([K(ask('Y2S2',AN).day),ask('Y2S2',AN).h])===J(['2027-06-11',20.5])&&isOpen('Y2S2',XC)&&J([K(ask('Y2S2',XC).day),ask('Y2S2',XC).h])===J(['2027-06-11',20.5]),J([ask('Y2S2',YT)&&[K(ask('Y2S2',YT).day),ask('Y2S2',YT).h],ask('Y2S2',AN)&&[K(ask('Y2S2',AN).day),ask('Y2S2',AN).h],ask('Y2S2',XC)&&[K(ask('Y2S2',XC).day),ask('Y2S2',XC).h]]));
   adj=[]; PHONE.answer(H.G,tag('Y2S2',YT),0); rules(); const qx=outOf(EXID('Y2S2',YT));
   check('a. 答應語彤：記 heartPick、不佔名額（R.picked 沒有）；晚餐是另一場出遊 te_ex_Y2S2_heroine_03＝6/12（六）17:30 一盞茶屋、te.ex；一般名額那一場（te_Y2S2）沒有',
     !!R().heartPick&&R().heartPick.who===YT&&!R().picked&&!!qx&&J(dayH(qx))===J(['2027-06-12',6,17.5])&&qx.place==='一盞茶屋'&&qx.te&&qx.te.ex===true&&qx.te.who===YT&&qx.te.kind==='heart'&&!outOf('te_Y2S2'),J({heartPick:R().heartPick,picked:R().picked,qx:dayH(qx),te:qx&&qx.te}));
@@ -118,12 +118,13 @@ await sec('c2',async()=>{
   check('c2. 沒有扣任何數值',!negAdj().length,J(negAdj()));
 });
 await sec('c3',async()=>{
-  /* 後到的那一則：以安 20:30 先到、玩家馬上接了；語彤 20:39 才到——照樣傳到（玩家看得到），傳到的當下照「改天」回（不等下一次手機規則、不會先自動打開手機） */
-  const w=setup('Y1S1',[YT,AN],[]), R=()=>H.G.termend.Y1S1; TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,20.55);
-  check('c3. 前置：20:33 只有以安那一則到了',isOpen('Y1S1',AN)&&!ask('Y1S1',YT));
-  PHONE.answer(H.G,tag('Y1S1',AN),0); rules(); H.G.hour=20.7; STORY.phoneRules(GM); PHONE.tick(H.G);   /* 手機規則把她那一則排進去（20:39）→ 這一次 PHONE.tick 傳到；中間不再跑手機規則 */
+  /* 後到的那一則：TE-SAME-TIME-1104 以後同一晚的邀約 20:30 一起到，這一種只剩舊版存的檔——舊版以安 20:30 先到、玩家馬上接了、20:35 存檔（語彤舊版 20:39 才到）；
+     新版讀檔：她那一則照樣傳到（玩家看得到），傳到的當下照「改天」回（不等下一次手機規則、不會先自動打開手機）。名單先拿掉她＝舊版還沒傳 */
+  const w=setup('Y1S1',[YT,AN],[]), R=()=>H.G.termend.Y1S1; const P=TERMEND.plan(H.G,w); P.heart=P.heart.filter(x=>x!==YT); at('2025-12-18',20); run(20,20.55);
+  check('c3. 前置（舊版存的檔）：20:33 只有以安那一則到了',isOpen('Y1S1',AN)&&!ask('Y1S1',YT));
+  PHONE.answer(H.G,tag('Y1S1',AN),0); rules(); P.heart.unshift(YT); H.G=JSON.parse(J(H.G)); SOCIAL.bind(H.G); H.G.hour=20.6; STORY.phoneRules(GM); PHONE.tick(H.G);   /* 讀檔（名單照存檔，有她）→ 手機規則把她那一則排進去 → 這一次 PHONE.tick 傳到；中間不再跑手機規則 */
   const m=ask('Y1S1',YT);
-  check('c3. 語彤那一則 20:39 照樣傳到（原本以安接了就不發）；傳到的那一次 PHONE.tick 裡就照「改天」回：「那天有約了。」「好。那我去上班。」',
+  check('c3. 讀檔以後語彤那一則照樣傳到（原本以安接了就不發）；傳到的那一次 PHONE.tick 裡就照「改天」回：「那天有約了。」「好。那我去上班。」',
     !!m&&m.ans===1&&thread(YT).includes(YT+':'+TERMEND_LINES.HEART[YT].invite)&&thread(YT).slice(-2).join('|')==='player:那天有約了。|'+YT+':'+TERMEND_LINES.HEART[YT].decline,J(thread(YT)));
   check('c3. 以安那一頓照舊（12/20 19:00）',!!outOf('te_Y1S1')&&outOf('te_Y1S1').te.who===AN&&!R().heartPick);
 });
