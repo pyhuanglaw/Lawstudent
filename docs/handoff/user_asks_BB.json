@@ -243,6 +243,16 @@
    "status": "進行中",
    "context": "附存檔 day35 library_media；CC STUCK_1104 重現＋新常備測試 social_smoke（攻略對象、朋友：說話每個選項、約會、訊息約、偶遇、讀檔後再試），加進發布前清單",
    "task": "SOCIAL-STUCK-1104"
+  },
+  {
+   "id": "UA-BB-1104-DATE-RUN",
+   "at": "2026-11-04T01:32Z",
+   "quote": "你也要測試用手機跟其他角色約會的對話／還有實際約會進行",
+   "kind": "轉述",
+   "via": "CC（使用者直接對 CC 說）",
+   "status": "進行中",
+   "task": "SOCIAL-STUCK-1104",
+   "note": "social_smoke 加 phone_date＋整場約會實跑；可攻略全員、朋友每人至少一場；v9.10.20 驗收項"
   }
  ]
 }
