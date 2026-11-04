@@ -1,0 +1,314 @@
+[
+ {
+  "shop": "aoki",
+  "key": "ggtea_int",
+  "res": "1024x548",
+  "view": [
+   "ggtea_int",
+   [
+    -0.32999999999999996,
+    1.645,
+    9.5
+   ],
+   [
+    -0.32999999999999996,
+    1.645,
+    -1.5
+   ],
+   76.5,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "aoki",
+  "key": "ggtea_take",
+  "res": "1024x984",
+  "view": [
+   "ggtea_take",
+   [
+    3.59,
+    1.8250000000000002,
+    9.5
+   ],
+   [
+    3.59,
+    1.8250000000000002,
+    -1.5
+   ],
+   177.23,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "yejian",
+  "key": "ggbook_int2",
+  "res": "1024x512",
+  "view": [
+   "ggbook_int2",
+   [
+    -1.3,
+    1.7000000000000002,
+    11.0
+   ],
+   [
+    -1.3,
+    1.7000000000000002,
+    0.0
+   ],
+   53.22,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "yejian",
+  "key": "ggbook_int",
+  "res": "1024x512",
+  "view": [
+   "ggbook_int",
+   [
+    3.3,
+    1.7000000000000002,
+    11.0
+   ],
+   [
+    3.3,
+    1.7000000000000002,
+    0.0
+   ],
+   53.22,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "cvs",
+  "key": "ggcvs_side",
+  "res": "1024x704",
+  "view": [
+   "ggcvs_side",
+   [
+    -3.375,
+    1.405,
+    11.5
+   ],
+   [
+    -3.375,
+    1.405,
+    0.5
+   ],
+   63.58,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "cvs",
+  "key": "ggcvs_int",
+  "res": "1024x636",
+  "view": [
+   "ggcvs_int",
+   [
+    0.8,
+    1.405,
+    11.5
+   ],
+   [
+    0.8,
+    1.405,
+    0.5
+   ],
+   57.46,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "bike",
+  "key": "ggbike_int",
+  "res": "1024x458",
+  "view": [
+   "ggbike_int",
+   [
+    -2.5,
+    1.7,
+    12.0
+   ],
+   [
+    -2.5,
+    1.7,
+    1.0
+   ],
+   64.42,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "bike",
+  "key": "ggbike_int2",
+  "res": "1024x784",
+  "view": [
+   "ggbike_int2",
+   [
+    2.925,
+    1.65,
+    12.0
+   ],
+   [
+    2.925,
+    1.65,
+    1.0
+   ],
+   104.17,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "afar",
+  "key": "ggafar_win",
+  "res": "1024x554",
+  "view": [
+   "ggafar_win",
+   [
+    -2.1,
+    1.705,
+    10.0
+   ],
+   [
+    -2.1,
+    1.705,
+    -1.0
+   ],
+   68.0,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "afar",
+  "key": "ggafar_int",
+  "res": "1024x974",
+  "view": [
+   "ggafar_int",
+   [
+    0.725,
+    1.705,
+    10.0
+   ],
+   [
+    0.725,
+    1.705,
+    -1.0
+   ],
+   119.41,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "corner",
+  "key": "ggcorner_win",
+  "res": "656x1022",
+  "view": [
+   "ggcorner_win",
+   [
+    -2.6950000000000003,
+    1.725,
+    11.75
+   ],
+   [
+    -2.6950000000000003,
+    1.725,
+    0.75
+   ],
+   176.12,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "corner",
+  "key": "ggcorner_int",
+  "res": "1024x826",
+  "view": [
+   "ggcorner_int",
+   [
+    -0.655,
+    1.725,
+    11.75
+   ],
+   [
+    -0.655,
+    1.725,
+    0.75
+   ],
+   91.0,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ },
+ {
+  "shop": "daybreak",
+  "key": "ggdb_int",
+  "res": "1024x378",
+  "view": [
+   "ggdb_int",
+   [
+    -0.915,
+    1.645,
+    10.0
+   ],
+   [
+    -0.915,
+    1.645,
+    -1.0
+   ],
+   51.11,
+   [
+    "WALL_front",
+    "GLASS_front",
+    "DECAL_front"
+   ]
+  ]
+ }
+]
