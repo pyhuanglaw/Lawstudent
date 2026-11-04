@@ -1060,6 +1060,20 @@ for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.st
         _cull += sum(len(f.verts) - 2 for f in _del); bmesh.ops.delete(_bm, geom=_del, context='FACES_ONLY'); _bm.to_mesh(_ob.data)
     _bm.free()
 print('{"cull_bottoms_tris": %d}' % _cull)
+# LANEEAST-TRIS2-1104（LAWWW2-C 11-04）：店裡隔著玻璃的東西（sk_* 的 wz_in_* 材質：貨架上的商品、書、水果、桌椅）背對街道的面刪掉——
+# 街上只看得到朝街、朝上、朝左右的面；朝店裡後牆的那一面（A 側 z>0 的店：法線 +z；B 側 z<0：法線 −z）從街上永遠看不到（玻璃另一邊沒有鏡頭）。
+# 單面材質（PERF-SINGLESIDE）雖然顯示卡會剔除，但 renderer.info 照樣算三角形、照樣送進去；刪掉才真的少。店內是另一個區域（另一個 GLB），不受影響
+_cullb = 0
+if SET == 'wenzhou':
+    for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.startswith('sk_') and o.data.users == 1]:
+        _mw = _ob.matrix_world; _side = 1.0 if (_mw @ Vector([sum(c[i] for c in _ob.bound_box) / 8.0 for i in range(3)])).y < 0 else -1.0   # Blender y＝遊戲 −z：y<0＝遊戲 z>0＝A 側
+        _bm = bmesh.new(); _bm.from_mesh(_ob.data); _n3 = _mw.to_3x3().inverted().transposed(); _mats = _ob.data.materials
+        _del = [f for f in _bm.faces if f.material_index < len(_mats) and _mats[f.material_index] and _mats[f.material_index].name.startswith('wz_in_')
+                and (_n3 @ f.normal).normalized().y * _side < -0.9]   # 遊戲 +z（A 側背向街）＝Blender −y；B 側背向街＝Blender +y
+        if _del:
+            _cullb += sum(len(f.verts) - 2 for f in _del); bmesh.ops.delete(_bm, geom=_del, context='FACES_ONLY'); _bm.to_mesh(_ob.data)
+        _bm.free()
+print('{"cull_backs_tris": %d}' % _cullb)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 if SET == 'gongguan':   # PERF-GG-DC-1104：上面合進來的 instancing 零件照舊不投影（見上）
@@ -1083,6 +1097,33 @@ L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'wz_tiles_{SET}'), f'
               reps={'wz_sf_wood_dark': 2, 'wz_sf_wood_light': 2, 'wz_sf_mosaic': 2, 'wz_sf_granite': 2, 'wz_sf_terrazzo': 2, 'wz_sf_white': 2, 'wz_sf_floral': 2})
 # ↑ 木頭多半是店裡的小家具、店內地板隔著玻璃看：一格放 2×2 個週期，少切很多刀；騎樓地板（近看、走在上面）、鐵捲門、石材牆基維持一格一個週期
 if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊面掃描（tools/glb_coplanar.py）就看得到每個零件的名字
+    # 整條街共用的大材質（LANEEAST-TRIS2-1104，LAWWW2-C 11-04：BB_255「lane_east 三角形 ≤ 42 萬」）：頂點色雜物、金屬件、牆面磁磚、店內地磚原本各自整條街一個網格
+    # （cafe_vc_wz_matte 2.1 萬、cafe_vc_wz_metal 1.2 萬、wz_wall_tile 1.1 萬、wz_in_tiles_wenzhou 0.5 萬三角形），不管鏡頭看哪裡都整條畫、陰影那一輪也整條畫。
+    # 照零件中心的 x 分四段（x < 5／5～18／18～31／≥ 31，切在棟和棟中間：A2|A3、B4|B5、B5|B6）各自合併：站在東段往東看時西邊兩段整段裁掉；
+    # 不分南北兩側（包圍球大一點，但 draw call 少一半：每種材質在鏡頭裡多 1～2 次）。材質不變、名字 wzx<段>_<材質>，遊戲照材質名做事的都不受影響
+    #   第一版照零件（合併前的物件）中心分段不行：很多零件本身就跨半條街（實體化的 instancing 組、貼圖集切過的面），每一段還是從西到東。
+    #   改成合併以後照「每一個面」的中心切（_xseg_split），每一段只含自己那一截的面
+    WZ_XSEG_MATS = {'cafe_vc_wz_matte', 'cafe_vc_wz_metal', 'wz_wall_tile', 'wz_in_tiles_wenzhou'}
+    WZ_XSEG_CUTS = (5.0, 18.0, 31.0)
+    def _xseg_split(root):
+        made = []
+        for ob in [o for o in root.children if o.type == 'MESH' and len(o.data.materials) == 1 and o.data.materials[0] and o.data.materials[0].name in WZ_XSEG_MATS]:
+            if ob.data.users > 1: continue   # instancing（共用網格）不動
+            props = {kk: (vv.to_list() if hasattr(vv, 'to_list') else (vv.to_dict() if hasattr(vv, 'to_dict') else vv)) for kk, vv in ob.items()}
+            mw = ob.matrix_world.copy(); bm0 = bmesh.new(); bm0.from_mesh(ob.data); bm0.faces.ensure_lookup_table()
+            bins = {}
+            for f in bm0.faces: bins.setdefault(sum(1 for c in WZ_XSEG_CUTS if (mw @ f.calc_center_median()).x >= c), []).append(f.index)
+            if len(bins) < 2: bm0.free(); continue
+            for k, idx in sorted(bins.items()):
+                bm = bm0.copy(); bm.faces.ensure_lookup_table(); keep_ = set(idx)
+                bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.index not in keep_], context='FACES_ONLY')
+                bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context='VERTS')
+                me = bpy.data.meshes.new('wzx%d_%s' % (k, ob.name)); bm.to_mesh(me); bm.free(); me.materials.append(ob.data.materials[0])
+                nob = bpy.data.objects.new('wzx%d_%s' % (k, ob.name), me); B.scene().collection.objects.link(nob); nob.parent = root; nob.matrix_world = mw
+                for kk, vv in props.items(): nob[kk] = vv
+                made.append((nob.name, len(idx)))
+            bm0.free(); old = ob.data; bpy.data.objects.remove(ob); bpy.data.meshes.remove(old)
+        import json as _j; print(_j.dumps({'xseg_split': made}, ensure_ascii=False))
     def _seg(ob):   # 溫州街的店內（wz_in_shop）一間店一個網格合併（LAWWW 11-04 08:16 lane_east 三角形超標）：整條街一個網格的話，站在東段往東看時西段的書屋、帝大紅茶、常在洗衣、小路
         # 也整個要畫（裁不掉）；材質不變，看得到的店才畫。名字 wz_in_<棟號>_wz_in_shop 照舊 wz_in_ 開頭（遊戲不投影）
         if SET != 'wenzhou' or len(ob.data.materials) != 1 or not ob.data.materials[0] or ob.data.materials[0].name != 'wz_in_shop': return ''
@@ -1090,6 +1131,7 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
         return ('wz_in_' + m.group(1)) if m else ''
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else _seg(ob))   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
+    if SET == 'wenzhou': _xseg_split(root)   # LANEEAST-TRIS2-1104：整條街一個網格的四種材質照面的 x 切四段
 for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)
 if SET == 'gongguan':   # PERF-GG-DC-1104：店面的燈（小燈泡、燈管）、店內景深卡、亮窗的玻璃、新店面的灰泥牆（騎樓裡，影子本來就在騎樓的陰影裡）、騎樓梁上的招牌（薄板，影子落在騎樓的影子裡）不投影：陰影那一輪少 9 次 draw call
     for _ob in list(root.children):
