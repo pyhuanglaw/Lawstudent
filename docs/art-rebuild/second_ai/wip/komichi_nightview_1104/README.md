@@ -6,6 +6,8 @@
 
 只換 `assets/models/env/views/wz_teishoku_{day,night}.webp`，程式不用改。
 
+**BB-C 11-04 21:59Z：第二版 PASS。** ①選 A（照現在，不加壁燈：窗外看到的和走出去看到的一樣）；②照 14:00（窗景卡一整天同一張，14:00 從早到傍晚都說得通）。等 LAWWW-C 換檔、CC 在小路窗邊座位拍白天、晚上，BB 再判 ART_APPROVED。
+
 ![第二版前後](komichi_views_v2.jpg)
 
 | BB 14:04 | 第二版 |

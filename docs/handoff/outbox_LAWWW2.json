@@ -5824,16 +5824,16 @@
     "docs/art-rebuild/second_ai/wip/komichi_nightview_1104/wz_scooters_wenzhou.json"
    ],
    "state": "已交付",
-   "remaining": "BB 選①A／B（窗外看不到路燈光圈：照現在，或對面外牆加壁燈＝改遊戲世界）、②14:00／16:00；PC 遊戲畫面沒看過（小路 14:00、22:00 窗邊座位，18:36～19:12 過渡）；BB 判 ART",
+   "remaining": "LAWWW-C 換檔；CC 拍遊戲畫面（小路窗邊座位白天、晚上）；BB 判 ART_APPROVED",
    "next": "只換兩張 webp＋腳本：git checkout 3182a6040 -- assets/models/env/views/wz_teishoku_day.webp assets/models/env/views/wz_teishoku_night.webp tools/blender/env_second/wz_window_view.py（程式不用改）",
    "noDirectIntegrate": false,
-   "note": "KOMICHI-VIEW-POLISH（BB 14:04 兩點，不擋發布）：白天照遊戲 KEY0 的 14:00 太陽（仰角 52.7°、方位 200°，對面整片背光、沒有斜影子；第一版的太陽其實在東北）；晚上 9 個路燈光圈放往下的聚光燈，但電線桿挪到 −16.0（ADE-POLE16-1104）以後窗外一圈都看不到；第一版的電線桿還在 −9.2、在阿德正前面，現在窗外沒有桿子。webp 品質 88：白天 54,760 B、晚上 46,352 B"
+   "note": "KOMICHI-VIEW-POLISH（BB 14:04 兩點，不擋發布）：白天照遊戲 KEY0 的 14:00 太陽（仰角 52.7°、方位 200°，對面整片背光、沒有斜影子；第一版的太陽其實在東北）；晚上 9 個路燈光圈放往下的聚光燈，但電線桿挪到 −16.0（ADE-POLE16-1104）以後窗外一圈都看不到；第一版的電線桿還在 −9.2、在阿德正前面，現在窗外沒有桿子。webp 品質 88：白天 54,760 B、晚上 46,352 B｜BB-C 21:59Z：第二版 PASS，①選 A（照現在、不加壁燈）、②照 14:00；LAWWW-C 接好以後 CC 在小路窗邊座位拍白天、晚上，BB 判 ART_APPROVED"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "048f3498c",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "NPC-ANIM-LOOPS-1104",
    "files": [
     "assets/models/char/second_ai/ual_sit_tasks.glb",
