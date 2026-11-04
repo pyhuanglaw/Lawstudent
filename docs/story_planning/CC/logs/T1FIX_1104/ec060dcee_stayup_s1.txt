@@ -1,0 +1,45 @@
+
+!!! FAIL FORCING_SAVED（GAME_BUG）讀進 _forcing=true 的舊存檔以後：forceHome 叫了 1 次、真的送回去睡 1 次（2025-09-11 26:45 putong → 2025-09-12 07:30 dorm）；NO_FORCEHOME 沒有；現在 2025-09-12 07:31 dorm；G.flags._forcing=false；送回去睡以後自動存檔裡的 _forcing [true]
+
+================ 種子 1：FAIL ================
+區域 build 100 次、6.9 秒；turbo 格 13651
+到 2025-09-12　步數 1991　格數 34469　虛擬時間 1.7 小時　開頁面 2 次　真實 20.5 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":8,"day":-4,"date":"2025-09-12","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}
+個性：{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+【GAME_BUG】FORCING_SAVED　第 1991 步、第 34469 格
+  為什麼：情境 --stay-up：凌晨被送回去睡以後，自動存檔裡帶著 _forcing=true（讀這份檔＝再也不會送回去睡）
+  內容：讀進 _forcing=true 的舊存檔以後：forceHome 叫了 1 次、真的送回去睡 1 次（2025-09-11 26:45 putong → 2025-09-12 07:30 dorm）；NO_FORCEHOME 沒有；現在 2025-09-12 07:31 dorm；G.flags._forcing=false；送回去睡以後自動存檔裡的 _forcing [true]
+  G：{"day":-4,"date":"2025-09-12","hour":7.522,"zone":"dorm","stage":"law","money":37000,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv8:heroine_01@slowread:accepted"],"evDone":16,"page":2}
+  最後 20 個動作：
+    #1974 f33867 2025-09-11 23:37 putong｜選單（6 個）：民法總則這週：民法的結構
+    #1975 f33879 2025-09-11 25:37 putong｜點對話：你讀了兩小時的民法總則——民法的結構。
+    #1976 f33881 2025-09-11 25:37 putong｜點對話：你讀了兩小時的民法總則——民法的結構。
+    #1976 f33882 2025-09-11 25:37 putong｜（提示）📓 筆記：民法總則：課程說明
+    #1977 f33882 2025-09-11 25:37 putong｜點對話：你把〈民法總則：課程說明〉的筆記整理了一遍。
+    #1978 f33884 2025-09-11 25:37 putong｜點對話：你把〈民法總則：課程說明〉的筆記整理了一遍。
+    #1979 f33885 2025-09-11 25:37 putong｜點對話：你把〈民法的法源（§1）〉的筆記整理了一遍。
+    #1980 f33887 2025-09-11 25:37 putong｜點對話：你把〈民法的法源（§1）〉的筆記整理了一遍。
+    #1981 f33892 2025-09-11 25:37 putong｜等一下（28 秒）
+    #1981 f33894 2025-09-11 25:37 putong｜（提示）📓 筆記：民法的法源（§1）
+    #1982 f33986 2025-09-11 25:48 putong｜等一下（17 秒）
+    #1983 f34042 2025-09-11 25:55 putong｜等一下（25 秒）
+    #1984 f34126 2025-09-11 26:05 putong｜等一下（26 秒）
+    #1985 f34214 2025-09-11 26:16 putong｜等一下（16 秒）
+    #1986 f34269 2025-09-11 26:22 putong｜走去坐下（19.3 m）
+    #1987 f34325 2025-09-11 26:25 putong｜按互動：坐下
+    #1988 f34336 2025-09-11 26:25 putong｜選單（4 個）：坐一下，看看四周時間 +20 分鐘
+    #1989 f34357 2025-09-11 26:45 putong｜等一下（54 秒）
+    #1990 f34358 2025-09-11 26:45 putong｜點對話：已經凌晨了。你的腳自己往宿舍走。
+    #1991 f34361 2025-09-11 26:45 putong｜點對話：已經凌晨了。你的腳自己往宿舍走。
+  重現：node ../../../../../home/user/pyhuanglaw/lawstudent/docs/story_planning/test_tools/cc/random_play_sim.js --seed 1 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_ec060dcee --from 2025-08-29 --to 2025-09-12
+
+注意（不算 FAIL）：
+  35 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  18 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 20:36 campus）
+  2 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  2 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）
+@@RESULT {"seed":1,"scen":{"mode":"stay-up","day":"2025-09-10","savedTrue":1,"res":"FAIL","pass":null,"calls":1,"sent":1,"log":["2025-09-11 26:45 putong → 2025-09-12 07:30 dorm"]},"ok":false,"reached":"2025-09-12","steps":1991,"frames":34469,"vms":6181200,"pages":2,"fails":[{"kind":"FORCING_SAVED","cls":"GAME_BUG","why":"情境 --stay-up：凌晨被送回去睡以後，自動存檔裡帶著 _forcing=true（讀這份檔＝再也不會送回去睡）","msg":"讀進 _forcing=true 的舊存檔以後：forceHome 叫了 1 次、真的送回去睡 1 次（2025-09-11 26:45 putong → 2025-09-12 07:30 dorm）；NO_FORCEHOME 沒有；現在 2025-09-12 07:31 dorm；G.flags._forcing=false；送回去睡以後自動存檔裡的 _forcing [true]","step":1991,"frame":34469,"G":{"day":-4,"date":"2025-09-12","hour":7.522,"zone":"dorm","stage":"law","money":37000,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv8:heroine_01@slowread:accepted"],"evDone":16,"page":2},"lastActions":["#1974 f33867 2025-09-11 23:37 putong｜選單（6 個）：民法總則這週：民法的結構","#1975 f33879 2025-09-11 25:37 putong｜點對話：你讀了兩小時的民法總則——民法的結構。","#1976 f33881 2025-09-11 25:37 putong｜點對話：你讀了兩小時的民法總則——民法的結構。","#1976 f33882 2025-09-11 25:37 putong｜（提示）📓 筆記：民法總則：課程說明","#1977 f33882 2025-09-11 25:37 putong｜點對話：你把〈民法總則：課程說明〉的筆記整理了一遍。","#1978 f33884 2025-09-11 25:37 putong｜點對話：你把〈民法總則：課程說明〉的筆記整理了一遍。","#1979 f33885 2025-09-11 25:37 putong｜點對話：你把〈民法的法源（§1）〉的筆記整理了一遍。","#1980 f33887 2025-09-11 25:37 putong｜點對話：你把〈民法的法源（§1）〉的筆記整理了一遍。","#1981 f33892 2025-09-11 25:37 putong｜等一下（28 秒）","#1981 f33894 2025-09-11 25:37 putong｜（提示）📓 筆記：民法的法源（§1）","#1982 f33986 2025-09-11 25:48 putong｜等一下（17 秒）","#1983 f34042 2025-09-11 25:55 putong｜等一下（25 秒）","#1984 f34126 2025-09-11 26:05 putong｜等一下（26 秒）","#1985 f34214 2025-09-11 26:16 putong｜等一下（16 秒）","#1986 f34269 2025-09-11 26:22 putong｜走去坐下（19.3 m）","#1987 f34325 2025-09-11 26:25 putong｜按互動：坐下","#1988 f34336 2025-09-11 26:25 putong｜選單（4 個）：坐一下，看看四周時間 +20 分鐘","#1989 f34357 2025-09-11 26:45 putong｜等一下（54 秒）","#1990 f34358 2025-09-11 26:45 putong｜點對話：已經凌晨了。你的腳自己往宿舍走。","#1991 f34361 2025-09-11 26:45 putong｜點對話：已經凌晨了。你的腳自己往宿舍走。"],"count":1}],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":35,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":18,"ex":"unknown asset prop.bike_ride（2025-08-30 20:36 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":2,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":2,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）","all":[{"at":"2025-09-01 08:17","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#342 f4304 2025-09-01 08:17 dorm｜選單（2 個）：先不要","#343 f4310 2025-09-01 08:17 dorm｜走去床底下的紙箱（0.6 m）","#344 f4313 2025-09-01 08:17 dorm｜按互動：床底下的紙箱"]},{"at":"2025-09-05 09:01","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#1233 f21304 2025-09-05 09:00 dorm｜（提示）30 分鐘後上課：09:10 經濟學原理（上）（普通教學館 101）","#1234 f21305 2025-09-05 09:00 dorm｜走去床底下的紙箱（0.6 m）","#1235 f21308 2025-09-05 09:01 dorm｜按互動：床底下的紙箱"]}]},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）"}],"missingE":[],"persona":{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":8,"day":-4,"date":"2025-09-12","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}}
+（20.5 秒）

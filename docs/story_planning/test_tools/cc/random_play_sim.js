@@ -14,6 +14,7 @@
  *     --old-forcing YYYY-MM-DD  情境（BB-C T1_FIX ①）：那天 21:00 以後玩家空下來，把自動存檔的旗標放進 _forcing=true（＝舊版存進去的那一份）→ 重新整理頁面、按繼續；
  *                               那一晚玩家不睡（不按床、選單選「再撐一下」），看 04:00 以後會不會照常被送回去睡（STORY.forceHome 真的把日期換到隔天），結束時 _forcing 有沒有清掉
  *     環境變數 RPS_TRACK_OPENING=1：開局（newGame、法律系宿營 S.campY1）還沒演完就檢查「時間只往前」——--from～--to 之間的日子才算（例：--from 2025-08-20 --to 2025-08-26）
+ *     --stay-up YYYY-MM-DD      情境（T1_FIX ①的原因）：那天晚上玩家不睡（不改存檔），凌晨被 forceHome 送回去睡以後，馬上看自動存檔裡有沒有 _forcing=true（舊版會存進去）
  *   結束碼：全部 PASS＝0，有 FAIL＝1。跑到一半要讓出 CPU：在 --out 資料夾放一個 STOP 檔，還沒開始的種子會直接回報「略過」。
  *
  * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
@@ -51,7 +52,7 @@ function parseArgs(argv){
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
     if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
-    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx();
+    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx(); else if(a==='--stay-up') o.stayUp=nx();
     else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
   const TR={law:{from:'2025-08-29',to:'2026-06-30'},econ:{from:'2024-08-23',to:'2025-08-28'}};
   if(!TR[o.track]) throw new Error('--track 只有 law、econ');
@@ -83,7 +84,7 @@ async function parent(o){
   RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
   try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
   const t0=realMs(); const results=[]; let next=0;
-  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]);
+  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]).concat(o.stayUp?['--stay-up',o.stayUp]:[]);
     const ch=cp.spawn(process.execPath,['--max-old-space-size=3072',...args],{stdio:['ignore','pipe','pipe']}); const ts=realMs(); let buf='', lastHb=realMs(), result=null, hb=null, errTail='';
     ch.stdout.on('data',d=>{ buf+=d; let k; while((k=buf.indexOf('\n'))>=0){ const line=buf.slice(0,k); buf=buf.slice(k+1); lastHb=realMs();
       if(line.startsWith('@@RESULT ')){ try{ result=JSON.parse(line.slice(9)); }catch(e){ errTail+='結果解析失敗 '; } } else if(line.startsWith('@@HB ')){ try{ hb=JSON.parse(line.slice(5)); }catch(e){} } } });
@@ -449,11 +450,12 @@ async function child(o){
     R.loading=false; if(track&&GM.G) track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; noActV=0; want=null; wait=0; react=2; pendingPhoneClick=null; goingAt.clear(); }
 
   /* ---------- 情境 --old-forcing（BB-C T1_FIX ①：舊存檔帶著 _forcing=true）---------- */
-  const SC={day:null,inj:false,injDay:null,calls:0,sent:0,res:null,log:[],inFH:null};
-  const stayUp=()=>!!o.oldForcing&&SC.inj&&!SC.res;
-  async function scenTick(){ const g=GM.G; if(!g||!track||R.loading) return; if(SC.day==null) SC.day=dayOfKey(o.oldForcing);
+  const SC={day:null,inj:false,injDay:null,calls:0,sent:0,res:null,log:[],inFH:null,saved:[],savedTrue:0};
+  const SCEN=o.oldForcing||o.stayUp; const stayUp=()=>!!SCEN&&SC.inj&&!SC.res;
+  async function scenTick(){ const g=GM.G; if(!g||!track||R.loading) return; if(SC.day==null) SC.day=dayOfKey(SCEN);
     if(W&&W.STORY&&!W.STORY.__ccFH&&typeof W.STORY.forceHome==='function'){ const orig=W.STORY.forceHome; W.STORY.forceHome=async function(gm){ const G0=gm&&gm.G; SC.calls++; const me={d0:G0&&G0.day,h0:G0&&+G0.hour,z0:G0&&G0.zone}; SC.inFH=me;
-        try{ return await orig.apply(this,arguments); } finally{ if(SC.inFH===me) SC.inFH=null; } };   /* 換日在 sleepNow 裡面（forceHome 還沒 return）：scenTick 看到日期換了、這一次還在跑＝送回去睡了 */ W.STORY.__ccFH=true; }   /* 每次開頁面（新的 context）重新包一次 */
+        try{ return await orig.apply(this,arguments); } finally{ if(SC.inFH===me) SC.inFH=null; try{ const raw=LS.getItem((T&&T.KEY_AUTO)||'fatiao3d_auto'), sv=raw&&JSON.parse(raw); const v=sv&&sv.flags&&('_forcing' in sv.flags)?sv.flags._forcing:'（沒有）'; SC.saved.push(v); if(v===true) SC.savedTrue++; }catch(e){} } };   /* 送回去睡、醒來那一下的自動存檔（同一格就讀，下一次 45 秒的自動存檔還沒蓋掉）*/   /* 換日在 sleepNow 裡面（forceHome 還沒 return）：scenTick 看到日期換了、這一次還在跑＝送回去睡了 */ W.STORY.__ccFH=true; }   /* 每次開頁面（新的 context）重新包一次 */
+    if(!SC.inj&&o.stayUp&&!o.oldForcing){ if(g.day<SC.day||(+g.hour)<21||!free()) return; SC.inj=true; SC.injDay=g.day; act('【情境 --stay-up】'+dayKey(g.day)+' '+fmtH(g.hour)+' 起這一晚不睡，看凌晨被送回去睡以後的自動存檔'); return; }
     if(!SC.inj){ if(g.day<SC.day||(+g.hour)<21||!free()) return; SC.inj=true;
       try{ GM.autosave&&GM.autosave(true); }catch(e){ onExc(e,'情境：存自動存檔'); }
       const key=(T&&T.KEY_AUTO)||'fatiao3d_auto', raw=LS.getItem(key); if(!raw){ fail('SCEN','TEST_BUG','情境 --old-forcing：沒有自動存檔可以改',''); SC.res='skip'; return; }
@@ -465,9 +467,9 @@ async function child(o){
     const done=g.day>SC.injDay&&!SC.inFH&&free(), over=g.day===SC.injDay&&(+g.hour)>=30;
     if(!done&&!over) return;
     const fl=g.flags&&('_forcing' in g.flags)?g.flags._forcing:'（沒有）', noFH=R.fails.some(f=>f.kind==='NO_FORCEHOME');
-    const ok=SC.sent>0&&!noFH&&fl==='（沒有）'; SC.res=ok?'PASS':'FAIL';
-    const msg='讀進 _forcing=true 的舊存檔以後：forceHome 叫了 '+SC.calls+' 次、真的送回去睡 '+SC.sent+' 次'+(SC.log.length?'（'+SC.log.join('；')+'）':'')+'；NO_FORCEHOME '+(noFH?'有':'沒有')+'；現在 '+dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone+'；G.flags._forcing='+JSON.stringify(fl);
-    if(ok){ act('【情境】PASS：'+msg); R.scenPass=msg; } else fail('OLD_FORCING','GAME_BUG','情境 --old-forcing：讀進 _forcing=true 的舊存檔，04:00 以後沒有照常送回去睡（或 _forcing 沒清掉）',msg); }
+    const ok=o.oldForcing?(SC.sent>0&&!noFH&&fl==='（沒有）'):(SC.sent>0&&SC.savedTrue===0); SC.res=ok?'PASS':'FAIL';
+    const msg=(o.oldForcing?'讀進 _forcing=true 的舊存檔以後':'這一晚不睡')+'：forceHome 叫了 '+SC.calls+' 次、真的送回去睡 '+SC.sent+' 次'+(SC.log.length?'（'+SC.log.join('；')+'）':'')+'；NO_FORCEHOME '+(noFH?'有':'沒有')+'；現在 '+dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone+'；G.flags._forcing='+JSON.stringify(fl)+'；送回去睡以後自動存檔裡的 _forcing '+JSON.stringify(SC.saved);
+    if(ok){ act('【情境】PASS：'+msg); R.scenPass=msg; } else if(o.oldForcing) fail('OLD_FORCING','GAME_BUG','情境 --old-forcing：讀進 _forcing=true 的舊存檔，04:00 以後沒有照常送回去睡（或 _forcing 沒清掉）',msg); else fail('FORCING_SAVED','GAME_BUG','情境 --stay-up：凌晨被送回去睡以後，自動存檔裡帶著 _forcing=true（讀這份檔＝再也不會送回去睡）',msg); }
 
   /* ---------- 玩家：看畫面上有什麼可以按 ---------- */
   const vis=el=>{ for(let x=el;x&&!x._isDoc;x=x.parentNode){ if(x.classList&&x.classList.contains('hide')) return false; if(x.style&&x.style.display==='none') return false; } return !!el&&el.isConnected; };
@@ -574,7 +576,7 @@ async function child(o){
     const g=GM.G; if(!track&&ngDone&&g&&g.day>=D_FROM){ track={abs:abs(g)}; act('開局演完，從這裡開始檢查時間只往前（'+dayKey(g.day)+' '+fmtH(g.hour)+'）'); }
     else if(!track&&process.env.RPS_TRACK_OPENING&&g&&g.day>=D_FROM&&g.day<=D_TO){ track={abs:abs(g)}; act('（RPS_TRACK_OPENING）開局還沒演完就開始檢查時間只往前（'+dayKey(g.day)+' '+fmtH(g.hour)+'；給宿營 S.campY1 換日用，--from／--to 要包住宿營那幾天）'); }
     checkFrame(); heartbeat(false);
-    if(o.oldForcing){ await scenTick(); if(SC.res) break; }
+    if(SCEN){ await scenTick(); if(SC.res) break; }
     if(track&&g&&g.day>D_TO){ act('到了 '+o.to+' 的隔天，結束'); break; }
     if(R.stuckNow){ R.stuckRecover=(R.stuckRecover|0)+1; if(R.stuckRecover>8){ fail('STUCK_GIVEUP','UNKNOWN','卡住、重新整理頁面讀檔 8 次以後還是卡住，放棄這個種子','reached '+R.reached); break; } act('卡住了 → 重新整理頁面、讀自動存檔（玩家會這樣做）'); await reloadAuto(true); continue; }
     if(R.fails.length>60){ act('失敗太多種，停下來'); break; }
@@ -586,7 +588,7 @@ async function child(o){
 
   function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
     const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
-    const out={seed:R.seed,scen:o.oldForcing?{day:o.oldForcing,res:SC.res,pass:R.scenPass||null,calls:SC.calls,sent:SC.sent,log:SC.log}:undefined,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
+    const out={seed:R.seed,scen:SCEN?{mode:o.oldForcing?'old-forcing':'stay-up',day:SCEN,savedTrue:SC.savedTrue,res:SC.res,pass:R.scenPass||null,calls:SC.calls,sent:SC.sent,log:SC.log}:undefined,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
       g:GM&&GM.G?{attended:(()=>{ try{ return Object.keys(W.CLS.rec(GM.G).done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,invDone:(GM.G.invites||[]).filter(v=>v.state==='done').length,goingSeen:goingSeen.size,msgs:(GM.G.msgs||[]).length}:null};
     for(const f of out.fails) delete f.extra;
     if(o.single) printSingle(out); process.stdout.write('@@RESULT '+JSON.stringify(out)+'\n'); return out; }

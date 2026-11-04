@@ -1,0 +1,44 @@
+
+!!! FAIL TIME_BACK（UNKNOWN）從 2025-09-04 19:10 退到 2025-09-04 17:42（1.47 小時；之前 G.day=-12 G.hour=19.17）
+
+================ 種子 36：FAIL ================
+區域 build 45 次、4.2 秒；turbo 格 10445
+到 2025-09-07　步數 1273　格數 26412　虛擬時間 1.3 小時　開頁面 1 次　真實 14.2 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":4,"day":-9,"date":"2025-09-07","evDone":15,"money":37000,"stage":"law","contacts":4,"invites":2,"invDone":0,"goingSeen":0,"msgs":60}
+個性：{"classP":0.8896594017278403,"lateP":0.14418377517722547,"phoneP":0.21947853247402235,"talkP":0.20712298203725368,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+【UNKNOWN】TIME_BACK　第 1099 步、第 22069 格
+  為什麼：遊戲時間倒退
+  內容：從 2025-09-04 19:10 退到 2025-09-04 17:42（1.47 小時；之前 G.day=-12 G.hour=19.17）
+  G：{"day":-12,"date":"2025-09-04","hour":17.7,"zone":"library","stage":"law","money":37000,"energy":100,"weekday":4,"busy":true,"depth":1,"busyWho":["libraryScene (src/story3d.js:3817:120)"],"evRunning":null,"companion":"an","dating_kexin":true,"invites":[],"evDone":14,"page":1}
+  最後 20 個動作：
+    #1083 f21848 2025-09-04 18:35 xinsheng｜按互動：山嵐書店（書店（兩層））
+    #1084 f21854 2025-09-04 18:36 xinsheng｜打開手機（msg）
+    #1085 f21856 2025-09-04 18:36 xinsheng｜手機：阿哲你沒有赴約：今天 12:10，慢讀咖啡（阿哲）。昨天2
+    #1086 f21858 2025-09-04 18:36 xinsheng｜收起手機
+    #1087 f21859 2025-09-04 18:36 xinsheng｜（隨機時間點）存讀檔檢查
+    #1087 f21859 2025-09-04 18:36 xinsheng｜存讀檔檢查：snapshot→validate→migrate一樣 → applySave 讀回
+    #1088 f21860 2025-09-04 18:36 xinsheng｜打開手機（friends）
+    #1089 f21862 2025-09-04 18:36 xinsheng｜手機：直接過去（約 15 分鐘）
+    #1089 f21872 2025-09-04 18:51 library｜（提示）走了 15 分鐘到總圖 3F 閱覽區
+    #1090 f22037 2025-09-04 19:10 library｜點對話：二樓靠牆的長桌。翻書的聲音、有人把水壺放下的聲音。她把聲音壓得很低。
+    #1091 f22039 2025-09-04 19:10 library｜點對話：二樓靠牆的長桌。翻書的聲音、有人把水壺放下的聲音。她把聲音壓得很低。
+    #1092 f22040 2025-09-04 19:10 library｜點對話：（小聲）那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？
+    #1093 f22045 2025-09-04 19:10 library｜點對話：（小聲）那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？
+    #1094 f22047 2025-09-04 19:10 library｜選單（3 個）：應該。交易要有誠信，但不能讓人因為一個手誤就賠十倍。
+    #1095 f22050 2025-09-04 19:10 library｜點對話：（小聲）我也這樣想。可是那買家沒做錯事啊。
+    #1096 f22054 2025-09-04 19:10 library｜點對話：（小聲）我也這樣想。可是那買家沒做錯事啊。
+    #1097 f22057 2025-09-04 19:10 library｜點對話：（小聲）那結論你寫。
+    #1098 f22059 2025-09-04 19:10 library｜點對話：（小聲）那結論你寫。
+    #1099 f22064 2025-09-04 19:10 library｜點對話：（小聲）其他的我來。
+    #1099 f22065 2025-09-04 19:10 library｜（提示）❤ 和小安的關係 +3
+  重現：node ../../../../../home/user/pyhuanglaw/lawstudent/docs/story_planning/test_tools/cc/random_play_sim.js --seed 36 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_ec060dcee --from 2025-08-29 --to 2025-09-06
+
+注意（不算 FAIL）：
+  31 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  11 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-31 22:19 campus）
+  1 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）　例：一句話還沒點，另一段的話蓋上來，演完會放回去（2025-08-31 15:01 gym_arena）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-04 18:36 xinsheng）
+@@RESULT {"seed":36,"ok":false,"reached":"2025-09-07","steps":1273,"frames":26412,"vms":4731700,"pages":1,"fails":[{"kind":"TIME_BACK","cls":"UNKNOWN","why":"遊戲時間倒退","msg":"從 2025-09-04 19:10 退到 2025-09-04 17:42（1.47 小時；之前 G.day=-12 G.hour=19.17）","step":1099,"frame":22069,"G":{"day":-12,"date":"2025-09-04","hour":17.7,"zone":"library","stage":"law","money":37000,"energy":100,"weekday":4,"busy":true,"depth":1,"busyWho":["libraryScene (src/story3d.js:3817:120)"],"evRunning":null,"companion":"an","dating_kexin":true,"invites":[],"evDone":14,"page":1},"lastActions":["#1083 f21848 2025-09-04 18:35 xinsheng｜按互動：山嵐書店（書店（兩層））","#1084 f21854 2025-09-04 18:36 xinsheng｜打開手機（msg）","#1085 f21856 2025-09-04 18:36 xinsheng｜手機：阿哲你沒有赴約：今天 12:10，慢讀咖啡（阿哲）。昨天2","#1086 f21858 2025-09-04 18:36 xinsheng｜收起手機","#1087 f21859 2025-09-04 18:36 xinsheng｜（隨機時間點）存讀檔檢查","#1087 f21859 2025-09-04 18:36 xinsheng｜存讀檔檢查：snapshot→validate→migrate一樣 → applySave 讀回","#1088 f21860 2025-09-04 18:36 xinsheng｜打開手機（friends）","#1089 f21862 2025-09-04 18:36 xinsheng｜手機：直接過去（約 15 分鐘）","#1089 f21872 2025-09-04 18:51 library｜（提示）走了 15 分鐘到總圖 3F 閱覽區","#1090 f22037 2025-09-04 19:10 library｜點對話：二樓靠牆的長桌。翻書的聲音、有人把水壺放下的聲音。她把聲音壓得很低。","#1091 f22039 2025-09-04 19:10 library｜點對話：二樓靠牆的長桌。翻書的聲音、有人把水壺放下的聲音。她把聲音壓得很低。","#1092 f22040 2025-09-04 19:10 library｜點對話：（小聲）那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？","#1093 f22045 2025-09-04 19:10 library｜點對話：（小聲）那個賣家——少打一個零的那個。你覺得法律應該保護他嗎？","#1094 f22047 2025-09-04 19:10 library｜選單（3 個）：應該。交易要有誠信，但不能讓人因為一個手誤就賠十倍。","#1095 f22050 2025-09-04 19:10 library｜點對話：（小聲）我也這樣想。可是那買家沒做錯事啊。","#1096 f22054 2025-09-04 19:10 library｜點對話：（小聲）我也這樣想。可是那買家沒做錯事啊。","#1097 f22057 2025-09-04 19:10 library｜點對話：（小聲）那結論你寫。","#1098 f22059 2025-09-04 19:10 library｜點對話：（小聲）那結論你寫。","#1099 f22064 2025-09-04 19:10 library｜點對話：（小聲）其他的我來。","#1099 f22065 2025-09-04 19:10 library｜（提示）❤ 和小安的關係 +3"],"count":1}],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":31,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":11,"ex":"unknown asset prop.bike_ride（2025-08-31 22:19 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":1,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）","n":1,"ex":"一句話還沒點，另一段的話蓋上來，演完會放回去（2025-08-31 15:01 gym_arena）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-04 18:36 xinsheng）"}],"missingE":[],"persona":{"classP":0.8896594017278403,"lateP":0.14418377517722547,"phoneP":0.21947853247402235,"talkP":0.20712298203725368,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":4,"day":-9,"date":"2025-09-07","evDone":15,"money":37000,"stage":"law","contacts":4,"invites":2,"invDone":0,"goingSeen":0,"msgs":60}}
+（14.2 秒）
