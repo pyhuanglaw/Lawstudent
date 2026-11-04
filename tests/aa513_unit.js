@@ -187,7 +187,7 @@ await sec('4',async()=>{ if(!HAS()||!HEARD.GG_DOORS){ check('4. 店門口',false
   const shops=(()=>{ const m=/const shops=(\[[\s\S]*?\]);/.exec(seg); return m?vm.runInNewContext(m[1]):null; })();
   const FZ=+((/const FZ=(\d+(?:\.\d+)?), GH=/.exec(seg)||[])[1]), x0=+((/let x=(-?\d+(?:\.\d+)?); shops\.forEach/.exec(seg)||[])[1]);
   const gm=/X1=x\+s\.w\+\(i<(\d+)&&!last\?([\d.]+):0\)/.exec(seg), ixOk=/const ix=x\+s\.w\/2;/.test(seg), dz=+((/E\.interactables\.push\(\{x:ix,z:FZ\+(\d+(?:\.\d+)?)/.exec(seg)||[])[1]);
-  const doors=[]; if(shops&&gm){ let x=x0; shops.forEach((s,i)=>{ const last=i===shops.length-1; doors.push(+(x+s.w/2).toFixed(3)); x=x+s.w+(i<+gm[1]&&!last?+gm[2]:0); }); }
+  const doors=[]; if(shops&&gm){ let x=x0; shops.forEach((s,i)=>{ const last=i===shops.length-1; doors.push(+(s.door!=null?s.door:x+s.w/2).toFixed(3));   /* door：店門不在店面中間的（頁間書屋 −36.4，2026-11-04 LAWWW2 新外觀）*/ x=x+s.w+(i<+gm[1]&&!last?+gm[2]:0); }); }
   const D=HEARD.GG_DOORS, mine=D.x.map(v=>+v.toFixed(3));
   check('4. heard3d.js S.GG_DOORS＝zones3d.js 公館店面街重算（shops '+(shops?shops.length:0)+' 間、x 從 '+x0+' 起、前 '+(gm?gm[1]:'?')+' 間多 '+(gm?gm[2]:'?')+' m、門口 ix＝x0＋w/2、z＝FZ＋'+dz+'＝'+(FZ+dz)+'）',
     !!shops&&shops.length===15&&ixOk&&J(mine)===J(doors)&&D.z===FZ+dz&&FZ===19&&dz===2,J({doors,mine,FZ,dz,z:D.z}));
