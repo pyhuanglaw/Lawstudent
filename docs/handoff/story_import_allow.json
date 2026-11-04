@@ -4174,6 +4174,15 @@
    "task": "SHOP-ENCOUNTER-1103",
    "kind": "text",
    "note": "店內偶遇回 LAWWW 四件：宋知寧加聯絡人以後的六則「看到一本書」訊息（每學期最多兩則、平日 21:00 左右、考試週寒暑假不發；第 5 則以後她改到山嵐書店，山嵐還沒開就先跳過）＋她只回「哈哈。」「好。」；「一起坐」30 分鐘、旁白一句、撞到課或約變灰「等一下有…」。匯入讀第 2、5 節（tools/shop_enc/import_shop_enc.py）"
+  },
+  {
+   "path": "docs/story_planning/AA_618_木曜日與日常失速_台詞.md",
+   "sha": "ca876b23d",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_618，使用者 11-03 同意 AA_617、D109）",
+   "task": "AA617-WZ-CAFES-1103",
+   "kind": "text",
+   "note": "木曜日第 1 節（1-1～1-7）台詞照抄進 src/mokuyobi_sys3d.js（子代理 cfeeeff49，tests/mokuyobi_aa618_unit.js 逐字對照 ca876b23d）；第 2 節日常失速等場景"
   }
  ]
 }
