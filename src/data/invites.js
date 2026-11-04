@@ -520,12 +520,12 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
 
 /* ---------- afar café、Daybreak（公館第二批 G07、G14；GG-SHOPS2-1104，USER_WANTS X209）當邀約地點（AA_652 第 1、2 節「約去…答應的一句」、第 3 節接線備註；AA 定稿 D109，企劃線 303cded56，一字照稿）----------
-   afar＝喝咖啡（reason：和兩點半 Café 同一把尺，剛認識就可以；座位可以讀書＝也列在「念書」），營業 11:00～21:00；
+   afar＝喝咖啡（reason：和兩點半 Café 同一把尺，剛認識就可以；AA_652 第 3 節「類型：咖啡、吃飯」＝只列在「喝咖啡、喝茶」），營業 11:00～21:00；
    Daybreak＝吃飯（meal：和半熟同一把尺，有點熟以上），早午餐只約得到 08:00～14:00（開始的時間；15:00 關門），14:00 以後選 Daybreak 先說那一句旁白（lateNote，src/invites3d.js S.flow），時間只列今天還沒過的、明天的。
    稿上沒有寫要先自己走去過一次（和兩點半 Café、公館燒臘一樣，不加 show）。可昕照現在的規則（只在她在臺北、約得到的時候：S.kxPlaceOk 認得 acc）。
    答應的那一句：七位各一句（people[人].acc.afar／daybreak）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。
    兩個人坐下以後的開場句：seatOpen.afar／daybreak（下面）。見面旁白照邀約一般的（AA_652 沒有寫約來的見面句）*/
-INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit','study'],hours:[11,21]});
+INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit'],hours:[11,21]});
 INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去 Daybreak 吃早午餐',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,14.75],times:[9,10,11.5,13],
   lateNote:G=>((((+G.hour||0)%24)+24)%24)>=14-1e-6?'（Daybreak 下午三點就關了。）':null});
 (function(){ const AF={heroine_01:'「好。我帶書去，你不要一直跟我講話。」',heroine_02:'「afar？好。……窗邊那一排的燈很好看。」',heroine_03:'「好。我想吃他們的布丁。」',heroine_04:'「可以。那裡插座很多。」',heroine_05:'「好。我也剛好要寫東西。」',

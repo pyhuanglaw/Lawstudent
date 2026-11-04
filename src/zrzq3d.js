@@ -268,7 +268,7 @@ const ZRZQ=(function(){
 
   /* ---------- 帶到場 ---------- */
   S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib'].includes(z)) return 'lib';
-    if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','bikeshop','aoki','afar','daybreak','cvs','wenzhou','lane118'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
+    if(/^dorm/.test(z)) return 'dorm'; if(['gongguan','noodle','bookstore','bikeshop','aoki','cvs','wenzhou','lane118','afar','daybreak'].includes(z)||/^l118|^wz_/.test(z)) return 'town'; return 'campus'; };
   /* {課名}：那天實際上的最後一堂課（有去上的、在現在以前下課的；am＝只看上午）*/
   S.lastClass=function(G,o){ if(typeof CLS==='undefined'||!CLS.dayItems) return null; const Dn=(G.courses&&G.courses.done)||{};
     const Lc=CLS.dayItems(G,G.day).filter(it=>Dn[it.key]&&it.t1<=o.upTo+1e-6&&(!o.am||it.t1<=12.5)); return Lc.length?Lc[Lc.length-1]:null; };
