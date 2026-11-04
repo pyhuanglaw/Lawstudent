@@ -1,0 +1,4 @@
+[gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [STUCK_1104_dev]
+[gpu_wrap 94.8s] pageerror c.attended.every is not a function
+[gpu_wrap 135.4s] page close url=http://127.0.0.1:8810/index.html
+[gpu_wrap 135.5s] BROWSER DISCONNECTED

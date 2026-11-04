@@ -1,0 +1,45 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_stuck1104_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\STUCK_1104_dev\out
+  存檔：第 35 天、週2、15.40 時、library_media {"x": -3.12, "z": 0.12, "yaw": 4.917, "lv": 0, "y": 0}
+PASS 遊戲載入
+PASS 讀檔（自動存檔 → 標題「繼續」）  {"zone": "library_media", "hour": 15.4032, "day": 35, "x": -3.12, "z": 0.12, "lv": 0, "dlg": false, "depth": 0, "who": [], "adv": false, "cam": "follow", "frozen": false, "busy": false, "pose": "idle", "paused": false, "name": "", "text": "", "choices": [], "interact": "和林芷若說話", "running": null, "nch": 0}
+  這一區的 NPC（1）：[{"id": "heroine_02", "key": "heroine_02", "name": "林芷若", "crowd": null, "x": -4.05, "z": 0.3, "lv": 0, "pose": "read"}]
+PASS 讀檔後（還沒找人說話）可以玩：搖桿、時間、手機  {"moved": 2.09, "time_flows": true, "phone_open": true}
+== 林芷若（heroine_02）(-4.05,0.3) pose=read
+  到達「林芷若」附近（0.59 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02_1] 卡在同一處 15 秒：①字幕／選單 ["", "", []] ③busy=True running=None depth=1 adv=True 按鈕 0 ④點了以後 沒反應
+  卡住細節 heroine_02_1：{"state": {"zone": "library_media", "hour": 15.521, "day": 35, "x": -3.5, "z": 0.52, "lv": 0, "dlg": false, "depth": 1, "who": ["S.talkCharacter (http://127.0.0.1:8810/src/story3d.js?v=9.10.19:939:25)"], "adv": true, "cam": "cinematic", "frozen": false, "busy": true, "pose": "idle", "paused": false, "name": "", "text": "", "choices": [], "interact": "", "running": null, "nch": 0}, "moved": 0.0, "time_flows": false, "phone_open": true, "new_errs": ["c.attended.every is not a function"]}
+  console 最後 30 行：
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning THREE.WebGLRenderer: Texture marked for update but no image data found.
+    warning [.WebGL-0xa9c00449000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.
+    warning [.WebGL-0xa9c00449000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.
+    info upgraded character models: 2
+    info upgraded character models: 2
+    info upgraded character models: 1
+    warning 劇情鎖住沒有結束（BUG-BOWL-STUCK-1018） {depth: 1, busy: true, cam: cinematic, by: Array(1), zone: library_media}
+FAIL [heroine_02_1] 和「林芷若」說話（選項路徑 []）以後沒有卡住  {"moved": 0.0, "time_flows": false, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 1, "adv": true, "frozen": false, "cam": "cinematic", "pose": "idle"}
+== 林芷若 跑了 1 次（上限 15，還有 0 條沒試）
+FAIL 沒有 JS 例外  ["c.attended.every is not a function"]
+FAILED 2: [heroine_02_1] 和「林芷若」說話（選項路徑 []）以後沒有卡住；沒有 JS 例外
