@@ -20,8 +20,9 @@ const stripC=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/mg,'');
 const CODE={}; for(const p in SRC) CODE[p]=stripC(SRC[p]);
 const inCode=t=>Object.keys(CODE).filter(p=>CODE[p].includes(t));
 const fileOf=where=>{ const m=where.match(/^`?([\w.]+\.js)/); if(!m) return null; return Object.keys(SRC).find(p=>p.endsWith('/'+m[1]))||null; };
-/* AA_612（企劃線 a3879758c，使用者 11-03 麵店改燒臘店）：遊戲照 A 表換了字，這份稿的「改成」欄還是舊字——照 tools/story/aa612_fix.json 換（只換「改成」欄；原句欄照舊）*/
-const A612=(()=>{ let P=[]; try{ P=JSON.parse(fs.readFileSync(path.join(__dirname,'..','tools','story','aa612_fix.json'),'utf8')).pairs; }catch(e){} return t=>{ for(const [a,b] of P) if(t.indexOf(a)>=0) t=t.split(a).join(b); return t; }; })();
+/* AA_612（企劃線 a3879758c，使用者 11-03 麵店改燒臘店）：遊戲照 A 表換了字，這份稿的「改成」欄還是舊字——照 tools/story/aa612_fix.json 換（只換「改成」欄；原句欄照舊）
+   AA_674（企劃線 397e5efd4，AA 定稿 D109）第 2 列又改了第 92 列的「改成」（AN.call1Dating「……我只跟你講了。」→「……紐約那間。」）：同樣照 tools/story/aa674_fix.json 換 */
+const A612=(()=>{ let P=[]; for(const fn of ['aa612_fix.json','aa674_fix.json']){ try{ P=P.concat(JSON.parse(fs.readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } return t=>{ for(const [a,b] of P) if(t.indexOf(a)>=0) t=t.split(a).join(b); return t; }; })();
 const rows=[]; for(const line of DOC.split('\n')){ const m=line.match(/^\|\s*([0-9]+)\s*\|(.*)\|\s*$/); if(!m) continue; const c=m[2].split('|').map(x=>x.trim()); if(c.length<5) continue; rows.push({n:+m[1],where:c[0],who:c[1],old:c[2],nw:A612(c[3]),why:c[4]}); }
 const row=n=>rows.find(r=>r.n===n);
 // ---------- 1 ----------
@@ -84,8 +85,8 @@ const mkSOCIAL=seen=>({has:(id,t)=>id==='heroine_01'&&t==='AN_SHOP_PAGE'&&seen.v
 function rest(){
 // ---------- 5 S6 ----------
 { const ctx={}; ctx.window=ctx; vm.createContext(ctx); vm.runInContext(SRC['src/data/postgrad_lines.js'].replace(/^const (\w+)\s*=/m,'var $1='),ctx); const A=ctx.POSTGRAD_LINES.AN;
-  check('5-1 S6 資料（第 7-5 節）：二試＝旁白「（你又打開考選部的網頁。…找到她的名字。）」、祐廷「看到妳的名字了。」、她「謝謝。一月面試。」、交往中多「我還寄了一份申請。美國的。……我只跟你講了。」（第 92 列）',
-    A.see1==='（你又打開考選部的網頁。司法官二試的榜單，你往下拉，找到她的名字。）'&&A.me1==='看到妳的名字了。'&&J(A.call1)===J(['謝謝。一月面試。'])&&A.call1Dating==='我還寄了一份申請。美國的。……我只跟你講了。');
+  check('5-1 S6 資料（第 7-5 節）：二試＝旁白「（你又打開考選部的網頁。…找到她的名字。）」、祐廷「看到妳的名字了。」、她「謝謝。一月口試。」、交往中多「我還寄了一份申請。美國的。……紐約那間。」（第 92 列）',
+    A.see1==='（你又打開考選部的網頁。司法官二試的榜單，你往下拉，找到她的名字。）'&&A.me1==='看到妳的名字了。'&&J(A.call1)===J(['謝謝。一月口試。'])&&A.call1Dating==='我還寄了一份申請。美國的。……紐約那間。');
   check('5-2 錄取：旁白「（司法官考試的錄取名單公布了。你找到她的名字。）」；選項「恭喜！」／交往中「美國那份呢？」、不是交往中「看到妳的名字了。」；她「謝謝。」「但我不去。」＋不是交往中「……我申請了美國的學校，等結果。」／交往中「……美國那份，三月出來。」',
     A.see2==='（司法官考試的錄取名單公布了。你找到她的名字。）'&&J(A.call2Opts)===J([{t:'「恭喜！」'},{t:'「美國那份呢？」',tNot:'「看到妳的名字了。」'}])&&J(A.call2)===J(['謝謝。','但我不去。'])&&A.call2Not==='……我申請了美國的學校，等結果。'&&A.call2Dating==='……美國那份，三月出來。');
   check('5-3 群組由阿哲先貼（他的寫法不加句號）：「以安上了 司法官」→ 以安「謝謝。」；前任二試「以安二試過了」→「一月面試。」',J(A.group)===J(['以安上了 司法官','謝謝。'])&&J(A.exGroup1)===J(['以安二試過了','一月面試。'])&&/items:G=>\[GR\('zhe',L\(\)\.AN\.group\[0\]\),GR\('heroine_01',L\(\)\.AN\.group\[1\]\)\]/.test(SRC['src/postgrad3d.js'])&&/items:G=>\[GR\('zhe',L\(\)\.AN\.exGroup1\[0\]\),GR\('heroine_01',L\(\)\.AN\.exGroup1\[1\]\)\]/.test(SRC['src/postgrad3d.js']));

@@ -47,7 +47,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     const nq=OUT.get(G,'pg_bar_noodle_2029'); check('5. 18:00 麵店是出遊（可以錯過）',nq&&nq.h===18);
     H.said=[]; await PG.EVS[2].beforeOuting(G,GM,nq); check('5. Z2：紅紙；阿哲「（舉起碗）今天我請。……明年換你請我。」',H.has('（燒臘店的長桌。阿姨在門口貼了一張紅紙，上面是你的名字。）')&&H.has('（舉起碗）今天我請。……明年換你請我。'));
     H.at('2029-12-14',21); const c=PG.due(G); check('6. 21:00 以安二試放榜那一步（FRIEND；S6 起是祐廷自己查到，AA_589 第 7-5 節）',c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c);
-    check('6. S6（AA_589 第 90、91 列、第 7-5 節）：旁白「（你又打開考選部的網頁。…找到她的名字。）」→ 祐廷「看到妳的名字了。」→ 她「謝謝。一月面試。」；不是交往中不提美國；不是電話（沒有「（電話）」、不是群組）',H.said[0].who==null&&H.said[0].t==='（你又打開考選部的網頁。司法官二試的榜單，你往下拉，找到她的名字。）'&&H.said[1].t==='看到妳的名字了。'&&H.said[2].who==='沈以安'&&H.said[2].t==='謝謝。一月面試。'&&H.said.length===3&&!H.said.some(s=>/電話/.test(String(s.who))),JSON.stringify(H.said));
+    check('6. S6（AA_589 第 90、91 列、第 7-5 節）：旁白「（你又打開考選部的網頁。…找到她的名字。）」→ 祐廷「看到妳的名字了。」→ 她「謝謝。一月口試。」；不是交往中不提美國；不是電話（沒有「（電話）」、不是群組）',H.said[0].who==null&&H.said[0].t==='（你又打開考選部的網頁。司法官二試的榜單，你往下拉，找到她的名字。）'&&H.said[1].t==='看到妳的名字了。'&&H.said[2].who==='沈以安'&&H.said[2].t==='謝謝。一月口試。'&&H.said.length===3&&!H.said.some(s=>/電話/.test(String(s.who))),JSON.stringify(H.said));
     H.at('2030-01-25',21); const c2=PG.due(G); H.said=[]; H.picks=['看到妳的名字了']; await PG.runStep(GM,c2);
     check('6. 1/25 S6（AA_589 第 93、94 列、第 7-5 節）：旁白「（司法官考試的錄取名單公布了。你找到她的名字。）」→ 不是交往中的選項「「恭喜！」／「看到妳的名字了。」」→ 她「謝謝。」「但我不去。」「……我申請了美國的學校，等結果。」；麵店團沒有那一則',c2&&c2.id==='an2'&&H.has('（司法官考試的錄取名單公布了。你找到她的名字。）')&&H.has('謝謝。')&&H.has('但我不去。')&&H.has('……我申請了美國的學校，等結果。')&&!H.has('司法官上了。')&&!H.has('三月。')&&!H.msgs('g:noodle_team').some(t=>/司法官/.test(t))); }
   // ---- 雙方都單身、學姊 FRIEND＝考場門口當面給便條 ----
@@ -59,7 +59,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
   { const G=H.fresh('2030-01-25',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FAMILIAR('heroine_01'); PG.rules(GM); H.at('2030-01-25',21.1); H.tick();
     check('7. 和以安不到 FRIEND：沒有那一步，麵店團阿哲先貼「以安上了 司法官」→ 以安「謝謝。」（AA_589 第 95 列、第 7-5 節：群組也不由她宣布）',!PG.due(G)&&H.msgs('g:noodle_team').join('|').includes('以安上了 司法官|謝謝。')&&!H.msgs('g:noodle_team').includes('司法官上了。')); }
   { const G=H.fresh('2029-12-14',21,'dorm'); graduated(G); H.FRIEND('heroine_01'); H.date('heroine_01'); await H.run('an1');
-    check('7. 和以安交往中：「我還寄了一份申請。美國的。……我只跟你講了。」',H.has('我還寄了一份申請。美國的。……我只跟你講了。')&&!H.has('我還寄了一份申請。美國的。……先不要問。')); }
+    check('7. 和以安交往中：「我還寄了一份申請。美國的。……紐約那間。」',H.has('我還寄了一份申請。美國的。……紐約那間。')&&!H.has('我還寄了一份申請。美國的。……先不要問。')); }
   // ---- 16 題以上：司法官未錄取那一行 ----
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); const qs=PG.draw(G,2029); H.picks=answerK(qs,17); await H.run('exam_2029');
     H.at('2029-09-07',15.1); await H.run('r1_2029'); check('8. 答對 17＝「律師、司法官一試：通過。」',H.has('律師、司法官一試：通過。')&&G.flags.BAR_STAGE_2029==='both');
