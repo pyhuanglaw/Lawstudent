@@ -44030,6 +44030,31 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "TOOL",
+    "week": 0,
+    "earliest": "開發工具（不是遊戲內容）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "ART-REVIEW-RULE-1104",
+   "owner": "BB",
+   "priority": "P1",
+   "title": "美術驗收規則：符合參考圖（逐區並排）、不准複製貼上（D133、USER_WANTS X216；使用者 11-04 06:1x 對 BB）",
+   "status": "進行中",
+   "next": "BB 驗收時套用 G、H；AA／CC／LAWWW2 交件前自查（規則，永久）",
+   "xai": {
+    "spec": "使用者 11-04 06:1x 對 BB（UA-BB-1104-ART-REF-VARIETY）",
+    "branch": "claude/story-planning",
+    "acceptance": "每次美術驗收紀錄寫 G、H 的結果",
+    "receiver": "BB",
+    "ack": "ACK"
+   }
   }
  ]
 }
