@@ -50,11 +50,11 @@ const CVS_LAYOUT = {
       {kind: 'hotfood', x: 2.7, z: 3.0, yaw: Math.PI / 2, label: '看熱食櫃'},
       {kind: 'coffee', x: 2.45, z: -0.1, yaw: Math.PI / 2, label: '點日和咖啡'},
       {kind: 'parcel', x: 3.85, z: 5.8, yaw: Math.PI / 2, label: '包裹暫取'},
-      {kind: 'microwave', x: -3.8, z: -1.55, yaw: Math.PI, label: '微波加熱'},
+      {kind: 'microwave', x: -3.3, z: -1.45, yaw: Math.PI, label: '微波加熱'},
       {kind: 'cooler', x: 3.75, z: -4.0, yaw: Math.PI / 2, label: '看冷藏櫃'}
     ],
     spots: {},
-    lights: {note: '天花板 LED 燈條（沿 z，高 3.25）：x −3.4、−1.92、−0.44、1.04、2.52、4.0；窗邊綠色吊燈 x −4.55、z 5.2／3.4／1.6／−0.2（燈罩底 2.35）；冷藏櫃背光；熱食櫃燈'},
+    lights: {note: '天花板 LED 燈條（沿 z，高 3.25）：x −3.4、−1.88、−0.36、1.16、2.68、4.2；窗邊綠色吊燈 x −4.55、z 5.2／3.4／1.6／−0.2（燈罩底 2.35）；冷藏櫃背光；熱食櫃燈'},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   }
 };
