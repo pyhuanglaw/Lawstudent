@@ -1490,3 +1490,18 @@
 [12:33:46] ==== START GG_perf_rep_A1  (probe @ 23eaaa7ae) ====
 [12:33:50] [res] cpu=30% mem=53% (16.5/31.4 GB) chrome_testing=19  START GG_perf_rep_A1
 [12:35:35] [res] cpu=76% mem=53% (16.7/31.4 GB) chrome_testing=17  END BIKE_flow_r2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       b0120e5c1..02a4d34b1  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:35:41] ==== END   BIKE_flow_r2  exit=1  256s   ====
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[12:35:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[12:35:46] memory 53% before starting NOODLE_exit (2 running)
+[12:35:46] ==== START NOODLE_exit  (probe @ 809163ee4) ====
+[12:35:49] [res] cpu=38% mem=53% (16.9/31.4 GB) chrome_testing=17  START NOODLE_exit
+[12:36:21] [res] cpu=88% mem=55% (16.9/31.4 GB) chrome_testing=17  END GG_perf_rep_A1
