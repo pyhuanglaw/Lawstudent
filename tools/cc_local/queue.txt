@@ -205,6 +205,10 @@ GG_shops2_db_seat_16 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/s
 GG_shops2_db_seat_20 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 20 | CASES=db_seats;SEATS=20,21;CC_HEADLESS=0
 
 # ===== [順序 5～7] 美術截圖 A（2D 背景）、B（宿舍四人房）、D（閃爍錄影）→ NTU_REF → T6_gpu_noise：雲端驗完的排在這裡（BB-C 15:00）
+# 美術 A：2D 背景在遊戲裡（BB-C 13:54；D120 BB 判）：cc_bg_adv_probe 4d09c72db（台詞打完才截圖）雲端 car 重驗 ALL PASS；ADV.begin 直接顯示＝[捷徑]；分兩項讓每項 ≤20 分
+#   main＝BG16 ntu_linze、BG17 ntu_avenue、BG08 car、GYM-BG1、ART-10 nccu_dorm／_day（各「劇情」「兩人」× 直向／橫向）；dates＝ART-14 約會底圖（d##_base_*，劇情版＋總覽拼圖）
+BG_adv_main | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=all;DATES=0;CC_HEADLESS=0
+BG_adv_dates | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=none;DATES=1;CC_HEADLESS=0
 # T6_gpu_noise（BB-C 15:00、15:24）：電腦 GPU 上同一個 SHA 跑兩輪、16 個鏡頭（溫州街 x24／x44、公館 2 站 × 4 方向），量 GPU 的雜訊；page.clock 開、關各兩輪。差在雲端算（cc_baseline_diff.py）
 T6_gpu_noise_off_a | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=0;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
 T6_gpu_noise_off_b | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=0;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
