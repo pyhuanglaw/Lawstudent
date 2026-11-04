@@ -97,7 +97,7 @@ index 36cd3ca7d..e0cc2b49f 100644
 +        else:
 +            TR.finish('normal end')
 diff --git a/tools/cc_local/run_queue.py b/tools/cc_local/run_queue.py
-index 9201211e2..d1051e4a6 100644
+index 9201211e2..61d5a2359 100644
 --- a/tools/cc_local/run_queue.py
 +++ b/tools/cc_local/run_queue.py
 @@ -447,6 +447,324 @@ def parse_env(s):
@@ -438,7 +438,16 @@ index 9201211e2..d1051e4a6 100644
          running_f = os.path.join(od, 'running.json')   # BB 11-03：被打斷的項目要記下來（中斷時間、跑到哪）；正常結束會刪掉
          try:
              with open(running_f, 'w', encoding='utf-8') as fh:
-@@ -817,6 +1141,11 @@ class Runner(object):
+@@ -809,6 +1133,8 @@ class Runner(object):
+                 env.setdefault('CC_BLENDER_THREADS', str(blender_threads()))
+                 meta['blender_threads'] = env['CC_BLENDER_THREADS']
+             cmd, cwd = self.build_cmd(it, wt, od, url, url2, env)
++            if ar_on:
++                it._t_proc = time.time()
+             with open(os.path.join(od, 'run.log'), 'wb') as fo, open(os.path.join(od, 'err.log'), 'wb') as fe:
+                 p = subprocess.Popen(cmd, cwd=cwd, env=env, stdout=fo, stderr=fe, stdin=subprocess.DEVNULL, **popen_flags())
+                 try:
+@@ -817,6 +1143,11 @@ class Runner(object):
                      kill_tree(p)
                      meta['error'] = 'timeout %d min' % it.tmin
              meta['exit'] = p.returncode
@@ -450,7 +459,7 @@ index 9201211e2..d1051e4a6 100644
          except Exception as e:
              meta['error'] = str(e)
              log('ERROR %s : %s' % (it.id, e))
-@@ -843,6 +1172,11 @@ class Runner(object):
+@@ -843,6 +1174,11 @@ class Runner(object):
              pass
          meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
          meta['seconds'] = int(round(time.time() - t0))
@@ -462,7 +471,7 @@ index 9201211e2..d1051e4a6 100644
          with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
              json.dump(meta, fh, ensure_ascii=False, indent=2)
          lines = self.summary_lines(it, meta, od)
-@@ -850,6 +1184,308 @@ class Runner(object):
+@@ -850,6 +1186,308 @@ class Runner(object):
          log('==== END   %s  exit=%s  %ss  %s ====' % (it.id, meta['exit'], meta['seconds'], meta['error'] or ''))
          return meta
  
@@ -525,7 +534,7 @@ index 9201211e2..d1051e4a6 100644
 +        """第一次跑完（還在 try 裡、worktree 和 server 都還在）：FAIL 就把第一次的輸出搬到 attempt1/，開 trace 重跑一次到 attempt2/"""
 +        ar = {'on': True, 'a1': {'exit': meta['exit'], 'error': meta['error'], 'timeout': bool(meta['error'] and str(meta['error']).startswith('timeout')),
 +                                 'blob': git_blob(self.script_of(it, cmd1)), 'input': input_hash({k: env.get(k) for k in it.envd}, it.envd.get('XARGS', '').strip()),
-+                                 'cases': str(env.get('CASES', '') or '(探針預設)'), 'seconds': int(round(time.time() - it.t_start)) if hasattr(it, 't_start') else None},
++                                 'cases': str(env.get('CASES', '') or '(探針預設)'), 'seconds': int(round(time.time() - it._t_proc)) if hasattr(it, '_t_proc') else None},
 +              'a2': None, 'notes': [], 'script_path': self.script_of(it, cmd1)}
 +        it._ar = ar
 +        meta['attempt'] = 1
@@ -771,7 +780,7 @@ index 9201211e2..d1051e4a6 100644
      @staticmethod
      def tail(path, n):
          if not os.path.exists(path):
-@@ -858,12 +1494,19 @@ class Runner(object):
+@@ -858,12 +1496,19 @@ class Runner(object):
              return [x.rstrip('\r\n') for x in fh.readlines()[-n:]]
  
      def summary_lines(self, it, meta, od):
@@ -792,7 +801,7 @@ index 9201211e2..d1051e4a6 100644
          return lines
  
      # ---------- 5. commit＋push（一把鎖，序列化） ----------
-@@ -882,8 +1525,9 @@ class Runner(object):
+@@ -882,8 +1527,9 @@ class Runner(object):
              skipped = 0
              add = []
              big = []
@@ -803,7 +812,7 @@ index 9201211e2..d1051e4a6 100644
                      continue
                  if os.path.getsize(f) > BIG_CAP:   # BB 13:30：超過 50 MB 的不推，只記路徑和大小
                      big.append(f)
-@@ -909,6 +1553,27 @@ class Runner(object):
+@@ -909,6 +1555,27 @@ class Runner(object):
                      fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                  if nf not in add:
                      add.append(nf)
@@ -831,7 +840,7 @@ index 9201211e2..d1051e4a6 100644
              # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
              git('-C', self.work, 'reset', '-q', quiet=True)
              for i in range(0, len(add), 50):
-@@ -1172,6 +1837,7 @@ def parse_args(argv):
+@@ -1172,6 +1839,7 @@ def parse_args(argv):
      ap.add_argument('--queue', default=None)
      ap.add_argument('--branch-local', default='claude/cc-local')
      ap.add_argument('--headless', action='store_true', help='no browser windows (default: visible windows on Windows / when DISPLAY is set)')
