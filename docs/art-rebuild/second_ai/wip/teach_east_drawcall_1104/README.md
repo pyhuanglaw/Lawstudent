@@ -76,8 +76,8 @@ LAWWW2-C 2026-11-04。狀態：**MODEL_READY**。
 ## 給 LAWWW-C
 
 ```
-git checkout <SHA> -- assets/models/env/second_ai/campus_putong.glb assets/models/env/second_ai/campus_putong.json assets/models/env/second_ai/campus_boya.glb assets/models/env/second_ai/campus_boya.json tests/teach_east_drawcall_unit.js
-git show <SHA>:docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/campus_glb_integration_boya_plates.patch | git apply
+git checkout d164ac9a8 -- assets/models/env/second_ai/campus_putong.glb assets/models/env/second_ai/campus_putong.json assets/models/env/second_ai/campus_boya.glb assets/models/env/second_ai/campus_boya.json tests/teach_east_drawcall_unit.js
+git show d164ac9a8:docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/campus_glb_integration_boya_plates.patch | git apply
 ```
 
 - 程式不用改。

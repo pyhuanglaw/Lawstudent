@@ -42,7 +42,7 @@
   建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
 - 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
 
-## 🔨 現在在做（11-04 21:0x UTC，帳號 C LAWWW2-C）
+## 🔨 現在在做（11-04 21:2x UTC，帳號 C LAWWW2-C）
 - 使用者 15:3x 說：「你繼續做別的事情我要睡覺了很久都不會看」（UA-LAWWW2-1104-07）。照排定的順序自己做，每段做完就 push；要使用者決定的記在下面，等他回來再問，不叫醒他。
 
 ### 本班交件
@@ -58,7 +58,11 @@
 - **WZ-FIVE-1104 2:30 AM 外觀第二版**（BB-C 19:02 四點）：`75383530f`，取代第一版 `69e953668`。只換 `cafe_exterior.glb`／`.json`，程式不用改。說明在 `wip/wz_five_1104/cafe230_exterior.md`。
   - 店內窗卡（AA cafe230.glb 開燈拍）、五盞鵝頸燈朝招牌、細長透明垂藤、門口木椅、轉角側牆兩盞壁燈＋灰泥調暖。refcam 也在 README（鏡像參考圖、50.2 mm、shift_y 0.0775）。
   - 木椅不用加阻擋（原本的 blockRect 蓋住）。畫架是舊問題（blockCircle 只擋一格）：建議 zones3d.js 一行改 blockRect，`tests/cafe230_ext_nav_unit.js` 原樣 ② FAIL、套用後 ALL PASS。LAWWW-C 決定。
-  - 已傳 LAWWW-C（副本 BB-C），DELIVERED。等 LAWWW-C 換檔＋跑 `cafe_glb_integration.py`、`wz_street_integration.py`，CC 拍，BB 判。
+  - **LAWWW-C 20:59Z 接進開發分支 `6f61ca095`**（ACTIONED；含畫架 blockRect，Node 111 支 0 失敗）。瀏覽器測試、refcam 同角度交 BB／CC。
+  - BB-C 20:57Z：Blender 階段 PASS，ART_APPROVED 等遊戲裡的 refcam 疊圖。P3：垂藤在 Workbench 疊圖裡一格一格（Workbench 不畫透明）——等 CC 門口近看，遊戲裡也這樣再加大 `ivy_strands.png`。
+- **TEACH-EAST-DRAWCALL-1104**（BB-C P3）：`d164ac9a8`。普通、博雅一棟 4 個網格、1 個投影（原本 6＋3、8＋5），teach_east 估 243 → 237；外觀不變。說明在 `wip/teach_east_drawcall_1104/README.md`。
+  - 附 `campus_glb_integration_boya_plates.patch`：博雅匾額清單補 `PLATE_FACE_BOYA_GARDEN`（v2b 以來就會 FAIL 的舊問題）。
+  - 已傳 LAWWW-C（副本 BB-C），DELIVERED。等換檔、CC 跑 `campus_glb_integration.py`。
 - **SEATFIG-LOD1-HAIR-1104**（BB P3，替身頭上的方塊）：`30c0ae20e`。遠處版從近處版再減、脖子以上不減，400 → 800 面；只換 `seated_figures.glb`／`.json`。等 LAWWW-C 換檔、CC 用 SITAMB_CLOUD_1104 ⑧ 同鏡頭重拍。
 - **NPC-ANIM-LOOPS-1104**（LAWWW-C 派工）：`2962616ac`。坐在桌前做事的七個循環動作，女生、男生 VRoid 骨架各一份（14 個片段），加上右手配件（紙杯、手機、筆）。說明在 `wip/npc_anim_loops_1104/README.md`。
   - Node 測試 `tests/sit_task_loops_unit.js` 在開發分支 ALL PASS：遊戲換算出來的手的位置和預期差 ≤ 0.1 cm。
@@ -67,9 +71,9 @@
 - BB-C 19:02 判 2:30 AM 外觀 v1 的四點（BB_255 `1e30e2b85`）：第二版 `75383530f` 都做了（見上一項）。
 
 ### 佇列（照順序）
-1. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
-2. HAIR-NOODLE-1104：等 CC 的近景探針。
-3. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+1. HAIR-NOODLE-1104：等 CC 的近景探針。
+2. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+3. 2:30 AM 剩下的：轉角白盆小樹、側窗一整排（BB 說慢慢補）；垂藤貼圖看 CC 近看再決定。
 
 ### 記住（別的 AI 交代的做法）
 - 挪溫州街、公館的電線桿或機車排，要一起跑 `tests/bike_park_1104_unit.js`：腳踏車停車處照機車排的兩端算，電線桿擋到會 FAIL（LAWWW-C 11-04 18:15）。

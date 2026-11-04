@@ -5690,7 +5690,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "75383530f",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "WZ-FIVE-1104",
    "files": [
     "assets/models/env/second_ai/cafe_exterior.glb",
@@ -5703,11 +5703,41 @@
     "docs/art-rebuild/second_ai/wip/wz_five_1104/cafe230_exterior.md",
     "docs/art-rebuild/second_ai/wip/wz_five_1104/cafe230_exterior_v2.jpg"
    ],
-   "state": "已交付",
-   "remaining": "LAWWW-C 換 GLB（git checkout 75383530f -- cafe_exterior.glb/.json tests/cafe230_ext_nav_unit.js，程式不用改）＋跑 cafe_glb_integration.py、wz_street_integration.py（瀏覽器，我沒跑）；畫架阻擋改不改 LAWWW-C 決定（zones3d.js 一行 blockCircle(54.4,3.6,0.35)→blockRect(54.45,3.6,0.9,0.9,0,0)）；CC 遊戲內同角度（refcam 在 README）；BB 判 ART",
-   "next": "等 LAWWW-C 換檔、測試結果；CC 截圖後看晚上轉角側牆暖不暖（遊戲只有光暈）",
+   "state": "已整合",
+   "remaining": "瀏覽器 cafe_glb_integration.py、wz_street_integration.py、同角度疊圖（refcam）——LAWWW-C 交 BB／CC；BB-C 21:00Z 前 Blender 階段 PASS，ART_APPROVED 等遊戲裡的 refcam 疊圖；BB P3：垂藤葉片卡邊緣在 Workbench 疊圖裡一格一格（Workbench 不吃透明），等 CC 門口近看，遊戲裡也這樣再加大貼圖",
+   "next": "等 CC 門口近看、refcam 疊圖；轉角白盆小樹、側窗一整排慢慢補",
    "noDirectIntegrate": false,
-   "note": "第二版＝BB-C 19:02 四點：店內窗卡（AA cafe230.glb 開燈拍，材質 cafe_int_plaster）、五盞鵝頸燈朝招牌、細長透明垂藤、門口木椅（原本 blockRect 已蓋住，人中心最近 0.47 m）＋轉角側牆兩盞壁燈、灰泥 #dcc8a2；1.60 MB／23 網格／21 材質／16,560 面／26 GLOW（第一版 2.70 MB／28／25／36,474／18）；refcam 用鏡像參考圖 50.2 mm、shift_y 0.0775；取代 69e953668。副本 BB-C（DELIVERED）"
+   "note": "第二版＝BB-C 19:02 四點：店內窗卡（AA cafe230.glb 開燈拍，材質 cafe_int_plaster）、五盞鵝頸燈朝招牌、細長透明垂藤、門口木椅（原本 blockRect 已蓋住，人中心最近 0.47 m）＋轉角側牆兩盞壁燈、灰泥 #dcc8a2；1.60 MB／23 網格／21 材質／16,560 面／26 GLOW（第一版 2.70 MB／28／25／36,474／18）；refcam 用鏡像參考圖 50.2 mm、shift_y 0.0775；取代 69e953668。副本 BB-C（DELIVERED）；LAWWW-C 20:59Z 接進開發分支 6f61ca095（含畫架 blockRect(54.45,3.6,0.9,0.9)；Node 111 支 0 失敗）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d164ac9a8",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "TEACH-EAST-DRAWCALL-1104",
+   "files": [
+    "assets/models/env/second_ai/campus_putong.glb",
+    "assets/models/env/second_ai/campus_putong.json",
+    "assets/models/env/second_ai/campus_boya.glb",
+    "assets/models/env/second_ai/campus_boya.json",
+    "tests/teach_east_drawcall_unit.js",
+    "tools/blender/env_second/campus_teach.py",
+    "tools/blender/env_second/lib2.py",
+    "tools/blender/env_second/textures/gen/teach_pt_tiles_base.png",
+    "tools/blender/env_second/textures/gen/teach_pt_tiles_nor.png",
+    "tools/blender/env_second/textures/gen/teach_pt_tiles_orm.png",
+    "tools/blender/env_second/textures/gen/teach_by_tiles_base.png",
+    "tools/blender/env_second/textures/gen/teach_by_tiles_nor.png",
+    "tools/blender/env_second/textures/gen/teach_by_tiles_orm.png",
+    "docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/teach_east_drawcall_cmp.jpg",
+    "docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/campus_glb_integration_boya_plates.patch"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 換兩顆 GLB＋tests/teach_east_drawcall_unit.js、套 campus_glb_integration_boya_plates.patch（博雅匾額清單補 PLATE_FACE_BOYA_GARDEN；v2b 以來的舊 FAIL）；CC 跑 campus_glb_integration.py 看 teach_east draw call、各鏡頭三角形（瀏覽器，我沒跑）",
+   "next": "等 CC 的數字；teach_east 估 243→237（陰影也算 231）",
+   "noDirectIntegrate": false,
+   "note": "BB-C P3：普通、博雅的貼圖材質合成一張貼圖集＋頂點色零件併進同一個材質（白色帶子；lib2.atlas_tiles solid／orm_div、lib2.fold_vc）。遊戲裡一棟 4 個網格、1 個投影（普通 6＋3、博雅 8＋5）；三角形 8,558→13,704、5,626→8,630（teach_east 餘裕 28,695）；GLB 0.78→1.27、0.72→0.96 MB；外觀不變（Cycles 前後比較）；teach_east_drawcall_unit 原樣 ②②④④ FAIL、新 GLB ALL PASS；副本 BB-C（DELIVERED）"
   }
  ]
 }
