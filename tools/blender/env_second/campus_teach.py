@@ -349,6 +349,15 @@ def finish(root, accs, VC, plates, out, note):
     pre = 'pt' if 'putong' in out else 'by'
     VCM = L.vc_material(f'wz_vc_{pre}', rough=0.55)
     L.vc_consolidate(root, {n: VCM for n in (f'{pre}_misc', 'ck_ceiling', 'ck_frame', 'ck_stone_base', 'pt_green_frame', 'by_fin', 'by_wood')})   # TEACH-PTBOYA：純色的零件都併進頂點色（teach_east 鏡頭 draw call 超 1.1 倍，BB-C 15:4x）
+    if '--no-tiles' not in ARGS:
+        # TEACH-EAST-DRAWCALL（BB-C P3：teach_east 鏡頭 draw call 218→243，×1.115）：有貼圖的材質（普通：面磚、洗石子；博雅：紅磚、灰泥、清水模、草）合成一張貼圖集，
+        # 頂點色的零件也併進來（UV 指到貼圖集最上面的白色帶子，顏色照舊用頂點色）：一棟一個網格（＋玻璃、燈罩、匾額）。材質名沿用 wz_vc_*（遊戲照舊投影）。
+        # 一格 512 px（和原本每個週期 512 px 一樣清楚）；收邊（洗石子、清水模）一格放 2×2 個週期：三角形少一半，牆和紅磚照舊一格一個週期（最常近看的面不糊）。
+        TILES = {'ck_wall', 'ck_trim'} | ({'by_brick', 'by_grass'} if pre == 'by' else set())
+        REPS = {'ck_trim': 2}; REPS.update({k: int(v) for k, v in (kv.split('=') for kv in (arg('--reps') or '').split(',') if kv)})
+        sol = {'color': '#ffffff', 'rough': 0.55, 'metal': 0.0, 'px': 32}
+        L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'teach_{pre}_tiles'), f'{pre}_tiles', only=TILES, cell=512, keep=lambda ob: 'FACE' in ob.name, reps=REPS, solid=sol, orm_div=8)
+        L.fold_vc(root, f'wz_vc_{pre}', f'{pre}_tiles', sol['uv'], new_name=f'wz_vc_{pre}')
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False); info['note'] = note
     L.write_json(out[:-4] + '.json', info)

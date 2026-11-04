@@ -1,11 +1,11 @@
 {
- "objects": 6,
- "unique_meshes": 6,
- "tris": 8558,
- "tris_drawn": 8558,
+ "objects": 4,
+ "unique_meshes": 4,
+ "tris": 13704,
+ "tris_drawn": 13704,
  "materials": 11,
  "out": "assets/models/env/second_ai/campus_putong.glb",
- "bytes": 777876,
+ "bytes": 1271444,
  "texres": 512,
  "note": "普通 v2（TEACH-PTBOYA-REF-1104）：五層紅褐面磚＋洗石子、一樓盲拱、拱門門廊、綠色玻璃樓梯塔、中央階梯山牆；照官網照片，D136 像但不照抄"
 }
