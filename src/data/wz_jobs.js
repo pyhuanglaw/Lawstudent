@@ -14,7 +14,7 @@ const WZ_JOBS_DATA=(function(){
       brunch:{ name:'SUNNY SIDE', short:'SUNNY SIDE', zone:'wz_brunch', boss:'小米姐', bossId:'wz_mi', days:[6,7], t0:7.5, t1:11.5, period:'am', title:'SUNNY SIDE 的班（07:30～11:30）', travel:'走過去約 15 分鐘', place:'溫州街・SUNNY SIDE',
         desk:{x:2.2,z:-2.1,label:'廚房門口'} },
       copy:{ name:'阿德影印輸出', short:'阿德影印', zone:'wz_print', boss:'阿德', bossId:'wz_ade', days:[2,3,4], t0:18, t1:22, period:'ev', title:'阿德影印的班（18:00～22:00）', travel:'走過去約 15 分鐘', place:'溫州街・阿德影印輸出',
-        desk:{x:1.05,z:0.9,label:'櫃台'}, ot:{t0:21,t1:24,title:'阿德影印・考試週加班（21:00～24:00）'} },
+        desk:{x:-0.2,z:-2.95,label:'櫃台'}, ot:{t0:21,t1:24,title:'阿德影印・考試週加班（21:00～24:00）'} },   /* desk：阿德影印 v1c（ade_layout v3 的 jobDesk＝staff_gate，櫃台東端；原本 (1.05, 0.9) 是舊配置的櫃台缺口）*/
       tea:{ name:'一盞茶屋', short:'一盞', zone:'wz_teahouse', boss:'蘇姨', bossId:'wz_su', days:[6,7], t0:13, t1:17, period:'pm', title:'一盞的班（13:00～17:00）', travel:'走過去約 15 分鐘', place:'溫州街・一盞茶屋',
         desk:{x:2.95,z:1.3,label:'水屋'} },
       /* 兩點半 Café 外場、舊路書房（AA_431 第 2 節，企劃線 f00b9e9f1）：一週兩天、每天的時間不同（hours：週幾→[開始, 結束]）；四小時 784 元（AA_289 第 2 節時薪 196）；

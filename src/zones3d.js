@@ -2318,14 +2318,14 @@ const Z3 = (function(){
      小路（wz_teishoku）komichi.glb＋komichi_layout v3、SUNNY SIDE（wz_brunch）sunnyside.glb＋sunnyside_layout v3、一盞（wz_teahouse）yizhan.glb＋yizhan_layout v2。
      配置照抄進 WZ_SHOPS_LAYOUT 那三筆（tools/layout/sync_wz_aa_layouts.js），遊戲、crowd3d、jobs3d、story3d、測試讀同一份。
      正式模型的登錄：配置的 glb 和 assets3d.js 舊的那一筆不一樣（舊的是 LAWWW2 的 wz_*_interior.glb）＝另外登錄一個 bldg.wz_<店>_interior_v<版本>，舊的登錄不動 */
-  const WZ_AA_NEW={brunch:'SUNNY SIDE 室內 v1d（sunnyside_interior，story-planning 8345fe067）',teishoku:'小路 室內 v1f（komichi_interior，story-planning 9d1c3bbe7）',teahouse:'一盞 室內 v1d（yizhan_interior，story-planning 0c284b614；v1c 3d0131fe0 MODEL_READY、v1d 只換地板貼圖）'};
+  const WZ_AA_NEW={print:'阿德影印 室內 v1c（ade_interior，cc-testing 5977272dc；CC〔帳號 A〕製作、BB 代驗 MODEL_READY BB_257、CC_49 v1c）',brunch:'SUNNY SIDE 室內 v1d（sunnyside_interior，story-planning 8345fe067）',teishoku:'小路 室內 v1f（komichi_interior，story-planning 9d1c3bbe7）',teahouse:'一盞 室內 v1d（yizhan_interior，story-planning 0c284b614；v1c 3d0131fe0 MODEL_READY、v1d 只換地板貼圖）'};
   /* 玩家（半徑 0.32）走不到、坐不進去的位子（導航格 0.2 m 量到隔板以後；tests/wz_shops2_unit.js 第 2 項的走近點、tests/seat_reach_unit.js）：這一版不放進區域的座位表（和配置的 npcOnly 一樣：玩家沒有按鈕；路人走過去也坐不進去，所以路人、偶遇也不排）。
      小路：窗邊隔板座靠窗的三張（隔板到桌邊 0.47 m，從走道進不去第二排）、西牆卡座兩張（卡座前緣到桌邊 0.59 m）。要 AA 把空檔放到 0.75 m 以上（或改 npcOnly），拿掉這裡 */
   const WZ_AA_NOSIT={teishoku:[[-0.15,3.45],[1.1,3.45],[1.8,3.45],[-3.6,0.1],[-3.6,0.7]]};
   function wzNoSit(key,L,st){ const N=wzAANew(key,L)&&WZ_AA_NOSIT[key]; return !!N&&N.some(p=>Math.abs(p[0]-st.x)<0.01&&Math.abs(p[1]-st.z)<0.01); }
-  function wzAANew(key,L){ return !!(WZ_AA_NEW[key]&&L&&/\/aa_support\//.test(L.glb||'')); }
+  function wzAANew(key,L){ return !!(WZ_AA_NEW[key]&&L&&/\/(aa|bb)_support\//.test(L.glb||'')); }   /* bb_support：阿德影印 v1c（CC 做、BB 代驗）*/
   function wzGlbKey(key,L){ const base='bldg.wz_'+key+'_interior'; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!L||!L.glb) return base; const m=ASSETS.manifest[base]; if(m&&m.url===L.glb) return base;
-    const k2=base+'_v'+(L.version|0); if(!ASSETS.manifest[k2]) ASSETS.manifest[k2]={url:L.glb,type:'building',lazy:true,source:'本作 Blender（tools/blender/env_second/aa_support/README_'+String(L.glb).replace(/^.*\/|\.glb$/g,'')+'.md；溫州街「'+L.name+'」'+(WZ_AA_NEW[key]||'')+'，AA〔帳號 A〕製作、BB 照 LAWWW2 標準驗 MODEL_READY（BB_257 §12），配置 src/data/wz_shops_layout.js 的 '+key+'）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'};
+    const k2=base+'_v'+(L.version|0); if(!ASSETS.manifest[k2]) ASSETS.manifest[k2]={url:L.glb,type:'building',lazy:true,source:(/\/bb_support\//.test(L.glb)?'本作 Blender（tools/blender/env_second/bb_support/'+String(L.glb).replace(/^.*\/|\.glb$/g,'')+'_interior.py；溫州街「'+L.name+'」'+(WZ_AA_NEW[key]||'')+'，配置 src/data/ade_layout.js 照抄進 src/data/wz_shops_layout.js 的 '+key+'）':'本作 Blender（tools/blender/env_second/aa_support/README_'+String(L.glb).replace(/^.*\/|\.glb$/g,'')+'.md；溫州街「'+L.name+'」'+(WZ_AA_NEW[key]||'')+'，AA〔帳號 A〕製作、BB 照 LAWWW2 標準驗 MODEL_READY（BB_257 §12），配置 src/data/wz_shops_layout.js 的 '+key+'）'),license:'本作；貼圖 Poly Haven CC0＋本作程式產生'};
     return k2; }
   /* AA 新室內接上以後（attachRoomGLB 之後）：GLOW_* 空節點＝燈的光暈（合成一個網格，照開燈切白天／晚上，和 2:30 AM、公館 AA 的店一樣）；窗景卡（WALL_*_VIEW_*）晚上調暗；
      一盞的前院是 LAWWW2 的 wz_teahouse_yard.glb（配置 yard、teaYard，WZ-YIZHAN-1104）*/
