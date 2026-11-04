@@ -142,5 +142,17 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
       check('11. AA_649 第 2 節的一般句都在（坐下兩句、道別兩句）',['「（小聲）我讀到六點。你呢？」','「（小聲）手機先收起來。」','「今天讀得比我想的多。……下次再約。」','「好累。……可是很好。」'].every(t=>LS.sit.concat(LS.bye).includes(t))); }
     else console.log('SKIP 11. 這個 checkout 沒有企劃線 37daf8027（git fetch origin claude/story-planning 以後再跑）');
     check('11. 稿上寫在引號裡的（小聲）不再加一次；沒寫的照舊加；整句旁白不加',LIBQ.needsPrefix('「（小聲）二樓靠窗那排比較安靜。」')===false&&LIBQ.quiet('「好。」')==='（小聲）「好。」'&&LIBQ.needsPrefix(LS.seated)===false); }
+  /* ---- 12 CC 11-04 讀 909c729a6 的疑點 1～3 ---- */
+  { const G=setup('2025-09-13',15,'cafe',[{x:0,z:0,yaw:0,lv:0},{x:0.8,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_02'); const iv=INV.accept(G,'heroine_02','cafe',G.day,15,{by:'player'}); npc('heroine_02',2,2,{beh:'idle'});
+    const W0=globalThis.WISH; globalThis.WISH={meetMention:async()=>{ throw new Error('test'); }}; const ce=console.error; let errs=0; console.error=()=>{ errs++; };
+    try{ INV.tick(GM); await W(20); } finally { console.error=ce; if(W0===undefined) delete globalThis.WISH; else globalThis.WISH=W0; }
+    check('12. 見面內容演到一半出錯（WISH.meetMention 丟例外）：這一筆改成作罷（cancelled、err），不停在 done；iv.mid 收掉；深度回到 0',iv.state==='cancelled'&&iv.err===1&&!iv.mid&&depth===0&&errs>=1,JSON.stringify({st:iv.state,mid:iv.mid,depth,errs})); }
+  { const G=setup('2025-09-13',15,'cafe',[{x:0,z:0,yaw:0,lv:0},{x:0.8,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_02'); const iv=INV.accept(G,'heroine_02','cafe',G.day,15,{by:'player'}); npc('heroine_02',2,2,{beh:'idle'});
+    INV.tick(GM); await W(20); check('12. 演完的見面沒有留下 iv.mid（存檔不多欄位）',iv.state==='done'&&!('mid' in iv)); }
+  { const G=setup('2025-09-12',15,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'}); npc('heroine_05',SPAWN.x+1,SPAWN.z,{beh:'idle'}); holdWalk=true; INV.tick(GM); await W(5);
+    const t0=toasts.length; let badge=0; const pb=GM.phoneBadge; GM.phoneBadge=()=>{ badge++; }; G.zone='campus'; try{ INV.tick(GM); } finally { GM.phoneBadge=pb; }
+    check('12. 帶路途中走出那一區＝作罷：除了訊息，畫面有提示（toast）、手機有紅點（phoneBadge）',iv.state==='cancelled'&&toasts.slice(t0).some(t=>/後來作罷了/.test(t))&&badge>=1,JSON.stringify({st:iv.state,t:toasts.slice(t0),badge})); holdWalk=false; held=[]; }
+  { const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); const m=src.match(/S\.phoneAuto=function[\s\S]*?GM\.openPhone\('msg'\)/);
+    check('12. STORY.phoneAuto 打開手機前問 INV.phoneBack（帶路中、一起走過去、剛演完 30 秒內不自己打開）',!!m&&/INV\.phoneBack\(G\)/.test(m[0])); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

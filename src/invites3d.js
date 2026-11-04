@@ -331,7 +331,7 @@ const INV=(function(){
     if(iv.ev&&await S.meetEv(GM,iv,n)) return;
     if(iv.te&&typeof TERMEND!=='undefined'&&TERMEND.dinner){ iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await TERMEND.dinner(GM,{te:{who:iv.who,kind:iv.te.kind,term:iv.te.term,place:iv.place,placeName:P.name}}); await GM.fade(true); GM.advance(P.stay); await GM.fade(false);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); lastMeetEnd=S._now(); } S.release(GM,n,iv); if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
-    iv.state='done'; GM.sceneBegin({adv:iv.who}); const LQ=typeof LIBQ!=='undefined'&&LIBQ.scope?LIBQ.scope():null;   /* 圖書館：走出館外那一句起到道別都不加（小聲）（AA_595 1-D10、Q16）*/ try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
+    iv.state='done'; iv.mid=1; GM.sceneBegin({adv:iv.who}); const LQ=typeof LIBQ!=='undefined'&&LIBQ.scope?LIBQ.scope():null;   /* 圖書館：走出館外那一句起到道別都不加（小聲）（AA_595 1-D10、Q16）*/ try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(!iv.opened) await S.meetOpen(GM,iv,who);   /* 開場（路上的選項句、假期版第一句、節日、升階的門檻台詞）；約念書在門口就演過了（S.leadStart，iv.opened）*/
       const LB=!!o.lib, lib1=LB?S.libFirst(G,iv.who):null;   /* 約念書兩個人坐下以後（INV-SIT-TOGETHER-1104、AA_649）：坐下的旁白＋她一句 */
       if(LB){ await GM.say(null,LS().seated); await GM.say(who,lib1&&lib1.sit||pick(LS().sit)); }
@@ -352,7 +352,7 @@ const INV=(function(){
       else if(sp){ if(sp.end.length) await S.playLines(GM,who,sp.end); }   /* 一起運動：「結束」是最後一句（AA_417 第 3 節），不接階段的道別句 */
       else { const by=SO.byeLine?SO.byeLine(iv.who):null; if(by) await SO.playSteps(GM,who,iv.who,by); }   /* 見面結束的一句：照現在的階段（AA_124 1-6、BB_120） */
       if(typeof EVENTS!=='undefined'&&EVENTS.habit){ EVENTS.habit('place:'+P.zone+':with:'+iv.who); if(P.kind==='meal') EVENTS.habit('meal:'+P.zone+':with:'+iv.who); }
-      S.msg(G,iv.who,'和'+nm+'在'+P.name+'。',iv);
+      S.msg(G,iv.who,'和'+nm+'在'+P.name+'。',iv); delete iv.mid;   /* 演完才拿掉：途中出錯＝S.unwind 看到 iv.mid 改成作罷（CC 11-04 讀程式：原本一開始就記 done，出錯停在 done）*/
     } finally { if(LQ) LQ.end(); GM.sceneEnd(); lastMeetEnd=S._now(); }
     S.release(GM,n,iv); if(GM.autosave) GM.autosave(); };
   /* 每次 STORY.tick：過了約好的時間 45 分鐘還沒見到＝沒赴約（不扣分，留一筆「放過鴿子」）；一起走過去超過 2 小時沒到＝作罷；對方約你、過了時間沒回＝作罷 */
@@ -559,7 +559,7 @@ const INV=(function(){
     if(SA.alt&&G.zone===P.zone){ L.ph='full'; L.her=L.me=null; n.seatTarget=null; return true; }   /* 這一層都沒有了：去三樓 */
     iv.lead=null; iv.noLead=1; n._ivLead=null; n.seatTarget=null; return false; };   /* 三樓也沒有：照舊開演（S.autoStart 接手）*/
   S.openNow=G=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(G.zone,G.hour%24,G.day);
-  S.leadDrop=function(GM,iv){ const G=GM.G; iv.lead=null; iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv);
+  S.leadDrop=function(GM,iv){ const G=GM.G; iv.lead=null; iv.state='cancelled'; const t='和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。'; S.msg(G,iv.who,t,iv); if(GM.toast) GM.toast(t,4200); if(GM.phoneBadge) GM.phoneBadge();   /* 看得到（CC 11-04 疑點 2：原本只寫 G.msgs）*/
     const n=S.npcOf(GM,iv.who); if(n&&n._ivLead===iv.id){ n._ivLead=null; n.seatTarget=null; S.release(GM,n,iv); } if(GM.setGoal&&/旁邊$|座位$/.test(G.goal||'')) GM.setGoal('—'); };
   S.leadTick=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!Array.isArray(G.invites)||!E||!E.player) return false; const h=G.hour%24;
     for(const iv of G.invites){ if(!iv.lead||iv.state!=='accepted') continue; const L=iv.lead;
@@ -618,7 +618,7 @@ const INV=(function(){
   /* 開演途中出錯（S.autoStart、S.arrive、S.leadGo、S.seatMeet）：兩個人站起來、她解凍、這一次開的段落收掉（回到開始前＋外層那一段），不吞錯誤（console.error）；這一筆約不再自己重來 */
   S.unwind=function(GM,iv,n,depth){ const E=GM.E, P=E&&E.player; try{ if(P&&P.seat&&GM.standUp) GM.standUp(P); }catch(e){ console.warn('INV.unwind',e); }
     if(n){ try{ if(n.seat&&GM.standUp) GM.standUp(n); }catch(e){ console.warn('INV.unwind',e); } n.frozen=false; n.beh='idle'; n.path=null; n.seatTarget=null; n._ivLead=null; n.pose=n.idlePose='idle'; }
-    if(iv){ iv.lead=null; if(iv.state==='accepted'||iv.state==='going'){ iv.state='cancelled'; iv.err=1; } }
+    if(iv){ iv.lead=null; if(iv.state==='accepted'||iv.state==='going'||(iv.state==='done'&&iv.mid)){ iv.state='cancelled'; iv.err=1; } delete iv.mid; }   /* 見面演到一半出錯（iv.mid）也算作罷 */
     if(depth!=null&&GM.sceneDepth&&GM.sceneEnd){ let k=0; while(GM.sceneDepth()>depth&&k++<64) GM.sceneEnd(); }
     if(GM.fade) Promise.resolve().then(()=>GM.fade(false)).catch(()=>{}); };
   /* 手機的回呼要不要再打開手機（game3d.js：手機約人、改天之後）：剛演完見面（30 秒內）、她正在帶路、一起走過去的途中＝不打開（手機打開遊戲會停，玩家以為卡住）*/
