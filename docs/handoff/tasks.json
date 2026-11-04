@@ -43811,6 +43811,24 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "INV-SIT-TOGETHER-1104",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "title": "約念書／吃飯／咖啡／電影：從入口帶路到座位、兩人坐下才開演、結束一起起身走到門口道別（USER_WANTS X207）",
+   "status": "進行中",
+   "next": "LAWWW：invites3d startTogether 的 pairSeats 只找到達那一區（總圖大廳沒有成對座位＝門口就演）→ place 加 sitAt（座位群組、樓層）、arrive 帶路；AA 寫到場一句、念書中小聲聊、收書、道別；BB 驗收 7 點（CC 先跑對照組）"
   }
  ]
 }
