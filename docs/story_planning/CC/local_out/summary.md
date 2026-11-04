@@ -1204,3 +1204,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T22:26:29  TT_V2a_game  sha=d2e36f6eb  exit=1  146s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8801/index.html（自測：只開頁、不玩） / FAIL GAME.G.money 是 145457（故意寫錯的預期）  [src=game] 遊戲回報 GAME.G.money＝22000，預期 145457 / FAILED 1: GAME.G.money 是 145457（故意寫錯的預期）
       err.log (last 5): [cc_trace 0.4s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V2a_game\attempt2\trace | [gpu_wrap 2.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V2a_game] | [gpu_wrap 36.8s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 36.9s] BROWSER DISCONNECTED
       autoretry: final FAIL  class GAME_BUG/assert-game  exit2 1
+- 2026-11-04T22:27:07  V20_reach_wz  sha=322cd967db8188ae8c81fe3de473d0b5b7ad871c  exit=0  79s    統計：1 個區域、35 個互動點、0 個劇情走路目的地、10 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V20_reach_wz] | [gpu_wrap 40.0s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 40.1s] BROWSER DISCONNECTED
