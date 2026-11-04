@@ -2302,7 +2302,7 @@ const Z3 = (function(){
       for(const b of L.blocks){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]-cz); g.add(m); }   /* 備用的家具色塊（模型載入後藏起來）*/
       if(L.yard) teaYard(E,z,g0,g,nav,L,cz);   /* 一盞的前院（WZ-YIZHAN-1104）：高度、冠木門、前院模型、在前院才顯示屋頂 */
       z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')||wzNoSit(key,L,st)) continue;   /* wzNoSit：走不進去的位子（見 WZ_AA_NOSIT），和配置的 npcOnly 一樣不放 */ const fl=st.kind==='floor'?{floor:0.08}:(st.lift?{lift:st.lift}:{}); z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl,st.ap?{ap:st.ap}:{},st.tag?{tag:st.tag}:{}));   /* tag：店內偶遇照標記挑位子（corner／bar／door／sofa／window；src/shopenc3d.js S.seatPick；WZ-SHOPS1-1104）*/   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）；lift＝吧台高腳凳（巷子裡定食的吧台，座面 0.72 m：坐姿抬高 0.27，和 Café 的吧台一樣）*/
-        E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl,st.ap?{ap:st.ap}:{}),shop:key}); }   /* 按鈕的座位也要帶 ap：「坐下」用的是這一份（GAME.freeSeat 沒人坐就原樣回傳）*/
+        E.interactables.push({x:st.x,z:st.z,radius:WZ_SEAT_R[key]||0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl,st.ap?{ap:st.ap}:{}),shop:key}); }   /* 按鈕的座位也要帶 ap：「坐下」用的是這一份（GAME.freeSeat 沒人坐就原樣回傳）*/
       const ex=L.exit, exSp=key==='print'&&L.moved&&wzCopyState(typeof GAME!=='undefined'?GAME.G:null)==='moved'?L.moved.exitSpawn:ex.spawn; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},exSp)}});   /* 阿德影印搬到轉角以後從轉角出來（ART-WZ6）*/
       /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10。
          林家乾麵、巷子裡定食（AA_364，WZS.order364）：攤車旁／結帳台＝點餐（店員招呼、選單、坐下吃）、看菜單＝牆上菜單那一行 */
@@ -2318,6 +2318,9 @@ const Z3 = (function(){
      小路（wz_teishoku）komichi.glb＋komichi_layout v3、SUNNY SIDE（wz_brunch）sunnyside.glb＋sunnyside_layout v3、一盞（wz_teahouse）yizhan.glb＋yizhan_layout v2。
      配置照抄進 WZ_SHOPS_LAYOUT 那三筆（tools/layout/sync_wz_aa_layouts.js），遊戲、crowd3d、jobs3d、story3d、測試讀同一份。
      正式模型的登錄：配置的 glb 和 assets3d.js 舊的那一筆不一樣（舊的是 LAWWW2 的 wz_*_interior.glb）＝另外登錄一個 bldg.wz_<店>_interior_v<版本>，舊的登錄不動 */
+  /* 「坐下」的範圍（沒寫＝0.9）：阿德影印 v1c 自助電腦的椅子在長桌西側、椅子西緣 x −0.30，0.4 m 的導航格上人只站得到西側走道 x −0.9～−1.0（離椅子 0.83～0.93 m）；
+     0.9 的範圍只剩邊上一條縫（tests/seat_reach_unit.js 的 0.2 m 格點量不到 (−0.07, 0.85)）。放到 1.05：走道上站在椅子旁邊就看得到「坐下」；「印東西」比較近的地方照舊是「印東西」（最近的優先）*/
+  const WZ_SEAT_R={print:1.05};
   const WZ_AA_NEW={print:'阿德影印 室內 v1c（ade_interior，cc-testing 5977272dc；CC〔帳號 A〕製作、BB 代驗 MODEL_READY BB_257、CC_49 v1c）',brunch:'SUNNY SIDE 室內 v1d（sunnyside_interior，story-planning 8345fe067）',teishoku:'小路 室內 v1f（komichi_interior，story-planning 9d1c3bbe7）',teahouse:'一盞 室內 v1d（yizhan_interior，story-planning 0c284b614；v1c 3d0131fe0 MODEL_READY、v1d 只換地板貼圖）'};
   /* 玩家（半徑 0.32）走不到、坐不進去的位子（導航格 0.2 m 量到隔板以後；tests/wz_shops2_unit.js 第 2 項的走近點、tests/seat_reach_unit.js）：這一版不放進區域的座位表（和配置的 npcOnly 一樣：玩家沒有按鈕；路人走過去也坐不進去，所以路人、偶遇也不排）。
      小路：窗邊隔板座靠窗的三張（隔板到桌邊 0.47 m，從走道進不去第二排）、西牆卡座兩張（卡座前緣到桌邊 0.59 m）。要 AA 把空檔放到 0.75 m 以上（或改 npcOnly），拿掉這裡 */
