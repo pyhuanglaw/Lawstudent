@@ -82,17 +82,20 @@ def flowers(x, z, y, col='#e8d8d0'):
 
 
 # ---------------------------------------------------------------- 地板：大間＋緣側淺色木地板、和室榻榻米、玄關石板＋上框
-Mesh(P + 'floor', sh.M['floor'], tile=2.2).box(X0, X1, -0.02, 0.0, -0.6, Z1).box(-2.2, X1, -0.02, 0.0, Z1, Z1 + 1.2).finish(sh.root)
+Mesh(P + 'floor', sh.M['floor'], tile=2.2).box(X0, X1, -0.02, 0.0, -0.6, 3.8).box(-2.4, X1, -0.02, 0.0, 3.8, Z1).box(-2.2, X1, -0.02, 0.0, Z1, Z1 + 1.2).finish(sh.root)   # v1b：玄關那一塊（x −4.2～−2.4、z 3.8～5.0）挖掉，做成 y −0.12 的三和土
 for t in IT['tatami_room']:
     x0, z0 = t['x'] - t['w'] / 2 + (0.06 if t['x'] > 0 else 0.0), t['z'] - t['d'] / 2; x1, z1 = t['x'] + t['w'] / 2 - (0.06 if t['x'] < 0 else 0.0), t['z'] + t['d'] / 2
     sh.a('tatami').box(x0, x1, -0.02, 0.03, z0, z1)
 gk = IT['genkan'][0]; gx0, gx1, gz0, gz1 = gk['x'] - gk['w'] / 2, gk['x'] + gk['w'] / 2, gk['z'] - gk['d'] / 2, gk['z'] + gk['d'] / 2
-for i in range(3):                                                                                                         # 土間的石板（三塊）
-    for j in range(2): xf0.rbox(sh.a('vcg'), gx0 + i * gk['w'] / 3 + 0.01, gx0 + (i + 1) * gk['w'] / 3 - 0.01, -0.02, 0.008, gz0 + 0.12 + j * (gk['d'] - 0.12) / 2 + 0.01, gz0 + 0.12 + (j + 1) * (gk['d'] - 0.12) / 2 - 0.01, r=0.0, seg=1, col=(STONE, '#9a958c', '#86827a')[(i + j) % 3])
-xf0.rbox(sh.a('post'), gx0, gx1, 0.0, 0.1, gz0 - 0.02, gz0 + 0.1, r=0.006, seg=1)
-xf0.rbox(sh.a('vcg'), X0, -2.2, -0.27, 0.005, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')   # v1d：玄關門口 z 5.0 的石材上框立面（前院土間 y −0.24，BB_257 交界）                                          # 上框（一階木踏台）
-for j, col in enumerate(('#2a2a2c', '#6a4a30')): Xf(gx0 + 0.9 + j * 0.3, gz0 + 0.45).rbox(sh.a('vc'), -0.05, 0.05, 0.01, 0.06, -0.12, 0.12, r=0.02, seg=1, col=col)   # 脫在門口的鞋
-gb = IT['getabako'][0]; Xf(gb['x'], gb['z']).rbox(sh.a('post'), -gb['w'] / 2, gb['w'] / 2, 0.0, gb['h'], -gb['d'] / 2, gb['d'] / 2, r=0.01, seg=1)
+for i in range(3):                                                                                                         # 玄關的三和土石板（三×二塊，頂面 y −0.12；LAWWW2 11-04 06:24 的導航高度）
+    for j in range(2): xf0.rbox(sh.a('vcg'), gx0 + i * gk['w'] / 3 + 0.01, gx0 + (i + 1) * gk['w'] / 3 - 0.01, -0.16, -0.12, gz0 + 0.12 + j * (gk['d'] - 0.12) / 2 + 0.01, gz0 + 0.12 + (j + 1) * (gk['d'] - 0.12) / 2 - 0.01, r=0.0, seg=1, col=(STONE, '#9a958c', '#86827a')[(i + j) % 3])
+xf0.rbox(sh.a('vcg'), gx0, gx1, -0.17, -0.125, gz0, gz1, r=0.0, seg=1, col='#6e6a62')                                     # 石板下的底（縫看起來是深色）
+xf0.rbox(sh.a('post'), gx0, gx1, -0.12, 0.0, gz0 - 0.02, gz0 + 0.12, r=0.006, seg=1)                                     # 上がり框（z 3.8，−0.12～0）
+xf0.rbox(sh.a('post'), gx1 - 0.02, gx1 + 0.03, -0.12, 0.0, gz0, gz1, r=0.0, seg=1)                                        # 玄關東側的木邊（−0.12～0）
+xf0.rbox(sh.a('vcg'), X0, gx1, -0.25, -0.12, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')                          # z 5.0 的石材立面（前院土間 y −0.24 → 玄關 −0.12）
+xf0.rbox(sh.a('vcg'), gx1, -2.2, -0.25, 0.0, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')
+for j, col in enumerate(('#2a2a2c', '#6a4a30')): Xf(gx0 + 0.9 + j * 0.3, gz0 + 0.45).rbox(sh.a('vc'), -0.05, 0.05, -0.115, -0.065, -0.12, 0.12, r=0.02, seg=1, col=col)   # 脫在門口的鞋
+gb = IT['getabako'][0]; Xf(gb['x'], gb['z']).rbox(sh.a('post'), -gb['w'] / 2, gb['w'] / 2, -0.12, gb['h'], -gb['d'] / 2, gb['d'] / 2, r=0.01, seg=1)
 for k in range(3): Xf(gb['x'] + gb['w'] / 2 + 0.005, gb['z'] - 0.4 + k * 0.4).rbox(sh.a('vc'), -0.005, 0.0, 0.08, gb['h'] - 0.06, -0.18, 0.18, r=0.0, seg=1, col='#5a3e28')
 sh.a('washi').box(gb['x'] - 0.09, gb['x'] + 0.09, gb['h'] + 0.02, gb['h'] + 0.28, gb['z'] - 0.39, gb['z'] - 0.21)          # 鞋櫃上的方形紙座燈
 CL.glow(sh.root, 'andon', gb['x'], gb['h'] + 0.15, gb['z'] - 0.3, color='rgba(255,210,150,1)', size=0.5, day=0.0, night=0.8)
@@ -123,8 +126,9 @@ sh.tally('shell')
 EW = lambda key: sh.w('engawa', key)
 EW('wall').box(X0, -3.5, 0.0, H, Z1 - 0.06, Z1 + 0.06); EW('wall').box(-2.5, -2.2, 0.0, H, Z1 - 0.06, Z1 + 0.06); EW('wall').box(-3.5, -2.5, 2.05, H, Z1 - 0.06, Z1 + 0.06)
 for x in (X0, -3.5, -2.5, -2.2): EW('post').box(x - 0.06, x + 0.06, 0.0, H, Z1 - 0.08, Z1 + 0.08)                         # 柱（內外都看得到）
-for zz in (Z1 - 0.08, Z1 + 0.06): EW('post').box(X0, -2.2, 1.95, 2.07, zz, zz + 0.02); EW('post').box(X0, -2.2, 0.0, 0.5, zz, zz + 0.02)   # 外側也有長押、腰板
-for zz in (Z1 - 0.075, Z1 + 0.055): EW('post').box(X0 + 0.06, -2.26, 0.0, 0.5, zz, zz + 0.02)
+for zz in (Z1 - 0.08, Z1 + 0.06):                                                                                          # 內外都有長押、腰板（v1b：腰板只在牆的兩段，門口 x −3.5～−2.5 不擋）
+    EW('post').box(X0, -2.2, 1.95, 2.07, zz, zz + 0.02)
+    for (a_, b_) in ((X0, -3.5), (-2.5, -2.2)): EW('post').box(a_, b_, 0.0, 0.5, zz, zz + 0.02)
 def lattice_door(a, b, z, glass=True, hgt=2.05):
     """格子門：木框＋縱橫格子＋玻璃（或紙）"""
     EW('post').box(a, b, 0.0, 0.06, z - 0.025, z + 0.025); EW('post').box(a, b, hgt - 0.05, hgt, z - 0.025, z + 0.025)
