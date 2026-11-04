@@ -209,12 +209,15 @@ class Shop:
 
     def hanging_pothos(s, leaf_mat_key, x, y, z, n=9, drop=0.6, lvl='', size=0.16):
         """垂下來的黃金葛：幾條往下垂的葉片卡串"""
-        m = s.a(leaf_mat_key, lvl); rnd = random.Random(int(abs(x * 100 + z * 37 + y * 11)))
+        m = s.a(leaf_mat_key, lvl); rnd = random.Random(int(abs(x * 100 + z * 37 + y * 11))); st = s.a('vc', lvl); xf = Xf(0.0, 0.0)
         for k in range(n):
             a = rnd.uniform(0, 2 * math.pi); rr = rnd.uniform(0.05, 0.22); L_ = rnd.uniform(0.3, drop)
-            for j in range(4):
-                t = j / 3; px = x + math.cos(a) * (rr + t * 0.08); pz = z + math.sin(a) * (rr + t * 0.08); py = y - t * L_
-                CL.card(m, px, py, pz, size, size, ry=rnd.uniform(0, math.pi), rx=rnd.uniform(-0.6, 0.6), uv=CL.rand_uv(0.5))
+            prev = (x + math.cos(a) * 0.02, y + 0.02, z + math.sin(a) * 0.02)          # v（BB_257 §11：葉子不能懸空）：每一條從盆口拉一根藤，葉子掛在藤上
+            for j in range(7):
+                t = j / 6; px = x + math.cos(a) * (rr * min(1.0, t * 2.5) + t * 0.08); pz = z + math.sin(a) * (rr * min(1.0, t * 2.5) + t * 0.08)
+                py = y - t * L_ + (0.04 * math.sin(t * math.pi) if j else 0.0)
+                xf.cyl(st, prev, (px, py, pz), 0.0035, col=('#4a6a2a', '#5a7a32')[k % 2], seg=4, caps=False); prev = (px, py, pz)
+                if j: CL.card(m, px + rnd.uniform(-0.02, 0.02), py - size * 0.35, pz + rnd.uniform(-0.02, 0.02), size, size, ry=rnd.uniform(0, math.pi), rx=rnd.uniform(-0.6, 0.6), uv=CL.rand_uv(0.5))
 
     # ---- 收尾
     def finish(s, out, keep=lambda ob: False, extra_info=None):
