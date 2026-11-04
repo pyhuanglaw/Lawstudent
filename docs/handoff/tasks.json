@@ -43740,9 +43740,9 @@
    "owner": "LAWWW",
    "priority": "P0",
    "title": "使用者回報：和 NPC 聊天、約會常常卡住（存檔 day35 15:23 library_media；USER_WANTS X204）",
-   "status": "進行中",
-   "next": "第一步 74c1ffb37：說話走 GM.guardTalk（例外收段落、不重複開）；截圖判讀＝「紀錄」面板（前一天體育課），卡在芷若 talkNo 之後；等 CC STUCK_1104 在 de38333d1 重現（console、lastTalkError、busyDepth）→ 找真正停住的 await；CC_45 其他四點等結果",
-   "sha": "74c1ffb37"
+   "status": "已實作待整合",
+   "next": "根因：ladder Z-L3 attended:{course,min} 被 EVENTS.cond 當陣列丟例外（CC 在使用者電腦重現 main／dev 都卡）；27929f2a8 修＋74c1ffb37 guardTalk；熱修 v9.10.19.1 測試樹 fd8d447d2（main＋兩個修正）等 BB GO 發布；v9.10.20 也含",
+   "sha": "27929f2a8"
   },
   {
    "first": {
