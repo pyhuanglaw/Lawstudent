@@ -110,7 +110,7 @@ fl = Mesh('FLOOR', m_carpet, tile=1.6)   # v2：三段——門口平的（y 0�
 for (za, zb) in ((SL['z0'], Z1), (SL['z1'], SL['z0']), (Z0, SL['z1'])):
     fl.quad([(X0, floorY(zb), zb), (X1, floorY(zb), zb), (X1, floorY(za), za), (X0, floorY(za), za)])
 fl.finish(root, props={'slope': json.dumps(SL)})
-Mesh('CEILING', m_ceil).box(X0, X1, H, H + 0.04, Z0, Z1).finish(root, props={'ceiling': 1})
+Mesh('CEILING', L.flat('nh_ceiling', '#3a2420', rough=0.9, cull=True)).quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]).finish(root, props={'ceiling': 1})   # v2：單面朝下
 cb = Mesh('CEIL_DECO', m_cream)   # 天花板的米色格樑（Art Deco 的階梯邊）
 for z in [Z0 + 2.0 * i for i in range(1, int(D / 2.0))]:
     cb.rbox(X0, X1, H - 0.22, H, z - 0.14, z + 0.14, r=0.02, seg=1); cb.rbox(X0, X1, H - 0.3, H - 0.22, z - 0.08, z + 0.08, r=0.01, seg=1)
@@ -299,7 +299,7 @@ scn.finish(root); scg.finish(root, smooth=True)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('nh_vc_matte', rough=0.75); vc_g = L.vc_material('nh_vc_gloss', rough=0.35); vc_x = L.vc_metal('nh_vc_metal', rough=0.35, metal=0.4)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'nh_warm', 'nh_aisle', 'nh_exit', 'nh_screen'})
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'nh_warm', 'nh_aisle', 'nh_exit', 'nh_screen', 'nh_ceiling'})
 L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'nh_atlas.png'), 'nh_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.7)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
