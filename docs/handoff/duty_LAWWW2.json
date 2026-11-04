@@ -3,8 +3,9 @@
  "account": "A",
  "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
  "branch": "claude/second-ai-env-art",
- "since": "2026-11-03T08:2xZ",
- "state": "on",
- "sinceSha": "b5c2e47c",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-11-04T09:13Z",
+ "sha": "af97d745",
+ "snapshot": "docs/handoff/snapshots/2026-11-04T0912Z_A_LAWWW2.json",
+ "note": "duty handoff 被拒：RULE_SOURCE 的 duty.json 裡 LAWWW2 還是 off（沒 sync 到 11-03 08:2x 的值班登記）。照 duty_state.handoff 會寫的欄位手動寫；請值班 LAWWW duty sync。"
 }
