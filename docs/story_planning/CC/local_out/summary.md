@@ -1138,3 +1138,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T21:07:31  TT_cases  sha=d2e36f6eb  exit=1  41s    == B 一定會 FAIL / FAIL B 文字是「錯的預期」  實際 按過了：祐廷 / FAILED 1: B 文字是「錯的預期」
       err.log (last 5): [cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_cases\attempt2\trace | [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_cases] | [gpu_wrap 3.0s] page close url=about:blank | [gpu_wrap 3.1s] BROWSER DISCONNECTED
       autoretry: final FAIL  class UNKNOWN/assert  exit2 1
+- 2026-11-04T21:07:42  TT_V12_moku  sha=aa8cb5beb  exit=0  34s    PASS 17. 出來以後走得到兩點半門口、往西走得到巷子西段  {"ok":true} / PASS 18. 走得到「上二樓」的互動點（離人行道上的點 1.2 m 以內） / ALL PASS
