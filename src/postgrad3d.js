@@ -257,10 +257,10 @@ const PG=(function(){
     {tag:'pg_an_group',at:['2030-01-25',21],win:6,cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('zhe',L().AN.group[0]),GR('heroine_01',L().AN.group[1])]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
     /* win:6（AA-B 10-30 13:33 回 B）：以安二試、司法官放榜那兩則群組和電話版 an1／an2 同一段——到隔天 03:00 以前條件成立才補（訊息照樣標 21:00），過了就不補（BB-B R43 PGF10_AN_EX_LATE：沒寫 win＝48 小時內都補）。測試：node tests/pg_an_ex_win_unit.js */
     {tag:'pg_an_ex1',at:['2029-12-14',21],win:6,cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('zhe',L().AN.exGroup1[0]),GR('heroine_01',L().AN.exGroup1[1])]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
-    {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
+    {tag:'pg_yt_2030_r1',at:['2029-09-07',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},   /* AA_688 第 3 節（企劃線 8dce2f94c，AA-C 定 D109）：語彤 2029 年考上（AA_629）＝「一試過了。」搬到 2029-09-07 一試放榜那天（原本 2030-09-06；字不動）。tag 照舊（舊存檔已經收過 2030 那一則的不再收）；2029-09-07 之後 48 小時以上才讀的舊存檔不補 */
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
-    {tag:'pg_yt_2030_r2',at:['2030-12-13',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt2.map(t=>GR('heroine_03',t))},
+    {tag:'pg_yt_2030_r2',at:['2029-12-14',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt2.map(t=>GR('heroine_03',t))},   /* AA_688 第 3 節：「上了。」「蘇姨已經在寫紅紙了。」搬到 2029-12-14 二試放榜那天（原本 2030-12-13；字不動），15:10 排在阿哲「放榜了」那幾則（15:00、15:06）後面；讀書小組那一場同一天照樣傳（群組不算見面）。tag 照舊 */
     /* 學姊 2030 年的生日（AA_382 第 4 節）*/
     {tag:'pg_sis_sea_ask',at:[SEA_DAY0,21],cond:G=>S.seaOk(G),items:G=>S.seaItems(G)},
     {tag:'pg_sis_sea_late',at:[SEA_DAY,9.5],cond:G=>S.seaOk(G)&&G.flags.PG_SIS_SEA==='yes'&&G.flags.SIS_BDAY_Y5!=='sea'&&S.seaMissed(G),items:G=>[P_('heroine_05',L().SEA_Y5.late)]},   /* 回了「好。」、9:00 卻沒到（出遊錯過，116d5c72）：09:30 她先傳一則，15:00 照片照下一筆 */
@@ -478,7 +478,7 @@ const PG=(function(){
     if(both&&!pass){ if(jr&&y>=S.JUDGE_LAST) F.JUDGE_RETAKE='done'; if(!jr&&!choiceLater&&F.JUDGE_RETAKE==null){ F.JUDGE_RETAKE=false; F.JUDGE_RETAKE_AUTO=true; } }   /* 2033 第一次到司法官、沒有下一年＝沒有選過（CC_25 P3：尾聲用 epiAuto，不說「我後來沒有再考」）*/
     if(jr) return;
     if(y===2029){ if(S.studyGroup(G)==='yutong'){ if(typeof PHONE!=='undefined') PHONE.at(G,S.DK(Y[y].r2),18,L().R2.study.yutong.map(t=>P_('heroine_03',t)),'pg_noodle_yt_'+y); } else S.planNoodle(G,y); }
-    else if(y===2030&&L().R2_2030&&typeof OUT!=='undefined') OUT.plan(G,{id:'pg_bar_noodle_2030',ev:'ev_pg_noodle_2030',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25}); }   /* AA_331 2a：2030 的 12/13 18:00 麵店（可以錯過）*/   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
+    else if(y===2030&&L().R2_2030&&typeof OUT!=='undefined') OUT.plan(G,{id:'pg_bar_noodle_2030',ev:'ev_pg_noodle_2030',day:S.DK(Y[y].r2),h:18,late:0.5,place:'公館燒臘',title:'公館燒臘・長桌',travel:'走過去約 15 分鐘',travelH:0.25}); }   /* AA_331 2a：2030 的 12/13 18:00 麵店（可以錯過）*/   /* AA_688 第 6 節（企劃線 7cc729232）：出遊卡片上的地點「阿鳳麵店」→「公館燒臘」——卡片顯示的是 title（eat3d.js 的對照表只管「吃過的店」，不管出遊卡片），place、title 都照 2029 那一頓（S.planNoodle）；已經排好的舊存檔（2030-12-13 15:05～18:30 存的）照舊顯示原本的字 */   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
   /* ---------- 司法官的場景（AA_582）---------- */
   const narrScene=async(GM,arr)=>{ GM.sceneBegin(); try{ for(const t of arr) await GM.say(null,t); } finally { GM.sceneEnd(); } };
   /* (f) 第一次司法官二試落榜、有律師證照：二試放榜那天晚上 20:30（麵店之後）二選一 */
