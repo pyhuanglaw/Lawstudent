@@ -446,6 +446,7 @@ const Z3 = (function(){
       { const lt=W3.canvasTex('laneFull',8,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(0,0,w,120); }).clone(); lt.needsUpdate=true; lt.repeat.set(1,74);   /* 公館區域的 lane 貼圖線寬只有 5 cm，遠看看不到：背景用整條寬的虛線 */
         const lm=new THREE.MeshStandardMaterial({map:lt,transparent:true,roughness:0.8}), yl=new THREE.MeshStandardMaterial({color:0xd9a521,roughness:0.8}); const lg=new THREE.Group();
         for(const lx of [-145,-151,-162,-168]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.15,295),lm); m.rotation.x=-Math.PI/2; m.position.set(lx,0.018,2.5); lg.add(m); }
+        { const zb=zebraMesh(34.2,12); zb.position.set(-156.5,0.03,0); lg.add(zb); }   /* GG-ZEBRA-1104：校門外過羅斯福路的斑馬線（和公館區域同一條） */
         const LW=XH.T1x+260, LX=(XH.T1x-260)/2;   /* 直路那一段的車道線（辛亥路往東南彎以前）*/
         for(const lz of [-150.5,-161.5]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.15,LW),lm); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(LX,0.018,lz); lg.add(m); }
         for(const lz of [-155.8,-156.2]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(0.2,LW),yl); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(LX,0.018,lz); lg.add(m); }
@@ -767,13 +768,14 @@ const Z3 = (function(){
   function updateLake(L,E){ if(!L||!E.sky) return; const U=L.mat.uniforms, S=E.sky.material.uniforms; U.time.value=E.time||0; U.skyLo.value.copy(S.bot.value).lerp(S.mid.value,0.25); U.skyHi.value.copy(S.mid.value).lerp(S.top.value,0.5); U.sunDir.value.copy(S.sunDir.value); U.sunCol.value.copy(E.sun.color).multiplyScalar(Math.min(1.6,E.sun.intensity)); U.lampK.value=E.lampsOn?1:0; }
   function glowTex(){ return W3.canvasTex('glow',64,64,(x,w,h)=>{ const g=x.createRadialGradient(32,32,2,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.4,'rgba(255,255,255,0.35)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,w,h); }); }
   // ---------- 公館商圈 ----------
-  const gongguan={ id:'gongguan', name:'公館', indoor:false, cityLight:1.0, size:[160,110], camDist:6.5, sunYaw:Math.PI/2, build(E){   /* sunYaw：公館的區域座標 +x 往南、+z 往西（羅斯福路南北向、校門在東邊；和校園的換算見 campusBackdrop），太陽方向要轉 90° */
+  const gongguan={ id:'gongguan', name:'公館', indoor:false, cityLight:1.0, size:[160,110], camDist:6.5, sunYaw:Math.PI/2, viewFar:240, fogNear:90, build(E){   /* sunYaw：公館的區域座標 +x 往南、+z 往西（羅斯福路南北向、校門在東邊；和校園的換算見 campusBackdrop），太陽方向要轉 90° */
     treeIdx=0; leafyCount=0; const g=new THREE.Group(); const W=160,D=110; const nav=new E3.NavGrid(W,D,0.5,-W/2,-D/2); const lamps=[]; const buildings=[];
     ground(g,W,D,W3.asphaltTex(),[W/6,D/6],0,0,0);
     // 人行道（北側靠校門）與騎樓街區
     ground(g,W,14,W3.stoneTex('#dcd5c8'),[40,4],0,-38,0.02); ground(g,W,16,W3.stoneTex('#dcd5c8'),[40,4],0,12,0.02); ground(g,W,40,W3.stoneTex('#d9d3c6'),[40,10],0,40,0.02);
     // 羅斯福路：車道線
     { const line=W3.canvasTex('lane',64,256,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(255,255,255,0.85)'; x.fillRect(28,0,8,120); }); for(const z of [-25,-19,-8,-2]){ const t=line.clone(); t.needsUpdate=true; t.repeat.set(1,40); const m=new THREE.Mesh(new THREE.PlaneGeometry(0.4,W),new THREE.MeshStandardMaterial({map:t,transparent:true,roughness:0.8})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 路中間的黃色雙實線（路面 z -31..4）*/ for(const z of [-13.65,-13.35]){ const m=new THREE.Mesh(new THREE.PlaneGeometry(W,0.14),new THREE.MeshStandardMaterial({color:0xd9a93a,roughness:0.8})); m.rotation.x=-Math.PI/2; m.position.set(0,0.03,z); m.receiveShadow=true; g.add(m); } /* 車道線改成受光材質：晚上不會像螢光一樣亮 */ }
+    { const zb=zebraMesh(34.2,12); zb.rotation.z=Math.PI/2; zb.position.set(0,0.034,-13.5); g.add(zb); }   /* GG-ZEBRA-1104：校門口過羅斯福路的斑馬線（北側人行道 z −31 到南側人行道 z 4，對面是輪轉單車）；導航照舊（整條路都走得到） */
     // 校門（北側牆中央）——回校園
     // v9.3 第十四批：和校園同一座校門（CK.gate），校外朝南；門房在圍牆裡面（舊版的門房在校外人行道上，而且沒有碰撞）
     const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
@@ -1377,6 +1379,11 @@ const Z3 = (function(){
   function wzCopyState(G){ const v=G&&G.flags&&G.flags.WZ_COPY_SHOP; return v==='moved'||v==='stay'?v:''; }
   function wzCopyVis(name,st){ return name==='COPY_CORNER_OPEN'||name==='COPY_A1_SHUT'?st==='moved':(name==='COPY_A1_RENEW'?st==='stay':st!=='moved'); }
   function wzCopyAt(G){ const L=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT.print:null; return L&&L.moved&&wzCopyState(G)==='moved'?L.moved.enterAt:(L?L.enterAt:{x:-8,z:4.6}); }
+  /* 斑馬線（GG-ZEBRA-1104，使用者 11-04「從學校到對面要斑馬線」；LAWWW2）：PlaneGeometry(L,Wd)，白條和本地 y（寬）平行、沿本地 x 每 0.9 m 一條（條寬 0.5 m）；
+     貼圖和溫州街巷口的斑馬線同一張（TK.tex('zebra')），用 repeat 鋪滿長度。路上的車道線不剪（斑馬線疊在上面，polygonOffset） */
+  function zebraMesh(L,Wd){ const st=TK.tex('zebra',256,64,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(240,238,230,0.92)'; for(let i=0;i<w;i+=32) x.fillRect(i+4,0,18,h); },false).clone();
+    st.wrapS=THREE.RepeatWrapping; st.repeat.set(L/0.9/8,1); st.needsUpdate=true;
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(L,Wd),new THREE.MeshStandardMaterial({map:st,transparent:true,roughness:0.9,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})); m.rotation.x=-Math.PI/2; m.receiveShadow=true; m.name='zebra'; return m; }
   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[], intFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */
     const glows=[];

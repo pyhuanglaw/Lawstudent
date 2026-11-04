@@ -43896,12 +43896,37 @@
    "owner": "LAWWW2",
    "priority": "P1",
    "title": "公館第二批四間：Afar café（G07）、洋洋鹹酥雞（G05）、轉角唱片（G12）、daybreak（G14）改名＋進得去（USER_WANTS X209；AA_650）",
-   "status": "等待其他AI／素材",
-   "next": "等使用者參考圖；外觀 LAWWW2、室內 AA（Afar、daybreak）／BB（洋洋）／CC（轉角）、MODEL_READY LAWWW2、功能測試與 ART_APPROVED BB、接進遊戲 LAWWW；營業時間菜單 AA_650 §4",
+   "status": "已整合待測試",
+   "next": "afar、Daybreak 進遊戲（964d0ad11、809163ee4）等 BB 驗收；洋洋（BB v1c MODEL_READY）、轉角唱片（CC）還沒接",
    "xai": {
     "spec": "AA_650（企劃線 7193e1349）§4、§6",
     "branch": "claude/second-ai-env-art",
     "acceptance": "四間進得去、照參考圖、BB 驗收",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走出校門到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "GG-ZEBRA-FOG-1104",
+   "owner": "LAWWW2",
+   "priority": "P1",
+   "title": "公館校門口過羅斯福路的斑馬線＋公館遠方太模糊（USER_WANTS X210，使用者 11-04 04:3x 對 LAWWW2）",
+   "status": "已整合待測試",
+   "next": "LAWWW2 305ef2d2a 已接進開發分支；BB 排 PC：校門口 15:00／20:00 前後截圖、viewFar 240 之後 gongguan_glb_integration 效能",
+   "xai": {
+    "spec": "使用者 11-04 04:3x 原話（對 LAWWW2）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "校門口有斑馬線、遠方不糊、效能不超標（BB 驗收）",
     "receiver": "LAWWW",
     "ack": "ACK"
    }
