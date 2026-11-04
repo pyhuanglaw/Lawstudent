@@ -364,18 +364,17 @@ await sec('7',async()=>{
   check('7. 不熟（FRIEND 以下）不問',(()=>{ fresh('2025-12-01',21); H.rel('zhe',10,0,0); INV.addContact(H.G,'zhe'); return run42('zhe','2025-11-30','2025-12-13')==null; })());
 });
 
-/* ======================= 8 第 5 節：經濟系那一年 ======================= */
+/* ======================= 8 第 5 節：經濟系那一年（不用做：AA_669 第 5 節 11-04 17:2x 改；AA-C 11-04 20:56 確認 S.on 對 econ 回 false、資料留著）======================= */
 await sec('8',async()=>{
+  fresh('2025-12-02',10,'soclib'); check('8. 對照：法律系大二上第 14 週 10:00 有（S.on）',!!EXLIB.on(H.G));
   fresh('2024-12-02',10,'soclib'); H.G.stage='econ'; const G=H.G;
-  check('8. 經濟系那一年：表上的人換成品妤、阿勳、韋綸（法律系的人不算）',!!EXLIB.inCast(G,'econ_pinyu')&&!!EXLIB.inCast(G,'econ_zhengxun')&&!!EXLIB.inCast(G,'econ_weilun')&&!EXLIB.inCast(G,'heroine_01')&&!EXLIB.inCast(G,'classmate_bohan'));
-  setT('2024-12-02',10); const py=STORY.schedEnt(CHARACTERS.econ_pinyu,G), xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), wl=STORY.schedEnt(CHARACTERS.econ_weilun,G); setT('2024-12-02',14.5); const py2=STORY.schedEnt(CHARACTERS.econ_pinyu,G);
-  check('8. 平日有讀書的時間：品妤社科圖（到 14:00）、阿勳社科圖（二樓還沒做好＝一樓）、韋綸總圖 B1',py&&py.zone==='soclib'&&xu&&xu.zone==='soclib'&&wl&&wl.zone==='library_b1'&&!(py2&&py2.zone==='soclib'),J([py,xu,wl,py2].map(e=>e&&e.zone)));
-  setT('2024-11-25',10); check('8. 第 13 週沒有',!STORY.schedEnt(CHARACTERS.econ_pinyu,G));
-  setT('2024-12-02',10); const s=zone('soclib',0,-9,-5); H.FRIEND('econ_pinyu'); const n=npcAt('econ_pinyu',s[16]); await talk('econ_pinyu',n); await talk('econ_pinyu',n); const l=lines();
-  check('8. 社科圖的品妤：點頭以後（小聲）那一句（第 5 節）',J(l)===J(L.econ.econ_pinyu.lines[0]),J(l));
+  check('8. 經濟系那一年沒有：第 14 週以後 S.on 都是 false（大一上 12/2、大一下 5/26）',!EXLIB.on(G)&&!EXLIB.on(G,DK('2025-05-26'),10));
+  setT('2024-12-02',10); const py=STORY.schedEnt(CHARACTERS.econ_pinyu,G), xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,G), wl=STORY.schedEnt(CHARACTERS.econ_weilun,G);
+  check('8. 品妤、阿勳、韋綸的作息不換（沒有期末那一段的讀書位子）',![py,xu,wl].some(e=>e&&e.exlib),J([py,xu,wl].map(e=>e&&[e.zone,!!e.exlib])));
+  check('8. 社科圖不會「滿」',EXLIB.fill(G,'soclib')===0);
   setT('2024-12-02',19); INV.addContact(G,'econ_pinyu'); const tp=MSG.topics(G,'econ_pinyu').map(q=>q.k);
-  check('8. 手機的話題不出（經濟系那一年還沒有私訊：MSG.open；休學以後也不約去台大）',!tp.includes('exlib_seat')&&(G.flags.Y0_LEFT=true,!EXLIB.topicOk(G,'econ_pinyu')),J(tp));
-  check('8. 答應那一句照稿（品妤、阿勳、韋綸），韋綸到了以後那一句',J(L.econ.econ_pinyu.hold.yes)===J(['可以。早餐幫我帶，三十五塊以內。'])&&L.econ.econ_weilun.hold.at[0].startsWith('（小聲）八點二十。'));
+  check('8. 占位子的話題不出',!tp.includes('exlib_seat')&&!EXLIB.topicOk(G,'econ_pinyu'),J(tp));
+  check('8. 第 5 節的資料留著（品妤、阿勳、韋綸的句子照稿）',['econ_pinyu','econ_zhengxun','econ_weilun'].every(id=>L.econ[id]&&L.econ[id].lines.length)&&J(L.econ.econ_pinyu.hold.yes)===J(['可以。早餐幫我帶，三十五塊以內。'])&&L.econ.econ_weilun.hold.at[0].startsWith('（小聲）八點二十。'));
 });
 
 /* ======================= 9 不扣關係、不改成績 ======================= */
@@ -456,7 +455,7 @@ await sec('12',async()=>{
   fresh('2025-12-02',10); let s=zone('soclib_2f',1,3.0,5.0); const yt=STORY.schedEnt(CHARACTERS.heroine_03,H.G), pf=prefOf(s);
   check('12. 語彤（heroine_03，表上 soc2f）期末那一段讀書的時段在社科圖二樓（soclib_2f），坐靠窗那排、老位子南邊那一個',!!yt&&yt.zone==='soclib_2f'&&!!yt.exlib&&!!yt.seatAt&&!!pf&&Math.hypot(yt.seatAt[0]-pf.x,yt.seatAt[1]-pf.z)<0.01&&yt.seatAt[2]===1,J(yt));
   fresh('2024-12-02',10,'campus'); H.G.stage='econ'; const xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,H.G);
-  check('12. 經濟系那一年：阿勳（表上 soc2f）也在社科圖二樓',!!xu&&xu.zone==='soclib_2f',J(xu&&[xu.zone,xu.exlib]));
+  check('12. 經濟系那一年沒有（第 0 節，AA_669 第 5 節不用做）：阿勳不換到社科圖二樓',!(xu&&xu.exlib),J(xu&&[xu.zone,xu.exlib]));
   /* ---- 二樓「滿」只算自習室；安靜的地方只有自習室 ---- */
   fresh('2025-12-02',10.5); s=zone('soclib_2f',1,3.0,5.0); EXLIB.syncSeats(GM,true); const held=s.filter(q=>q.exHeld);
   check('12. 平日 10:30（二樓 09:00 就滿）：自習室的長桌、靠窗 49 位都「有人了」；討論室的 12 位不算（第 6 節：討論室不是自習室）',held.length===49&&held.every(q=>q.kind==='study'||q.kind==='window'),J([held.length,s.filter(q=>q.kind==='discuss'&&q.exHeld).length]));
@@ -502,10 +501,9 @@ await sec('12',async()=>{
   { const u=(G,id)=>fn(EXLIB,'useOld41')?EXLIB.useOld41(G,id):undefined;
     fresh('2026-05-25',19); H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y1S2',day:DK('2026-05-25')}; const same=u(H.G,'heroine_03'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S1'; const cross=u(H.G,'heroine_03'); H.G.flags.SOCLIB_2F_SEAT.term='Y1S1'; const later=u(H.G,'heroine_03');
     check('12. 「之後的學期」才換：同一學期記的照第 4-1 節；經濟系那一年記的（法律系的語彤不知道那個位子）照第 4-1 節；上學期記的換',same===null&&cross===null&&!!later,J([same,cross,!!later]));
-    fresh('2025-05-19',19,'campus'); H.G.stage='econ'; H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y0S1',day:-287}; const e1=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S2'; const e2=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y1S1'; const e3=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S1';
-    let r41=null, dX=null; if(fn(EXLIB,'send41')){ for(let d=DK('2025-05-19');d<=DK('2025-05-30');d++){ setT(d,19); if(EXLIB.goes(H.G,'econ_zhengxun',d+1)){ dX=d; break; } }
-      if(dX!=null){ setT(dX,19); const t0=EXLIB.topicOk; EXLIB.topicOk=()=>true; try{ r41=EXLIB.send41(H.G,'econ_zhengxun'); } finally { EXLIB.topicOk=t0; } setT(dX,22); deliver(); } }   /* 經濟系那一年手機還沒有私訊（MSG.open）：話題本身不出，這裡只看選哪一句 */
-    check('12. 經濟系那一年的阿勳：大一下（老位子是大一上記的）答應換成「嗯。你那個位子。七點五十。」；同一學期、法律系那幾年記的不換',!!e1&&e2===null&&e3===null&&!!r41&&r41.goes&&J(msgs('econ_zhengxun'))===J(['我：明天幫我占位子'].concat(yesOldXU||['(沒有 yesOld)'])),J([!!e1,e2,e3,r41&&r41.goes,dX!=null&&CALENDAR.dateOf(dX).key,msgs('econ_zhengxun')])); }
+    fresh('2025-05-19',19,'campus'); H.G.stage='econ'; H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y0S2',day:-287}; const e2=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y1S1'; const e3=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S1';
+    let goes=0; for(let d=DK('2025-05-19');d<=DK('2025-05-30');d++){ setT(d,19); if(EXLIB.goes(H.G,'econ_zhengxun',d+1)) goes++; }
+    check('12. 經濟系那一年沒有（第 0 節）：阿勳哪一天都不幫你占位子；同一學期、法律系那幾年記的老位子照樣不換',goes===0&&e2===null&&e3===null,J([goes,e2,e3])); }
   /* ---- 招手：旁邊是老位子 ---- */
   fresh('2025-12-03',10.5); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; friend('heroine_03'); const yS3=EXLIB.spotSeat(E,'soclib_2f','heroine_03'); if(yS3) npcAt('heroine_03',yS3); EXLIB.syncSeats(GM,true);
   H.said=[]; H.opts=[]; H.picks=['（看到她在對你招手）']; seatCalls.length=0; await tick(); const ws=seatCalls[0]&&seatCalls[0].seat, lw=lines();
