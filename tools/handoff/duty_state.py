@@ -28,6 +28,9 @@ DUTY = 'docs/handoff/duty.json'
 ROLE_FILE = 'docs/handoff/duty_{role}.json'
 SNAPDIR = 'docs/handoff/snapshots'
 ROSTER_DOC = 'docs/AI_SESSION_HANDOFF.md'
+HANDOFF_PROGRESS = {   # 各職位自己的交接檔（交班紀錄）：交班以後只補這些＝「交班紀錄補」，不算繼續寫（和 incremental.PROGRESS_FILES 一致，另加 LAWWW 的交班快照頁、BB 交接檔的另一個檔名）
+    'docs/HANDOFF_GAP_MATRIX.md', 'docs/art-rebuild/second_ai/HANDOFF.md', 'docs/story_planning/AA_交接紀錄.md',
+    'docs/story_planning/BB_00_協作規範與交接紀錄.md', 'docs/story_planning/BB_00_交接紀錄.md', 'docs/story_planning/CC/CC_00_交接紀錄.md'}
 ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB', 'CC')   # CC：使用者 2026-11-02 03:5x 對 BB「請lawww新增這個角色 叫做CC 交班規則也要有」（D119／HV-22）
 ACCOUNTS = ('A', 'B', 'C', 'D')   # 使用者 2026-10-18：可能開第四個帳號（D），四個帳號任意方向輪值
 SUFFIX = {'A': '', 'B': '-B', 'C': '-C', 'D': '-D'}   # 工作階段名稱：LAWWW、LAWWW-B、LAWWW-C、LAWWW-D
@@ -205,9 +208,14 @@ def verify(args, d=None, out=None):
                 href = remote_ref(hb, not getattr(args, 'local', False))
                 last = ((h.get('roles') or {}).get(r) or {}).get('sha')
                 if last and ref_exists(args.root, href) and ref_exists(args.root, last + '^{commit}'):
-                    rc, n = git(args.root, 'rev-list', '--count', f'{last}..{href}')
-                    rc2, files = git(args.root, 'diff', '--name-only', last, href)
-                    real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC)]   # 交班本身的紀錄（duty_*.json、快照、值班表）不算繼續寫
+                    # 2026-11-04（帳號 B→C 三項誤報）：duty handoff 記的 sha 是「交班 commit 的前一個」，交班 commit 本身（第一個改到 duty_<職位>.json 的 commit，
+                    #   常常順手存了最後的成果）不算交班以後繼續寫；從它之後才算。找不到交班 commit（沒 commit 登記）就照舊從 last 算（fail closed）
+                    rc4, bl = git(args.root, 'log', '--no-merges', '--reverse', '--format=%H', f'{last}..{href}', '--', ROLE_FILE.format(role=r))
+                    bnd = (bl.split() or [None])[0] if rc4 == 0 else None
+                    base6 = bnd or last
+                    rc, n = git(args.root, 'rev-list', '--count', f'{base6}..{href}')
+                    rc2, files = git(args.root, '-c', 'core.quotepath=off', 'diff', '--name-only', base6, href)
+                    real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC or f in HANDOFF_PROGRESS)]   # 交班本身的紀錄（duty_*.json、快照、值班表、各職位交接檔的補記）不算繼續寫
                     # 接班的 LAWWW 查核過、記在 anomalies（kind post-handoff-writes、reviewedThrough＝查到的那個 commit）：分支停在那裡就只列資訊；之後又有新 commit 照樣報異常（fail closed）
                     rv = [a for a in d.get('anomalies') or [] if a.get('kind') == 'post-handoff-writes' and a.get('role') == r and a.get('branch') == hb and a.get('resolved') and a.get('reviewedThrough')]
                     rc3, tip = git(args.root, 'rev-parse', href)
@@ -215,7 +223,7 @@ def verify(args, d=None, out=None):
                         info.append(f'{r}：帳號 {h.get("account")} 的分支 {hb} 交班（{last}）以後的 {n} 個 commit 已查核（{rv[-1]["reviewedThrough"]}，見 anomalies）')
                         continue
                     if rc == 0 and n.isdigit() and int(n) > 0 and real:
-                        A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}）以後還有 {n} 個 commit——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
+                        A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}{"，交班 commit "+bnd[:9] if bnd else ""}）以後還有 {n} 個 commit（改到 {"、".join(real[:3])}{"…" if len(real)>3 else ""}）——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
     # 11 職位登記的 WIP 分支：還沒整合進自己的分支＝未整合（不能當作完成，也不能刪）
     if not getattr(args, 'no_git', False):
         for r in ROLES:

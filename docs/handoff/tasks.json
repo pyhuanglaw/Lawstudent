@@ -426,7 +426,19 @@
    ],
    "pausedReason": "只在 iPhone 出現、模擬器重現不了；使用者 11-01 23:1x 選先不要幫忙用 iPhone ?debug 看",
    "resumeWhen": "使用者說有空用 iPhone 看，或 BB 在模擬器重現",
-   "nextCheck": "2026-11-08"
+   "nextCheck": "2026-11-08",
+   "waitUser": {
+    "ask": "iPhone 實機看（BUG-02 偶發全黑／面膜臉；TEST-05 v9.10.x 實測一輪）",
+    "how": "使用者有空時用 iPhone 開線上版",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "使用者 11-01 23:1x 選「先不要」用 iPhone 幫忙看；USER_WANTS J08 iPhone 實機測試暫停中（五欄），不另外催"
+     }
+    ]
+   }
   },
   {
    "id": "BUG-03",
@@ -807,7 +819,19 @@
      "evidence": "恢復條件「v9.10 發布後使用者測」已成立（v9.10 10-18 05:11、v9.10.2 9335763d 10-19）；USER_WANTS C24 寫要 iPhone；使用者 10-21 08:43（UA-LAWWW-1021-02）說這幾天沒空親自測、不得宣稱未執行的 iPhone 實機驗收",
      "note": "只有使用者能做的 iPhone 實機測試；使用者這幾天沒空"
     }
-   ]
+   ],
+   "waitUser": {
+    "ask": "iPhone 實機看（BUG-02 偶發全黑／面膜臉；TEST-05 v9.10.x 實測一輪）",
+    "how": "使用者有空時用 iPhone 開線上版",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "使用者 11-01 23:1x 選「先不要」用 iPhone 幫忙看；USER_WANTS J08 iPhone 實機測試暫停中（五欄），不另外催"
+     }
+    ]
+   }
   },
   {
    "id": "TEST-06",
@@ -1158,7 +1182,19 @@
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
    "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "waitUser": {
+    "ask": "自強十舍 nccu_dorm 白天版 2D 背景要使用者修圖",
+    "how": "BB 照 D97 寫提示詞或修圖說明向使用者要（D100：2D 圖由 BB 跟使用者要）；場景 ART_APPROVED 由 BB 標（D120）",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：2D 圖歸 BB 跟使用者要；13:48 已請 BB 把這張排進下一批要圖清單（D97 一次 10 組）"
+     }
+    ]
+   }
   },
   {
    "id": "ART-11",
@@ -1263,7 +1299,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：暫停理由「等使用者看底圖」已解除：LAWWW 把缺的 5 張底圖照白名單逐張複製進 assets/bg 並登錄 OUT.BG；約會服立繪等 DATE-S6 要用時由 BB 切成 drop-in 立繪（透明背景） ｜ 【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜【使用者 2026-10-17 06:3x（AA_218 第 15 節 29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查＝通過）；和新劇情相不相符 AA、BB 確認。接進遊戲時逐張列進匯入白名單（不能整批）】【AA-C 06:18 盤點更正：32 處（33 張）底圖都有，流程是使用者生成、BB 檢查通過；BB 檢查算不算核准 AA-C 在問使用者；遊戲裡已有的 d04／d06／d12／d13 維持現狀】去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-21 稽核 C】做了一部分：暫停理由「等使用者看底圖」已解除：LAWWW 把缺的 5 張底圖照白名單逐張複製進 assets/bg 並登錄 OUT.BG；約會服立繪等 DATE-S6 要用時由 BB 切成 drop-in 立繪（透明背景） ｜ 【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜【使用者 2026-10-17 06:3x（AA_218 第 15 節 29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查＝通過）；和新劇情相不相符 AA、BB 確認。接進遊戲時逐張列進匯入白名單（不能整批）】【AA-C 06:18 盤點更正：32 處（33 張）底圖都有，流程是使用者生成、BB 檢查通過；BB 檢查算不算核准 AA-C 在問使用者；遊戲裡已有的 d04／d06／d12／d13 維持現狀】去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -1286,7 +1322,7 @@
    },
    "pausedBy": "使用者（D59 場景 ART_APPROVED 由使用者裁定）",
    "pausedReason": "約會底圖都有了，場景驗收等使用者；D100 起 2D 圖歸 BB",
-   "resumeWhen": "使用者看過約會底圖",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "audit": [
     {
@@ -1295,7 +1331,8 @@
      "evidence": "使用者 10-17 06:3x 已核准 33 張約會底圖（企劃線 AA_218 第 15-3 節）；29 張已進 assets/bg 並登錄 src/outings3d.js:31-32（d01～d31 少 5 張）；d15_base_night、d16_base_afternoon、d22_base_afternoon、d23_base_sunset、d32_base_afternoon 只在企劃線／BB 分支 docs/story_planning/date_system/art/；以安、語彤約會服設定圖（heroine_01_date_knit、heroine_03_date_tee）也只在那裡，assets/portraits/heroine_01、heroine_03 只有 campus",
      "note": "使用者已核准，卡住的是搬檔與 DATE-S6 半互動約會本身"
     }
-   ]
+   ],
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "ART-15",
@@ -12186,7 +12223,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（霖澤館前）＝場景美術，任務自己寫「等使用者看畫面」——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（霖澤館前）＝場景美術，任務自己寫「等使用者看畫面」——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -12212,9 +12249,10 @@
     "adf126c5"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "ART-BG17",
@@ -12222,7 +12260,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（椰林大道）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（椰林大道）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW2-B 10-16 已做（adf126c5，BG_TRACKER DONE）；開發分支 assets/bg 有圖、events.js／outings3d.js 已在用（57a5cf34 起）。等使用者看畫面（LAWWW2-C 04:34 更正，LAWWW-C 查證）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -12248,9 +12286,10 @@
     "adf126c5"
    ],
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "ART-BG13",
@@ -12291,7 +12330,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（車上）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（車上）＝場景美術，等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -12314,9 +12353,10 @@
    },
    "evidence": "car_morning／car_night／car_rain.webp（LAWWW2-B 702a2838）已接進 src/outings3d.js（S.BG.car_*、carVariant）",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "ART-BG11",
@@ -14422,7 +14462,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；溫州街故事小物件＝場景美術；任務自己寫 ART_APPROVED 等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：ART_APPROVED 由 BB 標（D120／D128），不等使用者｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；溫州街故事小物件＝場景美術；任務自己寫 ART_APPROVED 等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -14457,7 +14497,8 @@
     }
    ],
    "sha": "025ab4f30",
-   "notes": "10-24 05:2x LAWWW-B：LAWWW2 f6ace8353 交件，patch＋GLB 整合（025ab4f30）；四支新測試＋溫州街、打工、導航相關測試全過"
+   "notes": "10-24 05:2x LAWWW-B：LAWWW2 f6ace8353 交件，patch＋GLB 整合（025ab4f30）；四支新測試＋溫州街、打工、導航相關測試全過",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時；故事小物件本身等 DL-11／DL-13 施工"
   },
   {
    "id": "ART-YT1",
@@ -15554,7 +15595,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（體育館典禮）＝場景美術，任務自己寫等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜已接進 8/31 開學典禮（OUT.BG.ntu_gym_ceremony）；等使用者在遊戲裡看（ART_APPROVED 只有使用者能標）；畢業典禮版排 SCN-V5-02／CG-9",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；2D 背景（體育館典禮）＝場景美術，任務自己寫等使用者——列進 docs/handoff/USER_ART_REVIEW_1027.md｜已接進 8/31 開學典禮（OUT.BG.ntu_gym_ceremony）；等使用者在遊戲裡看（ART_APPROVED 只有使用者能標）；畢業典禮版排 SCN-V5-02／CG-9",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -15576,9 +15617,10 @@
    },
    "note": "LAWWW2-B 21:34 ACK（用 gym_arena.glb 3F 典禮布置＋遠景人群＋橫幅，Cycles 算圖）；排在機車 v2 交件之後",
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "V1-BB175",
@@ -15763,7 +15805,7 @@
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：要 iPhone 實機（使用者）；疊面閃爍要真機看（SwiftShader 靜態截圖看不出閃，L632、L715）；任務自己寫等使用者 iPhone｜四處都修了：總圖電梯地板（74c5a194）、舊路書店書架（a5de0c2e → 20429b81）、溫州街店面牆與窗（37a11639）＋第二輪小疊面 5,263 → 1,087（6e5aa462 整合）。等使用者 iPhone 看；店面能不能進要問 AA-B（另開）；開發組自己的模型另開 BUG-COPLANAR-DEV",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：改排 CC 在使用者電腦（GPU）錄影看溫州街新店面的牆、舊路書店書架、總圖電梯地板會不會閃（Windows＋GPU≠iPhone，照實標）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：要 iPhone 實機（使用者）；疊面閃爍要真機看（SwiftShader 靜態截圖看不出閃，L632、L715）；任務自己寫等使用者 iPhone｜四處都修了：總圖電梯地板（74c5a194）、舊路書店書架（a5de0c2e → 20429b81）、溫州街店面牆與窗（37a11639）＋第二輪小疊面 5,263 → 1,087（6e5aa462 整合）。等使用者 iPhone 看；店面能不能進要問 AA-B（另開）；開發組自己的模型另開 BUG-COPLANAR-DEV",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -15785,8 +15827,9 @@
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "pausedReason": "疊面閃爍四處都修了，SwiftShader 靜態截圖看不出閃，要真機看（使用者）",
-   "resumeWhen": "使用者用 iPhone 或電腦看溫州街店面、舊路書店、總圖電梯；還閃就回報位置，LAWWW2 修（D108）",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "resumeWhen": "CC 在使用者電腦（GPU、有視窗）錄影看三處閃不閃；還閃就回報位置，LAWWW2 修（D108）",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D123／D131：疊面閃爍在使用者電腦的 GPU 測試迴圈（Windows＋GPU、有視窗）看得到，不用等使用者親自看；iPhone 只是其中一個環境"
   },
   {
    "id": "BUG-INVITE-WEEKEND",
@@ -17717,7 +17760,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
    "priority": "P0",
-   "next": "【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；宿舍四人房模型＝場景美術（等使用者）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW-B 已整合（DORM-LOFT-L 69e74460～5d66f7bb）；等使用者在遊戲裡看過才標 ART_APPROVED",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不是等使用者——D120／D128 起場景美術 ART_APPROVED 由 BB 標；請 BB 照 D120（參考、修改前後遊戲截圖、手機模擬、缺點）驗收，標了 LAWWW 改已驗收，退回交 LAWWW2（D108）｜【LAWWW-C 2026-10-27 19:0x UTC】BB-C 10-27 盤點（BB_INTEGRATED_TRIAGE_1027，BB 分支 claude/wonderful-mayer-7fm9g6 8f1315a7c） D 類：場景／建築美術要使用者看畫面標 ART_APPROVED（D59／D110）；宿舍四人房模型＝場景美術（等使用者）——列進 docs/handoff/USER_ART_REVIEW_1027.md｜LAWWW-B 已整合（DORM-LOFT-L 69e74460～5d66f7bb）；等使用者在遊戲裡看過才標 ART_APPROVED",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -17738,9 +17781,10 @@
     "ack": "ACK"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "畫面已整合；建築、場景美術只有使用者能標 ART_APPROVED（CLAUDE.md 美術規則第 8 條、D59、D110），列在 docs/handoff/USER_ART_REVIEW_1027.md",
-   "resumeWhen": "使用者看 docs/handoff/USER_ART_REVIEW_1027.md 這一項：標 ART_APPROVED → LAWWW 改已驗收；提修改 → LAWWW2 改（D108）、BB 再測",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "pausedReason": "畫面已整合；等 BB 照 D120 驗收（原本寫「只有使用者能標」，D120／D128 起改由 BB 標）",
+   "resumeWhen": "BB 照 D120 附證據驗收標 ART_APPROVED → LAWWW 改已驗收；退回 → LAWWW2 改（D108）、BB 再測",
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "notWaitUser": "D120／D128（使用者 11-02）：建築、場景美術的 ART_APPROVED 改由 BB 附證據標，不經使用者——這一項原本寫「等使用者標」已經過時"
   },
   {
    "id": "DORM-LOFT-L",
@@ -20925,11 +20969,11 @@
    "title": "v9.10 發布後：在使用者電腦另開本機 Claude Code 工作階段當「本機測試員」，跑 BB 交的瀏覽器測試（本機有顯示卡，3D 不用一秒 1～4 格）",
    "area": "QA",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P2",
    "pausedReason": "等使用者：只有使用者能裝本機環境｜原本：使用者 2026-10-18 01:3x（經 AA-C）：「好，v9.10 發布後再試 用我電腦」；v9.10 照第 1～3 層在雲端測、不等這件事",
    "resumeWhen": "LAWWW 先寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報），放著等使用者有空",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：LAWWW 先寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報），放著等使用者有空 ｜ 發布後寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報給 BB／LAWWW）",
+   "next": "【LAWWW-C 11-04 13:48】被 D123 使用者電腦測試迴圈取代（TEST-OFFLOAD-1102、cc-local）｜【LAWWW-C 2026-10-21 稽核 C】等使用者：LAWWW 先寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報），放著等使用者有空 ｜ 發布後寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報給 BB／LAWWW）",
    "first": {
     "term": "META",
     "week": null,
@@ -20949,7 +20993,9 @@
      "evidence": "五欄齊（pausedBy 使用者 10-18 01:3x、原因、LAWWW、恢復條件、recheckOn）；恢復條件前半「v9.10 發布以後」已成立，後半「使用者裝好 Claude 桌面 App、Git、Node.js、Python」沒有紀錄；使用者 10-21 說這幾天沒空",
      "note": "只有使用者能裝本機環境"
     }
-   ]
+   ],
+   "replacedBy": "TEST-OFFLOAD-1102",
+   "reason": "D123（11-02）起使用者電腦已經在跑 CC 的測試迴圈（run_forever.ps1、cc-local 佇列），「本機測試員」這件事已經用另一個方式做到"
   },
   {
    "id": "ART-L118-GROUND",
@@ -23284,7 +23330,19 @@
    ],
    "resumeWhen": "使用者照 BB 給的提示詞（D97）生成 bus_tour＋三張車內，BB 檢查通過放 bg_approved/ 交 LAWWW 換",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "waitUser": {
+    "ask": "使用者照 BB 的提示詞生成：bus_tour、car_night／car_morning／car_rain、exam_hs_classroom 等六張圖",
+    "how": "BB 照 D97 給提示詞（一次 10 組），使用者生成，BB 檢查放 bg_approved 交 LAWWW",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：CG、2D 背景、立繪由 BB 跟使用者要；13:48 已請 BB 確認提示詞給了沒、合併成下一批（D127：CG 幾乎沒成本，大膽要）"
+     }
+    ]
+   }
   },
   {
    "id": "Q-E36-CALL-1018",
@@ -23368,7 +23426,19 @@
    ],
    "resumeWhen": "使用者照 BB 給的提示詞（D97）生成衝刺班新圖，BB 檢查通過放 bg_approved/cram_class 交 LAWWW 換",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "waitUser": {
+    "ask": "使用者照 BB 的提示詞生成：衝刺班教室背景（隔一個位置坐、抽屜和桌上都是書）",
+    "how": "BB 照 D97 給提示詞（一次 10 組），使用者生成，BB 檢查放 bg_approved 交 LAWWW",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：CG、2D 背景、立繪由 BB 跟使用者要；13:48 已請 BB 確認提示詞給了沒、合併成下一批（D127：CG 幾乎沒成本，大膽要）"
+     }
+    ]
+   }
   },
   {
    "id": "BUG-ECON-AWAY-LAW-1018",
@@ -23586,7 +23656,19 @@
      "evidence": "tasks.json 暫停原因：兩條路都重現不出來（08:5x LAWWW 用 day-18 存檔睡到 9/1、09:5x BB-C BB_218 走床的選單與手機「今天」兩條路，日期都一致）；已問使用者那天早上做了什麼；6c36a07b 已修掉其中「8/30 收到早安」那一段",
      "note": "重現不出來，等使用者說當時怎麼操作"
     }
-   ]
+   ],
+   "waitUser": {
+    "ask": "經濟系進法律系那天（8/31～9/1 早上）你當時怎麼操作？（9/1 早上畫面還寫 8/31）",
+    "how": "選擇題（D117）：記得／不記得→我們用電腦測試迴圈自己重現",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "這一班還沒問：排進接班確認的選擇題"
+     }
+    ]
+   }
   },
   {
    "id": "DORM-AFTER-MOVEOUT-1018",
@@ -24166,10 +24248,10 @@
    },
    "source": "使用者 10-17 20:5x：「你生成這麼多人物，為什麼每個都要重新從零開始？也沒有一個模板嗎？」（LAWWW2 HANDOFF 185～189 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：併進給使用者的決定清單：人物凍結要不要解除（含人物模板、小語／明軒／品妤造型）；模板本身不改現有人物外觀，若使用者同意可排 LAWWW2 空檔 ｜ 人物凍結解除後 LAWWW2 第一件",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不等使用者；LAWWW 決定等 HAIR-NOODLE-1104 查出頭髮原因以後，一起評估人物模板（D99 凍結照舊，使用者點名的問題不受凍結限制）｜【LAWWW-C 2026-10-21 稽核 C】等使用者：併進給使用者的決定清單：人物凍結要不要解除（含人物模板、小語／明軒／品妤造型）；模板本身不改現有人物外觀，若使用者同意可排 LAWWW2 空檔 ｜ 人物凍結解除後 LAWWW2 第一件",
    "pausedFrom": "待開工",
    "pausedReason": "等使用者：恢復條件沒成立｜原本：人物凍結（D99：夠用的素材凍結）；LAWWW-C 10-17 23:49 不排",
-   "resumeWhen": "併進給使用者的決定清單：人物凍結要不要解除（含人物模板、小語／明軒／品妤造型）；模板本身不改現有人物外觀，若使用者同意可排 LAWWW2 空檔",
+   "resumeWhen": "HAIR-NOODLE-1104 原因出來後 LAWWW 和 LAWWW2 一起評估",
    "pausedBy": "LAWWW-C",
    "recheckOn": "2026-10-25",
    "xai": {
@@ -24186,7 +24268,8 @@
      "evidence": "五欄齊（pausedBy LAWWW-C、原因「人物凍結」、LAWWW2、恢復條件「人物凍結解除」、recheckOn 2026-10-25）；人物凍結來自使用者 10-17 05:0x「修改人物的事情暫停」（LAWWW2 HANDOFF 暫停表），之後只有 D100a④ 放開「小錯誤（穿模）可以修」，沒有解除凍結",
      "note": "恢復條件沒成立"
     }
-   ]
+   ],
+   "notWaitUser": "D111（LAWWW 決定開發方向與優先）、D128（人物外觀由 LAWWW 定案、美術不經使用者）：要不要解除人物凍結、做模板由 LAWWW 決定，不用再問使用者"
   },
   {
    "id": "JP-3D-ASK",
@@ -24902,6 +24985,18 @@
     "spec": "使用者 10-18 原話；camp_y1.js",
     "acceptance": "凱文、小隊輔有立繪；宿營每段台上有人",
     "ack": "未派"
+   },
+   "waitUser": {
+    "ask": "使用者照 BB 的提示詞生成：Kevin 立繪（使用者選的潮流大哥型）",
+    "how": "BB 照 D97 給提示詞（一次 10 組），使用者生成，BB 檢查放 bg_approved 交 LAWWW",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：CG、2D 背景、立繪由 BB 跟使用者要；13:48 已請 BB 確認提示詞給了沒、合併成下一批（D127：CG 幾乎沒成本，大膽要）"
+     }
+    ]
    }
   },
   {
@@ -27103,7 +27198,19 @@
    },
    "pausedReason": "等使用者提供共同教學館、女舍的參考照片（使用者 11-01 23:1x 說之後給）",
    "resumeWhen": "使用者給照片",
-   "nextCheck": "2026-11-08"
+   "nextCheck": "2026-11-08",
+   "waitUser": {
+    "ask": "共同教學館、女舍的參考照片（使用者 11-01 23:1x 說之後給）",
+    "how": "提醒一次（選擇題）：給照片／用公開地圖照片代替",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "這一班還沒問：排進接班確認的選擇題（P3，提醒一次）"
+     }
+    ]
+   }
   },
   {
    "id": "ART-DORM-LOUNGE-1021",
@@ -32651,7 +32758,19 @@
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
    "pausedReason": "元宵燈會 2D 背景要使用者生圖（D97；BB_132 第 99 組第 4 張），現在黑底＋地點字幕",
    "resumeWhen": "使用者給圖，BB 收到交 LAWWW 接 OUT.BG.vf_lantern",
-   "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
+   "recheckOn": "2026-11-03（或下一次發布前，先到先算）",
+   "waitUser": {
+    "ask": "使用者照 BB 的提示詞生成：元宵燈會 2D 背景（BB_132 第 99 組第 4 張）",
+    "how": "BB 照 D97 給提示詞（一次 10 組），使用者生成，BB 檢查放 bg_approved 交 LAWWW",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：CG、2D 背景、立繪由 BB 跟使用者要；13:48 已請 BB 確認提示詞給了沒、合併成下一批（D127：CG 幾乎沒成本，大膽要）"
+     }
+    ]
+   }
   },
   {
    "id": "QA-TRANSCRIPT-US-1024",
@@ -32768,7 +32887,19 @@
    "pausedBy": "LAWWW-B",
    "pausedReason": "剩下 4 張要使用者生成圖",
    "resumeWhen": "使用者回來、BB 照 D97 給提示詞拿到圖",
-   "recheckOn": "使用者回來的那天或下一次發布"
+   "recheckOn": "使用者回來的那天或下一次發布",
+   "waitUser": {
+    "ask": "13 段黑底劇情裡 4 張要使用者生成（總圖門口雨、社區活動中心、會所草地…）；其餘 LAWWW2 從 3D 拍",
+    "how": "BB 照 D97 給提示詞；能從 3D 拍的 LAWWW2 先拍（不等使用者）",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：2D 背景由 BB 跟使用者要；13:48 已請 BB 合併進下一批要圖；從 3D 拍的部分 LAWWW2 可以先做"
+     }
+    ]
+   }
   },
   {
    "id": "AA447-DUPLINES-1024",
@@ -32822,7 +32953,19 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 15:2x 開；圖來以前：12/2 初雪 bg dark（c32e36006）、湖邊照用 us_lake、市集照用 us_chapel_steps。"
+   "notes": "LAWWW-B 10-24 15:2x 開；圖來以前：12/2 初雪 bg dark（c32e36006）、湖邊照用 us_lake、市集照用 us_chapel_steps。",
+   "waitUser": {
+    "ask": "使用者照 BB 的提示詞生成：美國篇四張季節背景（湖夏、湖冬枯、禮拜堂台階初雪、農夫市集）",
+    "how": "BB 照 D97 給提示詞（一次 10 組），使用者生成，BB 檢查放 bg_approved 交 LAWWW",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "D100：CG、2D 背景、立繪由 BB 跟使用者要；13:48 已請 BB 確認提示詞給了沒、合併成下一批（D127：CG 幾乎沒成本，大膽要）"
+     }
+    ]
+   }
   },
   {
    "id": "ART-US-ROUTE-1024",
@@ -40757,7 +40900,19 @@
    },
    "pausedReason": "要真的長時間遊玩存檔量 social.mem 的 tag 分布；壓縮要引入外部程式碼（權限擋下）",
    "resumeWhen": "使用者電腦整學期真實流程的存檔（BB 13:52 (c)），或使用者同意引入 lz-string",
-   "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title"
+   "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title",
+   "waitUser": {
+    "ask": "重度玩家存檔超過 5 MB：同不同意加 lz-string（MIT 授權、壓縮存檔）",
+    "how": "選擇題（D117）；或 CC 在使用者電腦跑整學期存檔量",
+    "log": [
+     {
+      "at": "2026-11-04T13:48Z",
+      "by": "LAWWW-C",
+      "result": "沒問",
+      "why": "這一班還沒問：排進接班確認的選擇題"
+     }
+    ]
+   }
   },
   {
    "id": "BAR-POOL-NOMAR-1102",
@@ -41288,7 +41443,7 @@
    "title": "LAWWW2 的慢瀏覽器測試（flow_*、reachability_all、遊戲截圖）改由 BB／CC 在使用者電腦跑",
    "owner": "LAWWW2",
    "status": "暫停",
-   "next": "v9.10.16 發布後 BB 問使用者、CC 改 runner",
+   "next": "【LAWWW-C 11-04 13:48】ASK-USER-LIST 清查：不等使用者；請 BB／CC 確認 runner 已支援 LAWWW2 分支、可以結案｜v9.10.16 發布後 BB 問使用者、CC 改 runner",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -41300,7 +41455,8 @@
    },
    "note": "使用者 18:1x 問 LAWWW2「現在測試的部分你自己進行的有多少？你覺得要不要交給 BB，他可以請我的電腦測試比較快」；LAWWW2 建議交給 BB／CC、每次交件附測試單；BB 18:14 同意（條件：CC 的 runner 抓得到 claude/second-ai-env-art、v9.10.16 發布以後） ｜使用者 18:5x 對 LAWWW：「同意，LAWWW2 的測試改用我的電腦跑」（UA-LAWWW-1102-27）",
    "pausedReason": "使用者已同意；等 CC 的 runner 支援 claude/second-ai-env-art（現在就可以先做）、v9.10.16 發布後切換",
-   "resumeWhen": "runner 支援＋v9.10.16 已發布"
+   "resumeWhen": "runner 支援＋v9.10.16 已發布",
+   "notWaitUser": "使用者已同意（pausedReason）；等的是 CC 的 runner，不是使用者；D131（11-03）起 LAWWW2 的模型測試已排使用者電腦"
   },
   {
    "first": {
@@ -42884,7 +43040,8 @@
    "status": "待開工",
    "priority": "P1",
    "note": "使用者 11-03 對 AA 重新定（企劃線 757d696d8）",
-   "next": "等 AA610 那批子代理交件合併以後另派子代理照第二版接線；D13 淡水心願地點台詞 AA 下一批；秀琴姨 3D 在語彤家；AA_626 D13 淡水心願約會改寫（企劃線 8cfa4c679，要重匯約會台詞：白名單 D13 前進）；AA_627 語彤舊設定全遊戲清查（AA 子代理做，好了再交）；AA_626 匯入：白名單 wish_aa.json＋D13.json 前進到 4783b971e 重匯（不要用 wish_aa.py 重建）；herInvite 新 key notTeaShift:true（避開週六日 13–17 茶屋班，兩天都有班＝請假）取代 notMomCheckup；第三版（d72ae942d）：不問爸爸、媽媽靠警衛說溜嘴發現打工、交往前不約到家（一起讀書在木曜日／兩點半／大口漢堡）、第一次去她家＝交往後吃秀琴姨的晚餐、畢業典禮媽媽 FB 合照；白名單 wish_aa.json 前進到 d72ae942d；AA_628 舊腳本清查報告待交；補充 f6ef9278b：畢業 FB 改「雙主修法律系社會系」、回覆「……法律那邊，證書還要再一年。」；新增「語彤約一起念書」（大一下第 3 週起約兩週一次、考前兩週每週；木曜日／兩點半／大口漢堡，交往後她家；條件 YT_MET_JOB；讀書照現有規則算進度）；使用者 11-03 11:1x 更正畢業 FB：媽媽不是第一次貼她照片、是第一次在貼文提到她的系；送私校住校是為了教育、不是不愛她；問「法律證書還要一年」為什麼（交 AA 改字）；AA_629（f0bfdc10a，使用者選擇題「大一就可以選法律系的課…四年修完」）：雙主修四年修完、2029-06-02 同一天畢業、律師考試 2029（一試 8/4、放榜 9/7、二試 10/20～21、12/14 錄取）、FB 回覆「……她以前常貼我的照片。」「這是第一次，她寫我念什麼系。」、媽媽很愛她；AA_627 清查定稿（c3c79cb18，828 列＋六條決定：秀琴姨不退休、回診汀州路剝蒜頭拿掉…）；等 AA_630 整段重寫（閒聊階梯八學期、D01～D32、動態、heroine_circle、an_yt_hol、aa187）好了一起做"
+   "next": "等 AA610 那批子代理交件合併以後另派子代理照第二版接線；D13 淡水心願地點台詞 AA 下一批；秀琴姨 3D 在語彤家；AA_626 D13 淡水心願約會改寫（企劃線 8cfa4c679，要重匯約會台詞：白名單 D13 前進）；AA_627 語彤舊設定全遊戲清查（AA 子代理做，好了再交）；AA_626 匯入：白名單 wish_aa.json＋D13.json 前進到 4783b971e 重匯（不要用 wish_aa.py 重建）；herInvite 新 key notTeaShift:true（避開週六日 13–17 茶屋班，兩天都有班＝請假）取代 notMomCheckup；第三版（d72ae942d）：不問爸爸、媽媽靠警衛說溜嘴發現打工、交往前不約到家（一起讀書在木曜日／兩點半／大口漢堡）、第一次去她家＝交往後吃秀琴姨的晚餐、畢業典禮媽媽 FB 合照；白名單 wish_aa.json 前進到 d72ae942d；AA_628 舊腳本清查報告待交；補充 f6ef9278b：畢業 FB 改「雙主修法律系社會系」、回覆「……法律那邊，證書還要再一年。」；新增「語彤約一起念書」（大一下第 3 週起約兩週一次、考前兩週每週；木曜日／兩點半／大口漢堡，交往後她家；條件 YT_MET_JOB；讀書照現有規則算進度）；使用者 11-03 11:1x 更正畢業 FB：媽媽不是第一次貼她照片、是第一次在貼文提到她的系；送私校住校是為了教育、不是不愛她；問「法律證書還要一年」為什麼（交 AA 改字）；AA_629（f0bfdc10a，使用者選擇題「大一就可以選法律系的課…四年修完」）：雙主修四年修完、2029-06-02 同一天畢業、律師考試 2029（一試 8/4、放榜 9/7、二試 10/20～21、12/14 錄取）、FB 回覆「……她以前常貼我的照片。」「這是第一次，她寫我念什麼系。」、媽媽很愛她；AA_627 清查定稿（c3c79cb18，828 列＋六條決定：秀琴姨不退休、回診汀州路剝蒜頭拿掉…）；等 AA_630 整段重寫（閒聊階梯八學期、D01～D32、動態、heroine_circle、an_yt_hol、aa187）好了一起做",
+   "notWaitUser": "片段是使用者已經回答的選擇題（AA_629），不是在等使用者"
   },
   {
    "first": {
@@ -43604,7 +43761,8 @@
     "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "notWaitUser": "參考圖使用者已給（ref_images/shops），不是在等使用者"
   },
   {
    "first": {
@@ -44807,7 +44965,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
+   "next": "【LAWWW-C 11-04 14:0x】下載並逐支列出 Quaternius UAL1／UAL2（CC0，GitHub 鏡像 tilakpatell/tilakverse-assets）：坐姿 7 支（Sitting_Enter／Exit／Idle_Loop／Idle02／Idle03／Nodding／Talking）、Drink、Idle_LookAround、Idle_Talking、Counter_*（店員）、GroundSit_*（坐地上）；UAL2：Idle_TalkingPhone、Idle_Rail（靠欄杆）、Idle_FoldArms、Yes、Consume；骨架 UE 命名。子代理（worktree）實作中：抽片段 ual_sit_clips.glb、UE→VRM 重定向、坐著播循環＋8～25 秒隨機小動作＋同桌聊天、tests/seat_ambient_unit.js（舊 FAIL／新 PASS）；打字、拇指滑手機、寫字沒有現成的→列清單給 LAWWW2 Blender｜【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
    "source": "使用者 11-04 13:5x 對 LAWWW-C（UA-LAWWW-1104-86）；接 X217 SEAT-ACTIVITY-1104",
    "authorized": "使用者直接要求"
   }

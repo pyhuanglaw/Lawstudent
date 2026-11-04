@@ -452,9 +452,38 @@ def stale_sync():
         w.done()
 
 
+def post_handoff_records():
+    """2026-11-04 帳號 B→C 接班的 duty verify 異常 6 三項誤報：①交班 commit 本身順手存了最後的成果（duty handoff 記的 sha 是它的前一個）
+    ②交班以後一分鐘補交接檔（「交班紀錄補」）——兩種都不是另一個帳號還在寫；交班以後再改真的內容照樣要報（fail closed）"""
+    w = World('A')
+    try:
+        w.work('A', 'A1')
+        rs = branch('LAWWW', 'A')
+        da = w.clone('AA', 'A')
+        w.wtext(da, 'work/AA_final.txt', '交班前最後的成果（和交班登記同一個 commit）\n')
+        rc, out = w.tool(da, 'snapshot', '--role', 'AA', '--account', 'A')
+        fn = out.split('snapshots/')[1].split('（')[0].strip()
+        rc, out = w.tool(da, 'duty', 'handoff', '--account', 'A', '--role', 'AA', '--snapshot', fn, '--ref', f'origin/{rs}'); assert rc == 0, out
+        w.push(da, 'AA 交班（同一個 commit 存了最後的成果）')
+        w.handoff('A', skip=('AA',)); w.takeover('B')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班 commit 本身存了最後成果：verify 不報「交班以後還在寫」', 'AA：帳號 A 的分支 aa-A 在它交班' not in out, out[-300:])
+        da = w.clone('AA', 'A'); w.wtext(da, 'docs/story_planning/AA_交接紀錄.md', '交班紀錄補：下一班第一步\n'); w.push(da, 'AA 交班紀錄補')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班以後只補自己的交接檔：verify 不報', 'AA：帳號 A 的分支 aa-A 在它交班' not in out, out[-300:])
+        da = w.clone('AA', 'A'); w.wtext(da, 'work/AA_more.txt', '交班以後又寫了內容\n'); w.push(da, 'AA 交班以後又寫')
+        lb = w.clone('LAWWW', 'B')
+        rc, out = w.tool(lb, 'duty', 'verify')
+        check('交班以後又改了真的內容：verify 照樣報異常 6（fail closed）', rc == 1 and 'AA：帳號 A 的分支 aa-A 在它交班' in out and 'work/AA_more.txt' in out, out[-300:])
+    finally:
+        w.done()
+
+
 def main():
-    if 'stale' in sys.argv[1:] or 'cc' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境／D119 CC 的兩個情境
-        stale_sync() if 'stale' in sys.argv[1:] else cc_role()
+    if 'stale' in sys.argv[1:] or 'cc' in sys.argv[1:] or 'post' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境／D119 CC 的兩個情境／交班紀錄誤報（11-04）
+        stale_sync() if 'stale' in sys.argv[1:] else (cc_role() if 'cc' in sys.argv[1:] else post_handoff_records())
         bad = [n for n, ok, _ in results if not ok]
         print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
         return 1 if bad else 0
@@ -468,6 +497,7 @@ def main():
     role_branch_no_ref()
     cc_role()
     stale_sync()
+    post_handoff_records()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
     return 1 if bad else 0
