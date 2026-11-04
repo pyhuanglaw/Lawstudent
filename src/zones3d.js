@@ -1831,16 +1831,16 @@ const Z3 = (function(){
      固定的 17 個座位、出口、進門落點、點餐、班表、告示都照 cafe 原本的（docs/handoff/WZ_SHOPS1_FIXED_COORDS.md 第 1 節）；這裡只加配置寫的新東西：
      · 座位：吧檯高腳椅 10～13 號開放玩家坐（「坐吧檯」、可以「點杯咖啡慢慢讀」，AA_659 第 1 節）、長桌兩端 8、9 號（「坐下」、可以讀書）；
        拱門卡座三個（配置 seats，接在 17 號後面＝17～19 號，tag booth，late：照作息坐下的人最後才挑，誰坐哪裡照舊，story3d.js seatFree）；
-     · 阻擋：卡座 (−6.7, 0, 0.6×2.6)、卡座小圓桌 (−5.4, 0, 0.7×0.7)；大盆栽 (−6.35, 0.4) → (−6.35, 1.95) 在上面備用模型那一段搬；
+     · 阻擋：卡座 (−6.56, 0, 0.9×2.6；照 cafe230.glb 的坐墊前緣 −6.13，LAWWW 11-04)、卡座小圓桌 (−5.4, 0, 0.7×0.7)；大盆栽 (−6.35, 0.4) → (−6.35, 1.95) 在上面備用模型那一段搬；
      · 互動：「看唱片」(4.1, −5.0)、「看蛋糕櫃」(1.4, −3.65)（kind record、pastry；台詞 src/wzshops3d.js S.cafe230Line，AA_659 第 1 節）。 */
   function cafe230L(){ const L=typeof CAFE230_LAYOUT!=='undefined'?CAFE230_LAYOUT:null; return L&&L.version>=2&&L.zone==='cafe'?L:null; }
-  function cafe230Reg(L){ if(typeof ASSETS==='undefined'||!ASSETS.manifest||ASSETS.manifest['bldg.cafe230_interior']) return; ASSETS.manifest['bldg.cafe230_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/cafe230_interior.py（溫州街「2:30 AM」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8d494790d，配置 src/data/cafe230_layout.js v2）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
+  function cafe230Reg(L){ if(typeof ASSETS==='undefined'||!ASSETS.manifest||ASSETS.nobldg||ASSETS.manifest['bldg.cafe230_interior']) return;   /* ?nobldg：不登錄（照舊是程序化備用模型；assets3d.js 只在開機時刪 bldg.*）*/ ASSETS.manifest['bldg.cafe230_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/cafe230_interior.py（溫州街「2:30 AM」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8d494790d，配置 src/data/cafe230_layout.js v2）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
   const CAFE230_CUST={record:'看唱片',pastry:'看蛋糕櫃'};
   function cafe230Add(E,z,g,nav,L){ const fbM=M('#5a6b4e',{rough:0.8});
     for(const b of L.blocks||[]){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.5,b[3]),fbM); m.position.set(b[0],0.25,b[1]); g.add(m); }   /* 備用模型的卡座、小圓桌色塊 */
     const S0=z.seats.slice(0,17), lab=i=>i>=10&&i<=13?'坐吧檯':'坐下';
     for(const i of [8,9,10,11,12,13]){ const q=S0[i]; if(!q) continue; const seat={x:q.x,z:q.z,yaw:q.yaw}; if(q.lift) seat.lift=q.lift; E.interactables.push({x:q.x,z:q.z,radius:0.9,label:lab(i),seat,cafeTable:true,cafeSeat:i}); }   /* 「點杯咖啡慢慢讀」只認 cafeTable（game3d.js seatMenu）*/
-    for(const st of L.seats||[]){ const q={x:st.x,z:st.z,yaw:st.yaw,tag:st.table||'booth',table:st.table||'booth',late:true}; z.seats.push(q); E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:{x:st.x,z:st.z,yaw:st.yaw},cafeTable:true,cafeSeat:z.seats.length-1}); }
+    for(const st of L.seats||[]){ const q={x:st.x,z:st.z,yaw:st.yaw,tag:st.table||'booth',table:st.table||'booth',late:true}, seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.ap){ q.ap=st.ap.slice(); seat.ap=st.ap.slice(); } z.seats.push(q); E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat,cafeTable:true,cafeSeat:z.seats.length-1}); }   /* ap：配置指定的走近點（卡座前到小圓桌只有 0.35 m，從桌子南北側走近；game3d.js seatApproach 先試它）*/
     for(const q of L.interact||[]) if(CAFE230_CUST[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:CAFE230_CUST[q.kind],wzShop:'cafe',kind:q.kind});
     nav._cm=null; }
   /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；
