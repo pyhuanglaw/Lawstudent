@@ -1312,7 +1312,7 @@ const STORY = (function(){
     if(it.cafeRota){ GM.sceneBegin(); try{ for(const l of S.cafeRota(G)) await GM.say(null,l); } finally { GM.sceneEnd(); } return true; }   /* 兩點半 Café 牆上的班表（BB_159）*/
     if(it.counter==='cafe'){ await counter(GM,'兩點半 Café',CAFE_MENU); return true; }
     if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(S.tut830Items(G)).concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買；買過幾罐（G.daily.catCansN）由 SIDEQ.atShop 記（AA_397 SQ08）*/
-    if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
+    if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['桂花烏龍奶茶',70,10],['柚香綠茶',60,6],['春摘白茶',65,6]]);   /* 青木茶室的外帶菜單（AA_647 第 6 節，照新圖；店名 key 照舊「清葉茶行」＝熟客次數、SQ18 不歸零）*/ return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
     if(it.shop==='bike'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop) await SIDEQ.bikeShop(GM); return true; }   /* 公館輪轉單車「找車行老闆」（LAWWW2 10-23；SQ16 AA_405）：SIDEQ.bikeShop 有了才顯示（zones3d.js 的 hidden）*/
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
@@ -1517,7 +1517,7 @@ const STORY = (function(){
     rows:[['林家乾麵（溫州街）','小碗乾麵＋貢丸湯','70','飽足感除以價錢，第一名。沒有之一。'],['公館燒臘','叉燒飯','90','湯免費，這點加分。阿姨有時候多切一片叉燒，這個不能算進排名。'],   /* AA_519 1-5：原本「乾麵＋餛飩湯 85」（菜單乾麵 60、餛飩湯 70）*/
           ['日日定食','今日定食（只有午餐）','95','剛好卡在一百以內。晚餐一百二，不算。'],['滷味・鹹酥雞','自己夾','80 以內','技巧：豆干多夾，肉少夾。'],
           ['早午餐','蛋餅＋奶茶','65','十點半以前。過了十點半，一樣的東西貴二十。'],['豆花・甜湯（溫州街）','豆花','40','這是甜點，不是正餐。可是讀到十一點，它就是正餐。'],
-          ['日日便利','飯糰＋豆漿','55','最後一名。可是它二十四小時開。最後一名是留給半夜的。']],
+          ['日和便利店','飯糰＋豆漿','55','最後一名。可是它開到半夜十二點。最後一名是留給晚上讀書的人。']],
     tail:'價錢是十月的。漲價我會改。……大概。'};
   S.MX_FM1.body='按 CP 值排。不接受申訴。<br>'+S.MX_FM1.rows.map((r,i)=>(i+1)+'. '+r[0]+'｜'+r[1]+'　'+r[2]+'<br>　'+r[3]).join('<br>')+'<br>'+S.MX_FM1.tail;
   /* SK01 對面的舊系館（events.js ev_sk01_soc）：第二天的劇情結束（afternoonDone、沒有同行的人）以後；社科圖開著（再一小時也還開著）、接下來 75 分鐘沒有課（選「去社科圖」要坐一小時）*/

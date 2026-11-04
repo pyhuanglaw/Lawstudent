@@ -1005,7 +1005,7 @@ const CLS=(function(){
      「買六法」「逛社團博覽會」不列（AA_110 6-3；AA_355 第 3 節：過時、不用做事——社團博覽會已經在遊戲裡，S.fairMenu）。 */
   S.todoItems=function(G){ if(typeof CALENDAR==='undefined') return []; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week>5) return [];
     const R=S.rec(G), F=G.flags||{}, A=typeof ACTIVITIES!=='undefined'?ACTIVITIES:null, went=id=>!!(A&&A.stateOf&&A.stateOf(G,id));
-    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（舊路書房），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
+    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（頁間書屋），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
             {key:'libtour',text:'總圖新生導覽（9/19、9/23、9/25、9/26 15:30，總圖大廳；去一場就好）',done:went('lib_tour_y1s1')},
             {key:'lawlibintro',text:'法律資料怎麼查（9/24、10/1 15:30，法律學院圖書館 討論室 A）',done:went('lawlib_intro_y1s1')},
             {key:'service',text:'服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台）',done:(R.attend.service_1||0)>=1}]; };

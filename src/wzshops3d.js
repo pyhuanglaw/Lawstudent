@@ -157,7 +157,7 @@ const WZS=(()=>{
   S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24, o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
   S.boardLine=G=>S.AA413.laundry.board[month(G)]||'';
   S.items413=function(){ const A=S.AA413; return [
-    {x:A.cvs.enter.x,z:A.cvs.enter.z,radius:1.2,label:'進入日日便利',wzShop:'cvs413',kind:'enter'},
+    {x:A.cvs.enter.x,z:A.cvs.enter.z,radius:1.2,label:'進入日和便利店',wzShop:'cvs413',kind:'enter'},
     {x:A.fruit.at.x,z:A.fruit.at.z,radius:1.4,label:'買水果',wzShop:'fruit',kind:'window'},
     {x:A.fruit.lookAt.x,z:A.fruit.lookAt.z,radius:1.0,label:'看阿忠水果',look:A.fruit.look},
     {x:A.laundry.at.x,z:A.laundry.at.z,radius:1.2,label:'看自助洗衣',look:A.laundry.look},

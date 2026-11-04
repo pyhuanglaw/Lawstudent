@@ -475,7 +475,7 @@ const VAC_DATA=(function(){
         /* AA_525 1-4（Z-4）：出國期間收過「試玩一下 回來給你玩」（看過 Q6；這一趟的私訊，vac3d.js 的 tag vac_tm_<這一趟>_heroine_04_…）＝最後多兩句（vac3d.js S.outing 're'）*/
         more:{if:(G,I)=>Q6(G)&&!!I&&(G.msgs||[]).some(m=>m&&m.from==='heroine_04'&&m.text==='試玩一下 回來給你玩'&&String(m.tag||'').indexOf('vac_tm_'+I.key+'_heroine_04_')===0),lines:[{narr:'（她把筆電轉過來，推到你面前。）'},{who:'heroine_04',text:'說好的。玩。'}]}},
       heroine_05:{invite:['明天五點，法圖門口。'],h:17+5/60,place:'法圖門口',bg:'law_library_gate',lines:[{who:'heroine_05',text:'回來了？'},{who:'heroine_05',text:'……好。'},{narr:'（她把一本書遞給你。）'},{who:'heroine_05',text:'你不在的時候出的，先借你看。'}],miss:['昨天沒等到你。……沒關係。']},
-      classmate_peishan:{invite:['歡迎回來！','明天下午兩點，舊路書房好不好？'],h:14,place:'舊路書房',bg:'oldroad_bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
+      classmate_peishan:{invite:['歡迎回來！','明天下午兩點，頁間書屋好不好？'],h:14,place:'頁間書屋',bg:'oldroad_bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
       kexin:{invite:['明天五點半 河堤','我在老地方等'],h:17.5,place:'河堤',bg:'riverside',lines:[{who:'kexin',text:'你回來了。'},{who:'kexin',text:'我算過了，你在那邊三十二天。……好，我不算了。'}],miss:['我昨天在河堤等了一下','你還好嗎']} },
     /* 朋友（FAMILIAR 以上、沒有交往）整趟一兩則：day＝出發後第幾天（'mid' 中間、'end' 回來前一天）*/
     friend:{
