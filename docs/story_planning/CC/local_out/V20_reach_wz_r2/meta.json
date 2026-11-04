@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20_reach_wz_r2",
+  "sha": "909c6391b24bba4fa66624effc8817dd6c8c0d27",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url} --zones wenzhou;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:51:18",
+  "end": "2026-11-04T22:52:34",
+  "seconds": 76,
+  "exit": 0,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8801/index.html?turbo",
+  "res_peak": {
+    "cpu": 80,
+    "mem": 54,
+    "used_gb": 16.8,
+    "chrome_testing": 28
+  }
+}

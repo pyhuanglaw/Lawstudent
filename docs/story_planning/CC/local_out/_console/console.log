@@ -507,3 +507,50 @@
 [22:44:52] [res] cpu=15% mem=50% (16.0/31.4 GB) chrome_testing=19  START GG_shops2_afar_seat_12
 [22:49:01] 正在跑：CVS24_r5（已跑 11 分／上限 60 分）、GG_shops2_afar_seat_08（已跑 9 分／上限 20 分）、GG_shops2_afar_seat_12（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:50:32] [res] cpu=7% mem=49% (15.5/31.4 GB) chrome_testing=19  END CVS24_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[22:51:14] push failed for CVS24_r5 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[22:51:14] ==== END   CVS24_r5  exit=0  777s   ====
+[22:51:18] memory 49% before starting V20_reach_wz_r2 (2 running)
+[22:51:18] ==== START V20_reach_wz_r2  (game @ 909c6391b24bba4fa66624effc8817dd6c8c0d27) ====
+[22:51:21] [res] cpu=80% mem=48% (15.5/31.4 GB) chrome_testing=19  START V20_reach_wz_r2
+[22:51:21] worktree add 909c6391b24bba4fa66624effc8817dd6c8c0d27: invalid reference - fetching main and the commit itself
+[22:52:34] [res] cpu=76% mem=49% (15.6/31.4 GB) chrome_testing=19  END V20_reach_wz_r2
