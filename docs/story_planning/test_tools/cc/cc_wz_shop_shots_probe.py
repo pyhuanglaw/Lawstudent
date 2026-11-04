@@ -20,7 +20,7 @@ SHOPS = {
                 'views': [('ref_east_to_west', [3.3, 1.6, 1.0], [-4.0, 1.2, 0.0]), ('door_in', [-2.0, 1.6, 3.6], [-0.5, 1.2, -4.0]),
                           ('bar', [0.5, 1.6, 0.6], [-1.0, 1.1, -3.5]), ('booth_west', [-1.0, 1.5, 0.2], [-4.0, 1.0, 0.0]),
                           ('window_seats', [0.5, 1.6, -0.8], [1.5, 1.0, 4.0]), ('kitchen', [1.5, 1.7, -0.6], [1.5, 1.6, -4.0]),
-                          ('table_mid', [2.5, 1.7, 2.5], [0.0, 0.8, 0.0])]},
+                          ('table_mid', [2.5, 1.7, 2.5], [0.0, 0.8, 0.0])], 'seat_out': ([0.5, 1.15, 2.4], [0.5, 1.25, 8.0])},
     'sunny': {'enter': (42.0, -4.6, -2.4, '進去 SUNNY SIDE'), 'zone': 'wz_brunch', 'mat': r'^(ss_|sunny|a2[0-9]_)', 'glb': 'sunnyside', 'spawn': (0.4, 4.0), 'box': (-3.2, 3.2, -5.0, 5.0, 3.2),
               'views': [('ref_door_in', [0.4, 1.6, 4.4], [0.0, 1.3, -5.0]), ('menu_kitchen', [0.0, 1.6, 1.0], [0.0, 2.0, -4.8]),
                         ('booth_left', [1.5, 1.5, 0.0], [-3.2, 1.0, 0.0]), ('right_window', [-1.0, 1.6, 0.5], [3.2, 1.2, 1.0]),
@@ -128,7 +128,10 @@ async def run_hour(pg, cdp, h):
     info('[%s] 符合 %s 的材質 mesh 數 %d（0＝材質名稱和我猜的不一樣，看上面的清單）' % (tag, SH['mat'], m['n']))
     await pg.evaluate(HUD + '(false)')
     res = {}
-    for name, e, l in SH['views']:
+    views = list(SH['views'])
+    if os.environ.get('SEAT_OUT') == '1' and SH.get('seat_out'):   # BB-C 14:04（WZ4_komichi）：從座位往窗外看（坐著的眼睛高度 1.15 m）
+        views.append(('seat_window_out',) + tuple(SH['seat_out']))
+    for name, e, l in views:
         ri = await pg.evaluate(AIM + '(%s,%s)' % (J(e), J(l))); await pg.wait_for_timeout(600)
         await pg.screenshot(path=os.path.join(OUT, '%s_%s_%s.png' % (SH['glb'], tag, name)))
         res[name] = ri; print('  [%s] %s：calls %s、tris %s' % (tag, name, ri['calls'], ri['tris']), flush=True)
@@ -136,6 +139,13 @@ async def run_hour(pg, cdp, h):
     await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"); await pg.evaluate(HUD + '(true)')
     ex, ez, sz2, lab = SH['enter']
     await load(pg, cdp, 'wenzhou', ex, sz2, h, yaw=(0 if ez > sz2 else math.pi))
+    if os.environ.get('STREET_IN') == '1':   # BB-C 14:04：街上往店裡看（固定鏡頭、藏 HUD 和玩家）
+        await pg.evaluate(HUD + '(false)')
+        side = 1.0 if ez < sz2 else -1.0
+        await pg.evaluate(AIM + '(%s,%s)' % (J([ex, 1.6, sz2 + side * 1.6]), J([ex, 1.3, ez - side * 3.0]))); await pg.wait_for_timeout(800)
+        await pg.screenshot(path=os.path.join(OUT, '%s_%s_street_in.png' % (SH['glb'], tag)))
+        print('  [%s] street_in：從溫州街 (%s, %s) 往店裡看' % (tag, ex, round(sz2 + side * 1.6, 2)), flush=True)
+        await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"); await pg.evaluate(HUD + '(true)')
     it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(lab))
     if check('[%s] 溫州街有「%s」' % (tag, lab), bool(it), J(it)):
         await L.go_to(pg, cdp, L.Run('enter', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
