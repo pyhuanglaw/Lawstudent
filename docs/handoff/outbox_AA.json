@@ -5283,6 +5283,23 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_685 A2～A6、B1～B3、B5 改",
    "note": "回 LAWWW-C 19:14；使用者睡覺中，AA 自己定"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "CANON-PURGE-SRC-1104",
+   "sha": "1df3c189e",
+   "files": [
+    "docs/story_planning/AA_686_回LAWWW_AA685接線五件.md",
+    "docs/story_planning/free_trip/spots_v3.json",
+    "docs/story_planning/free_trip/aa_walk_v1.json"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_686 改 2、3b～3e、4；spots_v3／aa_walk_v1 換白名單後拿掉 EXTRA",
+   "note": "回 LAWWW-C 20:14；使用者睡覺中，AA 自己定"
   }
  ],
  "items": [
