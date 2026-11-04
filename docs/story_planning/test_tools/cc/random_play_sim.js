@@ -11,6 +11,9 @@
  *     --track law|econ         法律系大一（標題「從法律系開始」，預設 2025-08-29 → 2026-06-30）／經濟系那一年（「從經濟系開始」，2024-08-23 → 2025-08-28）
  *     --procedural             人物模型沒有 VRM 骨架（＝設定「使用正式人物模型」關掉、或 VRM 載不到的程序化人物）
  *     --jobs N（預設 2：雲端只有 4 核、還要跑瀏覽器測試；一個種子一整年約 9～10 分鐘）、--json <結果檔>、--out <心跳檔資料夾>、--hang-ms N（子程序多久沒有輸出算卡死，預設 120000）、-v（印每個動作和遊戲的 console）
+ *     --old-forcing YYYY-MM-DD  情境（BB-C T1_FIX ①）：那天 21:00 以後玩家空下來，把自動存檔的旗標放進 _forcing=true（＝舊版存進去的那一份）→ 重新整理頁面、按繼續；
+ *                               那一晚玩家不睡（不按床、選單選「再撐一下」），看 04:00 以後會不會照常被送回去睡（STORY.forceHome 真的把日期換到隔天），結束時 _forcing 有沒有清掉
+ *     環境變數 RPS_TRACK_OPENING=1：開局（newGame、法律系宿營 S.campY1）還沒演完就檢查「時間只往前」——--from～--to 之間的日子才算（例：--from 2025-08-20 --to 2025-08-26）
  *   結束碼：全部 PASS＝0，有 FAIL＝1。跑到一半要讓出 CPU：在 --out 資料夾放一個 STOP 檔，還沒開始的種子會直接回報「略過」。
  *
  * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
@@ -48,7 +51,7 @@ function parseArgs(argv){
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
     if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
-    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true;
+    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true; else if(a==='--old-forcing') o.oldForcing=nx();
     else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
   const TR={law:{from:'2025-08-29',to:'2026-06-30'},econ:{from:'2024-08-23',to:'2025-08-28'}};
   if(!TR[o.track]) throw new Error('--track 只有 law、econ');
@@ -80,7 +83,7 @@ async function parent(o){
   RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
   try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
   const t0=realMs(); const results=[]; let next=0;
-  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]);
+  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir].concat(o.procedural?['--procedural']:[]).concat(o.oldForcing?['--old-forcing',o.oldForcing]:[]);
     const ch=cp.spawn(process.execPath,['--max-old-space-size=3072',...args],{stdio:['ignore','pipe','pipe']}); const ts=realMs(); let buf='', lastHb=realMs(), result=null, hb=null, errTail='';
     ch.stdout.on('data',d=>{ buf+=d; let k; while((k=buf.indexOf('\n'))>=0){ const line=buf.slice(0,k); buf=buf.slice(k+1); lastHb=realMs();
       if(line.startsWith('@@RESULT ')){ try{ result=JSON.parse(line.slice(9)); }catch(e){ errTail+='結果解析失敗 '; } } else if(line.startsWith('@@HB ')){ try{ hb=JSON.parse(line.slice(5)); }catch(e){} } } });
@@ -445,6 +448,27 @@ async function child(o){
     catch(e){ onExc(e,'讀自動存檔'); }
     R.loading=false; if(track&&GM.G) track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; noActV=0; want=null; wait=0; react=2; pendingPhoneClick=null; goingAt.clear(); }
 
+  /* ---------- 情境 --old-forcing（BB-C T1_FIX ①：舊存檔帶著 _forcing=true）---------- */
+  const SC={day:null,inj:false,injDay:null,calls:0,sent:0,res:null,log:[],inFH:null};
+  const stayUp=()=>!!o.oldForcing&&SC.inj&&!SC.res;
+  async function scenTick(){ const g=GM.G; if(!g||!track||R.loading) return; if(SC.day==null) SC.day=dayOfKey(o.oldForcing);
+    if(W&&W.STORY&&!W.STORY.__ccFH&&typeof W.STORY.forceHome==='function'){ const orig=W.STORY.forceHome; W.STORY.forceHome=async function(gm){ const G0=gm&&gm.G; SC.calls++; const me={d0:G0&&G0.day,h0:G0&&+G0.hour,z0:G0&&G0.zone}; SC.inFH=me;
+        try{ return await orig.apply(this,arguments); } finally{ if(SC.inFH===me) SC.inFH=null; } };   /* 換日在 sleepNow 裡面（forceHome 還沒 return）：scenTick 看到日期換了、這一次還在跑＝送回去睡了 */ W.STORY.__ccFH=true; }   /* 每次開頁面（新的 context）重新包一次 */
+    if(!SC.inj){ if(g.day<SC.day||(+g.hour)<21||!free()) return; SC.inj=true;
+      try{ GM.autosave&&GM.autosave(true); }catch(e){ onExc(e,'情境：存自動存檔'); }
+      const key=(T&&T.KEY_AUTO)||'fatiao3d_auto', raw=LS.getItem(key); if(!raw){ fail('SCEN','TEST_BUG','情境 --old-forcing：沒有自動存檔可以改',''); SC.res='skip'; return; }
+      const sv=JSON.parse(raw); sv.flags=Object.assign({},sv.flags||{},{_forcing:true}); LS.setItem(key,JSON.stringify(sv));
+      act('【情境 --old-forcing】自動存檔（'+dayKey(sv.day)+' '+fmtH(sv.hour)+' '+sv.zone+'）的旗標放進 _forcing=true → 重新整理頁面、按「繼續」；這一晚不睡');
+      await reloadAuto(true); const G2=GM.G; SC.injDay=G2.day; SC.after=G2.flags&&('_forcing' in G2.flags)?G2.flags._forcing:'（沒有）'; act('【情境】讀進來以後 '+dayKey(G2.day)+' '+fmtH(G2.hour)+' G.flags._forcing='+JSON.stringify(SC.after)); return; }
+    if(SC.res) return;
+    if(SC.inFH&&!SC.inFH.counted&&g.day!==SC.inFH.d0){ SC.inFH.counted=true; SC.sent++; SC.log.push(dayKey(SC.inFH.d0)+' '+fmtH(SC.inFH.h0)+' '+SC.inFH.z0+' → '+dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone); }
+    const done=g.day>SC.injDay&&!SC.inFH&&free(), over=g.day===SC.injDay&&(+g.hour)>=30;
+    if(!done&&!over) return;
+    const fl=g.flags&&('_forcing' in g.flags)?g.flags._forcing:'（沒有）', noFH=R.fails.some(f=>f.kind==='NO_FORCEHOME');
+    const ok=SC.sent>0&&!noFH&&fl==='（沒有）'; SC.res=ok?'PASS':'FAIL';
+    const msg='讀進 _forcing=true 的舊存檔以後：forceHome 叫了 '+SC.calls+' 次、真的送回去睡 '+SC.sent+' 次'+(SC.log.length?'（'+SC.log.join('；')+'）':'')+'；NO_FORCEHOME '+(noFH?'有':'沒有')+'；現在 '+dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone+'；G.flags._forcing='+JSON.stringify(fl);
+    if(ok){ act('【情境】PASS：'+msg); R.scenPass=msg; } else fail('OLD_FORCING','GAME_BUG','情境 --old-forcing：讀進 _forcing=true 的舊存檔，04:00 以後沒有照常送回去睡（或 _forcing 沒清掉）',msg); }
+
   /* ---------- 玩家：看畫面上有什麼可以按 ---------- */
   const vis=el=>{ for(let x=el;x&&!x._isDoc;x=x.parentNode){ if(x.classList&&x.classList.contains('hide')) return false; if(x.style&&x.style.display==='none') return false; } return !!el&&el.isConnected; };
   const clickables=root=>root?root.querySelectorAll('button,[data-ask],[data-ans],[data-go],[data-skip],[data-inv],[data-th],[data-msgto],[data-msgt],[data-place],[data-fgo],[data-invgo],[data-tact],[data-gact],[data-person],[data-vac],[data-vac13],[data-gok],[data-fd],[data-fav],[data-thback],[data-personback],[data-gohome],[data-y5go],[data-msg]').filter(b=>typeof b.onclick==='function'&&vis(b)&&!b.disabled):[];
@@ -458,7 +482,7 @@ async function child(o){
   /* 選單的按鈕：大部分平均（隨機玩家），只有「上課」「睡覺／熬夜」照這個種子的個性加權；灰掉的少按 */
   function optW(b){ const t=label(b), g=GM.G, h=(+g.hour)%24, night=h>=22||g.hour>=24; let w=b.classList.contains('dim')?0.25:1;
     if(/^上課：|直接去上課|去上課|進教室/.test(t)) w*=0.3+persona.classP*8; else if(/^(聽演講|參加)：/.test(t)) w*=2;
-    else if(/睡到明天|^睡覺|回去睡覺/.test(t)) w*=night?3*(1-persona.lateP*0.8):0.6; else if(/再撐一下/.test(t)) w*=night?0.3+persona.lateP*3:1; else if(/^起身$/.test(t)) w*=0.6; return w; }
+    else if(/睡到明天|^睡覺|回去睡覺/.test(t)) w*=stayUp()?0.001:(night?3*(1-persona.lateP*0.8):0.6); else if(/再撐一下/.test(t)) w*=stayUp()?200:(night?0.3+persona.lateP*3:1); else if(/^起身$/.test(t)) w*=0.6; return w; }
   /* 回傳 true＝這一格做了事 */
   async function ui(){
     /* 劇情演到一半（對話、選單）：很少數的時候重新整理頁面、按「繼續」（使用者 10-27 AN-MEAL-STUCK 就是這樣讀回來的）*/
@@ -508,8 +532,8 @@ async function child(o){
     const here=upcoming.filter(it=>it.room&&it.room.zone===g.zone&&it.t0-h<0.5); const seatsHere=here.length?its.filter(q=>hasK(q,'seat')&&!q.seat.taken&&(!here[0].room.room||q.seat.room===here[0].room.room)):[];
     const choices=[];
     const wantSleep=night?(late?0.6:0.25)*(1-persona.lateP):0;
-    if(sleepIt) choices.push([night?40*(1-persona.lateP*0.7):1,'bed']);
-    choices.push([night?wantSleep*60:0.5,'onetap']);
+    if(sleepIt&&!stayUp()) choices.push([night?40*(1-persona.lateP*0.7):1,'bed']);
+    if(!stayUp()) choices.push([night?wantSleep*60:0.5,'onetap']);
     if(upcoming.length) choices.push([persona.classP*12,'goclass']);
     if(seatsHere.length) choices.push([persona.classP*30,'sitclass']);
     choices.push([persona.phoneP*20,'phone']);
@@ -548,7 +572,9 @@ async function child(o){
     if(R.frame>=o.maxSteps){ fail('STEP_LIMIT','UNKNOWN','到了步數上限（--max-steps '+o.maxSteps+' 格）還沒玩到 '+o.to,'reached '+R.reached); break; }
     await vAdvance(FRAME_MS); runRaf(); await flush(); R.frame++;
     const g=GM.G; if(!track&&ngDone&&g&&g.day>=D_FROM){ track={abs:abs(g)}; act('開局演完，從這裡開始檢查時間只往前（'+dayKey(g.day)+' '+fmtH(g.hour)+'）'); }
+    else if(!track&&process.env.RPS_TRACK_OPENING&&g&&g.day>=D_FROM&&g.day<=D_TO){ track={abs:abs(g)}; act('（RPS_TRACK_OPENING）開局還沒演完就開始檢查時間只往前（'+dayKey(g.day)+' '+fmtH(g.hour)+'；給宿營 S.campY1 換日用，--from／--to 要包住宿營那幾天）'); }
     checkFrame(); heartbeat(false);
+    if(o.oldForcing){ await scenTick(); if(SC.res) break; }
     if(track&&g&&g.day>D_TO){ act('到了 '+o.to+' 的隔天，結束'); break; }
     if(R.stuckNow){ R.stuckRecover=(R.stuckRecover|0)+1; if(R.stuckRecover>8){ fail('STUCK_GIVEUP','UNKNOWN','卡住、重新整理頁面讀檔 8 次以後還是卡住，放棄這個種子','reached '+R.reached); break; } act('卡住了 → 重新整理頁面、讀自動存檔（玩家會這樣做）'); await reloadAuto(true); continue; }
     if(R.fails.length>60){ act('失敗太多種，停下來'); break; }
@@ -560,7 +586,7 @@ async function child(o){
 
   function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
     const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
-    const out={seed:R.seed,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
+    const out={seed:R.seed,scen:o.oldForcing?{day:o.oldForcing,res:SC.res,pass:R.scenPass||null,calls:SC.calls,sent:SC.sent,log:SC.log}:undefined,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
       g:GM&&GM.G?{attended:(()=>{ try{ return Object.keys(W.CLS.rec(GM.G).done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,invDone:(GM.G.invites||[]).filter(v=>v.state==='done').length,goingSeen:goingSeen.size,msgs:(GM.G.msgs||[]).length}:null};
     for(const f of out.fails) delete f.extra;
     if(o.single) printSingle(out); process.stdout.write('@@RESULT '+JSON.stringify(out)+'\n'); return out; }

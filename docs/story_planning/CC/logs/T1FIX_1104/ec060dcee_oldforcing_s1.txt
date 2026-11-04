@@ -1,0 +1,45 @@
+
+!!! FAIL OLD_FORCING（GAME_BUG）讀進 _forcing=true 的舊存檔以後：forceHome 叫了 58 次、真的送回去睡 0 次；NO_FORCEHOME 沒有；現在 2025-09-11 30:00 campus；G.flags._forcing=true
+
+================ 種子 1：FAIL ================
+區域 build 101 次、8.8 秒；turbo 格 14671
+到 2025-09-11　步數 2072　格數 36342　虛擬時間 1.8 小時　開頁面 3 次　真實 26.5 秒　（game3d.js：對話有 sayStack）
+結束時：{"attended":8,"day":-5,"date":"2025-09-11","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}
+個性：{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002}
+
+【GAME_BUG】OLD_FORCING　第 2072 步、第 36342 格
+  為什麼：情境 --old-forcing：讀進 _forcing=true 的舊存檔，04:00 以後沒有照常送回去睡（或 _forcing 沒清掉）
+  內容：讀進 _forcing=true 的舊存檔以後：forceHome 叫了 58 次、真的送回去睡 0 次；NO_FORCEHOME 沒有；現在 2025-09-11 30:00 campus；G.flags._forcing=true
+  G：{"day":-5,"date":"2025-09-11","hour":30,"zone":"campus","stage":"law","money":37000,"energy":100,"weekday":4,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv8:heroine_01@slowread:accepted"],"evDone":16,"page":3}
+  最後 20 個動作：
+    #2055 f36212 2025-09-11 29:52 putong｜手機：動態
+    #2056 f36214 2025-09-11 29:52 putong｜收起手機
+    #2057 f36215 2025-09-11 29:52 putong｜走去坐下（2.3 m）
+    #2058 f36229 2025-09-11 29:52 putong｜按互動：坐下
+    #2059 f36237 2025-09-11 29:52 putong｜選單（4 個）：待到中午（12:00）上午的次數用完了
+    #2060 f36243 2025-09-11 29:53 putong｜打開手機（today）想跳過時間
+    #2061 f36248 2025-09-11 29:53 putong｜收起手機
+    #2062 f36249 2025-09-11 29:53 putong｜打開手機（friends）
+    #2063 f36254 2025-09-11 29:53 putong｜手機：資料
+    #2064 f36260 2025-09-11 29:53 putong｜手機：動態
+    #2065 f36265 2025-09-11 29:53 putong｜手機：訊息
+    #2066 f36270 2025-09-11 29:53 putong｜收起手機
+    #2067 f36271 2025-09-11 29:53 putong｜打開手機（events）
+    #2068 f36273 2025-09-11 29:53 putong｜手機：今天
+    #2069 f36276 2025-09-11 29:53 putong｜手機：地點
+    #2070 f36282 2025-09-11 29:53 putong｜手機：已閉館
+    #2070 f36283 2025-09-11 29:53 putong｜（提示）社科院圖書館 現在沒有開（今天 08:20–22:00）。下次開館：今天 08:20。可以回宿舍讀書。
+    #2071 f36287 2025-09-11 29:53 putong｜手機：前往
+    #2071 f36297 2025-09-11 29:58 campus｜（提示）走了 5 分鐘到椰影大道・晨思鐘
+    #2072 f36298 2025-09-11 29:58 campus｜走去坐在椰影大道的長椅上（88.3 m）
+  重現：node ../../../../../home/user/pyhuanglaw/lawstudent/docs/story_planning/test_tools/cc/random_play_sim.js --seed 1 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_ec060dcee --from 2025-08-29 --to 2025-09-12
+
+注意（不算 FAIL）：
+  35 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  19 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 20:36 campus）
+  3 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  2 次　說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）
+  1 次　3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）
+@@RESULT {"seed":1,"scen":{"day":"2025-09-10","res":"FAIL","pass":null,"calls":58,"sent":0,"log":[]},"ok":false,"reached":"2025-09-11","steps":2072,"frames":36342,"vms":6574000,"pages":3,"fails":[{"kind":"OLD_FORCING","cls":"GAME_BUG","why":"情境 --old-forcing：讀進 _forcing=true 的舊存檔，04:00 以後沒有照常送回去睡（或 _forcing 沒清掉）","msg":"讀進 _forcing=true 的舊存檔以後：forceHome 叫了 58 次、真的送回去睡 0 次；NO_FORCEHOME 沒有；現在 2025-09-11 30:00 campus；G.flags._forcing=true","step":2072,"frame":36342,"G":{"day":-5,"date":"2025-09-11","hour":30,"zone":"campus","stage":"law","money":37000,"energy":100,"weekday":4,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv8:heroine_01@slowread:accepted"],"evDone":16,"page":3},"lastActions":["#2055 f36212 2025-09-11 29:52 putong｜手機：動態","#2056 f36214 2025-09-11 29:52 putong｜收起手機","#2057 f36215 2025-09-11 29:52 putong｜走去坐下（2.3 m）","#2058 f36229 2025-09-11 29:52 putong｜按互動：坐下","#2059 f36237 2025-09-11 29:52 putong｜選單（4 個）：待到中午（12:00）上午的次數用完了","#2060 f36243 2025-09-11 29:53 putong｜打開手機（today）想跳過時間","#2061 f36248 2025-09-11 29:53 putong｜收起手機","#2062 f36249 2025-09-11 29:53 putong｜打開手機（friends）","#2063 f36254 2025-09-11 29:53 putong｜手機：資料","#2064 f36260 2025-09-11 29:53 putong｜手機：動態","#2065 f36265 2025-09-11 29:53 putong｜手機：訊息","#2066 f36270 2025-09-11 29:53 putong｜收起手機","#2067 f36271 2025-09-11 29:53 putong｜打開手機（events）","#2068 f36273 2025-09-11 29:53 putong｜手機：今天","#2069 f36276 2025-09-11 29:53 putong｜手機：地點","#2070 f36282 2025-09-11 29:53 putong｜手機：已閉館","#2070 f36283 2025-09-11 29:53 putong｜（提示）社科院圖書館 現在沒有開（今天 08:20–22:00）。下次開館：今天 08:20。可以回宿舍讀書。","#2071 f36287 2025-09-11 29:53 putong｜手機：前往","#2071 f36297 2025-09-11 29:58 campus｜（提示）走了 5 分鐘到椰影大道・晨思鐘","#2072 f36298 2025-09-11 29:58 campus｜走去坐在椰影大道的長椅上（88.3 m）"],"count":1}],"notes":[{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":35,"ex":"portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":19,"ex":"unknown asset prop.bike_ride（2025-08-30 20:36 campus）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":3,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）","n":2,"ex":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）","all":[{"at":"2025-09-01 08:17","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#342 f4304 2025-09-01 08:17 dorm｜選單（2 個）：先不要","#343 f4310 2025-09-01 08:17 dorm｜走去床底下的紙箱（0.6 m）","#344 f4313 2025-09-01 08:17 dorm｜按互動：床底下的紙箱"]},{"at":"2025-09-05 09:01","zone":"dorm","msg":"說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱","last":["#1233 f21304 2025-09-05 09:00 dorm｜（提示）30 分鐘後上課：09:10 經濟學原理（上）（普通教學館 101）","#1234 f21305 2025-09-05 09:00 dorm｜走去床底下的紙箱（0.6 m）","#1235 f21308 2025-09-05 09:01 dorm｜按互動：床底下的紙箱"]}]},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）"},{"k":"3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型","n":1,"ex":"NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）"}],"missingE":[],"persona":{"classP":0.46377366874367,"lateP":0.21738413767889142,"phoneP":0.34350345729617404,"talkP":0.24267076239921154,"reloadP":0.002,"snapP":0.0025,"midReloadP":0.0002},"sayStack":true,"chooseStack":true,"g":{"attended":8,"day":-5,"date":"2025-09-11","evDone":16,"money":37000,"stage":"law","contacts":4,"invites":8,"invDone":2,"goingSeen":0,"msgs":88}}
+（26.5 秒）

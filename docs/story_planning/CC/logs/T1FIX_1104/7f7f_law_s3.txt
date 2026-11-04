@@ -1,0 +1,131 @@
+
+!!! FAIL NO_FORCEHOME（GAME_BUG）hour=31.22 flags._forcing=true
+
+!!! FAIL TIME_BACK（GAME_BUG）從 2025-10-11 12:04 退到 2025-09-19 06:30（533.57 小時；之前 G.day=2 G.hour=564.07）
+
+!!! FAIL NO_FORCEHOME（GAME_BUG）hour=29.34 flags._forcing=true
+
+!!! FAIL NO_FORCEHOME（GAME_BUG）hour=30.87 flags._forcing=true
+
+================ 種子 3：FAIL ================
+區域 build 690 次、60.4 秒；turbo 格 245324
+到 2025-09-21　步數 21431　格數 520974　虛擬時間 28.1 小時　開頁面 22 次　真實 218.6 秒　（game3d.js：對話沒有 sayStack（新的一句蓋掉沒點的那一句））
+結束時：{"attended":8,"day":5,"date":"2025-09-21","evDone":28,"money":27705,"stage":"law","contacts":4,"invites":29,"invDone":5,"goingSeen":0,"msgs":174}
+個性：{"classP":0.6326218867674469,"lateP":0.3484894384164363,"phoneP":0.1522309526684694,"talkP":0.43800013547297567,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001}
+
+【GAME_BUG：FORCING-SAVED】NO_FORCEHOME　第 3972 步、第 84980 格
+  為什麼：story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））
+  內容：hour=31.22 flags._forcing=true
+  G：{"day":2,"date":"2025-09-18","hour":31.215,"zone":"classroom","stage":"law","money":36570,"energy":100,"weekday":4,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":[],"evDone":19,"page":3}
+  最後 20 個動作：
+    #3945 f84013 2025-09-18 29:22 classroom｜打開手機（msg）
+    #3946 f84018 2025-09-18 29:22 classroom｜手機：群法律系（全班）沛珊：好 謝謝！9/94
+    #3947 f84023 2025-09-18 29:22 classroom｜收起手機
+    #3948 f84024 2025-09-18 29:23 classroom｜等一下（22 秒）
+    #3949 f84099 2025-09-18 29:32 classroom｜等一下（12 秒）
+    #3950 f84140 2025-09-18 29:36 classroom｜走去坐下（7.2 m）
+    #3951 f84190 2025-09-18 29:38 classroom｜按互動：坐下
+    #3952 f84199 2025-09-18 29:38 classroom｜選單（2 個）：起身
+    #3954 f84206 2025-09-18 29:39 classroom｜走去坐下（6.2 m）
+    #3955 f84249 2025-09-18 29:40 classroom｜按互動：坐下
+    #3956 f84260 2025-09-18 29:40 classroom｜選單（2 個）：坐一下，看看四周時間 +20 分鐘
+    #3957 f84282 2025-09-18 30:01 classroom｜走去坐下（10.0 m）
+    #3958 f84352 2025-09-18 30:03 classroom｜按互動：坐下
+    #3959 f84364 2025-09-18 30:04 classroom｜選單（2 個）：起身
+    #3964 f84371 2025-09-18 30:04 classroom｜打開手機（friends）
+    #3965 f84375 2025-09-18 30:04 classroom｜手機：資料
+    #3966 f84380 2025-09-18 30:04 classroom｜收起手機
+    #3968 f84382 2025-09-18 30:04 classroom｜等一下（147 秒）
+    #3969 f84872 2025-09-18 31:03 classroom｜等一下（22 秒）
+    #3972 f84948 2025-09-18 31:12 classroom｜走去坐下（8.7 m）
+  重現：node rps_868e.js --seed 3 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_7f7fd7964 --from 2025-08-29 --to 2025-09-20
+
+【GAME_BUG：FORCING-SAVED】TIME_BACK（同樣的 3 次）　第 15935 步、第 383891 格
+  為什麼：story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：遊戲時間倒退）
+  內容：從 2025-10-11 12:04 退到 2025-09-19 06:30（533.57 小時；之前 G.day=2 G.hour=564.07）
+  G：{"day":3,"date":"2025-09-19","hour":6.501,"zone":"dorm","stage":"law","money":30755,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv14:classmate_peishan@cafe:accepted","iv15:kexin@run_avenue:accepted","iv16:kexin@gym_badminton:accepted","iv18:kexin@run_avenue:accepted"],"evDone":23,"page":13}
+  最後 20 個動作：
+    #15917 f383803 2025-09-18 563:43 noodle｜手機：課表
+    #15918 f383809 2025-09-18 563:43 noodle｜手機：地點
+    #15919 f383812 2025-09-18 563:43 noodle｜收起手機
+    #15920 f383813 2025-09-18 563:43 noodle｜打開手機（friends）
+    #15921 f383816 2025-09-18 563:43 noodle｜手機：約
+    #15922 f383818 2025-09-18 563:43 noodle｜選單（9 個）：算了
+    #15923 f383823 2025-09-18 563:43 noodle｜手機：群法律系直屬家族Kevin：好，下禮拜一放系學會辦公室，寫你名字。9/16
+    #15924 f383827 2025-09-18 563:43 noodle｜收起手機
+    #15925 f383828 2025-09-18 563:43 noodle｜打開手機（feed）
+    #15926 f383833 2025-09-18 563:43 noodle｜收起手機
+    #15927 f383834 2025-09-18 563:43 noodle｜打開手機（feed）
+    #15928 f383837 2025-09-18 563:43 noodle｜手機：地點
+    #15929 f383842 2025-09-18 563:43 noodle｜手機：前往
+    #15929 f383852 2025-09-18 564:03 dorm｜（提示）走了 20 分鐘到宿舍
+    #15930 f383857 2025-09-18 564:03 dorm｜走去床（2.0 m）
+    #15931 f383870 2025-09-18 564:04 dorm｜按互動：睡覺
+    #15932 f383873 2025-09-18 564:04 dorm｜選單（2 個）：再撐一下
+    #15933 f383876 2025-09-18 564:04 dorm｜走去床（0.4 m）
+    #15934 f383877 2025-09-18 564:04 dorm｜按互動：睡覺
+    #15935 f383881 2025-09-18 564:04 dorm｜選單（2 個）：睡到明天早上（06:30）08:10——但約好的時間：和杜可昕約在椰林大道，鬧鐘
+  重現：node rps_868e.js --seed 3 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_7f7fd7964 --from 2025-08-29 --to 2025-09-20
+
+【GAME_BUG：FORCING-SAVED】NO_FORCEHOME　第 16281 步、第 390748 格
+  為什麼：story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））
+  內容：hour=29.34 flags._forcing=true
+  G：{"day":3,"date":"2025-09-19","hour":29.341,"zone":"wenzhou","stage":"law","money":30755,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv18:kexin@run_avenue:accepted"],"evDone":23,"page":15}
+  最後 20 個動作：
+    #16259 f389821 2025-09-19 27:43 wenzhou｜點對話：風有點涼了。你把外套拉起來，麻糬靠過來一點。
+    #16260 f389825 2025-09-19 27:43 wenzhou｜點對話：風有點涼了。你把外套拉起來，麻糬靠過來一點。
+    #16261 f389828 2025-09-19 27:43 wenzhou｜走去盪鞦韆（9.6 m）
+    #16262 f389893 2025-09-19 27:46 wenzhou｜按互動：盪鞦韆
+    #16263 f389908 2025-09-19 27:56 wenzhou｜點對話：你盪得不高。鐵鍊吱吱響，像在跟你說話。
+    #16264 f389912 2025-09-19 27:56 wenzhou｜點對話：你盪得不高。鐵鍊吱吱響，像在跟你說話。
+    #16265 f389914 2025-09-19 27:56 wenzhou｜打開手機（today）想跳過時間
+    #16266 f389918 2025-09-19 27:56 wenzhou｜收起手機
+    #16267 f389919 2025-09-19 27:56 wenzhou｜走去買一碗冰（33.3 m）
+    #16268 f390016 2025-09-19 28:00 wenzhou｜按互動：買一碗冰
+    #16268 f390017 2025-09-19 28:00 wenzhou｜（提示）夏日冰菓室 現在沒有開（今天 12:00–21:00）。下次開門：今天 12:00。
+    #16271 f390022 2025-09-19 28:00 wenzhou｜等一下（4 秒）
+    #16272 f390037 2025-09-19 28:02 wenzhou｜走去盪鞦韆（32.7 m）
+    #16273 f390132 2025-09-19 28:06 wenzhou｜按互動：盪鞦韆
+    #16274 f390148 2025-09-19 28:16 wenzhou｜點對話：盪到最高的時候，看得到溫州街的屋頂。
+    #16276 f390152 2025-09-19 28:16 wenzhou｜等一下（24 秒）
+    #16278 f390232 2025-09-19 28:25 wenzhou｜等一下（17 秒）
+    #16279 f390289 2025-09-19 28:32 wenzhou｜等一下（109 秒）
+    #16280 f390653 2025-09-19 29:16 wenzhou｜等一下（2 秒）
+    #16281 f390661 2025-09-19 29:17 wenzhou｜走去看布告欄（55.6 m）
+  重現：node rps_868e.js --seed 3 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_7f7fd7964 --from 2025-08-29 --to 2025-09-20
+
+【GAME_BUG：FORCING-SAVED】NO_FORCEHOME　第 19867 步、第 482053 格
+  為什麼：story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））
+  內容：hour=30.87 flags._forcing=true
+  G：{"day":4,"date":"2025-09-20","hour":30.869,"zone":"gongguan","stage":"law","money":28260,"energy":100,"weekday":6,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv28:heroine_02@brunch:accepted"],"evDone":26,"page":19}
+  最後 20 個動作：
+    #19843 f481019 2025-09-20 28:31 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。
+    #19844 f481022 2025-09-20 28:31 noodle｜等一下（7 秒）
+    #19845 f481045 2025-09-20 28:34 noodle｜走去坐下吃麵（5.3 m）
+    #19846 f481080 2025-09-20 28:35 noodle｜按互動：坐下吃麵
+    #19847 f481084 2025-09-20 28:35 noodle｜選單（4 個）：乾麵 60 元
+    #19848 f481094 2025-09-20 29:05 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。
+    #19849 f481096 2025-09-20 29:05 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。
+    #19850 f481099 2025-09-20 29:05 noodle｜等一下（29 秒）
+    #19851 f481197 2025-09-20 29:17 noodle｜走去坐下吃麵（6.8 m）
+    #19852 f481243 2025-09-20 29:19 noodle｜按互動：坐下吃麵
+    #19853 f481245 2025-09-20 29:19 noodle｜選單（4 個）：先不吃
+    #19854 f481247 2025-09-20 29:19 noodle｜等一下（25 秒）
+    #19857 f481333 2025-09-20 29:29 noodle｜等一下（17 秒）
+    #19860 f481391 2025-09-20 29:36 noodle｜等一下（8 秒）
+    #19861 f481419 2025-09-20 29:39 noodle｜走去離開麵店（3.9 m）
+    #19862 f481443 2025-09-20 29:40 noodle｜按互動：離開麵店
+    #19863 f481456 2025-09-20 29:41 gongguan｜等一下（143 秒）
+    #19864 f481932 2025-09-20 30:38 gongguan｜等一下（25 秒）
+    #19866 f482017 2025-09-20 30:48 gongguan｜等一下（3 秒）
+    #19867 f482026 2025-09-20 30:49 gongguan｜等一下（27 秒）
+  重現：node rps_868e.js --seed 3 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/t1fix_7f7fd7964 --from 2025-08-29 --to 2025-09-20
+
+注意（不算 FAIL）：
+  118 次　3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-09-01 15:20 campus）
+  116 次　立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/zhe/campus/neutral.webp（2025-08-22 08:30 dorm）
+  22 次　星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-03 21:32 boya）
+  1 次　migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.social.fm120　例：G.social.fm120：undefined → true（2025-09-03 21:32 boya）
+@@RESULT {"seed":3,"ok":false,"reached":"2025-09-21","steps":21431,"frames":520974,"vms":101227100,"pages":22,"fails":[{"kind":"NO_FORCEHOME","cls":"GAME_BUG","why":"story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））","msg":"hour=31.22 flags._forcing=true","step":3972,"frame":84980,"G":{"day":2,"date":"2025-09-18","hour":31.215,"zone":"classroom","stage":"law","money":36570,"energy":100,"weekday":4,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":[],"evDone":19,"page":3},"lastActions":["#3945 f84013 2025-09-18 29:22 classroom｜打開手機（msg）","#3946 f84018 2025-09-18 29:22 classroom｜手機：群法律系（全班）沛珊：好 謝謝！9/94","#3947 f84023 2025-09-18 29:22 classroom｜收起手機","#3948 f84024 2025-09-18 29:23 classroom｜等一下（22 秒）","#3949 f84099 2025-09-18 29:32 classroom｜等一下（12 秒）","#3950 f84140 2025-09-18 29:36 classroom｜走去坐下（7.2 m）","#3951 f84190 2025-09-18 29:38 classroom｜按互動：坐下","#3952 f84199 2025-09-18 29:38 classroom｜選單（2 個）：起身","#3954 f84206 2025-09-18 29:39 classroom｜走去坐下（6.2 m）","#3955 f84249 2025-09-18 29:40 classroom｜按互動：坐下","#3956 f84260 2025-09-18 29:40 classroom｜選單（2 個）：坐一下，看看四周時間 +20 分鐘","#3957 f84282 2025-09-18 30:01 classroom｜走去坐下（10.0 m）","#3958 f84352 2025-09-18 30:03 classroom｜按互動：坐下","#3959 f84364 2025-09-18 30:04 classroom｜選單（2 個）：起身","#3964 f84371 2025-09-18 30:04 classroom｜打開手機（friends）","#3965 f84375 2025-09-18 30:04 classroom｜手機：資料","#3966 f84380 2025-09-18 30:04 classroom｜收起手機","#3968 f84382 2025-09-18 30:04 classroom｜等一下（147 秒）","#3969 f84872 2025-09-18 31:03 classroom｜等一下（22 秒）","#3972 f84948 2025-09-18 31:12 classroom｜走去坐下（8.7 m）"],"count":1,"known":"FORCING-SAVED"},{"kind":"TIME_BACK","cls":"GAME_BUG","why":"story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：遊戲時間倒退）","msg":"從 2025-10-11 12:04 退到 2025-09-19 06:30（533.57 小時；之前 G.day=2 G.hour=564.07）","step":15935,"frame":383891,"G":{"day":3,"date":"2025-09-19","hour":6.501,"zone":"dorm","stage":"law","money":30755,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv14:classmate_peishan@cafe:accepted","iv15:kexin@run_avenue:accepted","iv16:kexin@gym_badminton:accepted","iv18:kexin@run_avenue:accepted"],"evDone":23,"page":13},"lastActions":["#15917 f383803 2025-09-18 563:43 noodle｜手機：課表","#15918 f383809 2025-09-18 563:43 noodle｜手機：地點","#15919 f383812 2025-09-18 563:43 noodle｜收起手機","#15920 f383813 2025-09-18 563:43 noodle｜打開手機（friends）","#15921 f383816 2025-09-18 563:43 noodle｜手機：約","#15922 f383818 2025-09-18 563:43 noodle｜選單（9 個）：算了","#15923 f383823 2025-09-18 563:43 noodle｜手機：群法律系直屬家族Kevin：好，下禮拜一放系學會辦公室，寫你名字。9/16","#15924 f383827 2025-09-18 563:43 noodle｜收起手機","#15925 f383828 2025-09-18 563:43 noodle｜打開手機（feed）","#15926 f383833 2025-09-18 563:43 noodle｜收起手機","#15927 f383834 2025-09-18 563:43 noodle｜打開手機（feed）","#15928 f383837 2025-09-18 563:43 noodle｜手機：地點","#15929 f383842 2025-09-18 563:43 noodle｜手機：前往","#15929 f383852 2025-09-18 564:03 dorm｜（提示）走了 20 分鐘到宿舍","#15930 f383857 2025-09-18 564:03 dorm｜走去床（2.0 m）","#15931 f383870 2025-09-18 564:04 dorm｜按互動：睡覺","#15932 f383873 2025-09-18 564:04 dorm｜選單（2 個）：再撐一下","#15933 f383876 2025-09-18 564:04 dorm｜走去床（0.4 m）","#15934 f383877 2025-09-18 564:04 dorm｜按互動：睡覺","#15935 f383881 2025-09-18 564:04 dorm｜選單（2 個）：睡到明天早上（06:30）08:10——但約好的時間：和杜可昕約在椰林大道，鬧鐘"],"count":3,"known":"FORCING-SAVED"},{"kind":"NO_FORCEHOME","cls":"GAME_BUG","why":"story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））","msg":"hour=29.34 flags._forcing=true","step":16281,"frame":390748,"G":{"day":3,"date":"2025-09-19","hour":29.341,"zone":"wenzhou","stage":"law","money":30755,"energy":100,"weekday":5,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv18:kexin@run_avenue:accepted"],"evDone":23,"page":15},"lastActions":["#16259 f389821 2025-09-19 27:43 wenzhou｜點對話：風有點涼了。你把外套拉起來，麻糬靠過來一點。","#16260 f389825 2025-09-19 27:43 wenzhou｜點對話：風有點涼了。你把外套拉起來，麻糬靠過來一點。","#16261 f389828 2025-09-19 27:43 wenzhou｜走去盪鞦韆（9.6 m）","#16262 f389893 2025-09-19 27:46 wenzhou｜按互動：盪鞦韆","#16263 f389908 2025-09-19 27:56 wenzhou｜點對話：你盪得不高。鐵鍊吱吱響，像在跟你說話。","#16264 f389912 2025-09-19 27:56 wenzhou｜點對話：你盪得不高。鐵鍊吱吱響，像在跟你說話。","#16265 f389914 2025-09-19 27:56 wenzhou｜打開手機（today）想跳過時間","#16266 f389918 2025-09-19 27:56 wenzhou｜收起手機","#16267 f389919 2025-09-19 27:56 wenzhou｜走去買一碗冰（33.3 m）","#16268 f390016 2025-09-19 28:00 wenzhou｜按互動：買一碗冰","#16268 f390017 2025-09-19 28:00 wenzhou｜（提示）夏日冰菓室 現在沒有開（今天 12:00–21:00）。下次開門：今天 12:00。","#16271 f390022 2025-09-19 28:00 wenzhou｜等一下（4 秒）","#16272 f390037 2025-09-19 28:02 wenzhou｜走去盪鞦韆（32.7 m）","#16273 f390132 2025-09-19 28:06 wenzhou｜按互動：盪鞦韆","#16274 f390148 2025-09-19 28:16 wenzhou｜點對話：盪到最高的時候，看得到溫州街的屋頂。","#16276 f390152 2025-09-19 28:16 wenzhou｜等一下（24 秒）","#16278 f390232 2025-09-19 28:25 wenzhou｜等一下（17 秒）","#16279 f390289 2025-09-19 28:32 wenzhou｜等一下（109 秒）","#16280 f390653 2025-09-19 29:16 wenzhou｜等一下（2 秒）","#16281 f390661 2025-09-19 29:17 wenzhou｜走去看布告欄（55.6 m）"],"count":1,"known":"FORCING-SAVED"},{"kind":"NO_FORCEHOME","cls":"GAME_BUG","why":"story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing｜（原本的判斷：過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome））","msg":"hour=30.87 flags._forcing=true","step":19867,"frame":482053,"G":{"day":4,"date":"2025-09-20","hour":30.869,"zone":"gongguan","stage":"law","money":28260,"energy":100,"weekday":6,"busy":false,"depth":0,"busyWho":[],"evRunning":null,"companion":null,"dating_kexin":true,"invites":["iv28:heroine_02@brunch:accepted"],"evDone":26,"page":19},"lastActions":["#19843 f481019 2025-09-20 28:31 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。","#19844 f481022 2025-09-20 28:31 noodle｜等一下（7 秒）","#19845 f481045 2025-09-20 28:34 noodle｜走去坐下吃麵（5.3 m）","#19846 f481080 2025-09-20 28:35 noodle｜按互動：坐下吃麵","#19847 f481084 2025-09-20 28:35 noodle｜選單（4 個）：乾麵 60 元","#19848 f481094 2025-09-20 29:05 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。","#19849 f481096 2025-09-20 29:05 noodle｜點對話：乾麵很燙。老闆娘多給了一匙肉燥。","#19850 f481099 2025-09-20 29:05 noodle｜等一下（29 秒）","#19851 f481197 2025-09-20 29:17 noodle｜走去坐下吃麵（6.8 m）","#19852 f481243 2025-09-20 29:19 noodle｜按互動：坐下吃麵","#19853 f481245 2025-09-20 29:19 noodle｜選單（4 個）：先不吃","#19854 f481247 2025-09-20 29:19 noodle｜等一下（25 秒）","#19857 f481333 2025-09-20 29:29 noodle｜等一下（17 秒）","#19860 f481391 2025-09-20 29:36 noodle｜等一下（8 秒）","#19861 f481419 2025-09-20 29:39 noodle｜走去離開麵店（3.9 m）","#19862 f481443 2025-09-20 29:40 noodle｜按互動：離開麵店","#19863 f481456 2025-09-20 29:41 gongguan｜等一下（143 秒）","#19864 f481932 2025-09-20 30:38 gongguan｜等一下（25 秒）","#19866 f482017 2025-09-20 30:48 gongguan｜等一下（3 秒）","#19867 f482026 2025-09-20 30:49 gongguan｜等一下（27 秒）"],"count":1,"known":"FORCING-SAVED"}],"notes":[{"k":"3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗","n":118,"ex":"unknown asset prop.bike_ride（2025-09-01 15:20 campus）"},{"k":"立繪缺檔 → 用 neutral（素材，不算）","n":116,"ex":"portrait missing → fallback assets/portraits/zhe/campus/neutral.webp（2025-08-22 08:30 dorm）"},{"k":"星期和日期對不上（syncWeekday 改回來）","n":22,"ex":"星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V","n":1,"ex":"G.flags.LIFELINE_V：undefined → 1（2025-09-03 21:32 boya）"},{"k":"migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.social.fm120","n":1,"ex":"G.social.fm120：undefined → true（2025-09-03 21:32 boya）"}],"missingE":[],"persona":{"classP":0.6326218867674469,"lateP":0.3484894384164363,"phoneP":0.1522309526684694,"talkP":0.43800013547297567,"reloadP":0.0004,"snapP":0.0025,"midReloadP":0.001},"sayStack":false,"chooseStack":true,"g":{"attended":8,"day":5,"date":"2025-09-21","evDone":28,"money":27705,"stage":"law","contacts":4,"invites":29,"invDone":5,"goingSeen":0,"msgs":174}}
+（218.6 秒）
