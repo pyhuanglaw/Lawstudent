@@ -315,7 +315,7 @@ def glazed(axis, fixed, a0, a1, n):
     """一道腰牆＋玻璃隔間：axis 'x'＝牆在 x＝fixed、沿 z；'z'＝牆在 z＝fixed、沿 x；n＝朝外的面"""
     if axis == 'x':
         VC.cbox(fixed - 0.06, fixed + 0.06, 0, dado, a0, a1, TILEC)
-        for z in [a0 + k * 0.3 for k in range(int((a1 - a0) / 0.3 + 0.01))]: face(PR, (fixed + 0.064, dado / 2, z + 0.15), '+x', 0.3, dado, sub(C['tile'], 0, 0, 0.5, dado / 0.6))
+        for z in [a0 + k * 0.3 for k in range(int((a1 - a0) / 0.3 + 0.01))]: face(PR, (fixed + 0.064, dado / 2, z + 0.15), '+x', 0.3, dado, sub(C['tile'], 0, 0, 0.5, 1))
         VM.cbox(fixed - 0.07, fixed + 0.07, dado, dado + 0.04, a0, a1, STEELC); VM.cbox(fixed - 0.05, fixed + 0.05, H - 0.1, H, a0, a1, STEELC)
         nseg = max(1, round((a1 - a0) / 0.7))
         for k in range(nseg + 1):
@@ -324,7 +324,7 @@ def glazed(axis, fixed, a0, a1, n):
         face(GLS, (fixed, (dado + H - 0.1) / 2, (a0 + a1) / 2), '+x', a1 - a0, H - 0.1 - dado, (0, 0, 1, 1))
     else:
         VC.cbox(a0, a1, 0, dado, fixed - 0.06, fixed + 0.06, TILEC)
-        for x in [a0 + k * 0.3 for k in range(int((a1 - a0) / 0.3 + 0.01))]: face(PR, (x + 0.15, dado / 2, fixed - 0.064), '-z', 0.3, dado, sub(C['tile'], 0, 0, 0.5, dado / 0.6))
+        for x in [a0 + k * 0.3 for k in range(int((a1 - a0) / 0.3 + 0.01))]: face(PR, (x + 0.15, dado / 2, fixed - 0.064), '-z', 0.3, dado, sub(C['tile'], 0, 0, 0.5, 1))
         VM.cbox(a0, a1, dado, dado + 0.04, fixed - 0.07, fixed + 0.07, STEELC); VM.cbox(a0, a1, H - 0.1, H, fixed - 0.05, fixed + 0.05, STEELC)
         nseg = max(1, round((a1 - a0) / 0.7))
         for k in range(nseg + 1):
