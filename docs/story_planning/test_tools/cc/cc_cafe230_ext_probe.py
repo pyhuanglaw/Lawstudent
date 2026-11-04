@@ -55,8 +55,11 @@ AIM = """(([e,l,h,seed,fov])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.paused
 AIM2 = """(([e,l,h,seed,fov,full,view])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.paused=true; window.__ccSeed&&window.__ccSeed(seed); G.hour=h; E.hour=h; if(E.applyTime) E.applyTime(h); E.time=100; E._shT=0;
   if(E.player&&E.player.obj) E.player.obj.visible=false; const fov0=cam.fov; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l));
   for(let i=0;i<3;i++){ E.update(1/60); cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
-  cam.fov=fov; cam.setViewOffset(full[0],full[1],0,0,view[0],view[1]); cam.updateProjectionMatrix(); E._shT=0; E.render(); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, fov:+cam.fov.toFixed(2), aspect:+cam.aspect.toFixed(4)};
-  cam.clearViewOffset(); cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
+  /* BB-C 21:00：fov 28.85° 是 1672×1200 畫面的垂直角——aspect 要設成 1672/1200（不是視窗的 1672/941），再 setViewOffset 取上面 941 列（＝shift_y 0.0775）。
+     核對：tan(14.425°)×1672/1200＝0.3584 → 水平 39.42°（50.2 mm＝39.46°）；地平線在 941 列的 0.2572/0.4034＝63.8%＝中線下 130 px（cafe230_exterior.md 第 76 行）*/
+  const asp0=cam.aspect; cam.fov=fov; cam.aspect=full[0]/full[1]; cam.setViewOffset(full[0],full[1],0,0,view[0],view[1]); cam.updateProjectionMatrix(); E._shT=0; E.render(); const ri=E.renderer.info.render;
+  const pm=cam.projectionMatrix.elements, hf=2*Math.atan(1/pm[0])*180/Math.PI, hz=(1+pm[9]/pm[5]*0)/2; const out={calls:ri.calls, tris:ri.triangles, fov:+cam.fov.toFixed(2), aspect:+cam.aspect.toFixed(4), hfov:+hf.toFixed(2), m9:+pm[9].toFixed(4), horizonBelowCenterPx:+(pm[9]*view[1]/2).toFixed(1)};
+  cam.clearViewOffset(); cam.aspect=asp0; cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
 DOOR = r"""(()=>{ const E=GAME.E, z=E.zone; const it=E.interactables.find(i=>(i.label||'').startsWith('進入 2:30 AM')); if(!it||!z) return null; let sign=null; z.group.traverse(o=>{ if(!sign&&o.name==='SIGN_FACE') sign=o; }); if(!sign) return {it:[it.x,it.z]};
   let b=sign; while(b.parent&&b.parent!==z.group) b=b.parent; b.updateMatrixWorld(true); const V=THREE.Vector3, o=b.getWorldPosition(new V()), f=b.localToWorld(new V(0,0,1)).sub(o).normalize(), r=b.localToWorld(new V(1,0,0)).sub(o).normalize();
   const D=new V(it.x,0,it.z); const p=(v,k)=>[+v.x.toFixed(3),+(k).toFixed(3),+v.z.toFixed(3)];
@@ -94,7 +97,8 @@ async def main_v2():
             ri = await pg.evaluate(AIM2 + '(%s)' % J([REF2['eye'], REF2['look'], h, seed, REF2['fov'], REF2['full'], REF2['view']]))
             fn = 'cafe230v2_refcam_%02d00.png' % int(h)
             await pg.screenshot(path=os.path.join(OUT, fn)); meta['shots'][fn] = dict(ri, cam=REF2['eye'], look=REF2['look'], hour=h)
-            print('  %s：calls %s、tris %s、fov %s、aspect %s' % (fn, ri['calls'], ri['tris'], ri['fov'], ri['aspect']), flush=True)
+            print('  %s：calls %s、tris %s、垂直 fov %s（1672×1200）、aspect %s、水平 FOV %s°（50.2 mm＝39.46°）、地平線在中線下 %s px（應該 130）' % (fn, ri['calls'], ri['tris'], ri['fov'], ri['aspect'], ri['hfov'], ri['horizonBelowCenterPx']), flush=True)
+            check('[%02d00] refcam 換算：水平 FOV 39.46°±0.1、地平線在中線下 130 px±3' % int(h), abs(ri['hfov'] - 39.46) < 0.1 and abs(ri['horizonBelowCenterPx'] - 130) < 3, J(ri))
             if h >= 18:
                 dr = await pg.evaluate(DOOR)
                 check('[%02d00] 找得到店門（進入 2:30 AM）和建築朝向' % int(h), bool(dr and dr.get('door_front')), J(dr))
