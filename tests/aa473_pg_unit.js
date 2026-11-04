@@ -49,7 +49,7 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
   check('2. 稿：12/14「以安：'+L1+'」、1/25「以安：'+L2+'」（麵店團、不用回）',S2.includes('> 以安：'+L1)&&S2.includes('> 以安：'+L2)&&/前任改成麵店團群組\*\*（21:00，不用回）/.test(S2));
   const noodle=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='heroine_01').map(m=>m.text);
   /* AA_589 第 7-5 節 S6（第 95、96 列）：群組也不由她宣布——阿哲先貼「以安二試過了」「以安上了 司法官」（不加句號），她回「一月面試。」「謝謝。」；不是前任的那一步不再是她打來的電話（祐廷自己查到、她回訊息）*/
-  const Z1='以安二試過了', Z2='以安上了 司法官', H1='一月面試。', H2='謝謝。', zhe=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^pg_an_/.test(m.tag||'')).map(m=>m.text);
+  const Z1='以安二試過了', Z2='以安上了 司法官', H1='一月口試。', H2='謝謝。', zhe=   /* H1：AA_685 A6-1（企劃線 c96613e51）「一月面試。」→「一月口試。」（同 AA_674 第 1 列）；稿（上面 L1）照舊是 AA_473 的舊句 */G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^pg_an_/.test(m.tag||'')).map(m=>m.text);
   for(const route of [null,'JP']){ const tag=route?'日本路線（交換延畢）':'臺灣路線';
     const G=H.fresh('2029-12-14',20.6,'dorm',route?{EXCHANGE_ROUTE:route}:{}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); ex('heroine_01');
     PG.rules(GM); H.at('2029-12-14',21); const s1=PG.due(G); H.said=[]; if(s1) await PG.runStep(GM,s1); H.tick();   /* 照實際流程：時間到了有場景就演 */

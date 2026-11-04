@@ -129,7 +129,7 @@ await sec(3,async()=>{
   fresh(n14,23.2,'dorm'); const s=B.sched({id:'yu'},H.G); fresh(n14,22,'dorm'); const s0=B.sched({id:'yu'},H.G);
   check('3. 那一晚 23:00 以後 Alison 也在日常失速（作息），23:00 以前不在',!!s&&s.away===B.LINES.away&&s0===null,J([s,s0]));
   fresh(n14,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX,'yu']) H.FAMILIAR(id); H.G.flags.ndlTalkN={Y1:5};
-  const p=B.talkPick(H.G); check('3. 那一晚長桌閒聊有 Alison 的那幾則也可以輪到（輪到「憲法課老師今天點了阿哲兩次。」——AA_684 刪掉前面兩則以後是第 6 則，Alison 在）',!!p&&(NOODLE_TABLE.Y1[p.i].who||[]).includes('yu')&&p.i===5&&NOODLE_TABLE.Y1[5].dialogue[0].text==='憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。',J(p&&p.i));
+  const p=B.talkPick(H.G); check('3. 那一晚長桌閒聊有 Alison 的那幾則也可以輪到（輪到「憲法課老師今天點了阿哲兩次。」——AA_684 刪掉前面兩則以後是第 6 則，Alison 在）',!!p&&(NOODLE_TABLE.Y1[p.i].who||[]).includes('yu')&&p.i===5&&NOODLE_TABLE.Y1[5].dialogue[0].text==='（憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。）',J(p&&p.i));   /* AA_685 B5：舊的旁白加括號 */
   check('3. 第三個徵兆（騎樓、社課後）照舊讀 yu2SeatDay',/yu2SeatDay!=null/.test(src('src/data/events.js')));
   { const P=CHARACTERS.yu.presence, k14=CALENDAR.dateOf(n14).key, k15=CALENDAR.dateOf(n14+1).key, keep=P.absentDates; P.absentDates=(keep||[]).concat([[k14,k15,'（測試）出遠門','trip']]);   /* absentDates 不含最後一天 */
     fresh(n14,23.2,'dorm'); H.G.flags.met_yu=true; const s1=B.sched({id:'yu'},H.G), t1=B.talkHere(H.G,'yu'); const y1=await B.yuSign(GM); P.absentDates=keep;
