@@ -436,9 +436,11 @@ def build_teahouse():
     for j in range(3): sk.vbox(-0.05, 0.12, 0.0, 0.08, -0.35 + j * 0.3, -0.2 + j * 0.3, ['#2a2a2c', '#6a4a30', '#3a4a6a'][j], r=0.02)   # 脫在門口的鞋
     sh = next(i for i in it if i['kind'] == 'shoji_wall')
     for (a, b) in ((-2.15, -1.25), (3.25, 4.15)): wm('engawa', 'shoji').box(a, b, 0.03, 2.0, Z1 - 0.02, Z1 + 0.02); wm('engawa', 'post').box(a, b, 1.98, 2.06, Z1 - 0.04, Z1 + 0.04)
-    for x in (-2.2 + k * 1.6 for k in range(5)): wm('engawa', 'post').cyl((x, 0.0, Z1 + 1.15), (x, H + 0.1, Z1 + 1.15), 0.06, seg=8)   # 簷下的柱
-    eb = Mesh(P + 'eave_soffit', M['ceil']); eb.quad([(-2.3, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)]); eb.finish(root, uv=True)   # 屋簷下的板：v2 改成朝下的單面（跟隨鏡頭在上面時看得穿；v1 的實心板擋住整個畫面）
-    wm('engawa', 'batten').quad([(-2.3, H - 0.1, Z1 + 1.9), (X1 + 0.1, H - 0.1, Z1 + 1.9), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)])   # 簷口的封板（朝外的單面；v3 歸緣側的組：鏡頭在前院上方往屋裡看時，原本一條橫帶擋在人前面）
+    for x in (() if '--no-garden' in ARGS else (-2.2 + k * 1.6 for k in range(5))): wm('engawa', 'post').cyl((x, 0.0, Z1 + 1.15), (x, H + 0.1, Z1 + 1.15), 0.06, seg=8)   # 簷下的柱
+    eb = Mesh(P + 'eave_soffit', M['ceil'])
+    if '--no-garden' not in ARGS: eb.quad([(-2.3, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)])
+    eb.finish(root, uv=True)   # 屋簷下的板：v2 改成朝下的單面（跟隨鏡頭在上面時看得穿；v1 的實心板擋住整個畫面）
+    if '--no-garden' not in ARGS: wm('engawa', 'batten').quad([(-2.3, H - 0.1, Z1 + 1.9), (X1 + 0.1, H - 0.1, Z1 + 1.9), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)])   # 簷口的封板（朝外的單面；v3 歸緣側的組：鏡頭在前院上方往屋裡看時，原本一條橫帶擋在人前面）
     # 和室前面的紙拉門（中間各開一段）、兩間和室之間的襖
     zz = sh['z']; xs_ = [sh['x0']] + [v for o in sh['open'] for v in o] + [sh['x1']]
     for i in range(0, len(xs_), 2):
@@ -500,9 +502,11 @@ def build_teahouse():
     for x in (-2.15, 2.15): pendant(x, -2.8, y=1.95, shade='washi', kind='washi', bulb_r=0.05)
     # ---- 前院（看得到、走不到）：低一階的苔地、碎石、踏石、沓脫石、老樟樹、石燈籠、竹掃把、矮木牆、對面的牆
     gz0, gz1 = Z1 + 1.2, 9.6
-    Mesh(P + 'garden_moss', M['moss']).box(X0, X1, -0.44, -0.4, gz0, gz1).finish(root)
-    acc('post').box(-2.2, X1, -0.42, 0.0, Z1 + 1.12, Z1 + 1.22)                                                           # 緣側的邊
-    Xf(1.5, Z1 + 1.55).lathe(acc('stone'), [(0.0, 0.0), (0.42, 0.0), (0.44, 0.18), (0.4, 0.22), (0.0, 0.22)], 0, -0.42, 0, seg=14)   # 沓脫石
+    NOG = '--no-garden' in ARGS   # WZ-YIZHAN-1104（LAWWW2 11-04）：前院走得進去以後，前院、緣側的邊、沓脫石、樟樹搬到 wz_teahouse_yard.py（另一個 GLB）；貓碗留在這裡
+    if not NOG:
+        Mesh(P + 'garden_moss', M['moss']).box(X0, X1, -0.44, -0.4, gz0, gz1).finish(root)
+        acc('post').box(-2.2, X1, -0.42, 0.0, Z1 + 1.12, Z1 + 1.22)                                                       # 緣側的邊
+        Xf(1.5, Z1 + 1.55).lathe(acc('stone'), [(0.0, 0.0), (0.42, 0.0), (0.44, 0.18), (0.4, 0.22), (0.0, 0.22)], 0, -0.42, 0, seg=14)   # 沓脫石
     # 貓碗（ART-WZ6；AA_420 第 9 節，LAWWW2-B 10-24）：找到貓以後（WZ_CAT_FOUND）蘇姨放在簷廊下——緣側東端的地板上、靠外緣（玩家走的地方是 x 3.9 以內）；收養那天以後收起來。
     # （第一版放在前院的苔地上：從緣側往下看被緣側的邊擋住，看不到。）獨立的節點 WZ_CATBOWL（不參加合併），遊戲照名字開關：WZ_CAT_FOUND 有值、PARK.catGone 還不是 true 才顯示。舊的青瓷飯碗＋一小堆乾糧
     cbg = B.group('WZ_CATBOWL', root, {'kind': 'cat_bowl', 'show': 'WZ_CAT_FOUND 以後、PARK.catGone 以前'}); cbx, cbz, cby = 3.95, Z1 + 1.0, 0.0
@@ -515,6 +519,7 @@ def build_teahouse():
     for k in range(9):
         a = rk.uniform(0, 2 * math.pi); r = rk.uniform(0.0, 0.034); cf.ell((cbx + r * math.cos(a), cby + 0.012 + 0.02 - r * 0.4 + 0.003, cbz + r * math.sin(a)), 0.006, 0.004, 0.006, seg=6, rings=3)
     cf.finish(cbg, uv=False)
+    if NOG: return
     Mesh(P + 'gravel', M['gravel']).box(-1.0, 3.6, -0.4, -0.385, gz0 + 0.6, gz1 - 0.6).finish(root)
     for j, (sx, sz) in enumerate(((-3.0, 6.6), (-2.6, 7.3), (-2.0, 7.9), (-1.2, 8.4), (-0.3, 8.9))):
         Xf(sx, sz, j).lathe(acc('stone'), [(0.0, 0.0), (0.26 + 0.03 * (j % 2), 0.0), (0.27, 0.05), (0.24, 0.07), (0.0, 0.07)], 0, -0.4, 0, seg=9)

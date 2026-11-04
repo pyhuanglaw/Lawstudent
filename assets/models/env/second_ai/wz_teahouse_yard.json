@@ -1,0 +1,12 @@
+{
+ "objects": 43,
+ "unique_meshes": 43,
+ "tris": 55572,
+ "tris_drawn": 55572,
+ "materials": 88,
+ "out": "assets/models/env/second_ai/wz_teahouse_yard.glb",
+ "bytes": 5347724,
+ "texres": 512,
+ "yard": true,
+ "YG": -0.42
+}
