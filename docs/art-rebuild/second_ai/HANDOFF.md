@@ -32,7 +32,7 @@
 | ART-SHANLAN-BOOKSTORE-1103 | AA 的室內 v5（3d665b504；refcam 報告 shanlan_v5）是 READY_FOR_REVIEW；開發分支還沒有 | **LAWWW2 自己**；坐地板的姿勢 POSE-FLOOR-READ-1103 是 LAWWW 的，可以並行 | LAWWW2 驗收，再做新生南路店面、兩層導航、出入口、光照 | 同上 | 待開工 |
 | ART-WZ-CAFES-1103 | AA 的木曜日 v3、日常失速 v3 是 READY_FOR_REVIEW；兩顆 GLB 已在開發分支（255d7d91a 以前）；AA617 木曜日已整合待測試 | **LAWWW2 自己** | 日常失速的外觀、區域、導航、出入口、光照；木曜日一樓鐵門、樓梯、外觀 | ⚠️ **LAWWW 的 P1 進行中 AA623-BOARDGAME-TEAM-1103（桌遊團在日常失速長桌）、AA618 卡在這一項**。請 LAWWW-C 決定要不要排在 CAMPUS-RELAYOUT 前面；沒有指示就排在 WZ-FIVE 阿德轉角之後 | 待開工 |
 | ART-XINSHENG-GATE-1103 | 側門、溫州街西側出口已整合（XINSHENG-SIDE-1103，aa8cb5beb）；新生南路街景還是 BLOCKOUT | **LAWWW2 自己** | 立面 `bldg.xinsheng_street`（全部外觀＋公館燒臘，UA-LAWWW2-1103-07）；LAWWW 的 WZ-ENTRY-XINSHENG-1103（拿掉公館巷口）等這一項 | 和 NANYANG、SHANLAN 一起排（同一條街） | 待開工（側門那一半已整合） |
-| GG-SHOPS-REDESIGN-1103 | 使用者 11-03 22:0x 對 AA 說會給 2D 參考圖 | **使用者** | 公館 15 間店的 2D 參考圖 | 每次接班、開始新的主要任務時，看 `docs/story_planning/ref_images/` 有沒有公館的新圖，也看 AA-C 的轉達 | 等待其他AI／素材（真的在等） |
+| GG-SHOPS-REDESIGN-1103 | **更正（使用者 13:3x「我應該有給圖啊」）：我查錯了**，參考圖早就給了——企劃線 `docs/story_planning/ref_images/shops/` 有公館 9 間的外觀＋室內（日和便利店、慢輪單車、青木茶室、頁間書屋、afar、洋洋鹹酥雞、轉角唱片、Daybreak、公館燒臘）；外觀 v1（青木、頁間、日和、慢輪）、afar、Daybreak 已進遊戲 | **LAWWW2 自己** | 把還沒接的接進遊戲：青木室內（AA aoki）、慢輪室內（CC bike）、洋洋（BB）、轉角唱片（CC）、公館燒臘的 noodle 區域 patch（GG-SHOPS-INTEG-1104） | 小路窗景、lane_east 之後就做 | 取消／被取代 → GG-SHOPS-REDO-1104＋GG-SHOPS2-1104（不是等待） |
 
 - 總表裡重複的 ID（同一件事有兩個）：
   - BOOKSTORE-2F-1103 和 ART-SHANLAN-BOOKSTORE-1103
