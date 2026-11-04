@@ -54,7 +54,9 @@ const ENCOUNTERS={
       lines:{acq:['{name}？你怎麼在臺中。','我在幫我媽買東西。清單還有四樣，我先走了。'],friend:['你來臺中，怎麼沒先講？','我媽要的東西還沒買完。你要一起的話，走這邊。'],dating:['你來了也不跟我說。','我五點前要回家吃飯。在那之前，你跟著我。']},
       ex:{apart_life:['嗨。這邊的店都不錯，你慢慢逛。'],apart_lifeNarr:'（她先走了。）',apart_drift:['……{name}。','我在幫我媽買東西。']},src:'AA_271 1、1-1、1-2'},
     // ---- D14 淡水漁人碼頭（語彤：心願 D13 以後，寒暑假的週日；雨天沒有；前任不出現）----
-    {who:'heroine_03',spot:'D14',why:'她坐在渡輪站的長椅上，手上拿著一張回淡水的船票。',days:[0],from:15,to:19,terms:null,vacation:true,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:'ENC_D14_YT',away:'在漁人碼頭',
+    /* AA_684 第 1 項（企劃線 0382b8a34，AA-C 定 D109）：原本 15:00～19:00 撞她週末茶屋的班（13:00～17:00）——改成她下班以後，18:00 起（17:00 下班、搭捷運回淡水）；到 19:00 照舊（characters.js 作息同一筆）。
+       她的句子沒有夕陽；同行的「海風與夕陽」那一項（enc_walk.js D14.sunset）暑假 18:00 以後還看得到，寒假太陽已經下山（freetrip3d.js 那一項灰掉、演不到）——橋上的燈沒有現成的句子，記給 AA */
+    {who:'heroine_03',spot:'D14',why:'她坐在渡輪站的長椅上，手上拿著一張回淡水的船票。',days:[0],from:18,to:19,terms:null,vacation:true,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:'ENC_D14_YT',away:'在漁人碼頭',
       lines:{friend:['你也來這邊？','我在等船。下一班還有二十分鐘。'],dating:['你怎麼也在這。','船還要二十分鐘。你要不要一起坐回淡水。']},src:'AA_271 1、1-1'},
     // ---- D11 新北投（柏翰：大一下～大二下，每學期第 6、7 週週日；大三起週日上午在 D06）----
     {who:'classmate_bohan',spot:'D11',why:'他坐在北投圖書館靠窗的位子，桌上攤著一疊考古題，旁邊放著一個便當。',days:[0],from:10,to:16,terms:['Y1S2','Y2S1','Y2S2'],weeks:[6,7],stageMin:'FAMILIAR',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_BH',away:'在北投讀書',
@@ -108,8 +110,9 @@ const ENCOUNTERS={
     /* AA_675 2-4（AA_661 第 32 列，企劃線 920791094，AA-C 定 D109）：礁溪那一場照 AA_609 第 8 節（學姊一家：媽媽、阿公、奶奶、Alison；發現 Alison 是她妹妹）——
        「爸媽排好了」那一句照它換；相認用 2D：Alison 那幾句放進同一段對話、用她的立繪（{who:'yu'}，encounter3d.js S.meet），3D 場景不多放人；不改成手機訊息（X25）。
        ifFlag：聽 Alison 說過她姊姊在考法研所（HEARD_YU_SISTER，AA_609 8-1）才有那一句旁白；friend 多最後一句（同行照舊）。
-       onceMemo＝打過招呼（記了 ENC_D24_SIS）就不再遇到這一場（舊存檔看過舊版的也不重演）；setFlag＝演完記 KNOWS_SIS_ALISON（舊存檔看過舊版的不設）*/
-    {who:'heroine_05',spot:'D24',why:'她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',onceMemo:true,setFlag:'KNOWS_SIS_ALISON',
+       onceMemo＝打過招呼（記了 ENC_D24_SIS）就不再遇到這一場（舊存檔看過舊版的也不重演）；setFlag＝演完記 KNOWS_SIS_ALISON（舊存檔看過舊版的不設）。
+       AA_684 第 8 項：setMem＝演完在學姊的人物頁另外記一條 KNOWS_SIS_ALISON（「Alison 是她妹妹」，labels 那一條；舊存檔看過舊版的不記），ENC_D24_SIS 的字改回中性 */
+    {who:'heroine_05',spot:'D24',why:'她和家人坐在泡腳池邊：媽媽、阿公、奶奶，還有一個背對你的女生。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',onceMemo:true,setFlag:'KNOWS_SIS_ALISON',setMem:'KNOWS_SIS_ALISON',
       lines:{acq:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是阿哲的同學啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'}],friend:['學弟。……我們一家來泡腳。',{narr:'（那個背對你的女生轉過頭來。是 Alison。）'},{who:'yu',t:'欸？{name}？！你怎麼在這裡！'},{narr:'（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）',ifFlag:'HEARD_YU_SISTER'},'……你們認識？',{who:'yu',t:'他是阿哲的同學啊！……姊，他是妳直屬？'},'嗯。',{who:'yu',t:'（看看你，又看看她）你們都沒說過！'},'妳也沒說。',{who:'yu',t:'……我是想說，又沒人問。'},'坐下來一起泡吧。阿公說人多比較好。'],
         dating:['你怎麼在這裡？',{narr:'（她旁邊的女生轉過頭來。是 Alison。）'},{who:'yu',t:'{name}？！……姊，妳男朋友是他？'},'……我好像沒跟你講過。這是我妹。',{who:'yu',t:'妳都沒講！'},'妳也沒講。',{narr:'（學姊看了你一眼，回去坐好。）'}]},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）；AA_609 第 8 節（AA_675 2-4）'},
     {who:'heroine_02',spot:'D25',why:'她坐在堤防上，手上一台底片相機，等著一道浪。',days:[6],from:14,to:18.5,terms:['Y1S1','Y2S1','Y3S2'],weeks:[4],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D25_ZR',away:'在外澳拍照',
@@ -159,5 +162,6 @@ const ENCOUNTERS={
     ENC_D06_AN:'在美術館遇到她',ENC_D12_YT:'在迪化街遇到她',ENC_D04_ZHE:'在西門町遇到他',ENC_D04_YU:'在西門町遇到她',ENC_D06_BH:'在美術館遇到他',ENC_D04_XC:'在西門町遇到她',
     ENC_D26_AN:'在臺中遇到她',ENC_D14_YT:'在漁人碼頭遇到她',ENC_D11_BH:'在北投的圖書館遇到他',ENC_D01_YU:'在華山遇到她',ENC_D02_XC:'在松菸遇到她',ENC_D29_ZHE:'在高雄駁二遇到他',
     ENC_D01_ZQ:'在華山的市集遇到她',ENC_D02_ZR:'在松菸的書店門口遇到她',ENC_D11_SIS:'在北投圖書館遇到學姊',ENC_D08_PS:'在動物園遇到她',ENC_D10_KX:'在碧潭遇到她',
-    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊一家，Alison 是她妹妹',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她'}
+    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊一家',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她',
+    KNOWS_SIS_ALISON:'Alison 是她妹妹'}   /* AA_684 第 8 項（企劃線 0382b8a34，AA-C 定 D109）：ENC_D24_SIS 改回中性的「在礁溪遇到學姊一家」（舊存檔看過舊版的也是這一條，不會先說出 Alison 是妹妹）；「Alison 是她妹妹」另外一條（學姊的人物頁），新版那一場演過才有（D24 那一列的 setMem）*/
 };

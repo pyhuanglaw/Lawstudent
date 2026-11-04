@@ -1139,6 +1139,10 @@ const STORY = (function(){
      店裡的位子被那天的麵店事件、客人坐滿，spawnAt 找不到空位就不生；那兩天剛好別的事件先演才沒露餡。換一個沒有事件的麵店日，就會是「柏翰說話、人不在」）。
      不在麵店（或還沒生過人：單元測試的假 GM）照舊看作息。測試：node tests/ndl_present_unit.js 第 5 項 */
   S.ndlHere=(G,id)=>{ const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf(id); if(n) return true; if(G.zone==='noodle'&&S._popZone==='noodle') return false; return !!schedFor(id,'noodle',G); };
+  /* AA_684 第 4 項（企劃線 0382b8a34，AA-C 定 D109）：阿哲照作息在公館燒臘（characters.js 週二、四 18:00～19:30 吃晚餐那一筆；不叫麵店日、沒有 ndlDay）。人不在（回高雄、出遠門）＝不在（schedFor 先看 presence）*/
+  S.zheAtNoodle=G=>!!schedFor('zhe','noodle',G);
+  /* zheNdlDay：今天人在燒臘店的時候、阿哲照作息也在（S.tick 在燒臘店裡每一格叫；第三個徵兆「騎樓」events.js ev_yu_sign_question_arcade 讀這個——原本讀麵店日的 ndlDays）。舊存檔沒有＝還沒在過 */
+  S.zheNdlMark=G=>{ const F=G.flags||(G.flags={}); if(G.zone==='noodle'&&F.zheNdlDay!==G.day&&S.zheAtNoodle(G)) F.zheNdlDay=G.day; return F.zheNdlDay===G.day; };
   S.ndlHereAll=(G,e)=>{ const w=(e&&e.who)||[]; return w.length?w.every(id=>S.ndlHere(G,id)):NDL_REGULARS.some(id=>S.knows(id,G)&&S.ndlHere(G,id)); };
   /* once（那一則只演一次，記在 G.flags.ndlTalkOnce）、pri（條件成立的那幾天先挑，不動輪到第幾則）：「別人說起她」加進長桌的那幾則用（AA_503～505，src/heard3d.js 加進 NOODLE_TABLE）*/
   S.ndlTalkPick=function(G){ const T=typeof NOODLE_TABLE!=='undefined'?NOODLE_TABLE:null, k=S.ndlTalkGroup(G), L=T&&k&&T[k]; if(!L||!L.length) return null;
@@ -1243,7 +1247,7 @@ const STORY = (function(){
     if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
     S.phoneAuto(GM);   /* 要回覆的訊息自動打開手機（D103）*/   /* 手機：排定時間的訊息（交接包 v1）*/
     if(typeof PG!=='undefined'){ try{ PG.tick(GM); }catch(e){ console.warn('PG.tick',e); } }   /* 畢業以後（AA_319，src/postgrad3d.js）：國考、第一份工作、尾聲；畢業後篇跳到下一件事 */
-    if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
+    if(G.zone==='noodle'){ noodleRegulars(GM); S.zheNdlMark(G); }   /* 麵店的固定客人：時間到了進來、離開。S.zheNdlMark：AA_684 第 4 項（第三個徵兆「騎樓」）*/
     if(typeof TRIP!=='undefined'&&TRIP.at(G)){ TRIP.tick(GM); return; }
     if(typeof EXCH!=='undefined'&&EXCH.tick&&EXCH.tick(GM)) return;   /* 交換的最小流程（src/exchange3d.js）：出發日、宿舍的志願表 */   /* 自由出行途中（DL-06）：在外面的時候校園的事件不發生 */
     if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回家（AA_154 A16）*/
