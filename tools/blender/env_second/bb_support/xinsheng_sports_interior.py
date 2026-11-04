@@ -463,7 +463,7 @@ wall_band('back', 1, Y1, HT, XI0, XI1).done()
 FR = LAY['front']; dx, dw = FR['door']['x'], FR['door']['w']
 fh = [(dx - dw / 2, dx + dw / 2, 0.0, 2.4)] + [(a, b, FR['sill'], FR['head']) for a, b in FR['windows']]
 wall_band('front', 0, 0.0, Y1, XI0, XI1, fh).done()
-UP = FR['upper']; wall_band('front', 1, Y1, HT, XI0, XI1, [(-6.9, 6.9, UP['y0'], UP['y1'])]).done()
+UP = FR['upper']; wall_band('front', 1, Y1, HT, XI0, XI1, [(UP['x0'], UP['x1'], UP['y0'], UP['y1'])]).done()
 # 樓梯東側的牆（一樓：z −2.055～3.3 到樓板底；樓板以上：z 0～3.3 到天花板）
 fw = Part('fin', smooth=False); fw['wall'].box(FIN0, FIN1, 0.0, YB, HOLE['z0'], ST['z1']); fw['wall'].box(FIN0, FIN1, YB, HT, 0.0, ST['z1'])
 fw['stone'].box(FIN0 - 0.012, FIN0, 0.0, 0.1, ST['z1'] - 0.01, ST['z1'] + 0.6); fw.done()
@@ -506,8 +506,8 @@ for a, b, k in sorted([(a, b, 'win') for a, b in FR['windows']] + [(dx - dw / 2,
 pf.done()
 pfu = Part('front_upper', lv=1, side='front')
 for k in range(12):
-    x = -6.9 + 13.8 * k / 11; crb(pfu['vcm'], x - 0.03, x + 0.03, UP['y0'], UP['y1'], ZI1 - 0.04, Z1 - 0.03, ALU, r=0.006)
-pfu['glass'].quad([(6.9, UP['y0'], Z1 - 0.07), (-6.9, UP['y0'], Z1 - 0.07), (-6.9, UP['y1'], Z1 - 0.07), (6.9, UP['y1'], Z1 - 0.07)])
+    x = UP['x0'] + (UP['x1'] - UP['x0']) * k / 11; crb(pfu['vcm'], x - 0.03, x + 0.03, UP['y0'], UP['y1'], ZI1 - 0.04, Z1 - 0.03, ALU, r=0.006)
+pfu['glass'].quad([(UP['x1'], UP['y0'], Z1 - 0.07), (UP['x0'], UP['y0'], Z1 - 0.07), (UP['x0'], UP['y1'], Z1 - 0.07), (UP['x1'], UP['y1'], Z1 - 0.07)])
 pfu.done()
 pbd = Part('backdoor', side='back'); cm = pbd['vcm']                                    # 後門（玻璃雙開門，外面是亮的巷子；關著）
 for x in (bdx0, (bdx0 + bdx1) / 2, bdx1): crb(cm, x - 0.035, x + 0.035, 0.0, BD['h'], ZI0, ZI0 + 0.06, ALU, r=0.006)
