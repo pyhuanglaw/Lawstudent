@@ -1,0 +1,40 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 306d149e4..72338e561 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1893,7 +1893,7 @@ const Z3 = (function(){
+   /* 室內共用的建法（三間都一樣；導航格 0.2 m：配置的走道 0.8 m（便利店貨架之間、茶室窗邊椅子後面），0.4 m 的格子會把走道整條吃掉）：k＝區域 id、L＝配置、o：{label 出口的字、warm、floor 備用地板色、winXs／winW／winH／winY／view／viewDepth（窗外的景）、glb 資產 key、attach 接完正式模型以後、study 座位能不能讀書、seatR、shop 座位的 shop 值} */
+   function ggRoom(E,k,L,o){ const IN=SHOP_IN[k]; ggReg();
+     const z=room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,warm:!!o.warm,wallColor:L.wallColor||'#efe6d6',floorTex:W3.stoneTex(o.floor||'#d8d3c8'),spawn:inSp(k),windows:o.winXs&&o.winXs.length?undefined:false,winWall:'front',winXs:o.winXs,winW:o.winW,winH:o.winH,winY:o.winY,view:o.view,viewDepth:o.viewDepth});
+-    const g0=z.group, nav=z.nav; z.gg=k;
++    const g0=z.group, nav=z.nav; z.gg=k; z.ggView=!!o.view;   /* 有遊戲窗景（view）：模型裡的靜態窗景圖（WALL_*_VIEW）藏起來 */
+     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const c of g0.children.slice()){ if(c.isLight) continue; g0.remove(c); fb.add(c); } g0.add(fb);   /* 正式模型來了整組藏起來 */
+     const onSeat=b=>(L.seats||[]).some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05);   /* 椅子、高腳椅本身不擋路（便利店的配置把座位也列進 blocks；溫州街、118 巷的店都不擋座位：坐下要走到椅子旁邊）*/
+     const fbM=M('#a88b6a',{rough:0.8}); for(const b of L.blocks||[]){ if(onSeat(b)) continue; nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]); fb.add(m); }   /* 備用的家具色塊 */
+@@ -1914,7 +1914,8 @@ const Z3 = (function(){
+   /* AA 的兩間（頁間、青木）：GLOW_* 空節點＝燈的光暈（合成一個網格，照路燈開了沒切白天／晚上，和體育館一樣）；窗外的景是模型裡的一張圖（WALL_front_VIEW_*）：晚上調暗（和木曜日的街景卡一樣）*/
+   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+-    const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
++    if(z.ggView) root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) o.visible=false; });   /* GG-VIEWS-1104：用遊戲的兩層窗景（有夜景、會跟著走動視差）*/
++    const vm=[]; root.traverse(o=>{ if(o.isMesh&&o.visible&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
+     if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){ m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
+       if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }
+     return root; }
+@@ -1925,12 +1926,14 @@ const Z3 = (function(){
+     E.interactables.push({x:ck.x,z:ck.z,radius:1.1,label:ck.label,shop:'cvs'});   /* 結帳（照舊 story3d.js 的 shop:'cvs'）。配置的熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃這一版不接：稿上沒有那幾句（缺台詞）*/
+     return z; }
+   function buildYejian(E){ const L=GG_L.bookstore();
+-    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true,ap:s=>s.table===4?[3.45,-3.05]:null});   /* 沙發（table 4）：前面的茶几離沙發只有 0.3 m、東邊被盆栽擋住，從茶几西端 (3.45,−3.05) 走近 */   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
++    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true,winXs:[-1.0],winW:9.2,winH:2.3,winY:1.7,view:'yejian',viewDepth:12,   /* GG-VIEWS-1104（LAWWW2）：窗外改用遊戲裡拍的兩層窗景（白天／晚上；tools/shots/shop_views_layers.py 的 yejian），模型裡那張靜態圖藏起來（ggAAattach）*/
++      ap:s=>s.table===4?[3.45,-3.05]:null});   /* 沙發（table 4）：前面的茶几離沙發只有 0.3 m、東邊被盆栽擋住，從茶几西端 (3.45,−3.05) 走近 */   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
+     const law=L.interact.find(q=>q.kind==='shelf_law');
+     E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）。看書牆、看新書、點咖啡這一版不接：稿上沒有那幾句（缺台詞）*/
+     return z; }
+   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
+-    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',noSit:s=>s.table===5&&s.z<-1.6});   /* 最裡面四人桌（table 5）北側兩張：桌子到吧台西端、到書櫃都只有 0.6 m，人（半徑 0.32）走不進去——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */   /* 不能讀書（照一盞茶屋；AA_647 沒有寫可以）；窗外的景在模型裡 */
++    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,winXs:[0.33],winW:3.2,winH:1.71,winY:1.645,view:'aoki',viewDepth:12,   /* GG-VIEWS-1104：同上（shop_views_layers.py 的 aoki）*/
++      seatR:0.8,shop:'aoki',noSit:s=>s.table===5&&s.z<-1.6});   /* 最裡面四人桌（table 5）北側兩張：桌子到吧台西端、到書櫃都只有 0.6 m，人（半徑 0.32）走不進去——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */   /* 不能讀書（照一盞茶屋；AA_647 沒有寫可以）；窗外的景在模型裡 */
+     const od=L.interact.find(q=>q.kind==='order');
+     E.interactables.push({x:od.x,z:od.z,radius:0.9,label:od.label,shop:'tea'});   /* 點茶＝原本門口外帶的三種茶（story3d.js counter(GM,'清葉茶行',…)：熟客次數、SQ18 的 key 照舊）。看書櫃、看茶具櫃、看茶罐這一版不接：稿上沒有那幾句（缺台詞）*/
+     return z; } };
