@@ -25,7 +25,7 @@ GM.toast=()=>{}; GM.studySession=async()=>{}; GM.spawnNPC=()=>null; GM.spawnChar
 check('0. LIBQ 載得進來',typeof LIBQ!=='undefined'&&typeof LIBQ.gate==='function'&&typeof LIBQ.whisper==='function');
 /* game3d.js 的 say、caption：說出口以前先過 LIBQ.whisper（同一行程式碼，這裡照抄到假的 GM 上）*/
 const g3=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
-check('0. game3d.js 的 say、caption 過 LIBQ.whisper；doInteract 說話前問 LIBQ.gate',/function say\(who,text,opts\)\{[^\n]*LIBQ\.whisper\(GM,who,text\)/.test(g3)&&/function caption\(who,text,ms\)\{[^\n]*LIBQ\.whisper\(GM,who,text\)/.test(g3)&&/if\(it\.onInteract\)\{[^\n]*LIBQ\.gate\(GM,it\.npc\)\) return;[^\n]*it\.onInteract\(it\)/.test(g3));
+check('0. game3d.js 的 say、caption 過 LIBQ.whisper；doInteract 說話前問 LIBQ.gate（之後走 GM.guardTalk＝BUG-TALK-STUCK-1104 的保護，裡面照舊 it.onInteract(it)）',/function say\(who,text,opts\)\{[^\n]*LIBQ\.whisper\(GM,who,text\)/.test(g3)&&/function caption\(who,text,ms\)\{[^\n]*LIBQ\.whisper\(GM,who,text\)/.test(g3)&&/if\(it\.onInteract\)\{[^\n]*LIBQ\.gate\(GM,it\.npc\)\) return;[^\n]*(it\.onInteract\(it\)|GM\.guardTalk\(it\))/.test(g3));
 const say0=GM.say; GM.say=async(who,t,o)=>say0(who,LIBQ.whisper(GM,who,t),o);
 const caps=[]; GM.caption=(who,t)=>{ caps.push(who?LIBQ.whisper(GM,who,t):t); };
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);

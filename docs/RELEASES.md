@@ -54,6 +54,17 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
+## v9.10.19.1 熱修（2026-11-04；main e1603907e＋兩個修正；BB 11-04 02:11 GO）
+
+**為什麼**：使用者 11-04 回報「跟別人講話或者約會就卡住」（USER_WANTS X204、BUG-TALK-STUCK-1104）——在總圖多媒體中心找芷若說話，對話停住、人不能動。CC 在使用者電腦用使用者存檔重現（線上 main 也卡），console「c.attended.every is not a function」：閒聊階梯芷若 Z-L3 的條件 attended:{course:'econ_principles_1',min:1}（上過經原幾次）被 EVENTS.cond 當成陣列。
+**內容（只有這些，開發分支其他東西都不帶）**：
+- `src/events3d.js`：EVENTS.cond 的 attended 物件＝課表出席次數（CLS.rec.attend）、字串＝一個活動 id、陣列照舊（開發分支 27929f2a8；tests/cond_attended_course_unit.js，ladder.js 711 個條件全掃不丟例外）。
+- `src/game3d.js`：和人說話走 GM.guardTalk——途中丟例外就把這一次開的段落收掉、ADV 關掉、記 GAME.lastTalkError（不吞）；同一個人還在講又按一次不開第二段（74c1ffb37；tests/talk_guard_unit.js）。
+- 版本字樣 v9.10.19.1（309 處 ?v=9.10.19.1、README）。
+**GO 依據（BB 02:11，PC＝Windows＋GPU、Playwright 有視窗，不是 iPhone 實機；測試樹 fd8d447d2）**：HOT_stuck（使用者存檔：芷若整段演完、可以約念書、人能動、lastTalkError 空，另 9 條路徑）、HOT_soc_zr（47 項）、HOT_soc_talk（以安、子晴、學姊、阿哲、Alison、柏翰、阿凱，FAIL 0）、HOT_deploy（v9.10.19.1、?v= 一致）、HOT_p0、HOT_smoke、HOT_v7 全部 ALL PASS；對照組 e1603907e 跑 STUCK 照樣 FAIL。
+**已知、不擋**：語彤只驗到 1 項（探針在校園找不到她的時段，之後補專測）；芷若完整組「當面約一趟」的探針問題重跑中。
+**回復目標**：v9.10.19 `e1603907e`。
+
 ## v9.10.18（2026-11-03 12:09 UTC 合併 `e8b6a84dd`，PR [pyhuanglaw/Lawstudent#24](https://github.com/pyhuanglaw/Lawstudent/pull/24)；BB 11-03 12:03 GO；GitHub Pages run 41633308118）
 
 **候選＝基準**：開發分支 `ffeec06e0`。**發布樹** `0776cafc8`＝基準＋版本字樣（index.html `?v=9.10.18`、標題「版本 v9.10.18（2026-11-03）」、README）。PR head `147d43439`：GO 以後進開發分支的三個修正（宿營讀檔 `debb001c4`、201 紙袋 `0527e6ebc`、研究小間 `4cf116b0c`）先暫時退出，`git diff 0776cafc8 147d43439 -- src tests lib assets index.html README.md` 空；發布後加回（`c9f017092`）。
