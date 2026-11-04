@@ -1,0 +1,12 @@
+{
+  "why": "browser.close",
+  "pages": [
+    {
+      "page": 1,
+      "state": {
+        "href": "about:blank",
+        "game": null
+      }
+    }
+  ]
+}

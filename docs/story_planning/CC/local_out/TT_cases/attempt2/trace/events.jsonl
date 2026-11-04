@@ -1,0 +1,9 @@
+{"t": 1793797625.737, "rel": 1.4, "kind": "context_open", "ctx": 1, "page": null}
+{"t": 1793797626.007, "rel": 1.67, "kind": "page_open", "ctx": 1, "page": 1, "url": "about:blank"}
+{"t": 1793797626.731, "rel": 2.39, "kind": "fail_line", "ctx": null, "page": null, "text": "FAIL B 文字是「錯的預期」  實際 按過了：祐廷"}
+{"t": 1793797626.828, "rel": 2.49, "kind": "trace_chunk", "ctx": 1, "page": null, "chunk": 1, "bad": true, "until": "flush: browser.close", "bytes": 31201}
+{"t": 1793797626.838, "rel": 2.5, "kind": "trace_chunks", "ctx": 1, "page": null, "kept": ["trace_TT_cases_1_c001_FAIL.zip"], "dropped": 0, "error": null}
+{"t": 1793797626.861, "rel": 2.52, "kind": "close", "ctx": 1, "page": 1, "url": "about:blank"}
+{"t": 1793797626.906, "rel": 2.57, "kind": "browser_disconnected", "ctx": null, "page": null, "expected": true}
+{"t": 1793797627.287, "rel": 2.95, "kind": "fail_line", "ctx": null, "page": null, "text": "FAILED 1: B 文字是「錯的預期」"}
+{"t": 1793797627.288, "rel": 2.95, "kind": "process_end", "ctx": null, "page": null, "why": "sys.exit(1)"}

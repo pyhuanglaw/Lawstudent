@@ -1,0 +1,169 @@
+{
+  "id": "TT_cases",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_cases.py",
+  "script_from": null,
+  "script_blob": [
+    "689c08f6d9fdd88cbe2d93a0c7b74faaec2692c1",
+    "689c08f6d9fdd88cbe2d93a0c7b74faaec2692c1"
+  ],
+  "cc_testing_sha": "4aa1dbb44",
+  "runner": "6f08f2eb23",
+  "final": "FAIL",
+  "class": "UNKNOWN",
+  "class_sub": "assert",
+  "basis": [
+    "探針斷言 FAIL 1 行（B 文字是「錯的預期」），兩次一致；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "d2e36f6eb",
+      "d2e36f6eb"
+    ],
+    "script_blob": [
+      "689c08f6d9fdd88cbe2d93a0c7b74faaec2692c1",
+      "689c08f6d9fdd88cbe2d93a0c7b74faaec2692c1"
+    ],
+    "input_hash": [
+      "9fa1f54107ca81d2",
+      "9fa1f54107ca81d2"
+    ],
+    "cases": [
+      "(探針預設)",
+      "B"
+    ]
+  },
+  "rerun_scope": "只重跑 FAIL 的 CASE B（第一次跑了 A,B；前置操作照探針原樣做）",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 4,
+      "fails": [
+        {
+          "line": "FAIL B 文字是「錯的預期」  實際 按過了：祐廷",
+          "name": "B 文字是「錯的預期」",
+          "info": "實際 按過了：祐廷"
+        }
+      ],
+      "dir": "attempt1",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=1 跑 <REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_cases.py http://127.0.0.1:8801/index.html <REPO>\\docs\\story_planning\\CC\\local_out\\TT_cases\\out",
+        "  這一次的 CASES=A,B",
+        "  [前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）",
+        "== A 一定會過",
+        "PASS A 文字有變",
+        "== B 一定會 FAIL",
+        "FAIL B 文字是「錯的預期」  實際 按過了：祐廷",
+        "FAILED 1: B 文字是「錯的預期」"
+      ],
+      "err_tail": [
+        "[gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_cases]",
+        "[gpu_wrap 3.0s] page close url=about:blank",
+        "[gpu_wrap 3.0s] BROWSER DISCONNECTED"
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 4,
+      "fails": [
+        {
+          "line": "FAIL B 文字是「錯的預期」  實際 按過了：祐廷",
+          "name": "B 文字是「錯的預期」",
+          "info": "實際 按過了：祐廷"
+        }
+      ],
+      "dir": "attempt2",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=1 跑 <REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_cases.py http://127.0.0.1:8801/index.html <REPO>\\docs\\story_planning\\CC\\local_out\\TT_cases\\attempt2\\out",
+        "  這一次的 CASES=B",
+        "  [前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）",
+        "== B 一定會 FAIL",
+        "FAIL B 文字是「錯的預期」  實際 按過了：祐廷",
+        "FAILED 1: B 文字是「錯的預期」"
+      ],
+      "err_tail": [
+        "[cc_trace 0.2s] CC_TRACE on: <REPO>\\docs\\story_planning\\CC\\local_out\\TT_cases\\attempt2\\trace",
+        "[gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_cases]",
+        "[gpu_wrap 3.0s] page close url=about:blank",
+        "[gpu_wrap 3.1s] BROWSER DISCONNECTED"
+      ]
+    }
+  ],
+  "js_errors": [],
+  "js_errors_gpu_wrap": [
+    "BROWSER DISCONNECTED\r",
+    "BROWSER DISCONNECTED\r"
+  ],
+  "state": [
+    {
+      "ctx_why": "browser.close",
+      "page": 1,
+      "state": {
+        "href": "about:blank",
+        "game": null
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "156.0.8078.4"
+    ],
+    "playwright": "1.64.1",
+    "gpu_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "headless": [
+      true
+    ],
+    "os": "Windows 11",
+    "cc_gpu": "1",
+    "slot": 2
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8801/index.html",
+    "setup_lines": 2,
+    "setup_first": [
+      "[前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）",
+      "[前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）"
+    ],
+    "load_save": 0
+  },
+  "screenshots": [],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_TT_cases_1_c001_FAIL.zip",
+      "bytes": 31149,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/run.log",
+      "attempt2/run.log"
+    ],
+    "zip_entries_rewritten": 1,
+    "left_hits": [],
+    "slim": {
+      "attempt2/trace/trace_TT_cases_1_c001_FAIL.zip": {
+        "before": 31201,
+        "dropped_bodies": 0,
+        "dropped_bytes": 0,
+        "frame_step": 1,
+        "frames": 4,
+        "after": 31201
+      }
+    }
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}

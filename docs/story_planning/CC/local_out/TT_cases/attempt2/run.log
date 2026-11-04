@@ -1,0 +1,6 @@
+[gpu_wrap] CC_GPU=1 跑 <REPO>\docs\story_planning\test_tools\cc\selftest\st_cases.py http://127.0.0.1:8801/index.html <REPO>\docs\story_planning\CC\local_out\TT_cases\attempt2\out
+  這一次的 CASES=B
+  [前置／捷徑] 自測頁（每個 CASE 都做同樣的前置：填名字、按按鈕）
+== B 一定會 FAIL
+FAIL B 文字是「錯的預期」  實際 按過了：祐廷
+FAILED 1: B 文字是「錯的預期」
