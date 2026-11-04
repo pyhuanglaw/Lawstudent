@@ -110,3 +110,11 @@
 [23:26:17] [res] cpu=42% mem=36% (11.4/31.4 GB) chrome_testing=0  START WZ4_yizhan_r4_e9b3
 [23:26:38] worktree add 048b4c898693415e2bad1b1968000a9d8400ca62: invalid reference - fetching main and the commit itself
 [23:31:01] [res] cpu=35% mem=48% (15.2/31.4 GB) chrome_testing=20  END V20_slice_0e2c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       f4af2d281..3206c6662  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:31:10] ==== END   V20_slice_0e2c  exit=0  288s   ====
+[23:31:13] 正在跑：WZ4_yizhan_r4_048b（已跑 4 分／上限 20 分）、WZ4_yizhan_r4_e9b3（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:31:15] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[23:36:13] 正在跑：WZ4_yizhan_r4_048b（已跑 9 分／上限 20 分）、WZ4_yizhan_r4_e9b3（已跑 9 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:37:51] [res] cpu=28% mem=42% (13.3/31.4 GB) chrome_testing=10  END WZ4_yizhan_r4_e9b3

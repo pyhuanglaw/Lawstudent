@@ -1,0 +1,36 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ4_yizhan_r4_e9b3\out
+PASS 遊戲載入
+== YARD 一盞前院（冠木門旁白、五個互動點）
+  [前置／捷徑] 讀檔時設 WZ_CAT_FOUND（找到貓了、還沒收養）＝貓碗看得到；WZ_TEA_YARD_IN 不設（第一次進前院）
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 2.4)、1400、條件事件照常（只關手機自動打開）、WZ_CAT_FOUND
+PASS [YARD1] 溫州街有「進去一盞」  {"x": -20.5, "z": 4.6, "r": 1.4, "label": "進去一盞"}
+  [   2.8s] 到達「進去一盞」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [YARD1] 進門之前：{"zone": "wenzhou", "flag_WZ_TEA_YARD_IN": false, "pos": [-20.5, 4.36], "yardZ": "undefined", "spawn": {"x": 44, "z": -1, "yaw": -1.5707963267948966}, "toast": "", "caption": "", "onEnter": [], "yardIntro": [], "posAfter": [], "gameEnter": [], "invArrive": [], "wzlSearch": [], "reachedYardIntro": "onEnter 沒叫到 wz_teahouse"}
+  [YARD1] 進門方式：走到溫州街的「進去一盞」(-20.5, 4.6) 按互動鈕（玩家操作，不是讀檔／GAME.enter）
+  [YARD1] 進門之後：{"zone": "wz_teahouse", "flag_WZ_TEA_YARD_IN": false, "pos": [-3, 9], "yardZ": 6.35, "spawn": {"x": -3, "z": 9, "yaw": 3.141592653589793}, "toast": "", "caption": "", "onEnter": [{"t": 49.98, "zone": "wz_teahouse", "fromLoad": false, "opts": []}], "yardIntro": [{"t": 49.98, "flag": false, "zoneId": null, "pz": 9, "px": -3, "yardZ": 6.35, "ret": false}], "posAfter": [{"after": 0.5, "x": -3, "z": 9}], "gameEnter": [], "invArrive": [{"t": 49.98, "zone": "wz_teahouse", "ret": false}], "wzlSearch": [], "reachedYardIntro": "有走到 yardIntro"}
+FAIL [YARD] 第一次從冠木門進來：旁白逐字＝AA_659  ""
+  前院互動點：[{"x": 0.4, "z": 7.7, "r": 1, "label": "看院子", "kind": "garden"}, {"x": -0.85, "z": 8.9, "r": 1, "label": "看石燈籠", "kind": "lantern"}, {"x": 2.95, "z": 8.75, "r": 1, "label": "看樟樹", "kind": "camphor"}, {"x": 3.95, "z": 7.9, "r": 1, "label": "看貓碗", "kind": "catbowl"}, {"x": -2, "z": 8.4, "r": 1, "label": "看門口的木牌", "kind": "gatesign"}]
+PASS [YARD] 五個互動點都在（看院子、石燈籠、樟樹、貓碗、木牌）  ["garden", "lantern", "camphor", "catbowl", "gatesign"]
+  [ 122.5s] 走不到「看院子」：最後位置 (-0.08,8.4)，目標 (0.4,7.7)；點地面 41 次、轉鏡頭 2 次、搖桿 2 次
+  [ 122.5s]   這段時間：畫面 7139 格／122 秒、遊戲時間 14.17→14.99、paused=False、開著的面板 []
+PASS [YARD_garden] 走到旁邊：按鈕「看院子」  {"interact": "看院子", "x": -0.08, "z": 8.4}
+PASS [YARD_garden] 台詞逐字＝AA_659  ["杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。"]
+  [   2.7s] 到達「看石燈籠」附近（0.03 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [YARD_lantern] 走到旁邊：按鈕「看石燈籠」  {"interact": "看石燈籠", "x": -0.87, "z": 8.88}
+PASS [YARD_lantern] 台詞逐字＝AA_659  ["（石燈籠的小窗口裡積了一點落葉。笠上長了一圈青苔。）"]
+  [  95.7s] 到達「看樟樹」附近（0.29 m）：點地面 33 次、轉鏡頭 1 次、搖桿 2 次，96 秒
+PASS [YARD_camphor] 走到旁邊：按鈕「看樟樹」  {"interact": "看樟樹", "x": 2.89, "z": 8.47}
+PASS [YARD_camphor] 台詞逐字＝AA_659  ["（老樟樹的樹幹比你兩隻手合抱還粗。樹皮一條一條裂開，摸起來是乾的。）"]
+  [  97.3s] 到達「看貓碗」附近（0.32 m）：點地面 34 次、轉鏡頭 1 次、搖桿 2 次，97 秒
+PASS [YARD_catbowl] 走到旁邊：按鈕「看貓碗」  {"interact": "看貓碗", "x": 3.68, "z": 8.07}
+PASS [YARD_catbowl] 台詞逐字＝AA_659  ["（樟樹下放著一個小碗，裡面的水是新換的。旁邊的石頭上黏著一小撮橘白色的毛。）"]
+  [ 120.4s] 走不到「看門口的木牌」：最後位置 (-1.34,7.86)，目標 (-2,8.4)；點地面 38 次、轉鏡頭 3 次、搖桿 2 次
+  [ 120.4s]   這段時間：畫面 14501 格／120 秒、遊戲時間 16.40→17.20、paused=False、開著的面板 []
+PASS [YARD_gatesign] 走到旁邊：按鈕「看門口的木牌」  {"interact": "看門口的木牌", "x": -1.34, "z": 7.86}
+PASS [YARD_gatesign] 台詞逐字＝AA_659  ["（門柱上掛著一塊木牌，寫著「一盞」。字被太陽曬得有點淡了。）"]
+  [  46.6s] 到達「離開一盞」附近（0.28 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，47 秒
+FAIL [YARD] 出來以後 WZ_TEA_YARD_IN 已經記下
+  [   0.0s] 到達「進去一盞」附近（0.50 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [YARD] 第二次進冠木門：沒有旁白  ""
+PASS 沒有 JS 例外  []
+FAILED 2: [YARD] 第一次從冠木門進來：旁白逐字＝AA_659；[YARD] 出來以後 WZ_TEA_YARD_IN 已經記下
