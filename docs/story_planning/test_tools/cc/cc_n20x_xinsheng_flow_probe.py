@@ -20,14 +20,15 @@ CASES：
   二樓有名字的台詞都要有「（小聲）」（order、date_zr 裡檢查）
   nichijo_*（日常失速 wz_offbeat，27970f958 起；AA_618 第 2 節＋AA_648）：enter ① 走進店門（第一次的旁白）／order ② 五個選項各讀檔一次（扣錢、旁白）／
      cat ③ 看看兩次、摸摸兩次／game ④ 照作息挑朋友在的時段（[前置／捷徑]）→ 玩桌遊 → 回到自由移動／close ⑤ 00:56 在店裡跨過 01:00、01:24 和 11:00 在店外按入口／
-     final ⑥ 大一上期末最後一科考完那晚（CLS.lastExamEnd；條件事件照開）走進店裡 → ev_term_last_meal → 坐位、演完、回到自由移動。每一段都做卡住檢查、印 transcript
+     final ⑥（_y2／_y3／_y4 換年級）期末最後一科考完那晚（CLS.lastExamEnd(G,'Y?S1')；條件事件照開）走進店裡 → 驗收照 AA_648 §6：①長桌坐得下 ②揪的人在 ③玩家坐揪的人旁邊
+       ④有名字最多 6、空位的不認識同學不講話 ⑤演完都起身、自由移動（27970f958 還沒接＝對照組預期 FAIL）。每一段都做卡住檢查、印 transcript
   facade（BB 追加，d5138cd27 起有正式立面 74557a245）：側門往南、往北各一張；沿騎樓走到 layout 七家店門口（山嵐、南洋、大口漢堡、同弦、大步、好拍、新生運動廣場），
      跟隨鏡頭轉向店門截圖、記互動按鈕；再走「往溫州街」拍日常失速（W2 轉角，還沒有 3D）、木曜日（B4）。只拍紀錄，不判 FAIL（換區那一步照 go_exit 檢查）。
 每一段記：區域換對沒（GAME.G.zone／E.zone）、出生點（E.lastSpawn 的 fixed 和要求的位置差多少、站得住、搖桿推一下有沒有位移）、
   GAME.walkFallbacks（要 0）、JS 例外（pageerror）。
 只記狀態、不算 FAIL：新生南路是 BLOCKOUT（沒有正式立面）；木曜日點餐／書櫃／唱片機／海報還沒接；公館往溫州街的巷子還在；鏡頭射線（WARN）；出生點落在出口按鈕範圍內（WARN）。
 Playwright 手機模擬（橫向 844×390），不是 iPhone 實機。
-用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade,closed,order,date_zr,rain,names,nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade,closed,order,date_zr,rain,names,nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final,nichijo_final_y2,nichijo_final_y1s2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
 import os, sys, json, math, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -938,45 +939,148 @@ async def case_nichijo_close(pg, cdp, errs):
         check('nichijo⑤ %s：沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
 
 
-async def case_nichijo_final(pg, cdp, errs):
-    print('== nichijo_final ⑥ 大一上期末最後一科考完那晚：日常失速長桌聚餐（ev_term_last_meal）', flush=True)
-    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, 15.0, why='先讀一次檔，讓遊戲算大一上期末最後一科考完的時間')
-    e = await pg.evaluate("(()=>{ try{ return CLS.lastExamEnd(GAME.G,'Y1S1','final'); }catch(err){ return {err:String(err)}; } })()")
-    print('  CLS.lastExamEnd(Y1S1, final)：%s' % J(e), flush=True)
-    if not check('nichijo⑥ 前置：算得出大一上期末最後一科考完的時間', bool(e) and 'day' in e, J(e)): return
+# ⑥ 期末聚餐：驗收照 AA_648 §6（企劃線 adf1c2f78，BB 11-04）——「照期中那場接 OFFB.stage／S.cast」：
+#   長桌七個人；當年揪的人一定在（大一阿哲、大二 Alison、大三芯慈、大四阿哲）；其他是玩家認識的人照認識程度，加起來最多六個（含揪的人）；
+#   坐不滿＝不認識的同學坐空位（不說話）；揪的人坐一端、玩家坐揪的人旁邊。27970f958 還沒接（participants []、沒有 stage）＝對照組，預期 FAIL。
+FINAL_YEARS = {1: ('Y1S1', 'zhe'), 2: ('Y2S1', 'yu'), 3: ('Y3S1', 'classmate_xinci'), 4: ('Y4S1', 'zhe'), 12: ('Y1S2', 'zhe'), 22: ('Y2S2', 'yu')}   # 12＝大一下、22＝大二下（BB 11-04：548676a3a 驗 Y1S1、Y1S2、Y2S1、Y2S2）
+FINAL_KNOWN = ['zhe', 'yu', 'classmate_xinci', 'classmate_bohan', 'classmate_mingxuan', 'classmate_peishan', 'kai', 'heroine_01', 'heroine_03']
+SEATSNAP = """(()=>{ const E=GAME.E, P=E.player, L=DAILY_OFFBEAT_LAYOUT, LT=L.seats.filter(q=>q.table===1);
+  const onLong=s=>!!s&&LT.some(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.3), idx=s=>s?LT.findIndex(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.3):-1;
+  const known=id=>{ try{ return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage(id)!=='STRANGER':true; }catch(e){ return null; } };
+  const nm=n=>{ try{ return n.charId&&typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(n.charId):(n.name||''); }catch(e){ return n.name||''; } };
+  const ps=P.seat?{x:+P.seat.x.toFixed(2),z:+P.seat.z.toFixed(2)}:null;
+  const npcs=(E.npcs||[]).filter(n=>n&&!n.clerk&&!n.offClerk).map(n=>({id:n.charId||null, name:nm(n), extra:!!n.isExtra, known:n.charId?known(n.charId):false,
+    seat:n.seat?{x:+n.seat.x.toFixed(2),z:+n.seat.z.toFixed(2)}:null, long:onLong(n.seat), i:idx(n.seat), pose:n.pose||null}));
+  return {player:{seat:ps, long:onLong(P.seat), i:idx(P.seat), pose:P.pose}, npcs, longSeats:LT.map(q=>[q.x,q.z]), running:(typeof EVENTS!=='undefined'&&EVENTS.running&&EVENTS.running.id)||null}; })()"""
+
+
+async def final_case(pg, cdp, errs, year):
+    term, host = FINAL_YEARS[year]; tag = 'nichijo⑥ %s' % term
+    print('== nichijo_final ⑥ %s 期末最後一科考完那晚：日常失速長桌（AA_648 §6；揪的人 %s）' % (term, host), flush=True)
+    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, 15.0, why='先讀一次檔，讓遊戲算 %s 期末最後一科考完的時間' % term)
+    info = await pg.evaluate("""(t=>{ let e=null; try{ e=CLS.lastExamEnd(GAME.G,t,'final'); }catch(err){ e={err:String(err)}; }
+      const evs=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).filter(x=>/^ev_term_last_meal/.test(x.id)&&(x.term||[]).includes(t)&&!x.retired).map(x=>({id:x.id, loc:x.location, time:x.time, participants:x.participants}));
+      return {e, evs, cast:(typeof OFFB!=='undefined'&&OFFB.cast)?Object.keys(OFFB.cast):null}; })(%s)""" % J(term))
+    print('  CLS.lastExamEnd(%s, final)＋這學期的期末聚餐事件：%s' % (term, J(info)), flush=True)
+    e = info['e']
+    if not check('%s 前置：算得出 %s 期末最後一科考完的時間' % (tag, term), bool(e) and 'day' in e, J(e)): return
+    if not info['evs']: obs('%s：%s 沒有 ev_term_last_meal* 事件（offbeat_sys3d.js：「大三、大四原本沒有這一場，照不另外加不加」；AA_648 §6 列了大三芯慈、大四阿哲）' % (tag, term))
+    evid = info['evs'][0]['id'] if info['evs'] else None
     h = max(17.1, (e.get('h') or 0) + 0.1)
-    more = {'flags': dict(FLAGS, noodleTableDay=5)}
+    social = {'rel': {i: {'fam': 45 - 3 * k, 'trust': 30, 'aff': 28, 'resp': 20, 'comf': 28, 'rom': 0, 'npcRom': 0, 'seen': 10, 'talked': 10} for k, i in enumerate(FINAL_KNOWN)},
+              'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+    more = {'flags': dict(FLAGS, noodleTableDay=5), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
     await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, dayn=e['day'], quiet=False,
-                why='最後一科考完那天 %.2f；flags.noodleTableDay＝5（麵店團成立，事件的前提）；大家都認識' % h, extra=ob_extra(first=False, social=True, more=more))
+                why='%s 最後一科考完那天 %.2f；flags.noodleTableDay＝5；認識 %s（認識程度依序遞減）' % (term, h, '、'.join(FINAL_KNOWN)), extra=dict(ob_extra(first=False), **more))
     await observers(pg); await drain(pg, cdp, 60)
-    pre = await pg.evaluate("""(()=>{ const G=GAME.G, ev=STORY_EVENTS.find(x=>x.id==='ev_term_last_meal'); let ok=null; try{ ok=ev.prereq.custom(Object.assign({},G,{zone:'wz_offbeat'})); }catch(e){ ok=String(e); }
-      return {finalZone:OFFB.finalZone(G,'Y1S1'), prereqInOffbeat:ok, done:!!(G.events&&G.events.done&&G.events.done.ev_term_last_meal), msgs:(G.msgs||[]).slice(-4).map(m=>m.text)}; })()""")
+    pre = await pg.evaluate("""(([t,id])=>{ const G=GAME.G, ev=id&&STORY_EVENTS.find(x=>x.id===id); let ok=null; try{ ok=ev?ev.prereq.custom(Object.assign({},G,{zone:'wz_offbeat'})):null; }catch(e){ ok=String(e); }
+      return {finalZone:OFFB.finalZone(G,t), prereqInOffbeat:ok, done:!!(id&&G.events&&G.events.done&&G.events.done[id]), msgs:(G.msgs||[]).slice(-4).map(m=>m.text)}; })(%s)""" % J([term, evid]))
     print('  前置檢查：%s' % J(pre), flush=True)
-    check('nichijo⑥ 前置：聚餐地點是日常失速（OFFB.finalZone）、條件在店裡會成立', pre['finalZone'] == 'wz_offbeat' and pre['prereqInOffbeat'] is True, J(pre))
+    check('%s 前置：聚餐地點是日常失速（OFFB.finalZone）、條件在店裡會成立' % tag, pre['finalZone'] == 'wz_offbeat' and pre['prereqInOffbeat'] is True, J(pre))
     k = len(await pg.evaluate("window.__dl||[]")); fb0 = (await zst(pg))['fb']
-    s = await go_exit(pg, cdp, errs, 'nichijo⑥ 走進日常失速', '進去日常失速', 'wz_offbeat', OB_DOOR)
+    s = await go_exit(pg, cdp, errs, '%s 走進日常失速' % tag, '進去日常失速', 'wz_offbeat', OB_DOOR)
     if not s: return
-    seats = None; started = False; t0 = time.time()
-    while time.time() - t0 < 180:
-        await pg.wait_for_timeout(800)
-        run_ = await pg.evaluate("(()=>({running:!!(typeof EVENTS!=='undefined'&&EVENTS.running), cur:(typeof EVENTS!=='undefined'&&EVENTS.running&&EVENTS.running.id)||null, done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal)}))()")
+    snap = None; started = False; t0 = time.time()
+    while time.time() - t0 < 240:
+        await pg.wait_for_timeout(700)
+        ru = await pg.evaluate("(id=>({running:!!(typeof EVENTS!=='undefined'&&EVENTS.running), cur:(typeof EVENTS!=='undefined'&&EVENTS.running&&EVENTS.running.id)||null, done:!!(id&&GAME.G.events&&GAME.G.events.done&&GAME.G.events.done[id])}))(%s)" % J(evid))
         st = await L.state(pg)
-        if (run_['running'] or st['dlg']) and not started:
-            started = True; await shot(pg, 'ob_final_start')
-            seats = await pg.evaluate("""(()=>{ const P=GAME.E.player; return {player:{seat:!!P.seat, pose:P.pose}, npcs:(GAME.E.npcs||[]).filter(n=>n&&n.charId&&!n.isExtra).map(n=>({id:n.charId, seat:n.seat?{x:+n.seat.x.toFixed(2),z:+n.seat.z.toFixed(2)}:null, pose:n.pose}))}; })()""")
-            print('  聚餐開始：%s；坐位 %s' % (J(run_), J(seats)), flush=True)
+        if (ru['running'] or st['dlg']) and not started:
+            started = True; snap = await pg.evaluate(SEATSNAP); await shot(pg, 'ob_final_y%d_start' % year)
+            print('  開演那一刻：%s；坐位 %s' % (J(ru), J(snap)), flush=True)
         if st['choices']: await L.tap(pg, cdp, '#choices button:nth-child(1)'); continue
         if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
-        if run_['done'] and not st['busy'] and not run_['running']: break
-    lines = await dl_since(pg, k); transcript('nichijo⑥', lines)
-    await shot(pg, 'ob_final_end')
-    done = await pg.evaluate("!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal)")
-    check('nichijo⑥ 聚餐有觸發（有開始演）', started, J(lines[:2]))
-    check('nichijo⑥ 演完（G.events.done.ev_term_last_meal）', done)
-    check('nichijo⑥ 是日常失速那一版（「店員多送了一盤薯條」）', any('薯條' in l['t'] for l in lines), J([l['t'] for l in lines][:6]))
-    np_ = (seats or {}).get('npcs') or []
-    check('nichijo⑥ 大家坐得下：長桌有朋友、每個人 seat 都有值（%d 位）' % len(np_), bool(np_) and all(n['seat'] for n in np_), J(seats))
-    await stuck_check(pg, cdp, 'nichijo⑥ 聚餐演完', fb0)
+        if started and not st['busy'] and not ru['running'] and (ru['done'] or time.time() - t0 > 60): break
+    lines = await dl_since(pg, k); transcript(tag, lines)
+    await shot(pg, 'ob_final_y%d_end' % year)
+    done = await pg.evaluate("(id=>!!(id&&GAME.G.events&&GAME.G.events.done&&GAME.G.events.done[id]))(%s)" % J(evid))
+    check('%s：聚餐有觸發（有開始演）' % tag, started, J(lines[:2]))
+    check('%s：演完（G.events.done.%s）' % (tag, evid), done)
+    snap = snap or {'player': {}, 'npcs': []}
+    pl = snap['player']; named = [n for n in snap['npcs'] if n['id'] and not n['extra']]; seated = [n for n in snap['npcs'] if n['seat']]
+    # ① 長桌坐得下：在場的有名字 NPC 和玩家都有 seat、都在長桌那一組
+    check('%s ①：開演時玩家和有名字的 NPC 都坐在長桌（玩家 seat＝%s；有名字 %d 位）' % (tag, J(pl.get('seat')), len(named)),
+          bool(pl.get('long')) and bool(named) and all(n['long'] for n in named), J({'player': pl, 'named': named}))
+    # ② 當年揪的人在
+    hn = next((n for n in named if n['id'] == host), None)
+    check('%s ②：揪的人 %s 在長桌' % (tag, host), bool(hn) and hn['long'], J(hn))
+    # ③ 玩家坐在揪的人旁邊
+    adj = False
+    if hn and hn['seat'] and pl.get('seat'):
+        d = math.hypot(hn['seat']['x'] - pl['seat']['x'], hn['seat']['z'] - pl['seat']['z'])
+        same_side = hn['i'] >= 0 and pl.get('i', -1) >= 0 and (hn['i'] // 4 == pl['i'] // 4) and abs(hn['i'] - pl['i']) == 1
+        adj = d <= 0.9 or same_side
+        print('  玩家與揪的人：距離 %.2f m；layout 座位 %s／%s' % (d, pl.get('i'), hn['i']), flush=True)
+    check('%s ③：玩家坐在揪的人旁邊（≤ 0.9 m 或相鄰座位）' % tag, adj)
+    # ③b（BB 11-04 (d)）：揪的人坐長桌一端＝沿長邊離桌子中心最遠的座位（layout 0、3、4、7；兩側各兩端）
+    ls = snap.get('longSeats') or []
+    end_ok = False
+    if hn and hn['seat'] and ls:
+        cx = sum(q[0] for q in ls) / len(ls); far = max(abs(q[0] - cx) for q in ls)
+        end_ok = abs(abs(hn['seat']['x'] - cx) - far) <= 0.15
+        print('  揪的人座位 x=%.2f；長桌中心 x=%.2f，一端離中心 %.2f m' % (hn['seat']['x'], cx, far), flush=True)
+    check('%s ③b：揪的人坐長桌一端（離中心最遠的座位）' % tag, end_ok, J(hn and hn['seat']))
+    # ④ 有名字的最多 6 個；空位是不認識的同學，不講話
+    strangers = [n for n in seated if n['long'] and (n['extra'] or not n['known'])]
+    snames = {n['name'] for n in strangers if n['name']}
+    talk = [l for l in lines if l['n'] and l['n'] in snames]
+    check('%s ④：有名字的（含揪的人）最多 6 個（%d）' % (tag, len(named)), 0 < len(named) <= 6, J([n['id'] for n in named]))
+    check('%s ④：坐空位的不認識同學沒有台詞（%d 位：%s）' % (tag, len(strangers), J(sorted(snames))), not talk, J(talk[:3]))
+    obs('%s 長桌坐了 %d 人（玩家＋%d）；七人長桌（layout 的 table 1 有 %d 個座位）' % (tag, int(bool(pl.get('long'))) + len([n for n in seated if n['long']]), len([n for n in seated if n['long']]), len(snap.get('longSeats') or [])))
+    # ⑤ 演完：自由走動、大家都起身
+    after = await pg.evaluate(SEATSNAP)
+    left = [n for n in after['npcs'] if n['seat'] and n['long'] and n['id'] in {m['id'] for m in named}]
+    check('%s ⑤：演完以後玩家和有名字的 NPC 都起身（seat 清掉）' % tag, not after['player'].get('seat') and not left, J({'player': after['player'], 'still': left}))
+    await stuck_check(pg, cdp, '%s ⑤ 演完' % tag, fb0)
+
+
+async def case_nichijo_final(pg, cdp, errs): await final_case(pg, cdp, errs, 1)
+async def case_nichijo_final_y2(pg, cdp, errs): await final_case(pg, cdp, errs, 2)
+async def case_nichijo_final_y1s2(pg, cdp, errs): await final_case(pg, cdp, errs, 12)
+async def case_nichijo_final_y2s2(pg, cdp, errs): await final_case(pg, cdp, errs, 22)
+
+
+async def final_none(pg, cdp, errs, year):
+    """BB 11-04 更正：AA_648 §5（8ede8603f）大三、大四「不加」——那天走進日常失速＝照平常的店，不演期末聚餐、不卡住。"""
+    term, _ = FINAL_YEARS[year]; tag = 'nichijo⑥ %s（不加）' % term
+    print('== nichijo_final_y%d ⑥ %s 期末最後一科考完那晚：走進日常失速，應該照平常的店（AA_648 §5 不加）' % (year, term), flush=True)
+    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, 15.0, why='先讀一次檔，讓遊戲算 %s 期末最後一科考完的時間' % term)
+    info = await pg.evaluate("""(t=>{ let e=null; try{ e=CLS.lastExamEnd(GAME.G,t,'final'); }catch(err){ e={err:String(err)}; }
+      const evs=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).filter(x=>/^ev_term_last_meal/.test(x.id)&&(x.term||[]).includes(t)&&!x.retired).map(x=>x.id);
+      return {e, evs}; })(%s)""" % J(term))
+    print('  %s：%s' % (term, J(info)), flush=True)
+    check('%s：這學期沒有 ev_term_last_meal* 事件' % tag, not info['evs'], J(info['evs']))
+    e = info['e']
+    if not check('%s 前置：算得出 %s 期末最後一科考完的時間' % (tag, term), bool(e) and 'day' in e, J(e)): return
+    h = max(17.1, (e.get('h') or 0) + 0.1)
+    social = {'rel': {i: {'fam': 45 - 3 * k, 'trust': 30, 'aff': 28, 'resp': 20, 'comf': 28, 'rom': 0, 'npcRom': 0, 'seen': 10, 'talked': 10} for k, i in enumerate(FINAL_KNOWN)},
+              'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+    more = {'flags': dict(FLAGS, noodleTableDay=5), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
+    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, dayn=e['day'], quiet=False,
+                why='%s 最後一科考完那天 %.2f（條件事件照開）' % (term, h), extra=dict(ob_extra(first=False), **more))
+    await observers(pg); await drain(pg, cdp, 60)
+    k = len(await pg.evaluate("window.__dl||[]")); fb0 = (await zst(pg))['fb']
+    s = await go_exit(pg, cdp, errs, '%s 走進日常失速' % tag, '進去日常失速', 'wz_offbeat', OB_DOOR)
+    if not s: return
+    seen = set(); t0 = time.time()
+    while time.time() - t0 < 45:
+        await pg.wait_for_timeout(700)
+        cur = await pg.evaluate("(typeof EVENTS!=='undefined'&&EVENTS.running&&EVENTS.running.id)||null")
+        if cur: seen.add(cur)
+        st = await L.state(pg)
+        if st['choices']: await L.tap(pg, cdp, '#choices button:nth-child(1)'); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+    lines = await dl_since(pg, k); transcript(tag, lines)
+    await shot(pg, 'ob_final_y%d_none' % year)
+    snap = await pg.evaluate(SEATSNAP)
+    meal = [x for x in seen if 'last_meal' in x]
+    check('%s：走進店裡沒有演期末聚餐（演過的事件 %s）' % (tag, J(sorted(seen))), not meal and not any('長桌又併起來' in l['t'] or '最後一科考完' in l['t'] for l in lines), J([l['t'] for l in lines][:6]))
+    check('%s：玩家沒被安排到座位（照平常的店）' % tag, not snap['player'].get('seat'), J(snap['player']))
+    await stuck_check(pg, cdp, '%s 進店以後' % tag, fb0)
+
+
+async def case_nichijo_final_y3(pg, cdp, errs): await final_none(pg, cdp, errs, 3)
+async def case_nichijo_final_y4(pg, cdp, errs): await final_none(pg, cdp, errs, 4)
 
 
 async def main():
@@ -999,7 +1103,8 @@ async def main():
         obs('新生南路現在是 BLOCKOUT（套件方塊立面／正式立面 bldg.xinsheng_street 如果有載到會換掉）；公館往溫州街的巷子還在——照 BB 只記')
         for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade), ('closed', case_closed), ('order', case_order), ('date_zr', case_date_zr), ('rain', case_rain), ('names', case_names),
                       ('nichijo_enter', case_nichijo_enter), ('nichijo_order', case_nichijo_order), ('nichijo_cat', case_nichijo_cat),
-                      ('nichijo_game', case_nichijo_game), ('nichijo_close', case_nichijo_close), ('nichijo_final', case_nichijo_final)):
+                      ('nichijo_game', case_nichijo_game), ('nichijo_close', case_nichijo_close), ('nichijo_final', case_nichijo_final),
+                      ('nichijo_final_y2', case_nichijo_final_y2), ('nichijo_final_y1s2', case_nichijo_final_y1s2), ('nichijo_final_y2s2', case_nichijo_final_y2s2), ('nichijo_final_y3', case_nichijo_final_y3), ('nichijo_final_y4', case_nichijo_final_y4)):
             if c not in CASES: continue
             try:
                 await fn(pg, cdp, errs)
