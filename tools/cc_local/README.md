@@ -146,3 +146,62 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
   - 腳本在別的分支時（blender 和 probe 都可以），ENV 寫 `SCRIPT_FROM=story`（企劃分支；也可以寫 lawww2、cc 或完整分支名）。需要的其他檔案用 `SCRIPT_FILES=a.py,b.json` 列出，逗號分隔，文字檔和二進位檔（PNG 等）都可以。runner 會把這些檔放進工作樹裡相同的路徑再執行；讀不到就直接報錯，不會默默拿工作樹裡的舊檔來跑。
   - 結果檔中，PNG 以外超過 50 MB 的不推，只在 notes.txt 記路徑和大小。每一項的秒數在 meta.json 的 seconds。
   - 佇列寫法例：`AA_x | lawww2 | blender | tools/blender/env_second/aa_support/shanlan_interior.py | index.html | 120 | SCRIPT_FROM=story;XARGS=--out {out}`
+
+## 失敗自動追蹤（CC_AUTORETRY／CC_TRACE）（TEST-TRACE-1104，BB_256，2026-11-04）
+
+**預設關。** 沒開的時候 runner、gpu_wrap 的行為和以前一字不差（雲端實測：同一支 node 單元測試、同一支 probe，新舊 runner 的 run.log、meta 欄位、目錄內容都相同；gpu_wrap 新舊版 stdout、stderr 逐行相同）。設計、實測數字：`docs/story_planning/CC/CC_48_失敗自動追蹤系統.md`。
+
+### 怎麼開
+- 一項：佇列 ENV 欄加 `CC_AUTORETRY=1`。全部：runner 加 `--autoretry`。
+- 可調（都寫在佇列 ENV 欄）：
+  - `CC_TRACE_MAX_MB`：單一 trace 上限，預設 20。
+  - `CC_RETRY_TIMEOUT=1`：逾時也重跑一次（預設不重跑）。只有逾時 ≤ `CC_RETRY_MAX_MIN`（預設 20 分）才生效，避免一項吃掉兩倍逾時。
+  - `CC_TRACE_KEEP_BODIES=1`：trace 保留模型、字型等下載內容（預設拿掉，見下面「大小」）。
+- `CC_TRACE=1`＋`CC_TRACE_DIR=<資料夾>` 是 runner 重跑時自己設給 gpu_wrap 的；手動跑探針也可以設（`python gpu_wrap.py <探針> <url> <out>`）。只對經 gpu_wrap 跑的 kind（probe、game、webkit）有 trace；node、blender、py、gpu 只有重跑和分類，沒有 trace。
+
+### 流程
+1. 第一次 PASS（exit 0）：照舊，不開 trace。meta 只多 `attempt: 1`、`final: "PASS"`。
+2. 第一次 FAIL（exit≠0、沒逾時）：第一次的 run.log、err.log、out/ 搬到 `attempt1/`。用同一個 SHA、同一份腳本（SCRIPT_FROM 照樣重抓）、同一份 ENV，加 `CC_TRACE=1` 再跑一次，輸出在 `attempt2/`。最多重跑一次。
+   - **探針支援 CASES**（原始碼有 `os.environ.get('CASES')`）：照第一次 run.log 的 `== X`（或 `== case X`）段落，找出 FAIL 屬於哪些 CASE，重跑只帶那些 CASE。前置操作照探針原樣做。分不出來（FAIL 不在任何段落裡、全部 CASE 都 FAIL）就整支重跑，原因寫在 report 的 `rerun_scope`。
+3. 逾時：照舊殺掉整個程序樹，預設不重跑。分類 `TIMEOUT/ENVIRONMENT`（log 有環境訊號）或 `TIMEOUT/UNKNOWN`。**只憑逾時不判 GAME_BUG。**
+4. runner 例外（worktree、server 起不來…）：不重跑，分類寫進 report。
+
+### 輸出（`local_out/<ID>/`）
+- `meta.json`：舊欄位全部照舊，`exit` 仍然是**第一次**的 exit（FLAKY 不會看起來像 PASS）。新增 `attempt`、`final`（PASS／FAIL／FLAKY／TIMEOUT／ERROR）、`exit2`、`class`、`class_basis`、`report`。
+- `report.json`＋`report.md`：測試 ID、SHA、腳本和兩次的 git blob、cc-testing SHA、兩次結果、FAIL 行（每行截 300 字，拆成斷言名稱和 info＝預期／實際）、JS／console 錯誤（含 stack）、遊戲狀態、環境（瀏覽器版本、GPU renderer、headless、OS）、截圖和 trace 的相對路徑、turbo／【前置／捷徑】／讀檔、分類和判斷依據、`conditions`（兩次的遊戲 SHA、腳本 blob、輸入雜湊、CASES）、清理掃描結果。
+- `attempt2/trace/`（gpu_wrap 寫）：
+  - `trace_<ID>_<n>.zip`：每個 browser context 一份，Trace Viewer 開得起來。
+  - `events.jsonl`：console error／warning、pageerror（含 stack）、requestfailed、crash、close、瀏覽器斷線（`expected`＝是不是探針自己關的）、探針印的 FAIL 行。每行有 `t`、`rel`、`ctx`、`page`。
+  - `state_<ID>_<n>.json`：關閉前每個還活著的 page 讀一次遊戲狀態。遊戲有 `GAME.stateSnapshot()`（d2e36f6eb 起）就整份存（`snapshot`），另外自己讀 zone、day、hour、weekday、玩家 x／z／y／lv／pose／busy、D.active／busyDepth、對話框文字、選項、EVENTS.running、flags 的鍵、lastTalkError、walkFallbacks、href。舊 SHA 沒有 stateSnapshot 時只有後面這些。
+  - `env.json`：瀏覽器版本、playwright 版本、GPU renderer（UNMASKED_RENDERER_WEBGL）、CC_ITEM、SHA、CC_SLOT、headless、OS、每份 trace 的大小與 oversize。
+- 看 trace：`python -m playwright show-trace <trace.zip>`，或拖到 https://trace.playwright.dev（在瀏覽器本機開，不上傳）。
+
+### 分類規則（初判；最後由 BB 判）
+依序：
+1. **FLAKY**：第一次 FAIL、重跑 exit 0，而且兩次的遊戲 SHA、腳本 blob（git hash-object）、輸入雜湊（佇列 ENV 去掉 RERUN／CASES／CC_AUTORETRY，加上 XARGS）都相同。CASES 只差在「只重跑 FAIL 的 CASE」也算相同。條件不同就判 UNKNOWN。
+2. **TIMEOUT/…**：兩次都逾時，或逾時沒重跑。
+3. **ENVIRONMENT**：有環境訊號，而且在第一次 crash／意外斷線之前沒有探針的 FAIL 行（用 events.jsonl 的時間比）。環境訊號包括：PAGE CRASH、意外的瀏覽器斷線、Target closed、BrowserType.launch 失敗、記憶體不足、GPU／WebGL 初始化失敗。探針自己 `browser.close()` 造成的 BROWSER DISCONNECTED 不算。
+4. **GAME_BUG（初判）**：有 FAIL 斷言，**而且**有遊戲頁面的 pageerror（探針用 `page.evaluate` 丟的不算），或狀態有 lastTalkError。
+5. **TEST_BUG（初判）**：探針 Python traceback 是 playwright TimeoutError、KeyError、NameError、AttributeError、TypeError、IndexError、SyntaxError、ImportError 等，而且遊戲沒有 pageerror。report 會寫出例外行、探針出錯的檔案和行、等的是哪個 selector，以及 trace 的 DOM snapshot 裡有沒有這個 selector（只查 `#id`）。
+6. 其他一律 **UNKNOWN**，並寫出原因。例如「斷言 FAIL、兩次一致、沒有 JS 例外和 traceback」：這種情況要看預期和實際值，才分得出是遊戲還是探針的問題。
+
+### 保存規則（推上 cc-local 之前）
+- PASS（含 FLAKY 的重跑 PASS）不留 trace.zip。FLAKY 保留第一次的全部證據和重跑的 events／state／env。
+- **大小**：
+  - 遊戲 trace 會把 GLB、.wrl、字型的下載內容整包存進去，一份 27～63 MB。所以預設拿掉 `resources/` 底下的模型、字型、音效，以及超過 512 KB 的回應內容。拿掉以後，時間軸、DOM snapshot、畫面截圖都還在，只是 Network 分頁看不到那些檔的內容。實測 64 MB 降到 2 MB。
+  - 拿掉以後還是超過 `CC_TRACE_MAX_MB`，就平均抽掉一部分畫面截圖幀。
+  - 還是超過的話不推，在 notes.txt 記路徑和大小。trace 和截圖共用每項 25 MB（PNG_CAP）的額度，超過也不推。
+- **清理**：attempt1／attempt2 的 .log／.json／.jsonl／.txt／.md 和 trace.zip 裡的文字 entry 都會清理：
+  - repo、work、worktree 根目錄、家目錄、暫存資料夾的路徑換成 `<REPO>`、`<WTROOT>`、`<HOME>`、`<TMP>`。
+  - 路徑裡的使用者名稱換成 `<USER>`。
+  - Cookie、Authorization、token、api key、password 的值換成 `<REDACTED>`。
+  - 清完再掃一次，結果寫在 report 的 `sanitize.left_hits`，應該是空的。
+  - 沒開 CC_AUTORETRY 的項目照舊，不清理。
+- 開 CC_AUTORETRY 的項目，開跑前會刪掉上一次留下的 attempt1、attempt2、report、notes.txt，每一輪各自獨立。
+
+### 限制
+- 逾時被殺的那一次沒有 trace（程序被 kill，來不及 tracing.stop）。events.jsonl 會保留到被殺為止。
+- 瀏覽器整個當掉時，trace 也存不下來（tracing.stop 會回 TargetClosedError）。這時證據是 events.jsonl、err.log 和第一次的截圖。
+- sync API 的探針：state evaluate 沒有逾時。頁面卡死時會一直等到 runner 的逾時。async 探針每頁最多等 8 秒。
+- 狀態讀取和 GPU renderer 是用 page.evaluate 做的，所以會在 Trace Viewer 的 Actions 裡多出 2～3 個「Evaluate」。
+- 重跑一定比第一次慢。trace 的截圖、snapshot 會吃 CPU，遊戲頁面的 fps 會比第一次低。對時間敏感的探針（fps、touch_flow），重跑 PASS 不一定代表 FLAKY，要對照 report 的秒數。

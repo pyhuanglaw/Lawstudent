@@ -1,0 +1,153 @@
+{
+  "id": "ST_selector",
+  "sha": "3bc7e2f02",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_selector.py",
+  "script_from": null,
+  "script_blob": [
+    "618417ef080e4adb5d489ac990ddf75ba58098a8",
+    "618417ef080e4adb5d489ac990ddf75ba58098a8"
+  ],
+  "cc_testing_sha": "3bc7e2f02",
+  "runner": "93a6314974",
+  "final": "FAIL",
+  "class": "TEST_BUG",
+  "class_sub": "初判",
+  "basis": [
+    "探針 Python traceback：playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+    "原因類型：playwright 等待逾時（TimeoutError）",
+    "探針出錯的位置：File \"<REPO>/docs/story_planning/test_tools/cc/selftest/st_selector.py\", line 13, in main",
+    "等待的 selector：#no-such-button",
+    "trace 的 DOM snapshot 裡沒有這個 selector（只檢查 #id 形式）",
+    "遊戲頁面沒有 pageerror"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "3bc7e2f02",
+      "3bc7e2f02"
+    ],
+    "script_blob": [
+      "618417ef080e4adb5d489ac990ddf75ba58098a8",
+      "618417ef080e4adb5d489ac990ddf75ba58098a8"
+    ],
+    "input_hash": [
+      "9fa1f54107ca81d2",
+      "9fa1f54107ca81d2"
+    ],
+    "cases": [
+      "(探針預設)",
+      "(探針預設)"
+    ]
+  },
+  "rerun_scope": "探針不支援 CASES 環境變數：整支重跑",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 9,
+      "fails": [],
+      "dir": "attempt1",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_selector.py http://127.0.0.1:8802/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trac"
+      ],
+      "err_tail": [
+        "  File \"/usr/local/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 76, in send",
+        "    return await self._connection.wrap_api_call(",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "    ...<3 lines>...",
+        "    )",
+        "    ^",
+        "  File \"/usr/local/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call",
+        "    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None",
+        "playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+        "Call log:",
+        "  - waiting for locator(\"#no-such-button\") to be visible",
+        ""
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 4,
+      "fails": [],
+      "dir": "attempt2",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_selector.py http://127.0.0.1:8802/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trac"
+      ],
+      "err_tail": [
+        "  File \"/usr/local/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 76, in send",
+        "    return await self._connection.wrap_api_call(",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "    ...<3 lines>...",
+        "    )",
+        "    ^",
+        "  File \"/usr/local/lib/python3.13/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call",
+        "    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None",
+        "playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+        "Call log:",
+        "  - waiting for locator(\"#no-such-button\") to be visible",
+        ""
+      ]
+    }
+  ],
+  "js_errors": [],
+  "js_errors_gpu_wrap": [],
+  "state": [
+    {
+      "ctx_why": "playwright exit (TimeoutError)",
+      "page": 1,
+      "state": {
+        "href": "about:blank",
+        "game": null
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "153.0.8010.12"
+    ],
+    "playwright": "1.63.0",
+    "gpu_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "headless": [
+      true
+    ],
+    "os": "Linux 6.18.44-fc-v233",
+    "cc_gpu": "0",
+    "slot": 2
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8802/index.html",
+    "setup_lines": 0,
+    "setup_first": [],
+    "load_save": 0
+  },
+  "screenshots": [],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_ST_selector_1.zip",
+      "bytes": 39025,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/run.log",
+      "attempt1/err.log",
+      "attempt2/run.log",
+      "attempt2/err.log"
+    ],
+    "zip_entries_rewritten": 1,
+    "left_hits": []
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}

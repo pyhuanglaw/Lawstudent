@@ -80,7 +80,7 @@ def price_board(im, d):
         for k, (sz, pr) in enumerate(subs):
             yy = y + rh * (k + 0.5)
             if sz: d.text((w * 0.58, yy), sz, font=fS, fill=rgb('#1a2a50'), anchor='lm')
-            d.text((w - 30, yy), pr, font=fS, fill=rgb('#1a2a50'), anchor='rm')
+            d.text((w - 30, yy), pr, font=fS, fill=rgb('#1a2a50'), anchor='rm', stroke_width=1, stroke_fill=rgb('#1a2a50'))
         y += hh
     d.line([w * 0.55, 132, w * 0.55, h - 22], fill=rgb('#b8c0d4'), width=2)
 
@@ -261,6 +261,7 @@ def copier_front(kind):
             d.rectangle([4, y0 + 3, w - 4, y1 - 3], fill=rgb('#f2f2f0'), outline=rgb('#b8bab8'), width=2)
             d.rounded_rectangle([w * 0.35, y0 + (y1 - y0) * 0.3, w * 0.65, y0 + (y1 - y0) * 0.45], radius=4, fill=rgb('#3a3c40'))
             d.rectangle([w * 0.8, y0 + (y1 - y0) * 0.3, w * 0.9, y0 + (y1 - y0) * 0.6], fill=rgb('#9aa0a8')); d.text((10, y0 + (y1 - y0) * 0.5), str(k + 1), font=font((y1 - y0) * 0.22), fill=rgb('#8a8e96'), anchor='lm')
+        if kind == 'self': d.rectangle([4, h - (h - top) / n + 3, w - 4, h - 3], fill=rgb('#3c3f44'))   # 最下面一格深灰（參考圖）
         if kind == 'self': d.rectangle([w * 0.06, top + 6, w * 0.3, top + 6 + h * 0.07], fill=rgb('#2b56a8')); text_c(d, (w * 0.18, top + 6 + h * 0.035), '自助', font(h * 0.045), rgb(WHITE))
     return f
 
@@ -401,10 +402,10 @@ uvbox('back_sign', 0, 0, 2048, sh, (2048, 512))
 SG.save(os.path.join(GEN, 'ade_sign.png'))
 
 # ======================= 5. 天花板（512²＝1.2 m：2×2 片礦纖板） =======================
-CW = 512; ca = np.zeros((CW, CW, 3), np.float32) + rgb('#eeeeea'); ca += noise(CW, CW, 2, 5)[..., None]
+CW = 512; ca = np.zeros((CW, CW, 3), np.float32) + rgb('#e6e6e2'); ca += noise(CW, CW, 2, 5)[..., None]
 rr = np.random.default_rng(21); ys, xs = rr.integers(0, CW, 2600), rr.integers(0, CW, 2600); ca[ys, xs] -= 38   # 礦纖板的細孔
 C = Image.fromarray(np.clip(ca, 0, 255).astype(np.uint8)); cd = ImageDraw.Draw(C)
-for p in (0, CW // 2): cd.rectangle([p - 5, 0, p + 5, CW], fill=rgb('#f8f8f6')); cd.rectangle([0, p - 5, CW, p + 5], fill=rgb('#f8f8f6')); cd.line([p + 5, 0, p + 5, CW], fill=rgb('#c8c8c4'), width=2); cd.line([0, p + 5, CW, p + 5], fill=rgb('#c8c8c4'), width=2)
+for p in (0, CW // 2): cd.rectangle([p - 5, 0, p + 5, CW], fill=rgb('#f8f8f6')); cd.rectangle([0, p - 5, CW, p + 5], fill=rgb('#f8f8f6')); cd.line([p + 5, 0, p + 5, CW], fill=rgb('#a8a8a4'), width=3); cd.line([0, p + 5, CW, p + 5], fill=rgb('#a8a8a4'), width=3); cd.line([p - 6, 0, p - 6, CW], fill=rgb('#d0d0cc'), width=2); cd.line([0, p - 6, CW, p - 6], fill=rgb('#d0d0cc'), width=2)
 C.save(os.path.join(GEN, 'ade_ceil.png'))
 
 json.dump(ATL, open(os.path.join(GEN, 'ade_atlas.json'), 'w'), indent=0)

@@ -11,6 +11,8 @@
   - CC_SLOT＋有視窗（CC_HEADLESS=0）：加 --window-position（槽位 × 920 px 並排）、--window-size（預設 900x900，CC_WINDOW_SIZE=WxH 可改）、
     --window-name=CC 測試中，請勿點選 [<CC_ITEM>]。CC_GPU=0 時也照 CC_HEADLESS（有設才照）。CC_HEADLESS、CC_SLOT 都沒設時行為不變。
     注意：webkit 沒有 CDP，探針若用 ctx.new_cdp_session（playlib 的手機觸控）會在那一步失敗＝探針要另外支援。
+  - CC_TRACE=1（run_queue.py 的 CC_AUTORETRY 失敗重跑時才設）：載入同資料夾的 cc_trace.py，每個 context 開 Playwright Tracing，
+    關閉前存 trace／遊戲狀態，console／pageerror／requestfailed／crash 寫 events.jsonl（CC_TRACE_DIR）。沒設時完全不載入。
 """
 import os, re, sys, runpy
 
@@ -116,10 +118,28 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print(__doc__); sys.exit(2)
     patch()
+    TR = None
+    if os.environ.get('CC_TRACE') == '1':           # 失敗自動追蹤（run_queue.py 的 CC_AUTORETRY 重跑時才設）；沒設＝上面的行為完全不變
+        try:
+            import cc_trace as _cct
+            TR = _cct.install()
+        except Exception as e:
+            TR = None
+            _diag('CC_TRACE disabled (setup failed: %r)' % (e,))
     script = os.path.abspath(sys.argv[1])
     sys.argv = [script] + sys.argv[2:]
     sys.path.insert(0, os.path.dirname(script))
     print('[gpu_wrap] CC_GPU=%s 跑 %s %s' % (int(GPU), script, ' '.join(sys.argv[1:])), flush=True)
     if WEBKIT:
         print('[gpu_wrap] CC_BROWSER=webkit：chromium.launch 會改開 webkit', flush=True)
-    runpy.run_path(script, run_name='__main__')
+    if TR is None:
+        runpy.run_path(script, run_name='__main__')
+    else:
+        try:
+            runpy.run_path(script, run_name='__main__')
+        except SystemExit as e:
+            TR.finish('sys.exit(%s)' % (e.code,)); raise
+        except BaseException as e:
+            TR.finish('exception %s' % type(e).__name__); raise
+        else:
+            TR.finish('normal end')
