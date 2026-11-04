@@ -3,7 +3,7 @@
   bldg.wz_park＝小公園（地面、鋪面、路緣、樹圍座椅、單槓、名牌）、bldg.wz_scooter＝機車兩款（InstancedMesh，擺在套件機車的位置、顏色照套件）。
 
 檢查正式模型接進遊戲之後，「畫面以外的東西」都沒變、或照設計變了：
-  1. 29 棟套件公寓（主巷 A1–A5、B1–B7、Café 南北兩側 C1、C2、巷底 W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）都接上正式模型、套件外觀全部藏起來；沒有標記的建築不受影響。
+  1. 28 棟套件公寓（主巷 A1–A5、B1–B7、Café 南北兩側 C1、C2、巷底 W0、遠景 F1–F3（F4 拿掉：ART-XINSHENG-GATE-1103）、S1–S4、N1–N4、W1、W2）都接上正式模型、套件外觀全部藏起來；沒有標記的建築不受影響。
   2. 鏡頭碰撞方塊、互動點（看櫥窗、回公館、進 Café…）和 ?nobldg（程序化套件）完全相同；導航格＝?nobldg 的導航格＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou，
      正式模型才有那些雜物，模型接上時才擋：ART-WZ0 10-21），其他一格都不能不同。
   3. 招牌、直立招牌、店內景深卡都有 canvas 貼圖；招牌的貼圖比例和板面相同（字不會被拉寬；
@@ -29,7 +29,7 @@ SHOPS_INT = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B6', 'B7']      # 原本有店
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 
 GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', 'wz_scooters_glb']
-TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 28}                  # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
+TAGS = {'wzApt': 28, 'wzJp': 2, 'wzProp': 12, 'wzPark': 28}                  # 套件物件的數量：公寓 28 棟（近景 15、遠景 13；2026-11-04 改期望 29→28：aa8cb5beb ART-XINSHENG-GATE-1103 拿掉遠景 F4，同一個 commit 改了 IDS、漏了這裡）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
 WAIT_FORMAL = "(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&want.every(n=>z.group.children.some(o=>o.name===n))) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % json.dumps(GLBS)
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 # ?nobldg 的導航格加上門口雜物的阻擋（和正式模型接上時同一個做法 Z3.propBlocks）以後的雜湊：正式模型的導航格要和它完全相同
@@ -56,7 +56,7 @@ async def check(pg, run, formal):
           shown:objs.filter(o=>o.isMesh?o.visible:o.children.some(m=>(m.isMesh||m.isSprite)&&m.visible)).length}; } return out; })()""" % json.dumps(list(TAGS)))
     # ?nobldg：小公園的備用外觀沒有 dyn，單一網格的會被整區靜態合併吃掉（本來就要合併，draw call 才會少），所以只剩群組還數得到（2026-10-16：19 個）
     okn = all(tags[t]['n'] == n for t, n in TAGS.items()) if formal else all(tags[t]['n'] == n for t, n in TAGS.items() if t != 'wzPark') and 10 <= tags['wzPark']['n'] <= TAGS['wzPark']
-    run.check('套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）', okn, json.dumps(tags))
+    run.check('套件物件都有標記（公寓 28、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）', okn, json.dumps(tags))
     if formal:
         run.check('標記的套件物件都接上正式模型、外觀全部藏起來', all(tags[t]['formal'] == n and tags[t]['shown'] == 0 for t, n in TAGS.items()), json.dumps(tags))
     else:
@@ -67,9 +67,9 @@ async def check(pg, run, formal):
         const others=z.group.children.filter(o=>o.userData&&o.userData.footprint&&!o.userData.wzApt&&!o.userData.wzJp&&!o.userData.formal); const othersHidden=others.filter(b=>b.children.length&&!b.children.some(o=>o.visible)).length;
         return {per, others:others.length, othersHidden}; })()""")
     per = info['per']
-    run.check('29 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2、W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）', sorted(per) == sorted(IDS), json.dumps(sorted(per)))
+    run.check('28 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2、W0、遠景 F1–F3、S1–S4、N1–N4、W1、W2）', sorted(per) == sorted(IDS), json.dumps(sorted(per)))
     if formal:
-        run.check('29 棟都接上正式模型（userData.formal）', all(per.get(i, {}).get('formal') for i in IDS), json.dumps({k: v['formal'] for k, v in per.items()}))
+        run.check('28 棟都接上正式模型（userData.formal）', all(per.get(i, {}).get('formal') for i in IDS), json.dumps({k: v['formal'] for k, v in per.items()}))
         bad = {k: v['kitVisible'] for k, v in per.items() if v['kitVisible']}
         run.check('套件公寓的外觀全部藏起來', not bad, json.dumps(bad))
     else:
@@ -171,7 +171,12 @@ async def main():
     want = res[False][2]   # ?nobldg 的導航格＋門口雜物的阻擋
     run.check('導航格：正式模型＝程序化版＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou），其他完全相同', res[True][0] == want[:4] and want[4] > 0 and want[3] > res[False][0][3], json.dumps([res[True][0], want, res[False][0]]))
     run.check('鏡頭碰撞方塊：完全相同', res[True][1]['col'] == res[False][1]['col'], '%d vs %d 個' % (len(res[True][1]['col']), len(res[False][1]['col'])))
-    run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
+    # 2026-11-04 改：失敗時列出差異（CC 75a095355 CAFE230v2_wzstreet：39 對 39 個、「完全相同」FAIL，原本 log 沒寫哪幾個不同）——只多在正式模型／只多在 ?nobldg 的 [label, x, z, radius]
+    itF, itN = [tuple(x) for x in res[True][1]['it']], [tuple(x) for x in res[False][1]['it']]
+    from collections import Counter
+    cF, cN = Counter(itF), Counter(itN)
+    onlyF, onlyN = sorted((cF - cN).elements()), sorted((cN - cF).elements())   # 用次數比（同一個點重複兩次也抓得到）
+    run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個；只在正式模型 %s；只在 ?nobldg %s' % (len(itF), len(itN), json.dumps(onlyF, ensure_ascii=False), json.dumps(onlyN, ensure_ascii=False)))
     sys.exit(run.finish())
 
 

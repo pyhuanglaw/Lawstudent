@@ -113,8 +113,15 @@ async def cafe(pg, run, formal):
             let sky=null; st.traverse(o=>{ if(!sky&&o.isMesh&&o.geometry&&o.geometry.parameters&&o.geometry.parameters.radius===140) sky=o; });
             const inWalls=!!front&&z.walls.includes(front), inParts=!!front&&z.winParts.some(p=>p.obj===front);
             let a=null,b=null; if(sky){ z.applyTime(11,'sunny'); a=sky.material.map&&sky.material.map.uuid; z.applyTime(21,'sunny'); b=sky.material.map&&sky.material.map.uuid; z.applyTime(11,'sunny'); }
-            return {street:true, streetVisible:st.visible, front:!!front, frontVisible:front?front.visible:null, inWalls, inParts, sky:!!sky, dayNight:[!!a, a!==b]}; })()""")
-        run.check('店面玻璃外：溫州街 3D 街景載入了（z.cafeStreet）、看得到', bool(sv.get('street')) and sv.get('streetVisible') is True, json.dumps(sv))
+            /* 2026-11-04 改（CC 75a095355 CAFE230v2_glb：streetVisible false）：街景在 winParts 裡，每一幀照鏡頭在前牆（z 6）的哪一邊設顯示——鏡頭在牆外＝藏起來（設計如此，和舊 Café 的畫的街景一樣）。
+               原本直接讀 st.visible：上一項「鏡頭在前牆外」剛把鏡頭放在 z 9.2（endCinematic 以後還沒畫新的一格），讀到的是鏡頭在牆外的狀態；出生點的跟隨鏡頭也在玩家後面 z≈8.8（牆外）。
+               改成：鏡頭放在店裡（0, 1.6, 1.0）往玻璃看、等引擎真的畫幾格再讀；再把鏡頭放到牆外（0, 2.2, 9.2）確認會藏起來（自我檢查：抓得到「一直看不到」和「一直看得到」兩種錯）*/
+            const vis=async(p,l)=>{ E.cinematic(new THREE.Vector3(p[0],p[1],p[2]),new THREE.Vector3(l[0],l[1],l[2])); E.camera.position.set(p[0],p[1],p[2]); E.cam.look=new THREE.Vector3(l[0],l[1],l[2]); E.camera.lookAt(E.cam.look);
+              const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250)); return {v:st.visible, frames:E.frame-f0}; };
+            const vin=await vis([0,1.6,1.0],[0,1.5,6]), vout=await vis([0,2.2,9.2],[0,1.5,0]); E.endCinematic();
+            return {street:true, streetVisible:vin.v, streetVisibleOutside:vout.v, frames:[vin.frames,vout.frames], front:!!front, frontVisible:front?front.visible:null, inWalls, inParts, sky:!!sky, dayNight:[!!a, a!==b]}; })()""")
+        run.check('店面玻璃外：溫州街 3D 街景載入了（z.cafeStreet）、鏡頭在店裡往玻璃看時看得到', bool(sv.get('street')) and sv.get('streetVisible') is True, json.dumps(sv))
+        run.check('（自我檢查）鏡頭移到前牆外：街景藏起來（winParts，和畫的街景同一套）', bool(sv.get('street')) and sv.get('streetVisibleOutside') is False, json.dumps(sv))
         run.check('店面玻璃外：正面畫的窗景藏起來（不在淡出的牆、不在窗的零件裡）', sv.get('front') is True and sv.get('frontVisible') is False and not sv.get('inWalls') and not sv.get('inParts'), json.dumps(sv))
         run.check('店面玻璃外的街景：天空白天和夜晚是不同的貼圖', sv.get('dayNight') == [True, True], json.dumps(sv))
     await run.shot(pg, 'cafe_' + ('formal' if formal else 'nobldg'))
