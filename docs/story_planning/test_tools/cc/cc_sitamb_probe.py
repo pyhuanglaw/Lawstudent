@@ -101,11 +101,13 @@ SEATED_JS = r"""(()=>{ const E=GAME.E, P=E.player; const sa=typeof SEATACT!=='un
   const out=[]; E.npcs.forEach((n,i)=>{ if(!n||!n.obj||!(n.pose==='sit'||n.pose==='read')) return; const o=n.obj, u=o.userData||{}, st=n.seat||null;
     const pi=n.lookAt?E.npcs.findIndex(m=>m!==n&&m.obj&&m.obj.position===n.lookAt):-1;
     const held=[]; if(u.props&&typeof PROPS!=='undefined'&&PROPS.DEF){ for(const k in u.props){ const d=PROPS.DEF[k], q=u.props[k]; if(q&&q.visible&&d&&/LowerArm$|Hand$/.test(d.bone||'')&&k!=='bandage') held.push(k); } }
-    const m=u.amb;
+    const m=u.amb; const zs=st?(E.zone.seats||[]).find(q=>Math.abs(q.x-st.x)<0.05&&Math.abs(q.z-st.z)<0.05&&((q.lv|0)===(st.lv|0)||q.lv==null)):null;
+    let lookN=null; if(n.lookAt&&pi<0){ let bd=1e9; for(const q of E.npcs){ if(q===n||!q.obj) continue; const d=Math.hypot(q.obj.position.x-n.lookAt.x,q.obj.position.z-n.lookAt.z); if(d<bd){ bd=d; lookN=+d.toFixed(2); } } }
     out.push({i, name:n.name||'', pose:n.pose, x:+o.position.x.toFixed(3), y:+o.position.y.toFixed(3), z:+o.position.z.toFixed(3), yaw:+(st&&st.yaw!=null?+st.yaw:o.rotation.y).toFixed(3), lv:n.lv|0,
       seat:st?{x:+(+st.x).toFixed(2),z:+(+st.z).toFixed(2),table:st.table==null?null:st.table,kind:st.kind||null,row:st.row==null?null:st.row,col:st.col==null?null:st.col,room:st.room||null,floor:st.floor||0,y:st.y==null?null:+(+st.y).toFixed(2)}:null,
       drv:u.driver||null, vis:!!o.visible, ambOn:!!u.ambOn, stat:!!(u.anim&&u.anim.static), chat:u.sitChat?((m&&m.chatRole)||'pair'):null, focus:!!u.sitFocus, floor:!!u.sitFloor, far:!!u.isFar,
       item:n.pose==='read'?(u.readItem||'book'):null, lap:!!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible), held, sex:(u.spec&&u.spec.sex)||null, extra:!!n.isExtra, cls:!!n.clsStudent,
+      zseat:zs?{table:zs.table==null?null:String(zs.table),kind:zs.kind||null,label:zs.label||null}:null, look:n.lookAt?[+(+n.lookAt.x).toFixed(2),+(+n.lookAt.z).toFixed(2)]:null, lookStale:!!(n.lookAt&&pi<0), lookNear:lookN,
       hidden:!!n.hidden, talk:!!(n.talk||n.talkLabel), partner:pi, mutual:pi>=0&&E.npcs[pi].lookAt===o.position, act:st?actAt(+st.x,+st.z):null,
       amb:m?{n:m.n|0,kinds:m.kinds,fx:m.fx?m.fx.kind:null,next:+(+m.next||0).toFixed(2),t:+(+m.t||0).toFixed(3),rate:+(+m.rate||0).toFixed(4),base:m.base||null,pst:(m.pst||[]).map(v=>+v.toFixed(3))}:null}); });
   let clips=null; try{ const r=CHAR._amb&&CHAR._amb.raw; if(r&&r.animations) clips=r.animations.map(a=>[a.name,+a.duration.toFixed(3)]); }catch(e){}
@@ -224,7 +226,7 @@ ROLE = {
     'hair': lambda s: arms_free(s) and not s['chat'],
     'book': lambda s: s['pose'] == 'read' and s['item'] == 'book',
     'phone': lambda s: s['pose'] == 'read' and s['item'] in ('phone', 'tablet'),
-    'sofa': lambda s: bool(s['seat']) and str(s['seat'].get('table')) in ('booth', 'lounge'),
+    'sofa': lambda s: bool(s.get('zseat')) and str(s['zseat'].get('table')) in ('booth', 'lounge'),   # 兩點半：booth＝沙發卡座、lounge＝單人沙發（zones3d.js 座位表）
     'floor': lambda s: s['floor'],
     'chair': lambda s: not s['floor'],
     'chat': lambda s: bool(s['chat']) or s['mutual'],
@@ -346,6 +348,17 @@ async def save_shots(pg, rec, sub, tag):
 async def record(pg, mode, tag, targets, plans, cam, secs, player=False, top=TOPN, Rz=None):
     """targets：要叫 sitAmbFidget 的人（SEATED_JS 的項目或 'player'）；plans：每個人的 [kind…]；cam：[eye, look] 或 None（遊戲自己的鏡頭）"""
     dt = 1.0 / REC_FPS
+    if any(t != 'player' for t in targets):   # E.npcs 的順序在主迴圈裡會變（店裡的客人進出、換模型）：照座位座標重新找同一個人
+        cur = (await pg.evaluate(SEATED_JS))['seated']; t2 = []
+        for t in targets:
+            if t == 'player': t2.append(t); continue
+            m = [c for c in cur if c['lv'] == t['lv'] and abs(c['x'] - t['x']) < 0.08 and abs(c['z'] - t['z']) < 0.08]
+            if not m: info('[%s] 找不到原本的 #%d（%.2f, %.2f）：他起身走了？' % (tag, t['i'], t['x'], t['z'])); continue
+            if m[0]['i'] != t['i']: info('[%s] #%d 現在是 E.npcs[%d]' % (tag, t['i'], m[0]['i']))
+            t2.append(m[0])
+        if len(t2) != len(targets):
+            plans = [pl for t, pl in zip(targets, plans) if t == 'player' or any(abs(c['x'] - t['x']) < 0.08 and abs(c['z'] - t['z']) < 0.08 for c in t2 if c != 'player')]
+        targets = t2
     await pg.evaluate("(ids=>{ const E=GAME.E; window.__ccT=ids.map(i=>i===-1?E.player:E.npcs[i]); return window.__ccT.length; })(" + J([(-1 if t == 'player' else t['i']) for t in targets]) + ")")
     trig = []; reps = []; end = secs; sched = []
     for ti, ks in enumerate(plans):
@@ -494,7 +507,10 @@ async def loc_cafe(pg, cdp, mode, R, ctl):
             await seg_close(pg, mode, Rz2, ppl, 'cafe2_chat', 'chat', [], used=set())
         else:
             mut = [s for s in ppl if s['mutual']]
-            info('[%s] %s 沒有 u.sitChat 的一組（SEATACT pairs=%s）；互相看著的 %d 人 %s' % (mode, CAFE2, r['pairs'], len(mut), J([[s['i'], s['x'], s['z'], s['act']] for s in mut])))
+            stale = [s for s in ppl if s['lookStale']]
+            info('[%s] %s 沒有 u.sitChat 的一組（SEATACT pairs=%s）；互相看著的 %d 人 %s；n.lookAt 有值、卻不是任何一個人現在的 obj.position 的 %d 人 %s' % (
+                mode, CAFE2, r['pairs'], len(mut), J([[s['i'], s['x'], s['z'], s['act']] for s in mut]), len(stale), J([[s['i'], s['x'], s['z'], (s['act'] or {}).get('act'), s['look'], s['lookNear']] for s in stale])))
+            Rz2['lookStale'] = [{k: s.get(k) for k in ('i', 'x', 'z', 'act', 'look', 'lookNear', 'pose')} for s in stale]
             Rz2.setdefault('missing', []).append({'seg': 'cafe2_chat', 'why': '沒有 u.sitChat（SEATACT.pairs()=%s；互相看著 %d 人）' % (r['pairs'], len(mut))})
             if mut: await seg_close(pg, mode, Rz2, ppl, 'cafe2_mutual', 'chat', ['look'], used=set())
         # 滑手機的拇指（每 2～6 秒自己滑一下，不用叫）＋抬頭

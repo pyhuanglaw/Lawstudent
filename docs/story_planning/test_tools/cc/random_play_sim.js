@@ -402,7 +402,7 @@ async function child(o){
     try{ if(page){ if(await boot()){ const bc=getById('btnContinue'); if(!bc||typeof bc.onclick!=='function') fail('BOOT','TEST_BUG','標題畫面的「繼續」沒有掛 onclick',''); else await pump(Promise.resolve().then(()=>bc.onclick(mkEv('click',bc))),60000,'標題「繼續」（loadFrom）'); } }
       else if(T.loadFrom) await pump(Promise.resolve().then(()=>T.loadFrom(s)),60000,'讀自動存檔（loadFrom）'); else await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave'); }
     catch(e){ onExc(e,'讀自動存檔'); }
-    R.loading=false; if(track&&GM.G) track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; want=null; wait=0; react=2; pendingPhoneClick=null; goingAt.clear(); }
+    R.loading=false; if(track&&GM.G) track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; noActV=0; want=null; wait=0; react=2; pendingPhoneClick=null; goingAt.clear(); }
 
   /* ---------- 玩家：看畫面上有什麼可以按 ---------- */
   const vis=el=>{ for(let x=el;x&&!x._isDoc;x=x.parentNode){ if(x.classList&&x.classList.contains('hide')) return false; if(x.style&&x.style.display==='none') return false; } return !!el&&el.isConnected; };
@@ -410,7 +410,7 @@ async function child(o){
   const label=b=>(b.textContent||'').replace(/\s+/g,' ').trim().slice(0,40)||JSON.stringify(b.dataset).slice(0,40);
   function clickEl(b,why){ act(why+'：'+label(b)); let r; try{ r=b.click(); }catch(e){ onExc(e,'按「'+label(b)+'」'); } if(r&&typeof r.then==='function') r.then(null,e=>onExc(e,'按「'+label(b)+'」之後')); }
   let react=0, wait=0, want=null, phoneClicks=0, emptyMenuSeen=null, pendingPhoneClick=null;
-  const free=()=>{ const Pl=E.player; return Pl&&!Pl.busy&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
+  const free=()=>{ const Pl=E.player; return Pl&&!Pl.busy&&!E.paused&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
   /* 選單的按鈕：大部分平均（隨機玩家），只有「上課」「睡覺／熬夜」照這個種子的個性加權；灰掉的少按 */
   function optW(b){ const t=label(b), g=GM.G, h=(+g.hour)%24, night=h>=22||g.hour>=24; let w=b.classList.contains('dim')?0.25:1;
     if(/^上課：|直接去上課|去上課|進教室/.test(t)) w*=0.3+persona.classP*8; else if(/^(聽演講|參加)：/.test(t)) w*=2;
@@ -438,6 +438,8 @@ async function child(o){
       phoneClicks--; const body=getById('phoneBody'); const bs=clickables(body), tabs=clickables(getById('phoneTabs'));
       const Wt=bs.map(b=>{ const k=Object.keys(b.dataset)[0]||''; const w={go:6,skip:4,inv:4,ans:5,ask:6,th:3,msgto:3,msgt:4,place:3,fgo:2,invgo:6,tact:2,gact:2,vac:2,vac13:1,person:0.6,fav:0.2,fd:0.6,thback:0.8,personback:0.8,gohome:2,y5go:1,msg:2}[k]; return [w==null?0.5:w,b]; });
       const b=wpick(Wt.concat(tabs.map(t=>[0.8,t]))); if(b) clickEl(b,'手機'); else { act('手機：沒有可以按的 → 收起來'); GM.closePhone(); } react=ri(1,5); return true; }
+    /* 整張地圖、💾 小選單：收起來（地圖上的點不按）*/
+    for(const [id,cl] of [['bigmap','bmClose'],['quickPop','btnQuick']]){ const el=getById(id); if(el&&vis(el)){ if(react>0){ react--; return false; } R.step++; const c=getById(cl); if(c){ clickEl(c,'收起'+(id==='bigmap'?'地圖':'💾 選單')); } else { el.classList.add('hide'); act('收起 #'+id+'（沒有關閉鈕）'); } if(id==='bigmap'&&vis(el)){ el.classList.add('hide'); E.paused=false; } react=ri(1,4); return true; } }
     /* 筆記本（選單）開著：直接收起來（存檔欄位、設定、回標題都不按）*/
     if(T.menuOpen){ if(react>0){ react--; return false; } R.step++; act('收起筆記本（選單）'); try{ GM.closeMenu(); }catch(e){ onExc(e,'收起選單'); } react=ri(1,4); return true; }
     if(!free()){ want=null; return false; }
@@ -487,7 +489,7 @@ async function child(o){
   /* ---------- 主迴圈 ---------- */
   /* 一格的長度：一般 100 ms（game3d.js 主迴圈 dt 的上限 0.1 秒）；玩家空下來、站著不動在「等一下」的時候開 GM.turbo、一格 300 ms（和 ?turbo 一樣：dt 上限 0.3 秒），
      只是讓閒著的時間走快一點；走路、劇情、對話、選單都用一般的格（不影響劇情的計時，例：invites3d.js S.arrive 的 0.9 秒）*/
-  let turboFrames=0;
+  let turboFrames=0, noActV=0;
   while(true){
     const idle=GM&&E&&E.player&&wait>0&&!want&&!(E.player.path&&E.player.path.length)&&free()&&!(T.walks&&T.walks.size); GM.turbo=!!idle; const FRAME_MS=idle?300:100; if(idle){ turboFrames++; wait-=2; }
     if(R.frame>=o.maxSteps){ fail('STEP_LIMIT','UNKNOWN','到了步數上限（--max-steps '+o.maxSteps+' 格）還沒玩到 '+o.to,'reached '+R.reached); break; }
@@ -497,7 +499,9 @@ async function child(o){
     if(track&&g&&g.day>D_TO){ act('到了 '+o.to+' 的隔天，結束'); break; }
     if(R.stuckNow){ R.stuckRecover=(R.stuckRecover|0)+1; if(R.stuckRecover>8){ fail('STUCK_GIVEUP','UNKNOWN','卡住、重新整理頁面讀檔 8 次以後還是卡住，放棄這個種子','reached '+R.reached); break; } act('卡住了 → 重新整理頁面、讀自動存檔（玩家會這樣做）'); await reloadAuto(true); continue; }
     if(R.fails.length>60){ act('失敗太多種，停下來'); break; }
-    const r=ui(); if(r&&r.then) await r;
+    let r=ui(); if(r&&r.then) r=await r;
+    /* ⑧-2 玩家完全沒有東西可以按（不是空下來、也沒有對話、選項、手機）超過 120 秒（虛擬時間）：例如換區域的淡出淡入一直沒結束（GM.isEntering）、E.paused 一直開著 */
+    if(r||(wait>0&&free())) noActV=0; else { noActV+=FRAME_MS/1000; if(noActV>300&&!R.stuckNow){ R.stuckNow=true; const Pl=E.player; fail('STUCK','UNKNOWN','玩家超過 300 秒（虛擬時間）沒有按到任何東西（不是在「等一下」；走路走不到、畫面停住、換區域沒結束…）',JSON.stringify({want:want?(want.npc?'npc '+(want.npc.name||want.npc.id):'it '+(want.it.label||'')):null,path:!!(E.player&&E.player.path),busy:Pl&&Pl.busy,depth:D.busyDepth,by:D.busyWho,dlg:D.active,choose:!!T.chooseCur,entering:GM.isEntering&&GM.isEntering(),titleIdle:GM.titleIdle,phone:T.phoneOpen,menu:T.menuOpen,paused:E.paused,fade:getById('fade')&&getById('fade').classList.contains('on'),evRunning:W.EVENTS&&W.EVENTS.running})); } }
   }
   return finish();
 
