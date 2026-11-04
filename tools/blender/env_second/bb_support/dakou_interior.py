@@ -135,13 +135,33 @@ def t_study(im, d):        # 二樓樓梯口的直幅
     swoosh(d, w, h, h * 0.72)
 
 
-def t_counter(im, d):      # 一樓櫃檯正面：白底、深藍色塊、橘色弧線、小標誌
-    w, h = im.size; d.rectangle([0, 0, w, h], fill=(244, 232, 210)); d.rectangle([0, 0, int(w * 0.16), h], fill=NAVY)
-    pts = [(w * 0.16 + (w * 0.84) * t, h * 0.75 - h * 0.35 * math.sin(math.pi * t)) for t in [i / 40 for i in range(41)]]
-    d.line(pts, fill=ORANGE, width=26); logo(d, int(w * 0.55), int(h * 0.42), 40)
-    pts2 = [(w * 0.6 + (w * 0.4) * t, h - h * 0.55 * math.sin(math.pi * t / 2)) for t in [i / 30 for i in range(31)]]   # v2：右下一大塊橘色弧（外觀圖的櫃檯正面）
-    d.polygon(pts2 + [(w, h)], fill=ORANGE)
-    d.rectangle([0, h - 18, w, h], fill=(60, 62, 66))
+def logo_light(d, cx, cy, s):
+    """v2b：淺色底用的標誌（櫃檯正面）：深藍上下麵包、白色分隔、橘色肉排、右上三道橘光（自己畫的，不像任何品牌）"""
+    W_ = (252, 250, 246)
+    d.pieslice([cx - s, cy - s * 0.95, cx + s, cy + s * 0.45], 180, 360, fill=NAVY)                      # 上麵包
+    for (sx, sy) in ((-0.45, -0.55), (0.0, -0.68), (0.42, -0.52), (-0.18, -0.36), (0.24, -0.34)):      # 芝麻
+        d.ellipse([cx + s * sx - s * 0.05, cy + s * sy - s * 0.03, cx + s * sx + s * 0.05, cy + s * sy + s * 0.03], fill=W_)
+    d.rectangle([cx - s * 1.0, cy - s * 0.25, cx + s * 1.0, cy - s * 0.16], fill=W_)
+    d.rounded_rectangle([cx - s * 1.06, cy - s * 0.16, cx + s * 1.06, cy + s * 0.12], int(s * 0.12), fill=ORANGE)   # 肉排
+    d.rectangle([cx - s * 1.0, cy + s * 0.12, cx + s * 1.0, cy + s * 0.2], fill=W_)
+    d.rounded_rectangle([cx - s * 0.96, cy + s * 0.2, cx + s * 0.96, cy + s * 0.55], int(s * 0.16), fill=NAVY)      # 下麵包
+    for a in (-72, -47, -22):                                                                            # 右上三道光
+        t = math.radians(a); ox, oy = cx + s * 0.62, cy - s * 0.62
+        d.line([(ox + s * 0.62 * math.cos(t), oy + s * 0.62 * math.sin(t)), (ox + s * 0.95 * math.cos(t), oy + s * 0.95 * math.sin(t))], fill=ORANGE, width=max(4, int(s * 0.13)))
+
+
+def t_counter(im, d):      # 一樓櫃檯正面（v2b，照外觀圖）：白底、正中間一個大漢堡標誌、左下深藍、右下橘弧、底下一條橘
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=(250, 246, 238))
+    # 左下深藍：從左邊往右，上緣是往下彎的弧（外觀圖櫃檯左邊那一塊）
+    nv = [(0, h * 0.18)] + [(w * 0.27 * t, h * 0.18 + h * 0.82 * (t ** 2.2)) for t in [i / 40 for i in range(41)]] + [(0, h)]
+    d.polygon(nv, fill=NAVY)
+    # 右下橘弧：從中間偏右往右邊往上翹
+    og = [(w * 0.66 + w * 0.34 * t, h - h * 0.62 * math.sin(math.pi * t / 2) ** 1.2) for t in [i / 40 for i in range(41)]] + [(w, h)]
+    d.polygon(og, fill=ORANGE)
+    og2 = [(w * 0.70 + w * 0.30 * t, h - h * 0.44 * math.sin(math.pi * t / 2) ** 1.2) for t in [i / 40 for i in range(41)]] + [(w, h)]
+    d.line(og2[:-1], fill=(250, 246, 238), width=max(3, h // 40))
+    logo_light(d, int(w * 0.5), int(h * 0.5), int(h * 0.4))
+    d.rectangle([0, h - h // 14, w, h], fill=ORANGE); d.rectangle([0, h - h // 40, w, h], fill=(60, 62, 66))
 
 
 def t_sign(txt):
@@ -154,7 +174,85 @@ MENU = [[('雙層牛肉堡套餐', '159'), ('勁辣雞腿堡套餐', '149')], [(
         [('可樂', '35'), ('熱咖啡', '45'), ('蘋果派', '35')], [('早餐 05:00～10:30', ''), ('豬肉滿福堡', '59')]]
 
 
+def food_burger(d, cx, cy, s):
+    """菜單照片用的漢堡（自己畫的：麵包有亮面、芝麻、生菜、起司、肉排）"""
+    for k in range(12):   # 上麵包：由暗到亮疊幾層，看起來有立體感
+        t = k / 11; c = (int(186 + 50 * t), int(112 + 60 * t), int(44 + 46 * t)); ss = s * (1 - 0.35 * t)
+        d.pieslice([cx - ss, cy - s * 0.95 + (s - ss) * 0.4, cx + ss, cy + s * 0.25], 180, 360, fill=c)
+    for (sx, sy) in ((-0.5, -0.5), (-0.15, -0.66), (0.25, -0.6), (0.55, -0.4), (0.0, -0.4), (-0.35, -0.3)):
+        d.ellipse([cx + s * sx - s * 0.05, cy + s * sy - s * 0.025, cx + s * sx + s * 0.05, cy + s * sy + s * 0.025], fill=(250, 238, 200))
+    d.polygon([(cx - s * 1.08, cy - s * 0.12)] + [(cx - s + s * 2 * t, cy - s * 0.1 + s * 0.08 * math.sin(t * 18)) for t in [j / 30 for j in range(31)]] + [(cx + s * 1.08, cy - s * 0.12), (cx + s, cy + s * 0.05), (cx - s, cy + s * 0.05)], fill=(96, 170, 60))   # 生菜
+    d.polygon([(cx - s * 0.95, cy + s * 0.0), (cx + s * 0.95, cy + s * 0.0), (cx + s * 0.6, cy + s * 0.2), (cx + s * 0.3, cy + s * 0.08), (cx - s * 0.2, cy + s * 0.22), (cx - s * 0.6, cy + s * 0.08)], fill=(250, 190, 40))   # 起司
+    d.rounded_rectangle([cx - s * 1.0, cy + s * 0.08, cx + s * 1.0, cy + s * 0.34], int(s * 0.12), fill=(98, 50, 28)); d.line([(cx - s * 0.9, cy + s * 0.16), (cx + s * 0.9, cy + s * 0.16)], fill=(140, 76, 40), width=max(2, int(s * 0.04)))   # 肉排
+    d.rounded_rectangle([cx - s * 0.95, cy + s * 0.32, cx + s * 0.95, cy + s * 0.6], int(s * 0.14), fill=(214, 150, 70)); d.line([(cx - s * 0.8, cy + s * 0.38), (cx + s * 0.7, cy + s * 0.38)], fill=(236, 186, 110), width=max(2, int(s * 0.05)))   # 下麵包
+    d.ellipse([cx - s * 0.55, cy - s * 0.78, cx - s * 0.15, cy - s * 0.6], fill=(246, 206, 140))   # 亮面
+
+
+def food_fries(d, cx, cy, s):
+    """薯條：紅色紙盒（橘色標誌）＋一把金黃的薯條"""
+    r = random.Random(int(cx + cy))
+    for k in range(16):
+        x = cx + r.uniform(-0.55, 0.55) * s; a = r.uniform(-0.25, 0.25); L_ = r.uniform(0.7, 1.05) * s
+        c = (r.randint(236, 252), r.randint(176, 206), r.randint(50, 80))
+        d.line([(x, cy), (x + math.sin(a) * L_, cy - L_)], fill=c, width=max(3, int(s * 0.13)))
+    d.polygon([(cx - s * 0.7, cy - s * 0.1), (cx + s * 0.7, cy - s * 0.1), (cx + s * 0.55, cy + s * 0.9), (cx - s * 0.55, cy + s * 0.9)], fill=(206, 40, 36))
+    d.polygon([(cx - s * 0.7, cy - s * 0.1), (cx + s * 0.7, cy - s * 0.1), (cx + s * 0.62, cy + s * 0.25), (cx - s * 0.62, cy + s * 0.25)], fill=(226, 60, 48))
+    d.ellipse([cx - s * 0.22, cy + s * 0.35, cx + s * 0.22, cy + s * 0.65], fill=ORANGE)
+
+
+def food_drink(d, cx, cy, s, col=(150, 60, 30)):
+    """飲料：透明杯（看得到可樂／紅茶的顏色、冰塊）＋白蓋＋吸管"""
+    d.polygon([(cx - s * 0.45, cy - s * 0.8), (cx + s * 0.45, cy - s * 0.8), (cx + s * 0.36, cy + s * 0.9), (cx - s * 0.36, cy + s * 0.9)], fill=col)
+    for (ix, iy) in ((-0.15, -0.5), (0.15, -0.3), (-0.1, -0.05)): d.rectangle([cx + s * ix - s * 0.1, cy + s * iy - s * 0.08, cx + s * ix + s * 0.1, cy + s * iy + s * 0.08], fill=tuple(min(255, v + 70) for v in col))
+    d.polygon([(cx - s * 0.3, cy - s * 0.78), (cx - s * 0.2, cy - s * 0.78), (cx - s * 0.16, cy + s * 0.85), (cx - s * 0.24, cy + s * 0.85)], fill=tuple(min(255, v + 50) for v in col))   # 杯子的反光
+    d.rounded_rectangle([cx - s * 0.5, cy - s * 0.92, cx + s * 0.5, cy - s * 0.78], int(s * 0.06), fill=(246, 246, 244))
+    d.line([(cx + s * 0.1, cy - s * 0.9), (cx + s * 0.25, cy - s * 1.35)], fill=ORANGE, width=max(3, int(s * 0.09)))
+
+
+def food_nuggets(d, cx, cy, s):
+    r = random.Random(7)
+    d.rounded_rectangle([cx - s, cy - s * 0.2, cx + s, cy + s * 0.6], int(s * 0.15), fill=(246, 236, 214))
+    for k in range(6):
+        x, y = cx + (k % 3 - 1) * s * 0.55 + r.uniform(-8, 8), cy - s * 0.2 + (k // 3) * s * 0.32 + r.uniform(-6, 6)
+        d.rounded_rectangle([x - s * 0.28, y - s * 0.2, x + s * 0.28, y + s * 0.2], int(s * 0.15), fill=(214, 146, 58)); d.ellipse([x - s * 0.14, y - s * 0.14, x, y - s * 0.02], fill=(236, 180, 96))
+
+
+def food_pie(d, cx, cy, s):
+    d.rounded_rectangle([cx - s, cy - s * 0.35, cx + s, cy + s * 0.35], int(s * 0.25), fill=(220, 150, 64))
+    for k in range(5): d.line([(cx - s * 0.7 + k * s * 0.35, cy - s * 0.25), (cx - s * 0.8 + k * s * 0.35, cy + s * 0.25)], fill=(176, 100, 40), width=max(2, int(s * 0.08)))
+
+
+def food_coffee(d, cx, cy, s):
+    d.polygon([(cx - s * 0.45, cy - s * 0.6), (cx + s * 0.45, cy - s * 0.6), (cx + s * 0.36, cy + s * 0.8), (cx - s * 0.36, cy + s * 0.8)], fill=(248, 246, 240))
+    d.rectangle([cx - s * 0.42, cy - s * 0.1, cx + s * 0.42, cy + s * 0.25], fill=(120, 76, 46)); d.rounded_rectangle([cx - s * 0.5, cy - s * 0.74, cx + s * 0.5, cy - s * 0.58], int(s * 0.06), fill=(60, 44, 36))
+    for k in range(3): d.arc([cx - s * 0.2 + k * s * 0.15, cy - s * 1.2, cx + k * s * 0.15, cy - s * 0.8], 200, 340, fill=(240, 240, 240), width=3)
+
+
 def t_menu(i):
+    """v2b：菜單螢幕改成有食物照片的那種（自己畫的漢堡、薯條、飲料；明亮的暖色底、橘色標題、價錢）"""
+    def f(im, d):
+        w, h = im.size
+        for y in range(h):   # 照片的背景：暖白到淺橘的漸層（像打光的商品照）
+            t = y / h; d.line([(0, y), (w, y)], fill=(int(255 - 10 * t), int(246 - 36 * t), int(226 - 70 * t)))
+        d.ellipse([w * 0.08, h * 0.55, w * 0.92, h * 1.08], fill=(240, 196, 140))   # 桌面的光
+        d.rectangle([0, 0, w, 50], fill=ORANGE); d.text((20, 4), ['超值套餐', '點心', '飲料・甜點', '早餐'][i], font=font(38), fill=(255, 255, 255))
+        logo_light(d, w - 46, 26, 18)
+        if i == 0:
+            food_burger(d, int(w * 0.36), int(h * 0.55), 120); food_fries(d, int(w * 0.72), int(h * 0.46), 70); food_drink(d, int(w * 0.88), int(h * 0.55), 58)
+        elif i == 1:
+            food_nuggets(d, int(w * 0.3), int(h * 0.58), 95); food_fries(d, int(w * 0.72), int(h * 0.46), 95)
+        elif i == 2:
+            food_drink(d, int(w * 0.2), int(h * 0.55), 80); food_coffee(d, int(w * 0.5), int(h * 0.6), 80); food_pie(d, int(w * 0.8), int(h * 0.68), 80)
+        else:
+            food_burger(d, int(w * 0.32), int(h * 0.58), 105); food_coffee(d, int(w * 0.72), int(h * 0.6), 80)
+        rows = MENU[i]; y = h - 46; d.rectangle([0, y - 4, w, h], fill=(36, 52, 95))
+        x = 14
+        for (n, p) in rows:
+            t_ = n + (' ' + p if p else ''); d.text((x, y), t_, font=font(28), fill=(255, 255, 255)); x += int(d.textlength(t_, font=font(28))) + 26
+    return f
+
+
+def t_menu_old(i):
     def f(im, d):
         w, h = im.size; d.rectangle([0, 0, w, h], fill=(22, 30, 56)); d.rectangle([0, 0, w, 54], fill=ORANGE)
         d.text((24, 6), ['超值套餐', '點心', '飲料・甜點', '早餐'][i], font=font(40), fill=(255, 255, 255))
@@ -208,6 +306,13 @@ def t_poster(im, d):      # 牆上的小海報：漢堡＋飲料（自己畫的�
     d.text((40, h - 110), '考試加油　宵夜半價', font=font(46), fill=(250, 248, 242))
 
 
+def t_poster1(im, d):     # v2b：一樓座位區東牆的海報（外觀圖右邊）：深藍底、薯條＋飲料、「宵夜也開著」
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=NAVY)
+    d.text((40, 36), '24h 大口漢堡', font=font(48), fill=(250, 248, 242)); d.line([(40, 104), (w - 40, 104)], fill=ORANGE, width=6)
+    food_fries(d, int(w * 0.32), int(h * 0.56), 95); food_drink(d, int(w * 0.68), int(h * 0.58), 95, col=(232, 140, 50))
+    d.text((40, h - 120), '宵夜也開著', font=font(56), fill=(250, 248, 242)); swoosh(d, w, h, h * 0.86)
+
+
 def t_study_logo(im, d):   # v2：樓梯間的標誌牆（深藍底、漢堡標誌、「大口漢堡」、橘色弧）
     w, h = im.size; d.rectangle([0, 0, w, h], fill=NAVY); logo(d, w // 2, int(h * 0.35), int(w * 0.22))
     d.text((int(w * 0.12), int(h * 0.55)), '大口漢堡', font=font(int(w * 0.18)), fill=(250, 248, 242)); swoosh(d, w, h, h * 0.78)
@@ -232,6 +337,7 @@ def t_night(im, d):       # 只給渲染：窗外的新生南路夜景（樹、�
 
 # ---------------- v2：一張發光貼圖集 GLOW_dk_screens（窗外夜景、菜單螢幕、點餐機、筆電螢幕；正式 GLB 也有）----------------
 GS = 2048
+GEMIT = 1.0 if FL == 2 else 2.2   # v2b：一樓的發光貼圖集（菜單螢幕、點餐機）亮一點；二樓照舊（MODEL_READY，不動）
 GR = {}   # 名稱 → (u0, v0, u1, v1)，v 從下往上
 
 
@@ -274,7 +380,7 @@ def night_scene(im, box, seed, west=False):
         sx = x0 + int(w * 0.18); d.rectangle([sx, y0 + int(h * 0.28), sx + 8, gy], fill=(80, 82, 80)); d.rectangle([sx - 60, y0 + int(h * 0.24), sx + 70, y0 + int(h * 0.3)], fill=(24, 110, 64))
         d.text((sx - 52, y0 + int(h * 0.245)), '新生南路', font=font(24), fill=(240, 240, 236))
         bx = x0 + int(w * 0.7); d.rectangle([bx, gy - int(h * 0.2), bx + 180, gy - int(h * 0.18)], fill=(90, 94, 98)); d.rectangle([bx + 20, gy - int(h * 0.18), bx + 70, gy], fill=(120, 150, 170))
-    im.paste(im.crop(box).filter(ImageFilter.GaussianBlur(1.0)).point(lambda v: int(v * 0.75)), (x0, y0))   # v2：整張暗一點（晚上的窗外比店裡暗）
+    im.paste(im.crop(box).filter(ImageFilter.GaussianBlur(1.0)).point(lambda v: int(v * 0.75 / GEMIT)), (x0, y0))   # v2b：一樓的貼圖集發光加強（GEMIT），窗外夜景照比例調暗，亮度和 v2 一樣   # v2：整張暗一點（晚上的窗外比店裡暗）
 
 
 def make_glow_atlas():
@@ -320,10 +426,11 @@ def t_books(im, d):   # 課本封面（照參考圖：民法（總則）、刑�
         fs = 52 if len(t) <= 3 else 34; d.text((i * cw + 16, h // 2 - fs // 2), t, font=font(fs), fill=(244, 236, 214))
 
 
-P = {k: tex(f'{k}.png', s, f) for k, s, f in (('mural', (1400, 330), t_mural), ('study', (420, 840), t_study), ('counter', (1600, 200), t_counter),
+P = {k: tex(f'{k}.png', s, f) for k, s, f in (('mural', (1400, 330), t_mural), ('study', (420, 840), t_study), ('counter', (2400, 310), t_counter),
                                                ('sign_order', (420, 170), t_sign('點餐')), ('sign_pick', (420, 170), t_sign('取餐')),
                                                ('kiosk', (420, 760), t_kiosk), ('ceiling', (512, 512), t_ceiling), ('poster', (520, 700), t_poster),
                                                ('staff', (340, 110), t_staff), ('floor', (512, 512), t_floor), ('books', (1000, 120), t_books), ('study_logo', (420, 360), t_study_logo))}
+if FL == 1: P['poster1'] = tex('poster1.png', (520, 700), t_poster1)
 GLOW_PATH = make_glow_atlas()
 for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 
@@ -334,9 +441,9 @@ m_wall = L.flat('dk_wall', '#e8c492', rough=0.8)   # v2：晚上暖光下的奶�
 m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
 m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
-m_panel = glowmat('dk_lightpanel', '#ffc98a', 2.4)   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
-m_warm = glowmat('dk_warm', '#ffc070', 5.0)
-m_screens = img_mat('GLOW_dk_screens', GLOW_PATH, rough=0.3, emit=1.0)   # v2：窗外夜景、菜單、點餐機、筆電螢幕（一張發光貼圖集＝一個材質）
+m_panel = glowmat('dk_lightpanel', '#ffc98a' if FL == 2 else '#ffcf96', 2.4 if FL == 2 else 9.0)   # v2b：一樓的燈板、崁燈再亮再暖（曝光 0 就接近參考圖）   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
+m_warm = glowmat('dk_warm', '#ffc070', 5.0 if FL == 2 else 9.0)
+m_screens = img_mat('GLOW_dk_screens', GLOW_PATH, rough=0.3, emit=GEMIT)   # v2：窗外夜景、菜單、點餐機、筆電螢幕（一張發光貼圖集＝一個材質）
 SCR = Mesh('GLOW_SCREENS', m_screens)
 m_vc = L.vc_material('dk_props_vc', rough=0.6)
 m_ceil = img_mat('dk_ceiling', P['ceiling'], rough=0.9); m_ceil.use_backface_culling = True
@@ -366,7 +473,7 @@ def ceiling():
     for x in [X0 + 1.2 + 1.8 * i for i in range(6)]:   # 崁燈
         for z in [Z0 + 1.0 + 2.0 * j for j in range(8)]:
             if SH['x0'] - 0.3 < x < SH['x1'] and SH['z0'] - 0.3 < z < SH['z1'] + 0.3: continue
-            down_quad(pn, x - 0.06, x + 0.06, z - 0.06, z + 0.06, YC - 0.006)
+            dq = 0.06 if FL == 2 else 0.09; down_quad(pn, x - dq, x + dq, z - dq, z + dq, YC - 0.006)   # v2b：一樓的崁燈大一點
     for (x, z) in ((-3.0, -6.6), (2.0, 6.6), (-4.6, 3.0)):   # 空調出風口
         fr.cbox(x - 0.4, x + 0.4, YC - 0.03, YC, z - 0.4, z + 0.4, '#e2e2e0')
         for k in range(5): fr.cbox(x - 0.34, x + 0.34, YC - 0.035, YC - 0.03, z - 0.3 + k * 0.15, z - 0.26 + k * 0.15, '#9a9c9e')
@@ -590,20 +697,28 @@ if FL == 1:
     wb = F['westBar']; tops.rbox(wb['x0'], wb['x1'], wb['h'] - 0.04, wb['h'], wb['z0'], wb['z1'], r=0.008, seg=2)
     for z in (wb['z0'] + 0.1, (wb['z0'] + wb['z1']) / 2, wb['z1'] - 0.1): legs.box(wb['x0'] + 0.05, wb['x0'] + 0.1, 0.0, wb['h'] - 0.04, z - 0.03, z + 0.03)
     for i, z in enumerate(F['westStools']): newpaint(props, lambda: stool(props, legs, -5.2, z, None), SEAT_COLS[i % 2])
-    fb = F['frontBar']; tops.rbox(fb['x0'], fb['x1'], fb['h'] - 0.04, fb['h'], fb['z0'], fb['z1'], r=0.008, seg=2)
-    for x in (fb['x0'] + 0.1, fb['x1'] - 0.1): legs.box(x - 0.03, x + 0.03, 0.0, fb['h'] - 0.04, fb['z0'] + 0.05, fb['z0'] + 0.1)
-    for i, x in enumerate(F['frontStools']): newpaint(props, lambda: stool(props, legs, x, 7.2, None), SEAT_COLS[(i + 1) % 2])
     for i, t in enumerate(F['tables2']):
         table(tops, legs, t['x'], t['z'], 0.7, 0.7); chair(props, legs, t['x'], t['z'] - 0.55, 0, SEAT_COLS[i % 2]); chair(props, legs, t['x'], t['z'] + 0.55, math.pi, SEAT_COLS[(i + 1) % 2])
-    for t in F['highTables']: table(tops, legs, t['x'], t['z'], 0.6, 0.6, h=1.05, round_=True)
+    # v2b：樓梯前、靠正面窗的座位區（外觀圖右邊那一段）：兩張雙人桌（椅子在東西兩邊，深藍布面＋木頭）、三盞白色吊燈
+    for i, t in enumerate(F['frontTables2']):
+        table(tops, legs, t['x'], t['z'], 0.7, 0.7); chair(props, legs, t['x'] - 0.55, t['z'], math.pi / 2, SEAT_COLS[(i + 1) % 2]); chair(props, legs, t['x'] + 0.55, t['z'], -math.pi / 2, SEAT_COLS[i % 2])
+    sp = Mesh('SEAT_PENDANTS', m_steel); spl = Mesh('SEAT_PENDANT_GLOW', m_warm)
+    for (x, z) in F['seatPendants']:
+        y = 2.45; legs.cyl((x, y + 0.3, z), (x, YC, z), 0.006, seg=6)
+        sp.add_bm(L.lathe([(0.0, 0.32), (0.03, 0.31), (0.05, 0.22), (0.2, 0.03), (0.21, 0.0), (0.195, 0.0), (0.185, 0.03), (0.04, 0.21), (0.0, 0.22)], seg=24), Matrix.Translation(g2b(x, y, z)))
+        down_quad(spl, x - 0.14, x + 0.14, z - 0.14, z + 0.14, y + 0.03)
+    sp.finish(root, smooth=True); spl.finish(root)
     # 牆上的海報（後牆、員工通道左邊）、門邊的垃圾桶、盆栽
-    wall_card('POSTER_1F', X1 - 0.01, 5.2, 6.5, 1.2, 2.95, IM['poster'], -1)
+    wall_card('POSTER_1F', X1 - 0.01, 5.9, 7.3, 1.25, 3.0, IM['poster1'], -1)   # v2b：座位區東牆的漢堡飲料海報（外觀圖右邊）
     props.crbox(-3.1, -2.6, 0.0, 1.0, 7.5, 7.95, '#24345f', r=0.02); props.cbox(-3.05, -2.65, 0.8, 0.92, 7.49, 7.5, '#111111')
     plant(props, -5.6, 7.5); plant(props, 5.4, 7.45, s=0.9)
     # 桌上的東西（深夜也有人在讀書：可樂、紙袋、課本）
     r = random.Random(41)
-    for t in F['tables2'][:2] + F['highTables'][:1]:
-        newpaint(props, lambda: props.add_bm(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(t['x'] + 0.12, (0.75 if t in F['tables2'] else 1.05), t['z'] - 0.1))), '#f4f4f2')
+    for t in F['tables2'][:2] + F['frontTables2']:
+        newpaint(props, lambda: props.add_bm(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.045, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(t['x'] + 0.12, 0.75, t['z'] - 0.1))), '#f4f4f2')
+    for t in F['frontTables2']:   # v2b：座位區桌上的餐盤＋漢堡紙＋薯條
+        props.crbox(t['x'] - 0.2, t['x'] + 0.1, 0.75, 0.765, t['z'] - 0.05, t['z'] + 0.2, '#c84030', r=0.004); props.crbox(t['x'] - 0.12, t['x'] + 0.0, 0.765, 0.82, t['z'] + 0.02, t['z'] + 0.14, '#f2e6cc', r=0.02)
+        props.cbox(t['x'] - 0.17, t['x'] - 0.13, 0.765, 0.88, t['z'] + 0.0, t['z'] + 0.05, '#d83a2e')
     props.crbox(-3.45, -3.1, 0.75, 0.79, -0.75, -0.5, '#3a5a8a', r=0.005); props.crbox(-3.4, -3.12, 0.79, 0.82, -0.72, -0.52, '#a03a34', r=0.005)
     props.crbox(-3.5, -3.2, 0.75, 1.0, 1.75, 1.92, '#d8b88a', r=0.01)
 
