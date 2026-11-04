@@ -44182,7 +44182,7 @@
    "evidence": "9f4d237e2"
   },
   {
-   "id": "D134",
+   "id": "CC-CONTACT-1104",
    "title": "D134／HV-25：CC 可以直接聯絡任何職位（使用者 11-04 12:1x 對 CC-B「你可以直接連絡任何人 直接改規則」；選擇題「交給 LAWWW 寫」）",
    "area": "HANDOFF",
    "owner": "LAWWW",
@@ -44201,7 +44201,10 @@
    },
    "source": "使用者 11-04 12:1x 對 CC-B",
    "authorized": "使用者直接要求",
-   "evidence": "ad3ccf750"
+   "evidence": "ad3ccf750",
+   "aliases": [
+    "D134"
+   ]
   }
  ]
 }
