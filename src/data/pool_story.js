@@ -91,7 +91,7 @@ const POOL_STORY=(function(){
       where:[ {days:WD,from:13,to:16,zone:'campus',act:'sit',seatAt:[-25,-12.94],noHoliday:true,desc:'很會問問題的女生',label:'文學院前的長椅'} ] },   /* 文學院（大道北側 −38,−34）前面、大道上的長椅 */
     pool_16:{ card:'宥辰的朋友，背法條用唱的', before:'常幫人搬音響的同學', personality:'', place:'公館',
       model:'char.npc_nm14', props:['audio_cable'],   /* 音源線＝audio_cable（坐下時藏，NPC-POOL-ART-1028）*/
-      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，二手唱片行的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
+      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，轉角唱片的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
     pool_17:{ card:'筆記王', personality:'', place:'總圖',
       model:'char.npc_nf5', props:['folder'],   /* 一疊用迴紋針夾好的筆記＝folder */
       where:[ {days:WD,from:19,to:22,zone:'library_b1',act:'read',noHoliday:true,desc:'筆記借人看的人',label:'總圖 B1'} ] },
