@@ -27219,7 +27219,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】使用者 14:07 傳女舍 2 張（docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/，README 逐張說明）：一樓店面、宿舍入口在二樓平台（樓梯＋坡道）、十字鏤空花磚樓梯間、拱門「HOME」入口；網頁 https://osa_dorm.ntu.edu.tw/Freshman_House 有更多外觀、內裝，這個環境連不到（要使用者開網域）｜【LAWWW-C 11-04 14:05】使用者 14:03 傳共同教學館 4 張（docs/story_planning/ref_images/buildings/common_teaching_1104/，README 有逐張說明）：紅磚舊館＋米色翼樓、拱窗、大松樹、樹下木平台、下沉廣場擋土牆、常春藤 → LAWWW2 比對、定南面庭園和西側樓梯；女舍照片還沒給｜【LAWWW-C 11-04 14:04】使用者 13:5x 選「我之後給照片」（UA-LAWWW-1104-89）：照舊等｜【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
+   "next": "【LAWWW-C 11-04 14:19】官網大一女舍簡介 24 張（外觀、二樓平台、服務台、交誼廳、讀書間、運動室、茶水間、洗衣間、衛浴、信箱、走廊、四人房）＋事實（A、B 兩棟二樓天橋連通、傳達室 A 棟一樓、沒電梯、4 人雅房、房間從 2 樓開始）存 freshman_women_dorm_1104/web/；併進 NTU-REF-AUDIT-1104 一起比對｜【LAWWW-C 11-04 14:08】使用者 14:07 傳女舍 2 張（docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/，README 逐張說明）：一樓店面、宿舍入口在二樓平台（樓梯＋坡道）、十字鏤空花磚樓梯間、拱門「HOME」入口；網頁 https://osa_dorm.ntu.edu.tw/Freshman_House 有更多外觀、內裝，這個環境連不到（要使用者開網域）｜【LAWWW-C 11-04 14:05】使用者 14:03 傳共同教學館 4 張（docs/story_planning/ref_images/buildings/common_teaching_1104/，README 有逐張說明）：紅磚舊館＋米色翼樓、拱窗、大松樹、樹下木平台、下沉廣場擋土牆、常春藤 → LAWWW2 比對、定南面庭園和西側樓梯；女舍照片還沒給｜【LAWWW-C 11-04 14:04】使用者 13:5x 選「我之後給照片」（UA-LAWWW-1104-89）：照舊等｜【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
    "xai": {
     "spec": "LAWWW2 清查 B14",
     "branch": "claude/focused-cray-c9uwvw",
@@ -45084,6 +45084,27 @@
    "authorized": "D109 AA 劇情自主；使用者 13:0x 選「恢復，現在就補」（UA-AA-1104-15）",
    "pausedReason": "v9.10.20 擋發布項目先做",
    "resumeWhen": "v9.10.20 發布以後"
+  },
+  {
+   "id": "NTU-REF-AUDIT-1104",
+   "title": "遊戲裡每一棟有原型的建築都去學校官網（*.ntu.edu.tw）找照片和介紹，逐棟和遊戲畫面比對（使用者 11-04 14:15：「這個就是我的大學的網站裡有任何建筑物請你都去查它裡面一定會有圖片介紹你要好好檢查你現在圖片裡的游戲裡」）",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開新遊戲走進校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:19】①LAWWW（子代理）：列出遊戲裡所有有原型的建築（zones3d／campuskit 的館、宿舍、總圖、系館…），逐棟在 *.ntu.edu.tw 找官方照片與介紹（樓層、入口、外牆材料、室內），存 docs/story_planning/ref_images/buildings/<建築>/web/＋README（事實＋逐張說明）②CC 在使用者電腦拍遊戲裡同角度的畫面（D131）③LAWWW2 逐棟比對、提修改（D108、D133 照參考圖）④BB 照 D120／D133 判；第一棟：大一女舍 24 張已存（freshman_women_dorm_1104/web/）；照片只當參考、不進遊戲，校名照 WORLD_NAMING",
+   "source": "使用者 11-04 14:15 對 LAWWW-C（UA-LAWWW-1104-92）",
+   "authorized": "使用者直接要求"
   }
  ]
 }

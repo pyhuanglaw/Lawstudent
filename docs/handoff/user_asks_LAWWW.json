@@ -2847,7 +2847,16 @@
    "kind": "原話",
    "status": "進行中",
    "task": "ART-PHOTO-CMP-1021",
-   "note": "網址在雲端環境連不到（osa_dorm.ntu.edu.tw 要加進 Allowed domains）；兩張照片存 docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/"
+   "note": "網址在雲端環境連不到（osa_dorm.ntu.edu.tw 要加進 Allowed domains）；兩張照片存 docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/；14:1x 使用者說 osa_dorm 格式不對加不進去→改加 *.ntu.edu.tw，14:16 抓到官網 24 張"
+  },
+  {
+   "id": "UA-LAWWW-1104-92",
+   "at": "2026-11-04T14:19Z",
+   "quote": "*.ntu.edu.tw 加入了 這個就是我的大學的網站裡有任何建筑物請你都去查它裡面一定會有圖片介紹你要好好檢查你現在圖片裡的游戲裡",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X223",
+   "task": "NTU-REF-AUDIT-1104"
   }
  ]
 }
