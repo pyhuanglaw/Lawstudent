@@ -44055,6 +44055,31 @@
     "receiver": "BB",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走進咖啡廳或圖書館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "SEAT-ACTIVITY-1104",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "title": "坐著的人有各種樣子＋桌上有東西（筆電、平板、滑手機、看書、寫筆記；咖啡廳、圖書館、店裡座位；USER_WANTS X217）",
+   "status": "進行中",
+   "next": "子代理實作：照 desk_props.glb 的 rset／tset／lset 組＋hold_phone，路人與有名字的人坐下讀書時配一種；平板模型請 BB／CC（X215）或 LAWWW2 做",
+   "xai": {
+    "spec": "使用者 11-04 06:2x 對 LAWWW",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "BB 截圖驗：各區座位上的人樣子不重複、桌上有東西",
+    "receiver": "BB",
+    "ack": "ACK"
+   }
   }
  ]
 }
