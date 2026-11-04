@@ -103,14 +103,14 @@ SKIES = [  # 日系動畫風的天空（參考圖封面：雲、夕陽電線桿�
 ]
 
 
-def scene(w, h, seed, kind=None, sky=None):
+def scene(w, h, seed, kind=None, sky=None, clouds=None):
     """一張動畫風景（封面、海報共用）：天空漸層＋雲／星＋剪影（電線桿、城市、山、樹、橋、海、電車）"""
     rr = np.random.default_rng(seed); sk = SKIES[sky if sky is not None else seed % len(SKIES)]
     a = vgrad(w, h, sk); a += noise(w, h, max(2, w // 24), 6, rr)[..., None]
     im = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im, 'RGBA')
     kind = kind or ['clouds', 'pole', 'city', 'sakura', 'sea', 'mount', 'tree', 'bokeh', 'train', 'bridge', 'moon'][seed % 11]
     hz = h * rr.uniform(0.62, 0.78); dark = (24, 22, 34, 255) if sk[0][1] in ('#141b33', '#2b2f5a', '#3a3a5a') else (40, 36, 46, 255)
-    if kind in ('clouds', 'sea', 'sakura', 'tree') or rr.random() < 0.3:   # 雲（白、亮邊）
+    if clouds if clouds is not None else (kind in ('clouds', 'sea', 'sakura', 'tree') or rr.random() < 0.3):   # 雲（白、亮邊）
         for k in range(rr.integers(3, 7)):
             cx, cy, s = rr.uniform(0, w), rr.uniform(h * 0.15, h * 0.6), rr.uniform(0.1, 0.25) * w
             for j in range(6): ox, oy = rr.uniform(-s, s), rr.uniform(-s * 0.3, s * 0.2); r_ = s * rr.uniform(0.35, 0.6); d.ellipse([cx + ox - r_, cy + oy - r_ * 0.7, cx + ox + r_, cy + oy + r_ * 0.7], fill=(250, 246, 240, 200))
@@ -189,7 +189,7 @@ def poster_taipei(im, d):
 
 def poster_gg(im, d):
     """「公館聲響祭 Gongguan Sound Festival '02」（最前面唱片箱的正面：紫色黃昏、樹和人群的剪影、帳篷）"""
-    w, h = im.size; sc = scene(w, h, 5, 'tree', sky=7); d2 = ImageDraw.Draw(sc, 'RGBA'); rr = np.random.default_rng(2)
+    w, h = im.size; sc = scene(w, h, 5, 'tree', sky=7, clouds=False); d2 = ImageDraw.Draw(sc, 'RGBA'); rr = np.random.default_rng(2)
     for k in range(90): x = rr.uniform(0, w); y = h * 0.86 + rr.uniform(-6, 6); r_ = rr.uniform(5, 9); d2.ellipse([x - r_, y - r_ * 2.2, x + r_, y], fill=(28, 24, 36, 255)); d2.rectangle([x - r_, y - r_, x + r_, h], fill=(28, 24, 36, 255))
     d2.polygon([(w * 0.72, h * 0.78), (w * 0.8, h * 0.68), (w * 0.88, h * 0.78)], fill=(40, 34, 48, 255))
     for k in range(40): x, y = rr.uniform(0, w), rr.uniform(0, h * 0.4); d2.point((x, y), fill=(255, 245, 220, 220))
@@ -488,7 +488,7 @@ for k in range(3): sd.line([10 + k * 120, 34, 10 + k * 120, 250], fill=rgb('#9aa
 E.paste(sc, (384, 0)); uvbox('screen', 384, 0, 768, 256, (1024, 512))
 d.rectangle([768, 0, 895, 63], fill=(240, 170, 80)); uvbox('vu', 772, 4, 892, 60, (1024, 512))
 d.rectangle([896, 0, 1023, 63], fill=(120, 255, 140)); uvbox('led', 900, 4, 1020, 60, (1024, 512))
-d.rectangle([768, 64, 1023, 191], fill=(255, 244, 222)); uvbox('niche', 776, 72, 1016, 184, (1024, 512))
+d.rectangle([768, 64, 1023, 191], fill=(150, 112, 70)); uvbox('niche', 776, 72, 1016, 184, (1024, 512))
 E.save(os.path.join(GEN, 'corner_emit.png'))
 
 # ======================= 4. 招牌（2048×1024） =======================
