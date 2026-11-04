@@ -11,11 +11,12 @@ FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': Tru
 START = (0, -30)    # 公館預設出生點
 # 名稱, x, z：每一個都要站得住，而且從出生點有路走得到
 PLACES = [('校門口西側通道外（回校園）', -5.27, -44.5), ('校門口東側通道外（回校園）', 5.27, -44.5), ('校門西側通道（回校園的互動點）', -5.27, -47.5), ('校門東側通道（回校園的互動點）', 5.27, -47.5), ('捷運站入口前', -35.2, 11), ('往溫州街（巷口）', -71, 20.2), ('南側人行道（東）', 60, 12), ('街尾（東）騎樓外', 70, 16.5),
-          ('麵店門口（騎樓裡）', -63, 21), ('茶行門口', -52.8, 21), ('書店門口', -41.6, 21), ('便利商店門口', -29.4, 21), ('東段騎樓', 60, 20.5)]
+          ('麵店門口（騎樓裡）', -63, 21), ('青木茶室門口', -54.05, 21), ('頁間書屋門口', -36.4, 21), ('便利商店門口', -29.4, 21), ('東段騎樓', 60, 20.5)]   # 11-04（AA_647／AA_650）：茶行改成進得去的青木茶室（門 x −54.05）、書店改成頁間書屋（門搬到 x −36.4）
 # 從其他區域回到公館的出生點（zones3d.js 各室內區域的「離開」與溫州街、校園的出口）
-SPAWNS = [('離開麵店', -63, 18), ('離開書店', -42, 18), ('離開便利商店', -29.4, 18), ('溫州街 → 公館（巷口）', -71, 16.5), ('校園 → 公館', -2.5, -29)]
-# 各店的互動點（店名、x、z）：x 和改版前相同；z 跟著店面往北搬 30 m（51 → 21，一樣在騎樓裡、店門前 1 m）
-DOORS = [('進入阿鳳麵店', -63.0, 21.0), ('買一杯飲料', -52.8, 21.0), ('進入舊路書房', -41.6, 21.0), ('進入便利商店', -29.4, 21.0)]
+SPAWNS = [('離開麵店', -63, 18), ('離開青木茶室', -54.05, 18), ('離開頁間書屋', -38.8, 20.2), ('離開便利商店', -29.4, 18),   # 11-04：書店門搬到 x −36.4，出店的地方是 (−38.8, 20.2)（zones3d.js 的 SHOP_IN.bookstore.out；舊的 (−42, 18) 落在機車那一段上）；青木茶室新出口
+          ('溫州街 → 公館（巷口）', -71, 16.5), ('校園 → 公館', -2.5, -29)]
+# 各店的互動點（店名、x、z）：在騎樓裡、店門前 1 m（z 21）。11-04 換新店名、新店門（AA_647／AA_650、X209）：阿鳳麵店→公館燒臘；茶行（門口外帶）→青木茶室（進得去，門 x −54.05）；舊路書房→頁間書屋（門 x −41.6→−36.4）
+DOORS = [('進入公館燒臘', -63.0, 21.0), ('進入青木茶室', -54.05, 21.0), ('進入頁間書屋', -36.4, 21.0), ('進入便利商店', -29.4, 21.0)]
 BLOCKED = [('校門門房（2026-10-18 起在正中間）', 0, -46.3), ('校門燈柱（西內側）', -2.45, -46), ('校門燈柱（東內側）', 2.45, -46), ('校門燈柱（西外側）', -8.1, -46), ('校門燈柱（東外側）', 8.1, -46), ('轉角公寓（巷口西側）', -76, 20.5), ('麵店裡面', -63, 23.5), ('便利商店裡面', -29.4, 24), ('東段店裡面', 50, 25), ('捷運出口本體', -40, 11), ('圓環花台', 22, 11.5)]
 OLD_SAVES = [('舊存檔：站在新騎樓柱子的位置', -56.8, 19.3), ('舊存檔：舊版麵店門口（改版後在店後面）', -63, 48), ('舊存檔：舊版捷運入口前（改版後在店後面）', -40, 28.5)]
 
@@ -63,7 +64,7 @@ async def main():
         its = await pg.evaluate("(()=>GAME.E.interactables.map(i=>({label:i.label,x:+i.x.toFixed(2),z:+i.z.toFixed(2)})))()")
         for label, x, z in DOORS:
             hit = [i for i in its if i['label'] == label]
-            check(f'互動點「{label}」在（{x}, {z}）（x 和改版前相同）', len(hit) == 1 and abs(hit[0]['x'] - x) < 0.01 and abs(hit[0]['z'] - z) < 0.01, json.dumps(hit, ensure_ascii=False))
+            check(f'互動點「{label}」在（{x}, {z}）', len(hit) == 1 and abs(hit[0]['x'] - x) < 0.01 and abs(hit[0]['z'] - z) < 0.01, json.dumps(hit, ensure_ascii=False))
         # 站在店門口（騎樓裡、門前 1 m）會出現這家店的互動
         for label, x, z in DOORS:
             r = await pg.evaluate("(a=>{ const E=GAME.E, P=E.player; P.obj.position.set(a.x,0,a.z-0.6); P.path=null; P.target=null; const it=E.nearestInteractable(); return it?it.label:null; })(%s)" % json.dumps({'x': x, 'z': z}))
@@ -75,8 +76,8 @@ async def main():
         # 實際按互動按鈕：麵店門口 → 進麵店 → 「離開麵店」→ 回到公館
         await load_at(-63, 20.4, 3.1416)
         await pg.wait_for_timeout(1500)
-        vis = await wait_label('進入阿鳳麵店')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
-        check('麵店門口出現互動按鈕「進入阿鳳麵店」', (not vis['hidden']) and vis['label'] == '進入阿鳳麵店', json.dumps(vis, ensure_ascii=False))
+        vis = await wait_label('進入公館燒臘')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
+        check('麵店門口出現互動按鈕「進入公館燒臘」', (not vis['hidden']) and vis['label'] == '進入公館燒臘', json.dumps(vis, ensure_ascii=False))   # 11-04 店名改成公館燒臘（X209）
         await pg.evaluate("document.getElementById('interact').click()")
         zone = None
         for i in range(60):
@@ -86,8 +87,8 @@ async def main():
         check('按下後進到麵店', zone == 'noodle', str(zone))
         await pg.evaluate("(()=>{ const P=GAME.E.player; P.obj.position.set(0,0,3.9); P.path=null; P.target=null; })()")
         await pg.wait_for_timeout(1500)
-        vis = await wait_label('離開麵店')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
-        check('麵店門口出現「離開麵店」', (not vis['hidden']) and vis['label'] == '離開麵店', json.dumps(vis, ensure_ascii=False))
+        vis = await wait_label('離開公館燒臘')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
+        check('麵店門口出現「離開公館燒臘」', (not vis['hidden']) and vis['label'] == '離開公館燒臘', json.dumps(vis, ensure_ascii=False))
         await pg.evaluate("document.getElementById('interact').click()")
         for i in range(60):
             zone = await pg.evaluate("GAME.G.zone")

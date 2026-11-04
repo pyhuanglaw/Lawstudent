@@ -25,18 +25,22 @@ OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'ar
 IDS = ['G%02d' % i for i in range(16)]
 INT_IDS = ['G15']   # 店內景深卡：只剩 G15 巷口轉角（一般店面、沒有騎樓）。G01 清葉茶行 10-18 起是臨騎樓的立體櫃台；其他 14 間 10-23 起是立體淺店內（ART-GG-FACADE-3D-1023，LAWWW2-B）
 INNER_IDS = [i for i in IDS if i not in ('G01', 'G15')]
-GLOWS = 114   # 店面的光暈（GLOW_*）：86 個＋14 間立體店內自己的燈 28 個（ART-GG-FACADE-3D-1023）
-DESIGNED = list(IDS)   # ART-GG-SIGNS-2（LAWWW2-B）：16 家的橫招牌全部是使用者生成、BB-B 通過的設計稿（gg_signs_atlas）；之前 G00／G02／G03／G04／G06／G10／G11 七家   # G00／G02／G04／G06／G10／G11：使用者生成、BB-B 通過的設計稿（gg_signs_atlas，LAWWW2-B ART-GG-SIGNS）    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
-IDS_CANVAS = [i for i in IDS if i not in DESIGNED]
+GLOWS = 122   # 店面的光暈（GLOW_*）：86 個＋14 間立體店內自己的燈 28 個（ART-GG-FACADE-3D-1023）＝114；11-04 公館八間新店面（XS_IDS）的騎樓燈、店內燈改成照參考圖的位置，多 8 個（gongguan_shops.glb 的 GLOW_ 節點 122 個）
+XS_IDS = ['G01', 'G02', 'G03', 'G05', 'G06', 'G07', 'G12', 'G14']   # 11-04（AA_647／AA_650）：八間新店的店面照使用者的參考圖裁貼圖（wz_street.py 的 GG_XS、xs 貼圖集 wz_xs_fronts），招牌也是參考圖裁的，不在 gg_signs_atlas（wz_signs）
+DESIGNED = [i for i in IDS if i not in XS_IDS]   # ART-GG-SIGNS-2（LAWWW2-B）：16 家的橫招牌全部是使用者生成、BB-B 通過的設計稿（gg_signs_atlas）；之前 G00／G02／G03／G04／G06／G10／G11 七家   # G00／G02／G04／G06／G10／G11：使用者生成、BB-B 通過的設計稿（gg_signs_atlas，LAWWW2-B ART-GG-SIGNS）    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
+IDS_CANVAS = [i for i in IDS if i not in DESIGNED and i not in XS_IDS]
 VERT = []                                                              # 店的直立招牌：六塊都換成設計稿了（VDESIGNED）
-VDESIGNED = ['G00', 'G02', 'G04', 'G06', 'G10', 'G11']               # 設計稿直立招牌：sk_vsign_<店>_a／_b
+VDESIGNED = ['G00', 'G04', 'G10', 'G11']                             # 設計稿直立招牌：sk_vsign_<店>_a／_b（11-04：G02 青木茶室、G06 慢輪單車換成參考圖的新店面，原本的直立招牌拿掉）
 TENANT = ['G01', 'G04', 'G06', 'G07', 'G08', 'G10', 'G12', 'G14']      # 樓上住戶的直立招牌（ART-GG-SIGNS-2 起也是設計稿）
 SIGN2F = ['G02', 'G05', 'G09', 'G11', 'G13']                          # 二樓整面大招牌（ART-GG-SIGNS-2 起是設計稿）
 ROOF = ['G07']                                                        # 屋頂看板（ART-GG-SIGNS-2 起是設計稿）
 GLB = 'gongguan_shops_glb'
 SETTLED = "(async()=>{ for(let i=0;i<480;i++){ const A=ASSETS; const n=Object.keys(A.status).filter(k=>!A.cache[k]&&!A.errors.some(e=>e.startsWith(k+':'))).length; if(!n) return i; await new Promise(r=>setTimeout(r,250)); } return -1; })()"
 # 機車的分組（zones3d.js gongguan 區塊的 scRow）：北側 N0–N4、南側 S0–S2
-SC_GROUPS = {'N0': 6, 'N1': 6, 'N2': 8, 'N3': 7, 'N4': 9, 'S0': 6, 'S1': 9, 'S2': 9}
+SC_GROUPS = {'N0': 6, 'N1': 6, 'N2': 8, 'N3': 7, 'N4': 9, 'S0': 6, 'S1': 9, 'S2': 9,
+             # 騎樓柱子外那一排（ART-GG-STREETLIFE-1023 起；zones3d.js 的 scRow(…,'A'+seg)）：一段一組，11-04 讓出第二批四間店門以後的台數
+             'A0': 5, 'A1': 5, 'A2': 4, 'A3': 5, 'A4': 3, 'A5': 4, 'A6': 3, 'A7': 5, 'A8': 5, 'A9': 5, 'A10': 5, 'A11': 4, 'A12': 5, 'A13': 4}
+SC_TOTAL = sum(SC_GROUPS.values())   # 60＋騎樓前 62＝122
 SC_VIS = """(()=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
     const out=E.zone.group.children.find(o=>o.name==='gg_scooters_glb'); if(!out) return null; const seen=new Set(), all=new Set(); const sp=new THREE.Sphere();
     out.children.forEach(o=>{ const m=o.isLOD?o.levels[0].object:o; if(!(m.isInstancedMesh||o.isLOD)||!o.userData.scGroup) return; all.add(o.userData.scGroup); o.updateMatrixWorld(true); if(!m.boundingSphere&&m.geometry) m.geometry.computeBoundingSphere(); sp.copy(m.boundingSphere||m.geometry.boundingSphere).applyMatrix4(m.matrixWorld); if(fr.intersectsSphere(sp)) seen.add(o.userData.scGroup); });   /* 機車 v2：每組一個 THREE.LOD（近的那一層的範圍） */
@@ -143,19 +147,19 @@ async def check(pg, run, formal):
             if(lods.length){   /* 機車 v2（scooters_v2.py，12 款）：每組一個 THREE.LOD（近：完整、遠：_lod1），合成網格、頂點色 */
               const pick=out.userData.scPick||{}; const ms=[]; lods.forEach(l=>l.levels.forEach(v=>ms.push(v.object)));
               return {kitScooters:n, kitHidden:kit?!kit.visible:null, lods:lods.length, placed:Object.values(pick).reduce((a,b)=>a+b,0), kinds:Object.keys(pick).length, pick, colors:out.userData.scColors||0, perGroup:out.userData.scPerGroup||{},
-                levelsOK:lods.every(l=>l.levels.length===2&&l.levels[1].distance>0), castShadow:ms.some(m=>m.castShadow)}; }
+                levelsOK:lods.every(l=>(l.levels.length===2||(l.levels.length===3&&/^scooters_A\\d+$/.test(l.name)&&!l.levels[2].object.isMesh&&l.levels[2].distance>l.levels[1].distance))&&l.levels[1].distance>0), castShadow:ms.some(m=>m.castShadow)}; }   /* 騎樓前那一排（scooters_A*）多一層空的：40 m 外不畫（zones3d.js 公館區塊）*/
             const paint=ims.filter(m=>m.material.name==='scooter_paint'); const per={}; for(const m of paint){ const k=m.userData.scGroup||'?'; per[k]=(per[k]||0)+m.count; }
             const glbCols=[], c=new THREE.Color(); for(const m of paint) for(let i=0;i<m.count;i++){ m.getColorAt(i,c); glbCols.push(c.getHexString()); }
             const rad={}; for(const m of ims){ if(m.userData.scGroup) rad[m.userData.scGroup]=Math.max(rad[m.userData.scGroup]||0,+m.boundingSphere.radius.toFixed(1)); }
             return {kitScooters:n, kitHidden:kit?!kit.visible:null, instanced:ims.length, paintInstances:paint.reduce((a,m)=>a+m.count,0), perGroup:per, radius:rad,
               colors:new Set(glbCols).size, hasColor:paint.every(m=>!!m.instanceColor), castShadow:ims.some(m=>m.castShadow&&m.name!=='wz_scooter_shadows')}; })()""")
         if sc.get('lods'):
-            run.check('機車（v2 多車型）：60 台套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每組近／遠兩層、不進陰影那一輪）',
-                      sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['placed'] == 60 and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] and not sc['castShadow'], json.dumps(sc, ensure_ascii=False))
-            run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組一個 THREE.LOD）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup']}))
+            run.check(f'機車（v2 多車型）：{SC_TOTAL} 台套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每組近／遠兩層、不進陰影那一輪）',
+                      sc['kitHidden'] is True and sc['kitScooters'] == SC_TOTAL and sc['placed'] == SC_TOTAL and sc['kinds'] >= 6 and sc['colors'] >= 5 and sc['levelsOK'] and not sc['castShadow'], json.dumps(sc, ensure_ascii=False))
+            run.check('機車分組：北側 N0–N4、南側 S0–S2 每組 6～9 台、騎樓前 A0–A13 每組 3～5 台（每組一個 THREE.LOD）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup']}))
         else:
             run.check('機車：60 台套件機車整組藏起來、換成正式模型的 InstancedMesh（台數相同、車殼有每台的顏色、不進陰影那一輪）',
-                      sc['kitHidden'] is True and sc['kitScooters'] == 60 and sc['paintInstances'] == 60 and sc['hasColor'] and sc['colors'] >= 5 and not sc['castShadow'], json.dumps(sc))
+                      sc['kitHidden'] is True and sc['kitScooters'] == SC_TOTAL and sc['paintInstances'] == SC_TOTAL and sc['hasColor'] and sc['colors'] >= 5 and not sc['castShadow'], json.dumps(sc))
             run.check('機車分組：北側 N0–N4、南側 S0–S2，每組 6～9 台（每組各自一套 InstancedMesh）', sc['perGroup'] == SC_GROUPS, json.dumps({'perGroup': sc['perGroup'], 'radius': sc['radius']}))
         neg = await pg.evaluate("""(()=>{ const b=GAME.E.zone.group.children.find(o=>o.userData&&o.userData.ggShop==='G07'); const m=b.children.find(o=>o.isMesh); m.visible=true;
             const n=b.children.filter(o=>(o.isMesh||o.isSprite)&&o.visible).length; m.visible=false; return n; })()""")
@@ -194,8 +198,11 @@ async def main():
             await b.close()
     run.check('導航格：正式模型＝程序化版＋地上雜物的腳印（GG_PROP_BLOCKS）', res[True][0] == res[False][0], json.dumps([res[True][0], res[False][0]]))
     run.check('鏡頭碰撞方塊：完全相同', res[True][1]['col'] == res[False][1]['col'], '%d vs %d 個' % (len(res[True][1]['col']), len(res[False][1]['col'])))
-    run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
-    run.check('沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個', res[True][2]['empty'] == res[False][2]['empty'], json.dumps([res[True][2], res[False][2]]))   # 只比藏起來的數量：正式模型自己會多出群組（例：公館遠景），被取代的套件在一般網址略過，總數本來就不一樣
+    GLB_ONLY = {'坐在騎樓的板凳'}   # 騎樓的板凳是正式模型裡的（zones3d.js：seats=ggGLB?[板凳]:[]），套件沒有，只在正式模型有這個座位
+    itT = [i for i in res[True][1]['it'] if i[0] not in GLB_ONLY]
+    run.check('互動點（位置、半徑、名稱）：完全相同（正式模型多的騎樓板凳不算）', itT == res[False][1]['it'] and len(itT) == len(res[True][1]['it']) - 1, '%d（扣板凳 %d）vs %d 個' % (len(res[True][1]['it']), len(itT), len(res[False][1]['it'])))
+    # 11-04 改成比「看得到的群組」：?nobldg 也拿掉 prop.street（路燈、腳踏車的正式模型），套件的路燈、腳踏車群組合併以後是空的，兩邊的群組總數本來就不同；正式模型多藏東西＝看得到的少了
+    run.check('沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個（看得到的群組一樣多）', res[True][2]['n'] - res[True][2]['empty'] == res[False][2]['n'] - res[False][2]['empty'], json.dumps([res[True][2], res[False][2]]))   # 只比藏起來的數量：正式模型自己會多出群組（例：公館遠景），被取代的套件在一般網址略過，總數本來就不一樣
     f, n = res[True][3], res[False][3]
     run.check('效能：每個鏡頭的 draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 21:21Z 的條件）',
               all(f[k]['calls'] <= 1.3 * n[k]['calls'] and f[k]['tris'] <= 420000 for k in f), json.dumps({k: [n[k]['calls'], f[k]['calls'], round(f[k]['calls'] / n[k]['calls'], 3), n[k]['tris'], f[k]['tris']] for k in f}))
