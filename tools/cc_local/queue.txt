@@ -23,6 +23,7 @@
 # ===== P0 LIVE 驗證 v9.10.19.1（BB 02:15；main b0c3032af＝fd8d447d2＋RELEASES.md；排最前面）=====
 NOODLE_exit | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CC_HEADLESS=0
 NOODLE_exit2 | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CASES=B;CC_HEADLESS=0
+BIKE_flow_r3 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
 GG_groups | 610c528cb | probe | docs/story_planning/test_tools/cc/cc_gg_groups_probe.py | index.html | 15 | CC_HEADLESS=0
 GG_ext_nav3 | 610c528cb | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
 GG_ext_glb3 | 610c528cb | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
