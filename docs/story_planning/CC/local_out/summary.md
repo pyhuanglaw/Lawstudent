@@ -753,3 +753,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 3.8s] page close url=about:blank | [gpu_wrap 138.4s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 439.3s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 456.9s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 457.0s] BROWSER DISCONNECTED
 - 2026-11-04T08:47:50  N20X_touchwz  sha=aa8cb5beb  exit=0  238s    PASS 讀檔後可以走  5.83 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 1.7s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20X_touchwz] | [gpu_wrap 196.4s] page close url=http://127.0.0.1:8810/index.html?turbo | [gpu_wrap 196.5s] BROWSER DISCONNECTED
+- 2026-11-04T08:50:53  N20X_reach  sha=aa8cb5beb  exit=0  600s    統計：29 個區域、1179 個互動點、13 個劇情走路目的地、79 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.8s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20X_reach] | [gpu_wrap 557.8s] page close url=http://127.0.0.1:8813/index.html?turbo | [gpu_wrap 557.9s] BROWSER DISCONNECTED
