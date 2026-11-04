@@ -1,0 +1,193 @@
+{
+ "run": "wzA1",
+ "sha": "7fbf558c9",
+ "zone": "wenzhou",
+ "glb": "wenzhou_street_glb",
+ "pos": {
+  "x": 10,
+  "z": 0,
+  "yaw": 1.5708
+ },
+ "hour": 17.5,
+ "views_def": {
+  "wz_east": [
+   [
+    2,
+    1.7,
+    1.5
+   ],
+   [
+    40,
+    3.5,
+    -3
+   ]
+  ],
+  "wz_west": [
+   [
+    42,
+    1.7,
+    0.5
+   ],
+   [
+    -25,
+    3.5,
+    -1.5
+   ]
+  ]
+ },
+ "formal": {
+  "boot_s": 19.4,
+  "zone_s": 10.86,
+  "glb_s": 13.86,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 274,
+   "geometries": 573,
+   "texCount": 230,
+   "texPixels": 38729542,
+   "texMP": 38.73,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "tree_leaves"
+   }
+  },
+  "views": {
+   "wz_east": {
+    "calls": 298,
+    "tris": 480693,
+    "frames": 354,
+    "avg": 44.2,
+    "min": 11.53,
+    "low1": 16.19,
+    "calls_live": 346,
+    "tris_live": 605493,
+    "hour": 17.599,
+    "npcs": 8,
+    "npcsVisible": 8
+   },
+   "wz_west": {
+    "calls": 273,
+    "tris": 452446,
+    "frames": 412,
+    "avg": 51.37,
+    "min": 29.94,
+    "low1": 30.77,
+    "calls_live": 346,
+    "tris_live": 554167,
+    "hour": 17.667,
+    "npcs": 8,
+    "npcsVisible": 8
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 16.0,
+  "zone_s": 9.08,
+  "glb_s": null,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 164,
+   "geometries": 224,
+   "texCount": 126,
+   "texPixels": 8823395,
+   "texMP": 8.82,
+   "biggest": {
+    "w": 2048,
+    "h": 256,
+    "name": "map"
+   }
+  },
+  "views": {
+   "wz_east": {
+    "calls": 247,
+    "tris": 228766,
+    "frames": 439,
+    "avg": 54.83,
+    "min": 15.8,
+    "low1": 24.52,
+    "calls_live": 265,
+    "tris_live": 266743,
+    "hour": 17.592,
+    "npcs": 8,
+    "npcsVisible": 8
+   },
+   "wz_west": {
+    "calls": 213,
+    "tris": 265154,
+    "frames": 430,
+    "avg": 53.57,
+    "min": 27.32,
+    "low1": 30.05,
+    "calls_live": 289,
+    "tris_live": 373122,
+    "hour": 17.66,
+    "npcs": 8,
+    "npcsVisible": 8
+   }
+  }
+ },
+ "table": {
+  "wz_east": {
+   "calls": 298,
+   "nobldg_calls": 247,
+   "limit_1.3x": 321.1,
+   "margin": 23.1,
+   "ratio": 1.2065,
+   "tris": 480693,
+   "tris_limit": 420000,
+   "tris_margin": -60693,
+   "fps_avg": 44.2,
+   "fps_min": 11.53,
+   "fps_low1": 16.19,
+   "nobldg_fps_avg": 54.83,
+   "nobldg_fps_min": 15.8
+  },
+  "wz_west": {
+   "calls": 273,
+   "nobldg_calls": 213,
+   "limit_1.3x": 276.9,
+   "margin": 3.9,
+   "ratio": 1.2817,
+   "tris": 452446,
+   "tris_limit": 420000,
+   "tris_margin": -32446,
+   "fps_avg": 51.37,
+   "fps_min": 29.94,
+   "fps_low1": 30.77,
+   "nobldg_fps_avg": 53.57,
+   "nobldg_fps_min": 27.32
+  },
+  "_mem": {
+   "formal": {
+    "textures": 274,
+    "geometries": 573,
+    "texCount": 230,
+    "texPixels": 38729542,
+    "texMP": 38.73,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "tree_leaves"
+    }
+   },
+   "nobldg": {
+    "textures": 164,
+    "geometries": 224,
+    "texCount": 126,
+    "texPixels": 8823395,
+    "texMP": 8.82,
+    "biggest": {
+     "w": 2048,
+     "h": 256,
+     "name": "map"
+    }
+   },
+   "glb_kb_total": 0,
+   "glb_files": [],
+   "glb_s": 13.86
+  }
+ }
+}
