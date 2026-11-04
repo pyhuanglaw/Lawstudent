@@ -357,7 +357,7 @@ const STORY = (function(){
       if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const d=(LIBRARY_LAYOUT.furniture||[]).find(f=>f.type==='desk'); if(d) clerk(d.x,d.z+d.d/2+0.45,Math.PI,45); }   // 服務台後面（兩片隔板中間），面向借書的人
       /* 2026-10-18 使用者：「一盞也沒有店員？任何一個店都要有店員」（BUG-NO-CLERK-1018）：溫州街三家照 WZ_SHOPS_LAYOUT 的打工位置 */
       if(zoneId==='wz_brunch'){ const LC=typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT.brunch&&WZ_SHOPS_LAYOUT.brunch.clerk; if(LC) clerk(LC.x,LC.z,LC.yaw,46); else clerk(2.6,-2.05,-0.6,46); }   /* SUNNY SIDE（sunnyside_layout v3）：讀配置的 clerk（同一點，FIXED_COORDS §3 #4；BB_257 §5）*/   // 結帳櫃台（(2.6,-1.1)，客人站西邊 (1.95,-1.1)）北端、廚房門口，面向結帳的客人
-      if(zoneId==='wz_print') clerk(-0.9,0.4,0,47);        // 櫃台後面（打工時坐的位置），面向印東西的客人
+      if(zoneId==='wz_print'){ const LP=typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT.print&&WZ_SHOPS_LAYOUT.print.clerk; if(LP) clerk(LP.x,LP.z,LP.yaw,47); else clerk(-0.95,-3.4,0,47); }   /* 阿德影印 v1c（ade_layout v3，CC 5977272dc；BB_257、CC_49 v1c）：讀配置的 clerk (−0.95, −3.4, 0)＝櫃台後面、面向客人。原本寫死 (−0.9, 0.4)：舊配置的櫃台後面，新配置是客人區的走道中間 */
       if(zoneId==='wz_teahouse') clerk(2.95,1.3,-Math.PI/2,48);   // 水屋（泡茶的地方），面向茶室
       /* 林家乾麵、巷子裡定食（AA_364）：店員站在室內配置的 clerk（林家：攤車後面、面向街上；定食店：吧台後面的廚房、面向客人；LAWWW2 WZ-SHOP-AA364-ART）。林家是老闆（男，奇數）*/
       if((zoneId==='wz_lin'||zoneId==='wz_teishoku')&&typeof WZ_SHOPS_LAYOUT!=='undefined'){ const LL=WZ_SHOPS_LAYOUT[zoneId.slice(3)]; if(LL&&LL.clerk) clerk(LL.clerk.x,LL.clerk.z,LL.clerk.yaw,zoneId==='wz_lin'?49:64); }
