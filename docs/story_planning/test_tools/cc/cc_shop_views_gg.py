@@ -19,8 +19,13 @@
 拍的是遊戲畫面（Playwright＋SwiftShader），不是照片。1024×512、水平視角 90°（垂直 53.13°）；白天 11:00、晚上 20:30；路人、玩家藏起來。
 用法（先開 http server）：python3 tools/shots/shop_views_layers.py http://127.0.0.1:8765/index.html [名稱...]"""
 import base64, io, json, os, subprocess, sys, tempfile
-import numpy as np
-from PIL import Image
+try:   # CC-C 11-04（BB-C GG_views）：PC 沒有 numpy／PIL——那時只拍原始三張（far、nb、nw 的 PNG），去背和 webp 改到雲端用 VIEWS_REMATTE 做
+    import numpy as np
+    from PIL import Image
+    HAVE_IMG = True
+except ImportError:
+    np = Image = None
+    HAVE_IMG = False
 
 ROOT = os.path.abspath(os.path.join(os.environ['LW_TESTS'], '..')) if os.environ.get('LW_TESTS') else os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
@@ -158,7 +163,15 @@ for line in r.stdout.splitlines():
     if line.startswith('shotfail'): print(line[:300]); continue
     if not line.startswith('post '): continue
     _, out, js = line.split(' ', 2); d = json.loads(js); name = os.path.basename(out)[:-4]; k, t = name.rsplit('_', 1)
-    imgs = d.pop('imgs'); far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw, FADE.get(k))
+    imgs = d.pop('imgs')
+    if not HAVE_IMG:   # 只存原始三張（dataURL 本來就是 PNG，直接寫檔），結果目錄 raw/；之後雲端：VIEWS_REMATTE=<raw 目錄> 再跑一次這支＝去背＋webp
+        rawd = os.path.join(CC_OUT or OUTDIR, 'raw'); os.makedirs(rawd, exist_ok=True)
+        for kk in ('far', 'nb', 'nw'):
+            with open(os.path.join(rawd, f'{name}_{kk}.png'), 'wb') as fh: fh.write(base64.b64decode(imgs[kk].split(',', 1)[1]))
+        d['cover'] = None; d['raw_only'] = True; depth[name] = d; done += 1
+        print(name, json.dumps(d, ensure_ascii=False), '（沒有 numpy／PIL：只存原始三張到 raw/）')
+        continue
+    far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw, FADE.get(k))
     for kk, im in (('far', far), ('nb', nb), ('nw', nw)): im.save(os.path.join(RAW, f'{name}_{kk}.png'))   # 原始的三張（重新去背用）
     far.save(os.path.join(OUTDIR, f'{k}_{t}.webp'), quality=86); near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88)
     d['cover'] = round(cover, 3); depth[name] = d; done += 1

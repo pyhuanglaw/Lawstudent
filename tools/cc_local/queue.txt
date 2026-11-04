@@ -81,6 +81,11 @@ GG_shops2_afar_r2 | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_
 GG_shops2_db_r2 | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 60 | CASES=db_door,db_hours;DOORDIAG=1;CC_HEADLESS=0
 # WZ4_yizhan_r2（BB-C 13:10／13:17）：adoring-meitner head 7c970654c（含 0310aa37a：前院五點拉開，AA_659 §3 新座標）；(a) 五點走得到、按鈕是自己的（FAIL 記停的位置＋最近按鈕給 AA-C）(b) 木牌 (c) 第一次進冠木門旁白（條件事件開）＋WZ_TEA_YARD_IN；EAVE＝樟樹樹幹和緣側屋簷交界 14:00、22:00（LAWWW2 前院第二版 5dc06d913）。完整 SHA（帳號 C 分支 runner 沒抓）
 WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=yizhan;HOURS=14,22;YARD=1;EAVE=1;CC_HEADLESS=0
+# ===== BB-C 13:24 舊 SHA 那批改排（BB_255 5b858ec58）：新 head 7c970654c（完整 SHA），排在 GG_REENTRY、SUNNY 補印後面 =====
+# GG_views_r2：PC 沒有 numpy／PIL → 探針只存原始三張（raw/*_far／_nb／_nw.png），去背＋webp 由雲端 CC 用 VIEWS_REMATTE 做
+GG_views_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
+# CVS24_r4：force_gg_after 睡醒以後自動去上課＝照設計 → 改挑週五晚上（隔天週六沒課）
+CVS24_r4 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住
