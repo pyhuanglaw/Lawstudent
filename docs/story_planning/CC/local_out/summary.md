@@ -797,3 +797,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 3.0s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20X_nichijo] | [gpu_wrap 2193.4s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 2193.4s] BROWSER DISCONNECTED
 - 2026-11-04T10:41:10  LIVE1910_deploy  sha=b0c3032af  exit=0  199s    PASS 沒有 JS 例外  [] / console error（只列出，不算失敗）：無 / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [LIVE1910_deploy] | [gpu_wrap 162.1s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html?turbo | [gpu_wrap 162.2s] BROWSER DISCONNECTED
+- 2026-11-04T10:52:20  LIVE1910_stuck  sha=b0c3032af  exit=0  662s    == 林芷若 跑了 14 次（上限 15，還有 0 條沒試） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [LIVE1910_stuck] | [gpu_wrap 628.1s] page close url=https://pyhuanglaw.github.io/Lawstudent/index.html | [gpu_wrap 628.3s] BROWSER DISCONNECTED
