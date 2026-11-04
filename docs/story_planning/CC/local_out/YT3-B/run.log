@@ -1,0 +1,101 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3-B\out
+cc_yutong_v3_probe  SHA=d2b962a3f  URL=http://127.0.0.1:8811/index.html  CASES=ev5,ev13,ev16,ev15b_shelf
+PASS 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  1576 字
+PASS 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  4925 字
+PASS 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  7950 字
+PASS 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  2296 字
+PASS 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  2881 字
+
+==== ev5：5 圖書館三樓（AA_643 第 9-1 節） ====
+PASS [ev5] 遊戲載入
+  [前置／捷徑] [ev5] 最小存檔讀檔：2026-05-02（星期六，Y1S2 第 10 週）17.58 library；遊戲 API 設前置：{"stage": "FAMILIAR", "rel": {"fam": 30, "trust": 10, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 1, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev5] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [  46.4s] 她在：{"x": 3.22, "z": -10.88, "lv": 0}
+  [  52.7s] 到達「走到語彤旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  52.7s] 點「和陳語彤說話」
+  [ 362.4s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "坐下讀書", "h": 19.651, "key": "2026-05-02", "zone": "library", "x": 3.44, "z": -10.8, "evr": false}
+  [ 958.6s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "坐下讀書", "h": 23.613, "key": "2026-05-02", "zone": "library", "x": 3.44, "z": -10.8, "evr": false}
+  [ev5] 事件：["ev_library_closing"]
+  [ev5] 台詞：[["旁白", "（她抬頭看到你，點了一下頭。）"], ["旁白", "「本館將於十分鐘後閉館——」廣播響起，整個閱覽室同時發出收東西的聲音。"]]
+  [ev5] 立繪框：{}
+FAIL [ev5] 演完（!!(((GAME.G.events||{}).done||{}).ev_yutong_thanks)）
+FAIL [ev5] 稿逐句「旁白：（總圖三樓靠窗。語彤桌上攤著兩本書，一本社會學，一本民法總則。茶屋的圍裙還塞在包」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:47）  null
+FAIL [ev5] 稿逐句「語彤：……下班才來的。三樓比較安靜。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:49）  null
+FAIL [ev5] 稿逐句「語彤：我跟我媽說，成績不會掉。掉了我就不做。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:51）  null
+FAIL [ev5] 稿逐句「語彤：所以我要念。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:53）  null
+FAIL [ev5] 稿逐句「語彤：好。……意思表示那一章，我看了三遍。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:55）  null
+FAIL [ev5] 稿逐句「語彤：那天你沒有問我媽的事。……謝謝。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:59）  null
+PASS [ev5] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev5] 沒有 JS 例外  []
+
+==== ev13：13 自己選的週四（12/16 總圖三樓） ====
+PASS [ev13] 遊戲載入
+  [前置／捷徑] [ev13] 最小存檔讀檔：2027-12-16（星期四，Y3S1 第 15 週）17.92 library；遊戲 API 設前置：{"stage": "FRIEND", "rel": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 1, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev13] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [ 993.9s] 她在：{"x": 3.22, "z": -10.88, "lv": 0}
+  [1000.1s] 到達「走到語彤旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [1000.2s] 點「和陳語彤說話」
+  [1023.4s] 選項 ["「我可以幫妳問。」", "「先從秀琴姨開始？」"] → 點「「先從秀琴姨開始？」」
+  [ev13] 事件：["ev_yt_thursday_free"]
+  [ev13] 台詞：[["旁白", "（她抬頭看到你，點了一下頭。）"], ["旁白", "（她看到你，闔上書，指了指外面。）"], ["語彤", "……嗯。秀琴姨的事解決了。"], ["語彤", "這兩年我一直在想她的事。現在不用想了，突然空出一塊。"], ["語彤", "我想做一件自己的事。"], ["旁白", "（她從背包拿出一本新的筆記本。第一頁寫著：「溫州街。」）"], ["語彤", "我想把這條街上的人說的話記下來。茶屋的客人、巷口的老闆、秀琴姨。"], ["語彤", "社會系教我們做田野。我以前覺得那是作業。"], ["語彤", "她說她沒什麼好講的。……她講了兩個小時。"]]
+  [ev13] 立繪框：{"ev13_語彤_land": [{"id": "advL", "show": false, "dim": false, "off": true, "img": null}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [ev13] 演完（!!(((GAME.G.events||{}).done||{}).ev_yt_thursday_free)）
+PASS [ev13] 稿逐句「語彤：……嗯。秀琴姨的事解決了。」（AA_625_語彤新版事件台詞.md:208）
+PASS [ev13] 稿逐句「語彤：這兩年我一直在想她的事。現在不用想了，突然空出一塊。」（AA_625_語彤新版事件台詞.md:209）
+PASS [ev13] 稿逐句「語彤：我想做一件自己的事。」（AA_625_語彤新版事件台詞.md:210）
+PASS [ev13] 稿逐句「旁白：（她從背包拿出一本新的筆記本。第一頁寫著：「溫州街。」）」（AA_625_語彤新版事件台詞.md:211）
+PASS [ev13] 稿逐句「語彤：我想把這條街上的人說的話記下來。茶屋的客人、巷口的老闆、秀琴姨。」（AA_625_語彤新版事件台詞.md:212）
+PASS [ev13] 稿逐句「語彤：社會系教我們做田野。我以前覺得那是作業。」（AA_625_語彤新版事件台詞.md:213）
+PASS [ev13] 稿逐句「語彤：她說她沒什麼好講的。……她講了兩個小時。」（AA_625_語彤新版事件台詞.md:214）
+PASS [ev13] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev13] 沒有 JS 例外  []
+
+==== ev16：16 自己選的（分一點時間，12/21 總圖三樓） ====
+PASS [ev16] 遊戲載入
+  [前置／捷徑] [ev16] 最小存檔讀檔：2028-12-21（星期四，Y4S1 第 16 週）17.17 library；遊戲 API 設前置：{"stage": "FRIEND", "rel": {"fam": 45, "trust": 30, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 1, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev16] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [1060.6s] 她在：{"x": 3.22, "z": -10.88, "lv": 0}
+  [1066.9s] 到達「走到語彤旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [1067.0s] 點「和陳語彤說話」
+  [1094.2s] 選項 ["「我想看下一本。」", "「這本以後要做什麼？」"] → 點「「這本以後要做什麼？」」
+  [ev16] 事件：["ev_yt_share_time"]
+  [ev16] 台詞：[["旁白", "（她抬頭看到你，點了一下頭。）"], ["語彤", "我可以給你看一個東西嗎。"], ["旁白", "（田野筆記，已經寫到第三本。）"], ["旁白", "（讀完，你們走出總圖。）"], ["語彤", "這本不是作業。是我自己想寫的。"], ["語彤", "我媽到現在還是希望我去考牙醫。"], ["語彤", "可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。"], ["語彤", "畢業專題。老師說可以再寫長一點。"]]
+  [ev16] 立繪框：{"ev16_語彤_land": [{"id": "advL", "show": false, "dim": false, "off": true, "img": null}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}], "ev16_語彤_port": [{"id": "advL", "show": false, "dim": false, "off": true, "img": null}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [ev16] 演完（!!GAME.G.flags.YT16）
+PASS [ev16] 稿逐句「語彤：我可以給你看一個東西嗎。」（AA_625_語彤新版事件台詞.md:230）
+PASS [ev16] 稿逐句「旁白：（田野筆記，已經寫到第三本。）」（AA_625_語彤新版事件台詞.md:231）
+PASS [ev16] 稿逐句「語彤：這本不是作業。是我自己想寫的。」（AA_625_語彤新版事件台詞.md:232）
+PASS [ev16] 稿逐句「語彤：我媽到現在還是希望我去考牙醫。」（AA_625_語彤新版事件台詞.md:233）
+PASS [ev16] 稿逐句「語彤：可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。」（AA_625_語彤新版事件台詞.md:234）
+PASS [ev16] 稿逐句「語彤：畢業專題。老師說可以再寫長一點。」（AA_625_語彤新版事件台詞.md:235）
+PASS [ev16] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev16] 沒有 JS 例外  []
+
+==== ev15b_shelf：15b〈溫州街的時間〉期刊架（總圖三樓） ====
+PASS [ev15b_shelf] 遊戲載入
+  [前置／捷徑] [ev15b_shelf] 最小存檔讀檔：2028-10-17（星期二，Y4S1 第 7 週）16.00 library；遊戲 API 設前置：{"stage": "FRIEND", "rel": {"fam": 40, "trust": 25, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev15b_shelf] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [1131.6s] 互動點：{"x": 0, "z": -2.75, "r": 1, "label": "看期刊架", "lv": 0, "y": null}
+  [1140.8s] 到達「看期刊架」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [1140.8s] 點「看期刊架」
+  [ev15b_shelf] 事件：[]
+  [ev15b_shelf] 台詞：[["旁白", "（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）"], ["旁白", "（系刊第三頁，她的名字下面寫著：『謝謝秀琴姨，和一盞茶屋所有的人。』）"]]
+  [ev15b_shelf] 立繪框：{"ev15b_shelf_narr_land": [{"id": "advL", "show": false, "dim": false, "off": false, "img": null}, {"id": "advR", "show": false, "dim": false, "off": false, "img": null}]}
+PASS [ev15b_shelf] 演完（!!GAME.G.flags.YT_ESSAY）
+PASS [ev15b_shelf] 稿逐句「旁白：（系刊第三頁，她的名字下面寫著：『謝謝秀琴姨，和一盞茶屋所有的人。』）」（AA_625_語彤新版事件台詞.md:227）
+PASS [ev15b_shelf] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev15b_shelf] 沒有 JS 例外  []
+
+==== 摘要 ====
+FAIL ev5 5 圖書館三樓（AA_643 第 9-1 節）
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:47", "說話人": null, "句子": "（總圖三樓靠窗。語彤桌上攤著兩本書，一本社會學，一本民法總則。茶屋的圍裙還塞在包包旁邊。）", "遊戲": null, "依序": false}
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:49", "說話人": "語彤", "句子": "……下班才來的。三樓比較安靜。", "遊戲": null, "依序": false}
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:51", "說話人": "語彤", "句子": "我跟我媽說，成績不會掉。掉了我就不做。", "遊戲": null, "依序": false}
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:53", "說話人": "語彤", "句子": "所以我要念。", "遊戲": null, "依序": false}
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:55", "說話人": "語彤", "句子": "好。……意思表示那一章，我看了三遍。", "遊戲": null, "依序": false}
+    和稿不一樣：{"稿": "AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:59", "說話人": "語彤", "句子": "那天你沒有問我媽的事。……謝謝。", "遊戲": null, "依序": false}
+PASS ev13 13 自己選的週四（12/16 總圖三樓）
+PASS ev16 16 自己選的（分一點時間，12/21 總圖三樓）
+PASS ev15b_shelf 15b〈溫州街的時間〉期刊架（總圖三樓）
+SHA d2b962a3f
+FAILED: [ev5] 演完（!!(((GAME.G.events||{}).done||{}).ev_yutong_thanks)）, [ev5] 稿逐句「旁白：（總圖三樓靠窗。語彤桌上攤著兩本書，一本社會學，一本民法總則。茶屋的圍裙還塞在包」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:47）, [ev5] 稿逐句「語彤：……下班才來的。三樓比較安靜。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:49）, [ev5] 稿逐句「語彤：我跟我媽說，成績不會掉。掉了我就不做。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:51）, [ev5] 稿逐句「語彤：所以我要念。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:53）, [ev5] 稿逐句「語彤：好。……意思表示那一章，我看了三遍。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:55）, [ev5] 稿逐句「語彤：那天你沒有問我媽的事。……謝謝。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:59）

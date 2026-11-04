@@ -663,3 +663,13 @@
 [08:15:49] blender item MD_tx_v2b waits until the 2 running item(s) finish; other items go first
 [08:17:19] 正在跑：YT3-B（已跑 10 分／上限 30 分）、ART_V20（已跑 2 分／上限 35 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:21:44] [res] cpu=32% mem=48% (15.2/31.4 GB) chrome_testing=10  END ART_V20
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       56fdf0e69..acc65e75f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:21:55] ==== END   ART_V20  exit=1  408s   ====
+[08:21:58] blender item MD_haopai_v2 waits until the 1 running item(s) finish; other items go first
+[08:21:58] blender item MD_dabu_v2 waits until the 1 running item(s) finish; other items go first
+[08:21:58] blender item MD_tx_v2 waits until the 1 running item(s) finish; other items go first
+[08:21:58] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
+[08:22:19] 正在跑：YT3-B（已跑 15 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:26:15] [res] cpu=48% mem=42% (13.5/31.4 GB) chrome_testing=0  END YT3-B

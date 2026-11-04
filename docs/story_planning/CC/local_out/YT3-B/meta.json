@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "YT3-B",
+  "sha": "d2b962a3f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py",
+  "env": "CASES=ev5,ev13,ev16,ev15b_shelf;CASE_S=900;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T08:06:21",
+  "end": "2026-11-04T08:26:15",
+  "seconds": 1194,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 93,
+    "mem": 62,
+    "used_gb": 19.6,
+    "chrome_testing": 29
+  }
+}
