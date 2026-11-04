@@ -1,5 +1,23 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ✅ 值班登記（2026-11-04 12:37 UTC；帳號 C LAWWW2-C；使用者：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試」）
+- 值班登記：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜分支 claude/focused-cray-c9uwvw｜接班基準 `5f85444cd`（快轉上一任 `claude/second-ai-env-art`）｜2026-11-04 12:37 UTC
+- 上一班：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜最後 commit `af97d745`（交班紀錄）＋`5f85444cd`（快照）｜正常交班（11-04 09:1x）。帳號 B 11-04 12:1x～12:2x 那一班，LAWWW2-B 沒有登記、沒有寫入 LAWWW2 的分支。
+- **我自己 10-28 那一班沒有交班**（10-28 15:3x 用量到上限停住）：最後 push 是 `4b1fcc458`（LIB-HALL-LM-1028 正式烘焙第二版），已經在上一任的分支裡。
+  - 本機沒推的：總圖滅火器導航、patch 更新、README、對照圖。已被 LAWWW2-B 10-30 的 `c48a5c310`（LIB-HALL-LM-1028、RT-NIGHT-1028 交件，BB_247 ART_APPROVED）和 NAV-LIBHALL-ISLAND-1030 取代。
+  - 留在本機 stash，不套用、不推。
+- `docs/handoff/duty_LAWWW2.json` 已改成 C、state on（`duty register`，RULE_SOURCE `claude/modest-rubin-2lyp7g`），等值班 LAWWW `duty sync`。
+- 規則：讀到 HV-25（D134）。我上次值班以後新增的有 HV-21～HV-25、D115～D134。和 LAWWW2 有關的：
+  - D120／D128：建築、場景美術由 BB 標 ART_APPROVED；整體畫風由 LAWWW2 提案，BB 和 LAWWW 同意就定案。
+  - D125：等測試時不閒著。
+  - D126：每小時推一次。
+  - D129：交班關喚醒、接班打開。
+  - D131：瀏覽器測試一律排使用者的電腦（CC 的 cc-local 佇列），雲端只跑幾秒的 Node、Node 模擬、Blender。
+  - D132：我沒空驗的模型交 BB 代驗。
+  - D133：驗收要對照參考圖、不准複製貼上。
+  - D134：CC 可以直接聯絡任何職位。
+- **暫停中**（五欄：誰決定、為什麼、負責人、恢復條件、下次檢查日）：接班核對中。上一任交班清單裡的都是「等 PC 驗」「等 BB 驗」，不是暫停。本班的暫停項目核對完寫在這裡。
+
 ## 🔁 交班（11-04 09:1x UTC；帳號 A LAWWW2；使用者說「現在交班」，LAWWW 09:04 轉使用者：交班後不用再每小時啟動）
 - 分支 `claude/second-ai-env-art`。成果最後一個 commit 是 01b2b4786，交班紀錄在它後面；SHA 以 ls-remote 為準。worktree 是乾淨的。
 - 每小時保險喚醒 trig_01PZ1NbK8H7GTeNrK3Q9bHLh 已停用（enabled=false，沒有刪）。我沒有排還沒觸發的 send_later。
