@@ -34,7 +34,7 @@ SPECS = [
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='巷口書房', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='plaster', color='#e8e1d4', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#f4ead8', signColor='#9c2f2a', vertical='麵', vBg='#ffffff', vColor='#9c2f2a', vBand='#9c2f2a', awning='#9c2f2a')),
-    dict(id='A5', side='A', x0=40, x1=48, floors=3, wall='tile', color='#b8a088', roofAdd=True, ground='shop', shop=SHOP(type='cvs', name='日日便利', sub='24H', signBg='#ffffff', signColor='#1f6f78', band='#e8a33a', frame='#cfd6d6')),
+    dict(id='A5', side='A', x0=40, x1=48, floors=3, wall='tile', color='#b8a088', roofAdd=True, ground='shop', shop=SHOP(type='cvs', name='日和便利店', sub='24H', signBg='#f4efe2', signColor='#4b4a2c', band='#8a9a4a', frame='#cfd6d6')),   # 11-04 日日便利 → 日和便利店（AA_647 §6，和公館 G03 同一家連鎖：米白燈箱、橄欖綠字和色帶、橘色太陽）
     # B 側（z<0，立面朝 +z）：aptB → 位置 ((x0+x1)/2, −5)、rotation.y=0
     dict(id='B1', side='B', x0=-30, x1=-21, floors=3, wall='plaster', color='#d8d0c0', roofAdd=True, ground='shutter'),
     dict(id='B2', side='B', x0=-21, x1=-15, floors=4, wall='tile', color='#bfb3a3', ground='shop', shop=SHOP(type='laundry', name='自助洗衣', sub='24 小時・投幣式', signBg='#e9f2f6', signColor='#2a5f8a', frame='#cfd6d6')),
