@@ -452,7 +452,7 @@ const BBPACK_EVENTS=(function(){
       {label:'t'},say('唐睿','那不是經濟學。'),me('是我現在的身分。'),{goto:'w'},
       {label:'e'},say('阿勳','這個詞，可昕說過是你挑的。……犯規。'),nar('（新生大笑。）'),
       {label:'w'},say('新生','學長，經濟系可以轉法律系嗎？'),
-      {choice:[{text:'「我不是轉的，是重考的。很累，但我不後悔。」',goto:'end'},{text:'「可以。記得帶六法，很重。」',goto:'end'},{text:'「你為什麼想轉？」',goto:'q'}]},
+      {choice:[{text:'「我是重考進來的。那一年很累。」',goto:'end'},{text:'「可以。記得帶六法，很重。」',goto:'end'},{text:'「你為什麼想轉？」',goto:'q'}]},
       {label:'q'},say('新生','……其實沒有。我只是想聽故事。'),
       {label:'end'},{set:{SOC_GUEST_SENIOR:true,MET_XUN:true,MET_TANG:true}},{advance:1} ],
     after:G=>{ delete G.flags.SK08_WORD_TEXT; },
