@@ -38,14 +38,15 @@ WAL = '#6e4a30'; WAL2 = '#5c3d27'; GREY = '#6e6e68'; GREY2 = '#7a7972'; GREEN = 
 
 
 def wchair(x, z, yaw):
-    """方桌的胡桃木椅：四腳、灰色布坐墊、彎的木靠背（約 230 三角形）"""
+    """方桌的胡桃木椅：細腳、灰色布坐墊、兩根橫條的鏤空椅背（v1b，約 230 三角形）"""
     xf = Xf(x, z, yaw); m = sh.a('vc')
     for (sx, sz) in ((-0.19, 0.18), (0.19, 0.18), (-0.19, -0.18), (0.19, -0.18)):
         xf.cyl(m, (sx, 0.0, sz), (sx * 0.95, 0.43, sz * 0.95), 0.018, col=WAL, seg=5, caps=False)
     xf.rbox(m, -0.21, 0.21, 0.39, 0.43, -0.2, 0.2, r=0.01, seg=1, col=WAL)
     xf.rbox(m, -0.2, 0.2, 0.43, 0.49, -0.19, 0.19, r=0.025, seg=2, col=GREY)
-    for sx in (-0.19, 0.19): xf.cyl(m, (sx, 0.45, -0.19), (sx, 0.84, -0.22), 0.018, col=WAL, seg=5, caps=False)
-    xf.rbox(m, -0.21, 0.21, 0.66, 0.84, -0.24, -0.2, r=0.02, seg=2, col=WAL)
+    for sx in (-0.19, 0.19): xf.cyl(m, (sx, 0.45, -0.19), (sx, 0.86, -0.22), 0.018, col=WAL, seg=5, caps=False)
+    xf.rbox(m, -0.2, 0.2, 0.6, 0.655, -0.215, -0.19, r=0.01, seg=1, col=WAL)                                  # 兩根橫條的鏤空椅背（v1b）
+    xf.rbox(m, -0.21, 0.21, 0.77, 0.86, -0.235, -0.205, r=0.012, seg=1, col=WAL)
 
 
 def uchair(x, z, yaw, arm=False):
@@ -102,8 +103,8 @@ def book(x, z, y, col, w=0.15, d=0.21, t=0.03, yaw=0.0):
 # ---------------------------------------------------------------- 地板、外露天花板（管線、冷氣、軌道燈）、牆、窗
 Mesh(P + 'floor', sh.M['floor'], tile=1.0).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
 ce = Mesh(P + 'ceiling', sh.M['wall'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
-for (zz, r_) in ((-2.6, 0.06), (-2.35, 0.035), (1.9, 0.05)):                                                                # 外露的管線（米白漆）
-    xf0.cyl(sh.a('vcm'), (X0, H - 0.14, zz), (X1, H - 0.14, zz), r_, col='#e8e4dc', seg=8, caps=False)
+for (zz, r_) in ((-2.6, 0.035), (-2.45, 0.022), (3.3, 0.022)):                                                            # 外露的細管線（米白漆，v1b 改細、貼天花板）
+    xf0.cyl(sh.a('vcm'), (X0, H - 0.05, zz), (X1, H - 0.05, zz), r_, col='#e8e4dc', seg=8, caps=False)
 xf0.rbox(sh.a('vcm'), 0.2, 1.3, H - 0.24, H - 0.01, -1.0, 0.1, r=0.02, seg=1, col='#ecebe6')                                 # 冷氣（嵌入式）
 xf0.rbox(sh.a('vcm'), 0.35, 1.15, H - 0.245, H - 0.235, -0.85, -0.05, r=0.005, seg=1, col='#c8c8c4')
 for zz in (2.6, -1.2):                                                                                                    # 兩條黑色軌道燈
@@ -138,7 +139,7 @@ xf0.rbox(sh.a('wood'), wx0, wx1, wc['h'], wc['h'] + 0.12, wz1 - 0.05, wz1, r=0.0
 for k in range(6): xf0.rbox(sh.a('vcm'), wx0 + 0.4 + k * 0.75, wx0 + 0.46 + k * 0.75, wc['h'] + 0.04, wc['h'] + 0.09, wz1 - 0.052, wz1 - 0.05, r=0.003, seg=1, col='#e8e4dc')
 for s_ in LAY['seats']:
     if s_['table'] == 6: uchair(s_['x'], s_['z'] - 0.05, s_['yaw'])
-for k, xx in enumerate((wx0 + 0.3, wx0 + 1.8, wx0 + 3.3, wx1 - 0.25)): brass_lamp(xx, wz1 - 0.12, wc['h'], yaw=math.pi, reach=0.2)
+for k in range(6): brass_lamp(wx0 + 0.25 + k * 0.8, wz1 - 0.12, wc['h'], yaw=math.pi, reach=0.2)                       # 每個位子一盞（v1b）
 laptop(wx0 + 0.8, wc['z'] - 0.05, wc['h'], 0.0); laptop(wx0 + 2.6, wc['z'] - 0.05, wc['h'], 0.0)
 K.mug(sh, wx0 + 1.2, wc['z'] - 0.05, wc['h'], col='#f2efe8'); K.mug(sh, wx0 + 3.0, wc['z'] - 0.1, wc['h'], col='#f2efe8')
 book(wx0 + 1.5, wc['z'], wc['h'], '#e8e0cc'); book(wx0 + 1.5, wc['z'], wc['h'] + 0.03, '#6a7a5a'); book(wx0 + 3.8, wc['z'] - 0.02, wc['h'], '#e8e4d8')
@@ -156,14 +157,15 @@ sz0, sz1 = -0.35, bz1 + 0.2
 for (y, kind) in ((1.45, 'mug'), (1.85, 'jar'), (2.25, 'bag')):                                                         # 三層胡桃木層板
     xf0.rbox(sh.a('wood'), px_, px_ + 0.3, y - 0.035, y, sz0, sz1, r=0.004, seg=1)
     sh.a('bulb').box(px_ + 0.24, px_ + 0.26, y - 0.045, y - 0.035, sz0 + 0.05, sz1 - 0.05)
-    n = 12 if kind != 'bag' else 8
-    for k in range(n):
-        zz = sz0 + 0.12 + k * (sz1 - sz0 - 0.24) / (n - 1)
-        if kind == 'mug': K.mug(sh, px_ + 0.15, zz, y, col=('#f2efe8', '#f2efe8', '#7a8a72')[k % 3], r=0.042, h=0.09)
-        elif kind == 'jar': K.jar(sh, px_ + 0.15, zz, y, h=0.22, r=0.06, col=('#5a3a22', '#6a4a2a', '#4a3220')[k % 3], lid='#2e2e2e')
-        else:
-            xf0.rbox(sh.a('vc'), px_ + 0.08, px_ + 0.2, y, y + 0.22, zz - 0.08, zz + 0.08, r=0.01, seg=1, col='#c9a77c')
-            sh.img_quad(sh.a('print'), Xf(px_ + 0.201, zz, math.pi / 2), 0, y + 0.05, 0.0, 0.14, 0.07, K.cell_uv(0, 1, 2, 1))
+    n = 20 if kind != 'bag' else 14
+    for row, dx_ in enumerate((0.08, 0.2)):                                                                                 # 前後兩排（v1b 塞滿）
+        for k in range(n):
+            zz = sz0 + 0.08 + k * (sz1 - sz0 - 0.16) / (n - 1) + (0.04 if row else 0.0)
+            if kind == 'mug': K.mug(sh, px_ + dx_, zz, y, col=('#f2efe8', '#f2efe8', '#7a8a72', '#e8e0d0')[(k + row) % 4], r=0.04, h=0.09, handle=bool(row))
+            elif kind == 'jar': K.jar(sh, px_ + dx_, zz, y, h=0.24 if row else 0.28, r=0.055, col=('#5a3a22', '#6a4a2a', '#4a3220', '#8a6a3a')[(k + row) % 4], lid='#2e2e2e')
+            else:
+                xf0.rbox(sh.a('vc'), px_ + dx_ - 0.05, px_ + dx_ + 0.05, y, y + 0.24, zz - 0.065, zz + 0.065, r=0.01, seg=1, col=('#c9a77c', '#b8966a')[row])
+                if row: sh.img_quad(sh.a('print'), Xf(px_ + dx_ + 0.051, zz, math.pi / 2), 0, y + 0.06, 0.0, 0.11, 0.055, K.cell_uv(0, 1, 2, 1))
 mb = IT['menu_board'][0]; sh.img_quad(sh.a('print'), Xf(px_ + 0.02, mb['z'], math.pi / 2), 0, mb['y'] - mb['h'] / 2, 0.0, mb['w'], mb['h'], K.cell_uv(6, 0, 2, 2))
 xf0.rbox(sh.a('wood'), px_, px_ + 0.018, mb['y'] - mb['h'] / 2 - 0.03, mb['y'] + mb['h'] / 2 + 0.03, mb['z'] - mb['w'] / 2 - 0.03, mb['z'] + mb['w'] / 2 + 0.03, r=0.004, seg=1)
 xf0.rbox(sh.a('wood'), bx0, bx1, 0.0, br['h'] - 0.05, bz0, bz1, r=0.01, seg=1)                                           # 吧台本體（胡桃木）
@@ -173,25 +175,28 @@ xf0.rbox(sh.a('vcg'), bx0 - 0.02, bx1 + 0.05, br['h'] - 0.05, br['h'], bz0, bz1 
 Xf(br['x'] + 0.015, bz0, 0, br['h'] - 0.05).lathe(sh.a('vcg'), [(0.0, 0.0), (br['w'] / 2 + 0.04, 0.0), (br['w'] / 2 + 0.05, 0.025), (br['w'] / 2 + 0.04, 0.05), (0.0, 0.05)], 0, 0, 0, seg=20, col=STONE)
 top = br['h']; cx = br['x']
 em = Xf(cx - 0.05, 0.9, math.pi / 2, top); m = sh.a('vcm')                                                               # 濃縮咖啡機（朝 +x）
-em.rbox(m, -0.38, 0.38, 0.0, 0.42, -0.24, 0.22, r=0.03, seg=1, col='#c8c8c4'); em.rbox(m, -0.38, 0.38, 0.42, 0.46, -0.24, 0.22, r=0.01, seg=1, col='#9a9a96')
-for k in range(3): em.cyl(m, (-0.24 + k * 0.24, 0.2, 0.24), (-0.24 + k * 0.24, 0.16, 0.3), 0.035, col='#2e2e2e', seg=8)
-for k in range(6): K.mug(sh, cx - 0.17 + (k % 3) * 0.12, 0.66 + (k // 3) * 0.48, top + 0.46, col='#f2efe8', r=0.03, h=0.06, handle=False)
+em.rbox(sh.a('vcg'), -0.48, 0.48, 0.0, 0.5, -0.26, 0.24, r=0.03, seg=2, col='#e6e6e4'); em.rbox(sh.a('vcg'), -0.48, 0.48, 0.5, 0.55, -0.26, 0.24, r=0.01, seg=1, col='#2e2e2e')   # v1b：大、亮面不鏽鋼
+em.rbox(sh.a('vcg'), -0.46, 0.46, 0.1, 0.38, 0.24, 0.25, r=0.004, seg=1, col='#f4f4f2')
+for k in range(3): em.cyl(m, (-0.28 + k * 0.28, 0.22, 0.25), (-0.28 + k * 0.28, 0.18, 0.33), 0.04, col='#2e2e2e', seg=8); em.cyl(m, (-0.28 + k * 0.28, 0.12, 0.3), (-0.28 + k * 0.28, 0.12, 0.38), 0.012, col='#2e2e2e', seg=4)
+for k in range(8): K.mug(sh, cx - 0.17 + (k % 2) * 0.12, 0.5 + (k // 2) * 0.27, top + 0.55, col='#f2efe8', r=0.03, h=0.06, handle=False)
 gx = Xf(cx - 0.1, 1.55, 0, top); gx.rbox(m, -0.09, 0.09, 0.0, 0.32, -0.09, 0.09, r=0.02, seg=1, col='#b8b8b4')                # 磨豆機
 gx.lathe(sh.a('glass'), [(0.03, 0.32), (0.08, 0.5), (0.07, 0.52)], 0, 0, 0, seg=10)
 for k in range(3):                                                                                                        # 手沖架三個濾杯
     zz = 0.15 - k * 0.2; Xf(cx + 0.1, zz, 0, top).cyl(m, (0, 0.0, 0), (0, 0.22, 0), 0.006, col=WAL2, seg=4, caps=False)
     Xf(cx + 0.1, zz, 0, top + 0.2).lathe(sh.a('vcg'), [(0.025, 0.0), (0.06, 0.07), (0.065, 0.075)], 0, 0, 0, seg=10, col='#f2efe8')
     Xf(cx + 0.1, zz, 0, top).lathe(sh.a('glass'), [(0.0, 0.0), (0.05, 0.0), (0.055, 0.1), (0.03, 0.14)], 0, 0, 0, seg=10)
-pc0, pc1 = -1.0, -0.35                                                                                                    # 甜點櫃（玻璃）
-xf0.rbox(sh.a('vcm'), cx - 0.24, cx + 0.3, top, top + 0.04, pc0, pc1, r=0.005, seg=1, col='#3a3a38')
-sh.a('glass').box(cx - 0.24, cx + 0.3, top + 0.04, top + 0.4, pc0, pc1); sh.a('bulb').box(cx - 0.2, cx + 0.26, top + 0.385, top + 0.395, pc0 + 0.03, pc1 - 0.03)
-sh.a('glass').box(cx - 0.22, cx + 0.28, top + 0.2, top + 0.21, pc0 + 0.02, pc1 - 0.02)
-for row, y in enumerate((top + 0.04, top + 0.21)):
-    for k in range(4):
-        zz = pc0 + 0.1 + k * 0.15; Xf(cx + 0.04, zz, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05, 0.0), (0.05, 0.05), (0.0, 0.06)], 0, 0, 0, seg=8, col=('#f0d890', '#d9a86a', '#f4ecd8', '#c98a5a')[(k + row) % 4])
+pc0, pc1 = -1.05, -0.3                                                                                                   # 甜點櫃（玻璃；v1b 加高、木框、三層）
+xf0.rbox(sh.a('wood'), cx - 0.26, cx + 0.32, top, top + 0.06, pc0, pc1, r=0.006, seg=1)
+for (ax, az) in ((cx - 0.26, pc0), (cx + 0.29, pc0), (cx - 0.26, pc1 - 0.03), (cx + 0.29, pc1 - 0.03)): xf0.rbox(sh.a('wood'), ax, ax + 0.03, top + 0.06, top + 0.5, az, az + 0.03, r=0.003, seg=1)
+xf0.rbox(sh.a('wood'), cx - 0.26, cx + 0.32, top + 0.5, top + 0.53, pc0, pc1, r=0.004, seg=1)
+sh.a('glass').box(cx - 0.24, cx + 0.3, top + 0.06, top + 0.5, pc0 + 0.01, pc1 - 0.01); sh.a('bulb').box(cx - 0.2, cx + 0.26, top + 0.485, top + 0.495, pc0 + 0.03, pc1 - 0.03)
+for y in (top + 0.2, top + 0.34): sh.a('glass').box(cx - 0.22, cx + 0.28, y, y + 0.01, pc0 + 0.02, pc1 - 0.02)
+for row, y in enumerate((top + 0.06, top + 0.21, top + 0.35)):
+    for k in range(5):
+        zz = pc0 + 0.09 + k * 0.14; Xf(cx + 0.05, zz, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.045, 0.0), (0.045, 0.05), (0.03, 0.065), (0.0, 0.07)], 0, 0, 0, seg=8, col=('#f0d890', '#d9a86a', '#f4ecd8', '#c98a5a', '#e8c0a0')[(k + row) % 5])
 Xf(cx, -1.15, math.pi / 2, top).rbox(m, -0.15, 0.15, 0.0, 0.08, -0.12, 0.12, r=0.01, seg=1, col='#2e2e2e')                  # 收銀機
 Xf(cx, -1.15, math.pi / 2, top).quad(m, [(-0.13, 0.08, -0.05), (0.13, 0.08, -0.05), (0.13, 0.26, -0.1), (-0.13, 0.26, -0.1)])
-for k, zz in enumerate((-0.6, 0.3, 1.2)): K.dome_pendant(sh, cx + 0.05, zz, 2.55, r=0.22, col='#3f4f3c', inner='#f4ecd8', kind='dome', glow_size=0.7)
+for k, zz in enumerate((-0.55, 0.3, 1.15)): K.dome_pendant(sh, cx + 0.45, zz, 2.3, r=0.26, col='#34443a', inner='#f8eed6', kind='dome', glow_size=0.8)   # v1b：放低、往吧台前面移，進鏡頭
 sh.tally('bar')
 
 # ---------------------------------------------------------------- 書架（書、雜誌斜架、黃金葛）
