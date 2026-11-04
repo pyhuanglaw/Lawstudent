@@ -1,0 +1,15 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art_v20_shots_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20_XHG2\out
+PASS 遊戲載入
+== xinhai_ground
+  [前置／捷徑] 讀檔：校園 10:00 晴（先讀出彎道、找候選點）（{"zone": "campus", "day": 8, "weekday": 3, "hour": 10.0, "pos": {"x": 84.96, "z": -95.0, "yaw": 0, "lv": 0}}）
+PASS xinhai_ground：背景有彎道路面網格  {"road": true, "n": 43, "bbox": [61.6, -167, 281.8, 22.8]}
+  候選點（每層前 5 名；seen＝眼睛高度看得到幾個取樣點／15）：{"0": {"cands": 298, "tried": 140, "reach": 140, "best": [{"x": 96, "z": -109, "lv": 0, "y": 0, "d": 27.5, "seen": 4}, {"x": 93, "z": -112, "lv": 0, "y": 0, "d": 27.5, "seen": 4}, {"x": 99, "z": -106, "lv": 0, "y": 0, "d": 27.9, "seen": 4}, {"x": 87, "z": -115, "lv": 0, "y": 0, "d": 29.1, "seen": 4}, {"x": 87, "z": -118, "lv": 0, "y": 0, "d": 27.1, "seen": 3}], "of": 15}, "1": {"cands": 10, "tried": 10, "reach": 10, "best": [{"x": 87, "z": -88, "lv": 1, "y": 3.63, "d": 49.1, "seen": 0}, {"x": 90, "z": -85, "lv": 1, "y": 3.63, "d": 49.5, "seen": 0}, {"x": 93, "z": -82, "lv": 1, "y": 3.63, "d": 49.6, "seen": 0}, {"x": 84, "z": -88, "lv": 1, "y": 3.63, "d": 51.2, "seen": 0}, {"x": 87, "z": -85, "lv": 1, "y": 3.63, "d": 51.4, "seen": 0}], "of": 15}}
+  [前置／捷徑] 讀檔：第 0 層看彎道最多的點（96,-109）（{"zone": "campus", "day": 8, "weekday": 3, "hour": 10.0, "pos": {"x": 96, "z": -109, "yaw": 0, "lv": 0, "y": 0}}）
+  第 0 層 (96,-109)：人在 {"x": 95.25, "z": -109.25, "lv": 0}、轉到了 True；跟隨鏡頭 {"x": 94.77, "y": 1.625, "z": -108.771, "yaw": 5.497, "pitch": 0.22, "dist": 6, "distTarget": 6, "mode": "follow"}；中線點在畫面裡 7、看得到 0／43、擋住 [["?", 3], ["null", 3], ["Hair001", 1]] → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20_XHG2\out\xinhai_ground_lv0.png
+  [前置／捷徑] 讀檔：第 1 層看彎道最多的點（87,-88）（{"zone": "campus", "day": 8, "weekday": 3, "hour": 10.0, "pos": {"x": 87, "z": -88, "yaw": 0, "lv": 1, "y": 3.63}}）
+  第 1 層 (87,-88)：人在 {"x": 87, "z": -88, "lv": 1}、轉到了 True；跟隨鏡頭 {"x": 82.867, "y": 6.589, "z": -83.852, "yaw": 5.5, "pitch": 0.22, "dist": 6, "distTarget": 6, "mode": "follow"}；中線點在畫面裡 16、看得到 0／43、擋住 [["EXT_ext_glass_lobby", 6], ["EXT_ext_granite", 4], ["EXT_ext_door", 3], ["EXT_ext_concrete", 2], ["EXT_ext_frame", 1]] → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20_XHG2\out\xinhai_ground_lv1.png
+PASS xinhai_ground：兩層都找到走得到的點並截圖  [["0", {"x": 96, "z": -109, "lv": 0, "y": 0, "d": 27.5, "seen": 4}], ["1", {"x": 87, "z": -88, "lv": 1, "y": 3.63, "d": 49.1, "seen": 0}]]
+  結論資料：[["0", 7, 0], ["1", 16, 0]]
+  xinhai_ground 用了 114 秒
+PASS 沒有 JS 例外  []
+ALL PASS

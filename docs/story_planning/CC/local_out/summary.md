@@ -727,3 +727,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [MAP_ctl2] | [gpu_wrap 144.5s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 144.6s] BROWSER DISCONNECTED
 - 2026-11-04T08:03:07  N20_libcorner2  sha=d2b962a3f  exit=0  133s    PASS 至少一個方向走得出去（≥ 0.3 m）＝沒有被困住  {"前": 0.27, "左": 0.68, "右": 3.09, "後": 4.67} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [N20_libcorner2] | [gpu_wrap 94.3s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 94.5s] BROWSER DISCONNECTED
+- 2026-11-04T08:06:13  ART_V20_XHG2  sha=d2b962a3f  exit=0  177s      xinhai_ground 用了 114 秒 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ART_V20_XHG2] | [gpu_wrap 138.7s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 138.7s] BROWSER DISCONNECTED

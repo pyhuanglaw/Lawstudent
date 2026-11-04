@@ -1,0 +1,204 @@
+{
+ "sha": "d2b962a3f",
+ "url": "http://127.0.0.1:8811/index.html",
+ "cases": [
+  "xinhai_ground"
+ ],
+ "shots": [
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20_XHG2\\out\\xinhai_ground_lv0.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20_XHG2\\out\\xinhai_ground_lv1.png"
+ ],
+ "data": {
+  "xinhai_ground_find": {
+   "0": {
+    "cands": 298,
+    "tried": 140,
+    "reach": 140,
+    "best": [
+     {
+      "x": 96,
+      "z": -109,
+      "lv": 0,
+      "y": 0,
+      "d": 27.5,
+      "seen": 4
+     },
+     {
+      "x": 93,
+      "z": -112,
+      "lv": 0,
+      "y": 0,
+      "d": 27.5,
+      "seen": 4
+     },
+     {
+      "x": 99,
+      "z": -106,
+      "lv": 0,
+      "y": 0,
+      "d": 27.9,
+      "seen": 4
+     },
+     {
+      "x": 87,
+      "z": -115,
+      "lv": 0,
+      "y": 0,
+      "d": 29.1,
+      "seen": 4
+     },
+     {
+      "x": 87,
+      "z": -118,
+      "lv": 0,
+      "y": 0,
+      "d": 27.1,
+      "seen": 3
+     }
+    ],
+    "of": 15
+   },
+   "1": {
+    "cands": 10,
+    "tried": 10,
+    "reach": 10,
+    "best": [
+     {
+      "x": 87,
+      "z": -88,
+      "lv": 1,
+      "y": 3.63,
+      "d": 49.1,
+      "seen": 0
+     },
+     {
+      "x": 90,
+      "z": -85,
+      "lv": 1,
+      "y": 3.63,
+      "d": 49.5,
+      "seen": 0
+     },
+     {
+      "x": 93,
+      "z": -82,
+      "lv": 1,
+      "y": 3.63,
+      "d": 49.6,
+      "seen": 0
+     },
+     {
+      "x": 84,
+      "z": -88,
+      "lv": 1,
+      "y": 3.63,
+      "d": 51.2,
+      "seen": 0
+     },
+     {
+      "x": 87,
+      "z": -85,
+      "lv": 1,
+      "y": 3.63,
+      "d": 51.4,
+      "seen": 0
+     }
+    ],
+    "of": 15
+   }
+  },
+  "xinhai_ground": [
+   {
+    "lv": "0",
+    "at": {
+     "x": 96,
+     "z": -109,
+     "lv": 0,
+     "y": 0,
+     "d": 27.5,
+     "seen": 4
+    },
+    "cam": {
+     "x": 94.77,
+     "y": 1.625,
+     "z": -108.771,
+     "yaw": 5.497,
+     "pitch": 0.22,
+     "dist": 6,
+     "distTarget": 6,
+     "mode": "follow"
+    },
+    "vis": {
+     "inView": 7,
+     "seen": 0,
+     "blockers": [
+      [
+       "?",
+       3
+      ],
+      [
+       "null",
+       3
+      ],
+      [
+       "Hair001",
+       1
+      ]
+     ]
+    },
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20_XHG2\\out\\xinhai_ground_lv0.png"
+   },
+   {
+    "lv": "1",
+    "at": {
+     "x": 87,
+     "z": -88,
+     "lv": 1,
+     "y": 3.63,
+     "d": 49.1,
+     "seen": 0
+    },
+    "cam": {
+     "x": 82.867,
+     "y": 6.589,
+     "z": -83.852,
+     "yaw": 5.5,
+     "pitch": 0.22,
+     "dist": 6,
+     "distTarget": 6,
+     "mode": "follow"
+    },
+    "vis": {
+     "inView": 16,
+     "seen": 0,
+     "blockers": [
+      [
+       "EXT_ext_glass_lobby",
+       6
+      ],
+      [
+       "EXT_ext_granite",
+       4
+      ],
+      [
+       "EXT_ext_door",
+       3
+      ],
+      [
+       "EXT_ext_concrete",
+       2
+      ],
+      [
+       "EXT_ext_frame",
+       1
+      ]
+     ]
+    },
+    "shot": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20_XHG2\\out\\xinhai_ground_lv1.png"
+   }
+  ]
+ },
+ "errs": [],
+ "fails": [],
+ "secs": 139
+}
