@@ -491,7 +491,7 @@ await sec('8-4',async()=>{
     GRP.length===4&&J(GRP)===J(LN().aunt.tripGroup.map(([w,t])=>pairDoc(w,A527[t]||t,NM)))&&LN().aunt.tripGroup[0][1]==='這週燒臘店沒開'&&S8.includes('「我在總圖。期中考，店剛好也沒開。」')&&S8.includes('「出國，休息七天。——阿鳳」'),J(GRP));
   /* 語彤：那一週顧店的時段在總圖 */
   const Y=[]; for(const [k,h] of [['2029-04-19',18],['2029-04-21',10],['2029-04-24',18.5],['2029-04-28',10],['2029-05-01',18.5],['2029-04-17',18.5]]){ fresh(k,h,'dorm'); const e=ytEnt(); Y.push([k,e&&e.zone]); }
-  check('8-4 語彤那一週（4/19～4/25）週二、四晚上、週六早上在總圖；回來以後、出國前也不在燒臘店（AA_610／AA_624）',J(Y.slice(0,3).map(x=>x[1]))===J(['library','library','library'])&&Y.slice(3).every(x=>x[1]!=='noodle'),J(Y));
+  check('8-4 語彤那一週（4/19～4/25）沒有「顧店的時段換總圖」那兩筆（AA_679 第 9 列拿掉：她的班只在週末的一盞茶屋）；那一週、回來以後、出國前都不在燒臘店（AA_610／AA_624）',!CHARACTERS.heroine_03.daily_schedule.some(e=>e&&e.aa519)&&Array.isArray(SUP519.SCHED_YT)&&!SUP519.SCHED_YT.length&&Y.every(x=>x[1]!=='noodle'),J(Y));
   /* 麵店團：那一週沒有麵店日（阿哲不揪）；4/23 21:00 四則（那一週本來有麵店日才發；不在群組沒有）*/
   const nd=['2029-04-19','2029-04-24','2029-04-26'].map(k=>[k,STORY.noodleDay(D(k)),X()._nd0.call(STORY,D(k))]);
   fresh('2029-04-23',20.5,'dorm',{noodleTableDay:D('2028-09-06')}); for(const id of ['zhe','yu','heroine_03']) H.FAMILIAR(id); PHONE.join(H.G,'noodle_team','麵店團'); ph(); const g0=txt('g:noodle_team').length; phAt('2029-04-23',21.1);
@@ -691,7 +691,7 @@ await sec('10',async()=>{
     '跟你打了個招呼，聊了兩句天氣。）':'2-2、4-1「照現有規則」的天氣那一句（story3d.js 原本的字）','和':'按鈕「和阿姨說話」「和老闆說話」（系統字）','說話':'同上',
     '心理系的實驗室':'4-2 2D 的地點字幕（系統字）','當受試者（筱涵）':'4-2 出遊的標題（系統字）','走過去約 10 分鐘':'4-2 出遊的路程（系統字）','心理系・實驗室':'4-2 底圖的名字（BB 要圖，系統字）','當受試者':'4-2 事件的標題（系統字）',
     '學期中':'msg_pool.js 的 tag（不是台詞）','寫作業 好難':'msg_pool.js 原本那一則（5-4 換掉的就是它）',
-    'AA_519 第 8 節第 4 點：2029-04-19～25 阿姨出國、店沒開，語彤那一週在總圖（顧店的時段）':'作息的說明欄（玩家看不到）','AA_519 第 8 節第 4 點：同上，週六早上的備料不去':'同上',
+    /* AA_679 第 9 列：語彤那一週在總圖的兩筆作息（和它們的說明欄）拿掉 */
     'AA_519 5-1：大二下～大四每學期週五 17:00～18:00 資工系館前（遊戲沒有資工系館：醉月湖南岸東邊那張長椅），一個人抱著筆電坐著':'同上' };
   const files=[]; (function walk(dir){ for(const n of fs.readdirSync(path.join(H.ROOT,dir))){ const f=dir+'/'+n, st=fs.statSync(path.join(H.ROOT,f)); if(st.isDirectory()) walk(f); else if(/\.js$/.test(n)&&!/aa519_lines\.js$/.test(n)&&SRC(f).includes('AA_519')) files.push(f); } })('src');
   const lits=[], CJK=/[一-鿿]/;
