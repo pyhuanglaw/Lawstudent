@@ -9,16 +9,16 @@
      → 站著不動、讓遊戲時間真的跑：一路記 G.hour、E.time、zone、位置、對話；直到 G.hour ≥ 24+5/60（00:05）。
      ⑤沒有被請出去（zone 一直是 cvs）⑥沒有被傳送（站著不動，位置變化 < 0.5 m）⑦有跨日（G.hour 從 < 24 到 ≥ 24.083；畫面時鐘「9/24 週三 00:0x」，日期跟著換）⑧卡住檢查
   卡住檢查：對話框關掉、GAME.D.busyDepth 0、搖桿推得動 ≥ 0.3 m（四個方向試）、GAME.walkFallbacks 沒有增加、沒有 JS 例外。
-用法：LW_TESTS=<wt>/tests [CASES=E,M] [SHOPS=gg,wz] [HOURS=3,7,15,23.5] [WZ=1] [MID_TIMEOUT=1500] python3 cc_cvs24_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [CASES=E,M] [SHOPS=gg,wz] [HOURS=2,6,7,15,23.5] [CASES=E,M,F] [WZ=1] [MID_TIMEOUT=1500] python3 cc_cvs24_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-CASES = [c.strip() for c in (os.environ.get('CASES') or 'E,M').split(',') if c.strip()]
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'E,M,F').split(',') if c.strip()]
 SHOPSEL = [c.strip() for c in (os.environ.get('SHOPS') or 'gg,wz').split(',') if c.strip()]
-HOURS = [float(h) for h in (os.environ.get('HOURS') or '3,7,15,23.5').split(',') if h.strip()]
+HOURS = [float(h) for h in (os.environ.get('HOURS') or '2,6,7,15,23.5').split(',') if h.strip()]
 MID_WZ = os.environ.get('WZ', '1') != '0'
 MID_TIMEOUT = float(os.environ.get('MID_TIMEOUT') or 1500)   # 秒（真實時間）：遊戲 1 小時＝150 秒（60 fps）；SwiftShader 每幀上限 0.1 秒會慢很多
 J = lambda o: json.dumps(o, ensure_ascii=False)
@@ -187,6 +187,36 @@ async def midnight_case(pg, cdp, key, errs):
     await stuck_check(pg, cdp, tag + '_0005', fb0, e0, errs)
 
 
+async def force_case(pg, cdp, key, errs):
+    """BB 11-04 02:45：02:30 以後 forceHome＝「回家睡」不算 FAIL，但字幕不能寫成「打烊」"""
+    sh = SHOPS[key]; tag = 'force_' + key; h0 = 26.4
+    print('== 02:30 forceHome：%s（02:24 在店裡等過 02:30）' % sh['name'], flush=True)
+    fl = dict(FLAGS)
+    if key == 'wz': fl['CVS_FROM'] = 'wenzhou'
+    print('  [前置／捷徑] 讀檔：便利商店裡 (0, 1.5)、G.hour＝26.4（凌晨 02:24）、條件事件關閉', flush=True)
+    await L.load_state(pg, {'zone': 'cvs', 'hour': h0, 'day': DAY, 'weekday': WD, 'weather': 'clear', 'flags': fl, 'money': 3000, 'pos': {'x': 0, 'z': 1.5, 'yaw': math.pi, 'lv': 0}}, quiet_events=True)
+    await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    t0 = time.time(); lines = []; toasts = []; caps = []; left = None
+    while time.time() - t0 < MID_TIMEOUT:
+        await pg.wait_for_timeout(1500)
+        c = await pg.evaluate("(()=>{ const e=document.getElementById('caption'); return e&&!e.classList.contains('hide')?(e.textContent||'').trim():''; })()")
+        if c and c not in caps: caps.append(c); print('  [%s] 字幕：%s' % (tag, c), flush=True)
+        s = await pg.evaluate(ST)
+        if s['toast'] and s['toast'] not in toasts: toasts.append(s['toast']); print('  [%s] toast：%s' % (tag, s['toast']), flush=True)
+        if s['dlg'] or s['choices']: lines += await converse(pg, cdp, tag, 60)
+        if s['zone'] != 'cvs' and left is None: left = s; print('  [%s] 離開便利商店：%s' % (tag, J(s)), flush=True); await pg.screenshot(path=os.path.join(OUT, 'cvs_%s_after.png' % tag))
+        if left is not None and not s['busy'] and not s['dlg']: break
+        if left is None and s['hour'] >= 26.75: break
+    print('  [%s] 對話：%s' % (tag, J(lines)), flush=True)
+    obs = 'forceHome 有發生（到 %s）' % left['zone'] if left else '02:45 前沒有被帶走'
+    print('INFO [%s] %s' % (tag, obs), flush=True)
+    texts = lines + toasts + caps
+    bad = [t for t in texts if any(w in t for w in ('打烊', '關門', '請離開', '鐵捲門', '營業時間'))]
+    check('[%s] 02:30 以後的字幕／對話／toast 沒有「打烊」類的字（回家睡可以）' % tag, not bad, J({'bad': bad, 'texts': texts}))
+    await stuck_check(pg, cdp, tag + '_after', fb0, e0, errs)
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -197,6 +227,8 @@ async def main():
             for key in SHOPSEL:
                 for h in HOURS: await enter_case(pg, cdp, key, h, errs)
             await enter_case(pg, cdp, SHOPSEL[0] if SHOPSEL else 'gg', 27.0, errs, info27=True)
+        if 'F' in CASES:
+            for key in SHOPSEL: await force_case(pg, cdp, key, errs)
         if 'M' in CASES:
             await midnight_case(pg, cdp, 'gg', errs)
             if MID_WZ: await midnight_case(pg, cdp, 'wz', errs)
