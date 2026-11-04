@@ -235,6 +235,9 @@ const SL2=(function(){
 
   /* 劇情用：靠窗那排北往南第三個（AA_669 第 6 節「老位子」）；沒有配置時回 null */
   function oldSeat(){ const L=typeof SOCLIB2F_LAYOUT!=='undefined'?SOCLIB2F_LAYOUT:null; if(!L) return null; const s=L.seats.find(q=>q.old); return s?Object.assign({},s):null; }
-  return {soclib_2f,stairSurfs,buildNav,HALL,ENTRY,oldSeat};
+  /* 背景人物散步路線的建議（[x, z, 層]；tests/soclib2f_unit.js 檢查每一段走得到）：一樓門廳 → 電梯前 → 影印區 → 樓梯下 → 二樓走廊（B 跑上來）→ 南北向走廊 → 自習室 → 電梯廳 → 下樓回門廳。
+     樓梯中段的點不要放（兩層共用的樓梯中段算第 0 層，指定第 1 層會走到一半就結束）*/
+  const WALK_ROUTE=[[-6.4,-8.4,0],[0,-8.4,0],[4.4,-5.8,0],[0.0,0.8,0],[-6.6,-5.6,0],[-5.0,-5.8,1],[0,-5.8,1],[-2.8,4.0,1],[3.0,3.4,1],[5.0,-5.8,1],[-6.4,-8.4,0]];
+  return {soclib_2f,stairSurfs,buildNav,HALL,ENTRY,oldSeat,WALK_ROUTE};
 })();
 Z3.ZONES.soclib_2f=SL2.soclib_2f;

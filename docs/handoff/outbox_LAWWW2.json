@@ -5541,7 +5541,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "9be98513b",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACK",
    "task": "TEACH-PTBOYA-REF-1104",
    "files": [
     "assets/models/env/second_ai/campus_boya.glb",
@@ -5549,8 +5549,8 @@
     "tools/blender/env_second/campus_teach.py",
     "docs/art-rebuild/second_ai/wip/teach_ptboya_1104/"
    ],
-   "state": "已交付",
-   "remaining": "LAWWW-C 接；CC 遊戲內同角度、--mode campus；BB 判 ART",
+   "state": "已整合",
+   "remaining": "LAWWW-C 16:3x 接進開發分支 031cb3e01（nav_buildings_unit ALL PASS）；CC 遊戲內同角度（PTBOYA_v2_shots --mode campus）、PTBOYA_glb；BB 判 ART",
    "next": "只換 campus_boya.glb／.json",
    "noDirectIntegrate": false,
    "note": "v2b：博雅雨遮的天窗洞（v2 長條橢圓）改成一排五個小方形天窗（BB-C 16:3x，D136）；三角形 5,738 → 5,626"

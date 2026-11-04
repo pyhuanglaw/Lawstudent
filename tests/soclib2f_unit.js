@@ -96,6 +96,9 @@ const L=SOCLIB2F_LAYOUT, Y1=L.floors[1].y;
     while(q.length){ const i=q.pop(), cx_=i%n.cols, cz_=(i/n.cols)|0; for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]){ const nx=cx_+dx, nz=cz_+dz; if(nx<0||nz<0||nx>=n.cols||nz>=n.rows) continue; const j=n.idx(nx,nz); if(seen[j]||!cm[j]) continue; seen[j]=1; q.push(j); } }
     const isl=[]; for(let i=0;i<cm.length;i++) if(cm[i]&&!seen[i]){ const [x,zz]=n.toWorld(i%n.cols,(i/n.cols)|0); isl.push(`(${x.toFixed(1)},${zz.toFixed(1)})`); }
     check(`第 ${lv} 層沒有小孤島（人站得住的格子都連得到${lv?'二樓走廊（樓梯下半段在第 0 層，另外算）':'一樓門廳'}）`,!isl.length||(lv===1&&isl.every(s=>{ const m=/\(([-\d.]+),([-\d.]+)\)/.exec(s); return +m[1]>B.x0-0.01&&+m[1]<B.x1+0.01; })),`${isl.length} 格 ${isl.slice(0,6).join(' ')}`); }
+  /* 背景人物散步路線的建議（README「給 LAWWW-C」第 1 點）：一樓門廳 → 電梯前 → 影印區 → 樓梯下 → 二樓走廊 → 南北向走廊 → 自習室 → 電梯廳 → 下樓回門廳 */
+  const ROUTE=SL2.WALK_ROUTE, rbad=[]; for(let i=0;i<ROUTE.length-1;i++){ const a=ROUTE[i], b=ROUTE[i+1]; if(!stand(a[0],a[1],a[2])){ rbad.push(`站不住 (${a})`); continue; } const rr=walk(a,b); if(!rr.ok) rbad.push(`(${a})→(${b}) ${rr.reason}`); }
+  check('建議的散步路線每一點站得住、每一段走得到（走路、跑步＋低幀率）',ROUTE.length>=8&&!rbad.length,rbad.slice(0,3).join(' | '));
   check('二樓樓板給鏡頭用（zone.slabs，扣掉樓梯間和電梯井）',Array.isArray(z.slabs)&&z.slabs.length>=3&&z.slabs.every(s=>s.lv===1&&Math.abs(s.y-Y1)<1e-9)&&!z.slabs.some(s=>s.x0<-6&&s.x1>-6&&s.z0<-2&&s.z1>-2)&&!z.slabs.some(s=>s.x0<el.cx&&s.x1>el.cx&&s.z0<el.cz&&s.z1>el.cz),`${(z.slabs||[]).length} 塊`);
   check('室內的牆、玻璃隔間是鏡頭碰撞（E.colliders）',E.colliders.length>=20,`${E.colliders.length}`);
   check('外牆會淡出（zone.walls 有方向）',z.walls.length>=8&&z.walls.every(w=>w.userData.dir&&w.userData.dir.isVector3),`${z.walls.length}`);
