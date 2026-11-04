@@ -17240,6 +17240,32 @@
    "task": "OPEN-SRC-2D3D-1104",
    "integration": "未整合",
    "note": "文件留在 LAWWW2 分支（不進遊戲）；R1、R2 LAWWW 同意、等 BB；HDRI 暫停（HDRI-ENV-1104）"
+  },
+  {
+   "id": "DL-LAWWW2-8200806e2",
+   "date": "2026-11-04T21:30Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8200806e2",
+   "msg": "ACK",
+   "what": "ADE-PROPS-1104 補件：wz_props.glb／.json、wz_props.py（電線桿、路燈臂挪到 −12.7）、tests/wz_props_poles_unit.js",
+   "task": "ADE-PROPS-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 21:4x 接進開發分支（README 不帶：開發分支那一版和 LAWWW2 的分岔，留在 LAWWW2 分支）"
+  },
+  {
+   "id": "DL-LAWWW2-dd6cffe64",
+   "date": "2026-11-04T21:33Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "dd6cffe64",
+   "msg": "ACK",
+   "what": "ART_DIRECTION 12.2／12.8：R1（CC0 實景掃描小道具）、R2（參考圖鏡頭＋同角度疊圖）、TripoSR 目前不用",
+   "task": "OPEN-SRC-2D3D-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 21:4x 帶進開發分支（只有文件）"
   }
  ],
  "ignored": [
