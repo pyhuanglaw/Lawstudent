@@ -857,3 +857,12 @@
 [09:14:31] ==== START HOT_smoke  (game @ fd8d447d2) ====
 [09:14:35] [res] cpu=51% mem=55% (17.5/31.4 GB) chrome_testing=20  START HOT_smoke
 [09:16:07] [res] cpu=40% mem=54% (17.5/31.4 GB) chrome_testing=19  END HOT_p0
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       455cdf6a3..938932050  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:16:13] ==== END   HOT_p0  exit=0  178s   ====
+[09:16:18] memory 54% before starting HOT_v7 (2 running)
+[09:16:18] ==== START HOT_v7  (game @ fd8d447d2) ====
+[09:16:22] [res] cpu=37% mem=54% (17.1/31.4 GB) chrome_testing=19  START HOT_v7
+[09:17:19] 正在跑：HOT_soc_talk（已跑 10 分／上限 240 分）、HOT_smoke（已跑 2 分／上限 60 分）、HOT_v7（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:18:17] [res] cpu=52% mem=54% (17.0/31.4 GB) chrome_testing=20  END HOT_smoke
