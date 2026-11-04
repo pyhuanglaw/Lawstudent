@@ -264,8 +264,8 @@ props.paint([f for f in props.bm.faces if f not in n0], '#d63a34'); n0 = set(pro
 props.crbox(cx + depth - 0.6, cx + depth - 0.2, 1.06, 1.32, cz0 + 3.0, cz0 + 3.35, '#2a2b2e', r=0.03)                    # 收銀機
 props.add_bm(L.lathe([(0.0, 0.0), (0.1, 0.0), (0.12, 0.08), (0.12, 0.26), (0.07, 0.3), (0.0, 0.3)], seg=16), Matrix.Translation(g2b(cx + depth - 0.4, 1.06, cz0 + 3.7)))   # 糖果罐
 props.paint([f for f in props.bm.faces if f not in n0], '#e7a7c0'); n0 = set(props.bm.faces)
-props.crbox(X0 + 0.1, X0 + 0.75, 0.0, 0.3, cz0 + 4.3, cz0 + 5.1, '#c8ccd0', r=0.03); props.crbox(X0 + 0.1, X0 + 0.75, 1.9, 2.05, cz0 + 4.3, cz0 + 5.1, '#c8ccd0', r=0.03)   # 飲料櫃（中間空的、放瓶子）
-props.crbox(X0 + 0.1, X0 + 0.16, 0.3, 1.9, cz0 + 4.3, cz0 + 5.1, '#e6e8ea', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 4.3, cz0 + 4.34, '#c8ccd0', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 5.06, cz0 + 5.1, '#c8ccd0', r=0.01)
+props.crbox(X0 + 0.1, X0 + 0.75, 0.0, 0.3, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03); props.crbox(X0 + 0.1, X0 + 0.75, 1.9, 2.05, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03)   # 飲料櫃（中間空的、放瓶子）
+props.crbox(X0 + 0.1, X0 + 0.16, 0.3, 1.9, cz0 + 4.3, cz0 + 5.1, '#c8b89a', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 4.3, cz0 + 4.34, '#b4a68c', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 5.06, cz0 + 5.1, '#b4a68c', r=0.01)
 for row in range(4):   # 一層一層的玻璃瓶、易開罐（旋轉體，顏色照參考圖：綠、橘、紅、白、藍）
     for k in range(5):
         n1 = set(props.bm.faces); bx_, by_, bz_ = X0 + 0.62, 0.36 + row * 0.38, cz0 + 4.43 + k * 0.145
