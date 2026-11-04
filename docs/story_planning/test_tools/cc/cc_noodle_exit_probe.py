@@ -18,6 +18,7 @@ FAILS = []; CONSOLE = []
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok: FAILS.append(name)
+    return ok
 
 
 class Run:
