@@ -15,7 +15,7 @@ const LIN_LAYOUT = (function () {
   const OPEN = [-3.0, 2.1];                 // 正面開口（鐵捲門捲在上面）
   const DOOR = {x: 1.0, w: 2.2, style: 'open'};
   const S = {
-    id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/bb_support/lin_interior.glb', v: 1,
+    id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/bb_support/lin_interior.glb', v: 2, version: 2,
     w: W, d: D, h: H, floor: 'terrazzo', hours: '11:00–14:00、17:00–21:00（週一公休；places.js 照舊）',
     front: {door: DOOR, windows: [], open: OPEN, views: [OPEN], view: 'wz_lin', viewDepth: 10, viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面）：左邊攤車，右邊 2.2 m 是入口（照舊）'},
     spawn: {x: 1.0, z: 3.05, yaw: Math.PI},
