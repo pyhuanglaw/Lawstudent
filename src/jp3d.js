@@ -382,7 +382,7 @@ const JP=(function(){
     try{ if(A&&A.active&&A.end) A.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day);
       if(GM.titleCard){ await GM.titleCard(x.m+' 月 '+x.d+' 日','回程｜關西的機場',2400); await GM.titleCard('飛回臺灣','關西　約 3 小時',2400); }
       if(G.day===r) G.hour=Math.max(13,G.hour+2); if(E) E.hour=G.hour;   /* 日本時間換回臺灣時間（−1）＋飛行約 3 小時（J-S13）*/
-      F.JP_RETURNED=G.day; R.place=null; if(GM.updateHUD) GM.updateHUD();
+      F.JP_RETURNED=G.day; F.JP_RETURN_H=G.hour; R.place=null; if(GM.updateHUD) GM.updateHUD();   /* JP_RETURN_H：落地的時間（臺灣時間）——AA_660 G5-1 家人群組「到了」那一則的時間（src/aa660_3d.js；舊存檔沒有＝13:00）*/
       if(GM.titleCard) await GM.titleCard('抵達','桃園機場　'+hm(G.hour),2200); await GM.fade(false); }
     finally{ GM.sceneEnd(); }
     { const ev=evOf('ev_jp_return_hall'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); }   /* 入境大廳（AA_253 9-2）*/

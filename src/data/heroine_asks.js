@@ -61,7 +61,7 @@ const HASK_DATA={
     heroine_04:{ send:23.5,
       daily:[
         {place:'gym_badminton',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午打羽球 我需要報仇'},dat:{d:'next',h:[15.5,17.5],line:'明天羽球 這次我要贏一球'}},
-        {place:'cafe',th:3,pre:{d:'next',h:[16],line:'兩點半 明天四點 我要點最甜的那個 你陪我'},dat:{d:'next',h:[15.5,17.5],line:'明天兩點半 我點最甜的 你點最苦的 交換'}},
+        {place:'cafe',th:3,pre:{d:'next',h:[16],line:'2:30 AM 明天四點 我要點最甜的那個 你陪我'},dat:{d:'next',h:[15.5,17.5],line:'明天兩點半 我點最甜的 你點最苦的 交換'}},   /* pre：店名換 2:30 AM（AA_660 第 4 節第 3 點，照 AA_655；讀稿的換字表 tools/story/aa655_fix.json pairs）；dat 的「明天兩點半」照 AA_655「單獨的兩點半不換」，問 AA 中 */
         {place:'library',th:5,pre:{d:'next',h:[15.5,17.5],line:'總圖 二樓靠窗有插座那排 明天下午 我寫 code 你念書'},dat:{d:'next',h:[15.5,17.5],line:'總圖 明天下午 插座那排 位子我先佔'}},
         {place:'teahouse',th:5,pre:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式'},dat:{d:'sun',h:[15.5,14],line:'一盞 週日下午 挑戰模式第二關'}}],
       out:[

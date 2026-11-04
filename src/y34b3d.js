@@ -76,7 +76,7 @@ const Y34B=(function(){
   S.sendoffJPDue=G=>{ const d=D('sendoff'), F=G.flags, r=STORY.ROUTE_DATES&&STORY.ROUTE_DATES.JP?DK(STORY.ROUTE_DATES.JP.ret):null; return law(G)&&d!=null&&JP(G)&&(G.day>d||(G.day===d&&G.hour>=8))&&(r==null||G.day<r)&&F.AN_SENDOFF==null&&F.JP_DEPARTED==null; };   /* AA_341 J-S12：日本路線的玩家 3/25 一定出發（交往中、挽回中都是；原本只有交往中或前任、而且只在 3/25 當天——paused、friend_after_catch、睡過頭、那天在出遊就沒有出發）*/
   S.anPhone=function(G){ const F=G.flags, d23=D('farewellAsk'), d24=D('farewell'), d25=D('sendoff'); if(d23==null||G.day<d23||G.day>d25+1||!fam('heroine_01')) return;
     const th=anTh(G), Z=t=>({th,from:'zhe',text:t});
-    if(th&&NOW(G)>=T(d23,21)&&NOW(G)<T(d24,19.25)) at(G,d23,G.day===d23?Math.max(21,G.hour):G.hour,[Z('明天 以安餞行'),Z('七點 燒臘店')],'y3_an_farewell_ask');   /* 新寫（AA_322 1B-12 第 1 節）*/
+    if(th&&NOW(G)>=T(d23,21)&&NOW(G)<T(d24,19.25)) at(G,d23,G.day===d23?Math.max(21,G.hour):G.hour,[Z(JP(G)?'明天 幫以安跟祐廷餞行':'明天 以安餞行'),Z('七點 燒臘店')],'y3_an_farewell_ask');   /* 新寫（AA_322 1B-12 第 1 節）；日本路線的祐廷同一天走、同一班飛機：第一句換（AA_660 G4，企劃線 090981ebe；3/24 那一場的台詞照舊）*/
     if(sent(G,'y3_an_farewell_ask')&&F.AN_FAREWELL==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_farewell')&&G.day===d24&&G.hour<19.25&&G.zone!=='noodle')
       OUT.plan(G,{id:'y3_an_farewell',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:d24,h:19,late:0.25,place:'公館',title:'公館燒臘',travelH:1/6});
     if(F.AN_FAREWELL==null&&NOW(G)>=T(d24,19.25)) F.AN_FAREWELL='missed';
