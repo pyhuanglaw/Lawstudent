@@ -19,7 +19,7 @@
   wzbike（cb1d84290）
     B1 【前置／捷徑】溫州街 (40, 0.4) 15:00，車停在溫州街一個合法停車處（先讀一次檔算 BIKE.parkSpots，再讀檔把車放那裡）→ 走到車旁上車 → 騎到 A5 門口 → 騎著按「進入日和便利店」
        → 店裡：G.bike.zone＝wenzhou、在 A5 附近（≤ BIKE.MAXD）；在店裡存檔 → 重新整理 → 繼續：G.bike.zone 還是 wenzhou、人還在店裡
-       → 出來回溫州街：車在 A5 附近、BIKE.parkOK、不擋門（車身外框不碰任何門口 0.6 m）、不在騎樓（|z| < 3.0：溫州街兩側騎樓在 |z| ≥ 3.9 一帶，參考 WZ 機車排 z ±3.95）
+       → 出來回溫州街：車在 A5 附近、BIKE.parkOK、不擋門（車身外框不碰任何門口 0.6 m）、不在騎樓（|z| ≤ 4.3：路邊機車排 z ±3.95～4.1 是合法停車處，店門在 |z| 4.6）
     B2 再騎到 A5 門口、按「下車」停在門口 → 走進去、出來 → 同樣的停車檢查
   art：三間各拍門口 art_<店>_door.png（門前 6 m 面向店門，14:00）、店內 art_<店>_inside.png（進門站的地方、面向店裡 −z）
   卡住檢查：對話框關掉、GAME.D.busyDepth 0、搖桿推得動 ≥ 0.3 m（四個方向試）、GAME.walkFallbacks 沒有增加、沒有 JS 例外。
@@ -434,7 +434,7 @@ async def park_check(pg, cdp, tag, errs):
     check('[%s] 車在 A5 附近（%.2f m ≤ BIKE.MAXD %s）' % (tag, c['dA5'], c['maxd']), c['dA5'] <= c['maxd'], J(c))
     check('[%s] 停車位置合法（BIKE.parkOK：站得住、不擋出入口）' % tag, c['ok'], J(c))
     check('[%s] 車身不碰任何門口（0.6 m）' % tag, c['hit'] is not None and not c['hit'] and c['nDoors'] > 0, J(c['hit']))
-    check('[%s] 不在騎樓（|z| < 3.0）' % tag, abs(c['z']) < 3.0, str(c['z']))
+    check('[%s] 不在騎樓（溫州街 |z| ≤ 4.3；路邊機車排 z ±3.95～4.1 合法）' % tag, abs(c['z']) <= 4.3, str(c['z']))
     await pg.screenshot(path=os.path.join(OUT, '%s_parked.png' % tag))
 
 
