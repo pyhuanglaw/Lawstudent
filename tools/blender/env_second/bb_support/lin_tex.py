@@ -40,7 +40,7 @@ def wall(path):
     W, H = 1024, 1024; rng = np.random.RandomState(721)
     n1 = _noise(H, W, 160, 721); n2 = _noise(H, W, 10, 722, 3); n3 = _noise(H, W, 50, 723, 3)
     yy = np.linspace(0, 1, H)[:, None]
-    col = np.array([238, 228, 206], np.float32)[None, None] * (0.93 + 0.07 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))
+    col = np.array([240, 226, 194], np.float32)[None, None] * (0.93 + 0.07 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))
     yel = np.clip((n3 - 0.55) * 3, 0, 1) * (0.4 + 0.6 * np.clip(1 - yy * 1.5, 0, 1))   # 上半發黃（油煙）
     col = col * (1 - 0.12 * yel[..., None]) + np.array([200, 176, 120]) * 0.12 * yel[..., None]
     im = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
@@ -138,12 +138,24 @@ def screen(path):
     im = Image.new('RGB', (512, 512), (20, 24, 28)); d = ImageDraw.Draw(im)
     SC['pos'] = (0.0, 0.5, 0.5, 1.0); d.rectangle([0, 0, 256, 256], fill=(30, 40, 54)); d.rectangle([0, 0, 256, 40], fill=RED); d.text((10, 6), '林家乾麵', font=font(26), fill=(255, 255, 255))
     for k in range(5): d.rectangle([12, 56 + k * 36, 200, 84 + k * 36], fill=(70, 90, 110))
-    SC['tube'] = (0.5, 0.5, 1.0, 1.0); d.rectangle([256, 0, 512, 256], fill=(232, 226, 210))
+    SC['tube'] = (0.5, 0.5, 1.0, 1.0); d.rectangle([256, 0, 512, 256], fill=(246, 222, 178))   # 暖白日光燈
     SC['warm'] = (0.0, 0.0, 0.5, 0.5); d.rectangle([0, 256, 256, 512], fill=(255, 210, 140))
     im.save(path); return path
+
+
+def steam(path):
+    """蒸氣卡（RGBA，只有白色、透明度從下往上淡掉，中間有幾道往上飄的霧）"""
+    W, H = 256, 512; rng = np.random.RandomState(741)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); n = _noise(H, W, 30, 742, 3); n2 = _noise(H, W, 10, 743, 2)
+    t = 1 - yy / H   # 0＝上、1＝下
+    sway = 18 * np.sin(yy / 60 + n * 3)
+    core = np.exp(-((xx - W / 2 - sway) / (40 + 60 * (1 - t))) ** 2)
+    a = core * (0.25 + 0.75 * n) * np.clip(t * 1.4, 0, 1) * np.clip((1 - t) * 6, 0, 1) * (0.6 + 0.4 * n2)
+    img = np.zeros((H, W, 4), np.float32); img[..., :3] = 250; img[..., 3] = np.clip(a * 150, 0, 255)
+    Image.fromarray(img.astype(np.uint8), 'RGBA').save(path); return path
 
 
 def build_all(outdir, menu_items):
     os.makedirs(outdir, exist_ok=True); p = lambda n: os.path.join(outdir, n)
     return dict(floor=floor(p('lin_floor.png'), p('lin_floor_rough.png')), ceil=ceiling(p('lin_ceil.png')), wall=wall(p('lin_wall.png')), wood=wood(p('lin_wood.png')),
-                steel=steel(p('lin_steel.png')), prints=prints(p('lin_print.png'), menu_items), screen=screen(p('lin_screen.png')))
+                steel=steel(p('lin_steel.png')), prints=prints(p('lin_print.png'), menu_items), screen=screen(p('lin_screen.png')), steam=steam(p('lin_steam.png')))
