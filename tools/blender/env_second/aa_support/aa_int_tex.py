@@ -1,5 +1,5 @@
 """日常失速、木曜日、山嵐書店室內用的自製貼圖（PIL／numpy；系統 python3）。AA 子代理 2026-11-03。
-用法：python3 tools/blender/env_second/aa_support/aa_int_tex.py [dof|mok|shl|yej|all]
+用法：python3 tools/blender/env_second/aa_support/aa_int_tex.py [dof|mok|shl|yej|aok|all]
 輸出到 tools/blender/env_second/textures/gen/：
   dof_checker.png  綠白格紋地磚（一張 2×2 格，每格 0.3 m）
   dof_print.png    黑板菜單、首都帝大海報、社團傳單、桌遊盒、店長的紙條…（1024 圖集，格子位置見 CELLS）
@@ -404,6 +404,35 @@ def yej():
     t.filter(ImageFilter.SMOOTH).save(os.path.join(GEN, 'yej_terrazzo.png'))
 
 
+def aok():
+    """青木茶室（公館，AA 2026-11-04）：(0,0) 2×1 店名牌、(2,0) 2×2 山景小畫、(4,0) 4×1 茶罐標籤 8 張、(4,1) 4×1 牛皮紙茶包 8 張、(0,2) 4×2 黑板「季節限定」"""
+    rng = np.random.default_rng(1105); im = Image.new('RGB', (1024, 1024), '#efe8da'); d = ImageDraw.Draw(im)
+    bx = box(0, 0, 2, 1); paper(im, bx, '#f1ebdd', rng, grain=0.04); x0, y0, x1, y1 = bx
+    for k, (dx_, ang) in enumerate(((-12, -0.5), (12, 0.5))):   # 雙葉標誌
+        cx, cy = x0 + 46 + dx_ * 0.6, y0 + 64; pts = [(cx + 26 * math.cos(t) * math.cos(ang) - 12 * math.sin(t) * math.sin(ang) * (1 if k else -1), cy - 26 * math.cos(t) * math.sin(ang) * 0 - 30 * abs(math.sin(t)) + 22 * math.cos(t) * 0) for t in np.linspace(0, math.pi, 12)]
+        d.ellipse([cx - 14 + dx_, cy - 26, cx + 14 + dx_, cy + 10], fill='#4f6b45')
+    d.line([x0 + 46, y0 + 70, x0 + 46, y0 + 100], fill='#4f6b45', width=4)
+    d.text((x0 + 80, y0 + 36), '青木茶室', font=F(42), fill='#3f5a3a')
+    bx = box(2, 0, 2, 2); paper(im, bx, '#f4efe2', rng); x0, y0, x1, y1 = bx   # 山景小畫
+    for k, col in enumerate(('#c8d2c0', '#a8b8a0', '#8aa088', '#6f8a6e')):
+        base = y0 + 120 + k * 28; d.polygon([(x0 + 10, y1 - 10), (x0 + 10, base + 30)] + [(x0 + 10 + j * 30, base + 30 - 40 * abs(math.sin(j * 0.7 + k))) for j in range(9)] + [(x1 - 10, base + 20), (x1 - 10, y1 - 10)], fill=col)
+    d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#c9a272', width=6)
+    for k in range(8):   # 茶罐標籤
+        x0, y0 = 512 + k * 64, 0; paper(im, (x0, y0, x0 + 64, y0 + 128), '#3f5a46', rng, grain=0.05)
+        d.rectangle([x0 + 8, y0 + 30, x0 + 56, y0 + 98], fill='#ede4cf'); d.text((x0 + 22, y0 + 36), ('烏', '綠', '白', '紅', '包', '鐵', '香', '金')[k], font=F(26), fill='#3f5a46')
+        d.text((x0 + 14, y0 + 72), ('龍', '茶', '茶', '茶', '種', '觀', '片', '萱')[k], font=F(18), fill='#3f5a46')
+    for k in range(8):   # 牛皮紙茶包
+        x0, y0 = 512 + k * 64, 128; paper(im, (x0, y0, x0 + 64, y0 + 128), '#c9a77c', rng, grain=0.08)
+        d.ellipse([x0 + 20, y0 + 30, x0 + 44, y0 + 54], fill='#4f6b45'); d.rectangle([x0 + 12, y0 + 70, x0 + 52, y0 + 76], fill='#6b4a2a'); d.rectangle([x0 + 18, y0 + 84, x0 + 46, y0 + 88], fill='#6b4a2a')
+    bx = box(0, 2, 4, 2); paper(im, bx, '#2b302c', rng, grain=0.12); x0, y0, x1, y1 = bx   # 黑板
+    d.rectangle(bx, outline='#7a5a3a', width=10); text_c(d, ((x0 + x1) / 2, y0 + 44), '季節限定', F(40), '#f1ead8')
+    for k, s_ in enumerate(('桂花烏龍奶茶', '柚香綠茶', '春摘白茶')):
+        y = y0 + 100 + k * 46; d.text((x0 + 60, y), s_, font=F(30), fill='#f1ead8'); d.ellipse([x1 - 90, y + 4, x1 - 64, y + 30], outline='#d9c47a', width=3)
+    for k in range(10):   # 葉子塗鴉
+        cx, cy = x0 + 24 + k * 50, y1 - 26; d.ellipse([cx - 8, cy - 4, cx + 8, cy + 4], fill='#8aa86a')
+    im.save(os.path.join(GEN, 'aok_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -481,4 +510,5 @@ if __name__ == '__main__':
     if w in ('mok', 'all'): bookrows('mok_bookrows.png', '#3b2a1f', 618)
     if w in ('shl', 'all'): bookrows('shl_bookrows.png', '#a88a62', 613, law=True)
     if w in ('yej', 'all'): yej()
+    if w in ('aok', 'all'): aok()
     print('ok', w)
