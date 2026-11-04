@@ -2,8 +2,8 @@
   溫州街 A1 阿德影印（店門互動點 (−8.0, 4.6)），14:00、20:30 各一輪：
     approach  玩家從巷子走近的視角（巷子東邊往西、斜看店面）
     front     店門口正面
-    refcam    參考圖鏡頭（LAWWW2 docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md：從參考圖招牌四個角反推）：
-              眼 (−3.0, 1.61, −2.97)、看 (−6.33, 1.61, 6.46)、再向右轉 3.6°（BB-C 15:33）、垂直 FOV 45.7°、上下移軸 shift_y 0.0733、1672×941（和參考圖一樣大，可以直接疊圖）
+    refcam    參考圖鏡頭（LAWWW2 v2.1，BB-C 16:12）：24 mm＝垂直 FOV 45.7°、眼 (−3.563, 1.504, −1.187) → (−6.543, 1.504, 7.305)、上下移軸 shift_y 0.0867（Blender 單位）、
+              1672×941（和參考圖一樣大，可以直接疊圖）
   WZ_COPY_SHOP='moved'（劇情選「搬到轉角」以後）：轉角店（北巷，玻璃門 x 3.1、z 6.0～6.95；互動點 (3.9, 6.5)）三張：front、street（從溫州街往巷子看）、oblique。
   另外 A1 每個時段留一張不藏出口標籤的 approach（ade_approach_labels_*；BB-C 15:54 看標籤會不會擋招牌），其他張都藏（cc_det.HIDE_LABELS_JS）。
   做法（同 cc_baseline_probe 的 DET）：遊戲載入前固定種子（cc_det）、路人照 cc_det 藏、HUD 藏；每張停主迴圈、時刻和 shader 時間設回固定值、手動畫一幀再截圖。
@@ -22,7 +22,9 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 HOURS = [float(x) for x in (os.environ.get('HOURS') or '14,20.5').split(',') if x.strip()]
 FAILS = []
-REF = {'eye': [-3.0, 1.61, -2.97], 'look': [-6.33, 1.61, 6.46], 'yaw_right_deg': 3.6, 'fov': 45.7, 'shift_y': 0.0733, 'w': 1672, 'h': 941}
+# v2.1（BB-C 16:12，LAWWW2 v2.1 的鏡頭）：24 mm（36 mm 寬感光元件、1672×941 → 垂直 FOV 45.7°）、眼 (−3.563, 1.504, −1.187) → (−6.543, 1.504, 7.305)、shift_y 0.0867
+#   v2（ba038059e）的是 30.1 mm、(−3.0,1.61,−2.97)→(−6.33,1.61,6.46)、向右轉 3.6°、shift_y 0.0733，已換掉
+REF = {'eye': [-3.563, 1.504, -1.187], 'look': [-6.543, 1.504, 7.305], 'yaw_right_deg': 0.0, 'fov': 45.7, 'shift_y': 0.0867, 'w': 1672, 'h': 941}
 
 
 def rot_look(eye, look, deg):
@@ -47,11 +49,12 @@ def check(name, ok, info=''):
 
 HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
 MESHN = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
-# 停主迴圈、時刻和 shader 時間固定、手動走三格、畫一幀；fov＝垂直 FOV、shift＝上下移軸（投影矩陣第 9 格，同 Blender 的 shift_y：畫面往上移 shift×畫面高）
+# 停主迴圈、時刻和 shader 時間固定、手動走三格、畫一幀；fov＝垂直 FOV、shift＝上下移軸（同 Blender 的 shift_y：單位是畫面長邊，畫面往上移 shift×寬；
+#   換成投影矩陣第 9 格的 NDC＝2×shift×寬／高——CC-C 16:1x 更正：v2 那版少乘了寬／高）
 AIM = """(([e,l,h,seed,fov,shift])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.paused=true; window.__ccSeed&&window.__ccSeed(seed); G.hour=h; E.hour=h; if(E.applyTime) E.applyTime(h); E.time=100; E._shT=0;
   const fov0=cam.fov; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l));
   for(let i=0;i<3;i++){ E.update(1/60); cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
-  cam.fov=fov; cam.updateProjectionMatrix(); if(shift){ cam.projectionMatrix.elements[9]+=2*shift; cam.projectionMatrixInverse.copy(cam.projectionMatrix).invert(); }
+  cam.fov=fov; cam.updateProjectionMatrix(); if(shift){ cam.projectionMatrix.elements[9]+=2*shift*Math.max(1,cam.aspect); cam.projectionMatrixInverse.copy(cam.projectionMatrix).invert(); }
   E._shT=0; E.render(); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, fov:cam.fov, aspect:+cam.aspect.toFixed(4)};
   cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
 COPY = """(()=>{ const z=GAME.E.zone, r={flag:(GAME.G.flags||{}).WZ_COPY_SHOP||'', nodes:{}}; if(z&&z.group) z.group.traverse(o=>{ if(/^COPY_/.test(o.name||'')){ let v=true; for(let p=o;p;p=p.parent) if(!p.visible){ v=false; break; } r.nodes[o.name]=v; } });
