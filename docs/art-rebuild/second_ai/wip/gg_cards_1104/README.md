@@ -103,3 +103,10 @@ afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層�
   - 收哪些：GLOW_gg_xs_in、GLOW_shopin、GLOW_gg_xs_lamp（x 放寬 0.8 m），GLOW_signbox、GLOW_vsign（不放寬：直立招牌在店的邊上，放寬會分到隔壁那間）。騎樓燈 GLOW_arcadelamp 不熄（整排騎樓的）。
   - 公館 GLB 實際分到：青木 2、頁間 5、日和 4、洋洋 5、單車 6、afar 3、轉角 3、Daybreak 3；其他 27 個是另外幾間不能進去的店，照舊亮。
 - 測試：`gg_glow_shoplit_unit` 修改前（d432de8ba）FAIL 5、修改後 ALL PASS；`gg_shops2_1104_unit`、`gym_arena_unit`、`gym_unit`（也用 glowBatch）前後都 ALL PASS。瀏覽器的亮度要 CC 用同一組取樣框重量。
+
+## 11-04 07:3x：gongguan_glb_integration 效能的量法一致（BB 06:47、LAWWW 06:55）
+- `gongguan_glb_integration_measure_d432de8ba.patch`：只改 `tests/gongguan_glb_integration.py`。
+  - DRAW：量的時候時鐘停住（`E.player.busy`，game3d 這時不加時間）、時間定在 17:30（`E.applyTime`）、路人照舊移出去；回傳多帶 hour、lamps、npcsHidden、census（畫面裡的網格照最上層群組｜材質數）。
+  - 新增一項檢查：兩輪的時刻、路燈狀態相同。門檻（1.3 倍、42 萬）沒改。
+  - census 寫進 note，兩輪對不上時直接比。
+- 雲端跑不了瀏覽器（D131），**這支沒跑過**；只做了 Python 語法檢查、`git apply --check`。請 CC 在 PC 跑。

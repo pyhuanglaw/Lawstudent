@@ -1,0 +1,44 @@
+diff --git a/tests/gongguan_glb_integration.py b/tests/gongguan_glb_integration.py
+index af1636ac2..1cb277313 100644
+--- a/tests/gongguan_glb_integration.py
++++ b/tests/gongguan_glb_integration.py
+@@ -58,9 +58,18 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
+ OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
+     for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter||o.userData.ckTag||o.userData.ggMrt))||/_glb$|Fallback$/.test(o.name)||/^(gg_kit_scooters|gg_kit_trees|gg_kit_gate|gg_kit_mrt|street_trees_field)$/.test(o.name)) continue;   /* ckTag 校門、ggMrt 捷運出口、*Fallback（公館遠景的方盒）：被正式模型取代的套件，藏起來是對的 */ n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
+     return {n, empty}; })()"""
+-DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
++# 11-04（BB 06:47，LAWWW 06:55）：分子（一般網址）、分母（?nobldg）用同一套量法——兩輪都先藏路人、時間定在同一個遊戲時刻 17:30、量的時候時鐘不走。
++# 原本兩輪之間遊戲時鐘一直在跑（中間的檢查要幾分鐘），量到的時刻不同：路燈、騎樓燈、店內光暈有時開有時沒開，同一版的 ?nobldg 量出 184 和 176（CC GG_ext_glb4）。
++# census：畫面裡看得到的網格照最上層群組／材質列出來（除錯用，寫進 note；兩輪對不上時比這個）
++MEASURE_HOUR = 17.5
++DRAW = """(async(e,l)=>{ const E=GAME.E, G=GAME.G; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
++    const busy0=E.player.busy; E.player.busy=true; G.hour=%s; E.hour=G.hour; E.applyTime(G.hour);   /* 時鐘停住（game3d：player.busy 時不加時間）、定在同一個時刻 */
+     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
+-    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); return out; })"""
++    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, hour:G.hour, lamps:!!E.lampsOn, npcsHidden:hid.length};
++    const c=E.camera; c.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(c.projectionMatrix,c.matrixWorldInverse)); const cen={};
++    E.scene.traverseVisible(m=>{ if(!(m.isMesh||m.isSprite)) return; if(m.frustumCulled!==false&&m.geometry&&!fr.intersectsObject(m)) return; let p=m; while(p.parent&&p.parent!==E.zone.group&&p.parent!==E.scene) p=p.parent;
++      const k=(p.name||p.type)+'|'+((m.material&&m.material.name)||''); cen[k]=(cen[k]||0)+(Array.isArray(m.material)?m.material.length:1); }); out.census=cen;
++    hid.forEach(a=>a[1].add(a[0])); E.player.busy=busy0; return out; })""" % MEASURE_HOUR
+ # 公館的區域座標：+x 往南、+z 往西；店面立面在 z=19（騎樓 19–22），人行道 z 4–19，羅斯福路 z −31…4，校門在 z −46
+ VIEWS = [('street_west', (-22, 1.7, 11), (-62, 4.5, 19)),     # 人行道往西看整排店面（玩家最常看到的角度）
+          ('from_gate', (2, 1.7, -36), (-4, 7, 19)),          # 校門口往南看過羅斯福路
+@@ -180,7 +189,8 @@ async def check(pg, run, formal):
+     if formal:
+         run.check('機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）', all(v and len(v['seen']) < v['all'] for v in vis.values()), json.dumps(vis))
+     await pg.evaluate("GAME.E.endCinematic()")
+-    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
++    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人、%s 時、時鐘停住）的 draw call／三角形 ' % MEASURE_HOUR + json.dumps({k: {kk: v[kk] for kk in ('calls', 'tris', 'hour', 'lamps', 'npcsHidden')} for k, v in draws.items()}))
++    run.note(('一般網址' if formal else '?nobldg') + '：census（畫面裡的網格，最上層群組｜材質：個數）' + json.dumps({k: v.get('census') for k, v in draws.items()}, ensure_ascii=False))
+     if not formal:   # 正式模型接上以後多擋地上雜物的腳印（zones3d.js propBlocks(nav,GG_PROP_BLOCKS)，ART-WZ0 2a67b144）：?nobldg 這邊補上同一份再比（95 格；LAWWW2 10-22 11:49 查到原本的期待過時）
+         await pg.evaluate("Z3.propBlocks(GAME.E.nav, Z3.PROP_BLOCKS.gongguan)")
+     return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws
+@@ -207,6 +217,8 @@ async def main():
+     f, n = res[True][3], res[False][3]
+     run.check('效能：每個鏡頭的 draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 21:21Z 的條件）',
+               all(f[k]['calls'] <= 1.3 * n[k]['calls'] and f[k]['tris'] <= 420000 for k in f), json.dumps({k: [n[k]['calls'], f[k]['calls'], round(f[k]['calls'] / n[k]['calls'], 3), n[k]['tris'], f[k]['tris']] for k in f}))
++    run.check('效能的量法一致：兩輪都在同一個遊戲時刻、路燈狀態相同、路人都移出去量（BB 11-04 06:47）',
++              all(f[k]['hour'] == n[k]['hour'] == MEASURE_HOUR and f[k]['lamps'] == n[k]['lamps'] for k in f), json.dumps({k: [n[k]['hour'], f[k]['hour'], n[k]['lamps'], f[k]['lamps'], n[k]['npcsHidden'], f[k]['npcsHidden']] for k in f}))
+     sys.exit(run.finish())
+ 
+ 
