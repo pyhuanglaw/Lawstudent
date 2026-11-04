@@ -5499,7 +5499,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "b0160dc98",
    "receiver": "BB",
-   "ack": "未派",
+   "ack": "ACK",
    "task": "ADE-V2.1-1104",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
@@ -5511,10 +5511,10 @@
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md",
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/singleside_streets_unit_669918ea7.patch"
    ],
-   "state": "已交付",
-   "remaining": "BB 判 ART（D120／D133）；過了才請 LAWWW 接（套 singleside_streets_unit_669918ea7.patch：三角形 135,522）；CC 拍 14:00／20:30／moved、lane_west 效能",
+   "state": "已整合",
+   "remaining": "BB-C 16:1x（BB_255）Blender 階段 PASS（BB 量消失點 2.2%）；LAWWW-C 16:1x 接進開發分支 d63fed15e（7 支 Node 測試 ALL PASS）；CC 拍遊戲畫面後 BB 標 ART_APPROVED",
    "next": "BB 過了：LAWWW-C 換 wenzhou_street.glb／.json／.props.json＋套 patch；跑 singleside、lampshade_flip、street_props_nav、wz_copy_shop",
-   "noDirectIntegrate": true,
+   "noDirectIntegrate": false,
    "note": "BB_255 的 1～5：鏡頭 24 mm 消失點 1.3%／1.6% PASS（自己跑 same_angle_check）、外牆加暖、影印機做細部、門口盆栽混白瓷水泥、樓上四盆＋曬衣服、店內亮一點；另拿掉懸在玻璃前面的電錶箱"
   }
  ]

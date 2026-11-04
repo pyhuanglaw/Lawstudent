@@ -677,6 +677,27 @@
    "task": "TEACH-PTBOYA-REF-1104",
    "src": "LAWWW-C 15:20Z send_message（P1；開發分支 UA-LAWWW-1104-97、-98，459c87698、5c934dd45）",
    "note": "LAWWW2-C 已核對開發分支原文。改遊戲裡已經有的普通、博思（＝博雅）外觀，照官網照片（ref_cache，不進 repo），D136 像但不照抄；不動導航本體、DOORS、空橋 Y0、樓層高度。順序：阿德 v2.1（BB_255 的 1～5）之後，2:30 AM、HAIR-NOODLE、NPC-ANIM-LOOPS 之前"
+  },
+  {
+   "id": "UA-LAWWW2-1104-07",
+   "at": "2026-11-04T15:3x",
+   "quote": "你繼續做別的事情我要睡覺了很久都不會看",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "src": "使用者直接對 LAWWW2-C 說",
+   "note": "照排定的順序自己接著做（阿德 v2.1 → 普通／博雅 → 社科院圖書館 2 樓 → 2:30 AM → 頭髮），每段做完就 push；要使用者決定的事先記在交接檔，回來再問；不用選擇題叫醒"
+  },
+  {
+   "id": "UA-LAWWW2-1104-08",
+   "at": "2026-11-04T16:1x",
+   "quote": "我那時候大學最喜歡去社科院圖書館2樓，你現在好像沒有2樓，你查一下他的2樓有一個專門的讀書室還會有洗手間啊",
+   "kind": "轉述",
+   "status": "還沒做",
+   "wants": "X228",
+   "task": "SOCLIB-2F-1104",
+   "src": "使用者對 AA-C 說；LAWWW-C 16:08Z send_message（cab6d1a50）、AA-C 16:13Z（AA_669 第 6 節 468a1d0b9）",
+   "note": "排在 TEACH-PTBOYA 後面、2:30 AM 前面；不進 v9.10.20"
   }
  ]
 }
