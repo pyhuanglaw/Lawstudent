@@ -1,0 +1,73 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gate_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GATE_walk\out
+CC GATE 公館校門斑馬線＋遠景；SHA=9ac863212；CASES=walk；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  20.6 秒
+  [前置] 讀檔到公館校門外人行道 (0, −34) 15:00（條件事件、手機自動打開關閉）；之後只用搖桿
+PASS 起點在公館  {"zone": "gongguan", "x": 0, "z": -34, "stand": true, "fallbacks": 0}
+PASS 搖桿推得動（第一次推）  0.68 m／1 次
+INFO A 過斑馬線 (0,−34)→(0,8)  繞路（第 1 次，往右推得動）at [-1.39, -33.32]
+PASS A 過斑馬線 (0,−34)→(0,8)：走得到（離目標 0.64 m ≤ 1.0）  {"label": "A 過斑馬線 (0,−34)→(0,8)", "target": [0, 8], "end": [-0.08, 7.37], "dist_left": 0.64, "pushes": 35, "secs": 33.7, "detours": 1, "first_push_m": 0.0, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS A 過斑馬線 (0,−34)→(0,8)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 35, "secs": 33.7}
+PASS B 往西 → (-12, 10)：走得到（離目標 0.51 m ≤ 1.2）  {"label": "B 往西 → (-12, 10)", "target": [-12, 10], "end": [-11.49, 9.98], "dist_left": 0.51, "pushes": 17, "secs": 16.4, "detours": 0, "first_push_m": 1.36, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS B 往西 → (-12, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 17, "secs": 16.4}
+PASS B 往西 → (-24, 10)：走得到（離目標 0.16 m ≤ 1.2）  {"label": "B 往西 → (-24, 10)", "target": [-24, 10], "end": [-23.84, 10.01], "dist_left": 0.16, "pushes": 9, "secs": 8.7, "detours": 0, "first_push_m": 1.0, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS B 往西 → (-24, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 9, "secs": 8.7}
+PASS B 往西 → (-36, 10)：走得到（離目標 0.92 m ≤ 1.2）  {"label": "B 往西 → (-36, 10)", "target": [-36, 10], "end": [-35.08, 10.01], "dist_left": 0.92, "pushes": 8, "secs": 7.6, "detours": 0, "first_push_m": 1.39, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS B 往西 → (-36, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 8, "secs": 7.6}
+INFO B 往西 → (-48, 10)  繞路（第 1 次，往左推得動）at [-34.77, 9.95]
+INFO B 往西 → (-48, 10)  繞路（第 2 次，往左推得動）at [-34.79, 9.92]
+INFO B 往西 → (-48, 10)  繞路（第 3 次，往左推得動）at [-34.8, 9.92]
+INFO B 往西 → (-48, 10)  繞路（第 4 次，往左推得動）at [-34.75, 9.92]
+INFO B 往西 → (-48, 10)  繞路（第 5 次，往左推得動）at [-34.77, 9.92]
+INFO B 往西 → (-48, 10)  繞路（第 6 次，往左推得動）at [-34.3, 9.9]
+INFO B 往西 → (-48, 10)  繞路（第 7 次，往左推得動）at [-34.73, 9.87]
+INFO B 往西 → (-48, 10)  繞路（第 8 次，往左推得動）at [-34.72, 9.87]
+INFO B 往西 → (-48, 10)  繞路（第 9 次，往左推得動）at [-34.7, 9.84]
+INFO B 往西 → (-48, 10)  繞路（第 10 次，往左推得動）at [-34.73, 9.8]
+INFO B 往西 → (-48, 10)  繞路（第 11 次，往左推得動）at [-34.72, 9.78]
+INFO B 往西 → (-48, 10)  繞路（第 12 次，往左推得動）at [-34.76, 9.76]
+INFO B 往西 → (-48, 10)  繞路（第 13 次，往左推得動）at [-34.74, 9.74]
+INFO B 往西 → (-48, 10)  繞路（第 14 次，往左推得動）at [-34.72, 9.74]
+INFO B 往西 → (-48, 10)  繞路（第 15 次，往左推得動）at [-34.82, 9.7]
+INFO B 往西 → (-48, 10)  繞路（第 16 次，往左推得動）at [-34.79, 9.67]
+INFO B 往西 → (-48, 10)  繞路（第 17 次，往左推得動）at [-34.8, 9.65]
+FAIL B 往西 → (-48, 10)：走得到（離目標 11.83 m ≤ 1.2）  {"label": "B 往西 → (-48, 10)", "target": [-48, 10], "end": [-36.17, 9.66], "dist_left": 11.83, "pushes": 125, "secs": 150.8, "detours": 17, "first_push_m": 1.09, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS B 往西 → (-48, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 125, "secs": 150.8}
+INFO C 往東 → (-60, 10)  繞路（第 1 次，往左推得動）at [-34.76, 9.66]
+INFO C 往東 → (-60, 10)  繞路（第 2 次，往左推得動）at [-34.78, 9.66]
+INFO C 往東 → (-60, 10)  繞路（第 3 次，往左推得動）at [-34.53, 9.66]
+INFO C 往東 → (-60, 10)  繞路（第 4 次，往左推得動）at [-34.75, 9.63]
+INFO C 往東 → (-60, 10)  繞路（第 5 次，往左推得動）at [-34.75, 9.63]
+INFO C 往東 → (-60, 10)  繞路（第 6 次，往左推得動）at [-34.82, 9.63]
+INFO C 往東 → (-60, 10)  繞路（第 7 次，往左推得動）at [-34.79, 9.61]
+INFO C 往東 → (-60, 10)  繞路（第 8 次，往左推得動）at [-34.76, 9.61]
+INFO C 往東 → (-60, 10)  繞路（第 9 次，往左推得動）at [-34.78, 9.54]
+INFO C 往東 → (-60, 10)  繞路（第 10 次，往左推得動）at [-34.76, 9.51]
+INFO C 往東 → (-60, 10)  繞路（第 11 次，往左推得動）at [-34.67, 9.51]
+PASS C 往東 → (-60, 10)：走得到（離目標 0.26 m ≤ 1.2）  {"label": "C 往東 → (-60, 10)", "target": [-60, 10], "end": [-60.26, 10], "dist_left": 0.26, "pushes": 102, "secs": 120.0, "detours": 11, "first_push_m": 0.0, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS C 往東 → (-60, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 102, "secs": 120.0}
+PASS C 往東 → (-48, 10)：走得到（離目標 0.66 m ≤ 1.2）  {"label": "C 往東 → (-48, 10)", "target": [-48, 10], "end": [-48.66, 10.07], "dist_left": 0.66, "pushes": 8, "secs": 8.4, "detours": 0, "first_push_m": 1.45, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS C 往東 → (-48, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 8, "secs": 8.4}
+INFO C 往東 → (-36, 10)  繞路（第 1 次，往右推得動）at [-44.79, 10.07]
+INFO C 往東 → (-36, 10)  繞路（第 2 次，往右推得動）at [-44.78, 10.07]
+INFO C 往東 → (-36, 10)  繞路（第 3 次，往右推得動）at [-44.77, 10.11]
+INFO C 往東 → (-36, 10)  繞路（第 4 次，往右推得動）at [-44.79, 10.14]
+INFO C 往東 → (-36, 10)  繞路（第 5 次，往右推得動）at [-44.76, 10.14]
+INFO C 往東 → (-36, 10)  繞路（第 6 次，往右推得動）at [-44.72, 10.16]
+INFO C 往東 → (-36, 10)  繞路（第 7 次，往右推得動）at [-44.8, 10.18]
+INFO C 往東 → (-36, 10)  繞路（第 8 次，往右推得動）at [-44.77, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 9 次，往右推得動）at [-44.81, 10.19]
+INFO C 往東 → (-36, 10)  繞路（第 10 次，往右推得動）at [-44.76, 10.19]
+INFO C 往東 → (-36, 10)  繞路（第 11 次，往右推得動）at [-44.79, 10.23]
+INFO C 往東 → (-36, 10)  繞路（第 12 次，往右推得動）at [-44.77, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 13 次，往右推得動）at [-44.75, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 14 次，往右推得動）at [-44.69, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 15 次，往右推得動）at [-44.75, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 16 次，往右推得動）at [-44.73, 10.2]
+INFO C 往東 → (-36, 10)  繞路（第 17 次，往右推得動）at [-44.76, 10.22]
+INFO C 往東 → (-36, 10)  繞路（第 18 次，往右推得動）at [-44.75, 10.21]
+INFO C 往東 → (-36, 10)  繞路（第 19 次，往右推得動）at [-44.75, 10.21]
+FAIL C 往東 → (-36, 10)：走得到（離目標 7.34 m ≤ 1.2）  {"label": "C 往東 → (-36, 10)", "target": [-36, 10], "end": [-43.34, 10.21], "dist_left": 7.34, "pushes": 137, "secs": 150.7, "detours": 19, "first_push_m": 1.52, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS C 往東 → (-36, 10)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 137, "secs": 150.7}
+PASS 全程 walkFallbacks 沒增加  0 → 0
+PASS 沒有 JS 例外  []
+FAILED 2: B 往西 → (-48, 10)：走得到（離目標 11.83 m ≤ 1.2）；C 往東 → (-36, 10)：走得到（離目標 7.34 m ≤ 1.2）

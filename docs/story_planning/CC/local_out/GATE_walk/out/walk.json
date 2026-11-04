@@ -1,0 +1,205 @@
+{
+ "sha": "9ac863212",
+ "cases": [
+  "walk"
+ ],
+ "boot_s": 20.6,
+ "walk": {
+  "segments": [
+   {
+    "label": "A 過斑馬線 (0,−34)→(0,8)",
+    "target": [
+     0,
+     8
+    ],
+    "end": [
+     -0.08,
+     7.37
+    ],
+    "dist_left": 0.64,
+    "pushes": 35,
+    "secs": 33.7,
+    "detours": 1,
+    "first_push_m": 0.0,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "B 往西 → (-12, 10)",
+    "target": [
+     -12,
+     10
+    ],
+    "end": [
+     -11.49,
+     9.98
+    ],
+    "dist_left": 0.51,
+    "pushes": 17,
+    "secs": 16.4,
+    "detours": 0,
+    "first_push_m": 1.36,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "B 往西 → (-24, 10)",
+    "target": [
+     -24,
+     10
+    ],
+    "end": [
+     -23.84,
+     10.01
+    ],
+    "dist_left": 0.16,
+    "pushes": 9,
+    "secs": 8.7,
+    "detours": 0,
+    "first_push_m": 1.0,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "B 往西 → (-36, 10)",
+    "target": [
+     -36,
+     10
+    ],
+    "end": [
+     -35.08,
+     10.01
+    ],
+    "dist_left": 0.92,
+    "pushes": 8,
+    "secs": 7.6,
+    "detours": 0,
+    "first_push_m": 1.39,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "B 往西 → (-48, 10)",
+    "target": [
+     -48,
+     10
+    ],
+    "end": [
+     -36.17,
+     9.66
+    ],
+    "dist_left": 11.83,
+    "pushes": 125,
+    "secs": 150.8,
+    "detours": 17,
+    "first_push_m": 1.09,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "C 往東 → (-60, 10)",
+    "target": [
+     -60,
+     10
+    ],
+    "end": [
+     -60.26,
+     10
+    ],
+    "dist_left": 0.26,
+    "pushes": 102,
+    "secs": 120.0,
+    "detours": 11,
+    "first_push_m": 0.0,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "C 往東 → (-48, 10)",
+    "target": [
+     -48,
+     10
+    ],
+    "end": [
+     -48.66,
+     10.07
+    ],
+    "dist_left": 0.66,
+    "pushes": 8,
+    "secs": 8.4,
+    "detours": 0,
+    "first_push_m": 1.45,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   },
+   {
+    "label": "C 往東 → (-36, 10)",
+    "target": [
+     -36,
+     10
+    ],
+    "end": [
+     -43.34,
+     10.21
+    ],
+    "dist_left": 7.34,
+    "pushes": 137,
+    "secs": 150.7,
+    "detours": 19,
+    "first_push_m": 1.52,
+    "stuck": false,
+    "fallbacks_delta": 0,
+    "stand": true
+   }
+  ],
+  "start": {
+   "zone": "gongguan",
+   "x": 0,
+   "z": -34,
+   "ry": 0,
+   "busy": false,
+   "pose": "idle",
+   "path": 0,
+   "dlg": false,
+   "dtext": "",
+   "choices": 0,
+   "interact": "",
+   "hour": 15.04,
+   "stand": true,
+   "camYaw": 3.142,
+   "fallbacks": 0,
+   "y": 0,
+   "lv": 0,
+   "frame": 319,
+   "paused": false
+  },
+  "end": {
+   "zone": "gongguan",
+   "x": -43.34,
+   "z": 10.21,
+   "ry": -4.71,
+   "busy": false,
+   "pose": "idle",
+   "path": 0,
+   "dlg": false,
+   "dtext": "",
+   "choices": 0,
+   "interact": "",
+   "hour": 18.36,
+   "stand": true,
+   "camYaw": 3.142,
+   "fallbacks": 0,
+   "y": 0,
+   "lv": 0,
+   "frame": 25307,
+   "paused": false
+  }
+ }
+}
