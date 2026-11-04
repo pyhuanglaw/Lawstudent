@@ -6,7 +6,7 @@
 - 腳本：`tools/blender/env_second/bb_support/shaola_interior.py`（v6）＋貼圖 `shaola_tex.py`（PIL＋numpy 自己畫，執行時自動產生到 `tools/blender/env_second/textures/gen/shaola/`，沒有下載任何素材）。
   `/opt/blenv/bin/python tools/blender/env_second/bb_support/shaola_interior.py`（在美術線的 worktree 跑：要 `lib2.py`、`b3lib.py`）
 - GLB：`assets/models/env/second_ai/bb_support/shaola_interior.glb`；規格 `glb_specs.json`。
-- 狀態：**READY_FOR_REVIEW**（v6，11-03；v5 退回改的五點見下面「v6 改了什麼」）。Blender Cycles 渲染，**不是遊戲截圖**；還沒接進遊戲、還沒在手機上看過。
+- 狀態：v6 LAWWW2 已標 **MODEL_READY**；**v7（11-04）**＝整合前的兩點修正（見下面「v7 改了什麼」）。Blender Cycles 渲染，**不是遊戲截圖**；還沒接進遊戲、還沒在手機上看過。
 
 ## 交件圖（v6）
 - 參考圖｜同角度渲染：`shaola_v6_ref_vs_render.jpg`
@@ -16,6 +16,19 @@
 
 ![參考圖｜v6 同角度](shaola_v6_ref_vs_render.jpg)
 ![其他角度](shaola_v6_views.jpg)
+
+## v7 改了什麼（LAWWW2 11-04，整合前兩點；鏡頭不變）
+1. **牆**：整面改成均勻的舊油漆，只有輕微色差；水漬、黃斑、剝落只放在局部——靠近地面的幾段、兩台冷氣下面、牆角（靠天花板、地面的地方多）。撕掉的膠帶痕、裂縫也減少，四個角度不會再看到整面同一種花樣。
+2. **燒臘的顏色**（`sl_vc_gloss` 粗糙度 0.2 → 0.3）：
+   - 燒鴨：深焦糖色帶紅（#9a3406 → #4a1002），表皮有窄而亮的高光（畫進頂點色）。
+   - 油雞：淡金黃（#eab650 → #c4861c），有油光。
+   - 叉燒：深紅（#8e1004），邊緣焦黑（#1a0201）。
+   - 燒臘櫃的玻璃淡一點（alpha 0.12 → 0.06），不會在肉的前面蓋一層霧。
+- 同角度圖：`shaola_v7_ref_vs_render.jpg`；ref_match：`shaola_v7_refmatch_cmp.jpg`、`shaola_v7_refmatch_report.json`。
+- ref_match（960 × 540、32 取樣）：平均亮度 0.540（參考 0.466）PASS、對比 0.586（≥ 0.501）PASS、冷暖 +0.154（參考 +0.157）PASS、ΔE 6.2 PASS、九宮格 0.078 PASS——**ALL PASS**。
+- 57,946 三角形、材質 12、3.72 MB（三角形數和 v6 一樣）。
+
+![參考圖｜v7 同角度](shaola_v7_ref_vs_render.jpg)
 
 ## v6 改了什麼（照 v5 回饋的五點）
 1. **燒臘櫃是視覺中心**：吊的肉擠滿一排、互相貼近——叉燒 9 條、燒鴨 4 隻（身長 0.45 m）、油雞 3 隻；一排 5 盞暖色燈泡（發光強度 2.5 → 5）直接照在肉上，渲染時櫃子裡另外 5 盞 28 W，日光燈調暗一點（30／26 W），櫃子比店裡其他地方亮；下層肉盤 4 個、每盤兩層 36 塊；兩張價目卡放大到 0.96 × 0.31 m，貼在玻璃正面、兩根玻璃框中間；鏡頭改成從走道看向櫃子的斜側面（往右移到 x −0.5），櫃子在畫面右半邊佔很大。
