@@ -1,0 +1,102 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_int_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_int_aoki_date\out
+PASS 遊戲載入
+PASS 沒有 JS 例外  []
+== aoki_date：約會（cc_social_smoke_probe.py 的 Person）
+PASS [heroine_02] 遊戲載入
+== 人物 heroine_02 林芷若 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S2": 8, "Y1S1": 8}、店內偶遇 []、自由出行 ["D04", "D02", "D25"]）
+-- [heroine_02] gg2
+  [前置／捷徑] [heroine_02] 讀檔：aoki：平日 11:30 在公館（今天還有時段可以約）（gongguan 21 11.50）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：認識（ACQUAINTANCE）、有聯絡方式：{"stage": "ACQUAINTANCE", "name": "林芷若", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_02] 青木茶室：認識（ACQUAINTANCE）就約得到（INV.placeWhy 空）
+PASS [heroine_02] 青木茶室：還沒去過（G.visited.aoki 沒有）＝手機約的地點沒有青木（show）  []
+  [heroine_02] 到達「青木茶室門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [heroine_02] 青木茶室：走進去一次以後 G.visited.aoki＝true
+  [heroine_02] 到達「離開青木茶室」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [heroine_02] aoki 約之前：15 秒內回到可以自由移動
+PASS [heroine_02] aoki 約之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] aoki 約之前：搖桿推得動（≥0.3 m）  3.07 m
+PASS [heroine_02] aoki 約之前：點地走得動（≥0.3 m）  點 [-52.8, 17.1]，走了 1.01 m
+PASS [heroine_02] aoki 約之前：遊戲時間有在走  11.6979→11.7181
+PASS [heroine_02] aoki 約之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+  [heroine_02] aoki：手機約得到的時段（預測她的回答）：[["今天 12:10", "accept", 12.166666666666666], ["今天 15:30", "accept", 15.5], ["今天 17:30", "accept", 17.5], ["今天 19:00", "resched", 19], ["今天 21:00", "resched", 21], ["明天 12:10", "resched", 12.166666666666666], ["明天 19:00", "resched", 19]]
+PASS [heroine_02] aoki：手機有 heroine_02 會答應的時段  [{"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 12:10", "day": 21, "h": 12.166666666666666, "res": "accept", "why": null}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 15:30", "day": 21, "h": 15.5, "res": "accept", "why": null}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 17:30", "day": 21, "h": 17.5, "res": "accept", "why": null}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 19:00", "day": 21, "h": 19, "res": "resched", "why": "busy"}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "今天 21:00", "day": 21, "h": 21, "res": "resched", "why": "closed"}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "明天 12:10", "day": 22, "h": 12.166666666666666, "res": "resched", "why": "busy"}, {"pid": "aoki", "zone": "aoki", "name": "青木茶室", "verb": "去青木茶室喝茶", "cat": "喝咖啡、喝茶", "study": true, "t": "明天 19:00", "day": 22, "h": 19, "res": "resched", "why": "busy"}]
+  [前置／捷徑] [heroine_02] 讀回存檔（aoki 約會（去青木茶室喝茶 今天 12:10）：約之前）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+林芷若（Café）
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 選單 ["念書…", "吃飯…（灰）", "喝咖啡、喝茶…", "散步…（灰）", "運動…（灰）", "出去玩…（灰）", "算了"] → 選「喝咖啡、喝茶…」
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 選單 ["去兩點半 Café 坐坐", "去一盞喝茶（灰）", "去慢讀咖啡念書", "去 afar café 坐坐", "去青木茶室喝茶", "返回"] → 選「去青木茶室喝茶」
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 選單 ["今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「今天 15:30」
+INFO [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約（去青木茶室喝茶 今天 12:10，預期 accept）台詞：["林芷若（手機）｜「好。我想喝東方美人。」", "｜約好 今天 15:30，青木茶室。"]
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約：手機約一路點得完
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：沒有新的 JS 例外
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：搖桿推得動（≥0.3 m）  2.97 m
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：點地走得動（≥0.3 m）  點 [-49.22, 20.62]，走了 0.95 m
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：遊戲時間有在走  11.8156→11.8357
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 約：約成（aoki 21 15.50）
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：手機「今天」→ 跳過時間到 14.00
+  [前置／捷徑] [heroine_02] 讀回存檔（aoki 約會（去青木茶室喝茶 今天 12:10）：離約好的時間還有 1.0 小時，存檔的時間改到 21 15.05（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 選單 ["直接過去：和林芷若約在青木茶室（15:30）", "自己走過去"] → 選「直接過去：和林芷若約在青木茶室（15:30）」
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：出發、到場、見面那一場一路點得完
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "aoki", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.95, "sameGroup": true, "doorD": 4.17, "spawnD": 3.23, "npc": true, "nD": 1.95, "nbeh": "idle", "nleaving": false, "nx": 3.35, "nz": -1.15, "p": [1.4, -1.15]}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：約會中時間有往前走  遊戲時間 1.28 小時（21 15.06 → 21 16.34）
+INFO [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：錢 30000 → 30000（+0）  
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 1, "comf": 2}, "mem": "1→2 ['FIRST_MET', 'AOKI_TOGETHER']"}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：對話沒有空白的句子  []
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：說話的人名字不是 id  []
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：對話紀錄 4 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_int_aoki_date\out\heroine_02_aoki_12_10__transcript.json
+    （旁白）｜（店員把茶壺放下，她先幫你倒了第一杯。）
+    林芷若｜「……你先喝。」
+    （旁白）｜你和林芷若在青木茶室喝茶。
+    林芷若｜那我先走囉。下次來店裡找我啊。
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：約念書開演時兩個人坐在同一張桌子（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "aoki", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.95, "sameGroup": true, "doorD": 4.17, "spawnD": 3.23, "npc": true, "nD": 1.95, "nbeh": "idle", "nleaving": false, "nx": 3.35, "nz": -1.15, "p": [1.4, -1.15]}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：約念書開演的位置離門口 ≥ 3 m（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"doorD": 4.17, "spawnD": 3.23}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：總圖要在二樓（lv1）長桌或 3F 閱覽區（使用者 11-04：約念書不能在門口結束，要一起坐下）  {"zone": "aoki", "lv": 0}
+FAIL [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）  取樣 1 次，最遠 3.53 m：[3.53]
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：X207 ④ 道別那一刻兩個人在大廳門口附近或已經在校園  {"zone": "aoki", "doorD": 4.17, "nD": 1.95, "pseat": true, "nseat": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：15 秒內回到可以自由移動
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：沒有新的 JS 例外
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：搖桿推得動（≥0.3 m）  3.05 m
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：點地走得動（≥0.3 m）  點 [3.23, 1.87]，走了 0.96 m
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：遊戲時間有在走  16.3811→16.4012
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：人在約定的地點（G.zone＝aoki）  aoki
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "aoki", "zone": "aoki", "day": 21, "h": 15.5}]
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：結束後玩家起身了  {"seat": false}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：約念書結束後她也起身（或走了）  {"zone": "aoki", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.57, "spawnD": 1.17, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [3.02, 1.95]}
+PASS [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "library_media", "away": null, "act": "看書"}, "npc": {"zone": "aoki", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 1.57, "spawnD": 1.17, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [3.02, 1.95]}}
+  [heroine_02] aoki 約會（去青木茶室喝茶 今天 12:10）：見面那一場的選單 1 個，換選項重跑 0 次
+FAIL [heroine_02] aoki：答應的一句（AA_652：「好。我想喝東方美人。」）  ["約好了：今天 15:30，青木茶室（林芷若）。", "和林芷若在青木茶室。"]
+  [heroine_02] aoki：開演那一刻 {"zone": "aoki", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.95, "sameGroup": true, "doorD": 4.17, "spawnD": 3.23, "npc": true, "nD": 1.95, "nbeh": "idle", "nleaving": false, "nx": 3.35, "nz": -1.15, "p": [1.4, -1.15]}
+PASS [heroine_02] aoki：X207 坐下才開演、兩個人同一桌（玩家坐、她坐、≤ 2.3 m 或同一張桌子）  {"zone": "aoki", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.95, "sameGroup": true, "doorD": 4.17, "spawnD": 3.23, "npc": true, "nD": 1.95, "nbeh": "idle", "nleaving": false, "nx": 3.35, "nz": -1.15, "p": [1.4, -1.15]}
+INFO [heroine_02] aoki：X207 帶路的取樣不夠（一進門就坐下？）  [3.53]
+PASS [heroine_02] aoki：X207 道別那一刻她在旁邊（≤ 4 m）  {"zone": "aoki", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.95, "sameGroup": true, "doorD": 4.17, "spawnD": 3.23, "npc": true, "nD": 1.95, "nbeh": "idle", "nleaving": false, "nx": 3.35, "nz": -1.15, "p": [1.4, -1.15]}
+PASS [heroine_02] aoki：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）  ["（店員把茶壺放下，她先幫你倒了第一杯。）", "「……你先喝。」", "你和林芷若在青木茶室喝茶。", "那我先走囉。下次來店裡找我啊。"]
+    （旁白）｜（店員把茶壺放下，她先幫你倒了第一杯。）
+    林芷若｜「……你先喝。」
+    （旁白）｜你和林芷若在青木茶室喝茶。
+    林芷若｜那我先走囉。下次來店裡找我啊。
+== aoki_date 結果：FAIL 2：aoki 約會（去青木茶室喝茶 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；aoki：答應的一句（AA_652：「好。我想喝東方美人。」）
+FAILED 2: [date aoki] aoki 約會（去青木茶室喝茶 今天 12:10）：X207 ② 入口到座位她走在旁邊或前面（距離 ≤ 3 m）；[date aoki] aoki：答應的一句（AA_652：「好。我想喝東方美人。」）

@@ -1,0 +1,174 @@
+{
+ "pid": "heroine_02",
+ "tag": "aoki 約會（去青木茶室喝茶 今天 12:10）",
+ "rec0": {
+  "day": 21,
+  "hour": 15.0581,
+  "t": 519.0581,
+  "money": 30000,
+  "rel": {
+   "fam": 10,
+   "trust": 5,
+   "comf": 5,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "gongguan",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 16.3371,
+  "t": 520.3371,
+  "money": 30000,
+  "rel": {
+   "fam": 13,
+   "trust": 6,
+   "comf": 7,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "AOKI_TOGETHER"
+  ],
+  "zone": "aoki"
+ },
+ "hours": 1.2789999999999964,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（店員把茶壺放下，她先幫你倒了第一杯。）",
+   "h": 15.318,
+   "d": 21,
+   "z": "aoki",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "「……你先喝。」",
+   "h": 15.318,
+   "d": 21,
+   "z": "aoki",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和林芷若在青木茶室喝茶。",
+   "h": 15.318,
+   "d": 21,
+   "z": "aoki",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "那我先走囉。下次來店裡找我啊。",
+   "h": 16.318,
+   "d": 21,
+   "z": "aoki",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（店員把茶壺放下，她先幫你倒了第",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "「……你先喝。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和林芷若在青木茶室喝茶。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "那我先走囉",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "aoki",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.95,
+  "sameGroup": true,
+  "doorD": 4.17,
+  "spawnD": 3.23,
+  "npc": true,
+  "nD": 1.95,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": 3.35,
+  "nz": -1.15,
+  "p": [
+   1.4,
+   -1.15
+  ]
+ }
+}
