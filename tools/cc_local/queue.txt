@@ -28,19 +28,32 @@ HOT_p0      | fd8d447d2 | game | tests/p0_movement.py | index.html | 30 | XARGS=
 HOT_smoke   | fd8d447d2 | game | tests/smoke_release.py | index.html | 60 | XARGS={url} {out}
 HOT_v7      | fd8d447d2 | game | tests/save_compat_v7.py | index.html | 60 | SHA2=385e194;XARGS={url2} {url}
 N20X_nichijo | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 80 | CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final;CC_HEADLESS=0
+# ===== 使用者 11-04：手機約會／實際約會整場演完／約念書要坐下（X207 七點）=====
+STUDY_ctl | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=invite,invite_study,phone_date;STUDY_ONLY=1;ROSTER=0;CC_HEADLESS=0
+PD_romA | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_01,heroine_02,heroine_03;STEPS=phone_date;CC_HEADLESS=0
+FACE_rom | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_01,heroine_02,heroine_03,heroine_04;STEPS=media,invite,invite_study,date;CC_HEADLESS=0
+PD_romB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_04,heroine_05,classmate_peishan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+PD_frA | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+FACE_fr | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=invite,invite_study;CC_HEADLESS=0
+PD_romC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=kexin,classmate_xinci;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+FACE_rom2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;STEPS=invite,invite_study,date;CC_HEADLESS=0
+PD_frB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=classmate_youchen,kai,npc_fangyt,npc_huangxh;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+PD_frC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+PD_frD | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=jp_caizhen,jp_liheng,jp_yuheng,npc_ta_chen;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD正式SHA STUDY_fix | <修好的 SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=invite,invite_study,phone_date;STUDY_ONLY=1;ROSTER=0;CC_HEADLESS=0
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_fix  | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_main2 | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 # ===== P0 社交冒煙（BB 00:42；使用者「跟別人講話或者約會就卡住」）：先短的確認探針能跑，再芷若，再其他人 =====
-SOC_dev_quick | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
 SOC_main_zr | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
-SOC_dev_zr | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
-SOC_dev_frA | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0
-SOC_dev_romA | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
-SOC_dev_romB | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0
-SOC_dev_frB | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0
-SOC_dev_pool | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0
+W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0
 SOC_main_romA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
 SOC_main_frA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;CC_HEADLESS=0
 PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
