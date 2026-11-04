@@ -43980,6 +43980,31 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "WZ-YIZHAN-1104",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "title": "一盞茶屋內外部照參考圖重做、前院可以走（USER_WANTS X213、AA_656）",
+   "status": "進行中",
+   "next": "LAWWW 出一盞不能動的座標清單（水屋、語彤木凳、打工站位 a/b/c/end、出口、兩間和室、床之間、前院新 spawn 與 LAWWW2 定、茶席矮桌坐墊能不能照用劇情站位）",
+   "xai": {
+    "spec": "企劃線 b8b9c0038 AA_656",
+    "branch": "claude/story-planning",
+    "acceptance": "AA_654 第 3 節",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
