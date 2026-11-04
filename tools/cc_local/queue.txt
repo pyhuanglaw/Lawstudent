@@ -24,6 +24,7 @@
 # ===== BB 05:17：GG 系列最前面（3dce31a93）=====
 # ===== 06:1x：日和微波後走不回結帳（疑似卡在後牆走道）＝開 CC_AUTORETRY 重跑拿 trace（排最前）=====
 GG_int_cvs_menu_tt | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0
+GG_int_cvs_menu_fix | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0
 GG_night | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 GG_night_typhoon | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
 GATE_out2 | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 15 | CASES=shot;GATE_VIEWS=out;CC_HEADLESS=0
