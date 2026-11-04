@@ -1,0 +1,20 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5135278ba..bf41ae13e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -885,12 +885,12 @@ const Z3 = (function(){
+     for(let i=0;i<8;i++){ const x=-60+i*14; scRow(x,6.8,3,Math.PI,'S'+(x<-40?0:x<0?1:2)); }
+     /* 騎樓外、人行道上的生活感（ART-GG-STREETLIFE-1023，LAWWW2-B 10-23；使用者「店面外看出去的景也都很假」：從店裡、從騎樓往外看是一大片空的鋪面廣場）。
+        ① 騎樓柱子外一排機車（車頭朝騎樓，z 17.35～18.95；臺北的騎樓前就是一整排機車）：路人沿 z 16.5 走（story3d.js walkRoutes）不擋；
+-          有互動的店門口（麵店、茶行、書店、便利商店、輪轉單車）前後各留 2.6 m、往溫州街的巷口不停車；機車一段跨一根柱子，隔一根柱子留缺口，從廣場走得進騎樓。
++          有互動的店門口（麵店、茶行、書店、便利商店、輪轉單車）前後各留 2.6 m、往溫州街的巷口不停車（頁間書屋的門 11-04 移到 x −36.4：原本 −38.4～−32.6 那一段機車搬到舊門口前 −43.4～−39.6，LAWWW2）；機車一段跨一根柱子，隔一根柱子留缺口，從廣場走得進騎樓。
+        ② 捷運出口東邊、圓環東邊各一個腳踏車停車架（和校園同一套 W3.bikeRack：整排合成一塊）。
+        ③ 人行道上一排行道樹（樹穴＋矮緣石），避開路人的斜線（(−40,14.5)→(0,10)→(40,14)）和路邊的機車。
+        導航阻擋在套件階段就加（機車、車架、樹本來就是套件畫的，正式模型只換機車的外觀）。測試：tests/gongguan_layout_nav.py、tests/reachability_all.py（公館）、node tests/street_props_nav_unit.js */
+-    { const DOORS=[-63,-52.8,-41.6,-29.4,-0.3], clear=x=>DOORS.every(d=>Math.abs(x-d)>2.6)&&x>-66; let seg=0;
+-      for(const [x0,x1] of [[-59.8,-55.8],[-49.6,-44.6],[-38.4,-32.6],[-25.2,-21.2],[-16,-12],[-6.8,-3],[3,7.4],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[49.6,53.6],[57.6,61.6],[66.6,70.6]]){   /* 每一段跨在一根騎樓柱子前面，下一根柱子前面空著＝從廣場走進騎樓的缺口（柱子兩側各 2 m 多）*/
++    { const DOORS=[-63,-52.8,-36.4,-29.4,-0.3], clear=x=>DOORS.every(d=>Math.abs(x-d)>2.6)&&x>-66; let seg=0;
++      for(const [x0,x1] of [[-59.8,-55.8],[-49.6,-44.6],[-43.4,-39.6],[-25.2,-21.2],[-16,-12],[-6.8,-3],[3,7.4],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[49.6,53.6],[57.6,61.6],[66.6,70.6]]){   /* 每一段跨在一根騎樓柱子前面，下一根柱子前面空著＝從廣場走進騎樓的缺口（柱子兩側各 2 m 多）*/
+         const n=Math.min(5,Math.max(2,Math.floor((x1-x0-0.5)/0.85)+1)), xc=(x0+x1)/2; if(!clear(x0)||!clear(x1)) console.warn('騎樓前的機車擋到店門口',x0,x1); scRow(xc,18.15,n,0,'A'+(seg++)); } }   /* 一段一組：機車的近／遠模型照「鏡頭到這一組中心」切換（attachWzScooters 的 LOD），一組 30 m 寬時整組 20 台都用近的模型，三角形多 7～9 萬 */
+     for(const [x,z,n] of [[-14.5,9.2,7],[34,9.2,8]]){ const r=W3.bikeRack(n); r.name='gg_bike_rack'; place(g,r,x,z,Math.PI); nav.blockRect(x,z,n*0.6+0.6,1.4,0); }   /* 停車架：車頭朝騎樓（π）、整排一塊 */
+     { const pitM=new THREE.MeshStandardMaterial({color:0x3b332b,roughness:1}), curbM=new THREE.MeshStandardMaterial({color:0xa8a49c,roughness:0.85}), pit=new THREE.Group(); pit.name='gg_tree_pits';
