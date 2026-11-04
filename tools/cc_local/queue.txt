@@ -39,6 +39,7 @@ GG_int_aoki | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_pr
 GG_int_yejian | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
 GG_int_wzbike | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 30 | CASES=wzbike;CC_HEADLESS=0
 GG_int_art | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
+GG_views | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 60 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
