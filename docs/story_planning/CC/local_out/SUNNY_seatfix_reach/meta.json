@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "SUNNY_seatfix_reach",
+  "sha": "46d459625",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url} --zones wz_brunch",
+  "machine": "MSI",
+  "start": "2026-11-04T17:00:10",
+  "end": "2026-11-04T17:01:18",
+  "seconds": 69,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 52,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 18
+  }
+}

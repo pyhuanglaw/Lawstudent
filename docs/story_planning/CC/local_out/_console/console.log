@@ -413,3 +413,19 @@
 [17:00:10] ==== START SUNNY_seatfix_reach  (game @ 46d459625) ====
 [17:00:13] [res] cpu=52% mem=45% (14.4/31.4 GB) chrome_testing=9  START SUNNY_seatfix_reach
 [17:00:18] [res] cpu=31% mem=46% (14.2/31.4 GB) chrome_testing=9  END GG_glb_measure2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       86806bd77..7c9e1eff2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:00:38] ==== END   GG_glb_measure2  exit=0  103s   ====
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:00:40] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:00:40] memory 51% before starting SUNNY_seatfix_sit (2 running)
+[17:00:40] ==== START SUNNY_seatfix_sit  (probe @ 46d459625) ====
+[17:00:44] [res] cpu=54% mem=52% (16.2/31.4 GB) chrome_testing=17  START SUNNY_seatfix_sit
+[17:01:03] 正在跑：WZ4_komichi（已跑 25 分／上限 50 分）、SUNNY_seatfix_reach（已跑 0 分／上限 30 分）、SUNNY_seatfix_sit（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:01:18] [res] cpu=42% mem=54% (16.9/31.4 GB) chrome_testing=18  END SUNNY_seatfix_reach
