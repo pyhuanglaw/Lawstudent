@@ -14,6 +14,9 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
+LIVE_URL = os.environ.get('LIVE_URL', '').strip()   # 線上驗證（BB 11-04 LIVE_stuck）：改測線上 Pages
+WANT_VER = os.environ.get('WANT_VER', '').strip()   # 標題版本字樣要含這個字串才算有效的一次（部署還沒好就每 3 分鐘重試，最多 30 分鐘）
+if LIVE_URL: URL = LIVE_URL
 REPO = os.environ.get('LW_REPO') or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..'))
 REF = os.environ.get('STORY_REF', 'origin/claude/story-planning')
 SAVE_PATH = 'docs/story_planning/bb_runs/user_saves/1104_day35_library_media_stuck.json'
@@ -165,6 +168,15 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('console', lambda m: CONSOLE.append(('%s %s' % (m.type, m.text))[:300]))
         await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
+        if WANT_VER:
+            t0 = time.time()
+            while True:
+                ver = await pg.evaluate("(document.getElementById('verLabel')||{}).textContent||''")
+                print('  線上版本字樣：%s（要含 %s）' % (ver, WANT_VER), flush=True)
+                if WANT_VER in ver or time.time() - t0 > 1800: break
+                await pg.wait_for_timeout(180000); await pg.goto(URL + ('&' if '?' in URL else '?') + 'cb=%d' % int(time.time())); await L.wait_loaded(pg)
+            if not check('線上標題版本是 %s（有效的一次）' % WANT_VER, WANT_VER in ver, ver):
+                await b.close(); print('FAILED（部署還沒好，這次不算）'); sys.exit(1)
         ok, s = await boot(pg, cdp, save)
         check('讀檔（自動存檔 → 標題「繼續」）', ok and s['zone'] == sj.get('zone'), J(s))
         await pg.screenshot(path=os.path.join(OUT, 'loaded.png'))
