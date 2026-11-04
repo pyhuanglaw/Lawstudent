@@ -39,6 +39,10 @@ CC_BRANCH = 'claude/cc-testing'
 LAWWW2_BRANCH = 'claude/second-ai-env-art'
 IS_WIN = os.name == 'nt'
 PNG_CAP = 25 * 1024 * 1024
+try:   # CC-C 11-04：只給雲端端到端驗證用（把上限壓小，才測得到「前一段放第二個 commit」）；沒設＝照舊
+    if os.environ.get('CC_ITEM_CAP_MB'): PNG_CAP = int(float(os.environ['CC_ITEM_CAP_MB']) * 1024 * 1024)
+except ValueError:
+    pass
 KINDS = ('gpu', 'py', 'game', 'probe', 'webkit', 'node', 'blender')
 
 try:
