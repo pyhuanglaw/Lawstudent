@@ -1,0 +1,6 @@
+[gpu_wrap 1.6s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GATE_glb]
+[gpu_wrap 43.5s] page close url=http://127.0.0.1:8813/index.html
+[gpu_wrap 43.7s] BROWSER DISCONNECTED
+[gpu_wrap 44.6s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GATE_glb]
+[gpu_wrap 79.8s] page close url=http://127.0.0.1:8813/index.html?nobldg
+[gpu_wrap 79.8s] BROWSER DISCONNECTED

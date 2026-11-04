@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GATE_glb",
+  "sha": "9ac863212",
+  "kind": "game",
+  "script": "tests/gongguan_glb_integration.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:40:45",
+  "end": "2026-11-04T12:42:46",
+  "seconds": 121,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 83,
+    "mem": 60,
+    "used_gb": 18.8,
+    "chrome_testing": 25
+  }
+}
