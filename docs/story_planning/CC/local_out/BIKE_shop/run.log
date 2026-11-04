@@ -9,7 +9,7 @@ PASS [P1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikesho
 PASS [P1] 一進門的按鈕不是「離開慢輪單車」
 PASS [P1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 8.99, "fb": [0, 0], "errs": []}
 PASS [P2] 有「看這台車」互動點  {"x": -1, "z": 3.45, "r": 0.75, "label": "看這台車（淑女車）", "to": null, "lv": 0}
-  到達「看這台車（淑女車）」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  到達「看這台車（淑女車）」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
 PASS [P2] 走到旁邊：互動按鈕是「看這台車…」  {"x": -0.98, "z": 3.6, "interact": "看這台車（淑女車）"}
   [P2] （旁白）：（前面一個大車籃，後座可以裝載人墊。）
   [P2] 車行老闆：買菜、上課都好用。
@@ -27,17 +27,17 @@ PASS [P_end] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFall
 == M 錢夠
   [前置／捷徑] 讀檔：公館慢輪單車門口南邊 (−0.3, 14)、2025-09-23（二）15:00、money 30000、條件事件關閉（M）
 PASS [M1] 有「進入慢輪單車」互動點  {"x": -0.3, "z": 21, "r": 2.2, "label": "進入慢輪單車", "to": "bikeshop", "lv": null}
-  到達「進入慢輪單車」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
-PASS [M1] 走到旁邊：互動按鈕是「進入慢輪單車…」  {"x": -0.3, "z": 20.76, "interact": "進入慢輪單車"}
+  到達「進入慢輪單車」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+PASS [M1] 走到旁邊：互動按鈕是「進入慢輪單車…」  {"x": -0.3, "z": 20.77, "interact": "進入慢輪單車"}
 PASS [M1] 按「進入慢輪單車」：gongguan → bikeshop  {"zone": "bikeshop", "x": 0.55, "z": 4, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
 PASS [M1] 一進門的按鈕不是「離開慢輪單車」
 PASS [M1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 8.99, "fb": [0, 0], "errs": []}
 PASS M1b 慢輪單車室內正式模型接上（zone.formal）  {"formal": true, "nodes": [{"n": "REPAIR_BIKE", "v": false}], "stand": [true, true]}
 PASS M1b 修車架上的車（REPAIR_BIKE*）是藏的（visible＝false）  [{"n": "REPAIR_BIKE", "v": false}]
-  到達「修車架後面、工作台前的走道」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS M1b 修車架旁邊走得過去：走到修車架後面、工作台前的走道 (2.00,-4.85)  {"x": 2.09, "z": -4.68}
-  到達「左邊修車架和鐵架之間的縫」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS M1b 修車架旁邊走得過去：走到左邊修車架和鐵架之間的縫 (0.65,-4.00)  {"x": 0.87, "z": -4.1}
+  到達「修車架後面、工作台前的走道」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS M1b 修車架旁邊走得過去：走到修車架後面、工作台前的走道 (2.00,-4.85)  {"x": 2.1, "z": -4.68}
+  到達「左邊修車架和鐵架之間的縫」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS M1b 修車架旁邊走得過去：走到左邊修車架和鐵架之間的縫 (0.65,-4.00)  {"x": 0.88, "z": -4.1}
 PASS [M1b_repair_area] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 0.92, "fb": [0, 0], "errs": []}
   [前置／捷徑] 直接呼叫遊戲的 BIKESHOP.repairBike(true)（調座墊、補胎那一幕用的同一個入口）
 FAIL M1c 打開：REPAIR_BIKE 看得到、blockWhenShown 那一塊導航格全部擋住（nav.free＝false，走不進去）  {"BL": [3.05, -2.55, 0.66, 1.8], "nodes": 1, "n": 85, "freeBefore": 61, "freeNow": 5, "sample": [[2.82, -1.7499999999999982], [2.92, -1.7499999999999982], [3.02, -1.7499999999999982]], "visible": true}
@@ -46,8 +46,8 @@ PASS M1c 收起來：REPAIR_BIKE 藏回去、那一塊回到打開前（原本 f
 PASS M1c 收起來以後真的走得進那一塊（2.82,-3.35）  {"x": 2.61, "z": -3.47}
 PASS [M1c_after] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "bikeshop", "dlg": false, "depth": 0, "moved": 1.21, "fb": [0, 0], "errs": []}
 PASS [M2] 有「看這台車」互動點  {"x": -1, "z": 3.45, "r": 0.75, "label": "看這台車（淑女車）", "to": null, "lv": 0}
-  到達「看這台車（淑女車）」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
-PASS [M2] 走到旁邊：互動按鈕是「看這台車…」  {"x": -0.98, "z": 3.6, "interact": "看這台車（淑女車）"}
+  到達「看這台車（淑女車）」附近（0.14 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [M2] 走到旁邊：互動按鈕是「看這台車…」  {"x": -0.98, "z": 3.59, "interact": "看這台車（淑女車）"}
   [M2] （旁白）：（前面一個大車籃，後座可以裝載人墊。）
   [M2] 車行老闆：買菜、上課都好用。
   [M2] 選單 ["買這台　4,200 元", "再看看"] → 買這台　4,200 元
@@ -88,7 +88,7 @@ PASS [M4] 走到旁邊：互動按鈕是「找車行老闆…」  {"x": 1.98, "z
   [M4] （旁白）：（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）
   [M4] 車行老闆：好了。最近那條路在施工，繞一下。
 PASS M4 補胎：扣 100  [25800, 25700]
-PASS M4 補胎：時間過 15 分鐘  0.280 h（含走到老闆旁邊）
+PASS M4 補胎：時間過 15 分鐘  0.279 h（含走到老闆旁邊）
 PASS M4 補胎台詞：老闆兩句＋旁白（AA_651）  ["車行老闆：打氣筒在門口，自己來。", "車行老闆：扎到釘子了。……十五分鐘。", "（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）", "車行老闆：好了。最近那條路在施工，繞一下。"]
 PASS [M5] 有「車燈」互動點  {"x": 0.2, "z": -0.15, "r": 0.7, "label": "車燈・車鈴・鎖", "to": null, "lv": 0}
   到達「車燈・車鈴・鎖」附近（0.15 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，18 秒
@@ -109,83 +109,83 @@ PASS [M7] 有「離開慢輪單車」互動點  {"x": 0.55, "z": 5.2, "r": 0.9, 
   到達「離開慢輪單車」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
 PASS [M7] 走到旁邊：互動按鈕是「離開慢輪單車…」  {"x": 0.5, "z": 5.08, "interact": "離開慢輪單車"}
 PASS [M7] 按「離開慢輪單車」：bikeshop → gongguan  {"zone": "gongguan", "x": -0.3, "z": 18, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
-PASS M7 出店：車停在車行門口的停車位 {"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0}  {"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 29, "legal": {"x": -2.25, "z": 18.15, "d": 2}, "maxd": 30, "dPlayer": 1.96, "doors": [{"l": "進入慢輪單車", "d": 1.25}, {"l": "進入便利商店", "d": 25.1}]}
-  [M7] 車：{"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 29, "legal": {"x": -2.25, "z": 18.15, "d": 2}, "maxd": 30, "dPlayer": 1.96, "doors": [{"l": "進入慢輪單車", "d": 1.25}, {"l": "進入便利商店", "d": 25.1}]}
+PASS M7 出店：車停在車行門口的停車位 {"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0}  {"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 30, "legal": {"x": -2.25, "z": 18.15, "d": 2}, "maxd": 30, "dPlayer": 1.96, "doors": [{"l": "進入慢輪單車", "d": 1.25}, {"l": "進入便利商店", "d": 25.1}]}
+  [M7] 車：{"zone": "gongguan", "x": -2.25, "z": 18.15, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 30, "legal": {"x": -2.25, "z": 18.15, "d": 2}, "maxd": 30, "dPlayer": 1.96, "doors": [{"l": "進入慢輪單車", "d": 1.25}, {"l": "進入便利商店", "d": 25.1}]}
 PASS [M7] 車在這一區（gongguan）、場景裡看得到停著的車  {"bike": "gongguan", "parked": [-2.25, 18.15]}
 PASS [M7] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "row", "legal": {"x": -2.25, "z": 18.15, "d": 2}, "at": [-2.25, 18.15]}
 PASS [M7] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "進入慢輪單車", "d": 1.25}, {"l": "進入便利商店", "d": 25.1}]
 PASS [M7] 公館：車不在騎樓（z < 19）  18.15
-PASS [M7] 停好的車身不和任何店門交疊（門 1.2 m 寬，含公館 DOORS 門前通道）  {"bb": {"x0": -2.61, "x1": -1.89, "z0": 17.27, "z1": 19.16}, "nDoors": 14, "hit": []}
-  到達「車停的地方（站上去）」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS [M7_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.89, "fb": [0, 0], "errs": []}
-  到達「車旁邊（離門遠的那一邊）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [M7] 停好的車身不和任何店門交疊（門 1.2 m 寬，含公館 DOORS 門前通道）  {"bb": {"x0": -2.61, "x1": -1.89, "z0": 17.27, "z1": 19.16}, "nDoors": 15, "hit": []}
+  到達「車停的地方（站上去）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [M7_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.23, "fb": [0, 0], "errs": []}
+  到達「車旁邊（離門遠的那一邊）」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
 PASS [M7] 車旁邊出現「騎腳踏車」  騎腳踏車
 PASS [M7] 上車
 PASS [M8_wenzhou] 有往 wenzhou 的出口  {"x": -71, "z": 20.2, "r": 2.6, "label": "往溫州街", "to": "wenzhou", "lv": null}
 PASS [M8_wenzhou] 有「往溫州街」互動點  {"x": -71, "z": 20.2, "r": 2.6, "label": "往溫州街", "to": "wenzhou", "lv": null}
-  到達「往溫州街」附近（0.23 m）：點地面 14 次、轉鏡頭 0 次、搖桿 0 次，37 秒
-PASS [M8_wenzhou] 走到旁邊：互動按鈕是「往溫州街…」  {"x": -70.77, "z": 20.2, "interact": "往溫州街"}
+  到達「往溫州街」附近（0.19 m）：點地面 12 次、轉鏡頭 0 次、搖桿 0 次，32 秒
+PASS [M8_wenzhou] 走到旁邊：互動按鈕是「往溫州街…」  {"x": -70.81, "z": 20.2, "interact": "往溫州街"}
 PASS [M8_wenzhou] 按「往溫州街」：gongguan → wenzhou  {"zone": "wenzhou", "x": 51.3, "z": -9.8, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
 PASS M8 騎到wenzhou：還在騎  {"zone": "wenzhou", "riding": true, "parked": null, "bike": {"riding": true, "zone": "wenzhou", "x": -2.25, "z": 18.15, "yaw": 0, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
 PASS [M8_wenzhou] wenzhou 有一棟可以進去的建築  {"x": -8, "z": 4.6, "r": 1.4, "label": "進去阿德影印輸出", "to": "wz_print"}
   [M8_wenzhou] 進 進去阿德影印輸出（wz_print）
 PASS [M8_wenzhou_in] 有「進去阿德影印輸出」互動點  {"x": -8, "z": 4.6, "r": 1.4, "label": "進去阿德影印輸出", "to": "wz_print", "lv": null}
-  到達「進去阿德影印輸出」附近（0.03 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
-PASS [M8_wenzhou_in] 走到旁邊：互動按鈕是「進去阿德影印輸出…」  {"x": -8, "z": 4.57, "interact": "進去阿德影印輸出"}
+  到達「進去阿德影印輸出」附近（0.14 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+PASS [M8_wenzhou_in] 走到旁邊：互動按鈕是「進去阿德影印輸出…」  {"x": -8.02, "z": 4.46, "interact": "進去阿德影印輸出"}
 PASS [M8_wenzhou_in] 按「進去阿德影印輸出」：wenzhou → wz_print  {"zone": "wz_print", "x": -0.2, "z": 3.4, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
-PASS [M8_wenzhou] 騎著進門：先下車（室內沒有車）  {"zone": "wz_print", "riding": false, "parked": null, "bike": {"riding": false, "zone": "wenzhou", "x": -8.000936173210539, "z": 4.569125708156945, "yaw": -0.03347122878502577, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
-PASS [M8_wenzhou_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wz_print", "dlg": false, "depth": 0, "moved": 1.48, "fb": [0, 0], "errs": []}
+PASS [M8_wenzhou] 騎著進門：先下車（室內沒有車）  {"zone": "wz_print", "riding": false, "parked": null, "bike": {"riding": false, "zone": "wenzhou", "x": -8.017649959891777, "z": 4.462566774536943, "yaw": 0.035925747337043, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
+PASS [M8_wenzhou_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wz_print", "dlg": false, "depth": 0, "moved": 1.47, "fb": [0, 0], "errs": []}
 PASS [M8_wenzhou_out] 有「」互動點  {"x": 0, "z": 4.15, "r": 1.3, "label": "離開影印店", "to": "wenzhou", "lv": null}
-  到達「離開影印店」附近（0.51 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+  到達「離開影印店」附近（0.51 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
 PASS [M8_wenzhou_out] 走到旁邊：互動按鈕是「…」  {"x": -0.2, "z": 3.68, "interact": "離開影印店"}
 PASS [M8_wenzhou_out] 按「離開影印店」：wz_print → wenzhou  {"zone": "wenzhou", "x": -8, "z": 4.1, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
-  [M8_wenzhou] 車：{"zone": "wenzhou", "x": -12.55, "z": 3.95, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 10, "legal": {"x": -12.55, "z": 3.95, "d": 4.6}, "maxd": 30, "dPlayer": 4.55, "doors": [{"l": "進去阿德影印輸出", "d": 3.2}, {"l": "進去一盞", "d": 6.58}]}
+  [M8_wenzhou] 車：{"zone": "wenzhou", "x": -12.55, "z": 3.95, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 13, "legal": {"x": -12.55, "z": 3.95, "d": 4.6}, "maxd": 30, "dPlayer": 4.55, "doors": [{"l": "進去阿德影印輸出", "d": 3.2}, {"l": "進去一盞", "d": 6.58}]}
 PASS [M8_wenzhou] 車在這一區（wenzhou）、場景裡看得到停著的車  {"bike": "wenzhou", "parked": [-12.55, 3.95]}
 PASS [M8_wenzhou] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "row", "legal": {"x": -12.55, "z": 3.95, "d": 4.6}, "at": [-12.55, 3.95]}
 PASS [M8_wenzhou] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "進去阿德影印輸出", "d": 3.2}, {"l": "進去一盞", "d": 6.58}]
 PASS [M8_wenzhou] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": -12.91, "x1": -12.19, "z0": 3.07, "z1": 4.96}, "nDoors": 10, "hit": []}
-  到達「車停的地方（站上去）」附近（0.23 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，15 秒
+  到達「車停的地方（站上去）」附近（0.21 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，16 秒
 PASS [M8_wenzhou_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wenzhou", "dlg": false, "depth": 0, "moved": 1.48, "fb": [0, 0], "errs": []}
-  到達「車旁邊（離門遠的那一邊）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  到達「車旁邊（離門遠的那一邊）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
 PASS [M8_wenzhou] 車旁邊出現「騎腳踏車」  騎腳踏車
 PASS [M8_wenzhou] 上車
 PASS [M8_wz_gg] 有往 gongguan 的出口  {"x": 51.3, "z": -13.4, "r": 2.6, "label": "回公館", "to": "gongguan", "lv": null}
 PASS [M8_wz_gg] 有「回公館」互動點  {"x": 51.3, "z": -13.4, "r": 2.6, "label": "回公館", "to": "gongguan", "lv": null}
-  到達「回公館」附近（0.12 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
-PASS [M8_wz_gg] 走到旁邊：互動按鈕是「回公館…」  {"x": 51.28, "z": -13.28, "interact": "回公館"}
+  到達「回公館」附近（0.08 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+PASS [M8_wz_gg] 走到旁邊：互動按鈕是「回公館…」  {"x": 51.29, "z": -13.32, "interact": "回公館"}
 PASS [M8_wz_gg] 按「回公館」：wenzhou → gongguan  {"zone": "gongguan", "x": -71, "z": 16.5, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
 PASS [M8_campus] 有往 campus 的出口  {"x": -5.27, "z": -47.5, "r": 2.5, "label": "回到校園", "to": "campus", "lv": null}
 PASS [M8_campus] 有「回到校園」互動點  {"x": -5.27, "z": -47.5, "r": 2.5, "label": "回到校園", "to": "campus", "lv": null}
-  到達「回到校園」附近（0.19 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，18 秒
-PASS [M8_campus] 走到旁邊：互動按鈕是「回到校園…」  {"x": -5.3, "z": -47.31, "interact": "回到校園"}
+  到達「回到校園」附近（0.22 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，18 秒
+PASS [M8_campus] 走到旁邊：互動按鈕是「回到校園…」  {"x": -5.36, "z": -47.3, "interact": "回到校園"}
 PASS [M8_campus] 按「回到校園」：gongguan → campus  {"zone": "campus", "x": -119, "z": 0, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
 PASS M8 騎到campus：還在騎  {"zone": "campus", "riding": true, "parked": null, "bike": {"riding": true, "zone": "campus", "x": -12.55, "z": 3.95, "yaw": 0, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
 PASS [M8_campus] campus 有一棟可以進去的建築  {"x": -38, "z": -49.4, "r": 1.6, "label": "普通教學館", "to": "putong"}
   [M8_campus] 進 普通教學館（putong）
 PASS [M8_campus_in] 有「普通教學館」互動點  {"x": -38, "z": -49.4, "r": 1.6, "label": "普通教學館", "to": "putong", "lv": 0}
-  到達「普通教學館」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
-PASS [M8_campus_in] 走到旁邊：互動按鈕是「普通教學館…」  {"x": -38.1, "z": -49.27, "interact": "普通教學館"}
+  到達「普通教學館」附近（0.00 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [M8_campus_in] 走到旁邊：互動按鈕是「普通教學館…」  {"x": -38, "z": -49.4, "interact": "普通教學館"}
 PASS [M8_campus_in] 按「普通教學館」：campus → putong  {"zone": "putong", "x": 0, "z": 5.8, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
-PASS [M8_campus] 騎著進門：先下車（室內沒有車）  {"zone": "putong", "riding": false, "parked": null, "bike": {"riding": false, "zone": "campus", "x": -38.103928512463106, "z": -49.2662018312012, "yaw": 2.426986375490822, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
-PASS [M8_campus_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "putong", "dlg": false, "depth": 0, "moved": 8.86, "fb": [0, 0], "errs": []}
+PASS [M8_campus] 騎著進門：先下車（室內沒有車）  {"zone": "putong", "riding": false, "parked": null, "bike": {"riding": false, "zone": "campus", "x": -38.00008428143468, "z": -49.39995019090508, "yaw": 2.5113454070948418, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
+PASS [M8_campus_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "putong", "dlg": false, "depth": 0, "moved": 8.82, "fb": [0, 0], "errs": []}
 PASS [M8_campus_out] 有「」互動點  {"x": 0, "z": 7.2, "r": 1.1, "label": "走出普通教學館", "to": "campus", "lv": 0}
-  到達「走出普通教學館」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
-PASS [M8_campus_out] 走到旁邊：互動按鈕是「…」  {"x": -0.1, "z": 6.97, "interact": "走出普通教學館"}
+  到達「走出普通教學館」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+PASS [M8_campus_out] 走到旁邊：互動按鈕是「…」  {"x": -0.02, "z": 6.95, "interact": "走出普通教學館"}
 PASS [M8_campus_out] 按「走出普通教學館」：putong → campus  {"zone": "campus", "x": -38, "z": -47.4, "toast": "（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）"}
-  [M8_campus] 車：{"zone": "campus", "x": -36.8, "z": -47.32153903091734, "yaw": 1.5707963267948966, "kind": "lady", "color": "#efe8d8", "inSpot": null, "ok": false, "nSpots": 28, "legal": {"x": -47, "z": -16, "d": 32.7}, "maxd": 30, "dPlayer": 1.2, "doors": [{"l": "普通教學館", "d": 0.8}, {"l": "博思教學館", "d": 23.91}]}
-PASS [M8_campus] 車在這一區（campus）、場景裡看得到停著的車  {"bike": "campus", "parked": [-36.8, -47.32]}
-PASS [M8_campus] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": null, "legal": {"x": -47, "z": -16, "d": 32.7}, "at": [-36.8, -47.32]}
-FAIL [M8_campus] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "普通教學館", "d": 0.8}, {"l": "博思教學館", "d": 23.91}]
-PASS [M8_campus] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": -37.68, "x1": -35.79, "z0": -47.68, "z1": -46.96}, "nDoors": 10, "hit": []}
+  [M8_campus] 車：{"zone": "campus", "x": -41.9, "z": -44.9, "yaw": 0, "kind": "lady", "color": "#efe8d8", "inSpot": "rack", "ok": true, "nSpots": 50, "legal": {"x": -41.9, "z": -44.9, "d": 4.6}, "maxd": 30, "dPlayer": 4.63, "doors": [{"l": "普通教學館", "d": 4.35}, {"l": "博思教學館", "d": 26.57}]}
+PASS [M8_campus] 車在這一區（campus）、場景裡看得到停著的車  {"bike": "campus", "parked": [-41.9, -44.9]}
+PASS [M8_campus] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "rack", "legal": {"x": -41.9, "z": -44.9, "d": 4.6}, "at": [-41.9, -44.9]}
+PASS [M8_campus] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "普通教學館", "d": 4.35}, {"l": "博思教學館", "d": 26.57}]
+PASS [M8_campus] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": -42.26, "x1": -41.54, "z0": -45.78, "z1": -43.89}, "nDoors": 10, "hit": []}
   到達「車停的地方（站上去）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS [M8_campus_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 3.52, "fb": [0, 0], "errs": []}
-  到達「車旁邊（離門遠的那一邊）」附近（0.22 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS [M8_campus_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "campus", "dlg": false, "depth": 0, "moved": 1.2, "fb": [0, 0], "errs": []}
+  到達「車旁邊（離門遠的那一邊）」附近（0.14 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
 PASS [M8_campus] 車旁邊出現「騎腳踏車」  騎腳踏車
 PASS [M8_campus] 上車
 PASS [M8_lane118] 有往 lane118 的出口  {"x": 34, "z": -126.6, "r": 1.8, "label": "從後門出去（118 巷）", "to": "lane118", "lv": null}
 PASS [M8_lane118] 有「從後門出去（118 巷）」互動點  {"x": 34, "z": -126.6, "r": 1.8, "label": "從後門出去（118 巷）", "to": "lane118", "lv": null}
-  到達「從後門出去（118 巷）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，21 秒
-PASS [M8_lane118] 走到旁邊：互動按鈕是「從後門出去（118 巷）…」  {"x": 33.95, "z": -126.37, "interact": "從後門出去（118 巷）"}
+  到達「從後門出去（118 巷）」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，22 秒
+PASS [M8_lane118] 走到旁邊：互動按鈕是「從後門出去（118 巷）…」  {"x": 33.96, "z": -126.43, "interact": "從後門出去（118 巷）"}
 PASS [M8_lane118] 按「從後門出去（118 巷）」：campus → lane118  {"zone": "lane118", "x": 0, "z": 47.6, "toast": "（樓梯不能騎，車停在下面。）"}
 FAIL M8 騎到lane118：還在騎  {"zone": "lane118", "riding": false, "parked": [-2.35, 33.5], "bike": {"riding": false, "zone": "lane118", "x": -2.35, "z": 33.5, "yaw": 1.5707963267948966, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
 PASS [M8_lane118] lane118 有一棟可以進去的建築  {"x": -4.3, "z": 25, "r": 1.4, "label": "進滇香小館（滇緬料理）", "to": "l118_dian"}
@@ -195,18 +195,18 @@ PASS [M8_lane118_in] 有「進滇香小館（滇緬料理）」互動點  {"x": 
 PASS [M8_lane118_in] 走到旁邊：互動按鈕是「進滇香小館（滇緬料理）…」  {"x": -4.16, "z": 25.17, "interact": "進滇香小館（滇緬料理）"}
 PASS [M8_lane118_in] 按「進滇香小館（滇緬料理）」：lane118 → l118_dian  {"zone": "l118_dian", "x": 1.5, "z": 2.65, "toast": "（樓梯不能騎，車停在下面。）"}
 PASS [M8_lane118] 騎著進門：先下車（室內沒有車）  {"zone": "l118_dian", "riding": false, "parked": null, "bike": {"riding": false, "zone": "lane118", "x": -2.35, "z": 33.5, "yaw": 1.5707963267948966, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}}
-PASS [M8_lane118_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "l118_dian", "dlg": false, "depth": 0, "moved": 5.9, "fb": [0, 0], "errs": []}
+PASS [M8_lane118_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "l118_dian", "dlg": false, "depth": 0, "moved": 5.92, "fb": [0, 0], "errs": []}
 PASS [M8_lane118_out] 有「」互動點  {"x": 1.5, "z": 3.55, "r": 0.7, "label": "離開滇香小館", "to": "lane118", "lv": 0}
-  到達「離開滇香小館」附近（0.27 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
-PASS [M8_lane118_out] 走到旁邊：互動按鈕是「…」  {"x": 1.5, "z": 3.28, "interact": "離開滇香小館"}
+  到達「離開滇香小館」附近（0.28 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS [M8_lane118_out] 走到旁邊：互動按鈕是「…」  {"x": 1.5, "z": 3.27, "interact": "離開滇香小館"}
 PASS [M8_lane118_out] 按「離開滇香小館」：l118_dian → lane118  {"zone": "lane118", "x": -3.9, "z": 26.7, "toast": "（樓梯不能騎，車停在下面。）"}
   [M8_lane118] 車：{"zone": "lane118", "x": -2.35, "z": 28.5, "yaw": 1.5707963267948966, "kind": "lady", "color": "#efe8d8", "inSpot": "row", "ok": true, "nSpots": 23, "legal": {"x": -2.35, "z": 28.5, "d": 2.4}, "maxd": 30, "dPlayer": 2.38, "doors": [{"l": "進滇香小館（滇緬料理）", "d": 2.61}, {"l": "進Pasta 118（義大利麵）", "d": 6.63}]}
 PASS [M8_lane118] 車在這一區（lane118）、場景裡看得到停著的車  {"bike": "lane118", "parked": [-2.35, 28.5]}
 PASS [M8_lane118] 停在最近的合法停車處（≤ 30 m；都太遠才停門旁）  {"inSpot": "row", "legal": {"x": -2.35, "z": 28.5, "d": 2.4}, "at": [-2.35, 28.5]}
 PASS [M8_lane118] 停車位置站得住、不擋出入口（BIKE.parkOK）  [{"l": "進滇香小館（滇緬料理）", "d": 2.61}, {"l": "進Pasta 118（義大利麵）", "d": 6.63}]
 PASS [M8_lane118] 停好的車身不和任何店門交疊（門 1.2 m 寬）  {"bb": {"x0": -3.23, "x1": -1.34, "z0": 28.14, "z1": 28.86}, "nDoors": 9, "hit": []}
-  到達「車停的地方（站上去）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS [M8_lane118_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "lane118", "dlg": false, "depth": 0, "moved": 0.37, "fb": [0, 0], "errs": []}
+  到達「車停的地方（站上去）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [M8_lane118_on_bike_spot] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "lane118", "dlg": false, "depth": 0, "moved": 0.36, "fb": [0, 0], "errs": []}
   到達「車旁邊（離門遠的那一邊）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
 PASS [M8_lane118] 車旁邊出現「騎腳踏車」  騎腳踏車
 PASS [M8_lane118] 上車
@@ -216,4 +216,4 @@ PASS M9 重新整理、繼續：車還在（同一區、同一個位置、場景
 PASS M9 是買的那一台（淑女車奶油白）、車燈還在  {"riding": false, "zone": "lane118", "x": -2.35, "z": 28.5, "yaw": 1.5707963267948966, "kind": "lady", "color": "#efe8d8", "owned": [{"kind": "city", "color": null}, {"kind": "lady", "color": "#efe8d8"}], "parts": {"light": 7}, "fix": false}
 PASS [M9_after_reload] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "lane118", "dlg": false, "depth": 0, "moved": 6.85, "fb": [0, 0], "errs": []}
 PASS 沒有 JS 例外  []
-FAILED 3: M1c 打開：REPAIR_BIKE 看得到、blockWhenShown 那一塊導航格全部擋住（nav.free＝false，走不進去）；[M8_campus] 停車位置站得住、不擋出入口（BIKE.parkOK）；M8 騎到lane118：還在騎
+FAILED 2: M1c 打開：REPAIR_BIKE 看得到、blockWhenShown 那一塊導航格全部擋住（nav.free＝false，走不進去）；M8 騎到lane118：還在騎
