@@ -5639,6 +5639,26 @@
    "next": "LAWWW-C 換檔；CC 重拍",
    "noDirectIntegrate": false,
    "note": "BB-C 17:19（CC SITAMB_CLOUD_1104 ⑧ 替身頭上深色方塊）：_lod1 從 LOD0 再減、脖子以上不減（頭 300～372 面），400 → 800 面；顏色從 LOD0 烤、頭的面用 LOD0 的 UV。網格名字不變。effb5d9b3＋新 GLB：seated_figures_unit、seated_figures_lod_unit、desk_furniture_unit ALL PASS；沒在瀏覽器看過"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "69e953668",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "WZ-FIVE-1104",
+   "files": [
+    "assets/models/env/second_ai/cafe_exterior.glb",
+    "assets/models/env/second_ai/cafe_exterior.json",
+    "tools/blender/env_second/cafe_exterior.py",
+    "tools/blender/env_second/textures/gen/cafe_ext_small_atlas.png",
+    "docs/art-rebuild/second_ai/wip/wz_five_1104/cafe230_exterior.md",
+    "docs/art-rebuild/second_ai/wip/wz_five_1104/cafe230_exterior_v1.jpg"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 換 GLB（git checkout 69e953668 -- cafe_exterior.glb/.json，程式不用改）＋跑 cafe_glb_integration.py、wz_street_integration.py（瀏覽器，我沒跑）；CC 拍；BB 判。店內窗後還是舊簡化版（不是 AA v1d）",
+   "next": "LAWWW-C 換檔；之後做 2:30 AM 店內窗卡（從 AA 的 v1d 拍）",
+   "noDirectIntegrate": false,
+   "note": "2:30 AM 外觀照參考圖 wz_230am_ext（鏡像）：灰泥壁柱與轉角側牆、深綠招牌帶包轉角、SIGN_FACE 2:30 AM（bg #1c2c23）、圓筒壁燈、木格子氣窗與門、木畫架兩面（11:00–02:30／手沖）、轉角爬藤；拿掉木雨遮。網格 26→28、材質 23→25；effb5d9b3＋新 GLB：cafe_kit_glow_unit、zone_prewarm_unit ALL PASS"
   }
  ]
 }

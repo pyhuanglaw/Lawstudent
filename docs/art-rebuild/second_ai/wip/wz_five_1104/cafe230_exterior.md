@@ -57,7 +57,7 @@ Blender Cycles 預覽（Standard 色彩），不是遊戲畫面。說明：
 ## 給 LAWWW-C
 
 ```
-git checkout <交件 SHA> -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json
+git checkout 69e953668 -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json
 ```
 
 不用改程式。請跑 `tests/cafe_glb_integration.py`、`tests/wz_street_integration.py`。

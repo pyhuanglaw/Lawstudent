@@ -55,10 +55,11 @@
   - 第二版只換配置、區域程式、GLB＋光照貼圖，接線 patch 不變。
   - 等 LAWWW-C 換檔、加讀書的人；再 CC 拍 11:00／20:30（直向、橫向）、跑真實流程，BB 判。窗會不會太亮要看 CC 的遊戲畫面。
 - **ADE-PROPS-1104**：`c73d37367`，LAWWW-C 接進 `1a191554d`。LAWWW-C 另外修了電線桿擋到的腳踏車停車處。
+- **WZ-FIVE-1104 2:30 AM 外觀**：`69e953668`（灰泥、深綠招牌帶包轉角、圓筒壁燈、木格子、畫架、爬藤）。只換 `cafe_exterior.glb`／`.json`。等 LAWWW-C 換檔＋跑 `cafe_glb_integration.py`、CC 拍、BB 判。玻璃後面的店內還是舊簡化版。
 - **SEATFIG-LOD1-HAIR-1104**（BB P3，替身頭上的方塊）：`30c0ae20e`。遠處版從近處版再減、脖子以上不減，400 → 800 面；只換 `seated_figures.glb`／`.json`。等 LAWWW-C 換檔、CC 用 SITAMB_CLOUD_1104 ⑧ 同鏡頭重拍。
 
 ### 佇列（照順序）
-1. WZ-FIVE-1104：2:30 AM 外觀（`cafe_exterior.py`；招牌貼圖 `cafe230_sign.jpg` 已在）。
+1. WZ-FIVE-1104 後續：2:30 AM 店內窗卡（從 AA 的 v1d 室內往外拍，取代外觀玻璃後面的舊簡化版）。
 2. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
 3. HAIR-NOODLE-1104：等 CC 的近景探針。
 4. NPC-ANIM-LOOPS-1104。
