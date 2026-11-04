@@ -44,7 +44,7 @@ QW = [
     # 從外面看到的店內＝走進去看到的店內（參考圖畫的店內和 AA 做的室內配置不一樣，以走得進去的那一個為準）
     ('@textures/src/offbeat_int_render.jpg', 'int', None, 1024, 300),    # 正面：眼睛 (0.35,1.55,11)、看 (0.35,1.55,0)、22.3 mm、藏 WALL_front；畫面＝本地 x −4.55～5.25、y 0.11～2.99
     ('@textures/src/offbeat_side_render.jpg', 'side', None, 704, 512),
-    ('@textures/src/sunnyside_side_render.jpg', 'side', None, 640, 256),   # SUNNY SIDE 東側落地窗後面（BB 11-04 06:43）：AA 的 sunnyside.glb（企劃線）從東邊渲染，眼睛 (11.5,1.65,1.1)、看 (0,1.65,1.1)、59 mm、藏 WALL_right；裁右邊 2/3＝室內 z 2.2～−2.4   # 側面：眼睛 (11.5,1.6,−1.75)、看 (0,1.6,−1.75)、52.7 mm、藏 WALL_right；畫面＝室內 z 0.3～−3.8（側窗）
+    ('@textures/src/sunnyside_side_render.jpg', 'side', None, 640, 256),   # SUNNY SIDE 東側落地窗後面（BB 11-04 06:43）：AA 的 sunnyside.glb（企劃線 8345fe067，右牆開窗那一版）從東邊渲染，眼睛 (11.5,1.65,1.1)、看 (0,1.65,1.1)、59 mm、藏 WALL_right；裁右邊 2/3＝室內 z 2.2～−2.4   # 側面：眼睛 (11.5,1.6,−1.75)、看 (0,1.6,−1.75)、52.7 mm、藏 WALL_right；畫面＝室內 z 0.3～−3.8（側窗）
     # 溫州街第一批五間（WZ-FIVE-1104，使用者 11-04 04:4x，AA_654）：參考圖 ref_images/shops/wz_<店>_ext.webp（企劃線 41169746b）；店內的窗卡等室內 MODEL_READY 再用室內 GLB 拍
     ('wz_lin_ext', 'sign', [(797, 262), (1398, 323), (1398, 425), (797, 387)], 1024, 176),          # 林家乾麵：深綠底金字招牌
     ('wz_lin_ext', 'menu', [(1365, 535), (1452, 538), (1452, 668), (1365, 667)], 128, 200),          # 門邊的價目牌（乾麵 55…滷味 30）
