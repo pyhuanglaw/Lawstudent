@@ -1037,11 +1037,15 @@ class Runner(object):
                     path = alt
             # core.autocrlf=false：受測檔案保持 LF，和雲端、Pages 一樣（Windows 預設會轉 CRLF，N1 有一批「從原始碼抽函式」的單元測試因此 FAIL，BB 21:3x）
             rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
-            if rc != 0 and 'invalid reference' in out:   # 不在任何抓下來的分支上（main、PR 分支…）：先抓 main，再直接用 SHA 抓一次（GitHub 讓抓得到的 commit 用 SHA 抓），再試
+            if rc != 0 and 'invalid reference' in out:   # 不在任何抓下來的分支上（main、PR 分支、別的帳號的開發分支…）：先抓 main，再直接用 SHA 抓一次（GitHub 只接受完整 40 碼 SHA），再試
                 log('worktree add %s: invalid reference - fetching main and the commit itself' % sha)
                 git('-C', self.repo, 'fetch', 'origin', 'main', quiet=True)
                 git('-C', self.repo, 'fetch', 'origin', sha, quiet=True)
                 rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
+                if rc != 0 and 'invalid reference' in out:   # BB-C 11-04：短 SHA 用 fetch 抓不到——抓全部 claude/* 分支（RULE_SOURCE 換班會變，不寫死分支名），再試
+                    log('worktree add %s: still invalid - fetching all refs/heads/claude/*' % sha)
+                    git('-C', self.repo, 'fetch', 'origin', '+refs/heads/claude/*:refs/remotes/origin/claude/*', quiet=True)
+                    rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
         return path
