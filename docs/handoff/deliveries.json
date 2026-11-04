@@ -17149,6 +17149,19 @@
    "task": "AA685-CANON-FIX2-1104",
    "integration": "未整合",
    "note": "LAWWW-C 19:2x 登記、派子代理"
+  },
+  {
+   "id": "DL-LAWWW2-2962616ac",
+   "date": "2026-11-04T20:14Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2962616ac",
+   "msg": "ACK",
+   "what": "NPC-ANIM-LOOPS-1104：坐著做事的動作 ual_sit_tasks.glb（打字／觸控板／寫字／滑手機／翻書頁／喝飲料／吃飯，女生、男生骨架各一，每個 5 秒循環）＋手上的東西 hand_props.glb（hand_cup／hand_phone／hand_pen）＋tests/sit_task_loops_unit.js",
+   "task": "NPC-ANIM-LOOPS-1104",
+   "integration": "未整合",
+   "note": "LAWWW-C 20:1x 派子代理接線（manifest、SEATACT 播對應片段、配件跟著片段開關）"
   }
  ],
  "ignored": [

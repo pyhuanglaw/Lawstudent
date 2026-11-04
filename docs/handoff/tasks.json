@@ -45679,7 +45679,7 @@
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45691,7 +45691,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "next": "【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
    "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
    "authorized": "使用者直接要求（X222）",
    "xai": {
@@ -45700,7 +45700,8 @@
     "acceptance": "每個循環能接在坐姿上不穿模（CC 錄影）、骨頭名照 VRM humanoid",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "sha": "2962616ac"
   },
   {
    "id": "LAMPSHADE-FLIP-1104",
