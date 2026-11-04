@@ -63,8 +63,8 @@ LAWWW2-C 2026-11-04。狀態：**MODEL_READY**。新增兩個檔案，**遊戲�
 ### 給 LAWWW-C
 
 ```
-git checkout <SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.glb assets/models/char/second_ai/hand_props.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py tools/anim/sit_task_props.py tools/anim/preview_vrm_clip.py
-git show <SHA>:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_eat_chopsticks_1104.patch | git apply
+git checkout 048f3498c -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.glb assets/models/char/second_ai/hand_props.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py tools/anim/sit_task_props.py tools/anim/preview_vrm_clip.py
+git show 048f3498c:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_eat_chopsticks_1104.patch | git apply
 ```
 
 patch（以開發分支 `9039f2b20` 為底）改三個檔：

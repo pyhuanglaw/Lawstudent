@@ -5812,7 +5812,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "3182a6040",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "DELIVERED",
    "task": "XIAOLU-NIGHT-VIEW-1104",
    "files": [
     "assets/models/env/views/wz_teishoku_day.webp",
@@ -5828,6 +5828,30 @@
    "next": "只換兩張 webp＋腳本：git checkout 3182a6040 -- assets/models/env/views/wz_teishoku_day.webp assets/models/env/views/wz_teishoku_night.webp tools/blender/env_second/wz_window_view.py（程式不用改）",
    "noDirectIntegrate": false,
    "note": "KOMICHI-VIEW-POLISH（BB 14:04 兩點，不擋發布）：白天照遊戲 KEY0 的 14:00 太陽（仰角 52.7°、方位 200°，對面整片背光、沒有斜影子；第一版的太陽其實在東北）；晚上 9 個路燈光圈放往下的聚光燈，但電線桿挪到 −16.0（ADE-POLE16-1104）以後窗外一圈都看不到；第一版的電線桿還在 −9.2、在阿德正前面，現在窗外沒有桿子。webp 品質 88：白天 54,760 B、晚上 46,352 B"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "048f3498c",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NPC-ANIM-LOOPS-1104",
+   "files": [
+    "assets/models/char/second_ai/ual_sit_tasks.glb",
+    "assets/models/char/second_ai/ual_sit_tasks.json",
+    "assets/models/char/second_ai/hand_props.glb",
+    "assets/models/char/second_ai/hand_props.json",
+    "tests/sit_task_loops_unit.js",
+    "tools/anim/sit_task_loops.py",
+    "tools/anim/sit_task_props.py",
+    "tools/anim/preview_vrm_clip.py",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_eat_chopsticks_1104.patch",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "21:42Z 的 2（另外兩組骨架的片段）、3（Café 桌緣 0.20）還沒做；瀏覽器沒看過（D131）；BB 判 ART",
+   "next": "LAWWW-C：checkout 四個檔＋測試、工具；git apply npc_eat_chopsticks_1104.patch（character3d.js HANDS 六格／PROP／LOOK、seatact3d.js 吃飯打開＋PROP_FAM、sit_task_wire_unit 吃飯那一項）",
+   "noDirectIntegrate": false,
+   "note": "補件 1、4（LAWWW-C 21:42Z）：右手筷子 hand_chopsticks（24 面）＋Sit_Eat 照筷子尖重擺（碗裡夾麵→嘴邊 1.5 cm；左手扶碗、不再壓盤子）；寫字筆尖碰紙（女生原本在紙面下 3.9 mm）；男生的寫字、喝飲料、滑手機照配件實際掛上去的位置擺手（差 3～7 mm）。開發分支 9039f2b20：sit_task_loops_unit ALL PASS、sit_task_wire_unit 54 ALL PASS（套 patch）、座位／路人 7 支 ALL PASS。檢查點 4d1d3966e"
   }
  ]
 }
