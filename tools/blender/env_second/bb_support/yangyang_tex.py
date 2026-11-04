@@ -41,18 +41,18 @@ def wall(path):
     W, H = 1024, 1024; rng = np.random.RandomState(521)
     n1 = _noise(H, W, 160, 521); n2 = _noise(H, W, 10, 522, 3); n3 = _noise(H, W, 40, 523, 3)
     yy = np.linspace(0, 1, H)[:, None]
-    col = np.array([230, 186, 104], np.float32)[None, None] * (0.9 + 0.12 * n1[..., None] + 0.05 * (n2[..., None] - 0.5))
-    patch = (n3 > 0.66).astype(np.float32); col = col * (1 - 0.08 * patch[..., None]) + np.array([240, 206, 130]) * 0.08 * patch[..., None]   # 補過的漆
+    col = np.array([232, 214, 168], np.float32)[None, None] * (0.93 + 0.08 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))   # 暖奶油色 #e8d6a8（黃色靠燈照出來）
+    patch = (n3 > 0.66).astype(np.float32); col = col * (1 - 0.08 * patch[..., None]) + np.array([240, 226, 186]) * 0.08 * patch[..., None]   # 補過的漆
     stain = np.clip((n3 - 0.3) * 3, 0, 1) * np.clip((yy - 0.6) / 0.3, 0, 1)   # 下半的水漬、油漬
-    col = col * (1 - 0.18 * stain[..., None]) + np.array([150, 110, 60]) * 0.18 * stain[..., None]
+    col = col * (1 - 0.16 * stain[..., None]) + np.array([160, 136, 96]) * 0.16 * stain[..., None]
     low = np.clip((yy - 0.72) / 0.06, 0, 1) * np.clip((yy - 0.72) / 0.06 * 0 + 1, 0, 1) * (0.5 + 0.5 * _noise(H, W, 30, 524, 2))
-    col = col * (1 - 0.25 * low[..., None]) + np.array([120, 96, 60]) * 0.25 * low[..., None]   # 椅背高度以下磨髒
+    col = col * (1 - 0.2 * low[..., None]) + np.array([130, 116, 90]) * 0.2 * low[..., None]   # 椅背高度以下磨髒
     col *= (1 - 0.15 * np.clip((yy - 0.93) / 0.07, 0, 1))[..., None]
     im = Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im)
     for _ in range(14):   # 撕掉的膠帶痕、刮痕
         x, y = rng.randint(0, W - 60), rng.randint(200, 900)
-        if rng.random() < 0.5: d.rectangle([x, y, x + rng.randint(20, 40), y + 6], fill=(214, 172, 96))
-        else: d.line([(x, y), (x + rng.randint(40, 160), y + rng.randint(-10, 10))], fill=(196, 150, 80), width=2)
+        if rng.random() < 0.5: d.rectangle([x, y, x + rng.randint(20, 40), y + 6], fill=(220, 200, 150))
+        else: d.line([(x, y), (x + rng.randint(40, 160), y + rng.randint(-10, 10))], fill=(196, 176, 130), width=2)
     im.save(path); return path
 
 
@@ -61,7 +61,8 @@ def wood(path):
     rows = rng.normal(0, 1, (H, 1)).astype(np.float32); rows = (rows - rows.min()) / (np.ptp(rows) + 1e-6)
     rows = np.asarray(Image.fromarray((rows * 255).astype(np.uint8)).resize((1, H), Image.BILINEAR), np.float32) / 255
     g = 0.65 * rows + 0.35 * _noise(H, W, 3, 532, 2)
-    col = np.array([196, 134, 70], np.float32)[None, None] * (0.86 + 0.2 * g[..., None])
+    knots = _noise(H, W, 40, 533, 2)
+    col = np.array([214, 182, 136], np.float32)[None, None] * (0.8 + 0.3 * g[..., None] - 0.08 * np.clip((knots[..., None] - 0.7) * 5, 0, 1))   # 淺原木色＋木紋
     return _save(col, path)
 
 
@@ -191,6 +192,7 @@ def screen(path):
     SC['pos'] = (0.76, 0.8, 1.0, 1.0); d.rectangle([778, 0, 1024, 205], fill=(220, 236, 230)); d.rectangle([778, 0, 1024, 36], fill=RED); d.text((790, 4), '洋洋鹹酥雞', font=font(24), fill=(255, 255, 255))
     for k in range(4): d.rectangle([790, 50 + k * 34, 960, 74 + k * 34], fill=(200, 210, 206))
     SC['warm'] = (0.76, 0.5, 1.0, 0.75); d.rectangle([778, 256, 1024, 512], fill=(255, 214, 150))
+    SC['tube'] = (0.76, 0.25, 1.0, 0.45); d.rectangle([778, 563, 1024, 768], fill=(170, 160, 140))   # 日光燈管（調暗、偏暖）
     im.save(path); return path
 
 

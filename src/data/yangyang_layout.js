@@ -1,4 +1,4 @@
-/* ===== 洋洋鹹酥雞（公館 G05，原「滷味・鹹酥雞」，AA_650；內部 id 照舊 luwei）室內配置 v2（模型 v1b）：BB（帳號 A）2026-11-04 =====
+/* ===== 洋洋鹹酥雞（公館 G05，原「滷味・鹹酥雞」，AA_650；內部 id 照舊 luwei）室內配置 v3（模型 v1c）：BB（帳號 A）2026-11-04 =====
    照使用者參考圖 docs/story_planning/ref_images/shops/gongguan_yangyang_int.webp（SCENE_RULES §12：參考圖就是規格）＋外觀 _ext.webp。
    門窗對齊 LAWWW2 外觀（claude/second-ai-env-art 5550948fb，docs/art-rebuild/second_ai/wip/gongguan5/DOORS.md）：
      店寬 9.2（本地 x 從騎樓往裡看左→右，和室內 x 同方向）；一樓到 3.85（室內做到 3.3 加天花板）；
@@ -17,7 +17,7 @@ const YANGYANG_LAYOUT = (function () {
   const WIN = {x0: 1.95, x1: 3.5, sill: 0.3, head: 2.47};
   const KZ = -2.5;                                                                // 廚房的後牆（z）：廚房 z KZ～Z1
   const S = {
-    id: 'luwei', name: '洋洋鹹酥雞', glb: 'assets/models/env/second_ai/bb_support/yangyang_interior.glb', v: 2, doorNo: '132',
+    id: 'luwei', name: '洋洋鹹酥雞', glb: 'assets/models/env/second_ai/bb_support/yangyang_interior.glb', v: 3, doorNo: '132',
     w: W, d: D, h: H, floor: 'tile_300_lightgray', hours: '17:00～01:00',
     front: {open: OPEN, door: {x: (DOOR.x0 + DOOR.x1) / 2, w: DOOR.x1 - DOOR.x0, h: DOOR.h, kind: 'double_glass'}, windows: [[WIN.x0, WIN.x1]], sill: WIN.sill, head: WIN.head,
       solid: [[X0, OPEN.x0], [OPEN.x1, DOOR.x0], [WIN.x1, X1]], note: '照 LAWWW2 外觀：x 3.5～4.3 實牆（門外回收桶），4.3～4.6 柱'},
@@ -27,8 +27,8 @@ const YANGYANG_LAYOUT = (function () {
     partition: {x: OPEN.x1, z0: KZ, z1: 1.0, dado: 0.95, note: '廚房後段：白磁磚腰牆＋不鏽鋼框玻璃'},
     menuBoard: {x: OPEN.x1, z0: 0.9, z1: 4.3, y0: 1.95, y1: 3.2},
     tables4: [{n: 1, x: 1.2, z: 2.9}, {n: 2, x: 1.2, z: 0.6}, {n: 3, x: 1.1, z: -1.7}, {n: 4, x: -2.9, z: -4.3}],   // 四人桌 1.1 × 0.75（長邊沿 x），椅子在 z ±0.6
-    tables2: [{n: 6, x: 3.4, z: 1.4}, {n: 7, x: 3.5, z: -0.4}, {n: 8, x: 3.5, z: -2.2}, {n: 9, x: 3.6, z: -4.0}],   // 兩人桌 0.7 × 0.7，椅子在 z ±0.55
-    selfServe: {x0: X1 - 0.6, x1: X1, z0: 3.0, z1: 4.9, h: 0.9, note: '自助區：餐具、醬料（辣椒、蒜泥、胡椒粉）、飲用水桶、垃圾分類三格'},
+    tables2: [{n: 6, x: 3.5, z: -0.6}, {n: 7, x: 3.5, z: -2.4}, {n: 8, x: 3.6, z: -4.1}],   // 兩人桌 0.7 × 0.7，椅子在 z ±0.55
+    selfServe: {x0: X1 - 0.6, x1: X1, z0: 1.0, z1: 2.9, h: 0.9, note: '自助區：餐具、醬料（辣椒、蒜泥、胡椒粉）、飲用水桶、垃圾分類三格'},
     fridge: {x0: 1.3, x1: 2.2, z0: Z0, z1: Z0 + 0.72, h: 2.0, label: '冷飲'},
     backCounter: {x0: -1.6, x1: 0.2, z0: Z0 + 0.95, z1: Z0 + 1.5, h: 1.0, note: '後面的木頭結帳櫃台（裝飾；結帳互動照舊併在點餐）'},
     curtainDoor: {x: -0.6, w: 0.9, note: '後牆的紅色門簾（往後面，關著）'},
@@ -43,7 +43,7 @@ const YANGYANG_LAYOUT = (function () {
       {kind: 'order', x: OPEN.x1 + 0.45, z: 3.4, yaw: -Math.PI / 2, label: '點炸物（店內）'},
       {kind: 'menu', x: OPEN.x1 + 0.45, z: 1.6, yaw: -Math.PI / 2, label: '看菜單'},
       {kind: 'drink', x: 1.75, z: Z0 + 1.2, yaw: Math.PI, label: '拿冷飲'},
-      {kind: 'selfserve', x: +(X1 - 1.0).toFixed(2), z: 3.95, yaw: Math.PI / 2, label: '自助區（餐具、醬料、水）'}
+      {kind: 'selfserve', x: +(X1 - 1.0).toFixed(2), z: 1.95, yaw: Math.PI / 2, label: '自助區（餐具、醬料、水）'}
     ],
     spots: {},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
@@ -63,6 +63,6 @@ const YANGYANG_LAYOUT = (function () {
       {x: t.x, z: r2(t.z - 0.55), yaw: 0, kind: 'eat', table: t.n, label: '坐下吃'},
       {x: t.x, z: r2(t.z + 0.55), yaw: Math.PI, kind: 'eat', table: t.n, label: '坐下吃'}]));
   S.spots = {order: S.interact[1], table_1: S.seats.find(s => s.table === 1)};
-  return {version: 2, shop: S};
+  return {version: 3, shop: S};
 })();
 if (typeof module !== 'undefined') module.exports = YANGYANG_LAYOUT;
