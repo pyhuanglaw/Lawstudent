@@ -1,0 +1,405 @@
+diff --git a/assets/models/env/second_ai/wenzhou_street.props.json b/assets/models/env/second_ai/wenzhou_street.props.json
+index d8dd2377b..55f787a1c 100644
+--- a/assets/models/env/second_ai/wenzhou_street.props.json
++++ b/assets/models/env/second_ai/wenzhou_street.props.json
+@@ -123,14 +123,24 @@
+    "h": 0.47
+   },
+   {
+-   "tag": "sk_stool_r_A4",
++   "tag": "skpot",
+    "rect": [
+-    32.93,
+-    5.18,
+-    33.27,
+-    5.52
++    32.378,
++    5.23,
++    33.025,
++    5.883
+    ],
+-   "h": 0.47
++   "h": 0.92
++  },
++  {
++   "tag": "skpot",
++   "rect": [
++    39.155,
++    5.243,
++    39.758,
++    5.861
++   ],
++   "h": 0.92
+   },
+   {
+    "tag": "sk_bins_A5",
+@@ -205,9 +215,9 @@
+   {
+    "tag": "aboard",
+    "rect": [
+-    1.3,
++    -2.9,
+     -5.67,
+-    1.9,
++    -2.3,
+     -5.23
+    ],
+    "h": 0.95
+@@ -225,22 +235,22 @@
+   {
+    "tag": "skpot",
+    "rect": [
+-    -8.416,
+-    -5.996,
+-    -7.569,
+-    -5.213
++    -0.499,
++    -5.859,
++    0.088,
++    -5.293
+    ],
+-   "h": 0.57
++   "h": 0.92
+   },
+   {
+-   "tag": "sk_umb_B3",
++   "tag": "skpot",
+    "rect": [
+-    2.676,
+-    -5.73,
+-    2.924,
+-    -5.47
++    2.225,
++    -5.905,
++    3.021,
++    -5.276
+    ],
+-   "h": 1.05
++   "h": 0.57
+   },
+   {
+    "tag": "skpot",
+@@ -273,14 +283,24 @@
+    "h": 0.78
+   },
+   {
+-   "tag": "sk_bins_B5",
++   "tag": "skpot",
+    "rect": [
+-    22.0,
++    22.08,
++    -7.997,
++    22.613,
++    -7.491
++   ],
++   "h": 0.92
++  },
++  {
++   "tag": "aboard",
++   "rect": [
++    22.2,
+     -7.82,
+-    23.46,
++    22.8,
+     -7.38
+    ],
+-   "h": 0.78
++   "h": 0.95
+   },
+   {
+    "tag": "aboard",
+@@ -298,19 +318,39 @@
+     33.45,
+     -5.8,
+     36.72,
+-    -5.0
++    -4.998
+    ],
+    "h": 1.32
+   },
+   {
+-   "tag": "sk_boxes_B6",
++   "tag": "sk_fruit_pine_B6",
+    "rect": [
+-    38.1,
+-    -5.778,
+-    38.7,
+-    -5.322
++    30.93,
++    -5.64,
++    31.57,
++    -5.16
+    ],
+-   "h": 1.05
++   "h": 1.01
++  },
++  {
++   "tag": "sk_fruit_banana_B6",
++   "rect": [
++    32.19,
++    -5.67,
++    32.91,
++    -5.14
++   ],
++   "h": 0.72
++  },
++  {
++   "tag": "sk_fruit_melon_B6",
++   "rect": [
++    38.22,
++    -5.69,
++    38.98,
++    -5.08
++   ],
++   "h": 0.8
+   },
+   {
+    "tag": "sk_stool_b_B6",
+@@ -325,9 +365,9 @@
+   {
+    "tag": "aboard",
+    "rect": [
+-    45.9,
++    44.3,
+     -5.62,
+-    46.5,
++    44.9,
+     -5.18
+    ],
+    "h": 0.95
+@@ -353,14 +393,14 @@
+    "h": 0.92
+   },
+   {
+-   "tag": "sk_bench_B7",
++   "tag": "skpot",
+    "rect": [
+-    44.2,
+-    -5.63,
+-    45.6,
+-    -5.27
++    45.102,
++    -5.975,
++    45.949,
++    -5.19
+    ],
+-   "h": 0.46
++   "h": 0.57
+   },
+   {
+    "tag": "skpot",
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 8642e56b2..6a47e4e68 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -82,6 +82,7 @@ const ASSETS = (function(){
+     'bldg.wz_brunch_interior':{url:'assets/models/env/second_ai/wz_brunch_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop brunch（溫州街「半熟」早午餐店室內，配置 src/data/wz_shops_layout.js；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
++    'bldg.wz_teahouse_yard':{url:'assets/models/env/second_ai/wz_teahouse_yard.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_teahouse_yard.py（溫州街「一盞」茶屋的前院、冠木門、竹垣、石燈籠、老樟樹、簷與瓦屋頂、牆外的街；WZ-YIZHAN-1104，LAWWW2 11-04）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生；「一盞」字樣切自企劃組核准的招牌圖（signs_approved/yizhan_*）'},
+     'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooters_v2.py（台北街上常見的 12 款：國民通勤兩款、運動型、電動、復古圓弧、50cc 舊款、大型速克達、方塊越野、彎樑、外送箱、掛安全帽、機車罩；只參考車型類別、不仿特定品牌、沒有商標；每款一個遠處用的簡化版 _lod1；遊戲照比例挑款式、從那一型的配色挑顏色，每段合成一個網格＋THREE.LOD）', license:'本作'},
+     'bldg.gongguan_far':{url:'assets/models/env/second_ai/gongguan_far.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gg_backdrop.py --zone gongguan（LAWWW2-C 2026-10-20 X86 第二階段：公館區域的遠景——羅斯福路兩端延伸的街廓、後排高樓、水源市場、天橋、捷運出口前的 GONGGUAN 字樣與藍色小花、區域裡 15 棟店面的大看板；公館區域座標、放在原點；和校園看出去的 bldg.campus_gongguan_bd 同一套建築；店名都是虛構）', license:'本作'},
+     'bldg.lane118_props':{url:'assets/models/env/second_ai/lane118_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/lane118_props.py（LAWWW2-C 2026-10-20 ART-L118-LANE-1020：118 巷店門口的盆栽、保麗龍箱、塑膠籃、回收桶、立式菜單板、瓦斯桶、靠牆的腳踏車、電線桿、頭上的電線；118 巷區域座標、放在原點；菜單虛構）', license:'本作'},
+diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
+index 14d367555..72478e412 100644
+--- a/src/data/wz_shops_layout.js
++++ b/src/data/wz_shops_layout.js
+@@ -108,10 +108,23 @@ const WZ_SHOPS_LAYOUT = {
+     w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_light', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
+     note: '主屋約 8×10 m＋緣側（AA_164 2-3）。左前是玄關；前面一條緣側對著前院（樟樹、石板、竹掃把）；中間木地板的茶席（長桌、六個位子）；右邊是水屋（茶罐、電熱水壺、沙漏）；後面兩間榻榻米和室（各一張矮桌、四個坐墊），中間紙拉門關著。',
+     front: {door: {x: -3.0, w: 1.0, note: '玄關（從前院的石板路進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的紙拉門：拉開收在兩端'}},
+-    spawn: {x: -3.0, z: 4.2, yaw: Math.PI},
++    spawn: {x: -3.0, z: 9.0, yaw: Math.PI},   /* WZ-YIZHAN-1104（LAWWW2 11-04，AA_656：從溫州街進冠木門以後就在前院）：出生點改到冠木門裡面（原本 (-3.0, 4.2) 直接在玄關）；最後由 LAWWW 定（AA_656 第 3 節）*/
++    yard: {
++      glb: 'assets/models/env/second_ai/wz_teahouse_yard.glb', manifest: 'bldg.wz_teahouse_yard',
++      note: '前院走得進去（WZ-YIZHAN-1104，LAWWW2 11-04；數字在 docs/art-rebuild/second_ai/wip/wz_five_1104/DOORS.md）。地面比室內低 0.42：前院 y -0.42、玄關前的石板土間 -0.24、室內玄關 -0.12、室內 0。緣側和前院之間差 0.42（站不上去，緣側的邊就是盡頭），只有緣側前的沓脫石 (1.0, 6.4) 兩階各 0.21 上下；玄關前的土間兩階 0.18、0.12，走得進玄關。',
++      surfs: [
++        {x0: -4.6, x1: 4.6, z0: 6.2, z1: 9.8, y: -0.42},
++        {x0: -4.2, x1: -2.2, z0: 5.0, z1: 6.2, y: -0.24},
++        {x0: -4.2, x1: -2.4, z0: 3.8, z1: 5.0, y: -0.12},
++        {x0: 0.55, x1: 1.45, z0: 5.75, z1: 6.65, axis: 'z', ya: 0.0, yb: -0.42, tread: 0.45, rise: 0.21, low: 'z1'}
++      ],
++      open: [[-3.5, 9.15, -2.5, 9.6]],   /* room() 牆內 0.4 m 不能站：冠木門那一段開出來（走到門口、按「離開一盞」）*/
++      inYardZ: 6.35,   /* 玩家 z 超過這個（有 0.15 的緩衝）＝在前院：顯示簷（YARD_EAVE）、主屋的瓦屋頂（YARD_ROOF），緣側那一組牆（WALL_engawa_*）不淡出 */
++      gate: {x: -3.0, z: 9.6, w: 1.2}
++    },
+     camWalls: [[0, -0.6, 8.4, 0.12], [0, -3.8, 0.12, 6.4]],   /* 跟隨鏡頭的牆 [x, z, 寬, 深]：和室前面的紙拉門那一排（z −0.6，開口也算）、兩間和室中間的襖（往後延伸到後牆外 2 m）。LAWWW2 10-22 鏡頭遮擋盤點：原本鏡頭退到隔間另一邊，紙拉門、柱子、門楣擋住人（29% 的方向）*/
+     seeThru: ['wzs_washi', 'wzs_pendant', 'tree_bark_camphor'],   /* 和紙燈籠、吊線、前院的樟樹樹幹：擋在人前面、或在鏡頭旁邊時網點透空 */
+-    exit: {at: {x: -3.0, z: 4.6}, label: '離開一盞', to: 'wenzhou', spawn: {x: -20.5, z: 4.1, yaw: Math.PI}},
++    exit: {at: {x: -3.0, z: 9.3}, label: '離開一盞', to: 'wenzhou', spawn: {x: -20.5, z: 4.1, yaw: Math.PI}},   /* WZ-YIZHAN-1104：出口在冠木門（原本在玄關 (-3.0, 4.6)）*/
+     enterAt: {x: -20.5, z: 4.6, label: '進去一盞', note: '日式宿舍的冠木門（zones3d 的 TK.wall gateX -0.5 → 世界 x=-20.5）；原本的「看日式宿舍」改成這個（AA_164：整修後改成茶屋）'},
+     items: [
+       {kind: 'genkan', x: -3.3, z: 4.4, w: 1.8, d: 1.2, note: '玄關：石材地、鞋櫃（左牆）、木頭的上框（玄關比室內低 0.12）'},
+@@ -130,11 +143,13 @@ const WZ_SHOPS_LAYOUT = {
+       {kind: 'tokonoma', x: -3.3, z: -4.65, w: 1.6, d: 0.7},
+       {kind: 'fusuma', x: 0.0, z: -2.8, w: 0.12, d: 4.4, note: '兩間和室中間的紙拉門（關著）'},
+       {kind: 'shoji_wall', z: -0.6, x0: -4.2, x1: 4.2, open: [[-3.2, -1.0], [1.0, 3.2]], note: '和室前面的紙拉門：中間各拉開 2.2 m'},
+-      {kind: 'garden', z0: 6.2, z1: 9.6, note: '前院（看得到、走不到）：苔、碎石、踏石、老樟樹（x 3.4, z 8.2）、石燈籠、竹掃把靠在矮牆、矮木牆在 z 9.6'}
++      {kind: 'garden', z0: 6.2, z1: 9.6, note: '（WZ-YIZHAN-1104 起走得進去，模型在 wz_teahouse_yard.glb）前院：苔、碎石、踏石、老樟樹（x 3.4, z 8.2）、石燈籠、竹掃把靠在矮牆、矮木牆在 z 9.6'}
+     ],
+     blocks: [[-1.6, 1.7, 2.6, 0.85], [3.75, 1.3, 0.8, 3.4], [-2.15, -2.8, 1.2, 0.8], [2.15, -2.8, 1.2, 0.8], [-3.3, -4.65, 1.6, 0.7], [0.0, -2.8, 0.12, 4.4],
+-             [-3.7, -0.6, 1.0, 0.12], [-0.05, -0.6, 2.1, 0.12], [3.7, -0.6, 1.0, 0.12], [0.0, 7.9, 8.4, 3.4], [-3.95, 4.4, 0.5, 1.2], [-3.2, 5.6, 2.0, 1.2]],
+-    walkNote: '玄關 → 茶席 → 水屋前 → 緣側都可以走；和室從紙拉門的開口進去；前院（z>6.2）擋住（緣側的邊緣 z 6.2 就是盡頭）',
++             [-3.7, -0.6, 1.0, 0.12], [-0.05, -0.6, 2.1, 0.12], [3.7, -0.6, 1.0, 0.12], [-3.95, 4.4, 0.5, 1.2],
++             /* 前院（WZ-YIZHAN-1104；原本整個前院 [0, 7.9, 8.4, 3.4]、玄關前 [-3.2, 5.6, 2.0, 1.2] 擋住）：石燈籠、景石、老樟樹、門內左邊的灌木、簷柱、甕 */
++             [-1.5, 8.9, 0.5, 0.5], [2.2, 7.6, 1.0, 0.7], [3.65, 9.0, 0.5, 0.5], [-3.9, 9.05, 0.4, 0.9], [-2.2, 6.12, 0.14, 0.14], [-3.95, 5.35, 0.45, 0.45]],
++    walkNote: '冠木門 → 踏石 → 玄關前的石板土間 → 玄關 → 茶席 → 水屋前 → 緣側都可以走；和室從紙拉門的開口進去；前院和緣側之間只有沓脫石 (1.0, 6.4) 上下（WZ-YIZHAN-1104；原本前院擋住）',
+     seats: [
+       {x: -2.5, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -1.6, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -0.7, z: 0.95, yaw: 0, label: '坐下喝茶'},
+       {x: -2.5, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -1.6, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -0.7, z: 2.45, yaw: Math.PI, label: '坐下喝茶'},
+@@ -153,7 +168,7 @@ const WZ_SHOPS_LAYOUT = {
+     work: {a: {me: {x: 3.4, z: 5.5, yaw: 0, act: 'sweep', note: '緣側東端，面向前院（樟樹、竹掃把、貓碗）'}, boss: {x: 2.75, z: 1.5, yaw: Math.PI / 2, act: 'stand', note: '水屋前，面向流理台'}},
+            b: {me: {x: 2.75, z: 1.0, yaw: Math.PI / 2, act: 'brew', note: '水屋前泡茶'}, boss: {x: 2.75, z: 2.15, yaw: 2.6, act: 'stand', note: '水屋前、祐廷旁邊看著'}},
+            c: {me: {x: -0.5, z: 5.5, yaw: 0, act: 'stand', note: '緣側，晾茶巾、點燈籠'}, boss: {x: -1.6, z: 3.0, yaw: Math.PI, act: 'stand', note: '茶席的長桌旁收杯子'}},
+-           end: {x: -3.0, z: 4.2, yaw: 0, note: '玄關（出生點），面向門口'}},
++           end: {x: -3.0, z: 8.0, yaw: 0, note: '前院、冠木門前，面向門口（WZ-YIZHAN-1104：出口搬到冠木門 (-3.0, 9.3)；原本在玄關 (-3.0, 4.2)，離新出口 5.1 m）'}},
+     wallsFade: {back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
+   },
+   /* ===== 林家乾麵、巷子裡定食（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364：能進去內用）=====
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 1cb265720..08891f458 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -2244,6 +2244,7 @@ const Z3 = (function(){
+         z.camCols=[cols]; }
+       const fbM=M('#a88b6a',{rough:0.8});
+       for(const b of L.blocks){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]-cz); g.add(m); }   /* 備用的家具色塊（模型載入後藏起來）*/
++      if(L.yard) teaYard(E,z,g0,g,nav,L,cz);   /* 一盞的前院（WZ-YIZHAN-1104）：高度、冠木門、前院模型、在前院才顯示屋頂 */
+       z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:(st.lift?{lift:st.lift}:{}); z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl,st.ap?{ap:st.ap}:{}));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）；lift＝吧台高腳凳（巷子裡定食的吧台，座面 0.72 m：坐姿抬高 0.27，和 Café 的吧台一樣）*/
+         E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl,st.ap?{ap:st.ap}:{}),shop:key}); }   /* 按鈕的座位也要帶 ap：「坐下」用的是這一份（GAME.freeSeat 沒人坐就原樣回傳）*/
+       const ex=L.exit, exSp=key==='print'&&L.moved&&wzCopyState(typeof GAME!=='undefined'?GAME.G:null)==='moved'?L.moved.exitSpawn:ex.spawn; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},exSp)}});   /* 阿德影印搬到轉角以後從轉角出來（ART-WZ6）*/
+@@ -2255,6 +2256,25 @@ const Z3 = (function(){
+       const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root);
+         if(L.seeThru) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||m.userData.seeThrough||!L.seeThru.includes(m.name)) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
+       return z; } }; }
++  /* 一盞茶屋的前院（WZ-YIZHAN-1104，AA_656，LAWWW2 11-04）：從溫州街進冠木門以後就在前院，走踏石到玄關前的石板土間、進玄關；或從緣側前的沓脫石下院子。
++     高度（nav.addSurf）：前院 -0.42、土間 -0.24、玄關 -0.12、室內 0（每一階 0.21 以內，A* 每格 0.30 以內）；緣側和前院差 0.42：除了沓脫石那一段都上不去（E.canStand 的高度差）。
++     模型：wz_teahouse_yard.glb（前院、冠木門、竹垣、石燈籠、老樟樹、牆外的街）；YARD_EAVE（簷）、YARD_ROOF（主屋屋頂）只在玩家站在前院時顯示——人在屋裡是剖面視角，屋頂會擋住。
++     玩家在前院時，緣側那一組牆（WALL_engawa_*：玄關的格子門、緣側兩端的紙拉門、橫樑）不淡出：鏡頭在前院上方，那一組在玩家後面。*/
++  function teaYard(E,z,g0,g,nav,L,cz){ const Y=L.yard;
++    for(const s of Y.surfs) nav.addSurf(Object.assign({},s)); for(const r of (Y.open||[])) nav.freeRect(r[0],r[1],r[2],r[3]);
++    const fy=new THREE.Mesh(new THREE.PlaneGeometry(9.2,3.4),M('#6f7a52',{rough:0.95})); fy.rotation.x=-Math.PI/2; fy.position.set(0,-0.41,7.9-cz); g.add(fy);   /* 備用（模型載入失敗時）：前院的地面 */
++    z.yardZ=Y.inYardZ||6.35; z._inYard=!!(z.spawn&&z.spawn.z>z.yardZ); z.yardParts=[];
++    const fw=z.fadeWalls; z.fadeWalls=function(cam,pp){ if(fw) fw.call(this,cam,pp); const iy=!!pp&&pp.z>(this._inYard?this.yardZ-0.15:this.yardZ); this._inYard=iy;
++      for(const o of this.yardParts) o.visible=iy;
++      if(iy) for(const w of this.walls){ if(/WALL_engawa/.test(w.name||'')&&w.material&&!Array.isArray(w.material)){ w.material.opacity=1; w.material.depthWrite=true; } } };
++    const mk=Y.manifest||'bldg.wz_teahouse_yard'; if(typeof ASSETS==='undefined'||!ASSETS.manifest[mk]) return;
++    ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const r=c.scene.clone(true); if(cz) r.position.z-=cz; r.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r); r.updateMatrixWorld(true);
++      r.traverse(o=>{ if(/^YARD_(ROOF|EAVE)$/.test(o.name)) z.yardParts.push(o); }); for(const o of z.yardParts) o.visible=z._inYard;
++      fy.visible=false;
++      const gl=[]; r.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
++      if(gl.length){ const mesh=wzGlowBatch(E,g0,r,gl,'wz_teahouse_yard_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; mesh.material.emissiveIntensity=E.lampsOn?1:0; }   /* 冠木門的門燈、石燈籠、玄關的提燈：晚上亮 */
++      if(L.seeThru) r.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||m.userData.seeThrough||!L.seeThru.includes(m.name)) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } });   /* 老樟樹的樹幹擋住人時網點透空 */
++    }).catch(e=>console.warn('一盞前院正式模型載入失敗，用備用的地面',e)); }
+   const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
+   /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
+      這一版：走得進去、選位子坐下、離開；點餐、店員、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。資產登錄放這裡（和 118 巷店面 l118_shops3d.js 一樣），不動 assets3d.js */
+diff --git a/tests/wz_shops_unit.js b/tests/wz_shops_unit.js
+index 4b60b1cc3..e395daba4 100644
+--- a/tests/wz_shops_unit.js
++++ b/tests/wz_shops_unit.js
+@@ -1,6 +1,6 @@
+ // 溫州街三家新店的室內（DL-09 第一步；LAWWW2-B 的 ART-WZ3 ce586623、溫州街 v5 31323eb9）——不需要瀏覽器。
+ // 在 Node 裡建出真正的區域：半熟、阿德影印輸出、一盞——出生點站得住；每個座位旁邊站得住、從出生點走得到；出口走得到、回溫州街的落點站得住、離店門的互動點夠遠；
+-// 一盞的緣側走得到、前院走不到（房間 z −5～9.6）；溫州街的三個店門互動點從主巷走得到；「看日式宿舍」改成進一盞；B5 中間的分隔柱擋住；
++// 一盞的緣側、前院走得到（房間 z −5～9.6；WZ-YIZHAN-1104 以前前院走不到）；溫州街的三個店門互動點從主巷走得到；「看日式宿舍」改成進一盞；B5 中間的分隔柱擋住；
+ // 營業時間（半熟週一公休、影印週日公休與考試週到 24:00、一盞週一二公休）；夏日冰菓室 5～9 月開、其他月份鐵捲門（SEASON_ICECLOSED）。
+ // 修改前：沒有 wz_brunch 區域（第 1 項就失敗）。用法：node tests/wz_shops_unit.js
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+@@ -38,7 +38,8 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
+     const bad2=mi.filter(i=>!shows(i)).map(i=>i.label);
+     check('2b. '+L.name+'：客人的選單（AA_172）「'+want+'」有互動點、按鈕走得到也真的出現；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）還沒有',mi.map(i=>i.label).join(',')===want&&!bad2.length&&!E.interactables.some(i=>/打工/.test(i.label||'')),mi.map(i=>i.label).join(',')+(bad2.length?'；按鈕不出現：'+bad2.join('、'):'')); }
+   WZ[k]={ex,L};
+-  if(k==='teahouse'){ check('3. 一盞：緣側 (1,5.6) 站得住、從玄關走得到；前院 (0,7.9)、(3,8.8) 走不到',E.canStand(1,5.6,0.32,0)&&walk(sp,[1,5.6]).ok&&!E.canStand(0,7.9,0.1,0)&&!E.canStand(3,8.8,0.1,0));
++  /* WZ-YIZHAN-1104（AA_656，LAWWW2 11-04）：前院改成走得進去（從冠木門進來就在前院）——原本是「前院 (0,7.9)、(3,8.8) 走不到」。緣側邊緣除了沓脫石不能直接上下，在 tests/wz_teahouse_yard_unit.js 檢查 */
++  if(k==='teahouse'){ check('3. 一盞：緣側 (1,5.6) 站得住、從冠木門經過玄關走得到；前院 (0,7.9)、(2.6,8.8) 從冠木門走得到',E.canStand(1,5.6,0.32,0)&&walk(sp,[1,5.6]).ok&&walk(sp,[0,7.9]).ok&&walk(sp,[2.6,8.8]).ok);   /* 舊的 (3,8.8) 貼著老樟樹（阻擋 [3.65,9.0,0.5,0.5]），人站不進去；往西 0.4 m */
+     check('3. 一盞：茶席、水屋擋住；和室從紙拉門的開口走得進去',!E.canStand(-1.6,1.7,0.1,0)&&!E.canStand(3.75,1.3,0.1,0)&&walk(sp,[-2.1,-1.6]).ok); } }
+ // 溫州街這一側
+ { const z=loadZone('wenzhou'); const LANE=[0,0];
+diff --git a/tests/wz_teahouse_yard_unit.js b/tests/wz_teahouse_yard_unit.js
+new file mode 100644
+index 000000000..0d7f7158b
+--- /dev/null
++++ b/tests/wz_teahouse_yard_unit.js
+@@ -0,0 +1,81 @@
++// 一盞茶屋的前院走得進去（WZ-YIZHAN-1104；AA_656「庭院要能走到」，LAWWW2 11-04）——不需要瀏覽器（D131）。
++// 建出遊戲真正的 wz_teahouse 區域（zones3d.js 的 wzShop＋teaYard），用引擎真正的找路與移動（E.simWalk、E.canStand）檢查：
++//   1 出生點在冠木門裡面的前院（y −0.42），站得住；出口「離開一盞」在冠木門、按得到（範圍裡站得住、最近的互動就是它）
++//   2 高度：前院 −0.42、玄關前的石板土間 −0.24、玄關 −0.12、室內 0；緣側前的沓脫石畫面上 −0.21（一階一階）
++//   3 從前院走得到：玄關、茶席每一個座位、水屋的木凳、緣側的坐墊、和室、每一個互動點、打工的站位（me／boss）、看院子
++//   4 緣側和前院之間只有沓脫石那一段上下：從緣側東端走到前院的路線，過 z 6.2 時 x 在 0.55～1.45；緣側邊上（沓脫石以外）站不住前院那一側
++//   5 前院的擺設擋住：石燈籠、景石、老樟樹、門內灌木的中心站不住
++//   6 前院模型 wz_teahouse_yard.glb：有 YARD_ROOF、YARD_EAVE 兩組（底下有網格）、三個以上的光暈（GLOW_*）、老樟樹的樹幹材質（tree_bark_camphor，網點透空）；三角形 ≤ 7 萬
++//   7 區域程式：玩家在前院時 YARD_* 顯示、在屋裡藏起來（假的 fadeWalls 呼叫）
++// 修改前（開發分支 c7eb109d4）：1（出生點在玄關、出口在玄關）、2（前院沒有高度）、3 的前院部分、4、6、7 FAIL。
++// 用法：node tests/wz_teahouse_yard_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js'])];
++const order=f=>f.startsWith('lib/')?0:(f.startsWith('src/data/')?1:(f==='src/zones3d.js'?2:4));
++const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
++const run=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
++for(const f of pre){ if(fs.existsSync(path.join(ROOT,f))) try{ run(f); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const J=x=>JSON.stringify(x), r2=v=>+(+v).toFixed(2);
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++let yardLoaded=null; const realLoad=ASSETS.loadOne; ASSETS.loadOne=(k)=>{ if(k==='bldg.wz_teahouse_yard'&&yardLoaded) return Promise.resolve(yardLoaded); return Promise.reject(new Error('no GLB in node')); };
++const G={zone:'wz_teahouse',day:30,hour:15,flags:{},money:5000,weather:'clear',visited:{}}; global.GAME={G};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.nav) E.nav._cm=null;
++  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; if(E.fitSeatRadius) E.fitSeatRadius(); return {z,its:E.interactables.slice()}; }
++const walk=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{dt}); if(!r.ok) return Object.assign({dt:r2(dt)},r); } return {ok:true}; };
++function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
++  for(let dz=-r;dz<=r+1e-6;dz+=0.2) for(let dx=-r;dx<=r+1e-6;dx+=0.2){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,0.32,0)) c.push([d,x,z]); }
++  c.sort((a,b)=>a[0]-b[0]); for(const [,x,z] of c){ P.obj.position.set(x,0,z); if(E.nearestInteractable&&E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,z]).ok) continue; return [x,z]; } return null; }
++const L=WZ_SHOPS_LAYOUT.teahouse;
++const {z,its}=loadZone('wz_teahouse'); const N=E.nav, sp=z.spawn, S0=[sp.x,sp.z];
++
++// 1 出生點、出口
++check('1 出生點在冠木門裡面的前院', sp.z>8.5&&Math.abs(sp.x+3.0)<0.3, J(sp));
++check('1 出生點站得住、高度 −0.42', E.canStand(sp.x,sp.z,0.32,0)&&Math.abs(N.heightAt(sp.x,sp.z)+0.42)<0.01, 'y '+r2(N.heightAt(sp.x,sp.z)));
++const ex=its.find(it=>it.exit&&it.exit.to==='wenzhou');
++check('1 出口「離開一盞」在冠木門', !!ex&&ex.z>9.0&&Math.abs(ex.x+3.0)<0.3, ex&&J({x:ex.x,z:ex.z,label:ex.label}));
++check('1 出口按得到（從出生點走得到）', !!ex&&!!touchable(ex,S0));
++// 2 高度
++const H=(x,zz)=>r2(N.heightAt(x,zz)), VH=(x,zz)=>r2(N.visualHeightAt(x,zz));
++check('2 前院 −0.42', H(0.5,8.0)===-0.42&&H(-3.0,7.4)===-0.42, J([H(0.5,8.0),H(-3.0,7.4)]));
++check('2 玄關前的石板土間 −0.24、玄關 −0.12、室內 0', H(-3.0,5.6)===-0.24&&H(-3.0,4.4)===-0.12&&H(-1.6,3.2)===0&&H(1.0,5.5)===0, J([H(-3.0,5.6),H(-3.0,4.4),H(-1.6,3.2),H(1.0,5.5)]));
++check('2 沓脫石畫面上 −0.21（一階一階）', VH(1.0,6.45)===-0.21&&VH(1.0,6.0)===0&&VH(1.0,6.9)===-0.42, J([VH(1.0,6.9),VH(1.0,6.45),VH(1.0,6.0)]));
++// 3 走得到
++const targets=[['玄關',[-3.0,4.2]],['茶席旁',[-1.6,3.1]],['水屋前',[2.75,1.0]],['緣側',[2.4,5.5]],['和室 A',[-2.15,-2.0]],['和室 B',[2.15,-2.0]]];
++for(const [nm,t] of targets){ const w=walk(S0,t); check('3 前院 → '+nm, w.ok, w.ok?'':J(w)); }
++const seats=its.filter(it=>it.seat), inter=its.filter(it=>it.wzShop==='teahouse');
++let badS=[]; for(const it of seats.concat(inter)){ if(!touchable(it,S0)) badS.push((it.label||it.kind)+'@'+r2(it.x)+','+r2(it.z)); }
++check('3 每個座位、互動點從前院按得到（'+(seats.length+inter.length)+' 個）', !badS.length, badS.join(' '));
++let badW=[]; for(const k of ['a','b','c']) for(const who of ['me','boss']){ const p=L.work[k][who]; if(!p) continue; if(!E.canStand(p.x,p.z,0.3,0)||!walk(S0,[p.x,p.z]).ok) badW.push(k+'.'+who); }
++check('3 打工的站位站得住、從前院走得到', !badW.length, badW.join(' '));
++// 4 緣側和前院之間只有沓脫石
++const pth=E.pathTo?E.pathTo(3.4,5.5,0,3.2,7.4,0):N.path(3.4,5.5,3.2,7.4); let cross=null;
++if(pth) for(let i=1;i<pth.length;i++){ const a=pth[i-1], b=pth[i]; if((a[1]-6.2)*(b[1]-6.2)<=0&&a[1]!==b[1]){ const t=(6.2-a[1])/(b[1]-a[1]); cross=a[0]+(b[0]-a[0])*t; } }
++check('4 緣側東端 → 前院：從沓脫石下去', !!pth&&cross!=null&&cross>=0.55&&cross<=1.45, 'x '+(cross==null?'-':r2(cross)));
++const w4=walk([3.4,5.5],[3.2,7.4]); check('4 （真的走）緣側東端 → 前院', w4.ok, w4.ok?'':J(w4));
++let edge=[]; for(let x=-1.8;x<=3.8;x+=0.2){ if(x>0.4&&x<1.6) continue; if(E.canStand(x,6.35,0.32,0)) edge.push(r2(x)); }
++check('4 緣側邊上（沓脫石以外）前院那一側站不住', !edge.length, edge.join(','));
++// 5 擺設
++const props=[['石燈籠',-1.5,8.9],['景石',2.2,7.6],['老樟樹',3.65,9.0],['門內灌木',-3.9,9.05]];
++const stood=props.filter(p=>E.canStand(p[1],p[2],0.32,0)).map(p=>p[0]); check('5 前院的擺設擋住', !stood.length, stood.join(' '));
++// 6 前院模型
++const gp=path.join(ROOT,'assets/models/env/second_ai/wz_teahouse_yard.glb'); let gj=null;
++if(fs.existsSync(gp)){ const b=fs.readFileSync(gp); const l=b.readUInt32LE(12); gj=JSON.parse(b.slice(20,20+l).toString('utf8')); }
++check('6 wz_teahouse_yard.glb 存在', !!gj);
++if(gj){ const nodes=gj.nodes, byName=n=>nodes.findIndex(q=>q.name===n);
++  for(const g of ['YARD_ROOF','YARD_EAVE']){ const i=byName(g); const kids=i>=0?(nodes[i].children||[]).filter(c=>nodes[c].mesh!=null):[]; check('6 '+g+' 底下有網格', kids.length>0, kids.length+' 個'); }
++  const glows=nodes.filter(q=>/^GLOW_/.test(q.name||'')); check('6 光暈 ≥ 3（門燈、石燈籠、提燈）', glows.length>=3, glows.length+' 個');
++  check('6 老樟樹的樹幹材質 tree_bark_camphor（區域的 seeThru）', gj.materials.some(m=>m.name==='tree_bark_camphor')&&(L.seeThru||[]).includes('tree_bark_camphor'));
++  let tris=0; for(const m of gj.meshes) for(const p of m.primitives){ const a=gj.accessors[p.indices]; tris+=a?a.count/3:0; } check('6 三角形 ≤ 7 萬', tris<=70000, Math.round(tris)+''); }
++// 7 在前院才顯示屋頂
++{ const roof=new THREE.Group(); roof.name='YARD_ROOF'; z.yardParts=z.yardParts||[]; z.yardParts.push(roof); const cam={position:new THREE.Vector3(0,3,12)};
++  const ok0=typeof z.fadeWalls==='function'; if(ok0){ z.fadeWalls(cam,new THREE.Vector3(-3,0,8.5)); var inY=roof.visible; z.fadeWalls(cam,new THREE.Vector3(-1.6,0,2.0)); var inH=roof.visible; }
++  check('7 玩家在前院顯示 YARD_*、在屋裡藏起來', ok0&&inY===true&&inH===false, ok0?J({yard:inY,house:inH}):'沒有 fadeWalls'); }
++console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

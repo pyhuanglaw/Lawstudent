@@ -1,0 +1,348 @@
+diff --git a/assets/models/env/second_ai/wenzhou_street.json b/assets/models/env/second_ai/wenzhou_street.json
+index 530f9af12..05ad0d0d9 100644
+--- a/assets/models/env/second_ai/wenzhou_street.json
++++ b/assets/models/env/second_ai/wenzhou_street.json
+@@ -1,11 +1,11 @@
+ {
+- "objects": 1014,
+- "unique_meshes": 68,
+- "tris": 93381,
+- "tris_drawn": 143801,
+- "materials": 152,
++ "objects": 1029,
++ "unique_meshes": 70,
++ "tris": 94809,
++ "tris_drawn": 146053,
++ "materials": 158,
+  "out": "assets/models/env/second_ai/wenzhou_street.glb",
+- "bytes": 8039524,
++ "bytes": 8194128,
+  "texres": 512,
+  "buildings": [
+   "A1",
+diff --git a/assets/models/env/second_ai/wenzhou_street.props.json b/assets/models/env/second_ai/wenzhou_street.props.json
+index 94f111926..d8dd2377b 100644
+--- a/assets/models/env/second_ai/wenzhou_street.props.json
++++ b/assets/models/env/second_ai/wenzhou_street.props.json
+@@ -391,6 +391,26 @@
+     -3.191
+    ],
+    "h": 0.92
++  },
++  {
++   "tag": "aboard",
++   "rect": [
++    -37.0,
++    -8.8,
++    -36.56,
++    -8.2
++   ],
++   "h": 0.95
++  },
++  {
++   "tag": "bistro",
++   "rect": [
++    -37.14,
++    -18.36,
++    -36.42,
++    -17.64
++   ],
++   "h": 1.0
+   }
+  ]
+ }
+\ No newline at end of file
+diff --git a/src/data/daily_offbeat_layout.js b/src/data/daily_offbeat_layout.js
+new file mode 100644
+index 000000000..de83868d1
+--- /dev/null
++++ b/src/data/daily_offbeat_layout.js
+@@ -0,0 +1,78 @@
++/* ===== 日常失速 DAILY OFFBEAT 室內（溫州街靠新生南路那一頭的轉角一樓；AA 子代理 2026-11-03 v1，臨時支援 LAWWW2，SCENE_RULES 第 10 節） =====
++   企劃：AA_617、AA_618（企劃線 claude/story-planning）。參考圖：docs/story_planning/ref_images/wz_cafes/daily_offbeat_ref_v2.webp。
++   這裡是吃飯、聊天、玩桌遊的地方（使用者 11-03：「日常失速是吃飯打屁桌遊」）——座位不給「讀書」。
++   這份給遊戲（LAWWW2 建區域：導航格、座位、互動點、出入口）和 Blender（tools/blender/env_second/aa_support/daily_offbeat_interior.py）共用。
++   座標：房間中心在原點，x 往東、z 往南、y 往上；店門在 +z（z＝d/2）；公尺。格式照 src/data/wz_shops_layout.js 開頭的說明。
++   yaw：人面向 (sin yaw, cos yaw)——0＝面向 +z（店門）、π＝面向 −z（吧檯）、π/2＝面向 +x、−π/2＝面向 −x。
++   blocks：導航阻擋 [x中心, z中心, 寬(x), 深(z)]（牆由區域自己擋）。exit、enterAt 留空（LAWWW2 填）。
++   LAWWW2 11-04（WZ-OFFBEAT-1104）接進遊戲：區域 wz_offbeat（zones3d.js 的 wzShop，和林家乾麵、巷子裡定食同一套）；填了 exit、enterAt；吧檯高腳椅加 lift 0.27（座面 0.72，和 Café、定食店的吧台一樣）；
++   五個座位加 ap（「坐下」走到的位置）：卡座三個（裡面是牆、前面是桌子，四周站不下人）、最西邊的吧檯高腳凳、轉角桌靠窗那一張（tests/wz_offbeat_unit.js 第 3 項）。
++   出生點 z 4.3 → 3.0（離門口的「離開日常失速」1.55 m，在它的範圍 1.3 外面：tests/spawn_exit_unit.js）。
++   溫州街那一端：W2（溫州街 (−37.2, −13.5)、朝 +x、寬 11）的一樓。室內 (x, z) → 溫州街 (iz − 42.2, −13.5 − x)：店門 (−3.9, 5) ＝ 溫州街 (−37.2, −9.6)。 */
++const DAILY_OFFBEAT_LAYOUT = {
++  version: 2,   /* v2（2026-11-03 AA，LAWWW2 照 SCENE_RULES §12 退回）：前窗改落地窗（窗台 0.05、窗頂 3.15）；東牆的窗縮成 z −3.8～0.3，z 0.55～4.55 做整面社團佈告欄（corkboard_east）；互動點多一個；座位、blocks 沒動 */
++  id: 'daily_offbeat', name: '日常失速', glb: 'assets/models/env/second_ai/aa_support/daily_offbeat.glb',
++  w: 11.0, d: 10.0, h: 3.4, floor: 'checker_green_cream', wallColor: '#f0dfae',
++  note: '轉角一樓 11×10×3.4 m。店門在 +z 西段，+z、+x 兩面大窗（轉角）。後牆西半是開放吧檯（綠磁磚吧檯正面、後面層板、咖啡機、黑板菜單），東半是桌遊櫃；中間一張八人長桌，西牆一排卡座＋軟木公告板，兩面窗邊各三張雙人桌，轉角一張雙人桌。共 32 席（長桌 8、吧檯高腳椅 4、卡座 6、前窗 6、側窗 6、轉角 2）；另有一張空椅子是貓「店長」的位置（不算席位）。',
++  front: {door: {x: -3.9, w: 1.2, h: 2.3}, windows: [[-3.0, 5.2]], sill: 0.05, head: 3.15, note: 'v2 落地窗（黑鐵窗框每 1.1 m 一格、2.65 m 一道橫框）；外面一條綠色波浪邊遮雨棚（併在 WALL_front；外觀若另外做，LAWWW2 可以刪掉這一條）'},
++  side: {right: {windows: [[-3.8, 0.3]], sill: 0.05, head: 3.15, note: 'v2b 東窗也改落地窗（轉角兩面臨街）'}},
++  spawn: {x: -3.9, z: 3.0, yaw: Math.PI},
++  exit: {at: {x: -3.9, z: 4.55}, label: '離開日常失速', to: 'wenzhou', spawn: {x: -34.8, z: -9.6, yaw: Math.PI / 2}},   /* 出來站在店門外的巷子上、面向橫巷（+x）；離「進去日常失速」1.7 m */
++  enterAt: {x: -36.5, z: -9.6, label: '進去日常失速', note: '溫州街 W2 一樓的店門（西側橫巷靠主巷那一頭；人行道 x −37.0 以東走得到）'},
++  items: [
++    {kind: 'bar_front', x: -2.95, z: -3.25, w: 4.5, d: 0.6, h: 1.05, note: '吧檯：正面綠磁磚、淺木檯面、底部踢腳；檯面上蛋糕玻璃櫃、收銀機、杯子'},
++    {kind: 'bar_back', x: -2.94, z: -4.7, w: 4.88, d: 0.6, h: 0.92, note: '後面的工作檯：咖啡機、兩台磨豆機、水槽；上方兩段層板（酒瓶、罐子、杯子）'},
++    {kind: 'menu_board', x: -3.0, y: 2.45, z: -4.99, w: 2.2, h: 1.1, note: '黑板菜單（後牆）'},
++    {kind: 'game_shelf', x: 2.1, z: -4.78, w: 2.6, d: 0.42, h: 1.6, note: '桌遊櫃（格子櫃，盒子橫放、直放）'},
++    {kind: 'long_table', x: 0.3, z: 0.15, w: 3.4, d: 0.95, note: '八人長桌（淺木、黑鐵腳）；桌上兩盒桌遊、兩瓶小花'},
++    {kind: 'banquette', x: -5.12, z: 0.25, w: 0.52, d: 4.3, note: '西牆的卡座（墨綠皮面、淺木框），上方軟木公告板'},
++    {kind: 'corkboard', x: -5.49, y: 1.85, z: 0.2, w: 4.0, h: 1.0, note: '軟木公告板：社團傳單、便利貼（遊戲裡的社團名；D115 校名）'},
++    {kind: 'poster', x: 4.4, y: 1.85, z: -4.99, w: 1.0, h: 1.5, note: '首都帝大海報（後牆東段）'},
++    {kind: 'poster', x: 2.1, y: 2.45, z: -4.99, w: 0.9, h: 0.9, note: '虛構的唱片行海報（桌遊櫃上方）'},
++    {kind: 'cat_chair', x: 2.45, z: 0.15, ry: -Math.PI / 2, note: '貓「店長」的椅子（長桌東端，空的；椅背貼紙條「店長 請勿打擾」）——3D 的貓這一版沒做，只留位置'},
++    {kind: 'corkboard_east', x: 5.47, y: 1.75, z: 2.55, w: 4.0, h: 1.5, note: 'v2：東牆整面社團佈告欄（參考圖重點）：標題牌「首都帝大學生社團＆活動」、22 種傳單共 44 張互相疊、便利貼'},
++    {kind: 'duct', note: '天花板下一條外露的圓風管（z=-1.6）'}
++  ],
++  blocks: [
++    [-2.95, -3.25, 4.5, 0.6], [-2.94, -4.7, 4.88, 0.6], [2.1, -4.78, 2.6, 0.44],
++    [0.3, 0.15, 3.4, 0.95], [2.45, 0.15, 0.45, 0.45],
++    [-5.12, 0.25, 0.52, 4.3], [-4.45, -1.3, 0.6, 0.6], [-4.45, 0.1, 0.6, 0.6], [-4.45, 1.5, 0.6, 0.6],
++    [-1.4, 4.2, 0.64, 0.64], [0.65, 4.2, 0.64, 0.64], [2.7, 4.2, 0.64, 0.64],
++    [4.55, -2.9, 0.64, 0.64], [4.55, -0.95, 0.64, 0.64], [4.55, 1.0, 0.64, 0.64], [4.45, 3.65, 0.64, 0.64],
++    [-5.05, 4.45, 0.55, 0.55], [4.95, -4.5, 0.55, 0.55]
++  ],
++  walkNote: '門口 (−3.9, 4.6) → 往北的走道 x −3.3～−2.2（前窗第一張桌子的椅子在 x −1.95）；吧檯前 z −2.95～−0.55 是 1.6 m 的走道（高腳椅在 z −2.6）；長桌兩側離窗邊桌子都 ≥ 1.2 m。員工從吧檯東端 x −0.7～0.2 進吧檯（z −4.4～−3.55 是吧檯裡面）',
++  seats: [
++    /* 八人長桌（table 1）：北側面向 +z、南側面向 −z */
++    {x: -0.9, z: -0.57, yaw: 0, table: 1, label: '坐下'}, {x: -0.1, z: -0.57, yaw: 0, table: 1, label: '坐下'}, {x: 0.7, z: -0.57, yaw: 0, table: 1, label: '坐下'}, {x: 1.5, z: -0.57, yaw: 0, table: 1, label: '坐下'},
++    {x: -0.9, z: 0.87, yaw: Math.PI, table: 1, label: '坐下'}, {x: -0.1, z: 0.87, yaw: Math.PI, table: 1, label: '坐下'}, {x: 0.7, z: 0.87, yaw: Math.PI, table: 1, label: '坐下'}, {x: 1.5, z: 0.87, yaw: Math.PI, table: 1, label: '坐下'},
++    /* 吧檯高腳椅（table 2；座面 0.72 m） */
++    {x: -4.6, z: -2.6, yaw: Math.PI, table: 2, seatH: 0.72, lift: 0.27, label: '坐吧檯', ap: [-4.6, -2.15]}, {x: -3.7, z: -2.6, yaw: Math.PI, table: 2, seatH: 0.72, lift: 0.27, label: '坐吧檯'},
++    {x: -2.8, z: -2.6, yaw: Math.PI, table: 2, seatH: 0.72, lift: 0.27, label: '坐吧檯'}, {x: -1.9, z: -2.6, yaw: Math.PI, table: 2, seatH: 0.72, lift: 0.27, label: '坐吧檯'},
++    /* 西牆卡座（table 3～5）：卡座那一邊面向 +x、椅子那一邊面向 −x */
++    {x: -5.1, z: -1.3, yaw: Math.PI / 2, table: 3, label: '坐下', ap: [-4.8, -2.05]}, {x: -3.8, z: -1.3, yaw: -Math.PI / 2, table: 3, label: '坐下'},
++    {x: -5.1, z: 0.1, yaw: Math.PI / 2, table: 4, label: '坐下', ap: [-4.5, 0.7]}, {x: -3.8, z: 0.1, yaw: -Math.PI / 2, table: 4, label: '坐下'},
++    {x: -5.1, z: 1.5, yaw: Math.PI / 2, table: 5, label: '坐下', ap: [-4.8, 2.4]}, {x: -3.8, z: 1.5, yaw: -Math.PI / 2, table: 5, label: '坐下'},
++    /* 前窗雙人桌（table 6～8） */
++    {x: -1.95, z: 4.2, yaw: Math.PI / 2, table: 6, label: '坐窗邊'}, {x: -0.85, z: 4.2, yaw: -Math.PI / 2, table: 6, label: '坐窗邊'},
++    {x: 0.1, z: 4.2, yaw: Math.PI / 2, table: 7, label: '坐窗邊'}, {x: 1.2, z: 4.2, yaw: -Math.PI / 2, table: 7, label: '坐窗邊'},
++    {x: 2.15, z: 4.2, yaw: Math.PI / 2, table: 8, label: '坐窗邊'}, {x: 3.25, z: 4.2, yaw: -Math.PI / 2, table: 8, label: '坐窗邊'},
++    /* 側窗雙人桌（table 9～11） */
++    {x: 4.55, z: -3.45, yaw: 0, table: 9, label: '坐窗邊'}, {x: 4.55, z: -2.35, yaw: Math.PI, table: 9, label: '坐窗邊'},
++    {x: 4.55, z: -1.5, yaw: 0, table: 10, label: '坐窗邊'}, {x: 4.55, z: -0.4, yaw: Math.PI, table: 10, label: '坐窗邊'},
++    {x: 4.55, z: 0.45, yaw: 0, table: 11, label: '坐窗邊'}, {x: 4.55, z: 1.55, yaw: Math.PI, table: 11, label: '坐窗邊'},
++    /* 轉角雙人桌（table 12） */
++    {x: 4.45, z: 3.1, yaw: 0, table: 12, label: '坐窗邊'}, {x: 4.45, z: 4.2, yaw: Math.PI, table: 12, label: '坐窗邊', ap: [3.85, 4.05]}
++  ],
++  interact: [
++    {x: -1.2, z: -2.55, kind: 'order', label: '點東西吃'},
++    {x: -1.85, z: 0.15, kind: 'boardgame', label: '玩桌遊（長桌；有朋友在的時候）', note: '長桌西端站的位置；桌遊盒在桌上'},
++    {x: 2.95, z: 0.15, kind: 'cat', label: '看看店長／摸摸店長', note: '貓的椅子在 (2.45, 0.15)'},
++    {x: -3.6, z: 0.3, kind: 'flyers', label: '看公告板', note: '西牆軟木板（社團傳單）'},
++    {x: 2.1, z: -4.0, kind: 'boardgame_shelf', label: '看桌遊櫃'},
++    {x: 3.9, z: 2.35, kind: 'flyers', label: '看社團佈告欄', note: 'v2：東牆的大佈告欄（table 11、12 中間站的位置）'}
++  ],
++  floorSit: [],
++  wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
++};
++if (typeof module !== 'undefined') module.exports = DAILY_OFFBEAT_LAYOUT;
+diff --git a/src/data/xinsheng_layout.js b/src/data/xinsheng_layout.js
+index 4c5c1259d..0d9f8d6c8 100644
+--- a/src/data/xinsheng_layout.js
++++ b/src/data/xinsheng_layout.js
+@@ -70,12 +70,12 @@ const XINSHENG_LAYOUT={
+   "label": "回到首都帝大（新生南路側門）",
+   "name": "新生南路側門",
+   "campusSpawn": {
+-   "x": -122.0,
+-   "z": -84.0,
++   "x": -120.0,
++   "z": -83.0,
+    "yaw": 1.5708
+   },
+   "spawn": {
+-   "x": 15.0,
++   "x": 14.3,
+    "z": 10.0,
+    "yaw": -1.5708
+   },
+@@ -182,7 +182,7 @@ const XINSHENG_LAYOUT={
+    "label": "往溫州街",
+    "spawn": {
+     "x": -33.4,
+-    "z": -27.0,
++    "z": -25.8,
+     "yaw": 0
+    }
+   },
+diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
+index 8d420d32b..6c920edc0 100644
+--- a/src/mokuyobi3d.js
++++ b/src/mokuyobi3d.js
+@@ -15,8 +15,8 @@ const MOK3=(function(){
+   const Y1=MOKUYOBI_LAYOUT.stairWell.rise;        // 二樓地板（＝樓梯的總高，3.2）
+   const CX=11.15, CZ=-12.25;                      // 區域座標 → 溫州街世界座標：x＋CX、z＋CZ（B4 的門在本地 −2.6 → 世界 7.4；臨街的牆內面 z 7.0 → 世界 −5.25）
+   const DOOR_WZ={x:7.4,z:-4.55};                  // 溫州街上「上二樓」的互動點（人行道，B4 鐵門前）
+-  const OUT={x:7.4,z:-4.15,yaw:0};                // 走出來：B4 門口的人行道，面向巷子（+z）
+-  const IN={x:-3.75,z:6.6,yaw:Math.PI,lv:0};      // 走進來：一樓第一、二階，面向北（往上爬）
++  const OUT={x:7.4,z:-2.85,yaw:0};                // 走出來：B4 門口外的巷子，面向巷子（+z）；離「上二樓」1.7 m，在它的範圍（1.4）外面（tests/spawn_exit_unit.js）
++  const IN={x:-3.75,z:5.4,yaw:Math.PI,lv:0};      // 走進來：樓梯第五、六階，面向北（往上爬）；離門口的「離開木曜日」1.35 m，在它的範圍（1.0）外面（tests/spawn_exit_unit.js）
+   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.85},o||{}));
+ 
+   // ---- 樓梯：一條連續斜面（碰撞、找路），畫面上一階一階（tread／rise／low；engine3d.js visualHeightAt）----
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 87201c078..916140a78 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -35,7 +35,7 @@ const Z3 = (function(){
+   let palmIdx=0; const PALM=(h)=>{ palmIdx++; /* 大王椰子：townkit 程序化（灰白筆直樹幹＋綠色葉鞘＋羽狀葉）；舊 GLB 是彎曲的椰子樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.royalPalm) return TK.royalPalm((h||9)*1.35,palmIdx); return ASSETS.get('tree.palm',{height:h||9}); };
+   /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
+      [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
+-  const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽 */
++  const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61],[-36.78,-8.5,0.5,0.66]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽、日常失速門口的 A 字立牌（WZ-OFFBEAT-1104） */
+   const GG_PROP_BLOCKS=[[15.6,19.8,0.34,0.34],[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-48.8,21.4,0.6,0.44],[-54.83,21.4,1.46,0.44],[-37.4,21.65,1.24,0.52],[-35.41,21.7,0.49,0.52],[-46.0,21.65,0.6,0.44],[-31.43,21.68,1.46,0.44],[-25.6,21.7,0.25,0.26],[-33.3,21.57,0.9,0.74],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[-5.9,21.65,0.34,0.34],[-6.5,21.6,0.34,0.34],[-12.23,21.65,1.46,0.44],[11.3,21.6,0.6,0.44],[8.59,21.7,0.49,0.52],[7.3,21.65,1.4,0.36],[6.0,21.7,0.56,0.54],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[57.6,21.65,1.24,0.52],[59.0,21.7,0.6,0.46],[52.27,21.7,0.85,0.81],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[73.9,21.6,0.6,0.44],[75.9,21.65,1.4,0.36],[69.5,21.7,0.52,0.54]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
+   function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
+   const BENCH=()=>W3.formalBench()||ASSETS.get('prop.bench',{});   /* 第二個 AI 的公園長椅（prop.street）優先 */
+@@ -964,7 +964,7 @@ const Z3 = (function(){
+     const XSL=typeof XS3!=='undefined'&&typeof XINSHENG_LAYOUT!=='undefined';   /* 新生南路（ART-XINSHENG-GATE-1103）：西側橫巷的北口打開（遠景 F4 拿掉；正式模型 wz_street.py 也拿掉了），往北走出去是新生南路 */
+     for(const [x,z,ry,w,f,c] of [[-33.4,16.2,Math.PI,9,4,'#cfc4b2'],[-33.4,-16.2,0,9,5,'#d9cdb8']].filter(q=>!(XSL&&q[1]<0))){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:f>5?'shop':'door',shop:{type:'cvs',name:'新生大樓',sub:'',signBg:'#f4f1ea',signColor:'#333'}}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); wzTag(b,z>0?'F3':'F4'); addCollider(x,z,ry%Math.PI?10:w,ry%Math.PI?w:10,30); }
+     if(XSL){ open(-36.4,-29.6,-30.6,-15); { const r=TK.road(15,6.6); r.position.set(-33.4,0.002,-22.4); r.rotation.y=Math.PI/2; g.add(r); }
+-      E.interactables.push({x:-33.4,z:-28.4,radius:2.2,label:'往新生南路',exit:{to:'xinsheng',spawn:{x:XINSHENG_LAYOUT.wenzhouLane.exit.x+1.6,z:XINSHENG_LAYOUT.wenzhouLane.exit.z,yaw:Math.PI/2}}}); }   /* 溫州街靠新生南路那一頭（AA_617 第 1 節：轉角是日常失速）；回來落在新生南路那一側巷口、面向馬路 */
++      E.interactables.push({x:-33.4,z:-28.4,radius:2.2,label:'往新生南路',exit:{to:'xinsheng',spawn:{x:XINSHENG_LAYOUT.wenzhouLane.exit.x+2.8,z:XINSHENG_LAYOUT.wenzhouLane.exit.z,yaw:Math.PI/2}}}); }   /* 溫州街靠新生南路那一頭（AA_617 第 1 節：轉角是日常失速）；回來落在新生南路那一側巷口、面向馬路；離「往溫州街」2.8 m，在它的範圍（2.4）外面（tests/spawn_exit_unit.js）*/
+     // 西端（巷底）：住家公寓。v9.2 起兩點半 Café 搬到東端路口（門面朝西，傍晚夕陽沿著巷子照到店門口）
+     { const endB=TK.apartment({w:14,d:13,floors:4,wall:'tile',color:'#cdbfa8',balcony:true,ground:{type:'door',color:'#5c3a21'}}); endB.position.set(-37.2,0,-1); endB.rotation.y=Math.PI/2; g.add(endB); buildings.push(endB); wzTag(endB,'W0'); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,16); }
+     // 東端路口：兩點半 Café（一樓咖啡廳＋樓上住家；正對主巷，從公館走進溫州街第一眼就看到）
+@@ -988,7 +988,8 @@ const Z3 = (function(){
+     { const st=TK.tex('zebra',256,64,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='rgba(240,238,230,0.92)'; for(let i=0;i<w;i+=32) x.fillRect(i+4,0,18,h); },false); const m=new THREE.Mesh(new THREE.PlaneGeometry(8.4,2.4),new THREE.MeshStandardMaterial({map:st,transparent:true,roughness:0.9,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2})); m.rotation.x=-Math.PI/2; m.rotation.z=Math.PI/2; m.position.set(46.4,0.012,0); m.receiveShadow=true; g.add(m); }
+     for(const [tx,tz,sc] of [[48.9,-5.6,0.95],[48.9,6.0,1.05]]){ const t=TK.tree(7*sc); place(g,t,tx,tz,0); nav.blockCircle(tx,tz,0.45); }
+     for(const [x,z,ry,w,f,c,id] of [[47.9,-24,Math.PI/2,12,5,'#c9bba5','N1'],[54.7,-24,-Math.PI/2,12,6,'#d4c8b4','N2'],[47.9,-38,Math.PI/2,14,4,'#bfb29c','N3'],[54.7,-38,-Math.PI/2,14,7,'#cdc2ae','N4']]){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); wzTag(b,id); addCollider(x+(ry>0?-5:5),z,10,w,f*3.3+4); }
+-    for(const [z,ry,c,id] of [[11,Math.PI/2,'#d4c6b0','W1'],[-13,Math.PI/2,'#cbbfae','W2']]){ const b=TK.apartment({w:10,d:12,floors:4,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(-37.2,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); wzTag(b,id); addCollider(-43.2,z,12,10,14); }
++    for(const [z,ry,c,id,w] of [[11,Math.PI/2,'#d4c6b0','W1',10],[-13.5,Math.PI/2,'#cbbfae','W2',11]]){ const b=TK.apartment({w,d:12,floors:4,wall:'tile',color:c,detail:false,ground:{type:'door'}}); b.position.set(-37.2,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); wzTag(b,id); addCollider(-43.2,z,12,w,14); }   /* W2＝日常失速（WZ-OFFBEAT-1104）：z −13 → −13.5、寬 10 → 11，和正式模型 wz_street.py 一樣 */
++    if(typeof DAILY_OFFBEAT_LAYOUT!=='undefined'&&Z3.ZONES&&Z3.ZONES.wz_offbeat){ const OB=DAILY_OFFBEAT_LAYOUT; E.interactables.push({x:OB.enterAt.x,z:OB.enterAt.z,radius:1.2,label:OB.enterAt.label,exit:{to:'wz_offbeat',spawn:Object.assign({},OB.spawn)}}); }   /* 日常失速（AA_617、AA_618）：W2 一樓的店門（溫州街 (−37.2, −9.6)），進去是 wz_offbeat */
+     E.interactables.push({x:54.2,z:0,radius:2.3,label:'進入兩點半 Café',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
+     const cafeKitProps=[];   // 套件的 A 字立牌、門口盆栽：Café 正式模型裡有自己的版本（位置、導航阻擋相同），載入後藏起來
+     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
+@@ -2126,6 +2127,12 @@ const Z3 = (function(){
+   /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
+      這一版：走得進去、選位子坐下、離開；點餐、店員、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。資產登錄放這裡（和 118 巷店面 l118_shops3d.js 一樣），不動 assets3d.js */
+   const wz_lin=wzShop('lin'), wz_teishoku=wzShop('teishoku');
++  /* 日常失速（WZ-OFFBEAT-1104，LAWWW2 11-04；AA_617、AA_618）：溫州街轉角 W2 一樓。室內是 AA 的 Blender 模型（aa_support/daily_offbeat.glb，配置 src/data/daily_offbeat_layout.js），同一套 wzShop。
++     這一版：走得進去、選位子坐下、離開；點東西吃、桌遊、店長（貓）、佈告欄（配置的 interact）由 LAWWW 照 AA_618 接。座位不給讀書（使用者 11-03：「日常失速是吃飯打屁桌遊」）。
++     配置檔沒有載入（index.html 沒加）時沒有這個區域，溫州街也沒有「進去日常失速」 */
++  let wz_offbeat=null;
++  if(typeof DAILY_OFFBEAT_LAYOUT!=='undefined'&&typeof WZ_SHOPS_LAYOUT!=='undefined'){ WZ_SHOPS_LAYOUT.offbeat=DAILY_OFFBEAT_LAYOUT; wz_offbeat=wzShop('offbeat');
++    if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.wz_offbeat_interior']) ASSETS.manifest['bldg.wz_offbeat_interior']={url:'assets/models/env/second_ai/aa_support/daily_offbeat.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/daily_offbeat_interior.py＋v2／v3 fill（溫州街「日常失速」室內，AA 子代理 11-03 v3c，配置 src/data/daily_offbeat_layout.js）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
+   if(typeof ASSETS!=='undefined') for(const k of ['lin','teishoku']){ const mk='bldg.wz_'+k+'_interior'; if(!ASSETS.manifest[mk]) ASSETS.manifest[mk]={url:'assets/models/env/second_ai/wz_'+k+'_interior.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/wz_aa364_shops.py --shop '+k+'（溫州街'+(k==='lin'?'「林家乾麵」':'「巷子裡定食」')+'室內，配置 src/data/wz_shops_layout.js；LAWWW2 WZ-SHOP-AA364-ART）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
+   // ---------- 和平東路二段 118 巷（D46；使用者 2026-10-18 02:2x「118巷如果已經做好了，現在就放進這個發佈版本」）----------
+   /* 配置 src/data/lane118_layout.js（Blender 的 lane118_street.glb 讀同一份，座標相同：x 往東、z 往南）；店家、點餐、常客、阿哲週一揪人在 src/lane118.js（AA_280）。
+@@ -2196,7 +2203,7 @@ const Z3 = (function(){
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
+     return zone; }
+   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
+-  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
++  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat;   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
+   /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
+      原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
+      淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
+diff --git a/tests/mokuyobi_unit.js b/tests/mokuyobi_unit.js
+index 2546f7748..cb1bfdb55 100644
+--- a/tests/mokuyobi_unit.js
++++ b/tests/mokuyobi_unit.js
+@@ -21,7 +21,7 @@ check('0. Z3.ZONES.wz_mokuyobi 有登記、配置是 v3c（樓梯 16 階）',!!Z
+ const z=loadZone('wz_mokuyobi'), [n0,n1]=z.levels;
+ check('1. 兩層導航同尺寸、同原點；二樓地板＝樓梯總高 3.2',z.levels.length===2&&n0.cols===n1.cols&&n0.rows===n1.rows&&n0.ox===n1.ox&&n0.oz===n1.oz&&Math.abs(n1.y0-S.rise)<1e-6&&Math.abs(S.rise-3.2)<1e-6);
+ const IN=MOK3.IN, top=[-3.75,(S.z0+S.top)/2,1], door=[S.x1+0.6,S.door.z,1];
+-check('2. 進來的出生點（一樓第一階）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
++check('2. 進來的出生點（樓梯第五、六階，離門口的出口 1.35 m）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
+ // 樓梯的高度：一階一階（畫面）、連續（碰撞），最下面 0、最上面 3.2
+ { const st=MOK3.stairSurf(L); let okv=true, prev=-1; const T=S.tread; for(let k=1;k<S.risers;k++){ const zz=st.z1-(k-0.5)*T, v=n0.visualHeightAt?n0.visualHeightAt(-3.75,zz):null; if(v!==null&&Math.abs(v-k*0.2)>0.011) okv=false; }
+   const h0=n0.heightAt(-3.75,st.z1-0.02), h1=n1.heightAt(-3.75,S.top+0.02), hp=n1.heightAt(-3.75,(S.z0+S.top)/2);
+@@ -34,7 +34,8 @@ r=walk(top,door); check('6. 平台 → 東邊隔間牆的店門 → 店裡',r.ok
+ const seatAps=s=>{ const fx=Math.sin(s.yaw), fz=Math.cos(s.yaw); return [...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].map(([dx,dz])=>[s.x+dx,s.z+dz,1]).filter(a=>Math.hypot(a[0]-s.x,a[1]-s.z)<=0.85&&n1.clear(a[0],a[1],0.3)); };
+ const badSeat=[]; for(const s of L.seats){ const aps=seatAps(s); if(!aps.some(a=>walk(door,a).ok)) badSeat.push(`t${s.table}(${s.x},${s.z}) 候選點 ${aps.length} 個`); }
+ check(`7. 店門走得到 ${L.seats.length} 個座位「坐下」的走近點（GAME.seatApproach 的候選點）`,!badSeat.length,badSeat.join('｜'));
+-r=walk(door,[IN.x,IN.z,0]); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r));
++/* 走到一樓門口的「離開木曜日」（L.d/2−0.25）。11-04 以前走到出生點 IN；IN 搬到樓梯第五、六階以後（tests/spawn_exit_unit.js），那裡在樓梯上半、下半的交界附近，下樓的人還在第 1 層也算對，所以改走到真正的門口 */
++{ const D=[IN.x,L.d/2-0.25,0]; r=walk(door,D); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r)); }
+ // 一樓到不了二樓的地板（一定要走樓梯）、牆擋得住
+ { const p=E.pathTo(IN.x,IN.z,0,0.5,0.5,1); check('9. 一樓到二樓中間的找路經過樓梯（路線最高點在樓梯上、x 在樓梯間）',!!p&&p.length>0);
+   check('10. 一樓（第 0 層）在平台、店裡都站不住（樓梯間以外是實心的）',!n0.clear(-3.75,(S.z0+S.top)/2,0.2)&&!n0.clear(0,0,0.3)&&!n0.clear(-2.2,5,0.3));
+diff --git a/tests/spawn_exit_unit.js b/tests/spawn_exit_unit.js
+new file mode 100644
+index 000000000..894278d27
+--- /dev/null
++++ b/tests/spawn_exit_unit.js
+@@ -0,0 +1,33 @@
++/* 換區的出生點不能落在那一區任何「出口」的互動半徑內（LAWWW 11-04 00:43 P2，D108；LAWWW2 11-04）。
++   原本新生南路、木曜日有好幾個出生點離「回頭」的出口只有 0.15～1.6 m：玩家一出現，畫面上就是往回走的按鈕（例：一進木曜日就出「離開木曜日」）。
++   萬才館的做法：出生點離互動點約 2.2 m（站在範圍外面，往前走一步才會碰到別的東西）。
++   做法：在 Node 建出遊戲真正的區域（溫州街、新生南路、木曜日、校園；有載入的話加日常失速），蒐集每個區域的出口（interactables 的 exit），
++   每個「進到 A 區」的出口的 spawn，量它到 A 區每個出口互動點的水平距離（同一層），要大於那個出口的半徑＋0.2 m；出生點也要站得住（半徑 0.3）。
++   用法：node tests/spawn_exit_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{});
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/daily_offbeat_layout.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js'])];
++// zones3d.js 要排在 xinsheng／mokuyobi 前面（和 index.html 一樣）；layout 要排在 zones3d 前面
++const order=f=>f.startsWith('lib/')?0:(/wz_park_layout|wz_shops_layout|daily_offbeat_layout/.test(f)?1:(f==='src/zones3d.js'?2:(/xinsheng|mokuyobi/.test(f)?3:4)));
++const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===3)).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
++for(const f of pre){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return {z,its:E.interactables.slice(),levels:E.levels}; }
++const ZS=['wenzhou','xinsheng','wz_mokuyobi','campus'].concat(Z3.ZONES.wz_offbeat?['wz_offbeat']:[]), Z={};   /* 日常失速（WZ-OFFBEAT-1104）*/
++for(const id of ZS) Z[id]=loadZone(id);
++const navOf=(id,lv)=>{ const q=Z[id]; return q.levels?q.levels[lv|0]:q.z.nav; };
++// 進到這四區的每一個出口（從這四區出發的；校園是「往新生南路」的那一個）
++const MARGIN=0.2;
++for(const from of ZS) for(const it of Z[from].its){ if(!it.exit||!it.exit.spawn||!Z[it.exit.to]) continue; if(from==='campus'&&it.exit.to!=='xinsheng') continue;
++  const to=it.exit.to, s=it.exit.spawn, lv=s.lv|0; const near=[];
++  for(const q of Z[to].its){ if(!q.exit) continue; if(Z[to].levels&&q.lv!==undefined&&(q.lv|0)!==lv) continue; const d=Math.hypot(q.x-s.x,q.z-s.z), r=q.radius||1.8; if(d<r+MARGIN) near.push(`「${q.label}」${d.toFixed(2)} m（半徑 ${r}）`); }
++  const n=navOf(to,lv), ok=n&&n.clear(s.x,s.z,0.3);
++  check(`${from}「${it.label}」→ ${to} (${s.x.toFixed(2)}, ${s.z.toFixed(2)}${lv?'、第 '+lv+' 層':''})：不在任何出口的範圍內、站得住`,!near.length&&ok,(near.join('、')||'')+(ok?'':' 站不住')); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/wz_offbeat_unit.js b/tests/wz_offbeat_unit.js
+new file mode 100644
+index 000000000..86f269174
+--- /dev/null
++++ b/tests/wz_offbeat_unit.js
+@@ -0,0 +1,44 @@
++/* 日常失速（wz_offbeat，溫州街 W2 一樓；WZ-OFFBEAT-1104，LAWWW2 11-04；AA_617、AA_618）：不需要瀏覽器，在 Node 裡建出遊戲真正的區域，
++   用引擎真正的找路＋移動碰撞（E.simWalk：人物半徑 0.32 m，dt 1/30 與 0.1，走路與跑步）走：
++   店裡：出生點 → 32 個座位「坐下」的走近點、→ 門口「離開日常失速」；吧檯四張高腳凳抬高坐姿；座位不能讀書（使用者 11-03「吃飯打屁桌遊」）；
++   溫州街：主巷、新生南路那一頭 → 店門「進去日常失速」；出來站得住、不在店門的範圍裡；門口 A 字立牌（正式模型的雜物）擋住、不擋店門。
++   這是模擬（路走得通），不是真實玩家流程（瀏覽器測試照 D131 排到使用者的電腦）。用法：node tests/wz_offbeat_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{});
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/daily_offbeat_layout.js','src/zones3d.js','src/data/xinsheng_layout.js','src/xinsheng3d.js'];   /* 新生南路：溫州街西側橫巷的北口要打開（index.html 的順序）*/
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const L=DAILY_OFFBEAT_LAYOUT, E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++const walk=(a,b)=>{ for(const [dt,speed] of [[1/30,undefined],[0.1,undefined],[1/30,4.1],[0.1,4.1]]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{dt,speed}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3),speed:speed||'walk'},r); } return {ok:true}; };
++const fmt=r=>JSON.stringify(r).slice(0,200);
++check('0. Z3.ZONES.wz_offbeat 有登記；配置的 exit、enterAt 填好了；正式模型登錄 bldg.wz_offbeat_interior',!!Z3.ZONES.wz_offbeat&&!!L.exit&&!!L.enterAt&&!!(ASSETS.manifest['bldg.wz_offbeat_interior']&&fs.existsSync(path.join(ROOT,ASSETS.manifest['bldg.wz_offbeat_interior'].url))));
++const z=loadZone('wz_offbeat'), nav=z.nav; E.fitSeatRadius(); const its=E.interactables.slice();   /* 進區域時引擎會把站不到的座位按鈕範圍放大（engine3d.js fitSeatRadius，最大 1.3）：照遊戲做 */
++const SP=z.spawn||L.spawn, ex=its.find(q=>q.exit&&q.exit.to==='wenzhou');
++check('1. 出生點站得住、不在「離開日常失速」的範圍裡（半徑＋0.2）',nav.clear(SP.x,SP.z,0.3)&&!!ex&&Math.hypot(ex.x-SP.x,ex.z-SP.z)>(ex.radius||1.8)+0.2,`(${SP.x},${SP.z})，離出口 ${ex?Math.hypot(ex.x-SP.x,ex.z-SP.z).toFixed(2):'?'} m`);
++check('2. 出生點 → 門口的「離開日常失速」走得到',!!ex&&walk([SP.x,SP.z],[ex.x,ex.z-0.3]).ok);
++/* 「坐下」走到的位置：照 GAME.seatApproach（game3d.js）的候選點，而且要在那張椅子「坐下」按鈕的範圍裡（範圍 − 0.05；BUG-SEAT-AISLE-REACH-1031）*/
++const seatAps=(s,reach)=>{ const fx=Math.sin(s.yaw), fz=Math.cos(s.yaw); return [...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].map(([dx,dz])=>[s.x+dx,s.z+dz]).filter(a=>Math.hypot(a[0]-s.x,a[1]-s.z)<=reach&&nav.clear(a[0],a[1],0.3)); };
++const seats=its.filter(q=>q.seat), bad=[];
++for(const q of seats){ const aps=seatAps(q.seat,(q.radius||1.8)-0.05); if(!aps.some(a=>walk([SP.x,SP.z],a).ok)) bad.push(`(${q.seat.x},${q.seat.z}) 範圍 ${q.radius.toFixed(2)}、候選點 ${aps.length} 個`); }
++check(`3. ${L.seats.length} 個座位都有「坐下」，出生點都走得到「坐下」的走近點`,seats.length===L.seats.length&&!bad.length,bad.join('｜'));
++const bar=seats.filter(q=>q.seat.lift);
++check('4. 吧檯四張高腳凳抬高坐姿（lift 0.27，座面 0.72）；座位都不能讀書',bar.length===4&&bar.every(q=>Math.abs(q.seat.lift-0.27)<0.01)&&seats.every(q=>!q.study));
++// 溫州街那一端
++const wz=loadZone('wenzhou'), wnav=wz.nav, wits=E.interactables.slice();
++const en=wits.find(q=>q.exit&&q.exit.to==='wz_offbeat');
++check('5. 溫州街 W2 店門前有「進去日常失速」→ 出生點',!!en&&en.exit.spawn.x===SP.x&&en.exit.spawn.z===SP.z,en?`(${en.x},${en.z})`:'');
++const O=L.exit.spawn;
++check('6. 出來站得住（半徑 0.3）、不在「進去日常失速」的範圍裡',wnav.clear(O.x,O.z,0.3)&&!!en&&Math.hypot(en.x-O.x,en.z-O.z)>(en.radius||1.8)+0.2,`(${O.x},${O.z})`);
++Z3.propBlocks(wnav,Z3.PROP_BLOCKS.wenzhou);   // 正式模型載入以後才擋的雜物（門口的 A 字立牌）
++const near=p=>[[0,0],[0.4,0],[0,0.4],[0,-0.4],[0.6,0.3],[0.6,-0.3]].map(([dx,dz])=>[p[0]+dx,p[1]+dz]).find(q=>wnav.clear(q[0],q[1],0.3));
++const ep=near([en.x+0.2,en.z]);
++check('7. 正式模型的雜物擋上以後：A 字立牌那一格站不住、店門的互動點旁邊站得住',!wnav.clear(-36.78,-8.5,0.2)&&!!ep&&Math.hypot(ep[0]-en.x,ep[1]-en.z)<en.radius,ep?ep.join(','):'');
++const r1=walk([-20,0],ep), r2=walk([-33.4,-27.0],ep), r3=walk([O.x,O.z],[-20,0]);
++check('8. 主巷 (−20, 0)、新生南路那一頭的橫巷 (−33.4, −27) → 店門走得到；出來走得回主巷',r1.ok&&r2.ok&&r3.ok,fmt(!r1.ok?r1:(!r2.ok?r2:r3)));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
