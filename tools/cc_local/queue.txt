@@ -80,7 +80,7 @@ WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.
 SEAT_ACT | ae0095d0d | probe | docs/story_planning/test_tools/cc/cc_seat_act_probe.py | index.html | 50 | ZONES=cafe,library_hall,library,lawlib,afar,daybreak,wz_teishoku@19;CC_HEADLESS=0
 # WZ4（BB 08:17，排在 ADE_int 前）：e9023bae7 小路 v4、SUNNY v1e、一盞 v1e；lane_east 超標記 FAIL 不重量
 WZ4_cafe_glb | dac871e25 | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
-WZ4_wzstreet | dac871e25 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
+WZ4_wzstreet | d2a692410 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
 WZ4_reach | dac871e25 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url} --zones wz_teahouse,wz_teishoku,wz_brunch
 WZ4_komichi | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0
 WZ4_sunny | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
