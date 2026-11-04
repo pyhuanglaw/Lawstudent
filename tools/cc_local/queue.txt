@@ -31,8 +31,14 @@ GG_ext_shots | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_ext_s
 BIKE_flow | c7fde4f3e | game | tests/flow_bike.py | index.html | 40 | XARGS={url} {out}
 BIKE_shop | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 70 | CC_HEADLESS=0
 WZ_A5_shot | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_wz_a5_shot_probe.py | index.html | 15 | CC_HEADLESS=0
-CVS24 | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+CVS24 | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 N20X_nichijo2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 80 | CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close;CC_HEADLESS=0
+# ===== GG_int（BB 03:04；公館三間新室內＋溫州街日和 bike.zone；cb1d84290；排 STUDY 前）=====
+GG_int_cvs | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 40 | CASES=cvs;CC_HEADLESS=0
+GG_int_aoki | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 60 | CASES=aoki;CC_HEADLESS=0
+GG_int_yejian | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
+GG_int_wzbike | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 30 | CASES=wzbike;CC_HEADLESS=0
+GG_int_art | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 20 | CASES=art;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
