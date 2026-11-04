@@ -673,3 +673,18 @@
 [08:21:58] blender item MD_tx_v2b waits until the 1 running item(s) finish; other items go first
 [08:22:19] 正在跑：YT3-B（已跑 15 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [08:26:15] [res] cpu=48% mem=42% (13.5/31.4 GB) chrome_testing=0  END YT3-B
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       acc65e75f..97630cc14  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:26:22] ==== END   YT3-B  exit=1  1194s   ====
+[08:26:28] memory 42% before starting MAP_fix3 (0 running)
+[08:26:28] memory 42% before starting MAP_ctl3 (1 running)
+[08:26:28] memory 42% before starting PE644-ECON (2 running)
+[08:26:28] ==== START MAP_fix3  (probe @ f157d0ff6) ====
+[08:26:28] ==== START MAP_ctl3  (probe @ bf6dbda44) ====
+[08:26:28] ==== START PE644-ECON  (probe @ 933f8e08d) ====
+[08:26:31] [res] cpu=37% mem=43% (13.4/31.4 GB) chrome_testing=0  START MAP_fix3
+[08:26:31] [res] cpu=37% mem=43% (13.4/31.4 GB) chrome_testing=0  START PE644-ECON
+[08:26:31] [res] cpu=37% mem=42% (13.4/31.4 GB) chrome_testing=0  START MAP_ctl3
+[08:27:19] 正在跑：MAP_fix3（已跑 0 分／上限 30 分）、MAP_ctl3（已跑 0 分／上限 30 分）、PE644-ECON（已跑 0 分／上限 12 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:29:11] [res] cpu=52% mem=54% (17.2/31.4 GB) chrome_testing=17  END PE644-ECON
