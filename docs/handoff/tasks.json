@@ -43724,6 +43724,49 @@
    "title": "換區域先看到方塊（Café→溫州街約 2 秒）、教室黑畫面多等約 5.6 秒（溫州街上限 12.4 秒）（BB PC popin，P2）",
    "status": "待開工",
    "next": "LAWWW 查預熱（Z3.prewarm／prefetchNext）與黑畫面等待條件；和 LAWWW2 的換區域預熱 patch 對一下"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "BUG-TALK-STUCK-1104",
+   "owner": "LAWWW",
+   "priority": "P0",
+   "title": "使用者回報：和 NPC 聊天、約會常常卡住（存檔 day35 15:23 library_media；USER_WANTS X204）",
+   "status": "進行中",
+   "next": "CC 在 PC 用線上 main 重現使用者存檔 → LAWWW 修；BB 建 social_smoke（每個可攻略對象、朋友：說話每個選項、約會、傳訊息約、偶遇一起坐、讀檔再試），加進 TESTING 第五節第 10 項（已加）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "TEST-SOCIAL-SMOKE-1104",
+   "owner": "BB",
+   "priority": "P0",
+   "title": "social_smoke 常備測試：可攻略對象、朋友每個人說話／約會／傳訊息約／偶遇一起坐／讀檔再試，每個候選版跑",
+   "status": "進行中",
+   "next": "BB 定範圍、CC 寫探針排 PC",
+   "xai": {
+    "spec": "使用者 11-04 00:4x 對 BB；TESTING 第五節第 10 項",
+    "branch": "claude/cc-testing",
+    "acceptance": "每個人每一步都沒卡住；有 bug 的版本會 FAIL",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }

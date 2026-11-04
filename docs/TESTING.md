@@ -144,6 +144,8 @@
 
 9. **HV-15（2026-10-18）**：`python3 tools/story/check_orphans.py`、`python3 tools/story/check_lines.py`、`python3 tools/exam/import_exam_bank.py` 的漏收檢查；看 `docs/handoff/USER_WANTS.md` 的「不在遊戲裡」，發布前跟使用者說這一版有什麼、她要過但這版沒有的是哪些、為什麼。
 
+10. **social_smoke（2026-11-04 使用者 P0，經 BB；USER_WANTS X204）**：使用者原話「我還蠻常跟別人講話或者約會就卡住的……你不能只是確認地圖走得到，你應該要試著跟別的 npc 說話，可以攻略的對象尤其重要，也要跟他約會，朋友也是。」——每個候選版都跑：可以攻略的對象和朋友，每個人照真實流程測說話（每一個選項）、約會、傳訊息約、偶遇時一起坐、讀檔以後再試一次；每一步都檢查有沒有卡住（對話框收不掉、選單沒反應、玩家 busy 不放、walkFallbacks、JS 例外）。BB 定範圍、CC 在使用者電腦跑（D131），結果沒過不發布。
+
 發布後：GitHub「pages build and deployment」紀錄確認發布的 commit；請使用者在手機看標題的版本字樣（沙盒連不到 github.io）。
 
 ## 六、待建立（依「會不會讓玩家卡死」排優先）
