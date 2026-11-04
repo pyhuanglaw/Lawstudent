@@ -21,6 +21,7 @@ ALLC = {
     'ggbook_int2':  ('G02', '頁間書屋', -42.00, -37.40, 0.55, 2.85, 22.8),
     'ggcvs_int':    ('G03', '日和便利店', -31.73, -27.47, 0.08, 2.73, 22.8),
     'ggcvs_side':   ('G03', '日和便利店', -27.35, -23.50, 0.08, 2.73, 22.8),
+    'ggyy_int':     ('G05', '洋洋鹹酥雞', -13.4, -5.4, 0.80, 2.60, 22.8),   # BB 11-04：加 G05。座標是從 zones3d 店面寬度推的整面（x −14.0～−4.8 內縮），不是 GLB 讀的；AA_647 沒列它、沒換 v2 卡的話結果只記 INFO
     'ggbike_int2':  ('G06', '慢輪單車', -3.80, -1.45, 0.75, 2.55, 22.8),
     'ggbike_int':   ('G06', '慢輪單車', 0.90, 4.70, 0.85, 2.55, 22.8),
     'ggafar_int':   ('G07', 'Afar café', 8.75, 10.80, 0.73, 2.68, 22.8),
@@ -62,6 +63,15 @@ CARDINFO = """(c=>{ const E=GAME.E, z=E.zone, g=z&&z.group&&z.group.children.fin
   out.verts_in_rect=n; out.mesh=nm&&nm.name; const mt=nm&&nm.material;
   if(mt) out.mat={name:mt.name, color:'#'+mt.color.getHexString(), emissive:mt.emissive&&('#'+mt.emissive.getHexString()), emissiveIntensity:+(mt.emissiveIntensity||0).toFixed(3), emissiveMap:!!mt.emissiveMap, map:!!mt.map, transparent:!!mt.transparent, toneMapped:mt.toneMapped};
   return out; })""" % GLB
+
+
+# GG_night_r3（LAWWW／BB 11-04 06:57）：ggLit 傾印（LAWWW 給的那一段）＋從鏡頭打每張卡中心的 raycast
+GGLIT_JS = """(()=>{const L=GAME.E.zone.ggLit; if(!L) return 'no ggLit'; const m=GAME.E.scene.getObjectByName(L.name); let r={}; try{ r={name:L.name,mat:L.mat,uv1:L.uv1,inScene:L.inScene(),compiled:L.compiled(),rewrap:L.rewrap(),lit:L.lit,hour:GAME.G.hour,found:!!m,matSame:m&&m.material&&m.material.name}; }catch(e){ r={err:String(e)}; } return JSON.stringify(r);})()"""
+RAY_JS = """(p=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const o=cam.getWorldPosition(new THREE.Vector3()); const d=new THREE.Vector3(...p).sub(o).normalize();
+  const rc=new THREE.Raycaster(o,d,0.05,60); const hits=rc.intersectObjects(E.scene.children,true).filter(h=>h.object.visible!==false&&h.object.isMesh);
+  return hits.slice(0,3).map(h=>{ const g=h.object.geometry, a=g&&g.attributes; const u1=a&&(a.uv1||a.uv2); let u=null; if(u1&&h.face){ u=[u1.getX(h.face.a),u1.getX(h.face.b),u1.getX(h.face.c)].map(v=>+v.toFixed(3)); }
+    const mt=Array.isArray(h.object.material)?h.object.material[0]:h.object.material;
+    return {mesh:h.object.name, mat:mt&&mt.name, dist:+h.distance.toFixed(2), uv1:!!u1, uv1name:a&&(a.uv1?'uv1':(a.uv2?'uv2':null)), uv1x:u, attrs:a?Object.keys(a):[]}; }); })"""
 
 
 def luma_of(png, quad, iw, ih):
@@ -120,6 +130,9 @@ async def run_time(pg, hour, when):
     await pg.wait_for_timeout(3000)
     iw, ih = await pg.evaluate("[innerWidth, innerHeight]")
     res = {}
+    try: gl = await pg.evaluate(GGLIT_JS)
+    except Exception as e: gl = 'ERR ' + str(e)[:200]
+    print('  %s ggLit：%s' % (when, gl), flush=True)
     await pg.evaluate(HUD + '(false)')
     for k in SEL:
         G, shop, x0, x1, y0, y1, zz = ALLC[k]; cx = round((x0 + x1) / 2, 3)
@@ -132,11 +145,14 @@ async def run_time(pg, hour, when):
             ci['luma'] = luma_of(fn, ci['screen'], iw, ih)
         except Exception as e:
             ci['luma'] = None; ci['luma_err'] = str(e)[:120]
+        try: ci['ray'] = await pg.evaluate(RAY_JS + '(%s)' % J([cx, (y0 + y1) / 2, zz]))
+        except Exception as e: ci['ray'] = 'ERR ' + str(e)[:200]
+        print('  %s %s raycast：%s' % (when, k, J(ci['ray'])), flush=True)
         res[k] = ci
         print('  %s %s %s %s：卡的頂點 %s（%s）；材質 %s；卡面平均亮度 %s' % (when, G, shop, k, ci.get('verts_in_rect'), ci.get('mesh'), J(ci.get('mat')), ci.get('luma')), flush=True)
     await pg.evaluate(HUD + '(true)')
     await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()")
-    return {'hour': hour, 'glb_s': t_glb, 'viewport': [iw, ih], 'cards': res}
+    return {'hour': hour, 'glb_s': t_glb, 'viewport': [iw, ih], 'cards': res, 'ggLit': gl}
 
 
 async def main():
