@@ -43,7 +43,17 @@ function parseArgs(argv){
 
 /* ====================== 分類表（看過、確定的）====================== */
 /* re 比對「訊息＋stack」；cls 是確定的分類，why 是原因。自動判斷（classify）之前先看這張表。 */
+/* kinds：哪幾種失敗；re：比對「為什麼＋內容」；need(F,f)：被測版本的程式有沒有那個修正（F＝src 的特徵）、這一筆失敗的前後（f.lastActions）。
+   只在「被測的程式還沒有那個修正」時才套用——同樣的現象出現在已經修好的版本＝新的問題，照舊 UNKNOWN。 */
 const KNOWN=[
+  {id:'AN-MEAL-STUCK-1027',kinds:['STUCK','STUCK_INVITE'],re:/INV\.S\.(meet|startTogether|arrive|autoStart)/,need:F=>!F.invArriveLock,cls:'GAME_BUG',
+   why:'AN-MEAL-STUCK-1027：invites3d.js 的 S.arrive（走進門先等 0.9 秒）／S.autoStart（Promise.then 延後）開演前沒有先 sceneBegin，這段空檔玩家按「和她說話」或別的事件同時開演，兩段一起演、一段的對話被蓋掉永遠等不到（修正：35f8e7fb2／rc2 6aebbb4d8，v9.10.11 c8b9659e5）'},
+  {id:'AN-MEAL-STUCK-1027',kinds:['STUCK'],re:/talkCharacter|talkSis|talkAn/,need:(F,f)=>!F.invArriveLock&&(f.lastActions||[]).some(a=>/約在|一起走|和.*約/.test(a))&&(f.lastActions||[]).some(a=>/走了 \d+ 分鐘到|按互動：和/.test(a)),cls:'GAME_BUG',
+   why:'AN-MEAL-STUCK-1027（推定）：到了約好的地方、S.autoStart 的見面和玩家按的「和○○說話」同時開演，說話那一段被見面蓋掉（invites3d.js 沒有先 sceneBegin；修正 35f8e7fb2／rc2）'},
+  {id:'SAY-COVER-1027',kinds:['STUCK'],re:/./,need:F=>!F.sayStack,cls:'GAME_BUG',
+   why:'這一版 game3d.js 的 say 只留一個等點擊的 resolve（沒有 sayStack）：兩段劇情同時說話，先開始的那一段永遠等不到＝停在那一句（同一類在 STUCK-HARDEN-1027 33d24f9db 修好：say 的 sayStack 保底）'},
+  {id:'BADCLIP-NOVRM',kinds:['EXCEPTION'],re:/racketHead|badminton_clip3d/,need:F=>F.procedural,cls:'GAME_BUG',
+   why:'羽球片段（badminton_clip3d.js）：人物沒有 VRM 骨架（程序化備用人物：設定「使用正式人物模型」關掉、或 VRM 載不到）時 attachRacket 回傳 null，racketHead(null) 在 requestAnimationFrame 裡丟例外、動畫迴圈停掉、BADCLIP.play 永遠不回來（跳過鈕也沒用）＝卡住。瀏覽器還沒驗'},
 ];
 
 /* ====================== 父程序：分派種子、收結果 ====================== */
@@ -74,10 +84,10 @@ async function parent(o){
   if(Object.keys(warnAgg).length){ RC.log('\n---------- 注意（不算 FAIL：遊戲自己有保底或只是提示）----------'); for(const w of Object.values(warnAgg).sort((a,b)=>b.n-a.n)) RC.log('  '+w.n+' 次（種子 '+w.seeds.join(',')+'）'+w.k+(w.ex?'　例：'+w.ex:'')); }
   if(o.json) fs.writeFileSync(o.json,JSON.stringify({root:o.root,track:o.track,from:o.from,to:o.to,ms:tot,results},null,1));
   process.exit(results.every(r=>r.ok)?0:1); }
-function fmtLine(r){ const f=r.fails||[]; const cls=[...new Set(f.map(x=>x.cls))].join('/');
+function fmtLine(r){ const f=r.fails||[]; const cls=[...new Set(f.map(x=>x.cls+(x.known?':'+x.known:'')))].join('/');
   return '種子 '+String(r.seed).padStart(3)+'  '+(r.ok?'PASS':'FAIL')+'  '+(r.ms/1000).toFixed(1).padStart(6)+' 秒  到 '+(r.reached||'?')+'  步數 '+(r.steps||0)+'  格數 '+(r.frames||0)+(f.length?'  失敗 '+f.length+' 種（'+cls+'）':''); }
 function fmtFail(f,r,o){ const L=[];
-  L.push('【'+f.cls+'】'+f.kind+(f.count>1?'（同樣的 '+f.count+' 次）':'')+'　第 '+f.step+' 步、第 '+f.frame+' 格');
+  L.push('【'+f.cls+(f.known?'：'+f.known:'')+'】'+f.kind+(f.count>1?'（同樣的 '+f.count+' 次）':'')+'　第 '+f.step+' 步、第 '+f.frame+' 格');
   if(f.why) L.push('  為什麼：'+f.why); if(f.msg) L.push('  內容：'+String(f.msg).split('\n').slice(0,8).join('\n         '));
   if(f.G) L.push('  G：'+JSON.stringify(f.G));
   if(f.lastActions&&f.lastActions.length){ L.push('  最後 '+f.lastActions.length+' 個動作：'); for(const a of f.lastActions) L.push('    '+a); }
@@ -124,12 +134,13 @@ async function child(o){
   const act=t=>{ const g=GM&&GM.G; const s='#'+R.step+' f'+R.frame+' '+(g?dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone:'')+'｜'+t; R.actions.push(s); if(R.actions.length>20) R.actions.shift(); if(o.verbose) RC.log(s); };
   function fail(kind,cls,why,msg,extra){ const sig=kind==='TIME_BACK'?kind:kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
     const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
+    if(f.cls==='UNKNOWN'||kind==='EXCEPTION'){ for(const k of KNOWN){ if(!k.kinds.includes(kind)) continue; if(!k.re.test(f.why+'\n'+f.msg)) continue; try{ if(k.need&&!k.need(FEAT,f)) continue; }catch(e){ continue; } f.cls=k.cls; f.known=k.id; f.why=k.why+'｜（原本的判斷：'+why+'）'; break; } }
     R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+cls+'）'+String(msg).split('\n')[0].slice(0,300)); return f; }
   function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':''); R.notes.set(k,n); }
   /* 例外的初判（KNOWN 表優先）*/
+  const FEAT={};   // 被測版本的特徵（KNOWN 表用）
   const missing=new Map();   // 假引擎 E 被讀了、但沒有的屬性（TEST_BUG 的線索）
   function classify(err,where){ const msg=String(err&&err.message||err), st=String(err&&err.stack||''); const both=msg+'\n'+st;
-    for(const k of KNOWN) if(k.re.test(both)) return {cls:k.cls,why:k.why+'（'+where+'）'};
     const frames=st.split('\n').slice(1).map(s=>s.trim()).filter(Boolean); const top=frames[0]||'';
     if(/random_play_sim\.js/.test(top)) return {cls:'TEST_BUG',why:'例外丟在假物件（random_play_sim.js）裡：'+top};
     const mm=msg.match(/(?:\b(\w+) is not a function|reading '(\w+)'|setting '(\w+)')/); const key=mm&&(mm[1]||mm[2]||mm[3]);
@@ -257,6 +268,8 @@ async function child(o){
     try{ compiled.push([f,new vm.Script(src,{filename:f})]); }catch(e){ loadFail.push([f,'語法錯誤：'+String(e&&e.message||e).slice(0,200)]); } }
   if(loadFail.length) for(const [f,e] of loadFail) fail('LOAD','TEST_BUG','照 index.html 載入時失敗（檔案不在或語法錯）',f+'：'+e);
   const SAY_STACK=/sayStack/.test(g3src), CHOOSE_STACK=/chooseStack/.test(g3src);
+  const srcOf=f=>{ try{ return fs.readFileSync(path.join(o.root,f),'utf8'); }catch(e){ return ''; } };
+  FEAT.sayStack=SAY_STACK; FEAT.invArriveLock=/S\.arriveDue/.test(srcOf('src/invites3d.js')); FEAT.procedural=!!o.procedural;
   const pageFail=new Set();
 
   /* ---------- 開一個頁面：新的 context、DOM、假引擎，跑全部 script ---------- */
@@ -352,7 +365,7 @@ async function child(o){
 
   /* ---------- 每一格的檢查 ---------- */
   const DIMS=['fam','trust','aff','resp','comf','rom','npcRom'];
-  let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set(), goingSeen=new Set();
+  let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set(), goingSeen=new Set(); let lateV=0; const lateFail=new Set();
   function abs(g){ return g.day*24+(+g.hour); }
   function checkFrame(){ const g=GM.G; if(!g) return;
     if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6){ const d0=Math.floor(track.abs/24), h0=track.abs-d0*24; fail('TIME_BACK','UNKNOWN','遊戲時間倒退','從 '+dayKey(d0)+' '+fmtH(h0)+' 退到 '+dayKey(g.day)+' '+fmtH(g.hour)+'（'+(track.abs-a).toFixed(2)+' 小時）'); } track.abs=a; }
@@ -368,6 +381,8 @@ async function child(o){
     /* ⑨ 一起走過去（invites3d.js going）、人已經在約好的地方、玩家空下來 15 分鐘（遊戲時間）還沒開始見面＝她一直跟著（AN-MEAL-STUCK ②那一種）*/
     if(Array.isArray(g.invites)) for(const iv of g.invites) if(iv.state==='going') goingSeen.add(iv.id+'@'+iv.day);
     if(Array.isArray(g.invites)&&free()){ for(const iv of g.invites){ if(iv.state==='going'&&iv.zone===g.zone&&iv.day===g.day){ const k=iv.id+'@'+g.day; const tg=goingAt.get(k); if(tg==null){ goingAt.set(k,abs(g)); R.goingArrived=(R.goingArrived|0)+1; } else if(abs(g)-tg>0.25&&!goingFail.has(k)){ goingFail.add(k); fail('STUCK_INVITE','UNKNOWN','一起走過去的邀約已經到了約好的地方，玩家空下來 15 分鐘（遊戲時間）還停在 going：人一直跟著、見面沒開始',JSON.stringify({id:iv.id,who:iv.who,place:iv.place,zone:iv.zone,h:iv.h,state:iv.state})); } } } }
+    /* ⑩ 過了 04:00 還空著到處走、沒有被送回去睡（story3d.js forceHome 在 02:30 以後、玩家空下來就會送回宿舍）*/
+    if(g.hour>=28&&free()&&track){ lateV+=0.1; if(lateV>60&&!lateFail.has(g.day)){ lateFail.add(g.day); fail('NO_FORCEHOME','UNKNOWN','過了 04:00、玩家空下來 60 秒還沒被送回去睡（STORY.forceHome）','hour='+(+g.hour).toFixed(2)+' flags._forcing='+JSON.stringify(g.flags&&g.flags._forcing)); } } else lateV=0;
     if(g.day!==lastDay){ lastDay=g.day; R.reached=dayKey(g.day); heartbeat(true); checkDaily(); } }
   function checkDaily(){ const g=GM.G; if(!g) return;
     const so=g.social&&g.social.rel; if(so) for(const id in so){ const r=so[id]; for(const k of DIMS){ if(r[k]==null) continue; if(typeof r[k]!=='number'||!Number.isFinite(r[k])||r[k]<0||r[k]>100){ fail('REL_RANGE','UNKNOWN','關係值超出 0～100 或不是數字（social3d.js S.adjust 的範圍）',id+'.'+k+'='+r[k]); } } for(const k of ['seen','talked']) if(r[k]!=null&&!(Number.isFinite(r[k])&&r[k]>=0)) fail('REL_RANGE','UNKNOWN','關係的次數不是非負數',id+'.'+k+'='+r[k]); }
