@@ -1,3 +1,14 @@
+## 交班（AA-B 帳號 B → 下一班）｜2026-11-04 12:3x UTC｜使用者：「我開錯帳號了 你們使用量快沒了 現在交班」
+- 帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 `claude/cool-heisenberg-o8kuqx`｜接班 12:1x（基準 81f740cb7＝快轉 `claude/story-planning`）→ 只做了約 20 分鐘就交班。最後 commit＝含本節的交班 commit。**交班紀錄不代表下一班已經接班。**
+- **A. 本班成果**：值班登記 699789b7f；`AA_659` §3 一盞前院五點座標照 LAWWW 開發分支 0310aa37a 改寫（看院子 (0.4,7.7)、石燈籠 (−0.85,8.9)、樟樹 (2.95,8.75)、貓碗 (3.95,7.9)／碗 (4.05,8.35)、木牌 (−2.0,8.4)；舊座標標「不要再用」），台詞沒動。通訊測試：CC-B ACK、LAWWW-B ACK（它 12:17 接班、RULE_SOURCE `claude/modest-rubin-2lyp7g` @ 9f4d237e2、已 duty sync AA-B）；BB-B、LAWWW2-B 已 DELIVERED、還沒回。
+- **B. 全部待辦**：照帳號 A 11-04 09:0x 交班那一節（溫州街四間等 BB 判定、2:30 AM 等 LAWWW2 用 30c2d5998 重烘、AA_659 §3 前院 LAWWW 實作中）＋下方「全部待辦」。本班新增：
+  - LAWWW-B 12:17 的 B3「ASK-5NAMES 企劃稿換名」：**大部分帳號 A 已做**（`AA_639` afed9e592：AA 檔 53 個 305 處、「紐約那間法學院上了。八月出發。」說法在 §2）。還剩 AA 的三個檔沒換：`voice_canon/heroine_01.md`（哥大 4 處→紐約的法學院；第 90 行台詞照 AA_639 §2 改「紐約那間法學院，上了。我要去。」）、`voice_canon/npc_fangyt.md:89`（杜鵑花節→松鼠節）、`ladder/ladder_aa_y3s2.json` 281／306／311（杜鵑花節→松鼠節；遊戲 ladder.js 已換）。**還沒回 LAWWW-B 這件**（要告訴它看 AA_639 §2）。
+- **C. 正在做**：上面那三個檔的換名，**還沒動手**（沒有未存檔的改動）。
+- **D. 規則**：沒有新的。
+- **E. 跨 AI**：等 BB-B、LAWWW2-B 回 ACK；欠 LAWWW-B 一則「B3 已由 AA_639 做完，剩三檔」。
+- **F. 測試**：AA 沒跑測試。沒有背景工作、沒有排程喚醒。
+- **下一班第一步**：接班 → 回 LAWWW-B B3（指 AA_639 §2）→ 換上面三個檔 → 照帳號 A 的「下一班第一步」。
+
 值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 81f740cb7（快轉合併 `claude/story-planning`）｜2026-11-04 12:2x UTC
 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜正常交班（2026-11-04 09:0x UTC，快照 `2026-11-04T0904Z_A_AA.json`）
 接班核對（RULE_SOURCE `origin/claude/confident-ritchie-8rwh7t`，`duty find`：值班沒有人、上一任 A、HV-20、seq 55）：
