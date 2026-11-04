@@ -1,23 +1,70 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 🔁 交班（11-04 08:5x UTC，使用者說「現在交班」；LAWWW2 帳號 A）
-- 分支 `claude/second-ai-env-art`。交班時最後的成果 commit 是 01b2b4786，這則紀錄的 commit 在它後面，用 ls-remote 核對。worktree 是乾淨的，沒有沒 push 的成果。
-- 每小時保險喚醒（trig_01PZ1NbK8H7GTeNrK3Q9bHLh）已照使用者指示停用（不是刪掉）。
-- 已交件、LAWWW 已接：
-  - 溫州街 lane_east 減面（1d64f3511；PC 量到 419,713 tris，PASS）。
-  - 停著的腳踏車照材質合併、打烊乘數 0.03、2:30 AM 用 v1f 重烘（8f936f018）。
-  - 小路深色木立面 v1（188eb0624 → 開發分支 060a1a093）。
-- 已交件、LAWWW 還沒回：
-  - 一盞前院第二版（26bc41c6b）。
-  - gongguan_glb_integration 量法第二版 patch（01b2b4786，接 bf9518378）：騎士、npc_far 比照路人先移出再量，BB 已經定了這個量法。
-- 等 CC 在 PC 上量／拍：GG_night_r8、GG_glb_measure（用新量法）、CAFE230、小路正面白天和晚上、一盞前院兩張。
-- 沒做（下一班第一步照這個順序）：
-  1. 先讀通知、fetch，看 LAWWW／CC／BB 回了什麼。
-  2. 公館 draw call 如果還超過 1.3：把 bike_ride.glb 的座墊、車燈併進 ride_vc。
-  3. WZ-FIVE-1104 第一批剩下的：阿德轉角外觀、2:30 AM 外觀。
-  4. BB 判截圖退件的就照退件改。
-- 沒有遠端備份的：scratchpad 裡的暫存 worktree（devwt_bk、devwt_gm、devwt_y）和渲染中間檔。要交的 patch、對照圖都已經放進 wip/ 推上去了。
-- **交班紀錄不代表新帳號已經接班。**
+## 🔁 交班（11-04 09:1x UTC；帳號 A LAWWW2；使用者說「現在交班」，LAWWW 09:04 轉使用者：交班後不用再每小時啟動）
+- 分支 `claude/second-ai-env-art`。成果最後一個 commit 是 01b2b4786，交班紀錄在它後面；SHA 以 ls-remote 為準。worktree 是乾淨的。
+- 每小時保險喚醒 trig_01PZ1NbK8H7GTeNrK3Q9bHLh 已停用（enabled=false，沒有刪）。我沒有排還沒觸發的 send_later。
+- 規則來源（RULE_SOURCE）：`origin/claude/confident-ritchie-8rwh7t`（duty.json）。
+
+### A. 本班已完成成果（11-04 07:4x～09:0x）
+| 任務 | commit | 測試 | 整合 |
+|---|---|---|---|
+| WZ-LANEEAST-TRIS-1104 溫州街 lane_east 減面（店內按店拆網格、水果減面不投影） | 1d64f3511 | street_props_nav_unit ALL PASS；PC：lane_east 419,713 tris PASS（LAWWW 08:53） | 開發分支 d2a692410 |
+| PERF-GG-DC-1104 停著的腳踏車照材質合併（patch） | 742c78c50 | bike_unit、bike_shop_park_unit ALL PASS | 8f936f018 |
+| GG_night 判讀：打烊乘數 0.18 → 0.03（原因是 gamma） | 訊息＋gg_cards_1104/README | 沒在瀏覽器驗過 | 8f936f018；CC 排 GG_night_r8 |
+| CAFE230 光照烘焙用 AA v1f（30c2d5998）重烘 | aede8b99a | 只看了光照貼圖圖集 | 8f936f018 |
+| WZ-YIZHAN-1104 一盞前院第二版：生垣、對面一間一間的店面、樟樹不碰簷 | 26bc41c6b | wz_teahouse_yard_unit ALL PASS | **還沒接** |
+| WZ-FIVE-1104 小路深色木立面 v1 | 188eb0624 | street_props_nav_unit ALL PASS | 060a1a093 |
+| gongguan_glb_integration 量法第二版 patch（騎士、npc_far 比照路人移出；BB 定） | 01b2b4786 | py_compile、node --check、Node 模擬選取 | **還沒接**，接 bf9518378 |
+- 都沒有發布，只在開發分支，或還在我的分支上。
+- 之前的班交的（WZ-SECOND-1104 v3b、SUNNY 轉角窗、一盞前院 v1、公館窗卡、glow patch、census）寫在下面的舊快照。
+
+### B. 全部未完成工作（本機任務清單的狀態可能過時，以 tasks.json 為準）
+- **等 PC（CC）驗**：
+  - GG_night_r8（含量「底」那段 JS）；
+  - GG_glb_measure（停車合併＋新量法；目標 ≤ 1.3）；
+  - CAFE230 截圖；
+  - 小路正面白天和晚上（060a1a093）；
+  - 一盞前院 engawa_to_yard、yard_to_genkan；
+  - WZ-SECOND-1104 五間 × 白天、晚上；
+  - GG-VIEWS-1104 窗景重拍；
+  - BIKE-PARK-1104、木曜日整合包、新生南路的瀏覽器測試。
+- **BB 判 ART_APPROVED**：WZ-SECOND-1104、WZ-FIVE-1104（小路、林家、SUNNY）、一盞前院。
+- **WZ-FIVE-1104 第一批還沒做的**：阿德轉角外觀、2:30 AM 外觀。
+- **公館 draw call 如果用新量法還超過 1.3**：bike_ride.glb 的座墊、車燈併進 ride_vc（騎士一台 −2），或遠處的騎士用合併好的車。
+- **WZ-SECOND-1104 還差的**（README「還差的地方」）：書屋玻璃偏霧、帝大紅茶店內調整、溫州書屋櫥窗台、冰菓室窗口被布簾擋。
+- **一盞前院還差的**：生垣是平的一塊、對面招牌沒有字。
+- **INTERIOR-AAA 室內光照**：library_b1、us_market（做到一半）、jp_room。
+- **其他還開著的**（之前的班留下的，本班沒碰）：
+  - 總圖室內照實際配置；
+  - LIB-3F-1102；
+  - 總圖展演廳第三版（BB_244）；
+  - CAMPUS-BLACKFOREST-1102 黑森林重做；
+  - 校園系館相對位置照官方地圖、舊社科院的名字；
+  - PERF-CAMPUS-GLB-1102；
+  - D108 新生南路（側門外遠景、七家店面、地面、山嵐／木曜日接區域）。
+- AA 換 aa_support 的 cafe230.glb 時，要重烘（LAWWW 08:4x）。
+
+### C. 正在做的工作
+- 交班那一刻手上沒有做到一半的模型。下一項原本要開始做阿德轉角外觀，還沒動。
+
+### D. 最新決策與規則（本班收到的；原文在 LAWWW 的總表）
+- BB 11-04 08:5x：gongguan_glb_integration 的騎士和 npc_far 比照路人先移出再量，門檻 1.3 不變（CC 2ef943d99）。
+- 使用者 11-04 09:0x：交班後不用再每小時啟動（D129 已有，照做）。
+
+### E. 跨 AI 協作狀態
+- LAWWW：
+  - 已經 ACK，也照做了：1d64f3511、742c78c50、乘數 0.03、aede8b99a、188eb0624。
+  - 送達了，還沒 ACK：26bc41c6b（一盞前院第二版）、01b2b4786（量法 patch）、本班的交班通知。
+- AA：重烘的 ACK 送達了。
+- CC：GG_night_r7 的 ACK 送達了；r8 等 CC 排。
+- BB：截圖驗收都還在等。
+
+### F. 測試與問題
+- 本班的測試都是 Node 單元測試和 Blender 渲染。**瀏覽器、遊戲內截圖一張都沒跑**（D131 排 PC）。
+- 只在 scratchpad 的：Blender 估算（cull.py）、渲染中間檔、tree_fit 掃描、暫存的開發分支 worktree（devwt_bk、devwt_gm、devwt_y）。要交的結論、patch、對照圖都已經放進 wip/ 推上去了。
+- iPhone 實機：都還沒有。
+
+**交班紀錄不代表新帳號已經接班。**
 
 ## 📌 進度快照（11-04 08:5x，LAWWW2；還沒交班）
 - 分支 `claude/second-ai-env-art`，最新的 SHA 用 ls-remote 核對。
