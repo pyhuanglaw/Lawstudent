@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20R_class",
+  "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+  "kind": "game",
+  "script": "tests/flow_class_real.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T23:42:33",
+  "end": "2026-11-04T23:45:35",
+  "seconds": 182,
+  "exit": 0,
+  "error": null,
+  "runner": "4fb4f82141",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 91,
+    "mem": 55,
+    "used_gb": 17.6,
+    "chrome_testing": 26
+  }
+}

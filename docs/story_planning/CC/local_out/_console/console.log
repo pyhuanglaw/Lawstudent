@@ -109,3 +109,11 @@
 [23:42:36] [res] cpu=4% mem=33% (10.6/31.4 GB) chrome_testing=0  START V20R_mini
 [23:42:36] worktree add d3828452abe2d10f1b7bb3b47d8313482f83b2d3: invalid reference - fetching main and the commit itself
 [23:44:45] [res] cpu=31% mem=48% (15.3/31.4 GB) chrome_testing=18  END V20R_mini
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0154af2b6..190b74bab  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:44:52] ==== END   V20R_mini  exit=0  132s   ====
+[23:45:00] memory 48% before starting V20R_joy (2 running)
+[23:45:00] ==== START V20R_joy  (game @ d3828452abe2d10f1b7bb3b47d8313482f83b2d3) ====
+[23:45:03] [res] cpu=31% mem=48% (15.3/31.4 GB) chrome_testing=19  START V20R_joy
+[23:45:35] [res] cpu=32% mem=47% (14.7/31.4 GB) chrome_testing=17  END V20R_class
