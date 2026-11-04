@@ -5445,7 +5445,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "0a6f626be",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "WZ-FIVE-1104",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
@@ -5464,11 +5464,11 @@
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/singleside_streets_unit_048b4c898.patch",
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_pilot_cmp.jpg"
    ],
-   "state": "已交付",
+   "state": "WIP",
    "remaining": "PC 遊戲畫面（A1 白天／晚上、轉角店 moved）、lane_west 效能（A1 只在 lane_west 看得到）沒量；店內（玻璃後面）還很空＝下一版；BB 判 ART",
    "next": "換 wenzhou_street.glb／.json／.props.json＋套 singleside patch（123,731→129,147、材質 46→51）；LICENSES.md 合併「Poly Haven 模型」一節；跑 singleside_streets_unit、street_props_nav_unit、lampshade_flip_unit、wz_copy_shop_unit；導航照 props.json（販賣機＋紙箱→一盆盆栽）",
    "noDirectIntegrate": false,
-   "note": "阿德影印照參考圖 wz_ade_ext（A1＋轉角店）＋OPEN-SRC-2D3D-1104 第一個試做（使用者 14:1x「從 GitHub 開源找…」）：lib2.ph_model（Poly Haven CC0 自動下載、減面、貼圖先縮 512 RGB、半透明一律 MASK）；冷氣 9,493→1,517 面、盆栽 69,806→約 3,000 面。A1：白色馬賽克外牆、三盞鵝頸燈、銀框落地玻璃＋藍飾條、右邊白磁磚壁面（軟木板、價目表 NT$2、壁燈）、白字貼紙。轉角：新招牌＋兩盞鵝頸燈。對照圖 ade_pilot_cmp.jpg"
+   "note": "阿德影印照參考圖 wz_ade_ext（A1＋轉角店）＋OPEN-SRC-2D3D-1104 第一個試做（使用者 14:1x「從 GitHub 開源找…」）：lib2.ph_model（Poly Haven CC0 自動下載、減面、貼圖先縮 512 RGB、半透明一律 MASK）；冷氣 9,493→1,517 面、盆栽 69,806→約 3,000 面。A1：白色馬賽克外牆、三盞鵝頸燈、銀框落地玻璃＋藍飾條、右邊白磁磚壁面（軟木板、價目表 NT$2、壁燈）、白字貼紙。轉角：新招牌＋兩盞鵝頸燈。對照圖 ade_pilot_cmp.jpg｜BB-C 15:0x Blender 階段退回（外牆灰綠石材不像參考圖的暖米色小方磚、店內空、植物少、白字小、鏡頭沒對上）→ ADE-V2-1104 重做；LAWWW-C 不接這版"
   }
  ]
 }

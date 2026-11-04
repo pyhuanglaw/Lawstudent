@@ -1,7 +1,7 @@
 """溫州街店家的窗景照片（給 W3.windowMat 的 <名稱>_<day|night>.webp）：用遊戲裡同一批溫州街正式模型在 Blender 拍（LAWWW2-C 2026-11-04，KOMICHI-NIGHTVIEW-1104）。
 原因：小路（wz_teishoku）的窗景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏，BB-C 判「22:00 窗外還是白天」（BB_255 1(a)）；2:30 AM、SUNNY SIDE 的窗景卡是 Blender 拍的夜景（窗、店、路燈亮，天空暗），這支照同一個做法。
 鏡頭照 tools/shots/shop_views_layers.py 的同一個名稱（窗那一片的中心、朝外、水平 90°、2:1）：W3.windowMat 的視差以那一片為準，換照片不用改程式。
-用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay]
+用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）
   座標是遊戲座標（x 東、y 上、z 南）；--glb 沒寫＝溫州街主巷、雜物、日式宿舍、小公園（assets/models/env/second_ai/）。
 例（小路）：-- --eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --out /tmp/wz_teishoku_night.png --night
 夜晚的亮度照遊戲 zones3d.js 的 WZ_NIGHT（材質名 → 顏色、晚上亮度），GLOW_* 空節點（extras glow／size／night）放點光源；店內（wz_in_*）晚上自己發一點光（店裡開著燈）。"""
@@ -31,9 +31,18 @@ def hexcol(h): return (lin((h >> 16) & 255), lin((h >> 8) & 255), lin(h & 255))
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
-for p in GLBS.split(','):
-    if os.path.exists(p): bpy.ops.import_scene.gltf(filepath=p)
-    else: print('沒有這個 GLB，略過', p)
+def _glb_at(p, x=0.0, y=0.0, z=0.0, ry=0.0):
+    """匯入一顆 GLB；最上層的物件整組移到遊戲座標 (x, y, z)、繞垂直軸轉 ry（遊戲的 rotation.y）"""
+    if not os.path.exists(p): print('沒有這個 GLB，略過', p); return
+    before = set(bpy.data.objects); bpy.ops.import_scene.gltf(filepath=p)
+    if (x, y, z, ry) == (0.0, 0.0, 0.0, 0.0): return
+    from mathutils import Matrix
+    M = Matrix.Translation(g2b((x, y, z))) @ Matrix.Rotation(ry, 4, 'Z')
+    for o in set(bpy.data.objects) - before:
+        if o.parent is None: o.matrix_world = M @ o.matrix_world
+for p in GLBS.split(','): _glb_at(p)
+for k, v in enumerate(A):   # --place 路徑@x,y,z,ry：例 cafe_exterior.glb@55.4,0,0,-1.5708（2:30 AM：zones3d.js 的 cafeB 在 (55.4, 0)、轉 −π/2）
+    if v == '--place': pth, at = A[k + 1].split('@'); _glb_at(pth, *[float(t) for t in at.split(',')])
 
 # 遊戲照狀態切換的節點：照預設狀態藏起來（不然兩種外觀疊在一起）
 #   阿德影印 COPY_*（zones3d.js wzCopyVis）：還沒決定＝A1 開著、轉角拉下鐵捲門 → 藏 COPY_A1_SHUT／COPY_A1_RENEW／COPY_CORNER_OPEN
@@ -159,7 +168,7 @@ so = bpy.data.objects.new('sun', sd); sc.collection.objects.link(so)
 so.rotation_euler = (math.radians(38), 0, math.radians(150))   # 11:00 前後：太陽在南偏東、仰角約 52°（Blender −y＝遊戲 +z＝南）
 
 # 鏡頭：窗那一片的中心、朝外，水平 90°（2:1 → 垂直 53.13°）
-cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.clip_start = 0.05; cd.clip_end = 400
+cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = 0.05; cd.clip_end = 400
 co = bpy.data.objects.new('cam', cd); sc.collection.objects.link(co); sc.camera = co
 co.location = g2b(EYE); d = g2b(AT) - g2b(EYE); co.rotation_euler = d.to_track_quat('-Z', 'Y').to_euler()
 

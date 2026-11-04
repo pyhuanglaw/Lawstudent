@@ -74,6 +74,15 @@
 |---|---|---|---|
 | `exterior_aircon_unit`（只取乾淨的那一台） | 冷氣室外機（掛在一樓門楣旁） | 9,493 → 1,517 面；半透明的散熱格柵改 alpha clip | `assets/models/env/second_ai/wenzhou_street.glb`（溫州街 A1 阿德影印） |
 | `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口） |
+| `potted_plant_04` | 白盆多肉（門口的小盆栽，放大 1.5 倍） | 8,929 → 約 1,300 面 | `wenzhou_street.glb`（阿德影印門口） |
+
+## ambientCG 材質（CC0，2026-11-04 起，ADE-V2-1104）
+
+ambientCG（https://ambientcg.com ）的材質都是 **CC0**（授權說明 https://docs.ambientcg.com/license/ ）。1K-JPG 的顏色、法線（OpenGL）、粗糙度三張，改成 Poly Haven 的檔名（`<id>_diff_1k.jpg`、`_nor_gl_1k.jpg`、`_rough_1k.jpg`），放在 `tools/blender/env_second/textures/<id>/`，`lib2.pbr` 照舊讀。
+
+| ambientCG id | 本作的資料夾 | 用途 | 用在哪個模型 |
+|---|---|---|---|
+| `Tiles139` | `acg_tiles139` | 暖米色小方磚外牆（一塊 10 cm；外牆種類 `tile_sq`，校成 #ebe0cd 再乘每棟的牆色） | `wenzhou_street.glb`（溫州街 A1 阿德影印整棟） |
 
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
