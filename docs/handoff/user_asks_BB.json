@@ -336,6 +336,15 @@
    "status": "已完成",
    "task": "IMG2-3D-RESEARCH-1104",
    "note": "BB-C 照官方 README（github.com/microsoft/TRELLIS.2）回：只支援 Linux＋NVIDIA 24 GB 以上（A100／H100 驗過）＋CUDA 12.4；使用者電腦 Windows＋AMD RX 6600M 8 GB 裝不了；可以用官方線上 demo（huggingface.co/spaces/microsoft/TRELLIS.2）在瀏覽器生成、下載 GLB，交 LAWWW2-C 整理"
+  },
+  {
+   "id": "UA-BB-1104-V91020-ETA",
+   "at": "2026-11-04T15:3xZ",
+   "quote": "什麼時候可以發布v9.10.20 你繼續做別的事情我要睡覺了很久都不會看",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "RELEASE-V91020-1104",
+   "note": "BB-C 回：PC 跑完 V20R＋social_smoke＋SITAMB 約 2.5～3.5 小時，全過的話台灣時間約 02:30～03:00 可以給 GO，發布由 LAWWW-C 決定（D85）；提醒使用者電腦不要睡眠。使用者睡覺期間照 D87／D110 繼續做，不等使用者"
   }
  ]
 }
