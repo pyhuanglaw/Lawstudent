@@ -160,7 +160,9 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：B 值班中（2026-11-04 12:1x UTC 起；使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」）。LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）12:17 接班、RULE_SOURCE＝`claude/modest-rubin-2lyp7g`（快轉合併帳號 A 的 `e52a77030`，登記 `9f4d237e2`）；AA-B 12:11 已登記（`699789b7f`，LAWWW-B duty sync 收了）；LAWWW2-B、BB-B、CC-B 12:1x 接班中（還沒登記）。帳號 A 五職位 11-04 09:19 都已交班。**
+**現在：B 換班中（2026-11-04 12:2x UTC 交班：使用者「我開錯帳號了 你們使用量快沒了 現在交班」；帳號 B 五個職位都停了，沒有人值班；RULE_SOURCE＝`claude/modest-rubin-2lyp7g`；紀錄在 GAP_MATRIX 第 1 節最上面）**
+
+（以下是 12:1x 接班時的紀錄）現在：B 值班中（2026-11-04 12:1x UTC 起；使用者「現在接班 請同步 GitHub 最新進度，接續工作 接班之後跟其他AI試著傳訊息」）。LAWWW-B（`session_01DvRVNNnivf7da7qqWuGmw6`）12:17 接班、RULE_SOURCE＝`claude/modest-rubin-2lyp7g`（快轉合併帳號 A 的 `e52a77030`，登記 `9f4d237e2`）；AA-B 12:11 已登記（`699789b7f`，LAWWW-B duty sync 收了）；LAWWW2-B、BB-B、CC-B 12:1x 接班中（還沒登記）。帳號 A 五職位 11-04 09:19 都已交班。**
 
 （以下是帳號 A 11-02 03:3x～11-04 09:19 那一班的紀錄）現在：A 值班中（LAWWW；`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-11-02 03:3x 接 LAWWW-B 的班；使用者「現在你接班，我也會通知其他AI」）。RULE_SOURCE 改為 `claude/confident-ritchie-8rwh7t`（快轉到 LAWWW-B 的 `02898d56c`）。帳號 A 的 LAWWW2、AA、BB 使用者各自通知接班（BB 03:3x 已登記）；第五個職位 CC（BB 的測試執行助手，D119）03:53 在 `claude/cc-testing` 開工，已登記在 duty.json；帳號 B 四個職位都已交班。**（以下是帳號 B 交班時的紀錄）現在：B 換班中（2026-11-02 03:09 UTC LAWWW-B 第四段結束再交班——使用者直接交辦生圖、接圖，44 張背景進開發分支、第五批 10 張提示詞已給使用者、圖還沒到；四個職位都已交班，還沒有帳號接班；RULE_SOURCE 照舊 `claude/modest-rubin-2lyp7g`；交班紀錄 HANDOFF_GAP_MATRIX 第 1 節「第四段」、快照 2026-11-02T0309Z_B_LAWWW.json）**
 

@@ -3,8 +3,8 @@
  "account": "B",
  "session": "session_01DvRVNNnivf7da7qqWuGmw6",
  "branch": "claude/modest-rubin-2lyp7g",
- "since": "2026-11-04T12:17Z",
- "state": "on",
- "sinceSha": "e52a7703",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-11-04T12:23Z",
+ "sha": "34a0112d",
+ "snapshot": "2026-11-04T1223Z_B_LAWWW.json"
 }
