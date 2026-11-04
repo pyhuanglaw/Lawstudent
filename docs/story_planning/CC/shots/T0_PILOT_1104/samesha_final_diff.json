@@ -1,0 +1,139 @@
+{
+ "A": "/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/bl_det1d",
+ "B": "/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/bl_det2d",
+ "tol": 30,
+ "n": 16,
+ "identical": 5,
+ "only_a": [],
+ "only_b": [],
+ "rows": [
+  {
+   "name": "base_gg_x-30_z14_d180.png",
+   "frac": 0.0,
+   "mean": 0.3025,
+   "max": 17,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x0_z14_d180.png",
+   "frac": 0.0,
+   "mean": 0.2795,
+   "max": 18,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x0_z14_d090.png",
+   "frac": 0.0,
+   "mean": 0.2047,
+   "max": 16,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x0_z14_d270.png",
+   "frac": 0.0,
+   "mean": 0.1704,
+   "max": 18,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x-30_z14_d090.png",
+   "frac": 0.0,
+   "mean": 0.1467,
+   "max": 16,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x-30_z14_d270.png",
+   "frac": 0.0,
+   "mean": 0.1212,
+   "max": 15,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x0_z14_d000.png",
+   "frac": 0.0,
+   "mean": 0.0709,
+   "max": 18,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_gg_x-30_z14_d000.png",
+   "frac": 0.0,
+   "mean": 0.0333,
+   "max": 11,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_wz_x24_z0_d180.png",
+   "frac": 0.0,
+   "mean": 0.0124,
+   "max": 22,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_wz_x24_z0_d090.png",
+   "frac": 0.0,
+   "mean": 0.0046,
+   "max": 23,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_wz_x44_z0_d090.png",
+   "frac": 0.0,
+   "mean": 0.0028,
+   "max": 21,
+   "bbox": null,
+   "identical": false
+  },
+  {
+   "name": "base_wz_x24_z0_d000.png",
+   "frac": 0.0,
+   "mean": 0.0,
+   "max": 0,
+   "bbox": null,
+   "identical": true
+  },
+  {
+   "name": "base_wz_x24_z0_d270.png",
+   "frac": 0.0,
+   "mean": 0.0,
+   "max": 0,
+   "bbox": null,
+   "identical": true
+  },
+  {
+   "name": "base_wz_x44_z0_d000.png",
+   "frac": 0.0,
+   "mean": 0.0,
+   "max": 0,
+   "bbox": null,
+   "identical": true
+  },
+  {
+   "name": "base_wz_x44_z0_d180.png",
+   "frac": 0.0,
+   "mean": 0.0,
+   "max": 0,
+   "bbox": null,
+   "identical": true
+  },
+  {
+   "name": "base_wz_x44_z0_d270.png",
+   "frac": 0.0,
+   "mean": 0.0,
+   "max": 0,
+   "bbox": null,
+   "identical": true
+  }
+ ]
+}
