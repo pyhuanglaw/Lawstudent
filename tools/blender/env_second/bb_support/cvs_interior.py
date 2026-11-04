@@ -1,4 +1,4 @@
-"""日和便利店（cvs 區域：原「日日便利」，AA_647 G03）室內 v1 → GLB。BB（帳號 A）2026-11-04。
+"""日和便利店（cvs 區域：原「日日便利」，AA_647 G03）室內 v2 → GLB。BB（帳號 A）2026-11-04。
   /opt/blenv/bin/python tools/blender/env_second/bb_support/cvs_interior.py [-- --out <glb>] [--preview]
   要在美術線的 worktree 跑（lib2.py、b3lib.py）；配置用 node 讀 src/data/cvs_layout.js（Blender 和遊戲同一份數字）。
 照 SCENE_RULES 第 11、12 節：參考圖 docs/story_planning/ref_images/shops/gongguan_cvs_int.webp 就是規格；拆圖清單在
@@ -59,7 +59,7 @@ M = dict(
     glass=L.flat('cvs_glass', '#e4eef0', rough=0.03, alpha=0.08),
     decal=img_mat('cvs_decal', P['decal'], rough=0.4, alpha=True),
     led=L.flat('GLOW_cvs_led', '#ffffff', rough=0.3, emit=tuple(v * 7.0 for v in B.srgb('#ffe8c8'))),
-    cooler=img_mat('GLOW_cvs_cooler', P['cooler'], rough=0.3, emit=1.6),
+    cooler=img_mat('GLOW_cvs_cooler', P['cooler'], rough=0.3, emit=2.0),
     screen=img_mat('GLOW_cvs_screen', P['screen'], rough=0.2, emit=1.2),
 )
 M['wood']['tile'] = 1.0
@@ -142,7 +142,7 @@ for x in LEDX:
     z = Z0 + 0.5
     while z < Z1 - 0.6:
         z1 = min(z + 2.3, Z1 - 0.5)
-        if not (x < S['staffRoom']['x1'] and z < S['staffRoom']['z1']):   # 員工室裡面不放
+        if True:
             VC.cbox(x - 0.07, x + 0.07, H - 0.045, H, z, z1, '#e8e8e4'); LED.box(x - 0.05, x + 0.05, H - 0.055, H - 0.045, z + 0.03, z1 - 0.03)
         z = z1 + 0.2
 # 橫向的燈條（參考圖：靠前面有幾條橫的）
@@ -160,8 +160,7 @@ for (x, z) in ((X0 + 0.6, Z1 - 0.6), (X1 - 0.6, Z0 + 0.8), (2.8, Z1 - 0.5)):
 
 # ================= 牆 =================
 lw = wg('left', 'vc'); rw = wg('right', 'vc'); bw = wg('back', 'vc'); fw = wg('front', 'vc')
-LWZ = S['left']['windows'][0]; SILL, HEAD = S['left']['sill'], S['left']['head']
-lw.cbox(X0 - 0.12, X0, 0, H, Z0, LWZ[0], WALLC); lw.cbox(X0 - 0.12, X0, 0, SILL, LWZ[0], Z1, '#d8d4ca'); lw.cbox(X0 - 0.12, X0, HEAD, H, LWZ[0], Z1, WALLC)
+lw.cbox(X0 - 0.12, X0, 0, H, Z0, Z1, WALLC)   # 西牆是實牆（隔壁是頁間書屋）
 rw.cbox(X1, X1 + 0.12, 0, H, Z0, Z1, WALLC); bw.cbox(X0, X1, 0, H, Z0 - 0.12, Z0, WALLC)
 dr = S['front']['door']; DX0, DX1 = dr['x'] - dr['w'] / 2, dr['x'] + dr['w'] / 2; FW = S['front']['windows']; FSILL, FHEAD = S['front']['sill'], S['front']['head']
 fw.cbox(X0 - 0.12, X1 + 0.12, FHEAD, H, Z1, Z1 + 0.12, WALLC)
@@ -170,14 +169,10 @@ fw.cbox(X0 - 0.12, FW[0][0], 0, FHEAD, Z1, Z1 + 0.12, WALLC)                 # �
 fw.cbox(FW[1][1], X1 + 0.12, 0, FHEAD, Z1, Z1 + 0.12, WALLC)                 # 右段白牆（外面是置物櫃、回收桶、販賣機）
 fw.cbox(FW[0][1], DX0, 0, FHEAD, Z1 - 0.04, Z1 + 0.12, ALU); fw.cbox(DX1, FW[1][0], 0, FHEAD, Z1 - 0.04, Z1 + 0.12, ALU)
 # 踢腳（淺灰）
-for m, a in ((lw, (X0, X0 + 0.01, Z0, LWZ[0])), (rw, (X1 - 0.01, X1, Z0, Z1)), (bw, (X0, X1, Z0, Z0 + 0.01))): m.cbox(a[0], a[1], 0, 0.1, a[2], a[3], '#b8b6ae')
+for m, a in ((lw, (X0, X0 + 0.01, Z0, Z1)), (rw, (X1 - 0.01, X1, Z0, Z1)), (bw, (X0, X1, Z0, Z0 + 0.01))): m.cbox(a[0], a[1], 0, 0.1, a[2], a[3], '#b8b6ae')
 fw.cbox(FW[1][1], X1, 0, 0.1, Z1 - 0.01, Z1, '#b8b6ae')
 # 窗框（鋁）、玻璃、貼紙
 lm = wg('left', 'vm'); fm = wg('front', 'vm')
-NL = max(2, round((LWZ[1] - LWZ[0]) / 0.9)); zs = [LWZ[0] + k * (LWZ[1] - LWZ[0]) / NL for k in range(NL + 1)]   # 窗框直條細、密（每 0.9 m 一條、寬 4 cm）
-for z in zs: lm.cbox(X0 - 0.02, X0 + 0.03, SILL, HEAD, z - 0.02, z + 0.02, ALU)
-for y in (SILL, HEAD - 0.035): lm.cbox(X0 - 0.02, X0 + 0.035, y, y + 0.035, LWZ[0], LWZ[1], ALU)
-face(GLS, (X0 + 0.01, (SILL + HEAD) / 2, (LWZ[0] + LWZ[1]) / 2), '+x', LWZ[1] - LWZ[0], HEAD - SILL, (0, 0, 1, 1))
 for a, b in FW:
     n_ = max(1, round((b - a) / 0.9))
     for x in [a + k * (b - a) / n_ for k in range(n_ + 1)]: fm.cbox(x - 0.02, x + 0.02, FSILL, FHEAD, Z1 - 0.035, Z1 + 0.02, ALU)
@@ -193,15 +188,10 @@ for (x0, x1) in ((DX0 - 0.92, DX0 + 0.08), (DX1 - 0.08, DX1 + 0.92)):   # 門扇
     face(GLSF, ((x0 + x1) / 2, DH / 2, z - 0.022), '-z', x1 - x0, DH - 0.08, (0, 0, 1, 1))
     face(DECF, ((x0 + x1) / 2, 0.98, z - 0.026), '-z', x1 - x0 - 0.1, 0.06, DC['stripe'])
 face(DECF, (DX1 + 0.45, 1.45, Z1 - 0.115), '-z', 0.6, 0.66, DC['door'])
-face(DEC, (X0 + 0.016, 1.62, 3.6), '+x', 2.4, 0.94, DC['win']); face(DECF, ((FW[0][0] + FW[0][1]) / 2 - 0.6, 1.62, Z1 - 0.016), '-z', 2.4, 0.94, DC['win'])   # 窗邊的玻璃貼紙（內用座位｜輕食飲品｜便當新鮮）
-face(DECF, ((FW[0][0] + FW[0][1]) / 2, 1.0, Z1 - 0.016), '-z', FW[0][1] - FW[0][0] - 0.1, 0.05, DC['stripe']); face(DEC, (X0 + 0.016, 1.0, (LWZ[0] + LWZ[1]) / 2), '+x', LWZ[1] - LWZ[0] - 0.1, 0.05, DC['stripe'])
+face(DECF, ((FW[0][0] + FW[0][1]) / 2 - 0.6, 1.62, Z1 - 0.016), '-z', 2.4, 0.94, DC['win'])   # 窗邊的玻璃貼紙（內用座位｜輕食飲品｜便當新鮮）
+face(DECF, ((FW[0][0] + FW[0][1]) / 2, 1.0, Z1 - 0.016), '-z', FW[0][1] - FW[0][0] - 0.1, 0.05, DC['stripe'])
 
 # ================= 窗邊吧台、高腳椅、綠色吊燈、盆栽 =================
-bar = S['bar']; bh = bar['h']
-WD.rbox(bar['x0'], bar['x1'], bh - 0.05, bh, bar['z0'], bar['z1'], r=0.012, seg=2)
-for z in [bar['z0'] + 0.25 + k * (bar['z1'] - bar['z0'] - 0.5) / 4 for k in range(5)]:
-    VM.cbox(bar['x1'] - 0.14, bar['x1'] - 0.1, 0, bh - 0.05, z - 0.02, z + 0.02, '#3a3c3e'); VM.cbox(X0, bar['x1'] - 0.1, bh - 0.09, bh - 0.05, z - 0.02, z + 0.02, '#3a3c3e')
-ccyl(VM, (bar['x1'] - 0.12, 0.25, bar['z0']), (bar['x1'] - 0.12, 0.25, bar['z1']), 0.015, '#3a3c3e', seg=6)
 def rot(x, z, yaw):
     """遊戲座標的旋轉：面向 yaw（(sin, cos)）的本地 (lx 右手, lz 前方) → 世界 (x, z)"""
     f = (math.sin(yaw), math.cos(yaw)); r = (math.cos(yaw), -math.sin(yaw))
@@ -245,25 +235,22 @@ def chair(x, z, yaw):
         a_ = T(lx, -0.2); ccyl(VM, (a_[0], 0.47, a_[1]), (a_[0], 0.86, a_[1]), 0.011, '#a8acae', seg=5)
 
 
-for z in S['stools']: stool(S['stoolX'], z, -PI / 2)
-fb = S['frontBar']
-WD.rbox(fb['x0'], fb['x1'], fb['h'] - 0.05, fb['h'], fb['z0'], fb['z1'], r=0.012, seg=2)
+fb = S['frontBar']; bh = fb['h']   # 正面左段落地窗前的吧台＋三盞綠色吊燈
+WD.rbox(fb['x0'], fb['x1'], bh - 0.05, bh, fb['z0'], fb['z1'], r=0.012, seg=2)
 for x in (fb['x0'] + 0.25, (fb['x0'] + fb['x1']) / 2, fb['x1'] - 0.25):
-    VM.cbox(x - 0.02, x + 0.02, 0, fb['h'] - 0.05, fb['z0'] + 0.1, fb['z0'] + 0.14, '#3a3c3e'); VM.cbox(x - 0.02, x + 0.02, fb['h'] - 0.09, fb['h'] - 0.05, fb['z0'] + 0.1, Z1, '#3a3c3e')
+    VM.cbox(x - 0.02, x + 0.02, 0, bh - 0.05, fb['z0'] + 0.1, fb['z0'] + 0.14, '#3a3c3e'); VM.cbox(x - 0.02, x + 0.02, bh - 0.09, bh - 0.05, fb['z0'] + 0.1, Z1, '#3a3c3e')
 ccyl(VM, (fb['x0'], 0.25, fb['z0'] + 0.12), (fb['x1'], 0.25, fb['z0'] + 0.12), 0.015, '#3a3c3e', seg=6)
 for x in fb['stools']: stool(x, fb['stoolZ'], 0.0)
-PEND = [(X0 + 0.45, z) for z in (3.6, 2.0, 0.4, -0.9)] + [(-3.45, Z1 - 0.45), (-2.55, Z1 - 0.45)]
-for x, z in PEND:
+for x, z in S['pendants']:
     ccyl(VC, (x, H, z), (x, 2.62, z), 0.004, '#2a2a2a', seg=4)
     clathe(VC, [(0.0, 2.6), (0.03, 2.6), (0.05, 2.56), (0.16, 2.44), (0.22, 2.36), (0.225, 2.35), (0.0, 2.35)], x, 0, z, GREEN, seg=16)
     LED.sphere((x, 2.37, z), 0.05, seg=10, rings=5)
-for z in (4.1, 1.9, -0.8):   # 吧台上的盆栽
-    clathe(VC, [(0.0, 0.0), (0.08, 0.0), (0.1, 0.16), (0.0, 0.16)], (X0 + 0.250), bh, z, '#f2f0ea', seg=12)
+for x in (fb['x0'] + 0.3, fb['x1'] - 0.3):   # 吧台上的盆栽（靠窗）
+    clathe(VC, [(0.0, 0.0), (0.08, 0.0), (0.1, 0.16), (0.0, 0.16)], x, bh, Z1 - 0.22, '#f2f0ea', seg=12)
     for k in range(7):
-        a = k * 2 * PI / 7; f0 = set(VC.bm.faces); VC.ell(((X0 + 0.250) + 0.08 * math.cos(a), bh + 0.26 + 0.05 * (k % 2), z + 0.08 * math.sin(a)), 0.09, 0.05, 0.09, seg=6, rings=4); VC.paint(nf(VC, f0), ['#4e7a34', '#6a9640', '#3e6a2c'][k % 3])
-for z in (3.3, 0.3):   # 面紙盒、立牌
-    VC.cbox((X0 + 0.180), (X0 + 0.340), bh, bh + 0.1, z - 0.06, z + 0.06, WHITE)
-    face(PR, ((X0 + 0.380), bh + 0.08, z + 0.3), '+x', 0.1, 0.14, C['tent'])
+        a_ = k * 2 * PI / 7; f0 = set(VC.bm.faces); VC.ell((x + 0.08 * math.cos(a_), bh + 0.26 + 0.05 * (k % 2), Z1 - 0.22 + 0.08 * math.sin(a_)), 0.09, 0.05, 0.09, seg=6, rings=4); VC.paint(nf(VC, f0), ['#4e7a34', '#6a9640', '#3e6a2c'][k % 3])
+for x in (-3.4, -2.5):   # 面紙盒、立牌
+    VC.cbox(x - 0.06, x + 0.06, bh, bh + 0.1, Z1 - 0.3, Z1 - 0.14, WHITE); face(PR, (x + 0.25, bh + 0.08, Z1 - 0.3), '-z', 0.1, 0.14, C['tent'])
 
 # ================= 內用小方桌 =================
 for t in S['tables']:
@@ -273,31 +260,36 @@ for t in S['tables']:
     VC.cbox(x - 0.07, x + 0.07, 0.76, 0.86, z - 0.05, z + 0.05, WHITE); face(PR, (x + 0.12, 0.84, z), '+z', 0.1, 0.15, C['tent']); face(PR, (x + 0.12, 0.84, z - 0.002), '-z', 0.1, 0.15, C['tent'])
     for s_ in (-1, 1): chair(x, z + s_ * 0.55, 0.0 if s_ < 0 else PI)   # 椅子：在 z−0.55 的面向 +z
 
-# ================= 左後：員工室隔間、微波爐熱水瓶層架、三色回收桶 =================
-st = S['staffRoom']
-VC.cbox(st['x0'], st['x1'] + 0.06, 0, H, st['z1'] - 0.06, st['z1'] + 0.06, WALLC)
-dz0, dz1 = st['door']['z'] - st['door']['w'] / 2, st['door']['z'] + st['door']['w'] / 2
-VC.cbox(st['x1'] - 0.06, st['x1'] + 0.06, 0, H, st['z0'], dz0, WALLC); VC.cbox(st['x1'] - 0.06, st['x1'] + 0.06, 0, H, dz1, st['z1'] - 0.06, WALLC); VC.cbox(st['x1'] - 0.06, st['x1'] + 0.06, 2.15, H, dz0, dz1, WALLC)
-VC.cbox(st['x1'] - 0.03, st['x1'] + 0.03, 0, 2.15, dz0, dz1, '#d6d2c8'); VM.cbox(st['x1'] + 0.03, st['x1'] + 0.05, 1.0, 1.05, dz1 - 0.15, dz1 - 0.05, '#9a9ea2')
-face(PR, (st['x1'] + 0.065, 1.6, st['door']['z']), '+x', 0.5, 0.19, C['staff'])
-mw = S['microwave']
-VC.crbox(mw['x0'], mw['x1'], 0, mw['h'] - 0.04, mw['z0'], mw['z1'], WHITE, r=0.008, seg=1); WD.rbox(mw['x0'] - 0.02, mw['x1'] + 0.02, mw['h'] - 0.04, mw['h'], mw['z0'], mw['z1'] + 0.03, r=0.008, seg=1)
-for x in (mw['x0'] + 0.78, mw['x0'] + 1.56): VC.cbox(x - 0.004, x + 0.004, 0.08, mw['h'] - 0.06, mw['z1'], mw['z1'] + 0.003, '#c8c6c0')
-VC.cbox((X0 + 0.250), (X0 + 0.800), mw['h'], mw['h'] + 0.32, -2.07, -1.7, '#e6e6e2'); face(PR, ((X0 + 0.525), mw['h'] + 0.16, -1.698), '+z', 0.55, 0.3, C['micro'])
-VC.cbox((X0 + 0.900), (X0 + 1.450), mw['h'], mw['h'] + 0.32, -2.07, -1.7, '#e6e6e2'); face(PR, ((X0 + 1.175), mw['h'] + 0.16, -1.698), '+z', 0.55, 0.3, C['micro'])
-clathe(VM, [(0.0, 0.0), (0.14, 0.0), (0.15, 0.02), (0.15, 0.36), (0.12, 0.42), (0.05, 0.44), (0.0, 0.44)], (X0 + 1.900), mw['h'], -1.87, '#c4c8ca', seg=14)
-face(PR, ((X0 + 1.900), mw['h'] + 0.2, -1.718), '+z', 0.12, 0.18, C['kettle'])
-for y in (1.5, 2.0):   # 上面的木層板
-    WD.rbox(mw['x0'], mw['x1'], y - 0.03, y, -2.09, -1.81, r=0.006, seg=1)
-    for x in (mw['x0'] + 0.15, mw['x1'] - 0.15): VM.cbox(x - 0.01, x + 0.01, y - 0.16, y - 0.03, -2.09, -1.87, '#8a8c8e')
-for k, x in enumerate(((X0 + 0.400), (X0 + 0.750), (X0 + 1.100))):   # 帆布袋（太陽標誌）
-    face(PR, (x, 1.67, -1.85), '+z', 0.28, 0.34, C['tote']); VC.cbox(x - 0.14, x + 0.14, 1.5, 1.84, -1.9, -1.855, '#e8e2d2')
-for k in range(6):   # 紙杯、湯匙、餐巾紙、袋子
-    VC.cbox((X0 + 1.400) + k * 0.17, (X0 + 1.530) + k * 0.17, 1.5, 1.5 + R.uniform(0.12, 0.26), -2.05, -1.89, R.choice(['#f4f2ec', '#d8c8a8', '#e8e8e4', '#b8a888']))
-clathe(VC, [(0.0, 0.0), (0.1, 0.0), (0.12, 0.18), (0.0, 0.18)], (X0 + 0.600), 2.0, -1.95, '#f2f0ea', seg=12)
-for k in range(9):
-    a = k * 2 * PI / 9; f0 = set(VC.bm.faces); VC.ell(((X0 + 0.600) + 0.11 * math.cos(a), 2.3 + 0.08 * (k % 3) - 0.04, -1.95 + 0.11 * math.sin(a)), 0.1, 0.06, 0.1, seg=6, rings=4); VC.paint(nf(VC, f0), ['#4e7a34', '#6a9640', '#3e6a2c'][k % 3])
-for k in range(3): gbox(PR, (X0 + 1.300) + k * 0.35, (X0 + 1.580) + k * 0.35, 2.0, 2.18, -2.09, -1.85, '+z', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
+# ================= 後牆左半：微波爐、熱水瓶、餐具、咖啡、環保袋的層架；三色回收桶 =================
+st_ = S['backStation']; sx0, sx1, sz0, sz1, shh = st_['x0'], st_['x1'], st_['z0'], st_['z1'], st_['h']
+VC.crbox(sx0, sx1, 0, shh - 0.04, sz0, sz1, WHITE, r=0.008, seg=1); WD.rbox(sx0 - 0.02, sx1 + 0.02, shh - 0.04, shh, sz0, sz1 + 0.03, r=0.008, seg=1)
+for x in [sx0 + k * 0.6 for k in range(1, int((sx1 - sx0) / 0.6) + 1)]: VC.cbox(x - 0.004, x + 0.004, 0.08, shh - 0.06, sz1, sz1 + 0.003, '#c8c6c0')
+FZ = sz1 - 0.03   # 檯面上東西的正面
+for x0 in (-3.75, -3.1):   # 微波爐兩台
+    VC.cbox(x0, x0 + 0.55, shh, shh + 0.32, sz0 + 0.05, FZ, '#e6e6e2'); face(PR, (x0 + 0.275, shh + 0.16, FZ + 0.002), '+z', 0.55, 0.3, C['micro'])
+clathe(VM, [(0.0, 0.0), (0.14, 0.0), (0.15, 0.02), (0.15, 0.36), (0.12, 0.42), (0.05, 0.44), (0.0, 0.44)], -2.2, shh, sz1 - 0.2, '#c4c8ca', seg=14)   # 熱水瓶
+face(PR, (-2.2, shh + 0.2, sz1 - 0.048), '+z', 0.12, 0.18, C['kettle'])
+for k in range(3): clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.05, 0.3), (0.0, 0.3)], -1.75 + k * 0.11, shh, sz1 - 0.15, '#f4f2ec', seg=10)   # 紙杯疊
+for k in range(3): clathe(VM, [(0.0, 0.0), (0.045, 0.0), (0.045, 0.14), (0.0, 0.14)], -1.3 + k * 0.12, shh, sz1 - 0.15, '#b8bcbe', seg=10)   # 湯匙、筷子、吸管筒
+for k in range(3):
+    for j in range(6): ccyl(VC, (-1.3 + k * 0.12 + R.uniform(-0.02, 0.02), shh + 0.08, sz1 - 0.15 + R.uniform(-0.02, 0.02)), (-1.3 + k * 0.12 + R.uniform(-0.04, 0.04), shh + 0.26, sz1 - 0.15 + R.uniform(-0.04, 0.04)), 0.004, ['#e8e4dc', '#c8a878', '#3a8a4a'][k], seg=3)
+VC.cbox(-0.95, -0.65, shh, shh + 0.1, sz1 - 0.25, sz1 - 0.08, WHITE)   # 餐巾紙
+gbox(GD, -4.9, -4.0, shh, shh + 0.22, sz0 + 0.05, FZ, '+z', cell_u(GC['box'][0], 0.9))   # 咖啡、沖泡包
+for y in st_['shelves']:   # 上面的木層板
+    WD.rbox(sx0, sx1, y - 0.03, y, sz0, sz0 + 0.32, r=0.006, seg=1)
+    for x in [sx0 + 0.15 + k * (sx1 - sx0 - 0.3) / 4 for k in range(5)]: VM.cbox(x - 0.01, x + 0.01, y - 0.16, y - 0.03, sz0, sz0 + 0.22, '#8a8c8e')
+y1, y2 = st_['shelves']
+for k, x in enumerate([sx0 + 0.25 + k * 0.34 for k in range(4)]):   # 環保袋（太陽標誌）
+    face(PR, (x, y1 + 0.17, sz0 + 0.3), '+z', 0.28, 0.34, C['tote']); VC.cbox(x - 0.14, x + 0.14, y1, y1 + 0.34, sz0 + 0.08, sz0 + 0.295, '#e8e2d2')
+gbox(GD, -3.9, -2.4, y1, y1 + 0.26, sz0 + 0.02, sz0 + 0.3, '+z', cell_u(GC['box'][1], 1.5))   # 咖啡豆、即溶咖啡
+for k in range(8): clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.05, 0.12), (0.0, 0.12)], -2.2 + k * 0.2, y1, sz0 + 0.16, R.choice(['#f4f2ec', '#2a2a2a', '#c8a878', '#e8e0cc']), seg=8)   # 馬克杯、保溫杯
+for k in range(4): clathe(GLS, [(0.0, 0.0), (0.06, 0.0), (0.06, 0.2), (0.04, 0.22), (0.0, 0.22)], -4.9 + k * 0.18, y2, sz0 + 0.16, None, seg=10)   # 咖啡豆罐
+for k in range(4): clathe(VC, [(0.0, 0.0), (0.055, 0.0), (0.055, 0.12), (0.0, 0.12)], -4.9 + k * 0.18, y2, sz0 + 0.16, '#5a3820', seg=10)
+for k in range(3): gbox(PR, -4.0 + k * 0.4, -3.65 + k * 0.4, y2, y2 + 0.22, sz0 + 0.03, sz0 + 0.3, '+z', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
+for x in (-2.4, -1.0):   # 盆栽
+    clathe(VC, [(0.0, 0.0), (0.1, 0.0), (0.12, 0.18), (0.0, 0.18)], x, y2, sz0 + 0.17, '#f2f0ea', seg=12)
+    for k in range(9):
+        a_ = k * 2 * PI / 9; f0 = set(VC.bm.faces); VC.ell((x + 0.11 * math.cos(a_), y2 + 0.3 + 0.08 * (k % 3) - 0.04, sz0 + 0.17 + 0.11 * math.sin(a_)), 0.1, 0.06, 0.1, seg=6, rings=4); VC.paint(nf(VC, f0), ['#4e7a34', '#6a9640', '#3e6a2c'][k % 3])
 bn = S['bins']; bwid = (bn['x1'] - bn['x0']) / 3
 for k, col in enumerate(('#46784a', '#34527f', '#7a5438')):
     x0 = bn['x0'] + k * bwid; VC.crbox(x0 + 0.01, x0 + bwid - 0.01, 0, 0.82, bn['z0'], bn['z1'], col, r=0.012, seg=1)
@@ -305,7 +297,33 @@ for k, col in enumerate(('#46784a', '#34527f', '#7a5438')):
 
 # ================= 中間三排貨架 =================
 LEV = [0.12, 0.42, 0.72, 1.02, 1.32]
-KINDS = {1: ['bottle', 'paper', 'mix_daily', 'bottle', 'paper'], 2: ['chips', 'box', 'noodle', 'mix_snack', 'chips'], 3: ['stat', 'stat', 'box', 'can', 'mix_daily']}
+KINDS = {1: ['bottle', 'paper', 'mix_daily', 'bottle', 'paper'], 2: ['chips', 'box', 'mix_snack', 'chips', 'box'], 3: ['noodle', 'noodle', 'can', 'stat', 'stat']}
+
+
+SHAPE = {'bottle': 'bottle', 'paper': 'bag', 'mix_daily': 'bottle', 'chips': 'bag', 'box': 'bag', 'noodle': 'cup', 'mix_snack': 'bag', 'stat': 'bag', 'can': 'can', 'drink': 'bottle'}
+BAGC = ['#e8b830', '#d83a2c', '#3a7ac8', '#4ea050', '#e87a30', '#8a4ab0', '#f0e0c0', '#e85a8a']
+
+
+def real_item(shape, x, y, z, hmax, sgn):
+    """近景一個包裝（中心 x、z，放在 y）：回傳沿 z 佔多少"""
+    if shape == 'bottle':
+        hb = min(hmax - 0.01, R.uniform(0.17, 0.25)); col = R.choice(['#f2f2ee', '#5a8ac8', '#e890b0', '#f0c040', '#70b070', '#e8e4dc', '#c8302a'])
+        clathe(VC, [(0.0, 0.0), (0.038, 0.0), (0.04, hb * 0.72), (0.018, hb * 0.88), (0.013, hb), (0.0, hb)], x, y, z, col, seg=8)
+        VC.cbox(x - 0.041 if sgn < 0 else x + 0.036, x - 0.036 if sgn < 0 else x + 0.041, y + hb * 0.3, y + hb * 0.55, z - 0.03, z + 0.03, R.choice(['#ffffff', '#2a2a2a', '#f0d060']))
+        return 0.088
+    if shape == 'can':
+        clathe(VC, [(0.0, 0.0), (0.033, 0.0), (0.033, 0.12), (0.028, 0.125), (0.0, 0.125)], x, y, z, R.choice(['#c8302a', '#2a5aa8', '#e8e4dc', '#3a8a4a', '#e8a030']), seg=8)
+        return 0.072
+    if shape == 'cup':
+        col = R.choice(['#d83a2c', '#e8e4dc', '#e8a030', '#c8302a', '#3a6ab0'])
+        clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.06, 0.105), (0.063, 0.11), (0.0, 0.11)], x, y, z, col, seg=10)
+        if hmax > 0.24: clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.06, 0.105), (0.063, 0.11), (0.0, 0.11)], x, y + 0.112, z, col, seg=10)
+        return 0.13
+    hb = min(hmax - 0.02, R.uniform(0.18, 0.26)); col = R.choice(BAGC)   # 袋裝：枕頭形（倒角方塊）＋上緣封口
+    VC.crbox(x - 0.03, x + 0.03, y, y + hb, z - 0.06, z + 0.06, col, r=0.025, seg=2)
+    VC.cbox(x - 0.012, x + 0.012, y + hb - 0.005, y + hb + 0.012, z - 0.058, z + 0.058, col, k=0.8)
+    f0 = set(VC.bm.faces); VC.ell((x + sgn * 0.03, y + hb * 0.45, z), 0.008, 0.045, 0.04, seg=6, rings=3); VC.paint(nf(VC, f0), R.choice(['#f6d270', '#ffffff', '#f0a050']))
+    return 0.13
 
 
 def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38, real=None):
@@ -320,19 +338,10 @@ def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38, real=None):
             za, zb = z0 + s * sl + 0.008, z0 + (s + 1) * sl - 0.008
             rect = cell_u(GC[kinds[i % len(kinds)]][R.randrange(2)], zb - za)
             d = dep * R.uniform(0.86, 0.96); hh = (ytop - y) - R.uniform(0.015, 0.035)
-            if real and i in real:   # 真的模型：最前面一排（後面還是貼圖方塊，看起來有深度）
-                xf = xb + sgn * (dep - 0.11); gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
-                kind = real[i]; z = za + 0.06
-                while z < zb - 0.05:
-                    xc_ = xb + sgn * (dep - 0.055)
-                    if kind == 'bottle':
-                        hb = R.uniform(0.17, 0.24); col = R.choice(['#f2f2ee', '#5a8ac8', '#e890b0', '#f0c040', '#70b070', '#e8e4dc'])
-                        clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.042, hb * 0.75), (0.02, hb * 0.9), (0.014, hb), (0.0, hb)], xc_, y, z, col, seg=8)
-                        z += 0.095
-                    else:
-                        clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.06, 0.1), (0.062, 0.105), (0.0, 0.105)], xc_, y, z, R.choice(['#d83a2c', '#e8e4dc', '#e8a030', '#c8302a', '#3a6ab0']), seg=10)
-                        clathe(VC, [(0.0, 0.105), (0.045, 0.105), (0.06, 0.205), (0.062, 0.21), (0.0, 0.21)], xc_, y, z, R.choice(['#d83a2c', '#e8e4dc', '#e8a030']), seg=10) if hh > 0.24 else None
-                        z += 0.135
+            if real and s == nseg - 1:   # 近景那一段（靠店門）：最前面一排是真的包裝（瓶裝、杯麵、袋裝、罐裝），後面是貼圖方塊
+                xf = xb + sgn * (dep - 0.1); gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
+                shape = SHAPE.get(kinds[i % len(kinds)], 'bag'); xc_ = xb + sgn * (dep - 0.05); z = za + 0.06
+                while z < zb - 0.05: z += real_item(shape, xc_, y, z, hh, sgn)
                 continue
             xf = xb + sgn * d
             gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
@@ -343,7 +352,7 @@ for g in S['gondolas']:
     VC.cbox(gx - hw, gx + hw, 0, 0.1, z0, z1, '#e4e2dc'); VC.cbox(gx - 0.02, gx + 0.02, 0.1, gh + 0.05, z0, z1, '#ecebe6')
     for z in (z0, z1): VC.cbox(gx - hw, gx + hw, 0, gh, z - 0.015 if z == z0 else z - 0.03, z + 0.03 if z == z0 else z + 0.015, '#f0efea')
     kinds = KINDS[g['n']]
-    for sgn in (1, -1): shelf_run(gx + sgn * 0.02, sgn, z0 + 0.03, z1 - 0.03, LEV, gh, kinds[::sgn] if sgn < 0 else kinds, dep=hw - 0.03, real={1: {0: 'bottle', 3: 'bottle'}, 2: {2: 'cup'}, 3: {}}[g['n']])
+    for sgn in (1, -1): shelf_run(gx + sgn * 0.02, sgn, z0 + 0.03, z1 - 0.03, LEV, gh, kinds[::sgn] if sgn < 0 else kinds, dep=hw - 0.03, real=True)
     # 兩頭的端面也擺商品（淺的，0.22 m）：+z 那頭（端架的除外）、−z 那頭
     for zend, n in ((z1, '+z'), (z0, '-z')):
         if n == '+z' and 'endcap' in g: continue
@@ -354,7 +363,7 @@ for g in S['gondolas']:
         VC.cbox(gx - hw, gx + hw, 0, 0.1, min(zend, zend + sg * 0.27), max(zend, zend + sg * 0.27), '#e4e2dc')
     # 吊牌（朝店門，雙面）
     zc = S['signZ']
-    face(PR, (gx, 2.52, zc), '+z', 1.05, 0.33, C[f'hang{g["n"] - 1}'], two=True)
+    face(PR, (gx, 2.5, zc), '+z', 1.05, 0.31, C[f'hangG{g["n"] - 1}'], two=True)
     for dx in (-0.45, 0.45): ccyl(VM, (gx + dx, H, zc), (gx + dx, 2.68, zc), 0.003, '#8a8c8e', seg=4)
     if 'endcap' in g:   # 端架：下兩層泡麵碗、上兩層零食；頂上綠色招牌
         e = g['endcap']; ez0, ez1, eh = e['z0'], e['z1'], e['h']; ehw = e['w'] / 2
@@ -380,23 +389,15 @@ for g in S['gondolas']:
         for dx in (-0.35, 0.35): VM.cbox(gx + dx - 0.015, gx + dx + 0.015, eh, eh + 0.14, (ez0 + ez1) / 2 - 0.015, (ez0 + ez1) / 2 + 0.015, '#8a8c8e')
         face(PR, (gx, eh + 0.3, (ez0 + ez1) / 2 + 0.01), '+z', 1.15, 0.29, C['endsign'], two=True)
 
-# ================= 後牆壁架 =================
-bs = S['backShelf']; BLEV = [0.12, 0.46, 0.8, 1.14, 1.48, 1.82]
-VC.cbox(bs['x0'], bs['x1'], 0, 0.1, bs['z0'], bs['z1'], '#e4e2dc'); VC.cbox(bs['x0'], bs['x1'], 0.1, bs['h'], bs['z0'], bs['z0'] + 0.03, '#ecebe6')
-nseg = round((bs['x1'] - bs['x0']) / 1.2); sl = (bs['x1'] - bs['x0']) / nseg
-BK = ['drink', 'chips', 'box', 'noodle', 'paper', 'bottle']
-for s in range(nseg + 1): VM.cbox(bs['x0'] + s * sl - 0.02, bs['x0'] + s * sl + 0.02, 0.1, bs['h'], bs['z0'] + 0.03, bs['z0'] + 0.07, '#b8bcbe')
-for i, y in enumerate(BLEV):
-    ytop = BLEV[i + 1] if i + 1 < len(BLEV) else bs['h']
-    VC.cbox(bs['x0'], bs['x1'], y - 0.025, y, bs['z0'] + 0.03, bs['z1'], '#d6d6d2')
-    face(GD, ((bs['x0'] + bs['x1']) / 2, y - 0.022, bs['z1'] + 0.002), '+z', bs['x1'] - bs['x0'], 0.045, cell_u(GC['price'][1], 8.5, per=8.6))
-    for s in range(nseg):
-        xa, xb = bs['x0'] + s * sl + 0.03, bs['x0'] + (s + 1) * sl - 0.03
-        gbox(GD, xa, xb, y, ytop - R.uniform(0.03, 0.06), bs['z0'] + 0.03, bs['z0'] + R.uniform(0.32, 0.4), '+z', cell_u(GC[BK[(i + s) % len(BK)]][R.randrange(2)], xb - xa))
-for s in range(nseg):   # 頂上的庫存紙箱
-    x = bs['x0'] + s * sl + 0.2
-    gbox(PR, x, x + 0.5, bs['h'], bs['h'] + R.uniform(0.22, 0.3), bs['z0'] + 0.05, bs['z0'] + 0.4, '+z', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
-face(PR, ((bs['x0'] + bs['x1']) / 2, 2.62, Z0 + 0.005), '+z', bs['x1'] - bs['x0'], 0.16, C['greenband'])
+# ================= 西牆壁架（實牆上，面向 +x） =================
+wsh = S['westShelf']
+VC.cbox(X0, wsh['x1'], 0, 0.1, wsh['z0'], wsh['z1'], '#e4e2dc'); VC.cbox(X0, X0 + 0.03, 0.1, wsh['h'], wsh['z0'], wsh['z1'], '#ecebe6')
+for z in (wsh['z0'], wsh['z1']): VC.cbox(X0, wsh['x1'], 0, wsh['h'], z - 0.015, z + 0.015, '#f0efea')
+shelf_run(X0 + 0.03, 1, wsh['z0'] + 0.02, wsh['z1'] - 0.02, [0.12, 0.44, 0.76, 1.08, 1.4], wsh['h'], ['drink', 'paper', 'box', 'chips', 'bottle'], dep=wsh['x1'] - wsh['x0'] - 0.05, real=True)
+face(PR, (X0 + 0.005, 2.1, (wsh['z0'] + wsh['z1']) / 2), '+x', wsh['z1'] - wsh['z0'], 0.12, C['greenband'])
+for k in range(int((wsh['z1'] - wsh['z0']) / 1.2)):   # 頂上的庫存紙箱
+    z = wsh['z0'] + 0.2 + k * 1.2
+    gbox(PR, X0 + 0.04, X0 + 0.4, wsh['h'], wsh['h'] + 0.26, z, z + 0.5, '+x', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
 
 # ================= 後牆右段冷藏櫃（綠色頂框，面向店門 +z）、右牆壁架、平台冷凍櫃 =================
 co = S['coolers']; cz1 = co['z1']; ch = co['h']   # 櫃子 z co.z0（後牆）～co.z1（門）；沿 x 排
@@ -462,15 +463,6 @@ for k in range(3): clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.05, 0.3), (0.0, 0.3)]
 clathe(VM, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.16), (0.0, 0.16)], (CX0 + 0.220), ch_, -0.2, '#b8bcbe', seg=10)
 for k in range(8): ccyl(VC, ((CX0 + 0.220) + R.uniform(-0.03, 0.03), ch_ + 0.1, -0.2 + R.uniform(-0.03, 0.03)), ((CX0 + 0.220) + R.uniform(-0.05, 0.05), ch_ + 0.32, -0.2 + R.uniform(-0.05, 0.05)), 0.004, R.choice(['#3a8a4a', '#e8e4dc', '#d84030']), seg=3)
 VC.cbox((CX0 + 0.150), (CX0 + 0.400), ch_, ch_ + 0.08, -0.05, 0.1, '#d8c8a0')
-# 櫃台靠冷藏櫃那一頭的小貨架（朝走道 −x）
-ir = S['impulseRack']
-VC.cbox(ir['x0'], ir['x1'], 0, 0.1, ir['z0'], ir['z1'], GREEN); VC.cbox(ir['x1'] - 0.03, ir['x1'], 0.1, ir['h'], ir['z0'], ir['z1'], '#ecebe6')
-for z in (ir['z0'], ir['z1']): VC.cbox(ir['x0'], ir['x1'], 0, ir['h'], z - 0.012, z + 0.012, '#f0efea')
-IRL = [0.1, 0.36, 0.62, 0.88]
-for i, y in enumerate(IRL):
-    VC.cbox(ir['x0'], ir['x1'] - 0.03, y - 0.02, y, ir['z0'], ir['z1'], '#d6d6d2')
-    face(GD, (ir['x0'] - 0.002, y - 0.02, (ir['z0'] + ir['z1']) / 2), '-x', ir['z1'] - ir['z0'], 0.04, cell_u(GC['price'][0], 0.9, per=3.6))
-    gbox(GD, ir['x0'] + 0.04, ir['x1'] - 0.03, y, (IRL[i + 1] if i + 1 < len(IRL) else ir['h']) - 0.04, ir['z0'] + 0.02, ir['z1'] - 0.02, '-x', cell_u(GC[['chips', 'box', 'mix_snack', 'can'][i]][1], ir['z1'] - ir['z0']))
 # 櫃台後面：矮櫃、咖啡機兩台、杯子、上方層板；右牆標誌、咖啡價目黑板
 bc = S['backCounter']; BX1 = bc['x1']; cw = S['counterWall']
 VC.cbox(cw['x0'], X1, 0, H, cw['z0'] - 0.12, cw['z0'], WALLC); VC.cbox(cw['x0'], X1, 0, H, cw['z1'], cw['z1'] + 0.12, WALLC)   # 倉庫的北牆、南牆
@@ -521,9 +513,6 @@ for k in range(4): ccyl(VC, (ub['x0'] + 0.1 + k * 0.1, 0.05, (ub['z0'] + ub['z1'
 # ================= 窗外（只給渲染用） =================
 if PREVIEW:
     om = img_mat('PREVIEW_outside', P['outside'], rough=1.0, emit=0.75); ob_ = Mesh('PREVIEW_outside', om)
-    face(ob_, (X0 - 6.0, 1.5, 1.0), '+x', 22, 3.0, sub((0, 0, 1, 1), 0, 0, 1, 0.37));   # 矮一點：不擋太陽
-    lm_ = img_mat('PREVIEW_leaves', P['leaves'], rough=1.0, alpha=True); lv_ = Mesh('PREVIEW_leaves', lm_)
-    face(lv_, (X0 - 2.2, 4.2, 1.5), '+x', 12, 6.0, (0, 0, 1, 1)); face(lv_, (X0 - 3.6, 5.0, -1.0), '+x', 10, 6.0, (0.3, 0, 1.3, 1)); lv_.finish(root, uv=False)   # 窗外行道樹的葉子：渲染時陽光穿過去，地上有樹影
     face(ob_, (-2.0, 2.6, Z1 + 6.0), '-z', 22, 8.2, (0, 0, 1, 1)); ob_.finish(root, uv=False)
 
 # ================= 收尾：牆分組、合併、匯出 =================
