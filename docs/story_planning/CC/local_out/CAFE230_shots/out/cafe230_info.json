@@ -1,0 +1,62 @@
+{
+ "14.0": {
+  "ref_east_to_west": {
+   "calls": 221,
+   "tris": 553477
+  },
+  "door_in": {
+   "calls": 220,
+   "tris": 537708
+  },
+  "booth": {
+   "calls": 142,
+   "tris": 378840
+  },
+  "bar": {
+   "calls": 159,
+   "tris": 416598
+  },
+  "pastry": {
+   "calls": 157,
+   "tris": 412364
+  },
+  "record": {
+   "calls": 90,
+   "tris": 260438
+  },
+  "window_bar": {
+   "calls": 223,
+   "tris": 504484
+  }
+ },
+ "22.0": {
+  "ref_east_to_west": {
+   "calls": 135,
+   "tris": 330211
+  },
+  "door_in": {
+   "calls": 140,
+   "tris": 322769
+  },
+  "booth": {
+   "calls": 118,
+   "tris": 313855
+  },
+  "bar": {
+   "calls": 113,
+   "tris": 297945
+  },
+  "pastry": {
+   "calls": 111,
+   "tris": 293711
+  },
+  "record": {
+   "calls": 86,
+   "tris": 248867
+  },
+  "window_bar": {
+   "calls": 178,
+   "tris": 389047
+  }
+ }
+}
