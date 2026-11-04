@@ -1,0 +1,147 @@
+{
+ "run": "B3",
+ "sha": "c7fde4f3e",
+ "formal": {
+  "boot_s": 20.5,
+  "zone_s": 10.47,
+  "glb_s": 10.47,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 183,
+   "geometries": 434,
+   "texCount": 186,
+   "texPixels": 26058102,
+   "texMP": 26.06,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "tree_leaves"
+   }
+  },
+  "views": {
+   "street_west": {
+    "calls": 203,
+    "tris": 310821,
+    "frames": 412,
+    "avg": 51.44,
+    "min": 24.94,
+    "low1": 24.98,
+    "calls_live": 209,
+    "tris_live": 323559
+   },
+   "arcade": {
+    "calls": 203,
+    "tris": 320853,
+    "frames": 307,
+    "avg": 38.36,
+    "min": 7.5,
+    "low1": 10.23,
+    "calls_live": 227,
+    "tris_live": 382463
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 19.8,
+  "zone_s": 6.67,
+  "glb_s": null,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 161,
+   "geometries": 198,
+   "texCount": 141,
+   "texPixels": 9379027,
+   "texMP": 9.38,
+   "biggest": {
+    "w": 2048,
+    "h": 256,
+    "name": "map"
+   }
+  },
+  "views": {
+   "street_west": {
+    "calls": 161,
+    "tris": 442263,
+    "frames": 387,
+    "avg": 48.27,
+    "min": 15.8,
+    "low1": 18.18,
+    "calls_live": 171,
+    "tris_live": 461533
+   },
+   "arcade": {
+    "calls": 158,
+    "tris": 436012,
+    "frames": 474,
+    "avg": 59.23,
+    "min": 15.02,
+    "low1": 23.08,
+    "calls_live": 173,
+    "tris_live": 468089
+   }
+  }
+ },
+ "table": {
+  "street_west": {
+   "calls": 203,
+   "nobldg_calls": 161,
+   "limit_1.3x": 209.3,
+   "margin": 6.3,
+   "ratio": 1.2609,
+   "tris": 310821,
+   "tris_limit": 420000,
+   "tris_margin": 109179,
+   "fps_avg": 51.44,
+   "fps_min": 24.94,
+   "fps_low1": 24.98,
+   "nobldg_fps_avg": 48.27,
+   "nobldg_fps_min": 15.8
+  },
+  "arcade": {
+   "calls": 203,
+   "nobldg_calls": 158,
+   "limit_1.3x": 205.4,
+   "margin": 2.4,
+   "ratio": 1.2848,
+   "tris": 320853,
+   "tris_limit": 420000,
+   "tris_margin": 99147,
+   "fps_avg": 38.36,
+   "fps_min": 7.5,
+   "fps_low1": 10.23,
+   "nobldg_fps_avg": 59.23,
+   "nobldg_fps_min": 15.02
+  },
+  "_mem": {
+   "formal": {
+    "textures": 183,
+    "geometries": 434,
+    "texCount": 186,
+    "texPixels": 26058102,
+    "texMP": 26.06,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "tree_leaves"
+    }
+   },
+   "nobldg": {
+    "textures": 161,
+    "geometries": 198,
+    "texCount": 141,
+    "texPixels": 9379027,
+    "texMP": 9.38,
+    "biggest": {
+     "w": 2048,
+     "h": 256,
+     "name": "map"
+    }
+   },
+   "glb_kb_total": 0,
+   "glb_files": [],
+   "glb_s": 10.47
+  }
+ }
+}
