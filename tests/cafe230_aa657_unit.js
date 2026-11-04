@@ -179,6 +179,6 @@ const knock=async(key,h,sent)=>{ const d=DK(key); const G=fresh(d,h,'wenzhou'); 
   check('C 那天 21:00 以後照舊擋；邀請沒送出照舊擋；其他天（4/25 週三、4/27 週五）20:30 照舊擋',closed(x3)&&closed(x4)&&closed(x5)&&closed(x6),J({x3,x4,x5,x6}));
   check('C 那天 15:00（照常營業）進門不說旁白',x7.r!==true&&!x7.toasts.length&&!x7.said.length,J(x7));
   const al=JSON.parse(rd('docs/handoff/story_import_allow.json')).files, e659=al.find(q=>q.path===AA659), e657=al.find(q=>q.path===AA657);
-  check('C 劇情匯入白名單：AA_659（21beb9d12）、AA_657（1aadca7e4），approved、AA（D109）',!!e659&&e659.sha==='21beb9d12'&&e659.status==='approved'&&e659.approvedBy==='AA（D109）'&&!!e657&&e657.sha==='1aadca7e4'&&e657.status==='approved'&&e657.approvedBy==='AA（D109）');
+  check('C 劇情匯入白名單：AA_659（21beb9d12）、AA_657（65a1b2fe9，1aadca7e4 在 history），approved、AA（D109）',!!e659&&e659.sha==='21beb9d12'&&e659.status==='approved'&&e659.approvedBy==='AA（D109）'&&!!e657&&e657.sha==='65a1b2fe9'&&(e657.history||[]).some(h=>h.sha==='1aadca7e4')&&e657.status==='approved'&&e657.approvedBy==='AA（D109）');
   H.done(); })().catch(e=>{ check('C 例外',false,String(e&&e.stack||e).split('\n').slice(0,4).join(' / ')); H.done(); });
 }
