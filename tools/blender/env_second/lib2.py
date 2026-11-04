@@ -234,9 +234,15 @@ def ph_model(pid, nodes=None, ratio=1.0, name=None, res='1k', texres=512, anchor
         bmesh.ops.translate(bm, verts=bm.verts, vec=-off)
     out = bpy.data.meshes.new(name or ('ph_' + pid)); bm.to_mesh(out); bm.free()
     for m in mats: out.materials.append(m)
-    for m in set(bpy.data.materials) - mats_before:
+    for m in set(bpy.data.materials) - mats_before:   # 半透明（散熱格柵、葉子）一律 alpha clip：glTF 匯出器看到 Alpha 前面接 ROUND 才輸出 MASK（Blender 4.2 以後 blend_method 不算數）
         if getattr(m, 'blend_method', 'OPAQUE') == 'BLEND': m.blend_method = 'CLIP'
         if hasattr(m, 'surface_render_method'): m.surface_render_method = 'DITHERED'
+        if not m.use_nodes: continue
+        bs = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+        if bs is None or not bs.inputs['Alpha'].links: continue
+        src = bs.inputs['Alpha'].links[0].from_socket
+        if src.node.type == 'MATH' and src.node.operation == 'ROUND': continue
+        r = m.node_tree.nodes.new('ShaderNodeMath'); r.operation = 'ROUND'; m.node_tree.links.new(src, r.inputs[0]); m.node_tree.links.new(r.outputs[0], bs.inputs['Alpha'])
     return out
 
 

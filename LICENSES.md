@@ -64,6 +64,17 @@
 
 （`tools/blender/textures/` 裡其他下載過、還沒用到的材質：`granite_tile_02`、`granite_wall`、`grey_plaster_02`、`floor_tiles_06`、`concrete_floor_02`，同樣是 Poly Haven CC0；用到時補進上表。）
 
+## Poly Haven 模型（CC0，2026-11-04 起，OPEN-SRC-2D3D-1104）
+
+使用者 2026-11-04 要求「從 GitHub 開源找…還有很多你需要用的美術內容」。Poly Haven（https://polyhaven.com ）的模型都是 **CC0**（授權說明 https://polyhaven.com/license ），可以不標示來源、自由修改與再散布；這裡照樣記下來。
+- 下載：`tools/blender/env_second/lib2.py` 的 `ph_fetch`／`ph_model` 在建模時自動抓 1k glTF，存到 `tools/blender/models_ph/<id>/`（`.gitignore`，不放 repo）。
+- 處理：只取需要的節點、減面；貼圖先在磁碟上縮成 512 px（RGB），再打包進 GLB。
+
+| Poly Haven id | 用途 | 處理 | 用在哪個模型 |
+|---|---|---|---|
+| `exterior_aircon_unit`（只取乾淨的那一台） | 冷氣室外機（掛在一樓門楣旁） | 9,493 → 1,517 面；半透明的散熱格柵改 alpha clip | `assets/models/env/second_ai/wenzhou_street.glb`（溫州街 A1 阿德影印） |
+| `potted_plant_02` | 陶盆合果芋（店門口的大盆栽） | 69,806 → 約 3,000 面（葉子 0.2、盆 0.12、土 0.004） | `wenzhou_street.glb`（阿德影印門口） |
+
 ## 本作自製的 3D 模型（Blender 腳本，2026-10-10 起）
 
 | 模型 | 腳本 | 說明 |

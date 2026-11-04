@@ -573,7 +573,6 @@ def _decal_tex(kind):
     """玻璃上的白字貼紙（透明底）：阿德＝參考圖 wz_ade_ext 的四行服務項目（圖示＋字），本作自己畫（PIL），不是裁參考圖（裁下來的背景是店裡的灰色）"""
     from PIL import Image, ImageDraw, ImageFont
     fn = f'wz_decal_{kind}.png'; out = os.path.join(GEN, fn)
-    if os.path.exists(out): return fn
     W_, H_ = 512, 512; im = Image.new('RGBA', (W_, H_), (255, 255, 255, 0)); d = ImageDraw.Draw(im)
     f = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 64); wh = (250, 250, 248, 255)
     rows = ['影印・複印', '掃描建檔', '彩色列印', '論文裝訂']
@@ -585,8 +584,11 @@ def _decal_tex(kind):
             for (cx, cy, col) in ((40, y + 24, (220, 60, 60, 255)), (62, y + 24, (60, 160, 80, 255)), (40, y + 46, (50, 110, 200, 255)), (62, y + 46, (240, 200, 40, 255))): d.rectangle((cx, cy, cx + 18, cy + 18), fill=col)
         else:
             for k in range(3): d.line((32, y + 26 + k * 14, 84, y + 20 + k * 14), fill=wh, width=6)
-        d.text((122, y + 4), t, font=f, fill=wh)
-    im.save(out); return fn
+        d.text((122, y + 4), t, font=f, fill=wh, stroke_width=3, stroke_fill=(70, 74, 80, 235))   # 深灰描邊：店裡亮的時候白字才看得到（第一版白字疊在店裡白牆上看不見）
+    a = im.split()[3]; sh = Image.new('RGBA', im.size, (40, 44, 50, 0)); sh.putalpha(a.point(lambda v: min(255, v) * 0.55))   # 圖示也加一圈淡淡的陰影
+    from PIL import ImageFilter
+    sh = sh.filter(ImageFilter.GaussianBlur(2.2)); base = Image.new('RGBA', im.size, (255, 255, 255, 0)); base.alpha_composite(sh); base.alpha_composite(im)
+    base.save(out); return fn
 
 
 def glass_decal(xf, kind, x, y, w, z):
@@ -2177,7 +2179,7 @@ def copy_variants():
         for (cn, x, y, w_, h_) in (('copyprice', -1.45, 0.82, 0.56, 0.56), ('copyprice2', -0.8, 0.86, 0.56, 0.56), ('copyprice', -0.15, 0.8, 0.56, 0.56), ('nobook', -0.45, 1.48, 0.42, 0.42),
                                     ('copyprice2', 0.32, 1.42, 0.42, 0.42), ('pay', 1.32, 1.5, 0.26, 0.26), ('copyprice', 0.8, 0.95, 0.4, 0.4), ('hours2', 1.3, 1.05, 0.3, 0.3)):
             note(c, cn, x, y, w_, h_, gz + 0.03)
-        hsign(c, 'A2C', 'wz_ade_h', 0.0, 3.5, t + 0.1, lamps=[-1.2, 0.0, 1.2])          # 招牌：和 A1 同一張（WZ-FIVE-1104 參考圖 wz_ade_ext 的白底藍字＋三盞鵝頸燈；原本是 10 月的 ade_print_h），掛在門楣上（往上蓋到二樓的牆）
+        hsign(c, 'A2C', 'wz_ade_h', 0.0, 3.5, t + 0.1, lamps=[-0.95, 0.95])          # 招牌：和 A1 同一張（WZ-FIVE-1104 參考圖 wz_ade_ext 的白底藍字＋鵝頸燈（店面只有 3.8 m：兩盞，三盞太擠）；原本是 10 月的 ade_print_h），掛在門楣上（往上蓋到二樓的牆）
         # 店裡（玻璃後面 1.8 m）：左邊一台大影印機、中間櫃台（電腦螢幕朝裡）、後牆的紙箱架、天花板一支日光燈
         cp = acc(flat('wz_c6_copier', '#dcdcd6', rough=0.4)); dk = acc(flat('wz_c6_dark', '#3a3c40', rough=0.5)); wd = acc(SK['wood_lt']); st = acc(SK['steel'])
         c.box(cp, -1.75, -1.0, 0.0, 1.0, -RD + 0.08, -RD + 0.78); c.box(dk, -1.72, -1.03, 1.0, 1.06, -RD + 0.12, -RD + 0.74); c.box(dk, -1.6, -1.2, 0.62, 0.66, -RD + 0.78, -RD + 0.9)   # 影印機＋上蓋＋出紙盤
