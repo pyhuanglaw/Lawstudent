@@ -174,6 +174,20 @@ WZ4_yizhan_r4_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/sto
 #換成 d3828（BB-C 15:27：這一版自己的項目也用候選 SHA）TAPPREF_zone_048b | 048b4c898693415e2bad1b1968000a9d8400ca62 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 15 | CC_HEADLESS=0
 TAPPREF_zone_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_tappref_zone_probe.py | index.html | 15 | CC_HEADLESS=0
 # ===== [順序 3] SITAMB 7 項（BB-C 14:41）：子代理寫好、雲端驗完排在這裡
+# SITAMB（坐著的 NPC 會動；BB-C P1）：cc_sitamb_probe.py（子代理，雲端縮小版 cafe／lib／eat／class／player ALL PASS，數字不採信）；d3828（和 048b 的 src 相同、含 2acb34afd）
+#   錄影：主迴圈暫停、1/30 秒一格、差最多的 10 格＋每種動作 0.5／1.5 秒代表格；CTL=1＝?nositamb 對照；每項估 6～9 分（PC 沒量過）
+#   tea、fps 雲端還沒驗完（fps 一次都沒跑完、tea 只在舊的 day 2 跑過）→ #HOLD，V20R 雲端備援跑完以後雲端補驗再打開
+SITAMB_cafe | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=cafe;CTL=both;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_libA0 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=lib;LIBZ=library_hall,library;CTL=0;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_libA1 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=lib;LIBZ=library_hall,library;CTL=1;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_libB0 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=lib;LIBZ=lawlib,soclib;CTL=0;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_libB1 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=lib;LIBZ=lawlib,soclib;CTL=1;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_eat | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=eat;CTL=both;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_class0 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=class;CTL=0;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_class1 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=class;CTL=1;CC_SEED=1104;CC_HEADLESS=0
+SITAMB_player | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=player;CTL=both;CC_SEED=1104;CC_HEADLESS=0
+#HOLD-SITAMB SITAMB_tea | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=tea;CTL=both;CC_SEED=1104;CC_HEADLESS=0
+#HOLD-SITAMB SITAMB_fps | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=fps;CTL=both;CC_SEED=1104;SOLO=1;CC_HEADLESS=0
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面

@@ -44,6 +44,12 @@ MONTAGE_JS = r"""(async([imgs,labels,tw,th,cols])=>{ const rows=Math.ceil(imgs.l
   const b=await c.convertToBlob({type:'image/jpeg',quality:0.85}); const u=new Uint8Array(await b.arrayBuffer()); let s=''; for(let i=0;i<u.length;i+=32768) s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); return btoa(s); })"""
 
 
+# BB-C 17:07：橫向上下的黑邊是 GM.letterbox 的 #letterT／#letterB（8%、純黑）。每張截圖當下記黑邊的實際高度（computed，含 0.6 秒的轉場）和 D.busyDepth，
+#   分得出是捷徑（GAME.say）剛好碰到，還是那一幕本來就會有黑邊
+LETTER_JS = """(()=>{ const q=id=>document.getElementById(id), cs=e=>e?getComputedStyle(e):null, b=q('letterB'), t=q('letterT'), D=GAME.D||{};
+  return {bH:b?+parseFloat(cs(b).height).toFixed(1):null, bStyle:b?b.style.height:null, tH:t?+parseFloat(cs(t).height).toFixed(1):null, busyDepth:D.busyDepth|0, active:!!D.active, vh:innerHeight}; })()"""
+
+
 async def shoot(pg, key, img, a, b, tag, keep=None):
     out = {}
     for ori, (w, h) in VP.items():
@@ -55,9 +61,12 @@ async def shoot(pg, key, img, a, b, tag, keep=None):
             if n >= len(LINE) - 1: break
             await pg.wait_for_timeout(200)
         await pg.wait_for_timeout(300)
+        lb = await pg.evaluate(LETTER_JS)
         fn = os.path.join(OUT, 'bg_%s_%s_%s.jpg' % (key, tag, ori))
         png = await pg.screenshot(path=fn, type='jpeg', quality=85)
         if keep is not None and ori in keep: keep[ori].append(base64.b64encode(png).decode())
+        st = dict(st or {}, letter=lb)
+        print('  [%s %s %s] #letterB %s px（style %s）、#letterT %s px、D.busyDepth %s、D.active %s' % (key, tag, ori, lb['bH'], lb['bStyle'], lb['tH'], lb['busyDepth'], lb['active']), flush=True)
         out[ori] = st
         await pg.evaluate(CLOSE_JS); await pg.wait_for_timeout(300)
     return out
