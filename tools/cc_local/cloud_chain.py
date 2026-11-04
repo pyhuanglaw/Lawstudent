@@ -7,7 +7,9 @@
 import argparse, os, re, subprocess, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
 ap = argparse.ArgumentParser(); ap.add_argument('--out', required=True); ap.add_argument('--map', required=True); ap.add_argument('--queue', default=os.path.join(HERE, 'queue.txt'))
-ap.add_argument('--tmult', type=float, default=3.0, help='雲端比電腦慢：逾時＝佇列的分鐘×這個倍數'); ap.add_argument('ids', nargs='+'); a = ap.parse_args()
+ap.add_argument('--tmult', type=float, default=3.0, help='雲端比電腦慢：逾時＝佇列的分鐘×這個倍數')
+ap.add_argument('--set', action='append', default=[], help='蓋掉佇列的 ENV（例：--set STEPS=first,greet,menu）：這一次叫的每一項都蓋；log 裡會寫'); ap.add_argument('ids', nargs='+'); a = ap.parse_args()
+SETS = dict(kv.split('=', 1) for kv in a.set)
 M = {}
 for kv in a.map.split(','):
     k, v = kv.split('='); wt, port = v.rsplit(':', 1); M[k] = (wt, int(port))
@@ -48,6 +50,7 @@ for iid in a.ids:
         if k == 'XARGS': xargs = v.strip()
         elif k == 'SHA2': pass
         else: env[k] = v
+    for k, v in SETS.items(): env[k] = v
     env['SHA'] = sha[:9]; env['LW_TESTS'] = os.path.join(wt, 'tests')
     od = os.path.join(a.out, iid); os.makedirs(od, exist_ok=True)
     if kind == 'game':
@@ -57,7 +60,7 @@ for iid in a.ids:
         cmd = [sys.executable, os.path.join(REPO, script), U, od]; cwd = REPO
     w = 0
     while others() and w < 1800: time.sleep(20); w += 20
-    t0 = time.time(); log('=== %s start %s waited %ds load=%s others=%s' % (iid, time.strftime('%H:%M:%S', time.gmtime()), w, load(), others()[:2]))
+    t0 = time.time(); log('=== %s start %s waited %ds load=%s others=%s%s' % (iid, time.strftime('%H:%M:%S', time.gmtime()), w, load(), others()[:2], ('  --set ' + ';'.join('%s=%s' % kv for kv in SETS.items())) if SETS else ''))
     lim = int(float(tmin) * 60 * a.tmult)
     with open(os.path.join(od, 'run.log'), 'w', encoding='utf-8') as fo:
         try:
