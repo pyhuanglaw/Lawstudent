@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "STUCK_1104_main2",
+  "sha": "e1603907e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_stuck1104_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T09:04:10",
+  "end": "2026-11-04T09:07:03",
+  "seconds": 173,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 65,
+    "mem": 63,
+    "used_gb": 19.7,
+    "chrome_testing": 27
+  }
+}
