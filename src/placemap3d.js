@@ -36,7 +36,7 @@ const PLACEMAP=(function(){
   S.pinOf=function(pl){ return S.PINS.find(p=>inPin(p,pl))||null; };
   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
   S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
-    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
+    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
     return S.ZONE_PIN[zone]||null; };
   /* 點地圖的位置（圖上座標）→ 最近的圖釘（只算畫出來的那些；60 以內） */

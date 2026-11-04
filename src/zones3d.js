@@ -810,7 +810,11 @@ const Z3 = (function(){
        shop:'bike'——story3d.js 的互動照 SIDEQ.bikeShop(GM) 演（車行老闆的招呼、SQ16）；SIDEQ 沒有 bikeShop 的版本不顯示（不出一個按了沒反應的按鈕）*/
     { const sx=0.3; for(const [dx,c,k] of [[-3.3,'#2f5d50','bike_road'],[2.3,'#e0b95b','bike_city'],[4.2,'#8c3b47','bike_mtb']]){ const b=W3.bikeAny(c,0,k);   /* 腳踏車行（輪轉單車）：騎樓擺公路車、淑女車、登山車 */ b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,k==='bike_mtb'?1.85:1.75,0.6,0); }
       for(const [dx,c,k] of [[-2.2,'#3a6fb0','bike_fold'],[1.6,'#d9d3c6','bike_road']]){ const b=W3.bikeAny(c,0,k);   /* 櫥窗：小折、公路車 */ b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
-      E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'找車行老闆',shop:'bike',get hidden(){ return !(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop); }});
+      /* 慢輪單車進得去（AA_646 第 1 節；使用者 11-04 01:0x；BIKE-SHOP-PARK-1104）：營業時間（PLACES.hours.bikeshop 10:00～20:00、週一公休）「進入慢輪單車」，打烊時門口的字；
+         老闆、SQ16 改在店裡（src/bikeshop3d.js）。沒有 bikeshop3d.js 的版本照舊「找車行老闆」 */
+      if(typeof BIKESHOP!=='undefined'&&!!ZONES.bikeshop){ E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'進入慢輪單車',exit:{to:'bikeshop',spawn:{x:0,z:3.8,yaw:Math.PI}},get hidden(){ return !BIKESHOP.isOpen(); }});
+        E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'慢輪單車',look:BIKESHOP.CLOSED,get hidden(){ return BIKESHOP.isOpen(); }}); }
+      else E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'找車行老闆',shop:'bike',get hidden(){ return !(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop); }});
       /* SQ16 做完的痕跡（AA_405）：騎樓那台淑女車的籃子掛一張紙「免費借給新生，一學期」（朝騎樓走道）；SIDEQ.traceOn(G,'SQ16') 才顯示 */
       { const note=new THREE.Mesh(new THREE.PlaneGeometry(0.2,0.05),new THREE.MeshStandardMaterial({map:TK.signTex('免費借給新生・一學期',{bg:'#f6f1e4',color:'#3a332c',size:46,border:'#c9b89a'}),roughness:0.85,side:THREE.DoubleSide}));
         note.position.set(sx+2.3+0.55,0.84,FZ+2.55-0.2); note.rotation.set(-0.12,Math.PI,0.05); note.name='TRACE_SQ16_note'; note.userData.dyn=true; traceVis(note,'SQ16'); g.add(note); }   /* dyn：不參加整區合併（每一格看要不要顯示）*/

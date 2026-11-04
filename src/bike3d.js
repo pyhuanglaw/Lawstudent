@@ -65,8 +65,8 @@ const BIKE=(function(){
     lady:{name:'淑女車（車籃）',short:'淑女車',price:4200,seat:true,shop:'bike_city_pbask',desc:'（前面一個大車籃，後座可以裝載人墊。）',line:'買菜、上課都好用。',colors:[['奶油白','#efe8d8'],['薄荷綠','#8fc1a9'],['酒紅','#8c3b47']]},
     city:{name:'城市通勤車',short:'城市通勤車',price:6800,seat:true,shop:'bike_city',desc:'（直把手，擋泥板，車燈是內建的。）',line:'學生最常買這台。',colors:[['墨綠','#2f5d50'],['深藍','#2b4f8c'],['黑','#1d1f22'],['銀灰','#9ea3a8']]},
     fold:{name:'小折',short:'小折',price:12800,seat:false,shop:'bike_fold',desc:'（折起來只有一個行李箱大，可以帶上捷運。）',line:'搬家、出去玩都方便。',colors:[['白','#e9e9e6'],['紅','#b8262b'],['藍','#2b4f8c'],['芥末黃','#c9a227']]},
-    mtb:{name:'登山車',short:'登山車',price:15800,seat:true,shop:'bike_mtb',desc:'（輪胎很粗，前面有避震。）',line:['你要騎山路的話。','……校園裡騎會有點重。'],colors:[['黑','#1d1f22'],['橄欖綠','#4f5a3c'],['橘','#d65a2a']]},
-    road:{name:'公路車',short:'公路車',price:22800,seat:false,shop:'bike_road',desc:'（彎把，很輕，單手就拿得起來。）',line:['騎河濱很快。','……鎖要買好一點的。'],colors:[['白','#e9e9e6'],['黑','#1d1f22'],['紅','#b8262b'],['藍','#2b4f8c']]} };
+    mtb:{name:'登山車',short:'登山車',price:15800,seat:true,shop:'bike_mtb',desc:'（輪胎很粗，前面有避震。）',line:'你要騎山路的話。……校園裡騎會有點重。',colors:[['黑','#1d1f22'],['橄欖綠','#4f5a3c'],['橘','#d65a2a']]},
+    road:{name:'公路車',short:'公路車',price:22800,seat:false,shop:'bike_road',desc:'（彎把，很輕，單手就拿得起來。）',line:'騎河濱很快。……鎖要買好一點的。',colors:[['白','#e9e9e6'],['黑','#1d1f22'],['紅','#b8262b'],['藍','#2b4f8c']]} };
   B.KINDS=KINDS; B.KIND_ORDER=['lady','city','fold','mtb','road'];
   B.DEFAULT_KIND='city';   /* 開局那台＝城市通勤車＋載妹墊（AA_646 第 3 節「存檔」；舊存檔的車也是這台）*/
   /* 存檔的車：G.bike {zone,x,z,yaw,riding, kind,color,owned:[{kind,color}]}——kind／color 是現在騎的那台，owned 是買過的全部（含開局那台）。舊存檔沒有新欄位＝開局那台 */
