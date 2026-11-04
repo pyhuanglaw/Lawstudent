@@ -37,31 +37,32 @@
    "id": "UA-CC-1104-03",
    "at": "2026-11-04T13:2xZ",
    "quote": "人物的頭髮真的太像泡麵了",
-   "kind": "美術回饋（人物 3D）",
-   "status": "已轉達（未處理）",
-   "task": "【表外】待 BB-C／LAWWW 給任務 ID",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HAIR-NOODLE-1104",
    "src": "使用者直接對 CC-C 說（CC-C 工作階段）",
-   "note": "角色 3D 模型歸 LAWWW2、角色美術驗收歸 BB（D59、D100）；CC-C 13:2x 轉 BB-C、LAWWW2-C，副本 LAWWW-C。CC 可以做的：拍各角色頭髮近景對照（等 BB 派）"
+   "note": "原分類：美術回饋（人物 3D）。角色 3D 模型歸 LAWWW2、角色美術驗收歸 BB（D59、D100）；CC-C 13:2x 轉 BB-C、LAWWW2-C，副本 LAWWW-C。CC 可以做的：拍各角色頭髮近景對照（等 BB 派）",
+   "wants": "X220"
   },
   {
    "id": "UA-CC-1104-04",
    "at": "2026-11-04T13:2xZ",
    "quote": "我同意 可以 push",
-   "kind": "權限同意",
+   "kind": "原話",
    "status": "已完成",
    "task": "ROLE-CC-1102",
    "src": "使用者直接對 CC-C 說",
-   "note": "add_repo push 通過；claude/cc-testing 4aa1dbb44→b456db837"
+   "note": "原分類：權限同意。add_repo push 通過；claude/cc-testing 4aa1dbb44→b456db837"
   },
   {
    "id": "UA-CC-1104-05",
    "at": "2026-11-04T13:5xZ",
    "quote": "你知道上個帳號新增一張測試方法是node測試放GitHub action自動測試吧",
-   "kind": "提醒（既有規則）",
-   "status": "已讀、已照做",
+   "kind": "原話",
+   "status": "已完成",
    "task": "GHA-TEST-OFFLOAD-1103",
    "src": "使用者直接對 CC-C 說",
-   "note": "CC-C 接班時沒讀到；已讀 GHA_TEST_OFFLOAD_1103.md、node-sweep.yml，寫進 CC_00；請 LAWWW-C 對 9f481443d 觸發 GHA Node 全套"
+   "note": "原分類：提醒（既有規則 GHA-TEST-OFFLOAD-1103）。CC-C 接班時沒讀到；已讀 GHA_TEST_OFFLOAD_1103.md、node-sweep.yml，寫進 CC_00；請 LAWWW-C 對 9f481443d 觸發 GHA Node 全套"
   }
  ]
 }
