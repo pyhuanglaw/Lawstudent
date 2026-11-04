@@ -396,6 +396,7 @@ const EXLIB=(function(){
         return o0.apply(this,arguments); }; STORY._exlibInteract=true; }
     if(!STORY._exlibSeat){ const os=STORY.onSeat; STORY.onSeat=async function(GM,seat){ const r=os?await os.apply(this,arguments):false;
         try{ if(GM&&GM.G&&seat&&S.isLib(GM.G.zone)&&S.on(GM.G)){ const G=GM.G;
+            if(S.studySeat(G.zone,seat)) S.rec(G).prompt[(G.day|0)+':'+G.zone]=1;   /* 今天在這一間坐過了（早上搶到位子）：起來走動不再跳「找不到位子」*/
             if(await S.arrive41(GM,seat)) return r;
             const W=S._waveGreet; if(W&&W.day===(G.day|0)&&Math.hypot(W.st.x-seat.x,W.st.z-seat.z)<0.1){ S._waveGreet=null; const n=GM.npc&&GM.npc[W.id]; if(n) await S.greet(GM,W.id,n); return r; }
             await S.place42(GM,seat); } }catch(e){ console.warn('EXLIB.onSeat',e); }

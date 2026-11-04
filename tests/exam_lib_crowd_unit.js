@@ -197,6 +197,10 @@ await sec('4',async()=>{
   /* 住家裡 */
   setT('2025-12-05',10.5); zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; const bm=HOME.baseMode; HOME.baseMode=()=>true; H.opts=[]; H.picks=['回家讀']; homeCalls.length=0; await tick(); HOME.baseMode=bm;
   check('4. 住家裡：選項是「回家讀」、選了＝回家',H.opts[0]&&H.opts[0][2]==='回家讀'&&homeCalls.length===1,J(H.opts[0]));
+  /* 早上搶到位子、10:00 以後起來走動 */
+  setT('2025-12-09',9.2); const se=zone('library_hall',1,-9.6,3.0); H.G.exlib.atm.seen['Y1S1:library_hall']=1; EXLIB.syncSeats(GM,true); const free=se.find(q=>q.lv===1&&!q.exHeld&&!q.taken&&se.indexOf(q)>1);
+  await GM.seatMenu({seat:free,study:true}); P.seat=null; setT('2025-12-09',10.6); EXLIB.syncSeats(GM,true); H.opts=[]; await tick();
+  check('4. 今天在這一間坐過了（早上搶到位子）：10:00 以後起來走動不跳「找不到位子」',!!free&&!H.opts.length,J(H.opts));
   /* 閉館前 30 分鐘的旁白 */
   setT('2025-12-05',21.6); zone('library',0,0,0); H.said=[]; await tick();
   check('4. 閉館前 30 分鐘內進來：第 6 句（閉館前十分鐘的廣播）',J(lines())===J([L.atmosClose]),J(lines()));
