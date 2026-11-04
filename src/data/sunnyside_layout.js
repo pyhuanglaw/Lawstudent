@@ -51,7 +51,11 @@ const SUNNYSIDE_LAYOUT = {
     {x: -2.75, z: -0.85, yaw: Math.PI / 2, table: 1, seatH: 0.45, label: '坐下點餐', tag: 'sofa'}, {x: -0.95, z: -0.85, yaw: -Math.PI / 2, table: 1, label: '坐下點餐'},
     {x: -2.75, z: 0.65, yaw: Math.PI / 2, table: 2, seatH: 0.45, label: '坐下點餐', tag: 'sofa'}, {x: -0.95, z: 0.65, yaw: -Math.PI / 2, table: 2, label: '坐下點餐'},
     {x: -0.3, z: 0.4, yaw: 0, table: 3, label: '坐下點餐'}, {x: -0.3, z: 1.6, yaw: Math.PI, table: 3, label: '坐下點餐'},
-    {x: 1.9, z: 0.0, yaw: 0, table: 4, label: '坐下點餐'}, {x: 1.9, z: 1.2, yaw: Math.PI, table: 4, label: '坐下點餐'},
+    {x: 1.9, z: 0.0, yaw: 0, table: 4, label: '坐下點餐', ap: [1.8, -0.5]}, {x: 1.9, z: 1.2, yaw: Math.PI, table: 4, label: '坐下點餐'},
+    /* ap（LAWWW 2026-11-04，CC reachability_all dac871e25「坐下點餐」走到一半卡在 (2.4, 1.25)）：table 4 北側這張的「坐下」走近點。
+       導航格 0.4 m：桌子的阻擋量成 x 1.4～2.2、z 0.0～1.2（剛好到椅子 z 0.0），結帳櫃台量成 x 2.2～3.0、z −1.6～−0.4——
+       椅子後 0.6 (1.9, −0.6) 碰到櫃台那一格、兩側 0.55 碰到桌子那一格，GAME.seatApproach 的候選全站不住，退回椅子正前方 0.5 m (1.9, 0.5)＝桌子裡面，從東側窄走道走過去卡住。
+       (1.8, −0.5)：椅子後面偏西 0.1、離櫃台西面 0.4、離椅子 0.51 m（按鈕範圍 0.85 內）；位置、模型都不變 */
     {x: 2.35, z: 2.1, yaw: 0, table: 5, label: '坐下點餐'}, {x: 2.35, z: 3.4, yaw: Math.PI, table: 5, label: '坐下點餐', tag: 'door'},
     {x: -2.1, z: 2.65, yaw: 0, table: 6, label: '坐下點餐'}, {x: -2.1, z: 3.95, yaw: Math.PI, table: 6, label: '坐下點餐', tag: 'window'},
     {x: -2.3, z: -2.1, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -1.6, z: -2.1, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}
