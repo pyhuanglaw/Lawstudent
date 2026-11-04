@@ -60,6 +60,8 @@ CAFE230v2_reach | 75a095355 | game | tests/reachability_all.py | index.html?turb
 CAFE230v2_islands | 75a095355 | game | tools/dev_scratch/nav_islands.py | index.html | 20 | XARGS={url} cafe
 CAFE230v2_wzstreet | 75a095355 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
 CAFE230v2_shots | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
+# GG_night_r7（LAWWW2 07:51）：75a095355、14 對 21；①著色器有沒有 uShopLit ②lit 全部 0 再拍 ③藏 cafe_glass 再拍
+GG_night_r7 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;DIAG2=1;CC_HEADLESS=0
 # CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
 CAFE230v3_shots | 33222ed89 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
 CAFE230v3_seats | 33222ed89 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe

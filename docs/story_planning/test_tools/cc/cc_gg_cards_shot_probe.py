@@ -82,6 +82,13 @@ RAY_JS = """(p=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const o
       parents:par, map:!!(mt&&mt.map), emissiveMap:!!(mt&&mt.emissiveMap), transparent:!!(mt&&mt.transparent), opacity:mt&&mt.opacity, verts:a&&a.position?a.position.count:null, bbox:bb, uuid:h.object.uuid.slice(0,8), ud:Object.keys(h.object.userData||{}).slice(0,8)}; }); })"""
 
 
+# GG_night_r7（LAWWW2 07:51）：① 編好的著色器裡有沒有 uShopLit ② 全部打烊（lit.fill(0,1)）再拍 ③ 藏玻璃再拍——DIAG2=1、晚上那一輪才做
+SHADER_JS = r"""(()=>{const E=GAME.E,z=E.zone,L=z.ggLit;if(!L)return 'no ggLit';let mesh=null;E.scene.traverse(o=>{if(!mesh&&o.isMesh&&o.name===L.name)mesh=o;});const m=mesh&&mesh.material,p=m&&E.renderer.properties.get(m),pr=p&&p.currentProgram;let src='';try{const gl=E.renderer.getContext();const sh=gl.getAttachedShaders(pr.program);src=sh.map(s=>gl.getShaderSource(s)).join('\n');}catch(e){src='ERR '+e.message;}return JSON.stringify({name:L.name,mat:L.mat,uv1:L.uv1,inScene:L.inScene(),compiled:L.compiled(),rewrap:L.rewrap(),lit:L.lit,sameMat:m&&m.name,cacheKey:m&&m.customProgramCacheKey&&m.customProgramCacheKey(),hasUShopLit:src.includes('uShopLit'),hasVShop:src.includes('vShopIdx'),emissiveChunkReplaced:src.includes('totalEmissiveRadiance*=k'),progCount:E.renderer.info.programs.length,glow:L.glow,srcErr:src.startsWith('ERR')?src:null});})()"""
+TWO_FRAMES = "new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r(true))))"
+ALLOFF_JS = "(async()=>{ const L=GAME.E.zone.ggLit; if(!L||!L.lit) return 'no ggLit'; L.lit.fill(0.0,1); await " + TWO_FRAMES + "; return JSON.stringify(L.lit); })()"
+GLASS_JS = "(async(on)=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name==='cafe_glass'){ o.visible=on; n++; } }); await " + TWO_FRAMES + "; return n; })"
+
+
 def luma_of(png, quad, iw, ih):
     from PIL import Image, ImageStat
     im = Image.open(png).convert('L'); W, H = im.size; sx, sy = W / iw, H / ih
@@ -141,6 +148,11 @@ async def run_time(pg, hour, when):
     try: gl = await pg.evaluate(GGLIT_JS)
     except Exception as e: gl = 'ERR ' + str(e)[:200]
     print('  %s ggLit：%s' % (when, gl), flush=True)
+    diag2 = os.environ.get('DIAG2') == '1' and when == 'night'
+    if diag2:
+        try: sh = await pg.evaluate(SHADER_JS)
+        except Exception as e: sh = 'ERR ' + str(e)[:300]
+        print('  %s ①著色器：%s' % (when, sh), flush=True)
     await pg.evaluate(HUD + '(false)')
     for k in SEL:
         G, shop, x0, x1, y0, y1, zz = ALLC[k]; cx = round((x0 + x1) / 2, 3)
@@ -153,6 +165,17 @@ async def run_time(pg, hour, when):
             ci['luma'] = luma_of(fn, ci['screen'], iw, ih)
         except Exception as e:
             ci['luma'] = None; ci['luma_err'] = str(e)[:120]
+        if diag2:
+            try:
+                ci['alloff'] = await pg.evaluate(ALLOFF_JS)
+                await pg.screenshot(path=os.path.join(OUT, 'card_%s_%s_alloff.png' % (k, when)))
+                ci['glass_n'] = await pg.evaluate(GLASS_JS + '(false)')
+                await pg.screenshot(path=os.path.join(OUT, 'card_%s_%s_noglass.png' % (k, when)))
+                await pg.evaluate(GLASS_JS + '(true)')
+                print('  %s %s ②全部打烊 lit=%s、③藏玻璃 %s 個（截圖 _alloff、_noglass）' % (when, k, ci['alloff'], ci['glass_n']), flush=True)
+            except Exception as e:
+                print('  %s %s ②③ 失敗：%r' % (when, k, e), flush=True)
+            await pg.wait_for_timeout(1200)   # ggShopLit 每 30 幀照營業時間寫回 lit
         try: ci['ray'] = await pg.evaluate(RAY_JS + '(%s)' % J([cx, (y0 + y1) / 2, zz]))
         except Exception as e: ci['ray'] = 'ERR ' + str(e)[:200]
         print('  %s %s raycast：%s' % (when, k, J(ci['ray'])), flush=True)
