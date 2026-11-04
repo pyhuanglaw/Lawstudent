@@ -48,9 +48,9 @@ const SEATACT=(function(){
     book:{pose:'read',hold:'book',desk:C_({wide:'L_book_side',narrow:'L_book_side',tiny:'L_book_tiny'},{wide:'rset_cup',narrow:'rset_cup',tiny:'S_cup'})},
     phone:{pose:'read',hold:'phone',desk:C_({wide:'L_phone_side',narrow:'L_phone_side',tiny:'L_book_tiny'},{wide:'rset_cup',narrow:'rset_cup',tiny:'S_cup'})},
     tablet:{pose:'read',hold:'tablet',desk:C_({wide:'L_book_tiny',narrow:'L_book_tiny',tiny:null},{wide:'S_cup',narrow:'S_cup',tiny:'S_cup'})},
-    laptop:{pose:'sit',desk:{wide:'tset_laptop',narrow:'rset_laptop',tiny:null},lap:true},
-    notes:{pose:'sit',desk:{wide:'tset_notes',narrow:'rset_notes',tiny:null},alt:'book'},
-    textbook:{pose:'sit',desk:{wide:'tset_book',narrow:'rset_book',tiny:null},alt:'book'},
+    laptop:{pose:'sit',desk:{wide:'tset_laptop',narrow:'rset_laptop',tiny:'S_laptop'},lap:true},
+    notes:{pose:'sit',desk:{wide:'tset_notes',narrow:'rset_notes',tiny:'S_notes'},alt:'book'},
+    textbook:{pose:'sit',desk:{wide:'tset_book',narrow:'rset_book',tiny:'S_textbook'},alt:'book'},
     rest:{pose:'sit',desk:C_({wide:'tset_away',narrow:'L_book_tiny',tiny:'L_book_tiny'},{wide:'S_cup_phone',narrow:'S_cup_phone',tiny:'S_cup'})},
     eat:{pose:null,desk:null}, eat2:{pose:null,desk:null},
     chat:{pose:null,desk:{wide:'S_cup',narrow:'S_cup',tiny:'S_cup'}} };
@@ -60,7 +60,10 @@ const SEATACT=(function(){
     S_cup_phone:[['item_cup',0.17,0.14,0],['item_phone_off',-0.1,0.12,0.25]],
     L_book_side:[['item_textbook',0.2,0.16,-0.12],['item_highlighter',0.2,0.04,1.3]],
     L_phone_side:[['item_textbook',-0.18,0.15,0.08],['item_notebook_closed_b',0.19,0.15,-0.1]],
-    L_book_tiny:[['item_notebook_closed',0.12,0.14,-0.08]] };
+    L_book_tiny:[['item_notebook_closed',0.12,0.14,-0.08]],
+    S_laptop:[['item_laptop_open',0,0.112,0]],
+    S_notes:[['item_notebook_open',0.03,0.135,-0.06],['item_pen',-0.21,0.1,0.7]],
+    S_textbook:[['item_code_open',0,0.118,0.05]] };
   const prng=seed=>{ let s=(seed>>>0)%2147483646+1; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; };
   const hash=str=>{ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const skey=st=>(+st.x).toFixed(2)+','+(+st.z).toFixed(2)+','+(st.lv|0);
@@ -108,6 +111,12 @@ const SEATACT=(function(){
     const depth=same(0.3)&&same(0.15)?0.3:(same(0.2)&&same(0.1)?0.2:(same(0.1)?0.1:0));
     const wide=depth>=0.3&&same(0.15,0.36)&&same(0.15,-0.36);
     return {edge:+b.toFixed(3),y:+(y0+h).toFixed(3),h:+h.toFixed(3),depth,wide}; };
+  /* 旁邊的座位：同一邊 0.75 m 內有位子（長桌）＝不用 tset（左右各 0.35 m，會蓋到旁邊那一組）；
+     對面有位子（面對面、左右差 0.4 m 內）：兩個人中間的一半是自己的（oppD＝兩個位子前後的距離；自己的桌上能用到 oppD/2 − 桌緣）*/
+  S.roomOf=function(st,seats){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw); let side=false, oppD=null;
+    for(const q of seats||[]){ if(q===st||(q.lv|0)!==(st.lv|0)) continue; const dx=q.x-st.x, dz=q.z-st.z; if(Math.hypot(dx,dz)<0.05) continue; const fw=dx*fx+dz*fz, lat=-dx*fz+dz*fx, dy=Math.abs(Math.atan2(Math.sin((q.yaw||0)-yaw),Math.cos((q.yaw||0)-yaw)));
+      if(dy<0.5&&Math.abs(fw)<0.3&&Math.abs(lat)<0.75) side=true; if(dy>2.6&&fw>0.3&&fw<2.2&&Math.abs(lat)<0.4&&(oppD==null||fw<oppD)) oppD=fw; }
+    return {side,oppD}; };
   // ---------- 狀態 ----------
   const R={zone:null,zid:null,on:new Map(),groups:new Map(),dirty:false,props:null,loading:null,failed:false,t:0,day:null};
   S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:r.items.map(i=>i.name),pose:r.n.pose,hold:r.hold||null}))});   /* 測試用 */
@@ -155,7 +164,9 @@ const SEATACT=(function(){
     for(const r of [...R.on.values()]){ if(!E.npcs.includes(r.n)||!seatedOk(r.n)||r.n.seat!==r.st){ drop(r); continue; } live.add(r.n);
       if(!r.named&&r.pose&&r.n.pose!==r.pose&&(r.n.pose==='sit'||r.n.pose==='read')) applyBody(r); }
     const busy=[...R.on.values()].map(r=>({st:r.st,act:r.act}));
-    for(const n of E.npcs){ if(live.has(n)||!seatedOk(n)) continue; if(R.on.size>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
+    const PP=E.player&&E.player.obj&&E.player.obj.position, cand=E.npcs.filter(n=>!live.has(n)&&seatedOk(n));
+    if(PP&&cand.length+R.on.size>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
+    for(const n of cand){ if(R.on.size>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
       const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,pose:null,hold:null,kind:null};
       R.on.set(n,r); busy.push({st:r.st,act:r.act}); retable(E,r,place); applyBody(r); R.dirty=true; }
     /* 找不到桌子的：1.5 秒、5 秒後、之後模型變了再找（正式模型晚一點才載好）*/
@@ -164,6 +175,8 @@ const SEATACT=(function(){
     if(R.dirty&&R.props) rebuild(E);
     lodTick(E); };
   function retable(E,r,place,sig){ r.tb=S.probe(E,r.st); r.tbT=Date.now(); r.tbN=(r.tbN|0)+1; r.tbSig=sig!=null?sig:S.meshSig(E.zone);
+    if(r.tb){ const rm=S.roomOf(r.st,S._zoneSeats); if(rm.side) r.tb.wide=false;
+      if(rm.oppD!=null){ const half=rm.oppD/2-r.tb.edge; if(half<r.tb.depth){ r.tb.depth=half>=0.3?0.3:(half>=0.2?0.2:(half>=0.1?0.1:0)); if(r.tb.depth<0.3) r.tb.wide=false; } } }   /* 對面也有位子：只用自己那一半 */
     let set=deskFor(r.act,place,r.tb,r.forced); const A=S.ACT[r.act];
     if(!set&&A&&A.alt&&!r.named){ r.act=A.alt; set=deskFor(r.act,place,r.tb,null); }   /* 寫筆記、看桌上的書，桌子放不下：改成手上捧書 */
     r.set=set; r.kind=r.tb?(r.tb.wide?'wide':(r.tb.depth>=0.3?'narrow':(r.tb.depth>=0.2?'tiny':null))):null; r.items=null; }
