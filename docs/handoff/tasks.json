@@ -45315,7 +45315,28 @@
    },
    "source": "AA-C 11-04 15:38（企劃線 ab65c4b22、outbox 8c8785351；D109 AA 自己定）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 15:4x】排 v9.10.20 以後（和 AA663-LINES 同一批做法）：solo_before 照新源稿 free_trip/solo_before_bb_v1.json 重匯（白名單換 ab65c4b22 那一版，tools/freetrip/import_solo_before.py），其他 7 句 apply_line_table＋aa664_fix.json＋相關 Node 單元測試"
+   "next": "【LAWWW-C 11-04 15:4x】和 AA665 一起，等 CANON-PURGE-SRC-1104 子代理合併完再做｜【LAWWW-C 11-04 15:4x】排 v9.10.20 以後（和 AA663-LINES 同一批做法）：solo_before 照新源稿 free_trip/solo_before_bb_v1.json 重匯（白名單換 ab65c4b22 那一版，tools/freetrip/import_solo_before.py），其他 7 句 apply_line_table＋aa664_fix.json＋相關 Node 單元測試"
+  },
+  {
+   "id": "AA665-LINES-1104",
+   "title": "AA_665 台詞第三批：為了口語強行縮短、切成電報的句子接回正常句子（20 處：子晴、可昕、芷若、學姊、語彤、明軒、品妤；學姊 sis_b4 y4_a／y4_b、sis_m3「我就知道」、芷若英國那則收尾）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "和女主角當面講話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 15:46（企劃線 3f588c903、outbox d3c014357；使用者點名「為了口語強行縮短句子」；D109）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 15:4x】排 v9.10.20 以後，等 CANON-PURGE-SRC-1104 子代理合併完再做（同樣動 import_guard／alison.js 清單，避免衝突）；做法同 AA663：apply_line_table＋aa665_fix.json＋相關 Node 單元測試；第 0 節照留的不動"
   },
   {
    "id": "NPC-ANIM-LOOPS-1104",
