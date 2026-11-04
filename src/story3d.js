@@ -851,11 +851,11 @@ const STORY = (function(){
     if(a&&a.need==='dating') return G.flags&&G.flags.dating_kexin?{mode:'ride',on:a.on}:{mode:'refuse'};
     const d=Object.assign({},a||{},bs||{}); if(!(a&&a.any)&&typeof EVENTS!=='undefined'&&!EVENTS.cond({stage:{npc:id,min:d.min||'FAMILIAR'}})) return {mode:'refuse',decline:d.decline||null};
     return {mode:'ride',on:d.on||null,off:d.off||null,astride:!!(a&&a.astride)}; };
-  S.rideMode=function(n){ const G=GM_ref&&GM_ref.G; if(!G||!n) return 'ride'; return S.rideInfo(G,n.charId||n.id).mode; };
+  S.rideMode=function(n){ const G=GM_ref&&GM_ref.G; if(!G||!n) return 'ride'; if(typeof BIKE!=='undefined'&&BIKE.hasSeat&&!BIKE.hasSeat(G)) return 'refuse'; return S.rideInfo(G,n.charId||n.id).mode; };   /* 小折、公路車沒有後座（AA_646 第 2 節）：照「不願意坐後座」那一版一起走路 */
   /* 上車、下車的一句話（字幕，不停下遊戲）；一趟只說一次 */
   S.onRide=function(GM,n,on){ const G=GM.G, id=n.charId||n.id, r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(on){ n.astride=!!r.astride; if(r.on&&GM.caption) GM.caption(nm,'「'+r.on+'」',2800); } else if(r.off&&GM.caption) GM.caption(nm,'「'+r.off+'」',2600); };
   /* 不坐後座的理由（上車前）：回傳字幕的文字；null＝可以上車 */
-  S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(r.decline) return nm+'：「'+r.decline+'」';
+  S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; if(typeof BIKE!=='undefined'&&BIKE.hasSeat&&!BIKE.hasSeat(G)) return BIKE.NO_SEAT;   /* 沒有後座的車：旁白用 AA_646 選車時那一句 */ const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); if(r.decline) return nm+'：「'+r.decline+'」';
     { const fol=((GM.E&&GM.E.npcs)||[]).filter(x=>x.beh==='follow'&&!x.noRide).length; if(id==='heroine_05'&&SOCIAL.datingName&&SOCIAL.datingName(id)&&fol<=1) return '（她說她走路就好。）'; }   /* AA 11:14：交往中的學姊、只有她一個同行＝「她」；有別人同行照舊寫名字 */
     return '（'+nm+'說她走路就好。）'; };
   S.SMALL_AFTER={};   /* 人物 id → 句子用完以後的那一句旁白（AA_497）*/
