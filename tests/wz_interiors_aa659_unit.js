@@ -139,14 +139,14 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
     check('A6 '+L.name+'：網點透空的材質 '+J(want)+'（AA 新模型的前綴 sns／kmc／yzn 照去掉前綴比；SUNNY SIDE 的吊燈罩沒有自己的材質，等 LAWWW2）',J(st.sort())===J(want.slice().sort()),J(st)); }
   // A8 一盞的前院（AA_659 §3 bc021c7e1）：五個互動點的座標、按得到、走得到；看貓碗只在 WZ_CATBOWL（找到貓以後）有、碗和按鈕一起
   { FAKE={'prop.desk_props':()=>{ const g=new THREE.Group(); const b=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.05,0.05,8),new THREE.MeshStandardMaterial({name:'bowl'})); b.name='item_bowl'; b.position.set(5,0,0); g.add(b); return g; }};
-    const WANT=[['garden','看院子',0.2,8.2],['lantern','看石燈籠',-1.5,8.2],['camphor','看樟樹',3.1,8.4],['catbowl','看貓碗',4.05,8.3],['gatesign','看門口的木牌',-2.1,9.0]];
+    const WANT=[['garden','看院子',0.4,7.7],['lantern','看石燈籠',-0.85,8.9],['camphor','看樟樹',2.95,8.75],['catbowl','看貓碗',3.95,7.9],['gatesign','看門口的木牌',-2.0,8.4]];   /* 2026-11-04 拉開（A8b；舊 AA_659 §3：看院子 (0.2, 8.2)、看石燈籠 (−1.5, 8.2)、看樟樹 (3.1, 8.4)、看貓碗 (4.05, 8.3) 碗 (4.0, 8.7)、看門口的木牌 (−2.1, 9.0)）*/
     const T2=W.teahouse, cfg=WANT.map(w=>(T2.interact||[]).find(q=>q.kind===w[0]));
-    check('A8 一盞前院配置：五個互動點座標照 AA_659 §3（看院子 (0.2, 8.2)、看石燈籠 (−1.5, 8.2)、看樟樹 (3.1, 8.4)、看貓碗 (4.05, 8.3) 碗 (4.0, 8.7)、看門口的木牌 (−2.1, 9.0)）；緣側 (1.5, 5.9) 的看院子拿掉',cfg.every((q,i)=>q&&q.x===WANT[i][2]&&q.z===WANT[i][3]&&q.label===WANT[i][1])&&J(cfg[3]&&cfg[3].bowl)===J({x:4,z:8.7})&&!(T2.interact||[]).some(q=>q.x===1.5&&q.z===5.9),J(cfg));
+    check('A8 一盞前院配置：五個互動點座標照 AA_659 §3（看院子 (0.2, 8.2)、看石燈籠 (−1.5, 8.2)、看樟樹 (3.1, 8.4)、看貓碗 (4.05, 8.3) 碗 (4.0, 8.7)、看門口的木牌 (−2.1, 9.0)）；緣側 (1.5, 5.9) 的看院子拿掉',cfg.every((q,i)=>q&&q.x===WANT[i][2]&&q.z===WANT[i][3]&&q.label===WANT[i][1])&&J(cfg[3]&&cfg[3].bowl)===J({x:4.05,z:8.35})&&!(T2.interact||[]).some(q=>q.x===1.5&&q.z===5.9),J(cfg));
     for(const found of [false,true]){ GAME.G.flags=found?{WZ_CAT_FOUND:30}:{}; pend.length=0; const R=loadZone('wz_teahouse'), z=R.z, its=R.its; await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
       const sp=[z.spawn.x,z.spawn.z], got=WANT.map(w=>its.find(i=>i.wzShop==='teahouse'&&i.kind===w[0])), bad=[];
       got.forEach((it,i)=>{ if(!it){ if(found||WANT[i][0]!=='catbowl') bad.push(WANT[i][0]+' 沒有'); return; } if(it.label!==WANT[i][1]) bad.push(WANT[i][0]+' 字 '+it.label); if(!touchable(it,sp)) bad.push(WANT[i][0]+' 按不到／走不到'); });
       const cb=got[3], bowl=z.teaCatBowl;
-      check('A8 一盞前院（'+(found?'找到貓以後 WZ_CAT_FOUND':'還沒找到貓')+'）：'+(found?'五個':'四個（沒有看貓碗）')+'互動點按鈕字對、從冠木門的出生點走得到、按得到（最近的就是它自己）'+(found?'；碗在 (4.0, 8.7) 地上、看得到':'；碗看不到'),!bad.length&&(found?!!cb&&!!bowl&&bowl.visible&&r2(bowl.position.x)===4&&r2(bowl.position.z+z.group.position.z)===8.7:!cb&&(!bowl||!bowl.visible)),J({bad,bowl:bowl?[r2(bowl.position.x),r2(bowl.position.y),r2(bowl.position.z),bowl.visible]:null})); }
+      check('A8 一盞前院（'+(found?'找到貓以後 WZ_CAT_FOUND':'還沒找到貓')+'）：'+(found?'五個':'四個（沒有看貓碗）')+'互動點按鈕字對、從冠木門的出生點走得到、按得到（最近的就是它自己）'+(found?'；碗在 (4.0, 8.7) 地上、看得到':'；碗看不到'),!bad.length&&(found?!!cb&&!!bowl&&bowl.visible&&r2(bowl.position.x)===4.05&&r2(bowl.position.z+z.group.position.z)===8.35:!cb&&(!bowl||!bowl.visible)),J({bad,bowl:bowl?[r2(bowl.position.x),r2(bowl.position.y),r2(bowl.position.z),bowl.visible]:null})); }
     /* A8b（2026-11-04，CC dac871e25 一盞探針）：照玩家／探針的走法——從冠木門的出生點朝互動點本身走（E.simWalk 到 (it.x, it.z)，dt 1/30 與 0.1），停下來的地方最近的按鈕要是它自己。
        A8 只問「範圍內有沒有一格按得到」，石燈籠、木牌、貓碗互相搶在 A8 看不出來（修改前 46d459625 FAIL） */
     { GAME.G.flags={WZ_CAT_FOUND:30}; pend.length=0; const R=loadZone('wz_teahouse'), z=R.z, its=R.its; await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
@@ -154,6 +154,13 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
       for(const w of WANT){ const it=its.find(i=>i.wzShop==='teahouse'&&i.kind===w[0]); if(!it){ bad.push(w[0]+' 沒有'); continue; }
         for(const dt of [1/30,0.1]){ const r=E.simWalk(sp[0],sp[1],it.x,it.z,{dt}); if(r.x===undefined){ bad.push(w[1]+' dt'+r2(dt)+' '+r.reason); continue; } P.obj.position.set(r.x,0,r.z); const n=E.nearestInteractable();
           if(n!==it) bad.push(w[1]+' dt'+r2(dt)+' 停在 ('+r.x+', '+r.z+')'+(r.ok?'':'（'+r.reason+'）')+' 按鈕是 '+(n?n.label:'沒有')); } }
+      /* CC 一盞探針用 playlib.go_to（點地面、tap_ground 容許 1 m 偏差、再用搖桿推，到 0.35 m 內算到）照 its 的順序一個接一個走：
+         停的地方會離互動點 0.35～0.9 m。所以除了朝互動點走，還要求互動點 0.6 m 內每一格站得住的地方，最近的按鈕都是它自己
+         （兩個互動點要相距 1.2 m 以上、中間不能是另一個的地盤）；也照探針順序從上一個點走到下一個 */
+      for(const w of WANT){ const it=its.find(i=>i.wzShop==='teahouse'&&i.kind===w[0]); if(!it) continue; let nOk=0;
+        for(let dz=-0.6;dz<=0.6001;dz+=0.1) for(let dx=-0.6;dx<=0.6001;dx+=0.1){ if(Math.hypot(dx,dz)>0.6001) continue; const x=it.x+dx, zz=it.z+dz; if(!E.canStand(x,zz,0.32,0)) continue; nOk++; P.obj.position.set(x,0,zz); const n=E.nearestInteractable(); if(n!==it){ bad.push(w[1]+' 旁邊 ('+r2(x)+', '+r2(zz)+') 按鈕是 '+(n?n.label:'沒有')); dx=dz=9; } }
+        if(nOk<5) bad.push(w[1]+' 0.6 m 內站得住的只有 '+nOk+' 格'); }
+      { let prev=sp; for(const it of its.filter(i=>i.wzShop==='teahouse'&&WANT.some(w=>w[0]===i.kind))){ for(const dt of [1/30,0.1]){ const r=E.simWalk(prev[0],prev[1],it.x,it.z,{dt}); if(r.x===undefined){ bad.push('從上一點到 '+it.label+' '+r.reason); continue; } P.obj.position.set(r.x,0,r.z); const n=E.nearestInteractable(); if(n!==it) bad.push('依序走到 '+it.label+' dt'+r2(dt)+' 停在 ('+r.x+', '+r.z+') 按鈕是 '+(n?n.label:'沒有')); } prev=[it.x,it.z]; } }
       check('A8b 一盞前院：從冠木門朝每個互動點本身走（E.simWalk dt 1/30、0.1，同 CC 一盞探針），停下來最近的按鈕就是它自己（不會被石燈籠／木牌、樟樹／貓碗搶走）',!bad.length,bad.join('；')); }
     GAME.G.flags={}; FAKE=null; }
   FAKE=null;

@@ -2359,7 +2359,7 @@ const Z3 = (function(){
      高度（nav.addSurf）：前院 -0.42、土間 -0.24、玄關 -0.12、室內 0（每一階 0.21 以內，A* 每格 0.30 以內）；緣側和前院差 0.42：除了沓脫石那一段都上不去（E.canStand 的高度差）。
      模型：wz_teahouse_yard.glb（前院、冠木門、竹垣、石燈籠、老樟樹、牆外的街）；YARD_EAVE（簷）、YARD_ROOF（主屋屋頂）只在玩家站在前院時顯示——人在屋裡是剖面視角，屋頂會擋住。
      玩家在前院時，緣側那一組牆（WALL_engawa_*：玄關的格子門、緣側兩端的紙拉門、橫樑）不淡出：鏡頭在前院上方，那一組在玩家後面。*/
-  /* 一盞前院的貓碗（AA_659 第 3 節：樟樹東南邊的地上約 (4.0, 8.7)，只在 WZ_CATBOWL 時出現、碗和按鈕一起）：前院模型（wz_teahouse_yard.glb）沒有碗，用 LAWWW2 desk_props.glb 的 item_bowl；
+  /* 一盞前院的貓碗（AA_659 第 3 節：樟樹南邊的地上約 (4.05, 8.35)（2026-11-04 拉開互動點，原本 (4.0, 8.7)），只在 WZ_CATBOWL 時出現、碗和按鈕一起）：前院模型（wz_teahouse_yard.glb）沒有碗，用 LAWWW2 desk_props.glb 的 item_bowl；
      condVis 每一格問 catBowlOn（找到貓以後 WZ_CAT_FOUND、收養以前），和溫州街外面那個 WZ_CATBOWL 同一個條件 */
   function teaCatBowl(z,g0,L,cz){ const q=(L.interact||[]).find(i=>i.kind==='catbowl'&&i.bowl); if(!q||typeof ASSETS==='undefined'||!ASSETS.manifest['prop.desk_props']) return;
     const Y=L.yard, fy=(Y&&Y.surfs&&Y.surfs[0]&&Y.surfs[0].y)||-0.42;
