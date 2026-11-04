@@ -136,7 +136,7 @@ def t_study(im, d):        # 二樓樓梯口的直幅
 
 
 def t_counter(im, d):      # 一樓櫃檯正面：白底、深藍色塊、橘色弧線、小標誌
-    w, h = im.size; d.rectangle([0, 0, w, h], fill=(244, 242, 236)); d.rectangle([0, 0, int(w * 0.16), h], fill=NAVY)
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=(244, 232, 210)); d.rectangle([0, 0, int(w * 0.16), h], fill=NAVY)
     pts = [(w * 0.16 + (w * 0.84) * t, h * 0.75 - h * 0.35 * math.sin(math.pi * t)) for t in [i / 40 for i in range(41)]]
     d.line(pts, fill=ORANGE, width=26); logo(d, int(w * 0.55), int(h * 0.42), 40)
     pts2 = [(w * 0.6 + (w * 0.4) * t, h - h * 0.55 * math.sin(math.pi * t / 2)) for t in [i / 30 for i in range(31)]]   # v2：右下一大塊橘色弧（外觀圖的櫃檯正面）
@@ -469,11 +469,11 @@ def stairs():
     tr = CMesh('STAIR_TREADS', m_vc); body = Mesh('STAIR_BODY', m_wall)
     for i in range(n - 1):
         za, zb = ST['zb'] - (i + 1) * tread, ST['zb'] - i * tread; yt = (i + 1) * rise
-        tr.crbox(sx0, sx1, yt - 0.03, yt, za, zb + 0.02, '#cfcbc4', r=0.006)
+        tr.crbox(sx0, sx1, yt - 0.03, yt, za, zb + 0.02, '#d6c6ac', r=0.006)
         tr.cbox(sx0 + 0.05, sx1 - 0.05, yt - 0.004, yt + 0.003, zb - 0.05, zb - 0.01, '#3c3e42')   # 防滑條
         body.box(sx0, sx1, (0.0 if za >= 0.9 - 1e-6 else yt - 0.4), yt - 0.03, za, zb)
         if za < 0.9 - 1e-6: body.box(SH['x0'], SH['x0'] + 0.1, 0.0, yt - 0.4, za, zb)   # 樓梯下儲藏室 x 4.55 那一面的牆（跟著斜度）
-        tr.cbox(sx0, sx1, yt - rise, yt - 0.03, zb, zb + 0.015, '#e6e3dc')   # 踢面
+        tr.cbox(sx0, sx1, yt - rise, yt - 0.03, zb, zb + 0.015, '#e8d8be')   # 踢面
     tr.cbox(sx0, sx1, ST['ya'] - rise, ST['ya'], ST['za'] - 0.015, ST['za'], '#e6e3dc')
     # 樓梯下的儲藏室：x 4.55 那一面的牆＋門
     us = F['underStair']
@@ -518,7 +518,7 @@ if FL == 1:
     band.cbox(X1 - 0.012, X1, 0.0, 0.95, 4.2, Z1, '#24345f'); band.cbox(X1 - 0.014, X1, 0.95, 1.08, 4.2, Z1, '#e8782a')
     band.finish(root)
     # 廚房後牆（白色長磁磚）＋設備
-    kt = L.flat('dk_kitchen_tile', '#ecebe4', rough=0.25)   # v2：純色（材質 ≤ 12；從店外看只是櫃檯後面一片白牆）
+    kt = L.flat('dk_kitchen_tile', '#eedcc0', rough=0.25)   # v2：純色（材質 ≤ 12；從店外看只是櫃檯後面一片白牆）
     kc = F['kitchen']; Mesh('KITCHEN_TILES', kt).box(kc['x0'], kc['x1'], 0.0, 2.4, Z0, Z0 + 0.02).box(X0, X0 + 0.02, 0.0, 2.4, Z0, kc['z1']).finish(root)
     st = Mesh('KITCHEN_STEEL', m_steel); kp = CMesh('KITCHEN_PROPS', m_vc)
     st.box(kc['x0'] + 0.1, kc['x1'] - 0.1, 0.0, 0.9, Z0 + 0.05, Z0 + 0.8)                        # 後面一排料理台
@@ -549,7 +549,7 @@ if FL == 1:
     props.crbox(3.55, 4.4, 0.0, 2.1, sf['z1'] + 0.0, sf['z1'] + 0.03, '#d8d4cc', r=0.01); props.cbox(4.25, 4.3, 0.95, 1.05, sf['z1'] + 0.03, sf['z1'] + 0.07, '#9a9c9e')
     zcard('STAFF_SIGN', sf['z1'] + 0.035, 3.7, 4.25, 1.6, 1.78, IM['staff'], +1)
     # 點餐櫃檯：檯面、正面貼圖、收銀機、取餐區
-    Mesh('COUNTER_TOP', L.flat('dk_quartz', '#f4f2ee', rough=0.25)).rbox(ct['x0'], ct['x1'], ct['h'] - 0.04, ct['h'], ct['z0'], ct['z1'] + 0.04, r=0.01, seg=2).finish(root)
+    Mesh('COUNTER_TOP', L.flat('dk_quartz', '#f2e4cc', rough=0.25)).rbox(ct['x0'], ct['x1'], ct['h'] - 0.04, ct['h'], ct['z0'], ct['z1'] + 0.04, r=0.01, seg=2).finish(root)
     Mesh('COUNTER_BODY', m_wall).box(ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1'] - 0.02).box(ct['x1'] - 0.02, ct['x1'], 0.0, ct['h'] - 0.04, ct['z0'], ct['z1']).finish(root)
     zcard('COUNTER_FACE', ct['z1'] + 0.001 - 0.02, ct['x0'], ct['x1'], 0.0, ct['h'] - 0.04, IM['counter'], +1)
     for x in (-2.6, 0.2):
@@ -575,7 +575,7 @@ if FL == 1:
     for k in F['kiosks']:
         x, z = k['x'], k['z']
         props.crbox(x - 0.22, x + 0.22, 0.0, 0.05, z - 0.18, z + 0.18, '#2a2c30', r=0.01); props.crbox(x - 0.06, x + 0.06, 0.05, 0.9, z - 0.06, z + 0.06, '#e8e8e6', r=0.02)
-        props.crbox(x - 0.25, x + 0.25, 0.9, 1.85, z - 0.05, z + 0.03, '#f4f4f2', r=0.02); props.cbox(x - 0.25, x + 0.25, 1.85, 1.95, z - 0.05, z + 0.03, '#24345f')
+        props.crbox(x - 0.25, x + 0.25, 0.9, 1.85, z - 0.05, z + 0.03, '#f2e6d0', r=0.02); props.cbox(x - 0.25, x + 0.25, 1.85, 1.95, z - 0.05, z + 0.03, '#24345f')
         gz(SCR, z + 0.032, x - 0.21, x + 0.21, 0.98, 1.78, +1, GR['kiosk'])   # v2：點餐機螢幕發光
     # 回收餐盤
     tr_ = F['tray']; props.crbox(tr_['x'] - 0.45, tr_['x'] + 0.45, 0.0, 1.0, tr_['z'] - 0.25, tr_['z'] + 0.25, '#24345f', r=0.02)
