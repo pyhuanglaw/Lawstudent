@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_komichi",
+  "sha": "dac871e25",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
+  "env": "SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T16:35:42",
+  "end": "2026-11-04T17:14:21",
+  "seconds": 2320,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 94,
+    "mem": 62,
+    "used_gb": 19.5,
+    "chrome_testing": 29
+  }
+}

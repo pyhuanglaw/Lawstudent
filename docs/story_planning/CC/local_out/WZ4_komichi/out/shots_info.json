@@ -1,0 +1,62 @@
+{
+ "14.0": {
+  "ref_east_to_west": {
+   "calls": 59,
+   "tris": 87774
+  },
+  "door_in": {
+   "calls": 53,
+   "tris": 87370
+  },
+  "bar": {
+   "calls": 51,
+   "tris": 87130
+  },
+  "booth_west": {
+   "calls": 34,
+   "tris": 37434
+  },
+  "window_seats": {
+   "calls": 34,
+   "tris": 37018
+  },
+  "kitchen": {
+   "calls": 39,
+   "tris": 85796
+  },
+  "table_mid": {
+   "calls": 55,
+   "tris": 87610
+  }
+ },
+ "22.0": {
+  "ref_east_to_west": {
+   "calls": 120,
+   "tris": 248806
+  },
+  "door_in": {
+   "calls": 129,
+   "tris": 293044
+  },
+  "bar": {
+   "calls": 124,
+   "tris": 292798
+  },
+  "booth_west": {
+   "calls": 73,
+   "tris": 140788
+  },
+  "window_seats": {
+   "calls": 87,
+   "tris": 189216
+  },
+  "kitchen": {
+   "calls": 57,
+   "tris": 137138
+  },
+  "table_mid": {
+   "calls": 131,
+   "tris": 293284
+  }
+ }
+}
