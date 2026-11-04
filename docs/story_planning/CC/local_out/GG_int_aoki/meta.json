@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_int_aoki",
+  "sha": "cb1d84290",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_int_probe.py",
+  "env": "CASES=aoki;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:36:20",
+  "end": "2026-11-04T12:37:04",
+  "seconds": 3644,
+  "exit": 1,
+  "error": "timeout 60 min",
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 85,
+    "mem": 66,
+    "used_gb": 20.6,
+    "chrome_testing": 29
+  }
+}
