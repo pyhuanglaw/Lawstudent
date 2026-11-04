@@ -4296,7 +4296,7 @@
   },
   {
    "path": "docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md",
-   "sha": "090981ebe",
+   "sha": "0777c92ac",
    "status": "approved",
    "approvedBy": "AA-C（D109 定稿）",
    "task": "AA660-VAC-GAP-1104",
@@ -4305,9 +4305,13 @@
     {
      "sha": "d88f39e3f",
      "note": "第一版（AA-C 11-04 13:49）；090981ebe 只改 G1-1 第一個回法（AA_667 第 4 節：09:30 起飛，「早上九點半。」→ 媽媽「那六點要出門」）"
+    },
+    {
+     "sha": "090981ebe",
+     "note": "（2026-11-04 換成 0777c92ac 以前的版本）0777c92ac＝AA-C 回 LAWWW-C 的五件：G2-1 改成 12/23 約 10:30 媽媽接到人、回到家以後在群組報（沒有「你（自動）：到了」）、G2-2「見面再給你們看。」→ Alison「好啦 那也算」、G3-2 1/13 改寒假那一句、G1-3 Alison 不在＝芯慈拿清單（G1-5、G2-2 換句表）、G1-1 第二個回法「不用載，我自己去。」→ 媽媽「我要去。我要看你進去。」"
     }
    ],
-   "note": "日本／美國路線在臺灣的空白第一批（第 2 節 G1～G6、第 3 節接線；第 5 節下一批不做）：美國 7/27 家人群組、7/29 摘要日、7/30 桌遊團群組＋7/31 19:00 餞行（拍照清單 US_PHOTO_LIST）、8/1 家人群組、8/5 松鼠的照片、12/23 家人群組（AA660.G21_ON 先關，問 AA 中）與 21:00 群組、12/24 Kevin 第一句、12/25／1/13 摘要日；日本 3/23 阿哲第一句、8/5 家人群組與 21:00 群組、8/12／8/22／8/29 摘要日。照抄進 src/aa660_3d.js（S.L）、src/data/heard_lines.js（h509_kevin 的 alt）、src/y34b3d.js（y3_an_farewell_ask）；第 4 節第 3 點：src/data/heroine_asks.js 子晴那句店名換 2:30 AM（tools/story/aa655_fix.json）。tests/aa660_vac_gap_unit.js 逐字對照"
+   "note": "日本／美國路線在臺灣的空白第一批（第 2 節 G1～G6、第 3 節接線；第 5 節下一批不做）：美國 7/27 家人群組、7/29 摘要日、7/30 桌遊團群組＋7/31 19:00 餞行（拍照清單 US_PHOTO_LIST；Alison 不在＝芯慈拿清單，US_PHOTO_LIST_XC）、8/1 家人群組、8/5 松鼠的照片、12/23 10:30 家人群組（AA660.G21_ON 打開、G21_H）與 21:00 群組、12/24 Kevin 第一句、12/25／1/13 摘要日；日本 3/23 阿哲第一句、8/5 家人群組與 21:00 群組、8/12／8/22／8/29 摘要日。照抄進 src/aa660_3d.js（S.L）、src/data/heard_lines.js（h509_kevin 的 alt）、src/y34b3d.js（y3_an_farewell_ask）；第 4 節第 3 點：src/data/heroine_asks.js 子晴那句店名換 2:30 AM（tools/story/aa655_fix.json）；0777c92ac 同一個 commit 的 AA_494 子晴交往中、可昕兩句店名也換 2:30 AM（heroine_asks.js；AA_494 白名單照舊 b3ecc563c，讀稿照 aa655_fix.json pairs 換）。稿上芯慈那一版清單旁白後面的「（芯慈的顏色筆，這學期用這一次）」是口頭禪額度註記（00_台詞寫作規則.md 第 6 節），不演。tests/aa660_vac_gap_unit.js 逐字對照"
   }
  ]
 }
