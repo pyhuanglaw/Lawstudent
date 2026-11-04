@@ -57,7 +57,7 @@ AIM = """(async(e,l)=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.
 HUD = """(on=>{ const c=GAME.E.renderer.domElement; const keep=new Set(); for(let n=c;n;n=n.parentElement) keep.add(n);
   document.querySelectorAll('body *').forEach(el=>{ if(keep.has(el)||c.contains(el)) return; if(el.parentElement&&keep.has(el.parentElement)){ if(on){ if(el.dataset.ccVis!==undefined){ el.style.visibility=el.dataset.ccVis; delete el.dataset.ccVis; } } else { el.dataset.ccVis=el.style.visibility||''; el.style.visibility='hidden'; } } }); })"""
 SCENEINFO = """(()=>{ const E=GAME.E, z=E.zone, g=z&&z.group, zd=z&&z.def, f=E.scene.fog;
-  const zb=[]; if(g) g.traverse(o=>{ if(o.isMesh&&o.name==='zebra'){ const b=new THREE.Box3().setFromObject(o); let v=true; for(let n=o;n;n=n.parent) if(!n.visible) v=false;
+  const zb=[]; if(g) g.traverse(o=>{ if(o.isMesh&&/^zebra/.test(o.name||'')){ const b=new THREE.Box3().setFromObject(o); let v=true; for(let n=o;n;n=n.parent) if(!n.visible) v=false;
     zb.push({min:b.min.toArray().map(x=>+x.toFixed(2)), max:b.max.toArray().map(x=>+x.toFixed(2)), visible:v}); } });
   return {zone:GAME.G.zone, zebra:zb, fog:f?{near:f.near, far:f.far}:null, fogFar:E.fogFar, zone_viewFar:zd&&zd.viewFar||null, zone_fogNear:zd&&zd.fogNear||null,
     camera_far:E.camera.far, quality:E.q&&E.q.level, weather:E.weather, hour:+GAME.G.hour.toFixed(2)}; })()"""
@@ -87,7 +87,7 @@ async def load(pg, zone, pos, hour, tag):
 async def case_shot(pg):
     res = {}
     for hour, when in ((15.0, 'day'), (20.0, 'night')):
-        for v, (zone, pos, eye, look) in VIEWS.items():
+        for v, (zone, pos, eye, look) in [(k, x) for k, x in VIEWS.items() if not os.environ.get('GATE_VIEWS') or k in os.environ['GATE_VIEWS'].split(',')]:
             await load(pg, zone, pos, hour, '%s %.0f:00' % (when, hour))
             if zone == 'gongguan':
                 for _ in range(240):

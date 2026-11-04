@@ -104,7 +104,13 @@ def montage(keys, when):
 async def run_time(pg, hour, when):
     print('  [前置／捷徑] 讀檔到公館人行道 %s (−30, 14)，條件事件關閉' % when, flush=True)
     t1 = time.time()
-    await L.load_state(pg, {'zone': 'gongguan', 'hour': hour, 'pos': {'x': -30, 'z': 14, 'yaw': 1.5708}}, quiet_events=True)
+    st = {'zone': 'gongguan', 'hour': hour, 'pos': {'x': -30, 'z': 14, 'yaw': 1.5708}}
+    dk = os.environ.get('DATEKEY', '').strip()   # BB 05:17 GG_night：颱風假（例 2025-10-13）
+    if dk:
+        dn = await pg.evaluate("(k=>{ try{ return STORY.dayOfKey(k); }catch(e){ return null; } })(%s)" % J(dk))
+        print('  [前置／捷徑] 日期 %s → day %s' % (dk, dn), flush=True)
+        if dn is not None: st['day'] = dn
+    await L.load_state(pg, st, quiet_events=True)
     t_glb = None
     for _ in range(480):
         if await pg.evaluate(GLBREADY): t_glb = round(time.time() - t1, 2); break
@@ -143,8 +149,9 @@ async def main():
         if not ok:
             await b.close(); print('FAILED 1: 遊戲載入', flush=True); sys.exit(1)
         await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
-        day = await run_time(pg, 11.0, 'day')
-        night = await run_time(pg, 20.5, 'night')
+        hrs = [float(x) for x in (os.environ.get('HOURS') or '11,20.5').split(',')]   # BB 05:17 GG_night：HOURS=14,22
+        day = await run_time(pg, hrs[0], 'day')
+        night = await run_time(pg, hrs[1], 'night') if len(hrs) > 1 else day
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     rows = {}
