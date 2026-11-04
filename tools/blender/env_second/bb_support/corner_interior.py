@@ -57,9 +57,9 @@ P = 'cr_'
 # 11 個材質：地板（自製磨石子）、牆、天花板（外露的水泥）、木頭（胡桃木；Poly Haven CC0）＋頂點色（霧面、金屬）＋玻璃＋透明圖集、印刷圖集、會亮的、招牌
 M = {
     'floor': img_mat(P + 'floor_terrazzo', 'corner_floor.png', rough=0.3, tile=1.0),
-    'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d6cab2', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.9),
+    'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#dcc3a0', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.9),
     'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#7c6a58', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
-    'wood': L.pbr(P + 'wood', 'walnut_veneer', tile=1.0, target='#7a5232', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.5),   # 參考圖的唱片箱、唱片牆是中間色的胡桃木
+    'wood': L.pbr(P + 'wood', 'walnut_veneer', tile=1.0, target='#5f4330', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.5),   # 參考圖的唱片箱、唱片牆是中間色的胡桃木
     'vc': L.vc_material(P + 'vc', rough=0.6), 'vcm': L.vc_metal(P + 'vc_metal', rough=0.38, metal=0.4),
     'glass': L.flat(P + 'glass', '#d4e2e0', rough=0.05, alpha=0.14),
     'emit': img_mat(P + 'emit', 'corner_emit.png', rough=0.4, emit=1.0),
@@ -649,7 +649,7 @@ def bin_box(it, k):
     w_.rbox(xa + 0.02, xb - 0.02, 0.08, 0.12, zb, zb + 0.014, r=0.004)
     IB = 0.14   # v1b：內底墊高（v1 是 0.22，唱片只露出上緣）：唱片露出一半左右，和參考圖一樣
     c.cbox(xa + t, xb - t, h - IB - 0.02, h - IB, za + t, zb - t, '#3a2a1e')                    # 內底（暗）
-    n4 = 4; cw = (w - 2 * t) / n4
+    n4 = max(2, int((w - 2 * t) / 0.33)); cw = (w - 2 * t) / n4   # 一欄 0.33 m 左右（v1c：箱子 1.1～1.2 m 寬 → 3 欄）
     for j in range(1, n4): xx = xa + t + j * cw; c.cbox(xx - 0.006, xx + 0.006, h - IB, h - 0.05, za + t, zb - t, '#5a4030')   # 隔板
     if it.get('poster'):
         g.rect((xa + 0.5, h * 0.5 + 0.02, zb + 0.0155), (1, 0, 0), (0, 1, 0), 0.42, 0.29, ATL['poster_gg'])
@@ -659,7 +659,7 @@ def bin_box(it, k):
     # 分類牌（細木架子、立在箱子後緣；兩塊的話一塊在中間）
     sg = it.get('signs', [])
     for i, nm in enumerate(sg):
-        zz = za + 0.05 if i == len(sg) - 1 else z + 0.05; cell = f'sign_{nm}'; ww = 0.36 if nm != 'electronic' else 0.43
+        zz = za + 0.05 if i == len(sg) - 1 else z + 0.05; cell = f'sign_{nm}'; ww = {'electronic': 0.43, 'citypop': 0.46}.get(nm, 0.36)
         crb(c, x - ww / 2 - 0.01, x + ww / 2 + 0.01, h + 0.14, h + 0.25, zz - 0.012, zz + 0.012, '#2e3533', r=0.004)
         g.rect((x, h + 0.195, zz + 0.0125), (1, 0, 0), (0, 1, 0), ww / 2 - 0.005, 0.05, ATL[cell])
         for sx in (-1, 1): ccyl(c, (x + sx * ww * 0.35, h - IB, zz), (x + sx * ww * 0.35, h + 0.14, zz), 0.005, '#2a2b2d', seg=4)
@@ -668,7 +668,7 @@ def bin_box(it, k):
     nrow = 1 if d < 1.4 else 2; rl = (d - 2 * t - 0.04) / nrow; n = int((rl - 0.03) / 0.03) + 1
     for j in range(n4):
         for rw in range(nrow):
-            stack_proto(n, (k * 4 + j + rw) % 6).place(fm((xa + t + (j + 0.5) * cw, h - IB, zb - t - 0.02 - rw * rl)))
+            stack_proto(n, (k * 3 + j + rw) % 6).place(fm((xa + t + (j + 0.5) * cw, h - IB, zb - t - 0.02 - rw * rl)))
 
 
 for k, it in enumerate([i for i in ITL if i['kind'] == 'bin']): bin_box(it, k)
@@ -856,19 +856,31 @@ for k, it in enumerate([i for i in ITL if i['kind'] == 'hanging']):
     for a in (0.3, 2.4, 4.5): ccyl(ph['vc'], (hx_ + 0.11 * math.cos(a), hy_ + 0.16, hz_ + 0.11 * math.sin(a)), (hx_, H - 0.02, hz_), 0.003, '#c8b48a', seg=3)   # 麻繩
     crb(ph['vcm'], hx_ - 0.02, hx_ + 0.02, H - 0.03, H, hz_ - 0.02, hz_ + 0.02, '#2a2b2d', r=0.003); ph.done()
     pothos(f'hanging{k}', hx_, hy_, hz_, nv=14, drop=0.85, spread=0.8, pot='#d9cbb4', dirx=1 if hx_ < 0 else -1)
-fp_ = IT['front_plant']; pfp = Part('front_plant'); c = pfp['vc']
-clathe(c, [(0.0, 0.0), (0.18, 0.0), (0.23, 0.42), (0.245, 0.45), (0.225, 0.45), (0.0, 0.43)], fp_['x'], 0, fp_['z'], '#3a3a38', seg=18)   # 深灰陶盆
-clathe(c, [(0.0, 0.41), (0.215, 0.41), (0.0, 0.42)], fp_['x'], 0, fp_['z'], '#4a3424', seg=14)
-rnd = random.Random(77)
-for k in range(6):
-    a = k * 1.05 + rnd.uniform(-0.3, 0.3); hh = rnd.uniform(0.75, 1.35); lean = rnd.uniform(0.1, 0.25)
-    tx, tz = fp_['x'] + math.cos(a) * hh * lean, fp_['z'] + math.sin(a) * hh * lean
-    ccyl(c, (fp_['x'], 0.42, fp_['z']), (tx, 0.42 + hh, tz), 0.012, '#5a4a30', seg=5, r2=0.007)
-    for j in range(rnd.randint(4, 6)):
-        t = 0.35 + 0.65 * (j + 1) / 6; base = (fp_['x'] + (tx - fp_['x']) * t, 0.42 + hh * t, fp_['z'] + (tz - fp_['z']) * t)
-        n0 = _N0(c); Lf = rnd.uniform(0.2, 0.3); PLN.leaf_mesh(c.bm, base, -(a + (j % 2 - 0.5) * 2.2 + rnd.uniform(-0.4, 0.4)), rnd.uniform(-0.1, 0.5), Lf, Lf * 0.42, droop=Lf * 0.3)
-        c.paint(_new(c, n0), rnd.choice(['#2f4c28', '#3a5a30', '#2a4424']))
-pfp.done()
+def broad_leaf(name, x, z, seed, pot='#3a3a38', hmax=1.35, nst=6):
+    """大葉盆栽：深灰陶盆＋幾根莖，莖上交錯長模型葉子（tools/blender/plants.py 的 leaf_mesh；頂點色，不加材質）"""
+    pfp = Part(name); c = pfp['vc']
+    clathe(c, [(0.0, 0.0), (0.18, 0.0), (0.23, 0.42), (0.245, 0.45), (0.225, 0.45), (0.0, 0.43)], x, 0, z, pot, seg=18)
+    clathe(c, [(0.0, 0.41), (0.215, 0.41), (0.0, 0.42)], x, 0, z, '#4a3424', seg=14)
+    rnd = random.Random(seed)
+    for k in range(nst):
+        a = k * 6.283 / nst + rnd.uniform(-0.3, 0.3); hh = rnd.uniform(0.55, 1.0) * hmax; lean = rnd.uniform(0.1, 0.25)
+        tx, tz = x + math.cos(a) * hh * lean, z + math.sin(a) * hh * lean
+        ccyl(c, (x, 0.42, z), (tx, 0.42 + hh, tz), 0.012, '#5a4a30', seg=5, r2=0.007)
+        for j in range(rnd.randint(4, 6)):
+            t = 0.35 + 0.65 * (j + 1) / 6; base = (x + (tx - x) * t, 0.42 + hh * t, z + (tz - z) * t)
+            n0 = _N0(c); Lf = rnd.uniform(0.2, 0.3); PLN.leaf_mesh(c.bm, base, -(a + (j % 2 - 0.5) * 2.2 + rnd.uniform(-0.4, 0.4)), rnd.uniform(-0.1, 0.5), Lf, Lf * 0.42, droop=Lf * 0.3)
+            c.paint(_new(c, n0), rnd.choice(['#2f4c28', '#3a5a30', '#2a4424']))
+    pfp.done()
+
+
+broad_leaf('front_plant', IT['front_plant']['x'], IT['front_plant']['z'], 77)
+broad_leaf('lounge_plant', IT['lounge_plant']['x'], IT['lounge_plant']['z'], 91, pot='#c9bfae', hmax=1.5, nst=7)   # v1c：休息區前面（左下角）
+fs_ = IT['floor_speaker']; pfs = Part('floor_speaker', side='right', T=fm((fs_['x'], 0, fs_['z']), rot('Y', -math.pi / 2)))   # v1c：大落地喇叭（正面朝店裡）
+crb(pfs['vc'], -fs_['d'] / 2, fs_['d'] / 2, 0.06, fs_['h'], -fs_['w'] / 2, fs_['w'] / 2, '#5a3a22', r=0.012)
+pfs['goods'].rect((0, (0.06 + fs_['h']) / 2 + 0.02, fs_['w'] / 2 + 0.002), (1, 0, 0), (0, 1, 0), fs_['d'] / 2 - 0.03, (fs_['h'] - 0.06) / 2 - 0.04, ATL['speaker'])
+for sx in (-1, 1):
+    for sz in (-1, 1): ccyl(pfs['vc'], (sx * (fs_['d'] / 2 - 0.04), 0.0, sz * (fs_['w'] / 2 - 0.04)), (sx * (fs_['d'] / 2 - 0.04), 0.06, sz * (fs_['w'] / 2 - 0.04)), 0.02, '#1d1d1d', seg=6)
+pfs.done()
 
 # ======================================================================
 for ob in list(root.children):

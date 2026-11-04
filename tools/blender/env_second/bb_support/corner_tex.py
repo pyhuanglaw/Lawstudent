@@ -368,7 +368,7 @@ def tt_top(im, d):
 
 def counter_face(im, d):
     """木櫃台正面（直條拼板、下緣踢黑）"""
-    w, h = im.size; rr = np.random.default_rng(31); a = np.zeros((h, w, 3), np.float32); base = np.array(rgb('#8a5c34'), np.float32)
+    w, h = im.size; rr = np.random.default_rng(31); a = np.zeros((h, w, 3), np.float32); base = np.array(rgb('#6e4c34'), np.float32)   # v1c：深一點、不偏橘（和唱片箱一樣）
     for k in range(0, w, 40): a[:, k:k + 40] = base * rr.uniform(0.9, 1.06)
     a += np.repeat(rr.normal(0, 7, (1, w)), h, 0)[..., None]; a += noise(w, h, 2, 4)[..., None]
     for k in range(0, w, 40): a[:, k:k + 3] *= 0.7
@@ -425,7 +425,7 @@ CELLS += [(f'hero{k}', 176, 176, hero(k)) for k in range(12)]   # v1b：唱片�
 CELLS += [('poster_taipei', 384, 544, poster_taipei), ('poster_river', 320, 560, poster_river), ('poster_girl', 320, 432, poster_girl), ('poster_crowd', 320, 464, poster_crowd),
           ('poster_gg', 512, 352, poster_gg), ('poster_mtn', 288, 224, plain(31, 'mount', 0)), ('poster_city', 288, 224, plain(41, 'city', 5)), ('poster_sea', 224, 288, plain(52, 'sea', 4)),
           ('frame_vinyl', 192, 192, framed_vinyl), ('portrait', 224, 288, portrait), ('lineart_tt', 224, 288, lineart_tt), ('note_bin', 224, 320, note_bin),
-          ('sign_indie', 320, 80, catsign('搖滾', 'Indie')), ('sign_folk', 320, 80, catsign('民謠', 'Folk')), ('sign_electronic', 384, 80, catsign('電子', 'Electronic')),
+          ('sign_indie', 320, 80, catsign('搖滾', 'Indie')), ('sign_folk', 320, 80, catsign('民謠', 'Folk')), ('sign_electronic', 384, 80, catsign('電子', 'Electronic')), ('sign_jazz', 320, 80, catsign('爵士', 'Jazz')), ('sign_citypop', 416, 80, catsign('城市流行', 'City Pop')), ('sign_ost', 320, 80, catsign('原聲帶', 'OST')),
           ('sign_listen', 256, 112, plaque(['試聽區', 'Listening'], bg='#e0dcd2', icon=True)),
           ('hours', 256, 192, plaque(['轉角唱片', '營業時間', '每天 12:00～21:00'], bg='#efe8d8')),
           ('note_price', 192, 160, note(['二手黑膠', '每張', '150元起'], red='#c8202a')), ('note_staff', 192, 112, note(['倉庫', '員工專用'], col='#2a2a2a')),
@@ -538,7 +538,7 @@ SG.save(os.path.join(GEN, 'corner_sign.png'))
 
 # ======================= 5. 地板（1024²＝1.0 m 淺灰磨石子，無縫） =======================
 FW = 1024; rr = np.random.default_rng(12)
-fa = np.zeros((FW, FW, 3), np.float32) + rgb('#b8afa3'); fa += noise(FW, FW, 64, 6, rr)[..., None]
+fa = np.zeros((FW, FW, 3), np.float32) + rgb('#bcae9e'); fa += noise(FW, FW, 64, 6, rr)[..., None]
 F = Image.fromarray(np.clip(fa, 0, 255).astype(np.uint8)); fd = ImageDraw.Draw(F)
 CH = [('#e8e6e0', 0.45), ('#8a8680', 0.25), ('#3a3836', 0.12), ('#c8b8a0', 0.12), ('#a89888', 0.06)]
 for k in range(5200):
