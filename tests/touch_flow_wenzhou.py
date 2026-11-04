@@ -56,6 +56,11 @@ async def walk_to(pg, t, x, z, label, tol=1.3, max_s=150):
     t0 = time.time(); st = await state(pg)
     while time.time() - t0 < max_s:
         st = await state(pg)
+        # 走路的時候跳出對話（例：進 2:30 AM 才抽到的隨機事件 ev_wrong_coffee，enter、random_weight 0.35、兩個選項；
+        # 進門後的 advance_dialogue 可能在事件出來之前就結束了）：像玩家一樣先回答完再走（BB-C 11-04 V20_touchwz_909c TEST_BUG）
+        if st['dlg'] or st['choices']:
+            print('  [玩家操作] 走路的時候跳出對話 → 先回答再走：', (st['name'] or '旁白') + '：' + (st['text'] or '')[:40], flush=True)
+            await advance_dialogue(pg, t); continue
         d = math.hypot(st['x'] - x, st['z'] - z)
         if d < tol: return st
         sx, sy, sz = await screen_of(pg, x, z)
