@@ -16,8 +16,16 @@
   - 正式模型 `wz_props.glb`（`wz_props.py` 的 `POLES`）。
   - 遊戲程式 `zones3d.js` 兩行（LAWWW-C 的檔，給 patch `ade_pole16_1104.patch`，以開發分支 af0170be2 為底）：`poleXs` 第 2 個、跨巷電線那一組。導航阻擋、電線、光圈都是照 `poleXs` 算的，跟著動。
 - 測試（開發分支 af0170be2＋patch＋新 GLB，Node）：`wz_props_poles_unit`、`bike_park_1104_unit`、`street_props_nav_unit`、`wz_copy_shop_unit`、`prop_restand_unit`、`cafe230_ext_nav_unit`、`wz_teahouse_yard_unit` 都 ALL PASS。
+  - 開發分支往前到 01e12b75d 以後再跑一次（patch `git apply` 照樣套得上），加上 `cafe230_nobldg_nav_unit`、`wz_teahouse_seats_unit`、`ade_v1c_unit`，10 支都 ALL PASS。
   - 另外量了：宿舍門口、阿德門口、桿子兩邊都走得到；桿子附近沒有站得住但走不到的點；A 側每一段都走得過去。
-- 畫面：`ade_pole16.jpg`（Blender，阿德的參考圖鏡頭，14:00；左邊 −12.7、右邊 −16.0）。
+  - 瀏覽器的 `street_props_integration.py`、`reachability_all.py` 沒跑（D131，要 CC）。
+- 畫面：`ade_pole16.jpg`。
+  - Blender 14:00，從對面人行道 (−4.0, 1.6, −3.6) 看 (−11.0, 2.4, 5.5)，18 mm。
+  - 左到右：已發布 v9.10.19.1 的 −9.2、開發分支的 −12.7、這次的 −16.0。三張只有桿子不同（機車都照現在的位置）。
+  - 阿德參考圖鏡頭那個角度，三個位置的桿子都在畫面右邊外面，拍不出差別，所以換這個角度。
+  - 電線是遊戲的套件畫的，Blender 裡沒有。
+
+![電線桿三個位置（Blender 14:00）](ade_pole16.jpg)
 
 ## ADE-PROPS 補件（LAWWW2-C 11-04 21:3x）：正式模型的電線桿沒有跟著挪
 

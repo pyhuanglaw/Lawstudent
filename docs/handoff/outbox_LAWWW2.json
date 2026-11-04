@@ -5787,6 +5787,26 @@
    "next": "—",
    "noDirectIntegrate": false,
    "note": "ART_DIRECTION 12.2／12.8 寫進 R1、R2、TripoSR 目前不用（D128 定案）；LAWWW-C 21:37Z 帶進開發分支 79da20245，CLAUDE.md 美術規則第 2 點補一段指過去"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "38b779db6",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "ADE-POLE16-1104",
+   "files": [
+    "assets/models/env/second_ai/wz_props.glb",
+    "assets/models/env/second_ai/wz_props.json",
+    "tools/blender/env_second/wz_props.py",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_pole16_1104.patch",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_pole16.jpg"
+   ],
+   "state": "已整合",
+   "remaining": "瀏覽器 street_props_integration、reachability_all、阿德門口截圖（LAWWW-C 交 BB／CC，D131）",
+   "next": "—（LAWWW-C 開發分支 c744017d3；總表 X229；不擠進 v9.10.20，BB-C 21:53 同意，下一版上線）",
+   "noDirectIntegrate": false,
+   "note": "使用者 11-04 21:4x「阿德影印前面不應該有電線桿」：A 側第二支 −12.7 → −16.0（日式宿舍院牆前、離阿德西緣 4 m、門 −21.7～−19.3 不擋）；跨巷電線直接到 (−16,−5.2)。開發分支 01e12b75d＋改動 Node 10 支 ALL PASS。21:5xZ send_message LAWWW-C（副本 BB-C）DELIVERED；小路窗外的路燈光圈跟著移出畫面（KOMICHI-VIEW-POLISH 交件時說明）｜LAWWW-C 21:52Z／21:53Z：c744017d3 接好，10 支 Node ALL PASS、交付 DL-LAWWW2-38b779db6；對照圖 ade_pole16.jpg 在下一個 commit"
   }
  ]
 }
