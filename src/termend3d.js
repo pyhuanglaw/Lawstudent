@@ -104,7 +104,9 @@ const TERMEND=(function(){
   S.examStart=function(G,w){ if(typeof CLS==='undefined'||!CLS.examList) return w.from; let last=null; try{ for(const e of CLS.examList(G,w.id)) if(e.kind==='final'&&(last==null||e.day>last)) last=e.day; }catch(e){ return w.from; } return last!=null&&last>w.from?last+1:w.from; };
   /* AA_684 第 6 項（企劃線 0382b8a34，AA-C 定 D109）：語彤的心意邀約（HEART.heroine_03 的 examDay）在玩家最後一科考完的那一天 20:30 發（不是隔天）、晚餐排在那天以後的第一個週六——週五考完＝隔天週六。
      S.examDay＝最後一科考完的那一天（時段第一天以前或當天考完＝時段第一天）；S.heartFrom＝那一則邀約發的那一天（人在國外、中途回來的照回來那一天 S.backDay；不早於 S.fromDay）。
-     沒寫 examDay 的照原本（P.back：最後一科考完的隔天）。S.dinnerDay 的「那天以後」也照 S.heartFrom 算 */
+     沒寫 examDay 的照原本（P.back：最後一科考完的隔天）。S.dinnerDay 的「那天以後」也照 S.heartFrom 算。
+     AA_687 第 5 項（企劃線 d41750385，AA-C 定 D109）：語彤的期末飯（朋友那一則，FRIEND.heroine_03 也寫 examDay）照同一個規則——最後一科考完的那天 20:30 發、那天以後的第一個週六 18:00（週五考完＝隔天週六：大二下 2027-06-12、大四上 2028-12-23）。
+     朋友那一則照舊佔「只能接一個」的名額（不佔名額的只有心意那一則，S.plan 的 exempt 只看 HEART）*/
   S.examDay=function(G,w){ const s=S.examStart(G,w); return s>w.from?s-1:w.from; };
   S.heartFrom=function(G,w,id,spec){ const b=(S.rec(G,w.id).plan||{}).back||w.from; if(!(spec&&spec.examDay)) return Math.max(S.fromDay(w,id),b); const bd=S.backDay(G,w);
     return Math.max(S.fromDay(w,id),Math.min(b,Math.max(bd==null?b:bd,S.examDay(G,w)))); };
@@ -137,7 +139,7 @@ const TERMEND=(function(){
     const d1=P.back||w.from;   /* 玩家回來那天（不在國外＝時段第一天）*/
     for(const id in P.nope){ const t=S.nopeText(Lx,P.nope[id],id,w.id), tag='te_nope_'+w.id+'_'+id, mine=x=>!!(x&&x.who===id);   /* 時段的最後一天 20:00（BB_203 5-4）；這學期玩家已經約她吃過期末飯＝不傳；一學期一人一句 */
       if(t&&now>=T(w.to,20)&&!PHONE.sent(G,tag)&&!mine(R.picked)&&!mine(R.done)) PHONE.at(G,w.to,20,[{th:'p:'+id,from:id,text:t}],tag); }
-    let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, hs=kind==='heart'?S.heart(id,w.id):null, d0=hs&&hs.examDay?S.heartFrom(G,w,id,hs):Math.max(S.fromDay(w,id),P.back||w.from);   /* examDay：AA_684 第 6 項（語彤：最後一科考完的那天）*/
+    let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, hs=kind==='heart'?S.heart(id,w.id):null, xs=hs||(kind==='friend'?S.friend(id,w.id):null), d0=xs&&xs.examDay?S.heartFrom(G,w,id,xs):Math.max(S.fromDay(w,id),P.back||w.from);   /* examDay：AA_684 第 6 項（語彤的心意邀約：最後一科考完的那天）；AA_687 第 5 項（企劃線 d41750385，AA-C 定 D109）：語彤的期末飯（朋友那一則，FRIEND 寫 examDay）也照這個規則發 */
       const taken=kind==='heart'&&S.isExempt(G,w.id,id)?S.exBlocked(G,w.id,id):R.picked;   /* TE-HEART-EXEMPT-1104：不佔名額的那一則不看 R.picked（別人那一頓定了照樣傳；時間撞到的，傳到以後 S.exSweep 照「改天」回）；這學期已經和她本人約了期末的飯才不發 */
       /* 當天才約（HEART.sameDay，芯慈 AA_537b 第 7 節「考完了。今天晚上有空嗎。……我沒有提前一天。」）：先排好日子，那一天 12:00 傳、回覆到 17:30，飯就在那天（BB-B 10-31：原本時段第一天 20:30 傳、飯排在兩天後，「今天」不對）*/
       if(hs&&hs.sameDay){ const RH=R.heartDay||(R.heartDay={}); if(PHONE.sent(G,tag)||taken) return;
@@ -195,7 +197,7 @@ const TERMEND=(function(){
   /* 固定那一天沒排成（那天晚上有別的約、往後讓了）＝AA_386 3-3 備援：12/24 21:00 她私訊（sis_b4_3d.js SISB4.xm3Fallback；3-2 有來才有）*/
   S.gfOff=function(G,w,id){ const fx=S.GF_FIXED[id]&&S.GF_FIXED[id][w.id]?DK(S.GF_FIXED[id][w.id]):null; if(fx==null) return; const dd=S.rec(G,w.id).gfDay[id]; if(dd===fx) return;
     if(id==='heroine_05'&&w.id==='Y4S1'&&typeof SISB4!=='undefined'&&SISB4.xm3Fallback) SISB4.xm3Fallback(G); };
-  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&!S.teBusy(G,w,d,who,spec&&spec.teMode)&&!(spec&&typeof spec.skip==='function'&&spec.skip(d))&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=spec&&spec.examDay?S.heartFrom(G,w,who,spec):((S.rec(G,w.id).plan||{}).back||w.from); let lo=Math.max(w.from+1,pb+1,G.day);   /* examDay：那天以後的第一個（AA_684 第 6 項）；skip：那一天不排（TE-HEART-AVOID-1104，S.genDay）*/
+  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&!S.teBusy(G,w,d,who,spec&&spec.teMode)&&!(spec&&typeof spec.skip==='function'&&spec.skip(d))&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=spec&&spec.examDay?S.heartFrom(G,w,who,spec):((S.rec(G,w.id).plan||{}).back||w.from); let lo=Math.max(w.from+1,pb+1,G.day);   /* examDay：那天以後的第一個（AA_684 第 6 項；語彤朋友那一則同，AA_687 第 5 項）；skip：那一天不排（TE-HEART-AVOID-1104，S.genDay）*/
     if(who==='heroine_03'&&w.id==='Y1S2'){ const d=DK('2026-06-19'); if(d!=null) lo=Math.max(lo,d); }   /* 語彤 6/18 雙主修筆試以前不來（AA_250 第 2 節）*/   /* xm：可昕大二上的期末約會避開 12/25（那天晚上是她排的聖誕行程，AA_325 2-Y2-07）*/
     const c=CHARACTERS[who], hi=c&&c.presence&&c.presence.home?Math.min(w.to,w.termTo):w.to;   /* 寒暑假回老家的（可昕、沛珊，AA_276 第 3 節第 2 點）：限定在期末考最後一天後第 2 天以前，第 3 天她們就回老家了 */
     { const fx=spec.gf&&S.GF_FIXED[who]&&S.GF_FIXED[who][w.id]?DK(S.GF_FIXED[who][w.id]):null; if(fx!=null&&fx>=w.from&&fx<=hi&&ok(fx)) return fx; }   /* 固定那一天（那天晚上已經有別的約＝照下面的規則往後讓）*/
@@ -440,10 +442,11 @@ const TERMEND=(function(){
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
   S.hooks();   /* TE-HEART-EXEMPT-1104：手機的「好。」當下處理、傳到就看撞不撞（phone3d.js 先載；沒載到的話 S.phone 第一次跑的時候補）*/
   /* ---- TE-KOMICHI-STAGE-1104（BB-C 2026-11-04 21:28；AA_686 第 2 項的背景）----
-     語彤的期末飯（朋友那一則）在溫州街・小路、17:30。十二月那三次天已經暗了＝照舊 2D 背景 teishoku_night；
-     六月那兩次（大一下 6/20、大三下 6/10）17:30 天還亮＝不用夜景圖，改在 3D 的小路室內演（窗邊那一桌：玩家坐靠門那一側、她坐對面；小路室內有白天的窗景，WZ4_komichi 驗過），背景 blur。
+     語彤的期末飯（朋友那一則）在溫州街・小路、17:30（AA_687 第 3 項起 18:00）。十二月那幾次天已經暗了＝照舊 2D 背景 teishoku_night；
+     六月那幾次（大一下 6/20、大三下 6/10；AA_687 第 5 項以後大二下也在六月：6/12）天還亮＝不用夜景圖，改在 3D 的小路室內演（窗邊那一桌：玩家坐靠門那一側、她坐對面；小路室內有白天的窗景，WZ4_komichi 驗過），背景 blur。
      做法和宵夜（offbeat_sys3d.js S.stage）、霖澤館 5F（lab5f3d.js）同一套：OUT.STAGE 演之前換到那個區域、演完回到原本的地方；從家裡出發、國外、騎車、有人跟著＝照舊 2D（夜景圖）。
-     月份：4～9 月 17:30 天還亮（期末飯只會在六月、十二月）。舊存檔排好「公館燒臘」的那一頓（q.place 不是小路）不換。 */
+     月份：4～9 月 17:30／18:00 天還亮（期末飯只會在六月、十二月）。舊存檔排好「公館燒臘」的那一頓（q.place 不是小路）不換。
+     AA_687 第 4 項（企劃線 d41750385）：BB 那邊要小路傍晚的版本（六月 18:00 天還亮）；沒有以前照現在（六月 3D、十二月 teishoku_night）。開場、收尾的旁白在 PLACE.teishoku */
   S.KOMICHI={zone:'wz_teishoku',me:0,her:2,months:[4,5,6,7,8,9]};   /* WZ_SHOPS_LAYOUT.teishoku（小路 v4）的座位：0＝窗邊第一桌靠門那一側、2＝對面 */
   S.komichiStaged=null;
   S.komichiDue=function(G,q,ev){ if(!ev||ev.id!=='ev_termend_dinner'||!q||!q.te||q.te.who!=='heroine_03') return false; const P=(L().PLACE||{}).teishoku; if(!P||q.place!==P.name) return false;
