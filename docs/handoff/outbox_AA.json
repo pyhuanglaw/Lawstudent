@@ -5132,6 +5132,21 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_674 第 1 節換 postgrad_lines.js 3 處",
    "note": "使用者睡覺中，AA 自己定"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "1-2 換不了的長桌閒聊句子由 AA 補",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "CANON-PURGE-SRC-1104",
+   "sha": "920791094",
+   "files": [
+    "docs/story_planning/AA_675_回LAWWW_AA661接線的八件.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_675 做 AA_661 第 7、42、64、72、80、79、32、63 列和 vac_activities.js:466",
+   "note": "回 LAWWW-C 16:45；使用者睡覺中，AA 自己定"
   }
  ],
  "items": [
