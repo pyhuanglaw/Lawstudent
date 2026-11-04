@@ -30,7 +30,7 @@ SHOPS = {
                'views': [('ref_genkan_ne', [-3.0, 1.5, 4.2], [3.0, 1.0, -1.0]), ('tea_table', [0.0, 1.4, 3.6], [-1.6, 0.3, 1.7]),
                          ('washitsu_A_in', [-1.0, 1.3, -1.4], [-3.2, 0.6, -4.6]), ('washitsu_B_in', [1.0, 1.3, -1.4], [3.2, 0.6, -4.6]), ('mizuya_east', [-1.0, 1.5, 0.5], [4.2, 1.2, 0.5]),
                          ('engawa', [-1.5, 1.4, 5.6], [4.2, 0.8, 5.6]), ('yard_to_genkan', [-0.5, 1.3, 8.8], [-3.0, 0.8, 4.6]),
-                         ('engawa_to_yard', [1.0, 1.3, 5.6], [1.0, 0.0, 9.4]), ('yard_fence_w', [-1.5, 1.5, 8.2], [-4.0, 1.4, 13.0]), ('yard_fence_e', [2.0, 1.5, 8.2], [5.0, 1.4, 13.0])],   # BB 07:55：和室要進去拍；竹籬外一片白 → 從院子往外多拍兩張
+                         ('engawa_to_yard', [1.0, 1.3, 5.6], [1.0, 0.0, 9.4]), ('pillar_base', [-0.4, 0.7, 4.6], [0.2, 0.05, 6.15]), ('yard_fence_w', [-1.5, 1.5, 8.2], [-4.0, 1.4, 13.0]), ('yard_fence_e', [2.0, 1.5, 8.2], [5.0, 1.4, 13.0])],   # BB 07:55：和室要進去拍；竹籬外一片白 → 從院子往外多拍兩張
                'street': ('street_gate', [-20.5, 1.7, 0.8], [-20.5, 1.4, 8.0])},
 }
 SH = SHOPS[os.environ.get('SHOP') or 'yizhan']
@@ -65,9 +65,11 @@ def in_box(c):
     return x0 - 0.05 <= c[0] <= x1 + 0.05 and z0 - 0.05 <= c[2] <= z1 + 0.05 and c[1] <= hh + 0.05
 
 
-async def load(pg, cdp, zone, x, z, h, yaw=math.pi):
-    print('  [前置／捷徑] 讀檔：%s (%s, %s)、%s、條件事件關閉' % (zone, x, z, tag_of(h)), flush=True)
-    await L.load_state(pg, {'zone': zone, 'hour': h, 'weather': 'clear', 'pos': {'x': x, 'z': z, 'yaw': yaw, 'lv': 0}}, quiet_events=True)
+async def load(pg, cdp, zone, x, z, h, yaw=math.pi, keep=False):
+    print('  [前置／捷徑] 讀檔：%s (%s, %s)、%s、條件事件關閉%s' % (zone, x, z, tag_of(h), '、WZ_CAT_FOUND' if keep else ''), flush=True)
+    st = {'zone': zone, 'hour': h, 'weather': 'clear', 'pos': {'x': x, 'z': z, 'yaw': yaw, 'lv': 0}}
+    if keep: st['flags'] = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'WZ_CAT_FOUND': 3}
+    await L.load_state(pg, st, quiet_events=True)
     last = -1; stable = 0; t0 = time.time()
     while time.time() - t0 < 90:
         await pg.wait_for_timeout(1000)
@@ -128,14 +130,21 @@ async def run_hour(pg, cdp, h):
     return res
 
 
-async def floor_seats(pg, cdp):
-    print('== FLOOR 一盞的坐墊', flush=True)
+async def floor_seats(pg, cdp, allseats=False):
+    print('== %s' % ('SEATS 全部座位' if allseats else 'FLOOR 一盞的坐墊'), flush=True)
     sx, sz = SH['spawn']
     await load(pg, cdp, SH['zone'], sx, sz, 14.0)
     seats = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),label:i.label,kind:i.seat.kind||null,sx:+(+i.seat.x).toFixed(2),sz:+(+i.seat.z).toFixed(2)})))()")
     print('  座位：%s' % J(seats), flush=True)
-    fl = [s for s in seats if s['kind'] == 'floor' or '坐墊' in s['label'] or '緣側' in s['label'] or '和室' in s['label'] or '喝茶' in s['label']]
-    check('[FLOOR] 有坐墊（kind floor）的座位', bool(fl), str(len(fl)))
+    fl = seats if allseats else [s for s in seats if s['kind'] == 'floor' or '坐墊' in s['label'] or '緣側' in s['label'] or '和室' in s['label'] or '喝茶' in s['label']]
+    if allseats:   # BB 08:17：小路 v4 座位 18 張可坐、4 張 npcOnly 選不到
+        lay = await pg.evaluate("(z=>{ const L=Object.values(WZ_SHOPS_LAYOUT).find(q=>q&&q.id===z); return L?(L.seats||[]).map(q=>({x:q.x,z:q.z,npc:!!q.npcOnly,label:q.label})):null; })(%s)" % J(SH['zone']))
+        ok_n = [q for q in (lay or []) if not q['npc']]; npc = [q for q in (lay or []) if q['npc']]
+        hit = [q for q in npc if any(abs(s['sx'] - q['x']) < 0.12 and abs(s['sz'] - q['z']) < 0.12 for s in seats)]
+        want = int(os.environ.get('SEATS_N') or 0)
+        if want: check('[SEATS] 配置裡玩家可坐的座位 %d 張（預期 %d）、互動點 %d 個' % (len(ok_n), want, len(seats)), len(ok_n) == want and len(seats) == want, J({'layout': len(ok_n), 'its': len(seats)}))
+        check('[SEATS] npcOnly 的 %d 張沒有「坐下」按鈕' % len(npc), not hit, J(hit))
+    check('[FLOOR] 有座位' if allseats else '[FLOOR] 有坐墊（kind floor）的座位', bool(fl), str(len(fl)))
     for k, s in enumerate(fl):
         tag = 'F%02d' % k
         await L.go_to(pg, cdp, L.Run('cc', OUT) if hasattr(L, 'Run') else None, s['x'], s['z'], 0.35, s['label'], max_s=180)
@@ -149,7 +158,7 @@ async def floor_seats(pg, cdp):
             if await pg.evaluate("!!GAME.E.player.seat&&!GAME.E.player.busy"): break
         await pg.wait_for_timeout(2500)
         c = await pg.evaluate(CAM)
-        await pg.screenshot(path=os.path.join(OUT, 'yizhan_floor_%s.png' % tag))
+        await pg.screenshot(path=os.path.join(OUT, '%s_seat_%s.png' % (SH['glb'], tag)))
         print('  [%s] 坐下：%s' % (tag, J(c)), flush=True)
         check('[%s] 坐下了（seat、pose）' % tag, c['seat'], J({'pose': c['pose'], 'hips': c['hips']}))
         info('[%s] 姿勢 pose＝%s、hips 高度 %s m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）' % (tag, c['pose'], c['hips']))
@@ -169,6 +178,94 @@ async def floor_seats(pg, cdp):
         check('[%s] 站起來：不是坐著、站得住、推得動 ≥0.3 m' % tag, not await pg.evaluate("!!GAME.E.player.seat") and st['stand'] and moved >= 0.3, J({'moved': round(moved, 2), 'stand': st['stand'], 'x': st['x'], 'z': st['z'], 'pose': st.get('pose')}))
 
 
+YARD_EXP = {'lantern': '（石燈籠的小窗口裡積了一點落葉。笠上長了一圈青苔。）',   # 14:00（18:00 前）；AA_659 第 3 節 bc021c7e1（雲端已逐字對照）
+            'camphor': '（老樟樹的樹幹比你兩隻手合抱還粗。樹皮一條一條裂開，摸起來是乾的。）',
+            'catbowl': '（樟樹下放著一個小碗，裡面的水是新換的。旁邊的石頭上黏著一小撮橘白色的毛。）',
+            'gatesign': '（門柱上掛著一塊木牌，寫著「一盞」。字被太陽曬得有點淡了。）',
+            'garden': ['踏石一塊一塊排到緣側前面。石縫裡的苔很綠，像是有人每天澆水。', '杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。']}
+INTRO = '（推開冠木門，溫州街的聲音一下子小了。踏石一塊一塊排到玄關前面。）'
+CAPTION = "(()=>{ const e=document.getElementById('caption'); return e&&!e.classList.contains('hide')&&getComputedStyle(e).opacity!=='0'?(e.textContent||'').trim():''; })()"
+
+
+async def talk_lines(pg, cdp, secs=40):
+    lines = []; last = None; import time as _t; t0 = _t.time(); idle = None
+    while _t.time() - t0 < secs:
+        s = await pg.evaluate("(()=>{ const D=GAME.D||{}; return {dlg:!!D.active, depth:D.busyDepth|0, busy:!!GAME.E.player.busy, text:String(D.full||((document.getElementById('dlgText')||{}).textContent)||'').trim(), ch:document.querySelectorAll('#choices:not(.hide) button').length}; })()")
+        if s['ch']:
+            await L.tap(pg, cdp, '#choices button:last-child'); await pg.wait_for_timeout(800); continue
+        if s['dlg']:
+            if s['text'] != last: last = s['text']; lines.append(s['text'])
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); idle = None; continue
+        if not s['busy'] and s['depth'] == 0:
+            idle = idle or _t.time()
+            if _t.time() - idle > 2.0: break
+        await pg.wait_for_timeout(300)
+    return lines
+
+
+async def enter_gate(pg, cdp, tag):
+    ex, ez, sz2, lab = SH['enter']
+    await load(pg, cdp, 'wenzhou', ex, sz2, 14.0, yaw=0, keep=True)
+    it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(lab))
+    if not check('[%s] 溫州街有「%s」' % (tag, lab), bool(it), J(it)): return None
+    await L.go_to(pg, cdp, L.Run('gate', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
+    await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact')
+    cap = ''
+    for _ in range(40):
+        await pg.wait_for_timeout(250)
+        c = await pg.evaluate(CAPTION)
+        if c: cap = c
+        if cap and await pg.evaluate("GAME.G.zone===%s" % J(SH['zone'])): break
+    for _ in range(24):   # 旁白在進門後 0.7 秒才出來
+        await pg.wait_for_timeout(250); c = await pg.evaluate(CAPTION)
+        if c: cap = c
+    return cap
+
+
+async def yard(pg, cdp):
+    print('== YARD 一盞前院（冠木門旁白、五個互動點）', flush=True)
+    print('  [前置／捷徑] 讀檔時設 WZ_CAT_FOUND（找到貓了、還沒收養）＝貓碗看得到；WZ_TEA_YARD_IN 不設（第一次進前院）', flush=True)
+    cap1 = await enter_gate(pg, cdp, 'YARD1')
+    check('[YARD] 第一次從冠木門進來：旁白逐字＝AA_659', cap1 == INTRO, J(cap1))
+    await pg.screenshot(path=os.path.join(OUT, 'yizhan_yard_first_in.png'))
+    its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>!i.hidden&&['garden','lantern','camphor','catbowl','gatesign'].includes(i.kind)).map(i=>({x:i.x,z:i.z,r:i.radius||1,label:i.label,kind:i.kind})))()")
+    print('  前院互動點：%s' % J(its), flush=True)
+    check('[YARD] 五個互動點都在（看院子、石燈籠、樟樹、貓碗、木牌）', sorted(i['kind'] for i in its) == sorted(['garden', 'lantern', 'camphor', 'catbowl', 'gatesign']), J([i['kind'] for i in its]))
+    for i in its:
+        tag = 'YARD_' + i['kind']
+        await L.go_to(pg, cdp, L.Run('yard', OUT), i['x'], i['z'], 0.35, i['label'], max_s=120); await pg.wait_for_timeout(700)
+        st = await L.state(pg)
+        if not check('[%s] 走到旁邊：按鈕「%s」' % (tag, i['label']), st['interact'] == i['label'], J({'interact': st['interact'], 'x': st['x'], 'z': st['z']})): continue
+        await L.tap(pg, cdp, '#interact'); lines = await talk_lines(pg, cdp)
+        exp = YARD_EXP[i['kind']]
+        ok = any(l in exp for l in lines) if isinstance(exp, list) else (exp in lines)
+        check('[%s] 台詞逐字＝AA_659' % tag, ok, J(lines))
+        await pg.screenshot(path=os.path.join(OUT, 'yizhan_%s.png' % tag))
+    # 第二次進門：先出到溫州街（走出冠木門）
+    ex = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='wenzhou'); return i?{x:i.x,z:i.z,r:i.radius||1,label:i.label}:null; })()")
+    if ex:
+        await L.go_to(pg, cdp, L.Run('yard', OUT), ex['x'], ex['z'], 0.4, ex['label'], max_s=120); await pg.wait_for_timeout(700); await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            await pg.wait_for_timeout(500)
+            if await pg.evaluate("GAME.G.zone==='wenzhou'&&!GAME.E.player.busy"): break
+    flag = await pg.evaluate("!!(GAME.G.flags||{}).WZ_TEA_YARD_IN")
+    check('[YARD] 出來以後 WZ_TEA_YARD_IN 已經記下', flag)
+    cap2 = await enter_gate2(pg, cdp)
+    check('[YARD] 第二次進冠木門：沒有旁白', cap2 != INTRO, J(cap2))
+
+
+async def enter_gate2(pg, cdp):
+    ex, ez, sz2, lab = SH['enter']
+    it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(lab))
+    if not it: return None
+    await L.go_to(pg, cdp, L.Run('gate2', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
+    await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact'); cap = ''
+    for _ in range(40):
+        await pg.wait_for_timeout(250); c = await pg.evaluate(CAPTION)
+        if c: cap = c
+    return cap
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -180,6 +277,10 @@ async def main():
             res[str(h)] = await run_hour(pg, cdp, h)
         if os.environ.get('FLOOR') == '1':
             await floor_seats(pg, cdp)
+        if os.environ.get('SEATS') == '1':
+            await floor_seats(pg, cdp, allseats=True)
+        if os.environ.get('YARD') == '1':
+            await yard(pg, cdp)
         check('沒有 JS 例外', not errs, J(errs[:3]))
         json.dump(res, open(os.path.join(OUT, 'shots_info.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         await b.close()
