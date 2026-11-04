@@ -486,3 +486,9 @@
 [21:03:39] AUTORETRY TT_V7_timeout_r: first run timeout - rerun once with trace (whole probe)
 [21:04:05] 正在跑：GG_shops2_afar_seat（已跑 59 分／上限 90 分）、GG_shops2_db_seat（已跑 59 分／上限 80 分）、TT_V7_timeout_r（已跑 1 分／上限 1 分）——還沒測完，請不要關 (tests still running - please do not close)
 [21:04:46] [res] cpu=5% mem=39% (12.5/31.4 GB) chrome_testing=10  END GG_shops2_db_seat
+[21:04:50] [res] cpu=9% mem=39% (12.4/31.4 GB) chrome_testing=10  END TT_V7_timeout_r
+[21:04:50] AUTORETRY TT_V7_timeout_r: final TIMEOUT  class TIMEOUT/UNKNOWN
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       9bfe7d7bd..a7d63f919  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:04:55] ==== END   GG_shops2_db_seat  exit=1  3640s   ====

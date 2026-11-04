@@ -1,0 +1,32 @@
+{
+  "rerun": "",
+  "id": "TT_V7_timeout_r",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_timeout.py",
+  "env": "CC_AUTORETRY=1;CC_RETRY_TIMEOUT=1",
+  "machine": "MSI",
+  "start": "2026-11-04T21:02:16",
+  "end": "2026-11-04T21:04:50",
+  "seconds": 154,
+  "exit": 1,
+  "error": "timeout 1 min",
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "error2": "timeout 1 min",
+  "res_peak": {
+    "cpu": 17,
+    "mem": 46,
+    "used_gb": 14.6,
+    "chrome_testing": 28
+  },
+  "final": "TIMEOUT",
+  "class": "TIMEOUT/UNKNOWN",
+  "report": "report.json",
+  "class_basis": [
+    "逾時被 runner 中止（timeout 1 min）；沒有環境訊號、沒有 traceback 可以判斷——只憑逾時不判 GAME_BUG"
+  ]
+}
