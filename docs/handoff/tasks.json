@@ -46621,6 +46621,27 @@
     "3182a6040"
    ],
    "next": "【LAWWW-C 11-04 22:0x】接進開發分支（兩張 webp＋wz_window_view.py）；cafe230_aa657、wz_interiors_aa659、te_komichi_stage ALL PASS；等 BB 選①②、CC 截圖"
+  },
+  {
+   "id": "AA688-YT-PG-1104",
+   "title": "AA_688（企劃線 8dce2f94c，AA-C 定 D109）：語彤畢業以後的舊設定（延畢、2030 才考、阿姨的店）照 AA_629 改——pg_dates six.heroine_03 十八格、postgrad_lines Y2030／R2_2030／FIRST.friends、multirel REPAIR.heroine_03 六處、AA530 語彤那一列",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 18,
+    "earliest": "畢業以後（2029-06 以後）和語彤的約會、國考消息",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 22:00（AA_688，CANON-PURGE-1104 漏網；outbox 0d9cf8732）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 22:0x】派子代理（worktree aa688-1104，和 AA687 的子代理同時；檔案不重疊）；AA530-PG-CONFESS-1030 語彤那一列（第 4 項）照舊 P3 排在後面"
   }
  ]
 }
