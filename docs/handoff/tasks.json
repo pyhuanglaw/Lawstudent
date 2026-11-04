@@ -43930,6 +43930,31 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "TOOL",
+    "week": 0,
+    "earliest": "開發工具（不是遊戲內容）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "TEST-TRACE-1104",
+   "owner": "CC",
+   "priority": "P1",
+   "title": "Playwright 失敗自動追蹤與重現系統（自動重跑一次、Trace、遊戲狀態快照、分類 GAME_BUG／TEST_BUG／ENVIRONMENT／FLAKY／UNKNOWN；USER_WANTS X211、BB_256）",
+   "status": "進行中",
+   "next": "CC 規劃實作（claude/cc-testing）、BB 驗收；LAWWW 視 CC 需要在 GAME 加唯讀狀態快照 helper",
+   "xai": {
+    "spec": "企劃線 a9b2ec19d BB_256（使用者 11-04 04:4x 對 BB）",
+    "branch": "claude/cc-testing",
+    "acceptance": "BB_256 驗收清單",
+    "receiver": "BB",
+    "ack": "ACK"
+   }
   }
  ]
 }
