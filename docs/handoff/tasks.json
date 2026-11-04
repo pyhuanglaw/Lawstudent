@@ -44005,6 +44005,31 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "WZ-SECOND-1104",
+   "owner": "LAWWW2",
+   "priority": "P1",
+   "title": "溫州街第二批五間外觀與改名（溫州書屋、帝大紅茶、夏日冰菓室、阿忠鮮果、常在洗衣；不能進去；USER_WANTS X214）",
+   "status": "進行中",
+   "next": "LAWWW2 做外觀、招牌、窗內陳設、wenzhou_street.glb；LAWWW 換遊戲裡的店名（地圖、互動、購物、PLACES、劇情文字），等 LAWWW2 的改名清單；帝大紅茶菜單對齊請 AA 定",
+   "xai": {
+    "spec": "使用者 11-04 05:4x 對 LAWWW2（參考圖 docs/art-rebuild/second_ai/wip/wz_second_1104/ref/）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "AA_654 第 3 節",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
