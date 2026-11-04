@@ -1,7 +1,7 @@
 """桃園機場第二航廈（VAC-A2）的程式產生貼圖（PIL）。LAWWW2-C 2026-10-17。
   python3 tools/blender/env_second/airport_tex.py → tools/blender/env_second/textures/gen/ap_*.png
 - ap_signs.png（2048×1024，8 列×128 px）：台灣機場風格的指標（深灰底、黃色圖示、白色中英文字）：出境、報到、證照查驗、入境、出口、停車與交通、行李推車、航廈名。
-- ap_shops.png（2048×768，6 列）：店家招牌（全部虛構，D77）：日日便利 DAILY MART、雲端咖啡 CLOUD CAFE、旅人書店、外幣兌換、電信門市、旅客服務。
+- ap_shops.png（2048×768，6 列）：店家招牌（全部虛構，D77）：日和便利店 DAILY MART（11-04 AA_647／AA_651 改名，原本日日便利）、雲端咖啡 CLOUD CAFE、旅人書店、外幣兌換、電信門市、旅客服務。
 - ap_airlines.png（1024×512，2×2）：四家虛構航空公司的櫃台背板（標誌是簡單幾何形狀＋名字；不像任何真實航空公司）。
 - ap_fids_dep.png、ap_fids_arr.png（1024×512）：出發、抵達看板（黑底黃字；航班號碼是虛構代碼，城市是真的地名）。
 - ap_ads.png（2048×1024）：四張燈箱廣告（風景插畫＋一行字，沒有品牌）。
@@ -67,7 +67,7 @@ def tex_shops(path):
     W, RH = 2048, 128
     im = Image.new('RGB', (W, RH * 6)); d = ImageDraw.Draw(im)
     fz = ImageFont.truetype(CJK, 70); fe = ImageFont.truetype(LAT, 44)
-    rows = [('日日便利', 'DAILY MART', (24, 120, 88), (246, 246, 242)), ('雲端咖啡', 'CLOUD CAFE', (232, 226, 214), (64, 48, 40)),
+    rows = [('日和便利店', 'DAILY MART', (24, 120, 88), (246, 246, 242)), ('雲端咖啡', 'CLOUD CAFE', (232, 226, 214), (64, 48, 40)),
             ('旅人書店', 'TRAVELERS BOOKS', (34, 46, 74), (236, 220, 180)), ('外幣兌換', 'CURRENCY EXCHANGE', (43, 47, 51), (242, 194, 48)),
             ('電信門市', 'SIM CARDS', (43, 47, 51), (242, 194, 48)), ('旅客服務', 'INFORMATION', (43, 47, 51), (242, 194, 48))]
     for i, (zh, en, bg, fg) in enumerate(rows):

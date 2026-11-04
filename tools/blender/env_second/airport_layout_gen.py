@@ -34,7 +34,7 @@ D['farewell'] = {'x': 0.0, 'z': -13.8, 'r': 2.5, 'label': '安檢入口'}
 D['benches'] = [{'x': x, 'z': -16.4, 'yaw': 0.0, 'n': 4} for x in (-26.0, -19.0, 19.0, 26.0)] + [{'x': x, 'z': 9.6, 'yaw': math.pi, 'n': 3} for x in (-33.0, 33.0)]
 D['info_desk'] = {'x': 0.0, 'z': -4.0, 'r': 1.6, 'note': '服務台（圓弧櫃台）'}
 D['fids'] = [{'x': x, 'z': -16.8, 'y': 4.6, 'w': 6.0, 'h': 2.4, 'face': 'S'} for x in (-13.0, 13.0)] + [{'x': i['x'], 'z': i['z1'] + 0.05, 'y': 3.6, 'w': 2.2, 'h': 1.2, 'face': 'S'} for i in ISL]
-D['shops'] = [{'id': 'mart', 'side': 'W', 'z0': -16.0, 'z1': -8.0, 'name_zh': '日日便利', 'name_en': 'DAILY MART'},
+D['shops'] = [{'id': 'mart', 'side': 'W', 'z0': -16.0, 'z1': -8.0, 'name_zh': '日和便利店', 'name_en': 'DAILY MART'},
               {'id': 'cafe', 'side': 'W', 'z0': -4.0, 'z1': 4.0, 'name_zh': '雲端咖啡', 'name_en': 'CLOUD CAFE'},
               {'id': 'fx', 'side': 'E', 'z0': -16.0, 'z1': -11.0, 'name_zh': '外幣兌換', 'name_en': 'CURRENCY EXCHANGE'},
               {'id': 'books', 'side': 'E', 'z0': -6.0, 'z1': 2.0, 'name_zh': '旅人書店', 'name_en': 'TRAVELERS BOOKS'}]

@@ -84,7 +84,7 @@ QG = [
     ('gongguan_yangyang_int', 'win', [(560, 250), (1150, 250), (1150, 920), (560, 920)], 384, 448),
     ('gongguan_yangyang_ext', 'board', [(807, 549), (960, 549), (960, 813), (807, 813)], 192, 320),
     ('gongguan_yangyang_ext', 'bins', [(1233, 607), (1387, 607), (1387, 760), (1233, 760)], 192, 192),
-    ('@textures/src/ggafar_sign.jpg', 'sign', None, 1600, 160),
+    ('gongguan_afar_ext', 'sign', [(440, 240), (1360, 240), (1360, 330), (440, 330)], 1600, 156),   # 11-04 02:1x 使用者換新版參考圖：深綠飾帶上的小寫「afar」（舊版是真實店名，作廢）
     ('gongguan_afar_int', 'win', [(490, 70), (1640, 70), (1640, 770), (490, 770)], 1024, 624),
     ('gongguan_afar_ext', 'int', [(800, 353), (1067, 353), (1067, 627), (800, 627)], 384, 384),
     ('gongguan_afar_ext', 'door', [(1073, 349), (1220, 349), (1220, 727), (1073, 727)], 256, 640),
@@ -154,4 +154,4 @@ def build(QQ, atlas_name, alias=lambda n: n):
 
 build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
 build(QW, 'wz_fronts_atlas', lambda n: 'offbeat' if n.startswith('@') else n.replace('_ref_v2', ''))
-build(QG, 'gg_fronts_atlas', lambda n: 'ggafar' if n.startswith('@') else n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'))   # key：ggtea_sign、ggbook_int2…
+build(QG, 'gg_fronts_atlas', lambda n: n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'))   # key：ggtea_sign、ggbook_int2…
