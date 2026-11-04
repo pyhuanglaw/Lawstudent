@@ -1,0 +1,282 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_n20x_xinsheng_flow_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out
+CC N20X 新生南路＋木曜日 真實流程探針；CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final；不用 ?turbo；Playwright 手機模擬（橫向），不是實機
+PASS 遊戲載入
+PASS 前置：這一版有 xinsheng、wz_mokuyobi 區域（XS3、MOK3 載入）  {"xs": true, "mok": true, "zx": true, "zm": true, "v": null}
+OBS  新生南路現在是 BLOCKOUT（套件方塊立面／正式立面 bldg.xinsheng_street 如果有載到會換掉）；公館往溫州街的巷子還在——照 BB 只記
+== nichijo_enter ① 溫州街 → 走進日常失速（第一次）→ 離開
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wenzhou {"x": -30.0, "z": 0.5, "yaw": 1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true}}；條件事件關閉、手機自動訊息關閉。溫州街主巷西段（日常失速店門東邊）；第一次來
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -30, "z": 0.5, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -30, "z": 0.5, "lv": 0, "fixed": [-30, 0.5]}, "stand": true, "fb": 0, "hour": 15.59, "study": 0, "pose": "idle"}
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\01_ob_enter_outside_before.png
+PASS nichijo① 溫州街→日常失速：有「進去日常失速」互動點  {"x": -36.5, "z": -9.6, "r": 1.2, "label": "進去日常失速", "lv": null, "n": 1, "to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}, "seat": false, "study": false}
+  [ 141.1s] 到達「進去日常失速」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+PASS nichijo① 溫州街→日常失速：走到「進去日常失速」
+PASS nichijo① 溫州街→日常失速：互動按鈕是「進去日常失速」  進去日常失速
+PASS nichijo① 溫州街→日常失速：「進去日常失速」通往 wz_offbeat  {"to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}}
+FAIL nichijo① 溫州街→日常失速：換到 wz_offbeat（G.zone＝wz_offbeat、E.zone＝None）  {"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.69, "study": 0, "pose": "idle"}
+  出生點 nichijo① 溫州街→日常失速：要求 {"x": -3.9, "z": 3, "yaw": 3.141592653589793}；E.lastSpawn {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}；現在 {"x": -3.9, "z": 3, "y": 0, "lv": 0, "stand": true}
+OBS  nichijo① 溫州街→日常失速：出生點沒被挪（fixed＝要求的位置）
+PASS nichijo① 溫州街→日常失速：出生點站得住（E.canStand）  true
+FAIL nichijo① 溫州街→日常失速：換區後搖桿往前推有位移（0.00 m，推 3 次）  {"x": -3.9, "z": 3, "lv": 0, "y": 0}
+PASS nichijo① 溫州街→日常失速：這一段 walkFallbacks 沒有增加（0 → 0）
+PASS nichijo① 溫州街→日常失速：這一段沒有 JS 例外  []
+  ---- transcript nichijo①（3 句）
+    [nichijo① wz_offbeat 第0層 15.69] （旁白）：（玻璃門一推開，裡面很吵。中間的長桌坐滿了人，在玩一個要拍桌子的遊戲。）
+    [nichijo① wz_offbeat 第0層 15.69] （旁白）：（一隻虎斑貓趴在空椅子上睡覺。椅子上貼著一張紙：「店長，請勿打擾」。）
+    [nichijo① wz_offbeat 第0層 15.69] 店員：一位嗎？靠窗那邊！貓不用理他，他很習慣。
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\02_ob_enter_inside.png
+PASS nichijo① 第一次進去的旁白（「玻璃門一推開」）＋店員一句  [{"n": "", "t": "（玻璃門一推開，裡面很吵。中間的長桌坐滿了人，在玩一個要拍桌子的遊戲。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}, {"n": "", "t": "（一隻虎斑貓趴在空椅子上睡覺。椅子上貼著一張紙：「店長，請勿打擾」。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}, {"n": "店員", "t": "一位嗎？靠窗那邊！貓不用理他，他很習慣。", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+PASS nichijo① 進門以後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "一位嗎？靠窗那邊！貓不用理他，他很習慣。"}
+PASS nichijo① 進門以後：搖桿推得動（2.35 m，推 1 次）  {"x": -3.78, "z": 0.65, "lv": 0, "pose": "idle"}
+PASS nichijo① 進門以後：walkFallbacks 沒有增加（0 → 0）
+PASS nichijo① 日常失速→溫州街：有「離開日常失速」互動點  {"x": -3.9, "z": 4.55, "r": 1.3, "label": "離開日常失速", "lv": null, "n": 1, "to": "wenzhou", "spawn": {"x": -34.8, "z": -9.6, "yaw": 1.5707963267948966}, "seat": false, "study": false}
+  [ 265.1s] 到達「離開日常失速」附近（0.62 m）：點地面 9 次、轉鏡頭 0 次、搖桿 0 次，23 秒
+PASS nichijo① 日常失速→溫州街：走到「離開日常失速」
+PASS nichijo① 日常失速→溫州街：互動按鈕是「離開日常失速」  離開日常失速
+PASS nichijo① 日常失速→溫州街：「離開日常失速」通往 wenzhou  {"to": "wenzhou", "spawn": {"x": -34.8, "z": -9.6, "yaw": 1.5707963267948966}}
+FAIL nichijo① 日常失速→溫州街：換到 wenzhou（G.zone＝wenzhou、E.zone＝None）  {"zone": "wenzhou", "ezone": null, "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -34.8, "z": -9.6, "lv": 0, "fixed": [-34.8, -9.6]}, "stand": true, "fb": 0, "hour": 16.45, "study": 0, "pose": "idle"}
+  出生點 nichijo① 日常失速→溫州街：要求 {"x": -34.8, "z": -9.6, "yaw": 1.5707963267948966}；E.lastSpawn {"zone": "wenzhou", "x": -34.8, "z": -9.6, "lv": 0, "fixed": [-34.8, -9.6]}；現在 {"x": -34.8, "z": -9.6, "y": 0, "lv": 0, "stand": true}
+OBS  nichijo① 日常失速→溫州街：出生點沒被挪（fixed＝要求的位置）
+PASS nichijo① 日常失速→溫州街：出生點站得住（E.canStand）  true
+PASS nichijo① 日常失速→溫州街：換區後搖桿往前推有位移（2.53 m，推 1 次）  {"x": -32.27, "z": -9.6, "lv": 0, "y": 0}
+PASS nichijo① 日常失速→溫州街：這一段 walkFallbacks 沒有增加（0 → 0）
+PASS nichijo① 日常失速→溫州街：這一段沒有 JS 例外  []
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\03_ob_enter_back_outside.png
+== nichijo_order ② 吧檯「點東西吃」：每一個選項各讀檔一次
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了）；這一次點「冰拿鐵」
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+PASS nichijo② 冰拿鐵：有「點東西吃」互動點  {"x": -1.2, "z": -2.55, "r": 1, "label": "點東西吃", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [ 462.3s] 到達「點東西吃」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS nichijo② 冰拿鐵：走到「點東西吃」
+PASS nichijo② 冰拿鐵：互動按鈕是「點東西吃」  點東西吃
+  ob_order_冰拿鐵 選單：[{"t": "冰拿鐵　120 元", "dim": false}, {"t": "檸檬氣泡美式　130 元", "dim": false}, {"t": "肉桂捲　110 元", "dim": false}, {"t": "明太子厚片　140 元", "dim": false}, {"t": "不用了", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\04_ob_order_冰拿鐵_menu.png
+  ob_order_冰拿鐵：選了 "冰拿鐵　120 元"；錢 22000 → 21880；台詞 [{"n": "", "t": "（冰拿鐵上面的奶泡慢慢沉下去。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+  ---- transcript nichijo② 冰拿鐵（1 句）
+    [nichijo② 冰拿鐵 wz_offbeat 第0層 15.69] （旁白）：（冰拿鐵上面的奶泡慢慢沉下去。）
+PASS nichijo② 選單有「冰拿鐵」並選了它  "冰拿鐵　120 元"
+PASS nichijo② 冰拿鐵：扣 120 元（22000 → 21880）  120
+PASS nichijo② 冰拿鐵：點完有旁白（含「奶泡」）  [{"n": "", "t": "（冰拿鐵上面的奶泡慢慢沉下去。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+PASS nichijo② 冰拿鐵 之後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（冰拿鐵上面的奶泡慢慢沉下去。）"}
+FAIL nichijo② 冰拿鐵 之後：搖桿推得動（0.00 m，推 3 次）  {"x": -1.1, "z": -2.48, "lv": 0, "pose": "idle"}
+PASS nichijo② 冰拿鐵 之後：walkFallbacks 沒有增加（0 → 0）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了）；這一次點「檸檬氣泡美式」
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+PASS nichijo② 檸檬氣泡美式：有「點東西吃」互動點  {"x": -1.2, "z": -2.55, "r": 1, "label": "點東西吃", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [ 573.7s] 到達「點東西吃」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS nichijo② 檸檬氣泡美式：走到「點東西吃」
+PASS nichijo② 檸檬氣泡美式：互動按鈕是「點東西吃」  點東西吃
+  ob_order_檸檬氣泡美式 選單：[{"t": "冰拿鐵　120 元", "dim": false}, {"t": "檸檬氣泡美式　130 元", "dim": false}, {"t": "肉桂捲　110 元", "dim": false}, {"t": "明太子厚片　140 元", "dim": false}, {"t": "不用了", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\05_ob_order_檸檬氣泡美式_menu.png
+  ob_order_檸檬氣泡美式：選了 "檸檬氣泡美式　130 元"；錢 22000 → 21870；台詞 [{"n": "", "t": "（檸檬氣泡美式。第一口很奇怪，第二口就習慣了。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+  ---- transcript nichijo② 檸檬氣泡美式（1 句）
+    [nichijo② 檸檬氣泡美式 wz_offbeat 第0層 15.69] （旁白）：（檸檬氣泡美式。第一口很奇怪，第二口就習慣了。）
+PASS nichijo② 選單有「檸檬氣泡美式」並選了它  "檸檬氣泡美式　130 元"
+PASS nichijo② 檸檬氣泡美式：扣 130 元（22000 → 21870）  130
+PASS nichijo② 檸檬氣泡美式：點完有旁白（含「檸檬氣泡美式」）  [{"n": "", "t": "（檸檬氣泡美式。第一口很奇怪，第二口就習慣了。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+PASS nichijo② 檸檬氣泡美式 之後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（檸檬氣泡美式。第一口很奇怪，第二口就習慣了。）"}
+FAIL nichijo② 檸檬氣泡美式 之後：搖桿推得動（0.00 m，推 3 次）  {"x": -1.1, "z": -2.48, "lv": 0, "pose": "idle"}
+PASS nichijo② 檸檬氣泡美式 之後：walkFallbacks 沒有增加（0 → 0）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了）；這一次點「肉桂捲」
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.63, "study": 0, "pose": "idle"}
+PASS nichijo② 肉桂捲：有「點東西吃」互動點  {"x": -1.2, "z": -2.55, "r": 1, "label": "點東西吃", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [ 685.0s] 到達「點東西吃」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS nichijo② 肉桂捲：走到「點東西吃」
+PASS nichijo② 肉桂捲：互動按鈕是「點東西吃」  點東西吃
+  ob_order_肉桂捲 選單：[{"t": "冰拿鐵　120 元", "dim": false}, {"t": "檸檬氣泡美式　130 元", "dim": false}, {"t": "肉桂捲　110 元", "dim": false}, {"t": "明太子厚片　140 元", "dim": false}, {"t": "不用了", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\06_ob_order_肉桂捲_menu.png
+  ob_order_肉桂捲：選了 "肉桂捲　110 元"；錢 22000 → 21890；台詞 [{"n": "", "t": "（肉桂捲是熱的，糖霜一直滴下來。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+  ---- transcript nichijo② 肉桂捲（1 句）
+    [nichijo② 肉桂捲 wz_offbeat 第0層 15.69] （旁白）：（肉桂捲是熱的，糖霜一直滴下來。）
+PASS nichijo② 選單有「肉桂捲」並選了它  "肉桂捲　110 元"
+PASS nichijo② 肉桂捲：扣 110 元（22000 → 21890）  110
+PASS nichijo② 肉桂捲：點完有旁白（含「肉桂捲」）  [{"n": "", "t": "（肉桂捲是熱的，糖霜一直滴下來。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+PASS nichijo② 肉桂捲 之後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（肉桂捲是熱的，糖霜一直滴下來。）"}
+FAIL nichijo② 肉桂捲 之後：搖桿推得動（0.00 m，推 3 次）  {"x": -1.1, "z": -2.48, "lv": 0, "pose": "idle"}
+PASS nichijo② 肉桂捲 之後：walkFallbacks 沒有增加（0 → 0）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了）；這一次點「明太子厚片」
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+PASS nichijo② 明太子厚片：有「點東西吃」互動點  {"x": -1.2, "z": -2.55, "r": 1, "label": "點東西吃", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [ 796.7s] 到達「點東西吃」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS nichijo② 明太子厚片：走到「點東西吃」
+PASS nichijo② 明太子厚片：互動按鈕是「點東西吃」  點東西吃
+  ob_order_明太子厚片 選單：[{"t": "冰拿鐵　120 元", "dim": false}, {"t": "檸檬氣泡美式　130 元", "dim": false}, {"t": "肉桂捲　110 元", "dim": false}, {"t": "明太子厚片　140 元", "dim": false}, {"t": "不用了", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\07_ob_order_明太子厚片_menu.png
+  ob_order_明太子厚片：選了 "明太子厚片　140 元"；錢 22000 → 21860；台詞 [{"n": "", "t": "（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+  ---- transcript nichijo② 明太子厚片（1 句）
+    [nichijo② 明太子厚片 wz_offbeat 第0層 15.69] （旁白）：（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）
+PASS nichijo② 選單有「明太子厚片」並選了它  "明太子厚片　140 元"
+PASS nichijo② 明太子厚片：扣 140 元（22000 → 21860）  140
+PASS nichijo② 明太子厚片：點完有旁白（含「明太子厚片」）  [{"n": "", "t": "（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）", "z": "wz_offbeat", "lv": 0, "h": 15.69}]
+PASS nichijo② 明太子厚片 之後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）"}
+FAIL nichijo② 明太子厚片 之後：搖桿推得動（0.00 m，推 3 次）  {"x": -1.1, "z": -2.48, "lv": 0, "pose": "idle"}
+PASS nichijo② 明太子厚片 之後：walkFallbacks 沒有增加（0 → 0）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了）；這一次點「不用了」
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+PASS nichijo② 不用了：有「點東西吃」互動點  {"x": -1.2, "z": -2.55, "r": 1, "label": "點東西吃", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [ 908.2s] 到達「點東西吃」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS nichijo② 不用了：走到「點東西吃」
+PASS nichijo② 不用了：互動按鈕是「點東西吃」  點東西吃
+  ob_order_不用了 選單：[{"t": "冰拿鐵　120 元", "dim": false}, {"t": "檸檬氣泡美式　130 元", "dim": false}, {"t": "肉桂捲　110 元", "dim": false}, {"t": "明太子厚片　140 元", "dim": false}, {"t": "不用了", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\08_ob_order_不用了_menu.png
+  ob_order_不用了：選了 "不用了"；錢 22000 → 22000；台詞 []
+  ---- transcript nichijo② 不用了（0 句）
+PASS nichijo② 選單有「不用了」並選了它  "不用了"
+PASS nichijo② 不用了：不扣錢（22000 → 22000）
+PASS nichijo② 不用了 之後：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（明太子厚片烤得很脆。你吃到最後一口才發現嘴角都是。）"}
+FAIL nichijo② 不用了 之後：搖桿推得動（0.00 m，推 3 次）  {"x": -1.1, "z": -2.48, "lv": 0, "pose": "idle"}
+PASS nichijo② 不用了 之後：walkFallbacks 沒有增加（0 → 0）
+== nichijo_cat ③ 看看店長／摸摸店長
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點（來過了；今天還沒看過店長）
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+PASS nichijo③ 第 1 次：有「看看店長」互動點  {"x": 2.95, "z": 0.15, "r": 1, "label": "看看店長／摸摸店長", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [1020.9s] 到達「看看店長」附近（0.08 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS nichijo③ 第 1 次：走到「看看店長」
+PASS nichijo③ 第 1 次：互動按鈕是「看看店長」  看看店長／摸摸店長
+  ob_cat_1_看看 選單：[{"t": "看看", "dim": false}, {"t": "摸摸", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\09_ob_cat_1_看看_menu.png
+  ob_cat_1_看看：選了 "看看"；錢 22000 → 22000；台詞 [{"n": "", "t": "（店長睜開一隻眼睛看你，又閉上。）", "z": "wz_offbeat", "lv": 0, "h": 15.7}]
+PASS nichijo③ 第 1 次選「看看」、有一句旁白  [{"n": "", "t": "（店長睜開一隻眼睛看你，又閉上。）", "z": "wz_offbeat", "lv": 0, "h": 15.7}]
+PASS nichijo③ 第 2 次：有「看看店長」互動點  {"x": 2.95, "z": 0.15, "r": 1, "label": "看看店長／摸摸店長", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [1024.9s] 到達「看看店長」附近（0.08 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS nichijo③ 第 2 次：走到「看看店長」
+PASS nichijo③ 第 2 次：互動按鈕是「看看店長」  看看店長／摸摸店長
+  ob_cat_2_看看 選單：[{"t": "看看", "dim": false}, {"t": "摸摸", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\10_ob_cat_2_看看_menu.png
+  ob_cat_2_看看：選了 "看看"；錢 22000 → 22000；台詞 [{"n": "", "t": "（店長在睡覺。）", "z": "wz_offbeat", "lv": 0, "h": 15.72}]
+PASS nichijo③ 第 2 次選「看看」、有一句旁白  [{"n": "", "t": "（店長在睡覺。）", "z": "wz_offbeat", "lv": 0, "h": 15.72}]
+PASS nichijo③ 第 3 次：有「看看店長」互動點  {"x": 2.95, "z": 0.15, "r": 1, "label": "看看店長／摸摸店長", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [1028.9s] 到達「看看店長」附近（0.08 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS nichijo③ 第 3 次：走到「看看店長」
+PASS nichijo③ 第 3 次：互動按鈕是「看看店長」  看看店長／摸摸店長
+  ob_cat_3_摸摸 選單：[{"t": "看看", "dim": false}, {"t": "摸摸", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\11_ob_cat_3_摸摸_menu.png
+  ob_cat_3_摸摸：選了 "摸摸"；錢 22000 → 22000；台詞 [{"n": "", "t": "（店長看了你一眼，沒動。你決定不摸了。）", "z": "wz_offbeat", "lv": 0, "h": 15.73}]
+PASS nichijo③ 第 3 次選「摸摸」、有一句旁白  [{"n": "", "t": "（店長看了你一眼，沒動。你決定不摸了。）", "z": "wz_offbeat", "lv": 0, "h": 15.73}]
+PASS nichijo③ 第 4 次：有「看看店長」互動點  {"x": 2.95, "z": 0.15, "r": 1, "label": "看看店長／摸摸店長", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [1033.0s] 到達「看看店長」附近（0.08 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS nichijo③ 第 4 次：走到「看看店長」
+PASS nichijo③ 第 4 次：互動按鈕是「看看店長」  看看店長／摸摸店長
+  ob_cat_4_摸摸 選單：[{"t": "看看", "dim": false}, {"t": "摸摸", "dim": false}]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\12_ob_cat_4_摸摸_menu.png
+  ob_cat_4_摸摸：選了 "摸摸"；錢 22000 → 22000；台詞 [{"n": "", "t": "（店長讓你摸了兩下，起身換了一張椅子。）", "z": "wz_offbeat", "lv": 0, "h": 15.74}]
+PASS nichijo③ 第 4 次選「摸摸」、有一句旁白  [{"n": "", "t": "（店長讓你摸了兩下，起身換了一張椅子。）", "z": "wz_offbeat", "lv": 0, "h": 15.74}]
+  ---- transcript nichijo③（4 句）
+    [nichijo③ wz_offbeat 第0層 15.70] （旁白）：（店長睜開一隻眼睛看你，又閉上。）
+    [nichijo③ wz_offbeat 第0層 15.72] （旁白）：（店長在睡覺。）
+    [nichijo③ wz_offbeat 第0層 15.73] （旁白）：（店長看了你一眼，沒動。你決定不摸了。）
+    [nichijo③ wz_offbeat 第0層 15.74] （旁白）：（店長讓你摸了兩下，起身換了一張椅子。）
+PASS nichijo③ 看看：第一次「睜開一隻眼睛」、第二次「在睡覺」  ["（店長睜開一隻眼睛看你，又閉上。）", "（店長在睡覺。）", "（店長看了你一眼，沒動。你決定不摸了。）", "（店長讓你摸了兩下，起身換了一張椅子。）"]
+PASS nichijo③ 看完店長：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（店長讓你摸了兩下，起身換了一張椅子。）"}
+PASS nichijo③ 看完店長：搖桿推得動（2.52 m，推 1 次）  {"x": 3.02, "z": -2.33, "lv": 0, "pose": "idle"}
+PASS nichijo③ 看完店長：walkFallbacks 沒有增加（0 → 0）
+== nichijo_game ④ 有朋友在的時候玩桌遊
+  [前置／捷徑] 讀檔：2025-09-28（day 12、weekday 0）15:00 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}, "social": {"rel": {"zhe": {"fam": 40, "trust": 30, "aff": 30, "resp": 20, "comf": 30, "rom": 0, "npcRom": 0, "seen": 8, "talked": 8}, "yu": {"fam": 35, "trust": 26, "aff": 25, "resp": 15, "comf": 25, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_mingxuan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_bohan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_peishan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}}, "mem": {}, "reveal": {}, "prof": {}, "grad": {"interest": "NONE", "field": null, "prep": 0}, "fm120": true}}；條件事件關閉、手機自動訊息關閉。挑時段：yu 的作息在不在日常失速
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+  OFFB.slotNow(yu) 2025-09-28 15.00：null
+  [前置／捷徑] 讀檔：2025-10-05（day 19、weekday 0）15:00 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}, "social": {"rel": {"zhe": {"fam": 40, "trust": 30, "aff": 30, "resp": 20, "comf": 30, "rom": 0, "npcRom": 0, "seen": 8, "talked": 8}, "yu": {"fam": 35, "trust": 26, "aff": 25, "resp": 15, "comf": 25, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_mingxuan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_bohan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}, "classmate_peishan": {"fam": 30, "trust": 25, "aff": 20, "resp": 15, "comf": 20, "rom": 0, "npcRom": 0, "seen": 6, "talked": 6}}, "mem": {}, "reveal": {}, "prof": {}, "grad": {"interest": "NONE", "field": null, "prep": 0}, "fm120": true}}；條件事件關閉、手機自動訊息關閉。挑時段：yu 的作息在不在日常失速
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+  OFFB.slotNow(yu) 2025-10-05 15.00：{"label": "在日常失速寫作業", "from": 14, "to": 17}
+PASS nichijo④ 前置：找得到朋友作息在日常失速的時段  [["2025-09-28", 15.0, "yu"], ["2025-10-05", 15.0, "yu"], ["2025-10-19", 15.5, "yu"], ["2025-09-26", 19.4, "zhe"], ["2025-10-03", 19.4, "zhe"]]
+PASS nichijo④ 進店（yu 在）：有「進去日常失速」互動點  {"x": -36.5, "z": -9.6, "r": 1.2, "label": "進去日常失速", "lv": null, "n": 1, "to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}, "seat": false, "study": false}
+  [1236.6s] 到達「進去日常失速」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS nichijo④ 進店（yu 在）：走到「進去日常失速」
+PASS nichijo④ 進店（yu 在）：互動按鈕是「進去日常失速」  進去日常失速
+PASS nichijo④ 進店（yu 在）：「進去日常失速」通往 wz_offbeat  {"to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}}
+FAIL nichijo④ 進店（yu 在）：換到 wz_offbeat（G.zone＝wz_offbeat、E.zone＝None）  {"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 16.25, "study": 0, "pose": "idle"}
+  出生點 nichijo④ 進店（yu 在）：要求 {"x": -3.9, "z": 3, "yaw": 3.141592653589793}；E.lastSpawn {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}；現在 {"x": -3.9, "z": 3, "y": 0, "lv": 0, "stand": true}
+OBS  nichijo④ 進店（yu 在）：出生點沒被挪（fixed＝要求的位置）
+PASS nichijo④ 進店（yu 在）：出生點站得住（E.canStand）  true
+PASS nichijo④ 進店（yu 在）：換區後搖桿往前推有位移（2.32 m，推 1 次）  {"x": -3.77, "z": 0.68, "lv": 0, "y": 0}
+PASS nichijo④ 進店（yu 在）：這一段 walkFallbacks 沒有增加（0 → 0）
+PASS nichijo④ 進店（yu 在）：這一段沒有 JS 例外  []
+  店裡的人：[{"id": "yu", "x": 4.45, "z": 4.2, "seat": true, "pose": "read"}]；friendsHere []
+FAIL nichijo④ 店裡有認識的朋友（OFFB.friendsHere 有 yu）  []
+PASS nichijo④：有「玩桌遊」互動點  {"x": -1.85, "z": 0.15, "r": 1, "label": "玩桌遊（長桌；有朋友在的時候）", "lv": null, "n": 1, "to": null, "spawn": null, "seat": false, "study": false}
+  [1334.6s] 到達「玩桌遊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS nichijo④：走到「玩桌遊」
+PASS nichijo④：互動按鈕是「玩桌遊」  玩桌遊（長桌；有朋友在的時候）
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\13_ob_game_start.png
+  ---- transcript nichijo④（1 句）
+    [nichijo④ wz_offbeat 第0層 16.31] （旁白）：（長桌上沒有人。桌遊要幾個人一起才好玩。）
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\14_ob_game_end.png
+FAIL nichijo④ 開始玩：「你們把「…」攤開在長桌上」  [{"n": "", "t": "（長桌上沒有人。桌遊要幾個人一起才好玩。）", "z": "wz_offbeat", "lv": 0, "h": 16.31}]
+FAIL nichijo④ 不是「長桌上沒有人」
+FAIL nichijo④ 玩了大約一小時（16.31 → 16.32）
+PASS nichijo④ 桌遊演完：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（長桌上沒有人。桌遊要幾個人一起才好玩。）"}
+PASS nichijo④ 桌遊演完：搖桿推得動（2.51 m，推 1 次）  {"x": -2.09, "z": -2.29, "lv": 0, "pose": "idle"}
+PASS nichijo④ 桌遊演完：walkFallbacks 沒有增加（0 → 0）
+== nichijo_close ⑤ 01:00 打烊
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）24:56 wz_offbeat {"x": -3.9, "z": 3.0, "yaw": 3.141592653589793} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店裡出生點、00:56（週六晚上過午夜：G.hour 24.93）
+  讀檔後：{"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 25, "study": 0, "pose": "idle"}
+  ---- transcript nichijo⑤ 打烊（0 句）
+  打烊：{"zone": "wenzhou", "ezone": null, "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -34.8, "z": -9.6, "lv": 0, "fixed": [-34.8, -9.6]}, "stand": true, "fb": 0, "hour": 25.02, "study": 0, "pose": "idle"}；toast []
+PASS nichijo⑤ 跨過 01:00 被請到店外（溫州街）  {"zone": "wenzhou", "ezone": null, "x": -34.8, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -34.8, "z": -9.6, "lv": 0, "fixed": [-34.8, -9.6]}, "stand": true, "fb": 0, "hour": 25.02, "study": 0, "pose": "idle"}
+FAIL nichijo⑤ 有打烊的字（店員「一點打烊」或 toast）  {"lines": [], "toast": []}
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\15_ob_close_outside.png
+PASS nichijo⑤ 打烊出來：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wenzhou", "dtext": "（你走出店門。巷子很安靜，只剩路燈。）"}
+PASS nichijo⑤ 打烊出來：搖桿推得動（2.54 m，推 1 次）  {"x": -32.26, "z": -9.6, "lv": 0, "pose": "idle"}
+PASS nichijo⑤ 打烊出來：walkFallbacks 沒有增加（0 → 0）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）25:24 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店門東邊 3.5 m；01:24 打烊後
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 26.04, "study": 0, "pose": "idle"}
+PASS nichijo⑤ 01:24 打烊後：有「進去日常失速」互動點  {"x": -36.5, "z": -9.6, "r": 1.2, "label": "進去日常失速", "lv": null, "n": 1, "to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}, "seat": false, "study": false}
+  [1546.2s] 到達「進去日常失速」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS nichijo⑤ 01:24 打烊後：走到「進去日常失速」
+PASS nichijo⑤ 01:24 打烊後：互動按鈕是「進去日常失速」  進去日常失速
+  01:24 打烊後 擋的字：["日常失速 開放時間 每天 13:00–01:00。現在沒有開，今天 13:00 開門。"]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\16_ob_closed_late.png
+PASS nichijo⑤ 01:24 打烊後：按「進去日常失速」沒有進去（還在 wenzhou）  {"zone": "wenzhou", "ezone": null, "x": -36.26, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 26.09, "study": 0, "pose": "idle"}
+PASS nichijo⑤ 01:24 打烊後：有擋下來的字（toast）  ["日常失速 開放時間 每天 13:00–01:00。現在沒有開，今天 13:00 開門。"]
+PASS nichijo⑤ 01:24 打烊後：沒有 JS 例外  []
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）11:00 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}}；條件事件關閉、手機自動訊息關閉。店門東邊 3.5 m；11:00 還沒開
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 11.64, "study": 0, "pose": "idle"}
+PASS nichijo⑤ 11:00 還沒開：有「進去日常失速」互動點  {"x": -36.5, "z": -9.6, "r": 1.2, "label": "進去日常失速", "lv": null, "n": 1, "to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}, "seat": false, "study": false}
+  [1651.5s] 到達「進去日常失速」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS nichijo⑤ 11:00 還沒開：走到「進去日常失速」
+PASS nichijo⑤ 11:00 還沒開：互動按鈕是「進去日常失速」  進去日常失速
+  11:00 還沒開 擋的字：["日常失速 開放時間 每天 13:00–01:00。現在沒有開，今天 13:00 開門。"]
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\17_ob_closed_early.png
+PASS nichijo⑤ 11:00 還沒開：按「進去日常失速」沒有進去（還在 wenzhou）  {"zone": "wenzhou", "ezone": null, "x": -36.25, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 11.69, "study": 0, "pose": "idle"}
+PASS nichijo⑤ 11:00 還沒開：有擋下來的字（toast）  ["日常失速 開放時間 每天 13:00–01:00。現在沒有開，今天 13:00 開門。"]
+PASS nichijo⑤ 11:00 還沒開：沒有 JS 例外  []
+== nichijo_final ⑥ Y1S1 期末最後一科考完那晚：日常失速長桌（AA_648 §6；揪的人 zhe）
+  [前置／捷徑] 讀檔：2025-09-27（day 11、weekday 6）15:00 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；條件事件關閉、手機自動訊息關閉。先讀一次檔，讓遊戲算 Y1S1 期末最後一科考完的時間
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 15.64, "study": 0, "pose": "idle"}
+  CLS.lastExamEnd(Y1S1, final)＋這學期的期末聚餐事件：{"e": {"day": 93, "h": 15.166666666666666}, "evs": [{"id": "ev_term_last_meal", "loc": ["noodle", "wz_offbeat"], "time": [17, 22], "participants": []}], "cast": ["ev_midterm_supper", "ev_bgnight"]}
+PASS nichijo⑥ Y1S1 前置：算得出 Y1S1 期末最後一科考完的時間  {"day": 93, "h": 15.166666666666666}
+  [前置／捷徑] 讀檔：2025-12-18（day 93、weekday 4）17:06 wenzhou {"x": -33.0, "z": -9.6, "yaw": -1.5707963267948966} 天氣 clear；另外 {"visited": {"wenzhou": true, "wz_offbeat": true}, "offbeat": {"n": 2, "first": 1}, "flags": {"introDone": true, "campusIntro": true, "classDone": true, "afternoonDone": true, "metAn": true, "zheNoodleDone": true, "noodleTableDay": 5}, "social": {"rel": {"zhe": {"fam": 45, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "yu": {"fam": 42, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "classmate_xinci": {"fam": 39, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "classmate_bohan": {"fam": 36, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "classmate_mingxuan": {"fam": 33, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "classmate_peishan": {"fam": 30, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "kai": {"fam": 27, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "heroine_01": {"fam": 24, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}, "heroine_03": {"fam": 21, "trust": 30, "aff": 28, "resp": 20, "comf": 28, "rom": 0, "npcRom": 0, "seen": 10, "talked": 10}}, "mem": {}, "reveal": {}, "prof": {}, "grad": {"interest": "NONE", "field": null, "prep": 0}, "fm120": true}, "contacts": {"zhe": 1, "yu": 1, "classmate_xinci": 1, "classmate_bohan": 1, "classmate_mingxuan": 1, "classmate_peishan": 1, "kai": 1, "heroine_01": 1, "heroine_03": 1}}；條件事件照開、手機自動打開關閉。Y1S1 最後一科考完那天 17.10；flags.noodleTableDay＝5；認識 zhe、yu、classmate_xinci、classmate_bohan、classmate_mingxuan、classmate_peishan、kai、heroine_01、heroine_03（認識程度依序遞減）
+  [前置／捷徑] 這一次讀檔條件事件照開（要測事件本身）
+  讀檔後：{"zone": "wenzhou", "ezone": null, "x": -33, "z": -9.6, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wenzhou", "x": -33, "z": -9.6, "lv": 0, "fixed": [-33, -9.6]}, "stand": true, "fb": 0, "hour": 17.74, "study": 0, "pose": "idle"}
+  前置檢查：{"finalZone": "wz_offbeat", "prereqInOffbeat": true, "done": false, "msgs": ["阿哲建立了群組「桌遊團」，把你加了進來。", "隔週五 桌遊", "沒空不用講", "最後一科！老地方！"]}
+PASS nichijo⑥ Y1S1 前置：聚餐地點是日常失速（OFFB.finalZone）、條件在店裡會成立  {"finalZone": "wz_offbeat", "prereqInOffbeat": true, "done": false, "msgs": ["阿哲建立了群組「桌遊團」，把你加了進來。", "隔週五 桌遊", "沒空不用講", "最後一科！老地方！"]}
+PASS nichijo⑥ Y1S1 走進日常失速：有「進去日常失速」互動點  {"x": -36.5, "z": -9.6, "r": 1.2, "label": "進去日常失速", "lv": null, "n": 1, "to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}, "seat": false, "study": false}
+  [1856.2s] 到達「進去日常失速」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS nichijo⑥ Y1S1 走進日常失速：走到「進去日常失速」
+PASS nichijo⑥ Y1S1 走進日常失速：互動按鈕是「進去日常失速」  進去日常失速
+PASS nichijo⑥ Y1S1 走進日常失速：「進去日常失速」通往 wz_offbeat  {"to": "wz_offbeat", "spawn": {"x": -3.9, "z": 3, "yaw": 3.141592653589793}}
+FAIL nichijo⑥ Y1S1 走進日常失速：換到 wz_offbeat（G.zone＝wz_offbeat、E.zone＝None）  {"zone": "wz_offbeat", "ezone": null, "x": -3.9, "z": 3, "y": 0, "lv": 0, "loading": false, "last": {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}, "stand": true, "fb": 0, "hour": 18.37, "study": 0, "pose": "idle"}
+  出生點 nichijo⑥ Y1S1 走進日常失速：要求 {"x": -3.9, "z": 3, "yaw": 3.141592653589793}；E.lastSpawn {"zone": "wz_offbeat", "x": -3.9, "z": 3, "lv": 0, "fixed": [-3.9, 3]}；現在 {"x": -3.9, "z": 3, "y": 0, "lv": 0, "stand": true}
+OBS  nichijo⑥ Y1S1 走進日常失速：出生點沒被挪（fixed＝要求的位置）
+PASS nichijo⑥ Y1S1 走進日常失速：出生點站得住（E.canStand）  true
+PASS nichijo⑥ Y1S1 走進日常失速：換區後搖桿往前推有位移（2.31 m，推 1 次）  {"x": -3.78, "z": 0.69, "lv": 0, "y": 0}
+PASS nichijo⑥ Y1S1 走進日常失速：這一段 walkFallbacks 沒有增加（0 → 0）
+PASS nichijo⑥ Y1S1 走進日常失速：這一段沒有 JS 例外  []
+  ---- transcript nichijo⑥ Y1S1（0 句）
+  截圖 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\N20X_nichijo\out\18_ob_final_y1_end.png
+FAIL nichijo⑥ Y1S1：聚餐有觸發（有開始演）  []
+FAIL nichijo⑥ Y1S1：演完（G.events.done.ev_term_last_meal）
+FAIL nichijo⑥ Y1S1 ①：開演時玩家和有名字的 NPC 都坐在長桌（玩家 seat＝null；有名字 0 位）  {"player": {}, "named": []}
+FAIL nichijo⑥ Y1S1 ②：揪的人 zhe 在長桌  null
+FAIL nichijo⑥ Y1S1 ③：玩家坐在揪的人旁邊（≤ 0.9 m 或相鄰座位）
+FAIL nichijo⑥ Y1S1 ③b：揪的人坐長桌一端（離中心最遠的座位）  null
+FAIL nichijo⑥ Y1S1 ④：有名字的（含揪的人）最多 6 個（0）  []
+PASS nichijo⑥ Y1S1 ④：坐空位的不認識同學沒有台詞（0 位：[]）  []
+OBS  nichijo⑥ Y1S1 長桌坐了 0 人（玩家＋0）；七人長桌（layout 的 table 1 有 0 個座位）
+PASS nichijo⑥ Y1S1 ⑤：演完以後玩家和有名字的 NPC 都起身（seat 清掉）  {"player": {"seat": null, "long": false, "i": -1, "pose": "idle"}, "still": []}
+PASS nichijo⑥ Y1S1 ⑤ 演完：對話框關了、D.active false、沒有選單、不 busy  {"dlg": false, "choices": 0, "busy": false, "pose": "idle", "zone": "wz_offbeat", "dtext": "（你走出店門。巷子很安靜，只剩路燈。）"}
+PASS nichijo⑥ Y1S1 ⑤ 演完：搖桿推得動（2.74 m，推 1 次）  {"x": -3.78, "z": -2.05, "lv": 0, "pose": "idle"}
+PASS nichijo⑥ Y1S1 ⑤ 演完：walkFallbacks 沒有增加（0 → 0）
+PASS 整段沒有 JS 例外  []
+PASS 整段 GAME.walkFallbacks＝0  0
+---- 摘要
+WARN 0 項、OBS 6 項（只記狀態，不算 FAIL）
+FAILED 22: nichijo① 溫州街→日常失速：換到 wz_offbeat（G.zone＝wz_offbeat、E.zone＝None）；nichijo① 溫州街→日常失速：換區後搖桿往前推有位移（0.00 m，推 3 次）；nichijo① 日常失速→溫州街：換到 wenzhou（G.zone＝wenzhou、E.zone＝None）；nichijo② 冰拿鐵 之後：搖桿推得動（0.00 m，推 3 次）；nichijo② 檸檬氣泡美式 之後：搖桿推得動（0.00 m，推 3 次）；nichijo② 肉桂捲 之後：搖桿推得動（0.00 m，推 3 次）；nichijo② 明太子厚片 之後：搖桿推得動（0.00 m，推 3 次）；nichijo② 不用了 之後：搖桿推得動（0.00 m，推 3 次）；nichijo④ 進店（yu 在）：換到 wz_offbeat（G.zone＝wz_offbeat、E.zone＝None）；nichijo④ 店裡有認識的朋友（OFFB.friendsHere 有 yu）
