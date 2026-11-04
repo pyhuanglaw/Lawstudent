@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_komichi_shots\out
+PASS 遊戲載入
+== komichi 1400
+  [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF2_HairCard_HAIR"]
+INFO [1400] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_east_to_west：calls 59、tris 86754
+  [1400] door_in：calls 53、tris 86350
+  [1400] bar：calls 51、tris 86110
+  [1400] booth_west：calls 34、tris 36414
+  [1400] window_seats：calls 34、tris 36066
+  [1400] kitchen：calls 39、tris 84844
+  [1400] table_mid：calls 55、tris 86590
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [1.92, 2.72, 2.57], "player": [-2, 0, 3.05], "dist": 4.15, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [1.92, 2.72, 2.57], "player": [-2, 0, 3.05], "dist": 4.15, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== komichi 2200
+  [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF3_HairCard_HAIR", "NM3_HairCard_HAIR", "NM4_HairCard_HAIR", "NF4_HairCard_HAIR", "NM5_HairCard_HAIR"]
+INFO [2200] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_east_to_west：calls 117、tris 244207
+  [2200] door_in：calls 126、tris 287730
+  [2200] bar：calls 122、tris 287486
+  [2200] booth_west：calls 70、tris 137636
+  [2200] window_seats：calls 70、tris 137454
+  [2200] kitchen：calls 57、tris 133836
+  [2200] table_mid：calls 128、tris 287970
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [1.91, 2.75, 2.57], "player": [-2, 0, 3.05], "dist": 4.14, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [1.91, 2.75, 2.57], "player": [-2, 0, 3.05], "dist": 4.14, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS 沒有 JS 例外  []
+ALL PASS
