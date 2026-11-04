@@ -2,14 +2,16 @@
 //   a 成績單上沒有證交法的存檔：CLS.takenCourses 沒有它、PG.poolFor 沒有它的題、2029 一試 20 題裡沒有 securities（換 40 個 examSeed 都沒有；對照組成績單上有＝抽得到）
 //   a2 日本路線（大三下在日本）：票據法、勞動法沒修＝不抽；民訴甲下、保險法大四下補修（civpro_2_re／insurance_re）＝算原課、抽得到
 //   b 美國路線：大四上（人在美國）那一學期的課不會被抽（強制執行法、法律倫理、刑事／公法判決研討）；舊存檔留著大四上的成績單也不算
-//   c 已經存下 PG.exam[2029].qs 的存檔（舊題池抽的、有證交法和大四上的課）不重抽：作答過、還沒作答都照存下的那 20 題；2030 換一組照新題池、不重複
-//   d 國考總複習只有在一試前 30 天起才出現：2029 一試 8/4＝7/5 起；2030（重考、交換延畢、司法官重考）8/3＝7/4 起；2031 8/2＝7/3 起；一試開考（08:00）以後、考完、沒報名、學期中都沒有（也不在存檔多寫東西）
+//   c 已經存下 PG.exam[2029].qs 的存檔（舊題池抽的、有證交法和強制執行法）不重抽：作答過、還沒作答都照存下的那 20 題；2030 換一組照新題池、不重複；
+//     還沒作答、有海商法的舊題組（BB 11-02 22:15 的補抽）：只換海商法那兩題、補的題照新題池
+//   d 國考總複習只有在一試前 30 天起才出現：2029 一試 8/4＝7/5 起；2030（重考、交換延畢、司法官重考）8/3＝7/4 起；2031 8/2＝7/3 起；一試開考（08:00）以後、考完、沒報名、學期中都沒有（也不在存檔多寫東西）；
+//     家裡的選單（畢業以後住家裡）也有、按了地點記「家」；開放以前直接叫 STUDY.review(GM,'bar') 不做
 //   e 按一次：6 小時（不跨天＝18:00 以後不給、會跨過一試 08:00 不給、閉館前讀不完不給）、stats.study +6、照常 STORY.onStudy；範圍＝一試題池每一題的觀念卡全部讀過、抽到的 20 題不變；
 //     翻頁閱讀和期末總複習同一套（一科一節、答錯過的排最前面、先讀到這裡、結束字幕每科一行「國考範圍」）；入口：座位／書桌（STUDY.reviewOpt 帶 kind）、家裡的選單
 //   f BB 驗收那一條：2029-07-10 做國考總複習 → 8/4 作答（讀過的卡出 cue）→ BAR_SCORE＝答對題數、9/7 放榜照答對題數；卡片回寫（答對＝答對過、答錯＝miss）
 //   g 舊存檔（v9.10 結構：有成績單、期末考紀錄、PG、沒有 G.study）讀進來不報錯；沒有成績單的存檔＝題池退回全部、抽到的題和修改前一模一樣
 //   h 題池不到 40 題＝退回全部（只有大一上的成績單：39 題）；夠 40 題＝只收修過的
-// 修改前（開發分支 530a72ff4）：FAILED 39（CLS.takenCourses、PG.poolFor、STUDY.reviewInfo(G,'bar') 都沒有）。用法：node tests/d118_b7_unit.js
+// 修改前（開發分支 530a72ff4）：FAILED 41（CLS.takenCourses、PG.poolFor、STUDY.reviewInfo(G,'bar') 都沒有）；修改後 ALL PASS。用法：node tests/d118_b7_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -77,7 +79,12 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     const ans=qs.map(q=>q.answer); PG.rec(G).exam[2029].ans=ans; const qs2=PG.draw(G,2029);
     check('c2. 作答過（ans 記了）：照存下的那一份',J(qs2.map(q=>q.id))===J(ids));
     const q30=PG.draw(G,2030), pf=new Set((poolFor(G)||[]).map(q=>q.id));
-    check('c3. 2030 新抽的一組：20 題、和 2029 不重複、都在新題池（只收修過的課）',q30.length===20&&q30.every(q=>!ids.includes(q.id))&&q30.every(q=>pf.has(q.id))&&!q30.some(q=>q.course==='securities'||q.course==='enforcement'),J(q30.map(q=>q.id))); });
+    check('c3. 2030 新抽的一組：20 題、和 2029 不重複、都在新題池（只收修過的課）',q30.length===20&&q30.every(q=>!ids.includes(q.id))&&q30.every(q=>pf.has(q.id))&&!q30.some(q=>q.course==='securities'||q.course==='enforcement'),J(q30.map(q=>q.id)));
+    /* 抽好還沒作答、裡面有一試不考的四科（BB 2026-11-02 22:15 的補抽）：四科那幾題換掉，補的題照新題池（只收修過的課）；其他存下的題（含沒修過的證交法）照舊、順序不變 */
+    const mar=PG.pool(true).filter(q=>q.course==='maritime').slice(0,2).map(q=>q.id), ids4=sec1.concat(mar,old.filter(id=>!sec1.includes(id))).slice(0,20);
+    const G4=fresh29('2029-08-04',8,{examSeed:424243}); transcripts(G4,{skip:['securities']}); PG.rec(G4).exam={2029:{qs:ids4.slice()}}; const q4=PG.draw(G4,2029).map(q=>q.id);
+    const keep4=ids4.filter(id=>!mar.includes(id)), add4=q4.filter(id=>!keep4.includes(id)), pf4=new Set((poolFor(G4)||[]).map(q=>q.id));
+    check('c4. 還沒作答、有海商法的舊題組：海商法兩題換掉、補的兩題在新題池（沒有證交法）；其他 18 題照存下的（證交法那兩題也留著）',q4.length===20&&!q4.some(id=>mar.includes(id))&&J(q4.filter(id=>keep4.includes(id)))===J(keep4)&&add4.length===2&&add4.every(id=>pf4.has(id)&&all.get(id).course!=='securities'),J({add4,keep:keep4.length})); });
   /* ---------- d 什麼時候出現 ---------- */
   await sec('d',async()=>{ const G=fresh29('2029-07-04',23);
     check('d1. 2029-07-04 23:00（一試 8/4 的 31 天前）：沒有國考總複習（reviewInfo null、座位選單沒有那一項）',binfo(G)===null&&STUDY.reviewOpt(G)===null,J(binfo(G)));
@@ -106,7 +113,12 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     check('d11. 2031 一試（8/2）：7/2 沒有、7/3 起有',y0===null&&!!y1&&y1!=='ERR'&&y1.year===2031,J({y0,y1:y1&&y1.year}));
     /* 家裡的選單 */
     const Gh=fresh29('2029-07-12',10,{},'dorm'); Gh.home={at:true}; const ho=HOME.MENU_OPTS.map(f=>{ try{ return f(Gh); }catch(e){ return null; } }).find(x=>x&&x.t==='考前總複習');
-    check('d12. 住家裡的（畢業以後）：家裡的選單有「考前總複習」（國考）',!!ho&&typeof ho.run==='function'&&/國考/.test(ho.hint||''),J(ho&&ho.hint)); });
+    check('d12. 住家裡的（畢業以後）：家裡的選單有「考前總複習」（國考）',!!ho&&typeof ho.run==='function'&&/國考/.test(ho.hint||''),J(ho&&ho.hint));
+    { let calls=[]; const on0=STORY.onStudy; STORY.onStudy=function(GM2,hrs){ calls.push([hrs,GM2.G.zone]); }; picks=['先讀到這裡'];
+      try{ if(ho) await ho.run(GM); } finally { STORY.onStudy=on0; }
+      check('d13. 家裡那一項按下去＝國考總複習：6 小時（10:00 → 16:00）、STORY.onStudy 的地點記「家」（之後恢復）',!!ho&&Gh.hour===16&&calls.length===1&&calls[0][0]===6&&calls[0][1]==='home'&&Gh.zone==='dorm',J({h:Gh.hour,calls,zone:Gh.zone})); }
+    const Go=fresh29('2029-07-04',20); toasts=[]; const ro=await STUDY.review(GM,'bar');
+    check('d14. 開放以前（7/4）直接叫 STUDY.review(GM,\'bar\')：不做（false）、不耗時間',ro===false&&Go.hour===20&&!(Go.study&&Object.keys(Go.study.u||{}).length),J({ro,h:Go.hour})); });
   /* ---------- e 按一次 ---------- */
   await sec('e',async()=>{ const G=fresh29('2029-07-10',9); transcripts(G,{k:3}); G.flags.examSeed=777; const R=CLS.rec(G);
     const info=binfo(G); const scope=new Set(); for(const x of (info&&info!=='ERR'?info.courses:[])) for(const u of x.units) scope.add(u.id);
