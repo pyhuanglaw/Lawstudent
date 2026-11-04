@@ -20,7 +20,9 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/libquiet3d.js'),'utf8').replace(/^const LIBQ\s*=/m,'globalThis.LIBQ='),{filename:'src/libquiet3d.js'});
 vm.runInThisContext(fs.readFileSync(path.join(H.ROOT,'src/data/library_layout.js'),'utf8').replace(/^const (LIBRARY_\w+)\s*=/mg,'globalThis.$1='),{filename:'src/data/library_layout.js'});
 const W=ms=>new Promise(r=>setTimeout(r,ms));
-const LS=INVITE_DATA.libStudy;
+const LS=INVITE_DATA.libStudy||{lead:['?'],full:['?'],seated:'?',mid:[['?']],close:['?'],pack:['?'],sit:['?'],bye:['?'],first:{heroine_05:{},heroine_03:{}}};   /* 修改前沒有：讓測試跑完、逐項 FAIL */
+for(const k of ['sitRule','leadSeats','seatObj','phoneBack']) if(typeof INV[k]!=='function') INV[k]=()=>null;
+if(!INVITE_DATA.seatOpen) INVITE_DATA.seatOpen={meal:[],coffee:[['?']],movie:[],movieEnd:[],bookstore:[]};
 /* ---- 總圖大廳的座位：照 library3d.js buildFurniture（studyTable，二樓）＋library_hall_v2.js furniture2（groupTable、pcDesk，一樓）產生座位的算法 ---- */
 function hallSeats(){ const L=LIBRARY_LAYOUT, out=[];
   for(const f of L.furniture){ const lv=f.lv|0;
