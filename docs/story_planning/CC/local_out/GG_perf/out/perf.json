@@ -1,0 +1,91 @@
+{
+ "sha": "23eaaa7ae",
+ "formal": {
+  "boot_s": 20.2,
+  "zone_s": 9.5,
+  "glb_s": 10.91,
+  "glb_files": [],
+  "views": {
+   "street_west": {
+    "calls": 191,
+    "tris": 319847,
+    "frames": 335,
+    "avg": 41.82,
+    "min": 17.64,
+    "low1": 19.54,
+    "calls_live": 200,
+    "tris_live": 339148
+   },
+   "arcade": {
+    "calls": 190,
+    "tris": 329877,
+    "frames": 451,
+    "avg": 56.19,
+    "min": 11.53,
+    "low1": 17.86,
+    "calls_live": 235,
+    "tris_live": 448002
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 20.0,
+  "zone_s": 4.47,
+  "glb_s": null,
+  "glb_files": [],
+  "views": {
+   "street_west": {
+    "calls": 162,
+    "tris": 446544,
+    "frames": 563,
+    "avg": 70.26,
+    "min": 23.04,
+    "low1": 28.56,
+    "calls_live": 166,
+    "tris_live": 452654
+   },
+   "arcade": {
+    "calls": 158,
+    "tris": 439908,
+    "frames": 528,
+    "avg": 65.86,
+    "min": 24.88,
+    "low1": 29.36,
+    "calls_live": 182,
+    "tris_live": 503658
+   }
+  }
+ },
+ "table": {
+  "street_west": {
+   "calls": 191,
+   "nobldg_calls": 162,
+   "limit_1.3x": 210.6,
+   "margin": 19.6,
+   "ratio": 1.179,
+   "tris": 319847,
+   "tris_limit": 420000,
+   "tris_margin": 100153,
+   "fps_avg": 41.82,
+   "fps_min": 17.64,
+   "fps_low1": 19.54,
+   "nobldg_fps_avg": 70.26,
+   "nobldg_fps_min": 23.04
+  },
+  "arcade": {
+   "calls": 190,
+   "nobldg_calls": 158,
+   "limit_1.3x": 205.4,
+   "margin": 15.4,
+   "ratio": 1.2025,
+   "tris": 329877,
+   "tris_limit": 420000,
+   "tris_margin": 90123,
+   "fps_avg": 56.19,
+   "fps_min": 11.53,
+   "fps_low1": 17.86,
+   "nobldg_fps_avg": 65.86,
+   "nobldg_fps_min": 24.88
+  }
+ }
+}

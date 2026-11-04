@@ -1,0 +1,18 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_perf_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_perf\out
+CC 公館效能原始數字；SHA=23eaaa7ae；VIEWS=street_west,arcade；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 一般網址：遊戲載入  20.2 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+PASS 一般網址：正式模型 gongguan_shops_glb 有載入  {"讀檔到區域建好_s": 9.5, "讀檔到正式模型出現_s": 10.91}
+  一般網址：讀檔→區域 9.50 秒；讀檔→正式模型 10.91 秒；GLB 下載 []
+  一般網址 street_west：draw call 191、三角形 319847（藏路人）；FPS 平均 41.82、最低 17.64、1%low 19.54（335 格；路人在：call 200／tris 339148）
+  一般網址 arcade：draw call 190、三角形 329877（藏路人）；FPS 平均 56.19、最低 11.53、1%low 17.86（451 格；路人在：call 235／tris 448002）
+PASS 一般網址：沒有 JS 例外  []
+PASS ?nobldg：遊戲載入  20.0 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+  ?nobldg：讀檔→區域 4.47 秒；讀檔→正式模型 None 秒；GLB 下載 []
+  ?nobldg street_west：draw call 162、三角形 446544（藏路人）；FPS 平均 70.26、最低 23.04、1%low 28.56（563 格；路人在：call 166／tris 452654）
+  ?nobldg arcade：draw call 158、三角形 439908（藏路人）；FPS 平均 65.86、最低 24.88、1%low 29.36（528 格；路人在：call 182／tris 503658）
+PASS ?nobldg：沒有 JS 例外  []
+表：{"street_west": {"calls": 191, "nobldg_calls": 162, "limit_1.3x": 210.6, "margin": 19.6, "ratio": 1.179, "tris": 319847, "tris_limit": 420000, "tris_margin": 100153, "fps_avg": 41.82, "fps_min": 17.64, "fps_low1": 19.54, "nobldg_fps_avg": 70.26, "nobldg_fps_min": 23.04}, "arcade": {"calls": 190, "nobldg_calls": 158, "limit_1.3x": 205.4, "margin": 15.4, "ratio": 1.2025, "tris": 329877, "tris_limit": 420000, "tris_margin": 90123, "fps_avg": 56.19, "fps_min": 11.53, "fps_low1": 17.86, "nobldg_fps_avg": 65.86, "nobldg_fps_min": 24.88}}
+GLB 載入：讀檔→正式模型 10.91 秒；檔案 []
+ALL PASS
