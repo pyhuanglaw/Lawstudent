@@ -142,7 +142,13 @@ def _xinsheng_lj():
     _p = os.path.join(L.ROOT, 'src/data/xinsheng_layout.js')
     if not os.path.exists(_p): _p = os.path.join(L.ROOT, 'docs/art-rebuild/second_ai/wip/xinsheng/xinsheng_layout.js')
     _s = open(_p, encoding='utf8').read(); X = _j.loads(_s[_s.index('{', _s.index('\nconst XINSHENG_LAYOUT=')):_s.rindex('}') + 1])
-    sh = [dict(id=q['id'], side='W', z0=q['z0'], z1=q['z1'], floors=q['floors'], name=q['name'], type=q['type'], door=q['door']) for q in X['shops']]
+    sh = sorted([dict(id=q['id'], side='W', z0=q['z0'], z1=q['z1'], floors=q['floors'], name=q['name'], type=q['type'], door=q['door']) for q in X['shops']], key=lambda q: q['z0'])
+    for a, b in zip(sh, sh[1:]):   # 店與店之間不到 1.5 m 的縫：店面加寬補滿（原本會做成一棟 0.6 m 寬、只有一扇門的小房子）
+        if 0 < b['z0'] - a['z1'] < 1.5: a['z1'] = b['z0']
+    _wl = X['wenzhouLane']
+    for q in sh:   # 店和溫州街巷口之間不到 1.5 m 的縫也補滿
+        if 0 < _wl['z0'] - q['z1'] < 1.5: q['z1'] = _wl['z0']
+        if 0 < q['z0'] - _wl['z1'] < 1.5: q['z0'] = _wl['z1']
     wl = X['wenzhouLane']
     return {"sides": ["W"], "lane": {"z0": X['road']['z0'], "z1": X['road']['z1']}, "facade": {"west": X['facade']['upper'], "east": -X['facade']['upper']},
             "floorH": X['facade']['floorH'], "groundH": X['facade']['groundH'], "alleys": [{"side": "W", "z0": wl['z0'], "z1": wl['z1']}], "shops": sh, "X": X}
@@ -178,6 +184,26 @@ if SET in ('lane118', 'nccu_food', 'xinsheng'):
     _VT_L = [('套房出租', '#ffffff', '#3b5a8c', 3.2), ('補習班', '#fff2a8', '#c9463d', 4.2), ('美髮', '#ffffff', '#c9463d', 2.6), ('桌遊', '#2b2b2b', '#e0b24a', 2.6),
              ('牙醫', '#ffffff', '#2f7d5b', 2.6), ('二樓咖啡', '#3b2a1e', '#f4ead8', 3.2), ('按摩', '#ffffff', '#8c3b47', 2.6), ('中醫', '#f4ead8', '#2f5d50', 2.6)]
     Z0, Z1 = LJ['lane']['z0'], LJ['lane']['z1']
+    # 新生南路七家店的店面（ART-XINSHENG-FRONTS-1104）：照參考圖 ref_images/shops/<店>_ext.webp（企劃線）。貼圖 xs_front_tex.py 從參考圖裁出來（圖集的 key＝<店>_<部位>）；
+    # 本地 x：−W/2 → +W/2＝參考圖的左 → 右（西側的樓：本地 +x＝北）。signs：(key, x0, x1, y0, y1, 'front' 店面上方｜'street' 騎樓靠街那一面｜'hang' 騎樓下吊著)；
+    # up：二樓以上的整排窗（f＝第幾層，1＝二樓；solid＝整片外牆貼圖）；vsigns：(key, x, y0, y1, 突出)；decals：(key, x0, x1, y0, y1, 離店面)。GH＝4.2、FH＝3.2
+    _G = LJ['groundH']
+    XS_FRONTS = {
+        'dabu': dict(int='dabu_int', frame='#d8d8d4', signs=[('dabu_sign', -3.5, 3.5, 3.0, 3.8, 'front')], mullions=[1.2]),
+        'haopai': dict(int='haopai_int', frame='#cfd6d6', signs=[('haopai_sign', -2.05, 2.05, 3.05, 3.8, 'front')], glass=(-2.0, 2.0)),
+        'shanlan': dict(int='shanlan_int', frame='#2a2a28', glass_h=3.15, mullions=[-2.6, 2.6], signs=[('shanlan_sign', -1.0, 2.9, _G - 0.1, _G + 0.82, 'street')], sign_back='#4a3426',
+                        up=[dict(f=1, x0=-6.8, x1=6.8, y0=_G + 0.25, y1=_G + 2.85, tex='shanlan_up', tiles=1, pane=1.6)]),
+        'tongxian': dict(int='tongxian_int', glass=(-3.0, 0.55), frame='#cfd6d6', stair=dict(x0=1.45, x1=2.95, depth=4.4), signs=[('tongxian_sign', -2.9, 0.3, _G + 0.7, _G + 1.6, 'street')], sign_back='#5a3a22',
+                         decals=[('tongxian_guitar', 0.72, 1.08, 1.1, 2.0, 0.04), ('tongxian_plaque', 1.15, 1.38, 1.4, 2.1, 0.04)],
+                         up=[dict(f=1, x0=0.4, x1=3.0, y0=_G + 0.35, y1=_G + 2.6, tex='tongxian_up', tiles=1, pane=1.3)]),
+        'xsports': dict(int='xsports_int', frame='#cfd6d6', mullions=[-2.2, 2.2], signs=[('xsports_sign', -6.6, 6.6, _G - 0.72, _G + 0.92, 'street')],
+                        vsigns=[('xsports_v', 6.55, _G + 1.2, _G + 5.0, 0.95)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 1.15, y1=_G + 2.85, tex='xsports_up', pane=1.1)]),
+        'dakou': dict(int='dakou_int', frame='#2a2f3a', lit=True, mullions=[-3.4, 0.0, 3.4], signs=[('dakou_sign', -6.6, 6.6, _G - 0.7, _G + 0.72, 'street')], sign_back='#1f3a6b',
+                      vsigns=[('dakou_v', 6.6, _G + 0.9, _G + 4.4, 1.2)], up=[dict(f=1, x0=-6.6, x1=6.6, y0=_G + 0.95, y1=_G + 2.9, tex='dakou_up', pane=1.6)]),
+        'nanyang': dict(int=None, band='stone', signs=[('nanyang_sign', -0.8, 1.6, _G - 1.25, _G - 0.42, 'hang')], sign_back='#3a2a22',
+                        decals=[('nanyang_front', -4.3, 4.3, 0.0, 3.75, 0.02), ('nanyang_poster', -7.0, -5.3, 0.35, 3.55, 0.05), ('nanyang_poster', 5.3, 7.0, 0.35, 3.55, 0.05)],
+                        up=[dict(f=1, x0=-4.0, x1=4.0, y0=_G + 0.1, y1=_G + 3.0, tex='nanyang_fascia', solid=True)]),
+    }
     SPECS = []; _n = 0; _fi = 0
     for _side in LJ.get('sides', ('W', 'E')):
         _fx = LJ['facade']['west'] if _side == 'W' else LJ['facade']['east']; _ry = math.pi / 2 if _side == 'W' else -math.pi / 2
@@ -211,6 +237,7 @@ if SET in ('lane118', 'nccu_food', 'xinsheng'):
                 if awn: shop['awning'] = awn
                 base.update(ground='shop', shop=shop, lane118=q['id'])
                 if SET == 'xinsheng': base.update(ground='arcade', pillars=[w / 2], rollbox=False, d=20)   # 新生南路：一樓退成騎樓（參考圖），樓房比 118 巷深
+                if SET == 'xinsheng' and q['id'] in XS_FRONTS: base['xs'] = XS_FRONTS[q['id']]; base['xs_up'] = XS_FRONTS[q['id']].get('up', [])   # 照參考圖的店面（wz_shopkit.xs_front）
             elif w < 2.6: base.update(ground='door', door=_DOOR[_n % 4], floors=max(3, base['floors']))
             elif SET == 'nccu_food': base.update(ground=['shutter', 'door'][_n % 2], door=_DOOR[_n % 4])
             else:
@@ -567,6 +594,7 @@ def apartment(spec):
     if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + (2.7 if spec['sf'].get('inner') else 1.3)   # 店門退縮成門廊；有立體淺店內的，一樓牆體從玻璃後 2.7 m 開始
     if gt == 'arcade' and spec.get('sf') and not spec['sf'].get('split'): rec = 3.0 + (DI + 0.12 if (spec['sf'].get('inner') or spec['sf'].get('kind') == 'tea') else 1.3)   # 公館騎樓店面：騎樓 3 m＋店內（茶飲的立體櫃台 DI、其他是景深卡 1.3）
     if gt == 'arcade' and spec.get('sf', {}).get('split'): rec = 3.0 + 2.6 + 0.02   # B5：騎樓 3 m＋後面兩間 2.6 m 深的立體小店；牆體再退 2 cm——原本和小店後牆同一個平面，從騎樓看進去會閃（BUG-WZFLICKER）
+    if spec.get('xs'): rec = spec['xs'].get('dep', 3.5) + 0.85   # 新生南路：店面玻璃在騎樓 3.5 m 深的地方（xinsheng_layout arcade），店內景深 0.8 m
     W = Wd; D = Dd
     # ---- 樓上的窗：每層 n 扇（和套件相同的算法：n＝round(W/3.6)）
     n = max(1, round(W / 3.6)); ww = min(2.2, W / n - 0.9); wh = 1.5
@@ -579,6 +607,9 @@ def apartment(spec):
             # 公館 7 樓以上（X86 加高到 6～14 層）也用遠景的做法：從馬路看上去，鐵窗、冷氣、雨遮看不清楚，三角形不要跟著樓層一起長
             kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (spec.get('p_grille', 0.15) * 0.4 if (far and not spec.get('far')) else spec.get('p_grille', 0.15 if far else 0.7)) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
             wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+    for u in spec.get('xs_up', []):   # 新生南路：照參考圖的整排窗（蓋掉那一層這一段原本的窗）
+        wins = [w for w in wins if not (w['f'] == u['f'] and w['x'] + ww / 2 > u['x0'] - 0.3 and w['x'] - ww / 2 < u['x1'] + 0.3)]
+        wins.append(dict(f=u['f'], x=(u['x0'] + u['x1']) / 2, w=u['x1'] - u['x0'], y0=u['y0'], y1=u['y1'], kind='xs', tex=u['tex'], solid=u.get('solid'), tiles=u.get('tiles'), pane=u.get('pane', 1.4), hood=False, ac=False, lit=True, acs=1))
     w2 = spec.get('sf', {}).get('win2f') if spec.get('sf') else None
     if w2:   # 木曜日（B4 二樓，ART-MOKUYOBI-1103）：二樓一整排木框窗（對齊店內 mokuyobi_layout.js 的 front.windows），蓋掉這一段原本的窗
         wins = [w for w in wins if not (w['f'] == 1 and w['x'] + ww / 2 > w2['x0'] - 0.3 and w['x'] - ww / 2 < w2['x1'] + 0.3)]
@@ -620,6 +651,7 @@ def apartment(spec):
     ac_at = []
     for w in wins:
         if w['kind'] == 'mok': mok_window(spec, xf, w); continue   # 木曜日二樓的木框窗（wz_shopkit.py）
+        if w['kind'] == 'xs': xs_window(spec, xf, w); continue     # 新生南路照參考圖的整排窗
         x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
         inst(window_proto(wh, 'shell'), f'win_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
         inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'pane_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
@@ -665,6 +697,9 @@ def apartment(spec):
     upper_signs(spec, xf, W, totalH)
     # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
     if SET == 'wenzhou' and spec['id'] == 'A2' and 'copy_corner_carve' in globals(): copy_corner_carve(xf, wall, W, D, rec)   # ART-WZ6：東側（北巷）挖出阿德影印搬過來的轉角店面（wz_shopkit.py）
+    elif spec.get('xs', {}).get('stair'):   # 新生南路同弦樂器：樓梯口那一段挖開（裡面的踏階在 wz_shopkit.xs_stair）
+        st = spec['xs']['stair']; dz = spec['xs'].get('dep', 3.5) + st['depth']
+        xf.box(wall, -W / 2, st['x0'], 0, GH, -D, -rec); xf.box(wall, st['x1'], W / 2, 0, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], GH - 0.38, GH, -D, -rec); xf.box(wall, st['x0'], st['x1'], 0, GH - 0.38, -D, -dz)
     elif spec.get('sf', {}).get('stair_open'):   # 木曜日（B4）：鐵門打開，一樓牆體挖出往上的樓梯間（裡面的樓梯在 wz_shopkit.mok_stair_entry）
         so = spec['sf']; sx0, sx1 = so['door_x'] - so['door_w'] / 2, so['door_x'] + so['door_w'] / 2; dep, ph = so['stair_open']['depth'], GH - 0.05
         xf.box(wall, -W / 2, sx0, 0, GH, -D, -rec); xf.box(wall, sx1, W / 2, 0, GH, -D, -rec); xf.box(wall, sx0, sx1, ph, GH, -D, -rec); xf.box(wall, sx0, sx1, 0, ph, -D, -rec - dep)
@@ -684,6 +719,7 @@ def apartment(spec):
     xf.box(band, -W / 2, W / 2, GH - 0.12, GH, -0.25, 0.06)
     if gt == 'arcade' and spec.get('sf', {}).get('split'): arcade_split_v2(spec, xf, W, wall)
     elif gt == 'arcade' and spec.get('sf'): arcade_front_v2(spec, xf, W, wall)
+    elif gt == 'arcade' and spec.get('xs'): xs_front(spec, xf, W, wall)   # 新生南路（ART-XINSHENG-FRONTS-1104）
     elif gt in ('shop', 'arcade'): shopfront_v2(spec, xf, W, gt, wall) if (spec.get('sf') and gt == 'shop') else shopfront(spec, xf, W, gt)
     elif gt == 'shutter':
         shutter(spec, xf, W, rec)
@@ -844,8 +880,9 @@ def housedoor(spec, xf, W, rng, rec):
 
 
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
-if SET in ('wenzhou', 'gongguan', 'lane118'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
+if SET in ('wenzhou', 'gongguan', 'lane118', 'xinsheng'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
+if SET == 'xinsheng' and 'xs_finish' in globals(): xs_finish()   # 新生南路的店面貼圖（一個網格）
 if SET == 'wenzhou' and 'copy_variants' in globals(): copy_variants()   # ART-WZ6：阿德影印的兩種外觀（COPY_* 節點，遊戲照 WZ_COPY_SHOP 開關）
 if SET in ('wenzhou', 'gongguan'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
 if SET == 'wenzhou':
