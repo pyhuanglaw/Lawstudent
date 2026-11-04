@@ -23,14 +23,25 @@
     B2 再騎到 A5 門口、按「下車」停在門口 → 走進去、出來 → 同樣的停車檢查
   art：三間各拍門口 art_<店>_door.png（門前 6 m 面向店門，14:00）、店內 art_<店>_inside.png（進門站的地方、面向店裡 −z）
   卡住檢查：對話框關掉、GAME.D.busyDepth 0、搖桿推得動 ≥ 0.3 m（四個方向試）、GAME.walkFallbacks 沒有增加、沒有 JS 例外。
-用法：LW_TESTS=<wt>/tests [CASES=cvs,aoki,yejian,wzbike,art] [SEATS=0,1,2] python3 cc_gg_int_probe.py <url> <out>"""
-import os, sys, json, asyncio, time, math
+  ---- 809163ee4（b1ea98f26 AA_653 接進來：日和 v2b、青木 v2c／v2d、頁間 v3b；ggshops_sys3d.js）補的段落（BB 04:30）----
+  cvs_menu   熱食櫃四樣（烤地瓜 45、茶葉蛋 13、肉包 25、關東煮 60：先看一句〔白天兩句之一〕、買完店員那句、扣款）；22:00～06:00（23:00、01:00、03:00）熱食櫃＝晚上那一句、只剩茶葉蛋和肉包；
+             咖啡三樣（美式 45、拿鐵 60、冰美式 45）＋「大杯還是中杯？」＋旁白；包裹＝「……查不到耶。可能還沒到。」；微波：沒買＝貼紙那句 → 結帳買微波義大利麵 → 微波＝「叮了一聲」→ 再按＝貼紙；
+             冷藏櫃：15:00、23:00＝白天兩句之一，01:00、03:00＝半夜那一句。24 小時照 cc_cvs24_probe.py。
+  yejian_menu  看看書牆、看新書各一次（稿上之一）；點咖啡四樣（美式 90、拿鐵 110、紅茶 80、今日蛋糕 100）：今天第一次點＝店員那句＋旁白，之後只有旁白。
+  aoki       進出（門 x −54.05）；門口外帶 (−55.79, 21) 三樣（桂花烏龍奶茶 70、柚香綠茶 60、春摘白茶 65）、每次存檔 → 重新整理 → 繼續；手機快速前往。
+  aoki_menu  吧台內用點茶七樣（四種熱茶一壺 220／260／240／200＝店員那句＋點完兩句之一；冷泡 120、茶點 80／80＝稿上沒有點完的句子，只記 INFO）；錢不夠＝店員那句；看書櫃、茶具櫃、茶罐各一次。
+  aoki_seats 22 張都坐得下（17 張可以讀書、吧台五張沒有「讀書」；第一張可以讀的真的讀一次）、坐下那一句照位子（GGS.seatKind）、卡座走 ap 按得到、起身站得住。
+  aoki_hours 10:59、11:00、20:59、21:00（【前置】讀檔到門口早 3 分鐘、等到那一刻才按）：開＝進得去；關＝門口那一句（AA_653 §0 逐字），按「外帶」也是那一句、不賣；颱風假＝颱風那一句。
+  aoki_closein 20:57 在店裡等到 21:00：店員一句＋旁白（逐字、照順序）、回公館門口。
+  aoki_date  照 cc_gg_shops2_probe.py 的 date（smoke Person）：還沒去過＝手機約的地點沒有青木 → 真的走進去一次 → 約得到 → X207（坐下才開演、同桌、帶路、道別）、答應的一句、開場句（AA_653）。
+用法：LW_TESTS=<wt>/tests [CASES=cvs,cvs_menu,aoki,aoki_menu,aoki_seats,aoki_hours,aoki_closein,aoki_date,yejian,yejian_menu,wzbike,art] [SEATS=0,1,2] python3 cc_gg_int_probe.py <url> <out>"""
+import os, sys, json, asyncio, time, math, re
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-CASES = [c.strip() for c in (os.environ.get('CASES') or 'cvs,aoki,yejian,wzbike,art').split(',') if c.strip()]
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'cvs,cvs_menu,aoki,aoki_menu,aoki_seats,aoki_hours,aoki_closein,aoki_date,yejian,yejian_menu,wzbike,art').split(',') if c.strip()]
 SEATSEL = [int(x) for x in (os.environ.get('SEATS') or '').split(',') if x.strip()]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'BIKE_TIP': True, 'BIKE_PARK_TIP': True}
@@ -321,8 +332,162 @@ async def case_cvs(pg, cdp, errs):
         check('C2 出來回溫州街 A5 門外', s['zone'] == 'wenzhou' and abs(s['x'] - 44) < 3, J({k: s[k] for k in ('zone', 'x', 'z')}))
 
 
+# ---------------------------------------------------------------- AA_653（企劃線 a7f16be34 docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md；遊戲 src/ggshops_sys3d.js）
+A653 = {
+    'cvs': {'hot_day': ['（熱食櫃裡有烤地瓜、茶葉蛋、兩種包子。烤地瓜的牌子寫著「剛出爐」。）', '（關東煮的鍋子在冒煙。白蘿蔔已經賣掉一半了。）'], 'hot_night': '（熱食櫃剩下兩顆茶葉蛋和一個肉包。）',
+            'hot_items': [('烤地瓜', 45), ('茶葉蛋', 13), ('肉包', 25), ('關東煮（三樣）', 60)], 'hot_night_items': ['茶葉蛋', '肉包'], 'hot_after': '要加熱嗎？……那幫你裝袋。',
+            'coffee': [('美式', 45), ('拿鐵', 60), ('冰美式', 45)], 'coffee_after': ['大杯還是中杯？', '（咖啡機響了一陣，杯子上印著一片小小的葉子。）'],
+            'parcel_no': '……查不到耶。可能還沒到。', 'micro_yes': '（微波爐轉了一分鐘，叮了一聲。）', 'micro_no': '（微波爐旁邊貼著「請勿加熱鋁箔包裝」。）',
+            'cool_day': ['（冷藏櫃裡一整排飲料，最下面一層是牛奶。有一瓶豆漿被人放到茶的那一格。）', '（冷藏櫃的玻璃起了一層霧。你拉開門，冷氣撲到臉上。）'], 'cool_night': '（冷藏櫃最上面那層的飯糰只剩鮪魚口味。）'},
+    'yejian': {'shelf': ['（書牆一直頂到天花板，最上面那層要用梯子才拿得到。類別牌寫著「大學生活」。）', '（「法律」那一格有一本書夾著一張便條：「第三章很重要」。不知道是誰留的。）', '（你在「散文・人文」那一格停了很久。最後一本也沒拿。）'],
+               'new': ['（斜面書架上擺著這個月的新書。有一本的封面是一扇開著的窗。）', '（新書架旁邊的小卡寫著店員的推薦：「適合下雨天。」）'],
+               'cafe': [('美式', 90), ('拿鐵', 110), ('紅茶', 80), ('今日蛋糕', 100)], 'first': '書可以帶到位子上看喔。……沒買的看完放回去就好。', 'after': '（咖啡吧的磨豆機響了一下。店員把杯子放在一個小木盤上。）'},
+    'aoki': {'order': [('桂花烏龍', 220, 'pot'), ('東方美人', 260, 'pot'), ('春摘白茶', 240, 'pot'), ('包種', 200, 'pot'), ('柚香綠茶', 120, 'cold'), ('綠豆糕', 80, 'snack'), ('桂花糕', 80, 'snack')],
+             'pot': '第一泡我幫你泡，之後可以自己加熱水。', 'pot_after': ['（店員把茶壺、公道杯、兩個小杯放在木盤上，端到你的位子。）', '（第一泡的茶很香。店員說：「三十秒就好，不要泡太久。」）'],
+             'poor': '冷泡的柚香綠茶比較便宜喔。',
+             'look': {'bookcase': ['（書櫃裡多半是茶的書，也有幾本旅行的書和一本《民法總則》，不知道是誰留下的。）', '（書櫃中間那一層放著一個小盆栽，葉子垂到下一層的書上。）'],
+                      'vitrine': ['（玻璃櫃裡擺著白瓷茶壺和幾盒茶葉禮盒。最上面那盒用麻繩綁著。）', '（茶具櫃的燈打在一只淺綠色的茶壺上。旁邊的小卡寫著「非賣品」。）'],
+                      'tea_tins': ['（後牆一整排深綠色的茶罐，每一罐都貼著手寫的標籤：烏龍、綠茶、白茶、包種、鐵觀音……）', '（有一罐的標籤寫著「今年第一批」。店員說那是春天的白茶。）']},
+             'seat': ['（窗外的騎樓有人走過。茶杯的影子落在桌上。）', '（綠色的卡座很軟，旁邊的書櫃伸手就拿得到。）', '（茶的香味很淡，店裡只聽得到熱水壺的聲音。）', '（吧台前面看得到店員秤茶葉，一克一克地放。）'],
+             'close': ['我們九點打烊。……茶葉要帶走的話，可以幫你包。', '（你走出青木茶室。門口的外帶窗口已經關上了。）'],
+             'door_typhoon': '（青木茶室的門上貼著「颱風天暫停營業」。）', 'door_closed': '（青木茶室的燈關了，外帶窗口也拉下來了。門上的木牌寫著「11:00～21:00」。）',
+             'take': [('桂花烏龍奶茶', 70), ('柚香綠茶', 60), ('春摘白茶', 65)], 'take_at': (-55.79, 21.0)}}
+NZ = lambda t: re.sub(r'[「」\s]', '', t or '')
+TYPHOON_KEY = '2025-10-13'
+
+
+def ln_text(x):
+    return x.split('：', 1)[1] if ('：' in x and not x.startswith('（') and not x.startswith('［')) else x
+
+
+def has_line(lines, t):
+    return any(NZ(ln_text(x)) == NZ(t) for x in lines)
+
+
+def any_line(lines, pool):
+    return [t for t in pool if has_line(lines, t)]
+
+
+GGSIT_JS = """(k=>{ const it=GAME.E.interactables.find(i=>!i.hidden&&i.ggs===k); return it?{x:it.x,z:it.z,r:it.radius||0.9,label:it.label}:null; })(%s)"""
+
+
+async def ggs_tap(pg, cdp, tag, kind):
+    it = await pg.evaluate(GGSIT_JS % J(kind))
+    if not check('[%s] 有 ggs＝%s 的互動點' % (tag, kind), bool(it), J(it)): return None
+    if not await walk_tap(pg, cdp, tag, {'at': [it['x'], it['z']]}, it['label']): return None
+    return it
+
+
+async def buy_menu(pg, cdp, tag, kind, name, price, at=None, label=None):
+    """走到互動點（ggs kind 或 at）→ 按 → 選 name → 回傳 (台詞, 選單, 扣的錢, 時間差)"""
+    if at: ok = await walk_tap(pg, cdp, tag, {'at': list(at)}, label)
+    else: ok = await ggs_tap(pg, cdp, tag, kind)
+    if not ok: return None
+    s0 = await pg.evaluate(ST)
+    lines, menus, odd = await converse(pg, cdp, tag, [name], 120)
+    s1 = await pg.evaluate(ST)
+    opt = next((c for m in menus for c in m if c.startswith(name)), '')
+    check('[%s] 選項「%s」價錢 %d、扣 %d' % (tag, name, price, price), ('%d 元' % price) in opt and s0['money'] - s1['money'] == price, J({'opt': opt, 'money': [s0['money'], s1['money']], 'lines': lines[-4:]}))
+    return lines, menus, s0['money'] - s1['money'], s1['hour'] - s0['hour']
+
+
+async def case_cvs_menu(pg, cdp, errs):
+    print('== cvs_menu 日和 v2b（AA_653 第 1 節）', flush=True)
+    A = A653['cvs']; si = await pg.evaluate("(()=>{ const q=Z3.SHOP_IN.cvs; return {x:q.x,z:q.z}; })()")
+    await load(pg, cdp, 'cvs', si['x'], si['z'], 15.0, '日和便利店進門的地方（白天）', money=3000)
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    for nm, pr in A['hot_items']:
+        r = await buy_menu(pg, cdp, 'cvs_hot_' + nm, 'hotfood', nm, pr)
+        if r:
+            check('[cvs_hot_%s] 先看熱食櫃（白天兩句之一）、買完店員那一句（逐字）' % nm, len(any_line(r[0], A['hot_day'])) == 1 and has_line(r[0], A['hot_after']), J(r[0]))
+    menu = None
+    for nm, pr in A['coffee']:
+        r = await buy_menu(pg, cdp, 'cvs_coffee_' + nm, 'coffee', nm, pr)
+        if r:
+            menu = r[1]
+            check('[cvs_coffee_%s] 店員「大杯還是中杯？」＋旁白（逐字、照順序）' % nm, all(has_line(r[0], t) for t in A['coffee_after']), J(r[0]))
+    if menu: check('cvs 咖啡選單三樣（美式 45、拿鐵 60、冰美式 45）', [c for c in menu[0] if c != '不用了'] == [q[0] + '　%d 元' % q[1] for q in A['coffee']], J(menu[0]))
+    if await ggs_tap(pg, cdp, 'cvs_parcel', 'parcel'):
+        lines, _, _ = await converse(pg, cdp, 'cvs_parcel', None, 30)
+        check('cvs 包裹暫取（沒有包裹）：店員「%s」（逐字）' % A['parcel_no'], has_line(lines, A['parcel_no']), J(lines))
+    if await ggs_tap(pg, cdp, 'cvs_micro_no', 'microwave'):
+        lines, _, _ = await converse(pg, cdp, 'cvs_micro_no', None, 30)
+        check('cvs 微波（今天還沒買微波義大利麵）：貼紙那一句、不熱', has_line(lines, A['micro_no']) and not has_line(lines, A['micro_yes']), J(lines))
+    r = await buy_menu(pg, cdp, 'cvs_pasta', None, '微波義大利麵', 75, at=(1.5, 0.75), label='結帳')
+    if r and await ggs_tap(pg, cdp, 'cvs_micro_yes', 'microwave'):
+        lines, _, _ = await converse(pg, cdp, 'cvs_micro_yes', None, 30)
+        check('cvs 微波（今天買了微波義大利麵）：「%s」' % A['micro_yes'], has_line(lines, A['micro_yes']), J(lines))
+        if await ggs_tap(pg, cdp, 'cvs_micro_again', 'microwave'):
+            lines, _, _ = await converse(pg, cdp, 'cvs_micro_again', None, 30)
+            check('cvs 微波（熱過了，再按一次）：回到貼紙那一句', has_line(lines, A['micro_no']), J(lines))
+    if await ggs_tap(pg, cdp, 'cvs_cool_day', 'cooler'):
+        lines, _, _ = await converse(pg, cdp, 'cvs_cool_day', None, 30)
+        check('cvs 冷藏櫃（15:00）：白天兩句之一', len(any_line(lines, A['cool_day'])) == 1 and not has_line(lines, A['cool_night']), J(lines))
+    await stuck_check(pg, cdp, 'cvs_menu_day', fb0, e0, errs)
+    for h, tag in ((23.0, 'cvs_night23'), (1.0, 'cvs_night01'), (3.0, 'cvs_night03')):
+        await load(pg, cdp, 'cvs', si['x'], si['z'], h, '日和便利店進門的地方（%s）' % hhmm(h), money=3000)
+        fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+        if await ggs_tap(pg, cdp, tag + '_hot', 'hotfood'):
+            lines, menus, _ = await converse(pg, cdp, tag + '_hot', None, 60)
+            opts = [c.split('　')[0] for c in (menus[0] if menus else []) if c != '不用了']
+            check('[%s] 22:00～06:00 熱食櫃：晚上那一句（逐字）、只剩茶葉蛋和肉包' % tag, has_line(lines, A['hot_night']) and opts == A['hot_night_items'], J({'lines': lines, 'opts': opts}))
+        if await ggs_tap(pg, cdp, tag + '_cool', 'cooler'):
+            lines, _, _ = await converse(pg, cdp, tag + '_cool', None, 30)
+            night = h < 6
+            check('[%s] 冷藏櫃：%s' % (tag, '00:00～06:00 半夜那一句（逐字）' if night else '23:00 還是白天的句子'), has_line(lines, A['cool_night']) if night else (len(any_line(lines, A['cool_day'])) == 1), J(lines))
+        await stuck_check(pg, cdp, tag, fb0, e0, errs)
+    print('  [cvs_menu] 24 小時（進得去、不跳打烊）照 cc_cvs24_probe.py 的判法（CVS24 佇列）', flush=True)
+
+
+async def case_yejian_menu(pg, cdp, errs):
+    print('== yejian_menu 頁間 v3b（AA_653 第 2 節）', flush=True)
+    A = A653['yejian']; si = await pg.evaluate("(()=>{ const q=Z3.SHOP_IN.bookstore; return {x:q.x,z:q.z}; })()")
+    await load(pg, cdp, 'bookstore', si['x'], si['z'], 14.0, '頁間書屋進門的地方', money=3000)
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    for kind, pool in (('shelf_browse', A['shelf']), ('new_books', A['new'])):
+        if await ggs_tap(pg, cdp, 'yj_' + kind, kind):
+            lines, _, _ = await converse(pg, cdp, 'yj_' + kind, None, 30)
+            check('[yj_%s] 稿上那幾句之一（逐字）' % kind, len(any_line(lines, pool)) == 1, J(lines))
+    for n, (nm, pr) in enumerate(A['cafe']):
+        r = await buy_menu(pg, cdp, 'yj_cafe_' + nm, 'cafe_order', nm, pr)
+        if r:
+            if n == 0: check('[yj_cafe_%s] 今天第一次點：店員那一句（逐字）＋點完的旁白' % nm, has_line(r[0], A['first']) and has_line(r[0], A['after']), J(r[0]))
+            else: check('[yj_cafe_%s] 同一天再點：店員那句不再說、點完的旁白照說' % nm, not has_line(r[0], A['first']) and has_line(r[0], A['after']), J(r[0]))
+    await stuck_check(pg, cdp, 'yejian_menu', fb0, e0, errs)
+
+
+async def press_at(pg, cdp, tag, x, z_load, h, d=None, desc=''):
+    """【前置】讀檔到門口比 h 早 3 分鐘 → 等到 h → 按（照 cc_gg_shops2_probe.py 的 press_door）。回傳 (按下那一刻的 G.hour, 按鈕, 台詞, 狀態, toasts)"""
+    ex = {'weather': 'clear'}
+    if d is not None: ex.update({'day': d['day'], 'weekday': d['wd']})
+    for attempt in (0, 1):
+        await load(pg, cdp, 'gongguan', x, z_load, h - (3 if attempt == 0 else 1.5) / 60, desc, extra=dict(ex))
+        t0 = time.time()
+        while time.time() - t0 < 300:
+            s = await pg.evaluate(ST)
+            if (s['hour'] % 24) >= h - 1e-4: break
+            await pg.wait_for_timeout(250)
+        s = await pg.evaluate(ST)
+        if (s['hour'] % 24) < h + 0.9 / 60 or attempt == 1: break
+        print('  [%s] 等到的時候已經 %s，重來一次' % (tag, hhmm(s['hour'])), flush=True)
+    hp, label = s['hour'], s['interact']
+    await L.tap(pg, cdp, '#interact')
+    toasts = []; t0 = time.time()
+    while time.time() - t0 < 5:
+        q = await pg.evaluate(ST)
+        if q['toast'] and q['toast'] not in toasts: toasts.append(q['toast'])
+        if q['zone'] != 'gongguan' or q['choices'] or q['dlg']: break
+        await pg.wait_for_timeout(300)
+    lines, menus, odd = await converse(pg, cdp, tag, None, 40)
+    await wait_js(pg, "!GAME.E.player.busy", 20); await pg.wait_for_timeout(1500)
+    s2 = await pg.evaluate(ST)
+    print('  [%s] 按下去那一刻 %s（G.hour %.4f）、按鈕「%s」→ zone %s；toast %s；對話 %s；選單 %s' % (tag, hhmm(hp), hp, label, s2['zone'], J(toasts), J(lines), J(menus[:1])), flush=True)
+    return hp, label, lines, s2, toasts, menus
+
+
 async def case_aoki(pg, cdp, errs):
-    print('== aoki 青木茶室', flush=True)
+    print('== aoki 青木茶室（v2d：門口外帶、22 張座位）', flush=True)
+    A = A653['aoki']
     await load(pg, cdp, 'gongguan', DOORX['aoki'], 15.0, 15.0, '青木茶室門前', money=2000)
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
     if not await enter_via(pg, cdp, 'A1', {'label': DOORLB['aoki']}, DOORLB['aoki'], 'aoki', near=1.2): return
@@ -330,55 +495,16 @@ async def case_aoki(pg, cdp, errs):
     await go_out(pg, cdp, 'A1_out', 'gongguan')
     s = await pg.evaluate(ST)
     check('A1 出來回公館青木茶室門口（x ≈ −54.05）', s['zone'] == 'gongguan' and abs(s['x'] - DOORX['aoki']) < 2, J({k: s[k] for k in ('zone', 'x', 'z')}))
-    if not await enter_via(pg, cdp, 'A1b', {'label': DOORLB['aoki']}, DOORLB['aoki'], 'aoki', near=1.2): return
-    # A2 點茶 ×3＋存檔讀檔
-    for nm, price in TEAS:
-        m0 = (await pg.evaluate(ST))['money']
-        if not await walk_tap(pg, cdp, 'A2_' + nm, {'at': [3.9, -1.2]}, '點茶'): continue
-        lines, menus, odd = await converse(pg, cdp, 'A2_' + nm, [nm], 120)
-        m1 = (await pg.evaluate(ST))['money']
-        opt = next((c for m in menus for c in m if c.startswith(nm)), '')
-        check('A2 點「%s」：扣 %d（選項 %s）' % (nm, price, opt), m0 - m1 == price and (str(price) in opt), J({'money': [m0, m1], 'lines': lines[-3:]}))
-        if await reload_continue(pg, cdp, 'A2_' + nm):
+    # A2 門口外帶（AA_653 §0 A：照舊三樣）＋存檔讀檔
+    for nm, price in A['take']:
+        r = await buy_menu(pg, cdp, 'A2_' + nm, None, nm, price, at=A['take_at'], label='外帶')
+        m_save = (await pg.evaluate(ST))['money']
+        if r and await reload_continue(pg, cdp, 'A2_' + nm):
             s = await pg.evaluate(ST)
-            check('A2 「%s」之後存檔 → 重新整理 → 繼續：錢一樣（%d）、人在青木茶室' % (nm, m1), s['money'] == m1 and s['zone'] == 'aoki', J({k: s[k] for k in ('money', 'zone', 'x', 'z')}))
+            check('A2 外帶「%s」之後存檔 → 重新整理 → 繼續：人在公館、錢和存檔前一樣（%d）' % (nm, m_save), s['zone'] == 'gongguan' and s['money'] == m_save, J({k: s[k] for k in ('money', 'zone', 'x', 'z')}))
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
     await stuck_check(pg, cdp, 'A2_end', fb0, e0, errs)
-    # A3 20 個座位
-    seats = await pg.evaluate(SEATS_JS)
-    check('A3 玩家可坐的座位 20 個', len(seats) == 20, J([[q['sx'], q['sz']] for q in seats]))
-    def cm(t, menu, s):
-        print('  [%s] 座位選單：%s' % (t, J(menu)), flush=True)
-    async def after(t, s2):
-        r = await pg.evaluate(STAND_JS)
-        check('[%s] 起身後腳下站得住（nav.free、canStand 0.3）' % t, r['free'] and r['stand'], J(dict(r, x=s2['x'], z=s2['z'])))
-    for i in range(len(seats)):
-        if SEATSEL and i not in SEATSEL: continue
-        await sit_each(pg, cdp, 'A3', seats, i, [], cm, after)
-    await stuck_check(pg, cdp, 'A3_end', fb0, e0, errs)
-    await pg.screenshot(path=os.path.join(OUT, 'A3_end.png'))
-    # A4 營業時間
-    hrs = await pg.evaluate("(()=>({hours:(PLACES.hours||{}).aoki||null, open1030:PLACES.isOpen('aoki',10.5,%d), open2130:PLACES.isOpen('aoki',21.5,%d)}))()" % (DAY, DAY))
-    print('  [A4] PLACES.hours.aoki＝%s' % J(hrs), flush=True)
-    for h in (10.5, 21.5):
-        tag = 'A4_' + hhmm(h).replace(':', '')
-        await load(pg, cdp, 'gongguan', DOORX['aoki'], 15.0, h, '青木茶室門前')
-        fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
-        it = await pg.evaluate(FIND_JS % J({'at': [DOORX['aoki'], 21.0]}))
-        if not it:
-            check('[%s] 門口有互動點（進入或打烊的字）' % tag, False, 'null'); continue
-        await L.go_to(pg, cdp, Run(), it['x'], it['z'], 1.2, '青木茶室門口')
-        await pg.wait_for_timeout(1000); s = await pg.evaluate(ST); label = s['interact']
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4000)
-        lines, menus, odd = await converse(pg, cdp, tag, None, 30)
-        s = await pg.evaluate(ST); txt = [label] + lines + [s['toast']]
-        await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
-        check('[%s] %s：不能進青木茶室（zone 還是公館）' % (tag, hhmm(h)), s['zone'] == 'gongguan', J({k: s[k] for k in ('zone', 'x', 'z')}))
-        check('[%s] %s：有打烊的字（門口的字、對話或 toast）' % (tag, hhmm(h)), any(any(w in t for w in CLOSED_WORDS) for t in txt if t), J(txt))
-        await stuck_check(pg, cdp, tag, fb0, e0, errs)
-    # A5 手機快速前往
-    await load(pg, cdp, 'gongguan', -40.0, 12.0, 15.0, '公館人行道（之前已經進過青木茶室：這一次讀檔的存檔是新的，地點清單照遊戲的規則）')
-    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    # A5 手機快速前往（已經進過一次）
     await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
     await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(900)
     keys = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-place]')].map(e=>e.getAttribute('data-place'))")
@@ -395,6 +521,127 @@ async def case_aoki(pg, cdp, errs):
     else:
         await L.close_panels(pg, cdp)
     await stuck_check(pg, cdp, 'A5', fb0, e0, errs)
+
+
+async def case_aoki_menu(pg, cdp, errs):
+    print('== aoki_menu 青木內用點茶、看東西（AA_653 第 3 節）', flush=True)
+    A = A653['aoki']; si = await pg.evaluate("(()=>{ const q=Z3.SHOP_IN.aoki; return {x:q.x,z:q.z}; })()")
+    await load(pg, cdp, 'aoki', si['x'], si['z'], 13.0, '青木茶室進門的地方', money=3000)
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    first = None
+    for nm, pr, kind in A['order']:
+        r = await buy_menu(pg, cdp, 'A_order_' + nm, 'order', nm, pr)
+        if not r: continue
+        first = first or r[1]
+        if kind == 'pot':
+            check('[A_order_%s] 熱茶一壺：店員「%s」＋點完的一句（兩句之一，逐字）' % (nm, A['pot']), has_line(r[0], A['pot']) and len(any_line(r[0], A['pot_after'])) == 1, J(r[0]))
+        else:
+            toast = [x for x in r[0] if x.startswith('［toast］')]
+            print('INFO [A_order_%s] %s：稿上沒有點完的句子，遊戲只出「買了○○」：%s' % (nm, '冷泡' if kind == 'cold' else '茶點', J(toast)), flush=True)
+    if first:
+        got = [c.split('　')[0] for c in first[0] if c != '不用了']
+        check('A_order 內用選單七樣（四種熱茶一壺、冷泡、兩樣茶點；名字照稿開頭）', len(got) == 7 and all(g.startswith(a[0]) for g, a in zip(got, A['order'])), J(first[0]))
+    for kind, pool in A['look'].items():
+        if await ggs_tap(pg, cdp, 'A_look_' + kind, kind):
+            lines, _, _ = await converse(pg, cdp, 'A_look_' + kind, None, 30)
+            check('[A_look_%s] 稿上那幾句之一（逐字）' % kind, len(any_line(lines, pool)) == 1, J(lines))
+    await stuck_check(pg, cdp, 'aoki_menu', fb0, e0, errs)
+    # 錢不夠
+    await load(pg, cdp, 'aoki', si['x'], si['z'], 13.0, '青木茶室進門的地方、money 150', money=150)
+    if await ggs_tap(pg, cdp, 'A_order_poor', 'order'):
+        s0 = await pg.evaluate(ST)
+        lines, _, _ = await converse(pg, cdp, 'A_order_poor', ['桂花烏龍'], 60)
+        s1 = await pg.evaluate(ST)
+        check('A_order 錢不夠點熱茶：店員「%s」（逐字）、不扣錢' % A['poor'], has_line(lines, A['poor']) and s0['money'] == s1['money'], J({'money': [s0['money'], s1['money']], 'lines': lines}))
+
+
+async def case_aoki_seats(pg, cdp, errs):
+    print('== aoki_seats 青木 22 張（17 張可以讀書、吧台不能讀、卡座走 ap）', flush=True)
+    si = await pg.evaluate("(()=>{ const q=Z3.SHOP_IN.aoki; return {x:q.x,z:q.z}; })()")
+    await load(pg, cdp, 'aoki', si['x'], si['z'], 12.0, '青木茶室進門的地方')
+    seats = await pg.evaluate(SEATS_JS)
+    check('aoki_seats 玩家可坐 22 張、可以讀書 17 張', len(seats) == 22 and sum(1 for q in seats if q['study']) == 17, J([[q['sx'], q['sz'], q['label'], q['study'], q['ap']] for q in seats]))
+    read_once = False
+    for i in range(len(seats)):
+        if SEATSEL and i not in SEATSEL: continue
+        if i > 0: await load(pg, cdp, 'aoki', si['x'], si['z'], 12.0, '青木茶室進門的地方（每一張重讀）')
+        fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs); sv = seats[i]
+        want = await pg.evaluate("(([x,z])=>{ const k=GGS.seatKind({x,z}); return k?GGS.L.seat[k]:null; })(%s)" % J([sv['sx'], sv['sz']]))
+        def cm(t, menu, s, sv=sv):
+            st = [c for c in menu if c.startswith('讀書')]
+            if sv['study']: check('[%s] 可以讀書的位子：選單有「讀書」' % t, bool(st), J(menu))
+            else: check('[%s] 吧台高腳椅：選單沒有「讀書」' % t, not st, J(menu))
+        plan = ['讀書', ''] if (sv['study'] and not read_once) else []
+        if plan: read_once = True
+        async def after(t, s2):
+            r = await pg.evaluate(STAND_JS)
+            check('[%s] 起身後腳下站得住（nav.free、canStand 0.3）' % t, r['free'] and r['stand'], J(dict(r, x=s2['x'], z=s2['z'])))
+        res = await sit_each(pg, cdp, 'aoki', seats, i, plan, cm, after)
+        if res:
+            t = 'aoki_seat%02d' % i
+            check('[%s] 坐下那一句照位子類型（AA_653，逐字）' % t, (has_line(res['pre'], want) if want else not any_line(res['pre'], A653['aoki']['seat'])), J({'want': want, 'got': res['pre']}))
+            if sv['ap']: check('[%s] 卡座：走到 ap %s 按得到' % (t, J(sv['ap'])), math.hypot(res['walkEnd'][0] - sv['ap'][0], res['walkEnd'][1] - sv['ap'][1]) <= 0.4, J({'walkEnd': res['walkEnd']}))
+        await stuck_check(pg, cdp, 'aoki_seat%02d' % i, fb0, e0, errs)
+
+
+async def case_aoki_hours(pg, cdp, errs):
+    print('== aoki_hours 青木 11:00～21:00、颱風假', flush=True)
+    A = A653['aoki']
+    for h, want in ((10 + 59 / 60, False), (11.0, True), (20 + 59 / 60, True), (21.0, False)):
+        tag = 'aoki_hours_' + hhmm(h).replace(':', '')
+        hp, label, lines, s, toasts, menus = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, h, desc='青木茶室門口（門前 1 m）')
+        e0 = len(errs); hh = hp % 24
+        hit = h - 1e-4 <= hh < h + 1 / 60
+        if not hit: obs('[%s] 按下去那一刻 %s 不在 %s 那一分鐘裡，照那一刻判' % (tag, hhmm(hp), hhmm(h)))
+        exp_open = want if hit else (11 <= hh < 21)
+        await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
+        if exp_open:
+            check('[%s] %s 開著：進得去' % (tag, hhmm(hp)), s['zone'] == 'aoki', J({k: s[k] for k in ('zone', 'x', 'z')}))
+            if s['zone'] == 'aoki': await go_out(pg, cdp, tag + '_out', 'gongguan')
+        else:
+            check('[%s] %s 關著：進不去' % (tag, hhmm(hp)), s['zone'] == 'gongguan', J({k: s[k] for k in ('zone', 'x', 'z')}))
+            check('[%s] 關著到門口：「%s」（AA_653 §0，逐字）' % (tag, A['door_closed']), has_line(lines, A['door_closed']), J({'lines': lines, 'toasts': toasts}))
+            # 外帶窗口也是同一句、不賣
+            hp2, l2, lines2, s2, t2, m2 = await press_at(pg, cdp, tag + '_take', A['take_at'][0], 20.0, hh if hh >= 6 else h, desc='青木茶室外帶窗口前')
+            check('[%s] 關著按「外帶」：同一句、沒有選單（不賣）' % tag, has_line(lines2, A['door_closed']) and not m2, J({'lines': lines2, 'menus': m2}))
+        await stuck_check(pg, cdp, tag, s['fb'], e0, errs)
+    tag = 'aoki_typhoon'
+    td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
+    check('[%s] 前置：%s 是颱風假' % (tag, TYPHOON_KEY), td['typhoon'], J(td))
+    hp, label, lines, s, toasts, menus = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, 15.0, d=td, desc='青木茶室門口、%s 颱風假' % TYPHOON_KEY)
+    check('[%s] 颱風假 15:00：進不去、「%s」（逐字）' % (tag, A['door_typhoon']), s['zone'] == 'gongguan' and has_line(lines, A['door_typhoon']), J({'zone': s['zone'], 'lines': lines, 'toasts': toasts}))
+    await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
+    await stuck_check(pg, cdp, tag, s['fb'], len(errs), errs)
+
+
+async def case_aoki_closein(pg, cdp, errs):
+    print('== aoki_closein 21:00 人在店裡', flush=True)
+    A = A653['aoki']; si = await pg.evaluate("(()=>{ const q=Z3.SHOP_IN.aoki; return {x:q.x,z:q.z,out:q.out}; })()")
+    await load(pg, cdp, 'aoki', si['x'], si['z'], 21 - 3 / 60, '青木茶室進門的地方、打烊前 3 分鐘')
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    lines = []; t0 = time.time()
+    while time.time() - t0 < 600:
+        s = await pg.evaluate(ST)
+        if s['dlg'] or s['choices']: lines += (await converse(pg, cdp, 'aoki_closein', None, 60))[0]
+        s = await pg.evaluate(ST)
+        if s['zone'] != 'aoki' and not s['busy']: break
+        await pg.wait_for_timeout(1000)
+    await pg.wait_for_timeout(1500); s = await pg.evaluate(ST)
+    idx = [next((i for i, x in enumerate(lines) if NZ(ln_text(x)) == NZ(t)), -1) for t in A['close']]
+    check('aoki_closein 21:00：店員一句＋旁白（AA_653，逐字、照順序）', all(i >= 0 for i in idx) and idx[0] < idx[1], J({'want': A['close'], 'got': lines}))
+    check('aoki_closein：回公館青木茶室門口（SHOP_IN.out %s 1.5 m 內）' % J(si['out']), s['zone'] == 'gongguan' and math.hypot(s['x'] - si['out']['x'], s['z'] - si['out']['z']) <= 1.5, J({k: s[k] for k in ('zone', 'x', 'z')}))
+    await pg.screenshot(path=os.path.join(OUT, 'aoki_closein.png'))
+    await stuck_check(pg, cdp, 'aoki_closein', fb0, e0, errs)
+
+
+async def case_aoki_date(pw):
+    """約去青木茶室（AA_653 第 3 節）：照 cc_gg_shops2_probe.py 的 date（smoke Person；去過青木以後才列、X207 坐下才開演）"""
+    import types as _t
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cc_gg_shops2_probe.py'); src = open(path, encoding='utf-8').read()
+    k = src.rstrip().rfind('asyncio.run(main())'); mod = _t.ModuleType('cc_gg_shops2'); mod.__file__ = path
+    exec(compile(src[:k], path, 'exec'), mod.__dict__)
+    await mod.case_date(pw, 'aoki')
+    for f in mod.GI.FAILS: FAILS.append(f)
 
 
 async def case_yejian(pg, cdp, errs):
@@ -549,12 +796,16 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
-        for name, fn in (('cvs', case_cvs), ('aoki', case_aoki), ('yejian', case_yejian), ('wzbike', case_wzbike), ('art', case_art)):
+        for name, fn in (('cvs', case_cvs), ('cvs_menu', case_cvs_menu), ('aoki', case_aoki), ('aoki_menu', case_aoki_menu), ('aoki_seats', case_aoki_seats), ('aoki_hours', case_aoki_hours), ('aoki_closein', case_aoki_closein),
+                         ('yejian', case_yejian), ('yejian_menu', case_yejian_menu), ('wzbike', case_wzbike), ('art', case_art)):
             if name in CASES:
                 try: await fn(pg, cdp, errs)
                 except Exception as e: check('[%s] 探針本身沒有例外' % name, False, repr(e)[:300])
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
+        if 'aoki_date' in CASES:
+            try: await case_aoki_date(p)
+            except Exception as e: check('[aoki_date] 探針本身沒有例外', False, repr(e)[:300])
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:10])), flush=True)
     sys.exit(1 if FAILS else 0)
 
