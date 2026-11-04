@@ -65,11 +65,16 @@ MEASURE_HOUR = 17.5
 DRAW = """(async(e,l)=>{ const E=GAME.E, G=GAME.G; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const busy0=E.player.busy; E.player.busy=true; G.hour=%s; E.hour=G.hour; E.applyTime(G.hour);   /* 時鐘停住（game3d：player.busy 時不加時間）、定在同一個時刻 */
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
-    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, hour:G.hour, lamps:!!E.lampsOn, npcsHidden:hid.length};
+    /* 11-04（BB 定、CC 2ef943d99、LAWWW 08:53）：騎士（BIKE.rider：騎乘模型＋人一組，不在 E.npcs 裡）、遠處路人的低面數版本（npc_far）也比照路人先移出——
+       ?nobldg 那一輪沒有騎乘模型（census ride_* 0 個），分子分母條件才一樣。停在區域裡的自己的車（parent 就是區域群組）、玩家身上的不動 */
+    const top=o=>{ let p=o; while(p.parent&&p.parent!==E.zone.group&&p.parent!==E.scene) p=p.parent; return p; }, inP=o=>{ for(let p=o;p;p=p.parent) if(p===E.player.obj) return true; return false; };
+    const ex=new Set(); E.scene.traverse(o=>{ if(inP(o)) return; if(o.name==='bike_ride'&&o.parent!==E.zone.group) ex.add(top(o)); else if(o.name==='npc_far') ex.add(top(o)); });
+    const hid2=[...ex].filter(o=>o.parent&&o!==E.zone.group&&o!==E.scene).map(o=>[o,o.parent]); hid2.forEach(a=>a[1].remove(a[0]));
+    const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, hour:G.hour, lamps:!!E.lampsOn, npcsHidden:hid.length, extraHidden:hid2.length};
     const c=E.camera; c.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(c.projectionMatrix,c.matrixWorldInverse)); const cen={};
     E.scene.traverseVisible(m=>{ if(!(m.isMesh||m.isSprite)) return; if(m.frustumCulled!==false&&m.geometry&&!fr.intersectsObject(m)) return; let p=m; while(p.parent&&p.parent!==E.zone.group&&p.parent!==E.scene) p=p.parent;
       const k=(p.name||p.type)+'|'+((m.material&&m.material.name)||''); cen[k]=(cen[k]||0)+(Array.isArray(m.material)?m.material.length:1); }); out.census=cen;
-    hid.forEach(a=>a[1].add(a[0])); E.player.busy=busy0; return out; })""" % MEASURE_HOUR
+    hid.forEach(a=>a[1].add(a[0])); hid2.forEach(a=>a[1].add(a[0])); E.player.busy=busy0; return out; })""" % MEASURE_HOUR
 # 公館的區域座標：+x 往南、+z 往西；店面立面在 z=19（騎樓 19–22），人行道 z 4–19，羅斯福路 z −31…4，校門在 z −46
 VIEWS = [('street_west', (-22, 1.7, 11), (-62, 4.5, 19)),     # 人行道往西看整排店面（玩家最常看到的角度）
          ('from_gate', (2, 1.7, -36), (-4, 7, 19)),          # 校門口往南看過羅斯福路
@@ -189,7 +194,7 @@ async def check(pg, run, formal):
     if formal:
         run.check('機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）', all(v and len(v['seen']) < v['all'] for v in vis.values()), json.dumps(vis))
     await pg.evaluate("GAME.E.endCinematic()")
-    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人、%s 時、時鐘停住）的 draw call／三角形 ' % MEASURE_HOUR + json.dumps({k: {kk: v[kk] for kk in ('calls', 'tris', 'hour', 'lamps', 'npcsHidden')} for k, v in draws.items()}))
+    run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人、%s 時、時鐘停住）的 draw call／三角形 ' % MEASURE_HOUR + json.dumps({k: {kk: v[kk] for kk in ('calls', 'tris', 'hour', 'lamps', 'npcsHidden', 'extraHidden')} for k, v in draws.items()}))
     run.note(('一般網址' if formal else '?nobldg') + '：census（畫面裡的網格，最上層群組｜材質：個數）' + json.dumps({k: v.get('census') for k, v in draws.items()}, ensure_ascii=False))
     if not formal:   # 正式模型接上以後多擋地上雜物的腳印（zones3d.js propBlocks(nav,GG_PROP_BLOCKS)，ART-WZ0 2a67b144）：?nobldg 這邊補上同一份再比（95 格；LAWWW2 10-22 11:49 查到原本的期待過時）
         await pg.evaluate("Z3.propBlocks(GAME.E.nav, Z3.PROP_BLOCKS.gongguan)")
