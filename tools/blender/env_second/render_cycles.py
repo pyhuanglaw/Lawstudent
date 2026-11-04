@@ -41,6 +41,9 @@ for t in [A[i + 1] for i, x in enumerate(A) if x == '--tint']:   # 預覽用：-
     if mt and mt.use_nodes:
         c = tuple((int(hx[k:k + 2], 16) / 255) for k in (1, 3, 5)); c = tuple(v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4 for v in c)
         mt.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (*c, 1.0)
+for o in sc.objects:   # 窗外的景（名稱 PREVIEW_view*：建模腳本 --preview-view 放的遊戲窗景圖）只給鏡頭看：不擋天光、不照亮室內（遊戲的窗景也不發光）
+    if 'PREVIEW_view' in o.name:
+        for k in ('visible_diffuse', 'visible_glossy', 'visible_shadow', 'visible_transmission', 'visible_volume_scatter'): setattr(o, k, False)
 for t in [A[i + 1] for i, x in enumerate(A) if x == '--point']:   # 室內預覽：--point x,y,z,瓦數（遊戲座標）
     x, y, z, e = map(float, t.split(',')); lt = bpy.data.objects.new('pt', bpy.data.lights.new('pt', 'POINT')); lt.data.energy = e; lt.data.color = (1.0, 0.95, 0.88); lt.data.shadow_soft_size = 0.4
     lt.location = g2b(x, y, z); sc.collection.objects.link(lt)

@@ -42,27 +42,30 @@
   建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
 - 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
 
-## 🔨 現在在做（11-04 17:4x UTC，帳號 C LAWWW2-C）
+## 🔨 現在在做（11-04 18:3x UTC，帳號 C LAWWW2-C）
 - 使用者 15:3x 說：「你繼續做別的事情我要睡覺了很久都不會看」（UA-LAWWW2-1104-07）。照排定的順序自己做，每段做完就 push；要使用者決定的記在下面，等他回來再問，不叫醒他。
 
 ### 本班交件
-這三件都還沒在瀏覽器看過，等 CC 拍、BB 判：
+這幾件都還沒在瀏覽器看過，等 CC 拍、BB 判：
 - **ADE-V2-1104 第二輪（阿德 v2.1）**：`b0160dc98`，LAWWW-C 接進 `d63fed15e`。
   - BB 在 Blender 階段判 PASS。遊戲裡同角度：消失點 2.0%、縮放 0.86，不擋發布。
   - 等 ADE_v2_shots 拍完，BB 才標 ART_APPROVED。
 - **TEACH-PTBOYA-REF-1104**：v2 `e030cc9af`（接進 `71281be8e`）、v2b `9be98513b`（接進 `031cb3e01`）。等 CC 遊戲同角度（`--mode campus`）、BB 判。
-- **SOCLIB-2F-1104**（社科院圖書館 2 樓）：`d393b6f3c`，**MODEL_READY**，說明在 `wip/soclib2f_1104/README.md`。
-  - 有正式模型、光照烘焙、接線 patch（以開發分支 `ae5248250` 為底）。
-  - 等 LAWWW-C 拿檔、套 patch、加讀書的人；再 CC 跑真實流程、BB 判。
+- **SOCLIB-2F-1104**（社科院圖書館 2 樓）：第一版 `d393b6f3c`（LAWWW-C 17:44 ACK、子代理接線中）；**第二版**（BB_260 §5 四點）見 outbox 最新一筆。**MODEL_READY**，說明在 `wip/soclib2f_1104/README.md`。
+  - 第二版只換配置、區域程式、GLB＋光照貼圖，接線 patch 不變。
+  - 等 LAWWW-C 換檔、加讀書的人；再 CC 拍 11:00／20:30（直向、橫向）、跑真實流程，BB 判。窗會不會太亮要看 CC 的遊戲畫面。
+- **ADE-PROPS-1104**：`c73d37367`，LAWWW-C 接進 `1a191554d`。LAWWW-C 另外修了電線桿擋到的腳踏車停車處。
 
 ### 佇列（照順序）
-1. ADE-PROPS-1104（BB P3）：阿德店門口的電線桿、兩台機車擋到價目表 → 挪開，不動導航。
+1. SEATFIG-LOD1-HAIR-1104（BB P3）：`seated_figures.glb` 的 `_lod1` 黑頭髮是一整塊方的。查到：男生底模遠景版（400 面）的頭都變尖角、方塊，白衣黑髮的 nm13 最明顯；近景版是圓的。`seated_figures.py` 已加 `--lod1`、`--head-keep`（減面時脖子以上少減），還沒試。
 2. WZ-FIVE-1104：2:30 AM 外觀（`cafe_exterior.py`；招牌貼圖 `cafe230_sign.jpg` 已在）。
-3. SEATFIG-LOD1-HAIR-1104（BB P3）：`seated_figures.glb` 的 `_lod1` 黑頭髮是一整塊方的。
-4. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
-5. HAIR-NOODLE-1104：等 CC 的近景探針。
-6. NPC-ANIM-LOOPS-1104。
-7. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+3. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
+4. HAIR-NOODLE-1104：等 CC 的近景探針。
+5. NPC-ANIM-LOOPS-1104。
+6. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+
+### 記住（別的 AI 交代的做法）
+- 挪溫州街、公館的電線桿或機車排，要一起跑 `tests/bike_park_1104_unit.js`：腳踏車停車處照機車排的兩端算，電線桿擋到會 FAIL（LAWWW-C 11-04 18:15）。
 
 ### 等使用者回來再問（不叫醒）
 - OPEN-SRC-2D3D：要不要用使用者的參考圖試 TRELLIS.2 線上 demo？要上傳到外部服務，所以要他同意。

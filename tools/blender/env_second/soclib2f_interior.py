@@ -34,13 +34,14 @@ XI0, XI1, ZI0, ZI1 = XW + T / 2, XE - T / 2, ZN + T / 2, ZS - T / 2
 S = J['stair']; A_, B_, LD, MW, WL = S['A'], S['B'], S['landing'], S['midWall'], S['well']; EL = J['elevator']; PI = math.pi
 rng = random.Random(1104)
 
+BAND = {0: '#b86f4f', 1: '#3f7f8c'}   # 樓層色帶（BB_260 §5 第 2 點）：一樓陶土紅、二樓灰藍綠——腰板上緣下面一條、地板嵌條、二樓玻璃隔間的防撞條同色
 B.reset(texres=512)
 root = B.group('soclib2f_interior', props={'kind': 'soclib2f_interior'})
 R0 = B.group('L0_root', root); R1 = B.group('L1_root', root)
 M = {
-    'floor': L.pbr('sl2_floor', 'terrazzo_tiles', tile=1.6, target='#d8d5ce', normal=0.3, maps=('diff', 'nor'), rough_value=0.4),        # 和一樓閱覽室同一種磨石子
+    'floor': L.pbr('sl2_floor', 'terrazzo_tiles', tile=1.6, target='#d3cdc2', normal=0.3, maps=('diff', 'nor'), rough_value=0.4),        # 和一樓閱覽室同一種磨石子
     'carpet': L.pbr('sl2_carpet', 'dirty_carpet', tile=2.0, target='#9aa3a8', contrast=0.45, normal=0.35, maps=('diff', 'nor'), rough_value=0.97),   # 淺灰藍地毯（D112）
-    'wall': L.pbr('sl2_wall', 'painted_plaster_wall', tile=3.0, target='#efeee9', normal=0.25, maps=('diff', 'nor'), rough_value=0.9),   # 白色粉光漆（淡淡的刷痕，不是一片平的白）
+    'wall': L.pbr('sl2_wall', 'painted_plaster_wall', tile=3.0, target='#ede8df', normal=0.25, maps=('diff', 'nor'), rough_value=0.9),   # 白色粉光漆（淡淡的刷痕，不是一片平的白）
     'exit': L.flat('GLOW_sl2_exit', '#3fbf6f', rough=0.4, emit=B.srgb('#5fe08a')),
     'ceil': L.pbr('sl2_ceiling', 'ceiling_interior', tile=2.4, target='#efece6', maps=('diff',), rough_value=0.95),
     'bamboo': L.pbr('sl2_bamboo', 'walnut_veneer', tile=1.2, target='#d4b27a', maps=('diff',), res=512, rough_value=0.45),
@@ -180,6 +181,9 @@ for w in J['walls']:
         for k in range(n + 1): u = a0 + (a1 - a0) * k / n; wbox(al, along, at, u - 0.03, u + 0.03, y0, y1, t=0.08)
         for (ya, yb) in ((y0, y0 + 0.08), (y1 - 0.08, y1), (y0 + 2.3, y0 + 2.36)): wbox(al, along, at, a0, a1, ya, yb, t=0.09)
         wbox(fr, along, at, a0, a1, y0 + 1.3, y0 + 1.42, t=0.075)
+        if lvv == 1:                                                                      # 二樓：防撞條中間一條樓層色（BB_260 §5 第 2 點；走廊、電梯廳看得到）
+            if along: c.vc.cbox(a0, a1, y0 + 1.345, y0 + 1.375, at - 0.04, at + 0.04, BAND[1])
+            else: c.vc.cbox(at - 0.04, at + 0.04, y0 + 1.345, y0 + 1.375, a0, a1, BAND[1])
         continue
     wins = [o for o in J['windows'] if o['lv'] == lvv and o['wall'] == SIDE(w)] if w['kind'] == 'outer' else []
     holes = [(o['a0'], o['a1'], YF(lvv) + o['y0'], YF(lvv) + o['y1']) for o in wins]
@@ -505,7 +509,6 @@ for s in J['signs']:
 # =====================================================================
 # 四之二、牆面的細節：竹木腰板（自習室；BB_260 §5 第 2 點起一樓門廳、影印區、二樓走廊也是，嵌一條樓層色帶）、天花板空調出風口、窗的捲簾
 # =====================================================================
-BAND = {0: '#b86f4f', 1: '#3f7f8c'}   # 樓層色帶（BB_260 §5 第 2 點）：一樓陶土紅、二樓灰藍綠——腰板上緣下面一條、地板嵌條同色
 def wainscot(c, along, at, inward, a0, a1, y, h, kind, skip=(), band=None):
     """腰板：牆面（中心線 at、朝房間 inward＝±1）a0～a1、高 h；skip＝[(a, b)] 門或櫃子的範圍不做；band＝色帶的顏色（腰板上緣往下 5～13 cm）"""
     face = at + inward * T / 2; segs = [(a0, a1)]

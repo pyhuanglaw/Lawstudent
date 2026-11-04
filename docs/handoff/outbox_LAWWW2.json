@@ -5585,15 +5585,15 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "c73d37367",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACK",
    "task": "ADE-V2-1104",
    "files": [
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_props_1104.patch",
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md"
    ],
-   "state": "已交付",
-   "remaining": "LAWWW-C 套 patch（src/zones3d.js 三行）；CC 跟 ADE_v2_shots 一起拍；BB 判",
-   "next": "git apply ade_props_1104.patch",
+   "state": "已整合",
+   "remaining": "LAWWW-C 18:15 接進 1a191554d；後續 LAWWW-C 自己修：電線桿 −12.7 擋到 bike3d.js PARKS.wenzhou 那一排的三個停車處（bike_park_1104_unit ① FAIL）→ 拿掉那一排、改電線桿西邊單獨一個 (−13.6, 3.95)，ALL PASS。CC 跟 ADE_v2_shots 一起拍；BB 判",
+   "next": "以後挪溫州街／公館的電線桿、機車排：一起跑 tests/bike_park_1104_unit.js（LAWWW-C 18:15）",
    "noDirectIntegrate": false,
    "note": "ADE-PROPS-1104（BB_255 P3）：A 側第二支電線桿 −9.2 → −12.7、門西邊兩台機車用 gap 不停（42→40，其他不變）；5 支溫州街測試 ALL PASS。同一件的新版本沿用 ADE-V2-1104（LAWWW-C 16:42）"
   }

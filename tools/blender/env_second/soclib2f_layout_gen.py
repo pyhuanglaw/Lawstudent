@@ -83,8 +83,8 @@ wall(2, XW, STAIR['southZ'], STAIR['eastX'], STAIR['southZ'], 'inner', 0.0, RY)
 wall(0, B['x0'], -4.9, B['vx1'], -4.9, 'inner', 0.0, r3(Y1 - ST))             # 一樓：B 跑最上面那一段的下面（門廳南牆）
 wall(1, A['vx0'], -4.9, A['x1'], -4.9, 'rail', Y1, r3(Y1 + 1.05))               # 二樓：A 跑上方的欄杆
 # 一樓：影印休息區的西牆、南牆（南邊是書庫，關著）
-wall(0, STAIR['eastX'], STAIR['southZ'], STAIR['eastX'], 2.8, 'inner')
-wall(0, STAIR['eastX'], 2.8, XE, 2.8, 'inner')
+wall(0, STAIR['eastX'], STAIR['southZ'], STAIR['eastX'], 2.8, 'inner', 0.0, r3(Y1 - ST))   # 只到一樓天花板（3.95）：原本到 4.2，南牆的牆頂和二樓地板同高、疊在一起
+wall(0, STAIR['eastX'], 2.8, XE, 2.8, 'inner', 0.0, r3(Y1 - ST))                         #   （二樓南北向走廊地上一條黑線、遊戲裡會閃；v2 預覽用射線查到的）
 # 二樓：北邊一排房間的前牆（洗手間實心、討論室玻璃）、隔間
 wall(1, XW, DZ1, WC['x1'], DZ1, 'inner')
 for d in DISC:
