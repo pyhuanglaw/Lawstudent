@@ -153,7 +153,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     check('10. Y5-L7「阿姨在找工讀生…」第 14～15 週、事件 13（12/16）以前：第 13 週不播、第 14 週週一和 12/15 播、12/16 以後算過',!a&&!!b&&b.id==='Y5-L7'&&!!c&&c.id==='Y5-L7'&&(!d||d.id!=='Y5-L7')&&ladKey(YT,'Y3S1')>idxOf(YT,'Y3S1','Y5-L7'),J([a&&a.id,b&&b.id,c&&c.id,d&&d.id]));
     fresh('2027-11-25',18,'noodle'); R(YT,'FAM'); await play('ev_yt_lease_retell'); const L=all();
     fresh('2027-12-14',20.9,'dorm'); R(YT,'FAM'); runPhone('2027-12-14',20.9,21.2,0.1); const M=txt('p:heroine_03');
-    check('10. 續約轉述（當面、手機）：「……新屋主說，他高中的時候也來這裡吃過麵。」（和現場一致）',L[1]==='……新屋主說，他高中的時候也來這裡吃過麵。'&&M.includes('heroine_03:……新屋主說，他高中的時候也來這裡吃過麵。')&&!L.concat(M).some(t=>/小時候/.test(t)),J([L[1],M]));
+    check('10. 續約轉述（當面、手機）：AA_625 第 14 節不在場版取代 AA_376 第 10 項——「續約了。五年。」「秀琴姨說要煮一桌菜請你吃。……」，當面和手機一樣',L[1]==='秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。'&&M.includes('heroine_03:秀琴姨說要煮一桌菜請你吃。……她說『那個學法律的』。')&&!L.concat(M).some(t=>/小時候/.test(t)),J([L[1],M]));
   });
   // ===== 11. A5-L1、Y5-L1 =====
   await sec('11',async()=>{
@@ -197,7 +197,7 @@ const in376=t=>MD376.includes(t)||AN.has(t), in342=t=>MD342.includes(t)||AN.has(
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'JP'}); const aj=STORY.ladChoices(a).map(c=>c.t), yj=STORY.ladChoices(y), yr=yj.find(c=>c.t==='「我們同一班。」');
     fresh('2027-12-13',12,'campus',{EXCHANGE_ROUTE:'TW'}); const at=STORY.ladChoices(a).map(c=>c.t), yt=STORY.ladChoices(y).map(c=>c.t);
     check('18. 以安 A5-L8 日本路線：「那我們在日本找一家燒臘店。」（不出「我們幫妳把位子占著。」）；臺灣路線照舊',J(aj)===J(['「那我們在日本找一家燒臘店。」','「回來第一碗我請。」'])&&J(at)===J(['「我們幫妳把位子占著。」','「回來第一碗我請。」']),J([aj,at]));
-    check('18. 語彤 Y5-L8 日本路線：「我們同一班。」→「……那我十點去機場。送兩個。」；臺灣路線照舊「一起去。」',J(yj.map(c=>c.t))===J(['「我們同一班。」','「以安會想念麵店。」'])&&!!yr&&STORY.ladReply(y,yr)==='……那我十點去機場。送兩個。'&&J(yt)===J(['「一起去。」','「以安會想念麵店。」']),J([yj.map(c=>c.t),yt]));
+    check('18. 語彤 Y5-L8 日本路線：「我們同一班。」→「……那我十點去機場。送兩個。」；臺灣路線照舊「一起去。」',J(yj.map(c=>c.t))===J(['「我們同一班。」','「以安會想家吧。」'])&&!!yr&&STORY.ladReply(y,yr)==='……那我十點去機場。送兩個。'&&J(yt)===J(['「一起去。」','「以安會想家吧。」']),J([yj.map(c=>c.t),yt]));
   });
   // ===== 19. 大一的初識事件限大一 =====
   await sec('19',async()=>{

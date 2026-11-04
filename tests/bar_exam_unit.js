@@ -105,7 +105,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     H.at('2030-08-02',20.6); PG.rules(GM); H.at('2030-08-02',21.1); H.tick(); check('12. 2030 重考的便條（照片）：「（便條：「你比去年多念了一年。」）」',H.msgs('p:heroine_05').includes('（便條：「你比去年多念了一年。」）'));
     H.at('2030-12-13',14.6); G.flags.BAR_SIT_2030=true; G.flags.BAR_SCORE_2030=8; G.flags.BAR_STAGE_2030='lawyer'; PG.rec(G).done.exam_2030=1; PG.rec(G).done.r1_2030=1; PG.rec(G).done.e2a_2030=1; PG.rec(G).done.e2b_2030=1;
     PG.rules(GM); H.at('2030-12-13',15.1); await H.run('r2_2030'); H.at('2030-12-13',15.4); H.tick();
-    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；Alison、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&H.msgs('g:noodle_team').includes('阿姨已經在寫紅紙了。')); }
+    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；Alison、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&H.msgs('g:noodle_team').includes('蘇姨已經在寫紅紙了。')); }   /* AA_630 Z-134：語彤那一句的紅紙是蘇姨寫的（YT-REWRITE-1103）*/
   // ---- 2029 已經考上的玩家，2030-12-13 阿哲那一句 ----
   { const G=H.fresh('2030-12-13',14.6,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); PG.rules(GM); H.at('2030-12-13',15.3); H.tick();
     check('13. 2029 已經考上：阿哲「上了。去年那頓宵夜，今天換我請。」；沒考的系統字不出現',H.msgs('g:noodle_team').includes('上了。去年那頓宵夜，今天換我請。')&&!H.msgs('g:noodle_team').includes('國考放榜了。')); }
@@ -114,10 +114,10 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
   // ---- Z1：讀書小組（BAR_STUDY_GROUP，AA_327 2-Y4-33；那一批還沒做，旗標先照 AA 的格式）----
   const z1=async grp=>{ const G=H.fresh('2029-12-14',15.1,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_STUDY_GROUP:grp}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.said=[]; await H.run('r2_2029'); return G; };
   { const G=await z1(['kexin','yutong']); const q=OUT.get(G,'pg_bar_noodle_2029'); H.said=[]; if(q) await PG.EVS[2].beforeOuting(G,GM,q);
-    check('14. Z1：三個人＝18:00 麵店「（麵店的電視開著…）」可昕「上了。……你的也上了。我先查了你的，不要生氣。」語彤「…明年換我。」；沒有紅紙、阿哲那一句',!!q&&H.has('（麵店的電視開著，沒有人在看。可昕的手機先震。）')&&H.has('上了。……你的也上了。我先查了你的，不要生氣。')&&H.has('（端了兩碗麵出來，各加了一顆蛋）明年換我。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
+    check('14. Z1：三個人＝18:00 麵店「（麵店的電視開著…）」可昕「上了。……你的也上了。我先查了你的，不要生氣。」語彤「…明年換我。」；沒有紅紙、阿哲那一句',!!q&&H.has('（大口漢堡二樓的電視開著，沒有人在看。可昕的手機先震。）')&&H.has('上了。……你的也上了。我先查了你的，不要生氣。')&&H.has('（端了三杯熱可可上來）……先喝。榜單等一下再看。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
   { const G=await z1(['kexin']); const q=OUT.get(G,'pg_bar_noodle_2029'); H.said=[]; if(q) await PG.EVS[2].beforeOuting(G,GM,q);
     check('14. 只有可昕：「上了。兩個都上了。……今天不要排任何東西。」',!!q&&H.has('上了。兩個都上了。……今天不要排任何東西。')&&!H.has('（舉起碗）今天我請。……明年換你請我。')); }
   { const G=await z1(['yutong']); H.at('2029-12-14',18.1); PHONE.tick(G);
-    check('14. 只有語彤：沒有麵店的出遊，18:00 她傳紅紙的照片「阿姨貼的，我攔不住。」「她說明年要換貼我的。」',!OUT.get(G,'pg_bar_noodle_2029')&&H.msgs('p:heroine_03').join('|')==='（照片：麵店牆上，一張剛貼上去的紅紙，寫著祐廷的名字）|阿姨貼的，我攔不住。|她說明年要換貼我的。',JSON.stringify(H.msgs('p:heroine_03'))); }
+    check('14. 只有語彤：沒有麵店的出遊，18:00 她傳紅紙的照片「蘇姨貼的，我攔不住。」「她說下一張要寫我的。」（AA_630 Z-038、Z-129）',!OUT.get(G,'pg_bar_noodle_2029')&&H.msgs('p:heroine_03').join('|')==='（照片：茶屋牆上，一張剛貼上去的紅紙，寫著祐廷的名字）|蘇姨貼的，我攔不住。|她說下一張要寫我的。',JSON.stringify(H.msgs('p:heroine_03'))); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -71,7 +71,7 @@ for l in lines[s3:s4]:
     else:
         m3 = re.match(r'^「([^」]+)」', same); same = m3.group(1) if m3 else same
     staff[m.group(1).strip()] = {'who': m.group(2).strip(), 'line5': m.group(3), 'same': same, 'alt': alt}
-yt = re.search(r'語彤：(……阿姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)
+yt = re.search(r'語彤：(……[阿蘇]姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)   # 讀稿照 aa630_fix 換過＝「蘇姨說」（AA_630，YT-REWRITE-1103）
 # AA_336 A4：便利商店上次沒加熱的，店員第 5 次那一句改說另一句，回一句（AA-C：「上次沒加熱的，店員改說「**一樣不用加熱，對吧。**」，回「好。」」）
 a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
 m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
@@ -88,3 +88,8 @@ out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢
        "'use strict';\nconst EAT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
 open(os.path.join(ROOT, 'src/data/eat_lines.js'), 'w', encoding='utf-8').write(out)
 print(f'wrote src/data/eat_lines.js：一起吃 {len(together)} 人、{n} 句；吃過的 {len(first)} 間；店員 {len(staff)} 間；來源 AA_329@{SHA}、AA_336@{SHA_A}')
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/eat_lines.js', _R0)

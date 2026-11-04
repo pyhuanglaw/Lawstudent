@@ -9,7 +9,7 @@ global.CHARACTERS={heroine_03:{},heroine_01:{},heroine_05:{},kexin:{}};
 for(const f of ['src/data/date_locations.js','src/romance3d.js','src/date3d.js']) load(f);
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
 const G={day:100,flags:{}};
-check('0. 地點表 32 處、七位各有一個心願地點、互動點 128 個',Object.keys(DATE_DATA.locations).length===32&&DATE.HEROINES.every(id=>!!DATE.wishOf(id))&&Object.keys(DATE_DATA.points.points).length===128);
+check('0. 地點表 33 處（AA_631 加 D33 信義區・光年影城）、七位各有一個心願地點、互動點 128 個',Object.keys(DATE_DATA.locations).length===33&&DATE.HEROINES.every(id=>!!DATE.wishOf(id))&&Object.keys(DATE_DATA.points.points).length===128);
 check('0. 舊存檔：補 dateLog／trips／groupTrips，不改已有的',(()=>{ const g={flags:{},trips:[{trip:'T0001'}]}; DATE.rec(g); return g.dateLog&&g.trips.length===1&&Array.isArray(g.groupTrips); })());
 const trip=(o)=>Object.assign({trip:DATE.newTripId(G),who:'heroine_03',locs:['D13'],day:G.day,depart:'15:00',back:'19:30',transport:'mrt',fare:100,by:'player',status:'done',departed:true,spots:['D13.drink']},o||{});
 // 五個條件（AA_128 1-2）

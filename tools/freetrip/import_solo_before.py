@@ -26,3 +26,8 @@ with open(DST, 'w', encoding='utf8') as fo:
     fo.write('/* 「你來過一次」（AA_160 4-4、AA_271、BB_213）：tools/freetrip/import_solo_before.py 產生，不要手改。src/date3d.js 的 S.soloBefore 讀 */\n'
              "'use strict';\nconst SOLO_BEFORE=" + json.dumps(out, ensure_ascii=False, indent=1) + ';\n')
 print('wrote', DST, len(narr), 'narr', {k: len(v) for k, v in lines.items()}, out['source'])
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/solo_before.js', _R0)
