@@ -520,3 +520,19 @@
 [21:06:02] AUTORETRY TT_V8_par_b: first run exit 1 - rerun once with trace (whole probe)
 [21:06:23] [res] cpu=34% mem=46% (14.1/31.4 GB) chrome_testing=18  END TT_V8_par_a
 [21:06:25] AUTORETRY TT_V8_par_a: final FAIL  class UNKNOWN/assert
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       22fe1c03d..75d2e7ab6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:06:32] ==== END   TT_V8_par_a  exit=1  82s   ====
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[21:06:34] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[21:06:34] memory 43% before starting TT_cases (2 running)
+[21:06:34] ==== START TT_cases  (probe @ d2e36f6eb) ====
+[21:06:37] [res] cpu=8% mem=38% (13.6/31.4 GB) chrome_testing=10  START TT_cases
+[21:06:43] [res] cpu=1% mem=40% (12.2/31.4 GB) chrome_testing=10  END TT_V8_par_b
+[21:06:45] AUTORETRY TT_V8_par_b: final FAIL  class UNKNOWN/assert

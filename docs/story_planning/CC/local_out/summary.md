@@ -1132,3 +1132,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T21:06:25  TT_V8_par_a  sha=d2e36f6eb  exit=1  82s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8801/index.html（自測：只開頁、不玩） / FAIL TT_V8_par_a 故意 FAIL  看證據有沒有混在一起 / FAILED 1: TT_V8_par_a 故意 FAIL
       err.log (last 5): [cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V8_par_a\attempt2\trace | [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V8_par_a] | [gpu_wrap 32.6s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 32.7s] BROWSER DISCONNECTED
       autoretry: final FAIL  class UNKNOWN/assert  exit2 1
+- 2026-11-04T21:06:59  TT_V8_par_b  sha=d2e36f6eb  exit=1  99s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩） / FAIL TT_V8_par_b 故意 FAIL  看證據有沒有混在一起 / FAILED 1: TT_V8_par_b 故意 FAIL
+      err.log (last 5): [cc_trace 0.3s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V8_par_b\attempt2\trace | [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V8_par_b] | [gpu_wrap 32.1s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 32.2s] BROWSER DISCONNECTED
+      autoretry: final FAIL  class UNKNOWN/assert  exit2 1
