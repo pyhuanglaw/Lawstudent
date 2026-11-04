@@ -1,0 +1,40 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_slice_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V20_slice_909c\out
+CC WZ_SLICE_SHOTS 溫州街東段 [24.0, 34.0, 44.0, 52.0] × 8 方向；14:00；SHA=909c6391b24bba4fa66624effc8817dd6c8c0d27；Windows＋GPU ≠ iPhone
+PASS 遊戲載入  19.2 秒
+  [前置／捷徑] 讀檔：溫州街 (24.0, 0)、2025-09-23（二）14:00、晴、條件事件關閉
+PASS 讀檔進到溫州街（場景 mesh 697、11 秒穩定）
+  藏起來的路人／騎車的路人：10
+  slice_x24_d000：calls 166、tris 258487
+  slice_x24_d045：calls 204、tris 290485
+  slice_x24_d090：calls 206、tris 285391
+  slice_x24_d135：calls 180、tris 246378
+  slice_x24_d180：calls 139、tris 209141
+  slice_x24_d225：calls 159、tris 242507
+  slice_x24_d270：calls 194、tris 285952
+  slice_x24_d315：calls 203、tris 295248
+  slice_x34_d000：calls 167、tris 260648
+  slice_x34_d045：calls 197、tris 286069
+  slice_x34_d090：calls 193、tris 263489
+  slice_x34_d135：calls 173、tris 238924
+  slice_x34_d180：calls 137、tris 201460
+  slice_x34_d225：calls 163、tris 241725
+  slice_x34_d270：calls 209、tris 285775
+  slice_x34_d315：calls 211、tris 281659
+  slice_x44_d000：calls 168、tris 259530
+  slice_x44_d045：calls 176、tris 255834
+  slice_x44_d090：calls 172、tris 233386
+  slice_x44_d135：calls 165、tris 222666
+  slice_x44_d180：calls 134、tris 190280
+  slice_x44_d225：calls 170、tris 243021
+  slice_x44_d270：calls 225、tris 309011
+  slice_x44_d315：calls 218、tris 292639
+  slice_x52_d000：calls 190、tris 293861
+  slice_x52_d045：calls 144、tris 219958
+  slice_x52_d090：calls 142、tris 206548
+  slice_x52_d135：calls 142、tris 207770
+  slice_x52_d180：calls 156、tris 212617
+  slice_x52_d225：calls 189、tris 267840
+  slice_x52_d270：calls 255、tris 357838
+  slice_x52_d315：calls 245、tris 339931
+PASS 沒有 JS 例外  []
+ALL PASS

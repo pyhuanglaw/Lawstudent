@@ -645,3 +645,46 @@
 [22:54:05] ==== END   GG_shops2_afar_seat_12  exit=1  514s   ====
 [22:54:31] solo item V20_touchwz_909c waits: no new items start until the 2 running item(s) finish
 [22:55:50] [res] cpu=22% mem=38% (12.0/31.4 GB) chrome_testing=0  END GG_shops2_afar_seat_08
+[22:55:55] [res] cpu=37% mem=38% (11.9/31.4 GB) chrome_testing=0  END V20_slice_909c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[22:56:33] push failed for GG_shops2_afar_seat_08 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[22:56:33] ==== END   GG_shops2_afar_seat_08  exit=1  969s   ====
