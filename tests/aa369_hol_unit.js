@@ -13,6 +13,7 @@
 // 第 8 節（企劃線 2f155a6d；AA 2026-10-21 20:3x 答第 7 節實作後八題）：1 Alison 營隊、方奕廷上山「在幹嘛」用自己那一版　4 以安首爾那句 7/25 15:00
 //   5 語彤店休套 ④（講店裡生意的那幾則不傳，換三句；回國那天「茶屋初四開。蘇姨說第一壺留給你。」——AA_685 A4 初五→初四）
 //   AA_685 A6-4（企劃線 c96613e51，AA-C 定 D109）：講店裡的那幾則只在週六、日傳（她平日不上班）、池子／回覆換成茶屋——第 8 節第 5 題、第 9 節第 3 題的對照照新規則　6「你吃過了嗎？」開頭不要刪節號
+//   AA_686（企劃線 1df3c189e，AA-C 定 D109）：平日輪流的多三則、平日的回覆換「淡水冷嗎？」「好好休息。」；朋友版長桌照片只在週六、日；「茶屋初四開」的初X照那一年（2027＝初五）——H4、第 8 節第 5 題、第 9 節第 3 題照新規則
 //   7 大二上期末飯芷若只留「放映完隔天，我就回台中了。」（鉤子不動）　8 芷若 2027-06-04～09-02 不上班：重逢改句、Café 班的出國訊息不傳
 //   第 8 節那幾項在 d3e3e79d（第 7 節）上會失敗
 // 第 9 節（企劃線 4512c2d0；AA 2026-10-21 21:0x 答第 8 節實作後四題）：1 大二上期末飯芷若「放映完隔天，我就回台中了。」移到邀約那句後面、選不選都講
@@ -70,7 +71,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   { fresh(D('2026-08-24'),6,'dorm',{}); R('kai','FAM'); R('heroine_03','FAM'); R('yu','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0];
     await VAC.outing(GM,OUT.get(G,'vac_C05@Y1')); PHONE.tick(G);
     const KA=allTxt('p:kai'), Y=allTxt('p:heroine_03');
-    check('H4. C05 日本五天（阿凱那一團）：阿凱就在旁邊，沒有「宿舍好安靜」「要不要帶零食回來」；語彤（朋友）照樣「📷（茶屋今天的長桌）」',!KA.some(t=>/宿舍好安靜|帶零食/.test(t))&&Y.includes('📷（茶屋今天的長桌）'),J([KA,Y]));
+    check('H4. C05 日本五天（阿凱那一團）：阿凱就在旁邊，沒有「宿舍好安靜」「要不要帶零食回來」；語彤（朋友）不在那一團——AA_686 第 3d 項（企劃線 1df3c189e）「📷（茶屋今天的長桌）」只在週六、日傳，這一趟 8/24（一）～8/28（五）沒有週六、日＝不傳',!KA.some(t=>/宿舍好安靜|帶零食/.test(t))&&!Y.includes('📷（茶屋今天的長桌）')&&!VAC.mates(VAC.inst('C05','Y1')).has('heroine_03'),J([KA,Y]));
     G.day=D('2026-08-30'); G.hour=12; said=[]; const a=await VAC.backGreet(GM,{name:'阿凱',charId:'kai'},'kai'), b=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu');
     check('H4. 回來後第一次遇到：一起去的阿凱沒有「回來了。宿舍又變吵了。」；Alison 照樣「你回來了！伴手禮咧！」',!a&&b&&lines().join('|')==='Alison：你回來了！伴手禮咧！',J(lines())); }
   { fresh(D('2028-07-03'),7,'dorm',{dating_heroine_04:true}); R('heroine_04','CLO'); R('kai','FAM'); VAC.signup(G,'T03@Y3','yes'); said=[]; picks=[0,0,0];
@@ -235,11 +236,12 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('第 7 節第 7 題＋第 8 節第 5 題. 語彤店休套 ④：大三寒假東京（店休 2028-01-19～01-28）那幾天不傳講店裡生意的那幾則（含「今天也有開」）；第一天「'+S1+'」、接著「'+S2+'」「'+S3+'」（各一次），其他店休的日子只用不講店裡的那兩則',
       shutK.length===10&&shutK.every(k=>!y3[k].some(t=>BIZ.test(t))&&y3[k].every(t=>[S1,S2,S3].concat(NEU).includes(t)))&&J(y3['2028-01-19'])===J([S1])&&J(y3['2028-01-20'])===J([S2])&&J(y3['2028-01-21'])===J([S3])&&
       [S1,S2,S3].every(s=>all3.filter(t=>t===s).length===1),J(shutK.map(k=>[k,y3[k]])));
-    check('第 8 節第 5 題. 對照：店休以外的週末照舊講店裡（1/29 初四開門以後的週六、1/30 週日回來「蘇姨說幫你留一杯」）；大二寒假東京中間那天（2027-01-23 週六、有開）「今天也有開」照傳；AA_685 A6-4：店休以外的平日（2028-01-18 週二）不講店裡、換不講店裡的那兩則',
-      (y3['2028-01-18']||[]).length>0&&y3['2028-01-18'].every(t=>NEU.includes(t))&&(y3['2028-01-29']||[]).some(t=>BIZ.test(t))&&J(y3['2028-01-30'])===J(['回來了嗎','蘇姨說幫你留一杯'])&&(y2['2027-01-23']||[]).includes('今天也有開')&&![S1,S2,S3].some(s=>[].concat(...Object.values(y2)).includes(s)),
+    const WKP=[].concat(...((VAC_DATA.TRIP_MSG.gf.heroine_03.offWd||{}).pool||[])).concat(NEU);   /* AA_686 第 3b 項（企劃線 1df3c189e）：平日輪流的多三則（今天在淡水…） */
+    check('第 8 節第 5 題. 對照：店休以外的週末照舊講店裡（1/29 初四開門以後的週六、1/30 週日回來「蘇姨說幫你留一杯」）；大二寒假東京中間那天（2027-01-23 週六、有開）「今天也有開」照傳；AA_685 A6-4：店休以外的平日（2028-01-18 週二）不講店裡、換不講店裡的那幾則（AA_686 第 3b 項：先「今天在淡水」）',
+      (y3['2028-01-18']||[]).length>0&&y3['2028-01-18'].every(t=>WKP.includes(t))&&y3['2028-01-18'][0]==='今天在淡水'&&(y3['2028-01-29']||[]).some(t=>BIZ.test(t))&&J(y3['2028-01-30'])===J(['回來了嗎','蘇姨說幫你留一杯'])&&(y2['2027-01-23']||[]).includes('今天也有開')&&![S1,S2,S3].some(s=>[].concat(...Object.values(y2)).includes(s)),
       J([y3['2028-01-18'],y3['2028-01-29'],y3['2028-01-30'],y2['2027-01-23']]));
-    check('第 8 節第 5 題. 2027 大二寒假東京 1/30 回國那天是店休第一天：「回來了嗎」「茶屋初四開。蘇姨說第一壺留給你。」（取代「蘇姨說幫你留一杯」；AA_685 A4：初五→初四，日子照 NOODLE_CLOSED 初四開）',
-      NOODLE_CLOSED.closed(G,D('2027-01-30'))&&NOODLE_CLOSED.window(D('2027-01-30')).open===D('2027-02-09')&&J(y2['2027-01-30'])===J(['回來了嗎','茶屋初四開。蘇姨說第一壺留給你。']),J(y2['2027-01-30'])); }
+    check('第 8 節第 5 題. 2027 大二寒假東京 1/30 回國那天是店休第一天：「回來了嗎」「茶屋初五開。蘇姨說第一壺留給你。」（取代「蘇姨說幫你留一杯」；AA_685 A4 的「初四」照 AA_686 第 4 項換成那一年茶屋過年以後第一個開門的日子：2027 初四 2/9 是週二公休＝初五 2/10）',
+      NOODLE_CLOSED.closed(G,D('2027-01-30'))&&NOODLE_CLOSED.window(D('2027-01-30')).open===D('2027-02-09')&&NOODLE_CLOSED.teaOpen(D('2027-01-30'))===D('2027-02-10')&&J(y2['2027-01-30'])===J(['回來了嗎','茶屋初五開。蘇姨說第一壺留給你。']),J(y2['2027-01-30'])); }
   // ===== 第 8 節第 1 題：Alison 營隊、方奕廷上山「在幹嘛」用她們自己那一版 =====
   { const setup=(id,k,h)=>{ fresh(D(k),h||15,'campus',{}); R(id,'FAM'); INV.addContact(G,id); }, pk=(id,k,h)=>{ setup(id,k,h); return MSG.pick(G,id,'chat'); };
     const y1=pk('yu','2026-07-10'), y2=pk('yu','2026-07-25');
@@ -295,7 +297,8 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const shutA=A3.filter(a=>NOODLE_CLOSED.closed(G,D(a[0]))), openA=A3.filter(a=>!NOODLE_CLOSED.closed(G,D(a[0])));
     check('第 9 節第 3 題. 大三寒假東京（店休 2028-01-19～01-28）：店休那幾天她傳的，玩家能回「好好休息。」「開店我第一個去。」（不是「辛苦了。」「想吃乾麵。」）；排法照舊（1/19 店休第一天、1/20 迪化街、1/21 包餃子）',
       shutA.length>=5&&shutA.every(a=>J(a[2])===J(['好好休息。','開店我第一個去。']))&&J(shutA.slice(0,3).map(a=>[a[0],a[1]]))===J([['2028-01-19','茶屋過年休息。我回淡水了，睡到十點。……我媽說我很難得。'],['2028-01-20','我媽的診所休三天。她說要帶我去看海。'],['2028-01-21','今天在家包水餃。我包的都站不起來。']]),J(shutA));
-    check('第 9 節第 3 題. 對照：有開店的日子照舊「辛苦了。」「想喝茶。」（AA_685 A6-4：「想吃乾麵。」→「想喝茶。」）',openA.length>=1&&openA.every(a=>J(a[2])===J(['辛苦了。','想喝茶。'])),J(openA));
+    const weA=openA.filter(a=>[0,6].includes(CALENDAR.dateOf(D(a[0])).wd%7)), wkA=openA.filter(a=>![0,6].includes(CALENDAR.dateOf(D(a[0])).wd%7));
+    check('第 9 節第 3 題. 對照：有開店的週末照舊「辛苦了。」「想喝茶。」（AA_685 A6-4：「想吃乾麵。」→「想喝茶。」）；平日換「淡水冷嗎？」「好好休息。」（AA_686 第 3c 項，企劃線 1df3c189e）',weA.length>=1&&weA.every(a=>J(a[2])===J(['辛苦了。','想喝茶。']))&&wkA.length>=1&&wkA.every(a=>J(a[2])===J(['淡水冷嗎？','好好休息。'])),J(openA));
     const fr=(yk,k0)=>{ fresh(D(k0),7,'dorm',{}); R('heroine_03','FAM'); VAC.tripMsgs(G,VAC.inst('C11',yk)); const o={}; for(const q of PHONE.rec(G).q) for(const x of (q.items||[])) if(x.th==='p:heroine_03') (o[K(q.day)]=o[K(q.day)]||[]).push(x.text); for(const m of TH('p:heroine_03')) (o[K(m.day)]=o[K(m.day)]||[]).push(m.text); return o; };
     const f3=fr('Y3','2028-01-17'), f2=fr('Y2','2027-01-17');
     check('第 9 節第 3 題. 沒交往的語彤（朋友）：2028-01-23（店休）那張是「📷（茶屋的木門關著，門上貼著紅紙）」，不是「📷（茶屋今天的長桌）」；對照：2027-01-23（有開）照舊長桌',

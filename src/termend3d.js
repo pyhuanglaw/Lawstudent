@@ -8,6 +8,7 @@
    - 手機：時段第一天 20:00 不發心意邀約的手機一句（AA_254 第 9 節）、20:30 起各邀約一則；**只能接一個**——接了一個，其他的自動回「那天有約了。」（她們回婉拒那句）。
      例外（TE-HEART-EXEMPT-1104，BB-C 2026-11-04 19:15）：語彤的心意邀約（HEART 寫 examDay 的那一則）不佔這個名額——答應她記 R.heartPick（R.picked 不動）、晚餐是另一場出遊 te_ex_<學期>_<她>，
      別人的邀約照常傳、照常可以接；只有兩頓的時間撞到才互斥（S.exSweep：先定的那一頓留下，另一邊還沒回的那一則照「改天」＝自動回「那天有約了。」＋她的婉拒句，不扣數值）。
+     TE-HEART-AVOID-1104（BB-C 2026-11-04 20:17）：還沒回的一般邀約排日子時避開語彤那一頓那一整晚（S.genDay、S.exEvening），找不到別的晚上才照字面互斥（console.info「TE-HEART-AVOID …」）。
    - 飯＝出遊（OUT，事件 ev_termend_dinner 的 beforeOuting）：開場旁白（AA_250 0-1）→ 話題池 → 飯桌一句 → 收尾；
      心意的邀約接著回家的路上：說出來三句＋（先不說）→ 說出來＝答應、交往（ROM.start）；先不說＝她說 →「好。」交往／「讓我想想。」這學期不交往，下學期她用第二次的邀約再約。
    - 學期中、正式校外約會的收尾不再有告白（DATE.confessOffer 看 S.ON）。
@@ -139,8 +140,10 @@ const TERMEND=(function(){
     let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, hs=kind==='heart'?S.heart(id,w.id):null, d0=hs&&hs.examDay?S.heartFrom(G,w,id,hs):Math.max(S.fromDay(w,id),P.back||w.from);   /* examDay：AA_684 第 6 項（語彤：最後一科考完的那天）*/
       const taken=kind==='heart'&&S.isExempt(G,w.id,id)?S.exBlocked(G,w.id,id):R.picked;   /* TE-HEART-EXEMPT-1104：不佔名額的那一則不看 R.picked（別人那一頓定了照樣傳；時間撞到的，傳到以後 S.exSweep 照「改天」回）；這學期已經和她本人約了期末的飯才不發 */
       /* 當天才約（HEART.sameDay，芯慈 AA_537b 第 7 節「考完了。今天晚上有空嗎。……我沒有提前一天。」）：先排好日子，那一天 12:00 傳、回覆到 17:30，飯就在那天（BB-B 10-31：原本時段第一天 20:30 傳、飯排在兩天後，「今天」不對）*/
-      if(hs&&hs.sameDay){ const RH=R.heartDay||(R.heartDay={}); if(PHONE.sent(G,tag)||taken) return; if(RH[id]==null){ if(now<T(d0,0)) return; const dd0=S.dinnerDay(G,w,Object.assign({},hs,{h:hs.h||18.5}),id); RH[id]=dd0==null?-1:dd0; }
-        if(RH[id]>=0&&now>=T(RH[id],17.5)){ const d2=S.dinnerDay(G,w,Object.assign({},hs,{h:hs.h||18.5}),id); RH[id]=d2==null?-1:d2; }   /* 那天 12:00～17:30 手機規則都沒跑到（一直在劇情、出遊、上課、睡過）＝還沒傳就過了期限：不傳過期的，改排下一個能約的晚上（BB-B 10-31 疑點 1）*/
+      if(hs&&hs.sameDay){ const RH=R.heartDay||(R.heartDay={}); if(PHONE.sent(G,tag)||taken) return;
+        const sdDay=()=>{ const r=S.genDay(G,w,Object.assign({},hs,{h:hs.h||18.5}),id); if(r.fb){ (R.avFb||(R.avFb={}))[id]=G.day; S.avInfo(G,w,'找不到別的晚上：當天才約的保留日照字面排',{who:id,ytEvening:dk(r.ye),day:dk(r.day)}); } return r.day; };   /* TE-HEART-AVOID-1104：保留日也避開語彤那一晚（她那一則到以後才排的；已經排好的不動）*/
+        if(RH[id]==null){ if(now<T(d0,0)) return; const dd0=sdDay(); RH[id]=dd0==null?-1:dd0; }
+        if(RH[id]>=0&&now>=T(RH[id],17.5)){ const d2=sdDay(); RH[id]=d2==null?-1:d2; }   /* 那天 12:00～17:30 手機規則都沒跑到（一直在劇情、出遊、上課、睡過）＝還沒傳就過了期限：不傳過期的，改排下一個能約的晚上（BB-B 10-31 疑點 1）*/
         const dd=RH[id]; if(dd<0||now<T(dd,12)) return; const T3=lines(txt,G); if(!T3.length) return;
         const ask={id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
         PHONE.at(G,dd,Math.min(Math.max(12,G.day===dd?(+G.hour||0):12),17),T3.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T3.length-1?{ask}:{})),tag); R.asks[id]=tag; return; }
@@ -192,7 +195,7 @@ const TERMEND=(function(){
   /* 固定那一天沒排成（那天晚上有別的約、往後讓了）＝AA_386 3-3 備援：12/24 21:00 她私訊（sis_b4_3d.js SISB4.xm3Fallback；3-2 有來才有）*/
   S.gfOff=function(G,w,id){ const fx=S.GF_FIXED[id]&&S.GF_FIXED[id][w.id]?DK(S.GF_FIXED[id][w.id]):null; if(fx==null) return; const dd=S.rec(G,w.id).gfDay[id]; if(dd===fx) return;
     if(id==='heroine_05'&&w.id==='Y4S1'&&typeof SISB4!=='undefined'&&SISB4.xm3Fallback) SISB4.xm3Fallback(G); };
-  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&!S.teBusy(G,w,d,who,spec&&spec.teMode)&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=spec&&spec.examDay?S.heartFrom(G,w,who,spec):((S.rec(G,w.id).plan||{}).back||w.from); let lo=Math.max(w.from+1,pb+1,G.day);   /* examDay：那天以後的第一個（AA_684 第 6 項）*/
+  S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&!S.teBusy(G,w,d,who,spec&&spec.teMode)&&!(spec&&typeof spec.skip==='function'&&spec.skip(d))&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=spec&&spec.examDay?S.heartFrom(G,w,who,spec):((S.rec(G,w.id).plan||{}).back||w.from); let lo=Math.max(w.from+1,pb+1,G.day);   /* examDay：那天以後的第一個（AA_684 第 6 項）；skip：那一天不排（TE-HEART-AVOID-1104，S.genDay）*/
     if(who==='heroine_03'&&w.id==='Y1S2'){ const d=DK('2026-06-19'); if(d!=null) lo=Math.max(lo,d); }   /* 語彤 6/18 雙主修筆試以前不來（AA_250 第 2 節）*/   /* xm：可昕大二上的期末約會避開 12/25（那天晚上是她排的聖誕行程，AA_325 2-Y2-07）*/
     const c=CHARACTERS[who], hi=c&&c.presence&&c.presence.home?Math.min(w.to,w.termTo):w.to;   /* 寒暑假回老家的（可昕、沛珊，AA_276 第 3 節第 2 點）：限定在期末考最後一天後第 2 天以前，第 3 天她們就回老家了 */
     { const fx=spec.gf&&S.GF_FIXED[who]&&S.GF_FIXED[who][w.id]?DK(S.GF_FIXED[who][w.id]):null; if(fx!=null&&fx>=w.from&&fx<=hi&&ok(fx)) return fx; }   /* 固定那一天（那天晚上已經有別的約＝照下面的規則往後讓）*/
@@ -203,7 +206,11 @@ const TERMEND=(function(){
   /* o.ex（TE-HEART-EXEMPT-1104）：不佔名額的那一頓（語彤）——出遊 id 另外一個（S.exId，一般名額那一頓照舊 te_<學期>）、te.ex；日子照她自己的規則排、不看一般名額那一頓（teMode 'ex'），
      真的和已經定的一般那一頓撞到（不該發生：撞到的那一則已經照「改天」回了）＝照原本的規則往後讓 */
   S.planDinner=function(G,w,who,kind,o){ const ex=!!(o&&o.ex), Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:S.friend(who,w.id))); if(!spec||typeof OUT==='undefined') return false;
-    const hh=S.dinnerH(w.id,kind,spec), gd=kind==='gf'?(S.rec(G,w.id).gfDay||{})[who]:(kind==='heart'&&spec.sameDay?(S.rec(G,w.id).heartDay||{})[who]:null);   /* 當天才約的心意邀約：飯就在傳訊息那天 */ let day=gd!=null&&gd>=0?gd:S.dinnerDay(G,w,Object.assign({},spec,{h:hh},kind==='gf'?{gf:true}:null,ex?{teMode:'ex'}:null),who);   /* gd：女朋友的約會先排好的那一天（AA_378 #3）*/
+    const hh=S.dinnerH(w.id,kind,spec), gd=kind==='gf'?(S.rec(G,w.id).gfDay||{})[who]:(kind==='heart'&&spec.sameDay?(S.rec(G,w.id).heartDay||{})[who]:null);   /* 當天才約的心意邀約：飯就在傳訊息那天 */ let day;
+    if(gd!=null&&gd>=0) day=gd;   /* gd：女朋友的約會先排好的那一天（AA_378 #3）*/
+    else if(!ex&&(kind==='heart'||kind==='friend')&&S.exempts(G,w.id).length){ const r=S.genDay(G,w,Object.assign({},spec,{h:hh}),who,null,true); day=r.day;   /* TE-HEART-AVOID-1104：一般的那一頓避開語彤那一晚（S.genDay）*/
+      if(r.fb){ const R=S.rec(G,w.id); (R.avFb||(R.avFb={}))[who]=G.day; S.avInfo(G,w,'找不到別的晚上：一般的那一頓照字面排',{who,kind,ytEvening:dk(r.ye),day:dk(day),h:hh}); } }   /* avFb：這一頓是找不到別的晚上才排的（之後撞到語彤那一則，S.exSweep 記的那一筆分得出來）*/
+    else day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh},kind==='gf'?{gf:true}:null,ex?{teMode:'ex'}:null),who);
     if(ex&&day!=null&&S.overlap(S.span(day,hh,spec.travelH||0.25,0.25),S.regSlot(G,w))) day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who);
     if(day==null) return false; const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
     return OUT.plan(G,Object.assign({id:ex?S.exId(w.id,who):'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:spec.travel||'走過去約 15 分鐘',travelH:spec.travelH||0.25,te:Object.assign({term:w.id,who,kind},ex?{ex:true}:null)},spec.back?{back:spec.back}:{})); };   /* travel／travelH／back：外縣市的那一版（沛珊大三起在台南：高鐵去、搭最後一班高鐵回臺北，AA_282 第 5 節第 5 點）*/
@@ -297,15 +304,41 @@ const TERMEND=(function(){
     if(p.by==='player'){ const iv=(G.invites||[]).find(x=>x&&x.te&&x.te.term===w.id&&(p.iv!=null?x.id===p.iv:x.who===p.who)&&(x.state==='accepted'||x.state==='going'||x.state==='done')); if(!iv) return null; const Q=typeof INV!=='undefined'&&INV.place?INV.place(iv.place):null; return S.span(iv.day,iv.h,0.25,0,(Q&&Q.stay)||1); }
     const q=typeof OUT!=='undefined'?OUT.get(G,'te_'+w.id):null; return q&&q.te&&q.te.who===p.who?qSpan(q):null; };   /* 阿凱當面的宵夜（保底）沒有出遊＝不算（那一學期也沒有語彤那一則）*/
   S.askKind=m=>{ const o=m&&m.ask&&(m.ask.opts||[]).find(x=>x&&x.set&&typeof x.set.TE_PICK==='string'); return o?o.set.TE_PICK.split('|')[2]||null:null; };
+  /* ---- TE-HEART-AVOID-1104（BB-C 2026-11-04 20:17，只改條件、不改台詞）----
+     1. 還沒回的一般邀約（不佔名額的那一則以外的心意、朋友的邀約）排日子時，避開語彤那一頓那一整晚（同一天的晚上都不排），往後排到別的晚上：
+        S.genDay＝先照原本的規則、跳過語彤那一晚（S.exEvening）排；排一般那一頓（S.planDinner）、算還沒回的那一則會排在哪裡（S.askSlot，S.exSweep 看撞不撞）、當天才約的保留日（heartDay）都走這裡。
+     2. 別人的邀約傳來的時間不動（不讓同一晚的邀約一起到）。找不到別的晚上（期末週的窗口排滿）＝照原本（照字面：時間撞到才互斥、自動婉拒，同 TE-HEART-EXEMPT），console.info 記一筆
+        （「TE-HEART-AVOID 找不到別的晚上…」；CC 走的時候數有幾次。其他照字面互斥的情形記「TE-HEART-AVOID 照字面互斥…」，分開數）。
+     3. 玩家自己約語彤＝佔一般名額（照原本）；4. 阿凱的保底照原本（kaiAsk 不經這裡）；6. 玩家自己約的吃飯和她那一頓撞到＝照邀約系統原本的做法（S.playerPicked），不改。
+     5. 語彤那一晚＝她那一頓答應了（R.heartPick）＝排好的那一天；她那一則已經到了、還沒回＝現在答應會排在哪一天（S.exNatural）；還沒到、回了「那天有約了。」、過了期限＝沒有（不避開）。
+        所以她那一則到以前玩家已經接了同一個週六的一般邀約（很少見）：兩頓時間不重疊＝兩頓都留（不婉拒）；重疊＝照字面（她那一則照「改天」）。
+     舊存檔：這學期的名單沒有 exempt＝沒有這件事（照原本只能接一個）；已經排好的出遊不重排、已經回過的邀約不改。 */
+  const dk=d=>d==null?null:(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).key:d);
+  S.exEvening=function(G,w){ const ex=S.exempts(G,w.id); if(!ex.length||typeof PHONE==='undefined'||!PHONE.byAsk) return null; const R=S.rec(G,w.id);
+    if(R.heartPick){ const s=S.exPlanned(G,w); return s?s.day:null; }
+    for(const id of ex){ const tag=(R.asks||{})[id], m=tag?PHONE.byAsk(G,tag):null; if(m&&PHONE.askOpen(G,m)){ const s=S.exNatural(G,w,id); if(s) return s.day; } }
+    return null; };
+  /* 一般那一頓排在哪一天：{day, ye（語彤那一晚）, fb（找不到別的晚上、照字面排的）}。mode＝S.teBusy 的 mode（S.askSlot 用 'nat'）；
+     clash（S.planDinner）：照字面排的時候她那一頓已經答應了＝那一晚時間不撞到的才排（不會兩頓重疊；照理不會走到——撞到的那一則已經照「改天」回了）*/
+  S.genDay=function(G,w,spec,who,mode,clash){ const hh=spec.h||18.5, ye=S.isExempt(G,w.id,who)?null:S.exEvening(G,w), base=Object.assign({},spec,mode?{teMode:mode}:null);
+    if(ye==null) return {day:S.dinnerDay(G,w,base,who),ye:null,fb:false};
+    const d=S.dinnerDay(G,w,Object.assign({},base,{skip:x=>x===ye}),who); if(d!=null) return {day:d,ye,fb:false};
+    const xs=clash&&S.rec(G,w.id).heartPick?S.exPlanned(G,w):null;
+    return {day:xs?S.dinnerDay(G,w,Object.assign({},base,{teMode:'nat',skip:x=>S.overlap(S.span(x,hh,spec.travelH||0.25,0.25),xs)}),who):S.dinnerDay(G,w,base,who),ye,fb:true}; };
+  S.avInfo=function(G,w,what,o){ try{ if(typeof console!=='undefined'&&console.info) console.info('TE-HEART-AVOID '+what+' '+JSON.stringify(Object.assign({term:w&&w.id,at:dk(G.day)+' '+(+G.hour||0).toFixed(2)},o||{}))); }catch(e){} };
   S.askSlot=function(G,w,id,kind){ const spec=kind==='heart'?S.heart(id,w.id):(kind==='friend'?S.friend(id,w.id):null); if(!spec) return null; const hh=S.dinnerH(w.id,kind,spec), RH=S.rec(G,w.id).heartDay||{};
-    const d=kind==='heart'&&spec.sameDay?(RH[id]!=null&&RH[id]>=0?RH[id]:null):S.dinnerDay(G,w,Object.assign({},spec,{h:hh,teMode:'nat'}),id); return S.span(d,hh,spec.travelH||0.25,0.25); };   /* 當天才約的（芯慈）：先排好的那一天 */
+    if(kind==='heart'&&spec.sameDay) return S.span(RH[id]!=null&&RH[id]>=0?RH[id]:null,hh,spec.travelH||0.25,0.25);   /* 當天才約的（芯慈）：先排好的那一天 */
+    const r=S.genDay(G,w,Object.assign({},spec,{h:hh}),id,'nat'), s=S.span(r.day,hh,spec.travelH||0.25,0.25); return s?Object.assign(s,{fb:r.fb}):null; };   /* TE-HEART-AVOID-1104：避開語彤那一晚；找不到別的晚上＝照字面（不看她那一頓，'nat'），fb */
   S.teNo=function(G,term,id,m,mine){ if(!m||!PHONE.askOpen(G,m)) return false; const k=mine?-1:(m.ask.opts||[]).findIndex(o=>o&&o.set&&typeof o.set.TE_NO==='string'); return k>=0?!!PHONE.answer(G,m.ask.id,k):meNo(G,term,id,m); };
   const swept=typeof WeakMap!=='undefined'?new WeakMap():null;   /* 手機規則每一格都叫：同一個時間、訊息沒變就不再算一次 */
   S.exSweep=function(G,w,force){ if(!G||!w||typeof PHONE==='undefined'||!PHONE.byAsk) return; const ex=S.exempts(G,w.id); if(!ex.length) return; const R=S.rec(G,w.id); if(!R.picked&&!R.heartPick) return;
     const key=[w.id,G.day,Math.floor((+G.hour||0)*4),(G.msgs||[]).length,R.picked?R.picked.who:'',R.heartPick?R.heartPick.who:''].join('|'); if(!force&&swept&&swept.get(G)===key) return; if(swept) swept.set(G,key);
     const A=R.asks||{}, open=id=>{ const m=A[id]?PHONE.byAsk(G,A[id]):null; return m&&PHONE.askOpen(G,m)?m:null; };
-    if(R.picked){ const rs=S.regSlot(G,w); if(rs) for(const id of ex){ if(id===R.picked.who) continue; const m=open(id); if(m&&S.overlap(S.exNatural(G,w,id),rs)) S.teNo(G,w.id,id,m,R.picked.by==='player'); } }   /* 一般的那一頓定了：她那一則和它撞到＝照「改天」（一般的那一頓就是約她本人＝不回，原本 S.playerPicked 也跳過她）*/
-    if(R.heartPick){ const xs=S.exPlanned(G,w); if(xs) for(const id in A){ if(ex.includes(id)) continue; const m=open(id), k=m&&S.askKind(m); if(k&&S.overlap(S.askSlot(G,w,id,k),xs)) S.teNo(G,w.id,id,m,false); } } };   /* 她那一頓定了：還沒回的一般邀約和它撞到＝照「改天」*/
+    if(R.picked){ const rs=S.regSlot(G,w); if(rs) for(const id of ex){ if(id===R.picked.who) continue; const m=open(id); if(m&&S.overlap(S.exNatural(G,w,id),rs)&&S.teNo(G,w.id,id,m,R.picked.by==='player')){   /* 一般的那一頓定了：她那一則和它撞到＝照「改天」（一般的那一頓就是約她本人＝不回，原本 S.playerPicked 也跳過她）*/
+      const fb=!!(R.avFb&&R.avFb[R.picked.who]!=null);   /* TE-HEART-AVOID-1104：記一筆（一般那一頓是找不到別的晚上才排在她那一晚的、她那一則到以前已經接了、玩家自己約的）*/
+      S.avInfo(G,w,fb?'語彤那一則照「改天」（一般那一頓找不到別的晚上、排在她那一晚，時間撞到）':'照字面互斥：語彤那一則照「改天」（'+(R.picked.by==='player'?'玩家自己約的吃飯':'她那一則到以前已經接了同一晚的一般邀約')+'，時間撞到）',{who:id,picked:R.picked.who,day:dk(rs.day)}); } } }
+    if(R.heartPick){ const xs=S.exPlanned(G,w); if(xs) for(const id in A){ if(ex.includes(id)) continue; const m=open(id), k=m&&S.askKind(m); if(!k) continue; const sl=S.askSlot(G,w,id,k); if(S.overlap(sl,xs)&&S.teNo(G,w.id,id,m,false))   /* 她那一頓定了：還沒回的一般邀約和它撞到（避開她那一晚以後還是撞到＝找不到別的晚上）＝照「改天」*/
+      S.avInfo(G,w,sl.fb?'找不到別的晚上：自動婉拒':'照字面互斥：自動婉拒',{who:id,kind:k,day:dk(sl.day),h:sl.h}); } } };
   /* 手機上按「好。」的當下就處理（手機開著、遊戲暫停也一樣：原本等手機收起來的下一格才處理，兩則都按得到「好。」）；新的邀約傳到的當下就看撞不撞（PHONE.tick 之後、自動打開手機之前）。只在這學期有不佔名額的那一則才做 */
   S.onAnswer=function(G,m,o){ const v=o&&o.set&&o.set.TE_PICK; if(typeof v!=='string'||!G||!S.exempts(G,v.split('|')[0]).length) return; S.pickCheck({G}); };
   S.afterTick=function(G){ if(!S.ON||!G||(G.stage||'law')!=='law') return; const w=S.window(G); if(w) S.exSweep(G,w,true); };

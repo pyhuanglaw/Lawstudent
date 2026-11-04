@@ -3,6 +3,7 @@
 //   b  先接了別人（朋友的邀約、自己約的吃飯）→ 語彤那一則照樣傳來（不再不發）、照樣可以答應
 //   c  撞到＝兩頓時間重疊（大一上：都在那個週六晚上）：兩則都先傳到、玩家選一個，另一個照「改天」（自動回「那天有約了。」＋她原本的婉拒句；玩家自己約的照「這次我有約了，開學見。」），不扣數值；
 //      按「好。」的當下就處理（手機開著也一樣）、後到的那一則照樣傳到才回；22:00 的宵夜沒撞到＝照樣可以接
+//      TE-HEART-AVOID-1104（BB-C 20:17）以後：c1、c2 的以安、子晴避開語彤那一晚（排到 12/21），不再撞到——兩邊都接得到；照字面互斥（找不到別的晚上）在 tests/te_heart_avoid_unit.js
 //   d  沒寫 examDay 的心意邀約照原本「只能接一個」；把語彤的 examDay 拿掉也一樣
 //   e  舊存檔：這學期的名單沒有 exempt、已經有 picked＝照原本（語彤那一則照舊不發、答應她照舊佔名額）；新的欄位讀檔以後還在
 //   f  y2r2_3d.js 的 yt11b（語彤的期末飯排在 6/17 就往後一天）也看得到不佔名額的那一頓
@@ -90,31 +91,30 @@ await sec('b2',async()=>{
   check('b2. 已經答應她：再自己約她吃飯＝照一般的吃飯（不會變成第二頓心意的飯）；約別人、時間和她那一頓撞到也照一般的吃飯',TERMEND.playerInvite(H.G,YT,P[nIdx],{day:DK('2027-06-13'),h:12+10/60})===null&&TERMEND.playerInvite(H.G,'yu',P[nIdx],{day:DK('2027-06-12'),h:17.5})===null);
 });
 
-/* ---------- c 撞到（大一上：最後一科 12/18 週四，三則同一晚傳來，都排在 12/20 週六晚上）---------- */
+/* ---------- c 撞到（大一上：最後一科 12/18 週四，三則同一晚傳來）----------
+   TE-HEART-AVOID-1104（BB-C 2026-11-04 20:17 第 1 點）：還沒回的一般邀約排日子時避開語彤那一晚——原本以安、子晴都排在 12/20（六）晚上（以安和語彤撞到），
+   現在排到 12/21（日）；c1、c2 照新規則改（照字面互斥只剩找不到別的晚上的時候，見 tests/te_heart_avoid_unit.js）。c3（她那一則到以前先接了）照舊 */
 const cSetup=()=>{ const w=setup('Y1S1',[YT,AN,ZQ],[]); TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,21); return w; };
 await sec('c1',async()=>{
   const w=cSetup(), R=()=>H.G.termend.Y1S1;
   check('c1. 前置：三則都到了、都還沒回（兩個都先讓玩家看到）',isOpen('Y1S1',YT)&&isOpen('Y1S1',AN)&&isOpen('Y1S1',ZQ));
   { const has=typeof TERMEND.exNatural==='function'&&typeof TERMEND.askSlot==='function'&&typeof TERMEND.overlap==='function', sYT=has?TERMEND.exNatural(H.G,w,YT):null, sAN=has?TERMEND.askSlot(H.G,w,AN,'heart'):null, sZQ=has?TERMEND.askSlot(H.G,w,ZQ,'heart'):null;
-    check('c1. 撞不撞照時間：語彤 12/20（六）17:30、以安 12/20 19:00（重疊＝撞到）、子晴 12/20 22:00 宵夜（不重疊＝沒撞到）',
-      !!(sYT&&sAN&&sZQ)&&J([K(sYT.day),sYT.h])===J(['2025-12-20',17.5])&&J([K(sAN.day),sAN.h])===J(['2025-12-20',19])&&J([K(sZQ.day),sZQ.h])===J(['2025-12-20',22])&&TERMEND.overlap(sYT,sAN)&&!TERMEND.overlap(sYT,sZQ),
+    check('c1. 撞不撞照時間：語彤 12/20（六）17:30；以安 12/21（日）19:00、子晴 12/21 22:00 宵夜（TE-HEART-AVOID：避開語彤那一晚＝都沒撞到）',
+      !!(sYT&&sAN&&sZQ)&&J([K(sYT.day),sYT.h])===J(['2025-12-20',17.5])&&J([K(sAN.day),sAN.h])===J(['2025-12-21',19])&&J([K(sZQ.day),sZQ.h])===J(['2025-12-21',22])&&!TERMEND.overlap(sYT,sAN)&&!TERMEND.overlap(sYT,sZQ),
       J([sYT,sAN,sZQ].map(s=>s&&[K(s.day),s.h]))); }
-  adj=[]; PHONE.answer(H.G,tag('Y1S1',YT),0);
-  check('c1. 選語彤（按「好。」的當下，手機還開著）：以安那一則立刻照「改天」——自動「那天有約了。」＋她原本的婉拒句「好。那開學見。」（TE_NO），不能再答應',
-    ans('Y1S1',AN)===1&&thread(AN).slice(-2).join('|')==='player:那天有約了。|'+AN+':'+TERMEND_LINES.HEART[AN].decline&&PHONE.answer(H.G,tag('Y1S1',AN),0)===null,J(thread(AN).slice(-2)));
-  rules();
-  check('c1. 子晴 22:00 的宵夜沒撞到：還沒回、還可以接；以安記在 R.no（改天）',isOpen('Y1S1',ZQ)&&R().no&&R().no[AN]!=null&&!!R().heartPick&&!R().picked,J({zq:ans('Y1S1',ZQ),no:R().no}));
+  adj=[]; PHONE.answer(H.G,tag('Y1S1',YT),0); rules();
+  check('c1. 選語彤（按「好。」的當下，手機還開著）：以安、子晴都還沒回、都還可以接（原本以安照「改天」）；語彤記 heartPick、沒有 R.picked',isOpen('Y1S1',AN)&&isOpen('Y1S1',ZQ)&&!!R().heartPick&&!R().picked&&!(R().no&&R().no[AN]!=null),J({an:ans('Y1S1',AN),zq:ans('Y1S1',ZQ),no:R().no}));
   PHONE.answer(H.G,tag('Y1S1',ZQ),0); rules(); const qz=outOf('te_Y1S1'), qx=outOf(EXID('Y1S1',YT));
-  check('c1. 再接子晴：兩頓都排了（語彤 12/20 17:30；子晴不排在同一個晚上＝隔天 12/21 22:00）',!!qx&&J(dayH(qx))===J(['2025-12-20',6,17.5])&&!!qz&&qz.te.who===ZQ&&J(dayH(qz))===J(['2025-12-21',0,22])&&R().picked.who===ZQ,J({qx:dayH(qx),qz:dayH(qz)}));
+  check('c1. 再接子晴：兩頓都排了（語彤 12/20 17:30；子晴不排在同一個晚上＝12/21 22:00）；以安照原本「只能接一個」自動婉拒',!!qx&&J(dayH(qx))===J(['2025-12-20',6,17.5])&&!!qz&&qz.te.who===ZQ&&J(dayH(qz))===J(['2025-12-21',0,22])&&R().picked.who===ZQ&&ans('Y1S1',AN)===1,J({qx:dayH(qx),qz:dayH(qz),an:ans('Y1S1',AN)}));
   check('c1. 沒有扣任何數值',!negAdj().length,J(negAdj()));
 });
 await sec('c2',async()=>{
   const w=cSetup(), R=()=>H.G.termend.Y1S1;
-  adj=[]; PHONE.answer(H.G,tag('Y1S1',AN),0);
-  check('c2. 選以安（按「好。」的當下）：語彤那一則立刻照「改天」——自動「那天有約了。」＋她的婉拒句「好。那我去上班。」，不能再答應',
-    ans('Y1S1',YT)===1&&thread(YT).slice(-2).join('|')==='player:那天有約了。|'+YT+':'+TERMEND_LINES.HEART[YT].decline&&PHONE.answer(H.G,tag('Y1S1',YT),0)===null,J(thread(YT).slice(-2)));
-  rules(); const qa=outOf('te_Y1S1');
-  check('c2. 以安排在 12/20（六）19:00；子晴（一般名額）照原本自動婉拒；語彤沒有 heartPick、沒有她那一頓；R.no 記了語彤',!!qa&&qa.te.who===AN&&J(dayH(qa))===J(['2025-12-20',6,19])&&ans('Y1S1',ZQ)===1&&!R().heartPick&&!outOf(EXID('Y1S1',YT))&&R().no&&R().no[YT]!=null,J({qa:dayH(qa),zq:ans('Y1S1',ZQ),no:R().no}));
+  adj=[]; PHONE.answer(H.G,tag('Y1S1',AN),0); rules(); const qa=outOf('te_Y1S1');
+  check('c2. 選以安（語彤那一則還沒回）：以安排在 12/21（日）19:00（避開語彤那一晚）；子晴（一般名額）照原本自動婉拒；語彤那一則還在、還可以答應（原本照「改天」）',
+    !!qa&&qa.te.who===AN&&J(dayH(qa))===J(['2025-12-21',0,19])&&ans('Y1S1',ZQ)===1&&isOpen('Y1S1',YT)&&!R().heartPick&&!(R().no&&R().no[YT]!=null),J({qa:dayH(qa),zq:ans('Y1S1',ZQ),yt:ans('Y1S1',YT),no:R().no}));
+  PHONE.answer(H.G,tag('Y1S1',YT),0); rules(); const qx=outOf(EXID('Y1S1',YT));
+  check('c2. 再答應語彤：她那一頓 12/20（六）17:30；以安那一頓照舊 12/21；兩頓不重疊',!!R().heartPick&&!!qx&&J(dayH(qx))===J(['2025-12-20',6,17.5])&&!!outOf('te_Y1S1')&&outOf('te_Y1S1').te.who===AN&&!TERMEND.overlap(TERMEND.span(qx.day,qx.h,0.25,0.25),TERMEND.span(qa.day,qa.h,0.25,0.25)),J({qx:dayH(qx),qa:dayH(outOf('te_Y1S1'))}));
   check('c2. 沒有扣任何數值',!negAdj().length,J(negAdj()));
 });
 await sec('c3',async()=>{
