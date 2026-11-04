@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PARK_glb_r3",
+  "sha": "e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_park_glb_wrap.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:32:46",
+  "end": "2026-11-04T22:35:20",
+  "seconds": 153,
+  "exit": 1,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 74,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 26
+  }
+}
