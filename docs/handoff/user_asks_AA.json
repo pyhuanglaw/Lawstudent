@@ -1406,7 +1406,8 @@
    "status": "還沒做",
    "task": "WZ-SHOPS1-1104",
    "src": "使用者對 AA",
-   "note": "AA_654；USER_WANTS 列請 LAWWW 開"
+   "note": "AA_654；USER_WANTS 列請 LAWWW 開",
+   "wants": "X212"
   },
   {
    "id": "UA-AA-1104-09",
@@ -1416,7 +1417,8 @@
    "status": "已完成",
    "task": "WZ-SHOPS1-1104",
    "src": "使用者對 AA",
-   "note": "AA_654 §6"
+   "note": "AA_654 §6",
+   "wants": "X212"
   },
   {
    "id": "UA-AA-1104-10",
@@ -1426,7 +1428,8 @@
    "status": "已完成",
    "task": "WZ-SHOPS1-1104",
    "src": "使用者對 AA",
-   "note": "AA_654 §6"
+   "note": "AA_654 §6",
+   "wants": "X212"
   },
   {
    "id": "UA-AA-1104-11",
@@ -1436,7 +1439,8 @@
    "status": "已完成",
    "task": "WZ-SHOPS1-1104",
    "src": "使用者對 AA",
-   "note": "三位同意或小改就開工"
+   "note": "三位同意或小改就開工",
+   "wants": "X212"
   }
  ]
 }
