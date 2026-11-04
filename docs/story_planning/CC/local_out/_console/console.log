@@ -81,3 +81,18 @@
 [14:16:18] ==== START GG_int_cvs_menu_tt  (probe @ 809163ee4) ====
 [14:16:22] [res] cpu=30% mem=40% (16.1/31.4 GB) chrome_testing=16  START GG_int_cvs_menu_tt
 [14:16:59] [res] cpu=15% mem=48% (15.2/31.4 GB) chrome_testing=17  END GG_ext_glb4
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       401661bbf..08d390bd2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:17:04] ==== END   GG_ext_glb4  exit=0  142s   ====
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[14:17:06] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[14:17:06] memory 50% before starting GG_perf_ab_B1 (2 running)
+[14:17:06] ==== START GG_perf_ab_B1  (probe @ 610c528cb) ====
+[14:17:09] [res] cpu=32% mem=45% (15.8/31.4 GB) chrome_testing=9  START GG_perf_ab_B1
+[14:17:17] [res] cpu=10% mem=45% (13.9/31.4 GB) chrome_testing=9  END GG_perf_ab_A1
