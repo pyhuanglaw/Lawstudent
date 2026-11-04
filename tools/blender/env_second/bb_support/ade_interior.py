@@ -355,7 +355,7 @@ def down_rect(c, x0, x1, z0, z1, y, col):
     return c.poly([(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], col)
 
 
-cm = Part('ceil_trim', smooth=False)
+cm = Part('ceilfx_trim', smooth=False)
 for (a, b, c0, c1) in ((XI0, XI0 + 0.03, ZI0, ZI1), (XI1 - 0.03, XI1, ZI0, ZI1), (XI0, XI1, ZI0, ZI0 + 0.03), (XI0, XI1, ZI1 - 0.03, ZI1)): down_rect(cm['vc'], a, b, c0, c1, H - 0.003, '#f6f6f4')
 cm.done()
 
@@ -412,11 +412,11 @@ def panel_build(pt):
     pt['emit'].rect((0, -0.006, 0), (1, 0, 0), (0, 0, 1), hw, hl, ATL['panel'])   # 朝下
 
 
-PANEL = Proto('panel', panel_build)
+PANEL = Proto('ceilfx_panel', panel_build)
 for (x, z) in LT['panels']:
     PANEL.place(fm((x, H, z)))
     CL.glow(root, 'panel', x, H - 0.1, z, color='rgba(240,246,255,1)', size=1.3, day=0.25, night=1.0)
-ac = IT['ac']; pa = Part('ac'); aw = ac['w']
+ac = IT['ac']; pa = Part('ceilfx_ac'); aw = ac['w']
 for (a, b, c0, c1) in ((-aw / 2, aw / 2, -aw / 2, -aw / 2 + 0.03), (-aw / 2, aw / 2, aw / 2 - 0.03, aw / 2), (-aw / 2, -aw / 2 + 0.03, -aw / 2 + 0.03, aw / 2 - 0.03), (aw / 2 - 0.03, aw / 2, -aw / 2 + 0.03, aw / 2 - 0.03)):
     down_rect(pa['vc'], ac['x'] + a, ac['x'] + b, ac['z'] + c0, ac['z'] + c1, H - 0.004, '#ecebe6')   # 冷氣面板的外框（只做朝下的面）
 pa['goods'].rect((ac['x'], H - 0.006, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.03, aw / 2 - 0.03, ATL['ac_grille'])
@@ -827,10 +827,10 @@ crb(ptop['vc'], -0.21, 0.21, 0.12, 0.38, 0.015, 0.04, '#1c1d20', r=0.005); ptop[
 # ======================================================================
 for ob in list(root.children):
     if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'ceilfx' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
-ss = None if os.environ.get('AD_NOSS') else L.single_side(root, keep=r'glass', nodup=r'ad_(plaster|wood|floor_tile|ceil|goods|sign|alpha)')
+ss = None if os.environ.get('AD_NOSS') else L.single_side(root, keep=r'glass', nodup=r'ad_(plaster|wood|floor_tile|ceil|goods|sign|alpha)', skip=lambda ob: 'ceilfx' in ob.name)   # 天花板上的東西（ad_ceilfx_*）只做朝下的面、不補反面：遊戲鏡頭從天花板上面看時看不到
 info = L.export(OUT, gpu_instances=True)
 
 
