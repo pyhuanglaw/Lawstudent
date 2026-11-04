@@ -159,7 +159,7 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
   - `CC_TRACE_KEEP_BODIES=1`：trace 保留模型、字型等下載內容（預設拿掉，見下面「大小」）。
   - 分段（11-04 07:2x，BB：GG_int_cvs_menu_tt 跑了 25 分鐘，trace 有 629 MB，推不上去）：
     - `CC_TRACE_CHUNK=0`：關掉分段，照舊整份一個 zip。預設開。
-    - `CC_TRACE_CHUNK_S`：每段最長幾秒，預設 120。
+    - `CC_TRACE_CHUNK_S`：每段最長幾秒，預設 60（BB 11-04 07:54：段越短越容易推上去，但切段次數會變多）。
     - `CC_TRACE_KEEP_LAST`：沒有 FAIL 的段留最後幾段，預設 2。
 - `CC_TRACE=1`＋`CC_TRACE_DIR=<資料夾>` 是 runner 重跑時自己設給 gpu_wrap 的；手動跑探針也可以設（`python gpu_wrap.py <探針> <url> <out>`）。只對經 gpu_wrap 跑的 kind（probe、game、webkit）有 trace；node、blender、py、gpu 只有重跑和分類，沒有 trace。
 

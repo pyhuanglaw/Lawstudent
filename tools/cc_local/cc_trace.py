@@ -10,7 +10,7 @@
   4. env.json：瀏覽器版本、playwright 版本、GPU renderer（UNMASKED_RENDERER_WEBGL，第一個 page 讀一次）、CC_ITEM、SHA、CC_SLOT、
      headless、OS、每份 trace 的大小（超過 CC_TRACE_MAX_MB＝oversize:true，交給 runner 決定推不推）。
   5. 分段（BB 11-04 07:19：長測試 629 MB 推不上去）：async API 的 context 用 tracing.start_chunk／stop_chunk 切段，
-     探針印「== 」開頭的行（CASE 開頭）或滿 CC_TRACE_CHUNK_S 秒（預設 120）就換一段；那一段有 FAIL 行、pageerror、crash 就留，
+     探針印「== 」開頭的行（CASE 開頭）或滿 CC_TRACE_CHUNK_S 秒（預設 60）就換一段；那一段有 FAIL 行、pageerror、crash 就留，
      沒有的只留最後 CC_TRACE_KEEP_LAST 段（預設 2），其他當場刪掉。檔名 trace_<item>_<n>_c<k>.zip。CC_TRACE_CHUNK=0＝舊做法（整份一個 zip）。
      sync API 照舊整份。
   所有寫出去的字串先把 repo／家目錄／暫存資料夾路徑換成 <REPO>／<HOME>／<TMP>，使用者名稱換成 <USER>。
@@ -25,9 +25,9 @@ MAX_MB = float(os.environ.get('CC_TRACE_MAX_MB') or 20)
 TRACE_OPTS = dict(screenshots=True, snapshots=True, sources=False)
 CHUNK = os.environ.get('CC_TRACE_CHUNK', '1') != '0'
 try:
-    CHUNK_S = max(10.0, float(os.environ.get('CC_TRACE_CHUNK_S') or 120))
+    CHUNK_S = max(10.0, float(os.environ.get('CC_TRACE_CHUNK_S') or 60))
 except ValueError:
-    CHUNK_S = 120.0
+    CHUNK_S = 60.0
 try:
     KEEP_LAST = max(1, int(os.environ.get('CC_TRACE_KEEP_LAST') or 2))
 except ValueError:
