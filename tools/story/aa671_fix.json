@@ -1,0 +1,13 @@
+{
+ "note": "AA671-LINES-1104（AA_671 台詞第七批，企劃線 3b5043eef，AA 定稿 D109）：這一張只有第 1、2 列，明軒 brunch 答應要有原因（invites.js:187 acc.brunch 的 phone、face，src 直接改）；企劃舊稿（BB_158、BB_172 等）還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js 共用；長的先換；排在 aa670_fix.json 後面）。第 3、4 列（msg2_pool.js 柏翰 bday、方奕廷 f3_declined）這一版沒做。",
+ "pairs": [
+  [
+   "早午餐？哈哈 CP 值不高喔……好啦 週末可以",
+   "早午餐？哈哈 CP 值不高喔 你請的話就可以"
+  ],
+  [
+   "早午餐？CP 值不高喔……好啦，週末可以。",
+   "早午餐？CP 值不高喔。你請的話，我就去。"
+  ]
+ ]
+}
