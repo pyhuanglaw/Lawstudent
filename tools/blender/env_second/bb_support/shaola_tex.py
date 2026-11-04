@@ -27,65 +27,61 @@ def _save(a, p):
 
 # ---------------- 牆（2048 × 1536：上 512＝左牆 13 m、中 512＝右牆 13 m、下 512＝後牆 6 m（0～945）＋前牆 6 m（1024～1969）） ----------------
 def wall(path):
-    W, H = 2048, 1536; img = np.zeros((H, W, 3), np.float32)
-    base = np.array([216, 198, 158], np.float32)   # 參考圖左牆中段 #e2d4b2 左右（發黃的米色）
+    """v7（LAWWW2 11-04）：整面是均勻的舊油漆（只有輕微色差）；水漬、黃斑、剝落只放在局部——靠近地面、冷氣下面、牆角。
+    長條分配：上 512＝左牆 13 m、中 512＝右牆 13 m、下 512＝後牆 6 m（0～945）＋前牆 6 m（1024～1969）；每公尺 157.5 px，高 3.2 m＝512 px"""
+    W, H = 2048, 1536; img = np.zeros((H, W, 3), np.float32); ppm = 2048 / 13.0
+    base = np.array([214, 198, 160], np.float32)   # 參考圖左牆中段（發黃的米色舊漆）
+    xs = np.arange(W)[None, :].astype(np.float32)
+    def gauss_x(c, w): return np.exp(-((xs - c) / w) ** 2)
+    def row(hm): return (3.2 - hm) / 3.2 * 512   # 高度（m）→ 這一條的列
     for k in range(3):
         y0 = k * 512; h = 512
-        n1 = _noise(h, W, 180, 11 + k); n2 = _noise(h, W, 24, 21 + k, 3); n3 = _noise(h, W, 6, 31 + k, 2)
+        n1 = _noise(h, W, 260, 11 + k); n2 = _noise(h, W, 24, 21 + k, 3); n3 = _noise(h, W, 6, 31 + k, 2)
         yy = np.linspace(0, 1, h)[:, None]   # 0＝天花板、1＝地板
-        col = base[None, None] * (0.93 + 0.1 * n1[..., None] + 0.05 * (n2[..., None] - 0.5) + 0.04 * (n3[..., None] - 0.5))
-        # 下緣：1.0 m 以下（y＞0.69）一圈灰綠的髒（拖地水、椅子撞）
-        low = np.clip((yy - 0.66) / 0.08, 0, 1)
+        col = base[None, None] * (0.95 + 0.06 * n1[..., None] + 0.025 * (n2[..., None] - 0.5) + 0.02 * (n3[..., None] - 0.5))   # 均勻的舊漆、輕微色差
+        # 局部的範圍（0～1）：牆角、冷氣下面；靠近地面另外算
+        if k < 2: corners = gauss_x(0, 70) + gauss_x(W - 1, 70)
+        else: corners = gauss_x(0, 60) + gauss_x(945, 60) + gauss_x(1024, 60) + gauss_x(1969, 60)
+        loc = np.clip(corners, 0, 1) * (0.35 + 0.65 * np.clip(np.abs(yy - 0.45) * 2.6, 0, 1))   # 牆角：靠天花板和地面的地方多、中間少
+        acs = []   # (中心 px, 半寬 px, 冷氣底的列)
+        if k == 0: acs.append(((6.5 - 4.3) * ppm, 0.6 * ppm, row(2.35)))      # 左牆窗型冷氣 z 3.85～4.75
+        if k == 1: acs.append(((-0.55 + 6.5) * ppm, 0.55 * ppm, row(2.45)))   # 右牆冷氣 z −1.0～−0.1
+        for (cx, hw, r0) in acs:
+            yrow = np.arange(h)[:, None]
+            loc = np.maximum(loc, gauss_x(cx, hw) * np.clip((yrow - r0 + 10) / 20, 0, 1) * np.exp(-np.clip(yrow - r0, 0, None) / 160))
+        floor_ = np.clip((yy - 0.72) / 0.12, 0, 1) * np.clip((_noise(h, W, 220, 61 + k, 2) - 0.48) * 5, 0, 1)   # 靠近地面：只有幾段
+        # 下緣：0.9 m 以下灰綠的髒（拖地水、椅子撞），踢腳更暗
         grime = np.array([150, 144, 120], np.float32)
-        col = col * (1 - 0.7 * low[..., None]) + grime * 0.7 * low[..., None] * (0.9 + 0.2 * n2[..., None])
-        # 踢腳 12 cm 更暗
+        low = np.clip((yy - 0.7) / 0.1, 0, 1) * (0.55 + 0.45 * n2)
+        col = col * (1 - 0.55 * low[..., None]) + grime * 0.55 * low[..., None]
         col *= (1 - 0.25 * np.clip((yy - 0.96) / 0.02, 0, 1))[..., None]
-        # 上緣：天花板滲水的黃褐水漬（一條一條往下流）
-        rng = np.random.RandomState(41 + k)
-        stain = np.zeros((h, W), np.float32)
-        for _ in range(34 if k != 1 else 18):
-            cx = rng.randint(0, W); wd = rng.randint(30, 160); ln = rng.uniform(0.15, 0.55)
-            xs = np.arange(W); prof = np.exp(-((xs - cx) / wd) ** 2)
-            drip = np.clip(1 - yy / ln, 0, 1) ** 0.7
-            stain = np.maximum(stain, prof[None, :] * drip * rng.uniform(0.4, 1.0))
-        stain *= (0.6 + 0.6 * n2)
-        for _ in range(10):   # 牆中段的大片舊污（灰褐、不規則）
-            cx, cy = rng.randint(0, W), rng.randint(60, 360); rx, ry = rng.randint(40, 200), rng.randint(30, 120)
-            yy2, xx2 = np.mgrid[0:h, 0:W]; blob = np.exp(-(((xx2 - cx) / rx) ** 2 + ((yy2 - cy) / ry) ** 2) * 2) * (0.4 + 0.6 * n2)
-            stain = np.maximum(stain, blob * rng.uniform(0.25, 0.5))
-        sc = np.array([150, 112, 64], np.float32)
-        col = col * (1 - 0.75 * stain[..., None]) + sc * 0.75 * stain[..., None]
-        # 水漬的邊（深一點的線）
-        edge = np.clip(np.abs(np.gradient(stain, axis=0)) * 40, 0, 1)
-        col *= (1 - 0.18 * edge[..., None])
-        # 斑駁：一點一點掉漆、黑點
-        spots = (n3 > 0.83).astype(np.float32) * (n1 > 0.5)
-        col = col * (1 - 0.12 * spots[..., None])
-        # v6：一塊一塊的黃斑、剝落（有邊緣），不是噴槍的漸層
-        nb = _noise(h, W, 60, 91 + k, 3); nc = _noise(h, W, 14, 95 + k, 2)
-        m_y = ((nb + 0.2 * nc) / 1.2 > 0.66).astype(np.float32)                       # 黃斑（舊水漬乾掉）
-        m_y = np.asarray(Image.fromarray((m_y * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255
+        # 水漬（黃褐、有邊）：只在局部
+        nb = _noise(h, W, 50, 91 + k, 3); nc = _noise(h, W, 12, 95 + k, 2)
+        wet = np.clip(np.maximum(loc, floor_ * 0.8), 0, 1) * (0.55 + 0.45 * nb)
+        m_y = (wet + 0.25 * (nc - 0.5) > 0.5).astype(np.float32)
+        m_y = np.asarray(Image.fromarray((m_y * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.0)), np.float32) / 255
         rim = np.clip(np.abs(np.gradient(m_y, axis=0)) + np.abs(np.gradient(m_y, axis=1)), 0, 1) * 3
-        col = col * (1 - 0.32 * m_y[..., None]) + np.array([186, 150, 86]) * 0.32 * m_y[..., None]
-        col *= (1 - 0.12 * np.clip(rim, 0, 1))[..., None]                       # 黃斑的深色邊
-        np_ = _noise(h, W, 40, 99 + k, 3) + 0.3 * _noise(h, W, 6, 101 + k, 2)
-        m_p = ((np_ / 1.3 > 0.71) * np.clip((yy - 0.08) * 8, 0, 1) > 0.5).astype(np.float32)   # 剝落：露出底下比較白的灰泥、邊緣一圈深色
-        m_p = np.asarray(Image.fromarray((m_p * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8)), np.float32) / 255
-        rp = np.clip(np.abs(np.gradient(m_p, axis=0)) + np.abs(np.gradient(m_p, axis=1)), 0, 1) * 4
-        col = col * (1 - 0.3 * m_p[..., None]) + np.array([226, 218, 196]) * 0.3 * m_p[..., None]
-        col *= (1 - 0.16 * np.clip(rp, 0, 1))[..., None]
+        col = col * (1 - 0.35 * m_y[..., None]) + np.array([170, 132, 76]) * 0.35 * m_y[..., None]
+        col *= (1 - 0.14 * np.clip(rim, 0, 1))[..., None]
+        # 剝落：只在牆角、冷氣下面、靠近地面的一小部分
+        np_ = _noise(h, W, 30, 99 + k, 3)
+        m_p = ((np.maximum(loc, floor_ * 0.6) * (0.5 + 0.5 * np_)) > 0.62).astype(np.float32)
+        m_p = np.asarray(Image.fromarray((m_p * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.0)), np.float32) / 255
+        rp = np.clip(np.abs(np.gradient(m_p, axis=0)) + np.abs(np.gradient(m_p, axis=1)), 0, 1) * 3
+        col = col * (1 - 0.3 * m_p[..., None]) + np.array([224, 216, 194]) * 0.3 * m_p[..., None]
+        col *= (1 - 0.18 * np.clip(rp, 0, 1))[..., None]
         img[y0:y0 + h] = col
     im = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(im); r = random.Random(7)
     for k in range(3):   # 撕掉的海報、膠帶痕
         y0 = k * 512
-        for _ in range(14):
+        for _ in range(5):
             x = r.randint(20, W - 120); y = y0 + r.randint(110, 330); w_, h_ = r.randint(50, 130), r.randint(60, 150)
             for (tx, ty) in ((x, y), (x + w_, y), (x, y + h_), (x + w_, y + h_)):
                 if r.random() < 0.7: d.rectangle([tx - 7, ty - 3, tx + 7, ty + 3], fill=(206, 190, 150))
             if r.random() < 0.25:   # 貼過東西的地方顏色淺一點（很淡）
                 ov = Image.new('L', im.size, 0); ImageDraw.Draw(ov).rectangle([x + 2, y + 2, x + w_ - 2, y + h_ - 2], fill=46)
                 im.paste(Image.new('RGB', im.size, (236, 226, 198)), (0, 0), ov); d = ImageDraw.Draw(im)
-        for _ in range(5):   # 裂縫
+        for _ in range(2):   # 裂縫
             x, y = r.randint(0, W), y0 + r.randint(20, 300)
             for s in range(r.randint(6, 16)):
                 nx, ny = x + r.randint(-8, 8), y + r.randint(4, 14); d.line([(x, y), (nx, ny)], fill=(150, 136, 110), width=1); x, y = nx, ny

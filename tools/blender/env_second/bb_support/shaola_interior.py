@@ -67,9 +67,9 @@ M = dict(
     steel=img_mat('sl_steel', P['steel'], rough=0.3, metal=0.45),
     print=img_mat('sl_print', P['prints'], rough=0.6),
     vc=L.vc_material('sl_vc', rough=0.62),
-    gloss=L.vc_material('sl_vc_gloss', rough=0.2),                         # 燒臘油亮、人造皮、玻璃罐
+    gloss=L.vc_material('sl_vc_gloss', rough=0.3),                         # 燒臘油亮（LAWWW2 11-04：roughness 約 0.3）、人造皮、玻璃罐
     vm=L.vc_metal('sl_vc_metal', rough=0.32, metal=0.45),                  # 鋼管、鋁框、銅燈罩、勾子
-    glass=L.flat('sl_glass', '#e4ecee', rough=0.04, alpha=0.12),
+    glass=L.flat('sl_glass', '#dfe6e8', rough=0.04, alpha=0.06),   # 淡一點：燒臘櫃的玻璃不要蓋一層霧
     tube=L.flat('GLOW_sl_tube', '#ffffff', rough=0.3, emit=tuple(v * 8.0 for v in B.srgb('#eef2ff'))),
     warm=L.flat('GLOW_sl_warm', '#ffe2b0', rough=0.4, emit=tuple(v * 5.0 for v in B.srgb('#ffb85c'))),
     screen=img_mat('GLOW_sl_screen', P['screen'], rough=0.15, emit=1.2),
@@ -521,8 +521,8 @@ def hook(x, z, y1):
 def bird(x, z, kind):
     """v6 燒鴨、油雞：勾子穿過細長的脖子吊著；身體長（鴨身長 0.45 m）、胸窄、前後扁；皮有一圈一圈的皺褶（頂點往外推、顏色深淺跟著走）；
     鴨頭深色、彎過勾子；棒腿收在身體下段兩側、翅膀貼兩側。焦糖色漸層：中間亮、下面和邊緣深；油亮反光畫進頂點色"""
-    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 1.0, '#84320e', '#3e1004', '#1c0602', 0.118, 0.45, 0.17
-    else: sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 0.9, '#d29c44', '#a0661c', '#6a3e10', 0.12, 0.33, 0.1
+    if kind == 'duck': sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 1.0, '#9a3406', '#4a1002', '#1e0401', 0.118, 0.45, 0.17   # 深焦糖色帶紅（飽和一點：粗糙度 0.3 的反光會把顏色洗淡）
+    else: sc, col_hi, col_lo, col_edge, body_r, body_h, neck_len = 0.9, '#eab650', '#c4861c', '#865008', 0.12, 0.33, 0.1   # 淡金黃
     ytop = RAIL_Y - 0.03; hook(x, z, ytop)
     yb = ytop - neck_len - body_h
     prof = [(0.0, 0.0), (body_r * 0.4, 0.012), (body_r * 0.8, body_h * 0.1), (body_r * 0.98, body_h * 0.26), (body_r, body_h * 0.42), (body_r * 0.9, body_h * 0.6),
@@ -549,7 +549,7 @@ def bird(x, z, kind):
         wr = 0.5 + 0.5 * math.sin(t * 34 + ph)                                                   # 皺褶的凹處深一點
         sp = 0.5 + 0.5 * math.sin(px * 61 + py * 47 + pz * 83) * math.sin(py * 29 - px * 37)
         k = (1 - 0.55 * e ** 2.2) * (0.78 + 0.22 * wr) * (0.86 + 0.22 * sp); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
-    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.28, 8)
+    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.6 if kind == 'duck' else 0.5, 22)   # 表皮的高光：窄而亮（油光）
     # 頭：深色、彎過勾子垂在前面
     f0 = set(GL.bm.faces)
     GL.ell((x + 0.028, ytop + 0.004, z), 0.03 * sc, 0.02 * sc, 0.019 * sc, seg=8, rings=5)
@@ -583,9 +583,9 @@ def charsiu(x, z, ln):
     def grad(px, py, pz):
         e = math.hypot((px - x) / 0.046, (pz - z) / 0.023); t = (py - (ytop - ln)) / ln
         edge = max(0.0, min(1.0, (e - 0.7) / 0.5)); spot = 0.5 + 0.5 * math.sin(py * 53 + px * 91 + pz * 37)
-        base = mix('#b0301c', '#4a0e06', edge)
-        k = (1 - 0.8 * edge * (0.5 + 0.5 * spot)) * (0.4 + 0.6 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
-    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.22, 7)
+        base = mix('#8e1004', '#1a0201', edge)   # 深紅、邊緣焦黑
+        k = (1 - 0.6 * edge * (0.5 + 0.5 * spot)) * (0.45 + 0.55 * min(1.0, t * 5)); return [base[0] * k, base[1] * k, base[2] * k, 1.0]
+    paint_fn(GL, fs, grad); gloss_pass(GL, fs, 0.4, 22)
 
 
 # v6：肉擠滿一排、互相貼近（參考圖由近到遠：油雞、燒鴨、叉燒）：叉燒 9 條、燒鴨 4 隻、油雞 3 隻
