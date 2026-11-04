@@ -71,8 +71,9 @@ const SATS=[]; for(let d=dayOf('2025-09-27');SATS.length<8;d+=7) if(CALENDAR.ter
 // ---------- 3. 兩點半 Café ----------
 { const bad=[]; for(const d of SATS) for(const h of [14.25,15.5,16.5]){ global.STORY.cafeCustomers=()=>[0,2]; const G=mkG(d,h); const z=build('cafe',G); for(const k in CROWD.shopRes) delete CROWD.shopRes[k];
     const R=SHOPENC.rec(G), k=SHOPENC.key(G,'cafe'); R.dec[k]={who:'heroine_01',spot:'cafe'}; const dd=SHOPENC.enter(GM,'cafe'); const s=dd.place&&dd.place.seat; if(!s){ bad.push('沒有位子'); continue; }
-    const i=z.seats.findIndex(q=>near(q,s.x,s.z,0.12)); const q=z.seats[i]; if(i===5||i===0||i===2||q.bar||q.sofa) bad.push('坐了 '+i+(q.bar?' 吧檯':'')+(q.sofa?' 沙發':'')); if(!CROWD.shopReserved('cafe',q,G)) bad.push('沒有預約'); }
-  check('3. Café：不坐學姊的位子（5）、吧檯、沙發、今天客人的位子（0、2）；有預約',!bad.length,bad.join('；')); delete global.STORY.cafeCustomers; }
+    const i=z.seats.findIndex(q=>near(q,s.x,s.z,0.12)); const q=z.seats[i]; if(i===5||i===0||i===2||q.bar||!q.sofa) bad.push('坐了 '+i+(q.bar?' 吧檯':'')+(q.sofa?' 沙發':'')); if(!CROWD.shopReserved('cafe',q,G)) bad.push('沒有預約'); }
+  /* 2026-11-04（WZ-SHOPS1-1104，AA cafe230_layout.js seatPlan.sofa）：以安那一列「她坐在沙發那一區」＝shop_enc.js tag sofa，SHOPENC.seatPick 照 tag 挑沙發（原本排除沙發：文字和位子對不上，FIXED_COORDS 第 1 節）*/
+  check('3. Café：以安坐沙發（偶遇資料 tag sofa）；不坐學姊的位子（5）、吧檯、今天客人的位子（0、2）；有預約',!bad.length,bad.join('；')); delete global.STORY.cafeCustomers; }
 // ---------- 4. SHOPENC.after ----------
 { const G=mkG(SATS[0],15), r=enter('bookstore',G,'npc_songzn'); SHOPENC.after(GM,'bookstore'); const zn=E.npcs.find(n=>n.shopZn);
   check('4. 宋知寧站在書架前（預約的那一點）、按鈕「看二手書架」、女生的路人底模、17:00 走',!!zn&&Math.hypot(zn.obj.position.x-r.d.place.stand[0],zn.obj.position.z-r.d.place.stand[1])<0.01&&zn.talkLabel==='看二手書架'&&zn.obj.userData.spec.sex==='f'&&zn.until===17&&typeof zn.talk==='function');
