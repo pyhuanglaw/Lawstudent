@@ -39,6 +39,8 @@ GG_night_r4_21 | 5eab062b7 | probe | docs/story_planning/test_tools/cc/cc_gg_car
 GG_night_r4_0130 | 5eab062b7 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
 # BIKE_flow_r5：r4 跑的是修正前的探針（沒有「出口旁」那段）；12c5f6cba 起的探針走到出口 0.3 m、確認出店才判車
 BIKE_flow_r5 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
+# GG_glb_measure（LAWWW 07:16）：ff1283943＝LAWWW2 量法一致 patch（停時鐘、17:30、路人移出、census）；給 BB 判 draw call
+GG_glb_measure | ff1283943 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # CAFE230（LAWWW 07:07）：2:30 AM 室內 v1b 接進遊戲 d432de8ba；截圖給 BB 判 ART_APPROVED
 CAFE230_glb | d432de8ba | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
 CAFE230_seats | d432de8ba | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
