@@ -1,0 +1,5 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_CAFE230_seats\tests\seats_on_furniture.py http://127.0.0.1:8810/index.html cafe
+BAD cafe：座位 20，有問題 2
+      {"label": "", "x": -6.55, "z": -0.55, "lv": 0, "top": 1.05, "hitName": "a23_vcg", "near": null, "floor": 0}
+      {"label": "", "x": -6.55, "z": 0.55, "lv": 0, "top": 1.05, "hitName": "a23_vcg", "near": null, "floor": 0}
+{"bad": 2}

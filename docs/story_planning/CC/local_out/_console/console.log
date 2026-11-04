@@ -483,3 +483,18 @@
 [15:10:37] ==== START CAFE230_seats  (game @ d432de8ba) ====
 [15:10:40] [res] cpu=15% mem=51% (16.3/31.4 GB) chrome_testing=18  START CAFE230_seats
 [15:11:55] [res] cpu=46% mem=52% (16.8/31.4 GB) chrome_testing=20  END CAFE230_glb
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ea7d535e8..c2449feef  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:12:00] ==== END   CAFE230_glb  exit=1  134s   ====
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:12:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:12:05] memory 52% before starting CAFE230_reach (2 running)
+[15:12:05] ==== START CAFE230_reach  (game @ d432de8ba) ====
+[15:12:08] [res] cpu=37% mem=52% (16.6/31.4 GB) chrome_testing=20  START CAFE230_reach
+[15:12:44] [res] cpu=22% mem=50% (15.8/31.4 GB) chrome_testing=18  END CAFE230_seats
