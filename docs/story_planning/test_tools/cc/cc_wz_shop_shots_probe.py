@@ -52,6 +52,11 @@ WATCH_JS = """(()=>{ const E=GAME.E, P=E.player, D=GAME.D||{}; const q=v=>{ try{
     choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim()).slice(0,6), dlg:!!document.querySelector('#dlg:not(.hide)'),
     interact:(document.querySelector('#interact')||{}).textContent||'', x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), entering:!!(GAME.isEntering&&GAME.isEntering()), zone:GAME.G.zone, hour:+(+GAME.G.hour).toFixed(2)}; })()"""
 
+OCC_JS = r"""(([sx,sz,ix,iz])=>{ const E=GAME.E; const npcs=(E.npcs||[]).filter(n=>n&&n.seat).map(n=>({name:n.name||n.id||'(路人)', x:+(+n.seat.x).toFixed(2), z:+(+n.seat.z).toFixed(2), d:+Math.hypot(n.seat.x-sx,n.seat.z-sz).toFixed(2)}));
+  const its=(E.interactables||[]).filter(i=>i.seat&&Math.hypot((+i.seat.x)-sx,(+i.seat.z)-sz)<0.12);
+  const it=its[0]?{label:its[0].label, hidden:!!its[0].hidden, radius:its[0].radius||null, taken:its[0].seat.taken===undefined?null:its[0].seat.taken, x:+(+its[0].x).toFixed(2), z:+(+its[0].z).toFixed(2), n:its.length}:null;
+  const near=npcs.filter(n=>n.d<=0.35); return {seat:[sx,sz], npcOnSeat:near, it, seatedNpcs:npcs.length, nearest:typeof E.nearestInteractable==='function'?(()=>{ try{ const q=E.nearestInteractable(); return q?q.label:null; }catch(e){ return 'ERR'; } })():null}; })(%s)"""
+
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok: FAILS.append(name)
@@ -175,15 +180,19 @@ async def floor_seats(pg, cdp, allseats=False):
         await L.go_to(pg, cdp, L.Run('cc', OUT) if hasattr(L, 'Run') else None, s['x'], s['z'], 0.35, s['label'], max_s=180)
         await pg.wait_for_timeout(800)
         st = await L.state(pg)
-        if not check('[%s] 走到「%s」(%s, %s)：按鈕出現' % (tag, s['label'], s['sx'], s['sz']), st['interact'].startswith(s['label'][:2]), J({'interact': st['interact'], 'x': st['x'], 'z': st['z']})):
+        # BB-C 11-04（LAWWW-C 13:2x）：按鈕不出來／按了不坐，是不是那張有人坐著——同一時間點印 (a) 有 seat 的 NPC (b) 這張的 interactable
+        occ = await pg.evaluate(OCC_JS % J([s['sx'], s['sz'], s['x'], s['z']]))
+        print('  [%s] 座位佔用：%s' % (tag, J(occ)), flush=True)
+        if not check('[%s] 走到「%s」(%s, %s)：按鈕出現' % (tag, s['label'], s['sx'], s['sz']), st['interact'].startswith(s['label'][:2]), J({'interact': st['interact'], 'x': st['x'], 'z': st['z'], 'npcOnSeat': occ.get('npcOnSeat'), 'taken': (occ.get('it') or {}).get('taken')})):
             continue
         await L.tap(pg, cdp, '#interact')
         for _ in range(30):
             await pg.wait_for_timeout(500)
             if await pg.evaluate("!!GAME.E.player.seat&&!GAME.E.player.busy"): break
         await pg.wait_for_timeout(int(sit_wait * 1000))
-        if sit_wait > 2.5 and not await pg.evaluate("!!GAME.E.player.seat"):
+        if not await pg.evaluate("!!GAME.E.player.seat"):
             print('  [%s] %s 秒還沒坐下：%s' % (tag, sit_wait, J(await pg.evaluate(WATCH_JS))), flush=True)
+            print('  [%s] 按了沒坐下時的座位佔用：%s' % (tag, J(await pg.evaluate(OCC_JS % J([s['sx'], s['sz'], s['x'], s['z']])))), flush=True)
         c = await pg.evaluate(CAM)
         await pg.screenshot(path=os.path.join(OUT, '%s_seat_%s.png' % (SH['glb'], tag)))
         print('  [%s] 坐下：%s' % (tag, J(c)), flush=True)
