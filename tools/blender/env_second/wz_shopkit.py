@@ -671,6 +671,7 @@ XS_MAT = _img_mat('wz_xs_fronts', _XSA + '.jpg', rough=0.55, emit=0.85) if XS_AT
 XS_MAT_M = _img_mat('wz_xs_fronts_matte', _XSA + '.jpg', rough=0.75, emit=0.1) if XS_ATLAS else None   # 外牆上的字、招牌板、海報櫃：不發光
 XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend', '_kitchen', '_win', 'ggyy_sign')
 _XSQ = []   # 先收起來，最後一次做成兩個網格（同材質合併）
+XS_SHOPS = []   # 窗卡的店前綴（照第一次出現的順序編號，寫進 xs_fronts_lit 的 extras xsShops）
 
 
 def xs_quad(key, pts, flip=False, tiles=1):
@@ -681,7 +682,7 @@ def xs_quad(key, pts, flip=False, tiles=1):
     for i in range(tiles):
         t0, t1 = i / tiles, (i + 1) / tiles
         lerp = lambda p, q, t: tuple(p[k] + (q[k] - p[k]) * t for k in range(3))
-        _XSQ.append(([lerp(a, b, t0), lerp(a, b, t1), lerp(d, c, t1), lerp(d, c, t0)], (u1, v0, u0, v1) if flip else (u0, v0, u1, v1), any(t in key for t in XS_LIT)))
+        _XSQ.append(([lerp(a, b, t0), lerp(a, b, t1), lerp(d, c, t1), lerp(d, c, t0)], (u1, v0, u0, v1) if flip else (u0, v0, u1, v1), any(t in key for t in XS_LIT), key))
 
 
 def xs_finish():
@@ -689,12 +690,19 @@ def xs_finish():
     for lit, mat, nm in ((True, XS_MAT, 'xs_fronts_lit'), (False, XS_MAT_M, 'xs_fronts')):
         qs = [q for q in _XSQ if q[2] == lit]
         if not qs: continue
-        bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap')
-        for pts, (u0, v0, u1, v1), _ in qs:
+        bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); uvs = bm.loops.layers.uv.new('UVShop') if lit else None
+        for q_ in qs:
+            pts, (u0, v0, u1, v1) = q_[0], q_[1]
             f = bm.faces.new([bm.verts.new(g2b(*q)) for q in pts])
             for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = t
+            if uvs is not None:   # 店的編號（第二組 UV 的 u；0＝不屬於哪一間、永遠亮）：遊戲照營業時間把打烊的店的窗卡調暗，不用拆網格（BB 11-04 05:06）
+                k_ = q_[3] if len(q_) > 3 and q_[3] else ''; pre = k_.split('_')[0] if k_ else ''
+                if pre and pre not in XS_SHOPS: XS_SHOPS.append(pre)
+                si = (XS_SHOPS.index(pre) + 1) if pre else 0
+                for lp in f.loops: lp[uvs].uv = (float(si), 0.0)
         me = bpy.data.meshes.new(nm); bm.to_mesh(me); bm.free(); me.materials.append(mat)
         ob = bpy.data.objects.new(nm, me); B.scene().collection.objects.link(ob); ob.parent = root
+        if lit: ob['xsShops'] = ','.join(XS_SHOPS)   # glTF extras：第 i 間（從 1 開始）＝這串的第 i 個前綴（ggtea、ggbook、ggcvs…）
 
 
 def _xq(xf, key, x0, x1, y0, y1, z, tiles=None, nz=1):
@@ -815,7 +823,7 @@ def xs_side_window(spec, xf, W, c, sd):
     xg = W / 2 - dep; xc = xg - D; fr = acc(SK['black']); cream = acc(frame_mat('#e8e2d6'))
     if sd.get('int') in XS_ATLAS:
         u0, v0, u1, v1 = XS_ATLAS[sd['int']][:4]
-        _XSQ.append(([xf.p(xc, 0.12, z1), xf.p(xc, 0.12, z0), xf.p(xc, y1, z0), xf.p(xc, y1, z1)], (u0, v0, u1, v1), True))
+        _XSQ.append(([xf.p(xc, 0.12, z1), xf.p(xc, 0.12, z0), xf.p(xc, y1, z0), xf.p(xc, y1, z1)], (u0, v0, u1, v1), True, sd['int']))
     xf.box(acc(SK['f_terrazzo']), xc, xg, -0.02, 0.12, z0, z1)
     for zz in (z0, z1): xf.box(cream, xc, xg, 0.12, y1, zz - 0.03, zz + 0.03)
     xf.box(cream, xc, xg, y1, y1 + 0.05, z0, z1)

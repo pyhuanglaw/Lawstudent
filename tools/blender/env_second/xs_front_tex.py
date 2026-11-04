@@ -80,10 +80,10 @@ QG = [
     ('gongguan_book_ext', 'board', [(617, 543), (767, 543), (767, 787), (617, 787)], 192, 320),
     ('gongguan_book_ext', 'pic', [(340, 424), (413, 424), (413, 493), (340, 493)], 96, 96),
     ('gongguan_book_ext', 'cart', [(296, 557), (429, 557), (429, 763), (296, 763)], 160, 256),
-    ('@textures/src/gg_cards/ggbook_int2.jpg', 'int2', None, 768, 384),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_book_int 的 int2
+    ('@textures/src/gg_cards/ggbook_int2.jpg', 'int2', None, 1024, 512),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_book_int 的 int2
     ('gongguan_cvs_ext', 'sign', [(691, 145), (1377, 204), (1377, 307), (691, 263)], 768, 168),   # 11-04：照片有透視（右端低 60 px），原本的長方形切掉了招牌下緣
     ('@textures/src/gg_cards/ggcvs_int.jpg', 'int', None, 1024, 640),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_cvs_ext 的 int
-    ('@textures/src/gg_cards/ggcvs_side.jpg', 'side', None, 768, 528),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_cvs_ext 的 side
+    ('@textures/src/gg_cards/ggcvs_side.jpg', 'side', None, 1024, 704),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_cvs_ext 的 side
     ('gongguan_cvs_ext', 'locker', [(1251, 453), (1373, 453), (1373, 731), (1251, 731)], 128, 288),
     ('gongguan_cvs_ext', 'bins', [(1320, 593), (1493, 593), (1493, 736), (1320, 736)], 256, 208),
     ('gongguan_cvs_ext', 'vend', [(1433, 420), (1640, 420), (1640, 720), (1433, 720)], 224, 320),
@@ -108,7 +108,7 @@ QG = [
     ('gongguan_afar_ext', 'shelf', [(864, 557), (1053, 557), (1053, 731), (864, 731)], 256, 224),
     ('gongguan_corner_ext', 'sign', [(457, 215), (1420, 215), (1420, 333), (457, 333)], 1600, 196),
     ('@textures/src/gg_cards/ggcorner_int.jpg', 'int', None, 640, 520),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_corner_ext 的 int
-    ('@textures/src/gg_cards/ggcorner_win.jpg', 'win', None, 384, 600),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_corner_int 的 win
+    ('@textures/src/gg_cards/ggcorner_win.jpg', 'win', None, 512, 800),   # 11-04 窗卡：室內 GLB 從街上看進去的渲染（取代參考圖裁切）；原本 gongguan_corner_int 的 win
     ('gongguan_corner_ext', 'door', [(1053, 400), (1247, 400), (1247, 853), (1053, 853)], 256, 592),
     ('gongguan_corner_ext', 'notice', [(1300, 447), (1403, 447), (1403, 587), (1300, 587)], 128, 176),
     ('gongguan_corner_ext', 'crate', [(1251, 633), (1407, 633), (1407, 760), (1251, 760)], 192, 160),

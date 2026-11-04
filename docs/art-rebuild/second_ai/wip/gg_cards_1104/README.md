@@ -74,3 +74,17 @@
 ## v4（AA afar v1d a7f16be34，11-04 04:4x）
 afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層層板（咖啡罐、豆袋、小盆栽、燈條）、深綠吊燈、黃金葛；ggafar_win 右上角也看得到層板。
 比較圖 `rerender_afar_v1d_before_after.jpg`（左舊、右新）。這版 GLB 也包含 gg_ext_nav2 的兩項修正（f936fd2c8：頁間盆栽、白天光暈 0）。數字不變。
+
+## v5（BB 11-04 05:06／LAWWW 05:05，11-04 05:2x）
+1. **draw call 1.38 的查證**：9ac863212 和 610c528cb 的 gongguan_shops.glb 結構完全一樣（47 primitive、40 材質、167 node，node 名稱逐一相同），差別只有貼圖內容。多出的 34～36 個 draw call 不是這個 GLB 造成的，已請 CC 關掉路人、同一時段 A/B 重量。
+2. **打烊的店窗卡要暗（BB 判 FAIL）**：
+   - 窗卡還是同一個網格 NOSHADOW_xs_fronts_lit，沒有拆開。
+   - 加了第二組 UV（TEXCOORD_1，three.js 讀 `uv1`）：u＝店的編號，1～8；0＝不屬於哪一間，永遠亮。
+   - 編號對照寫在這個 node 的 extras `xsShops`：`ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb`，也就是 1＝青木（aoki）、2＝頁間（bookstore）、3＝日和（cvs）、4＝洋洋、5＝單車、6＝afar、7＝轉角唱片、8＝Daybreak。
+   - 遊戲要做的（LAWWW）：在這個材質的 onBeforeCompile 裡讀 `uv1.x`，查一張 uniform 陣列（照 PLACES.isOpen 每幀更新），打烊的店把 emissive 乘 0.15～0.2。這樣還是一次 draw call。
+3. **三張太糊**：ggbook_int2 768→1024、ggcvs_side 768→1024、ggcorner_win 384→512。atlas 2048×6020 → 2048×6332，存檔再縮一半。
+4. GLB：primitive、材質、node 都不變（47／40／167），三角形不變，dc.js 估計 50／52／31。
+5. `gg_groups_zebra_patch_ae50cb459.patch`（zones3d.js＋tests，接 ae50cb459）：
+   - 校園那一側的斑馬線改成獨立網格 `zebra_campus_gate`，不再併進車道線，y 0.03 → 0.05。BB 說 gate_out 看不到；Node 裡位置是對的（x −173.6～−139.4、z ±6），要 PC 再拍。
+   - 群組差 1：公館遠景 clone 改名 gongguan_far_glb；套件行道樹、校門、捷運套件給固定名字（gg_kit_trees／gg_kit_gate／gg_kit_mrt）；測試兩邊都排除這些名字和 street_trees_field。
+   - Node：street_props_nav、bike_park_1104、spawn_exit ALL PASS。
