@@ -1,5 +1,24 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 🔁 交班（11-04 08:5x UTC，使用者說「現在交班」；LAWWW2 帳號 A）
+- 分支 `claude/second-ai-env-art`。交班時最後的成果 commit 是 01b2b4786，這則紀錄的 commit 在它後面，用 ls-remote 核對。worktree 是乾淨的，沒有沒 push 的成果。
+- 每小時保險喚醒（trig_01PZ1NbK8H7GTeNrK3Q9bHLh）已照使用者指示停用（不是刪掉）。
+- 已交件、LAWWW 已接：
+  - 溫州街 lane_east 減面（1d64f3511；PC 量到 419,713 tris，PASS）。
+  - 停著的腳踏車照材質合併、打烊乘數 0.03、2:30 AM 用 v1f 重烘（8f936f018）。
+  - 小路深色木立面 v1（188eb0624 → 開發分支 060a1a093）。
+- 已交件、LAWWW 還沒回：
+  - 一盞前院第二版（26bc41c6b）。
+  - gongguan_glb_integration 量法第二版 patch（01b2b4786，接 bf9518378）：騎士、npc_far 比照路人先移出再量，BB 已經定了這個量法。
+- 等 CC 在 PC 上量／拍：GG_night_r8、GG_glb_measure（用新量法）、CAFE230、小路正面白天和晚上、一盞前院兩張。
+- 沒做（下一班第一步照這個順序）：
+  1. 先讀通知、fetch，看 LAWWW／CC／BB 回了什麼。
+  2. 公館 draw call 如果還超過 1.3：把 bike_ride.glb 的座墊、車燈併進 ride_vc。
+  3. WZ-FIVE-1104 第一批剩下的：阿德轉角外觀、2:30 AM 外觀。
+  4. BB 判截圖退件的就照退件改。
+- 沒有遠端備份的：scratchpad 裡的暫存 worktree（devwt_bk、devwt_gm、devwt_y）和渲染中間檔。要交的 patch、對照圖都已經放進 wip/ 推上去了。
+- **交班紀錄不代表新帳號已經接班。**
+
 ## 📌 進度快照（11-04 08:5x，LAWWW2；還沒交班）
 - 分支 `claude/second-ai-env-art`，最新的 SHA 用 ls-remote 核對。
 - 這一輪交件，LAWWW 都接了（開發分支 d2a692410、8f936f018）：
