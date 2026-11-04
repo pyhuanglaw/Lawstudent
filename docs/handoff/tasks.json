@@ -45101,7 +45101,7 @@
    "title": "AA_660 交換路線臺灣空白第一批接進遊戲：美國 7/27～8/1 家人群組、7/31 公館燒臘餞行（Alison 揪）＋拍照清單、12/23～1/13 回國；日本 阿哲餞行那句、8/5 回國群組、摘要日",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -45113,7 +45113,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】照 AA_660（企劃線 d88f39e3f）第 2 節稿、第 3 節接線（條件 routeAbroadRoute）；第 4 節三件：①美國路線 12/21 人還在美國時家人群組會不會發「連假回來嗎」（LAWWW 查程式回 AA）②掃描讀不到的邀約發訊人（LAWWW 查）③「兩點半 明天四點」舊店名照 AA_655 換 2:30 AM；拍照清單旗標名 LAWWW 定；排 v9.10.20 發布以後（派子代理）",
+   "next": "【LAWWW-C 11-04 15:4x】派背景子代理在 worktree 接 AA_660 第 2、3 節（d88f39e3f，G1～G6）＋查第 4 節三件；新測試 tests/aa660_vac_gap_unit.js；D113 檢查點 wip_backup/aa660/；不進 v9.10.20｜【LAWWW-C 11-04 14:08】照 AA_660（企劃線 d88f39e3f）第 2 節稿、第 3 節接線（條件 routeAbroadRoute）；第 4 節三件：①美國路線 12/21 人還在美國時家人群組會不會發「連假回來嗎」（LAWWW 查程式回 AA）②掃描讀不到的邀約發訊人（LAWWW 查）③「兩點半 明天四點」舊店名照 AA_655 換 2:30 AM；拍照清單旗標名 LAWWW 定；排 v9.10.20 發布以後（派子代理）",
    "source": "AA-C 11-04 13:49（AA_660）",
    "authorized": "D109 AA 劇情自主；使用者 13:0x 選「恢復，現在就補」（UA-AA-1104-15）",
    "pausedReason": "v9.10.20 擋發布項目先做",
