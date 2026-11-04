@@ -46,8 +46,10 @@ async def run_hour(pg, cdp, h):
         await pg.wait_for_timeout(1000); n = await pg.evaluate(MESHN)
         if n != last: last = n; stable = 0
         else: stable += 1
-        if n > n0 and stable >= 4: break
-    check('[%s] 正式模型掛上（場景 mesh %d → %d）' % (tag, n0, last), last > n0, '%.0f 秒' % (time.time() - t0))
+        if stable >= 4: break
+    has230 = await pg.evaluate("(()=>{ let f=false; GAME.E.zone.group.traverse(o=>{ if(o.isMesh&&o.material&&/^a23_/.test(o.material.name||'')) f=true; }); return f; })()")
+    # 11-04 r1：讀檔時正式模型已經在快取、一開始就掛上，mesh 數不會增加 → 改看有沒有 a23_ 開頭的材質（cafe230.glb）
+    check('[%s] 正式模型掛上（有 a23_ 材質；場景 mesh %d → %d）' % (tag, n0, last), has230, '%.0f 秒' % (time.time() - t0))
     await L.close_panels(pg, cdp)
     gl = await pg.evaluate("(()=>{ const z=GAME.E.zone; const names=new Set(); z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name) names.add(o.material.name); }); return [...names].slice(0,40); })()")
     print('  [%s] 材質名：%s' % (tag, J(gl)), flush=True)
