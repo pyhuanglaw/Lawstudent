@@ -823,6 +823,7 @@ GG_WOOD = '#8a5a32'   # 公館四間新店共用的木框色（材質少一點�
 
 
 def gg_plaster(col):
+    col = {'#efe8da': '#f0eee8'}.get(col.lower(), col)   # PERF-GG-DC-1104：青木的 #efe8da 和日和的 #f0eee8 看不出差別，合成一個材質（少一次 draw call）
     nm = 'gg_xs_plaster_' + col.lstrip('#')
     if nm not in _mats: _mats[nm] = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=col, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
     return _mats[nm]

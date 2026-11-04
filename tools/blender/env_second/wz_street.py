@@ -155,7 +155,7 @@ if SET == 'gongguan':
                     door=dict(x0=0.84, x1=2.42, y1=2.81, leaf=2.47, style='wood', key='ggcorner_door', d=0.6, hinge='left'),
                     signs=[('ggcorner_sign', -3.7, 3.7, 2.9, 3.84, 'front')], sign_back='black',
                     decals=[('ggcorner_notice', 2.75, 3.35, 1.3, 2.12, 0.03)], lamps=[(3.05, 2.75)],
-                    props=[('box', 'ggcorner_crate', 2.6, 3.4, 1.0, 0.35, 0.4, 'wood'), ('pot', 3.5, 0.75, 'fern')]),
+                    props=[('box', 'ggcorner_crate', 2.6, 3.4, 1.0, 0.35, 0.4, 'wood'), ('pot', 3.9, 0.35, 'fern')]),   # 11-04 盆栽 0.75→0.35（v9.10.20 gongguan_layout_nav：原本凸到騎樓 z 20.9，x 51.25～52.75 那一段站不住）
         'G14': dict(dep=3.0, wallc='#efe8da', frame='#7d9a86', street='ggdb_sign', base='ggdb_tile',   # Daybreak：灰綠框大窗＋黃色小方磚腰牆、灰綠框玻璃門＋側窗；米色帆布雨棚、米白飾帶上的招牌
                     cards=[('ggdb_int', -3.31, 1.48, 0.76, 2.53, 0.8, [-1.7, -0.1]), ('ggdb_door', 2.73, 3.07, 0.05, 2.43, 0.6)],
                     door=dict(x0=1.6, x1=2.73, y1=2.43, style='wood', key='ggdb_door', d=0.6, hinge='right'),
@@ -1021,6 +1021,22 @@ for _n, _v in list(WZ_VC.items()):
 print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
 _keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name) or ob.name.startswith('COPY_') or (ob.parent is not None and ob.parent.name.startswith('COPY_'))   # COPY_：阿德影印的兩種外觀（ART-WZ6，遊戲照名字開關）
 L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
+# PERF-GG-DC-1104（LAWWW2 11-04；v9.10.20 的 gongguan_glb_integration：street_west draw call 236 ＞ ?nobldg 172 的 1.3 倍）：
+# 公館的 instancing 原型每個材質一次 draw call（6 個原型 12 次）。小的（一個原型 ≤ 120 個三角形、全部 ≤ 12,500）改成各自一份網格，合進大網格；
+# 最大的（騎樓前的欄杆 397 個）照舊 instancing（合進去檔案會再大 1 MB 以上）。
+# 原本 instancing 不投影（遊戲的 wzCastsShadow），合進去以後也不能投影：材質換成同參數、不投影的 cafe_vc_wz_*，其他會投影的材質物件名加 NOSHADOW_
+if SET == 'gongguan':
+    _by = {}
+    for _ob in root.children_recursive:
+        if _ob.type == 'MESH' and _ob.data.users > 1 and not _keep(_ob): _by.setdefault(_ob.data.name, []).append(_ob)
+    _rl = []
+    for _nm, _obs in _by.items():
+        _t = sum(len(_p.vertices) - 2 for _p in _obs[0].data.polygons)
+        if (_t <= 120 and _t * len(_obs) <= 12500) or (_t <= 450 and _t * len(_obs) <= 10000):   # 第二條：店裡的桌椅（22 組）
+            _me = _obs[0].data
+            for _ob in _obs: _ob.data = _me.copy(); _ob['gg_real'] = 1
+            _rl.append([_nm, len(_obs), _t])
+    print('{"gg_realize_instances": %s}' % _rl)
 if os.environ.get('WZ_DIAG'):   # 效能診斷：合併前每個材質畫出來的三角形數（instancing 每一個都算）
     import collections; _tc = collections.Counter(); _no = collections.Counter()
     for ob in root.children_recursive:
@@ -1040,6 +1056,14 @@ for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.name.st
 print('{"cull_bottoms_tris": %d}' % _cull)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
+if SET == 'gongguan':   # PERF-GG-DC-1104：上面合進來的 instancing 零件照舊不投影（見上）
+    _NOSH = re.compile(r'^(wz_menu_|wz_in_|wz_shop_notes|wz_shutter|cafe_int_|cafe_room_dark|cafe_curtain|ext_glass_lit|wz_room_lit|jp_shoji|cafe_leaf_|cafe_glass|cafe_win_glass|cafe_lampglass|cafe_bulb|cafe_books|cafe_vc_)')   # ＝zones3d.js 的 WZ_NO_SHADOW
+    for _ob in [o for o in root.children_recursive if o.type == 'MESH' and o.get('gg_real')]:
+        for _i, _m in enumerate(_ob.data.materials):
+            if _m and _m.name == 'wz_vc_matte': _ob.data.materials[_i] = VC_SMATTE
+            elif _m and _m.name == 'wz_vc_metal': _ob.data.materials[_i] = VC_SMETAL
+        _m = _ob.data.materials[0] if len(_ob.data.materials) else None
+        if _m and not _NOSH.match(_m.name) and not _ob.name.startswith('NOSHADOW_'): _ob.name = 'NOSHADOW_' + _ob.name
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
 WZ_TEXT = {'wz_in_goods', 'wz_in_books_u', 'wz_in_price_u', 'wz_in_board_u', 'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
@@ -1055,7 +1079,11 @@ L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'wz_tiles_{SET}'), f'
 if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊面掃描（tools/glb_coplanar.py）就看得到每個零件的名字
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else '')   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
-for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)   # ART-WZ6：開關的店面各自照材質合併（節點保留，遊戲照名字開關；原本 15 個網格＝15 次 draw call）
+for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)
+if SET == 'gongguan':   # PERF-GG-DC-1104：店面的燈（小燈泡、燈管）、店內景深卡、亮窗的玻璃、新店面的灰泥牆（騎樓裡，影子本來就在騎樓的陰影裡）、騎樓梁上的招牌（薄板，影子落在騎樓的影子裡）不投影：陰影那一輪少 9 次 draw call
+    for _ob in list(root.children):
+        if _ob.type != 'MESH' or len(_ob.data.materials) != 1 or not _ob.data.materials[0] or _ob.name.startswith('NOSHADOW_'): continue
+        if re.match(r'(wz_sf_lamp|wz_tube$|wz_xs_fronts|wz_win_glass_lit$|gg_xs_plaster_|wz_signs)', _ob.data.materials[0].name): _ob.name = 'NOSHADOW_' + _ob.name   # ART-WZ6：開關的店面各自照材質合併（節點保留，遊戲照名字開關；原本 15 個網格＝15 次 draw call）
 if SET in ('wenzhou', 'lane118'):   # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：只把「大面、背面看不到」的材質改單面——立面的牆與柱（只從巷子看）、
     # 店內的殼和商品（隔著玻璃）、店內地板、亮窗的房間卡。網格不動、不補反面（鐵窗、鋁框、葉片卡這些照舊雙面：公館試過全部單面＋薄零件補反面，instancing 乘上去反而沒變快）。
     # 同一頁量（路人拿掉）：溫州街 +11%、118 巷 +15%／+3%；公館量不出差別，不改
