@@ -74,7 +74,7 @@ const SIDEQ=(function(){
   const metSis=G=>met(SIS)||!!(G&&G.flags&&G.flags.met_sis);
 
   /* ---------- 稿（AA_397 第 2 節＋AA_408 補字，企劃線 29e41dd8；第 6 節第二、三批的缺字 b0b80a54）：照抄；null＝稿裡沒有，先不演 ---------- */
-  const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'巷口茶飲','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'慢讀咖啡（118 巷）','六張犁麵舖':'六張犁麵舖（118 巷）','好家自助餐':'好家自助餐（118 巷）','蛋包飯研究所':'蛋包飯研究所（118 巷）','公館的便利商店':'公館的便利商店',
+  const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'帝大紅茶','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'慢讀咖啡（118 巷）','六張犁麵舖':'六張犁麵舖（118 巷）','好家自助餐':'好家自助餐（118 巷）','蛋包飯研究所':'蛋包飯研究所（118 巷）','公館的便利商店':'公館的便利商店',
     '滇香小館':'滇香小館（118 巷）','巷口家常菜':'巷口家常菜（118 巷）','Pasta 118':'Pasta 118（118 巷）','韓食小廚':'韓食小廚（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'頁間書屋（公館）',
     '一一八茶飲':'一一八茶飲（118 巷）','清葉茶行':'青木茶室（公館）','巷子裡定食':'小路（溫州街）','溫州街・半熟':'SUNNY SIDE（溫州街）'};
   /* 店名（key）＝各店點餐時記次數用的名字（src/eat3d.js 的 EAT.count）：一盞茶屋、半熟早午餐是「溫州街・一盞」「溫州街・半熟」（wzshops3d.js 的 buy）；清葉茶行、舊路書房沒有吃過的，story3d.js 點完一樣記次數 */
@@ -85,7 +85,7 @@ const SIDEQ=(function(){
      玩家看得到的字（任務標題、提示、SHOP_NAME 的值）換新字。舊存檔相簿裡已經存下的任務標題（STORY.albumMemory 的 side_SQ15／16／18）讀檔時換成新的標題 */
   S.RENAME_1104={'舊路書房':'頁間書屋','輪轉單車':'慢輪單車','清葉茶行':'青木茶室','日日便利':'日和便利店'};
   /* 溫州街第一批改名（AA_655 第 1、2 節，企劃線 a22e53016）：SQ19 巷子裡定食→小路、SQ20 半熟早午餐→SUNNY SIDE；key（shop:、SHOP_NAME／STAFF 的 key）照舊 */
-  S.RENAME_AA655={'巷子裡定食':'小路','半熟早午餐':'SUNNY SIDE','兩點半 Café':'2:30 AM'};
+  S.RENAME_AA655={'巷子裡定食':'小路','半熟早午餐':'SUNNY SIDE','兩點半 Café':'2:30 AM','巷口茶飲':'帝大紅茶'};   /* AA_658（企劃線 6af703d63）：溫州街第二批，SQ02 的標題 */
   S.renameMigrate=function(s){ const A=s&&Array.isArray(s.album)?s.album:null; if(!A) return 0; let n=0; const OLD=Object.keys(S.RENAME_1104).concat(Object.keys(S.RENAME_AA655)); for(const x of A){ if(!x||x.kind!=='memory'||typeof x.id!=='string'||!/^side_SQ\d+$/.test(x.id)) continue; const q=Q[x.id.slice(5)]; if(q&&q.title&&x.title!==q.title&&OLD.some(o=>String(x.title).includes(o))){ x.title=q.title; n++; } } return n; };
   S.YES='要我幫忙嗎？'; S.NO='……加油。';
   const L={
@@ -203,7 +203,7 @@ const SIDEQ=(function(){
     SQ01:{shop:'林家乾麵',title:'林家乾麵：一星評價',avail:G=>ti(G)>=1,
       accept:async(GM,r)=>{ await say(GM,null,L.SQ01.review); const R=L.SQ01.reply, k=await GM.choose(R.map(o=>({t:o.k==='none'?o.t:q2(o.t)}))); r.reply=(R[k]||R[2]).k; setWait(r,'wait',GM.G.day+1); },
       visit:async(GM,r)=>{ if(r.step!=='wait'||GM.G.day<r.wait) return false; await sayAll(GM,null,L.SQ01.result[r.reply]||L.SQ01.result.none); S.finish(GM,'SQ01',r); return true; }},
-    SQ02:{shop:'巷口茶飲',title:'巷口茶飲：打破的杯子',avail:G=>ti(G)>=2,
+    SQ02:{shop:'巷口茶飲',title:'帝大紅茶：打破的杯子',avail:G=>ti(G)>=2,
       accept:async(GM,r)=>{ const k=await GM.choose(L.SQ02.ask.map(t=>({t:q2(t)}))); r.ask=k; await say(GM,'店員',L.SQ02.askReply[k]); S.planFafu(GM.G,r); },
       visit:async(GM,r,o)=>{ if(r.step!=='wait'||GM.G.day<r.wait) return false; await say(GM,null,L.SQ02.back); await say(GM,'店員',L.SQ02.treat); refund(GM,o); r.free=o&&o.price||0; S.finish(GM,'SQ02',r); return true; },
       trace:async(GM,r)=>{ if(r.state!=='done'||r.t1||GM.G.day<=r.doneDay) return false; r.t1=GM.G.day; await say(GM,null,L.SQ02.trace); return true; }},
@@ -305,7 +305,7 @@ const SIDEQ=(function(){
   };
   S.Q=Q;
   const PASTA_PARTNERS=()=>Object.keys(L.SQ12.pair);   /* SQ12 一起去的交往對象：以安、語彤、子晴、學姊、可昕（AA_408 6）*/
-  const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'法律系館B）',wait:'下次去巷口茶飲'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
+  const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'法律系館B）',wait:'下次去帝大紅茶'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
     SQ04:{ask:'下次去慢讀咖啡（118 巷）',again:r=>md(r.again)+' 以後再去慢讀咖啡（118 巷）',police:'送筆電去派出所',wait:'下次去慢讀咖啡（118 巷）'},SQ05:{closed:r=>'六張犁麵舖公休到 '+md(r.closeTo)+'；之後再去'},
     SQ06:{lesson:'等家教第一次上課',twist:'下次去好家自助餐（118 巷）',club:r=>'帶孫子去吉他社社課（'+md(r.by)+'）'},SQ07:{sis:'找學姊看讀書計畫（2:30 AM）',wait:'下次去蛋包飯研究所（118 巷）',last:'下次去蛋包飯研究所（118 巷）'},
     SQ08:{board:'去溫州街的公園看公布欄',ask:r=>'問象棋阿伯（早上）'+(r.abo?'✓':'')+'、一盞茶屋的蘇姨（下午）'+(r.su?'✓':''),back:'回公館的便利商店說',post:'把餵貓表貼到公園的公布欄'},
@@ -385,7 +385,7 @@ const SIDEQ=(function(){
 
   /* ---------- SQ02：法服（單週六上午的初談；2D 出遊）---------- */
   S.planFafu=function(G,r){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s||typeof OUT==='undefined'){ setAct(r,'fafu',G.day+14); return false; }
-    r.fafuDay=s.day; setAct(r,'fafu',s.day); return OUT.plan(G,{id:'sq02_fafu_'+r.day,ev:'ev_sq02_fafu',day:s.day,h:9.5,late:2,place:'法律系館B',title:'法服初談：巷口茶飲的店員',travel:'走路 約 10 分鐘',travelH:1/6}); };
+    r.fafuDay=s.day; setAct(r,'fafu',s.day); return OUT.plan(G,{id:'sq02_fafu_'+r.day,ev:'ev_sq02_fafu',day:s.day,h:9.5,late:2,place:'法律系館B',title:'法服初談：帝大紅茶的店員',travel:'走路 約 10 分鐘',travelH:1/6}); };
   S.FAFU_EV={ id:'ev_sq02_fafu', title:'法服初談', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.75,
     dialogue:[{scene:'法律系館B・研討室',bg:'wancai_seminar'},{speaker:'值班的學長',text:L.SQ02.fafu}],   /* LEGAL_REVIEW_REQUIRED */
     after:(G)=>{ const r=S.get(G,'SQ02'); if(r&&r.state==='open'&&r.step==='fafu') setWait(r,'wait',G.day+1); },

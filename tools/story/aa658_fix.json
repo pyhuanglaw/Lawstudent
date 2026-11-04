@@ -1,0 +1,9 @@
+{
+ "note": "WZ-SECOND-1104 改名（AA_658 第 1 節，企劃線 6af703d63；使用者 11-04 05:4x）：溫州街第二批換玩家看得到的名字。遊戲 src 已照表換（存檔當 key 的店名留舊字：wzshops3d tea.key、AA413.fruit.key、SIDEQ shop:、SHOP_NAME／STAFF 的 key、EAT.count）；企劃源稿還是舊名，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js）。「自助洗衣」不放進來：公館騎樓也有一間叫「自助洗衣」（zones3d.js 公館店面）、美國篇的投幣洗衣是通稱，溫州街 B2 那間只在 src 換；夏日冰菓室不改。",
+ "pairs": [
+  ["巷口書房", "溫州書屋"],
+  ["巷口茶飲", "帝大紅茶"],
+  ["那家茶飲", "帝大紅茶"],
+  ["阿忠水果", "阿忠鮮果"]
+ ]
+}

@@ -30,7 +30,7 @@ const FAV=(function(){
     heroine_03:{shop:'dian',right:'酸辣河粉',opt:['多加辣','不加'],short:'語彤',unit:'份'},
     heroine_05:{shop:'tea',right:'無糖綠茶',opt:['去冰','正常冰'],short:'學姊',unit:'杯'},
     heroine_04:{shop:'cafe',right:'美式',opt:['冰的','熱的'],short:'子晴',unit:'杯'},
-    kexin:{shop:'wz_tea',right:'青茶',opt:['無糖','半糖'],short:'可昕',label:'帶一杯給可昕'}
+    kexin:{shop:'wz_tea',right:'紅茶',opt:['無糖','半糖'],short:'可昕',label:'帶一杯給可昕',sized:true}   /* AA_658 第 4 節：帝大紅茶的菜單換了（青茶→紅茶、珍珠奶茶→奶茶、冬瓜檸檬→檸檬紅茶；中杯、大杯都算同一樣：sized）*/
   };
   S.KNOW_TAG={heroine_03:'KNOW_FAV_YT',heroine_04:'KNOW_FAV_ZQ',kexin:'KNOW_FAV_KX'};
   S.rec=function(G){ const R=G.fav&&typeof G.fav==='object'?G.fav:(G.fav={}); for(const k of ['know','right']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; return R; };
@@ -52,7 +52,9 @@ const FAV=(function(){
     if(C.shop==='cafe') return S.CAFE_ITEMS.slice();
     if(C.shop==='wz_tea') return typeof WZS!=='undefined'&&WZS.AA364&&WZS.AA364.tea?WZS.AA364.tea.menu.map(m=>[m[0],m[1]]):[];
     const s=typeof L118!=='undefined'&&L118.shop?L118.shop(C.shop):null; return s?s.menu.map(m=>[m[0],m[1]]):[]; };
-  S.outcome=function(id,item,oi){ const C=S.CFG[id]; if(!C||item!==C.right) return 'wrong'; return (!C.opt||oi===0)?'right':'itemOnly'; };
+  S.OLD_TEA={'青茶':'紅茶','珍珠奶茶':'奶茶','冬瓜檸檬':'檸檬紅茶'};   /* 舊存檔裡已經買好、還沒交給可昕的那一杯（G.fav.kx.item）*/
+  S.base=(id,item)=>{ const C=S.CFG[id]; let s=String(item==null?'':item); if(C&&C.sized){ s=s.replace(/（[中大]）$/,''); if(Object.prototype.hasOwnProperty.call(S.OLD_TEA,s)) s=S.OLD_TEA[s]; } return s; };
+  S.outcome=function(id,item,oi){ const C=S.CFG[id]; if(!C||S.base(id,item)!==C.right) return 'wrong'; return (!C.opt||oi===0)?'right':'itemOnly'; };
   const sp=(GM,w,me)=>{ if(w==null) return null; if(me&&me.charId===w) return me; if(typeof CHARACTERS!=='undefined'&&CHARACTERS[w]) return (GM.npc&&GM.npc[w])||{name:nm(w),charId:w}; return {name:w}; };
   S.play=async function(GM,arr,me){ if(!Array.isArray(arr)||!arr.length) return false; for(const [w,t] of arr) await GM.say(sp(GM,w,me),t); return true; };
   /* 「也幫她點」→ 品項 → 小選項 → 扣錢；回傳 {item,oi}，沒點＝null */
@@ -71,7 +73,7 @@ const FAV=(function(){
   S.react=async function(GM,id,res,item,oi,me){ const G=GM.G, F=G.flags||{}, D=S.lines(id)||{}; let arr=null;
     if(res==='right'){ arr=(id==='heroine_05'&&!F.SIS_TEA_ORDER&&D.rightGuess)?D.rightGuess:((id==='heroine_05'&&F.SISG_SEG5!=null&&D.rightAgain)?D.rightAgain:D.right);   /* 學姊：沒聽過 H1 就猜對＝「……你怎麼知道。」（第 4 節）*/ if(id==='heroine_01'&&F.dating_heroine_01&&D.rightDating) arr=(arr||[]).concat(D.rightDating); }
     else if(res==='itemOnly'){ if(id==='kexin'&&D.know&&!S.know(G,id)){ arr=D.know; S.learn(GM,id); } else arr=D.itemOnly||null; }
-    else { const W=D.wrong||{}; arr=Object.prototype.hasOwnProperty.call(W,item)?W[item]:(W['*']||null); }
+    else { const W=D.wrong||{}, b=S.base(id,item); arr=Object.prototype.hasOwnProperty.call(W,b)?W[b]:(W['*']||null); }   /* 帝大紅茶分中杯大杯：照品名（AA_658）*/
     await S.play(GM,arr,me);
     if(res==='right') S.gotRight(GM,id,item,oi);
     return res; };

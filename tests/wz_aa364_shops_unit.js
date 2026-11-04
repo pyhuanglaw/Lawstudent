@@ -97,14 +97,14 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   const A=WZS.AA364, K4=['lin','teishoku','tea','ice'], menu=k=>J(A[k].menu.map(m=>[m[0],m[1]]));
   check('A. 林家菜單（AA_655 第 5 節：照室內圖的紅紙）：乾麵 60／麻醬麵 70／餛飩麵 85／榨菜肉絲麵 85／燙青菜 40／貢丸湯 40／餛飩湯 50／滷蛋 15',menu('lin')===J([['乾麵',60],['麻醬麵',70],['餛飩麵',85],['榨菜肉絲麵',85],['燙青菜',40],['貢丸湯',40],['餛飩湯',50],['滷蛋',15]]),menu('lin'));
   check('A. 小路（居酒屋，AA_655 第 3 節）：烤雞串（三串）120／揚出豆腐 90／鹽烤鯖魚 160／玉子燒 80／燙青菜 60／烏龍茶 40／可爾必思 50／生啤酒 120／清酒（一合）180',menu('teishoku')===J([['烤雞串（三串）',120],['揚出豆腐',90],['鹽烤鯖魚',160],['玉子燒',80],['燙青菜',60],['烏龍茶',40],['可爾必思',50],['生啤酒',120],['清酒（一合）',180]]),menu('teishoku'));
-  check('A. 茶飲 紅茶 30／青茶 30／珍珠奶茶 55／冬瓜檸檬 45；冰菓室 芒果冰 140（6～8 月）／紅豆牛奶冰 70／綜合剉冰 60',menu('tea')===J([['紅茶',30],['青茶',30],['珍珠奶茶',55],['冬瓜檸檬',45]])&&menu('ice')===J([['芒果冰',140],['紅豆牛奶冰',70],['綜合剉冰',60]]),menu('tea')+' '+menu('ice'));
+  check('A. 帝大紅茶（AA_658 第 4 節，原本的巷口茶飲）紅茶 中 30／大 35、奶茶 中 45／大 55、檸檬紅茶 中 45／大 55；冰菓室 芒果冰 140（6～8 月）／紅豆牛奶冰 70／綜合剉冰 60',menu('tea')===J([['紅茶（中）',30],['紅茶（大）',35],['奶茶（中）',45],['奶茶（大）',55],['檸檬紅茶（中）',45],['檸檬紅茶（大）',55]])&&menu('ice')===J([['芒果冰',140],['紅豆牛奶冰',70],['綜合剉冰',60]]),menu('tea')+' '+menu('ice'));
   check('A. 牆上的菜單（看菜單）：林家的紅紙、小路的木札（AA_655 第 3、5 節）',A.lin.wall==='乾麵 60／麻醬麵 70／餛飩麵 85／榨菜肉絲麵 85／燙青菜 40／貢丸湯 40／餛飩湯 50／滷蛋 15'&&A.teishoku.wall==='烤雞串 120／揚出豆腐 90／鹽烤鯖魚 160／玉子燒 80／燙青菜 60／烏龍茶 40／可爾必思 50／生啤酒 120／清酒 180',A.lin.wall);
   const kn=(k,last)=>typeof A[k].known==='function'?A[k].known(null,last):A[k].known;
   check('A. 店員照第 3 節（不叫名字）：老闆「內用外帶？」、小路的老闆「歡迎光臨。……吧台可以嗎？」／「今天的雞皮串剛烤好。」（AA_655 第 2 節）、店員「甜度冰塊？」／「半糖少冰？」、老闆娘「冰要大碗小碗？」',
     A.lin.who==='老闆'&&A.lin.first==='內用外帶？'&&A.teishoku.who==='老闆'&&A.teishoku.first==='歡迎光臨。……吧台可以嗎？'&&A.teishoku.known==='今天的雞皮串剛烤好。'&&A.tea.who==='店員'&&A.tea.first==='甜度冰塊？'&&A.tea.known==='半糖少冰？'&&A.ice.who==='老闆娘'&&A.ice.first==='冰要大碗小碗？');
   check('A. 林家熟客那一句照上次點的（第 5 節第 3 點）：乾麵（小）「小的，不加辣。對吧。」、乾麵（大）「大的，不加辣。對吧。」（舊存檔上次點的）、其他（含新菜單的乾麵）「一樣的？」',J([kn('lin','乾麵（小）'),kn('lin','乾麵（大）'),kn('lin','貢丸湯'),kn('lin','滷蛋'),kn('lin',null),kn('lin','乾麵')])===J(['小的，不加辣。對吧。','大的，不加辣。對吧。','一樣的？','一樣的？','一樣的？','一樣的？']),J([kn('lin','乾麵（小）'),kn('lin','乾麵（大）'),kn('lin','貢丸湯')]));
   check('A. 選「老樣子」的回答（第 5 節第 4 點）：老闆「好。一樣。」、小路的老闆「好，跟上次一樣。」（AA_655）、店員「好，一樣的。」、老闆娘「好。一樣的。」',J(K4.map(k=>A[k].same))===J(['好。一樣。','好，跟上次一樣。','好，一樣的。','好。一樣的。']),J(K4.map(k=>A[k].same)));
-  check('A. 第一次的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].firstLine))===J(['（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）','（店裡很暗，只有吧台上方的燈是亮的。木札菜單一張一張掛在橫樑上，烤爐冒著煙。）','（窗口的菜單只有四樣。你點完，後面已經排了兩個人。）','（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）']),J(K4.map(k=>A[k].firstLine)));
+  check('A. 第一次的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].firstLine))===J(['（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）','（店裡很暗，只有吧台上方的燈是亮的。木札菜單一張一張掛在橫樑上，烤爐冒著煙。）','（價目牌只有三樣茶，每樣分中杯、大杯。你點完，後面已經排了兩個人。）','（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）']),J(K4.map(k=>A[k].firstLine)));
   check('A. 吃完（一個人）的旁白（第 5 節第 4 點）',J(K4.map(k=>A[k].done))===J(['（你吃完的時候，老闆已經在煮下一碗了。）','（老闆把最後一串烤好的雞肉放在你面前。「這串招待。」）','（你拿著飲料，沿著溫州街走回去。）','（冰化得比你吃得快。最後幾口，你是用喝的。）']),J(K4.map(k=>A[k].done)));
   check('A. 冰菓室 10～4 月「看」的旁白：（鐵捲門拉著。上面貼了一張紙：「五月見」。）',A.ice.shutter==='（鐵捲門拉著。上面貼了一張紙：「五月見」。）');
   const T=x=>J(said.map(s=>s.t))===J(x);
@@ -119,7 +119,7 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   check('B. 小路（週三 18:00）：老闆「歡迎光臨。……吧台可以嗎？」→ 選單九樣；鹽烤鯖魚扣 160、坐下吃；點餐那句 → 第一次的旁白 → 吃完的旁白',said[0]&&said[0].who==='老闆'&&J(opts[0])===J(['烤雞串（三串）　120 元','揚出豆腐　90 元','鹽烤鯖魚　160 元','玉子燒　80 元','燙青菜　60 元','烏龍茶　40 元','可爾必思　50 元','生啤酒　120 元','清酒（一合）　180 元','不用了'])&&G.money===m1-160&&T(['歡迎光臨。……吧台可以嗎？',OL('鹽烤鯖魚'),A.teishoku.firstLine,A.teishoku.done])&&sat.length===1&&stood===1,J(said));
   { const m2=G.money; G.hour=18.8; await order('teishoku',3); check('B. 小路第二次：玉子燒扣 80；第一次的旁白不再說、吃完那句照說',G.money===m2-80&&T(['歡迎光臨。……吧台可以嗎？',OL('玉子燒'),A.teishoku.done])&&!toasts.includes('錢不夠'),J(said)); }
   fresh('2025-10-15',15,'wenzhou'); const m3=G.money, h3=G.hour; await order('tea',2);
-  check('B. 茶飲（外帶）：店員「甜度冰塊？」→ 紅茶 30／青茶 30／珍珠奶茶 55／冬瓜檸檬 45；珍珠奶茶扣 55、5 分鐘、不坐下；點餐那句（外帶也用，第 5 節第 1 點）→ 第一次 → 吃完的旁白',said[0]&&said[0].who==='店員'&&J(opts[0])===J(['紅茶　30 元','青茶　30 元','珍珠奶茶　55 元','冬瓜檸檬　45 元','不用了'])&&G.money===m3-55&&near(G.hour-h3,5/60)&&T(['甜度冰塊？',OL('珍珠奶茶'),A.tea.firstLine,A.tea.done])&&!sat.length,J(said));
+  check('B. 帝大紅茶（外帶）：店員「甜度冰塊？」→ 六樣（AA_658 第 4 節）；奶茶（中）扣 45、5 分鐘、不坐下；點餐那句（外帶也用，第 5 節第 1 點）→ 第一次 → 吃完的旁白',said[0]&&said[0].who==='店員'&&J(opts[0])===J(['紅茶（中）　30 元','紅茶（大）　35 元','奶茶（中）　45 元','奶茶（大）　55 元','檸檬紅茶（中）　45 元','檸檬紅茶（大）　55 元','不用了'])&&G.money===m3-45&&near(G.hour-h3,5/60)&&T(['甜度冰塊？',OL('奶茶（中）'),A.tea.firstLine,A.tea.done])&&!sat.length,J(said));
   fresh('2026-07-14',15,'wenzhou'); const m4=G.money, h4=G.hour; await order('ice',0);
   check('B. 冰菓室（7 月週二，外帶）：老闆娘「冰要大碗小碗？」→ 芒果冰 140／紅豆牛奶冰 70／綜合剉冰 60；芒果冰扣 140、10 分鐘、不坐下；點餐那句 → 第一次 → 吃完的旁白',said[0]&&said[0].who==='老闆娘'&&J(opts[0])===J(['芒果冰　140 元','紅豆牛奶冰　70 元','綜合剉冰　60 元','不用了'])&&G.money===m4-140&&near(G.hour-h4,10/60)&&T(['冰要大碗小碗？',OL('芒果冰'),A.ice.firstLine,A.ice.done])&&!sat.length,J(said));
   { fresh('2025-10-15',15,'wenzhou'); const m=G.money, h=G.hour; await order('tea',null); const a=G.money===m&&G.hour===h&&T(['甜度冰塊？'])&&!(G.eat&&G.eat.first&&G.eat.first['巷口茶飲']!=null);
@@ -137,8 +137,8 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
   { fresh('2025-10-15',19,'wz_teishoku'); inShop('teishoku'); G.eat={n:{'巷子裡定食':4},last:{'巷子裡定食':'玉子燒'},first:{'巷子裡定食':1}}; await order('teishoku','老樣子');
     const a=J(said.map(s=>[s.who,s.t]))===J([['老闆','今天的雞皮串剛烤好。'],['老闆','好，跟上次一樣。'],[null,OL('玉子燒')],[null,A.teishoku.done]]), sa=J(said);
     fresh('2025-10-15',15,'wenzhou'); G.eat={n:{'巷口茶飲':3},first:{'巷口茶飲':1}}; await order('tea',0); const b=said[0]&&said[0].t==='甜度冰塊？';
-    fresh('2025-10-15',15,'wenzhou'); G.eat={n:{'巷口茶飲':4},last:{'巷口茶飲':'青茶'},first:{'巷口茶飲':1}}; await order('tea','老樣子'); const c=J(said.map(s=>[s.who,s.t]))===J([['店員','半糖少冰？'],['店員','好，一樣的。'],[null,OL('青茶')],[null,A.tea.done]]);
-    check('C. 小路第 5 次（19:00）「今天的雞皮串剛烤好。」、老樣子（玉子燒）老闆回「好，跟上次一樣。」；茶飲第 4 次照舊「甜度冰塊？」、第 5 次「半糖少冰？」、老樣子（青茶）店員回「好，一樣的。」',a&&b&&c,sa+' / '+J(said)); }
+    fresh('2025-10-15',15,'wenzhou'); G.eat={n:{'巷口茶飲':4},last:{'巷口茶飲':'青茶'},first:{'巷口茶飲':1}}; await order('tea','老樣子'); const c=J(said.map(s=>[s.who,s.t]))===J([['店員','半糖少冰？'],['店員','好，一樣的。'],[null,OL('紅茶（中）')],[null,A.tea.done]]);   /* 舊存檔上次點的「青茶」＝新菜單的紅茶（中）（AA_658 第 4 節）*/
+    check('C. 小路第 5 次（19:00）「今天的雞皮串剛烤好。」、老樣子（玉子燒）老闆回「好，跟上次一樣。」；茶飲第 4 次照舊「甜度冰塊？」、第 5 次「半糖少冰？」、老樣子（舊存檔的青茶＝紅茶（中））店員回「好，一樣的。」',a&&b&&c,sa+' / '+J(said)); }
   { const ice=async ds=>{ fresh(ds,15,'wenzhou'); G.eat={n:{'夏日冰菓室':4},last:{'夏日冰菓室':'綜合剉冰'},first:{'夏日冰菓室':1}}; await order('ice',null); return said[0]&&said[0].t; };
     const r=[await ice('2026-06-09'),await ice('2026-07-14'),await ice('2026-08-11'),await ice('2026-05-12'),await ice('2026-09-15')];
     check('C. 冰菓室第 5 次：6～8 月老闆娘「又來了啊。今天芒果很甜。」；5 月、9 月「又來了啊。」',J(r)===J(['又來了啊。今天芒果很甜。','又來了啊。今天芒果很甜。','又來了啊。今天芒果很甜。','又來了啊。','又來了啊。']),J(r)); }
@@ -172,8 +172,8 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
     check('D. 茶飲 22:30、冰菓室 7 月週一：窗口點不到（關門的說明）',a&&b,J(toasts)); }
   { fresh('2025-10-15',13,'wz_lin'); const st=CLS.skipStops(GM,15).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=15; const cb=CLS.closingBlock(G,16); G.hour=18; const st2=CLS.skipStops(GM,21.5).map(s=>s.why+'@'+s.h.toFixed(3)); G.hour=12; const cb2=CLS.closingBlock(G,13.5);
     check('D. 跳過時間（人在林家）：13:00 跳到 15:00 停在 13:50「林家乾麵快關門了」；15:00（兩段中間）不能跳過（已經閉館了 14:00）；18:00 跳到 21:30 停在 20:50；12:00 跳到 13:30 照常',st.includes('林家乾麵快關門了@'+(14-1/6).toFixed(3))&&/已經閉館了（14:00）/.test(cb)&&st2.includes('林家乾麵快關門了@'+(21-1/6).toFixed(3))&&cb2==='',J({st,cb,st2,cb2})); }
-  { fresh('2025-10-13',15,'wenzhou'); await order('tea',0); const a=toasts[0]==='巷口茶飲：颱風假，今天沒開。';
-    check('D. 颱風假（2025-10-13）四家都不開：typhoonShops 有 wz_lin、wz_teishoku、wz_tea、wz_ice；茶飲窗口「巷口茶飲：颱風假，今天沒開。」',CALENDAR.typhoon(D('2025-10-13'))&&['wz_lin','wz_teishoku','wz_tea','wz_ice'].every(z=>P.typhoonShops.includes(z)&&!P.isOpen(z,15,D('2025-10-13')))&&a,J(toasts)); }
+  { fresh('2025-10-13',15,'wenzhou'); await order('tea',0); const a=toasts[0]==='帝大紅茶：颱風假，今天沒開。';
+    check('D. 颱風假（2025-10-13）四家都不開：typhoonShops 有 wz_lin、wz_teishoku、wz_tea、wz_ice；茶飲窗口「帝大紅茶：颱風假，今天沒開。」（AA_658 改名）',CALENDAR.typhoon(D('2025-10-13'))&&['wz_lin','wz_teishoku','wz_tea','wz_ice'].every(z=>P.typhoonShops.includes(z)&&!P.isOpen(z,15,D('2025-10-13')))&&a,J(toasts)); }
   // ---------- E. 冰菓室的季節 ----------
   { const items=ds=>{ fresh(ds,15,'wenzhou'); const it=WZS.windowItems(); const f=lb=>it.find(i=>i.label===lb); return {buy:f('買一碗冰'),look:f('看夏日冰菓室'),tea:f('買一杯飲料')}; };
     const oct=items('2025-10-15'); check('E. 10 月：「買一碗冰」藏起來、「看夏日冰菓室」出現；「買一杯飲料」照常',!!oct.buy&&oct.buy.hidden&&!!oct.look&&!oct.look.hidden&&!!oct.tea&&!oct.tea.hidden);
@@ -209,8 +209,8 @@ const OL=n=>LANE118_SHOPS.orderLine.replace('{品名}',n);
     check('G. 一起吃（AA_329）：林家、定食有認識的人在吃＝問「坐過去一起吃」（第一次的旁白在前）、結尾「在店門口分開」（沒有回收台）、吃完（一個人）的旁白不說；同一天再點＝不再問、照說吃完的旁白；外帶窗口不問、照說吃完的旁白',a&&b&&b2&&c,J({a,b,b2,c})); }
   // ---------- H. 吃過的 ----------
   { fresh('2026-07-15',12,'wz_lin'); inShop('lin'); await order('lin',2); G.hour=15; G.zone='wenzhou'; await order('tea',0); G.hour=15.3; await order('ice',1); G.hour=18; G.zone='wz_teishoku'; inShop('teishoku'); await order('teishoku',0);
-    const ate=(G.eat&&G.eat.ate)||[], want=[['溫州街・林家乾麵','餛飩麵'],['溫州街・巷口茶飲','紅茶'],['溫州街・夏日冰菓室','紅豆牛奶冰'],['溫州街・巷子裡定食','烤雞串（三串）']], show=w=>w[0]==='溫州街・巷子裡定食'?'溫州街・小路':w[0];   /* 存下來的店名照舊（key），畫面顯示新名（AA_655）*/
-    check('H. 手機「吃過的」四家都記（店名、品項、日期；2026-07-15 週三四家都開；小路存的店名照舊、顯示「溫州街・小路」）',J(ate.map(a=>[a.shop,a.item]))===J(want)&&ate.every(a=>a.day===G.day)&&want.every(w=>EAT.notesHTML(G).includes(show(w)))&&!EAT.notesHTML(G).includes('巷子裡定食'),J(ate)); }
+    const ate=(G.eat&&G.eat.ate)||[], want=[['溫州街・林家乾麵','餛飩麵'],['溫州街・巷口茶飲','紅茶（中）'],['溫州街・夏日冰菓室','紅豆牛奶冰'],['溫州街・巷子裡定食','烤雞串（三串）']], show=w=>w[0]==='溫州街・巷子裡定食'?'溫州街・小路':(w[0]==='溫州街・巷口茶飲'?'溫州街・帝大紅茶':w[0]);   /* 存下來的店名照舊（key），畫面顯示新名（AA_655）*/
+    check('H. 手機「吃過的」四家都記（店名、品項、日期；2026-07-15 週三四家都開；小路存的店名照舊、顯示「溫州街・小路」）',J(ate.map(a=>[a.shop,a.item]))===J(want)&&ate.every(a=>a.day===G.day)&&want.every(w=>EAT.notesHTML(G).includes(show(w)))&&!EAT.notesHTML(G).includes('巷子裡定食')&&!EAT.notesHTML(G).includes('巷口茶飲'),J(ate)); }
   // ---------- I. 白名單、明軒那一則 ----------
   { const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_364_/.test(e.path)), src=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8');
     check('I. 劇情匯入白名單：AA_364@5ae04087（一個版本、approved；歷史 d56da150、d7708ebe）；wzshops3d.js 寫了三個版本',allow.length===1&&allow[0].sha==='5ae04087'&&allow[0].status==='approved'&&['d56da150','d7708ebe'].every(v=>(allow[0].history||[]).some(h=>h.sha===v))&&/AA_364/.test(src)&&/5ae04087/.test(src)&&/d56da150/.test(src)&&/d7708ebe/.test(src),J(allow.map(e=>e.sha+':'+e.status)));

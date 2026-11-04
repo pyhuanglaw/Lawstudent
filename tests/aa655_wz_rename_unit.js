@@ -6,6 +6,8 @@
 //   5 學姊的店內偶遇搬到林家乾麵（第 4 節）；SQ19（第 2 節）；七夕（第 2 節）；門口的黑板；2:30 AM 的牌子（第 6 節）
 //   6 SUNNY SIDE、林家、阿德的價目（第 5 節）
 //   7 台詞逐字對照 AA_655（git show 白名單上的 a22e53016；讀不到＝SKIP）
+//   8 AA_658（企劃線 6ee7ea3a5，溫州街第二批）：巷口書房→溫州書屋、巷口茶飲→帝大紅茶、阿忠水果→阿忠鮮果、自助洗衣→常在洗衣（key 不改、夏日冰菓室不改、公館的「自助洗衣」不改）；
+//     帝大紅茶菜單（中、大）、firstLine、舊品項對到新品項；溫州書屋營業時間、櫥窗四句；逐字對照 AA_658
 // 修改前（開發分支 99c33fb46）：1～7 都有 FAIL。用法：node tests/aa655_wz_rename_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -42,9 +44,9 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
   { const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/.*$/mg,'$1');
     /* 存檔當 key 的地方（AA_655：key 留舊字、顯示換新字）＋例外（蛋的熟度、118 巷、日日定食）*/
     const KEYOK=[/'兩點半 Café':'兩點半 Café'/g,/key===?'兩點半 Café'/g,/key!==?'兩點半 Café'/g,/shop==='兩點半 Café'/g,/EAT\.count\(G,'兩點半 Café'\)/g,/counter\(GM(_ref)?,'兩點半 Café'/g,/key='兩點半 Café'/g,/S\.EAT_KEY=\{'兩點半 Café'/g,
-      /S\.SHOW=\{[^}]*\}/g,/S\.RENAME_AA655=\{[^}]*\}/g,/key:'巷子裡定食'/g,/shop:'巷子裡定食'/g,/'巷子裡定食':/g,/'溫州街・半熟'/g,/"(兩點半 Café|溫州街・半熟)":/g,/note: '[^']*'/g,/source:'[^']*'/g,/console\.warn\('[^']*'/g];
-    const OLD=/兩點半 Café|巷子裡定食|溫州街・定食店|溫州街那家定食|定食店長|定食店的櫃台|半熟早午餐|「半熟[？。]|半熟的班|'半熟'|（半熟）|(去|在|早上|九點，|・)半熟(?!蛋)/;
-    const GEN={'src/data/lane118_shops.js':1,'src/data/l118_shop_layouts.js':1};
+      /S\.SHOW=\{[^}]*\}/g,/S\.RENAME_AA655=\{[^}]*\}/g,/key:'(巷口茶飲|阿忠水果)'/g,/shop:'巷口茶飲'/g,/'巷口茶飲':/g,/n:'自助洗衣'/g,/key:'巷子裡定食'/g,/shop:'巷子裡定食'/g,/'巷子裡定食':/g,/'溫州街・半熟'/g,/"(兩點半 Café|溫州街・半熟)":/g,/note: '[^']*'/g,/source:'[^']*'/g,/console\.warn\('[^']*'/g];
+    const OLD=/巷口書房|巷口茶飲|阿忠水果|自助洗衣|那家茶飲|兩點半 Café|巷子裡定食|溫州街・定食店|溫州街那家定食|定食店長|定食店的櫃台|半熟早午餐|「半熟[？。]|半熟的班|'半熟'|（半熟）|(去|在|早上|九點，|・)半熟(?!蛋)/;
+    const GEN={'src/data/lane118_shops.js':1,'src/data/l118_shop_layouts.js':1,'src/data/us_layouts.js':1};   /* us_layouts：美國篇投幣洗衣的說明欄「自助洗衣（通稱）」*/
     const bad=[]; const walk=d=>{ for(const f of fs.readdirSync(path.join(ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(ROOT,p)).isDirectory()){ walk(p); continue; } if(!/\.js$/.test(f)||GEN[p]) continue;
         let s=strip(rd(p)); for(const re of KEYOK) s=s.replace(re,''); if(!OLD.test(s)) continue; bad.push([p,s.split('\n').filter(l=>OLD.test(l)).map(l=>{ const m=l.match(OLD); const i=l.indexOf(m[0]); return l.slice(Math.max(0,i-30),i+40).trim(); })]); } };
     walk('src');
@@ -132,5 +134,28 @@ const nextWd=(from,w)=>{ for(let d=D(from);d<D(from)+30;d++) if(wdOf(d)===w&&!CA
       check('7 小路、門口、七夕、SQ19、學姊偶遇、黑板、招牌的字都在 AA_655 裡（一字不差）、菜單和稿一樣',!miss.length&&menuOk,J(miss));
       const allow=JSON.parse(rd('docs/handoff/story_import_allow.json')), e=(allow.files||[]).filter(x=>/AA_655_/.test(x.path));
       check('7 劇情匯入白名單：AA_655@a22e53016 approved、AA（D109）',e.length===1&&e[0].sha==='a22e53016'&&e[0].status==='approved'&&e[0].approvedBy==='AA（D109）',J(e)); } }
+  // ---------- 8 AA_658 ----------
+  { const z=rd('src/zones3d.js');
+    check('8 招牌（程式的備用）：溫州書屋、帝大紅茶、阿忠鮮果、常在洗衣；公館的「自助洗衣」照舊',z.includes("shop:{type:'books',name:'溫州書屋',")&&z.includes("shop:{type:'tea',name:'帝大紅茶',")&&z.includes("shop:{type:'fruit',name:'阿忠鮮果',")&&z.includes("shop:{type:'laundry',name:'常在洗衣',")&&z.includes("{n:'自助洗衣',"));
+    check('8 地點名 wz_tea＝帝大紅茶、wz_books＝溫州書屋；key 照舊（tea.key、fruit.key、SQ02 shop:）',PLACES.names.wz_tea==='帝大紅茶'&&PLACES.names.wz_books==='溫州書屋'&&WZS.AA364.tea.key==='巷口茶飲'&&WZS.AA364.tea.zone==='wz_tea'&&WZS.AA413.fruit.key==='阿忠水果'&&/SQ02:\{shop:'巷口茶飲',title:'帝大紅茶：打破的杯子'/.test(rd('src/sideq3d.js'))&&/'巷口茶飲':'帝大紅茶'/.test(rd('src/sideq3d.js')));
+    const it=WZS.items413(), lb=it.map(x=>x.label);
+    check('8 按鈕：看阿忠鮮果、看常在洗衣；水果打烊 toast「阿忠鮮果：09:00～22:00」',lb.includes('看阿忠鮮果')&&lb.includes('看常在洗衣')&&!lb.includes('看阿忠水果')&&rd('src/wzshops3d.js').includes("GM.toast('阿忠鮮果：09:00～22:00',4000)"),J(lb));
+    check('8 店內偶遇：沛珊「在帝大紅茶」',SHOP_ENC.rows.filter(r=>r.spot==='wz_tea').some(r=>r.away==='在帝大紅茶')&&!SHOP_ENC.rows.some(r=>r.away==='在巷口茶飲'));
+    const T=WZS.AA364.tea;
+    check('8 帝大紅茶的菜單（第 4 節）：紅茶 中 30／大 35、奶茶 中 45／大 55、檸檬紅茶 中 45／大 55；招呼照舊、firstLine 換新',J(T.menu)===J([['紅茶（中）',30],['紅茶（大）',35],['奶茶（中）',45],['奶茶（大）',55],['檸檬紅茶（中）',45],['檸檬紅茶（大）',55]])&&T.first==='甜度冰塊？'&&T.known==='半糖少冰？'&&T.same==='好，一樣的。'&&T.done==='（你拿著飲料，沿著溫州街走回去。）'&&T.firstLine==='（價目牌只有三樣茶，每樣分中杯、大杯。你點完，後面已經排了兩個人。）');
+    fresh('2026-03-03',15,'wenzhou'); G.eat={n:{'巷口茶飲':6},last:{'巷口茶飲':'珍珠奶茶'},first:{'巷口茶飲':1}}; said=[]; opts=[]; picks=['老樣子']; const m0=G.money; await WZS.interact(GM,{wzShop:'tea',kind:'window'});
+    check('8 舊存檔上次點珍珠奶茶：「老樣子」＝奶茶（中）45、次數記在同一個 key',G.money===m0-45&&said.some(x=>x.t===OL('奶茶（中）'))&&EAT.count(G,'巷口茶飲')===7&&opts[0].includes('老樣子'),J({said,opts:opts[0]}));
+    G.eat.ate=[{shop:'溫州街・巷口茶飲',item:'青茶',day:1},{shop:'溫州街・阿忠水果',item:'芭樂（一袋三顆）',day:1}];
+    check('8 手機「吃過的」：溫州街・帝大紅茶、溫州街・阿忠鮮果（存下來的店名照舊）',/溫州街・帝大紅茶/.test(EAT.notesHTML(G))&&/溫州街・阿忠鮮果/.test(EAT.notesHTML(G)),EAT.notesHTML(G));
+    const P=PLACES, MON=nextWd('2026-03-02',1), TUE=nextWd('2026-03-02',2), SUN=nextWd('2026-03-02',0);
+    check('8 溫州書屋（第 5 節）：週二～週日 10:00–20:00、週一公休、颱風天關',P.isOpen('wz_books',10,TUE)&&!P.isOpen('wz_books',9.98,TUE)&&P.isOpen('wz_books',19.98,SUN)&&!P.isOpen('wz_books',20,SUN)&&!P.isOpen('wz_books',12,MON)&&!P.isOpen('wz_books',12,D('2025-10-13'))&&P.typhoonShops.includes('wz_books'));
+    const L=WZS.BOOKS_LOOK, bl=(d,h)=>{ fresh(d,h,'wenzhou'); return WZS.booksLook(G); };
+    check('8 「看書店的櫥窗」照時間換：營業中照舊、20:00 以後打烊、週一公休、颱風天',bl(TUE,15)===L.open&&L.open==='溫州書屋的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'&&bl(TUE,21)===L.closed&&bl(TUE,9)===L.closed&&bl(MON,15)===L.rest&&bl(D('2025-10-13'),15)===L.typhoon,J([bl(TUE,21),bl(MON,15)]));
+    check('8 zones3d：櫥窗按鈕的 look 是照時間的 getter（WZS.booksLook）',/label==='看書店的櫥窗'\); if\(bw&&typeof WZS!=='undefined'&&WZS\.booksLook\) Object\.defineProperty\(bw,'look'/.test(z));
+    let doc=null; try{ doc=cp.execFileSync('git',['-C',ROOT,'show','6ee7ea3a5:docs/story_planning/AA_658_溫州街第二批_改名對照.md'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+    if(!doc){ console.log('SKIP 8 讀不到 AA_658（6ee7ea3a5）'); skips++; }
+    else { const ln=[T.firstLine,L.closed,L.rest,L.typhoon,'溫州書屋的櫥窗裡擺著一套舊版的《民法總則》','帝大紅茶：打破的杯子','阿忠鮮果：09:00～22:00','看阿忠鮮果','看常在洗衣','在帝大紅茶'], miss=ln.filter(t=>!doc.includes(t));
+      const mm=doc.match(/`menu:(\[\[.*?\]\])`/);
+      check('8 字都在 AA_658 裡（一字不差）、菜單和稿一樣',!miss.length&&!!mm&&mm[1].replace(/'/g,'"')===J(T.menu),J(miss)); } }
   console.log(fails?('FAILED '+fails):('ALL PASS'+(skips?'（SKIP '+skips+'）':''))); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

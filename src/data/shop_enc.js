@@ -250,7 +250,7 @@ const SHOP_ENC={
    "busy": "short",
    "join": false,
    "memo": "SHOP_TEA_PS",
-   "away": "在巷口茶飲",
+   "away": "在帝大紅茶",
    "lines": {
     "acq": [
      "{name}！你也來買喔。",
