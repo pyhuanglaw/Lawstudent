@@ -128,3 +128,16 @@
 [00:05:57] ==== START V20R_soc_heroine_01_talk  (probe @ d3828452abe2d10f1b7bb3b47d8313482f83b2d3) ====
 [00:06:00] [res] cpu=29% mem=51% (16.1/31.4 GB) chrome_testing=10  START V20R_soc_heroine_01_talk
 [00:06:32] [res] cpu=26% mem=46% (14.5/31.4 GB) chrome_testing=9  END V20R_v7
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:07:05] push failed for V20R_v7 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[00:07:05] ==== END   V20R_v7  exit=1  415s   ====
+[00:07:06] fetch claude/second-ai-env-art failed (continuing): fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:07:06] memory 48% before starting V20R_soc_heroine_01_go (2 running)
+[00:07:06] ==== START V20R_soc_heroine_01_go  (probe @ d3828452abe2d10f1b7bb3b47d8313482f83b2d3) ====
+[00:07:10] [res] cpu=13% mem=48% (15.4/31.4 GB) chrome_testing=9  START V20R_soc_heroine_01_go
+[00:07:21] 正在跑：V20R_linze（已跑 3 分／上限 20 分）、V20R_soc_heroine_01_talk（已跑 1 分／上限 20 分）、V20R_soc_heroine_01_go（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[00:08:46] [res] cpu=48% mem=47% (15.5/31.4 GB) chrome_testing=10  END V20R_linze

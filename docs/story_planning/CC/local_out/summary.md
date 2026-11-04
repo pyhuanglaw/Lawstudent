@@ -1262,3 +1262,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 310.1s] page close url=http://127.0.0.1:8800/index.html?start0 | [gpu_wrap 310.1s] BROWSER DISCONNECTED
 - 2026-11-05T00:06:32  V20R_v7  sha=d3828452abe2d10f1b7bb3b47d8313482f83b2d3  exit=1  415s    FAIL v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動  [["gongguan", 7.25, 36.75]] / PASS 新版沒有 JS 例外  [] / FAILED: v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動
       err.log (last 5): [gpu_wrap 40.4s] page close url=http://127.0.0.1:8803/index.html?turbo | [gpu_wrap 313.8s] page close url=http://127.0.0.1:8801/index.html?turbo | [gpu_wrap 313.8s] BROWSER DISCONNECTED
+- 2026-11-05T00:08:46  V20R_linze  sha=d3828452abe2d10f1b7bb3b47d8313482f83b2d3  exit=0  282s    PASS 劇情自動走路沒有用到「卡住後放到目的地」的保險  fallbacks=0 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 245.9s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 245.9s] BROWSER DISCONNECTED
