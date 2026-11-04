@@ -152,7 +152,7 @@ const SEATACT=(function(){
     return {side,oppD}; };
   // ---------- 狀態 ----------
   const R={zone:null,zid:null,on:new Map(),groups:new Map(),dirty:false,props:null,loading:null,failed:false,t:0,day:null};
-  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:r.items.map(i=>i.name),pose:r.n.pose,hold:r.hold||null}))});   /* 測試用 */
+  S.state=()=>({zone:R.zid,n:R.on.size,loaded:!!R.props,list:[...R.on.values()].map(r=>({act:r.act,set:r.set,kind:r.kind,named:r.named,x:r.st.x,z:r.st.z,lv:r.st.lv|0,items:(r.items||[]).map(i=>i.name),pose:r.n.pose,hold:r.hold||null}))});   /* 測試用（BB-C 11-04 13:13：cafe、library、lawlib、afar、daybreak 的 r.items 是 null，探針一讀就例外）*/
   S.groups=()=>[...R.groups.values()];   /* 測試用 */
   function load(){ if(R.props||R.loading||R.failed) return; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[S.PROP_KEY]){ R.failed=true; return; }
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },

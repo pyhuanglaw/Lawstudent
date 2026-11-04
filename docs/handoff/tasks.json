@@ -39285,12 +39285,10 @@
    "title": "日本／美國路線的寒暑假、出發前、回國後空白缺口表＋第一批稿（AA）",
    "area": "STORY",
    "owner": "AA",
-   "status": "暫停",
+   "status": "進行中",
    "priority": "P2",
-   "pausedReason": "使用者 11-01 改工作方式（UA-AA-1101-01）：先和 AA 角色共創，AA 的大批改稿暫停",
-   "resumeWhen": "使用者說繼續，或角色共創告一段落",
    "nextCheck": "2026-11-08",
-   "next": "【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；掃描輸出 vsw_JP.json、vsw_US.json 只在 AA scratchpad、沒有遠端備份，恢復時用存檔的工具重跑",
+   "next": "【LAWWW-C 11-04 13:1x】使用者 13:0x 選擇題對 AA-C「恢復，現在就補」（UA-AA-1104-15）：恢復；AA-C 背景掃描 vsweep_routes.js（JP／US，head ebd44c2e3），出來寫缺口表和第一批稿，照 outbox 交 LAWWW｜【11-01 09:0x LAWWW-B】AA-B 交班【表外】補進總表；掃描輸出 vsw_JP.json、vsw_US.json 只在 AA scratchpad、沒有遠端備份，恢復時用存檔的工具重跑",
    "first": {
     "term": "Y3S1",
     "week": 0,
@@ -44404,7 +44402,7 @@
    "id": "WZ-LANEEAST-TRIS-1104",
    "title": "溫州街 lane_east 減面（店內 wz_in_shop 按店拆網格、看不到的店整間裁掉）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -44417,7 +44415,7 @@
     "confirmed": true
    },
    "sha": "d2a692410",
-   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
+   "next": "【LAWWW-C 11-04 13:1x】BB-C 13:10 BB_255：lane_east 三角形還沒過（45.6 萬），等 LAWWW2-C 再減面；擋 v9.10.20｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2 1d64f3511",
@@ -44496,7 +44494,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
+   "next": "【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
    "source": "帳號 A 交班 B1～B2；BB-C 11-04 12:58",
    "authorized": "D85（LAWWW 自主發布）",
    "evidence": ""
@@ -44643,6 +44641,26 @@
    },
    "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；INV-SIT-TOGETHER-1104 的帶路速度／等人；「答應的那一句」等 CC 確認探針",
    "source": "BB-C 11-04 13:07（GG_shops2_afar_date／db_date）",
+   "evidence": ""
+  },
+  {
+   "id": "SUNNY-F12-SIT-1104",
+   "title": "SUNNY SIDE 吧台 F12 (−2.3,−2.1)「坐吧台」按下去 6 秒沒坐下（seat false、idle，按鈕還在）；F13 (−1.6,−2.1) 起身以後人站在 (−2.35,−2.1)＝F12 的座位點",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進 SUNNY SIDE",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 F13 起身點、F12 走近點（yaw π：前面是出餐檯、站不住）和 seatMenu／freeSeat",
+   "source": "BB-C 11-04 13:10（CC-C 雲端 r2，46d459625）",
    "evidence": ""
   }
  ]
