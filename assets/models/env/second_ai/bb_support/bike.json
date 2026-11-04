@@ -1,8 +1,8 @@
 {
- "objects": 168,
+ "objects": 167,
  "unique_meshes": 70,
- "tris": 39120,
- "tris_drawn": 52648,
+ "tris": 39112,
+ "tris_drawn": 52398,
  "materials": [
   "bk_alpha",
   "bk_concrete",
@@ -17,11 +17,11 @@
   "bk_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/bike.glb",
- "bytes": 3257896,
+ "bytes": 3254084,
  "texres": 1024,
  "shop": "bike",
- "layout": 1,
- "drawn_tris": 52648,
+ "layout": 2,
+ "drawn_tris": 52398,
  "protos": {
   "wheel0": 2,
   "wheel1": 2,
@@ -31,18 +31,18 @@
   "wheel5": 2,
   "wheel6": 2,
   "wheel7": 1,
-  "helmet0": 5,
-  "helmet1": 4,
+  "helmet0": 3,
+  "helmet1": 3,
   "helmet2": 3,
   "helmet3": 6,
-  "lock_b": 4,
-  "lock_r": 4,
+  "lock_b": 3,
+  "lock_r": 3,
   "pump_y": 1,
   "pump_k": 2,
   "tire_a": 7,
   "tire_b": 6,
   "stand": 2,
-  "pendant": 9,
+  "pendant": 11,
   "fixture": 7
  }
 }

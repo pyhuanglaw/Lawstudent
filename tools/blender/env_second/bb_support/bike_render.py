@@ -23,7 +23,7 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.samples = int(os.
 sc.cycles.device = os.environ.get('CC_BLENDER_DEVICE', 'CPU')
 sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 sc.render.resolution_x, sc.render.resolution_y = rx, ry; sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = float(arg('--exposure', '0.0'))
+sc.view_settings.exposure = float(arg('--exposure', '0.3'))
 sc.cycles.max_bounces = 5; sc.cycles.transparent_max_bounces = 24
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; bg = w.node_tree.nodes['Background']
 bg.inputs['Color'].default_value = (0.95, 0.85, 0.7, 1); bg.inputs['Strength'].default_value = float(arg('--world', '0.08'))
@@ -45,12 +45,12 @@ def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
 WARM = (1.0, 0.78, 0.52); TUBE = (1.0, 0.92, 0.8)
 H = LAY['h']
 for (x, y, z) in LAY['lights']['pendants']:
-    light('SPOT', g2b(x, y - 0.12, z), float(arg('--pend', '90')), WARM, aim=g2b(x, 0, z), size=0.05).data.spot_size = math.radians(110)
-    light('POINT', g2b(x, y - 0.1, z), float(arg('--pend', '90')) * 0.15, WARM, size=0.05)
+    light('SPOT', g2b(x, y - 0.12, z), float(arg('--pend', '130')), WARM, aim=g2b(x, 0, z), size=0.05).data.spot_size = math.radians(110)
+    light('POINT', g2b(x, y - 0.1, z), float(arg('--pend', '130')) * 0.15, WARM, size=0.05)
 for (x, z, ax) in LAY['lights']['tubes']:
     p = g2b(x, H - 0.1, z); light('AREA', p, float(arg('--tube', '45')), TUBE, aim=p + Vector((0, 0, -1)), sx=0.14 if ax == 'z' else 1.2, sy=1.2 if ax == 'z' else 0.14)
-p = g2b(1.0, 1.7, 6.3); light('AREA', p, float(arg('--door', '120')), (1.0, 0.95, 0.88), aim=g2b(0.6, 1.2, 2.0), sx=4.5, sy=2.4)   # 門外騎樓的光（在相機後面）
-p = g2b(0.6, H - 0.5, 0.5); light('AREA', p, float(arg('--fill', '60')), WARM, aim=p + Vector((0, 0, -1)), sx=6.0, sy=9.0)          # 天花板反射的補光
+p = g2b(1.0, 1.7, 6.3); light('AREA', p, float(arg('--door', '160')), (1.0, 0.95, 0.88), aim=g2b(0.6, 1.2, 2.0), sx=4.5, sy=2.4)   # 門外騎樓的光（在相機後面）
+p = g2b(0.6, H - 0.5, 0.5); light('AREA', p, float(arg('--fill', '120')), WARM, aim=p + Vector((0, 0, -1)), sx=6.0, sy=9.0)          # 天花板反射的補光
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 cam.data.sensor_width = 36
 os.makedirs(outdir, exist_ok=True)
