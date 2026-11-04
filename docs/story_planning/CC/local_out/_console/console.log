@@ -705,3 +705,12 @@
 [08:33:01] ==== START YT3-D2  (probe @ d2b962a3f) ====
 [08:33:05] [res] cpu=51% mem=55% (17.3/31.4 GB) chrome_testing=17  START YT3-D2
 [08:35:12] [res] cpu=68% mem=55% (17.5/31.4 GB) chrome_testing=18  END YT3-D2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       468064c06..7f9584f91  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:35:19] ==== END   YT3-D2  exit=0  130s   ====
+[08:35:23] memory 56% before starting YT3-E2 (2 running)
+[08:35:23] ==== START YT3-E2  (probe @ d2b962a3f) ====
+[08:35:27] [res] cpu=48% mem=55% (17.8/31.4 GB) chrome_testing=18  START YT3-E2
+[08:37:19] 正在跑：MAP_ctl3（已跑 10 分／上限 30 分）、YT3-C2（已跑 7 分／上限 35 分）、YT3-E2（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:38:12] [res] cpu=43% mem=57% (17.9/31.4 GB) chrome_testing=18  END MAP_ctl3
