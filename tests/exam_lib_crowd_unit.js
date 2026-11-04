@@ -243,6 +243,9 @@ await sec('5',async()=>{
   fresh('2025-12-02',10.5); let s6=zone('library_hall',1,-9.6,3.0); friend('heroine_05'); let n6=npcAt('heroine_05',s6[2]); await talk('heroine_05',n6);
   s6=zone('lawlib',0,-1,-2); n6=npcAt('heroine_05',s6[3]); const g6=await talk('heroine_05',n6), l6=lines(); const l6b=(await talk('heroine_05',n6),lines());
   check('5. 同一天換一間（總圖點過頭了、法圖第一次）：LIBQ 不再點頭，這裡照「這一間第一次」點頭；再說＝（小聲）第一句',g6==='talk'&&J(l6)===J([NOD('heroine_05')])&&J(l6b)===J(L.people.heroine_05.lines[0]),J([l6,l6b]));
+  /* 表上的人在別間（明軒在總圖 3F）：不說那幾句 */
+  fresh('2025-12-02',10.5); const s9=zone('library',0,0,0); friend('classmate_mingxuan'); const n9=npcAt('classmate_mingxuan',s9[20]); await talk('classmate_mingxuan',n9); await talk('classmate_mingxuan',n9); const o9=lines();
+  check('5. 表上的人在別間（明軒在總圖 3F，表上是 A館 4F）：不說那幾句，照 LIBQ、照原本的閒聊',o9.length>0&&!L.people.classmate_mingxuan.lines.some(x=>x.some(t=>o9.includes(t))),J(o9));
   /* pool */
   fresh('2025-12-02',10.5); const s7=zone('library_hall',1,-9.6,3.0); const pids=Object.keys(CHARACTERS).filter(id=>EXLIB.isPool(id)).slice(0,2); for(const id of pids){ H.FAMILIAR(id); }
   const p1=npcAt(pids[0],s7[4]), p2=npcAt(pids[1],s7[6]); await talk(pids[0],p1); await talk(pids[0],p1); const q1=lines(); await talk(pids[1],p2); await talk(pids[1],p2); const q2=lines(); await talk(pids[0],p1); const q3=lines();
@@ -276,6 +279,16 @@ await sec('6',async()=>{
   check('6. 玩家走進讀書區＝直接走過去坐下（不跳找不到位子）；她說到了以後那一句「（小聲）九點二十八。」',seatCalls.length===1&&seatCalls[0].seat===hs&&!H.opts.length&&lines().includes(L.people.heroine_01.hold.at[0])&&H.G.exlib.hold.arrived===true,J(lines()));
   setT(dAn+1,9.6); H.G.exlib.hold=Object.assign({},H.G.exlib.hold); EXLIB.phone(H.G); deliver();
   check('6. 到了＝她不傳沒到那一則',!msgs('heroine_01').includes(L.people.heroine_01.hold.miss[0]));
+  /* 第 7 節給 BB 的測試點：前一晚請柏翰占位子，隔天 09:00 進 3F */
+  { fresh('2025-12-01',19); friend('classmate_bohan'); let d=null; for(let x=DK('2025-12-01');x<DK('2025-12-12');x++){ setT(x,19); if(EXLIB.goes(H.G,'classmate_bohan',x+1)){ d=x; break; } }
+    setT(d,19); MSG.send(H.G,'classmate_bohan','exlib_seat'); setT(d,22); deliver(); setT(d+1,9); zone('library',0,0,0); EXLIB.syncSeats(GM,true);
+    const bs=EXLIB.spotSeat(E,'library','classmate_bohan'); npcAt('classmate_bohan',bs); H.G.exlib.atm.seen['Y1S1:library']=1; H.said=[]; seatCalls.length=0; await tick();
+    const hs=seatCalls[0]&&seatCalls[0].seat;
+    check('6. 前一晚請柏翰占位子、隔天 09:00 進 3F：直接坐到他旁邊那個位子，他說「（小聲）你的位子旁邊有插座，我順便看了。」',!!hs&&Math.hypot(hs.x-bs.x,hs.z-bs.z)<2.01&&J(lines())===J(L.people.classmate_bohan.hold.at),J(lines())); }
+  /* 交往中：到了以後的動作照第 3 節 */
+  { fresh('2025-12-01',19,'library_hall',{dating_heroine_01:true}); friend('heroine_01'); setT(dAn,19); MSG.send(H.G,'heroine_01','exlib_seat'); setT(dAn+1,8.8); const s2=zone('library_hall',1,-9.6,3.0); EXLIB.syncSeats(GM,true);
+    npcAt('heroine_01',EXLIB.spotSeat(E,'library_hall','heroine_01')); H.G.exlib.atm.seen['Y1S1:library_hall']=1; H.said=[]; await tick();
+    check('6. 交往中：答應那一句一樣；到了以後先第 3 節的動作（她把旁邊椅子上的書收起來），再「（小聲）九點二十八。」',J(lines())===J([L.people.heroine_01.dating].concat(L.people.heroine_01.hold.at)),J(lines())); }
   /* 沒到 */
   fresh('2025-12-01',19); friend('classmate_bohan'); let dBo=null; for(let d=DK('2025-12-01');d<DK('2025-12-12');d++){ setT(d,19); if(EXLIB.goes(H.G,'classmate_bohan',d+1)){ dBo=d; break; } }
   setT(dBo,19); MSG.send(H.G,'classmate_bohan','exlib_seat'); setT(dBo,22); deliver(); const y1=msgs('classmate_bohan');
@@ -305,7 +318,7 @@ await sec('6',async()=>{
 
 /* ======================= 7 第 4-2 節：朋友請你占 ======================= */
 await sec('7',async()=>{
-  const run42=(id,from,to)=>{ for(let d=DK(from);d<=DK(to);d++){ setT(d,21.05); EXLIB.phone(H.G); deliver(); if(H.G.exlib.d42&&H.G.exlib.d42.who===id&&H.G.exlib.d42.askDay===d) return d; } return null; };
+  const run42=(id,from,to)=>{ for(let d=DK(from);d<=DK(to);d++){ setT(d,21.05); EXLIB.phone(H.G); deliver(); const D=(H.G.exlib||{}).d42; if(D&&D.who===id&&D.askDay===d) return d; } return null; };
   fresh('2025-12-01',21); friend('zhe'); friend('yu'); friend('classmate_xinci'); friend('heroine_03');
   const dZ=run42('zhe','2025-11-30','2025-12-13');
   check('7. 阿哲：這一段某一天 21:00 私訊（照稿兩則），可以回「好。」',dZ!=null&&J(msgs('zhe').slice(0,2))===J(L.people.zhe.ask.msg)&&(()=>{ const m=(H.G.msgs||[]).find(x=>x.ask&&/^exlib42_/.test(x.ask.id)&&x.from==='zhe'); return m&&J(m.ask.opts.map(o=>o.t))===J(['好。']); })(),J(msgs('zhe')));
@@ -324,6 +337,11 @@ await sec('7',async()=>{
   fresh('2025-12-01',21); friend('yu'); const dY=run42('yu','2025-11-30','2025-12-13'); const my2=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id===(H.G.exlib.d42||{}).tag);
   if(dY==null||!my2) check('7. Alison 有問',false); else { PHONE.answer(H.G,my2.ask.id,0); setT(dY+1,10.9); EXLIB.phone(H.G); deliver(); const b=msgs('yu').length; setT(dY+1,11.02); EXLIB.phone(H.G); deliver();
     check('7. 回了「好。」但沒去：她照時間（11:00）傳「我在走廊站了二十分鐘 最後去法圖了」',msgs('yu').length===b+1&&msgs('yu').slice(-1)[0]===L.people.yu.ask.miss[0],J(msgs('yu').slice(-2))); }
+  /* 10:00 以後才到 */
+  fresh('2025-12-01',21); friend('yu'); const dY2=run42('yu','2025-11-30','2025-12-13'); const my3=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id===(H.G.exlib.d42||{}).tag);
+  if(dY2==null||!my3) check('7. Alison 有問（10:00 以後才到）',false); else { PHONE.answer(H.G,my3.ask.id,0); setT(dY2+1,10.3); const s3=zone('library_b1',0,-14,-10); EXLIB.syncSeats(GM,true);
+    const st3=s3.find(q=>q.room==='study24'&&!q.taken); H.said=[]; await GM.seatMenu({seat:st3,study:true}); const placed=H.G.exlib.d42.placed; setT(dY2+1,11.02); EXLIB.phone(H.G); deliver();
+    check('7. 10:00 以後才到：不放講義；她照時間傳沒占到那一則',!placed&&!lines().includes(L.place42)&&msgs('yu').slice(-1)[0]===L.people.yu.ask.miss[0],J([placed,lines(),msgs('yu').slice(-1)])); }
   /* 沒回 */
   fresh('2025-12-01',21); friend('classmate_xinci'); const dX=run42('classmate_xinci','2025-11-30','2025-12-13'); if(dX!=null){ setT(dX+1,11); EXLIB.phone(H.G); deliver(); }
   check('7. 沒回：隔天不傳沒占到',dX!=null&&!msgs('classmate_xinci').includes(L.people.classmate_xinci.ask.miss[0]),J(msgs('classmate_xinci')));
@@ -366,6 +384,8 @@ await sec('9',async()=>{
 await sec('10',async()=>{
   fresh('2025-12-02',10.5); const G=H.G; delete G.exlib;
   check('10. 沒有 G.exlib 的舊存檔：時段、作息照算、不寫存檔',EXLIB.on(G)===true&&!!STORY.schedEnt(CHARACTERS.heroine_05,G)&&G.exlib===undefined);
+  setT('2025-11-20',12); EXLIB.phone(G); EXLIB.syncSeats(GM,true); setT('2025-12-02',10.5);
+  check('10. 這一段以外：每一格的手機規則、座位不建 G.exlib',G.exlib===undefined);
   const R=EXLIB.rec(G); check('10. 第一次用到才補預設',R&&R.v===1&&typeof R.atm==='object'&&typeof R.nod==='object'&&R.hold==null);
   G.exlib='壞掉的'; const R2=EXLIB.rec(G); G.exlib.hold={who:'x'}; const R3=EXLIB.rec(G);
   check('10. 壞掉的欄位重設（不丟例外）',R2&&R2.v===1&&R3.hold===null);

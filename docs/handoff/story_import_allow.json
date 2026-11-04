@@ -4293,6 +4293,15 @@
     }
    ],
    "note": "一盞：c510_3_2、c506_3_3 從麵店搬到 wz_teahouse（座標、時間、「常來的阿伯」、place 說明）；ev_yt_family_dinner 當天 20:00～21:00 茶屋的門讓玩家進去、20:00 以後門口旁白。照抄進 src/data/heroine_circle.js、src/hcircle3d.js、src/aa187_3d.js、src/story3d.js（tests/cafe230_aa657_unit.js）；65a1b2fe9：AA_657 補二「三號桌」→「常來的阿伯」逐句定稿（AA 2026-11-04 07:11，D109）"
+  },
+  {
+   "path": "docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md",
+   "sha": "468a1d0b9",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "EXAM-LIB-CROWD-1104",
+   "kind": "text",
+   "note": "AA_669 第 0～5、7 節（第 6 節社科圖二樓的場景是 LAWWW2 的 SOCLIB-2F-1104，沒有匯入）：第 1 節一進門的旁白六句、第 2 節找不到位子（提示、再繞一圈、去別間、回宿舍讀／回家讀、招手、收書包、還是沒有）、第 3 節十一位＋pool 的（小聲）那幾句與交往中的動作、4-1 答應／到了以後／沒到／不行、4-2 前一天 21:00 的訊息／到了以後／沒占到、第 5 節經濟系三位。照抄進 src/data/examlib_lines.js（手寫，一字不差；tests/exam_lib_crowd_unit.js 用 git show 468a1d0b9 逐句對照），接線 src/examlib3d.js"
   }
  ]
 }

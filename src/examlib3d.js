@@ -9,13 +9,14 @@
        坐著的人照舊；空的位子照比例標「有人了」（st.exHeld：桌上放東西、人不在——座位的按鈕寫「有人了」、按了只說「有人了。」、SEATACT 照「休息」那一組放桌上的東西）；
        哪幾個位子照日期＋區域＋座位當種子（同一天進出是同一批）。路人、有名字的人照舊可以坐上去（那是他們的東西）；劇情寫死的位子（S.KEEP）不放。
    ■ 第 1 節 一進門的旁白（S.atmosDue）：這一段第一次走進這一間的讀書區（每學期每一間一次），五句輪流；閉館前 30 分鐘內進來＝第 6 句。
+     第 1～5 句寫的是坐滿的樣子：坐到五成以上（開館後約四十分鐘起）才放（一開館就進去＝坐到五成的時候才出那一句）。
    ■ 第 2 節 找不到位子（S.fullDue → S.fullPrompt）：這一段全滿的時間以後第一次走到讀書區的座位旁邊（每天每一間一次），提示＋「再繞一圈」「去別間」「回宿舍讀」（住家裡＝「回家讀」）；
      這一間裡有 FRIEND 以上的朋友坐著、旁邊有位子＝多一個「（看到她／他在對你招手）」（坐到旁邊，第 3 節的招呼照演）。
      再繞一圈：時間 +20 分鐘；平日 14:00 以前一半的機會（照日期＋區域）有人收東西走了＝坐下；沒有＝這一次不能再繞。去別間：其他開著的圖書館（快速前往，路程照現有的）。回宿舍讀：快速前往宿舍（住家裡＝HOME.go）。
      有人幫你占了位子（第 4-1 節）的那一天、那一間不跳；約好一起來的（邀約、一起走）也不跳。
    ■ 第 3 節 有名字的人（S.sched：STORY.SCHED_X）：這一段，表上的人作息裡「讀書」（act read）的時段坐到表上的地方（只換讀書的時段；上課、約好的、出遊、劇情的位置、別的模組的作息都照舊；
      那一間沒開＝照作息）；同一天最多三位在同一間。經濟系那一年三位朋友沒有作息：這一段的平日給一段讀書的時間（S.Y0_SLOTS，LAWWW 暫定，作息歸 BB 可以改）。
-     說話（STORY.talkCharacter 包一層，S.talk）：這一段在讀書區，第一次碰到（這一段、這一間）＝點頭（LIBQ 今天點過頭的也算）；之後每人每學期照順序一句（小聲）那幾句，用完只點頭；
+     說話（STORY.talkCharacter 包一層，S.talk）：這一段在表上的那一間的讀書區，第一次碰到（這一段、這一間）＝點頭（LIBQ 今天點過頭的也算）；之後每人每學期照順序一句（小聲）那幾句，用完只點頭（在別間照原本的）；
      交往中的人第一句前面多一個動作。pool（二十位同學）：每人每學期一句（四句輪流），說過就照原本的閒聊。劇情、約好的、門檻台詞、第一次見面照舊先。
    ■ 第 4-1 節 請朋友占（S.topicOk／S.send41：手機私訊的話題「明天幫我占位子」，包住 MSG.topics／MSG.send）：這一段每天 18:00～23:00，FRIEND 以上、表上有答應那一句的人，一天只能問一個人。
      明天作息裡有讀書的時段、早上不是上課（考試）＝答應，否則＝不行；答應＝隔天那一間他坐自己的位子、旁邊一個位子「有人了」（st.taken，路人、別人不坐）到他說的時間（以安 9:30、子晴 10:00、學姊 9:00，其他 12:00）。
@@ -126,6 +127,7 @@ const EXLIB=(function(){
     for(const q of seats){ if(q===st||(q.lv|0)!==(st.lv|0)) continue; if(ok&&!ok(q)) continue; const dx=q.x-st.x, dz=q.z-st.z, f=dx*fx+dz*fz, l=dx*lx+dz*lz, dy=Math.abs(Math.atan2(Math.sin((q.yaw||0)-yaw),Math.cos((q.yaw||0)-yaw)));
       let s=null; if(dy<0.3&&Math.abs(f)<0.3&&Math.abs(l)>=0.45&&Math.abs(l)<=1.5){ s=Math.abs(l); if(side==='left'&&l<0) s+=5; if(side==='right'&&l>0) s+=5; }
       else if(dy>2.8&&f>0.5&&f<2.2&&Math.abs(l)<0.5) s=10+f;
+      else if(Math.hypot(dx,dz)<=2.0) s=20+Math.hypot(dx,dz);   /* 圓桌（3F 閱覽區三人一桌，相鄰的位子差 1.65 m）：同一張桌子最近的那一個 */
       if(s!=null&&s<bs){ bs=s; best=q; } }
     return best; };
 
@@ -206,7 +208,7 @@ const EXLIB=(function(){
   S.here=function(GM){ const G=GM&&GM.G; if(!G||!S.isLib(G.zone)||!S.on(G)) return false; if(!libqZone(G.zone)) return S.inStudy(GM)&&!(typeof LIBQ!=='undefined'&&LIBQ.isLoud&&LIBQ.isLoud()); return !LIBQ.quietNow||LIBQ.quietNow(GM); };
   S.nodRec=(G,z)=>{ const R=S.rec(G), t=termOf(G); return sub(sub(R.nod,t?t.id:'-'),z); };
   /* LIBQ 今天點過頭（讀書區第一次）：這一段、這一間也算點過了 */
-  S.noteNod=function(GM,n){ const G=GM&&GM.G, id=n&&(n.charId||n.id); if(!id||!S.here(GM)||!(S.inCast(G,id)||S.isPool(id))) return; S.nodRec(G,G.zone)[id]=1; };
+  S.noteNod=function(GM,n){ const G=GM&&GM.G, id=n&&(n.charId||n.id); if(!id||!S.here(GM)) return; const P=S.inCast(G,id); if(P?S.zoneOf(P.place)!==G.zone:!S.isPool(id)) return; S.nodRec(G,G.zone)[id]=1; };
   const play=async(GM,who,steps)=>{ for(const t of steps) await say(GM,isNarr(t)?null:who,t); };
   /* 打招呼（說話、招手坐過去）：點頭／（小聲）那一句／用完了點頭。回傳 true＝這次照這裡演了 */
   S.greet=async function(GM,id,n){ const G=GM.G, R=S.rec(G), t=termOf(G), z=G.zone, P=S.inCast(G,id); if(!t) return false;
@@ -218,7 +220,9 @@ const EXLIB=(function(){
     if(S.isPool(id)){ const PS=sub(R.pool.said,t.id); if(PS[id]) return false; const Ls=L().pool||[]; if(!Ls.length) return false; const i=(R.pool.n|0)%Ls.length; R.pool.n=i+1; PS[id]=1;
       await play(GM,who,Ls[i]); if(typeof SOCIAL!=='undefined'){ if(SOCIAL.talkedTo) SOCIAL.talkedTo(id); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); } return 'line'; }
     return false; };
-  S.talk=async function(GM,id,n){ const G=GM&&GM.G; if(!G||!S.here(GM)) return false; if(!S.inCast(G,id)&&!S.isPool(id)) return false; if(S.storyFirst(G,id,n)) return false;
+  S.talk=async function(GM,id,n){ const G=GM&&GM.G; if(!G||!S.here(GM)) return false; const P=S.inCast(G,id); if(!P&&!S.isPool(id)) return false;
+    if(P&&S.zoneOf(P.place)!==G.zone) return false;   /* 表上的人在表上的那一間才說那幾句（明軒「四樓的插座比總圖多」）；在別間照 LIBQ、照原本的閒聊 */
+    if(S.storyFirst(G,id,n)) return false;
     if(S.isPool(id)&&!S.inCast(G,id)){ const t=termOf(G); const nd=S.nodRec(G,G.zone); if(nd[id]&&t&&sub(S.rec(G).pool.said,t.id)[id]) return false; }   /* pool：這學期說過了＝照原本的閒聊 */
     GM.sceneBegin({adv:id}); let r=false;
     try{ const E=GM.E; if(n&&!n.seat&&GM.face&&E&&E.player) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine&&E&&E.player&&n) GM.cine('talk',E.player.obj,n.obj); r=await S.greet(GM,id,n); }
@@ -241,7 +245,7 @@ const EXLIB=(function(){
     const R=S.rec(G); if(R.prompt[(G.day|0)+':'+G.zone]) return false; if(holdToday(G,G.zone)||invitedHere(G)) return false; if(!ZS||ZS.zone!==E.zone||!ZS.held.size) return false;
     return S.nearHeld(GM); };
   /* 招手的朋友：這一間、坐著、FRIEND 以上、旁邊有位子（沒有人坐；放了東西的＝他幫你收）*/
-  S.waver=function(GM){ const G=GM.G, E=GM.E; const out=[]; for(const id of Object.keys(S.cast(G))){ if(!S.inCast(G,id)) continue; const n=GM.npc&&GM.npc[id]; if(!n||!n.seat||!E.npcs.includes(n)) continue; if(!S.friendUp(G,id)) continue;
+  S.waver=function(GM){ const G=GM.G, E=GM.E; const out=[]; for(const id of Object.keys(S.cast(G))){ const P=S.inCast(G,id); if(!P||S.zoneOf(P.place)!==G.zone) continue; const n=GM.npc&&GM.npc[id]; if(!n||!n.seat||!E.npcs.includes(n)) continue; if(!S.friendUp(G,id)) continue;
       const a=S.adjacent(E,n.seat,null,q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken); if(a) out.push({id,n,seat:a}); } return out[0]||null; };
   S.waveText=id=>String((L().full||{}).wave||'').replace('{她／他}',male(id)?'他':'她');
   const seatIt=(E,st)=>(E.interactables||[]).find(it=>it&&it.seat===st)||{x:st.x,z:st.z,lv:st.lv|0,radius:0.8,label:'坐下讀書',seat:st,study:true};
@@ -350,10 +354,11 @@ const EXLIB=(function(){
     GM.sceneBegin({adv:D.who}); try{ await play(GM,who,P.ask.at||[]); } finally { GM.sceneEnd(); } S.nodRec(G,G.zone)[D.who]=1; return true; };
 
   /* ---------- 手機（STORY.PHONE_RULES）：沒到、沒占到、21:00 的私訊 ---------- */
-  S.phone=function(G){ if(!G||typeof PHONE==='undefined'||!G.flags) return; const R=S.rec(G), t=now(G);
-    const H=R.hold; if(H&&!H.arrived&&!H.missSent&&t>=H.day*24+H.until){ H.missSent=true; const P=S.cast(G)[H.who]; const miss=P&&P.hold&&P.hold.miss;
-      if(miss&&miss.length) PHONE.at(G,H.day,H.until,miss.map(text=>({th:'p:'+H.who,from:H.who,text})),'exlib41m_'+H.day); sub(R.noShow,H.term||'-')[H.who]=1; }   /* 不扣任何數值（D118）*/
-    const D=R.d42; if(D&&D.ok&&!D.placed&&!D.missSent&&t>=D.day*24+D.at){ D.missSent=true; const P=S.cast(G)[D.who]; const miss=P&&P.ask&&P.ask.miss; if(miss&&miss.length) PHONE.at(G,D.day,D.at,miss.map(text=>({th:'p:'+D.who,from:D.who,text})),'exlib42m_'+D.day); }
+  S.phone=function(G){ if(!G||typeof PHONE==='undefined'||!G.flags) return; const R0=rec0(G), t=now(G);   /* 沒有 G.exlib（沒用過這一段）＝不建 */
+    if(R0){ const R=S.rec(G);
+      const H=R.hold; if(H&&!H.arrived&&!H.missSent&&t>=H.day*24+H.until){ H.missSent=true; const P=S.cast(G)[H.who]; const miss=P&&P.hold&&P.hold.miss;
+        if(miss&&miss.length) PHONE.at(G,H.day,H.until,miss.map(text=>({th:'p:'+H.who,from:H.who,text})),'exlib41m_'+H.day); sub(R.noShow,H.term||'-')[H.who]=1; }   /* 不扣任何數值（D118）*/
+      const D=R.d42; if(D&&D.ok&&!D.placed&&!D.missSent&&t>=D.day*24+D.at){ D.missSent=true; const P=S.cast(G)[D.who]; const miss=P&&P.ask&&P.ask.miss; if(miss&&miss.length) PHONE.at(G,D.day,D.at,miss.map(text=>({th:'p:'+D.who,from:D.who,text})),'exlib42m_'+D.day); } }
     S.ask42(G); };
 
   /* ---------- 每一格（STORY.TICKS）---------- */
