@@ -101,12 +101,16 @@ V20_slice_0e2c | 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938 | probe | docs/story_p
 V20_slice_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
 # V20_slice_0e2c 重跑（CC-C 15:2x）：第一輪 14:32:46 UTC 開跑，比藏路人修正（fbd1c776a 14:36、c15c10c25 14:51）早，畫面有路人；909c 那輪 14:53 是修好的版本 → 0e2c 用同一版重跑，和 909c 配成一對
 V20_slice_0e2c | 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0;RERUN=hidefix
+# V20_touchwz_909c_r2（CC-C 15:3x）：touchwz_909c 的 FAIL BB-C 判 TEST_BUG（走路時跳出 ev_wrong_coffee 的選項沒回答）；LAWWW-C d3828452a 修了 tests/touch_flow_wenzhou.py → 遊戲照舊 909c、測試腳本用 d382 的（SCRIPT_FROM）
+V20_touchwz_909c_r2 | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 20 | XARGS={url};SOLO=1;SCRIPT_FROM=d3828452abe2d10f1b7bb3b47d8313482f83b2d3;CC_HEADLESS=0
 V20_touchwz_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
 # ===== [順序 2] WZ4_yizhan_r4（BB-C 14:54：LAWWW-C 048b4c898 loadZone 設 z.id；照玩家走法只跑 YARD；修改後要出旁白、記 WZ_TEA_YARD_IN；修改前 e9b3 照 r3 要 FAIL 2）
 WZ4_yizhan_r4_048b | 048b4c898693415e2bad1b1968000a9d8400ca62 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0
 WZ4_yizhan_r4_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0
 # TAPPREF_zone（BB-C 14:54）：溫州街點地面、走到一半進一盞、進門馬上按互動鈕；溫州街的 tapPref 不能在一盞生效（engine3d.js:496）。e9b3＝修改前對照（CC_50 第 14 條）——雲端驗完才打開
 # ===== [順序 3] SITAMB 7 項（BB-C 14:41）：子代理寫好、雲端驗完排在這裡
+# NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
+NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
 WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=yizhan;HOURS=14,22;YARD=1;EAVE=1;CC_HEADLESS=0
 # ===== BB-C 13:24 舊 SHA 那批改排（BB_255 5b858ec58）：新 head 7c970654c（完整 SHA），排在 GG_REENTRY、SUNNY 補印後面 =====

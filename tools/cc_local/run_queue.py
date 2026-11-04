@@ -958,6 +958,7 @@ class Runner(object):
         self.update_heads()
         log('dev head = %s   lawww2 head = %s' % (self.head, self.lawww2 or '(not fetched)'))
         os.makedirs(self.out_root, exist_ok=True)
+        self.startup_flush()
 
     def fetch_lawww2(self, quiet=True):
         rc, out = git('-C', self.repo, 'fetch', 'origin', LAWWW2_BRANCH, quiet=True)
@@ -985,6 +986,31 @@ class Runner(object):
                 git('-C', self.work, 'merge', '--abort', quiet=True)
             self.sync_results_branch('refresh')
             self.update_heads()
+
+    def startup_flush(self):
+        """啟動時（BB-C 15:18）：
+        ① 工作樹裡 local_out 底下「已追蹤、被改過、沒 commit」的舊結果（例：帳號 A 的 02_mk12、R8_y4s2rt，每次啟動都被列出來）→ commit。
+           不還原：那可能是重跑留下的唯一一份。沒追蹤的檔案不動。
+        ② 本機結果分支比遠端新（上一輪 push 失敗留下的）→ 先合併遠端再推，不等下一項。"""
+        if self.a.no_push:
+            return
+        lo = 'docs/story_planning/CC/local_out'
+        with GIT_LOCK:
+            rc, st = git('-C', self.work, 'status', '--porcelain', '--untracked-files=no', '--', lo, capture=True)
+            if rc == 0 and st.strip():
+                n = len([x for x in st.splitlines() if x.strip()])
+                git('-C', self.work, 'add', '-u', '--', lo, quiet=True)
+                rcd, _ = git('-C', self.work, 'diff', '--cached', '--quiet', quiet=True)
+                if rcd != 0:
+                    rcc, out = git('-C', self.work, 'commit', '-q', '-m', 'CC-local: 啟動時補 commit 上一輪留下沒 commit 的結果（%d 個檔）' % n, quiet=True)
+                    log('startup: committed %d leftover result file(s)%s' % (n, '' if rcc == 0 else ' - FAILED: ' + out.strip()[-200:]))
+            rc, ahead = git('-C', self.work, 'rev-list', '--count', 'origin/%s..HEAD' % self.branch, capture=True)
+            if rc == 0 and ahead.strip().isdigit() and int(ahead.strip()) > 0:
+                log('startup: %s local result commit(s) not on origin yet - merge origin and push now' % ahead.strip())
+                self.sync_results_branch('startup')
+                rcp, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
+                if rcp != 0:
+                    log('startup push failed - the next item will retry')
 
     def sync_results_branch(self, why):
         """結果分支（cc-local）也合併遠端：別人（雲端的 CC）推了 cc-local，這一輪後面每一項都會推不上去

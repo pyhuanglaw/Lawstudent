@@ -56,6 +56,22 @@ def check_py(path, out):
                 continue
             elif n > 1:
                 out.append('%s:%d：格式字串有 %d 個 %%，右邊卻不是 tuple（只有 1 個參數）：%s' % (path, node.lineno, n, node.left.value[:60].replace('\n', ' ')))
+    lines = src.splitlines()
+    for node in ast.walk(tree):   # BB-C 15:18：GG_views_r2 電腦上起不來（子行程裡的 fast_shots.py 寫死雲端 chromium 路徑，gpu_wrap 只改同一個行程）
+        if not isinstance(node, ast.Call):
+            continue
+        f = node.func
+        line = lines[node.lineno - 1] if 0 < node.lineno <= len(lines) else ''
+        if isinstance(f, ast.Attribute) and isinstance(f.value, ast.Name) and f.value.id == 'subprocess' and f.attr in ('run', 'Popen', 'call', 'check_call', 'check_output') and node.args:
+            a0 = node.args[0]
+            if isinstance(a0, ast.List) and a0.elts and isinstance(a0.elts[0], ast.Attribute) and getattr(a0.elts[0].value, 'id', '') == 'sys' and a0.elts[0].attr == 'executable':
+                second = a0.elts[1] if len(a0.elts) > 1 else None
+                sv = second.value if isinstance(second, ast.Constant) else (second.id if isinstance(second, ast.Name) else '')
+                if str(sv) not in ('-m', '-c') and 'gpu_wrap' not in str(sv).lower() and 'gpu_wrap-ok' not in line:
+                    out.append('%s:%d：子行程跑 Python 腳本沒有經過 gpu_wrap（電腦上拿不到 GPU、寫死的雲端 chromium 路徑會打不開）：改成 [sys.executable, <tools/cc_local/gpu_wrap.py>, 腳本, …]；不開瀏覽器的在那一行加 # gpu_wrap-ok' % (path, node.lineno))
+        for kw in node.keywords or []:
+            if kw.arg == 'executable_path' and isinstance(kw.value, ast.Constant) and isinstance(kw.value.value, str) and kw.value.value.startswith('/opt/pw-browsers') and 'os.path.exists' not in line:
+                out.append('%s:%d：executable_path 寫死雲端的 %s：寫成「雲端才用」（os.path.exists 判斷），同一個行程 gpu_wrap 會拿掉，子行程不會' % (path, node.lineno, kw.value.value))
     try:
         import pyflakes  # noqa: F401
         r = subprocess.run([sys.executable, '-m', 'pyflakes', path], capture_output=True, text=True)
