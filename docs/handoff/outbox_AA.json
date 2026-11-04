@@ -5004,6 +5004,22 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_666 換 5 處；AA_254 CG-11 和遊戲一致（不用改程式）",
    "note": "使用者睡覺中，AA 自己定"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "國外那幾個月逐週重讀（排在 AA_660、AA_667 實作以後）",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "VAC-GAP-ROUTES",
+   "sha": "090981ebe",
+   "files": [
+    "docs/story_planning/AA_667_交換路線_同時交往的另一位_出發前回國當天.md",
+    "docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_667 第 2、3 節接線；第 5 節三處改現有的字或條件（H6 子晴期末飯、H7 語彤 HOME_INV、沛珊聖誕句）；AA_660 G1-1 起飛時間改字",
+   "note": "使用者睡覺中，AA 自己定（D109）"
   }
  ],
  "items": [
