@@ -4316,6 +4316,15 @@
     }
    ],
    "note": "日本／美國路線在臺灣的空白第一批（第 2 節 G1～G6、第 3 節接線；第 5 節下一批不做）：美國 7/27 家人群組、7/29 摘要日、7/30 桌遊團群組＋7/31 19:00 餞行（拍照清單 US_PHOTO_LIST；Alison 不在＝芯慈拿清單，US_PHOTO_LIST_XC）、8/1 家人群組、8/5 松鼠的照片、12/23 10:30 家人群組（AA660.G21_ON 打開、G21_H）與 21:00 群組、12/24 Kevin 第一句、12/25／1/13 摘要日；日本 3/23 阿哲第一句、8/5 家人群組與 21:00 群組、8/12／8/22／8/29 摘要日。照抄進 src/aa660_3d.js（S.L）、src/data/heard_lines.js（h509_kevin 的 alt）、src/y34b3d.js（y3_an_farewell_ask）；第 4 節第 3 點：src/data/heroine_asks.js 子晴那句店名換 2:30 AM（tools/story/aa655_fix.json）；0777c92ac 同一個 commit 的 AA_494 子晴交往中、可昕兩句店名也換 2:30 AM（heroine_asks.js；AA_494 白名單照舊 b3ecc563c，讀稿照 aa655_fix.json pairs 換）。稿上芯慈那一版清單旁白後面的「（芯慈的顏色筆，這學期用這一次）」是口頭禪額度註記（00_台詞寫作規則.md 第 6 節），不演。tests/aa660_vac_gap_unit.js 逐字對照"
+  },
+  {
+   "path": "docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md",
+   "sha": "468a1d0b9",
+   "status": "approved",
+   "approvedBy": "AA-C（D109 定稿）",
+   "task": "EXAM-LIB-CROWD-1104",
+   "kind": "text",
+   "note": "AA_669 第 0～5、7 節（第 6 節社科圖二樓的場景是 LAWWW2 的 SOCLIB-2F-1104，沒有匯入）：第 1 節一進門的旁白六句、第 2 節找不到位子（提示、再繞一圈、去別間、回宿舍讀／回家讀、招手、收書包、還是沒有）、第 3 節十一位＋pool 的（小聲）那幾句與交往中的動作、4-1 答應／到了以後／沒到／不行、4-2 前一天 21:00 的訊息／到了以後／沒占到、第 5 節經濟系三位。照抄進 src/data/examlib_lines.js（手寫，一字不差；tests/exam_lib_crowd_unit.js 用 git show 468a1d0b9 逐句對照），接線 src/examlib3d.js"
   }
  ]
 }
