@@ -149,8 +149,9 @@ REC_JS = r"""(async P=>{ const E=GAME.E, R=E.renderer, cv=R.domElement; const W=
   const starts=[], roles=[], fid=[], diffs=[], top=[], kept=[]; let prev=null, err=null; const t0=performance.now(), paused0=E.paused; E.paused=true;
   if(P.cam){ E.cinematic(new THREE.Vector3(...P.cam[0]),new THREE.Vector3(...P.cam[1])); E.camera.position.set(...P.cam[0]); E.cam.look=new THREE.Vector3(...P.cam[1]); E.camera.lookAt(E.cam.look); }
   try{ for(let f=0;f<P.n;f++){
-      for(const q of (trig[f]||[])){ const n=T[q.t], o=n&&n.obj; let ok=false; try{ ok=!!(o&&CHAR.sitAmbFidget(o,q.kind)); }catch(e){ ok='ERR '+String(e).slice(0,80); } const m=o&&am(n); fid.push({f,t:q.t,i:n?ix(n):null,kind:q.kind,ok,got:ok===true&&m?(m.fx?m.fx.kind:(m.lastKind||null)):null}); }
+      for(const q of (trig[f]||[])){ const n=T[q.t], o=n&&n.obj; let ok=false; try{ ok=!!(o&&CHAR.sitAmbFidget(o,q.kind)); }catch(e){ ok='ERR '+String(e).slice(0,80); } const m=o&&am(n); fid.push({f,t:q.t,i:n?ix(n):null,kind:q.kind,ok,got:ok===true&&m?(m.fx?m.fx.kind:(m.lastKind||null)):null,live:null,_n:n}); }
       E.update(P.dt); E.render();
+      for(const q of fid) if(q._n&&q.live===null&&q.f===f){ const m=am(q._n); q.live=!!(m&&m.fx&&m.fx.kind===q.got); q.chat=m?(m.chatRole||null):null; delete q._n; }
       sc.drawImage(cv,0,0,sw,sh); const px=sc.getImageData(0,0,sw,sh).data; let d=0;
       if(prev){ let s=0, c=0; for(let k=0;k<px.length;k+=8){ s+=Math.abs(px[k]-prev[k])+Math.abs(px[k+1]-prev[k+1])+Math.abs(px[k+2]-prev[k+2]); c++; } d=s/(c*3); } prev=px; diffs.push(+d.toFixed(3));
       const rw=repAt[f], minTop=top.length<P.top?-1:top[top.length-1].d, isTop=f>0&&d>minTop;
@@ -198,14 +199,19 @@ async def load_zone(pg, cdp, zone, hour, day, pos=None):
     return await pg.evaluate("GAME.G.zone===%s" % J(zone))
 
 
-async def wait_people(pg, ctl, want_idx=None, max_s=90):
-    """坐著的人都換成 VRM（一般網址：坐姿循環也在跑 u.ambOn）才開始錄；回傳 SEATED_JS 的結果"""
-    t1 = time.time(); r = None
+async def wait_people(pg, ctl, want_idx=None, max_s=90, min_s=8):
+    """坐著的人都換成 VRM（一般網址：畫面裡的人坐姿循環也在跑 u.ambOn）、SEATACT 配好（人數、配好幾組、聊天幾組連續兩次一樣）才開始錄；
+    至少等 min_s 秒（SEATACT.tick 每 30 格才跑一次：兩種網址要比同一個狀態）。回傳 (SEATED_JS 的結果, 有沒有等到, 秒)"""
+    t1 = time.time(); r = None; sig0 = None
     while time.time() - t1 < max_s:
         r = await pg.evaluate(SEATED_JS)
         ppl = [s for s in r['seated'] if not s['hidden'] and (want_idx is None or s['i'] in want_idx)]
+        sa = r.get('seatact') or {}
+        sig = (len(ppl), sa.get('n'), r.get('pairs'), sum(1 for s in ppl if s['drv'] == 'vrm'))
         # 畫面外 16 m 以上的人不更新骨架（engine3d.js updateNPC）＝ambOn 一直是 false：只看畫面裡的人
-        if ppl and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl))): return r, True, time.time() - t1
+        ok = bool(ppl) and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl)))
+        if ok and sig == sig0 and time.time() - t1 >= min_s: return r, True, time.time() - t1
+        sig0 = sig
         await pg.wait_for_timeout(2000)
     return r, False, time.time() - t1
 
@@ -229,7 +235,8 @@ ROLE = {
 
 def pick(seated, role, used, prefer_f=False, lv=None):
     c = [s for s in seated if not s['hidden'] and s['i'] not in used and ROLE[role](s) and (lv is None or s['lv'] == lv)]
-    if prefer_f: c.sort(key=lambda s: (s['sex'] != 'f',))
+    # 同桌聊天的一組（u.sitChat）：小動作下一格就被聊天蓋掉（character3d.js sitAmbient ④），叫小動作的段先挑不在聊天的人
+    c.sort(key=lambda s: ((bool(s['chat']) and role != 'chat'), (s['sex'] != 'f') if prefer_f else False))
     return c[0] if c else None
 
 
@@ -358,7 +365,7 @@ async def record(pg, mode, tag, targets, plans, cam, secs, player=False, top=TOP
     d = rec['diffs']; dm = round(sum(d) / len(d), 3) if d else None
     oks = [q for q in rec['fid'] if q['ok'] is True]
     print('  [%s] %.1f 秒（頁面裡 %.1f 秒）；畫面 %dx%d；sitAmbFidget %d/%d 叫得動 %s；自己開始的小動作 %d 個 %s；聊天輪替 %d 次；每格平均差 %s、最大 %s；存了 %d 張' % (
-        tag, time.time() - t1, rec['ms'] / 1000.0, rec['W'], rec['H'], len(oks), len(rec['fid']), J([[q['kind'], q['got']] for q in rec['fid']]),
+        tag, time.time() - t1, rec['ms'] / 1000.0, rec['W'], rec['H'], len(oks), len(rec['fid']), J([[q['kind'], q['got'], 'live' if q.get('live') else ('下一格就沒了（%s）' % (q.get('chat') or '?') if q['ok'] is True else '-')] for q in rec['fid']]),
         len(rec['starts']), J([[round(s['f'] * dt, 2), s['i'], s['kind']] for s in rec['starts']][:12]), len(rec['roles']), dm, max(d) if d else None, len(files)), flush=True)
     if rec['err']: check('[%s] 錄影迴圈沒有例外' % tag, False, rec['err'][:300])
     out = {'tag': tag, 'secs': round(end, 2), 'n': n, 'dt': dt, 'cam': cam, 'sched': sched, 'targets': [('player' if t == 'player' else {k: t.get(k) for k in ('i', 'name', 'pose', 'item', 'x', 'z', 'lv', 'floor', 'sex', 'seat', 'act', 'chat')}) for t in targets],
@@ -704,12 +711,12 @@ async def run_mode(p, mode):
 
 
 def coverage(R):
-    """每一種動作實際開始了沒（一般網址：sitAmbFidget 回 true、而且 m.fx 是那一種）"""
+    """每一種動作實際開始了沒（一般網址：sitAmbFidget 回 true、m.fx 是那一種，而且下一格還在＝沒被同桌聊天蓋掉）"""
     got = {}
     for st in R['stops']:
         for sg in st.get('segs', []):
             for q in sg['fid']:
-                if q['ok'] is True: got.setdefault(q['got'] or '?', []).append(sg['tag'])
+                if q['ok'] is True and q.get('live'): got.setdefault(q['got'] or '?', []).append(sg['tag'])
     return got
 
 
