@@ -74,7 +74,7 @@ const PLACES={
     return [['campus','首都帝大校園（法律系館A前）',{x:34,z:-98,yaw:0}],['campus','椰影大道・晨思鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博思教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
       L1&&['linze','法律系館A（大廳）',L1],['classroom','法律系館A 201 教室',null],['wancai','法律系館B（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
       ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日日便利',{x:0,z:3.4,yaw:Math.PI}],['bookstore','舊路書房',{x:0,z:4,yaw:Math.PI}],
-      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:6.6,yaw:Math.PI,lv:0}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
+      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、宿舍 205→dorm_hall）；
      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
   base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';

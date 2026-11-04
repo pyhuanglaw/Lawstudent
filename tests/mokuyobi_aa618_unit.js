@@ -14,7 +14,7 @@ const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z
 global.CHAR={setExpr(){},build:()=>mkObj()};
 /* 場景（src/mokuyobi3d.js）要 three.js 整套：這裡用同樣的常數換一個空的區域（常數和原檔對過，第 1 項）*/
 const MSRC=fs.readFileSync(path.join(ROOT,'src/mokuyobi3d.js'),'utf8');
-global.MOK3={OUT:{x:7.4,z:-4.15,yaw:0},IN:{x:-3.75,z:6.6,yaw:Math.PI,lv:0},zone:{id:'wz_mokuyobi',build(E){ return {seats:[]}; }}};
+global.MOK3={OUT:{x:7.4,z:-2.85,yaw:0},IN:{x:-3.75,z:5.4,yaw:Math.PI,lv:0},zone:{id:'wz_mokuyobi',build(E){ return {seats:[]}; }}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+String(info).slice(0,600):'')); if(!ok) fails++; };
 const FILES=['src/data/mokuyobi_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js',
   'src/social3d.js','src/events3d.js','src/data/invites.js','src/data/invite_replies.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js',

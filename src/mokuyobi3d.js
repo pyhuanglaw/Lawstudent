@@ -15,8 +15,8 @@ const MOK3=(function(){
   const Y1=MOKUYOBI_LAYOUT.stairWell.rise;        // 二樓地板（＝樓梯的總高，3.2）
   const CX=11.15, CZ=-12.25;                      // 區域座標 → 溫州街世界座標：x＋CX、z＋CZ（B4 的門在本地 −2.6 → 世界 7.4；臨街的牆內面 z 7.0 → 世界 −5.25）
   const DOOR_WZ={x:7.4,z:-4.55};                  // 溫州街上「上二樓」的互動點（人行道，B4 鐵門前）
-  const OUT={x:7.4,z:-4.15,yaw:0};                // 走出來：B4 門口的人行道，面向巷子（+z）
-  const IN={x:-3.75,z:6.6,yaw:Math.PI,lv:0};      // 走進來：一樓第一、二階，面向北（往上爬）
+  const OUT={x:7.4,z:-2.85,yaw:0};                // 走出來：B4 門口外的巷子，面向巷子（+z）；離「上二樓」1.7 m，在它的範圍（1.4）外面（tests/spawn_exit_unit.js）
+  const IN={x:-3.75,z:5.4,yaw:Math.PI,lv:0};      // 走進來：樓梯第五、六階，面向北（往上爬）；離門口的「離開木曜日」1.35 m，在它的範圍（1.0）外面（tests/spawn_exit_unit.js）
   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.85},o||{}));
 
   // ---- 樓梯：一條連續斜面（碰撞、找路），畫面上一階一階（tread／rise／low；engine3d.js visualHeightAt）----

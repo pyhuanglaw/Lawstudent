@@ -21,7 +21,7 @@ check('0. Z3.ZONES.wz_mokuyobi 有登記、配置是 v3c（樓梯 16 階）',!!Z
 const z=loadZone('wz_mokuyobi'), [n0,n1]=z.levels;
 check('1. 兩層導航同尺寸、同原點；二樓地板＝樓梯總高 3.2',z.levels.length===2&&n0.cols===n1.cols&&n0.rows===n1.rows&&n0.ox===n1.ox&&n0.oz===n1.oz&&Math.abs(n1.y0-S.rise)<1e-6&&Math.abs(S.rise-3.2)<1e-6);
 const IN=MOK3.IN, top=[-3.75,(S.z0+S.top)/2,1], door=[S.x1+0.6,S.door.z,1];
-check('2. 進來的出生點（一樓第一階）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
+check('2. 進來的出生點（樓梯第五、六階，離門口的出口 1.35 m）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
 // 樓梯的高度：一階一階（畫面）、連續（碰撞），最下面 0、最上面 3.2
 { const st=MOK3.stairSurf(L); let okv=true, prev=-1; const T=S.tread; for(let k=1;k<S.risers;k++){ const zz=st.z1-(k-0.5)*T, v=n0.visualHeightAt?n0.visualHeightAt(-3.75,zz):null; if(v!==null&&Math.abs(v-k*0.2)>0.011) okv=false; }
   const h0=n0.heightAt(-3.75,st.z1-0.02), h1=n1.heightAt(-3.75,S.top+0.02), hp=n1.heightAt(-3.75,(S.z0+S.top)/2);
@@ -34,7 +34,8 @@ r=walk(top,door); check('6. 平台 → 東邊隔間牆的店門 → 店裡',r.ok
 const seatAps=s=>{ const fx=Math.sin(s.yaw), fz=Math.cos(s.yaw); return [...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].map(([dx,dz])=>[s.x+dx,s.z+dz,1]).filter(a=>Math.hypot(a[0]-s.x,a[1]-s.z)<=0.85&&n1.clear(a[0],a[1],0.3)); };
 const badSeat=[]; for(const s of L.seats){ const aps=seatAps(s); if(!aps.some(a=>walk(door,a).ok)) badSeat.push(`t${s.table}(${s.x},${s.z}) 候選點 ${aps.length} 個`); }
 check(`7. 店門走得到 ${L.seats.length} 個座位「坐下」的走近點（GAME.seatApproach 的候選點）`,!badSeat.length,badSeat.join('｜'));
-r=walk(door,[IN.x,IN.z,0]); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r));
+/* 走到一樓門口的「離開木曜日」（L.d/2−0.25）。11-04 以前走到出生點 IN；IN 搬到樓梯第五、六階以後（tests/spawn_exit_unit.js），那裡在樓梯上半、下半的交界附近，下樓的人還在第 1 層也算對，所以改走到真正的門口 */
+{ const D=[IN.x,L.d/2-0.25,0]; r=walk(door,D); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r)); }
 // 一樓到不了二樓的地板（一定要走樓梯）、牆擋得住
 { const p=E.pathTo(IN.x,IN.z,0,0.5,0.5,1); check('9. 一樓到二樓中間的找路經過樓梯（路線最高點在樓梯上、x 在樓梯間）',!!p&&p.length>0);
   check('10. 一樓（第 0 層）在平台、店裡都站不住（樓梯間以外是實心的）',!n0.clear(-3.75,(S.z0+S.top)/2,0.2)&&!n0.clear(0,0,0.3)&&!n0.clear(-2.2,5,0.3));
