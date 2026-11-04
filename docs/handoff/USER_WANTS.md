@@ -559,6 +559,7 @@
 | X219 | 帳號 A 交班：等其他 AI 交班後 LAWWW 檢查完畢再交班；不用再每小時啟動（D129 保險喚醒停用） | 11-04 09:0x（對 LAWWW；UA-LAWWW-1104-75） | 已完成 | LAWWW：收子代理、確認 LAWWW2／AA／BB／CC 交班登記、roles／incr／duty verify、存快照、duty handoff、停用每小時保險喚醒 | 11-04 |
 | X220 | 人物的頭髮太像泡麵：近景看起來一條條等粗的麵條，要改 | 11-04 13:2x（對 CC-C；UA-CC-1104-03） | 進行中 | HAIR-NOODLE-1104（LAWWW2：CC 排近景探針先找原因，再提改法；人物外觀 LAWWW 驗收，D100a、D128）；不擋 v9.10.20 | 11-05 |
 | X221 | 人物設定檔裡和現在設定不符的字直接刪掉（檔案留著，只刪不符的字；不是整份刪） | 11-04 13:4x（對 AA-C；UA-AA-1104-19） | 進行中 | CANON-PURGE-1104（AA：00_現行設定總表、00_人物口氣表、voice_canon 17 份、各人物事件書與企劃的設定段落，子代理分四組）；CANON-PURGE-SRC-1104（LAWWW：遊戲 characters.js 不符的欄位，等 AA 清單） | 11-05 |
+| X222 | 坐著的 NPC 不能一直不動：拿著書、拿著手機也要真的在做事（翻頁、滑手機、打字、喝飲料、抬頭看、伸懶腰、和同桌聊天）；查 GitHub 上別人怎麼做、用開源的動作 | 11-04 13:5x（對 LAWWW；UA-LAWWW-1104-86） | 進行中 | NPC-AMBIENT-ANIM-1104（LAWWW：CC0 動作庫 Quaternius UAL1／2、Mesh2Motion＋情境動作排程＋程序化呼吸視線；缺的動作 LAWWW2 用 Blender 做）；接 X217 SEAT-ACTIVITY-1104 | 11-05 |
 
 ---
 

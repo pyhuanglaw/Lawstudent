@@ -44787,6 +44787,27 @@
    "authorized": "D109 AA 劇情自主、D111 LAWWW 排優先",
    "pausedReason": "v9.10.20 擋發布項目先做",
    "resumeWhen": "v9.10.20 發布以後"
+  },
+  {
+   "id": "NPC-AMBIENT-ANIM-1104",
+   "title": "坐著的 NPC 要真的在做事、會動（使用者 11-04 13:5x 對 LAWWW-C：「就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做」「你不能查GitHub 別人怎麼設計嗎」）：照開源做法做「情境動作」——每種活動一段會動的循環＋隨機小動作＋程序化呼吸、視線＋同桌聊天",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進 Café、總圖、教室看到坐著的人",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
+   "source": "使用者 11-04 13:5x 對 LAWWW-C（UA-LAWWW-1104-86）；接 X217 SEAT-ACTIVITY-1104",
+   "authorized": "使用者直接要求"
   }
  ]
 }

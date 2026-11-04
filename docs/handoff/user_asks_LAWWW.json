@@ -2796,6 +2796,15 @@
    "task": "HANDOFF-SLIM-1104",
    "src": "使用者對 LAWWW-C 選擇題（AskUserQuestion），2026-11-04 12:5x UTC",
    "checked": "D135：incr 只逐筆分類改到 src／assets／tests／index.html 的 commit 和交付；只改文件、交接紀錄的 commit 由該職位交班時的「全部待辦」和快照涵蓋，水位線整批前進"
+  },
+  {
+   "id": "UA-LAWWW-1104-86",
+   "at": "2026-11-04T13:5xZ",
+   "quote": "關於N PC要有什麼動作？難道沒有任何開源？可以去查嗎？只能自己設計嗎？就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做 你不能查GitHub 別人怎麼設計嗎",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X222",
+   "task": "NPC-AMBIENT-ANIM-1104"
   }
  ]
 }
