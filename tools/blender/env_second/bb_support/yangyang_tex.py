@@ -84,7 +84,7 @@ def prints(path):
     # 大招牌：紅底白字「洋洋鹹酥雞」＋右邊小雞 1400 × 300
     b = _cell('sign', 0, 0, 1400, 300); d.rectangle(b, fill=CREAM); d.rectangle([10, 10, 1390, 290], outline=RED, width=8)
     d.rectangle([380, 40, 1160, 260], fill=RED)
-    for i, ch in enumerate('洋洋鹹酥雞'): d.text((410 + i * 148, 60), ch, font=font(160), fill=(252, 246, 232))
+    ctext(d, (380, 40, 1160, 260), '洋洋鹹酥雞', 140, (252, 246, 232), -10)
     chicken(d, 1270, 170, 80)
     for i, t in enumerate(('炸物小吃', '台式滷味', '宵夜・點心')): d.text((40, 40 + i * 80), t, font=font(62), fill=(50, 40, 30))
     # 菜單板（四欄）1400 × 420
