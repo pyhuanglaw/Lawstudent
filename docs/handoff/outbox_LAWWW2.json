@@ -5621,6 +5621,24 @@
    "next": "LAWWW-C 換檔；CC 拍；BB 判",
    "noDirectIntegrate": false,
    "note": "門廳／影印區：還書車（互動點 95）、吊牌「自習室在二樓」「影印區」、「請保持安靜」、盆栽、回收桶、公告欄海報；竹木腰板＋樓層色帶（一樓陶土紅、二樓灰藍綠）延伸、地板色嵌條、二樓玻璃防撞條色帶、牆地調暖；預約螢幕細框小螢幕（修 v1 螢幕面擋字）；一樓東窗捲簾；修 v1 一樓內牆頂和二樓地板疊面。f8d17bfb7＋這 6 個檔：soclib2f_unit、exam_lib_crowd_unit 等 8 支 ALL PASS；lm_probe 23 點過；沒在瀏覽器看過。檢查點 084b70f67"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "30c0ae20e",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "SEATFIG-LOD1-HAIR-1104",
+   "files": [
+    "assets/models/env/second_ai/seated_figures.glb",
+    "assets/models/env/second_ai/seated_figures.json",
+    "tools/blender/env_second/seated_figures.py",
+    "docs/art-rebuild/second_ai/wip/seatfig_lod1_1104/"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 換 GLB（git checkout 30c0ae20e -- seated_figures.glb/.json，程式不用改）；CC 用 SITAMB_CLOUD_1104 ⑧ 同鏡頭重拍；BB 判",
+   "next": "LAWWW-C 換檔；CC 重拍",
+   "noDirectIntegrate": false,
+   "note": "BB-C 17:19（CC SITAMB_CLOUD_1104 ⑧ 替身頭上深色方塊）：_lod1 從 LOD0 再減、脖子以上不減（頭 300～372 面），400 → 800 面；顏色從 LOD0 烤、頭的面用 LOD0 的 UV。網格名字不變。effb5d9b3＋新 GLB：seated_figures_unit、seated_figures_lod_unit、desk_furniture_unit ALL PASS；沒在瀏覽器看過"
   }
  ]
 }

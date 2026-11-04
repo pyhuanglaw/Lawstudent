@@ -48,7 +48,7 @@ Blender Workbench 預覽，不是遊戲畫面。鏡頭和博思 101 講台那一
 ## 給 LAWWW-C
 
 ```
-git checkout <交件 SHA> -- assets/models/env/second_ai/seated_figures.glb assets/models/env/second_ai/seated_figures.json
+git checkout 30c0ae20e -- assets/models/env/second_ai/seated_figures.glb assets/models/env/second_ai/seated_figures.json
 ```
 
 不用改程式。

@@ -42,7 +42,7 @@
   建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
 - 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
 
-## 🔨 現在在做（11-04 18:3x UTC，帳號 C LAWWW2-C）
+## 🔨 現在在做（11-04 18:4x UTC，帳號 C LAWWW2-C）
 - 使用者 15:3x 說：「你繼續做別的事情我要睡覺了很久都不會看」（UA-LAWWW2-1104-07）。照排定的順序自己做，每段做完就 push；要使用者決定的記在下面，等他回來再問，不叫醒他。
 
 ### 本班交件
@@ -55,14 +55,14 @@
   - 第二版只換配置、區域程式、GLB＋光照貼圖，接線 patch 不變。
   - 等 LAWWW-C 換檔、加讀書的人；再 CC 拍 11:00／20:30（直向、橫向）、跑真實流程，BB 判。窗會不會太亮要看 CC 的遊戲畫面。
 - **ADE-PROPS-1104**：`c73d37367`，LAWWW-C 接進 `1a191554d`。LAWWW-C 另外修了電線桿擋到的腳踏車停車處。
+- **SEATFIG-LOD1-HAIR-1104**（BB P3，替身頭上的方塊）：`30c0ae20e`。遠處版從近處版再減、脖子以上不減，400 → 800 面；只換 `seated_figures.glb`／`.json`。等 LAWWW-C 換檔、CC 用 SITAMB_CLOUD_1104 ⑧ 同鏡頭重拍。
 
 ### 佇列（照順序）
-1. SEATFIG-LOD1-HAIR-1104（BB P3）：`seated_figures.glb` 的 `_lod1` 黑頭髮是一整塊方的。查到：男生底模遠景版（400 面）的頭都變尖角、方塊，白衣黑髮的 nm13 最明顯；近景版是圓的。`seated_figures.py` 已加 `--lod1`、`--head-keep`（減面時脖子以上少減），還沒試。
-2. WZ-FIVE-1104：2:30 AM 外觀（`cafe_exterior.py`；招牌貼圖 `cafe230_sign.jpg` 已在）。
-3. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
-4. HAIR-NOODLE-1104：等 CC 的近景探針。
-5. NPC-ANIM-LOOPS-1104。
-6. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+1. WZ-FIVE-1104：2:30 AM 外觀（`cafe_exterior.py`；招牌貼圖 `cafe230_sign.jpg` 已在）。
+2. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
+3. HAIR-NOODLE-1104：等 CC 的近景探針。
+4. NPC-ANIM-LOOPS-1104。
+5. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
 
 ### 記住（別的 AI 交代的做法）
 - 挪溫州街、公館的電線桿或機車排，要一起跑 `tests/bike_park_1104_unit.js`：腳踏車停車處照機車排的兩端算，電線桿擋到會 FAIL（LAWWW-C 11-04 18:15）。
