@@ -41,10 +41,11 @@ const CVS_LAYOUT = {
     counter: {x0: 1.9, x1: 2.65, z0: -0.9, z1: 3.3, h: 0.95, flap: {z0: 3.3, z1: 3.85},
       parts: [{kind: 'coffee_side', z0: -0.9, z1: 0.2}, {kind: 'register', z0: 0.2, z1: 1.3}, {kind: 'display', z0: 1.3, z1: 2.0}, {kind: 'hot_case', z0: 2.0, z1: 3.2}]},
     impulseRack: {x0: 1.6, x1: 1.9, z0: -0.85, z1: 0.05, h: 1.15, note: '櫃台靠冷藏櫃那一頭的小貨架（零食、口香糖），朝走道'},
-    backCounter: {x0: 3.15, x1: 3.75, z0: -0.9, z1: 3.75, h: 0.95, note: '櫃台後面：咖啡機兩台、杯子、吸管架（不放菸）'},
+    backCounter: {x0: 3.15, x1: 3.75, z0: -0.9, z1: 1.4, h: 0.95, note: '櫃台後面：咖啡機兩台、杯子、吸管架（不放菸）'},
     counterWall: {x0: 3.75, x1: 3.87, z0: -1.05, z1: 3.85, note: '櫃台後面的標誌牆（太陽＋日和便利店、日和咖啡價目黑板）；牆後 x 3.87～5.6 是倉庫（關著）；店員走道 x 2.65～3.15'},
     endPanel: {x0: 2.65, x1: 3.75, z0: -1.05, z1: -0.9, note: '員工區北邊的隔板（客人走不進櫃台後面）'},
-    lockers: {x0: 5.05, x1: 5.6, z0: 4.05, z1: 5.45, h: 2.0, label: '包裹暫取區'},
+    lockers: {x0: 3.2, x1: 3.75, z0: 1.45, z1: 2.6, h: 2.0, label: '包裹暫取區', note: '在櫃台後面、標誌牆前（參考圖：熱食櫃後面、咖啡黑板下面）；店員幫客人拿（外觀的置物櫃在店外白牆前）'},
+    frontRack: {x0: 5.15, x1: 5.6, z0: 4.0, z1: 5.4, h: 1.6, note: '右前角的壁架（雨具、雜誌、生活用品），面向 −x'},
     doormat: {x0: -0.45, x1: 1.25, z0: 3.2, z1: 4.4},
     umbrella: {x0: -0.55, x1: -0.05, z0: 5.15, z1: 5.45},
     spawn: {x: 0.4, z: 4.5, yaw: Math.PI},
@@ -56,7 +57,7 @@ const CVS_LAYOUT = {
       {kind: 'checkout', x: 1.5, z: 0.75, yaw: Math.PI / 2, label: '結帳：飯糰／咖啡／飲料'},
       {kind: 'hotfood', x: 1.5, z: 2.6, yaw: Math.PI / 2, label: '看熱食櫃'},
       {kind: 'coffee', x: 1.25, z: -0.4, yaw: Math.PI / 2, label: '點日和咖啡'},
-      {kind: 'parcel', x: 4.45, z: 4.75, yaw: Math.PI / 2, label: '包裹暫取'},
+      {kind: 'parcel', x: 1.5, z: 1.95, yaw: Math.PI / 2, label: '包裹暫取（請店員拿）'},
       {kind: 'microwave', x: -3.9, z: -0.7, yaw: Math.PI, label: '微波加熱'},
       {kind: 'cooler', x: 3.2, z: -4.3, yaw: Math.PI, label: '看冷藏櫃'}
     ],
@@ -79,8 +80,8 @@ const CVS_LAYOUT = {
     g,
     [B(S.backShelf), B({x0: st.x0, x1: st.x1 + 0.06, z0: st.z0, z1: st.z1 + 0.06}), B(S.microwave), B(S.bins), B(S.coolers), B(S.wallShelf), B(S.chestFreezer),
      B(S.counter), B(S.impulseRack), B({x0: S.counter.x0, x1: S.counter.x1, z0: S.counter.flap.z0, z1: S.counter.flap.z1}),
-     B({x0: S.counter.x1, x1: S.w / 2, z0: S.endPanel.z0, z1: S.lockers.z0 - 0.2}),   // 員工區（櫃台後面）和標誌牆後面的倉庫整塊擋：店員走在裡面
-     B(S.lockers), B(S.umbrella),
+     B({x0: S.counter.x1, x1: S.w / 2, z0: S.endPanel.z0, z1: S.counterWall.z1}),   // 員工區（櫃台後面）和標誌牆後面的倉庫整塊擋：店員走在裡面
+     B(S.frontRack), B(S.umbrella),
      B({x0: S.counterWall.x0, x1: S.w / 2, z0: S.counterWall.z1, z1: S.counterWall.z1 + 0.15})]);   // 倉庫南牆與門
   S.seats = [].concat(
     S.stools.map((z, i) => ({x: S.stoolX, z, yaw: -Math.PI / 2, kind: 'eat', bar: i + 1, label: '坐在窗邊吧台'})),
