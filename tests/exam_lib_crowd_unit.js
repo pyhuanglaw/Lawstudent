@@ -87,8 +87,8 @@ const neg=()=>ADJ.filter(([,d])=>/:-\d/.test(d));
 (async()=>{
 /* ======================= 0 對稿、載入、掛上去 ======================= */
 await sec('0',async()=>{
-  let MD=null; try{ MD=cp.execFileSync('git',['show','468a1d0b9:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
-  check('0. 讀得到 AA_669 的稿（git show 468a1d0b9；沒有的話先 git fetch origin claude/magical-albattani-bk7b4n）',!!MD);
+  let MD=null; try{ MD=cp.execFileSync('git',['show','6a4b6ba22:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+  check('0. 讀得到 AA_669 的稿（git show 6a4b6ba22；沒有的話先 git fetch origin claude/magical-albattani-bk7b4n）',!!MD);
   check('0. index.html 載入 src/data/examlib_lines.js、src/examlib3d.js（台詞在前；在 crowd3d、seatact3d、msg3d、libquiet3d、story3d、pool3d 後面）',
     ORDER.includes('src/data/examlib_lines.js')&&ORDER.includes('src/examlib3d.js')&&ORDER.indexOf('src/data/examlib_lines.js')<ORDER.indexOf('src/examlib3d.js')
     &&['src/crowd3d.js','src/seatact3d.js','src/msg3d.js','src/libquiet3d.js','src/story3d.js','src/pool3d.js','src/phone3d.js'].every(f=>ORDER.indexOf(f)>=0&&ORDER.indexOf(f)<ORDER.indexOf('src/examlib3d.js')));
@@ -446,7 +446,7 @@ await sec('12',async()=>{
   check('12. 拿到二樓真正的座位（自習室長桌 36＋靠窗 13＋討論室 12；老位子一個，在靠窗那排北往南第三個）',S2.filter(q=>q.kind==='study').length===36&&S2.filter(q=>q.kind==='window').length===13&&S2.filter(q=>q.kind==='discuss').length===12&&S2.filter(q=>q.old).length===1
     &&(()=>{ const w=S2.filter(q=>q.kind==='window').sort((a,b)=>a.z-b.z); return !!w[2]&&w[2].old===true; })(),J([S2.length,S2.filter(q=>q.old).map(q=>[q.x,q.z])]));
   /* 第 6 節的三句：照稿一字不差（git show 468a1d0b9） */
-  let MD=''; try{ MD=cp.execFileSync('git',['show','468a1d0b9:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+  let MD=''; try{ MD=cp.execFileSync('git',['show','6a4b6ba22:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
   const s6=(MD.split(/^## 6\./m)[1]||'').split(/^## 7\./m)[0], narr=(s6.match(/^\s*-\s*(（二樓比一樓[^\n]*）)\s*$/m)||[])[1], ytL=(s6.match(/^\s*-\s*語彤：(.+?)\s*$/m)||[])[1], xuL=(s6.match(/^\s*-\s*阿勳：(.+?)\s*$/m)||[])[1];
   const yesOldYT=L.people.heroine_03&&L.people.heroine_03.hold&&L.people.heroine_03.hold.yesOld, yesOldXU=L.econ.econ_zhengxun&&L.econ.econ_zhengxun.hold&&L.econ.econ_zhengxun.hold.yesOld;
   check('12. 第 6 節的三句照稿一字不差：第一次坐下的旁白、語彤「嗯。／二樓靠窗，你的老位子。」（兩則）、阿勳「嗯。你那個位子。七點五十。」',!!narr&&L.seat2f===narr&&!!ytL&&J(yesOldYT)===J(ytL.split('／'))&&!!xuL&&J(yesOldXU)===J(xuL.split('／')),J([L.seat2f,yesOldYT,yesOldXU]));
@@ -466,11 +466,14 @@ await sec('12',async()=>{
   fresh('2025-12-02',8.6); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; const w5=s.filter(q=>q.kind==='window'&&!q.old)[4];
   H.said=[]; await GM.seatMenu({seat:w5,study:true}); const l6=lines(), F6=H.G.flags.SOCLIB_2F_SEAT;
   check('12. 這一段第一次在二樓自習室坐下（自己搶到，靠窗那排）＝第 6 節的旁白一次',!!L.seat2f&&J(l6)===J([L.seat2f]),J(l6));
-  check('12. 記 G.flags.SOCLIB_2F_SEAT＝那一個位子（{x,z,lv,term,day}）',!!F6&&F6.x===w5.x&&F6.z===w5.z&&F6.lv===1&&F6.term==='Y1S1'&&F6.day===H.G.day,J(F6));
+  { const O=oldOf(s); check('12. 記 G.flags.SOCLIB_2F_SEAT：老位子＝靠窗那排第三個（SL2.oldSeat()，AA 6a4b6ba22）、坐下的那一個記在 sat（{x,z,lv,term,day,sat,kind}）',!!F6&&!!O&&F6.x===O.x&&F6.z===O.z&&F6.lv===1&&F6.term==='Y1S1'&&F6.day===H.G.day&&J(F6.sat)===J([w5.x,w5.z])&&F6.kind==='window',J(F6)); }
   P.seat=null; setT('2025-12-03',8.6); s=zone('soclib_2f',1,5.6,3.0); const w6=s.filter(q=>q.kind==='window'&&!q.old)[7]; H.said=[]; await GM.seatMenu({seat:w6,study:true});
-  check('12. 只演一次：之後再坐下（別天、別的位子）不再演，記下的位子不變',!lines().includes(L.seat2f)&&!!H.G.flags.SOCLIB_2F_SEAT&&H.G.flags.SOCLIB_2F_SEAT.x===w5.x&&H.G.flags.SOCLIB_2F_SEAT.z===w5.z,J(lines()));
-  fresh('2025-12-02',8.6); s=zone('soclib_2f',1,3.0,5.0); H.said=[]; await GM.seatMenu({seat:s.find(q=>q.kind==='study'),study:true});
-  check('12. 坐長桌（不是靠窗那排）：不演、不記（旁白寫「你在靠窗那排坐下」）',!lines().includes(L.seat2f)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
+  check('12. 只演一次：之後再坐下（別天、別的位子）不再演，記下的不變',!lines().includes(L.seat2f)&&!lines().includes(L.seat2fTable)&&!!H.G.flags.SOCLIB_2F_SEAT&&J(H.G.flags.SOCLIB_2F_SEAT.sat)===J([w5.x,w5.z]),J(lines()));
+  fresh('2025-12-02',8.6); s=zone('soclib_2f',1,3.0,5.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; const lt=s.find(q=>q.kind==='study'); H.said=[]; await GM.seatMenu({seat:lt,study:true});
+  { const F7=H.G.flags.SOCLIB_2F_SEAT, O=oldOf(s); check('12. 第一次坐長桌（AA 6a4b6ba22）：演長桌那一句（不是靠窗那一句），一樣記 SOCLIB_2F_SEAT，老位子照舊是靠窗第三個',J(lines())===J([L.seat2fTable])&&!!F7&&F7.x===O.x&&F7.z===O.z&&F7.kind==='study'&&J(F7.sat)===J([lt.x,lt.z]),J([lines(),F7])); }
+  check('12. 長桌那一句照稿一字不差（AA_669 6a4b6ba22 有）',!!L.seat2fTable&&MD.includes(L.seat2fTable),L.seat2fTable);
+  fresh('2025-12-02',8.6); s=zone('soclib_2f',1,3.0,5.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; H.said=[]; await GM.seatMenu({seat:s.find(q=>q.kind==='discuss'),study:true});
+  check('12. 討論室坐下：不演、不記（討論室不是自習室）',!lines().includes(L.seat2f)&&!lines().includes(L.seat2fTable)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
   fresh('2025-11-25',10.5); s=zone('soclib_2f',1,5.6,3.0); H.said=[]; await GM.seatMenu({seat:s.find(q=>q.kind==='window'),study:true});
   check('12. 期末那一段以外（第 13 週）：坐靠窗那排也不演、不記（照一般自習的地方）',!lines().includes(L.seat2f)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
   fresh('2025-12-02',8.6); const s1=zone('soclib',0,-9,-5); H.said=[]; await GM.seatMenu({seat:s1.find(q=>q.kind==='window'),study:true});

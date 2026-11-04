@@ -408,9 +408,11 @@ const EXLIB=(function(){
   S.old2f=function(G){ const v=G&&G.flags&&G.flags[S.SEAT2F]; return v&&typeof v==='object'&&typeof v.x==='number'&&typeof v.z==='number'?v:null; };
   S.isOld2f=(G,st)=>{ const o=S.old2f(G); return !!o&&!!st&&(st.lv|0)===(o.lv|0)&&Math.hypot(st.x-o.x,st.z-o.z)<0.1; };
   /* 旁白：這一段、二樓自習室靠窗那排（kind window；旁白寫「你在靠窗那排坐下」）、還沒記過 */
-  S.seat2fDue=function(G,seat){ if(!G||G.zone!=='soclib_2f'||!seat||seat.kind!=='window'||(seat.lv|0)!==1) return false; if(!S.on(G)) return false; return !S.old2f(G); };
-  S.seat2f=async function(GM,seat){ const G=GM.G, t=termOf(G); if(!G.flags) G.flags={}; G.flags[S.SEAT2F]={x:+seat.x,z:+seat.z,lv:seat.lv|0,term:t?t.id:null,day:G.day|0};
-    const txt=L().seat2f; if(txt) await say(GM,null,txt); return true; };
+  /* AA-C 11-04 18:2x（企劃線 6a4b6ba22）：長桌第一次坐下也演（換長桌那一句）；兩種都記 SOCLIB_2F_SEAT；老位子照舊是靠窗那排第三個（SL2.oldSeat()），不是第一次坐的那一個；討論室不算 */
+  S.seat2fDue=function(G,seat){ if(!G||G.zone!=='soclib_2f'||!seat||(seat.kind!=='window'&&seat.kind!=='study')||(seat.lv|0)!==1) return false; if(!S.on(G)) return false; return !S.old2f(G); };
+  S.seat2f=async function(GM,seat){ const G=GM.G, t=termOf(G); if(!G.flags) G.flags={}; const o=typeof SL2!=='undefined'&&SL2.oldSeat?SL2.oldSeat():null, q=o||seat;   /* 老位子＝靠窗那排第三個；SL2 沒載入才用坐下的那一個 */
+    G.flags[S.SEAT2F]={x:+q.x,z:+q.z,lv:q.lv|0,term:t?t.id:null,day:G.day|0,sat:[+seat.x,+seat.z],kind:seat.kind||null};
+    const txt=seat.kind==='study'?L().seat2fTable:L().seat2f; if(txt) await say(GM,null,txt); return true; };
   /* 之後的學期（記下的不是這一學期；同一個階段——經濟系那一年的人不知道法律系的位子，反過來也一樣）：語彤、阿勳答應那一句換成「老位子」那一句；回傳記下的位子或 null */
   const stageOfTerm=id=>/^Y0/.test(String(id||''))?'econ':'law';
   S.useOld41=function(G,id){ const P=S.inCast(G,id); if(!P||!P.hold||!Array.isArray(P.hold.yesOld)||!P.hold.yesOld.length||S.zoneOf(P.place)!=='soclib_2f') return null; const o=S.old2f(G), t=termOf(G);
