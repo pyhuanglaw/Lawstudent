@@ -150,10 +150,13 @@ const PG=(function(){
      S.barReview(G)＝{y, day（一試那一天）, at（開考：day*24+8）}；沒有＝null。先看日期才問報名（學期中不碰 flags.PG、不在存檔多寫東西）*/
   S.BAR_REVIEW_DAYS=30;
   S.EXAM_YEARS=[2029,2030].concat(S.LATE_YEARS);
-  S.barReview=function(G){ if(!G||!G.flags||!law(G)||typeof CALENDAR==='undefined') return null; const now=NOW(G), P=G.flags.PG, done=P&&P.done&&typeof P.done==='object'?P.done:{};
-    for(const y of S.EXAM_YEARS){ const K=Y[y], d=K&&K.exam?S.DK(K.exam):null; if(d==null||G.day<d-S.BAR_REVIEW_DAYS||now>=d*24+8||done['exam_'+y]) continue;
+  /* 玩家要考、還沒考的下一場一試：{y,day,at}｜null（不看總複習開放的時間；D118-B7-REMIND-1104 的提醒、停點用）*/
+  S.barNext=function(G){ if(!G||!G.flags||!law(G)||typeof CALENDAR==='undefined') return null; const now=NOW(G), P=G.flags.PG, done=P&&P.done&&typeof P.done==='object'?P.done:{};
+    for(const y of S.EXAM_YEARS){ const K=Y[y], d=K&&K.exam?S.DK(K.exam):null; if(d==null||now>=d*24+8||done['exam_'+y]) continue;
+      if(!P&&G.day<d-S.BAR_REVIEW_DAYS) continue;   /* 還沒有畢業以後的紀錄（flags.PG）＝只看總複習開放以後的那一場：S.sitsAny 會讀 S.rec、建 flags.PG，學期中不在存檔多寫東西（d118_b7 d7）*/
       let ok=false; try{ ok=!!S.sitsAny(G,y); }catch(e){ ok=false; } if(ok) return {y,day:d,at:d*24+8}; }
     return null; };
+  S.barReview=function(G){ const nx=S.barNext(G); return nx&&G.day>=nx.day-S.BAR_REVIEW_DAYS?nx:null; };   /* 總複習開放：下一場一試前 S.BAR_REVIEW_DAYS 天起～開考（年份由小到大，下一場還沒開放＝後面的也還沒）*/
   /* ---------- 司法官二試（D118-B8；AA_583 b76dd619e）：從已核對的題庫用程式篩「爭點題」——不出新題、題目答案一字不改 ----------
      池：EXAM_BANK（status 三種已核對、type mc）＋QBANK 的 mc；科目四類；題幹有甲／乙／丙而且 ≥45 字（事例題）。
      每年 10 題：民法 3、刑法 3、公法 2、訴訟法 2（某類不夠由刑法、民法補）；排除當年一試抽到的題、往年二試抽過的題（重考年換題）；隨機照 S.draw（examSeed＋'|judge|'＋年）。*/
@@ -729,7 +732,8 @@ const PG=(function(){
     if(GM.autosave) GM.autosave(); return true; };
   /* ---------- 跳到下一件事 ---------- */
   S.SOFT=[['2029-06-02',22],['2029-06-28',10]];   /* 別一批的固定時間（1A-12 晚上大伯的信封、1A-15 宿舍期滿）：停一下，讓那邊的程式有機會演 */
-  S.stops=[G=>typeof STORY!=='undefined'&&STORY.kxAnniv6Stop?STORY.kxAnniv6Stop(G):null];   /* 其他模組可以加：G=>絕對時間（小時）或 null。第一個：可昕第六年的週年還沒排的時候，停在該問「出發」的時間（AA_472 第 3 節，story3d.js）*/
+  S.stops=[G=>typeof STORY!=='undefined'&&STORY.kxAnniv6Stop?STORY.kxAnniv6Stop(G):null];
+  S.stops.push(G=>{ if(typeof STUDY==='undefined'||!STUDY.barRemindNext) return null; const r=STUDY.barRemindNext(G); return r?r.at:null; });   /* D118-B7-REMIND-1104（BB-C 23:46）：國考總複習的兩則提醒（開放那天、一試前一週的週日 20:00）停一下 */   /* 其他模組可以加：G=>絕對時間（小時）或 null。第一個：可昕第六年的週年還沒排的時候，停在該問「出發」的時間（AA_472 第 3 節，story3d.js）*/
   S.RULES=[];   /* 其他模組可以加：(G, GM)=>{}，S.rules 每一次最後跑（src/pgdates3d.js：固定格到了就排成出遊、不再交往就改 skipped）*/
   S.EPI_AFTER_CG=[]; S.EPI_AFTER_ITEMS=[];   /* 尾聲的掛勾（async GM=>…）：③ CG-10 之後、⑥ 桌上的東西之後（⑦ 最後畫面之前）*/
   S.nextStop=function(G){ const now=NOW(G); let best=Infinity; const cand=t=>{ if(t!=null&&t>now+1e-6&&t<best) best=t; };

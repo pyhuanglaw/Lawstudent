@@ -104,17 +104,19 @@ const STUDY=(function(){
   S.REVIEW_LABEL='考前總複習';   /* AA_638 定稿（企劃線 3271973c6）；國考總複習同一個字 */
   S.REMIND_TEXT='【期末】下週開始期末考。坐到書桌或讀書的位子，可以把這學期一次讀過一遍。';   /* AA_638 定稿 */
   S.BAR_HRS=6;   /* 國考總複習（D118_PLAN 第 2 節第四點：國考 6 小時）*/
-  S.BAR_CAP_LINES=8;   /* 國考總複習的結束字幕：期末是範圍內每科一行（三到六科）；國考二十幾科全列會超出手機畫面（直向一科兩行），所以只列這一次翻到的科、最多 8 科（翻到的最後 8 科）。暫定做法，AA／BB 看畫面再定 */
+  S.BAR_CAP_LINES=8;   /* AA_690 第 2 節照這樣（最多 8 科＋超過的一行 BAR_TEXT.more；畫面 BB 看）。國考總複習的結束字幕：期末是範圍內每科一行（三到六科）；國考二十幾科全列會超出手機畫面（直向一科兩行），所以只列這一次翻到的科、最多 8 科（翻到的最後 8 科）。暫定做法，AA／BB 看畫面再定 */
   /* 國考總複習的介面字（D118-B7）：照 AA_638 第 1 節的定稿句子做最小的替換；{what}{n}{m}{x}{c}{y}{z} 照原句的位置填 */
+  /* 國考總複習的介面字（D118-B7）：AA_690（企劃線 c860ff820，AA-C 定稿 D109）第 1 節——what、line 改「一試」（範圍是一試的題池），其他照暫定那一版定稿；第 2 節 more */
   S.BAR_TEXT={
-    what:'國考要考的',   /* 暫定字：照 AA_638「{what} 預設的『這學期還要考的』」換詞（這學期還 → 國考），AA 定稿後換 */
-    hint:'要六個小時，今天其他的事照常可以做。',   /* 暫定字：照 AA_638 第 1 節 reviewOpt 的 hint 定稿「要三個小時，今天其他的事照常可以做。」換數字（三 → 六），AA 定稿後換 */
-    open:'（你把四年的筆記攤開。{what} {n} 科，一共 {m} 張觀念卡。）',   /* 暫定字：照 AA_638 第 1 節開始的字幕定稿「（你把這學期的筆記攤開。…）」換詞（這學期 → 四年），AA 定稿後換 */
-    late:'要讀六個小時。18:00 以後開始就太晚了。',   /* 暫定字：照 AA_638「不能開始的原因」第 1 列定稿「要讀三個小時。21:00 以後開始就太晚了。」換數字（三 → 六、21:00 → 18:00），AA 定稿後換 */
-    closed:'快閉館了，讀不完六個小時。',   /* 暫定字：照 AA_638「不能開始的原因」第 2 列定稿「快閉館了，讀不完三個小時。」換數字（三 → 六），AA 定稿後換 */
+    what:'一試要考的',   /* AA_690 第 1 節（暫定是「國考要考的」）*/
+    hint:'要六個小時，今天其他的事照常可以做。',   /* AA_690 第 1 節：照暫定定稿 */
+    open:'（你把四年的筆記攤開。{what} {n} 科，一共 {m} 張觀念卡。）',   /* AA_690 第 1 節：照暫定定稿 */
+    late:'要讀六個小時。18:00 以後開始就太晚了。',   /* AA_690 第 1 節：照暫定定稿 */
+    closed:'快閉館了，讀不完六個小時。',   /* AA_690 第 1 節：照暫定定稿 */
     miss:'會錯過：{x}。',   /* AA_638「不能開始的原因」第 3 列（照留）*/
-    exam:'一試',   /* 暫定字：上一句的 {x}——讀到一半會過了一試開考（08:00），AA 定稿後換 */
-    line:'{c}　國考範圍：學過 {x}／{y}・答對過 {z}'   /* 暫定字：照 AA_638 第 1 節 S.line「{科}　期末範圍：學過 x／y・答對過 z」換詞（期末 → 國考），AA 定稿後換 */
+    exam:'一試',   /* AA_690 第 1 節：照暫定定稿（上一句的 {x}）*/
+    line:'{c}　一試範圍：學過 {x}／{y}・答對過 {z}',   /* AA_690 第 1 節（暫定是「國考範圍」）*/
+    more:'（另外還翻了 {k} 科。）'   /* AA_690 第 2 節：結束字幕翻到的超過 S.BAR_CAP_LINES 科，最後多這一行 */
   };
   const fill=(t,o)=>String(t).replace(/\{(\w+)\}/g,(m,k)=>o&&o[k]!=null?String(o[k]):m);
   const lawStage=G=>!!G&&(G.stage||'law')==='law';
@@ -193,8 +195,8 @@ const STUDY=(function(){
         const lastAll=ci===L.length-1&&k===N-1; if(lastAll) break outer;
         const opts=[{t:'下一張',hint:k===N-1?'下一科：'+L[ci+1].c.name:(k+2)+'／'+N}]; if(ci<L.length-1&&k<N-1) opts.push({t:'跳到下一科',hint:L[ci+1].c.name}); opts.push({t:'先讀到這裡',hint:'沒翻到的，也算讀過一遍',end:true});   /* AA_638 定稿 */
         const j=await GM.choose(opts), po=(opts[j]||opts[0]), pick=po.t; if(po.end) break outer;   /* AA_638：選項字改成「先讀到這裡」，用 end 判斷 */ if(pick.startsWith('跳到下一科')) continue outer; } }
-    const cs=bar?info.courses.filter((x,i)=>seen.has(i)).slice(-S.BAR_CAP_LINES):info.courses;   /* 國考：只列這一次翻到的科、最多 S.BAR_CAP_LINES 科（二十幾科全列＝手機直向、橫向都超出畫面；暫定做法，見 S.BAR_CAP_LINES）*/
-    const lines=cs.map(x=>bar?S.barLine(G,x.c,x.units):S.line(G,x.c,info.term)).filter(Boolean); if(lines.length&&GM.caption) GM.caption('',lines.join('<br>'),2400+1200*lines.length);   /* 每科一行（和「法律」頁同一行；國考＝S.barLine）*/
+    const flip=bar?info.courses.filter((x,i)=>seen.has(i)):null, cs=bar?flip.slice(-S.BAR_CAP_LINES):info.courses;   /* 國考：只列這一次翻到的科、最多 S.BAR_CAP_LINES 科（二十幾科全列＝手機直向、橫向都超出畫面；AA_690 第 2 節）*/
+    const lines=cs.map(x=>bar?S.barLine(G,x.c,x.units):S.line(G,x.c,info.term)).filter(Boolean); if(bar&&flip.length>cs.length&&lines.length) lines.push(fill(S.BAR_TEXT.more,{k:flip.length-cs.length}));   /* AA_690 第 2 節：「（另外還翻了 {k} 科。）」*/ if(lines.length&&GM.caption) GM.caption('',lines.join('<br>'),2400+1200*lines.length);   /* 每科一行（和「法律」頁同一行；國考＝S.barLine）*/
     return {ok:true,kind:info.kind,term:info.term,year:info.year,courses:info.courses.map(x=>x.c.id),cards:total,shown}; };
   /* 考試週前一週的週日 20:00 系統提醒（只發一次；只在那一週排——之後才讀到的存檔不補發；不提醒也不扣任何東西）*/
   S.remind=function(G){ if(!lawStage(G)||typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||typeof CLS==='undefined'||!CLS.examList) return false; const t=CALENDAR.termOf(G.day); if(!t) return false;
@@ -202,6 +204,21 @@ const STUDY=(function(){
     const sun=S.remindDay(t.id); if(sun==null||G.day<sun-6||G.day>sun) return false;
     if(!CLS.examList(G,t.id).some(e=>poolN(e.c.id,t.id)>=5)) return false;
     return PHONE.at(G,sun,20,[{th:'sys',text:S.REMIND_TEXT}],tag); };
+  /* D118-B7-REMIND-1104（BB-C 11-04 23:46 定時間與停點；字 AA_690 第 3 節，企劃線 c860ff820）：國考總複習兩則系統提醒，都是 20:00，報了那一年一試的才有（PG.sitsAny）：
+     ①總複習開放那一天（一試前 PG.BAR_REVIEW_DAYS 天）；②一試前一週的週日（一試前 1～7 天裡的週日）。{M}/{D}＝那一年一試、（{W}）＝星期幾（不寫「這禮拜六」「下禮拜六」：週日說會被讀錯）。
+     畢業以後篇「跳到下一件事」停在這兩個時間（PG.stops：還沒傳的下一則）；不強迫、不扣任何東西（D118）。各發一次（tag bar_remind_<open|week>_<年>）；那一刻已經過了 15 分鐘以上才跑到的（讀檔、睡過頭）照原本的時間補進去（PHONE.at） */
+  S.BAR_REMIND=[{k:'open',text:'【國考】{M}/{D} 一試。從今天起，坐到書桌或讀書的位子，可以把四年的筆記一次讀過一遍，要六個小時。'},
+    {k:'week',text:'【國考】{M}/{D}（{W}）一試。考前想把四年的筆記讀過一遍，坐到書桌或讀書的位子就可以。'}];   /* AA_690 第 3 節（c860ff820）定稿 */
+  S.barRemindDays=function(examDay){ if(examDay==null||typeof CALENDAR==='undefined') return null; const open=examDay-((typeof PG!=='undefined'&&PG.BAR_REVIEW_DAYS)||30); let sun=null; for(let d=examDay-1;d>=examDay-7;d--) if(CALENDAR.dateOf(d).wd%7===0){ sun=d; break; } return {open,week:sun}; };
+  /* 下一則還沒傳的國考提醒：{y,k,day,at,tag,text}｜null（只看玩家要考、還沒考的那一場：PG.barNext）*/
+  S.barRemindNext=function(G){ if(!lawStage(G)||typeof PG==='undefined'||!PG.barNext||typeof PHONE==='undefined') return null; const nx=PG.barNext(G); if(!nx) return null; const D=S.barRemindDays(nx.day); if(!D) return null;
+    const dt=CALENDAR.dateOf(nx.day), M=dt.m, Dd=dt.d, W='日一二三四五六'[dt.wd%7];
+    for(const r of S.BAR_REMIND){ const day=D[r.k]; if(day==null) continue; const tag='bar_remind_'+r.k+'_'+nx.y; if(PHONE.sent(G,tag)) continue; if(r.k==='week'&&day<=D.open) continue;
+      return {y:nx.y,k:r.k,day,at:day*24+20,tag,text:fill(r.text,{M,D:Dd,W})}; }
+    return null; };
+  S.barRemind=function(G){ const r=S.barRemindNext(G); if(!r) return false; const now=G.day*24+(+G.hour||0); if(now<r.at-1e-6) return false;
+    return PHONE.at(G,r.day,20,[{th:'sys',text:r.text}],r.tag); };
+  /* 跳到下一件事停在提醒的時間：src/postgrad3d.js 的 S.stops（PG 比 STUDY 晚載入，在那邊登記）*/
   /* D118-B4：考試裡的 cue——那一題的觀念卡讀過以上（read、got）才出一行提醒（只提醒觀念、不點出選項）；cue 是 AA 的稿，空的時候先用卡片標題（黑板第一行）。不影響計分 */
   S.CUE_PREFIX='（你想起筆記上寫的：';   /* AA_638 定稿（照留）*/
   /* BUG-B4-CUE-LEAK-1102（BB 07:28）：提示的字出現在正確選項、卻沒有出現在任何錯誤選項＝等於指答案，這一題不出提示（例：CRIM45_34「因果關係」只在 (B)）*/
@@ -231,6 +248,7 @@ const STUDY=(function(){
   /* 家裡的選單（週末回家、HOME.MENU_OPTS）*/
   S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,o.kind||'final',{home:true}); }}; };   /* 畢業以後住家裡（HOME.pgHome）：國考總複習也在這裡 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.remind(G));
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.barRemind(G));   /* D118-B7-REMIND-1104 */
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeOpt)) HOME.MENU_OPTS.push(S.homeOpt);
   return S;
 })();
