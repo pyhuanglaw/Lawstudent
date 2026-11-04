@@ -1,0 +1,46 @@
+[cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V4_selector\attempt2\trace
+[gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V4_selector]
+Traceback (most recent call last):
+  File "<REPO>\tools\cc_local\gpu_wrap.py", line 139, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "<REPO>\docs\story_planning\test_tools\cc\selftest\st_selector.py", line 18, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "<REPO>\docs\story_planning\test_tools\cc\selftest\st_selector.py", line 13, in main
+    await pg.wait_for_selector('#no-such-button', timeout=3000)
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\async_api\_generated.py", line 21255, in wait_for_selector
+    await self._impl_obj.wait_for_selector(
+    ...<4 lines>...
+    )
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_page.py", line 431, in wait_for_selector
+    return await self._main_frame.wait_for_selector(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_frame.py", line 395, in wait_for_selector
+    await self._channel.send(
+        "waitForSelector", self._timeout, locals_to_params(locals())
+    )
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.
+Call log:
+  - waiting for locator("#no-such-button") to be visible
+

@@ -401,3 +401,20 @@
 [20:56:23] AUTORETRY TT_V3_flaky: first run exit 1 - rerun once with trace (whole probe)
 [20:56:57] [res] cpu=5% mem=43% (13.6/31.4 GB) chrome_testing=19  END TT_V3_flaky
 [20:56:58] AUTORETRY TT_V3_flaky: final FLAKY  class FLAKY/首次失敗、重跑通過
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0b7319c05..d7a72e161  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:57:03] ==== END   TT_V3_flaky  exit=1  73s   ====
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[20:57:05] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[20:57:05] memory 42% before starting TT_V4_selector (2 running)
+[20:57:05] ==== START TT_V4_selector  (probe @ d2e36f6eb) ====
+[20:57:08] [res] cpu=11% mem=42% (13.3/31.4 GB) chrome_testing=19  START TT_V4_selector
+[20:57:37] AUTORETRY TT_V4_selector: first run exit 1 - rerun once with trace (whole probe)
+[20:58:09] [res] cpu=7% mem=42% (13.4/31.4 GB) chrome_testing=19  END TT_V4_selector
+[20:58:10] AUTORETRY TT_V4_selector: final FAIL  class TEST_BUG/初判

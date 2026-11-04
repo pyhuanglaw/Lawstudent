@@ -1112,3 +1112,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T20:56:58  TT_V3_flaky  sha=d2e36f6eb  exit=1  73s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩） / PASS 第二次（記號檔在＝重跑） / ALL PASS
       err.log (last 5): [cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V3_flaky\attempt2\trace | [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V3_flaky] | [gpu_wrap 25.2s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 25.3s] BROWSER DISCONNECTED
       autoretry: final FLAKY  class FLAKY/首次失敗、重跑通過  exit2 0
+- 2026-11-04T20:58:10  TT_V4_selector  sha=d2e36f6eb  exit=1  64s    [gpu_wrap] CC_GPU=1 跑 <REPO>\docs\story_planning\test_tools\cc\selftest\st_selector.py http://127.0.0.1:8802/index.html <REPO>\docs\story_planning\CC\local_out\TT_V4_selector\attempt2\out /   [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩）
+      err.log (last 5):     raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None | playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded. | Call log: |   - waiting for locator("#no-such-button") to be visible | 
+      autoretry: final FAIL  class TEST_BUG/初判  exit2 1

@@ -1,0 +1,483 @@
+{
+  "id": "TT_V4_selector",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_selector.py",
+  "script_from": null,
+  "script_blob": [
+    "618417ef080e4adb5d489ac990ddf75ba58098a8",
+    "618417ef080e4adb5d489ac990ddf75ba58098a8"
+  ],
+  "cc_testing_sha": "4aa1dbb44",
+  "runner": "6f08f2eb23",
+  "final": "FAIL",
+  "class": "TEST_BUG",
+  "class_sub": "初判",
+  "basis": [
+    "探針 Python traceback：playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+    "原因類型：playwright 等待逾時（TimeoutError）",
+    "探針出錯的位置：File \"<REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_selector.py\", line 13, in main",
+    "等待的 selector：#no-such-button",
+    "trace 的 DOM snapshot 裡沒有這個 selector（只檢查 #id 形式）",
+    "遊戲頁面沒有 pageerror"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "d2e36f6eb",
+      "d2e36f6eb"
+    ],
+    "script_blob": [
+      "618417ef080e4adb5d489ac990ddf75ba58098a8",
+      "618417ef080e4adb5d489ac990ddf75ba58098a8"
+    ],
+    "input_hash": [
+      "9e00c6eef491261e",
+      "9e00c6eef491261e"
+    ],
+    "cases": [
+      "(探針預設)",
+      "(探針預設)"
+    ]
+  },
+  "rerun_scope": "探針不支援 CASES 環境變數：整支重跑",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 10,
+      "fails": [],
+      "dir": "attempt1",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=1 跑 <REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_selector.py http://127.0.0.1:8802/index.html <REPO>\\docs\\story_planning\\CC\\local_out\\TT_V4_selector\\out",
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩）"
+      ],
+      "err_tail": [
+        "  File \"<HOME>\\AppData\\Local\\Python\\pythoncore-3.15-64\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 78, in send",
+        "    return await self._connection.wrap_api_call(",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "    ...<3 lines>...",
+        "    )",
+        "    ^",
+        "  File \"<HOME>\\AppData\\Local\\Python\\pythoncore-3.15-64\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 636, in wrap_api_call",
+        "    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None",
+        "playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+        "Call log:",
+        "  - waiting for locator(\"#no-such-button\") to be visible",
+        ""
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 23,
+      "fails": [],
+      "dir": "attempt2",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=1 跑 <REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_selector.py http://127.0.0.1:8802/index.html <REPO>\\docs\\story_planning\\CC\\local_out\\TT_V4_selector\\attempt2\\out",
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩）"
+      ],
+      "err_tail": [
+        "  File \"<HOME>\\AppData\\Local\\Python\\pythoncore-3.15-64\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 78, in send",
+        "    return await self._connection.wrap_api_call(",
+        "           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "    ...<3 lines>...",
+        "    )",
+        "    ^",
+        "  File \"<HOME>\\AppData\\Local\\Python\\pythoncore-3.15-64\\Lib\\site-packages\\playwright\\_impl\\_connection.py\", line 636, in wrap_api_call",
+        "    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None",
+        "playwright._impl._errors.TimeoutError: Page.wait_for_selector: Timeout 3000ms exceeded.",
+        "Call log:",
+        "  - waiting for locator(\"#no-such-button\") to be visible",
+        ""
+      ]
+    }
+  ],
+  "js_errors": [
+    {
+      "rel": 8.3,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "星期和日期對不上，照行事曆改： 4 → 3",
+      "url": "http://127.0.0.1:8802/src/game3d.js?v=9.10.19"
+    },
+    {
+      "rel": 10.57,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 13.67,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 13.8,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 13.97,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.15,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.21,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.33,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.46,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.59,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.76,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.99,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.0,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.16,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.31,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.4,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.54,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.73,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.85,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.0,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.42,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0xaac011b5c00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8802/index.html"
+    },
+    {
+      "rel": 16.49,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0xaac011b5c00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8802/index.html"
+    }
+  ],
+  "js_errors_gpu_wrap": [],
+  "state": [
+    {
+      "ctx_why": "playwright exit (TimeoutError)",
+      "page": 1,
+      "state": {
+        "href": "http://127.0.0.1:8802/index.html",
+        "snapshot": {
+          "v": 1,
+          "zone": "dorm",
+          "day": 1,
+          "hour": 17.55,
+          "dateKey": null,
+          "pos": {
+            "x": -40,
+            "z": -5,
+            "y": 0,
+            "lv": 0,
+            "yaw": -1.571
+          },
+          "player": {
+            "busy": true,
+            "frozen": false,
+            "pose": "idle",
+            "riding": false,
+            "seat": null,
+            "path": false
+          },
+          "paused": false,
+          "busyDepth": 0,
+          "dlg": false,
+          "adv": false,
+          "events": false,
+          "phone": false,
+          "entering": false,
+          "lastTalkError": null,
+          "goal": null,
+          "money": 22000,
+          "flags": {
+            "dating_kexin": true,
+            "KX_DEC3_MIGRATED": true,
+            "YT_JOB_V": 1,
+            "NAMECARD_V": 1,
+            "deptHear": {
+              "talk:椰": 1,
+              "醫學:平常": 1,
+              "電機:平常": 1,
+              "經濟:平常": 1,
+              "中文:平常": 0,
+              "社工:平常": 1,
+              "化學:平常": 1,
+              "數學:平常": 0,
+              "政治:平常": 0,
+              "大氣:平常": 1,
+              "獸醫:平常": 1,
+              "心理:平常": 1,
+              "農藝:平常": 1,
+              "歷史:平常": 1
+            },
+            "HCIRCLE": {
+              "heard": {},
+              "once": {},
+              "intro": {}
+            },
+            "HEARD": {
+              "said": {},
+              "day": {},
+              "ph": {}
+            }
+          },
+          "invites": [],
+          "npcs": [
+            {
+              "id": "classmate_mingxuan",
+              "x": -28.38,
+              "z": -7.02,
+              "lv": 0,
+              "beh": "wander",
+              "frozen": false,
+              "talking": false
+            },
+            {
+              "id": "pool_14",
+              "x": 47.5,
+              "z": -14.4,
+              "lv": 0,
+              "beh": "idle",
+              "frozen": false,
+              "talking": false
+            }
+          ]
+        },
+        "zone": "dorm",
+        "day": 1,
+        "hour": 17.55,
+        "weekday": 3,
+        "date": null,
+        "player": {
+          "x": -40,
+          "z": -5,
+          "y": 0,
+          "lv": 0,
+          "pose": "idle",
+          "busy": true
+        },
+        "dlg": {
+          "active": false,
+          "busyDepth": 0
+        },
+        "dlgText": null,
+        "choices": [],
+        "event": null,
+        "flagKeys": [
+          "dating_kexin",
+          "KX_DEC3_MIGRATED",
+          "YT_JOB_V",
+          "NAMECARD_V",
+          "deptHear",
+          "HCIRCLE",
+          "HEARD"
+        ],
+        "lastTalkError": null,
+        "walkFallbacks": 0
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "156.0.8078.4"
+    ],
+    "playwright": "1.64.1",
+    "gpu_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "headless": [
+      true
+    ],
+    "os": "Windows 11",
+    "cc_gpu": "1",
+    "slot": 1
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8802/index.html",
+    "setup_lines": 2,
+    "setup_first": [
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩）",
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩）"
+    ],
+    "load_save": 0
+  },
+  "screenshots": [],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_TT_V4_selector_1_c001.zip",
+      "bytes": 1210465,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/err.log",
+      "attempt1/run.log",
+      "attempt2/err.log",
+      "attempt2/run.log"
+    ],
+    "zip_entries_rewritten": 2,
+    "left_hits": [],
+    "slim": {
+      "attempt2/trace/trace_TT_V4_selector_1_c001.zip": {
+        "before": 54735234,
+        "dropped_bodies": 105,
+        "dropped_bytes": 103754433,
+        "frame_step": 1,
+        "frames": 49,
+        "after": 1210493,
+        "frames_kept": 49
+      }
+    }
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}
