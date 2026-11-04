@@ -1,0 +1,51 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_int_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_int_wzbike\out
+PASS 遊戲載入
+== wzbike 溫州街日和的單車
+  [前置／捷徑] 讀檔：wenzhou (40.0, 0.4)、2025-09-23（二）15:00、money 3000、條件事件關閉、算停車位用（下一次讀檔才把車放進去）
+PASS B 溫州街有離 A5 8～40 m 的合法停車處  [{"x": 38.5, "z": -3.95, "yaw": 3.141592653589793}, {"x": 30.45, "z": -3.95, "yaw": 3.141592653589793}, {"x": 50.2, "z": -3.8, "yaw": 0}]
+  [前置／捷徑] 讀檔：wenzhou (40.0, 0.4)、2025-09-23（二）15:00、money 3000、條件事件關閉、車停在溫州街 [38.5, -3.95]
+  到達「車旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [B1] 車旁邊出現「騎腳踏車」  騎腳踏車
+PASS [B1] 上車
+PASS [B1_in] 有「進入日和便利店」互動點  {"x": 45.8, "z": 3.8, "r": 1.2, "label": "進入日和便利店", "to": null}
+  到達「進入日和便利店」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS [B1_in] 走到旁邊：互動按鈕是「進入日和便利店…」  {"x": 45.69, "z": 3.68, "interact": "進入日和便利店"}
+PASS [B1_in] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS B1 騎著進 A5 日和：先下車、G.bike.zone＝wenzhou、在 A5 附近（cb1d84290）  {"zone": "wenzhou", "d": 0.16, "maxd": 30, "from": "wenzhou"}
+PASS [B1_inside] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "cvs", "dlg": false, "depth": 0, "moved": 4.83, "fb": [0, 0], "errs": []}
+  [捷徑] 存檔：GAME.autosave()（和換區域時的自動存檔同一個）→ 重新整理 → 標題「繼續」
+PASS [B1_save_in_shop] 標題有「繼續」、按下去回到遊戲
+PASS B1 在店裡存檔 → 重新整理 → 繼續：人在店裡、G.bike.zone 還是 wenzhou  {"zone": "cvs", "bike": "wenzhou", "from": "wenzhou"}
+PASS [B1_out] 有「離開」互動點  {"x": 0.4, "z": 4.9, "r": 0.9, "label": "離開日和便利店", "to": "gongguan"}
+  到達「離開日和便利店」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+PASS [B1_out] 走到旁邊：互動按鈕是「離開…」  {"x": 0.3, "z": 4.75, "interact": "離開日和便利店"}
+PASS [B1_out] 按「離開日和便利店」：cvs → wenzhou  {"zone": "wenzhou", "x": 44, "z": 2.4, "toast": "已讀取"}
+  [B1] 車：{"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B1] 車在溫州街、場景裡看得到  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B1] 車在 A5 附近（5.20 m ≤ BIKE.MAXD 30）  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B1] 停車位置合法（BIKE.parkOK：站得住、不擋出入口）  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B1] 車身不碰任何門口（0.6 m）  []
+PASS [B1] 不在騎樓（溫州街 |z| ≤ 4.3；路邊機車排 z ±3.95～4.1 合法）  3.9
+PASS [B1_out] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wenzhou", "dlg": false, "depth": 0, "moved": 2.27, "fb": [0, 0], "errs": []}
+  到達「車旁邊」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [B2] 車旁邊出現「騎腳踏車」  騎腳踏車
+PASS [B2] 上車
+  到達「A5 門口（騎車）」附近（0.13 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，7 秒
+PASS B2 在 A5 門口按「下車」  {"zone": "wenzhou", "riding": false, "parked": [45.92, 1.65], "bike": {"zone": "wenzhou", "x": 45.921539671646144, "z": 1.6537575830209916, "yaw": 4.295889094281997, "riding": false, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}], "fix": false}}
+PASS [B2_in] 有「進入日和便利店」互動點  {"x": 45.8, "z": 3.8, "r": 1.2, "label": "進入日和便利店", "to": null}
+  到達「進入日和便利店」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [B2_in] 走到旁邊：互動按鈕是「進入日和便利店…」  {"x": 45.78, "z": 3.57, "interact": "進入日和便利店"}
+PASS [B2_in] 按「進入日和便利店」：wenzhou → cvs  {"zone": "cvs", "x": 0.4, "z": 3.5, "toast": "已讀取"}
+PASS [B2_out] 有「離開」互動點  {"x": 0.4, "z": 4.9, "r": 0.9, "label": "離開日和便利店", "to": "gongguan"}
+  到達「離開日和便利店」附近（0.18 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS [B2_out] 走到旁邊：互動按鈕是「離開…」  {"x": 0.5, "z": 4.75, "interact": "離開日和便利店"}
+PASS [B2_out] 按「離開日和便利店」：cvs → wenzhou  {"zone": "wenzhou", "x": 44, "z": 2.4, "toast": "已讀取"}
+  [B2] 車：{"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B2] 車在溫州街、場景裡看得到  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B2] 車在 A5 附近（5.20 m ≤ BIKE.MAXD 30）  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B2] 停車位置合法（BIKE.parkOK：站得住、不擋出入口）  {"zone": "wenzhou", "x": 51, "z": 3.9, "yaw": 3.141592653589793, "ok": true, "dA5": 5.2, "maxd": 30, "hit": [], "nDoors": 9, "parked": true}
+PASS [B2] 車身不碰任何門口（0.6 m）  []
+PASS [B2] 不在騎樓（溫州街 |z| ≤ 4.3；路邊機車排 z ±3.95～4.1 合法）  3.9
+PASS [B2_out] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wenzhou", "dlg": false, "depth": 0, "moved": 2.27, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+ALL PASS
