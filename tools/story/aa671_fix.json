@@ -1,5 +1,5 @@
 {
- "note": "AA671-LINES-1104（AA_671 台詞第七批，企劃線 3b5043eef，AA 定稿 D109）：這一張只有第 1、2 列，明軒 brunch 答應要有原因（invites.js:187 acc.brunch 的 phone、face，src 直接改）；企劃舊稿（BB_158、BB_172 等）還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js 共用；長的先換；排在 aa670_fix.json 後面）。第 3、4 列（msg2_pool.js 柏翰 bday、方奕廷 f3_declined）這一版沒做。",
+ "note": "AA671-LINES-1104（AA_671 台詞第七批，企劃線 3b5043eef，AA 定稿 D109）：這一張只有第 1、2 列，明軒 brunch 答應要有原因（invites.js:187 acc.brunch 的 phone、face，src 直接改）；企劃舊稿（BB_158、BB_172 等）還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js 共用；長的先換；排在 aa670_fix.json 後面）。第 3、4 列（msg2_pool.js 柏翰 bday R、方奕廷 ok f3_declined R）後來補做：源稿 AA_202 第 7-3 節、AA_257 第 8 節在 3b5043eef 已改，產生器 tools/msg/build_msg2.py 的字面值和來源 commit（AA_202、AA_257 → 3b5043eef）一起換，msg2_pool.js 照同樣兩處改（產生器和遊戲檔原本就差 8 行語彤、阿哲 AA_612／AA_630 的字，這次沒動），白名單 AA_202、AA_257 換成 3b5043eef（舊的放 history）；這兩組也放在下面。",
  "pairs": [
   [
    "早午餐？哈哈 CP 值不高喔……好啦 週末可以",
@@ -8,6 +8,14 @@
   [
    "早午餐？CP 值不高喔……好啦，週末可以。",
    "早午餐？CP 值不高喔。你請的話，我就去。"
+  ],
+  [
+   "謝謝。今天收到三則生日快樂。……我都有回。",
+   "謝謝。今天收到三則生日快樂。兩則是我媽。"
+  ],
+  [
+   "還好。她說得很清楚。……這樣比較好。",
+   "還好。她說得很清楚。……我去溫室待一下就好。"
   ]
  ]
 }

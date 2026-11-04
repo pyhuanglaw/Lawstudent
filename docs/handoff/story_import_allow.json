@@ -1108,11 +1108,20 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "b10d0567f",
+   "sha": "3b5043eef",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版；3b5043eef：AA_671 第 3 列（AA-C 2026-11-04 定稿，D109）7-3 柏翰生日 R「謝謝。今天收到三則生日快樂。兩則是我媽。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "SYS-PHONE-CHAT, MSG-2",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 3b5043eef（AA_671 第 3 列；tools/msg/build_msg2.py 字面值、來源一起換，msg2_pool.js 同一句改）；msg_pool.js（tools/msg/build_pool.py）照舊讀 b10d0567f，第 6 節兩版相同",
+   "history": [
+    {
+     "sha": "b10d0567f",
+     "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；b10d0567f：AA_576 以安改稿第一批（AA 2026-11-02 08:36 交；AA_576／BB_226 口氣審 PASS、使用者確認「都對，交出去」）：6-2 三句、7-3 謝謝 L；msg_pool、msg2_pool 都用這一版",
+     "task": "SYS-PHONE-CHAT, MSG-2",
+     "note": "2026-11-04 換成 3b5043eef 以前的版本（msg_pool.js 照舊讀這一版：第 6 節和 3b5043eef 相同）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
@@ -1132,11 +1141,20 @@
   },
   {
    "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
-   "sha": "759e5c000",
+   "sha": "3b5043eef",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）",
+   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）；3b5043eef：AA_671 第 4 列（AA-C 2026-11-04 定稿，D109）第 8 節方奕廷 F3「還好嗎」R「還好。她說得很清楚。……我去溫室待一下就好。」（任務 AA671-LINES-1104）；msg2_pool 用這一版",
    "task": "MSG-2",
-   "kind": "text"
+   "kind": "text",
+   "note": "11-04 換 3b5043eef（AA_671 第 4 列；tools/msg/build_msg2.py 字面值、來源一起換，msg2_pool.js 同一句改）",
+   "history": [
+    {
+     "sha": "759e5c000",
+     "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）；759e5c000：AA_579 學姊改稿第一批（AA 2026-11-02 09:38 交；AA_579／AA_580、BB_228 PASS；使用者看過精選句）：第 3 節學姊生日 R、新年 R／L 三句；msg2_pool 用這一版（之前 build_msg2.py 讀 5f9957a2）",
+     "task": "MSG-2",
+     "note": "2026-11-04 換成 3b5043eef 以前的版本"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_208_宿舍四人房_室友.md",
