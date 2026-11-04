@@ -28,14 +28,15 @@ const CVS_LAYOUT = {
       {n: 3, x: 2.0, z0: -3.6, z1: -1.4, w: 0.7, h: 1.65, sign: '文具・生活', note: '文具、雨具、生活用品'}
     ],
     signZ: -0.7,
-    backShelf: {x0: -2.9, x1: 4.85, z0: -5.5, z1: -5.0, h: 2.1},
+    backShelf: {x0: -2.9, x1: 1.8, z0: -5.5, z1: -5.0, h: 2.1},
     staffRoom: {x0: -5.6, x1: -3.0, z0: -5.5, z1: -2.15, door: {z: -3.5, w: 0.9}, note: '左後員工室（關著、走不進去）'},
     microwave: {x0: -5.5, x1: -3.15, z0: -2.09, z1: -1.63, h: 0.95, note: '微波爐、熱水瓶、袋子層架（貼在員工室的牆上，面向店裡）'},
     bins: {x0: -4.75, x1: -3.4, z0: -1.62, z1: -1.2, note: '三色回收桶：資源回收、一般垃圾、廚餘'},
-    coolers: {x0: 4.9, x1: 5.6, z0: -5.0, z1: -1.25, h: 2.15, parts: [
-      {kind: 'drink', z0: -5.0, z1: -3.3, doors: 2, label: '飲品冷藏'},
-      {kind: 'fresh', z0: -3.3, z1: -2.2, doors: 1, label: '鮮食・三明治・飯糰'},
-      {kind: 'frozen', z0: -2.2, z1: -1.25, doors: 1, label: '冷凍食品'}]},
+    coolers: {x0: 1.9, x1: 5.6, z0: -5.5, z1: -4.8, h: 2.15, note: '後牆右段，面向店門（+z）', parts: [
+      {kind: 'drink', x0: 1.9, x1: 3.7, doors: 2, label: '飲品冷藏'},
+      {kind: 'fresh', x0: 3.7, x1: 4.65, doors: 1, label: '鮮食・三明治・飯糰'},
+      {kind: 'frozen', x0: 4.65, x1: 5.6, doors: 1, label: '冷凍食品'}]},
+    wallShelf: {x0: 5.15, x1: 5.6, z0: -4.8, z1: -1.2, h: 1.8, note: '右牆壁架（飲料、零食），面向 −x'},
     chestFreezer: {x0: 3.2, x1: 4.0, z0: -2.95, z1: -2.0, h: 0.85},
     counter: {x0: 1.9, x1: 2.65, z0: -0.9, z1: 3.3, h: 0.95, flap: {z0: 3.3, z1: 3.85},
       parts: [{kind: 'coffee_side', z0: -0.9, z1: 0.2}, {kind: 'register', z0: 0.2, z1: 1.3}, {kind: 'display', z0: 1.3, z1: 2.0}, {kind: 'hot_case', z0: 2.0, z1: 3.2}]},
@@ -57,7 +58,7 @@ const CVS_LAYOUT = {
       {kind: 'coffee', x: 1.25, z: -0.4, yaw: Math.PI / 2, label: '點日和咖啡'},
       {kind: 'parcel', x: 4.45, z: 4.75, yaw: Math.PI / 2, label: '包裹暫取'},
       {kind: 'microwave', x: -3.9, z: -0.7, yaw: Math.PI, label: '微波加熱'},
-      {kind: 'cooler', x: 4.35, z: -3.6, yaw: Math.PI / 2, label: '看冷藏櫃'}
+      {kind: 'cooler', x: 3.2, z: -4.3, yaw: Math.PI, label: '看冷藏櫃'}
     ],
     spots: {},
     lights: {note: '天花板 LED 燈條（沿 z，高 3.25）：x −4.0、−2.24、−0.48、1.28、3.04、4.8；前段兩條橫的 z 4.4／2.0；窗邊綠色吊燈 x −5.15、z 3.6／2.0／0.4／−0.9，正面吧台上 x −3.45／−2.55、z 5.05（燈罩底 2.35）；冷藏櫃、熱食櫃自己發光'},
@@ -76,10 +77,11 @@ const CVS_LAYOUT = {
     S.tables.map(t => [t.x, t.z, t.w, t.d]),
     S.tables.map(t => [t.x, +(t.z - 0.55).toFixed(2), 0.42, 0.42]), S.tables.map(t => [t.x, +(t.z + 0.55).toFixed(2), 0.42, 0.42]),
     g,
-    [B(S.backShelf), B({x0: st.x0, x1: st.x1 + 0.06, z0: st.z0, z1: st.z1 + 0.06}), B(S.microwave), B(S.bins), B(S.coolers), B(S.chestFreezer),
+    [B(S.backShelf), B({x0: st.x0, x1: st.x1 + 0.06, z0: st.z0, z1: st.z1 + 0.06}), B(S.microwave), B(S.bins), B(S.coolers), B(S.wallShelf), B(S.chestFreezer),
      B(S.counter), B(S.impulseRack), B({x0: S.counter.x0, x1: S.counter.x1, z0: S.counter.flap.z0, z1: S.counter.flap.z1}),
      B({x0: S.counter.x1, x1: S.w / 2, z0: S.endPanel.z0, z1: S.lockers.z0 - 0.2}),   // 員工區（櫃台後面）和標誌牆後面的倉庫整塊擋：店員走在裡面
-     B(S.lockers), B(S.umbrella)]);
+     B(S.lockers), B(S.umbrella),
+     B({x0: S.counterWall.x0, x1: S.w / 2, z0: S.counterWall.z1, z1: S.counterWall.z1 + 0.15})]);   // 倉庫南牆與門
   S.seats = [].concat(
     S.stools.map((z, i) => ({x: S.stoolX, z, yaw: -Math.PI / 2, kind: 'eat', bar: i + 1, label: '坐在窗邊吧台'})),
     fb.stools.map((x, i) => ({x, z: fb.stoolZ, yaw: 0, kind: 'eat', front: i + 1, label: '坐在窗邊吧台'})),
