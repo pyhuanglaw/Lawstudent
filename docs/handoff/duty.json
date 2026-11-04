@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-20",
  "ruleSource": {
-  "branch": "claude/confident-ritchie-8rwh7t",
-  "sha": "3670b96e",
-  "updated": "2026-11-03T08:17Z"
+  "branch": "claude/modest-rubin-2lyp7g",
+  "sha": "e52a7703",
+  "updated": "2026-11-04T12:17Z"
  },
  "accounts": [
   "A",
@@ -13,31 +13,29 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "B",
  "previous": "A",
  "accountState": {
   "A": "off",
-  "B": "off",
+  "B": "on",
   "C": "off",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "A",
-   "session": "session_01Eds6msqpsuzNEw98sdw8JX",
-   "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "8b87fad0",
-   "sinceSha": "3670b96e",
-   "since": "2026-11-03T08:17Z",
-   "state": "handed-off",
+   "account": "B",
+   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "e52a7703",
+   "sinceSha": "e52a7703",
+   "since": "2026-11-04T12:17Z",
+   "state": "on",
    "prev": {
     "account": "A",
     "session": "session_01Eds6msqpsuzNEw98sdw8JX",
     "branch": "claude/confident-ritchie-8rwh7t",
-    "sha": "65505eb1"
-   },
-   "handedOffAt": "2026-11-04T09:19Z",
-   "handoffSnapshot": "2026-11-04T0919Z_A_LAWWW.json"
+    "sha": "8b87fad0"
+   }
   },
   "LAWWW2": {
    "account": "A",
@@ -52,14 +50,14 @@
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-04T0912Z_A_LAWWW2.json"
   },
   "AA": {
-   "account": "A",
-   "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
-   "branch": "claude/story-planning",
-   "sha": "0500bcca",
-   "since": null,
-   "state": "handed-off",
+   "account": "B",
+   "session": "session_016ACZaD4oB9tX94WqQR4dkS",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "699789b7",
+   "since": "2026-11-04T12:11Z",
+   "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "81f740cb",
    "handedOffAt": "2026-11-04T09:04Z",
    "handoffSnapshot": "docs/handoff/snapshots/2026-11-04T0904Z_A_AA.json"
   },
@@ -526,6 +524,35 @@
     }
    },
    "until": "2026-11-02T03:43Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01Eds6msqpsuzNEw98sdw8JX",
+     "branch": "claude/confident-ritchie-8rwh7t",
+     "sha": "8b87fad0",
+     "since": "2026-11-03T08:17Z",
+     "handedOffAt": "2026-11-04T09:19Z",
+     "state": "handed-off"
+    }
+   },
+   "until": "2026-11-04T12:17Z"
+  },
+  {
+   "account": "A",
+   "role": "AA",
+   "roles": {
+    "AA": {
+     "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
+     "branch": "claude/story-planning",
+     "sha": "0500bcca",
+     "state": "handed-off",
+     "handedOffAt": "2026-11-04T09:04Z"
+    }
+   },
+   "until": "2026-11-04T12:17Z"
   }
  ],
  "anomalies": [
@@ -866,7 +893,7 @@
    "note": "LAWWW-B 11-01 22:5x 查核：帳號 C 這條分支最後 commit 3e23808e7（10-28 15:2x～15:33），比帳號 B 10-30 02:07 接班早，而且已經是帳號 B 同一職位分支的祖先（接班時合併了）——不是兩個帳號同時寫；duty.json 記的 C 交班 SHA 是舊的"
   }
  ],
- "seq": 55,
+ "seq": 57,
  "chain": [
   {
    "seq": 1,
@@ -1252,6 +1279,20 @@
    "account": "A",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 56,
+   "at": "2026-11-04T12:17Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register"
+  },
+  {
+   "seq": 57,
+   "at": "2026-11-04T12:17Z",
+   "account": "B",
+   "role": "AA",
+   "event": "sync"
   }
  ],
  "pending": null
