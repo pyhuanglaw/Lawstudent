@@ -207,51 +207,7 @@
    "k": "say",
    "n": "",
    "c": null,
-   "t": "交卷。答對 1／5，60 分。",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 1 題的答案：（D）20,000 元。考點：對自然人因提供勞務而獲得的繼續性報酬債權發扣押命令，不得逾各期給付數額三分之一：60,000 ÷ 3 ＝ 20,000 元。執行法院認有失公平時得不受比例限制，但應預酌留債務人生活費用。（強制執行法 §115-1 II、III）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 2 題的答案：（B）第三人異議之訴。考點：第三人就執行標的物有足以排除強制執行的權利（例如所有權），得於強制執行程序終結前，向執行法院對債權人提起異議之訴。債務人異議之訴是債務人主張請求權消滅或妨礙的事由。（強制執行法 §15、§14）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 3 題的答案：（B）還沒發表的小說手稿。考點：尚未發表之發明或著作不得查封；其他是可以查封的一般財產。（強制執行法 §53 I ⑥）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "say",
-   "n": "",
-   "c": null,
-   "t": "第 5 題的答案：（C）不可以，要先取得強制執行法第4條所列的執行名義，例如確定判決，或債務人未異議的支付命令。考點：借據只是證明借款的私文書，不在強制執行法第4條的執行名義裡。公證人「認證」只證明私文書的簽名真正，和載明應逕受強制執行的「公證書」不同。要先取得確定判決，或支付命令（債務人未於法定期間合法異議）等執行名義。（強制執行法 §4 I；公證法 §2 I、§13 I；民事訴訟法 §521 I）",
-   "d": "2029-06-26",
-   "h": 10,
-   "z": "dorm"
-  },
-  {
-   "k": "toast",
-   "n": "dom",
-   "t": "📓 筆記：強制執行法（重修）・大四下補考訂正",
+   "t": "交卷。答對 5／5，100 分。",
    "d": "2029-06-26",
    "h": 10,
    "z": "dorm"
@@ -483,7 +439,7 @@
    "n": "",
    "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
    "d": "2029-06-28",
-   "h": 19.503,
+   "h": 19.501,
    "z": "gongguan"
   },
   {
@@ -499,7 +455,7 @@
    "n": "",
    "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
    "d": "2029-07-05",
-   "h": 19.502,
+   "h": 19.5,
    "z": "gongguan"
   },
   {
@@ -972,7 +928,7 @@
    "n": "",
    "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
    "d": "2029-08-04",
-   "h": 17.5,
+   "h": 17.506,
    "z": "gongguan"
   },
   {
@@ -1152,7 +1108,7 @@
    "n": "",
    "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
    "d": "2029-12-14",
-   "h": 20.001,
+   "h": 20.002,
    "z": "gongguan"
   },
   {
@@ -1292,7 +1248,7 @@
    "n": "",
    "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
    "d": "2030-05-09",
-   "h": 21.003,
+   "h": 21.001,
    "z": "gongguan"
   },
   {
@@ -1758,14 +1714,6 @@
    "d": "2030-08-03",
    "h": 17.5,
    "z": "gongguan"
-  },
-  {
-   "k": "cap",
-   "n": "",
-   "t": "捷運站出口湧出一波人，又很快散進巷子裡。",
-   "d": "2030-08-03",
-   "h": 17.502,
-   "z": "gongguan"
   }
  ],
  "msgs": [
@@ -1988,14 +1936,14 @@
      "Y4_ENF_01"
     ],
     "ans": [
+     "D",
+     "B",
+     "B",
      "A",
-     "A",
-     "A",
-     "A",
-     "A"
+     "C"
     ],
-    "correct": 1,
-    "score": 60,
+    "correct": 5,
+    "score": 100,
     "status": "done"
    }
   },
@@ -2075,40 +2023,41 @@
  "stuck": null,
  "shots": {
   "grades": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\39_route_grades_retake_grades_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\40_route_grades_retake_grades_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\43_route_grades_retake_grades_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\44_route_grades_retake_grades_port.png"
   ],
   "w:fail618": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\41_route_grades_retake_line_fail618_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\42_route_grades_retake_line_fail618_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\45_route_grades_retake_line_fail618_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\46_route_grades_retake_line_fail618_port.png"
   ],
   "w:notice": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\43_route_grades_retake_line_notice_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\44_route_grades_retake_line_notice_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\47_route_grades_retake_line_notice_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\48_route_grades_retake_line_notice_port.png"
   ],
   "phone_sys": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\45_route_grades_retake_phone_sys_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\46_route_grades_retake_phone_sys_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\49_route_grades_retake_phone_sys_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\50_route_grades_retake_phone_sys_port.png"
   ],
   "remind": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\47_route_grades_retake_remind_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\48_route_grades_retake_remind_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\51_route_grades_retake_remind_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\52_route_grades_retake_remind_port.png"
   ],
   "w:open": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\49_route_grades_retake_line_open_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\50_route_grades_retake_line_open_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\53_route_grades_retake_line_open_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\54_route_grades_retake_line_open_port.png"
   ],
+  "exam_q1_makeup": "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\55_route_grades_retake_makeup_q1.png",
   "w:pass": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\51_route_grades_retake_line_pass_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\52_route_grades_retake_line_pass_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\56_route_grades_retake_line_pass_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\57_route_grades_retake_line_pass_port.png"
   ],
   "w:passAll": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\53_route_grades_retake_line_passAll_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\54_route_grades_retake_line_passAll_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\58_route_grades_retake_line_passAll_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\59_route_grades_retake_line_passAll_port.png"
   ],
   "end": [
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\55_route_grades_retake_end_land.png",
-   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\56_route_grades_retake_end_port.png"
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\60_route_grades_retake_end_land.png",
+   "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\R8_y4s2rt\\out\\61_route_grades_retake_end_port.png"
   ]
  },
  "sha": "b1b249873",
