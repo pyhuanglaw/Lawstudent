@@ -163,7 +163,7 @@ const Y2R2=(function(){
       {if:{custom:G=>(G.flags.KX_VDAY||{})[1]==='missed'},speaker:'kexin',expression:'teasing',text:'去年你沒接。今年接了。很好。'},
       {choice:[{text:'「晴天。很冷。」',set:{_y2Vwx:'sunny'},goto:'w1'},{text:'「下雨。」',set:{_y2Vwx:'rain'},goto:'w2'},{text:'（把鏡頭轉向窗外）',set:{_y2Vwx:'window'},goto:'w3'}]},
       {label:'w1'},{speaker:'kexin',expression:'smile',text:'臺北的冬天很少晴天。……你今年運氣很好。'},{goto:'same'},
-      {label:'w2'},{speaker:'kexin',expression:'teasing',text:'我這邊沒下，二十度。……我不是在炫耀。'},{goto:'same'},
+      {label:'w2'},{speaker:'kexin',expression:'teasing',text:'我這邊沒下，二十度。……你那邊有帶傘嗎？'},{goto:'same'},
       {label:'w3'},{speaker:null,text:'（她也把手機轉向她的窗戶。）'},{speaker:'kexin',expression:'smile',text:'……好，看到了。換你看我的。'},
       {label:'same'},{if:{custom:G=>!!G.flags._y2Vwx&&(G.flags.KX_VDAY_WX||{})[1]===G.flags._y2Vwx&&(G.flags.KX_VDAY||{})[1]!=='missed'},speaker:'kexin',expression:'smile',text:'跟去年一樣。'},
       {speaker:'kexin',expression:'smile',text:'情人節快樂。開學那個週末見。'} ],
@@ -446,7 +446,7 @@ const Y2R2=(function(){
       {if:{custom:G=>dating(G,'heroine_04')},speaker:null,text:'（下台後，她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）'},
       {if:{custom:G=>dating(G,'heroine_04')},speaker:'heroine_04',expression:'neutral',text:'去年的份。'},
       {if:{custom:G=>dating(G,'heroine_04')},speaker:'heroine_04',expression:'embarrassed',text:'……今年你有來。我看到了。不要換位子。'},
-      {if:{custom:G=>!dating(G,'heroine_04')&&zqSingleFriend(G)},speaker:null,text:'（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）'},
+      {if:{custom:G=>!dating(G,'heroine_04')&&zqSingleFriend(G)},speaker:null,text:'（她沒有遞給你，直接貼在你的手機殼上，什麼都沒說。）'},
       {if:{custom:G=>!dating(G,'heroine_04')&&!zqSingleFriend(G)},speaker:null,text:'（她把貼紙遞給你。）'},
       {mem:[{npc:'heroine_04',tag:'CLAPPED',note:'大二下的吉他社成發：第一排'}]},{goto:'end'},
       /* Q5 去過、這次去 */

@@ -280,7 +280,7 @@ await sec(13,async()=>{
   { const a=await wash('dorm_laundry',it3(),sun,21.3), sp=LL.spots, k=GM.npc.kai;
     check('13. 洗衣服：先走到第 2 台洗衣機前（spots.wash）',walks.some(w=>near({x:w[0],z:w[1]},sp.wash)),J(walks));
     check('13. 阿凱那一句：他站到烘衣機前（kai_stand，站著）、祐廷在他旁邊（spots.player）',!!k&&near(k.obj.position,sp.kai_stand)&&!k.seat&&near(P.obj.position,sp.player),J({k:k&&k.obj.position,p:P.obj.position}));
-    check('13. 台詞、40 分鐘照舊（一句；KAI_LAUNDRY）',J(a.L)===J([SOCIAL.displayName('kai')+'：這台烘衣機要投兩次。第一次是騙你的。'])&&Math.abs(a.dt-40/60)<1e-6&&a.G.flags.KAI_LAUNDRY===a.G.day,J(a.L));
+    check('13. 台詞、40 分鐘照舊（一句；KAI_LAUNDRY）',J(a.L)===J([SOCIAL.displayName('kai')+'：這台烘衣機要投兩次。第一次它會假裝在轉。'])&&Math.abs(a.dt-40/60)<1e-6&&a.G.flags.KAI_LAUNDRY===a.G.day,J(a.L));
     const b=await wash('dorm_hall',door(),sun,21.3); check('13. 門口版（沒有房間的版本）：台詞一樣、不走、阿凱不動',J(b.L)===J(a.L)&&!walks.length,J(b.L));
     const c=await wash('dorm_laundry',it3(),sun+1,21.3); check('13. 週一：走到洗衣機前，「衣服洗好了。」，沒有阿凱',walks.some(w=>near({x:w[0],z:w[1]},sp.wash))&&!c.L.length&&c.toasts.includes('衣服洗好了。')&&!GM.npc.kai,J(c)); }
   const wk=(()=>{ for(let d=D('2025-10-06');;d++) if(CALENDAR.dateOf(d).wd===2) return d; })();

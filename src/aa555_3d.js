@@ -47,7 +47,7 @@ const AA555=(function(){
     /* ---- 大一下 ---- */
     ['y1s2_yt_noodle',YT,wk('Y1S2'),(G,d)=>got(G,YT,d),()=>[M(YT,'秀琴姨今天試做新的菜。不好吃。她自己說的。')]],
     ['y1s2_yt_azalea',YT,wk('Y1S2'),(G,d)=>got(G,YT,d)&&mon(d)===3,()=>SQ(YT,['📷（茶屋門口一盆小杜鵑）','蘇姨買的。她說椰影大道太遠了。'])],   /* 杜鵑花季＝3 月 */
-    ['y1s2_zhe_group',ZHE,wk('Y1S2'),G=>grp(G,'noodle_team'),()=>SQ(ZHE,['今天有人要吃大碗嗎','我是說我要','有人陪就好'],NG)],
+    ['y1s2_zhe_group',ZHE,wk('Y1S2'),G=>grp(G,'noodle_team'),()=>SQ(ZHE,['今天有人要吃三寶飯嗎','我要','有人陪就好'],NG)],
     ['y1s2_zhe_bell',ZHE,wk('Y1S2',14),(G,d)=>got(G,ZHE,d)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(YU,G)&&!done(G,'ev_yu_together'),()=>SQ(ZHE,['哥我今天早上又剛好路過晨思鐘','好巧','Alison 也在','好巧']),9+10/60],   /* 語 2 的徵兆（大一下第 14～16 週）；AA_555〔名〕*/
     ['y1s2_yu_hotpot',YU,wk('Y1S2'),(G,d)=>got(G,YU,d),()=>SQ(YU,['欸你知道一個人吃火鍋要怎麼點嗎','我幫朋友問的','朋友是我'])],
     ['y1s2_yu_debate',YU,wk('Y1S2'),(G,d)=>got(G,YU,d),()=>[M(YU,'明天比賽，我抽到反方。我等一下要先說服我自己。')]],   /* 辯論比賽前一天：遊戲沒有辯論比賽的日子＝大一下任何一天 */
@@ -58,7 +58,7 @@ const AA555=(function(){
     ['y2s1_zhe_quiz',ZHE,wk('Y2S1'),(G,d)=>got(G,ZHE,d)&&G.flags.ZHE2_ASKED!=null,()=>SQ(ZHE,['哥我又沒過','但我知道錯在哪','你可以假裝很驚訝'])],   /* 哲 2（story3d.js ZHE2_ASKED）之後 */
     ['y2s1_zhe_together',ZHE,wk('Y2S1'),G=>grp(G,'noodle_team')&&done(G,'ev_yu_together'),()=>[M(ZHE,'從今天開始，我跟 Alison 坐一起',0,NG),M(ZHE,'其他人照舊',1/60,NG),M(YU,'沒有人問你',2/60,NG)]],   /* 語 3 之後；AA_555〔名〕〔麵〕*/
     ['y2s1_yu_meetings',YU,wk('Y2S1'),(G,d)=>got(G,YU,d),()=>SQ(YU,['我今天開了三個會','第三個會在討論第一個會的結論','我好想睡'])],
-    ['y2s1_yu_soymilk',YU,wk('Y2S1'),(G,d)=>got(G,YU,d)&&!done(G,'ev_yu_together'),()=>SQ(YU,['欸阿哲今天又剛好路過','他拿了兩杯豆漿','一杯是我的','我是說，剛好']),9+20/60],   /* 語 2 的徵兆：還沒在一起 */
+    ['y2s1_yu_soymilk',YU,wk('Y2S1'),(G,d)=>got(G,YU,d)&&!done(G,'ev_yu_together'),()=>SQ(YU,['欸阿哲今天又剛好路過','他拿了兩杯豆漿','一杯是我的','……他每次都剛好']),9+20/60],   /* 語 2 的徵兆：還沒在一起 */
     ['y2s1_bh_duty',BH,wk('Y2S1'),G=>grp(G,'lawclub_study'),()=>SQ(BH,['本週值班表','📷（一張表）','有問題私訊','沒有問題也可以私訊','……最後一句當我沒說'],'g:lawclub_study')],   /* 法服群組（lawclub_study）；柏翰大二是法服社長 */
     ['y2s1_bh_group',BH,wk('Y2S1'),(G,d)=>got(G,BH,d)&&done(G,'ev_bohan_exam_group'),()=>[M(BH,'這週第三題全組都錯。出題的人想考什麼，我也不知道。我去問老師。')]],   /* 翰 2 */
     ['y2s1_xc_cvs',XC,wk('Y2S1'),(G,d)=>got(G,XC,d)&&done(G,'ev_xinci_second'),()=>[M(XC,'便利商店那杯，下次換你請。')]],   /* AA_555〔慈〕：慈 3 新版 */

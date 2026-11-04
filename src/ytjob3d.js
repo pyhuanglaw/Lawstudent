@@ -125,7 +125,7 @@ const YTJOB=(function(){
       {speaker:null,text:'（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙箱。廚房裡，一個阿姨在盛湯。）'},
       {speaker:'秀琴姨',text:'你就是祐廷喔？坐、坐。'},
       {speaker:YT,text:'……嗯。這是秀琴姨。'},
-      {speaker:'秀琴姨',text:'她都不帶人回來。你是第一個。'},
+      {speaker:'秀琴姨',text:'她都不帶人回來。……我多煮一碗飯。'},
       {speaker:YT,text:'秀琴姨。'},
       /* 事件 6「在她家當面」（AA_625 第 6 節；AA_643 第 5 節保留）：大一下第 10 週以後、還沒在茶屋聽她說過 */
       {if:{custom:G=>S.homeRentDue(G)},goto:'rent'},

@@ -1884,14 +1884,14 @@ const STORY_EVENTS=[
       {label:'came'},{speaker:null,text:'（她下台經過，點個頭。）'},{speaker:'heroine_04',expression:'neutral',text:'你有來。'},
       {label:'end'} ] },
   /* 學姊 W2b 家族聚餐（BB_96 2-1；交接包 v2）：第 4 週週五 18:30 永康街的咖哩（出遊；家族群組回「去。」才排，story3d.js）。2D 背景「永康街・咖哩店」（虛構店名；圖還沒有）。
-     有 SAID_TREAT_SIS：「二，飲料學弟請，咖哩我請。」「我不是在客氣喔。」；沒有：「二，今天我請。」「下次誰都不要遲到喔。」（「最後一句」照 W2c 的內容理解成「重點是」那一句；已請 BB 確認）。
+     有 SAID_TREAT_SIS：「二，飲料學弟請，咖哩我請。」「（把菜單闔上）說好了。」（AA_663 第 8 列，原本「我不是在客氣喔。」）；沒有：「二，今天我請。」「下次誰都不要遲到喔。」（「最後一句」照 W2c 的內容理解成「重點是」那一句；已請 BB 確認）。
      回了「我有。」（SAID_HAS_CAR）：結束時順路載三個人回學校（BB_97 2-9 的描述寫成旁白）。記 FAMILY_DINNER；有 SAID_TREAT_SIS 而且到場＝TREATED_FAMILY */
   { id:'ev_family_dinner', title:'家族聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'永康街・咖哩店',bg:'yongkang_curry'},
       {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:'heroine_05',expression:'neutral',text:'……我知道。家聚你都沒來。今天來了就好。'},   /* AA_470 5-1：還沒認識她的（沒有 SIS_W1）兩句，點菜之前（這一場沒有開場旁白：接在場景後面）；演完記 met_sis、SIS_W1 */
       {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）我要辣的。……飲料學弟請，咖哩我請。'},
       {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）我要辣的。今天我請。'},
-      {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'smile',text:'我不是在客氣喔。'},
+      {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'smile',text:'（把菜單闔上）說好了。'},
       {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'下次誰都不要遲到喔。'},
       {speaker:null,text:'Kevin 遲到七分鐘。'},
       {speaker:'heroine_05',expression:'neutral',text:'Kevin，下次的地方你選。'},
@@ -4490,7 +4490,7 @@ const STORY_EVENTS_V11=[
     spawn:{npc:'heroine_02',dist:1.6,pose:'idle'},
     dialogue:[ /* BB_189 2-1（AA_554 核過）：和她交往中、12/10 23:50 她打來的那通電話接了（ZR_Z7_CALL 'took'，src/aa554_3d.js）＝開頭換兩句（「十一點五十九分」「手在抖」電話裡講過了）；
                  沒接到那通（她改傳原本的三則）＝照原本的開頭 */
-      {if:{custom:G=>G.flags.ZR_Z7_CALL==='took'},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）那天晚上，謝謝你沒有掛電話。'},
+      {if:{custom:G=>G.flags.ZR_Z7_CALL==='took'},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）那天晚上……電話講到幾點，你記得嗎？'},
       {if:{custom:G=>G.flags.ZR_Z7_CALL==='took'},goto:'z7d'},
       {if:{custom:G=>!!(G.msgs&&G.msgs.some(m=>m.tag==='zr_z7_msg'))},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）那天晚上那則，你看到了吧。'},
       {unless:{custom:G=>!!(G.msgs&&G.msgs.some(m=>m.tag==='zr_z7_msg'))},speaker:'heroine_02',expression:'neutral',text:'（看到你，放下手上的杯子）交換申請，我交了。截止那天晚上，英國那一間。'},
@@ -4774,7 +4774,7 @@ const STORY_EVENTS_V11=[
     consequences:{advance:1.7,energy:-8,memo:'刑訴小考',flags:{crimpro_quiz_done:true}} },
   // ── 研究所：說明會 ──
   { id:'ev_grad_info_session', title:'法研所說明會', participants:['npc_ta_chen','heroine_05'], location:'wancai', trigger:'enter', weekday:[5], time:[14.8,16.2], day_min:5, once:true, background:'blur', term:['Y1S1','Y1S2'], prereq:{flags:['met_sis']},   /* AA_376 #19：限大一（「我是碩二的陳冠廷」「一年級的也可以留下來聽」）；AA_518 4-12：要見過她（met_sis，同 C1）*/
-    dialogue:[ {speaker:null,text:'法律系館B大廳擺了二十張椅子。海報：「法律學研究所 招生說明會」。坐了七個人，大部分是大三。'},{speaker:'npc_ta_chen',expression:'neutral',text:'我是碩二的陳冠廷，刑事法組。先講結論：研究所不是延長大學，是換一種讀法。'},{speaker:'heroine_05',expression:'serious',text:'一年級的也可以留下來聽，不會有人趕你。'},{speaker:'npc_ta_chen',expression:'thinking',text:'筆試考申論，口試問你的研究計畫。最常被問倒的問題是：你為什麼要研究這個？'},{choice:[{text:'留下來聽完',consequences:{grad:{bump:'聽了法研所說明會'},advance:1,energy:-4,mem:[{npc:'npc_ta_chen',tag:'FIRST_MET'},{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'說明會'}],memo:'聽了法研所說明會'}},{text:'聽十分鐘就走',consequences:{advance:0.2}}]} ] },
+    dialogue:[ {speaker:null,text:'法律系館B大廳擺了二十張椅子。海報：「法律學研究所 招生說明會」。坐了七個人，大部分是大三。'},{speaker:'npc_ta_chen',expression:'neutral',text:'我是碩二的陳冠廷，刑事法組。先講結論：研究所的書，沒有人會幫你畫重點。'},{speaker:'heroine_05',expression:'serious',text:'一年級的也可以留下來聽，不會有人趕你。'},{speaker:'npc_ta_chen',expression:'thinking',text:'筆試考申論，口試問你的研究計畫。最常被問倒的問題是：你為什麼要研究這個？'},{choice:[{text:'留下來聽完',consequences:{grad:{bump:'聽了法研所說明會'},advance:1,energy:-4,mem:[{npc:'npc_ta_chen',tag:'FIRST_MET'},{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'說明會'}],memo:'聽了法研所說明會'}},{text:'聽十分鐘就走',consequences:{advance:0.2}}]} ] },
   /* W3（BB_96 2-3，交接包 v2）：落在大一下第 5 週以後（她會在讀書會後給）；台詞、選項照舊；debate 的三個選項多記 W3_STANCE（no／diff／unsure；W3b 第一次的開頭用）*/
   { id:'ev_grad_reading', title:'學姊給的文章', participants:['heroine_05'], location:['library','wancai','cafe'], trigger:'interact', priority:7, once:true, prereq:{grad:{min:'CONSIDERING'},custom:G=>typeof STORY!=='undefined'&&!!STORY.termDay&&G.day>=STORY.termDay('Y1S2',5,1)}, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'neutral',text:'你真的在想研究所？……好。這篇，三十頁。讀完我們吵一次。'},{set:{grad_reading:true},note:{id:'grad_reading',title:'學姊給的文章','body':'一篇公法的期刊論文。三十頁。讀書時可以選「讀研究所準備的文章」，讀三次才算讀完。'}},{speaker:'heroine_05',expression:'smile',text:'用鉛筆讀比較好。可以寫你不同意的地方。'},{if:{custom:G=>typeof FAMXMAS!=='undefined'&&FAMXMAS.hasPencil(G)},speaker:'heroine_05',text:'我給你的那支剛好。'} ],   /* AA_406 第 4 節：大一家族聖誕拿到那支刻名字的鉛筆的 */ consequences:{mem:[{npc:'heroine_05',tag:'GRAD_SCHOOL_DISCUSSION',note:'給你一篇文章'}]} },

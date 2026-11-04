@@ -50,12 +50,12 @@ const GRADES=(function(){
       const R={'在家讀書。':'好。','出去玩。':'好啊。','還沒想。':'那就先睡飽。','不說。':'好。那不問了。'};
       const pick=await choose(GM,Object.keys(R)); await say(GM,who,R[pick]); },
     heroine_02:async(GM,who,G,t,lv)=>{   /* 2-2：成績出來以後第一次在 Café 跟她說話 */
-      if(S.fail(lv)){ await say(GM,who,'……今天這杯我請。不是安慰，是剛好。'); return; }
+      if(S.fail(lv)){ await say(GM,who,'……今天這杯我請。你不用說話。'); return; }
       if(S.studyN(G,t,'cafe')>=5){ await say(GM,who,'成績出來了吧。今天這杯我請。'); await say(GM,who,'這學期你坐那個位子，坐了好多個晚上。'); }
-      else { await say(GM,who,'成績出來了吧。……今天這杯我請。'); await say(GM,who,'不是因為你考得好，是因為你看起來很需要。'); } },
+      else { await say(GM,who,'成績出來了吧。……今天這杯我請。'); await say(GM,who,'……你看起來很需要這一杯。'); } },
     classmate_peishan:async(GM,who,G,t,lv)=>{   /* 2-4 */
       if(lv==='fail_law'){ await say(GM,who,'哪一題你最想再寫一次？……下學期重修的時候寫。'); return; }
-      if(lv==='fail_att'){ await say(GM,who,'三堂。……明年那門課，我每週傳一次提醒。不是管你，是提醒。'); return; }
+      if(lv==='fail_att'){ await say(GM,who,'三堂。……明年那門課，我每週傳一次提醒。你可以不回。'); return; }
       await say(GM,who,'哪一題，你最想再寫一次？'); const pick=await choose(GM,['第二題。','都寫完了。','全部。']);
       if(pick==='第二題。'){ await say(GM,who,'為什麼？'); await nar(GM,'（你講了。）'); await say(GM,who,'那你現在會寫了。'); }
       else if(pick==='都寫完了。') await say(GM,who,'……那很好。我每一題都想重寫。');

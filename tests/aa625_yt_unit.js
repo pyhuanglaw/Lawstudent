@@ -89,7 +89,7 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
     let m=await home(['Y2S1',3,tdOf('Y2S1',3,2)]); const q=OUT.get(G,'yt_home_first'), E=ev('ev_yt_home_first');
     check('家. 交往以後的平日 17:00：「……今天秀琴姨煮很多。你要不要來吃。」→「好。」＝當天 18:30 去她家（新生南路）',!!m&&m.text==='……今天秀琴姨煮很多。你要不要來吃。'&&!!q&&q.h===18.5&&q.day===G.day&&q.ev==='ev_yt_home_first'&&!!E&&E.trigger==='outing',JSON.stringify([m&&m.text,q]));
     SOCIAL.remember('heroine_03','RENT_RUMOR','');   /* 事件 6 已經在茶屋聽過＝一般版 */
-    said=[]; picks=['一個人住這麼大']; await EVENTS.run(E); const HL=['（新生南路、學校對面的大樓。電梯到七樓。）','你就是祐廷喔？坐、坐。','……嗯。這是秀琴姨。','她都不帶人回來。你是第一個。','秀琴姨。','（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）','我媽買的。……我只是想知道一個人過日子是什麼感覺。'];
+    said=[]; picks=['一個人住這麼大']; await EVENTS.run(E); const HL=['（新生南路、學校對面的大樓。電梯到七樓。）','你就是祐廷喔？坐、坐。','……嗯。這是秀琴姨。','她都不帶人回來。……我多煮一碗飯。','秀琴姨。','（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）','我媽買的。……我只是想知道一個人過日子是什麼感覺。'];
     check('家. 那一晚照 AA_625 逐字；記 YT_HOME_SEEN；台詞都在稿裡',HL.every(t=>said.some(x=>is(x,t)))&&G.flags.YT_HOME_SEEN===true&&HL.every(t=>DOC.includes(t.replace(/^（|）$/g,''))),JSON.stringify(said));
     fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,6)}}}); G.day=tdOf('Y2S1',3,6)+1; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
     check('家. 週末不問、沒交往不問、去過不問',!(G.msgs||[]).some(x=>x.th==='p:heroine_03')&&(()=>{ fresh(); G.day=tdOf('Y2S1',3,2); G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G); const a=!(G.msgs||[]).length; return a; })());

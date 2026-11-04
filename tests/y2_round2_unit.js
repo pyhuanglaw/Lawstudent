@@ -227,7 +227,7 @@ const K=t=>'kexin:'+t;
   await go('y2r2_vday'); picks=[];
   check('10. V1 大一晴天、今年也選晴天：「去年你說晴天，很冷。」……「跟去年一樣。」；最後「情人節快樂。開學那個週末見。」',has('你那邊的天氣？')&&has('去年你說晴天，很冷。')&&has('臺北的冬天很少晴天。……你今年運氣很好。')&&has('跟去年一樣。')&&has('情人節快樂。開學那個週末見。')&&G.flags.KX_VDAY[2]==='video'&&G.flags.KX_VDAY_WX[2]==='sunny'&&!('_y2Vwx' in G.flags));
   fresh('2027-02-08',12,'dorm',{KX_VDAY_WX:{1:'sunny'},KX_VDAY:{1:'video'}}); date('kexin'); run('2027-02-08',12,12.25); said=[]; picks=['下雨']; await EVENTS.run(ev('ev_kexin_valentine_y2'));
-  check('10. 今年選不一樣：沒有「跟去年一樣。」',has('我這邊沒下，二十度。……我不是在炫耀。')&&!has('跟去年一樣。'));
+  check('10. 今年選不一樣：沒有「跟去年一樣。」',has('我這邊沒下，二十度。……你那邊有帶傘嗎？')&&!has('跟去年一樣。'));
   fresh('2027-02-08',12,'dorm'); date('kexin'); run('2027-02-08',12,12.25); miss('y2r2_vday'); run('2027-02-14',20.75,21);
   check('10. V2 沒接：20:30 兩則；最後「開學那個週末見。」、沒有「我們的日子」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('打了兩次。你應該在忙。'),K('你那邊的天氣，我自己查了。情人節快樂。開學那個週末見。')])&&!txt('p:kexin').some(t=>/我們的日子/.test(t))&&G.flags.KX_VDAY[2]==='missed');
 
@@ -368,8 +368,8 @@ const K=t=>'kexin:'+t;
   check('17. 5/24 21:00 子晴三則（沒有「好啦這是問句」）',JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:我自己寫的歌要在成發彈','heroine_04:四句歌詞','heroine_04:……你要來'])&&!txt('p:heroine_04').some(t=>/這是問句/.test(t)));
   G.flags.ZQ_SHOW='clap'; await play('ev_ziqing_show2'); check('17. S1 Q5 拍手、這次去：「去年那個 bug 修好了。」＋拍手手勢；ZQ_SHOW2 came',has('去年那個 bug 修好了。')&&has('（她看向觀眾席，找到你，比了一個拍手的手勢。）')&&!has('（發到你的時候）去年的份。')&&G.flags.ZQ_SHOW2==='came');
   fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); check('17. 認識、被邀過：活動事件可以觸發',EVENTS.check(ev('ev_ziqing_show2'),{chain:true}));
-  await play('ev_ziqing_show2'); check('17. S2 Q5 沒去、雙方單身、FRIEND：「去年的份。」、貼紙直接貼在手機殼上；CLAPPED',has('（發到你的時候）去年的份。')&&has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）')&&SOCIAL.has('heroine_04','CLAPPED'));
-  fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('kexin'); await play('ev_ziqing_show2'); check('17. 祐廷有交往對象：貼紙用遞的',has('（她把貼紙遞給你。）')&&!has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）'));
+  await play('ev_ziqing_show2'); check('17. S2 Q5 沒去、雙方單身、FRIEND：「去年的份。」、貼紙直接貼在手機殼上；CLAPPED',has('（發到你的時候）去年的份。')&&has('（她沒有遞給你，直接貼在你的手機殼上，什麼都沒說。）')&&SOCIAL.has('heroine_04','CLAPPED'));
+  fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('kexin'); await play('ev_ziqing_show2'); check('17. 祐廷有交往對象：貼紙用遞的',has('（她把貼紙遞給你。）')&&!has('（她沒有遞給你，直接貼在你的手機殼上，什麼都沒說。）'));
   fresh('2027-05-28',19,'wancai',{ZQ_SHOW:'came'}); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('heroine_04'); G.needed={batches:[{d:1,ans:['zq_song']}]}; await play('ev_ziqing_show2');
   { const N='（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）';
     check('17. 交往中、看過 Q5、回過 zq_song：「重來」那句；AA_338 第 3 節的旁白「（下台後，她沒有發貼紙給你。……直接貼在你的手機殼上。）」→「第二張。明年還有第三張。」',has('（第四句唱到「重來」兩個字的時候，她看了觀眾席一眼。）')&&idx(N)>=0&&idx('第二張。明年還有第三張。')===idx(N)+1&&!any(/^（下台後她不發貼紙給你/),JSON.stringify(said.map(s=>s.t))); }

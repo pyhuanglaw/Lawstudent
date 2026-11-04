@@ -45247,7 +45247,7 @@
    "title": "AA_663 台詞編修試跑 30 句換字（AA-C 14:25 交，企劃線 e89728272；使用者選「對，照這樣改」；AA_662 檢查表＋line_lint.py）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45259,7 +45259,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 15:2x】AA_663 第 12 列改了（使用者選擇題，UA-AA-1104-24）：子晴婉拒 src/data/invite_replies.js zq37 →「今天不出門。……我想一個人打電動。」——和其他 28 列一起 v9.10.20 以後換｜【LAWWW-C 11-04 14:31】第 29 列（sideq3d.js SQ19 芯慈筆記本最後一頁：和以安的考試、報告、發言次數比較表 → 三家公司的財報比率；違反 D116、「違反的內容不進下一版」）先做、進 v9.10.20；tests/aa404_sideq_unit、aa397_sideq_unit 的稿加 AA_663（e89728272）ALL PASS；其餘 29 列 v9.10.20 以後照第 1 節位置換字（只換字，條件旗標不動）",
+   "next": "【LAWWW-C 11-04 15:3x】其餘 28 列換好：tools/story/apply_line_table.py 自動 23 列＋人工 6 列（1 阿哲群組、2 Alison 豆漿、8 學姊家聚咖哩、11 芷若婉拒 zr38、12 子晴婉拒 zq37 用使用者選的新句、17 子晴公司那句）；tools/story/aa663_fix.json 30 組（import_guard.read_fix、tests/alison.js 都加了：invite_replies、eat_lines、shop_enc、solo_before 重新匯入也是新句）；測試期望值 11 支照改；相關 Node 27 支見 commit；不進 v9.10.20（候選 d3828452a）；請 BB 抽看：子晴／芷若婉拒、學姊家聚（SAID_TREAT_SIS）、阿哲群組、可昕高雄二十二度｜【LAWWW-C 11-04 15:2x】AA_663 第 12 列改了（使用者選擇題，UA-AA-1104-24）：子晴婉拒 src/data/invite_replies.js zq37 →「今天不出門。……我想一個人打電動。」——和其他 28 列一起 v9.10.20 以後換｜【LAWWW-C 11-04 14:31】第 29 列（sideq3d.js SQ19 芯慈筆記本最後一頁：和以安的考試、報告、發言次數比較表 → 三家公司的財報比率；違反 D116、「違反的內容不進下一版」）先做、進 v9.10.20；tests/aa404_sideq_unit、aa397_sideq_unit 的稿加 AA_663（e89728272）ALL PASS；其餘 29 列 v9.10.20 以後照第 1 節位置換字（只換字，條件旗標不動）",
    "source": "AA-C 11-04 14:25（使用者 14:2x「讓台詞劇情更自然」）",
    "authorized": "D109；使用者選擇題「對，照這樣改」"
   },
