@@ -214,6 +214,8 @@ async def force_case(pg, cdp, key, errs):
     texts = lines + toasts + caps
     bad = [t for t in texts if any(w in t for w in ('打烊', '關門', '請離開', '鐵捲門', '營業時間'))]
     check('[%s] 02:30 以後的字幕／對話／toast 沒有「打烊」類的字（回家睡可以）' % tag, not bad, J({'bad': bad, 'texts': texts}))
+    more = await converse(pg, cdp, tag + '_after', 120)   # 睡醒以後早上的條件事件（手機訊息、旁白、選單）先點完，再做卡住檢查（PC 11-04：對話還開著就檢查，dlg true、depth 1）
+    print('  [%s] 睡醒以後的對話（%d 句）點完' % (tag, len(more)), flush=True)
     await stuck_check(pg, cdp, tag + '_after', fb0, e0, errs)
 
 
