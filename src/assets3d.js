@@ -178,6 +178,11 @@ const ASSETS = (function(){
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
     /* 坐著的人會動（NPC-AMBIENT-ANIM-1104）：character3d.js 的 sitAmbient；第一次有人坐下才下載（lazy，約 0.3 MB）。重抽：python3 -I tools/anim/extract_ual.py --ual1 <UAL1.glb> --ual2 <UAL2.glb> */
     'char.ual_sit_clips':{url:'assets/models/char/ual_sit_clips.glb', type:'clips', lazy:true, source:'Quaternius「Universal Animation Library」（UAL1）＋「Universal Animation Library 2」（UAL2），https://quaternius.com/packs/universalanimationlibrary.html；本作只抽出骨架節點與旋轉軌道（tools/anim/extract_ual.py）：Sitting_Idle_Loop、Sitting_Idle02_Loop、Sitting_Idle03_Loop、Sitting_Talking_Loop、Sitting_Nodding_Loop、Sitting_Enter、Sitting_Exit、Drink、Idle_LookAround_Loop（UAL1）；Yes、Consume、Idle_TalkingPhone_Loop（UAL2）', license:'CC0 1.0'},
+    /* 坐在桌前做事的循環（NPC-ANIM-LOOPS-1104，LAWWW2-C 2962616ac；docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md）：character3d.js 的 C.SIT_TASK；
+       第一個人坐下、或 SEATACT 第一次要用的時候才下載（lazy：片段約 0.4 MB、配件約 0.08 MB）。重做：python3 -I tools/anim/sit_task_loops.py、tools/anim/sit_task_props.py
+       配件是 type:'building'：和 desk_props 同一張貼圖，建築的載入器（texDedup）會共用 */
+    'char.ual_sit_tasks':{url:'assets/models/char/second_ai/ual_sit_tasks.glb', type:'clips', lazy:true, source:'本作 tools/anim/sit_task_loops.py（LAWWW2-C 2026-11-04：打字、打字＋觸控板、寫字、滑手機、翻書頁、喝飲料、吃飯 × 女生／男生 VRoid 骨架，Sit_<動作>_<F|M>_Loop，每個 5 秒；身體的呼吸、前後晃是 Quaternius UAL 的 Sitting_Idle_Loop）', license:'本作（用到的 UAL 部分 CC0 1.0）'},
+    'prop.hand_props':{url:'assets/models/char/second_ai/hand_props.glb', type:'building', lazy:true, source:'本作 tools/anim/sit_task_props.py（LAWWW2-C 2026-11-04：右手的紙杯 hand_cup、手機 hand_phone、原子筆 hand_pen，已經擺在右手骨頭 J_Bip_R_Hand 的座標裡；網格、貼圖照用 desk_props）', license:'本作'},
   };
   /* 路人底模（LAWWW2 Blender；第一批 2026-10-14 整合；第二批 nf5–8／nm5–8＋nf4、nm3 低彩度重建 2026-10-17，9442e59b／b1680957）：使用者 2026-10-17 P0（「長得很像的路人真的太多了」「路人數量要再加倍」，經 LAWWW2-C、AA-C 轉達）→ 預設打開。
      anon：只給沒有名字的路人（character3d.js 的 C.anonPool）；lazy：不在開場預載——每次換區域從池子挑最多 4 女＋4 男在背景下載、沒有人在用的放掉（A.unloadVRM）。
