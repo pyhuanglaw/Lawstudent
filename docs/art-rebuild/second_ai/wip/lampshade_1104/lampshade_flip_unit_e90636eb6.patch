@@ -1,0 +1,33 @@
+--- a/tests/lampshade_flip_unit.js
++++ b/tests/lampshade_flip_unit.js
+@@ -4,6 +4,8 @@
+ // 修法：部署的 GLB 用 tools/blender/env_second/glb_flip_insideout.py 把那幾個零件的三角形順序、法線反過來（只改這些，其他零件不動）；
+ //   產生它們的腳本（lane118_shops.py 的 pendant、wz_shopkit.py 店內的吊燈）輪廓也反過來，之後重匯就是對的。
+ // 檢查：三個 GLB 的燈罩節點裡，沒有封閉、體積是負的、最小邊長 1 mm～1 m 的零件；燈罩還在（三角形數不變）。
++// 2026-11-04（LAWWW2-C）：溫州街 1d64f3511 以後店內按店拆網格，節點從 wz_in_shop 改成 sk_in_<棟號>（材質還是 wz_in_shop）——舊的 /^wz_in_shop$/ 抓到 0 個三角形＝測試過時；
++//   改成「sk_in_*／wz_in_* 節點裡材質是 wz_in_shop 的那幾份」。同一天 WZ-SECOND-1104 v2 新加的帝大紅茶、夏日冰菓室兩盞吊燈輪廓由上往下＝裡外相反（舊節點名稱的版本也會 FAIL 2），wz2_windows.py 已改、GLB 重建。
+ // 用法：node tests/lampshade_flip_unit.js
+ const fs=require('fs'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -12,9 +14,9 @@
+   const acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], off=(bv.byteOffset||0)+(a.byteOffset||0), k={SCALAR:1,VEC3:3}[a.type], T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType];
+     return new T(bin.buffer.slice(bin.byteOffset+off, bin.byteOffset+off+a.count*k*T.BYTES_PER_ELEMENT)); };
+   return {J,acc}; }
+-function insideOut(G,nodeRe){ const out=[]; let tris=0;
++function insideOut(G,nodeRe,matRe){ const out=[]; let tris=0;
+   for(const nd of G.J.nodes){ if(nd.mesh==null||!nodeRe.test(nd.name||'')) continue; const t=nd.translation||[0,0,0];
+-    for(const p of G.J.meshes[nd.mesh].primitives){ const P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, nt=(I?I.length:P.length/3)/3; tris+=nt;
++    for(const p of G.J.meshes[nd.mesh].primitives){ if(matRe&&!matRe.test((G.J.materials[p.material]||{}).name||'')) continue; const P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, nt=(I?I.length:P.length/3)/3; tris+=nt;
+       const V=k=>I?I[k]:k, key=v=>P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); const par=Array.from({length:nt},(_,i)=>i), find=x=>{ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; };
+       const ed=new Map(); for(let tr=0;tr<nt;tr++){ const ks=[0,1,2].map(e=>key(V(tr*3+e))); for(let e=0;e<3;e++){ const a=ks[e], c=ks[(e+1)%3]; if(a===c) continue; const k=a<c?a+'|'+c:c+'|'+a; if(!ed.has(k)) ed.set(k,[]); ed.get(k).push([tr,a<c]); } }
+       const bad=new Set(); for(const l of ed.values()){ if(l.length===2&&l[0][1]!==l[1][1]){ const ra=find(l[0][0]), rb=find(l[1][0]); if(ra!==rb) par[ra]=rb; } else l.forEach(([tr])=>bad.add(tr)); }
+@@ -24,7 +26,7 @@
+         c.v+=(a[0]*(b2[1]*d[2]-b2[2]*d[1])-a[1]*(b2[0]*d[2]-b2[2]*d[0])+a[2]*(b2[0]*d[1]-b2[1]*d[0]))/6; for(const pt of q) for(let i=0;i<3;i++){ c.mn[i]=Math.min(c.mn[i],pt[i]); c.mx[i]=Math.max(c.mx[i],pt[i]); } }
+       for(const c of comp.values()){ const ext=c.mx.map((x,i)=>x-c.mn[i]), m=Math.min(...ext); if(c.v<0&&m>=0.001&&m<=1.0) out.push(nd.name+' @('+(c.mn[0]+t[0]).toFixed(2)+','+(c.mn[1]+t[1]).toFixed(2)+','+(c.mn[2]+t[2]).toFixed(2)+')'); } } }
+   return {out,tris}; }
+-const CASES=[['l118_cafe2.glb',/^l118_cafe2_metal$/,'118 巷 慢讀咖啡（5 盞）'],['l118_pasta.glb',/lampshade/,'118 巷 Pasta 118 吧檯（3 盞）'],['wenzhou_street.glb',/^wz_in_shop$/,'溫州街 店內吊燈（3 盞）']];
+-for(const [f,re,name] of CASES){ const r=insideOut(load(f),re);
++const CASES=[['l118_cafe2.glb',/^l118_cafe2_metal$/,'118 巷 慢讀咖啡（5 盞）'],['l118_pasta.glb',/lampshade/,'118 巷 Pasta 118 吧檯（3 盞）'],['wenzhou_street.glb',/^(sk_in_|wz_in_)/,'溫州街 店內（吊燈 5 盞：10-31 的 3 盞＋11-04 帝大紅茶、冰菓室）',/^wz_in_shop$/]];
++for(const [f,re,name,mre] of CASES){ const r=insideOut(load(f),re,mre);
+   check(name+'：燈罩沒有裡外相反的零件、燈罩還在',r.tris>0&&!r.out.length,r.out.length?r.out.slice(0,5).join('；'):r.tris+' 個三角形'); }
+ console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
