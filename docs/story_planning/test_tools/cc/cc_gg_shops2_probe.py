@@ -311,6 +311,9 @@ async def case_order(pg, cdp, errs, k):
         await GI.stuck_check(pg, cdp, tag, fb0, e0, errs)
 
 
+P3 = []   # BB-C 13:40：相鄰座位搶按鈕（P3，不擋發布）
+SEAT_DONE = {}   # 座位 → 實際坐下測到了沒
+
 OCC2_JS = r"""(([sx,sz])=>{ const E=GAME.E; const near=(E.npcs||[]).filter(n=>n&&(n.seat||n.seatTarget)).map(n=>{ const st=n.seat||null, tg=n.seatTarget||null;
     return {name:n.name||'(路人)', id:n.id||n.cid||null, dSeat:st?+Math.hypot((+st.x)-sx,(+st.z)-sz).toFixed(2):null, dTarget:tg?+Math.hypot((+tg.x)-sx,(+tg.z)-sz).toFixed(2):null}; }).filter(q=>(q.dSeat!=null&&q.dSeat<=0.5)||(q.dTarget!=null&&q.dTarget<=0.5));
   const it=E.interactables.find(i=>i.seat&&Math.abs((+i.seat.x)-sx)<0.12&&Math.abs((+i.seat.z)-sz)<0.12); return {near, taken:it&&it.seat.taken!==undefined?it.seat.taken:null, label:it?it.label:null}; })(%s)"""
@@ -324,7 +327,7 @@ async def sit_one(pg, cdp, tag, k, sv):
     occ = await pg.evaluate(OCC2_JS % J([sv['sx'], sv['sz']]))
     print('  [%s] 座位占用：%s' % (tag, J(occ)), flush=True)
     if occ.get('near') or occ.get('taken'):
-        print('INFO [%s] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 這一張不判，挑別張' % tag, flush=True); return None
+        print('INFO [%s] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測' % tag, flush=True); return 'OCCUPIED'
     ap = await pg.evaluate(GI.APPROACH_JS % J([sv['x'], sv['z']]))
     fb_a = await pg.evaluate(FB_JS)
     if ap:
@@ -334,9 +337,15 @@ async def sit_one(pg, cdp, tag, k, sv):
     if not near_ok:
         nb = await pg.evaluate(GI.NEARSEAT_JS)
         if nb and nb.get('label') == sv['label'] and math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']) <= 1.2:
-            print('INFO [%s] 走近點最近的是同桌相鄰的另一張 (%s,%s)「%s」（字一樣、%.2f m）——不算 FAIL，這一張不判' % (tag, nb['sx'], nb['sz'], nb['label'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz'])), flush=True)
+            # BB-C 13:40：站在這一張自己的走近點上，按鈕卻是同桌隔壁那張＝「P3 相鄰座位搶按鈕」（不擋發布，BB 整理給 LAWWW2）；再照舊找別的點
+            s0 = await pg.evaluate(GI.ST)
+            line = 'P3 [%s] 相鄰座位搶按鈕：站在 (%s,%s) 的走近點 %s（人在 %s, %s），最近的是同桌隔壁 (%s,%s)「%s」（%.2f m）' % (tag, sv['sx'], sv['sz'], J(ap), s0['x'], s0['z'], nb['sx'], nb['sz'], nb['label'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']))
+            print(line, flush=True); P3.append(line)
+        if not await GI.approach_seat(pg, cdp, tag, sv):
+            nb2 = await pg.evaluate(GI.NEARSEAT_JS)
+            if nb2 and nb2.get('label') == sv['label'] and math.hypot(nb2['sx'] - sv['sx'], nb2['sz'] - sv['sz']) <= 1.2:
+                print('INFO [%s] 走到桌子另一邊也被同桌隔壁那張搶走按鈕（%s,%s）' % (tag, nb2['sx'], nb2['sz']), flush=True)
             return None
-        if not await GI.approach_seat(pg, cdp, tag, sv): return None
     else:
         s0 = await pg.evaluate(GI.ST)
         check('[%s] 走到座位的走近點：最近的互動是這一張（%s,%s）「%s」' % (tag, sv['sx'], sv['sz'], sv['label']), s0['interact'].startswith(sv['label']), J({'at': [s0['x'], s0['z']], 'ap': ap, 'interact': s0['interact']}))
@@ -352,6 +361,7 @@ async def sit_one(pg, cdp, tag, k, sv):
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
         await pg.wait_for_timeout(400)
     check('[%s] 坐下（P.seat、pose sit）' % tag, bool(s and s['seat']) and s['pose'] in ('sit', 'read'), J({q: s[q] for q in ('pose', 'seat')}) if s else 'null')
+    if s and s['seat']: SEAT_DONE[(sv['sx'], sv['sz'])] = True
     if want: check('[%s] 坐下那一句照位子類型（AA_652，逐字）' % tag, has_line(lines, want), J({'want': want, 'got': lines}))
     else: check('[%s] 這張位子稿上沒有句子：不說坐下句' % tag, not any_line(lines, AA[k]['seat']), J(lines))
     fb_c = await pg.evaluate(FB_JS); print('  [%s] walkFallbacks 坐下 %s→%s' % (tag, fb_b, fb_c), flush=True)
@@ -382,12 +392,30 @@ async def case_seats(pg, cdp, errs, k):
     ns = await pg.evaluate(NOSIT_JS % J(S['zone']))
     want_ns = sorted(S['nosit']); got_ns = sorted((round(q['x'], 2), round(q['z'], 2)) for q in ns)
     check('[%s] 配置裡玩家不能坐的 %d 張＝%s，沒有「坐下」的互動點（選不到）' % (tag0, len(want_ns), J(want_ns)), got_ns == want_ns and all(not q['near'] for q in ns), J(ns))
+    occ_later = []
     for i in range(len(seats)):
         if SEATSEL and i not in SEATSEL: continue
         if i > 0: await GI.load(pg, cdp, S['zone'], si['x'], si['z'], S['seatH'], '%s 店裡進門的地方（每一張重讀：讀書的時段次數是新的）' % S['name'])
         fb0 = (await pg.evaluate(GI.ST))['fb']; e0 = len(errs)
-        await sit_one(pg, cdp, '%s%02d' % (tag0, i), k, seats[i])
+        SEAT_DONE.setdefault((seats[i]['sx'], seats[i]['sz']), False)
+        r = await sit_one(pg, cdp, '%s%02d' % (tag0, i), k, seats[i])
+        if r == 'OCCUPIED': occ_later.append(i); continue
         await GI.stuck_check(pg, cdp, '%s%02d' % (tag0, i), fb0, e0, errs)
+    # BB-C 13:40：有人坐的那幾張回頭補測——先等 NPC 起身（重讀、等 60 秒），還是有人就換一個時段（+1.5 小時）
+    for tries, dh in ((1, 0.0), (2, 1.5)):
+        if not occ_later: break
+        left = []
+        for i in occ_later:
+            await GI.load(pg, cdp, S['zone'], si['x'], si['z'], S['seatH'] + dh, '%s 店裡進門的地方（補測第 %d 次%s）' % (S['name'], tries, '、晚 1.5 小時' if dh else '、等 60 秒讓 NPC 起身'))
+            if not dh: await pg.wait_for_timeout(60000)
+            fb0 = (await pg.evaluate(GI.ST))['fb']; e0 = len(errs)
+            r = await sit_one(pg, cdp, '%s%02d_retry%d' % (tag0, i, tries), k, seats[i])
+            if r == 'OCCUPIED': left.append(i); continue
+            await GI.stuck_check(pg, cdp, '%s%02d_retry%d' % (tag0, i, tries), fb0, e0, errs)
+        occ_later = left
+    tested = [i for i in range(len(seats)) if (not SEATSEL or i in SEATSEL)]
+    n_ok = sum(1 for i in tested if SEAT_DONE.get((seats[i]['sx'], seats[i]['sz'])))
+    print('INFO [%s] 實際坐下測到 %d／總共 %d 張%s%s' % (tag0, n_ok, len(tested), '（補測後還是有人坐：%s）' % J(occ_later) if occ_later else '', '；P3 相鄰座位搶按鈕 %d 筆' % len(P3) if P3 else ''), flush=True)
 
 
 async def case_art(pg, cdp, errs, k):
