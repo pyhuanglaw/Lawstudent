@@ -45359,7 +45359,7 @@
    "title": "AA_664 台詞第二批：可昕 solo_before D06／D13／D24／D26 拿掉「假設你……」開頭和「這是告知」（AA_295 可昕不出假設題）；invites.js:232「這是告知，不是警告」；假對比、宣告 6 句（芯慈 w118_xc_6、語彤 w118_yt_17、柏翰 r2y3a:391、子晴 multirel restart、祐廷 bbpack:455 選項、學姊 confess preexam）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45373,14 +45373,14 @@
    },
    "source": "AA-C 11-04 15:38（企劃線 ab65c4b22、outbox 8c8785351；D109 AA 自己定）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 15:4x】和 AA665 一起，等 CANON-PURGE-SRC-1104 子代理合併完再做｜【LAWWW-C 11-04 15:4x】排 v9.10.20 以後（和 AA663-LINES 同一批做法）：solo_before 照新源稿 free_trip/solo_before_bb_v1.json 重匯（白名單換 ab65c4b22 那一版，tools/freetrip/import_solo_before.py），其他 7 句 apply_line_table＋aa664_fix.json＋相關 Node 單元測試"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 15:4x】和 AA665 一起，等 CANON-PURGE-SRC-1104 子代理合併完再做｜【LAWWW-C 11-04 15:4x】排 v9.10.20 以後（和 AA663-LINES 同一批做法）：solo_before 照新源稿 free_trip/solo_before_bb_v1.json 重匯（白名單換 ab65c4b22 那一版，tools/freetrip/import_solo_before.py），其他 7 句 apply_line_table＋aa664_fix.json＋相關 Node 單元測試"
   },
   {
    "id": "AA665-LINES-1104",
    "title": "AA_665 台詞第三批：為了口語強行縮短、切成電報的句子接回正常句子（20 處：子晴、可昕、芷若、學姊、語彤、明軒、品妤；學姊 sis_b4 y4_a／y4_b、sis_m3「我就知道」、芷若英國那則收尾）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45394,14 +45394,14 @@
    },
    "source": "AA-C 11-04 15:46（企劃線 3f588c903、outbox d3c014357；使用者點名「為了口語強行縮短句子」；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 15:4x】排 v9.10.20 以後，等 CANON-PURGE-SRC-1104 子代理合併完再做（同樣動 import_guard／alison.js 清單，避免衝突）；做法同 AA663：apply_line_table＋aa665_fix.json＋相關 Node 單元測試；第 0 節照留的不動"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 15:4x】排 v9.10.20 以後，等 CANON-PURGE-SRC-1104 子代理合併完再做（同樣動 import_guard／alison.js 清單，避免衝突）；做法同 AA663：apply_line_table＋aa665_fix.json＋相關 Node 單元測試；第 0 節照留的不動"
   },
   {
    "id": "AA666-LINES-1104",
    "title": "AA_666 台詞第四批：5 處照位置換字（語彤「成績七月三號才查得到。」、模板句和格言收尾的 4 句）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45415,14 +45415,14 @@
    },
    "source": "AA-C 11-04 15:52（企劃線 ba9c96ff7、outbox e5ff9bb42；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 15:5x】排在 AA664、AA665 後面，CANON-PURGE-SRC-1104 子代理合併完再一起做（apply_line_table＋aa666_fix.json＋相關 Node）；AA_254（94bffbf08）以安不放 CG-11＝遊戲現在的 yesCg:null，不用改程式"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 15:5x】排在 AA664、AA665 後面，CANON-PURGE-SRC-1104 子代理合併完再一起做（apply_line_table＋aa666_fix.json＋相關 Node）；AA_254（94bffbf08）以安不放 CG-11＝遊戲現在的 yesCg:null，不用改程式"
   },
   {
    "id": "AA668-LINES-1104",
    "title": "AA_668 台詞第五批：termend_lines.js 11 處（婉拒收尾的「……開學見。」「……下學期。」8 處、以安 low「……不是因為你。」、以安 Y3S1 期末飯邀約收尾、可昕 Y5S1「受訓的時候不能看手機」→「白天都在上課」）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45436,14 +45436,14 @@
    },
    "source": "AA-C 11-04 16:17（企劃線 f89373846、outbox b68bb5f82；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:1x】排在 AA664～666 後面一起做（CANON-PURGE-SRC 子代理合併完）；做法同 AA663"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 16:1x】排在 AA664～666 後面一起做（CANON-PURGE-SRC 子代理合併完）；做法同 AA663"
   },
   {
    "id": "AA670-LADDER-1104",
    "title": "AA_670 台詞第六批：閒聊階梯 11 處（源檔 ladder_bb_y1s2／y2s1／y2s2、ladder_aa_y4s1 已改；第 5 列語彤 Y3-L8 直接改 ladder.js；第 8 列可昕 K3-L7 有 LADDER_CHOICE_IF 的話那邊一起換）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -45457,14 +45457,14 @@
    },
    "source": "AA-C 11-04 16:24（企劃線 b15a6957e、outbox 1e6eb5718；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:2x】排在 AA664～668 後面；用 tools/ladder/import_ladder.py 重匯四個 JSON（story_import_allow 換 b15a6957e），第 5 列直接改 ladder.js（AA_630 直接改進去的句子，源檔還沒有），第 8 列查 LADDER_CHOICE_IF；等 CANON-PURGE-SRC 子代理合併完（AA_661 #60～62 改匯入工具）"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 16:2x】排在 AA664～668 後面；用 tools/ladder/import_ladder.py 重匯四個 JSON（story_import_allow 換 b15a6957e），第 5 列直接改 ladder.js（AA_630 直接改進去的句子，源檔還沒有），第 8 列查 LADDER_CHOICE_IF；等 CANON-PURGE-SRC 子代理合併完（AA_661 #60～62 改匯入工具）"
   },
   {
    "id": "AA671-LINES-1104",
    "title": "AA_671 台詞第七批：invites.js:187 明軒 brunch 的 phone／face 兩句（改成「你請的話就可以」）；msg2_pool.js 柏翰生日（:64）、方奕廷 F3 還好嗎（:203）——源檔 AA_202 7-3、AA_257 §8 已改",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45478,14 +45478,14 @@
    },
    "source": "AA-C 11-04 16:30（企劃線 3b5043eef、outbox 93d02f39b；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:3x】排在 AA664～670 後面；msg2_pool 用匯入工具重產（白名單 AA_202、AA_257 換 3b5043eef；msg_chat_unit F 逐字比對），invites.js:187 直接改；invites.js:232／:424／:460 在 AA_664 第 6～8 列"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）；AA671 的 msg2_pool 兩句先不做（EXAM-LIB-CROWD 子代理在改手機話題的檔，合併後再做）｜【LAWWW-C 11-04 16:3x】排在 AA664～670 後面；msg2_pool 用匯入工具重產（白名單 AA_202、AA_257 換 3b5043eef；msg_chat_unit F 逐字比對），invites.js:187 直接改；invites.js:232／:424／:460 在 AA_664 第 6～8 列"
   },
   {
    "id": "AA672-LINES-1104",
    "title": "AA_672 台詞第八批：events.js 前半 4 處（芯慈 ev_sk03_xinci_class、可昕 valentine、芷若 ev_zhiruo_secret 拿掉「不是懶。」、ev_b106_42_game 旁白的「不是 X，是 Y」）；後半＝AA_673（AA 寫中）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45499,14 +45499,14 @@
    },
    "source": "AA-C 11-04 16:35（企劃線 0b322ccd5、outbox 561d53dfa；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:3x】和 AA664～671 一起，等 CANON-PURGE-SRC 子代理合併完一次做（做法同 AA663）"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 16:3x】和 AA664～671 一起，等 CANON-PURGE-SRC 子代理合併完一次做（做法同 AA663）"
   },
   {
    "id": "AA673-LINES-1104",
    "title": "AA_673 台詞第九批：events.js 後半 3 處（可昕 ev_y0_p2b、語彤 ev_yutong_thanks 模板句、芯慈 ev_xinci_double「經濟的期中考，跟債總的小考同一週」——D118 法律課沒有期中考）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -45520,7 +45520,7 @@
    },
    "source": "AA-C 11-04 16:40（企劃線 9198858cf、outbox a183e7999；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:4x】和 AA664～672 一起，等 CANON-PURGE-SRC 子代理合併完一次做"
+   "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 16:4x】和 AA664～672 一起，等 CANON-PURGE-SRC 子代理合併完一次做"
   },
   {
    "id": "NPC-ANIM-LOOPS-1104",
