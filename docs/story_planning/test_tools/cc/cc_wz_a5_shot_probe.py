@@ -1,10 +1,10 @@
 """CC（帳號 A）11-04：WZ_A5_shot——溫州街 A5 日和便利店的新招牌（LAWWW 4e3f6ccef，接 LAWWW2 93dbf8b99：和公館 G03 同一張參考圖，米白燈箱、橘色太陽、橄欖綠字；
-  舊的「日日便利」是白底青綠字）。測 c7fde4f3e。
+  舊的「日日便利」是白底青綠字）。測 23eaaa7ae（GLB 和 c7fde4f3e 相同）。
   D 白天：【前置／捷徑】讀檔：溫州街、A5 店門前的路上 (45.8, 0.4)、2025-09-23（二）14:00、條件事件關閉。
-     → 真的走到對街看得到招牌的地方（約 (44, −2.2)）→ 用手指滑鏡頭對準招牌 (44, 4.5) → 截圖 wz_a5_day.png → 卡住檢查
+     → 真的走到對街看得到招牌的地方（約 (44, −2.2)）→ 用手指滑鏡頭對準招牌 (44, 4.5)（玩家視角另存 wz_a5_day_follow.png）→ 【捷徑：拍照】E.cinematic 從對街拉遠抬高、藏起玩家 → 截圖 wz_a5_day.png（檢查招牌四角都在畫面內、在中上方）→ 收回鏡頭 → 卡住檢查
   N 晚上：同上、20:00 → 截圖 wz_a5_night.png → 卡住檢查
   招牌檢查（每次）：
-    ① 溫州街正式模型的招牌網格在（wz_signs_lit：4e3f6ccef 的 riri_mart_h 改成 hiyori_mart_fit、亮燈招牌那一組；節點名、材質名 wz_signs_lit）
+    ① 溫州街正式模型的招牌網格在：掃所有材質 wz_signs_lit 的網格（sk_sign_A2C 也用這個材質），挑 A5 那一塊有頂點的（節點 wz_signs_lit；4e3f6ccef 的 riri_mart_h 改成 hiyori_mart_fit）
     ② A5 那一塊招牌（網格裡世界座標 x 40.5～47.5、y 2～7 的頂點）貼到的是新圖：取那些頂點 UV 範圍內的貼圖顏色——
        平均偏米白（R−B ≥ 8；舊的白底 R−B≈0）、沒有舊招牌的青綠字（B > R+30 且 G > R+20 的點）；印出橄欖綠、橘色點的數目當參考
     ③ 套件備用招牌的字色也換了（zones3d.js A5 shop.signColor＝#5a6b2e；只印出，不判）
@@ -42,12 +42,20 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, p=P.obj.position, D=GAME.D|
     name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:String(D.full||((document.getElementById('dlgText')||{}).textContent)||'').slice(0,120),
     choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim()), fb:GAME.walkFallbacks||0}; })()"""
 GLB_JS = """(()=>{ const g=GAME.E.zone&&GAME.E.zone.group; return {glb:!!(g&&g.getObjectByName('wenzhou_street_glb')), man:!!ASSETS.manifest['bldg.wenzhou_street']}; })()"""
-SIGN_JS = """(()=>{ const g=GAME.E.zone.group; g.updateMatrixWorld(true); let m=null; g.traverse(o=>{ if(!m&&o.isMesh&&(o.name==='wz_signs_lit'||(o.material&&o.material.name==='wz_signs_lit'))) m=o; });
-  if(!m) return {found:false};
-  const mat=m.material, img=mat.map&&mat.map.image, pos=m.geometry.attributes.position, uv=m.geometry.attributes.uv, v=new THREE.Vector3(); let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9,n=0;
-  for(let i=0;i<pos.count;i++){ v.fromBufferAttribute(pos,i).applyMatrix4(m.matrixWorld); if(v.x<40.5||v.x>47.5||v.y<2||v.y>7||v.z<0.5||v.z>10) continue; n++; const a=uv.getX(i), b=uv.getY(i); u0=Math.min(u0,a); u1=Math.max(u1,a); v0=Math.min(v0,b); v1=Math.max(v1,b); }
-  const out={found:true, name:m.name, mat:mat.name, nVerts:n, uv:n?[+u0.toFixed(3),+u1.toFixed(3),+v0.toFixed(3),+v1.toFixed(3)]:null, img:img?[img.width,img.height]:null, flipY:mat.map?mat.map.flipY:null};
-  if(!n||!img) return out;
+SIGN_JS = """(()=>{ const g=GAME.E.zone.group; g.updateMatrixWorld(true);
+  /* 用 wz_signs_lit 材質的網格不只一個（sk_sign_A2C 也是，A2 的轉角招牌）：全部掃，挑 A5 那一塊有頂點的（c7fde4f3e／23eaaa7ae 的 GLB：節點 wz_signs_lit、40 個頂點，A5 那 4 個在 x 40.75～47.25、y 2.95～4.08、z 4.8）*/
+  const ms=[]; g.traverse(o=>{ if(o.isMesh&&(o.name==='wz_signs_lit'||(o.material&&o.material.name==='wz_signs_lit'))) ms.push(o); });
+  if(!ms.length) return {found:false};
+  const v=new THREE.Vector3(), per=[]; let best=null;
+  for(const m of ms){ const pos=m.geometry.attributes.position, uv=m.geometry.attributes.uv; if(!pos||!uv) continue; let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9,n=0,box=[1e9,-1e9,1e9,-1e9,1e9,-1e9];
+    for(let i=0;i<pos.count;i++){ v.fromBufferAttribute(pos,i).applyMatrix4(m.matrixWorld); if(v.x<40.5||v.x>47.5||v.y<2||v.y>7||v.z<0.5||v.z>10) continue; n++; const a=uv.getX(i), b=uv.getY(i); u0=Math.min(u0,a); u1=Math.max(u1,a); v0=Math.min(v0,b); v1=Math.max(v1,b);
+      box=[Math.min(box[0],v.x),Math.max(box[1],v.x),Math.min(box[2],v.y),Math.max(box[3],v.y),Math.min(box[4],v.z),Math.max(box[5],v.z)]; }
+    per.push({name:m.name, verts:pos.count, a5:n}); if(n&&(!best||n>best.n)) best={m,n,u0,u1,v0,v1,box}; }
+  const out={found:true, meshes:per, name:best?best.m.name:null, mat:best?best.m.material.name:'wz_signs_lit', nVerts:best?best.n:0};
+  if(!best) return out;
+  const m=best.m, mat=m.material, img=mat.map&&mat.map.image; const {u0,u1,v0,v1}=best;
+  out.uv=[+u0.toFixed(3),+u1.toFixed(3),+v0.toFixed(3),+v1.toFixed(3)]; out.box=best.box.map(q=>+q.toFixed(2)); out.img=img?[img.width,img.height]:null; out.flipY=mat.map?mat.map.flipY:null;
+  if(!img) return out;
   try{ const W=img.width, H=img.height, c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d'); x.drawImage(img,0,0);
     let R=0,Gs=0,B=0,k=0,olive=0,orange=0,teal=0;
     for(let i=0;i<=24;i++) for(let j=0;j<=8;j++){ const uu=u0+(u1-u0)*(0.03+0.94*i/24), vv=v0+(v1-v0)*(0.05+0.9*j/8); const px=Math.min(W-1,Math.max(0,Math.round(uu*W))), py=Math.min(H-1,Math.max(0,Math.round((mat.map.flipY?1-vv:vv)*H)));
@@ -106,7 +114,7 @@ async def one(pg, cdp, tag, hour, fn, errs):
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
     sg = await pg.evaluate(SIGN_JS)
     print('  [%s] 招牌：%s；套件：%s' % (tag, J(sg), await pg.evaluate(KIT_JS)), flush=True)
-    check('[%s] ① 招牌網格 wz_signs_lit 在、A5 那一塊有頂點' % tag, sg.get('found') and (sg.get('nVerts') or 0) >= 4, J({k: sg.get(k) for k in ('found', 'name', 'mat', 'nVerts')}))
+    check('[%s] ① 招牌網格（材質 wz_signs_lit）在、A5 那一塊有頂點（掃所有用這個材質的網格）' % tag, sg.get('found') and (sg.get('nVerts') or 0) >= 4, J({k: sg.get(k) for k in ('found', 'name', 'mat', 'nVerts', 'box', 'meshes')}))
     if sg.get('mean'):
         r, gg, bb = sg['mean']
         check('[%s] ② A5 招牌貼到新圖：平均偏米白（R−B ≥ 8）、沒有舊「日日便利」的青綠字' % tag, r - bb >= 8 and sg['teal'] == 0,
@@ -118,10 +126,20 @@ async def one(pg, cdp, tag, hour, fn, errs):
     s = await pg.evaluate(ST)
     check('[%s] 真的走到拍招牌的位置 %s' % (tag, J(ph)), ok, J({k: s[k] for k in ('x', 'z')}))
     turned = await L.turn_camera_to(pg, cdp, SIGN[0], SIGN[1])
-    await pg.wait_for_timeout(2500)
+    await pg.wait_for_timeout(1500)
+    await pg.screenshot(path=os.path.join(OUT, fn.replace('.png', '_follow.png')))   # 玩家視角（跟隨鏡頭）留一張參考
+    bx = sg.get('box') or [40.75, 47.25, 2.95, 4.08, 4.8, 4.8]
+    cx, cy, cz = (bx[0] + bx[1]) / 2, (bx[2] + bx[3]) / 2, (bx[4] + bx[5]) / 2
+    print('  [捷徑：拍照] 用遊戲的劇情鏡頭 E.cinematic 從對街 (%.1f, 2.2, %.1f) 看招牌中心下方 0.4 m (%.1f, %.2f, %.1f)（招牌落在畫面中上方），拍照時把玩家藏起來（拍完放回、結束劇情鏡頭）' % (cx, cz - 8.6, cx, cy - 0.4, cz), flush=True)
+    await pg.evaluate("(([px,py,pz,lx,ly,lz])=>{ const E=GAME.E; E.player.obj.visible=false; E.cinematic(new THREE.Vector3(px,py,pz),new THREE.Vector3(lx,ly,lz)); })(%s)" % J([cx, 2.2, cz - 8.6, cx, cy - 0.4, cz]))
+    await pg.wait_for_timeout(3500)
+    vis = await pg.evaluate("(([x0,x1,y0,y1,z])=>{ const cam=GAME.E.camera; cam.updateMatrixWorld(true); const pts=[[x0,y0],[x1,y0],[x0,y1],[x1,y1]].map(([x,y])=>new THREE.Vector3(x,y,z).project(cam)); return {inView:pts.every(p=>Math.abs(p.x)<=0.98&&Math.abs(p.y)<=0.98&&p.z<1), ys:pts.map(p=>+((1-p.y)/2).toFixed(2)), xs:pts.map(p=>+((p.x+1)/2).toFixed(2))}; })(%s)" % J([bx[0], bx[1], bx[2], bx[3], bx[4]]))
     await pg.screenshot(path=os.path.join(OUT, fn))
-    print('  [%s] 截圖 %s（鏡頭對準招牌：%s）' % (tag, fn, turned), flush=True)
-    check('[%s] 鏡頭轉到招牌方向' % tag, turned)
+    print('  [%s] 截圖 %s（招牌四角在畫面上的位置 %s）' % (tag, fn, J(vis)), flush=True)
+    check('[%s] 截圖裡整塊招牌都在畫面裡、在中上方（四角都在畫面內，中心在上半到中間）' % tag, vis['inView'] and sum(vis['ys']) / 4 <= 0.6, J(vis))
+    await pg.evaluate("(()=>{ const E=GAME.E; E.player.obj.visible=true; if(E.endCinematic) E.endCinematic(); })()")
+    await pg.wait_for_timeout(2500)
+    check('[%s] 鏡頭轉到招牌方向（玩家視角）' % tag, turned)
     await stuck_check(pg, cdp, tag, fb0, e0, errs)
 
 
