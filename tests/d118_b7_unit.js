@@ -7,7 +7,7 @@
 //   d 國考總複習只有在一試前 30 天起才出現：2029 一試 8/4＝7/5 起；2030（重考、交換延畢、司法官重考）8/3＝7/4 起；2031 8/2＝7/3 起；一試開考（08:00）以後、考完、沒報名、學期中都沒有（也不在存檔多寫東西）；
 //     家裡的選單（畢業以後住家裡）也有、按了地點記「家」；開放以前直接叫 STUDY.review(GM,'bar') 不做
 //   e 按一次：6 小時（不跨天＝18:00 以後不給、會跨過一試 08:00 不給、閉館前讀不完不給）、stats.study +6、照常 STORY.onStudy；範圍＝一試題池每一題的觀念卡全部讀過、抽到的 20 題不變；
-//     翻頁閱讀和期末總複習同一套（一科一節、答錯過的排最前面、先讀到這裡、結束字幕每科一行「國考範圍」）；入口：座位／書桌（STUDY.reviewOpt 帶 kind）、家裡的選單
+//     翻頁閱讀和期末總複習同一套（一科一節、答錯過的排最前面、先讀到這裡、結束字幕每科一行「國考範圍」——國考只列這一次翻到的科、最多 8 科）；入口：座位／書桌（STUDY.reviewOpt 帶 kind）、家裡的選單
 //   f BB 驗收那一條：2029-07-10 做國考總複習 → 8/4 作答（讀過的卡出 cue）→ BAR_SCORE＝答對題數、9/7 放榜照答對題數；卡片回寫（答對＝答對過、答錯＝miss）
 //   g 舊存檔（v9.10 結構：有成績單、期末考紀錄、PG、沒有 G.study）讀進來不報錯；沒有成績單的存檔＝題池退回全部、抽到的題和修改前一模一樣
 //   h 題池不到 40 題＝退回全部（只有大一上的成績單：39 題）；夠 40 題＝只收修過的
@@ -150,8 +150,12 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     check('e11. 開始的字幕：「（你把四年的筆記攤開。國考要考的 n 科，一共 m 張觀念卡。）」（暫定字）',L[0]===open,J(L[0]));
     check('e12. 一科一節：第一張是第一科答錯過的那張（排最前面、標「（之前答錯過）」）；「跳到下一科」＝第三張是下一科的第一張',!!rr&&cards.length===3&&cards[0].includes(c0.c.name)&&cards[0].includes(STUDY.view(last).title)&&cards[0].includes('（之前答錯過）')&&cards[2].includes(c1.c.name)&&cards[2].includes('1／'),J(cards));
     const menu=H.opts.slice(-3); check('e13. 每張卡下面：下一張、跳到下一科、先讀到這裡（AA_638 照用）',menu.every(o=>o.includes('下一張')&&o.some(t=>t.startsWith('先讀到這裡'))),J(menu));
-    const lines=i2.courses.map(x=>STUDY.barLine(G2,x.c,x.units));
-    check('e14. 結束字幕：每科一行「<課名>　國考範圍：學過 x／y・答對過 z」（暫定字）',lines.length===i2.courses.length&&lines.every(t=>t.includes('　國考範圍：學過 '))&&caps.some(t=>lines.every(l=>t.includes(l))),J({lines:lines.slice(0,2),caps:caps.map(t=>t.slice(0,80))}));
+    const lines=[c0,c1].map(x=>STUDY.barLine(G2,x.c,x.units));
+    check('e14. 結束字幕：這一次翻到的每一科一行「<課名>　國考範圍：學過 x／y・答對過 z」（暫定字；翻到兩科＝兩行，讀過的照範圍算）',lines.every(t=>t.includes('　國考範圍：學過 '))&&lines[0].includes('學過 '+c0.units.length+'／'+c0.units.length)&&caps.length>0&&caps[caps.length-1]===lines.join('<br>'),J({lines,cap:(caps[caps.length-1]||'').slice(0,200)}));
+    /* 一路跳到最後一科：字幕最多 8 行（二十幾科全列會超出手機畫面）*/
+    const G3=fresh29('2029-07-16',9); const i3=binfo(G3); caps=[]; picks=[]; for(let i=0;i<80;i++) picks.push('跳到下一科'); const r3=await STUDY.review(GM,'bar'); picks=[];
+    const capL=(caps[caps.length-1]||'').split('<br>'), want3=i3.courses.slice(-STUDY.BAR_CAP_LINES).map(x=>STUDY.barLine(G3,x.c,x.units));
+    check('e16. 一路「跳到下一科」翻完 '+i3.courses.length+' 科：結束字幕只列翻到的最後 '+STUDY.BAR_CAP_LINES+' 科（STUDY.BAR_CAP_LINES；二十幾行在手機直向、橫向都會超出畫面）',!!r3&&i3.courses.length>STUDY.BAR_CAP_LINES&&STUDY.BAR_CAP_LINES===8&&J(capL)===J(want3),J({n:capL.length,courses:i3.courses.length}));
     /* 入口：座位、Café、宿舍書桌（程式碼）*/
     const gs=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ss=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
     check('e15. 讀書座位、Café（seatMenu）、宿舍書桌（deskScene）選了「考前總複習」照那一項的 kind 跑 STUDY.review（國考＝bar）',/opts\[i\]\.review\)\{[^}]*STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(gs)&&/async function deskScene[\s\S]{0,3000}STUDY\.reviewOpt\(G\)[\s\S]{0,1500}STUDY\.review\(GM,opts\[i\]\.kind\|\|'final'\)/.test(ss)); });
