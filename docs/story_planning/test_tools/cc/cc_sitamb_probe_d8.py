@@ -7,7 +7,7 @@
     再拍一張 back_nodesk＝【捷徑】把 desk:* 藏起來（診斷用，不是遊戲畫面）：方塊不見了＝方塊是桌上小物。
   只截圖、記數字，不判（BB 判：三張都有＝本來就有、不擋；只有含 2acb 的有＝擋）。SwiftShader 看有沒有方塊，不看顏色。
   檔名有 cc_sitamb_probe（V20R 雲端備援的等待條件看這個名字）。
-用法：LW_TESTS=<wt>/tests TAG=<名稱> [NEAR=1＝玩家移到替身中間，換成近處版本] python3 cc_sitamb_probe_d8.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests TAG=<名稱> [NEAR=1＝玩家移到替身中間，量換成近處版本花幾秒] [BUSY=1＝玩家坐著、busy] python3 cc_sitamb_probe_d8.py <url> <out>"""
 import os, sys, json, asyncio, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
@@ -43,6 +43,14 @@ AIM = """(([e,l,h,seed])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.paused=tru
   E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l));
   for(let i=0;i<3;i++){ E.update(1/60); cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
   E._shT=0; E.render(); const ri=E.renderer.info.render; return {calls:ri.calls, tris:ri.triangles}; })"""
+# 玩家 7 m 內的替身：每個 InstancedMesh 的每個實例照世界座標算距離；名字有 _lod1＝遠處版本
+NEARCNT = r"""(()=>{ const P=GAME.E.player.obj.position, M=new THREE.Matrix4(), V=new THREE.Vector3(); let lod0=0, lod1=0;
+  GAME.E.scene.traverse(g=>{ if(!/^seated_figures:/.test(g.name||'')) return; g.updateMatrixWorld(true); for(const im of g.children){ if(!im.isInstancedMesh||!im.visible||!/^fig_/.test(im.name)) continue;
+    for(let i=0;i<im.count;i++){ im.getMatrixAt(i,M); V.setFromMatrixPosition(M).applyMatrix4(g.matrixWorld); if(Math.hypot(V.x-P.x,V.z-P.z)<7){ if(/_lod1$/.test(im.name)) lod1++; else lod0++; } } } });
+  return {lod0, lod1, busy:!!GAME.E.player.busy, seat:!!GAME.E.player.seat, px:+P.x.toFixed(2), pz:+P.z.toFixed(2)}; })()"""
+BUSY_JS = r"""(([x,z])=>{ const E=GAME.E, P=E.player; const free=(E.zone.seats||[]).filter(st=>!st.taken&&!E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35));
+  free.sort((a,b)=>Math.hypot(a.x-x,a.z-z)-Math.hypot(b.x-x,b.z-z)); const st=free[0]; if(!st) return {ok:false};
+  GAME.sitAt(P,st); P.busy=true; return {ok:true, seat:[+st.x.toFixed(2),+st.z.toFixed(2),st.lv|0], dist:+Math.hypot(st.x-x,st.z-z).toFixed(2)}; })"""
 DESK = """(on=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isInstancedMesh&&/^desk:/.test(o.name||'')){ if(on){ if(o.userData.__ccDesk){ o.visible=true; o.userData.__ccDesk=false; n++; } } else if(o.visible){ o.visible=false; o.userData.__ccDesk=true; n++; } } }); return n; })"""
 
 
@@ -83,10 +91,21 @@ async def main():
                 ('back', [round(cx, 2), round(mx[1] + 3.0, 2), round(mx[2] + 2.0, 2)], [round(cx, 2), round(mn[1] + 0.8, 2), round(cz, 2)], '+z 那一端的上方往另一端'),
                 ('front', [round(cx, 2), round(mx[1] + 3.0, 2), round(mn[2] - 2.0, 2)], [round(cx, 2), round(mn[1] + 0.8, 2), round(cz, 2)], '−z 那一端的上方往另一端')]
         meta['box'] = {'min': mn, 'max': mx}
-        if os.environ.get('NEAR') == '1':   # 【捷徑】玩家移到替身範圍中間（7 m 內＝替身換成近處的 LOD0；figTick 每 0.5 秒照玩家位置換），看方塊是不是遠處版本（_lod1）才有
-            await pg.evaluate("(([x,z])=>{ const o=GAME.E.player.obj; o.position.x=x; o.position.z=z; GAME.E.paused=false; })(%s)" % J([cx, cz]))
-            await pg.wait_for_timeout(3000); fg2 = await pg.evaluate(FIG); meta['fig_near'] = fg2
-            print('  【捷徑】玩家移到 (%.2f, %.2f)：顯示中的替身 %s' % (cx, cz, J([[im['name'], im['count']] for g in fg2['groups'] for im in g['ims'] if im['count']])), flush=True)
+        if os.environ.get('NEAR') == '1':   # 【捷徑】玩家移到替身範圍中間（7 m 內＝替身換成近處的 LOD0），量換過去花幾秒（真實時間）、7 m 內 _lod0／_lod1 各幾個
+            busy = os.environ.get('BUSY') == '1'   # BB-C 17:29 STANDIN_LOD：坐著上課（busy）時會不會換——【捷徑】玩家坐到離替身中間最近的空位、P.busy=true
+            if busy:
+                r = await pg.evaluate(BUSY_JS + '(%s)' % J([cx, cz])); print('  【捷徑】BUSY=1：%s' % J(r), flush=True); meta['busy'] = r
+            else:
+                await pg.evaluate("(([x,z])=>{ const o=GAME.E.player.obj; o.position.x=x; o.position.z=z; })(%s)" % J([cx, cz]))
+            await pg.evaluate("GAME.E.paused=false")
+            t1 = time.time(); seq = []; first = None
+            while time.time() - t1 < 12:
+                n = await pg.evaluate(NEARCNT); seq.append([round(time.time() - t1, 2), n['lod0'], n['lod1']])
+                if n['lod0'] > 0 and first is None: first = round(time.time() - t1, 2)
+                if first is not None and time.time() - t1 > first + 1.5: break
+                await pg.wait_for_timeout(250)
+            n = await pg.evaluate(NEARCNT); meta['near'] = dict(n, first_lod0_s=first, seq=seq[:40], busy=busy)
+            print('  【捷徑】玩家在 (%.2f, %.2f)%s：7 m 內替身 _lod0 %d 個、_lod1 %d 個；第一次出現 _lod0 在 %s 秒（真實時間）；玩家 busy=%s' % (cx, cz, '（坐著、busy）' if busy else '', n['lod0'], n['lod1'], first, n['busy']), flush=True)
         await pg.evaluate("GAME.E.player.obj.visible=false"); await pg.evaluate(HUD + '(false)')
         meta['shots'] = {}
         for k, (name, e, l, note) in enumerate(cams):
