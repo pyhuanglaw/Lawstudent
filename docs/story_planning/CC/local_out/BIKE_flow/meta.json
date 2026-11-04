@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "BIKE_flow",
+  "sha": "c7fde4f3e",
+  "kind": "game",
+  "script": "tests/flow_bike.py",
+  "env": "XARGS={url} {out}",
+  "machine": "MSI",
+  "start": "2026-11-04T11:00:50",
+  "end": "2026-11-04T11:04:01",
+  "seconds": 190,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 35,
+    "mem": 59,
+    "used_gb": 18.4,
+    "chrome_testing": 30
+  }
+}
