@@ -90,7 +90,7 @@ const HCIRCLE_DATA={
     {id:'c503_5_2',doc:'AA_503',sec:'5-1',k:2,who:'heroine_02',with:['hc_boss'],days:[1,3,5],from:11,to:15,terms:['Y1S1'],zone:'cafe',act:'barista',comp:{hc_boss:{clerk:'cafe'}},heard:'老闆：豆子快沒了。／芷若：我昨天寫在白板上了。／老闆：……我沒看白板。'},
     {id:'c503_5_3',doc:'AA_503',sec:'5-1',k:3,who:'heroine_02',alone:true,days:[0],from:12,to:13,terms:['Y1S1'],zone:'l118_omu',heard:'（她一邊吃一邊看一本很舊的劇本，筆夾在耳朵上。）'},
     {id:'c503_6_1',doc:'AA_503',sec:'6-1',k:1,who:'heroine_03',with:['npc_huangxh'],always:true,days:[2,4],from:12,to:13,terms:['Y1S1'],zone:'campus',heard:'筱涵：妳又沒睡？／語彤：睡了。四個小時。／筱涵：那叫沒睡。'},
-    {id:'c503_6_2',doc:'AA_503',sec:'6-1',k:2,who:'heroine_03',with:['wz_su'],days:[6,0],from:13,to:17,terms:['Y1S1'],zone:'wz_teahouse',act:'linger',comp:{wz_su:{clerk:'wz_teahouse'}},heard:'蘇姨：語彤，三號桌的烏龍不要太燙。／語彤：我知道。他每次都這樣。'},
+    {id:'c503_6_2',doc:'AA_503',sec:'6-1',k:2,who:'heroine_03',with:['wz_su'],days:[6,0],from:13,to:17,terms:['Y1S1'],zone:'wz_teahouse',act:'linger',comp:{wz_su:{clerk:'wz_teahouse'}},heard:'蘇姨：語彤，長桌那位的烏龍不要太燙。／語彤：我知道。他每次都這樣。'},
     {id:'c503_6_3',doc:'AA_503',sec:'6-1',k:3,who:'heroine_03',alone:true,days:[3],from:17+40/60,to:18+40/60,terms:['Y1S1'],zone:'l118_home',heard:'（她在看一本社會學的書，書頁上用鉛筆畫了很多問號。）'},
     {id:'c503_7_1',doc:'AA_503',sec:'7-1',k:1,who:'heroine_04',with:['pool_5','pool_11'],days:[1,3],from:19,to:21,terms:['Y1S1'],zone:'wancai',act:'club',heard:'晏如：子晴，餅乾。／子晴：不要，我在調音。／晏如：調音也可以吃。'},
     {id:'c503_7_2',doc:'AA_503',sec:'7-1',k:2,who:'heroine_04',with:['kai'],days:[5],from:14+10/60,to:14.5,terms:['Y1S1'],zone:'campus',heard:'子晴：你那題用遞迴？／阿凱：所以不行嗎。／子晴：可以啊，只是很慢。',

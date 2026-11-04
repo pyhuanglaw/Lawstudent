@@ -64,7 +64,7 @@ const HEARD_LINES={
     {id:'h506_zjw_an',who:'pool_7',about:'heroine_01',t:'交換說明會，以安坐第一排。她一直舉手，問到講的人說『我們下課再聊』。',from:'2027-03-19',until:'Y2S2:end',src:'AA_506 1-4'},   /* 曾靖雯（第五輪補）「3/19 以後」：交換說明會 3/18 12:20（events.js）的隔天起 */
     {id:'h506_yu_an',who:'yu',about:'heroine_01',t:'以安說京都她要自己去。我說我可以陪她，她說她想一個人去一次。……我難過了一天，第二天幫她查了京都的天氣。',from:'2027-07-01',until:'2027-07-31',cond:'noC12',src:'AA_506 1-4'},   /* 「7 月，沒報 C12 的玩家」*/
     {id:'h506_zjw_yt',who:'pool_7',about:'heroine_03',t:'債各第二排有一個社會系的同學，雙主修。她的筆記比我的少一半，可是都是重點。',from:'Y2S2:W3一',until:'Y2S2:end',src:'AA_506 3-4'},   /* 曾靖雯（第五輪補）「債各，第 3 週以後」；說的是語彤（認識語彤才說）。和上面那句同時在的那幾天，一天一句、說明會那句先 */
-    {id:'h506_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'三號桌的阿伯講了一整個下午。她都錄了，回家又聽了一遍。',from:'2027-07-10',until:'Y2S2:end',src:'AA_506 3-4'},   /* 「暑假」：7/9 第一次去田野以後 */
+    {id:'h506_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'一盞那個常來的阿伯講了一整個下午。她都錄了，回家又聽了一遍。',from:'2027-07-10',until:'Y2S2:end',src:'AA_506 3-4'},   /* 「暑假」：7/9 第一次去田野以後 */
     {id:'h506_zr_zq',who:'heroine_02',about:'heroine_04',t:'子晴暑假在實習。下班還去騎樓寫自己的。我說妳會累死，她說騎樓比較涼。',from:'2027-07-07',until:'2027-08-20',src:'AA_506 4-4'},   /* 「暑假，8/20 以前」：子晴 7/6 實習第一天以後 */
     {id:'h506_ta_sis',who:'npc_ta_chen',about:'heroine_05',notZone:'gongguan',t:'書瑀題目定了。她說定下來以後，反而睡得比較好。',from:'Y2S2:W12一',until:'Y2S2:end',src:'AA_506 5-4'},   /* 「第 12 週起」（第 11 週週二題目定了）*/
     {id:'h506_bh_ps',who:'classmate_bohan',about:'classmate_peishan',t:'沛珊去台南了。我在動態看到的。……我按了愛心。',from:'2027-09-04 20:00',until:'Y3S1:W2日',src:'AA_506 6-4'},   /* 「9/4 以後」：她 9/4 20:00 那則動態以後；跨到大三上，到第 2 週 */
