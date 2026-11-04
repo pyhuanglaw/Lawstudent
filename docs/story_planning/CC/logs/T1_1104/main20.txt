@@ -1,0 +1,149 @@
+隨機玩家快轉：root=/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c　track=law　2025-08-29 → 2026-06-30　種子 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20　同時 3 個
+遊戲版本：322cd967d 接 LAWWW2 lane_east 第二次減面 6a9aecee3（擋 v9.10.20，WZ-LANEEAST-TRIS-1104）：溫州街整條街四種大材質照 x 切四段（鏡頭後面整段裁掉）＋店裡隔著玻璃的東西背對街道的面刪掉（−5,104）；wenzhou_street.glb 128,837→123,737、材質 46 不變
+種子   3  PASS   537.1 秒  到 2026-07-05  步數 23082  格數 545490
+種子   4  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   5  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   6  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   7  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   8  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   9  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  10  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  11  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  12  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  13  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  14  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  15  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  16  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  17  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  18  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  19  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  20  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   2  PASS   542.9 秒  到 2026-07-01  步數 24006  格數 543386
+種子   1  PASS   543.6 秒  到 2026-07-01  步數 27534  格數 558494
+
+================ 總結 ================
+種子   1  PASS   543.6 秒  到 2026-07-01  步數 27534  格數 558494
+種子   2  PASS   542.9 秒  到 2026-07-01  步數 24006  格數 543386
+種子   3  PASS   537.1 秒  到 2026-07-05  步數 23082  格數 545490
+種子   4  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   5  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   6  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   7  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   8  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子   9  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  10  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  11  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  12  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  13  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  14  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  15  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  16  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  17  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  18  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  19  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+種子  20  FAIL     0.0 秒  到 ?  步數 0  格數 0  失敗 1 種（—）
+PASS 3／20　總時間 543.6 秒（每個種子平均 81.2 秒）
+
+---------- 種子 4 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 4 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 5 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 5 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 6 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 6 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 7 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 7 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 8 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 8 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 9 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 9 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 10 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 10 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 11 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 11 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 12 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 12 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 13 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 13 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 14 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 14 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 15 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 15 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 16 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 16 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 17 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 17 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 18 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 18 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 19 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 19 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 種子 20 ----------
+【—】SKIPPED　第 undefined 步、第 undefined 格
+  為什麼：--out 裡有 STOP（暫停開新的種子），沒有跑
+  重現：node random_play_sim.js --seed 20 --root /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rps_wt_322c --from 2025-08-29 --to 2026-06-30
+
+---------- 注意（不算 FAIL：遊戲自己有保底或只是提示）----------
+  820 次（種子 1,2,3）立繪缺檔 → 用 neutral（素材，不算）　例：portrait missing → fallback assets/portraits/classmate_xinci/campus/neutral.webp（2025-08-22 10:30 dorm）
+  740 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：腳踏車模型載入失敗　例：unknown asset prop.bike_ride（2025-08-30 20:36 campus）
+  112 次（種子 1,2,3）星期和日期對不上（syncWeekday 改回來）　例：星期和日期對不上，照行事曆改： →（2025-09-17 17:33 dorm）
+  45 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：日和便利店 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-10-02 21:15 cvs）
+  33 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-04-19 20:15 cafe）
+  27 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：青木茶室 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-01-03 20:11 aoki）
+  23 次（種子 1,2,3）說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）　例：說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104） 床底下的紙箱（2025-09-01 08:17 dorm）
+  20 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：afar café 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-07 11:57 afar）
+  18 次（種子 1,2,3）3D／素材相關的例外（不算，假的 THREE）：頁間書屋 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-09-27 14:08 bookstore）
+  12 次（種子 1,3）3D／素材相關的例外（不算，假的 THREE）：日常失速 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-01-21 23:13 wz_offbeat）
+  7 次（種子 1,3）3D／素材相關的例外（不算，假的 THREE）：SUNNY SIDE 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2025-11-02 10:16 wz_brunch）
+  3 次（種子 1,3）3D／素材相關的例外（不算，假的 THREE）：一盞 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-03-04 15:24 wz_teahouse）
+  3 次（種子 2,3）3D／素材相關的例外（不算，假的 THREE）：小路 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-03-19 22:17 wz_teishoku）
+  2 次（種子 1,3）3D／素材相關的例外（不算，假的 THREE）：阿德影印輸出 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-01-07 19:34 wz_print）
+  2 次（種子 1,3）3D／素材相關的例外（不算，假的 THREE）：Daybreak 室內正式模型載入失敗，用備用模型　例：NO_NET（random_play_sim 不下載素材）（2026-03-31 08:57 daybreak）
+  1 次（種子 1）migrate 補了存檔裡沒有的欄位（不算 FAIL）：G.flags.LIFELINE_V　例：G.flags.LIFELINE_V：undefined → 1（2025-09-03 07:48 dorm）
+  1 次（種子 3）選單重疊：一個選單蓋在另一個還沒選的選單上　例：選單蓋在另一個還沒選的選單上，選完會放回去（2025-12-20 20:44 dorm）
