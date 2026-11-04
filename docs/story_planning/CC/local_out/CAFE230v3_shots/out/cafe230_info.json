@@ -1,8 +1,8 @@
 {
  "14.0": {
   "ref_east_to_west": {
-   "calls": 253,
-   "tris": 646586,
+   "calls": 238,
+   "tris": 603043,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -44,14 +44,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
       "sx": 414.6,
-      "sy": 245.4,
+      "sy": 245.5,
       "on": true,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -79,8 +79,8 @@
    }
   },
   "door_in": {
-   "calls": 219,
-   "tris": 543150,
+   "calls": 218,
+   "tris": 544076,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -122,14 +122,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
       "sx": 468.8,
-      "sy": 277,
+      "sy": 277.1,
       "on": true,
       "vis": true,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -157,8 +157,8 @@
    }
   },
   "booth": {
-   "calls": 141,
-   "tris": 384472,
+   "calls": 142,
+   "tris": 385318,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -200,14 +200,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
-      "sx": 474.4,
-      "sy": 36.2,
+      "sx": 474.5,
+      "sy": 36,
       "on": false,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -236,7 +236,7 @@
   },
   "bar": {
    "calls": 159,
-   "tris": 422520,
+   "tris": 423356,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -278,14 +278,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
-      "sx": 2520.6,
-      "sy": -470.3,
+      "sx": 2521,
+      "sy": -471.4,
       "on": false,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -314,7 +314,7 @@
   },
   "pastry": {
    "calls": 157,
-   "tris": 418286,
+   "tris": 419094,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -356,14 +356,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
-      "sx": 1845.6,
-      "sy": -136.3,
+      "sx": 1845.8,
+      "sy": -136.8,
       "on": false,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -392,7 +392,7 @@
   },
   "record": {
    "calls": 91,
-   "tris": 266344,
+   "tris": 267180,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -434,14 +434,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
       "sx": 416.6,
-      "sy": 69.8,
+      "sy": 69.7,
       "on": false,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -469,8 +469,8 @@
    }
   },
   "window_bar": {
-   "calls": 220,
-   "tris": 509812,
+   "calls": 219,
+   "tris": 510600,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -512,14 +512,14 @@
      },
      {
       "x": 0.4,
-      "y": 0.76,
+      "y": 0.75,
       "z": 1.5,
-      "sx": -594.3,
-      "sy": 1924.7,
+      "sx": -593.5,
+      "sy": 1926.4,
       "on": false,
       "vis": false,
       "lamp": null,
-      "surf": "desk:rset_cup"
+      "surf": "desk:tset_notes"
      },
      {
       "x": -5.5,
@@ -549,8 +549,8 @@
  },
  "22.0": {
   "ref_east_to_west": {
-   "calls": 136,
-   "tris": 336139,
+   "calls": 137,
+   "tris": 337373,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -628,7 +628,7 @@
   },
   "door_in": {
    "calls": 138,
-   "tris": 328271,
+   "tris": 330471,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -705,8 +705,8 @@
    }
   },
   "booth": {
-   "calls": 117,
-   "tris": 319487,
+   "calls": 118,
+   "tris": 321697,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -784,7 +784,7 @@
   },
   "bar": {
    "calls": 113,
-   "tris": 303867,
+   "tris": 304987,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -862,7 +862,7 @@
   },
   "pastry": {
    "calls": 111,
-   "tris": 299633,
+   "tris": 300725,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -940,7 +940,7 @@
   },
   "record": {
    "calls": 87,
-   "tris": 254773,
+   "tris": 255893,
    "lamp": {
     "vw": 844,
     "vh": 390,
@@ -1018,7 +1018,7 @@
   },
   "window_bar": {
    "calls": 175,
-   "tris": 394675,
+   "tris": 396919,
    "lamp": {
     "vw": 844,
     "vh": 390,
