@@ -781,3 +781,12 @@
 [08:54:39] ==== START PE644-CARD  (probe @ a8c485729) ====
 [08:54:42] [res] cpu=57% mem=59% (18.6/31.4 GB) chrome_testing=19  START PE644-CARD
 [08:56:40] [res] cpu=40% mem=61% (19.1/31.4 GB) chrome_testing=19  END PE644-CARD
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4ce76f45d..e759296bb  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:56:45] ==== END   PE644-CARD  exit=0  121s   ====
+[08:56:49] memory 60% before starting YT3-F1 (2 running)
+[08:56:49] ==== START YT3-F1  (probe @ a8c485729) ====
+[08:56:52] [res] cpu=39% mem=59% (18.9/31.4 GB) chrome_testing=19  START YT3-F1
+[08:57:19] 正在跑：YT3-C2（已跑 27 分／上限 35 分）、PE644b（已跑 5 分／上限 50 分）、YT3-F1（已跑 0 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:02:04] [res] cpu=74% mem=56% (17.9/31.4 GB) chrome_testing=17  END PE644b

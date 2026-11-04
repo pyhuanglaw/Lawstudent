@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PE644b",
+  "sha": "a8c485729",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py",
+  "env": "CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T08:51:38",
+  "end": "2026-11-04T09:02:04",
+  "seconds": 626,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 93,
+    "mem": 66,
+    "used_gb": 20.8,
+    "chrome_testing": 29
+  }
+}
