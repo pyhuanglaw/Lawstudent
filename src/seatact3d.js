@@ -155,7 +155,7 @@ const SEATACT=(function(){
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },
       e=>{ console.warn('SEATACT desk_props（人照樣坐，桌上沒有東西）',e); R.failed=true; R.loading=null; }); }
   S.ready=()=>!!R.props;
-  function clearAll(){ for(const g of R.groups.values()) if(g.parent) g.parent.remove(g); R.groups.clear(); for(const r of R.on.values()) unhold(r); R.on.clear(); R.dirty=false; }
+  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()) unhold(r); R.on.clear(); R.dirty=false; }
   function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); }
   /* 這個人現在可以配嗎：坐著（seat、sit／read）、不是上課的同學、店員、玩家；換了姿勢（起身）＝不能 */
   const seatedOk=n=>!!(n&&n.seat&&n.obj&&!n.hidden&&(n.pose==='sit'||n.pose==='read')&&!n.clsStudent&&!n.clerk&&!n.seatTarget&&!n.leaving);
@@ -223,7 +223,8 @@ const SEATACT=(function(){
       if(lset){ out.push({name:it.name,lod:true,x:r.st.x,y:floorOf(null,r.st),z:r.st.z,yaw}); continue; }   /* 講堂的組：原點＝座位的地面中心 */
       out.push({name:it.name,lod:it.lod,x:ex+lx*it.x+fx*it.z,y:r.tb.y,z:ez+lz*it.x+fz*it.z,yaw:yaw+it.yaw}); }
     return (r.items=out); }
-  function rebuild(E){ R.dirty=false; for(const g of R.groups.values()) if(g.parent) g.parent.remove(g); R.groups.clear(); near.clear();
+  const disposeG=g=>{ if(g.parent) g.parent.remove(g); for(const im of g.children) if(im.dispose) im.dispose(); };   /* InstancedMesh.dispose 只放掉自己的矩陣（網格、材質是 desk_props 共用的，不放）*/
+  function rebuild(E){ R.dirty=false; for(const g of R.groups.values()) disposeG(g); R.groups.clear(); near.clear();
     const P=E.player&&E.player.obj&&E.player.obj.position;
     const byLv=new Map(); for(const r of R.on.values()){ const its=worldItems(r); if(!its.length) continue; const lv=r.st.lv|0; if(!byLv.has(lv)) byLv.set(lv,[]); byLv.get(lv).push(r); }
     for(const [lv,rs] of byLv){ const g=new THREE.Group(); g.name='seatact:'+lv; g.userData.seatAct=true; const cnt=new Map();
@@ -232,9 +233,9 @@ const SEATACT=(function(){
         const A=a?mk(a,'desk:'+nm):null; ims[nm]={near:A,far:b?mk(b,'desk:'+nm+'_lod1'):A,item:!b}; }
       g.userData.rs=rs; g.userData.ims=ims;
       const LG=E.zone.levelGroups, lg=LG&&LG[lv]; (lg&&lg.group||E.zone.group||E.scene).add(g); R.groups.set(lv,g); lay(g,P,true); } }
-  const M4=typeof THREE!=='undefined'?new THREE.Matrix4():null, Q4=typeof THREE!=='undefined'?new THREE.Quaternion():null, V4=typeof THREE!=='undefined'?new THREE.Vector3():null, ONE=typeof THREE!=='undefined'?new THREE.Vector3(1,1,1):null, UP=typeof THREE!=='undefined'?new THREE.Vector3(0,1,0):null;
+  let M4=null, Q4=null, V4=null, ONE=null, UP=null;   /* 第一次畫的時候才建（只載資料、THREE 是假的測試環境也載得起來）*/
   S.NEAR=7; S.ITEM_FAR=12;
-  function lay(g,P,force){ const rs=g.userData.rs, ims=g.userData.ims; let ch=!!force;
+  function lay(g,P,force){ if(!M4){ M4=new THREE.Matrix4(); Q4=new THREE.Quaternion(); V4=new THREE.Vector3(); ONE=new THREE.Vector3(1,1,1); UP=new THREE.Vector3(0,1,0); } const rs=g.userData.rs, ims=g.userData.ims; let ch=!!force;
     for(const r of rs){ const d=P?Math.hypot(r.st.x-P.x,r.st.z-P.z):1e9, was=near.get(r), nr=was==null?d<S.NEAR:(was?d<S.NEAR+0.5:d<S.NEAR-0.5), far2=d>S.ITEM_FAR; const k=(nr?1:0)+(far2?2:0); if(r._lk!==k){ r._lk=k; ch=true; } near.set(r,nr); }
     if(!ch) return false; for(const im of g.children) im.count=0;
     for(const r of rs){ const nr=near.get(r), far2=r._lk>=2; for(const it of worldItems(r)){ const e=ims[it.name]; if(!e) continue; if(e.item&&far2) continue; const im=nr?(e.near||e.far):e.far; if(!im) continue;
