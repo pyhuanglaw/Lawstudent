@@ -17,7 +17,6 @@ J = lambda o: json.dumps(o, ensure_ascii=False)
 PARTS = [p.strip() for p in (os.environ.get('PARTS') or 'wz,book,lift').split(',') if p.strip()]
 HOUR = float(os.environ.get('HOUR') or 14)
 EXTRA_WZ_X = [10.35, 41.4, -4.3]   # BUG-WZFLICKER-2：x 10.35 二樓招牌×亮燈窗、x 41.4 店面玻璃×窗框、x −4.3 金屬條
-STEPS, DT = 48, 250                # 48 格 × 0.25 秒＝12 秒
 FAILS = []
 T0 = time.time()
 
@@ -54,16 +53,44 @@ async def load_zone(pg, cdp, zone, x, z, yaw=math.pi):
     return ok
 
 
+# BB-C 13:54（D 項）：每處慢慢轉 10 秒、30 fps（＝300 格，一格一格畫，不是即時）、拉近／拉遠各一次；相鄰兩格逐像素差——
+# 每 16×16 區塊算「這一格比上一格平均亮了多少」d_t；一般移動是同方向慢慢變，疊面閃爍是一格亮一格暗（d_t 和 d_t+1 正負相反）→ 分數＝Σ max(0, −d_t×d_t+1)
+FLICK_JS = r"""(async(P)=>{ const E=GAME.E, R=E.renderer, gl=R.getContext(), cv=R.domElement, W=cv.width, H=cv.height, B=16, bw=Math.floor(W/B), bh=Math.floor(H/B);
+  const skip0=E.renderSkip; E.renderSkip=()=>true;   /* 遊戲迴圈先停畫，這裡一格一格自己畫 */
+  const buf=new Uint8Array(W*H*4); let prev=null; const nb=bw*bh; const lastD=new Float32Array(nb), score=new Float32Array(nb), maxAbs=new Float32Array(nb), bestT=new Int32Array(nb).fill(-1), bestV=new Float32Array(nb);
+  const fScore=new Float32Array(P.n); const cam=E.camera;
+  const pose=t=>{ const f=t/(P.n-1), d=P.d0+(P.d1-P.d0)*f, a=P.yaw0+P.sweep*Math.sin(f*2*Math.PI); return [[P.tx+Math.sin(a)*d, P.h, P.tz+Math.cos(a)*d],[P.tx, P.lh, P.tz]]; };
+  for(let t=0;t<P.n;t++){ const [e,l]=pose(t); cam.position.set(...e); cam.lookAt(new THREE.Vector3(...l)); cam.updateMatrixWorld(); R.render(E.scene,cam); gl.readPixels(0,0,W,H,gl.RGBA,gl.UNSIGNED_BYTE,buf);
+    const Y=new Float32Array(nb); for(let by=0;by<bh;by++) for(let bx=0;bx<bw;bx++){ let s=0; for(let y=by*B;y<by*B+B;y++){ let o=(y*W+bx*B)*4; for(let x=0;x<B;x++,o+=4) s+=0.299*buf[o]+0.587*buf[o+1]+0.114*buf[o+2]; } Y[by*bw+bx]=s/(B*B); }
+    if(prev){ for(let k=0;k<nb;k++){ const d=Y[k]-prev[k]; const tog=Math.max(0,-d*lastD[k]); score[k]+=tog; fScore[t]+=tog; if(Math.abs(d)>maxAbs[k]) maxAbs[k]=Math.abs(d); if(tog>bestV[k]){ bestV[k]=tog; bestT[k]=t; } lastD[k]=d; } }
+    prev=Y; if(t%30===29) await new Promise(r=>setTimeout(r,0)); }
+  E.renderSkip=skip0;
+  const idx=[...Array(nb).keys()].sort((a,b)=>score[b]-score[a]).slice(0,5).map(k=>({bx:k%bw, by:k%bw===k%bw?Math.floor(k/bw):0, x:(k%bw)*B, y:H-(Math.floor(k/bw)+1)*B, w:B, h:B, score:+score[k].toFixed(1), maxDiff:+maxAbs[k].toFixed(1), worstFrame:bestT[k]}));
+  const frames=[...Array(P.n).keys()].sort((a,b)=>fScore[b]-fScore[a]).slice(0,10).map(t=>({t, score:+fScore[t].toFixed(1)}));
+  const total=[...score].reduce((a,b)=>a+b,0);
+  return {W,H,blocks:idx, frames, total:+total.toFixed(1), meanBlock:+(total/nb).toFixed(2)}; })"""
+SHOW_JS = r"""(async([e,l])=>{ const E=GAME.E, cam=E.camera; const skip0=E.renderSkip; E.renderSkip=()=>true; cam.position.set(...e); cam.lookAt(new THREE.Vector3(...l)); cam.updateMatrixWorld(); E.renderer.render(E.scene,cam);
+  await new Promise(r=>requestAnimationFrame(()=>r())); return true; })"""
+UNSKIP_JS = "(()=>{ const E=GAME.E; if(E.renderSkip&&E.renderSkip.toString()==='()=>true') E.renderSkip=window.__ccSkip0||null; return true; })()"
+REPORT = []
+
+
 async def sweep(pg, tag, target, start_d, end_d, yaw0, height=1.6, look_h=None, look_dy=0.0):
-    """鏡頭從 target 的 yaw0 方向 start_d 公尺推近到 end_d，同時左右轉 ±12°；每秒一張連拍"""
+    """BB-C 13:54：10 秒慢慢轉（300 格）、拉近、拉遠各一次；相鄰兩格逐像素差找一格亮一格暗的小塊；印差最大的 5 個區塊、存差最大的 10 格（JPEG）"""
     tx, ty, tz = target
-    print('  [%s] 開始（第 %.1f 秒）：看 %s、從 %.1f m 推到 %.1f m' % (tag, time.time() - T0, J(target), start_d, end_d), flush=True)
-    for i in range(STEPS):
-        f = i / (STEPS - 1); d = start_d + (end_d - start_d) * f; a = yaw0 + math.radians(12) * math.sin(f * 2 * math.pi)
-        e = [tx + math.sin(a) * d, height, tz + math.cos(a) * d]; l = [tx, look_h if look_h is not None else ty, tz + look_dy]
-        await pg.evaluate(SET_CAM + '(%s)' % J([[round(v, 3) for v in e], [round(v, 3) for v in l]]))
-        await pg.wait_for_timeout(DT)
-        if i % 4 == 0: await pg.screenshot(path=os.path.join(OUT, '%s_%02d.jpg' % (tag, i // 4)), type='jpeg', quality=70)   # 每秒一張（JPEG：runner 的 PNG 額度 25 MB）
+    await pg.evaluate("(()=>{ window.__ccSkip0=GAME.E.renderSkip; return true; })()")
+    for pas, (d0, d1) in (('near', (min(start_d, end_d) + 0.6, min(start_d, end_d))), ('far', (max(start_d, end_d) + 2.0, max(start_d, end_d)))):
+        P = {'n': 300, 'd0': d0, 'd1': d1, 'yaw0': yaw0, 'sweep': math.radians(10), 'tx': tx, 'tz': tz + look_dy, 'h': height, 'lh': look_h if look_h is not None else ty}
+        t1 = time.time()
+        r = await pg.evaluate(FLICK_JS + '(%s)' % J(P))
+        print('  [%s_%s] 第 %.1f 秒開始、%.1f 秒：300 格；閃爍分數總和 %s、平均每區塊 %s；最高 5 區塊 %s' % (tag, pas, t1 - T0, time.time() - t1, r['total'], r['meanBlock'], J(r['blocks'])), flush=True)
+        REPORT.append({'tag': tag, 'pass': pas, 'target': target, 'd': [d0, d1], **r})
+        for q in r['frames']:
+            t = q['t']; f = t / 299; d = d0 + (d1 - d0) * f; a = yaw0 + math.radians(10) * math.sin(f * 2 * math.pi)
+            e = [tx + math.sin(a) * d, height, tz + look_dy + math.cos(a) * d]; l = [tx, look_h if look_h is not None else ty, tz + look_dy]
+            await pg.evaluate(SHOW_JS + '(%s)' % J([[round(v, 4) for v in e], [round(v, 4) for v in l]]))
+            await pg.screenshot(path=os.path.join(OUT, '%s_%s_f%03d.jpg' % (tag, pas, t)), type='jpeg', quality=80)
+        await pg.evaluate(UNSKIP_JS)
 
 
 async def part_wz(pg, cdp):
@@ -122,6 +149,8 @@ async def main():
         except Exception: pass
         await ctx.close(); await b.close()
     print('INFO 影片：%s' % (os.path.relpath(vpath, OUT) if vpath else '（沒有）'), flush=True)
+    json.dump(REPORT, open(os.path.join(OUT, 'flicker.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    for r in sorted(REPORT, key=lambda q: -q['total'])[:8]: print('INFO 閃爍分數 %s_%s：總和 %s、最高區塊 %s' % (r['tag'], r['pass'], r['total'], J(r['blocks'][:1])), flush=True)
     print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True)
     sys.exit(1 if FAILS else 0)
 

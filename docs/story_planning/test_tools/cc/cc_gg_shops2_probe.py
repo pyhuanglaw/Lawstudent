@@ -392,9 +392,11 @@ async def case_seats(pg, cdp, errs, k):
     ns = await pg.evaluate(NOSIT_JS % J(S['zone']))
     want_ns = sorted(S['nosit']); got_ns = sorted((round(q['x'], 2), round(q['z'], 2)) for q in ns)
     check('[%s] 配置裡玩家不能坐的 %d 張＝%s，沒有「坐下」的互動點（選不到）' % (tag0, len(want_ns), J(want_ns)), got_ns == want_ns and all(not q['near'] for q in ns), J(ns))
-    occ_later = []
+    occ_later = []; t_budget = time.time() + float(os.environ.get('SEAT_BUDGET_S') or 1080)   # BB-C 13:55：一項超過 20 分鐘就停，報沒測完的張數（runner 20 分鐘會直接砍掉，所以探針 18 分鐘先停）
+    over = []
     for i in range(len(seats)):
         if SEATSEL and i not in SEATSEL: continue
+        if time.time() > t_budget: over.append(i); continue
         if i > 0: await GI.load(pg, cdp, S['zone'], si['x'], si['z'], S['seatH'], '%s 店裡進門的地方（每一張重讀：讀書的時段次數是新的）' % S['name'])
         fb0 = (await pg.evaluate(GI.ST))['fb']; e0 = len(errs)
         SEAT_DONE.setdefault((seats[i]['sx'], seats[i]['sz']), False)
@@ -406,6 +408,7 @@ async def case_seats(pg, cdp, errs, k):
         if not occ_later: break
         left = []
         for i in occ_later:
+            if time.time() > t_budget: left.append(i); continue
             await GI.load(pg, cdp, S['zone'], si['x'], si['z'], S['seatH'] + dh, '%s 店裡進門的地方（補測第 %d 次%s）' % (S['name'], tries, '、晚 1.5 小時' if dh else '、等 60 秒讓 NPC 起身'))
             if not dh: await pg.wait_for_timeout(60000)
             fb0 = (await pg.evaluate(GI.ST))['fb']; e0 = len(errs)
@@ -416,6 +419,7 @@ async def case_seats(pg, cdp, errs, k):
     tested = [i for i in range(len(seats)) if (not SEATSEL or i in SEATSEL)]
     n_ok = sum(1 for i in tested if SEAT_DONE.get((seats[i]['sx'], seats[i]['sz'])))
     print('INFO [%s] 實際坐下測到 %d／總共 %d 張%s%s' % (tag0, n_ok, len(tested), '（補測後還是有人坐：%s）' % J(occ_later) if occ_later else '', '；P3 相鄰座位搶按鈕 %d 筆' % len(P3) if P3 else ''), flush=True)
+    if over: print('INFO [%s] 時間到（18 分鐘）沒測完 %d 張：%s' % (tag0, len(over), J(over)), flush=True)
 
 
 async def case_art(pg, cdp, errs, k):
