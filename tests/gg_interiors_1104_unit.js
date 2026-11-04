@@ -129,4 +129,7 @@ for(const k of ['cvs','bookstore','aoki']){ const S=SPEC[k], L=S.L; let R;
     check('7 配置沒載入：SHOP_IN 照舊（沒有 gg、沒有 aoki）',!Zn.SHOP_IN.cvs.gg&&!Zn.SHOP_IN.bookstore.gg&&!Zn.SHOP_IN.aoki);
   } catch(e){ check('7 配置沒載入：建得起來',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); }
   finally { globalThis.Z3=Zwith; for(const n in keep) globalThis[n]=keep[n]; } }
+{ loadZone('cvs'); const back=[];
+  for(const [a,b] of [[[-2.76,-4.48],[1.5,0.75]],[[-2.76,-4.48],[0.4,3.5]],[[0.4,3.5],[-2.76,-4.48]],[[0.4,3.5],[1.6,-4.0]]]){ const r=walk(a,b); if(!r.ok) back.push([a,b,r.reason,r.x,r.z]); }
+  check('8 日和後面：微波（−2.76,−4.48）走去結帳、走回門口、從門口走去微波與冷藏櫃都走得到（中右兩排貨架後面的窄縫封掉；CC 11-04 GG_int_cvs_menu 601 秒走不到）',!back.length,JSON.stringify(back)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

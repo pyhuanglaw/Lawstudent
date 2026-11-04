@@ -1964,6 +1964,7 @@ const Z3 = (function(){
   function buildCvs2(E){ const L=GG_L.cvs(), fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';
     /* 窗外的景：一整片（正面左段落地窗 x −5.3～−0.66、自動門、右段窗 1.46～2.93 一起；attachRoomGLB 會放大 1.35 倍放到玻璃外面）。照片是舊店面的角度（cvs／cvs_wz），新店面的窗要 LAWWW2 重拍 */
     const z=ggRoom(E,'cvs',L,{label:L.exit.label,floor:'#e3e1dc',winXs:[1.18],winW:8.3,winH:2.65,winY:1.4,view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,glb:'bldg.cvs_interior_v2',shop:'cvs_seat',attach:(E,z,g0,root)=>attachCvsInterior(z,g0,root)});
+    if(z.nav&&typeof CVS_LAYOUT!=="undefined"&&CVS_LAYOUT.version===4){ z.nav.blockRect(-0.65,-4.5,3.3,0.8,0); z.nav._cm=null; }   /* 配置 v4：中、右兩排貨架後面離後牆只剩 0.4～0.6 m（人站不住、找路卻會走進去＝卡住；CC 11-04 GG_int_cvs_menu：微波→結帳 601 秒走不到）。封掉那一段，找路改走貨架之間的通道；微波（左排後面的口袋）、冷藏櫃（東側）照舊走得到。BB 改配置把後面走道留到 0.9 m 以上就可以拿掉 */
     const ck=L.interact.find(q=>q.kind==='checkout');
     E.interactables.push({x:ck.x,z:ck.z,radius:1.1,label:ck.label,shop:'cvs'});   /* 結帳（照舊 story3d.js 的 shop:'cvs'）*/
     ggLooks(E,L,'cvs');   /* 熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃（AA_653 第 1 節；src/ggshops_sys3d.js）*/
