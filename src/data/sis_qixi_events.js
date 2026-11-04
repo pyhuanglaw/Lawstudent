@@ -30,7 +30,7 @@ const SISQX_EVENTS=(function(){
     N('（店裡只有兩桌客人。她已經坐在靠牆的位子，菜單沒有翻開。）'),
     SIS('這家今天不會客滿。我查過了。'),
     SIS('鯖魚。你呢？'),
-    {choice:[{text:'「跟妳一樣。」',goto:'a_same'},{text:'「薑汁燒肉。」',goto:'a_pork'}]},
+    {choice:[{text:'「跟妳一樣。」',goto:'a_same'},{text:'「烤雞串。」',goto:'a_pork'}]},
     {label:'a_same'},SIS('好。兩份鯖魚。'),{goto:'a_mid'},
     {label:'a_pork'},SIS('那我吃你一片。'),
     {label:'a_mid'},N('（吃到一半，她問你暑假在做什麼，你講了，她聽得很認真。）'),
