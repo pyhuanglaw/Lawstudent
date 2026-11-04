@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_night_typhoon",
+  "sha": "3dce31a93",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py",
+  "env": "HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T14:12:16",
+  "end": "2026-11-04T14:13:37",
+  "seconds": 82,
+  "exit": 0,
+  "error": null,
+  "runner": "cae6d17596",
+  "rf_round": "23",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 69,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 25
+  }
+}
