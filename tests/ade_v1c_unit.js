@@ -7,6 +7,7 @@
 //   5. 客人座位 4 個（自助電腦那四張椅子；LAWWW 07:16 決定客人可以坐）：區域座位 4、「坐下」按鈕 4、每一個按得到、從出生點走得到；打工的辦公椅、阿芃的凳子不給客人
 //   6. 出生點 3.65、印東西 (−0.6, 1.75)、買文具 (1.45, 2.7) 照舊；出口按得到
 //   7. 沒有走不出去的小孤島（canStand 0.1 m 取樣、連通區塊；和 tests/wz_interiors_aa659_unit.js A5 一樣）
+//   9. 正式模型（bb_support/ade.glb）接上以後：GLOW_panel_* 十個合成一個光暈網格、照開燈切換（和 AA 新室內同一套 wzAAattach）
 //   8. 客人會坐：CROWD 的 wz_print 有座位組（4 張）；15 個上課日 12:30 進店，有人坐在那四張椅子上、同時最多 2 位（影印店 cap 照舊）
 // 修改前（開發分支 31ce5f785）：1～5、8 FAIL（還是舊的 wz_print_interior 配置：沒有 clerk、stands、客人座位 0）。用法：node tests/ade_v1c_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -85,4 +86,12 @@ const R=loadZone('wz_print'), z=R.z, its=R.its, sp=[z.spawn.x,z.spawn.z];
     CROWD.enter(GM,'wz_print'); const P=E.npcs.filter(n=>typeof n.crowd==='string'&&/^shop_/.test(n.crowd)); mx=Math.max(mx,P.length);
     for(const n of P) if(n.seat){ sat++; if(!zz.seats.some(q=>Math.hypot(q.x-n.seat.x,q.z-n.seat.z)<0.05)) wrong.push(r2(n.seat.x)+','+r2(n.seat.z)); } }
   check('8. 客人會坐：15 個上課日四個時刻進店，有人坐在那四張椅子上、同時最多 2 位（影印店 cap 照舊）',sat>0&&!wrong.length&&mx<=2,J({sat,mx,wrong:wrong.slice(0,4)})); }
-console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+// ---- 9 ---- 正式模型接上（假的 GLB：GLOW_panel_* 空節點、WALL_*）：光暈合成一個網格、開燈 1／關燈 0（bb_support 也走 AA 新室內那一套 wzAAattach）
+(async()=>{ const pend=[]; ASSETS.loadOne=k=>{ if(k!=='bldg.wz_print_interior_v3') return new Promise(()=>{}); const g=new THREE.Group();
+    for(const nm of ['WALL_front_front_wall','ad_vc']){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); }
+    for(let i=1;i<=10;i++){ const o=new THREE.Object3D(); o.name='GLOW_panel_'+i; o.position.set(0,2.95,0); o.userData={glow:'rgba(240,246,255,1)',size:1.3,day:0.25,night:1}; g.add(o); }
+    const p=Promise.resolve({scene:g}); pend.push(p); return p; };
+  GAME.G={zone:'wenzhou',day:30,hour:15,flags:{},money:5000,weather:'clear'}; const z9=loadZone('wz_print').z; await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
+  const glow=z9.group.getObjectByName('wz_print_glows'); let tog=null; if(glow&&z9.onLamps){ z9.onLamps(true); const on=glow.material.emissiveIntensity; z9.onLamps(false); tog=[on,glow.material.emissiveIntensity]; }
+  check('9. 正式模型接上（z.formal）、GLOW_panel_* 10 個合成一個網格、開燈 1／關燈 0',!!z9.formal&&z9.aaGlows===10&&!!glow&&J(tog)===J([1,0]),J({formal:!!z9.formal,n:z9.aaGlows,tog}));
+  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })().catch(e=>{ console.log('FAIL 9 例外 '+String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); process.exit(1); });
