@@ -587,6 +587,53 @@ def kmc():
     im.save(os.path.join(GEN, 'kmc_print.png'))
 
 
+def sns():
+    """SUNNY SIDE（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04；AA_654／AA_655）：
+    sns_checker.png：黑白小方磚斜鋪（一張 0.8 m，8×8 顆斜方格；磚縫、微差）；
+    sns_print.png：(0,0) 6×2 深綠菜單板（SUNNY SIDE BRUNCH／Brunch／Coffee & Tea，價錢照 AA_655 §5）、(0,2) 2×1 櫃台的金字木牌、
+    (2,2) 2×2 水彩畫（教堂街景）、(4,2) 2×2 水彩畫（運河）、(6,2) 1×1 桌卡、(7,2) 1×1 小菜單卡"""
+    rng = np.random.default_rng(1105)
+    S = 512; yy, xx = np.mgrid[0:S, 0:S].astype(np.float32); s_ = S / 8.0
+    u = (xx + yy) / s_; v = (xx - yy) / s_
+    chk = (np.floor(u) + np.floor(v)) % 2
+    base = np.where(chk[..., None] > 0.5, np.array(hexc('#2e2e2c'), np.float32), np.array(hexc('#ece6da'), np.float32))
+    n = noise(S, S, 4, 5) - 0.5; base *= (1 + n[..., None] * 0.05)
+    edge = np.minimum(np.abs(u - np.round(u)), np.abs(v - np.round(v))) * s_ / 1.414
+    base = np.where((edge < 1.6)[..., None], np.array(hexc('#b8b0a2'), np.float32), base)
+    Image.fromarray(np.clip(base, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'sns_checker.png'))
+    im = Image.new('RGB', (1024, 1024), '#efe6d6'); d = ImageDraw.Draw(im)
+    bx = box(0, 0, 6, 2); x0, y0, x1, y1 = bx; paper(im, bx, '#2c3e32', rng, grain=0.08); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#b8944a', width=4)
+    text_c(d, (x0 + 150, y0 + 108), 'SUNNY SIDE', F(40), '#e8d29a'); text_c(d, (x0 + 150, y0 + 150), '— BRUNCH —', F(16), '#e8d29a')
+    d.line([x0 + 300, y0 + 40, x0 + 300, y1 - 40], fill='#b8944a', width=2); d.line([x0 + 540, y0 + 40, x0 + 540, y1 - 40], fill='#b8944a', width=2)
+    text_c(d, (x0 + 420, y0 + 56), 'Brunch', F(24), '#e8d29a')
+    for k, (n_, p_) in enumerate((('French Toast', 280), ('Eggs Benedict', 320), ('Croque Madame', 290))):
+        d.text((x0 + 322, y0 + 96 + k * 34), n_, font=F(17), fill='#f1ead8'); d.text((x0 + 488, y0 + 96 + k * 34), str(p_), font=F(17), fill='#f1ead8')
+    text_c(d, (x0 + 650, y0 + 56), 'Coffee & Tea', F(24), '#e8d29a')
+    for k, (n_, p_) in enumerate((('Americano', 120), ('Latte', 150), ('Earl Grey', 140))):
+        d.text((x0 + 566, y0 + 96 + k * 34), n_, font=F(17), fill='#f1ead8'); d.text((x0 + 712, y0 + 96 + k * 34), str(p_), font=F(17), fill='#f1ead8')
+    bx = box(0, 2, 2, 1); x0, y0, x1, y1 = bx; paper(im, bx, '#5a3c26', rng, grain=0.2); d.rectangle([x0 + 10, y0 + 10, x1 - 11, y1 - 11], outline='#b8944a', width=3)
+    text_c(d, ((x0 + x1) / 2, y0 + 52), 'SUNNY SIDE', F(30), '#e8d29a'); text_c(d, ((x0 + x1) / 2, y0 + 90), '— BRUNCH —', F(14), '#e8d29a')
+    def water(c, kind, seed):
+        bx = box(c, 2, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f4efe4'); ix0, iy0, ix1, iy1 = x0 + 30, y0 + 30, x1 - 30, y1 - 30
+        hh, ww = iy1 - iy0, ix1 - ix0; Y = np.arange(hh)[:, None]; X = np.arange(ww)[None, :]; r2 = np.random.default_rng(seed)
+        a = np.zeros((hh, ww, 3), np.float32) + np.array([200, 214, 226], np.float32)
+        if kind == 0:
+            a = np.where((Y > hh * 0.35)[..., None] & (np.abs(X - ww / 2) < ww * 0.18)[..., None], np.array([214, 196, 170], np.float32), a)
+            a = np.where(((X - ww / 2) ** 2 + (Y - hh * 0.35) ** 2 < (ww * 0.14) ** 2)[..., None], np.array([150, 170, 160], np.float32), a)
+            a = np.where((Y > hh * 0.45)[..., None] & ((X < ww * 0.25) | (X > ww * 0.75))[..., None], np.array([226, 206, 180], np.float32), a)
+        else:
+            a = np.where((Y > hh * 0.6)[..., None], np.array([120, 160, 170], np.float32), a)
+            for k in range(5):
+                xa = int(ww * k / 5); h0 = int(hh * (0.25 + 0.06 * (k % 3)))
+                a[h0:int(hh * 0.62), xa + 3:xa + ww // 5 - 3] = np.array([(214, 170, 140), (230, 210, 170), (190, 150, 130)][k % 3], np.float32)
+        a += r2.normal(0, 6, a.shape); im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (ix0, iy0)); d.rectangle(bx, outline='#8a6a3a', width=8)
+    water(2, 0, 41); water(4, 1, 42)
+    bx = box(6, 2, 1, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f6f0e2'); text_c(d, ((x0 + x1) / 2, y0 + 40), 'SUNNY SIDE', F(13), '#2c3e32'); d.line([x0 + 30, y0 + 64, x1 - 30, y0 + 64], fill='#b8944a', width=2)
+    bx = box(7, 2, 1, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f6f0e2'); d.text((x0 + 16, y0 + 16), 'MENU', font=F(16), fill='#2c3e32')
+    for k in range(5): d.line([x0 + 16, y0 + 50 + k * 13, x1 - 20, y0 + 50 + k * 13], fill='#8a8270', width=2)
+    im.save(os.path.join(GEN, 'sns_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -669,4 +716,5 @@ if __name__ == '__main__':
     if w in ('dbk', 'all'): dbk()
     if w in ('a23', 'all'): a23()
     if w in ('kmc', 'all'): kmc()
+    if w in ('sns', 'all'): sns()
     print('ok', w)
