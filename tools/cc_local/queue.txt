@@ -100,9 +100,12 @@ V20_reach_wz_r2 | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/reacha
 V20_slice_0e2c | 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
 V20_slice_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
 V20_touchwz_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
+# ===== [順序 2] WZ4_yizhan_r4（BB-C 14:54：LAWWW-C 048b4c898 loadZone 設 z.id；照玩家走法只跑 YARD；修改後要出旁白、記 WZ_TEA_YARD_IN；修改前 e9b3 照 r3 要 FAIL 2）
+WZ4_yizhan_r4_048b | 048b4c898693415e2bad1b1968000a9d8400ca62 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0
+WZ4_yizhan_r4_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0
+# TAPPREF_zone（BB-C 14:54）：溫州街點地面、走到一半進一盞、進門馬上按互動鈕；溫州街的 tapPref 不能在一盞生效（engine3d.js:496）。e9b3＝修改前對照（CC_50 第 14 條）——雲端驗完才打開
+# ===== [順序 3] SITAMB 7 項（BB-C 14:41）：子代理寫好、雲端驗完排在這裡
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
-PARK_glb_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 40 | CC_HEADLESS=0
-PARK_glb_groups2 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 25 | VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0
 WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=yizhan;HOURS=14,22;YARD=1;EAVE=1;CC_HEADLESS=0
 # ===== BB-C 13:24 舊 SHA 那批改排（BB_255 5b858ec58）：新 head 7c970654c（完整 SHA），排在 GG_REENTRY、SUNNY 補印後面 =====
 # GG_views_r2：PC 沒有 numpy／PIL → 探針只存原始三張（raw/*_far／_nb／_nw.png），去背＋webp 由雲端 CC 用 VIEWS_REMATTE 做
@@ -110,8 +113,6 @@ GG_views_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_plan
 # CVS24_r4：force_gg_after 睡醒以後自動去上課＝照設計 → 改挑週五晚上（隔天週六沒課）
 CVS24_r4 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 # CVS24_r5／GG_int_aoki_hours_r2：r4 是 CC-C 自己新加的那行 JS 裡 wd%7 被 Python % 格式化吃掉（ValueError stray %）＝探針；probe_lint 已加這種檢查，又抓到 cc_gg_int_probe 的 aoki_hours 同一種錯
-CVS24_r5 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
-GG_int_aoki_hours_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=aoki_hours;CC_HEADLESS=0
 # PARK_glb_r2（BB-C 13:24）：campus_glb_integration 跑兩次（a、b）；avenue 超過 1.1 的話看 PARK_glb_groups（同一頁兩輪，avenue 鏡頭每個群組的估計 calls／tris，差最多的 10 組）
 PARK_glb_r2a | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_r2b | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0;RERUN=b
@@ -131,6 +132,13 @@ GG_shops2_db_seat_08 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/s
 GG_shops2_db_seat_12 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 20 | CASES=db_seats;SEATS=12,13,14,15;CC_HEADLESS=0
 GG_shops2_db_seat_16 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 20 | CASES=db_seats;SEATS=16,17,18,19;CC_HEADLESS=0
 GG_shops2_db_seat_20 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 20 | CASES=db_seats;SEATS=20,21;CC_HEADLESS=0
+
+# ===== [順序 5～7] 美術截圖 A（2D 背景）、B（宿舍四人房）、D（閃爍錄影）→ NTU_REF → T6_gpu_noise：雲端驗完的排在這裡（BB-C 15:00）
+# ===== [BB-C 15:00 的順序沒列到、今天排的] 先放這裡，已問 BB-C 要不要留（PARK_glb_r3／groups2 是 BB-C 14:0x 要的）
+PARK_glb_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 40 | CC_HEADLESS=0
+PARK_glb_groups2 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 25 | VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0
+CVS24_r5 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+GG_int_aoki_hours_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=aoki_hours;CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住
@@ -336,15 +344,15 @@ WZ_RENAME_X | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename
 # 舊存檔：改名前 47909c659 真的點東西存檔（out/oldsave.json）→ CC 收進 fixtures 再排 WZ_RENAME_OL
 WZ_RENAME_MK | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 40 | CASES=MK;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
-STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
-STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
-STUDY_fix_c | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_abandon;ABANDON=leave,timeout,close;ROSTER=0;CC_HEADLESS=0
-STUDY_ctl2_a | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
-STUDY_ctl2_b | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 160 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
-STUDY_ctl2_c | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_abandon;ABANDON=leave,timeout,close;ROSTER=0;CC_HEADLESS=0
-STUDY_fix_d | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 220 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_seatMeet,study_changed,study_r4;R4_AT=sitAt,libStay;CHANGED_ANS=ok,next;ROSTER=0;CC_HEADLESS=0
-STUDY_ctl2_d | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_seatMeet,study_changed,study_r4;R4_AT=sitAt,libStay;CHANGED_ANS=ok,next;ROSTER=0;CC_HEADLESS=0
-STUDY_old_d | b85e1afc1 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_r4_libStay;R4_AT=libStay;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_c | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_abandon;ABANDON=leave,timeout,close;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）STUDY_ctl2_a | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）STUDY_ctl2_b | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 160 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）STUDY_ctl2_c | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_abandon;ABANDON=leave,timeout,close;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_d | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 220 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_seatMeet,study_changed,study_r4;R4_AT=sitAt,libStay;CHANGED_ANS=ok,next;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）STUDY_ctl2_d | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_seatMeet,study_changed,study_r4;R4_AT=sitAt,libStay;CHANGED_ANS=ok,next;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_old_d | b85e1afc1 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r3b,study_r4_libStay;R4_AT=libStay;ROSTER=0;CC_HEADLESS=0
 HOT_stuck   | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 HOT_soc_zr  | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
 HOT_soc_talk| fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,heroine_04,heroine_05,zhe,yu,classmate_bohan,kai;STEPS=first,greet,menu,reload;QUICK=1;CC_HEADLESS=0
@@ -356,15 +364,15 @@ N20X_nichijo | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xin
 # ===== 使用者 11-04：手機約會／實際約會整場演完／約念書要坐下（X207 七點）=====
 STUDY_ctl | c2232eb6c | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=invite,invite_study,phone_date;STUDY_ONLY=1;ROSTER=0;CC_HEADLESS=0
 PD_romA | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_01,heroine_02,heroine_03;STEPS=phone_date;CC_HEADLESS=0
-FACE_rom | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_01,heroine_02,heroine_03,heroine_04;STEPS=media,invite,invite_study,date;CC_HEADLESS=0
-PD_romB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_04,heroine_05,classmate_peishan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
-PD_frA | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
-FACE_fr | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=invite,invite_study;CC_HEADLESS=0
-PD_romC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=kexin,classmate_xinci;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
-FACE_rom2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;STEPS=invite,invite_study,date;CC_HEADLESS=0
-PD_frB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=classmate_youchen,kai,npc_fangyt,npc_huangxh;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
-PD_frC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
-PD_frD | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=jp_caizhen,jp_liheng,jp_yuheng,npc_ta_chen;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）FACE_rom | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_01,heroine_02,heroine_03,heroine_04;STEPS=media,invite,invite_study,date;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_romB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_04,heroine_05,classmate_peishan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_frA | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）FACE_fr | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan;STEPS=invite,invite_study;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_romC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=kexin,classmate_xinci;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）FACE_rom2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 360 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;STEPS=invite,invite_study,date;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_frB | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=classmate_youchen,kai,npc_fangyt,npc_huangxh;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_frC | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）PD_frD | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=jp_caizhen,jp_liheng,jp_yuheng,npc_ta_chen;STEPS=phone_date;ROSTER=0;CC_HEADLESS=0
 #HOLD正式SHA STUDY_fix | <修好的 SHA> | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=invite,invite_study,phone_date;STUDY_ONLY=1;ROSTER=0;CC_HEADLESS=0
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
@@ -379,15 +387,15 @@ SOC_main_zr | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_sm
 #格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0
 #格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0
 #格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0
-SOC_main_romA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
-SOC_main_frA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 18 小時，跑之前先問 BB）SOC_main_romA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 18 小時，跑之前先問 BB）SOC_main_frA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;CC_HEADLESS=0
 PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # （BB 00:44 補三項，排在社交冒煙後面；社交冒煙寫好會插在 PE644b 前面）
 PE644-CARD | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 25 | CASES=econ_card;CC_HEADLESS=0
 YT3-F1 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 30 | CASES=grad_gf;CASE_S=1500;CC_HEADLESS=0
-YT3-F2 | 861936419 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=pgdate_month;CASE_S=900;CC_HEADLESS=0
-YT3-F3 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
-N20X_facade | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 25 | CASES=facade;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）YT3-F2 | 861936419 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=pgdate_month;CASE_S=900;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）YT3-F3 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_facade | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 25 | CASES=facade;CC_HEADLESS=0
 # ===== CC 23:0x 順序（BB 22:59）：YT3FM 四支 → 體育課在館裡（PE）、大地圖直接過去（MAP）→ N20 其他 → YT3 → ART；店面渲染最後（等 LAWWW2 的規則）=====
 # （PE_fix 4ce25dc1d 要 PASS、PE_ctl c6814325c（修正前）A 要 FAIL；MAP_fix f157d0ff6 要 PASS、MAP_ctl bf6dbda44（還有「帶我去」）① 要 FAIL；BB 23:0x 改條件）
 YT3FM_new  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
@@ -403,14 +411,14 @@ MAP_fix3   | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend
 MAP_ctl3   | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
 PE644-ECON | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 12 | CASES=econ_ff,econ;CC_HEADLESS=0
 # （CC 00:4x：語彤探針第二次修正：phoneAuto 還原、出發後再觸發、ev8 找空位、AA519 旁白捷徑、grad_gf 停在她的約。YT3-A 不重跑：tea_first 在 d2b9 是對照組，名字 bug 已由 YT3FM_fix 驗過）
-YT3-C2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 35 | CASES=ev9,ev14,home,home_rent;CASE_S=900;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）YT3-C2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 35 | CASES=ev9,ev14,home,home_rent;CASE_S=900;CC_HEADLESS=0
 YT3-D2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
-YT3-E2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 40 | CASES=ev8,grad_gf,end4;CASE_S=1200;CC_HEADLESS=0
-YT3-B2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 10 | CASES=ev5;CASE_S=900;CC_HEADLESS=0
-MD_haopai_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
-MD_dabu_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
-MD_tx_v4d | 0b6033c46 | blender | tools/blender/env_second/bb_support/tongxian_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} --views docs/story_planning/CC/shots/model/tongxian/tongxian_v4_views.json --res 1672x941 --sun 2.4 --exposure 0.55
-MD_xinsheng_v3c | 2c8614c9e | blender | tools/blender/env_second/bb_support/xinsheng_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/xinsheng_sports.glb {out} --views docs/story_planning/CC/shots/model/xinsheng/xinsheng_v3_views.json --res 1672x941 --tube 40 --fill 120 --win 200 --fill1 45
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）YT3-E2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 40 | CASES=ev8,grad_gf,end4;CASE_S=1200;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）YT3-B2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 10 | CASES=ev5;CASE_S=900;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）MD_haopai_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）MD_dabu_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）MD_tx_v4d | 0b6033c46 | blender | tools/blender/env_second/bb_support/tongxian_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} --views docs/story_planning/CC/shots/model/tongxian/tongxian_v4_views.json --res 1672x941 --sun 2.4 --exposure 0.55
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）MD_xinsheng_v3c | 2c8614c9e | blender | tools/blender/env_second/bb_support/xinsheng_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/xinsheng_sports.glb {out} --views docs/story_planning/CC/shots/model/xinsheng/xinsheng_v3_views.json --res 1672x941 --tube 40 --fill 120 --win 200 --fill1 45
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
 MAP_ctl    | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
 # （CC 23:4x：第一次 PC 是探針的問題，重跑：libcorner 15:40 被合照選單擋住搖桿→改 14:00；XHG 的 JS 有 % 不能格式化；MAP 挑到不認識的人、時段沒有朋友的行程→先在瀏覽器掃時段）
@@ -436,18 +444,18 @@ ART_V20 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots
 # ===== N20X（BB 00:29 P1：新生南路＋木曜日，aa8cb5beb）：回歸六支（慢的先）＋真實流程探針（之後加）=====
 N20X_reach  | aa8cb5beb | game | tests/reachability_all.py | index.html | 25 | CC_HEADLESS=0
 N20X_touchwz | aa8cb5beb | game | tests/touch_flow_wenzhou.py | index.html | 20 | CC_HEADLESS=0
-N20X_wzst   | aa8cb5beb | game | tests/wz_street_integration.py | index.html | 20 | CC_HEADLESS=0
-N20X_zone   | aa8cb5beb | game | tests/zone_transitions.py | index.html | 15 | CC_HEADLESS=0
-N20X_campus | aa8cb5beb | game | tests/campus_layout_nav.py | index.html | 15 | CC_HEADLESS=0
-N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEADLESS=0
-N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
-N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
-N20X_flow | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
-N20X_moks | de38333d1 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 75 | CASES=closed,order,date_zr,rain,names;CC_HEADLESS=0
-ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
-ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
-N20_f606c     | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
-N20_f606c_ctl | 3139e7b68 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_wzst   | aa8cb5beb | game | tests/wz_street_integration.py | index.html | 20 | CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_zone   | aa8cb5beb | game | tests/zone_transitions.py | index.html | 15 | CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_campus | aa8cb5beb | game | tests/campus_layout_nav.py | index.html | 15 | CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_flow | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20X_moks | de38333d1 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 75 | CASES=closed,order,date_zr,rain,names;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 18 小時，跑之前先問 BB）ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20_f606c     | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）N20_f606c_ctl | 3139e7b68 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
 MD_tx_v3    | eb5dc11dc | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 MD_dabu_v1 | 5cac0555e | blender | tools/blender/env_second/render_cycles.py | index.html | 60 | SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} dabu docs/story_planning/test_tools/cc/blender/dabu_views.json --res 960x540 --samples 64 --exposure -0.3 --point -2.9,3.25,-6.5,45 --point -2.9,3.25,-3.5,45 --point -2.9,3.25,-0.5,45 --point -2.9,3.25,2.5,45 --point -2.9,3.25,5.5,45 --point 0.3,3.25,-6.5,45 --point 0.3,3.25,-3.5,45 --point 0.3,3.25,-0.5,45 --point 0.3,3.25,2.5,45 --point 0.3,3.25,5.5,45 --point 3.0,3.25,-6.5,45 --point 3.0,3.25,-3.5,45 --point 3.0,3.25,-0.5,45 --point 3.0,3.25,2.5,45 --point 3.0,3.25,5.5,45
 # （MD_dabu_v1：使用者 11-03 22:2x「還沒做好的繼續」；大步第一版正式渲染，五個視角）
@@ -549,7 +557,7 @@ V19X_jnl_C   | ec4a1db0b | probe | docs/story_planning/test_tools/cc/cc_journal_
 # （GYM_skirt：BUG-GYM-SKIRT-1103 修好以後填 SHA；雲端 ffeec06e0 修正前 FAILED 2）
 # ===== V19 結束 =====
 # ===== N20 預跑（BB 17:06：V19 跑完、有空再跑；不算 v9.10.19）=====
-N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 22 小時，跑之前先問 BB）N20_tour_joy | 630e8cff3 | probe | docs/story_planning/test_tools/cc/cc_lib_tour2_probe.py | index.html | 90 | SOLO=1;MODE=joy;PHOTO=1;CC_HEADLESS=0
 # （N20_tour_joy：LAWWW 630e8cff3 導覽不同層水平 > 8 m 才算走遠＋提醒句；搖桿版照遊戲的路推）
 
 LIVE18_deploy | 0776cafc8 | game | tests/deploy_check.py    | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.18（2026-11-03）
@@ -740,42 +748,42 @@ ART_uskit  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_art247_pro
 #V18R 暫停# BK1_hip      | lawww2    | blender | tools/blender/env_second/lightbake/pc_ref/pc_bake_dorm_ref.py | index.html | 60 | CC_BLENDER_DEVICE=HIP;XARGS=--out {out} --res 512 --samples 256
 P3b_sl     | ef63b1877 | probe | docs/story_planning/test_tools/cc/cc_shuyu_sl_probe.py | index.html | 75 |
 #HOLD雲端 （第二批 BB_245 的 node／probe 探針、art247 截圖：子代理寫好、雲端跑過再加）
-R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
-R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 84 小時，跑之前先問 BB）R4main      | 27e6ce77e | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R4b1b_rr    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=rr1
 # R4v2：雲端 b1b 14:01 ALL PASS（阿哲有演、進 201 課還沒被跳過、fallbacks 0、存檔成功；接手 70.6 秒）→ 解除 HOLD
-R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
-B4main      | 27e6ce77e | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 60 | CASES=S1
-R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
-R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
-R3_touchwz  | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
-R4_day12    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R4v2_b1b    | b1b249873 | probe | docs/story_planning/test_tools/cc/flow_main_day12_v2.py | index.html | 120 |
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 84 小時，跑之前先問 BB）B4main      | 27e6ce77e | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 60 | CASES=S1
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R1_reach    | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url}
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R2_flowcls  | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out}
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R3_touchwz  | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url}
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R4_day12    | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out}
 # 2. #12 補考（D124 後被當＝重修 enforcement）、#16 版面、#15 配額
 #已被 *_rr 取代（新 runner 會因 RERUN 和舊 meta 不同而重跑，浪費時間） R5_mk12     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
 R6_layout   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
-R6b_layoutcss| b1b249873 | game | tests/choices_landscape_css.py | index.html | 40 |
-R7_quota    | b1b249873 | py    | tools/cc_local/quota_check.py | index.html | 20 |
-R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R6b_layoutcss| b1b249873 | game | tests/choices_landscape_css.py | index.html | 40 |
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R7_quota    | b1b249873 | py    | tools/cc_local/quota_check.py | index.html | 20 |
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R7b_quota15 | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py  | index.html?turbo | 60  |
 # 3. Y4S2 流程（retake／jp）、點名、總複習、考試提示
 #已被 *_rr 取代（新 runner 會因 RERUN 和舊 meta 不同而重跑，浪費時間） R8_y4s2rt   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
-R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
-R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
-R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R8b_y4s2jp  | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 60  | FAIL_ROUTE=jp;CASES=route_grades;RERUN=paper1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R8c_y4s2fin | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_y4s2final_probe.py | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=main,noexam_stay
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R9_roll     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge
 # P1（BB 16:00）：runner 的 $attempted 鍵是 Id@sha、沒有 RERUN 記號 → 這一輪跑過的 R5／R6／R8 換了 RERUN 也不會再跑。用新 ID 重排（下一項就會跑）
-R5_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
-R6_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
-R8_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
-R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
-R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | CASES=S1,mix;RERUN=retap1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R5_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R6_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=fmt1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R8_rr       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=paper1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R10_b3      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | RERUN=retap1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R11_b4      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 150 | CASES=S1,mix;RERUN=retap1102
 # BB 16:17：R10 的 S2a、S2b、seed＝探針例外沒測到，night＝期待值改「沒有跳時間（< 0.5 小時）」；R10_rr PASS 才能 GO
-R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b,seed,night;RERUN=fix1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R10_rr      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b,seed,night;RERUN=fix1102
 # 4. 法服（FAFU 修正已含）＋修改前對照 ba125d6f3
-R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
-R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R12_fasat   | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py    | index.html | 90 | CASES=same_sat,next_sat,wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R12b_fasatpre| ba125d6f3 | probe | docs/story_planning/test_tools/cc/cc_fasat_probe.py | index.html | 90 | CASES=wzline_same,wzline_first,old_y2_noflag;RERUN=sn1102
 # 18:1x：R10_rr 的 S2a／S2b＝探針用 == 認提醒選單（按鈕是標題＋提示）認不出來 → 預設選了繼續快轉；遊戲有在 12/14 20:00 停、選單也有出現。R10_rr2 只跑 S2a、S2b（GO 必要）
-R10_rr2     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b;RERUN=menu1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R10_rr2     | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_d118b3_probe.py   | index.html | 240 | CASES=S2a,S2b;RERUN=menu1102
 # BB 17:26：GO 只等 R10_rr、R12、R12b；R6_rr2、R8_rr2（探針重跑）排在它們後面、FS112 前面
 # 16:59：R6_rr 剩「題目在左欄」2 項＝探針太嚴（遊戲只在選項放不下時才 side；放得下時不重疊）→ 探針改條件、R6_rr2 重跑
-R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R6_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_layout16_probe.py | index.html?turbo | 60  | CASES=seat_exam,adv_safe,recall2;RERUN=side1102
 # 17:2x：R8_rr 的「讀得到正解」＝探針沿用上一場（海商法）的課名；改成用題目文字反查課，R8_rr2 重跑
 # 20:0x CC：R8_rr2 在 PC 第一次記成 error（舊 runner 中斷留下 wt_cc_R8_rr2 資料夾；run_queue.py 已修）→ 換 RERUN 重跑
 R8_rr2      | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;MAIN_FROM=0527;CASES=main_pass,main_fail,route_grades;RERUN=rev1102wt
@@ -788,14 +796,14 @@ F2_fps_hd   | b1b249873 | probe | tools/cc_local/fps_zones.py | index.html | 30 
 R1_x2       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x2
 R2_x2       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x2
 R3_x2       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x2
-R4_x2       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x2
-R5_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x2
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R4_x2       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x2
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R5_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x2
 R9_x2       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x2
 R1_x3       | b1b249873 | game  | tests/reachability_all.py    | index.html?turbo | 90  | XARGS={url};RERUN=x3
 R2_x3       | b1b249873 | game  | tests/flow_class_real.py     | index.html       | 120 | XARGS={url} {out};RERUN=x3
 R3_x3       | b1b249873 | game  | tests/touch_flow_wenzhou.py  | index.html?turbo | 60  | XARGS={url};RERUN=x3
 R4_x3       | b1b249873 | game  | tests/flow_main_day12.py     | index.html       | 180 | XARGS={url} {out};RERUN=x3
-R5_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x3
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 52 小時，跑之前先問 BB）R5_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py   | index.html?turbo | 200 | FAIL_ROUTE=retake;CASES=study3h,skipnoon_seat,skipnoon_phone,old_delayed,homerest,home,mkbg;RERUN=paper1102;RERUN=x3
 R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_probe.py | index.html | 120 | CASES=a,a0,b,c1,c2,d_old,d_new,cw,bedge;RERUN=x3
 # ===== 5. 原本佇列的其他項目 =====
 # （CC 11-03：00_gpu、01_p0speed 原本是 head：每次 push 都變，一直重跑、擋住後面；固定成 b1ae1c390）
@@ -828,7 +836,7 @@ R9_x3       | b1b249873 | probe | docs/story_planning/test_tools/cc/cc_rollcall_
 28_b4pre    | f57e3ac75 | probe | docs/story_planning/test_tools/cc/cc_d118b4_probe.py   | index.html | 90  | CASES=S1,mix
 29_jpmk     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_d118b1_probe.py   | index.html | 60  | CASES=jp_makeup
 34_day9     | d75871437 | probe | docs/story_planning/test_tools/cc/cc_day9_probe.py   | index.html | 60 | CASES=main
-02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 53 小時，跑之前先問 BB）02_mk12new  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_makeup_probe.py           | index.html?turbo  | 200 | CASES=study3h,skipnoon_seat,skipnoon_phone,homerest,old_delayed,home,mkbg;FAIL_ROUTE=maritime
 #已被 R 系列取代（BB 19:46） 03_delay14  | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_delay14_probe.py          | index.html?turbo  | 120 | CASES=dorm_sleep,dorm_stand,home;FD_COURSE=maritime;RERUN=sw1102
 #已被 R 系列取代（BB 19:46） 04_quota    | c2d0c24bc | py    | tools/cc_local/quota_check.py                                   | index.html        | 20  |
 04b_quota15 | c2d0c24bc | probe | docs/story_planning/test_tools/cc/cc_quota15_probe.py          | index.html?turbo  | 60  |
@@ -859,9 +867,9 @@ D_RUN_movreg  | ffeec06e0 | game  | tests/movement_regression.py | index.html | 
 V18_LIBTOUR   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
 #HOLD雲端 V18_PLAYFIX   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_playfix_probe.py | index.html | 120 |
 #HOLD（v1b 取代）MD_bike_v1 | 08378f56d | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1_views.json --res 1672x941
-NICHI_final_ctl | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
-NICHI_final_fix | b85e1afc1 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
-SOC_dev_zr2 | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_02;STEPS=reload,date;CC_HEADLESS=0
-MD_bike_v1b | 6c54b9f26 | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1b_views.json --res 1672x941
-HOT_soc_yt | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_03;STEPS=greet,up,menu,invite,reload;CC_HEADLESS=0
-HOT_soc_yt_tea | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_03;STEPS=greet,menu,reload;SLOT_OVERRIDE=wz_teahouse,14,2025-10-04;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）NICHI_final_ctl | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）NICHI_final_fix | b85e1afc1 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）SOC_dev_zr2 | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_02;STEPS=reload,date;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 13 小時，跑之前先問 BB）MD_bike_v1b | 6c54b9f26 | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1b_views.json --res 1672x941
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）HOT_soc_yt | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_03;STEPS=greet,up,menu,invite,reload;CC_HEADLESS=0
+#HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 14 小時，跑之前先問 BB）HOT_soc_yt_tea | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_03;STEPS=greet,menu,reload;SLOT_OVERRIDE=wz_teahouse,14,2025-10-04;CC_HEADLESS=0
