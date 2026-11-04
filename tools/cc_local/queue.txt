@@ -209,6 +209,11 @@ GG_shops2_db_seat_20 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/s
 #   main＝BG16 ntu_linze、BG17 ntu_avenue、BG08 car、GYM-BG1、ART-10 nccu_dorm／_day（各「劇情」「兩人」× 直向／橫向）；dates＝ART-14 約會底圖（d##_base_*，劇情版＋總覽拼圖）
 BG_adv_main | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=all;DATES=0;CC_HEADLESS=0
 BG_adv_dates | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_bg_adv_probe.py | index.html | 20 | BGS=none;DATES=1;CC_HEADLESS=0
+# 美術 B：ART-DORM-LOFT 宿舍 203 四人房（BB-C 13:54；D120 BB 判）：cc_dorm_loft_probe（雲端 d382 白天、晚上兩輪 ALL PASS）——門口、後牆、窗、四組上舖、四張書桌坐著的眼睛、
+#   L2 坐下的遊戲鏡頭、爬梯子上下各 3 張（上去＝SLEEP_FULL 捷徑）、洗手間門（遊戲裡沒有開門的狀態）；再加座位、可達性的宿舍結果
+DORM_LOFT_shots | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_dorm_loft_probe.py | index.html | 20 | HOURS=14,21.5;CC_HEADLESS=0
+DORM_LOFT_seats | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | game | tests/seats_on_furniture.py | index.html | 20 | XARGS={url} dorm;CC_HEADLESS=0
+DORM_LOFT_reach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | game | tests/reachability_all.py | index.html?turbo | 20 | XARGS={url} --zones dorm;CC_HEADLESS=0
 # T6_gpu_noise（BB-C 15:00、15:24）：電腦 GPU 上同一個 SHA 跑兩輪、16 個鏡頭（溫州街 x24／x44、公館 2 站 × 4 方向），量 GPU 的雜訊；page.clock 開、關各兩輪。差在雲端算（cc_baseline_diff.py）
 T6_gpu_noise_off_a | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=0;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
 T6_gpu_noise_off_b | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=0;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
