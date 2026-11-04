@@ -21,7 +21,26 @@ RULES = [
 ]
 NOD = re.compile(r'(?:點了點頭|點了一下頭|笑了一下|笑了笑)')
 
-def lines_of(text):
+def strip_notes(text, path):
+    # 註解、note 欄位不是玩家看得到的字，先拿掉（換成同樣多的換行，行號不變）
+    keep = lambda m: '\n' * m.group(0).count('\n')
+    if path.endswith('.js'):
+        text = re.sub(r'/\*.*?\*/', keep, text, flags=re.S)
+        text = re.sub(r'(?<![:"\'])//[^\n]*', '', text)
+    if path.endswith(('.js', '.json')):
+        text = re.sub(r'"(?:note|notes|_note|src|source|why)"\s*:\s*"(?:[^"\\]|\\.)*"', '"note":""', text)
+    return text
+
+CJK = re.compile(r'[\u4e00-\u9fff]')
+
+def lines_of(text, path=''):
+    if path.endswith(('.js', '.json')):
+        # 程式和資料檔：玩家看到的字在字串裡（text:'…'、"reply": "…"），一個字串當一句
+        for m in re.finditer(r"'((?:[^'\\\n]|\\.){2,300})'|\"((?:[^\"\\\n]|\\.){2,300})\"", text):
+            v = m.group(1) or m.group(2) or ''
+            if len(CJK.findall(v)) >= 3:
+                yield 'str', v.replace('\\n', ' '), m.start()
+        return
     for m in re.finditer(r'「([^「」]{2,200})」', text):
         yield 'line', m.group(1), m.start()
     for m in re.finditer(r'（([^（）「」]{6,200})）', text):
@@ -29,11 +48,11 @@ def lines_of(text):
 
 def scan(path):
     try:
-        text = open(path, encoding='utf-8', errors='ignore').read()
+        text = strip_notes(open(path, encoding='utf-8', errors='ignore').read(), path)
     except Exception:
         return [], 0, 0
     hits, n, nod = [], 0, 0
-    for kind, s, pos in lines_of(text):
+    for kind, s, pos in lines_of(text, path):
         n += 1
         if NOD.search(s):
             nod += 1
