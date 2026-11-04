@@ -74,6 +74,7 @@ N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEA
 N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
 N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
 N20X_flow | aa8cb5beb | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
+ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
 MD_tx_v3    | eb5dc11dc | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 MD_dabu_v1 | 5cac0555e | blender | tools/blender/env_second/render_cycles.py | index.html | 60 | SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} dabu docs/story_planning/test_tools/cc/blender/dabu_views.json --res 960x540 --samples 64 --exposure -0.3 --point -2.9,3.25,-6.5,45 --point -2.9,3.25,-3.5,45 --point -2.9,3.25,-0.5,45 --point -2.9,3.25,2.5,45 --point -2.9,3.25,5.5,45 --point 0.3,3.25,-6.5,45 --point 0.3,3.25,-3.5,45 --point 0.3,3.25,-0.5,45 --point 0.3,3.25,2.5,45 --point 0.3,3.25,5.5,45 --point 3.0,3.25,-6.5,45 --point 3.0,3.25,-3.5,45 --point 3.0,3.25,-0.5,45 --point 3.0,3.25,2.5,45 --point 3.0,3.25,5.5,45
 # （MD_dabu_v1：使用者 11-03 22:2x「還沒做好的繼續」；大步第一版正式渲染，五個視角）
