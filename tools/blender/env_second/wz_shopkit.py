@@ -244,21 +244,42 @@ def p_fruitstall():
         for z in (0.32, -0.32): m.cbox(x - 0.025, x + 0.025, 0.0, 0.7 if z > 0 else 0.94, z - 0.025, z + 0.025, '#4a4c4e')
     m.cbox(-1.25, 1.25, 0.68, 0.72, 0.0, 0.4, '#b89a72', 0.95); m.cbox(-1.25, 1.25, 0.92, 0.96, -0.4, 0.0, '#b89a72', 0.95)   # 夾板檯面兩層
     m.cbox(-1.25, 1.25, 0.72, 0.92, -0.02, 0.0, '#9a7c56', 0.9)                                              # 兩層中間的立板
-    KINDS = [('#9cc35a', 0.055, 1), ('#f2d040', 0.0, 2), ('#e8952e', 0.075, 3), ('#c8322a', 0.05, 4), ('#e6dc9a', 0.055, 5), ('#d2386c', 0.06, 6), ('#9cc35a', 0.055, 1), ('#f0a030', 0.07, 3), ('#7bb04a', 0.05, 4), ('#e8952e', 0.075, 6)]
-    for i, (col, r, style) in enumerate(KINDS):
-        tier = i // 5; x = -1.0 + (i % 5) * 0.5; y = 0.72 if tier == 0 else 0.96; z = 0.2 if tier == 0 else -0.2
-        crate = '#c8322a' if (i % 3 == 1) else '#c9a46a'                                                     # 紅色塑膠籃或淺木箱
-        m.cbox(x - 0.22, x + 0.22, y, y + 0.03, z - 0.17, z + 0.17, crate, 0.9)
-        for sx in (-1, 1): m.cbox(x + sx * 0.22 - 0.012, x + sx * 0.22 + 0.012, y, y + 0.12, z - 0.17, z + 0.17, crate)
-        for sz in (-1, 1): m.cbox(x - 0.22, x + 0.22, y, y + 0.12, z + sz * 0.17 - 0.012, z + sz * 0.17 + 0.012, crate)
-        if r == 0.0:                                                                                     # 香蕉：一串一串（黃色長條，兩層）
-            for k in range(3): m.cbox(x - 0.18 + k * 0.12, x - 0.1 + k * 0.12, y + 0.05, y + 0.12 + (k % 2) * 0.03, z - 0.13, z + 0.13, '#f2d040'); m.cbox(x - 0.16 + k * 0.12, x - 0.12 + k * 0.12, y + 0.12, y + 0.16, z + 0.1, z + 0.14, '#6a5a2a')
+    # WZ-SECOND-1104 v2（使用者 11-04 06:1x：不可以同樣的東西換顏色複製）：十箱不再是同樣大小排成方格——
+    #   每一箱的寬、深、高、擺的角度不同（木箱、紅色塑膠籃、淺竹籃三種）；每一箱是不同的水果，每顆大小差 ±15%、堆成中間高的一堆、
+    #   顏色在同一種水果裡深淺不同；芒果、木瓜是橢圓、香蕉一串一串、梨子套白網、葡萄一顆一顆
+    import colorsys as _cs2
+    def jit(c, v=0.14):
+        r_, g_, b_ = (int(c[i:i + 2], 16) / 255 for i in (1, 3, 5)); h_, l_, s_ = _cs2.rgb_to_hls(r_, g_, b_); l_ = min(0.95, max(0.05, l_ * (1 + rr.uniform(-v, v))))
+        r_, g_, b_ = _cs2.hls_to_rgb(h_, l_, s_); return '#%02x%02x%02x' % (int(r_ * 255), int(g_ * 255), int(b_ * 255))
+    FK = [('guava', '#9cc35a', 0.05, 1.0), ('banana', '#f2d040', 0, 0), ('orange', '#e8952e', 0.042, 1.0), ('apple', '#c8322a', 0.045, 0.95), ('pear', '#efe9d4', 0.05, 1.15),
+          ('dragon', '#d2386c', 0.058, 1.2), ('mango', '#e8b23a', 0.05, 1.4), ('papaya', '#e8952e', 0.07, 1.45), ('grape', '#4a2a4a', 0.0, 0), ('lemon', '#e2d84a', 0.034, 1.1)]
+    slots = [(-1.02, 0.2, 0), (-0.53, 0.21, 0), (-0.02, 0.19, 0), (0.5, 0.2, 0), (1.0, 0.21, 0), (-0.98, -0.2, 1), (-0.48, -0.19, 1), (0.03, -0.21, 1), (0.52, -0.2, 1), (1.02, -0.19, 1)]
+    for i, (x, z, tier) in enumerate(slots):
+        nm, col, r, sy = FK[i]; y = 0.72 if tier == 0 else 0.96
+        hw = rr.uniform(0.19, 0.235); hd = rr.uniform(0.14, 0.18); ch = rr.uniform(0.08, 0.15); x += rr.uniform(-0.02, 0.02)
+        crate = rr.choice(('#c9a46a', '#b8935a', '#c8322a', '#d8b878')) if nm != 'grape' else '#2f8a4a'
+        m.cbox(x - hw, x + hw, y, y + 0.03, z - hd, z + hd, crate, 0.9)
+        for sx in (-1, 1): m.cbox(x + sx * hw - 0.012, x + sx * hw + 0.012, y, y + ch, z - hd, z + hd, crate)
+        for sz in (-1, 1): m.cbox(x - hw, x + hw, y, y + ch * rr.uniform(0.8, 1.0), z + sz * hd - 0.012, z + sz * hd + 0.012, crate)
+        if nm == 'banana':                                                                               # 香蕉：大小不同的三四串，彎的
+            for k in range(rr.randint(3, 4)):
+                bx = x - hw + 0.08 + k * (2 * hw - 0.16) / 3; n_ = rr.randint(4, 7); L_ = rr.uniform(0.13, 0.18)
+                for q in range(n_):
+                    a_ = (q / max(1, n_ - 1) - 0.5) * 1.4; fr.append(('cyl', (bx, y + 0.06, z - 0.04), (bx + math.sin(a_) * L_ * 0.5, y + 0.09 + q % 2 * 0.01, z + math.cos(a_) * L_ * 0.6), jit('#f0cf3c', 0.08), 0.021))
             continue
-        for a in range(3):
-            for b in range(2):
-                fr.append((x - 0.13 + a * 0.13 + rr.uniform(-0.01, 0.01), y + 0.03 + r + (0.02 if (a + b) % 2 else 0.0), z - 0.07 + b * 0.14, col, r))
-        if style == 5:                                                                                   # 套白色網套的梨子：上面再一顆
-            fr.append((x, y + 0.03 + r * 2.4, z, '#f4f0e4', r * 0.9))
+        if nm == 'grape':                                                                                # 葡萄：五串，一顆一顆
+            for k in range(5):
+                gx, gz = x + rr.uniform(-hw + 0.06, hw - 0.06), z + rr.uniform(-hd + 0.05, hd - 0.05)
+                for q in range(12): fr.append(('ell', (gx + rr.uniform(-0.035, 0.035), y + 0.05 + rr.uniform(0, 0.05), gz + rr.uniform(-0.04, 0.04)), jit(col, 0.2), (0.013, 0.015, 0.013)))
+            continue
+        nx = max(2, int(2 * hw / (2.05 * r))); nz = max(1, int(2 * hd / (2.05 * r)))
+        for layer in range(2):
+            for a in range(nx - layer):
+                for b in range(nz - layer):
+                    if layer and rr.random() < 0.3: continue
+                    s = rr.uniform(0.85, 1.15); cx = x - hw + r + (a + 0.5 * layer) * 2.05 * r + rr.uniform(-0.008, 0.008); cz = z - hd + r + (b + 0.5 * layer) * 2.05 * r
+                    ry_ = r * s * sy * (0.75 if nm in ('mango', 'papaya') else 1.0)
+                    fr.append(('ell', (cx, y + 0.03 + ry_ + layer * r * 1.4, cz), jit('#f4f0e4' if nm == 'pear' else col), (r * s * (1.25 if nm in ('mango', 'papaya') else 1.0), ry_, r * s)))
     sx0 = 1.32; m.cbox(sx0, sx0 + 0.5, 0.0, 0.03, -0.25, 0.25, '#9aa0a4')                               # 右邊的不鏽鋼小桌＋果汁機
     for (a, b) in ((sx0 + 0.02, -0.23), (sx0 + 0.48, -0.23), (sx0 + 0.02, 0.23), (sx0 + 0.48, 0.23)): m.cbox(a - 0.015, a + 0.015, 0.0, 0.8, b - 0.015, b + 0.015, '#9aa0a4')
     m.cbox(sx0, sx0 + 0.5, 0.8, 0.83, -0.25, 0.25, '#c9ced2', 0.95)
@@ -268,12 +289,12 @@ def p_fruitstall():
     m.cbox(-1.32, -1.28, 0.7, 1.32, -0.02, 0.02, '#4a4c4e')
     m.cbox(-1.05, -0.75, 0.72, 0.8, 0.28, 0.4, '#c0392b'); m.cbox(-1.02, -0.78, 0.8, 0.81, 0.29, 0.39, '#d9dcde')   # 前層左邊的小磅秤（紅色、秤盤）
     parts = [m.finish(None, uv=False)]
-    by = {}
-    for (x, y, z, c, r) in fr: by.setdefault((c, r), []).append((x, y, z))
-    for (c, r), lst in by.items():
-        f = Mesh('fruit', flat('wz_sf_fruit_' + c[1:], c, rough=0.45))
-        for (x, y, z) in lst: f.sphere((x, y, z), r, seg=7, rings=4)
-        parts.append(f.finish(None, smooth=True))
+    fm = _cm('fruitstall_fruit')                                                                        # 每一顆一個顏色（頂點色，一次 draw call；原本一種顏色一個材質）
+    for it in fr:
+        if it[0] == 'cyl': _, a_, b_, c_, r_ = it; n0 = len(fm.bm.faces); Mesh.cyl(fm, a_, b_, r_, seg=5, r2=r_ * 0.7); fm.bm.faces.ensure_lookup_table(); fm.paint([fm.bm.faces[k] for k in range(n0, len(fm.bm.faces))], c_)
+        else:
+            _, cc, c_, (rx, ry_, rz) = it; n0 = len(fm.bm.faces); Mesh.ell(fm, cc, rx, ry_, rz, seg=7, rings=4); fm.bm.faces.ensure_lookup_table(); fm.paint([fm.bm.faces[k] for k in range(n0, len(fm.bm.faces))], c_)
+    parts.append(fm.finish(None, uv=False, smooth=True))
     cm_ = Mesh('fruitprice', _img_mat('wz_fruitprice', 'fruit_price.png', rough=0.85, clip=True)); bm = cm_.bm; uvl = bm.loops.layers.uv.verify()
     # (卡片, 左下、右下、右上、左上)：插在箱子前緣的往後仰一點；小桌上的立在果汁機旁邊、貼在桌子前緣
     def card(x, y0, z, w, tilt=0.06): return [(x - w / 2, y0, z), (x + w / 2, y0, z), (x + w / 2, y0 + w, z - tilt), (x - w / 2, y0 + w, z - tilt)]
@@ -1284,7 +1305,8 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
     for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
         xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
         CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.0, night=0.85)   # 白天 0（2026-10-23：店內 unlit 本身就亮；白天有光暈，整個光暈網格白天也要多畫一次）
-    if kind == 'noodle':                                                                                    # 麵店：後面的煮麵台、紅紙菜單、兩張桌子
+    if SET == 'wenzhou' and pid in WZ2_IN: WZ2_IN[pid](pid, cm, xf, iw, gz, zb, y0, yt, rr)   # WZ-SECOND-1104 v2：第二批五間的櫥窗（wz2_windows.py；大小、形狀、排法都不同）
+    elif kind == 'noodle':                                                                                    # 麵店：後面的煮麵台、紅紙菜單、兩張桌子
         vb(-iw / 2 + 0.3, iw / 2 - 1.2, y0, y0 + 0.88, zb, zb + 0.6, '#b9bdc0', r=0.01)
         for x in (-iw / 2 + 0.8, -iw / 2 + 1.5): _lathe(cp('#b9bcbf'), xf, [(0.0, 0.0), (0.24, 0.0), (0.25, 0.35), (0.23, 0.36)], x, y0 + 0.88, zb + 0.3)   # 湯鍋
         for j in range(8): x = -iw / 2 + 0.6 + j * 0.42; vb(x - 0.15, x + 0.15, 1.55, 2.25, zb + 0.005, zb + 0.015, '#b8322a', r=0)
@@ -1671,10 +1693,11 @@ def _tea(px, w, zf, zb, cm, pid):
     vbox(cm, px, c0, c1, 0.72, 0.84, zf - 0.035, zf - 0.03, '#7a9a5a')
     px.box(acc(SK['steel']), c0 - 0.03, c1 + 0.03, 0.98, 1.03, zf - 0.66, zf)
     vbox(cm, px, c0 + 0.3, c0 + 0.62, 1.03, 1.1, zf - 0.45, zf - 0.2, '#2c2c2e'); vbox(cm, px, c0 + 0.34, c0 + 0.58, 1.1, 1.3, zf - 0.42, zf - 0.38, '#1e2a36')  # 收銀機
-    for k in range(3):                                                                               # 杯子（疊起來的透明杯）
+    for k in (range(3) if pid != 'B5' else ()):                                                     # 杯子（疊起來的透明杯；帝大紅茶換成 wz2_tea 的杯塔）
         cx = c0 + 1.1 + k * 0.14; px.cyl(acc(M['glass']), (cx, 1.03, zf - 0.3), (cx, 1.38, zf - 0.3), 0.045, seg=10)
     x_ = c1 - 0.6; vbox(cm, px, x_, x_ + 0.36, 1.03, 1.42, zf - 0.55, zf - 0.15, '#f2f2ee'); vbox(cm, px, x_ + 0.04, x_ + 0.32, 1.22, 1.3, zf - 0.17, zf - 0.13, '#30343a')   # 封口機
     vbox(cm, px, c1 - 1.6, c1 - 1.1, 1.03, 1.06, zf - 0.4, zf - 0.1, '#d84a3a')                       # 取餐的紅色托盤
+    if pid == 'B5' and SET == 'wenzhou': wz2_tea(px, w, zf, zb, cm, random.Random(523)); return   # WZ-SECOND-1104 v2 帝大紅茶：茶桶三個不同大小、杯塔不同高度、罐子大小不同；拿掉菜單燈箱（價目牌在店外的牆上）
     # 後面的工作檯＋茶桶
     px.box(acc(SK['steel']), -w / 2 + 0.3, w / 2 - 0.3, 0.86, 0.9, zb, zb + 0.62)
     vbox(cm, px, -w / 2 + 0.3, w / 2 - 0.3, 0.06, 0.86, zb + 0.02, zb + 0.6, '#c9ccce', 0.9)
@@ -1708,19 +1731,21 @@ def _ice(px, w, zf, zb, cm, pid, yo):
     px.box(acc(M['plaster']), -w / 2 + 0.24, w / 2 - 0.24, 1.1, 2.95, zb - 0.05, zb)
     mw, mh = 4.2, 1.31; mx0 = -mw / 2 + 0.3
     uvquad(f'sk_menu_{pid}', SK['menu_ice'], [px.p(mx0, 1.45, zb + 0.02), px.p(mx0 + mw, 1.45, zb + 0.02), px.p(mx0 + mw, 1.45 + mh, zb + 0.02), px.p(mx0, 1.45 + mh, zb + 0.02)])
-    # 配料冰櫃（臨騎樓，左邊）
-    f0, f1 = -w / 2 + 0.45, -w / 2 + 2.35; fz0, fz1 = zf - 0.85, zf - 0.12
-    vbox(cm, px, f0, f1, 0.06, 0.86, fz0, fz1, '#eef0ee'); vbox(cm, px, f0, f1, 0.06, 0.14, fz0 + 0.02, fz1 + 0.01, '#5a5f63')
-    px.box(acc(SK['steel']), f0, f1, 0.86, 0.9, fz0, fz1)
-    tops = ['#5c2420', '#8e9a3e', '#b8a0c6', '#c9a46a', '#2a2220', '#e6c25a', '#d9d2c0', '#1e1a16', '#c98aa0', '#f0eadc']
-    for i in range(10):
-        c_, r_ = i % 5, i // 5; tx = f0 + 0.12 + c_ * 0.34; tz = fz0 + 0.12 + r_ * 0.3
-        vbox(cm, px, tx, tx + 0.3, 0.88, 0.93, tz, tz + 0.26, '#b8bcc0'); vbox(cm, px, tx + 0.02, tx + 0.28, 0.93, 0.945, tz + 0.02, tz + 0.24, tops[i])
-    px.quad(acc(M['glass']), [(f0, 0.95, fz1), (f1, 0.95, fz1), (f1, 1.35, fz1 - 0.25), (f0, 1.35, fz1 - 0.25)])
-    # 剉冰機（冰櫃旁的小桌）
-    t0 = f1 + 0.15; vbox(cm, px, t0, t0 + 0.7, 0.06, 0.8, fz0 + 0.1, fz1, '#d0d4d6', 0.9); px.box(acc(SK['steel']), t0, t0 + 0.7, 0.8, 0.83, fz0 + 0.1, fz1)
-    vbox(cm, px, t0 + 0.15, t0 + 0.55, 0.83, 1.05, fz0 + 0.25, fz1 - 0.15, '#2f6fb0'); px.cyl(acc(SK['steel']), (t0 + 0.35, 1.05, (fz0 + fz1) / 2), (t0 + 0.35, 1.32, (fz0 + fz1) / 2), 0.11, seg=12)
-    vbox(cm, px, t0 + 0.2, t0 + 0.5, 1.32, 1.4, fz0 + 0.3, fz1 - 0.2, '#30343a')
+    if pid == 'B5i' and SET == 'wenzhou': wz2_ice(px, w, zf, zb, cm, random.Random(5104))   # WZ-SECOND-1104 v2：窗台上的古早剉冰機、大小不同的配料罐、糖漿瓶、玻璃碗；後面的層架
+    else:
+        # 配料冰櫃（臨騎樓，左邊）
+        f0, f1 = -w / 2 + 0.45, -w / 2 + 2.35; fz0, fz1 = zf - 0.85, zf - 0.12
+        vbox(cm, px, f0, f1, 0.06, 0.86, fz0, fz1, '#eef0ee'); vbox(cm, px, f0, f1, 0.06, 0.14, fz0 + 0.02, fz1 + 0.01, '#5a5f63')
+        px.box(acc(SK['steel']), f0, f1, 0.86, 0.9, fz0, fz1)
+        tops = ['#5c2420', '#8e9a3e', '#b8a0c6', '#c9a46a', '#2a2220', '#e6c25a', '#d9d2c0', '#1e1a16', '#c98aa0', '#f0eadc']
+        for i in range(10):
+            c_, r_ = i % 5, i // 5; tx = f0 + 0.12 + c_ * 0.34; tz = fz0 + 0.12 + r_ * 0.3
+            vbox(cm, px, tx, tx + 0.3, 0.88, 0.93, tz, tz + 0.26, '#b8bcc0'); vbox(cm, px, tx + 0.02, tx + 0.28, 0.93, 0.945, tz + 0.02, tz + 0.24, tops[i])
+        px.quad(acc(M['glass']), [(f0, 0.95, fz1), (f1, 0.95, fz1), (f1, 1.35, fz1 - 0.25), (f0, 1.35, fz1 - 0.25)])
+        # 剉冰機（冰櫃旁的小桌）
+        t0 = f1 + 0.15; vbox(cm, px, t0, t0 + 0.7, 0.06, 0.8, fz0 + 0.1, fz1, '#d0d4d6', 0.9); px.box(acc(SK['steel']), t0, t0 + 0.7, 0.8, 0.83, fz0 + 0.1, fz1)
+        vbox(cm, px, t0 + 0.15, t0 + 0.55, 0.83, 1.05, fz0 + 0.25, fz1 - 0.15, '#2f6fb0'); px.cyl(acc(SK['steel']), (t0 + 0.35, 1.05, (fz0 + fz1) / 2), (t0 + 0.35, 1.32, (fz0 + fz1) / 2), 0.11, seg=12)
+        vbox(cm, px, t0 + 0.2, t0 + 0.5, 1.32, 1.4, fz0 + 0.3, fz1 - 0.2, '#30343a')
     # 小圓桌＋塑膠凳
     for (tx, tz) in ((-0.1, zf - 1.55), (1.35, zf - 1.05), (2.45, zf - 1.85)):
         px.cyl(acc(SK['steel']), (tx, 0.72, tz), (tx, 0.75, tz), 0.36, seg=16); px.cyl(acc(M['metal']), (tx, 0.06, tz), (tx, 0.72, tz), 0.03, seg=6)
@@ -2075,3 +2100,6 @@ def copy_variants():
     _copy_group('COPY_CORNER_OPEN', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'moved'（阿德影印搬到轉角）"}, corner_open)
     _copy_group('COPY_A1_SHUT', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'moved'（原本的店鐵捲門拉下、遷址告示）"}, lambda: a1('shut'))
     _copy_group('COPY_A1_RENEW', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'stay'（續約三年的紙）"}, lambda: a1('renew'))
+
+
+exec(open(os.path.join(HERE, 'wz2_windows.py'), encoding='utf-8').read())   # WZ-SECOND-1104 v2：第二批五間的櫥窗（同一個命名空間）
