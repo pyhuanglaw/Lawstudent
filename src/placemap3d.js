@@ -25,7 +25,7 @@ const PLACEMAP=(function(){
     {id:'gongtong',name:'共同',x:262,y:206,lab:'b',cx:2,cz:22,m:[['campus','共同教學館']]},
     {id:'gdorm',name:'女一舍',x:182,y:228,lab:'r',cx:-93,cz:56,m:[['campus','大一女舍（門口）']]},
     {id:'dorm',name:'宿舍・體育館',x:318,y:228,lab:'b',cx:47,cz:60,m:[['dorm','宿舍'],['gym','新體育館（大廳）']]},   /* 新體育館（門口 x 74、z 59）在男宿東邊，圖上放不下另一顆圖釘（至少相隔 52）：和宿舍同一顆（同 博雅・普通）*/
-    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','舊路書房'],['cvs','日日便利']]},
+    {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','公館燒臘'],['bookstore','頁間書屋'],['cvs','日和便利店']]},
     {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','兩點半 Café'],['wz_mokuyobi','木曜日'],['wz_offbeat','日常失速']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
   S.AREAS=[{id:'campus',name:'首都帝大校園',x:146,y:52,w:208,h:200,lx:154,ly:68,c:'#2c3a2f'},
@@ -36,7 +36,7 @@ const PLACEMAP=(function(){
   S.pinOf=function(pl){ return S.PINS.find(p=>inPin(p,pl))||null; };
   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
   S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
-    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
+    gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',cvs:'gongguan',cafe:'wenzhou',wz_mokuyobi:'wenzhou',wz_offbeat:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
     return S.ZONE_PIN[zone]||null; };
   /* 點地圖的位置（圖上座標）→ 最近的圖釘（只算畫出來的那些；60 以內） */

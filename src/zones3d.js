@@ -783,8 +783,8 @@ const Z3 = (function(){
        舊版店面在 z=52，和馬路之間隔著 30 m 空蕩蕩的鋪面廣場（LEVEL_BLOCKOUT 留下的），整個南側往北搬 30 m：店面、互動點、立牌、捷運入口、圓環、往溫州街的出口、
        從麵店／書店／便利商店出來的位置、路人路線（story3d.js）一起搬。各店的 x 位置不變；舊版店與店之間 1.2 m 的縫併進左邊那間；x=15.6 以東補上沒有互動的店面，整排店接到街尾。 */
     const addCol=(x,z,w,d,y0,y1)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,y1-y0,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(y0+y1)/2,z); g.add(m); E.colliders.push(m); };
-    const shops=[{n:'公館燒臘',c:'#c9463d',w:10,type:'noodle',it:'noodle',sub:'叉燒・燒鴨・油雞',v:'公館燒臘'},{n:'清葉茶行',c:'#2f7d5b',w:8,type:'tea',it:'tea',sub:'手搖飲・現煮珍珠'},{n:'舊路書房',c:'#3b5a8c',w:12,type:'book',it:'books',sub:'法律書・文具・二手書',v:'舊路書房'},{n:'日日便利',c:'#3a6fb0',w:10,type:'cvs',it:'cvs',band:'#e0a030'},
-      {n:'公館藥局',c:'#4a9a6a',w:8,type:'none',it:'cvs',v:'藥局'},{n:'滷味・鹹酥雞',c:'#e0b24a',sc:'#3b2a1e',w:8,type:'none',it:'luwei'},{n:'輪轉單車',c:'#b5532c',w:9,type:'bike',it:'bike',sub:'修車・打氣・配件加裝',v:'單車'},{n:'咖啡・輕食',c:'#8c3b47',w:9,type:'none',it:'cafe'},
+    const shops=[{n:'公館燒臘',c:'#c9463d',w:10,type:'noodle',it:'noodle',sub:'叉燒・燒鴨・油雞',v:'公館燒臘'},{n:'青木茶室',c:'#2f7d5b',w:8,type:'tea',it:'tea',sub:'手搖飲・現煮珍珠'},{n:'頁間書屋',c:'#3b5a8c',w:12,type:'book',it:'books',sub:'法律書・文具・二手書',v:'頁間書屋',door:-36.4},{n:'日和便利店',c:'#3a6fb0',w:10,type:'cvs',it:'cvs',band:'#e0a030'},
+      {n:'公館藥局',c:'#4a9a6a',w:8,type:'none',it:'cvs',v:'藥局'},{n:'滷味・鹹酥雞',c:'#e0b24a',sc:'#3b2a1e',w:8,type:'none',it:'luwei'},{n:'慢輪單車',c:'#b5532c',w:9,type:'bike',it:'bike',sub:'修車・打氣・配件加裝',v:'單車'},{n:'咖啡・輕食',c:'#8c3b47',w:9,type:'none',it:'cafe'},
       {n:'水果行',c:'#e0a030',sc:'#3b2a1e',w:8,type:'none',it:'fruit'},{n:'自助洗衣',c:'#4a90c2',w:9,type:'none',it:'laundry'},{n:'影印・輸出',c:'#2f3a44',w:9,type:'none',it:'print',v:'影印'},{n:'日日定食',c:'#5c3a21',w:10,type:'none',it:'teishoku',v:'定食'},{n:'二手唱片',c:'#2b2b2b',w:8,type:'none',it:'books'},{n:'文具・畫材',c:'#8c3b47',w:9,type:'none',it:'books'},{n:'早午餐',c:'#c9463d',w:9,type:'none',it:'cafe'}];
     const FZ=19, GH=4.2, ARC=3.0, SHOPD=16, WALLC=['#d9cbb0','#cfc5b2','#e3ddd0','#c8bca8','#d6c3a5','#e6dfd0','#bfb2a0'], WALLT=['tile','mosaic','tile','plaster'];
     /* 店面街 15 棟＋巷口轉角（userData.ggShop＝棟號 G00–G15）：有 Blender 正式模型（bldg.gongguan_shops，第二個 AI：tools/blender/env_second/wz_street.py --set gongguan）時不參加整區靜態合併，
@@ -801,7 +801,7 @@ const Z3 = (function(){
       const ix=x+s.w/2;
       if(s.type==='noodle') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入公館燒臘',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
       if(s.type==='tea') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'});
-      if(s.type==='book') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入舊路書房',exit:{to:'bookstore',spawn:{x:0,z:4,yaw:Math.PI}}});
+      if(s.type==='book') E.interactables.push({x:s.door!=null?s.door:ix,z:FZ+2,radius:2.2,label:'進入頁間書屋',exit:{to:'bookstore',spawn:{x:0,z:4,yaw:Math.PI}}});   /* door：頁間書屋的門在店面最左邊（LAWWW2 新外觀 fb5d7f367；2026-11-04 從店面中間 −41.6 移到 −36.4，z 照舊）*/
       if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:{x:0,z:3.4,yaw:Math.PI}}});
       x=X1; });
     /* 輪轉單車（G06，正對校門；LAWWW2-B 2026-10-16，原本是「眼鏡・手機維修」）：店名虛構（D77）。街景——載妹墊開局就有（使用者 10-16，D78），不用在這裡裝、沒有互動點。
@@ -810,7 +810,11 @@ const Z3 = (function(){
        shop:'bike'——story3d.js 的互動照 SIDEQ.bikeShop(GM) 演（車行老闆的招呼、SQ16）；SIDEQ 沒有 bikeShop 的版本不顯示（不出一個按了沒反應的按鈕）*/
     { const sx=0.3; for(const [dx,c,k] of [[-3.3,'#2f5d50','bike_road'],[2.3,'#e0b95b','bike_city'],[4.2,'#8c3b47','bike_mtb']]){ const b=W3.bikeAny(c,0,k);   /* 腳踏車行（輪轉單車）：騎樓擺公路車、淑女車、登山車 */ b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,k==='bike_mtb'?1.85:1.75,0.6,0); }
       for(const [dx,c,k] of [[-2.2,'#3a6fb0','bike_fold'],[1.6,'#d9d3c6','bike_road']]){ const b=W3.bikeAny(c,0,k);   /* 櫥窗：小折、公路車 */ b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
-      E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'找車行老闆',shop:'bike',get hidden(){ return !(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop); }});
+      /* 慢輪單車進得去（AA_646 第 1 節；使用者 11-04 01:0x；BIKE-SHOP-PARK-1104）：營業時間（PLACES.hours.bikeshop 10:00～20:00、週一公休）「進入慢輪單車」，打烊時門口的字；
+         老闆、SQ16 改在店裡（src/bikeshop3d.js）。沒有 bikeshop3d.js 的版本照舊「找車行老闆」 */
+      if(typeof BIKESHOP!=='undefined'&&!!ZONES.bikeshop){ E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'進入慢輪單車',exit:{to:'bikeshop',spawn:Object.assign({},BIKESHOP.SPAWN||{x:0,z:3.8,yaw:Math.PI})},get hidden(){ return !BIKESHOP.isOpen(); }});
+        E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'慢輪單車',look:BIKESHOP.CLOSED,get hidden(){ return BIKESHOP.isOpen(); }}); }
+      else E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'找車行老闆',shop:'bike',get hidden(){ return !(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop); }});
       /* SQ16 做完的痕跡（AA_405）：騎樓那台淑女車的籃子掛一張紙「免費借給新生，一學期」（朝騎樓走道）；SIDEQ.traceOn(G,'SQ16') 才顯示 */
       { const note=new THREE.Mesh(new THREE.PlaneGeometry(0.2,0.05),new THREE.MeshStandardMaterial({map:TK.signTex('免費借給新生・一學期',{bg:'#f6f1e4',color:'#3a332c',size:46,border:'#c9b89a'}),roughness:0.85,side:THREE.DoubleSide}));
         note.position.set(sx+2.3+0.55,0.84,FZ+2.55-0.2); note.rotation.set(-0.12,Math.PI,0.05); note.name='TRACE_SQ16_note'; note.userData.dyn=true; traceVis(note,'SQ16'); g.add(note); }   /* dyn：不參加整區合併（每一格看要不要顯示）*/
@@ -949,7 +953,7 @@ const Z3 = (function(){
     aptA(-4,3.1,{wz:'A2',floors:5,wall:'mosaic',color:'#cfd8d0',ground:{type:'door',color:'#9c2f2a'}});
     aptA(8.4,20,{wz:'A3',floors:4,wall:'tile',color:'#c9b49a',balcony:true,ground:{type:'shop',shop:{type:'books',name:'巷口書房',sub:'二手書・人文社會・法律',signBg:'#2f4a3a',signColor:'#f4ead8',serif:true,awning:'#2f4a3a',vertical:'書',vBg:'#f4ead8',vColor:'#2f4a3a',vBand:'#2f4a3a'}}});
     aptA(32,40,{wz:'A4',floors:4,wall:'plaster',color:'#e8e1d4',ground:{type:'shop',shop:{type:'noodle',name:'林家乾麵',sub:'乾麵・餛飩・滷味',signBg:'#f4ead8',signColor:'#9c2f2a',vertical:'麵',vBg:'#ffffff',vColor:'#9c2f2a',vBand:'#9c2f2a',awning:'#9c2f2a'}}});
-    aptA(40,48,{wz:'A5',floors:3,wall:'tile',color:'#b8a088',roofAdd:true,ground:{type:'shop',shop:{type:'cvs',name:'日日便利',sub:'24H',signBg:'#ffffff',signColor:'#1f6f78',band:'#e8a33a',frame:'#cfd6d6'}}});
+    aptA(40,48,{wz:'A5',floors:3,wall:'tile',color:'#b8a088',roofAdd:true,ground:{type:'shop',shop:{type:'cvs',name:'日和便利店',signBg:'#ffffff',signColor:'#1f6f78',band:'#e8a33a',frame:'#cfd6d6'}}});
     // B 側
     aptB(-30,-21,{wz:'B1',floors:3,wall:'plaster',color:'#d8d0c0',roofAdd:true,ground:{type:'shutter'}});
     aptB(-21,-15,{wz:'B2',floors:4,wall:'tile',color:'#bfb3a3',ground:{type:'shop',shop:{type:'laundry',name:'自助洗衣',sub:'24 小時・投幣式',signBg:'#e9f2f6',signColor:'#2a5f8a',frame:'#cfd6d6'}}});
@@ -1070,7 +1074,7 @@ const Z3 = (function(){
     { const mb=TK.mailbox(); mb.position.set(47.3,0,4.3); mb.rotation.y=Math.PI; g.add(mb); nav.blockRect(47.3,4.3,1.2,0.6,0,0); }
     for(const [ax,az,ry,ls] of [[14.6,3.9,Math.PI,['二手書','民法・刑法','教科書收購']],[-2.4,-3.9,0,['本日定食','鯖魚 / 豚汁','11:30–20:00']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,az); ab.rotation.y=ry; g.add(ab); nav.blockCircle(ax,az,0.35); }
     // 店面（不能進去的）用「看櫥窗」：清楚表示只能看，不假裝有完整室內
-    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku)))&&!(it.label==='看手搖飲菜單'&&typeof WZS!=='undefined'&&WZS.WINDOW))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成上面 wzShopDoors（三家新店的店門那一段）的「進去」 */
+    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日和便利店的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku)))&&!(it.label==='看手搖飲菜單'&&typeof WZS!=='undefined'&&WZS.WINDOW))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成上面 wzShopDoors（三家新店的店門那一段）的「進去」 */
     /* 巷口茶飲、夏日冰菓室的外帶窗口（AA_364 第 4 節 #3；src/wzshops3d.js 的 WZS.WINDOW，座標照 LAWWW2 交件 README）：茶飲「買一杯飲料」；冰菓室 5～9 月「買一碗冰」、10～4 月「看夏日冰菓室」（鐵捲門＋「五月見」）。
        騎樓中間原本的「看手搖飲菜單」(23,−6.5) 拿掉（LAWWW2 建議；它的菜單寫「綠茶 30」，AA_364 是「青茶 30」）*/
     if(typeof WZS!=='undefined'&&WZS.windowItems) for(const it of WZS.windowItems()) E.interactables.push(it);
@@ -1862,7 +1866,7 @@ const Z3 = (function(){
       if(!night){ x.fillStyle=dusk?'rgba(255,170,90,0.10)':'rgba(255,255,255,0.08)'; x.fillRect(0,0,W,H); } });
     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
   // ---------- 便利商店 ----------
-  const cvs={ id:'cvs', name:'日日便利', indoor:true, camDist:4.0, build(E){ const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
+  const cvs={ id:'cvs', name:'日和便利店', indoor:true, camDist:4.0, build(E){ const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
     const z=room(E,{view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3.6,3.6]});   /* 窗在店面（後牆是貨架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.cvs_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
@@ -1911,10 +1915,10 @@ const Z3 = (function(){
     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
   // ---------- 書店 ----------
-  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
+  const bookstore={ id:'bookstore', name:'頁間書屋', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
-    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:1.8,z:3.2,radius:0.9,label:'看看法律書與文具',shop:'book'})   /* 櫃台桌的東端、收銀機那一頭（BOOKSTORE-EXIT-SHOP-1028，LAWWW2-C）：原本 (0,4.05) 半徑 1.1 就在門口——桌子前緣到門口站得到的地方只有 0.37 m，進門落腳點 (0,4) 也在範圍裡，門口按下去是買書選單。店員站桌子北側 (0.55,1.95) 面向門口，所以不移到桌子後面 */;   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
+    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:1.8,z:3.2,radius:0.9,label:'看看法律書與文具',shop:'book'})   /* 櫃台桌的東端、收銀機那一頭（BOOKSTORE-EXIT-SHOP-1028，LAWWW2-C）：原本 (0,4.05) 半徑 1.1 就在門口——桌子前緣到門口站得到的地方只有 0.37 m，進門落腳點 (0,4) 也在範圍裡，門口按下去是買書選單。店員站桌子北側 (0.55,1.95) 面向門口，所以不移到桌子後面 */;   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-38.8,z:20.2,yaw:Math.PI}}});   /* 出來站在店門（−36.4，在店面最左邊）旁邊的騎樓、門口互動範圍外（原本 (−42,18)：門在店面中間 −41.6 時的人行道）*/
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bookstore_interior']) ASSETS.loadOne('bldg.bookstore_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachBookstoreInterior(z,g0,root); }).catch(e=>console.warn('書店室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };

@@ -14,7 +14,7 @@ const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
   return ef0.call(cp,'python3',[GUARD,'world'],{input:s,encoding:'utf8',maxBuffer:256*1024*1024}); }
 // NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 麵店團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
-let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
+let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json','aa647_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
   for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
 const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffer.from(ndl(world(alison(r.toString('utf8')))),'utf8'):r);
 // YT-REWRITE-1103（語彤新背景，AA 定稿 D109）：AA_630／AA_627／AA_625／AA_626 取代舊稿裡語彤的句子（一句一句的換字表在 aa630_fix.json；整段換、交往中／沒交往兩版、AA 決定的列沒辦法逐句換）——

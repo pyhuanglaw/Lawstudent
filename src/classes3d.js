@@ -1005,7 +1005,7 @@ const CLS=(function(){
      「買六法」「逛社團博覽會」不列（AA_110 6-3；AA_355 第 3 節：過時、不用做事——社團博覽會已經在遊戲裡，S.fairMenu）。 */
   S.todoItems=function(G){ if(typeof CALENDAR==='undefined') return []; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week>5) return [];
     const R=S.rec(G), F=G.flags||{}, A=typeof ACTIVITIES!=='undefined'?ACTIVITIES:null, went=id=>!!(A&&A.stateOf&&A.stateOf(G,id));
-    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（舊路書房），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
+    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（頁間書屋），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
             {key:'libtour',text:'總圖新生導覽（9/19、9/23、9/25、9/26 15:30，總圖大廳；去一場就好）',done:went('lib_tour_y1s1')},
             {key:'lawlibintro',text:'法律資料怎麼查（9/24、10/1 15:30，法律學院圖書館 討論室 A）',done:went('lawlib_intro_y1s1')},
             {key:'service',text:'服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台）',done:(R.attend.service_1||0)>=1}]; };
@@ -1072,7 +1072,7 @@ const CLS=(function(){
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
   const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',lane118:'campus',gongguan:'campus',
-               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
+               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };
   /* 中間經過的區域（不含出發的那一區、不含教室那一區），照走的順序 */

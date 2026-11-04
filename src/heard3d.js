@@ -109,9 +109,9 @@ const HEARD=(function(){
     const o={id:a.id,opts:(a.opts||[]).map(x=>({t:x.t,say:(x.r||[]).map(text=>({from:last.from,name:last.name,text})),set:Object.assign({},x.set)}))}; if(ul) o.until=abs(ul.day,ul.h); return o; };
   /* ---------- pass：路過字幕（AA_513 第 2 節：以安和媽媽在公館窗邊）---------- */
   /* 公館南側店面街十五間店的門口：src/zones3d.js 公館（const FZ=19；店門互動點 z＝FZ+2＝21；店面從 x＝−68 起照 shops 的寬度 w 排、前 8 間後面各多 1.2 m，
-     門口在每一間的 x0＋w/2＝zones3d.js 的 ix——麵店 −63〔y34b3d.js NOODLE_DOOR 同一點〕、茶行、書店、便利商店的互動點，輪轉單車「找車行老闆」−0.3）。
+     門口在每一間的 x0＋w/2＝zones3d.js 的 ix（頁間書屋照 shops 的 door：−36.4，門在店面最左邊）——麵店 −63〔y34b3d.js NOODLE_DOOR 同一點〕、茶行、書店、便利商店的互動點，輪轉單車「找車行老闆」−0.3）。
      這裡不改 zones3d.js（D108）；zones3d.js 的店面改了，這一份要跟著改：tests/aa513_unit.js 從 zones3d.js 原始碼重算一次比對 */
-  S.GG_DOORS={z:21,x:[-63,-52.8,-41.6,-29.4,-19.2,-10,-0.3,9.9,19.6,28.1,37.1,46.6,55.6,64.1,73.1]};
+  S.GG_DOORS={z:21,x:[-63,-52.8,-36.4,-29.4,-19.2,-10,-0.3,9.9,19.6,28.1,37.1,46.6,55.6,64.1,73.1]};
   S.PASS_MS=6000;   /* 一句長的旁白（同 game3d.js 看告示的 4800～6000）*/
   S.later=(fn,ms)=>setTimeout(fn,ms);   /* 測試換成同步的 */
   S.nearDoors=function(key,p,r){ const D=S[key]; if(!D||!p) return false; for(const x of D.x) if(Math.hypot(p.x-x,p.z-D.z)<=r) return true; return false; };
