@@ -25,7 +25,7 @@ const AFAR_LAYOUT = {
     {kind: 'wall_desk', x: 0.0, z: -3.7, w: 1.0, d: 0.5}, {kind: 'wall_desk', x: -1.8, z: -3.7, w: 1.0, d: 0.5},
     {kind: 'side_station', x: 4.8, z: 2.35, w: 0.6, d: 1.7, h: 0.95, note: 'v1c（BB 11-04 03:52：從街上透過門看得到）：門邊靠東牆的咖啡工作檯：小咖啡機、磨豆機、杯子；上面兩層層板（咖啡罐、豆袋）、一盞深綠吊燈、一串黃金葛'},
     {kind: 'banquette', x: -4.85, z: -2.85, w: 0.5, d: 2.1, note: '吧台右邊裡面那一塊：西牆的灰色布面卡座'},
-    {kind: 'painting', side: 'back', along: 2.7, y: 1.95, w: 0.6, h: 0.75}, {kind: 'painting', side: 'back', along: 0.9, y: 1.95, w: 0.6, h: 0.75},
+    {kind: 'painting', side: 'back', along: 2.7, y: 1.95, w: 0.6, h: 0.75}, {kind: 'back_shelf', x0: -0.4, x1: 1.8, note: 'v1d（LAWWW2 11-04 04:29：從窗卡 ggafar_int 的視線看進去是後牆，要有咖啡店的樣子）：後牆上半兩層開放層板（咖啡罐、豆袋、小盆栽、燈條）＋一盞深綠吊燈＋一串黃金葛；原本 along 0.9 那幅畫拿掉'},
     {kind: 'painting', side: 'back', along: -0.9, y: 1.95, w: 0.6, h: 0.75},
     {kind: 'plant_big', x: -2.95, z: -1.95}, {kind: 'plant_big', x: -3.0, z: -3.75}, {kind: 'plant_big', x: 4.75, z: -3.0}
   ],

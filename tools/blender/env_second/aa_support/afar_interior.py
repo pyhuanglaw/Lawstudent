@@ -252,8 +252,23 @@ for s_ in LAY['seats']:
     if s_['table'] in (7, 8, 9, 10): uchair(s_['x'], s_['z'], s_['yaw'], arm=True)
 laptop(1.8, -3.72, th, math.pi); book(0.0, -3.7, th, '#e8e0cc'); K.mug(sh, -1.6, -3.65, th, col='#f2efe8'); K.mug(sh, 3.4, -3.6, th, col='#f2efe8')
 for p_ in IT['painting']:
-    sh.wall_img(p_['side'], 'print', p_['along'], p_['y'], p_['w'], p_['h'], K.cell_uv(2 if p_['along'] > 0 else 4, 0, 2, 2), off=0.02)
+    sh.wall_img(p_['side'], 'print', p_['along'], p_['y'], p_['w'], p_['h'], K.cell_uv(2 if p_['along'] > 1.5 else 4, 0, 2, 2), off=0.02)
     xf0.rbox(sh.w('back', 'wood'), p_['along'] - p_['w'] / 2 - 0.03, p_['along'] + p_['w'] / 2 + 0.03, p_['y'] - p_['h'] / 2 - 0.03, p_['y'] + p_['h'] / 2 + 0.03, Z0, Z0 + 0.018, r=0.004, seg=1)
+for bs in IT.get('back_shelf', []):                                                                                       # 後牆的開放層板（v1d，窗卡的視線裡）
+    for (y, kind) in ((1.6, 'jar'), (2.05, 'bag')):
+        xf0.rbox(sh.w('back', 'wood'), bs['x0'], bs['x1'], y - 0.035, y, Z0, Z0 + 0.28, r=0.004, seg=1)
+        sh.a('bulb').box(bs['x0'] + 0.05, bs['x1'] - 0.05, y - 0.045, y - 0.035, Z0 + 0.24, Z0 + 0.26)
+        n = int((bs['x1'] - bs['x0']) / 0.15)
+        for k in range(n):
+            xx = bs['x0'] + 0.1 + k * (bs['x1'] - bs['x0'] - 0.2) / (n - 1)
+            if k % 5 == 2: sh.plant(xx, Z0 + 0.14, h=0.3, r=0.07, pot_col='#e8e2d6', y0=y); continue
+            if kind == 'jar': K.jar(sh, xx, Z0 + 0.14, y, h=0.22, r=0.055, col=('#5a3a22', '#6a4a2a', '#f2efe8', '#8a6a3a')[k % 4], lid='#2e2e2e')
+            else:
+                xf0.rbox(sh.a('vc'), xx - 0.06, xx + 0.06, y, y + 0.24, Z0 + 0.08, Z0 + 0.2, r=0.01, seg=1, col='#c9a77c')
+                sh.img_quad(sh.a('print'), Xf(xx, Z0 + 0.201, 0.0), 0, y + 0.06, 0.0, 0.1, 0.05, K.cell_uv(0, 1, 2, 1))
+    for xx in (bs['x0'] + 0.05, bs['x1'] - 0.05): xf0.cyl(sh.w('back', 'vcm'), (xx, 1.57, Z0 + 0.2), (xx, H, Z0 + 0.2), 0.008, col='#2e2e2e', seg=4, caps=False)
+    K.dome_pendant(sh, (bs['x0'] + bs['x1']) / 2, Z0 + 0.75, 2.35, r=0.22, col='#34443a', inner='#f8eed6', kind='dome', glow_size=0.7)
+    sh.hanging_pothos('pothos', bs['x1'] - 0.2, 2.1, Z0 + 0.14, n=8, drop=0.7)
 bq = IT['banquette'][0]; qz0, qz1 = bq['z'] - bq['d'] / 2, bq['z'] + bq['d'] / 2
 xf0.rbox(sh.a('wood'), X0, X0 + bq['w'], 0.0, 0.38, qz0, qz1, r=0.012, seg=1)
 xf0.rbox(sh.a('vcg'), X0 + 0.1, X0 + bq['w'] + 0.02, 0.38, 0.47, qz0 + 0.02, qz1 - 0.02, r=0.04, seg=2, col='#8a8e88')
