@@ -2436,6 +2436,11 @@
     - 洋洋鹹酥雞是 BB 做，轉角唱片是 CC 做。
     - 台詞（進門、點餐、看店裡的東西、打烊、約去答應的一句）等區域接好再寫。
     - 日和便利店、慢輪單車由 BB／CC 做。
+  - **溫州街第一批＋一盞（使用者 11-04 04:4x／05:08，AA_654／AA_656，X212／X213，WZ-SHOPS1-1104／WZ-YIZHAN-1104）**：
+    - AA 做的四間室內都已 MODEL_READY：2:30 AM v1b（8d494790d，LAWWW2）、小路 v1f（9d1c3bbe7，BB）、SUNNY SIDE v1d（8345fe067，BB）、一盞 v1c（3d0131fe0，BB），紀錄 BB_257 §12。11-04 07:0x 整合要點已交 LAWWW（GLB、layout 版本、npcOnly、clerk、rightWindow、blocks）。
+    - 一盞 v1d（0c284b614）：BB 不擋的建議，地板每片木板深淺不一；只換貼圖，已告訴 LAWWW 接這顆。
+    - SUNNY SIDE 晚上窗外景的層次（BB 建議）轉 LAWWW2：窗卡歸他，室內兩塊窗景卡暫借 mok_view.png。
+    - 台詞：AA_657 站位、AA_658 改名、AA_659 新台詞、AA_655 §7 回 LAWWW。等 LAWWW 接好區域、BB 拿遊戲內截圖判 ART_APPROVED；有退件再改。
   - 已寫好的台詞：AA_648 §6（adf1c2f78）期末聚餐坐長桌，已回 BB；AA_649 約念書（X207），已回 LAWWW。
   - 店內偶遇第二批（新生南路的店、木曜日、日常失速、118 巷）——AA_632 第 4 節。
   - 語彤茶屋以外的偶遇（等 AA_630 接線）。
