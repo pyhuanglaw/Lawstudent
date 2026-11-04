@@ -12,11 +12,13 @@ CASES：
   b 溫州街西段 →「往新生南路」→ 新生南路（截圖）→ 走過側門前的斑馬線 → 側門（截圖）→「回到首都帝大」→ 校園
   c 校園校門內側 (−110, 0) → 西側圍牆北段「往新生南路（側門）」（截圖）→ 新生南路 →「往溫州街」→ 溫州街
   shots 17:20（傍晚）另外讀檔：B4 外觀兩張、新生南路、木曜日店裡
+  facade（BB 追加，d5138cd27 起有正式立面 74557a245）：側門往南、往北各一張；沿騎樓走到 layout 七家店門口（山嵐、南洋、大口漢堡、同弦、大步、好拍、新生運動廣場），
+     跟隨鏡頭轉向店門截圖、記互動按鈕；再走「往溫州街」拍日常失速（W2 轉角，還沒有 3D）、木曜日（B4）。只拍紀錄，不判 FAIL（換區那一步照 go_exit 檢查）。
 每一段記：區域換對沒（GAME.G.zone／E.zone）、出生點（E.lastSpawn 的 fixed 和要求的位置差多少、站得住、搖桿推一下有沒有位移）、
   GAME.walkFallbacks（要 0）、JS 例外（pageerror）。
 只記狀態、不算 FAIL：新生南路是 BLOCKOUT（沒有正式立面）；木曜日點餐／書櫃／唱片機／海報還沒接；公館往溫州街的巷子還在；鏡頭射線（WARN）；出生點落在出口按鈕範圍內（WARN）。
 Playwright 手機模擬（橫向 844×390），不是 iPhone 實機。
-用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
 import os, sys, json, math, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -339,6 +341,72 @@ async def case_shots(pg, cdp, errs):
     await cam_ray(pg, 'shots 木曜日店裡')
 
 
+# facade（BB 追加；正式立面 74557a245 起，d5138cd27 也有）：d5138cd27 的 src/data/xinsheng_layout.js 的 shops 是七家——
+#   山嵐書店 z 10.2、南洋戲院 25.3、大口漢堡 40.4（側門以南）；同弦樂器 −7.2、大步球鞋 −16.7、好拍運動 −23.2、新生運動廣場 −33.0（以北）。
+#   門口互動點在 (facade.x＋0.9＝−15.6, door.z)（xinsheng3d.js）；騎樓 x −16.5～−13（店面玻璃在 x −16.5）。
+#   BB 名單裡的木曜日（溫州街 B4，37 號鐵門 (7.4, −4.55)）、日常失速（溫州街西側橫巷的轉角 W2，(−37.2, −13) 那棟；還沒有 3D、沒有互動點）不在新生南路 layout 裡：
+#   從新生南路走「往溫州街」過去再拍（FACADE_WZ=0 可以不拍）。截圖只做紀錄，不判 FAIL（走不到、按鈕不對都只記 OBS）。
+FACADE_SHOPS = [('shanlan', '山嵐書店', 10.2), ('nanyang', '南洋戲院', 25.3), ('dakou', '大口漢堡', 40.4),
+                ('tongxian', '同弦樂器', -7.2), ('dabu', '大步球鞋', -16.7), ('haopai', '好拍運動', -23.2), ('xsports', '新生運動廣場', -33.0)]
+FACADE_WZ = os.environ.get('FACADE_WZ', '1') != '0'
+SHOPS_JS = """(()=>{ const L=typeof XINSHENG_LAYOUT!=='undefined'?XINSHENG_LAYOUT:null; if(!L) return null; return L.shops.map(q=>({id:q.id,name:q.name,z:q.door.z})); })()"""
+GLB_JS = """(()=>{ let n=0, fb=0, fbVis=0; GAME.E.scene.traverse(o=>{ if(/xinsheng_street_glb/.test(o.name||'')) n++; if(o.userData&&o.userData.xsfb){ fb++; let v=true; for(let p=o;p;p=p.parent) if(p.visible===false) v=false; if(v) fbVis++; } }); return {glbNodes:n, fallbackBoxes:fb, fallbackVisible:fbVis}; })()"""
+
+
+async def facade_door(pg, cdp, tag, name, dz):
+    ok = await L.go_to(pg, cdp, RUN, -15.0, dz, 0.9, name + '門口（騎樓）')
+    await pg.wait_for_timeout(1200)
+    await L.turn_camera_to(pg, cdp, -18.0, dz)
+    st = await L.state(pg)
+    it = await pg.evaluate(FIND_EX % J([name, -15.6, dz]))
+    obs('%s %s 門口：%s；互動按鈕「%s」；互動點 %s' % (tag, name, '走到了' if ok else '沒走到', st.get('interact') or '（沒有）', J(it)), J({k: st[k] for k in ('x', 'z')}))
+    await shot(pg, 'facade_%s' % tag)
+    await cam_ray(pg, 'facade %s 門口' % name)
+
+
+async def case_facade(pg, cdp, errs):
+    print('== facade 新生南路正式立面（只拍紀錄，不判 FAIL）', flush=True)
+    await setup(pg, cdp, 'xinsheng', 15.0, 10.0, -math.pi / 2, 10.0, why='側門內出生點（從校園進來的位置），面向西')
+    await pg.wait_for_timeout(6000)   # 等 bldg.xinsheng_street（lazy）載完
+    lay = await pg.evaluate(SHOPS_JS); g = await pg.evaluate(GLB_JS)
+    obs('facade 這一版 layout 的店', J(lay))
+    obs('facade 正式立面', J(g) + ('（方塊立面全藏起來了＝正式模型有接上）' if g['fallbackBoxes'] and not g['fallbackVisible'] else '（還看得到方塊立面 xsfb：正式模型可能還在載、或沒接上）'))
+    if lay:
+        names = {q['name'] for q in lay}
+        miss = [n for _, n, _ in FACADE_SHOPS if n not in names]
+        if miss: obs('facade 探針寫的店有幾家不在這一版 layout', J(miss))
+    await L.turn_camera_to(pg, cdp, 15.0, 50.0); await shot(pg, 'facade_gate_look_south'); await cam_ray(pg, 'facade 側門往南')
+    await L.turn_camera_to(pg, cdp, 15.0, -30.0); await shot(pg, 'facade_gate_look_north'); await cam_ray(pg, 'facade 側門往北')
+    fb0 = (await zst(pg))['fb']; e0 = len(errs)
+    ok = await L.go_to(pg, cdp, RUN, -14.8, 10.0, 1.0, '過側門前斑馬線到騎樓')
+    obs('facade 過斑馬線到騎樓', '到了' if ok else '沒走到')
+    shops = FACADE_SHOPS
+    if lay:   # 以遊戲裡的 layout 為準（門口 z 照 layout；探針名單沒有的店也拍）
+        zs = {q['name']: q['z'] for q in lay}
+        shops = [(i, n, zs.get(n, z)) for i, n, z in FACADE_SHOPS if n in zs] + [(q['id'], q['name'], q['z']) for q in lay if q['name'] not in {n for _, n, _ in FACADE_SHOPS}]
+    south = sorted([q for q in shops if q[2] >= 10.0 - 0.01], key=lambda q: q[2])
+    north = sorted([q for q in shops if q[2] < 10.0 - 0.01], key=lambda q: -q[2])
+    for sid, name, dz in south + north:   # 先往南（山嵐→南洋→大口），再沿騎樓往北走回來（同弦→大步→好拍→運動廣場）
+        await facade_door(pg, cdp, sid, name, dz)
+    z = await zst(pg)
+    obs('facade 新生南路這一段 walkFallbacks %d → %d、JS 例外 %d 個' % (fb0, z['fb'], len(errs) - e0), J(errs[e0:e0 + 3]))
+    if not FACADE_WZ: return
+    s = await go_exit(pg, cdp, errs, 'facade 新生南路→溫州街', '往溫州街', 'wenzhou', (-31.0, -1.4))
+    if not s: return
+    ok = await L.go_to(pg, cdp, RUN, -33.2, -13.0, 1.5, '日常失速（W2 轉角）前')
+    await pg.wait_for_timeout(1000); await L.turn_camera_to(pg, cdp, -38.0, -13.0)
+    st = await L.state(pg)
+    obs('facade 日常失速（溫州街 W2，還沒有 3D）：%s；互動按鈕「%s」' % ('走到了' if ok else '沒走到', st.get('interact') or '（沒有）'), J({k: st[k] for k in ('x', 'z')}))
+    await shot(pg, 'facade_wz_richangshisu')
+    ok = await L.go_to(pg, cdp, RUN, 7.4, -3.4, 0.8, '木曜日（B4 鐵門）前')
+    await pg.wait_for_timeout(1000); await L.turn_camera_to(pg, cdp, 7.4, -8.0)
+    st = await L.state(pg)
+    obs('facade 木曜日（溫州街 B4）：%s；互動按鈕「%s」' % ('走到了' if ok else '沒走到', st.get('interact') or '（沒有）'), J({k: st[k] for k in ('x', 'z')}))
+    await shot(pg, 'facade_wz_mokuyobi')
+    z = await zst(pg)
+    obs('facade 整段 walkFallbacks %d → %d' % (fb0, z['fb']))
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     print('CC N20X 新生南路＋木曜日 真實流程探針；CASES=%s；不用 ?turbo；Playwright 手機模擬（橫向），不是實機' % ','.join(CASES), flush=True)
@@ -357,7 +425,7 @@ async def main():
         have = await pg.evaluate("({xs:typeof XS3!=='undefined', mok:typeof MOK3!=='undefined', zx:!!Z3.ZONES.xinsheng, zm:!!Z3.ZONES.wz_mokuyobi, v:(document.getElementById('ver')||{}).textContent||null})")
         check('前置：這一版有 xinsheng、wz_mokuyobi 區域（XS3、MOK3 載入）', have['xs'] and have['mok'] and have['zx'] and have['zm'], J(have))
         obs('新生南路現在是 BLOCKOUT（套件方塊立面／正式立面 bldg.xinsheng_street 如果有載到會換掉）；公館往溫州街的巷子還在——照 BB 只記')
-        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots)):
+        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade)):
             if c not in CASES: continue
             try:
                 await fn(pg, cdp, errs)

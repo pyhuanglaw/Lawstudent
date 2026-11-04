@@ -11,6 +11,8 @@
     swim_closed  大一上第 13 週 2025-11-24（第四個星期一 B1 休館）：照舊在球場、旁白「（今天在球場講游泳的安全守則。下週下水。）」
     late         大一上第 14 週 2025-12-01（一，游泳週）：開始以後才走進去＝遲到 1～15 分鐘：R.late、出席 +1、沒有 R.abs；旁白照說
     absent       大一上第 11 週 2025-11-10（一）：人在校園、不去，站著等到「沒去」：沒有 done、出席不加（點名週＝缺一次）
+    econ_card    經濟系快轉（d5138cd27 起，AA_644 第 6 節）：讀檔 2024-09-02 早上男宿（E01_MORNING；正常網址），照遊戲的事件接事件跑到 9/13 保齡球以後，
+                 記每一張日期卡（#title3）和對話；「（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）」逐字 1 次、沒有別的體育課句子、9/4 和 9/11 自動算出席
     econ_ff      經濟系那一年 2024-09-11，照正常網址讀檔：只記錄「事件接事件」（econff3d.js）會不會把體育課跳過、自動算出席（INFO，不判 FAIL）
     econ         同一堂，網址加 ?nofastecon（[前置／捷徑]，關掉事件接事件）：旁白名字換經濟系的同學、沒有法律系的名字
                  （PE644 第一次跑：讀檔 15:10 → 空下來 1.5 秒就跳到 9/12 21:00，體育課自動算出席，門口沒有「進去上課」）
@@ -30,7 +32,7 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-ALL = ['normal', 'name', 'swim', 'swim_closed', 'late', 'absent', 'econ_ff', 'econ']
+ALL = ['normal', 'name', 'swim', 'swim_closed', 'late', 'absent', 'econ_card', 'econ_ff', 'econ']
 CASES = [c.strip() for c in (os.environ.get('CASES') or ','.join(ALL)).split(',') if c.strip()]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
@@ -57,6 +59,15 @@ LAW_NAMES = {'阿哲': 'zhe', '柏翰': 'classmate_bohan', '明軒': 'classmate_
 LAW_FRIENDS = ['zhe', 'classmate_bohan', 'classmate_mingxuan', 'yu', 'classmate_xinci', 'classmate_youchen']
 ECON_NAMES = {'韋綸': 'econ_weilun', '阿勳': 'econ_zhengxun'}   # 稿：「名字改成經濟系的同學（阿勳、韋綸）」——沒寫誰換誰
 ECON_FRIENDS = ['econ_weilun', 'econ_zhengxun']
+
+# 經濟系快轉的日期卡（AA_644 第 6 節，企劃線 27c0193e9；開發 d5138cd27 econff3d.js S.PE_FF）
+PE_FF = '（體育課暖身跑了六圈。韋綸跑在最前面，回頭喊你們快一點。）'
+CARD_REC = r"""(()=>{ if(window.__CARDS) return true; window.__CARDS=[]; const parse=h=>{ const i=h.indexOf('<small>'); const t=(i<0?h:h.slice(0,i)).replace(/<[^>]+>/g,'').trim(); const sub=i<0?'':h.slice(i+7).replace(/<\/small>.*$/s,'');
+    return {text:t, sub:sub.split(/<br\s*\/?>/i).map(x=>x.replace(/<[^>]+>/g,'').trim()).filter(Boolean)}; };
+  const el=document.getElementById('title3'); let lastH='';
+  if(el) new MutationObserver(()=>{ const h=el.innerHTML||''; if(!h||h===lastH) return; lastH=h; const p=parse(h); p.src='dom'; try{ p.at=CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2); }catch(e){} window.__CARDS.push(p); }).observe(el,{childList:true,subtree:true,characterData:true});
+  const G0=typeof GAME!=='undefined'?GAME:null; if(G0&&typeof G0.titleCard==='function'&&!G0.titleCard.__cc){ const f=G0.titleCard; const w=function(text,sub,ms){ const p=parse(String(text||'')+(sub?'<small>'+sub+'</small>':'')); p.src='call'; window.__CARDS.push(p); return f.apply(this,arguments); }; w.__cc=true; G0.titleCard=w; }
+  return true; })()"""
 
 # ---------------------------------------------------------------- 期望的站位（933f8e08d 的程式／BB 23:29）
 TEACHER_1F = (0.0, -7.0)
@@ -477,6 +488,65 @@ async def main():
                 else:
                     info('absent ⑩ 點名', '這週不是點名週（不算缺）：%s' % J(rs))
                 await pg.screenshot(path=os.path.join(OUT, 'absent_after.png'))
+
+        if 'econ_card' in CASES:
+            # AA_644 第 6 節（企劃線 27c0193e9；開發 d5138cd27）：經濟系快轉第一次跨過體育課（pe_y0s1，週三 pm2），日期卡多一句 ECONFF.PE_FF，整段只出一次。
+            # 日期卡＝GM.titleCard(text, sub, ms) → #title3 的 innerHTML＝text＋<small>sub</small>，sub 裡多句用 <br> 接（econff3d.js S.peAdd）
+            print('== econ_card 經濟系快轉 9/2 → 9/13：日期卡的體育課那一句（正常網址，事件接事件照跑）', flush=True)
+            u = URL + ('&' if '?' in URL else '?') + 'cc_econ_card'
+            await pg.goto(u); check('econ_card：遊戲載入（正常網址，沒有 nofastecon）', await L.wait_loaded(pg))
+            await pg.evaluate("localStorage.clear()")
+            await pg.evaluate(CARD_REC)
+            d = await pg.evaluate("STORY.dayOfKey('2024-09-02')")
+            F = dict(ECON0); F.pop('ECONFF', None)
+            st = {'stage': 'econ', 'name': '祐廷', 'day': d, 'weekday': 1, 'hour': 7.6, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'energy': 100, 'money': 20000,
+                  'flags': F, 'contacts': {k: d - 8 for k in ('kexin', 'econ_zhengxun', 'econ_weilun', 'econ_tangrui', 'econ_jiahao', 'econ_pinyu')},
+                  'events': {'done': {}, 'last': {}, 'count': 0}}
+            print('  [前置／捷徑] 讀檔：2024-09-02（一）07:36 經濟系男宿（E01_MORNING 以後、ECONFF 還沒開始；條件事件、手機照開；網址沒有 nofastecon）', flush=True)
+            print('  [前置／記錄] 頁面裡掛 MutationObserver 看 #title3（日期卡）、包一層 GAME.titleCard 只記參數（不改行為）', flush=True)
+            await L.load_state(pg, st)
+            ff0 = await pg.evaluate("(()=>{ const G=GAME.G; return {ffOn:typeof ECONFF!=='undefined'&&ECONFF.on?!!ECONFF.on(G):null, PE_FF:typeof ECONFF!=='undefined'?ECONFF.PE_FF||null:null}; })()")
+            check('econ_card 前置：讀檔後事件接事件開著（ECONFF.on）', ff0['ffOn'] is True, J(ff0))
+            info('econ_card 遊戲的 ECONFF.PE_FF', J(ff0['PE_FF']))
+            UNTIL = "(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key, e14=!!(G.events&&G.events.done&&G.events.done.ev_y0_e14); return (e14||k>'2024-09-13')&&!GAME.E.player.busy&&!GAME.D.active; })()"
+            t0 = time.time(); talk = []; last = None; reached = False
+            while time.time() - t0 < 1200:
+                if await pg.evaluate(UNTIL): reached = True; break
+                s2 = await L.state(pg)
+                if s2.get('choices'):
+                    print('  [選項] %s → 選第一個' % J(s2['choices']), flush=True)
+                    await L.tap(pg, cdp, '#choices button:nth-child(1)')
+                elif s2.get('dlg'):
+                    tx = (s2.get('dtext') or '').strip()
+                    if tx and tx != last: talk.append(tx); last = tx; print('  對話 %s' % tx[:70], flush=True)
+                    await L.tap(pg, cdp, '#dlg')
+                elif await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+                    n = await L.phone_away(pg, cdp); print('  ［手機自己跳出來 → 收起來／跳過 %d 次］' % n, flush=True)
+                await pg.wait_for_timeout(700)
+            await pg.wait_for_timeout(1500)
+            cards = await pg.evaluate("window.__CARDS||[]")
+            fin = await pg.evaluate(r"""(()=>{ const G=GAME.G, R=CLS.rec(G), F=G.flags||{}; const pe=Object.keys(R.done).filter(k=>/:pe_y0s1:/.test(k)).map(k=>({k, d:CALENDAR.dateOf(+k.split(':')[0]).key, skip:!!(R.note||{})['skip_'+k]}));
+              return {key:CALENDAR.dateOf(G.day).key, hour:+(+G.hour).toFixed(2), zone:G.zone, e14:!!(G.events&&G.events.done&&G.events.done.ev_y0_e14), pe, ffPe:(F.ECONFF||{}).pe||null}; })()""")
+            print('  跑到：%s（%.0f 秒）' % (J(fin), time.time() - t0), flush=True)
+            for c in cards: print('  日期卡 %s｜%s｜%s' % (c['src'], c['text'], J(c['sub'])), flush=True)
+            await pg.screenshot(path=os.path.join(OUT, 'econ_card_end.png'))
+            check('econ_card 快轉照遊戲流程跑到 9/13（保齡球 ev_y0_e14）或更後面', reached and (fin['e14'] or fin['key'] > '2024-09-13'), J(fin))
+            dom = [c for c in cards if c['src'] == 'dom']; src = dom if dom else [c for c in cards if c['src'] == 'call']
+            info('econ_card 日期卡來源', '用 %s（#title3 %d 張、titleCard 呼叫 %d 次）' % ('#title3' if dom else 'titleCard 參數', len(dom), len(cards) - len(dom)))
+            subs = [x for c in src for x in c['sub']]
+            n_pe = sum(1 for x in subs if x == PE_FF) + sum(1 for x in talk if x == PE_FF)
+            check('econ_card 日期卡那一句「%s」逐字出現 1 次（不是 0 次、不是 2 次）' % PE_FF, n_pe == 1, '%d 次；日期卡：%s' % (n_pe, J([(c['text'], c['sub']) for c in src])))
+            econ_doc = set()
+            for t in DOC['pe_y1s1'][:8]:
+                for a in ('韋綸', '阿勳', '有人'):
+                    econ_doc.add(t.replace('阿哲', a).replace('柏翰', a))
+            other = [x for x in subs + talk if x != PE_FF and ('體育' in x or '暖身' in x or x in econ_doc)]
+            check('econ_card 同一段快轉裡沒有別的體育課句子（日期卡、對話）', not other, J(other))
+            pd = sorted(q['d'] for q in fin['pe'])
+            check('econ_card 跨過的 9/4、9/11 體育課都自動算出席（skip 記號）', '2024-09-04' in pd and '2024-09-11' in pd and all(q['skip'] for q in fin['pe'] if q['d'] <= '2024-09-13'), J(fin['pe']))
+            check('econ_card 只出一次的記號（G.flags.ECONFF.pe＝1）', fin['ffPe'] == 1, J(fin['ffPe']))
+            hit = [c for c in src if PE_FF in c['sub']]
+            if hit: info('econ_card 那一句在哪一張日期卡', J(hit[0]))
 
         if 'econ_ff' in CASES:
             # 經濟系 9/2～10/31 是「事件接事件」（src/econff3d.js ECONFF.on：stage econ、E01_MORNING、沒有 Y0_MOVED_OUT）：

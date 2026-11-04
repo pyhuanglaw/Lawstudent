@@ -506,12 +506,15 @@ uvquad(G('props', 'back'), wall_quad('back', 0.004, nx_ - nw_ / 2, nx_ + nw_ / 2
 for (a, b) in ((nx_ - nw_ / 2, ny_ + nh_ / 2), (nx_ + nw_ / 2, ny_ + nh_ / 2), (nx_ - nw_ / 2, ny_ - nh_ / 2), (nx_ + nw_ / 2, ny_ - nh_ / 2)):
     rr = random.uniform(-0.7, 0.7); c_, s_ = math.cos(rr), math.sin(rr)
     uvquad(G('props', 'back'), [(a + c_ * dx - s_ * dy, b + s_ * dx + c_ * dy, Z0 + 0.006) for dx, dy in ((-0.04, -0.012), (0.04, -0.012), (0.04, 0.012), (-0.04, 0.012))], pc('tape'))
-for k, (px_, py_, rt) in enumerate(((2.68, 1.5, 0.03), (2.95, 1.47, -0.04), (2.72, 1.22, 0.02))):
+for k, (px_, py_, rt) in enumerate(((nx_ - 0.14, 1.5, 0.03), (nx_ + 0.13, 1.47, -0.04), (nx_ - 0.1, 1.22, 0.02))):
     c_, s_ = math.cos(rt), math.sin(rt); hw_, hh_ = 0.1, 0.075
     pts = [(px_ + dx * c_ - dy * s_, py_ + dx * s_ + dy * c_, Z0 + 0.005 + k * 0.0005) for dx, dy in ((-hw_, -hh_), (hw_, -hh_), (hw_, hh_), (-hw_, hh_))]
     uvquad(G('props', 'back'), pts, pc(f'photo{(k + 1) % 3}'))
     uvquad(G('props', 'back'), [(px_ - 0.03, py_ + hh_ - 0.012, Z0 + 0.007), (px_ + 0.03, py_ + hh_ - 0.012, Z0 + 0.007), (px_ + 0.03, py_ + hh_ + 0.012, Z0 + 0.007), (px_ - 0.03, py_ + hh_ + 0.012, Z0 + 0.007)], pc('tape'))
-uvquad(G('props', 'back'), wall_quad('back', 0.003, -2.3, -2.05, 1.0, 1.05), pc('tape_old'))   # 撕掉的海報留下的膠帶痕
+uvquad(G('props', 'back'), wall_quad('back', 0.003, 2.3, 2.55, 1.0, 1.05), pc('tape_old'))   # 撕掉的海報留下的膠帶痕
+for k, (nm, cx_, cy_, w_, h_) in enumerate((('note_lesson', 1.0, 1.75, 0.34, 0.34), ('flyer', 1.55, 1.85, 0.36, 0.5), ('note_used', 2.1, 1.7, 0.3, 0.3), ('photo1', 1.3, 1.3, 0.24, 0.18), ('score', 2.55, 1.8, 0.3, 0.38))):   # v4c：窗牆東段（外觀的招牌那一段，實牆）：公告、傳單、照片
+    uvquad(G('props', 'back'), wall_quad('back', 0.004 + k * 0.0004, cx_ - w_ / 2, cx_ + w_ / 2, cy_ - h_ / 2, cy_ + h_ / 2), pc(nm))
+    uvquad(G('props', 'back'), wall_quad('back', 0.0062 + k * 0.0004, cx_ - 0.035, cx_ + 0.035, cy_ + h_ / 2 - 0.014, cy_ + h_ / 2 + 0.01), pc('tape'))
 
 # ---------------- 東牆：米色溝槽板（參考圖：淺色木條、細的深色溝） ----------------
 gw = IT['guitar_wall'][0]; GZ0, GZ1, GY0, GY1 = gw['z0'], gw['z1'], gw['y0'], gw['y1']
