@@ -1,0 +1,193 @@
+diff --git a/src/bike3d.js b/src/bike3d.js
+index 41fd5221d..5fe056b02 100644
+--- a/src/bike3d.js
++++ b/src/bike3d.js
+@@ -26,14 +26,16 @@ const BIKE=(function(){
+      校園：zones3d.js 校園的 parkedRack（大道北側五座、男一舍、霖澤館／萬才館前、大道兩側七座）＋宿舍門口（HOME）。
+      公館：捷運出口東邊、圓環東邊兩座人行道停車架（ART-GG-STREETLIFE-1023 ②）＋騎樓柱子外那一排機車（人行道上，不是騎樓；z 18.15）的端點。
+      溫州街：路邊停著腳踏車、機車格那幾排（zones3d.js 的 scRow）的端點。118 巷：巷口、巷底機車格（LANE118_PROPS.scooter_blocks）的端點。
+-     新生南路：還沒有停車架、停車格（xinsheng_layout 的 scooters 沒有導航阻擋、遊戲裡也還沒擺）→ 沒有合法停車處，車照舊停在原本的地方。
++     新生南路：BIKE-PARK-1104 加了四座停車架（zones3d.js 的 BIKE_RACKS.xinsheng）。
+      最近的合法停車處離出來的地方超過 MAXD：車停在那棟的門口旁邊（parkBeside，和騎著進門時一樣），等 LAWWW2 補 bikePark */
++  const BR=k=>((typeof Z3!=='undefined'&&Z3.BIKE_RACKS&&Z3.BIKE_RACKS[k])||[]).map(([x,z,ry])=>[x,z,4.6,ry]);   /* BIKE-PARK-1104（LAWWW2）：zones3d.js 的 BIKE_RACKS（新加的停車架）*/
+   const PARKS={
+     campus:{racks:[[-82,-16,5,0],[-50,-16,5,0],[-18,-16,5,0],[14,-16,5,0],[46,-16,5,0],[-66,55.4,5,0],[58,-102,6,0],[10,-100,4,0],
+-      [-6,24,4.6,0],[12,24,4.6,0],[33,24,4.6,0],[57,24,4.6,0],[-1,-17.2,4.6,Math.PI],[46,-23.5,4.6,Math.PI],[68,-23.5,4.6,Math.PI]],spots:[[HOME.x,HOME.z,HOME.yaw]]},
+-    gongguan:{racks:[[-14.5,9.2,4.8,Math.PI],[34,9.2,5.4,Math.PI]],
++      [-6,24,4.6,0],[12,24,4.6,0],[33,24,4.6,0],[57,24,4.6,0],[-1,-17.2,4.6,Math.PI],[46,-23.5,4.6,Math.PI],[68,-23.5,4.6,Math.PI]].concat(BR('campus')),spots:[[HOME.x,HOME.z,HOME.yaw],[40.5,-126.4,Math.PI/2]]},   /* BIKE-PARK-1104：校園後門（往 118 巷）旁邊靠牆停一台 */
++    gongguan:{racks:[[-14.5,9.2,4.8,Math.PI],[34,9.2,5.4,Math.PI]].concat(BR('gongguan')),
+       rows:[[-59.8,-55.8],[-49.6,-44.6],[-43.4,-39.6],[-25.2,-21.2],[-16.4,-13.4],[-6.8,-3],[2.4,5.2],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[47.6,51.2],[57.6,61.6],[64.6,68.2]].map(([a,b])=>[a,b,18.15,0])},   /* 和 zones3d.js 公館騎樓前那一排機車同一份（第二批四間店門讓出來以後；CC 11-04：舊排位有四個停車位落在洋洋、afar、轉角唱片、Daybreak 門口正前方；tests/bike_shop_park_unit.js 比對兩邊）*/
+-    wenzhou:{rows:[[-11.5,-10.65,3.95,0],[-6.8,-5.1,3.95,0],[9.4,10.3,4.1,0],[18.6,18.6,4.1,0],[16.4,18.95,3.95,0],[24.4,26.95,3.95,0],[5.0,14.35,-3.95,Math.PI],[31.5,37.45,-3.95,Math.PI],[-28.5,-24.25,-3.95,Math.PI]]},
++    wenzhou:{rows:[[-11.5,-10.65,3.95,0],[-6.8,-5.1,3.95,0],[9.4,10.3,4.1,0],[18.6,18.6,4.1,0],[16.4,18.95,3.95,0],[24.4,26.95,3.95,0],[5.0,14.35,-3.95,Math.PI],[31.5,37.45,-3.95,Math.PI],[-28.5,-24.25,-3.95,Math.PI]],spots:[[50.2,-3.8,0],[51.0,3.9,Math.PI],[-31.6,-23.0,0]]},   /* BIKE-PARK-1104：巷子窄、不放架子：兩點半 Café 門口兩側（也是從公館走進溫州街的地方）、往新生南路那條橫巷 */
++    xinsheng:{racks:BR('xinsheng'),spots:[[-24,-4.5,Math.PI/2]]},   /* 溫州街巷口（從溫州街走過來的地方）靠南邊的牆停一台 */
+     lane118:{rowsZ:()=>typeof LANE118_PROPS!=='undefined'&&LANE118_PROPS.scooter_blocks?LANE118_PROPS.scooter_blocks.map(([x,z,w,d])=>[x,z-d/2,z+d/2,x<0?Math.PI/2:-Math.PI/2]):[]} };
+   B.PARKS=PARKS; B.MAXD=30;
+   /* 一個停車架／一排的候選位置（由近到遠；第一個能用的就是這一排的停車位）*/
+diff --git a/src/xinsheng3d.js b/src/xinsheng3d.js
+index bbffc8c77..ed4ee4a22 100644
+--- a/src/xinsheng3d.js
++++ b/src/xinsheng3d.js
+@@ -26,6 +26,9 @@ const XS3=(function(){
+     for(const [x,z] of L.lamps) nav.blockCircle(x,z,0.3);
+     for(const [x,z] of L.bollards) nav.blockCircle(x,z,0.2);
+     { const b=L.busStop; nav.blockRect(b.x+0.9,b.z,0.5,b.w,0); }
++    const BR=(typeof Z3!=='undefined'&&Z3.BIKE_RACKS&&Z3.BIKE_RACKS.xinsheng)||[];   /* BIKE-PARK-1104：腳踏車停車架（側門兩邊圍牆前、店面那一側路邊）；bike3d.js 的合法停車處讀同一份 */
++    for(const [x,z,ry] of BR) nav.blockRect(x,z,4.6,1.6,-ry);
++    if(W3.bikeRack) for(const [x,z,ry] of BR){ const r=W3.bikeRack(7); r.name='xs_bike_rack'; r.position.set(x,0,z); r.rotation.y=ry; g.add(r); }
+     // 樹、路燈（套件；參考圖：校園那一側是大王椰子和樟樹，店面那一側是樟樹）
+     L.trees.palms.forEach(([x,z],i)=>{ if(!TK.royalPalm) return; const p=TK.royalPalm(15+(i%3)*1.2,700+i,{crown:0.72}); p.position.set(x,0,z); p.rotation.y=i*1.7; g.add(p); });
+     L.trees.camphor.forEach(([x,z],i)=>{ if(!TK.tree) return; const t=TK.tree(9+(i%4)*1.1,900+i,{sp:'camphor'}); t.position.set(x,0,z); t.rotation.y=i*2.3; g.add(t); });
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 306d149e4..d4660fcdf 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1,6 +1,14 @@
+ /* ===== 世界區域定義：台大核心校園（法學院→校園道路→椰林大道→校門）、公館、溫州街、室內 ===== */
+ 'use strict';
+ const Z3 = (function(){
++  /* BIKE-PARK-1104（AA_646 第 3 節，LAWWW2 11-04）：各建築出口、區域入口附近新加的腳踏車停車架 [x,z,ry]（W3.bikeRack(7)，導航阻擋 4.6×1.6）。
++     位置是用 Node 掃出來的：靠牆或靠台階、站得住、不在台階平台上、不切斷走道（擋掉的格子 ≤ 架子本身）、架子兩端停得下車；ry 讓車頭朝牆。
++     bike3d.js 的 PARKS 讀同一份（合法停車處）；xinsheng3d.js 讀 xinsheng。改位置要跑 tests/bike_park_1104_unit.js。*/
++  const BIKE_RACKS={
++    campus:[[-45,-72.1,Math.PI],[-45,-44.9,0],[66.5,59.5,0],[15.5,-66.4,0],[61.5,9,0],[61.5,-9,Math.PI],[23,-99.2,Math.PI],[94.21,-77.01,2.304],
++            [-121.5,-10,-Math.PI/2],[-121.5,10,-Math.PI/2],[-113.5,-82.5,Math.PI]],   // 博雅、普通、體育館、社科院圖書館、總圖（大道兩側）、霖澤館、萬才館（照萬才館轉 42°）、校門內兩側、新生南路側門（往 118 巷的後門那裡是 2.5 m 的窄通道，不放架子：bike3d.js 的 spots 停一台）
++    gongguan:[[0,-42,Math.PI]],   // 校門外（從校園走到公館的地方）
++    xinsheng:[[17,18.5,Math.PI/2],[17,1.5,Math.PI/2],[-8.6,15,Math.PI/2],[-8.6,-8,Math.PI/2]] };   // 側門兩邊（圍牆前）、店面那一側的路邊
+   const M=(c,o)=>P3.M(c,Object.assign({rough:0.95},o||{}));
+   const texMat=(t,rep,o)=>{ const m=new THREE.MeshStandardMaterial(Object.assign({map:t,roughness:0.95,metalness:0},o||{})); return m; };
+   /* ART-LIB-FRONT-PAVING-1103（使用者 11-03「總圖前椰影大道地磚是怎樣」）：校園的路面、人行道、廣場改用照片做的 PBR 貼圖（Poly Haven CC0：granite_tile 調成淺米色石磚、asphalt_02 取沒有裂縫的那一塊、
+@@ -382,7 +390,8 @@ const Z3 = (function(){
+         const rowG=new THREE.Group(); let k=0; for(let x=-108;x<=66;x+=6){ const jx=x+((x*13)%5)*0.35; if(skip.some(([a,b])=>jx>a&&jx<b)) continue; k++; const t=TK.tree(6.4*(1.75+((k*7)%4)*0.1),k+(side>0?50:0),AVE_TREE); t.position.set(jx,0,side*(17.5+((k*5)%3)*0.5)); t.rotation.y=k*1.3; rowG.add(t); nav.blockCircle(t.position.x,t.position.z,0.8); }
+         g.add(W3.mergeGroup(rowG)); }   /* 北側 [43,50.5]：(49.4,-17.8) 那棵和停車架 (46,-16) 東端之間會留一道比人窄的縫（nav_islands 的孤島，第二十批拿掉）*/
+       // 系館門口的腳踏車架（台大的系館前面一定停滿腳踏車）
+-      for(const [x,z,ry] of [[-6,24,0],[12,24,0],[33,24,0],[57,24,0],[-1,-17.2,Math.PI],[46,-23.5,Math.PI],[68,-23.5,Math.PI]]){ const r=parkedRack(7); place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,0); } }
++      for(const [x,z,ry] of [[-6,24,0],[12,24,0],[33,24,0],[57,24,0],[-1,-17.2,Math.PI],[46,-23.5,Math.PI],[68,-23.5,Math.PI]]){ const r=parkedRack(7); place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,0); }
++      for(const [x,z,ry] of BIKE_RACKS.campus){ const r=parkedRack(7); place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,-ry); }   /* BIKE-PARK-1104：blockRect 的旋轉方向和 rotation.y 相反（萬才館那一座不是 0／90°）*/ }
+     // ---- v9.3 第二十批：校園邊界外的背景（走不到，只有畫面；不加導航）----
+     // 原本地面在 x=±130、z=-128／+85 就結束：轉鏡頭會看到地面盡頭直接接天空，校門外只有一小塊草地。
+     // 西（校門外）：照公館區域的實際配置換算座標（公館 (gx,gz) → 校園 (x=-170-gz, z=gx)）——北側人行道、羅斯福路車道線、南側人行道、
+@@ -896,6 +905,7 @@ const Z3 = (function(){
+       for(const [x0,x1] of [[-59.8,-55.8],[-49.6,-44.6],[-43.4,-39.6],[-25.2,-21.2],[-16.4,-13.4],[-6.8,-3],[2.4,5.2],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[47.6,51.2],[57.6,61.6],[64.6,68.2]]){   /* 每一段跨在一根騎樓柱子前面，下一根柱子前面空著＝從廣場走進騎樓的缺口（柱子兩側各 2 m 多）*/
+         const n=Math.min(5,Math.max(2,Math.floor((x1-x0-0.5)/0.85)+1)), xc=(x0+x1)/2; if(!clear(x0)||!clear(x1)) console.warn('騎樓前的機車擋到店門口',x0,x1); scRow(xc,18.15,n,0,'A'+(seg++)); } }   /* 一段一組：機車的近／遠模型照「鏡頭到這一組中心」切換（attachWzScooters 的 LOD），一組 30 m 寬時整組 20 台都用近的模型，三角形多 7～9 萬 */
+     for(const [x,z,n] of [[-14.5,9.2,7],[34,9.2,8]]){ const r=W3.bikeRack(n); r.name='gg_bike_rack'; place(g,r,x,z,Math.PI); nav.blockRect(x,z,n*0.6+0.6,1.4,0); }   /* 停車架：車頭朝騎樓（π）、整排一塊 */
++    for(const [x,z,ry] of BIKE_RACKS.gongguan){ const r=W3.bikeRack(7); r.name='gg_bike_rack'; place(g,r,x,z,ry); nav.blockRect(x,z,4.6,1.6,-ry); }   /* BIKE-PARK-1104：校門外 */
+     { const pitM=new THREE.MeshStandardMaterial({color:0x3b332b,roughness:1}), curbM=new THREE.MeshStandardMaterial({color:0xa8a49c,roughness:0.85}), pit=new THREE.Group(); pit.name='gg_tree_pits';
+       for(const [x,z] of [[-53,9.4],[-7,9.0],[7.5,9.0],[46,9.6],[58,9.6]]){ const t=TREE(0.95); t.name='gg_street_tree'; place(g,t,x,z,(x*0.37)%6.28); nav.blockCircle(x,z,0.7);
+         const soil=new THREE.Mesh(new THREE.PlaneGeometry(1.3,1.3),pitM); soil.rotation.x=-Math.PI/2; soil.position.set(x,0.012,z); pit.add(soil);
+@@ -2375,5 +2385,5 @@ const Z3 = (function(){
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
++  return {BIKE_RACKS,ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+ })();
+diff --git a/tests/bike_park_1104_unit.js b/tests/bike_park_1104_unit.js
+new file mode 100644
+index 000000000..08f8b3526
+--- /dev/null
++++ b/tests/bike_park_1104_unit.js
+@@ -0,0 +1,59 @@
++// 腳踏車停車架（BIKE-PARK-1104；AA_646 第 3 節「每棟有出口的建築……標一個停車處」；LAWWW2 11-04）——不需要瀏覽器。
++// 建出遊戲真正的區域（校園、公館、溫州街、新生南路、118 巷）和每一棟建築，照 bike3d.js 真正的 legalSpot 算：
++//   ① 從每一棟建築走出來的地方、從別的戶外區域走進來的地方，到最近的合法停車處多遠；
++//   ② zones3d.js 的 BIKE_RACKS（新加的停車架）：導航擋住的範圍和畫面上架子的方向一致（萬才館那一座轉 42°）、不在台階平台上、不壓到出入口；
++//   ③ 加了架子以後，每一個出入口從區域的出生點都還走得到。
++// 修改前（開發分支 03713452b）：zones3d.js 沒有 BIKE_RACKS（② ③ 失敗）；從博雅出來最近的停車處 54 m、體育館 37 m、萬才館 34 m、普通 33 m、社科院圖書館 33 m、
++//   從新生南路側門走進校園 76 m、新生南路完全沒有停車處（① 失敗）。
++// 用法：node tests/bike_park_1104_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
++// 載入 index.html 到 teach3d.js 為止的區域檔（不要人物、劇情），再加上 118 巷、溫州街小店、腳踏車
++const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const all=[...html.matchAll(/src="([^"?]+)/g)].map(m=>m[1]);
++const files=[]; for(const f of all){ if(/three-vrm|character3d|props3d/.test(f)) continue; files.push(f); if(/teach3d\.js$/.test(f)) break; }
++for(const f of ['src/lane118.js','src/data/l118_shop_layouts.js','src/l118_shops3d.js','src/wzpark3d.js','src/wzshops3d.js','src/bike3d.js','src/bikeshop3d.js','src/mokuyobi_sys3d.js','src/offbeat_sys3d.js']) if(!files.includes(f)) files.push(f);
++for(const f of files){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,'globalThis.$1='); try{ vm.runInThisContext(src,{filename:f}); }catch(e){ console.log('（載入 '+f+' 失敗：'+e.message+'）'); } }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const J=x=>JSON.stringify(x);
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.exits=[]; E.spawnHint=null;
++  const z=Z3.ZONES[id].build(E); z.def=Z3.ZONES[id]; E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; if(E.nav) E.nav._cm=null; return z; }
++const OUT=['campus','gongguan','wenzhou','xinsheng','lane118'];
++check('zones3d.js 有 BIKE_RACKS（新加的停車架）',!!(Z3.BIKE_RACKS&&Z3.BIKE_RACKS.campus&&Z3.BIKE_RACKS.xinsheng));
++// ---- 出來的地方：每一棟建築走出來、別的戶外區域走進來 ----
++const outs=[];
++for(const id of Object.keys(Z3.ZONES)){ let z; try{ z=loadZone(id); }catch(e){ continue; }
++  for(const it of E.interactables){ const x=it.exit; if(!x||!OUT.includes(x.to)||!x.spawn) continue; if(!outs.some(o=>o.from===id&&o.to===x.to&&o.sx===x.spawn.x&&o.sz===x.spawn.z)) outs.push({from:id,to:x.to,sx:x.spawn.x,sz:x.spawn.z}); } }
++// 上限：一般 12 m；總圖（前面是大草坪和台階平台，停車架放在椰林大道兩側）18 m；118 巷從校園後門進來的那一頭、公館從校門出來的那一頭 15 m
++const LIMIT=o=>o.from==='library_hall'?18:((o.to==='lane118'&&o.from==='campus')||(o.to==='gongguan'&&o.from==='campus')?15:12);
++const byZone={}; for(const o of outs) (byZone[o.to]=byZone[o.to]||[]).push(o);
++for(const id of OUT){ if(!byZone[id]) continue; loadZone(id); const far=[];
++  for(const o of byZone[id]){ const L=BIKE.legalSpot(E,id,o.sx,o.sz); o.d=L?+L.d.toFixed(1):null; if(o.d==null||o.d>LIMIT(o)) far.push(o); }
++  const worst=byZone[id].reduce((a,o)=>o.d!=null&&o.d>a.d?o:a,{d:0});
++  check('① '+id+'：'+byZone[id].length+' 個出來的地方，最近的合法停車處都在 12 m 以內（總圖 18 m、校門外和 118 巷口 15 m）；最遠 '+worst.d+' m（從 '+worst.from+'）',!far.length,J(far)); }
++// ---- 新加的停車架 ----
++for(const id of ['campus','gongguan','xinsheng']){ loadZone(id); const N=E.nav; const R=Z3.BIKE_RACKS[id]; const bad=[];
++  for(const [x,z,ry] of R){ const c=Math.cos(ry), s=Math.sin(ry), at=(a,b)=>[x+a*c+b*s, z-a*s+b*c];   // 畫面上的架子（three.js 的 rotation.y）：本地 x 是架子的長邊；取點離邊 0.3 m（導航格 0.5 m，格子中心最多差 0.25 m）
++    const inside=[[-2.0,-0.5],[2.0,-0.5],[-2.0,0.5],[2.0,0.5],[0,0]].map(([a,b])=>at(a,b)), outside=[[-2.0,1.6],[2.0,1.6],[-2.0,-1.6],[2.0,-1.6]].map(([a,b])=>at(a,b)).filter(([px,pz])=>{ const [cx,cz]=N.toCell(px,pz); return cx>=0&&cz>=0&&cx<N.cols&&cz<N.rows; });
++    const blocked=([px,pz])=>{ const [cx,cz]=N.toCell(px,pz); return !!N.b[N.idx(cx,cz)]; };
++    if(!inside.every(blocked)) bad.push(['架子底下沒擋住（導航和畫面方向不一致）',x,z]);
++    if(!outside.some(p=>!blocked(p))) bad.push(['架子前後都被擋住（停不了車）',x,z]);
++    if(inside.some(([px,pz])=>Math.abs(N.heightAt(px,pz)-N.y0)>0.05)) bad.push(['在台階或平台上',x,z]);
++    for(const it of E.interactables) if(it.exit&&Math.hypot(it.x-x,it.z-z)<(it.radius||1.5)+2.3) bad.push(['壓到出入口 '+(it.label||it.exit.to),x,z]); }
++  check('② '+id+'：'+R.length+' 座新停車架，導航擋住的範圍和畫面一致、前後至少一邊停得下車、不在台階平台上、不壓到出入口',!bad.length,J(bad));
++  // ③ 每一個出入口（第 0 層）從出生點都還走得到
++  const sp=E.zone.spawn; const seen=new Uint8Array(N.cols*N.rows); const [c0,r0]=N.toCell(sp.x,sp.z); const st=[[c0,r0]]; seen[N.idx(c0,r0)]=1;
++  while(st.length){ const [c,r]=st.pop(); for(const [dc,dr] of [[1,0],[-1,0],[0,1],[0,-1]]){ const C=c+dc, Rr=r+dr; if(C<0||Rr<0||C>=N.cols||Rr>=N.rows) continue; const k=N.idx(C,Rr); if(seen[k]||N.b[k]) continue; seen[k]=1; st.push([C,Rr]); } }
++  const cut=[]; for(const it of E.interactables){ if(!it.exit||(it.lv|0)!==0) continue; const rr=(it.radius||1.5); let ok=false;
++    for(let dx=-rr;dx<=rr&&!ok;dx+=N.cell) for(let dz=-rr;dz<=rr&&!ok;dz+=N.cell){ if(dx*dx+dz*dz>rr*rr) continue; const [cx,cz]=N.toCell(it.x+dx,it.z+dz); if(cx>=0&&cz>=0&&cx<N.cols&&cz<N.rows&&seen[N.idx(cx,cz)]) ok=true; }
++    if(!ok) cut.push(it.label||it.exit.to); }
++  check('③ '+id+'：加了停車架以後，每一個出入口從出生點都走得到',!cut.length,J(cut)); }
++// ---- 溫州街、新生南路的單一停車位（巷子窄，不放架子）都站得住、不擋門 ----
++for(const id of ['wenzhou','xinsheng']){ loadZone(id); const S=(BIKE.PARKS[id].spots||[]); const bad=S.filter(([x,z,yaw])=>!BIKE.parkOK(E,{x,z,yaw}));
++  check('④ '+id+'：'+S.length+' 個單一停車位都站得住、不擋出入口',S.length>0&&!bad.length,J(bad)); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/bike_shop_park_unit.js b/tests/bike_shop_park_unit.js
+index 215e14249..28cf926b4 100644
+--- a/tests/bike_shop_park_unit.js
++++ b/tests/bike_shop_park_unit.js
+@@ -117,7 +117,7 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
+     check('8 出店：車停在車行門口的停車位（騎樓柱子外那一排機車的端點，z<19 不在騎樓）、站得住、不擋門、有「騎腳踏車」',G.bike.zone==='gongguan'&&Math.abs(G.bike.x-BIKESHOP.PARK.x)<1e-6&&Math.abs(G.bike.z-BIKESHOP.PARK.z)<1e-6&&G.bike.z<19&&BIKE.parkOK(E,{x:G.bike.x,z:G.bike.z,yaw:G.bike.yaw})&&!!parkedObj()&&E.interactables.some(i=>i.bike),J(G.bike));
+     check('8 出店的地方（人行道）不在店門口互動範圍裡、站得住',E.canStand(out.exit.spawn.x,out.exit.spawn.z,0.3,0)&&Math.hypot(out.exit.spawn.x+0.3,out.exit.spawn.z-21)>2.4); }
+   // ---- 9 自動停車：每一區的合法停車處 ----
+-  for(const id of ['campus','gongguan','wenzhou','lane118']){ loadZone(id); const S=BIKE.parkSpots(E,id); let bad=[];
++  for(const id of ['campus','gongguan','wenzhou','lane118','xinsheng']){ loadZone(id); const S=BIKE.parkSpots(E,id); let bad=[];   /* BIKE-PARK-1104：新生南路也有停車架了 */
+     for(const q of S){ if(!BIKE.parkOK(E,q)) bad.push(q); if(id==='gongguan'&&q.z>=19) bad.push(['騎樓',q]); }
+     check('9 '+id+'：合法停車處 '+S.length+' 個，每個都站得住（車頭、車尾）、不擋出入口'+(id==='gongguan'?'、都不在騎樓（z<19）':''),S.length>=2&&!bad.length,J(bad.slice(0,3))); }
+   { const z=fs.readFileSync(path.join(ROOT,"src/zones3d.js"),"utf8"), m=z.match(/const DOORS=(\[[^\]]*\])[\s\S]*?for\(const \[x0,x1\] of (\[\[[^;]*?\]\])\)\{/); const DOORS=m?JSON.parse(m[1]):[], segs=m?JSON.parse(m[2]):[];
+@@ -126,7 +126,6 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
+   { loadZone('bikeshop'); const BL=BIKE_LAYOUT.bike.repairBike.blockWhenShown, nb=()=>E.nav.b.reduce((a,v)=>a+(v?1:0),0), n0=nb(), c0=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null;
+     BIKESHOP.repairBike(true); const n1=nb(), c1=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null; BIKESHOP.repairBike(false); const n2=nb();
+     check('8d 修車架上的車打開時加導航阻擋（repairBike.blockWhenShown）、收起來還原（BB 11-04）',n1>n0&&n2===n0,J({n0,n1,n2,c0,c1})); }
+-  loadZone('xinsheng'); check('9 新生南路：還沒有停車架、停車格＝沒有合法停車處（車照舊）',BIKE.parkSpots(E,'xinsheng').length===0);
+   // 校園：回宿舍再出來＝宿舍門口；法律系館A＝最近的停車架
+   G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false}; G.hour=15;
+   await enter('campus',{x:20,z:56,yaw:0}); G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false};
+@@ -143,8 +142,9 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
+       check('9 溫州街：從阿德影印輸出出來，車在最近的停車格旁（'+d.toFixed(1)+' m）',G.bike.zone==='wenzhou'&&inSpots('wenzhou')&&d<=BIKE.MAXD,J(G.bike)); } else check('9 溫州街有阿德影印輸出的門',false); }
+   { await enter('lane118'); const sp0=E.zone.spawn; const d=Math.hypot(G.bike.x-sp0.x,G.bike.z-sp0.z);
+     check('9 118 巷：從校園後門走進來，車在最近的機車格旁（'+d.toFixed(1)+' m）',G.bike.zone==='lane118'&&inSpots('lane118')&&d<=BIKE.MAXD,J(G.bike)); }
+-  // 新生南路：沒有合法停車處＝照舊
+-  { const before=J(G.bike); await enter('xinsheng'); check('9 走到新生南路：車不跟過來（照舊留在 118 巷）',J(G.bike)===before,J(G.bike)); }
++  // 新生南路（BIKE-PARK-1104 以後有停車架）：從 118 巷走過去＝車停在側門那邊最近的停車架
++  { await enter('xinsheng'); const sp0=E.zone.spawn; const d=Math.hypot(G.bike.x-sp0.x,G.bike.z-sp0.z);
++    check('9 新生南路：走進來，車在最近的停車架旁（'+d.toFixed(1)+' m）',G.bike.zone==='xinsheng'&&inSpots('xinsheng')&&d<=12,J(G.bike)); }
+   // ---- 10 不會走一段路車就跟著；讀檔不動；騎著換區域照舊 ----
+   { await enter('campus',{x:25,z:50,yaw:0}); const s0=J(G.bike); P.obj.position.set(-60,0,0); BIKE.tick(GM,1/30); check('10 在同一區走來走去：車不會跟著（只在換區域那一刻）',J(G.bike)===s0);
+     const saved=JSON.parse(J(G)); await enter('campus',{x:-60,z:0,yaw:0},{fromLoad:true}); check('10 讀檔（fromLoad）：車照存檔的位置，不自動移',G.bike.x===saved.bike.x&&G.bike.z===saved.bike.z);
+@@ -153,7 +153,10 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
+   // ---- 11 離門太遠的停車架：停在門旁邊（和騎著進門一樣）----
+   { await enter('campus',{x:-110,z:0,yaw:0}); G.bike={zone:'wenzhou',x:0,z:0,yaw:0,riding:false}; await enter('gongguan',{x:-110,z:0,yaw:0}); const gate=E.interactables.filter(i=>i.exit&&i.exit.to==='campus')[0]; P.obj.position.set(gate.x,0,gate.z);
+     await enter('campus',gate.exit.spawn); const sp=gate.exit.spawn, q=BIKE.legalSpot(E,'campus',sp.x,sp.z), d=Math.hypot(G.bike.x-sp.x,G.bike.z-sp.z);
+-    check('11 從公館走進校門（最近的停車架 '+(q?q.d.toFixed(0):'?')+' m，超過 '+BIKE.MAXD+' m）：車停在校門旁邊、站得住',!!q&&q.d>BIKE.MAXD&&G.bike.zone==='campus'&&d<6&&E.canStand(G.bike.x,G.bike.z,0.45,0),J({bike:G.bike,d})); }
++    check('11 從公館走進校門：車停在校門內的停車架（BIKE-PARK-1104；'+(q?q.d.toFixed(1):'?')+' m）',!!q&&q.d<=12&&G.bike.zone==='campus'&&inSpots('campus')&&Math.abs(G.bike.x-q.x)<1e-6&&Math.abs(G.bike.z-q.z)<1e-6,J({bike:G.bike,d}));
++    const MAXD0=BIKE.MAXD; BIKE.MAXD=Math.max(1,q.d-1);   /* 最近的停車架比 MAXD 遠的那條路（原本靠校門離停車架 38 m 來測；校門內加了停車架以後改成把 MAXD 調小）*/
++    G.bike={zone:'wenzhou',x:0,z:0,yaw:0,riding:false}; await enter('gongguan',{x:-110,z:0,yaw:0}); P.obj.position.set(gate.x,0,gate.z); await enter('campus',gate.exit.spawn); const d2=Math.hypot(G.bike.x-sp.x,G.bike.z-sp.z); BIKE.MAXD=MAXD0;
++    check('11 最近的停車架超過 MAXD：車停在校門旁邊、站得住',G.bike.zone==='campus'&&d2<6&&E.canStand(G.bike.x,G.bike.z,0.45,0),J({bike:G.bike,d:d2})); }
+   // ---- 13 正式室內（CC 的 bike.glb＋bike_layout.js v2）----
+   { const L=BIKE_LAYOUT.bike, man=ASSETS.manifest['bldg.bikeshop_interior'];
+     check('13 資產登錄：bldg.bikeshop_interior → bb_support/bike.glb（檔案在）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb)),J(man&&man.url));
