@@ -1,0 +1,31 @@
+{
+  "rerun": "",
+  "id": "TT_V15_chunk",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_longchunk.py",
+  "env": "CC_AUTORETRY=1;ST_PAGE=game;CC_TRACE_CHUNK_S=30",
+  "machine": "MSI",
+  "start": "2026-11-04T15:29:52",
+  "end": "2026-11-04T15:35:53",
+  "seconds": 361,
+  "exit": 1,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 73,
+    "mem": 58,
+    "used_gb": 18.3,
+    "chrome_testing": 30
+  },
+  "final": "FAIL",
+  "class": "UNKNOWN/assert",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 1 行（CASE C 結束），兩次一致；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ]
+}

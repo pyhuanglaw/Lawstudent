@@ -1,0 +1,9 @@
+[gpu_wrap] CC_GPU=1 跑 <REPO>\docs\story_planning\test_tools\cc\selftest\st_longchunk.py http://127.0.0.1:8813/index.html <REPO>\docs\story_planning\CC\local_out\TT_V15_chunk\out
+  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8813/index.html（自測：只開頁、不玩）
+== A
+PASS CASE A 結束  自測：C 故意 FAIL
+== B
+PASS CASE B 結束  自測：C 故意 FAIL
+== C
+FAIL CASE C 結束  自測：C 故意 FAIL
+FAILED 1: CASE C 結束

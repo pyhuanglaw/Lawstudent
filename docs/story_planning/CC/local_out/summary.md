@@ -976,3 +976,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_night_r5_0130] | [gpu_wrap 72.2s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 72.3s] BROWSER DISCONNECTED
 - 2026-11-04T15:35:08  GG_int_yejian_r2  sha=10b6ebbf8  exit=0  4179s    PASS Y3 她在書牆前（到書牆正面 z -4.56 的距離 0.61 m ≤ 1.2）  {"id": "pool_1", "clerk": false, "hidden": false, "vis": false, "x": 0.3, "z": -3.95, "ry": 3.14} / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 3.0s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_int_yejian_r2] | [gpu_wrap 4136.5s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 4136.6s] BROWSER DISCONNECTED
+- 2026-11-04T15:36:03  TT_V15_chunk  sha=d2e36f6eb  exit=1  361s    == C / FAIL CASE C 結束  自測：C 故意 FAIL / FAILED 1: CASE C 結束
+      err.log (last 5): [cc_trace 0.4s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V15_chunk\attempt2\trace | [gpu_wrap 1.9s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15_chunk] | [gpu_wrap 172.6s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 172.7s] BROWSER DISCONNECTED
+      autoretry: final FAIL  class UNKNOWN/assert  exit2 1

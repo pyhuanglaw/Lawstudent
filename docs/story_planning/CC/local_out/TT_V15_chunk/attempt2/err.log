@@ -1,0 +1,4 @@
+[cc_trace 0.4s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V15_chunk\attempt2\trace
+[gpu_wrap 1.9s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15_chunk]
+[gpu_wrap 172.6s] page close url=http://127.0.0.1:8813/index.html
+[gpu_wrap 172.7s] BROWSER DISCONNECTED
