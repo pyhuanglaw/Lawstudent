@@ -69,6 +69,9 @@ GG_night_r8_21 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_car
 GG_night_r8_0130 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+# SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住
+SUNNY_seatfix_reach | 46d459625 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wz_brunch
+SUNNY_seatfix_sit | 46d459625 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=sunny;HOURS=;SEATS=1;CC_HEADLESS=0
 # CAFE230v4（LAWWW 08:45）：8f936f018 2:30 AM 光照貼圖（22:00 燈下光圈）
 CAFE230v4_shots | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
 CAFE230v4_seats | 060a1a093 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
