@@ -1,0 +1,580 @@
+{
+ "pid": "heroine_02",
+ "tag": "phone_date 出去玩",
+ "rec0": {
+  "day": 0,
+  "hour": 12.1087,
+  "t": 12.1087,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 0,
+  "hour": 15.265,
+  "t": 15.265,
+  "money": 29690,
+  "rel": {
+   "fam": 52,
+   "trust": 37,
+   "comf": 36,
+   "aff": 0,
+   "rom": 39,
+   "npcRom": 42
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus"
+ },
+ "hours": 3.1563,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（華山1914文創園區。）",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "老酒廠。牆上還留著以前的管線。",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "……拍電影的人會很喜歡這裡。不用搭景。",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "（她在一張黑白照片前站很久）這張的光，是從窗戶進來的。",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "拍的人等了很久。等光剛好。",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "會啊。打奶泡也要等溫度，急不來。",
+   "h": 13.417,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "市集的東西都很可愛。",
+   "h": 13.917,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "可是我家很小，買了沒地方放。",
+   "h": 13.917,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "……好。要很小的。小到放得進口袋。",
+   "h": 13.917,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "（坐下）草地上的人都好放鬆。",
+   "h": 14.25,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我很少坐在地上。在店裡，地上是要拖的。",
+   "h": 14.25,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "……對。今天不用。",
+   "h": 14.25,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "……今天夠了。不是不好玩。",
+   "h": 14.583,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "紅磚牆。……很適合拍照，很多人都在拍。",
+   "h": 14.583,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我拍你。我比較會拍，不太會被拍。",
+   "h": 14.583,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "……好。不要叫我笑。",
+   "h": 14.583,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "這裡關門的時候，燈會一盞一盞熄。",
+   "h": 14.833,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "我每次都想等最後一盞。……好啦，走了。",
+   "h": 14.833,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "h": 14.833,
+   "d": 0,
+   "z": "campus",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（華山1914文創園區。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": false,
+     "img": false
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "老酒廠。牆上還留著以前的管線。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "……拍電影的人會很喜歡這裡。不用搭景。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（她在一張黑白照片前站很久）這張的光，是從窗戶進來的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "拍的人等了很久。等光剛好。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "會啊。打奶泡也要等溫度，急不來。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "市集的東西都很可愛。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "可是我家很小，買了沒地方放。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "……好。要很小的。小到放得進口袋。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "（坐下）草地上的人都好放鬆。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我很少坐在地上。在店裡，地上是要拖的。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "……對。今天不用。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "……今天夠了。不是不好玩。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "紅磚牆。……很適合拍照，很多人都在拍。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我拍你。我比較會拍，不太會被拍。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "……好。不要叫我笑。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "這裡關門的時候，燈會一盞一盞熄。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "我每次都想等最後一盞。……好啦，走了。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（今天去了華山1914文創園區：老倉庫裡的展覽、週末市集、大草地、紅磚牆前。花了 310 元（含來回車資）。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "campus",
+  "lv": 0,
+  "pseat": false,
+  "nseat": false,
+  "seatD": null,
+  "sameGroup": false,
+  "doorD": 23,
+  "spawnD": 135.92,
+  "npc": true,
+  "nD": 62.06,
+  "nbeh": "wander",
+  "nleaving": false,
+  "nx": -32.02,
+  "nz": 19.09,
+  "p": [
+   27.17,
+   37.75
+  ]
+ }
+}

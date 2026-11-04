@@ -1,0 +1,304 @@
+{
+ "pid": "heroine_03",
+ "tag": "phone_date 念書（去總圖一起念書）",
+ "rec0": {
+  "day": 21,
+  "hour": 11.7301,
+  "t": 515.7301,
+  "money": 30000,
+  "rel": {
+   "fam": 50,
+   "trust": 35,
+   "comf": 28,
+   "aff": 0,
+   "rom": 35,
+   "npcRom": 35
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "campus",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 13.4446,
+  "t": 517.4446,
+  "money": 30000,
+  "rel": {
+   "fam": 53,
+   "trust": 37,
+   "comf": 29,
+   "aff": 0,
+   "rom": 36,
+   "npcRom": 36
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "STUDIED_TOGETHER"
+  ],
+  "zone": "library_hall"
+ },
+ "hours": 1.7145000000000437,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "她念到一半趴著睡了十分鐘，醒來第一句是：「我有沒有打呼。」",
+   "h": 11.918,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "你去過淡水嗎。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "……我家在淡水。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "可是我從來沒有跟朋友一起看過那裡的夕陽。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "我以前念的學校都不在淡水，要住校。週末回家，也是去補習。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "同學都住別的地方。……沒有人會特地跑去淡水看夕陽。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "所以我到現在還不知道，淡水的夕陽最後長什麼樣子。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "……嗯。",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "下次一樣？",
+   "h": 13.418,
+   "d": 21,
+   "z": "library_hall",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "她念到一半趴著睡了十分鐘，醒來第一句是：「我有沒有打呼。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）……我家在淡水。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）可是我從來沒有跟朋友一起看過那裡的夕陽",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）我以前念的學校都不在淡水，要住校。週",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）同學都住別的地方。……沒有人會特地跑",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）所以我到現在還不知道，淡水的夕陽最後",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）……嗯。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "（小聲）下次一樣？",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "library_hall",
+  "lv": 1,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.05,
+  "sameGroup": false,
+  "doorD": 3.6,
+  "spawnD": 8.11,
+  "npc": true,
+  "nD": 1.05,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -7.02,
+  "nz": 5.8,
+  "p": [
+   -8.07,
+   5.8
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PD_romA",
+  "sha": "27970f958",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=heroine_01,heroine_02,heroine_03;STEPS=phone_date;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T10:06:14",
+  "end": "2026-11-04T12:28:08",
+  "seconds": 8515,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 93,
+    "mem": 65,
+    "used_gb": 20.3,
+    "chrome_testing": 30
+  }
+}
