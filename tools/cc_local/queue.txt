@@ -28,6 +28,9 @@ GG_int_cvs_menu_fix | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_g
 GG_int_yejian_r2 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
 GG_night | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 GG_night_typhoon | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
+# GG_night_fix：LAWWW 3424d8e66 打烊調暗修正；舊版 3dce31a93 已 FAIL（22/14≈0.8–1.4）
+GG_night_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
+GG_night_typhoon_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
 GATE_out2 | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 15 | CASES=shot;GATE_VIEWS=out;CC_HEADLESS=0
 GG_ext_glb4 | 3dce31a93 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 NOODLE_exit | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CC_HEADLESS=0
