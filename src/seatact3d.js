@@ -221,7 +221,8 @@ const SEATACT=(function(){
     if(S.TASK_DEPTH[k0]&&!((r.tb.depth||0)>=S.TASK_DEPTH[k0])) return null;
     const kind=k0==='type'&&(hash('task|'+R.zid+'|'+R.day+'|'+skey(r.st))&1)?'typepad':k0;   /* 用筆電：一半的人每 5 秒去摸一下觸控板（照種子：同一天同一個位子一樣）*/
     const desk={h:r.tb.h-(+r.st.lift||0),edge:r.tb.edge,depth:r.tb.depth};
-    const f=CHAR.sitTaskFit(o,kind,desk)||(kind==='typepad'?CHAR.sitTaskFit(o,'type',desk):null); if(!f) return null;   /* 觸控板摸不到（桌子遠）＝只打字 */
+    const urgent=k0==='phone';   /* 滑手機要換姿勢（read→sit）：量骨架不排隊，第一次就決定好，不會先拿著手機再換 */
+    const f=CHAR.sitTaskFit(o,kind,desk,urgent)||(kind==='typepad'?CHAR.sitTaskFit(o,'type',desk):null); if(!f) return null;   /* 觸控板摸不到（桌子遠）＝只打字 */
     if(f.prop&&!canHide(r.set,f.prop)) return null;   /* 手上拿的東西桌上也有、又拆不掉：先不用 */
     return f; }
   const fitSig=f=>f?f.clip+'|'+f.shift+'|'+(f.prop||''):'';

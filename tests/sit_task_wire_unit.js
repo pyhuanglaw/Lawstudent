@@ -11,7 +11,7 @@
 //   E  桌緣比參考遠（0.42 m）：人往前坐 12 cm、手和桌緣的相對位置跟參考一樣（≤ 1 cm）
 //   F  載不到：片段的 GLB 不見＝不報錯、和沒有這個功能一模一樣（骨頭的四元數分量）；載入失敗以後 30 秒內不再下載；配件的 GLB 不見＝要拿東西的（寫字、滑手機）照舊、打字照樣
 //   G  不留垃圾：每一格不會一直加配件；C.release 把配件從骨頭拿下來（VRM 的第一個實例會被下一個人重用）；CHAR.upgrade（換模型）接著做
-//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm1）照舊；一次量的人數有上限
+//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm1）照舊；一次量的人數有上限、同一個模型共用、滑手機不排隊
 //   H  C.SIT_TASK.WIN（桌緣的範圍）和量到的一樣：前臂在桌面上的那一段離桌面不到 1.5 cm 的地方不能在桌子上（女生不比參考的桌子更糟）、放在桌上的手腕往前 3 cm 在桌上、男生打字的指尖不過筆電的鉸鏈
 // 修改前（開發分支 060f12491）：沒有 manifest、沒有 CHAR.sitTaskFit：A～H 幾乎全部 FAIL。用法：node tests/sit_task_wire_unit.js
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
@@ -123,10 +123,14 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* �
     const s0=snap(); delete h.userData.taskDev; const f=CHAR.sitTaskFit(h,'write',{h:0.75,edge:0.30,depth:0.3}); const s1=snap();
     let worst=0; s0.forEach((a,i)=>a.forEach((v,j)=>{ worst=Math.max(worst,qd(v,s1[i][j])); }));
     check('D2 量骨架（照片段擺一次）以後骨頭、位置全部放回去（真實的、正規化的骨頭、世界位置都一模一樣；不會留一格錯的畫面）',!!f&&!!h.userData.taskDev&&worst<1e-12,'最大差 '+worst.toExponential(1));
-    const P0=CHAR.SIT_TASK.probesPer; CHAR.SIT_TASK.probesPer=1; const g1=mkNPC('char.npc_nf2',{x:3,z:0,yaw:0,lv:0}).obj, g2=mkNPC('char.npc_nf2',{x:5,z:0,yaw:0,lv:0}).obj; for(const g of [g1,g2]) CHAR.animate(g,DT,{pose:'sit',speed:0});
-    await sleep(25); const a1=!!CHAR.sitTaskFit(g1,'type',{h:0.75,edge:0.30,depth:0.3}), a2=!!CHAR.sitTaskFit(g2,'type',{h:0.75,edge:0.30,depth:0.3}); await sleep(25); const a3=!!CHAR.sitTaskFit(g2,'type',{h:0.75,edge:0.30,depth:0.3});
-    CHAR.SIT_TASK.probesPer=P0; check('D2 一次量的人數有上限（probesPer：同一段時間第二個人等下一次 SEATACT）',a1&&!a2&&a3,a1+'／'+a2+'／'+a3);
-    for(const o of [h,g1,g2]){ scene.remove(o); CHAR.release(o); } }
+    /* 一次量的人數有上限（probesPer）；同一個模型、同一個縮放量過就共用（TDEV）；urgent（滑手機）不排隊 */
+    const P0=CHAR.SIT_TASK.probesPer; CHAR.SIT_TASK.probesPer=1; CHAR._taskDevCache.clear();
+    const g1=mkNPC('char.npc_nf2',{x:3,z:0,yaw:0,lv:0}).obj, g2=mkNPC('char.npc_f1',{x:5,z:0,yaw:0,lv:0}).obj, g3=mkNPC('char.npc_nf2',{x:7,z:0,yaw:0,lv:0}).obj, g4=mkNPC('char.npc_m1',{x:9,z:0,yaw:0,lv:0}).obj; for(const g of [g1,g2,g3,g4]) CHAR.animate(g,DT,{pose:'sit',speed:0});
+    const D={h:0.75,edge:0.30,depth:0.3}; await sleep(25);
+    const a1=!!CHAR.sitTaskFit(g1,'type',D), a2=!!CHAR.sitTaskFit(g2,'type',D), a3=!!CHAR.sitTaskFit(g3,'type',D), a4=!!CHAR.sitTaskFit(g4,'phone',D,true); await sleep(25); const a5=!!CHAR.sitTaskFit(g2,'type',D);
+    CHAR.SIT_TASK.probesPer=P0;
+    check('D2 一次量的人數有上限（probesPer＝1：第一個量、別的模型等下一次）、同一個模型量過就共用（不用再量）、滑手機（urgent）不排隊',a1&&!a2&&a3&&a4&&a5,'第一個 '+a1+'、別的模型 '+a2+'、同模型 '+a3+'、urgent '+a4+'、過 25 ms '+a5);
+    for(const o of [h,g1,g2,g3,g4]){ scene.remove(o); CHAR.release(o); } }
   /* ---------- E：桌緣比參考遠：往前坐 ---------- */
   { const Z=mkZone([{act:'laptop',top:0.75,edge:0.30},{act:'laptop',top:0.75,edge:0.42}]); const npcs=Z.zone.seats.map(st=>mkNPC('char.npc_m1',st)); const GM=mkGM(Z,npcs); await run(GM,120);
     const [a,b]=npcs, ta=CHAR.sitTaskOf(a.obj), tb=CHAR.sitTaskOf(b.obj);
