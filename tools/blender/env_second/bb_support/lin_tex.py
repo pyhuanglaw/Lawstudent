@@ -151,7 +151,7 @@ def steam(path):
     sway = 18 * np.sin(yy / 60 + n * 3)
     core = np.exp(-((xx - W / 2 - sway) / (40 + 60 * (1 - t))) ** 2)
     a = core * (0.25 + 0.75 * n) * np.clip(t * 1.4, 0, 1) * np.clip((1 - t) * 6, 0, 1) * (0.6 + 0.4 * n2)
-    img = np.zeros((H, W, 4), np.float32); img[..., :3] = 250; img[..., 3] = np.clip(a * 150, 0, 255)
+    img = np.zeros((H, W, 4), np.float32); img[..., :3] = 250; img[..., 3] = np.clip(a * 330, 0, 255)
     Image.fromarray(img.astype(np.uint8), 'RGBA').save(path); return path
 
 

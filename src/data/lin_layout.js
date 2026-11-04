@@ -25,7 +25,6 @@ const LIN_LAYOUT = (function () {
     staff: {x0: X0, x1: -0.4, z0: 2.2, z1: 2.95, note: '攤車後面老闆站的地方'},
     cookLine: {x0: X0, x1: X0 + 0.75, z0: -1.4, z1: 2.2, h: 0.88, note: '左牆不鏽鋼煮麵台：煮麵機、湯鍋、滷味盤、生麵、青菜籃、碗盤架；上面抽油煙機＋「林家乾麵」招牌'},
     tables: [{n: 1, x: -0.85, z: 1.2}, {n: 2, x: 1.05, z: 0.9}, {n: 3, x: -0.85, z: -1.0}, {n: 4, x: 1.05, z: -1.3}],   // 方桌 0.8 × 0.75，木椅在 z ±0.5；紅色塑膠凳在桌子靠走道那一邊
-    pillar: {x0: X0, x1: X0 + 0.55, z0: -1.85, z1: -1.5, note: '煮麵台後面的柱子（面向店門那一面貼福、月曆）'},
     backWall: {x0: -1.2, x1: 1.0, z0: -2.95, z1: -2.65, h: 1.1, note: '後面白磁磚矮牆（上面是檯面，後面是洗碗區，不能進去）'},
     fridge: {x0: -2.55, x1: -1.75, z0: Z0, z1: Z0 + 0.75, h: 1.95, note: '不鏽鋼冰箱'},
     dishRack: {x0: 1.25, x1: 2.55, z0: Z0, z1: Z0 + 0.5, h: 1.9, note: '碗盤架＋水槽'},
@@ -49,7 +48,7 @@ const LIN_LAYOUT = (function () {
   const SIDE = (t) => (t.x < 0 ? -0.6 : 0.6);   // 塑膠凳：在桌子外側（中間走道留寬）
   S.blocks = [].concat(
     [B(S.cart), B(S.staff), B(S.cookLine), B(S.backWall), B({x0: X0, x1: X1, z0: Z0, z1: S.backWall.z0}), B(S.condiments), B(S.cashier),
-     B({x0: S.cashier.x1 - 0.45, x1: X1, z0: S.cashier.z0, z1: S.cashier.z1}), B(S.pillar)],                      // 後面整條（冰箱、洗碗區、碗盤架都在矮牆後面）
+     B({x0: S.cashier.x1 - 0.45, x1: X1, z0: S.cashier.z0, z1: S.cashier.z1})],                      // 後面整條（冰箱、洗碗區、碗盤架都在矮牆後面）
     S.tables.map(t => [t.x, t.z, 0.8, 0.75]),
     [].concat(...S.tables.map(t => [[t.x, r2(t.z - 0.5), 0.42, 0.4], [t.x, r2(t.z + 0.5), 0.42, 0.4], [r2(t.x + SIDE(t)), t.z, 0.36, 0.36]])));
   S.seats = [].concat(...S.tables.map(t => [
