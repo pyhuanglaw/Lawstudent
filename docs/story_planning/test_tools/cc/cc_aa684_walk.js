@@ -293,6 +293,41 @@ await sec('7 AA683 燒臘店過年店休',async()=>{
   check('7. AA_683 第 1 節讀得到「整段拿掉」「拿掉」',/整段拿掉/.test(AA683)&&/C 店休期間約語彤/.test(AA683));
 });
 
+/* ================= 8 AA_685 A 節：六處換字＋語彤旅行訊息（BB-C 20:14 第 3、5 點）================= */
+await sec('8 AA_685 A 節換字、語彤旅行訊息（茶屋版、店裡的只在週末）',()=>{
+  const TM=VAC_DATA.TRIP_MSG, P=(TM.byWho||TM.who||TM)[YT]||((TM.pools||{})[YT]); const P3=Object.values(TM).find(v=>v&&v[YT]&&v[YT].pool&&v[YT].shut)?Object.values(TM).find(v=>v&&v[YT]&&v[YT].pool&&v[YT].shut)[YT]:null;
+  check('8. 找得到語彤的旅行訊息設定（pool、shut、shopOpen）',!!P3&&!!P3.pool&&!!P3.shut&&!!P3.shopOpen,P3?Object.keys(P3).join(','):'');
+  if(P3){ const W={p0:['今天店裡很忙','蘇姨問你什麼時候回來'],p1:['📷（一壺泡好的烏龍，旁邊兩個杯子）','不是你的 是客人的'],p3:['你不在 前院的貓碗都是我在洗'],rep:['辛苦了。','想喝茶。']};
+    check('8. A6-4 旅行訊息池換成茶屋（pool[0]、[1]、[3]、rep 逐字 AA_685）',J(P3.pool[0])===J(W.p0)&&J(P3.pool[1])===J(W.p1)&&J(P3.pool[3])===J(W.p3)&&J(P3.rep)===J(W.rep),J({p0:P3.pool[0],p1:P3.pool[1],p3:P3.pool[3],rep:P3.rep}));
+    check('8. A6-4 照留的那幾則沒動（[2] 修鞋的阿伯、[4]～[7]、miss）',/修鞋的阿伯/.test(J(P3.pool[2]))&&J(P3.pool[4])===J(['收店了','好累'])&&J(P3.pool[7])===J(['……晚安'])&&J(P3.miss)===J(['今天收店的時候 我把你的位子擦了兩次']),J([P3.pool[2],P3.pool[4],P3.pool[7],P3.miss]));
+    check('8. A4 過年 shut 的回來那則「茶屋初四開。蘇姨說第一壺留給你。」',(P3.shut.back||[]).includes('茶屋初四開。蘇姨說第一壺留給你。'),J(P3.shut.back));
+    check('8. A6-4 shopOpen：講店裡的那幾則只在週六、日（wd [6,0]）',J(P3.shopOpen.wd)===J([6,0]),J(P3.shopOpen)); }
+  const pgs=(SRC.find(([f])=>/postgrad_lines\.js$/.test(f))||['',''])[1];   /* 原始碼（去掉註解）比：POSTGRAD_LINES 裡有函式，JSON 看不到 */
+  check('8. A6-1 以安前任版群組「一月口試。」（不是「一月面試。」）',/一月口試。/.test(pgs)&&!/一月面試。/.test(pgs),'');
+  { const t=SRC.filter(([f])=>/hometown_lines|date_wish/.test(f)).map(([f,x])=>x).join('\n'); check('8. A6-2 沛珊心願約會「框外面，是看框的人。」後面沒有「……今天是我們。」',/框外面，是看框的人。/.test(t)&&!/框外面，是看框的人。[^'"]*今天是我們/.test(t)&&!/今天是我們。/.test(t),''); }
+  { const t=(SRC.find(([f])=>/ytjob3d\.js$/.test(f))||['',''])[1]; check('8. A6-3 語彤「……她煮的比茶屋的點心好吃。蘇姨的點心是買的。」（沒有「不要跟蘇姨說。」）',/……她煮的比茶屋的點心好吃。蘇姨的點心是買的。/.test(t)&&!/點心好吃。不要跟蘇姨說/.test(t),''); }
+  check('8. A6-5 語彤結局 yt[2]「……論文寫溫州街的小店，燒臘店的阿鳳阿姨是第一個受訪的。」、yt.away「（一盞茶屋還開著。吧檯最旁邊那個位子空著。）」',/論文寫溫州街的小店，燒臘店的阿鳳阿姨是第一個受訪的。/.test(pgs)&&/（一盞茶屋還開著。吧檯最旁邊那個位子空著。）/.test(pgs)&&!/燒臘店還開著/.test(pgs),'');
+  /* 走一遍：每一趟國外（交往中、她沒同行），出發前一天到回來那天，收她的旅行訊息（vac_tm_<趟>_heroine_03…）——講店裡的只在週六、日；過年茶屋休息那幾天不講店裡、換 shut */
+  if(!P3) return;
+  const shopTx=new Set([].concat(P3.mid||[],...(P3.shopOpen.pool||[]).map(i=>P3.pool[i]||[]),P3.back||[]).filter(t=>t!=='回來了嗎')), shutTx=new Set([].concat(P3.shut.first||[],...(P3.shut.pool||[]),P3.shut.back||[]).filter(t=>t!=='回來了嗎'));
+  const IS=[]; for(const id in VAC_DATA.A){ const a=VAC_DATA.A[id]; for(const yk of ['Y1','Y2','Y3','Y4']){ const I=VAC.inst(id,yk); if(I&&I.A&&I.A.place&&I.A.place.kind==='abroad') IS.push(I); } }
+  const badW=[], badS=[], rows=[], delayed=[]; let nShop=0, nShut=0, nAll=0;
+  for(const I of IS){ if(VAC.mates&&VAC.mates(I).has(YT)) continue; fresh(I.from,6,'dorm',{dating_heroine_03:true}); H.CLOSE(YT); VAC.rec(H.G).reg[I.key]='yes';
+    VAC.tripMsgs(H.G,I);   /* 【捷徑】出發那一刻遊戲叫的就是這個（vac3d.js：flyStart 以後 S.tripMsgs）；不演出發、不換當地時間 */
+    walk(I.from,6,I.to,23.5,0.5);
+    const M=(H.G.msgs||[]).filter(m=>/^vac_tm_/.test(m.tag||'')&&(m.from===YT||m.th==='p:'+YT)).map(m=>({d:m.day,date:K(m.day)+'（'+WDN(m.day)+'）',h:m.h,text:m.text,tag:m.tag}));
+    nAll+=M.length; const cl=d=>typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed(H.G,d), tr=I.A.trip||{}, dk=tr.dark&&VAC.dayOf?VAC.dayOf(I.yk,I.A.season,tr.dark):null;
+    for(const m of M){ const sent=(dk!=null&&tr.signalAfter&&m.d===dk+1&&Math.abs(m.h-8)<0.01)?dk:m.d;   /* 停電那晚（tr.dark）的訊息隔天 08:00 才收到（vac3d.js when）：照她傳的那一天算 */
+      if(sent!==m.d) delayed.push(I.key+' '+K(sent)+'（'+WDN(sent)+'）傳、'+m.date+' 08:00 收到：'+m.text);
+      if(shopTx.has(m.text)){ nShop++; if(!(WD(sent)===6||WD(sent)===0)) badW.push(I.key+' '+m.date+' '+m.text); if(cl(m.d)) badS.push(I.key+' '+m.date+'（茶屋過年休息）'+m.text); }
+      if(shutTx.has(m.text)){ nShut++; if(!cl(m.d)) badS.push(I.key+' '+m.date+'（不是店休）'+m.text); } }
+    rows.push(I.key+' '+K(I.from)+'～'+K(I.to)+'：'+M.length+' 則'+(M.some(m=>shutTx.has(m.text))?'（有 shut）':'')); }
+  info('8. 旅行訊息（'+IS.length+' 趟國外，扣掉她同行的）：共 '+nAll+' 則、講店裡的 '+nShop+' 則、過年 shut '+nShut+' 則；'+rows.join('｜').slice(0,600));
+  if(delayed.length) info('8. 停電那晚隔天早上才收到的（照傳的那一天算星期幾）：'+J(delayed.slice(0,6)));
+  check('8. 講店裡的那幾則（今天也有開、店裡很忙、客人的烏龍、修鞋的阿伯、貓碗、收店了、沒什麼客人、蘇姨說幫你留一杯）只在週六、日傳',!badW.length&&nShop>0,badW.length?(badW.length+' 則：'+J(badW.slice(0,6))):(nShop+' 則都在週末'));
+  check('8. 過年茶屋休息那幾天不講店裡、shut 的句子只在店休那幾天',!badS.length,J(badS.slice(0,6)));
+});
+
 console.log('\n'+(FAILS?('FAILED '+FAILS+'（PASS '+PASSES+'）'):('ALL PASS '+PASSES)));
 process.exit(FAILS?1:0);
 })();
