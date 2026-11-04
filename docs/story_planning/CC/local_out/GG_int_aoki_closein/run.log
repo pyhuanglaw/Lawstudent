@@ -1,0 +1,11 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_int_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_int_aoki_closein\out
+PASS 遊戲載入
+== aoki_closein 21:00 人在店裡
+  [前置／捷徑] 讀檔：aoki (1.85, 2.05)、2025-09-23（二）20:57、money 3000、條件事件關閉、青木茶室進門的地方、打烊前 3 分鐘
+  [load] 店員：「我們九點打烊。……茶葉要帶走的話，可以幫你包。」
+  [load] （旁白）：（你走出青木茶室。門口的外帶窗口已經關上了。）
+FAIL aoki_closein 21:00：店員一句＋旁白（AA_653，逐字、照順序）  {"want": ["我們九點打烊。……茶葉要帶走的話，可以幫你包。", "（你走出青木茶室。門口的外帶窗口已經關上了。）"], "got": []}
+PASS aoki_closein：回公館青木茶室門口（SHOP_IN.out {"x": -54.05, "z": 18, "yaw": 3.141592653589793} 1.5 m 內）  {"zone": "gongguan", "x": -54.05, "z": 18}
+PASS [aoki_closein] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "gongguan", "dlg": false, "depth": 0, "moved": 10.62, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+FAILED 1: aoki_closein 21:00：店員一句＋旁白（AA_653，逐字、照順序）

@@ -790,3 +790,18 @@
 [15:42:20] ==== START GG_int_aoki_closein  (probe @ 809163ee4) ====
 [15:42:23] [res] cpu=17% mem=50% (15.7/31.4 GB) chrome_testing=18  START GG_int_aoki_closein
 [15:42:53] [res] cpu=15% mem=48% (15.0/31.4 GB) chrome_testing=19  END CAFE230v2_shots
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       aaf2f21cd..437d78834  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:43:00] ==== END   CAFE230v2_shots  exit=0  150s   ====
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:43:04] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:43:04] memory 50% before starting GG_int_aoki_date (2 running)
+[15:43:04] ==== START GG_int_aoki_date  (probe @ 809163ee4) ====
+[15:43:07] [res] cpu=20% mem=50% (15.9/31.4 GB) chrome_testing=19  START GG_int_aoki_date
+[15:43:48] [res] cpu=27% mem=50% (15.4/31.4 GB) chrome_testing=18  END GG_int_aoki_closein
