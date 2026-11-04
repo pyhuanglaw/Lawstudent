@@ -40071,9 +40071,9 @@
    "title": "職涯落點 v2：careerLean、律師家族保證、研究所改成作答",
    "area": null,
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B6",
+   "next": "【LAWWW-C 11-04 22:5x 查證】程式在 main（v9.10.19.1 b0c3032af：careerLean）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B6",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40118,9 +40118,9 @@
    "title": "司法官二試、三試、重考：六條路線",
    "area": null,
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "見 docs/handoff/D118_PLAN.md 第 4 節 D118-B8",
+   "next": "【LAWWW-C 11-04 22:5x 查證】程式在 main（v9.10.19.1 b0c3032af：司法官二試、三試、重考 JUDGE_RETAKE）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B8",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -41267,10 +41267,10 @@
    "id": "AA588-AA581-TAIL-1102",
    "title": "AA_588：沛珊柏翰公開搬到 4/15 麵店（ev_psbh_public_0415＋群組兩則＋20:30 滷蛋照片）、AN_L8_MIDTERM 標籤、課堂內容重匯 1edea905f、home_lines 重匯、K1 又被當七句",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383b0；tests/aa588_unit.js 37 項。待 AA 回：兩門以上重修的「一堂{課名}」 ｜K1 兩門以上：AA 13:53 選 (a)，673ef2185（FD.namesAnd、10/17 換句、y5Plan 拿掉一堂）",
-   "next": "下一版 int/next1102 交 BB 測",
+   "next": "【LAWWW-C 11-04 22:5x 查證】程式在 main（v9.10.19.1 b0c3032af：ev_psbh_public_0415 在 story3d／events／whois）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜下一版 int/next1102 交 BB 測",
    "xai": {
     "spec": "子代理 a56503a4c：ade7cbca3、fd938dd17、7c5d93049、f0f75831f、ae290b370；LAWWW 合併 e7a4383",
     "branch": "int/next1102（wip_backup bundle）",
@@ -41294,10 +41294,10 @@
    "id": "AA585-MIDWEEK-1102",
    "title": "AA_585：30 門第 8、9 週黑板（補丁來源、reviewed 60 筆、BB_231）",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "子代理 a56503a4c ade7cbca3；tests/aa585_midweek_unit.js；syllabus_unit 第 8、9 週量法改半形算半格（AA_585 第 0 節，LAWWW 接受）；法律頁、自習筆記列第 8、9 週 66a269434",
-   "next": "下一版 int/next1102 交 BB 測",
+   "next": "【LAWWW-C 11-04 22:5x 查證】程式在 main（v9.10.19.1 b0c3032af：syllabus.js 來源 AA_585@1bdfd2304、classes3d.js LISTED 第 8、9 週）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜下一版 int/next1102 交 BB 測",
    "xai": {
     "spec": "子代理 a56503a4c ade7cbca3；tests/aa585_midweek_unit.js；syllabus_unit 第 8、9 週量法改半形算半",
     "branch": "int/next1102（wip_backup bundle）",
@@ -41321,10 +41321,10 @@
    "id": "BUG-MEM-FIRSTMET-1102",
    "title": "人物記憶 80 筆上限會刪掉 FIRST_MET（S.has 以為不認識、metAtCamp 讀不到）",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "LAWWW 518a6d2fb：先刪 ADJUST→同 tag 後面還有的舊筆→最舊的非 FIRST_MET；tests/mem_firstmet_unit.js",
-   "next": "下一版 int/next1102 交 BB 測",
+   "next": "【LAWWW-C 11-04 22:5x 查證】程式在 main（v9.10.19.1 b0c3032af：social3d.js 記憶上限不刪 FIRST_MET）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜下一版 int/next1102 交 BB 測",
    "xai": {
     "spec": "LAWWW 518a6d2fb：先刪 ADJUST→同 tag 後面還有的舊筆→最舊的非 FIRST_MET；tests/mem_firstmet_unit.j",
     "branch": "int/next1102（wip_backup bundle）",
@@ -43588,7 +43588,9 @@
     "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "resumeWhen": "AA619-GUITAR-1104（LAWWW）在 v9.10.20 發布以後實作；AA 的稿 AA_619 已交（企劃線 22a6c4d43）",
+   "nextCheck": "v9.10.20 發布當天"
   },
   {
    "first": {
@@ -43934,7 +43936,10 @@
    "status": "等待其他AI／素材",
    "priority": "P1",
    "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
-   "next": "11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js"
+   "next": "11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js",
+   "resumeWhen": "LAWWW2 的溫州街西側立面（新生南路那一側）patch 進開發分支時，同一批拿掉公館往溫州街的巷口、改 guide 路線與相關測試",
+   "nextCheck": "2026-11-06",
+   "pausedReason": "誰決定：LAWWW-C（11-04）。為什麼：新版 xinsheng patch（50c1b0681）沒有包含拿掉公館巷口那一段，要等立面一起改才不會有一段路斷掉。負責人：LAWWW（程式）、LAWWW2（立面）"
   },
   {
    "first": {
@@ -44023,7 +44028,10 @@
    "status": "等待其他AI／素材",
    "priority": "P2",
    "note": "BB 11-03 23:10（LAWWW2 23:08 定；配置 f8be1eba8；GLB BB 照 §12 重做中）",
-   "next": "等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元"
+   "next": "等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元",
+   "resumeWhen": "LAWWW2 交 noodle 區域（窄長老店 6×13×3.2：導航格、出生點、鏡頭、牆淡出）patch",
+   "nextCheck": "2026-11-06",
+   "pausedReason": "誰決定：LAWWW-C。為什麼：劇情站位要照新的區域配置改，區域還沒交。負責人：LAWWW2（區域）→ LAWWW（站位）"
   },
   {
    "first": {
@@ -44040,8 +44048,8 @@
    "priority": "P2",
    "id": "BUG-CARD-BOHAN-WALK-1103",
    "title": "第一堂民總 classScene：玩家先坐第 2 排，劇情叫他走到第 1 排卡 4 秒（BB f606 walkFallbacks=1，P2）",
-   "status": "已實作待整合",
-   "next": "根因（CC 讀程式）：classScene 沒檢查 mainDay，9/4 沒上到的局每週四重演、和選座位搶玩家；4cb41c3a0 只在第 2 天演＋過了記錯過；1ec7c8634 坐著先起身留當保險。BB 排 PC N20_f606c 在 a8c485729 確認",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 11-04 22:5x 查證】4cb41c3a0 是 main 的祖先（v9.10.19.1 b0c3032af）＝狀態從「已實作待整合」改「已整合待測試」（線上版已經有，等 BB 驗）｜根因（CC 讀程式）：classScene 沒檢查 mainDay，9/4 沒上到的局每週四重演、和選座位搶玩家；4cb41c3a0 只在第 2 天演＋過了記錯過；1ec7c8634 坐著先起身留當保險。BB 排 PC N20_f606c 在 a8c485729 確認",
    "sha": "4cb41c3a0"
   },
   {
@@ -44598,7 +44606,10 @@
     "acceptance": "窗景照片換上、白天晚上各一張截圖給 BB",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "resumeWhen": "PC（CC 的 cc-local 佇列）照 A_shots_script 拍好 cvs／cvs_wz／yejian／aoki 白天晚上的窗景、填好景深以後，LAWWW 套 B patch",
+   "nextCheck": "2026-11-05",
+   "pausedReason": "誰決定：LAWWW2-C（14923bc1 README）。為什麼：照片沒進來先套 B，窗會是空的。負責人：BB／CC 拍照（D131 排 PC）、LAWWW 套 patch"
   },
   {
    "id": "BIKE-PARK-1104",
@@ -44801,7 +44812,10 @@
    },
    "next": "【LAWWW-C 11-04 14:08】BB-C 14:03（BB_255，46d459625 PC）：沒客人時 F00 有按鈕、坐得下，F12 吧台坐得下——「有人坐才擋」照設計；不擋 v9.10.20；有客人那一刻等 CC diag1 印出來算最後確認｜【LAWWW-C 11-04 13:2x】查碼：(−2.75,−0.85) 是桌 1 左牆卡座（layout 第 0 張），不是 46d459625 修的桌 4 北側 (1.9,0)；玩家停 (−2.28,−0.84) 離座位 0.47 m、按鈕範圍 WZ_SEAT_R 0.9 m——E.nearestInteractable 只在那張有 NPC 坐（0.35 m 內）或 seat.taken 時不出按鈕；請 BB／CC 確認探針的 F00 是哪一張、當時有沒有人坐（印 E.npcs 的 seat、那一筆 interactable 的 hidden／radius），確認以前不改程式｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 seatApproach 的走近點與互動半徑（#202 seatApproach 退回點不檢查同一類）；修好 BB 排 SUNNY_seatfix sit",
    "source": "BB-C 11-04 12:55（46d459625 PC GPU 判定）",
-   "evidence": ""
+   "evidence": "",
+   "resumeWhen": "CC 的 diag1（有客人坐那一刻印 E.npcs 的 seat、那一筆 interactable 的 hidden／radius）回來：是有人坐＝照設計結案；沒人坐也擋＝LAWWW 修 seatApproach",
+   "nextCheck": "2026-11-05（或 v9.10.20 發布前）",
+   "pausedReason": "誰決定：BB-C（11-04 14:03，BB_255）。為什麼：沒客人時 F00、F12 都坐得下，「有人坐才擋」照設計；要 CC 在有客人那一刻印出來確認。負責人：LAWWW（程式）、CC（diag1）"
   },
   {
    "id": "XIAOLU-NIGHT-VIEW-1104",
@@ -44946,7 +44960,10 @@
    },
    "next": "【LAWWW-C 11-04 14:08】BB-C 14:03（BB_255，46d459625 PC）：沒客人時 F00 有按鈕、坐得下，F12 吧台坐得下——「有人坐才擋」照設計；不擋 v9.10.20；有客人那一刻等 CC diag1 印出來算最後確認｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 F13 起身點、F12 走近點（yaw π：前面是出餐檯、站不住）和 seatMenu／freeSeat",
    "source": "BB-C 11-04 13:10（CC-C 雲端 r2，46d459625）",
-   "evidence": ""
+   "evidence": "",
+   "resumeWhen": "CC 的 diag1（有客人坐那一刻印 E.npcs 的 seat、那一筆 interactable 的 hidden／radius）回來：是有人坐＝照設計結案；沒人坐也擋＝LAWWW 修 seatApproach",
+   "nextCheck": "2026-11-05（或 v9.10.20 發布前）",
+   "pausedReason": "誰決定：BB-C（11-04 14:03，BB_255）。為什麼：沒客人時 F00、F12 都坐得下，「有人坐才擋」照設計；要 CC 在有客人那一刻印出來確認。負責人：LAWWW（程式）、CC（diag1）"
   },
   {
    "id": "HAIR-NOODLE-1104",
