@@ -42218,7 +42218,7 @@
    "status": "進行中",
    "priority": "P1",
    "note": "使用者 11-03 08:1x 實玩回報（X157）",
-   "next": "子代理：AA_637 九場＋名字淡入（和語彤第三版同一個子代理）",
+   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：AA_637 第二批 F2-01～F2-09＋名字卡已接（574ac35a4，v9.10.20 候選裡）｜子代理：AA_637 九場＋名字淡入（和語彤第三版同一個子代理）",
    "xai": {
     "spec": "使用者 11-03 原話",
     "branch": "claude/story-planning",
@@ -42226,7 +42226,10 @@
     "receiver": "LAWWW",
     "ack": "未派",
     "owner": "AA"
-   }
+   },
+   "sha": [
+    "574ac35a4"
+   ]
   },
   {
    "first": {
@@ -42792,10 +42795,14 @@
    "id": "AA610-YT-JOB-ONLY-1103",
    "title": "語彤只在打工認識（AA_610）：她在一盞茶屋打工（週末 13–17）；阿姨的店改成燒臘店「公館燒臘」；語彤所有入口加 YT_MET_JOB；舊存檔已認識的直接設 true（麵店對照表 AA_612 隨後）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "AA_624（企劃線 757d696d8）使用者重新定的語彤背景：先做 YT_MET_JOB、一盞茶屋的班、作息拿掉麵店時段（子代理同一批）；AA_612 B 表作廢；AA_624 事件台詞等 AA_625"
+   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：75c301e9c（v9.10.19）＋語彤第三版 0a32fcb88（v9.10.20 候選）都在遊戲裡，等 BB 結案｜AA_624（企劃線 757d696d8）使用者重新定的語彤背景：先做 YT_MET_JOB、一盞茶屋的班、作息拿掉麵店時段（子代理同一批）；AA_612 B 表作廢；AA_624 事件台詞等 AA_625",
+   "sha": [
+    "0a32fcb88",
+    "75c301e9c"
+   ]
   },
   {
    "first": {
@@ -42900,10 +42907,10 @@
    "id": "ART-XINSHENG-GATE-1103",
    "title": "地圖照實際（AA_615）：校園新生南路側門＋新生南路店面，過馬路是溫州街；公館巷口照留",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜同 XINSHENG-SIDE-1103",
+   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：新生南路七家店立面 v1 已接（74557a245，v9.10.20 候選裡）；側門其餘照 XINSHENG-SIDE-1103｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜同 XINSHENG-SIDE-1103",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
@@ -42911,7 +42918,10 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角"
+   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角",
+   "sha": [
+    "74557a245"
+   ]
   },
   {
    "first": {
@@ -43070,7 +43080,7 @@
    "status": "待開工",
    "priority": "P2",
    "note": "使用者 11-03 對 AA：「明軒是會主動約大家玩桌遊 固定在其中一家新的店裡」（企劃線 148a6f560）；跟 AA_617 一批（要等日常失速場景）；AA_623 補：芯慈固定、沛珊偶爾；併入 AA623-BOARDGAME-TEAM-1103",
-   "next": "等 ART-WZ-CAFES-1103（日常失速）＋AA 台詞"
+   "next": "【LAWWW-C 11-04 15:5x】日常失速場景已接（42467c2dc、b5edab796），等的場景有了；桌遊夜本身還沒做（下一步照 AA_618 2-4 第 3 點，台詞 AA 有沒有交待查）｜等 ART-WZ-CAFES-1103（日常失速）＋AA 台詞"
   },
   {
    "first": {
@@ -43087,10 +43097,13 @@
    "id": "AA623-BOARDGAME-TEAM-1103",
    "title": "麵店團改成桌遊團（AA_623）：明軒揪、隔週週五 20:00 日常失速長桌（明軒、阿哲、芯慈、柏翰；Alison 群組回；沛珊三次來一次；阿凱大二起）；noodle_team id 不變、顯示名一律「桌遊團」；加入群組改成第一次桌遊夜／第 13 週；ev_zhe_long_table 只留認識 Alison、地點改公館燒臘；中秋烤肉改日常失速騎樓；日常失速沒做好前先用 2D 背景",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "note": "使用者 11-03 對 AA：「麵店團改成桌遊團」「要有芯慈」「沛珊偶爾也會去桌遊」（企劃線 248674e35）；和 AA_612 衝突以 AA_623 為準",
-   "next": "子代理在 worktree 做 AA610＋AA612（企劃線 a3879758c）＋AA623 一整批 → 合併、測試 → BB（不進 v9.10.18 候選版）"
+   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：75c301e9c 在 55939fc71 之前＝v9.10.19 就有，等 BB 結案｜子代理在 worktree 做 AA610＋AA612（企劃線 a3879758c）＋AA623 一整批 → 合併、測試 → BB（不進 v9.10.18 候選版）",
+   "sha": [
+    "75c301e9c"
+   ]
   },
   {
    "first": {
@@ -44109,8 +44122,13 @@
    "owner": "LAWWW",
    "priority": "P1",
    "title": "慢輪單車進得去、買五款車、換車；單車停在剛離開的建築外最近的合法停車處（AA_646；USER_WANTS X205）",
-   "status": "待開工",
-   "next": "排在熱修 v9.10.19.1 之後：LAWWW 系統（買車、存檔 kind/color/owned、停車點選擇）；LAWWW2 各區合法停車點＋店外觀；CC 室內；價格照經濟系統調"
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 11-04 15:5x】發布說明盤點：第一段 e815992bc（五款車存檔、沒後座不載人、出建築停車）、第二段 c7e127ab2（慢輪單車買車換車打氣）、室內 4daed9539 都在 v9.10.20 候選 d3828452a 裡｜排在熱修 v9.10.19.1 之後：LAWWW 系統（買車、存檔 kind/color/owned、停車點選擇）；LAWWW2 各區合法停車點＋店外觀；CC 室內；價格照經濟系統調",
+   "sha": [
+    "4daed9539",
+    "c7e127ab2",
+    "e815992bc"
+   ]
   },
   {
    "first": {
@@ -45414,6 +45432,174 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "PE-IN-GYM-AA644-1103",
+   "title": "體育課在體育館裡真的上課（AA_644 企劃線 96d771c8d）",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "2284e12e9"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：2284e12e9 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "BUG-YT-FIRSTMET-RELABEL-1103",
+   "title": "茶屋初遇（YT_MET_JOB）讀檔不被舊存檔初遇遷移改成 GREETED",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "9d8e00fdc"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：9d8e00fdc 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "BUG-TOUR-STAIRS-FAR-1103",
+   "title": "總圖導覽館員在樓梯平台等人、玩家在下一層 8 m 內不算走遠",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "5d40d6427"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：5d40d6427 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "SPAWN-EXIT-1104",
+   "title": "新生南路、溫州街、木曜日、校園 6 個出生點移出出口的互動範圍（LAWWW2 7940369f0）",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "dc5c8c78d"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：dc5c8c78d 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "GG-CARDS-1104",
+   "title": "公館 8 間有室內的店 13 張窗卡改成從街上看進室內 GLB 的渲染（LAWWW2 99e412ad6）",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "23eaaa7ae"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：23eaaa7ae 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "WZ-OFFBEAT-1104",
+   "title": "溫州街日常失速 W2 外觀（落地窗、綠色波浪雨棚、招牌）（LAWWW2 82d541853）",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "42467c2dc"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：42467c2dc 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
+  },
+  {
+   "id": "XS-CAMPUS-BACK-1104",
+   "title": "新生南路側門圍牆後面看得到校園（LAWWW2 db7679c01）",
+   "area": "GAME",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "見標題",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "commit 訊息裡的任務 ID（v9.10.20 發布說明盤點時發現總表沒有這一項，LAWWW-C 11-04 15:5x 補登）",
+   "authorized": "已整合的 commit",
+   "sha": [
+    "a65f9ae0f"
+   ],
+   "next": "【LAWWW-C 11-04 15:5x】補登：a65f9ae0f 在 v9.10.20 候選 d3828452a 裡；等 BB 結案"
   }
  ]
 }
