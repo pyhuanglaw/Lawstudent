@@ -1,0 +1,120 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_yizhan_floor\out
+PASS 遊戲載入
+== yizhan 1400
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "wz_glow_batch", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "tree_bark_camphor", "tree_leaf", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE"]
+INFO [1400] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_genkan_ne：calls 168、tris 380051
+  [1400] tea_table：calls 127、tris 272556
+  [1400] washitsu：calls 53、tris 113690
+  [1400] mizuya_east：calls 107、tris 220048
+  [1400] engawa：calls 110、tris 225838
+  [1400] yard_to_genkan：calls 106、tris 187746
+  [1400] engawa_to_yard：calls 84、tris 174384
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [0.13, 2.35, 6.34], "player": [-3, -0.42, 9], "dist": 4.32, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [0.13, 2.35, 6.34], "player": [-3, -0.42, 9], "dist": 4.32, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、1400、條件事件關閉
+  [1400] street_gate（溫州街）：calls 136、tris 235404
+== yizhan 2200
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "tree_bark_camphor", "tree_leaf", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "wz_glow_batch", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE"]
+INFO [2200] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_genkan_ne：calls 64、tris 79739
+  [2200] tea_table：calls 56、tris 73314
+  [2200] washitsu：calls 37、tris 63530
+  [2200] mizuya_east：calls 73、tris 120042
+  [2200] engawa：calls 76、tris 124810
+  [2200] yard_to_genkan：calls 66、tris 75108
+  [2200] engawa_to_yard：calls 52、tris 73138
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [0.17, 2.3, 6.3], "player": [-3, -0.42, 9], "dist": 4.35, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [0.17, 2.3, 6.3], "player": [-3, -0.42, 9], "dist": 4.35, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、2200、條件事件關閉
+  [2200] street_gate（溫州街）：calls 108、tris 199855
+== FLOOR 一盞的坐墊
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、1400、條件事件關閉
+  座位：[{"x": -2.5, "z": 0.95, "label": "坐下喝茶", "kind": null, "sx": -2.5, "sz": 0.95}, {"x": -1.6, "z": 0.95, "label": "坐下喝茶", "kind": null, "sx": -1.6, "sz": 0.95}, {"x": -0.7, "z": 0.95, "label": "坐下喝茶", "kind": null, "sx": -0.7, "sz": 0.95}, {"x": -2.5, "z": 2.45, "label": "坐下喝茶", "kind": null, "sx": -2.5, "sz": 2.45}, {"x": -1.6, "z": 2.45, "label": "坐下喝茶", "kind": null, "sx": -1.6, "sz": 2.45}, {"x": -0.7, "z": 2.45, "label": "坐下喝茶", "kind": null, "sx": -0.7, "sz": 2.45}, {"x": 3.05, "z": 3.35, "label": "坐在水屋旁", "kind": null, "sx": 3.05, "sz": 3.35}, {"x": 0.6, "z": 5.55, "label": "坐在緣側", "kind": null, "sx": 0.6, "sz": 5.55}, {"x": 2.4, "z": 5.55, "label": "坐在緣側", "kind": null, "sx": 2.4, "sz": 5.55}, {"x": -2.15, "z": -3.5, "label": "在和室坐下", "kind": null, "sx": -2.15, "sz": -3.5}, {"x": -2.15, "z": -2.1, "label": "在和室坐下", "kind": null, "sx": -2.15, "sz": -2.1}, {"x": 2.15, "z": -3.5, "label": "在和室坐下", "kind": null, "sx": 2.15, "sz": -3.5}, {"x": 2.15, "z": -2.1, "label": "在和室坐下", "kind": null, "sx": 2.15, "sz": -2.1}]
+PASS [FLOOR] 有坐墊（kind floor）的座位  12
+  [ 180.6s] 走不到「坐下喝茶」：最後位置 (-2.27,0.34)，目標 (-2.5,0.95)；點地面 65 次、轉鏡頭 0 次、搖桿 3 次
+  [ 180.6s]   這段時間：畫面 12324 格／181 秒、遊戲時間 14.04→15.24、paused=False、開著的面板 []
+PASS [F00] 走到「坐下喝茶」(-2.5, 0.95)：按鈕出現  {"interact": "坐下喝茶", "x": -2.27, "z": 0.34}
+  [F00] 坐下：{"mode": "follow", "cam": [-2.5, 3.13, 4.66], "player": [-2.5, 0, 0.95], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.79}]}
+PASS [F00] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F00] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F00] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.5, 3.13, 4.66], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.79}]}
+FAIL [F00] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": false, "x": -2.5, "z": 0.95, "pose": "sit"}
+  [ 181.3s] 走不到「坐下喝茶」：最後位置 (-1.42,0.5)，目標 (-1.6,0.95)；點地面 66 次、轉鏡頭 0 次、搖桿 3 次
+  [ 181.3s]   這段時間：畫面 17237 格／181 秒、遊戲時間 15.25→16.78、paused=False、開著的面板 []
+PASS [F01] 走到「坐下喝茶」(-1.6, 0.95)：按鈕出現  {"interact": "坐下喝茶", "x": -1.42, "z": 0.5}
+  [F01] 坐下：{"mode": "follow", "cam": [-1.6, 3.39, 4.55], "player": [-1.6, 0, 0.95], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F01] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F01] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-1.6, 3.39, 4.55], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F01] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": false, "x": -1.6, "z": 0.95, "pose": "sit"}
+  [ 181.2s] 走不到「坐下喝茶」：最後位置 (-0.07,1.19)，目標 (-0.7,0.95)；點地面 66 次、轉鏡頭 0 次、搖桿 3 次
+  [ 181.2s]   這段時間：畫面 13821 格／181 秒、遊戲時間 16.79→18.31、paused=False、開著的面板 []
+PASS [F02] 走到「坐下喝茶」(-0.7, 0.95)：按鈕出現  {"interact": "坐下喝茶", "x": -0.07, "z": 1.19}
+  [F02] 坐下：{"mode": "follow", "cam": [-0.7, 3.39, 4.55], "player": [-0.7, 0, 0.95], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F02] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F02] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.7, 3.39, 4.55], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F02] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": false, "x": -0.7, "z": 0.95, "pose": "sit"}
+  [  10.2s] 到達「坐下喝茶」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS [F03] 走到「坐下喝茶」(-2.5, 2.45)：按鈕出現  {"interact": "坐下喝茶", "x": -2.27, "z": 2.44}
+  [F03] 坐下：{"mode": "follow", "cam": [-2.5, 3.39, 6.05], "player": [-2.5, 0, 2.45], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F03] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F03] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.5, 3.39, 6.05], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F03] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": -2.5, "z": 2.45, "pose": "sit"}
+  [   4.9s] 到達「坐下喝茶」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+FAIL [F04] 走到「坐下喝茶」(-1.6, 2.45)：按鈕出現  {"interact": "喝茶", "x": -1.85, "z": 2.46}
+  [   2.6s] 到達「坐下喝茶」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [F05] 走到「坐下喝茶」(-0.7, 2.45)：按鈕出現  {"interact": "坐下喝茶", "x": -0.94, "z": 2.45}
+  [F05] 坐下：{"mode": "follow", "cam": [-0.7, 3.39, 6.05], "player": [-0.7, 0, 2.45], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F05] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F05] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.7, 3.39, 6.05], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F05] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": -0.7, "z": 2.45, "pose": "sit"}
+  [  20.4s] 到達「坐在緣側」附近（0.24 m）：點地面 7 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+PASS [F06] 走到「坐在緣側」(0.6, 5.55)：按鈕出現  {"interact": "坐在緣側", "x": 0.47, "z": 5.35}
+  [F06] 坐下：{"mode": "follow", "cam": [0.6, 3.39, 9.15], "player": [0.6, 0, 5.55], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": []}
+PASS [F06] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F06] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.6, 3.39, 9.15], "between": []}
+FAIL [F06] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": 0.6, "z": 5.55, "pose": "sit"}
+  [   4.8s] 到達「坐在緣側」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [F07] 走到「坐在緣側」(2.4, 5.55)：按鈕出現  {"interact": "坐在緣側", "x": 2.17, "z": 5.55}
+  [F07] 坐下：{"mode": "follow", "cam": [2.4, 3.39, 9.15], "player": [2.4, 0, 5.55], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": []}
+PASS [F07] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F07] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F07] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.4, 3.39, 9.15], "between": []}
+FAIL [F07] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": 2.4, "z": 5.55, "pose": "sit"}
+  [  14.5s] 到達「在和室坐下」附近（0.05 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+PASS [F08] 走到「在和室坐下」(-2.15, -3.5)：按鈕出現  {"interact": "在和室坐下", "x": -2.2, "z": -3.52}
+  [F08] 坐下：{"mode": "follow", "cam": [-1.59, 3.11, -0.96], "player": [-2.15, 0, -3.5], "dist": 3.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.14}]}
+PASS [F08] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F08] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-1.59, 3.11, -0.96], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.14}]}
+FAIL [F08] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": false, "x": -2.15, "z": -3.5, "pose": "sit"}
+  [  13.1s] 到達「在和室坐下」附近（0.06 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，13 秒
+PASS [F09] 走到「在和室坐下」(-2.15, -2.1)：按鈕出現  {"interact": "在和室坐下", "x": -2.2, "z": -2.07}
+  [F09] 坐下：{"mode": "follow", "cam": [-0.28, 3.39, -5.18], "player": [-2.15, 0, -2.1], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F09] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F09] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.28, 3.39, -5.18], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F09] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": -2.15, "z": -2.1, "pose": "sit"}
+  [  10.1s] 到達「在和室坐下」附近（0.06 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+PASS [F10] 走到「在和室坐下」(2.15, -3.5)：按鈕出現  {"interact": "在和室坐下", "x": 2.2, "z": -3.53}
+  [F10] 坐下：{"mode": "follow", "cam": [0.91, 3.18, -0.94], "player": [2.15, 0, -3.5], "dist": 3.33, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.22}]}
+PASS [F10] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F10] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.91, 3.18, -0.94], "between": [{"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.22}]}
+FAIL [F10] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": false, "x": 2.15, "z": -3.5, "pose": "sit"}
+  [  18.4s] 到達「在和室坐下」附近（0.05 m）：點地面 5 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+PASS [F11] 走到「在和室坐下」(2.15, -2.1)：按鈕出現  {"interact": "在和室坐下", "x": 2.2, "z": -2.08}
+  [F11] 坐下：{"mode": "follow", "cam": [5.2, 3.39, -4.02], "player": [2.15, 0, -2.1], "dist": 4.09, "pose": "sit", "seat": true, "hips": 0.39, "between": [{"mesh": "yzn_ceiling_batten", "mat": "yzn_post", "d": 2.36}, {"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+PASS [F11] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.39}
+INFO [F11] 姿勢 pose＝sit、hips 高度 0.39 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [5.2, 3.39, -4.02], "between": [{"mesh": "yzn_ceiling_batten", "mat": "yzn_post", "d": 2.36}, {"mesh": "yzn_ceiling", "mat": "yzn_ceiling_boards", "d": 2.43}]}
+FAIL [F11] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.0, "stand": true, "x": 2.15, "z": -2.1, "pose": "sit"}
+PASS 沒有 JS 例外  []
+FAILED 23: [F00] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F00] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F01] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F02] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F03] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F04] 走到「坐下喝茶」(-1.6, 2.45)：按鈕出現；[F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F05] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F06] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F07] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F07] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F08] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F09] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F10] 站起來：不是坐著、站得住、推得動 ≥0.3 m；[F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F11] 站起來：不是坐著、站得住、推得動 ≥0.3 m
