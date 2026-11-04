@@ -20,6 +20,11 @@
 | **洋洋鹹酥雞**（公館 G05，取代「滷味・鹹酥雞」；第二批） | gongguan_yangyang_ext.webp | gongguan_yangyang_int.webp | 可以 |
 | **轉角唱片**（公館 G12，取代「二手唱片」；第二批） | gongguan_corner_ext.webp | gongguan_corner_int.webp | 可以 |
 | **daybreak**（公館 G14，取代「早午餐」；第二批） | gongguan_daybreak_ext.webp | gongguan_daybreak_int.webp | 可以 |
+| **2:30 AM**（溫州街東端路口，取代兩點半 Café；溫州街第一批 AA_654） | wz_230am_ext.webp | wz_230am_int.webp | 等使用者確認 |
+| **林家乾麵**（溫州街 A4，不改名） | wz_lin_ext.webp | wz_lin_int.webp | 等使用者確認 |
+| **SUNNY SIDE**（溫州街 B7，取代半熟） | wz_sunnyside_ext.webp | wz_sunnyside_int.webp | 等使用者確認 |
+| **阿德影印輸出**（溫州街 A1，不改名） | wz_ade_ext.webp | wz_ade_int.webp | 等使用者確認 |
+| **小路**（溫州街 B3，取代巷子裡定食；居酒屋） | wz_komichi_ext.webp | wz_komichi_int.webp | 等使用者確認 |
 
 ## 照圖做的時候要改的地方
 - **大步球鞋**：圖上的鞋子有像真實品牌的勾勾標誌（內外都有），建模時**一律拿掉**，鞋側面用虛構的線條或不畫標誌（D77）。室內地板是中間色的木地板，D112 不要深色：照圖或再淺一點。
@@ -39,3 +44,8 @@
   - **轉角唱片（室內）**：牆上的「轉角唱片 Corner Records」、海報「台北的午後」「公館聲響祭 Gongguan Sound Festival '02」「河岸音樂節 Riverside Music Festival 2000」（星際樂團、午後回聲、白色電車、南方早晨）都是虛構的，照用；分類牌（搖滾／Indie、民謠／Folk、電子／Electronic）照用；右邊是試聽區（耳機＋高腳椅）。地板淺灰磨石子。
   - **daybreak**：招牌「Daybreak」照用（遊戲裡寫 daybreak 或 Daybreak 都可以，照招牌用 **Daybreak**）。門牌又是「羅斯福路四段 136」，和頁間書屋、洋洋撞號，換號碼。黑板只有分類（Brunch、Plates、Sandwiches、Salads、Drinks、Sweets）沒有價錢，品項和價錢照 AA_650。地板淺色磨石子＋淺色磁磚，家具淺色木頭。
   - 外觀圖裡左右鄰居的招牌（文具・生活、公館麵館、公館書坊）不用照畫，鄰居照遊戲裡現在的店。
+- **溫州街第一批（11-04 04:4x，AA_654）**：
+  - 2:30 AM、小路的室內是中深色木地板，照 D112 改成淺色木地板。
+  - 2:30 AM 外觀牌子寫的營業時間 21:00～02:30，要不要照用，等使用者決定。
+  - 小路的清酒瓶、海報、木札菜單上的字都當成虛構的，照用。
+  - 外觀圖的鄰居招牌不用照畫。
