@@ -1,0 +1,139 @@
+"""CC-C（帳號 C）11-04：頭髮對照（使用者 13:2x 對 CC-C：「人物的頭髮真的太像泡麵了」；BB-C 13:17 排；3D 頭髮 LAWWW2 做、角色美術照 D100a／D128 由 LAWWW 驗）。
+  誰：五位女主（以安 heroine_01、芷若 heroine_02、語彤 heroine_03、子晴 heroine_04、學姊 heroine_05）、主角（玩家）、可昕 kexin、沛珊 classmate_peishan。
+  角度：正面 f、側面 45° q、背面 b；每個角度兩種距離：遊戲鏡頭（game：4 m、頭上 0.7 m，接近跟隨鏡頭）＋近拍（close：0.9 m、頭部高度）。
+  環境：白天室外（校園椰林大道 z≈0，14:00）、室內（法律系館A 大廳 linze，14:00）各一組；藏 HUD。
+  做法：【前置／捷徑】讀檔到校園（條件事件關閉）→ 用遊戲自己的 GAME.spawnCharacter(id) 把角色放到大道上（站著、不動，只為了拍頭髮，不是遊戲劇情放的）→ 等 VRM 載好（driver＝vrm）→
+    固定鏡頭（E.cinematic）拍；主角用玩家自己的模型。室內：從校園用 GAME.enter('linze') 進法律系館A，再放一次。
+  拼圖：每個環境一張總覽（列＝人、欄＝f／q／b × game／close），在瀏覽器裡拼（PC 沒有 PIL）：hair_overview_<環境>.png。LAWWW2 改之前、之後用同一支、同一個參數對照。
+  只截圖、不判美術；Playwright（PC GPU／雲端 SwiftShader），不是手機實機。
+用法：LW_TESTS=<wt>/tests [WHO=heroine_01,...,player] [ENVS=campus,linze] python3 cc_hair_compare_probe.py <url> <out>"""
+import os, sys, json, asyncio, time, math, base64
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
+import playlib as L
+from playwright.async_api import async_playwright
+
+URL, OUT = sys.argv[1], sys.argv[2]
+J = lambda o: json.dumps(o, ensure_ascii=False)
+FAILS = []
+WHO = [w.strip() for w in (os.environ.get('WHO') or 'heroine_01,heroine_02,heroine_03,heroine_04,heroine_05,player,kexin,classmate_peishan').split(',') if w.strip()]
+ENVS = [e.strip() for e in (os.environ.get('ENVS') or 'campus,linze').split(',') if e.strip()]
+LABEL = {'heroine_01': '沈以安', 'heroine_02': '林芷若', 'heroine_03': '陳語彤', 'heroine_04': '高子晴', 'heroine_05': '溫書瑀', 'player': '主角', 'kexin': '杜可昕', 'classmate_peishan': '沛珊'}
+SHOTS = [('f', 0.0), ('q', math.pi / 4), ('b', math.pi)]   # 相對人物正面轉幾度
+DIST = [('game', 4.0, 0.7), ('close', 0.9, 0.0)]          # (名稱, 距離, 比頭高多少)
+CAMPUS_AT = (-60.0, 0.0)   # 椰林大道（z＝0；校門 x −124、總圖 x 100），tests/campus_glb_integration.py 的座標
+FAIL_LOAD = []
+
+
+def check(name, ok, info=''):
+    print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
+    if not ok: FAILS.append(name)
+    return ok
+
+
+HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
+# 放一個人（或拿玩家）：站在 (x,z)、面向 yaw、不動；回傳頭部位置與 driver
+PLACE_JS = r"""(async([id,x,z,yaw])=>{ const E=GAME.E; let o=null, n=null, made=false;
+  if(id==='player'){ o=E.player.obj; o.visible=true; o.position.set(x,o.position.y||0,z); o.rotation.y=yaw; }
+  else { const had=!!(GAME.npc&&GAME.npc[id]); n=GAME.spawnCharacter(id,x,z,{}); if(!n) return {err:'spawnCharacter 回傳 null'}; made=!had; o=n.obj; n.frozen=true; n.beh='idle'; n.path=null; o.position.set(x,0,z); o.rotation.y=yaw; o.visible=true; window.__ccHairN=n; }
+  for(let i=0;i<240;i++){ const d=o.userData&&o.userData.driver; if(d==='vrm') break; await new Promise(r=>setTimeout(r,250)); }
+  await new Promise(r=>setTimeout(r,800));
+  const V=THREE.Vector3; let head=null; try{ const v=o.userData.vrm, H=v&&v.humanoid; const b=H&&((H.getRawBoneNode&&H.getRawBoneNode('head'))||H.getNormalizedBoneNode('head')); if(b) head=b.getWorldPosition(new V()); }catch(e){}
+  if(!head){ const bb=new THREE.Box3().setFromObject(o); head=new V(x,bb.max.y-0.12,z); }
+  return {id, driver:o.userData&&o.userData.driver||null, model:(o.userData&&o.userData.model)||null, made, head:[+head.x.toFixed(3),+head.y.toFixed(3),+head.z.toFixed(3)], pos:[+o.position.x.toFixed(2),+o.position.z.toFixed(2)]}; })"""
+UNPLACE_JS = r"""(([id,made])=>{ const E=GAME.E; if(id==='player'){ return true; } const n=window.__ccHairN; if(n&&made){ try{ E.removeNPC(n); }catch(e){} if(GAME.npc) delete GAME.npc[id]; } else if(n){ n.frozen=false; } window.__ccHairN=null; return true; })"""
+AIM = """(async(e,l,hidePlayer)=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=!hidePlayer;
+  E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
+  const f0=E.frame; for(let i=0;i<240&&E.frame<f0+5;i++) await new Promise(r=>setTimeout(r,200)); return true; })"""
+# 瀏覽器裡拼總覽：imgs＝[[列標籤, [b64...]]]、欄標籤
+MONTAGE_JS = r"""(async([rows,cols,tw,th])=>{ const lw=110, hh=28; const c=new OffscreenCanvas(lw+cols.length*tw, hh+rows.length*th), x=c.getContext('2d');
+  x.fillStyle='#202124'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#fff'; x.font='16px sans-serif';
+  cols.forEach((t,i)=>x.fillText(t,lw+i*tw+6,20));
+  for(let r=0;r<rows.length;r++){ const [lab,imgs]=rows[r]; x.fillStyle='#fff'; x.fillText(lab,6,hh+r*th+th/2);
+    for(let i=0;i<imgs.length;i++){ if(!imgs[i]) continue; const bm=await createImageBitmap(await (await fetch('data:image/png;base64,'+imgs[i])).blob()); x.drawImage(bm,lw+i*tw,hh+r*th,tw,th); } }
+  const blob=await c.convertToBlob({type:'image/png'}); const buf=new Uint8Array(await blob.arrayBuffer()); let s=''; for(let i=0;i<buf.length;i+=32768) s+=String.fromCharCode.apply(null,buf.subarray(i,i+32768)); return btoa(s); })"""
+
+
+async def wait_zone(pg, z, t=60):
+    for _ in range(int(t * 4)):
+        if await pg.evaluate("GAME.G.zone===%s&&!(GAME.isEntering&&GAME.isEntering())" % J(z)): return True
+        await pg.wait_for_timeout(250)
+    return False
+
+
+async def stable_meshes(pg, t=60):
+    js = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
+    last = -1; st = 0; t0 = time.time()
+    while time.time() - t0 < t:
+        await pg.wait_for_timeout(1000); n = await pg.evaluate(js)
+        if n == last: st += 1
+        else: st = 0; last = n
+        if st >= 4: return n
+    return last
+
+
+async def shoot_env(pg, cdp, env):
+    print('== %s' % env, flush=True)
+    if env == 'campus':
+        print('  [前置／捷徑] 讀檔：校園椰林大道 (%s, %s)、2025-09-23（二）14:00、晴、條件事件關閉' % (CAMPUS_AT[0], CAMPUS_AT[1]), flush=True)
+        await L.load_state(pg, {'zone': 'campus', 'hour': 14.0, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': CAMPUS_AT[0], 'z': CAMPUS_AT[1] + 6, 'yaw': 0, 'lv': 0}}, quiet_events=True)
+        ok = await wait_zone(pg, 'campus'); at = CAMPUS_AT
+    else:
+        print('  [前置／捷徑] 讀檔：校園 14:00 → GAME.enter(%s)（遊戲自己的換區域，出生點）' % env, flush=True)
+        await L.load_state(pg, {'zone': 'campus', 'hour': 14.0, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': CAMPUS_AT[0], 'z': CAMPUS_AT[1] + 6, 'yaw': 0, 'lv': 0}}, quiet_events=True)
+        await wait_zone(pg, 'campus'); await pg.evaluate("void GAME.enter(%s)" % J(env))
+        ok = await wait_zone(pg, env)
+        p = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z]; })()")
+        at = (p[0], p[1] - 1.5)   # 出生點往裡 1.5 m
+    if not check('[%s] 進到區域' % env, ok, await pg.evaluate("GAME.G.zone")): return []
+    n = await stable_meshes(pg); await L.close_panels(pg, cdp)
+    print('  [%s] 場景 mesh %s；人物站在 (%.2f, %.2f)' % (env, n, at[0], at[1]), flush=True)
+    await pg.evaluate(HUD + '(false)')
+    rows = []
+    for who in WHO:
+        yaw = 0.0   # 面向 +z
+        pl = await pg.evaluate(PLACE_JS + '(%s)' % J([who, at[0], at[1], yaw]))
+        print('  [%s] %s（%s）：%s' % (env, who, LABEL.get(who, who), J(pl)), flush=True)
+        if pl.get('err') or not check('[%s] %s 是 VRM（driver vrm）' % (env, who), pl.get('driver') == 'vrm', J(pl)):
+            rows.append([LABEL.get(who, who) + '（沒載）', [None] * 6]); FAIL_LOAD.append(who)
+            await pg.evaluate(UNPLACE_JS + '(%s)' % J([who, pl.get('made', False)])); continue
+        hx, hy, hz = pl['head']; imgs = []
+        for dn, dist, up in DIST:
+            for an, rot in SHOTS:
+                a = yaw + rot; e = [hx + math.sin(a) * dist, hy + up, hz + math.cos(a) * dist]; l = [hx, hy - (0.15 if dn == 'game' else 0.02), hz]
+                await pg.evaluate(AIM + '(%s,%s,%s)' % (J([round(v, 3) for v in e]), J(l), 'false' if who == 'player' else 'true'))
+                await pg.wait_for_timeout(400)
+                fn = os.path.join(OUT, 'hair_%s_%s_%s_%s.png' % (env, who, an, dn))
+                png = await pg.screenshot(path=fn); imgs.append(base64.b64encode(png).decode())
+        rows.append([LABEL.get(who, who), imgs])
+        await pg.evaluate(UNPLACE_JS + '(%s)' % J([who, pl.get('made', False)]))
+    await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()")
+    await pg.evaluate(HUD + '(true)')
+    cols = ['%s %s' % (an, dn) for dn, _, _ in DIST for an, _ in SHOTS]
+    try:
+        b64 = await pg.evaluate(MONTAGE_JS + '(%s)' % J([rows, cols, 281, 130]))
+        with open(os.path.join(OUT, 'hair_overview_%s.png' % env), 'wb') as fh: fh.write(base64.b64decode(b64))
+        print('  [%s] 總覽 hair_overview_%s.png（%d 人 × %d 張）' % (env, env, len(rows), len(cols)), flush=True)
+    except Exception as e:
+        check('[%s] 總覽拼得出來' % env, False, repr(e)[:200])
+    return [r[0] for r in rows]
+
+
+async def main():
+    os.makedirs(OUT, exist_ok=True)
+    print('CC 頭髮對照 %s；%s；SHA=%s；Playwright，不是手機實機' % (','.join(WHO), ','.join(ENVS), os.environ.get('SHA', '?')), flush=True)
+    async with async_playwright() as p:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        t0 = time.time(); await pg.goto(URL); ok = await L.wait_loaded(pg); check('遊戲載入', ok, '%.1f 秒' % (time.time() - t0))
+        if not ok:
+            await b.close(); print('FAILED 1: 遊戲載入', flush=True); sys.exit(1)
+        await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
+        for env in ENVS:
+            try: await shoot_env(pg, cdp, env)
+            except Exception as e: check('[%s] 探針沒有例外' % env, False, repr(e)[:300])
+        check('沒有 JS 例外', not errs, J(errs[:3]))
+        await b.close()
+    print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS)), flush=True)
+    sys.exit(1 if FAILS else 0)
+
+asyncio.run(main())
