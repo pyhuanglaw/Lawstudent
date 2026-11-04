@@ -586,19 +586,24 @@ const CHAR = (function(){
        試過照骨頭方向補償（retargetClip v2 的 A）：鎖骨的方向兩邊差 41°，補償以後肩膀聳起來；兩邊都是 T 字就不補償。只取旋轉、不取骨盆位移（坐姿的高度照舊 −0.47×身高比例）。
        第一次有人坐下才下載（manifest lazy）；每一個片段第一次用到才換算（30 fps 取樣，所有模型共用一份）。還沒載好、載入失敗、C.sitAmb=false（網址 ?nositamb）＝照舊的靜態坐姿。
      每一格（pose sit／read，VRM driver；GLB、程序化的備用人物照舊靜止）：
-       ① 坐姿循環（C.SIT_AMB.base 隨機挑一個）：脊椎、胸口、脖子、頭（呼吸、身體微微前後）；每個人的速度 ±15%、起始相位不同（不會同步）。
+       ① 坐姿循環（C.SIT_AMB.base＝Sitting_Idle_Loop）：脊椎、胸口、脖子、頭（呼吸、身體微微前後）；每個人的速度 ±15%、起始相位不同（不會同步）；
+          片段原本 1.7 秒一個循環＝一分鐘呼吸 36 次，太急：放慢成一半（baseRate）。每個人還有自己的坐姿（前後、左右、轉身各幾度，m.pst）。
+          （另外兩個「Sitting_Idle」不是發呆：Idle02 是頭左右各轉 45° 看一圈、Idle03 是手撥頭髮——量過，拿來當下面的小動作，不當循環）
           腿、骨盆照舊 SIT_VRM（椅子的高度、sitFeet、裙子的輔助骨頭、階梯教室的座位都不受影響；片段的腿本來就不動）；
-       ② 手臂：sit、手上沒有東西（不是腿上開著筆電、不是跪坐）＝片段的手臂（手放在大腿上、偶爾撥一下頭髮）；
+       ② 手臂：sit、手上沒有東西（不是腿上開著筆電、不是跪坐）＝片段的手臂（手放在大腿上）；
           read（手上拿書、手機、平板）、腿上的筆電、跪坐＝照舊（READ_VRM＋readIK、SIT_VRM、SEIZA_VRM），肩膀、手、手指也不吃片段（遮罩）；
-       ③ 小動作（每個人每 C.SIT_AMB.gap＝8～25 秒一個）：抬頭看一下（read：從書／手機上抬起頭）、看看四周（頭往左右轉、眼睛跟著）、伸一下脖子（側彎＋往後仰）、
-          換一個坐姿循環（sit：一半的時候是 Sitting_Idle03_Loop 一次＝手撥一下頭髮）、拿書的翻頁（右手拇指從書的外緣掃過右頁、手腕往書溝轉，readIK 之後）；
-          滑手機、平板：另外每 2～6 秒右手拇指滑一下（readIK 之後）。有人跟他說話、聊天（st.lookAt）的時候頭不做小動作（頭照注視轉過去）；玩家自己只做換坐姿、翻頁、滑手機。
+       ③ 小動作（每個人每 C.SIT_AMB.gap＝8～25 秒一個；一個做完才開始算下一個）：看看四周（片段 Sitting_Idle02_Loop 一次：頭往左右轉）、往一邊看一下（程式：頭轉過去、停一下）、
+          抬頭（read：從書／手機上抬起頭看前面）、伸一下脖子（側彎＋往後仰）、撥頭髮（片段 Sitting_Idle03_Loop 一次；sit、手上沒東西）、換坐姿（m.pst 換一組，1 秒左右慢慢換過去）、
+          拿書的翻頁（右手拇指從書的外緣掃過右頁、手腕往書溝轉，readIK 之後）；滑手機、平板：另外每 2～6 秒右手拇指滑一下（readIK 之後）。
+          眼睛跟著頭看過去；讀書、滑手機的人眼睛看手上的東西。有人跟他說話、聊天（st.lookAt）的時候頭不做小動作（0.5 秒內收回來，頭照注視轉過去）；
+          玩家自己只做換坐姿、翻頁、滑手機（不會自己東張西望）。
        ④ 同桌聊天（SEATACT 標的 u.sitChat＝{pair}：兩個人一組）：說話的人疊 Sitting_Talking_Loop（上半身、手比劃）、聽的人疊 Sitting_Nodding_Loop（點頭），每 3～7 秒換人；頭照舊轉向對方（st.lookAt）。
      沒有每一格配置新物件（暫存的四元數、陣列都是共用的）；遠距離版本（u.isFar）不算手指。C.ambRand＝亂數（測試可以換成固定種子）。測試：node tests/seat_ambient_unit.js */
   C.sitAmb=!(typeof location!=='undefined'&&/[?&]nositamb\b/.test(location.search||''));
   C.SIT_AMB_KEY='char.ual_sit_clips';
-  C.SIT_AMB={ base:['Sitting_Idle_Loop','Sitting_Idle02_Loop'], shift:'Sitting_Idle03_Loop', talk:'Sitting_Talking_Loop', nod:'Sitting_Nodding_Loop',
-    rate:0.15, gap:[8,25], first:[3,18], fade:0.9, ovFade:0.6, turn:[3,7], readPitch:0.3, scroll:[2,6], headYaw:0.18 };   /* headYaw：每個人平常頭往左右偏多少（±弧度，扣掉片段本身的 11°）*/
+  C.SIT_AMB={ base:['Sitting_Idle_Loop'], baseRate:0.5, look:'Sitting_Idle02_Loop', hair:'Sitting_Idle03_Loop', talk:'Sitting_Talking_Loop', nod:'Sitting_Nodding_Loop',
+    rate:0.15, gap:[8,25], first:[3,18], fade:0.9, ovFade:0.6, turn:[3,7], readPitch:0.3, scroll:[2,6], headYaw:0.18,
+    posture:{lean:[-0.07,0.05],side:[-0.05,0.05],twist:[-0.06,0.06],speed:2.5} };   /* headYaw：每個人平常頭往左右偏多少（±弧度，扣掉片段本身的 11°）；posture：每個人的坐姿（弧度：往前＋、往左右、轉身），speed＝換坐姿的快慢（1/秒）*/
   C.ambRand=Math.random;
   const UAL_BONE={pelvis:'Hips',spine_01:'Spine',spine_02:'Spine1',spine_03:'Spine2',neck_01:'Neck',Head:'Head'};
   for(const [s,S] of [['l','Left'],['r','Right']]){ Object.assign(UAL_BONE,{['clavicle_'+s]:S+'Shoulder',['upperarm_'+s]:S+'Arm',['lowerarm_'+s]:S+'ForeArm',['hand_'+s]:S+'Hand',['thigh_'+s]:S+'UpLeg',['calf_'+s]:S+'Leg',['foot_'+s]:S+'Foot',['ball_'+s]:S+'ToeBase'});
@@ -635,8 +640,9 @@ const CHAR = (function(){
     const grp=order.map(n=>/(UpLeg|Leg|Foot|ToeBase)$/.test(n)?0:(/(Shoulder|Arm)$|Hand/.test(n)?2:1));
     return (u.ambRig={order,par,grp,finger:order.map(n=>/Hand[A-Z]/.test(n)),tab:order.map(n=>/^(Left|Right)(Fore)?Arm$/.test(n)),nodes:order.map(n=>B[n])}); }   /* tab：上臂、前臂（靜態坐姿的表會寫）*/
   const ambRnd=(a,b)=>a+(b-a)*C.ambRand();
-  function ambInit(){ const K=C.SIT_AMB; return {base:K.base[Math.floor(C.ambRand()*K.base.length)%K.base.length],t:ambRnd(0,10),rate:ambRnd(1-K.rate,1+K.rate),prev:null,pt:0,prate:1,fw:1,
-    ov:null,ovWant:null,ovLoop:true,ot:0,ow:0,fx:null,next:ambRnd(K.first[0],K.first[1]),n:0,kinds:{},sc:0,scT:ambRnd(K.scroll[0],K.scroll[1]),head:[0,0,0],hy:ambRnd(-K.headYaw,K.headYaw)}; }
+  const ambPosture=()=>{ const P=C.SIT_AMB.posture; return [ambRnd(P.lean[0],P.lean[1]),ambRnd(P.side[0],P.side[1]),ambRnd(P.twist[0],P.twist[1])]; };
+  function ambInit(){ const K=C.SIT_AMB, ps=ambPosture(); return {base:K.base[Math.floor(C.ambRand()*K.base.length)%K.base.length],t:ambRnd(0,10),rate:K.baseRate*ambRnd(1-K.rate,1+K.rate),orate:ambRnd(1-K.rate,1+K.rate),prev:null,pt:0,prate:1,fw:1,
+    ov:null,ovWant:null,ovLoop:true,ot:0,ow:0,fx:null,next:ambRnd(K.first[0],K.first[1]),n:0,kinds:{},sc:0,scT:ambRnd(K.scroll[0],K.scroll[1]),head:[0,0,0],hy:ambRnd(-K.headYaw,K.headYaw),pst:ps.slice(),pstTo:ps}; }
   const AW=new Float32Array(64*4), AS=new Float32Array(4), AQ=[new THREE.Quaternion(),new THREE.Quaternion()], AE=new THREE.Euler(), AMBV=new THREE.Vector3();
   function ambSample(c,t,loop,n,out,o){ const D=c.D[n]; if(!D){ out[o]=0; out[o+1]=0; out[o+2]=0; out[o+3]=1; return; } let x=t/c.dur; x=loop?x-Math.floor(x):Math.min(1,Math.max(0,x)); const f=x*(c.nF-1), i=Math.min(c.nF-2,Math.floor(f)); THREE.Quaternion.slerpFlat(out,o,D,i*4,D,i*4+4,f-i); }
   /* 小動作的時間軸：頭（脖子＋頭）往上下 p、左右 y、側彎 r（弧度）。keys＝[[時間, p, y, r],…]，中間平滑內插 */
@@ -644,24 +650,30 @@ const CHAR = (function(){
   const AK=[0,0,0];
   function ambKeys(keys,t){ const o=AK; o[0]=0; o[1]=0; o[2]=0; if(!keys||!keys.length) return o; if(t<=keys[0][0]) return o; for(let i=1;i<keys.length;i++){ const a=keys[i-1], b=keys[i]; if(t<=b[0]){ const s=amb01((t-a[0])/Math.max(1e-3,b[0]-a[0])); for(let j=0;j<3;j++) o[j]=a[j+1]+(b[j+1]-a[j+1])*s; return o; } } return o; }
   /* 挑一個小動作（kind）：看姿勢、手上拿什麼、是不是玩家 */
-  function ambPick(u,pose,kd){ const player=!!(u.spec&&u.spec.id==='hero_m'); const W=[];
-    if(pose==='read'){ if(kd==='book') W.push(['page',4]); if(!player) W.push(['glance',3],['look',kd==='book'?2:1],['stretch',1]); W.push(['shift',kd==='book'?2:1]); }
-    else { if(!player) W.push(['look',3],['up',2],['stretch',1]); W.push(['shift',4]); }
+  function ambPick(u,pose,kd,armsFree){ const player=!!(u.spec&&u.spec.id==='hero_m'); const W=[];
+    if(pose==='read'){ if(kd==='book') W.push(['page',4]); if(!player) W.push(['glance',kd==='book'?3:2],['look',1],['side',1],['stretch',1]); W.push(['posture',2]); }
+    else { if(!player){ W.push(['look',2],['side',2],['up',2],['stretch',1]); if(armsFree) W.push(['hair',2]); } W.push(['posture',player?1:3]); }
     let s=0; for(const w of W) s+=w[1]; let r=C.ambRand()*s; for(const w of W){ r-=w[1]; if(r<=0) return w[0]; } return W.length?W[W.length-1][0]:null; }
-  function ambStart(m,u,kind,armsFree){ const K=C.SIT_AMB, sd=C.ambRand()<0.5?1:-1; m.n++; m.kinds[kind]=(m.kinds[kind]|0)+1; m.lastKind=kind;
-    if(kind==='shift'){ if(armsFree&&C.ambRand()<0.5&&!m.ov){ m.ovWant=K.shift; m.ovLoop=false; m.ot=0; m.ow=0; m.ov=K.shift; m.fx={kind,t:0,dur:4.4,keys:null}; return; }   /* 手撥一下頭髮（片段一次）*/
-      const L=K.base.filter(b=>b!==m.base); const nb=L.length?L[Math.floor(C.ambRand()*L.length)%L.length]:m.base; if(nb!==m.base){ m.prev=m.base; m.pt=m.t; m.prate=m.rate; m.fw=0; m.base=nb; m.t=ambRnd(0,5); m.rate=ambRnd(1-K.rate,1+K.rate); }
-      m.fx={kind,t:0,dur:K.fade,keys:null}; return; }
+  /* 片段疊一次（看看四周、撥頭髮）：從 0 慢慢疊上去，片段快完的時候慢慢放掉 */
+  function ambOnce(m,name,kind){ const c=ambClip(name); if(!c) return false; m.ovWant=name; m.ovLoop=false; if(m.ov!==name){ m.ov=name; m.ow=0; } m.ot=0; m.fx={kind,t:0,dur:c.dur/Math.max(0.5,m.orate||1)+0.3,keys:null}; return true; }
+  function ambStart(m,u,kind,armsFree){ const K=C.SIT_AMB, sd=C.ambRand()<0.5?1:-1;
+    if(kind==='hair'&&!armsFree) kind='side';   /* 手上有東西：撥不了頭髮＝往一邊看 */
+    if((kind==='hair'||kind==='look')&&!ambClip(kind==='hair'?K.hair:K.look)) kind='side';
+    m.n++; m.kinds[kind]=(m.kinds[kind]|0)+1; m.lastKind=kind;
+    if(kind==='posture'){ const L=K.base.filter(b=>b!==m.base); if(L.length&&C.ambRand()<0.5){ m.prev=m.base; m.pt=m.t; m.prate=m.rate; m.fw=0; m.base=L[Math.floor(C.ambRand()*L.length)%L.length]; m.t=ambRnd(0,5); }   /* 有不只一個坐姿循環的時候：換一個 */
+      m.pstTo=ambPosture(); m.fx={kind,t:0,dur:1.6,keys:null}; return; }
+    if(kind==='hair'){ ambOnce(m,K.hair,kind); return; }
+    if(kind==='look'){ ambOnce(m,K.look,kind); return; }
     if(kind==='page'){ m.fx={kind,t:0,dur:1.1,keys:[[0,0,0,0],[0.35,-0.04,0.05,0],[0.8,-0.04,0.05,0],[1.1,0,0,0]]}; return; }
     if(kind==='glance'){ const d=ambRnd(1.4,2.6), p=-ambRnd(0.35,0.5), y=ambRnd(-0.25,0.25); m.fx={kind,t:0,dur:d+0.9,keys:[[0,0,0,0],[0.45,p,y,0],[0.45+d,p,y*0.7,0],[d+0.9,0,0,0]]}; return; }
     if(kind==='up'){ const d=ambRnd(1.2,2.2), p=-ambRnd(0.15,0.25), y=ambRnd(-0.2,0.2); m.fx={kind,t:0,dur:d+1,keys:[[0,0,0,0],[0.5,p,y,0],[0.5+d,p,y,0],[d+1,0,0,0]]}; return; }
     if(kind==='stretch'){ const r=sd*ambRnd(0.22,0.32); m.fx={kind,t:0,dur:2.6,keys:[[0,0,0,0],[0.7,-0.12,0,r],[1.6,-0.18,0,r],[2.6,0,0,0]]}; return; }
-    /* look：往一邊看、停一下，一半的時候再往另一邊看 */
+    /* side：往一邊看、停一下，一半的時候再往另一邊看 */
     const y1=sd*ambRnd(0.45,0.85), h1=ambRnd(0.8,1.6), two=C.ambRand()<0.5, y2=-sd*ambRnd(0.35,0.7), h2=ambRnd(0.6,1.2), p=ambRnd(-0.08,0.06);
     const keys=[[0,0,0,0],[0.6,p,y1,0],[0.6+h1,p,y1,0]]; let t=0.6+h1; if(two){ keys.push([t+0.8,p,y2,0],[t+0.8+h2,p,y2,0]); t+=0.8+h2; } keys.push([t+0.7,0,0,0]); m.fx={kind,t:0,dur:t+0.7,keys}; }
   /* 每一格：①～④ 都在這裡；回傳 false＝片段還沒好（照舊靜止）*/
   function sitAmbient(h,u,dt,st,pose){ if(!C.sitAmb||!ambReady()) return false; const K=C.SIT_AMB, R=ambRig(u); if(!R.order.length) return false; const m=u.amb||(u.amb=ambInit());
-    const kd=pose==='read'?readKind(u):null, armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible), talked=!!st.lookAt;
+    u.ambPose=pose; const kd=pose==='read'?readKind(u):null, armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible), talked=!!st.lookAt;
     // 時間：坐姿循環、換循環的交叉淡入
     m.t+=dt*m.rate; if(m.prev){ m.pt+=dt*m.prate; m.fw=Math.min(1,m.fw+(dt>0?dt/K.fade:0)); if(m.fw>=1) m.prev=null; }
     // ④ 同桌聊天：說話／點頭輪流（兩個人共用 pair 的時鐘；兩個人都在動的時候各加一半）
@@ -669,14 +681,16 @@ const CHAR = (function(){
     if(P){ P.t=(P.t||0)+dt*0.5; if(P.t>=(P.dur||4)){ P.t=0; P.turn=(P.turn|0)^1; P.dur=ambRnd(K.turn[0],K.turn[1]); } const role=P.na&&P.na.obj===h?0:1; m.ovWant=(P.turn|0)===role?K.talk:K.nod; m.ovLoop=true; m.chatRole=m.ovWant===K.talk?'talk':'nod'; if(m.fx&&m.fx.kind!=='page') m.fx=null; }
     else { m.chatRole=null; if(m.ovWant===K.talk||m.ovWant===K.nod) m.ovWant=null; }
     // ③ 小動作
-    if(m.fx){ m.fx.t+=dt; if(m.fx.kind==='shift'&&m.ov===K.shift){ const sc=ambClip(K.shift); if(!sc||m.ot>=sc.dur-K.ovFade) m.ovWant=null; } if(m.fx.t>=m.fx.dur){ m.fx=null; if(m.ov===K.shift) m.ovWant=null; } }
-    else if(!P){ m.next-=dt; if(m.next<=0){ m.next=ambRnd(K.gap[0],K.gap[1]); const kind=ambPick(u,pose,kd); if(kind&&!(talked&&kind!=='shift')) ambStart(m,u,kind,armsFree); } }
+    if(m.fx){ m.fx.t+=dt; const once=m.ov&&!m.ovLoop&&m.ov===m.ovWant; if(once){ const oc=ambClip(m.ov); if(!oc||m.ot>=oc.dur-K.ovFade*(m.orate||1)) m.ovWant=null; }   /* 疊一次的片段快完了：慢慢放掉 */
+      if(m.fx.t>=m.fx.dur){ m.fx=null; if(m.ovWant&&!m.ovLoop) m.ovWant=null; } }
+    else if(!P){ m.next-=dt; if(m.next<=0){ m.next=ambRnd(K.gap[0],K.gap[1]); const kind=ambPick(u,pose,kd,armsFree); if(kind&&!(talked&&kind!=='posture')) ambStart(m,u,kind,armsFree); } }
     /* 有人跟他說話（對話、聊天的注視）：頭的小動作在 0.5 秒內收回來（權重 fxW），收完就結束；沒有人說話＝權重回到 1 */
     m.fxW=Math.max(0,Math.min(1,(m.fxW==null?1:m.fxW)+(dt>0?(talked?-dt:dt)/0.5:0))); if(talked&&m.fxW<=0&&m.fx&&m.fx.keys&&m.fx.kind!=='page') m.fx=null;
+    if(talked&&m.ov&&!m.ovLoop){ m.ovWant=null; if(m.fx&&(m.fx.kind==='look'||m.fx.kind==='hair')) m.fx=null; }   /* 疊一次的片段（看看四周、撥頭髮）也放掉（ovFade 秒）*/
     // 疊加片段（聊天、撥頭髮）的權重
     if(m.ov!==m.ovWant){ m.ow-=dt>0?dt/K.ovFade:0; if(m.ow<=0){ m.ow=0; m.ov=m.ovWant; m.ot=m.ovLoop?ambRnd(0,3):0; } }
     else if(m.ov){ m.ow=Math.min(1,m.ow+(dt>0?dt/K.ovFade:0)); }
-    if(m.ov) m.ot+=dt*(m.ovLoop?m.rate:1);
+    if(m.ov) m.ot+=dt*(m.orate||1);
     // 片段 → 世界旋轉差（AW）
     const cur=ambClip(m.base), prv=m.prev?ambClip(m.prev):null, ov=m.ov&&m.ow>0?ambClip(m.ov):null; if(!cur) return false;
     const far=!!u.isFar, n=R.order.length;
@@ -687,8 +701,12 @@ const CHAR = (function(){
     for(let i=0;i<n;i++){ const g=R.grp[i]; if(g===0||(g===2&&!armsFree)||(far&&R.finger[i])) continue; const p=R.par[i], q=AQ[0].fromArray(AW,i*4); if(p>=0) q.premultiply(AQ[1].fromArray(AW,p*4).invert()); if(u.v0){ q.x=-q.x; q.z=-q.z; } R.nodes[i].quaternion.copy(q); }
     // 手臂不吃片段（read、腿上的筆電、跪坐）：肩膀、手、手指回到靜止；上臂、前臂照 SIT_VRM／SEIZA_VRM（外面先寫好了）、READ_VRM（外面之後寫）
     if(!armsFree) for(let i=0;i<n;i++) if(R.grp[i]===2&&!R.tab[i]) R.nodes[i].quaternion.set(0,0,0,1);
+    const sx=u.sx||1, B=u.bones;
+    // 每個人自己的坐姿（往前、往左右、轉身；脊椎、胸口各一半）：換坐姿的時候慢慢換過去
+    { const ps=m.pst, pt=m.pstTo, k=dt>0?Math.min(1,dt*K.posture.speed):0; for(let j=0;j<3;j++) ps[j]+=(pt[j]-ps[j])*k;
+      AE.set(ps[0]*0.5*sx,ps[2]*0.5,ps[1]*0.5*sx); AQ[0].setFromEuler(AE); if(B.Spine) B.Spine.quaternion.multiply(AQ[0]); if(B.Spine1) B.Spine1.quaternion.multiply(AQ[0]); }
     // 頭的小動作（脖子 40%、頭 60%）＋讀書低頭
-    const hk=m.fx&&m.fx.keys?ambKeys(m.fx.keys,m.fx.t):null, sx=u.sx||1, B=u.bones;
+    const hk=m.fx&&m.fx.keys?ambKeys(m.fx.keys,m.fx.t):null;
     if(hk&&m.fx.kind!=='page'){ hk[0]*=m.fxW; hk[1]*=m.fxW; hk[2]*=m.fxW; }
     m.head[0]=hk?hk[0]:0; m.head[1]=hk?hk[1]:0; m.head[2]=hk?hk[2]:0;
     if(hk&&B.Neck){ AE.set(hk[0]*0.4*sx,hk[1]*0.4,hk[2]*0.4*sx); B.Neck.quaternion.multiply(AQ[0].setFromEuler(AE)); }
@@ -700,6 +718,9 @@ const CHAR = (function(){
     u.readScroll=m.sc>0?m.sc:0; u.readScrollT=(u.readScrollT||0)+dt;
     return true; }
   C._sitAmbient=sitAmbient;
+  /* 馬上做某一個小動作（測試、錄影用；瀏覽器主控台：CHAR.sitAmbFidget(E3.npcs[0].obj,'look')）：kind＝look、side、up、glance、stretch、hair、posture、page；坐著、片段好了才有用 */
+  C.sitAmbFidget=function(h,kind){ const u=h&&h.userData; if(!u||u.driver!=='vrm'||!u.anim||!u.anim.static||!u.ambOn) return false; const m=u.amb||(u.amb=ambInit()); const pose=u.ambPose||'sit';
+    const armsFree=pose==='sit'&&!u.sitFloor&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); m.fx=null; m.fxW=1; ambStart(m,u,kind,armsFree); return true; };
   /* 翻頁（readIK 之後，只有拿書）：右手拇指從書的右外緣掃過右頁（在頁面前面）、手腕往書溝轉一點；p＝0～1 */
   const PGQ=new THREE.Quaternion(), PGV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
   function readTurnFx(u,get,MW,K){ const p=u.readTurn; if(!(p>0)) return; const b=Math.sin(Math.PI*Math.min(1,p)), w=b*b; if(w<1e-3) return;
@@ -708,9 +729,9 @@ const CHAR = (function(){
     if(t1&&t3){ const base=t1.getWorldPosition(PGV[1]), tip=t3.getWorldPosition(PGV[2]).sub(base); const tg=PGV[3].set(K.W*(0.85-0.55*Math.min(1,p*1.6)),0.01,0.015).applyMatrix4(MW).sub(base);   /* 目標：右頁前面、從外緣往書溝 */
       if(tip.lengthSq()>1e-8&&tg.lengthSq()>1e-8){ PGQ.setFromUnitVectors(tip.normalize(),tg.normalize()); PGQ.slerp(IKQ[0].set(0,0,0,1),1-w); rotWorldQ(t1,PGQ); } } }
   /* 滑手機（readIK 之後，手機、平板）：右手拇指在螢幕上下滑（拇指根繞「拇指方向 × 螢幕往上」轉）*/
-  function readScrollFx(u,get,MW){ const s=u.readScroll; if(!(s>0)) return; const t1=get('rightThumbProximal')||get('rightThumbMetacarpal'), t3=get('rightThumbDistal'); if(!t1||!t3) return;
+  function readScrollFx(u,get,MW){ const s=u.readScroll; if(!(s>0)) return; const t1=get('rightThumbMetacarpal')||get('rightThumbProximal'), t3=get('rightThumbDistal'); if(!t1||!t3) return;   /* 整根拇指從根部轉（中間那一節轉，指尖只動 0.7 cm，看不出來）*/
     const env=Math.min(1,s/0.25)*Math.min(1,(1.6-Math.min(1.6,s))/0.25+0.0001), up=PGV[0].set(0,1,0).transformDirection(MW), dir=t3.getWorldPosition(PGV[1]).sub(t1.getWorldPosition(PGV[2]));
-    const ax=PGV[3].crossVectors(dir,up); if(ax.lengthSq()<1e-10) return; ax.normalize(); rotWorld(t1,ax,0.28*Math.sin((u.readScrollT||0)*2*Math.PI*1.6)*Math.min(1,env)); }
+    const ax=PGV[3].crossVectors(dir,up); if(ax.lengthSq()<1e-10) return; ax.normalize(); rotWorld(t1,ax,0.3*Math.sin((u.readScrollT||0)*2*Math.PI*1.6)*Math.min(1,env)); }
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read', lying=pose==='lie'||C.GYM_POSES.includes(pose); for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!lying&&!(u.propOn&&u.propOn[k]===false); } }   /* 躺在床上也藏（後背包，DORM-SLEEP-1030）*/   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
     u.readOn=pose==='read'&&C.readIK&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); readVis(u);   /* 讀書：手上那本打開的書（readIK；腿上開著筆電的時候不拿書）*/

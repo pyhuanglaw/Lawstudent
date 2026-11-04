@@ -158,7 +158,17 @@ const SEATACT=(function(){
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },
       e=>{ console.warn('SEATACT desk_props（人照樣坐，桌上沒有東西）',e); R.failed=true; R.loading=null; }); }
   S.ready=()=>!!R.props;
-  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()) unhold(r); R.on.clear(); R.dirty=false; }
+  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()){ unhold(r); unChat(r); } R.on.clear(); R.dirty=false; }
+  /* 同桌聊天的兩個人（NPC-AMBIENT-ANIM-1104，USER_WANTS X222）：兩個都是 chat（crowd3d.js 一桌兩個人、互相看著對方的那一組）、都不是有名字的人＝一組；
+     兩個人的 obj.userData.sitChat＝{pair}（共用的 pair：na、nb、輪到誰 turn、時鐘 t、這一輪多久 dur）——character3d.js 的 sitAmbient 照它輪流說話（Sitting_Talking_Loop）、點頭（Sitting_Nodding_Loop）。
+     有一個人走了、起身、換區域＝兩個人都拿掉（剩下那一個照舊坐著）。有名字的人照劇情，不配（姿勢、手不動）*/
+  const partnerOf=(E,n)=>n&&n.lookAt?E.npcs.find(m=>m!==n&&m.obj&&m.obj.position===n.lookAt)||null:null;
+  function setChat(r){ const o=r.n&&r.n.obj; if(!o||!r.pair) return; const u=o.userData||(o.userData={}); if(!u.sitChat||u.sitChat.pair!==r.pair) u.sitChat={pair:r.pair}; }
+  function unChat(r){ const P=r&&r.pair; if(!P) return; for(const n of [P.na,P.nb]){ const o=n&&n.obj, u=o&&o.userData; if(u&&u.sitChat&&u.sitChat.pair===P) delete u.sitChat; const rr=R.on.get(n); if(rr&&rr.pair===P) rr.pair=null; } }
+  function pairChat(E){ for(const r of R.on.values()){ if(r.act!=='chat'||r.named) continue; if(r.pair){ setChat(r); continue; }   /* 換過模型（CHAR.upgrade）的人：新的 obj 再標一次 */
+      const m=partnerOf(E,r.n), rm=m&&R.on.get(m); if(!rm||rm===r||rm.act!=='chat'||rm.named||rm.pair||partnerOf(E,m)!==r.n) continue;
+      const P={na:r.n,nb:m,turn:Math.random()<0.5?0:1,t:0,dur:3+Math.random()*4}; r.pair=rm.pair=P; setChat(r); setChat(rm); } }
+  S.pairs=()=>{ const out=new Set(); for(const r of R.on.values()) if(r.pair) out.add(r.pair); return [...out]; };   /* 測試用 */
   function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); }
   /* 這個人現在可以配嗎：坐著（seat、sit／read）、不是上課的同學、店員、玩家；換了姿勢（起身）＝不能 */
   const seatedOk=n=>!!(n&&n.seat&&n.obj&&!n.hidden&&(n.pose==='sit'||n.pose==='read')&&!n.clsStudent&&!n.clerk&&!n.seatTarget&&!n.leaving);
@@ -206,6 +216,7 @@ const SEATACT=(function(){
     /* 還沒找過的；找不到桌子的 1.5 秒、5 秒後再找；模型變了（正式模型載好、備用方塊藏起來＝索引重算完）每個人都重找（桌面高度可能不一樣）*/
     if(ixDone){ const sig=triIx.sig; for(const r of R.on.values()){ const due=!r.tbN||r.tbSig!==sig||(!r.tb&&r.tbN<3&&Date.now()-r.tbT>(r.tbN===1?1500:5000)); if(!due) continue;
         const had=r.set, hy=r.tb&&r.tb.y; retable(E,r,place,sig); if(r.set!==had||r.tbN===1||(r.tb&&r.tb.y)!==hy){ applyBody(r); r.items=null; R.dirty=true; } } }
+    pairChat(E);
     if(R.dirty&&R.props) rebuild(E);
     lodTick(E); };
   function retable(E,r,place,sig){ r.tb=S.probe(E,r.st); r.tbT=Date.now(); r.tbN=(r.tbN|0)+1; r.tbSig=sig!=null?sig:(triIx&&triIx.sig);
@@ -214,7 +225,7 @@ const SEATACT=(function(){
     let set=deskFor(r.act,place,r.tb,r.forced); const A=S.ACT[r.act];
     if(!set&&A&&A.alt&&!r.named){ r.act=A.alt; set=deskFor(r.act,place,r.tb,null); }   /* 寫筆記、看桌上的書，桌子放不下：改成手上捧書 */
     r.set=set; r.kind=r.tb?(r.tb.wide?'wide':(r.tb.depth>=0.3?'narrow':(r.tb.depth>=0.2?'tiny':null))):null; r.items=null; }
-  function drop(r){ R.on.delete(r.n); unhold(r); if(r.set) R.dirty=true; }
+  function drop(r){ unChat(r); R.on.delete(r.n); unhold(r); if(r.set) R.dirty=true; }
   S.drop=function(n){ const r=R.on.get(n); if(r){ drop(r); } };
   S.clear=clearAll;
   // ---------- 畫出來 ----------
