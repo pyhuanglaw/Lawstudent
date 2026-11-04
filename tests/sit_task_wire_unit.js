@@ -173,10 +173,11 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* �
   /* ---------- 吃飯的店：坐著吃 ---------- */
   { const Z=mkZone([{act:'eat',top:0.75,edge:0.30},{act:'eat',top:0.75,edge:0.30}],'test_meal'); const npcs=[mkNPC('char.npc_f1',Z.zone.seats[0]),mkNPC('char.npc_f1',Z.zone.seats[1],{pose:'read'})]; const GM=mkGM(Z,npcs); await run(GM,120);
     const r0=recOf(npcs[0]), t0=CHAR.sitTaskOf(npcs[0].obj), t1=CHAR.sitTaskOf(npcs[1].obj);
-    check('B 吃飯的店：吃飯先不用片段（LAWWW-C 11-04 21:4x：Sit_Eat 是握筷子的手、手上沒有筷子——等筷子配件）＝坐著吃的人照舊坐姿、桌上照舊有碗；S.TASK_EAT 留著（之後併回 S.TASK 就開）；坐著 read 的照舊',!t0&&!!r0&&r0.items.some(x=>/^item_bowl/.test(x))&&!t1&&npcs[1].pose==='read'&&!SEATACT.TASK.eat&&!SEATACT.TASK.eat2&&SEATACT.TASK_EAT&&SEATACT.TASK_EAT.eat==='eat'&&SEATACT.TASK_EAT.eat2==='eat',(t0?t0.playing:'沒有')+'、桌上 '+(r0?r0.items.join('、'):'-'));
+    check('B 吃飯的店：吃飯先不用片段（BB-C 22:43：先改坐下的高度、桌子在胸口；筷子配件 LAWWW2-C 補件已經到了）＝坐著吃的人照舊坐姿、桌上照舊有碗；S.TASK_EAT 留著（之後併回 S.TASK 就開）；坐著 read 的照舊',!t0&&!!r0&&r0.items.some(x=>/^item_bowl/.test(x))&&!t1&&npcs[1].pose==='read'&&!SEATACT.TASK.eat&&!SEATACT.TASK.eat2&&SEATACT.TASK_EAT&&SEATACT.TASK_EAT.eat==='eat'&&SEATACT.TASK_EAT.eat2==='eat',(t0?t0.playing:'沒有')+'、桌上 '+(r0?r0.items.join('、'):'-'));
     cleanup(GM,Z);
-    { const T0=Object.assign({},SEATACT.TASK); Object.assign(SEATACT.TASK,SEATACT.TASK_EAT); CHAR._taskReset(); const Z2=mkZone([{act:'eat',top:0.75,edge:0.30}],'test_meal'); const n2=[mkNPC('char.npc_f1',Z2.zone.seats[0])]; const GM2=mkGM(Z2,n2); await run(GM2,120);
-      const t2=CHAR.sitTaskOf(n2[0].obj); check('B 吃飯：S.TASK_EAT 併回 S.TASK 以後＝Sit_Eat_F_Loop（筷子配件到了就這樣開）',!!t2&&t2.playing==='Sit_Eat_F_Loop'&&!t2.prop,(t2?t2.playing:'沒有'));
+    { const T0=Object.assign({},SEATACT.TASK); Object.assign(SEATACT.TASK,SEATACT.TASK_EAT); CHAR._taskReset(); const Z2=mkZone([{act:'eat',top:0.75,edge:0.30},{act:'eat',top:0.75,edge:0.30}],'test_meal'); const n2=[mkNPC('char.npc_f1',Z2.zone.seats[0]),mkNPC('char.npc_f1',Z2.zone.seats[1],{pose:'read'})]; const GM2=mkGM(Z2,n2); await run(GM2,120);
+      const r2=recOf(n2[0]), t2=CHAR.sitTaskOf(n2[0].obj), t3=CHAR.sitTaskOf(n2[1].obj), u2=n2[0].obj.userData, ch=u2.taskProps&&u2.taskProps.hand_chopsticks;
+      check('B 吃飯：S.TASK_EAT 併回 S.TASK 以後＝吃的人播 Sit_Eat_F_Loop、右手拿筷子（hand_chopsticks，LAWWW2-C 補件）、桌上那雙筷子拿掉（碗還在）；坐著 read 的照舊',!!t2&&t2.playing==='Sit_Eat_F_Loop'&&t2.prop==='hand_chopsticks'&&!!ch&&ch.visible&&ch.parent===raw(n2[0].obj,'rightHand')&&!!r2&&r2.items.some(x=>/^item_bowl/.test(x))&&!r2.items.some(x=>/^item_chopsticks$/.test(x))&&!t3&&n2[1].pose==='read',(t2?t2.playing+'／'+(t2.prop||'-'):'沒有')+'、桌上 '+(r2?r2.items.join('、'):'-'));
       cleanup(GM2,Z2); for(const k of Object.keys(SEATACT.TASK)) delete SEATACT.TASK[k]; Object.assign(SEATACT.TASK,T0); CHAR._taskReset(); }
   }
   /* ---------- G：不留垃圾、換模型 ---------- */

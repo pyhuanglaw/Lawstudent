@@ -3,7 +3,8 @@
 網格照 desk_props.py 的 item_cup／item_phone／item_pen（同一張貼圖集，和桌上的那一個一模一樣）；位置、方向照 sit_task_loops.py 的片段算：
   ①在女生 VRoid 骨架上播那個片段的第一格（喝飲料、滑手機、寫字），②那一格裡配件在世界的位置、方向（杯子中心線在手心前 CUP_HAND、手機躺在手心、筆尖在 PEN_HAND），
   ③換算成右手骨頭的座標（VRoid 的骨頭靜止時沒有旋轉：骨頭座標＝模型檔座標，x 人物右邊、y 上、z 後面；位置用模型檔的單位＝除以遊戲的縮放）。
-GLB：根節點 hand_props 底下三個網格 hand_cup、hand_phone、hand_pen（各自已經擺好，掛上去不用再轉）。
+GLB：根節點 hand_props 底下四個網格 hand_cup、hand_phone、hand_pen、hand_chopsticks（各自已經擺好，掛上去不用再轉）。
+筷子（NPC-ANIM-LOOPS-1104 補件，LAWWW-C 11-04 21:42Z）：兩支 23 cm（尾端 7 mm 方、尖端 4 mm），形狀寫在 sit_task_loops.py 的 CHOP，直接做在右手骨頭的座標裡（chop_bone）；吃飯的片段照它的尖端擺手。
 另外檢查：配件和手在片段的每一格都是一起動的（相對位置不變），不然掛在骨頭上會滑。
 
 用法（Blender 的 Python）：
@@ -77,6 +78,21 @@ for name, kind in (('hand_cup', 'drink'), ('hand_phone', 'phone'), ('hand_pen', 
     info['props'][name] = {'clip_kind': kind, 'pos': [round(float(x), 4) for x in p0], 'rot_matrix_cols': [[round(float(x), 4) for x in R0[:, k]] for k in range(3)], 'drift_m': round(drift, 4)}
     print(name, 'pos', np.round(p0, 4), 'drift %.4f m' % drift)
 
+def chopsticks_bone():
+    """右手的筷子：直接在右手骨頭的座標（模型檔的方向、單位）裡做。兩支方的，尾端 CHOP w0、尖端 w1（公尺；除以女生的縮放＝遊戲裡的大小）；一面朝拇指那邊"""
+    VF = T.ref_female(); B0 = T.hand_rest(VF); sticks_b, tip_b = T.chop_bone()
+    _, _, bp = T.chop_geom_h(VF.HL); up_b = T.C_ @ (B0 @ bp); k = 1.0 / VF.s
+    pm = DP.PM(); uv = DP.swq('bamboo')
+    for p0, p1 in sticks_b:
+        d = p1 - p0; d = d / np.linalg.norm(d); v = up_b - d * np.dot(up_b, d); v = v / np.linalg.norm(v); u = np.cross(d, v)
+        ring = lambda c, w: [c + (su * u + sv * v) * w * k for su, sv in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        R0, R1 = ring(p0, T.CHOP['w0']), ring(p1, T.CHOP['w1'])
+        for i in range(4):
+            q = [R0[i], R0[(i + 1) % 4], R1[(i + 1) % 4], R1[i]]; pm.poly(q, uv, (R0[i] + R0[(i + 1) % 4]) / 2 - p0)
+        pm.poly(R0[::-1], uv, -d); pm.poly(R1, uv, d)
+    return pm, sticks_b, tip_b
+
+
 # ---------------------------------------------------------------- Blender：網格擺好、匯出
 B.reset(texres=1024)
 root = B.group('hand_props', props={'kind': 'hand_props'})
@@ -92,11 +108,16 @@ for name, fn in (('hand_cup', lambda: DP.item_cup()), ('hand_phone', lambda: DP.
     R, p = locs[name]; M4 = np.eye(4); M4[:3, :3] = R; M4[:3, 3] = p
     pm = DP.PM().add(fn(), M4)
     DP.to_blender(pm, name, mat, root); mn, mx = pm.bbox(); mods[name] = {'tris': pm.tris(), 'min': mn, 'max': mx}
+pm, sb, tb = chopsticks_bone()
+DP.to_blender(pm, 'hand_chopsticks', mat, root); mn, mx = pm.bbox(); mods['hand_chopsticks'] = {'tris': pm.tris(), 'min': mn, 'max': mx}
+info['props']['hand_chopsticks'] = {'clip_kind': 'eat', 'tip': [round(float(x), 4) for x in tb], 'sticks': [[[round(float(x), 4) for x in p0], [round(float(x), 4) for x in p1]] for p0, p1 in sb],
+                                    'length_m': T.CHOP['L'], 'note': '骨頭座標（模型檔）：tip＝兩支尖端的中點；sticks＝[尾端, 尖端]×2（上面那支＝拇指那邊）'}
+print('hand_chopsticks tip', np.round(tb, 4), 'tris', pm.tris())
 out = os.path.join(ROOT, OUT); os.makedirs(os.path.dirname(out), exist_ok=True)
 res = L.export(out, gpu_instances=False)
 res['modules'] = mods; res.update(info)
-res['attach'] = ('三個網格都已經擺在右手骨頭（VRoid J_Bip_R_Hand；PROPS 的 bone:\'rightHand\'）的座標裡：x 人物右邊、y 上、z 後面，單位＝模型檔（遊戲縮放人物時配件跟著縮）。'
-                 '掛法：boneGlb 那樣把節點 clone 到骨頭底下、位置 0、不轉；一次只開一個（喝飲料開 hand_cup、滑手機 hand_phone、寫字 hand_pen），其他時候藏起來。'
+res['attach'] = ('四個網格都已經擺在右手骨頭（VRoid J_Bip_R_Hand；PROPS 的 bone:\'rightHand\'）的座標裡：x 人物右邊、y 上、z 後面，單位＝模型檔（遊戲縮放人物時配件跟著縮）。'
+                 '掛法：boneGlb 那樣把節點 clone 到骨頭底下、位置 0、不轉；一次只開一個（喝飲料開 hand_cup、滑手機 hand_phone、寫字 hand_pen、吃飯 hand_chopsticks），其他時候藏起來。'
                  '照女生的手（vroid_npc_f1、身高 1.60）算；男生的手長 4% 左右，配件離手心差 2～3 mm，不另外做。')
 L.write_json(out[:-4] + '.json', res)
 print(json.dumps({k: v['tris'] for k, v in mods.items()}), res.get('bytes'))

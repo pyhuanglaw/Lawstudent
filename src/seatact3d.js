@@ -77,12 +77,13 @@ const SEATACT=(function(){
      桌高、桌緣）；不合＝照舊（坐姿循環、手放大腿上／拿著手機）。每 30 格再對一次（片段、配件晚一點才載好；正式模型載好、桌子換了）。
      手上拿著的東西（筆、手機、紙杯）這個位子的桌上也有＝桌上那一件藏起來：自己組的（S_notes…）拿掉那一件；合併成一個網格的（tset_notes、rset_notes）近的時候換成 S.SPLIT 的單件、
      遠的 _lod1 本來就沒有筆（照用）；有那一件、又拆不開的組＝那個片段先不用（不要桌上一支、手上一支）。起身、走了、換區域＝配件拿掉、桌上放回來 */
-  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone'};   /* NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段——Sit_Eat 是握筷子的手、手上沒有筷子、桌上那雙還在（LAWWW-C 11-04 21:4x）。
-     等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
+  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone'};   /* NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段（LAWWW-C 11-04 21:4x）。11-04 22:5x LAWWW2-C 補件到了（右手筷子 hand_chopsticks、Sit_Eat 照筷子尖重擺、
+     桌上那雙照 S.PROP_FAM 拿掉），可是 BB-C 22:43 看預覽：坐的高度不對（桌子在胸口，吃飯時頭幾乎埋到碗上）——先改坐下的高度，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）。
+     （原本的說明）     等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
   S.TASK_EAT={eat:'eat',eat2:'eat'};
   S.TASK_NEED={type:/laptop_open|^[tr]set_laptop$/,write:/notebook_open|^[tr]set_notes$/,page:/code_open|^[tr]set_book$/,eat:/^item_bowl/};   /* 桌上要有的東西 */
   S.TASK_DEPTH={phone:0.1};   /* 左手放在桌上：桌子至少要這麼深 */
-  S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/};   /* 手上的配件 → 桌上同一件東西 */
+  S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/,hand_chopsticks:/^item_chopsticks$/};   /* 手上的配件 → 桌上同一件東西 */
   /* 合併成一個網格的組裡有哪些東西（tools/blender/env_second/desk_props.py 的 SETS，名字加 item_；item_book_open＝SETS 的 book_open，GLB 裡沒有單獨的網格）：只用來查「有沒有筆、紙杯、手機」*/
   S.SET_HAS={tset_notes:['item_notebook_open','item_pen','item_pencil_case','item_cup'],tset_laptop:['item_laptop_open','item_phone_off','item_thermos_navy'],tset_book:['item_book_open','item_highlighter_pink','item_notebook_closed','item_pen'],
     tset_away:['item_laptop_closed','item_textbook','item_cup','item_phone_off'],rset_notes:['item_notebook_open','item_pen'],rset_laptop:['item_laptop_open'],rset_book:['item_book_open','item_highlighter'],rset_cup:['item_cup','item_notebook_closed_b']};
