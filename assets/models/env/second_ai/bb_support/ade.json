@@ -1,0 +1,77 @@
+{
+ "objects": 68,
+ "unique_meshes": 42,
+ "tris": 18466,
+ "tris_drawn": 20076,
+ "materials": [
+  "ad_alpha",
+  "ad_ceil",
+  "ad_emit",
+  "ad_floor_tile",
+  "ad_glass",
+  "ad_goods",
+  "ad_plaster",
+  "ad_sign",
+  "ad_vc",
+  "ad_vc_metal",
+  "ad_wood"
+ ],
+ "out": "assets/models/env/second_ai/bb_support/ade.glb",
+ "bytes": 1704624,
+ "texres": 1024,
+ "shop": "ade",
+ "zone": "wz_print",
+ "layout": 1,
+ "drawn_tris": 20076,
+ "protos": {
+  "ceilfx_panel": 10,
+  "table": 2,
+  "chair": 4
+ },
+ "single_side": {
+  "ad_plaster": [
+   144,
+   0
+  ],
+  "ad_alpha": [
+   364,
+   0
+  ],
+  "ad_wood": [
+   400,
+   0
+  ],
+  "ad_emit": [
+   0,
+   30
+  ],
+  "ad_sign": [
+   2,
+   0
+  ],
+  "ad_goods": [
+   2528,
+   0
+  ],
+  "ad_vc": [
+   9260,
+   1514
+  ],
+  "ad_vc_metal": [
+   2212,
+   36
+  ],
+  "ad_ceil": [
+   2,
+   0
+  ],
+  "（翻面）ad_vc": [
+   96,
+   0
+  ],
+  "ad_floor_tile": [
+   12,
+   0
+  ]
+ }
+}
