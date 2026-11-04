@@ -24,7 +24,7 @@ const FILES=['src/exchange3d.js','src/holff3d.js','src/data/msg_pool.js','src/da
 for(const f of FILES){ if(!fs.existsSync(path.join(H.ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ loadG(f); }catch(e){ loadErr.push(f+'：'+String(e&&e.message||e).slice(0,160)); } }
 const A=()=>typeof AA660!=='undefined'?AA660:null;
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const SHA='0777c92ac', A660='docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md';
+const SHA='de9628d67', A660='docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md';
 const doc=git(SHA,A660);
 const D=H.D, T=(d,h)=>d*24+h, wd=d=>CALENDAR.dateOf(d).wd%7;
 const at=(k,h)=>{ const d=typeof k==='number'?k:D(k); H.G.day=d; H.G.hour=h; H.G.weekday=wd(d); E.hour=h; };
@@ -59,6 +59,7 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
     g11:{ask:[['mom','八月二號幾點的飛機']],opts:[{t:'早上九點半。',say:[['mom','那六點要出門'],['mom','我載你']]},{t:'不用載，我自己去。',say:[['mom','我要去。我要看你進去。']]}],
       after:[['sister','記得帶轉接頭'],['sister','……不用 美國插座跟我們一樣 我剛查了'],['dad','？']]},
     g12:'（宿舍搬空了。家裡你的房間多了幾個紙箱，最上面那個用奇異筆寫著「美國」。）',
+    g13dm:[['classmate_mingxuan','八月二號走？'],['classmate_mingxuan','到了拍一張你自己。不要只拍風景。']],
     g13grp:{yu:[['yu','禮拜一幫祐廷餞行'],['yu','七點 燒臘店']],mx0:'禮拜一幫祐廷餞行',zhe:['zhe','我在高雄 幫我多吃一盤'],mx:['classmate_mingxuan','會到。']},
     g13:{open:'（燒臘店最裡面那張長桌。Alison 把一張折成四折的紙推到你面前。）',yu:'這是我們列的。你到了以後要拍給我們看的東西。',
       list:'（紙上寫著：校園的松鼠、超市最大包的洋芋片、教室、你的房間。最後一行是明軒的字：「你自己」。）',mx:'最後那個是我寫的。……拍你自己，不要只拍風景。',
@@ -73,6 +74,7 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
     g22:{back:['yu','回來了？？'],list:[['yu','清單最後一項 你一直沒拍'],['classmate_mingxuan','現在拍也可以。']],
       opts:[{t:'（傳一張自己的照片：背景是機場的行李轉盤，你看起來很睏。）',say:[['classmate_mingxuan','好。這張可以。'],['yu','打勾！！清單完成']]},{t:'見面再給你們看。',say:[['yu','好啦 那也算']]}],
       noList:['yu','桌遊夜幫你留位子'],
+      noListMx:[['classmate_mingxuan','回來了？'],['classmate_mingxuan','下次桌遊夜，位子留給你。']],
       xc:{back:['classmate_mingxuan','回來了？'],list:[['classmate_xinci','清單最後一項，你一直沒拍。'],['classmate_mingxuan','現在拍也可以。']],
         opts:[{t:'（傳一張自己的照片：背景是機場的行李轉盤，你看起來很睏。）',say:[['classmate_mingxuan','好。這張可以。'],['classmate_xinci','清單完成。']]},{t:'見面再給你們看。',say:[['classmate_xinci','好。那也算。']]}]}},
     g23:'學姊跟學弟都回來了',
@@ -84,6 +86,7 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
       opts:[{t:'那叫閉眼睛。',say:[['heroine_01','閉到輪到我們。']]},{t:'……妳也有。',say:[['heroine_01','我是在想事情。']]}],only:['yu','回來了？？']},
     g6:{'2028-08-12':'（你在超商結帳的時候，差一點用日文說了謝謝。店員看了你一眼。）','2028-08-22':'（你把日本帶回來的筆記一本一本貼上標籤：比較行政法、日文、研討課。）',
       '2028-08-29':'（晚上的溫州街有一點涼了。你走到巷口買了一杯冰的，站在路燈下面喝完。）'} };
+  check('0. de9628d67 的兩點在稿上：沒有清單、也沒認識 Alison＝明軒「回來了？」「下次桌遊夜，位子留給你。」；只認識明軒＝7/31 21:00 明軒私訊「八月二號走？」「到了拍一張你自己。不要只拍風景。」',doc.includes('G2-2 明軒兩則：「回來了？」／「下次桌遊夜，位子留給你。」')&&doc.includes('明軒私訊兩則：「八月二號走？」／「到了拍一張你自己。不要只拍風景。」'));
   check('0. 模組的台詞表（AA660.L）和稿上抄的一樣',!!A()&&J(A().L)===J(L));
   { const all=[], bad=[]; const pl=(w,t)=>all.push([w,t]);
     for(const x of L.g11.ask) pl(...x); for(const o of L.g11.opts){ all.push([null,'「'+o.t+'」']); for(const x of o.say) pl(...x); } for(const x of L.g11.after) pl(...x);
@@ -169,6 +172,9 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
       J(tx(G2))===J(['禮拜一幫祐廷餞行','七點 燒臘店','我在高雄 幫我多吃一盤'])&&J(fr(G2))===J(['classmate_mingxuan','classmate_mingxuan','zhe']),J(tx(G2)));
     check('G1-3 Alison 不在（沒認識）、芯慈在：芯慈版燒臘——開頭旁白（芯慈推紙）→ 芯慈「這是我們列的。……」→ 清單（三種顏色的筆）→ 明軒 → 芯慈問時差 → 收尾旁白（芯慈折紙）；記 US_PHOTO_LIST＋US_PHOTO_LIST_XC；沒有 Alison、沒有額度註記',
       J(s3)===J(want3)&&!s3.some(t=>/Alison|這學期用這一次|顏色筆/.test(t))&&H.G.flags.US_PHOTO_LIST===true&&H.G.flags.US_PHOTO_LIST_XC===true&&OUT.get(H.G,'aa660_us_farewell').state==='done',J(s3));
+    setup(US0,['classmate_mingxuan','zhe']); runAt('2028-07-30',21); const G5=byTag('aa660_us_farewell_grp'); runAt('2028-07-31',20.9); const dm0=byTag('aa660_us_mx_dm').length; runAt('2028-07-31',21); const DM=byTag('aa660_us_mx_dm');
+    check('G1-3 只認識明軒（Alison、芯慈都不在；AA de9628d67）：餞行不排（沒有群組、沒有出遊）；7/31 21:00 明軒私訊「八月二號走？」「到了拍一張你自己。不要只拍風景。」；不記清單',
+      G5.length===0&&!OUT.get(H.G,'aa660_us_farewell')&&dm0===0&&J(tx(DM))===J(['八月二號走？','到了拍一張你自己。不要只拍風景。'])&&DM.every(m=>m.who==='classmate_mingxuan'&&PHONE.th(m)==='p:classmate_mingxuan')&&!H.G.flags.US_PHOTO_LIST,J([G5.length,dm0,DM.map(m=>[m.who,m.text])]));
     setup(US0,['classmate_mingxuan','classmate_xinci','zhe']); runAt('2028-07-30',21); at('2028-07-31',18.5); const s3b=await play(1);
     check('G1-3 芯慈版選「我也還沒查。」：芯慈「十二個小時。我剛剛查了。」，其他照芯慈版',J(s3b)===J(want3.slice(0,5).concat(['芯慈：'+L.g13.xcB,L.g13xc.close]))&&H.G.flags.US_PHOTO_LIST_XC===true,J(s3b));
     { const P0=STORY.presence; let G4=[], s4=[], F4={};
@@ -224,7 +230,7 @@ const NM={yu:'Alison',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',zhe:'
     back({}); runAt('2028-12-23',21); const G2=byTag('aa660_us_back_grp');
     check('G2-2 沒有清單（認識 Alison）：Alison「回來了？？」「桌遊夜幫你留位子」（沒有選項）',J(tx(G2))===J(['回來了？？','桌遊夜幫你留位子'])&&J(fr(G2))===J(['yu','yu'])&&!G2.some(m=>m.ask),J(tx(G2)));
     back({},XC2); runAt('2028-12-23',21); const N2=byTag('aa660_us_back_grp');
-    check('G2-2 沒有清單、也沒認識 Alison（稿沒寫，LAWWW-C 定）：只有明軒「回來了？」，不發「桌遊夜幫你留位子」',J(tx(N2))===J(['回來了？'])&&J(fr(N2))===J(['classmate_mingxuan'])&&!N2.some(m=>m.ask),J(N2.map(m=>[m.from,m.text])));
+    check('G2-2 沒有清單、也沒認識 Alison（AA de9628d67）：明軒「回來了？」「下次桌遊夜，位子留給你。」，不發「桌遊夜幫你留位子」',J(tx(N2))===J(['回來了？','下次桌遊夜，位子留給你。'])&&J(fr(N2))===J(['classmate_mingxuan','classmate_mingxuan'])&&!N2.some(m=>m.ask),J(N2.map(m=>[m.from,m.text])));
     fresh('2028-12-21',20,'us_apartment',USA({US_PHOTO_LIST:true})); NG(); runAt('2028-12-21',21.5); const inUS=byTag('aa660_us_back_grp').length;
     back({US_PHOTO_LIST:true}); runAt('2028-12-25',10); const late=byTag('aa660_us_back_grp').length;
     const nope=[]; for(const fl of [TW0,JP0]){ fresh('2028-12-23',20,'dorm',Object.assign({},fl,{US_RETURNED:D('2028-12-23')})); NG(); runAt('2028-12-23',21.5); if(byTag('aa660_us_back_grp').length) nope.push(J(fl)); }

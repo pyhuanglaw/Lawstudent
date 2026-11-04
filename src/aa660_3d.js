@@ -23,7 +23,7 @@
      G2-1 家人群組（S.G21_ON＝true，0777c92ac）：12/23 媽媽到入境大廳接（r2y4a_events.js ev_us_return）、九點回到家（ev_us_home）以後，S.G21_H＝10:30 媽媽在群組跟爸爸、姊姊報——
           沒有你（自動）那一則；回到家以後睡到下午、傍晚去 409（exchange3d.js EXCH.returnHome、story3d.js STORY.roomY4FromAirport），那幾則照 10:30 補進去。
      G2-2 21:00 桌遊團群組：有 US_PHOTO_LIST＝清單最後一項（選項：傳自己的照片／見面再給你們看）；US_PHOTO_LIST_XC＝芯慈、明軒的版本（第一句明軒「回來了？」）；
-          沒有清單＝「桌遊夜幫你留位子」（下一次桌遊夜照 bgnight3d.js 原本的群組通知）；沒有清單、也沒認識 Alison＝只有明軒「回來了？」（稿沒寫，LAWWW-C 定）。
+          沒有清單＝「桌遊夜幫你留位子」（下一次桌遊夜照 bgnight3d.js 原本的群組通知）；沒有清單、也沒認識 Alison＝明軒「回來了？」「下次桌遊夜，位子留給你。」（AA de9628d67）；只認識明軒（Alison、芯慈都不在）＝餞行不排，7/31 21:00 明軒私訊兩則、不記清單。
      G2-3 12/24 Kevin 那一則：heard_lines.js h509_kevin 的 alt（cond usRoute：第一句換「學姊跟學弟都回來了」，後面照舊；heard3d.js S.altItems）。
    G3 美國路線回國後：12/25（一）、2029-01-13（六）摘要日（HOLFF.SUMS route:'US'；1/13 是寒假那一句，0777c92ac）。
    G4 日本路線 3/23 阿哲那則：y34b3d.js S.anPhone（y3_an_farewell_ask），日本路線第一句換「明天 幫以安跟祐廷餞行」；3/24 那一場的台詞照舊。
@@ -64,6 +64,7 @@ const AA660=(function(){
       opts:[{t:'早上九點半。',say:[['mom','那六點要出門'],['mom','我載你']]},{t:'不用載，我自己去。',say:[['mom','我要去。我要看你進去。']]}],   /* 第一個回法：090981ebe 更正（AA_667 第 4 節：09:30 起飛）；第二個回法：0777c92ac（原本自己搭機捷那一句，和 8/2 媽媽在機場塞鳳梨酥接不上）*/
       after:[['sister','記得帶轉接頭'],['sister','……不用 美國插座跟我們一樣 我剛查了'],['dad','？']]},
     g12:'（宿舍搬空了。家裡你的房間多了幾個紙箱，最上面那個用奇異筆寫著「美國」。）',   /* G1-2 7/29 */
+    g13dm:[[MX,'八月二號走？'],[MX,'到了拍一張你自己。不要只拍風景。']],   /* G1-3 只認識明軒（Alison、芯慈都不在）：餞行不排，7/31 21:00 明軒私訊兩則、不記清單（AA 企劃線 de9628d67）*/
     g13grp:{yu:[[YU,'禮拜一幫祐廷餞行'],[YU,'七點 燒臘店']],mx0:'禮拜一幫祐廷餞行',zhe:[ZHE,'我在高雄 幫我多吃一盤'],mx:[MX,'會到。']},   /* G1-3 群組；mx0＝Alison 不在、明軒揪的第一句 */
     g13:{open:'（燒臘店最裡面那張長桌。Alison 把一張折成四折的紙推到你面前。）',yu:'這是我們列的。你到了以後要拍給我們看的東西。',
       list:'（紙上寫著：校園的松鼠、超市最大包的洋芋片、教室、你的房間。最後一行是明軒的字：「你自己」。）',mx:'最後那個是我寫的。……拍你自己，不要只拍風景。',
@@ -78,6 +79,7 @@ const AA660=(function(){
     g22:{back:[YU,'回來了？？'],list:[[YU,'清單最後一項 你一直沒拍'],[MX,'現在拍也可以。']],
       opts:[{t:'（傳一張自己的照片：背景是機場的行李轉盤，你看起來很睏。）',say:[[MX,'好。這張可以。'],[YU,'打勾！！清單完成']]},{t:'見面再給你們看。',say:[[YU,'好啦 那也算']]}],
       noList:[YU,'桌遊夜幫你留位子'],
+      noListMx:[[MX,'回來了？'],[MX,'下次桌遊夜，位子留給你。']],   /* 沒有清單、也沒認識 Alison（AA 企劃線 de9628d67）*/
       xc:{back:[MX,'回來了？'],list:[[XC,'清單最後一項，你一直沒拍。'],[MX,'現在拍也可以。']],
         opts:[{t:'（傳一張自己的照片：背景是機場的行李轉盤，你看起來很睏。）',say:[[MX,'好。這張可以。'],[XC,'清單完成。']]},{t:'見面再給你們看。',say:[[XC,'好。那也算。']]}]}},   /* G2-2；xc＝清單是芯慈給的（換句表；第一句「回來了？？」→ 明軒「回來了？」）；沒有清單、也沒認識 Alison＝只發 xc.back */
     g23:'學姊跟學弟都回來了',   /* G2-3（heard_lines.js h509_kevin 的 alt）*/
@@ -102,8 +104,9 @@ const AA660=(function(){
   /* ---------------- G1-3 到場的人 ---------------- */
   S.att=(G,id)=>{ const d=D('farewell'); return d!=null&&knows(id,G)&&here(id,G,d); };   /* 那天在臺北、而且認識 */
   S.organizer=G=>S.att(G,YU)?YU:(S.att(G,MX)?MX:null);
+  S.mxOnly=G=>!S.att(G,YU)&&!S.att(G,XC)&&S.att(G,MX);   /* 只認識明軒（Alison、芯慈都不在）：餞行不排，改 7/31 21:00 明軒私訊（AA de9628d67）*/
   S.zheAway=G=>{ const d=D('farewell'); if(d==null) return false; const p=pres(ZHE,G,d); return !!p&&p.here===false&&(p.home==='高雄'||/高雄/.test(String(p.away||''))); };   /* 「我在高雄」只在他人在高雄的時候 */
-  S.farewellGrp=function(G){ const L=S.L.g13grp, org=S.organizer(G); if(!org) return null;
+  S.farewellGrp=function(G){ const L=S.L.g13grp, org=S.organizer(G); if(!org||S.mxOnly(G)) return null;
     const M=org===YU?L.yu.slice():[[MX,L.mx0],[MX,L.yu[1][1]]]; if(S.zheAway(G)) M.push(L.zhe); if(org===YU&&S.att(G,MX)) M.push(L.mx); return M.map(grp); };
 
   /* ---------------- 手機（STORY.PHONE_RULES）---------------- */
@@ -120,6 +123,8 @@ const AA660=(function(){
         if(d!=null&&open&&!F.US_DEPARTED&&now>=T(d,21)&&inGrp(G,'noodle_team')&&!sent(G,tag)){ const M=S.farewellGrp(G); if(M) P.at(G,d,21,M,tag); }
         if(open&&sent(G,tag)&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,Q.id))
           OUT.plan(G,{id:Q.id,ev:Q.ev,day:d31,h:Q.h,ask:T(d31,Q.ask),late:Q.late,place:'公館燒臘',title:'餞行',travel:'走過去約 10 分鐘',travelH:1/6}); }
+      /* G1-3 只認識明軒：7/31 21:00 明軒私訊兩則（餞行不排、不記 US_PHOTO_LIST；舊存檔過了隔天不補）*/
+      { const d=D('farewell'), tag='aa660_us_mx_dm'; if(d!=null&&!F.US_DEPARTED&&now>=T(d,21)&&G.day<=d+1&&S.mxOnly(G)&&!sent(G,tag)) P.at(G,d,21,S.L.g13dm.map(([w,t])=>({who:w,from:w,text:t})),tag); }
       /* G1-4 8/1 22:00 */
       { const d=D('eve'), tag='aa660_us_eve_fam'; if(d!=null&&!F.US_DEPARTED&&now>=T(d,22)&&G.day<=d+1&&!sent(G,tag)){ joinHome(G); P.at(G,d,22,S.L.g14.map(fam),tag); } }
       /* G1-5 8/5 臺灣 21:00（當地 09:00）*/
@@ -130,7 +135,7 @@ const AA660=(function(){
           if(S.G21_ON&&now>=T(d,S.G21_H)&&!sent(G,'aa660_us_back_fam')){ joinHome(G); P.at(G,d,S.G21_H,S.L.g21.map(fam),'aa660_us_back_fam'); }   /* 睡到下午才讀到的：照 10:30 補（PHONE.tick）*/
           const tag='aa660_us_back_grp', X=F.US_PHOTO_LIST_XC?S.L.g22.xc:S.L.g22; if(now>=T(d,21)&&inGrp(G,'noodle_team')&&!sent(G,tag)){
             if(F.US_PHOTO_LIST){ const M=[X.back].concat(X.list).map(grp); M[M.length-1].ask={id:'aa660_us_back_photo',until:T(d+1,18),opts:X.opts.map(o=>({t:o.t,say:o.say.map(grp)}))}; P.at(G,d,21,M,tag); }
-            else P.at(G,d,21,(knows(YU,G)?[S.L.g22.back,S.L.g22.noList]:[S.L.g22.xc.back]).map(grp),tag); } } } }   /* 沒有清單、也沒認識 Alison：只有明軒「回來了？」、不發「桌遊夜幫你留位子」（LAWWW-C 定）*/
+            else P.at(G,d,21,(knows(YU,G)?[S.L.g22.back,S.L.g22.noList]:S.L.g22.noListMx).map(grp),tag); } } } }   /* 沒有清單、也沒認識 Alison：明軒「回來了？」「下次桌遊夜，位子留給你。」（AA 企劃線 de9628d67）*/
     if(JPR(G)){
       /* G5-1 落地、G5-2 21:00 */
       const r=D('jpRet'), d=F.JP_RETURNED; if(r!=null&&typeof d==='number'&&!F.JP_RETURN_LATE&&d>=r&&d<=r+1&&G.day<=d+1){
