@@ -40,6 +40,7 @@ GG_perf_ab_B2 | 610c528cb | probe | docs/story_planning/test_tools/cc/cc_gg_perf
 GG_perf_ab_A3 | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=abA3;RERUN=ab3;LIST=1;CC_HEADLESS=0
 GG_perf_ab_B3 | 610c528cb | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=abB3;RERUN=ab3;LIST=1;CC_HEADLESS=0
 BIKE_flow_r3 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
+BIKE_flow_r4 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
 GG_groups | 610c528cb | probe | docs/story_planning/test_tools/cc/cc_gg_groups_probe.py | index.html | 15 | CC_HEADLESS=0
 GG_ext_nav3 | 610c528cb | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
 GG_ext_glb3 | 610c528cb | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0

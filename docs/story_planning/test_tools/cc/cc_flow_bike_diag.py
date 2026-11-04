@@ -12,7 +12,7 @@ F. 存檔、重新整理、按「繼續」：車還在原地。
 CC（帳號 A）11-04 05:1x：BIKE_flow_r3 診斷版＝開發分支 ae50cb459 的 tests/flow_bike.py 原樣複製，只加診斷輸出（判定標準不改）：
   B：OPEN_JS 回的 tx/tz、轉鏡頭後 E.cam.yaw、騎之前／騎 1 秒後玩家的 rotation.y 和位置、前 1 秒位移方向（LAWWW 05:05）
   D 出店後：console 全部 error／warn、GAME.stateSnapshot()、GAME.G.bike、場景裡所有 name 含 bike 的物件"""
-import asyncio, json, sys, time, math
+import asyncio, json, os, sys, time, math
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').environ.get('LW_TESTS') or __import__('os').path.dirname(__file__))
 import playlib as L
@@ -95,7 +95,9 @@ async def main():
         POSE = "(()=>{ const P=GAME.E.player, o=P.obj; return {x:+o.position.x.toFixed(3), z:+o.position.z.toFixed(3), roty:+o.rotation.y.toFixed(3), camYaw:+GAME.E.cam.yaw.toFixed(3), riding:!!P.riding}; })()"
         p0 = await pg.evaluate(POSE)
         print('DIAG B OPEN_JS：%s；轉鏡頭後：%s' % (json.dumps(op), json.dumps(p0)), flush=True)
-        await L.joystick(pg, cdp, 0, -45, 1000)
+        # r3：方向已確認（cos 0.997）。DIAG 的 1 秒＋暖身 4 秒＋量 10 秒在 GPU（60 fps）會騎超過 30 m 的開闊距離、撞牆（r3 截圖 03）→ 預設不騎 DIAG 那 1 秒、量測縮短
+        if os.environ.get('DIAG_B') == '1':
+            await L.joystick(pg, cdp, 0, -45, 1000)
         p1 = await pg.evaluate(POSE)
         dx, dz = p1['x'] - p0['x'], p1['z'] - p0['z']; dl = math.hypot(dx, dz)
         tx, tz = op['tx'] - p0['x'], op['tz'] - p0['z']; tl = math.hypot(tx, tz) or 1
@@ -103,8 +105,8 @@ async def main():
         print('DIAG B 騎 1 秒後：%s；位移 %.2f m、方向 (%.3f, %.3f)；和 OPEN_JS 方向的夾角 cos＝%.3f' % (json.dumps(p1), dl, dx / (dl or 1), dz / (dl or 1), cosang), flush=True)
         await run.shot(pg, 'B_diag_after_1s')
         # 先推一下讓車頭轉到鏡頭的方向（車頭不是瞬間轉向），再量直線騎的速度：v9.7 回歸第二次跑，量的那一段包含從對著牆轉向空的方向，位移 5.6 m／遊戲 1.72 秒＝3.25 m/s（SwiftShader 1～2 fps）
-        await ride_forward(pg, cdp, 4)
-        d, dt = await ride_forward(pg, cdp, 10, settle=3)   # 按住 10 秒：第 3 秒開始量、放開前 1.5 秒量完
+        # GPU 60 fps：按住 3.5 秒共約 19 m（< OPEN_JS 的 30 m）；第 1.2 秒開始量、放開前 1.5 秒量完（量約 0.8 秒、約 4.4 m）
+        d, dt = await ride_forward(pg, cdp, 3.5, settle=1.2)   # 按住 10 秒：第 3 秒開始量、放開前 1.5 秒量完
         k = await bike(pg)
         sp = d / dt if dt > 0 else 0
         run.check('B 搖桿往前：騎車速度（5.5 m/s 以上；跑步 4.8）、輪子和曲柄有轉', sp >= 5.5 and k['dbg'] and k['dbg']['wheel'] > 1 and k['dbg']['crank'] > 0.4, f'{d:.1f} m / {dt:.2f} s = {sp:.2f} m/s；{json.dumps(k["dbg"])}')
