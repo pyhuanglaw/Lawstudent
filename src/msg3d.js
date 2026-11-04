@@ -143,7 +143,10 @@ const MSG=(function(){
   /* 子晴的遊戲（Q6 ev_ziqing_secret_game「她在做的東西」、或記憶 PLAYTESTED）：演過以前不出講到她的遊戲的句子（回覆池 A 層放假版「（截圖：她的遊戲新的一關）」；第二批新年快樂 R「只有第一則」照原本的標籤）*/
   S.zqQ6=G=>evDone(G,'ev_ziqing_secret_game')||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED'))||!!(G.flags&&G.flags.PLAYTESTED);
   S.zqSpoil=(G,id,e)=>id==='heroine_04'&&!!e&&/她的遊戲/.test((e.msgs||[]).join('／'))&&!S.zqQ6(G);
-  S.msgsOf=(G,id,e)=>S.datedSwap(G,id,id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[]));
+  S.msgsOf=(G,id,e)=>S.teaSwap(G,id,S.datedSwap(G,id,id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[])));
+  /* AA_686 第 4 項（企劃線 72707f636，AA-C 定 D109；回 LAWWW-C 20:44）：語彤「新年快樂」L（msg2_pool.js，AA_202 7-3、AA_630）「初四開店。你要第一個來喝。」——
+     「初四」照那一年茶屋過年以後第一個開門的日子換（2027＝初五），照片那一則和其他字不動。回覆池是產生的檔、不手改：在這裡換（只認這一整句，NOODLE_CLOSED.teaText；那天不在過年店休裡＝照原句）*/
+  S.teaSwap=(G,id,L)=>id==='heroine_03'&&!!G&&G.day!=null&&typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED.teaText?L.map(t=>NOODLE_CLOSED.teaText(t,G.day)):L;
   /* 那幾天換一句（回覆池照原文產生、不手改：在這裡換）。AA_550 第 4 節第 3 點（企劃線 2664ed6f1；ZR-SUMMER-LINES-1031）：芷若大一暑假在台中（2026-07-01～08-25，含頭尾）深夜那一則 */
   S.DATED_SWAP=[{id:'heroine_02',from:'2026-07-01',to:'2026-08-25',old:'剛洗完澡。下班回來都這個時間。',text:'剛洗完澡。台中的晚上比臺北安靜。'}];
   S.datedSwap=(G,id,L)=>{ const W=S.DATED_SWAP.filter(w=>w.id===id); if(!W.length||!G||G.day==null) return L;
