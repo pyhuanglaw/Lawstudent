@@ -50,7 +50,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
   // ---- 9-3 K5「我們的日子」----
   { const M2=termDay('Y1S2',2,1); fresh(M2,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,KX_VDAY_SEE:true}); run(20.9,21.1);
     let P=TH('p:kexin').filter(m=>m.tag==='kx_our_day'); const msg=P.map(m=>m.text);
-    check('6. K5 第 2 週週一 21:00：「我們選一天。……」（「名字很重要。」刪掉，AA_389 第 4 點）、情人節說過想見她的多一句接在後面（BB_161 ⑰）、最後一則帶三個日子',msg.join('｜')==='我們選一天。不是約會日，是「我們的日子」。｜你情人節說想見我。這個週末我已經空下來了。'/* AA_373 #10 */&&JSON.stringify(P[P.length-1].ask.opts.map(o=>o.t))==='["週五晚上。","週六。","週日下午。"]',msg.join('｜'));
+    check('6. K5 第 2 週週一 21:00：「我們選一天。……」（「名字很重要。」刪掉，AA_389 第 4 點）、情人節說過想見她的多一句接在後面（BB_161 ⑰）、最後一則帶三個日子',msg.join('｜')==='我們選一天。叫它「我們的日子」。｜你情人節說想見我。這個週末我已經空下來了。'/* AA_373 #10 */&&JSON.stringify(P[P.length-1].ask.opts.map(o=>o.t))==='["週五晚上。","週六。","週日下午。"]',msg.join('｜'));
     PHONE.answer(G,P[P.length-1].ask.id,2); run(21.1,21.2); P=TH('p:kexin'); const m2=P.find(m=>m.text==='週日下午很好。隔天要上課，我們不會玩太晚。');
     check('6. 選「週日下午。」：她的回覆帶四種方式',!!m2&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["我開車去木柵大學。","妳來首都帝大。","約在外面。","視訊也算。"]',JSON.stringify(P.map(m=>m.text)));
     PHONE.answer(G,m2.ask.id,0); run(21.2,21.3); const q=OUT.get(G,'kx_our_day1');
