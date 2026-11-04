@@ -49,6 +49,10 @@ const man=ASSETS.manifest['bldg.cafe230_interior'];
 check('A1 區域照新配置建（z.cafe230＝3）、正式模型登錄 bldg.cafe230_interior＝配置的 glb（檔案在、building）',z.cafe230===3&&!!man&&man.url===L.glb&&man.type==='building'&&fs.existsSync(path.join(ROOT,L.glb)),J(man&&man.url));
 check('A1 zones3d.js：配置在的時候載 bldg.cafe230_interior、接 attachCafe230；不在照舊 bldg.cafe_interior＋attachCafeInterior',/if\(L230\)\{ cafe230Reg\(L230\); if\(typeof ASSETS!=='undefined'&&ASSETS\.manifest\['bldg\.cafe230_interior'\]\)/.test(rd('src/zones3d.js'))&&/attachRoomGLB\(z,g0,g,root\); attachCafe230\(E,z,g0,root\)/.test(rd('src/zones3d.js'))&&/else if\(typeof ASSETS!=='undefined'&&ASSETS\.manifest\['bldg\.cafe_interior'\]\)/.test(rd('src/zones3d.js')));
 { const h=rd('index.html'), sc=[...h.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]); check('A1 index.html：cafe230_layout.js 在 zones3d.js 前面',sc.indexOf('src/data/cafe230_layout.js')>0&&sc.indexOf('src/data/cafe230_layout.js')<sc.indexOf('src/zones3d.js')); }
+{ /* AA v1f（企劃線 30c2d5998）：窗景卡 a23_window_view 晚上換夜版圖 cafe230_views_night.webp（a23_views_night.jpg 轉的），和 SUNNY SIDE 同一套（wzNightViewTex） */
+  let mats=[]; try{ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/aa_support/cafe230.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')); mats=(j.materials||[]).map(m=>m.name); }catch(e){}
+  const zs=rd('src/zones3d.js');
+  check('A1 v1f 窗景：GLB 有 a23_window_view、夜版圖檔在、attachCafe230 用 CAFE230_NIGHTVIEW 換圖（不調暗）',mats.includes('a23_window_view')&&fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/aa_support/cafe230_views_night.webp'))&&/const CAFE230_NIGHTVIEW=\{mat:'a23_window_view',url:'assets\/models\/env\/second_ai\/aa_support\/cafe230_views_night\.webp'\}/.test(zs)&&/const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex\(nv\.url\)/.test(zs),J(mats.filter(m=>/view/i.test(m)))); }
 check('A1 LICENSES.md：cafe230.glb 一行（本作 Blender、AA 製作）',/\| [^\n]*aa_support\/cafe230\.glb[^\n]*本作 Blender[^\n]*AA 製作/.test(rd('LICENSES.md')));
 // ---- A2 不能動的點 ----
 const ex=its.find(q=>q.exit&&q.exit.to==='wenzhou');

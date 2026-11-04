@@ -80,3 +80,10 @@
 - 三角形不夠，層架每群改 3～4 件、群和群之間 0.4～0.75 m。layout 不變（v3）。
 - **規格**：49,926 三角形、11 材質、2.98 MB；ref_match ALL PASS。
 - **圖**：`model_renders/cafe230_v1e_bar.jpg`（吧檯全景／層架和招牌近景／咖啡機特寫）。
+
+## v1f（2026-11-04 08:2x，LAWWW2 f785028e6 交的窗景卡）
+- 兩塊窗景卡（`WALL_front_VIEW_a23_window_view`、`WALL_right_VIEW_a23_window_view`，名字不變）改用 LAWWW2 從 2:30 AM 往外拍的景，拼成一張 `textures/gen/a23_views_day.jpg`（1024×1024）：
+  - 上半＝正面：整條溫州街。
+  - 下半＝右窗：外面只隔 0.7 m 就是隔壁公寓（防火巷），巷子地面沒有模型、下緣一片灰藍。AA 定：做成毛玻璃——把巷子的圖裁掉下緣、模糊、調亮，只透出光和磚牆的影子。台北店家靠防火巷的窗多是毛玻璃；參考圖那面大窗對應的是正面的臨街玻璃。
+- 夜版 `a23_views_night.jpg` 同樣排法（右窗壓暗）。幾何和 v1e 一樣（49,926 三角形、11 材質、2.9 MB）；`a23_view.png` 不再使用。
+- 圖：`model_renders/cafe230_v1f_views_atlas.jpg`（左＝白天、右＝晚上）。

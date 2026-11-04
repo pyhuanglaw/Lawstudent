@@ -1849,7 +1849,12 @@ const Z3 = (function(){
     if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
     root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&/^seethru_/.test(nm)&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
     const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
-    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){ m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
+    /* 窗景卡 a23_window_view（AA v1f 30c2d5998：上半正面溫州街、下半右窗毛玻璃）：晚上換夜版圖、不調暗（和 SUNNY SIDE 一樣，WZ_AA_NIGHTVIEW）；夜版圖載不到或其他窗景卡：照舊調暗 */
+    const nv=CAFE230_NIGHTVIEW, nt=wzNightViewTex(nv.url), nvm=nt?vm.filter(m=>m.name===nv.mat):[]; for(const m of nvm){ m.userData.mapDay=m.map; m.userData.emDay=m.emissiveMap; } z.cafe230NightView=nvm.length;
+    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8;
+        for(const m of vm){ if(nvm.includes(m)&&!nt.userData.failed){ const mp=night?nt:m.userData.mapDay, em=night?nt:m.userData.emDay; if(m.map!==mp||m.emissiveMap!==em){ m.map=mp; m.emissiveMap=em; m.needsUpdate=true; } m.color.setScalar(1); m.emissiveIntensity=m.userData.ei0; continue; }
+          if(nvm.includes(m)&&(m.map!==m.userData.mapDay||m.emissiveMap!==m.userData.emDay)){ m.map=m.userData.mapDay; m.emissiveMap=m.userData.emDay; m.needsUpdate=true; }
+          m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
       if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }
     if(front){ const i=z.walls.indexOf(front); if(i>=0) z.walls.splice(i,1); front.material.opacity=1; z.winParts.push({obj:front,at:new THREE.Vector3(0,1.7,6),dir:new THREE.Vector3(0,0,-1)}); }
     const baseFade=z.fadeWalls; z.fadeWalls=function(cam,pp){ baseFade.call(this,cam,pp); for(const w of this.walls) w.visible=w.material.opacity>0.5; };
@@ -2343,6 +2348,7 @@ const Z3 = (function(){
   /* 窗景卡的夜版圖（日夜換圖，和 2:30 AM 舊 Café 的店面街景 cafeStreetTex 白天／晚上換圖一樣；沒有夜版圖的店照舊晚上調暗）：
      SUNNY SIDE v1e（AA 86688bd91）兩塊窗景卡（WALL_front_VIEW、WALL_right_VIEW）共用材質 sns_window_view，貼圖是 LAWWW2 a485b6722 從 SUNNY SIDE 往外拍的溫州街（上半正面、下半東側）；
      夜版 tools/blender/env_second/textures/gen/sns_views_night.jpg 同樣的排法，轉成 webp 放 assets（遊戲讀這份）*/
+  const CAFE230_NIGHTVIEW={mat:'a23_window_view',url:'assets/models/env/second_ai/aa_support/cafe230_views_night.webp'};   /* AA v1f a23_views_night.jpg 轉 webp */
   const WZ_AA_NIGHTVIEW={brunch:{mat:'sns_window_view',url:'assets/models/env/second_ai/aa_support/sunnyside_views_night.webp'}};
   const wzNVTex={};
   function wzNightViewTex(url){ if(typeof THREE==='undefined'||!THREE.TextureLoader) return null; if(!wzNVTex[url]){ let t; try{ t=new THREE.TextureLoader().load(url,undefined,undefined,()=>{ t.userData.failed=true; console.warn('窗景夜版圖載入失敗，晚上照舊調暗白天的圖',url); }); }catch(e){ return null; } t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; wzNVTex[url]=t; } return wzNVTex[url]; }   /* flipY false：和 GLB 裡的貼圖同一種 UV 方向 */
