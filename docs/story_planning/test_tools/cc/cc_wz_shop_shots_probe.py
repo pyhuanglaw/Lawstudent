@@ -297,7 +297,11 @@ async def yard(pg, cdp):
         tag = 'YARD_' + i['kind']
         await L.go_to(pg, cdp, L.Run('yard', OUT), i['x'], i['z'], 0.35, i['label'], max_s=120); await pg.wait_for_timeout(700)
         st = await L.state(pg)
-        if not check('[%s] 走到旁邊：按鈕「%s」' % (tag, i['label']), st['interact'] == i['label'], J({'interact': st['interact'], 'x': st['x'], 'z': st['z']})): continue
+        if not check('[%s] 走到旁邊：按鈕「%s」' % (tag, i['label']), st['interact'] == i['label'], J({'interact': st['interact'], 'x': st['x'], 'z': st['z']})):
+            # BB-C 11-04（WZ4_yizhan_r2）：還 FAIL 就記每點實際停的位置、離目標多遠、最近的按鈕（給 AA-C）
+            nb = await pg.evaluate("(([px,pz])=>GAME.E.interactables.filter(q=>!q.hidden).map(q=>({label:q.label,kind:q.kind||null,x:+(+q.x).toFixed(2),z:+(+q.z).toFixed(2),r:q.radius||1,d:+Math.hypot(q.x-px,q.z-pz).toFixed(2)})).sort((a,b)=>a.d-b.d).slice(0,4))(%s)" % J([st['x'], st['z']]))
+            print('  [%s] 停在 (%s, %s)，離「%s」(%s, %s) %.2f m；最近的按鈕：%s' % (tag, st['x'], st['z'], i['label'], i['x'], i['z'], math.hypot(st['x'] - i['x'], st['z'] - i['z']), J(nb)), flush=True)
+            continue
         await L.tap(pg, cdp, '#interact'); lines = await talk_lines(pg, cdp)
         exp = YARD_EXP[i['kind']]
         ok = any(l in exp for l in lines) if isinstance(exp, list) else (exp in lines)
@@ -315,6 +319,31 @@ async def yard(pg, cdp):
     cap2 = await enter_gate2(pg, cdp)
     check('[YARD] 第二次進冠木門：沒有旁白', cap2 != INTRO, J(cap2))
 
+
+EAVE_JS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3; let bb=null, nm=[]; E.scene.traverse(o=>{ if(!o.isMesh||!o.material) return; const ms=Array.isArray(o.material)?o.material:[o.material];
+    if(ms.some(m=>/camphor/i.test(m.name||''))){ const b=new THREE.Box3().setFromObject(o); if(!b.isEmpty()){ bb=bb?bb.union(b):b; nm.push(o.name||'(無名)'); } } });
+  const it=E.interactables.find(i=>i.kind==='camphor'); if(!bb&&!it) return null;
+  const c=bb?bb.getCenter(new V()):new V(it.x,1.5,it.z), sz=bb?bb.getSize(new V()):null;
+  return {trunk:bb?{min:[bb.min.x,bb.min.y,bb.min.z].map(v=>+v.toFixed(2)),max:[bb.max.x,bb.max.y,bb.max.z].map(v=>+v.toFixed(2))}:null, meshes:nm.slice(0,6), it:it?{x:it.x,z:it.z}:null, cx:+c.x.toFixed(2), cz:+c.z.toFixed(2)}; })()"""
+
+
+async def eave_shots(pg, cdp):
+    """BB-C 11-04（LAWWW2-C：樟樹不碰簷，前院第二版 5dc06d913）：從前院往緣側簷下拍，看得到樟樹樹幹和屋簷的交界，14:00、22:00 各一張（再加一張側面）"""
+    print('== EAVE 樟樹與緣側屋簷的交界', flush=True)
+    for h in (14.0, 22.0):
+        tag = tag_of(h)
+        await load(pg, cdp, SH['zone'], 1.5, 6.6, h, yaw=0)
+        tr = await pg.evaluate(EAVE_JS)
+        print('  [EAVE %s] 樟樹：%s' % (tag, J(tr)), flush=True)
+        if not check('[EAVE %s] 找得到樟樹（材質 camphor 或互動點）' % tag, bool(tr), ''): continue
+        tx, tz = tr['cx'], tr['cz']
+        await pg.evaluate(HUD + '(false)')
+        for name, e, l in (('front', [tx + 1.2, 1.5, tz + 3.8], [tx, 2.7, tz - 0.6]), ('side', [tx - 3.2, 1.6, tz + 1.6], [tx, 2.6, tz - 0.4])):
+            await pg.evaluate(AIM + '(%s,%s)' % (J(e), J(l))); await pg.wait_for_timeout(700)
+            await pg.screenshot(path=os.path.join(OUT, 'yizhan_%s_eave_%s.png' % (tag, name)))
+            print('  [EAVE %s] %s：鏡頭 %s → %s' % (tag, name, J(e), J(l)), flush=True)
+        await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()")
+        await pg.evaluate(HUD + '(true)')
 
 async def enter_gate2(pg, cdp):
     ex, ez, sz2, lab = SH['enter']
@@ -343,6 +372,9 @@ async def main():
             await floor_seats(pg, cdp, allseats=True)
         if os.environ.get('YARD') == '1':
             await yard(pg, cdp)
+        if os.environ.get('EAVE') == '1':
+            try: await eave_shots(pg, cdp)
+            except Exception as e: check('[EAVE] 探針沒有例外', False, repr(e)[:300])
         check('沒有 JS 例外', not errs, J(errs[:3]))
         json.dump(res, open(os.path.join(OUT, 'shots_info.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
         await b.close()
