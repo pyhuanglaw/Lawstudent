@@ -43,3 +43,10 @@
 出生點和出口（給 LAWWW）
 - 溫州街 → 前院 (−3.0,9.0) yaw π；前院「離開一盞」(−3.0,9.4) → 溫州街 (−20.5,4.1)。
 - 玄關「進去」(−3.0,6.6) → 室內 (−3.0,4.2)；室內「離開」(−3,4.6) → 前院 (−3.0,6.9)。
+
+## SUNNY SIDE 室內的窗景卡（BB 11-04 非必要建議，AA 07:06 轉來）
+- `tools/blender/env_second/textures/gen/sunnyside_view_{front,right}_{day,night}.jpg`（2048×1024）：溫州街正式模型（wenzhou_street、cafe_exterior、street_trees、street_props、wz_props）從 SUNNY SIDE 往外拍。
+  - front：眼睛 (44, 1.5, −4.4)、看 (44, 1.7, 6)、16 mm——對街的日和便利店、林家乾麵、斑馬線。
+  - right：眼睛 (49.1, 1.5, −9.0)、看 (57, 1.7, −15.5)、16 mm——東邊路口對面那棟（鐵捲門、招租、樓上的窗）。往南拍會拍到遊戲裡只有套件、沒有正式模型的空白，所以朝北偏。
+  - night 用 `--night`（點亮窗、路燈）。對照 `sunnyside_views.jpg`。
+- AA 室內的兩塊窗景卡（WALL_front_VIEW、WALL_right_VIEW）現在共用一個材質 sns_window_view；要兩面不同的景就分兩個材質（名字不動）。日夜怎麼換由 AA／LAWWW 決定。
