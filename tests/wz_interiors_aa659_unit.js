@@ -5,6 +5,7 @@
 //     A1 正式模型登錄 bldg.wz_<店>_interior_v<版本>＝配置的 glb（檔案在）、LICENSES 一行；舊的 bldg.wz_*_interior 登錄不動
 //     A2 座位：小路 22 個裡 21 個玩家能坐（(3.05,3.45) npcOnly：沒有按鈕、不在區域的座位）、tag corner 2／bar 6／door 1；SUNNY SIDE 14 個、sofa 2／bar 2／door 1／window 1；一盞 13 個、茶席六個跪坐（floor）
 //     A3 每一個座位、互動點、出口從出生點走得到、按得到（按不到的列出來）；出口字「離開小路」「離開 SUNNY SIDE」「離開一盞」
+//     A3b 每一個座位「坐下」先走到的點（GAME.seatApproach，和 reachability_all.py 同一套）站得住、在按鈕範圍、從出生點走得到（2026-11-04：SUNNY SIDE table 4 北側；修改前 bf9518378 FAIL）
 //     A4 新的阻擋擋住：小路的隔板、卡座、中間四人桌；SUNNY SIDE 的長沙發、卡座桌、大理石小圓桌；一盞的甕、東南角盆栽、坐墊疊（AA v1b）
 //     A5 走不出去的小孤島（tools/dev_scratch/nav_islands.py 的做法搬到 Node：canStand 0.1 m 取樣、連通區塊）：三間都沒有
 //     A6 正式模型接上以後（假的 GLB：GLOW_* 空節點、窗景卡、材質名）：光暈合成一個網格、開燈切換；窗景卡晚上調暗；SUNNY SIDE 的 sns_bulb、一盞的 wzs_washi 網點透空
