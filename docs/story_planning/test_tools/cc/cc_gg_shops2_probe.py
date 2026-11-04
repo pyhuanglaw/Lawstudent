@@ -1,17 +1,17 @@
-"""CC（帳號 A）11-04：GG_shops2——公館 afar café（G07，區域 afar）、Daybreak（G14，區域 daybreak）兩間室內（LAWWW 816597841 GG-SHOPS2-1104；src/gg2shops3d.js；台詞 AA_652）。測 964d0ad11。
+"""CC（帳號 A）11-04：GG_shops2——公館 afar café（G07，區域 afar）、Daybreak（G14，區域 daybreak）兩間室內（LAWWW 816597841 GG-SHOPS2-1104；src/gg2shops3d.js；台詞 AA_652）。測 809163ee4（AA_652 89b4367ca：afar 打烊以後的木牌句、兩間颱風假的門口句；afar v1c、Daybreak 配置 v2）。
   真實玩家流程（不用 ?turbo、不瞬移、不改劇情狀態）；只有前置讀檔，標【前置／捷徑】。每一段都卡住檢查、逐句印對話（transcript）、截圖。
   CASES（afar_* 和 db_* 同一套）：<店>_door,<店>_hours,<店>_closein,<店>_order,<店>_seats,<店>_date,<店>_art（不給＝全部）
   共用函式：cc_gg_int_probe.py（converse／stuck_check／load／walk_tap／enter_via／go_out…）、約會照 cc_social_smoke_probe.py（Person：手機約、meet_go、date_report、check_free、her_after）——兩支都照原始碼載入（不執行它們的 main）。
   door    【前置】公館店門前 (門x, 15)（afar 15:00、Daybreak 10:00）→ 走到店門口「進入 afar café／進入 Daybreak」→ 進店：一天第一次的進門句（AA_652 三句之一，逐字）→ 截圖 → 卡住檢查 → 走到「離開…」出來（公館門口 SHOP_IN.out）→ 卡住檢查
   hours   邊界（afar 10:59、11:00、20:59、21:00；Daybreak 07:59、08:00、14:59、15:00）：【前置】讀檔到門口（騎樓、門前 1 m）比邊界早 3 分鐘 → 等遊戲時間真的跑到那一刻（10:59 那種要在下一分鐘以前按）→ 按門：
-            開＝進得去；關＝進不去、afar／Daybreak 開門以前＝toast 寫開放時間（PLACES.closedText；AA_652 沒有寫 afar 關門的句子）、Daybreak 15:00 以後＝木牌那一句（逐字）。按下去那一刻的 G.hour 印出來。
-          颱風天（calendar.js TYPHOON 2025-10-13）：【前置】讀檔到那一天、平常開店的時間 → 按門：進不去、有 toast（不是木牌）
+            開＝進得去；關＝進不去：開門以前（afar 10:59、Daybreak 07:59）＝toast 寫開放時間（PLACES.closedText）；打烊以後（afar 21:00 起、Daybreak 15:00 起）＝木牌那一句（AA_652 逐字）。按下去那一刻的 G.hour 印出來。
+          颱風天（calendar.js TYPHOON 2025-10-13）：【前置】讀檔到那一天、平常開店的時間 → 按門：進不去、颱風那一句（AA_652 逐字，兩間各一句）
   closein 【前置】讀檔到店裡、打烊前 3 分鐘（afar 20:57、Daybreak 14:57）→ 站著等時間跑到打烊 → 店員一句＋旁白（逐字、照順序）→ 回公館店門口（SHOP_IN.out 1.5 m 內）→ 卡住檢查
   order   afar：「點咖啡」→ 店員「內用還是外帶？」→ 選單八樣、價錢照稿 → 點拿鐵 140：扣 140、時間 +9 分鐘、點完的一句（稿上三句之一、手沖那句不出）；錢不夠（【前置】money 50）＝店員那一句、不扣錢；
             「看甜點櫃」「看看書架」「看菜單」各按一次：稿上那幾句之一。
           Daybreak：「點餐」→ 店員「內用的話，點好我們送過去。」→ 點厚蛋三明治 160：扣 160、點完的一句、坐到最近的空位（吃的時候 P.seat 有）、時間 +40 分鐘、吃完的旁白（稿上兩句之一）、吃完起身；錢不夠＝那一句；「看甜點櫃」「看菜單」。
-  seats   afar 24 張、Daybreak 22 張（每一張先【前置】讀檔到店裡進門的地方，時段次數是新的）：走過去 → 按 → 坐下的那一句（照位子類型＝GG2.seatLine，逐字；稿上沒有的位子不說）→ 選單有「讀書」→ 讀書（P.seat、pose sit／read）→ 起身 → 腳下站得住（nav.free、canStand）→ 卡住檢查。
-          配置裡玩家不能坐的（afar 卡座 2 張、Daybreak 2 張）：沒有「坐下」的互動點（選不到）。
+  seats   afar 24 張（配置 26）、Daybreak 22 張（配置 23；v2 長桌西側中間拿掉）（每一張先【前置】讀檔到店裡進門的地方，時段次數是新的）：走過去 → 按 → 坐下的那一句（照位子類型＝GG2.seatLine，逐字；稿上沒有的位子不說）→ 選單有「讀書」→ 讀書（P.seat、pose sit／read）→ 起身 → 腳下站得住（nav.free、canStand）→ 卡住檢查。
+          配置裡玩家不能坐的（afar 卡座 (−4.65,−2.3)、(−4.65,−3.4)；Daybreak 卡座小桌一的卡座 (0.6,−3.5)；809163ee4 node 印出來的）：沒有「坐下」的互動點（選不到）。
   date    smoke probe 的 Person：【前置】讀檔到公館、設關係（afar＝認識 ACQUAINTANCE；Daybreak＝有點熟 FAMILIAR）、有聯絡方式 → 手機約 afar（喝咖啡）／Daybreak（吃飯，08:00～14:00 開始）→ 照 smoke 的 campus_date 演完一場：
             出發、到場、見面一路點得完；X207：開演那一刻兩個人都坐著、同一桌（≤ 2.3 m 或同一張桌子）、帶路時她離玩家 ≤ 3 m、道別那一刻她在旁邊（≤ 4 m）、結束後自由、她回自己的行程；
             AA_652：答應的一句（她自己的或一般句）、坐下以後的開場句（seatOpen 兩句之一）。另外：afar 在認識階段就約得到；Daybreak 在認識階段約不到（minStage）；14:30 約 Daybreak＝旁白「（Daybreak 下午三點就關了。）」、今天的時段一個都沒有。
@@ -55,6 +55,8 @@ AA = {
                       'menu': ['（黑板上寫著 afar COFFEE MENU。手沖那一行旁邊畫了一片小葉子。）']},
              'seat': ['（你在窗邊坐下，把桌上的小燈打開。外面騎樓有人牽著腳踏車經過。）', '（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）', '（靠牆的位子很安靜。牆上那幅畫是一座霧裡的山。）', '（吧台後面那一塊比較暗，卡座很軟。坐下就不太想起來。）'],
              'close': ['我們九點打烊喔。……杯子放著就好。', '（你走出 afar。騎樓的燈已經暗了一半。）'],
+             'sign': '（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）',
+             'typhoon': '（afar 的門上貼著一張手寫的紙：「颱風天休息，大家注意安全。」）',
              'acc0': '「好啊。那間的手沖很好喝。」',
              'acc': {'heroine_01': '「好。我帶書去，你不要一直跟我講話。」', 'heroine_02': '「afar？好。……窗邊那一排的燈很好看。」', 'heroine_03': '「好。我想吃他們的布丁。」', 'heroine_04': '「可以。那裡插座很多。」',
                      'heroine_05': '「好。我也剛好要寫東西。」', 'classmate_peishan': '「好！我上次經過就想進去了。」', 'kexin': '「好啊。我到公館再跟你說。」'},
@@ -70,18 +72,24 @@ AA = {
                  'seat': ['（窗邊的陽光很亮。桌上的小花瓶插了幾枝滿天星。）', '（四人桌的椅子有一張是綠色坐墊。你坐了那一張。）', '（最裡面那張長桌，牆上的層板放滿了罐子和小盆栽。）', '（你在卡座坐下，旁邊的黃色抱枕很軟。牆上的 Daybreak 字就在你頭上。）'],
                  'close': ['我們三點休息囉。……明天早上八點見。', '（你走出 Daybreak。午後的騎樓比早上熱很多。）'],
                  'sign': '（Daybreak 的門上掛著「今日營業結束」的木牌。）',
+                 'typhoon': '（Daybreak 的遮雨棚收起來了。門上貼著：「颱風天暫停營業」。）',
                  'late': '（Daybreak 下午三點就關了。）',
                  'acc0': '「好啊。早上嗎？我爬得起來。」',
                  'acc': {'heroine_01': '「好。九點，不要遲到。」', 'heroine_02': '「好……我想坐窗邊。」', 'heroine_03': '「Daybreak？好。我想吃法式吐司。」', 'heroine_04': '「早上？……十點以後可以。」',
                          'heroine_05': '「好。週末早上我剛好有空。」', 'classmate_peishan': '「好啊！那家的卡座好可愛。」', 'kexin': '「好啊。我早一點從木柵出發。」'},
                  'open': ['（你們在窗邊坐下。陽光剛好照到她那一邊，她把椅子往你這邊挪了一點。）', '（餐點送來的時候，她先拿手機拍了一張。）']}}
-SH = {'afar': {'zone': 'afar', 'name': 'afar café', 'door': '進入 afar café', 'dx': 7.93, 'openH': 15.0, 'close': 21.0,
+AA['aoki'] = {'acc0': '「好。那裡很安靜。」',
+              'acc': {'heroine_01': '「好。可以讀書嗎？……可以就好。」', 'heroine_02': '「好。我想喝東方美人。」', 'heroine_03': '「青木？好。……我想看看別人家的茶怎麼泡。」', 'heroine_04': '「茶室？好啊，我沒去過。」',
+                      'heroine_05': '「好。那裡的白茶不錯。」', 'classmate_peishan': '「好！他們的桂花糕很好吃。」', 'kexin': '「好啊。等我到台北。」'},
+              'open': ['（店員把茶壺放下，她先幫你倒了第一杯。）']}
+SH = {'aoki': {'zone': 'aoki', 'name': '青木茶室', 'door': '進入青木茶室', 'dx': -54.05, 'openH': 15.0, 'close': 21.0, 'stage': 'ACQUAINTANCE', 'pid': os.environ.get('GG2_DATE_PID_AOKI') or 'heroine_02'},
+      'afar': {'zone': 'afar', 'name': 'afar café', 'door': '進入 afar café', 'dx': 7.93, 'openH': 15.0, 'close': 21.0,
                'bounds': [(10 + 59 / 60, False), (11.0, True), (20 + 59 / 60, True), (21.0, False)], 'items': {'order': '點咖啡', 'pastry': '看甜點櫃', 'bookshelf': '看看書架', 'menu': '看菜單'},
-               'seats': 24, 'buy': ('拿鐵', 140), 'hrs': 0.15, 'stage': 'ACQUAINTANCE', 'pid': os.environ.get('GG2_DATE_PID_AFAR') or 'heroine_02', 'seatH': 12.0},
+               'seats': 24, 'nosit': [(-4.65, -2.3), (-4.65, -3.4)], 'buy': ('拿鐵', 140), 'hrs': 0.15, 'stage': 'ACQUAINTANCE', 'pid': os.environ.get('GG2_DATE_PID_AFAR') or 'heroine_02', 'seatH': 12.0},
       'daybreak': {'zone': 'daybreak', 'name': 'Daybreak', 'door': '進入 Daybreak', 'dx': 70.93, 'openH': 10.0, 'close': 15.0,
                    'bounds': [(7 + 59 / 60, False), (8.0, True), (14 + 59 / 60, True), (15.0, False)], 'items': {'order': '點餐', 'pastry': '看甜點櫃', 'menu': '看菜單'},
-                   'seats': 22, 'buy': ('厚蛋三明治', 160), 'hrs': 40 / 60, 'stage': 'FAMILIAR', 'pid': os.environ.get('GG2_DATE_PID_DB') or 'heroine_03', 'seatH': 9.0}}
-KEY = {'afar': 'afar', 'db': 'daybreak'}
+                   'seats': 22, 'nosit': [(0.6, -3.5)], 'buy': ('厚蛋三明治', 160), 'hrs': 40 / 60, 'stage': 'FAMILIAR', 'pid': os.environ.get('GG2_DATE_PID_DB') or 'heroine_03', 'seatH': 9.0}}
+KEY = {'afar': 'afar', 'db': 'daybreak', 'aoki': 'aoki'}
 
 DOOR_JS = """(lb=>{ const it=GAME.E.interactables.find(i=>!i.hidden&&(i.label||'')===lb); return it?{x:+it.x.toFixed(3),z:+it.z.toFixed(3),r:it.radius||2.2,to:it.exit?it.exit.to:null}:null; })(%s)"""
 GG2IT_JS = """(([k,kind])=>{ const it=GAME.E.interactables.find(i=>!i.hidden&&i.gg2===k&&i.kind===kind); return it?{x:it.x,z:it.z,r:it.radius||0.9,label:it.label}:null; })(%s)"""
@@ -189,10 +197,11 @@ async def case_hours(pg, cdp, errs, k):
                 if await GI.wait_js(pg, "GAME.G.zone===%s" % J(S['zone']), 2): await GI.go_out(pg, cdp, tag + '_out', 'gongguan')
         else:
             check('[%s] %s 關著：進不去（zone 還是公館）' % (tag, hhmm(hp)), s['zone'] == 'gongguan', J({q: s[q] for q in ('zone', 'x', 'z')}))
-            if k == 'daybreak' and (hp % 24) >= 15:
-                check('[%s] Daybreak 15:00 以後到門口：木牌那一句（AA_652，逐字）' % tag, has_line(lines, AA[k]['sign']), J(lines))
+            hh = hp % 24
+            if hh >= S['close'] - 1e-6 or (k == 'afar' and hh < 6):
+                check('[%s] %s 打烊以後到門口：木牌那一句（AA_652，逐字）' % (tag, S['name']), has_line(lines, AA[k]['sign']), J({'lines': lines, 'toasts': toasts}))
             else:
-                check('[%s] 關門：toast 寫開放時間（%s；AA_652 沒有這一句）' % (tag, hrs['text']), any(hrs['text'] and (hrs['text'] in t or '11:00' in t or '08:00' in t) for t in toasts) and not has_line(lines, AA['daybreak']['sign']), J({'toasts': toasts, 'lines': lines}))
+                check('[%s] 開門以前：toast 寫開放時間（%s；稿上沒有這一句）' % (tag, hrs['text']), any(hrs['text'] and (hrs['text'] in t or '11:00' in t or '08:00' in t) for t in toasts) and not has_line(lines, AA[k]['sign']), J({'toasts': toasts, 'lines': lines}))
             await GI.stuck_check(pg, cdp, tag, fb0, e0, errs)
     # 颱風天
     tag = '%s_typhoon' % tag0
@@ -200,7 +209,7 @@ async def case_hours(pg, cdp, errs, k):
     check('[%s] 前置：%s 是颱風假（calendar.js TYPHOON）、%s 在 typhoonShops' % (tag, TYPHOON_KEY, S['zone']), td['typhoon'] and hrs['typhoonShop'], J([td, hrs]))
     hp, label, lines, s, toasts = await press_door(pg, cdp, tag, k, S['openH'], d=td, extra_desc='、%s 颱風假' % TYPHOON_KEY)
     check('[%s] 颱風天 %s 平常開的時間：進不去' % (tag, hhmm(hp)), s['zone'] == 'gongguan', J({q: s[q] for q in ('zone', 'x', 'z')}))
-    check('[%s] 颱風天：有 toast、不是木牌那一句' % tag, bool(toasts) and not has_line(lines, AA['daybreak']['sign']), J({'toasts': toasts, 'lines': lines}))
+    check('[%s] 颱風天：颱風那一句（AA_652，逐字）、不是木牌那一句' % tag, has_line(lines, AA[k]['typhoon']) and not has_line(lines, AA[k]['sign']), J({'toasts': toasts, 'lines': lines}))
     await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
     await GI.stuck_check(pg, cdp, tag, s['fb'], len(errs), errs)
 
@@ -283,13 +292,7 @@ async def case_order(pg, cdp, errs, k):
 
 async def sit_one(pg, cdp, tag, k, sv):
     """一張座位：走過去、確定最近的互動是它、按、坐下那一句、選單、讀書、起身。回傳 dict"""
-    target = sv['ap'] or [sv['x'], sv['z']]
-    await L.go_to(pg, cdp, GI.Run(), target[0], target[1], 0.35, '座位 (%s,%s)' % (sv['sx'], sv['sz']), max_s=300)
-    await pg.wait_for_timeout(800)
-    if not await pg.evaluate(GI.NEAREST_JS % J([sv['x'], sv['z']])):
-        await L.go_to(pg, cdp, GI.Run(), sv['x'], sv['z'], 0.2, '座位（再靠近）', max_s=120); await pg.wait_for_timeout(800)
-    s = await pg.evaluate(GI.ST); near = await pg.evaluate(GI.NEAREST_JS % J([sv['x'], sv['z']]))
-    if not check('[%s] 走到座位旁：按鈕是這一張的「%s」' % (tag, sv['label']), near and s['interact'].startswith(sv['label']), J({q: s[q] for q in ('x', 'z', 'interact')})): return None
+    if not await GI.approach_seat(pg, cdp, tag, sv): return None
     want = await pg.evaluate(SEATLINE_JS % J([k, sv['sx'], sv['sz']]))
     await L.tap(pg, cdp, '#interact')
     lines = []; smp = []; t0 = time.time(); last = None; s = None
@@ -326,7 +329,8 @@ async def case_seats(pg, cdp, errs, k):
     seats = await pg.evaluate(GI.SEATS_JS)
     check('[%s] 玩家可坐的座位 %d 個、都可以讀書' % (tag0, S['seats']), len(seats) == S['seats'] and all(q['study'] for q in seats), J([[q['sx'], q['sz'], q['label'], q['study']] for q in seats]))
     ns = await pg.evaluate(NOSIT_JS % J(S['zone']))
-    check('[%s] 配置裡玩家不能坐的 %d 張沒有「坐下」的互動點（選不到）' % (tag0, len(ns)), len(ns) == 2 and all(not q['near'] for q in ns), J(ns))
+    want_ns = sorted(S['nosit']); got_ns = sorted((round(q['x'], 2), round(q['z'], 2)) for q in ns)
+    check('[%s] 配置裡玩家不能坐的 %d 張＝%s，沒有「坐下」的互動點（選不到）' % (tag0, len(want_ns), J(want_ns)), got_ns == want_ns and all(not q['near'] for q in ns), J(ns))
     for i in range(len(seats)):
         if SEATSEL and i not in SEATSEL: continue
         if i > 0: await GI.load(pg, cdp, S['zone'], si['x'], si['z'], S['seatH'], '%s 店裡進門的地方（每一張重讀：讀書的時段次數是新的）' % S['name'])
@@ -378,15 +382,32 @@ def date_cls(SM):
         async def step_gg2(self):
             R, pg, k = self.R, self.pg, self.k; S = SH[k]; A = AA[k]
             d = await pg.evaluate("(()=>{ for(let x=STORY.dayOfKey('2025-10-07');;x++){ const w=CALENDAR.dateOf(x).wd%7; if(w>=1&&w<=5&&!CALENDAR.typhoon(x)) return x; } })()")
-            h0 = 9.0 if k == 'afar' else 7.0
-            await self.load(self.base(d, h0, 'gongguan', {'x': -20, 'z': 12, 'yaw': 0}), why='%s：平日 %s 在公館（今天還有時段可以約）' % (k, hhmm(h0)))
+            h0 = {'afar': 9.0, 'daybreak': 7.0, 'aoki': 11.5}[k]
+            pos0 = {'x': S['dx'], 'z': 15.0, 'yaw': 0} if k == 'aoki' else {'x': -20, 'z': 12, 'yaw': 0}
+            await self.load(self.base(d, h0, 'gongguan', pos0), why='%s：平日 %s 在公館（今天還有時段可以約）' % (k, hhmm(h0)))
             # 關係門檻：afar 認識就約得到；Daybreak 認識約不到、有點熟約得到
             await self.setup({'met': True, 'rel': SM.REL['ACQUAINTANCE'], 'relUp': 4, 'ladEnd': True, 'contact': True}, '前置：認識（ACQUAINTANCE）、有聯絡方式')
             await self.reload_same('套用關係以後重讀')
             why = await pg.evaluate("(([id,pid])=>{ const P=INV.place(pid); return P?(INV.placeWhy(GAME.G,id,P)||''):'沒有這個地點'; })", [self.pid, S['zone']])
             if k == 'afar': R.check('afar：認識（ACQUAINTANCE）就約得到（INV.placeWhy 空）', why == '', why)
+            elif k == 'aoki':
+                R.check('青木茶室：認識（ACQUAINTANCE）就約得到（INV.placeWhy 空）', why == '', why)
+                pv = [p for p in await pg.evaluate(SM.PRED_JS, self.pid) if p['pid'] == 'aoki']
+                R.check('青木茶室：還沒去過（G.visited.aoki 沒有）＝手機約的地點沒有青木（show）', not pv, J(pv[:3]))
+                # 去過一次：真的走進青木茶室再出來
+                await L.go_to(pg, self.cdp, SM.GoRun(R), S['dx'], 20.4, 1.0, '青木茶室門口', max_s=SM.WALK_S)
+                await pg.wait_for_timeout(800)
+                if (await self.st())['interact'].startswith(S['door']):
+                    await L.tap(pg, self.cdp, '#interact'); await pg.wait_for_timeout(7000)
+                    await self.drive(SM.Plan(), 'aoki 進門', max_s=60)
+                vz = await pg.evaluate("!!(GAME.G.visited&&GAME.G.visited.aoki)")
+                R.check('青木茶室：走進去一次以後 G.visited.aoki＝true', vz, '')
+                ex = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); return it?[it.x,it.z]:null; })()")
+                if ex and (await self.st())['zone'] == 'aoki':
+                    await L.go_to(pg, self.cdp, SM.GoRun(R), ex[0], ex[1], 0.5, '離開青木茶室', max_s=SM.WALK_S); await pg.wait_for_timeout(800)
+                    await L.tap(pg, self.cdp, '#interact'); await pg.wait_for_timeout(7000); await self.drive(SM.Plan(), 'aoki 出門', max_s=60)
             else: R.check('Daybreak：認識（ACQUAINTANCE）約不到（minStage FAMILIAR）', why != '', why)
-            if S['stage'] != 'ACQUAINTANCE':
+            if S['stage'] != 'ACQUAINTANCE' and k != 'aoki':
                 await self.setup({'met': True, 'rel': SM.REL[S['stage']], 'relUp': 4, 'ladEnd': True, 'contact': True}, '前置：有點熟（%s）、有聯絡方式' % S['stage'])
                 await self.reload_same('套用關係以後重讀')
             if not await self.check_free('%s 約之前' % k): return
