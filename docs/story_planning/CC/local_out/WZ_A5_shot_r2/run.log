@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_a5_shot_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_A5_shot_r2\out
+PASS 遊戲載入
+== D_day（14:00）
+  [前置／捷徑] 讀檔：溫州街 A5 日和便利店門前的路上 [45.8, 0.4]、2025-09-23（二）14:00、條件事件關閉
+PASS [D_day] 溫州街正式模型載入  {"glb": true, "man": true}
+  [D_day] 招牌：{"found": true, "meshes": [{"name": "sk_sign_A2C", "verts": 4, "a5": 0}, {"name": "wz_signs_lit", "verts": 40, "a5": 4}], "name": "wz_signs_lit", "mat": "wz_signs_lit", "nVerts": 4, "uv": [0.18, 0.656, 0.003, 0.085], "box": [40.75, 47.25, 2.95, 4.08, 4.8, 4.8], "img": [1024, 1024], "flipY": false, "mean": [222, 213, 195], "olive": 6, "orange": 6, "teal": 0, "samples": 225}；套件：A5 套件在（正式模型接上後藏起來）
+PASS [D_day] ① 招牌網格（材質 wz_signs_lit）在、A5 那一塊有頂點（掃所有用這個材質的網格）  {"found": true, "name": "wz_signs_lit", "mat": "wz_signs_lit", "nVerts": 4, "box": [40.75, 47.25, 2.95, 4.08, 4.8, 4.8], "meshes": [{"name": "sk_sign_A2C", "verts": 4, "a5": 0}, {"name": "wz_signs_lit", "verts": 40, "a5": 4}]}
+PASS [D_day] ② A5 招牌貼到新圖：平均偏米白（R−B ≥ 8）、沒有舊「日日便利」的青綠字  {"mean": [222, 213, 195], "olive": 6, "orange": 6, "teal": 0, "uv": [0.18, 0.656, 0.003, 0.085]}
+  到達「對街看得到 A5 招牌的地方」附近（0.23 m）：點地面 5 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+PASS [D_day] 真的走到拍招牌的位置 [44, -2.2]  {"x": 44.13, "z": -2.01}
+  [捷徑：拍照] 用遊戲的劇情鏡頭 E.cinematic 從對街 (44.0, 2.2, -3.8) 看招牌中心下方 0.4 m (44.0, 3.12, 4.8)（招牌落在畫面中上方），拍照時把玩家藏起來（拍完放回、結束劇情鏡頭）
+  [D_day] 截圖 wz_a5_day.png（招牌四角在畫面上的位置 {"inView": true, "ys": [0.52, 0.52, 0.37, 0.37], "xs": [0.7, 0.3, 0.7, 0.3]}）
+PASS [D_day] 截圖裡整塊招牌都在畫面裡、在中上方（四角都在畫面內，中心在上半到中間）  {"inView": true, "ys": [0.52, 0.52, 0.37, 0.37], "xs": [0.7, 0.3, 0.7, 0.3]}
+PASS [D_day] 鏡頭轉到招牌方向（玩家視角）
+PASS [D_day] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 6.7, "fb": [0, 0], "errs": []}
+== N_night（20:00）
+  [前置／捷徑] 讀檔：溫州街 A5 日和便利店門前的路上 [45.8, 0.4]、2025-09-23（二）20:00、條件事件關閉
+PASS [N_night] 溫州街正式模型載入  {"glb": true, "man": true}
+  [N_night] 招牌：{"found": true, "meshes": [{"name": "sk_sign_A2C", "verts": 4, "a5": 0}, {"name": "wz_signs_lit", "verts": 40, "a5": 4}], "name": "wz_signs_lit", "mat": "wz_signs_lit", "nVerts": 4, "uv": [0.18, 0.656, 0.003, 0.085], "box": [40.75, 47.25, 2.95, 4.08, 4.8, 4.8], "img": [1024, 1024], "flipY": false, "mean": [222, 213, 195], "olive": 6, "orange": 6, "teal": 0, "samples": 225}；套件：A5 套件在（正式模型接上後藏起來）
+PASS [N_night] ① 招牌網格（材質 wz_signs_lit）在、A5 那一塊有頂點（掃所有用這個材質的網格）  {"found": true, "name": "wz_signs_lit", "mat": "wz_signs_lit", "nVerts": 4, "box": [40.75, 47.25, 2.95, 4.08, 4.8, 4.8], "meshes": [{"name": "sk_sign_A2C", "verts": 4, "a5": 0}, {"name": "wz_signs_lit", "verts": 40, "a5": 4}]}
+PASS [N_night] ② A5 招牌貼到新圖：平均偏米白（R−B ≥ 8）、沒有舊「日日便利」的青綠字  {"mean": [222, 213, 195], "olive": 6, "orange": 6, "teal": 0, "uv": [0.18, 0.656, 0.003, 0.085]}
+  到達「對街看得到 A5 招牌的地方」附近（0.23 m）：點地面 5 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+PASS [N_night] 真的走到拍招牌的位置 [44, -2.2]  {"x": 44.13, "z": -2.01}
+  [捷徑：拍照] 用遊戲的劇情鏡頭 E.cinematic 從對街 (44.0, 2.2, -3.8) 看招牌中心下方 0.4 m (44.0, 3.12, 4.8)（招牌落在畫面中上方），拍照時把玩家藏起來（拍完放回、結束劇情鏡頭）
+  [N_night] 截圖 wz_a5_night.png（招牌四角在畫面上的位置 {"inView": true, "ys": [0.52, 0.52, 0.37, 0.37], "xs": [0.7, 0.3, 0.7, 0.3]}）
+PASS [N_night] 截圖裡整塊招牌都在畫面裡、在中上方（四角都在畫面內，中心在上半到中間）  {"inView": true, "ys": [0.52, 0.52, 0.37, 0.37], "xs": [0.7, 0.3, 0.7, 0.3]}
+PASS [N_night] 鏡頭轉到招牌方向（玩家視角）
+PASS [N_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 6.71, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+ALL PASS
