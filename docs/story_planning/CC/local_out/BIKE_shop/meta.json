@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "BIKE_shop",
+  "sha": "c7fde4f3e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_bike_shop_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:04:12",
+  "end": "2026-11-04T11:15:15",
+  "seconds": 664,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 44,
+    "mem": 59,
+    "used_gb": 19.2,
+    "chrome_testing": 30
+  }
+}
