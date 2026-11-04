@@ -39,6 +39,10 @@ CC_BRANCH = 'claude/cc-testing'
 LAWWW2_BRANCH = 'claude/second-ai-env-art'
 IS_WIN = os.name == 'nt'
 PNG_CAP = 25 * 1024 * 1024
+try:   # CC-C 11-04：只給雲端端到端驗證用（把上限壓小，才測得到「前一段放第二個 commit」）；沒設＝照舊
+    if os.environ.get('CC_ITEM_CAP_MB'): PNG_CAP = int(float(os.environ['CC_ITEM_CAP_MB']) * 1024 * 1024)
+except ValueError:
+    pass
 KINDS = ('gpu', 'py', 'game', 'probe', 'webkit', 'node', 'blender')
 
 try:
@@ -60,6 +64,38 @@ LONG_MIN = 120       # 逾時 ≥120 分鐘＝長項目（BB 20:23 規則 B）
 REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結束時，多久重讀一次佇列
 BIG_CAP = 50 * 1024 * 1024   # 結果檔（PNG 以外）超過這個大小就不推，只在 notes.txt 記路徑和大小
 
+
+
+def trace_roles(paths):
+    """每一段 trace 的角色：fail（FAIL 那一段）／prev（FAIL 的前一段）／next（FAIL 的後一段）／other。順序照 trace_push_order。"""
+    import re as _re
+    def cno(f):
+        m = _re.search(r'_c(\d+)(?:_FAIL)?\.zip$', os.path.basename(f))
+        return int(m.group(1)) if m else None
+    fails = {cno(f) for f in paths if '_FAIL' in os.path.basename(f) and cno(f) is not None}
+    out = []
+    for f in trace_push_order(paths):
+        b, n = os.path.basename(f), cno(f)
+        r = 'fail' if '_FAIL' in b else ('prev' if n is not None and (n + 1) in fails else ('next' if n is not None and (n - 1) in fails else 'other'))
+        out.append((f, r))
+    return out
+
+
+def plan_trace_commits(sized, acc0, cap, tmax):
+    """BB-C 11-04 TT_V15b：上限不放寬（每個 commit ≤ cap）。FAIL 那一段放第一個 commit（和截圖、結果一起）；
+    FAIL 的前一段放得進第一個就放，放不進就自己一個第二個 commit；後一段、其他：哪個 commit 還塞得下就放，都塞不下不推。一項最多兩個 commit。
+    sized＝[(路徑, 角色, 大小)]；回傳 (第一個 commit 的, 第二個 commit 的, 不推的 [(路徑, 原因)])"""
+    first, second, skip = [], [], []
+    a1, a2 = acc0, 0
+    for f, role, sz in sized:
+        if sz > tmax:
+            skip.append((f, 'over %d MB' % (tmax // 1048576))); continue
+        if a1 + sz <= cap:
+            first.append(f); a1 += sz; continue
+        if role in ('prev', 'next', 'other', 'fail') and a2 + sz <= cap:
+            second.append(f); a2 += sz; continue
+        skip.append((f, 'item over %.0f MB with screenshots (two commits full)' % (cap / 1048576.0)))
+    return first, second, skip
 
 
 def trace_push_order(paths):
@@ -800,6 +836,16 @@ def classify(a1, a2, same, notes):
         return 'TEST_BUG', '初判', b + notes
     if eh:
         return 'UNKNOWN', 'env-after-fail', ['有環境訊號，但探針在那之前已經 FAIL：' + '；'.join(eh[:3])] + notes
+    srcs = {f.get('src') for f in last['fails']} if last['fails'] else set()
+    if last['fails'] and srcs == {'game'}:   # 斷言比對的值是從遊戲狀態讀出來的（探針的 check 標 [src=game]）＝遊戲回報的值和預期不同
+        f0 = last['fails'][0]
+        return 'GAME_BUG', 'assert-game', ['探針斷言 FAIL %d 行，比對的值是從遊戲狀態讀出來的（[src=game]）；第一行：%s' % (len(last['fails']), f0['name'][:120]),
+                                          '遊戲回報／預期：%s' % (f0.get('info') or '')[:240],
+                                          '兩次%s' % ('一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
+    if last['fails'] and srcs == {'probe'}:   # 斷言比的是探針自己的兩個常數（[src=probe]）＝探針寫錯
+        f0 = last['fails'][0]
+        return 'TEST_BUG', 'assert-probe', ['探針斷言 FAIL %d 行，比對的是探針自己的常數（[src=probe]），和遊戲無關；第一行：%s' % (len(last['fails']), f0['name'][:120]),
+                                           '探針的值：%s' % (f0.get('info') or '')[:240]] + notes
     if last['fails']:
         return 'UNKNOWN', 'assert', ['探針斷言 FAIL %d 行（%s），兩次%s；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針' %
                                      (len(last['fails']), last['fails'][0]['name'][:120], '一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
@@ -995,11 +1041,15 @@ class Runner(object):
                     path = alt
             # core.autocrlf=false：受測檔案保持 LF，和雲端、Pages 一樣（Windows 預設會轉 CRLF，N1 有一批「從原始碼抽函式」的單元測試因此 FAIL，BB 21:3x）
             rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
-            if rc != 0 and 'invalid reference' in out:   # 不在任何抓下來的分支上（main、PR 分支…）：先抓 main，再直接用 SHA 抓一次（GitHub 讓抓得到的 commit 用 SHA 抓），再試
+            if rc != 0 and 'invalid reference' in out:   # 不在任何抓下來的分支上（main、PR 分支、別的帳號的開發分支…）：先抓 main，再直接用 SHA 抓一次（GitHub 只接受完整 40 碼 SHA），再試
                 log('worktree add %s: invalid reference - fetching main and the commit itself' % sha)
                 git('-C', self.repo, 'fetch', 'origin', 'main', quiet=True)
                 git('-C', self.repo, 'fetch', 'origin', sha, quiet=True)
                 rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
+                if rc != 0 and 'invalid reference' in out:   # BB-C 11-04：短 SHA 用 fetch 抓不到——抓全部 claude/* 分支（RULE_SOURCE 換班會變，不寫死分支名），再試
+                    log('worktree add %s: still invalid - fetching all refs/heads/claude/*' % sha)
+                    git('-C', self.repo, 'fetch', 'origin', '+refs/heads/claude/*:refs/remotes/origin/claude/*', quiet=True)
+                    rc, out = git('-c', 'core.autocrlf=false', '-c', 'core.eol=lf', '-C', self.repo, 'worktree', 'add', '--detach', path, sha, quiet=True)
         if rc != 0:
             raise RuntimeError('worktree add %s failed: %s' % (sha, out.strip()[-200:]))
         return path
@@ -1359,7 +1409,8 @@ class Runner(object):
                     continue
                 body = line[5:]
                 name, _, info = body.partition('  ')
-                fails.append({'line': line[:300], 'name': name[:300], 'info': info.strip()[:300]})
+                m_src = re.search(r'\[src=(game|probe)\]', body)   # BB-C 11-04（TEST-TRACE V2）：斷言的值從哪裡來——game＝從遊戲狀態讀出來的、probe＝探針自己的常數
+                fails.append({'line': line[:300], 'name': name[:300], 'info': info.strip()[:300], 'src': m_src.group(1) if m_src else None})
         tdir = os.path.join(d, 'trace')
         states = []
         for f in sorted(glob.glob(os.path.join(tdir, 'state_*.json'))):
@@ -1479,8 +1530,16 @@ class Runner(object):
         def rel(p):
             return os.path.relpath(p, od).replace('\\', '/')
         shots = sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(od) for f in fs if f.lower().endswith(('.png', '.jpg', '.webp')))
-        traces = [{'path': rel(z), 'bytes': os.path.getsize(z), 'push': os.path.getsize(z) <= max_mb * 1024 * 1024}
-                  for z in sorted(glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')))]
+        # BB-C 11-04：report 的 traces 照 commit 時真正的推送計畫寫（第一個／第二個 commit、或 skipped_size），不是只看單檔大小
+        zips = sorted(glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')))
+        pacc = 0
+        for f in sorted(os.path.join(dp, fn) for dp, _, fs in os.walk(od) for fn in fs if fn.lower().endswith('.png')):
+            sz = os.path.getsize(f)
+            if pacc + sz <= PNG_CAP: pacc += sz
+        t1, t2, tsk = plan_trace_commits([(z, r, os.path.getsize(z)) for z, r in trace_roles(zips)], pacc, PNG_CAP, max_mb * 1024 * 1024)
+        role = dict(trace_roles(zips)); skipd = dict(tsk)
+        traces = [{'path': rel(z), 'bytes': os.path.getsize(z), 'role': role.get(z), 'push': z in t1 or z in t2,
+                   'commit': 1 if z in t1 else (2 if z in t2 else None), 'skipped': 'skipped_size' if z in skipd else None, 'why': skipd.get(z)} for z in zips]
         js = []
         for e in last['events']:
             if e.get('kind') in ('pageerror', 'console', 'requestfailed', 'crash') or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False):
@@ -1600,21 +1659,25 @@ class Runner(object):
                     fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                 if nf not in add:
                     add.append(nf)
+            trace2 = []
             if traces:
                 try:
                     tmax = float(it.envd.get('CC_TRACE_MAX_MB') or os.environ.get('CC_TRACE_MAX_MB') or 20) * 1024 * 1024
                 except ValueError:
                     tmax = 20 * 1024 * 1024
                 tnotes = []
-                for f in trace_push_order(traces):   # 分段 trace：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（TT_V15 c005 被 c004 擠掉；BB-C 11-04：找原因要看「怎麼走到 FAIL 的」）
-                    sz = os.path.getsize(f)
-                    if sz > tmax:
-                        tnotes.append('trace not pushed (over %d MB): %s  %d bytes' % (tmax // 1048576, os.path.relpath(f, od), sz))
-                    elif acc + sz > PNG_CAP:
-                        tnotes.append('trace not pushed (item over 25 MB with screenshots): %s  %d bytes' % (os.path.relpath(f, od), sz))
+                # 分段 trace：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（TT_V15 c005 被 c004 擠掉）；BB-C 11-04：上限不放寬，前一段放不進就推第二個 commit（一項最多兩個）
+                sized = [(f, r, os.path.getsize(f)) for f, r in trace_roles(traces)]
+                t1, t2, tskip = plan_trace_commits(sized, acc, PNG_CAP, tmax)
+                add.extend(t1); trace2 = t2
+                cap_mb = PNG_CAP / 1048576.0
+                for f, why in tskip:
+                    if '_FAIL' in os.path.basename(f):   # BB-C 11-04：FAIL 段自己就超過上限——trace 不推，但 report、run.log、狀態快照、notes 照推
+                        tnotes.append('trace 太大沒推：FAIL 段 %.1f MB > 上限 %.0f MB（%s）' % (os.path.getsize(f) / 1048576.0, min(cap_mb, tmax / 1048576.0) if os.path.getsize(f) > tmax else cap_mb, os.path.relpath(f, od)))
                     else:
-                        acc += sz
-                        add.append(f)
+                        tnotes.append('trace not pushed (%s): %s  %d bytes' % (why, os.path.relpath(f, od), os.path.getsize(f)))
+                for f in t2:
+                    tnotes.append('trace in second commit (part 2): %s  %d bytes' % (os.path.relpath(f, od), os.path.getsize(f)))
                 if tnotes:
                     nf = os.path.join(od, 'notes.txt')
                     with open(nf, 'a', encoding='utf-8') as fh:
@@ -1639,15 +1702,28 @@ class Runner(object):
                 log('ERROR: git commit failed for %s (exit %s) - results are only on this PC in %s' % (it.id, rc, od))
                 gray(out)
                 self.summary.append('  !! commit failed for %s' % it.id)
-            if self.a.no_push:
-                return
-            for w in (0, 2, 4, 8, 16):
-                if w:
-                    time.sleep(w)
-                rc, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
-                if rc == 0:
-                    return
-            log('push failed for %s (results stay in %s, rerun later)' % (it.id, self.work))
+            def _push(label):
+                if self.a.no_push:
+                    return True
+                for w in (0, 2, 4, 8, 16):
+                    if w:
+                        time.sleep(w)
+                    rc, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
+                    if rc == 0:
+                        return True
+                log('push failed for %s%s (results stay in %s, rerun later)' % (it.id, label, self.work))
+                return False
+            ok1 = _push('')
+            if trace2 and ok1:   # 第二個 commit：FAIL 的前一段（第一個放不進的），自己一個 ≤25 MB，分開推（一次推太大會被擋）
+                for i in range(0, len(trace2), 50):
+                    git('-C', self.work, 'add', '-f', '--', *trace2[i:i + 50], quiet=True)
+                rc2, out2 = git('-C', self.work, 'commit', '-q', '-m',
+                                'CC-local: %s result part 2 (trace %d file(s))' % (it.id, len(trace2)), quiet=True)
+                if rc2 != 0:
+                    log('ERROR: git commit (part 2) failed for %s (exit %s)' % (it.id, rc2))
+                    gray(out2)
+                else:
+                    _push(' part 2')
 
     def apply_config(self):
         """每一輪讀 tools/cc_local/config.txt（從 cc-testing 合併來的）：PARALLEL=n（1～4）。改了就記一行"""
