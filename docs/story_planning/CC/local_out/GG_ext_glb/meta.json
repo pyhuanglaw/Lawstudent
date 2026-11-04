@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_ext_glb",
+  "sha": "c7fde4f3e",
+  "kind": "game",
+  "script": "tests/gongguan_glb_integration.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T10:58:23",
+  "end": "2026-11-04T11:00:01",
+  "seconds": 98,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 26,
+    "mem": 55,
+    "used_gb": 17.2,
+    "chrome_testing": 29
+  }
+}
