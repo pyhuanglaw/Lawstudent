@@ -1870,9 +1870,9 @@ const Z3 = (function(){
       if(!night){ x.fillStyle=dusk?'rgba(255,170,90,0.10)':'rgba(255,255,255,0.08)'; x.fillRect(0,0,W,H); } });
     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
   /* ---------- 公館三間新室內（GG-SHOPS-REDO-1104；USER_WANTS X206；AA_647；LAWWW2 驗收 MODEL_READY）----------
-     日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v3，story-planning 53275eaf4）、
+     日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v4＝模型 v2b，story-planning 61a107016）、
      頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v2，a6d78f484）、
-     青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v2，16c1c6f16）。
+     青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v3＝模型 v2c，697ed69cf）。
      接法照溫州街 wzShop、慢輪單車：room()（尺寸照配置）＋配置的導航阻擋（備用的家具色塊，D38 ③）＋座位＋互動點，正式模型 attachRoomGLB。
      配置檔沒有載入（Node 測試沒載、或拿掉）時 cvs、bookstore 照舊是舊的程序化室內，也沒有 aoki 區域（公館門口照舊外帶）。
      進門站的地方（SHOP_IN）：配置的 spawn 在店門出口的範圍裡（tests/spawn_exit_unit.js 的規則：出生點離出口要大於半徑＋0.2），改成往店裡走一段；出口在門內、半徑小一點（店都不大）。
@@ -1908,9 +1908,9 @@ const Z3 = (function(){
     return z; }
   /* 正式模型的資產登錄（url 照配置；不動 assets3d.js 的舊登錄：配置沒載入時 cvs、bookstore 照舊用舊模型）*/
   function ggReg(){ if(typeof ASSETS==='undefined'||!ASSETS.manifest) return; const reg=(key,L,src)=>{ if(L&&!ASSETS.manifest[key]) ASSETS.manifest[key]={url:L.glb,type:'building',lazy:true,source:src,license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; };
-    reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 53275eaf4，配置 src/data/cvs_layout.js v3）');
+    reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 61a107016（v2b），配置 src/data/cvs_layout.js v4）');
     reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning a6d78f484，配置 src/data/yejian_layout.js v2）');
-    reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 16c1c6f16，配置 src/data/aoki_layout.js v2）'); }
+    reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 697ed69cf（v2c），配置 src/data/aoki_layout.js v3）'); }
   ggReg();   /* 載入時登錄；建區域時再登錄一次（Node 測試 assets3d.js 可能比這個檔晚載入）*/
   /* AA 的兩間（頁間、青木）：GLOW_* 空節點＝燈的光暈（合成一個網格，照路燈開了沒切白天／晚上，和體育館一樣）；窗外的景是模型裡的一張圖（WALL_front_VIEW_*）：晚上調暗（和木曜日的街景卡一樣）*/
   function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
@@ -1937,7 +1937,8 @@ const Z3 = (function(){
     ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
     return z; }
   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
-    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,noSit:s=>s.table===5&&s.z<-1.6});   /* 最裡面四人桌（table 5）北側兩張：桌子到吧台西端、到書櫃都只有 0.6 m，人（半徑 0.32）走不進去——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */   /* 可以讀書：照配置 canStudy（吧台高腳椅沒有＝不能），AA_653 B（和一盞茶屋不一樣）；窗外的景在模型裡 */
+    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,ap:s=>s.x<-4?[-3.6,1.3]:null});   /* v2c（AA 697ed69cf，LAWWW2 驗收）：吧台西端縮 0.5 m，最裡面四人桌北側兩張走得進去了（原本 noSit 只給路人坐，拿掉）；
+     卡座兩位 (−4.15, 2.0)、(−4.15, 0.6)：前面是小圓桌，從兩張圓桌中間 (−3.6, 1.3) 走近（LAWWW2 量過：到兩個位子 0.89／0.71 m）*/   /* 可以讀書：照配置 canStudy（吧台高腳椅沒有＝不能），AA_653 B（和一盞茶屋不一樣）；窗外的景在模型裡 */
     ggLooks(E,L,'aoki');   /* 吧台的「點茶」＝內用（熱茶一壺、冷泡、茶點，AA_653 第 3 節）；門口的外帶照舊在公館（AA_653 A）。看書櫃、看茶具櫃、看茶罐（AA_653 第 3 節）*/
     return z; } };
   // ---------- 便利商店 ----------

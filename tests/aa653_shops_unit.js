@@ -57,7 +57,7 @@ for(const k of ['cvs','bookstore','aoki']){ const L=LAY[k], R=loadZone(k), its=R
 // ---- 3 青木茶室可以讀書 ----
 { const R=loadZone('aoki'), seats=R.its.filter(q=>q.seat), L=AOKI_LAYOUT, at=s=>seats.find(q=>q.seat.x===s.x&&q.seat.z===s.z);
   const bar=L.seats.filter(s=>s.table===7), cs=L.seats.filter(s=>s.canStudy&&at(s));
-  check('3 青木茶室：canStudy 的座位都可以讀書（走不進去、只給路人坐的兩張不算）',cs.length===15&&cs.every(s=>at(s).study===true),cs.length+'／'+cs.filter(s=>at(s).study).length);
+  check('3 青木茶室：canStudy 的座位 17 張都可以讀書（v2c：最裡面四人桌北側兩張也坐得到了）',cs.length===17&&cs.every(s=>at(s).study===true),cs.length+'／'+cs.filter(s=>at(s).study).length);
   check('3 青木茶室：吧台高腳椅 5 張不能讀書',bar.length===5&&bar.every(s=>at(s)&&at(s).study===false),J(bar.map(s=>at(s)&&at(s).study))); }
 
 // ---- 4 營業時間（places.js）----
