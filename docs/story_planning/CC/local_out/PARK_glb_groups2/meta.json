@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PARK_glb_groups2",
+  "sha": "e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py",
+  "env": "VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:36:50",
+  "end": "2026-11-04T22:38:54",
+  "seconds": 123,
+  "exit": 0,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 63,
+    "mem": 56,
+    "used_gb": 17.5,
+    "chrome_testing": 18
+  }
+}
