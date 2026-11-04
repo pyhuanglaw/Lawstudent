@@ -61,6 +61,23 @@ REFRESH_SEC = int(os.environ.get('CC_REFRESH_SEC', '300'))   # 沒有項目結�
 BIG_CAP = 50 * 1024 * 1024   # 結果檔（PNG 以外）超過這個大小就不推，只在 notes.txt 記路徑和大小
 
 
+
+def trace_push_order(paths):
+    """分段 trace 推上去的順序（BB-C 11-04 TT_V15b）：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（照檔名）。
+    檔名像 trace_<ID>_<ctx>_c005_FAIL.zip；沒有 cNNN 的照舊排在後面。"""
+    import re as _re
+    def cno(f):
+        m = _re.search(r'_c(\d+)(?:_FAIL)?\.zip$', os.path.basename(f))
+        return int(m.group(1)) if m else None
+    fails = {cno(f) for f in paths if '_FAIL' in os.path.basename(f) and cno(f) is not None}
+    def key(f):
+        b, n = os.path.basename(f), cno(f)
+        if '_FAIL' in b: return (0, f)
+        if n is not None and (n + 1) in fails: return (1, f)
+        if n is not None and (n - 1) in fails: return (2, f)
+        return (3, f)
+    return sorted(paths, key=key)
+
 def blender_threads():
     """Blender 用幾個 CPU 執行緒：全部核心減 2（留給系統和瀏覽器），至少 1；CC_BLENDER_THREADS 可以覆寫"""
     try:
@@ -1589,7 +1606,7 @@ class Runner(object):
                 except ValueError:
                     tmax = 20 * 1024 * 1024
                 tnotes = []
-                for f in sorted(traces, key=lambda f: ('_FAIL' not in os.path.basename(f), f)):   # 分段 trace：有 FAIL 的那一段先推（TT_V15：c005 有 FAIL，卻被沒 FAIL 的 c004 擠掉 25 MB 額度）
+                for f in trace_push_order(traces):   # 分段 trace：FAIL 那一段 ＞ FAIL 的前一段 ＞ 後一段 ＞ 其他（TT_V15 c005 被 c004 擠掉；BB-C 11-04：找原因要看「怎麼走到 FAIL 的」）
                     sz = os.path.getsize(f)
                     if sz > tmax:
                         tnotes.append('trace not pushed (over %d MB): %s  %d bytes' % (tmax // 1048576, os.path.relpath(f, od), sz))

@@ -107,6 +107,9 @@ ADE_int_in | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_pr
 ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=CUST,ENC;CC_HEADLESS=0
 ADE_int_job | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 50 | CASES=JOB,SUNNY;CC_HEADLESS=0
 ADE_touchwz | 0c2d4997b | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url}
+# ADE 重跑（BB-C 13:00，判定 BB_255）：ENC 每一輪 day 要真的 +1（GI.load 原本印的日期是寫死的 2025-09-23，現在印讀檔後的實際日期）；touchwz 診斷＝按「繼續」以後、推搖桿以前截圖＋phoneIsOpen／busyDepth／charsAll／每個路人 driver（CC-C）
+ADE_int_enc_r2 | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=ENC;CC_HEADLESS=0
+ADE_touchwz_diag | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_touchwz_diag_probe.py | index.html | 15 | CC_HEADLESS=0
 ADE_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wz_print
 ADE_zones | 0c2d4997b | game | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
 # WZ3r2：玩家視角改成從溫州街走進店門（e18f746c4）；固定角度照舊
