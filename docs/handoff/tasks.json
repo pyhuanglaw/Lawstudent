@@ -46590,6 +46590,37 @@
     "38b779db6"
    ],
    "next": "【LAWWW-C 11-04 21:5x】BB-C 21:53 同意：不擠進 v9.10.20（79da20245 是 d3828 之後的正式模型 GLB，會多帶沒在候選版測過的東西；D99 外觀不擋流程；重做候選樹至少晚 1 小時）——v9.10.20 照 d3828452a 發，電線桿跟下一版一起上線；CC 在 c744017d3 跑 street_props_integration、reachability_all、阿德門口（和 ADE_v2_shots 一起）｜【LAWWW-C 11-04 21:5x】接進開發分支（GLB×1、JSON、wz_props.py、zones3d.js patch）；Node 10 支 ALL PASS；瀏覽器交 BB／CC；要不要放進 v9.10.20（候選版 d3828452a 沒有 ADE-PROPS）等 BB 的 GO 一起決定；線上版的桿子還在 −9.2"
+  },
+  {
+   "id": "KOMICHI-VIEW-POLISH-1104",
+   "title": "小路窗景第二版（BB 14:04 兩點）：白天照遊戲的太陽時刻、晚上路燈往下照的光圈（電線桿挪到 −16.0 以後重拍）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "坐在小路窗邊往外看",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 14:04（XIAOLU-NIGHT-VIEW-1104 驗收的兩點）",
+   "authorized": "D108／D111",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "3182a6040：wz_teishoku_day.webp（14:00 太陽，仰角 52.7°、方位 200°）、wz_teishoku_night.webp（9 盞路燈往下照）、wz_window_view.py --hour／--pools；README docs/art-rebuild/second_ai/wip/komichi_nightview_1104/",
+    "acceptance": "BB 選 ①A 照現在／B 對面外牆加壁燈（B 改遊戲世界要 LAWWW 同意）、②14:00／16:00；CC：小路 14:00、22:00 坐窗邊往外看、18:36～19:12 過渡",
+    "ack": "ACK"
+   },
+   "sha": [
+    "3182a6040"
+   ],
+   "next": "【LAWWW-C 11-04 22:0x】接進開發分支（兩張 webp＋wz_window_view.py）；cafe230_aa657、wz_interiors_aa659、te_komichi_stage ALL PASS；等 BB 選①②、CC 截圖"
   }
  ]
 }
