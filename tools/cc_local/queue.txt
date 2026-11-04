@@ -41,6 +41,8 @@ GG_night_r4_0130 | 5eab062b7 | probe | docs/story_planning/test_tools/cc/cc_gg_c
 BIKE_flow_r5 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
 # GG_glb_measure（LAWWW 07:16）：ff1283943＝LAWWW2 量法一致 patch（停時鐘、17:30、路人移出、census）；給 BB 判 draw call
 GG_glb_measure | ff1283943 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+# TT_V15_chunk（BB 07:19：629 MB → 分段）：a7327a251 起的 cc_trace 分段；A、B 沒 FAIL、C FAIL，預期只留 C 那段＋最後 2 段
+TT_V15_chunk | d2e36f6eb | probe | docs/story_planning/test_tools/cc/selftest/st_longchunk.py | index.html | 15 | CC_AUTORETRY=1;ST_PAGE=game;CC_TRACE_CHUNK_S=30
 # CAFE230（LAWWW 07:07）：2:30 AM 室內 v1b 接進遊戲 d432de8ba；截圖給 BB 判 ART_APPROVED
 CAFE230_glb | d432de8ba | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
 CAFE230_seats | d432de8ba | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
