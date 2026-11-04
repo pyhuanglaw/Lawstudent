@@ -53,7 +53,7 @@ def lantern(x, z, y, s=0.32, h=0.34):
 def zabuton(x, z, ry, col=CUSH, y0=0.0):
     """坐墊（v1d）：薄底＋中間鼓起（壓扁的球）＋四角的房（流蘇）；頂約 0.075"""
     xf = Xf(x, z, ry, y0); xf.rbox(sh.a('vc'), -0.27, 0.27, 0.0, 0.035, -0.3, 0.3, r=0.015, seg=1, col=col)
-    bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=10, v_segments=6, radius=1.0)
+    bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=20, v_segments=8, radius=1.0)
     for v in bm.verts: v.co.x *= 0.25; v.co.y *= 0.28; v.co.z *= 0.042
     sh.a('vc').add_bm(K.paint_bm(bm, col), Matrix.Translation(g2b(*xf.p(0, 0.035, 0))) @ Matrix.Rotation(ry, 4, 'Z')); bm.free()
     for (dx, dz) in ((-0.26, -0.29), (0.26, -0.29), (0.26, 0.29), (-0.26, 0.29)): xf.rbox(sh.a('vc'), dx - 0.012, dx + 0.012, 0.015, 0.04, dz - 0.012, dz + 0.012, r=0.0, seg=1, col=CUSH2 if col == CUSH else '#5a4a3a')
@@ -94,7 +94,7 @@ xf0.rbox(sh.a('post'), gx0, gx1, -0.12, 0.0, gz0 - 0.02, gz0 + 0.12, r=0.006, se
 xf0.rbox(sh.a('post'), gx1 - 0.02, gx1 + 0.03, -0.12, 0.0, gz0, gz1, r=0.0, seg=1)                                        # 玄關東側的木邊（−0.12～0）
 xf0.rbox(sh.a('vcg'), X0, gx1, -0.25, -0.12, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')                          # z 5.0 的石材立面（前院土間 y −0.24 → 玄關 −0.12）
 xf0.rbox(sh.a('vcg'), gx1, -2.2, -0.25, 0.0, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')
-for j, col in enumerate(('#2a2a2c', '#6a4a30')): Xf(gx0 + 0.9 + j * 0.3, gz0 + 0.45).rbox(sh.a('vc'), -0.05, 0.05, -0.115, -0.065, -0.12, 0.12, r=0.02, seg=1, col=col)   # 脫在門口的鞋
+for j, col in enumerate(('#2a2a2c', '#6a4a30')): Xf(gx0 + 0.55 + j * 0.28, gz0 + 0.95, 0.15 * j).rbox(sh.a('vc'), -0.05, 0.05, -0.115, -0.065, -0.12, 0.12, r=0.02, seg=1, col=col)   # 脫在門口的鞋
 gb = IT['getabako'][0]; Xf(gb['x'], gb['z']).rbox(sh.a('post'), -gb['w'] / 2, gb['w'] / 2, -0.12, gb['h'], -gb['d'] / 2, gb['d'] / 2, r=0.01, seg=1)
 for k in range(3): Xf(gb['x'] + gb['w'] / 2 + 0.005, gb['z'] - 0.4 + k * 0.4).rbox(sh.a('vc'), -0.005, 0.0, 0.08, gb['h'] - 0.06, -0.18, 0.18, r=0.0, seg=1, col='#5a3e28')
 sh.a('washi').box(gb['x'] - 0.09, gb['x'] + 0.09, gb['h'] + 0.02, gb['h'] + 0.28, gb['z'] - 0.39, gb['z'] - 0.21)          # 鞋櫃上的方形紙座燈
@@ -126,7 +126,7 @@ sh.tally('shell')
 EW = lambda key: sh.w('engawa', key)
 EW('wall').box(X0, -3.5, 0.0, H, Z1 - 0.06, Z1 + 0.06); EW('wall').box(-2.5, -2.2, 0.0, H, Z1 - 0.06, Z1 + 0.06); EW('wall').box(-3.5, -2.5, 2.05, H, Z1 - 0.06, Z1 + 0.06)
 for x in (X0, -3.5, -2.5, -2.2): EW('post').box(x - 0.06, x + 0.06, 0.0, H, Z1 - 0.08, Z1 + 0.08)                         # 柱（內外都看得到）
-for zz in (Z1 - 0.08, Z1 + 0.06):                                                                                          # 內外都有長押、腰板（v1b：腰板只在牆的兩段，門口 x −3.5～−2.5 不擋）
+for zz in (Z1 - 0.1, Z1 + 0.08):                                                                                           # 內外都有長押、腰板（v1c：貼在柱子外面 2 cm，不和柱面同一個平面——BB_257 §9 門口東側柱腳兩條黑帶）（v1b：腰板只在牆的兩段，門口 x −3.5～−2.5 不擋）
     EW('post').box(X0, -2.2, 1.95, 2.07, zz, zz + 0.02)
     for (a_, b_) in ((X0, -3.5), (-2.5, -2.2)): EW('post').box(a_, b_, 0.0, 0.5, zz, zz + 0.02)
 def lattice_door(a, b, z, glass=True, hgt=2.05):
