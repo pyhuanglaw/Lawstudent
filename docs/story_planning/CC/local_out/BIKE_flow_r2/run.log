@@ -1,0 +1,17 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_BIKE_flow_r2\tests\flow_bike.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\BIKE_flow_r2\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：第 7 天 15:00，校園宿舍門口 (21,53)；存檔沒有 bike（＝舊存檔）；關掉條件事件
+PASS A 車停在宿舍門口（舊存檔的預設位置 25, 57.9）  [25, 57.9]
+  [  36.4s] 到達「腳踏車旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+PASS A 走到車旁邊：出現「騎腳踏車」  騎腳踏車
+PASS A 按「騎腳踏車」：上車（姿勢 ride、車掛在玩家底下、停著的車拿掉、出現「下車」）  {"riding": true, "pose": "ride", "on": true, "parked": null, "btn": true}
+FAIL B 搖桿往前：騎車速度（5.5 m/s 以上；跑步 4.8）、輪子和曲柄有轉  4.1 m / 5.53 s = 0.75 m/s；{"wheel": 204.86297547885565, "crank": 92.18833896548507, "steer": 4.054454032629974e-45, "lean": -1.1835481069046417e-44, "k": 1}
+PASS B 腳踝在踏板上、手腕在把手上（≤ 5 cm，瀏覽器裡的真實骨架和車的節點）  {"footL": 0.001, "footR": 0, "handL": 0, "handR": 0}
+  [ 101.2s] 到達「校門」附近（0.16 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，35 秒
+PASS C 騎到校門：出現「走出校門」、還在騎  走出校門 ride
+PASS C 到了公館還在騎（車跟著過來、存檔的區域＝公館）  {"zone": "gongguan", "riding": true, "on": true, "btn": true}
+  [ 115.5s] 到達「便利商店門口」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS D 騎到便利商店門口：出現「進入便利商店」  進入便利商店
+PASS D 進店：先下車（店裡沒有車）、車停在公館的門口（離門 3 m 內）  {"riding": false, "zone": "gongguan", "x": -29.239487406509202, "z": 20.810330111959377, "yaw": -0.7010981525028058, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}
+  [ 125.2s] 到達「店門」附近（1.11 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL D 出店：車停在出口最近的合法停車處（站得住、不擋門、離出口 ≤ BIKE.MAXD）  {"parked": null, "bike": {"riding": false, "zone": "gongguan", "x": -29.239487406509202, "z": 20.810330111959377, "yaw": -0.7010981525028058, "kind": "city", "color": null, "owned": [{"kind": "city", "color": null}]}}
