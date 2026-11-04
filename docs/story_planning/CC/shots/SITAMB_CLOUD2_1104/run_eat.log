@@ -1,0 +1,23 @@
+CC SITAMB 探針 LOC=eat CTL=0 modes=amb；SHA=d3828452a；CC_SEED=1104；SEG_S=12 REC_FPS=10 KINDS=look,side,hair,glance,stretch,page,posture,up VIEW=844x390；Windows＋GPU（Playwright 有視窗）≠ iPhone；只記錄、不判（BB-C 14:41）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== amb：http://127.0.0.1:8792/index.html
+PASS [流程] [amb] 遊戲載入  13 秒
+PASS [流程] [amb] CHAR.sitAmb=True（一般網址要 true）、有 CHAR.sitAmbFidget  [true, "function"]
+  [前置／捷徑] 讀檔：wz_lin、day 9（weekday 4）12.25 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到 wz_lin 12:15
+INFO [amb] wz_lin 2025-09-25：坐著的人 2（VRM 2、坐姿循環 ambOn 2、跪坐 0、拿書 0、手機平板 0、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "wz_lin", "place": "meal", "n": 2, "loaded": true, "acts": ["eat2", "eat2"]}；pairs 0；等了 8 秒
+PASS [流程] [amb] wz_lin 有坐著的 NPC  2
+  [前置／捷徑] 固定鏡頭 eat_1（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["look", "side", "stretch"]
+INFO [eat_1] 拍 #2 (路人) pose=sit item=None floor=False sex=f seat={"x": 1.9, "z": -1.25, "table": 5, "kind": "shop", "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "eat2", "set": null, "hold": null, "named": false} chat=None held=[]
+  [eat_1] 錄 13.0 秒（130 格、10 fps 固定步長）、鏡頭 [[2.662, 1.35, -0.136], [1.9, 0.85, -1.25]]、排程 [[0.5, 0, "look"], [4.34, 0, "side"], [9.84, 0, "stretch"]]
+  [eat_1] 31.2 秒（頁面裡 24.0 秒）；畫面 844x390；sitAmbFidget 3/3 叫得動 [["look", "look", "live"], ["side", "side", "live"], ["stretch", "stretch", "live"]]；自己開始的小動作 4 個 [[0.5, 2, "look"], [2.0, 1, "hair"], [4.3, 2, "side"], [9.8, 2, "stretch"]]；聊天輪替 0 次；每格平均差 0.318、最大 1.729；存了 14 張
+  [前置／捷徑] 固定鏡頭 eat_2（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["posture", "hair", "glance", "up"]
+INFO [eat_2] 拍 #1 (路人) pose=sit item=None floor=False sex=m seat={"x": 1.9, "z": 0.45, "table": 4, "kind": "shop", "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "eat2", "set": null, "hold": null, "named": false} chat=None held=[]
+  [eat_2] 錄 15.0 秒（150 格、10 fps 固定步長）、鏡頭 [[2.662, 1.35, 1.564], [1.9, 0.85, 0.45]]、排程 [[0.5, 0, "posture"], [3.5, 0, "hair"], [9.3, 0, "glance"], [13.4, 0, "up"]]
+  [eat_2] 42.8 秒（頁面裡 32.6 秒）；畫面 844x390；sitAmbFidget 4/4 叫得動 [["posture", "posture", "live"], ["hair", "hair", "live"], ["glance", "glance", "live"], ["up", "up", "live"]]；自己開始的小動作 6 個 [[0.5, 1, "posture"], [2.2, 1, "posture"], [3.5, 1, "hair"], [6.8, 2, "up"], [9.3, 1, "glance"], [13.4, 1, "up"]]；聊天輪替 0 次；每格平均差 0.327、最大 1.117；存了 17 張
+INFO [eat_phone] 沒有可以拍的人（phone）
+PASS [流程] [amb] 沒有 JS 例外  []
+INFO [amb] 每種動作實際開始了：{"look": 1, "side": 1, "stretch": 1, "posture": 1, "hair": 1, "glance": 1, "up": 1}；沒做到：["page"]
+INFO [amb] wz_lin 缺：{"seg": "eat_phone", "role": "phone", "why": "沒有這種人"}
+INFO 總共 106 秒；JSON：sitamb_eat.json
+ALL PASS

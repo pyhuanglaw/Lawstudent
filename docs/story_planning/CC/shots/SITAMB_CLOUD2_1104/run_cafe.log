@@ -1,0 +1,50 @@
+CC SITAMB 探針 LOC=cafe CTL=both modes=amb,ctl；SHA=d3828452a；CC_SEED=1104；SEG_S=12 REC_FPS=30 KINDS=look,side,hair,glance,stretch,page,posture,up VIEW=1280x720；Windows＋GPU（Playwright 有視窗）≠ iPhone；只記錄、不判（BB-C 14:41）
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== amb：http://127.0.0.1:8792/index.html
+PASS [流程] [amb] 遊戲載入  11 秒
+PASS [流程] [amb] CHAR.sitAmb=True（一般網址要 true）、有 CHAR.sitAmbFidget  [true, "function"]
+  [前置／捷徑] 讀檔：cafe、day 4（weekday 6）15.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到兩點半（cafe 15:00）
+INFO [amb] cafe 2025-09-20：坐著的人 5（VRM 5、坐姿循環 ambOn 5、跪坐 0、拿書 4、手機平板 1、看桌上 0、聊天 0、互相看著 0）；片段 ready=True sitAmb=True；SEATACT {"zone": "cafe", "place": "cafe", "n": 5, "loaded": true, "acts": ["book", "phone", "book*", "book*", "book*"]}；pairs 0；等了 8 秒
+PASS [流程] [amb] 兩點半有坐著的 NPC  5
+  [前置／捷徑] 固定鏡頭 cafe_hair（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["look", "side"]
+INFO [cafe_hair] 拍 #0 (路人) pose=read item=book floor=False sex=f seat={"x": -4, "z": 3.3, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "book", "set": null, "hold": "book", "named": false} chat=None held=[]
+  [cafe_hair] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[-4.763, 1.35, 2.186], [-4, 0.85, 3.3]]、排程 [[0.5, 0, "look"], [4.34, 0, "side"]]
+  [cafe_hair] 322.9 秒（頁面裡 279.2 秒）；畫面 1280x720；sitAmbFidget 2/2 叫得動 [["look", "look", "live"], ["side", "side", "live"]]；自己開始的小動作 6 個 [[0.5, 0, "look"], [1.3, 1, "glance"], [4.33, 0, "side"], [9.43, 3, "glance"], [9.5, 4, "glance"], [11.6, 5, "stretch"]]；聊天輪替 0 次；每格平均差 0.239、最大 0.675；存了 14 張
+  [前置／捷徑] 固定鏡頭 cafe_page（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["page", "glance", "page", "up"]
+INFO [cafe_page] 拍 #3 不認識的女生 pose=read item=book floor=False sex=f seat={"x": -5.95, "z": 3.95, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "book", "set": null, "hold": null, "named": true} chat=None held=[]
+  [cafe_page] 錄 12.6 秒（378 格、30 fps 固定步長）、鏡頭 [[-4.836, 1.35, 3.188], [-5.95, 0.85, 3.95]]、排程 [[0.5, 0, "page"], [2.6, 0, "glance"], [6.7, 0, "page"], [8.8, 0, "up"]]
+  [cafe_page] 388.5 秒（頁面裡 328.4 秒）；畫面 1280x720；sitAmbFidget 4/4 叫得動 [["page", "page", "live"], ["glance", "glance", "live"], ["page", "page", "live"], ["up", "up", "live"]]；自己開始的小動作 7 個 [[0.5, 3, "page"], [2.6, 3, "glance"], [6.7, 3, "page"], [8.8, 3, "up"], [10.4, 5, "glance"], [10.63, 0, "glance"], [11.4, 1, "posture"]]；聊天輪替 0 次；每格平均差 0.166、最大 0.53；存了 18 張
+  [前置／捷徑] 固定鏡頭 cafe_sofa（side、沒被擋）；手動叫 CHAR.sitAmbFidget ["posture", "stretch", "posture"]
+INFO [cafe_sofa] 拍 #1 (路人) pose=read item=phone floor=False sex=m seat={"x": -6.3, "z": -0.55, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "phone", "set": null, "hold": "phone", "named": false} chat=None held=[]
+  [cafe_sofa] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[-6.132, 1.2, -1.94], [-6.3, 0.75, -0.55]]、排程 [[0.5, 0, "posture"], [3.5, 0, "stretch"], [6.7, 0, "posture"]]
+  [cafe_sofa] 561.9 秒（頁面裡 508.0 秒）；畫面 1280x720；sitAmbFidget 3/3 叫得動 [["posture", "posture", "live"], ["stretch", "stretch", "live"], ["posture", "posture", "live"]]；自己開始的小動作 5 個 [[0.5, 1, "posture"], [3.5, 1, "stretch"], [5.7, 3, "page"], [6.7, 1, "posture"], [7.7, 4, "look"]]；聊天輪替 0 次；每格平均差 0.108、最大 0.421；存了 16 張
+  [前置／捷徑] 讀檔：afar、day 9（weekday 4）15.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [amb] 讀到 afar 15:00
+INFO [amb] afar 2025-09-25：坐著的人 9（VRM 9、坐姿循環 ambOn 9、跪坐 0、拿書 1、手機平板 3、看桌上 1、聊天 4、互相看著 4）；片段 ready=True sitAmb=True；SEATACT {"zone": "afar", "place": "cafe", "n": 9, "loaded": true, "acts": ["chat", "chat", "tablet", "notes", "chat", "chat", "book", "phone", "phone"]}；pairs 2；等了 10 秒
+  [前置／捷徑] 固定鏡頭 cafe2_chat（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget []
+INFO [cafe2_chat] 拍 #1 (路人) pose=sit item=None floor=False sex=f seat={"x": 3.15, "z": 1.15, "table": 1, "kind": "shop", "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "chat", "set": "S_cup", "hold": null, "named": false} chat=nod held=[]
+  [cafe2_chat] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[2.036, 1.35, 1.912], [3.15, 0.85, 1.15]]、排程 []
+  [cafe2_chat] 233.4 秒（頁面裡 206.5 秒）；畫面 1280x720；sitAmbFidget 0/0 叫得動 []；自己開始的小動作 4 個 [[4.43, 9, "side"], [5.73, 4, "side"], [7.03, 8, "posture"], [8.67, 3, "look"]]；聊天輪替 8 次；每格平均差 0.559、最大 2.092；存了 10 張
+  [前置／捷徑] 固定鏡頭 cafe2_hair（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["hair", "side"]
+INFO [cafe2_hair] 拍 #4 (路人) pose=sit item=None floor=False sex=f seat={"x": 1.45, "z": 1.15, "table": 2, "kind": "shop", "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "notes", "set": "rset_notes", "hold": null, "named": false} chat=None held=[]
+  [cafe2_hair] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[0.336, 1.35, 1.912], [1.45, 0.85, 1.15]]、排程 [[0.5, 0, "hair"], [6.3, 0, "side"]]
+  [cafe2_hair] 389.7 秒（頁面裡 348.0 秒）；畫面 1280x720；sitAmbFidget 2/2 叫得動 [["hair", "hair", "live"], ["side", "side", "live"]]；自己開始的小動作 4 個 [[0.5, 4, "hair"], [2.17, 9, "posture"], [6.3, 4, "side"], [9.27, 8, "stretch"]]；聊天輪替 10 次；每格平均差 0.231、最大 0.771；存了 13 張
+  [前置／捷徑] 固定鏡頭 cafe2_phone（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["glance"]
+INFO [cafe2_phone] 拍 #3 (路人) pose=read item=tablet floor=False sex=f seat={"x": 1.45, "z": 0.65, "table": 2, "kind": "shop", "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "tablet", "set": "S_cup", "hold": "tablet", "named": false} chat=None held=[]
+  [cafe2_phone] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[0.336, 1.35, 1.412], [1.45, 0.85, 0.65]]、排程 [[0.5, 0, "glance"]]
+  [cafe2_phone] 398.5 秒（頁面裡 349.9 秒）；畫面 1280x720；sitAmbFidget 1/1 叫得動 [["glance", "glance", "live"]]；自己開始的小動作 5 個 [[0.5, 3, "glance"], [3.23, 4, "posture"], [5.73, 3, "posture"], [8.1, 7, "page"], [9.77, 9, "posture"]]；聊天輪替 10 次；每格平均差 0.197、最大 0.527；存了 12 張
+PASS [流程] [amb] 沒有 JS 例外  []
+INFO [amb] 每種動作實際開始了：{"look": 1, "side": 2, "page": 2, "glance": 2, "up": 1, "posture": 2, "stretch": 1, "hair": 1}；沒做到：[]
+INFO [amb] cafe 缺：{"seg": "cafe_hair", "who": 0, "kinds": ["hair"], "why": "這個人做不出來（hair 要手上沒東西、page 要拿書）"}
+  [前置／捷徑] CC_SEED=1104：遊戲載入前把 Math.random 換成固定種子的版本（BB_257 T0）
+== ctl：http://127.0.0.1:8792/index.html?nositamb
+PASS [流程] [ctl] 遊戲載入  12 秒
+PASS [流程] [ctl] CHAR.sitAmb=False（?nositamb 要 false）、有 CHAR.sitAmbFidget  [false, "function"]
+  [前置／捷徑] 讀檔：cafe、day 4（weekday 6）15.00 時、晴天、條件事件關閉（playlib quiet_events）
+PASS [流程] [ctl] 讀到兩點半（cafe 15:00）
+INFO [ctl] cafe 2025-09-20：坐著的人 5（VRM 5、坐姿循環 ambOn 0、跪坐 0、拿書 4、手機平板 1、看桌上 0、聊天 0、互相看著 0）；片段 ready=False sitAmb=False；SEATACT {"zone": "cafe", "place": "cafe", "n": 5, "loaded": true, "acts": ["book", "phone", "book*", "book*", "book*"]}；pairs 0；等了 8 秒
+PASS [流程] [ctl] 兩點半有坐著的 NPC  5
+  [前置／捷徑] 固定鏡頭 cafe_hair（close3q、沒被擋）；手動叫 CHAR.sitAmbFidget ["look", "side"]
+INFO [cafe_hair] 拍 #0 (路人) pose=read item=book floor=False sex=f seat={"x": -4, "z": 3.3, "table": null, "kind": null, "row": null, "col": null, "room": null, "floor": 0, "y": null} act={"act": "book", "set": null, "hold": "book", "named": false} chat=None held=[]
+  [cafe_hair] 錄 12.0 秒（360 格、30 fps 固定步長）、鏡頭 [[-4.763, 1.35, 2.186], [-4, 0.85, 3.3]]、排程 [[0.5, 0, "look"], [4.34, 0, "side"]]

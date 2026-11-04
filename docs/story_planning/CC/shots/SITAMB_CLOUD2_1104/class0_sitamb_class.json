@@ -1,0 +1,5753 @@
+{
+ "loc": "class",
+ "sha": "d3828452a",
+ "seed": 1104,
+ "seg_s": 12.0,
+ "rec_fps": 10.0,
+ "kinds": [
+  "look",
+  "side",
+  "hair",
+  "glance",
+  "stretch",
+  "page",
+  "posture",
+  "up"
+ ],
+ "view": "844x390",
+ "runs": [
+  {
+   "mode": "amb",
+   "url_extra": "",
+   "stops": [
+    {
+     "zone": "classroom",
+     "hour": 9.5,
+     "day": 8,
+     "label": "霖澤館 201",
+     "seated0": {
+      "zone": "classroom",
+      "hour": 9.51,
+      "day": 8,
+      "weekday": 3,
+      "date": "2025-09-24",
+      "sitAmb": true,
+      "ready": true,
+      "npcs": 28,
+      "seatact": {
+       "zone": "dorm",
+       "place": null,
+       "n": 0,
+       "loaded": false,
+       "acts": []
+      },
+      "pairs": 0,
+      "fig": [],
+      "player": {
+       "x": 0,
+       "y": 1.8,
+       "z": 7.4,
+       "lv": 0,
+       "pose": "idle",
+       "seat": false
+      },
+      "seated": [
+       {
+        "i": 0,
+        "name": "",
+        "pose": "read",
+        "x": -3.75,
+        "y": 0.9,
+        "z": 0.4,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -3.75,
+         "z": 0.4,
+         "table": null,
+         "kind": null,
+         "row": 2,
+         "col": 1,
+         "room": null,
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.01,
+         "t": 1.813,
+         "rate": 0.5696,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.046,
+          0.012,
+          -0.037
+         ]
+        }
+       },
+       {
+        "i": 1,
+        "name": "",
+        "pose": "read",
+        "x": 3.75,
+        "y": 0.6,
+        "z": -1.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 3.75,
+         "z": -1.7,
+         "table": null,
+         "kind": null,
+         "row": 1,
+         "col": 6,
+         "room": null,
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 14.41,
+         "t": 7.807,
+         "rate": 0.5367,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.061,
+          -0.032,
+          0.01
+         ]
+        }
+       },
+       {
+        "i": 2,
+        "name": "",
+        "pose": "read",
+        "x": -5.25,
+        "y": 0.3,
+        "z": -3.8,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -5.25,
+         "z": -3.8,
+         "table": null,
+         "kind": null,
+         "row": 0,
+         "col": 0,
+         "room": null,
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 1.89,
+         "t": 7.72,
+         "rate": 0.4748,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.035,
+          0.04,
+          -0.044
+         ]
+        }
+       },
+       {
+        "i": 3,
+        "name": "",
+        "pose": "read",
+        "x": -2.25,
+        "y": 0.3,
+        "z": -3.8,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -2.25,
+         "z": -3.8,
+         "table": null,
+         "kind": null,
+         "row": 0,
+         "col": 2,
+         "room": null,
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 1.67,
+         "t": 7.946,
+         "rate": 0.572,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.004,
+          0.037,
+          -0.045
+         ]
+        }
+       },
+       {
+        "i": 4,
+        "name": "",
+        "pose": "read",
+        "x": 2.25,
+        "y": 0.3,
+        "z": -3.8,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 2.25,
+         "z": -3.8,
+         "table": null,
+         "kind": null,
+         "row": 0,
+         "col": 5,
+         "room": null,
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 16.77,
+         "t": 8.239,
+         "rate": 0.5515,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.032,
+          -0.046,
+          -0.054
+         ]
+        }
+       },
+       {
+        "i": 5,
+        "name": "",
+        "pose": "read",
+        "x": -3.75,
+        "y": 0.6,
+        "z": -1.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -3.75,
+         "z": -1.7,
+         "table": null,
+         "kind": null,
+         "row": 1,
+         "col": 1,
+         "room": null,
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 5.76,
+         "t": 8.686,
+         "rate": 0.5033,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.037,
+          0.045,
+          0.053
+         ]
+        }
+       },
+       {
+        "i": 6,
+        "name": "",
+        "pose": "read",
+        "x": -5.25,
+        "y": 0.9,
+        "z": 0.4,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -5.25,
+         "z": 0.4,
+         "table": null,
+         "kind": null,
+         "row": 2,
+         "col": 0,
+         "room": null,
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 8.2,
+         "t": 9.97,
+         "rate": 0.4464,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.009,
+          -0.016,
+          0.045
+         ]
+        }
+       },
+       {
+        "i": 7,
+        "name": "",
+        "pose": "read",
+        "x": -2.25,
+        "y": 0.9,
+        "z": 0.4,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -2.25,
+         "z": 0.4,
+         "table": null,
+         "kind": null,
+         "row": 2,
+         "col": 2,
+         "room": null,
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 7.26,
+         "t": 2.525,
+         "rate": 0.4587,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.048,
+          -0.023,
+          0.035
+         ]
+        }
+       },
+       {
+        "i": 8,
+        "name": "",
+        "pose": "read",
+        "x": 0.75,
+        "y": 0.9,
+        "z": 0.4,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 0.75,
+         "z": 0.4,
+         "table": null,
+         "kind": null,
+         "row": 2,
+         "col": 4,
+         "room": null,
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 3.06,
+         "t": 5.947,
+         "rate": 0.4749,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.025,
+          -0.014,
+          -0.012
+         ]
+        }
+       },
+       {
+        "i": 9,
+        "name": "",
+        "pose": "read",
+        "x": 5.25,
+        "y": 0.9,
+        "z": 0.4,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 5.25,
+         "z": 0.4,
+         "table": null,
+         "kind": null,
+         "row": 2,
+         "col": 7,
+         "room": null,
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 5.92,
+         "t": 6.497,
+         "rate": 0.5365,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.019,
+          -0.012,
+          0.001
+         ]
+        }
+       },
+       {
+        "i": 10,
+        "name": "",
+        "pose": "read",
+        "x": -3.75,
+        "y": 1.2,
+        "z": 2.5,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -3.75,
+         "z": 2.5,
+         "table": null,
+         "kind": null,
+         "row": 3,
+         "col": 1,
+         "room": null,
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.72,
+         "t": 3.394,
+         "rate": 0.4459,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.069,
+          -0.05,
+          0.03
+         ]
+        }
+       },
+       {
+        "i": 11,
+        "name": "",
+        "pose": "read",
+        "x": -0.75,
+        "y": 1.2,
+        "z": 2.5,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -0.75,
+         "z": 2.5,
+         "table": null,
+         "kind": null,
+         "row": 3,
+         "col": 3,
+         "room": null,
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 10.79,
+         "t": 8.723,
+         "rate": 0.4961,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.013,
+          -0.037,
+          -0.038
+         ]
+        }
+       },
+       {
+        "i": 12,
+        "name": "",
+        "pose": "read",
+        "x": 3.75,
+        "y": 1.2,
+        "z": 2.5,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 3.75,
+         "z": 2.5,
+         "table": null,
+         "kind": null,
+         "row": 3,
+         "col": 6,
+         "room": null,
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 14.49,
+         "t": 2.779,
+         "rate": 0.4667,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.047,
+          0.041,
+          -0.056
+         ]
+        }
+       },
+       {
+        "i": 13,
+        "name": "",
+        "pose": "read",
+        "x": -5.25,
+        "y": 1.5,
+        "z": 4.6,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -5.25,
+         "z": 4.6,
+         "table": null,
+         "kind": null,
+         "row": 4,
+         "col": 0,
+         "room": null,
+         "floor": 0,
+         "y": 1.5
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 9.26,
+         "t": 3.372,
+         "rate": 0.4475,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.066,
+          -0.032,
+          -0.022
+         ]
+        }
+       },
+       {
+        "i": 14,
+        "name": "",
+        "pose": "read",
+        "x": 2.25,
+        "y": 1.5,
+        "z": 4.6,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 2.25,
+         "z": 4.6,
+         "table": null,
+         "kind": null,
+         "row": 4,
+         "col": 5,
+         "room": null,
+         "floor": 0,
+         "y": 1.5
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 7.99,
+         "t": 6.185,
+         "rate": 0.4689,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.029,
+          0.033,
+          -0.001
+         ]
+        }
+       },
+       {
+        "i": 15,
+        "name": "",
+        "pose": "read",
+        "x": -2.25,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -2.25,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 2,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 6.29,
+         "t": 9.025,
+         "rate": 0.553,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.024,
+          -0.038,
+          -0.005
+         ]
+        }
+       },
+       {
+        "i": 16,
+        "name": "",
+        "pose": "read",
+        "x": 5.25,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 5.25,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 7,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": "book",
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 6.28,
+         "t": 1.915,
+         "rate": 0.4321,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.067,
+          -0.032,
+          0.002
+         ]
+        }
+       },
+       {
+        "i": 17,
+        "name": "不認識的女生",
+        "pose": "sit",
+        "x": 3.75,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 3.75,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 6,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 6.86,
+         "t": 1.887,
+         "rate": 0.4493,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.026,
+          0.003,
+          0.009
+         ]
+        }
+       },
+       {
+        "i": 18,
+        "name": "阿哲",
+        "pose": "sit",
+        "x": 2.25,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 2.25,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 5,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 5.22,
+         "t": 10.302,
+         "rate": 0.5744,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.033,
+          -0.033,
+          -0.002
+         ]
+        }
+       },
+       {
+        "i": 19,
+        "name": "Alison",
+        "pose": "sit",
+        "x": 3.75,
+        "y": 1.5,
+        "z": 4.6,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 3.75,
+         "z": 4.6,
+         "table": null,
+         "kind": null,
+         "row": 4,
+         "col": 6,
+         "room": null,
+         "floor": 0,
+         "y": 1.5
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 7.2,
+         "t": 10.304,
+         "rate": 0.458,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.043,
+          -0.043,
+          0.008
+         ]
+        }
+       },
+       {
+        "i": 20,
+        "name": "柏翰",
+        "pose": "sit",
+        "x": 0.75,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 0.75,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 4,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 16.09,
+         "t": 5.75,
+         "rate": 0.487,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.023,
+          0.012,
+          -0.001
+         ]
+        }
+       },
+       {
+        "i": 21,
+        "name": "芯慈",
+        "pose": "sit",
+        "x": 5.25,
+        "y": 1.5,
+        "z": 4.6,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 5.25,
+         "z": 4.6,
+         "table": null,
+         "kind": null,
+         "row": 4,
+         "col": 7,
+         "room": null,
+         "floor": 0,
+         "y": 1.5
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 3.22,
+         "t": 5.011,
+         "rate": 0.4742,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.012,
+          0.019,
+          -0.002
+         ]
+        }
+       },
+       {
+        "i": 22,
+        "name": "明軒",
+        "pose": "sit",
+        "x": 0.75,
+        "y": 1.5,
+        "z": 4.6,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 0.75,
+         "z": 4.6,
+         "table": null,
+         "kind": null,
+         "row": 4,
+         "col": 4,
+         "room": null,
+         "floor": 0,
+         "y": 1.5
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 4.91,
+         "t": 6.002,
+         "rate": 0.4618,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.067,
+          0.016,
+          0.009
+         ]
+        }
+       },
+       {
+        "i": 23,
+        "name": "沛珊",
+        "pose": "sit",
+        "x": -0.75,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -0.75,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 3,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": true,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 10.54,
+         "t": 10.695,
+         "rate": 0.558,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.037,
+          0.027,
+          0.052
+         ]
+        }
+       },
+       {
+        "i": 25,
+        "name": "坐第三排的人",
+        "pose": "sit",
+        "x": -3.75,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -3.75,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 1,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [
+         "novel"
+        ],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": true,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.73,
+         "t": 6.596,
+         "rate": 0.4532,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.033,
+          0.016,
+          0.004
+         ]
+        }
+       },
+       {
+        "i": 26,
+        "name": "總是最後進教室的人",
+        "pose": "sit",
+        "x": -5.25,
+        "y": 1.8,
+        "z": 6.7,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": -5.25,
+         "z": 6.7,
+         "table": null,
+         "kind": null,
+         "row": 5,
+         "col": 0,
+         "room": null,
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [
+         "folder"
+        ],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": true,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 8.24,
+         "t": 7.524,
+         "rate": 0.5183,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.042,
+          -0.045,
+          0.043
+         ]
+        }
+       },
+       {
+        "i": 27,
+        "name": "坐第一排正中間的女生",
+        "pose": "sit",
+        "x": 0.75,
+        "y": 0.3,
+        "z": -3.8,
+        "yaw": 3.142,
+        "lv": 0,
+        "seat": {
+         "x": 0.75,
+         "z": -3.8,
+         "table": null,
+         "kind": null,
+         "row": 0,
+         "col": 4,
+         "room": null,
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": false,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": false,
+        "cls": false,
+        "zseat": {
+         "table": null,
+         "kind": null,
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.22,
+         "t": 10.292,
+         "rate": 0.4742,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.002,
+          0.026,
+          0.031
+         ]
+        }
+       }
+      ],
+      "clips": [
+       [
+        "Sitting_Idle_Loop",
+        1.667
+       ],
+       [
+        "Sitting_Idle02_Loop",
+        2.5
+       ],
+       [
+        "Sitting_Idle03_Loop",
+        4.167
+       ],
+       [
+        "Sitting_Talking_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Nodding_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Enter",
+        1.3
+       ],
+       [
+        "Sitting_Exit",
+        1.033
+       ],
+       [
+        "Drink",
+        3
+       ],
+       [
+        "Idle_LookAround_Loop",
+        4.6
+       ],
+       [
+        "Yes",
+        2.5
+       ],
+       [
+        "Consume",
+        1.333
+       ],
+       [
+        "Idle_TalkingPhone_Loop",
+        2.933
+       ]
+      ]
+     },
+     "seated0_wait_s": 8.1,
+     "segs": [
+      {
+       "tag": "classroom_rows",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": [
+        [
+         -4.5,
+         3.288,
+         -6.001
+        ],
+        [
+         -0.662,
+         1.788,
+         1.018
+        ]
+       ],
+       "sched": [
+        [
+         0.5,
+         0,
+         "look"
+        ],
+        [
+         0.5,
+         1,
+         "stretch"
+        ],
+        [
+         0.5,
+         2,
+         "posture"
+        ]
+       ],
+       "targets": [
+        {
+         "i": 0,
+         "name": "",
+         "pose": "read",
+         "item": "book",
+         "x": -3.75,
+         "z": 0.4,
+         "lv": 0,
+         "floor": false,
+         "sex": "f",
+         "seat": {
+          "x": -3.75,
+          "z": 0.4,
+          "table": null,
+          "kind": null,
+          "row": 2,
+          "col": 1,
+          "room": null,
+          "floor": 0,
+          "y": 0.9
+         },
+         "act": null,
+         "chat": null
+        },
+        {
+         "i": 6,
+         "name": "",
+         "pose": "read",
+         "item": "book",
+         "x": -5.25,
+         "z": 0.4,
+         "lv": 0,
+         "floor": false,
+         "sex": "m",
+         "seat": {
+          "x": -5.25,
+          "z": 0.4,
+          "table": null,
+          "kind": null,
+          "row": 2,
+          "col": 0,
+          "room": null,
+          "floor": 0,
+          "y": 0.9
+         },
+         "act": null,
+         "chat": null
+        },
+        {
+         "i": 7,
+         "name": "",
+         "pose": "read",
+         "item": "book",
+         "x": -2.25,
+         "z": 0.4,
+         "lv": 0,
+         "floor": false,
+         "sex": "f",
+         "seat": {
+          "x": -2.25,
+          "z": 0.4,
+          "table": null,
+          "kind": null,
+          "row": 2,
+          "col": 2,
+          "room": null,
+          "floor": 0,
+          "y": 0.9
+         },
+         "act": null,
+         "chat": null
+        }
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": 0,
+         "kind": "look",
+         "ok": true,
+         "got": "look",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 5,
+         "t": 1,
+         "i": 6,
+         "kind": "stretch",
+         "ok": true,
+         "got": "stretch",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 5,
+         "t": 2,
+         "i": 7,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 5,
+         "i": 0,
+         "kind": "look"
+        },
+        {
+         "f": 5,
+         "i": 6,
+         "kind": "stretch"
+        },
+        {
+         "f": 5,
+         "i": 7,
+         "kind": "posture"
+        },
+        {
+         "f": 16,
+         "i": 3,
+         "kind": "page"
+        },
+        {
+         "f": 18,
+         "i": 2,
+         "kind": "stretch"
+        },
+        {
+         "f": 22,
+         "i": 27,
+         "kind": "look"
+        },
+        {
+         "f": 27,
+         "i": 10,
+         "kind": "glance"
+        },
+        {
+         "f": 27,
+         "i": 25,
+         "kind": "stretch"
+        },
+        {
+         "f": 30,
+         "i": 8,
+         "kind": "posture"
+        },
+        {
+         "f": 32,
+         "i": 21,
+         "kind": "posture"
+        },
+        {
+         "f": 48,
+         "i": 0,
+         "kind": "page"
+        },
+        {
+         "f": 49,
+         "i": 22,
+         "kind": "hair"
+        },
+        {
+         "f": 52,
+         "i": 18,
+         "kind": "hair"
+        },
+        {
+         "f": 57,
+         "i": 5,
+         "kind": "page"
+        },
+        {
+         "f": 59,
+         "i": 9,
+         "kind": "stretch"
+        },
+        {
+         "f": 62,
+         "i": 15,
+         "kind": "glance"
+        },
+        {
+         "f": 62,
+         "i": 16,
+         "kind": "glance"
+        },
+        {
+         "f": 68,
+         "i": 17,
+         "kind": "look"
+        },
+        {
+         "f": 71,
+         "i": 19,
+         "kind": "hair"
+        },
+        {
+         "f": 79,
+         "i": 14,
+         "kind": "look"
+        },
+        {
+         "f": 82,
+         "i": 26,
+         "kind": "posture"
+        },
+        {
+         "f": 88,
+         "i": 7,
+         "kind": "glance"
+        },
+        {
+         "f": 92,
+         "i": 13,
+         "kind": "glance"
+        },
+        {
+         "f": 105,
+         "i": 23,
+         "kind": "hair"
+        },
+        {
+         "f": 107,
+         "i": 11,
+         "kind": "posture"
+        },
+        {
+         "f": 108,
+         "i": 6,
+         "kind": "posture"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.087,
+       "diffs": [
+        0,
+        0.064,
+        0.066,
+        0.066,
+        0.072,
+        0.079,
+        0.085,
+        0.094,
+        0.108,
+        0.106,
+        0.096,
+        0.07,
+        0.056,
+        0.051,
+        0.057,
+        0.072,
+        0.089,
+        0.096,
+        0.086,
+        0.081,
+        0.068,
+        0.074,
+        0.094,
+        0.094,
+        0.099,
+        0.138,
+        0.155,
+        0.152,
+        0.127,
+        0.109,
+        0.092,
+        0.072,
+        0.119,
+        0.152,
+        0.166,
+        0.135,
+        0.122,
+        0.076,
+        0.076,
+        0.076,
+        0.08,
+        0.092,
+        0.122,
+        0.119,
+        0.101,
+        0.084,
+        0.079,
+        0.087,
+        0.073,
+        0.077,
+        0.085,
+        0.088,
+        0.086,
+        0.082,
+        0.09,
+        0.091,
+        0.102,
+        0.101,
+        0.091,
+        0.094,
+        0.097,
+        0.087,
+        0.09,
+        0.075,
+        0.078,
+        0.085,
+        0.094,
+        0.083,
+        0.077,
+        0.077,
+        0.073,
+        0.074,
+        0.088,
+        0.095,
+        0.086,
+        0.092,
+        0.107,
+        0.096,
+        0.09,
+        0.095,
+        0.094,
+        0.101,
+        0.097,
+        0.08,
+        0.085,
+        0.071,
+        0.08,
+        0.079,
+        0.081,
+        0.088,
+        0.101,
+        0.089,
+        0.082,
+        0.071,
+        0.076,
+        0.069,
+        0.072,
+        0.071,
+        0.062,
+        0.066,
+        0.075,
+        0.073,
+        0.068,
+        0.067,
+        0.072,
+        0.064,
+        0.071,
+        0.075,
+        0.09,
+        0.091,
+        0.075,
+        0.077,
+        0.073,
+        0.073,
+        0.074,
+        0.082,
+        0.089,
+        0.084,
+        0.078,
+        0.075
+       ],
+       "shots": [
+        {
+         "f": 10,
+         "d": 0.096,
+         "top": false,
+         "why": [
+          "look0_0.5s",
+          "stretch1_0.5s",
+          "posture2_0.5s"
+         ],
+         "file": "amb/classroom_rows_f0010_look0_0p5s_stretch1_0p5s_posture2_0p5s.jpg",
+         "kb": 53.0
+        },
+        {
+         "f": 20,
+         "d": 0.068,
+         "top": false,
+         "why": [
+          "look0_1.5s",
+          "stretch1_1.5s",
+          "posture2_1.5s"
+         ],
+         "file": "amb/classroom_rows_f0020_look0_1p5s_stretch1_1p5s_posture2_1p5s.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 25,
+         "d": 0.138,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0025_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 26,
+         "d": 0.155,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0026_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 27,
+         "d": 0.152,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0027_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 28,
+         "d": 0.127,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0028_top.jpg",
+         "kb": 53.2
+        },
+        {
+         "f": 32,
+         "d": 0.119,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0032_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 33,
+         "d": 0.152,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0033_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 34,
+         "d": 0.166,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0034_top.jpg",
+         "kb": 53.1
+        },
+        {
+         "f": 35,
+         "d": 0.135,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0035_top.jpg",
+         "kb": 53.2
+        },
+        {
+         "f": 36,
+         "d": 0.122,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0036_top.jpg",
+         "kb": 53.2
+        },
+        {
+         "f": 42,
+         "d": 0.122,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_rows_f0042_top.jpg",
+         "kb": 53.2
+        }
+       ],
+       "page_ms": 114752,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "classroom_feet",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": [
+        [
+         7.338,
+         1.788,
+         1.008
+        ],
+        [
+         -0.662,
+         1.338,
+         1.018
+        ]
+       ],
+       "sched": [],
+       "targets": [],
+       "fid": [],
+       "starts": [
+        {
+         "f": 4,
+         "i": 8,
+         "kind": "page"
+        },
+        {
+         "f": 14,
+         "i": 20,
+         "kind": "look"
+        },
+        {
+         "f": 21,
+         "i": 4,
+         "kind": "glance"
+        },
+        {
+         "f": 25,
+         "i": 10,
+         "kind": "posture"
+        },
+        {
+         "f": 33,
+         "i": 25,
+         "kind": "posture"
+        },
+        {
+         "f": 36,
+         "i": 2,
+         "kind": "glance"
+        },
+        {
+         "f": 39,
+         "i": 3,
+         "kind": "glance"
+        },
+        {
+         "f": 39,
+         "i": 27,
+         "kind": "look"
+        },
+        {
+         "f": 71,
+         "i": 9,
+         "kind": "look"
+        },
+        {
+         "f": 79,
+         "i": 13,
+         "kind": "posture"
+        },
+        {
+         "f": 85,
+         "i": 15,
+         "kind": "posture"
+        },
+        {
+         "f": 88,
+         "i": 22,
+         "kind": "up"
+        },
+        {
+         "f": 90,
+         "i": 7,
+         "kind": "glance"
+        },
+        {
+         "f": 98,
+         "i": 5,
+         "kind": "glance"
+        },
+        {
+         "f": 103,
+         "i": 14,
+         "kind": "side"
+        },
+        {
+         "f": 104,
+         "i": 8,
+         "kind": "page"
+        },
+        {
+         "f": 104,
+         "i": 21,
+         "kind": "up"
+        },
+        {
+         "f": 109,
+         "i": 1,
+         "kind": "glance"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.131,
+       "diffs": [
+        0,
+        0.179,
+        0.182,
+        0.158,
+        0.152,
+        0.114,
+        0.12,
+        0.119,
+        0.116,
+        0.124,
+        0.122,
+        0.096,
+        0.102,
+        0.096,
+        0.102,
+        0.114,
+        0.136,
+        0.143,
+        0.152,
+        0.154,
+        0.148,
+        0.144,
+        0.131,
+        0.152,
+        0.144,
+        0.13,
+        0.124,
+        0.102,
+        0.087,
+        0.069,
+        0.075,
+        0.108,
+        0.134,
+        0.129,
+        0.116,
+        0.113,
+        0.121,
+        0.102,
+        0.115,
+        0.126,
+        0.128,
+        0.124,
+        0.096,
+        0.093,
+        0.093,
+        0.098,
+        0.091,
+        0.087,
+        0.089,
+        0.074,
+        0.091,
+        0.09,
+        0.089,
+        0.091,
+        0.093,
+        0.102,
+        0.103,
+        0.106,
+        0.111,
+        0.103,
+        0.08,
+        0.085,
+        0.087,
+        0.104,
+        0.11,
+        0.104,
+        0.102,
+        0.109,
+        0.105,
+        0.115,
+        0.121,
+        0.11,
+        0.116,
+        0.126,
+        0.24,
+        0.321,
+        0.362,
+        0.263,
+        0.184,
+        0.099,
+        0.114,
+        0.1,
+        0.347,
+        0.387,
+        0.373,
+        0.323,
+        0.188,
+        0.097,
+        0.1,
+        0.109,
+        0.113,
+        0.142,
+        0.223,
+        0.277,
+        0.256,
+        0.215,
+        0.126,
+        0.104,
+        0.093,
+        0.083,
+        0.103,
+        0.112,
+        0.12,
+        0.123,
+        0.099,
+        0.111,
+        0.128,
+        0.132,
+        0.12,
+        0.114,
+        0.136,
+        0.141,
+        0.139,
+        0.123,
+        0.091,
+        0.086,
+        0.087,
+        0.093,
+        0.099,
+        0.099
+       ],
+       "shots": [
+        {
+         "f": 76,
+         "d": 0.362,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_feet_f0076_top.jpg",
+         "kb": 49.0
+        },
+        {
+         "f": 82,
+         "d": 0.347,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_feet_f0082_top.jpg",
+         "kb": 48.9
+        },
+        {
+         "f": 83,
+         "d": 0.387,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_feet_f0083_top.jpg",
+         "kb": 48.8
+        },
+        {
+         "f": 84,
+         "d": 0.373,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_feet_f0084_top.jpg",
+         "kb": 48.8
+        },
+        {
+         "f": 85,
+         "d": 0.323,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_feet_f0085_top.jpg",
+         "kb": 48.8
+        }
+       ],
+       "page_ms": 123030,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "classroom_sync",
+       "secs": 30.0,
+       "n": 300,
+       "dt": 0.1,
+       "cam": [
+        [
+         -4.888,
+         3.2,
+         -6.619
+        ],
+        [
+         -1.05,
+         1.7,
+         0.4
+        ]
+       ],
+       "sched": [],
+       "targets": [],
+       "fid": [],
+       "starts": [
+        {
+         "f": 4,
+         "i": 18,
+         "kind": "stretch"
+        },
+        {
+         "f": 17,
+         "i": 17,
+         "kind": "posture"
+        },
+        {
+         "f": 26,
+         "i": 11,
+         "kind": "side"
+        },
+        {
+         "f": 29,
+         "i": 19,
+         "kind": "side"
+        },
+        {
+         "f": 48,
+         "i": 26,
+         "kind": "side"
+        },
+        {
+         "f": 76,
+         "i": 25,
+         "kind": "side"
+        },
+        {
+         "f": 83,
+         "i": 6,
+         "kind": "page"
+        },
+        {
+         "f": 84,
+         "i": 4,
+         "kind": "page"
+        },
+        {
+         "f": 88,
+         "i": 3,
+         "kind": "side"
+        },
+        {
+         "f": 88,
+         "i": 10,
+         "kind": "posture"
+        },
+        {
+         "f": 96,
+         "i": 20,
+         "kind": "posture"
+        },
+        {
+         "f": 98,
+         "i": 27,
+         "kind": "look"
+        },
+        {
+         "f": 111,
+         "i": 23,
+         "kind": "side"
+        },
+        {
+         "f": 112,
+         "i": 15,
+         "kind": "page"
+        },
+        {
+         "f": 113,
+         "i": 9,
+         "kind": "posture"
+        },
+        {
+         "f": 154,
+         "i": 18,
+         "kind": "up"
+        },
+        {
+         "f": 157,
+         "i": 22,
+         "kind": "posture"
+        },
+        {
+         "f": 158,
+         "i": 7,
+         "kind": "stretch"
+        },
+        {
+         "f": 162,
+         "i": 1,
+         "kind": "page"
+        },
+        {
+         "f": 168,
+         "i": 21,
+         "kind": "posture"
+        },
+        {
+         "f": 169,
+         "i": 2,
+         "kind": "posture"
+        },
+        {
+         "f": 172,
+         "i": 17,
+         "kind": "side"
+        },
+        {
+         "f": 176,
+         "i": 12,
+         "kind": "stretch"
+        },
+        {
+         "f": 180,
+         "i": 8,
+         "kind": "posture"
+        },
+        {
+         "f": 192,
+         "i": 13,
+         "kind": "posture"
+        },
+        {
+         "f": 213,
+         "i": 0,
+         "kind": "page"
+        },
+        {
+         "f": 213,
+         "i": 11,
+         "kind": "side"
+        },
+        {
+         "f": 218,
+         "i": 14,
+         "kind": "posture"
+        },
+        {
+         "f": 218,
+         "i": 25,
+         "kind": "side"
+        },
+        {
+         "f": 221,
+         "i": 5,
+         "kind": "page"
+        },
+        {
+         "f": 235,
+         "i": 19,
+         "kind": "look"
+        },
+        {
+         "f": 237,
+         "i": 16,
+         "kind": "glance"
+        },
+        {
+         "f": 241,
+         "i": 26,
+         "kind": "look"
+        },
+        {
+         "f": 245,
+         "i": 15,
+         "kind": "glance"
+        },
+        {
+         "f": 277,
+         "i": 4,
+         "kind": "posture"
+        },
+        {
+         "f": 295,
+         "i": 3,
+         "kind": "page"
+        },
+        {
+         "f": 296,
+         "i": 6,
+         "kind": "page"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.071,
+       "diffs": [
+        0,
+        0.076,
+        0.079,
+        0.077,
+        0.068,
+        0.065,
+        0.059,
+        0.062,
+        0.061,
+        0.067,
+        0.082,
+        0.072,
+        0.066,
+        0.062,
+        0.074,
+        0.067,
+        0.069,
+        0.075,
+        0.061,
+        0.065,
+        0.075,
+        0.071,
+        0.066,
+        0.064,
+        0.064,
+        0.072,
+        0.068,
+        0.063,
+        0.07,
+        0.073,
+        0.065,
+        0.076,
+        0.074,
+        0.078,
+        0.071,
+        0.059,
+        0.055,
+        0.055,
+        0.067,
+        0.072,
+        0.069,
+        0.065,
+        0.069,
+        0.069,
+        0.073,
+        0.073,
+        0.075,
+        0.072,
+        0.062,
+        0.076,
+        0.072,
+        0.06,
+        0.068,
+        0.066,
+        0.066,
+        0.066,
+        0.071,
+        0.061,
+        0.068,
+        0.065,
+        0.071,
+        0.072,
+        0.066,
+        0.063,
+        0.053,
+        0.049,
+        0.049,
+        0.061,
+        0.072,
+        0.068,
+        0.07,
+        0.071,
+        0.07,
+        0.076,
+        0.073,
+        0.076,
+        0.07,
+        0.059,
+        0.067,
+        0.071,
+        0.069,
+        0.066,
+        0.067,
+        0.068,
+        0.068,
+        0.071,
+        0.068,
+        0.07,
+        0.066,
+        0.086,
+        0.097,
+        0.105,
+        0.103,
+        0.104,
+        0.092,
+        0.063,
+        0.065,
+        0.065,
+        0.074,
+        0.069,
+        0.075,
+        0.096,
+        0.095,
+        0.108,
+        0.115,
+        0.105,
+        0.103,
+        0.108,
+        0.135,
+        0.154,
+        0.141,
+        0.11,
+        0.1,
+        0.085,
+        0.073,
+        0.066,
+        0.072,
+        0.079,
+        0.105,
+        0.115,
+        0.122,
+        0.104,
+        0.104,
+        0.099,
+        0.089,
+        0.071,
+        0.072,
+        0.074,
+        0.071,
+        0.064,
+        0.071,
+        0.067,
+        0.066,
+        0.069,
+        0.06,
+        0.05,
+        0.057,
+        0.063,
+        0.064,
+        0.062,
+        0.067,
+        0.065,
+        0.063,
+        0.066,
+        0.059,
+        0.061,
+        0.065,
+        0.07,
+        0.071,
+        0.076,
+        0.068,
+        0.061,
+        0.057,
+        0.055,
+        0.061,
+        0.066,
+        0.066,
+        0.07,
+        0.068,
+        0.08,
+        0.082,
+        0.083,
+        0.07,
+        0.07,
+        0.054,
+        0.066,
+        0.069,
+        0.064,
+        0.061,
+        0.058,
+        0.062,
+        0.064,
+        0.067,
+        0.071,
+        0.059,
+        0.074,
+        0.073,
+        0.074,
+        0.08,
+        0.074,
+        0.07,
+        0.066,
+        0.065,
+        0.068,
+        0.071,
+        0.073,
+        0.071,
+        0.069,
+        0.072,
+        0.071,
+        0.066,
+        0.066,
+        0.074,
+        0.058,
+        0.072,
+        0.064,
+        0.064,
+        0.06,
+        0.063,
+        0.075,
+        0.072,
+        0.074,
+        0.071,
+        0.069,
+        0.067,
+        0.062,
+        0.062,
+        0.065,
+        0.067,
+        0.062,
+        0.046,
+        0.052,
+        0.058,
+        0.062,
+        0.074,
+        0.077,
+        0.074,
+        0.081,
+        0.08,
+        0.076,
+        0.075,
+        0.082,
+        0.074,
+        0.078,
+        0.068,
+        0.067,
+        0.056,
+        0.054,
+        0.057,
+        0.062,
+        0.072,
+        0.085,
+        0.078,
+        0.075,
+        0.076,
+        0.078,
+        0.077,
+        0.067,
+        0.076,
+        0.068,
+        0.068,
+        0.066,
+        0.076,
+        0.067,
+        0.073,
+        0.071,
+        0.085,
+        0.072,
+        0.076,
+        0.074,
+        0.088,
+        0.075,
+        0.072,
+        0.069,
+        0.067,
+        0.068,
+        0.067,
+        0.068,
+        0.079,
+        0.082,
+        0.091,
+        0.066,
+        0.06,
+        0.062,
+        0.069,
+        0.069,
+        0.066,
+        0.068,
+        0.058,
+        0.062,
+        0.062,
+        0.072,
+        0.071,
+        0.073,
+        0.076,
+        0.074,
+        0.06,
+        0.091,
+        0.081,
+        0.08,
+        0.059,
+        0.058,
+        0.062,
+        0.056,
+        0.06,
+        0.06,
+        0.064,
+        0.067,
+        0.068,
+        0.063,
+        0.067,
+        0.071,
+        0.071,
+        0.071,
+        0.068,
+        0.066,
+        0.057,
+        0.072,
+        0.081,
+        0.067
+       ],
+       "shots": [
+        {
+         "f": 108,
+         "d": 0.135,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_sync_f0108_top.jpg",
+         "kb": 52.8
+        },
+        {
+         "f": 109,
+         "d": 0.154,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_sync_f0109_top.jpg",
+         "kb": 52.8
+        },
+        {
+         "f": 110,
+         "d": 0.141,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_sync_f0110_top.jpg",
+         "kb": 52.8
+        },
+        {
+         "f": 119,
+         "d": 0.115,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_sync_f0119_top.jpg",
+         "kb": 52.8
+        },
+        {
+         "f": 120,
+         "d": 0.122,
+         "top": true,
+         "why": [],
+         "file": "amb/classroom_sync_f0120_top.jpg",
+         "kb": 52.7
+        }
+       ],
+       "page_ms": 316775,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null,
+       "sync": [
+        {
+         "n": 5,
+         "who": [
+          0,
+          6,
+          7,
+          8,
+          9
+         ],
+         "seat0": [
+          -3.75,
+          0.4,
+          0
+         ],
+         "starts": 6,
+         "events": [
+          [
+           8.3,
+           6,
+           "page"
+          ],
+          [
+           11.3,
+           9,
+           "posture"
+          ],
+          [
+           15.8,
+           7,
+           "stretch"
+          ],
+          [
+           18.0,
+           8,
+           "posture"
+          ],
+          [
+           21.3,
+           0,
+           "page"
+          ],
+          [
+           29.6,
+           6,
+           "page"
+          ]
+         ],
+         "tol0.5": {
+          "same_kind": 0,
+          "any_kind": 0,
+          "ratio_same": 0.0,
+          "windows": [
+           {
+            "t": [
+             0.0,
+             10.0
+            ],
+            "starts": 1,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             10.0,
+             20.0
+            ],
+            "starts": 3,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             20.0,
+             30.0
+            ],
+            "starts": 2,
+            "same": 0,
+            "ratio": 0.0
+           }
+          ]
+         },
+         "tol1.0": {
+          "same_kind": 0,
+          "any_kind": 0,
+          "ratio_same": 0.0,
+          "windows": [
+           {
+            "t": [
+             0.0,
+             10.0
+            ],
+            "starts": 1,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             10.0,
+             20.0
+            ],
+            "starts": 3,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             20.0,
+             30.0
+            ],
+            "starts": 2,
+            "same": 0,
+            "ratio": 0.0
+           }
+          ]
+         },
+         "base_phase": [
+          0.246,
+          0.78,
+          0.749,
+          0.376,
+          0.887
+         ],
+         "phase_R": 0.193
+        }
+       ]
+      }
+     ],
+     "natural_rows": [
+      [
+       5,
+       -3.75,
+       0.4,
+       0
+      ],
+      [
+       2,
+       3.75,
+       -1.7,
+       0
+      ],
+      [
+       3,
+       -5.25,
+       -3.8,
+       0
+      ],
+      [
+       3,
+       -3.75,
+       2.5,
+       0
+      ],
+      [
+       2,
+       -5.25,
+       4.6,
+       0
+      ],
+      [
+       2,
+       -2.25,
+       6.7,
+       0
+      ]
+     ]
+    },
+    {
+     "zone": "boya",
+     "hour": 9.5,
+     "day": 7,
+     "label": "博思 101",
+     "seated0": {
+      "zone": "boya",
+      "hour": 9.53,
+      "day": 7,
+      "weekday": 2,
+      "date": "2025-09-23",
+      "sitAmb": true,
+      "ready": true,
+      "npcs": 17,
+      "seatact": {
+       "zone": "boya",
+       "place": null,
+       "n": 0,
+       "loaded": false,
+       "acts": []
+      },
+      "pairs": 0,
+      "fig": [
+       {
+        "key": "7:chinese_y1:am",
+        "n": 17,
+        "leaving": false,
+        "loaded": true
+       }
+      ],
+      "player": {
+       "x": 0,
+       "y": 0,
+       "z": 6.8,
+       "lv": 0,
+       "pose": "idle",
+       "seat": false
+      },
+      "seated": [
+       {
+        "i": 0,
+        "name": "",
+        "pose": "sit",
+        "x": -12.85,
+        "y": 0.6,
+        "z": 1.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -12.85,
+         "z": 1.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 1,
+         "col": 3,
+         "room": "101",
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 7.77,
+         "t": 9.942,
+         "rate": 0.5278,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.045,
+          0.036,
+          -0.045
+         ]
+        }
+       },
+       {
+        "i": 1,
+        "name": "",
+        "pose": "sit",
+        "x": -13.55,
+        "y": 1.2,
+        "z": -2.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -13.55,
+         "z": -2.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 3,
+         "col": 2,
+         "room": "101",
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 1.62,
+         "t": 6.732,
+         "rate": 0.4367,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.02,
+          -0.025,
+          -0.054
+         ]
+        }
+       },
+       {
+        "i": 2,
+        "name": "",
+        "pose": "sit",
+        "x": -10.75,
+        "y": 1.2,
+        "z": -2.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -10.75,
+         "z": -2.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 3,
+         "col": 6,
+         "room": "101",
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 5.57,
+         "t": 4.41,
+         "rate": 0.5067,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.008,
+          0,
+          -0.019
+         ]
+        }
+       },
+       {
+        "i": 3,
+        "name": "",
+        "pose": "sit",
+        "x": -11.45,
+        "y": 0.6,
+        "z": 1.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -11.45,
+         "z": 1.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 1,
+         "col": 5,
+         "room": "101",
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 3.36,
+         "t": 4.078,
+         "rate": 0.4543,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.035,
+          0.049,
+          0.016
+         ]
+        }
+       },
+       {
+        "i": 4,
+        "name": "",
+        "pose": "sit",
+        "x": -10.05,
+        "y": 0.3,
+        "z": 3.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -10.05,
+         "z": 3.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 0,
+         "col": 7,
+         "room": "101",
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 3.35,
+         "t": 3.411,
+         "rate": 0.5378,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.043,
+          0.032,
+          0.001
+         ]
+        }
+       },
+       {
+        "i": 5,
+        "name": "",
+        "pose": "sit",
+        "x": -9.35,
+        "y": 1.2,
+        "z": -2.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -9.35,
+         "z": -2.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 3,
+         "col": 8,
+         "room": "101",
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 9.97,
+         "t": 8.895,
+         "rate": 0.5627,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.009,
+          -0.018,
+          -0.049
+         ]
+        }
+       },
+       {
+        "i": 6,
+        "name": "",
+        "pose": "sit",
+        "x": -14.95,
+        "y": 1.8,
+        "z": -6.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -14.95,
+         "z": -6.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 5,
+         "col": 0,
+         "room": "101",
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 1,
+         "kinds": {
+          "posture": 1
+         },
+         "fx": "posture",
+         "next": 8.3,
+         "t": 8.358,
+         "rate": 0.4294,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.003,
+          0.017,
+          0.024
+         ]
+        }
+       },
+       {
+        "i": 7,
+        "name": "",
+        "pose": "sit",
+        "x": -7.95,
+        "y": 0.9,
+        "z": -0.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -7.95,
+         "z": -0.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 2,
+         "col": 10,
+         "room": "101",
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 9.89,
+         "t": 5.817,
+         "rate": 0.5681,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.038,
+          0.026,
+          -0.048
+         ]
+        }
+       },
+       {
+        "i": 8,
+        "name": "",
+        "pose": "sit",
+        "x": -10.75,
+        "y": 0.6,
+        "z": 1.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -10.75,
+         "z": 1.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 1,
+         "col": 6,
+         "room": "101",
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 1,
+         "kinds": {
+          "up": 1
+         },
+         "fx": "up",
+         "next": 18.77,
+         "t": 5.373,
+         "rate": 0.5274,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.001,
+          -0.033,
+          -0.011
+         ]
+        }
+       },
+       {
+        "i": 9,
+        "name": "",
+        "pose": "sit",
+        "x": -14.95,
+        "y": 1.2,
+        "z": -2.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -14.95,
+         "z": -2.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 3,
+         "col": 0,
+         "room": "101",
+         "floor": 0,
+         "y": 1.2
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 11.33,
+         "t": 1.349,
+         "rate": 0.5119,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.028,
+          0.006,
+          0.04
+         ]
+        }
+       },
+       {
+        "i": 10,
+        "name": "",
+        "pose": "sit",
+        "x": -11.45,
+        "y": 0.3,
+        "z": 3.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -11.45,
+         "z": 3.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 0,
+         "col": 5,
+         "room": "101",
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "m",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 0.49,
+         "t": 10.323,
+         "rate": 0.4406,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.02,
+          -0.005,
+          0.037
+         ]
+        }
+       },
+       {
+        "i": 11,
+        "name": "",
+        "pose": "sit",
+        "x": -14.95,
+        "y": 0.3,
+        "z": 3.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -14.95,
+         "z": 3.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 0,
+         "col": 0,
+         "room": "101",
+         "floor": 0,
+         "y": 0.3
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 15.02,
+         "t": 9.029,
+         "rate": 0.5394,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.05,
+          0.043,
+          -0.053
+         ]
+        }
+       },
+       {
+        "i": 12,
+        "name": "",
+        "pose": "sit",
+        "x": -14.25,
+        "y": 1.8,
+        "z": -6.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -14.25,
+         "z": -6.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 5,
+         "col": 1,
+         "room": "101",
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 11.55,
+         "t": 10.923,
+         "rate": 0.4553,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.012,
+          -0.042,
+          -0.013
+         ]
+        }
+       },
+       {
+        "i": 13,
+        "name": "",
+        "pose": "sit",
+        "x": -7.95,
+        "y": 1.8,
+        "z": -6.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -7.95,
+         "z": -6.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 5,
+         "col": 10,
+         "room": "101",
+         "floor": 0,
+         "y": 1.8
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 8.25,
+         "t": 10.735,
+         "rate": 0.4985,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.039,
+          -0.023,
+          0.021
+         ]
+        }
+       },
+       {
+        "i": 14,
+        "name": "",
+        "pose": "sit",
+        "x": -9.35,
+        "y": 0.6,
+        "z": 1.15,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -9.35,
+         "z": 1.15,
+         "table": null,
+         "kind": "lecture",
+         "row": 1,
+         "col": 8,
+         "room": "101",
+         "floor": 0,
+         "y": 0.6
+        },
+        "drv": "vrm",
+        "vis": true,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 2.23,
+         "t": 10.88,
+         "rate": 0.4473,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          -0.063,
+          0.008,
+          0.018
+         ]
+        }
+       },
+       {
+        "i": 15,
+        "name": "",
+        "pose": "sit",
+        "x": -13.55,
+        "y": 0.9,
+        "z": -0.85,
+        "yaw": 0,
+        "lv": 0,
+        "seat": {
+         "x": -13.55,
+         "z": -0.85,
+         "table": null,
+         "kind": "lecture",
+         "row": 2,
+         "col": 2,
+         "room": "101",
+         "floor": 0,
+         "y": 0.9
+        },
+        "drv": "vrm",
+        "vis": false,
+        "ambOn": true,
+        "stat": true,
+        "chat": null,
+        "focus": false,
+        "floor": false,
+        "far": true,
+        "item": null,
+        "lap": false,
+        "held": [],
+        "sex": "f",
+        "extra": true,
+        "cls": true,
+        "zseat": {
+         "table": null,
+         "kind": "lecture",
+         "label": null
+        },
+        "look": null,
+        "lookStale": false,
+        "lookNear": null,
+        "hidden": false,
+        "talk": false,
+        "partner": -1,
+        "mutual": false,
+        "act": null,
+        "amb": {
+         "n": 0,
+         "kinds": {},
+         "fx": null,
+         "next": 16.64,
+         "t": 0.646,
+         "rate": 0.4597,
+         "base": "Sitting_Idle_Loop",
+         "pst": [
+          0.045,
+          0.013,
+          -0.037
+         ]
+        }
+       }
+      ],
+      "clips": [
+       [
+        "Sitting_Idle_Loop",
+        1.667
+       ],
+       [
+        "Sitting_Idle02_Loop",
+        2.5
+       ],
+       [
+        "Sitting_Idle03_Loop",
+        4.167
+       ],
+       [
+        "Sitting_Talking_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Nodding_Loop",
+        2.933
+       ],
+       [
+        "Sitting_Enter",
+        1.3
+       ],
+       [
+        "Sitting_Exit",
+        1.033
+       ],
+       [
+        "Drink",
+        3
+       ],
+       [
+        "Idle_LookAround_Loop",
+        4.6
+       ],
+       [
+        "Yes",
+        2.5
+       ],
+       [
+        "Consume",
+        1.333
+       ],
+       [
+        "Idle_TalkingPhone_Loop",
+        2.933
+       ]
+      ]
+     },
+     "seated0_wait_s": 8.1,
+     "segs": [
+      {
+       "tag": "boya_rows",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": [
+        [
+         -7.921,
+         3.256,
+         5.796
+        ],
+        [
+         -11.756,
+         1.756,
+         -1.225
+        ]
+       ],
+       "sched": [
+        [
+         0.5,
+         0,
+         "look"
+        ],
+        [
+         0.5,
+         1,
+         "stretch"
+        ],
+        [
+         0.5,
+         2,
+         "posture"
+        ]
+       ],
+       "targets": [
+        {
+         "i": 0,
+         "name": "",
+         "pose": "sit",
+         "item": null,
+         "x": -12.85,
+         "z": 1.15,
+         "lv": 0,
+         "floor": false,
+         "sex": "m",
+         "seat": {
+          "x": -12.85,
+          "z": 1.15,
+          "table": null,
+          "kind": "lecture",
+          "row": 1,
+          "col": 3,
+          "room": "101",
+          "floor": 0,
+          "y": 0.6
+         },
+         "act": null,
+         "chat": null
+        },
+        {
+         "i": 3,
+         "name": "",
+         "pose": "sit",
+         "item": null,
+         "x": -11.45,
+         "z": 1.15,
+         "lv": 0,
+         "floor": false,
+         "sex": "m",
+         "seat": {
+          "x": -11.45,
+          "z": 1.15,
+          "table": null,
+          "kind": "lecture",
+          "row": 1,
+          "col": 5,
+          "room": "101",
+          "floor": 0,
+          "y": 0.6
+         },
+         "act": null,
+         "chat": null
+        },
+        {
+         "i": 8,
+         "name": "",
+         "pose": "sit",
+         "item": null,
+         "x": -10.75,
+         "z": 1.15,
+         "lv": 0,
+         "floor": false,
+         "sex": "f",
+         "seat": {
+          "x": -10.75,
+          "z": 1.15,
+          "table": null,
+          "kind": "lecture",
+          "row": 1,
+          "col": 6,
+          "room": "101",
+          "floor": 0,
+          "y": 0.6
+         },
+         "act": null,
+         "chat": null
+        }
+       ],
+       "fid": [
+        {
+         "f": 5,
+         "t": 0,
+         "i": 0,
+         "kind": "look",
+         "ok": true,
+         "got": "look",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 5,
+         "t": 1,
+         "i": 3,
+         "kind": "stretch",
+         "ok": true,
+         "got": "stretch",
+         "live": true,
+         "chat": null
+        },
+        {
+         "f": 5,
+         "t": 2,
+         "i": 8,
+         "kind": "posture",
+         "ok": true,
+         "got": "posture",
+         "live": true,
+         "chat": null
+        }
+       ],
+       "starts": [
+        {
+         "f": 4,
+         "i": 10,
+         "kind": "hair"
+        },
+        {
+         "f": 5,
+         "i": 0,
+         "kind": "look"
+        },
+        {
+         "f": 5,
+         "i": 3,
+         "kind": "stretch"
+        },
+        {
+         "f": 5,
+         "i": 8,
+         "kind": "posture"
+        },
+        {
+         "f": 16,
+         "i": 1,
+         "kind": "posture"
+        },
+        {
+         "f": 22,
+         "i": 14,
+         "kind": "look"
+        },
+        {
+         "f": 33,
+         "i": 4,
+         "kind": "hair"
+        },
+        {
+         "f": 55,
+         "i": 2,
+         "kind": "look"
+        },
+        {
+         "f": 59,
+         "i": 3,
+         "kind": "up"
+        },
+        {
+         "f": 82,
+         "i": 13,
+         "kind": "hair"
+        },
+        {
+         "f": 95,
+         "i": 6,
+         "kind": "posture"
+        },
+        {
+         "f": 98,
+         "i": 7,
+         "kind": "hair"
+        },
+        {
+         "f": 99,
+         "i": 5,
+         "kind": "up"
+        },
+        {
+         "f": 102,
+         "i": 0,
+         "kind": "posture"
+        },
+        {
+         "f": 113,
+         "i": 9,
+         "kind": "up"
+        },
+        {
+         "f": 115,
+         "i": 12,
+         "kind": "up"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.088,
+       "diffs": [
+        0,
+        0.045,
+        0.051,
+        0.041,
+        0.052,
+        0.09,
+        0.114,
+        0.163,
+        0.198,
+        0.178,
+        0.135,
+        0.109,
+        0.087,
+        0.089,
+        0.098,
+        0.076,
+        0.074,
+        0.058,
+        0.06,
+        0.062,
+        0.055,
+        0.07,
+        0.077,
+        0.082,
+        0.078,
+        0.095,
+        0.093,
+        0.103,
+        0.077,
+        0.052,
+        0.063,
+        0.069,
+        0.101,
+        0.133,
+        0.137,
+        0.146,
+        0.178,
+        0.263,
+        0.298,
+        0.219,
+        0.16,
+        0.124,
+        0.127,
+        0.118,
+        0.089,
+        0.09,
+        0.105,
+        0.101,
+        0.08,
+        0.092,
+        0.086,
+        0.081,
+        0.079,
+        0.084,
+        0.062,
+        0.088,
+        0.066,
+        0.093,
+        0.061,
+        0.09,
+        0.103,
+        0.111,
+        0.117,
+        0.115,
+        0.122,
+        0.136,
+        0.144,
+        0.131,
+        0.111,
+        0.072,
+        0.056,
+        0.046,
+        0.072,
+        0.065,
+        0.071,
+        0.075,
+        0.07,
+        0.066,
+        0.041,
+        0.043,
+        0.051,
+        0.063,
+        0.06,
+        0.059,
+        0.063,
+        0.064,
+        0.071,
+        0.071,
+        0.066,
+        0.063,
+        0.06,
+        0.047,
+        0.049,
+        0.047,
+        0.053,
+        0.054,
+        0.047,
+        0.046,
+        0.06,
+        0.055,
+        0.064,
+        0.072,
+        0.093,
+        0.097,
+        0.105,
+        0.095,
+        0.094,
+        0.089,
+        0.082,
+        0.061,
+        0.073,
+        0.078,
+        0.071,
+        0.072,
+        0.072,
+        0.06,
+        0.076,
+        0.068,
+        0.075,
+        0.06
+       ],
+       "shots": [
+        {
+         "f": 7,
+         "d": 0.163,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0007_top.jpg",
+         "kb": 61.5
+        },
+        {
+         "f": 8,
+         "d": 0.198,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0008_top.jpg",
+         "kb": 61.6
+        },
+        {
+         "f": 9,
+         "d": 0.178,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0009_top.jpg",
+         "kb": 61.6
+        },
+        {
+         "f": 10,
+         "d": 0.135,
+         "top": false,
+         "why": [
+          "look0_0.5s",
+          "stretch1_0.5s",
+          "posture2_0.5s"
+         ],
+         "file": "amb/boya_rows_f0010_look0_0p5s_stretch1_0p5s_posture2_0p5s.jpg",
+         "kb": 61.6
+        },
+        {
+         "f": 20,
+         "d": 0.055,
+         "top": false,
+         "why": [
+          "look0_1.5s",
+          "stretch1_1.5s",
+          "posture2_1.5s"
+         ],
+         "file": "amb/boya_rows_f0020_look0_1p5s_stretch1_1p5s_posture2_1p5s.jpg",
+         "kb": 61.3
+        },
+        {
+         "f": 35,
+         "d": 0.146,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0035_top.jpg",
+         "kb": 61.5
+        },
+        {
+         "f": 36,
+         "d": 0.178,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0036_top.jpg",
+         "kb": 61.5
+        },
+        {
+         "f": 37,
+         "d": 0.263,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0037_top.jpg",
+         "kb": 61.6
+        },
+        {
+         "f": 38,
+         "d": 0.298,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0038_top.jpg",
+         "kb": 61.6
+        },
+        {
+         "f": 39,
+         "d": 0.219,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0039_top.jpg",
+         "kb": 61.7
+        },
+        {
+         "f": 40,
+         "d": 0.16,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0040_top.jpg",
+         "kb": 61.7
+        },
+        {
+         "f": 66,
+         "d": 0.144,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_rows_f0066_top.jpg",
+         "kb": 61.6
+        }
+       ],
+       "page_ms": 65787,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "boya_feet",
+       "secs": 12.0,
+       "n": 120,
+       "dt": 0.1,
+       "cam": [
+        [
+         -6.156,
+         1.656,
+         -1.221
+        ],
+        [
+         -11.756,
+         1.306,
+         -1.225
+        ]
+       ],
+       "sched": [],
+       "targets": [],
+       "fid": [],
+       "starts": [
+        {
+         "f": 35,
+         "i": 10,
+         "kind": "posture"
+        },
+        {
+         "f": 37,
+         "i": 3,
+         "kind": "side"
+        },
+        {
+         "f": 42,
+         "i": 8,
+         "kind": "posture"
+        },
+        {
+         "f": 46,
+         "i": 0,
+         "kind": "look"
+        },
+        {
+         "f": 89,
+         "i": 14,
+         "kind": "up"
+        },
+        {
+         "f": 100,
+         "i": 2,
+         "kind": "posture"
+        },
+        {
+         "f": 116,
+         "i": 6,
+         "kind": "up"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.076,
+       "diffs": [
+        0,
+        0.07,
+        0.07,
+        0.068,
+        0.065,
+        0.07,
+        0.074,
+        0.082,
+        0.074,
+        0.074,
+        0.069,
+        0.051,
+        0.051,
+        0.06,
+        0.09,
+        0.093,
+        0.101,
+        0.091,
+        0.088,
+        0.095,
+        0.09,
+        0.086,
+        0.091,
+        0.066,
+        0.049,
+        0.074,
+        0.073,
+        0.07,
+        0.072,
+        0.066,
+        0.063,
+        0.078,
+        0.081,
+        0.067,
+        0.075,
+        0.077,
+        0.075,
+        0.073,
+        0.089,
+        0.082,
+        0.061,
+        0.057,
+        0.069,
+        0.091,
+        0.093,
+        0.095,
+        0.09,
+        0.081,
+        0.081,
+        0.083,
+        0.103,
+        0.098,
+        0.087,
+        0.065,
+        0.083,
+        0.093,
+        0.085,
+        0.082,
+        0.068,
+        0.061,
+        0.067,
+        0.075,
+        0.07,
+        0.075,
+        0.081,
+        0.079,
+        0.085,
+        0.085,
+        0.079,
+        0.065,
+        0.054,
+        0.059,
+        0.072,
+        0.096,
+        0.082,
+        0.093,
+        0.085,
+        0.077,
+        0.08,
+        0.084,
+        0.088,
+        0.091,
+        0.051,
+        0.057,
+        0.068,
+        0.062,
+        0.064,
+        0.072,
+        0.069,
+        0.072,
+        0.082,
+        0.092,
+        0.099,
+        0.092,
+        0.08,
+        0.073,
+        0.067,
+        0.078,
+        0.073,
+        0.056,
+        0.058,
+        0.058,
+        0.098,
+        0.095,
+        0.097,
+        0.096,
+        0.088,
+        0.085,
+        0.088,
+        0.093,
+        0.09,
+        0.064,
+        0.044,
+        0.065,
+        0.063,
+        0.07,
+        0.09,
+        0.086,
+        0.09,
+        0.074
+       ],
+       "shots": [
+        {
+         "f": 16,
+         "d": 0.101,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_feet_f0016_top.jpg",
+         "kb": 47.6
+        },
+        {
+         "f": 50,
+         "d": 0.103,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_feet_f0050_top.jpg",
+         "kb": 47.7
+        },
+        {
+         "f": 51,
+         "d": 0.098,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_feet_f0051_top.jpg",
+         "kb": 47.6
+        },
+        {
+         "f": 92,
+         "d": 0.099,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_feet_f0092_top.jpg",
+         "kb": 47.7
+        },
+        {
+         "f": 102,
+         "d": 0.098,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_feet_f0102_top.jpg",
+         "kb": 47.6
+        }
+       ],
+       "page_ms": 81792,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null
+      },
+      {
+       "tag": "boya_sync",
+       "secs": 30.0,
+       "n": 300,
+       "dt": 0.1,
+       "cam": [
+        [
+         -9.182,
+         2.9,
+         4.66
+        ],
+        [
+         -11.1,
+         1.4,
+         1.15
+        ]
+       ],
+       "sched": [],
+       "targets": [],
+       "fid": [],
+       "starts": [
+        {
+         "f": 15,
+         "i": 5,
+         "kind": "side"
+        },
+        {
+         "f": 19,
+         "i": 13,
+         "kind": "look"
+        },
+        {
+         "f": 43,
+         "i": 12,
+         "kind": "hair"
+        },
+        {
+         "f": 61,
+         "i": 3,
+         "kind": "hair"
+        },
+        {
+         "f": 64,
+         "i": 8,
+         "kind": "posture"
+        },
+        {
+         "f": 79,
+         "i": 9,
+         "kind": "look"
+        },
+        {
+         "f": 86,
+         "i": 0,
+         "kind": "hair"
+        },
+        {
+         "f": 110,
+         "i": 10,
+         "kind": "posture"
+        },
+        {
+         "f": 113,
+         "i": 11,
+         "kind": "side"
+        },
+        {
+         "f": 121,
+         "i": 14,
+         "kind": "hair"
+        },
+        {
+         "f": 127,
+         "i": 15,
+         "kind": "posture"
+        },
+        {
+         "f": 164,
+         "i": 8,
+         "kind": "stretch"
+        },
+        {
+         "f": 167,
+         "i": 5,
+         "kind": "hair"
+        },
+        {
+         "f": 199,
+         "i": 2,
+         "kind": "stretch"
+        },
+        {
+         "f": 216,
+         "i": 1,
+         "kind": "hair"
+        },
+        {
+         "f": 220,
+         "i": 6,
+         "kind": "posture"
+        },
+        {
+         "f": 226,
+         "i": 13,
+         "kind": "hair"
+        },
+        {
+         "f": 248,
+         "i": 4,
+         "kind": "side"
+        },
+        {
+         "f": 267,
+         "i": 3,
+         "kind": "hair"
+        },
+        {
+         "f": 267,
+         "i": 15,
+         "kind": "hair"
+        },
+        {
+         "f": 268,
+         "i": 7,
+         "kind": "side"
+        },
+        {
+         "f": 278,
+         "i": 10,
+         "kind": "posture"
+        },
+        {
+         "f": 291,
+         "i": 11,
+         "kind": "posture"
+        }
+       ],
+       "roles": [],
+       "diff_mean": 0.131,
+       "diffs": [
+        0,
+        0.238,
+        0.211,
+        0.191,
+        0.188,
+        0.177,
+        0.209,
+        0.213,
+        0.174,
+        0.182,
+        0.153,
+        0.17,
+        0.151,
+        0.122,
+        0.074,
+        0.107,
+        0.084,
+        0.117,
+        0.112,
+        0.172,
+        0.131,
+        0.152,
+        0.193,
+        0.189,
+        0.176,
+        0.165,
+        0.176,
+        0.21,
+        0.217,
+        0.22,
+        0.16,
+        0.13,
+        0.101,
+        0.101,
+        0.1,
+        0.107,
+        0.111,
+        0.097,
+        0.121,
+        0.104,
+        0.11,
+        0.112,
+        0.098,
+        0.105,
+        0.092,
+        0.09,
+        0.084,
+        0.093,
+        0.095,
+        0.102,
+        0.106,
+        0.103,
+        0.095,
+        0.096,
+        0.092,
+        0.085,
+        0.092,
+        0.092,
+        0.113,
+        0.106,
+        0.116,
+        0.112,
+        0.118,
+        0.145,
+        0.175,
+        0.2,
+        0.21,
+        0.161,
+        0.128,
+        0.142,
+        0.122,
+        0.112,
+        0.105,
+        0.09,
+        0.092,
+        0.095,
+        0.095,
+        0.089,
+        0.101,
+        0.091,
+        0.102,
+        0.1,
+        0.13,
+        0.109,
+        0.128,
+        0.113,
+        0.115,
+        0.095,
+        0.099,
+        0.161,
+        0.168,
+        0.18,
+        0.16,
+        0.146,
+        0.159,
+        0.152,
+        0.162,
+        0.158,
+        0.159,
+        0.13,
+        0.11,
+        0.087,
+        0.09,
+        0.093,
+        0.109,
+        0.097,
+        0.098,
+        0.089,
+        0.097,
+        0.095,
+        0.155,
+        0.159,
+        0.162,
+        0.171,
+        0.178,
+        0.143,
+        0.109,
+        0.087,
+        0.081,
+        0.077,
+        0.095,
+        0.112,
+        0.157,
+        0.171,
+        0.226,
+        0.263,
+        0.267,
+        0.204,
+        0.209,
+        0.206,
+        0.181,
+        0.166,
+        0.126,
+        0.17,
+        0.171,
+        0.185,
+        0.147,
+        0.188,
+        0.137,
+        0.188,
+        0.109,
+        0.176,
+        0.102,
+        0.201,
+        0.124,
+        0.171,
+        0.22,
+        0.227,
+        0.202,
+        0.212,
+        0.222,
+        0.247,
+        0.201,
+        0.172,
+        0.158,
+        0.126,
+        0.14,
+        0.124,
+        0.121,
+        0.134,
+        0.123,
+        0.106,
+        0.09,
+        0.081,
+        0.083,
+        0.083,
+        0.084,
+        0.091,
+        0.093,
+        0.105,
+        0.112,
+        0.122,
+        0.124,
+        0.119,
+        0.136,
+        0.139,
+        0.133,
+        0.129,
+        0.105,
+        0.094,
+        0.104,
+        0.087,
+        0.105,
+        0.104,
+        0.119,
+        0.119,
+        0.126,
+        0.119,
+        0.121,
+        0.114,
+        0.119,
+        0.09,
+        0.076,
+        0.104,
+        0.107,
+        0.103,
+        0.108,
+        0.117,
+        0.123,
+        0.121,
+        0.118,
+        0.114,
+        0.097,
+        0.083,
+        0.078,
+        0.1,
+        0.095,
+        0.117,
+        0.114,
+        0.104,
+        0.093,
+        0.085,
+        0.079,
+        0.099,
+        0.093,
+        0.102,
+        0.107,
+        0.105,
+        0.116,
+        0.105,
+        0.105,
+        0.119,
+        0.101,
+        0.088,
+        0.088,
+        0.088,
+        0.09,
+        0.084,
+        0.082,
+        0.089,
+        0.106,
+        0.109,
+        0.101,
+        0.107,
+        0.114,
+        0.106,
+        0.111,
+        0.108,
+        0.116,
+        0.114,
+        0.107,
+        0.078,
+        0.084,
+        0.081,
+        0.102,
+        0.11,
+        0.115,
+        0.119,
+        0.125,
+        0.15,
+        0.175,
+        0.195,
+        0.191,
+        0.18,
+        0.154,
+        0.114,
+        0.125,
+        0.099,
+        0.09,
+        0.083,
+        0.08,
+        0.084,
+        0.084,
+        0.086,
+        0.087,
+        0.085,
+        0.094,
+        0.098,
+        0.104,
+        0.147,
+        0.223,
+        0.3,
+        0.341,
+        0.283,
+        0.252,
+        0.237,
+        0.199,
+        0.166,
+        0.14,
+        0.115,
+        0.111,
+        0.118,
+        0.111,
+        0.136,
+        0.156,
+        0.126,
+        0.158,
+        0.171,
+        0.2,
+        0.192,
+        0.193,
+        0.182,
+        0.187,
+        0.168,
+        0.103,
+        0.099,
+        0.108,
+        0.13,
+        0.136,
+        0.13
+       ],
+       "shots": [
+        {
+         "f": 125,
+         "d": 0.263,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_sync_f0125_top.jpg",
+         "kb": 60.5
+        },
+        {
+         "f": 126,
+         "d": 0.267,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_sync_f0126_top.jpg",
+         "kb": 60.5
+        },
+        {
+         "f": 271,
+         "d": 0.3,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_sync_f0271_top.jpg",
+         "kb": 60.5
+        },
+        {
+         "f": 272,
+         "d": 0.341,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_sync_f0272_top.jpg",
+         "kb": 60.5
+        },
+        {
+         "f": 273,
+         "d": 0.283,
+         "top": true,
+         "why": [],
+         "file": "amb/boya_sync_f0273_top.jpg",
+         "kb": 60.4
+        }
+       ],
+       "page_ms": 190939,
+       "canvas": [
+        844,
+        390
+       ],
+       "err": null,
+       "sync": [
+        {
+         "n": 4,
+         "who": [
+          0,
+          3,
+          8,
+          14
+         ],
+         "seat0": [
+          -12.85,
+          1.15,
+          0
+         ],
+         "starts": 6,
+         "events": [
+          [
+           6.1,
+           3,
+           "hair"
+          ],
+          [
+           6.4,
+           8,
+           "posture"
+          ],
+          [
+           8.6,
+           0,
+           "hair"
+          ],
+          [
+           12.1,
+           14,
+           "hair"
+          ],
+          [
+           16.4,
+           8,
+           "stretch"
+          ],
+          [
+           26.7,
+           3,
+           "hair"
+          ]
+         ],
+         "tol0.5": {
+          "same_kind": 0,
+          "any_kind": 2,
+          "ratio_same": 0.0,
+          "windows": [
+           {
+            "t": [
+             0.0,
+             10.0
+            ],
+            "starts": 3,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             10.0,
+             20.0
+            ],
+            "starts": 2,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             20.0,
+             30.0
+            ],
+            "starts": 1,
+            "same": 0,
+            "ratio": 0.0
+           }
+          ]
+         },
+         "tol1.0": {
+          "same_kind": 0,
+          "any_kind": 2,
+          "ratio_same": 0.0,
+          "windows": [
+           {
+            "t": [
+             0.0,
+             10.0
+            ],
+            "starts": 3,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             10.0,
+             20.0
+            ],
+            "starts": 2,
+            "same": 0,
+            "ratio": 0.0
+           },
+           {
+            "t": [
+             20.0,
+             30.0
+            ],
+            "starts": 1,
+            "same": 0,
+            "ratio": 0.0
+           }
+          ]
+         },
+         "base_phase": [
+          0.487,
+          0.253,
+          0.734,
+          0.073
+         ],
+         "phase_R": 0.143
+        }
+       ]
+      }
+     ],
+     "natural_rows": [
+      [
+       4,
+       -12.85,
+       1.15,
+       0
+      ],
+      [
+       4,
+       -13.55,
+       -2.85,
+       0
+      ],
+      [
+       3,
+       -10.05,
+       3.15,
+       0
+      ],
+      [
+       3,
+       -14.95,
+       -6.85,
+       0
+      ],
+      [
+       2,
+       -7.95,
+       -0.85,
+       0
+      ]
+     ]
+    }
+   ],
+   "js_errors": [],
+   "secs": 1149.6,
+   "coverage": {
+    "look": [
+     "classroom_rows",
+     "boya_rows"
+    ],
+    "stretch": [
+     "classroom_rows",
+     "boya_rows"
+    ],
+    "posture": [
+     "classroom_rows",
+     "boya_rows"
+    ]
+   }
+  }
+ ],
+ "secs": 1184.7
+}
