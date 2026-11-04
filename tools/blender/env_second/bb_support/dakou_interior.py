@@ -1,7 +1,7 @@
 """大口漢堡（新生南路、側門對面路口的 24 小時速食店，AA_621）兩層室內 → 一層一個 GLB。BB（帳號 A）2026-11-03 協助 LAWWW2。
   /opt/blenv/bin/python tools/blender/env_second/bb_support/dakou_interior.py -- --floor 1   （一樓 → dakou_1f.glb）
   /opt/blenv/bin/python tools/blender/env_second/bb_support/dakou_interior.py -- --floor 2   （二樓 → dakou_2f.glb）
-  加 --preview --out <路徑>：窗外多放一張夜景卡片（只給 Blender 渲染看，正式 GLB 不放；遊戲窗外是 LAWWW2 的新生南路）。
+  v2：窗外夜景卡片（NIGHT_FRONT、NIGHT_WEST，發光）正式 GLB 也有；--preview 已經不用（留著不影響）。
 參考圖（使用者 11-03）：docs/story_planning/ref_images/shops/dakou_2f.webp（二樓學生自習區）、dakou_ext.webp（外觀，一樓看得到櫃檯）。
 照做的重點：淺灰大磁磚地板；輕鋼架天花板＋方形燈板＋崁燈；轉角兩面落地玻璃（黑色窗框）；二樓：中間淺色木紋長桌（黑鐵腳）、
   橘棕色木椅和深藍色布面椅交錯、靠牆一排插座吧台（牆上一格一格的插座、暖光燈條）、東牆上方深藍色「大口漢堡 24h」大牆面、
