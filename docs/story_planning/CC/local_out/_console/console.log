@@ -611,3 +611,30 @@
 [17:40:33] [res] cpu=24% mem=53% (16.8/31.4 GB) chrome_testing=20  START ADE_touchwz
 [17:41:03] 正在跑：SUNNY_seatfix_sit（已跑 40 分／上限 40 分）、WZ4_komichi（已跑 25 分／上限 50 分）、ADE_touchwz（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [17:41:17] [res] cpu=44% mem=54% (17.1/31.4 GB) chrome_testing=18  END SUNNY_seatfix_sit
+    remote: Internal Server Error        
+    remote: Request ID CE3D:36E98B:7300DC:A69F4C:6AEAFDC2        
+    remote: Time 2026-11-04T09:41:24Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    remote: Internal Server Error        
+    remote: Request ID C3EA:0C17:1DEBA2:2A9B5F:6AEAFDC9        
+    remote: Time 2026-11-04T09:41:32Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       5d1ab594c..ad000dcf2  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:42:08] ==== END   SUNNY_seatfix_sit  exit=1  2436s  timeout 40 min ====
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:42:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:42:10] memory 54% before starting ADE_reach (2 running)
+[17:42:10] ==== START ADE_reach  (game @ 0c2d4997b) ====
+[17:42:14] [res] cpu=51% mem=54% (17.1/31.4 GB) chrome_testing=19  START ADE_reach
+[17:43:15] [res] cpu=66% mem=48% (15.2/31.4 GB) chrome_testing=10  END ADE_touchwz

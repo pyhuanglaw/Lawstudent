@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ADE_touchwz",
+  "sha": "0c2d4997b",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T17:40:30",
+  "end": "2026-11-04T17:43:15",
+  "seconds": 165,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 59,
+    "used_gb": 18.5,
+    "chrome_testing": 28
+  }
+}
