@@ -768,6 +768,18 @@ const GAME = (function(){
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;
   GM.phoneIsOpen=()=>!!phoneOpen;
+  /* 測試用的唯讀狀態快照（TEST-TRACE-1104，USER_WANTS X211；CC 的失敗追蹤在失敗時存一份）：只讀、不改任何狀態、拿不到的欄位給 null，自己出錯也不丟例外 */
+  GM.stateSnapshot=function(){ const S={v:1}; const tr=(k,f)=>{ try{ S[k]=f(); }catch(e){ S[k]=null; } };
+    tr('zone',()=>G.zone); tr('day',()=>G.day); tr('hour',()=>+(+G.hour).toFixed(3)); tr('dateKey',()=>typeof STORY!=='undefined'&&STORY.dateKey?STORY.dateKey(G):null);
+    tr('pos',()=>{ const P=E.player, o=P&&P.obj&&P.obj.position; return o?{x:+o.x.toFixed(2),z:+o.z.toFixed(2),y:+(o.y||0).toFixed(2),lv:P.lv|0,yaw:+(P.obj.rotation.y||0).toFixed(3)}:null; });
+    tr('player',()=>{ const P=E.player; return P?{busy:!!P.busy,frozen:!!P.frozen,pose:P.pose||null,riding:!!P.riding,seat:P.seat?{x:P.seat.x,z:P.seat.z,lv:P.seat.lv|0}:null,path:!!(P.path&&P.path.length)}:null; });
+    tr('paused',()=>!!E.paused); tr('busyDepth',()=>D.busyDepth); tr('dlg',()=>!!D.active); tr('adv',()=>typeof ADV!=='undefined'?!!ADV.active:null);
+    tr('events',()=>typeof EVENTS!=='undefined'?!!EVENTS.running:null); tr('phone',()=>!!phoneOpen); tr('entering',()=>!!entering);
+    tr('lastTalkError',()=>GM.lastTalkError?Object.assign({},GM.lastTalkError):null); tr('goal',()=>G.goal||null); tr('money',()=>G.money);
+    tr('flags',()=>JSON.parse(JSON.stringify(G.flags||{})));
+    tr('invites',()=>(G.invites||[]).filter(iv=>iv.day===G.day).map(iv=>({who:iv.who,place:iv.place,h:iv.h,state:iv.state,lead:!!iv.lead})));
+    tr('npcs',()=>(E.npcs||[]).filter(n=>n.charId).map(n=>{ const o=n.obj&&n.obj.position; return {id:n.charId,x:o?+o.x.toFixed(2):null,z:o?+o.z.toFixed(2):null,lv:n.lv|0,beh:n.beh||null,frozen:!!n.frozen,talking:!!n._talking}; }));
+    return S; };
   /* 快速存檔、匯出（使用者 2026-10-27「可以有快速存檔按鍵嗎」「快速匯出」，QUICK-SAVE-EXPORT-1027）：右上 💾 一按打開兩個按鈕。
      存檔＝自己的「快速存檔」一格（fatiao3d_quick；使用者 2026-10-30 選「獨立快速存檔格」，QUICK-SLOT-1030：原本存在自動存檔那一格，下一次自動存檔就蓋掉）；
      存之前把上一份快速存檔備份到 fatiao3d_backup（同 saveSlot）；選單存檔頁在「自動存檔」下面一格讀得到。劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
