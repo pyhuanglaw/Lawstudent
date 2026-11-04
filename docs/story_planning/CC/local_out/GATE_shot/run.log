@@ -1,0 +1,45 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gate_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GATE_shot\out
+CC GATE 公館校門斑馬線＋遠景；SHA=9ac863212；CASES=shot；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  23.0 秒
+  [前置／捷徑] 讀檔到 gongguan (0, 8) day 15:00，條件事件關閉
+INFO day east：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO day east：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO day east：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, -36) day 15:00，條件事件關閉
+INFO day west：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO day west：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO day west：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 campus (-119, 0) day 15:00，條件事件關閉
+INFO day out：校園遠景的斑馬線  沒有（這一版還沒有）
+INFO day out：霧／視距  {"fog": {"near": 100, "far": 260}, "fogFar": 260, "zone_viewFar": 260, "zone_fogNear": 100, "camera_far": 300, "quality": "medium", "weather": "clear"}
+INFO day out：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, 8) day 15:00，條件事件關閉
+INFO day far_px：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO day far_px：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO day far_px：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, 8) day 15:00，條件事件關閉
+INFO day far_nx：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO day far_nx：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO day far_nx：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, 8) night 20:00，條件事件關閉
+INFO night east：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO night east：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO night east：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, -36) night 20:00，條件事件關閉
+INFO night west：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO night west：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO night west：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 campus (-119, 0) night 20:00，條件事件關閉
+INFO night out：校園遠景的斑馬線  沒有（這一版還沒有）
+INFO night out：霧／視距  {"fog": {"near": 100, "far": 260}, "fogFar": 260, "zone_viewFar": 260, "zone_fogNear": 100, "camera_far": 300, "quality": "medium", "weather": "clear"}
+INFO night out：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, 8) night 20:00，條件事件關閉
+INFO night far_px：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO night far_px：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO night far_px：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 gongguan (0, 8) night 20:00，條件事件關閉
+INFO night far_nx：斑馬線  [{"min": [-6, 0.03, -30.6], "max": [6, 0.03, 3.6], "visible": true}]；在 x −6～6：True
+INFO night far_nx：霧／視距  {"fog": {"near": 90, "far": 240}, "fogFar": 240, "zone_viewFar": 240, "zone_fogNear": 90, "camera_far": 280, "quality": "medium", "weather": "clear"}
+INFO night far_nx：遠景亮度  {"err": "No module named 'PIL'"}
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,309 @@
+{
+ "sha": "9ac863212",
+ "cases": [
+  "shot"
+ ],
+ "boot_s": 23.0,
+ "shot": {
+  "east_day": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "west_day": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "out_day": {
+   "zone": "campus",
+   "zebra": [],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  },
+  "far_px_day": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "far_nx_day": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "east_night": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "west_night": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "out_night": {
+   "zone": "campus",
+   "zebra": [],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  },
+  "far_px_night": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  },
+  "far_nx_night": {
+   "zone": "gongguan",
+   "zebra": [
+    {
+     "min": [
+      -6,
+      0.03,
+      -30.6
+     ],
+     "max": [
+      6,
+      0.03,
+      3.6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 90,
+    "far": 240
+   },
+   "fogFar": 240,
+   "zone_viewFar": 240,
+   "zone_fogNear": 90,
+   "camera_far": 280,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": true
+  }
+ }
+}

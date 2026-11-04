@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GATE_shot",
+  "sha": "9ac863212",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gate_probe.py",
+  "env": "CASES=shot;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:49:30",
+  "end": "2026-11-04T12:52:11",
+  "seconds": 161,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 93,
+    "mem": 60,
+    "used_gb": 19.1,
+    "chrome_testing": 18
+  }
+}
