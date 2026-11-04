@@ -196,7 +196,7 @@ Trace 由 Playwright 與 Python 收集，雲端 CC 只負責分析結果。
 | 項 | 判定 | 證據 |
 |---|---|---|
 | V1 | PASS | TT_V12_moku（node，PASS）目錄只有 err.log、meta.json、run.log；TT_V12_noodle（PASS）只有探針自己的截圖，沒有 trace.zip、沒有錄影 |
-| V2 | **PARTIAL** | 首次 FAIL→自動重跑 1 次、conditions.same＝true（同 SHA d2e36f6eb、同 script_blob、同 input_hash）、仍 FAIL、attempt2 有 trace＋state＋env ✔；**分類 UNKNOWN／assert ✗**（規格要「GAME_BUG 或 TEST_BUG（依注入點）」）。不放寬標準 → CC 補兩種注入（斷言比對遊戲狀態讀出的值＝GAME_BUG 候選、斷言比對探針自己的常數＝TEST_BUG），讓分類照注入點出來 |
+| V2 | **PASS（14:2x）** | 首次 FAIL→自動重跑 1 次、conditions.same＝true、仍 FAIL、attempt2 有 trace＋state＋env ✔；**分類照斷言來源**（CC-C runner c4987df1b，雲端 --no-push 端到端）：TT_V2a_game→`GAME_BUG／assert-game`（basis 印出遊戲回報 GAME.G.money＝22000、預期 145457），TT_V2b_probe→`TEST_BUG／assert-probe`（basis 印出探針常數）；分類器單元：沒標或混合→UNKNOWN。PC 換新版 runner 以後再跑一次 TT_V2a／V2b 當確認（不改判定） |
 | V3 | PASS | final＝FLAKY（不是 PASS）、class FLAKY「首次失敗、重跑通過」、attempt1 的 log＋截圖保留 |
 | V4 | PASS | TEST_BUG；basis 指出 `Page.wait_for_selector` 逾時、selector `#no-such-button`、st_selector.py 第 13 行、trace DOM 裡沒有這個 selector |
 | V5 | PASS | GAME_BUG；pageerror TypeError「GAME.ccSelftestMissingFn is not a function」＋stack、jserror_before／after.png（兩次）、state 快照 |
@@ -209,5 +209,5 @@ Trace 由 Playwright 與 Python 收集，雲端 CC 只負責分析結果。
 | V12 | PASS | 佇列、GPU、並行（V8）、worktree、timeout（V7）、run_forever 自動接續都照常（這一輪 PC 一路跑下來）；TT_V12_moku、TT_V12_noodle 都 PASS（noodle 的舊結果 NOODLE_exit 是 FAILED，不是這次改壞的） |
 | V13 | PASS | CC_48 第 7 節：單一 trace 20 MB、每項 25 MB、PASS 不留、推送前清理路徑／使用者名稱／Cookie／Token（這一輪 12 份 report 的 sanitize.left_hits 都空）、sanitize_unit 77 項；清理政策（14 天或判定後 git rm）有寫、還沒自動化——不擋 |
 | V14 | PASS | 雲端數字在 CC_48 第 5 節；PC GPU 實測：失敗重跑多 10～17 秒（V2 16→27 秒、V5 15→26 秒、V8 17→33～34 秒）、trace 瘦身後 1.3～5.3 MB、整項目錄約 1.7～2.1 MB |
-| V15 | PASS | TT_V15b：A、B PASS、C FAIL、6 段 trace、FAIL 段有推；前一段推送順序已改（BB 定：FAIL 段→前一段第二個 commit→後一段塞得下才推） |
-- **整體**：14 項裡 13 項 PASS、V2 PARTIAL → 還不能回報使用者「完成」。CC 補 V2 的兩種注入＋分類以後，PC 再跑 TT_V2_assert 兩支就結案。
+| V15 | PASS | TT_V15b：A、B PASS、C FAIL、6 段 trace、FAIL 段有推；前一段推送順序已改（BB 定：FAIL 段→前一段第二個 commit→後一段塞得下才推）；**14:2x 端到端**（c4987df1b）：上限 6 MB 時第一個 commit＝FAIL 段 c019＋截圖＋report、第二個 commit「result part 2」＝前一段 c018、c017 放不下沒推（notes 有記）；上限 3 MB 時 FAIL 段 3.3 MB 自己就超過 → trace 不推，report.json／report.md／run.log／state／notes 照推，traces 每段標 role／push／skipped_size／why ✔ |
+- **整體（2026-11-04 14:2x BB-C）：V1～V15 全部 PASS → TEST-TRACE-1104 BB 驗收完成**，可以回報使用者。正式上限照舊每項 25 MB（CC_ITEM_CAP_MB 只給驗證用）。之前寫的「V2 PARTIAL、還不能回報」已由 V2 補做取代。
