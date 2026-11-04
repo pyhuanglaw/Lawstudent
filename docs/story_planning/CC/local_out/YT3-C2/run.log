@@ -1,0 +1,94 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3-C2\out
+cc_yutong_v3_probe  SHA=d2b962a3f  URL=http://127.0.0.1:8811/index.html  CASES=ev9,ev14,home,home_rent
+PASS 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  1576 字
+PASS 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  4925 字
+PASS 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  7950 字
+PASS 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  2296 字
+PASS 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  2881 字
+
+==== ev9：9 陪秀琴姨去法服（在場，萬才館大廳圓桌） ====
+PASS [ev9] 遊戲載入
+  [前置／捷徑] [ev9] 最小存檔讀檔：2027-05-22（星期六，Y2S2 第 13 週）9.08 wancai；遊戲 API 設前置：{"stage": "FAMILIAR", "rel": {"fam": 35, "trust": 20, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev9] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [  43.8s] 互動點：{"x": -1.6, "z": 3.4, "r": 1.3, "label": "坐到圓桌（做初談紀錄）", "lv": 0, "y": null}
+  [  43.8s] 「坐到圓桌」途中停下（離目標 3.05 m）：條件成立
+  [  43.9s] 選項 ["出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘", "晚一點（20 分鐘後再提醒）", "這週請假"] → 點「出發：法服值班（法律系館B一樓 9:00）09:00　走過去約 10 分鐘」
+  [  45.6s] 出遊到了，再做一次觸發（it:坐到圓桌）
+  [  45.6s] 互動點：{"x": -1.6, "z": 3.4, "r": 1.3, "label": "坐到圓桌（做初談紀錄）", "lv": 0, "y": null}
+  [  51.5s] 到達「坐到圓桌」附近（0.43 m）：點地面 1 次、轉鏡頭 1 次、搖桿 1 次，6 秒
+  [  51.6s] 點「坐到圓桌（做初談紀錄）」
+  [  97.9s] 選項 ["「整齊的部分，我可以再講給妳聽。」", "「秀琴姨會沒事的。」", "「妳要不要先陪她回去？」"] → 點「「整齊的部分，我可以再講給妳聽。」」
+  [ev9] 事件：[]
+  [ev9] 台詞：[["旁白", "（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）"], ["語彤", "（看到你，停了一下）……嗯。我陪秀琴姨來的。"], ["柏翰", "你們認識？"], ["祐廷", "我們在同一家茶屋打工。"], ["柏翰", "好。那紀錄你照做，意見我來講。"], ["柏翰", "阿姨，先跟您說，我們都是學生。今天講的，之後會請指導律師再看一次。"], ["秀琴姨", "學生好啊。學生比較有耐心。"], ["旁白", "（秀琴姨把租約攤在桌上。語彤把它轉過來，對著柏翰。）"], ["柏翰", "（翻到最後一頁）書面的，還有……快兩年。您一直住在那裡，對吧？"], ["秀琴姨", "十五年了。"], ["柏翰", "那這樣。房子賣了，租約跟著房子走。新屋主要接著當房東，到期以前，他不能叫您搬。"], ["秀琴姨", "新屋主說他要重新裝潢，租給學生。"], ["柏翰", "那是到期以後的事。到期以前，他要等。這快兩年，可以拿來準備怎麼跟他談續約。"], ["秀琴姨", "談？跟屋主談？我只會煮飯耶。"], ["語彤", "秀琴姨，所以才要準備。"], ["旁白", "（秀琴姨看了她一眼，笑出來。）"], ["秀琴姨", "好啦，聽妳們的。"], ["語彤", "剛剛他講的那個，我這學期也在上。"], ["語彤", "在課本上看的時候，覺得好整齊。坐在秀琴姨旁邊聽，就不整齊了。"], ["語彤", "今天先不要。今天我只想陪她。"]]
+  [ev9] 立繪框：{"ev9_語彤_land": [{"id": "advL", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8811/assets/portraits/classmate_bohan/campus/serious.webp"}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}], "ev9_語彤_port": [{"id": "advL", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8811/assets/portraits/classmate_bohan/campus/serious.webp"}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}], "ev9_秀琴姨_land": [{"id": "advL", "show": true, "dim": true, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/classmate_bohan/campus/serious.webp"}, {"id": "advR", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}], "ev9_秀琴姨_port": [{"id": "advL", "show": true, "dim": true, "off": false, "img": "http://127.0.0.1:8811/assets/portraits/classmate_bohan/campus/serious.webp"}, {"id": "advR", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8811/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [ev9] 演完（!!(((GAME.G.events||{}).done||{}).ev_yt_aunt_consult)）
+PASS [ev9] 稿逐句「旁白：（法律系館B的諮詢室。門開了，進來的是秀琴姨，後面跟著語彤。）」（AA_625_語彤新版事件台詞.md:138）
+PASS [ev9] 稿逐句「語彤：（看到你，停了一下）……嗯。我陪秀琴姨來的。」（AA_625_語彤新版事件台詞.md:139）
+PASS [ev9] 稿逐句「柏翰：你們認識？」（AA_625_語彤新版事件台詞.md:140）
+PASS [ev9] 稿逐句「祐廷：我們在同一家茶屋打工。」（AA_625_語彤新版事件台詞.md:141）
+PASS [ev9] 稿逐句「柏翰：好。那紀錄你照做，意見我來講。」（AA_625_語彤新版事件台詞.md:142）
+PASS [ev9] 稿逐句「柏翰：阿姨，先跟您說，我們都是學生。今天講的，之後會請指導律師再看一次。」（AA_625_語彤新版事件台詞.md:143）
+PASS [ev9] 稿逐句「秀琴姨：學生好啊。學生比較有耐心。」（AA_625_語彤新版事件台詞.md:144）
+PASS [ev9] 稿逐句「旁白：（秀琴姨把租約攤在桌上。語彤把它轉過來，對著柏翰。）」（AA_625_語彤新版事件台詞.md:145）
+PASS [ev9] 稿逐句「柏翰：（翻到最後一頁）書面的，還有……快兩年。您一直住在那裡，對吧？」（AA_625_語彤新版事件台詞.md:146）
+PASS [ev9] 稿逐句「秀琴姨：十五年了。」（AA_625_語彤新版事件台詞.md:147）
+PASS [ev9] 稿逐句「柏翰：那這樣。房子賣了，租約跟著房子走。新屋主要接著當房東，到期以前，他不能叫您搬。」（AA_625_語彤新版事件台詞.md:148）
+PASS [ev9] 稿逐句「秀琴姨：新屋主說他要重新裝潢，租給學生。」（AA_625_語彤新版事件台詞.md:149）
+PASS [ev9] 稿逐句「柏翰：那是到期以後的事。到期以前，他要等。這快兩年，可以拿來準備怎麼跟他談續約。」（AA_625_語彤新版事件台詞.md:150）
+PASS [ev9] 稿逐句「秀琴姨：談？跟屋主談？我只會煮飯耶。」（AA_625_語彤新版事件台詞.md:151）
+PASS [ev9] 稿逐句「語彤：秀琴姨，所以才要準備。」（AA_625_語彤新版事件台詞.md:152）
+PASS [ev9] 稿逐句「旁白：（秀琴姨看了她一眼，笑出來。）」（AA_625_語彤新版事件台詞.md:153）
+PASS [ev9] 稿逐句「秀琴姨：好啦，聽妳們的。」（AA_625_語彤新版事件台詞.md:154）
+PASS [ev9] 稿逐句「語彤：剛剛他講的那個，我這學期也在上。」（AA_625_語彤新版事件台詞.md:156）
+PASS [ev9] 稿逐句「語彤：在課本上看的時候，覺得好整齊。坐在秀琴姨旁邊聽，就不整齊了。」（AA_625_語彤新版事件台詞.md:157）
+PASS [ev9] 稿逐句「語彤：今天先不要。今天我只想陪她。」（AA_625_語彤新版事件台詞.md:159）
+PASS [ev9] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev9] 沒有 JS 例外  []
+
+==== ev14：14 續約（法服做紀錄：柏翰私訊→14:30 法律系館B研討室） ====
+PASS [ev14] 遊戲載入
+  [前置／捷徑] [ev14] 最小存檔讀檔：2027-11-24（星期三，Y3S1 第 12 週）13.67 dorm；遊戲 API 設前置：{"stage": "FRIEND", "rel": {"fam": 40, "trust": 25, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": [true]}
+  [前置／捷徑] [ev14] GAME.snapshot() 再讀一次（條件事件照開、手機自動打開照開）
+  [ 441.9s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "走出房間", "h": 15.687, "key": "2027-11-24", "zone": "dorm", "x": 0, "z": 2.4, "evr": false}
+  [ 742.8s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "走出房間", "h": 17.693, "key": "2027-11-24", "zone": "dorm", "x": 0, "z": 2.4, "evr": false}
+  [ev14] 事件：[]
+  [ev14] 台詞：[]
+  [ev14] 立繪框：{}
+FAIL [ev14] 演完（!!(((GAME.G.events||{}).done||{}).ev_yt_lease_renew)）
+FAIL [ev14] 稿逐句「指導律師：租約到明年三月。屋主想重新裝潢，我們理解。秀琴姨在這裡住了十六年，從來沒有晚繳過」（AA_625_語彤新版事件台詞.md:198）  null
+FAIL [ev14] 稿逐句「新屋主：……我只是想租給學生，比較好收。」（AA_625_語彤新版事件台詞.md:199）  null
+FAIL [ev14] 稿逐句「指導律師：秀琴姨願意配合調一點租金，換五年的租約。您不用重新找人、不用空租期。」（AA_625_語彤新版事件台詞.md:200）  null
+FAIL [ev14] 稿逐句「旁白：（新屋主看了一下語彤準備的資料：十六年的繳費紀錄，一張一張夾好。）」（AA_625_語彤新版事件台詞.md:201）  null
+FAIL [ev14] 稿逐句「新屋主：……五年。租金照這個數字。」（AA_625_語彤新版事件台詞.md:202）  null
+FAIL [ev14] 稿逐句「秀琴姨：好。好。」（AA_625_語彤新版事件台詞.md:203）  null
+FAIL [ev14] 稿逐句「旁白：（散會。秀琴姨抓著語彤的手，一直沒放。）」（AA_625_語彤新版事件台詞.md:204）  null
+PASS [ev14] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev14] 沒有 JS 例外  []
+
+==== home：第一次去她家（交往以後的平日傍晚私訊→18:30） ====
+PASS [home] 遊戲載入
+  [前置／捷徑] [home] 最小存檔讀檔：2026-09-22（星期二，Y2S1 第 3 週）16.83 dorm；遊戲 API 設前置：{"stage": "RELATIONSHIP", "rel": {"fam": 60, "trust": 45, "aff": 0, "resp": 0, "comf": 40, "rom": 60, "npcRom": 50, "seen": 0, "talked": 1}, "knows": true, "dating": true, "jobs": null, "groups": []}
+  [前置／捷徑] [home] GAME.snapshot() 再讀一次（條件事件照開、手機自動打開照開）
+  [1394.8s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "走出房間", "h": 19.013, "key": "2026-09-22", "zone": "dorm", "x": 0, "z": 2.4, "evr": false}
+  [1695.5s] 300 秒沒有變化：{"dlg": false, "name": "", "txt": "", "ch": [], "busy": false, "depth": 0, "phone": false, "asks": [], "act": "走出房間", "h": 21.018, "key": "2026-09-22", "zone": "dorm", "x": 0, "z": 2.4, "evr": false}
+  [home] 事件：[]
+  [home] 台詞：[]
+  [home] 她的訊息：[["2026-09-22", 16.5, "heroine_03", "今天茶屋到五點。"], ["2026-09-22", 17, "heroine_03", "……今天秀琴姨煮很多。你要不要來吃。"]]
+  [home] 立繪框：{}
+FAIL [home] 演完（!!GAME.G.flags.YT_HOME_SEEN）
+FAIL [home] 稿逐句「旁白：（新生南路、學校對面的大樓。電梯到七樓。）」（AA_625_語彤新版事件台詞.md:186）  null
+FAIL [home] 稿逐句「旁白：（兩房一廳。客廳很大，只有一張長桌、一張沙發。另一間房間的門開著，裡面堆滿書和紙」（AA_625_語彤新版事件台詞.md:187）  null
+FAIL [home] 稿逐句「秀琴姨：你就是祐廷喔？坐、坐。」（AA_625_語彤新版事件台詞.md:188）  null
+FAIL [home] 稿逐句「語彤：……嗯。這是秀琴姨。」（AA_625_語彤新版事件台詞.md:189）  null
+FAIL [home] 稿逐句「秀琴姨：她都不帶人回來。你是第一個。」（AA_625_語彤新版事件台詞.md:190）  null
+FAIL [home] 稿逐句「語彤：秀琴姨。」（AA_625_語彤新版事件台詞.md:37）  null
+FAIL [home] 稿逐句「旁白：（晚餐。秀琴姨煮了三菜一湯，收完碗就走了。）」（AA_625_語彤新版事件台詞.md:192）  null
+FAIL [home] 稿逐句「語彤：我媽買的。……我只是想知道一個人過日子是什麼感覺。」（AA_625_語彤新版事件台詞.md:193）  null
+PASS [home] 手機稿逐則「……今天秀琴姨煮很多。你要不要來吃。」（AA_625_語彤新版事件台詞.md:185）
+PASS [home] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [home] 沒有 JS 例外  []
+
+==== home_rent：第一次去她家＋事件 6 在她家當面（大一下第 11 週） ====
+PASS [home_rent] 遊戲載入
+  [前置／捷徑] [home_rent] 最小存檔讀檔：2026-05-05（星期二，Y1S2 第 11 週）16.83 dorm；遊戲 API 設前置：{"stage": "RELATIONSHIP", "rel": {"fam": 60, "trust": 45, "aff": 0, "resp": 0, "comf": 40, "rom": 60, "npcRom": 50, "seen": 0, "talked": 1}, "knows": true, "dating": true, "jobs": null, "groups": []}
+  [前置／捷徑] [home_rent] GAME.snapshot() 再讀一次（條件事件照開、手機自動打開照開）
