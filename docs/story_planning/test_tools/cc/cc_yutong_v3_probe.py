@@ -21,6 +21,7 @@
 exit 0＝ALL PASS；1＝有 FAIL。
 11-04 修正（PC 第一輪 YT3-A/C/D/E）：①第二次讀檔前還原 STORY.phoneAuto（第一次讀檔 quiet_events 把它關了，要回覆的私訊不會自己打開＝home、ev14 等不到）；
   ②點了「出發：」、到了那一區以後再做一次觸發（ev9 法服值班出遊到萬才館大廳，要再點「坐到圓桌」）；③ev8 找看得到的空位坐下（不看 hidden 的座位）、09:00 到 201；
+  ⑥BB 11-04（開發分支 d5138cd27）：grad_gf 選單字幕「學期末的飯：陳語彤（她家）18:30」；新場 pgdate_month（畢業後交往中每月一格＝「和陳語彤：一盞茶屋打烊以後」21:30、不能有「麵店打烊以後」）；xmas_y4 的「阿鳳」不算舊設定。
   ④捷徑：燒臘店阿姨「阿姨（阿鳳）」第一次的名字當作以前講過（SUP519 rec.nar）；可昕預設交往中拿掉（dating_kexin false）；⑤grad_gf 演完就停（hard_done）。"""
 import os, sys, json, asyncio, time, traceback, subprocess, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
@@ -148,7 +149,7 @@ CASES = {
     'ev16b': dict(title='16b 秀琴姨的照片（4/19 18:00 私訊）', key='2029-04-19', where=('dorm', None, 17 + 50 / 60), rel={YT: dict(fam=40, trust=25)}, contacts=[YT], act='wait', phone=True,
                   msgs=[('625', '秀琴姨在台中的公園抱著一個小孩，背後是兒子一家'), ('625', '她說台中太熱了。'), ('625', '她說下禮拜回來，叫我不要一直吃泡麵。')], msg_contains=[0],
                   done="(GAME.G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/泡麵/.test(m.text||''))", wait_after=8),
-    'xmas_y4': dict(title='大四聖誕交換禮物（公館燒臘：燒臘店阿姨，AA_642 第 1 節）', key='2028-12-22', where=('dorm', None, 18 + 20 / 60),
+    'xmas_y4': dict(title='大四聖誕交換禮物（公館燒臘：燒臘店阿姨，AA_642 第 1 節）', key='2028-12-22', where=('dorm', None, 18 + 20 / 60), ban_ok=['阿鳳'],   # AA 11-04：燒臘店阿姨叫阿鳳，保留（不算舊設定）
                     rel={YT: dict(fam=40, trust=25), 'zhe': dict(fam=45, trust=30), 'heroine_01': dict(fam=45, trust=30), 'yu': dict(fam=40, trust=25)}, contacts=[YT, 'zhe', 'heroine_01', 'yu'],
                     meet=['zhe', 'heroine_01', 'yu'], groups=[['noodle_team', '桌遊團']], act='wait', phone=True, picks=['一本小筆記本', '出發'], shot=['燒臘店阿姨'],
                     exp=[('642', N, '（阿姨多放了一碟燙青菜，說是煮多了。）'), (None, '燒臘店阿姨', '最後一個冬天的期末。……吃完再走。')],
@@ -171,12 +172,19 @@ CASES = {
                         done="GAME.G.flags.GRAD_EVENING==='cafe'&&(GAME.G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/第一次，她寫我念什麼系/.test(m.text||''))"),
     'grad_gf': dict(title='畢業那天（交往中：她的約）', key='2029-06-02', where=('dorm', None, 5 + 50 / 60), grad=True, dating=True, rel={YT: dict(fam=60, trust=45, comf=40, rom=60, npcRom=50)},
                     contacts=[YT], act='wait', phone=True, picks=['好。'], shot=['語彤'],
-                    exp=[('643', '語彤', '今天不排班。晚上來我家，我煮。')], done="!!GAME.G.flags.GRAD_DONE", hard_done=True),
+                    exp=[('643', '語彤', '今天不排班。晚上來我家，我煮。')], hard_done=True,
+                    menu_exp=['學期末的飯：陳語彤（她家）18:30'], menu_ban=['一盞茶屋打烊後', '麵店'],
+                    done="!!GAME.G.flags.GRAD_DONE&&((window.__YT3||{}).scr||[]).some(r=>(r.k==='choices'||r.k==='caption')&&/學期末的飯/.test(r.t))"),
+    'pgdate_month': dict(title='畢業後交往中每月一格（語彤：週六 21:30，pgdates3d.js S.MODE.noodle）', key='2029-07-07', where=('dorm', None, 20 + 40 / 60), post=True, dating=True,
+                         rel={YT: dict(fam=60, trust=45, comf=40, rom=60, npcRom=50)}, contacts=[YT], act='wait', phone=True, picks=['出發'], shot=['語彤'],
+                         exp=[(None, '語彤', '……欸，你吃飯了嗎？秀琴姨今天多煮了。')],   # 句子照 src/data/pg_dates.js 2029-07（AA_367，不是 AA_6xx 的稿，只比對遊戲有沒有演）
+                         menu_exp=['和陳語彤：一盞茶屋打烊以後21:30'], menu_ban=['麵店打烊以後'],
+                         done="((window.__YT3||{}).ev||[]).some(e=>/^ev_pg_date_heroine_03_/.test(e.id))&&!!(((GAME.G.events||{}).done||{})['ev_pg_date_heroine_03_2029-07'])"),
     'end4': dict(title='結局 4（很好的朋友：尾聲語彤那一列）', key='2034-06-03', where=('dorm', None, 18 + 50 / 60), epi=True, rel={YT: dict(fam=50, trust=35)}, act='wait', shot=['語彤'],
                  exp=[('643', N, '（她週末還是會去一盞茶屋坐一下。蘇姨幫她留著吧檯最旁邊的位子。）')], done="!!GAME.G.flags.EPILOGUE_DONE"),
 }
 ORDER = ['tea_first', 'tea_cats', 'tea_pay', 'mom_here', 'absent', 'mom_back', 'rent', 'ev5', 'ev9', 'ev9_msg', 'ev11', 'home', 'home_rent', 'ev13', 'ev14', 'ev15b_shelf', 'ev15b_tea',
-         'ev16', 'ev16b', 'xmas_y4', 'box_y3', 'ev8', 'grad_friend', 'grad_gf', 'end4']
+         'ev16', 'ev16b', 'xmas_y4', 'box_y3', 'ev8', 'grad_friend', 'grad_gf', 'pgdate_month', 'end4']
 
 BASEF = {'dating_kexin': False, 'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'MET_KAI': True, 'LAW_RECAP_SEEN': True,
@@ -474,8 +482,8 @@ async def run_case(BR, name, cs, docs, run):
         await pg.evaluate("(()=>{ window.__YTEV={a:EVENTS.onEnter,b:EVENTS.tick,p:(typeof STORY!=='undefined'?STORY.phoneAuto:null)}; })()")
         await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(2500)
         info = await pg.evaluate(SETUP, {k: cs.get(k) for k in ('meet', 'rel', 'mem', 'contacts', 'groups', 'dating', 'dayflags', 'done_ev', 'keepFm')} | {'meet': [YT] + list(cs.get('meet') or []) if cs.get('met', True) else list(cs.get('meet') or [])})
-        if cs.get('grad') or cs.get('epi'):
-            info['pg'] = await pg.evaluate(PG_SETUP, {'epi': bool(cs.get('epi'))})
+        if cs.get('grad') or cs.get('epi') or cs.get('post'):
+            info['pg'] = await pg.evaluate(PG_SETUP, {'epi': bool(cs.get('epi')), 'post': bool(cs.get('post'))})
         run.setup('[%s] 最小存檔讀檔：%s（星期%s，%s 第 %s 週）%.2f %s；遊戲 API 設前置：%s' % (name, d['key'], '日一二三四五六'[d['wd']], d['term'], d['week'], cs['where'][2], cs['where'][0], J(info)))
         snap = await pg.evaluate("()=>GAME.snapshot()")
         snap = snap.get('G', snap) if isinstance(snap, dict) else snap
@@ -508,8 +516,19 @@ async def run_case(BR, name, cs, docs, run):
         if cs.get('shiftline'):
             sl = [x['t'] for x in W['say'] if x['t'] in SHIFT_LINES]
             run.check('[%s] 茶屋平常的班：一班最多一句、句子在 AA_625 第 77～82 行' % name, len(sl) <= 1 and all(doc_line(docs, '625', t) for t in sl), J(sl))
-        bad = [r for r in W['scr'] if any(w in r['t'] for w in BAN_OLD)]
-        run.check('[%s] 畫面上沒有舊設定的字（%s）' % (name, '、'.join(BAN_OLD)), not bad, J(bad[:4]))
+        ban = [w for w in BAN_OLD if w not in (cs.get('ban_ok') or [])]
+        bad = [r for r in W['scr'] if any(w in r['t'] for w in ban)]
+        run.check('[%s] 畫面上沒有舊設定的字（%s）' % (name, '、'.join(ban)), not bad, J(bad[:4]))
+        menu_ok = True
+        if cs.get('menu_exp') or cs.get('menu_ban'):   # 出遊的選單（「出發：…」）和地點字幕（#caption）：BB 11-04 追加
+            mt = [r['t'] for r in W['scr'] if r['k'] in ('choices', 'caption') and r['t']]
+            run.note('[%s] 選單／字幕：%s' % (name, J([t for t in mt if '出發' in t or '：' in t][-12:])))
+            for w in cs.get('menu_exp') or []:
+                hit = [t for t in mt if w in t.replace('　', '')]
+                menu_ok = run.check('[%s] 選單／字幕有「%s」' % (name, w), bool(hit), J(hit[:2] or [t for t in mt if '出發' in t][-4:])) and menu_ok
+            for w in cs.get('menu_ban') or []:
+                hit = [t for t in mt if w in t]
+                menu_ok = run.check('[%s] 選單／字幕沒有「%s」' % (name, w), not hit, J(hit[:3])) and menu_ok
         rl_ok = True
         if cs.get('reload_name'):   # 第一班演完：照玩家「讀檔」一次（GAME.snapshot()→GAME.applySave，同「繼續」），名字還是語彤嗎
             # BB 22:46（BUG-YT-FIRSTMET-RELABEL-1103）：讀檔兩次，每次都要名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET（G.social 沒有 fm120＝新遊戲、還沒讀過檔）
@@ -522,7 +541,7 @@ async def run_case(BR, name, cs, docs, run):
                 post = await pg.evaluate(ST_JS)
                 ok_k = run.check('[%s] 第 %d 次讀檔（GAME.snapshot→applySave，同「繼續」）：名字「陳語彤」、met_heroine_03 在、記憶有 FIRST_MET' % (name, k), post['name'] == '陳語彤' and post['met'] and post['fm'], J({'讀檔前': pre, '讀檔後': post}))
                 rl_ok = rl_ok and ok_k
-        res.update({'pass': ok and done and not bad and rl_ok, 'rows': rows})
+        res.update({'pass': ok and done and not bad and rl_ok and menu_ok, 'rows': rows})
     except Exception as e:
         run.check('[%s] 跑完（沒有探針例外）' % name, False, repr(e)[:500]); traceback.print_exc()
         try: await pg.screenshot(path=os.path.join(out, name + '_exception.png'))
@@ -536,6 +555,7 @@ async def run_case(BR, name, cs, docs, run):
 # 畢業那天、尾聲：postgrad3d.js 的場景表從 2029-05-10 起跑；前面的場景（報名、一試…）記成已處理，只留要測的那一場
 PG_SETUP = r"""(o=>{ const G=GAME.G, F=G.flags, R=(F.PG=F.PG&&typeof F.PG==='object'?F.PG:{}); R.done=R.done||{};
   F.BAR_REG=false; F.Y4_PATH='job'; F.GRAD_THESIS_OK=true;
+  if(o.post){ F.GRADUATED=STORY.dayOfKey('2029-06-02'); F.GRAD_DONE=true; R.done.grad=1; F.GRAD_EVENING='cafe'; }   /* 畢業後篇（PG.on）：畢業那天演過了 */
   if(o.epi){ F.GRADUATED=STORY.dayOfKey('2029-06-02'); F.GRAD_DONE=true; F.FIRST_DAY_SEEN=true; R.done.grad=true;
     if(typeof PG!=='undefined'&&PG.STEPS) for(const s of PG.STEPS) if(s.id!=='epi') R.done[s.id]=R.done[s.id]||'skip'; }
   return {pgDone:Object.keys(R.done).length, on:typeof PG!=='undefined'&&PG.on?PG.on(G):null}; })"""
