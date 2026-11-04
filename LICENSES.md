@@ -305,3 +305,4 @@
 | 新生南路店面圖集 `xs_fronts_atlas.jpg`（嵌在 `assets/models/env/second_ai/xinsheng_street.glb` 裡；七家店的招牌、玻璃後面的店內、二樓窗） | 使用者提供的參考圖（企劃線 `ref_images/shops/*_ext.webp`）裁切、LAWWW2 用 `tools/blender/env_second/xs_front_tex.py` 校正透視；球衣上的真實校名已糊掉（D77） | 使用者提供 | 新生南路區域 xinsheng 的店面立面（ART-XINSHENG-GATE-1103，second-ai-env-art e10c39824） |
 | 日常失速室內 `assets/models/env/second_ai/aa_support/daily_offbeat.glb` | 本作 Blender（AA 室內、LAWWW2 驗收整合），貼圖 Poly Haven CC0 | CC0 貼圖／本作 | 溫州街 W2 日常失速（WZ-OFFBEAT-1104，second-ai-env-art 82d541853） |
 | 溫州街店面圖集 `wz_fronts_atlas`（嵌在 `wenzhou_street.glb`；`tools/blender/env_second/xs_front_tex.py`） | 使用者提供的參考圖裁切的招牌＋本作渲染的店內 | 使用者提供／本作 | 日常失速 W2 的招牌、玻璃後面的店內 |
+| 慢輪單車室內 `assets/models/env/second_ai/bb_support/bike.glb`（配置 `src/data/bike_layout.js` v2） | 本作 Blender（腳本 `tools/blender/env_second/bb_support/bike_interior.py`，在 `claude/cc-testing`；CC 製作、LAWWW2 驗收 MODEL_READY，cc-testing `08378f56d`）；車架、店名都虛構（D77） | 本作 | 公館 G06 慢輪單車（`src/bikeshop3d.js`） |

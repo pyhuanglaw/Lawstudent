@@ -13,7 +13,7 @@ global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.inne
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node')); console.warn=()=>{};
 const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
 const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/calendar.js','src/data/places.js','src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/data/lane118_props.js',
-  'src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js','src/bike3d.js','src/bikeshop3d.js'])];
+  'src/data/xinsheng_layout.js','src/data/bike_layout.js','src/xinsheng3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js','src/bike3d.js','src/bikeshop3d.js'])];
 const order=f=>f.startsWith('lib/')?0:(f.startsWith('src/data/')?1:(f==='src/zones3d.js'?2:(/xinsheng3d|mokuyobi3d/.test(f)?3:4)));
 const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===3)).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
 for(const f of pre){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
@@ -24,7 +24,8 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 const glb=fs.readFileSync(path.join(ROOT,'assets/models/env/bike_ride.glb')); const GJ=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString());
 const objs=GJ.nodes.map(n=>{ const o=new THREE.Object3D(); o.name=n.name; if(n.translation) o.position.fromArray(n.translation); if(n.rotation) o.quaternion.fromArray(n.rotation); return o; });
 GJ.nodes.forEach((n,i)=>{ for(const c of n.children||[]) objs[i].add(objs[c]); }); const bikeScene=new THREE.Group(); for(const i of GJ.scenes[0].nodes) bikeScene.add(objs[i]);
-ASSETS.loadOne=k=>k==='prop.bike_ride'?Promise.resolve({scene:bikeScene}):Promise.reject(new Error('no '+k));
+const repairScene=new THREE.Group(); { const rb=new THREE.Object3D(); rb.name='REPAIR_BIKE'; repairScene.add(rb); }   /* 慢輪單車的正式模型：只要 REPAIR_BIKE 節點（08378f56d 的 bike.glb 還沒有這個節點；測試用假的驗接法）*/
+ASSETS.loadOne=k=>k==='prop.bike_ride'?Promise.resolve({scene:bikeScene}):(k==='bldg.bikeshop_interior'?Promise.resolve({scene:repairScene}):Promise.reject(new Error('no '+k)));
 const DK=(y,m,d)=>{ for(let k=1;k<4000;k++){ const t=CALENDAR.dateOf(k); if(t.y===y&&t.m===m&&t.d===d) return k; } return null; };
 let toasts=[], said=[], picks=[], opts=[];
 const G={zone:'campus',day:DK(2026,9,15),hour:15,flags:{BIKE_TIP:true},money:30000}; global.GAME={G};
@@ -137,9 +138,24 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
   { await enter('campus',{x:-110,z:0,yaw:0}); G.bike={zone:'wenzhou',x:0,z:0,yaw:0,riding:false}; await enter('gongguan',{x:-110,z:0,yaw:0}); const gate=E.interactables.filter(i=>i.exit&&i.exit.to==='campus')[0]; P.obj.position.set(gate.x,0,gate.z);
     await enter('campus',gate.exit.spawn); const sp=gate.exit.spawn, q=BIKE.legalSpot(E,'campus',sp.x,sp.z), d=Math.hypot(G.bike.x-sp.x,G.bike.z-sp.z);
     check('11 從公館走進校門（最近的停車架 '+(q?q.d.toFixed(0):'?')+' m，超過 '+BIKE.MAXD+' m）：車停在校門旁邊、站得住',!!q&&q.d>BIKE.MAXD&&G.bike.zone==='campus'&&d<6&&E.canStand(G.bike.x,G.bike.z,0.45,0),J({bike:G.bike,d})); }
+  // ---- 13 正式室內（CC 的 bike.glb＋bike_layout.js v2）----
+  { const L=BIKE_LAYOUT.bike, man=ASSETS.manifest['bldg.bikeshop_interior'];
+    check('13 資產登錄：bldg.bikeshop_interior → bb_support/bike.glb（檔案在）',!!man&&man.url===L.glb&&fs.existsSync(path.join(ROOT,L.glb)),J(man&&man.url));
+    loadZone('gongguan'); const door=exitTo('bikeshop'); P.obj.position.set(door.x,0,door.z); await enter('bikeshop',door.exit.spawn); await tick(); await tick();
+    const its=E.interactables, nv=E.nav;
+    check('13 房間照配置 10.2 × 12 m：展示台、櫃台、修車區的導航阻擋都在（站不住）',!E.canStand(-2.4,2.8,0.3,0)&&!E.canStand(2.725,2.7,0.3,0)&&!E.canStand(-1.25,0.2,0.3,0)&&!E.canStand(-3,-3.5,0.3,0)&&E.canStand(4.2,3,0.3,0)&&E.canStand(-4.0,0.15,0.3,0));
+    const looks=its.filter(i=>i.bikeLook), mtb=looks.find(i=>i.bikeLook==='mtb');
+    check('13 看車的互動點照配置（登山車在左牆走道看 (−4.0,0.15)）',looks.length===5&&!!mtb&&mtb.x===-4.0&&mtb.z===0.15,J(looks.map(i=>[i.bikeLook,i.x,i.z])));
+    check('13 櫃台前的長凳「坐一下」',its.some(i=>i.seat&&i.label==='坐一下'&&i.x===-0.85)&&E.zone.seats.length===1);
+    let rb=null; E.zone.group.traverse(o=>{ if(o.name==='REPAIR_BIKE') rb=o; }); check('13 修車架上的車（REPAIR_BIKE）預設藏',!!E.zone.formal&&!!rb&&rb.visible===false);
+    let seen=null; const say0=GM.say; GM.say=async(w,t)=>{ if(t===BIKESHOP.L.fitDone) seen=rb.visible; said.push((w?w.name+'：':'')+t); };
+    G.money=50000; picks=[0,0]; await BIKESHOP.lookBike(GM,'lady'); GM.say=say0;
+    check('13 調座墊那一幕顯示、演完又藏',seen===true&&rb.visible===false,J({seen,after:rb.visible}));
+    loadZone('gongguan'); }
   // ---- 12 index.html、LOADLOCKS ----
   { const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
     check('12 index.html：bikeshop3d.js 緊接在 bike3d.js 後面（zones3d.js 之後、GAME.boot() 前面很遠）',sc.indexOf('src/bikeshop3d.js')===sc.indexOf('src/bike3d.js')+1&&sc.indexOf('src/zones3d.js')<sc.indexOf('src/bikeshop3d.js')&&/bikeshop3d\.js\?v=9\.10\.19/.test(ih));
+    check('12 index.html：bike_layout.js 在 zones3d.js 前面（daily_offbeat_layout.js 後面）、?v=9.10.19',sc.indexOf('src/data/bike_layout.js')===sc.indexOf('src/data/daily_offbeat_layout.js')+1&&sc.indexOf('src/data/bike_layout.js')<sc.indexOf('src/zones3d.js')&&/bike_layout\.js\?v=9\.10\.19/.test(ih));
     check('12 店裡的 busy 鎖登記 LOADLOCKS（讀檔放開）',typeof LOADLOCKS['bikeshop3d:busy']==='function'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
