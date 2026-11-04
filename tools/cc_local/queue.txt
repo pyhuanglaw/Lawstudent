@@ -20,6 +20,10 @@
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
 # ===== P0 熱修 v9.10.19.1 GO 組（BB；LAWWW fd8d447d2＝main＋attended 修正＋guardTalk）：最前面 =====
+# ===== P0 LIVE 驗證 v9.10.19.1（BB 02:15；main b0c3032af＝fd8d447d2＋RELEASES.md；排最前面）=====
+LIVE1910_deploy | b0c3032af | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
+LIVE1910_stuck | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 90 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.19.1;CC_HEADLESS=0
+LIVE1910_deploy2 | b0c3032af | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
 HOT_stuck   | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 HOT_soc_zr  | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
 HOT_soc_talk| fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,heroine_04,heroine_05,zhe,yu,classmate_bohan,kai;STEPS=first,greet,menu,reload;QUICK=1;CC_HEADLESS=0
@@ -533,7 +537,10 @@ D_RUN_p0      | ffeec06e0 | game  | tests/p0_movement.py         | index.html | 
 D_RUN_movreg  | ffeec06e0 | game  | tests/movement_regression.py | index.html | 60  | XARGS={url}
 V18_LIBTOUR   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_lib_tour_probe.py | index.html | 90 |
 #HOLD雲端 V18_PLAYFIX   | ffeec06e0 | probe | docs/story_planning/test_tools/cc/cc_playfix_probe.py | index.html | 120 |
-MD_bike_v1 | 08378f56d | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1_views.json --res 1672x941
+#HOLD（v1b 取代）MD_bike_v1 | 08378f56d | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1_views.json --res 1672x941
 NICHI_final_ctl | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
 NICHI_final_fix | 548676a3a | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=nichijo_final,nichijo_final_y1s2,nichijo_final_y2,nichijo_final_y2s2,nichijo_final_y3,nichijo_final_y4;CC_HEADLESS=0
 SOC_dev_zr2 | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_02;STEPS=reload,date;CC_HEADLESS=0
+MD_bike_v1b | 6c54b9f26 | blender | tools/blender/env_second/bb_support/bike_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/bike.glb {out} --views docs/story_planning/CC/shots/model/bike/bike_v1b_views.json --res 1672x941
+HOT_soc_yt | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 90 | CASES=heroine_03;STEPS=greet,up,menu,invite,reload;CC_HEADLESS=0
+HOT_soc_yt_tea | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 60 | CASES=heroine_03;STEPS=greet,menu,reload;SLOT_OVERRIDE=wz_teahouse,14,2025-10-04;CC_HEADLESS=0
