@@ -87,6 +87,9 @@ def build():
         # AA_633 表下第一點：學姊「只有玩家自己走進定食店才會遇到，不是固定作息去等她；一週最多一次」（JSON 沒有欄位）
         if r.get('who') == 'heroine_05' and r.get('spot') == 'wz_teishoku':
             r['weekMax'] = 1; r['selfOnly'] = True
+        # WZ-SHOPS1-1104（AA cafe230_layout.js v2 seatPlan.sofa）：2:30 AM 以安「她坐在沙發那一區」＝挑 tag sofa 的位子（src/shopenc3d.js S.seatPick 照 row.tag 挑；JSON 沒有欄位）
+        if r.get('spot') == 'cafe' and '坐在沙發' in (r.get('why') or ''):
+            r['tag'] = 'sofa'
         rows.append(r)
     s5, t5 = src(A655); aa655(t5, rows)
     m = re.search(r'```json\s*(\{.*?\})\s*```', t3, re.S)
@@ -111,7 +114,7 @@ def main():
     d = build()
     js = ('/* 店內偶遇（SHOP-ENCOUNTER-1103；AA_632 第一批、AA_633 第二批、AA_641 修正）＋店裡客人的路人句（SHOP-DINERS-1103；AA_640）。自動產生，不要手改：python3 tools/shop_enc/import_shop_enc.py\n'
           '   來源：' + '、'.join(d['src']) + '（劇情匯入白名單）。台詞照抄 AA 的 JSON。\n'
-          '   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的。\n'
+          '   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的；2:30 AM 以安那一列的 tag（sofa）是匯入工具照 cafe230_layout.js seatPlan 加的。\n'
           '   aa641：宋知寧加聯絡人以後的六則訊息（znMsgs）、她的回覆（znReplies）、第 5 則以後她在的店（znMove）、「一起坐」的時間與旁白（joinH、joinLine）——AA_641 第 2、5 節。\n'
           '   程式：src/shopenc3d.js（SHOPENC）。*/\n'
           'const SHOP_ENC=' + json.dumps(d, ensure_ascii=False, indent=1) + ';\n'

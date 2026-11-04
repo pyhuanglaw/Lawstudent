@@ -38,7 +38,7 @@ if(fails){ console.log('FAILED '+fails); process.exit(1); }
 // ---------- 1. 資料 ----------
 const git=(sha,p)=>cp.execFileSync('git',['show',sha+':'+p],{cwd:ROOT}).toString('utf8');
 { const v1=JSON.parse(git('6adb0e47c','docs/story_planning/shop_enc/shop_enc_aa_v1.json')), v2=JSON.parse(git('6adb0e47c','docs/story_planning/shop_enc/shop_enc_aa_v2.json'));
-  const strip=r=>{ const o=Object.assign({},r); delete o.weekMax; delete o.selfOnly; return o; };
+  const strip=r=>{ const o=Object.assign({},r); delete o.weekMax; delete o.selfOnly; delete o.tag; return o; };   /* tag：匯入工具加的（2:30 AM 以安「她坐在沙發那一區」＝sofa，WZ-SHOPS1-1104；tests/cafe230_aa657_unit.js B）*/
   /* 2026-11-04（WZ-SHOPS1-1104）：AA_655 第 4 節（企劃線 a22e53016）把學姊的定食店偶遇搬到林家乾麵（小路 18:00 才開）——那一列照第 4 節換 spot／why／away／第二句，其他照 JSON */
   const A655=r=>r.who==='heroine_05'&&r.spot==='wz_teishoku'&&r.memo==='SHOP_TEI_SIS'?Object.assign({},r,{spot:'wz_lin',why:'她一個人坐在角落，乾麵旁邊攤著一本原文書。',away:'在林家乾麵',lines:Object.assign({},r.lines,{acq:r.lines.acq.map(t=>t==='今天的鯖魚很好。我快吃完了。'?'今天的餛飩湯很好。我快吃完了。':t)}),src:r.src+'＋AA_655'}):r;
   check('1. 14 列＝AA_632 九列＋AA_633 五列，每一列（台詞、時段、條件）和白名單上的 JSON 一模一樣（學姊那一列照 AA_655 第 4 節搬到林家乾麵）',SHOP_ENC.rows.length===14&&JSON.stringify(SHOP_ENC.rows.map(strip))===JSON.stringify(v1.rows.concat(v2.rows).map(A655)));
