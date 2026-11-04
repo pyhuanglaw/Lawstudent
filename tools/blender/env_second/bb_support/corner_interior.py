@@ -367,6 +367,7 @@ for a, b, sl, hd in ops:   # 木框（深色木：外觀圖的門窗是深咖啡
         pf['wood'].rbox(a, b, sl - 0.02, sl + 0.05, ZI1 - 0.16, Z1 - 0.02, r=0.006)   # 窗台
         for x in (a + (b - a) / 3, a + 2 * (b - a) / 3): pf['wood'].rbox(x - 0.03, x + 0.03, sl, TRY, ZI1 - 0.05, Z1 - 0.04, r=0.005)
         pf['glass'].quad([(b, sl + 0.04, Z1 - 0.06), (a, sl + 0.04, Z1 - 0.06), (a, TRY - 0.03, Z1 - 0.06), (b, TRY - 0.03, Z1 - 0.06)])
+pf.done()
 # 門扇：門軸在東邊（x db），往裡開 90°（貼著門框東側、沿 −z）
 LW = dw - 0.06; dp = Part('door_leaf', side='front', T=fm((db - 0.03, 0, ZI1 - 0.02), rot('Y', math.pi / 2)), smooth=False)   # 門扇自己的座標：x 0→LW 是門寬（轉了以後沿 −z）、z 是厚度（−z＝朝店裡）
 for (xa_, xb_, ya_, yb_) in ((0.0, 0.08, 0.0, dh - 0.02), (LW - 0.08, LW, 0.0, dh - 0.02), (0.0, LW, 0.0, 0.22), (0.0, LW, dh - 0.12, dh - 0.02), (0.0, LW, 0.95, 1.02)):
