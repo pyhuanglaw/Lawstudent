@@ -11557,8 +11557,8 @@
       "what": "研討室 A、霖澤館 202、萬才館多功能教室：模型＋配置（MODEL_READY；流程測試在 LAWWW2 測試工作樹 ALL PASS）、窗景、臨時接線 patch；README、截圖還在拍（WIP）",
       "task": "LINZE-WANCAI-FLOORS-1020",
       "msg": "ACK",
-      "integration": "取消／被取代",
-      "note": "【LAWWW-C 2026-10-21 13:4x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
+      "integration": "參考用",
+      "note": "【LAWWW-C 2026-10-21 13:4x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK ｜【LAWWW 2026-11-04 09:1x】被正式交付 DL-LAWWW2-0a5cc70a 取代，標參考用"
     },
     {
       "id": "DL-AA-b6757852",
@@ -15080,8 +15080,8 @@
       "sha": "1c537e9c9",
       "what": "CLUBFAIR-REAL-1027：社團博覽會椰林大道兩邊 36 頂帳篷＋舞台（club_fair_expo_layout.js、club_fair_expo.glb、zones3d 接線 patch、club_fair_expo_unit）",
       "task": "CLUBFAIR-REAL-1027",
-      "integration": "未整合",
-      "note": "【LAWWW-C 2026-10-27 21:4x UTC】patch 在開發分支 git apply --check 過；等子代理 y1fb-1027（社博十五攤、喊話、提示）合進來再套，顧攤的人照 LAWWW2 的位置表"
+      "integration": "已驗收",
+      "note": "【LAWWW-C 2026-10-27 21:4x UTC】patch 在開發分支 git apply --check 過；等子代理 y1fb-1027（社博十五攤、喊話、提示）合進來再套，顧攤的人照 LAWWW2 的位置表 ｜【LAWWW 2026-11-04 09:1x】已整合（1cb7bcbb3，LAWWW-C 10-27 22:0x），BB_247 ART_APPROVED"
     },
     {
       "id": "DL-AA-491",
@@ -16744,8 +16744,8 @@
       "msg": "ACK",
       "what": "店內吊燈燈罩裡外相反 11 個（l118_cafe2、l118_pasta、wenzhou_street GLB 只翻零件；glb_flip_insideout.py；lane118_shops.py、wz_shopkit.py；lampshade_flip_unit）",
       "task": "ART-LAMPSHADE-FLIP-1027",
-      "integration": "未整合",
-      "note": "LAWWW-B：整合在本機分支 feat-art-1031（lane118_shops.py 三方合併）；7 支 Node ALL PASS；發布後合進開發分支；溫州街 Café 附近金屬圓盤 cafe_vc_wz_metal 也裡外相反，LAWWW2 記在 README 沒動"
+      "integration": "已驗收",
+      "note": "LAWWW-B：整合在本機分支 feat-art-1031（lane118_shops.py 三方合併）；7 支 Node ALL PASS；發布後合進開發分支；溫州街 Café 附近金屬圓盤 cafe_vc_wz_metal 也裡外相反，LAWWW2 記在 README 沒動 ｜【LAWWW 2026-11-04 09:1x】已整合（feat-art-1031 54a5a2527 → 開發分支 8628c7e14），BB_247 ART_APPROVED"
     },
     {
       "id": "DL-AA-555-1031",

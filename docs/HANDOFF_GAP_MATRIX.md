@@ -33,7 +33,7 @@
 - **測試**：7224af47a 全部 Node 在 GitHub 有 7 支失敗——全是期望值過時（改稿後的新句子），`cb7957fb2` 照現行定稿改好；save_compat_v95 照 BB X_G6b 判定改成先按「收起來」（`df70106e8`）。
 - **GitHub Actions 免費跑全部 Node**（使用者 01:0x 選「現在就丟給 GitHub」；GHA-TEST-OFFLOAD-1103）：分支 `claude/gha-node-sweep`、`.github/workflows/node-sweep.yml`；改 `gha/target.txt` 的 SHA＝跑一次；失敗清單印在執行紀錄最後（用 get_job_logs 讀，artifact 網址被雲端代理擋）。實測：GitHub 12 分鐘、Claude 雲端機器約 13 分鐘、使用者 PC 49 分鐘（BB_250：Node 以後給 GHA）。細節 `docs/handoff/GHA_TEST_OFFLOAD_1103.md` 第六節。
 - **規則**：D129／HV-23 交班以後就不用喚醒（使用者 11-03）；AA、CC 的保險喚醒 00:54 已關。
-- **BB 驗收**：BUG-ADV-SKIP（Y_A1）、BAR-POOL（Y_P1）都 PASS→已驗收；BB_247 五項 ART_APPROVED→已驗收。
+- **BB 驗收**：BUG-ADV-SKIP-1018（Y_A1）、BAR-POOL（Y_P1）都 PASS→已驗收；BB_247 五項 ART_APPROVED→已驗收。
 - **新任務**：GHA-TEST-OFFLOAD-1103（進行中）、PERF-WZ-DAY-1103（LAWWW2，P1）、BAKE-PC-1102-S2、ART-OLDROAD-SHELF-1103（LAWWW2）、RULE-NO-WAKE-AFTER-HANDOFF-1103、GHA-NODE-TRIAL-1103。
 
 **B｜全部未完成工作**（以 tasks.json 為準）
@@ -51,7 +51,7 @@
 
 **E｜跨 AI 協作**：BB、CC 值班中（使用者 01:0x 叫回），0f66c4215 與 7 支失敗說明已送 BB（DELIVERED）。LAWWW2、AA 休班（D75）。
 
-**F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER、BUG-CLIMB-ZOMBIE、SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。
+**F｜測試與問題**：0f66c4215 全部 Node 在 GHA 跑（交班時進行中）；本機只跑了改過的 7 支＋相關 46 支，ALL PASS。瀏覽器、iPhone 實機沒驗（BB／CC 在 PC 跑；Playwright≠iPhone）。check_handoff check 剩 6 項舊異常（GAP_MATRIX 提到 ART-NO-USER-1102、BUG-CLIMB-ZOMBIE-1102、STUDY-EXAM-SYS-1102 的縮寫；CLUBFAIR、LAMPSHADE、LINZE 三筆交付狀態）沒處理。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -336,7 +336,7 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 - **發布**：v9.10.16 在線上（見 docs/RELEASES.md）。之後的都在開發分支 `claude/confident-ritchie-8rwh7t`（遠端 `5ec3a0836`＋本次交班 commit）和整合線，**沒有發布**。
 - **開發分支已合併**：int/m590（`ec2814492`→ 開發分支 `62d98bfa5`）：AA_590／AA_595（小聲講、空保溫瓶拿掉、家）、AA_599 不接送、AA_603 重考生、CG 批次＋CG-27、ADV 視窗 GAME 修正、NTU_ZONES gym、LAWWW2 library_hall_v2、LIB-FRONT v3.1／v3.2、宿舍閣樓比例。
 - **規則**：D128（美術驗收全部不經使用者，CLAUDE.md 第 8 點、PROJECT_DECISIONS）；D123 現況（Python runner、run_forever.ps1、cc-testing 自動換版）；AI_SESSION_HANDOFF 第 4 節第 5 步（BB／CC 先讀 BB_00、CC_29）。
-- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER、BUG-CLIMB-ZOMBIE、DORM-LADDER-HEAD-GRIP。
+- **總表**：BB_245 95 項改「取消／被取代」、BB_247 31 項改「已驗收」；新增 AA591／593／587-B3／589／592／594／598／599／600／602、CG-BATCH、CG27、ART-NO-USER-1102、BUG-CLIMB-ZOMBIE-1102、DORM-LADDER-HEAD-GRIP。
 
 **B｜全部未完成工作**（以 tasks.json 為準；LAWWW 未結：進行中 28、待開工 24、等待其他AI／素材 19、已實作待整合 7、暫停 4、已整合待測試 629）
 1. **下一版擋在 BB 的 GO**：BB 22:59「擋發布的是 BAR-POOL-PREFIX、ADV-SKIP 打字中按略過，兩項都在 int/m591。請把下一批 SHA 交給接班的 BB 和 CC。」→ **下一班 LAWWW 第一件**：把 int/m591 併進開發分支、跑整套 Node，SHA 交接班的 BB／CC。

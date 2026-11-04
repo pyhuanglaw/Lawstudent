@@ -43338,7 +43338,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X196",
-   "next": "同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA"
+   "next": "同弦（吉他店，二樓）室內 CC 第一版 tongxian.glb（cc-testing）→ 驗收＋整合；吉他社劇情 AA",
+   "xai": {
+    "spec": "X196；任務 next 欄",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43358,7 +43365,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X197",
-   "next": "CC 建模：大步 dabu.glb 第一版、好拍與新生運動廣場只有 layout（cc-testing）→ BB 驗收、LAWWW2 整合"
+   "next": "CC 建模：大步 dabu.glb 第一版、好拍與新生運動廣場只有 layout（cc-testing）→ BB 驗收、LAWWW2 整合",
+   "xai": {
+    "spec": "X197；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43378,7 +43392,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X198",
-   "next": "大口漢堡一樓、二樓 BB 第一版（企劃線 bb_support/dakou_1f／2f）→ LAWWW2 驗收＋整合"
+   "next": "大口漢堡一樓、二樓 BB 第一版（企劃線 bb_support/dakou_1f／2f）→ LAWWW2 驗收＋整合",
+   "xai": {
+    "spec": "X198；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43398,7 +43419,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X176；同 ART-SHANLAN-BOOKSTORE-1103",
-   "next": "同 ART-SHANLAN-BOOKSTORE-1103（AA 室內第三版待 LAWWW2 驗收）"
+   "next": "同 ART-SHANLAN-BOOKSTORE-1103（AA 室內第三版待 LAWWW2 驗收）",
+   "xai": {
+    "spec": "X176；同 ART-SHANLAN-BOOKSTORE-1103；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43418,7 +43446,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X178；同 ART-NANYANG-CINEMA-1103、AA615",
-   "next": "同 ART-NANYANG-CINEMA-1103"
+   "next": "同 ART-NANYANG-CINEMA-1103",
+   "xai": {
+    "spec": "X178；同 ART-NANYANG-CINEMA-1103、AA615；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43438,7 +43473,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X177；同 AA614-CLASSMATE-JOBS-1103",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "xai": {
+    "spec": "X177；同 AA614-CLASSMATE-JOBS-1103；任務 next 欄",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43458,7 +43500,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X176；同 AA613-OPENING-ACTS-1103",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "xai": {
+    "spec": "X176；同 AA613-OPENING-ACTS-1103；任務 next 欄",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43478,7 +43527,14 @@
    "status": "已整合待測試",
    "priority": "P2",
    "note": "X178；同 ART-XINSHENG-GATE-1103",
-   "next": "已整合 aa8cb5beb（側門 (−124,−84)、溫州街西側橫巷北口 (−33.4,−28.4)）；街景仍 BLOCKOUT，立面 bldg.xinsheng_street 等 LAWWW2；瀏覽器測試派 BB（D131 PC）"
+   "next": "已整合 aa8cb5beb（側門 (−124,−84)、溫州街西側橫巷北口 (−33.4,−28.4)）；街景仍 BLOCKOUT，立面 bldg.xinsheng_street 等 LAWWW2；瀏覽器測試派 BB（D131 PC）",
+   "xai": {
+    "spec": "X178；同 ART-XINSHENG-GATE-1103；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43498,7 +43554,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "X179、X181、X182",
-   "next": "同 ART-WZ-CAFES-1103"
+   "next": "同 ART-WZ-CAFES-1103",
+   "xai": {
+    "spec": "X179、X181、X182；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43518,7 +43581,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "臨時，不是永久規則",
-   "next": "參考圖使用者已給（ref_images/shops），各家室內第一～四版已交：見各店任務；整合由 LAWWW2 排順序"
+   "next": "參考圖使用者已給（ref_images/shops），各家室內第一～四版已交：見各店任務；整合由 LAWWW2 排順序",
+   "xai": {
+    "spec": "臨時，不是永久規則；任務 next 欄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43538,7 +43608,14 @@
    "status": "待開工",
    "priority": "P2",
    "note": "AA 自己的企劃線",
-   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）"
+   "next": "照 USER_WANTS 該列；新店建模等使用者給外觀與室內參考圖（MODEL-HELP-1103）",
+   "xai": {
+    "spec": "AA 自己的企劃線；任務 next 欄",
+    "branch": "claude/story-planning",
+    "acceptance": "AA 定稿（D109）推企劃線、白名單 → LAWWW 實作 → BB／CC 測",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   },
   {
    "first": {
@@ -43742,7 +43819,8 @@
    "title": "使用者回報：和 NPC 聊天、約會常常卡住（存檔 day35 15:23 library_media；USER_WANTS X204）",
    "status": "已驗收",
    "next": "v9.10.19.1 熱修已發布 main b0c3032af（PR #27，BB GO）；CC 排 LIVE 驗",
-   "sha": "27929f2a8"
+   "sha": "27929f2a8",
+   "evidence": "v9.10.19.1 熱修已發布 main b0c3032af（PR #27，BB GO）；修正 27929f2a8；Node 單元測試 ALL PASS"
   },
   {
    "first": {
@@ -43933,7 +44011,7 @@
   },
   {
    "first": {
-    "term": "TOOL",
+    "term": "META",
     "week": 0,
     "earliest": "開發工具（不是遊戲內容）",
     "mainline": false,
@@ -44033,7 +44111,7 @@
   },
   {
    "first": {
-    "term": "TOOL",
+    "term": "META",
     "week": 0,
     "earliest": "開發工具（不是遊戲內容）",
     "mainline": false,
