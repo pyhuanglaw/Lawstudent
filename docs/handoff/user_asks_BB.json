@@ -253,6 +253,16 @@
    "status": "進行中",
    "task": "SOCIAL-STUCK-1104",
    "note": "social_smoke 加 phone_date＋整場約會實跑；可攻略全員、朋友每人至少一場；v9.10.20 驗收項"
+  },
+  {
+   "id": "UA-BB-1104-STUDY-DATE-SEAT",
+   "at": "2026-11-04T01:33Z",
+   "quote": "如果你們真的約一起念書的話，不可以一直走到圖書館門口然後約會就結束了，至少要走到桌子旁邊一起坐下來。這是可以自然安排的劇情啊，你自己想一下要怎麼安排好不好。",
+   "kind": "轉述",
+   "via": "CC（使用者直接對 CC 說）",
+   "status": "進行中",
+   "task": "SOCIAL-STUCK-1104",
+   "note": "設計交 LAWWW（帶到座位才開演、sitAt）、台詞 AA；BB 驗收七條，門口結束＝FAIL；v9.10.20"
   }
  ]
 }
