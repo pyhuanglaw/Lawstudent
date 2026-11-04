@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_cafe_glb",
+  "sha": "dac871e25",
+  "kind": "game",
+  "script": "tests/cafe_glb_integration.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T16:31:24",
+  "end": "2026-11-04T16:33:35",
+  "seconds": 132,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 50,
+    "mem": 58,
+    "used_gb": 18.1,
+    "chrome_testing": 26
+  }
+}
