@@ -1,4 +1,4 @@
-/* ===== 林家乾麵（溫州街 A4，zone id 照舊 wz_lin；AA_654）室內配置 v1：BB（帳號 A）2026-11-04 =====
+/* ===== 林家乾麵（溫州街 A4，zone id 照舊 wz_lin；AA_654）室內配置 v2（模型 v1b）：BB（帳號 A）2026-11-04 =====
    照使用者參考圖 docs/story_planning/ref_images/shops/wz_lin_int.webp（SCENE_RULES §12：參考圖就是規格）＋外觀 wz_lin_ext.webp。
    從 claude/confident-ritchie-8rwh7t 的 src/data/wz_shops_layout.js 的 lin 出發（LAWWW2：門窗、房間、出口、出生點照舊不動）：
      房間 6.4 × 8 × 3，店面在 +z＝4；正面整面開著（鐵捲門捲在上面），開口 x −3～2.1：左邊是攤車，右邊 2.2 m 是入口（門 x 1、寬 2.2）。
@@ -15,7 +15,7 @@ const LIN_LAYOUT = (function () {
   const OPEN = [-3.0, 2.1];                 // 正面開口（鐵捲門捲在上面）
   const DOOR = {x: 1.0, w: 2.2, style: 'open'};
   const S = {
-    id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/bb_support/lin_interior.glb', v: 1,
+    id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/bb_support/lin_interior.glb', v: 2, version: 2,
     w: W, d: D, h: H, floor: 'terrazzo', hours: '11:00–14:00、17:00–21:00（週一公休；places.js 照舊）',
     front: {door: DOOR, windows: [], open: OPEN, views: [OPEN], view: 'wz_lin', viewDepth: 10, viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面）：左邊攤車，右邊 2.2 m 是入口（照舊）'},
     spawn: {x: 1.0, z: 3.05, yaw: Math.PI},
@@ -34,8 +34,8 @@ const LIN_LAYOUT = (function () {
     blocks: [], seats: [],
     interact: [
       {x: -0.1, z: 2.55, kind: 'order', label: '點餐（林家乾麵）', note: '照舊：攤車右邊'},
-      {x: X1 - 1.15, z: -0.1, kind: 'menu', yaw: Math.PI / 2, label: '看菜單', note: '舊 (−1.3, −0.3) 在新的桌子上，搬到右牆菜單下面'},
-      {x: X1 - 1.15, z: 2.45, kind: 'pay', yaw: Math.PI / 2, label: '結帳', note: '新增：收銀台前'},
+      {x: +(X1 - 1.15).toFixed(2), z: -0.1, kind: 'menu', yaw: Math.PI / 2, label: '看菜單', note: '舊 (−1.3, −0.3) 在新的桌子上，搬到右牆菜單下面'},
+      {x: +(X1 - 1.15).toFixed(2), z: 2.45, kind: 'pay', yaw: Math.PI / 2, label: '結帳', note: '新增：收銀台前'},
       {x: X1 - 0.85, z: -2.0, kind: 'condiments', yaw: Math.PI / 2, label: '自助調味區'}
     ],
     clerk: {x: -1.7, z: 2.55, yaw: 0, note: '照舊：攤車後面（店裡這一側），面向街上'},

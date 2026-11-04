@@ -1,4 +1,4 @@
-"""林家乾麵（溫州街 A4，zone id wz_lin；AA_654）室內 v1 → GLB。BB（帳號 A）2026-11-04。
+"""林家乾麵（溫州街 A4，zone id wz_lin；AA_654）室內 v1b → GLB。BB（帳號 A）2026-11-04。
   /opt/blenv/bin/python tools/blender/env_second/bb_support/lin_interior.py [-- --out <glb>] [--preview]
   要在美術線的 worktree 跑（lib2.py、b3lib.py）；配置用 node 讀 src/data/lin_layout.js（Blender 和遊戲同一份數字）。
 照 SCENE_RULES 第 11、12 節：參考圖 docs/story_planning/ref_images/shops/wz_lin_int.webp 就是規格；拆圖清單在 docs/story_planning/bb_models/lin/README.md。
@@ -57,7 +57,12 @@ M = dict(
     gloss=L.vc_material('lin_vc_gloss', rough=0.28),   # 瓷碗、塑膠凳、醬料瓶（亮面）
     warm=L.flat('GLOW_lin_warm', '#ffe2b0', rough=0.4, emit=tuple(v * 9.0 for v in B.srgb('#ffb460'))),
     screen=img_mat('GLOW_lin_screen', P['screen'], rough=0.2, emit=1.6),
+    steam=img_mat('lin_steam', P['steam'], rough=1.0),
 )
+M['steam'].node_tree.links.new(M['steam'].node_tree.nodes['Image Texture'].outputs['Alpha'], M['steam'].node_tree.nodes['Principled BSDF'].inputs['Alpha'])
+try: M['steam'].surface_render_method = 'BLENDED'
+except Exception: pass
+STM = Mesh('lin_steam', M['steam'])
 M['wood']['tile'] = 1.0; M['steel']['tile'] = 0.7
 VC = CMesh('lin_vc', M['vc']); VM = CMesh('lin_vm', M['vm'])
 WD = Mesh('lin_wood', M['wood']); ST = Mesh('lin_steel', M['steel']); PR = Mesh('lin_prints', M['print'])
@@ -214,7 +219,8 @@ for x in (-1.02, 0.82): wg('back', 'vm').cbox(x - 0.025, x + 0.025, 1.27, 2.43, 
 for y in (1.27, 2.41): wg('back', 'vm').cbox(-1.02, 0.82, y - 0.02, y + 0.02, Z0, Z0 + 0.05, '#5a5e5a')
 # 左牆：福、月曆（煮麵台後面那一段牆）
 lp = wg('left', 'print')
-face(lp, (X0 + 0.006, 2.25, -2.0), '+x', 0.5, 0.5, C['fu']); face(lp, (X0 + 0.006, 1.95, -2.75), '+x', 0.5, 0.7, C['calendar'])
+face(wg('back', 'print'), (X0 + 0.32, 2.3, Z0 + 0.007), '+z', 0.46, 0.46, C['fu']); face(wg('back', 'print'), (X0 + 0.32, 1.62, Z0 + 0.007), '+z', 0.4, 0.56, C['calendar'])   # 福字斗方、月曆（後牆左邊，冰箱旁邊）
+face(lp, (X0 + 0.006, 2.25, -2.6), '+x', 0.5, 0.5, C['fu'])
 
 # ================= 左邊：不鏽鋼煮麵台＋抽油煙機＋招牌 =================
 cl = S['cookLine']; cx1 = cl['x1']; ch_ = cl['h']
@@ -244,6 +250,8 @@ for k in range(9):
 for k, (z, col) in enumerate(((-0.6, '#4e9a3a'), (0.2, '#f2eed8'), (1.0, '#e8d890'), (1.7, '#5a9a3a'))):   # 青菜籃、豆芽、生麵、蔥
     VC.cbox(X0 + 0.03, X0 + 0.38, 1.35, 1.47, z - 0.25, z + 0.25, '#e8e4dc')
     for j in range(10): blob(VC, (X0 + 0.2 + R.uniform(-0.12, 0.12), 1.5, z + R.uniform(-0.2, 0.2)), 0.05, col, seg=5, rings=3, sy=0.6)
+for z in [cl['z0'] + 0.35 + k * 0.32 for k in range(10)]:   # 下層架子再擺：醬料瓶、罐子
+    for j in range(2): clathe(GL, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.12), (0.018, 0.15), (0.0, 0.15)], X0 + 0.33, 1.35, z + j * 0.07, R.choice(['#c83a2a', '#e8c040', '#3a2a1a', '#e8e0d0', '#3a8a3a']), seg=6)
 # 抽油煙機（往前傾）＋招牌
 ST.box(X0, X0 + 0.95, 2.1, 2.55, cl['z0'] + 0.1, cl['z1'])
 VC.cbox(X0 + 0.25, X0 + 0.93, 2.07, 2.1, cl['z0'] + 0.15, cl['z1'] - 0.05, '#5a5e60')
@@ -254,11 +262,42 @@ face(PR, (X0 + 1.002, 2.77, (cl['z0'] + cl['z1']) / 2 + 0.1), '+x', 1.7, 0.43, C
 # 攤車（店裡這一側）：檯面、湯鍋三格、碗疊；朝街上那一面是外觀
 ca = S['cart']
 ST.box(ca['x0'], ca['x1'], 0.1, ca['h'] - 0.03, ca['z0'], ca['z1']); VM.cbox(ca['x0'], ca['x1'], ca['h'] - 0.03, ca['h'], ca['z0'], ca['z1'], '#c8ccce')
-for k in range(3): clathe(VM, [(0.0, 0.0), (0.17, 0.0), (0.18, 0.28), (0.19, 0.29), (0.0, 0.29)], ca['x0'] + 0.35 + k * 0.42, ca['h'], (ca['z0'] + ca['z1']) / 2, '#c4c8ca', seg=14)
-for k in range(2):
-    for j in range(R.randint(4, 6)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], ca['x1'] - 0.55 + k * 0.17, ca['h'] + j * 0.028, ca['z0'] + 0.2, '#f4f2ec', seg=10)
-for k in range(4): ccyl(VM, (ca['x1'] - 0.15, ca['h'], ca['z0'] + 0.15 + k * 0.08), (ca['x1'] - 0.12, ca['h'] + 0.28, ca['z0'] + 0.15 + k * 0.08), 0.008, '#b8bcbe', seg=4)
-
+CZ = (ca['z0'] + ca['z1']) / 2
+for k, (x, r_) in enumerate(((ca['x1'] - 0.25, 0.2), (ca['x1'] - 0.7, 0.21), (ca['x1'] - 1.13, 0.18))):   # 大湯鍋三個：鍋蓋、湯勺、湯
+    clathe(VM, [(0.0, 0.0), (r_, 0.0), (r_ + 0.01, 0.02), (r_ + 0.01, 0.34), (r_ + 0.025, 0.35), (r_ + 0.02, 0.36), (0.0, 0.36)], x, ca['h'], CZ, '#c8ccce', seg=16)
+    for sx in (-1, 1): ccyl(VM, (x + sx * (r_ + 0.01), ca['h'] + 0.3, CZ), (x + sx * (r_ + 0.06), ca['h'] + 0.3, CZ), 0.012, '#9a9ea2', seg=5)
+    if k == 1:   # 中間那鍋打開：湯、湯勺
+        clathe(VC, [(0.0, 0.0), (r_, 0.0), (r_, 0.005), (0.0, 0.005)], x, ca['h'] + 0.33, CZ, '#e0c890', seg=16)
+        ccyl(VM, (x + 0.05, ca['h'] + 0.28, CZ), (x + 0.2, ca['h'] + 0.62, CZ - 0.1), 0.01, '#b8bcbe', seg=5); clathe(VM, [(0.0, 0.0), (0.05, 0.0), (0.055, 0.04), (0.0, 0.01)], x + 0.04, ca['h'] + 0.28, CZ, '#b8bcbe', seg=10)
+    else:   # 鍋蓋（把手）
+        clathe(VM, [(0.0, 0.0), (r_ + 0.02, 0.0), (r_ * 0.6, 0.04), (0.03, 0.06), (0.03, 0.09), (0.0, 0.09)], x, ca['h'] + 0.36, CZ, '#b8bcbe', seg=16)
+for k in range(3): ccyl(VM, (ca['x1'] - 1.45 + k * 0.08, ca['h'] + 0.02, ca['z0'] + 0.1), (ca['x1'] - 1.4 + k * 0.08, ca['h'] + 0.42, ca['z0'] + 0.25), 0.01, '#6a4a2a', seg=5)   # 麵杓（掛在鍋邊）
+for k in range(3):   # 碗疊（白、藍邊）
+    for j in range(R.randint(6, 10)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], ca['x0'] + 0.15 + k * 0.19, ca['h'] + j * 0.028, ca['z1'] - 0.16, '#f4f2ec' if j % 4 else '#3a6ab0', seg=10)
+for k, col in enumerate(('#4e9a3a', '#f2eed8', '#e8d890')):   # 青菜籃、豆芽籃、麵條籃
+    x = ca['x0'] + 0.75 + k * 0.28; z = ca['z1'] - 0.2
+    VC.cbox(x - 0.12, x + 0.12, ca['h'], ca['h'] + 0.1, z - 0.12, z + 0.12, '#e8e4dc' if k < 2 else '#c8a060')
+    for j in range(8): blob(VC, (x + R.uniform(-0.08, 0.08), ca['h'] + 0.12, z + R.uniform(-0.08, 0.08)), 0.045, col, seg=5, rings=3, sy=0.6)
+for k in range(5): clathe(GL, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.12), (0.018, 0.15), (0.0, 0.15)], ca['x1'] - 1.35 + k * 0.07, ca['h'], ca['z1'] - 0.08, ['#c83a2a', '#e8c040', '#3a2a1a', '#e8e0d0', '#5a3a1a'][k], seg=8)   # 調味罐
+# 攤車上的兩層不鏽鋼架（靠店裡那一邊），擺滿
+for y in (ca['h'] + 0.6, ca['h'] + 1.0):
+    ST.box(ca['x0'], ca['x0'] + 1.3, y - 0.02, y, ca['z0'], ca['z0'] + 0.32)
+for x in (ca['x0'] + 0.02, ca['x0'] + 1.28):
+    VM.cbox(x - 0.012, x + 0.012, ca['h'], ca['h'] + 1.0, ca['z0'] + 0.01, ca['z0'] + 0.04, '#9a9ea2')
+for y in (ca['h'] + 0.6, ca['h'] + 1.0):
+    x = ca['x0'] + 0.1
+    while x < ca['x0'] + 1.2:
+        k = R.random()
+        if k < 0.5:
+            for j in range(R.randint(5, 9)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], x + 0.04, y + j * 0.026, ca['z0'] + 0.16, R.choice(['#f4f2ec', '#eef2f6']), seg=10)
+            x += 0.2
+        else:
+            for j in range(3): clathe(GL, [(0.0, 0.0), (0.025, 0.0), (0.025, 0.1), (0.015, 0.13), (0.0, 0.13)], x + j * 0.06, y, ca['z0'] + 0.16, R.choice(['#c83a2a', '#e8c040', '#3a2a1a', '#3a8a3a']), seg=6)
+            x += 0.2
+# 蒸氣卡（半透明，往上飄；兩面都貼）
+for (x, w_, h_) in ((ca['x1'] - 0.7, 0.55, 0.95), (-2.82, 0.45, 0.8)):
+    zc = CZ if x > -2.8 else 1.25
+    face(STM, (x, ca['h'] + 0.36 + h_ / 2 if x > -2.8 else ch_ + 0.2 + h_ / 2, zc), '+z', w_, h_, (0, 0, 1, 1), two=True)
 # ================= 桌椅、凳子、桌上 =================
 for t in S['tables']:
     x, z = t['x'], t['z']
@@ -293,7 +332,7 @@ for x in (dr_['x0'], dr_['x1']): VM.cbox(x - 0.015, x + 0.015, 0, dr_['h'], dr_[
 for y in (0.3, 0.75, 1.2, 1.65):
     for k in range(5):
         for j in range(R.randint(4, 9)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], dr_['x0'] + 0.15 + k * 0.25, y + j * 0.028, (dr_['z0'] + dr_['z1']) / 2, R.choice(['#f4f2ec', '#eef2f6']), seg=10)
-for k in range(2): face(PR, (dr_['x0'] + 0.35 + k * 0.6, dr_['h'] + 0.14, dr_['z1'] - 0.1), '+z', 0.5, 0.28, C['carton']); VC.cbox(dr_['x0'] + 0.1 + k * 0.6, dr_['x0'] + 0.6 + k * 0.6, dr_['h'], dr_['h'] + 0.28, dr_['z0'] + 0.05, dr_['z1'] - 0.1, '#c8a070')
+for k in range(2): face(PR, (dr_['x0'] + 0.35 + k * 0.6, dr_['h'] + 0.14, dr_['z1'] - 0.094), '+z', 0.5, 0.28, C['carton']); VC.cbox(dr_['x0'] + 0.1 + k * 0.6, dr_['x0'] + 0.6 + k * 0.6, dr_['h'], dr_['h'] + 0.28, dr_['z0'] + 0.05, dr_['z1'] - 0.1, '#c8a070')
 
 # ================= 右牆：紅紙菜單、時鐘、壁扇、相框、自助調味區、收銀台 =================
 mn = S['menu']; rp = wg('right', 'print'); rv = wg('right', 'vc')
@@ -311,9 +350,10 @@ def wall_fan(x, y, z, yaw):
     VC.crbox(x - 0.07, x + 0.07, y - 0.12, y + 0.12, z - 0.07, z + 0.07, '#e8e6e0', r=0.02, seg=1)
     hx, hz = T(0, 0.22); ccyl(VC, (x, y, z), (hx, y - 0.05, hz), 0.025, '#e8e6e0', seg=6)
     cx_, cz_ = T(0, 0.3)
-    for k in range(3):
-        a = k * 2 * PI / 3; p0 = (cx_, y - 0.08, cz_)
-        lx, ly = 0.17 * math.cos(a), 0.17 * math.sin(a); e = T(lx, 0.3); VC.poly([p0, (e[0], y - 0.08 + ly, e[1]), (T(lx * 0.6 - ly * 0.4, 0.3)[0], y - 0.08 + ly * 0.6 + lx * 0.4, T(lx * 0.6 - ly * 0.4, 0.3)[1])], '#cfd4d8')
+    f0 = set(VC.bm.faces); VC.sphere((cx_, y - 0.08, cz_), 0.05, seg=8, rings=5); VC.paint(nf(VC, f0), '#d8dcdf')
+    for k in range(3):   # 扇葉：三片在網罩裡（扁的小方塊）
+        a = k * 2 * PI / 3 + 0.3; e0 = T(0.0, 0.3); e1 = T(0.16 * math.cos(a), 0.3)
+        f0 = set(VC.bm.faces); VC.ell(((e0[0] + e1[0]) / 2, y - 0.08 + 0.08 * math.sin(a), (e0[1] + e1[1]) / 2), 0.07 if abs(math.cos(a)) > 0.3 else 0.02, 0.04 + 0.05 * abs(math.sin(a)), 0.02 if abs(math.cos(a)) > 0.3 else 0.07, seg=6, rings=3); VC.paint(nf(VC, f0), '#cfd4d8')
     for k in range(10):
         a = k * PI / 5; p0 = T(0.21 * math.cos(a), 0.26); p1 = T(0.21 * math.cos(a + PI / 5), 0.26)
         ccyl(VM, (p0[0], y - 0.08 + 0.21 * math.sin(a), p0[1]), (p1[0], y - 0.08 + 0.21 * math.sin(a + PI / 5), p1[1]), 0.004, '#9a9ea2', seg=3, caps=False)
@@ -324,12 +364,12 @@ cd = S['condiments']   # 自助調味區：不鏽鋼兩層架
 for y in (0.3, cd['h']): ST.box(cd['x0'], cd['x1'], y - 0.03, y, cd['z0'], cd['z1'])
 for z in (cd['z0'] + 0.03, cd['z1'] - 0.03): VM.cbox(cd['x0'], cd['x0'] + 0.03, 0, cd['h'], z - 0.015, z + 0.015, '#b8bcbe')
 for k in range(5):   # 下層的塑膠籃（有格子的邊）
-    za = cd['z0'] + 0.1 + k * 0.46; col = ['#f4f2ec', '#c83a3a', '#f4f2ec', '#f4f2ec', '#c83a3a'][k]
+    za = cd['z0'] + 0.1 + k * 0.46; col = ['#c83a3a', '#c83a3a', '#f4f2ec', '#c83a3a', '#c83a3a'][k]
     VC.cbox(cd['x0'] + 0.08, cd['x1'] - 0.05, 0.3, 0.32, za, za + 0.38, col)
     for zz in (za, za + 0.37): VC.cbox(cd['x0'] + 0.08, cd['x1'] - 0.05, 0.32, 0.46, zz, zz + 0.012, col)
     for xx in (cd['x0'] + 0.08, cd['x1'] - 0.062): VC.cbox(xx, xx + 0.012, 0.32, 0.46, za, za + 0.38, col)
     for j in range(4): VC.cbox(cd['x0'] + 0.1, cd['x1'] - 0.07, 0.32, 0.35, za + 0.03 + j * 0.09, za + 0.08 + j * 0.09, '#f2f0ea')
-for k in range(9): clathe(GL, [(0.0, 0.0), (0.035, 0.0), (0.035, 0.15), (0.02, 0.19), (0.0, 0.19)], cd['x0'] + 0.2 + (k % 2) * 0.1, cd['h'], cd['z0'] + 0.25 + k * 0.24, ['#3a2a1a', '#b0281e', '#e8d8b0', '#3a2a1a', '#c83a2a'][k % 5], seg=8)
+for k in range(14): clathe(GL, [(0.0, 0.0), (0.038, 0.0), (0.038, 0.18), (0.022, 0.23), (0.0, 0.23)], cd['x0'] + 0.15 + (k % 2) * 0.12, cd['h'], cd['z0'] + 0.15 + k * 0.155, ['#3a2a1a', '#b0281e', '#e8d8b0', '#3a2a1a', '#c83a2a'][k % 5], seg=8)
 for k in range(3): clathe(VM, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.16), (0.0, 0.16)], cd['x0'] + 0.25, cd['h'], cd['z0'] + 0.5 + k * 0.7, STEELC, seg=8)   # 筷子、湯匙筒
 for k in range(3):
     for j in range(8): ccyl(VC, (cd['x0'] + 0.25 + R.uniform(-0.02, 0.02), cd['h'] + 0.05, cd['z0'] + 0.5 + k * 0.7 + R.uniform(-0.02, 0.02)), (cd['x0'] + 0.25 + R.uniform(-0.03, 0.03), cd['h'] + 0.32, cd['z0'] + 0.5 + k * 0.7 + R.uniform(-0.03, 0.03)), 0.004, '#d8b880', seg=3)
@@ -356,10 +396,11 @@ if PREVIEW:
 for (side, key), m in list(WG.items()): m.finish(G[side], uv=(key in ('steel',)), smooth=False)
 VC.finish(root, uv=False); VM.finish(root, uv=False, smooth=True); GL.finish(root, uv=False, smooth=True)
 WD.finish(root, uv=True); ST.finish(root, uv=True)
+STM.finish(root, uv=False, props={'steam': 1})
 for m, pr in ((PR, None), (SCR, None), (WARM, None), (GLS, {'glass': 1}), (GLSF, {'glass': 1, 'side': 'front'})): m.finish(root, uv=(m is WARM), props=pr)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
-L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('WALL_', 'PREVIEW', 'GLASS_')), key=lambda ob: '')
+L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('WALL_', 'PREVIEW', 'GLASS_', 'lin_steam')), key=lambda ob: '')
 st_ = L.export(OUT)
 mats = sorted({ms.material.name for ob in bpy.data.objects if ob.type == 'MESH' for ms in ob.material_slots if ms.material})
 print('OK', OUT, 'materials', len(mats), mats)
