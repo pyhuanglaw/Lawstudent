@@ -94,6 +94,7 @@ DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場�
 STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
 ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_date：先列「手機能約誰」的名單
 AFTER_S = int(os.environ.get('AFTER_S') or 150)                       # 約會結束後等幾秒看她回到自己的行程
+SLOT_OVERRIDE = (os.environ.get('SLOT_OVERRIDE') or '').strip()   # 'zone,hour,YYYY-MM-DD'：greet／up／menu／invite／reload 讀檔到這個時段（不掃）
 STUDY_MSG = '使用者 11-04：約念書不能在門口結束，要一起坐下'
 STUDY_VARIANTS = env_list('STUDY_VARIANTS', 'full,reload')   # X207 ②「二樓滿了改去三樓」、⑥「帶路途中讀檔」
 # AA_649（企劃線 37daf8027）照抄：約念書在總圖的台詞（逐字比對；比對時去掉「」和空白）
@@ -632,10 +633,21 @@ class Person:
         """掃描用的存檔：條件事件關閉、不留著用"""
         if self.info['econ']: d = await self.pg.evaluate("(()=>{ const T=CALENDAR.termDays('Y0S1'); return T?T.from+20:-300; })()")
         else: d = await self.pg.evaluate("STORY.dayOfKey('2025-10-01')")
-        await self.load(self.base(d, 12.0, 'campus', {'x': 30, 'z': 30, 'yaw': 0}), quiet=True, why='掃時段用')
+        fl = None
+        if self.pid == 'heroine_03':   # story3d.js schedEnt（fd8d447d2:408）：沒有 YT_MET_JOB 時語彤不在任何地方，whereIs 一律 null（掃到 []）
+            fl = {'YT_MET_JOB': True}
+            self.R.setup('【前置／捷徑】掃時段用的存檔加 flags.YT_MET_JOB＝true（語彤在一盞茶屋認識以後才有作息；正式步驟的 SETUP met 也會設）')
+        await self.load(self.base(d, 12.0, 'campus', {'x': 30, 'z': 30, 'yaw': 0}, flags=fl), quiet=True, why='掃時段用')
 
     async def find_slot(self):
         if self.base_slot is not None: return self.base_slot
+        if SLOT_OVERRIDE:   # SLOT_OVERRIDE='zone,hour,YYYY-MM-DD'：直接指定時段（不掃）
+            z, hr, key = [x.strip() for x in SLOT_OVERRIDE.split(',')]
+            o = await self.pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); const t=CALENDAR.termOf(d)||{}; return {d, wd:CALENDAR.dateOf(d).wd%7, key:CALENDAR.dateOf(d).key, term:t.id||'', week:t.week|0}; })", key)
+            o.update({'hr': float(hr), 'zone': z, 'act': 'SLOT_OVERRIDE'})
+            self.R.setup('【前置／捷徑】SLOT_OVERRIDE 指定時段：%s' % J([o['key'], o['hr'], o['zone']]))
+            self.base_slot = [o]
+            return self.base_slot
         await self.scratch()
         out = await self.pg.evaluate(SCAN_JS, {'id': self.pid, 'terms': self.terms(), 'hours': HOURS, 'max': 30, 'wk0': 3})
         out.sort(key=lambda o: (PREF_ZONE.index(o['zone']) if o['zone'] in PREF_ZONE else 99, o['d']))
