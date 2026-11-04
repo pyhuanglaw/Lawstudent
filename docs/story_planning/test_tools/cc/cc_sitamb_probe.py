@@ -217,7 +217,7 @@ async def wait_people(pg, ctl, want_idx=None, max_s=90, min_s=8):
         r = await pg.evaluate(SEATED_JS)
         ppl = [s for s in r['seated'] if not s['hidden'] and (want_idx is None or s['i'] in want_idx)]
         sa = r.get('seatact') or {}
-        sig = (len(ppl), sa.get('n'), r.get('pairs'), sum(1 for s in ppl if s['drv'] == 'vrm'))
+        sig = (len(ppl), sa.get('n'), r.get('pairs'), sum(1 for s in ppl if s['drv'] == 'vrm'), sum(1 for s in ppl if (s.get('act') or {}).get('set')), sum(1 for s in ppl if s['focus']))   # 桌上小物（SEATACT 找桌子 1.5、5 秒、之後每 4 秒重試）、看桌上（sitFocus）也要穩定
         # 畫面外 16 m 以上的人不更新骨架（engine3d.js updateNPC）＝ambOn 一直是 false：只看畫面裡的人
         # SEATACT（坐著做什麼、桌上的東西）每 30 格才跑一次：要等它處理過這個區域（state().zone＝這一區；不是 SEATACT 管的地方＝不用等）
         sa_ok = not sa or not sa.get('place') or (sa.get('zone') == r['zone'] and (sa.get('n') or 0) > 0)

@@ -49,7 +49,12 @@ async def shoot(pg, key, img, a, b, tag, keep=None):
     for ori, (w, h) in VP.items():
         await pg.set_viewport_size({'width': w, 'height': h}); await pg.wait_for_timeout(700)
         st = await pg.evaluate(SHOW_JS + '(%s)' % J([img, a, b]))
-        await pg.evaluate(SAY_JS + '(%s)' % J(LINE)); await pg.wait_for_timeout(900)
+        await pg.evaluate(SAY_JS + '(%s)' % J(LINE)); await pg.wait_for_timeout(500)
+        for _ in range(30):   # CC-C 16:1x：台詞是一個字一個字打出來的，打完才拍（不然看不出對話框底下有沒有字被蓋住）
+            n = await pg.evaluate("(()=>((document.getElementById('dlgText')||{}).textContent||'').length)()")
+            if n >= len(LINE) - 1: break
+            await pg.wait_for_timeout(200)
+        await pg.wait_for_timeout(300)
         fn = os.path.join(OUT, 'bg_%s_%s_%s.jpg' % (key, tag, ori))
         png = await pg.screenshot(path=fn, type='jpeg', quality=85)
         if keep is not None and ori in keep: keep[ori].append(base64.b64encode(png).decode())
