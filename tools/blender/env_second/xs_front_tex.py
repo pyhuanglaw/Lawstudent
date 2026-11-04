@@ -37,6 +37,14 @@ Q = [
     ('nanyang_ext', 'front', [(407, 393), (1380, 373), (1380, 800), (407, 800)], 1024, 448),
     ('nanyang_ext', 'poster', [(1393, 307), (1640, 307), (1640, 773), (1393, 773)], 288, 544),
 ]
+# 溫州街（wz_fronts_atlas）：日常失速（W2 一樓，參考圖 ref_images/wz_cafes/daily_offbeat_ref_v2.webp，企劃線）
+QW = [
+    ('offbeat_ref_v2', 'sign', [(600, 18), (1340, 0), (1340, 112), (600, 140)], 1024, 160),
+    # 店裡、側窗裡：不裁參考圖，直接用 AA 的室內 GLB（aa_support/daily_offbeat.glb）從街上的位置渲染（render_interior.py，鏡頭正對玻璃、畫面寬＝玻璃寬）：
+    # 從外面看到的店內＝走進去看到的店內（參考圖畫的店內和 AA 做的室內配置不一樣，以走得進去的那一個為準）
+    ('@textures/src/offbeat_int_render.jpg', 'int', None, 1024, 300),    # 正面：眼睛 (0.35,1.55,11)、看 (0.35,1.55,0)、22.3 mm、藏 WALL_front；畫面＝本地 x −4.55～5.25、y 0.11～2.99
+    ('@textures/src/offbeat_side_render.jpg', 'side', None, 704, 512),   # 側面：眼睛 (11.5,1.6,−1.75)、看 (0,1.6,−1.75)、52.7 mm、藏 WALL_right；畫面＝室內 z 0.3～−3.8（側窗）
+]
 
 
 def coeffs(dst, src):
@@ -49,29 +57,39 @@ def coeffs(dst, src):
 
 
 os.makedirs(OUT, exist_ok=True)
-cache = {}
-for name, part, quad, w, h in Q:
-    if name not in cache: cache[name] = Image.open(os.path.join(REF, name + '.webp')).convert('RGB')
-    im = cache[name]
-    c = coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad)
-    o = im.transform((w, h), Image.PERSPECTIVE, c, Image.BICUBIC).filter(ImageFilter.UnsharpMask(radius=1, percent=40, threshold=2))
-    key = f'{name.replace("_ext", "").replace("xinsheng_sports", "xsports")}_{part}'
-    if key == 'xsports_up':   # 球衣上的校名（參考圖寫了真實的大學名字，D77 要虛構）：只把字那一條糊掉，號碼留著
-        band = o.crop((0, 62, w, 112)).filter(ImageFilter.GaussianBlur(5)); o.paste(band, (0, 62))
-    cache[key] = o; print(key, o.size)
 
-# ---- 拼成一張圖集（整條街一個材質）：一列一列往下排，寬 2048；xs_fronts_atlas.jpg＋.json（uv：u0, v0, u1, v1，v 從下往上）
-import json
-keys = [k for k in cache if not k.endswith('_ext') and isinstance(cache[k], Image.Image) and k.count('_') >= 1 and k not in {n for n, *_ in Q}]
-items = sorted(keys, key=lambda k: -cache[k].size[1]); AW = 2048; pos = {}; x = y = rowh = 0
-for k in items:
-    w_, h_ = cache[k].size
-    if x + w_ > AW: x = 0; y += rowh + 4; rowh = 0
-    pos[k] = (x, y); x += w_ + 4; rowh = max(rowh, h_)
-AH = y + rowh; atlas = Image.new('RGB', (AW, AH), (128, 128, 128))
-for k, (x_, y_) in pos.items(): atlas.paste(cache[k], (x_, y_))
-atlas = atlas.resize((AW // 2, AH // 2), Image.LANCZOS)   # 手機：2048×3856 的圖集在 GPU 上 31 MB，縮一半（招牌從人行道看還是清楚）
-atlas.save(os.path.join(OUT, 'xs_fronts_atlas.jpg'), quality=88)
-uv = {k: [x_ / AW, 1 - (y_ + cache[k].size[1]) / AH, (x_ + cache[k].size[0]) / AW, 1 - y_ / AH, cache[k].size[0] / cache[k].size[1]] for k, (x_, y_) in pos.items()}
-json.dump(uv, open(os.path.join(OUT, 'xs_fronts_atlas.json'), 'w'), indent=1)
-print('atlas', AW, AH, len(uv))
+
+def build(QQ, atlas_name, alias=lambda n: n):
+  cache = {}
+  for name, part, quad, w, h in QQ:
+      if name.startswith('@'):   # 本作的渲染圖（tools/blender/env_second/ 底下的相對路徑），整張縮到 w×h
+          o = Image.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), name[1:])).convert('RGB').resize((w, h), Image.LANCZOS)
+          key = f'{alias(name)}_{part}'; cache[key] = o; print(key, o.size); continue
+      if name not in cache: cache[name] = Image.open(os.path.join(REF, name + '.webp')).convert('RGB')
+      im = cache[name]
+      c = coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad)
+      o = im.transform((w, h), Image.PERSPECTIVE, c, Image.BICUBIC).filter(ImageFilter.UnsharpMask(radius=1, percent=40, threshold=2))
+      key = f'{alias(name)}_{part}'
+      if key == 'xsports_up':   # 球衣上的校名（參考圖寫了真實的大學名字，D77 要虛構）：只把字那一條糊掉，號碼留著
+          band = o.crop((0, 62, w, 112)).filter(ImageFilter.GaussianBlur(5)); o.paste(band, (0, 62))
+      cache[key] = o; print(key, o.size)
+
+  # ---- 拼成一張圖集（整條街一個材質）：一列一列往下排，寬 2048；xs_fronts_atlas.jpg＋.json（uv：u0, v0, u1, v1，v 從下往上）
+  import json
+  keys = [k for k in cache if k not in {n for n, *_ in QQ}]   # 參考圖原圖不放進圖集
+  items = sorted(keys, key=lambda k: -cache[k].size[1]); AW = 2048; pos = {}; x = y = rowh = 0
+  for k in items:
+      w_, h_ = cache[k].size
+      if x + w_ > AW: x = 0; y += rowh + 4; rowh = 0
+      pos[k] = (x, y); x += w_ + 4; rowh = max(rowh, h_)
+  AH = y + rowh; atlas = Image.new('RGB', (AW, AH), (128, 128, 128))
+  for k, (x_, y_) in pos.items(): atlas.paste(cache[k], (x_, y_))
+  atlas = atlas.resize((AW // 2, AH // 2), Image.LANCZOS)   # 手機：2048×3856 的圖集在 GPU 上 31 MB，縮一半（招牌從人行道看還是清楚）
+  atlas.save(os.path.join(OUT, atlas_name + '.jpg'), quality=88)
+  uv = {k: [x_ / AW, 1 - (y_ + cache[k].size[1]) / AH, (x_ + cache[k].size[0]) / AW, 1 - y_ / AH, cache[k].size[0] / cache[k].size[1]] for k, (x_, y_) in pos.items()}
+  json.dump(uv, open(os.path.join(OUT, atlas_name + '.json'), 'w'), indent=1)
+  print('atlas', AW, AH, len(uv))
+
+
+build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
+build(QW, 'wz_fronts_atlas', lambda n: 'offbeat' if n.startswith('@') else n.replace('_ref_v2', ''))
