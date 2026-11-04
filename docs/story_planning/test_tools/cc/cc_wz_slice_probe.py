@@ -24,7 +24,7 @@ def check(name, ok, info=''):
 
 
 HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
-HIDE = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const q of (E.npcs||[])) if(q&&q.obj){ q.hidden=true; q.obj.visible=false; n++; } for(const x of (E.extras||[])) if(x&&x.obj){ x.hidden=true; x.obj.visible=false; n++; } return n; })()"""
+HIDE = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const q of (E.npcs||[])) if(q&&q.obj){ q.hidden=true; q.obj.visible=false; n++; } for(const x of (E.extras||[])) if(x&&x.obj&&!x.trees&&x.name!=='treeFieldExtra'){ x.hidden=true; x.obj.visible=false; n++; } return n; })()"""
 AIM = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+5;i++) await new Promise(r=>setTimeout(r,200)); const ri=E.renderer.info.render; return {calls:ri.calls, tris:ri.triangles}; })"""
 MESHN = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
