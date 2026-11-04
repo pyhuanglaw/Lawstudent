@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PARK_glb",
+  "sha": "555b9e0cb",
+  "kind": "game",
+  "script": "tests/campus_glb_integration.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T20:45:17",
+  "end": "2026-11-04T20:47:20",
+  "seconds": 123,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "res_peak": {
+    "cpu": 24,
+    "mem": 50,
+    "used_gb": 15.6,
+    "chrome_testing": 28
+  }
+}
