@@ -104,3 +104,15 @@
 [23:59:40] [res] cpu=16% mem=36% (11.5/31.4 GB) chrome_testing=0  START V20R_p0
 [00:02:21] 正在跑：V20R_p0（已跑 2 分／上限 20 分）、V20R_v7（已跑 2 分／上限 20 分）、V20R_day12（已跑 2 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [00:03:30] [res] cpu=17% mem=51% (16.1/31.4 GB) chrome_testing=10  END V20R_p0
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+    fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:04:03] push failed for V20R_p0 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[00:04:03] ==== END   V20R_p0  exit=0  233s   ====
+[00:04:03] fetch claude/second-ai-env-art failed (continuing): fatal: unable to access 'https://github.com/pyhuanglaw/Lawstudent.git/': Could not resolve host: github.com
+[00:04:04] memory 51% before starting V20R_linze (2 running)
+[00:04:04] ==== START V20R_linze  (game @ d3828452abe2d10f1b7bb3b47d8313482f83b2d3) ====
+[00:04:07] [res] cpu=24% mem=51% (16.2/31.4 GB) chrome_testing=10  START V20R_linze
+[00:05:23] [res] cpu=21% mem=52% (16.5/31.4 GB) chrome_testing=10  END V20R_day12
