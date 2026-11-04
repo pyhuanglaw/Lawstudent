@@ -51,7 +51,7 @@ def dof():
     S = 512; a = np.zeros((S, S, 3), np.float32); n = noise(S, S, 4, 1) - 0.5; n2 = noise(S, S, 32, 2) - 0.5
     for i in range(2):
         for j in range(2):
-            col = np.array(hexc('#768470' if (i + j) % 2 else '#e7e0cd'), np.float32) * (1 + rng.uniform(-0.04, 0.04))   # v3：降飽和、綠格比白格暗（v2 #5f7b5b／#ebe4cf，LAWWW2：太搶眼）
+            col = np.array(hexc('#aab5a1' if (i + j) % 2 else '#ece6d4'), np.float32) * (1 + rng.uniform(-0.04, 0.04))   # v3c：奶油白＋淺鼠尾草綠、對比低（LAWWW2 第三輪）；v3 #768470／#e7e0cd；v2 #5f7b5b／#ebe4cf
             a[j * 256:(j + 1) * 256, i * 256:(i + 1) * 256] = col
     a *= (1 + n[..., None] * 0.06 + n2[..., None] * 0.05)
     yy, xx = np.mgrid[0:S, 0:S]; dx = np.minimum(xx % 256, 255 - xx % 256); dy = np.minimum(yy % 256, 255 - yy % 256); dd = np.minimum(dx, dy)
