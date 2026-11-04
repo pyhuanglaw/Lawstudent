@@ -18,7 +18,10 @@
   ev8 買賣不破租賃（債各第 6 週課堂→傳訊息）｜grad_friend 畢業那天（朋友：事件 17、Café 的約、Café 那一句、晚上 FB）｜grad_gf 畢業那天（交往中的約）｜end4 結局 4（尾聲）
 用法：LW_TESTS=<工作樹>/tests SHA=<sha> [CASES=tea_cats,ev5] python3 cc_yutong_v3_probe.py '<URL>/index.html' <輸出資料夾>
 環境：LW_REPO（讀稿用的 repo，預設 /home/user/Lawstudent）、STORY_REF（預設 origin/claude/story-planning）、CASE_S（每一場上限秒數，預設 1500）。
-exit 0＝ALL PASS；1＝有 FAIL。"""
+exit 0＝ALL PASS；1＝有 FAIL。
+11-04 修正（PC 第一輪 YT3-A/C/D/E）：①第二次讀檔前還原 STORY.phoneAuto（第一次讀檔 quiet_events 把它關了，要回覆的私訊不會自己打開＝home、ev14 等不到）；
+  ②點了「出發：」、到了那一區以後再做一次觸發（ev9 法服值班出遊到萬才館大廳，要再點「坐到圓桌」）；③ev8 找看得到的空位坐下（不看 hidden 的座位）、09:00 到 201；
+  ④捷徑：燒臘店阿姨「阿姨（阿鳳）」第一次的名字當作以前講過（SUP519 rec.nar）；可昕預設交往中拿掉（dating_kexin false）；⑤grad_gf 演完就停（hard_done）。"""
 import os, sys, json, asyncio, time, traceback, subprocess, math
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L  # noqa: E402
@@ -155,7 +158,7 @@ CASES = {
                    contacts=[YT, 'zhe', 'heroine_01', 'yu'], meet=['zhe', 'heroine_01', 'yu', 'heroine_02'], groups=[['noodle_team', '桌遊團']], act='wait', phone=True, picks=['一包乖乖', '出發'], shot=['燒臘店阿姨（畫面外）'],
                    exp=[('642', N, '（語彤從包包裡拿出一卷膠帶，把箱子封了三圈。）'), ('642', '燒臘店阿姨（畫面外）', '箱子不夠大的話，店裡有！')],
                    done="!!(((GAME.G.events||{}).done||{}).ev_xmas_y3_box)"),
-    'ev8': dict(title='8 買賣不破租賃（大二下債各第 6 週：課堂回想＋下課傳訊息）', key='2027-03-29', where=('linze', {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 8 + 55 / 60), rel={YT: dict(fam=40, trust=25)}, contacts=[YT], mem=[[YT, 'RENT_RUMOR', '']],
+    'ev8': dict(title='8 買賣不破租賃（大二下債各第 6 週：課堂回想＋下課傳訊息）', key='2027-03-29', where=('linze', {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 9.0), rel={YT: dict(fam=40, trust=25)}, contacts=[YT], mem=[[YT, 'RENT_RUMOR', '']],
                 act='class', picks=['傳訊息給語彤'], shot=[N],
                 exp=[('643', N, '（你想起語彤說的，秀琴姨的房東要把房子賣了。）')],
                 msgs=[('625', '今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。'), ('625', '……真的？'), ('625', '我明天跟她說。'), ('625', '謝謝。我不知道課本裡有寫這個。')],
@@ -168,14 +171,14 @@ CASES = {
                         done="GAME.G.flags.GRAD_EVENING==='cafe'&&(GAME.G.msgs||[]).some(m=>m.th==='p:heroine_03'&&/第一次，她寫我念什麼系/.test(m.text||''))"),
     'grad_gf': dict(title='畢業那天（交往中：她的約）', key='2029-06-02', where=('dorm', None, 5 + 50 / 60), grad=True, dating=True, rel={YT: dict(fam=60, trust=45, comf=40, rom=60, npcRom=50)},
                     contacts=[YT], act='wait', phone=True, picks=['好。'], shot=['語彤'],
-                    exp=[('643', '語彤', '今天不排班。晚上來我家，我煮。')], done="!!GAME.G.flags.GRAD_DONE"),
+                    exp=[('643', '語彤', '今天不排班。晚上來我家，我煮。')], done="!!GAME.G.flags.GRAD_DONE", hard_done=True),
     'end4': dict(title='結局 4（很好的朋友：尾聲語彤那一列）', key='2034-06-03', where=('dorm', None, 18 + 50 / 60), epi=True, rel={YT: dict(fam=50, trust=35)}, act='wait', shot=['語彤'],
                  exp=[('643', N, '（她週末還是會去一盞茶屋坐一下。蘇姨幫她留著吧檯最旁邊的位子。）')], done="!!GAME.G.flags.EPILOGUE_DONE"),
 }
 ORDER = ['tea_first', 'tea_cats', 'tea_pay', 'mom_here', 'absent', 'mom_back', 'rent', 'ev5', 'ev9', 'ev9_msg', 'ev11', 'home', 'home_rent', 'ev13', 'ev14', 'ev15b_shelf', 'ev15b_tea',
          'ev16', 'ev16b', 'xmas_y4', 'box_y3', 'ev8', 'grad_friend', 'grad_gf', 'end4']
 
-BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
+BASEF = {'dating_kexin': False, 'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'MET_KAI': True, 'LAW_RECAP_SEEN': True,
          'fundsV2': 1, 'YT_JOB_V': 1}
 VISITED = ('noodle', 'cafe', 'library_hall', 'library', 'lawlib', 'wancai', 'linze', 'gongguan', 'wenzhou', 'cvs', 'bookstore', 'dorm', 'dorm_hall', 'campus', 'classroom', 'wz_teahouse')
@@ -243,6 +246,7 @@ SETUP = r"""(c=>{ const G=GAME.G, F=G.flags, YT='heroine_03';
   const so=G.social||(G.social={}), U=so.relUp||(so.relUp={}); for(const id of Object.keys(c.rel||{})) if((U[id]|0)<4) U[id]=4;
   for(const k in (c.dayflags||{})) F[k]=G.day+c.dayflags[k];
   const D=(G.events.done=G.events.done||{}); for(const e of (c.done_ev||[])) D[e]=G.day-7;
+  if(typeof SUP519!=='undefined'&&SUP519.rec){ const R5=SUP519.rec(G); if(R5.nar==null) R5.nar=G.day-200; }   /* 捷徑：燒臘店阿姨「阿姨（阿鳳）」第一次的名字（sup519_3d.js:141 S.narName，AA_519 1-1）當作大一就講過——最小存檔沒有之前的燒臘店場景，不然這一場的第一句旁白會變「阿姨（阿鳳）」*/
   if(!c.keepFm) so.fm120=true;   /* 捷徑：讀檔時的「舊存檔初遇修正」（game3d.js relabelFirstMet）記成做過；不然第二次讀檔會把剛記的 FIRST_MET 改成 GREETED（見 tea_first 的讀檔檢查）*/
   return {stage:SOCIAL.stage(YT), rel:SOCIAL.rel(YT), knows:typeof STORY!=='undefined'&&STORY.knows?STORY.knows(YT,G):null, dating:!!F['dating_'+YT],
     jobs:G.jobs&&G.jobs.tea?{shifts:G.jobs.tea.shifts,day:G.jobs.tea.day}:null, groups:(c.groups||[]).map(g=>PHONE.inGroup(G,g[0]))}; })"""
@@ -354,15 +358,19 @@ async def do_action(pg, cdp, run, cs):
 
 async def drive(pg, cdp, run, cs, out, name):
     picks = list(cs.get('picks') or []); ppicks = list(cs.get('ppicks') or [])
-    t0 = time.time(); last = None; since = time.time(); shot_done = set(); done_at = None; slots = {}
+    t0 = time.time(); last = None; since = time.time(); shot_done = set(); done_at = None; slots = {}; redo = 0
     while time.time() - t0 < CASE_S:
         s = await pg.evaluate(TS)
         dn = await pg.evaluate("(()=>{ try{ return !!(%s); }catch(e){ return false; } })()" % cs['done'])
         idle = not s['dlg'] and not s['ch'] and s['depth'] == 0 and not s['busy'] and not s['evr']
+        if dn and cs.get('hard_done'): break   # 演完就停（之後的出遊、選單不是這一場要看的）
         if dn and idle:
             if done_at is None: done_at = time.time()
             if time.time() - done_at > cs.get('wait_after', 4): break
         else: done_at = None
+        if redo and idle and not dn and not s['phone'] and cs.get('act', 'wait') not in ('wait', 'tea', 'class'):
+            # 出遊（例：「出發：法服值班」）把人帶到那一區以後：照玩家再走一次、點互動點（PC YT3-C ev9：到了萬才館大廳沒有再點「坐到圓桌」，等到 13:00 什麼都沒演）
+            redo -= 1; run.note('出遊到了，再做一次觸發（%s）' % cs.get('act')); await do_action(pg, cdp, run, cs); continue
         sig = (s['txt'][:30], tuple(s['ch']), s['zone'], s['phone'], len(s['asks']))
         if sig != last: last = sig; since = time.time()
         elif time.time() - since > 300 and not dn:
@@ -385,6 +393,7 @@ async def drive(pg, cdp, run, cs, out, name):
                 if k is not None: picks.pop(i); break
             if k is None: k = next((j for j, t in enumerate(s['ch']) if t.startswith(('出發：', '接起來', '「好。」', '好。'))), 0)
             run.note('選項 %s → 點「%s」' % (J(s['ch']), s['ch'][k]))
+            if s['ch'][k].startswith('出發：'): redo = 1
             await tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); continue
         if s['dlg']:
             nm = s['name']
@@ -453,7 +462,7 @@ async def run_case(BR, name, cs, docs, run):
         await pg.evaluate("localStorage.clear()")
         st, d = await base_state(pg, cs, run)
         if not st: run.check('[%s] 找得到日子' % name, False, J(cs.get('key') or cs.get('at'))); return res
-        await pg.evaluate("(()=>{ window.__YTEV={a:EVENTS.onEnter,b:EVENTS.tick}; })()")
+        await pg.evaluate("(()=>{ window.__YTEV={a:EVENTS.onEnter,b:EVENTS.tick,p:(typeof STORY!=='undefined'?STORY.phoneAuto:null)}; })()")
         await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(2500)
         info = await pg.evaluate(SETUP, {k: cs.get(k) for k in ('meet', 'rel', 'mem', 'contacts', 'groups', 'dating', 'dayflags', 'done_ev', 'keepFm')} | {'meet': [YT] + list(cs.get('meet') or []) if cs.get('met', True) else list(cs.get('meet') or [])})
         if cs.get('grad') or cs.get('epi'):
@@ -463,7 +472,7 @@ async def run_case(BR, name, cs, docs, run):
         snap = snap.get('G', snap) if isinstance(snap, dict) else snap
         snap['hour'] = cs['where'][2]
         await pg.evaluate("localStorage.clear()")
-        await pg.evaluate("(()=>{ EVENTS.onEnter=window.__YTEV.a; EVENTS.tick=window.__YTEV.b; })()")
+        await pg.evaluate("(()=>{ EVENTS.onEnter=window.__YTEV.a; EVENTS.tick=window.__YTEV.b; if(typeof STORY!=='undefined'&&window.__YTEV.p) STORY.phoneAuto=window.__YTEV.p; })()")
         await pg.evaluate(HOOK)
         await L.load_state(pg, snap, quiet_events=False, quiet_phone=not cs.get('phone')); await pg.wait_for_timeout(3000)
         run.setup('[%s] GAME.snapshot() 再讀一次（條件事件照開%s）' % (name, '、手機自動打開照開' if cs.get('phone') else '、只關手機自動打開'))
@@ -537,15 +546,28 @@ async def class_flow(pg, cdp, run, cs):
         await L.go_to(pg, cdp, run, it['x'], it['z'], 1.0, '201 門口', max_s=400, stop=lambda s: bool(s.get('dlg') or s.get('choices')))
         s = await pg.evaluate(TS)
         if s['act']: run.note('點「%s」' % s['act']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4000)
-    for _ in range(30):
-        it2 = await L.find_it(pg, '坐下')
+    tried = []
+    for _ in range(12):
         s = await pg.evaluate(TS)
         if s['dlg'] or s['ch']: return
-        if it2:
-            await L.go_to(pg, cdp, run, it2['x'], it2['z'], 0.8, '座位', max_s=300, stop=lambda s: bool(s.get('dlg') or s.get('choices')))
+        if s['act'].startswith('坐下'): await L.tap(pg, cdp, '#interact'); run.note('點「坐下」'); await pg.wait_for_timeout(3000); continue
+        # 看得到的空位（hidden 的不算：有人坐、別層）裡最近、還沒試過的那一個（PC YT3-E：L.find_it 拿到的第一個座位旁邊一直沒有「坐下」按鈕）
+        it2 = await pg.evaluate(SEAT_JS, tried)
+        run.note('空位：%s' % J(it2))
+        if not it2: await pg.wait_for_timeout(1500); continue
+        tried.append(it2['k'])
+        await L.go_to(pg, cdp, run, it2['x'], it2['z'], 0.6, '座位', max_s=200, lv=it2['lv'], stop=lambda s: bool(s.get('dlg') or s.get('choices')))
+        for _ in range(8):
             s = await pg.evaluate(TS)
-            if s['act'].startswith('坐下'): await L.tap(pg, cdp, '#interact'); run.note('點「坐下」'); return
-        await pg.wait_for_timeout(1500)
+            if s['dlg'] or s['ch']: return
+            if s['act'].startswith('坐下'): await L.tap(pg, cdp, '#interact'); run.note('點「坐下」'); await pg.wait_for_timeout(3000); break
+            await pg.wait_for_timeout(1000)
+
+
+SEAT_JS = """(tried=>{ const E=GAME.E, P=E.player.obj.position; let best=null;
+  E.interactables.forEach((it,k)=>{ if(tried.includes(k)) return; let lb='', hid=false; try{ lb=String(it.label||''); hid=!!it.hidden; }catch(e){ return; }
+    if(!lb.startsWith('坐下')||hid) return; if(it.lv!=null&&(it.lv|0)!==(E.player.lv|0)) return; const d=Math.hypot(it.x-P.x,it.z-P.z); if(!best||d<best.d) best={k,x:it.x,z:it.z,d:+d.toFixed(2),lv:it.lv==null?null:it.lv|0,label:lb}; });
+  return best; })"""
 
 
 async def main():
