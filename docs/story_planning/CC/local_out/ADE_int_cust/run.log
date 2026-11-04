@@ -1,0 +1,44 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ade_int_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ADE_int_cust\out
+PASS 遊戲載入
+== CUST 12:30 客人
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）12:30、money 3000、條件事件關閉、影印店 12:30
+  day 8 坐著的客人：[]
+PASS [CUST day8] 坐著的客人 ≤ 2、都在配置的 4 張電腦椅上  []
+PASS [CUST_day8] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）12:30、money 3000、條件事件關閉、影印店 12:30
+  day 9 坐著的客人：[{"name": "", "x": -0.07, "z": 2.6, "inLayout": true, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}]
+PASS [CUST day9] 坐著的客人 ≤ 2、都在配置的 4 張電腦椅上  [{"name": "", "x": -0.07, "z": 2.6, "inLayout": true, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}]
+PASS [CUST_day9] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）12:30、money 3000、條件事件關閉、影印店 12:30
+  day 10 坐著的客人：[{"name": "", "x": -0.2, "z": -0.45, "inLayout": true, "label": "\u5750\u4e00\u4e0b"}, {"name": "", "x": -0.07, "z": 0.85, "inLayout": true, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}]
+PASS [CUST day10] 坐著的客人 ≤ 2、都在配置的 4 張電腦椅上  [{"name": "", "x": -0.2, "z": -0.45, "inLayout": true, "label": "\u5750\u4e00\u4e0b"}, {"name": "", "x": -0.07, "z": 0.85, "inLayout": true, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}]
+PASS [CUST_day10] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+OBS [CUST] 三天裡最多同時 2 位坐著
+== ENC 柏翰的店內偶遇
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 8 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 9 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 10 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 11 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 12 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 13 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 14 店內偶遇：null
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）19:18、money 3000、條件事件關閉、影印店 19:18
+  [前置／捷徑] 柏翰：認識 {"stage": "ACQUAINTANCE", "name": "\u67cf\u7ff0"}；同一份存檔重讀（進店時才排偶遇）
+  day 15 店內偶遇：null
+FAIL [ENC] 8 天內有一天遇到
+PASS 沒有 JS 例外  []
+FAILED 1: [ENC] 8 天內有一天遇到
