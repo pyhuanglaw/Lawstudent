@@ -1,0 +1,18 @@
+[
+ {
+  "file": "male1_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41044",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT5017",
+  "caption": "外觀：灰色清水混凝土、樓梯塔上的圓窗、前面停滿腳踏車（相片日期 2007-01-12）",
+  "size": "640×480",
+  "src_id": "map q=41044"
+ },
+ {
+  "file": "male1_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41043",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT5017",
+  "caption": "從長興街路口看：混凝土塔樓（圓窗）、宿舍入口、旁邊紅磚高樓",
+  "size": "640×480",
+  "src_id": "map q=41043"
+ }
+]

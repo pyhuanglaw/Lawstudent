@@ -1,0 +1,26 @@
+[
+ {
+  "file": "pavilion_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40661",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2001",
+  "caption": "室內展場：地板是一整張校園地圖、展板、展覽燈",
+  "size": "720×479",
+  "src_id": "map q=40661"
+ },
+ {
+  "file": "pavilion_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40660",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2001",
+  "caption": "入口旁：「農業陳列館」石碑＋農夫銅像；上層看得到白色圓孔鏤空牆",
+  "size": "720×479",
+  "src_id": "map q=40660"
+ },
+ {
+  "file": "pavilion_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40659",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2001",
+  "caption": "入口：紅色門框玻璃門、紅磚地與台階；上層白色圓孔鏤空牆（洞洞）、展覽布條",
+  "size": "720×479",
+  "src_id": "map q=40659"
+ }
+]

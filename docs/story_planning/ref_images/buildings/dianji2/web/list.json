@@ -1,0 +1,34 @@
+[
+ {
+  "file": "dianji2_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41078",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3003-1",
+  "caption": "外觀：長條五層紅磚、拱窗、山牆、林蔭道",
+  "size": "640×480",
+  "src_id": "map q=41078"
+ },
+ {
+  "file": "dianji2_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41076",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3003-1",
+  "caption": "大拱門入口（半圓拱）、腳踏車",
+  "size": "640×480",
+  "src_id": "map q=41076"
+ },
+ {
+  "file": "dianji2_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41075",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3003-1",
+  "caption": "入口近景：混凝土門框、玻璃門、台階、上方弧形山牆",
+  "size": "640×480",
+  "src_id": "map q=41075"
+ },
+ {
+  "file": "dianji2_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41074",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT3003-1",
+  "caption": "正面：紅磚、拱窗、入口門廊",
+  "size": "640×480",
+  "src_id": "map q=41074"
+ }
+]

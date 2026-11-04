@@ -1,0 +1,42 @@
+[
+ {
+  "file": "nongzong_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40825",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2037",
+  "caption": "中庭：紅磚＋花崗石帶、陽台、蒲葵",
+  "size": "640×475",
+  "src_id": "map q=40825"
+ },
+ {
+  "file": "nongzong_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40823",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2037",
+  "caption": "外觀：五層紅磚、陽台、山牆、蒲葵",
+  "size": "640×480",
+  "src_id": "map q=40823"
+ },
+ {
+  "file": "nongzong_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40822",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2037",
+  "caption": "入口：台階、門廊、「農業綜合館」字",
+  "size": "640×480",
+  "src_id": "map q=40822"
+ },
+ {
+  "file": "nongzong_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40821",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2037",
+  "caption": "紅磚拱門通道",
+  "size": "640×480",
+  "src_id": "map q=40821"
+ },
+ {
+  "file": "nongzong_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40820",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT2037",
+  "caption": "門廳：紅磚＋花崗石柱、格柵天窗、館名字、樓梯",
+  "size": "640×480",
+  "src_id": "map q=40820"
+ }
+]

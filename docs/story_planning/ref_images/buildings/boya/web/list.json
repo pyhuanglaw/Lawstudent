@@ -1,0 +1,50 @@
+[
+ {
+  "file": "boya_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41375",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "大型階梯教室（上課中）：淺色木牆板、雙黑板、投影機、整排學生",
+  "size": "640×480",
+  "src_id": "map q=41375"
+ },
+ {
+  "file": "boya_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41374",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "小教室：木牆板、黑板＋中間白板、灰色長桌、白色塑膠椅",
+  "size": "640×480",
+  "src_id": "map q=41374"
+ },
+ {
+  "file": "boya_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41373",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "戶外長樓梯：一整排木頭直條遮陽格柵、玻璃雨遮；旁邊是種草的綠屋頂",
+  "size": "640×480",
+  "src_id": "map q=41373"
+ },
+ {
+  "file": "boya_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41372",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "入口：白色圓柱、白框玻璃門、上方木格柵、直式木匾「博雅教學館」",
+  "size": "640×480",
+  "src_id": "map q=41372"
+ },
+ {
+  "file": "boya_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41371",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "外觀：白色＋玻璃的樓層逐層往後退、前面一大片長草的斜坡（綠屋頂／台階），施工剛完成",
+  "size": "640×480",
+  "src_id": "map q=41371"
+ },
+ {
+  "file": "boya_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=41370",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1044",
+  "caption": "主入口：清水混凝土大雨遮（中間一個圓洞）、玻璃門廳、寬台階；右邊是紅磚的樓層和往普通教學館的空橋",
+  "size": "640×480",
+  "src_id": "map q=41370"
+ }
+]

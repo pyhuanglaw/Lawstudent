@@ -1,0 +1,26 @@
+[
+ {
+  "file": "blackforest_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42070",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=6",
+  "caption": "落葉地上的黑冠麻鷺",
+  "size": "640×480",
+  "src_id": "map q=42070"
+ },
+ {
+  "file": "blackforest_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42069",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=6",
+  "caption": "榕樹林：粗大樹幹、石板小徑、落葉地",
+  "size": "640×480",
+  "src_id": "map q=42069"
+ },
+ {
+  "file": "blackforest_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=42067",
+  "page": "https://map.ntu.edu.tw/?layer=map_attractions&apKey=6",
+  "caption": "林邊的草地、紅土步道、蒲葵",
+  "size": "640×480",
+  "src_id": "map q=42067"
+ }
+]

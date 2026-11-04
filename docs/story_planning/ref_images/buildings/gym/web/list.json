@@ -1,0 +1,50 @@
+[
+ {
+  "file": "gym_web_01.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40523",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "主球場（畢業典禮）：三面看台、上方白色屋頂與鋼桁架、計分板",
+  "size": "640×480",
+  "src_id": "map q=40523"
+ },
+ {
+  "file": "gym_web_02.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40522",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "室內球場（羽球）：木地板、木條天花板",
+  "size": "640×480",
+  "src_id": "map q=40522"
+ },
+ {
+  "file": "gym_web_03.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40521",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "外觀仰視：紅褐色面磚、弧形量體、空橋",
+  "size": "480×640",
+  "src_id": "map q=40521"
+ },
+ {
+  "file": "gym_web_04.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40520",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "夜景（遠眺）：白色膜屋頂發光、旁邊是操場",
+  "size": "640×480",
+  "src_id": "map q=40520"
+ },
+ {
+  "file": "gym_web_05.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40519",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "夜景：圓形量體、戶外大樓梯、玻璃樓梯塔",
+  "size": "640×480",
+  "src_id": "map q=40519"
+ },
+ {
+  "file": "gym_web_06.jpg",
+  "url": "https://map.ntu.edu.tw/ntuga/public/uploadfiles.htm?action=listImg&q=40518",
+  "page": "https://map.ntu.edu.tw/?layer=build&uid=AT1039",
+  "caption": "外觀：磚紅色面磚的弧形牆、一排圓窗、玻璃雨遮入口、上方白色膜屋頂",
+  "size": "640×480",
+  "src_id": "map q=40518"
+ }
+]
