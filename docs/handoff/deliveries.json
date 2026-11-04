@@ -17214,6 +17214,19 @@
    "task": "WZ-FIVE-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 21:0x 接進開發分支；畫架阻擋改 blockRect（LAWWW2 建議）；瀏覽器交 BB／CC"
+  },
+  {
+   "id": "DL-LAWWW2-d164ac9a8",
+   "date": "2026-11-04T21:19Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d164ac9a8",
+   "msg": "ACK",
+   "what": "TEACH-EAST-DRAWCALL-1104：普通、博雅貼圖材質合成貼圖集＋頂點色零件併進同一個材質（一棟 4 網格、1 投影）；campus_putong／boya.glb／.json、tests/teach_east_drawcall_unit.js、campus_glb_integration 匾額清單 patch、README＋比較圖、campus_teach.py、lib2.py、貼圖集",
+   "task": "TEACH-EAST-DRAWCALL-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 21:2x 接進開發分支；瀏覽器交 BB／CC"
   }
  ],
  "ignored": [

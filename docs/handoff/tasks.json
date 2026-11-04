@@ -46442,6 +46442,38 @@
    "authorized": "BB 判定",
    "notWaitUser": "BB 已定這次不改",
    "next": "之後做邀約系統時：玩家自己約的時間和已排的出遊重疊要擋或提醒"
+  },
+  {
+   "id": "TEACH-EAST-DRAWCALL-1104",
+   "title": "普通、博雅教學館 draw call 減量：貼圖材質合成一張貼圖集＋頂點色零件併進同一個材質（BB-C P3；外觀不變）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一週走到普通、博思之間（teach_east 鏡頭）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C P3（teach_east 鏡頭 draw call 偏高）；LAWWW2-C 11-04 21:19 交件 d164ac9a8",
+   "authorized": "D108／D111（LAWWW2 場景效能）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/second_ai/wip/teach_east_drawcall_1104/README.md：一棟 4 個網格、1 個投影（原本普通 6＋3、博雅 8＋5）；teach_east 估 243→237（陰影算進去 231）；三角形普通 8,558→13,704、博雅 5,626→8,630；GLB 0.78→1.27 MB、0.72→0.96 MB；材質名沿用 wz_vc_pt／wz_vc_by；玻璃、燈罩、匾額不動",
+    "acceptance": "Node tests/teach_east_drawcall_unit.js（原樣 FAIL、新 GLB PASS）、plate_text_dir、scene_bg_keys、nav_buildings；瀏覽器 tests/campus_glb_integration.py（CC：teach_east 的 draw call、各鏡頭三角形；博雅匾額清單加 PLATE_FACE_BOYA_GARDEN 的 patch 已套）；外觀和 v2b 一樣（BB 看 Cycles 前後比較圖）",
+    "ack": "ACK"
+   },
+   "notWaitUser": "效能修正、外觀不變；BB 測",
+   "sha": [
+    "d164ac9a8"
+   ],
+   "next": "【LAWWW-C 11-04 21:2x】接進開發分支（GLB×2、JSON×2、tests/teach_east_drawcall_unit.js、README＋比較圖（只有 Blender 渲染）、campus_teach.py、lib2.py、貼圖集 6 張；tests/campus_glb_integration.py 套 LAWWW2 的匾額清單 patch）；Node 相關測試跑完推上去；瀏覽器交 BB／CC"
   }
  ]
 }
