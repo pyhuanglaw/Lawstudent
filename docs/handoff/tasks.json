@@ -46433,6 +46433,31 @@
    ]
   },
   {
+   "id": "TE-FRI-SAME-NIGHT-1104",
+   "title": "週五考完的學期（大二下 6/11、大四上 12/22）：其他人的期末邀約（心意、朋友）也在語彤那一則（examDay）的同一個週五晚上到，接在她後面、間隔 9 分鐘；晚餐日子照原本",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S2",
+    "week": 16,
+    "earliest": "大二下期末考完（最後一科 6/11 週五）的晚上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 22:09「週五考完的學期：改」：「週五考完的學期，其他人的期末邀約也在同一個週五晚上到，接在她那一則後面，間隔照舊 9 分鐘……晚餐的日子照各自原本的排法，避開她那一整晚（TE-HEART-AVOID）照舊。其他學期本來就同一晚到，不用動。」",
+   "authorized": "BB 判定（條件歸 BB，D98）",
+   "notWaitUser": "BB 已定做法",
+   "next": "【LAWWW-C 11-04 22:3x】ce3462d4b：termend3d.js send——她那一則比一般的邀約早到（exD＜P.back）時，一般的接在她後面同一晚到（她 20:30、別人 20:39、20:48…照原本先後；她本來可能排在第二則 20:39，現在一定第一則）；晚餐日子照原本；sameDay（芯慈心意）、S.FROM 比那一晚晚的（學姊大四上 12/24）照原本；她這學期沒有那一則＝照原本隔天；可昕、女朋友的約會不動。tests/te_fri_same_night_unit.js 23 項（修改前 FAILED 11），te_heart_avoid／te_heart_exempt／aa687_fix4 改期望值；相關 275 支 Node 重跑中。給 BB SHA（CC 補驗週五兩個學期）；給 AA：芷若心意「這禮拜五晚上我有空」（大二下）、「這禮拜五我九點下班」（大四上）改成週五晚上到、飯在下週五——字要不要改（另外子晴大四上「今天沒加班 宵夜」、芷若朋友大四上「我下班以後」原本就和飯那天不同天）",
+   "sha": [
+    "ce3462d4b"
+   ]
+  },
+  {
    "id": "TE-PLAYER-MEAL-OVERLAP-1104",
    "title": "玩家自己約的吃飯和語彤告白晚餐撞時間：邀約系統本來就不擋和出遊重疊的時間（BB-C 20:17 第 6 點：這次不改，記一筆 P3）",
    "area": "STORY",
