@@ -17053,11 +17053,11 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "d393b6f3c",
-   "msg": "ACK",
+   "msg": "ACTIONED",
    "what": "SOCLIB-2F-1104 交件（MODEL_READY）：社科院圖書館東側館一樓門廳＋雙跑樓梯＋電梯＋影印休息區、二樓自習室 49 位（老位子＝靠窗北往南第三個）、討論室 3 間、男女廁＋飲水機；soclib2f_interior.glb 3.1 MB＋光照烘焙；接線 patch wip/soclib2f_1104/soclib2f_wiring.patch（底 ae5248250）",
    "task": "SOCLIB-2F-1104",
-   "integration": "未整合",
-   "note": "LAWWW2 outbox 沒有這一筆，LAWWW-C 17:4x 從 commit 登記；LAWWW-C 17:4x ACK（send_message），派子代理接線＋AA_669 第 6 節"
+   "integration": "已整合待測試",
+   "note": "LAWWW2 outbox 沒有這一筆，LAWWW-C 17:4x 從 commit 登記；LAWWW-C 17:4x ACK（send_message），派子代理接線＋AA_669 第 6 節；合併 f8d17bfb7"
   },
   {
    "id": "DL-AA-ef5c6c742",

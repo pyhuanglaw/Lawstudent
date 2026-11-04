@@ -45919,7 +45919,7 @@
     "acceptance": "AA_669 定稿交 LAWWW 實作：期末考前兩週各圖書館座位滿、占位子、同學在念書、約朋友去；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 18:0x】BB T-e PASS（ec060dcee：四人表上空檔 100% 在表上那一間、原本有事照舊、不去那天沒加）；T-a、T-b（照玩家操作走）、T-h（社科圖二樓）還沒驗，先不標已驗收｜【LAWWW-C 11-04 17:4x】BB_260（BB 分支 e814965c2）作息照做：S.EXTRA＋S.extraSlot——子晴一三五 13～17:30、六 10～15（總圖大廳二樓）；阿哲一～四 10:40～16:30、日 13～18（B1）；Alison 一二四五 11～17（B1）；明軒大二以後一～四 13～19（A館 4F）；只填空檔（作息沒有東西、或只是 wander／walk；上課、吃飯、劇情照舊）；tests/exam_lib_crowd_unit.js 第 11 節修改前 FAILED 10、修改後 ALL PASS。子晴「有插座那一排」：總圖大廳二樓配置沒有標插座，位子照 spotSeat｜【LAWWW-C 11-04 17:4x】合併 8215f8d53（子代理 d74078d81；src/examlib3d.js、src/data/examlib_lines.js；seatact3d.js S.AWAY 占著的位子桌上放「休息」那一組；story3d.js seatNear 不坐 taken 的位子、seatAt 第三個數＝樓層）；tests/exam_lib_crowd_unit.js 修改前 FAILED 13、修改後 ALL PASS；子代理相關 607 支 0 失敗。沒做：第 6 節（社科圖二樓：等 LAWWW2 SOCLIB-2F-1104；做好以後 LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）。要 AA 確認的 AI 解讀（已傳 AA-C）：沒到的時間（以安 9:30、子晴 10:00、學姊 9:00、其他 12:00）、答應／不行的判斷、交往中先動作再說到了、第 1 節旁白坐到五成以上才放、（小聲）只在表上那一間、第 14 週起 3F 寫死的小安移除；第 5 節經濟系那一年正常玩不到（10/17 休學在第 14 週前）。要 BB 決定的（作息）：子晴沒有圖書館讀書時段、阿哲／Alison／明軒（大二以後）第 14～15 週幾乎沒有讀書時段。下一步：BB 照 AA_669 第 7 節測｜【LAWWW-C 11-04 16:1x】AA_669 交了（468a1d0b9）：第 0～5、7 節派背景子代理在 worktree 接（每學期第 14 週起到期末考完、四個圖書館、找不到位子三選項＋招手、占位子兩個方向、經濟系那一年；不扣關係不影響成績 D118）；新測試 tests/exam_lib_crowd_unit.js；D113 檢查點 wip_backup/examlib/；第 6 節社科圖二樓＝SOCLIB-2F-1104（LAWWW2，AA 已直接傳）｜【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）",
+   "next": "【LAWWW-C 11-04 18:2x】第 6 節（社科圖二樓）合併 f8d17bfb7；T-h 可以測了｜【LAWWW-C 11-04 18:0x】BB T-e PASS（ec060dcee：四人表上空檔 100% 在表上那一間、原本有事照舊、不去那天沒加）；T-a、T-b（照玩家操作走）、T-h（社科圖二樓）還沒驗，先不標已驗收｜【LAWWW-C 11-04 17:4x】BB_260（BB 分支 e814965c2）作息照做：S.EXTRA＋S.extraSlot——子晴一三五 13～17:30、六 10～15（總圖大廳二樓）；阿哲一～四 10:40～16:30、日 13～18（B1）；Alison 一二四五 11～17（B1）；明軒大二以後一～四 13～19（A館 4F）；只填空檔（作息沒有東西、或只是 wander／walk；上課、吃飯、劇情照舊）；tests/exam_lib_crowd_unit.js 第 11 節修改前 FAILED 10、修改後 ALL PASS。子晴「有插座那一排」：總圖大廳二樓配置沒有標插座，位子照 spotSeat｜【LAWWW-C 11-04 17:4x】合併 8215f8d53（子代理 d74078d81；src/examlib3d.js、src/data/examlib_lines.js；seatact3d.js S.AWAY 占著的位子桌上放「休息」那一組；story3d.js seatNear 不坐 taken 的位子、seatAt 第三個數＝樓層）；tests/exam_lib_crowd_unit.js 修改前 FAILED 13、修改後 ALL PASS；子代理相關 607 支 0 失敗。沒做：第 6 節（社科圖二樓：等 LAWWW2 SOCLIB-2F-1104；做好以後 LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）。要 AA 確認的 AI 解讀（已傳 AA-C）：沒到的時間（以安 9:30、子晴 10:00、學姊 9:00、其他 12:00）、答應／不行的判斷、交往中先動作再說到了、第 1 節旁白坐到五成以上才放、（小聲）只在表上那一間、第 14 週起 3F 寫死的小安移除；第 5 節經濟系那一年正常玩不到（10/17 休學在第 14 週前）。要 BB 決定的（作息）：子晴沒有圖書館讀書時段、阿哲／Alison／明軒（大二以後）第 14～15 週幾乎沒有讀書時段。下一步：BB 照 AA_669 第 7 節測｜【LAWWW-C 11-04 16:1x】AA_669 交了（468a1d0b9）：第 0～5、7 節派背景子代理在 worktree 接（每學期第 14 週起到期末考完、四個圖書館、找不到位子三選項＋招手、占位子兩個方向、經濟系那一年；不扣關係不影響成績 D118）；新測試 tests/exam_lib_crowd_unit.js；D113 檢查點 wip_backup/examlib/；第 6 節社科圖二樓＝SOCLIB-2F-1104（LAWWW2，AA 已直接傳）｜【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）",
    "sha": "8215f8d53",
    "tests": "node tests/exam_lib_crowd_unit.js"
   },
@@ -45928,7 +45928,7 @@
    "title": "社科院圖書館 2 樓：專門的讀書室（自習室）、討論室、洗手間（遊戲的 soclib 現在只有一樓開架閱覽室）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -45949,8 +45949,8 @@
     "acceptance": "BB 照 D120／D133／D136＋D138 same_angle_check --mode campus；樓梯／電梯上得去、座位坐得下、洗手間；舊存檔在 soclib 的位置照舊",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 17:4x】LAWWW2 交件 d393b6f3c（MODEL_READY，沒在瀏覽器看過）：LAWWW-C 派子代理接線（wiring patch）＋AA_669 第 6 節（第一次坐下的旁白、SOCLIB_2F_SEAT、老位子兩句；LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）｜【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置",
-   "sha": "d393b6f3c"
+   "next": "【LAWWW-C 11-04 18:2x】合併 f8d17bfb7（子代理 soclib2f-1104 e21e87610）：LAWWW2 d393b6f3c 的檔案逐檔帶進＋接線 patch（直接套得上）；新檔 src/soclib2f_people3d.js（SL2P：平常 30～40%、期末週和前一週 85%、閉館 0；老位子、占的位子不放人；討論室一半的上課日 2～4 人；走動照 SL2.WALK_ROUTE）；AA_669 第 6 節（二樓第一次坐靠窗那排的旁白、SOCLIB_2F_SEAT、語彤／阿勳「老位子」yesOld）；soclib2f 等 7 支＋exam_lib_crowd（第 12 節修改前 FAIL 3／17、修改後 ALL PASS 174）＋nav_buildings ALL PASS；子代理相關 723 支 0 失敗。下一步：BB 判 ART＋CC 照 README 真實流程截圖、T-h、42 人手機 fps；AA 定第 6 節四件（已傳）｜【LAWWW-C 11-04 17:4x】LAWWW2 交件 d393b6f3c（MODEL_READY，沒在瀏覽器看過）：LAWWW-C 派子代理接線（wiring patch）＋AA_669 第 6 節（第一次坐下的旁白、SOCLIB_2F_SEAT、老位子兩句；LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）｜【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置",
+   "sha": "f8d17bfb7"
   },
   {
    "id": "STANDIN-LOD-1104",
