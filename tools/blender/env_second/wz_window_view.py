@@ -1,7 +1,7 @@
 """溫州街店家的窗景照片（給 W3.windowMat 的 <名稱>_<day|night>.webp）：用遊戲裡同一批溫州街正式模型在 Blender 拍（LAWWW2-C 2026-11-04，KOMICHI-NIGHTVIEW-1104）。
 原因：小路（wz_teishoku）的窗景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏，BB-C 判「22:00 窗外還是白天」（BB_255 1(a)）；2:30 AM、SUNNY SIDE 的窗景卡是 Blender 拍的夜景（窗、店、路燈亮，天空暗），這支照同一個做法。
 鏡頭照 tools/shots/shop_views_layers.py 的同一個名稱（窗那一片的中心、朝外、水平 90°、2:1）：W3.windowMat 的視差以那一片為準，換照片不用改程式。
-用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）
+用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay] [--place 路徑@x,y,z,ry ...] [--shift-y 0]（參考圖鏡頭：水平鏡頭＋鏡頭上下平移，ADE-V2-1104）[--hour 14]（太陽照遊戲那個時刻）[--pools 光圈.json --pool-w 220]（晚上路燈往下照的一圈光）
   座標是遊戲座標（x 東、y 上、z 南）；--glb 沒寫＝溫州街主巷、雜物、日式宿舍、小公園（assets/models/env/second_ai/）。
 例（小路）：-- --eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --out /tmp/wz_teishoku_night.png --night
 夜晚的亮度照遊戲 zones3d.js 的 WZ_NIGHT（材質名 → 顏色、晚上亮度），GLOW_* 空節點（extras glow／size／night）放點光源；店內（wz_in_*）晚上自己發一點光（店裡開著燈）。"""
@@ -171,7 +171,30 @@ else:
     bg.inputs['Color'].default_value = (0.42, 0.58, 0.85, 1); bg.inputs['Strength'].default_value = 1.1
     sd = bpy.data.lights.new('sun', 'SUN'); sd.energy = 3.2; sd.color = (1.0, 0.96, 0.9); sd.angle = math.radians(1.5)
 so = bpy.data.objects.new('sun', sd); sc.collection.objects.link(so)
-so.rotation_euler = (math.radians(38), 0, math.radians(float(opt('--sun-z', '150'))))   # 11:00 前後：太陽在南偏東、仰角約 52°（Blender −y＝遊戲 +z＝南）；--sun-z：繞垂直軸轉幾度（比對參考圖材質用，例如 A 側朝北的店面打正面光：--sun-z 330）
+# --hour：太陽照遊戲 engine3d.js 的 KEY0（時、仰角、羅盤方位；戶外 x 東、−z 北，溫州街沒有 sunYaw）——KOMICHI-VIEW-POLISH（BB 14:04「白天太陽照遊戲 14:00、有斜影子」）
+GAME_SUN = [(5.5, 2, 80), (7, 12, 88), (9, 32, 100), (12, 68, 150), (15, 45, 225), (17, 26, 262), (18, 13, 268), (18.6, 3, 272), (19.2, -2, 276), (21, -10, 280), (24, -10, 280)]
+def game_sun(h):
+    hq = round(h * 20) / 20; i = 0
+    while i < len(GAME_SUN) - 2 and GAME_SUN[i + 1][0] <= hq: i += 1
+    a, b = GAME_SUN[i], GAME_SUN[i + 1]; t = max(0.0, min(1.0, (hq - a[0]) / (b[0] - a[0])))
+    return math.radians(a[1] + (b[1] - a[1]) * t), math.radians(a[2] + (b[2] - a[2]) * t)
+if opt('--hour') and not opt('--sun-z'):
+    el, az = game_sun(float(opt('--hour')))
+    to_sun = Vector((math.cos(el) * math.sin(az), math.sin(el), -math.cos(el) * math.cos(az)))   # 遊戲座標：從地面往太陽
+    so.rotation_euler = (-g2b(to_sun)).to_track_quat('-Z', 'Y').to_euler()                      # 太陽燈照 −Z：光走的方向＝往太陽的反方向
+    print('sun', opt('--hour'), 'elev %.1f az %.1f' % (math.degrees(el), math.degrees(az)), flush=True)
+else:
+    so.rotation_euler = (math.radians(38), 0, math.radians(float(opt('--sun-z', '150'))))   # 舊的固定角度（沒給 --hour）；--sun-z：繞垂直軸轉幾度（比對參考圖材質用，例如 A 側朝北的店面打正面光：--sun-z 330）
+
+# --pools <json：[{x,z,r,h}]>：晚上路燈往下照的一圈光（遊戲是 TK.lightPool 地面光圈；這裡放往下的聚光燈，範圍＝光圈半徑、燈頭高度 h）——KOMICHI-VIEW-POLISH ①
+npool = 0
+if NIGHT and opt('--pools') and os.path.exists(opt('--pools')):
+    import json as _jp
+    for q in _jp.load(open(opt('--pools'))):
+        ld = bpy.data.lights.new('pool', 'SPOT'); ld.color = hexcol(0xffd696); ld.energy = float(opt('--pool-w', '220')); ld.shadow_soft_size = 0.12
+        ld.spot_size = min(math.radians(160), 2 * math.atan(q['r'] / q['h']) * 1.1); ld.spot_blend = 0.45
+        lo = bpy.data.objects.new('pool', ld); sc.collection.objects.link(lo); lo.location = g2b((q['x'], q['h'] - 0.15, q['z'])); lo.rotation_euler = (0, 0, 0); npool += 1   # 聚光燈照 −Z＝往下
+    print('pools', npool, flush=True)
 
 # 鏡頭：窗那一片的中心、朝外，水平 90°（2:1 → 垂直 53.13°）
 cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = 0.05; cd.clip_end = 400

@@ -5743,7 +5743,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "8200806e2",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACTIONED",
    "task": "ADE-PROPS-1104",
    "files": [
     "assets/models/env/second_ai/wz_props.glb",
@@ -5752,11 +5752,11 @@
     "tests/wz_props_poles_unit.js",
     "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md"
    ],
-   "state": "已交付",
-   "remaining": "LAWWW-C 換 wz_props.glb／.json＋tests/wz_props_poles_unit.js（程式不用改）；CC 拍阿德門口（ADE_v2_shots）時一起看桿子、電線",
+   "state": "已整合",
+   "remaining": "CC 拍阿德門口時 BB 一起看桿子和電線（LAWWW-C 記在 ADE-V2-1104）",
    "next": "等 LAWWW-C 換檔",
    "noDirectIntegrate": false,
-   "note": "補 c73d37367 的漏：patch 只挪了套件的電線桿（zones3d.js），正式模型 wz_props.glb 的桿子、路燈臂還在 x −9.2——畫面上的桿子照樣擋價目表、−12.7 有看不見的阻擋、電線接到半空中。wz_props.py POLES 第 2 根 −9.2→−12.7 重建（只有那根桿、路燈臂、桿號牌的位置變）；wz_props_poles_unit 開發分支原樣 FAIL、新 GLB ALL PASS；bike_park、street_props_nav、wz_copy_shop ALL PASS"
+   "note": "補 c73d37367 的漏：patch 只挪了套件的電線桿（zones3d.js），正式模型 wz_props.glb 的桿子、路燈臂還在 x −9.2——畫面上的桿子照樣擋價目表、−12.7 有看不見的阻擋、電線接到半空中。wz_props.py POLES 第 2 根 −9.2→−12.7 重建（只有那根桿、路燈臂、桿號牌的位置變）；wz_props_poles_unit 開發分支原樣 FAIL、新 GLB ALL PASS；bike_park、street_props_nav、wz_copy_shop ALL PASS；LAWWW-C 21:37Z 接進開發分支 79da20245（README 沒帶：開發分支那一版分岔；wz_props_poles、bike_park、street_props_nav、wz_copy_shop、prop_restand、cafe230_ext_nav ALL PASS）；ADE-PROPS 不在 v9.10.20 候選版，發布版沒有這個問題"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
@@ -5772,6 +5772,21 @@
    "next": "—",
    "noDirectIntegrate": true,
    "note": "研究＋提案；LAWWW-C 21:25 登記 DL-LAWWW2-25349f5f9，R1／R2 同意、HDRI 暫停；BB-C 21:25 同意 R1／R2（D128 定案）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "dd6cffe64",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "task": "OPEN-SRC-2D3D-1104",
+   "files": [
+    "docs/art-rebuild/ART_DIRECTION.md"
+   ],
+   "state": "已整合",
+   "remaining": "—",
+   "next": "—",
+   "noDirectIntegrate": false,
+   "note": "ART_DIRECTION 12.2／12.8 寫進 R1、R2、TripoSR 目前不用（D128 定案）；LAWWW-C 21:37Z 帶進開發分支 79da20245，CLAUDE.md 美術規則第 2 點補一段指過去"
   }
  ]
 }

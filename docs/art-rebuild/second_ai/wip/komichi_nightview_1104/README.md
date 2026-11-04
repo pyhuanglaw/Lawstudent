@@ -2,6 +2,43 @@
 
 狀態：`MODEL_READY`。要等 BB 判 ART_APPROVED（D120），還要在 PC 上看遊戲畫面。
 
+## 第二版：KOMICHI-VIEW-POLISH（BB 14:04 兩點；LAWWW2-C 11-04 21:4x）
+
+只換 `assets/models/env/views/wz_teishoku_{day,night}.webp`，程式不用改。
+
+![第二版前後](komichi_views_v2.jpg)
+
+| BB 14:04 | 第二版 |
+|---|---|
+| ① 晚上路燈下一圈光（往下的聚光燈） | 遊戲溫州街 9 個路燈地面光圈（`TK.lightPool`）的位置、半徑，在燈頭高度各放一盞往下的聚光燈（電線桿上的 6.08 m、路燈柱 3.98 m；`wz_lamp_pools.json`，Node 從遊戲讀的）。這個窗看得到的是阿德前面那一盞（x −12.7）的光圈，在畫面右邊 |
+| ② 白天太陽照遊戲 14:00、有斜影子 | 太陽照遊戲 `engine3d.js` 的 KEY0 算：14:00 仰角 52.7°、方位 200°（南偏西） |
+
+**② 要你選一下**：
+- 照遊戲 14:00，太陽在對面那排房子後面（南偏西），對面的牆朝北，整面背光；房子的影子大約 8 m 長，蓋住畫面裡整條巷子。所以 14:00 看出去是**整片陰影，沒有斜影子**（斜影子落在小路這一側，窗看不到）。
+- 第一版的太陽其實在東北邊（舊的固定角度算錯了），所以對面的牆是亮的——台北 11 月的太陽不會在那裡。
+- 想要看得到斜影子，可以用 16:00：太陽在西南西、仰角 35°，順著巷子照進來，路面有電線桿、房子斜斜的長影子（比較圖最下面）。換這張只要重跑一次（指令在下面，`--hour 16`）。
+- 這一版先照你說的 14:00 交。
+
+另外跟著遊戲現在的狀態重拍：
+- 電線桿在 x −12.7（ADE-PROPS 補件 `8200806e2`：正式模型的桿子也挪了）。
+- 機車照現在的套件位置（39 台；門西兩台已經拿掉）：`wz_scooters_wenzhou.json` 重新從遊戲讀。
+- 模型用開發分支現在的溫州街（阿德 v2.1 等）。
+
+重做的指令（第二版）：
+```
+G=assets/models/env/second_ai; D=docs/art-rebuild/second_ai/wip/komichi_nightview_1104
+C="--eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --res 2048x1024 --samples 64 --glb $G/wenzhou_street.glb,$G/wz_props.glb,$G/wz_jphouse.glb,$G/wz_park.glb --scooters $D/wz_scooters_wenzhou.json"
+/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- $C --out day.png --hour 14
+/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- $C --out night.png --night --lamp-k 4 --exposure -0.7 --pools $D/wz_lamp_pools.json --pool-w 220
+```
+拍完縮成 1024×512，存 webp（品質 88）。
+
+`wz_window_view.py` 新的參數：
+- `--hour H`：太陽照遊戲那個時刻的仰角、方位（沒給的話照舊用固定角度，舊的參考圖鏡頭拍法不受影響）。
+- `--pools <json>`、`--pool-w W`：晚上路燈往下照的一圈光。
+
+## 第一版
+
 ## 原本錯在哪（BB_255 1(a)：「22:00 窗外還是白天街景，和 14:00 一模一樣」）
 - 小路（wz_teishoku）的窗外是 room() 的視差窗景（W3.windowMat）。照片是 `assets/models/env/views/wz_teishoku_{day,night}.webp`，19:12 以後換成夜景那一張；這一段程式是對的。
 - 問題在照片：那張夜景是 10-22 在遊戲裡 20:30 拍的（tools/shots/shop_views_layers.py）。
