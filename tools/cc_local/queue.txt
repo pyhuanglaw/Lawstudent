@@ -22,6 +22,9 @@
 # ===== P0 熱修 v9.10.19.1 GO 組（BB；LAWWW fd8d447d2＝main＋attended 修正＋guardTalk）：最前面 =====
 # ===== P0 LIVE 驗證 v9.10.19.1（BB 02:15；main b0c3032af＝fd8d447d2＋RELEASES.md；排最前面）=====
 NOODLE_exit | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CC_HEADLESS=0
+GG_groups | 01505ccd0 | probe | docs/story_planning/test_tools/cc/cc_gg_groups_probe.py | index.html | 15 | CC_HEADLESS=0
+GG_ext_nav3 | 01505ccd0 | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
+GG_ext_glb3 | 01505ccd0 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # ===== GG_perf_rep（BB 04:30；最前面；A＝23eaaa7ae、B＝c7fde4f3e 交錯各 3 次，每次重開瀏覽器）=====
 GG_perf_rep_A1 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=A1;RERUN=rep1;CC_HEADLESS=0
 GG_perf_rep_B1 | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=B1;RERUN=rep1;CC_HEADLESS=0
