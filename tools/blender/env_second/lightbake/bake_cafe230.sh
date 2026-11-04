@@ -1,5 +1,5 @@
 #!/bin/bash
-# 2:30 AM 室內（AA 的 aa_support/cafe230.glb，企劃線 b140750c2＝v1d；WZ-FIVE-1104；LAWWW2 11-04）：光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
+# 2:30 AM 室內（AA 的 aa_support/cafe230.glb，企劃線 30c2d5998＝v1f（v1e 幾何＋窗景卡；之前烘過 b140750c2＝v1d）；WZ-FIVE-1104；LAWWW2 11-04）：光照烘焙（白天／晚上）→ WebP。repo 根目錄跑：
 #   bash tools/blender/env_second/lightbake/bake_cafe230.sh <cafe230.glb> [取樣數，預設 256] [輸出資料夾，預設 assets/models/env/second_ai/aa_support] [貼圖邊長，預設 1024]
 # BB 07:33 第 5 點：「光要局部打亮、不要整片平均亮」——燈照 AA 的 GLOW_* 位置放：吧台上方七盞吊燈、天花板軌道八盞往下照的投射燈（12 cm 小面光源、光束 55°：地上一圈一圈亮）、
 #   左牆兩盞壁燈、窗邊吧台四盞小檯燈、桌上與右牆邊的檯燈、角落立燈。天光從店面（+z）和右牆（+x）的窗進來（和舊的 bake_cafe.sh 同一個方位：+z＝真的西邊，下午的太陽從店面照進來）。
