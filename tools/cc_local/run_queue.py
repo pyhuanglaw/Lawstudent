@@ -832,6 +832,16 @@ def classify(a1, a2, same, notes):
         return 'TEST_BUG', '初判', b + notes
     if eh:
         return 'UNKNOWN', 'env-after-fail', ['有環境訊號，但探針在那之前已經 FAIL：' + '；'.join(eh[:3])] + notes
+    srcs = {f.get('src') for f in last['fails']} if last['fails'] else set()
+    if last['fails'] and srcs == {'game'}:   # 斷言比對的值是從遊戲狀態讀出來的（探針的 check 標 [src=game]）＝遊戲回報的值和預期不同
+        f0 = last['fails'][0]
+        return 'GAME_BUG', 'assert-game', ['探針斷言 FAIL %d 行，比對的值是從遊戲狀態讀出來的（[src=game]）；第一行：%s' % (len(last['fails']), f0['name'][:120]),
+                                          '遊戲回報／預期：%s' % (f0.get('info') or '')[:240],
+                                          '兩次%s' % ('一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
+    if last['fails'] and srcs == {'probe'}:   # 斷言比的是探針自己的兩個常數（[src=probe]）＝探針寫錯
+        f0 = last['fails'][0]
+        return 'TEST_BUG', 'assert-probe', ['探針斷言 FAIL %d 行，比對的是探針自己的常數（[src=probe]），和遊戲無關；第一行：%s' % (len(last['fails']), f0['name'][:120]),
+                                           '探針的值：%s' % (f0.get('info') or '')[:240]] + notes
     if last['fails']:
         return 'UNKNOWN', 'assert', ['探針斷言 FAIL %d 行（%s），兩次%s；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針' %
                                      (len(last['fails']), last['fails'][0]['name'][:120], '一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
@@ -1391,7 +1401,8 @@ class Runner(object):
                     continue
                 body = line[5:]
                 name, _, info = body.partition('  ')
-                fails.append({'line': line[:300], 'name': name[:300], 'info': info.strip()[:300]})
+                m_src = re.search(r'\[src=(game|probe)\]', body)   # BB-C 11-04（TEST-TRACE V2）：斷言的值從哪裡來——game＝從遊戲狀態讀出來的、probe＝探針自己的常數
+                fails.append({'line': line[:300], 'name': name[:300], 'info': info.strip()[:300], 'src': m_src.group(1) if m_src else None})
         tdir = os.path.join(d, 'trace')
         states = []
         for f in sorted(glob.glob(os.path.join(tdir, 'state_*.json'))):

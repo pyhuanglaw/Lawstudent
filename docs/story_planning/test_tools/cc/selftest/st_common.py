@@ -16,7 +16,10 @@ HTML = """<!doctype html><meta charset="utf-8"><title>CC selftest</title>
 <script>document.getElementById('go').onclick=()=>{document.getElementById('msg').textContent='按過了：'+document.getElementById('name').value;};</script>"""
 
 
-def check(name, ok, info=''):
+def check(name, ok, info='', src=None):
+    """src：斷言比對的值從哪裡來（BB-C 11-04 TEST-TRACE V2）——'game'＝從遊戲狀態讀出來的值、'probe'＝探針自己的常數；None＝看不出來（runner 照舊判 UNKNOWN）"""
+    if src in ('game', 'probe'):
+        info = '[src=%s] %s' % (src, info)
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok:
         FAILS.append(name)
