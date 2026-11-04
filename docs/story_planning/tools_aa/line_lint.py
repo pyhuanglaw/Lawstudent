@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-# AA 台詞檢查（AA_662 第 6 節）。只讀、不改檔。
-# 用法：python3 line_lint.py <檔案或資料夾>...  （讀 .md .json .js；只看「」台詞與（）旁白）
+# AA 台詞檢查（00_台詞寫作規則.md 第 12 節）。只讀、不改檔。
+# 規則從 00_台詞寫作規則.md 第 11 節的 ```lint 區塊讀（規則和工具同一個來源）；讀不到才用下面備用的同一套。
+# 用法：python3 line_lint.py [--changed <git ref>] [--fail] <檔案或資料夾>...  （.md 只看「」台詞與（）旁白；.js／.json 看字串）
 # 被抓到不一定是錯：學姊、可昕直說是個性；AA 判斷。
 import os, re, sys
 from collections import Counter
@@ -19,6 +20,23 @@ RULES = [
     ('4-14 套話收尾', r'(?:總之|總而言之|讓我們|一起加油吧|隨著[^，。]{1,10}，)'),
     ('0-3 模板句', r'(?:你是第一個|我記住了|騙你的|我是說|開玩笑的|這是我的規則|不要跟別人(?:講|說)|你不要講出去|你先不要跟別人說|謝謝你沒有|大家都只問|這是我第一次|我第一次覺得|後來才發現|我原本以為|因為你，我開始|也是一種回答|你不用那個表情)'),
 ]
+RULES_DOC = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '00_台詞寫作規則.md')
+
+def load_rules():
+    try:
+        t = open(RULES_DOC, encoding='utf-8').read()
+        m = re.search(r'```lint\n(.*?)```', t, re.S)
+        rules = []
+        for ln in m.group(1).splitlines():
+            parts = [x.strip() for x in ln.split(' | ', 2)]
+            if len(parts) == 3 and parts[2]:
+                rules.append((parts[0] + ' ' + parts[1], parts[2]))
+        if rules:
+            return rules, '00_台詞寫作規則.md'
+    except Exception:
+        pass
+    return RULES, '備用規則（讀不到 00_台詞寫作規則.md）'
+
 NOD = re.compile(r'(?:點了點頭|點了一下頭|笑了一下|笑了笑)')
 
 def strip_notes(text, path):
@@ -62,9 +80,24 @@ def scan(path):
                 hits.append((name, ln, s[:60]))
     return hits, n, nod
 
-def main(args):
+def changed_files(ref):
+    import subprocess
+    out = subprocess.run(['git', 'diff', '--name-only', ref, '--'], capture_output=True, text=True).stdout.split()
+    out += subprocess.run(['git', 'ls-files', '--others', '--exclude-standard'], capture_output=True, text=True).stdout.split()
+    return [f for f in out if f.endswith(('.md', '.json', '.js')) and os.path.exists(f)]
+
+def main(argv):
+    global RULES
+    fail = '--fail' in argv
+    argv = [a for a in argv if a != '--fail']
+    ref = None
+    if '--changed' in argv:
+        i = argv.index('--changed'); ref = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
+    RULES, src = load_rules()
     files = []
-    for a in args or ['.']:
+    if ref:
+        files = changed_files(ref)
+    for a in argv or ([] if ref else ['.']):
         if os.path.isdir(a):
             for r, _, fs in os.walk(a):
                 if '/.git' in r:
@@ -73,16 +106,21 @@ def main(args):
         else:
             files.append(a)
     tot = Counter(); allN = allNod = 0
-    for f in sorted(files):
+    for f in sorted(set(files)):
+        if os.path.basename(f) == '00_台詞寫作規則.md':
+            continue   # 規則本身的例子不算
         hits, n, nod = scan(f)
         allN += n; allNod += nod
         for name, ln, s in hits:
             tot[name] += 1
             print(f'{f}:{ln}｜{name}｜{s}')
     print('---')
+    print(f'規則來源：{src}（{len(RULES)} 條）；檔案 {len(set(files))} 個')
     print(f'句子 {allN}；「點頭／笑了一下」{allNod} 句（{(allNod / allN * 100 if allN else 0):.1f}%）')
     for k, v in tot.most_common():
         print(f'{k}：{v}')
+    if fail and sum(tot.values()):
+        sys.exit(1)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
