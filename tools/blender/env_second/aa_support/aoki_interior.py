@@ -117,7 +117,7 @@ xf0.rbox(sh.a('wood'), wx0, wx1, wc['h'] - 0.04, wc['h'], wz0, wz1, r=0.008, seg
 for xx in (wx0 + 0.1, wc['x'], wx1 - 0.1): xf0.rbox(sh.a('wood'), xx - 0.03, xx + 0.03, 0.0, wc['h'] - 0.04, wz1 - 0.12, wz1 - 0.06, r=0.004, seg=1)
 for s_ in LAY['seats']:
     if s_['table'] == 6: chair(s_['x'], s_['z'] - 0.04, s_['yaw'])
-for (xx, kind) in ((wx0 + 0.5, 'vase'), (wx0 + 1.8, 'cup'), (wx0 + 3.1, 'vase'), (wx0 + 4.4, 'cup')):
+for (xx, kind) in ((wx0 + 0.35, 'vase'), (wx0 + 1.2, 'cup'), (wx0 + 2.0, 'vase'), (wx0 + 2.75, 'cup')):
     if kind == 'vase': vase(xx, wc['z'] + 0.08, wc['h'])
     else: K.mug(sh, xx, wc['z'], wc['h'], col='#f4f0e6', r=0.035, h=0.06, handle=False); teapot(xx + 0.15, wc['z'] + 0.05, wc['h'], s=0.8)
 vt = IT['vitrine'][0]; vxf = Xf(vt['x'], vt['z'], math.pi)                                                                  # 正面朝 −z（店裡）
@@ -127,7 +127,7 @@ for sx in (-vt['w'] / 2, vt['w'] / 2 - 0.03): vxf.rbox(sh.a('wood'), sx, sx + 0.
 sh.a('glass').box(vt['x'] - vt['w'] / 2 + 0.03, vt['x'] + vt['w'] / 2 - 0.03, 0.35, vt['h'] - 0.04, vt['z'] - vt['d'] / 2, vt['z'] - vt['d'] / 2 + 0.01)
 for q, y in enumerate((0.35, 0.67, 0.98)):
     sh.a('glass').box(vt['x'] - vt['w'] / 2 + 0.03, vt['x'] + vt['w'] / 2 - 0.03, y, y + 0.01, vt['z'] - vt['d'] / 2, vt['z'] + vt['d'] / 2)
-    for k in range(2): teapot(vt['x'] - 0.15 + k * 0.3, vt['z'], y + 0.01, col=('#f4f1ea', '#9ab0a0', '#e8dcc8')[q], s=0.9)
+    for k in range(2): teapot(vt['x'] - 0.1 + k * 0.2, vt['z'], y + 0.01, col=('#f4f1ea', '#9ab0a0', '#e8dcc8')[q], s=0.7)
 tk = IT['takeaway_bench'][0]; xf0.rbox(sh.a('wood'), tk['x'] - tk['w'] / 2, tk['x'] + tk['w'] / 2, 0.0, tk['h'], tk['z'] - tk['d'] / 2, tk['z'] + tk['d'] / 2, r=0.01, seg=1)
 for k in range(4): Xf(tk['x'] - 0.3 + k * 0.18, tk['z'] - 0.05, 0, tk['h']).lathe(sh.a('vcg'), [(0.0, 0.0), (0.035, 0.0), (0.045, 0.14), (0.0, 0.14)], 0, 0, 0, seg=8, col='#f4f0e6')
 sh.tally('window')
