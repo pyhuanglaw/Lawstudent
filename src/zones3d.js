@@ -1396,7 +1396,7 @@ const Z3 = (function(){
       sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
       sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); }; m.onBeforeCompile=mine;
     m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true;
-    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.18):1; } };
+    const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
     let f=0, rewrap=0;
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
     const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; rewrap++; } };
@@ -1834,7 +1834,10 @@ const Z3 = (function(){
      · 阻擋：卡座 (−6.56, 0, 0.9×2.6；照 cafe230.glb 的坐墊前緣 −6.13，LAWWW 11-04)、卡座小圓桌 (−5.4, 0, 0.7×0.7)；大盆栽 (−6.35, 0.4) → (−6.35, 1.95) 在上面備用模型那一段搬；
      · 互動：「看唱片」(4.1, −5.0)、「看蛋糕櫃」(1.4, −3.65)（kind record、pastry；台詞 src/wzshops3d.js S.cafe230Line，AA_659 第 1 節）。 */
   function cafe230L(){ const L=typeof CAFE230_LAYOUT!=='undefined'?CAFE230_LAYOUT:null; return L&&L.version>=2&&L.zone==='cafe'?L:null; }
-  function cafe230Reg(L){ if(typeof ASSETS==='undefined'||!ASSETS.manifest||ASSETS.nobldg||ASSETS.manifest['bldg.cafe230_interior']) return;   /* ?nobldg：不登錄（照舊是程序化備用模型；assets3d.js 只在開機時刪 bldg.*）*/ ASSETS.manifest['bldg.cafe230_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/cafe230_interior.py（溫州街「2:30 AM」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8d494790d，配置 src/data/cafe230_layout.js v2）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
+  /* LAWWW2 烘了光照貼圖的那一顆（aede8b99a：用 AA v1f 30c2d5998 的 aa_support/cafe230.glb 重烘，extras.lightmap＝second_ai/cafe230_lm_day／night.webp；attachRoomGLB 看 extras.lightmap）。
+     配置指的還是 AA 那顆（aa_support）就換成烘好的這顆；AA 換了別的路徑就照配置（舊烘焙不蓋掉新幾何）。AA 改了 aa_support/cafe230.glb 以後要請 LAWWW2 重烘、更新 bakedFrom */
+  const CAFE230_BAKED={from:'assets/models/env/second_ai/aa_support/cafe230.glb',url:'assets/models/env/second_ai/cafe230.glb',bakedFrom:'30c2d5998'};
+  function cafe230Reg(L){ if(typeof ASSETS==='undefined'||!ASSETS.manifest||ASSETS.nobldg||ASSETS.manifest['bldg.cafe230_interior']) return;   /* ?nobldg：不登錄（照舊是程序化備用模型；assets3d.js 只在開機時刪 bldg.*）*/ ASSETS.manifest['bldg.cafe230_interior']={url:(L.glb===CAFE230_BAKED.from?CAFE230_BAKED.url:L.glb),type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/cafe230_interior.py（溫州街「2:30 AM」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8d494790d，配置 src/data/cafe230_layout.js v2）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
   const CAFE230_CUST={record:'看唱片',pastry:'看蛋糕櫃'};
   function cafe230Add(E,z,g,nav,L){ const fbM=M('#5a6b4e',{rough:0.8});
     for(const b of L.blocks||[]){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.5,b[3]),fbM); m.position.set(b[0],0.25,b[1]); g.add(m); }   /* 備用模型的卡座、小圓桌色塊 */

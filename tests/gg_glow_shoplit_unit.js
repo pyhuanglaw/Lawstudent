@@ -42,6 +42,6 @@ check('2. 光暈著色器乘 uShopLit（和窗卡同一個 uniform 物件）',/g
 check('2. 原本的光暈做法照舊（面向鏡頭、夜間程度、太暗不畫）',/mvPosition\.xy \+= aCorner \* aSize/.test(sh.vertexShader)&&/vGlowOp <= 0\.02/.test(sh.fragmentShader));
 check('2. 程式快取 key 和沒有店編號的光暈網格分開',gm.material.customProgramCacheKey()==='wzGlowBatch1_ggShop');
 // 3. 照營業時間
-const open=(zk,h)=>PLACES.isOpen(zk,h,30); const exp=(zk,h)=>open(zk,h)?1:0.18;
+const open=(zk,h)=>PLACES.isOpen(zk,h,30); const exp=(zk,h)=>open(zk,h)?1:0.03;
 for(const h of [15,22]){ GAME.G.hour=h; R.upd(); check('3. '+h+':00 青木 '+(open('aoki',h)?'開':'打烊')+'、afar '+(open('afar',h)?'開':'打烊')+'：uShopLit 照營業時間',R.lit[1]===exp('aoki',h)&&R.lit[2]===exp('afar',h),R.lit.slice(1,3).join(',')); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -113,9 +113,17 @@ const BIKE=(function(){
   const btn=()=>typeof document!=='undefined'&&document.getElementById?document.getElementById('btnBike'):null;
   function showBtn(on){ const b=btn(); if(b) b.classList.toggle('hide',!on); }
   function removeParked(E){ if(!parked) return; if(parked.obj.parent) parked.obj.parent.remove(parked.obj); const i=E.interactables.indexOf(parked.it); if(i>=0) E.interactables.splice(i,1); parked=null; }
+  /* 停著的車不會動（PERF-GG-DC-1104，LAWWW2 11-04；BB 公館 street_west／arcade draw call 1.43 倍）：零件分開的騎乘模型一台 15 次 draw call（陰影那一輪再 7 次），
+     停著的時候照材質合成一個網格（W3.mergeGroup：一台 5 次＋陰影 2～3 次；藏起來的載妹墊不合進去）。名字照舊 bike_ride；上車時 removeParked 丟掉、騎的那台另外 make()（零件照舊分開）*/
+  function parkedModel(s){ const o=mine(s); if(!o) return null; pose(o.userData.parts,0,0,0);
+    if(typeof W3==='undefined'||!W3.mergeGroup) return o;
+    try{ const hid=[]; o.traverse(n=>{ if(n.isMesh&&!n.visible) hid.push(n); }); for(const n of hid) n.parent.remove(n);
+      const m=W3.mergeGroup(o); m.name='bike_ride'; m.userData.kind=o.userData.kind; m.userData.merged=true; m.traverse(n=>{ if(n.isMesh) n.receiveShadow=false; }); return m; }
+    catch(e){ console.warn('停著的車合併失敗，用原本的模型',e); const o2=mine(s); pose(o2.userData.parts,0,0,0); return o2; } }
+  B.parkedModel=parkedModel;
   /* 停著的車：放在區域裡、加「騎腳踏車」互動點 */
   function placeParked(GM){ const E=GM.E, G=GM.G, s=st(G); removeParked(E); if(s.riding||s.zone!==G.zone||!E.zone||!src) return;
-    const o=mine(s); if(!o) return; pose(o.userData.parts,0,0,0); o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
+    const o=parkedModel(s); if(!o) return; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
     E.interactables.push(it); parked={obj:o,it,zone:G.zone};
     /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
