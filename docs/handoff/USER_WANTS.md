@@ -563,6 +563,7 @@
 | X223 | 遊戲裡每一棟有原型的建築，都去學校官網（*.ntu.edu.tw，使用者已開放）找圖片介紹，好好比對遊戲畫面 | 11-04 14:15（對 LAWWW；UA-LAWWW-1104-92） | 進行中 | NTU-REF-AUDIT-1104（LAWWW 子代理逐棟蒐集官方照片與事實 → CC 拍遊戲同角度 → LAWWW2 比對修改 → BB 判）；第一棟大一女舍 24 張已存 | 11-05 |
 | X224 | 參考 GitHub 開源找更有效的測試遊戲方法（交給 BB 自己決定） | 11-04 14:2x（對 BB；user_asks_BB 9c85f657a） | 進行中 | TEST-METHODS-1104（BB_257：Node 隨機玩家快轉、覆蓋率、瀏覽器亂點、WebKit、畫面基準；每次 push 自動跑 Node 單元測試 LAWWW 已加 .github/workflows/node-unit-auto.yml） | 11-05 |
 | X225 | 從 GitHub 開源找把使用者給的 2D 圖做成好看 3D 的方法，還有其他需要的美術內容（允許雲端下載試跑）；**試成功的方法要寫進美術規則**（14:3x 對 BB；UA-BB-1104-IMG2-3D-RULE） | 11-04 14:1x（對 LAWWW2；UA-LAWWW2-1104-05）、14:2x（對 BB；9c85f657a） | 進行中 | OPEN-SRC-2D3D-1104（LAWWW2：Poly Haven CC0 模型＋HDRI、疊圖對位、DeepBump、Depth Anything）＋IMG2-3D-RESEARCH-1104（BB 試跑 CPU 版 2D→3D 工具，交 LAWWW2 決定） | 11-05 |
+| X226 | 校園建築不能和真的一模一樣（建築師可能有著作權）：可以部分相同，絕對不可以照抄；只限校園建築，店面照舊照參考圖 | 11-04 15:0x（對 LAWWW；UA-LAWWW-1104-94～96） | 規則（永久） | D136（CLAUDE.md、PROJECT_DECISIONS、HV-27）；NTU-REF-AUDIT-1104 比對每棟寫「保留什麼、改掉什麼」；BB 驗收校園建築看像但不照抄 | — |
 
 ---
 

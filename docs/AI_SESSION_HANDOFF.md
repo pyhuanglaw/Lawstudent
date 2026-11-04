@@ -787,6 +787,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-27** | 2026-11-04 | **校園建築可以部分相同、絕對不可以照抄（D136）**：使用者 15:0x 怕建築師有著作權；只有校園建築（店面照 D133）。參考照片照舊不 commit（tools/ref/fetch_ref_images.py，學校官網、別人的照片只留網址） | LAWWW2 比對時每棟寫保留／改掉；BB 驗收校園建築看「像但不照抄」 |
 | **HV-26** | 2026-11-04 | **接班規則精簡（D135）**：使用者 11-04 12:3x 對 LAWWW-C 要求量接班時間、刪重複但仍完整接班（兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接）；12:5x 選擇題選①合併重複章節（CLAUDE.md 使用者訊息優先 6 節→1、自主連續工作 3 節＋1 點→1、分工 4 節→1；800→625 行；舊條文原樣搬 `docs/history/CLAUDE_superseded_1104.md` 附對照表；0a1a750f2）②`incr` 只逐筆分類改到遊戲的 commit（src／assets／tests／lib／index.html；只改文件的由交班全部待辦與快照涵蓋，`docsOnly`；4ff38f08d，918 項未分類→104）；沒選「接班流程只寫一處」「啟動提示詞一份範本」。同一天 LAWWW-C 修三種工具誤報：duty sync 上一筆沒有 since 時收了舊登記（45e64135d）、check 第 6 項和 incr 重複報（cd784999e）、duty verify 把交班紀錄本身當成交班後繼續寫（下一批）。接班量測：登記＋通訊 12:28～12:43（15 分鐘），最大成本是讀規則（709 KB 規則文件，只讀差異）、查誤報、incr 積壓 | 各職位接班照舊讀 RULE_SOURCE 的 CLAUDE.md；找舊條文看歷史檔的對照表；只改文件的 commit 不用再逐筆登記 ignored，但交班「全部待辦」要寫齊 |
 | **HV-25** | 2026-11-04 | **CC 可以直接聯絡任何職位（D134）**：CC ⇄ LAWWW／LAWWW2／AA／BB 直接 send_message，不用 BB 轉；測試範圍、派工、PASS／FAIL／GO 判定照舊 BB；D75 照舊 | 使用者 11-04 12:1x 對 CC-B「你可以直接連絡任何人 直接改規則」 | CLAUDE.md D134、PROJECT_DECISIONS D134、本檔第 4 節 HV-22 段、第 7.13／7.14 節 | （本次 commit） |
 | **HV-24** | 2026-11-03 | **LAWWW 可以直接聯絡 CC（D130）**：交班、duty handoff、交 SHA、測試進度與結果直接 send_message；判定照舊 BB | 使用者 11-03 02:0x「你改規則，然後你也可以自己聯絡CC」（起因：CC 交班漏跑 duty handoff） | CLAUDE.md D130、PROJECT_DECISIONS D130 | （本次 commit） |
