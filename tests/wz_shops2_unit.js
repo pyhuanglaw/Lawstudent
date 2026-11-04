@@ -35,7 +35,7 @@ for(const k of K){ const L=WZ_SHOPS_LAYOUT[k]; const z=loadZone('wz_'+k); if(E.f
   check('2. '+L.name+'：出生點 ('+sp.map(v=>+v.toFixed(2))+') 站得住',E.canStand(sp[0],sp[1],0.32,0));
   const seats=E.interactables.filter(i=>i.seat&&i.shop===k);
   /* 2026-11-04 改期望（WZ-SHOPS1-1104）：原本「配置的座位全部都有按鈕」；小路換成 AA 的 komichi_layout v3 以後，配置的 npcOnly（(3.05,3.45)，LAWWW2 11-04 05:22）和走不進去的五張（zones3d.js WZ_AA_NOSIT：窗邊隔板座靠窗三張、西牆卡座兩張）沒有按鈕 */
-  const LS=L.seats.filter(s=>!s.npcOnly&&!(Z3.wzNoSit&&Z3.wzNoSit(k,L,s)));
+  const LS=L.seats.filter(s=>!s.npcOnly);   /* 2026-11-04 改（小路 v4 AA bc021c7e1）：走不進去的都在配置寫 npcOnly，WZ_AA_NOSIT／Z3.wzNoSit 拿掉 */
   check('2. '+L.name+'：座位 '+LS.length+' 個都在（配置 '+L.seats.length+' 個，npcOnly、走不進去的不算）',seats.length===LS.length,seats.length+'/'+LS.length);
   { const hi=L.seats.filter(s=>s.lift); const zs=hi.map(s=>(E.zone.seats||[]).find(q=>Math.abs(q.x-s.x)<1e-6&&Math.abs(q.z-s.z)<1e-6)), is=hi.map(s=>seats.find(i=>Math.abs(i.seat.x-s.x)<1e-6&&Math.abs(i.seat.z-s.z)<1e-6));
     if(hi.length||k==='teishoku') check('2. '+L.name+'：吧台高腳凳的座位帶 lift 0.27（座面 0.72 m；沒有的話人坐進凳子裡）',hi.length===(k==='teishoku'?6:0)&&zs.every(q=>q&&q.lift===0.27)&&is.every(i=>i&&i.seat.lift===0.27),hi.length+' 個；區域 '+zs.map(q=>q&&q.lift).join(',')+'；按鈕 '+is.map(i=>i&&i.seat.lift).join(',')); }
@@ -82,10 +82,10 @@ for(const k of K){ const L=WZ_SHOPS_LAYOUT[k]; const z=loadZone('wz_'+k); if(E.f
     const names=(j.materials||[]).map(m=>m.name), want=L.seeThru||[];
     check('5. 小路：配置的 seeThru 是空的（AA seeThruNote）、新模型沒有舊的和紙燈籠材質 GLOW_wz_teishoku_washi',/komichi\.glb$/.test(L.glb)&&want.length===0&&!names.includes('GLOW_wz_teishoku_washi')&&/GLOW_wz_teishoku_washi/.test(L.seeThruNote||''),names.join('、')); }
   const pend=[], MATS=['kmc_bulb','kmc_vcm','kmc_walnut'];
-  ASSETS.loadOne=k=>{ if(k==='bldg.wz_teishoku_interior_v3'){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } const p=Promise.resolve({scene:g}); pend.push(p); return p; } return new Promise(()=>{}); };
+  ASSETS.loadOne=k=>{ if(k==='bldg.wz_teishoku_interior_v'+WZ_SHOPS_LAYOUT.teishoku.version){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } const p=Promise.resolve({scene:g}); pend.push(p); return p; } return new Promise(()=>{}); };
   const z=loadZone('wz_teishoku'); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
   const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.material&&MATS.includes(o.material.name)) mats[o.material.name]=o.material; });
-  check('5. 小路：正式模型（bldg.wz_teishoku_interior_v3）接上、區域不開 seeThru',!!z.formal&&!z.seeThru);
+  check('5. 小路：正式模型（bldg.wz_teishoku_interior_v<配置版本>；2026-11-04 v3→v4）接上、區域不開 seeThru',!!z.formal&&!z.seeThru);
   check('5. 小路：模型的材質都不透空',MATS.every(nm=>mats[nm]&&!mats[nm].userData.seeThrough),Object.keys(mats).length+' 種材質');
   const zl=loadZone('wz_lin'); check('5. 林家乾麵：不開 seeThru',!zl.seeThru);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
