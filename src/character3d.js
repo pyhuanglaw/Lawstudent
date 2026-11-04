@@ -393,10 +393,21 @@ const CHAR = (function(){
       for(const hit of RTR.intersectObjects(list,false)){ const y=h.worldToLocal(RTV[2].copy(hit.point)).y; if(y>=lo&&y<=hi){ if(best==null||y>best) best=y; break; } } }
     u.readTbl={key,y:best,n,next:now+(n===1?1.5:3.5)}; return best; }
   /* get(名稱)：VRM humanoid 骨頭名稱（leftUpperArm…）→ 真實骨架的節點 */
-  function readIK(h,u,get){ const K=C.READ_BOOK, k=u.k||1; const hips=get('hips'), lUL=get('leftUpperLeg'), rUL=get('rightUpperLeg'), head=get('head');
+  /* 手上拿的不是書（SEAT-ACTIVITY-1104，使用者 11-04「有可能會出現筆記型電腦、平板或者單純在滑手機」；src/seatact3d.js）：CHAR.setReadItem(人物, 'phone'／'tablet'／'book')。
+     同一套 readIK（pose 'read'：坐著、低頭、兩手捧著），換成 C.READ_ITEM 的尺寸：東西的座標和書一樣（x＝人物的右邊、y＝往上、+z＝朝讀的人），手腕在兩側下半部的背面；
+     手上的東西是 desk_props.glb 的單件（PROPS.readHeld：item_phone_on；平板＝item_tablet，模型還沒有＝照拿書）。載入失敗＝照拿書 */
+  C.READ_ITEM={ phone:{dy:0.27,dz:0.25,tilt:0.32,W:0.036,H:0.073,back:-0.0045,palmIn:0.004,palmY:-0.032,palmOff:0.017,palm:0.042,fx:0.72,fy:0.69,grip:[0.32,0.5]},
+    tablet:{dy:0.25,dz:0.29,tilt:0.26,W:0.125,H:0.085,back:-0.0045,palmIn:0.02,palmY:-0.03,palmOff:0.018,palm:0.045,fx:0.55,fy:0.83,grip:[0.12,0.25]} };
+  const readKind=u=>{ const k=u.readItem; if(!k||k==='book'||!C.READ_ITEM[k]) return 'book'; const hd=u.readHeld&&u.readHeld[k]; return hd&&hd.userData.failed?'book':k; };
+  C.setReadItem=function(h,kind){ const u=h&&h.userData; if(!u) return false; u.readItem=kind&&kind!=='book'?kind:null; readVis(u); return true; };
+  function readVis(u){ const on=!!u.readOn, kd=readKind(u); if(u.readBook) u.readBook.visible=on&&kd==='book'; if(u.readHeld) for(const k in u.readHeld) u.readHeld[k].visible=on&&kd===k; }
+  function readIK(h,u,get){ const k=u.k||1; const hips=get('hips'), lUL=get('leftUpperLeg'), rUL=get('rightUpperLeg'), head=get('head');
     const AR=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']].map(L=>L.map(get));
     if(!hips||!head||AR.some(L=>L.some(b=>!b))) return;
-    if(!u.readBook){ if(typeof PROPS==='undefined'||!PROPS.readBook) return; u.readBook=PROPS.readBook(); u.model.add(u.readBook); }
+    let kd=readKind(u); if(kd!=='book'){ const H=u.readHeld||(u.readHeld={}); if(!H[kd]){ const o=typeof PROPS!=='undefined'&&PROPS.readHeld?PROPS.readHeld(kd):null; if(o){ H[kd]=o; u.model.add(o); } } if(!H[kd]||H[kd].userData.failed) kd='book'; }
+    const K=kd==='book'?C.READ_BOOK:C.READ_ITEM[kd];
+    if(kd==='book'&&!u.readBook){ if(typeof PROPS==='undefined'||!PROPS.readBook) return; u.readBook=PROPS.readBook(); u.model.add(u.readBook); }
+    readVis(u);
     h.updateWorldMatrix(true,true); const Lc=(b,v)=>h.worldToLocal(b.getWorldPosition(v));
     // ① 書的位置、方向（人物座標：x 往左、y 往上、z 往前）
     const hp=Lc(hips,RBV[0]); const cx=lUL&&rUL?(Lc(lUL,RBV[1]).x+Lc(rUL,RBV[2]).x)/2:hp.x;
@@ -409,7 +420,7 @@ const CHAR = (function(){
     let lift=0; if(tY!=null) for(let it=0;it<3;it++){ const d=tY+0.045-lowNow(); if(d<=0.001) break; ctr.y+=d; lift+=d; frame(); }
     u.readLift=lift;
     const ML=RBM[0].makeBasis(X,Y,Z).setPosition(ctr), MW=RBM[1].multiplyMatrices(h.matrixWorld,ML);
-    const bk=u.readBook; u.model.updateWorldMatrix(true,false); bk.matrix.copy(u.model.matrixWorld).invert().multiply(MW); bk.matrix.decompose(bk.position,bk.quaternion,bk.scale); bk.updateMatrixWorld(true);
+    const bk=kd==='book'?u.readBook:u.readHeld[kd]; u.model.updateWorldMatrix(true,false); bk.matrix.copy(u.model.matrixWorld).invert().multiply(MW); bk.matrix.decompose(bk.position,bk.quaternion,bk.scale); bk.updateMatrixWorld(true);
     const bookQ=RBQ[2].setFromRotationMatrix(MW); const nW=new THREE.Vector3(0,0,1).applyQuaternion(bookQ);
     // ② 兩手
     const hands=[];
@@ -567,7 +578,7 @@ const CHAR = (function(){
   const GYM_FALL={gym_squat:'idle',gym_curl:'idle',gym_press:'sit',gym_bike:'sit',gym_row:'sit',gym_stretch:'sit'};
   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
     if(u.props){ const sitting=pose==='sit'||pose==='read', lying=pose==='lie'||C.GYM_POSES.includes(pose); for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!lying&&!(u.propOn&&u.propOn[k]===false); } }   /* 躺在床上也藏（後背包，DORM-SLEEP-1030）*/   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
-    u.readOn=pose==='read'&&C.readIK&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); if(u.readBook) u.readBook.visible=!!u.readOn;   /* 讀書：手上那本打開的書（readIK；腿上開著筆電的時候不拿書）*/
+    u.readOn=pose==='read'&&C.readIK&&!(u.props&&u.props.laptop_lap&&u.props.laptop_lap.visible); readVis(u);   /* 讀書：手上那本打開的書（readIK；腿上開著筆電的時候不拿書）*/
     if(u.props&&pose==='read'!==!!u.readHeldOff){ u.readHeldOff=pose==='read'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k], o=u.props[k]; if(!o||!d||!/LowerArm$|Hand$/.test(d.bone)||k==='bandage'||d.sit) continue; o.visible=!u.readHeldOff&&!(u.propOn&&u.propOn[k]===false); } }   /* 讀書的時候手上原本拿的東西（小說、法典、講義、馬克杯…）先收起來：兩手在捧書。繃帶照舊；sit:'hide'／'only' 上面已經處理 */
     u.ride=pose==='ride'?(st.ride||{crank:0}):null;   u.climbOn=pose==='climb';   /* 爬梯子：手、上身在 climbIK（真實骨架）；權重 climbW 在下面（updateVRM 以前）*/
     if(pose!=='lie'&&u.model.rotation.x!==0) u.model.rotation.x=0;
@@ -663,6 +674,7 @@ const CHAR = (function(){
     for(const c of [...h.children]) if(!u.ownKids||!u.ownKids.has(c)) nh.add(c);
     const a=u.anim, na=nh.userData.anim; if(a&&na&&a.pose) na.pose=a.pose; if(a&&a.expr&&a.expr!=='normal') C.setExpr(nh,a.expr);
     if(u.propOn) for(const k in u.propOn) C.setProp(nh,k,u.propOn[k]);
+    if(u.readItem) nh.userData.readItem=u.readItem;   /* 手上拿的是手機、平板（SEAT-ACTIVITY-1104）：換成正式模型以後照樣 */
     if(u.jacket) C.setJacket(nh,true);   /* 祐廷的系外套（X140）：開發用模型換成正式 VRM 時照樣穿著（buildVRM 照 manifest hide 先藏）；之後 STORY.jacketSync 照規則對一次 */
     const p=h.parent; if(p){ p.add(nh); p.remove(h); } C.release(h); return nh; };
   function buildOne(spec){ spec=C.resolveModel(spec); if(C.canVRM(spec)){ try{ return buildVRM(spec); }catch(e){ console.error('VRM character failed, fallback',spec&&spec.model,e); C.failures.push((spec&&spec.model)+': '+e.message); } } else if(spec&&spec.model&&!spec.anonPick&&ASSETS.manifest[spec.model]&&ASSETS.manifest[spec.model].type==='vrm'){ C.failures.push(spec.model+': not loaded'); }   /* 路人底模還在背景下載：不算失敗 */ if(C.canGLB(spec)){ try{ return buildGLB(spec); }catch(e){ console.warn('GLB character failed, fallback to procedural',e); } } if(spec.fallbackModel){ const s2=Object.assign({},spec,{model:spec.fallbackModel,fallbackModel:null}); if(C.canGLB(s2)){ try{ return buildGLB(s2); }catch(e){ console.warn('fallback GLB failed',e); } } } const o=P3.build(spec); o.userData.driver='proc'; o.userData.placeholder=true; return o; };
@@ -686,7 +698,7 @@ const CHAR = (function(){
     // 注視
     if(st.lookAt&&B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.8; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; }
     // 讀書：手上那本打開的書（readIK，和 VRM 同一套；骨頭名稱照 Mixamo）
-    u.readOn=pose==='read'&&C.readIK; if(u.readBook) u.readBook.visible=!!u.readOn; if(u.readOn) readIK(h,u,u.glbGet||(u.glbGet=n=>B[GLB_BONE[n]]||null));
+    u.readOn=pose==='read'&&C.readIK; readVis(u); if(u.readOn) readIK(h,u,u.glbGet||(u.glbGet=n=>B[GLB_BONE[n]]||null));
     // 嘴型（說話時）與表情
     if(u.headMesh){ const d=u.headMesh.morphTargetDictionary, inf=u.headMesh.morphTargetInfluences; if(d.mouthOpen!==undefined){ const target=pose==='talk'?(0.15+Math.abs(Math.sin(a.t*9))*0.35):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); inf[d.mouthOpen]=a.mouth; } } };
   C.setExpr=function(h,expr){ const u=h.userData; if(u.driver==='vrm'){ C.setExprVRM(h,expr); return; } if(u.driver!=='glb'){ P3.setExpr(h,expr); return; } u.anim.expr=expr; const hm=u.headMesh; if(!hm) return; const d=hm.morphTargetDictionary, inf=hm.morphTargetInfluences; if(d.mouthSmile!==undefined) inf[d.mouthSmile]=(expr==='smile'?0.55:(expr==='laugh'?0.9:(expr==='shy'?0.3:0))); };
