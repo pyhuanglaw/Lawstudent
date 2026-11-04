@@ -86,7 +86,7 @@ const EXLIB=(function(){
   const hasHours=z=>typeof PLACES!=='undefined'&&!!PLACES.hours&&!!PLACES.hours[S.hoursZone(z)];
   S.OPEN_DEFAULT=8;   /* 沒寫開放時間的（24 小時的 B1 自習室、霖澤館 4F）：人從 08:00 開始來 */
   S.openH=function(z,day){ if(!hasHours(z)) return S.OPEN_DEFAULT; for(let h=6;h<23;h+=0.25) if(S.isOpen(z,day,h+0.01)) return h; return null; };
-  S.closeH=function(z,day,h){ if(!hasHours(z)) return 24; for(let x=Math.max(h||0,0);x<24;x+=0.25) if(!S.isOpen(z,day,x+0.01)) return x; return 24; };
+  S.closeH=function(z,day,h){ if(!hasHours(z)) return 24; for(let x=Math.ceil(Math.max(h||0,0)*4-1e-9)/4;x<24;x+=0.25) if(!S.isOpen(z,day,x+0.001)) return x; return 24; };   /* 照 15 分鐘的格子找（開放時間都在格子上：21:45、22:00）*/
   S.fullH=function(G,z,day){ day=day==null?G.day|0:day; const we=weekendDay(day); if(z==='soclib_2f') return we?10:9; return we?11:10; };   /* 平日 10:00、週末 11:00；社科圖二樓平日 09:00 */
   /* 這個時刻坐滿幾成（0～1）*/
   S.fill=function(G,z,h){ h=h==null?hr(G):h; const day=G.day|0; if(!S.on(G,day,h)||!S.isOpen(z,day,h)) return 0; const o=S.openH(z,day); if(o==null) return 0; const f=S.fullH(G,z,day);
@@ -201,7 +201,9 @@ const EXLIB=(function(){
     try{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], te=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null; if(te&&te.talkEvent) return true; }catch(e){}
     try{ if(typeof STORY_EVENTS!=='undefined'&&typeof EVENTS!=='undefined'&&EVENTS.check&&STORY_EVENTS.some(ev=>ev.trigger==='interact'&&ev.participants&&ev.participants[0]===id&&EVENTS.check(ev))) return true; }catch(e){}
     return false; };
-  S.here=function(GM){ const G=GM&&GM.G; if(!G||!S.isLib(G.zone)||!S.on(G)) return false; return typeof LIBQ==='undefined'||!LIBQ.quietNow||LIBQ.quietNow(GM); };
+  /* 讀書區：LIBQ 管的區域照 LIBQ（D127③）；LIBQ 沒管的（A館 4F 自習討論區、還沒有的社科圖二樓）＝整間都算（稿上那幾位的句子本來就寫了（小聲））*/
+  const libqZone=z=>typeof LIBQ!=='undefined'&&!!LIBQ.ZONES&&!!LIBQ.ZONES[z];
+  S.here=function(GM){ const G=GM&&GM.G; if(!G||!S.isLib(G.zone)||!S.on(G)) return false; if(!libqZone(G.zone)) return S.inStudy(GM)&&!(typeof LIBQ!=='undefined'&&LIBQ.isLoud&&LIBQ.isLoud()); return !LIBQ.quietNow||LIBQ.quietNow(GM); };
   S.nodRec=(G,z)=>{ const R=S.rec(G), t=termOf(G); return sub(sub(R.nod,t?t.id:'-'),z); };
   /* LIBQ 今天點過頭（讀書區第一次）：這一段、這一間也算點過了 */
   S.noteNod=function(GM,n){ const G=GM&&GM.G, id=n&&(n.charId||n.id); if(!id||!S.here(GM)||!(S.inCast(G,id)||S.isPool(id))) return; S.nodRec(G,G.zone)[id]=1; };
@@ -224,7 +226,7 @@ const EXLIB=(function(){
     return !!r; };
 
   /* ---------- 第 1 節：一進門的旁白 ---------- */
-  S.inStudy=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player, o=P&&P.obj&&P.obj.position; if(!S.isLib(G.zone)) return false; if(typeof LIBQ==='undefined'||!LIBQ.studyAt) return true; return LIBQ.studyAt(G.zone,P?P.lv:0,o?o.x:undefined,o?o.z:undefined); };
+  S.inStudy=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player, o=P&&P.obj&&P.obj.position; if(!S.isLib(G.zone)) return false; if(!libqZone(G.zone)||!LIBQ.studyAt) return true; return LIBQ.studyAt(G.zone,P?P.lv:0,o?o.x:undefined,o?o.z:undefined); };
   S.atmosLine=function(G){ const R=S.rec(G), A=L().atmos||[]; const close=typeof CROWD!=='undefined'&&CROWD.closingSoon?CROWD.closingSoon(G,S.hoursZone(G.zone)):false;
     if(close&&L().atmosClose) return {t:L().atmosClose,close:true}; if(!A.length) return null; const i=(R.atm.n|0)%A.length; return {t:A[i],i}; };
   /* 第 1～5 句寫的是坐滿的樣子：坐到五成以上（開館後約四十分鐘起）才放；閉館前 30 分鐘那一句照時間 */
@@ -241,6 +243,7 @@ const EXLIB=(function(){
   /* 招手的朋友：這一間、坐著、FRIEND 以上、旁邊有位子（沒有人坐；放了東西的＝他幫你收）*/
   S.waver=function(GM){ const G=GM.G, E=GM.E; const out=[]; for(const id of Object.keys(S.cast(G))){ if(!S.inCast(G,id)) continue; const n=GM.npc&&GM.npc[id]; if(!n||!n.seat||!E.npcs.includes(n)) continue; if(!S.friendUp(G,id)) continue;
       const a=S.adjacent(E,n.seat,null,q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken); if(a) out.push({id,n,seat:a}); } return out[0]||null; };
+  S.waveText=id=>String((L().full||{}).wave||'').replace('{她／他}',male(id)?'他':'她');
   const seatIt=(E,st)=>(E.interactables||[]).find(it=>it&&it.seat===st)||{x:st.x,z:st.z,lv:st.lv|0,radius:0.8,label:'坐下讀書',seat:st,study:true};
   const sitDown=async(GM,st)=>{ const E=GM.E; if(ZS&&ZS.held.has(st)){ S.unhold(E,st); ZS.held.delete(st); } if(st.taken==='exlib41') st.taken=null; const it=seatIt(E,st); if(GM.seatMenu) await GM.seatMenu(it); return true; };
   S.otherLibs=function(G){ if(typeof PLACES==='undefined'||!PLACES.quickList) return []; const base=z=>PLACES.base?PLACES.base(z):z, here=base(G.zone)==='linze'||G.zone==='linze_4f'?'linze':base(G.zone);
@@ -255,7 +258,7 @@ const EXLIB=(function(){
       for(let guardN=0;guardN<4&&!next;guardN++){ const w=S.waver(GM), opts=[];
         if(again) opts.push({t:F.again,hint:'時間 +20 分鐘',k:'again'});
         opts.push({t:F.other,k:'other'}); opts.push({t:atHome(G)?F.home:F.dorm,k:'dorm'});
-        if(w&&F.wave) opts.push({t:male(w.id)?F.wave.m:F.wave.f,k:'wave',w});
+        if(w&&F.wave) opts.push({t:S.waveText(w.id),k:'wave',w});
         const o=opts[await GM.choose(opts)]||opts[0];
         if(o.k==='again'){ again=false; const lucky=S.againLucky(G,hr(G)); if(GM.advance) GM.advance(1/3); S.syncSeats(GM,true);
           if(lucky&&ZS&&ZS.held.size){ const P=E.player.obj.position, lv=E.player.lv|0; const st=[...ZS.held].filter(q=>(q.lv|0)===lv).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z))[0]||[...ZS.held][0];
@@ -283,7 +286,7 @@ const EXLIB=(function(){
     const h0=Math.max(o,at!=null?at:(P.hold&&P.hold.from)||o), h1=Math.min(12,(P.hold&&P.hold.until)||12);
     for(let x=h0;x<Math.max(h1,h0+0.25);x+=0.25) if(!soft(S.base(c,Gat(G,day,x+0.05)))) return false;
     if(econ(G)&&S.Y0_SLOTS[id]&&!weekendDay(day)) return true;
-    const c1=S.closeH(z,day,o); for(let h=o;h<c1;h+=0.5){ const b=S.base(c,Gat(G,day,h+0.05)); if(b&&b.act==='read'&&b.zone!=null) return true; } return false; };
+    const c1=S.closeH(z,day,o); for(let h=o;h<c1;h+=0.25){ const b=S.base(c,Gat(G,day,h+0.05)); if(b&&b.act==='read'&&b.zone!=null) return true; } return false; };
   S.topicOk=function(G,id){ if(!G||typeof MSG==='undefined') return false; const P=S.inCast(G,id); if(!P||!P.hold||!P.hold.yes) return false; const h=hr(G); if(h<18||h>=23) return false;
     if(econ(G)&&G.flags&&(G.flags.Y0_LEFT||G.flags.Y0_MOVED_OUT)) return false;   /* 休學、退宿以後不約去台大（使用者 2026-10-18）*/
     if(!S.on(G)||!S.on(G,(G.day|0)+1,9)) return false; const R=rec0(G)||{};
