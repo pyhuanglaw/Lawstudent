@@ -1394,7 +1394,7 @@ const Z3 = (function(){
     let compiled=0; const prev0=m.onBeforeCompile; const mine=function(sh,r){ if(mine.prev&&mine.prev!==mine) mine.prev.call(this,sh,r); patch(sh); compiled++; }; mine.prev=prev0&&prev0!==THREE.Material.prototype.onBeforeCompile?prev0:null;
     const patch=sh=>{ sh.uniforms.uShopLit=U;
       sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
-      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=mix(1.0,k,0.75); }'); }; m.onBeforeCompile=mine;
+      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); }; m.onBeforeCompile=mine;
     m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true;
     const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.18):1; } };
     let f=0, rewrap=0;
