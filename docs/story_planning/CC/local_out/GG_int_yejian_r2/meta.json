@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_int_yejian_r2",
+  "sha": "10b6ebbf8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_int_probe.py",
+  "env": "CASES=yejian;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T14:25:29",
+  "end": "2026-11-04T15:35:08",
+  "seconds": 4179,
+  "exit": 0,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 61,
+    "used_gb": 19.1,
+    "chrome_testing": 30
+  }
+}
