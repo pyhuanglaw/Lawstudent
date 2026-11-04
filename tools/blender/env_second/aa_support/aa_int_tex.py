@@ -611,22 +611,32 @@ def kmc():
         vtext(x0 + 64, y0 + 38, nm, F(40), fg, 46); d.rectangle([x0 + 92, y0 + 20, x0 + 100, y0 + 52], fill='#a8392e')
     for k, (bg, fg) in enumerate((('#2a2a2a', '#d9a441'), ('#f1ead8', '#2a4a2e'), ('#7a2a22', '#f1ead8'), ('#e8dcc0', '#1e1610'), ('#3a4a2a', '#e8dcc0'), ('#c8a44a', '#2a1e18'), ('#f4f0e6', '#2a3a5a'), ('#5a3a22', '#efe2c4'))):
         x0, y0 = k * 128, 896; d.rectangle([x0 + 4, y0 + 4, x0 + 123, y0 + 123], fill=bg); d.ellipse([x0 + 34, y0 + 30, x0 + 94, y0 + 90], outline=fg, width=5); d.rectangle([x0 + 24, y0 + 100, x0 + 104, y0 + 108], fill=fg)
+    # v1e（使用者 11-04 06:3x「海報上的人也太醜了吧沒辦法用2D的圖貼上嗎？」）：海報直接用使用者給的參考圖裁下來的那兩張（＋一張人像），蓋掉上面畫的版本
+    ref = Image.open(os.path.join(HERE, '..', '..', '..', '..', 'docs', 'story_planning', 'ref_images', 'shops', 'wz_komichi_int.webp')).convert('RGB')
+    for (crop, cell) in (((160, 160, 286, 476), (0, 3, 2, 3)), ((822, 258, 931, 416), (2, 3, 2, 3)), ((292, 124, 362, 268), (6, 3, 2, 2)), ((556, 342, 636, 410), (4, 3, 2, 2))):
+        bx_ = box(*cell); im.paste(ref.crop(crop).resize((bx_[2] - bx_[0], bx_[3] - bx_[1]), Image.LANCZOS), (bx_[0], bx_[1]))
     im.save(os.path.join(GEN, 'kmc_print.png'))
 
 
 def sns():
-    """SUNNY SIDE（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04；AA_654／AA_655）：
-    sns_checker.png：黑白小方磚斜鋪（一張 0.8 m，8×8 顆斜方格；磚縫、微差）；
-    sns_print.png：(0,0) 6×2 深綠菜單板（SUNNY SIDE BRUNCH／Brunch／Coffee & Tea，價錢照 AA_655 §5）、(0,2) 2×1 櫃台的金字木牌、
-    (2,2) 2×2 水彩畫（教堂街景）、(4,2) 2×2 水彩畫（運河）、(6,2) 1×1 桌卡、(7,2) 1×1 小菜單卡"""
+    """SUNNY SIDE（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04 v1c；AA_654／AA_655；BB_257 §3 退件第 7、8 項）：
+    sns_checker.png：黑白斜鋪小方磚（1024＝1.6 m，16×16 顆；每顆深淺、磚縫的髒污、低頻的磨損都不一樣，鋪起來 1.6 m 才重複一次）；
+    sns_print.png：(0,0) 6×2 深綠菜單板、(0,2) 2×1 櫃台的金字木牌、(2,2) 2×2 水彩畫一（教堂街景，筆觸、暈染、鉛筆線）、(4,2) 2×2 水彩畫二（運河、房子、船）、
+    (6,2) 1×1 桌卡、(7,2) 1×1 小菜單卡、(0,3) 2×2 右牆的小黑板（Today＋手繪的蛋和杯子）、(2,4) 2×2 舊照片（咖啡館門口）、(4,4) 2×2 植物插畫"""
     rng = np.random.default_rng(1105)
-    S = 512; yy, xx = np.mgrid[0:S, 0:S].astype(np.float32); s_ = S / 8.0
-    u = (xx + yy) / s_; v = (xx - yy) / s_
-    chk = (np.floor(u) + np.floor(v)) % 2
-    base = np.where(chk[..., None] > 0.5, np.array(hexc('#2e2e2c'), np.float32), np.array(hexc('#ece6da'), np.float32))
-    n = noise(S, S, 4, 5) - 0.5; base *= (1 + n[..., None] * 0.05)
+    S = 1024; yy, xx = np.mgrid[0:S, 0:S].astype(np.float32); s_ = S / 16.0
+    u = (xx + yy) / s_; v = (xx - yy) / s_; iu, iv = np.floor(u), np.floor(v)
+    chk = (iu + iv) % 2
+    tid = (iu * 37 + iv * 101) % 97; tv = (np.sin(tid * 12.9898) * 43758.5453) % 1.0           # 每一顆磚自己的深淺
+    white = np.array(hexc('#ece6da'), np.float32); black = np.array(hexc('#2e2e2c'), np.float32)
+    base = np.where(chk[..., None] > 0.5, black * (0.95 + 0.1 * tv[..., None]), white * (0.94 + 0.08 * tv[..., None]))
+    n = noise(S, S, 4, 5) - 0.5; lf = noise(S, S, 160, 9); base *= (1 + n[..., None] * 0.05)
+    wear = np.clip((lf - 0.55) * 2.2, 0, 1)[..., None]                                          # 低頻的磨損（走道比較亮、比較霧）
+    base = base * (1 - 0.12 * wear) + np.array(hexc('#c8bfae'), np.float32) * 0.12 * wear
     edge = np.minimum(np.abs(u - np.round(u)), np.abs(v - np.round(v))) * s_ / 1.414
-    base = np.where((edge < 1.6)[..., None], np.array(hexc('#b8b0a2'), np.float32), base)
+    grout = (np.array(hexc('#b8b0a2'), np.float32) * (0.75 + 0.35 * (noise(S, S, 12, 11) - 0.5)[..., None]))
+    base = np.where((edge < 2.2)[..., None], grout, base)
+    chip = (noise(S, S, 2, 13) > 0.985) & (chk < 0.5); base[chip] *= 0.82                     # 白磚上零星的小缺角、污點
     Image.fromarray(np.clip(base, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'sns_checker.png'))
     im = Image.new('RGB', (1024, 1024), '#efe6d6'); d = ImageDraw.Draw(im)
     bx = box(0, 0, 6, 2); x0, y0, x1, y1 = bx; paper(im, bx, '#2c3e32', rng, grain=0.08); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#b8944a', width=4)
@@ -640,26 +650,63 @@ def sns():
         d.text((x0 + 566, y0 + 96 + k * 34), n_, font=F(17), fill='#f1ead8'); d.text((x0 + 712, y0 + 96 + k * 34), str(p_), font=F(17), fill='#f1ead8')
     bx = box(0, 2, 2, 1); x0, y0, x1, y1 = bx; paper(im, bx, '#5a3c26', rng, grain=0.2); d.rectangle([x0 + 10, y0 + 10, x1 - 11, y1 - 11], outline='#b8944a', width=3)
     text_c(d, ((x0 + x1) / 2, y0 + 52), 'SUNNY SIDE', F(30), '#e8d29a'); text_c(d, ((x0 + x1) / 2, y0 + 90), '— BRUNCH —', F(14), '#e8d29a')
-    def water(c, kind, seed):
-        bx = box(c, 2, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f4efe4'); ix0, iy0, ix1, iy1 = x0 + 30, y0 + 30, x1 - 30, y1 - 30
-        hh, ww = iy1 - iy0, ix1 - ix0; Y = np.arange(hh)[:, None]; X = np.arange(ww)[None, :]; r2 = np.random.default_rng(seed)
-        a = np.zeros((hh, ww, 3), np.float32) + np.array([200, 214, 226], np.float32)
-        if kind == 0:
-            a = np.where((Y > hh * 0.35)[..., None] & (np.abs(X - ww / 2) < ww * 0.18)[..., None], np.array([214, 196, 170], np.float32), a)
-            a = np.where(((X - ww / 2) ** 2 + (Y - hh * 0.35) ** 2 < (ww * 0.14) ** 2)[..., None], np.array([150, 170, 160], np.float32), a)
-            a = np.where((Y > hh * 0.45)[..., None] & ((X < ww * 0.25) | (X > ww * 0.75))[..., None], np.array([226, 206, 180], np.float32), a)
-        else:
-            a = np.where((Y > hh * 0.6)[..., None], np.array([120, 160, 170], np.float32), a)
-            for k in range(5):
-                xa = int(ww * k / 5); h0 = int(hh * (0.25 + 0.06 * (k % 3)))
-                a[h0:int(hh * 0.62), xa + 3:xa + ww // 5 - 3] = np.array([(214, 170, 140), (230, 210, 170), (190, 150, 130)][k % 3], np.float32)
-        a += r2.normal(0, 6, a.shape); im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (ix0, iy0)); d.rectangle(bx, outline='#8a6a3a', width=8)
-    water(2, 0, 41); water(4, 1, 42)
+
+    def watercolor(c, r, kind, seed):
+        """水彩：紙紋、淡淡的天空、一筆一筆半透明的色塊（邊緣比較深）、暈開、鉛筆線、留白；外面是米白卡紙＋木框"""
+        bx = box(c, r, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f4efe4')
+        W_, H_ = 196, 196; rr = np.random.default_rng(seed)
+        pap = np.ones((H_, W_, 3), np.float32) * np.array([246, 241, 228], np.float32); pap *= (1 + (noise(W_, H_, 2, seed) - 0.5)[..., None] * 0.05)
+        layer = Image.fromarray(pap.astype(np.uint8)).convert('RGBA')
+        polys = []
+        def wash(poly, col, a=90, blur=1.6):
+            a = min(255, int(a * 1.45)); polys.append(poly) if a > 140 else None
+            m = Image.new('L', (W_, H_), 0); ImageDraw.Draw(m).polygon(poly, fill=a); m = m.filter(ImageFilter.GaussianBlur(blur))
+            edge_ = m.filter(ImageFilter.FIND_EDGES).filter(ImageFilter.GaussianBlur(0.8)); m = Image.fromarray(np.clip(np.asarray(m, np.float32) + np.asarray(edge_, np.float32) * 0.9, 0, 255).astype(np.uint8))
+            layer.alpha_composite(Image.merge('RGBA', (*[Image.new('L', (W_, H_), cc) for cc in col], m)))
+        def jit(pts, j=2.5): return [(x + rr.uniform(-j, j), y + rr.uniform(-j, j)) for x, y in pts]
+        wash([(0, 0), (W_, 0), (W_, H_ * 0.45), (0, H_ * 0.55)], (150, 186, 214), 70, 6)          # 天空
+        if kind == 0:   # 教堂街景：圓頂、兩排房子、街道往裡面縮
+            wash(jit([(70, 70), (126, 70), (126, 150), (70, 150)]), (214, 190, 150), 120)
+            wash(jit([(78, 72), (98, 38), (118, 72)], 1.5), (120, 150, 140), 120); wash(jit([(94, 40), (98, 22), (102, 40)], 1), (90, 110, 100), 140)
+            for k in range(4): x = 6 + k * 16 + rr.uniform(-2, 2); h = rr.uniform(70, 110); wash(jit([(x, h), (x + 15, h + rr.uniform(-6, 6)), (x + 15, 160), (x, 160)]), [(226, 196, 160), (210, 170, 140), (232, 214, 180), (190, 150, 130)][k], 110)
+            for k in range(4): x = 130 + k * 16 + rr.uniform(-2, 2); h = rr.uniform(70, 110); wash(jit([(x, h), (x + 15, h + rr.uniform(-6, 6)), (x + 15, 160), (x, 160)]), [(200, 168, 140), (230, 206, 170), (214, 182, 150), (186, 160, 140)][k], 110)
+            wash(jit([(0, 160), (W_, 160), (W_, H_), (0, H_)]), (176, 164, 150), 90, 3); wash(jit([(80, 160), (116, 160), (150, H_), (46, H_)]), (200, 186, 166), 80, 3)
+            for k in range(6): x, y = rr.uniform(10, 186), rr.uniform(160, 190); wash(jit([(x, y), (x + 3, y - 12), (x + 6, y)], 0.8), (70, 70, 80), 130, 0.8)   # 行人
+        else:   # 運河：水、兩岸房子倒影、小船
+            for k in range(7):
+                x = k * 28 + rr.uniform(-3, 3); h = rr.uniform(48, 90); col = [(214, 150, 120), (232, 206, 160), (190, 120, 100), (220, 190, 140), (170, 150, 130), (226, 170, 130), (200, 180, 160)][k]
+                wash(jit([(x, h), (x + 14, h - 10), (x + 27, h), (x + 27, 122), (x, 122)]), col, 120); wash(jit([(x, 122), (x + 27, 122), (x + 27, 122 + (122 - h) * 0.6), (x, 122 + (122 - h) * 0.6)]), col, 45, 3)
+            wash(jit([(0, 122), (W_, 122), (W_, H_), (0, H_)]), (110, 150, 160), 80, 4)
+            for k in range(2): x = 40 + k * 90; wash(jit([(x, 150), (x + 40, 150), (x + 32, 160), (x + 6, 160)], 1), (90, 60, 50), 150, 0.8)
+        img = layer.convert('RGB'); dd = ImageDraw.Draw(img)
+        for poly in polys:                                                                     # 鉛筆線：沿著色塊的輪廓，斷斷續續、有點歪
+            pts = [(x + rr.uniform(-1.5, 1.5), y + rr.uniform(-1.5, 1.5)) for x, y in poly] + [poly[0]]
+            for p0, p1 in zip(pts[:-1], pts[1:]):
+                if rr.random() < 0.75: dd.line([p0, p1], fill=(110, 96, 82), width=1)
+        for k in range(10):                                                                    # 窗戶的小筆觸
+            x, y = rr.uniform(8, 188), rr.uniform(80, 150); dd.rectangle([x, y, x + 3, y + 5], fill=(120, 110, 100))
+        im.paste(img, (x0 + 30, y0 + 30)); d.rectangle(bx, outline='#8a6a3a', width=8)
+        d.text((x1 - 70, y1 - 26), 'M. Lin', font=F(11), fill='#7a6a5a')
+    watercolor(2, 2, 0, 41); watercolor(4, 2, 1, 42)
     bx = box(6, 2, 1, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f6f0e2'); text_c(d, ((x0 + x1) / 2, y0 + 40), 'SUNNY SIDE', F(13), '#2c3e32'); d.line([x0 + 30, y0 + 64, x1 - 30, y0 + 64], fill='#b8944a', width=2)
     bx = box(7, 2, 1, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f6f0e2'); d.text((x0 + 16, y0 + 16), 'MENU', font=F(16), fill='#2c3e32')
     for k in range(5): d.line([x0 + 16, y0 + 50 + k * 13, x1 - 20, y0 + 50 + k * 13], fill='#8a8270', width=2)
+    bx = box(0, 3, 2, 2); paper(im, bx, '#262a26', rng, grain=0.14); x0, y0, x1, y1 = bx; d.rectangle(bx, outline='#6a4a30', width=10)   # 右牆小黑板
+    d.text((x0 + 26, y0 + 22), 'Today', font=F(30), fill='#f1ead8'); d.text((x0 + 26, y0 + 64), 'Eggs Benedict', font=F(17), fill='#efe0b8'); d.text((x0 + 26, y0 + 90), 'three minutes forty', font=F(13), fill='#d8ccb0')
+    d.ellipse([x0 + 150, y0 + 130, x0 + 220, y0 + 190], outline='#f1ead8', width=3); d.ellipse([x0 + 172, y0 + 150, x0 + 198, y0 + 172], fill='#e8c060')   # 手繪的太陽蛋
+    d.arc([x0 + 40, y0 + 140, x0 + 100, y0 + 200], 200, 340, fill='#f1ead8', width=3); d.line([x0 + 44, y0 + 170, x0 + 96, y0 + 170], fill='#f1ead8', width=3)   # 杯子
+    d.text((x0 + 26, y0 + 210), 'have a sunny day :)', font=F(14), fill='#d8ccb0')
+    bx = box(2, 4, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d4'); ph = np.zeros((196, 196), np.float32) + 0.75   # 舊照片：咖啡館門口
+    Y = np.arange(196)[:, None]; X = np.arange(196)[None, :]; ph = np.where((X > 60) & (X < 136) & (Y > 60), 0.32, ph); ph = np.where((X > 76) & (X < 120) & (Y > 90), 0.18, ph)
+    ph = np.where(Y > 170, 0.55, ph); ph += rng.normal(0, 0.03, ph.shape); im.paste(Image.fromarray(np.stack([ph * 228, ph * 206, ph * 172], -1).clip(0, 255).astype(np.uint8)), (x0 + 30, y0 + 30)); d.rectangle(bx, outline='#3a2a1e', width=8)
+    bx = box(4, 4, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f4efe4')                  # 植物插畫（蕨葉）
+    for k in range(9):
+        a = -1.2 + k * 0.3; L_ = 60 + (k % 3) * 18; cx, cy = x0 + 128, y0 + 210
+        ex, ey = cx + math.sin(a) * L_, cy - math.cos(a) * L_ * 1.6; d.line([(cx, cy), (ex, ey)], fill='#5a7a4a', width=2)
+        for j in range(1, 8):
+            t = j / 8; px, py = cx + (ex - cx) * t, cy + (ey - cy) * t; d.ellipse([px - 6, py - 3, px + 6, py + 3], fill=('#6a8a52', '#7a9a5a', '#5a7a48')[(j + k) % 3])
+    d.rectangle(bx, outline='#c8b48a', width=6)
     im.save(os.path.join(GEN, 'sns_print.png'))
-
 
 def yzn():
     """一盞茶屋（溫州街日式宿舍改的茶屋；AA 2026-11-04；AA_656／AA_657）：
