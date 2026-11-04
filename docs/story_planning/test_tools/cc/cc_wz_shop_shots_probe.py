@@ -6,7 +6,7 @@
                   → 按「起身」或推搖桿站起來 → 站得住（canStand）、推得動 ≥0.3 m。
   只截圖和量，不判美術（BB 判）；Playwright（PC GPU），不是手機實機。
 用法：LW_TESTS=<wt>/tests SHOP=yizhan [HOURS=14,22] [FLOOR=1] python3 cc_wz_shop_shots_probe.py <url> <out>"""
-import os, sys, json, asyncio, time, math
+import os, sys, json, asyncio, time, math, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(HERE, '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -20,7 +20,8 @@ SHOPS = {
                 'views': [('ref_east_to_west', [3.3, 1.6, 1.0], [-4.0, 1.2, 0.0]), ('door_in', [-2.0, 1.6, 3.6], [-0.5, 1.2, -4.0]),
                           ('bar', [0.5, 1.6, 0.6], [-1.0, 1.1, -3.5]), ('booth_west', [-1.0, 1.5, 0.2], [-4.0, 1.0, 0.0]),
                           ('window_seats', [0.5, 1.6, -0.8], [1.5, 1.0, 4.0]), ('kitchen', [1.5, 1.7, -0.6], [1.5, 1.6, -4.0]),
-                          ('table_mid', [2.5, 1.7, 2.5], [0.0, 0.8, 0.0])]},
+                          ('table_mid', [2.5, 1.7, 2.5], [0.0, 0.8, 0.0])], 'seat_out': [('seat_window_out_big', [1.4, 1.15, 2.6], [1.4, 1.5, 8.0]), ('seat_window_out_small', [-3.4, 1.15, 2.6], [-3.4, 1.5, 8.0])],
+                'win': {'z': 4.0, 'sill': 0.85, 'head': 2.3, 'xs': [[-3.7, -3.1], [-0.6, 3.4]]}},
     'sunny': {'enter': (42.0, -4.6, -2.4, '進去 SUNNY SIDE'), 'zone': 'wz_brunch', 'mat': r'^(ss_|sunny|a2[0-9]_)', 'glb': 'sunnyside', 'spawn': (0.4, 4.0), 'box': (-3.2, 3.2, -5.0, 5.0, 3.2),
               'views': [('ref_door_in', [0.4, 1.6, 4.4], [0.0, 1.3, -5.0]), ('menu_kitchen', [0.0, 1.6, 1.0], [0.0, 2.0, -4.8]),
                         ('booth_left', [1.5, 1.5, 0.0], [-3.2, 1.0, 0.0]), ('right_window', [-1.0, 1.6, 0.5], [3.2, 1.2, 1.0]),
@@ -128,14 +129,28 @@ async def run_hour(pg, cdp, h):
     info('[%s] 符合 %s 的材質 mesh 數 %d（0＝材質名稱和我猜的不一樣，看上面的清單）' % (tag, SH['mat'], m['n']))
     await pg.evaluate(HUD + '(false)')
     res = {}
-    for name, e, l in SH['views']:
+    views = list(SH['views'])
+    if os.environ.get('SEAT_OUT') == '1' and SH.get('seat_out'):   # BB-C 14:04／14:09（WZ4_komichi）：從座位往窗外看（坐著的眼睛高度 1.15 m、至少兩張座位）
+        views += list(SH['seat_out'])
+    for name, e, l in views:
         ri = await pg.evaluate(AIM + '(%s,%s)' % (J(e), J(l))); await pg.wait_for_timeout(600)
-        await pg.screenshot(path=os.path.join(OUT, '%s_%s_%s.png' % (SH['glb'], tag, name)))
+        png = await pg.screenshot(path=os.path.join(OUT, '%s_%s_%s.png' % (SH['glb'], tag, name)))
+        if name.startswith('seat_window_out') and SH.get('win'):   # 窗那一塊的平均亮度（窗框照配置投影到畫面，瀏覽器裡解 PNG）
+            W_ = SH['win']; rects = [[[x0, W_['sill'], W_['z']], [x1, W_['sill'], W_['z']], [x1, W_['head'], W_['z']], [x0, W_['head'], W_['z']]] for x0, x1 in W_['xs']]
+            wl = await pg.evaluate(WINLUMA_JS + '(%s,%s)' % (J(base64.b64encode(png).decode()), J(rects)))
+            ri['window_luma'] = wl; print('  [%s] %s 窗那一塊平均亮度：%s' % (tag, name, J(wl)), flush=True)
         res[name] = ri; print('  [%s] %s：calls %s、tris %s' % (tag, name, ri['calls'], ri['tris']), flush=True)
     # r2（BB 07:5x）：讀檔只設人的方向、不設鏡頭 → 鏡頭在人前面（一盞塞在簷下）。玩家視角改成真的從溫州街走進店門
     await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"); await pg.evaluate(HUD + '(true)')
     ex, ez, sz2, lab = SH['enter']
     await load(pg, cdp, 'wenzhou', ex, sz2, h, yaw=(0 if ez > sz2 else math.pi))
+    if os.environ.get('STREET_IN') == '1':   # BB-C 14:04：街上往店裡看（固定鏡頭、藏 HUD 和玩家）
+        await pg.evaluate(HUD + '(false)')
+        side = 1.0 if ez < sz2 else -1.0
+        await pg.evaluate(AIM + '(%s,%s)' % (J([ex, 1.6, sz2 + side * 1.6]), J([ex, 1.3, ez - side * 3.0]))); await pg.wait_for_timeout(800)
+        await pg.screenshot(path=os.path.join(OUT, '%s_%s_street_in.png' % (SH['glb'], tag)))
+        print('  [%s] street_in：從溫州街 (%s, %s) 往店裡看' % (tag, ex, round(sz2 + side * 1.6, 2)), flush=True)
+        await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"); await pg.evaluate(HUD + '(true)')
     it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(lab))
     if check('[%s] 溫州街有「%s」' % (tag, lab), bool(it), J(it)):
         await L.go_to(pg, cdp, L.Run('enter', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
@@ -281,10 +296,25 @@ YARDWRAP_JS = r"""(()=>{ const W=window.__ccYard||(window.__ccYard={enter:[],int
       if(z==='wz_teahouse') setTimeout(()=>{ try{ const p=GAME.E.player.obj.position; W.pos.push({after:0.5, x:+p.x.toFixed(2), z:+p.z.toFixed(2)}); }catch(e){} },500); return f.apply(this,arguments); }; STORY.onEnter.__cc=true; }
   if(typeof WZS!=='undefined'&&WZS.yardIntro&&!WZS.yardIntro.__cc){ const g=WZS.yardIntro; WZS.yardIntro=function(GM){ const E=GM.E, z=E&&E.zone, P=E&&E.player; const rec={t:+(performance.now()/1000).toFixed(2), flag:!!((GM.G.flags||{}).WZ_TEA_YARD_IN), zoneId:z&&z.id, pz:P?+P.obj.position.z.toFixed(2):null, px:P?+P.obj.position.x.toFixed(2):null, yardZ:z?(z.yardZ===undefined?'undefined':z.yardZ):null}; W.intro.push(rec);
       const r=g.apply(this,arguments); Promise.resolve(r).then(v=>{ rec.ret=v; }, e=>{ rec.err=String(e).slice(0,80); }); return r; }; WZS.yardIntro.__cc=true; }
-  return {wrappedEnter:!!(STORY.onEnter&&STORY.onEnter.__cc), wrappedIntro:!!(typeof WZS!=='undefined'&&WZS.yardIntro&&WZS.yardIntro.__cc)}; })()"""
+  W.genter=W.genter||[]; W.arrive=W.arrive||[]; W.search=W.search||[];
+  if(GAME.enter&&!GAME.enter.__cc){ const ge=GAME.enter; GAME.enter=function(z,sp,o){ W.genter.push({t:+(performance.now()/1000).toFixed(2), zone:z, spawn:sp||null, opts:o?Object.keys(o):[]}); return ge.apply(this,arguments); }; GAME.enter.__cc=true; }
+  if(typeof INV!=='undefined'&&INV.arrive&&!INV.arrive.__cc){ const ia=INV.arrive; INV.arrive=function(GM,z){ const rec={t:+(performance.now()/1000).toFixed(2), zone:z}; W.arrive.push(rec); const r=ia.apply(this,arguments); Promise.resolve(r).then(v=>{ rec.ret=v; }, e=>{ rec.err=String(e).slice(0,60); }); return r; }; INV.arrive.__cc=true; }
+  if(typeof WZL!=='undefined'&&WZL.search&&!WZL.search.__cc){ const ws=WZL.search; WZL.search=function(GM){ const rec={t:+(performance.now()/1000).toFixed(2)}; W.search.push(rec); const r=ws.apply(this,arguments); Promise.resolve(r).then(v=>{ rec.ret=v; }, e=>{ rec.err=String(e).slice(0,60); }); return r; }; WZL.search.__cc=true; }
+  return {wrappedEnter:!!(STORY.onEnter&&STORY.onEnter.__cc), wrappedIntro:!!(typeof WZS!=='undefined'&&WZS.yardIntro&&WZS.yardIntro.__cc), wrappedGameEnter:!!(GAME.enter&&GAME.enter.__cc), wrappedArrive:!!(typeof INV!=='undefined'&&INV.arrive&&INV.arrive.__cc), wrappedSearch:!!(typeof WZL!=='undefined'&&WZL.search&&WZL.search.__cc)}; })()"""
 YARDSTATE_JS = r"""(()=>{ const G=GAME.G, E=GAME.E, z=E.zone, p=E.player.obj.position, W=window.__ccYard||{}; const t=document.getElementById('toast'), c=document.getElementById('caption');
   return {zone:G.zone, flag_WZ_TEA_YARD_IN:!!((G.flags||{}).WZ_TEA_YARD_IN), pos:[+p.x.toFixed(2),+p.z.toFixed(2)], yardZ:z&&z.yardZ!==undefined?z.yardZ:'undefined', spawn:z&&z.spawn||null,
-    toast:(t&&!t.classList.contains('hide'))?(t.textContent||'').trim().slice(0,60):'', caption:(c&&!c.classList.contains('hide'))?(c.textContent||'').trim().slice(0,60):'', onEnter:(W.enter||[]).slice(-3), yardIntro:(W.intro||[]).slice(-2), posAfter:(W.pos||[]).slice(-1)}; })()"""
+    toast:(t&&!t.classList.contains('hide'))?(t.textContent||'').trim().slice(0,60):'', caption:(c&&!c.classList.contains('hide'))?(c.textContent||'').trim().slice(0,60):'', onEnter:(W.enter||[]).slice(-3), yardIntro:(W.intro||[]).slice(-2), posAfter:(W.pos||[]).slice(-1),
+    gameEnter:(W.genter||[]).slice(-3), invArrive:(W.arrive||[]).slice(-2), wzlSearch:(W.search||[]).slice(-2),
+    reachedYardIntro:(()=>{ const e=(W.enter||[]).filter(q=>q.zone==='wz_teahouse').slice(-1)[0]; if(!e) return 'onEnter 沒叫到 wz_teahouse'; const i=(W.intro||[]).filter(q=>q.t>=e.t-0.01); return i.length?'有走到 yardIntro':'onEnter 有叫到、yardIntro 沒叫到（前面的分支先 return 或 fromLoad）'; })()}; })()"""
+
+WINLUMA_JS = r"""(async(b64,rects)=>{ const E=GAME.E; E.camera.updateMatrixWorld(); const bm=await createImageBitmap(await (await fetch('data:image/png;base64,'+b64)).blob());
+  const sx=bm.width/innerWidth, sy=bm.height/innerHeight; const c=new OffscreenCanvas(bm.width,bm.height), x=c.getContext('2d'); x.drawImage(bm,0,0); const out=[];
+  for(const r of rects){ const pts=r.map(p=>{ const v=new THREE.Vector3(...p).project(E.camera); return [(v.x+1)/2*innerWidth*sx,(1-v.y)/2*innerHeight*sy,v.z]; });
+    if(pts.some(p=>p[2]>=1)){ out.push(null); continue; } const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+    const x0=Math.max(0,Math.floor(Math.min(...xs))), x1=Math.min(bm.width,Math.ceil(Math.max(...xs))), y0=Math.max(0,Math.floor(Math.min(...ys))), y1=Math.min(bm.height,Math.ceil(Math.max(...ys)));
+    if(x1-x0<2||y1-y0<2){ out.push(null); continue; } const d=x.getImageData(x0,y0,x1-x0,y1-y0).data; let s=0; for(let i=0;i<d.length;i+=4) s+=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2];
+    out.push({box:[x0,y0,x1,y1], luma:+(s/(d.length/4)).toFixed(1)}); }
+  return out; })"""
 
 async def enter_gate(pg, cdp, tag):
     ex, ez, sz2, lab = SH['enter']

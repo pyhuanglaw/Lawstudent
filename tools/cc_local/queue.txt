@@ -82,6 +82,10 @@ GG_shops2_db_r2 | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_sh
 # WZ4_yizhan_r2（BB-C 13:10／13:17）：adoring-meitner head 7c970654c（含 0310aa37a：前院五點拉開，AA_659 §3 新座標）；(a) 五點走得到、按鈕是自己的（FAIL 記停的位置＋最近按鈕給 AA-C）(b) 木牌 (c) 第一次進冠木門旁白（條件事件開）＋WZ_TEA_YARD_IN；EAVE＝樟樹樹幹和緣側屋簷交界 14:00、22:00（LAWWW2 前院第二版 5dc06d913）。完整 SHA（帳號 C 分支 runner 沒抓）
 # WZ4_yizhan_r3（BB-C 14:0x，排前面）：第一次進冠木門旁白沒出來——進門前後印 opts.fromLoad（包一層 STORY.onEnter）、WZ_TEA_YARD_IN、進門 0.5 秒的位置、yardZ、spawn、WZS.yardIntro 有沒有叫到／回傳、toast／caption；只跑 YARD
 WZ4_yizhan_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 25 | SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0
+# WZ4_komichi_r2（BB-C 14:04）：LAWWW2-C 小路窗景 561d2a772 已接進開發分支 0e2ca42d4；22:00、14:00 各一次，SEAT_OUT＝從座位往窗外看、STREET_IN＝街上往店裡看
+WZ4_komichi_r2 | 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=komichi;HOURS=22,14,18.9;SEAT_OUT=1;STREET_IN=1;CC_HEADLESS=0
+# LANE_EAST_preview（LAWWW2-C 14:10、BB-C 14:11）：lane_east 減面 6a9aecee3 在 **LAWWW2 分支 focused-cray**（不是開發分支）＝預覽；看三個鏡頭 draw call ≤ 310、三角形 ≤ 42 萬（LAWWW2 估約 40.7 萬、300）。擋發布的判定要等 LAWWW-C 接進開發分支後再跑 wz_street_integration、reachability_all --zones wenzhou、touch_flow_wenzhou
+LANE_EAST_preview | 6a9aecee3240b7056ba4493fb15416ff3b51a78f | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url};CC_HEADLESS=0
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
 PARK_glb_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_groups2 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 25 | VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0
