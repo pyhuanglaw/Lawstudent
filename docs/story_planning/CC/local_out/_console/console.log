@@ -386,3 +386,19 @@
 [22:10:13] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
 [22:14:28] 正在跑：SUNNY_seatfix_sit_r2（已跑 24 分／上限 60 分）、GG_shops2_afar_seat_00（已跑 19 分／上限 20 分）、GG_shops2_afar_seat_04（已跑 14 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [22:14:45] [res] cpu=74% mem=50% (15.8/31.4 GB) chrome_testing=19  END GG_shops2_afar_seat_00
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       e6cfd4990..14ce7cbb6  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[22:14:52] ==== END   GG_shops2_afar_seat_00  exit=1  1197s   ====
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:14:57] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:14:57] memory 49% before starting WZ4_yizhan_r3 (2 running)
+[22:14:57] ==== START WZ4_yizhan_r3  (probe @ e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11) ====
+[22:15:01] [res] cpu=73% mem=49% (15.6/31.4 GB) chrome_testing=19  START WZ4_yizhan_r3
+[22:15:01] worktree add e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11: invalid reference - fetching main and the commit itself
+[22:15:50] [res] cpu=54% mem=47% (15.2/31.4 GB) chrome_testing=18  END GG_shops2_afar_seat_04
