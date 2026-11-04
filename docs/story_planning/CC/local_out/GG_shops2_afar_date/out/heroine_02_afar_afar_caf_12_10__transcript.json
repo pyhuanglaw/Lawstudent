@@ -1,0 +1,208 @@
+{
+ "pid": "heroine_02",
+ "tag": "afar 約會（去 afar café 坐坐 今天 12:10）",
+ "rec0": {
+  "day": 21,
+  "hour": 11.7252,
+  "t": 515.7252,
+  "money": 30000,
+  "rel": {
+   "fam": 10,
+   "trust": 5,
+   "comf": 5,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "gongguan",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 13.0109,
+  "t": 517.0109,
+  "money": 30000,
+  "rel": {
+   "fam": 13,
+   "trust": 6,
+   "comf": 7,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "CAFE_AFTERNOON"
+  ],
+  "zone": "afar"
+ },
+ "hours": 1.2857000000000198,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）",
+   "h": 11.992,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "「……這個燈好可愛。」",
+   "h": 11.992,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和林芷若在 afar café 坐坐。",
+   "h": 11.992,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  },
+  {
+   "n": "林芷若",
+   "c": "heroine_02",
+   "t": "那我先走囉。下次來店裡找我啊。",
+   "h": 12.992,
+   "d": 21,
+   "z": "afar",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（你們在窗邊長桌",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "「……這個燈好可愛。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和林芷若在 afar café 坐坐。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "那我先走囉",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "林芷若",
+   "text": "那我先走囉。下次來店裡找我啊。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "afar",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.05,
+  "sameGroup": true,
+  "doorD": 9.92,
+  "spawnD": 9.02,
+  "npc": true,
+  "nD": 1.05,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": -3.6,
+  "nz": -3.4,
+  "p": [
+   -4.65,
+   -3.4
+  ]
+ }
+}
