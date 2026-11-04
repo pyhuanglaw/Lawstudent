@@ -600,3 +600,19 @@
 [21:09:28] [res] cpu=21% mem=46% (14.5/31.4 GB) chrome_testing=19  START WZ2_shots
 [21:10:15] AUTORETRY TT_GG_ext_nav2: first run exit 1 - rerun once with trace (whole probe)
 [21:11:34] [res] cpu=10% mem=48% (15.0/31.4 GB) chrome_testing=18  END WZ2_shots
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c01cc012e..b037b6f1d  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[21:11:41] ==== END   WZ2_shots  exit=0  128s   ====
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[21:11:43] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[21:11:43] memory 49% before starting WZ2_door (2 running)
+[21:11:43] ==== START WZ2_door  (probe @ 47909c659) ====
+[21:11:46] [res] cpu=9% mem=39% (15.5/31.4 GB) chrome_testing=10  START WZ2_door
+[21:11:52] [res] cpu=6% mem=41% (12.3/31.4 GB) chrome_testing=10  END TT_GG_ext_nav2
+[21:11:58] AUTORETRY TT_GG_ext_nav2: final FAIL  class UNKNOWN/assert

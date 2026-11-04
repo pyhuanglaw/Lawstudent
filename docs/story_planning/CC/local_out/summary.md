@@ -1143,3 +1143,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V12_noodle] | [gpu_wrap 62.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 62.4s] BROWSER DISCONNECTED
 - 2026-11-04T21:11:34  WZ2_shots  sha=47909c659  exit=0  128s    INFO [ice_jul] WZS.inSeason(ice)  True / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [WZ2_shots] | [gpu_wrap 95.3s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 95.4s] BROWSER DISCONNECTED
+- 2026-11-04T21:12:08  TT_GG_ext_nav2  sha=23eaaa7ae  exit=1  225s    PASS 從溫州街回公館：站在巷口、站得住、走得到  {"zone": "gongguan", "x": -71, "z": 16.5, "stand": true, "reach": true} / PASS 沒有 JS 例外  [] / FAILED: 頁間書屋門口（-36.4, 21）站得住且走得到
+      err.log (last 5): [cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_GG_ext_nav2\attempt2\trace | [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_GG_ext_nav2] | [gpu_wrap 88.0s] page close url=http://127.0.0.1:8802/index.html?turbo | [gpu_wrap 88.1s] BROWSER DISCONNECTED
+      autoretry: final FAIL  class UNKNOWN/assert  exit2 1

@@ -1,0 +1,31 @@
+{
+  "rerun": "",
+  "id": "TT_GG_ext_nav2",
+  "sha": "23eaaa7ae",
+  "kind": "game",
+  "script": "tests/gongguan_layout_nav.py",
+  "env": "CC_AUTORETRY=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:08:08",
+  "end": "2026-11-04T21:11:52",
+  "seconds": 225,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 60,
+    "mem": 54,
+    "used_gb": 17.2,
+    "chrome_testing": 28
+  },
+  "final": "FAIL",
+  "class": "UNKNOWN/assert",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 1 行（頁間書屋門口（-36.4, 21）站得住且走得到），兩次的 FAIL 行不同或只跑一次；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ]
+}

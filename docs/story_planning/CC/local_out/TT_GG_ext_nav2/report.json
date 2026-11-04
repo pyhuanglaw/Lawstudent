@@ -1,0 +1,545 @@
+{
+  "id": "TT_GG_ext_nav2",
+  "sha": "23eaaa7ae",
+  "kind": "game",
+  "script": "tests/gongguan_layout_nav.py",
+  "script_from": null,
+  "script_blob": [
+    "c89397c4655185d1931837b0c82ee6aef60ceaa3",
+    "c89397c4655185d1931837b0c82ee6aef60ceaa3"
+  ],
+  "cc_testing_sha": "4aa1dbb44",
+  "runner": "6f08f2eb23",
+  "final": "FAIL",
+  "class": "UNKNOWN",
+  "class_sub": "assert",
+  "basis": [
+    "探針斷言 FAIL 1 行（頁間書屋門口（-36.4, 21）站得住且走得到），兩次的 FAIL 行不同或只跑一次；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "23eaaa7ae",
+      "23eaaa7ae"
+    ],
+    "script_blob": [
+      "c89397c4655185d1931837b0c82ee6aef60ceaa3",
+      "c89397c4655185d1931837b0c82ee6aef60ceaa3"
+    ],
+    "input_hash": [
+      "54175cd8fb20591f",
+      "54175cd8fb20591f"
+    ],
+    "cases": [
+      "(探針預設)",
+      "(探針預設)"
+    ]
+  },
+  "rerun_scope": "探針不支援 CASES 環境變數：整支重跑",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 104,
+      "fails": [
+        {
+          "line": "FAIL 頁間書屋門口（-36.4, 21）站得住且走得到  {\"stand\": false, \"ok\": true, \"len\": 5, \"end\": [-36.4, 21]}",
+          "name": "頁間書屋門口（-36.4, 21）站得住且走得到",
+          "info": "{\"stand\": false, \"ok\": true, \"len\": 5, \"end\": [-36.4, 21]}"
+        },
+        {
+          "line": "FAIL 離開麵店回到公館：站在麵店前、站得住、走得到  {\"zone\": \"noodle\", \"x\": 0, \"z\": 3.9, \"stand\": false, \"reach\": false}",
+          "name": "離開麵店回到公館：站在麵店前、站得住、走得到",
+          "info": "{\"zone\": \"noodle\", \"x\": 0, \"z\": 3.9, \"stand\": false, \"reach\": false}"
+        }
+      ],
+      "dir": "attempt1",
+      "run_tail": [
+        "FAIL 離開麵店回到公館：站在麵店前、站得住、走得到  {\"zone\": \"noodle\", \"x\": 0, \"z\": 3.9, \"stand\": false, \"reach\": false}",
+        "PASS （測試前置）讀檔後人在巷口  [-71, 19.6]",
+        "PASS 巷口出現「往溫州街」  {\"hidden\": false, \"label\": \"往溫州街\"}",
+        "PASS 按下後到溫州街  wenzhou",
+        "PASS 溫州街「回公館」的互動鈕出現  回公館",
+        "PASS 從溫州街回公館：站在巷口、站得住、走得到  {\"zone\": \"gongguan\", \"x\": -71, \"z\": 16.5, \"stand\": true, \"reach\": true}",
+        "PASS 沒有 JS 例外  []",
+        "FAILED: 頁間書屋門口（-36.4, 21）站得住且走得到, 離開麵店回到公館：站在麵店前、站得住、走得到"
+      ],
+      "err_tail": [
+        "[gpu_wrap 1.0s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_GG_ext_nav2]",
+        "[gpu_wrap 102.9s] page close url=http://127.0.0.1:8802/index.html?turbo",
+        "[gpu_wrap 102.9s] BROWSER DISCONNECTED"
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 89,
+      "fails": [
+        {
+          "line": "FAIL 頁間書屋門口（-36.4, 21）站得住且走得到  {\"stand\": false, \"ok\": true, \"len\": 5, \"end\": [-36.4, 21]}",
+          "name": "頁間書屋門口（-36.4, 21）站得住且走得到",
+          "info": "{\"stand\": false, \"ok\": true, \"len\": 5, \"end\": [-36.4, 21]}"
+        }
+      ],
+      "dir": "attempt2",
+      "run_tail": [
+        "PASS 離開麵店回到公館：站在麵店前、站得住、走得到  {\"zone\": \"gongguan\", \"x\": -63, \"z\": 18, \"stand\": true, \"reach\": true}",
+        "PASS （測試前置）讀檔後人在巷口  [-71, 19.6]",
+        "PASS 巷口出現「往溫州街」  {\"hidden\": false, \"label\": \"往溫州街\"}",
+        "PASS 按下後到溫州街  wenzhou",
+        "PASS 溫州街「回公館」的互動鈕出現  回公館",
+        "PASS 從溫州街回公館：站在巷口、站得住、走得到  {\"zone\": \"gongguan\", \"x\": -71, \"z\": 16.5, \"stand\": true, \"reach\": true}",
+        "PASS 沒有 JS 例外  []",
+        "FAILED: 頁間書屋門口（-36.4, 21）站得住且走得到"
+      ],
+      "err_tail": [
+        "[cc_trace 0.2s] CC_TRACE on: <REPO>\\docs\\story_planning\\CC\\local_out\\TT_GG_ext_nav2\\attempt2\\trace",
+        "[gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_GG_ext_nav2]",
+        "[gpu_wrap 88.0s] page close url=http://127.0.0.1:8802/index.html?turbo",
+        "[gpu_wrap 88.1s] BROWSER DISCONNECTED"
+      ]
+    }
+  ],
+  "js_errors": [
+    {
+      "rel": 8.55,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "星期和日期對不上，照行事曆改： 4 → 3",
+      "url": "http://127.0.0.1:8802/src/game3d.js?v=9.10.19"
+    },
+    {
+      "rel": 10.92,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.17,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.35,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.5,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.67,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.86,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 14.91,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.03,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.15,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.3,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.49,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.55,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.73,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.87,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.93,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.08,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.21,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.34,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.48,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.6,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.72,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.83,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8802/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.45,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x2174043de000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8802/index.html?turbo"
+    },
+    {
+      "rel": 17.45,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x2174043de000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8802/index.html?turbo"
+    },
+    {
+      "rel": 31.25,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "unstick → [-57.25, 19.75]",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    },
+    {
+      "rel": 31.25,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "spawn was inside a blocked cell: gongguan {x: -56.8, z: 19.3, yaw: 0, lv: 0}",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    },
+    {
+      "rel": 34.36,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "unstick → [-73.25, 20.75]",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    },
+    {
+      "rel": 34.36,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "spawn relocated (old layout): gongguan {x: -63, z: 48, yaw: 0, lv: 0} → -73.3 20.8",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    },
+    {
+      "rel": 37.33,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "unstick → [-47.75, 20.75]",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    },
+    {
+      "rel": 37.33,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "spawn was inside a blocked cell: gongguan {x: -40, z: 28.5, yaw: 0, lv: 0}",
+      "url": "http://127.0.0.1:8802/src/engine3d.js?v=9.10.19"
+    }
+  ],
+  "js_errors_gpu_wrap": [
+    "BROWSER DISCONNECTED\r",
+    "BROWSER DISCONNECTED\r"
+  ],
+  "state": [
+    {
+      "ctx_why": "browser.close",
+      "page": 1,
+      "state": {
+        "href": "http://127.0.0.1:8802/index.html?turbo",
+        "zone": "gongguan",
+        "day": 8,
+        "hour": 11.036222000000011,
+        "weekday": 3,
+        "date": null,
+        "player": {
+          "x": -71,
+          "z": 16.5,
+          "y": 0,
+          "lv": 0,
+          "pose": "idle",
+          "busy": false
+        },
+        "dlg": {
+          "active": false,
+          "busyDepth": 0
+        },
+        "dlgText": null,
+        "choices": [],
+        "event": null,
+        "flagKeys": [
+          "introDone",
+          "campusIntro",
+          "classDone",
+          "metAn",
+          "met_an",
+          "afternoonDone",
+          "lawclub",
+          "wenzhouLine",
+          "dating_kexin",
+          "KX_DEC3_MIGRATED",
+          "LIFELINE_V",
+          "ROMANCE_HISTORY",
+          "CLEANUP_DONE",
+          "romance",
+          "knowsRel_V",
+          "knowsRel",
+          "ytKnows",
+          "YT_CONFESSED",
+          "YT_PROMISED",
+          "YT_BROKE_PROMISE",
+          "YT_LIED",
+          "OPEN_OK",
+          "YT_HONEST",
+          "YT_DODGED",
+          "YT_INTENT",
+          "DATE_OVERNIGHT",
+          "NAMECARD_V",
+          "YT_JOB_V",
+          "HCIRCLE",
+          "deptHear",
+          "HEARD",
+          "STUDY_AT_LAW",
+          "CAREER_LEAN_V",
+          "ZZ",
+          "ZZ_STATE",
+          "ZZ_DATING",
+          "MREL",
+          "PS_YC",
+          "CRACKTALK",
+          "V6EX",
+          "FEED",
+          "HASK",
+          "YL_PH",
+          "EF_PH",
+          "AA519",
+          "spreadScan",
+          "_bbqUntilFix",
+          "dpDay",
+          "dpN",
+          "_autoAsk",
+          "kaiDorm",
+          "amb",
+          "BIKE_TIP",
+          "BIKE_PARK_TIP"
+        ],
+        "lastTalkError": null,
+        "walkFallbacks": 0
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "156.0.8078.4"
+    ],
+    "playwright": "1.64.1",
+    "gpu_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "headless": [
+      true
+    ],
+    "os": "Windows 11",
+    "cc_gpu": "1",
+    "slot": 1
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8802/index.html",
+    "setup_lines": 0,
+    "setup_first": [],
+    "load_save": 0
+  },
+  "screenshots": [],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_TT_GG_ext_nav2_1_c001_FAIL.zip",
+      "bytes": 12499653,
+      "push": true
+    },
+    {
+      "path": "attempt2/trace/trace_TT_GG_ext_nav2_1_c002.zip",
+      "bytes": 2998014,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/run.log",
+      "attempt2/run.log"
+    ],
+    "zip_entries_rewritten": 2,
+    "left_hits": [],
+    "slim": {
+      "attempt2/trace/trace_TT_GG_ext_nav2_1_c001_FAIL.zip": {
+        "before": 113855763,
+        "dropped_bodies": 157,
+        "dropped_bytes": 182038737,
+        "frame_step": 2,
+        "frames": 780,
+        "after": 12499687,
+        "frames_kept": 390
+      },
+      "attempt2/trace/trace_TT_GG_ext_nav2_1_c002.zip": {
+        "before": 105391393,
+        "dropped_bodies": 172,
+        "dropped_bytes": 210717025,
+        "frame_step": 1,
+        "frames": 78,
+        "after": 2998049,
+        "frames_kept": 78
+      }
+    }
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}
