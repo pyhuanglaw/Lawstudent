@@ -43687,6 +43687,43 @@
    "priority": "P2",
    "note": "BB 11-03 23:10（LAWWW2 23:08 定；配置 f8be1eba8；GLB BB 照 §12 重做中）",
    "next": "等 LAWWW2 交 noodle 區域（導航格、出生點、鏡頭、牆淡出）patch，同一批改 story3d 站位（原本 zhe (0,−0.3)），跑 noodle／zhe／regulars 相關單元"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "owner": "LAWWW",
+   "priority": "P2",
+   "id": "BUG-CARD-BOHAN-WALK-1103",
+   "title": "第一堂民總 classScene：玩家先坐第 2 排，劇情叫他走到第 1 排卡 4 秒（BB f606 walkFallbacks=1，P2）",
+   "status": "已實作待整合",
+   "next": "GM.walkTo 坐著先起身（1ec7c8634）；BB 排 PC 重跑 f606 確認 walkFallbacks=0",
+   "sha": "1ec7c8634"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "owner": "LAWWW",
+   "priority": "P2",
+   "id": "BUG-POPIN-WAIT-1103",
+   "title": "換區域先看到方塊（Café→溫州街約 2 秒）、教室黑畫面多等約 5.6 秒（溫州街上限 12.4 秒）（BB PC popin，P2）",
+   "status": "待開工",
+   "next": "LAWWW 查預熱（Z3.prewarm／prefetchNext）與黑畫面等待條件；和 LAWWW2 的換區域預熱 patch 對一下"
   }
  ]
 }
