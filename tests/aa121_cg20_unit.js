@@ -21,7 +21,7 @@ const run=async()=>{ H.said=[]; cgs.length=0; await EVENTS.runLines(ev.dialogue,
   check('0. 讀書小組事件在',!!ev);
   /* 1 第一次就在總圖 */
   let G=setup('2029-03-03',14,{},true); const L1=await run();
-  check('1. 第一次讀在總圖（週六）：白天那句→旁白「'+NARR+'」→CG→語彤「我今年不考。……可是我可以考你。」；記 YT_CG20',L1[0]==='（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'&&L1[1]===NARR&&cgs.length===1&&cgs[0][0]==='cg_saved_seat_heroine03'&&cgs[0][1]===2&&L1[2]==='我今年不考。……可是我可以考你。'&&G.flags.YT_CG20===true,J([L1,cgs]));
+  check('1. 第一次讀在總圖（週六）：白天那句→旁白「'+NARR+'」→CG→語彤「我們一起考。……我先考你。」（AA_642 第 4 節）；記 YT_CG20',L1[0]==='（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'&&L1[1]===NARR&&cgs.length===1&&cgs[0][0]==='cg_saved_seat_heroine03'&&cgs[0][1]===2&&L1[2]==='我們一起考。……我先考你。'&&G.flags.YT_CG20===true,J([L1,cgs]));
   const L1b=await run(); check('3. 同一個存檔第二次在總圖：不再放',!L1b.includes(NARR)&&!cgs.length,J(L1b));
   /* 2 第一次在麵店、之後在總圖 */
   G=setup('2029-03-10',14,{BAR_GROUP_YT_FIRST:1,BAR_GROUP_YI:1},true); const L2=await run();

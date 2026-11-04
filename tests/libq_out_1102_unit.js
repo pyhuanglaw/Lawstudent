@@ -80,7 +80,7 @@ await sec('1',async()=>{
   H.fresh('2027-12-20',19.5,'soclib'); at('soclib',0,0,0); LIBQ.reset(); H.said=[]; H.picks=[1]; await EVENTS.run(ev('ev_sk12_soclib_table'));
   check('1-B47：沒有陪到閉館的那幾支（沒走出去）：整場照加（小聲）',spoken(H.said).length>0&&spoken(H.said).every(s=>isQuiet(s.t)||isAct(s.t))&&balanced(),J(H.lines()));
   await runOut('1-B51 ev_yt_thursday_free','ev_yt_thursday_free','library',0,[0],'（她看到你，闔上書，指了指外面。）',{date:'2027-12-16',h:18.5,friends:['heroine_03'],nBefore:0});
-  await runOut('1-B52 ev_yt_share_time','ev_yt_share_time','library',0,[0],'（讀完，你們走出總圖。）',{date:'2028-12-21',h:17.5,friends:['heroine_03'],nBefore:0});
+  await runOut('1-B52 ev_yt_share_time','ev_yt_share_time','library',0,[0],'（讀完，你們走出總圖。）',{date:'2028-12-21',h:17.5,friends:['heroine_03'],nBefore:1});   /* AA_625 第 16 節：她在三樓先小聲問「我可以給你看一個東西嗎。」（一句加（小聲）），讀完才走出去 */
   /* 1-B55：B1 版前兩句改便條；選「我什麼都沒看到」走出總圖以後不加；#where／#sit 沒走出去，整場照加 */
   const r55=await runOut('1-B55 ev_mingxuan_notes_b1（我什麼都沒看到）','ev_mingxuan_notes_b1','library',0,[0],'走出總圖。',{date:'2025-11-04',h:22.5,nBefore:1});
   const NOTE=['（他在便利貼上寫：你沒看到。）','（又補一行：我在看漫畫啦。）'];

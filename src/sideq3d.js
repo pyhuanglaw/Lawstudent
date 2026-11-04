@@ -75,12 +75,16 @@ const SIDEQ=(function(){
 
   /* ---------- 稿（AA_397 第 2 節＋AA_408 補字，企劃線 29e41dd8；第 6 節第二、三批的缺字 b0b80a54）：照抄；null＝稿裡沒有，先不演 ---------- */
   const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'巷口茶飲','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'慢讀咖啡（118 巷）','六張犁麵舖':'六張犁麵舖（118 巷）','好家自助餐':'好家自助餐（118 巷）','蛋包飯研究所':'蛋包飯研究所（118 巷）','公館的便利商店':'公館的便利商店',
-    '滇香小館':'滇香小館（118 巷）','巷口家常菜':'巷口家常菜（118 巷）','Pasta 118':'Pasta 118（118 巷）','韓食小廚':'韓食小廚（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'舊路書房（公館）',
-    '一一八茶飲':'一一八茶飲（118 巷）','清葉茶行':'清葉茶行（公館）','巷子裡定食':'巷子裡定食（溫州街）','溫州街・半熟':'半熟早午餐（溫州街）'};
+    '滇香小館':'滇香小館（118 巷）','巷口家常菜':'巷口家常菜（118 巷）','Pasta 118':'Pasta 118（118 巷）','韓食小廚':'韓食小廚（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'頁間書屋（公館）',
+    '一一八茶飲':'一一八茶飲（118 巷）','清葉茶行':'青木茶室（公館）','巷子裡定食':'巷子裡定食（溫州街）','溫州街・半熟':'半熟早午餐（溫州街）'};
   /* 店名（key）＝各店點餐時記次數用的名字（src/eat3d.js 的 EAT.count）：一盞茶屋、半熟早午餐是「溫州街・一盞」「溫州街・半熟」（wzshops3d.js 的 buy）；清葉茶行、舊路書房沒有吃過的，story3d.js 點完一樣記次數 */
   const STAFF={'林家乾麵':'老闆','巷口茶飲':'店員','夏日冰菓室':'老闆娘','慢讀咖啡':'店長','六張犁麵舖':'老闆','好家自助餐':'阿姨','蛋包飯研究所':'店員','公館的便利商店':'店員',
     '滇香小館':'老闆娘','巷口家常菜':'老闆娘','Pasta 118':'老闆','韓食小廚':'老闆','溫州街・一盞':'蘇姨','舊路書房':'書店老闆','一一八茶飲':'店員','清葉茶行':'茶行老闆娘','巷子裡定食':'定食店長','溫州街・半熟':'小米姐','輪轉單車':'車行老闆'};   /* 說話框（AA_404、AA_405 的「誰」）*/
   S.STAFF=STAFF; S.SHOP_NAME=SHOP_NAME;
+  /* 改名（AA_647 第 6 節，企劃線 403b7c51c；D115 的做法）：店名當 key 的地方（shop:、EAT.count、S.known、SHOP_NAME／STAFF 的 key）照舊用舊字，熟客次數、任務進度不歸零；
+     玩家看得到的字（任務標題、提示、SHOP_NAME 的值）換新字。舊存檔相簿裡已經存下的任務標題（STORY.albumMemory 的 side_SQ15／16／18）讀檔時換成新的標題 */
+  S.RENAME_1104={'舊路書房':'頁間書屋','輪轉單車':'慢輪單車','清葉茶行':'青木茶室','日日便利':'日和便利店'};
+  S.renameMigrate=function(s){ const A=s&&Array.isArray(s.album)?s.album:null; if(!A) return 0; let n=0; for(const x of A){ if(!x||x.kind!=='memory'||typeof x.id!=='string'||!/^side_SQ\d+$/.test(x.id)) continue; const q=Q[x.id.slice(5)]; if(q&&q.title&&x.title!==q.title&&Object.keys(S.RENAME_1104).some(o=>String(x.title).includes(o))){ x.title=q.title; n++; } } return n; };
   S.YES='要我幫忙嗎？'; S.NO='……加油。';
   const L={
     SQ01:{open:['有人給我一顆星。說湯是冷的。','……我們乾麵沒有湯。'],review:'★☆☆☆☆　湯是冷的。等了十分鐘。不推。',   /* 手機畫面（AA_408 2）*/
@@ -267,13 +271,13 @@ const SIDEQ=(function(){
       accept:async(GM,r)=>{ setAct(r,'cage',GM.G.day+14); },   /* 開口那天起兩週內 */
       trace:async(GM,r)=>{ const G=GM.G; if(r.state!=='done'||G.day<=r.doneDay) return false; if(!r.t1){ r.t1=G.day; await say(GM,null,L.SQ14.photo); return true; }
         if(!r.t2&&G.day>r.t1&&!(typeof PARK!=='undefined'&&PARK.catGone&&PARK.catGone(G))){ r.t2=G.day; await say(GM,'蘇姨',L.SQ14.greet); return true; } return false; }},
-    SQ15:{shop:'舊路書房',title:'舊路書房：一箱法律系的舊書',avail:G=>{ const a=DK('2026-10-05'), b=DK('2026-11-27'); return a!=null&&b!=null&&G.day>=a&&G.day<=b&&metSis(G); },   /* 大二上 10/5～11/27；認識學姊 */
+    SQ15:{shop:'舊路書房',title:'頁間書屋：一箱法律系的舊書',avail:G=>{ const a=DK('2026-10-05'), b=DK('2026-11-27'); return a!=null&&b!=null&&G.day>=a&&G.day<=b&&metSis(G); },   /* 大二上 10/5～11/27；認識學姊 */
       accept:async(GM,r)=>{ setAct(r,'sort',GM.G.day+7); },   /* 一週內去整理 */
       visit:async(GM,r)=>{ const G=GM.G; if(r.step==='sort'&&G.day>r.day) return S.sort15(GM,r);
         if(r.step==='buy'&&G.day>=r.wait){ if((G.money|0)<80) return false; if(GM.money) GM.money(-80,'書'); await say(GM,'書店老闆',L.SQ15.buy); r.owned=G.day; S.finish(GM,'SQ15',r); return true; } return false; },   /* 問過她以後：下一次去把書買下來（八十）*/
       onTold:G=>{ G.flags.SQ15_BOOK='recycled'; }},   /* 過期＝同「這幾本修法了，不能賣」那一支 */
     /* ---------- 第三批（AA_405）---------- */
-    SQ16:{shop:'輪轉單車',title:'輪轉單車：兩年沒人來牽的車',avail:G=>ti(G)>=2,   /* 大二起 */
+    SQ16:{shop:'輪轉單車',title:'慢輪單車：兩年沒人來牽的車',avail:G=>ti(G)>=2,   /* 大二起 */
       accept:async(GM,r)=>{ await say(GM,null,L.SQ16.look); setAct(r,'ask',GM.G.day+14); },   /* 「看」車架；兩週內去問登山社（AA_405 第 3 節第 6 點）*/
       visit:async(GM,r)=>{ if(r.step!=='back') return false; await say(GM,'車行老闆',L.SQ16.back); S.finish(GM,'SQ16',r); return true; },   /* 問到了，回車行 */
       trace:async(GM,r)=>{ const G=GM.G; if(r.state!=='done'||G.day<=r.doneDay) return false; if(!r.t1){ r.t1=G.day; r.lentTerm=S.termKey(G); await say(GM,null,L.SQ16.note); return true; }   /* 下一次來：車頭的紙條 */
@@ -284,7 +288,7 @@ const SIDEQ=(function(){
       visit:async(GM,r)=>{ const G=GM.G; if(r.step==='ask'){ if(r.lastAsk===G.day) return false; await S.ask17(GM,r); return true; }
         if(r.step==='result'&&!r.phone&&G.day>=r.wait){ await say(GM,'店員',L.SQ17.result); S.finish(GM,'SQ17',r); return true; } return false; },   /* 四月底以後下一次點飲料：當面說（選「加油。」、沒有給她電話的那一版；給了電話＝S.phone 的私訊）*/
       trace:async(GM,r)=>{ const G=GM.G, d=DK('2028-03-01'); if(r.state!=='done'||r.t1||d==null||G.day<d) return false; r.t1=G.day; await say(GM,null,L.SQ17.trace); return true; }},   /* 大三下（2028-03 起）一次 */
-    SQ18:{shop:'清葉茶行',title:'清葉茶行：二十杯的訂單',avail:G=>ti(G)>=3,   /* 大二下起（沒有 SQ08 的玩家照樣有）*/
+    SQ18:{shop:'清葉茶行',title:'青木茶室：二十杯的訂單',avail:G=>ti(G)>=3,   /* 大二下起（沒有 SQ08 的玩家照樣有）*/
       accept:async(GM,r)=>{ const G=GM.G, d=nextWd(G,0); setAct(r,'go',d); r.outDay=d; if(d!=null&&typeof OUT!=='undefined') OUT.plan(G,{id:'sq18_park_'+d,ev:'ev_sq18_park',day:d,h:8.5,late:0.5,place:'溫州街・小公園',title:'週日早上：二十杯飲料送到小公園',travel:'走路 約 10 分鐘',travelH:1/6}); }},   /* 期限：那個週日 */
     SQ19:{shop:'巷子裡定食',title:'巷子裡定食：忘在桌上的筆記本',avail:G=>ti(G)>=2&&met(XC),   /* 大二上起；認識芯慈 */
       accept:async(GM,r)=>{ await say(GM,null,L.SQ19.look); await sayAll(GM,null,L.SQ19.last); setAct(r,'ret',GM.G.day+7); },   /* 「看」筆記本（封面、最後一頁）；一週內還她（找她說話：S.XC_EV）*/
@@ -307,8 +311,8 @@ const SIDEQ=(function(){
     SQ12:{go:r=>(r.outDay!=null?md(r.outDay)+'（一）':'下禮拜一')+' 19:00 去 Pasta 118（118 巷）當客人'},
     SQ13:{taste:r=>'再去韓食小廚（118 巷）吃吃看泡菜（'+((r.tastes||[]).length)+'／3）',wait:'等老闆娘回來'},
     SQ14:{cage:'去溫州街的公園，把貓放進外出籠',vet:'帶牠去羅斯福路上的動物醫院'},
-    SQ16:{ask:'週四 19:30～21:00 去普通教學館 201 門口「問登山社的人」（第 5～15 週）',back:'回公館的輪轉單車跟老闆說'},
-    SQ15:{sort:'去舊路書房（公館）後面整理那一箱書',sis:'找學姊說那本民法總則',buy:'去舊路書房把那本民法總則買下來（80 元）'},
+    SQ16:{ask:'週四 19:30～21:00 去普通教學館 201 門口「問登山社的人」（第 5～15 週）',back:'回公館的慢輪單車跟老闆說'},
+    SQ15:{sort:'去頁間書屋（公館）後面整理那一箱書',sis:'找學姊說那本民法總則',buy:'去頁間書屋把那本民法總則買下來（80 元）'},
     SQ17:{ask:r=>'再去一一八茶飲（118 巷）問她一題（'+((r.asked||[]).length)+'／3）',result:r=>r.phone?'等她傳訊息（四月底）':'四月底以後再去一一八茶飲（118 巷）'},
     SQ18:{go:r=>(r.outDay!=null?md(r.outDay)+'（日）':'週日')+' 08:30 把飲料送到溫州街的小公園'},SQ19:{ret:'把筆記本還給芯慈（在學校，或週二、四中午的巷口家常菜）'},
     SQ20:{s1:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去半熟早午餐幫小蕙計時（第 1 次）',s2:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去半熟早午餐幫小蕙計時（第 2 次）',wait:'等小蕙的證照考試'}};

@@ -44,26 +44,24 @@ const Y2B_EVENTS=(function(){
 
   /* ---- 1B-02 語彤事件 8「買賣不破租賃」：下課後（手機，要有她的聯絡方式；課堂那一段在 y2b3d.js，演過記 Y2B_LEASE_DAY）---- */
   const LEASE_TEXT={ id:'ev_yt_lease_text', title:'買賣不破租賃', participants:[], location:'any', trigger:'manual', afterClass:'oblig_spec', classFirst:true, once:true, term:['Y2S2'], weeks:[6], background:'blur',
-    prereq:{custom:G=>G.flags.Y2B_LEASE_DAY===G.day&&knows('heroine_03',G)&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')},
+    prereq:{custom:G=>G.flags.Y2B_LEASE_DAY===G.day&&knows('heroine_03',G)&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')&&has('heroine_03','RENT_RUMOR')},   /* AA_643 第 3 節：沒聽過事件 6（沒有 RENT_RUMOR）＝不出「傳訊息給語彤」、不記 LAW_MEETS_LIFE */
+    /* AA_625 第 8 節（YT-REWRITE-1103，AA 定稿）：下課後傳給語彤的那一段整段換（秀琴姨的房子）。祐廷那一句是民法第 425 條第 1 項的白話（不是逐字引條文）——交 BB 核對 */
     dialogue:[ {choice:[{text:'（傳訊息給語彤）',goto:'send'},{text:'（不傳）',end:true}]},
       {label:'send'},
-      {if:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phoneMe:'heroine_03',text:'阿姨的租約還有多久？'},
-      {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phoneMe:'heroine_03',text:'妳剛剛一直在寫筆記。阿姨的店，是不是也有這種事？'},
-      {phone:'heroine_03',text:'兩年'},
-      {if:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phone:'heroine_03',text:'你也在想剛剛那一條？'},
-      {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phone:'heroine_03',text:'……房東想把整棟賣掉。還沒確定。'},
+      {phoneMe:'heroine_03',text:'今天上到買賣不破租賃。秀琴姨的房子如果被賣，租約還有效，新屋主要照原本的條件租到期滿。'},
+      {phone:'heroine_03',text:'……真的？'},
+      {phone:'heroine_03',text:'我明天跟她說。'},
+      {phone:'heroine_03',text:'謝謝。我不知道課本裡有寫這個。'},
       {if:{custom:G=>(+G.flags.WZ_COPY_LEASE||0)>=2},speaker:null,text:'（你想起阿德那封信。學長第一個問的，是租約寫了幾年。）'},   /* AA_420 3-4：陪阿德去過法服（線一 1-3，src/wzlines3d.js）*/
-      {speaker:null,text:'（你傳了一張課本那一頁的照片。）'},
-      {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},mem:[{npc:'heroine_03',tag:'RENT_RUMOR',note:'她說房東想把整棟賣掉'}]},   /* 沒有的這時候補上（她說了）*/
       {set:{YT_LEASE_HELP:true},stamp:['YT_LEASE_TEXT_DAY'],mem:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE',note:'債各第 6 週'}]} ] };   /* YT_LEASE_TEXT_DAY：當天 21:30 那兩則（y2b3d.js）*/
 
   /* ---- 1B-03 語彤事件 9「陪阿姨來」不在場版：之後第一次在麵店或總圖和語彤說話（5/22 中午以後～6/13）；在場版在 y2b3d.js ---- */
-  const AUNT_RETELL={ id:'ev_yt_aunt_retell', title:'陪阿姨來', participants:['heroine_03'], location:['noodle','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
+  const AUNT_RETELL={ id:'ev_yt_aunt_retell', title:'陪秀琴姨去法服', participants:['heroine_03'], location:['wz_teahouse','library','library_hall'],   /* AA_625 第 9 節不在場版：之後第一次在茶屋或總圖 */ trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const a=D('2027-05-22'), b=D('2027-06-13'); return a!=null&&b!=null&&(G.day>a||(G.day===a&&G.hour>=12))&&G.day<=b&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G); }},
-    dialogue:[ {speaker:'heroine_03',text:'上次我陪阿姨去法服。'},   /* AA_375 第 9 項：三週後還說「禮拜六」不對 */
-      {speaker:'heroine_03',text:'裡面的人說，租約到期以前，他不能趕我們。'},
-      {speaker:'heroine_03',text:'阿姨出來的時候在笑。'},
-      {if:{custom:G=>dating(G,'heroine_03')},speaker:'heroine_03',text:'那時候很想打給你。後來沒打，阿姨在旁邊。'},
+    dialogue:[ {speaker:'heroine_03',text:'上次我陪秀琴姨去法服。'},   /* AA_643 第 2 節（照 AA_375 第 9 項：之後才講，「禮拜六」不對）*/
+      {speaker:'heroine_03',text:'裡面的人說，租約到期以前，新屋主不能叫她搬。'},
+      {speaker:'heroine_03',text:'她出來的時候在笑。'},
+      {if:{custom:G=>dating(G,'heroine_03')},speaker:'heroine_03',text:'那時候很想打給你。後來沒打，秀琴姨在旁邊。'},
       {if:{memory:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE'}]},speaker:'heroine_03',text:'就是你那天傳的那一頁。'},
       {mem:[{npc:'heroine_03',tag:'RENT_CONSULTATION',note:''}]} ] };
 
@@ -212,7 +210,7 @@ const Y2B_EVENTS=(function(){
       {if:{custom:G=>friendOnly(G)&&['give','share'].includes(G.flags.rain_umbrella)},speaker:'heroine_03',text:'我今天有帶傘。'},
       {if:{custom:G=>friendOnly(G)&&['give','share'].includes(G.flags.rain_umbrella)},goto:'talk'},
       {if:RU('give'),speaker:null,text:'（她撐著你兩年前那把傘。）'},
-      {if:RU('give'),speaker:'heroine_03',text:'……這把是你的。在櫃台後面放了兩年，你一直沒拿。'},
+      {if:RU('give'),speaker:'heroine_03',text:'……這把是你的。……我一直想還你。'},
       {if:RU('give'),speaker:'heroine_03',text:'今天想帶一個……會帶來好運的東西。'},
       {if:RU('share'),speaker:'heroine_03',text:'我後來買了一把跟你那天一樣的。很蠢吧。'},
       {if:RU('cvs'),speaker:'heroine_03',text:'我今天有帶傘。我從那天以後都有帶。'},
@@ -224,14 +222,14 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_03',text:'今天第一次站在講台上。講了二十分鐘。'},
       {speaker:'heroine_03',text:'……沒有人睡著。'},
       {if:{custom:G=>dating(G,'heroine_03')},goto:'gf'},
-      {choice:[{text:'「恭喜。」',goto:'c1'},{text:'「去麵店慶祝？」',goto:'c2'},{text:'（陪她走到麵店，不說話）',goto:'c3'}]},
+      {choice:[{text:'「恭喜。」',goto:'c1'},{text:'「去茶屋慶祝？」',goto:'c2'},{text:'（陪她走回新生南路，不說話）',goto:'c3'}]},
       {label:'c1'},{speaker:'heroine_03',text:'嗯。'},{speaker:null,text:'（她低頭，嘴角一直往上。）'},
       {if:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'……可以再說一次嗎。'},   /* AA_338 第 6 節（禁用模板句「你是第一個」的變形）*/
-      {unless:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'謝謝。阿姨等一下一定會說第二次。'},{goto:'end'},
-      {label:'c2'},{speaker:'heroine_03',text:'今天週二。本來就要去。'},{speaker:null,text:'（停了一下。）'},{speaker:'heroine_03',text:'……可是今天我不切蔥。我坐著吃。'},{goto:'end'},
+      {unless:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'謝謝。秀琴姨等一下一定會說第二次。'},{goto:'end'},
+      {label:'c2'},{speaker:'heroine_03',text:'今天週二。本來就要回家吃飯。'},{speaker:null,text:'（停了一下。）'},{speaker:'heroine_03',text:'……可是今天我不切蔥。我坐著吃。'},{goto:'end'},
       {label:'c3'},{speaker:null,text:'（一路上她講了二十分鐘助教課的事，比她這兩年講過的話加起來都多。）'},{goto:'end'},
       {label:'gf'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',text:'中午你傳的那三個驚嘆號，我上台前看了一下。'},
-      {choice:[{text:'「恭喜。」',goto:'g1'},{text:'「去麵店慶祝？」',goto:'g2'},{text:'（陪她走到麵店，不說話）',goto:'g3'}]},
+      {choice:[{text:'「恭喜。」',goto:'g1'},{text:'「去吃飯慶祝？」',goto:'g2'},{text:'（陪她走回新生南路，不說話）',goto:'g3'}]},
       {label:'g1'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'嗯。……中午說加油，現在說恭喜。'},{if:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'……都收到了。'},
       {unless:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'嗯。'},{unless:{flags:['YT12_CHEER']},speaker:'heroine_03',expression:'embarrassed',text:'……再說一次也可以。'},{goto:'end'},
       {label:'g2'},{speaker:'heroine_03',text:'今天週二。本來就要去。'},{speaker:'heroine_03',text:'……今天我不切蔥。你坐我旁邊。'},{goto:'end'},

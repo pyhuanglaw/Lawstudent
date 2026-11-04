@@ -41,6 +41,7 @@ const LIBQ=(function(){
   S.loudBegin=()=>{ loudN++; }; S.loudEnd=()=>{ loudN=Math.max(0,loudN-1); };
   S.loud=async function(fn){ S.loudBegin(); try{ return await fn(); } finally { S.loudEnd(); } };
   S.reset=()=>{ loudN=0; };
+  S.isLoud=()=>loudN>0;   /* 木曜日（src/mokuyobi_sys3d.js）也照這個「這一段不加（小聲）」*/
   /* 字串版的 libOut（AA 2026-11-02 22:30 定稿 1-D10、Q16）*/
   S.OUT_LINES=['閉館音樂響了，她才抬頭問你晚餐吃什麼。'];   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
   const OUT_HEAD='（走出';

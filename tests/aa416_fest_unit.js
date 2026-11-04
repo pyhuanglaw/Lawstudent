@@ -192,13 +192,13 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   /* ======================= 5 語彤 ======================= */
   await sec('5',async()=>{ const x=X();
   { setup('2026-03-14',11,{lv:{[YT]:6}}); rules(); const pre=dms(YT).length; at('2026-03-14',12.05); rules();
-    check('5. 3/14 第 6 階：中午 12:00 她先傳「（照片：麵店今天的小菜）」「這碗是你的。」',pre===0&&J(dms(YT))===J(['（照片：麵店今天的小菜）','這碗是你的。']),J(dms(YT)));
+    check('5. 3/14 第 6 階：中午 12:00 她先傳「（照片：茶屋今天的茶點）」「這碗是你的。」',pre===0&&J(dms(YT))===J(['（照片：茶屋今天的茶點）','這碗是你的。']),J(dms(YT)));
     const m=await play({id:YT,k:'white',y:2026,mode:'meet'}); check('5. 當面：「回禮。……我不知道要送什麼。」旁白（她把一個保鮮盒推過來，裡面是兩顆滷蛋。）',J(m.L)===J(['回禮。……我不知道要送什麼。','（她把一個保鮮盒推過來，裡面是兩顆滷蛋。）'])); }
   { setup('2028-03-13',10,{lv:{[YT]:'dt'}}); const a=await ask(YT,[1,0]); const m=await play({id:YT,k:'white',y:2028,mode:'meet'}); setup('2027-03-14',10,{lv:{[YT]:'dt'}}); const n=await play({id:YT,k:'white',y:2027,mode:'meet'});
     /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店（INV.NEVER_AT）＝2028 那一格地點寫死在燒臘店（venueBy dt 2028）約不成、兩個時段都灰掉「那個時段約不到地方」；節日內容（直接 play）照舊，待 AA 改稿 */
-    check('5. 交往中 2028（週二）：地點寫死在燒臘店＝約不成（兩個時段灰掉）；內容照舊「今天我在店裡。你來，我留一顆。」；2027「……我做了滷蛋。阿姨教的。第一次做。」',!a.r&&a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['今天我在店裡。你來，我留一顆。'])&&J(n.L)===J(['……我做了滷蛋。阿姨教的。第一次做。']),J({L:a.L,m:m.L,n:n.L})); }
+    check('5. 交往中 2028（週二）：地點寫死在燒臘店＝約不成（兩個時段灰掉）；內容照舊「今天我在店裡。你來，我留一顆。」；2027「……我做了滷蛋。秀琴姨教的。第一次做。」',!a.r&&a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['今天我在店裡。你來，我留一顆。'])&&J(n.L)===J(['……我做了滷蛋。秀琴姨教的。第一次做。']),J({L:a.L,m:m.L,n:n.L})); }
   { setup('2026-08-19',10,{lv:{[YT]:'dt'}}); const a=await play({id:YT,k:'qixi',y:2026,mode:'meet'}); setup('2026-08-19',10,{lv:{[YT]:6}}); const b=await play({id:YT,k:'qixi',y:2026,mode:'meet'});
-    check('5. 七夕：交往中「我跟阿姨請假了。」旁白（她說完就低頭看菜單。）；第 6 階「七夕……麵店照常開。」「……可是我晚上沒班。」',J(a.L)===J(['我跟阿姨請假了。','（她說完就低頭看菜單。）'])&&J(b.L)===J(['七夕……麵店照常開。','……可是我晚上沒班。'])); }
+    check('5. 七夕：交往中「我跟蘇姨請假了。」旁白（她說完就低頭看菜單。）；第 6 階「七夕……茶屋照常開。」「……可是我晚上沒班。」',J(a.L)===J(['我跟蘇姨請假了。','（她說完就低頭看菜單。）'])&&J(b.L)===J(['七夕……茶屋照常開。','……可是我晚上沒班。'])); }
   { setup('2026-07-08',10,{lv:{[YT]:5}}); const a=await ask(YT,[0,0]); at('2026-07-09',12); const m=await play({id:YT,k:'bday',y:2026,mode:'meet'},[0]);
     /* 生日的地點寫死在燒臘店（bday venue:'noodle'）：AA_610／AA_624 約不成；內容（直接 play）照舊，待 AA 改稿 */
     check('5. 生日 7/9 第 5 階：地點寫死在燒臘店＝約不成（灰掉「那個時段約不到地方」）；內容照舊「……你怎麼知道。」「阿姨說的？……嗯。」「今天麵店。你來就好。」→ 禮物（一條髮圈 120：「……舊的那條鬆了。你有看到。」）',!a.r&&a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['……你怎麼知道。','阿姨說的？……嗯。','今天麵店。你來就好。','……舊的那條鬆了。你有看到。']),J({aL:a.L,L:m.L}));
@@ -312,7 +312,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-02-12',21.05,{lv:{[AN]:6},flags:{AN_CRACK:2}}); rules(); check('11. 以安第 6 階（沒交往）：2/12 21:00 照樣約「十四號那天，你在臺北嗎？」',J(dms(AN))===J(['十四號那天，你在臺北嗎？']),J(dms(AN)));
     REG({cg_valentine_taichung_heroine01:{file:'x',title:'t'}}); PHONE.answer(H.G,'anyt_an_y1_ask',0); rules(); at('2026-02-14',10.8); const r0=relOf(AN); await goOut('anyt_an_vday_y1',[0]);
     check('11. 台中那一場：放 CG cg_valentine_taichung_heroine01（「開了兩個多小時……」那一拍）；第 6 階 +4／+5／+6、裂縫不動',J(H.cgs)===J(['cg_valentine_taichung_heroine01'])&&H.G.flags.AN_VDAY_CG===true&&dRel(AN,r0)===J({fam:4,comf:5,npcRom:6})&&H.G.flags.AN_CRACK===2,J({cgs:H.cgs,r:dRel(AN,r0)})); delete global.CG_REGISTRY;
-    setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2/13 21:00 照樣約「明天店休。」',dms(YT)[0]==='明天店休。');
+    setup('2026-02-13',21.05,{lv:{[YT]:6}}); rules(); check('11. 語彤第 6 階：2026-02-13 不約（AA_630 第 10 節第 4 點拿掉這一年）',dms(YT).length===0   /* AA_630 第 10 節第 4 點：2026 那一年拿掉 */);
     setup('2026-09-24',21.05,{lv:{[YT]:6}}); rules(); check('11. 中秋照 AA_414 只有交往中',!dms(YT).length); }
   { setup('2029-02-14',9,{lv:{[AN]:6}}); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4'); H.said=[]; H.opts=[]; H.picks=[1]; await EVENTS.run(ev('ev_an_vday_y4')); const L=said();
     check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('她說那就是快有了。')&&!L.includes('她問了二十分鐘。'),J({O:H.opts,L}));

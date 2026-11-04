@@ -16,6 +16,7 @@
 //  12. 一起坐（AA_641 第 5 節）：淡出淡入、時間走 30 分鐘、旁白一句、玩家站起來；同一天同一個人一次；撞到課或約＝選項變灰「等一下有○○」，按了只提示。
 //  修改前（AA_641 以前的 ddd603fbc）：第 1 項（版本）、第 2 項（冰菓室碰不到）、第 11、12 項 FAIL。
 // 修改前：沒有 SHOPENC、沒有 src/data/shop_enc.js（第 1 項就 FAIL）。用法：node tests/shop_enc_unit.js
+require('./alison.js');   /* 讀稿照匯入工具同一套換（import_guard.py read_fix；2026-11-04 公館四間改名 aa647_fix.json：舊路書房→頁間書屋、日日便利→日和便利店，AA_647 第 6 節）*/
 const vm=require('vm'), fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.location={search:''}; global.document={getElementById:()=>null,addEventListener(){}};

@@ -4,11 +4,14 @@
 //   人物的腳踩在踏板上、手握把手（character3d.js 的 rideIK，在真實骨架上算）。
 // - 自動下車：和別人說話、坐下、進建築（車停在門口）、走上樓梯或平台（車停在樓梯前）、有人跟著走（劇情、約朋友一起走）、劇情開始。
 //   騎著走出校門、往溫州街：車跟著過去。快速前往室內的地方：車停在那棟建築的門外。
-// - 存檔：G.bike {zone,x,z,yaw,riding}（舊存檔沒有＝車在宿舍門口）。
+// - 存檔：G.bike {zone,x,z,yaw,riding,kind,color,owned}（舊存檔沒有＝車在宿舍門口；沒有 kind＝開局那台城市通勤車）。
+// - 自動停車（AA_646 第 3 節；使用者 11-04 01:0x「單車我希望以後改成會自動出現在我剛離開的建築外合法停車的地方 不要只在宿舍樓下」）：
+//   從別的區域（建築、捷運、快速前往、走路過來）進到有車的戶外區域、而且不是騎著來的那一刻，車已經停在出來的地方最近的合法停車處（PARKS：校園停車架、宿舍門口、
+//   公館人行道的停車架（不停騎樓）、溫州街和 118 巷的停車格旁邊）。只在換區域那一刻，不會走一段路車就跟著。區域裡沒有合法停車處（新生南路）＝照舊（車停在原本的地方）。
 'use strict';
 const BIKE=(function(){
   const B={};
-  const ZONES={campus:1,gongguan:1,wenzhou:1};
+  const ZONES={campus:1,gongguan:1,wenzhou:1,xinsheng:1,lane118:1};   /* 新生南路、118 巷：AA_646 第 3 節「哪些區域有車」*/
   const HOME={zone:'campus',x:25,z:57.9,yaw:Math.PI/2};   /* 宿舍門口（門 (20,59.6)）東邊、和牆平行；tests/bike_unit.js 檢查站得住、不擋門 */
   const WHEEL_R=0.333, GEAR=0.45, WHEELBASE=1.06;
   const STEER_AXIS={p:new THREE.Vector3(0,0.7,0.3732), d:new THREE.Vector3(0,0.9397,-0.342).normalize()};
@@ -16,11 +19,70 @@ const BIKE=(function(){
   let src=null, loading=null;
   let parked=null;    /* {obj,it,zone}：停著的車（目前區域）*/
   let ride=null;      /* {obj,parts,crank,wheel,steer,lean,yaw,lastFlat}：騎著的車（掛在玩家底下）*/
-  let pendingPark=false, opts_walked=false;
+  let pendingPark=false, opts_walked=false, fromZone=null, doorPark=null, relocated=false;
+  /* 合法停車處（AA_646 第 3 節）：都是區域裡已經有的停車架、停車格（不新增導航阻擋、不改場景）。車停在架子、機車格那一排的「端點外面」一格，和那一排同方向：
+     racks：停車架 [x,z,寬（導航阻擋的寬）,ry]（架子沿本地 x，車沿 z）；rows：機車格／路邊停車那一排 [x0,x1,z,yaw]（沿 x 排）或 lane118 的 [x,z0,z1,'z',yaw]（沿 z 排）；spots：單一個停車位 [x,z,yaw]。
+     各建築出口要指定停車位：出口互動點加 bikePark:{x,z,yaw}（LAWWW2 在配置裡標）；區域也可以自己給 zone.bikeParks（[{x,z,yaw}]）。
+     校園：zones3d.js 校園的 parkedRack（大道北側五座、男一舍、霖澤館／萬才館前、大道兩側七座）＋宿舍門口（HOME）。
+     公館：捷運出口東邊、圓環東邊兩座人行道停車架（ART-GG-STREETLIFE-1023 ②）＋騎樓柱子外那一排機車（人行道上，不是騎樓；z 18.15）的端點。
+     溫州街：路邊停著腳踏車、機車格那幾排（zones3d.js 的 scRow）的端點。118 巷：巷口、巷底機車格（LANE118_PROPS.scooter_blocks）的端點。
+     新生南路：還沒有停車架、停車格（xinsheng_layout 的 scooters 沒有導航阻擋、遊戲裡也還沒擺）→ 沒有合法停車處，車照舊停在原本的地方。
+     最近的合法停車處離出來的地方超過 MAXD：車停在那棟的門口旁邊（parkBeside，和騎著進門時一樣），等 LAWWW2 補 bikePark */
+  const PARKS={
+    campus:{racks:[[-82,-16,5,0],[-50,-16,5,0],[-18,-16,5,0],[14,-16,5,0],[46,-16,5,0],[-66,55.4,5,0],[58,-102,6,0],[10,-100,4,0],
+      [-6,24,4.6,0],[12,24,4.6,0],[33,24,4.6,0],[57,24,4.6,0],[-1,-17.2,4.6,Math.PI],[46,-23.5,4.6,Math.PI],[68,-23.5,4.6,Math.PI]],spots:[[HOME.x,HOME.z,HOME.yaw]]},
+    gongguan:{racks:[[-14.5,9.2,4.8,Math.PI],[34,9.2,5.4,Math.PI]],
+      rows:[[-59.8,-55.8],[-49.6,-44.6],[-38.4,-32.6],[-25.2,-21.2],[-16,-12],[-6.8,-3],[3,7.4],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[49.6,53.6],[57.6,61.6],[66.6,70.6]].map(([a,b])=>[a,b,18.15,0])},
+    wenzhou:{rows:[[-11.5,-10.65,3.95,0],[-6.8,-5.1,3.95,0],[9.4,10.3,4.1,0],[18.6,18.6,4.1,0],[16.4,18.95,3.95,0],[24.4,26.95,3.95,0],[5.0,14.35,-3.95,Math.PI],[31.5,37.45,-3.95,Math.PI],[-28.5,-24.25,-3.95,Math.PI]]},
+    lane118:{rowsZ:()=>typeof LANE118_PROPS!=='undefined'&&LANE118_PROPS.scooter_blocks?LANE118_PROPS.scooter_blocks.map(([x,z,w,d])=>[x,z-d/2,z+d/2,x<0?Math.PI/2:-Math.PI/2]):[]} };
+  B.PARKS=PARKS; B.MAXD=30;
+  /* 一個停車架／一排的候選位置（由近到遠；第一個能用的就是這一排的停車位）*/
+  function anchorCands(D){ const A=[];
+    for(const [x,z,w,ry] of D.racks||[]) for(const sd of [-1,1]){ const L=[]; for(const e of [0.5,0.8,1.1,1.4]){ const off=w/2+e; L.push({x:x+Math.cos(ry)*off*sd,z:z-Math.sin(ry)*off*sd,yaw:ry,src:'rack'}); } A.push(L); }
+    for(const [x0,x1,z,yaw] of D.rows||[]){ for(const [ex,sd] of [[x0,-1],[x1,1]]){ const L=[]; for(const e of [0.75,1.05,1.35]) L.push({x:ex+sd*e,z,yaw,src:'row'}); A.push(L); } }
+    for(const [x,z0,z1,yaw] of (D.rowsZ?D.rowsZ():[])){ for(const [ez,sd] of [[z0,-1],[z1,1]]){ const L=[]; for(const e of [0.45,0.75,1.05]) L.push({x,z:ez+sd*e,yaw,src:'row'}); A.push(L); } }
+    for(const [x,z,yaw] of D.spots||[]) A.push([{x,z,yaw,src:'spot'}]);
+    return A; }
+  function parkCands(E,zone){ const out=[], D=PARKS[zone];
+    if(E&&E.zone&&Array.isArray(E.zone.bikeParks)) for(const q of E.zone.bikeParks) out.push([{x:q.x,z:q.z,yaw:q.yaw||0,src:'zone'}]);
+    if(D) for(const L of anchorCands(D)) out.push(L);
+    return out; }
+  /* 這個停車位能不能用：車身中間和前後（各 0.6 m）站得住、不擋任何出入口（離門的互動範圍 0.9 m 以上：站在車旁邊按鈕要是「騎腳踏車」，不是「進入…」）*/
+  function parkOK(E,q){ if(!E.canStand) return true; const fx=Math.sin(q.yaw)*0.6, fz=Math.cos(q.yaw)*0.6;
+    if(!E.canStand(q.x,q.z,0.45,0)||!E.canStand(q.x+fx,q.z+fz,0.3,0)||!E.canStand(q.x-fx,q.z-fz,0.3,0)) return false;
+    for(const it of E.interactables||[]){ if(!it.exit||it.bike) continue; if(Math.hypot(it.x-q.x,it.z-q.z)<(it.radius||1.5)+0.9) return false; } return true; }
+  B.parkOK=(E,q)=>parkOK(E,q);
+  /* 這一區能用的停車位（每個停車架兩端、每一排兩端各最多一個）*/
+  B.parkSpots=function(E,zone){ const out=[]; for(const L of parkCands(E,zone)){ const q=L.find(c=>parkOK(E,c)); if(q) out.push(q); } return out; };
+  B.legalSpot=function(E,zone,x,z){ let best=null, bd=Infinity; for(const q of B.parkSpots(E,zone)){ const d=Math.hypot(q.x-x,q.z-z); if(d<bd){ bd=d; best=q; } } return best?{x:best.x,z:best.z,yaw:best.yaw,d:bd,src:best.src}:null; };
   B.ok=z=>!!ZONES[z];
   B.SPEED=8.5;   /* 和 engine3d.js 的 E.SPD.bike 一樣 */
-  function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return G.bike; }
+  /* 五款車（AA_646 第 2 節；使用者 11-04 01:0x「可以買新的單車」）：價格照 AA 的提案（開局帳戶約 7,000～22,000、每月生活費 30,000、打工時薪約 200 元：
+     最便宜的淑女車＝兩三週的伙食錢，公路車＝將近一個月的生活費或一百多小時的班）。seat：有後座＋載妹墊（D78）；小折、公路車沒有後座、不能載人。
+     colors：車架顏色（[顯示的名字, 色碼]；色碼 null＝模型原本的顏色）；shop：店裡展示車用的街景車款（W3.bikeAny 的 kind）。
+     騎的時候五款都是同一台 bike_ride.glb 換車架顏色，沒有後座的把載妹墊藏起來（五款各自的模型 LAWWW2）*/
+  const KINDS={
+    lady:{name:'淑女車（車籃）',short:'淑女車',price:4200,seat:true,shop:'bike_city_pbask',desc:'（前面一個大車籃，後座可以裝載人墊。）',line:'買菜、上課都好用。',colors:[['奶油白','#efe8d8'],['薄荷綠','#8fc1a9'],['酒紅','#8c3b47']]},
+    city:{name:'城市通勤車',short:'城市通勤車',price:6800,seat:true,shop:'bike_city',desc:'（直把手，擋泥板，車燈是內建的。）',line:'學生最常買這台。',colors:[['墨綠','#2f5d50'],['深藍','#2b4f8c'],['黑','#1d1f22'],['銀灰','#9ea3a8']]},
+    fold:{name:'小折',short:'小折',price:12800,seat:false,shop:'bike_fold',desc:'（折起來只有一個行李箱大，可以帶上捷運。）',line:'搬家、出去玩都方便。',colors:[['白','#e9e9e6'],['紅','#b8262b'],['藍','#2b4f8c'],['芥末黃','#c9a227']]},
+    mtb:{name:'登山車',short:'登山車',price:15800,seat:true,shop:'bike_mtb',desc:'（輪胎很粗，前面有避震。）',line:'你要騎山路的話。……校園裡騎會有點重。',colors:[['黑','#1d1f22'],['橄欖綠','#4f5a3c'],['橘','#d65a2a']]},
+    road:{name:'公路車',short:'公路車',price:22800,seat:false,shop:'bike_road',desc:'（彎把，很輕，單手就拿得起來。）',line:'騎河濱很快。……鎖要買好一點的。',colors:[['白','#e9e9e6'],['黑','#1d1f22'],['紅','#b8262b'],['藍','#2b4f8c']]} };
+  B.KINDS=KINDS; B.KIND_ORDER=['lady','city','fold','mtb','road'];
+  B.DEFAULT_KIND='city';   /* 開局那台＝城市通勤車＋載妹墊（AA_646 第 3 節「存檔」；舊存檔的車也是這台）*/
+  /* 存檔的車：G.bike {zone,x,z,yaw,riding, kind,color,owned:[{kind,color}]}——kind／color 是現在騎的那台，owned 是買過的全部（含開局那台）。舊存檔沒有新欄位＝開局那台 */
+  function fill(b){ if(!KINDS[b.kind]) b.kind=B.DEFAULT_KIND; if(b.color===undefined||(b.color!==null&&typeof b.color!=='string')) b.color=null;
+    if(!Array.isArray(b.owned)) b.owned=[]; b.owned=b.owned.filter(o=>o&&typeof o==='object'&&KINDS[o.kind]).map(o=>({kind:o.kind,color:typeof o.color==='string'?o.color:null}));
+    if(!b.owned.length) b.owned.push({kind:B.DEFAULT_KIND,color:null});
+    if(!b.owned.some(o=>o.kind===b.kind&&o.color===b.color)) b.owned.push({kind:b.kind,color:b.color}); return b; }
+  function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return fill(G.bike); }
   B.state=st;
+  /* 讀檔（game3d.js migrate）：有 bike 就補新欄位；不是物件的丟掉（之後 st() 當成宿舍門口那台）；沒有 bike 不寫（照舊＝宿舍門口）*/
+  B.migrate=function(s){ if(!s||typeof s!=='object'||s.bike==null) return; if(typeof s.bike!=='object'||Array.isArray(s.bike)){ delete s.bike; return; } fill(s.bike); };
+  B.kindOf=G=>st(G).kind;
+  B.NO_SEAT='（這台沒有後座。）';   /* AA_646 第 2 節原句 */
+  B.hasSeat=G=>{ const k=KINDS[(G&&G.bike&&G.bike.kind)||B.DEFAULT_KIND]; return !k||k.seat!==false; };   /* 現在騎的車有沒有後座（載人：story3d.js 的 rideMode 擋）*/
+  B.colorName=(kind,color)=>{ const k=KINDS[kind]; if(!k) return ''; if(color==null) return '原本的顏色'; const c=k.colors.find(q=>q[1]===color); return c?c[0]:''; };
+  B.owns=(G,kind,color)=>st(G).owned.some(o=>o.kind===kind&&o.color===(color==null?null:color));
   function load(){ if(src) return Promise.resolve(src); if(!loading) loading=ASSETS.loadOne('prop.bike_ride').then(c=>{ const s=c&&c.scene; if(!s) return null;
       s.traverse(o=>{ if(o.isMesh){ const g=o.geometry, n=g?(g.index?g.index.count:g.attributes.position.count)/3:0; o.castShadow=n>=250&&!/^ride_(alpha|lamp_lens)/.test((o.material&&o.material.name)||''); o.receiveShadow=false; if(g) g.userData.shared=true; } });   /* 換區域時 disposeGroup 不要丟掉共用的幾何。
          投影只留車架、前叉、輪子（250 個三角形以上）；踏板、曲柄、座墊、車燈、輻條的影子小到看不出來，每台車陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
@@ -28,9 +90,12 @@ const BIKE=(function(){
     return loading; }
   B.load=load;
   /* color：車架改色（路上的騎士每台不同色；材質 ride_frame 複製一份再改，原本的共用材質不動）*/
-  function make(color){ if(!src) return null; const o=src.clone(true); const parts={}; let frameMat=null; o.traverse(n=>{ if(/^(frame|fork|wheel_f|wheel_r|crank|pedal_r|pedal_l)$/.test(n.name)&&!parts[n.name]){ parts[n.name]=n; n.userData.q0=n.quaternion.clone(); }
+  /* kind：玩家自己的車的款式（沒有後座的小折、公路車把載妹墊 rear_cushion 藏起來）；路上的騎士不給 */
+  function make(color,kind){ if(!src) return null; const o=src.clone(true); const parts={}; let frameMat=null; o.traverse(n=>{ if(/^(frame|fork|wheel_f|wheel_r|crank|pedal_r|pedal_l)$/.test(n.name)&&!parts[n.name]){ parts[n.name]=n; n.userData.q0=n.quaternion.clone(); }
       if(color&&n.isMesh&&n.material&&n.material.name==='ride_frame'){ if(!frameMat){ frameMat=n.material.clone(); frameMat.color.set(color); } n.material=frameMat; } });
-    o.userData.parts=parts; o.name='bike_ride'; return o; }
+    if(kind&&KINDS[kind]&&KINDS[kind].seat===false) o.traverse(n=>{ if(n.name==='rear_cushion') n.visible=false; });
+    o.userData.parts=parts; o.userData.kind=kind||null; o.name='bike_ride'; return o; }
+  const mine=s=>make(s.color,s.kind);   /* 自己的車（顏色、款式照存檔）*/
   B.make=make;
   const QA=new THREE.Quaternion(), XA=new THREE.Vector3(1,0,0), YA=new THREE.Vector3(0,1,0);
   /* 姿勢：輪子角度、曲柄角度、把手角度（都繞零件自己的軸；原本的旋轉 q0 保留）*/
@@ -48,11 +113,14 @@ const BIKE=(function(){
   function removeParked(E){ if(!parked) return; if(parked.obj.parent) parked.obj.parent.remove(parked.obj); const i=E.interactables.indexOf(parked.it); if(i>=0) E.interactables.splice(i,1); parked=null; }
   /* 停著的車：放在區域裡、加「騎腳踏車」互動點 */
   function placeParked(GM){ const E=GM.E, G=GM.G, s=st(G); removeParked(E); if(s.riding||s.zone!==G.zone||!E.zone||!src) return;
-    const o=make(); if(!o) return; pose(o.userData.parts,0,0,0); o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
+    const o=mine(s); if(!o) return; pose(o.userData.parts,0,0,0); o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; E.zone.group.add(o);
     const it={x:s.x,z:s.z,radius:1.3,lv:0,y:0,label:'騎腳踏車',bike:true,onInteract:()=>B.mount(GM)};
     E.interactables.push(it); parked={obj:o,it,zone:G.zone};
     /* 第一次看到自己的車（第三天以後，避開第一二天的劇情）告訴玩家在哪裡、怎麼騎：2026-10-14 使用者試玩 v9.6「我還是不能騎腳踏車」——v9.7 才有騎車，車停在宿舍門口，沒有人說 */
     const F=G.flags||(G.flags={}); if(!F.BIKE_TIP&&!(typeof STORY!=='undefined'&&STORY.opening?STORY.opening(G):G.day<3)&&!(G.home&&G.home.at)&&!(F.Y0_MOVED_OUT&&(G.stage||'law')==='econ')&&GM.toast){   /* 人在家、經濟系退宿以後：不提示宿舍門口的車（BB-C 10-18 BUG-HOME-BIKE-HINT）*/ F.BIKE_TIP=true; const home=s.zone===HOME.zone&&Math.hypot(s.x-HOME.x,s.z-HOME.z)<3; setTimeout(()=>GM.toast((home?'宿舍門口東邊停著你的腳踏車':'這附近停著你的腳踏車')+'：走過去按「騎腳踏車」，右邊的「下車」停車。大地圖上有 🚲。',5200),1500); } }
+  /* 第一次自動停車（只一次；AA_646 第 3 節原句）：第一次看到車的提示（BIKE_TIP）說過以後才說 */
+  B.PARK_TIP='（你的車停在門口的停車架。以後從哪裡出來，車就停在那裡。）';
+  function parkTip(GM){ const G=GM.G, F=G.flags||(G.flags={}); if(F.BIKE_PARK_TIP||!F.BIKE_TIP||!GM.toast) return; F.BIKE_PARK_TIP=true; setTimeout(()=>GM.toast(B.PARK_TIP,4200),1500); }
   /* 找一個站得住的地方（車停的位置：原本的位置不行就往外找；都不行就用原本的）*/
   function spotNear(E,x,z,yaw){ if(!E.canStand||E.canStand(x,z,0.45,0)) return [x,z]; for(const r of [0.5,1,1.5,2,2.5,3]) for(let k=0;k<12;k++){ const a=yaw+k*Math.PI/6, px=x+Math.sin(a)*r, pz=z+Math.cos(a)*r; if(E.canStand(px,pz,0.45,0)) return [px,pz]; } return [x,z]; }
   /* 走進門時車停在門口旁邊、離門 2.2～2.8 m（v9.7 回歸 2026-10-14：停在門的正前方時，走回車旁邊常常是門比車近、按鈕是「進入便利商店」，騎不了）：
@@ -69,7 +137,7 @@ const BIKE=(function(){
     removeParked(E);
     P.path=null; P.target=null; P.onArrive=null; P.obj.position.set(s.x,0,s.z); P.obj.rotation.y=s.yaw; if(E.setLv) E.setLv(P,0); else P.lv=0; if(E.settleY) E.settleY(P);
     attach(GM); return true; };
-  function attach(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); const o=make(); if(!o) return false; const k=B.scaleFor(P.heightM); P.obj.add(o); o.position.set(0,0,0); o.rotation.set(0,0,0); o.scale.setScalar(k);
+  function attach(GM){ const E=GM.E, G=GM.G, P=E.player, s=st(G); const o=mine(s); if(!o) return false; const k=B.scaleFor(P.heightM); P.obj.add(o); o.position.set(0,0,0); o.rotation.set(0,0,0); o.scale.setScalar(k);
     ride={obj:o,parts:o.userData.parts,crank:0,wheel:0,steer:0,lean:0,k,yaw:P.obj.rotation.y,px:P.obj.position.x,pz:P.obj.position.z,lastFlat:{x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y}};
     pose(ride.parts,0,0,0); s.riding=true; s.zone=G.zone; P.riding=true; P.pose='ride'; P.idlePose='ride'; P.ride={crank:0,grips:grips(0,k),scale:k}; showBtn(true); return true; }
   /* 下車：車停在 at（預設＝現在的位置）；人往左邊（+x）讓開一步（站不住就右邊；都不行就不動）*/
@@ -81,7 +149,10 @@ const BIKE=(function(){
     if(!opts.away&&!opts.at){ const y=P.obj.rotation.y, lx=Math.cos(y), lz=-Math.sin(y); for(const sd of [1,-1]){ const x=P.obj.position.x+lx*0.65*sd, z=P.obj.position.z+lz*0.65*sd; if(!E.canStand||E.canStand(x,z,0.3,P.lv|0)){ P.obj.position.x=x; P.obj.position.z=z; break; } } }
     showBtn(false); if(!opts.away) placeParked(GM); return true; };
   /* 換區域（GM.enter 開頭）：要去的地方騎得到就連車一起過去；不行就把車停下 */
-  B.beforeEnter=function(GM,to,opts){ opts=opts||{}; const E=GM.E, G=GM.G, s=st(G); pendingPark=false; if(opts.fromLoad){ if(ride&&ride.obj.parent) ride.obj.parent.remove(ride.obj); ride=null; parked=null; if(E.player){ E.player.riding=false; E.player.ride=null; E.player.obj.rotation.z=0; } return; }
+  B.beforeEnter=function(GM,to,opts){ opts=opts||{}; const E=GM.E, G=GM.G, s=st(G); pendingPark=false; relocated=false;
+    fromZone=opts.fromLoad?null:G.zone; doorPark=null;   /* 從哪裡來（自動停車：afterEnter 看是不是從別的區域進來）*/
+    if(!opts.fromLoad&&E.player&&E.interactables){ const P0=E.player.obj.position; let dd=Infinity; for(const i of E.interactables){ if(!i.exit||i.exit.to!==to) continue; const d=Math.hypot(i.x-P0.x,i.z-P0.z); if(d<(i.radius||1.5)+3&&d<dd){ dd=d; doorPark=i.bikePark||i.exit.bikePark||null; } } }   /* 走的那個出口有指定停車位（bikePark）*/
+    if(opts.fromLoad){ if(ride&&ride.obj.parent) ride.obj.parent.remove(ride.obj); ride=null; parked=null; if(E.player){ E.player.riding=false; E.player.ride=null; E.player.obj.rotation.z=0; } return; }
     if(!s.riding){ parked=null; return; }
     if(B.ok(to)){ s.zone=to; return; }   /* 騎著過去（車還掛在玩家底下；afterEnter 重新接上）*/
     const P=E.player.obj.position; const door=E.interactables.find(i=>i.exit&&i.exit.to===to&&Math.hypot(i.x-P.x,i.z-P.z)<(i.radius||1.5)+3);
@@ -92,7 +163,15 @@ const BIKE=(function(){
   B.afterEnter=function(GM,to){ const E=GM.E, G=GM.G, s=st(G);
     if(pendingPark){ pendingPark=false; const ex=E.interactables.find(i=>i.exit&&B.ok(i.exit.to)&&i.exit.spawn); if(ex){ const sp=ex.exit.spawn; s.zone=ex.exit.to; s.x=sp.x+Math.cos(sp.yaw||0)*1.4; s.z=sp.z-Math.sin(sp.yaw||0)*1.4; s.yaw=(sp.yaw||0)+Math.PI/2; s.fix=true; } }
     if(s.riding&&!B.ok(to)) s.riding=false;   /* 不該發生（騎著進了室內）：當作沒騎 */
-    const go=()=>{ if(E.zone&&E.zone.def&&E.zone.def.id!==G.zone) return; if(s.riding){ if(!ride||!ride.obj.parent) attach(GM); else { const p=E.player.obj.position; ride.lastFlat={x:p.x,z:p.z,yaw:E.player.obj.rotation.y}; ride.px=p.x; ride.pz=p.z; E.player.pose='ride'; E.player.idlePose='ride'; showBtn(true); } } else { showBtn(false); if(s.zone===G.zone){ if(s.fix){ const [x,z]=spotNear(E,s.x,s.z,s.yaw); s.x=x; s.z=z; s.fix=false; } placeParked(GM); } } };
+    /* 自動停車（AA_646 第 3 節）：從別的區域走進有車的戶外區域（不是騎著來、不是讀檔）＝車已經停在出來的地方最近的合法停車處 */
+    if(!s.riding&&B.ok(to)&&fromZone&&fromZone!==to&&E.player){ const p=E.player.obj.position; let q=null;
+      if(doorPark&&parkOK(E,doorPark)) q={x:doorPark.x,z:doorPark.z,yaw:doorPark.yaw||0}; else { q=B.legalSpot(E,to,p.x,p.z); if(q&&q.d>B.MAXD) q=null; }
+      if(!q&&PARKS[to]){   /* 這一區有合法停車處、但都離這個門太遠：停在出來的那個門旁邊（和騎著進門時同一個做法）*/
+        const back=E.interactables.filter(i=>i.exit&&i.exit.to===fromZone).sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z))[0], yaw=E.player.obj.rotation.y;
+        const [x,z]=back&&Math.hypot(back.x-p.x,back.z-p.z)<(back.radius||1.5)+4?parkBeside(E,back,p,yaw):spotNear(E,p.x,p.z,yaw); q={x,z,yaw:yaw+Math.PI/2,beside:true}; }
+      if(q){ s.zone=to; s.x=q.x; s.z=q.z; s.yaw=q.yaw; s.fix=false; relocated=!q.beside; } }
+    fromZone=null; doorPark=null;
+    const go=()=>{ if(E.zone&&E.zone.def&&E.zone.def.id!==G.zone) return; if(s.riding){ if(!ride||!ride.obj.parent) attach(GM); else { const p=E.player.obj.position; ride.lastFlat={x:p.x,z:p.z,yaw:E.player.obj.rotation.y}; ride.px=p.x; ride.pz=p.z; E.player.pose='ride'; E.player.idlePose='ride'; showBtn(true); } } else { showBtn(false); if(s.zone===G.zone){ if(s.fix){ const [x,z]=spotNear(E,s.x,s.z,s.yaw); s.x=x; s.z=z; s.fix=false; } placeParked(GM); if(relocated) parkTip(GM); } } };
     if(src) go(); else if(s.riding||s.zone===G.zone) load().then(go); };
   /* 每一幀（E.update 之後）*/
   B.tick=function(GM,dt){ const E=GM.E, G=GM.G; if(!G||!E||!E.player) return; const P=E.player, s=st(G); if(!ride) return; const o=P.obj;
