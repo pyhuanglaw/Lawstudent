@@ -17136,6 +17136,19 @@
    "task": "WZ-FIVE-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 19:0x 換檔（cafe_exterior.glb／.json／cafe_exterior.py／小圖集＋說明）；cafe_kit_glow、zone_prewarm、bookstore_interior_lm、cvs_interior_lm ALL PASS；瀏覽器 cafe_glb_integration、wz_street_integration 交 BB／CC（D131）；已知：玻璃看進去的店內是簡化版，不是 AA 的 v1d"
+  },
+  {
+   "id": "DL-AA-c96613e51",
+   "date": "2026-11-04T19:17Z",
+   "from": "AA",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c96613e51",
+   "msg": "ACK",
+   "what": "AA_685 回 LAWWW-C 19:14 第二輪；outbox 644d3173f",
+   "task": "AA685-CANON-FIX2-1104",
+   "integration": "未整合",
+   "note": "LAWWW-C 19:2x 登記、派子代理"
   }
  ],
  "ignored": [

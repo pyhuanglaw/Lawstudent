@@ -46331,6 +46331,34 @@
    "authorized": "BB 判定（條件歸 BB）；D85",
    "notWaitUser": "BB 已定做法",
    "next": "【LAWWW-C 11-04 19:2x】派子代理在 worktree 改 termend3d.js（R.picked 以外另外記，舊存檔照讀）＋測試（修改前 FAIL、修改後 PASS）"
+  },
+  {
+   "id": "AA685-CANON-FIX2-1104",
+   "title": "AA_685：AA_683／684 接線後第二輪——店休群組 A、D 改阿哲傳＋換字、情人節「下次店休也出來。」拿掉、茶屋初四開、六處換字（以安一月口試、沛珊心願、ytjob3d:44、語彤旅行訊息池茶屋版、語彤結局兩句）、D14 延到 18～20、重逢規則（回臺北那天 21:00 發、之後第一個她有班的週六 17:15、這週六／下週六）、告白邀約兩句、桌遊夜閒聊每則只演一次＋舊旁白加括號",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一起（語彤、阿哲、桌遊夜、寒暑假）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 19:17（企劃線 c96613e51；outbox 644d3173f；D109）回 LAWWW-C 19:14 第二輪（A1、A5、B4 照現在的做法）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_685（企劃線 c96613e51）",
+    "acceptance": "照 AA_685 逐字；BB 測",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）"
   }
  ]
 }
