@@ -26,7 +26,7 @@ def check(name, ok, info=''):
 
 MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[], hidN=[];
   for(const n of (E.npcs||[])) if(n&&n.obj&&!n.hidden){ hidN.push(n); n.hidden=true; n.obj.visible=false; }
-  for(const x of (E.extras||[])) if(x&&x.obj&&!x.hidden){ hidN.push(x); x.hidden=true; x.obj.visible=false; }
+  for(const x of (E.extras||[])) if(x&&x.obj&&!x.hidden&&!x.trees&&x.name!=='treeFieldExtra'){ hidN.push(x); x.hidden=true; x.obj.visible=false; }
   if(window.__ccHideBikes){ const pb=E.zone&&E.zone.group&&E.zone.group.getObjectByName('parked_bikes'); if(pb&&pb.visible){ hid.push(pb); pb.visible=false; } }
   E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250));
