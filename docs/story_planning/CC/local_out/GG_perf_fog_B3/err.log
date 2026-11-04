@@ -1,0 +1,6 @@
+[gpu_wrap 1.2s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_perf_fog_B3]
+[gpu_wrap 57.1s] page close url=http://127.0.0.1:8810/index.html
+[gpu_wrap 57.2s] BROWSER DISCONNECTED
+[gpu_wrap 58.1s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_perf_fog_B3]
+[gpu_wrap 106.3s] page close url=http://127.0.0.1:8810/index.html?nobldg
+[gpu_wrap 106.4s] BROWSER DISCONNECTED
