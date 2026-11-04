@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_shops2_afar_seat_12",
+  "sha": "7c970654c48b2d28f32e6d1c2241870e12d5998b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py",
+  "env": "CASES=afar_seats;SEATS=12,13,14,15;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:44:49",
+  "end": "2026-11-04T22:53:23",
+  "seconds": 514,
+  "exit": 1,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8802/index.html",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 58,
+    "used_gb": 18.5,
+    "chrome_testing": 29
+  }
+}
