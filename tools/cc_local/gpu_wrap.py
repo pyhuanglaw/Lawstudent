@@ -17,6 +17,13 @@
 import os, re, sys, runpy
 
 GPU = os.environ.get('CC_GPU', '1') == '1'
+# CC_SEED（BB-C 15:28，opt-in）：佇列 ENV 寫了 CC_SEED 才生效——每個新 context／page 載入前把 Math.random 換成固定種子的版本（mulberry32，同 cc_det.py）。
+#   沒寫＝和以前完全一樣。tests/ 的發布前測試不開（要像真的玩家，隨機事件本來就該出現）；只在重現某一次 FAIL 時臨時加。只管 async API。
+_SEED = os.environ.get('CC_SEED', '').strip()
+SEED_JS = None
+if _SEED.isdigit():
+    SEED_JS = ("(()=>{ let s=%d>>>0; const f=function(){ s=(s+0x6D2B79F5)>>>0; let t=s; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; };"
+               " Math.random=f; window.__ccSeed=n=>{ s=n>>>0; return true; }; window.__ccSeeded=%d; })();") % (int(_SEED), int(_SEED))
 GPU_ARGS = ['--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=d3d11', '--enable-gpu-rasterization']
 SOFT = ('--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--use-gl=swiftshader', '--use-gl=angle')
 
@@ -94,11 +101,15 @@ def patch():
         ABT.launch = launch
         onc = AB.new_context
         async def new_context(self, *a, **kw):
-            ctx = await onc(self, *a, **kw); ctx.on('page', _watch_page); return ctx
+            ctx = await onc(self, *a, **kw); ctx.on('page', _watch_page)
+            if SEED_JS: await ctx.add_init_script(SEED_JS)
+            return ctx
         AB.new_context = new_context
         onp = AB.new_page
         async def new_page(self, *a, **kw):
-            pg = await onp(self, *a, **kw); _watch_page(pg); return pg
+            pg = await onp(self, *a, **kw); _watch_page(pg)
+            if SEED_JS: await pg.add_init_script(SEED_JS)   # browser.new_page 自己開的 context 不經過上面的 new_context
+            return pg
         AB.new_page = new_page
     except Exception as e:
         print('[gpu_wrap] async patch 失敗：', e)
@@ -130,6 +141,8 @@ if __name__ == '__main__':
     sys.argv = [script] + sys.argv[2:]
     sys.path.insert(0, os.path.dirname(script))
     print('[gpu_wrap] CC_GPU=%s 跑 %s %s' % (int(GPU), script, ' '.join(sys.argv[1:])), flush=True)
+    if SEED_JS:
+        print('[gpu_wrap] CC_SEED=%s：每個新 page 載入前換成固定種子的 Math.random（【前置／捷徑】，重現用）' % _SEED, flush=True)
     if WEBKIT:
         print('[gpu_wrap] CC_BROWSER=webkit：chromium.launch 會改開 webkit', flush=True)
     if TR is None:

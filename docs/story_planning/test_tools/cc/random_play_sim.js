@@ -352,7 +352,7 @@ async function child(o){
 
   /* ---------- 每一格的檢查 ---------- */
   const DIMS=['fam','trust','aff','resp','comf','rom','npcRom'];
-  let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set();
+  let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set(), goingSeen=new Set();
   function abs(g){ return g.day*24+(+g.hour); }
   function checkFrame(){ const g=GM.G; if(!g) return;
     if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6){ const d0=Math.floor(track.abs/24), h0=track.abs-d0*24; fail('TIME_BACK','UNKNOWN','遊戲時間倒退','從 '+dayKey(d0)+' '+fmtH(h0)+' 退到 '+dayKey(g.day)+' '+fmtH(g.hour)+'（'+(track.abs-a).toFixed(2)+' 小時）'); } track.abs=a; }
@@ -366,7 +366,8 @@ async function child(o){
     if(busy) busyV+=0.1; else busyV=0;
     if(busyV>1800&&!R.stuckNow){ R.stuckNow=true; fail('STUCK','UNKNOWN','劇情鎖住超過 30 分鐘（虛擬時間；一直有東西在演、玩家沒有對話或選項可以按）','by='+JSON.stringify(D.busyWho||[])+' EVENTS.running='+(W.EVENTS&&W.EVENTS.running)); }
     /* ⑨ 一起走過去（invites3d.js going）、人已經在約好的地方、玩家空下來 15 分鐘（遊戲時間）還沒開始見面＝她一直跟著（AN-MEAL-STUCK ②那一種）*/
-    if(Array.isArray(g.invites)&&free()){ for(const iv of g.invites){ if(iv.state==='going'&&iv.zone===g.zone&&iv.day===g.day){ const k=iv.id+'@'+g.day; const tg=goingAt.get(k); if(tg==null) goingAt.set(k,abs(g)); else if(abs(g)-tg>0.25&&!goingFail.has(k)){ goingFail.add(k); fail('STUCK_INVITE','UNKNOWN','一起走過去的邀約已經到了約好的地方，玩家空下來 15 分鐘（遊戲時間）還停在 going：人一直跟著、見面沒開始',JSON.stringify({id:iv.id,who:iv.who,place:iv.place,zone:iv.zone,h:iv.h,state:iv.state})); } } } }
+    if(Array.isArray(g.invites)) for(const iv of g.invites) if(iv.state==='going') goingSeen.add(iv.id+'@'+iv.day);
+    if(Array.isArray(g.invites)&&free()){ for(const iv of g.invites){ if(iv.state==='going'&&iv.zone===g.zone&&iv.day===g.day){ const k=iv.id+'@'+g.day; const tg=goingAt.get(k); if(tg==null){ goingAt.set(k,abs(g)); R.goingArrived=(R.goingArrived|0)+1; } else if(abs(g)-tg>0.25&&!goingFail.has(k)){ goingFail.add(k); fail('STUCK_INVITE','UNKNOWN','一起走過去的邀約已經到了約好的地方，玩家空下來 15 分鐘（遊戲時間）還停在 going：人一直跟著、見面沒開始',JSON.stringify({id:iv.id,who:iv.who,place:iv.place,zone:iv.zone,h:iv.h,state:iv.state})); } } } }
     if(g.day!==lastDay){ lastDay=g.day; R.reached=dayKey(g.day); heartbeat(true); checkDaily(); } }
   function checkDaily(){ const g=GM.G; if(!g) return;
     const so=g.social&&g.social.rel; if(so) for(const id in so){ const r=so[id]; for(const k of DIMS){ if(r[k]==null) continue; if(typeof r[k]!=='number'||!Number.isFinite(r[k])||r[k]<0||r[k]>100){ fail('REL_RANGE','UNKNOWN','關係值超出 0～100 或不是數字（social3d.js S.adjust 的範圍）',id+'.'+k+'='+r[k]); } } for(const k of ['seen','talked']) if(r[k]!=null&&!(Number.isFinite(r[k])&&r[k]>=0)) fail('REL_RANGE','UNKNOWN','關係的次數不是非負數',id+'.'+k+'='+r[k]); }
@@ -467,6 +468,7 @@ async function child(o){
     if(seatsHere.length) choices.push([persona.classP*30,'sitclass']);
     choices.push([persona.phoneP*20,'phone']);
     if(npcs.length) choices.push([persona.talkP*14,'talk']);
+    const followers=npcs.filter(n=>n.beh==='follow'); if(followers.length) choices.push([persona.talkP*30,'talkf']);   /* 一起走的人（約好現在一起過去、同行）：玩家常常一到就找他說話（BB_218：進門 2.9 秒按「和沈以安說話」）*/
     if(its.length) choices.push([8,'interact']);
     choices.push([night?2:5,'skip']);
     choices.push([10,'wait']);
@@ -474,6 +476,7 @@ async function child(o){
     if(c==='wait'){ wait=ri(10,rnd()<0.2?1500:300); act('等一下（'+(wait/10).toFixed(0)+' 秒）'); return true; }
     if(c==='bed'){ walkTo({it:sleepIt},'床'); return true; }
     if(c==='sitclass'){ const it=pick(seatsHere); walkTo({it},'教室的座位（'+here[0].c.name+'）'); return true; }
+    if(c==='talkf'){ const n=pick(followers); walkTo({npc:n},(n.name||n.charId||'同行的人')+'（一起走來的）'); return true; }
     if(c==='talk'){ const n=pick(npcs); walkTo({npc:n},n.name||n.talkLabel||n.charId||n.id||'路人'); return true; }
     if(c==='interact'){ const wt=its.map(it=>[it.exit?3:it.seat?3:(it.shop||it.counter||it.eat||it.wzShop||it.shop118||it.mokOrder||it.offOrder)?2.5:it.sleep?0.5:1,it]); const it=wpick(wt); walkTo({it},it.label||(it.exit?'往 '+it.exit.to:'互動點')); return true; }
     if(c==='onetap'){ const b=getById('btnGo'); if(b&&typeof b.onclick==='function'){ clickEl(b,'一鍵'); react=ri(2,6); } return true; }
@@ -508,7 +511,7 @@ async function child(o){
   function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
     const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
     const out={seed:R.seed,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,pages:R.pages,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
-      g:GM&&GM.G?{attended:(()=>{ try{ return Object.keys(W.CLS.rec(GM.G).done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,invDone:(GM.G.invites||[]).filter(v=>v.state==='done').length,msgs:(GM.G.msgs||[]).length}:null};
+      g:GM&&GM.G?{attended:(()=>{ try{ return Object.keys(W.CLS.rec(GM.G).done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,invDone:(GM.G.invites||[]).filter(v=>v.state==='done').length,goingSeen:goingSeen.size,msgs:(GM.G.msgs||[]).length}:null};
     for(const f of out.fails) delete f.extra;
     if(o.single) printSingle(out); process.stdout.write('@@RESULT '+JSON.stringify(out)+'\n'); return out; }
   function printSingle(out){ RC.log('\n================ 種子 '+out.seed+'：'+(out.ok?'PASS':'FAIL')+' ================');
