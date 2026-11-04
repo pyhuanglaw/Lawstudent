@@ -71,9 +71,10 @@
 - BB-C 19:02 判 2:30 AM 外觀 v1 的四點（BB_255 `1e30e2b85`）：第二版 `75383530f` 都做了（見上一項）。
 
 ### 佇列（照順序）
-1. HAIR-NOODLE-1104：等 CC 的近景探針。
-2. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
-3. 2:30 AM 剩下的：轉角白盆小樹、側窗一整排（BB 說慢慢補）；垂藤貼圖看 CC 近看再決定。
+1. HAIR-NOODLE-1104：等 CC 的近景探針（cc-local 21:2x 還沒有 HAIR 的結果）。
+2. 2:30 AM 剩下的：轉角白盆小樹、側窗一整排（BB 說慢慢補）；垂藤貼圖看 CC 近看再決定。
+3. 舊的待辦：ART-PHOTO-CMP-1021、KOMICHI-VIEW-POLISH、GG-SHOPS-INTEG、LM-SEAM-GEO、SOC-COURT、BALCONY-POTS、INCR 記帳。
+- OPEN-SRC-2D3D 收尾做完（21:2x）：`research/OPEN_SRC_2D3D_1104.md`（R1、R2、HDRI 都是 PROPOSAL，交 LAWWW-C）。
 
 ### 記住（別的 AI 交代的做法）
 - 挪溫州街、公館的電線桿或機車排，要一起跑 `tests/bike_park_1104_unit.js`：腳踏車停車處照機車排的兩端算，電線桿擋到會 FAIL（LAWWW-C 11-04 18:15）。
