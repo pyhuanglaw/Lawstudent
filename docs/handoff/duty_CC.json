@@ -1,14 +1,10 @@
 {
  "role": "CC",
- "account": "B",
- "session": "session_01WXeLH8aaCTWiEivqGFc9na",
+ "account": "C",
+ "session": "session_01S1Gk9V6WCgJmkoo3wxHxhv",
  "branch": "claude/cc-testing",
- "since": "2026-11-04T12:19Z",
- "state": "handed-off",
- "sinceSha": "b63bc232",
- "userOk": false,
- "sha": "04c97e50",
- "handedOffAt": "2026-11-04T12:3xZ",
- "handoffSnapshot": "2026-11-04T1219Z_B_CC.json",
- "note": "手動改 handed-off：duty handoff 被拒（LAWWW-B 還沒 duty sync CC-B 的登記，duty.json 仍是帳號 A）；使用者「我開錯帳號了 你們使用量快沒了 現在交班」"
+ "since": "2026-11-04T12:41Z",
+ "state": "on",
+ "sinceSha": "4aa1dbb4",
+ "userOk": false
 }
