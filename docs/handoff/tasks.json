@@ -45627,7 +45627,7 @@
    "id": "EXAM-LIB-CROWD-1104",
    "title": "期末考前圖書館座位很滿：請朋友占位子、看到很多同學在念書（不一定有約）、也可以約朋友一起去（各個圖書館）",
    "area": "STORY",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
    "first": {
@@ -45645,11 +45645,11 @@
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
-    "spec": "AA_669（AA-C 撰寫中；企劃線 b36ae7518 登記）",
+    "spec": "AA_669（企劃線 468a1d0b9，outbox eceb6e1f4；D109 定稿）",
     "acceptance": "AA_669 定稿交 LAWWW 實作：期末考前兩週各圖書館座位滿、占位子、同學在念書、約朋友去；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）"
+   "next": "【LAWWW-C 11-04 16:1x】AA_669 交了（468a1d0b9）：第 0～5、7 節派背景子代理在 worktree 接（每學期第 14 週起到期末考完、四個圖書館、找不到位子三選項＋招手、占位子兩個方向、經濟系那一年；不扣關係不影響成績 D118）；新測試 tests/exam_lib_crowd_unit.js；D113 檢查點 wip_backup/examlib/；第 6 節社科圖二樓＝SOCLIB-2F-1104（LAWWW2，AA 已直接傳）｜【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）"
   },
   {
    "id": "SOCLIB-2F-1104",
@@ -45673,7 +45673,7 @@
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
-    "spec": "AA_669 給 LAWWW2 的那一節（AA-C 撰寫中）；館方 2020 年公告：2 樓有自習室、討論室；參考照片照 NTU-REF-AUDIT-1104 的做法（*.ntu.edu.tw 只留網址、不 commit 照片）",
+    "spec": "AA_669 第 6 節（企劃線 468a1d0b9；AA 已直接傳 LAWWW2-C）；館方 2020 年公告：2 樓有自習室、討論室；參考照片照 NTU-REF-AUDIT-1104 的做法（只留網址）",
     "acceptance": "BB 照 D120／D133／D136＋D138 same_angle_check --mode campus；樓梯／電梯上得去、座位坐得下、洗手間；舊存檔在 soclib 的位置照舊",
     "ack": "SENT"
    },
