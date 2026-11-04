@@ -3,7 +3,12 @@
   每一區：【前置／捷徑】讀檔到公館 17:30（條件事件關閉）→ 量「讀檔到正式模型 gongguan_shops_glb 出現（裡面有網格）」的秒數 →
   每個鏡頭：draw call／三角形（藏路人，和遊戲附的測試同一種量法）→ 路人放回去，用 requestAnimationFrame 量 8 秒：平均 FPS、最低 FPS（最長的一格）、1% low。
   另外一般網址、?nobldg 各一輪（上限＝?nobldg 的 1.3 倍，照遊戲附的測試）。只記錄數字，不判 PASS／FAIL（判定 BB）；只有載入失敗、JS 例外算 FAIL。
-用法：LW_TESTS=<wt>/tests [VIEWS=street_west,arcade] python3 cc_gg_perf_probe.py <url> <out>"""
+  11-04（WZ2_perf，BB 06:24）：加環境變數量別的區域，不給的時候和原本完全一樣（公館）：
+    PERF_ZONE（預設 gongguan）、PERF_POS（JSON {x,z,yaw}，預設公館 (−30,14)）、PERF_HOUR（預設 17.5）、
+    PERF_VIEWS（JSON {名字:[eye,look]}，給了就取代內建的鏡頭；VIEWS 沒給時全部量）、PERF_GLB（要等的正式模型節點名，預設 gongguan_shops_glb；溫州街 wenzhou_street_glb，src/zones3d.js:1143）。
+    溫州街範例：PERF_ZONE=wenzhou；PERF_POS={"x":10,"z":0,"yaw":1.5708}；PERF_GLB=wenzhou_street_glb；
+      PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]}
+用法：LW_TESTS=<wt>/tests [VIEWS=street_west,arcade] [PERF_ZONE=… PERF_POS=… PERF_VIEWS=… PERF_GLB=…] python3 cc_gg_perf_probe.py <url> <out>"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -13,8 +18,16 @@ URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 ALLV = {'street_west': ((-22, 1.7, 11), (-62, 4.5, 19)), 'from_gate': ((2, 1.7, -36), (-4, 7, 19)),
         'arcade': ((-18, 1.6, 20.6), (-34, 2.2, 20.6)), 'lane': ((-71, 1.7, 9), (-71, 5.5, 32))}
-VSEL = [v for v in (os.environ.get('VIEWS') or 'street_west,arcade').split(',') if v in ALLV]
-GLB = 'gongguan_shops_glb'
+ZONE = (os.environ.get('PERF_ZONE') or 'gongguan').strip()
+POS = json.loads(os.environ['PERF_POS']) if os.environ.get('PERF_POS') else {'x': -30, 'z': 14, 'yaw': 1.5708}
+HOUR = float(os.environ.get('PERF_HOUR') or 17.5)
+if os.environ.get('PERF_VIEWS'):
+    ALLV = {k: (tuple(v[0]), tuple(v[1])) for k, v in json.loads(os.environ['PERF_VIEWS']).items()}
+VSEL = [v for v in (os.environ.get('VIEWS') or ('street_west,arcade' if not os.environ.get('PERF_VIEWS') else ','.join(ALLV))).split(',') if v in ALLV]
+GLB = (os.environ.get('PERF_GLB') or 'gongguan_shops_glb').strip()
+ZNAME = {'gongguan': '公館', 'wenzhou': '溫州街'}.get(ZONE, ZONE)
+# 量 GLB 下載的檔名：公館照原本；別的區域另外加那一區的關鍵字（溫州街 wenzhou、wz_）
+RES_RE = 'gongguan|gg_|scooter|street|shop' if ZONE == 'gongguan' else 'gongguan|gg_|scooter|street|shop|wenzhou|wz_|' + ZONE
 FAILS = []
 
 
@@ -49,16 +62,19 @@ async def one(p, formal):
     t0 = time.time(); await pg.goto(url); ok = await L.wait_loaded(pg); boot = time.time() - t0
     check('%s：遊戲載入' % tag, ok, '%.1f 秒' % boot)
     await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
-    print('  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉', flush=True)
+    if ZONE == 'gongguan' and not os.environ.get('PERF_POS') and not os.environ.get('PERF_HOUR'):
+        print('  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉', flush=True)
+    else:
+        print('  [前置／捷徑] 讀檔到%s %s 時 %s，條件事件關閉' % (ZNAME, HOUR, J(POS)), flush=True)
     t1 = time.time()
-    await L.load_state(pg, {'zone': 'gongguan', 'hour': 17.5, 'pos': {'x': -30, 'z': 14, 'yaw': 1.5708}}, quiet_events=True)
+    await L.load_state(pg, {'zone': ZONE, 'hour': HOUR, 'pos': POS}, quiet_events=True)
     t_zone = time.time() - t1; t_glb = None
     if formal:
         for _ in range(480):
             if await pg.evaluate(GLBREADY): t_glb = time.time() - t1; break
             await pg.wait_for_timeout(250)
         check('%s：正式模型 %s 有載入' % (tag, GLB), t_glb is not None, J({'讀檔到區域建好_s': round(t_zone, 2), '讀檔到正式模型出現_s': t_glb and round(t_glb, 2)}))
-    size = await pg.evaluate("""(()=>{ const r=performance.getEntriesByType('resource').filter(e=>/\\.(glb|gltf|bin|ktx2|webp|png|jpg)(\\?|$)/i.test(e.name)&&/gongguan|gg_|scooter|street|shop/i.test(e.name)); return r.map(e=>({f:e.name.split('/').pop().split('?')[0], kb:Math.round((e.encodedBodySize||e.transferSize||e.decodedBodySize||0)/1024), ms:Math.round(e.duration)})); })()""")
+    size = await pg.evaluate("""(()=>{ const r=performance.getEntriesByType('resource').filter(e=>/\\.(glb|gltf|bin|ktx2|webp|png|jpg)(\\?|$)/i.test(e.name)&&new RegExp(%s,'i').test(e.name)); return r.map(e=>({f:e.name.split('/').pop().split('?')[0], kb:Math.round((e.encodedBodySize||e.transferSize||e.decodedBodySize||0)/1024), ms:Math.round(e.duration)})); })()""" % J(RES_RE))
     mem = await pg.evaluate(MEM)
     print('  %s：讀檔→區域 %.2f 秒；讀檔→正式模型 %s 秒；GLB 下載 %s' % (tag, t_zone, t_glb and round(t_glb, 2), J(size)), flush=True)
     await pg.wait_for_timeout(4000)
@@ -86,7 +102,7 @@ async def one(p, formal):
 
 async def main():
     os.makedirs(OUT, exist_ok=True)
-    print('CC 公館效能原始數字；RUN=%s；SHA=%s；' % (os.environ.get('RUN', '-'), os.environ.get('SHA', '?')) + 'VIEWS=%s；Playwright（PC 有 GPU、有視窗），不是手機實機' % ','.join(VSEL), flush=True)
+    print('CC %s效能原始數字；RUN=%s；SHA=%s；' % (ZNAME, os.environ.get('RUN', '-'), os.environ.get('SHA', '?')) + ('ZONE=%s；GLB=%s；' % (ZONE, GLB) if ZONE != 'gongguan' or GLB != 'gongguan_shops_glb' else '') + 'VIEWS=%s；Playwright（PC 有 GPU、有視窗），不是手機實機' % ','.join(VSEL), flush=True)
     async with async_playwright() as p:
         f = await one(p, True)
         n = await one(p, False)
@@ -98,7 +114,7 @@ async def main():
                    'nobldg_fps_avg': nv['avg'], 'nobldg_fps_min': nv['min']}
     for v in VSEL: rows[v].update({'fps_low1': f['views'][v]['low1']})
     rows['_mem'] = {'formal': f['mem'], 'nobldg': n['mem'], 'glb_kb_total': f['glb_kb_total'], 'glb_files': f['glb_files'], 'glb_s': f['glb_s']}
-    summary = {'run': os.environ.get('RUN'), 'sha': os.environ.get('SHA'), 'formal': f, 'nobldg': n, 'table': rows}
+    summary = {'run': os.environ.get('RUN'), 'sha': os.environ.get('SHA'), 'zone': ZONE, 'glb': GLB, 'pos': POS, 'hour': HOUR, 'views_def': {k: ALLV[k] for k in VSEL}, 'formal': f, 'nobldg': n, 'table': rows}
     json.dump(summary, open(os.path.join(OUT, 'perf.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('表：' + J(rows), flush=True)
     print('GLB 載入：讀檔→正式模型 %s 秒；檔案 %s' % (f['glb_s'], J(f['glb_files'])), flush=True)
