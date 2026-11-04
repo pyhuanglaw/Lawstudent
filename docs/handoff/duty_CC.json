@@ -1,10 +1,10 @@
 {
  "role": "CC",
- "account": "A",
- "session": "session_01TdESzxBpdGoPhdkPD2ENce",
+ "account": "B",
+ "session": "session_01WXeLH8aaCTWiEivqGFc9na",
  "branch": "claude/cc-testing",
- "state": "handed-off",
- "handedOffAt": "2026-11-04T09:05Z",
- "sha": "137a94f1",
- "snapshot": "2026-11-04T0905Z_A_CC.json"
+ "since": "2026-11-04T12:19Z",
+ "state": "on",
+ "sinceSha": "b63bc232",
+ "userOk": false
 }
