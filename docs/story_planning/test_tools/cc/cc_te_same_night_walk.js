@@ -76,8 +76,8 @@ const errs=Object.keys(RES.runs).filter(k=>RES.runs[k].err); check('0. 每一輪
 const bad1=[];
 for(const k of Object.keys(RES.runs)){ const r=RES.runs[k]; if(r.err||/\/answer$/.test(k)) continue; const byNight={};
   for(const x of r.inv){ if(Math.abs(x.h-12)<0.01) continue; (byNight[x.key]||(byNight[x.key]=[])).push(x); }
-  for(const d in byNight){ const L=byNight[d]; if(L.some(x=>Math.abs(x.h-20.5)>1e-6)) bad1.push(k+' '+d+'：'+L.map(x=>nm(x.from)+' '+hm(x.h)).join('、')); } }
-check('① 每個學期、每種組合：同一晚到的期末邀約都是 20:30（BB-C 22:33；芯慈當天 12:00 那一則另外看）',!bad1.length,bad1.length?(bad1.length+' 晚：'+J(bad1.slice(0,8))):'');
+  for(const d in byNight){ const L=byNight[d]; if(L.length<2) continue;   /* BB-C 22:51：那一晚只有一則（例：大四上學姊 12/24）幾點到都不影響玩家選＝不看時間 */ if(L.some(x=>Math.abs(x.h-20.5)>1e-6)) bad1.push(k+' '+d+'：'+L.map(x=>nm(x.from)+' '+hm(x.h)).join('、')); } }
+check('① 每個學期、每種組合：同一晚有兩則以上的，都在 20:30 一起到（BB-C 22:33、22:51；芯慈當天 12:00 那一則另外看）',!bad1.length,bad1.length?(bad1.length+' 晚：'+J(bad1.slice(0,8))):'');
 /* 週五考完的學期：語彤排第一 */
 const bad1b=[];
 for(const t of ['Y2S2','Y4S1']) for(const sc of ['friends4','heart2friend2']){ const r=RES.runs[t+'/'+sc]; if(!r||r.err) continue; const L=r.inv.filter(x=>Math.abs(x.h-12)>0.01).sort((a,b)=>a.i-b.i); if(L.some(x=>x.from===YT)&&L[0].from!==YT) bad1b.push(t+'/'+sc+' '+L.map(x=>nm(x.from)).join('→')); }
@@ -100,7 +100,9 @@ if(BASE){ const b3=[], b4=[];
   check('① 手機裡的先後照原本（和對照組 '+BASE.sha+' 一樣）',!b3.length,J(b3.slice(0,8)));
   check('③ 照原本：芯慈當天 12:00、學姊回國以後的日子、女朋友／可昕的學期末約會和對照組一樣',!b4.length,J(b4.slice(0,8)));
 } else info('③ 沒有對照組（BASE），「照原本」那幾項這一輪只記錄');
-{ const sis=RES.runs['Y4S1/sis']; if(sis&&!sis.err) info('③ 大四上學姊：'+J(sis.inv.filter(x=>x.from===SIS).map(x=>[x.key,hm(x.h),x.text])));
+{ const sis=RES.runs['Y4S1/sis'], sx=sis&&!sis.err?sis.inv.filter(x=>x.from===SIS):[];
+  check('③ 大四上學姊：12/24（回國的隔天）才到、帶「我昨天回來的」（BB-C 22:51：20:30、20:39 都算）',sx.length===1&&sx[0].key==='2028-12-24'&&/我昨天回來的/.test(sx[0].text||''),J(sx.map(x=>[x.key,hm(x.h),x.text])));
+  if(sis&&!sis.err) info('③ 大四上學姊：'+J(sis.inv.filter(x=>x.from===SIS).map(x=>[x.key,hm(x.h),x.text])));
   const xs=Object.keys(RES.runs).filter(k=>/xc_sameday$/.test(k)).map(k=>[k.split('/')[0],RES.runs[k].err?'例外':RES.runs[k].inv.filter(x=>x.from===XC).map(x=>x.key+' '+hm(x.h))]); info('③ 芯慈心意（當天才約）：'+J(xs));
   const gs=Object.keys(RES.runs).filter(k=>/\/(gf_yt|kx)$/.test(k)).map(k=>[k,RES.runs[k].err?'例外':RES.runs[k].outs.filter(q=>q.kind==='gf'||q.who===KX).map(q=>q.id+' '+q.key+' '+hm(q.h)).concat(RES.runs[k].gf.map(m=>m.tag+' '+m.key+' '+hm(m.h)+' '+m.text))]); info('③ 女朋友／可昕：'+J(gs)); }
 console.log('\n'+(FAILS?'FAILED '+FAILS:'ALL PASS '+PASSES));
