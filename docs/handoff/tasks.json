@@ -45292,7 +45292,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "next": "【LAWWW-C 11-04 21:3x】LAWWW2-C 交研究收尾 25349f5f9（docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md）：單張圖轉 3D 的 AI 只適合小物件、要 NVIDIA；有用的三種已經在用（參考圖鏡頭＋同角度疊圖、CC0 掃描模型、窗卡）。提案照 D128（美術不經使用者：LAWWW2 提、BB 和 LAWWW 同意就定）：R1（12.2 近景小道具用 Poly Haven／ambientCG CC0 掃描模型）、R2（12.8 照參考圖做的店面附參考圖鏡頭＋同角度疊圖，和 D138 一致）LAWWW 同意，等 BB 同意 → LAWWW2 寫進 ART_DIRECTION（X225「試成功的方法要寫進美術規則」）；HDRI 另開 HDRI-ENV-1104 暫停｜【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
    "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -46474,6 +46474,37 @@
     "d164ac9a8"
    ],
    "next": "【LAWWW-C 11-04 21:2x】接進開發分支（GLB×2、JSON×2、tests/teach_east_drawcall_unit.js、README＋比較圖（只有 Blender 渲染）、campus_teach.py、lib2.py、貼圖集 6 張；tests/campus_glb_integration.py 套 LAWWW2 的匾額清單 patch）；Node 相關測試跑完推上去；瀏覽器交 BB／CC"
+  },
+  {
+   "id": "HDRI-ENV-1104",
+   "title": "遊戲加一張 Poly Haven CC0 戶外 HDRI（1k）做 PMREM 環境反射，強度跟時段（LAWWW2-C 提案，OPEN_SRC_2D3D_1104 第 4 節）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "所有場景（玻璃、金屬的反射）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 11-04 21:23（25349f5f9）提案",
+   "authorized": "D128（整體畫風：LAWWW2 提、BB 和 LAWWW 同意）；引擎是 LAWWW 的程式",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/second_ai/research/OPEN_SRC_2D3D_1104.md 第 4 節 HDRI",
+    "acceptance": "先 Blender 前後對照＋遊戲截圖給 BB；iPhone 記憶體（BUG-IOS-RELOAD、BUG-MAPBLACK）量過不變差",
+    "ack": "ACK"
+   },
+   "pausedReason": "誰決定：LAWWW-C（11-04 21:3x）。為什麼：所有材質的亮度都會變（整體畫風）、多一張環境貼圖和一次 PMREM；iPhone 現在就有記憶體不足的問題（BUG-IOS-RELOAD、BUG-MAPBLACK），加貼圖記憶體風險高；D99 三個優先項目以外",
+   "resumeWhen": "iPhone 記憶體那兩個問題有結論（修好或量到餘裕）、v9.10.20 發布以後，LAWWW2 有空先做 Blender 前後對照",
+   "nextCheck": "2026-11-11（或下一次發布）",
+   "next": "【LAWWW-C 11-04 21:3x】暫停（五欄見 pausedReason／resumeWhen／nextCheck；負責人 LAWWW2 做對照、LAWWW 接引擎）"
   }
  ]
 }
