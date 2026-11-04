@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ADE_int_job",
+  "sha": "0c2d4997b",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_ade_int_probe.py",
+  "env": "CASES=JOB,SUNNY;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T17:36:46",
+  "end": "2026-11-04T17:39:44",
+  "seconds": 178,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 80,
+    "mem": 59,
+    "used_gb": 18.7,
+    "chrome_testing": 30
+  }
+}

@@ -1068,3 +1068,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [WZ4_yizhan] | [gpu_wrap 835.3s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 835.4s] BROWSER DISCONNECTED
 - 2026-11-04T17:36:26  ADE_int_cust  sha=0c2d4997b  exit=1  339s    FAIL [ENC] 8 天內有一天遇到 / PASS 沒有 JS 例外  [] / FAILED 1: [ENC] 8 天內有一天遇到
       err.log (last 5): [gpu_wrap 1.2s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ADE_int_cust] | [gpu_wrap 305.2s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 305.3s] BROWSER DISCONNECTED
+- 2026-11-04T17:39:44  ADE_int_job  sha=0c2d4997b  exit=1  178s    OBS [SUNNY] 只截圖（和室內的窗對不對得上由 BB 判） / PASS 沒有 JS 例外  [] / FAILED 1: [JOB] 三個工作站位（a、b、c 的 me）都到過（0.6 m 內）
+      err.log (last 5): [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [ADE_int_job] | [gpu_wrap 143.5s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 143.6s] BROWSER DISCONNECTED

@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ade_int_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ADE_int_job\out
+PASS 遊戲載入
+== JOB 打工一班
+  [前置／捷徑] G.jobs.copy＝已經錄取（14 天前）、班表週二三四、做過 1 班；週二 17:55 讀檔在影印店門口
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）17:55、money 3000、條件事件關閉、週二 17:55
+  [load] 阿德：上週有一份論文，我自己裝的。……書背有一點歪。
+  [load] （旁白）：一個研究生把隨身碟交給你，說「最後一版」。檔名是「最終版_真的最終_改3」。
+  [load] （旁白）：膠裝的書背歪了，阿德沒說話，重做了一本。
+  [load] （旁白）：海報的顏色和螢幕上不一樣
+  [load] 選單 ["「先印一張小的給他看」", "「照檔案印」"] → 「照檔案印」
+  [load] 客人：……好像也可以。
+  [load] （旁白）：社團的人說傳單發完了會再來。阿德：「每次都這樣說。」
+  [load] 阿芃：老師說未滿十八歲不能自己簽約。那我昨天買飲料，算什麼？
+  [load] 祐廷：呃……那種小東西應該可以。
+  [load] 阿芃：那手機呢？手機是日常生活需要的。
+  班沒有自己開始，櫃台的按鈕：{"x": -0.2, "z": -2.95, "label": "\u627e\u963f\u5fb7"}
+PASS [JOB_desk] 有「找阿德」互動點  {"x": -0.2, "z": -2.95, "r": 1, "label": "找阿德", "to": null}
+  到達「找阿德」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [JOB_desk] 走到旁邊：互動按鈕是「找阿德…」  {"x": -0.08, "z": -2.73, "interact": "找阿德"}
+  [JOB] 選單 ["（辭職）班表：週二、週三、週四 18:00～22:00", "（算了）"] → （算了）
+  工作站位：[["a", -1.84, -3.55], ["b", 1, -1], ["c", -0.95, -3.4]]；最近距離：{"a": 1.94, "b": 2.04, "c": 1.1}；台詞 1 句
+PASS [JOB] 下班了（22:00 以後、JOBS.running false）  {"hour": 22.2851, "zone": "wz_print"}
+FAIL [JOB] 三個工作站位（a、b、c 的 me）都到過（0.6 m 內）  {"a": 1.94, "b": 2.04, "c": 1.1}
+PASS [JOB] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wz_print", "dlg": false, "depth": 0, "moved": 0.98, "fb": [0, 0], "errs": []}
+== SUNNY 東側轉角窗（溫州街外面）
+  [前置／捷徑] 讀檔：wenzhou (48.0, -1.0)、2025-09-23（二）14:00、money 3000、條件事件關閉、溫州街 SUNNY SIDE 東邊路口
+  [前置／捷徑] 讀檔：wenzhou (48.0, -1.0)、2025-09-23（二）20:00、money 3000、條件事件關閉、溫州街 SUNNY SIDE 東邊路口
+OBS [SUNNY] 只截圖（和室內的窗對不對得上由 BB 判）
+PASS 沒有 JS 例外  []
+FAILED 1: [JOB] 三個工作站位（a、b、c 的 me）都到過（0.6 m 內）
