@@ -346,17 +346,22 @@ def decals(path):
 
 # ---------------- 窗外（只給渲染用：--preview） ----------------
 def outside(path):
-    W, H = 2048, 768; n = _noise(H, W, 40, 401, 4); n2 = _noise(H, W, 8, 402, 3)
-    yy = np.linspace(0, 1, H)[:, None]
-    sky = np.array([232, 238, 240], np.float32)
-    tree = np.array([120, 150, 80], np.float32) * (0.6 + 0.6 * n2[..., None])
-    a = np.zeros((H, W, 3), np.float32) + sky
-    canopy = (n > 0.42 + 0.25 * yy) & (yy < 0.75)
-    a[canopy] = tree[canopy] * (1.25 - 0.5 * yy[np.where(canopy)[0]]) if False else tree[canopy]
-    a = np.where(canopy[..., None], a * 1.15, a)
-    walk = yy > 0.72; a = np.where(walk[..., None], np.array([196, 190, 178]) * (0.9 + 0.15 * n2[..., None]), a)
-    for x in range(80, W, 340): a[int(H * .3):int(H * .74), x:x + 18] = [96, 82, 64]   # 樹幹
-    a = a * 1.05; return _save(a, path)
+    """窗外：對面騎樓與公寓（淡）、行道樹（樹冠一團一團、透光）、人行道（陽光）"""
+    W, H = 2048, 768; rng = np.random.RandomState(401)
+    yy = np.linspace(0, 1, H)[:, None] * np.ones((1, W)); xx = np.ones((H, 1)) * np.linspace(0, 1, W)[None]
+    a = np.zeros((H, W, 3), np.float32) + np.array([226, 232, 232])
+    bld = (yy > 0.12) & (yy < 0.74); a[bld] = np.array([200, 196, 186]) * (0.92 + 0.1 * _noise(H, W, 30, 405, 2)[bld][:, None])
+    for x in range(0, W, 46): a[int(H * .2):int(H * .7), x:x + 22] *= np.array([0.86, 0.88, 0.9])   # 對面的窗
+    can = np.zeros((H, W), np.float32)
+    for k in range(26):
+        cx, cy, r = rng.randint(0, W), rng.randint(0, int(H * .45)), rng.randint(80, 170)
+        can = np.maximum(can, np.clip(1 - ((xx * W - cx) ** 2 + ((yy * H - cy) * 1.3) ** 2) / r ** 2, 0, 1))
+    n = _noise(H, W, 14, 406, 3); m = (can * (0.6 + 0.6 * n)) > 0.45
+    leaf = np.array([86, 120, 58]) * (0.7 + 0.6 * n[..., None]) + np.array([40, 40, 0]) * (n[..., None] > 0.6)
+    a = np.where(m[..., None], leaf, a)
+    for x in range(120, W, 300): a[int(H * .35):int(H * .76), x:x + 16] = [92, 78, 62]
+    walk = yy > 0.74; a = np.where(walk[..., None], np.array([206, 200, 186]) * (0.95 + 0.1 * _noise(H, W, 6, 407, 2)[..., None]), a)
+    return _save(a, path)
 
 
 def build_all(outdir):
