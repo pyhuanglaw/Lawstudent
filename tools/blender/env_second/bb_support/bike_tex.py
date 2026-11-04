@@ -354,12 +354,15 @@ def price(name, p, extra):
 
 
 def counter_face(im, d):
-    """櫃台客人那一面的木板（直條拼板、下緣踢黑、邊角磨白）"""
-    w, h = im.size; base = Image.new('RGB', (w, h), hx('#c79b6c')[:3]); im.paste(grain(base, 10, 3)); d = ImageDraw.Draw(im)
-    for k in range(0, w, 64): d.line([k, 0, k, h], fill=hx('#9a7048'), width=3); d.line([k + 3, 0, k + 3, h], fill=hx('#d8b080'), width=1)
-    a = np.asarray(im, np.float32); yy = np.linspace(0, 1, h)[:, None]; a *= (1 - 0.3 * np.clip((yy - 0.86) / 0.14, 0, 1))[..., None]
-    for k in range(30):   # 木紋
-        y = R.uniform(0, h); a[int(y):int(y) + 2] *= 0.93
+    """櫃台客人那一面的木板（直條拼板＋直的木紋、下緣踢黑、邊角磨白；參考圖：淺色松木直條板）"""
+    w, h = im.size; rr = np.random.default_rng(31)
+    a = np.zeros((h, w, 3), np.float32); base = np.array(hx('#c79b6c')[:3], np.float32)
+    for k in range(0, w, 48):
+        a[:, k:k + 48] = base * rr.uniform(0.92, 1.06)
+    g_ = rr.normal(0, 1, (1, w)); g_ = np.repeat(g_, h, 0); a += (np.asarray(Image.fromarray(((g_ - g_.min()) / np.ptp(g_) * 255).astype(np.uint8)).resize((w, h)), np.float32)[..., None] / 255 - 0.5) * 18
+    a += noise(w, h, 2, 4)[..., None]
+    for k in range(0, w, 48): a[:, k:k + 3] *= 0.7; a[:, k + 3:k + 4] *= 1.08   # 板縫
+    yy = np.linspace(0, 1, h)[:, None]; a *= (1 - 0.3 * np.clip((yy - 0.86) / 0.14, 0, 1))[..., None]
     im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)))
 
 
