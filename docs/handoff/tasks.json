@@ -43880,6 +43880,31 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "GG-SHOPS2-1104",
+   "owner": "LAWWW2",
+   "priority": "P1",
+   "title": "公館第二批四間：Afar café（G07）、洋洋鹹酥雞（G05）、轉角唱片（G12）、daybreak（G14）改名＋進得去（USER_WANTS X209；AA_650）",
+   "status": "等待其他AI／素材",
+   "next": "等使用者參考圖；外觀 LAWWW2、室內 AA（Afar、daybreak）／BB（洋洋）／CC（轉角）、MODEL_READY LAWWW2、功能測試與 ART_APPROVED BB、接進遊戲 LAWWW；營業時間菜單 AA_650 §4",
+   "xai": {
+    "spec": "AA_650（企劃線 7193e1349）§4、§6",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "四間進得去、照參考圖、BB 驗收",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
