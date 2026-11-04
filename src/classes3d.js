@@ -74,6 +74,17 @@ const CLS=(function(){
   S.rtTerm=function(courseId,termId){ const G=S._lastG; const L=G&&G.courses&&Array.isArray(G.courses.retake)?G.courses.retake:[]; const r=L.find(x=>x.id===courseId&&x.term===termId); return r?(r.base||r.from):termId; };   /* 重修那一學期抽題用原本那一學期的題庫（重修又被當：base 還是最原本那一學期）*/
   S.LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   S.termAway=(G,t)=>(typeof JP!=='undefined'&&JP.skipTerm&&JP.skipTerm(G,t))||(t==='Y4S1'&&typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US');   /* 人在國外的學期：台灣的課不上、不考 */
+  /* 修過的考五題法律課（D118-B7-1102；D118_PLAN 第 1 節 ③-4、第 4 節 B7：國考一試只出修過的範圍，PG.poolFor 用）：
+     法律系八個學期的成績單（R.grades[學期]）上有的課；成績單還沒發、期末考（或大四下補考）已經考過的也算（R.exam 的 '學期:課:final|makeup' status done）。
+     人在國外的學期（S.termAway：日本路線的大三下、美國路線的大四上）不算——舊存檔留著那一學期的成績單、考試紀錄也一樣。
+     重修那一門＝原課（id 一樣）；日本路線的補修（civpro_2_re、insurance_re）＝原課（S.redoOf）；刪掉的舊課（DROPPED）、不考五題的課不算。
+     回傳 COURSES.list 的課（照課程順序、不重複）；沒有 G.courses（新遊戲、舊的測試存檔）＝[]，也不建 G.courses。不改成績單、考試紀錄（S.rec 照舊換舊課程代號）*/
+  S.takenCourses=function(G){ if(!G||!G.courses||typeof G.courses!=='object') return []; const R=S.rec(G), seen=new Set();
+    const add=id=>{ const rd=S.redoOf(id), cid=rd?rd.id:id, c=S.byId(cid); if(c&&S.isExamCourse(c)) seen.add(cid); };
+    for(const t of S.LAW_TERMS){ if(S.termAway(G,t)) continue; const g=R.grades&&R.grades[t]; if(g&&typeof g==='object'&&!Array.isArray(g)) for(const id in g) add(id); }
+    const E=R.exam&&typeof R.exam==='object'?R.exam:{};
+    for(const k in E){ const p=String(k).split(':'); if(p.length!==3||(p[2]!=='final'&&p[2]!=='makeup')||!S.LAW_TERMS.includes(p[0])||S.termAway(G,p[0])) continue; const e=E[k]; if(e&&e.status==='done') add(p[1]); }
+    return COURSES.list.filter(c=>seen.has(c.id)); };
   S.retakeTermAfter=function(G,termId){ let i=S.LAW_TERMS.indexOf(termId); if(i<0) return null;
     for(i++;i<S.LAW_TERMS.length;i++){ const t=S.LAW_TERMS[i]; if(S.termAway(G,t)) continue; return t; } return null; };
   S.failedIn=function(G,termId){ const R=S.rec(G), out=[]; if(S.termAway(G,termId)) return out; for(const c of S.termCourses(G,termId)){ if(c.kind==='service') continue;

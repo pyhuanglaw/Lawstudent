@@ -94,10 +94,29 @@ const STUDY=(function(){
      不跨天：開始時間 +3 小時會到午夜（21:00 以後）就不給——選項變灰、寫原因（選「直接不給」，不做「只讀到 23:59」：讀不滿三小時的總複習要另外定效果，D118 沒有要）。
        閉館前讀不完、會錯過今天還沒考的期末考：也變灰；會錯過一般的課：只寫在提示裡（和自習的長度選單一樣）。
      可以重複做，沒有次數限制；不存任何新欄位（狀態只寫進 G.study.u）。成績照舊只看答題（CLS.scoreOf、HONOR、GRADES、pushLevel 都不動；drawExam 抽到的題號不變）。
-     介面字照 AA_638（企劃線 3271973c6）定稿。 ===== */
+     介面字照 AA_638（企劃線 3271973c6）定稿。
+     國考總複習（kind 'bar'，D118-B7-1102；D118_PLAN 第 1 節 ③-3、第 2 節第四點、第 4 節 B7）：
+       開放：玩家要考的那一場一試前 30 天起～開考（08:00）（PG.barReview：2029 一試 8/4＝7/5 起；2030 一試 8/3＝7/4 起；2031～2033、司法官重考那一年照那一年的一試）。
+       範圍：一試的題池（PG.poolFor：只收修過的課，不到 40 題＝全部）每一題的觀念卡，一科一節（照課程順序；S.barCourses）。入口和期末同一個（STUDY.reviewOpt 先看期末、沒有才看國考，回傳的 kind 給 STUDY.review）。
+       按一次：6 小時（S.BAR_HRS；不跨天＝18:00 以後不給、讀到一半會過了一試開考不給、閉館前讀不完不給），其他和期末同一套（stats.study、STORY.onStudy、全部設成讀過、翻頁閱讀、答錯過的排最前面、
+       先讀到這裡；結束字幕＝這一次翻到的每一科一行 S.barLine，最多 S.BAR_CAP_LINES 科）。介面字：S.BAR_TEXT（暫定字——照 AA_638 的定稿句子換數字、換詞，AA 定稿後換）。不存任何新欄位。 ===== */
   S.REVIEW_HRS=3;
-  S.REVIEW_LABEL='考前總複習';   /* AA_638 定稿（企劃線 3271973c6）*/
+  S.REVIEW_LABEL='考前總複習';   /* AA_638 定稿（企劃線 3271973c6）；國考總複習同一個字 */
   S.REMIND_TEXT='【期末】下週開始期末考。坐到書桌或讀書的位子，可以把這學期一次讀過一遍。';   /* AA_638 定稿 */
+  S.BAR_HRS=6;   /* 國考總複習（D118_PLAN 第 2 節第四點：國考 6 小時）*/
+  S.BAR_CAP_LINES=8;   /* 國考總複習的結束字幕：期末是範圍內每科一行（三到六科）；國考二十幾科全列會超出手機畫面（直向一科兩行），所以只列這一次翻到的科、最多 8 科（翻到的最後 8 科）。暫定做法，AA／BB 看畫面再定 */
+  /* 國考總複習的介面字（D118-B7）：照 AA_638 第 1 節的定稿句子做最小的替換；{what}{n}{m}{x}{c}{y}{z} 照原句的位置填 */
+  S.BAR_TEXT={
+    what:'國考要考的',   /* 暫定字：照 AA_638「{what} 預設的『這學期還要考的』」換詞（這學期還 → 國考），AA 定稿後換 */
+    hint:'要六個小時，今天其他的事照常可以做。',   /* 暫定字：照 AA_638 第 1 節 reviewOpt 的 hint 定稿「要三個小時，今天其他的事照常可以做。」換數字（三 → 六），AA 定稿後換 */
+    open:'（你把四年的筆記攤開。{what} {n} 科，一共 {m} 張觀念卡。）',   /* 暫定字：照 AA_638 第 1 節開始的字幕定稿「（你把這學期的筆記攤開。…）」換詞（這學期 → 四年），AA 定稿後換 */
+    late:'要讀六個小時。18:00 以後開始就太晚了。',   /* 暫定字：照 AA_638「不能開始的原因」第 1 列定稿「要讀三個小時。21:00 以後開始就太晚了。」換數字（三 → 六、21:00 → 18:00），AA 定稿後換 */
+    closed:'快閉館了，讀不完六個小時。',   /* 暫定字：照 AA_638「不能開始的原因」第 2 列定稿「快閉館了，讀不完三個小時。」換數字（三 → 六），AA 定稿後換 */
+    miss:'會錯過：{x}。',   /* AA_638「不能開始的原因」第 3 列（照留）*/
+    exam:'一試',   /* 暫定字：上一句的 {x}——讀到一半會過了一試開考（08:00），AA 定稿後換 */
+    line:'{c}　國考範圍：學過 {x}／{y}・答對過 {z}'   /* 暫定字：照 AA_638 第 1 節 S.line「{科}　期末範圍：學過 x／y・答對過 z」換詞（期末 → 國考），AA 定稿後換 */
+  };
+  const fill=(t,o)=>String(t).replace(/\{(\w+)\}/g,(m,k)=>o&&o[k]!=null?String(o[k]):m);
   const lawStage=G=>!!G&&(G.stage||'law')==='law';
   const finalMemo={};
   /* 這學期期末週的第一天（日曆 exam==='final'）；沒有＝null */
@@ -112,8 +131,17 @@ const STUDY=(function(){
      D118 大四下補考（src/faildelay3d.js）：6/18 成績單到補考開始以前，補考那幾科的期末範圍可以總複習 */
   S.REVIEW_EXTRA=[];
   S.REVIEW_CHECKS=[];   /* G=>原因｜null：總複習不能開始的另外原因（例：會錯過補考）*/
-  S.reviewInfo=function(G,kind){ const r=reviewTerm(G,kind); if(r) return r; if((kind||'final')!=='final'||!lawStage(G)) return null;
+  S.reviewInfo=function(G,kind){ if(kind==='bar') return reviewBar(G); const r=reviewTerm(G,kind); if(r) return r; if((kind||'final')!=='final'||!lawStage(G)) return null;
     for(const f of S.REVIEW_EXTRA){ let x=null; try{ x=f(G); }catch(e){ console.warn('STUDY.REVIEW_EXTRA',e); } if(x&&x.courses&&x.courses.length) return x; } return null; };
+  /* 國考總複習的範圍（D118-B7）：一試題池（PG.poolFor）每一題的觀念卡，照課程順序一科一節：[{c,units}] */
+  S.barCourses=function(G){ if(typeof PG==='undefined'||!PG.poolFor||typeof COURSES==='undefined') return []; const by=new Map();
+    for(const q of PG.poolFor(G)) for(const u of S.unitsOfQ(q.id)){ let x=by.get(u.course); if(!x) by.set(u.course,x={ids:new Set(),units:[]}); if(!x.ids.has(u.id)){ x.ids.add(u.id); x.units.push(u); } }
+    const out=[]; for(const c of COURSES.list){ const x=by.get(c.id); if(x) out.push({c,units:x.units}); } return out; };
+  /* 國考總複習開不開：{kind:'bar',year,exam:{y,day,at},what,courses}｜null（PG.barReview：一試前 30 天起～開考）*/
+  const reviewBar=function(G){ if(!lawStage(G)||typeof PG==='undefined'||!PG.barReview) return null; const nx=PG.barReview(G); if(!nx) return null;
+    const courses=S.barCourses(G); return courses.length?{kind:'bar',year:nx.y,exam:nx,what:S.BAR_TEXT.what,courses}:null; };
+  /* 結束字幕的一行（國考）：{課名}　國考範圍：學過 x／y・答對過 z（和期末的 S.line 同一套算法：x＝上過課以上、z＝答對過；範圍＝那一科在一試題池裡的卡）*/
+  S.barLine=function(G,c,units){ const us=units||[]; let x=0, z=0; for(const u of us){ const r=S.rank(G,u); if(r>=1) x++; if(r>=3) z++; } return us.length?fill(S.BAR_TEXT.line,{c:c&&c.name?c.name:'',x,y:us.length,z}):''; };
   const reviewTerm=function(G,kind){ if((kind||'final')!=='final') return null;   /* D118：沒有期中考（'mid' 取消，使用者 05:0x）*/
     if(!lawStage(G)||typeof CALENDAR==='undefined'||typeof CLS==='undefined'||!CLS.examList) return null; const t=CALENDAR.termOf(G.day); if(!t) return null;
     if(CLS.termAway&&CLS.termAway(G,t.id)) return null; const f0=S.finalStart(t.id); if(f0==null||G.day<f0-7) return null;
@@ -122,17 +150,19 @@ const STUDY=(function(){
       if(e.day<G.day||(e.day===G.day&&G.hour>=e.t1)) continue;   /* 考試時間已經過了 */
       if(poolN(e.c.id,t.id)<5) continue; const us=S.units(G,e.c,t.id,'final'); if(!us.length) continue; out.push({c:e.c,exam:e,units:us}); }
     return out.length?{kind:'final',term:t.id,courses:out}:null; };
-  /* 現在按下去能不能做：{dim,why,warn}（o.home：在家，不看閉館）*/
-  S.reviewCheck=function(G,o){ o=o||{}; const h=G.hour, hh=S.REVIEW_HRS; if(h+hh>24-1e-6) return {dim:true,why:'要讀三個小時。21:00 以後開始就太晚了。'};
+  /* 現在按下去能不能做：{dim,why,warn}（o.home：在家，不看閉館；o.kind 'bar'：國考總複習——6 小時、S.BAR_TEXT 的字、讀到一半會過了一試開考也不給）*/
+  S.reviewCheck=function(G,o){ o=o||{}; const bar=o.kind==='bar', X=S.BAR_TEXT, h=G.hour, hh=bar?S.BAR_HRS:S.REVIEW_HRS; if(h+hh>24-1e-6) return {dim:true,why:bar?X.late:'要讀三個小時。21:00 以後開始就太晚了。'};
     for(const f of S.REVIEW_CHECKS){ let w=null; try{ w=f(G,hh); }catch(e){ console.warn('STUDY.REVIEW_CHECKS',e); } if(w) return {dim:true,why:w}; }
+    if(bar&&typeof PG!=='undefined'&&PG.barReview){ const nx=PG.barReview(G); if(nx&&G.day*24+h+hh>nx.at+1e-6) return {dim:true,why:fill(X.miss,{x:X.exam})}; }   /* 一試那天清晨：讀完會過了 08:00 開考 */
     const sc=CLS.spanCheck?CLS.spanCheck(G,hh,{noClose:!!o.home}):{closed:false,miss:[],exam:[]};
-    if(sc.closed) return {dim:true,why:'快閉館了，讀不完三個小時。'};
+    if(sc.closed) return {dim:true,why:bar?X.closed:'快閉館了，讀不完三個小時。'};
     if(sc.hard&&sc.hard.length) return {dim:true,why:'會錯過：'+sc.hard.join('、')+'。'};   /* CLS.HARD_FNS（補考）*/
     if(sc.exam.length) return {dim:true,why:'會錯過'+sc.exam.join('、')+'的期末考。'};
     return {dim:false,why:'',warn:sc.miss.length?'會錯過：'+sc.miss.join('、'):''}; };
-  /* 選單的那一項（座位、書桌、Café、家裡）：不開＝null */
-  S.reviewOpt=function(G,o){ const info=S.reviewInfo(G,'final'); if(!info) return null; const ck=S.reviewCheck(G,o); const n=info.courses.reduce((a,x)=>a+x.units.length,0);
-    return {t:S.REVIEW_LABEL,review:true,dim:ck.dim,hint:ck.dim?ck.why:(info.what||'這學期還要考的')+' '+info.courses.length+' 科，'+n+' 張觀念卡。要三個小時，今天其他的事照常可以做。'+(ck.warn?ck.warn:'')}; };   /* 提示：暫定字 */
+  /* 選單的那一項（座位、書桌、Café、家裡）：不開＝null。先看期末（含補考），沒有才看國考；kind 給 STUDY.review（選了那一項＝STUDY.review(GM,opt.kind)）*/
+  S.reviewOpt=function(G,o){ let info=S.reviewInfo(G,'final'); if(!info) info=S.reviewInfo(G,'bar'); if(!info) return null; const bar=info.kind==='bar';
+    const ck=S.reviewCheck(G,Object.assign({},o||{},{kind:info.kind})); const n=info.courses.reduce((a,x)=>a+x.units.length,0);
+    return {t:S.REVIEW_LABEL,review:true,kind:info.kind,dim:ck.dim,hint:ck.dim?ck.why:(info.what||'這學期還要考的')+' '+info.courses.length+' 科，'+n+' 張觀念卡。'+(bar?S.BAR_TEXT.hint:'要三個小時，今天其他的事照常可以做。')+(ck.warn?ck.warn:'')}; };   /* 提示：AA_638 定稿（國考那一句是暫定字 S.BAR_TEXT.hint）*/
   const askQ=u=>{ if(!u||!u.askQid||typeof EXAM_BANK==='undefined') return null; return EXAM_BANK.questions.find(q=>q.id===u.askQid)||null; };
   const ansText=q=>q.type==='tf'||!q.options?q.answer:'（'+q.answer+'）'+q.options[q.answer];
   /* 一張卡要說的幾句（不含標題列）：白話（＋例子）或 fallback（黑板第二三行＋教授那一句、重點）、課堂提問 */
@@ -147,24 +177,25 @@ const STUDY=(function(){
     return out; };
   /* 一科的卡照順序：答錯過的（最近答錯的先）→ 其他照週次 */
   const ordered=(G,us)=>{ const s=S.rec(G), mi=s.miss; const m=us.filter(u=>mi.includes(u.id)).sort((a,b)=>mi.indexOf(b.id)-mi.indexOf(a.id)); const rest=us.filter(u=>!mi.includes(u.id)).sort((a,b)=>(a.week==null?99:a.week)-(b.week==null?99:b.week)); return {cards:m.concat(rest),miss:new Set(m.map(u=>u.id))}; };
-  /* 按一次。o.home：在家裡的選單（STORY.onStudy 的地點記 'home'、不看閉館）。回傳 false＝沒做；{ok,term,courses,cards,shown} */
-  S.review=async function(GM,kind,o){ o=o||{}; const G=GM.G; const info=S.reviewInfo(G,kind||'final'); if(!info) return false;
-    const ck=S.reviewCheck(G,o); if(ck.dim){ if(GM.toast) GM.toast(ck.why,3000); return false; }
-    await GM.fade(true); GM.advance(S.REVIEW_HRS); G.stats=G.stats||{}; G.stats.study=(G.stats.study||0)+S.REVIEW_HRS;
-    if(typeof STORY!=='undefined'&&STORY.onStudy){ const z0=G.zone; if(o.home) G.zone='home'; try{ STORY.onStudy(GM,S.REVIEW_HRS); }catch(e){ console.warn('STORY.onStudy',e); } finally { G.zone=z0; } }   /* 家裡（2D 選單）的 G.zone 是出門前的區域：那一下記成 home，不算宿舍、不算圖書館 */
+  /* 按一次。kind：'final'（期末、補考）／'bar'（國考，D118-B7）；o.home：在家裡的選單（STORY.onStudy 的地點記 'home'、不看閉館）。回傳 false＝沒做；{ok,kind,term,year,courses,cards,shown} */
+  S.review=async function(GM,kind,o){ o=o||{}; const G=GM.G; const info=S.reviewInfo(G,kind||'final'); if(!info) return false; const bar=info.kind==='bar', hh=bar?S.BAR_HRS:S.REVIEW_HRS;
+    const ck=S.reviewCheck(G,Object.assign({},o,{kind:info.kind})); if(ck.dim){ if(GM.toast) GM.toast(ck.why,3000); return false; }
+    await GM.fade(true); GM.advance(hh); G.stats=G.stats||{}; G.stats.study=(G.stats.study||0)+hh;
+    if(typeof STORY!=='undefined'&&STORY.onStudy){ const z0=G.zone; if(o.home) G.zone='home'; try{ STORY.onStudy(GM,hh); }catch(e){ console.warn('STORY.onStudy',e); } finally { G.zone=z0; } }   /* 家裡（2D 選單）的 G.zone 是出門前的區域：那一下記成 home，不算宿舍、不算圖書館 */
     let total=0; for(const x of info.courses) for(const u of x.units){ total++; try{ S.mark(G,u.id,'read','review'); }catch(e){ console.warn('STUDY.mark',e); } }
     await GM.fade(false);
-    let shown=0; const L=info.courses.map(x=>Object.assign({c:x.c},ordered(G,x.units)));
-    await GM.say(null,'（你把這學期的筆記攤開。'+(info.what||'這學期還要考的')+' '+L.length+' 科，一共 '+total+' 張觀念卡。）');   /* AA_638 定稿（開始字幕）*/
+    let shown=0; const L=info.courses.map(x=>Object.assign({c:x.c},ordered(G,x.units))), seen=new Set();   /* seen：這一次翻到的科（國考的結束字幕用）*/
+    await GM.say(null,bar?fill(S.BAR_TEXT.open,{what:info.what,n:L.length,m:total}):'（你把這學期的筆記攤開。'+(info.what||'這學期還要考的')+' '+L.length+' 科，一共 '+total+' 張觀念卡。）');   /* AA_638 定稿（開始字幕）；國考＝暫定字 S.BAR_TEXT.open */
     outer: for(let ci=0;ci<L.length;ci++){ const X=L[ci], N=X.cards.length;
-      for(let k=0;k<N;k++){ const u=X.cards[k], v=S.view(u); shown++;
+      for(let k=0;k<N;k++){ const u=X.cards[k], v=S.view(u); shown++; seen.add(ci);
         await GM.say(null,'【'+X.c.name+'　'+(k+1)+'／'+N+'】'+v.title+(X.miss.has(u.id)?'（之前答錯過）':''));
         for(const t of S.cardLines(u)) await GM.say(null,t);
         const lastAll=ci===L.length-1&&k===N-1; if(lastAll) break outer;
         const opts=[{t:'下一張',hint:k===N-1?'下一科：'+L[ci+1].c.name:(k+2)+'／'+N}]; if(ci<L.length-1&&k<N-1) opts.push({t:'跳到下一科',hint:L[ci+1].c.name}); opts.push({t:'先讀到這裡',hint:'沒翻到的，也算讀過一遍',end:true});   /* AA_638 定稿 */
         const j=await GM.choose(opts), po=(opts[j]||opts[0]), pick=po.t; if(po.end) break outer;   /* AA_638：選項字改成「先讀到這裡」，用 end 判斷 */ if(pick.startsWith('跳到下一科')) continue outer; } }
-    const lines=info.courses.map(x=>S.line(G,x.c,info.term)).filter(Boolean); if(lines.length&&GM.caption) GM.caption('',lines.join('<br>'),2400+1200*lines.length);   /* 每科一行（和「法律」頁同一行）*/
-    return {ok:true,term:info.term,courses:info.courses.map(x=>x.c.id),cards:total,shown}; };
+    const cs=bar?info.courses.filter((x,i)=>seen.has(i)).slice(-S.BAR_CAP_LINES):info.courses;   /* 國考：只列這一次翻到的科、最多 S.BAR_CAP_LINES 科（二十幾科全列＝手機直向、橫向都超出畫面；暫定做法，見 S.BAR_CAP_LINES）*/
+    const lines=cs.map(x=>bar?S.barLine(G,x.c,x.units):S.line(G,x.c,info.term)).filter(Boolean); if(lines.length&&GM.caption) GM.caption('',lines.join('<br>'),2400+1200*lines.length);   /* 每科一行（和「法律」頁同一行；國考＝S.barLine）*/
+    return {ok:true,kind:info.kind,term:info.term,year:info.year,courses:info.courses.map(x=>x.c.id),cards:total,shown}; };
   /* 考試週前一週的週日 20:00 系統提醒（只發一次；只在那一週排——之後才讀到的存檔不補發；不提醒也不扣任何東西）*/
   S.remind=function(G){ if(!lawStage(G)||typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||typeof CLS==='undefined'||!CLS.examList) return false; const t=CALENDAR.termOf(G.day); if(!t) return false;
     const tag='review_'+t.id; if(PHONE.sent(G,tag)) return false; if(CLS.termAway&&CLS.termAway(G,t.id)) return false;
@@ -198,7 +229,7 @@ const STUDY=(function(){
     const body=wrong.map(w=>'第 '+w.n+' 題　'+w.q.q+'\n答案：'+w.a+(w.q.core?'\n考點：'+w.q.core:'')+(w.q.explanation&&w.q.explanation!==w.q.core?'\n'+w.q.explanation:'')).join('\n\n');
     return GM.addNote('examfix_'+key,S.FIX_TITLE(c.name,key),body); };
   /* 家裡的選單（週末回家、HOME.MENU_OPTS）*/
-  S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,'final',{home:true}); }}; };
+  S.homeOpt=function(G){ const o=S.reviewOpt(G,{home:true}); if(!o) return null; return {t:o.t,hint:o.hint,run:async GM=>{ await S.review(GM,o.kind||'final',{home:true}); }}; };   /* 畢業以後住家裡（HOME.pgHome）：國考總複習也在這裡 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.remind(G));
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.MENU_OPTS)&&!HOME.MENU_OPTS.includes(S.homeOpt)) HOME.MENU_OPTS.push(S.homeOpt);
   return S;
