@@ -172,11 +172,35 @@ def has(lines, t):
     return any(t in x for x in lines)
 
 
-async def stuck_check(pg, cdp, tag, fb0, e0, errs):
-    """卡住檢查：對話框關掉、busyDepth 0、搖桿推得動 ≥ 0.3 m（前、後、右、左都試，前面是牆不算卡住）、walkFallbacks 沒增加、沒有新的 JS 例外"""
+MOUNTDIAG_JS = r"""(()=>{ const E=GAME.E, G=GAME.G, P=E.player, p=P.obj.position, s=G.bike||{}; const q=f=>{ try{ return f(); }catch(e){ return 'ERR '+String(e).slice(0,60); } };
+  const t=document.getElementById('toast'), c=document.getElementById('caption');
+  const fol=(E.npcs||[]).filter(n=>n.beh==='follow'&&!n.noRide).map(n=>({id:n.charId||n.id||n.name, why:q(()=>typeof STORY!=='undefined'&&STORY.rideBlock?STORY.rideBlock(GAME,n):null)}));
+  return {zone:G.zone, lv:P.lv|0, y:+(+p.y||0).toFixed(2), x:+p.x.toFixed(2), z:+p.z.toFixed(2), busy:!!P.busy, riding:!!P.riding, bOk:q(()=>BIKE.ok(G.zone)), bike:{zone:s.zone, x:s.x==null?null:+(+s.x).toFixed(2), z:s.z==null?null:+(+s.z).toFixed(2), riding:!!s.riding},
+    dBike:s.x==null?null:+Math.hypot(p.x-s.x,p.z-s.z).toFixed(2), followers:fol, toast:(t&&!t.classList.contains('hide'))?(t.textContent||'').trim().slice(0,80):'', caption:(c&&!c.classList.contains('hide'))?(c.textContent||'').trim().slice(0,80):'',
+    interact:((document.getElementById('interactLabel')||{}).textContent||'').trim()}; })()"""
+
+
+PLATFORM_DOORS = {'library'}   # 門口在平台上（樓梯不能騎）的出口
+
+
+async def stuck_check(pg, cdp, tag, fb0, e0, errs, avoid=None):
+    """卡住檢查：對話框關掉、busyDepth 0、搖桿推得動 ≥ 0.3 m（前、後、右、左都試，前面是牆不算卡住）、walkFallbacks 沒增加、沒有新的 JS 例外
+    avoid＝(x, z, r)：人在這一點 r 公尺內時不往它的方向推（BB-C 11-04：總圖門口在平台上，卡住檢查不要騎上平台）"""
     await converse(pg, cdp, tag, None, 15)
     moved = 0.0
-    for dx, dy in ((0, -60), (0, 60), (60, 0), (-60, 0)):
+    dirs = [(0, -60), (0, 60), (60, 0), (-60, 0)]
+    if avoid:
+        me = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position, c=GAME.E.cam; return [p.x,p.z,c.yaw]; })()")
+        ax, az, ar = avoid
+        if math.hypot(me[0] - ax, me[1] - az) <= ar:
+            # 搖桿 (dx,dy) 的世界方向：前（dy<0）＝離開鏡頭的方向（鏡頭在人的 (sin yaw, cos yaw) 那一側）
+            def wdir(dx, dy):
+                f = (-math.sin(me[2]), -math.cos(me[2])); r = (math.cos(me[2]), -math.sin(me[2]))
+                return (r[0] * dx - f[0] * dy, r[1] * dx - f[1] * dy)
+            tow = (ax - me[0], az - me[1])
+            dirs = sorted(dirs, key=lambda d: wdir(*d)[0] * tow[0] + wdir(*d)[1] * tow[1])[:2]
+            print('  [%s] 卡住檢查避開 (%s, %s) 的方向，只推 %s' % (tag, ax, az, J(dirs)), flush=True)
+    for dx, dy in dirs:
         moved, _, _ = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=2, ms=1500)
         if moved >= 0.3: break
     s = await pg.evaluate(ST); new = errs[e0:]
@@ -317,9 +341,13 @@ async def r_mount_near(pg, cdp, tag):
         await pg.wait_for_timeout(900)
         if (await pg.evaluate(ST))['interact'].startswith('騎腳踏車'): break
     s = await pg.evaluate(ST)
+    print('  [%s] 上車之前：%s' % (tag, J(await pg.evaluate(MOUNTDIAG_JS))), flush=True)
     if not check('[%s] 車旁邊出現「騎腳踏車」' % tag, s['interact'].startswith('騎腳踏車'), s['interact']): return False
     await L.tap(pg, cdp, '#interact')
-    return check('[%s] 上車' % tag, await wait_js(pg, "!!GAME.E.player.riding", 30))
+    await pg.wait_for_timeout(1000); print('  [%s] 按「騎腳踏車」1 秒：%s' % (tag, J(await pg.evaluate(MOUNTDIAG_JS))), flush=True)
+    ok = await wait_js(pg, "!!GAME.E.player.riding", 30)
+    if not ok: print('  [%s] 30 秒還沒上車：%s' % (tag, J(await pg.evaluate(MOUNTDIAG_JS))), flush=True)
+    return check('[%s] 上車' % tag, ok)
 
 
 async def r_one(pg, cdp, errs, ex):
@@ -342,8 +370,12 @@ async def r_one(pg, cdp, errs, ex):
         await L.go_to(pg, cdp, Run(), it['x'], it['z'], max(0.4, min(1.0, it['r'] * 0.6)), it['label'])
     else:
         await L.go_to(pg, cdp, Run(), it['x'], it['z'], max(0.5, min(1.2, it['r'] * 0.6)), '%s 門口（騎車）' % eid, max_s=600)
-        k = await pg.evaluate(BK)
-        check('[%s] 騎到門口（還在騎）' % tag, k['riding'], J(k))
+        k = await pg.evaluate(BK); md = await pg.evaluate(MOUNTDIAG_JS)
+        print('  [%s] 到門口：%s' % (tag, J(md)), flush=True)
+        if eid in PLATFORM_DOORS:   # BB-C 11-04：總圖門口在平台上，騎到平台前自動下車（再跳「樓梯不能騎」）＝照設計
+            check('[%s] 騎到門口：門口在平台上，平台前自動下車、車停在下面（照設計）' % tag, not k['riding'] and bool(k['parked']), J({'k': k, 'lv': md.get('lv'), 'y': md.get('y'), 'toast': md.get('toast'), 'caption': md.get('caption')}))
+        else:
+            check('[%s] 騎到門口（還在騎）' % tag, k['riding'], J(k))
         await L.turn_camera_to(pg, cdp, door[0], door[1]); await pg.wait_for_timeout(1200)
         await pg.screenshot(path=os.path.join(OUT, 'park_%s_door.png' % eid))
         path = '騎著按門'
@@ -387,7 +419,7 @@ async def r_one(pg, cdp, errs, ex):
     await pg.screenshot(path=os.path.join(OUT, 'park_%s.png' % eid)); print('  [%s] 截圖 park_%s.png（車＋最近的停車處 %s）' % (tag, eid, J(nr.get('nearest'))), flush=True)
     ok = await park_check(pg, cdp, tag, errs, outz, rule_on=entered)
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
-    await stuck_check(pg, cdp, tag + '_end', fb0, e0, errs)
+    await stuck_check(pg, cdp, tag + '_end', fb0, e0, errs, avoid=(door[0], door[1], 14.0) if eid in PLATFORM_DOORS else None)
     if ok and not (await pg.evaluate(BK))['riding']: ok = await r_mount_near(pg, cdp, tag + '_remount')
     return ok
 
