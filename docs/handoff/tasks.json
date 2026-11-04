@@ -44524,6 +44524,37 @@
    }
   },
   {
+   "id": "ADE-V2-1104",
+   "title": "溫州街 A1 阿德影印照參考圖重做 v2（WZ-FIVE-1104 的一間；BB-C 15:0x 退回 v1，v2 照退回的 1～6 改）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C a59fe71f5（企劃線 BB_255 15:3x：Blender 階段有條件通過）",
+   "authorized": "D108／D111（美術總監）；BB D120 驗收",
+   "sha": [
+    "a59fe71f5"
+   ],
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_255 15:0x 退回清單 1～6；docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md",
+    "acceptance": "BB 照 D120／D133：遊戲畫面 14:00／20:30／搬到轉角三張和參考圖並排；lane_west 效能量測；ART_APPROVED 前要改好 BB 列的五項（鏡頭、外牆偏冷、影印機像方盒、盆栽重複、樓上太空）",
+    "ack": "ACTIONED"
+   },
+   "next": "【LAWWW-C 11-04 15:4x】整合進開發分支（不進 v9.10.20，候選 d3828452a）：wenzhou_street.glb／.json／.props.json、tools/blender/env_second（lib2、wz_shopkit、wz_street、wz_window_view、acg_tiles139、gen 貼圖）、wip 對照圖、LICENSES.md 兩節（Poly Haven 模型、ambientCG Tiles139）、.gitignore models_ph、tests/singleside_streets_unit.js 套 LAWWW2 的 patch（133,335 面、材質 53、大面 10）；singleside、lampshade_flip、street_props_nav、wz_copy_shop、nav_buildings、cafe230_nobldg_nav、zone_prewarm ALL PASS；下一步：BB 排 CC 拍遊戲畫面＋量 lane_west；LAWWW2 v2.1 改 BB 列的五項"
+  },
+  {
    "id": "GG-VIEWS-1104",
    "title": "公館日和／頁間／青木、溫州街 A5 窗景重拍（shots 腳本位置 patch＋照片到了以後的 zones3d 接法）",
    "owner": "LAWWW2",
@@ -44633,7 +44664,7 @@
    "id": "WZ-LANEEAST-TRIS-1104",
    "title": "溫州街 lane_east 減面（店內 wz_in_shop 按店拆網格、看不到的店整間裁掉）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -44646,7 +44677,7 @@
     "confirmed": true
    },
    "sha": "d2a692410",
-   "next": "【LAWWW-C 11-04 14:31】BB-C 14:31 V20_wzstreet @322cd967 效能 PASS：lane_east 298 calls／40.7 萬、lane_west 262／35.6 萬、arcade 303／41.4 萬（上限 310／42 萬）；導航、鏡頭碰撞、互動點不變；等 reachability wenzhou、touch_flow_wenzhou、WZ_SLICE_SHOTS 三支｜【LAWWW-C 11-04 13:1x】BB-C 13:10 BB_255：lane_east 三角形還沒過（45.6 萬），等 LAWWW2-C 再減面；擋 v9.10.20｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
+   "next": "【LAWWW-C 11-04 15:4x】BB-C 15:28 判通過：效能、走得到、觸控（322c PASS；909c 的 FAIL 是隨機咖啡事件＝測試問題，d3828452a 修了）、V20_slice 0e2c 對 909c 32 張只有路人、樹葉、影子不同 → 已驗收、從 v9.10.20 擋發布清單拿掉｜【LAWWW-C 11-04 14:31】BB-C 14:31 V20_wzstreet @322cd967 效能 PASS：lane_east 298 calls／40.7 萬、lane_west 262／35.6 萬、arcade 303／41.4 萬（上限 310／42 萬）；導航、鏡頭碰撞、互動點不變；等 reachability wenzhou、touch_flow_wenzhou、WZ_SLICE_SHOTS 三支｜【LAWWW-C 11-04 13:1x】BB-C 13:10 BB_255：lane_east 三角形還沒過（45.6 萬），等 LAWWW2-C 再減面；擋 v9.10.20｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2 1d64f3511",
@@ -44654,7 +44685,8 @@
     "acceptance": "三角形數照 BB 的門檻、畫面沒有破洞",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-C 11-04 15:28 判通過（企劃線 BB_255）：V20_wzstreet@322cd967 效能 PASS（lane_east 298 calls／40.7 萬）、V20_reach_wz_r2@909c6391b ALL PASS、V20_touchwz@322cd967 ALL PASS（909c 那輪 FAIL＝隨機咖啡事件測試問題，d3828452a 修）、V20_slice 0e2c 對 909c 32 張只有路人樹葉影子不同（cc-local 26a987b85）"
   },
   {
    "id": "LM-SEAM-GEO",
@@ -45134,7 +45166,8 @@
     "acceptance": "BB 照 D120／D133／D136：CC 在使用者電腦拍同角度（總表第 107～109 列）、和官網照片並排；tools/art/same_angle_check.py --mode campus 疊圖（D138：相似要接近、細部 1:1 照抄的格子要是 0）；每棟寫保留什麼、改掉什麼；導航、門口（DOORS.putong／boya）、空橋 Y0、樓層高度不動；node tests/nav_buildings_unit.js、tests/campus_layout_nav.py",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版"
+   "next": "【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版",
+   "notWaitUser": "使用者 15:1x／15:3x 已說清楚範圍（改現有兩棟外觀，不新增）；LAWWW2 照官網照片做、BB 驗收（D128 美術不經使用者），不用等使用者"
   },
   {
    "id": "OPEN-SRC-2D3D-1104",

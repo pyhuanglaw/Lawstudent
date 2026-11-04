@@ -30,7 +30,7 @@ OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongg
 SHOP = lambda **k: k
 SPECS = [
     # A 側（z>0，立面朝 −z）：aptA(x0,x1,spec) → 位置 ((x0+x1)/2, 5)、rotation.y=π、深 12
-    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile', color='#d9c9a8', ground='shop', shop=SHOP(type='print', name='阿德影印輸出', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
+    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile_sq', color='#e6dac5', p_grille=1.0, p_pot=1.0, pots_n=3, ground='shop', shop=SHOP(type='print', name='阿德影印輸出', frame='#c3c7ca', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='溫州書屋', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='tile', color='#e9e6df', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#2f5a47', signColor='#e9d9a8', awning='#2f5a47', atlas='wz_lin_h')),
@@ -325,7 +325,7 @@ base = CL.materials()      # Café 的共用材質（鋁窗、鐵窗、冷氣、
 _mats = {}
 
 
-NEUTRAL = {'tile': '#dadada', 'mosaic': '#dadada', 'plaster': '#e9e9e9'}   # 外牆貼圖的平均色（最亮的那棟也不超過，頂點色 ≤ 1）
+NEUTRAL = {'tile': '#dadada', 'mosaic': '#dadada', 'plaster': '#e9e9e9', 'tile_sq': '#ebe0cd'}   # tile_sq：暖米色小方磚（ambientCG Tiles139，CC0；阿德影印 ADE-V2-1104，參考圖 wz_ade_ext）   # 外牆貼圖的平均色（最亮的那棟也不超過，頂點色 ≤ 1）
 
 
 def pillar_mat(kind):
@@ -341,6 +341,7 @@ def wall_mat(kind):
     if kind not in _mats:
         nm = f'wz_wall_{kind}'; c = NEUTRAL[kind]
         if kind == 'mosaic': m = L.pbr(nm, 'rounded_square_tiled_wall', tile=1.0, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.45)
+        elif kind == 'tile_sq': m = L.pbr(nm, 'acg_tiles139', tile=0.6, target=c, normal=0.55, maps=('diff', 'nor'), rough_value=0.42, contrast=0.8)   # 一張 6×6 塊：一塊 10 cm、磚縫細、每塊深淺不同（v2b：7 cm 從街上看磚縫太密、整面偏灰）
         elif kind == 'plaster': m = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=c, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
         else: m = L.pbr(nm, 'long_white_tiles', tile=1.2, target=c, normal=0.8, maps=('diff', 'nor'), rough_value=0.5)
         _mats[kind] = vc_tint(m)
@@ -733,8 +734,11 @@ def apartment(spec):
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
             if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
             if not spec.get('far') and rng.random() < spec.get('p_pot', 0.6):
-                px_ = cx + rng.uniform(-0.9, 0.9); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
-                B.instance(POT_FERN[rng.randrange(2)], f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
+                npot = spec.get('pots_n', 1)   # ADE-V2-1104：阿德（參考圖 wz_ade_ext）鐵窗裡一排盆栽——一扇窗放 npot 盆，蕨類和大葉輪流、間距和角度不一樣
+                for k_ in range(npot):
+                    px_ = (cx + rng.uniform(-0.9, 0.9)) if npot == 1 else (cx - 0.95 + (k_ + 0.5) * 1.9 / npot + rng.uniform(-0.12, 0.12)); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
+                    pm_ = POT_FERN[rng.randrange(2)] if (npot == 1 or k_ % 2 == 0) else POT_BROAD
+                    B.instance(pm_, f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
             bx0, bx1, bd = x0 - 0.6, x1 + 0.6, 1.05; xf.box(band, bx0, bx1, y0 - 0.3, y0 - 0.16, -0.25, bd)
             xf.box(wall, bx0, bx1, y0 - 0.16, y0 + 0.4, bd - 0.12, bd); xf.box(wall, bx0, bx0 + 0.12, y0 - 0.16, y0 + 0.4, 0, bd); xf.box(wall, bx1 - 0.12, bx1, y0 - 0.16, y0 + 0.4, 0, bd)

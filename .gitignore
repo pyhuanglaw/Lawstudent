@@ -18,3 +18,6 @@ tools/blender/textures/*
 tools/vroid_wip/
 tools/msg/out/
 ref_cache/
+
+# Poly Haven（CC0）模型的下載快取（tools/blender/env_second/lib2.py ph_fetch；第一次用自動抓，不放 repo）
+tools/blender/models_ph/

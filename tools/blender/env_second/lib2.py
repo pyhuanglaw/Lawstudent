@@ -184,6 +184,87 @@ def lathe(profile, seg=16):
     bm.normal_update(); return bm
 
 
+PH_DIR = os.path.join(ROOT, 'tools', 'blender', 'models_ph')   # Poly Haven（CC0）模型的下載快取（.gitignore；第一次用自動抓：api.polyhaven.com、dl.polyhaven.org）
+
+
+def ph_fetch(pid, res='1k'):
+    """Poly Haven 模型 pid 的 glTF（res：1k／2k…）下載到 PH_DIR/<pid>/，回傳 .gltf 路徑；已經有就不重抓。授權 CC0（https://polyhaven.com/license）"""
+    d = os.path.join(PH_DIR, pid); g = os.path.join(d, f'{pid}_{res}.gltf')
+    if os.path.exists(g): return g
+    import urllib.request
+    get = lambda u: urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': 'lawstudent-asset-fetch/1.0'}), timeout=60).read()
+    e = json.loads(get('https://api.polyhaven.com/files/' + pid))['gltf'][res]['gltf']
+    for u, rel in [(e['url'], os.path.basename(e['url']))] + [(v['url'], k) for k, v in e.get('include', {}).items()]:
+        q = os.path.join(d, rel); os.makedirs(os.path.dirname(q), exist_ok=True)
+        if not os.path.exists(q): open(q, 'wb').write(get(u))
+    return g
+
+
+def ph_model(pid, nodes=None, ratio=1.0, name=None, res='1k', texres=512, anchor='bottom', back=False):
+    """Poly Haven（CC0）模型 → 一個網格（多個材質槽，可以 B.instance）。OPEN-SRC-2D3D-1104（LAWWW2-C 2026-11-04）。
+    nodes＝只留這幾個節點（名稱；None＝全部）；ratio＝減面比例（一個數字，或 {節點名: 比例}）；
+    貼圖縮成 texres（街景 512）；BLEND 材質改 alpha clip（遊戲不排序透明）；
+    anchor＝'bottom'：原點移到底部中央；back＝True：再把背面（Blender +Y 最大＝遊戲 −z）對齊原點（掛在牆上的東西：冷氣室外機）"""
+    g = _ph_small(ph_fetch(pid, res), texres); before = set(bpy.data.objects); mats_before = set(bpy.data.materials)
+    bpy.ops.import_scene.gltf(filepath=g)
+    new = [o for o in bpy.data.objects if o not in before]
+    keep = [o for o in new if o.type == 'MESH' and (nodes is None or o.name.split('.')[0] in nodes)]
+    dg = bpy.context.evaluated_depsgraph_get(); parts = []
+    for o in keep:
+        r = ratio.get(o.name.split('.')[0], 1.0) if isinstance(ratio, dict) else ratio
+        if r < 1.0:
+            md = o.modifiers.new('ph_dec', 'DECIMATE'); md.ratio = r; md.use_collapse_triangulate = True
+            dg.update(); me = bpy.data.meshes.new_from_object(o.evaluated_get(dg)); o.modifiers.clear()
+        else: me = o.data.copy()
+        me.transform(o.matrix_world); parts.append(me)
+    for o in new: bpy.data.objects.remove(o)
+    bm = bmesh.new(); mats = []
+    for me in parts:
+        idx = []
+        for m in me.materials:
+            if m not in mats: mats.append(m)
+            idx.append(mats.index(m))
+        t = bmesh.new(); t.from_mesh(me)
+        for f in t.faces: f.material_index = idx[f.material_index] if f.material_index < len(idx) else 0
+        tm = bpy.data.meshes.new('_ph_tmp'); t.to_mesh(tm); t.free(); bm.from_mesh(tm); bpy.data.meshes.remove(tm); bpy.data.meshes.remove(me)
+    vs = [v.co for v in bm.verts]
+    if vs and anchor == 'bottom':
+        mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs))); mx = Vector((max(v.x for v in vs), max(v.y for v in vs), max(v.z for v in vs)))
+        off = Vector(((mn.x + mx.x) / 2, mx.y if back else (mn.y + mx.y) / 2, mn.z))
+        bmesh.ops.translate(bm, verts=bm.verts, vec=-off)
+    out = bpy.data.meshes.new(name or ('ph_' + pid)); bm.to_mesh(out); bm.free()
+    for m in mats: out.materials.append(m)
+    for m in set(bpy.data.materials) - mats_before:   # 半透明（散熱格柵、葉子）一律 alpha clip：glTF 匯出器看到 Alpha 前面接 ROUND 才輸出 MASK（Blender 4.2 以後 blend_method 不算數）
+        if getattr(m, 'blend_method', 'OPAQUE') == 'BLEND': m.blend_method = 'CLIP'
+        if hasattr(m, 'surface_render_method'): m.surface_render_method = 'DITHERED'
+        if not m.use_nodes: continue
+        bs = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+        if bs is None or not bs.inputs['Alpha'].links: continue
+        src = bs.inputs['Alpha'].links[0].from_socket
+        if src.node.type == 'MATH' and src.node.operation == 'ROUND': continue
+        r = m.node_tree.nodes.new('ShaderNodeMath'); r.operation = 'ROUND'; m.node_tree.links.new(src, r.inputs[0]); m.node_tree.links.new(r.outputs[0], bs.inputs['Alpha'])
+    return out
+
+
+def _ph_small(g, texres):
+    """貼圖先在磁碟上縮成 texres（PIL），再讓 Blender 匯入一份改了圖片路徑的 glTF：
+    在 Blender 裡 Image.scale() 過的圖，glTF 匯出器合併 metal／rough 通道時存不起來（11-04 第一次試：potted_plant_02 的 rough 圖 Could not write image）"""
+    from PIL import Image
+    d = os.path.dirname(g); out = g[:-5] + f'_t{texres}rgb.gltf'
+    if os.path.exists(out): return out
+    J = json.load(open(g, encoding='utf-8'))
+    for im in J.get('images', []):
+        u = im.get('uri')
+        if not u: continue
+        src = os.path.join(d, u); dst_rel = os.path.join(f'textures_{texres}rgb', os.path.basename(u)); dst = os.path.join(d, dst_rel)
+        if not os.path.exists(dst):
+            os.makedirs(os.path.dirname(dst), exist_ok=True); I = Image.open(src)
+            if I.width > texres: I = I.resize((texres, max(1, round(I.height * texres / I.width))), Image.LANCZOS)
+            I.convert('RGB').save(dst, quality=92)   # 灰階（rough、opacity）也存成 RGB：匯出 WEBP 不支援單通道（OpenImageIO：webp does not support 1-channel images）
+        im['uri'] = dst_rel.replace(os.sep, '/')
+    json.dump(J, open(out, 'w', encoding='utf-8')); return out
+
+
 def write_json(path, data):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f: json.dump(data, f, ensure_ascii=False, indent=1)
