@@ -4201,6 +4201,15 @@
    "task": "BIKE-SHOP-PARK-1104",
    "kind": "text",
    "note": "單車店小東西／補胎／換車台詞（bikeshop3d.js）、約念書早到旁白（invites3d.js）、以安總圖見面旁白改館內（rel_lines.js、libquiet3d OUT_LINES 拿掉）、機場便利商店改日和便利店（us_layouts.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
+   "sha": "303cded56",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "GG-SHOPS2-1104",
+   "kind": "text",
+   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）"
   }
  ]
 }

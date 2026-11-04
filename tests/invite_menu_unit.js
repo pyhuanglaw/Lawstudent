@@ -51,8 +51,9 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     const f=a.full[0]||[]; const meal=f.find(o=>o.t==='吃飯…')||{};
     check('A1. 一類的小字列裡面的地點（吃飯…：公館燒臘、半熟；AA_612）',/公館燒臘/.test(meal.hint||'')&&/半熟/.test(meal.hint||'')&&!meal.dim,J(meal));
     const b=await ask('heroine_01',['吃飯','返回','喝咖啡','返回','運動','返回','念書','返回','算了']);
-    check('A2. 吃飯…：麵店、半熟＋返回；返回回到第一層',J(b.opts[1])===J(['去公館燒臘吃飯','去半熟吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
-    check('A2. 喝咖啡、喝茶…：兩點半 Café、一盞、慢讀咖啡＋返回',J(b.opts[3])===J(['去兩點半 Café 坐坐','去一盞喝茶','去慢讀咖啡念書','返回']),J(b.opts[3]));
+    /* 2026-11-04 改期望（GG-SHOPS2-1104，AA_652 第 3 節：afar café、Daybreak 加進可以約的地點——afar＝喝咖啡、Daybreak＝吃飯）*/
+    check('A2. 吃飯…：麵店、半熟、Daybreak＋返回；返回回到第一層',J(b.opts[1])===J(['去公館燒臘吃飯','去半熟吃早午餐','去 Daybreak 吃早午餐','返回'])&&J(b.opts[2])===J(b.opts[0]),J(b.opts.slice(0,3)));
+    check('A2. 喝咖啡、喝茶…：兩點半 Café、一盞、慢讀咖啡、afar café＋返回',J(b.opts[3])===J(['去兩點半 Café 坐坐','去一盞喝茶','去慢讀咖啡念書','去 afar café 坐坐','返回']),J(b.opts[3]));
     check('A2. 念書…：總圖、慢讀咖啡（同一個地點可以放兩類）、法圖＋返回',J(b.opts[7])===J(['去總圖一起念書','去慢讀咖啡念書','去法圖一起念書','返回']),J(b.opts[7]));
     check('A2. 運動…：羽球、晨跑＋返回',J(b.opts[5])===J(['去新體育館打羽球','去椰影大道晨跑','返回']),J(b.opts[5]));
     const c=await ask('heroine_01',['吃飯','燒臘',/^明天/]);
@@ -66,7 +67,7 @@ const CATS=['念書…','吃飯…','喝咖啡、喝茶…','散步…','運動�
     check('A4. 還沒到有點熟（'+st+'）：吃飯…整類灰掉、小字「再熟一點，才約得出去吃飯。」',meal.dim===true&&meal.hint==='再熟一點，才約得出去吃飯。',J(meal));
     check('A4. 選了灰掉的一類：說原因、留在第一層',a.L.includes('再熟一點，才約得出去吃飯。')&&J(a.opts[1])===J(a.opts[0]),J([a.L,a.opts.length]));
     const sit=f.find(o=>o.t==='喝咖啡、喝茶…')||{};
-    check('A4. 一類裡還有約得到的（Café、慢讀）：不灰、小字只列約得到的（一盞要朋友）',!sit.dim&&sit.hint==='兩點半 Café、慢讀咖啡',J(sit));
+    check('A4. 一類裡還有約得到的（Café、慢讀、afar）：不灰、小字只列約得到的（一盞要朋友）',!sit.dim&&sit.hint==='兩點半 Café、慢讀咖啡、afar café',J(sit));
   }
   // ===== A. 校外第二層 =====
   { fresh(sat-1,10); know('heroine_01',S5);

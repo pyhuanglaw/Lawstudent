@@ -519,6 +519,22 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
   INVITE_DATA.offbeatAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
 
+/* ---------- afar café、Daybreak（公館第二批 G07、G14；GG-SHOPS2-1104，USER_WANTS X209）當邀約地點（AA_652 第 1、2 節「約去…答應的一句」、第 3 節接線備註；AA 定稿 D109，企劃線 303cded56，一字照稿）----------
+   afar＝喝咖啡（reason：和兩點半 Café 同一把尺，剛認識就可以；AA_652 第 3 節「類型：咖啡、吃飯」＝只列在「喝咖啡、喝茶」），營業 11:00～21:00；
+   Daybreak＝吃飯（meal：和半熟同一把尺，有點熟以上），早午餐只約得到 08:00～14:00（開始的時間；15:00 關門），14:00 以後選 Daybreak 先說那一句旁白（lateNote，src/invites3d.js S.flow），時間只列今天還沒過的、明天的。
+   稿上沒有寫要先自己走去過一次（和兩點半 Café、公館燒臘一樣，不加 show）。可昕照現在的規則（只在她在臺北、約得到的時候：S.kxPlaceOk 認得 acc）。
+   答應的那一句：七位各一句（people[人].acc.afar／daybreak）；沒列的人＝「一般」那句（src/gg2shops3d.js 的 GG2.ACC0）；不答應照一般回覆表。
+   兩個人坐下以後的開場句：seatOpen.afar／daybreak（下面）。見面旁白照邀約一般的（AA_652 沒有寫約來的見面句）*/
+INVITE_DATA.places.push({id:'afar',zone:'afar',name:'afar café',verb:'去 afar café 坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'CAFE_AFTERNOON',sitAct:'read',seatPose:'sit',cats:['sit'],hours:[11,21]});
+INVITE_DATA.places.push({id:'daybreak',zone:'daybreak',name:'Daybreak',verb:'去 Daybreak 吃早午餐',kind:'meal',minStage:'FAMILIAR',stay:0.75,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal'],hours:[8,14.75],times:[9,10,11.5,13],
+  lateNote:G=>((((+G.hour||0)%24)+24)%24)>=14-1e-6?'（Daybreak 下午三點就關了。）':null});
+(function(){ const AF={heroine_01:'「好。我帶書去，你不要一直跟我講話。」',heroine_02:'「afar？好。……窗邊那一排的燈很好看。」',heroine_03:'「好。我想吃他們的布丁。」',heroine_04:'「可以。那裡插座很多。」',heroine_05:'「好。我也剛好要寫東西。」',
+    classmate_peishan:'「好！我上次經過就想進去了。」',kexin:'「好啊。我到公館再跟你說。」'};
+  const DB={heroine_01:'「好。九點，不要遲到。」',heroine_02:'「好……我想坐窗邊。」',heroine_03:'「Daybreak？好。我想吃法式吐司。」',heroine_04:'「早上？……十點以後可以。」',heroine_05:'「好。週末早上我剛好有空。」',
+    classmate_peishan:'「好啊！那家的卡座好可愛。」',kexin:'「好啊。我早一點從木柵出發。」'};
+  INVITE_DATA.afarAcc=AF; INVITE_DATA.daybreakAcc=DB;
+  for(const [pid,ACC] of [['afar',AF],['daybreak',DB]]) for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={}))[pid]=[ACC[id]]; } })();
+
 /* ===== 約念書走到桌子坐下（INV-SIT-TOGETHER-1104，USER_WANTS X207；台詞 AA_649，企劃線 37daf8027，D109 AA 定稿，一字照稿）=====
    使用者 2026-11-04 01:3x：「如果你們真的約一起念書的話，不可以一直走到圖書館門口然後約會就結束了，至少要走到桌子旁邊一起坐下來。」
    流程（系統 LAWWW，invites3d.js 的 S.leadStart／leadTick／leadScene）：門口會合（照現在的開場）→ lead（她帶路）→ 二樓長桌坐下（滿了：full 兩句 → 三樓閱覽區）
@@ -550,5 +566,8 @@ INVITE_DATA.seatOpen={
   movie:[['（你們找到位子坐下。燈還沒暗，她把爆米花放在中間的扶手上。）','「（小聲）預告片開始了。」']],
   movieEnd:[['（燈亮了。她還在看片尾的字幕。）','「……等一下再走。」']],
   bookstore:[['（你們在閱讀桌坐下。她從書牆上抽了一本書，放在你面前。）','「（小聲）這本你會喜歡。」']],
-  byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
+  /* afar café、Daybreak 自己的開場句（AA_652 第 1、2 節「和她坐下以後的開場句」；GG-SHOPS2-1104）*/
+  afar:[['（你們在窗邊長桌坐下。她把桌上的小燈打開，又關掉，又打開。）','「……這個燈好可愛。」'],['（她把兩杯咖啡的杯墊對齊，一杯推給你。）']],
+  daybreak:[['（你們在窗邊坐下。陽光剛好照到她那一邊，她把椅子往你這邊挪了一點。）','「好亮。」'],['（餐點送來的時候，她先拿手機拍了一張。）','「……好，可以吃了。」']],
+  byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal',afar:'afar',daybreak:'daybreak'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
