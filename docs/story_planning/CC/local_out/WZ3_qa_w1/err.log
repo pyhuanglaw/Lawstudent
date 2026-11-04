@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 136, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_qa_w1_wrap.py", line 17, in <module>
+    exec(compile(new, src_path, 'exec'), g)
+         ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\USER\Documents\wt_cc_WZ3_qa_w1\tests\qa_w1_shots.py", line 13
+    OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shots', 'qa_w1')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape

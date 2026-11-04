@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ3_qa_w1",
+  "sha": "b53bfab72",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T16:28:56",
+  "end": "2026-11-04T16:29:48",
+  "seconds": 52,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 44,
+    "mem": 53,
+    "used_gb": 16.8,
+    "chrome_testing": 19
+  }
+}
