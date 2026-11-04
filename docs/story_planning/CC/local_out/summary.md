@@ -1210,3 +1210,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 2.0s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [WZ4_komichi_r2] | [gpu_wrap 226.5s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 226.6s] BROWSER DISCONNECTED
 - 2026-11-04T22:32:01  V20_touchwz  sha=322cd967db8188ae8c81fe3de473d0b5b7ad871c  exit=0  157s    PASS 讀檔後可以走  9.59 / PASS 沒有 JS 例外 / ALL PASS
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V20_touchwz] | [gpu_wrap 122.9s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 123.0s] BROWSER DISCONNECTED
+- 2026-11-04T22:35:16  V20_slice_322c  sha=322cd967db8188ae8c81fe3de473d0b5b7ad871c  exit=0  147s      slice_x52_d315：calls 266、tris 396194 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V20_slice_322c] | [gpu_wrap 86.0s] page close url=http://127.0.0.1:8801/index.html | [gpu_wrap 86.2s] BROWSER DISCONNECTED

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20_slice_322c",
+  "sha": "322cd967db8188ae8c81fe3de473d0b5b7ad871c",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_slice_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:32:46",
+  "end": "2026-11-04T22:35:13",
+  "seconds": 147,
+  "exit": 0,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 76,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 26
+  }
+}
