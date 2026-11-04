@@ -44180,6 +44180,28 @@
    "source": "使用者 11-04 12:0x 對 LAWWW-B",
    "authorized": "使用者直接要求",
    "evidence": "9f4d237e2"
+  },
+  {
+   "id": "D134",
+   "title": "D134／HV-25：CC 可以直接聯絡任何職位（使用者 11-04 12:1x 對 CC-B「你可以直接連絡任何人 直接改規則」；選擇題「交給 LAWWW 寫」）",
+   "area": "HANDOFF",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P2",
+   "next": "【11-04 12:2x LAWWW-B】CC-B 28f5f5287（推在舊 RULE_SOURCE confident-ritchie）cherry-pick 進 modest-rubin ad3ccf750：CLAUDE.md D134 列與 2a、AI_SESSION_HANDOFF HV-25、PROJECT_DECISIONS、USER_INSTRUCTION_LOG",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 11-04 12:1x 對 CC-B",
+   "authorized": "使用者直接要求",
+   "evidence": "ad3ccf750"
   }
  ]
 }
