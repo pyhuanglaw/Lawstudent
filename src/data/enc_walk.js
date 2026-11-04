@@ -1198,7 +1198,7 @@ const ENC_WALK={
    "who": "classmate_peishan",
    "spot": "D06",
    "friend": "我去書店了。你慢慢看。",
-   "dating": "下午見。……如果你來的話。"
+   "dating": "下午見！我在繪本區。"
   },
   {
    "who": "kexin",
@@ -1657,7 +1657,7 @@ const ENC_WALK={
      "mem": "ENC_D04_ZR3",
      "after": {
       "where": "Café 的閒聊",
-      "line": "那部老片下週重映。……我只是告訴你。"
+      "line": "那部老片下週重映。週六早場。"
      }
     }
    ],

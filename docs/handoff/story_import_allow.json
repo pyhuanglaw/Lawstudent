@@ -1070,18 +1070,24 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "cbdbc69bf",
+   "sha": "4e39653c9",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句；4e39653c9：AA_678 第 6、7 列（AA-C 2026-11-04 定稿，D109）芷若 D04 line「那部老片下週重映。週六早場。」、沛珊 D06 dating「下午見！我在繪本區。」（任務 AA678-LINES-1104；cbdbc69bf 到這一版之間另外只有 4618aed21 RENAME-1030 換名，遊戲已經是新名）",
    "task": "ENC-B3-1017",
    "kind": "text",
    "history": [
     {
      "sha": "b5acbaad",
      "note": "AA_439 第 4 節以前"
+    },
+    {
+     "sha": "cbdbc69bf",
+     "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+     "task": "ENC-B3-1017",
+     "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃；2026-11-04 換成 4e39653c9 以前的版本"
     }
    ],
-   "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃"
+   "note": "4e39653c9：AA_678 第 6、7 列（src/data/enc_walk.js 不是產生的，照 738cc7ffc 的做法手動換這兩句）"
   },
   {
    "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
