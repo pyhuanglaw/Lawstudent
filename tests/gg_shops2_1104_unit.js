@@ -102,6 +102,16 @@ for(const k of ['afar','daybreak']){ const S=SPEC[k], L=S.L; let R;
   const lic=rd('LICENSES.md'); check('6 LICENSES.md：兩個 GLB 各一行（本作 Blender、誰做的）',['aa_support/afar.glb','aa_support/daybreak.glb'].every(g=>new RegExp('\\| [^\\n]*'+g.replace(/[.\/]/g,'\\$&')+'[^\\n]*本作 Blender[^\\n]*AA 製作').test(lic)));
   const al=JSON.parse(rd('docs/handoff/story_import_allow.json')), ent=(al.files||al.allow||al.entries||Object.values(al).find(Array.isArray)||[]).find(e=>e&&/AA_652/.test(e.path||''));
   check('6 劇情匯入白名單：AA_652（路徑＋來源 commit＋approved＋AA（D109））',!!ent&&ent.status==='approved'&&ent.approvedBy==='AA（D109）'&&/^[0-9a-f]{7,}$/.test(ent.sha||''),J(ent)); }
+// ---- 9 窗卡 v5 打烊調暗（LAWWW2 1d4675069：亮窗網格 uv1.x＝店編號 1～8；BB 11-04「打烊的店窗還亮」）----
+{ const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0,1,0,0,0,1,0],3)); geo.setAttribute('uv1',new THREE.Float32BufferAttribute([6,0,6,0,6,0],2));
+  const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({emissive:0xffffff})); mesh.name='NOSHADOW_xs_fronts_lit_1'; const grp=new THREE.Group(); grp.name='NOSHADOW_xs_fronts_lit'; grp.userData.xsShops='ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb'; grp.add(mesh); const root=new THREE.Group(); root.add(grp);
+  const zone={update:null}; G.zone="gongguan"; G.day=30; G.hour=14; const R=Z3.ggShopLit&&Z3.ggShopLit(root,zone);
+  check('9 Z3.ggShopLit：找到亮窗網格、店編號照 extras.xsShops',!!R&&R.mesh===mesh&&R.ids.length===8&&R.ids[5]==='ggafar');
+  if(R){ const sh={uniforms:{},vertexShader:'#include <common>\n#include <begin_vertex>',fragmentShader:'#include <common>\n#include <emissivemap_fragment>'}; mesh.material.onBeforeCompile(sh);
+    check('9 shader：讀 uv1.x、uniform uShopLit[9] 乘 totalEmissiveRadiance（不多 draw call：同一個網格同一個材質）',!!sh.uniforms.uShopLit&&/vShopIdx=uv1\.x/.test(sh.vertexShader)&&/uniform float uShopLit\[9\]/.test(sh.fragmentShader)&&/totalEmissiveRadiance\*=k/.test(sh.fragmentShader));
+    const L=R.lit; check('9 14:00：afar（6）開、Daybreak（8）開、青木（1）開；洋洋（4）、轉角（7）沒有營業時間＝照舊亮',L[6]===1&&L[8]===1&&L[1]===1&&L[4]===1&&L[7]===1,J(L));
+    G.hour=22; zone.update(0.016,E); check('9 22:00：afar、Daybreak、青木打烊＝0.18；日和（3，24 小時）照舊 1',L[6]===0.18&&L[8]===0.18&&L[1]===0.18&&L[3]===1,J(L));
+    G.hour=14; for(let i=0;i<30;i++) zone.update(0.016,E); check('9 回到 14:00：每 30 幀更新一次 uniform，又亮回來',L[6]===1&&L[8]===1,J(L)); } }
 // ---- B 子程序 ----
 const rB=cp.spawnSync(process.execPath,[__filename,'B'],{encoding:'utf8',cwd:ROOT,timeout:120000});
 process.stdout.write(rB.stdout||''); if(rB.status!==0){ fails+=((rB.stdout||'').match(/^FAIL /mg)||[]).length||1; if(rB.stderr) console.log('B stderr:',rB.stderr.split('\n').slice(0,6).join(' / ')); }
