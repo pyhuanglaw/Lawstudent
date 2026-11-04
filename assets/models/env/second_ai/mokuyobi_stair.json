@@ -1,0 +1,14 @@
+{
+ "objects": 14,
+ "unique_meshes": 14,
+ "tris": 4166,
+ "tris_drawn": 4166,
+ "materials": 10,
+ "out": "../mok/stair.glb",
+ "bytes": 481536,
+ "texres": 512,
+ "layout": 4,
+ "risers": 16,
+ "rise": 3.2,
+ "tread": 0.294
+}
