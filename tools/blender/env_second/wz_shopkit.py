@@ -515,12 +515,14 @@ def housefront_v2(spec, xf, W, rng, rec):
     for (a0, a1) in ((x0 - 0.2, x0), (x1, x1 + 0.2)): xf.box(stone, a0, a1, 0.0, top + 0.2, z, z + 0.14)
     xf.box(stone, x0 - 0.2, x1 + 0.2, top, top + 0.22, z, z + 0.14)
     xf.box(stone, x0 - 0.3, x1 + 0.3, 0.0, 0.08, z, z + 0.62); xf.box(stone, x0 - 0.2, x1 + 0.2, 0.08, 0.16, z, z + 0.32)
-    zd = z + 0.03
-    xf.box(dk, x0, x1, 0.16, top, z, z + 0.006)                                                 # 門後的暗處（玻璃後面看到的樓梯間）
-    xf.quad(acc(M['win_glass']), [(x0, dh * 0.5, z + 0.012), (x1, dh * 0.5, z + 0.012), (x1, top, z + 0.012), (x0, top, z + 0.012)])
+    zd = z + 0.03; opened = bool(sf.get('stair_open'))
+    if not opened:
+        xf.box(dk, x0, x1, 0.16, top, z, z + 0.006)                                             # 門後的暗處（玻璃後面看到的樓梯間）
+        xf.quad(acc(M['win_glass']), [(x0, dh * 0.5, z + 0.012), (x1, dh * 0.5, z + 0.012), (x1, top, z + 0.012), (x0, top, z + 0.012)])
+    else: mok_stair_entry(spec, xf, x0, x1, z, dc)                                              # 木曜日（B4）：鐵門開著，看得到往上的樓梯（ART-MOKUYOBI-1103）
     # 對開的門片：外框、下半實心板（兩塊凸起的菱形框）、上半鐵條
     lw = dw / 2
-    for k in (0, 1):
+    for k in ((0, 1) if not opened else ()):
         l0 = x0 + k * lw; l1 = l0 + lw; cx = (l0 + l1) / 2
         for (a0, a1) in ((l0, l0 + 0.05), (l1 - 0.05, l1)): xf.box(dc, a0, a1, 0.16, dh, zd, zd + 0.04)
         xf.box(dc, l0, l1, dh - 0.05, dh, zd, zd + 0.04); xf.box(dc, l0, l1, 0.16, 1.12, zd, zd + 0.03)
@@ -569,7 +571,7 @@ def housefront_v2(spec, xf, W, rng, rec):
             xf.quad(acc(M['win_glass']), [(wx - 0.97, 1.06, z + 0.014), (wx + 0.97, 1.06, z + 0.014), (wx + 0.97, 2.14, z + 0.014), (wx - 0.97, 2.14, z + 0.014)])
             if rng.random() < 0.6: inst(GRILLE, f'dgrille_{spec["id"]}', xf, wx, 0.95, z)
     if sf.get('decal'):                                                                          # 二樓中間那扇窗的割字貼紙（課輔班）
-        it = SIGN_ATLAS[sf['decal']]; n_ = max(1, round(W / 3.6)); cxw = -W / 2 + (n_ // 2 + 0.5) * W / n_; ww_ = min(2.2, W / n_ - 0.9) - 0.1; yw0 = GH + FH * 0.52 - 0.75 + 0.18
+        it = SIGN_ATLAS[sf['decal']]; n_ = max(1, round(W / 3.6)); cxw = -W / 2 + (n_ // 2 + 0.5) * W / n_; ww_ = min(2.2, W / n_ - 0.9) - 0.1; yw0 = GH + (sf.get('decal_f', 1) - 1) * FH + FH * 0.52 - 0.75 + 0.18   # decal_f：貼在第幾層的窗（B4 的課輔班 11-03 起在三樓）
         sign_tex(xf, sf['decal'], cxw, yw0, ww_, -0.124, f'sk_decal_{spec["id"]}')   # 貼在玻璃前面 6 mm（BUG-WZFLICKER-2：原本和窗玻璃同一個平面）
     if sf.get('banner'):                                                                         # 樓梯口旁邊掛的帆布布條
         it = SIGN_ATLAS[sf['banner'][0]]; bx_ = sf['banner'][1]; bw_ = 0.5; bh_ = bw_ / it['aspect']
@@ -582,6 +584,59 @@ def housefront_v2(spec, xf, W, rng, rec):
         elif k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         else: inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
     if sf.get('meter') is not None: inst(PROTO['meter'], f'skmeter_{spec["id"]}', xf, sf['meter'], 1.5, z)
+
+
+def mok_stair_entry(spec, xf, x0, x1, z, dc):
+    """木曜日（B4，ART-MOKUYOBI-1103）：打開的深綠鐵門後面往上的窄樓梯（從巷子看得到；真正走的樓梯在 wz_mokuyobi 區域，tools/blender/env_second/mokuyobi_stair.py）。
+    本地 z＝牆面（−rec），往 −z 是屋裡；踏階和區域一樣 0.2 m×0.294 m，第一階在門檻後 0.3 m。兩側是奶油色牆＋淡綠腰牆（斜線）、天花一盞吊燈，最裡面是暗的。"""
+    dep = spec['sf']['stair_open']['depth']; R_, T_, n_ = 0.2, 0.294, 16; zb = z - 0.3
+    cream, dado, step = acc(frame_mat('#e2d4b6')), acc(frame_mat('#9bb39a')), acc(SK['f_terrazzo'])
+    xf.box(step, x0, x1, -0.02, 0.16, zb, z + 0.02)                                              # 門檻後面那一小段地（和門口的台階同高）
+    for k in range(1, n_):
+        za_, zb_ = zb - k * T_, zb - (k - 1) * T_
+        if za_ < z - dep + 0.05: break
+        xf.box(step, x0, x1, 0.0, 0.16 + k * R_, max(za_, z - dep), zb_)
+    yd = lambda zz: min(GH - 0.05, 1.0 + 0.16 + R_ * max(0.0, (zb - zz) / T_))                 # 腰牆上緣：跟著樓梯斜上去
+    for (xx, sgn) in ((x0 + 0.005, 1), (x1 - 0.005, -1)):
+        for (za_, zb_) in ((z, zb), (zb, z - dep)):
+            for (m_, ya, yb, yc, ydd) in ((dado, 0.0, 0.0, yd(za_), yd(zb_)), (cream, yd(za_), yd(zb_), GH - 0.05, GH - 0.05)):
+                pts = [(xx, ya, za_), (xx, yb, zb_), (xx, (ydd if m_ is dado else GH - 0.05), zb_), (xx, (yc if m_ is dado else GH - 0.05), za_)]
+                xf.quad(m_, pts if sgn < 0 else pts[::-1])
+    xf.quad(acc(M['ac_dark']), [(x0, 0.0, z - dep + 0.01), (x1, 0.0, z - dep + 0.01), (x1, GH - 0.05, z - dep + 0.01), (x0, GH - 0.05, z - dep + 0.01)])   # 最裡面（暗）
+    xf.quad(cream, [(x0, GH - 0.06, z), (x1, GH - 0.06, z), (x1, GH - 0.06, z - dep), (x0, GH - 0.06, z - dep)])   # 天花
+    q = xf.p((x0 + x1) / 2, 2.75, zb - 0.9); acc(M['bulb']).sphere(q, 0.09, seg=10, rings=5)   # 吊燈
+    CL.glow(root, 'mok_stairlamp', q[0], q[1] - 0.05, q[2], color='rgba(255,214,150,1)', size=0.9, day=0.25, night=0.9)
+    # 兩扇鐵門往裡開、貼著兩側的牆（外框＋下半實心＋上半鐵條；和關著的門同一種樣子）
+    lw = (x1 - x0) / 2
+    for (xa, xb) in ((x0 + 0.01, x0 + 0.045), (x1 - 0.045, x1 - 0.01)):
+        xf.box(dc, xa, xb, 0.16, 1.12, z - lw, z - 0.02); xf.box(dc, xa, xb, 1.12, 1.17, z - lw, z - 0.02); xf.box(dc, xa, xb, 2.2, 2.25, z - lw, z - 0.02)
+        for (za_, zb_) in ((z - lw, z - lw + 0.05), (z - 0.07, z - 0.02)): xf.box(dc, xa, xb, 0.16, 2.25, za_, zb_)
+        for i in range(1, 5): zc_ = z - 0.02 - i * (lw - 0.02) / 5; xf.box(dc, xa, xb, 1.17, 2.2, zc_ - 0.011, zc_ + 0.011)
+    # 門左上的木招牌（字在遊戲裡畫：PLATE_FACE＋serif）＋門燈
+    ms = spec['sf'].get('mok_sign')
+    if ms:
+        wd = acc(frame_mat('#5e3e29')); sx0, sx1 = ms['x'] - ms['w'] / 2, ms['x'] + ms['w'] / 2
+        xf.box(wd, sx0 - 0.03, sx1 + 0.03, ms['y0'] - 0.03, ms['y1'] + 0.03, z, z + 0.05)
+        face(f'PLATE_FACE_mok_{spec["id"]}', M['board'], xf, [(sx0, ms['y0'], z + 0.052), (sx1, ms['y0'], z + 0.052), (sx1, ms['y1'], z + 0.052), (sx0, ms['y1'], z + 0.052)],
+             {'plate': 'sign', 'text': '木曜日', 'bg': '#5e3e29', 'color': '#f1e3c4', 'serif': True, 'fs': 0.62})
+        lx = ms['x']; xf.cyl(acc(M['grille']), (lx, ms['y1'] + 0.08, z), (lx, ms['y1'] + 0.2, z + 0.25), 0.012, seg=6)
+        q = xf.p(lx, ms['y1'] + 0.17, z + 0.27); acc(M['bulb']).sphere(q, 0.06, seg=8, rings=4)
+        CL.glow(root, 'mok_signlamp', q[0], q[1] - 0.04, q[2], color='rgba(255,214,150,1)', size=0.8, day=0.0, night=0.85)
+
+
+def mok_window(spec, xf, w):
+    """木曜日二樓的整排木框窗（一格 0.9 m、上面一排小氣窗）：玻璃後面是亮著暖光的店（room_lit，晚上發光）＋奶油白紗簾（兩端、中間各一組）。
+    牆的洞由 apartment() 照 w['w'] 留好；窗退在牆面裡 12 cm。"""
+    x0, x1, y0, y1 = w['x'] - w['w'] / 2, w['x'] + w['w'] / 2, w['y0'], w['y1']; wd = acc(frame_mat('#5e3e29'))
+    xf.box(acc(M['room_lit']), x0, x1, y0, y1, -0.9, -0.88)                                     # 店裡（遠一點的暖色面）
+    for (a, b) in ((x0, x0 + 0.7), (x1 - 0.7, x1), (w['x'] - 0.25, w['x'] + 0.25)):
+        xf.quad(acc(M['curtain_lit']), [(a, y0 + 0.05, -0.2), (b, y0 + 0.05, -0.2), (b, y1 - 0.05, -0.2), (a, y1 - 0.05, -0.2)])
+    xf.quad(acc(M['glass_lit']), [(x0, y0, -0.13), (x1, y0, -0.13), (x1, y1, -0.13), (x0, y1, -0.13)])
+    for (a, b) in ((x0, x0 + 0.07), (x1 - 0.07, x1)): xf.box(wd, a, b, y0, y1, -0.16, -0.1)
+    for (c, d) in ((y0, y0 + 0.07), (y1 - 0.07, y1), (y1 - 0.5, y1 - 0.45)): xf.box(wd, x0, x1, c, d, -0.16, -0.1)
+    n = max(1, round((x1 - x0) / 0.9))
+    for i in range(1, n): xx = x0 + i * (x1 - x0) / n; xf.box(wd, xx - 0.025, xx + 0.025, y0, y1, -0.15, -0.11)
+    xf.box(acc(M['band']), x0 - 0.06, x1 + 0.06, y0 - 0.06, y0, -0.25, 0.06)                   # 窗台
 
 
 def shutter_v2(spec, xf, W, rec):
@@ -1349,7 +1404,11 @@ SF_L118_FILL = {
 }
 SF_HOUSE = {
     'A2': dict(number='31號', door_x=-1.2, notes=[('poster', 1.0, 1.25, 0.36, 0.42)], clutter=[('pot', 1.4, 0.18), ('pot', 2.4, 0.2, 'broad'), ('pot', 3.0, 0.18)], meter=-3.0),
-    'B4': dict(number='22號', door_x=-2.6, door_w=1.4, decal='xiaoshubao_decal', banner=('xiaoshubao_v', -3.9), notes=[('tutor', -0.9, 1.2, 0.42, 0.46)], clutter=[('pot', -5.0, 0.18, 'broad'), ('umb', -1.0, 0.25), ('bins', 2.6, 0.25)], meter=-4.6),   # B4：二樓是小書包兒童課輔（樓梯口，ART-BG13）
+    'B4': dict(number='37號', door_x=-2.6, door_w=1.4, decal='xiaoshubao_decal', decal_f=2, banner=('xiaoshubao_v', -5.3), notes=[('tutor', -0.9, 1.2, 0.42, 0.46)], clutter=[('pot', -5.0, 0.18, 'broad'), ('umb', -1.0, 0.25), ('bins', 2.6, 0.25)], meter=-4.6,
+               stair_open=dict(depth=4.9), win2f=dict(x0=-1.45, x1=3.75, y0=3.2 + 0.75, y1=3.2 + 2.55), mok_sign=dict(x=-3.95, y0=2.02, y1=2.34, w=0.86)),
+    # B4（37 號，ART-MOKUYOBI-1103）：二樓是木曜日（AA_617：深綠鐵門＋往上的窄樓梯；店內 src/data/mokuyobi_layout.js，區域 src/mokuyobi3d.js：溫州街 x＝區域 x＋11.15、z＝區域 z−12.25）；
+    #   鐵門白天開著（stair_open）、二樓整排木框窗（win2f：店內窗 x −2.6～2.6、窗台 0.75、窗頂 2.55，二樓地板 3.2）、門左上的木招牌＋門燈（mok_sign）。
+    #   小書包兒童課輔（ART-BG13；沛珊的課輔班事件只用一樓門口的 2D 背景，沒寫幾樓）搬到三樓：割字貼紙 decal_f＝2、帆布布條移到門的更西邊
     'C2': dict(number='45號', door_x=-1.4, notes=[('poster', 0.55, 1.25, 0.36, 0.42)], clutter=[('pot', 1.6, 0.18, 'broad')]),   # ART-WZ0 第二批：門邊的社區公告（生活痕跡）
     'W0': dict(number='7號', door_x=-2.8, notes=[('lostcat', -1.6, 1.3, 0.36, 0.4)], clutter=[('pot', 2.0, 0.18), ('pot', 2.5, 0.18, 'broad')], meter=-5.2),
 }

@@ -4,7 +4,7 @@
  "tris": 4166,
  "tris_drawn": 4166,
  "materials": 10,
- "out": "../mok/stair.glb",
+ "out": "assets/models/env/second_ai/mokuyobi_stair.glb",
  "bytes": 481536,
  "texres": 512,
  "layout": 4,

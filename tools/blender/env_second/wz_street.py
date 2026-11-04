@@ -579,6 +579,10 @@ def apartment(spec):
             # 公館 7 樓以上（X86 加高到 6～14 層）也用遠景的做法：從馬路看上去，鐵窗、冷氣、雨遮看不清楚，三角形不要跟著樓層一起長
             kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (spec.get('p_grille', 0.15) * 0.4 if (far and not spec.get('far')) else spec.get('p_grille', 0.15 if far else 0.7)) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
             wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
+    w2 = spec.get('sf', {}).get('win2f') if spec.get('sf') else None
+    if w2:   # 木曜日（B4 二樓，ART-MOKUYOBI-1103）：二樓一整排木框窗（對齊店內 mokuyobi_layout.js 的 front.windows），蓋掉這一段原本的窗
+        wins = [w for w in wins if not (w['f'] == 1 and w['x'] + ww / 2 > w2['x0'] - 0.3 and w['x'] - ww / 2 < w2['x1'] + 0.3)]
+        wins.append(dict(f=1, x=(w2['x0'] + w2['x1']) / 2, w=w2['x1'] - w2['x0'], y0=w2['y0'], y1=w2['y1'], kind='mok', hood=False, ac=False, lit=True, acs=1))
     if SET in ('gongguan', 'lane118'):
         if spec.get('sign2f'): wins = [w for w in wins if w['f'] != 1]   # 二樓整面大招牌：二樓不開窗
         # 直立招牌（店的、樓上住戶的）旁邊的窗不加鐵窗、雨遮、冷氣（不然會穿過招牌）
@@ -594,10 +598,10 @@ def apartment(spec):
     for f in range(1, F):
         y0 = GH + (f - 1) * FH; y1 = y0 + FH; wl = wall_hi if (HI and f >= 6) else wall
         ws = sorted([w for w in wins if w['f'] == f], key=lambda w: w['x'])
-        xs = [-W / 2] + [v for w in ws for v in (w['x'] - ww / 2, w['x'] + ww / 2)] + [W / 2]
+        xs = [-W / 2] + [v for w in ws for v in (w['x'] - w.get('w', ww) / 2, w['x'] + w.get('w', ww) / 2)] + [W / 2]   # w：這扇窗自己的寬（木曜日的整排窗）
         for k in range(0, len(xs), 2): xf.box(wl, xs[k], xs[k + 1], y0, y1, -0.25, 0)
         for w in ws:   # 窗下的牆停在窗台裡面（低 1 cm）：原本牆頂和窗台頂同一個平面，一直閃（BUG-WZFLICKER）
-            xf.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, y0, w['y0'] - 0.01, -0.25, 0); xf.box(wl, w['x'] - ww / 2, w['x'] + ww / 2, w['y1'], y1, -0.25, 0)
+            wv = w.get('w', ww); xf.box(wl, w['x'] - wv / 2, w['x'] + wv / 2, y0, w['y0'] - 0.01, -0.25, 0); xf.box(wl, w['x'] - wv / 2, w['x'] + wv / 2, w['y1'], y1, -0.25, 0)
     xf.box(wall_hi, -W / 2, W / 2, totalH, totalH + 0.9, -0.2, 0)                                # 女兒牆
     band = acc(M['band']); band_hi = acc_hi(M['band']) if HI else band
     def tall(m, x0, x1, z0, z1):   # 側牆、後牆：從二樓一直到女兒牆頂；七樓以上那一段放進不投影的物件
@@ -615,6 +619,7 @@ def apartment(spec):
     # ---- 窗（instancing）＋窗簾；鐵窗／雨遮／冷氣／陽台
     ac_at = []
     for w in wins:
+        if w['kind'] == 'mok': mok_window(spec, xf, w); continue   # 木曜日二樓的木框窗（wz_shopkit.py）
         x0, x1, y0, y1, cx = w['x'] - ww / 2, w['x'] + ww / 2, w['y0'], w['y1'], w['x']
         inst(window_proto(wh, 'shell'), f'win_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
         inst(window_proto(wh, 'lit' if w['lit'] else 'dark'), f'pane_{spec["id"]}', xf, cx, y0, 0.0, sx=ww / WIN_W)
@@ -660,6 +665,9 @@ def apartment(spec):
     upper_signs(spec, xf, W, totalH)
     # ---- 一樓：牆體和樓上同一種外牆（側面露在巷口時不會變成另一種材質）；店面兩側的石材壁柱
     if SET == 'wenzhou' and spec['id'] == 'A2' and 'copy_corner_carve' in globals(): copy_corner_carve(xf, wall, W, D, rec)   # ART-WZ6：東側（北巷）挖出阿德影印搬過來的轉角店面（wz_shopkit.py）
+    elif spec.get('sf', {}).get('stair_open'):   # 木曜日（B4）：鐵門打開，一樓牆體挖出往上的樓梯間（裡面的樓梯在 wz_shopkit.mok_stair_entry）
+        so = spec['sf']; sx0, sx1 = so['door_x'] - so['door_w'] / 2, so['door_x'] + so['door_w'] / 2; dep, ph = so['stair_open']['depth'], GH - 0.05
+        xf.box(wall, -W / 2, sx0, 0, GH, -D, -rec); xf.box(wall, sx1, W / 2, 0, GH, -D, -rec); xf.box(wall, sx0, sx1, ph, GH, -D, -rec); xf.box(wall, sx0, sx1, 0, ph, -D, -rec - dep)
     else: xf.box(wall, -W / 2, W / 2, 0, GH, -D, -rec)                                                  # 一樓牆體（店面退縮）
     gw = acc(M['gwall'])
     if gt in ('shop', 'arcade') and not spec.get('sf'):

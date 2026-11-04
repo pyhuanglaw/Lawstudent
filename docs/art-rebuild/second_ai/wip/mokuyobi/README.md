@@ -67,24 +67,47 @@
 - 點餐、看書櫃、唱片機、海報（配置的 `interact`）**沒有接**：LAWWW 照 AA_618 的台詞接，我不放空按鈕。
 - 資產登錄在這個檔裡（和 118 巷店家一樣），不動 `assets3d.js`。
 
-## 溫州街那一端（zones3d.js，patch）
-- B4 鐵門前 (7.4, −4.55) 有「上二樓（木曜日）」。
-- B4 門口 x 6.3～8.5 不停機車：原本那一排機車把門口的人行道整段擋住。
+## 溫州街那一端
+- zones3d.js（在 patch 裡）：
+  - B4 鐵門前 (7.4, −4.55) 有「上二樓（木曜日）」；
+  - B4 門口 x 6.3～8.5 不停機車：原本那一排機車把門口的人行道整段擋住。
+- B4 外觀（`wz_street.py`、`wz_shopkit.py`，重出 `wenzhou_street.glb`）：
+  - 鐵門白天開著：兩扇門往裡開、貼著兩側的牆。一樓牆挖出 4.9 m 深的樓梯間，從巷子看得到磨石子樓梯往上爬，還有淡綠腰牆（斜線）、吊燈。
+  - 門左上的木招牌「木曜日」（`PLATE_FACE_mok_B4`，字在遊戲裡畫，serif）＋門燈。
+  - 門牌 22 號 → 37 號（AA_617：照參考圖）。
+  - 二樓整排木框窗：一格 0.9 m、上面一排小氣窗，奶油白紗簾，店裡的暖光晚上會亮。對齊店內的窗 x −2.6～2.6。
+  - 小書包課輔班：割字貼紙移到三樓那扇窗，帆布布條移到門的更西邊（x −5.3）。
+  - 三角形 93,381（原本 93,881，F4 拿掉以後的版本是 93,155）；材質 149 → 152。
+- 下圖是 Blender 渲染（不是遊戲截圖），白天、曝光偏亮。招牌是空白板，字在遊戲裡畫。
+
+![B4 外觀](exterior_b4_v1.jpg)
+
+- **還沒和參考圖左半比對**：參考圖是傍晚的暖光，外觀的光是遊戲的時段在打，要在遊戲裡 17:xx 截圖比，照 D131 排到使用者的電腦。
+
+## patch（交 LAWWW）
+- `mokuyobi_WIP.patch`：**要先套 `wip/xinsheng/xinsheng_zone_WIP.patch`**。兩份都接開發分支 e95e0e4e9；依序套，`git apply --check` 都通過。
+  - 這份的 `wenzhou_street.glb` 已經包含新生南路那份拿掉 F4 的改動。
+- 內容：
+  - `src/mokuyobi3d.js`、`src/data/mokuyobi_layout.js`、`tests/mokuyobi_unit.js`；
+  - `zones3d.js` 兩處（上二樓的互動點、機車空位）；
+  - 三個 GLB：店內 `aa_support/mokuyobi.glb`、樓梯 `mokuyobi_stair.glb`、`wenzhou_street.glb`。
+- **index.html 要加**（LAWWW 的檔案，不在 patch 裡）：在 `src/zones3d.js` 後面加
+  - `<script src="src/data/mokuyobi_layout.js?v=…"></script>`
+  - `<script src="src/mokuyobi3d.js?v=…"></script>`
+  - 資產登錄在 mokuyobi3d.js 裡面，不用動 assets3d.js。
+- 還沒載入 mokuyobi3d.js 的時候：溫州街沒有「上二樓」，機車照舊停滿，B4 外觀已經是新的（門開著、看得到樓梯）。
+  - 這個狀態不會卡住玩家，但會有一扇看得到、進不去的門。**兩份 patch 和 index.html 那兩行要一起整合。**
 
 ## 測試
-- `node tests/mokuyobi_unit.js`：18 項 ALL PASS。
-  - 用引擎真正的找路和移動碰撞走，dt 1/30 和 0.1、走路和跑步都試。
-  - 涵蓋：上下樓、24 個座位、隔間牆、溫州街門口。
-  - 第一版（41°）在第 5 項失敗，樓梯下半段兩層都開的時候第 8 項失敗。
-- **沒跑**：瀏覽器測試。照 D131 排到使用者的電腦，還沒排。
+- Node，在 e95e0e4e9＋新生南路 patch＋這份 patch 上跑，全部 ALL PASS：
+  - `mokuyobi_unit`（18 項）、`xinsheng_unit`、`nav_buildings_unit`、`seat_reach_unit`；
+  - 溫州街系列 17 支：wz_aa364_shops、wz_cat 三支、wz_copy_shop、wz_market 兩支、wz_park 三支、wz_shops 四支、wz_swing_front、wz_teahouse_seats、wz_work_spots。
+- `mokuyobi_unit` 第一版（41°）在第 5 項失敗、樓梯下半段兩層都開的時候第 8 項失敗，改好以後通過。
+- **還沒跑（瀏覽器，照 D131 排到使用者的電腦）**：
+  - zone_transitions、reachability_all、touch_flow_wenzhou、wz_street_integration；
+  - 實際走上樓梯、坐下、鏡頭在樓梯間的截圖。
 
 ## 還沒做
-1. 溫州街 B4 的外觀（`wz_street.py`／`wz_shopkit.py`，重出 `wenzhou_street.glb`）：
-   - 打開的鐵門，看得到裡面的樓梯；
-   - 「木曜日」木招牌＋門燈；
-   - 門牌 37 號；
-   - 二樓整排木框窗＋紗簾、晚上亮；
-   - 課輔班貼紙換到三樓。
-2. 和參考圖左半（外觀）比對。
-3. P3：曲木椅、天花板木樑、近景地毯、磨石子。
-4. 交 LAWWW：patch＋index.html 要加的兩行。
+1. 遊戲裡的截圖（樓梯間鏡頭、店內、外觀 17:xx），排到使用者的電腦。
+2. P3：曲木椅、天花板木樑、近景地毯、磨石子。
+3. 點餐、看書櫃、唱片機、海報：LAWWW 照 AA_618 接。
