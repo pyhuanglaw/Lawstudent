@@ -1,0 +1,47 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_map_friend_go_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MAP_fix3\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：先讀一個存檔，在瀏覽器裡掃時段（只算 whereIs，不動存檔；算完改回原本的日期時間）（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  認識的人：["heroine_01", "zhe", "yu", "classmate_bohan", "classmate_xinci", "classmate_mingxuan", "classmate_youchen", "classmate_peishan", "kai", "econ_zhengxun", "econ_pinyu", "econ_weilun", "econ_jiahao", "econ_tangrui", "jp_caizhen", "jp_liheng", "jp_yuheng", "npc_fangyt", "npc_huangxh", "kexin", "npc_ta_chen", "prof_zhou", "prof_lin", "prof_zhang", "prof_wu", "prof_wei", "prof_huang", "prof_xu", "prof_tsai", "prof_chen", "prof_zheng", "prof_ye", "prof_he", "prof_jian"]；有行程的時段（天, 週幾, 時, 人數, 誰@哪）：[[4, 6, 9.5, 1, ["npc_fangyt@campus"]], [4, 6, 11, 1, ["npc_fangyt@campus"]], [4, 6, 14, 2, ["heroine_01@cafe", "classmate_youchen@cafe"]], [4, 6, 15.5, 2, ["heroine_01@cafe", "classmate_youchen@cafe"]], [4, 6, 18.5, 1, ["kai@dorm"]], [4, 6, 20, 2, ["classmate_mingxuan@gongguan", "kai@dorm"]], [5, 0, 12.5, 1, ["zhe@l118_home"]], [5, 0, 14, 2, ["heroine_01@cafe", "classmate_youchen@cafe"]], [5, 0, 15.5, 2, ["heroine_01@cafe", "classmate_youchen@cafe"]], [5, 0, 18.5, 1, ["kai@dorm"]], [5, 0, 20, 1, ["kai@dorm"]], [6, 1, 9.5, 7, ["heroine_01@classroom", "zhe@classroom", "yu@classroom", "classmate_bohan@classroom", "classmate_xinci@classroom", "classmate_mingxuan@classroom"]], [6, 1, 11, 7, ["heroine_01@classroom", "zhe@classroom", "yu@classroom", "classmate_bohan@classroom", "classmate_xinci@classroom", "classmate_mingxuan@classroom"]], [6, 1, 12.5, 1, ["npc_fangyt@campus"]], [6, 1, 14, 2, ["npc_huangxh@library", "npc_ta_chen@library"]], [6, 1, 15.5, 7, ["zhe@campus", "yu@campus", "classmate_bohan@library", "classmate_xinci@library", "classmate_mingxuan@campus", "npc_huangxh@library"]], [6, 1, 17, 8, ["heroine_01@cafe", "zhe@campus", "yu@campus", "classmate_bohan@library", "classmate_xinci@library", "classmate_mingxuan@campus"]], [6, 1, 18.5, 7, ["heroine_01@campus", "zhe@gongguan", "yu@campus", "classmate_bohan@library", "classmate_mingxuan@lane118", "classmate_peishan@library"]], [6, 1, 20, 6, ["heroine_01@campus", "zhe@gongguan", "classmate_bohan@library", "classmate_xinci@cafe", "classmate_youchen@gongguan", "kai@dorm"]]]
+  [前置／捷徑] 讀檔：校園第 4 天找人（{"zone": "campus", "day": 4, "weekday": 6, "hour": 9.5}）
+  人：[["方奕廷", "campus", "here"], ["法服攤位那個人", "wancai", "mins:10"]]
+  [前置／捷徑] 讀檔：校園第 4 天找人（{"zone": "campus", "day": 4, "weekday": 6, "hour": 11}）
+  人：[["不認識的女生", "campus", "here"], ["方奕廷", "campus", "here"], ["抱著一疊講義的女生", "cafe", "mins:20"], ["法服攤位那個人", "wancai", "mins:10"]]
+  [前置／捷徑] 讀檔：校園第 4 天找人（{"zone": "campus", "day": 4, "weekday": 6, "hour": 14}）
+  人：[["沈以安", "cafe", "mins:20"], ["賴宥辰", "cafe", "mins:20"], ["抱著一疊講義的女生", "cafe", "mins:20"]]
+PASS 前置：找到「同一區、走得到」的人  {"id": "npc_fangyt", "nm": "方奕廷", "met": true, "zone": "campus", "away": null, "here": true, "npc": true, "go": "here"}
+PASS 前置：找到「別區、走得到」的人  {"id": "heroine_01", "nm": "沈以安", "met": true, "zone": "cafe", "away": null, "here": false, "npc": false, "go": "mins:20"}
+== M 大地圖
+  [前置／捷徑] 讀檔：大地圖：other（{"zone": "campus", "day": 4, "weekday": 6, "hour": 14}）
+  👥：[{"text": "沈以安：兩點半 Café（看書，到 17:00）\n直接過去（約 20 分鐘）", "fgo": "heroine_01", "btns": ["直接過去（約 20 分鐘）"]}]
+PASS M（other） ① 沒有「帶我去」  []
+PASS M（other） ② 走得到的人那一行都有「直接過去」（這一頁有 1 位走得到）  {"miss": [], "seen": ["沈以安"]}
+  M 按「直接過去」沈以安（別區 cafe）：前 {"zone": "campus", "hour": 14.0621, "day": 4, "x": 27.75, "z": 27.75, "d": null, "busy": false, "map": true, "phone": false} → 後 {"zone": "cafe", "hour": 14.932, "day": 4, "x": 0, "z": 5, "d": 6.04, "busy": false, "map": false, "phone": false}；遊戲時間 +52.2 分鐘
+PASS M（other）：按下去以後大地圖關掉  {"zone": "cafe", "hour": 14.932, "day": 4, "x": 0, "z": 5, "d": 6.04, "busy": false, "map": false, "phone": false}
+FAIL M ④ 別區：快速前往以後站在他旁邊（≤ 2 m）  {"zone": "cafe", "hour": 14.932, "day": 4, "x": 0, "z": 5, "d": 6.04, "busy": false, "map": false, "phone": false}
+PASS M ④ 別區：遊戲時間有加（> 0）  52.2 分鐘
+  [前置／捷徑] 讀檔：大地圖：here（{"zone": "campus", "day": 4, "weekday": 6, "hour": 9.5}）
+  👥：[]
+PASS M（here） ① 沒有「帶我去」  []
+FAIL M（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL M（here）：方奕廷 那一行有「直接過去」可以按  []
+== P 手機朋友頁
+  [前置／捷徑] 讀檔：手機：here（{"zone": "campus", "day": 4, "weekday": 6, "hour": 9.5}）
+  朋友頁：[{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS P（here） ① 沒有「帶我去」  []
+FAIL P（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）  {"miss": [], "seen": []}
+FAIL P（here）：方奕廷 那一行有「直接過去」可以按  [{"text": "沈以安\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+  [前置／捷徑] 讀檔：手機：other（{"zone": "campus", "day": 4, "weekday": 6, "hour": 14}）
+  朋友頁：[{"text": "沈以安\n☆\n兩點半 Café（看書，到 17:00）\n直接過去（約 20 分鐘）\n資料\n訊息\n約", "id": "heroine_01", "fgo": "heroine_01", "btns": ["☆", "直接過去（約 20 分鐘）", "資料", "訊息", "約"]}, {"text": "阿哲\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n在木柵大學\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS P（other） ① 沒有「帶我去」  []
+PASS P（other） ② 走得到的人那一行都有「直接過去」（這一頁有 1 位走得到）  {"miss": [], "seen": ["沈以安"]}
+  P 按「直接過去」沈以安（別區 cafe）：前 {"zone": "campus", "hour": 14.0055, "day": 4, "x": 27.75, "z": 27.75, "d": null, "busy": false, "map": false, "phone": true} → 後 {"zone": "cafe", "hour": 14.894, "day": 4, "x": 0, "z": 5, "d": 6.04, "busy": false, "map": false, "phone": false}；遊戲時間 +53.3 分鐘
+FAIL P ④ 別區：站在他旁邊（≤ 2 m）、時間有加  {"w": {"zone": "cafe", "hour": 14.894, "day": 4, "x": 0, "z": 5, "d": 6.04, "busy": false, "map": false, "phone": false}, "dh": 53.31000000000003}
+== U 走不到的人（寒假）
+  [前置／捷徑] 讀檔：寒假 2026-01-28（{"zone": "campus", "day": 134, "weekday": 3, "hour": 14.0}）
+  走不到的人：[["沈以安", "回台中過年", null], ["不認識的女生", "回台中過年", null], ["阿哲", "回高雄過年", null], ["柏翰", "回新竹過年", null], ["沛珊", "寒暑假在台中的家", null], ["方奕廷", "回台中過年", null], ["杜可昕", "寒暑假在高雄的家", null]]；朋友頁：[{"text": "沈以安\n☆\n回台中過年\n資料\n訊息\n回台中了，不在臺北。", "id": "heroine_01", "fgo": null, "btns": ["☆", "資料", "訊息"]}, {"text": "阿哲\n☆\n回高雄過年\n資料\n訊息\n回高雄了，不在臺北。", "id": "zhe", "fgo": null, "btns": ["☆", "資料", "訊息"]}, {"text": "阿凱\n☆\n現在沒有固定的行程\n資料\n訊息\n約", "id": "kai", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "杜可昕\n☆\n寒暑假在高雄的家\n資料\n訊息\n約", "id": "kexin", "fgo": null, "btns": ["☆", "資料", "訊息", "約"]}, {"text": "周教授\n☆\n現在沒有固定的行程\n資料", "id": "prof_zhou", "fgo": null, "btns": ["☆", "資料"]}]
+PASS U ⑤ 前置：朋友頁上至少有一位走不到的人  ["沈以安", "不認識的女生", "阿哲", "柏翰", "沛珊", "方奕廷", "杜可昕"]
+PASS U ⑤ 走不到的人沒有「直接過去」  []
+PASS U ⑤ 頁面上不顯示「不能直接過去：…」
+PASS U ① 沒有「帶我去」  []
+PASS 沒有 JS 例外  []
+FAILED 6: M ④ 別區：快速前往以後站在他旁邊（≤ 2 m）；M（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；M（here）：方奕廷 那一行有「直接過去」可以按；P（here） ② 走得到的人那一行都有「直接過去」（這一頁有 0 位走得到）；P（here）：方奕廷 那一行有「直接過去」可以按；P ④ 別區：站在他旁邊（≤ 2 m）、時間有加
