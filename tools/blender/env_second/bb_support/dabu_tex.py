@@ -47,28 +47,31 @@ SW, SH = 1024, 1024
 SCW, SCH = 256, 204
 STYLES = ['bb_high', 'bb_mid', 'run', 'casual', 'retro']
 #             base       toe        heel       accent     lining     lace       mid        out        tongue
-COLS = {
-    'bb_high': [('#f2f2ef', '#f2f2ef', '#8e2a2e', '#8e2a2e', '#2a2a2c', '#f7f7f5', '#f3f1ea', '#8e2a2e', '#2a2a2c'),
-                ('#3a3d44', '#5c6068', '#3a3d44', '#b4b8be', '#c8663a', '#2b2d33', '#efede6', '#2b2d33', '#3a3d44'),
-                ('#f4f4f2', '#f4f4f2', '#36598f', '#36598f', '#1f2f55', '#f7f7f5', '#f3f1ea', '#36598f', '#f4f4f2'),
-                ('#e9e6df', '#e9e6df', '#4a4c52', '#4a4c52', '#2a2a2c', '#f2efe6', '#efe9dc', '#9a6a3e', '#e9e6df')],
-    'bb_mid': [('#8b9096', '#d8d9db', '#5b5f65', '#d8d9db', '#2a2a2c', '#f0f0ee', '#f0f0ee', '#3a3c40', '#8b9096'),
-               ('#f3f3f1', '#f3f3f1', '#565a60', '#565a60', '#2a2a2c', '#f7f7f5', '#f3f1ea', '#565a60', '#f3f3f1'),
-               ('#2a3550', '#2a3550', '#c8c9cc', '#c8c9cc', '#b8503a', '#2a3550', '#f3f1ea', '#2a3550', '#b8503a'),
-               ('#efe9dd', '#d6cfc2', '#8a3a2e', '#8a3a2e', '#3a2e28', '#efe9dd', '#efe9dd', '#a7703f', '#efe9dd')],
-    'run': [('#eef0f3', '#eef0f3', '#8f959c', '#7d8fa8', '#c9ccd2', '#ffffff', '#ffffff', '#5d6166', '#eef0f3'),
-            ('#2d3a5a', '#2d3a5a', '#9aa3b5', '#9aa3b5', '#1d2538', '#e9ebef', '#f4f4f2', '#2d3a5a', '#2d3a5a'),
-            ('#a9aeb3', '#c9cdd1', '#e2a46a', '#e2a46a', '#5d6166', '#f4f4f2', '#f7f6f2', '#5d6166', '#a9aeb3'),
-            ('#d9d4c8', '#d9d4c8', '#6e7d66', '#6e7d66', '#5a5a52', '#f2efe8', '#f2efe8', '#7a6a52', '#d9d4c8')],
-    'casual': [('#f3efe6', '#f3efe6', '#4d6a4f', '#4d6a4f', '#ddd5c6', '#f3efe6', '#f3efe6', '#c9b08a', '#f3efe6'),
-               ('#f6f6f4', '#f6f6f4', '#c9c9c4', '#c9c9c4', '#e2e2de', '#f6f6f4', '#f6f6f4', '#e6e6e2', '#f6f6f4'),
-               ('#c8a274', '#c8a274', '#8a6542', '#f1ece2', '#5a4632', '#f1ece2', '#f1ece2', '#6e5236', '#c8a274'),
-               ('#3a3b3e', '#3a3b3e', '#3a3b3e', '#f2f2ef', '#2a2b2e', '#f2f2ef', '#f2f2ef', '#2a2b2e', '#3a3b3e')],
-    'retro': [('#9aa09f', '#d9d6cf', '#d9d6cf', '#2d4f7a', '#3a3a3c', '#f0ede6', '#efeae0', '#a7703f', '#9aa09f'),
+COLS = {   # v2b（LAWWW2 11-04）：照參考圖加深色、對比色——白／黑、黑、白／海軍藍、白／紅、墨綠、米／咖啡、灰／橘……每種鞋型都有一雙深色的
+    'bb_high': [('#f0efea', '#f0efea', '#26272a', '#26272a', '#26272a', '#f5f5f2', '#efede6', '#26272a', '#26272a'),
+                ('#2a2b2e', '#3c3e43', '#2a2b2e', '#b8bcc2', '#8e2a2e', '#2a2b2e', '#e9e4d8', '#9a6a3e', '#2a2b2e'),
+                ('#f2f2ef', '#f2f2ef', '#2c3f66', '#2c3f66', '#1f2f55', '#f7f7f5', '#f3f1ea', '#2c3f66', '#f2f2ef'),
+                ('#efeee9', '#efeee9', '#8e2a2e', '#8e2a2e', '#2a2a2c', '#f7f7f5', '#f3f1ea', '#8e2a2e', '#2a2a2c')],
+    'bb_mid': [('#7c8288', '#d8d9db', '#4a4e54', '#e8e8e6', '#2a2a2c', '#f0f0ee', '#f0f0ee', '#3a3c40', '#7c8288'),
+               ('#2f4a3a', '#efeee8', '#2f4a3a', '#efeee8', '#1e2a22', '#efeee8', '#efede6', '#2f4a3a', '#2f4a3a'),
+               ('#2a3550', '#2a3550', '#c8c9cc', '#d8763a', '#b8503a', '#2a3550', '#f3f1ea', '#2a3550', '#b8503a'),
+               ('#e6dccb', '#c9bba4', '#6e4a32', '#6e4a32', '#3a2e28', '#efe9dd', '#efe9dd', '#a7703f', '#e6dccb')],
+    'run': [('#eef0f3', '#eef0f3', '#2e3034', '#2e3034', '#c9ccd2', '#ffffff', '#ffffff', '#2e3034', '#eef0f3'),
+            ('#2d3a5a', '#2d3a5a', '#9aa3b5', '#d9e04a', '#1d2538', '#e9ebef', '#f4f4f2', '#2d3a5a', '#2d3a5a'),
+            ('#6f757c', '#9aa0a7', '#e2a46a', '#e2a46a', '#3d4146', '#f4f4f2', '#f7f6f2', '#3d4146', '#6f757c'),
+            ('#d9d4c8', '#d9d4c8', '#3f5236', '#3f5236', '#5a5a52', '#f2efe8', '#f2efe8', '#7a6a52', '#d9d4c8')],
+    'casual': [('#f3efe6', '#f3efe6', '#2f5a3e', '#2f5a3e', '#ddd5c6', '#f3efe6', '#f3efe6', '#c9b08a', '#f3efe6'),
+               ('#f6f6f4', '#f6f6f4', '#8d9096', '#26272a', '#e2e2de', '#f6f6f4', '#f6f6f4', '#d8d4cc', '#f6f6f4'),
+               ('#b8905f', '#b8905f', '#7a5536', '#f1ece2', '#5a4632', '#f1ece2', '#f1ece2', '#6e5236', '#b8905f'),
+               ('#2e2f32', '#2e2f32', '#2e2f32', '#f2f2ef', '#2a2b2e', '#f2f2ef', '#f2f2ef', '#2a2b2e', '#2e2f32')],
+    'retro': [('#8f9594', '#d9d6cf', '#d9d6cf', '#2d4f7a', '#3a3a3c', '#f0ede6', '#efeae0', '#a7703f', '#8f9594'),
               ('#2f3b5c', '#efe9dc', '#efe9dc', '#efe9dc', '#2a2a2c', '#efe9dc', '#efe9dc', '#a7703f', '#2f3b5c'),
-              ('#f2f0ea', '#5c7a4f', '#5c7a4f', '#5c7a4f', '#3a3a3c', '#f2f0ea', '#f2f0ea', '#a7703f', '#f2f0ea'),
-              ('#7a2e36', '#e9e1d0', '#e9e1d0', '#e9e1d0', '#2a2a2c', '#e9e1d0', '#e9e1d0', '#e9e1d0', '#7a2e36')],
+              ('#f2f0ea', '#3f5e3a', '#3f5e3a', '#3f5e3a', '#3a3a3c', '#f2f0ea', '#f2f0ea', '#a7703f', '#f2f0ea'),
+              ('#6e2a32', '#e9e1d0', '#e9e1d0', '#e9e1d0', '#2a2a2c', '#e9e1d0', '#e9e1d0', '#e9e1d0', '#6e2a32')],
 }
+# 面料（v2b）：同一張圖集裡畫出不同的材質感——麂皮（粗雜訊＋毛邊亮暗）、網布（跑鞋的細孔格）、皮革（細紋＋邊緣亮一點）
+FABRIC = {('casual', 2): 'suede', ('bb_mid', 3): 'suede', ('retro', 0): 'suede', ('retro', 1): 'suede', ('retro', 3): 'suede',
+          ('run', 0): 'mesh', ('run', 1): 'mesh', ('run', 2): 'mesh', ('run', 3): 'mesh'}
 # 鞋面展開圖在格子裡的範圍：x 4..252（u＝鞋長，0＝後跟）；y 0..150（v＝繞鞋身一圈的 8 段：0–2 右側、3 鞋口／鞋舌、4–6 左側、7 底）
 UP_Y1 = 150; MID_Y = (150, 182); OUT_Y = (182, 196); PATCH_Y = (196, 204)
 
@@ -322,6 +325,7 @@ def gen(outdir=None):
     put('counterfront', Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)))
     out1 = os.path.join(outdir, 'dabu_print.png'); im.save(out1)
     out2 = os.path.join(outdir, 'dabu_shoe.png'); gen_shoes().save(out2)
+    sun_patch().save(os.path.join(outdir, 'dabu_sun.png'))
     return out1, out2
 
 
@@ -341,7 +345,13 @@ def shoe_one(st, k):
     band = UP_Y1 / 8.0
     V = lambda j: j * band                           # 第 j 段的上緣
     # 鞋面底色＋面料的細紋
-    a = np.asarray(p, np.float32); nn = _noise(w, h, 2, k * 7 + len(st)); a *= (0.96 + 0.05 * nn)[..., None]; p = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(p)
+    fab = FABRIC.get((st, k), 'leather'); a = np.asarray(p, np.float32); nn = _noise(w, h, 2, k * 7 + len(st))
+    if fab == 'suede': a *= (0.86 + 0.2 * _noise(w, h, 1, k * 13 + 5) * 0.6 + 0.08 * nn)[..., None]
+    else: a *= (0.96 + 0.05 * nn)[..., None]
+    p = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)); d = ImageDraw.Draw(p)
+    if fab == 'mesh':   # 網布：鞋面中段的細孔格（鞋頭包覆、後跟、步紋另外畫在上面）
+        for yy in range(0, UP_Y1, 4):
+            for xx in range(4 + (yy // 4 % 2) * 2, 252, 4): d.point((xx, yy), fill=dk(base, 0.78))
     for side in (0, 1):   # 0＝右側 j 0..3、1＝左側 j 4..7（左側上下顛倒：j=4 靠鞋口、j=6 靠鞋底）
         def SY(f):   # f：0＝鞋底、1＝鞋口（側面的高度比例）→ y
             return V(3) * (1 - f) if side == 0 else V(4) + V(3) * f
@@ -351,6 +361,7 @@ def shoe_one(st, k):
         # 步紋（虛構）：一條等寬、往前微微上升的側片（前端斜切）＋上緣縫線；不是勾勾、不是三條線
         poly = [(U(0.15), SY(0.14)), (U(0.66), SY(0.30)), (U(0.70), SY(0.58)), (U(0.15), SY(0.42))]
         d.polygon(poly, fill=accent)
+        d.line([poly[0], poly[1]], fill=mix(accent, (255, 255, 255), 0.25), width=1)
         for i in range(0, 52, 2):
             f = i / 52; d.point((U(0.15 + 0.53 * f), SY(0.45 + 0.16 * f) + (0 if side == 0 else 0)), fill=dk(accent, 0.6) if accent[0] > 90 else mix(accent, (255, 255, 255), 0.4))
         # 縫線：沿著鞋頭包覆、後跟的邊
@@ -382,6 +393,16 @@ def shoe_one(st, k):
     # 小色塊：鞋帶、鞋舌、內裡、大底
     for i, c in enumerate((lace, tongue, lining, out)): d.rectangle([i * 64, PATCH_Y[0], i * 64 + 63, PATCH_Y[1]], fill=c)
     return p
+
+
+def sun_patch(w=512, h=256):
+    """地上的光斑（v2b）：暖色、alpha 中間 0.7、邊緣柔化；兩道窗框的暗縫（櫥窗的直框）"""
+    a = np.zeros((h, w), np.float32); a[int(h * 0.06):int(h * 0.94), int(w * 0.03):int(w * 0.97)] = 1.0
+    for fx in (0.36, 0.68): a[:, int(w * fx) - 6:int(w * fx) + 6] = 0.0
+    im = Image.fromarray((a * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9)); al = np.asarray(im, np.float32) / 255 * 0.7
+    al *= 0.85 + 0.15 * _noise(w, h, 24, 2)
+    rgb = np.zeros((h, w, 3), np.float32) + np.array((255, 214, 160), np.float32)
+    return Image.fromarray(np.concatenate([rgb, al[..., None] * 255], -1).astype(np.uint8), 'RGBA')
 
 
 if __name__ == '__main__':
