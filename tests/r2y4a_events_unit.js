@@ -193,6 +193,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-21',21.1,'dorm',TWF({XMAS_GIFT:'notebook'})); join('noodle_team','麵店團'); R('yu','FAM'); rules(); const qx=OUT.get(G,'y4_xmas');
   check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 燒臘店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 燒臘店 一百五以內'&&!!qx&&qx.h===19);
   at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
+  /* ev_y4_xmas 是燒臘店團那一場：「阿姨」＝燒臘店的阿鳳（AA_612），不是秀琴姨——AA_627 A-263、A-264 這兩列不換（交 AA 確認）*/
   check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨（AA_519 1-3）「最後一個冬天的期末。……吃完再走。」（不再是「考完了，吃好一點。」）、送小菜的旁白「（阿姨多放了一碟燙青菜，說是煮多了。）」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('最後一個冬天的期末。……吃完再走。')&&!has('考完了，吃好一點。')&&has('（阿姨多放了一碟燙青菜，說是煮多了。）')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
   fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',21.6); rules();
   check('X2. 美國路線：沒有邀約；21:30 照片（AA_370 第 6 節第 8 題：照臺灣時間；那時人在回臺灣的路上，12/21 23:55 起飛）', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
@@ -220,15 +221,16 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-05 語彤 15b〈公館的時間〉 ----------
   fresh('2028-10-17',17.6,'noodle',TWF()); R('heroine_03','FAM'); const e1ok=EVENTS.check(ev('ev_yt_essay')); picks=[0]; await run('ev_yt_essay');
-  check('E1. 10/17 麵店（她的班、FAMILIAR）：「不要在我面前讀」；當面讀＝三句旁白；YT_ESSAY front', e1ok&&has('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。')&&has('（第一段是水源市場賣菜的阿嬤：「她五十年沒有放過假。」中間是續約那天，一個老客人說的話。）')&&has('（你抬頭的時候，她已經倒好水，站在別桌旁邊。）')&&G.flags.YT_ESSAY==='front');
+  /* AA_625 第 15b 節（YT-REWRITE-1103）：〈溫州街的時間〉——她不在燒臘店的班，麵店那一場退場（retired）；只剩總圖三樓的期刊架，目錄那一句後面加「（系刊第三頁，她的名字下面寫著：…）」*/
+  check('E1. 10/17 麵店那一場退場（AA_625 第 15b 節）', !e1ok&&!!ev('ev_yt_essay').retired);
   fresh('2028-10-24',18,'noodle',TWF()); R('heroine_03','FAM'); picks=[1]; await run('ev_yt_essay'); at('2028-10-25',21.1); rules(); const ask05=PHONE.byAsk(G,'y4_yt_essay'); answer('y4_yt_essay',0);
-  check('E2. 回家讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」', G.flags.YT_ESSAY==='home'&&!!ask05&&JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:讀了嗎','player:讀了','heroine_03:嗯']), JSON.stringify(txt('p:heroine_03')));
+  check('E2. 舊存檔（直接演那一場的定義、選回家讀）：隔天 21:00「讀了嗎」照舊', G.flags.YT_ESSAY==='home'&&!!ask05&&JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:讀了嗎','player:讀了','heroine_03:嗯']), JSON.stringify(txt('p:heroine_03')));
   fresh('2028-10-17',17.6,'noodle',US()); R('heroine_03','FAM'); const e3a=!EVENTS.check(ev('ev_yt_essay'));
   fresh('2028-12-20',10,'library',US({US_RETURNED:D('2028-12-23')})); const e3b=!R2Y4A.shelfOn(G); at('2028-12-24',10); await tick(); const sh=E.interactables.find(it=>it.ytEssayShelf); said=[]; await R2Y4A.shelfLook(GM);
-  check('E3. 美國路線：沒有她的那一場；12/24 起總圖三樓期刊架看得到：「（系刊。目錄第三篇：〈公館的時間〉。作者：陳語彤。）」；YT_ESSAY shelf', e3a&&e3b&&!!sh&&has('（系刊。目錄第三篇：〈公館的時間〉。作者：陳語彤。）')&&G.flags.YT_ESSAY==='shelf');
+  check('E3. 美國路線：沒有她的那一場；12/24 起總圖三樓期刊架看得到：「（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）」；YT_ESSAY shelf', e3a&&e3b&&!!sh&&has('（系刊。目錄第三篇：〈溫州街的時間〉。作者：陳語彤。）')&&has('（系刊第三頁，她的名字下面寫著：『謝謝秀琴姨，和一盞茶屋所有的人。』）')&&G.flags.YT_ESSAY==='shelf');
   fresh('2028-10-16',12,'library',TWF()); R('heroine_03','FAM'); await tick(); const shTW=!!E.interactables.find(it=>it.ytEssayShelf); await R2Y4A.shelfLook(GM); const hold0=STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-20')});
   at('2028-10-17',17.6); G.zone='noodle';
-  check('E. 台灣路線 10/16 起有期刊架；先翻了期刊架，10/17 她的班照樣演；Y7-L3 等這一場（或 10/24 以後）', shTW&&EVENTS.check(ev('ev_yt_essay'))&&hold0===false&&STORY.LADDER_HOLD['Y7-L3'](G)===true&&STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-25')})===true);
+  check('E. 台灣路線 10/16 起有期刊架；麵店那一場不演；Y7-L3 等期刊架（或 10/24 以後）', shTW&&!EVENTS.check(ev('ev_yt_essay'))&&hold0===false&&STORY.LADDER_HOLD['Y7-L3'](G)===true&&STORY.LADDER_HOLD['Y7-L3']({flags:{},day:D('2028-10-25')})===true);
 
   // ---------- 2-Y4-06 推甄 ----------
   const EXAMS=v=>{ const R0=CLS.rec(G); R0.exam={}; for(const t of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2']) R0.exam[t+':c'+t+':final']={status:'done',correct:v}; };
@@ -273,7 +275,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('S0. 12/21 12:10「今天我在總圖三樓」「有東西想給你看」', JSON.stringify(txt('p:heroine_03'))===JSON.stringify(['heroine_03:今天我在總圖三樓','heroine_03:有東西想給你看']));
   CG_REGISTRY.cg_share_time_heroine03={file:'x.webp',title:'t'};
   at('2028-12-21',17.5); G.zone='library'; SOCIAL.remember('heroine_03','GIFT_NOTEBOOK_YT',''); const s1ok=EVENTS.check(ev('ev_yt_share_time')); picks=[0]; await run('ev_yt_share_time');
-  check('S1. 朋友、大一抽到筆記本：「這本是聖誕節抽到的。……寫滿了。」；選「我想看下一本。」＝YT_NOTES_NEXT；S4 沒有 CG-12、沒有換位子', s1ok&&has('這本是聖誕節抽到的。……寫滿了。')&&has('……下一本還沒寫。')&&G.flags.YT_NOTES_NEXT===true&&G.flags.YT16==='seen'&&!cgs.includes('cg_share_time_heroine03')&&!has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
+  check('S1. 朋友、大一抽到筆記本：AA_625 第 16 節（「我可以給你看一個東西嗎。」（田野筆記，已經寫到第三本。）…「我媽到現在還是希望我去考牙醫。」「可是這四年…每一件都是我自己選的。」）＋「這本是聖誕節抽到的。……寫滿了。」；選「我想看下一本。」＝YT_NOTES_NEXT；S4 沒有 CG-12、沒有換位子', s1ok&&has('（田野筆記，已經寫到第三本。）')&&has('這本不是作業。是我自己想寫的。')&&has('我媽到現在還是希望我去考牙醫。')&&has('可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。')&&!said.some(s=>/幫阿姨寫/.test(s.t))&&has('這本是聖誕節抽到的。……寫滿了。')&&has('……下一本還沒寫。')&&G.flags.YT_NOTES_NEXT===true&&G.flags.YT16==='seen'&&!cgs.includes('cg_share_time_heroine03')&&!has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
   fresh('2028-12-21',17.5,'library',TWF()); R('heroine_03','FRI'); date('heroine_03'); picks=[1]; await run('ev_yt_share_time');
   check('S2. 和語彤交往：選完以後她換到旁邊的位子', has('畢業專題。老師說可以再寫長一點。')&&has('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）'));
   delete CG_REGISTRY.cg_share_time_heroine03;

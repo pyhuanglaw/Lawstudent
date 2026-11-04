@@ -93,14 +93,14 @@ await sec('3',async()=>{
   check('3. EVENTS.runLines 直接演：一樣只加前面',d.some(t=>t.endsWith(PRE+'報告寫完了。'))&&d.some(t=>t.endsWith('：結論用了你說的那個。'))&&balanced(),J(d));
   /* 遊戲裡插了標記的幾場（AA_595 1-B34 後半、1-B51、1-B54、1-B55；學姊家族讀書會最後一次的「走出法圖」）*/
   const mark=(id,txt)=>{ const e=ev(id); const l=e&&(e.dialogue||[]).find(x=>x&&typeof x.text==='string'&&x.text.includes(txt)); return !!(l&&l.libOut); };
-  const marks={card:mark('ev_sis_borrowed_card','櫃台蓋完章'),famLast:mark('ev_sis_fam_study_last','走出法圖，Kevin'),thu:mark('ev_yt_thursday_free','走出總圖時她說'),mx:mark('ev_mingxuan_notes_b1','走出總圖'),xc:mark('ev_xinci_second_b1','走到 B1 門口'),ps:mark('ev_peishan_syllogism','老師說法律的推理是三段論')};
+  const marks={card:mark('ev_sis_borrowed_card','櫃台蓋完章'),famLast:mark('ev_sis_fam_study_last','走出法圖，Kevin'),thu:mark('ev_yt_thursday_free','指了指外面')   /* AA_625 第 13 節整場換了：libOut 在開頭那一句 */,mx:mark('ev_mingxuan_notes_b1','走出總圖'),xc:mark('ev_xinci_second_b1','走到 B1 門口'),ps:mark('ev_peishan_syllogism','老師說法律的推理是三段論')};
   check('3. 插了 libOut 的幾場：學生證（櫃台以後）、家族讀書會最後一次（走出法圖）、空出來的週四（走出總圖時她說）、B1 的筆記（走出總圖）、慈 3 B1 版（走到 B1 門口）、沛珊三段論（「去外面講」的下一句）',Object.values(marks).every(Boolean),J(marks));
   check('3. 明軒 M1 原本那一場（校門口）不受影響',!(ev('ev_mingxuan_notes').dialogue||[]).some(l=>l&&l.libOut));
   /* 實際演：空出來的週四選「那就坐著。我陪妳。」——走出總圖以前沒有她開口的句子，之後的不加 */
   H.fresh('2025-10-07',19,'library'); H.FRIEND('heroine_03'); at('library',0,0,0); LIBQ.reset();
-  H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_yt_thursday_free')); const e1=H.lines(), k=e1.findIndex(t=>t.includes('走出總圖時她說'));
+  H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_yt_thursday_free')); const e1=H.lines(), k=e1.findIndex(t=>t.includes('秀琴姨的事解決了'));
   /* AA 11-02 22:30 定稿（AA_595 1-B51）：開頭加「（她看到你，闔上書，指了指外面。）」libOut——整場都在館外，都不加（tests/libq_out_1102_unit.js）*/
-  check('3. 空出來的週四：開頭「指了指外面」以後整場不加（小聲），「好安靜。我平常這時候在切蔥。」不加',k>0&&e1[0]==='（她看到你，闔上書，指了指外面。）'&&!e1.some(t=>t.includes('小聲'))&&e1.includes(SOCIAL.displayName('heroine_03')+'：好安靜。我平常這時候在切蔥。')&&balanced(),J(e1));
+  check('3. 自己選的週四（AA_625 第 13 節）：開頭「指了指外面」以後整場不加（小聲）',k>0&&e1[0]==='（她看到你，闔上書，指了指外面。）'&&!e1.some(t=>t.includes('小聲'))&&e1.includes(SOCIAL.displayName('heroine_03')+'：……嗯。秀琴姨的事解決了。')&&balanced(),J(e1));
   H.said=[]; H.picks=[0]; await EVENTS.run(ev('ev_sis_borrowed_card')); const e2=H.lines(), k2=e2.findIndex(t=>t.includes('櫃台蓋完章'));
   check('3. 學生證：櫃台以前小聲、「許老師開的書單。開學以前要讀完。」以後不加',k2>0&&e2.slice(0,k2).some(t=>t.includes(PRE))&&e2.slice(k2).some(t=>t.endsWith('：許老師開的書單。開學以前要讀完。'))&&!e2.slice(k2).some(t=>t.includes('小聲'))&&balanced(),J(e2));
 });

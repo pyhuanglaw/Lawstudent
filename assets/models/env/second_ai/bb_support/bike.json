@@ -1,0 +1,78 @@
+{
+ "objects": 209,
+ "unique_meshes": 76,
+ "tris": 40202,
+ "tris_drawn": 59874,
+ "materials": [
+  "bk_alpha",
+  "bk_concrete",
+  "bk_emit",
+  "bk_floor_tile",
+  "bk_glass",
+  "bk_goods",
+  "bk_plaster",
+  "bk_sign",
+  "bk_vc",
+  "bk_vc_metal",
+  "bk_wood"
+ ],
+ "out": "assets/models/env/second_ai/bb_support/bike.glb",
+ "bytes": 3335056,
+ "texres": 1024,
+ "v1b": {
+  "repair_bike": {
+   "stand": [
+    2.7,
+    -2.3
+   ],
+   "model": "lady",
+   "lift": 0.473,
+   "saddle_bottom": 1.331,
+   "clamp_head_top": 1.27,
+   "wheel_bottom": 0.473,
+   "node": "REPAIR_BIKE",
+   "defaultVisible": false,
+   "tris": 2670
+  },
+  "wall_vertical": {
+   "rear_bottom_y": 0.15,
+   "front_rim_top": [
+    -4.58,
+    1.82,
+    4.44
+   ]
+  },
+  "right_low_boxes": 12,
+  "right_low_tires": 4,
+  "inner_tubes": 16,
+  "pegboard_panels_added": 2,
+  "boxes_added": 6
+ },
+ "shop": "bike",
+ "layout": 2,
+ "drawn_tris": 59874,
+ "protos": {
+  "wheel0": 4,
+  "wheel1": 2,
+  "wheel2": 2,
+  "wheel3": 2,
+  "wheel4": 2,
+  "wheel5": 4,
+  "wheel6": 2,
+  "wheel7": 1,
+  "helmet0": 3,
+  "helmet1": 3,
+  "helmet2": 3,
+  "helmet3": 6,
+  "lock_b": 3,
+  "lock_r": 3,
+  "pump_y": 1,
+  "pump_k": 2,
+  "tire_a": 9,
+  "tire_b": 8,
+  "stand": 2,
+  "pendant": 11,
+  "fixture": 7,
+  "innertube": 16
+ }
+}

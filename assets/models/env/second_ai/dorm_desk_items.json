@@ -1,5 +1,5 @@
 {
- "glb": "assets/models/env/second_ai/dorm_desk_items.glb",
+ "glb": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/desk6/dorm_desk_items.glb",
  "zone": "dorm（四人房 dorm_room4 loft4-v2，祐廷 L2）",
  "tris": {
   "ITEM_desk_anniv": 4,
@@ -7,6 +7,10 @@
   "ITEM_desk_econ": 2,
   "ITEM_desk_ferris": 4,
   "ITEM_desk_highlighters": 216,
+  "ITEM_desk_liufa_203": 426,
+  "ITEM_desk_liufa_312": 426,
+  "ITEM_desk_liufa_409": 426,
+  "ITEM_desk_liufa_507": 426,
   "ITEM_desk_notebook": 80,
   "ITEM_desk_phone": 14,
   "ITEM_desk_board": 14,
@@ -17,8 +21,8 @@
   "ITEM_desk_trip_sea": 26,
   "ITEM_desk_trip_stars": 26
  },
- "tris_total": 524,
- "bytes": 135968,
+ "tris_total": 2228,
+ "bytes": 272084,
  "pos": {
   "ITEM_desk_anniv": {
    "min": [
@@ -128,6 +132,54 @@
     0.598
    ]
   },
+  "ITEM_desk_liufa_203": {
+   "min": [
+    -1.924,
+    0.761,
+    0.252
+   ],
+   "max": [
+    -1.632,
+    0.825,
+    0.528
+   ]
+  },
+  "ITEM_desk_liufa_312": {
+   "min": [
+    -1.924,
+    0.761,
+    0.252
+   ],
+   "max": [
+    -1.632,
+    0.825,
+    0.528
+   ]
+  },
+  "ITEM_desk_liufa_409": {
+   "min": [
+    -1.924,
+    0.761,
+    0.252
+   ],
+   "max": [
+    -1.632,
+    0.855,
+    0.528
+   ]
+  },
+  "ITEM_desk_liufa_507": {
+   "min": [
+    -1.924,
+    0.761,
+    0.252
+   ],
+   "max": [
+    -1.632,
+    0.855,
+    0.528
+   ]
+  },
   "ITEM_desk_notebook": {
    "min": [
     -1.718,
@@ -142,12 +194,12 @@
   },
   "ITEM_desk_phone": {
    "min": [
-    -1.628,
+    -1.622,
     0.762,
     0.175
    ],
    "max": [
-    -1.562,
+    -1.556,
     0.77,
     0.318
    ]

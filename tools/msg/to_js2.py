@@ -23,3 +23,8 @@ for i, (pid, p) in enumerate(ppl):
 L += [' }', '};']
 open(DST, 'w', encoding='utf-8').write('\n'.join(L) + '\n')
 print('wrote', os.path.normpath(DST), sum(len(p['replies']) for _, p in ppl), 'replies')
+# AA_630／AA_627 表 B（語彤台詞改寫，YT-REWRITE-1103）：寫完再照白名單上的逐句表換一次（整句相同才換；tools/story/aa630.py）
+import sys as _sys, os as _os
+_R0 = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))); _sys.path.insert(0, _os.path.join(_R0, 'tools', 'story'))
+import aa630 as _aa630, import_guard as _ig
+_aa630.patch_file(_aa630.load(_R0, _ig.load(_R0), _ig), 'src/data/msg2_pool.js', _R0)

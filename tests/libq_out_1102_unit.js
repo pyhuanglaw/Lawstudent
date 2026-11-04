@@ -80,7 +80,7 @@ await sec('1',async()=>{
   H.fresh('2027-12-20',19.5,'soclib'); at('soclib',0,0,0); LIBQ.reset(); H.said=[]; H.picks=[1]; await EVENTS.run(ev('ev_sk12_soclib_table'));
   check('1-B47：沒有陪到閉館的那幾支（沒走出去）：整場照加（小聲）',spoken(H.said).length>0&&spoken(H.said).every(s=>isQuiet(s.t)||isAct(s.t))&&balanced(),J(H.lines()));
   await runOut('1-B51 ev_yt_thursday_free','ev_yt_thursday_free','library',0,[0],'（她看到你，闔上書，指了指外面。）',{date:'2027-12-16',h:18.5,friends:['heroine_03'],nBefore:0});
-  await runOut('1-B52 ev_yt_share_time','ev_yt_share_time','library',0,[0],'（讀完，你們走出總圖。）',{date:'2028-12-21',h:17.5,friends:['heroine_03'],nBefore:0});
+  await runOut('1-B52 ev_yt_share_time','ev_yt_share_time','library',0,[0],'（讀完，你們走出總圖。）',{date:'2028-12-21',h:17.5,friends:['heroine_03'],nBefore:1});   /* AA_625 第 16 節：她在三樓先小聲問「我可以給你看一個東西嗎。」（一句加（小聲）），讀完才走出去 */
   /* 1-B55：B1 版前兩句改便條；選「我什麼都沒看到」走出總圖以後不加；#where／#sit 沒走出去，整場照加 */
   const r55=await runOut('1-B55 ev_mingxuan_notes_b1（我什麼都沒看到）','ev_mingxuan_notes_b1','library',0,[0],'走出總圖。',{date:'2025-11-04',h:22.5,nBefore:1});
   const NOTE=['（他在便利貼上寫：你沒看到。）','（又補一行：我在看漫畫啦。）'];
@@ -93,7 +93,7 @@ await sec('1',async()=>{
 });
 
 await sec('2',async()=>{
-  check('2. LIBQ.isOut：「（走出法圖）「……」」、Q16 那句是；其他不是',LIBQ.isOut&&LIBQ.isOut('（走出法圖）「館員人好好。」')&&LIBQ.isOut('閉館音樂響了，她才抬頭問你晚餐吃什麼。')&&!LIBQ.isOut('「走出去。」')&&!LIBQ.isOut('閉館的廣播響了，她才抬頭。'));
+  check('2. LIBQ.isOut：「（走出法圖）「……」」是；以安那句 AA_651 改成館內的、不是；其他不是',LIBQ.isOut&&LIBQ.isOut('（走出法圖）「館員人好好。」')&&!LIBQ.isOut('她讀到一半，把你的螢光筆拿去用，用完放回你的筆袋。')&&!LIBQ.isOut('「走出去。」')&&!LIBQ.isOut('閉館的廣播響了，她才抬頭。'));
   H.fresh('2026-10-07',15,'lawlib'); at('lawlib',1,0,0); LIBQ.reset();
   check('2. needsPrefix：開頭「（走出」的那一句本身不加',LIBQ.needsPrefix('（走出法圖）「館員人好好。」')===false&&LIBQ.whisper(GM,{name:'沛珊'},'（走出法圖）「館員人好好。」')==='（走出法圖）「館員人好好。」');
   /* INV.playLines＋scope：之前加、走出去那句起不加、結束配對 */
@@ -118,13 +118,13 @@ await sec('2',async()=>{
 });
 
 await sec('3',async()=>{
-  const AN='heroine_01', ML='閉館音樂響了，她才抬頭問你晚餐吃什麼。';
+  const AN='heroine_01', ML='她讀到一半，把你的螢光筆拿去用，用完放回你的筆袋。';   /* AA_651 第 3 節（d07e6d124）：Q16 那句「閉館音樂響了……」改成館內這句，S.OUT_LINES 拿掉 */
   H.fresh('2025-10-07',15,'library_hall'); H.FRIEND(AN); at('library_hall',1,0,0); LIBQ.reset();
-  check('3. 前置：以安朋友以上，約總圖的見面旁白是 Q16 那句',SOCIAL.meetLine(AN,'library')===ML,J(SOCIAL.meetLine(AN,'library')));
+  check('3. 前置：以安朋友以上，約總圖的見面旁白是 AA_651 那句（館內）',SOCIAL.meetLine(AN,'library')===ML,J(SOCIAL.meetLine(AN,'library')));
   const iv=INV.accept(H.G,AN,'library',H.G.day,15), n=npc(AN);
   H.said=[]; let err=null; try{ await INV.meet(GM,iv,n); }catch(e){ err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
   const S=H.said, k=S.findIndex(s=>!s.who&&s.t===ML), after=spoken(S.slice(k+1));
-  check('3. Q16：閉館音樂那句之後的道別不加（小聲）',!err&&k>=0&&after.length>0&&after.every(s=>!isQuiet(s.t)),err||J(H.lines()));
+  check('3. AA_651：那句是館內的，之後的道別照加（小聲）（不再當成走出館外）',!err&&k>=0&&after.length>0&&after.every(s=>isQuiet(s.t)||isAct(s.t)),err||J(H.lines()));
   check('3. Q16：見面結束 LIBQ 配對',balanced());
   /* 對照：有點熟（見面旁白是別句）——道別照加 */
   H.fresh('2025-10-07',15,'library_hall'); H.FAMILIAR(AN); at('library_hall',1,0,0); LIBQ.reset();

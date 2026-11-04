@@ -83,8 +83,12 @@ const D2=fri('Y1S2',5);   // 大一下第 5 週的週五（芷若週五 11–15 
   const E=gm.E; E.zone.seats=[{x:5,z:5,yaw:0,lv:1},{x:6,z:5,yaw:0,lv:1},{x:20,z:20,yaw:0,lv:1},{x:-3,z:2,yaw:0,label:'長椅'}];
   const sat=[]; gm.sitAt=(ent,st)=>{ sat.push([ent.charId||'P',st.x,st.z]); ent.seat=st; }; gm.standUp=ent=>{ ent.seat=null; ent.pose=ent.idlePose='idle'; }; gm.seatApproach=st=>[st.x,st.z+0.6];
   G.zone=iv.zone; G.hour=16.9; const h0=G.hour, said0=gm.said.length; const ok=await INV.arrive(gm,iv.zone);
-  check('到了總圖：直接開始，兩個人一起坐下——她坐桌邊、旁邊還有空位的位子（不選長椅、不選旁邊沒位子的），你坐她旁邊；演見面（念書、時間過去）',ok&&iv.state==='done'&&sat.length===2&&sat[0][0]==='yu'&&sat[0][1]===5&&sat[1][0]==='P'&&sat[1][1]===6&&n.pose==='read'&&gm.said.length>said0&&G.hour>h0,JSON.stringify({st:iv.state,sat,said:gm.said.slice(said0),pose:n.pose}));
+  /* INV-SIT-TOGETHER-1104（使用者 11-04「至少要走到桌子旁邊一起坐下來」）：總圖改成她帶路——先走到二樓（lv 1）桌邊坐下等你，你走到她旁邊才一起坐下開演 */
+  check('到了總圖：她帶路、先坐到桌邊旁邊還有空位的位子（不選長椅、不選旁邊沒位子的）等你；還沒開演',ok&&iv.state==='accepted'&&iv.lead&&iv.lead.ph==='wait'&&sat.length===1&&sat[0][0]==='yu'&&sat[0][1]===5&&n.pose==='read',JSON.stringify({st:iv.state,lead:iv.lead,sat}));
+  E.player.lv=1; E.player.obj.position.x=5.8; E.player.obj.position.z=5.6; INV.tick(gm); await new Promise(r=>setTimeout(r,20));
+  check('你走到她旁邊：兩個人一起坐下（你坐她旁邊）、演見面（念書、時間過去）',iv.state==='done'&&sat.length===2&&sat[1][0]==='P'&&sat[1][1]===6&&gm.said.length>said0&&G.hour>h0,JSON.stringify({st:iv.state,sat,said:gm.said.slice(said0)}));
   check('約定時間改成到的時間（路上花的時間不算遲到）；演完你站起來',Math.abs(iv.h-16.9)<1e-6&&!(E.player&&E.player.seat),String(iv.h));
+  E.player.lv=0;
   const again=await INV.seatMeet(gm,{x:6,z:5,lv:1}); check('已經開始過：之後坐到那裡不會再演一次',!again&&iv.state==='done');
 })().then(()=>{});
 // ---------- 對方約你、臨時改約 ----------
