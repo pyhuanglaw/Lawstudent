@@ -398,3 +398,18 @@
 [16:58:35] ==== START GG_glb_measure2  (game @ 0f8b320ff) ====
 [16:58:38] [res] cpu=42% mem=51% (16.2/31.4 GB) chrome_testing=19  START GG_glb_measure2
 [16:59:56] [res] cpu=59% mem=49% (15.2/31.4 GB) chrome_testing=18  END ADE_int_in
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       8c4acb3f8..86806bd77  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:00:05] ==== END   ADE_int_in  exit=1  1054s   ====
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:00:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:00:10] memory 45% before starting SUNNY_seatfix_reach (2 running)
+[17:00:10] ==== START SUNNY_seatfix_reach  (game @ 46d459625) ====
+[17:00:13] [res] cpu=52% mem=45% (14.4/31.4 GB) chrome_testing=9  START SUNNY_seatfix_reach
+[17:00:18] [res] cpu=31% mem=46% (14.2/31.4 GB) chrome_testing=9  END GG_glb_measure2
