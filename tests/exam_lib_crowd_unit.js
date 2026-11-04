@@ -14,6 +14,7 @@
 //   8  第 5 節經濟系那一年：人換成品妤、阿勳、韋綸（法律系的人不說）；他們平日有讀書的時間；手機的話題不出（經濟系那一年還沒有私訊、休學以後不約去台大）
 //   9  不扣關係、不改成績：沒到、沒占到、沒去都只發那一則（SOCIAL.adjust 沒有負的、關係數值沒有下降、考試紀錄不變）
 //   10 舊存檔：沒有 G.exlib、壞掉的、JSON 存讀
+//   13 4-2 坐滿也放得了講義（D42-RESERVE-1104）：保留兩個連著的空位、直接走過去坐、講義放另一個；過了時間放開——修改前（f8d17bfb7）FAIL
 //   11 BB_260 多給的讀書時段（子晴、阿哲、Alison、明軒大二以後；只填空檔、上課吃飯照舊）——修改前（8215f8d53）FAIL
 //   12 第 6 節社科圖二樓（SOCLIB-2F-1104：LAWWW2 d393b6f3c 接進來）：語彤、阿勳在 soclib_2f（坐靠窗那排、老位子旁邊）；二樓「滿」只算自習室（討論室不算）；安靜的地方只有自習室；
 //      第一次在這一段坐到靠窗那排＝旁白一次、記 SOCLIB_2F_SEAT（長桌、第 13 週、一樓不演）；有人占（4-1 占老位子）、招手（坐老位子）也演；之後的學期語彤、阿勳換「老位子」那一句、占記下的那一個；
@@ -551,6 +552,27 @@ await sec('12',async()=>{
       setT('2025-12-09',10.5); EXLIB.syncSeats(GM,true); const occ=new Set(rd.map(n=>ss[n.sl2Seat])), stS=ss.filter(q=>q.kind==='study'||q.kind==='window');
       check('12. 期末那一段的「滿」照 EXLIB：10:30 自習室每一位不是有人坐、就是「有人了」（占給你的、語彤的除外）；坐著的人那一位不標',stS.every(q=>occ.has(q)||q.exHeld||q===hs3||q===yS4)&&[...occ].every(q=>!q.exHeld),J([stS.filter(q=>q.exHeld).length,occ.size]));
     } finally { CHAR.build=keep0.build; E.addNPC=keep0.add; E.moveTo=keep0.mv; GM.spawnExtra=keep0.sx; E.q.level=keep0.lv; } }
+});
+
+/* ======================= 13 4-2 坐滿也放得了講義（D42-RESERVE-1104，BB-C 11-04 18:23，BB_260）======================= */
+/* 答應的那天進那一間：先保留兩個連著的空位（taken＝exlib42，keepSeats 有＝背景讀書的人不坐）；其他位子全坐滿也一樣；玩家走進讀書區＝直接走過去坐其中一個、講義放另一個；
+   過了他說的時間（10:00）還沒放＝放開。修改前（f8d17bfb7）：沒有保留、坐滿時放不了講義＝FAIL */
+await sec('13',async()=>{
+  const run42=(id,from,to)=>{ for(let d=DK(from);d<=DK(to);d++){ setT(d,21.05); EXLIB.phone(H.G); deliver(); const D=(H.G.exlib||{}).d42; if(D&&D.who===id&&D.askDay===d) return d; } return null; };
+  const ask=id=>{ fresh('2025-12-01',21); friend(id); const d=run42(id,'2025-11-30','2025-12-13'); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id===((H.G.exlib||{}).d42||{}).tag); if(d==null||!m) return null; PHONE.answer(H.G,m.ask.id,0); return d; };
+  const dZ=ask('zhe'); if(dZ==null){ check('13. 前提：阿哲有問、回了「好。」',false); return; }
+  setT(dZ+1,9.5); const s=zone('library_b1',0,-14,-10); const keep=EXLIB.keepSeats(GM); const pair=s.filter(q=>q.taken==='exlib42');
+  check('13. 答應的那天進那一間：先保留兩個連著的空位（taken＝exlib42）、背景讀書的人不坐（keepSeats 有）',pair.length===2&&Math.hypot(pair[0].x-pair[1].x,pair[0].z-pair[1].z)<1.6&&pair.every(q=>keep.has(q)&&EXLIB.studySeat('library_b1',q)),J(pair.map(q=>[q.x,q.z])));
+  for(const q of s.filter(q=>EXLIB.studySeat('library_b1',q)&&!q.taken)) anon(q);   /* 坐滿：其他讀書的位子都有人 */
+  EXLIB.syncSeats(GM,true);
+  check('13. 其他位子全坐滿：保留的兩個照樣空著、不是「有人了」',pair.length===2&&pair.every(q=>!q.exHeld&&!EXLIB.occupied(E,q)));
+  H.G.exlib.atm.seen['Y1S1:library_b1']=1; P.obj.position.x=pair[0].x; P.obj.position.z=pair[0].z; P.seat=null; H.said=[]; seatCalls.length=0; await tick();
+  const D=H.G.exlib.d42;
+  check('13. 走進讀書區：直接走過去坐保留的那一個（seatMenu）、講義放另一個、說「（你把一本講義放在旁邊的位子上。）」',seatCalls.length===1&&pair.includes(seatCalls[0].seat)&&D.placed===true&&!!D.seat&&pair.some(q=>q!==seatCalls[0].seat&&Math.hypot(q.x-D.seat[0],q.z-D.seat[1])<0.01)&&lines().includes(L.place42),J({calls:seatCalls.length,placed:D.placed,seat:D.seat,lines:lines()}));
+  check('13. 放好以後那一對放開（taken 清掉），留的那一個照 keepSeats 留給他',pair.every(q=>q.taken!=='exlib42')&&[...EXLIB.keepSeats(GM)].some(q=>Math.hypot(q.x-D.seat[0],q.z-D.seat[1])<0.01));
+  const dZ2=ask('zhe'); if(dZ2==null){ check('13. 前提：第二次有問',false); return; }
+  setT(dZ2+1,9.5); const s2=zone('library_b1',0,-14,-10); EXLIB.syncSeats(GM,true); const p2=s2.filter(q=>q.taken==='exlib42'); setT(dZ2+1,10.2); EXLIB.syncSeats(GM,true);
+  check('13. 過了他說的時間（10:00）還沒放＝那一對放開',p2.length===2&&p2.every(q=>q.taken!=='exlib42'),J(p2.map(q=>q.taken)));
 });
 
 H.done(); })();

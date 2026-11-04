@@ -46226,6 +46226,29 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）"
+  },
+  {
+   "id": "D42-RESERVE-1104",
+   "title": "期末考前圖書館 4-2（朋友請你占位子）坐滿時放不了講義、朋友說「沒占到」——答應的那天先保留兩個連著的空位，玩家走進讀書區直接走過去坐、講義放旁邊",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 14,
+    "earliest": "法律系大一上第 14 週起（4-2 私訊的隔天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 18:23（BB_260）：「玩家答應了、照時間到了、坐下了，朋友卻說『沒占到』，這是遊戲的錯，不是玩家的」",
+   "authorized": "D85；BB 判定（BB_260）",
+   "notWaitUser": "程式修正，BB 已定做法",
+   "next": "【LAWWW-C 11-04 18:3x】S.sync42：答應的那天、那一間、還沒放、還沒過他說的時間＝保留一對（taken exlib42，keepSeats 有）；S.auto42Due＝走進讀書區直接坐（seatMenu）；place42 先用這一對；放好、過時間、換區域＝放開。tests/exam_lib_crowd_unit.js 第 13 節修改前 FAILED 3、修改後 ALL PASS；相關 8 支 0 失敗。下一步：BB 排 CC 照玩家操作走",
+   "tests": "node tests/exam_lib_crowd_unit.js"
   }
  ]
 }

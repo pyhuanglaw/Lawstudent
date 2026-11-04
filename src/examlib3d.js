@@ -165,7 +165,7 @@ const EXLIB=(function(){
     if(!S.isLib(z)||!Array.isArray(E.zone.seats)) return ZS;
     const h=hr(G); if(!force&&ZS.day===(G.day|0)&&Math.abs(h-ZS.lastH)<1/12) return ZS; ZS.lastH=h;
     const C=S.cands(E,z); if(ZS.day!==(G.day|0)||!ZS.order){ ZS.day=G.day|0; ZS.order=C.slice().sort((a,b)=>hash('exheld|'+z+'|'+G.day+'|'+skey(a))-hash('exheld|'+z+'|'+G.day+'|'+skey(b))); }
-    S.syncHold(GM);
+    S.syncHold(GM); S.sync42(GM);
     const keep=new Set(); if(ZS.holdSeat) keep.add(ZS.holdSeat); const D=rec0(G)&&rec0(G).d42; if(D&&D.day===(G.day|0)&&D.zone===z&&D.placed&&D.seat){ const q=C.find(st=>Math.hypot(st.x-D.seat[0],st.z-D.seat[1])<0.1&&(st.lv|0)===(D.seat[2]|0)); if(q) keep.add(q); }
     const H=holdToday(G,z); if(H){ const fs=S.spotSeat(E,z,H.who); if(fs) keep.add(fs); }   /* 占位子的那一天：他自己的位子也留著 */
     const want=Math.round(S.fill(G,z)*C.length); let need=want-C.filter(st=>S.occupied(E,st)).length; const next=new Set();
@@ -173,6 +173,18 @@ const EXLIB=(function(){
     for(const st of ZS.held) if(!next.has(st)) S.unhold(E,st);
     for(const st of next) if(!ZS.held.has(st)) S.hold(E,st);
     ZS.held=next; return ZS; };
+  /* 4-2 坐滿也放得了講義（D42-RESERVE-1104，BB-C 11-04 18:23，BB_260）：「玩家答應了、照時間到了、坐下了，朋友卻說『沒占到』，這是遊戲的錯」——
+     答應的那天、這一間、還沒放、還沒過他說的時間（D.dl）＝先保留兩個連著的空位（taken＝'exlib42'，路人、背景讀書的人、別人都不坐），玩家走進讀書區就直接走過去坐其中一個（S.auto42Due）、
+     講義放旁邊那一個（S.place42 先用這一對）；放好了、過了時間、換區域＝放開（「沒占到」只剩玩家沒去、太晚才到）*/
+  const d42Today=(G,z)=>{ const R=rec0(G), D=R&&R.d42; return D&&D.ok&&!D.placed&&D.day===(G.day|0)&&D.zone===z&&hr(G)<D.dl?D:null; };
+  S.sync42=function(GM){ const E=GM.E, G=GM.G, z=G.zone, D=d42Today(G,z);
+    const free=()=>{ if(ZS&&ZS.pair42){ for(const q of ZS.pair42) if(q.taken==='exlib42') q.taken=null; ZS.pair42=null; } };
+    if(!ZS||!D){ free(); return null; } if(ZS.pair42) return ZS.pair42;
+    const ok=q=>S.studySeat(z,q)&&!S.occupied(E,q)&&!q.taken&&!q.old&&!S.isOld2f(G,q);   /* 老位子（二樓靠窗、記下的）不拿來用 */
+    for(const st of (ZS.order||[])){ if(!ok(st)) continue; const a=S.adjacent(E,st,null,ok); if(!a) continue;
+      for(const q of [st,a]){ q.taken='exlib42'; if(q.exHeld) S.unhold(E,q); ZS.held.delete(q); } ZS.pair42=[st,a]; return ZS.pair42; }
+    return null; };
+  S.auto42Due=function(GM){ const G=GM.G, E=GM.E, D=d42Today(G,G.zone); if(!D||D.autoTried||E.player.seat||!S.inStudy(GM)||!ZS||!ZS.pair42) return false; return (ZS.pair42[0].lv|0)===(E.player.lv|0); };
   /* 4-1 的位子：今天、這一間、還沒到時間＝標 taken、加一個「坐到○○占的位子」的按鈕；不是了＝拿掉 */
   S.syncHold=function(GM){ const E=GM.E, G=GM.G, z=G.zone, H=holdToday(G,z);
     if(!H){ if(ZS.holdSeat){ if(ZS.holdSeat.taken==='exlib41') ZS.holdSeat.taken=null; ZS.holdSeat=null; } if(ZS.holdIt){ const i=E.interactables.indexOf(ZS.holdIt); if(i>=0) E.interactables.splice(i,1); ZS.holdIt=null; } return null; }
@@ -284,6 +296,7 @@ const EXLIB=(function(){
       const ok=q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken, a=S.besideOld(E,G.zone,n.seat,ok)||S.adjacent(E,n.seat,null,ok); if(a) out.push({id,n,seat:a}); } return out[0]||null; };   /* 社科圖二樓：旁邊是老位子就招手叫你坐老位子（第 6 節）*/
   S.waveText=id=>String((L().full||{}).wave||'').replace('{她／他}',male(id)?'他':'她');
   const seatIt=(E,st)=>(E.interactables||[]).find(it=>it&&it.seat===st)||{x:st.x,z:st.z,lv:st.lv|0,radius:0.8,label:'坐下讀書',seat:st,study:true};
+  const sit42=async(GM,st)=>{ const E=GM.E; if(ZS&&ZS.held.has(st)){ S.unhold(E,st); ZS.held.delete(st); } if(st.taken==='exlib42') st.taken=null; const it=seatIt(E,st); if(GM.seatMenu) await GM.seatMenu(it); return true; };   /* 坐下 → STORY.onSeat → S.place42 用這一對的另一個 */
   const sitDown=async(GM,st)=>{ const E=GM.E; if(ZS&&ZS.held.has(st)){ S.unhold(E,st); ZS.held.delete(st); } if(st.taken==='exlib41') st.taken=null; const it=seatIt(E,st); if(GM.seatMenu) await GM.seatMenu(it); return true; };
   S.otherLibs=function(G){ if(typeof PLACES==='undefined'||!PLACES.quickList) return []; const base=z=>PLACES.base?PLACES.base(z):z, here=base(G.zone)==='linze'||G.zone==='linze_4f'?'linze':base(G.zone);
     const known=z=>!!((PLACES.known0&&PLACES.known0[z])||(G.visited&&G.visited[z]));
@@ -379,7 +392,9 @@ const EXLIB=(function(){
     return false; };
   /* 玩家在那一間坐下（10:00 以前）＝放講義、旁邊留位子 */
   S.place42=async function(GM,seat){ const G=GM.G, E=GM.E, R=rec0(G), D=R&&R.d42; if(!D||!D.ok||D.placed||D.day!==(G.day|0)||D.zone!==G.zone||hr(G)>=D.dl||!seat||!S.studySeat(G.zone,seat)) return false;
-    const a=S.adjacent(E,seat,null,q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken); if(!a) return false; if(ZS&&ZS.held.has(a)){ S.unhold(E,a); ZS.held.delete(a); }
+    const P2=ZS&&ZS.pair42; let a=P2&&P2.includes(seat)?(P2[0]===seat?P2[1]:P2[0]):null;   /* 保留的那一對（D42-RESERVE-1104）：坐其中一個＝講義放另一個 */
+    if(!a) a=S.adjacent(E,seat,null,q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&(!q.taken||q.taken==='exlib42')); if(!a) return false; if(ZS&&ZS.held.has(a)){ S.unhold(E,a); ZS.held.delete(a); }
+    if(P2){ for(const q of P2) if(q.taken==='exlib42') q.taken=null; ZS.pair42=null; }   /* 放好了：這一對放開（留的位子照 keep、keepSeats 留給他，他照 seatAt 坐進來）*/
     D.placed=true; D.seat=[a.x,a.z,a.lv|0]; await say(GM,null,L().place42); return true; };
   /* 他走進來、坐下（populateSchedule 照 SCHED_X 的 seatAt）＝說那一句 */
   S.arrive42Due=function(GM){ const G=GM.G, E=GM.E, R=rec0(G), D=R&&R.d42; if(!D||!D.placed||D.done||D.day!==(G.day|0)||D.zone!==G.zone) return null; const n=GM.npc&&GM.npc[D.who];
@@ -403,7 +418,8 @@ const EXLIB=(function(){
   /* 背景讀書的人（src/soclib2f_people3d.js）不要坐的位子：4-1 占的位子和占位子的人自己的位子、4-2 留的位子和那個人的位子、這一段表上的人在這一間常坐的位子 */
   S.keepSeats=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, out=new Set(); if(!E||!G||!E.zone||!Array.isArray(E.zone.seats)) return out; const z=G.zone, seats=E.zone.seats, day=G.day|0;
     const at=a=>Array.isArray(a)?seats.find(q=>q&&(q.lv|0)===(a[2]|0)&&Math.hypot(q.x-a[0],q.z-a[1])<0.1):null, add=q=>{ if(q) out.add(q); };
-    if(ZS&&ZS.zone===E.zone&&ZS.holdSeat) add(ZS.holdSeat);
+    if(d42Today(G,z)&&!(ZS&&ZS.zone===E.zone&&ZS.pair42)) S.syncSeats(GM,true);   /* 背景讀書的人進來就坐好：先把 4-2 那一對留下來（D42-RESERVE-1104）*/
+    if(ZS&&ZS.zone===E.zone&&ZS.holdSeat) add(ZS.holdSeat); if(ZS&&ZS.zone===E.zone&&ZS.pair42) for(const q of ZS.pair42) add(q);
     const R=rec0(G), H=R&&R.hold, D=R&&R.d42;
     if(H&&H.day===day&&H.zone===z){ add(S.spotSeat(E,z,H.who)); add(at(H.old)); }
     if(D&&D.day===day&&D.zone===z){ add(S.spotSeat(E,z,D.who)); add(at(D.seat)); }
@@ -425,6 +441,7 @@ const EXLIB=(function(){
     if(S.atmosDue(GM)) job=()=>{ GM.sceneBegin(); return S.atmos(GM).finally(()=>GM.sceneEnd()); };
     else { const n=S.arrive42Due(GM); if(n) job=()=>S.arrive42(GM,n);
       else if(S.autoSitDue(GM)){ const H=holdToday(G,G.zone); H.autoTried=true; const st=ZS.holdSeat; job=()=>sitDown(GM,st); }
+      else if(S.auto42Due(GM)){ const D=d42Today(G,G.zone); D.autoTried=true; const st=ZS.pair42[0]; job=()=>sit42(GM,st); }   /* 4-2：直接走過去坐保留的那一對（D42-RESERVE-1104）*/
       else if(S.fullDue(GM)) job=()=>S.fullPrompt(GM); }
     if(!job) return false;
     busy=true; Promise.resolve().then(job).catch(e=>console.warn('EXLIB',e)).finally(()=>{ busy=false; if(GM.autosave) GM.autosave(); });
