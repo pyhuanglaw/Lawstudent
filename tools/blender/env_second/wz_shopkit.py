@@ -146,6 +146,7 @@ def vsign_tex(xf, sid, key, vx, vy0, vw=0.62):
 
 
 VC = M['laundry']    # 頂點色材質（雜物的小零件顏色放在頂點色，整條巷子一次 draw call）
+FRUIT_VC = L.vc_material('wz_fruit_vc', rough=0.45)   # 阿忠鮮果攤子上的水果（wz_street 的 WZ_VC 對到不投影的 cafe_vc_wz_matte；物件名 NOSHADOW_ 在 combine 以後會不見，所以用材質）
 
 
 def _cm(name): return L.CMesh(name, VC)
@@ -289,11 +290,11 @@ def p_fruitstall():
     m.cbox(-1.32, -1.28, 0.7, 1.32, -0.02, 0.02, '#4a4c4e')
     m.cbox(-1.05, -0.75, 0.72, 0.8, 0.28, 0.4, '#c0392b'); m.cbox(-1.02, -0.78, 0.8, 0.81, 0.29, 0.39, '#d9dcde')   # 前層左邊的小磅秤（紅色、秤盤）
     parts = [m.finish(None, uv=False)]
-    fm = _cm('fruitstall_fruit')                                                                        # 每一顆一個顏色（頂點色，一次 draw call；原本一種顏色一個材質）
+    fm = L.CMesh('fruitstall_fruit', FRUIT_VC)                                                         # 每一顆一個顏色（頂點色，一次 draw call；原本一種顏色一個材質）。FRUIT_VC：wz_street 把它併進不投影的 cafe_vc_wz_matte——一顆幾公分，影子看不出來（LAWWW 11-04 lane_east 三角形超標：陰影那一輪又畫一次）；每顆 5×3 段（原本 7×4）
     for it in fr:
         if it[0] == 'cyl': _, a_, b_, c_, r_ = it; n0 = len(fm.bm.faces); Mesh.cyl(fm, a_, b_, r_, seg=5, r2=r_ * 0.7); fm.bm.faces.ensure_lookup_table(); fm.paint([fm.bm.faces[k] for k in range(n0, len(fm.bm.faces))], c_)
         else:
-            _, cc, c_, (rx, ry_, rz) = it; n0 = len(fm.bm.faces); Mesh.ell(fm, cc, rx, ry_, rz, seg=7, rings=4); fm.bm.faces.ensure_lookup_table(); fm.paint([fm.bm.faces[k] for k in range(n0, len(fm.bm.faces))], c_)
+            _, cc, c_, (rx, ry_, rz) = it; n0 = len(fm.bm.faces); Mesh.ell(fm, cc, rx, ry_, rz, seg=5, rings=3); fm.bm.faces.ensure_lookup_table(); fm.paint([fm.bm.faces[k] for k in range(n0, len(fm.bm.faces))], c_)
     parts.append(fm.finish(None, uv=False, smooth=True))
     cm_ = Mesh('fruitprice', _img_mat('wz_fruitprice', 'fruit_price.png', rough=0.85, clip=True)); bm = cm_.bm; uvl = bm.loops.layers.uv.verify()
     # (卡片, 左下、右下、右上、左上)：插在箱子前緣的往後仰一點；小桌上的立在果汁機旁邊、貼在桌子前緣

@@ -1023,6 +1023,7 @@ for _m in bpy.data.materials:
 for _n, _v in list(WZ_VC.items()):
     if _v in (VC_MATTE, VC_METAL) and (_n.startswith(('wz_door_', 'wz_frame_')) or _n in ('cafe_pipe', 'cafe_curtain', 'wz_laundry', 'cafe_alu', 'cafe_iron_black', 'cafe_brass', 'wz_mailbox')):
         WZ_VC[_n] = VC_SMETAL if _v is VC_METAL else VC_SMATTE
+if 'wz_fruit_vc' in bpy.data.materials: WZ_VC['wz_fruit_vc'] = VC_SMATTE   # 阿忠鮮果攤子上的水果不投影（LAWWW 11-04 lane_east）
 print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
 _keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name) or ob.name.startswith('COPY_') or (ob.parent is not None and ob.parent.name.startswith('COPY_'))   # COPY_：阿德影印的兩種外觀（ART-WZ6，遊戲照名字開關）
 L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
@@ -1082,8 +1083,13 @@ L.atlas_tiles(root, os.path.join(HERE, 'textures', 'gen', f'wz_tiles_{SET}'), f'
               reps={'wz_sf_wood_dark': 2, 'wz_sf_wood_light': 2, 'wz_sf_mosaic': 2, 'wz_sf_granite': 2, 'wz_sf_terrazzo': 2, 'wz_sf_white': 2, 'wz_sf_floral': 2})
 # ↑ 木頭多半是店裡的小家具、店內地板隔著玻璃看：一格放 2×2 個週期，少切很多刀；騎樓地板（近看、走在上面）、鐵捲門、石材牆基維持一格一個週期
 if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊面掃描（tools/glb_coplanar.py）就看得到每個零件的名字
+    def _seg(ob):   # 溫州街的店內（wz_in_shop）一間店一個網格合併（LAWWW 11-04 08:16 lane_east 三角形超標）：整條街一個網格的話，站在東段往東看時西段的書屋、帝大紅茶、常在洗衣、小路
+        # 也整個要畫（裁不掉）；材質不變，看得到的店才畫。名字 wz_in_<棟號>_wz_in_shop 照舊 wz_in_ 開頭（遊戲不投影）
+        if SET != 'wenzhou' or len(ob.data.materials) != 1 or not ob.data.materials[0] or ob.data.materials[0].name != 'wz_in_shop': return ''
+        m = re.match(r'sk_in_([A-Z]\d+i?)', ob.name)   # 店內的頂點色網格叫 sk_in_<棟號>：一間店一個網格（包圍球小，背後的店整間裁掉；分東西兩段的話包圍球太大、跨到鏡頭前面，裁不掉）
+        return ('wz_in_' + m.group(1)) if m else ''
     L.merge_by_material(root, keep=_keep,
-                        key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else '')   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
+                        key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else _seg(ob))   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
 for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)
 if SET == 'gongguan':   # PERF-GG-DC-1104：店面的燈（小燈泡、燈管）、店內景深卡、亮窗的玻璃、新店面的灰泥牆（騎樓裡，影子本來就在騎樓的陰影裡）、騎樓梁上的招牌（薄板，影子落在騎樓的影子裡）不投影：陰影那一輪少 9 次 draw call
     for _ob in list(root.children):
