@@ -18,14 +18,10 @@ T = 6.8          # 一般店面：板面寬 6.5 m 左右，高約 0.95 m
 T5 = 5.6         # B5 騎樓兩間：寬 5.2 m
 SIGNS = {
     'ade_print_h': ('ade_print', 'h', T, True), 'ade_print_v': ('ade_print', 'v', None, True),
-    'azhong_fruit_h': ('azhong_fruit', 'h', T, True),
     'banshu_h': ('banshu', 'h', T, False),
     'laundry_h': ('laundry', 'h', 6.0, True),
     'lin_noodle_h': ('lin_noodle', 'h', T, True), 'lin_noodle_v': ('lin_noodle', 'v', None, True),
     'riri_mart_h': ('hiyori_mart_fit', 'full_h', None, True),   # 11-04 改名日和便利店（AA_647 §6：和公館 G03 同一家連鎖）：公館參考圖 gongguan_cvs_ext 的招牌拉正（1300×226，5.75:1），整張用；舊的「日日便利」riri_mart.webp 留著不用
-    'summer_ice_h': ('summer_ice', 'h', T5, False), 'summer_ice_v': ('summer_ice', 'v', None, False),
-    'xiangkou_books_h': ('xiangkou_books', 'h', T, False), 'xiangkou_books_v': ('xiangkou_books', 'v', None, False),
-    'xiangkou_tea_h': ('xiangkou_tea', 'h', T5, True),
     'xiangzi_teishoku_h': ('xiangzi_teishoku', 'h', T, False), 'xiangzi_teishoku_v': ('xiangzi_teishoku', 'v', None, False),
     'xiaoshubao_decal': ('xiaoshubao', 'decal', None, False), 'xiaoshubao_v': ('xiaoshubao', 'v', None, False),
     'yizhan_lantern': ('yizhan_lantern', 'lantern', None, True), 'yizhan_plaque': ('yizhan_lantern', 'plaque', None, False),
@@ -34,6 +30,13 @@ SIGNS = {
     'wz_sunnyside_h': ('wz_sunnyside_h_fit', 'full_h', None, False), # SUNNY SIDE（原本的半熟）：米白飾帶深綠字
     'wz_komichi_h': ('wz_komichi_h_fit', 'full_h', None, False),     # 小路（原本的巷子裡定食）：深色木招牌
     'wz_ade_h': ('wz_ade_h_fit', 'full_h', None, True),              # 阿德影印輸出：白底藍字燈箱
+    # （WZ-SECOND-1104：舊的 azhong_fruit、summer_ice、xiangkou_books、xiangkou_tea 換成下面五張參考圖的招牌，拿掉省圖集空間；laundry_h 留著，公館 gg_laundry_h 用同一張原圖）
+    # 溫州街第二批五間（WZ-SECOND-1104，使用者 11-04 05:4x 直接交辦）：參考圖 docs/art-rebuild/second_ai/wip/wz_second_1104/ref/*_ext.webp 的招牌拉正，整張用
+    'wz_changzai_h': ('wz_changzai_h_fit', 'full_h', None, True),    # 常在洗衣（原本的自助洗衣，B2）：灰藍底白字＋洗衣機圖示、24小時營業（晚上亮）
+    'wz_azhong_h': ('wz_azhong_h_fit', 'full_h', None, False),       # 阿忠鮮果（原本的阿忠水果，B6）：米白底橘字＋水果插畫
+    'wz_summer_h': ('wz_summer_h_fit', 'full_h', None, False),       # 夏日冰菓室（B5 東半）：米白底藍字＋剉冰、浪花
+    'wz_dida_h': ('wz_dida_h_fit', 'full_h', None, False),           # 帝大紅茶（原本的巷口茶飲，B5 西半）：酒紅底米白字
+    'wz_wzbooks_h': ('wz_wzbooks_h_fit', 'full_h', None, False),     # 溫州書屋（原本的巷口書房，A3）：米白飾帶深綠字
 }
 # 公館（--set gongguan → gg_signs_atlas.*）：BB-B 補好比例的 _fit 版（6.50×0.64 m 橫、0.74×2.60 m 直），整張用、不切不拉（BB-B 00:08 通過 S1～S4，00:1x、00:2x 再通過兩家）
 GG = {'riri_mart_h': ('hiyori_mart_fit', 'full_h', None, True),   # 11-04 日和便利店
@@ -148,4 +151,4 @@ def main(SIGNS=SIGNS, NAME='wz_signs_atlas', size=(2048, 2048), hf=170, vf=200, 
 if __name__ == '__main__':
     import sys
     if '--set' in sys.argv and sys.argv[sys.argv.index('--set') + 1] == 'gongguan': main(GG, 'gg_signs_atlas', **GG_OPT)
-    else: main()
+    else: main(size=(2048, 2560))   # WZ-SECOND-1104：第二批五間的招牌加進來，2048 高放不下（2276）
