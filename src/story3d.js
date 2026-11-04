@@ -1325,6 +1325,7 @@ const STORY = (function(){
     if(it.mrt){ if(typeof TRIP!=='undefined'){ await TRIP.menu(GM); return true; } GM.sceneBegin(); await GM.say(null,'捷運公館站。今天的生活範圍還在走路可以到的地方。'); GM.sceneEnd(); return true; }   /* 自由出行（DL-06，AA_160 第 5 節）*/
     /* 201 的課照課表（src/classes3d.js，D52）；沒有課的時候照常走得進去（D54）。v9.5 以前：週四、週二以外會先跳一句「今天沒有民法總則」 */
     if(it.exit&&it.exit.to==='classroom'&&S.mainDay(G)===2&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
+    if(it.exit&&it.exit.to==='wz_teishoku'&&typeof WZS!=='undefined'&&WZS.teiDoorAt&&await WZS.teiDoorAt(GM,it)) return true;   /* 小路（AA_655 第 4 節）：18:00 才開；中午、公休日、颱風天走到門口各一句旁白 */
     if(it.exit&&PLACES.typhoonClosed&&PLACES.typhoonClosed(it.exit.to,G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 颱風假店家不開（AA_160 3-4 D）*/
     if(it.exit&&it.exit.to==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&await NOODLE_CLOSED.door(GM)) return true;   /* 阿鳳麵店過年店休（AA_333；src/noodle_closed3d.js）：鐵門、語彤刷椅子腳；那天在麵店有約照常進去 */
     if(it.exit&&/^wz_(brunch|print|teahouse|lin|teishoku|mokuyobi)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 木曜日（AA_617 第 3 節）：13:00–22:00、週二公休——「上二樓（木曜日）」照其他溫州街的店門 */   /* 溫州街新店的營業時間（AA_164 1-2；林家乾麵、巷子裡定食 AA_364 第 2 節：一天兩段、週一／週二公休）*/

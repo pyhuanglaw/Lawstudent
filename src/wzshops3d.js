@@ -17,9 +17,11 @@ const WZS=(()=>{
   S.rec=G=>{ G.daily=G.daily||{}; const r=G.daily.wzs=G.daily.wzs||{}; if(!Array.isArray(r.printUsed)) r.printUsed=[]; return r; };
 
   // ---------- 1. 半熟早午餐 ----------
-  S.BRUNCH=[['半熟蛋吐司套餐（附沙拉、紅茶）',190,'蛋黃剛好流到吐司邊。你終於知道，三分四十秒是什麼意思。'],
-            ['班尼迪克蛋（附紅茶）',260,'醬汁很濃。你把最後一口麵包留下來擦盤子。'],
-            ['法式吐司（附熱拿鐵）',220,'甜的。窗外的騎樓有人在排隊，你吃得很慢。']];
+  /* SUNNY SIDE 的菜單（AA_655 第 5 節，企劃線 a22e53016：照室內圖 French Toast 280、Eggs Benedict 320、Croque Madame 290、Americano 120、Latte 150、Earl Grey 140，遊戲裡寫中文）。
+     第三欄＝吃完那一句：法式吐司、班尼迪克蛋照原本（AA_172）那兩句；稿沒寫的（三明治、三種飲料）＝null（不說）。原本的「半熟蛋吐司套餐」拿掉了 */
+  S.BRUNCH=[['法式吐司',280,'甜的。窗外的騎樓有人在排隊，你吃得很慢。'],
+            ['班尼迪克蛋',320,'醬汁很濃。你把最後一口麵包留下來擦盤子。'],
+            ['法式火腿起司三明治',290,null],['美式',120,null],['拿鐵',150,null],['伯爵茶',140,null]];
   S.BRUNCH_WORK=['小米姐從廚房探頭：「今天的蛋，是我煮的。你煮的話會少十秒。」','小蕙偷偷多放了一顆小番茄。'];
   S.BOARD={2:['今日推薦：半熟蛋吐司。蛋是三分四十秒，不是三分半。'],3:['今日推薦：半熟蛋吐司。蛋是三分四十秒，不是三分半。'],
            4:['今日推薦：班尼迪克蛋。醬是早上現打的。'],5:['今日推薦：班尼迪克蛋。醬是早上現打的。'],
@@ -41,9 +43,12 @@ const WZS=(()=>{
   S.tokonomaLine=G=>{ const r=S.rec(G); r.tokoN=((r.tokoN|0)+1)%2; return S.TOKONOMA[r.tokoN]; };
 
   // ---------- 3. 阿德影印輸出 ----------
-  S.printMenu=G=>{ const t=T_(G), out=[['印筆記（黑白，約 30 頁）',30]];
-    if(t&&t.week>=6) out.push(['印報告＋釘書（約 40 頁）',50]);   /* 學期中第 6 週以後才有報告 */
-    if(t&&((/S1$/.test(t.id)&&t.week>=2&&t.week<=5)||(/S2$/.test(t.id)&&t.week>=10&&t.week<=14))) out.push(['彩色海報（A3）',80]);   /* 社團活動的季節 */
+  /* 價目（AA_655 第 5 節：照室內圖）：黑白 A4 2 元、A3 4 元；彩色 A4 10 元、A3 20 元；雙面 +1；掃描 5 元一檔；膠裝 80 起；騎馬釘 15 起。
+     選單照原本三樣，價錢照這張表算：筆記 30 頁 × 2＝60、報告 40 頁 × 2＋騎馬釘 15＝95、彩色海報 A3 一張 20 */
+  S.PRINT_PRICE={bwA4:2,bwA3:4,colA4:10,colA3:20,duplex:1,scan:5,bind:80,saddle:15};
+  S.printMenu=G=>{ const t=T_(G), P=S.PRINT_PRICE, out=[['印筆記（黑白，約 30 頁）',30*P.bwA4]];
+    if(t&&t.week>=6) out.push(['印報告＋釘書（約 40 頁）',40*P.bwA4+P.saddle]);   /* 學期中第 6 週以後才有報告 */
+    if(t&&((/S1$/.test(t.id)&&t.week>=2&&t.week<=5)||(/S2$/.test(t.id)&&t.week>=10&&t.week<=14))) out.push(['彩色海報（A3）',P.colA3]);   /* 社團活動的季節 */
     return out; };
   S.PRINT_LINES=['你印了一份{科目}的整理。紙還是熱的。','影印機吐出最後一張。你把它疊整齊，邊角對好。','阿芃在角落寫功課，抬頭看了你一眼，又低下去。','你印的是{科目}的筆記。第三頁的字太小，你縮放了一次。'];
   S.PRINT_EXAM=['前面排了七個人。大家印的，好像都是同一份考古題。','阿德：「這週大家都在印{科目}。」'];
@@ -75,11 +80,16 @@ const WZS=(()=>{
   const M68=G=>{ const m=month(G); return m>=6&&m<=8; };   /* 芒果的季節（6～8 月）*/
   S.AA364={
     lin:{zone:'wz_lin',key:'林家乾麵',who:'老闆',first:'內用外帶？',known:(G,last)=>last==='乾麵（小）'?'小的，不加辣。對吧。':(last==='乾麵（大）'?'大的，不加辣。對吧。':'一樣的？'),dine:true,h:40/60,
-      menu:[['乾麵（小）',40],['乾麵（大）',55],['餛飩湯',40],['貢丸湯',30],['燙青菜',35],['滷蛋',15]],wall:'乾麵（小）40／乾麵（大）55／餛飩湯 40／貢丸湯 30／燙青菜 35／滷蛋 15',
+      menu:[['乾麵',60],['麻醬麵',70],['餛飩麵',85],['榨菜肉絲麵',85],['燙青菜',40],['貢丸湯',40],['餛飩湯',50],['滷蛋',15]],wall:'乾麵 60／麻醬麵 70／餛飩麵 85／榨菜肉絲麵 85／燙青菜 40／貢丸湯 40／餛飩湯 50／滷蛋 15',   /* AA_655 第 5 節：照室內圖的紅紙 */
       same:'好。一樣。',firstLine:'（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）',done:'（你吃完的時候，老闆已經在煮下一碗了。）'},
-    teishoku:{zone:'wz_teishoku',key:'巷子裡定食',who:'店員',first:'幾位？這邊坐。',known:'今天的魚很好喔。',dine:true,h:40/60,
-      menu:[['薑汁燒肉定食',180],['鹽烤鯖魚定食',190],['炸雞定食',170]],wall:'薑汁燒肉定食 180／鹽烤鯖魚定食 190／炸雞定食 170／味噌湯續一碗 免費',
-      same:'好，一樣的定食。',firstLine:'（店裡只有八個位子。牆上貼著：「味噌湯免費續，但不要浪費。」）',done:'（你續了一碗味噌湯。比第一碗還燙。）'},
+    /* 小路（居酒屋；AA_655 第 2、3 節，企劃線 a22e53016）：key 照舊「巷子裡定食」（存檔的次數、熟客、SQ19），顯示的店名是「小路」。
+       alc＝酒精飲料（點了以後老闆那一句，每次來只說一次：S.alcLine）；with＝一起去的人點的（S.withOrder）*/
+    teishoku:{zone:'wz_teishoku',key:'巷子裡定食',name:'小路',who:'老闆',first:'歡迎光臨。……吧台可以嗎？',known:'今天的雞皮串剛烤好。',dine:true,h:40/60,
+      menu:[['烤雞串（三串）',120],['揚出豆腐',90],['鹽烤鯖魚',160],['玉子燒',80],['燙青菜',60],['烏龍茶',40],['可爾必思',50],['生啤酒',120],['清酒（一合）',180]],
+      wall:'烤雞串 120／揚出豆腐 90／鹽烤鯖魚 160／玉子燒 80／燙青菜 60／烏龍茶 40／可爾必思 50／生啤酒 120／清酒 180',
+      alc:['生啤酒','清酒（一合）'],alcLine:'（老闆看了你一眼：「學生？……喝慢一點。」）',
+      with:{heroine_05:'清酒',sis:'清酒',classmate_xinci:'烏龍茶',zhe:'生啤酒',_:'可爾必思'},
+      same:'好，跟上次一樣。',firstLine:'（店裡很暗，只有吧台上方的燈是亮的。木札菜單一張一張掛在橫樑上，烤爐冒著煙。）',done:'（老闆把最後一串烤好的雞肉放在你面前。「這串招待。」）'},
     tea:{zone:'wz_tea',key:'巷口茶飲',who:'店員',first:'甜度冰塊？',known:'半糖少冰？',dine:false,h:5/60,
       menu:[['紅茶',30],['青茶',30],['珍珠奶茶',55],['冬瓜檸檬',45]],
       same:'好，一樣的。',firstLine:'（窗口的菜單只有四樣。你點完，後面已經排了兩個人。）',done:'（你拿著飲料，沿著溫州街走回去。）'},
@@ -98,6 +108,22 @@ const WZS=(()=>{
   S.inSeason=(k,G)=>typeof PLACES==='undefined'||!PLACES.inSeason||PLACES.inSeason(S.AA364[k].zone,G.day);   /* 冰菓室 5～9 月；其他三家整年 */
   S.isOpen364=(k,G)=>typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(S.AA364[k].zone,hr(G),G.day);
   S.menu364=(k,G)=>S.AA364[k].menu.filter(m=>!m[2]||m[2](G));
+  /* 小路的門口（AA_655 第 4 節）：18:00 才開——沒開的時候走到門口照這三句（不是 toast）。颱風假＞公休日（整天沒有時段）＞其他沒開的時間（中午那一句）；開著＝null（照常進去）。
+     story3d.js 的店門檢查先問這裡（S.teiDoorAt）*/
+  S.TEI_DOOR={noon:'（小路的布簾收起來了。門上的木牌寫著「18:00～02:00」。）',rest:'（小路的門上掛著「本日公休」。）',typhoon:'（小路的紅燈籠沒有亮。門上貼著「颱風天休息」。）'};
+  S.teiDoor=function(G){ if(typeof PLACES==='undefined'||!PLACES.isOpen) return null; const z='wz_teishoku'; if(PLACES.isOpen(z,hr(G),G.day)) return null;
+    if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return S.TEI_DOOR.typhoon; const ws=PLACES.windowsOf?PLACES.windowsOf(z,G.day):null; return ws&&ws.length?S.TEI_DOOR.noon:S.TEI_DOOR.rest; };
+  S.teiDoorAt=async function(GM,it){ if(!it||!it.exit||it.exit.to!=='wz_teishoku'||!GM||!GM.G) return false; const l=S.teiDoor(GM.G); if(!l) return false; GM.sceneBegin(); try{ await GM.say(null,l); } finally { GM.sceneEnd(); } return true; };
+  /* 小路（AA_655 第 3 節）：點了酒精飲料（生啤酒、清酒）＝老闆那一句；每次來（走進店裡一次）只說一次 */
+  let alcVisit=null;
+  S.alcLine=function(GM,k,nm){ const D=S.AA364[k]; if(!D||!D.alc||!D.alc.includes(nm)) return null; const v=(GM&&GM.enterN)|0; if(alcVisit===v) return null; alcVisit=v; return D.alcLine; };
+  S._alcReset=()=>{ alcVisit=null; };
+  /* 一起去的人點的（AA_655 第 3 節「學姊點清酒、芯慈點烏龍茶、阿哲點生啤酒、其他人點可爾必思」）：剛才一起吃的那一位（EAT.lastTog）。
+     【稿只寫點什麼、沒寫那一句】旁白用 AA_280 共用那一句的寫法「（{人}點了{品名}。）」（S.WITH_LINE）——要不要說、怎麼說等 AA 定 */
+  S.WITH_LINE='（{人}點了{品名}。）';
+  S.withItem=function(k,id){ const W=S.AA364[k]&&S.AA364[k].with; if(!W||!id) return null; return Object.prototype.hasOwnProperty.call(W,id)?W[id]:W._; };
+  S.withOrder=function(GM,k){ const G=GM.G, x=typeof EAT!=='undefined'?EAT.lastTog:null, D=S.AA364[k]; if(!x||!D||x.key!==D.key||x.day!==G.day) return null; const it=S.withItem(k,x.id); if(!it) return null;
+    const nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(x.id):x.id; return S.WITH_LINE.replace('{人}',nm).replace('{品名}',it); };
   /* 店員的招呼：這一次點的是第 5 次以上＝店員認得你（「認得你以後」那一句；林家照上次點的、冰菓室照月份）；不然「第一次」那一欄 */
   S.greet364=(k,G)=>{ const D=S.AA364[k], E_=typeof EAT!=='undefined'&&EAT.count?EAT:null, kn=!!E_&&E_.count(G,D.key)>=4; if(!kn) return D.first;
     const last=E_.rec?(E_.rec(G).last[D.key]||null):null; return typeof D.known==='function'?D.known(G,last):D.known; };
@@ -124,8 +150,9 @@ const WZS=(()=>{
     if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
     if(p) GM.money(-p);
     const ol=typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.orderLine;
-    const run=async()=>{ if(ol) await GM.say(null,ol.replace('{品名}',nm)); if(k==='tea'&&typeof FAV!=='undefined'&&FAV.wzTea) await FAV.wzTea(GM);   /* 和可昕的學期末約會出發前一小時內：「帶一杯給可昕」（src/foodfav3d.js，AA_410）*/ GM.advance(D.h); let tg=false;
+    const run=async()=>{ if(ol) await GM.say(null,ol.replace('{品名}',nm)); const al=S.alcLine(GM,k,nm); if(al) await GM.say(null,al); if(k==='tea'&&typeof FAV!=='undefined'&&FAV.wzTea) await FAV.wzTea(GM);   /* 和可昕的學期末約會出發前一小時內：「帶一杯給可昕」（src/foodfav3d.js，AA_410）*/ GM.advance(D.h); let tg=false;
       if(E_){ if(D.dine) tg=await E_.after(GM,D.key,nm); else await E_.ordered(GM,D.key,nm); }   /* 內用：吃過的＋一起吃（AA_329）；外帶：只記吃過的 */
+      if(tg&&D.with){ const w=S.withOrder(GM,k); if(w) await GM.say(null,w); }   /* 小路：一起吃的人點的（AA_655 第 3 節）*/
       if(!tg&&D.done) await GM.say(null,D.done); };   /* 吃完（一個人）的旁白（第 5 節第 4 點）；一起吃了＝結尾換成一起吃的那一句 */
     if(D.dine) await seated(GM,run); else await run();
     if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop){ try{ await SIDEQ.atShop(GM,D.key,{item:nm,price:p}); }catch(e){ console.warn('SIDEQ',e); } }   /* 順手的事：店員偶爾多一句（AA_397）*/
@@ -195,7 +222,7 @@ const WZS=(()=>{
     if(k==='cvs413'){ G.flags.CVS_FROM='wenzhou'; const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN.cvs; await GM.enter('cvs',SI?{x:SI.x,z:SI.z,yaw:SI.yaw}:{x:0,z:3.4,yaw:Math.PI}); return; }   /* 進門站的地方照 zones3d.js SHOP_IN（日和便利店 v2，GG-SHOPS-REDO-1104）*/   /* AA_413：日日便利，24 小時 */
     GM.sceneBegin();
     try{
-      if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
+      if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ if(x[2]) await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
       else if(k==='teahouse'&&kind==='tea'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'su');   /* 順手的事 SQ08：問蘇姨（下午）*/ const it=await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); if(typeof AA524!=='undefined'&&AA524.ytEgg) await AA524.ytEgg(GM);   /* AA_524 Y8（AA_630 Z-002）：語彤生日「蘇姨說要請你吃茶點。下次來。」以後第一次點茶 */ await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); await sideq(GM,'溫州街・一盞',it); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }

@@ -26,7 +26,9 @@ const PLACES={
     /* 溫州街其他四家（AA_364 第 2 節，AA 2026-10-21 d7708ebe）：林家乾麵、巷子裡定食能進去內用（區域 wz_lin、wz_teishoku）；巷口茶飲、夏日冰菓室是騎樓的外帶窗口（不是區域，src/wzshops3d.js 的點餐擋）。
        一天兩段的店（午餐、晚餐）：那一天寫 [[開, 關], [開, 關]]。months：只有這幾個月開（夏日冰菓室 5～9 月；10～4 月鐵捲門拉著，AA_164 1-2）*/
     wz_lin:{shop:true,rules:{week:[[[11,14],[17,21]],null,[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]],[[11,14],[17,21]]]},text:'11:00–14:00、17:00–21:00；週一公休'},
-    wz_teishoku:{shop:true,rules:{week:[[[11.5,14],[17.5,20.5]],[[11.5,14],[17.5,20.5]],null,[[11.5,14],[17.5,20.5]],[[11.5,14],[17.5,20.5]],[[11.5,14],[17.5,20.5]],[[11.5,14],[17.5,20.5]]]},text:'11:30–14:00、17:30–20:30；週二公休'},
+    /* 小路（居酒屋，原本的巷子裡定食；AA_655 第 2、4 節，使用者 11-04 04:5x 定 18:00～02:00）：只有晚上，拿掉午餐那一段；18～26＝過了午夜到 02:00（isOpen 照前一天晚上那一段算）。
+       公休日照舊是週二（原本的 week[2]＝null）：AA_655 寫「原本週三休：照舊週三休」，可是原本就是週二，學姊七夕 2026-08-19 是週三、要開（sis_qixi3d.js）。門口三句在 src/wzshops3d.js 的 S.teiDoor */
+    wz_teishoku:{shop:true,late:true,rules:{week:[[18,26],[18,26],null,[18,26],[18,26],[18,26],[18,26]]},text:'18:00–02:00；週二公休'},
     wz_tea:{shop:true,rules:{week:[[10,22],[10,22],[10,22],[10,22],[10,22],[10,22],[10,22]]},text:'每天 10:00–22:00'},
     wz_ice:{shop:true,rules:{week:[[12,21],null,[12,21],[12,21],[12,21],[12,21],[12,21]],months:[5,6,7,8,9]},text:'5～9 月 12:00–21:00；週一公休'},
     /* 木曜日（AA_617 第 3 節，使用者 11-03 同意；區域 wz_mokuyobi，溫州街 B4 二樓）：13:00–22:00、週二公休；颱風天關（typhoonShops）。打烊時人還在店裡＝src/mokuyobi_sys3d.js 請你出來 */
@@ -60,8 +62,10 @@ const PLACES={
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
   typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_mokuyobi','wz_offbeat','afar','daybreak','aoki'],
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
-  isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const ws=PLACES.windowsOf(zone,day); return !!ws&&ws.some(w=>h>=w[0]-1e-6&&h<w[1]-1e-6); }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開；一天兩段的店：在任何一段裡都算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
-  hhmm(x){ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
+  isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const inW=(ws,x)=>!!ws&&ws.some(w=>x>=w[0]-1e-6&&x<w[1]-1e-6); const ws=PLACES.windowsOf(zone,day); if(inW(ws,h)) return true;
+      /* 過午夜的那一段（late：[18,26]＝開到 02:00，小路 AA_655）：遊戲過了午夜還是同一天（G.hour 25，或呼叫的人先 %24 成 1）＝照這一天晚上那一段算（和 cafe 的 close>24 同一個想法）*/
+      return !!o.late&&inW(ws,h+24); }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開；一天兩段的店：在任何一段裡都算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
+  hhmm(x){ if(x>24+1e-6) x-=24;   /* 過午夜的關門時間（26＝02:00，小路）；24 照舊寫 24:00 */ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
   /* 今天的開放時間（一行）：「今天 08:10–21:45」「今天不開放（國定假日）」；沒有 rules 的地點＝原本的 text */
   todayText(zone,day){ const o=PLACES.hours[zone]; if(!o) return ''; if(!o.rules) return o.text||''; const ws=PLACES.windowsOf(zone,day); if(ws&&ws.length) return '今天 '+ws.map(w=>PLACES.hhmm(w[0])+'–'+PLACES.hhmm(w[1])).join('、');   /* 一天兩段：「今天 11:00–14:00、17:00–21:00」 */
     if(o.shop) return '今天公休';
