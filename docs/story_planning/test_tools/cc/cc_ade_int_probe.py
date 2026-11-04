@@ -85,6 +85,10 @@ async def case_IN(pg, cdp):
         ok = await GI.wait_js(pg, "!!GAME.E.player.seat&&!GAME.E.player.busy", 20); await pg.wait_for_timeout(1500)
         await pg.screenshot(path=os.path.join(OUT, 'ade_%s_seated.png' % tag))
         check('[%s] 坐下了' % tag, ok)
+        _s = await pg.evaluate(ST)
+        if _s['choices']:   # 坐下以後的選單（坐一下／起身…）：選「起身」
+            _k = next((i for i, t in enumerate(_s['choices']) if t.startswith('起身') or t.startswith('站起')), len(_s['choices']) - 1)
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (_k + 1)); await pg.wait_for_timeout(1500)
         lab = (await pg.evaluate(ST))['interact']
         if lab.startswith('起身') or lab.startswith('站起'): await L.tap(pg, cdp, '#interact')
         await pg.wait_for_timeout(1500)
