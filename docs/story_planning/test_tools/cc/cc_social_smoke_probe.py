@@ -48,7 +48,7 @@ ROM = ['heroine_01', 'heroine_02', 'heroine_03', 'heroine_04', 'heroine_05', 'cl
 FRIENDS = ['zhe', 'yu', 'classmate_bohan', 'classmate_mingxuan', 'classmate_youchen', 'kai', 'econ_zhengxun', 'econ_pinyu', 'econ_weilun', 'econ_tangrui', 'econ_jiahao',
            'jp_caizhen', 'jp_liheng', 'jp_yuheng', 'npc_fangyt', 'npc_huangxh', 'npc_ta_chen']
 POOLS = ['pool_%d' % i for i in range(1, 21)]
-ALL_STEPS = ['media', 'first', 'greet', 'up', 'ladder', 'menu', 'invite', 'reload', 'date', 'phone', 'shop', 'walk']
+ALL_STEPS = ['media', 'first', 'greet', 'up', 'ladder', 'menu', 'invite', 'reload', 'date', 'phone', 'phone_date', 'shop', 'walk']
 
 
 def env_list(k, d):
@@ -75,6 +75,12 @@ DATE_WAIT_H = float(os.environ.get('DATE_WAIT_H') or 0.4)
 PLAY_S = int(os.environ.get('PLAY_S') or 900)
 PHONE_AUTO = (os.environ.get('PHONE_AUTO') or '0') == '1'
 QUICK = (os.environ.get('QUICK') or '0') == '1'
+DATE_BRANCH_MAX = int(os.environ.get('DATE_BRANCH_MAX') or MENU_MAX)   # 一場約會換選項重跑最多幾次
+STUDY_ONLY = (os.environ.get('STUDY_ONLY') or '0') == '1'             # 1＝invite／phone_date 只跑「念書」那幾場（STUDY_ctl／STUDY_fix）
+ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_date：先列「手機能約誰」的名單
+AFTER_S = int(os.environ.get('AFTER_S') or 150)                       # 約會結束後等幾秒看她回到自己的行程
+STUDY_MSG = '使用者 11-04：約念書不能在門口結束，要一起坐下'
+ID_RX = r'^(heroine_0\d|classmate_\w+|pool_\d+|econ_\w+|npc_\w+|jp_\w+|kexin|zhe|yu|kai|prof_\w+)$'
 
 BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
          'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True,
@@ -198,10 +204,38 @@ HIT_JS = "(id=>{ const e=document.getElementById(id); if(!e) return 'none'; cons
 TG_JS = r"""(()=>{ const E=GAME.E, P=E.player.obj.position, out=[]; for(const r of [2.5,3.5,1.8]) for(let k=0;k<12;k++){ const a=k*Math.PI/6, x=P.x+Math.sin(a)*r, z=P.z+Math.cos(a)*r; if(!E.canStand||E.canStand(x,z,0.3)) out.push([+x.toFixed(2),+z.toFixed(2)]); } return out; })()"""
 TRIPS_JS = "(id=>(GAME.G.trips||[]).filter(t=>t.who===id).map(t=>({trip:t.trip,day:t.day,depart:t.depart,back:t.back,status:t.status,locs:t.locs,kind:t.kind||null})))"
 INVS_JS = "(id=>(GAME.G.invites||[]).filter(v=>v.who===id).map(v=>({id:v.id,state:v.state,place:v.place,zone:v.zone,day:v.day,h:v.h})))"
+SAY_HOOK = r"""(()=>{ if(window.__CCS) return true; const W=window.__CCS=[]; const s0=GAME.say; if(typeof s0!=='function') return false;
+  GAME.say=function(w,t){ try{ W.push({n:(w&&w.name)||(typeof w==='string'?w:''),c:(w&&w.charId)||null,t:String(t==null?'':t),h:+(+GAME.G.hour).toFixed(3),d:GAME.G.day,z:GAME.G.zone,adv:!!(typeof ADV!=='undefined'&&ADV.active)}); if(W.length>4000) W.splice(0,1000); }catch(e){} return s0.apply(this,arguments); };
+  return true; })()"""
+SLOTS_JS = "[...document.querySelectorAll('#adv .advSlot')].map(e=>({id:e.id, show:e.classList.contains('show'), img:!!((e.querySelector('img')||{}).src)}))"
+REC_JS = r"""(id=>{ const G=GAME.G, r=SOCIAL.rel(id); let mem=[]; try{ mem=(SOCIAL.memories?SOCIAL.memories(id):[]).map(m=>m.tag); }catch(e){}
+  return {day:G.day, hour:+(+G.hour).toFixed(4), t:+(G.day*24+(+G.hour)).toFixed(4), money:G.money|0, rel:{fam:r.fam|0,trust:r.trust|0,comf:r.comf|0,aff:r.aff|0,rom:r.rom|0,npcRom:r.npcRom|0}, nmem:mem.length, mem:mem.slice(-6), zone:G.zone}; })"""
+SEAT_JS = r"""(id=>{ const E=GAME.E, P=E.player, G=GAME.G, AL={heroine_01:'an',heroine_05:'sis',zhe:'zhe',yu:'yu',kai:'kai'};
+  let n=(E.npcs||[]).find(q=>q&&q.charId===id&&q.obj)||(GAME.npc&&GAME.npc[id])||(GAME.npc&&AL[id]&&GAME.npc[AL[id]])||(typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(id):null)||null;
+  const ps=P.seat||null, ns=n&&n.seat||null, pp=P.obj.position; const grp=q=>q?(q.group!=null?q.group:(q.table!=null?q.table:null)):null;
+  const doors=(E.interactables||[]).filter(i=>i.exit||i.enter).map(i=>+Math.hypot(i.x-pp.x,i.z-pp.z).toFixed(2)); const sp=E.zone&&E.zone.spawn;
+  return {zone:G.zone, lv:P.lv|0, pseat:!!ps, nseat:!!ns, seatD:ps&&ns?+Math.hypot(ps.x-ns.x,ps.z-ns.z).toFixed(2):null, sameGroup:!!(ps&&ns&&grp(ps)!=null&&grp(ps)===grp(ns)),
+    doorD:doors.length?Math.min(...doors):null, spawnD:sp&&sp.x!=null?+Math.hypot(sp.x-pp.x,sp.z-pp.z).toFixed(2):null, npc:!!(n&&n.obj), nD:n&&n.obj?+Math.hypot(n.obj.position.x-pp.x,n.obj.position.z-pp.z).toFixed(2):null,
+    nbeh:n?n.beh||null:null, nleaving:!!(n&&n.leaving), nx:n&&n.obj?+n.obj.position.x.toFixed(2):null, nz:n&&n.obj?+n.obj.position.z.toFixed(2):null, p:[+pp.x.toFixed(2),+pp.z.toFixed(2)]}; })"""
+WHERE_JS = "(id=>{ let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} return w?{zone:w.zone||null,away:w.away||null,act:w.act||''}:null; })"
+PRED_JS = r"""(id=>{ const G=GAME.G, D=typeof INVITE_DATA!=='undefined'?INVITE_DATA:{places:[]}, out=[];
+  for(const P of (D.places||[])){ if(INV.placeWhy(G,id,P)) continue; if(P.show&&!P.show(G,id)) continue; if(INV.neverAt&&INV.neverAt(id,P)) continue; if(P.when) continue;
+    const cats=INV.catsOf(P), C=(INV.CATS||[]).find(x=>x.id===cats[0]);
+    let T=[]; try{ T=INV.timeOptions(G,false,P); }catch(e){}
+    for(const q of T){ if(q.now) continue; let r=null; try{ r=INV.personal(G,id,P,q.day,q.h,INV.decide(G,id,P.id,q.day,q.h)); }catch(e){ r={res:'err',why:String(e)}; }
+      out.push({pid:P.id, zone:P.zone, name:P.name, verb:P.verb, cat:C?C.t:null, study:cats.includes('study'), t:q.t, day:q.day, h:q.h, res:r&&r.res, why:(r&&r.why)||null}); } }
+  return out; })"""
+ROSTER_JS = r"""(()=>{ const G=GAME.G, out=[]; for(const id of Object.keys(CHARACTERS||{})){ if(/^prof_/.test(id)) continue; let why='', can=false;
+    try{ why=INV.whyNot?INV.whyNot(G,id):''; can=!why&&INV.hasContact(G,id)&&INV.canInvite(G,id); }catch(e){ why='err '+e; }
+    out.push({id, name:(CHARACTERS[id]||{}).name, can, why, date:typeof DATE!=='undefined'&&DATE.HEROINES.includes(id)}); } return out; })()"""
+SETALL_JS = r"""(ids=>{ const G=GAME.G; G.contacts=G.contacts||{}; for(const id of ids){ try{ if(id==='heroine_03') G.flags.YT_MET_JOB=true; SOCIAL.meet(id,G.zone); G.flags['met_'+id]=true; const R=SOCIAL.rel(id); const D=typeof DATE!=='undefined'&&DATE.HEROINES.includes(id);
+    Object.assign(R,D?{fam:50,trust:35,comf:28,rom:35,npcRom:35}:{fam:45,trust:30,comf:25}); G.contacts[id]=G.day-30; }catch(e){} } (G.social||{}).fm120=true; return ids.length; })"""
 SAMEZONE_JS = r"""(id=>{ const G=GAME.G, D=typeof INVITE_DATA!=='undefined'?INVITE_DATA:{places:[]}; const cat=P=>{ const c=INV.catsOf(P)[0]; const C=(INV.CATS||[]).find(x=>x.id===c); return C?C.t:null; };
   const L=(D.places||[]).filter(P=>!INV.placeWhy(G,id,P)&&!(P.show&&!P.show(G,id))&&!(INV.neverAt&&INV.neverAt(id,P)));
   const same=L.find(P=>P.zone===G.zone||(P.zone==='library_hall'&&G.zone==='library'))||null; const cafe=L.find(P=>P.zone==='cafe')||L[0]||null; const P=same||cafe;
-  return P?{id:P.id, zone:P.zone, name:P.name, verb:P.verb, cat:cat(P), same:!!same}:null; })"""
+  const st=L.find(P=>INV.catsOf(P).includes('study')&&(P.zone===G.zone||(P.zone==='library_hall'&&G.zone==='library')))||L.find(P=>INV.catsOf(P).includes('study')&&/^library/.test(P.zone||''))||L.find(P=>INV.catsOf(P).includes('study'))||null;
+  const pk=P=>P?{id:P.id, zone:P.zone, name:P.name, verb:P.verb, cat:cat(P), same:P.zone===G.zone||(P.zone==='library_hall'&&G.zone==='library'), study:INV.catsOf(P).includes('study')}:null;
+  return P?Object.assign(pk(P),{studyPlace:pk(st)}):null; })"""
 
 
 class Res:
@@ -278,11 +312,33 @@ class Plan:
         return self.default(opts, menus)
 
 
+class SeqPlan(Plan):
+    """照順序算第幾個選單：forced＝{第幾個: 選第幾個}（換分支重跑用：前面照第一次的選法、第 mi 個換成別的）；其他照 items／預設"""
+    def __init__(self, forced=None, items=None, name=''):
+        Plan.__init__(self, items, name); self.forced = dict(forced or {}); self.k = 0
+
+    def __call__(self, opts, menus):
+        i = self.k; self.k += 1
+        if i in self.forced and self.forced[i] < len(opts): return self.forced[i]
+        return Plan.__call__(self, opts, menus)
+
+
+def branch_list(menus, skip_rx):
+    """第一次跑的選單 → 要重跑的 (mi, oi)：每一層每一個沒選過、沒灰掉的選項各一次"""
+    out = []
+    for mi, m in enumerate(menus):
+        if any(re.search(skip_rx, t) for t in m['opts']): continue
+        for oi, t in enumerate(m['opts']):
+            if oi == m['pick'] or (m.get('dim') and m['dim'][oi]): continue
+            out.append((mi, oi, t))
+    return out
+
+
 # ---------------------------------------------------------------- 一個人的測試
 class Person:
     def __init__(self, pw, pid):
         self.pw = pw; self.pid = pid; self.R = Res(pid); self.pg = None; self.cdp = None; self.errs = []; self.info = None
-        self.base_slot = None; self.arrive_snap = None; self.tagn = 0
+        self.base_slot = None; self.arrive_snap = None; self.tagn = 0; self.tx = None; self.seat_pending = False; self.seat_sample = None; self.mid_tag = None
 
     async def start(self):
         b, ctx, pg, cdp, errs = await L.launch(self.pw, landscape=True)
@@ -293,6 +349,7 @@ class Person:
         self.R.check('遊戲載入', ok)
         await pg.evaluate("localStorage.clear()")
         self.info = await pg.evaluate(INFO_JS, self.pid)
+        await pg.evaluate(SAY_HOOK)
         return ok and self.info is not None
 
     async def close(self):
@@ -388,6 +445,11 @@ class Person:
                 self.R.note('%s 選單 %s → 選「%s」' % (tag, J([o['t'] + ('（灰）' if o['dim'] else '') for o in s['ch']]), s['ch'][k]['t'] if k < len(s['ch']) else k))
                 await self.tap_choice(k); await pg.wait_for_timeout(800); continue
             if s['dlg'] or s['dlgVis']:
+                if self.seat_pending and s['depth'] > 0:
+                    self.seat_sample = await pg.evaluate(SEAT_JS, self.pid); self.seat_pending = False
+                if self.tx is not None and s['text'] and (not self.tx or self.tx[-1]['text'] != s['text']):
+                    self.tx.append({'name': s['name'], 'text': s['text'], 'slots': await pg.evaluate(SLOTS_JS), 'adv': s['adv']})
+                    if self.mid_tag and len(self.tx) == 4: await self.shot(self.mid_tag + '_mid')
                 await L.tap(pg, self.cdp, '#dlg'); await pg.wait_for_timeout(650); continue
             await pg.wait_for_timeout(500)
         return False, s, menus, lines

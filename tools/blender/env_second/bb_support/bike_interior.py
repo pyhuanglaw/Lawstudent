@@ -289,19 +289,19 @@ def bike(name, model, col, T, side=None, kick=True, tag=None):
     tr = 0.016 if s['frame'] != 'mtb' else 0.022
     ccyl(c, hb, ht, 0.021, col, seg=8)                                                              # 頭管
     if s['frame'] == 'diamond':
-        ccyl(c, add(ht, hdir, -0.03), add(st, sdir, -0.03), tr * 0.9, col, seg=6)                   # 上管
-        ccyl(c, add(hb, hdir, 0.02), bb, tr * 1.15, col, seg=6)                                     # 下管
+        ccyl(c, add(ht, hdir, -0.03), add(st, sdir, -0.03), tr * 0.9, col, seg=8)                   # 上管
+        ccyl(c, add(hb, hdir, 0.02), bb, tr * 1.15, col, seg=8)                                     # 下管
     elif s['frame'] == 'mtb':
-        ccyl(c, add(ht, hdir, -0.03), add(st, sdir, -0.12), tr, col, seg=6)                         # 斜的上管
-        ccyl(c, add(hb, hdir, 0.02), bb, tr * 1.2, col, seg=6)
+        ccyl(c, add(ht, hdir, -0.03), add(st, sdir, -0.12), tr, col, seg=8)                         # 斜的上管
+        ccyl(c, add(hb, hdir, 0.02), bb, tr * 1.2, col, seg=8)
     elif s['frame'] == 'lady':   # 低跨點：彎的下管兩支（上面一支到座管中段）
         mid = (bb[0] + 0.18, bb[1] + 0.06, 0.0)
-        cpath(c, [add(hb, hdir, 0.04), (hb[0] - 0.12, hb[1] - 0.2, 0.0), mid, bb], tr * 1.15, col)
-        cpath(c, [add(hb, hdir, 0.14), (hb[0] - 0.16, hb[1] - 0.12, 0.0), (bb[0] + 0.12, bb[1] + 0.2, 0.0), add(bb, sdir, 0.2)], tr * 0.85, col)
+        cpath(c, [add(hb, hdir, 0.04), (hb[0] - 0.06, hb[1] - 0.12, 0.0), (hb[0] - 0.14, hb[1] - 0.22, 0.0), mid, bb], tr * 1.15, col, seg=8)
+        cpath(c, [add(hb, hdir, 0.14), (hb[0] - 0.1, hb[1] - 0.04, 0.0), (hb[0] - 0.2, hb[1] - 0.12, 0.0), (bb[0] + 0.12, bb[1] + 0.2, 0.0), add(bb, sdir, 0.2)], tr * 0.85, col, seg=8)
     else:   # 小折：一支粗的主管（中間有折疊關節）
         cpath(c, [add(hb, hdir, 0.04), (0.18, 0.4, 0.0), bb], 0.027, col)
         crb(c, 0.13, 0.23, 0.36, 0.45, -0.032, 0.032, '#2a2b2d', r=0.008)
-    ccyl(c, bb, st, tr * 0.95, col, seg=6)                                                          # 座管
+    ccyl(c, bb, st, tr * 0.95, col, seg=8)                                                          # 座管
     for zs in (-1, 1):
         ccyl(c, (bb[0], bb[1], zs * 0.02), (ra[0], ra[1], zs * 0.055), 0.009, col, seg=5)         # 後下叉
         ccyl(c, add(st, sdir, -0.03 if s['frame'] != 'fold' else -0.05), (ra[0], ra[1], zs * 0.055), 0.0085, col, seg=5)   # 後上叉
@@ -359,9 +359,8 @@ def bike(name, model, col, T, side=None, kick=True, tag=None):
     ccyl(cm, (ra[0], ra[1], 0.055), (ra[0], ra[1], 0.068), rc, '#6f7377', seg=10)
     rr_ = 0.1 if s['frame'] != 'fold' else 0.085
     for sgn in (1, -1): ccyl(c, (bb[0], bb[1] + sgn * rr_, 0.067), (ra[0], ra[1] + sgn * rc, 0.062), 0.0045, '#3a3b3d', seg=3)
-    if s.get('guard'):   # 鏈條護蓋
-        c.poly([(bb[0] + 0.12, bb[1] + 0.05, 0.085), (bb[0] + 0.12, bb[1] - 0.1, 0.085), (ra[0] + 0.06, ra[1] - 0.06, 0.08), (ra[0] - 0.02, ra[1] - 0.04, 0.08),
-                (ra[0] - 0.02, ra[1] + 0.05, 0.08), (bb[0] - 0.05, bb[1] + 0.13, 0.085)], col)
+    if s.get('guard'):   # 鏈條護蓋（蓋住上面那段鏈條的細長板，前端包住齒盤上緣）
+        c.poly([(bb[0] + 0.11, bb[1] + 0.03, 0.082), (ra[0] + 0.03, ra[1] + 0.012, 0.075), (ra[0] + 0.03, ra[1] + 0.07, 0.075), (bb[0] + 0.02, bb[1] + 0.135, 0.082), (bb[0] + 0.1, bb[1] + 0.1, 0.082)], col)
     if s.get('fender'):
         fc = col if model != 'fold' else '#2a2b2d'
         ribbon(c, R + 0.022, 0.06, fc, math.radians(-10), math.radians(150), su=14, ctr=ra)
@@ -582,13 +581,13 @@ for zz in (4.1, 4.7): ccyl(pl['vcm'], (XI0, 2.82, zz), (XI0 + 0.22, 2.92, zz), 0
 pl.done()
 
 
-def pothos(name, x, y, z, side=None, n=40, spread=0.55, drop=1.0, pot='#e8e3d6', dirx=1, dirz=0):
+def pothos(name, x, y, z, side=None, nv=7, spread=0.55, drop=1.0, pot='#e8e3d6', dirx=1, dirz=0):
     """黃金葛（盆子＋從盆邊垂下來的藤、心形葉片卡）"""
     p = Part(name, side=side); c = p['vc']; u = p['alpha']
     clathe(c, [(0.0, 0.0), (0.09, 0.0), (0.12, 0.16), (0.125, 0.18), (0.0, 0.18)], x, y, z, pot, seg=14)
     clathe(c, [(0.0, 0.17), (0.11, 0.17), (0.0, 0.175)], x, y, z, '#4a3424', seg=12)
     rr = random.Random(hash(name) % 9999)
-    for v in range(7):
+    for v in range(nv):
         a = rr.uniform(-1.3, 1.3) + math.atan2(dirz, dirx); L_ = rr.uniform(0.4, 1.0) * drop; pts = []
         for k in range(8):
             t = k / 7; r_ = 0.1 + spread * 0.35 * t
@@ -603,7 +602,7 @@ def pothos(name, x, y, z, side=None, n=40, spread=0.55, drop=1.0, pot='#e8e3d6',
     p.done()
 
 
-pothos('pothos_tl', XI0 + 0.14, 2.95, 4.4, side='left', drop=0.9, dirx=1)
+pothos('pothos_tl', XI0 + 0.14, 2.95, 4.4, side='left', nv=10, drop=1.0, dirx=1)
 # 低櫃（櫃台後面靠左牆）：三層木板、資料夾、書、紙箱；下面綠色鐵櫃
 ls = IT['low_shelf_left']; lx0, lx1, lz0, lz1, lh = XI0, XI0 + ls['w'], ls['z'] - ls['d'] / 2, ls['z'] + ls['d'] / 2, ls['h']
 pl2 = Part('low_shelf', side='left'); w_, c, g = pl2['wood'], pl2['vc'], pl2['goods']
@@ -666,7 +665,7 @@ for k in range(3): crb(c, gc[0] - 0.14 + k * 0.1, gc[0] - 0.08 + k * 0.1, y0 + 0
 crb(c, cx - 0.65, cx - 0.45, y0, y0 + 0.012, cz + 0.4, cz + 0.62, '#f2efe6', r=0.002)   # 收據
 clathe(c, [(0.0, 0.0), (0.04, 0.0), (0.042, 0.09), (0.0, 0.09)], cx - 0.75, y0, cz + 0.15, '#c8beac', seg=10)   # 馬克杯
 pc.done()
-pothos('pothos_counter', cx - 0.45, y0, zb - 0.13, drop=0.75, dirx=0.2, dirz=-1)
+pothos('pothos_counter', cx - 0.45, y0, zb - 0.13, nv=11, drop=0.95, spread=0.7, dirx=0.2, dirz=-1)
 # 長凳（木條）
 bn = IT['bench']; bx, bz, bw, bd2, bh = bn['x'], bn['z'], bn['w'], bn['d'], bn['h']
 pb = Part('bench'); w_ = pb['wood']
@@ -780,7 +779,7 @@ for k, nm in enumerate(('note_lock', 'note_pump')): g.rect((sx0 - 0.023, BOARDS[
 frame_on_wall(psr, XI1 - 0.012, 2.95, 0.55, 0.42, 0.53, 'lineart', axis='x', sgn=-1)
 frame_on_wall(psr, XI1 - 0.012, 2.95, -0.35, 0.4, 0.5, 'photo_rider', axis='x', sgn=-1, fcol='#2a2a2a')
 psr.done()
-pothos('pothos_tr', sx0 + 0.2, BOARDS[-1] + 0.01, sz1 - 0.22, side='right', drop=0.6, dirx=-1)
+pothos('pothos_tr', sx0 + 0.2, BOARDS[-1] + 0.01, sz1 - 0.22, side='right', nv=10, drop=0.8, dirx=-1)
 pu = IT['pumps']
 for k, (dxp, dzp) in enumerate(((-0.25, 0.04), (0.0, -0.03), (0.26, 0.05))):
     PUMP[0 if k == 0 else 1].place(fm((pu['x'] + dxp, 0, pu['z'] + dzp), rot('Y', -0.4 + k * 0.3)))
