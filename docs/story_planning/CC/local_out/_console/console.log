@@ -792,3 +792,18 @@
 [23:14:01] 正在跑：GG_shops2_afar_seat_16（已跑 8 分／上限 20 分）、GG_shops2_afar_seat_20（已跑 8 分／上限 20 分）、GG_shops2_db_seat_00（已跑 8 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:19:01] 正在跑：GG_shops2_afar_seat_16（已跑 13 分／上限 20 分）、GG_shops2_afar_seat_20（已跑 13 分／上限 20 分）、GG_shops2_db_seat_00（已跑 13 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:19:32] [res] cpu=54% mem=48% (15.2/31.4 GB) chrome_testing=19  END GG_shops2_afar_seat_16
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (non-fast-forward)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the tip of your current branch is behind
+    hint: its remote counterpart. If you want to integrate the remote changes,
+    hint: use 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (cannot lock ref 'refs/heads/claude/cc-local': is at 26a987b85ac43f9d8c460a84abe9165c80add17a but expected df606e7427eec0710eb3db7f25284b3770fdf55e)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    Everything up-to-date
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[23:20:05] ==== END   GG_shops2_afar_seat_16  exit=0  825s   ====
+[23:20:08] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+[23:23:26] [res] cpu=20% mem=42% (13.5/31.4 GB) chrome_testing=10  END GG_shops2_afar_seat_20
