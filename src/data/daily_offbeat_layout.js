@@ -11,7 +11,7 @@ const DAILY_OFFBEAT_LAYOUT = {
   w: 11.0, d: 10.0, h: 3.4, floor: 'checker_green_cream', wallColor: '#f0dfae',
   note: '轉角一樓 11×10×3.4 m。店門在 +z 西段，+z、+x 兩面大窗（轉角）。後牆西半是開放吧檯（綠磁磚吧檯正面、後面層板、咖啡機、黑板菜單），東半是桌遊櫃；中間一張八人長桌，西牆一排卡座＋軟木公告板，兩面窗邊各三張雙人桌，轉角一張雙人桌。共 32 席（長桌 8、吧檯高腳椅 4、卡座 6、前窗 6、側窗 6、轉角 2）；另有一張空椅子是貓「店長」的位置（不算席位）。',
   front: {door: {x: -3.9, w: 1.2, h: 2.3}, windows: [[-3.0, 5.2]], sill: 0.05, head: 3.15, note: 'v2 落地窗（黑鐵窗框每 1.1 m 一格、2.65 m 一道橫框）；外面一條綠色波浪邊遮雨棚（併在 WALL_front；外觀若另外做，LAWWW2 可以刪掉這一條）'},
-  side: {right: {windows: [[-3.8, 0.3]], sill: 0.45, head: 2.75}},
+  side: {right: {windows: [[-3.8, 0.3]], sill: 0.05, head: 3.15, note: 'v2b 東窗也改落地窗（轉角兩面臨街）'}},
   spawn: {x: -3.9, z: 4.3, yaw: Math.PI},
   exit: null,     /* LAWWW2 填：{at:{x,z}, label:'離開日常失速', to:'wenzhou', spawn:{x,z,yaw}} */
   enterAt: null,  /* LAWWW2 填：溫州街上「進去日常失速」的互動點（世界座標） */
