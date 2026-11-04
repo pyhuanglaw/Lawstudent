@@ -273,6 +273,15 @@
    "status": "進行中",
    "task": "TEST-TRACE-1104",
    "note": "規格全文與 BB 驗收清單 V1～V14 在 docs/story_planning/BB_256_Playwright失敗追蹤規格.md；USER_WANTS 列請 LAWWW 開"
+  },
+  {
+   "id": "UA-BB-1104-ART-REF-VARIETY",
+   "at": "2026-11-04T06:1xZ",
+   "quote": "你驗收的標準除了標準寫得還有一定要就是符合 參考圖片喔 盡量做到，不要把同樣的東西複製貼上要真實就是要有各種大小不同的東西像圖片一樣",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "ART-REVIEW-RULE-1104",
+   "note": "BB 驗收美術（MODEL_READY 代驗、ART_APPROVED）加兩項：G 逐區符合參考圖；H 不准同物件原樣複製排列，道具要有大小／顏色／角度變化；不合格退件"
   }
  ]
 }
