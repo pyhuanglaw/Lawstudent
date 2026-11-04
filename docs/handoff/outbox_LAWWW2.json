@@ -5382,6 +5382,24 @@
    "next": "git apply 這個 patch（對 ebd44c2e3，只改 src/zones3d.js 的 ggShopLit＋新增 tests/gg_shoplit_reentry_unit.js）；跑 node tests/gg_shoplit_reentry_unit.js、gg_glow_shoplit_unit、gg_shops2_1104_unit（第 10 項台詞比對修改前就 FAIL）",
    "noDirectIntegrate": false,
    "note": "原因（CC-C r8c 060a1a093＋BB-C 讀碼）：快取 GLB clone(true) 共用材質，第二次進公館 ggShopLit 又包一層 onBeforeCompile → patch 兩次 → uv1／vShopIdx／uShopLit 重複宣告 → LINK 失敗、整張窗卡不畫。修法和 LOBBY-REENTRY 同型（ggLitWired WeakMap，沿用 uniform 與 lit 陣列、patch 冪等、防遞迴）。新測試修改前 7 FAIL、修改後全過"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "561d2a772",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "WZ-FIVE-1104",
+   "files": [
+    "assets/models/env/views/wz_teishoku_day.webp",
+    "assets/models/env/views/wz_teishoku_night.webp",
+    "tools/blender/env_second/wz_window_view.py",
+    "docs/art-rebuild/second_ai/wip/komichi_nightview_1104/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "PC 遊戲畫面沒看過（小路 14:00、22:00 窗邊座位往外看；18:36～19:12 白天換夜景的過渡）；BB 判 ART",
+   "next": "只換兩張 webp（git checkout 561d2a772 -- assets/models/env/views/wz_teishoku_day.webp assets/models/env/views/wz_teishoku_night.webp），程式不用改；BB 用 WZ4_komichi 22:00 重拍",
+   "noDirectIntegrate": false,
+   "note": "KOMICHI-NIGHTVIEW-1104（擋 v9.10.20，BB_255 1(a)）：原本那張夜景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏（平均亮度 75）。改用 Blender 拍（溫州街正式模型＋遊戲同款機車、WZ_NIGHT 發光、GLOW 點光源），同一個鏡頭 (−2.8,1.25,−4.6) 朝 +z、水平 90°；晚上平均亮度 54、中位數 43。白天那張也換成同一套，過渡時東西才不會突然變不見"
   }
  ]
 }
