@@ -942,3 +942,19 @@
 [10:00:32] ==== START N20X_nichijo  (probe @ 27970f958) ====
 [10:00:35] [res] cpu=5% mem=52% (16.3/31.4 GB) chrome_testing=20  START N20X_nichijo
 [10:01:04] [res] cpu=23% mem=46% (14.5/31.4 GB) chrome_testing=18  END SOC_main_zr
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       61f46b9a1..10a274319  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[10:01:14] ==== END   SOC_main_zr  exit=1  2004s   ====
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[10:01:16] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[10:01:16] memory 49% before starting STUDY_ctl (2 running)
+[10:01:16] ==== START STUDY_ctl  (probe @ c2232eb6c) ====
+[10:01:20] [res] cpu=26% mem=50% (15.5/31.4 GB) chrome_testing=18  START STUDY_ctl
+[10:02:19] 正在跑：SOC_dev_zr（已跑 32 分／上限 120 分）、N20X_nichijo（已跑 1 分／上限 80 分）、STUDY_ctl（已跑 1 分／上限 240 分）——還沒測完，請不要關 (tests still running - please do not close)
+[10:05:52] [res] cpu=16% mem=49% (15.6/31.4 GB) chrome_testing=19  END SOC_dev_zr
