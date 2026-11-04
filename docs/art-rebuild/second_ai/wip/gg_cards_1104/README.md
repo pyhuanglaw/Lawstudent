@@ -95,3 +95,11 @@ afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層�
   - 只差在名字：沒名字的 Group 1357 → 1334（−23）＝ gg_kit_gate 9＋gg_kit_mrt 8＋gg_kit_trees 6。
 - 所以 1d4675069 的群組 patch **沒有讓 ?nobldg 多畫東西**；prop.street 在 ?nobldg 照舊被 assets3d.js 第 230 行拿掉（patch 沒碰）。LAWWW 猜的那個原因不成立。
 - 同一版量兩次是 184 和 176，差 8：場景是靜態的，差的應該是跟時間有關、會開關的東西（路燈光暈、騎樓燈光暈、窗卡夜間），或路人沒有全部移出。雲端沒辦法數瀏覽器的 draw call（D131），請 CC 用下面那段在兩種網址、同一個鏡頭各跑一次，貼回清單比對。
+
+## 11-04 07:2x：打烊的店光暈一起熄（LAWWW 06:58 P1，擋 v9.10.20）
+- **`gg_glow_shoplit_patch_d432de8ba.patch`**（接開發分支 d432de8ba，`git apply` 過）：只改 `src/zones3d.js`＋新測試 `tests/gg_glow_shoplit_unit.js`。
+  - 窗卡 uv1 店編號核對過（讀 gongguan_shops.glb 的 NOSHADOW_xs_fronts_lit）：1 青木 x −56.4～−50.3、2 頁間 −46.6～−35.8、3 日和 −34.1～−23.5、4 洋洋 −12.9～−5.1、5 單車 −3.8～4.7、6 afar 7.2～14.4、7 轉角唱片 53.2～59.0、8 Daybreak 70.0～76.4，和 xsShops 的順序一致。
+  - wzGlowBatch 的 items 多記光暈名字；ggShopLit 接上以後（新函式 ggShopGlow）給光暈網格加 aShop（每頂點店編號），著色器乘同一個 uShopLit：那一間 < 0.99（打烊）就不畫。
+  - 收哪些：GLOW_gg_xs_in、GLOW_shopin、GLOW_gg_xs_lamp（x 放寬 0.8 m），GLOW_signbox、GLOW_vsign（不放寬：直立招牌在店的邊上，放寬會分到隔壁那間）。騎樓燈 GLOW_arcadelamp 不熄（整排騎樓的）。
+  - 公館 GLB 實際分到：青木 2、頁間 5、日和 4、洋洋 5、單車 6、afar 3、轉角 3、Daybreak 3；其他 27 個是另外幾間不能進去的店，照舊亮。
+- 測試：`gg_glow_shoplit_unit` 修改前（d432de8ba）FAIL 5、修改後 ALL PASS；`gg_shops2_1104_unit`、`gym_arena_unit`、`gym_unit`（也用 glowBatch）前後都 ALL PASS。瀏覽器的亮度要 CC 用同一組取樣框重量。
