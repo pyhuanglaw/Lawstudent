@@ -17045,6 +17045,32 @@
    "task": "AA682-LINES-1104",
    "integration": "未整合",
    "note": "LAWWW-C 17:5x 登記；和 AA674／676／677／678／681 同一批"
+  },
+  {
+   "id": "DL-LAWWW2-d393b6f3c",
+   "date": "2026-11-04T17:40Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d393b6f3c",
+   "msg": "ACK",
+   "what": "SOCLIB-2F-1104 交件（MODEL_READY）：社科院圖書館東側館一樓門廳＋雙跑樓梯＋電梯＋影印休息區、二樓自習室 49 位（老位子＝靠窗北往南第三個）、討論室 3 間、男女廁＋飲水機；soclib2f_interior.glb 3.1 MB＋光照烘焙；接線 patch wip/soclib2f_1104/soclib2f_wiring.patch（底 ae5248250）",
+   "task": "SOCLIB-2F-1104",
+   "integration": "未整合",
+   "note": "LAWWW2 outbox 沒有這一筆，LAWWW-C 17:4x 從 commit 登記；LAWWW-C 17:4x ACK（send_message），派子代理接線＋AA_669 第 6 節"
+  },
+  {
+   "id": "DL-AA-ef5c6c742",
+   "date": "2026-11-04T17:35Z",
+   "from": "AA",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ef5c6c742",
+   "msg": "SENT",
+   "what": "AA_683 noodle_closed3d.js 語彤舊設定拿掉（B 段、C 段）、留群組 A、D 和鐵門旁白；outbox cd56e1b85",
+   "task": "AA683-NOODLE-CLOSED-1104",
+   "integration": "未整合",
+   "note": "LAWWW-C 17:4x 登記"
   }
  ],
  "ignored": [
@@ -22384,6 +22410,14 @@
    "role": "LAWWW2",
    "branch": "claude/focused-cray-c9uwvw",
    "reason": "SOCLIB-2F-1104 WIP 檢查點（社科院圖書館東側館一樓＋二樓自習室 49 位、討論室；src/soclib2f3d.js、src/data/soclib2f_layout.js、tests/soclib2f_unit.js；還沒交付）；LAWWW-C 11-04 17:3x 分類（D94）",
+   "task": "SOCLIB-2F-1104"
+  },
+  {
+   "sha": "14b52ece0",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "SOCLIB-2F-1104 WIP 檢查點（Blender soclib2f_interior.py＋烘焙腳本；d393b6f3c 交件）；LAWWW-C 11-04 17:4x 分類（D94）",
    "task": "SOCLIB-2F-1104"
   }
  ],

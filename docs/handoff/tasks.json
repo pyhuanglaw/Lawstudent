@@ -45910,7 +45910,7 @@
    "title": "社科院圖書館 2 樓：專門的讀書室（自習室）、討論室、洗手間（遊戲的 soclib 現在只有一樓開架閱覽室）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -45931,7 +45931,8 @@
     "acceptance": "BB 照 D120／D133／D136＋D138 same_angle_check --mode campus；樓梯／電梯上得去、座位坐得下、洗手間；舊存檔在 soclib 的位置照舊",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置"
+   "next": "【LAWWW-C 11-04 17:4x】LAWWW2 交件 d393b6f3c（MODEL_READY，沒在瀏覽器看過）：LAWWW-C 派子代理接線（wiring patch）＋AA_669 第 6 節（第一次坐下的旁白、SOCLIB_2F_SEAT、老位子兩句；LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）｜【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置",
+   "sha": "d393b6f3c"
   },
   {
    "id": "STANDIN-LOD-1104",
@@ -46105,6 +46106,34 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 11-04 17:5x】和 AA674、676、677、678、681 同一批（台詞八批子代理、AA675 子代理合併以後）"
+  },
+  {
+   "id": "AA683-NOODLE-CLOSED-1104",
+   "title": "AA_683 noodle_closed3d.js 語彤舊設定拿掉：B 的 inside、offer、opts（我來幫忙／初四再來）、out、NOODLE_CLEAN_<年>；C 店休期間約她那一句和 18:00 的規則；群組 A、D 和鐵門旁白照留（AA_612 換好的字）；檔頭改「公館燒臘過年店休」；tests/noodle_closed_unit.js 跟著改",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "大一寒假過年店休",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 17:35（企劃線 ef5c6c742；outbox cd56e1b85；D109）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_683（企劃線 ef5c6c742）",
+    "acceptance": "照 AA_683 拿掉語彤那幾段、留群組與鐵門旁白；noodle_closed_unit 改；BB 測",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 17:4x】AA675／679 子代理（語彤舊設定）合併以後做，避免改同一段"
   }
  ]
 }
