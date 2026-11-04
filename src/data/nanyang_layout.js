@@ -7,7 +7,7 @@
    外觀對齊：正面左邊（x −4.5～−1.5）是售票亭（外觀 nanyang_ext 的售票窗；大廳這側只是它的背牆＋一扇小門），中間 x −1.5～1.5 是玻璃門入口。
    影廳（nanyang_hall）照 AA_615 先用 2D；右邊那組門開著，門後 2.4 m 是一張影廳一角的卡片。 */
 const NANYANG_LAYOUT = {
-  version: 4,
+  version: 5,
   lobby: {
     id: 'nanyang_lobby', name: '南洋戲院', glb: 'assets/models/env/second_ai/bb_support/nanyang_lobby.glb', v: 4,
     w: 9.0, d: 14.0, h: 4.5, floor: 'carpet_red',
@@ -22,7 +22,7 @@ const NANYANG_LAYOUT = {
     photoBoard: {z: -0.3},
     benches: [{z0: -5.2, z1: -3.4}, {z0: -2.8, z1: -1.0}],
     bins: [[4.0, -0.4], [-1.1, 4.4]],
-    pendants: [[0.4, -4.6], [0.4, -1.4], [0.4, 1.8], [0.4, 5.0]],
+    pendants: [[0.4, -3.2], [0.4, 0.2], [0.4, 3.6]],   // v5：3 盞（原本 4 盞、最裡面那盞從門口看會擋住大招牌；參考圖只看得到招牌上面那盞）
     projector: {x: 3.6, z: 6.1},
     spawn: {x: 0.0, z: 6.4, yaw: Math.PI},
     blocks: [[-3.0, 5.9, 3.0, 2.2], [-3.9, -1.0, 1.4, 9.2], [0.35, -6.65, 1.0, 0.3],
@@ -40,7 +40,7 @@ const NANYANG_LAYOUT = {
       {kind: 'chalk', x: 0.35, z: -5.8, yaw: Math.PI, label: '看今日放映'},
       {kind: 'posters', x: 3.0, z: -3.4, yaw: Math.PI / 2, label: '看海報'}
     ],
-    lights: [{x: 0.4, z: -4.6, y: 3.18, kind: 'pendant'}, {x: 0.4, z: -1.4, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 1.8, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 5.0, y: 3.18, kind: 'pendant'},
+    lights: [{x: 0.4, z: -3.2, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 0.2, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 3.6, y: 3.18, kind: 'pendant'},
              {x: -1.7, z: -6.9, y: 2.9, kind: 'sconce'}, {x: 2.1, z: -6.9, y: 2.9, kind: 'sconce'},
              {x: -3.2, z: -4.4, y: 2.2, kind: 'gooseneck'}, {x: -3.2, z: -2.4, y: 2.2, kind: 'gooseneck'},
              {x: 4.0, z: -4.8, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -3.35, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -1.9, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -0.3, y: 3.12, kind: 'poster_spot'},
