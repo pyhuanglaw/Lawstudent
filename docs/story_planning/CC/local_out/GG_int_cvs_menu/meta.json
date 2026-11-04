@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_int_cvs_menu",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_int_probe.py",
+  "env": "CASES=cvs_menu;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:57:09",
+  "end": "2026-11-04T13:22:05",
+  "seconds": 1496,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 93,
+    "mem": 62,
+    "used_gb": 19.6,
+    "chrome_testing": 29
+  }
+}
