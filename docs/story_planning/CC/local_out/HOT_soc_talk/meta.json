@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "HOT_soc_talk",
+  "sha": "fd8d447d2",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=heroine_01,heroine_03,heroine_04,heroine_05,zhe,yu,classmate_bohan,kai;STEPS=first,greet,menu,reload;QUICK=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T09:07:14",
+  "end": "2026-11-04T10:00:17",
+  "seconds": 3183,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 96,
+    "mem": 68,
+    "used_gb": 21.5,
+    "chrome_testing": 30
+  }
+}

@@ -1,0 +1,1010 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HOT_soc_talk\out
+CASES=["heroine_01", "heroine_03", "heroine_04", "heroine_05", "zhe", "yu", "classmate_bohan", "kai"] STEPS=["first", "greet", "menu", "reload"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=True PHONE_AUTO=False
+PASS [heroine_01] 遊戲載入
+== 人物 heroine_01 沈以安 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 9, "Y2S2": 8, "Y3S1": 8, "Y3S2": 4, "Y4S1": 8, "Y4S2": 8, "Y1S1": 11}、店內偶遇 [{"spot": "cafe", "join": "friend"}]、自由出行 ["D06", "D26", "D09"]）
+-- [heroine_01] first
+SKIP [heroine_01] first：五位女主角的第一次見面是專屬事件（不在這裡測）
+-- [heroine_01] greet
+  [前置／捷徑] [heroine_01] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_01] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 9.5, "library", "看書"], ["2025-09-16", 9.5, "library", "看書"], ["2025-09-17", 9.5, "library", "看書"], ["2025-09-18", 9.5, "library", "看書"], ["2025-09-23", 9.5, "library", "看書"], ["2025-09-25", 9.5, "library", "看書"], ["2025-09-29", 9.5, "library", "看書"], ["2025-09-30", 9.5, "library", "看書"]]
+  [前置／捷徑] [heroine_01] 讀檔：greet：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "沈以安", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] 到達「沈以安 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_01] greet 連按兩次：按「和沈以安說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_01] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8810/src/story3d.js?v=9.10.19.1:938:25)"]}
+PASS [heroine_01] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] greet 連按兩次 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_01] greet 連按兩次 台詞（1 句）：["沈以安｜（她小聲）外面說。"]
+PASS [heroine_01] greet 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_01] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] greet 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_01] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] greet 連按兩次：沒有新的 JS 例外
+-- [heroine_01] menu
+  [前置／捷徑] [heroine_01] 讀檔：menu：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "沈以安", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] 到達「沈以安 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_01] menu 基本：按「和沈以安說話」
+PASS [heroine_01] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] menu 基本 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [heroine_01] menu 基本：對話一路點得完  0 個選單
+PASS [heroine_01] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] menu 基本：15 秒內回到可以自由移動
+PASS [heroine_01] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] menu 基本：沒有新的 JS 例外
+INFO [heroine_01] menu：說話以後沒有選單（只有閒聊）  []
+-- [heroine_01] reload
+  [前置／捷徑] [heroine_01] 讀檔：reload：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_01] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "沈以安", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_01] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_01] 到達「沈以安 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_01] reload 之前：按「和沈以安說話」
+PASS [heroine_01] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] reload 之前 台詞（1 句）：["｜（她抬頭看到你，點了一下頭。）"]
+PASS [heroine_01] reload 之前：對話一路點得完  0 個選單
+PASS [heroine_01] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] reload 之前：15 秒內回到可以自由移動
+PASS [heroine_01] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [heroine_01] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [heroine_01] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_01] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "library", "key": "2025-09-15", "hour": 9.6949}
+PASS [heroine_01] reload 讀回來：15 秒內回到可以自由移動
+  [heroine_01] 到達「沈以安 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_01] reload 打招呼：按「和沈以安說話」
+PASS [heroine_01] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] reload 打招呼 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_01] reload 打招呼 台詞（1 句）：["沈以安｜（她小聲）外面說。"]
+PASS [heroine_01] reload 打招呼：對話一路點得完  1 個選單
+PASS [heroine_01] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] reload 打招呼：15 秒內回到可以自由移動
+PASS [heroine_01] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] reload 打招呼：沒有新的 JS 例外
+  [heroine_01] 到達「沈以安 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_01] reload 閒聊：按「和沈以安說話」
+PASS [heroine_01] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_01] reload 閒聊 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_01] reload 閒聊 台詞（1 句）：["沈以安｜（小聲）你今天還有課嗎？"]
+PASS [heroine_01] reload 閒聊：對話一路點得完  1 個選單
+PASS [heroine_01] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_01] reload 閒聊：15 秒內回到可以自由移動
+PASS [heroine_01] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_01] reload 閒聊：沒有新的 JS 例外
+== 人物 heroine_01 結果 PASS（34 項；SKIP 1：first）
+   用了 2.6 分鐘
+PASS [heroine_03] 遊戲載入
+== 人物 heroine_03 陳語彤 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 9, "Y1S1": 8}、店內偶遇 []、自由出行 ["D12", "D13", "D14", "D18"]）
+-- [heroine_03] first
+SKIP [heroine_03] first：五位女主角的第一次見面是專屬事件（不在這裡測）
+-- [heroine_03] greet
+  [前置／捷徑] [heroine_03] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_03] 她在 3D 的時段（前 8 個，照區域排）：[]
+SKIP [heroine_03] greet：找不到她在 3D 的時段（或走不到她旁邊）
+-- [heroine_03] menu
+SKIP [heroine_03] menu：找不到她在 3D 的時段
+-- [heroine_03] reload
+SKIP [heroine_03] reload：找不到她在 3D 的時段
+== 人物 heroine_03 結果 PASS（1 項；SKIP 4：first、greet、menu、reload）
+   用了 0.6 分鐘
+PASS [heroine_04] 遊戲載入
+== 人物 heroine_04 高子晴 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y1S1": 8}、店內偶遇 [{"spot": "cvs", "join": null}]、自由出行 ["D04", "D12", "D01", "D18"]）
+-- [heroine_04] first
+SKIP [heroine_04] first：五位女主角的第一次見面是專屬事件（不在這裡測）
+-- [heroine_04] greet
+  [前置／捷徑] [heroine_04] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_04] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-16", 14, "campus", "走走"], ["2025-09-18", 14, "campus", "走走"], ["2025-09-19", 14, "campus", "走走"], ["2025-09-23", 14, "campus", "走走"], ["2025-09-25", 14, "campus", "走走"], ["2025-09-26", 14, "campus", "走走"], ["2025-09-30", 14, "campus", "走走"], ["2025-10-02", 14, "campus", "走走"]]
+  [前置／捷徑] [heroine_04] 讀檔：greet：2025-09-16 14 campus（走走）（campus 0 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "高子晴", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_04] greet：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.04 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.46 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_04] greet 連按兩次：按「和高子晴說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_04] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8810/src/story3d.js?v=9.10.19.1:938:25)"]}
+PASS [heroine_04] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_04] greet 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_04] greet 連按兩次 台詞（1 句）：["高子晴｜早。我剛起來。"]
+PASS [heroine_04] greet 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_04] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] greet 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_04] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] greet 連按兩次：沒有新的 JS 例外
+-- [heroine_04] menu
+  [前置／捷徑] [heroine_04] 讀檔：menu：2025-09-16 14 campus（走走）（campus 0 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.15 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+  [heroine_04] menu：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+  [heroine_04] menu：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_04] menu 基本：按「和高子晴說話」
+PASS [heroine_04] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_04] menu 基本 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_04] menu 基本 台詞（1 句）：["高子晴｜早。我剛起來。"]
+PASS [heroine_04] menu 基本：對話一路點得完  1 個選單
+PASS [heroine_04] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] menu 基本：15 秒內回到可以自由移動
+PASS [heroine_04] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] menu 基本：沒有新的 JS 例外
+  [heroine_04] menu：說話後的選單 ["約她去…", "交換聯絡方式", "就這樣"]
+  [前置／捷徑] [heroine_04] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約她去…」））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [heroine_04] menu 選「約她去…」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，15 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.19 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] menu 選「約她去…」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.20 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] menu 選「約她去…」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] menu 選「約她去…」：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+INFO [heroine_04] menu：回到旁邊以後找不到她  
+-- [heroine_04] reload
+  [前置／捷徑] [heroine_04] 讀檔：reload：2025-09-16 14 campus（走走）（campus 0 14.00）
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_04] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "高子晴", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_04] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_04] 到達「高子晴 旁邊」附近（0.12 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [heroine_04] reload：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [heroine_04] reload：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_04] reload 之前：按「和高子晴說話」
+PASS [heroine_04] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_04] reload 之前 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_04] reload 之前 台詞（1 句）：["高子晴｜早。我剛起來。"]
+PASS [heroine_04] reload 之前：對話一路點得完  1 個選單
+PASS [heroine_04] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_04] reload 之前：15 秒內回到可以自由移動
+PASS [heroine_04] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_04] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [heroine_04] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [heroine_04] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_04] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-16", "hour": 14.5142}
+PASS [heroine_04] reload 讀回來：15 秒內回到可以自由移動
+  [heroine_04] 到達「高子晴 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，36 秒
+  [heroine_04] reload 讀回來：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.12 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，14 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] reload 讀回來：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] reload 讀回來：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_04] 到達「高子晴 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+  [heroine_04] reload 讀回來：互動鍵是「」，往他再走近
+  [heroine_04] 到達「高子晴 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+INFO [heroine_04] reload：讀回來以後找不到她（她可能走開了）  
+== 人物 heroine_04 結果 PASS（22 項；SKIP 1：first）
+   用了 7.5 分鐘
+PASS [heroine_05] 遊戲載入
+== 人物 heroine_05 溫書瑀 開始（層 D、可攻略 True、階梯 {"Y1S2": 6, "Y2S1": 7, "Y2S2": 9, "Y3S1": 7, "Y3S2": 8, "Y4S1": 8, "Y4S2": 7, "Y1S1": 8}、店內偶遇 [{"spot": "wz_teishoku", "join": "friend"}]、自由出行 ["D06", "D11", "D24"]）
+-- [heroine_05] first
+SKIP [heroine_05] first：五位女主角的第一次見面是專屬事件（不在這裡測）
+-- [heroine_05] greet
+  [前置／捷徑] [heroine_05] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_05] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-20", 10.5, "campus", "走走"], ["2025-09-27", 10.5, "campus", "走走"], ["2025-09-30", 10.5, "campus", "椰影大道（社團博覽會，法服的攤位，到下午四點）"], ["2025-10-01", 10.5, "campus", "椰影大道（社團博覽會，法服的攤位，到下午四點）"], ["2025-10-04", 10.5, "campus", "走走"], ["2025-10-11", 10.5, "campus", "走走"], ["2025-10-18", 10.5, "campus", "走走"], ["2025-09-15", 9.5, "library", "看書"]]
+  [前置／捷徑] [heroine_05] 讀檔：greet：2025-09-20 10.5 campus（走走）（campus 4 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] greet_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，9 秒
+  [heroine_05] greet：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.20 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [heroine_05] greet：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_05] greet：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_05] greet：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+INFO [heroine_05] greet：這個時段找不到他／走不到他旁邊  {"x": -48.54, "z": -11.74, "lv": 0, "label": "和溫書瑀說話", "name": "溫書瑀", "seat": false, "beh": "wander", "alias": null}
+  [前置／捷徑] [heroine_05] 讀檔：greet：2025-09-27 10.5 campus（走走）（campus 11 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] greet：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] greet_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，41 秒
+  [heroine_05] greet：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.23 m）：點地面 20 次、轉鏡頭 0 次、搖桿 0 次，56 秒
+INFO [heroine_05] greet：這個時段找不到他／走不到他旁邊  null
+  [前置／捷徑] [heroine_05] 讀檔：greet：2025-09-30 10.5 campus（椰影大道（社團博覽會，法服的攤位，到下午四點））（campus 14 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.01 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，38 秒
+  [heroine_05] greet 連按兩次：按「和溫書瑀說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_05] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8810/src/events3d.js?v=9.10.19.1:107:96)"]}
+PASS [heroine_05] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_05] greet 連按兩次 台詞（13 句）：["｜（椰影大道上一整排帳篷。你走到法服的攤位前。）", "學姐｜學弟，要不要聽一下？我們是法律服務社——", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）", "祐廷｜學姊好，我是祐廷，妳的直屬學弟。", "溫書瑀｜你好。", "溫書瑀｜（對旁邊的學姐）這我直屬學弟，我來跟他講。", "學長｜喔，學弟，她是我們前任社長。", "溫書瑀｜以前的事了。我現在大四，在準備研究所。", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累。", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累。可是有一些事情，只有在那裡才會知道。", "｜（你直接拿起報名表寫了名字。）"]
+PASS [heroine_05] greet 連按兩次：對話一路點得完  0 個選單
+PASS [heroine_05] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_05] greet 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_05] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_05] greet 連按兩次：沒有新的 JS 例外
+-- [heroine_05] menu
+  [前置／捷徑] [heroine_05] 讀檔：menu：2025-09-20 10.5 campus（走走）（campus 4 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] menu_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.19 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，35 秒
+  [heroine_05] menu：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 17 次、轉鏡頭 0 次、搖桿 0 次，48 秒
+INFO [heroine_05] menu：這個時段找不到他／走不到他旁邊  null
+  [前置／捷徑] [heroine_05] 讀檔：menu：2025-09-27 10.5 campus（走走）（campus 11 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] menu：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] menu_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 18 次、轉鏡頭 0 次、搖桿 0 次，81 秒
+INFO [heroine_05] menu：這個時段找不到他／走不到他旁邊  null
+  [前置／捷徑] [heroine_05] 讀檔：menu：2025-09-30 10.5 campus（椰影大道（社團博覽會，法服的攤位，到下午四點））（campus 14 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，37 秒
+  [heroine_05] menu 基本：按「和溫書瑀說話」
+PASS [heroine_05] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_05] menu 基本 台詞（13 句）：["｜（椰影大道上一整排帳篷。你走", "學姐｜學弟，要不要聽一下？我們是法律服務社——", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）", "祐廷｜學姊好，我是祐廷，妳的直屬學弟。", "溫書瑀｜你好。", "溫書瑀｜（對旁邊的學姐）這我直屬學弟，我來跟他講。", "學長｜喔，學弟，她是我們前任社長。", "溫書瑀｜以前的事了。我現在大四，在準備研究所。", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累。可是有一些事情，只有在那裡才會知道。", "｜（你直接拿起報名表寫了名字。）"]
+PASS [heroine_05] menu 基本：對話一路點得完  0 個選單
+PASS [heroine_05] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_05] menu 基本：15 秒內回到可以自由移動
+PASS [heroine_05] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_05] menu 基本：沒有新的 JS 例外
+INFO [heroine_05] menu：說話以後沒有選單（只有閒聊）  []
+-- [heroine_05] reload
+  [前置／捷徑] [heroine_05] 讀檔：reload：2025-09-20 10.5 campus（走走）（campus 4 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.07 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [heroine_05] reload：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.23 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+  [heroine_05] reload：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+INFO [heroine_05] reload：這個時段找不到他／走不到他旁邊  null
+  [前置／捷徑] [heroine_05] 讀檔：reload：2025-09-27 10.5 campus（走走）（campus 11 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+INFO [heroine_05] reload：讀檔以後有劇情（條件事件）先開始，照玩家點完  是我，阿勳。你經濟系那年的室友。
+  [heroine_05] reload_進場 選單 ["（去社科圖）", "（先回宿舍）"] → 選「（去社科圖）」
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，14 秒
+  [heroine_05] reload：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.10 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，9 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_05] reload：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.19 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_05] reload：互動鍵是「聽一句」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.20 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+  [heroine_05] reload：互動鍵是「」，往他再走近
+  [heroine_05] 到達「溫書瑀 旁邊（再近一點）」附近（0.24 m）：點地面 10 次、轉鏡頭 0 次、搖桿 0 次，28 秒
+INFO [heroine_05] reload：這個時段找不到他／走不到他旁邊  null
+  [前置／捷徑] [heroine_05] 讀檔：reload：2025-09-30 10.5 campus（椰影大道（社團博覽會，法服的攤位，到下午四點））（campus 14 10.50）
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_05] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "溫書瑀", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_05] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，36 秒
+  [heroine_05] reload 之前：按「和溫書瑀說話」
+PASS [heroine_05] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": "社團博覽會・法服"}
+  [heroine_05] reload 之前 台詞（13 句）：["｜（椰影大道上一整排帳篷。", "學姐｜學弟，要不要聽一下？我們是法律服務社——", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單", "｜（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）", "祐廷｜學姊好，我是祐廷，妳的直屬學弟。", "溫書瑀｜你好。", "溫書瑀｜（對旁邊的學姐）這我直屬學弟，我來跟他講。", "學長｜喔，學弟，她是我們前任社長。", "溫書瑀｜以前的事了。我現在大四，在準備研究所。", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累。", "溫書瑀｜隔週的禮拜六有法律服務，民眾會來問問題。會累。可是有一些事情，只有在那裡才會知道。", "｜（你直接拿起報名表寫了名字。）"]
+PASS [heroine_05] reload 之前：對話一路點得完  0 個選單
+PASS [heroine_05] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_05] reload 之前：15 秒內回到可以自由移動
+PASS [heroine_05] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_05] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [heroine_05] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [heroine_05] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_05] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-30", "hour": 10.8847}
+PASS [heroine_05] reload 讀回來：15 秒內回到可以自由移動
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_05] reload 打招呼：按「和溫書瑀說話」
+PASS [heroine_05] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_05] reload 打招呼 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_05] reload 打招呼 台詞（1 句）：["溫書瑀｜祐廷。"]
+PASS [heroine_05] reload 打招呼：對話一路點得完  1 個選單
+PASS [heroine_05] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_05] reload 打招呼：15 秒內回到可以自由移動
+PASS [heroine_05] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_05] reload 打招呼：沒有新的 JS 例外
+  [heroine_05] 到達「溫書瑀 旁邊」附近（0.24 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_05] reload 閒聊：按「和溫書瑀說話」
+PASS [heroine_05] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_05] reload 閒聊 選單 ["約她去…", "就這樣"] → 選「就這樣」
+  [heroine_05] reload 閒聊 台詞（1 句）：["溫書瑀｜最近忙嗎？"]
+PASS [heroine_05] reload 閒聊：對話一路點得完  1 個選單
+PASS [heroine_05] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_05] reload 閒聊：15 秒內回到可以自由移動
+PASS [heroine_05] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_05] reload 閒聊：沒有新的 JS 例外
+== 人物 heroine_05 結果 PASS（34 項；SKIP 1：first）
+   用了 17.5 分鐘
+PASS [zhe] 遊戲載入
+== 人物 zhe 阿哲 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "wz_brunch", "join": true}, {"spot": "noodle", "join": true}]、自由出行 ["D04", "D29", "D25"]）
+-- [zhe] first
+  [前置／捷徑] [zhe] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [zhe] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 15.5, "campus", "走走"], ["2025-09-16", 15.5, "campus", "走走"], ["2025-09-17", 15.5, "campus", "走走"], ["2025-09-18", 12.5, "campus", "等人"], ["2025-09-19", 15.5, "campus", "走走"], ["2025-09-22", 15.5, "campus", "走走"], ["2025-09-23", 15.5, "campus", "走走"], ["2025-09-24", 15.5, "campus", "走走"]]
+  [前置／捷徑] [zhe] 讀檔：first：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "阿哲", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.30 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，52 秒
+  [zhe] first：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [zhe] first：按「和阿哲說話」
+PASS [zhe] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] first 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] first 台詞（1 句）：["阿哲｜系籃週五練球，要來就來，不會打也可以來坐。"]
+PASS [zhe] first：對話一路點得完  1 個選單
+PASS [zhe] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] first：15 秒內回到可以自由移動
+PASS [zhe] first：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] first：沒有新的 JS 例外
+INFO [zhe] first：說完以後還沒顯示名字  {"fm": false, "name": "阿哲", "real": "阿哲"}
+-- [zhe] greet
+  [前置／捷徑] [zhe] 讀檔：greet：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.97 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，60 秒
+  [zhe] greet：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，15 秒
+  [zhe] greet 連按兩次：按「和阿哲說話」（連按兩次，間隔約 200 ms）
+PASS [zhe] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["talkZhe (http://127.0.0.1:8810/src/story3d.js?v=9.10.19.1:3868:106)"]}
+PASS [zhe] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] greet 連按兩次 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] greet 連按兩次 台詞（1 句）：["阿哲｜公館那家滷味晚上十點後半價。"]
+PASS [zhe] greet 連按兩次：對話一路點得完  1 個選單
+PASS [zhe] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] greet 連按兩次：15 秒內回到可以自由移動
+PASS [zhe] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] greet 連按兩次：沒有新的 JS 例外
+-- [zhe] menu
+  [前置／捷徑] [zhe] 讀檔：menu：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.33 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，52 秒
+  [zhe] menu：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [zhe] menu 基本：按「和阿哲說話」
+PASS [zhe] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 基本 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] menu 基本 台詞（1 句）：["阿哲｜公館那家滷味晚上十點後半價。"]
+PASS [zhe] menu 基本：對話一路點得完  1 個選單
+PASS [zhe] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 基本：15 秒內回到可以自由移動
+PASS [zhe] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 基本：沒有新的 JS 例外
+  [zhe] menu：說話後的選單 ["約他去…", "就這樣"]
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約他去…」））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [zhe] menu 選「約他去…」：按「和阿哲說話」
+PASS [zhe] menu 選「約他去…」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 選「約他去…」 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 選「約他去…」 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [zhe] menu 選「約他去…」 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [zhe] menu 選「約他去…」 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 選「約他去…」 台詞（5 句）：["阿哲｜我球鞋又開口笑了，這禮拜要去", "阿哲｜我球鞋又開口笑了，這禮拜要去買新的。", "祐廷｜你等一下有空嗎？", "｜阿哲", "｜阿哲答應了。你們一起去總圖一起念書。"]
+PASS [zhe] menu 選「約他去…」：對話一路點得完  4 個選單
+PASS [zhe] menu 選「約他去…」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 選「約他去…」：15 秒內回到可以自由移動
+PASS [zhe] menu 選「約他去…」：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 選「約他去…」：沒有新的 JS 例外
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…吃飯…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [zhe] menu 約…吃飯…：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [zhe] 到達「阿哲 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [zhe] menu 約→吃飯…：按「和Alison說話」
+PASS [zhe] menu 約→吃飯…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→吃飯… 選單 ["約她去…", "就這樣"] → 選「約她去…」
+  [zhe] menu 約→吃飯… 選單 ["念書…", "吃飯…（灰）", "喝咖啡、喝茶…", "散步…（灰）", "運動…（灰）", "算了"] → 選「吃飯…」
+  [zhe] menu 約→吃飯… 選單 ["念書…", "吃飯…（灰）", "喝咖啡、喝茶…", "散步…（灰）", "運動…（灰）", "算了"] → 選「念書…」
+  [zhe] menu 約→吃飯… 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [zhe] menu 約→吃飯… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→吃飯… 台詞（9 句）：["Alison｜你是周老師點的那個！我是", "Alison｜你是周老師點的那個！我是 Alison，坐你前面右邊。", "Alison｜我參加了三個社團，吉他社、辯論社，還有系學會", "Alison｜我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。", "祐廷｜你等一下有空嗎？", "｜再熟一點，才約得出去吃飯。", "Alison｜「總圖", "Alison｜「總圖喔……好啊，可是我會一直想跟你講話。」", "｜你們一起去總圖一起念書。"]
+PASS [zhe] menu 約→吃飯…：對話一路點得完  5 個選單
+PASS [zhe] menu 約→吃飯…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→吃飯…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→吃飯…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→吃飯…：沒有新的 JS 例外
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…喝咖啡、喝茶…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，10 秒
+  [zhe] menu 約→喝咖啡、喝茶…：按「和阿哲說話」
+PASS [zhe] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「喝咖啡、喝茶…」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["去兩點半 Café 坐坐", "去一盞喝茶", "去慢讀咖啡念書", "返回"] → 選「去兩點半 Café 坐坐」
+  [zhe] menu 約→喝咖啡、喝茶… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→喝咖啡、喝茶… 台詞（5 句）：["阿哲｜公館那家滷味晚上十點後半價", "阿哲｜公館那家滷味晚上十點後半價。", "祐廷｜你等一下有空嗎？", "｜阿哲答", "｜阿哲答應了。你們一起去兩點半 Café 坐坐。"]
+PASS [zhe] menu 約→喝咖啡、喝茶…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→喝咖啡、喝茶…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→喝咖啡、喝茶…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→喝咖啡、喝茶…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→喝咖啡、喝茶…：沒有新的 JS 例外
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…散步…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [zhe] menu 約→散步…：按「和阿哲說話」
+PASS [zhe] menu 約→散步…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→散步… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→散步… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「散步…」
+  [zhe] menu 約→散步… 選單 ["去溫州街散步", "去映月湖走走", "返回"] → 選「去溫州街散步」
+  [zhe] menu 約→散步… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→散步… 台詞（4 句）：["阿哲｜公館那家滷味晚上十點後半價。", "祐廷｜你等一下有空嗎？", "｜阿哲答", "｜阿哲答應了。你們一起去溫州街散步。"]
+PASS [zhe] menu 約→散步…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→散步…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→散步…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→散步…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→散步…：沒有新的 JS 例外
+  [前置／捷徑] [zhe] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…運動…））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，11 秒
+  [zhe] menu 約→運動…：按「和阿哲說話」
+PASS [zhe] menu 約→運動…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] menu 約→運動… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [zhe] menu 約→運動… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「運動…」
+  [zhe] menu 約→運動… 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去新體育館打羽球」
+  [zhe] menu 約→運動… 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [zhe] menu 約→運動… 台詞（5 句）：["阿哲｜系籃週五練球，要來就來，不", "阿哲｜系籃週五練球，要來就來，不會打也可以來坐。", "祐廷｜你等一下有空嗎？", "｜（他答", "｜你們一起去新體育館打羽球。"]
+PASS [zhe] menu 約→運動…：對話一路點得完  4 個選單
+PASS [zhe] menu 約→運動…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] menu 約→運動…：15 秒內回到可以自由移動
+PASS [zhe] menu 約→運動…：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] menu 約→運動…：沒有新的 JS 例外
+-- [zhe] reload
+  [前置／捷徑] [zhe] 讀檔：reload：2025-09-15 15.5 campus（走走）（campus -1 15.50）
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [zhe] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "阿哲", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [zhe] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [zhe] 到達「阿哲 旁邊」附近（0.30 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，50 秒
+  [zhe] reload：互動鍵是「」，往他再走近
+  [zhe] 到達「阿哲 旁邊（再近一點）」附近（0.22 m）：點地面 5 次、轉鏡頭 0 次、搖桿 0 次，20 秒
+  [zhe] 到達「阿哲 旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [zhe] reload 之前：按「和阿哲說話」
+PASS [zhe] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] reload 之前 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] reload 之前 台詞（2 句）：["阿哲｜我球鞋又開口笑了，這禮拜", "阿哲｜我球鞋又開口笑了，這禮拜要去買新的。"]
+PASS [zhe] reload 之前：對話一路點得完  1 個選單
+PASS [zhe] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] reload 之前：15 秒內回到可以自由移動
+PASS [zhe] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [zhe] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [zhe] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [zhe] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-15", "hour": 16.148}
+PASS [zhe] reload 讀回來：15 秒內回到可以自由移動
+  [zhe] 到達「阿哲 旁邊」附近（0.15 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [zhe] reload 打招呼：按「和阿哲說話」
+PASS [zhe] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] reload 打招呼 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] reload 打招呼 台詞（2 句）：["阿哲｜系籃週五練球，要來就來，不會打也可以來", "阿哲｜系籃週五練球，要來就來，不會打也可以來坐。"]
+PASS [zhe] reload 打招呼：對話一路點得完  1 個選單
+PASS [zhe] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] reload 打招呼：15 秒內回到可以自由移動
+PASS [zhe] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] reload 打招呼：沒有新的 JS 例外
+  [zhe] 到達「阿哲 旁邊」附近（0.15 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [zhe] reload 閒聊：按「和阿哲說話」
+PASS [zhe] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [zhe] reload 閒聊 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [zhe] reload 閒聊 台詞（2 句）：["阿哲｜系籃週五練球，要來就來，不會打", "阿哲｜系籃週五練球，要來就來，不會打也可以來坐。"]
+PASS [zhe] reload 閒聊：對話一路點得完  1 個選單
+PASS [zhe] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [zhe] reload 閒聊：15 秒內回到可以自由移動
+PASS [zhe] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [zhe] reload 閒聊：沒有新的 JS 例外
+== 人物 zhe 結果 PASS（70 項；SKIP 0：）
+   用了 10.2 分鐘
+PASS [yu] 遊戲載入
+== 人物 yu Alison 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "wz_tea", "join": "friend"}]、自由出行 ["D04", "D01", "D20"]）
+-- [yu] first
+  [前置／捷徑] [yu] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [yu] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 9.5, "campus", "坐著"], ["2025-09-16", 9.5, "campus", "坐著"], ["2025-09-17", 9.5, "campus", "坐著"], ["2025-09-18", 9.5, "campus", "坐著"], ["2025-09-19", 15.5, "campus", "走走"], ["2025-09-22", 15.5, "campus", "走走"], ["2025-09-23", 9.5, "campus", "坐著"], ["2025-09-24", 15.5, "campus", "走走"]]
+  [前置／捷徑] [yu] 讀檔：first：2025-09-15 9.5 campus（坐著）（campus -1 9.50）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "Alison", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.92 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+  [yu] first：按「和Alison說話」
+PASS [yu] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] first 台詞（2 句）：["Alison｜「你好，我是Alison。法律系", "｜精力旺盛。"]
+PASS [yu] first：對話一路點得完  0 個選單
+PASS [yu] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] first：15 秒內回到可以自由移動
+PASS [yu] first：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] first：沒有新的 JS 例外
+PASS [yu] first：說完以後認識了（FIRST_MET、名字＝Alison）
+-- [yu] greet
+  [前置／捷徑] [yu] 讀檔：greet：2025-09-15 9.5 campus（坐著）（campus -1 9.50）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "Alison", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.86 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+  [yu] greet 連按兩次：按「和Alison說話」（連按兩次，間隔約 200 ms）
+PASS [yu] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8810/src/story3d.js?v=9.10.19.1:938:25)"]}
+PASS [yu] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] greet 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] greet 連按兩次 台詞（1 句）：["Alison｜「溫州街的貓你有看到嗎？」"]
+PASS [yu] greet 連按兩次：對話一路點得完  1 個選單
+PASS [yu] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] greet 連按兩次：15 秒內回到可以自由移動
+PASS [yu] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] greet 連按兩次：沒有新的 JS 例外
+-- [yu] menu
+  [前置／捷徑] [yu] 讀檔：menu：2025-09-15 9.5 campus（坐著）（campus -1 9.50）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] menu 基本：按「和Alison說話」
+PASS [yu] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 基本 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] menu 基本 台詞（2 句）：["Alison｜「溫州街的貓你有看到嗎？", "Alison｜「溫州街的貓你有看到嗎？」"]
+PASS [yu] menu 基本：對話一路點得完  1 個選單
+PASS [yu] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 基本：15 秒內回到可以自由移動
+PASS [yu] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 基本：沒有新的 JS 例外
+  [yu] menu：說話後的選單 ["約她去…", "交換聯絡方式", "就這樣"]
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約她去…」））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 選「約她去…」：按「和Alison說話」
+PASS [yu] menu 選「約她去…」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 選「約她去…」 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [yu] menu 選「約她去…」 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [yu] menu 選「約她去…」 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [yu] menu 選「約她去…」 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [yu] menu 選「約她去…」 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "Alison｜「總圖", "Alison｜「總圖喔……好啊，可是我會一直想跟你講話。」", "｜你們一起去總圖一起念書。"]
+PASS [yu] menu 選「約她去…」：對話一路點得完  4 個選單
+PASS [yu] menu 選「約她去…」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 選「約她去…」：15 秒內回到可以自由移動
+PASS [yu] menu 選「約她去…」：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 選「約她去…」：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「交換聯絡方式」））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 選「交換聯絡方式」：按「和Alison說話」
+PASS [yu] menu 選「交換聯絡方式」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 選「交換聯絡方式」 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「交換聯絡方式」
+  [yu] menu 選「交換聯絡方式」 台詞（2 句）：["Alison｜「溫州街的貓你有看到嗎？」", "Alison｜「欸你還不在我的群組裡？我拉你。三個。」"]
+PASS [yu] menu 選「交換聯絡方式」：對話一路點得完  1 個選單
+PASS [yu] menu 選「交換聯絡方式」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 選「交換聯絡方式」：15 秒內回到可以自由移動
+PASS [yu] menu 選「交換聯絡方式」：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 選「交換聯絡方式」：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…吃飯…））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 約→吃飯…：按「和Alison說話」
+PASS [yu] menu 約→吃飯…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 約→吃飯… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [yu] menu 約→吃飯… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「吃飯…」
+  [yu] menu 約→吃飯… 選單 ["去公館燒臘吃飯", "去半熟吃早午餐", "返回"] → 選「去公館燒臘吃飯」
+  [yu] menu 約→吃飯… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [yu] menu 約→吃飯… 台詞（4 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜Alis", "｜Alison答應了。你們一起去公館燒臘吃飯。"]
+PASS [yu] menu 約→吃飯…：對話一路點得完  4 個選單
+PASS [yu] menu 約→吃飯…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 約→吃飯…：15 秒內回到可以自由移動
+PASS [yu] menu 約→吃飯…：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 約→吃飯…：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…喝咖啡、喝茶…））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 約→喝咖啡、喝茶…：按「和Alison說話」
+PASS [yu] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 約→喝咖啡、喝茶… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [yu] menu 約→喝咖啡、喝茶… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「喝咖啡、喝茶…」
+  [yu] menu 約→喝咖啡、喝茶… 選單 ["去兩點半 Café 坐坐", "去一盞喝茶", "去慢讀咖啡念書", "返回"] → 選「去兩點半 Café 坐坐」
+  [yu] menu 約→喝咖啡、喝茶… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [yu] menu 約→喝咖啡、喝茶… 選單 ["好，就 今天 11:00", "下次再說"] → 選「好，就 今天 11:00」
+  [yu] menu 約→喝咖啡、喝茶… 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜兩點半", "｜兩點半 Café那個時間沒開。Alison問 今天 11:00 可不可以。", "｜約好 今天 11:00，兩點半 Café。"]
+PASS [yu] menu 約→喝咖啡、喝茶…：對話一路點得完  5 個選單
+PASS [yu] menu 約→喝咖啡、喝茶…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 約→喝咖啡、喝茶…：15 秒內回到可以自由移動
+PASS [yu] menu 約→喝咖啡、喝茶…：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 約→喝咖啡、喝茶…：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…散步…））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 約→散步…：按「和Alison說話」
+PASS [yu] menu 約→散步…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 約→散步… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [yu] menu 約→散步… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「散步…」
+  [yu] menu 約→散步… 選單 ["去溫州街散步", "去映月湖走走", "返回"] → 選「去溫州街散步」
+  [yu] menu 約→散步… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [yu] menu 約→散步… 台詞（4 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜Ali", "｜Alison答應了。你們一起去溫州街散步。"]
+PASS [yu] menu 約→散步…：對話一路點得完  4 個選單
+PASS [yu] menu 約→散步…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 約→散步…：15 秒內回到可以自由移動
+PASS [yu] menu 約→散步…：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 約→散步…：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…運動…））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.82 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] menu 約→運動…：按「和Alison說話」
+PASS [yu] menu 約→運動…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] menu 約→運動… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [yu] menu 約→運動… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「運動…」
+  [yu] menu 約→運動… 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去新體育館打羽球」
+  [yu] menu 約→運動… 選單 ["現在一起過去", "今天 12:10", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [yu] menu 約→運動… 選單 ["好，就 今天 12:00", "下次再說"] → 選「好，就 今天 12:00」
+  [yu] menu 約→運動… 台詞（5 句）：["Alison｜「溫州街的貓你有看到嗎？」", "祐廷｜你等一下有空嗎？", "｜新體", "｜新體育館羽球場那個時間沒開。Alison問 今天 12:00 可不可以。", "｜約好 今天 12:00，新體育館羽球場。"]
+PASS [yu] menu 約→運動…：對話一路點得完  5 個選單
+PASS [yu] menu 約→運動…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] menu 約→運動…：15 秒內回到可以自由移動
+PASS [yu] menu 約→運動…：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] menu 約→運動…：沒有新的 JS 例外
+-- [yu] reload
+  [前置／捷徑] [yu] 讀檔：reload：2025-09-15 9.5 campus（坐著）（campus -1 9.50）
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [yu] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "Alison", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [yu] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [yu] 到達「Alison 旁邊」附近（0.85 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+  [yu] reload 之前：按「和Alison說話」
+PASS [yu] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] reload 之前 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] reload 之前 台詞（1 句）：["Alison｜「溫州街的貓你有看到嗎？」"]
+PASS [yu] reload 之前：對話一路點得完  1 個選單
+PASS [yu] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] reload 之前：15 秒內回到可以自由移動
+PASS [yu] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [yu] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [yu] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [yu] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "campus", "key": "2025-09-15", "hour": 9.8159}
+PASS [yu] reload 讀回來：15 秒內回到可以自由移動
+  [yu] 到達「Alison 旁邊」附近（0.85 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] reload 打招呼：按「和Alison說話」
+PASS [yu] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] reload 打招呼 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] reload 打招呼 台詞（2 句）：["｜（Alison跟你打了個招呼，", "｜（Alison跟你打了個招呼，又忙自己的事。）"]
+PASS [yu] reload 打招呼：對話一路點得完  1 個選單
+PASS [yu] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] reload 打招呼：15 秒內回到可以自由移動
+PASS [yu] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] reload 打招呼：沒有新的 JS 例外
+  [yu] 到達「Alison 旁邊」附近（0.85 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [yu] reload 閒聊：按「和Alison說話」
+PASS [yu] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [yu] reload 閒聊 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [yu] reload 閒聊 台詞（2 句）：["｜（Alison跟你打了個", "｜（Alison跟你打了個招呼，又忙自己的事。）"]
+PASS [yu] reload 閒聊：對話一路點得完  1 個選單
+PASS [yu] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [yu] reload 閒聊：15 秒內回到可以自由移動
+PASS [yu] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [yu] reload 閒聊：沒有新的 JS 例外
+== 人物 yu 結果 PASS（77 項；SKIP 0：）
+   用了 6.8 分鐘
+PASS [classmate_bohan] 遊戲載入
+== 人物 classmate_bohan 柏翰 開始（層 A、可攻略 False、階梯 {}、店內偶遇 [{"spot": "cafe", "join": "friend"}, {"spot": "wz_print", "join": null}]、自由出行 ["D06", "D11", "D09"]）
+-- [classmate_bohan] first
+  [前置／捷徑] [classmate_bohan] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [classmate_bohan] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 9.5, "library", "看書"], ["2025-09-16", 15.5, "library", "看書"], ["2025-09-17", 9.5, "library", "看書"], ["2025-09-18", 9.5, "library", "看書"], ["2025-09-19", 15.5, "library", "看書"], ["2025-09-22", 15.5, "library", "看書"], ["2025-09-23", 15.5, "library", "看書"], ["2025-09-24", 15.5, "library", "看書"]]
+  [前置／捷徑] [classmate_bohan] 讀檔：first：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "柏翰", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_bohan] first：按「和柏翰說話」
+PASS [classmate_bohan] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] first 台詞（1 句）：["｜（他抬頭看到你，點了一下頭。）"]
+PASS [classmate_bohan] first：對話一路點得完  0 個選單
+PASS [classmate_bohan] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] first：15 秒內回到可以自由移動
+PASS [classmate_bohan] first：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] first：沒有新的 JS 例外
+INFO [classmate_bohan] first：說完以後還沒顯示名字  {"fm": false, "name": "柏翰", "real": "柏翰"}
+-- [classmate_bohan] greet
+  [前置／捷徑] [classmate_bohan] 讀檔：greet：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "柏翰", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_bohan] greet 連按兩次：按「和柏翰說話」（連按兩次，間隔約 200 ms）
+PASS [classmate_bohan] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.gate (http://127.0.0.1:8810/src/libquiet3d.js?v=9.10.19.1:74:26)"]}
+PASS [classmate_bohan] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] greet 連按兩次 台詞（1 句）：["｜（他抬頭看到你，點了一下頭。）"]
+PASS [classmate_bohan] greet 連按兩次：對話一路點得完  0 個選單
+PASS [classmate_bohan] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] greet 連按兩次：15 秒內回到可以自由移動
+PASS [classmate_bohan] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] greet 連按兩次：沒有新的 JS 例外
+-- [classmate_bohan] menu
+  [前置／捷徑] [classmate_bohan] 讀檔：menu：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "柏翰", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_bohan] menu 基本：按「和柏翰說話」
+PASS [classmate_bohan] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] menu 基本 台詞（1 句）：["｜（他抬頭看到你，點了一下頭。）"]
+PASS [classmate_bohan] menu 基本：對話一路點得完  0 個選單
+PASS [classmate_bohan] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] menu 基本：15 秒內回到可以自由移動
+PASS [classmate_bohan] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] menu 基本：沒有新的 JS 例外
+INFO [classmate_bohan] menu：說話以後沒有選單（只有閒聊）  []
+-- [classmate_bohan] reload
+  [前置／捷徑] [classmate_bohan] 讀檔：reload：2025-09-15 9.5 library（看書）（library -1 9.50）
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [classmate_bohan] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "柏翰", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [classmate_bohan] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.18 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [classmate_bohan] reload 之前：按「和柏翰說話」
+PASS [classmate_bohan] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] reload 之前 台詞（1 句）：["｜（他抬頭看到你，點了一下頭。）"]
+PASS [classmate_bohan] reload 之前：對話一路點得完  0 個選單
+PASS [classmate_bohan] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] reload 之前：15 秒內回到可以自由移動
+PASS [classmate_bohan] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [classmate_bohan] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [classmate_bohan] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [classmate_bohan] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "library", "key": "2025-09-15", "hour": 9.7013}
+PASS [classmate_bohan] reload 讀回來：15 秒內回到可以自由移動
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_bohan] reload 打招呼：按「和柏翰說話」
+PASS [classmate_bohan] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] reload 打招呼 選單 ["約他去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [classmate_bohan] reload 打招呼 台詞（1 句）：["柏翰｜（小聲）「我在寫考古題，第二題卡住了。」"]
+PASS [classmate_bohan] reload 打招呼：對話一路點得完  1 個選單
+PASS [classmate_bohan] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] reload 打招呼：15 秒內回到可以自由移動
+PASS [classmate_bohan] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] reload 打招呼：沒有新的 JS 例外
+  [classmate_bohan] 到達「柏翰 旁邊」附近（0.18 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [classmate_bohan] reload 閒聊：按「和柏翰說話」
+PASS [classmate_bohan] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [classmate_bohan] reload 閒聊 選單 ["約他去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [classmate_bohan] reload 閒聊 台詞（2 句）：["｜（柏翰跟你打了個招呼，又忙自己的", "｜（柏翰跟你打了個招呼，又忙自己的事。）"]
+PASS [classmate_bohan] reload 閒聊：對話一路點得完  1 個選單
+PASS [classmate_bohan] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [classmate_bohan] reload 閒聊：15 秒內回到可以自由移動
+PASS [classmate_bohan] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [classmate_bohan] reload 閒聊：沒有新的 JS 例外
+== 人物 classmate_bohan 結果 PASS（40 項；SKIP 0：）
+   用了 3.0 分鐘
+PASS [kai] 遊戲載入
+== 人物 kai 阿凱 開始（層 C、可攻略 False、階梯 {}、店內偶遇 [{"spot": "cvs", "join": null}]、自由出行 []）
+-- [kai] first
+  [前置／捷徑] [kai] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [kai] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-15", 18.5, "dorm", "在書桌前"], ["2025-09-16", 18.5, "dorm", "在書桌前"], ["2025-09-17", 18.5, "dorm", "在書桌前"], ["2025-09-18", 18.5, "dorm", "在書桌前"], ["2025-09-19", 18.5, "dorm", "在書桌前"], ["2025-09-20", 18.5, "dorm", "在書桌前"], ["2025-09-21", 18.5, "dorm", "在書桌前"], ["2025-09-22", 18.5, "dorm", "在書桌前"]]
+  [前置／捷徑] [kai] 讀檔：first：2025-09-15 18.5 dorm（在書桌前）（dorm -1 18.50）
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [kai] 前置：還不認識（STRANGER）：{"stage": "STRANGER", "name": "阿凱", "fm": false, "lad": null, "contact": false}
+  [前置／捷徑] [kai] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [kai] first：按「和阿凱說話」
+PASS [kai] first：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] first 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] first 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] first 台詞（2 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。"]
+PASS [kai] first：對話一路點得完  2 個選單
+PASS [kai] first：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] first：15 秒內回到可以自由移動
+PASS [kai] first：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] first：沒有新的 JS 例外
+INFO [kai] first：說完以後還沒顯示名字  {"fm": false, "name": "阿凱", "real": "阿凱"}
+-- [kai] greet
+  [前置／捷徑] [kai] 讀檔：greet：2025-09-15 18.5 dorm（在書桌前）（dorm -1 18.50）
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [kai] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "阿凱", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [kai] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [kai] greet 連按兩次：按「和阿凱說話」（連按兩次，間隔約 200 ms）
+PASS [kai] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["talkKai (http://127.0.0.1:8810/src/story3d.js?v=9.10.19.1:3931:106)"]}
+PASS [kai] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] greet 連按兩次 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] greet 連按兩次 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] greet 連按兩次 台詞（2 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。"]
+PASS [kai] greet 連按兩次：對話一路點得完  2 個選單
+PASS [kai] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] greet 連按兩次：15 秒內回到可以自由移動
+PASS [kai] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] greet 連按兩次：沒有新的 JS 例外
+-- [kai] menu
+  [前置／捷徑] [kai] 讀檔：menu：2025-09-15 18.5 dorm（在書桌前）（dorm -1 18.50）
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [kai] 前置：朋友（FRIEND）、沒有聯絡方式（會有「交換聯絡方式」）：{"stage": "FRIEND", "name": "阿凱", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [kai] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [kai] menu 基本：按「和阿凱說話」
+PASS [kai] menu 基本：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 基本 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 基本 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] menu 基本 台詞（3 句）：["阿凱｜下午去哪了", "阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。"]
+PASS [kai] menu 基本：對話一路點得完  2 個選單
+PASS [kai] menu 基本：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 基本：15 秒內回到可以自由移動
+PASS [kai] menu 基本：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 基本：沒有新的 JS 例外
+  [kai] menu：說話後的選單 ["約他去…", "就這樣"]
+  [前置／捷徑] [kai] 讀回存檔（回到「走到她旁邊」那一刻（menu 選「約他去…」））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] menu 選「約他去…」：按「和阿凱說話」
+PASS [kai] menu 選「約他去…」：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 選「約他去…」 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 選「約他去…」 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [kai] menu 選「約他去…」 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「念書…」
+  [kai] menu 選「約他去…」 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [kai] menu 選「約他去…」 選單 ["現在一起過去", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [kai] menu 選「約他去…」 台詞（6 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。", "祐廷｜你等一下有空嗎？", "阿凱｜「總", "阿凱｜「總圖我會睡著。」", "阿凱｜「考前一週我會去，真的。」"]
+PASS [kai] menu 選「約他去…」：對話一路點得完  5 個選單
+PASS [kai] menu 選「約他去…」：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 選「約他去…」：15 秒內回到可以自由移動
+PASS [kai] menu 選「約他去…」：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 選「約他去…」：沒有新的 JS 例外
+  [前置／捷徑] [kai] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…吃飯…））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] menu 約→吃飯…：按「和阿凱說話」
+PASS [kai] menu 約→吃飯…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 約→吃飯… 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 約→吃飯… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [kai] menu 約→吃飯… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「吃飯…」
+  [kai] menu 約→吃飯… 選單 ["去公館燒臘吃飯", "去半熟吃早午餐", "返回"] → 選「去公館燒臘吃飯」
+  [kai] menu 約→吃飯… 選單 ["現在一起過去", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [kai] menu 約→吃飯… 台詞（6 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。", "祐廷｜你等一下有空嗎？", "阿凱｜「走，", "阿凱｜「走，我剛好還沒吃。」", "｜你們一起去公館燒臘吃飯。"]
+PASS [kai] menu 約→吃飯…：對話一路點得完  5 個選單
+PASS [kai] menu 約→吃飯…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 約→吃飯…：15 秒內回到可以自由移動
+PASS [kai] menu 約→吃飯…：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 約→吃飯…：沒有新的 JS 例外
+  [前置／捷徑] [kai] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…喝咖啡、喝茶…））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] menu 約→喝咖啡、喝茶…：按「和阿凱說話」
+PASS [kai] menu 約→喝咖啡、喝茶…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 約→喝咖啡、喝茶… 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 約→喝咖啡、喝茶… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [kai] menu 約→喝咖啡、喝茶… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「喝咖啡、喝茶…」
+  [kai] menu 約→喝咖啡、喝茶… 選單 ["去兩點半 Café 坐坐", "去一盞喝茶", "去慢讀咖啡念書", "返回"] → 選「去兩點半 Café 坐坐」
+  [kai] menu 約→喝咖啡、喝茶… 選單 ["現在一起過去", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [kai] menu 約→喝咖啡、喝茶… 台詞（5 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。", "祐廷｜你等一下有空嗎？", "｜阿凱答", "｜阿凱答應了。你們一起去兩點半 Café 坐坐。"]
+PASS [kai] menu 約→喝咖啡、喝茶…：對話一路點得完  5 個選單
+PASS [kai] menu 約→喝咖啡、喝茶…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 約→喝咖啡、喝茶…：15 秒內回到可以自由移動
+PASS [kai] menu 約→喝咖啡、喝茶…：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 約→喝咖啡、喝茶…：沒有新的 JS 例外
+  [前置／捷徑] [kai] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…散步…））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] menu 約→散步…：按「和阿凱說話」
+PASS [kai] menu 約→散步…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 約→散步… 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 約→散步… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [kai] menu 約→散步… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「散步…」
+  [kai] menu 約→散步… 選單 ["去溫州街散步", "去映月湖走走", "返回"] → 選「去溫州街散步」
+  [kai] menu 約→散步… 選單 ["現在一起過去", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [kai] menu 約→散步… 台詞（8 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。", "祐廷｜你等一下有空嗎？", "阿凱｜「散步", "阿凱｜「散步要幹嘛？」", "｜（你說那裡有貓。）", "阿凱｜「好。」", "｜你們一起去溫州街散步。"]
+PASS [kai] menu 約→散步…：對話一路點得完  5 個選單
+PASS [kai] menu 約→散步…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 約→散步…：15 秒內回到可以自由移動
+PASS [kai] menu 約→散步…：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 約→散步…：沒有新的 JS 例外
+  [前置／捷徑] [kai] 讀回存檔（回到「走到她旁邊」那一刻（menu 約…運動…））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] menu 約→運動…：按「和阿凱說話」
+PASS [kai] menu 約→運動…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] menu 約→運動… 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] menu 約→運動… 選單 ["約他去…", "就這樣"] → 選「約他去…」
+  [kai] menu 約→運動… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "算了"] → 選「運動…」
+  [kai] menu 約→運動… 選單 ["去新體育館打羽球", "去椰影大道晨跑", "返回"] → 選「去新體育館打羽球」
+  [kai] menu 約→運動… 選單 ["現在一起過去", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [kai] menu 約→運動… 台詞（6 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。", "祐廷｜你等一下有空嗎？", "｜（他答", "｜（他答應了。）", "｜你們一起去新體育館打羽球。"]
+PASS [kai] menu 約→運動…：對話一路點得完  5 個選單
+PASS [kai] menu 約→運動…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] menu 約→運動…：15 秒內回到可以自由移動
+PASS [kai] menu 約→運動…：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] menu 約→運動…：沒有新的 JS 例外
+-- [kai] reload
+  [前置／捷徑] [kai] 讀檔：reload：2025-09-15 18.5 dorm（在書桌前）（dorm -1 18.50）
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [kai] 前置：朋友（FRIEND）：{"stage": "FRIEND", "name": "阿凱", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [kai] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [kai] reload 之前：按「和阿凱說話」
+PASS [kai] reload 之前：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] reload 之前 選單 ["同學。寫報告。", "沒有啊。"] → 選「同學。寫報告。」
+  [kai] reload 之前 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] reload 之前 台詞（2 句）：["阿凱｜下午去哪了？", "阿凱｜「寫報告」。好，你們法律系的都很會用這個詞。"]
+PASS [kai] reload 之前：對話一路點得完  2 個選單
+PASS [kai] reload 之前：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] reload 之前：15 秒內回到可以自由移動
+PASS [kai] reload 之前：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] reload 之前：沒有新的 JS 例外
+  [前置／捷徑] [kai] 讀回存檔（選單「回標題」→「繼續」按不到，改用 GAME.snapshot→applySave（同「繼續」））
+  [前置／捷徑] [kai] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [kai] reload：讀回來（snapshot→applySave）以後在遊戲裡（不在標題畫面）  {"zone": "dorm", "key": "2025-09-15", "hour": 18.6869}
+PASS [kai] reload 讀回來：15 秒內回到可以自由移動
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] reload 打招呼：按「和阿凱說話」
+PASS [kai] reload 打招呼：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] reload 打招呼 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] reload 打招呼 台詞（2 句）：["阿凱｜我明天早八，", "阿凱｜我明天早八，你走的時候小聲一點。"]
+PASS [kai] reload 打招呼：對話一路點得完  1 個選單
+PASS [kai] reload 打招呼：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] reload 打招呼：15 秒內回到可以自由移動
+PASS [kai] reload 打招呼：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] reload 打招呼：沒有新的 JS 例外
+  [kai] 到達「阿凱 旁邊」附近（0.56 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [kai] reload 閒聊：按「和阿凱說話」
+PASS [kai] reload 閒聊：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [kai] reload 閒聊 選單 ["約他去…", "就這樣"] → 選「就這樣」
+  [kai] reload 閒聊 台詞（2 句）：["阿凱｜所以那個賣家可以", "阿凱｜所以那個賣家可以告嗎？……不能？那法律系在幹嘛。"]
+PASS [kai] reload 閒聊：對話一路點得完  1 個選單
+PASS [kai] reload 閒聊：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [kai] reload 閒聊：15 秒內回到可以自由移動
+PASS [kai] reload 閒聊：GAME.walkFallbacks 沒增加  0→0
+PASS [kai] reload 閒聊：沒有新的 JS 例外
+== 人物 kai 結果 PASS（70 項；SKIP 0：）
+   用了 4.3 分鐘
+==== 總結：8 人，FAIL 0 人：[]
+ALL PASS

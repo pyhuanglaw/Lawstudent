@@ -892,3 +892,38 @@
 [09:27:40] ==== START SOC_main_zr  (probe @ e1603907e) ====
 [09:27:43] [res] cpu=22% mem=52% (16.8/31.4 GB) chrome_testing=19  START SOC_main_zr
 [09:29:10] [res] cpu=14% mem=52% (16.5/31.4 GB) chrome_testing=19  END STUCK_1104_fix
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0cb9d5bef..cca031b45  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:29:19] ==== END   STUCK_1104_fix  exit=0  644s   ====
+[09:29:21] memory 53% before starting SOC_dev_zr (2 running)
+[09:29:21] ==== START SOC_dev_zr  (probe @ 27929f2a8) ====
+[09:29:26] [res] cpu=94% mem=54% (16.9/31.4 GB) chrome_testing=19  START SOC_dev_zr
+[09:32:19] 正在跑：HOT_soc_talk（已跑 25 分／上限 240 分）、SOC_main_zr（已跑 4 分／上限 120 分）、SOC_dev_zr（已跑 2 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:37:19] 正在跑：HOT_soc_talk（已跑 30 分／上限 240 分）、SOC_main_zr（已跑 9 分／上限 120 分）、SOC_dev_zr（已跑 7 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:42:19] 正在跑：HOT_soc_talk（已跑 35 分／上限 240 分）、SOC_main_zr（已跑 14 分／上限 120 分）、SOC_dev_zr（已跑 12 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:47:19] 正在跑：HOT_soc_talk（已跑 40 分／上限 240 分）、SOC_main_zr（已跑 19 分／上限 120 分）、SOC_dev_zr（已跑 17 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[09:49:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[09:52:19] 正在跑：HOT_soc_talk（已跑 45 分／上限 240 分）、SOC_main_zr（已跑 24 分／上限 120 分）、SOC_dev_zr（已跑 22 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[09:54:46] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[09:57:19] 正在跑：HOT_soc_talk（已跑 50 分／上限 240 分）、SOC_main_zr（已跑 29 分／上限 120 分）、SOC_dev_zr（已跑 27 分／上限 120 分）——還沒測完，請不要關 (tests still running - please do not close)
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[09:59:51] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[10:00:17] [res] cpu=16% mem=51% (16.3/31.4 GB) chrome_testing=20  END HOT_soc_talk
