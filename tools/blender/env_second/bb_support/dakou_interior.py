@@ -663,24 +663,101 @@ else:
         pend.add_bm(L.lathe([(0.0, 0.25), (0.06, 0.24), (0.26, 0.08), (0.29, 0.0), (0.27, 0.0), (0.245, 0.07), (0.05, 0.22), (0.0, 0.23)], seg=28), Matrix.Translation(g2b(x, y, z)))
         down_quad(pl, x - 0.15, x + 0.15, z - 0.15, z + 0.15, y + 0.04)
     pend.finish(root, smooth=True); pl.finish(root)
-    # 桌上的東西（參考圖：課本、筆電、筆記本、筆袋、紙袋、杯子；外套掛在椅背）
-    r = random.Random(88); spots = [(t['x'] + dx, t['z'] + sz * 0.3) for t in F['longTables'] for dx in (-1.0, 0.0, 1.0) for sz in (-1, 1)]
-    spots += [(t['x'] + dx, t['z'] + sz * 0.22) for t in F['tables4'] for dx in (-0.3, 0.3) for sz in (-1, 1)]
-    r.shuffle(spots); yT = Y0 + 0.75
-    for k, (x, z) in enumerate(spots[:22]):
-        kind = k % 5
-        if kind == 0:   # 筆電
-            props.crbox(x - 0.17, x + 0.17, yT, yT + 0.015, z - 0.12, z + 0.12, '#b8bcc0', r=0.005)
-            sgn = 1 if z < min(F['longTables'] + F['tables4'], key=lambda t: abs(t['z'] - z))['z'] else -1
-            props.cbox(x - 0.17, x + 0.17, yT + 0.015, yT + 0.24, z + sgn * 0.12 - 0.006, z + sgn * 0.12 + 0.006, '#9ea2a6')
-        elif kind == 1:   # 兩三本課本
-            for j in range(r.randint(1, 3)): props.crbox(x - 0.12, x + 0.12, yT + j * 0.035, yT + (j + 1) * 0.035, z - 0.16, z + 0.16, r.choice(['#24345f', '#a03a34', '#2f5a4a', '#5a3a2a']), r=0.004)
-        elif kind == 2:   # 攤開的筆記本＋螢光筆
-            props.cbox(x - 0.2, x + 0.2, yT, yT + 0.008, z - 0.14, z + 0.14, '#f6f4ee'); props.cbox(x + 0.05, x + 0.15, yT + 0.008, yT + 0.02, z - 0.02, z, '#e8e040')
-        elif kind == 3:   # 杯子（白杯藍蓋＋吸管）
-            newpaint(props, lambda: props.add_bm(L.lathe([(0.0, 0.0), (0.04, 0.0), (0.048, 0.16), (0.05, 0.17), (0.0, 0.175)], seg=12), Matrix.Translation(g2b(x, yT, z))), '#f4f4f2'); props.cbox(x - 0.004, x + 0.004, yT + 0.17, yT + 0.26, z - 0.004, z + 0.004, '#e8782a')
-        else:            # 紙袋
-            props.crbox(x - 0.1, x + 0.1, yT, yT + 0.28, z - 0.06, z + 0.06, '#d8b88a', r=0.008); props.cbox(x - 0.05, x + 0.05, yT + 0.12, yT + 0.2, z + 0.06, z + 0.062, '#24345f')
+    # v2：每張桌子都有東西（參考圖：筆電、課本、筆記本、筆袋、飲料杯、紙袋、背包；外套掛在椅背）——重複的小東西用 instancing（同一個網格放很多個）
+    PROTO = {}
+
+    def proto(name, build, mat=None):
+        m = CMesh(f'P_{name}', mat or m_vc) if mat is None else Mesh(f'P_{name}', mat)
+        build(m); ob = m.finish(root, uv=(mat is None), smooth=True) if mat is None else m.finish(root, uv=False)
+        me = ob.data; bpy.data.objects.remove(ob); PROTO[name] = me
+
+    def put(name, x, y, z, yaw):
+        ob = bpy.data.objects.new(f'I_{name}_{len(bpy.data.objects)}', PROTO[name]); B.scene().collection.objects.link(ob); ob.parent = root
+        ob.matrix_world = Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(yaw, 4, 'Z')
+
+    # 本地座標：+z＝朝向坐的人；y 0＝桌面
+    def b_laptop(col):
+        def f(m):
+            m.crbox(-0.16, 0.16, 0.0, 0.016, -0.11, 0.11, col, r=0.006, seg=1)                   # 底座
+            m.cbox(-0.13, 0.13, 0.016, 0.018, -0.02, 0.08, '#2a2c30')                               # 鍵盤
+            m.crbox(-0.16, 0.16, 0.016, 0.235, -0.125, -0.11, col, r=0.006, seg=1)               # 螢幕的殼（立著）
+        return f
+    proto('laptop_s', b_laptop('#b8bcc0')); proto('laptop_d', b_laptop('#3c3e44'))
+    for k in range(6):
+        proto(f'screen{k}', lambda m, k=k: gquad(m, [(-0.145, 0.03, -0.108), (0.145, 0.03, -0.108), (0.145, 0.225, -0.108), (-0.145, 0.225, -0.108)], GR[f'laptop{k}']), m_screens)
+    BK = [('#24345f', 0), ('#8c2422', 1), ('#203060', 2), ('#285a46', 3), ('#6e4628', 4)]
+    def b_books(idx):
+        def f(m):
+            y = 0.0
+            for (bi, th) in idx:
+                col = BK[bi][0]; m.crbox(-0.12, 0.12, y, y + th, -0.165, 0.165, col, r=0.004, seg=1)
+                m.cbox(-0.115, 0.115, y + 0.004, y + th - 0.004, -0.17, -0.165, '#efe8d8')             # 書頁那一側
+                y += th
+        return f
+    def b_titles(idx):
+        def f(m):
+            y = 0.0
+            for (bi, th) in idx: y += th
+            bi = idx[-1][0]; u0, v0, u1, v1 = 0, 0, 1, 1
+            r_ = (bi / 5, 0.0, (bi + 1) / 5, 1.0)
+            uvl = m.bm.loops.layers.uv.verify(); f_ = m.bm.faces.new([m.bm.verts.new(g2b(*p_)) for p_ in ((-0.11, y + 0.001, 0.155), (0.11, y + 0.001, 0.155), (0.11, y + 0.001, -0.155), (-0.11, y + 0.001, -0.155))])
+            for lp, uv in zip(f_.loops, ((r_[0], 0.05), (r_[2], 0.05), (r_[2], 0.95), (r_[0], 0.95))): lp[uvl].uv = (uv[0], uv[1])
+            y = 0.0   # 書背（朝坐的人）也貼書名
+            for (bi, th) in idx:
+                f2 = m.bm.faces.new([m.bm.verts.new(g2b(*p_)) for p_ in ((-0.12, y + 0.003, 0.1655), (0.12, y + 0.003, 0.1655), (0.12, y + th - 0.003, 0.1655), (-0.12, y + th - 0.003, 0.1655))])
+                for lp, uv in zip(f2.loops, ((bi / 5, 0.3), ((bi + 1) / 5, 0.3), ((bi + 1) / 5, 0.7), (bi / 5, 0.7))): lp[uvl].uv = uv
+                y += th
+        return f
+    STACKS = [[(1, 0.045), (0, 0.05)], [(2, 0.04)], [(4, 0.035), (3, 0.04), (1, 0.045)], [(0, 0.05)]]   # 刑法＋民法（總則）、憲法、法學緒論＋行政法＋刑法、民法（總則）
+    for k, st_ in enumerate(STACKS): proto(f'books{k}', b_books(st_)); proto(f'titles{k}', b_titles(st_), IM['books'])
+    def b_cup(m):
+        m.paint(clathe_(m, [(0.0, 0.0), (0.04, 0.0), (0.048, 0.16), (0.0, 0.16)]), '#f4f4f2')
+        m.paint(clathe_(m, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.012), (0.0, 0.014)], y=0.16), '#24345f')
+        m.paint(clathe_(m, [(0.044, 0.0), (0.0465, 0.0), (0.0472, 0.04), (0.0446, 0.04)], y=0.07), '#e8782a')
+        m.cbox(-0.004, 0.004, 0.17, 0.27, -0.004, 0.004, '#e8782a')
+    def clathe_(m, prof, y=0.0, seg=12):
+        f0 = set(m.bm.faces); m.add_bm(L.lathe(prof, seg=seg), Matrix.Translation(g2b(0, y, 0))); return [f for f in m.bm.faces if f not in f0]
+    proto('cup', b_cup)
+    def b_notebook(m):
+        m.cbox(-0.21, 0.0, 0.0, 0.008, -0.15, 0.15, '#f6f4ee'); m.cbox(0.0, 0.21, 0.0, 0.01, -0.15, 0.15, '#f2f0ea')
+        for k in range(8): m.cbox(-0.19, -0.02, 0.0085, 0.009, -0.12 + k * 0.03, -0.115 + k * 0.03, '#9ab0c8')
+        m.cbox(0.05, 0.16, 0.01, 0.022, 0.02, 0.035, '#e8e040'); m.cbox(0.02, 0.15, 0.01, 0.02, -0.06, -0.05, '#3a6ac8')
+    proto('notebook', b_notebook)
+    proto('pencase', lambda m: m.crbox(-0.1, 0.1, 0.0, 0.05, -0.035, 0.035, '#2c3448', r=0.02, seg=2))
+    def b_bag(m): m.crbox(-0.1, 0.1, 0.0, 0.28, -0.06, 0.06, '#d8b88a', r=0.006, seg=1); m.cbox(-0.05, 0.05, 0.12, 0.2, 0.06, 0.063, '#24345f'); m.cbox(-0.03, 0.03, 0.15, 0.18, 0.063, 0.064, '#e8782a')
+    proto('bag', b_bag)
+    def b_pack(col):
+        def f(m):
+            m.crbox(-0.15, 0.15, 0.0, 0.44, -0.09, 0.09, col, r=0.05, seg=2); m.crbox(-0.11, 0.11, 0.05, 0.22, 0.09, 0.15, col, r=0.03, seg=1)   # 本體、前口袋
+            m.cbox(-0.1, 0.1, 0.2, 0.21, 0.15, 0.152, '#1a1a1a'); m.crbox(-0.04, 0.04, 0.44, 0.47, -0.02, 0.02, '#1a1a1a', r=0.008, seg=1)       # 拉鍊、提把
+            for sx in (-0.09, 0.09): m.crbox(sx - 0.025, sx + 0.025, 0.08, 0.4, -0.12, -0.09, '#1e1e20', r=0.01, seg=1)                          # 背帶
+        return f
+    proto('pack_k', b_pack('#26272a')); proto('pack_n', b_pack('#2c3a5c')); proto('pack_g', b_pack('#6a6e72'))
+    # 每一個座位前面的桌面放什麼
+    spots = []   # (人坐的 x, z, 面向 yaw, 到桌面中心的距離, 桌面高度)
+    for t in F['longTables']:
+        for dx in (-1.0, 0.0, 1.0): spots += [(t['x'] + dx, t['z'] - 0.75, 0.0, 0.5), (t['x'] + dx, t['z'] + 0.75, math.pi, 0.5)]
+    for t in F['tables4']:
+        for dx in (-0.3, 0.3): spots += [(t['x'] + dx, t['z'] - 0.6, 0.0, 0.42), (t['x'] + dx, t['z'] + 0.6, math.pi, 0.42)]
+    for z in F['westTables2']: spots += [(-5.1, z - 0.55, 0.0, 0.38), (-5.1, z + 0.55, math.pi, 0.38)]
+    for x in F['frontTables2']: spots += [(x - 0.55, 7.1, math.pi / 2, 0.38), (x + 0.55, 7.1, -math.pi / 2, 0.38)]
+    for z in F['eastStools']: spots.append((5.05, z, math.pi / 2, 0.62))
+    for x in F['backStools']: spots.append((x, -7.05, math.pi, 0.62))
+    r = random.Random(88); yT = Y0 + 0.75; cnt = {}
+    for (sx, sz, yaw, fw) in spots:
+        fx, fz = math.sin(yaw), math.cos(yaw); rx, rz = math.cos(yaw), -math.sin(yaw); iy = yaw + math.pi
+        def at(lat, fwd): return sx + fx * fwd + rx * lat, sz + fz * fwd + rz * lat
+        lap = r.random() < 0.55
+        if lap:
+            nm = r.choice(['laptop_s', 'laptop_s', 'laptop_d']); x, z = at(0.0, fw + 0.02); put(nm, x, yT, z, iy); put(f'screen{r.randint(0, 5)}', x, yT, z, iy)
+        else:
+            x, z = at(0.0, fw - 0.06); put('notebook', x, yT, z, iy + r.uniform(-0.2, 0.2))
+        if r.random() < 0.65:
+            k = r.randint(0, 3); x, z = at(r.choice([-0.28, 0.27]), fw); a_ = iy + r.uniform(-0.25, 0.25); put(f'books{k}', x, yT, z, a_); put(f'titles{k}', x, yT, z, a_)
+        if r.random() < 0.7: x, z = at(r.choice([-0.24, 0.26]), fw - 0.12); put('cup', x, yT, z, 0.0)
+        if r.random() < 0.3: x, z = at(0.12, fw - 0.2); put('pencase', x, yT, z, iy + r.uniform(-0.4, 0.4))
+        if r.random() < 0.14: x, z = at(-0.2, fw + 0.12); put('bag', x, yT, z, iy)
+        if r.random() < 0.3: x, z = at(0.34, -0.05); put(r.choice(['pack_k', 'pack_n', 'pack_g']), x, Y0, z, yaw + math.pi / 2 + r.uniform(-0.3, 0.3))   # 背包靠在椅子旁邊的地上
     for (x, z) in ((-0.0, -5.35), (2.4, -0.4)):   # 掛在椅背上的外套
         props.crbox(x - 0.2, x + 0.2, Y0 + 0.55, Y0 + 0.9, z - 0.04 - 0.22, z + 0.04 - 0.22, '#8a8c8e', r=0.04)
 
