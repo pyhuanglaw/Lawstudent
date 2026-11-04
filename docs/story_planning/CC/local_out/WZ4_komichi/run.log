@@ -15,7 +15,7 @@ INFO [1400] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名�
 PASS [1400] 溫州街有「進去小路」  {"x": -4.8, "z": -4.6, "r": 1.4, "label": "進去小路"}
   [   2.8s] 到達「進去小路」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [-4.8, 2.78, 0.71], "player": [-4.8, 0, -4.36], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
-FAIL [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [-4.8, 2.78, 0.71], "player": [-4.8, 0, -4.36], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+INFO [1400] 玩家視角：沒有進到店裡（14:00 這個時間可能沒開），只截了門口  {"mode": "follow", "cam": [-4.8, 2.78, 0.71], "player": [-4.8, 0, -4.36], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
 == komichi 2200
   [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、2200、條件事件關閉
   [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "kmc_bulb", "kmc_ceiling_wood", "kmc_floor_wood", "kmc_glass", "kmc_leaf_pothos", "kmc_print", "kmc_vc", "kmc_vc_gloss", "kmc_vc_metal", "kmc_walnut", "kmc_wall_aged", "kmc_window_view", "wz_glow_batch", "desk_props", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF4_HairCard_HAIR", "NM4_HairCard_HAIR", "NM5_HairCard_HAIR", "NF5_HairCard_HAIR", "NM6_HairCard_HAIR"]
@@ -29,156 +29,153 @@ INFO [2200] 符合 ^(km_|komichi|a2[0-9]_) 的材質 mesh 數 0（0＝材質名�
   [2200] table_mid：calls 131、tris 293284
   [前置／捷徑] 讀檔：wenzhou (-4.8, -2.4)、2200、條件事件關閉
 PASS [2200] 溫州街有「進去小路」  {"x": -4.8, "z": -4.6, "r": 1.4, "label": "進去小路"}
-  [   2.7s] 到達「進去小路」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [   2.6s] 到達「進去小路」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
   [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
-FAIL [2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [-2, 3.13, 6.76], "player": [-2, 0, 3.05], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
 == SEATS 全部座位
   [前置／捷徑] 讀檔：wz_teishoku (-2.0, 3.05)、1400、條件事件關閉
   座位：[{"x": -0.15, "z": 2.9, "label": "坐下", "kind": null, "sx": -0.15, "sz": 2.9}, {"x": 1.1, "z": 2.9, "label": "坐下", "kind": null, "sx": 1.1, "sz": 2.9}, {"x": 1.8, "z": 2.9, "label": "坐下", "kind": null, "sx": 1.8, "sz": 2.9}, {"x": 3.05, "z": 2.9, "label": "坐下", "kind": null, "sx": 3.05, "sz": 2.9}, {"x": 0.6, "z": 0.1, "label": "坐下", "kind": null, "sx": 0.6, "sz": 0.1}, {"x": 1.2, "z": 0.1, "label": "坐下", "kind": null, "sx": 1.2, "sz": 0.1}, {"x": 0.6, "z": 1.4, "label": "坐下", "kind": null, "sx": 0.6, "sz": 1.4}, {"x": 1.2, "z": 1.4, "label": "坐下", "kind": null, "sx": 1.2, "sz": 1.4}, {"x": -3.6, "z": 0.1, "label": "坐卡座", "kind": null, "sx": -3.6, "sz": 0.1}, {"x": -3.6, "z": 0.7, "label": "坐卡座", "kind": null, "sx": -3.6, "sz": 0.7}, {"x": -1.6, "z": 0.1, "label": "坐下", "kind": null, "sx": -1.6, "sz": 0.1}, {"x": -1.6, "z": 0.7, "label": "坐下", "kind": null, "sx": -1.6, "sz": 0.7}, {"x": -3, "z": -1.35, "label": "坐吧台", "kind": null, "sx": -3, "sz": -1.35}, {"x": -2.05, "z": -1.35, "label": "坐吧台", "kind": null, "sx": -2.05, "sz": -1.35}, {"x": -1.1, "z": -1.35, "label": "坐吧台", "kind": null, "sx": -1.1, "sz": -1.35}, {"x": -0.15, "z": -1.35, "label": "坐吧台", "kind": null, "sx": -0.15, "sz": -1.35}, {"x": 0.8, "z": -1.35, "label": "坐吧台", "kind": null, "sx": 0.8, "sz": -1.35}, {"x": 1.75, "z": -1.35, "label": "坐吧台", "kind": null, "sx": 1.75, "sz": -1.35}]
 PASS [SEATS] 配置裡玩家可坐的座位 18 張（預期 18）、互動點 18 個  {"layout": 18, "its": 18}
 PASS [SEATS] npcOnly 的 4 張沒有「坐下」按鈕  []
 PASS [FLOOR] 有座位  18
-  [  45.6s] 到達「坐下」附近（0.34 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，46 秒
+  [  45.5s] 到達「坐下」附近（0.34 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，46 秒
 PASS [F00] 走到「坐下」(-0.15, 2.9)：按鈕出現  {"interact": "坐下", "x": -0.0, "z": 2.6}
   [F00] 坐下：{"mode": "follow", "cam": [-0.15, 3.13, 6.61], "player": [-0.15, 0, 2.9], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
 PASS [F00] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F00] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
 FAIL [F00] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.15, 3.13, 6.61], "between": []}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F00] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 3.29, "stand": true, "x": 3.2, "z": 2.22, "pose": "idle"}
-  [  88.6s] 到達「坐下」附近（0.30 m）：點地面 33 次、轉鏡頭 0 次、搖桿 2 次，89 秒
+PASS [F00] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 3.28, "stand": true, "x": 3.2, "z": 2.28, "pose": "idle"}
+  [  88.3s] 到達「坐下」附近（0.30 m）：點地面 33 次、轉鏡頭 0 次、搖桿 2 次，88 秒
 PASS [F01] 走到「坐下」(1.1, 2.9)：按鈕出現  {"interact": "坐下", "x": 1.08, "z": 2.6}
   [F01] 坐下：{"mode": "follow", "cam": [1.1, 3.13, 6.61], "player": [1.1, 0, 2.9], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
 PASS [F01] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F01] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
 FAIL [F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.1, 3.13, 6.61], "between": []}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F01] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.16, "stand": true, "x": 3.2, "z": 2.2, "pose": "idle"}
-  [  45.5s] 到達「坐下」附近（0.32 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，46 秒
+PASS [F01] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.16, "stand": true, "x": 3.2, "z": 2.22, "pose": "idle"}
+  [  45.4s] 到達「坐下」附近（0.32 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，45 秒
 PASS [F02] 走到「坐下」(1.8, 2.9)：按鈕出現  {"interact": "坐下", "x": 1.92, "z": 2.6}
   [F02] 坐下：{"mode": "follow", "cam": [1.8, 3.13, 6.61], "player": [1.8, 0, 2.9], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
 PASS [F02] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F02] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
 FAIL [F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.8, 3.13, 6.61], "between": []}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F02] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 4.5, "stand": true, "x": 2, "z": -1.27, "pose": "idle"}
-  [  94.5s] 到達「坐下」附近（0.30 m）：點地面 34 次、轉鏡頭 1 次、搖桿 2 次，94 秒
+PASS [F02] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 4.47, "stand": true, "x": 1.97, "z": -1.28, "pose": "idle"}
+  [  94.2s] 到達「坐下」附近（0.30 m）：點地面 34 次、轉鏡頭 1 次、搖桿 2 次，94 秒
 PASS [F03] 走到「坐下」(3.05, 2.9)：按鈕出現  {"interact": "坐下", "x": 3.08, "z": 2.6}
-  [F03] 坐下：{"mode": "follow", "cam": [2.14, 3.13, -0.7], "player": [3.05, 0, 2.9], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.41}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+  [F03] 坐下：{"mode": "follow", "cam": [2.12, 3.13, -0.7], "player": [3.05, 0, 2.9], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.33}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
 PASS [F03] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F03] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.14, 3.13, -0.7], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.41}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+FAIL [F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.12, 3.13, -0.7], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.33}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F03] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.55, "stand": true, "x": -0.94, "z": -1.28, "pose": "idle"}
+PASS [F03] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.54, "stand": true, "x": -0.9, "z": -1.27, "pose": "idle"}
   [   2.6s] 到達「坐下」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
 PASS [F04] 走到「坐下」(0.6, 0.1)：按鈕出現  {"interact": "坐下", "x": 0.47, "z": 0.07}
-  [F04] 坐下：{"mode": "follow", "cam": [-0.31, 3.13, -3.5], "player": [0.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_print", "mat": "kmc_print", "d": 2.82}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.85}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.87}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.19}]}
+  [F04] 坐下：{"mode": "follow", "cam": [-0.33, 3.13, -3.5], "player": [0.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.11}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
 PASS [F04] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F04] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F04] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.31, 3.13, -3.5], "between": [{"mesh": "kmc_print", "mat": "kmc_print", "d": 2.82}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.85}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.87}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.19}]}
+FAIL [F04] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.33, 3.13, -3.5], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.11}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F04] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.68, "stand": true, "x": -3.28, "z": -1.28, "pose": "idle"}
-  [   4.1s] 到達「坐下」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [F04] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.7, "stand": true, "x": -3.27, "z": -1.28, "pose": "idle"}
+  [   3.1s] 到達「坐下」附近（0.05 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
 PASS [F05] 走到「坐下」(1.2, 0.1)：按鈕出現  {"interact": "坐下", "x": 1.25, "z": 0.08}
-  [F05] 坐下：{"mode": "follow", "cam": [0.29, 3.13, -3.5], "player": [1.2, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.72}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.81}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.46}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
+  [F05] 坐下：{"mode": "follow", "cam": [0.27, 3.13, -3.5], "player": [1.2, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.72}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.81}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
 PASS [F05] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F05] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.29, 3.13, -3.5], "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.72}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.81}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.46}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
+FAIL [F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.27, 3.13, -3.5], "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.72}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.81}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F05] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.55, "stand": true, "x": -2.03, "z": -1.26, "pose": "idle"}
-  [ 180.3s] 走不到「坐下」：最後位置 (-0.08,1.2)，目標 (0.6,1.4)；點地面 67 次、轉鏡頭 0 次、搖桿 4 次
-  [ 180.3s]   這段時間：畫面 22116 格／180 秒、遊戲時間 16.35→17.55、paused=False、開著的面板 []
-PASS [F06] 走到「坐下」(0.6, 1.4)：按鈕出現  {"interact": "坐下", "x": -0.08, "z": 1.2}
-  [F06] 坐下：{"mode": "follow", "cam": [-0.31, 3.13, -2.2], "player": [0.6, 0, 1.4], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.19}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+PASS [F05] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.56, "stand": true, "x": -2.03, "z": -1.28, "pose": "idle"}
+  [ 182.0s] 走不到「坐下」：最後位置 (-0.11,1.22)，目標 (0.6,1.4)；點地面 68 次、轉鏡頭 0 次、搖桿 4 次
+  [ 182.0s]   這段時間：畫面 25926 格／182 秒、遊戲時間 16.33→17.55、paused=False、開著的面板 []
+PASS [F06] 走到「坐下」(0.6, 1.4)：按鈕出現  {"interact": "坐下", "x": -0.11, "z": 1.22}
+  [F06] 坐下：{"mode": "follow", "cam": [-0.33, 3.13, -2.2], "player": [0.6, 0, 1.4], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.11}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
 PASS [F06] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F06] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.31, 3.13, -2.2], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.19}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+FAIL [F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.33, 3.13, -2.2], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.11}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.5}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F06] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.7, "stand": true, "x": -3.28, "z": -1.28, "pose": "idle"}
-  [ 180.7s] 走不到「坐下」：最後位置 (0.2,1.87)，目標 (1.2,1.4)；點地面 64 次、轉鏡頭 0 次、搖桿 4 次
-  [ 180.7s]   這段時間：畫面 12711 格／181 秒、遊戲時間 17.60→18.80、paused=False、開著的面板 []
-FAIL [F07] 走到「坐下」(1.2, 1.4)：按鈕出現  {"interact": "聽一句", "x": 0.2, "z": 1.87}
-  [ 181.6s] 走不到「坐卡座」：最後位置 (-3.08,0.15)，目標 (-3.6,0.1)；點地面 61 次、轉鏡頭 1 次、搖桿 6 次
-  [ 181.6s]   這段時間：畫面 9438 格／182 秒、遊戲時間 18.81→20.02、paused=False、開著的面板 []
+PASS [F06] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.69, "stand": true, "x": -3.28, "z": -1.28, "pose": "idle"}
+  [ 181.1s] 走不到「坐下」：最後位置 (0.96,1.97)，目標 (1.2,1.4)；點地面 65 次、轉鏡頭 0 次、搖桿 4 次
+  [ 181.1s]   這段時間：畫面 16110 格／181 秒、遊戲時間 17.60→18.80、paused=False、開著的面板 []
+PASS [F07] 走到「坐下」(1.2, 1.4)：按鈕出現  {"interact": "坐下", "x": 0.96, "z": 1.97}
+  [F07] 坐下：{"mode": "follow", "cam": [0.27, 3.13, -2.2], "player": [1.2, 0, 1.4], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+PASS [F07] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F07] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F07] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.27, 3.13, -2.2], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F07] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 5.07, "stand": true, "x": -3, "z": 3.26, "pose": "idle"}
+  [ 182.0s] 走不到「坐卡座」：最後位置 (-3.08,0.15)，目標 (-3.6,0.1)；點地面 64 次、轉鏡頭 0 次、搖桿 6 次
+  [ 182.0s]   這段時間：畫面 10897 格／182 秒、遊戲時間 18.89→20.10、paused=False、開著的面板 []
 PASS [F08] 走到「坐卡座」(-3.6, 0.1)：按鈕出現  {"interact": "坐卡座", "x": -3.08, "z": 0.15}
-  [F08] 坐下：{"mode": "follow", "cam": [-0.12, 3.13, 1.41], "player": [-3.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.85}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.86}, {"mesh": "kmc_bulb", "mat": "kmc_bulb", "d": 0.95}, {"mesh": "kmc_bulb", "mat": "kmc_bulb", "d": 1.03}]}
+  [F08] 坐下：{"mode": "follow", "cam": [-4.53, 3.13, -3.5], "player": [-3.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 0.71}, {"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 0.87}]}
 PASS [F08] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F08] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.12, 3.13, 1.41], "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.85}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.86}, {"mesh": "kmc_bulb", "mat": "kmc_bulb", "d": 0.95}, {"mesh": "kmc_bulb", "mat": "kmc_bulb", "d": 1.03}]}
+FAIL [F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-4.53, 3.13, -3.5], "between": [{"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 0.71}, {"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 0.87}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F08] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 3.67, "stand": true, "x": 0.91, "z": -1.27, "pose": "idle"}
-  [ 182.0s] 走不到「坐卡座」：最後位置 (-3.08,0.65)，目標 (-3.6,0.7)；點地面 57 次、轉鏡頭 0 次、搖桿 6 次
-  [ 182.0s]   這段時間：畫面 14285 格／182 秒、遊戲時間 20.10→21.31、paused=False、開著的面板 []
+PASS [F08] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.66, "stand": true, "x": -3.27, "z": -0.61, "pose": "idle"}
+  [ 180.7s] 走不到「坐卡座」：最後位置 (-3.08,0.65)，目標 (-3.6,0.7)；點地面 58 次、轉鏡頭 0 次、搖桿 6 次
+  [ 180.8s]   這段時間：畫面 15920 格／181 秒、遊戲時間 20.18→21.39、paused=False、開著的面板 []
 PASS [F09] 走到「坐卡座」(-3.6, 0.7)：按鈕出現  {"interact": "坐卡座", "x": -3.08, "z": 0.65}
-  [F09] 坐下：{"mode": "follow", "cam": [-0.12, 3.13, 2.01], "player": [-3.6, 0, 0.7], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+  [F09] 坐下：{"mode": "follow", "cam": [-4.53, 3.13, -2.9], "player": [-3.6, 0, 0.7], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 1.39}, {"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 1.55}]}
 PASS [F09] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F09] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.12, 3.13, 2.01], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+FAIL [F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-4.53, 3.13, -2.9], "between": [{"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 1.39}, {"mesh": "kmc_wood", "mat": "kmc_walnut", "d": 1.55}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F09] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.12, "stand": true, "x": 1.4, "z": 3.27, "pose": "idle"}
-  [   2.6s] 到達「坐下」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
-PASS [F10] 走到「坐下」(-1.6, 0.1)：按鈕出現  {"interact": "坐下", "x": -1.42, "z": 0.25}
-  [F10] 坐下：{"mode": "follow", "cam": [1.88, 3.13, 1.41], "player": [-1.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.92}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.93}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.93}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 3.03}]}
+PASS [F09] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 5.16, "stand": true, "x": -1.05, "z": 3.27, "pose": "idle"}
+  [  20.6s] 到達「坐下」附近（0.24 m）：點地面 8 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+PASS [F10] 走到「坐下」(-1.6, 0.1)：按鈕出現  {"interact": "坐下", "x": -1.56, "z": 0.34}
+  [F10] 坐下：{"mode": "follow", "cam": [-2.53, 3.13, -3.5], "player": [-1.6, 0, 0.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_print", "mat": "kmc_print", "d": 2.78}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.79}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.86}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}]}
 PASS [F10] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F10] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.88, 3.13, 1.41], "between": [{"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.92}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.93}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 2.93}, {"mesh": "kmc_vcm", "mat": "kmc_vc_metal", "d": 3.03}]}
+FAIL [F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.53, 3.13, -3.5], "between": [{"mesh": "kmc_print", "mat": "kmc_print", "d": 2.78}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.79}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 2.86}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 3.47}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F10] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.58, "stand": true, "x": 3.2, "z": 3.27, "pose": "idle"}
-  [  57.1s] 到達「坐下」附近（0.08 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，57 秒
-PASS [F11] 走到「坐下」(-1.6, 0.7)：按鈕出現  {"interact": "坐下", "x": -1.53, "z": 0.73}
-  [F11] 坐下：{"mode": "follow", "cam": [1.88, 3.13, 2.01], "player": [-1.6, 0, 0.7], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+PASS [F10] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.44, "stand": true, "x": -3.28, "z": -1.27, "pose": "idle"}
+  [   2.6s] 到達「坐下」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [F11] 走到「坐下」(-1.6, 0.7)：按鈕出現  {"interact": "坐下", "x": -1.55, "z": 0.47}
+  [F11] 坐下：{"mode": "follow", "cam": [-2.53, 3.13, -2.9], "player": [-1.6, 0, 0.7], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
 PASS [F11] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
 INFO [F11] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.88, 3.13, 2.01], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
+FAIL [F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.53, 3.13, -2.9], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 3.51}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F11] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.81, "stand": true, "x": 1.95, "z": 2.16, "pose": "run"}
-  [  89.5s] 到達「坐吧台」附近（0.10 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，89 秒
-PASS [F12] 走到「坐吧台」(-3, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -3.01, "z": -1.25}
-  [F12] 坐下：{"mode": "follow", "cam": [0.48, 3.4, -0.04], "player": [-3, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+PASS [F11] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.45, "stand": true, "x": -3.28, "z": 1.67, "pose": "idle"}
+  [  53.0s] 到達「坐吧台」附近（0.15 m）：點地面 19 次、轉鏡頭 0 次、搖桿 1 次，53 秒
+PASS [F12] 走到「坐吧台」(-3, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -2.87, "z": -1.28}
+  [F12] 坐下：{"mode": "follow", "cam": [-2.98, 3.4, -4.95], "player": [-2.05, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.37}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.81}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
 PASS [F12] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
 INFO [F12] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F12] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [0.48, 3.4, -0.04], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+FAIL [F12] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.98, 3.4, -4.95], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.37}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.81}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F12] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.31, "stand": true, "x": -0.04, "z": 0.32, "pose": "run"}
-  [  67.4s] 到達「坐吧台」附近（0.13 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，67 秒
-PASS [F13] 走到「坐吧台」(-2.05, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -2.06, "z": -1.22}
-  [F13] 坐下：{"mode": "follow", "cam": [1.43, 3.4, -0.04], "player": [-2.05, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+PASS [F12] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.67, "stand": true, "x": -3.28, "z": -0.61, "pose": "idle"}
+  [ 181.6s] 走不到「坐吧台」：最後位置 (-1.85,-0.89)，目標 (-2.05,-1.35)；點地面 68 次、轉鏡頭 0 次、搖桿 3 次
+  [ 181.6s]   這段時間：畫面 20542 格／182 秒、遊戲時間 22.24→23.45、paused=False、開著的面板 []
+PASS [F13] 走到「坐吧台」(-2.05, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -1.85, "z": -0.89}
+  [F13] 坐下：{"mode": "follow", "cam": [-2.98, 3.4, -4.95], "player": [-2.05, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.37}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.81}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
 PASS [F13] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
 INFO [F13] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F13] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.43, 3.4, -0.04], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+FAIL [F13] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.98, 3.4, -4.95], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.37}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.81}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F13] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.33, "stand": true, "x": 2.01, "z": 0.27, "pose": "run"}
-  [  73.5s] 到達「坐吧台」附近（0.15 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，73 秒
-PASS [F14] 走到「坐吧台」(-1.1, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -1.11, "z": -1.2}
-  [F14] 坐下：{"mode": "follow", "cam": [2.38, 3.4, -0.04], "player": [-1.1, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+PASS [F13] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.68, "stand": true, "x": -3.28, "z": -0.6, "pose": "idle"}
+  [ 181.0s] 走不到「坐吧台」：最後位置 (-0.9,-0.89)，目標 (-1.1,-1.35)；點地面 68 次、轉鏡頭 0 次、搖桿 3 次
+  [ 181.0s]   這段時間：畫面 22982 格／181 秒、遊戲時間 23.53→24.74、paused=False、開著的面板 []
+PASS [F14] 走到「坐吧台」(-1.1, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -0.9, "z": -0.89}
+  [F14] 坐下：{"mode": "follow", "cam": [-2.03, 3.4, -4.95], "player": [-1.1, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
 PASS [F14] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
 INFO [F14] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F14] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.38, 3.4, -0.04], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+FAIL [F14] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.03, 3.4, -4.95], "between": [{"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F14] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.41, "stand": true, "x": 2.96, "z": 0.71, "pose": "run"}
-  [  73.5s] 到達「坐吧台」附近（0.16 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，73 秒
-PASS [F15] 走到「坐吧台」(-0.15, -1.35)：按鈕出現  {"interact": "坐吧台", "x": -0.16, "z": -1.19}
-  [F15] 坐下：{"mode": "follow", "cam": [3.33, 3.4, -0.04], "player": [-0.15, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.65}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.85}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+PASS [F14] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.68, "stand": true, "x": -3.28, "z": -1.28, "pose": "idle"}
+  [ 181.0s] 走不到「坐吧台」：最後位置 (0.06,-0.89)，目標 (-0.15,-1.35)；點地面 68 次、轉鏡頭 0 次、搖桿 3 次
+  [ 181.0s]   這段時間：畫面 21928 格／181 秒、遊戲時間 24.79→25.99、paused=False、開著的面板 []
+PASS [F15] 走到「坐吧台」(-0.15, -1.35)：按鈕出現  {"interact": "坐吧台", "x": 0.06, "z": -0.89}
+  [F15] 坐下：{"mode": "follow", "cam": [-1.08, 3.4, -4.95], "player": [-0.15, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.28}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.29}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.48}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.5}]}
 PASS [F15] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
 INFO [F15] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F15] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [3.33, 3.4, -0.04], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.65}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.85}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
+FAIL [F15] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-1.08, 3.4, -4.95], "between": [{"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.28}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.29}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.48}, {"mesh": "kmc_vcg", "mat": "kmc_vc_gloss", "d": 0.5}]}
   坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F15] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.45, "stand": true, "x": 2.75, "z": 0.93, "pose": "run"}
-  [  68.5s] 到達「坐吧台」附近（0.23 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，68 秒
-PASS [F16] 走到「坐吧台」(0.8, -1.35)：按鈕出現  {"interact": "坐吧台", "x": 0.81, "z": -1.12}
-  [F16] 坐下：{"mode": "follow", "cam": [4.28, 3.4, -0.04], "player": [0.8, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.77}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.85}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
-PASS [F16] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
-INFO [F16] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F16] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [4.28, 3.4, -0.04], "between": [{"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.77}, {"mesh": "kmc_vc", "mat": "kmc_vc", "d": 2.85}, {"mesh": "kmc_ceiling", "mat": "kmc_ceiling_wood", "d": 2.86}]}
-  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F16] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.05, "stand": true, "x": 3.12, "z": 0.93, "pose": "run"}
-  [  67.4s] 到達「坐吧台」附近（0.21 m）：點地面 8 次、轉鏡頭 0 次、搖桿 1 次，67 秒
-PASS [F17] 走到「坐吧台」(1.75, -1.35)：按鈕出現  {"interact": "坐吧台", "x": 1.76, "z": -1.14}
-  [F17] 坐下：{"mode": "follow", "cam": [5.23, 3.4, -0.04], "player": [1.75, 0.27, -1.35], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.79, "between": []}
-PASS [F17] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
-INFO [F17] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
-FAIL [F17] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [5.23, 3.4, -0.04], "between": []}
-  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
-PASS [F17] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.87, "stand": true, "x": 2.91, "z": 0.93, "pose": "run"}
+PASS [F15] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.64, "stand": true, "x": -3.27, "z": -1.28, "pose": "idle"}
+  [ 126.2s] 到達「坐吧台」附近（0.00 m）：點地面 28 次、轉鏡頭 2 次、搖桿 2 次，126 秒
+FAIL [F16] 走到「坐吧台」(0.8, -1.35)：按鈕出現  {"interact": "", "x": 0.8, "z": -1.35}
+  [   2.8s] 到達「坐吧台」附近（0.21 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL [F17] 走到「坐吧台」(1.75, -1.35)：按鈕出現  {"interact": "和阿哲說話", "x": 1.54, "z": -1.35}
 PASS 沒有 JS 例外  []
-FAILED 20: [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）；[2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）；[F00] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F04] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F07] 走到「坐下」(1.2, 1.4)：按鈕出現；[F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F12] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F13] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F14] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F15] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F16] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F17] 鏡頭不在牆裡、頭到鏡頭之間沒有東西
+FAILED 18: [F00] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F04] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F07] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F12] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F13] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F14] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F15] 鏡頭不在牆裡、頭到鏡頭之間沒有東西；[F16] 走到「坐吧台」(0.8, -1.35)：按鈕出現；[F17] 走到「坐吧台」(1.75, -1.35)：按鈕出現

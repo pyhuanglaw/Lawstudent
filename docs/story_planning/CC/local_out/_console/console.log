@@ -777,3 +777,29 @@
 [17:53:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
 [17:53:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
 [17:55:18] [res] cpu=46% mem=55% (17.4/31.4 GB) chrome_testing=20  END GG_int_art
+    remote: Internal Server Error        
+    remote: Request ID D0D9:E4CAF:764343:AB2520:6AEB010A        
+    remote: Time 2026-11-04T09:55:23Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    remote: Internal Server Error        
+    remote: Request ID D0DA:3F3B33:75E4D4:AAAF6F:6AEB0110        
+    remote: Time 2026-11-04T09:55:30Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2c892b789..73aebbe51  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:55:38] ==== END   GG_int_art  exit=0  628s   ====
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:55:45] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:55:45] memory 47% before starting GG_shops2_afar_seat (2 running)
+[17:55:45] ==== START GG_shops2_afar_seat  (probe @ 809163ee4) ====
+[17:55:46] [res] cpu=76% mem=47% (14.9/31.4 GB) chrome_testing=10  END WZ4_komichi
