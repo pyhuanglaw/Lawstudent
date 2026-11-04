@@ -129,6 +129,11 @@ def prints(path):
         x0, y0 = 1536, k * 170; b = _cell(f'hang{k}', x0, y0, 512, 160); d.rectangle(b, fill=(250, 250, 246)); d.rectangle([x0, y0, x0 + 512, y0 + 160], outline=(200, 200, 194), width=4)
         d.rectangle([x0 + 14, y0 + 14, x0 + 146, y0 + 146], fill=GREEN); icon(d, ic, x0 + 34, y0 + 36, 92, (255, 255, 255), 7)
         d.text((x0 + 170, y0 + 24), t1, font=font(58), fill=(40, 40, 36)); d.text((x0 + 172, y0 + 96), t2, font=font(40), fill=(70, 70, 64))
+    # 貨架頂上的分類吊牌（綠底白字）三張 512 × 150（放在印刷圖集下半，y 1720～）
+    for k, (ic, t1, t2) in enumerate((('basket', '日用品', '清潔・衛生'), ('bowl', '零食・泡麵', '點心・飲品'), ('book', '文具・生活', '讀書・雨具'))):
+        x0, y0 = k * 520, 1720; b = _cell(f'hangG{k}', x0, y0, 512, 150); d.rounded_rectangle(b, radius=14, fill=GREEN); d.rounded_rectangle([x0 + 6, y0 + 6, x0 + 506, y0 + 144], radius=12, outline=(236, 242, 222), width=4)
+        icon(d, ic, x0 + 26, y0 + 32, 86, (255, 255, 255), 7)
+        d.text((x0 + 140, y0 + 18), t1, font=font(60), fill=(255, 255, 255)); d.text((x0 + 144, y0 + 90), t2, font=font(38), fill=(232, 240, 214))
     # 冷藏櫃標頭（綠底白字）三張 680 × 110
     for k, t in enumerate(('飲品冷藏', '鮮食・三明治・飯糰', '冷凍食品')):
         b = _cell(f'cool{k}', 0, 320 + k * 120, 680, 110); d.rectangle(b, fill=GREEN); d.rectangle([b[0], b[3] - 10, b[2], b[3]], fill=DKGREEN)
