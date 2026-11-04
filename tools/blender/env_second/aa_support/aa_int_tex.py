@@ -1,5 +1,5 @@
 """日常失速、木曜日、山嵐書店室內用的自製貼圖（PIL／numpy；系統 python3）。AA 子代理 2026-11-03。
-用法：python3 tools/blender/env_second/aa_support/aa_int_tex.py [dof|mok|shl|all]
+用法：python3 tools/blender/env_second/aa_support/aa_int_tex.py [dof|mok|shl|yej|all]
 輸出到 tools/blender/env_second/textures/gen/：
   dof_checker.png  綠白格紋地磚（一張 2×2 格，每格 0.3 m）
   dof_print.png    黑板菜單、首都帝大海報、社團傳單、桌遊盒、店長的紙條…（1024 圖集，格子位置見 CELLS）
@@ -373,6 +373,28 @@ def shl():
     im.save(os.path.join(GEN, 'shl_print.png'))
 
 
+def yej():
+    """頁間書屋（公館，AA 2026-11-04）：用山嵐的圖集（雜誌封面、書封、明信片、書堆側面）改兩塊：(0,0)～(6,1) 分類牌、(0,4) 4×2 手寫黑板菜單。"""
+    rng = np.random.default_rng(1104); base = os.path.join(GEN, 'shl_print.png')
+    if not os.path.exists(base): shl()
+    im = Image.open(base).convert('RGB'); d = ImageDraw.Draw(im)
+    cats = [('文學・小說', 'FICTION'), ('散文・人文', 'ESSAYS'), ('法律', 'LAW'), ('歷史', 'HISTORY'), ('藝術・設計', 'ART & DESIGN'), ('大學生活', 'CAMPUS LIFE'), ('新書推薦', 'NEW'), ('頁間書屋', 'BETWEEN PAGES')]
+    for k, (s_, en) in enumerate(cats):
+        c, r = (k % 4) * 2, k // 4; bx = box(c, r, 2, 1); x0, y0, x1, y1 = bx
+        if k < 7:
+            paper(im, bx, '#2f3a33', rng, grain=0.06); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#c9b48a', width=2)
+            text_c(d, ((x0 + x1) / 2, (y0 + y1) / 2 - 10), s_, F(40 if len(s_) <= 2 else 34), '#f1ead8'); text_c(d, ((x0 + x1) / 2, y1 - 22), en, F(13), '#c9b48a')
+        else:   # 店名牌（淺木底、深綠字）
+            paper(im, bx, '#d9bf96', rng, grain=0.08); text_c(d, ((x0 + x1) / 2, (y0 + y1) / 2 - 6), s_, F(44), '#2f4a3a'); text_c(d, ((x0 + x1) / 2, y1 - 20), en, F(12), '#5a4630')
+    bx = box(0, 4, 4, 2); paper(im, bx, '#2b302c', rng, grain=0.12); x0, y0, x1, y1 = bx
+    d.rectangle(bx, outline='#7a5a3a', width=10)
+    text_c(d, ((x0 + x1) / 2, y0 + 40), '咖啡・茶飲', F(34), '#f1ead8')
+    for k, (zh, p_) in enumerate((('美式・拿鐵', '90／120'), ('手沖單品', '150'), ('奶茶・茶飲', '100'), ('今日甜點', '110'))):
+        y = y0 + 92 + k * 34; d.text((x0 + 48, y), '・' + zh, font=F(24), fill='#f1ead8'); d.text((x1 - 140, y), p_, font=F(22), fill='#e8c43a')
+    d.ellipse([x1 - 90, y1 - 70, x1 - 40, y1 - 30], outline='#f1ead8', width=3); d.line([x1 - 40, y1 - 58, x1 - 28, y1 - 50], fill='#f1ead8', width=3)
+    im.save(os.path.join(GEN, 'yej_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -449,4 +471,5 @@ if __name__ == '__main__':
     if w in ('shl', 'all'): shl()
     if w in ('mok', 'all'): bookrows('mok_bookrows.png', '#3b2a1f', 618)
     if w in ('shl', 'all'): bookrows('shl_bookrows.png', '#a88a62', 613, law=True)
+    if w in ('yej', 'all'): yej()
     print('ok', w)
