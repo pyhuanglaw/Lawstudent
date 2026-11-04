@@ -16967,6 +16967,58 @@
    "task": "ATTEND-ROLLCALL-1102",
    "integration": "已驗收",
    "note": "LAWWW 06:4x 整合；19 支 Node PASS；場景美術 BB 驗收（D120）"
+  },
+  {
+   "id": "DL-LAWWW2-b0160dc98",
+   "date": "2026-11-04T16:07Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "b0160dc98",
+   "msg": "ACTIONED",
+   "what": "阿德影印 v2.1（LAWWW2 outbox 寫 ADE-V2.1-1104＝ADE-V2-1104 的第二輪）：照 BB_255 的 1～5 改",
+   "task": "ADE-V2-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 16:1x 整合 d63fed15e；7 支 Node ALL PASS；等 CC 遊戲畫面、BB 判 ART"
+  },
+  {
+   "id": "DL-LAWWW2-a59fe71f5",
+   "date": "2026-11-04T15:22Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a59fe71f5",
+   "msg": "ACTIONED",
+   "what": "阿德影印 v2（Blender 階段 BB 有條件通過）",
+   "task": "ADE-V2-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 15:4x 整合 ba038059e"
+  },
+  {
+   "id": "DL-LAWWW2-e030cc9af",
+   "date": "2026-11-04T16:27Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e030cc9af",
+   "msg": "ACTIONED",
+   "what": "普通、博雅（博思）教學館外觀 v2（照官網照片，D136）",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 16:3x 整合 71281be8e"
+  },
+  {
+   "id": "DL-LAWWW2-9be98513b",
+   "date": "2026-11-04T16:33Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9be98513b",
+   "msg": "ACTIONED",
+   "what": "TEACH-PTBOYA v2b：博雅雨遮天窗洞改一排五個小方形天窗（BB D136）",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 16:3x 整合 031cb3e01"
   }
  ],
  "ignored": [
