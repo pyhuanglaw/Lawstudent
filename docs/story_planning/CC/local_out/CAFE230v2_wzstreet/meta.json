@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "CAFE230v2_wzstreet",
+  "sha": "75a095355",
+  "kind": "game",
+  "script": "tests/wz_street_integration.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T15:40:21",
+  "end": "2026-11-04T15:42:13",
+  "seconds": 112,
+  "exit": 1,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 39,
+    "mem": 52,
+    "used_gb": 18.0,
+    "chrome_testing": 22
+  }
+}
