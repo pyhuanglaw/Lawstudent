@@ -516,11 +516,14 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
             l0, l1 = dx - dw / 2, dx + dw / 2
             for k in range(1, 8): y = 0.55 + k * (ih - 0.45) / 8; xf.box(w, l0, l1, y - 0.012, y + 0.012, gz - 0.03, gz + 0.03)
             for k in range(1, int((l1 - l0) / 0.15)): x = l0 + k * 0.15; xf.box(w, x - 0.012, x + 0.012, 0.55, ih + 0.1, gz - 0.03, gz + 0.03)
+            pane = sf.get('pane', 1.2); sill = sf.get('sill', 0.55)
             for x0_, x1_ in ((-iw / 2, l0), (l1, iw / 2)):                                                         # 窗：中間一道橫框、每 1.2 m 一根直框
                 if x1_ - x0_ < 0.3: continue
                 xf.box(w, x0_, x1_, 1.45, 1.5, gz - 0.04, gz + 0.04)
-                n_ = max(1, round((x1_ - x0_) / 1.2))
-                for j in range(1, n_): x = x0_ + j * (x1_ - x0_) / n_; xf.box(w, x - 0.03, x + 0.03, 0.55, ih + 0.1, gz - 0.04, gz + 0.04)
+                if sill > 0.55: xf.box(w, x0_, x1_, 0.55, sill, gz - 0.04, gz + 0.04); xf.box(w, x0_, x1_, sill, sill + 0.05, gz - 0.07, gz + 0.12)   # WZ-FIVE-1104 小路：木腰板到窗台 0.85＋窗台板（參考圖）
+                if pane < 1.2: xf.box(w, x0_, x1_, ih - 0.3, ih - 0.26, gz - 0.035, gz + 0.035)                                             # 上面再一道細橫框（小格子窗）
+                n_ = max(1, round((x1_ - x0_) / pane))
+                for j in range(1, n_): x = x0_ + j * (x1_ - x0_) / n_; xf.box(w, x - (0.03 if pane >= 1.2 else 0.02), x + (0.03 if pane >= 1.2 else 0.02), sill, ih + 0.1, gz - 0.04, gz + 0.04)
         for x in (dx - 0.1, dx + 0.07): xf.box(acc(M['brass']), x, x + 0.03, 1.0, 1.2, gz + 0.06, gz + 0.1)
     elif door == 'auto':
         a = acc(SK['alu2']); dw = sf.get('door_w', 2.4)
@@ -565,9 +568,15 @@ def shopfront_v2(spec, xf, W, gt, wall):
     xf.box(acc(SK[sf['floor']]), -W / 2 + 0.28, W / 2 - 0.28, 0.0, 0.03, gz, 0.0)
     st = sf.get('step', 0.0)
     if st > 0: xf.box(acc(SK[sf['floor']]), -iw / 2, iw / 2, 0.0, st, gz, gz + 0.3)
+    if sf.get('woodfront'): wall = acc(SK['wood_dk'])   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：一樓整面深色木頭——壁柱、門楣都換成深色木板（原本是外牆的白色面磚）
     for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.14) - 0.14, sx * (W / 2 - 0.14) + 0.14, 0, GH, gz, 0.0)
     xf.box(acc(M['ceilA']), -W / 2 + 0.28, W / 2 - 0.28, top - 0.04, top, gz, 0.0)
     xf.box(wall, -W / 2, W / 2, top, GH, -0.25, 0.0)
+    if sf.get('woodfront'):
+        bt = acc(SK['black'])
+        for k in range(int(W / 0.24)): x = -W / 2 + 0.12 + k * 0.24; xf.box(wall, x - 0.012, x + 0.012, top + 0.02, GH - 0.02, 0.0, 0.012)   # 門楣的直條木板（一條一條的接縫）
+        for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.3) - 0.03, sx * (W / 2 - 0.3) + 0.03, 0.0, GH, 0.0, 0.03)                   # 壁柱外緣的木框
+        xf.box(wall, -W / 2, W / 2, GH - 0.06, GH + 0.02, -0.02, 0.06); xf.box(bt, -W / 2, W / 2, 0.0, 0.12, -0.02, 0.02)     # 上緣壓條、下面的黑色踢腳
     lm = SK['lamp_cool'] if sf.get('light') == 'cool' else SK['lamp']
     for lx in ([0.0] if W < 7 else [-W / 4, W / 4]):
         q = xf.p(lx, top - 0.06, gz / 2); acc(lm).sphere(q, 0.07, seg=8, rings=4)
@@ -604,9 +613,19 @@ def shopfront_v2(spec, xf, W, gt, wall):
         xf.quad(m, [(-aw / 2, ay0, 0.0), (aw / 2, ay0, 0.0), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)]); xf.quad(m, [(-aw / 2, ay0, 0.0), (aw / 2, ay0, 0.0), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)][::-1])
         for x in (-aw / 2 + 0.2, 0.0, aw / 2 - 0.2): xf.cyl(acc(SK['black']), (x, ay0 - 0.5, 0.0), (x, ay1 - 0.02, ad - 0.05), 0.012, seg=5)
     elif aw_ and aw_.startswith('#'):
-        m = acc(awning_mat(aw_)); ay0, ay1, ad = top, top - 0.4, 0.9
+        m = acc(SK['wood_dk'] if sf.get('woodfront') else awning_mat(aw_)); ay0, ay1, ad = top, top - 0.4, 0.9   # 小路：木板的雨遮（參考圖是深色木頭的小屋簷，原本的帆布從下面看是淺色）
         xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)][::-1]); xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)])
         xf.box(m, -aw / 2, aw / 2, ay1 - 0.2, ay1, ad - 0.01, ad + 0.01)
+        if sf.get('ivy'):   # WZ-FIVE-1104 小路：雨遮上垂下來的常春藤（參考圖：左右兩段、中間門口那一段少）；葉片卡、不投影（cafe_leaf_ 開頭）
+            iv = acc(base['ivy']); rr = random.Random(hash(spec['id']) % 991)
+            for (xa, xb, n_) in sf['ivy']:
+                for k in range(n_):
+                    for j in range(2):   # 一條藤蔓兩張窄卡交叉（原本一張寬卡，渲染出來像一塊塊綠色方旗）
+                        x = xa + (xb - xa) * (k + rr.random()) / n_; hh = rr.uniform(0.3, 1.0) * (0.7 if j else 1.0); q = xf.p(x, ay1 - 0.2 - hh / 2 + 0.05, ad + 0.02 + rr.uniform(0, 0.08))
+                        CL.card(iv, q[0], q[1], q[2], rr.uniform(0.14, 0.22), hh, ry=xf.ry + (0.7 if j else -0.7) + rr.uniform(-0.3, 0.3), rx=rr.uniform(-0.12, 0.12), uv=CL.rand_uv(0.35))
+                for k in range(n_ * 2):                                                                                # 雨遮頂上爬的一叢叢
+                    x = xa + (xb - xa) * rr.random(); q = xf.p(x, ay0 - (ay0 - ay1) * 0.6 + 0.08, 0.3 + rr.uniform(0, 0.5))
+                    CL.card(iv, q[0], q[1], q[2], rr.uniform(0.3, 0.45), rr.uniform(0.22, 0.32), ry=xf.ry + rr.uniform(-0.6, 0.6), rx=-1.0 + rr.uniform(-0.3, 0.3), uv=CL.rand_uv(0.5))
     # 玻璃上的紙條、門邊的牌子
     if sf.get('lantern'):   # WZ-FIVE-1104：紅燈籠（小路參考圖：門右邊掛一顆，上下黑色蓋子、鐵勾掛在門楣）
         lx, ly = sf['lantern']; lz = gz + 0.34
@@ -1960,7 +1979,7 @@ SF = {
     'B2': dict(inner=True, door='alu', sign='panel', awning=None, floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6, sign_w=5.6, sconce=[-2.86, 2.86], bright=1.0,   # WZ-SECOND-1104 常在洗衣（原本的自助洗衣；參考圖 changzai_laundry_ext）：整面灰藍燈箱招牌、沒有雨遮、兩側壁燈
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4)], board=(1.35, 1.0, 0.9, 0.7),   # AA_413（10-23）：門右邊的布告欄（尋貓的紙條搬到布告欄上；「看布告欄」在世界 x −16.4）
                clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
-    'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', lantern=(-0.75, 2.05), light='warm', door_x=-2.0, door_w=1.8, ac=4.8,   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
+    'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', lantern=(-0.75, 2.05), light='warm', door_x=-2.0, door_w=1.8, ac=4.8, woodfront=True, sill=0.85, pane=0.6, ivy=[(-6.4, -3.3, 7), (0.2, 6.2, 11)],   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
                notes=[],
                clutter=[('aboard', 0.2, 0.45, 'wz_komichi_menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', 2.6, 0.32, 'broad'), ('pot', 5.4, 0.32)]),
     'B5': dict(split=[dict(id='B5', kind='tea', x0=-7.0, x1=0.0, floor='f_white', shop=dict(name='帝大紅茶', sub='紅茶・奶茶', signBg='#6e2a2c', signColor='#efe4cf', band='#6e2a2c'),   # WZ-SECOND-1104 帝大紅茶（原本的巷口茶飲；參考圖 dida_tea_ext）
