@@ -71,7 +71,10 @@ RAY_JS = """(p=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const o
   const rc=new THREE.Raycaster(o,d,0.05,60); rc.camera=cam; const list=[]; E.scene.traverseVisible(o=>{ if(o.isMesh&&!o.isSprite&&!o.isInstancedMesh) list.push(o); }); const hits=[]; for(const o of list){ try{ o.raycast(rc,hits); }catch(e){} } hits.sort((a,b)=>a.distance-b.distance);
   return hits.slice(0,3).map(h=>{ const g=h.object.geometry, a=g&&g.attributes; const u1=a&&(a.uv1||a.uv2); let u=null; if(u1&&h.face){ u=[u1.getX(h.face.a),u1.getX(h.face.b),u1.getX(h.face.c)].map(v=>+v.toFixed(3)); }
     const mt=Array.isArray(h.object.material)?h.object.material[0]:h.object.material;
-    return {mesh:h.object.name, mat:mt&&mt.name, dist:+h.distance.toFixed(2), uv1:!!u1, uv1name:a&&(a.uv1?'uv1':(a.uv2?'uv2':null)), uv1x:u, attrs:a?Object.keys(a):[]}; }); })"""
+    const par=[]; for(let q=h.object.parent;q&&par.length<10;q=q.parent) par.push(q.name||('('+q.type+')'));
+    let bb=null; try{ const B=new THREE.Box3().setFromObject(h.object); bb=[B.min.x,B.min.y,B.min.z,B.max.x,B.max.y,B.max.z].map(v=>+v.toFixed(2)); }catch(e){}
+    return {mesh:h.object.name, mat:mt&&mt.name, dist:+h.distance.toFixed(2), uv1:!!u1, uv1name:a&&(a.uv1?'uv1':(a.uv2?'uv2':null)), uv1x:u, attrs:a?Object.keys(a):[],
+      parents:par, map:!!(mt&&mt.map), emissiveMap:!!(mt&&mt.emissiveMap), transparent:!!(mt&&mt.transparent), opacity:mt&&mt.opacity, verts:a&&a.position?a.position.count:null, bbox:bb, uuid:h.object.uuid.slice(0,8), ud:Object.keys(h.object.userData||{}).slice(0,8)}; }); })"""
 
 
 def luma_of(png, quad, iw, ih):
