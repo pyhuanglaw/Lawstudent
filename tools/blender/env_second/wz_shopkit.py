@@ -935,7 +935,7 @@ def gg_front(spec, xf, W, wall, gz, ceil_y):
     for (lx, ly) in c.get('lamps', []):   # 黑色鵝頸燈（照招牌）
         k_ = acc(SK['black']); xf.box(k_, lx - 0.05, lx + 0.05, ly - 0.06, ly + 0.06, gz, gz + 0.03); xf.cyl(k_, (lx, ly, gz + 0.03), (lx, ly + 0.05, gz + 0.38), 0.012, seg=5)
         xf.cyl(k_, (lx, ly - 0.02, gz + 0.38), (lx, ly - 0.14, gz + 0.42), 0.09, seg=10); acc(M['bulb']).sphere(xf.p(lx, ly - 0.13, gz + 0.42), 0.04, seg=6, rings=3)
-        q = xf.p(lx, ly - 0.2, gz + 0.42); CL.glow(root, 'gg_xs_lamp', q[0], q[1], q[2], color='rgba(255,214,150,1)', size=0.8, day=0.1, night=0.85)
+        q = xf.p(lx, ly - 0.2, gz + 0.42); CL.glow(root, 'gg_xs_lamp', q[0], q[1], q[2], color='rgba(255,214,150,1)', size=0.8, day=0.0, night=0.85)   # 11-04 白天 0.1→0（公館的光暈白天都是 0：gongguan_glb_integration「11:00 不畫」）
     # 門口的東西（騎樓走得到的地方：腳印寫進 props.json，遊戲端照 GG_PROP_BLOCKS 擋）
     for it in c.get('props', []):
         k = it[0]

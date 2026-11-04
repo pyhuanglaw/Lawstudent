@@ -124,7 +124,7 @@ if SET == 'gongguan':
                     door=dict(x0=-5.15, x1=-4.05, y1=2.85, leaf=2.4, style='wood', key='ggbook_door', d=0.6, hinge='left', mat=True),
                     signs=[('ggbook_sign', -2.4, 3.2, 2.93, 3.8, 'front')], sign_back='wood',
                     decals=[('ggbook_pic', -5.98, -5.48, 1.55, 2.05, 0.03)], lamps=[(-4.6, 3.35), (5.95, 3.35)],
-                    props=[('box', 'ggbook_cart', -6.2, -5.45, 1.15, 0.42, 0.35, 'wood'), ('board', 'ggbook_board', -3.0, 0.5), ('pot', -3.85, 0.3, 'fern'), ('pot', 5.95, 0.35, 'broad')]),
+                    props=[('box', 'ggbook_cart', -6.2, -5.45, 1.15, 0.42, 0.35, 'wood'), ('board', 'ggbook_board', -3.0, 0.5), ('pot', -2.2, 0.3, 'fern'), ('pot', 5.95, 0.35, 'broad')]),   # 11-04 蕨類盆栽 −3.85→−2.2（GG_ext_nav2：原本壓到門的左緣，門口 (−36.4,21) 站不住；搬到立牌另一邊）
         'G03': dict(dep=3.0, wallc='#f0eee8', frame='alu', street='ggcvs_sign', street_x=0.6, street_lit=True, sign_lit=True,   # 日和便利店：自動門＋整面玻璃；白色招牌框、綠色線
                     cards=[('ggcvs_side', -5.3, -1.45, 0.08, 2.73, 0.8, [-4.0, -2.7]), ('ggcvs_int', -1.33, 2.93, 0.08, 2.73, 0.8, [-0.56, 1.36])],
                     door=dict(x0=-0.56, x1=1.36, y1=2.73, leaf=2.13, style='auto', frame='alu', mat=True),
