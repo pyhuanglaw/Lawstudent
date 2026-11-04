@@ -1,7 +1,7 @@
 """阿德影印輸出（溫州街 A1，區域 wz_print）室內的自製貼圖（CC，帳號 A 的建模子代理，2026-11-04；照參考圖 wz_ade_int 做）。系統 python3（PIL、numpy）：
   python3 tools/blender/env_second/bb_support/ade_tex.py [--preview <輸出.jpg>]
 輸出到 tools/blender/env_second/textures/gen/：
-  ade_goods.png   印刷圖集（2048×1280）：影印・輸出價目表（價錢照室內參考圖，AA_654）、「裝訂樣式」「學生報告範例」展示板、A4／A3 紙箱、紙包、紙疊側面、
+  ade_goods.png   印刷圖集（2048×1536）：影印・輸出價目表（價錢照室內參考圖，AA_654）、「裝訂樣式」「學生報告範例」展示板、A4／A3 紙箱、紙包、紙疊側面、
                   彩色資料夾書背、筆記本／活頁本書背、便利貼、牛皮紙袋（待取件）、掃碼付款小牌、櫃台的小告示、自助影印機上的貼紙、鍵盤、
                   裁紙刀的刻度板、軟木公告板（家教、租屋、讀書會的傳單）、阿芃的習作、冷氣出風口、層架標籤
   ade_alpha.png   透明貼圖集（1024²）：黃金葛葉 4 種、小葉 2 種、店門玻璃上的白色貼字（從店裡看是反的）、營業時間貼紙
@@ -164,6 +164,26 @@ def spines(kind):
     return f
 
 
+SPINE_COLS = ['#f2a0a8', '#f6c49a', '#f4e08a', '#bfe0a0', '#9fd8c8', '#a8c8f0', '#c0b0ec', '#e8b0dc', '#f0f0f0', '#9ab4e0', '#f8d0a8', '#b8e8e0',
+              '#b88a5a', '#a87a4a', '#2a2a2c', '#2a2a2c', '#3a5a8a', '#8a2a2a', '#4a6a4a', '#d8d4cc']   # v1c：0–11 粉彩資料夾、12–19 筆記本／活頁本
+
+
+def spine_set(im, d):
+    """v1c：一本一本的書背（BB_257 §7-2：資料夾、筆記本要一本一本做）。20 欄，每欄一本：0–11 資料夾（白色標籤、拉環孔）、
+    12–13 牛皮紙筆記本（米色標籤）、14 黑色線圈本（線圈點）、15 黑色硬殼、16–19 活頁本（色條）。模型取一欄貼在書背、側面取同一欄中間的純色"""
+    w, h = im.size; n = len(SPINE_COLS); cw = w / n
+    for k, c in enumerate(SPINE_COLS):
+        x0, x1 = k * cw, (k + 1) * cw; d.rectangle([x0, 0, x1, h], fill=rgb(c)); d.rectangle([x1 - 2, 0, x1, h], fill=rgb('#4a4a48')); d.rectangle([x0, 0, x0 + 1, h], fill=rgb('#4a4a48'))
+        if k < 12:
+            d.rectangle([x0 + 5, h * 0.12, x1 - 6, h * 0.28], fill=rgb('#fbfbf8')); d.line([x0 + 8, h * 0.18, x1 - 9, h * 0.18], fill=rgb('#9a9a9a'), width=1)
+            d.ellipse([(x0 + x1) / 2 - 5, h * 0.78, (x0 + x1) / 2 + 5, h * 0.84], fill=rgb('#606060'))
+        elif k < 14: d.rectangle([x0 + 4, h * 0.2, x1 - 5, h * 0.32], fill=rgb('#f2ead8'))
+        elif k == 14:
+            for y in range(int(h * 0.06), int(h * 0.95), 9): d.ellipse([(x0 + x1) / 2 - 3, y, (x0 + x1) / 2 + 3, y + 5], fill=rgb('#b8b8b8'))
+        else: d.rectangle([x0 + 3, h * 0.08, x1 - 4, h * 0.13], fill=rgb('#e8e4d8' if k > 15 else '#5a5a58'))
+    a = np.asarray(im, np.float32); a *= 1 - 0.14 * np.linspace(0, 1, h)[:, None, None] ** 2; im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)))
+
+
 def sticky(im, d):
     w, h = im.size; cols = ['#f8e870', '#f8b0c8', '#a8e0f0', '#b8f0a0', '#f8c880', '#f4f4a0']
     for k in range(6): d.rectangle([k * w / 6, 0, (k + 1) * w / 6 - 3, h], fill=rgb(cols[k]))
@@ -251,19 +271,31 @@ def shelf_label(im, d):
     for k, s in enumerate(labels): x = k * w / 6; d.rectangle([x + 2, 2, x + w / 6 - 2, h - 2], outline=rgb(NAVY), width=2); text_c(d, (x + w / 12, h / 2), s, font(h * 0.5), rgb(NAVY))
 
 
-def copier_front(kind):
-    """影印機正面（紙匣、把手、紙量窗、型號是虛構的「AD-」；沒有品牌）"""
+def copier_front(kind, model=None, n=None, tag=0.06, dark_last=None):
+    """影印機正面（紙匣、把手、紙量窗、型號是虛構的「AD-」；沒有品牌）。v1c：兩台自助、兩台生產用各是不同機型（BB_257 §7-4）——
+    model＝型號、n＝紙匣層數、tag＝「自助」貼紙的位置（左邊算起的比例）、dark_last＝最下面一格是不是深灰的大容量紙匣"""
+    model = model or ('AD-3020' if kind == 'self' else 'AD-7500'); n = n or (4 if kind == 'self' else 3)
+    dark_last = (kind == 'self') if dark_last is None else dark_last
     def f(im, d):
-        w, h = im.size; d.rectangle([0, 0, w, h], fill=rgb('#eeeeec')); n = 4 if kind == 'self' else 3
-        top = h * 0.18; d.rectangle([0, 0, w, top], fill=rgb('#e4e4e2')); d.text((10, top / 2), 'AD-' + ('3020' if kind == 'self' else '7500'), font=font(top * 0.35), fill=rgb('#6a6e76'), anchor='lm')
+        w, h = im.size; d.rectangle([0, 0, w, h], fill=rgb('#eeeeec'))
+        top = h * 0.18; d.rectangle([0, 0, w, top], fill=rgb('#e4e4e2')); d.text((10, top / 2), model, font=font(top * 0.35), fill=rgb('#6a6e76'), anchor='lm')
+        ys = [top + k * (h - top) / n for k in range(n + 1)]
+        if dark_last and n >= 3: ys = [top + k * (h - top) * 0.62 / (n - 1) for k in range(n)] + [h]   # 大容量紙匣：最下面一格比較高
         for k in range(n):
-            y0 = top + k * (h - top) / n; y1 = y0 + (h - top) / n
+            y0, y1 = ys[k], ys[k + 1]
             d.rectangle([4, y0 + 3, w - 4, y1 - 3], fill=rgb('#f2f2f0'), outline=rgb('#b8bab8'), width=2)
             d.rounded_rectangle([w * 0.35, y0 + (y1 - y0) * 0.3, w * 0.65, y0 + (y1 - y0) * 0.45], radius=4, fill=rgb('#3a3c40'))
-            d.rectangle([w * 0.8, y0 + (y1 - y0) * 0.3, w * 0.9, y0 + (y1 - y0) * 0.6], fill=rgb('#9aa0a8')); d.text((10, y0 + (y1 - y0) * 0.5), str(k + 1), font=font((y1 - y0) * 0.22), fill=rgb('#8a8e96'), anchor='lm')
-        if kind == 'self': d.rectangle([4, h - (h - top) / n + 3, w - 4, h - 3], fill=rgb('#3c3f44'))   # 最下面一格深灰（參考圖）
-        if kind == 'self': d.rectangle([w * 0.06, top + 6, w * 0.3, top + 6 + h * 0.07], fill=rgb('#2b56a8')); text_c(d, (w * 0.18, top + 6 + h * 0.035), '自助', font(h * 0.045), rgb(WHITE))
+            d.rectangle([w * 0.8, y0 + (y1 - y0) * 0.3, w * 0.9, y0 + (y1 - y0) * 0.6], fill=rgb('#9aa0a8')); d.text((10, y0 + (y1 - y0) * 0.5), str(k + 1), font=font(min(y1 - y0, 60) * 0.22), fill=rgb('#8a8e96'), anchor='lm')
+        if dark_last: d.rectangle([4, ys[-2] + 3, w - 4, h - 3], fill=rgb('#3c3f44'))   # 最下面一格深灰（參考圖）
+        if kind == 'self': d.rectangle([w * tag, top + 6, w * (tag + 0.24), top + 6 + h * 0.07], fill=rgb('#2b56a8')); text_c(d, (w * (tag + 0.12), top + 6 + h * 0.035), '自助', font(h * 0.045), rgb(WHITE))
     return f
+
+
+def repair_note(im, d):
+    """貼在生產用影印機 B 上的「維修中」紙（手寫、膠帶）"""
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=rgb('#fbfaf2')); rr = np.random.default_rng(12)
+    hand(d, w * 0.12, h * 0.34, '維修中', font(h * 0.3), rgb('#c0302a'), rr, jit=2.5); hand(d, w * 0.12, h * 0.7, '請用左邊那台 ── 阿德', font(h * 0.12), rgb('#202020'), rr)
+    d.rectangle([w * 0.38, 0, w * 0.62, h * 0.08], fill=(226, 222, 196))
 
 
 def self_copy_note(im, d):
@@ -292,7 +324,7 @@ def calendar(im, d):
         for c in range(7): text_c(d, (w * (0.1 + c * 0.13), h * (0.6 + r * 0.075)), str(r * 7 + c + 1) if r * 7 + c < 30 else '', font(h * 0.04), rgb('#c02a2a' if c == 0 else '#333333'))
 
 
-GW, GH = 2048, 1280   # 用到的高度約 1180：圖集只做 2048×1280（GLB 小一點）
+GW, GH = 2048, 1536   # v1c：多了兩台不同機型的影印機正面、「維修中」，2048×1280 放不下
 G = Image.new('RGB', (GW, GH), rgb('#e8e8e4'))
 CELLS = [('price_board', 512, 784, price_board), ('board_binding', 384, 560, sample_board('裝訂樣式', 'bind')), ('board_report', 512, 652, sample_board('學生報告範例', 'report')),
          ('box_a4', 256, 176, paper_box('A4')), ('box_a3', 256, 176, paper_box('A3')), ('ream_a4', 256, 64, ream('#2b56a8', 'A4 80g')), ('ream_a3', 256, 64, ream('#3a8a5a', 'A3 80g')),
@@ -302,6 +334,7 @@ CELLS = [('price_board', 512, 784, price_board), ('board_binding', 384, 560, sam
          ('note_pickup', 256, 128, note(['取件處', '請報姓名'], head='#2b56a8')), ('note_kid', 192, 128, note(['員工區', '請勿進入'], col='#8a2a2a', paper='#fff8e8')),
          ('self_copy', 192, 128, self_copy_note), ('keyboard', 256, 80, keyboard), ('cutter_top', 256, 192, cutter_top), ('cork', 360, 460, cork), ('workbook', 160, 220, workbook),
          ('ac_grille', 192, 192, ac_grille), ('shelf_label', 512, 40, shelf_label), ('copier_self', 256, 320, copier_front('self')), ('copier_prod', 320, 320, copier_front('prod')),
+         ('copier_self_b', 256, 256, copier_front('self', 'AD-2510', 3, tag=0.64, dark_last=True)), ('copier_prod_b', 320, 320, copier_front('prod', 'AD-7800', 2, dark_last=True)), ('note_repair', 192, 128, repair_note), ('spines1', 640, 224, spine_set),
          ('clock', 160, 160, wall_clock), ('plotter_face', 384, 256, plotter_face), ('calendar', 160, 240, calendar)]
 
 
