@@ -1,6 +1,6 @@
 /* 店內偶遇（SHOP-ENCOUNTER-1103；AA_632 第一批、AA_633 第二批、AA_641 修正）＋店裡客人的路人句（SHOP-DINERS-1103；AA_640）。自動產生，不要手改：python3 tools/shop_enc/import_shop_enc.py
-   來源：docs/story_planning/shop_enc/shop_enc_aa_v1.json@6adb0e47c、docs/story_planning/shop_enc/shop_enc_aa_v2.json@6adb0e47c、docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a、docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c、docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md@a22e53016（劇情匯入白名單）。台詞照抄 AA 的 JSON。
-   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的；2:30 AM 以安那一列的 tag（sofa）是匯入工具照 cafe230_layout.js seatPlan 加的。
+   來源：docs/story_planning/shop_enc/shop_enc_aa_v1.json@6adb0e47c、docs/story_planning/shop_enc/shop_enc_aa_v2.json@6adb0e47c、docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a、docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c、docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md@10020abda（劇情匯入白名單）。台詞照抄 AA 的 JSON。
+   rows 的格式照 src/data/encounters.js（spot＝店的 zone id；巷口茶飲 wz_tea、夏日冰菓室 wz_ice 是溫州街的外帶窗口）；AA_633 的 examOK、months；學姊定食店的 weekMax、selfOnly 是匯入工具照 AA_633 表下第一點加的；2:30 AM 以安那一列的 tag（sofa）是匯入工具照 cafe230_layout.js seatPlan 加的、SUNNY SIDE 阿哲那一列的 tag（bar）照 AA_659 第 2 節加的。
    aa641：宋知寧加聯絡人以後的六則訊息（znMsgs）、她的回覆（znReplies）、第 5 則以後她在的店（znMove）、「一起坐」的時間與旁白（joinH、joinLine）——AA_641 第 2、5 節。
    程式：src/shopenc3d.js（SHOPENC）。*/
 const SHOP_ENC={
@@ -9,7 +9,7 @@ const SHOP_ENC={
   "docs/story_planning/shop_enc/shop_enc_aa_v2.json@6adb0e47c",
   "docs/story_planning/AA_640_店裡客人的路人句.md@22c966e4a",
   "docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md@6adb0e47c",
-  "docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md@a22e53016"
+  "docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md@10020abda"
  ],
  "rules": {
   "v1": {
@@ -373,7 +373,8 @@ const SHOP_ENC={
     ]
    },
    "from": 10.5,
-   "src": "AA_632"
+   "src": "AA_632",
+   "tag": "bar"
   },
   {
    "who": "zhe",
@@ -573,7 +574,7 @@ const SHOP_ENC={
     ],
     "dating": [
      "你怎麼來了。",
-     "坐我對面。今天的魚分你一半。"
+     "坐我對面。今天的餛飩分你一半。"
     ]
    },
    "ex": {
@@ -582,7 +583,7 @@ const SHOP_ENC={
     ]
    },
    "from": 12.5,
-   "src": "AA_633＋AA_655",
+   "src": "AA_633＋AA_655§7",
    "weekMax": 1,
    "selfOnly": true
   }

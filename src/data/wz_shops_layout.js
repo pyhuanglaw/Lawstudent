@@ -10,49 +10,68 @@
    wallsFade：會淡出的牆（模型裡的 WALL_<side>_*；dir＝往室內的法線；遊戲 attachRoomGLB）。 */
 const WZ_SHOPS_LAYOUT = {
   version: 1,
+  /* brunch：照抄 src/data/sunnyside_layout.js（tools/layout/sync_wz_aa_layouts.js；不要手改這一筆，改 AA 的檔再重跑）*/
   brunch: {
-    id: 'wz_brunch', name: 'SUNNY SIDE', glb: 'assets/models/env/second_ai/wz_brunch_interior.glb',
-    w: 6.4, d: 10.0, h: 3.2, wallColor: '#f3ede2', floor: 'wood_light',
-    note: '約 6×10 m（AA_164 2-1）。後面是開放式廚房＋面向客人的出餐檯；左牆三張兩人桌、右邊一張四人桌和一張兩人桌，共 12 個位子；左牆上一個大時鐘，出餐檯上是老闆娘的蛋計時器。',
-    front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55},
+    version: 3,
+    id: 'wz_brunch', name: 'SUNNY SIDE', glb: 'assets/models/env/second_ai/aa_support/sunnyside.glb',
+    w: 6.4, d: 10.0, h: 3.2, wallColor: '#efe6d6', floor: 'checker（黑白斜鋪小方磚）',
+    note: '約 6×10 m 的歐式早午餐（B7）。後面是開放式廚房（銅鍋、不鏽鋼架、排油煙罩），前面一道胡桃木出餐檯（咖啡機、磨豆機、玻璃甜點櫃、兩張高腳凳），上方矮牆掛深綠菜單板；左牆奶油色長沙發卡座、金框鏡子、水彩畫、壁燈；中間和右邊方木桌、大理石小圓桌、曲木藤面椅；右邊中段結帳櫃台（金字木牌、檯燈、收銀機）。',
+    rightWindow: {z0: -2.4, z1: 4.6, sill: 0.75, head: 2.55, mullions: 13, transom: 2.0, color: '#3f5a3c', note: 'v1d（BB_257 §11①、LAWWW2 11-04 06:58）：轉角店的右牆整面落地窗；z 4.6～5.0 是轉角柱，z −5～−2.4 留牆給廚房'},
+    front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55, note: '照舊（FIXED_COORDS §3）'},
     spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
-    seeThru: ['wzs_pendant', 'wzs_bulb'],   /* 吊燈、保溫燈（燈罩、吊線、燈泡）擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空。LAWWW2 10-22 鏡頭遮擋盤點：從門口那一側看坐在左牆桌子的人，前一張桌子的吊燈擋住臉 */
+    seeThru: ['wzs_pendant', 'wzs_bulb'],
+    seeThruNote: '吊燈照舊叫 wzs_pendant（燈罩）、wzs_bulb（燈泡）的材質名稱沒有沿用；新版的吊燈是 GLOW_pendant_*，兩盞在中間桌子上方 2.3 m。LAWWW2 拍鏡頭遮擋時再定要不要透空。',
     exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
-    enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: 'B7 店門（wz_shopkit SF.B7 door_x=-2.0 → 世界 x=42.0；玻璃門在 z=-5.9，門廊在建築的導航阻擋裡，互動點放在人行道上）'},
+    enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: '照舊（B7 店門）'},
     items: [
-      {kind: 'kitchen_line', x: -0.5, z: -4.65, w: 5.0, d: 0.7, note: '後牆的料理台：煎台、爐子、水槽、咖啡機、盤子架'},
+      {kind: 'kitchen_line', x: -0.5, z: -4.65, w: 5.0, d: 0.7, note: '照舊位置：後牆料理台（煎台、爐子、水槽、盤子架）；上面銅鍋吊桿、不鏽鋼層架、排油煙罩'},
       {kind: 'fridge', x: 2.65, z: -4.6, w: 0.8, d: 0.75, h: 1.9},
-      {kind: 'pass_counter', x: -0.7, z: -2.7, w: 4.6, d: 0.5, h: 1.05, note: '出餐檯：上面一層出餐板、兩盞保溫燈；老闆娘的蛋計時器放在右端'},
-      {kind: 'cashier', x: 2.6, z: -1.1, w: 0.8, d: 1.2, h: 1.0, note: '結帳櫃台：收銀機、蛋糕櫃'},
-      {kind: 'table2', x: -2.35, z: -1.3, ry: 0}, {kind: 'table2', x: -2.35, z: 0.5, ry: 0}, {kind: 'table2', x: -2.35, z: 2.3, ry: 0},
-      {kind: 'table4', x: 1.95, z: 1.0, ry: 0}, {kind: 'table2', x: 2.35, z: 3.35, ry: 0},
-      {kind: 'clock', x: -3.17, y: 2.35, z: 0.5, ry: Math.PI / 2, r: 0.32},
-      {kind: 'chalkboard', x: -0.7, y: 2.25, z: -4.97, w: 2.4, h: 0.8},
-      {kind: 'shelf_wall', x: -3.05, y: 1.75, z: -1.3, ry: Math.PI / 2, w: 1.2},
-      {kind: 'plant_big', x: -2.75, z: 4.35}, {kind: 'plant_big', x: 2.85, z: 4.35}
+      {kind: 'pass_counter', x: -0.7, z: -2.7, w: 4.6, d: 0.5, h: 1.05, note: '照舊位置：胡桃木出餐檯（框格面板、淺色石材檯面）：咖啡機、磨豆機、杯子、玻璃甜點櫃（右段）、蛋計時器；左段兩張高腳凳'},
+      {kind: 'menu_wall', x: -0.7, z: -2.98, w: 4.6, y0: 2.2, note: '出餐檯上方的矮牆（2.2 m 到天花板），掛深綠菜單板 2.4 × 0.8（舊的黑板改到這裡）'},
+      {kind: 'cashier', x: 2.6, z: -1.1, w: 0.8, d: 1.2, h: 1.0, note: '照舊位置：胡桃木結帳櫃台（朝走道那一面是金字木牌）、黃銅檯燈、收銀機、名片'},
+      {kind: 'banquette', x0: -3.2, x1: -2.75, z0: -1.6, z1: 1.4, note: '左牆奶油色布面長沙發（直條紋靠背、灰色抱枕）'},
+      {kind: 'mirror', side: 'left', along: -0.1, y: 1.85, w: 0.7, h: 1.0, note: '卡座上方的金框鏡子'},
+      {kind: 'print', side: 'left', along: 2.4, y: 1.7, w: 0.55, h: 0.55, cell: [2, 2, 2, 2]},
+      {kind: 'print', side: 'left', along: -3.7, y: 1.75, w: 0.55, h: 0.55, cell: [4, 2, 2, 2], note: 'v1d：右牆開落地窗，水彩畫二搬到左牆後段'},
+      {kind: 'shelf_wall', x: -3.05, y: 2.2, z: 3.2, ry: Math.PI / 2, w: 1.0, note: '左前牆的小層架：書、黃金葛'},
+      {kind: 'plant_big', x: -2.75, z: 4.45}, {kind: 'plant_big', x: 2.85, z: 4.45}
     ],
-    blocks: [[-0.5, -4.65, 5.0, 0.7], [2.65, -4.6, 0.8, 0.8], [-0.7, -2.7, 4.6, 0.5], [2.6, -1.1, 0.8, 1.2],
-             [-2.35, -1.3, 0.7, 0.7], [-2.35, 0.5, 0.7, 0.7], [-2.35, 2.3, 0.7, 0.7], [1.95, 1.0, 0.8, 1.3], [2.35, 3.35, 0.7, 0.7], [-2.75, 4.35, 0.6, 0.6], [2.85, 4.35, 0.5, 0.5]],
-    walkNote: '中間走道 x −1.75～1.4（從門口走到出餐檯）；出餐檯右端到右牆 x 1.6～3.2、z −2.45～−1.7 是進廚房的路（打工時走）',
+    tables: [
+      {id: 1, kind: 'rect', x: -1.575, z: -0.85, w: 0.55, d: 0.6, note: '卡座桌一（卡座前緣到桌邊 0.6 m）'},
+      {id: 2, kind: 'rect', x: -1.575, z: 0.65, w: 0.55, d: 0.6, note: '卡座桌二'},
+      {id: 3, kind: 'rect', x: -0.3, z: 1.0, w: 0.7, d: 0.7, note: '中間方木桌（面對面兩人）'},
+      {id: 4, kind: 'rect', x: 1.9, z: 0.6, w: 0.7, d: 0.7, note: '右邊方木桌（面對面兩人）'},
+      {id: 5, kind: 'round', x: 2.35, z: 2.75, r: 0.34, note: '右前大理石小圓桌'},
+      {id: 6, kind: 'round', x: -2.1, z: 3.3, r: 0.34, note: '左前窗邊大理石小圓桌'}
+    ],
+    blocks: [
+      [-0.5, -4.65, 5.0, 0.7], [2.65, -4.6, 0.8, 0.8], [-0.7, -2.7, 4.6, 0.5], [2.6, -1.1, 0.8, 1.2],
+      [-2.975, -0.1, 0.45, 3.0], [-1.575, -0.85, 0.57, 0.62], [-1.575, 0.65, 0.57, 0.62],
+      [-0.3, 1.0, 0.72, 0.72], [1.9, 0.6, 0.72, 0.72], [2.35, 2.75, 0.5, 0.5], [-2.1, 3.3, 0.5, 0.5],
+      [-2.75, 4.45, 0.5, 0.5], [2.85, 4.45, 0.5, 0.5]
+    ],
+    walkNote: '門口 (0.4, 4.0) 往裡面：中間走道 x 0.1～1.5 直到出餐檯前（z −2.0）；出餐檯前 z −2.45～−1.75 一條；出餐檯右端到右牆 x 1.6～3.2、z −2.45～−1.7 是進廚房的路（照舊）；卡座從北邊（z −1.9～−1.15）或南邊（z 0.95～1.4）走進卡座和桌子之間 0.6 m 的空檔。',
     seats: [
-      {x: -2.35, z: -1.85, yaw: 0, table: 1, label: '坐下點餐'}, {x: -2.35, z: -0.75, yaw: Math.PI, table: 1, label: '坐下點餐'},
-      {x: -2.35, z: -0.05, yaw: 0, table: 2, label: '坐下點餐'}, {x: -2.35, z: 1.05, yaw: Math.PI, table: 2, label: '坐下點餐'},
-      {x: -2.35, z: 1.75, yaw: 0, table: 3, label: '坐下點餐'}, {x: -2.35, z: 2.85, yaw: Math.PI, table: 3, label: '坐下點餐'},
-      {x: 1.3, z: 0.65, yaw: Math.PI / 2, table: 4, label: '坐下點餐'}, {x: 1.3, z: 1.35, yaw: Math.PI / 2, table: 4, label: '坐下點餐'},
-      {x: 2.6, z: 0.65, yaw: -Math.PI / 2, table: 4, label: '坐下點餐'}, {x: 2.6, z: 1.35, yaw: -Math.PI / 2, table: 4, label: '坐下點餐'},
-      {x: 2.35, z: 2.8, yaw: 0, table: 5, label: '坐下點餐'}, {x: 2.35, z: 3.9, yaw: Math.PI, table: 5, label: '坐下點餐'}
+      {x: -2.75, z: -0.85, yaw: Math.PI / 2, table: 1, seatH: 0.45, label: '坐下點餐', tag: 'sofa'}, {x: -0.95, z: -0.85, yaw: -Math.PI / 2, table: 1, label: '坐下點餐'},
+      {x: -2.75, z: 0.65, yaw: Math.PI / 2, table: 2, seatH: 0.45, label: '坐下點餐', tag: 'sofa'}, {x: -0.95, z: 0.65, yaw: -Math.PI / 2, table: 2, label: '坐下點餐'},
+      {x: -0.3, z: 0.4, yaw: 0, table: 3, label: '坐下點餐'}, {x: -0.3, z: 1.6, yaw: Math.PI, table: 3, label: '坐下點餐'},
+      {x: 1.9, z: 0.0, yaw: 0, table: 4, label: '坐下點餐'}, {x: 1.9, z: 1.2, yaw: Math.PI, table: 4, label: '坐下點餐'},
+      {x: 2.35, z: 2.1, yaw: 0, table: 5, label: '坐下點餐'}, {x: 2.35, z: 3.4, yaw: Math.PI, table: 5, label: '坐下點餐', tag: 'door'},
+      {x: -2.1, z: 2.65, yaw: 0, table: 6, label: '坐下點餐'}, {x: -2.1, z: 3.95, yaw: Math.PI, table: 6, label: '坐下點餐', tag: 'window'},
+      {x: -2.3, z: -2.1, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -1.6, z: -2.1, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}
     ],
+    tagNote: 'tag（LAWWW 11-04 FIXED_COORDS §7-3，店內偶遇照標記挑位子）：sofa＝左牆卡座、bar＝出餐檯的高腳凳（阿哲「坐在吧檯」）、door＝離門最近的、window＝左前窗邊。',
     interact: [
-      {x: -0.7, z: -2.05, kind: 'pass', label: '出餐檯（打工：端盤）'},
-      {x: 1.95, z: -1.1, kind: 'cashier', label: '結帳／問打工'},
-      {x: -0.7, z: -1.9, kind: 'chalkboard', label: '看今日推薦'},
-      {x: 2.2, z: -2.1, kind: 'kitchen', label: '進廚房（打工時）'}
+      {x: -0.7, z: -2.05, kind: 'pass', label: '出餐檯（打工：端盤）', note: '照舊'},
+      {x: 1.95, z: -1.1, kind: 'cashier', label: '結帳／問打工', note: '照舊（不能動）'},
+      {x: -0.7, z: -1.9, kind: 'chalkboard', label: '看今日推薦', note: '照舊位置；看的是出餐檯上方的菜單板'},
+      {x: 2.2, z: -2.1, kind: 'kitchen', label: '進廚房（打工時）', note: '照舊（不能動）'}
     ],
-    /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；jobs3d.js runShift 的三段：a＝開店、b＝尖峰、c＝收尾）。me＝祐廷（導航格站得住、從門口走得到）、boss＝小米姐、mate＝小蕙（NPC，不在家具裡）；act＝動作的提示（stand／wipe／cook／serve／wash／sit）；end＝下班時祐廷站的地方 */
-    work: {a: {me: {x: 1.0, z: 1.0, yaw: Math.PI / 2, act: 'stand', note: '四人桌旁擺十二副餐具'}, boss: {x: -2.35, z: -3.85, yaw: Math.PI, act: 'cook', note: '煎台前試今天的第一顆蛋'}, mate: {x: -1.6, z: 0.5, yaw: -Math.PI / 2, act: 'wipe', note: '小蕙擦左牆的兩人桌'}},
-           b: {me: {x: -0.7, z: -2.05, yaw: Math.PI, act: 'serve', note: '出餐檯前（客人那一側）端盤'}, boss: {x: -0.7, z: -3.45, yaw: 0, act: 'cook', note: '出餐檯後面裝盤，面向出餐檯'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand', note: '結帳櫃台北端（平常的店員位置）'}},
-           c: {me: {x: -0.3, z: -3.85, yaw: Math.PI, act: 'wash', note: '後牆料理台的水槽前洗杯子'}, boss: {x: -1.5, z: -3.6, yaw: Math.PI, act: 'stand', note: '爐子前收拾'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand'}},
-           end: {x: 0.4, z: 3.2, yaw: 0, note: '門口，面向店門'}},
+    clerk: {x: 2.6, z: -2.05, yaw: -0.6, note: 'FIXED_COORDS §3 #4：結帳櫃台北端、廚房門口；原本寫死在 story3d.js:359，請 LAWWW 改成讀這裡'},
+    work: {a: {me: {x: 0.6, z: 1.0, yaw: -Math.PI / 2, act: 'stand', note: '中間方木桌旁擺餐具（原本在四人桌旁 (1.0, 1.0)）'}, boss: {x: -2.35, z: -3.85, yaw: Math.PI, act: 'cook', note: '照舊'}, mate: {x: -0.95, z: -0.1, yaw: -Math.PI / 2, act: 'wipe', note: '小蕙擦卡座的桌子（原本 (−1.6, 0.5)）'}},
+           b: {me: {x: -0.7, z: -2.05, yaw: Math.PI, act: 'serve', note: '照舊'}, boss: {x: -0.7, z: -3.45, yaw: 0, act: 'cook', note: '照舊'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand', note: '照舊'}},
+           c: {me: {x: -0.3, z: -3.85, yaw: Math.PI, act: 'wash', note: '照舊'}, boss: {x: -1.5, z: -3.6, yaw: Math.PI, act: 'stand', note: '照舊'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand'}},
+           end: {x: 0.4, z: 3.2, yaw: 0, note: '照舊'}},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   print: {
@@ -103,57 +122,66 @@ const WZ_SHOPS_LAYOUT = {
            end: {x: 0.0, z: 2.6, yaw: 0, note: '客人區、櫃台前面，面向店門（櫃台後面走不出來）'}},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
+  /* teahouse：照抄 src/data/yizhan_layout.js（tools/layout/sync_wz_aa_layouts.js；不要手改這一筆，改 AA 的檔再重跑）*/
   teahouse: {
-    id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/wz_teahouse_interior.glb',
-    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_light', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
-    note: '主屋約 8×10 m＋緣側（AA_164 2-3）。左前是玄關；前面一條緣側對著前院（樟樹、石板、竹掃把）；中間木地板的茶席（長桌、六個位子）；右邊是水屋（茶罐、電熱水壺、沙漏）；後面兩間榻榻米和室（各一張矮桌、四個坐墊），中間紙拉門關著。',
-    front: {door: {x: -3.0, w: 1.0, note: '玄關（從前院的石板路進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的紙拉門：拉開收在兩端'}},
+    version: 2,
+    id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/aa_support/yizhan.glb', yardGlb: 'wz_teahouse_yard.glb（LAWWW2）',
+    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e6dcc4', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
+    zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（前院 LAWWW2 另一顆 GLB）',
+    note: '主屋約 8×10 m＋緣側。西南角是土間玄關（石板地、一階木踏台、左牆鞋櫃）；中間木地板的茶席（一張長矮桌、六個坐墊）；東邊水屋（朝店裡的木作檯：流理台、電熱水壺、茶罐、沙漏、茶巾；後面牆上茶具層架；往後面的布暖簾）；後面兩間榻榻米和室（床之間、違い棚），中間襖；前面整排格子玻璃拉門對著緣側和院子（拉開收在兩端）。深色木柱、木梁、木板天花板，方形和紙吊燈。',
+    front: {door: {x: -3.0, w: 1.0, note: '玄關的格子門（從前院的踏石進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的格子玻璃拉門：拉開收在兩端（x −2.2～−1.4、3.4～4.2）'}},
     spawn: {x: -3.0, z: 4.2, yaw: Math.PI},
-    camWalls: [[0, -0.6, 8.4, 0.12], [0, -3.8, 0.12, 6.4]],   /* 跟隨鏡頭的牆 [x, z, 寬, 深]：和室前面的紙拉門那一排（z −0.6，開口也算）、兩間和室中間的襖（往後延伸到後牆外 2 m）。LAWWW2 10-22 鏡頭遮擋盤點：原本鏡頭退到隔間另一邊，紙拉門、柱子、門楣擋住人（29% 的方向）*/
-    seeThru: ['wzs_washi', 'wzs_pendant', 'tree_bark_camphor'],   /* 和紙燈籠、吊線、前院的樟樹樹幹：擋在人前面、或在鏡頭旁邊時網點透空 */
-    exit: {at: {x: -3.0, z: 4.6}, label: '離開一盞', to: 'wenzhou', spawn: {x: -20.5, z: 4.1, yaw: Math.PI}},
-    enterAt: {x: -20.5, z: 4.6, label: '進去一盞', note: '日式宿舍的冠木門（zones3d 的 TK.wall gateX -0.5 → 世界 x=-20.5）；原本的「看日式宿舍」改成這個（AA_164：整修後改成茶屋）'},
+    camWalls: [[0, -0.6, 8.4, 0.12], [0, -3.8, 0.12, 6.4]],
+    seeThru: ['wzs_washi', 'wzs_pendant', 'tree_bark_camphor'],
+    seeThruNote: '照舊名字：方形和紙吊燈的紙＝材質 wzs_washi、吊線和框＝wzs_pendant；樟樹樹幹在 LAWWW2 的前院 GLB。',
+    exit: {at: {x: -3.0, z: 4.6}, label: '離開一盞', to: 'wenzhou', spawn: {x: -20.5, z: 4.1, yaw: Math.PI}, note: '照舊；前院打開以後 LAWWW 搬到冠木門旁'},
+    enterAt: {x: -20.5, z: 4.6, label: '進去一盞'},
     items: [
-      {kind: 'genkan', x: -3.3, z: 4.4, w: 1.8, d: 1.2, note: '玄關：石材地、鞋櫃（左牆）、木頭的上框（玄關比室內低 0.12）'},
-      {kind: 'engawa', x: 1.0, z: 5.6, w: 6.4, d: 1.2},
+      {kind: 'genkan', x: -3.3, z: 4.4, w: 1.8, d: 1.2, note: '土間玄關：石板地（比室內低 0.12）、一階木踏台（上框）在 z 3.8、左牆鞋櫃、木製傘架'},
+      {kind: 'getabako', x: -3.95, z: 4.4, w: 0.5, d: 1.2, h: 0.9, note: '鞋櫃（上面一盞方形紙座燈、一個花器）'},
+      {kind: 'engawa', x: 1.0, z: 5.6, w: 6.4, d: 1.2, note: '緣側木地板（到 z 6.2；外緣柱子和簷 LAWWW2 做）'},
       {kind: 'zabuton', x: 0.6, z: 5.55, ry: 0}, {kind: 'zabuton', x: 2.4, z: 5.55, ry: 0},
-      {kind: 'long_table', x: -1.6, z: 1.7, w: 2.6, d: 0.85, ry: 0},
-      {kind: 'chair_wood', x: -2.5, z: 0.95, ry: 0}, {kind: 'chair_wood', x: -1.6, z: 0.95, ry: 0}, {kind: 'chair_wood', x: -0.7, z: 0.95, ry: 0},
-      {kind: 'chair_wood', x: -2.5, z: 2.45, ry: Math.PI}, {kind: 'chair_wood', x: -1.6, z: 2.45, ry: Math.PI}, {kind: 'chair_wood', x: -0.7, z: 2.45, ry: Math.PI},
-      {kind: 'stool_round', x: 3.05, z: 3.35, ry: -Math.PI / 2, note: '水屋西南角旁邊的木凳（YT-TEAHOUSE-SEATS，LAWWW2 11-03；AA_630 C-015「吧檯最旁邊」：茶屋沒有吧檯，水屋的工作台就是吧檯）：面向茶席，水屋南端的台面在她右手邊（書、考古題可以放在台面上，也可以攤在腿上）'},
-      {kind: 'mizuya', x: 3.75, z: 1.3, w: 0.8, d: 3.4, ry: -Math.PI / 2, note: '水屋：流理台、電熱水壺、茶罐、計時沙漏、茶巾；上面開放層架'},
+      {kind: 'low_table', x: -1.6, z: 1.7, w: 2.6, d: 0.9, h: 0.35, note: '茶席：一張長矮桌（原本長桌＋六張椅子）；座位到桌邊 0.3 m（FIXED_COORDS §3）'},
+      {kind: 'zabuton', x: -2.5, z: 0.95, ry: 0}, {kind: 'zabuton', x: -1.6, z: 0.95, ry: 0}, {kind: 'zabuton', x: -0.7, z: 0.95, ry: 0},
+      {kind: 'zabuton', x: -2.5, z: 2.45, ry: Math.PI}, {kind: 'zabuton', x: -1.6, z: 2.45, ry: Math.PI}, {kind: 'zabuton', x: -0.7, z: 2.45, ry: Math.PI},
+      {kind: 'stool_round', x: 3.05, z: 3.35, ry: -Math.PI / 2, note: '照舊：語彤的木凳（水屋西南角旁）'},
+      {kind: 'mizuya', x: 3.75, z: 1.3, w: 0.8, d: 3.4, ry: -Math.PI / 2, note: '照舊位置大小（不往西多出來，FIXED_COORDS #3／§5-2）：朝店裡的胡桃木作檯（框格門板、厚檯面）＝劇情裡「茶屋的吧檯」（AA_657 §3）；台面：流理台、電熱水壺、茶罐、沙漏、茶巾、豆花的舊照片（TRACE_SQ14_catphoto）；後面東牆上兩層茶具層架、上面竹籃'},
+      {kind: 'noren', x: 3.75, z: -0.55, w: 0.8, note: '水屋北端往後面的布暖簾（米色）'},
+      {kind: 'plaque', side: 'right', along: 3.1, y: 1.85, w: 0.32, h: 0.75, note: '東牆的「一盞」直的木牌（參考圖右邊）'},
+      {kind: 'jar', x: -1.8, z: 4.55, note: '緣側入口西邊的大甕＋插花（新加，有阻擋）'}, {kind: 'plant_big', x: 3.85, z: 4.55, note: '東南角的盆栽（新加，有阻擋）'},
       {kind: 'tatami_room', x: -2.15, z: -2.8, w: 4.1, d: 4.4, note: '和室 A：床之間（掛軸、插花）在後牆左邊'},
       {kind: 'tatami_room', x: 2.15, z: -2.8, w: 4.1, d: 4.4, note: '和室 B：違い棚'},
       {kind: 'low_table', x: -2.15, z: -2.8, w: 1.2, d: 0.8}, {kind: 'low_table', x: 2.15, z: -2.8, w: 1.2, d: 0.8},
       {kind: 'zabuton', x: -2.15, z: -3.5, ry: 0}, {kind: 'zabuton', x: -2.15, z: -2.1, ry: Math.PI}, {kind: 'zabuton', x: -3.0, z: -2.8, ry: Math.PI / 2}, {kind: 'zabuton', x: -1.3, z: -2.8, ry: -Math.PI / 2},
       {kind: 'zabuton', x: 2.15, z: -3.5, ry: 0}, {kind: 'zabuton', x: 2.15, z: -2.1, ry: Math.PI}, {kind: 'zabuton', x: 1.3, z: -2.8, ry: Math.PI / 2}, {kind: 'zabuton', x: 3.0, z: -2.8, ry: -Math.PI / 2},
+      {kind: 'zabuton_stack', x: -0.55, z: -0.95, note: 'v1b：和室 A 東南角疊起來的三個坐墊（有阻擋）'},
       {kind: 'tokonoma', x: -3.3, z: -4.65, w: 1.6, d: 0.7},
-      {kind: 'fusuma', x: 0.0, z: -2.8, w: 0.12, d: 4.4, note: '兩間和室中間的紙拉門（關著）'},
-      {kind: 'shoji_wall', z: -0.6, x0: -4.2, x1: 4.2, open: [[-3.2, -1.0], [1.0, 3.2]], note: '和室前面的紙拉門：中間各拉開 2.2 m'},
-      {kind: 'garden', z0: 6.2, z1: 9.6, note: '前院（看得到、走不到）：苔、碎石、踏石、老樟樹（x 3.4, z 8.2）、石燈籠、竹掃把靠在矮牆、矮木牆在 z 9.6'}
+      {kind: 'fusuma', x: 0.0, z: -2.8, w: 0.12, d: 4.4, note: '兩間和室中間的襖（關著）'},
+      {kind: 'shoji_wall', z: -0.6, x0: -4.2, x1: 4.2, open: [[-3.2, -1.0], [1.0, 3.2]], note: '和室前面的紙拉門：中間各拉開 2.2 m'}
     ],
-    blocks: [[-1.6, 1.7, 2.6, 0.85], [3.75, 1.3, 0.8, 3.4], [-2.15, -2.8, 1.2, 0.8], [2.15, -2.8, 1.2, 0.8], [-3.3, -4.65, 1.6, 0.7], [0.0, -2.8, 0.12, 4.4],
-             [-3.7, -0.6, 1.0, 0.12], [-0.05, -0.6, 2.1, 0.12], [3.7, -0.6, 1.0, 0.12], [0.0, 7.9, 8.4, 3.4], [-3.95, 4.4, 0.5, 1.2], [-3.2, 5.6, 2.0, 1.2]],
-    walkNote: '玄關 → 茶席 → 水屋前 → 緣側都可以走；和室從紙拉門的開口進去；前院（z>6.2）擋住（緣側的邊緣 z 6.2 就是盡頭）',
+    blocks: [[-1.6, 1.7, 2.6, 0.9], [3.75, 1.3, 0.8, 3.4], [-2.15, -2.8, 1.2, 0.8], [2.15, -2.8, 1.2, 0.8], [-3.3, -4.65, 1.6, 0.7], [0.0, -2.8, 0.12, 4.4],
+             [-3.7, -0.6, 1.0, 0.12], [-0.05, -0.6, 2.1, 0.12], [3.7, -0.6, 1.0, 0.12], [-1.8, 4.55, 0.5, 0.5], [3.85, 4.55, 0.6, 0.6], [-0.55, -0.95, 0.6, 0.65], [-3.95, 4.4, 0.5, 1.2], [-3.2, 5.6, 2.0, 1.2], [0.0, 7.9, 8.4, 3.4]],
+    blocksNote: '最後兩塊（玄關前／緣側西端、整片前院）照舊；前院打開時由 LAWWW＋LAWWW2 拿掉、改成前院擺設各自的阻擋（AA_656、FIXED_COORDS §4 做法 A）。',
+    walkNote: '照舊：玄關 → 茶席 → 水屋前 → 緣側都可以走；和室從紙拉門的開口進去',
     seats: [
-      {x: -2.5, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -1.6, z: 0.95, yaw: 0, label: '坐下喝茶'}, {x: -0.7, z: 0.95, yaw: 0, label: '坐下喝茶'},
-      {x: -2.5, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -1.6, z: 2.45, yaw: Math.PI, label: '坐下喝茶'}, {x: -0.7, z: 2.45, yaw: Math.PI, label: '坐下喝茶'},
-      {x: 3.05, z: 3.35, yaw: -Math.PI / 2, label: '坐在水屋旁'},   /* 水屋旁的木凳：語彤顧店時坐（c510_3_2 seatAt），玩家也坐得下 */
-            {x: 0.6, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'}, {x: 2.4, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'},
+      {x: -2.5, z: 0.95, yaw: 0, label: '坐下喝茶', kind: 'floor'}, {x: -1.6, z: 0.95, yaw: 0, label: '坐下喝茶', kind: 'floor'}, {x: -0.7, z: 0.95, yaw: 0, label: '坐下喝茶', kind: 'floor'},
+      {x: -2.5, z: 2.45, yaw: Math.PI, label: '坐下喝茶', kind: 'floor'}, {x: -1.6, z: 2.45, yaw: Math.PI, label: '坐下喝茶', kind: 'floor'}, {x: -0.7, z: 2.45, yaw: Math.PI, label: '坐下喝茶', kind: 'floor'},
+      {x: 3.05, z: 3.35, yaw: -Math.PI / 2, label: '坐在水屋旁'},
+      {x: 0.6, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'}, {x: 2.4, z: 5.55, yaw: 0, label: '坐在緣側', kind: 'floor'},
       {x: -2.15, z: -3.5, yaw: 0, label: '在和室坐下', kind: 'floor'}, {x: -2.15, z: -2.1, yaw: Math.PI, label: '在和室坐下', kind: 'floor'},
       {x: 2.15, z: -3.5, yaw: 0, label: '在和室坐下', kind: 'floor'}, {x: 2.15, z: -2.1, yaw: Math.PI, label: '在和室坐下', kind: 'floor'}
     ],
+    seatNote: '茶席六個位子從椅子改坐墊（kind floor，坐墊頂 0.08，FIXED_COORDS §3），座標、朝向、順序都不變；label 照舊「坐下喝茶」。',
     interact: [
       {x: 2.95, z: 1.3, kind: 'mizuya', label: '水屋（打工：泡茶）'},
       {x: -1.6, z: 3.1, kind: 'tea', label: '喝茶'},
       {x: 1.5, z: 5.9, kind: 'garden', label: '看院子'},
       {x: -3.0, z: -1.2, kind: 'tokonoma', label: '看床之間的掛軸'}
     ],
-    /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；a＝院子（照季節）、b＝泡茶、c＝收席）。me＝祐廷（導航格站得住、從玄關走得到）、boss＝蘇姨。前院走不到：掃院子站在緣側的邊上、面向院子 */
-    work: {a: {me: {x: 3.4, z: 5.5, yaw: 0, act: 'sweep', note: '緣側東端，面向前院（樟樹、竹掃把、貓碗）'}, boss: {x: 2.75, z: 1.5, yaw: Math.PI / 2, act: 'stand', note: '水屋前，面向流理台'}},
-           b: {me: {x: 2.75, z: 1.0, yaw: Math.PI / 2, act: 'brew', note: '水屋前泡茶'}, boss: {x: 2.75, z: 2.15, yaw: 2.6, act: 'stand', note: '水屋前、祐廷旁邊看著'}},
-           c: {me: {x: -0.5, z: 5.5, yaw: 0, act: 'stand', note: '緣側，晾茶巾、點燈籠'}, boss: {x: -1.6, z: 3.0, yaw: Math.PI, act: 'stand', note: '茶席的長桌旁收杯子'}},
-           end: {x: -3.0, z: 4.2, yaw: 0, note: '玄關（出生點），面向門口'}},
+    work: {a: {me: {x: 3.4, z: 5.5, yaw: 0, act: 'sweep', note: '照舊；前院打開以後 LAWWW 移進院子'}, boss: {x: 2.75, z: 1.5, yaw: Math.PI / 2, act: 'stand'}},
+           b: {me: {x: 2.75, z: 1.0, yaw: Math.PI / 2, act: 'brew'}, boss: {x: 2.75, z: 2.15, yaw: 2.6, act: 'stand'}},
+           c: {me: {x: -0.5, z: 5.5, yaw: 0, act: 'stand'}, boss: {x: -1.6, z: 3.0, yaw: Math.PI, act: 'stand'}},
+           end: {x: -3.0, z: 4.2, yaw: 0}},
     wallsFade: {back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   /* ===== 林家乾麵、巷子裡定食（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364：能進去內用）=====
@@ -199,48 +227,99 @@ const WZ_SHOPS_LAYOUT = {
     clerk: {x: -1.7, z: 2.55, yaw: 0, note: '攤車後面（店裡這一側），對著湯鍋、面向街上'},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
+  /* teishoku：照抄 src/data/komichi_layout.js（tools/layout/sync_wz_aa_layouts.js；不要手改這一筆，改 AA 的檔再重跑）*/
   teishoku: {
-    id: 'wz_teishoku', name: '小路', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
-    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_light',   // 淺色木地板（使用者 10-23：不要深色木地板）
-    note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
-    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
+    version: 3,
+    id: 'wz_teishoku', name: '小路', glb: 'assets/models/env/second_ai/aa_support/komichi.glb',
+    w: 8.0, d: 8.0, h: 2.9, wallColor: '#e6d8b8', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
+    note: '約 8×8 m 的昭和懷舊居酒屋（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張綠色皮面高腳凳），吧台後面是開放廚房：炭烤台、排油煙罩、整面酒瓶層架；吧台上方橫樑掛木札、上面一排清酒瓶、吊杯架。窗邊兩個隔板四人座，西牆綠色皮卡座，中間一張四人桌。黃銅吊燈、壁燈、懷舊電影海報、舊照片。',
+    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '照舊（LAWWW2 11-04 04:47）'},
     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
-    seeThru: ['GLOW_wz_teishoku_washi'],   /* 和紙燈籠擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空（engine3d.js 樹幹透視；區域 seeThru）。LAWWW2 10-22 j23：晚上坐四人桌，靠門那一盞吊在鏡頭前面 */
+    seeThru: [],
+    tagNote: 'tag（LAWWW 11-04 FIXED_COORDS §7-3，店內偶遇照標記挑位子）：corner＝西牆卡座、bar＝吧台凳、door＝離門最近的窗邊座。',
+    seeThruNote: '舊版的 GLOW_wz_teishoku_washi（和紙燈籠）沒有了；新版的吊燈都在吧台上方（y 2.0）和卡座上方，不會擋在鏡頭前面。',
     exit: {at: {x: -2.0, z: 3.55}, label: '離開小路', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
-    enterAt: {x: -4.8, z: -4.6, label: '進去小路', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
+    enterAt: {x: -4.8, z: -4.6, label: '進去小路', note: '照舊（B3 店門）'},
     items: [
-      {kind: 'genkan', x: -2.0, z: 3.45, w: 2.2, d: 1.1, note: '門口一塊花磚（和店門外的地磚一樣）'},
-      {kind: 'register', x: -3.4, z: 2.55, w: 0.6, d: 0.9, h: 1.0, note: '結帳台：收銀機、名片盒、薄荷糖'},
+      {kind: 'genkan', x: -2.0, z: 3.45, w: 2.2, d: 1.1, note: '照舊：門口一塊花磚'},
+      {kind: 'register', x: -3.4, z: 2.55, w: 0.6, d: 0.9, h: 1.0, note: '照舊：結帳台（收銀機、招財貓、火柴盒）'},
       {kind: 'umbrella', x: -0.75, z: 3.6},
-      {kind: 'counter', x: -0.9, z: -2.0, w: 6.2, d: 0.55, h: 1.0, note: '木吧台（客人那一面是木條；台面淺色木）；左端接到左牆，右端 x 2.2～4.0 是廚房的半門'},
-      {kind: 'kitchen', x: 0.0, z: -3.15, w: 8.0, d: 1.7, note: '開放廚房：爐台、烤魚爐、大電鍋、碗盤架（和店門外看得到的一樣）、往後面的暖簾'},
-      {kind: 'menu_beam', x: -0.9, y: 2.35, z: -2.32, w: 6.2, note: '吧台上方橫樑掛木札：薑汁燒肉定食 180／鹽烤鯖魚定食 190／炸雞定食 170／味噌湯續一碗 免費（AA_364）'},
-      {kind: 'table2', x: 0.0, z: 2.55, ry: Math.PI / 2}, {kind: 'table2', x: 2.4, z: 2.55, ry: Math.PI / 2},
-      {kind: 'table4', x: 0.6, z: 0.35, ry: 0}, {kind: 'table2', x: 2.9, z: 0.35, ry: 0}, {kind: 'table2', x: -3.4, z: 0.2, ry: 0},
-      {kind: 'clock', x: -3.97, y: 2.15, z: -0.9, ry: Math.PI / 2, r: 0.17},
-      {kind: 'shelf_wall', x: 3.97, y: 1.65, z: 0.35, ry: -Math.PI / 2, w: 1.6, note: '右牆的層板：陶壺、小盆栽'},
-      {kind: 'plant_big', x: 3.55, z: 3.55}
+      {kind: 'counter', x: -0.9, z: -2.0, w: 6.2, d: 0.55, h: 1.0, note: '照舊位置：胡桃木吧台（直木板正面、厚木檯面）；右端 x 2.2～4.0 是廚房的半門'},
+      {kind: 'kitchen', x: 0.0, z: -3.15, w: 8.0, d: 1.7, note: '開放廚房：炭烤台（烤雞串）、不鏽鋼排油煙罩、爐台、碗盤架；後牆整面層架（清酒瓶、燒酎、杯子、小碟）；往後面的暖簾'},
+      {kind: 'menu_beam', x: -0.9, y: 2.35, z: -2.32, w: 6.2, note: '吧台上方橫樑掛 16 枚木札（焼き鳥、揚げ出し豆腐、塩焼き鯖、だし巻き玉子…）；橫樑上面一排清酒瓶；x 1.0 一個吊杯架'},
+      {kind: 'sign', x: 2.9, y: 2.45, z: -3.97, w: 0.9, h: 0.45, note: '後牆半門上方的「小路」木匾'},
+      {kind: 'hours', x: -3.4, y: 1.55, z: 3.97, w: 0.5, h: 0.25, note: '門左邊的營業時間木牌 18:00～02:00'},
+      {kind: 'partition', x: -0.5, z0: 2.45, z1: 4.0, h: 1.75, note: '窗邊隔板（木頭矮牆到 1.1 m，上面波浪玻璃到 1.75 m）'},
+      {kind: 'partition', x: 1.45, z0: 2.45, z1: 4.0, h: 1.75},
+      {kind: 'partition', x: 3.4, z0: 2.45, z1: 4.0, h: 1.75},
+      {kind: 'booth', x0: -4.0, x1: -3.45, z0: -0.5, z1: 1.3, note: '西牆的綠色皮卡座（直條紋靠背），兩根木柱框成凹間，上面一層木架（收音機、書、黃金葛）'},
+      {kind: 'poster', side: 'left', along: 2.7, y: 1.6, w: 0.7, h: 1.05, cell: [0, 3, 2, 3], note: '懷舊電影海報一（虛構片名「青い季節」）'},
+      {kind: 'poster', side: 'left', along: -1.15, y: 1.65, w: 0.6, h: 0.96, cell: [2, 3, 2, 3], note: '懷舊電影海報二（虛構片名「夕陽の街」）'},
+      {kind: 'clock', x: -3.97, y: 2.2, z: 1.75, ry: Math.PI / 2, r: 0.15},
+      {kind: 'shelf_wall', x: 3.97, y: 1.65, z: 0.35, ry: -Math.PI / 2, w: 1.6, note: '照舊：右牆的層板（陶壺、清酒瓶、招財貓）'},
+      {kind: 'plant_big', x: 3.7, z: 1.95}
     ],
-    blocks: [[-3.4, 2.55, 0.6, 0.9], [-0.9, -2.0, 6.2, 0.55], [0.0, -3.15, 8.0, 1.7], [3.1, -2.0, 1.8, 0.55],
-             [0.0, 2.55, 0.7, 0.7], [2.4, 2.55, 0.7, 0.7], [0.6, 0.35, 1.2, 0.75], [2.9, 0.35, 0.7, 0.7], [-3.4, 0.2, 0.7, 0.7], [3.55, 3.55, 0.5, 0.5], [-0.75, 3.62, 0.3, 0.3]],
-    walkNote: '門口 x −2.9～−1.1；主走道 x −2.6～−1.4 從門口直到吧台前；吧台和半門從左牆一直到右牆（後面整排是廚房，不能進去）',
+    tables: [
+      {id: 1, kind: 'rect', x: 0.475, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座一（四人）'},
+      {id: 2, kind: 'rect', x: 2.425, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座二（四人：東側靠牆那張 npcOnly，玩家走不到）'},
+      {id: 3, kind: 'rect', x: 0.9, z: 0.75, w: 1.2, d: 0.7, note: '中間四人桌'},
+      {id: 4, kind: 'rect', x: -2.55, z: 0.4, w: 0.6, d: 1.2, note: '卡座的桌子（卡座前緣到桌邊 0.6 m）'}
+    ],
+    blocks: [
+      [-3.4, 2.55, 0.6, 0.9], [-0.9, -2.0, 6.2, 0.55], [0.0, -3.15, 8.0, 1.7], [3.1, -2.0, 1.8, 0.55],
+      [-0.5, 3.225, 0.1, 1.55], [1.45, 3.225, 0.1, 1.55], [3.4, 3.225, 0.1, 1.55],
+      [0.475, 3.25, 0.72, 1.32], [2.425, 3.25, 0.72, 1.32], [0.9, 0.75, 1.22, 0.72],
+      [-3.725, 0.4, 0.55, 1.8], [-2.55, 0.4, 0.62, 1.22],
+      [3.7, 1.95, 0.5, 0.5], [-0.75, 3.62, 0.3, 0.3]
+    ],
+    walkNote: '門口 x −2.9～−1.1；主走道 x −3.0～−0.6 從門口直到吧台前（2.4 m）；吧台高腳凳後面到中間四人桌 z −1.0～−0.15（0.85 m）；中間四人桌和窗邊座位之間 z 1.65～2.7；卡座從北邊（z 1.0～1.3）走進桌子和卡座之間 0.6 m 的空檔；吧台和半門從左牆一直到右牆（後面整排是廚房，不能進去）',
     seats: [
-      {x: -0.55, z: 2.55, yaw: Math.PI / 2, table: 1, label: '坐下'}, {x: 0.55, z: 2.55, yaw: -Math.PI / 2, table: 1, label: '坐下'},
-      {x: 1.85, z: 2.55, yaw: Math.PI / 2, table: 2, label: '坐下'}, {x: 2.95, z: 2.55, yaw: -Math.PI / 2, table: 2, label: '坐下'},
-      {x: 0.3, z: -0.25, yaw: 0, table: 3, label: '坐下'}, {x: 0.9, z: -0.25, yaw: 0, table: 3, label: '坐下'},
-      {x: 0.3, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'}, {x: 0.9, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'},
-      {x: 2.9, z: -0.2, yaw: 0, table: 4, label: '坐下'}, {x: 2.9, z: 0.9, yaw: Math.PI, table: 4, label: '坐下'},
-      {x: -3.4, z: -0.35, yaw: 0, table: 5, label: '坐下'}, {x: -3.4, z: 0.75, yaw: Math.PI, table: 5, label: '坐下'},
-      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
-      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
-      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}
+      {x: -0.15, z: 2.9, yaw: Math.PI / 2, table: 1, label: '坐下', tag: 'door'}, {x: -0.15, z: 3.45, yaw: Math.PI / 2, table: 1, label: '坐下'},
+      {x: 1.1, z: 2.9, yaw: -Math.PI / 2, table: 1, label: '坐下'}, {x: 1.1, z: 3.45, yaw: -Math.PI / 2, table: 1, label: '坐下'},
+      {x: 1.8, z: 2.9, yaw: Math.PI / 2, table: 2, label: '坐下'}, {x: 1.8, z: 3.45, yaw: Math.PI / 2, table: 2, label: '坐下'},
+      {x: 3.05, z: 2.9, yaw: -Math.PI / 2, table: 2, label: '坐下'}, {x: 3.05, z: 3.45, yaw: -Math.PI / 2, table: 2, label: '坐下', npcOnly: true, note: 'LAWWW2 11-04 05:22 建議①：玩家走不到，留給背景客人'},
+      {x: 0.6, z: 0.1, yaw: 0, table: 3, label: '坐下'}, {x: 1.2, z: 0.1, yaw: 0, table: 3, label: '坐下'},
+      {x: 0.6, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'}, {x: 1.2, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'},
+      {x: -3.6, z: 0.1, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'}, {x: -3.6, z: 0.7, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'},
+      {x: -1.85, z: 0.1, yaw: -Math.PI / 2, table: 4, label: '坐下'}, {x: -1.85, z: 0.7, yaw: -Math.PI / 2, table: 4, label: '坐下'},
+      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'},
+      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'},
+      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}
     ],
     interact: [
       {x: -2.75, z: 2.55, kind: 'cashier', label: '結帳'},
-      {x: -0.9, z: -1.0, kind: 'menu', label: '看木札菜單'}
+      {x: -0.9, z: -1.0, kind: 'menu', label: '看木札菜單', note: '照舊'}
     ],
-    clerk: {x: -0.6, z: -2.75, yaw: 0, note: '吧台後面的廚房，面向客人'},
+    clerk: {x: -0.6, z: -2.75, yaw: 0, note: '照舊：吧台後面的廚房，面向客人'},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   }
 };
+/* ===== 一盞的前院走得進去（WZ-YIZHAN-1104；AA_656「庭院要能走到」；LAWWW2 claude/second-ai-env-art b0bcc117c 的 yard_patch_3424d8e66；LAWWW 11-04 07:17 同意 LAWWW2 b0bcc117c） =====
+   上面的 teahouse 是照抄 AA 的 yizhan_layout.js v2（不要手改那一筆）；AA 寫明「前院打開以後的出生點、出口、打工 a／end 由 LAWWW＋LAWWW2 定」「最後兩塊阻擋（玄關前／緣側西端、整片前院）前院打開時拿掉、改成前院擺設各自的阻擋」（blocksNote、AA_656 第 3 節做法 A）——
+   那幾樣在這裡改（數字照 LAWWW2 的 patch，原本寫在舊的 teahouse 那一筆）：
+   · 出生點 (−3.0, 4.2) → 冠木門裡面 (−3.0, 9.0)；出口「離開一盞」(−3.0, 4.6) → 冠木門 (−3.0, 9.3)；回溫州街的落點、溫州街的進門點 enterAt 照舊（街上那一側本來就是冠木門）；
+   · 打工下班 work.end (−3.0, 4.2) → 冠木門前 (−3.0, 8.0)（LAWWW 同意的規格改動①：舊的點離新出口 5.1 m）；打工 a 掃院子照舊站緣側東端；
+   · 阻擋：拿掉 [−3.2, 5.6, 2.0, 1.2]（玄關前）、[0, 7.9, 8.4, 3.4]（整片前院），加石燈籠、景石、老樟樹、門內灌木、簷柱、甕；
+   · yard：前院 −0.42、土間 −0.24、玄關 −0.12 的高度、緣側前的沓脫石、冠木門那一段開口、在前院才顯示簷和屋頂（zones3d.js teaYard）。 */
+(function(T){ if(!T||T.version!==2||!/yizhan\.glb$/.test(T.glb||'')) return;
+  T.spawn = {x: -3.0, z: 9.0, yaw: Math.PI};
+  T.exit = Object.assign({}, T.exit, {at: {x: -3.0, z: 9.3}, note: 'WZ-YIZHAN-1104：出口在冠木門（原本在玄關 (-3.0, 4.6)）'});
+  T.yard = {
+    glb: 'assets/models/env/second_ai/wz_teahouse_yard.glb', manifest: 'bldg.wz_teahouse_yard',
+    note: '前院走得進去（WZ-YIZHAN-1104，LAWWW2 11-04；數字在 docs/art-rebuild/second_ai/wip/wz_five_1104/DOORS.md）。地面比室內低 0.42：前院 y -0.42、玄關前的石板土間 -0.24、室內玄關 -0.12、室內 0。緣側和前院之間差 0.42（站不上去，緣側的邊就是盡頭），只有緣側前的沓脫石 (1.0, 6.4) 兩階各 0.21 上下；玄關前的土間兩階 0.18、0.12，走得進玄關。',
+    surfs: [
+      {x0: -4.6, x1: 4.6, z0: 6.2, z1: 9.8, y: -0.42},
+      {x0: -4.2, x1: -2.2, z0: 5.0, z1: 6.2, y: -0.24},
+      {x0: -4.2, x1: -2.4, z0: 3.8, z1: 5.0, y: -0.12},
+      {x0: 0.55, x1: 1.45, z0: 5.75, z1: 6.65, axis: 'z', ya: 0.0, yb: -0.42, tread: 0.45, rise: 0.21, low: 'z1'}
+    ],
+    open: [[-3.5, 9.15, -2.5, 9.6]],   /* room() 牆內 0.4 m 不能站：冠木門那一段開出來（走到門口、按「離開一盞」）*/
+    inYardZ: 6.35,   /* 玩家 z 超過這個（有 0.15 的緩衝）＝在前院：顯示簷（YARD_EAVE）、主屋的瓦屋頂（YARD_ROOF），緣側那一組牆（WALL_engawa_*）不淡出 */
+    gate: {x: -3.0, z: 9.6, w: 1.2}
+  };
+  const drop = [[-3.2, 5.6, 2.0, 1.2], [0.0, 7.9, 8.4, 3.4]].map(b => b.join(','));
+  T.blocks = T.blocks.filter(b => !drop.includes(b.join(','))).concat([[-1.5, 8.9, 0.5, 0.5], [2.2, 7.6, 1.0, 0.7], [3.65, 9.0, 0.5, 0.5], [-3.9, 9.05, 0.4, 0.9], [-2.2, 6.12, 0.14, 0.14], [-3.95, 5.35, 0.45, 0.45]]);   /* 石燈籠、景石、老樟樹、門內左邊的灌木、簷柱、甕 */
+  T.walkNote = '冠木門 → 踏石 → 玄關前的石板土間 → 玄關 → 茶席 → 水屋前 → 緣側都可以走；和室從紙拉門的開口進去；前院和緣側之間只有沓脫石 (1.0, 6.4) 上下（WZ-YIZHAN-1104；原本前院擋住）';
+  T.work = Object.assign({}, T.work, {end: {x: -3.0, z: 8.0, yaw: 0, note: '前院、冠木門前，面向門口（WZ-YIZHAN-1104：出口搬到冠木門 (-3.0, 9.3)；原本在玄關 (-3.0, 4.2)，離新出口 5.1 m）'}});
+})(WZ_SHOPS_LAYOUT.teahouse);
 if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;

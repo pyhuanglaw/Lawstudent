@@ -19,14 +19,21 @@ const WZS=(()=>{
   // ---------- 1. 半熟早午餐 ----------
   /* SUNNY SIDE 的菜單（AA_655 第 5 節，企劃線 a22e53016：照室內圖 French Toast 280、Eggs Benedict 320、Croque Madame 290、Americano 120、Latte 150、Earl Grey 140，遊戲裡寫中文）。
      第三欄＝吃完那一句：法式吐司、班尼迪克蛋照原本（AA_172）那兩句；稿沒寫的（三明治、三種飲料）＝null（不說）。原本的「半熟蛋吐司套餐」拿掉了 */
+  /* AA_659 第 2 節（21beb9d12，D109 逐字）：六樣的價錢照菜單板、吃完的旁白每一樣都有；「三分四十秒」從半熟蛋吐司搬到班尼迪克蛋 */
   S.BRUNCH=[['法式吐司',280,'甜的。窗外的騎樓有人在排隊，你吃得很慢。'],
-            ['班尼迪克蛋',320,'醬汁很濃。你把最後一口麵包留下來擦盤子。'],
-            ['法式火腿起司三明治',290,null],['美式',120,null],['拿鐵',150,null],['伯爵茶',140,null]];
+            ['班尼迪克蛋',320,'蛋黃剛好流到麵包邊。你終於知道，三分四十秒是什麼意思。'],
+            ['法式火腿起司三明治',290,'起司拉得很長。上面那顆煎蛋，蛋黃完整地留在正中間。'],
+            ['美式',120,'你坐在窗邊喝完一杯美式。外面的光慢慢移到桌子另一頭。'],
+            ['拿鐵',150,'奶泡上的圖案是一顆太陽蛋。'],
+            ['伯爵茶',140,'茶包的線掛在杯子外面，標籤上只印著 SUNNY SIDE。']];
+  S.BRUNCH_OLD={'半熟蛋吐司套餐':'班尼迪克蛋'};   /* 舊存檔「上一次點的」是半熟蛋吐司套餐：下一次的「老樣子」對到班尼迪克蛋（AA_659 第 2 節）*/
   S.BRUNCH_WORK=['小米姐從廚房探頭：「今天的蛋，是我煮的。你煮的話會少十秒。」','小蕙偷偷多放了一顆小番茄。'];
-  S.BOARD={2:['今日推薦：半熟蛋吐司。蛋是三分四十秒，不是三分半。'],3:['今日推薦：半熟蛋吐司。蛋是三分四十秒，不是三分半。'],
-           4:['今日推薦：班尼迪克蛋。醬是早上現打的。'],5:['今日推薦：班尼迪克蛋。醬是早上現打的。'],
+  /* 「看今日推薦」（AA_659 第 2 節）：看的是出餐檯上方的深綠菜單板——先說固定那一句，再說當天的推薦（照星期）；打工那天自己寫的那一行（j.board）照舊 */
+  S.BOARD_HEAD='（深綠色的菜單板最下面，用粉筆多寫了一行：）';
+  S.BOARD={2:['今日推薦：班尼迪克蛋。蛋是三分四十秒，不是三分半。'],3:['今日推薦：班尼迪克蛋。蛋是三分四十秒，不是三分半。'],
+           4:['今日推薦：法式火腿起司三明治。上面那顆蛋，老闆娘說要「看得到太陽」。'],5:['今日推薦：法式火腿起司三明治。上面那顆蛋，老闆娘說要「看得到太陽」。'],
            6:['今日推薦：法式吐司。週末，甜一點也沒關係。'],7:['今日推薦：老闆娘決定。','（下面一行小字：她今天心情很好。）']};
-  S.boardLines=G=>{ const j=job(G,'brunch'); if(j&&j.today&&j.board) return [j.board,'這是你早上寫的。字有一點歪。']; return S.BOARD[wd(G)]||S.BOARD[2]; };
+  S.boardLines=G=>{ const j=job(G,'brunch'); if(j&&j.today&&j.board) return [j.board,'這是你早上寫的。字有一點歪。']; return [S.BOARD_HEAD].concat(S.BOARD[wd(G)]||S.BOARD[2]); };
 
   // ---------- 2. 一盞茶屋 ----------
   S.winter=G=>{ const m=month(G); return m===12||m<=2; };
@@ -38,7 +45,8 @@ const WZS=(()=>{
   S.teaMenu=G=>S.TEA.filter(t=>!t[4]||t[4](G));
   /* 看院子、看床之間的掛軸（AA_172 2-2，0 分鐘）：院子白天兩句輪流、18:00 以後換石燈籠那一句；掛軸兩句輪流 */
   S.GARDEN=['踏石一塊一塊排到緣側前面。石縫裡的苔很綠，像是有人每天澆水。','杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。','石燈籠亮了。院子裡只剩那一小團光，和老樟樹的影子。'];
-  S.TOKONOMA=['掛軸上只有一個字：茶。寫得很慢，最後一筆特別長。','下面的花器插著一枝花，看起來是院子剪的。床之間不放東西，也不坐人。'];
+  S.TOKONOMA=['（掛軸上是一幅淡淡的山水。山很遠，前面一條小路，路上沒有人。）',   /* AA_659 第 3 節（21beb9d12）：新室內（yizhan v1d）的掛軸是水墨山水，不是一個「茶」字；第 2 句照舊 */
+             '下面的花器插著一枝花，看起來是院子剪的。床之間不放東西，也不坐人。'];
   S.gardenLine=G=>{ if(hr(G)>=18) return S.GARDEN[2]; const r=S.rec(G); r.gardenN=((r.gardenN|0)+1)%2; return S.GARDEN[r.gardenN]; };
   S.tokonomaLine=G=>{ const r=S.rec(G); r.tokoN=((r.tokoN|0)+1)%2; return S.TOKONOMA[r.tokoN]; };
 
@@ -67,7 +75,7 @@ const WZS=(()=>{
   // ---------- 4. AA_364 的四家（AA 2026-10-21 d7708ebe 第 1～4 節＋2026-10-22 d56da150 第 5 節＋5ae04087 第 5 節第 5 點，劇情匯入白名單 docs/handoff/story_import_allow.json；WZ-SHOP-AA364-SYS）----------
   /* 林家乾麵（區域 wz_lin）、巷子裡定食（wz_teishoku）：走進店裡內用（室內、座位、店員站的位置：LAWWW2 WZ-SHOP-AA364-ART，src/data/wz_shops_layout.js）；
      巷口茶飲、夏日冰菓室：溫州街 B5 騎樓的外帶窗口（不是區域：店員在窗口，點完拿了就走）。巷口書房照現在（只看櫥窗）。
-     - 菜單、價錢：第 2 節照抄；林家多貢丸湯 30（第 5 節第 2 點：和明軒「小碗乾麵＋貢丸湯 70」對上）。wall＝牆上菜單那一行（「看菜單」唸它）。
+     - 菜單、價錢：第 2 節照抄；林家多貢丸湯 30（第 5 節第 2 點）；明軒「小碗乾麵＋貢丸湯」AA_655 第 7 節改 100（60＋40）。wall＝牆上菜單那一行（「看菜單」唸它）。
        營業時間在 src/data/places.js（wz_lin、wz_teishoku、wz_tea、wz_ice；冰菓室只在 5～9 月開）；芒果冰只在 6～8 月。
      - 店員：第 3 節照抄（compact，不叫名字：說話的人寫「老闆」「店員」「老闆娘」）。第 1～4 次＝「第一次」那一欄（一般的招呼，每次都說）；
        第 5 次起每次都換成「認得你以後」那一句（第 5 節第 3 點；林家照上次點的換：乾麵（小）／乾麵（大）／不是乾麵＝「一樣的？」）。
@@ -130,8 +138,10 @@ const WZS=(()=>{
   /* 一起去的人點的（AA_655 第 3 節「學姊點清酒、芯慈點烏龍茶、阿哲點生啤酒、其他人點可爾必思」）：剛才一起吃的那一位（EAT.lastTog）。
      【稿只寫點什麼、沒寫那一句】旁白用 AA_280 共用那一句的寫法「（{人}點了{品名}。）」（S.WITH_LINE）——要不要說、怎麼說等 AA 定 */
   S.WITH_LINE='（{人}點了{品名}。）';
+  S.WITH_SIS_SAKE='（學姊點了一合清酒。「一杯就好。」）';   /* AA_655 第 7 節第 3 點（10020abda）：只有學姊點清酒時是這一句（換掉共用那一句，不然「點了清酒」說兩次）*/
   S.withItem=function(k,id){ const W=S.AA364[k]&&S.AA364[k].with; if(!W||!id) return null; return Object.prototype.hasOwnProperty.call(W,id)?W[id]:W._; };
   S.withOrder=function(GM,k){ const G=GM.G, x=typeof EAT!=='undefined'?EAT.lastTog:null, D=S.AA364[k]; if(!x||!D||x.key!==D.key||x.day!==G.day) return null; const it=S.withItem(k,x.id); if(!it) return null;
+    if((x.id==='heroine_05'||x.id==='sis')&&it==='清酒') return S.WITH_SIS_SAKE;
     const nm=typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(x.id):x.id; return S.WITH_LINE.replace('{人}',nm).replace('{品名}',it); };
   /* 店員的招呼：這一次點的是第 5 次以上＝店員認得你（「認得你以後」那一句；林家照上次點的、冰菓室照月份）；不然「第一次」那一欄 */
   S.greet364=(k,G)=>{ const D=S.AA364[k], E_=typeof EAT!=='undefined'&&EAT.count?EAT:null, kn=!!E_&&E_.count(G,D.key)>=4; if(!kn) return D.first;
@@ -217,7 +227,7 @@ const WZS=(()=>{
   // ---------- 共用：品項＋價錢的選單 ----------
   /* 點完坐下來吃（2026-10-18 使用者：「溫州街店面點餐是站著吃完？」）：找最近的空位（GM.freeSeat），黑幕裡坐好，吃完站起來；已經坐著就不換位子；沒有空位照舊 */
   async function seated(GM,fn){ const E=GM.E, P=E&&E.player; if(!P||P.seat||!GM.sitAt){ await fn(); return; } const pp=P.obj.position; let best=null, bd=1e9;
-    for(const s of ((E.zone&&E.zone.seats)||[])){ const f=GM.freeSeat?GM.freeSeat(s):s; if(!f) continue; const d=Math.hypot(f.x-pp.x,f.z-pp.z); if(d<bd){ bd=d; best=f; } }
+    for(const s of ((E.zone&&E.zone.seats)||[])){ if(s.npcOnly) continue; const f=GM.freeSeat?GM.freeSeat(s):s;   /* npcOnly：玩家走不到的位子（小路 (3.05,3.45) 等）不挑 */ if(!f) continue; const d=Math.hypot(f.x-pp.x,f.z-pp.z); if(d<bd){ bd=d; best=f; } }
     if(!best){ await fn(); return; } await GM.fade(true); GM.sitAt(P,best); await GM.fade(false);
     try{ await fn(); } finally { if(GM.standUp) GM.standUp(P); } }
   S._seated=seated;
@@ -243,7 +253,7 @@ const WZS=(()=>{
     GM.sceneBegin();
     try{
       if(k==='cafe'&&(kind==='record'||kind==='pastry')){ const zn=GM.npc&&GM.npc.heroine_02, zr=!!(zn&&zn.staff==='cafe'&&!zn.leaving&&!zn.hidden); const r=S.cafe230Line(G,kind,zr); if(r) for(const t of r.lines) await GM.say(r.zr?(zn&&zn.name?zn:{name:'芷若'}):null,t); }   /* AA_659 第 1 節 */
-      else if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ if(x[2]) await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
+      else if(k==='brunch'&&kind==='cashier'){ if(typeof EAT!=='undefined'&&EAT.rec){ const R=EAT.rec(G), l=R&&R.last&&R.last['溫州街・半熟']; if(l&&Object.prototype.hasOwnProperty.call(S.BRUNCH_OLD,l)) R.last['溫州街・半熟']=S.BRUNCH_OLD[l]; }   /* 舊存檔的老樣子（AA_659 第 2 節）*/ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ if(x[2]) await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
       else if(k==='teahouse'&&kind==='tea'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'su');   /* 順手的事 SQ08：問蘇姨（下午）*/ const it=await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); if(typeof AA524!=='undefined'&&AA524.ytEgg) await AA524.ytEgg(GM);   /* AA_524 Y8（AA_630 Z-002）：語彤生日「蘇姨說要請你吃茶點。下次來。」以後第一次點茶 */ await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); await sideq(GM,'溫州街・一盞',it); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }

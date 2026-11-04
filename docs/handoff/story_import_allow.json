@@ -4232,12 +4232,18 @@
   },
   {
    "path": "docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md",
-   "sha": "a22e53016",
+   "sha": "10020abda",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "WZ-SHOPS1-1104",
    "kind": "text",
-   "note": "溫州街第一批五間店（USER_WANTS X212；使用者 11-04 04:5x：2:30 AM 11:00～02:30 照舊、小路 18:00～02:00）：換字規則（兩點半 Café→2:30 AM、當店名的半熟→SUNNY SIDE、巷子裡定食／溫州街的定食店→小路；key 不改）、小路的台詞與居酒屋菜單、點酒那一句、中午的內容（學姊偶遇搬到林家乾麵）、門口三句、SUNNY SIDE／林家／阿德的價目、2:30 AM 招牌（a22e53016）。照抄進 src/wzshops3d.js、src/sideq3d.js、src/data/places.js、src/data/sis_qixi_events.js、src/zones3d.js；讀稿換字表 tools/story/aa655_fix.json；店內偶遇 shop_enc.js 由 tools/shop_enc/import_shop_enc.py 照第 4 節改（tests/aa655_wz_rename_unit.js 逐字對照）"
+   "note": "溫州街第一批五間店（USER_WANTS X212；使用者 11-04 04:5x：2:30 AM 11:00～02:30 照舊、小路 18:00～02:00）：換字規則（兩點半 Café→2:30 AM、當店名的半熟→SUNNY SIDE、巷子裡定食／溫州街的定食店→小路；key 不改）、小路的台詞與居酒屋菜單、點酒那一句、中午的內容（學姊偶遇搬到林家乾麵）、門口三句、SUNNY SIDE／林家／阿德的價目、2:30 AM 招牌（a22e53016）。照抄進 src/wzshops3d.js、src/sideq3d.js、src/data/places.js、src/data/sis_qixi_events.js、src/zones3d.js；讀稿換字表 tools/story/aa655_fix.json；店內偶遇 shop_enc.js 由 tools/shop_enc/import_shop_enc.py 照第 4 節改（tests/aa655_wz_rename_unit.js 逐字對照）；10020abda 加第 7 節（明軒 100 元、學姊點清酒那一句、r2y3b3d 地點字幕 2:30 AM（店休）、七夕「烤雞串。」、林家交往版「今天的餛飩分你一半。」、備用招牌 居酒屋／酒処／本日のおすすめ、可昕「紅茶。……也可以。」拿掉）——照抄進 src/story3d.js、src/wzshops3d.js、src/r2y3b3d.js、src/data/sis_qixi_events.js、src/zones3d.js、src/townkit3d.js、src/data/food_fav_lines.js；shop_enc.js 由 import_shop_enc.py 照第 7 節改（tests/wz_interiors_aa659_unit.js）",
+   "history": [
+    {
+     "sha": "a22e53016",
+     "note": "第 1～6 節（改名規則、小路菜單、中午搬家、SUNNY SIDE／林家／阿德價目、2:30 AM 招牌）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_658_溫州街第二批_改名對照.md",
@@ -4261,7 +4267,7 @@
    "approvedBy": "AA（D109）",
    "task": "WZ-SHOPS1-1104",
    "kind": "text",
-   "note": "這一版只接第 1 節 2:30 AM：「看唱片」三句（輪流第 1、2 句，22:00 以後固定第 3 句）、「看蛋糕櫃」20:00 前後各一句＋芷若在吧檯時第一次那一句、吧檯高腳椅「坐吧檯」與長桌兩端「坐下」（可以點杯咖啡慢慢讀）。照抄進 src/wzshops3d.js S.CAFE230、src/zones3d.js cafe230Add（tests/cafe230_aa657_unit.js 逐字對照）。第 2 節 SUNNY SIDE、第 3 節一盞前院先不做（模型還沒進遊戲）"
+   "note": "這一版只接第 1 節 2:30 AM：「看唱片」三句（輪流第 1、2 句，22:00 以後固定第 3 句）、「看蛋糕櫃」20:00 前後各一句＋芷若在吧檯時第一次那一句、吧檯高腳椅「坐吧檯」與長桌兩端「坐下」（可以點杯咖啡慢慢讀）。照抄進 src/wzshops3d.js S.CAFE230、src/zones3d.js cafe230Add（tests/cafe230_aa657_unit.js 逐字對照）。第 2 節 SUNNY SIDE、第 3 節一盞前院先不做（模型還沒進遊戲）；WZ-SHOPS1-1104 第二批（SUNNY SIDE、小路、一盞室內接進遊戲）：第 2 節 SUNNY SIDE 六樣菜單與吃完的旁白、「看今日推薦」固定那句＋S.BOARD、舊存檔「半熟蛋吐司套餐」的老樣子對到班尼迪克蛋、吧台兩張高腳凳 tag bar（阿哲「坐在吧檯」）；第 3 節只接「看床之間的掛軸」第 1 句（新室內的掛軸是水墨山水）——前院四個互動、看院子搬家、第一次進冠木門的旁白等前院互動點的位置（tests/wz_interiors_aa659_unit.js）"
   },
   {
    "path": "docs/story_planning/AA_657_一盞茶屋_劇情對位置的決定.md",

@@ -1,6 +1,6 @@
 // 溫州街三家新店的室內（DL-09 第一步；LAWWW2-B 的 ART-WZ3 ce586623、溫州街 v5 31323eb9）——不需要瀏覽器。
 // 在 Node 裡建出真正的區域：半熟、阿德影印輸出、一盞——出生點站得住；每個座位旁邊站得住、從出生點走得到；出口走得到、回溫州街的落點站得住、離店門的互動點夠遠；
-// 一盞的緣側走得到、前院走不到（房間 z −5～9.6）；溫州街的三個店門互動點從主巷走得到；「看日式宿舍」改成進一盞；B5 中間的分隔柱擋住；
+// 一盞的緣側、前院走得到（房間 z −5～9.6；WZ-YIZHAN-1104 以前前院走不到）；溫州街的三個店門互動點從主巷走得到；「看日式宿舍」改成進一盞；B5 中間的分隔柱擋住；
 // 營業時間（半熟週一公休、影印週日公休與考試週到 24:00、一盞週一二公休）；夏日冰菓室 5～9 月開、其他月份鐵捲門（SEASON_ICECLOSED）。
 // 修改前：沒有 wz_brunch 區域（第 1 項就失敗）。用法：node tests/wz_shops_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -38,7 +38,8 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
     const bad2=mi.filter(i=>!shows(i)).map(i=>i.label);
     check('2b. '+L.name+'：客人的選單（AA_172）「'+want+'」有互動點、按鈕走得到也真的出現；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）還沒有',mi.map(i=>i.label).join(',')===want&&!bad2.length&&!E.interactables.some(i=>/打工/.test(i.label||'')),mi.map(i=>i.label).join(',')+(bad2.length?'；按鈕不出現：'+bad2.join('、'):'')); }
   WZ[k]={ex,L};
-  if(k==='teahouse'){ check('3. 一盞：緣側 (1,5.6) 站得住、從玄關走得到；前院 (0,7.9)、(3,8.8) 走不到',E.canStand(1,5.6,0.32,0)&&walk(sp,[1,5.6]).ok&&!E.canStand(0,7.9,0.1,0)&&!E.canStand(3,8.8,0.1,0));
+  /* WZ-YIZHAN-1104（AA_656，LAWWW2 11-04）：前院改成走得進去（從冠木門進來就在前院）——原本是「前院 (0,7.9)、(3,8.8) 走不到」。緣側邊緣除了沓脫石不能直接上下，在 tests/wz_teahouse_yard_unit.js 檢查 */
+  if(k==='teahouse'){ check('3. 一盞：緣側 (1,5.6) 站得住、從冠木門經過玄關走得到；前院 (0,7.9)、(2.6,8.8) 從冠木門走得到',E.canStand(1,5.6,0.32,0)&&walk(sp,[1,5.6]).ok&&walk(sp,[0,7.9]).ok&&walk(sp,[2.6,8.8]).ok);   /* 舊的 (3,8.8) 貼著老樟樹（阻擋 [3.65,9.0,0.5,0.5]），人站不進去；往西 0.4 m */
     check('3. 一盞：茶席、水屋擋住；和室從紙拉門的開口走得進去',!E.canStand(-1.6,1.7,0.1,0)&&!E.canStand(3.75,1.3,0.1,0)&&walk(sp,[-2.1,-1.6]).ok); } }
 // 溫州街這一側
 { const z=loadZone('wenzhou'); const LANE=[0,0];

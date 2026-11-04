@@ -483,7 +483,7 @@ const R2Y3B=(function(){
     if(F.ZR_SLIPS_WAIT==='bar'&&!F.ZR_TWELVE_SLIPS){ const d1=D('2028-09-01'); if(d1!=null&&now(G)>=T(d1,lt(G,d1,21))&&!PHONE.sent(G,'y3_zr_slips_fly')){ PHONE.at(G,d1,lt(G,d1,21),[Z('我明天的飛機'),Z('信封交給老闆了，你去店裡跟他拿')],'y3_zr_slips_fly'); F.ZR_SLIPS_WAIT='owner'; } }
     if(!dating(G,'heroine_02')||isUS(G)) return; const K=S.SLIPS_DAYS[isJP(G)?'JP':'TW'], di=D(K.inv), d=D(K.day); if(di==null||d==null||G.day<di||G.day>d) return;
     if(now(G)>=T(di,lt(G,di,21))&&now(G)<T(d,lt(G,d,14.5))&&!PHONE.sent(G,'y3_zr_slips')) PHONE.at(G,di,lt(G,di,21),['明天店休。下午兩點，來店裡。','門會鎖著。敲三下。……我跟老闆借了一個下午。'].map(Z),'y3_zr_slips');
-    if(PHONE.sent(G,'y3_zr_slips')&&!outGet(G,'y3_zr_slips')&&now(G)<T(d,lt(G,d,14.5))) plan(G,{id:'y3_zr_slips',ev:'ev_zhiruo_twelve_slips',day:d,h:lt(G,d,14),late:0.5,place:'兩點半（店休）',title:'和芷若：兩點半（店休）',travel:'走過去約 10 分鐘',travelH:1/6}); };
+    if(PHONE.sent(G,'y3_zr_slips')&&!outGet(G,'y3_zr_slips')&&now(G)<T(d,lt(G,d,14.5))) plan(G,{id:'y3_zr_slips',ev:'ev_zhiruo_twelve_slips',day:d,h:lt(G,d,14),late:0.5,place:'2:30 AM（店休）',title:'和芷若：2:30 AM（店休）',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.slipsMissed=function(G,q){ const F=G.flags; if(F.ZR_TWELVE_SLIPS||F.ZR_SLIPS_WAIT) return; F.ZR_SLIPS_WAIT='bar'; const d=q&&q.day!=null?q.day:G.day, Z=M('p:heroine_02','heroine_02');
     PHONE.at(G,d,lt(G,d,16),[Z('（照片：十二張點單疊在一個信封裡）'),Z('第一部，我先一個人看了'),Z('信封放在吧檯下面。下次來拿')],'y3_zr_slips_photo'); };
   /* 主線 10 的房間物件（1A-09 拆箱，照三選一多一件；拿起來的旁白 AA_343 D7）：實習＝空白的初談紀錄表；打工・家教＝家教學生的卡片（家教以外的打工＝那家店的班表）；
