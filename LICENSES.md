@@ -130,6 +130,8 @@
 ## 開發工具（不打包進遊戲）
 
 - `.claude/skills/blender-web-3d/`：blender-web-3d-skill（https://github.com/czlonkowski/blender-web-3d-skill ，commit `858762f`），MIT License，Copyright (c) 2026 Romuald Członkowski / AiAdvisors；授權全文在該資料夾的 `LICENSE`。Claude Code 專案 Skill，只在開發時使用；裡面的範例模型 `station.glb` 與檢視器範本不載入遊戲。
+- TripoSR（https://github.com/VAST-AI-Research/TripoSR ，commit `107cefdc`；權重 Hugging Face `stabilityai/TripoSR`），MIT License：開發時用 CPU 把單張圖做成中遠景的有機小雜物（D138，`tools/art/triposr/`，2026-11-04 起）。程式和權重都不放進 repo、不打包進遊戲；`tools/art/triposr/triposr_cpu_skimage.patch` 是給它的一小段修改（沒有 torchmcubes 時改用 scikit-image）。用它做出來、放進遊戲的模型，要在「本作自製的 3D 模型」一節另外寫一筆（輸入圖來源、權重 sha256、commit）；第三方照片不能當輸入。
+- 同角度疊圖 `tools/art/same_angle_check.py`：本作自製（BB-C，2026-11-04，D138），用到的 numpy、Pillow、opencv-python-headless、scikit-image 用 pip 安裝，不放進 repo。
 - Blender 5.2.2（`bpy`，GPL）：開發時用來建模、烘焙材質、匯出 GLB（2026-10-10 起，見 docs/PROJECT_DECISIONS.md D33）。用 Blender 做出來的模型與貼圖不受 GPL 約束（Blender 授權只涵蓋程式本身）。
 - VRM Add-on for Blender（https://github.com/saturday06/VRM-Addon-for-Blender ，commit `10bf3e7`），MIT License（或 GPL-3.0-or-later，雙授權；本作依 MIT 使用），Copyright (c) 2018 iCyP、(c) 2022 saturday06：開發時讓 Blender 讀寫 VRM（`tools/blender/char/`，2026-10-10 起）。工具本身不放進 repo、不打包進遊戲；用它匯出的人物模型的授權依模型來源（VRoid CC0 樣本＋本作在 Blender 做的修改）。
 
