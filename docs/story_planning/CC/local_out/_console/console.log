@@ -266,3 +266,55 @@
     hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 [22:36:01] push failed for V20_slice_322c (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
 [22:36:01] ==== END   V20_slice_322c  exit=0  147s   ====
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[22:36:44] push failed for PARK_glb_r3 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[22:36:44] ==== END   PARK_glb_r3  exit=1  153s   ====
+[22:36:50] [res] cpu=20% mem=39% (12.3/31.4 GB) chrome_testing=0  END V20_slice_0e2c
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:36:50] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:36:50] memory 39% before starting PARK_glb_groups2 (2 running)
+[22:36:50] ==== START PARK_glb_groups2  (probe @ e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11) ====
