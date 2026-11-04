@@ -1401,8 +1401,26 @@ const Z3 = (function(){
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
     const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; rewrap++; } };
     const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0){ guard(); upd(); } }; upd();
-    const R={mesh,lit,ids,upd}; zone.ggLit={name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>compiled,rewrap:()=>rewrap,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）*/
+    const glow=ggShopGlow(root,mesh,U);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
+    const R={mesh,lit,ids,upd,glow}; zone.ggLit={glow:glow&&glow.info,name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>compiled,rewrap:()=>rewrap,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）*/
     return R; }
+  /* 公館打烊調暗的光暈那一半（LAWWW2 11-04，LAWWW 06:58 P1）：wzGlowBatch 合成的光暈網格加一個每頂點的店編號 aShop（和窗卡 uv1.x 同一套 1～8、xsShops 同順序，0＝不屬於哪一間），
+     著色器乘 ggShopLit 的同一組 uShopLit：那一間打烊（< 0.99）就整個不畫。哪個光暈屬於哪一間：光暈中心落在那一間窗卡的範圍（z 在店面前後 5 m）裡——店內、門口的燈 x 前後各放 0.8 m（門口的燈在門框兩側，窗卡外面一點）；招牌、直立招牌不放寬（在店的邊上，放寬會分到隔壁那間：公館 GLB 的 vsign_40、vsign_50 就是隔壁店的）；
+     只收店自己的燈——GLOW_gg_xs_in（新店店內）、GLOW_shopin（店內）、GLOW_signbox／GLOW_vsign（招牌）、GLOW_gg_xs_lamp（新店門口的燈）；騎樓燈 GLOW_arcadelamp 是整排騎樓的、不熄。
+     回傳 info（除錯：GAME.E.zone.ggLit.glow）：每一間分到幾個光暈 */
+  const GG_GLOW_SHOP=/^GLOW_(gg_xs_in|shopin|signbox|vsign|gg_xs_lamp)(_|$)/;
+  function ggShopGlow(root,lit,U){ const g=root.parent; if(!g) return null; const gm=g.children.find(o=>o.isMesh&&o.userData&&o.userData.glowBatch&&o.name===root.name+'_glows'); if(!gm) return null;
+    const P=lit.geometry.attributes.position, S=lit.geometry.attributes.uv1, v=new THREE.Vector3(), box={}; lit.updateMatrixWorld(true);
+    for(let i=0;i<P.count;i++){ const s=Math.round(S.getX(i)); if(s<1||s>8) continue; v.fromBufferAttribute(P,i); lit.localToWorld(v); g.worldToLocal(v); const b=box[s]||(box[s]={x0:1e9,x1:-1e9,z0:1e9,z1:-1e9}); b.x0=Math.min(b.x0,v.x); b.x1=Math.max(b.x1,v.x); b.z0=Math.min(b.z0,v.z); b.z1=Math.max(b.z1,v.z); }
+    const items=gm.userData.glowBatch.items, A=new Float32Array(items.length*4), info={}; let k=0;
+    items.forEach((it,i)=>{ if(!GG_GLOW_SHOP.test(it.n||'')) return; let best=0, bd=1e9; const mg=/^GLOW_(signbox|vsign)/.test(it.n)?0:0.8;
+      for(const s in box){ const b=box[s]; if(it.x<b.x0-mg||it.x>b.x1+mg||it.z<b.z0-5||it.z>b.z1+5) continue; const d=Math.abs(it.x-(b.x0+b.x1)/2); if(d<bd){ bd=d; best=+s; } }
+      if(best){ A.fill(best,i*4,i*4+4); info[best]=(info[best]||0)+1; k++; } });
+    gm.geometry.setAttribute('aShop',new THREE.BufferAttribute(A,1)); const m=gm.material, prev=m.onBeforeCompile;
+    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uShopLit=U;
+      sh.vertexShader='attribute float aShop;\nuniform float uShopLit[9];\nfloat ggShopK(float s){ int si=int(s+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } return k>0.99?1.0:0.0; }\n'+sh.vertexShader.replace('vGlowOp = mix( aOp.x, aOp.y, uNightK )','vGlowOp = ggShopK( aShop ) * mix( aOp.x, aOp.y, uNightK )'); };
+    m.customProgramCacheKey=()=>'wzGlowBatch1_ggShop'; m.needsUpdate=true;
+    return {mesh:gm,info,n:k}; }
   function attachWenzhouModel(E,g,root,tag,name,tagVal){ let n=0; const box=new THREE.Box3(), sz=new THREE.Vector3(); const signFaces=[], plateFaces=[], intFaces=[];   /* tag＝套件建築上的標記（wzApt 公寓、wzJp 日式宿舍與院牆、ggShop 公館店面、ckTag 校園地標）；tagVal：只藏標記等於這個值的（校園一棟一個模型） */
     for(const b of g.children) if(b.userData&&b.userData[tag]&&(tagVal===undefined||b.userData[tag]===tagVal)){ if(b.isMesh) b.visible=false; else for(const m of b.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } } b.userData.formal=true; n++; }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次會依時段重設 visible，只藏起來的話晚上又會出現（和正式模型的光暈疊在一起）→ 日夜的亮度都設成 0 */
     const glows=[];
@@ -1443,7 +1461,7 @@ const Z3 = (function(){
     const pos=new Float32Array(n*12), cor=new Float32Array(n*8), uv=new Float32Array(n*8), siz=new Float32Array(n*4), col=new Float32Array(n*12), op=new Float32Array(n*8), idx=[]; const items=[]; let maxS=0, maxD=0, maxN=0;
     glows.forEach((o,i)=>{ const d=o.userData, s=d.size||1.4; g.worldToLocal(o.getWorldPosition(v)); const a=/rgba\([^)]*,\s*([\d.]+)\s*\)/.exec(d.glow||''), al=a?+a[1]:1;   /* rgba 的透明度乘進亮度（放射漸層從這個顏色淡到透明） */
       c.setStyle(String(d.glow||'#ffffff').replace(/rgba\(([^,]+),([^,]+),([^,]+),[^)]*\)/,'rgb($1,$2,$3)')); const dO=(d.day||0)*al, nO=(d.night==null?1:d.night)*al;
-      items.push({x:+v.x.toFixed(2),y:+v.y.toFixed(2),z:+v.z.toFixed(2),size:s,day:dO,night:nO}); maxS=Math.max(maxS,s); maxD=Math.max(maxD,dO); maxN=Math.max(maxN,nO);
+      items.push({x:+v.x.toFixed(2),y:+v.y.toFixed(2),z:+v.z.toFixed(2),size:s,day:dO,night:nO,n:o.name||''}); maxS=Math.max(maxS,s); maxD=Math.max(maxD,dO); maxN=Math.max(maxN,nO);
       [[-0.5,-0.5],[0.5,-0.5],[0.5,0.5],[-0.5,0.5]].forEach(([cx,cy],k)=>{ const j=i*4+k; pos.set([v.x,v.y,v.z],j*3); cor.set([cx,cy],j*2); uv.set([cx+0.5,cy+0.5],j*2); siz[j]=s; col.set([c.r,c.g,c.b],j*3); op.set([dO,nO],j*2); });
       const b=i*4; idx.push(b,b+1,b+2,b,b+2,b+3); });
     const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.BufferAttribute(pos,3)); geo.setAttribute('aCorner',new THREE.BufferAttribute(cor,2)); geo.setAttribute('uv',new THREE.BufferAttribute(uv,2));
