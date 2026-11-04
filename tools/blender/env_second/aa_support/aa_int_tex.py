@@ -407,12 +407,12 @@ def yej():
 def aok():
     """青木茶室（公館，AA 2026-11-04）：(0,0) 2×1 店名牌、(2,0) 2×2 山景小畫、(4,0) 4×1 茶罐標籤 8 張、(4,1) 4×1 牛皮紙茶包 8 張、(0,2) 4×2 黑板「季節限定」"""
     rng = np.random.default_rng(1105); im = Image.new('RGB', (1024, 1024), '#efe8da'); d = ImageDraw.Draw(im)
-    bx = box(0, 0, 2, 1); paper(im, bx, '#f1ebdd', rng, grain=0.04); x0, y0, x1, y1 = bx
-    for k, (dx_, ang) in enumerate(((-12, -0.5), (12, 0.5))):   # 雙葉標誌
-        cx, cy = x0 + 46 + dx_ * 0.6, y0 + 64; pts = [(cx + 26 * math.cos(t) * math.cos(ang) - 12 * math.sin(t) * math.sin(ang) * (1 if k else -1), cy - 26 * math.cos(t) * math.sin(ang) * 0 - 30 * abs(math.sin(t)) + 22 * math.cos(t) * 0) for t in np.linspace(0, math.pi, 12)]
-        d.ellipse([cx - 14 + dx_, cy - 26, cx + 14 + dx_, cy + 10], fill='#4f6b45')
-    d.line([x0 + 46, y0 + 70, x0 + 46, y0 + 100], fill='#4f6b45', width=4)
-    d.text((x0 + 80, y0 + 36), '青木茶室', font=F(42), fill='#3f5a3a')
+    bx = box(0, 0, 2, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#eadac2')   # 店名（v2b：直接寫在牆上的字＋雙葉標誌，底色＝牆色）
+    for (cx, cy, rx, ry, ang) in ((x0 + 37, y0 + 48, 10, 24, -0.75), (x0 + 63, y0 + 48, 10, 24, 0.75)):   # 雙葉
+        pts = [(cx + rx * math.cos(t) * math.cos(ang) - ry * math.sin(t) * math.sin(ang), cy + rx * math.cos(t) * math.sin(ang) + ry * math.sin(t) * math.cos(ang)) for t in np.linspace(0, 2 * math.pi, 24)]
+        d.polygon(pts, fill='#4f6b45')
+    d.line([x0 + 50, y0 + 64, x0 + 50, y0 + 98], fill='#4f6b45', width=4); d.line([x0 + 50, y0 + 66, x0 + 42, y0 + 60], fill='#4f6b45', width=3); d.line([x0 + 50, y0 + 66, x0 + 58, y0 + 60], fill='#4f6b45', width=3)
+    d.text((x0 + 82, y0 + 34), '青木茶室', font=F(42), fill='#3f5a3a')
     bx = box(2, 0, 2, 2); paper(im, bx, '#f4efe2', rng); x0, y0, x1, y1 = bx   # 山景小畫
     for k, col in enumerate(('#c8d2c0', '#a8b8a0', '#8aa088', '#6f8a6e')):
         base = y0 + 120 + k * 28; d.polygon([(x0 + 10, y1 - 10), (x0 + 10, base + 30)] + [(x0 + 10 + j * 30, base + 30 - 40 * abs(math.sin(j * 0.7 + k))) for j in range(9)] + [(x1 - 10, base + 20), (x1 - 10, y1 - 10)], fill=col)
