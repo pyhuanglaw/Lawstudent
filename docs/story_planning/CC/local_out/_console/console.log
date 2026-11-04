@@ -643,3 +643,114 @@
        ad000dcf2..2969dd9f8  claude/cc-local -> claude/cc-local
     branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
 [17:43:35] ==== END   ADE_touchwz  exit=1  165s   ====
+    remote: fatal error in commit_refs        
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (failure)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    remote: Internal Server Error        
+    remote: Request ID FE0E:160DF8:751F4E:A91ABC:6AEAFE73        
+    remote: Time 2026-11-04T09:44:20Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    remote: Internal Server Error        
+    remote: Request ID FE0F:2338BD:755367:A97BC8:6AEAFE7A        
+    remote: Time 2026-11-04T09:44:28Z
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [remote rejected]     claude/cc-local -> claude/cc-local (Internal Server Error)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2969dd9f8..838e27b71  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:44:45] ==== END   ADE_reach  exit=0  70s   ====
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:44:47] memory 47% before starting ADE_zones (2 running)
+[17:44:47] ==== START ADE_zones  (game @ 0c2d4997b) ====
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:44:49] skip GG_npc_main_M1 (already done on b0c3032af)
+[17:44:49] skip GG_npc_main_D1 (already done on 3424d8e66)
+[17:44:49] skip GG_npc_main_M2 (already done on b0c3032af)
+[17:44:49] skip GG_npc_main_D2 (already done on 3424d8e66)
+[17:44:49] skip GATE_out2 (already done on 3dce31a93)
+[17:44:49] skip GG_ext_glb4 (already done on 3dce31a93)
+[17:44:49] skip NOODLE_exit (already done on 809163ee4)
+[17:44:49] skip NOODLE_exit2 (already done on 809163ee4)
+[17:44:49] skip GG_perf_ab_A1 (already done on 9ac863212)
+[17:44:49] skip GG_perf_ab_B1 (already done on 610c528cb)
+[17:44:49] skip GG_perf_ab_A2 (already done on 9ac863212)
+[17:44:49] skip GG_perf_ab_B2 (already done on 610c528cb)
+[17:44:49] skip GG_perf_ab_A3 (already done on 9ac863212)
+[17:44:49] skip GG_perf_ab_B3 (already done on 610c528cb)
+[17:44:49] skip BIKE_flow_r3 (already done on ae50cb459)
+[17:44:49] skip BIKE_flow_r4 (already done on ae50cb459)
+[17:44:49] skip GG_groups (already done on 610c528cb)
+[17:44:49] skip GG_ext_nav3 (already done on 610c528cb)
+[17:44:49] skip GG_ext_glb3 (already done on 610c528cb)
+[17:44:49] skip GG_perf_rep_A1 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_rep_B1 (already done on c7fde4f3e)
+[17:44:49] skip GG_perf_rep_A2 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_rep_B2 (already done on c7fde4f3e)
+[17:44:49] skip GG_perf_rep_A3 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_rep_B3 (already done on c7fde4f3e)
+[17:44:49] skip GATE_glb (already done on 9ac863212)
+[17:44:49] skip GG_perf_fog_A1 (already done on 9ac863212)
+[17:44:49] skip GG_perf_fog_B1 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_fog_A2 (already done on 9ac863212)
+[17:44:49] skip GG_perf_fog_B2 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_fog_A3 (already done on 9ac863212)
+[17:44:49] skip GG_perf_fog_B3 (already done on 23eaaa7ae)
+[17:44:49] skip GATE_shot (already done on 9ac863212)
+[17:44:49] skip GATE_shot_before (already done on 23eaaa7ae)
+[17:44:49] skip GATE_walk (already done on 9ac863212)
+[17:44:49] skip GATE_walk2 (already done on 9ac863212)
+[17:44:49] skip LIVE1910_deploy (already done on b0c3032af)
+[17:44:49] skip LIVE1910_stuck (already done on b0c3032af)
+[17:44:49] skip LIVE1910_deploy2 (already done on b0c3032af)
+[17:44:49] skip GG_ext_nav (already done on c7fde4f3e)
+[17:44:49] skip GG_ext_glb (already done on c7fde4f3e)
+[17:44:49] skip GG_ext_shots (already done on c7fde4f3e)
+[17:44:49] skip BIKE_flow (already done on c7fde4f3e)
+[17:44:49] skip BIKE_shop (already done on 555b9e0cb)
+[17:44:49] skip WZ_A5_shot (already done on c7fde4f3e)
+[17:44:49] skip CVS24 (already done on cb1d84290)
+[17:44:49] skip N20X_nichijo2 (already done on 27970f958)
+[17:44:49] skip GG_ext_nav2 (already done on 23eaaa7ae)
+[17:44:49] skip GG_ext_glb2 (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf (already done on 23eaaa7ae)
+[17:44:49] skip GG_perf_ctl (already done on c7fde4f3e)
+[17:44:49] skip CVS24_r2 (already done on 23eaaa7ae)
+[17:44:49] skip BIKE_shop_r2 (already done on 23eaaa7ae)
+[17:44:49] skip WZ_A5_shot_r2 (already done on 23eaaa7ae)
+[17:44:49] skip BIKE_flow_r2 (already done on e44ab9056)
+[17:44:49] skip XS_view (already done on 23eaaa7ae)
+[17:44:49] skip XS_view_ref (already done on 555b9e0cb)
+[17:44:49] skip GG_cards_shot (already done on 809163ee4)
+[17:44:49] skip GG_int_cvs (already done on 809163ee4)
+[17:44:49] skip GG_int_cvs_menu (already done on 809163ee4)
+[17:44:49] skip GG_int_yejian (already done on 809163ee4)
+[17:44:49] skip GG_int_yejian_menu (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki_menu (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki_seats (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki_hours (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki_closein (already done on 809163ee4)
+[17:44:49] skip GG_int_aoki_date (already done on 809163ee4)
+[17:44:49] skip GG_int_wzbike (already done on 809163ee4)
+[17:44:49] memory 48% before starting GG_int_art (2 running)
+[17:44:49] ==== START GG_int_art  (probe @ 809163ee4) ====
+[17:44:50] [res] cpu=63% mem=47% (15.0/31.4 GB) chrome_testing=10  START ADE_zones
+[17:44:53] [res] cpu=80% mem=49% (15.1/31.4 GB) chrome_testing=10  START GG_int_art
+[17:46:03] 正在跑：WZ4_komichi（已跑 30 分／上限 50 分）、ADE_zones（已跑 1 分／上限 60 分）、GG_int_art（已跑 1 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:47:50] [res] cpu=71% mem=52% (16.5/31.4 GB) chrome_testing=19  END ADE_zones

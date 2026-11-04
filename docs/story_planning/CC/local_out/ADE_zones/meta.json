@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ADE_zones",
+  "sha": "0c2d4997b",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T17:44:47",
+  "end": "2026-11-04T17:47:50",
+  "seconds": 183,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html?turbo",
+  "res_peak": {
+    "cpu": 76,
+    "mem": 63,
+    "used_gb": 20.1,
+    "chrome_testing": 27
+  }
+}
