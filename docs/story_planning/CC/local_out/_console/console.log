@@ -559,3 +559,19 @@
 [15:15:36] ==== START CAFE230_shots  (probe @ d432de8ba) ====
 [15:15:39] [res] cpu=40% mem=51% (16.0/31.4 GB) chrome_testing=19  START CAFE230_shots
 [15:17:59] [res] cpu=20% mem=51% (16.0/31.4 GB) chrome_testing=19  END BIKE_flow_r5
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bb83e47df..a4b673eba  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:18:06] ==== END   BIKE_flow_r5  exit=0  188s   ====
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:18:10] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:18:10] memory 50% before starting GG_glb_measure (2 running)
+[15:18:10] ==== START GG_glb_measure  (game @ ff1283943) ====
+[15:18:13] [res] cpu=19% mem=50% (15.8/31.4 GB) chrome_testing=19  START GG_glb_measure
+[15:19:37] 正在跑：GG_int_yejian_r2（已跑 54 分／上限 75 分）、CAFE230_shots（已跑 4 分／上限 20 分）、GG_glb_measure（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:19:54] [res] cpu=33% mem=51% (16.0/31.4 GB) chrome_testing=19  END GG_glb_measure
