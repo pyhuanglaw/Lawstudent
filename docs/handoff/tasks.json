@@ -44249,6 +44249,191 @@
    "source": "使用者 11-04 12:3x 對 LAWWW-C",
    "authorized": "使用者直接要求（討論，刪改規則要使用者選）",
    "evidence": ""
+  },
+  {
+   "id": "WZ-FIVE-1104",
+   "title": "溫州街第一批五間外觀照參考圖（林家、SUNNY SIDE、小路、阿德轉角、2:30 AM：招牌、雨遮、立面、門窗；DOORS.md）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】小路深色木立面 v1（188eb0624）已接 060a1a093；SUNNY 轉角窗、林家攤車等在 LAWWW2 分支（ebae33ef、a4c2cc05、badb191a、1e5aadb3）；剩阿德轉角外觀、2:30 AM 外觀（LAWWW2-C 佇列，排在 GG_night 與 CAMPUS-RELAYOUT-1102 盤點之後）",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "使用者 11-04 參考圖（LAWWW2 wip/wz_five_1104）",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "照參考圖；BB 照 D120／D133 驗收 ART",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "GG-VIEWS-1104",
+   "title": "公館日和／頁間／青木、溫州街 A5 窗景重拍（shots 腳本位置 patch＋照片到了以後的 zones3d 接法）",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 14923bc1（拍攝位置 patch＋接法說明）還沒整合；等照片",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2 14923bc1",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "窗景照片換上、白天晚上各一張截圖給 BB",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BIKE-PARK-1104",
+   "title": "各建築出口、區域入口附近的腳踏車停車架／停車位（Z3.BIKE_RACKS）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次騎腳踏車出門",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "555b9e0cb",
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 77a599c60 patch 已接 555b9e0cb（tests/bike_park_1104_unit.js）；BB 在使用者電腦看各出口停車架",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2 77a599c60",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "bike_park_1104_unit ALL PASS；BB 截圖看出口不擋路",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "PERF-CAMPUS-GLB-1102",
+   "title": "校園正式 GLB 的效能（draw call、三角形；手機）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "新遊戲第一次進校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-A 交班清單有這一項、總表沒有；範圍與量法請 LAWWW2-C 補（和 PERF-GG-DC-1104 同一套 census／GG_glb_measure2 量法）",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2-A 交班清單",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "量測前後數字（draw call、三角形）＋BB 在使用者電腦跑效能探針",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "PERF-GG-DC-1104",
+   "title": "公館店面 draw call 減少（小的 instancing 合進大網格、燈／景深卡／招牌不投影、灰泥合併、停著的腳踏車合併）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "8f936f018",
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 5a38bdad、742c78c50 已接（8f936f018）；公館 draw call 1.43 等 GG_glb_measure2（0f8b320ff）的 PC 結果，BB 判讀",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2 5a38bdad、742c78c50",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "GG_glb_measure2 draw call 比例照 BB 的門檻",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "WZ-LANEEAST-TRIS-1104",
+   "title": "溫州街 lane_east 減面（店內 wz_in_shop 按店拆網格、看不到的店整間裁掉）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "d2a692410",
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
+   "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2 1d64f3511",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "三角形數照 BB 的門檻、畫面沒有破洞",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "LM-SEAM-GEO",
+   "title": "光照接縫要從建模改的兩處：男一舍走廊北牆和樓梯間牆接頭的縫、萬才館（法律系館B）柱子很細的倒角",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進男一舍、法律系館B",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 12:4x 補進總表】LAWWW2-C 10-28 開的（LM-SEAM-1028 重烘以後還剩、要改模型）；排在溫州街、公館之後",
+   "source": "LAWWW2-C 10-28（LM-SEAM-1028 後續）；11-04 12:38 指出總表沒有這個 ID",
+   "xai": {
+    "spec": "LAWWW2-C 10-28",
+    "branch": "claude/focused-cray-c9uwvw（帳號 A 時是 claude/second-ai-env-art）",
+    "acceptance": "重烘後同角度截圖沒有接縫，BB 驗",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
