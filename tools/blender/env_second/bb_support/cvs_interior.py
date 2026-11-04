@@ -514,7 +514,8 @@ if PREVIEW:
     om = img_mat('PREVIEW_outside', P['outside'], rough=1.0, emit=0.75); ob_ = Mesh('PREVIEW_outside', om)
     face(ob_, (X0 - 6.0, 1.5, 1.0), '+x', 22, 3.0, sub((0, 0, 1, 1), 0, 0, 1, 0.37));   # 矮一點：不擋太陽
     lm_ = img_mat('PREVIEW_leaves', P['leaves'], rough=1.0, alpha=True); lv_ = Mesh('PREVIEW_leaves', lm_)
-    face(lv_, (X0 - 2.2, 4.2, 1.5), '+x', 12, 6.0, (0, 0, 1, 1)); face(lv_, (X0 - 3.6, 5.0, -1.0), '+x', 10, 6.0, (0.3, 0, 1.3, 1)); lv_.finish(root, uv=False)   # 窗外行道樹的葉子：渲染時陽光穿過去，地上有樹影 face(ob_, (-2.0, 2.6, Z1 + 6.0), '-z', 22, 8.2, (0, 0, 1, 1)); ob_.finish(root, uv=False)
+    face(lv_, (X0 - 2.2, 4.2, 1.5), '+x', 12, 6.0, (0, 0, 1, 1)); face(lv_, (X0 - 3.6, 5.0, -1.0), '+x', 10, 6.0, (0.3, 0, 1.3, 1)); lv_.finish(root, uv=False)   # 窗外行道樹的葉子：渲染時陽光穿過去，地上有樹影
+    face(ob_, (-2.0, 2.6, Z1 + 6.0), '-z', 22, 8.2, (0, 0, 1, 1)); ob_.finish(root, uv=False)
 
 # ================= 收尾：牆分組、合併、匯出 =================
 for (side, key), m in list(WG.items()): m.finish(G[side], uv=False, smooth=False)
