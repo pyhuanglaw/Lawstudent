@@ -50,3 +50,8 @@ HIDE_PEOPLE_JS = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E
 SHOW_PEOPLE_JS = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E.player.obj.visible=true;
   for(const q of [].concat(E.npcs||[], E.extras||[])) if(q&&q.__ccHid){ q.hidden=false; q.__ccHid=false; n++; }
   return n; })()"""
+
+# 出口標籤（guide3d.js：「進去阿德影印輸出　開放・今天 09:00–22:00」那種浮在門上的字，sizeAttenuation:false 的 Sprite、renderOrder 20）和室內出口圈（userData.exitRing）。
+# 要和照片比的截圖（ADE refcam、NTU_REF）藏起來，不然會蓋在招牌上。GUIDE.tick 每幀照距離設 obj.visible，所以連 material.visible 一起關（tick 不動材質）。回傳藏了幾個
+HIDE_LABELS_JS = """(()=>{ const z=GAME.E.zone; let n=0; if(z&&z.group) z.group.traverse(o=>{ if((o.isSprite&&o.material&&o.material.sizeAttenuation===false&&o.renderOrder===20)||(o.userData&&o.userData.exitRing)){ if(o.visible||(o.material&&o.material.visible)){ n++; } o.visible=false; if(o.material) o.material.visible=false; } }); return n; })()"""
+

@@ -57,6 +57,9 @@ def check_py(path, out):
             elif n > 1:
                 out.append('%s:%d：格式字串有 %d 個 %%，右邊卻不是 tuple（只有 1 個參數）：%s' % (path, node.lineno, n, node.left.value[:60].replace('\n', ' ')))
     lines = src.splitlines()
+    for i, ln in enumerate(lines, 1):   # BB-C 15:42 SAVE-LZ-1104：存檔第二步會改成預設壓縮，讀存檔要走 GAME.readSave
+        if re.search(r"JSON\.parse\(\s*localStorage\.getItem\(\s*['\"]fatiao3d_", ln) and 'readSave' not in ln:
+            out.append('%s:%d：直接 JSON.parse(localStorage.getItem(\'fatiao3d_…\'))：改成 (GAME.readSave?GAME.readSave(k):JSON.parse(localStorage.getItem(k)))（SAVE-LZ-1104 第二步會預設壓縮）' % (path, i))
     for node in ast.walk(tree):   # BB-C 15:18：GG_views_r2 電腦上起不來（子行程裡的 fast_shots.py 寫死雲端 chromium 路徑，gpu_wrap 只改同一個行程）
         if not isinstance(node, ast.Call):
             continue

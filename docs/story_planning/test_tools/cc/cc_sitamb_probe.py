@@ -34,6 +34,7 @@
     同一排（同一層、同一個方向、同一條線上，或 seat.row 一樣）ROW_MIN（4）人以上：每 10 秒一窗，「和同一排另一個人在 ±0.5 秒內開始同一種」的比例（也給 ±1 秒）；
     坐姿循環的相位（m.t×片段長度）也記下來（BB 判同步；BB-C 14:41：同一排一起動的比例 > 50% 算 P3）。
   輸出：<out>/<mode>/*.jpg、<out>/sitamb_<LOC>.json（每段的排程、叫了什麼、實際開始了什麼、每一格的差、存了哪幾格、同步、FPS）。
+  日子：DAY（預設 9＝2025-09-25 週四）、CAFE_DAY（預設 4＝2025-09-20 週六，兩點半有人坐卡座）；上課是課表上的 day 7、8。主線第一～三天（day 1～3）不用（劇情會換區域）。
 用法：LW_TESTS=<wt>/tests LOC=cafe [CTL=both] [SEG_S=12] [KINDS=look,side,...] python3 cc_sitamb_probe.py <url> <out>
   雲端縮小版：VIEW=844x390 SEG_S=3 KINDS=look,hair REC_FPS=10 SYNC_S=6 FPS_S=6"""
 import os, sys, json, asyncio, time, math, base64
@@ -68,6 +69,8 @@ FPS_S = float(E_('FPS_S') or 30)        # BB-C 14:41：各量 30 秒
 VIEW = E_('VIEW') or '1280x720'          # 錄影的視窗大小（FPS 照 playlib 的 844×390）
 CAFE2 = E_('CAFE2', 'afar')
 EAT = E_('EAT') or 'wz_lin'
+DAY = int(E_('DAY') or 9)              # 2025-09-25（週四）。不要用 day 1～3：主線第一～三天（day 2＝9/18 民總劇情課，story3d.js:3764／1292／1328 會把人換到校園；雲端 r1 錄到一半變成校園）
+CAFE_DAY = int(E_('CAFE_DAY') or 4)    # 2025-09-20（週六）：兩點半 14～18 點的兩位客人之一坐卡座（booth，S.cafeCustomers 照日期排；day 9 兩位都坐一般桌）
 LIBZ = [z.strip() for z in (E_('LIBZ') or 'library_hall,library,lawlib,soclib').split(',') if z.strip()]
 SEED = cc_det.seed()
 FAILS = []
@@ -112,7 +115,7 @@ SEATED_JS = r"""(()=>{ const E=GAME.E, P=E.player; const sa=typeof SEATACT!=='un
       amb:m?{n:m.n|0,kinds:m.kinds,fx:m.fx?m.fx.kind:null,next:+(+m.next||0).toFixed(2),t:+(+m.t||0).toFixed(3),rate:+(+m.rate||0).toFixed(4),base:m.base||null,pst:(m.pst||[]).map(v=>+v.toFixed(3))}:null}); });
   let clips=null; try{ const r=CHAR._amb&&CHAR._amb.raw; if(r&&r.animations) clips=r.animations.map(a=>[a.name,+a.duration.toFixed(3)]); }catch(e){}
   return {zone:GAME.G.zone, hour:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, weekday:GAME.G.weekday, date:typeof CALENDAR!=='undefined'?CALENDAR.dateOf(GAME.G.day).key:null,
-    sitAmb:!!CHAR.sitAmb, ready:!!(CHAR.sitAmbReady&&CHAR.sitAmbReady()), npcs:E.npcs.length, seatact:sa?{n:sa.n,loaded:sa.loaded,acts:sa.list.map(r=>r.act+(r.named?'*':''))}:null,
+    sitAmb:!!CHAR.sitAmb, ready:!!(CHAR.sitAmbReady&&CHAR.sitAmbReady()), npcs:E.npcs.length, seatact:sa?{zone:sa.zone,place:SEATACT.placeOf?SEATACT.placeOf(GAME.G.zone):null,n:sa.n,loaded:sa.loaded,acts:sa.list.map(r=>r.act+(r.named?'*':''))}:null,
     pairs:(typeof SEATACT!=='undefined'&&SEATACT.pairs)?SEATACT.pairs().length:null, fig:(typeof CLS!=='undefined'&&CLS.figState)?CLS.figState():null,
     player:{x:+P.obj.position.x.toFixed(2),y:+P.obj.position.y.toFixed(2),z:+P.obj.position.z.toFixed(2),lv:P.lv|0,pose:P.pose||null,seat:!!P.seat}, seated:out, clips}; })()"""
 
@@ -181,11 +184,16 @@ FPS_JS = r"""(async P=>{ const E=GAME.E, ts=[], gf=[]; const r0=E.render, sk0=E.
 
 PLAYER_SIT_JS = r"""(([k,pose])=>{ const E=GAME.E, P=E.player, st=(E.zone.seats||[])[k]; if(!st) return null; GAME.sitAt(P,st); if(pose){ P.pose=pose; P.idlePose=pose; } E.player.obj.visible=true;
   return {seat:{x:st.x,z:st.z,yaw:st.yaw||0,lv:st.lv|0}, pose:P.pose, cam:E.cam.mode}; })"""
+ALL_NPC_JS = "(()=>GAME.E.npcs.map((n,i)=>[i,n.name||'',n.pose,+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,!!n.hidden,n.beh,n.leaving||false]))()"
 ZONE_MESH_JS = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
 
 
 # ---------- 讀檔、等 ----------
+CUR = {'zone': None}
+
+
 async def load_zone(pg, cdp, zone, hour, day, pos=None):
+    CUR['zone'] = zone
     st = {'zone': zone, 'hour': hour, 'day': day, 'weekday': wd_of(day), 'weather': 'clear'}
     if pos: st['pos'] = pos
     setup('讀檔：%s、day %d（weekday %d）%05.2f 時、晴天、條件事件關閉（playlib quiet_events）' % (zone, day, wd_of(day), hour))
@@ -211,7 +219,9 @@ async def wait_people(pg, ctl, want_idx=None, max_s=90, min_s=8):
         sa = r.get('seatact') or {}
         sig = (len(ppl), sa.get('n'), r.get('pairs'), sum(1 for s in ppl if s['drv'] == 'vrm'))
         # 畫面外 16 m 以上的人不更新骨架（engine3d.js updateNPC）＝ambOn 一直是 false：只看畫面裡的人
-        ok = bool(ppl) and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl)))
+        # SEATACT（坐著做什麼、桌上的東西）每 30 格才跑一次：要等它處理過這個區域（state().zone＝這一區；不是 SEATACT 管的地方＝不用等）
+        sa_ok = not sa or not sa.get('place') or (sa.get('zone') == r['zone'] and (sa.get('n') or 0) > 0)
+        ok = bool(ppl) and sa_ok and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl)))
         if ok and sig == sig0 and time.time() - t1 >= min_s: return r, True, time.time() - t1
         sig0 = sig
         await pg.wait_for_timeout(2000)
@@ -278,12 +288,13 @@ def cam_wide(ppl, mode='row'):
     cx = sum(p['x'] for p in ppl) / len(ppl); cz = sum(p['z'] for p in ppl) / len(ppl); by = sum(p['y'] for p in ppl) / len(ppl)
     fx = sum(math.sin(p['yaw']) for p in ppl); fz = sum(math.cos(p['yaw']) for p in ppl); yaw = math.atan2(fx, fz)
     span = max([math.hypot(p['x'] - cx, p['z'] - cz) for p in ppl] + [1.0])
-    d = max(2.6, span * 1.6 + 1.2)
+    d = min(8.0, max(2.6, span * 1.6 + 1.2))
+    ds = [d, d * 0.7, d * 0.5, 2.6]   # 遠的被牆擋住（鏡頭跑到教室外面）就近一點
     if mode == 'feet':     # 階梯座位的腳：側面、低
-        cands = [[1.57, d, 0.7, 0.35], [-1.57, d, 0.7, 0.35], [1.2, d, 0.8, 0.35], [-1.2, d, 0.8, 0.35], [2.0, d, 0.9, 0.4], [-2.0, d, 0.9, 0.4]]
+        cands = [[a, x, 0.7 + 0.1 * k, 0.35] for x in ds for k, a in enumerate((1.57, -1.57, 1.2, -1.2, 2.0, -2.0))]
         checks = [0.4]
     else:
-        cands = [[0.5, d, 2.3, 0.8], [-0.5, d, 2.3, 0.8], [0, d, 2.5, 0.8], [0.9, d, 2.4, 0.8], [-0.9, d, 2.4, 0.8], [0.3, d * 0.8, 2.0, 0.8], [-0.3, d * 0.8, 2.0, 0.8], [1.3, d, 2.6, 0.8], [-1.3, d, 2.6, 0.8]]
+        cands = [[a, x, 2.3, 0.8] for x in ds for a in (0.5, -0.5, 0.0, 0.9, -0.9, 1.3, -1.3)]
         checks = [0.9]
     return {'c': [cx, cz], 'base': by, 'yaw': yaw, 'cands': cands, 'checks': checks}
 
@@ -348,12 +359,19 @@ async def save_shots(pg, rec, sub, tag):
 async def record(pg, mode, tag, targets, plans, cam, secs, player=False, top=TOPN, Rz=None):
     """targets：要叫 sitAmbFidget 的人（SEATED_JS 的項目或 'player'）；plans：每個人的 [kind…]；cam：[eye, look] 或 None（遊戲自己的鏡頭）"""
     dt = 1.0 / REC_FPS
+    zn = await pg.evaluate('GAME.G.zone')
+    if zn != CUR['zone']:   # 劇情、作息把人換到別的區域（雲端 r1：day 2 錄到一半變成校園）＝這一段不錄
+        check('[%s] 錄影前還在 %s' % (tag, CUR['zone']), False, '現在是 %s' % zn)
+        if Rz is not None: Rz.setdefault('missing', []).append({'seg': tag, 'why': '區域被換成 %s' % zn})
+        return None, None
     if any(t != 'player' for t in targets):   # E.npcs 的順序在主迴圈裡會變（店裡的客人進出、換模型）：照座位座標重新找同一個人
         cur = (await pg.evaluate(SEATED_JS))['seated']; t2 = []
         for t in targets:
             if t == 'player': t2.append(t); continue
             m = [c for c in cur if c['lv'] == t['lv'] and abs(c['x'] - t['x']) < 0.08 and abs(c['z'] - t['z']) < 0.08]
-            if not m: info('[%s] 找不到原本的 #%d（%.2f, %.2f）：他起身走了？' % (tag, t['i'], t['x'], t['z'])); continue
+            if not m:
+                allp = await pg.evaluate(ALL_NPC_JS)
+                info('[%s] 找不到原本的 #%d（%.2f, %.2f）：他起身走了？現在的人 %s' % (tag, t['i'], t['x'], t['z'], J(allp)[:900])); continue
             if m[0]['i'] != t['i']: info('[%s] #%d 現在是 E.npcs[%d]' % (tag, t['i'], m[0]['i']))
             t2.append(m[0])
         if len(t2) != len(targets):
@@ -397,9 +415,9 @@ async def aim_at(pg, spec):
     return [a['eye'], a['look']], a
 
 
-async def stop_people(pg, mode, Rz, ctl):
+async def stop_people(pg, mode, Rz, ctl, key='seated0'):
     r, ok, secs = await wait_people(pg, ctl)
-    Rz['seated0'] = r; Rz['wait_s'] = round(secs, 1)
+    Rz[key] = r; Rz[key + '_wait_s'] = round(secs, 1)
     ppl = [s for s in (r['seated'] if r else []) if not s['hidden']]
     info('[%s] %s %s：坐著的人 %d（VRM %d、坐姿循環 ambOn %d、跪坐 %d、拿書 %d、手機平板 %d、看桌上 %d、聊天 %d、互相看著 %d）；片段 ready=%s sitAmb=%s；SEATACT %s；pairs %s；等了 %.0f 秒%s' % (
         mode, r['zone'] if r else '?', r['date'] if r else '', len(ppl), sum(1 for s in ppl if s['drv'] == 'vrm'), sum(1 for s in ppl if s['ambOn']), sum(1 for s in ppl if s['floor']),
@@ -440,8 +458,10 @@ async def seg_sync(pg, mode, Rz, ppl, tag, row):
     cam, a = await aim_at(pg, cam_wide(row))
     setup('固定鏡頭 %s（同一排 %d 人的全景）；不叫 sitAmbFidget，只記每個人自己開始的小動作 %.0f 秒' % (tag, len(row), SYNC_S))
     seg, rec = await record(pg, mode, tag, [], [], cam, SYNC_S, top=5, Rz=Rz)
+    if rec is None: return None
     r2 = await pg.evaluate(SEATED_JS)
-    st = sync_stats(rec, [p for p in r2['seated'] if p['i'] in set(q['i'] for q in row)] or row, seg['dt'])
+    near = lambda p: any(p['lv'] == q['lv'] and abs(p['x'] - q['x']) < 0.08 and abs(p['z'] - q['z']) < 0.08 for q in row)   # 照座位座標找回同一排（E.npcs 的順序可能變了）
+    st = sync_stats(rec, [p for p in r2['seated'] if near(p)] or row, seg['dt'])
     seg['sync'] = st
     for x in st:
         t5 = x.get('tol0.5') or {}
@@ -482,8 +502,8 @@ async def fill_row(pg, Rz, zone, lv=None, want=ROW_N, pose='read'):
 
 
 async def loc_cafe(pg, cdp, mode, R, ctl):
-    Rz = {'zone': 'cafe', 'hour': 15.0, 'day': 2}; R['stops'].append(Rz)
-    if not check('[%s] 讀到兩點半（cafe 15:00）' % mode, await load_zone(pg, cdp, 'cafe', 15.0, 2)): return
+    Rz = {'zone': 'cafe', 'hour': 15.0, 'day': CAFE_DAY}; R['stops'].append(Rz)
+    if not check('[%s] 讀到兩點半（cafe 15:00）' % mode, await load_zone(pg, cdp, 'cafe', 15.0, CAFE_DAY)): return
     await pg.evaluate(HIDE_PLAYER_JS + '(true)')
     r, ppl = await stop_people(pg, mode, Rz, ctl)
     if not check('[%s] 兩點半有坐著的 NPC' % mode, bool(ppl), str(len(ppl))): return
@@ -496,8 +516,8 @@ async def loc_cafe(pg, cdp, mode, R, ctl):
     await seg_close(pg, mode, Rz, ppl, 'cafe_sofa', 'sofa', ['posture', 'stretch', 'posture'], camm='side', used=set(), fallback=('chair',))
     await pg.evaluate(UNCAM_JS)
     if CAFE2:
-        Rz2 = {'zone': CAFE2, 'hour': 15.0, 'day': 2, 'why': '兩點半沒有同桌聊天的一組（SEATACT chat 只在 crowd3d 的店）、沒有滑手機的人'}; R['stops'].append(Rz2)
-        if not check('[%s] 讀到 %s 15:00' % (mode, CAFE2), await load_zone(pg, cdp, CAFE2, 15.0, 2)): return
+        Rz2 = {'zone': CAFE2, 'hour': 15.0, 'day': DAY, 'why': '兩點半沒有同桌聊天的一組（SEATACT chat 只在 crowd3d 的店）、沒有滑手機的人'}; R['stops'].append(Rz2)
+        if not check('[%s] 讀到 %s 15:00' % (mode, CAFE2), await load_zone(pg, cdp, CAFE2, 15.0, DAY)): return
         await pg.evaluate(HIDE_PLAYER_JS + '(true)')
         r, ppl = await stop_people(pg, mode, Rz2, ctl)
         if not ppl: return
@@ -513,6 +533,9 @@ async def loc_cafe(pg, cdp, mode, R, ctl):
             Rz2['lookStale'] = [{k: s.get(k) for k in ('i', 'x', 'z', 'act', 'look', 'lookNear', 'pose')} for s in stale]
             Rz2.setdefault('missing', []).append({'seg': 'cafe2_chat', 'why': '沒有 u.sitChat（SEATACT.pairs()=%s；互相看著 %d 人）' % (r['pairs'], len(mut))})
             if mut: await seg_close(pg, mode, Rz2, ppl, 'cafe2_mutual', 'chat', ['look'], used=set())
+        # 兩點半這個時段沒有手上空的人（全部在讀書、滑手機＝pose read）：撥頭髮改在這裡補
+        if 'hair' in KINDS and not any(q['ok'] is True and q.get('live') and q.get('got') == 'hair' for sg in Rz.get('segs', []) for q in sg['fid']):
+            await seg_close(pg, mode, Rz2, ppl, 'cafe2_hair', 'hair', ['hair', 'side'], prefer_f=True, used=set(), fallback=())
         # 滑手機的拇指（每 2～6 秒自己滑一下，不用叫）＋抬頭
         await seg_close(pg, mode, Rz2, ppl, 'cafe2_phone', 'phone', ['glance'], used=set(), fallback=())
         await pg.evaluate(UNCAM_JS)
@@ -521,8 +544,8 @@ async def loc_cafe(pg, cdp, mode, R, ctl):
 async def loc_lib(pg, cdp, mode, R, ctl):
     HOURS = {'library_hall': 14.0, 'library': 14.0, 'lawlib': 14.0, 'soclib': 14.0}
     for z in LIBZ:
-        Rz = {'zone': z, 'hour': HOURS.get(z, 14.0), 'day': 2}; R['stops'].append(Rz)
-        ok = await load_zone(pg, cdp, z, Rz['hour'], 2)
+        Rz = {'zone': z, 'hour': HOURS.get(z, 14.0), 'day': DAY}; R['stops'].append(Rz)
+        ok = await load_zone(pg, cdp, z, Rz['hour'], DAY)
         if not check('[%s] 讀到 %s 14:00' % (mode, z), ok):
             Rz['missing'] = [{'why': '沒有這個區域（讀不到）'}]; continue
         await pg.evaluate(HIDE_PLAYER_JS + '(true)')
@@ -541,7 +564,7 @@ async def loc_lib(pg, cdp, mode, R, ctl):
         info('[%s] %s 自然坐著的同一排（2 人以上）%s；%d 人以上的排 %s' % (mode, z, J(Rz['natural_rows']), ROW_MIN, '有' if nat else '沒有'))
         if not nat:
             await fill_row(pg, Rz, z, lv=lv if lv is not None else (pl[0]['lv']), want=ROW_N)
-            r, ppl2 = await stop_people(pg, mode, Rz, ctl)
+            r, ppl2 = await stop_people(pg, mode, Rz, ctl, key='seated_after_fill')
             pl2 = [s for s in ppl2 if lv is None or s['lv'] == lv] or ppl2
             nat = best_row(pl2)
         if nat: await seg_sync(pg, mode, Rz, ppl, z + '_sync', nat)
@@ -550,8 +573,8 @@ async def loc_lib(pg, cdp, mode, R, ctl):
 
 
 async def loc_tea(pg, cdp, mode, R, ctl):
-    Rz = {'zone': 'wz_teahouse', 'hour': 15.0, 'day': 2}; R['stops'].append(Rz)
-    if not check('[%s] 讀到一盞茶屋 15:00' % mode, await load_zone(pg, cdp, 'wz_teahouse', 15.0, 2)): return
+    Rz = {'zone': 'wz_teahouse', 'hour': 15.0, 'day': DAY}; R['stops'].append(Rz)
+    if not check('[%s] 讀到一盞茶屋 15:00' % mode, await load_zone(pg, cdp, 'wz_teahouse', 15.0, DAY)): return
     await pg.evaluate(HIDE_PLAYER_JS + '(true)')
     r, ppl = await stop_people(pg, mode, Rz, ctl)
     if not check('[%s] 一盞有坐著的 NPC' % mode, bool(ppl), str(len(ppl))): return
@@ -567,8 +590,8 @@ async def loc_tea(pg, cdp, mode, R, ctl):
 
 async def loc_eat(pg, cdp, mode, R, ctl):
     z = EAT; h = 12.25
-    Rz = {'zone': z, 'hour': h, 'day': 2}; R['stops'].append(Rz)
-    if not check('[%s] 讀到 %s 12:15' % (mode, z), await load_zone(pg, cdp, z, h, 2)): return
+    Rz = {'zone': z, 'hour': h, 'day': DAY}; R['stops'].append(Rz)
+    if not check('[%s] 讀到 %s 12:15' % (mode, z), await load_zone(pg, cdp, z, h, DAY)): return
     await pg.evaluate(HIDE_PLAYER_JS + '(true)')
     r, ppl = await stop_people(pg, mode, Rz, ctl)
     if not check('[%s] %s 有坐著的 NPC' % (mode, z), bool(ppl), str(len(ppl))): return
@@ -610,8 +633,8 @@ async def loc_class(pg, cdp, mode, R, ctl):
 
 async def loc_player(pg, cdp, mode, R, ctl):
     # 玩家自己坐下讀書：總圖二樓自習區，玩家旁邊的位子有人
-    Rz = {'zone': 'library_hall', 'hour': 14.0, 'day': 2, 'what': '玩家坐下讀書'}; R['stops'].append(Rz)
-    if check('[%s] 讀到總圖大廳 14:00' % mode, await load_zone(pg, cdp, 'library_hall', 14.0, 2)):
+    Rz = {'zone': 'library_hall', 'hour': 14.0, 'day': DAY, 'what': '玩家坐下讀書'}; R['stops'].append(Rz)
+    if check('[%s] 讀到總圖大廳 14:00' % mode, await load_zone(pg, cdp, 'library_hall', 14.0, DAY)):
         r, ppl = await stop_people(pg, mode, Rz, ctl)
         seats = await pg.evaluate(SEATS_JS + '(1)')
         occ = [(p['x'], p['z']) for p in ppl if p['lv'] == 1]
@@ -631,8 +654,8 @@ async def loc_player(pg, cdp, mode, R, ctl):
             await record(pg, mode, 'player_sit', ['player'], [['posture', 'look', 'posture']], None, SEG_S, player=True, Rz=Rz)
             await pg.evaluate("(()=>{ const P=GAME.E.player; GAME.standUp&&GAME.standUp(P); return true; })()")
     # 和坐著的 NPC 說話：兩點半，坐在長椅上看講義的女生（有名字、會說話）
-    Rz = {'zone': 'cafe', 'hour': 15.0, 'day': 2, 'what': '和坐著的 NPC 說話'}; R['stops'].append(Rz)
-    if not check('[%s] 讀到兩點半 15:00' % mode, await load_zone(pg, cdp, 'cafe', 15.0, 2)): return
+    Rz = {'zone': 'cafe', 'hour': 15.0, 'day': DAY, 'what': '和坐著的 NPC 說話'}; R['stops'].append(Rz)
+    if not check('[%s] 讀到兩點半 15:00' % mode, await load_zone(pg, cdp, 'cafe', 15.0, DAY)): return
     r, ppl = await stop_people(pg, mode, Rz, ctl)
     tk = [s for s in ppl if s['talk'] and not s['extra']] or [s for s in ppl if s['talk']]
     if not check('[%s] 有會說話的坐著的 NPC' % mode, bool(tk), J([[s['i'], s['name']] for s in ppl])): return
@@ -666,8 +689,8 @@ async def loc_player(pg, cdp, mode, R, ctl):
 
 
 async def loc_fps(pg, cdp, mode, R, ctl):
-    Rz = {'zone': 'library_hall', 'hour': 14.0, 'day': 2, 'what': 'FPS'}; R['stops'].append(Rz)
-    if not check('[%s] 讀到總圖大廳 14:00' % mode, await load_zone(pg, cdp, 'library_hall', 14.0, 2)): return
+    Rz = {'zone': 'library_hall', 'hour': 14.0, 'day': DAY, 'what': 'FPS'}; R['stops'].append(Rz)
+    if not check('[%s] 讀到總圖大廳 14:00' % mode, await load_zone(pg, cdp, 'library_hall', 14.0, DAY)): return
     await pg.evaluate(HIDE_PLAYER_JS + '(true)')
     r = await pg.evaluate(SEATED_JS)
     have = sum(1 for s in r['seated'] if s['lv'] == 1)

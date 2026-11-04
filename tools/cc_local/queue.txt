@@ -211,7 +211,12 @@ T6_gpu_noise_off_b | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/sto
 T6_gpu_noise_on_a | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=1;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
 T6_gpu_noise_on_b | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_baseline_probe.py | index.html | 20 | DET=1;CLOCK=1;SET=wz,gg;STATIONS=24,44;DIRS=4;CC_HEADLESS=0
 # 阿德 v2（BB-C 15:33，不進 v9.10.20）：ADE_v2_lanewest＝wz_street_integration 的 lane_west calls／tris（LAWWW2 估 +5.4k 面、+5 calls）；ADE_v2_shots 探針寫好、雲端驗完再排
-ADE_v2_lanewest | ba038059e4fd5c42b00243c75023850a666becb3 | game | tests/wz_street_integration.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+# 阿德 v2.1（BB-C 16:12）：ADE_v2_lanewest／ADE_v2_shots 改到 d63fed15e（還沒開跑，直接改 SHA）；refcam 換成 v2.1 的鏡頭；拍完雲端跑 same_angle_check --mode shop --fov 45.7
+ADE_v2_lanewest | d63fed15e1a7f1dcccff5f1c25f53bac726ab30e | game | tests/wz_street_integration.py | index.html | 20 | XARGS={url};CC_HEADLESS=0
+ADE_v2_shots | d63fed15e1a7f1dcccff5f1c25f53bac726ab30e | probe | docs/story_planning/test_tools/cc/cc_ade_v2_shots_probe.py | index.html | 20 | HOURS=14,20.5;CC_HEADLESS=0
+# SAVE_LZ_perf（BB-C 15:42；SAVE-LZ-1104 第一步 a8755309f，不進 v9.10.20）：灌到 1.25M 字元，lz／JSON 各 5 次自動存檔＋讀回；BB 判準 PC 最大 ≤300 OK、300～800 P2、>800 改閒置時壓；PC≠手機
+#   雲端 15:5x 驗過流程（ALL PASS；SwiftShader 數字不採信：lz 存 650／744 ms、JSON 23 ms、壓縮率 7.7%——灌的訊息是 155 句輪流，壓縮率比真實存檔好）
+SAVE_LZ_perf | a8755309fce8492182fd6b8b028884604565f7cd | probe | docs/story_planning/test_tools/cc/cc_save_lz_perf_probe.py | index.html | 20 | TARGET=1250000;N=5;CC_HEADLESS=0
 # ===== [BB-C 15:00 的順序沒列到、今天排的] 先放這裡，已問 BB-C 要不要留（PARK_glb_r3／groups2 是 BB-C 14:0x 要的）
 PARK_glb_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_groups2 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 25 | VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0
