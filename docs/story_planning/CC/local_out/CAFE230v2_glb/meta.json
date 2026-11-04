@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "CAFE230v2_glb",
+  "sha": "75a095355",
+  "kind": "game",
+  "script": "tests/cafe_glb_integration.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T15:35:20",
+  "end": "2026-11-04T15:37:28",
+  "seconds": 129,
+  "exit": 1,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 43,
+    "mem": 57,
+    "used_gb": 17.5,
+    "chrome_testing": 29
+  }
+}
