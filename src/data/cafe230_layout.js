@@ -6,7 +6,7 @@
    參考圖的鏡頭站在門邊往裡面看：左邊臨街窗、右邊吧台、正前方拱門卡座。遊戲裡的對應：站在東邊（右牆側窗前）往西看——左手邊（+z）臨街玻璃＋窗邊吧台，右手邊（−z）後牆的吧檯，正前方（西牆）拱門卡座。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。 */
 const CAFE230_LAYOUT = {
-  version: 1,
+  version: 2,
   id: 'cafe230', zone: 'cafe', name: '2:30 AM', glb: 'assets/models/env/second_ai/aa_support/cafe230.glb',
   w: 14.0, d: 12.0, h: 3.4, floor: 'wood_light（D112：參考圖是中深色木地板，改淺色）',
   fixedFrom: 'tools/blender/env_second/cafe_layout.py（TABLES、BAR、SHELF、STOOLS＋STOOL4、FOUR_TOP、COUNTER、WC_STOOLS、SOFA、BOOKCASE、UMBRELLA、BELL、ROSTER、RIGHT_WINS、門窗）',
@@ -28,6 +28,14 @@ const CAFE230_LAYOUT = {
     {x: -6.55, z: 0.55, yaw: Math.PI / 2, table: 'booth', seatH: 0.45, label: '坐卡座'},
     {x: -4.65, z: 0.0, yaw: -Math.PI / 2, table: 'booth', label: '坐下'}
   ],
+  v1b: '（LAWWW2 11-04 05:00 退回五項）下半部胡桃木護牆板 1.0 m＋木條、天花板改深色木、吧檯上方 6 盞吊燈、後牆層架多一層酒瓶、每層 30 件、三串黃金葛、四人桌下的舊地毯、牆上三個框畫。東牆兩扇側窗之間的扶手椅沒放：那裡是固定的大盆栽 (6.35,−0.5)。家具位置、block 都沒變。',
+  seatPlan: {
+    note: 'LAWWW 11-04 FIXED_COORDS §1、§7-4 問的，AA 定：座位位置和順序都不改（照 zones3d.js 現在的 17 個）',
+    bar: '吧檯高腳椅 10～13 號開放玩家坐，可以讀書（「點杯咖啡慢慢讀」也認）：tag bar。參考圖的吧台是坐人的。',
+    longTableEnds: '長桌兩端 8、9 號開放玩家坐（一般坐下，可以讀書）。',
+    sofa: '沙發 14～16 號 tag sofa；店內偶遇以安「她坐在沙發那一區」請讓這一句挑沙發（偶遇挑位子不要排除 sofa 標記的那一句）。',
+    door: '進門落點 (0,5) 前面不放任何地上的東西（v1b 的地毯在四人桌下面，離門 3 m 以上）。'
+  },
   interact: [
     {x: 4.1, z: -5.0, kind: 'record', label: '看唱片', note: '書牆中段的唱盤'},
     {x: 1.4, z: -3.65, kind: 'pastry', label: '看蛋糕櫃', note: '吧檯東端外面（不和吧檯椅 (0.3, −3.3) 搶互動）'}

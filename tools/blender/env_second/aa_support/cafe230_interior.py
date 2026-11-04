@@ -23,7 +23,7 @@ P = 'a23_'
 sh.M.update({
     'floor': L.pbr(P + 'floor_wood', 'laminate_floor_02', tile=2.2, target='#c4a07a', maps=('diff',), res=512, rough_value=0.55),
     'wall': CL.soft_plaster(P + 'wall_warm', '#e6d6bc', 0.9, cull=True, tile=1.6, k=0.25),
-    'wood': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#5e3f28', maps=('diff',), res=256, rough_value=0.45),
+    'wood': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#5e3f28', maps=('diff',), res=256, rough_value=0.45, cull=True),   # v1b：單面（木頭都是封閉的盒子；天花板也用它）
     'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff2d8', rough=0.3, emit=B.srgb('#ffcf8a')),
     'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.08),
@@ -102,7 +102,7 @@ def brass_pendant(x, z, y, r=0.24):
 
 # ---------------------------------------------------------------- 地板、天花板（深色外露：管線、冷氣、軌道燈）、牆、窗
 Mesh(P + 'floor', sh.M['floor'], tile=2.2).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
-ce = Mesh(P + 'ceiling', sh.M['wall'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
+ce = Mesh(P + 'ceiling', sh.M['wood'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)   # v1b（LAWWW2）：深色木天花板
 for k in range(3): z_ = Z0 + 2.0 + k * 4.0; xf0.rbox(sh.a('vcm'), X0, X1, H - 0.22, H - 0.005, z_ - 0.12, z_ + 0.12, r=0.01, seg=1, col=CEIL)   # 深色的梁（v1：三根、細一點）
 for (zz, r_) in ((-3.2, 0.05), (-3.0, 0.03), (3.6, 0.04)): xf0.cyl(sh.a('vcm'), (X0, H - 0.42, zz), (X1, H - 0.42, zz), r_, col='#6a6660', seg=8, caps=False)
 xf0.rbox(sh.a('vcm'), -1.0, 0.2, H - 0.36, H - 0.32, 0.6, 1.8, r=0.02, seg=1, col='#e6e4dd'); xf0.rbox(sh.a('vcm'), -0.85, 0.05, H - 0.365, H - 0.355, 0.75, 1.65, r=0.005, seg=1, col='#a8a8a4')   # 冷氣
@@ -113,13 +113,13 @@ for zz in (3.0, -0.6):                                                          
         sh.a('bulb').cyl(sp.p(0, H - 0.5, 0.04 if zz > 0 else -0.04), sp.p(0, H - 0.505, 0.042 if zz > 0 else -0.042), 0.024, seg=8)
         if k % 2 == 0: CL.glow(sh.root, 'spot', x, H - 0.7, zz, color='rgba(255,210,150,1)', size=0.5, day=0.0, night=0.55)
 ops = [(-CF.DOOR, CF.DOOR, 0.0, CF.HEAD, 'door'), (CF.SX0, -CF.DOOR - CF.POST, CF.SILL, CF.HEAD, 'win'), (CF.DOOR + CF.POST, CF.SX1, CF.SILL, CF.HEAD, 'win')]
-sh.wall_with_openings('front', ops, 'wall', 'wall', 0.0, 'wood', mull=0.9)
+sh.wall_with_openings('front', ops, 'wood', 'wall', 1.0, 'wood', mull=0.9)   # v1b：下半部胡桃木護牆板
 xf0.rbox(sh.w('front', 'wood'), -CF.DOOR, CF.DOOR, CF.TRAN - 0.03, CF.TRAN + 0.03, Z1 - 0.14, Z1, r=0.004, seg=1)          # 門上氣窗的橫木
 rops = [(zc - CF.WIN_W / 2, zc + CF.WIN_W / 2, CF.WIN_Y - CF.WIN_H / 2, CF.WIN_Y + CF.WIN_H / 2, 'win') for zc in CF.RIGHT_WINS]
-sh.wall_with_openings('right', rops, 'wall', 'wall', 0.0, 'wood', mull=0.75)
+sh.wall_with_openings('right', rops, 'wood', 'wall', 1.0, 'wood', mull=0.75)
 for side in ('back', 'left'):
-    a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wall', a0, a1, 0.0, H)
-for side, (a0, a1) in (('left', (Z0, Z1)), ('right', (Z0, Z1)), ('back', (X0, X1))): sh.wall_box(side, 'wood', a0, a1, 0.0, 0.12, -0.015, 0.0)
+    a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wood', a0, a1, 0.0, 1.0); sh.wall_box(side, 'wall', a0, a1, 1.0, H)
+for side, (a0, a1) in (('left', (Z0, Z1)), ('right', (Z0, Z1)), ('back', (X0, X1)), ('front', (X0, -CF.DOOR - CF.POST)), ('front', (CF.DOOR + CF.POST, X1))): sh.wall_box(side, 'wood', a0, a1, 0.98, 1.04, -0.03, 0.0)   # 護牆板上緣的木條（門口斷開）
 vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])
 xf0.quad(vw, [(9.0, 5.5, vz), (-9.0, 5.5, vz), (-9.0, -1.0, vz), (9.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.0))
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
@@ -166,21 +166,23 @@ sh.a('glass').box(pc0 + 0.01, pc1 - 0.01, top + 0.06, top + 0.5, bz0 + 0.06, bz1
 for y in (top + 0.2, top + 0.34): sh.a('glass').box(pc0 + 0.02, pc1 - 0.02, y, y + 0.01, bz0 + 0.07, bz1 - 0.05)
 for row, y in enumerate((top + 0.06, top + 0.21, top + 0.35)):
     for k in range(4): Xf(pc0 + 0.15 + k * 0.26, CF.BAR['z'] + 0.05, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.08, 0.0), (0.08, 0.07), (0.0, 0.075)], 0, 0, 0, seg=10, col=('#f4ecd8', '#e8c890', '#c98a5a', '#f0d0c8')[(k + row) % 4])
-for (y, kind) in ((1.55, 'jar'), (1.95, 'mug'), (2.35, 'jar')):                                                        # 後牆層架（固定位置 z −5.75）
+for (y, kind) in ((1.55, 'jar'), (1.95, 'mug'), (2.35, 'jar'), (2.75, 'bottle')):   # v1b：多一層酒瓶                                                        # 後牆層架（固定位置 z −5.75）
     xf0.rbox(sh.a('wood'), bx0 + 0.1, bx1 - 0.1, y - 0.035, y, Z0 + 0.012, Z0 + 0.32, r=0.004, seg=1)
     sh.a('bulb').box(bx0 + 0.15, bx1 - 0.15, y - 0.045, y - 0.035, Z0 + 0.28, Z0 + 0.3)
-    n = 24
+    n = 30
     for k in range(n):
         xx = bx0 + 0.25 + k * (CF.BAR['w'] - 0.5) / (n - 1)
         if k % 7 == 3: sh.plant(xx, Z0 + 0.16, h=0.3, r=0.07, pot_col='#d8d0c0', y0=y); continue
+        if kind == 'bottle' and abs(xx - IT['sign'][0]['along']) < IT['sign'][0]['w'] / 2 + 0.15: continue   # 招牌前面不放酒瓶
+        if kind == 'bottle': Xf(xx, Z0 + 0.16, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.04, 0.0), (0.04, 0.2), (0.015, 0.28), (0.013, 0.32), (0.0, 0.32)], 0, 0, 0, seg=7, col=('#2e4a2e', '#4a2e1e', '#6a5a3a', '#1e2a22')[k % 4]); continue
         if kind == 'jar': K.jar(sh, xx, Z0 + 0.16, y, h=0.22 if y < 2 else 0.18, r=0.055, col=('#5a3a22', '#6a4a2a', '#3a2418', '#8a6a3a')[k % 4], lid='#b8944a')
         else: K.mug(sh, xx, Z0 + 0.16, y, col=('#f2efe8', '#f2efe8', '#e8dcc8')[k % 3], r=0.04, h=0.09)
-for xx in (bx0 + 0.5, bx1 - 0.6): sh.hanging_pothos('pothos', xx, 2.42, Z0 + 0.2, n=9, drop=0.8)
+for xx in (bx0 + 0.5, bx0 + 2.9, bx1 - 0.6): sh.hanging_pothos('pothos', xx, 2.82, Z0 + 0.2, n=9, drop=0.9)
 sg = IT['sign'][0]; sh.wall_img('back', 'print', sg['along'], sg['y'], sg['w'], sg['h'], K.cell_uv(0, 0, 4, 1), off=0.03)
 xf0.rbox(sh.w('back', 'wood'), sg['along'] - sg['w'] / 2 - 0.04, sg['along'] + sg['w'] / 2 + 0.04, sg['y'] - sg['h'] / 2 - 0.04, sg['y'] + sg['h'] / 2 + 0.04, Z0, Z0 + 0.025, r=0.006, seg=1)
 hr = IT['hours'][0]; sh.wall_img('back', 'print', hr['along'], hr['y'], hr['w'], hr['h'], K.cell_uv(6, 2, 2, 1), off=0.03)
 sh.wall_img('back', 'print', 0.7, CF.ROSTER[1], 0.3, 0.42, K.cell_uv(4, 0, 2, 2), off=0.02)                              # 班表位置的小黑板（照舊在 x 0.7）
-for k in range(3): brass_pendant(bx0 + 1.4 + k * 2.1, CF.BAR['z'] + 0.5, 2.15, r=0.3)
+for k in range(6): brass_pendant(bx0 + 0.6 + k * (CF.BAR['w'] - 1.2) / 5, CF.BAR['z'] + 0.45, 2.2, r=0.19)   # v1b：一排 6 盞
 for x, z_ in CF.STOOLS + [CF.STOOL4]: stool(x, z_, h=0.75)
 sh.tally('bar')
 
@@ -260,4 +262,14 @@ bp = [(p[0], p[1]) for p in CF.BIG_PLANTS]
 pm = IT['plant_moved'][0]; bp = [tuple(pm['to']) if (abs(p[0] - pm['from'][0]) < 0.01 and abs(p[1] - pm['from'][1]) < 0.01) else p for p in bp]
 for (x, z_) in bp: leafy(x, z_)
 sh.tally('seating')
-info = sh.finish(OUT, extra_info={'layout': LAY['version'], 'zone': 'cafe'})
+
+# ---------------------------------------------------------------- v1b（LAWWW2 11-04 05:00）：四人桌下的舊地毯、牆上的框畫
+fx, fz = CF.FOUR_TOP
+xf0.rbox(sh.a('vc'), fx - 1.5, fx + 1.5, 0.0, 0.008, fz - 1.3, fz + 1.3, r=0.0, seg=1, col='#6a3a2c')
+xf0.rbox(sh.a('vc'), fx - 1.36, fx + 1.36, 0.008, 0.011, fz - 1.16, fz + 1.16, r=0.0, seg=1, col='#8a5a3a')
+xf0.rbox(sh.a('vc'), fx - 1.0, fx + 1.0, 0.011, 0.013, fz - 0.8, fz + 0.8, r=0.0, seg=1, col='#5a3a2a')
+for side, along, cell in (('right', -0.5, (6, 0)), ('left', -3.2, (0, 1)), ('left', 3.0, (2, 1))):
+    sh.wall_img(side, 'print', along, 1.85, 0.5, 0.5, K.cell_uv(cell[0], cell[1], 2, 2), off=0.03)
+    wx = sh.wall_xf(side, along, 0.0, 1.85); wx.rbox(sh.w(side, 'wood'), -0.29, 0.29, -0.29, 0.29, 0.0, 0.025, r=0.0, seg=1)
+sh.tally('v1b')
+info = sh.finish(OUT, keep=lambda ob: 'ceiling' in ob.name, extra_info={'layout': LAY['version'], 'zone': 'cafe'})
