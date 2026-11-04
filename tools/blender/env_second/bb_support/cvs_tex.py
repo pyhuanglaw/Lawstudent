@@ -280,7 +280,7 @@ def cooler(path):
     im = Image.new('RGB', (2048, 2048), (236, 242, 246)); d = ImageDraw.Draw(im); rng = random.Random(77)
     for c, kind in enumerate(('drink', 'drink', 'fresh', 'frozen')):
         x0 = c * 512; CCELLS[f'{kind}{c}'] = (x0 / 2048, 0.0, (x0 + 512) / 2048, 1.0)
-        d.rectangle([x0, 0, x0 + 512, 2048], fill=(226, 234, 240) if kind != 'frozen' else (214, 228, 240))
+        d.rectangle([x0, 0, x0 + 512, 2048], fill=(188, 198, 206) if kind != 'frozen' else (190, 206, 222))
         shelves = [60 + k * 330 for k in range(6)]
         for i, sy in enumerate(shelves):
             y1 = sy + 300; d.rectangle([x0, y1, x0 + 512, y1 + 22], fill=(190, 196, 200)); d.rectangle([x0, y1 + 22, x0 + 512, y1 + 30], fill=(255, 214, 70))

@@ -50,7 +50,7 @@ const CVS_LAYOUT = {
       {kind: 'hotfood', x: 2.7, z: 3.0, yaw: Math.PI / 2, label: '看熱食櫃'},
       {kind: 'coffee', x: 2.45, z: -0.1, yaw: Math.PI / 2, label: '點日和咖啡'},
       {kind: 'parcel', x: 3.85, z: 5.8, yaw: Math.PI / 2, label: '包裹暫取'},
-      {kind: 'microwave', x: -3.8, z: -1.55, yaw: Math.PI, label: '微波加熱'},
+      {kind: 'microwave', x: -3.3, z: -1.45, yaw: Math.PI, label: '微波加熱'},
       {kind: 'cooler', x: 3.75, z: -4.0, yaw: Math.PI / 2, label: '看冷藏櫃'}
     ],
     spots: {},
