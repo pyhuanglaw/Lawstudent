@@ -367,7 +367,7 @@ const CROWD=(function(){
     if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-0.45).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
-        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')&&!(typeof Z3!=='undefined'&&Z3.wzNoSit&&Z3.wzNoSit(k,L,s))))));   /* Z3.wzNoSit：小路走不進去的五張（zones3d.js WZ_AA_NOSIT）不排路人 */ }
+        add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||'')))));   /* 走不進去的位子在配置寫 npcOnly（小路 v4 起；原本的 Z3.wzNoSit 拿掉）*/ }
       /* 阿德影印 v1c（ade_layout v3，CC 5977272dc；BB_257、CC_49 v1c）：站著的三點讀配置的 stands（原本寫死 (−1.55,1.95)、(1.15,3.25)、(0.25,1.95)，新配置前後兩點在自助影印機、長桌裡）；
          自助電腦那四張椅子客人可以坐（LAWWW 07:16 決定：等印東西時坐；原本影印店只有站著的客人）——同時最多 2 位照舊（SHOP_KIND.print.cap）。櫃台後面的辦公椅（打工）、阿芃的凳子（npcOnly）不算 */
       if(WZ.print&&WZ.print.spawn){ const LP=WZ.print, st=(LP.stands&&LP.stands.length?LP.stands:[[-1.55,1.95,Math.PI],[1.15,3.25,Math.PI/2],[0.25,1.95,Math.PI]]);

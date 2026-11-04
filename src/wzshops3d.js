@@ -45,8 +45,27 @@ const WZS=(()=>{
   S.teaMenu=G=>S.TEA.filter(t=>!t[4]||t[4](G));
   /* 看院子、看床之間的掛軸（AA_172 2-2，0 分鐘）：院子白天兩句輪流、18:00 以後換石燈籠那一句；掛軸兩句輪流 */
   S.GARDEN=['踏石一塊一塊排到緣側前面。石縫裡的苔很綠，像是有人每天澆水。','杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。','石燈籠亮了。院子裡只剩那一小團光，和老樟樹的影子。'];
-  S.TOKONOMA=['（掛軸上是一幅淡淡的山水。山很遠，前面一條小路，路上沒有人。）',   /* AA_659 第 3 節（21beb9d12）：新室內（yizhan v1d）的掛軸是水墨山水，不是一個「茶」字；第 2 句照舊 */
-             '下面的花器插著一枝花，看起來是院子剪的。床之間不放東西，也不坐人。'];
+  S.TOKONOMA=['（掛軸上是一幅淡淡的山水。山很遠，前面一條小路，路上沒有人。）',   /* AA_659 第 3 節（21beb9d12）：新室內（yizhan v1d）的掛軸是水墨山水，不是一個「茶」字 */
+             '（下面的花器插著一枝花，看起來是院子剪的。床之間不放東西，也不坐人。）'];   /* AA_659 第 3 節（bc021c7e1）：第 2 句加括號、字照舊——兩句都是旁白，格式統一 */
+  /* 一盞的前院（AA_659 第 3 節 bc021c7e1，D109 逐字；位置在 src/data/wz_shops_layout.js 前院那一段的 interact）：
+     看石燈籠 18:00 前／後各一句；看樟樹兩句輪流，颱風後的院子（wz_events ev_wz_t3「樟樹斷了一根枝」，演過會設 WZ_TEA_SEAT）演過以後第 2 句換掉；
+     看貓碗（只在 WZ_CATBOWL 看得到的時候：找到貓以後、收養以前，碗和按鈕一起，zones3d.js teaYard）；看門口的木牌一句；
+     第一次從冠木門走進前院的旁白一次（旗標 WZ_TEA_YARD_IN，story3d.js S.onEnter 呼叫 S.yardIntro）*/
+  S.YARD={lantern:['（石燈籠的小窗口裡積了一點落葉。笠上長了一圈青苔。）','（石燈籠裡點著一支小燈，光從四個小窗口透出來，落在踏石上。）'],
+    camphor:['（老樟樹的樹幹比你兩隻手合抱還粗。樹皮一條一條裂開，摸起來是乾的。）','（風吹過來，整棵樹沙沙響。院子比外面的溫州街涼一點。）'],
+    camphorAfter:'（斷掉的那根枝已經鋸平了，切口塗了一層東西。新的葉子從旁邊長出來。）',
+    catbowl:'（樟樹下放著一個小碗，裡面的水是新換的。旁邊的石頭上黏著一小撮橘白色的毛。）',
+    gatesign:'（門柱上掛著一塊木牌，寫著「一盞」。字被太陽曬得有點淡了。）',
+    intro:'（推開冠木門，溫州街的聲音一下子小了。踏石一塊一塊排到玄關前面。）'};
+  S.yardLine=function(G,kind){ const F=G.flags||(G.flags={});
+    if(kind==='lantern') return S.YARD.lantern[hr(G)>=18?1:0];
+    if(kind==='camphor'){ const r=S.rec(G); r.camphorN=((r.camphorN|0)+1)%2; return r.camphorN===1?S.YARD.camphor[0]:(F.WZ_TEA_SEAT?S.YARD.camphorAfter:S.YARD.camphor[1]); }
+    if(kind==='catbowl') return S.YARD.catbowl;
+    if(kind==='gatesign') return S.YARD.gatesign;
+    return null; };
+  S.yardIntro=async function(GM){ const G=GM.G, F=G.flags||(G.flags={}), E=GM.E, z=E&&E.zone, P=E&&E.player; if(F.WZ_TEA_YARD_IN||!z||z.id!=='wz_teahouse'||!P) return false;
+    if(!(P.obj.position.z>(z.yardZ||6.35))) return false;   /* 從冠木門進來（落點 (−3.0, 9.0)）才算；劇情把人直接放進屋裡的不算 */
+    F.WZ_TEA_YARD_IN=true; await GM.sleep(700); GM.caption('',S.YARD.intro,4200); return true; };
   S.gardenLine=G=>{ if(hr(G)>=18) return S.GARDEN[2]; const r=S.rec(G); r.gardenN=((r.gardenN|0)+1)%2; return S.GARDEN[r.gardenN]; };
   S.tokonomaLine=G=>{ const r=S.rec(G); r.tokoN=((r.tokoN|0)+1)%2; return S.TOKONOMA[r.tokoN]; };
 
@@ -258,6 +277,7 @@ const WZS=(()=>{
       else if(k==='teahouse'&&kind==='tea'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'su');   /* 順手的事 SQ08：問蘇姨（下午）*/ const it=await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); if(typeof AA524!=='undefined'&&AA524.ytEgg) await AA524.ytEgg(GM);   /* AA_524 Y8（AA_630 Z-002）：語彤生日「蘇姨說要請你吃茶點。下次來。」以後第一次點茶 */ await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); await sideq(GM,'溫州街・一盞',it); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }
       else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
+      else if(k==='teahouse'&&S.YARD[kind]){ const t=S.yardLine(G,kind); if(t) await GM.say(null,t); }   /* 前院四個（AA_659 第 3 節）*/
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/
         if(j&&j.lv>=1) await GM.say(null,'阿德：「自己印吧。你知道機器在哪裡。」');
         await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); const q=typeof SHOPENC!=='undefined'&&SHOPENC.keeperLine?SHOPENC.keeperLine(G,'wz_print'):null; if(q) for(const t of q.lines) await GM.say(/^（/.test(t)?null:{name:q.name},t); },false,'阿德影印輸出'); }   /* 阿德的招呼（AA_633 shopkeepers：隨機一句、考試週機率高；src/shopenc3d.js）*/
