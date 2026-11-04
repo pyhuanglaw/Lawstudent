@@ -403,8 +403,8 @@ const R2Y4B=(function(){
   /* 每個人：h＝[2029, 2030] 幾點；at29／at30＝地點（place 也是出遊的地點、字幕）；open29／open30＝地點的旁白；knew／ask／told／quiet／last＝台詞
      （字串＝她說；{narr}＝旁白，n30＝2030 的那一句；{t, t30}＝她說、2030 換成 t30）*/
   S.APART={   /* AA_346 第 3-0 節（企劃線 12d52835，AA-C 10-21）改句：五位「謝謝你自己說」太像、四位「我不問」、以安的理由欄比喻、「我知道是誰」→ 照表換 */
-    heroine_01:{h:[18,19],at29:Object.assign({place:'法律系館B 研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'麵店，兩人桌',bg:'noodle_table'},Y30),
-      open29:'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
+    heroine_01:{h:[18,19],at29:Object.assign({place:'法律系館B 研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'燒臘店，兩人桌',bg:'noodle_table'},Y30),   /* AA_689 補（企劃線 fc3da48ca，AA-C 23:03）：原本「麵店，兩人桌」；背景 noodle_table 就是公館燒臘那一張（termend_lines.js PLACE.noodle）*/
+      open29:'（讀書會散了。法律系館B 研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（燒臘店，兩人桌。她先到，點了兩份叉燒飯，一盤推到你面前。）',   /* AA_689 補：原本「（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）」*/
       knew:['……我知道。不用說名字。','你選了。好。'],ask:['為什麼？'],
       told:[{narr:'（她沒有馬上說話。）'},'……你說實話了。','我要一點時間。'],quiet:['……好。',{narr:'（她把白板筆的蓋子蓋上。）',n30:'（她把筷子在碗上放好。）'}],
       last:[{narr:'（她低下頭，把東西收進包包。）'},'好了。你先走。我再坐一下。']},
