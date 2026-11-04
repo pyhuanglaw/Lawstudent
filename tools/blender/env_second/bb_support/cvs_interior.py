@@ -398,24 +398,26 @@ for s in range(nseg):   # 頂上的庫存紙箱
     gbox(PR, x, x + 0.5, bs['h'], bs['h'] + R.uniform(0.22, 0.3), bs['z0'] + 0.05, bs['z0'] + 0.4, '+z', C['carton'], side=sub(C['carton'], 0, 0, 0.1, 0.1))
 face(PR, ((bs['x0'] + bs['x1']) / 2, 2.62, Z0 + 0.005), '+z', bs['x1'] - bs['x0'], 0.16, C['greenband'])
 
-# ================= 右後冷藏櫃（綠色頂框）、平台冷凍櫃 =================
-co = S['coolers']; cx0 = co['x0']; ch = co['h']
-VC.cbox(cx0, X1, 0, 0.12, co['z0'], co['z1'], '#5a5c5c'); VC.cbox(cx0, X1, ch - 0.2, ch, co['z0'], co['z1'], GREEN); VC.cbox(cx0, X1, ch, H, co['z0'], co['z1'], WALLC)
-VC.cbox(cx0, X1, 0, ch, co['z0'] - 0.04, co['z0'], WHITE); VC.cbox(cx0, X1, 0, ch, co['z1'], co['z1'] + 0.04, WHITE)
-door = 0; cells = {'drink': ['drink0', 'drink1'], 'fresh': ['fresh2', 'fresh2'], 'frozen': ['frozen3']}
+# ================= 後牆右段冷藏櫃（綠色頂框，面向店門 +z）、右牆壁架、平台冷凍櫃 =================
+co = S['coolers']; cz1 = co['z1']; ch = co['h']   # 櫃子 z co.z0（後牆）～co.z1（門）；沿 x 排
+VC.cbox(co['x0'], co['x1'], 0, 0.12, co['z0'], cz1, '#5a5c5c'); VC.cbox(co['x0'], co['x1'], ch - 0.2, ch, co['z0'], cz1, GREEN); VC.cbox(co['x0'], co['x1'], ch, H, co['z0'], cz1, WALLC)
+VC.cbox(co['x0'] - 0.04, co['x0'], 0, ch, co['z0'], cz1, WHITE)
+cells = {'drink': ['drink0', 'drink1'], 'fresh': ['fresh2', 'fresh2'], 'frozen': ['frozen3']}
 for pi_, p in enumerate(co['parts']):
-    face(PR, (cx0 - 0.004, ch - 0.1, (p['z0'] + p['z1']) / 2), '-x', p['z1'] - p['z0'] - 0.06, 0.17, C[f'cool{pi_}'])
-    dw = (p['z1'] - p['z0']) / p['doors']
+    face(PR, ((p['x0'] + p['x1']) / 2, ch - 0.1, cz1 + 0.004), '+z', p['x1'] - p['x0'] - 0.06, 0.17, C[f'cool{pi_}'])
+    dw = (p['x1'] - p['x0']) / p['doors']
     for k in range(p['doors']):
-        za, zb = p['z0'] + k * dw, p['z0'] + (k + 1) * dw
-        face(COOL, (X1 - 0.04, (0.12 + ch - 0.2) / 2, (za + zb) / 2), '-x', zb - za - 0.04, ch - 0.32, CC[cells[p['kind']][k % len(cells[p['kind']])]])
-        VC.cbox(cx0 + 0.04, X1, 0.12, ch - 0.2, za - 0.02, za + 0.02, '#e6e8e8')
-        VM.cbox(cx0 - 0.02, cx0 + 0.03, 0.12, ch - 0.2, za - 0.025, za + 0.025, '#d0d4d6'); VM.cbox(cx0 - 0.02, cx0 + 0.03, 0.12, ch - 0.2, zb - 0.025, zb + 0.025, '#d0d4d6')
-        VM.cbox(cx0 - 0.02, cx0 + 0.03, 0.12, 0.17, za, zb, '#d0d4d6'); VM.cbox(cx0 - 0.02, cx0 + 0.03, ch - 0.25, ch - 0.2, za, zb, '#d0d4d6')
-        face(GLS, (cx0 + 0.005, (0.12 + ch - 0.2) / 2, (za + zb) / 2), '-x', zb - za - 0.05, ch - 0.32, (0, 0, 1, 1))
-        ccyl(VM, (cx0 - 0.045, 0.7, zb - 0.09), (cx0 - 0.045, 1.6, zb - 0.09), 0.012, '#b8bcbe', seg=6)
-        door += 1
-VC.cbox(cx0 + 0.04, X1, 0.12, ch - 0.2, co['z1'] - 0.02, co['z1'], '#e6e8e8')
+        xa, xb = p['x0'] + k * dw, p['x0'] + (k + 1) * dw
+        face(COOL, ((xa + xb) / 2, (0.12 + ch - 0.2) / 2, co['z0'] + 0.04), '+z', xb - xa - 0.04, ch - 0.32, CC[cells[p['kind']][k % len(cells[p['kind']])]])
+        VC.cbox(xa - 0.02, xa + 0.02, 0.12, ch - 0.2, co['z0'], cz1 - 0.04, '#e6e8e8')
+        VM.cbox(xa - 0.025, xa + 0.025, 0.12, ch - 0.2, cz1 - 0.03, cz1 + 0.02, '#d0d4d6'); VM.cbox(xb - 0.025, xb + 0.025, 0.12, ch - 0.2, cz1 - 0.03, cz1 + 0.02, '#d0d4d6')
+        VM.cbox(xa, xb, 0.12, 0.17, cz1 - 0.03, cz1 + 0.02, '#d0d4d6'); VM.cbox(xa, xb, ch - 0.25, ch - 0.2, cz1 - 0.03, cz1 + 0.02, '#d0d4d6')
+        face(GLS, ((xa + xb) / 2, (0.12 + ch - 0.2) / 2, cz1 - 0.005), '+z', xb - xa - 0.05, ch - 0.32, (0, 0, 1, 1))
+        ccyl(VM, (xb - 0.09, 0.7, cz1 + 0.045), (xb - 0.09, 1.6, cz1 + 0.045), 0.012, '#b8bcbe', seg=6)
+ws = S['wallShelf']   # 右牆壁架（冷藏櫃和倉庫之間，面向 −x）
+VC.cbox(ws['x0'], X1, 0, 0.1, ws['z0'], ws['z1'], '#e4e2dc'); VC.cbox(X1 - 0.03, X1, 0.1, ws['h'], ws['z0'], ws['z1'], '#ecebe6')
+for z in (ws['z0'], ws['z1']): VC.cbox(ws['x0'], X1, 0, ws['h'], z - 0.015, z + 0.015, '#f0efea')
+shelf_run(X1 - 0.03, -1, ws['z0'] + 0.02, ws['z1'] - 0.02, [0.12, 0.44, 0.76, 1.08, 1.4], ws['h'], ['drink', 'can', 'box', 'chips', 'drink'], dep=ws['x1'] - ws['x0'] - 0.05)
 cf = S['chestFreezer']
 VC.crbox(cf['x0'], cf['x1'], 0, cf['h'], cf['z0'], cf['z1'], WHITE, r=0.02, seg=1)
 face(COOL, ((cf['x0'] + cf['x1']) / 2, cf['h'] + 0.002, (cf['z0'] + cf['z1']) / 2), '+y', cf['x1'] - cf['x0'] - 0.1, cf['z1'] - cf['z0'] - 0.1, sub(CC['frozen3'], 0, 0.4, 1, 0.75), up=(0, 0, -1))
@@ -471,6 +473,8 @@ for i, y in enumerate(IRL):
     gbox(GD, ir['x0'] + 0.04, ir['x1'] - 0.03, y, (IRL[i + 1] if i + 1 < len(IRL) else ir['h']) - 0.04, ir['z0'] + 0.02, ir['z1'] - 0.02, '-x', cell_u(GC[['chips', 'box', 'mix_snack', 'can'][i]][1], ir['z1'] - ir['z0']))
 # 櫃台後面：矮櫃、咖啡機兩台、杯子、上方層板；右牆標誌、咖啡價目黑板
 bc = S['backCounter']; BX1 = bc['x1']; cw = S['counterWall']
+VC.cbox(cw['x0'], X1, 0, H, cw['z0'] - 0.12, cw['z0'], WALLC); VC.cbox(cw['x0'], X1, 0, H, cw['z1'], cw['z1'] + 0.12, WALLC)   # 倉庫的北牆、南牆
+VC.cbox(4.4, 5.2, 0, 2.1, cw['z1'] + 0.12, cw['z1'] + 0.15, '#d6d2c8'); face(PR, (4.8, 1.6, cw['z1'] + 0.155), '+z', 0.5, 0.19, C['staff'])   # 倉庫門
 VC.cbox(cw['x0'], cw['x1'], 0, H, cw['z0'], cw['z1'], WALLC); VC.cbox(cw['x0'] - 0.005, cw['x0'], 0, 0.1, cw['z0'], cw['z1'], '#b8b6ae')   # 標誌牆（牆後是倉庫）
 VC.crbox(bc['x0'], bc['x1'], 0, bc['h'] - 0.04, bc['z0'], bc['z1'], WHITE, r=0.006, seg=1); VC.crbox(bc['x0'] - 0.03, bc['x1'], bc['h'] - 0.04, bc['h'], bc['z0'], bc['z1'], '#f6f6f2', r=0.006, seg=1)
 for z in [bc['z0'] + k * 0.65 for k in range(1, 8)]: VC.cbox(bc['x0'] - 0.004, bc['x0'], 0.1, bc['h'] - 0.08, z - 0.004, z + 0.004, '#c8c6c0')
@@ -478,18 +482,18 @@ for zc in (-0.45, 0.25):
     VC.cbox((BX1 - 0.480), (BX1 - 0.040), bc['h'], bc['h'] + 0.62, zc - 0.2, zc + 0.2, '#2a2c2e'); VM.cbox((BX1 - 0.500), (BX1 - 0.480), bc['h'] + 0.1, bc['h'] + 0.58, zc - 0.18, zc + 0.18, '#b8bcbe')
     face(SCR, ((BX1 - 0.505), bc['h'] + 0.46, zc), '-x', 0.18, 0.13, SC['coffee']); VM.cbox((BX1 - 0.550), (BX1 - 0.400), bc['h'] + 0.02, bc['h'] + 0.04, zc - 0.1, zc + 0.1, '#8a8e90')
     clathe(GLS, [(0.0, 0.0), (0.07, 0.0), (0.08, 0.2), (0.0, 0.2)], (BX1 - 0.250), bc['h'] + 0.62, zc, None, seg=10); clathe(VC, [(0.0, 0.0), (0.065, 0.0), (0.07, 0.12), (0.0, 0.12)], (BX1 - 0.250), bc['h'] + 0.63, zc, '#4a2c18', seg=10)
-for k in range(5): clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.055, 0.34), (0.0, 0.34)], (BX1 - 0.280), bc['h'], 1.0 + k * 0.13, '#f4f2ec', seg=10)
-for k in range(4): VC.cbox((BX1 - 0.450), (BX1 - 0.050), bc['h'], bc['h'] + R.uniform(0.15, 0.3), 1.8 + k * 0.45, 2.2 + k * 0.45, R.choice(['#e8dcc0', '#d0b890', '#f0ece2']))
+for k in range(5): clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.055, 0.34), (0.0, 0.34)], (BX1 - 0.280), bc['h'], 0.55 + k * 0.13, '#f4f2ec', seg=10)
+for k in range(0): VC.cbox((BX1 - 0.450), (BX1 - 0.050), bc['h'], bc['h'] + R.uniform(0.15, 0.3), 1.8 + k * 0.45, 2.2 + k * 0.45, R.choice(['#e8dcc0', '#d0b890', '#f0ece2']))
 for y in (1.65, 1.95):
     WD.rbox((BX1 - 0.400), BX1, y - 0.03, y, -0.85, 0.7, r=0.006, seg=1)
     for k in range(6): clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.045, 0.11), (0.0, 0.11)], (BX1 - 0.180), y, -0.7 + k * 0.24, R.choice(['#f4f2ec', '#e8e0cc', '#2a2a2a']), seg=8)
 clathe(VC, [(0.0, 0.0), (0.09, 0.0), (0.1, 0.15), (0.0, 0.15)], (BX1 - 0.200), 1.95, 0.55, '#f2f0ea', seg=10)
 for k in range(8):
     a = k * 2 * PI / 8; f0 = set(VC.bm.faces); VC.ell(((BX1 - 0.200) + 0.1 * math.cos(a), 2.18 + 0.07 * (k % 2), 0.55 + 0.12 * math.sin(a)), 0.09, 0.05, 0.1, seg=6, rings=4); VC.paint(nf(VC, f0), ['#4e7a34', '#6a9640', '#3e6a2c'][k % 3])
-VC.cbox(cw['x0'] - 0.03, cw['x0'], 2.05, 3.05, -1.0, 2.0, '#f6f1e2'); face(PR, (cw['x0'] - 0.032, 2.55, 0.5), '-x', 2.9, 0.85, C['logo'])
-VC.cbox(cw['x0'] - 0.04, cw['x0'], 2.0, 3.1, 2.25, 3.09, '#3a3a36'); face(PR, (cw['x0'] - 0.042, 2.55, 2.67), '-x', 0.8, 1.06, C['coffee'])
+VC.cbox(cw['x0'] - 0.03, cw['x0'], 2.2, 3.0, -1.0, 1.25, '#f6f1e2'); face(PR, (cw['x0'] - 0.032, 2.6, 0.125), '-x', 2.2, 0.645, C['logo'])
+VC.cbox(cw['x0'] - 0.04, cw['x0'], 2.22, 3.18, 1.48, 2.22, '#3a3a36'); face(PR, (cw['x0'] - 0.042, 2.7, 1.85), '-x', 0.68, 0.9, C['coffee'])
 face(PR, (cw['x0'] - 0.004, 1.85, 1.4), '-x', 4.8, 0.1, C['greenband'])
-VC.cbox(cw['x0'] - 0.05, cw['x0'], 0, H, 2.07, 2.19, GREEN)   # 綠色的柱子（參考圖標誌和黑板中間）
+VC.cbox(cw['x0'] - 0.05, cw['x0'], 0, H, 1.3, 1.42, GREEN)   # 綠色的柱子（參考圖標誌和黑板中間）
 VC.cbox(cx1, S['counterWall']['x0'], 0, 1.1, S['endPanel']['z0'], S['endPanel']['z1'], WHITE)
 
 # ================= 包裹暫取區櫃 =================
@@ -497,11 +501,15 @@ lk = S['lockers']
 VC.crbox(lk['x0'], lk['x1'], 0, lk['h'], lk['z0'], lk['z1'], '#ecebe6', r=0.01, seg=1)
 rows_ = [0.1, 0.5, 0.9, 1.3, 1.65, 2.0]
 for y in rows_[1:-1]: VC.cbox(lk['x0'] - 0.004, lk['x0'], y - 0.005, y + 0.005, lk['z0'] + 0.02, lk['z1'] - 0.02, '#b8b6ae')
-for z in (lk['z0'] + 0.6, lk['z0'] + 1.2): VC.cbox(lk['x0'] - 0.004, lk['x0'], 0.05, lk['h'] - 0.02, z - 0.005, z + 0.005, '#b8b6ae')
+for z in (lk['z0'] + 0.38, lk['z0'] + 0.77): VC.cbox(lk['x0'] - 0.004, lk['x0'], 0.05, lk['h'] - 0.02, z - 0.005, z + 0.005, '#b8b6ae')
 for y in rows_[:-1]:
-    for z in (lk['z0'] + 0.5, lk['z0'] + 1.1, lk['z0'] + 1.7): VM.cbox(lk['x0'] - 0.02, lk['x0'], y + 0.17, y + 0.2, z - 0.05, z, '#8a8c8e')
-face(SCR, (lk['x0'] - 0.006, 1.15, lk['z0'] + 0.9), '-x', 0.3, 0.22, SC['kiosk'])
-face(PR, (lk['x0'] - 0.005, lk['h'] + 0.28, (lk['z0'] + lk['z1']) / 2), '-x', 0.75, 0.5, C['parcel']); VC.cbox(lk['x0'] + 0.0, lk['x0'] + 0.04, lk['h'], lk['h'] + 0.55, lk['z0'] + 0.5, lk['z1'] - 0.5, '#d8d6d0')
+    for z in (lk['z0'] + 0.33, lk['z0'] + 0.72, lk['z0'] + 1.1): VM.cbox(lk['x0'] - 0.02, lk['x0'], y + 0.17, y + 0.2, z - 0.05, z, '#8a8c8e')
+face(SCR, (lk['x0'] - 0.006, 1.15, lk['z0'] + 0.57), '-x', 0.26, 0.2, SC['kiosk'])
+fr = S['frontRack']   # 右前角壁架
+VC.cbox(fr['x0'], X1, 0, 0.1, fr['z0'], fr['z1'], '#e4e2dc'); VC.cbox(X1 - 0.03, X1, 0.1, fr['h'], fr['z0'], fr['z1'], '#ecebe6')
+for z in (fr['z0'], fr['z1']): VC.cbox(fr['x0'], X1, 0, fr['h'], z - 0.015, z + 0.015, '#f0efea')
+shelf_run(X1 - 0.03, -1, fr['z0'] + 0.02, fr['z1'] - 0.02, [0.12, 0.44, 0.76, 1.08], fr['h'], ['paper', 'stat', 'box', 'stat'], dep=fr['x1'] - fr['x0'] - 0.05)
+face(PR, (lk['x0'] - 0.006, lk['h'] - 0.18, (lk['z0'] + lk['z1']) / 2), '-x', 0.54, 0.36, C['parcel'])
 
 # ================= 門口：地墊、傘架 =================
 dm = S['doormat']
