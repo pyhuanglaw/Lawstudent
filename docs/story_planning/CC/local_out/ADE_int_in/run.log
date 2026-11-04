@@ -1,0 +1,72 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_ade_int_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ADE_int_in\out
+PASS 遊戲載入
+== IN 走進去、坐四張、印東西、買文具、出店
+  [前置／捷徑] 讀檔：wenzhou (-8.0, 2.4)、2025-09-23（二）14:00、money 3000、條件事件關閉、溫州街阿德影印門口南邊
+PASS [IN_enter] 有「進去」互動點  {"x": -8, "z": 4.6, "r": 1.4, "label": "進去阿德影印輸出", "to": "wz_print"}
+  到達「進去阿德影印輸出」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [IN_enter] 走到旁邊：互動按鈕是「進去…」  {"x": -8, "z": 4.37, "interact": "進去阿德影印輸出"}
+PASS [IN_enter] 按「進去阿德影印輸出」：wenzhou → wz_print  {"zone": "wz_print", "x": 0, "z": 3.65, "toast": "手機｜可昕：週末來木柵大學？我當導遊。"}
+PASS [IN] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+  座位：[{"x": -0.07, "z": 2.6, "r": 1.05, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}, {"x": -0.07, "z": 0.85, "r": 1.05, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}, {"x": -0.07, "z": 0.25, "r": 1.05, "label": "\u5750\u4e0b\u4f86\u7528\u96fb\u8166"}, {"x": -0.2, "z": -0.45, "r": 1.05, "label": "\u5750\u4e00\u4e0b"}]
+PASS [IN] 有 4 張客人座位  4
+PASS [IN_seat0] 有「坐下來用電腦」互動點  {"x": -0.07, "z": 2.6, "r": 1.05, "label": "坐下來用電腦", "to": null}
+  到達「坐下來用電腦」附近（0.53 m）：點地面 16 次、轉鏡頭 0 次、搖桿 1 次，44 秒
+PASS [IN_seat0] 走到旁邊：互動按鈕是「坐下來用電腦…」  {"x": -0.1, "z": 3.13, "interact": "坐下來用電腦"}
+FAIL [IN_seat0] 坐下了
+PASS [IN_seat0] 起身：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.33, "stand": true, "x": -0.13, "z": 3.67}
+PASS [IN_seat1] 有「坐下來用電腦」互動點  {"x": -0.07, "z": 0.85, "r": 1.05, "label": "坐下來用電腦", "to": null}
+  到達「坐下來用電腦」附近（0.59 m）：點地面 33 次、轉鏡頭 0 次、搖桿 2 次，89 秒
+FAIL [IN_seat1] 走到旁邊：互動按鈕是「坐下來用電腦…」  {"x": -0.4, "z": 1.34, "interact": "印東西"}
+PASS [IN_seat2] 有「坐下來用電腦」互動點  {"x": -0.07, "z": 0.25, "r": 1.05, "label": "坐下來用電腦", "to": null}
+  走不到「坐下來用電腦」：最後位置 (-0.72,0.01)，目標 (-0.07,0.25)；點地面 222 次、轉鏡頭 0 次、搖桿 13 次
+    這段時間：畫面 60111 格／601 秒、遊戲時間 15.02→19.03、paused=False、開著的面板 []
+PASS [IN_seat2] 走到旁邊：互動按鈕是「坐下來用電腦…」  {"x": -0.72, "z": 0.01, "interact": "坐下來用電腦"}
+FAIL [IN_seat2] 坐下了
+PASS [IN_seat2] 起身：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 3.43, "stand": true, "x": -0.84, "z": 3.68}
+PASS [IN_seat3] 有「坐一下」互動點  {"x": -0.2, "z": -0.45, "r": 1.05, "label": "坐一下", "to": null}
+  到達「坐一下」附近（0.59 m）：點地面 18 次、轉鏡頭 0 次、搖桿 1 次，49 秒
+PASS [IN_seat3] 走到旁邊：互動按鈕是「坐一下…」  {"x": -0.75, "z": -0.67, "interact": "坐一下"}
+FAIL [IN_seat3] 坐下了
+PASS [IN_seat3] 起身：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 4.92, "stand": true, "x": -0.82, "z": 3.68}
+PASS [IN] 有「印東西」  [-0.6, 1.75]
+PASS [IN_print] 有「印東西」互動點  {"x": -0.6, "z": 1.75, "r": 1, "label": "印東西", "to": null}
+  到達「印東西」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [IN_print] 走到旁邊：互動按鈕是「印東西…」  {"x": -0.65, "z": 1.99, "interact": "印東西"}
+  [IN_print] 選單 ["印筆記（黑白，約 30 頁）　60 元", "彩色海報（A3）　20 元", "不用了"] → 印筆記（黑白，約 30 頁）　60 元
+  [IN_print] （旁白）：影印機吐出最後一張。你把它疊整齊，邊角對好。
+PASS [IN_print] 選項「印筆記」價錢 60、扣 60  {"opt": "印筆記（黑白，約 30 頁）　60 元", "money": [3000, 2940], "lines": ["［toast］手機｜可昕：週末來木柵大學？我當導遊。", "［toast］💸 60 元", "影印機吐出最後一張。你把它疊整齊，邊角對好。", "［toast］💸 60 元"]}
+PASS [IN] 有「買文具」  [1.45, 2.7]
+PASS [IN_stat] 有「買文具」互動點  {"x": 1.45, "z": 2.7, "r": 1, "label": "買文具", "to": null}
+  到達「買文具」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+PASS [IN_stat] 走到旁邊：互動按鈕是「買文具…」  {"x": 1.28, "z": 2.6, "interact": "買文具"}
+  [IN_stat] 選單 ["螢光筆（黃）　35 元", "原子筆（藍、黑兩支）　20 元", "便利貼　30 元", "透明資料夾（A4）　15 元", "不用了"] → 螢光筆（黃）　35 元
+  [IN_stat] （旁白）：新的螢光筆。你在想第一個要畫的是哪一條。
+PASS [IN] 買文具第一樣「螢光筆（黃）　35 元」：扣的錢＝標價  {"opt": "\u87a2\u5149\u7b46\uff08\u9ec3\uff09\u300035 \u5143", "money": [2940, 2905]}
+PASS [IN_out] 有「離開」互動點  {"x": 0, "z": 4.15, "r": 1.3, "label": "離開影印店", "to": "wenzhou"}
+  到達「離開影印店」附近（0.51 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+PASS [IN_out] 走到旁邊：互動按鈕是「離開…」  {"x": -0.2, "z": 3.68, "interact": "離開影印店"}
+PASS [IN_out] 按「離開影印店」：wz_print → wenzhou  {"zone": "wenzhou", "x": -8, "z": 4.1, "toast": "💸 35 元"}
+PASS [IN] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "wenzhou", "dlg": false, "depth": 0, "moved": 8.77, "fb": [0, 0], "errs": []}
+== SHOTS 14:00、21:00 八角度
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）14:00、money 3000、條件事件關閉、影印店門口 1400
+PASS [SHOTS_1400] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+  [1400] ref_door_in：calls 84、tris 127178
+  [1400] copiers_left：calls 78、tris 125868
+  [1400] tables：calls 76、tris 121930
+  [1400] rack_east：calls 53、tris 68744
+  [1400] worktable：calls 46、tris 70912
+  [1400] counter_back：calls 51、tris 70912
+  [1400] back_wall：calls 51、tris 70912
+  [1400] ceiling：calls 76、tris 121722
+  [前置／捷徑] 讀檔：wz_print (0.0, 3.4)、2025-09-23（二）21:00、money 3000、條件事件關閉、影印店門口 2100
+PASS [SHOTS_2100] 阿德站在櫃台後面 clerk (−0.95, −3.4) 0.3 m 內  {"name": "", "x": -0.95, "z": -3.4, "stand": true}
+  [2100] ref_door_in：calls 50、tris 27698
+  [2100] copiers_left：calls 43、tris 26386
+  [2100] tables：calls 59、tris 72238
+  [2100] rack_east：calls 36、tris 18794
+  [2100] worktable：calls 46、tris 71170
+  [2100] counter_back：calls 51、tris 71170
+  [2100] back_wall：calls 51、tris 71170
+  [2100] ceiling：calls 59、tris 72030
+PASS 沒有 JS 例外  []
+FAILED 4: [IN_seat0] 坐下了；[IN_seat1] 走到旁邊：互動按鈕是「坐下來用電腦…」；[IN_seat2] 坐下了；[IN_seat3] 坐下了

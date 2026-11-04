@@ -383,3 +383,18 @@
 [16:56:36] ==== START GG_night_r8_0130  (probe @ 060a1a093) ====
 [16:56:39] [res] cpu=35% mem=51% (16.2/31.4 GB) chrome_testing=19  START GG_night_r8_0130
 [16:58:25] [res] cpu=26% mem=51% (16.0/31.4 GB) chrome_testing=19  END GG_night_r8_0130
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       64be533d2..8c4acb3f8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:58:32] ==== END   GG_night_r8_0130  exit=0  109s   ====
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[16:58:35] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[16:58:35] memory 51% before starting GG_glb_measure2 (2 running)
+[16:58:35] ==== START GG_glb_measure2  (game @ 0f8b320ff) ====
+[16:58:38] [res] cpu=42% mem=51% (16.2/31.4 GB) chrome_testing=19  START GG_glb_measure2
+[16:59:56] [res] cpu=59% mem=49% (15.2/31.4 GB) chrome_testing=18  END ADE_int_in
