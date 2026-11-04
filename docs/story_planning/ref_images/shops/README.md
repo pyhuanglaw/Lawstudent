@@ -20,11 +20,11 @@
 | **洋洋鹹酥雞**（公館 G05，取代「滷味・鹹酥雞」；第二批） | gongguan_yangyang_ext.webp | gongguan_yangyang_int.webp | 可以 |
 | **轉角唱片**（公館 G12，取代「二手唱片」；第二批） | gongguan_corner_ext.webp | gongguan_corner_int.webp | 可以 |
 | **daybreak**（公館 G14，取代「早午餐」；第二批） | gongguan_daybreak_ext.webp | gongguan_daybreak_int.webp | 可以 |
-| **2:30 AM**（溫州街東端路口，取代兩點半 Café；溫州街第一批 AA_654） | wz_230am_ext.webp | wz_230am_int.webp | 等使用者確認 |
-| **林家乾麵**（溫州街 A4，不改名） | wz_lin_ext.webp | wz_lin_int.webp | 等使用者確認 |
-| **SUNNY SIDE**（溫州街 B7，取代半熟） | wz_sunnyside_ext.webp | wz_sunnyside_int.webp | 等使用者確認 |
-| **阿德影印輸出**（溫州街 A1，不改名） | wz_ade_ext.webp | wz_ade_int.webp | 等使用者確認 |
-| **小路**（溫州街 B3，取代巷子裡定食；居酒屋） | wz_komichi_ext.webp | wz_komichi_int.webp | 等使用者確認 |
+| **2:30 AM**（溫州街東端路口，取代兩點半 Café；溫州街第一批 AA_654） | wz_230am_ext.webp | wz_230am_int.webp | 定案（使用者 11-04 04:4x 授權四人自行決定） |
+| **林家乾麵**（溫州街 A4，不改名） | wz_lin_ext.webp | wz_lin_int.webp | 定案（使用者 11-04 04:4x 授權四人自行決定） |
+| **SUNNY SIDE**（溫州街 B7，取代半熟） | wz_sunnyside_ext.webp | wz_sunnyside_int.webp | 定案（使用者 11-04 04:4x 授權四人自行決定） |
+| **阿德影印輸出**（溫州街 A1，不改名） | wz_ade_ext.webp | wz_ade_int.webp | 定案（使用者 11-04 04:4x 授權四人自行決定） |
+| **小路**（溫州街 B3，取代巷子裡定食；居酒屋） | wz_komichi_ext.webp | wz_komichi_int.webp | 定案（使用者 11-04 04:4x 授權四人自行決定） |
 | **一盞茶屋**（溫州街日式宿舍改的茶屋，不改名；使用者 11-04 05:0x「一盞內外部改成這樣 庭院要能走到」，AA_656） | wz_yizhan_ext.webp | wz_yizhan_int.webp | 開工 |
 
 ## 照圖做的時候要改的地方
