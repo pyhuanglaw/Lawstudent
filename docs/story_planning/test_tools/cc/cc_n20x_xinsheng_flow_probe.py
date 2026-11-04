@@ -81,7 +81,7 @@ FIND_EX = """(([lb,x,z])=>{ const its=GAME.E.interactables.filter(i=>(i.label||'
     to:it.exit?it.exit.to:null, spawn:it.exit&&it.exit.spawn?it.exit.spawn:null, seat:!!it.seat, study:!!it.study}; })(%s)"""
 
 ZST = """(()=>{ const E=GAME.E, G=GAME.G, P=E.player, o=P.obj.position; const ld=document.getElementById('loading');
-  return {zone:G.zone, ezone:E.zone&&E.zone.id||null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), y:+o.y.toFixed(2), lv:P.lv|0,
+  return {zone:G.zone, ezone:(E.zone&&((E.zone.def&&E.zone.def.id)||E.zone.id))||null, x:+o.x.toFixed(2), z:+o.z.toFixed(2), y:+o.y.toFixed(2), lv:P.lv|0,
     loading:!!(ld&&!ld.classList.contains('hide')), last:E.lastSpawn||null, stand:E.canStand?E.canStand(o.x,o.z,0.3):null,
     fb:GAME.walkFallbacks||0, hour:+G.hour.toFixed(2), study:(G.stats&&G.stats.study)||0, pose:P.pose||null}; })()"""
 
@@ -175,6 +175,18 @@ async def go_exit(pg, cdp, errs, tag, label, want_zone, near_xz=None, lv=None):
     return s
 
 
+async def push_any(pg, cdp, tag):
+    """搖桿推得動：先往前推；前面被東西擋住（例：站在吧檯前、鏡頭在背後，往前＝往吧檯）就再試後、右、左。
+    四個方向都推不動才算卡住。回傳 (走了幾公尺, 推了幾次, 最後的 state, 方向)"""
+    tot = 0; moved, n, s2 = 0.0, 0, None
+    for dx, dy, nm in ((0, -40, '前'), (0, 40, '後'), (40, 0, '右'), (-40, 0, '左')):
+        moved, n, s2 = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=3 if nm == '前' else 2, ms=1200); tot += n
+        if moved >= 0.3:
+            if nm != '前': obs('%s：搖桿往前推不動（前面有東西擋住），往%s推走得動' % (tag, nm))
+            return moved, tot, s2, nm
+    return moved, tot, s2, '四個方向都'
+
+
 async def spawn_checks(pg, cdp, tag, want, s):
     ls = s['last'] or {}; fx = ls.get('fixed') or [None, None]
     print('  出生點 %s：要求 %s；E.lastSpawn %s；現在 %s' % (tag, J(want), J(ls), J({k: s[k] for k in ('x', 'z', 'y', 'lv', 'stand')})), flush=True)
@@ -187,8 +199,10 @@ async def spawn_checks(pg, cdp, tag, want, s):
     # 出生點落在「回去」那個出口的按鈕範圍內：一到就看到回頭的按鈕（WARN；校園 campus 的萬才館寫「出生點離互動點 2.2 m，不會一出來就跳出按鈕」）
     await pg.wait_for_timeout(800); st = await L.state(pg)
     if st.get('interact'): obs('%s：一到就有互動按鈕「%s」' % (tag, st['interact']))
-    moved, n, s2 = await L.push_until(pg, cdp, 0, -40, 0.3, max_pushes=3, ms=1200)
-    check('%s：換區後搖桿往前推有位移（%.2f m，推 %d 次）' % (tag, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'y')}))
+    if st.get('dlg') or st.get('choices') or st.get('busy'):   # 一進門就演（第一次進去的旁白、偶遇）：演的時候搖桿本來就不動，留給演完以後的 stuck_check
+        obs('%s：一到就在演（對話框／選單／busy），搖桿留到演完再推' % tag, J({k: st.get(k) for k in ('dlg', 'choices', 'busy', 'dtext')})); return
+    moved, n, s2, dn = await push_any(pg, cdp, tag)
+    check('%s：換區後搖桿推得動（往%s %.2f m，推 %d 次）' % (tag, dn, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'y')}))
 
 
 async def setup(pg, cdp, zone, x, z, yaw, hour, lv=None, why='', daykey=None, weather='clear', extra=None, dayn=None, quiet=True):
@@ -478,8 +492,8 @@ async def stuck_check(pg, cdp, tag, fb0):
     check('%s：對話框關了、D.active false、沒有選單、不 busy' % tag, not st['dlg'] and not da and not st['choices'] and not st['busy'], J({k: st[k] for k in ('dlg', 'choices', 'busy', 'pose', 'zone', 'dtext')}))
     seated = await pg.evaluate("!!GAME.E.player.seat")
     if seated: obs('%s：人還坐著（搖桿推之前）' % tag)
-    moved, n, s2 = await L.push_until(pg, cdp, 0, -40, 0.3, max_pushes=3, ms=1200)
-    check('%s：搖桿推得動（%.2f m，推 %d 次）' % (tag, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'pose')}))
+    moved, n, s2, dn = await push_any(pg, cdp, tag)
+    check('%s：搖桿推得動（往%s %.2f m，推 %d 次）' % (tag, dn, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'pose')}))
     fb = await pg.evaluate("GAME.walkFallbacks||0")
     check('%s：walkFallbacks 沒有增加（%d → %d）' % (tag, fb0, fb), fb == fb0)
     return fb
@@ -799,7 +813,10 @@ OB_KNOWN = {'zhe': {'fam': 40, 'trust': 30, 'aff': 30, 'resp': 20, 'comf': 30, '
 def ob_extra(first=True, social=False, more=None):
     e = {'visited': {'wenzhou': True, 'wz_offbeat': True}}
     if not first: e['offbeat'] = {'n': 2, 'first': 1}   # 來過了（不演 2-1 第一次進去）
-    if social: e['social'] = {'rel': dict(OB_KNOWN), 'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+    if social:   # 認識＝有 FIRST_MET 記憶（STORY.knows／OFFB.friendsHere 看這個，不看 rel 數字）；阿哲另外看 MET_ZHE
+        e['social'] = {'rel': dict(OB_KNOWN), 'mem': {i: [{'tag': 'FIRST_MET', 'day': 1, 'note': ''}] for i in OB_KNOWN},
+                       'reveal': {i: 'ACQUAINTANCE' for i in OB_KNOWN}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+        e['flags'] = dict(FLAGS, MET_ZHE=True, **{'met_' + i: True for i in OB_KNOWN})
     if more: e.update(more)
     return e
 
@@ -911,8 +928,11 @@ async def case_nichijo_game(pg, cdp, errs):
 
 async def case_nichijo_close(pg, cdp, errs):
     print('== nichijo_close ⑤ 01:00 打烊', flush=True)
-    await ob_inside(pg, cdp, 24.93, '店裡出生點、00:56（週六晚上過午夜：G.hour 24.93）')
-    k = len(await pg.evaluate("window.__dl||[]")); kt = len(await pg.evaluate("window.__ts||[]")); t0 = time.time(); z = None; shot_done = False
+    # 不先 drain、k 在讀檔之前取：00:56 讀檔，遊戲時間走到 01:00 只要幾秒，打烊那兩句（店員「一點打烊」＋旁白）可能在 setup 等區域的時候就開始
+    # （N20X_nichijo 27970f958：舊寫法 k 取在 ob_inside 的 drain 之後，兩句被 drain 點掉、沒記到）。observers 不換頁，讀檔前裝好照樣記
+    await observers(pg); k = len(await pg.evaluate("window.__dl||[]")); kt = len(await pg.evaluate("window.__ts||[]"))
+    await setup(pg, cdp, 'wz_offbeat', -3.9, 3.0, math.pi, 24.93, why='店裡出生點、00:56（週六晚上過午夜：G.hour 24.93）', extra=ob_extra(first=False))
+    await observers(pg); t0 = time.time(); z = None; shot_done = False
     while time.time() - t0 < 240:
         await pg.wait_for_timeout(1500); z = await zst(pg); st = await L.state(pg)
         if st['dlg']:
@@ -968,8 +988,9 @@ async def final_case(pg, cdp, errs, year):
     evid = info['evs'][0]['id'] if info['evs'] else None
     h = max(17.1, (e.get('h') or 0) + 0.1)
     social = {'rel': {i: {'fam': 45 - 3 * k, 'trust': 30, 'aff': 28, 'resp': 20, 'comf': 28, 'rom': 0, 'npcRom': 0, 'seen': 10, 'talked': 10} for k, i in enumerate(FINAL_KNOWN)},
-              'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
-    more = {'flags': dict(FLAGS, noodleTableDay=5), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
+              'mem': {i: [{'tag': 'FIRST_MET', 'day': 1, 'note': ''}] for i in FINAL_KNOWN}, 'reveal': {i: 'ACQUAINTANCE' for i in FINAL_KNOWN},
+              'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}   # 認識＝FIRST_MET（STORY.knows）；語彤另外要 YT_MET_JOB、阿哲 MET_ZHE
+    more = {'flags': dict(FLAGS, noodleTableDay=5, MET_ZHE=True, YT_MET_JOB=True, **{'met_' + i: True for i in FINAL_KNOWN}), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
     await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, dayn=e['day'], quiet=False,
                 why='%s 最後一科考完那天 %.2f；flags.noodleTableDay＝5；認識 %s（認識程度依序遞減）' % (term, h, '、'.join(FINAL_KNOWN)), extra=dict(ob_extra(first=False), **more))
     await observers(pg); await drain(pg, cdp, 60)
@@ -1054,8 +1075,9 @@ async def final_none(pg, cdp, errs, year):
     if not check('%s 前置：算得出 %s 期末最後一科考完的時間' % (tag, term), bool(e) and 'day' in e, J(e)): return
     h = max(17.1, (e.get('h') or 0) + 0.1)
     social = {'rel': {i: {'fam': 45 - 3 * k, 'trust': 30, 'aff': 28, 'resp': 20, 'comf': 28, 'rom': 0, 'npcRom': 0, 'seen': 10, 'talked': 10} for k, i in enumerate(FINAL_KNOWN)},
-              'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
-    more = {'flags': dict(FLAGS, noodleTableDay=5), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
+              'mem': {i: [{'tag': 'FIRST_MET', 'day': 1, 'note': ''}] for i in FINAL_KNOWN}, 'reveal': {i: 'ACQUAINTANCE' for i in FINAL_KNOWN},
+              'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}   # 認識＝FIRST_MET（STORY.knows）；語彤另外要 YT_MET_JOB、阿哲 MET_ZHE
+    more = {'flags': dict(FLAGS, noodleTableDay=5, MET_ZHE=True, YT_MET_JOB=True, **{'met_' + i: True for i in FINAL_KNOWN}), 'social': social, 'contacts': {i: 1 for i in FINAL_KNOWN}}
     await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, dayn=e['day'], quiet=False,
                 why='%s 最後一科考完那天 %.2f（條件事件照開）' % (term, h), extra=dict(ob_extra(first=False), **more))
     await observers(pg); await drain(pg, cdp, 60)
