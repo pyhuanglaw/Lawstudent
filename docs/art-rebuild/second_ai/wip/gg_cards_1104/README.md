@@ -125,3 +125,11 @@ CC 的 census（cc-local `docs/story_planning/CC/local_out/GG_glb_measure/run.lo
 - 騎士和遠處路人的低面數版本，?nobldg 那一輪沒有畫：一共 15＋4 個網格，陰影還要再加。
 - 兩輪都把路人移出去了（BB 06:47），騎士和 npc_far 卻沒有移出去。建議這兩樣也比照路人移出去。這是讓兩輪的條件一樣，門檻 1.3 不變。
 - 估算：停著的車合併以後約 −13。騎士、npc_far 也移出去的話再約 −25。224 → 約 186～190，除以 157 約 1.2。PC 的真數字要 CC 重量。
+
+### 量法 patch 第二版：`gongguan_glb_integration_riders_bf9518378.patch`（BB 定，LAWWW 08:53 要；只改 tests/）
+- 量 draw call 的時候，除了 E.npcs 裡的路人，下面兩樣也暫時移出場景，量完放回去：
+  - 騎士：名字是 bike_ride、但不是直接放在區域群組底下的那一組（BIKE.rider 的群組）。
+  - 遠處路人的低面數版本：npc_far。
+- 這兩樣不動：停在區域裡的自己的車（parent 就是區域群組）、玩家身上的車。
+- 分子、分母兩輪都用同一套量法，門檻 1.3 不變。note 多記一個 extraHidden（移出去幾組）。
+- 檢查做了：py_compile、量測那段 JS 的 node --check；選取的規則用 Node 模擬一個場景驗過（停著的車留著，騎士、npc_far 移出）。瀏覽器還沒跑，要 CC 跑。
