@@ -1,0 +1,4 @@
+[gpu_wrap 2.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [YT3-E]
+[gpu_wrap 3.4s] page close url=about:blank
+[gpu_wrap 1331.9s] page close url=http://127.0.0.1:8813/index.html
+[gpu_wrap 2080.7s] page close url=http://127.0.0.1:8813/index.html
