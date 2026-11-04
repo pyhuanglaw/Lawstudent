@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "CAFE230v2_islands",
+  "sha": "75a095355",
+  "kind": "game",
+  "script": "tools/dev_scratch/nav_islands.py",
+  "env": "XARGS={url} cafe",
+  "machine": "MSI",
+  "start": "2026-11-04T15:38:57",
+  "end": "2026-11-04T15:40:10",
+  "seconds": 73,
+  "exit": 0,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 32,
+    "mem": 54,
+    "used_gb": 17.5,
+    "chrome_testing": 28
+  }
+}

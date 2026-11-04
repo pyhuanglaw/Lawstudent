@@ -1,0 +1,3 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_CAFE230v2_islands\tools\dev_scratch\nav_islands.py http://127.0.0.1:8813/index.html cafe
+cafe       grid [157, 137] components 1 main 99 m²; small isles 0; SUSPECT 0
+ALL CLEAR
