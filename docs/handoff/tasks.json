@@ -40539,7 +40539,7 @@
    "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 那棟＝電機二館，電機一館照官方地圖位置也蓋（使用者 09:15 選擇題）",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
+   "next": "【LAWWW-C 11-04 13:4x】電機一館 A3 撤回（使用者 13:3x 對 LAWWW2-C 質疑：「你隨便找地圖上那邊是什麼？比較像社會系 電機在那邊嗎」；官方地圖上電機一館在博雅、普通教學館東邊、化學館旁邊）；LAWWW-C 13:1x 的「同意 A3」收回；LAWWW2 先做官方地圖↔遊戲的對照圖給使用者看，在那之前不新增、不搬任何系館｜【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -43710,10 +43710,10 @@
    "id": "GG-SHOPS-REDESIGN-1103",
    "title": "公館 15 間店重新設計外觀和室內美術（使用者會給 2D 參考圖）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "使用者 11-03 22:0x 對 AA（X200）",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：真的在等使用者的 2D 參考圖｜等使用者參考圖；排在新生南路七批之後或照使用者給圖的順序",
+   "next": "【LAWWW-C 11-04 13:4x】LAWWW2-C 13:38 更正：被 GG-SHOPS-REDO-1104＋GG-SHOPS2-1104（＋燒臘 NOODLE-SHAOLA-SPOTS-1103）取代，不是等圖｜【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：真的在等使用者的 2D 參考圖｜等使用者參考圖；排在新生南路七批之後或照使用者給圖的順序",
    "xai": {
     "receiver": "LAWWW2",
     "branch": "claude/second-ai-env-art",
@@ -43721,7 +43721,8 @@
     "acceptance": "BB ART_APPROVED（D120）",
     "ack": "SENT"
    },
-   "resumeWhen": "使用者給公館 15 間店的 2D 參考圖"
+   "replacedBy": "GG-SHOPS-REDO-1104",
+   "reason": "使用者 11-04 13:3x 對 LAWWW2-C：「公館15間店在等我的圖？我應該有給圖啊」——不是在等圖：ref_images/shops 有公館 9 間外觀＋室內（日和、慢輪、青木、頁間、afar、洋洋、轉角唱片、Daybreak、公館燒臘）；工作已經在 GG-SHOPS-REDO-1104、GG-SHOPS2-1104、NOODLE-SHAOLA-SPOTS-1103"
   },
   {
    "first": {
@@ -44457,7 +44458,7 @@
    "id": "GG-NIGHT-CARDS-1104",
    "title": "公館窗卡：第二次進公館整張不畫（ggShopLit 快取 GLB 共用材質重複 patch → shader 連結失敗）；打烊調暗（乘數 0.03＋光暈熄燈）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -44470,7 +44471,7 @@
     "confirmed": true
    },
    "sha": "9f481443d",
-   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 22e81cfd0 patch 接 9f481443d（gg_shoplit_reentry 修改前 7 FAIL→ALL PASS）；BB／CC 排 GG_REENTRY 驗收（四種讀檔順序；060a1a093 FAIL、9f481443d PASS），PASS 再重量 GG_night；擋 v9.10.20",
+   "next": "【LAWWW-C 11-04 13:4x】BB-C 13:35 最後判定 PASS，從 v9.10.20 擋發布清單拿掉｜【LAWWW-C 11-04 13:1x】LAWWW2-C 22e81cfd0 patch 接 9f481443d（gg_shoplit_reentry 修改前 7 FAIL→ALL PASS）；BB／CC 排 GG_REENTRY 驗收（四種讀檔順序；060a1a093 FAIL、9f481443d PASS），PASS 再重量 GG_night；擋 v9.10.20",
    "source": "帳號 A 交班 B1（GG_night 擋 v9.10.20）；CC-C r8b／r8c、BB-C 讀碼 11-04 12:5x",
    "xai": {
     "spec": "CC-C r8c、BB-C 12:53 讀碼",
@@ -44478,7 +44479,8 @@
     "acceptance": "GG_REENTRY 四種順序 PASS、打烊暗營業亮",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-C 13:35 BB_255：PC GPU（Windows＋GPU，Playwright 有視窗）GG_REENTRY 9f481443d 4 次進公館 LINK true、uShopLit 宣告 1 次、著色器錯誤 0；56 筆有畫（逐像素差 28～63.6）；Daybreak 打烊 22.5／營業 154；060a1a093 在 GPU 上一樣 redefinition"
   },
   {
    "id": "RELEASE-V91020-1104",
@@ -44496,7 +44498,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
+   "next": "【LAWWW-C 11-04 13:4x】GG-REENTRY PASS（BB-C 13:35）；剩：小路 22:00 窗景（XIAOLU-NIGHT-VIEW-1104，LAWWW2 快好了）、lane_east 減面（WZ-LANEEAST-TRIS-1104）、SUNNY F00／F12 等 CC 占用補印（可能照設計）；GHA Node 全套觸發在 c7fcc5b81（gha-node-sweep）｜【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
    "source": "帳號 A 交班 B1～B2；BB-C 11-04 12:58",
    "authorized": "D85（LAWWW 自主發布）",
    "evidence": ""
@@ -44525,7 +44527,7 @@
    "id": "XIAOLU-NIGHT-VIEW-1104",
    "title": "溫州街小路：22:00 窗外還是白天街景（夜景窗景卡沒換）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -44537,7 +44539,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；BB 已交 LAWWW2-C；同類修法參考 SUNNY／2:30 AM 夜景換圖",
+   "next": "【LAWWW-C 11-04 13:4x】LAWWW2-C 13:38：用 Blender 照 2:30 AM 夜景的做法重拍，快好了｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；BB 已交 LAWWW2-C；同類修法參考 SUNNY／2:30 AM 夜景換圖",
    "source": "BB-C 11-04 12:58 BB_255（WZ4 小路）",
    "xai": {
     "spec": "BB_255 WZ4",
