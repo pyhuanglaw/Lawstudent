@@ -1474,6 +1474,27 @@
    "wants": "X212",
    "src": "使用者對 AA",
    "note": "小路 v1f：海報、照片改用使用者參考圖裁的 2D（四點透視校正、照原長寬比），BB 已 MODEL_READY；等遊戲內截圖判 ART"
+  },
+  {
+   "id": "UA-AA-1104-15",
+   "at": "2026-11-04T13:0x",
+   "quote": "（選擇題「日本／美國交換路線的寒暑假、出發前、回國後空白日子要補劇情（VAC-GAP-ROUTES），現在要恢復嗎？」）恢復，現在就補（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "VAC-GAP-ROUTES",
+   "src": "使用者對 AA-C（AskUserQuestion）",
+   "note": "11-01 暫停（使用者改要角色共創）；恢復條件達成。AA-C 先掃 vsweep_routes.js ROUTE=JP／US，出缺口表＋第一批稿交 LAWWW-C"
+  },
+  {
+   "id": "UA-AA-1104-16",
+   "at": "2026-11-04T13:0x",
+   "quote": "（選擇題「角色個性共創，以安、學姊都定型了，下一位想跟誰聊？」）語彤",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "DIALOGUE-DEPTH-1031",
+   "wants": "X150",
+   "src": "使用者對 AA-C（AskUserQuestion）",
+   "note": "照 UA-AA-1101-01：AA 演語彤、使用者當玩家，一次一輪；使用者說「定型了」才寫聲音規格、才改稿"
   }
  ]
 }
