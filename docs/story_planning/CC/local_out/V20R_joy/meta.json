@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20R_joy",
+  "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+  "kind": "game",
+  "script": "tests/joystick_direction.py",
+  "env": "XARGS={url} {out};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T23:45:00",
+  "end": "2026-11-04T23:48:00",
+  "seconds": 181,
+  "exit": 0,
+  "error": null,
+  "runner": "4fb4f82141",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 77,
+    "mem": 51,
+    "used_gb": 16.1,
+    "chrome_testing": 19
+  }
+}
