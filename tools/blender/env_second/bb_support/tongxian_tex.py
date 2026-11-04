@@ -405,6 +405,9 @@ im = Image.alpha_composite(im.convert('RGBA'), tr).convert('RGB').filter(ImageFi
 d.rectangle([224, 200, 232, 640], fill='#8a8e90')   # 路牌的桿子（前景，不模糊）＋藍底白字「新生南路 Xinsheng S. Rd.」（臺北市的路牌：公共標示，不是品牌）；位置＝參考圖鏡頭從窗的左半看出去
 d.rounded_rectangle([180, 196, 340, 254], 6, fill='#1f4f9a', outline='#f2f2f2', width=3)
 d.text((260, 214), '新生南路', font=font(30), fill='#ffffff', anchor='mm'); d.text((260, 240), 'Xinsheng S. Rd.', font=font(15), fill='#ffffff', anchor='mm')
+_VIEW_PHOTO = os.path.join(HERE, '..', 'textures', 'src', 'tongxian_view_day.jpg')   # v4d：LAWWW2 從新生南路 GLB 渲染的窗景（claude/second-ai-env-art 657f27eea：同弦二樓窗外往東看＝新生南路、對面大王椰子、首都帝大紅磚圍牆）；有這張就用，沒有就用上面程式畫的
+if os.path.exists(_VIEW_PHOTO):
+    im = Image.open(_VIEW_PHOTO).convert('RGB').resize(im.size, Image.LANCZOS)
 pim('view', 1024, 0, im)
 
 # ---- 店名木牌（門片上掛的；0.3 × 0.44 m）：舊木板、刷白邊、毛筆感的「同弦樂器」＋吉他線稿（參考圖）
