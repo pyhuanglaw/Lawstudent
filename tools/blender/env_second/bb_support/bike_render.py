@@ -1,5 +1,6 @@
 """慢輪單車室內的 Cycles 渲染（CC 帳號 A，2026-11-04 v1）：匯入 GLB、吊燈（每盞一個暖色點光）、日光燈（面光）、店門口的天光，相機照 layout 的 camRef（參考圖的角度）。
-用法：/opt/blenv/bin/python tools/blender/env_second/bb_support/bike_render.py -- <glb> <輸出資料夾> [--views views.json] [--only 名字,名字] [--res 480x270] [--samples 16]
+用法：/opt/blenv/bin/python tools/blender/env_second/bb_support/bike_render.py -- <glb> <輸出資料夾> [--views views.json] [--only 名字,名字] [--res 480x270] [--samples 16] [--show REPAIR_BIKE]
+  v1b：extras.defaultVisible=false 的節點（REPAIR_BIKE）預設不渲染（和遊戲一樣）；--show 打開。
   views.json：[[名字, [眼睛 x,y,z], [看的點 x,y,z], 焦距mm], …]（遊戲座標）；沒給就只渲染 ref（參考圖的角度）。
   調光：--pend（吊燈 W）、--tube（日光燈 W）、--door（門口天光 W）、--emit（燈泡、燈管、螢幕的發光強度）、--fill（天花板往下的補光 W）、--exposure。
   環境變數：CC_BLENDER_DEVICE=GPU（PC 用）、CC_SAMPLES（覆蓋 --samples）。"""
@@ -19,6 +20,12 @@ rx, ry = [int(v) for v in arg('--res', '480x270').split('x')]
 g2b = lambda x, y, z: Vector((x, -z, y))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=glb)
+# v1b：GLB 裡 extras.defaultVisible=false 的節點（REPAIR_BIKE：修車架上夾著的車）照遊戲的預設不顯示；--show 名字,名字 才打開
+SHOW = arg('--show', '').split(',') if arg('--show') else []
+for ob in list(bpy.data.objects):
+    if ob.get('defaultVisible') is not None and not ob.get('defaultVisible') and ob.name not in SHOW:
+        for o in [ob] + list(ob.children_recursive): o.hide_render = True
+        print('hidden (defaultVisible=false):', ob.name, flush=True)
 sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.samples = int(os.environ.get('CC_SAMPLES', arg('--samples', '16')))
 sc.cycles.device = os.environ.get('CC_BLENDER_DEVICE', 'CPU')
 sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
