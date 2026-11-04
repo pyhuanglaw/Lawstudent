@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>hair view</title>
+<style>html,body{margin:0;background:#c9c4bb}canvas{display:block}</style>
+<script src="lib/three.bundle.js"></script>
+<script src="lib/three.jsm.bundle.js"></script>
+<script src="lib/three-vrm.bundle.js"></script>
+</head><body>
+<script>
+/* 頭髮近景比較（只讀 VRM、不改檔）：和遊戲同一套 three.js／three-vrm／MToon，套遊戲 character3d.js 的 C.LOOK（頭髮 shadeK 0.62、outline ×0.5）。
+   ?vrm=<路徑>&variant=<game|toon|toon_sphere|toon_sphere_rim>&view=<0..4>  →  window.done=true 以後截圖 */
+const Q=new URLSearchParams(location.search);
+const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true}); R.setPixelRatio(1); R.setSize(512,512);
+R.outputColorSpace=THREE.SRGBColorSpace; R.toneMapping=THREE.ACESFilmicToneMapping; R.toneMappingExposure=1; document.body.appendChild(R.domElement);
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0xc9c4bb);
+scene.add(new THREE.HemisphereLight(0xdfe9f5,0xb9a98d,0.8));
+const sun=new THREE.DirectionalLight(0xfff2dc,1.9); sun.position.set(1.2,2.6,1.6); scene.add(sun);
+const back=new THREE.DirectionalLight(0xcfe3ff,0.35); back.position.set(-1,1.5,-2); scene.add(back);
+const cam=new THREE.PerspectiveCamera(Q.get('fov')?+Q.get('fov'):28,1,0.05,50);
+const L=new THREE_JSM.GLTFLoader.GLTFLoader(); L.register(p=>new THREE_VRM.VRMLoaderPlugin(p));
+const variant=Q.get('variant')||'game', view=+(Q.get('view')||0);
+L.load(Q.get('vrm'),g=>{
+  const vrm=g.userData.vrm; THREE_VRM.VRMUtils.rotateVRM0(vrm); scene.add(vrm.scene);
+  const hairMeshes=[];
+  vrm.scene.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name) continue;
+      if(/EyeHighlight|EyeExtra/.test(mt.name)) mt.visible=false;
+      if(typeof mt.outlineWidthFactor==='number') mt.outlineWidthFactor*=0.5;          /* 遊戲 C.LOOK.outlineK */
+      if(/HAIR/.test(mt.name)){ if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(0.62);  /* 遊戲 C.LOOK.hair.shadeK */
+        if(!hairMeshes.includes(o)) hairMeshes.push(o);
+        if(variant!=='game'){ mt.shadingToonyFactor=0.92; mt.shadingShiftFactor=-0.05; }   /* 兩階明暗：受光面一片、陰影一片，不再每一束都是圓柱漸層 */
+        if(variant==='toon_sphere_rim'){ mt.parametricRimColorFactor.setRGB(0.35,0.30,0.25); mt.parametricRimFresnelPowerFactor=4.0; mt.parametricRimLiftFactor=0.05; mt.rimLightingMixFactor=0.6; }
+      } } });
+  if(/sphere/.test(variant)){
+    /* 法線轉移：頭髮的法線改成「從頭的中心往外」和原本法線的混合（80%），整片頭髮像一個球那樣受光，一束一束的圓柱陰影不見 */
+    const box=new THREE.Box3(); hairMeshes.forEach(m=>{ m.geometry.computeBoundingBox(); box.union(m.geometry.boundingBox); });
+    const c=box.getCenter(new THREE.Vector3()); c.y=box.max.y-0.115; c.z-=0.01;
+    const sz=box.getSize(new THREE.Vector3()), sc=new THREE.Vector3(1/Math.max(0.12,sz.x/2),1/0.13,1/Math.max(0.12,sz.z/2));
+    const p=new THREE.Vector3(), n=new THREE.Vector3(), s=new THREE.Vector3();
+    hairMeshes.forEach(m=>{ const P=m.geometry.attributes.position, N=m.geometry.attributes.normal;
+      for(let i=0;i<P.count;i++){ p.fromBufferAttribute(P,i); n.fromBufferAttribute(N,i);
+        s.copy(p).sub(c).multiply(sc); if(s.y<-1.0) s.y=-1.0+(s.y+1.0)*0.3;   /* 長髮垂下的部分：往外為主、少一點往下 */
+        s.normalize(); n.lerp(s,0.8).normalize(); N.setXYZ(i,n.x,n.y,n.z); } N.needsUpdate=true; });
+  }
+  vrm.scene.updateMatrixWorld(true);
+  const head=vrm.humanoid.getNormalizedBoneNode('head'); const hp=new THREE.Vector3(); head.getWorldPosition(hp); hp.y+=0.07;
+  const V=[[0,0.03,0.78],[38,0.12,0.78],[90,0.05,0.78],[150,0.1,0.8],[25,0.35,3.2]][view];
+  const a=THREE.MathUtils.degToRad(V[0]);
+  if(view===4){ hp.y-=0.55; cam.fov=34; cam.updateProjectionMatrix(); }
+  cam.position.set(hp.x+Math.sin(a)*V[2], hp.y+V[1], hp.z+Math.cos(a)*V[2]); cam.lookAt(hp);
+  vrm.update(0); R.render(scene,cam); window.done=true;
+},undefined,e=>{ document.title='ERR '+e; window.done=true; });
+</script></body></html>
