@@ -5469,6 +5469,31 @@
    "next": "換 wenzhou_street.glb／.json／.props.json＋套 singleside patch（123,731→129,147、材質 46→51）；LICENSES.md 合併「Poly Haven 模型」一節；跑 singleside_streets_unit、street_props_nav_unit、lampshade_flip_unit、wz_copy_shop_unit；導航照 props.json（販賣機＋紙箱→一盆盆栽）",
    "noDirectIntegrate": false,
    "note": "阿德影印照參考圖 wz_ade_ext（A1＋轉角店）＋OPEN-SRC-2D3D-1104 第一個試做（使用者 14:1x「從 GitHub 開源找…」）：lib2.ph_model（Poly Haven CC0 自動下載、減面、貼圖先縮 512 RGB、半透明一律 MASK）；冷氣 9,493→1,517 面、盆栽 69,806→約 3,000 面。A1：白色馬賽克外牆、三盞鵝頸燈、銀框落地玻璃＋藍飾條、右邊白磁磚壁面（軟木板、價目表 NT$2、壁燈）、白字貼紙。轉角：新招牌＋兩盞鵝頸燈。對照圖 ade_pilot_cmp.jpg｜BB-C 15:0x Blender 階段退回（外牆灰綠石材不像參考圖的暖米色小方磚、店內空、植物少、白字小、鏡頭沒對上）→ ADE-V2-1104 重做；LAWWW-C 不接這版"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a59fe71f5",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ADE-V2-1104",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/wenzhou_street.json",
+    "assets/models/env/second_ai/wenzhou_street.props.json",
+    "tools/blender/env_second/wz_shopkit.py",
+    "tools/blender/env_second/wz_street.py",
+    "tools/blender/env_second/lib2.py",
+    "tools/blender/env_second/textures/acg_tiles139/",
+    "tools/blender/env_second/textures/gen/wz_decal_ade.png",
+    "LICENSES.md",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/singleside_streets_unit_0bd546bd5.patch"
+   ],
+   "state": "已交付",
+   "remaining": "BB 用參考圖鏡頭判 Blender 階段（D133）；過了才請 LAWWW 接；CC 拍 14:00／20:30／moved、lane_west 效能；same_angle_check 雲端裝不起來（請 BB 跑）",
+   "next": "BB 過了以後：換 wenzhou_street.glb／.json／.props.json＋套 singleside patch（133,335、材質 53、大面 10）；LICENSES 合併 Poly Haven 模型＋ambientCG 兩節；跑 singleside、lampshade_flip、street_props_nav、wz_copy_shop",
+   "noDirectIntegrate": true,
+   "note": "阿德 v2：照 BB-C 15:0x 退回 1～6（暖米色小方磚、店內影印機層架櫃台、植物常春藤鐵窗盆栽、白字放大、軟木板價目表放大、參考圖鏡頭）。v1 0a6f626be 作廢。另修：wz_shopkit 兩處 hash() 隨機種子改固定（BB T0 葉片小變化的原因）"
   }
  ]
 }
