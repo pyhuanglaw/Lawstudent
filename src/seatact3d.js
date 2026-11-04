@@ -86,21 +86,51 @@ const SEATACT=(function(){
     const r=prng(hash('seatact|'+zone+'|'+day+'|'+skey(st))); const order=acts.slice(); for(let i=order.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
     return order.find(a=>!(busy||[]).some(q=>q.act===a&&Math.hypot(q.st.x-st.x,q.st.z-st.z)<1.05))||order[0]; };
   // ---------- 桌子在哪裡（S.probe）----------
-  const RC=typeof THREE!=='undefined'?new THREE.Raycaster():null, DN=typeof THREE!=='undefined'?new THREE.Vector3(0,-1,0):null, RV=typeof THREE!=='undefined'?new THREE.Vector3():null;
-  let meshList=null;
+  /* 不用 Raycaster（正式模型是照材質合併的大網格：afar 一個網格 1.9 萬個三角形，每一條射線都要全部算一次）：
+     區域裡朝上的三角形（法線 y ≥ 0.85）照 xz 放進 0.25 m 的格子（一個區域算一次；正式模型載好、網格數量變了才重算），查「這一點往下第一個面」只看那一格。
+     人物、桌上小物、替身不算；看不到的不算（載入失敗的備用方塊藏起來以後），但每一層樓的群組（上下樓時藏起來）照算 */
+  let meshList=null, triIx=null;
+  S.MESH_TTL=4000;   /* 區域的網格清單多久重新看一次（毫秒）：正式模型載好、備用方塊藏起來＝清單變了＝索引重算、每個人重找桌子 */
   const ownGroup=o=>{ for(let p=o;p;p=p.parent){ if(p.userData&&(p.userData.seatAct||p.userData.driver)) return true; if(/^seated_figures/.test(p.name||'')) return true; } return false; };
-  function meshesOf(zone){ const sig=zone&&zone.group?zone.group.children.length:0; if(meshList&&meshList.zone===zone&&meshList.sig===sig&&meshList.t>Date.now()-4000) return meshList.list;
-    const list=[]; const walk=o=>{ if(!o.visible||ownGroup(o)) return; if(o.isMesh&&!o.isSkinnedMesh){ const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.visible!==false&&!(m.transparent&&m.opacity<0.3)) list.push(o); } for(const c of o.children) walk(c); };
+  function meshesOf(zone){ const sig=zone&&zone.group?zone.group.children.length:0; if(meshList&&meshList.zone===zone&&meshList.sig===sig&&meshList.t>Date.now()-S.MESH_TTL) return meshList.list;
+    const lvg=new Set(((zone&&zone.levelGroups)||[]).map(q=>q&&q.group).filter(Boolean));
+    const list=[]; const walk=o=>{ if((!o.visible&&!lvg.has(o))||ownGroup(o)) return; if(o.isMesh&&!o.isSkinnedMesh){ const m=Array.isArray(o.material)?o.material[0]:o.material; if(m&&m.visible!==false&&!(m.transparent&&m.opacity<0.3)) list.push(o); } for(const c of o.children) walk(c); };
     if(zone&&zone.group){ zone.group.updateMatrixWorld(true); walk(zone.group); } let n=0; for(const o of list) n+=o.id; meshList={zone,sig,list,t:Date.now(),ids:n}; return list; }
   S.meshSig=zone=>{ meshesOf(zone); return meshList?meshList.list.length+':'+meshList.ids:'0'; };
-  /* 往下打一條射線：floor 以上第一個面（離地板的高度）；沒有＝null */
-  function topAt(list,x,y0,z){ RV.set(x,y0+1.45,z); RC.set(RV,DN); RC.far=1.42; const h=RC.intersectObjects(list,false); return h.length?h[0].point.y-y0:null; }
+  const CELL=0.25;
+  /* 分段做（S.INDEX_MS：每 30 格最多算幾毫秒；一個網格是最小的一段）：手機上一個區域約 1～2 億次乘法，一次做完會卡一下 */
+  S.INDEX_MS=6;
+  const nowMs=()=>(typeof performance!=='undefined'&&performance.now)?performance.now():Date.now();
+  function addMesh(I,o){ const g=o.geometry, P=g&&g.attributes&&g.attributes.position; if(!P) return; const ix=g.index, nt=ix?ix.count/3:P.count/3, nv=P.count, ni=o.isInstancedMesh?o.count:1; if(I.W.length<nv*3) I.W=new Float32Array(nv*3); const W=I.W, M=I.M, IM=I.IM, near=I.near, grid=I.grid, T=I.T;
+    for(let k=0;k<ni;k++){ if(o.isInstancedMesh){ o.getMatrixAt(k,IM); M.multiplyMatrices(o.matrixWorld,IM); } else M.copy(o.matrixWorld); const e=M.elements;
+      for(let v=0;v<nv;v++){ const x=P.getX(v), y=P.getY(v), z=P.getZ(v); W[v*3]=e[0]*x+e[4]*y+e[8]*z+e[12]; W[v*3+1]=e[1]*x+e[5]*y+e[9]*z+e[13]; W[v*3+2]=e[2]*x+e[6]*y+e[10]*z+e[14]; }   /* 每個頂點只轉一次 */
+      for(let t=0;t<nt;t++){ const a=(ix?ix.getX(t*3):t*3)*3, b=(ix?ix.getX(t*3+1):t*3+1)*3, c=(ix?ix.getX(t*3+2):t*3+2)*3; I.nTri++;
+        const ux=W[b]-W[a], uy=W[b+1]-W[a+1], uz=W[b+2]-W[a+2], vx=W[c]-W[a], vy=W[c+1]-W[a+1], vz=W[c+2]-W[a+2], nx=uy*vz-uz*vy, ny=uz*vx-ux*vz, nz=ux*vy-uy*vx, nl=Math.hypot(nx,ny,nz);
+        if(nl<1e-9||Math.abs(ny)<0.85*nl) continue;   /* 朝上（或朝下：雙面的面板、翻過來的網格；高度一樣）的面才算 */
+        const x0=Math.floor(Math.min(W[a],W[b],W[c])/CELL), x1=Math.floor(Math.max(W[a],W[b],W[c])/CELL), z0=Math.floor(Math.min(W[a+2],W[b+2],W[c+2])/CELL), z1=Math.floor(Math.max(W[a+2],W[b+2],W[c+2])/CELL);
+        if((x1-x0+1)*(z1-z0+1)>4096) continue;   /* 大到不合理的面（整片地板一個三角形）：地板本來就不是桌子 */
+        let id=-1; for(let gx=x0;gx<=x1;gx++) for(let gz=z0;gz<=z1;gz++){ const key=gx*100003+gz; if(!near.has(key)) continue; if(id<0){ id=T.length; T.push([W[a],W[a+1],W[a+2],W[b],W[b+1],W[b+2],W[c],W[c+1],W[c+2]]); } let L=grid.get(key); if(!L){ L=[]; grid.set(key,L); } L.push(id); } } } }
+  /* 只收座位附近（1.5 m 內）的格子：桌子一定在座位前面；其他地方的面不收（省時間、省記憶體）*/
+  function indexStep(zone,budget){ const sig=S.meshSig(zone); if(!triIx||triIx.zone!==zone||triIx.sig!==sig){
+      const near=new Set(); for(const st of (zone.seats||[])){ const gx=Math.floor(st.x/CELL), gz=Math.floor(st.z/CELL), R=Math.ceil(1.5/CELL); for(let a=-R;a<=R;a++) for(let b=-R;b<=R;b++) near.add((gx+a)*100003+gz+b); }
+      triIx={zone,sig,list:meshList.list.slice(),i:0,grid:new Map(),T:[],nTri:0,near,W:new Float32Array(0),M:new THREE.Matrix4(),IM:new THREE.Matrix4(),done:false,ms:0}; }
+    const I=triIx; if(I.done) return I; const t0=nowMs(); while(I.i<I.list.length){ addMesh(I,I.list[I.i++]); if(nowMs()-t0>budget) break; } I.ms+=nowMs()-t0; if(I.i>=I.list.length){ I.done=true; I.W=null; } return I; }
+  const indexOf=zone=>indexStep(zone,Infinity);
+  S.indexing=()=>!!(triIx&&!triIx.done);   /* 測試用：桌子的索引還在分段算 */
+  S.indexStat=zone=>{ const I=indexOf(zone); return {tris:I.nTri,up:I.T.length,cells:I.grid.size,ms:+I.ms.toFixed(1)}; };   /* 測試、效能用 */
+  /* (x, z) 往下第一個面：地板 y0 上方 0.03～1.45 m 之間最高的那一個（離地板的高度）；沒有＝null */
+  function topAt(I,x,y0,z){ const L=I.grid.get(Math.floor(x/CELL)*100003+Math.floor(z/CELL)); if(!L) return null; let best=null;
+    for(const id of L){ const t=I.T[id];
+      const x1=t[0],z1=t[2],x2=t[3],z2=t[5],x3=t[6],z3=t[8], den=(z2-z3)*(x1-x3)+(x3-x2)*(z1-z3); if(Math.abs(den)<1e-12) continue;
+      const w1=((z2-z3)*(x-x3)+(x3-x2)*(z-z3))/den, w2=((z3-z1)*(x-x3)+(x1-x3)*(z-z3))/den, w3=1-w1-w2; if(w1<-1e-6||w2<-1e-6||w3<-1e-6) continue;
+      const y=w1*t[1]+w2*t[4]+w3*t[7]-y0; if(y<0.03||y>1.45) continue; if(best==null||y>best) best=y; }
+    return best; }
   const floorOf=(E,st)=>st.y!=null?+st.y:(E&&E.heightAt?E.heightAt(st.x,st.z,st.lv|0):0)||0;
   /* 回傳 {edge, y（世界座標的桌面高度）, h（離地板）, depth, wide} 或 null */
-  S.probe=function(E,st){ if(!RC||!E||!E.zone) return null; const list=meshesOf(E.zone); if(!list.length) return null;
+  S.probe=function(E,st){ if(typeof THREE==='undefined'||!E||!E.zone) return null; const I=indexOf(E.zone); if(!I.T.length) return null;
     const y0=floorOf(E,st), fx=Math.sin(st.yaw||0), fz=Math.cos(st.yaw||0), lx=fz, lz=-fx;   /* l：坐的人的左手邊（+x 在人物座標）*/
     const seatTop=st.seatH!=null?+st.seatH:(0.45+(+st.lift||0));
-    const at=(f,s)=>topAt(list,st.x+fx*f+lx*(s||0),y0,st.z+fz*f+lz*(s||0));
+    const at=(f,s)=>topAt(I,st.x+fx*f+lx*(s||0),y0,st.z+fz*f+lz*(s||0));
     let f0=null, h=null, gap=false;
     for(let f=0.02;f<=0.9;f+=0.04){ const t=at(f); if(t==null||t<0.25){ if(f>0.12) gap=true; continue; }
       if(t>=Math.max(0.55,seatTop+0.12)&&t<=1.2){ f0=f; h=t; break; }
@@ -166,15 +196,16 @@ const SEATACT=(function(){
     const busy=[...R.on.values()].map(r=>({st:r.st,act:r.act}));
     const PP=E.player&&E.player.obj&&E.player.obj.position, cand=E.npcs.filter(n=>!live.has(n)&&seatedOk(n));
     if(PP&&cand.length+R.on.size>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
+    const ixDone=indexStep(E.zone,S.INDEX_MS).done;   /* 桌子的索引還在分段算：人先照做的事坐好（手上的照拿），桌上等算好再放 */
     for(const n of cand){ if(R.on.size>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
-      const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,pose:null,hold:null,kind:null};
-      R.on.set(n,r); busy.push({st:r.st,act:r.act}); retable(E,r,place); applyBody(r); R.dirty=true; }
-    /* 找不到桌子的：1.5 秒、5 秒後、之後模型變了再找（正式模型晚一點才載好）*/
-    const sig=R.t%8===0?S.meshSig(E.zone):null;
-    for(const r of R.on.values()){ if(r.tb) continue; const due=r.tbN<3?(Date.now()-r.tbT>(r.tbN===1?1500:5000)):(sig!=null&&sig!==r.tbSig); if(due){ const had=r.set; retable(E,r,place,sig); if(r.set!==had){ applyBody(r); R.dirty=true; } } }
+      const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null};
+      R.on.set(n,r); busy.push({st:r.st,act:r.act}); if(ixDone) retable(E,r,place); applyBody(r); R.dirty=true; }
+    /* 還沒找過的；找不到桌子的 1.5 秒、5 秒後再找；模型變了（正式模型載好、備用方塊藏起來＝索引重算完）每個人都重找（桌面高度可能不一樣）*/
+    if(ixDone){ const sig=triIx.sig; for(const r of R.on.values()){ const due=!r.tbN||r.tbSig!==sig||(!r.tb&&r.tbN<3&&Date.now()-r.tbT>(r.tbN===1?1500:5000)); if(!due) continue;
+        const had=r.set, hy=r.tb&&r.tb.y; retable(E,r,place,sig); if(r.set!==had||r.tbN===1||(r.tb&&r.tb.y)!==hy){ applyBody(r); r.items=null; R.dirty=true; } } }
     if(R.dirty&&R.props) rebuild(E);
     lodTick(E); };
-  function retable(E,r,place,sig){ r.tb=S.probe(E,r.st); r.tbT=Date.now(); r.tbN=(r.tbN|0)+1; r.tbSig=sig!=null?sig:S.meshSig(E.zone);
+  function retable(E,r,place,sig){ r.tb=S.probe(E,r.st); r.tbT=Date.now(); r.tbN=(r.tbN|0)+1; r.tbSig=sig!=null?sig:(triIx&&triIx.sig);
     if(r.tb){ const rm=S.roomOf(r.st,S._zoneSeats); if(rm.side) r.tb.wide=false;
       if(rm.oppD!=null){ const half=rm.oppD/2-r.tb.edge; if(half<r.tb.depth){ r.tb.depth=half>=0.3?0.3:(half>=0.2?0.2:(half>=0.1?0.1:0)); if(r.tb.depth<0.3) r.tb.wide=false; } } }   /* 對面也有位子：只用自己那一半 */
     let set=deskFor(r.act,place,r.tb,r.forced); const A=S.ACT[r.act];

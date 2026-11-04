@@ -11,6 +11,7 @@
 //   I  店裡的客人（crowd3d.js 的 CROWD.enter）：一個人的照座位表、兩個人一桌聊天的姿勢不動、桌上各一個杯子；有名字的人：姿勢、手上的東西不動（不叫 setReadItem），桌上配一組；n.deskSet=false＝不放
 //   J  遠近：7 m 內 LOD0、7.5 m 外 _lod1；12 m 外單件不畫
 //   K  index.html：src/seatact3d.js 在 crowd3d.js 後面；game3d.js 主迴圈每 30 格叫 SEATACT.tick
+//   L  正式模型晚一點才載好（桌面高度不一樣）：網格變了＝桌子的索引重算（分段算，每 30 格最多 S.INDEX_MS 毫秒）、每個人重找，東西跟著到新的桌面
 // 修改前（開發分支 08968945f）：沒有 SEATACT——A 以外每一項 FAIL。用法：node tests/seat_activity_1104_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -48,7 +49,7 @@ function build(id,G){ GAME.G=G; G.zone=id; G.weekday=CALENDAR.dateOf(G.day).wd%7
   E.addNPC=n=>{ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.lv=n.lv|0; E.npcs.push(n); return n; }; E.removeNPC=n=>{ E.npcs=E.npcs.filter(m=>m!==n); };
   GM={G,E,hourRate:1/150,npc:{},sitAt:(n,st)=>{ n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; n.obj.position.set(st.x,(st.lift||0),st.z); n.obj.rotation.y=st.yaw||0; }}; return z; }
 const sitAll=(z,o)=>{ const out=[]; for(const st of (z.seats||[])){ const ob=new THREE.Group(); ob.userData={}; out.push(E.addNPC(Object.assign({obj:ob,name:'',beh:'idle',isExtra:true,pose:'read',idlePose:'read',frozen:true,seat:st,lv:st.lv|0},o||{}))); } return out; };
-const run=async()=>{ SA.tick(GM); await wait(); SA.tick(GM); };
+const run=async()=>{ SA.tick(GM); await wait(); for(let i=0;i<400&&SA.indexing&&SA.indexing();i++) SA.tick(GM); SA.tick(GM); SA.tick(GM); };   /* 桌子的索引分段算（每 30 格最多 S.INDEX_MS 毫秒）：跑到算完 */
 const mkG=(d,h)=>({day:d,hour:h,flags:{},stage:'law'});
 const ZONES=['cafe','library_hall','library','lawlib','soclib','afar'];
 const LIB=['library_hall','library','lawlib','soclib'];
@@ -90,6 +91,12 @@ const fwdOf=st=>[Math.sin(st.yaw||0),Math.cos(st.yaw||0)];
         const cnt=()=>SA.groups().reduce((a,g)=>a+g.children.reduce((b,i)=>b+(i.visible?1:0),0),0), total=()=>SA.groups().reduce((a,g)=>a+(g.userData.rs||[]).length,0);
         const t0=total(); E.removeNPC(n0); SA.tick(GM); const t1=total(); const n1=ppl.find(p=>p!==n0&&SA.state().list.some(r=>r.items.length&&Math.abs(p.seat.x-r.x)<1e-6&&Math.abs(p.seat.z-r.z)<1e-6)); n1.pose=n1.idlePose='idle'; SA.tick(GM); const t2=total();
         check('H 人走了、起身：那一組從桌上拿掉',t1===t0-1&&t2===t0-2&&SA.state().n===st.n-2,'組數 '+t0+'→'+t1+'→'+t2); } }
+    /* L 正式模型晚一點才載好（桌面高度不一樣）：網格變了＝索引重算、每個人重找、東西跟著到新的桌面；索引分段算（一次最多 S.INDEX_MS 毫秒） */
+    { const z=build('library',mkG(DAY,14)); sitAll(z); await run(); const g=SA.groups()[0], r=g&&g.userData.rs.find(q=>q.set&&/^tset_/.test(q.set)), y0=r&&r.tb.y, fl=r&&(r.tb.y-r.tb.h); const ms=SA.indexStat(z).ms;
+      if(r){ for(const o of [...z.group.children]) o.visible=false; const top=new THREE.Mesh(new THREE.BoxGeometry(8,0.04,8),new THREE.MeshBasicMaterial()); top.position.set(r.st.x,(r.tb.y-r.tb.h)+0.88-0.02,r.st.z); z.group.add(top);
+        SA.MESH_TTL=0; let steps=0; SA.tick(GM); while(SA.indexing()&&steps<400){ SA.tick(GM); steps++; } SA.tick(GM); SA.MESH_TTL=4000; const r2=SA.groups()[0]&&SA.groups()[0].userData.rs.find(q=>q.st===r.st); const it=r2&&r2.items&&r2.items[0];
+        check('L 正式模型晚一點才載好（換成 0.88 m 的桌面）：每個人重找桌子、東西跟著到新的桌面；索引分段算',!!it&&Math.abs(r2.tb.y-(fl+0.88))<0.011&&Math.abs(it.y-r2.tb.y)<0.005,'原本 '+(y0&&y0.toFixed(3))+' → '+(r2&&r2.tb&&r2.tb.y.toFixed(3))+'、東西 '+(it&&it.y.toFixed(3))+'；閱覽區的索引 '+ms+' ms'); }
+      else check('L（找不到 tset 的組）',false); }
     /* G 種子穩定 */
     { for(const id of ['cafe','library']){ const z=build(id,mkG(DAY,16)); sitAll(z); await run(); const again=new Map(SA.state().list.map(r=>[r.x.toFixed(2)+','+r.z.toFixed(2)+','+r.lv,r.act+'/'+r.set])); let diff=0; for(const [k,v] of again) if(snap[id].get(k)!==v) diff++;
         build(id,mkG(DAY+1,14)); sitAll(E.zone); await run(); const other=new Map(SA.state().list.map(r=>[r.x.toFixed(2)+','+r.z.toFixed(2)+','+r.lv,r.act])); let chg=0; for(const [k,v] of other) if((snap[id].get(k)||'').split('/')[0]!==v) chg++;
