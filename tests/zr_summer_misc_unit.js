@@ -97,7 +97,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     at('2026-08-25',20.9); runPhone(20.9,21.2); const q1=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
     check('A4. 8/25 21:00 不約（她還在台中）',!q1&&!txt('p:'+ZR).includes('明天我十點下班。'),J(q1));
     at('2026-08-26',20.9); runPhone(20.9,21.2); const q2=OUT.get(H.G,'vac_C08@Y1_re_heroine_02');
-    check('A4. 8/26 21:00「明天我十點下班。」「……你來的話，我晚一點關燈。」→ 8/27 22:00 兩點半 Café 重逢',txt('p:'+ZR).includes('明天我十點下班。')&&txt('p:'+ZR).includes('……你來的話，我晚一點關燈。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22&&q2.place==='兩點半 Café',J(q2));
+    check('A4. 8/26 21:00「明天我十點下班。」「……你來的話，我晚一點關燈。」→ 8/27 22:00 2:30 AM 重逢',txt('p:'+ZR).includes('明天我十點下班。')&&txt('p:'+ZR).includes('……你來的話，我晚一點關燈。')&&!!q2&&q2.day===D('2026-08-27')&&q2.h===22&&q2.place==='2:30 AM',J(q2));
     const R=VAC_DATA.TRIP_MSG.reunion[ZR];
     check('A4. 重逢的台詞照原本（倒扣椅子、「回來了。」「……第一杯，我還是做給你。坐。」、沒去的那句）',J(R.lines.map(l=>l.text||l.narr))===J(['（她把最後一張椅子倒扣在桌上。）','回來了。','……第一杯，我還是做給你。坐。'])&&J(R.miss)===J(['昨天的那杯，我自己喝了。']));
   });
@@ -125,7 +125,7 @@ const queued=th=>[].concat(...(PHONE.rec(H.G).q||[]).map(q=>(q.items||[]).filter
     { const E=ev('ev_y0_rp'), out={};
       for(let i=0;i<STORY.RP.length;i++){ H.fresh('2025-06-05',10,'dorm',{RP_LAST:i,RP_TXT:STORY.RP[i][2]}); H.bgs=[]; H.said=[]; await EVENTS.runLines(E.dialogue,{id:'t',participants:['kexin']}); out[i]={bg:H.bgs.map(img),L:said()}; }
       check('C. ev_y0_rp：公館的二輪戲院＝gongguan_cinema、淡水看海＝d13_base_sunset（淡水），旁白那一句照舊',hasImg('gongguan_cinema')&&hasImg('d13_base_sunset')&&J(out[0].bg)===J(['gongguan_cinema'])&&J(out[3].bg)===J(['d13_base_sunset'])&&out[0].L[0]===STORY.RP[0][2]&&out[3].L[0]===STORY.RP[3][2],J([out[0],out[3]]));
-      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB；11-02 第 102 組到了）：溫州街＝blur、公館的咖啡店＝cafe（借兩點半 Café）、映月湖白天＝zuiyue_day、芒果冰＝mango_ice',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&J(out[2].bg)===J(['zuiyue_day'])&&J(out[5].bg)===J(['mango_ice'])&&hasImg('zuiyue_day')&&hasImg('mango_ice')&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
+      check('C. ev_y0_rp（11-01 LAWWW-B 回 BB；11-02 第 102 組到了）：溫州街＝blur、公館的咖啡店＝cafe（借 2:30 AM）、映月湖白天＝zuiyue_day、芒果冰＝mango_ice',J(out[1].bg)===J(['blur'])&&J(out[4].bg)===J(['cafe'])&&hasImg('cafe')&&J(out[2].bg)===J(['zuiyue_day'])&&J(out[5].bg)===J(['mango_ice'])&&hasImg('zuiyue_day')&&hasImg('mango_ice')&&[1,2,4,5].every(i=>out[i].L[0]===STORY.RP[i][2]),J([1,2,4,5].map(i=>out[i].bg))); }
     /* 左營站傍晚 */
     const block=(f,id)=>{ const t=fs.readFileSync(path.join(H.ROOT,f),'utf8'), i=t.indexOf("id:'"+id+"'"); if(i<0) return ''; const j=t.indexOf("id:'",i+5); return t.slice(i,j<0?t.length:j); };   /* 這兩個事件包 pg_harness 沒有載入：讀原始檔那一段 */
     { const b=block('src/data/r2y4a_events.js','ev_kexin_trip_winter_y4'), n=(b.match(/\{scene:'高雄・左營站',bg:'kh_station'\}/g)||[]).length;

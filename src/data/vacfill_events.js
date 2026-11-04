@@ -245,9 +245,9 @@ const VACFILL_EVENTS=(function(){
         {if:{custom:G=>F(G).VF_Y2_0729!=='find'},speaker:null,text:X.y2_0728.coat},
         {if:{custom:G=>F(G).VF_Y2_0729==='find'},speaker:'heroine_05',text:X.y2_0728.two} ] },   /* 和學姊交往中、回「我去找妳。」：最後一句換成「……下次我帶兩件。」*/
     /* AA_549 3-3（企劃線 AA_549 第 3 節 3-3；第①級）：原本只有一句旁白（X.y2_0731.narr）＝換成子晴的場景 */
-    { id:'ev_vf_y2_0801', title:'兩點半 Café', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'兩點半 Café',bg:'cafe'},
-        {speaker:null,text:'（下午的兩點半 Café。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）'},
+    { id:'ev_vf_y2_0801', title:'2:30 AM', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+      dialogue:[ {scene:'2:30 AM',bg:'cafe'},
+        {speaker:null,text:'（下午的 2:30 AM。子晴坐在最裡面，筆電貼滿貼紙，桌上兩杯冰美式。）'},
         {speaker:'heroine_04',text:'一杯是你的。我猜你會遲到，所以先點了。冰塊都化了。'},
         {speaker:'heroine_04',text:'我在做一個小遊戲。你幫我玩一關。'},
         {choice:[{text:'「好。」',goto:'a'},{text:'「妳在實習耶，週末還做？」',goto:'b'}]},

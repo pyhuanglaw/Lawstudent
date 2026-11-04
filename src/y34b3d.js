@@ -219,7 +219,7 @@ const Y34B=(function(){
      22:30 以後才傳（隔天 12:10 才回；AA_337 第 7 節 AA-C 20:57 改字）＝「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）
        ＋「好。」→ 當天（6/3）15:00 Café、照「去了」那一場、記 cafe；「今天不行。」→「好。那蛋糕歸我。」記 missed */
   S.bdayVer=function(G){ const d=D('bday'); if(d==null||G.day!==d||!law(G)||!met('heroine_05')) return null; if(dating(G,'heroine_05')) return 'dating'; if(exOf(G,'heroine_05')) return 'ex'; return fri('heroine_05')?'friend':false; };
-  const BDAY_REPLY={dating:['蛋糕我買了。……一個人吃很奇怪。','六點，兩點半 Café。你點什麼都可以。'],ex:['謝謝。'],friend:['謝謝。研究室的人買了一個小蛋糕。'],
+  const BDAY_REPLY={dating:['蛋糕我買了。……一個人吃很奇怪。','六點，2:30 AM。你點什麼都可以。'],ex:['謝謝。'],friend:['謝謝。研究室的人買了一個小蛋糕。'],
     late:['謝謝。今天研究室比較晚。','蛋糕留了一半。……明天下午，Café？'],   /* AA_337 第 7 節：17:05 以後才傳（22:30 回）*/
     nextDay:['謝謝。昨天十點半就睡了，剛看到。','蛋糕還在冰箱。……今天下午三點，Café？'],   /* AA_337 第 7 節（AA-C 20:57）：22:30 以後才傳（隔天 12:10 回）*/
     jp:['蛋糕我買了。……一個人吃很奇怪。','你那邊七點吧。視訊，十分鐘。'],   /* AA_337 第 7 節：日本路線、人在日本 */
@@ -259,10 +259,10 @@ const Y34B=(function(){
     if(!met('heroine_05')) return;
     const ok=dating(G,'heroine_05')||exOf(G,'heroine_05')||fri('heroine_05'); if(!ok) return;
     if(F.SIS_BDAY_Y3==='invited'&&(F.SIS_BDAY_Y3_AT==null||NOW(G)>=F.SIS_BDAY_Y3_AT)&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday')&&NOW(G)<T(d,18.5)&&G.zone!=='cafe'&&!(STORY.abroad&&STORY.abroad(G)))
-      OUT.plan(G,{id:'y3_sis_bday',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d,h:18,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6});   /* 她的回覆到了才排（人在日本的不排；舊存檔的群組選項是馬上回的，沒有 SIS_BDAY_Y3_AT）*/
+      OUT.plan(G,{id:'y3_sis_bday',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d,h:18,late:0.5,place:'溫州街',title:'2:30 AM',travelH:1/6});   /* 她的回覆到了才排（人在日本的不排；舊存檔的群組選項是馬上回的，沒有 SIS_BDAY_Y3_AT）*/
     if(F.SIS_BDAY_Y3==='invited'&&NOW(G)>=T(d,21)){ F.SIS_BDAY_Y3='missed'; at(G,d,21,[DM('heroine_05',BDAY_REPLY.missed[0])],'y3_sis_bday_miss'); }
     if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday_next')&&NOW(G)<T(nd,15.5)&&G.zone!=='cafe')
-      OUT.plan(G,{id:'y3_sis_bday_next',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:nd,h:15,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6}); };   /* 回了「好。」：隔天 15:00（AA_337 第 7 節）*/
+      OUT.plan(G,{id:'y3_sis_bday_next',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:nd,h:15,late:0.5,place:'溫州街',title:'2:30 AM',travelH:1/6}); };   /* 回了「好。」：隔天 15:00（AA_337 第 7 節）*/
   S.bdayCafeDue=G=>{ const d=D('bday'), F=G.flags; if(d==null||G.zone!=='cafe') return false;
     if(F.SIS_BDAY_Y3==='invited') return G.day===d&&G.hour>=17.75&&G.hour<18.5;
     if(F.SIS_BDAY_Y3==='next_cafe'&&F.SIS_BDAY_Y3_NEXT!=null) return G.day===F.SIS_BDAY_Y3_NEXT&&G.hour>=14.75&&G.hour<15.5;   /* 22:30 那一版回了「好。」：隔天 15:00 */
@@ -845,7 +845,7 @@ const Y34B=(function(){
     {if:C(G=>ANY(G)!=null),speaker:'heroine_01',text:'你四年前也是這樣講。'},
     {if:C(G=>ANY(G)==null),speaker:'heroine_01',text:'好。那你畢業以前要告訴我。'},
     {label:'a_end'},{set:{AN_YOUR_TURN:true}},{mem:[{npc:'heroine_01',tag:'IMPORTANT_CONVERSATION',note:'換祐廷問她'}]},{rel:{heroine_01:{fam:2,trust:2}}} ];
-  const AN20_CAFE=[ {scene:'兩點半 Café・窗邊',bg:false},{if:C(G=>!!G.flags.AN20_LATE),speaker:null,text:'（你走進兩點半的時候，她已經點了第二杯。）'} ].concat(AN20_BODY);
+  const AN20_CAFE=[ {scene:'2:30 AM・窗邊',bg:false},{if:C(G=>!!G.flags.AN20_LATE),speaker:null,text:'（你走進兩點半的時候，她已經點了第二杯。）'} ].concat(AN20_BODY);
   const AN20_NOODLE=[ {scene:'公館燒臘・長桌',bg:'noodle_table'} ].concat(AN20_BODY);
   /* 1B-25 */
   const M9=[ {scene:'法律系館A・研究室的走廊',bg:'linze_prof_hall'},

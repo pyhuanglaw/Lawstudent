@@ -14,12 +14,12 @@ const ZRZQ_LINES={
   FILM:[['小津的電影','《秋天的晚飯》'],['小津','《秋天的晚飯》']],   /* 照順序換（「小津的電影」整個換成片名）*/
   /* 第九節：入場旁白（畫面帶到現場前的第一句，依祐廷那時在哪裡挑；{課名}＝他那天實際上的最後一堂課）＋4-0 第二張表（她們畢業以後的場次）*/
   IN:{
-    home:{lib:'（九點半離開總圖，走了一段路。你在溫州街的便利商店買了一瓶水出來，兩點半 Café 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
-      dorm:'（宿舍的泡麵吃完了。你下樓走到溫州街的便利商店。出來的時候，兩點半 Café 的燈已經關了，門口還有兩個人在說話。）',
-      town:'（你從公館走回來，經過溫州街。兩點半 Café 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
+    home:{lib:'（九點半離開總圖，走了一段路。你在溫州街的便利商店買了一瓶水出來，2:30 AM 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
+      dorm:'（宿舍的泡麵吃完了。你下樓走到溫州街的便利商店。出來的時候，2:30 AM 的燈已經關了，門口還有兩個人在說話。）',
+      town:'（你從公館走回來，經過溫州街。2:30 AM 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
       cafe:'（你是最後一個客人。芷若說要打烊了，你拿了東西出去，在門口的便利商店多待了一下。出來的時候，子晴已經在門口了。）',
-      campus:'（你從校園走溫州街回去。兩點半 Café 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
-      grad:'（星期三晚上，你在公館吃完宵夜，走溫州街回去。兩點半 Café 的燈剛關，門口有兩個人在說話，沒注意到你。）'},
+      campus:'（你從校園走溫州街回去。2:30 AM 的燈已經關了，門口還有兩個人在說話，沒注意到你。）',
+      grad:'（星期三晚上，你在公館吃完宵夜，走溫州街回去。2:30 AM 的燈剛關，門口有兩個人在說話，沒注意到你。）'},
     next:{cls:'（{課名}下課。你去公館買東西，經過二輪戲院的時候，剛好散場。子晴和芷若從門口走出來。）',
       none:'（你在公館晃了一個下午。經過二輪戲院的時候，剛好散場。子晴和芷若從門口走出來。）',
       grad:'（星期四傍晚，你在公館的書店待到六點。出來的時候，二輪戲院剛散場。）'},
@@ -153,7 +153,7 @@ const ZRZQ_EVENTS=(function(){
   out.push({id:'ev_zz_told_zr',participants:['heroine_02'],location:'any',trigger:'manual',once:true,background:'blur',dialogue:told('zr')},
     {id:'ev_zz_told_zq',participants:['heroine_04'],location:'any',trigger:'manual',once:true,background:'blur',dialogue:told('zq')});
   /* 4-5：祐廷在 Café、芷若在班上；一個月最多一則（和 4-6 合算），照順序、條件不到的先跳過 */
-  L.DAILY.forEach((d,i)=>out.push({id:'ev_zz_daily_'+(i+1),title:'兩點半 Café',participants:[],location:'cafe',trigger:'auto',npcPresent:'heroine_02',once:true,background:'blur',
+  L.DAILY.forEach((d,i)=>out.push({id:'ev_zz_daily_'+(i+1),title:'2:30 AM',participants:[],location:'cafe',trigger:'auto',npcPresent:'heroine_02',once:true,background:'blur',
     prereq:{custom:ok('dailyOk',i+1)},dialogue:lines(d),after:G=>{ const x=X(); if(x) x.dailyDone(G,i+1); }}));
   /* 4-6：芷若在英國、找子晴說話（晚上；第 1 則在公館宵夜 22:00～24:00，AA_385 第 5 項）；一個月最多一則（和 4-5 合算）*/
   L.UK.forEach((d,i)=>out.push({id:'ev_zz_uk_'+(i+1),title:L.TITLE.uk,participants:['heroine_04'],location:'any',trigger:'interact',once:true,background:'blur',

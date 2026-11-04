@@ -480,7 +480,7 @@ const R2Y3B_EVENTS=(function(){
   const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},cg('cg_airport_return_heroine01'),{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };   /* CG-35（AA_597；BB 2026-11-02 19:4x）放在第一句旁白 */
   const AN_NOTEBOOK={ id:'ev_an_notebook', title:'日本的手帳', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{unless:SHOP_SEEN,speaker:null,text:'（第一頁的標題是「想去的店」。上面還沒有店名，最下面一行只寫著：和你。）',consequences:{mem:[{npc:'heroine_01',tag:'AN_SHOP_PAGE',note:''}]}},
+    dialogue:[ {scene:'2:30 AM・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{unless:SHOP_SEEN,speaker:null,text:'（第一頁的標題是「想去的店」。上面還沒有店名，最下面一行只寫著：和你。）',consequences:{mem:[{npc:'heroine_01',tag:'AN_SHOP_PAGE',note:''}]}},
       {if:SHOP_SEEN,speaker:null,text:'（是那一本舊手帳。翻到「想去的店」，最下面還是「和你」。旁邊多畫了一個空的勾勾格。）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };   /* AA_589 第 80 列＋第 10 節：第一次看到「想去的店」那一頁＝記 AN_SHOP_PAGE；看過的（期末飯她先說過）換承接的寫法；事件標題「理由欄」→「日本的手帳」（7-1）*/
 
   /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（交往中一律有，AA_343 D1）；4/13（四）22:30 視訊（日本 23:30）---------- */
@@ -510,7 +510,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-54 芷若「十二張點單」（BB_165 3-2，AA-C 10-18 審過、照 10-18 加註＝AA_343 D8；AA_185 1-3、AA_326 2-Y3-54）：8/5（六）14:00 兩點半（店休），和芷若交往中；日本路線 8/12 ---------- */
   const SLIPS={ id:'ev_zhiruo_twelve_slips', title:'十二張點單', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
-    dialogue:[ {scene:'兩點半 Café（店休）',bg:'cafe_closed'},   /* 打烊的兩點半，窗簾拉下來，只開吧檯燈（2D 沒有＝深色底＋字幕）*/
+    dialogue:[ {scene:'2:30 AM（店休）',bg:'cafe_closed'},   /* 打烊的兩點半，窗簾拉下來，只開吧檯燈（2D 沒有＝深色底＋字幕）*/
       {speaker:'heroine_02',text:'（開門）你敲了四下。……算了，進來。'},
       {speaker:'heroine_02',text:'吧檯借我們一個下午。投影機是二輪戲院的老闆借我的。他說，九月以前要還。'},
       {speaker:null,text:'（吧檯上排著十二張點單，每一張寫著一部電影的片名，最後一張是空白的。）'},

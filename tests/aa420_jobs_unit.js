@@ -122,7 +122,7 @@ await sec(7,async()=>{ /* 臺灣路線：大四下第 15 週最後一班＝離�
 await sec(8,async()=>{ /* 大二上第 3 週週六（單週，法服值班）：社員 */ const sat=STORY.termDayIn('Y2S1',3,6); fresh(key(sat),6.9,'dorm',{lawclub:true}); hire('brunch',[6]);
   STORY.phoneRules(GM); JOBS.plan(H.G); const ids=OUT.rec(H.G).map(q=>q.id); check('8. 週六：早午餐、法服兩個出門提醒都排了',ids.includes('job_brunch_'+sat)&&ids.includes('fafu_'+sat),J(ids));
   H.G.hour=7.1; const q=OUT.due(H.G); H.picks=['出發：法服值班']; await OUT.prompt(GM,q);
-  const o=H.opts.slice(-1)[0]||[]; check('8. 出門提醒兩個都列（早午餐、法服）',o.some(t=>/^出發：半熟的班/.test(t))&&o.some(t=>/^出發：法服值班/.test(t)),J(o));
+  const o=H.opts.slice(-1)[0]||[]; check('8. 出門提醒兩個都列（早午餐、法服）',o.some(t=>/^出發：SUNNY SIDE 的班/.test(t))&&o.some(t=>/^出發：法服值班/.test(t)),J(o));
   check('8. 選法服：早午餐算這週請假（missed）、到萬才館',OUT.get(H.G,'job_brunch_'+sat).state==='missed'&&H.entered.includes('wancai'),J(H.entered));
   /* 週四影印＋公法讀書會（大二上第 3 週週四有讀書會）*/ const thu=STORY.termDayIn('Y2S1',3,4); fresh(key(thu),17.5,'dorm',{CLUB_public_law_group:true}); hire('copy',[4]); JOBS.plan(H.G);
   H.G.hour=17.6; const q2=OUT.due(H.G); H.picks=['去公法讀書會']; await OUT.prompt(GM,q2); const o2=H.opts.slice(-1)[0]||[];

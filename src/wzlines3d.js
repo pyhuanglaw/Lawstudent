@@ -423,14 +423,14 @@ const WZL=(function(){
     const ok=R.can.length>0||!!extraZhe; if(!ok) return false; const who=R.can.slice(); if(extraZhe&&!who.includes('zhe')) who.unshift('zhe');
     G.flags.WZ_GRPB={day:d,who,by,shift:!!R.shift,done:false}; const T=G.flags.WZ_GRPB_T=Object.assign({},G.flags.WZ_GRPB_T); const tid=termId(G,d); if(tid) T[tid]=d;
     if(!R.shift&&typeof OUT!=='undefined'&&J()&&J().goto){ const sh=(typeof WZ_JOBS_DATA!=='undefined'&&WZ_JOBS_DATA.shops&&WZ_JOBS_DATA.shops.brunch)||{};
-      OUT.plan(G,{id:'wz_grpb_'+d,day:d,h:10,late:0.75,place:sh.place||'半熟',title:X.title,travel:sh.travel||'',travelH:0.25,goto:J().goto('brunch')}); }
+      OUT.plan(G,{id:'wz_grpb_'+d,day:d,h:10,late:0.75,place:sh.place||'SUNNY SIDE',title:X.title,travel:sh.travel||'',travelH:0.25,goto:J().goto('brunch')}); }
     return true; };
   /* 4-1：週四、週五 19:00～23:00，那週還沒約過 */
   S.grpbWeek=G=>{ const w=wd(G.day); return G.day-(w-1); };   /* 那週的週一 */
   S.grpbCanAsk=function(G){ const F=G.flags||{}; if(!law(G)||!F.NOODLE_SAW_APRON||typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')) return false; const w=wd(G.day), h=G.hour%24;
     if((w!==4&&w!==5)||h<19||h>=23) return false; if(F.WZ_GRPB_WK===S.grpbWeek(G)) return false; const B=F.WZ_GRPB; return !(B&&!B.done&&B.day>=G.day); };
   S.grpbAsk=async function(GM){ const G=GM.G, X=S.GRPB; if(!S.grpbCanAsk(G)) return false; const sat=S.grpbWeek(G)+5;
-    const k=await GM.choose([{t:'週六 10:00（半熟）'},{t:'週日 10:00（半熟）'},{t:'算了'}]); if(k!==0&&k!==1) return false; const d=sat+k;
+    const k=await GM.choose([{t:'週六 10:00（SUNNY SIDE）'},{t:'週日 10:00（SUNNY SIDE）'},{t:'算了'}]); if(k!==0&&k!==1) return false; const d=sat+k;
     G.flags.WZ_GRPB_WK=S.grpbWeek(G); PHONE.post(G,{th:X.th,from:'player',text:X.me}); S.grpbPost(G,d,S.grpbReplies(G,d,false),'me'); return true; };
   /* 4-2：阿哲揪（第 6 週或第 11 週的週四 21:00）*/
   S.grpbZhe=function(G){ const F=G.flags, X=S.GRPB; if(!F.NOODLE_SAW_APRON||!PHONE.inGroup(G,'noodle_team')) return; const t=S.term(G); if(!t||t.exam) return;

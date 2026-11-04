@@ -269,7 +269,7 @@ const INV=(function(){
     return nm+'說改天。'; };
   /* 約好 */
   S.accept=function(G,id,pid,day,h,o){ o=o||{}; S.rec(G); const P=S.place(pid); G.invSeq=(G.invSeq|0)+1;
-    const iv={id:'iv'+G.invSeq,who:id,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:o.now?'going':'accepted',accepted:true,by:o.by||'player',now:!!o.now,label:'和'+nameOf(id)+'約在'+P.name};
+    const iv={id:'iv'+G.invSeq,who:id,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:o.now?'going':'accepted',accepted:true,by:o.by||'player',now:!!o.now,label:'和'+nameOf(id)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name):P.name)};
     G.invites.push(iv); if(G.invites.length>60){ const keep=G.invites.filter(q=>live(q)); const old=G.invites.filter(q=>!live(q)).slice(-30); G.invites=old.concat(keep); }
     S.msg(G,id,o.now?'和'+nameOf(id)+'一起'+P.verb+'。':'約好了：'+when(G,day,h)+'，'+P.name+'（'+nameOf(id)+'）。',iv); return iv; };
   S.byId=(G,ivId)=>(G.invites||[]).find(q=>q.id===ivId)||null;
@@ -375,7 +375,7 @@ const INV=(function(){
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day) continue; const P=S.place(iv.place)||{};
       if(P.noRain&&G.weather==='rain'&&h<iv.h+S.WAIT_H){ iv.state='cancelled'; const t=fmtWhy((D().why||{}).rainOff||'下雨了，和{who}的晨跑取消。',{who:nameOf(iv.who)}); S.msg(G,iv.who,t,iv); if(GM.toast) GM.toast(t,4200); continue; }   /* 晨跑那天早上下雨＝取消（AA_126 6-6「下雨不能約」；沒有天氣預報，約的時候只看得到現在的天氣）*/
       if(!iv.early&&!iv.lead&&G.zone===(iv.zone||P.zone)&&h>=iv.h-2&&h<iv.h-0.25){ iv.early=1; if(GM.caption) GM.caption('','（約好的是 '+hh(iv.h)+'。還早。你在門口的長椅坐了一下。）',4200); else if(GM.toast) GM.toast('（約好的是 '+hh(iv.h)+'。還早。你在門口的長椅坐了一下。）',4200); }   /* AA_651 第 3 節第 1 點：旁白 */   /* 提早 15 分鐘以上到：她還沒來（S.entryFor 從前 15 分鐘起），系統提示一次（INV-SIT-TOGETHER-1104 第 6 項；系統字，待 AA 確認）*/
-      if(!iv.rem&&h>=iv.h-0.5&&h<iv.h){ iv.rem=1; if(GM.toast) GM.toast('提醒：'+hh(iv.h)+' 和'+nameOf(iv.who)+'約在'+(P.name||'')+'。',4200); }
+      if(!iv.rem&&h>=iv.h-0.5&&h<iv.h){ iv.rem=1; if(GM.toast) GM.toast('提醒：'+hh(iv.h)+' 和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||''):(P.name||''))+'。',4200); }
       if(!iv.where&&!iv.lead&&h>=iv.h+0.25&&h<iv.h+S.WAIT_H&&G.zone!==(iv.zone||P.zone)){ iv.where=1; if(typeof PHONE!=='undefined'&&S.hasContact(G,iv.who)){ PHONE.post(G,{th:'p:'+iv.who,from:iv.who,text:'你在哪？'}); if(GM.phoneBadge) GM.phoneBadge(); if(GM.toast) GM.toast('手機｜'+nameOf(iv.who)+'：你在哪？',3600); } } }
     for(const iv of G.invites){ if(iv.state==='accepted'&&past(iv)&&!(iv.waitSeat&&G.zone===iv.zone)&&!(iv.lead&&G.zone===iv.lead.z)){ iv.state='missed'; S.msg(G,iv.who,'你沒有赴約：'+when(G,iv.day,iv.h)+'，'+((S.place(iv.place)||{}).name||'')+'（'+nameOf(iv.who)+'）。',iv);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,'MISSED_DINNER',(S.place(iv.place)||{}).name||''); }
@@ -395,7 +395,7 @@ const INV=(function(){
   S.goPrompt=async function(GM){ const G=GM&&GM.G; if(goBusy||!G||!GM.choose) return false; const iv=S.goDue(G); if(!iv) return false;
     if((GM.E&&GM.E.player&&GM.E.player.busy)||(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G))) return false;   /* 該出發的出遊先問（同一輪 OUT.tick 接著跑，不能兩個選單一起開）*/
     iv.goAsked=1; goBusy=true; const t=S.goTarget(G,iv); let k=1;
-    try{ GM.sceneBegin(); try{ k=await GM.choose([{t:'直接過去：和'+nameOf(iv.who)+'約在'+t.name+'（'+hh(iv.h)+'）',hint:'照快速前往的路程時間'},{t:'自己走過去'}],{menu:true}); } finally { GM.sceneEnd(); }
+    try{ GM.sceneBegin(); try{ k=await GM.choose([{t:'直接過去：和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(t.name):t.name)+'（'+hh(iv.h)+'）',hint:'照快速前往的路程時間'},{t:'自己走過去'}],{menu:true}); } finally { GM.sceneEnd(); }
       if(k===0) await S.goNow(GM,iv); return k===0; } finally { goBusy=false; } };
   /* 約好的事：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）。
      她從約好的時間前 15 分鐘就在那裡（S.entryFor）；你進那個區域、她也生出來了＝開始。有座位的地方兩個人一起坐下（淡出淡入），接著照 S.meet。STORY.tick 只在玩家空下來的時候跑 */

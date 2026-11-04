@@ -18,10 +18,10 @@ const A=()=>WZS.AA413;
 
 (async()=>{
 await sec(1,()=>{ const L=WZS.windowItems().map(x=>x.label);
-  check('1. 溫州街多五個按鈕（日日便利 2026-11-04 改名日和便利店，AA_647 第 6 節）',['進入日和便利店','買水果','看阿忠水果','看自助洗衣','看布告欄'].every(l=>L.includes(l)),J(L)); });
+  check('1. 溫州街多五個按鈕（日日便利 2026-11-04 改名日和便利店，AA_647 第 6 節）',['進入日和便利店','買水果','看阿忠鮮果','看常在洗衣','看布告欄'].every(l=>L.includes(l)),J(L)); });
 
 await sec(2,async()=>{ fresh('2026-06-10',8);
-  await WZS.interact(GM,{wzShop:'fruit',kind:'window'}); check('2. 08:00 還沒開：提示營業時間',toasts.includes('阿忠水果：09:00～22:00')&&!H.said.length);
+  await WZS.interact(GM,{wzShop:'fruit',kind:'window'}); check('2. 08:00 還沒開：提示營業時間',toasts.includes('阿忠鮮果：09:00～22:00')&&!H.said.length);
   fresh('2026-06-10',10); H.picks=['「送人。」','芒果']; await WZS.interact(GM,{wzShop:'fruit',kind:'window'});
   check('2. 第一次：「要吃還是要送人？」→「送人。」→「那我幫你挑漂亮的。」（他把袋子裡的一顆換掉了。）',H.has('要吃還是要送人？')&&H.has('那我幫你挑漂亮的。')&&H.has('（他把袋子裡的一顆換掉了。）'),J(H.lines()));
   const m6=H.opts[1]||[]; check('2. 6 月：有芒果、西瓜、鳳梨，沒有柳丁、草莓',m6.some(t=>/芒果/.test(t))&&m6.some(t=>/西瓜/.test(t))&&m6.some(t=>/鳳梨/.test(t))&&!m6.some(t=>/柳丁|草莓/.test(t)),J(m6));
@@ -35,7 +35,7 @@ await sec(2,async()=>{ fresh('2026-06-10',8);
 await sec(3,async()=>{ fresh('2026-09-10',15); await WZS.interact(GM,{wzShop:'laundry',kind:'board'}); const a=H.said.slice(-1)[0].t;
   fresh('2027-03-10',15); await WZS.interact(GM,{wzShop:'laundry',kind:'board'}); const b=H.said.slice(-1)[0].t;
   check('3. 布告欄：9 月家教徵求、3 月租屋（有貓嗎？）',a==='（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）'&&b==='（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）',J([a,b]));
-  const look=WZS.windowItems().find(x=>x.label==='看自助洗衣'); check('3. 看自助洗衣',!!look&&look.look==='（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）'); });
+  const look=WZS.windowItems().find(x=>x.label==='看常在洗衣'); check('3. 看常在洗衣（AA_658 改名）',!!look&&look.look==='（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）'); });
 
 await sec(4,async()=>{ fresh('2025-10-08',23); await WZS.interact(GM,{wzShop:'cvs413',kind:'enter'});
   check('4. 進入日日便利：到 cvs、CVS_FROM wenzhou',H.entered.slice(-1)[0]==='cvs'&&H.G.flags.CVS_FROM==='wenzhou');

@@ -11,14 +11,14 @@
 const WZ_SHOPS_LAYOUT = {
   version: 1,
   brunch: {
-    id: 'wz_brunch', name: '半熟', glb: 'assets/models/env/second_ai/wz_brunch_interior.glb',
+    id: 'wz_brunch', name: 'SUNNY SIDE', glb: 'assets/models/env/second_ai/wz_brunch_interior.glb',
     w: 6.4, d: 10.0, h: 3.2, wallColor: '#f3ede2', floor: 'wood_light',
     note: '約 6×10 m（AA_164 2-1）。後面是開放式廚房＋面向客人的出餐檯；左牆三張兩人桌、右邊一張四人桌和一張兩人桌，共 12 個位子；左牆上一個大時鐘，出餐檯上是老闆娘的蛋計時器。',
     front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55},
     spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
     seeThru: ['wzs_pendant', 'wzs_bulb'],   /* 吊燈、保溫燈（燈罩、吊線、燈泡）擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空。LAWWW2 10-22 鏡頭遮擋盤點：從門口那一側看坐在左牆桌子的人，前一張桌子的吊燈擋住臉 */
-    exit: {at: {x: 0.4, z: 4.45}, label: '離開半熟', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
-    enterAt: {x: 42.0, z: -4.6, label: '進去半熟', note: 'B7 店門（wz_shopkit SF.B7 door_x=-2.0 → 世界 x=42.0；玻璃門在 z=-5.9，門廊在建築的導航阻擋裡，互動點放在人行道上）'},
+    exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
+    enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: 'B7 店門（wz_shopkit SF.B7 door_x=-2.0 → 世界 x=42.0；玻璃門在 z=-5.9，門廊在建築的導航阻擋裡，互動點放在人行道上）'},
     items: [
       {kind: 'kitchen_line', x: -0.5, z: -4.65, w: 5.0, d: 0.7, note: '後牆的料理台：煎台、爐子、水槽、咖啡機、盤子架'},
       {kind: 'fridge', x: 2.65, z: -4.6, w: 0.8, d: 0.75, h: 1.9},
@@ -200,14 +200,14 @@ const WZ_SHOPS_LAYOUT = {
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   teishoku: {
-    id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
+    id: 'wz_teishoku', name: '小路', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
     w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_light',   // 淺色木地板（使用者 10-23：不要深色木地板）
     note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
     front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
     seeThru: ['GLOW_wz_teishoku_washi'],   /* 和紙燈籠擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空（engine3d.js 樹幹透視；區域 seeThru）。LAWWW2 10-22 j23：晚上坐四人桌，靠門那一盞吊在鏡頭前面 */
-    exit: {at: {x: -2.0, z: 3.55}, label: '離開巷子裡定食', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
-    enterAt: {x: -4.8, z: -4.6, label: '進去巷子裡定食', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
+    exit: {at: {x: -2.0, z: 3.55}, label: '離開小路', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
+    enterAt: {x: -4.8, z: -4.6, label: '進去小路', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
     items: [
       {kind: 'genkan', x: -2.0, z: 3.45, w: 2.2, d: 1.1, note: '門口一塊花磚（和店門外的地磚一樣）'},
       {kind: 'register', x: -3.4, z: 2.55, w: 0.6, d: 0.9, h: 1.0, note: '結帳台：收銀機、名片盒、薄荷糖'},

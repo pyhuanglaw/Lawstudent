@@ -75,7 +75,7 @@ const Y2B=(function(){
     { const d8=D('2027-11-08'), d9=D('2027-11-09'); if(d8!=null&&G.day>=d8&&G.day<=d9+1){
         if(stageAt('heroine_04','FRIEND')&&contact(G,'heroine_04')&&past(G,'2027-11-08',21)&&now(G)<T(d9,19.25)&&!PHONE.sent(G,'y3_zq_q10')){
           PHONE.at(G,d8,21,[Z('我有兩個專題，只能交一個。'),Z('明天晚上七點半，兩點半。你來幫我看一下。')],'y3_zq_q10');
-          if(typeof OUT!=='undefined') OUT.plan(G,{id:'y3_zq_q10',day:d9,h:19.5,late:0.5,early:0.25,place:'兩點半 Café',title:'兩點半 Café 19:30',travel:'走過去 約 10 分鐘',travelH:1/6,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI}}); }
+          if(typeof OUT!=='undefined') OUT.plan(G,{id:'y3_zq_q10',day:d9,h:19.5,late:0.5,early:0.25,place:'2:30 AM',title:'2:30 AM 19:30',travel:'走過去 約 10 分鐘',travelH:1/6,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI}}); }
         if(past(G,'2027-11-09',20)&&!done(G,'ev_ziqing_capstone')&&!F.ZQ_Q10&&stageAt('heroine_04','FRIEND')){ F.ZQ_Q10='self'; F.ZQ_MUSIC_CREDIT=true; if(contact(G,'heroine_04')) PHONE.at(G,d9,21,[Z('我自己選了。……其實本來就差不多決定了。')],'y3_zq_q10_self'); } } }
     /* ---- 1B-11 沛珊：消失期傳過訊息的（沒交往）＝2027-08-07 21:00 她打來（AA_296 2-3-1 ④，企劃線 3f406dbc；原本是回兩則私訊）；沒接＝原本那兩則（S.psBackPhone）---- */
     { const d=D('2027-08-07'); if(d!=null&&G.day>=d&&G.day<=d+60&&now(G)>=T(d,S.PS_CALL.h-S.PS_CALL.lead)&&F.PS_BACK_READ==null&&!dating(G,'classmate_peishan')){

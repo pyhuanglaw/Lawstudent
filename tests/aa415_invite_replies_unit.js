@@ -218,9 +218,9 @@ await sec(11,()=>{ fresh('2027-12-23','heroine_03','d'); const y1=ask('heroine_0
   const w2=ask('heroine_02','library',15.5,null,{res:'resched',why:'busy',act:'class',alt:{day:H.G.day+1,h:15.5}});
   check('11. 芷若改天：在 Café 上班＝「我在上班。十點下班，總圖也十點關。……」；在上課（不是上班）＝不說「我在上班」（旁白）',txt(w1.lines)==='「我在上班。十點下班，總圖也十點關。……你自己加油。」'&&!w2.lines,txt(w1.lines)+' / '+txt(w2.lines)); });
 
-await sec(12,async()=>{ fresh('2026-03-11','heroine_01',2); H.G.hour=9; H.said=[]; H.picks=['去兩點半 Café 坐坐','今天 15:30'];
+await sec(12,async()=>{ fresh('2026-03-11','heroine_01',2); H.G.hour=9; H.said=[]; H.picks=['去 2:30 AM 坐坐','今天 15:30'];
   await INV.flow(GM,'heroine_01',null,false); const a=H.said.map(s=>s.t);
-  H.said=[]; H.picks=['去兩點半 Café 坐坐','今天 17:30']; await INV.flow(GM,'heroine_01',null,false); const b=H.said.map(s=>s.t);
+  H.said=[]; H.picks=['去 2:30 AM 坐坐','今天 17:30']; await INV.flow(GM,'heroine_01',null,false); const b=H.said.map(s=>s.t);
   const la=a.find(t=>/^「/.test(t)), lb=b.find(t=>/^「/.test(t));
   check('12. 手機約以安兩次 Café：念的是表上的句子、兩次不一樣',!!la&&!!lb&&!!rowOf('heroine_01',[la])&&!!rowOf('heroine_01',[lb])&&la!==lb,la+' / '+lb); });
 

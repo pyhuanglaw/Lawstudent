@@ -10,7 +10,7 @@ let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info
 const num=re=>{ const m=re.exec(Z); return m?+m[1]:NaN; };
 check('1. attachCafeInterior 叫 cafeStreetLive', /cafeStreetLive\(z,g0,view\);\n  \}/.test(Z));
 const OFF=num(/CAFE_ST_OFF=([\d.]+)/), CLIP=num(/CAFE_ST_CLIP=([\d.]+)/);
-const doorX=num(/E\.interactables\.push\(\{x:([\d.]+),z:0,radius:[\d.]+,label:'進入兩點半 Café'/);
+const doorX=num(/E\.interactables\.push\(\{x:([\d.]+),z:0,radius:[\d.]+,label:'進入 2:30 AM'/);
 const roomD=num(/const cafe=\{ id:'cafe'[^\n]*?room\(E,\{view:'cafe',viewDepth:\d+,w:\d+,d:(\d+)/);
 const glass=roomD/2, doorC=OFF-doorX;
 check('1. 溫州街的 Café 入口換到 Café 是玻璃外 0.3～1.5 m', glass+0.3<doorC&&doorC<glass+1.5, '入口 x='+doorX+' → Café z='+doorC.toFixed(2)+'；玻璃 z='+glass);

@@ -88,7 +88,7 @@ const SISB4=(function(){
   S.okDate=G=>law(G)&&!!G.flags.met_sis&&dating(G)&&here(G)&&!abroad(G);
   S.HOL=[
     {k:'xmas_y2',ask:'2026-12-23',h:21,lines:L.x2Ask,yes:L.x2Yes,noT:L.x2NoT,no:L.x2No,flag:'SIS_XMAS_Y2',ok:'there',go:'SIS_XMAS_Y2_GO',
-      out:{id:'sisb4_xmas_y2',ev:'ev_sis_xmas_y2',day:'2026-12-24',h:22,late:0.25,place:'兩點半 Café 門口',title:'聖誕夜（兩點半 Café 門口）',travel:'走路 約 10 分鐘',travelH:1/6},
+      out:{id:'sisb4_xmas_y2',ev:'ev_sis_xmas_y2',day:'2026-12-24',h:22,late:0.25,place:'2:30 AM 門口',title:'聖誕夜（2:30 AM 門口）',travel:'走路 約 10 分鐘',travelH:1/6},
       miss:{day:'2026-12-24',h:22+20/60,lines:L.x2Missed}},
     {k:'xmas_y3',ask:'2027-12-24',h:20.5,lines:L.x3Ask,yes:L.x3Yes,noT:L.x3NoT,no:L.x3No,flag:'SIS_XMAS_Y3',ok:'there',go:'SIS_XMAS_Y3_GO',
       out:{id:'sisb4_xmas_y3',ev:'ev_sis_xmas_y3',day:'2027-12-24',h:21,late:0.25,place:'法律系館A・研究室',title:'聖誕夜（法律系館A・研究室）',travel:'走路 約 10 分鐘',travelH:1/6},

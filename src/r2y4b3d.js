@@ -770,7 +770,7 @@ const R2Y4B=(function(){
     {tag:'y4_july',at:['2029-07-13',21],cond:G=>!!S.julyWho(G)&&S.julyOk(G,S.julyWho(G)),items:G=>S.julyMsg(G)},
     /* 2-Y4-47 芷若回國（畢業時和她交往中）*/
     {tag:'y5_zr_back',at:['2029-08-25',21],cond:G=>dating(G,'heroine_02'),items:G=>[P_('heroine_02','到了。先回台中一個禮拜。'),P_('heroine_02','下週六打烊以後，來店裡。')],
-      after:G=>plan(G,{id:'y5_zr_cup',ev:'ev_zhiruo_back_cafe',day:DK('2029-09-01'),h:22,late:0.5,place:'兩點半 Café',title:'兩點半 Café（打烊以後）',travel:'走過去約 15 分鐘',travelH:0.25})},
+      after:G=>plan(G,{id:'y5_zr_cup',ev:'ev_zhiruo_back_cafe',day:DK('2029-09-01'),h:22,late:0.5,place:'2:30 AM',title:'2:30 AM（打烊以後）',travel:'走過去約 15 分鐘',travelH:0.25})},
     /* 2-Y4-48 明軒出發 */
     {tag:'y5_mx_depart',at:['2029-09-01',21],cond:G=>grp(G)&&knows('classmate_mingxuan',G),items:G=>{ const L=[GR('classmate_mingxuan','明天早上的飛機。'),GR('classmate_mingxuan','不用送。……真的不用。'),GR('zhe','幾點'),GR('classmate_mingxuan','七點。我說不用。'),GR('yu','我們去！！')];
       if(met(G,'classmate_mingxuan','FAMILIAR')) L[L.length-1].ask={id:'y5_mx_depart',until:T(DK('2029-09-02'),6),opts:[{t:'我也去。',set:{MX_DEPART_GO:true}}]}; return L; }},

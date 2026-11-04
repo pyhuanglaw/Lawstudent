@@ -39,11 +39,13 @@ if(fails){ console.log('FAILED '+fails); process.exit(1); }
 const git=(sha,p)=>cp.execFileSync('git',['show',sha+':'+p],{cwd:ROOT}).toString('utf8');
 { const v1=JSON.parse(git('6adb0e47c','docs/story_planning/shop_enc/shop_enc_aa_v1.json')), v2=JSON.parse(git('6adb0e47c','docs/story_planning/shop_enc/shop_enc_aa_v2.json'));
   const strip=r=>{ const o=Object.assign({},r); delete o.weekMax; delete o.selfOnly; return o; };
-  check('1. 14 列＝AA_632 九列＋AA_633 五列，每一列（台詞、時段、條件）和白名單上的 JSON 一模一樣',SHOP_ENC.rows.length===14&&JSON.stringify(SHOP_ENC.rows.map(strip))===JSON.stringify(v1.rows.concat(v2.rows)));
+  /* 2026-11-04（WZ-SHOPS1-1104）：AA_655 第 4 節（企劃線 a22e53016）把學姊的定食店偶遇搬到林家乾麵（小路 18:00 才開）——那一列照第 4 節換 spot／why／away／第二句，其他照 JSON */
+  const A655=r=>r.who==='heroine_05'&&r.spot==='wz_teishoku'&&r.memo==='SHOP_TEI_SIS'?Object.assign({},r,{spot:'wz_lin',why:'她一個人坐在角落，乾麵旁邊攤著一本原文書。',away:'在林家乾麵',lines:Object.assign({},r.lines,{acq:r.lines.acq.map(t=>t==='今天的鯖魚很好。我快吃完了。'?'今天的餛飩湯很好。我快吃完了。':t)}),src:r.src+'＋AA_655'}):r;
+  check('1. 14 列＝AA_632 九列＋AA_633 五列，每一列（台詞、時段、條件）和白名單上的 JSON 一模一樣（學姊那一列照 AA_655 第 4 節搬到林家乾麵）',SHOP_ENC.rows.length===14&&JSON.stringify(SHOP_ENC.rows.map(strip))===JSON.stringify(v1.rows.concat(v2.rows).map(A655)));
   check('1. 新認識的人、店員和 JSON 一樣（宋知寧、阿德）',JSON.stringify(SHOP_ENC.newPeople)===JSON.stringify(v1.newPeople)&&JSON.stringify(SHOP_ENC.shopkeepers)===JSON.stringify(v2.shopkeepers));
   const md=git('22c966e4a','docs/story_planning/AA_640_店裡客人的路人句.md'), j=JSON.parse(md.match(/```json\s*(\{[\s\S]*?\})\s*```/)[1]);
   const H=SHOP_ENC.hear; check('1. 路人句＝AA_640 最後一節的 JSON（吃飯 8 組、小聲 7 句、便利商店 6 句），考試週那一句照稿「（小聲）考完這科就解脫了。」',JSON.stringify(H.dine)===JSON.stringify(j.dine)&&JSON.stringify(H.quiet)===JSON.stringify(j.quiet)&&JSON.stringify(H.cvs)===JSON.stringify(j.cvs)&&H.quietExam==='（小聲）考完這科就解脫了。'&&md.includes('「'+H.quietExam+'」'));
-  check('1. 學姊定食：一週最多一次、只有自己走進去（AA_633 表下第一點）',SHOP_ENC.rows.filter(r=>r.weekMax||r.selfOnly).map(r=>r.who+'@'+r.spot).join()==='heroine_05@wz_teishoku');
+  check('1. 學姊（AA_655 起在林家乾麵）：一週最多一次、只有自己走進去（AA_633 表下第一點）',SHOP_ENC.rows.filter(r=>r.weekMax||r.selfOnly).map(r=>r.who+'@'+r.spot).join()==='heroine_05@wz_lin');
   const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files;
   const ok3=[['docs/story_planning/shop_enc/shop_enc_aa_v1.json','6adb0e47c'],['docs/story_planning/shop_enc/shop_enc_aa_v2.json','6adb0e47c'],['docs/story_planning/AA_640_店裡客人的路人句.md','22c966e4a'],['docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md','6adb0e47c']].every(([p,s])=>A.some(e=>e.path===p&&e.sha===s&&e.status==='approved'&&/AA/.test(e.approvedBy||'')));
   check('1. 劇情匯入白名單四筆（路徑＋commit＋approved＋approvedBy AA；v1、v2 前進到 AA_641 的 6adb0e47c）',ok3);
@@ -100,8 +102,8 @@ const rowOf=(who,spot)=>SHOP_ENC.rows.find(r=>r.who===who&&r.spot===spot);
   const an=rowOf('heroine_01','cafe'); const Gj=mk(STORY.termDay('Y3S2',5,6),15); check('3. 大三下以安在日本：Café 沒有她（terms 也沒有 Y3S2）',!SHOPENC.eligible(Gj,an));
   const Ga=findSlot(an); check('3. 以安在台北的學期週末下午會在 Café（找得到）',!!Ga);
   const Gx=mk(Ga.day,Ga.hour); Gx.daily.encMet={day:Ga.day,who:['heroine_01']}; check('3. 今天自由出行已經遇過她（ENC encMet）：不出現',!SHOPENC.eligible(Gx,an));
-  const si=rowOf('heroine_05','wz_teishoku'), Gs=findSlot(si); const Gs2=mk(Gs.day,Gs.hour,{flags:{afternoonDone:true,YT_MET_JOB:true,companion:'an'}}); check('3. 學姊定食：有人跟著你不排（只有自己走進去）',!SHOPENC.eligible(Gs2,si));
-  const Gs3=mk(Gs.day,Gs.hour); Gs3.invites.push({who:'heroine_01',day:Gs.day,accepted:true,done:false,zone:'wz_teishoku'}); check('3. 學姊定食：今天約好在定食店（和別人）不排',!SHOPENC.eligible(Gs3,si));
+  const si=rowOf('heroine_05','wz_lin'), Gs=findSlot(si); const Gs2=mk(Gs.day,Gs.hour,{flags:{afternoonDone:true,YT_MET_JOB:true,companion:'an'}}); check('3. 學姊定食：有人跟著你不排（只有自己走進去）',!SHOPENC.eligible(Gs2,si));
+  const Gs3=mk(Gs.day,Gs.hour); Gs3.invites.push({who:'heroine_01',day:Gs.day,accepted:true,done:false,zone:'wz_lin'}); check('3. 學姊（林家）：今天約好在那家店（和別人）不排',!SHOPENC.eligible(Gs3,si));
   const Gs4=mk(Gs.day,Gs.hour); SHOPENC.mark(Gs4,si); const nd=(()=>{ for(let d=Gs.day+1;d<Gs.day+5;d++) if(si.days.includes(CALENDAR.dateOf(d).wd%7)&&CALENDAR.termOf(d)&&CALENDAR.termOf(d).week===CALENDAR.termOf(Gs.day).week) return d; })();
   const Gs5=mk(nd,Gs.hour,{daily:Gs4.daily}); check('3. 學姊定食一週最多一次：同一週隔天不出現',nd!=null&&!SHOPENC.eligible(Gs5,si),nd);
   const nw=Gs.day+7; const Gs6=mk(nw,Gs.hour,{daily:Gs4.daily}); check('3. 下一週又可以',!!SHOPENC.eligible(Gs6,si)||!!findSlot(si),'');
@@ -141,7 +143,7 @@ const rowOf=(who,spot)=>SHOP_ENC.rows.find(r=>r.who===who&&r.spot===spot);
     { const Gk=mk(STORY.termDay('Y1S1',5,2),23.5), Rk=SHOPENC.rec(Gk), kk=SHOPENC.key(Gk,'cvs'); Rk.dec[kk]={who:'kai',spot:'cvs',place:{stand:[1,2,0]}}; Rk.who.kai=kk; const ek=STORY.schedEnt(CHARACTERS.kai,Gk);
       check('6. 阿凱決定在便利商店：作息換成便利商店（站著 linger），203 就不生他（不會同時兩個地方）',!!ek&&ek.zone==='cvs'&&ek.act==='linger'&&ek.at[0]===1,JSON.stringify(ek)); Gk.hour=25.2; const ek2=STORY.schedEnt(CHARACTERS.kai,Gk); check('6. 01:00 以後回到 203 的書桌',!!ek2&&ek2.zone==='dorm'); }
     const ps=rowOf('classmate_peishan','wz_tea'), Gt=findSlot(ps); const Rt=SHOPENC.rec(Gt); Rt.dec[SHOPENC.key(Gt,'wz_tea')]={who:'classmate_peishan',spot:'wz_tea'}; const et=STORY.schedEnt(CHARACTERS.classmate_peishan,Gt);
-    check('6. 外帶窗口：她在外面（zone null、away「在巷口茶飲」）',!!et&&et.zone===null&&et.act==='out'&&et.away==='在巷口茶飲',JSON.stringify(et)); }
+    check('6. 外帶窗口：她在外面（zone null、away「在帝大紅茶」）',!!et&&et.zone===null&&et.act==='out'&&et.away==='在帝大紅茶',JSON.stringify(et)); }
   // ---------- 窗口 ----------
   { const ps=rowOf('classmate_peishan','wz_tea'), Gt=findSlot(ps); let got=null; for(let k=0;k<40&&!got;k++){ const G=mk(Gt.day+7*k,Gt.hour); if(!SHOPENC.eligible(G,ps)) continue; const d=SHOPENC.decide(G,'wz_tea'); if(d&&d.who==='classmate_peishan') got=G; }
     const gm=mkGM(got,['打招呼']); const r=await SHOPENC.window(gm,'wz_tea'); check('窗口：巷口茶飲前遇到沛珊（why、兩句）；再按一次不再遇到',r==='greet'&&gm.L.says[0]===ps.why&&(await SHOPENC.window(mkGM(got),'wz_tea'))===null,JSON.stringify(gm.L.says));

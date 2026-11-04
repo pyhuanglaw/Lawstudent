@@ -14,9 +14,14 @@ const ef0=cp.__worldEf||cp.execFileSync;
 function world(s){ if(typeof s!=='string'||!OLD.test(s)) return s;
   return ef0.call(cp,'python3',[GUARD,'world'],{input:s,encoding:'utf8',maxBuffer:256*1024*1024}); }
 // NOODLE-TEAM-SHRINK-1030（AA_542 企劃線 6b33b4012，使用者 10-30 X144 麵店團縮小成背景）：遊戲照 AA_542 換了玩家看得到的字，舊稿讀進來照同一張表換（tools/story/ndl542_fix.json，長的先換）
-let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json','aa647_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
+let NDL=null; function ndl(s){ if(typeof s!=='string') return s; if(!NDL){ NDL=[]; for(const fn of ['ndl542_fix.json','nocmp_fix.json','d118_fix.json','aa595_fix.json','aa602_fix.json','aa600_fix.json','aa612_fix.json','aa630_fix.json','aa647_fix.json','aa655_fix.json','aa658_fix.json']){ try{ NDL=NDL.concat(JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story',fn),'utf8')).pairs); }catch(e){} } }   /* nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 企劃線 b13db535f）*/
   for(const [a,b] of NDL) if(s.indexOf(a)>=0) s=s.split(a).join(b); return s; }
-const fix=r=>typeof r==='string'?ndl(world(alison(r))):(Buffer.isBuffer(r)?Buffer.from(ndl(world(alison(r.toString('utf8')))),'utf8'):r);
+// WZ-SHOPS1-1104（AA_655 第 1 節）：換成英文店名（2:30 AM、SUNNY SIDE）的字，和中文字（不含「・」）之間空半形空格——tools/story/aa655_fix.json 的 spaced，同 import_guard.py 的 aa655
+const LAT=/[㐀-䶿一-鿿ぁ-ゖァ-ヺ豈-﫿]/;
+let A655=null; function aa655(s){ if(typeof s!=='string') return s; if(!A655){ try{ A655=JSON.parse(require('fs').readFileSync(path.join(__dirname,'..','tools','story','aa655_fix.json'),'utf8')).spaced||[]; }catch(e){ A655=[]; } }
+  for(const [a,b] of A655){ if(s.indexOf(a)<0) continue; let out='', i=0; for(;;){ const j=s.indexOf(a,i); if(j<0){ out+=s.slice(i); break; } const pre=j>0?s[j-1]:'', nx=s[j+a.length]||'';
+      out+=s.slice(i,j)+(pre&&/^[\x00-\x7f]/.test(b)&&LAT.test(pre)?' ':'')+b+(nx&&/[\x00-\x7f]$/.test(b)&&LAT.test(nx)?' ':''); i=j+a.length; } s=out; } return s; }
+const fix=r=>typeof r==='string'?ndl(aa655(world(alison(r)))):(Buffer.isBuffer(r)?Buffer.from(ndl(aa655(world(alison(r.toString('utf8'))))),'utf8'):r);
 // YT-REWRITE-1103（語彤新背景，AA 定稿 D109）：AA_630／AA_627／AA_625／AA_626 取代舊稿裡語彤的句子（一句一句的換字表在 aa630_fix.json；整段換、交往中／沒交往兩版、AA 決定的列沒辦法逐句換）——
 // 讀 docs/story_planning/ 的 .md 稿（不是這四份本身）時，後面接上這四份（白名單上的版本），「每一句都在稿裡」的測試也認得新句（src 是 tools/story/apply_aa630_src.py 照這四份改的）。
 const YT_DOCS=[['bb4401fd3','docs/story_planning/AA_630_語彤台詞改寫.md'],['40374c664','docs/story_planning/AA_627_語彤舊設定清查.md'],['9ba14498e','docs/story_planning/AA_625_語彤新版事件台詞.md'],['9ba14498e','docs/story_planning/AA_626_語彤D13淡水_新背景改寫.md']];
@@ -32,4 +37,4 @@ if(!cp.__alison){
   cp.execSync=function(cmd){ const r=ex.apply(this,arguments); return typeof cmd==='string'&&isDoc(cmd)?fixDoc(r,cmd):r; };
   cp.execFileSync=function(file,args){ const r=ef.apply(this,arguments); return Array.isArray(args)&&isDoc(args.join(' '))?fixDoc(r,args.join(' ')):r; };
   cp.__alison=true; }
-module.exports={alison,world,ndl};
+module.exports={alison,world,ndl,aa655};

@@ -395,7 +395,7 @@ const JP=(function(){
     return true; };   /* 之後 home3d.js 的 loop：當晚 20:00 1A-08「大四要怎麼過？」（STORY.y4HomeDue）、9/3 搬進 409 */
   /* ---------------- 住家裡（J-S11；home3d.js 的 loop 每一輪叫）---------------- */
   S.goList=function(G){ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], V=G.visited||{}, K0=(typeof PLACES!=='undefined'&&PLACES.known0)||{};
-    return ['公館商圈','公館燒臘','溫州街','兩點半 Café','校門口'].map(n=>L.find(p=>p[1]===n)).filter(p=>p&&(K0[p[0]]||V[p[0]])); };   /* 出門：照手機「地點」的名字；店要去過一次（D54 ①）*/
+    return ['公館商圈','公館燒臘','溫州街','2:30 AM','校門口'].map(n=>L.find(p=>p[1]===n)).filter(p=>p&&(K0[p[0]]||V[p[0]])); };   /* 出門：照手機「地點」的名字；店要去過一次（D54 ①）*/
   S.homeRound=async function(GM){ const G=GM.G, H=HOME.rec(G), h=G.hour, A=A_(), bg=()=>HOME.bgNow?HOME.bgNow():'dark';
     const st=S.dueStop(G,'home'); if(st){ await S.playStop(GM,st,'home'); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; }   /* 摘要日（G0、8/12）*/
     { const ev=HOME.breakEvent?HOME.breakEvent(G):(HOME.homeEvent?HOME.homeEvent(G):null); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(ev); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; } }
@@ -403,7 +403,7 @@ const JP=(function(){
     if(await S.askAuto(GM,'home')) return H.at;   /* 沒開過的要回的訊息：先打開手機（D103）*/
     const O=[], q=HOME.dueOuting?HOME.dueOuting(G):null, ateToday=H.eat&&H.eat.day===G.day;
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:(S.callLike(q)?'':'從家裡出發　')+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }
-    for(const iv of (HOME.dueInvites?HOME.dueInvites(G):[])){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
+    for(const iv of (HOME.dueInvites?HOME.dueInvites(G):[])){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||''):(P.name||'')),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(h<22) O.push({t:'出門',hint:'公館、溫州街、首都帝大　捷運＋公車 約 30 分鐘',k:'go'});
     O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'});

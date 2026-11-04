@@ -31,7 +31,7 @@ const SISB8=(function(){
   S.ASKS=[
     {k:'course',ask:'2026-08-12',h:21,lines:L.courseAsk,flag:'SIS_COURSE_Y2',go:'SIS_COURSE_Y2_GO',
       opts:[{t:L.courseYes,go:true},{t:L.courseDone,go:true,r:L.courseDoneR},{t:L.courseNoT,go:false,r:L.courseNo}],
-      out:{id:'sisb8_course',ev:'ev_sis_course_y2',day:'2026-08-14',h:15,late:0.25,place:'兩點半 Café',title:'兩點半 Café（學姊幫你看課表）',travel:'走路 約 10 分鐘',travelH:1/6},
+      out:{id:'sisb8_course',ev:'ev_sis_course_y2',day:'2026-08-14',h:15,late:0.25,place:'2:30 AM',title:'2:30 AM（學姊幫你看課表）',travel:'走路 約 10 分鐘',travelH:1/6},
       no:{day:'2026-08-14',h:20,lines:[L.courseNoLater]}},
     {k:'lunch',ask:'2026-11-04',h:21,lines:L.lunchAsk,flag:'SIS_LUNCH_Y2',go:'SIS_LUNCH_Y2_GO',
       opts:[{t:L.lunchYes,go:true},{t:L.lunchNoT,go:false,r:L.lunchNo}],

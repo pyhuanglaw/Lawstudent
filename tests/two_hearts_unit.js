@@ -1,7 +1,7 @@
 // 1A-02 第 3 節：同時和以安、學姊交往（AA_315 第 3 節；台詞照 AA_253 第 3、4 節）——不需要瀏覽器。
 //   1. 11/10 那晚睡著以後：法圖相遇（trigger 'sleep'，祐廷不在場）；兩人都還不知道才演；演完兩邊都知道、TWO_HEARTS_MET；
 //   2. 已經知道了、只和一位交往、不是 11/10：不演；
-//   3. 11/11 22:00 兩則私訊（逐字）＋22:30 兩點半 Café（出遊 must，只有「出發」）；11/10 那晚沒睡著過也一樣排；
+//   3. 11/11 22:00 兩則私訊（逐字）＋22:30 2:30 AM（出遊 must，只有「出發」）；11/10 那晚沒睡著過也一樣排；
 //   4. 進 Café 就演：只有「書瑀。」／「以安。」（AA_350 R7：交往當天起祐廷不叫「學姊」；原本是「學姊。」），沒被選的那位分手（ex、by her），逐字；
 //   5. 選學姊：11/18 12:00 路線＝US；選以安＝JP；
 //   6. 被選的那位之後第一次說話記得一次（逐字），第二次不說。
@@ -53,8 +53,8 @@ GM.money=function(n){ G.money+=n; };
   // 3
   setup(d11,8); STORY.twoHeartsMet(G); G.hour=21.9; STORY.phoneRules(GM); PHONE.tick(G); const q=OUT.get(G,'y3_two_hearts');
   G.hour=22.01; PHONE.tick(G); const m5=txt('p:heroine_05'), m1=txt('p:heroine_01');
-  check('3. 22:00 兩則私訊（逐字）：學姊「今天十點半，兩點半 Café。」、以安「十點半，兩點半。我也會去。」', m5.includes('heroine_05:今天十點半，兩點半 Café。')&&m1.includes('heroine_01:十點半，兩點半。我也會去。'), JSON.stringify([m5,m1]));
-  check('3. 22:30 兩點半 Café 的出遊：must（只有「出發」）、帶到 3D 的 Café', !!q&&q.must===true&&q.h===22.5&&q.goto&&q.goto.zone==='cafe'&&q.day===d11, JSON.stringify(q));
+  check('3. 22:00 兩則私訊（逐字）：學姊「今天十點半，2:30 AM。」、以安「十點半，兩點半。我也會去。」', m5.includes('heroine_05:今天十點半，2:30 AM。')&&m1.includes('heroine_01:十點半，兩點半。我也會去。'), JSON.stringify([m5,m1]));
+  check('3. 22:30 2:30 AM 的出遊：must（只有「出發」）、帶到 3D 的 Café', !!q&&q.must===true&&q.h===22.5&&q.goto&&q.goto.zone==='cafe'&&q.day===d11, JSON.stringify(q));
   setup(d11,9); STORY.phoneRules(GM); check('3. 11/10 那晚沒睡著過（法圖那段沒演）：11/11 照樣排（TWO_HEARTS_MET 補上）', G.flags.TWO_HEARTS_MET!=null&&!!OUT.get(G,'y3_two_hearts'));
   // 4、5
   for(const [pick,lose,route,say] of [['學姊','heroine_01','US','書瑀'],['以安','heroine_05','JP','以安']]){   /* AA_350 R7：兩個都在交往中，祐廷叫學姊「書瑀。」*/

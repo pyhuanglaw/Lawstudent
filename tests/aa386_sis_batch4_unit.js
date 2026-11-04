@@ -135,7 +135,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { setup('2026-12-23',20,'dorm','FRIEND'); dateSis(); rules(); const a=dms().length; at('2026-12-23',21.05); rules(); const m=PHONE.byAsk(H.G,'sisb4_xmas_y2_ask');
     check('3-1. 2026-12-23（三）21:00 私訊「明天晚上十點，Café 門口。」「十五分鐘就好。」；回覆「好。」「明天晚上不行。」（20:00 還沒有）',a===0&&J(dms())===J(['明天晚上十點，Café 門口。','十五分鐘就好。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天晚上不行。']),J(dms()));
     PHONE.answer(H.G,'sisb4_xmas_y2_ask',0); rules(); const q=OUT.get(H.G,'sisb4_xmas_y2');
-    check('3-1. 「好。」＝12/24 22:00 兩點半 Café 門口（出遊；不算正式校外約會）',!!q&&q.day===H.D('2026-12-24')&&q.h===22&&q.ev==='ev_sis_xmas_y2'&&q.place==='兩點半 Café 門口'&&!q.dateTrip,J(q));
+    check('3-1. 「好。」＝12/24 22:00 兩點半 Café 門口（出遊；不算正式校外約會）',!!q&&q.day===H.D('2026-12-24')&&q.h===22&&q.ev==='ev_sis_xmas_y2'&&q.place==='2:30 AM 門口'&&!q.dateTrip,J(q));
     const c0=(H.G.dateLog&&H.G.dateLog[ID]&&H.G.dateLog[ID].count)|0, r0=relOf(); const L=await play('ev_sis_xmas_y2',[0]); const r1=relOf();
     check('3-1. Café 門口：紙杯的熱水、綠色螢光筆、明年的計畫本；「（現在打開）」→「（第一頁只有一行：「1/1　早上不要排事情。睡飽。」）」「……我說回去再看。」→「十五分鐘到了。」「（她說十五分鐘到了，可是沒有走。）」',
       J(L)===J(['（Café 的燈一盞一盞關掉。她站在門口，手上拿著兩個紙杯。）','熱水。加了一點蜂蜜。','……今天聖誕節，算特別的。','（你把準備好的禮物給她。一盒綠色螢光筆。）','……你怎麼知道我的用完了。','（她把螢光筆收進大衣口袋，沒有放進包包。然後拿出一個紙袋。）','明年的計畫本。第一頁我寫了。回去再看。','（第一頁只有一行：「1/1　早上不要排事情。睡飽。」）','……我說回去再看。','十五分鐘到了。','（她說十五分鐘到了，可是沒有走。）'])&&J(H.opts[0])===J(['（現在打開）','（收好，回去再看）']),J(L));

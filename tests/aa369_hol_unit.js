@@ -255,7 +255,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
       return {I,t:TH('p:heroine_02').filter(m=>m.tag==='vac_re_'+I.key+'_heroine_02').map(m=>m.text),q:OUT.get(G,'vac_'+I.key+'_re_heroine_02')}; };
     const t02=zrRe('T02','Y2'), c18=zrRe('C18','Y2'), w=zrRe('C18W','Y2');
     check('第 8 節第 8 題. 芷若 2027-06-04～09-02 不上班：日本的山（8/4 回來）、新加坡（7/27 回來）的重逢改「回來了喔？明天下午我在 Café。……這次是當客人。來嗎？」、隔天下午在 Café；沒有「明天我九點下班。」',
-      [t02,c18].every(x=>J(x.t)===J(['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'])&&!!x.q&&x.q.day===x.I.to+1&&x.q.h===15&&x.q.place==='兩點半 Café'),J([t02.t,t02.q&&[K(t02.q.day),t02.q.h],c18.t,c18.q&&[K(c18.q.day),c18.q.h]]));
+      [t02,c18].every(x=>J(x.t)===J(['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'])&&!!x.q&&x.q.day===x.I.to+1&&x.q.h===15&&x.q.place==='2:30 AM'),J([t02.t,t02.q&&[K(t02.q.day),t02.q.h],c18.t,c18.q&&[K(c18.q.day),c18.q.h]]));
     check('第 8 節第 8 題. 對照：2027 寒假新加坡（1/10 回來，她還在上班）照舊在班的那一句——AA_373 第 6 節第 9 題以後是「明天我十點下班。」「……你來的話，我晚一點關燈。」、隔天 22:00（她晚班到 22:00）',
       J(w.t)===J(['明天我十點下班。','……你來的話，我晚一點關燈。'])&&!!w.q&&w.q.h===22,J([w.t,w.q&&w.q.h]));
     const zrTrip=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.from,7,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.tripMsgs(G,I); return allTxt('p:heroine_02'); };

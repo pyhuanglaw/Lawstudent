@@ -83,7 +83,7 @@ const ONETAP=(function(){
       out.push({kind:'out',q,day:q.day,h:q.h,dep,travel:tr.travel||'',travelH:tr.travelH||0,label:(typeof OUT!=='undefined'&&OUT.tt?OUT.tt(q.title):q.title)||q.place||'出遊',place:q.place||''}); }
     if(typeof INV!=='undefined') for(const iv of (G.invites||[])){ if(iv.state!=='accepted'||iv.day<G.day) continue; const P=INV.place?INV.place(iv.place)||{}:{}; if(iv.day===G.day&&(G.hour%24)>=iv.h+(INV.WAIT_H||0.5)) continue;
       const tg=INV.goTarget?INV.goTarget(G,iv):{zone:P.zone,name:P.name||'',spawn:null}, pos=GM.E&&GM.E.player&&GM.E.player.obj?GM.E.player.obj.position:null, mins=G.zone===tg.zone?0:(typeof CLS!=='undefined'&&CLS.travelMinutes?CLS.travelMinutes(G,G.zone,tg.zone,pos,tg.spawn):15);
-      out.push({kind:'inv',iv,tg,day:iv.day,h:iv.h,dep:iv.day*24+iv.h-0.25-mins/60,mins,label:'和'+nameOf(iv.who)+'約在'+(P.name||tg.name||''),place:P.name||tg.name||''}); }
+      out.push({kind:'inv',iv,tg,day:iv.day,h:iv.h,dep:iv.day*24+iv.h-0.25-mins/60,mins,label:'和'+nameOf(iv.who)+'約在'+(typeof PLACES!=='undefined'&&PLACES.at?PLACES.at(P.name||tg.name||''):(P.name||tg.name||'')),place:P.name||tg.name||''}); }
     return out.sort((a,b)=>(a.day*24+a.h)-(b.day*24+b.h)); };
   S.datePlan=function(GM){ const G=GM.G, why=S.busyWhy(GM); if(why) return {k:'date',ok:false,why};
     if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return {k:'date',ok:false,why:'在日本：從宿舍的選單出發'};

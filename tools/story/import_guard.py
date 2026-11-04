@@ -55,7 +55,39 @@ _CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
 
 def read_fix(s):
     """匯入工具讀稿一律走這裡：先 alison()，再照 docs/WORLD_NAMING.md 換名（world()），再照 AA_542 換麵店團的字（ndl542()）。"""
-    return ndl542(world(alison(s)))
+    return ndl542(aa655(world(alison(s))))
+
+
+_A655 = None
+_LAT = _re.compile('[㐀-䶿一-鿿ぁ-ゖァ-ヺ豈-﫿]')   # 中文字、假名（不含「・」「ー」）
+
+
+def aa655(s):
+    """WZ-SHOPS1-1104（AA_655 第 1 節，企劃線 a22e53016）：換成英文店名（2:30 AM、SUNNY SIDE）的字，和中文字之間空一個半形空格（tools/story/aa655_fix.json 的 spaced）；
+    照字換的（小路）在 pairs，由 ndl542() 讀。"""
+    global _A655
+    if not isinstance(s, str):
+        return s
+    if _A655 is None:
+        import json as _json, os as _os
+        try:
+            with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'aa655_fix.json'), encoding='utf-8') as f:
+                _A655 = _json.load(f).get('spaced', [])
+        except (OSError, ValueError):
+            _A655 = []
+    for a, b in _A655:
+        if a not in s:
+            continue
+        out = []; i = 0
+        while True:
+            j = s.find(a, i)
+            if j < 0:
+                out.append(s[i:]); break
+            pre = s[j - 1] if j > 0 else ''; nx = s[j + len(a)] if j + len(a) < len(s) else ''
+            out.append(s[i:j] + (' ' if pre and b[0].isascii() and _LAT.match(pre) else '') + b + (' ' if nx and b[-1].isascii() and _LAT.match(nx) else ''))
+            i = j + len(a)
+        s = ''.join(out)
+    return s
 
 
 _NDL = None
@@ -69,7 +101,7 @@ def ndl542(s):
     if _NDL is None:
         import json as _json, os as _os
         _NDL = []
-        for fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json', 'aa595_fix.json', 'aa602_fix.json', 'aa600_fix.json', 'aa612_fix.json', 'aa630_fix.json', 'aa647_fix.json'):   # aa600_fix.json：AA_600 分手後不主動聯絡＋AA_591 整合九件（企劃線 031414cad、43d27cd80）；aa602_fix.json：AA_602 以安動態與零星台詞（企劃線 e648d5b31）；aa595_fix.json：「臺北的家」→「家」（AA_595 第 4 節，使用者 11-02 選「回家」）；nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 b13db535f）
+        for fn in ('ndl542_fix.json', 'nocmp_fix.json', 'd118_fix.json', 'aa595_fix.json', 'aa602_fix.json', 'aa600_fix.json', 'aa612_fix.json', 'aa630_fix.json', 'aa647_fix.json', 'aa655_fix.json', 'aa658_fix.json'):   # aa600_fix.json：AA_600 分手後不主動聯絡＋AA_591 整合九件（企劃線 031414cad、43d27cd80）；aa602_fix.json：AA_602 以安動態與零星台詞（企劃線 e648d5b31）；aa595_fix.json：「臺北的家」→「家」（AA_595 第 4 節，使用者 11-02 選「回家」）；nocmp_fix.json：NO-COMPARE-1030（D116 不跟別人比，AA_546）同一個做法；d118_fix.json：D118 沒有期中考（AA_578 b13db535f）
             try:
                 with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), fn), encoding='utf-8') as f:
                     _NDL += _json.load(f)['pairs']

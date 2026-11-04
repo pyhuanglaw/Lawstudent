@@ -77,6 +77,10 @@ a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
 m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
 if not m4: raise SystemExit('AA_336 A4 那一列格式變了：' + a4)
 staff['公館的便利商店']['line5Alt'] = {'when': '沒加熱', 't': m4.group(1), 'reply': m4.group(2)}
+# WZ-SHOPS1-1104（AA_655 第 1 節）：讀稿 read_fix 把店名換成新名（2:30 AM、溫州街・SUNNY SIDE），可是 first／staff 的 key 是存檔裡次數的店名（src/eat3d.js 的 EAT.count），
+# key 照舊用舊字（畫面上的店名 eat3d.js S.SHOW 換）。換回 key、句子照新字
+KEY_OLD = {'2:30 AM': '兩點半 Café', '溫州街・SUNNY SIDE': '溫州街・半熟'}
+first = {KEY_OLD.get(k, k): v for k, v in first.items()}; staff = {KEY_OLD.get(k, k): v for k, v in staff.items()}
 data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
         'together': together, 'first': first, 'staff': staff, 'staffYutong': ['heroine_03', yt]}
 n = sum(len(v) for g in together.values() for v in g.values())

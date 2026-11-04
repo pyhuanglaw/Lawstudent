@@ -143,7 +143,7 @@ const plus=(...xs)=>{ const o={}; for(const x of xs) for(const k in x) o[k]=(o[k
   /* ======================= 7 沒去群戲 ======================= */
   await sec('7',async()=>{ const x=X(), d=D('2025-12-24');
     setup({lv:{[AN]:5},group:false}); const a=await ask(AN,[1,'兩點半 Café']); const iv=a.r;
-    check('7. 不在麵店團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('兩點半 Café')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
+    check('7. 不在麵店團（沒有 xmas_y1）：晚上場照舊選地點、排 18:30 的邀約（iv.fest）',!OUT.get(H.G,'xmas_y1')&&a.O.length===2&&a.O[1].includes('2:30 AM')&&!!iv&&iv.h===18.5&&iv.fest&&iv.fest.slot==='eve'&&!x.rec(H.G).bk.find(b=>b.who===AN).grp,J({O:a.O,iv}));
     at('2025-12-24',18.5); H.said=[]; H.opts=[]; H.picks=[4]; await x.meet(GM,iv,{name:'以安'});
     check('7. 見面照 AA_416 原本的台詞（「聖誕節。……這一天我本來沒排事情。」「現在有了。」）',J(said().slice(0,2))===J([ORIG_AN_S6,'現在有了。']),J(said()));
     setup({lv:{[AN]:5}}); await ask(AN,[1]); at('2025-12-24',18.2); H.picks=[2]; const q=OUT.get(H.G,'xmas_y1'); const r0=relOf(AN); await OUT.prompt(GM,q); x.phone(H.G);
