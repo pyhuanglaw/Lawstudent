@@ -139,6 +139,8 @@ def t_counter(im, d):      # 一樓櫃檯正面：白底、深藍色塊、橘色
     w, h = im.size; d.rectangle([0, 0, w, h], fill=(244, 242, 236)); d.rectangle([0, 0, int(w * 0.16), h], fill=NAVY)
     pts = [(w * 0.16 + (w * 0.84) * t, h * 0.75 - h * 0.35 * math.sin(math.pi * t)) for t in [i / 40 for i in range(41)]]
     d.line(pts, fill=ORANGE, width=26); logo(d, int(w * 0.55), int(h * 0.42), 40)
+    pts2 = [(w * 0.6 + (w * 0.4) * t, h - h * 0.55 * math.sin(math.pi * t / 2)) for t in [i / 30 for i in range(31)]]   # v2：右下一大塊橘色弧（外觀圖的櫃檯正面）
+    d.polygon(pts2 + [(w, h)], fill=ORANGE)
     d.rectangle([0, h - 18, w, h], fill=(60, 62, 66))
 
 
@@ -193,9 +195,9 @@ def t_floor(im, d):       # 地板：淺灰大磁磚（60 cm，一張貼圖 2×2
     w, h = im.size; r = random.Random(21)
     for j in range(2):
         for i in range(2):
-            g = 200 + r.randint(-4, 4); d.rectangle([i * w // 2, j * h // 2, (i + 1) * w // 2, (j + 1) * h // 2], fill=(g, g - 1, g - 4))
+            g = 196 + r.randint(-4, 4); d.rectangle([i * w // 2, j * h // 2, (i + 1) * w // 2, (j + 1) * h // 2], fill=(g, g - 8, g - 24))   # v2：暖一點的灰
     for _ in range(9000):
-        x, y = r.randint(0, w - 1), r.randint(0, h - 1); g = r.randint(186, 212); d.point((x, y), fill=(g, g - 1, g - 5))
+        x, y = r.randint(0, w - 1), r.randint(0, h - 1); g = r.randint(182, 208); d.point((x, y), fill=(g, g - 8, g - 24))
     for k in (0, w // 2): d.rectangle([k, 0, k + 2, h], fill=(168, 166, 162)); d.rectangle([0, k, w, k + 2], fill=(168, 166, 162))
 
 
@@ -250,9 +252,9 @@ def night_scene(im, box, seed, west=False):
     for k in range(12): xx = x0 + k * w // 12; d.rectangle([xx, gy - int(h * 0.16), xx + 10, gy - int(h * 0.05)], fill=(90, 84, 74))
     for k in range(9):    # 行道樹（路燈照亮的樹冠：近燈的地方暖黃綠）
         cx = x0 + int(w * (k + 0.5) / 9) + r.randint(-30, 30); d.rectangle([cx - 8, y0 + int(h * 0.3), cx + 8, gy - int(h * 0.03)], fill=(40, 32, 24))
-        for _ in range(70):
-            px, py = cx + r.randint(-150, 150), y0 + int(h * 0.28) + r.randint(-150, 60); rr = r.randint(16, 42); lit = max(0.0, 1 - abs(px - cx - 60) / 220)
-            g = r.randint(36, 60); d.ellipse([px - rr, py - rr, px + rr, py + rr], fill=(int(g * 0.7 + 120 * lit), int(g + 110 * lit), int(g * 0.45 + 40 * lit)))
+        for _ in range(110):   # v2：樹冠小一點、暗一點，只有路燈旁邊被照亮（暖黃綠）
+            px, py = cx + r.randint(-110, 110), y0 + int(h * 0.3) + r.randint(-110, 50); rr = r.randint(8, 22); lit = max(0.0, 1 - abs(px - cx - 60) / 150) ** 1.5
+            g = r.randint(18, 34); d.ellipse([px - rr, py - rr, px + rr, py + rr], fill=(int(g * 0.8 + 110 * lit), int(g + 90 * lit), int(g * 0.5 + 30 * lit)))
     for k in range(5):    # 路燈（暖色）＋地上的光
         lx = x0 + int(w * (k * 2 + 1) / 10) + 40
         d.line([(lx, gy), (lx, y0 + int(h * 0.22))], fill=(80, 80, 84), width=7); d.line([(lx, y0 + int(h * 0.22)), (lx + 50, y0 + int(h * 0.2))], fill=(80, 80, 84), width=6)
@@ -267,7 +269,7 @@ def night_scene(im, box, seed, west=False):
         sx = x0 + int(w * 0.18); d.rectangle([sx, y0 + int(h * 0.28), sx + 8, gy], fill=(80, 82, 80)); d.rectangle([sx - 60, y0 + int(h * 0.24), sx + 70, y0 + int(h * 0.3)], fill=(24, 110, 64))
         d.text((sx - 52, y0 + int(h * 0.245)), '新生南路', font=font(24), fill=(240, 240, 236))
         bx = x0 + int(w * 0.7); d.rectangle([bx, gy - int(h * 0.2), bx + 180, gy - int(h * 0.18)], fill=(90, 94, 98)); d.rectangle([bx + 20, gy - int(h * 0.18), bx + 70, gy], fill=(120, 150, 170))
-    im.paste(im.crop(box).filter(ImageFilter.GaussianBlur(1.2)), (x0, y0))
+    im.paste(im.crop(box).filter(ImageFilter.GaussianBlur(1.0)).point(lambda v: int(v * 0.75)), (x0, y0))   # v2：整張暗一點（晚上的窗外比店裡暗）
 
 
 def make_glow_atlas():
@@ -323,11 +325,11 @@ for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 # ---------------- 材質（≤12，最後 vc_consolidate／atlas_small 合併）----------------
 m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
-m_wall = L.flat('dk_wall', '#e9dfcc', rough=0.8)   # v2：暖一點的米白（晚上的暖光下）
+m_wall = L.flat('dk_wall', '#e8c492', rough=0.8)   # v2：晚上暖光下的奶油色   # v2：暖一點的米白（晚上的暖光下）
 m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
 m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
-m_panel = glowmat('dk_lightpanel', '#fff1dc', 1.8)   # v2：晚上的燈板，暖白、不刺眼
+m_panel = glowmat('dk_lightpanel', '#ffc98a', 2.4)   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
 m_warm = glowmat('dk_warm', '#ffc070', 5.0)
 m_screens = img_mat('GLOW_dk_screens', GLOW_PATH, rough=0.3, emit=1.0)   # v2：窗外夜景、菜單、點餐機、筆電螢幕（一張發光貼圖集＝一個材質）
 SCR = Mesh('GLOW_SCREENS', m_screens)
@@ -497,8 +499,8 @@ def stairs():
 def outside_cards():
     """v2：窗外夜景卡片（發光，正式 GLB 也有；LAWWW2 接上新生南路以後可以藏起來或刪掉：物件名 NIGHT_FRONT、NIGHT_WEST）"""
     yb = Y0 - (1.5 if FL == 1 else 5.0); yt = Y0 + (6.0 if FL == 1 else 4.6)   # 二樓往下看得到馬路：卡片往下延伸
-    nf = Mesh('NIGHT_FRONT', m_screens); gz(nf, Z1 + 3.5, X0 - 6.0, X1 + 6.0, yb, yt, -1, GR['night_front']); nf.finish(root, uv=False)
-    nw = Mesh('NIGHT_WEST', m_screens); gx(nw, X0 - 3.5, Z0 - 6.0, Z1 + 6.0, yb, yt, +1, GR['night_west']); nw.finish(root, uv=False)
+    nf = Mesh('NIGHT_FRONT', m_screens); gz(nf, Z1 + 8.0, X0 - 14.0, X1 + 14.0, yb - 2.0, yt + 3.0, -1, GR['night_front']); nf.finish(root, uv=False)   # v2：放遠一點（對面的人行道、校園）
+    nw = Mesh('NIGHT_WEST', m_screens); gx(nw, X0 - 8.0, Z0 - 14.0, Z1 + 14.0, yb - 2.0, yt + 3.0, +1, GR['night_west']); nw.finish(root, uv=False)
 
 
 props = CMesh('PROPS', m_vc); legs = Mesh('LEGS', m_black); tops = Mesh('TOPS', m_lam, tile=1.4)
@@ -510,8 +512,13 @@ if FL == 1:
     glass_wall('front', X0, X1, 0.0, 3.2, door=F['front']['door'])
     wg = F['westGlass']; glass_wall('left', wg['z0'], wg['z1'], 0.0, 3.2, solid_runs=[(X0 - T, X0, 0.0, 3.2, Z0, wg['z0'])])
     solid_wall('right'); solid_wall('back')
+    # v2：外觀圖看得到的牆面色帶（深藍護牆＋一條橘色）：西牆實心那一段、東牆
+    band = CMesh('WALL_BANDS', m_vc)
+    for (a, b) in ((Z0 + 3.6, wg['z0']),): band.cbox(X0, X0 + 0.012, 0.0, 0.95, a, b, '#24345f'); band.cbox(X0, X0 + 0.014, 0.95, 1.08, a, b, '#e8782a')
+    band.cbox(X1 - 0.012, X1, 0.0, 0.95, 4.2, Z1, '#24345f'); band.cbox(X1 - 0.014, X1, 0.95, 1.08, 4.2, Z1, '#e8782a')
+    band.finish(root)
     # 廚房後牆（白色長磁磚）＋設備
-    kt = L.pbr('dk_kitchen_tile', 'long_white_tiles', tile=1.0, target='#eef0ee', normal=0.3, maps=('diff', 'nor'), rough_value=0.25)
+    kt = L.flat('dk_kitchen_tile', '#ecebe4', rough=0.25)   # v2：純色（材質 ≤ 12；從店外看只是櫃檯後面一片白牆）
     kc = F['kitchen']; Mesh('KITCHEN_TILES', kt).box(kc['x0'], kc['x1'], 0.0, 2.4, Z0, Z0 + 0.02).box(X0, X0 + 0.02, 0.0, 2.4, Z0, kc['z1']).finish(root)
     st = Mesh('KITCHEN_STEEL', m_steel); kp = CMesh('KITCHEN_PROPS', m_vc)
     st.box(kc['x0'] + 0.1, kc['x1'] - 0.1, 0.0, 0.9, Z0 + 0.05, Z0 + 0.8)                        # 後面一排料理台
