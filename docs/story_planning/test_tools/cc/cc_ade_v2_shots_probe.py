@@ -93,6 +93,7 @@ async def main():
                 if state == 'moved':
                     check('[moved] 店門換到轉角（互動點 x>0）', bool(cp['door']) and cp['door'][0] > 0, J(cp['door']))
                 await pg.evaluate(cc_det.HIDE_PEOPLE_JS); await pg.evaluate(HUD + '(false)')
+                print('  藏起來的出口標籤：%d' % (await pg.evaluate(cc_det.HIDE_LABELS_JS)), flush=True)
                 for k, (name, e, l, fov, shift) in enumerate(shots):
                     big = name == 'refcam'
                     if big: await pg.set_viewport_size({'width': REF['w'], 'height': REF['h']}); await pg.wait_for_timeout(800)

@@ -94,6 +94,7 @@ async def load(pg, cdp, zone, pos=None):
 
 async def shot(pg, name, e, l, meta, note):
     await pg.evaluate(cc_det.HIDE_PEOPLE_JS)
+    await pg.evaluate(cc_det.HIDE_LABELS_JS)   # 門上浮著的出口標籤（guide3d.js）會蓋在建築上
     ri = await pg.evaluate(AIM + '(%s)' % J([e, l]))
     await pg.wait_for_timeout(300)
     await pg.screenshot(path=os.path.join(OUT, name + '.jpg'), type='jpeg', quality=88)
