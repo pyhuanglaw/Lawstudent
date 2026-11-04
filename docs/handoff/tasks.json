@@ -45170,7 +45170,7 @@
    "title": "AA_660 交換路線臺灣空白第一批接進遊戲：美國 7/27～8/1 家人群組、7/31 公館燒臘餞行（Alison 揪）＋拍照清單、12/23～1/13 回國；日本 阿哲餞行那句、8/5 回國群組、摘要日",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -45182,7 +45182,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 16:5x】AA 回兩點（企劃線 de9628d67）照做：沒有清單也沒認識 Alison＝G2-2 明軒「回來了？」「下次桌遊夜，位子留給你。」；只認識明軒＝餞行不排（S.mxOnly），7/31 21:00 明軒私訊兩則、不記清單；白名單換 de9628d67；測試修改前 FAILED 3、修改後 ALL PASS｜【LAWWW-C 11-04 16:5x】補件合併（子代理 4ea97e49c；企劃線 0777c92ac）：G2-1 打開（10:30 媽媽接到了／湯照片／爸爸／姊姊）、G2-2 選項②、G3-2 寒假旁白、G1-3 Alison 不在＝芯慈版（US_PHOTO_LIST_XC）、G1-1 選項②、heroine_asks 兩句換 2:30 AM；沒清單也沒認識 Alison＝只發明軒「回來了？」（LAWWW 定，給 AA 看）；Alison、芯慈都不在只剩明軒＝餞行照排但沒有台詞（稿沒寫，給 AA）；測試 66 項 ALL PASS｜【LAWWW-C 11-04 16:3x】合併 3f7f0cdea（子代理 a80f5aa14；企劃線 090981ebe）：G1～G6、第 4 節三件做好（12/21 不會發、邀約發訊人有名字＝掃描工具讀錯欄位、heroine_asks 舊店名換 2:30 AM）；拍照清單旗標 US_PHOTO_LIST；G2-1 先關（AA660.G21_ON＝false：遊戲裡 12/23 媽媽接機上午回家，那句對不上）；要 AA 定：G2-1、G3-2「大家在準備期末」（遊戲大四上期末 12/18～12/24，1/13 已是寒假）、G1-3 Alison 不在的燒臘場、G1-1「我自己搭機捷」接 8/2 媽媽塞鳳梨酥、子晴「明天兩點半…交換」要不要換 2:30 AM；BB 測：美國／日本路線各日期的群組與摘要日、臺灣路線不出現、舊存檔不補演；不進 v9.10.20｜【LAWWW-C 11-04 15:4x】派背景子代理在 worktree 接 AA_660 第 2、3 節（d88f39e3f，G1～G6）＋查第 4 節三件；新測試 tests/aa660_vac_gap_unit.js；D113 檢查點 wip_backup/aa660/；不進 v9.10.20｜【LAWWW-C 11-04 14:08】照 AA_660（企劃線 d88f39e3f）第 2 節稿、第 3 節接線（條件 routeAbroadRoute）；第 4 節三件：①美國路線 12/21 人還在美國時家人群組會不會發「連假回來嗎」（LAWWW 查程式回 AA）②掃描讀不到的邀約發訊人（LAWWW 查）③「兩點半 明天四點」舊店名照 AA_655 換 2:30 AM；拍照清單旗標名 LAWWW 定；排 v9.10.20 發布以後（派子代理）",
+   "next": "【LAWWW-C 11-04 17:2x】BB-C PASS → 已驗收；INFO：只認識明軒時 7/30 桌遊團群組是空的（稿沒寫，BB 已問 AA-C，有改 AA 交 LAWWW）｜【LAWWW-C 11-04 16:5x】AA 回兩點（企劃線 de9628d67）照做：沒有清單也沒認識 Alison＝G2-2 明軒「回來了？」「下次桌遊夜，位子留給你。」；只認識明軒＝餞行不排（S.mxOnly），7/31 21:00 明軒私訊兩則、不記清單；白名單換 de9628d67；測試修改前 FAILED 3、修改後 ALL PASS｜【LAWWW-C 11-04 16:5x】補件合併（子代理 4ea97e49c；企劃線 0777c92ac）：G2-1 打開（10:30 媽媽接到了／湯照片／爸爸／姊姊）、G2-2 選項②、G3-2 寒假旁白、G1-3 Alison 不在＝芯慈版（US_PHOTO_LIST_XC）、G1-1 選項②、heroine_asks 兩句換 2:30 AM；沒清單也沒認識 Alison＝只發明軒「回來了？」（LAWWW 定，給 AA 看）；Alison、芯慈都不在只剩明軒＝餞行照排但沒有台詞（稿沒寫，給 AA）；測試 66 項 ALL PASS｜【LAWWW-C 11-04 16:3x】合併 3f7f0cdea（子代理 a80f5aa14；企劃線 090981ebe）：G1～G6、第 4 節三件做好（12/21 不會發、邀約發訊人有名字＝掃描工具讀錯欄位、heroine_asks 舊店名換 2:30 AM）；拍照清單旗標 US_PHOTO_LIST；G2-1 先關（AA660.G21_ON＝false：遊戲裡 12/23 媽媽接機上午回家，那句對不上）；要 AA 定：G2-1、G3-2「大家在準備期末」（遊戲大四上期末 12/18～12/24，1/13 已是寒假）、G1-3 Alison 不在的燒臘場、G1-1「我自己搭機捷」接 8/2 媽媽塞鳳梨酥、子晴「明天兩點半…交換」要不要換 2:30 AM；BB 測：美國／日本路線各日期的群組與摘要日、臺灣路線不出現、舊存檔不補演；不進 v9.10.20｜【LAWWW-C 11-04 15:4x】派背景子代理在 worktree 接 AA_660 第 2、3 節（d88f39e3f，G1～G6）＋查第 4 節三件；新測試 tests/aa660_vac_gap_unit.js；D113 檢查點 wip_backup/aa660/；不進 v9.10.20｜【LAWWW-C 11-04 14:08】照 AA_660（企劃線 d88f39e3f）第 2 節稿、第 3 節接線（條件 routeAbroadRoute）；第 4 節三件：①美國路線 12/21 人還在美國時家人群組會不會發「連假回來嗎」（LAWWW 查程式回 AA）②掃描讀不到的邀約發訊人（LAWWW 查）③「兩點半 明天四點」舊店名照 AA_655 換 2:30 AM；拍照清單旗標名 LAWWW 定；排 v9.10.20 發布以後（派子代理）",
    "source": "AA-C 11-04 13:49（AA_660）",
    "authorized": "D109 AA 劇情自主；使用者 13:0x 選「恢復，現在就補」（UA-AA-1104-15）",
    "pausedReason": "v9.10.20 擋發布項目先做",
@@ -45194,7 +45194,8 @@
     "5566e1580",
     "a80f5aa14",
     "abbed1caa"
-   ]
+   ],
+   "evidence": "BB-C 11-04 17:19 判定 PASS（企劃線 BB_255 782c57ff3）：CC 雲端照日期走一遍 35f1fff36，171 PASS／0 FAIL，三種人際狀態逐字對上 de9628d67、G2-1 順序對（Node 走程式邏輯；瀏覽器實走另外排）"
   },
   {
    "id": "AA667-VAC-GAP2-1104",
@@ -45929,6 +45930,29 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置"
+  },
+  {
+   "id": "STANDIN-LOD-1104",
+   "title": "教室替身（博思 101 等大教室的 seated_figures）走近 7 m 內沒有換成近處版本：遠近改成主迴圈每 0.5 秒（真實時間）換，上課坐著、劇情裡也換",
+   "area": "ENGINE",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一週博思 101 國文課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 17:19（SITAMB ⑧，CC shots/SITAMB_CLOUD_1104 README 第 25 行）：「博思 101 的 17 個替身全部是 _lod1……CC 把玩家移到替身中間，7 m 內也沒換……請查 classes3d.js 的 S.figPlace 和 LOD 切換」",
+   "authorized": "D85（LAWWW 程式整合）；BB 測試回報",
+   "notWaitUser": "引擎修正，不用問使用者",
+   "next": "【LAWWW-C 11-04 17:3x】原因：遠近只在 figTick 換，figTick 在 S.tick 裡——每 30 格一次（SwiftShader 1～4 fps＝8～30 秒；CC 只等 3 秒），而且對話中、玩家 busy（上課坐著）、睡覺時 S.tick 開頭就 return。修正：CLS.figLod，game3d.js frame 每 0.5 秒（真實時間）呼叫、不看 busy；tests/seated_figures_lod_unit.js ⑧ 修改前 FAILED 2、修改後 ALL PASS；相關 7 支 0 失敗。下一步：BB 排 CC 同一個鏡頭（NEAR=1）拍前後；替身方塊（SITAMB ⑧）是不是遠處版本才有，換近處以後一起看",
+   "tests": "node tests/seated_figures_lod_unit.js"
   }
  ]
 }

@@ -857,6 +857,10 @@ const CLS=(function(){
     return seats.length; };
   const figGone=rec=>{ if(rec.group&&rec.group.parent) rec.group.parent.remove(rec.group); for(const st of rec.seats) if(st.taken===rec.key) st.taken=null; FIG.on.delete(rec.key); };
   S.figRemove=function(GM,key,instant){ const rec=FIG.on.get(key); if(!rec) return; if(instant||!rec.group||GM.E.zone!==rec.zone) figGone(rec); else rec.leaving=true; };
+  /* 替身的遠近（STANDIN-LOD-1104，BB-C 17:19「博思 101 的 17 個替身全部是 _lod1……把玩家移到替身中間，7 m 內也沒換」）：原本只在 figTick 換，figTick 在 S.tick 裡——
+     S.tick 每 30 格才一次（SwiftShader 1～4 fps＝8～30 秒），而且在演、對話中、玩家 busy（上課坐著聽講）、睡覺時整段不跑（story3d.js 的 S.tick 開頭就 return）；
+     改成主迴圈每 0.5 秒（真實時間）照玩家現在的位置換，不管忙不忙（game3d.js 的 frame）。figTick 照舊也換（下課拿掉替身照舊在 figTick）*/
+  S.figLod=function(GM){ if(!FIG.on.size) return 0; const E=GM.E, PP=E.player&&E.player.obj&&E.player.obj.position; if(!PP) return 0; let n=0; for(const rec of FIG.on.values()) if(rec.lay&&E.zone===rec.zone&&rec.lay(PP)) n++; return n; };
   let figFr=null;
   S.figTick=function(GM){ if(!FIG.on.size) return; const E=GM.E, PP=E.player&&E.player.obj&&E.player.obj.position; for(const rec of [...FIG.on.values()]){ if(E.zone!==rec.zone){ FIG.on.delete(rec.key); continue; } if(rec.lay&&PP) rec.lay(PP);   /* 照玩家現在的位置換遠近（BUG-03）*/ if(!rec.leaving||!rec.group) continue;
       const cam=E.camera; let seen=false; if(cam&&THREE.Frustum){ figFr=figFr||new THREE.Frustum(); figFr.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse));
