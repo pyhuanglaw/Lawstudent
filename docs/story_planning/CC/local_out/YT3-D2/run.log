@@ -1,0 +1,29 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3-D2\out
+cc_yutong_v3_probe  SHA=d2b962a3f  URL=http://127.0.0.1:8810/index.html  CASES=xmas_y4
+PASS 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  1576 字
+PASS 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  4925 字
+PASS 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  7950 字
+PASS 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  2296 字
+PASS 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  2881 字
+
+==== xmas_y4：大四聖誕交換禮物（公館燒臘：燒臘店阿姨，AA_642 第 1 節） ====
+PASS [xmas_y4] 遊戲載入
+  [前置／捷徑] [xmas_y4] 最小存檔讀檔：2028-12-22（星期五，Y4S1 第 16 週）18.33 dorm；遊戲 API 設前置：{"stage": "FRIEND", "rel": {"fam": 40, "trust": 25, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 0, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": [true]}
+  [前置／捷徑] [xmas_y4] GAME.snapshot() 再讀一次（條件事件照開、手機自動打開照開）
+  [  66.1s] 選項 ["出發：聖誕交換禮物（大四）公館燒臘　19:00　走過去約 15 分鐘", "晚一點（20 分鐘後再提醒）", "不去了"] → 點「出發：聖誕交換禮物（大四）公館燒臘　19:00　走過去約 15 分鐘」
+  [  72.8s] 選項 ["一本小筆記本", "一包咖啡豆", "一張手寫卡片"] → 點「一本小筆記本」
+  [xmas_y4] 事件：["ev_y4_xmas"]
+  [xmas_y4] 台詞：[["旁白", "（燒臘店最裡面那張桌子。禮物疊在中間，吃完再抽。）"], ["旁白", "（抽完，大家一起打開。）"], ["沈以安", "（手上是一本空白手帳）……這是我會送的那種。"], ["阿哲", "滷味。……我常買的那家。"], ["Alison", "（抱著一個巨大的玩偶）這是詛咒吧。"], ["阿哲", "好，我帶回宿舍。"], ["旁白", "（你抽到一罐辣椒醬。）"], ["語彤", "秀琴姨的。……不要一次吃完。"], ["旁白", "（阿姨多放了一碟燙青菜，說是煮多了。）"], ["燒臘店阿姨", "最後一個冬天的期末。……吃完再走。"]]
+  [xmas_y4] 立繪框：{"xmas_y4_燒臘店阿姨_land": [{"id": "advL", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8810/assets/portraits/zhe/campus/neutral.webp"}, {"id": "advR", "show": true, "dim": true, "off": false, "img": "http://127.0.0.1:8810/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [xmas_y4] 演完（!!(((GAME.G.events||{}).done||{}).ev_y4_xmas)）
+PASS [xmas_y4] 稿逐句「旁白：（阿姨多放了一碟燙青菜，說是煮多了。）」（AA_642_語彤第三版接線_回LAWWW六件.md:7）
+PASS [xmas_y4] 稿逐句「燒臘店阿姨：最後一個冬天的期末。……吃完再走。」（（稿只改說話人））
+PASS [xmas_y4] 「（阿姨多放了一碟燙青菜，說是煮多了。）」的說話人不是 秀琴姨／蘇姨  []
+PASS [xmas_y4] 「最後一個冬天的期末。」的說話人不是 秀琴姨／蘇姨  []
+PASS [xmas_y4] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [xmas_y4] 沒有 JS 例外  []
+
+==== 摘要 ====
+PASS xmas_y4 大四聖誕交換禮物（公館燒臘：燒臘店阿姨，AA_642 第 1 節）
+SHA d2b962a3f
+ALL PASS
