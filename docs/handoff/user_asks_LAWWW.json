@@ -2839,6 +2839,15 @@
    "status": "進行中",
    "task": "ART-PHOTO-CMP-1021",
    "note": "照片存 docs/story_planning/ref_images/buildings/common_teaching_1104/"
+  },
+  {
+   "id": "UA-LAWWW-1104-91",
+   "at": "2026-11-04T14:08Z",
+   "quote": "大一女介紹 你自己去這個網址抓圖好不好 超多的 內裝也有https://osa_dorm.ntu.edu.tw/Freshman_House 是要走上二樓到一個平台(第一張照片) 才會到宿舍入口 一樓是一些店面（附 2 張照片）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-PHOTO-CMP-1021",
+   "note": "網址在雲端環境連不到（osa_dorm.ntu.edu.tw 要加進 Allowed domains）；兩張照片存 docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/"
   }
  ]
 }
