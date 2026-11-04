@@ -1,8 +1,8 @@
 // 坐著做事的循環動作（NPC-ANIM-LOOPS-1104，LAWWW2-C 2026-11-04）：用遊戲自己的換算（character3d.js 的 ambClip／sitAmbient）
 // 把 assets/models/char/second_ai/ual_sit_tasks.glb 的片段套到 VRoid 人物上、坐著跑，量手腕的位置，和產生片段的 tools/anim/sit_task_loops.py
 // 在 VRoid 骨架上算的位置（ual_sit_tasks.json 的 expect）比——證明「遊戲換算回來就是我擺的樣子」，不需要瀏覽器。
-//   ① 片段載得到：14 個（7 種 × 女生、男生）、每個 5 秒
-//   ② 女生（char.npc_f1）、男生（char.npc_m1）打字、喝飲料、寫字、吃飯，0／1／2.35 秒：兩手手腕、右手中指根和預期的差 ≤ 2.5 cm（頭照遊戲自己的偏擺，不比）
+//   ① 片段載得到：7 種 × 每一種身材（女生 F、男生 M、手臂短的女生骨架 F2、手臂長的男生骨架 M2；ual_sit_tasks.json 的 bodies）、每個 5 秒
+//   ② 每一種身材的底模（F char.npc_f1、M char.npc_m1、F2 char.npc_nf10、M2 char.npc_nm11）打字、喝飲料、寫字、吃飯，0／1／2.35 秒：兩手手腕、右手中指根和預期的差 ≤ 2.5 cm（頭照遊戲自己的偏擺，不比）
 //   ③ 打字的時候兩手手腕在桌面（0.75 m）上面 0～6 cm；喝飲料 2.35 秒右手腕比 0 秒高 6 cm 以上、杯緣靠嘴那一點離嘴 ≤ 1.5 cm（產生片段時在同一個骨架上量的，ual_sit_tasks.json 的 sip；②證明遊戲的骨架和那個一樣）
 //   ④ 手上配件（assets/models/char/second_ai/hand_props.glb）：杯子、手機、筆、筷子四個都在；照遊戲的掛法（character3d.js propVis：複製到右手的真實骨頭、位置 0、不轉）掛上去量——
 //      吃飯：筷子尖（GLB 裡離手腕最遠的那幾個頂點）和預期的差 ≤ 1.5 cm；1 秒（送到嘴邊）離嘴 ≤ 2.5 cm；0、2.35 秒在碗裡夾麵的那一點 ≤ 1.5 cm（碗：SEATACT S_meal 的麵碗，桌緣往裡 0.16）
@@ -19,13 +19,14 @@ const cm=v=>(v*100).toFixed(1)+' cm', mm=v=>(v*1000).toFixed(1)+' mm';
 const DT=1/30, DESK=0.75, PAPER=0.0041;
 const V3=a=>new THREE.Vector3(a[0],a[1],a[2]);
 (async()=>{
-  const KEYS={F:'char.npc_f1',M:'char.npc_m1'};
-  await preload(Object.values(KEYS));
+  const KEYS={F:'char.npc_f1',M:'char.npc_m1',F2:'char.npc_nf10',M2:'char.npc_nm11'}, BODIES=Object.keys(JS.bodies).filter(b=>KEYS[b]);
+  await preload(BODIES.map(b=>KEYS[b]));
   const K=CHAR.SIT_AMB; if(!K||!CHAR._ambReset){ check('0 遊戲有 NPC-AMBIENT-ANIM（CHAR.SIT_AMB）',false,'這個分支還沒有坐姿動作片段'); process.exit(1); }
   const man=ASSETS.manifest['char.ual_sit_clips']; man.url=GLB; window.ASSET_DATA[GLB]=fs.readFileSync(path.join(ROOT,GLB)).toString('base64');
   await ASSETS.loadOne('char.ual_sit_clips');
   const raw=ASSETS.getRaw('char.ual_sit_clips'), names=raw&&raw.animations?raw.animations.map(a=>a.name):[];
-  check('① 片段載得到（14 個、每個 5 秒）',names.length===14&&raw.animations.every(a=>Math.abs(a.duration-5)<0.02),names.length+' 個：'+names.slice(0,3).join('、')+'…');
+  const NCLIP=7*Object.keys(JS.bodies).length;
+  check('① 片段載得到（'+NCLIP+' 個＝7 種 × '+Object.keys(JS.bodies).join('、')+'，每個 5 秒）',names.length===NCLIP&&raw.animations.every(a=>Math.abs(a.duration-5)<0.02),names.length+' 個：'+names.slice(0,3).join('、')+'…');
   /* 手上配件：遊戲的 ASSETS 那一筆（prop.hand_props）指到這個 GLB */
   let HP=null; const pm=ASSETS.manifest['prop.hand_props'];
   if(pm){ pm.url=PGLB; window.ASSET_DATA[PGLB]=fs.readFileSync(path.join(ROOT,PGLB)).toString('base64'); await ASSETS.loadOne('prop.hand_props'); const r=ASSETS.getRaw('prop.hand_props'); HP=r&&r.scene; }
@@ -38,7 +39,7 @@ const V3=a=>new THREE.Vector3(a[0],a[1],a[2]);
     const far=vs.filter(v=>v.distanceTo(bp)>mx-0.006); return far.reduce((a,v)=>a.add(v),new THREE.Vector3()).multiplyScalar(1/far.length); };   /* 筷子尖＝離手腕最遠的那幾個頂點（兩支的尖端） */
   Object.assign(K,{baseRate:1,rate:0,headYaw:0,first:[1e9,1e9],gap:[1e9,1e9],posture:{lean:[0,0],side:[0,0],twist:[0,0],speed:K.posture.speed}});
   const E=JS.expect.pos, CH=JS.expect.chop||{};
-  for(const B of ['F','M']){
+  for(const B of BODIES){
     for(const kind of ['type','drink','write','eat']){
       const clip='Sit_'+kind[0].toUpperCase()+kind.slice(1)+'_'+B+'_Loop'; K.base=[clip]; CHAR._ambReset(); man.url=GLB;
       const h=CHAR.build({model:KEYS[B],height:JS.bodies[B].height}); scene.add(h); h.position.set(0,0,0); h.rotation.y=0;

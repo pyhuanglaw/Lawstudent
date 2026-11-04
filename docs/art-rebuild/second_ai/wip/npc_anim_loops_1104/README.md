@@ -88,6 +88,73 @@ patch（以開發分支 `9039f2b20` 為底）改三個檔：
 - 21:42Z 的 2（另外兩組骨架的片段）、3（Café 桌緣 0.20 的版本）還沒做，接著做。
 - 還沒在瀏覽器看過（D131）。美術要 BB 判（D120／D128）。
 
+## 補件 2：另外兩種骨架 F2、M2（LAWWW-C 11-04 21:42Z 的 2；LAWWW2-C 11-04 23:xx）
+
+狀態：**MODEL_READY**。換 `ual_sit_tasks.glb`／`.json`：28 個片段，原本 14 個；840 KB，原本 426 KB。F、M 的 14 個和上一版一模一樣。
+
+### 哪兩種
+
+路人底模照 VRoid 樣本分，同一種樣本的骨架比例一樣，只差身高。量了 44 個（`tools/anim/sit_task_loops.VSkel`）：
+
+| 身材 | 樣本（底模） | 手臂÷身高 | 前臂÷上臂 | 參考骨架 |
+|---|---|---|---|---|
+| F | Sendagaya Shino（npc_f1）；HairSample_Female、Darkness_Shibu（nf2、4、5、6、8、9、11、12、14、15、17、18、20） | 0.262～0.264 | 0.977 | `vroid_npc_f1` 1.62 m |
+| **F2** | Victoria_Rubin（nf1、3、7、10、13、16、19） | 0.251 | 0.977 | `bl_npc_nf10` 1.65 m（那一組的中位數） |
+| M | npc_m1；Sakurada_Fumiriya（nm2、4、6…20） | 0.244～0.246 | 1.133 | `vroid_npc_m1` 1.74 m |
+| **M2** | HairSample_Male（nm1、3、5…19、m2） | 0.263～0.266；肩膀比同身高的 M 低 1.6 cm | 1.133 | `bl_npc_nm11` 1.74 m |
+
+- 片段名字：`Sit_<動作>_F2_Loop`、`Sit_<動作>_M2_Loop`。做法和 F、M 一樣，在 F2、M2 自己的骨架上擺。
+- 筷子、筆、杯子、手機也照「配件真的掛上去以後」的位置擺（`prop_on`）。
+- 吃飯的筷子方向、拇指、手肘，在 F2、M2 的骨架上各搜尋一次（`EAT`）：手腕最多往手心彎 40°（F2）、32°（M2）。
+
+### 遊戲怎麼選
+
+- **不要用手臂÷身高選**：比較高的 nf15、nf17（F 那種骨架、1.64～1.66 m）用 F2 反而合得上。
+- 做法：同一種前臂÷上臂裡，先試 F（M），合不上再試 F2（M2）。
+  - patch `npc_f2m2_1104.patch` 的 `C.SIT_TASK.ALT`、`sitTaskFit` 的迴圈。
+  - 量骨架（taskDev）每個片段量一次，有快取。
+  - 一格量的人數有上限（probesPer），所以第二種身材常常要等下一次 SEATACT（遊戲裡約 0.5 秒）。
+- `HANDS` 加 F2、M2：值＝`expect.hands0`。
+- `WIN`：
+  - F2 和 F 一樣。用接線測試 H 的方法，在 nf10 上量到的範圍都比 F 寬。
+  - M2 照量到的收緊：手臂長，前臂越過桌緣的地方比較低；打字另外要指尖不過筆電的鉸鏈。值是 type `[0.27,0.365]`、typepad `[0.27,0.33]`、phone `[0.28,0.37]`、page `[0.26,0.375]`、drink `[0.245,0.335]`，write、eat 和 M 一樣。
+
+### 合得上的人數（遊戲自己的 `sitTaskFit`，參考桌子：高 0.75、桌緣 0.30；44 個路人底模）
+
+| 動作 | 只有 F、M | 加 F2、M2 | 還合不上 |
+|---|---|---|---|
+| 打字（含觸控板） | 38 | **43** | nm6 |
+| 寫字 | 24 | **38** | nm2、nm5、nm6、nm10、nm14、nm19 |
+| 滑手機、翻書、喝飲料、吃飯 | 29 | **41** | nm2、nm6、nm14 |
+
+- 「只有 F、M」那一欄，寫字、打字合不上的名單和 LAWWW-C 21:42Z 量的一模一樣（女 nf1 nf3 nf7 nf10 nf15 nf16 nf17 nf19；男 m2 nm1 nm2 nm5 nm6 nm9 nm10 nm11 nm13 nm14 nm17 nm19）。
+- 還合不上的，主要是 Sakurada 那種骨架裡比較高的四個（nm2、nm14 1.80 m，nm6 1.82 m，nm10 1.78 m）：手比參考高 3.6～4.5 cm。
+  - 要的話可以再出一組 M3（Sakurada、1.80 m）。
+  - nm5（1.68 m）、nm19（1.80 m）寫字差 2～3 mm：筆尖只容許 1 cm＋坐高低 1.5 cm。
+
+### 測試（Node，開發分支 `1e378a386`＋筷子 patch＋這個 patch）
+
+- `tests/sit_task_loops_unit.js`：四種身材都量，**ALL PASS**。F2 用遊戲的 `char.npc_nf10`、M2 用 `char.npc_nm11`；手腕、筆尖、筷子尖都對得上。
+- `tests/sit_task_wire_unit.js`：54 項 **ALL PASS**。patch 改了三處：
+  - 預載加 nf10、nm11。
+  - D2：nm5 打字換成 M2、寫字照舊；nm1 打字照舊用 M、寫字換成 M2。原本兩個都是「照舊」；這一段多跑 90 格，因為第二種身材要多等一次 SEATACT。
+  - H：四種身材都量；量的時候只給那一種身材，結果寫進 `SIT_WIN_LOG=1`。
+- `seat_activity_1104`、`exam_lib_crowd`、`npc_ambient`、`seat_ambient`、`crowd_seat_talk`、`crowd`、`indoor_crowd`：ALL PASS。
+
+### 給 LAWWW-C
+
+先照上面「補件」那一節換檔、套 `npc_eat_chopsticks_1104.patch`，再：
+
+```
+git checkout <SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py
+git show <SHA>:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_f2m2_1104.patch | git apply
+```
+
+- patch 改 `src/character3d.js`（HANDS、WIN、H、ALT、sitTaskFit）和 `tests/sit_task_wire_unit.js`。`seatact3d.js` 不用動。
+- 選身材的做法（先 F 再 F2）是我的建議；你要用別的分法也可以，片段、HANDS 照用。
+
+![F2、M2 預覽（打字 0 秒、寫字 2.35 秒、吃飯 1.1 秒）](npc_f2m2_preview.jpg)
+
 ## 派工
 
 LAWWW-C：「打字（加觸控板版本）、寫字、滑手機、翻書頁、喝飲料（含杯子配件）、吃飯，交 GLB 片段和要動的骨頭」。

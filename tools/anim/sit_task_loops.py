@@ -96,6 +96,7 @@ class VSkel:
     遊戲照「不含頭髮的模型高度＋0.03」縮放（character3d.js），坐下時整個人往下 0.47×H/1.75。VRoid 的骨頭靜止時沒有旋轉。
     這個骨架上算出來的世界旋轉差＝遊戲套到這個人物身上的旋轉（ambClip：D＝世界旋轉 × 靜止世界旋轉的反）"""
     def __init__(self, vrm, H):
+        self.vrm = vrm
         d = open(vrm, 'rb').read(); n = struct.unpack('<I', d[12:16])[0]; J = json.loads(d[20:20 + n])
         par = {}
         for i, nd in enumerate(J['nodes']):
@@ -436,11 +437,18 @@ def _up(d, roll):
 # 吃飯的筷子方向、拇指、手肘（照兩種身材在遊戲的骨架上找的：筷子朝的方向和要的一樣、手腕彎在範圍裡、手和手指不碰到碗和桌面；tools/anim 的搜尋見 README）
 #   碗裡：筷子往左前下插進碗（女生的桌子在胸口：筷子平一點 20°、手肘低；男生 38°）；嘴邊：筷子從右前方往左、往上一點送進嘴（往左 70°、往上 23°），手肘往外
 EAT = {'F': {'db': _dir(40, -20, 1), 'rb': -40, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)},
-       'M': {'db': _dir(40, -38, 1), 'rb': -60, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)}}
+       'M': {'db': _dir(40, -38, 1), 'rb': -60, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)},
+       'F2': {'db': _dir(40, -20, 1), 'rb': -40, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)},
+       'M2': {'db': _dir(50, -38, 1), 'rb': -60, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 20, 'pm': (-0.9, -0.4, 0.2)}}
 CHOP_DB, CHOP_DM = EAT['F']['db'], EAT['F']['dm']           # set_body 照那一種身材換
 CHOP_UPB, CHOP_UPM = _up(CHOP_DB, EAT['F']['rb']), _up(CHOP_DM, EAT['F']['rm'])   # 拇指那邊盡量朝哪裡（碗裡、嘴邊）
 CHOP_POLEB, CHOP_POLEM = EAT['F']['pb'], EAT['F']['pm']     # 手肘往哪裡（碗裡、嘴邊）
 CHOP_TIP, CHOP_AXH = (0.172, 0.05, -0.034), (0.88, 0.30, -0.37)   # set_body 照那一種身材換（chop_on）
+
+
+def body_of(V):
+    """V 是 BODIES 的哪一種（照 VRM 檔、身高）"""
+    return next((k for k, (p, h) in BODIES.items() if os.path.normpath(p) == os.path.normpath(V.vrm) and abs(h - V.H) < 1e-6), 'F')
 
 
 def set_body(V):
@@ -458,7 +466,7 @@ def set_body(V):
     PHONE_HAND = prop_on(V, (0.68 * HF, 0.17 * HF + 0.004, 0.0))
     PEN_HAND = prop_on(V, (1.35 * HF, 0.37 * HF, -0.1 * HF))
     CHOP_TIP, CHOP_AXH = chop_on(V)
-    bk = next((k for k, (_, h) in BODIES.items() if abs(h - V.H) < 1e-6), 'F'); E = EAT[bk]
+    bk = body_of(V); E = EAT.get(bk, EAT[bk[0]])
     CHOP_DB, CHOP_DM, CHOP_POLEB, CHOP_POLEM = E['db'], E['dm'], E['pb'], E['pm']; CHOP_UPB, CHOP_UPM = _up(E['db'], E['rb']), _up(E['dm'], E['rm'])
 
 
@@ -577,7 +585,10 @@ def vroid_pose(sk, base_rot, V, kind, t):
     return task_pose(V, rv, kind, t)
 
 
-BODIES = {'F': ('assets/models/char/vroid_npc_f1.vrm', 1.62), 'M': ('assets/models/char/vroid_npc_m1.vrm', 1.74)}   # 女生、男生的 VRoid 底模（所有 nf／nm、主角們都是這兩種骨架）＋遊戲裡的身高（char.npc_f1／npc_m1 的 height）
+BODIES = {'F': ('assets/models/char/vroid_npc_f1.vrm', 1.62), 'M': ('assets/models/char/vroid_npc_m1.vrm', 1.74),   # 女生、男生的 VRoid 底模＋遊戲裡的身高（char.npc_f1／npc_m1 的 height）
+          'F2': ('assets/models/char/second_ai/bl_npc_nf10.vrm', 1.65), 'M2': ('assets/models/char/second_ai/bl_npc_nm11.vrm', 1.74)}
+# F2、M2（LAWWW-C 11-04 21:42Z 補件 2）：手臂比較短的女生骨架（Victoria_Rubin 改的 nf1、3、7、10、13、16、19：手臂÷身高 0.251，F 是 0.262）、手臂比較長的男生骨架
+#（HairSample_Male 改的 nm1、3、5…19、m2：0.266，M 是 0.244；肩膀也比同身高的 M 低 1.6 cm）。身高取那一組的中位數（nf10 1.65、nm11 1.74）
 
 
 def build(src, bodies=None, only=None):

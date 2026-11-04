@@ -8,7 +8,7 @@ VRoid 的骨頭靜止時沒有旋轉，所以人物那一根骨頭的世界旋�
   /opt/blenv/bin/python tools/anim/preview_vrm_clip.py --vrm assets/models/char/vroid_npc_f1.vrm --src assets/models/char/ual_sit_clips.glb \
       --clips assets/models/char/ual_sit_tasks.glb --out 輸出資料夾 --body F [--names Sit_Type_F_Loop,...] [--times 0,1.8,2.3]
 """
-import argparse, json, math, os, shutil, struct, sys
+import argparse, re, json, math, os, shutil, struct, sys
 import numpy as np
 import bpy
 from mathutils import Matrix, Vector, Quaternion
@@ -145,7 +145,7 @@ names = [a['name'] for a in Jc['animations'] if a['name'].endswith('_%s_Loop' % 
 times = [float(x) for x in A.times.split(',')]
 outs = []
 for nm in names:
-    kind = nm.replace('Sit_', '').replace('_Loop', '').replace('_F', '').replace('_M', '').lower()
+    kind = re.sub(r'_(F|M)\d*$', '', nm.replace('Sit_', '').replace('_Loop', '')).lower()   # Sit_Type_F2_Loop → type
     fr, L = T.sample_clip(Jc, dc, boc, sk, nm, times)
     for t, rot in zip(times, fr):
         pose(rot); clear_props(); props(kind)

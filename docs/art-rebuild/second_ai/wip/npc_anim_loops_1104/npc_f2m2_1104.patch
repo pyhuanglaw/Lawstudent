@@ -1,0 +1,119 @@
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -666,13 +666,18 @@
+   C.SIT_TASK_KEY='char.ual_sit_tasks'; C.HAND_PROP_KEY='prop.hand_props';
+   C.SIT_TASK={ CLIP:{type:'Type',typepad:'TypePad',write:'Write',phone:'Phone',page:'Page',drink:'Drink',eat:'Eat'},
+     PROP:{write:'hand_pen',phone:'hand_phone',drink:'hand_cup',eat:'hand_chopsticks'},
+-    REF:{desk:0.75,edge:0.30}, H:{F:1.62,M:1.74}, shiftMax:0.12, blend:0.5,
++    REF:{desk:0.75,edge:0.30}, H:{F:1.62,M:1.74,F2:1.65,M2:1.74}, shiftMax:0.12, blend:0.5,
++    /* F2、M2（LAWWW2-C 補件 2）：同一種骨架（前臂÷上臂）裡，手臂比較短的女生（Victoria_Rubin 改的 nf1、3、7、10、13、16、19：手臂÷身高 0.251，F 0.262）、
++       手臂比較長、肩膀比較低的男生（HairSample_Male 改的 nm1、3…19、m2：0.266，M 0.244）的片段（參考骨架 bl_npc_nf10 1.65 m、bl_npc_nm11 1.74 m）。
++       先試 F（M），合不上再試 F2（M2）：比較高的 HairSample_Female／Darkness_Shibu（nf15、nf17）用 F2 反而合得上，所以不用手臂÷身高分，兩種都量（taskDev 每個片段量一次、有快取；
++       一格量骨架的人數有上限 probesPer，第二種身材常常要等下一次 SEATACT）。WIN 的 F2 和 F 一樣（量到的都比 F 寬）；M2 照量到的收緊（手臂長：前臂越過桌緣的地方比較低）*/
++    ALT:{F:['F','F2'],M:['M','M2']},
+     /* 挪完以後桌緣（參考身材的座標）可以在哪裡，女生／男生各一組（在遊戲裡量過，tests/sit_task_wire_unit.js 會再量一次）：
+        近：前臂伸到桌面上的那一段離桌面不到 1.5 cm 就算穿進桌子——女生（肩膀只比桌面高 11 cm）在參考的桌子就已經貼著桌緣（LAWWW2 README 的已知不足），桌子再近就穿進去：女生最近 0.29；
+            男生照量到的（打字另外要指尖不過筆電的鉸鏈：筆電中心離桌緣 0.11、深 0.21）；
+        遠：放在桌上的手（打字兩手、寫字兩手、滑手機、翻書、吃飯、喝飲料的左手）手腕往前 3 cm（手掌根）還在桌上；喝飲料的杯子放得在桌上；打字＋觸控板：右手摸得到觸控板 */
+-    WIN:{type:{F:[0.29,0.365],M:[0.26,0.365]},typepad:{F:[0.29,0.33],M:[0.26,0.33]},write:{F:[0.29,0.395],M:[0.29,0.395]},phone:{F:[0.29,0.37],M:[0.27,0.37]},
+-      page:{F:[0.29,0.375],M:[0.24,0.375]},drink:{F:[0.28,0.335],M:[0.24,0.335]},eat:{F:[0.29,0.39],M:[0.29,0.39]}},
++    WIN:{type:{F:[0.29,0.365],M:[0.26,0.365],F2:[0.29,0.365],M2:[0.27,0.365]},typepad:{F:[0.29,0.33],M:[0.26,0.33],F2:[0.29,0.33],M2:[0.27,0.33]},write:{F:[0.29,0.395],M:[0.29,0.395],F2:[0.29,0.395],M2:[0.29,0.395]},phone:{F:[0.29,0.37],M:[0.27,0.37],F2:[0.29,0.37],M2:[0.28,0.37]},
++      page:{F:[0.29,0.375],M:[0.24,0.375],F2:[0.29,0.375],M2:[0.26,0.375]},drink:{F:[0.28,0.335],M:[0.24,0.335],F2:[0.28,0.335],M2:[0.245,0.335]},eat:{F:[0.29,0.39],M:[0.29,0.39],F2:[0.29,0.39],M2:[0.29,0.39]}},
+     LOOK:{eat:[0,0.06,0.15]},   /* 沒有 sitFocus 的眼睛看哪裡（人物座標：x 左手邊、y 桌面以上、z 桌緣往裡面）*/
+     RATIO:{F:[0.93,1.03],M:[1.08,1.19]},
+     /* 參考骨架（vroid_npc_f1 1.62 m、vroid_npc_m1 1.74 m：產生片段用的）坐在參考桌子前、片段 0 秒的兩手手腕（人物座標 x 左、y 上、z 前；遊戲裡量的，和 ual_sit_tasks.json 的 expect 一樣）。
+@@ -685,7 +690,9 @@
+     HANDS:{F:{type:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},typepad:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},write:{l:[0.1385,0.7819,0.3864],r:[-0.0605,0.7963,0.3816]},
+         phone:{l:[0.1367,0.7806,0.3458],r:[-0.0862,0.8186,0.3145]},page:{l:[0.1179,0.8045,0.35],r:[-0.1179,0.8045,0.35]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.3668]},eat:{l:[0.0332,0.7724,0.3688],r:[-0.127,0.8435,0.3207]}},
+       M:{type:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},typepad:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},write:{l:[0.1388,0.7824,0.3857],r:[-0.058,0.7934,0.387]},
+-        phone:{l:[0.1371,0.7812,0.3451],r:[-0.0782,0.822,0.3061]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2288,0.81,0.3685]},eat:{l:[0.0356,0.7839,0.3638],r:[-0.1109,0.8957,0.351]}}},
++        phone:{l:[0.1371,0.7812,0.3451],r:[-0.0782,0.822,0.3061]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2288,0.81,0.3685]},eat:{l:[0.0356,0.7839,0.3638],r:[-0.1109,0.8957,0.351]}},
++      F2:{type:{l:[0.0955,0.7991,0.3473],r:[-0.0898,0.8015,0.352]},typepad:{l:[0.0955,0.7991,0.3473],r:[-0.0898,0.8015,0.352]},write:{l:[0.1381,0.7813,0.3871],r:[-0.0597,0.7954,0.3831]},phone:{l:[0.1364,0.7801,0.3466],r:[-0.0829,0.8182,0.3121]},page:{l:[0.1176,0.8039,0.3508],r:[-0.1176,0.8039,0.3508]},drink:{l:[0.1464,0.7801,0.3116],r:[-0.2323,0.812,0.3673]},eat:{l:[0.0332,0.7787,0.3672],r:[-0.1243,0.8428,0.3234]}},
++      M2:{type:{l:[0.0969,0.8024,0.3425],r:[-0.0912,0.8048,0.3473]},typepad:{l:[0.0969,0.8024,0.3425],r:[-0.0912,0.8048,0.3473]},write:{l:[0.1405,0.7846,0.3827],r:[-0.0613,0.7965,0.3812]},phone:{l:[0.1385,0.7835,0.3421],r:[-0.0803,0.8204,0.3031]},page:{l:[0.1193,0.8075,0.3462],r:[-0.1193,0.8075,0.3462]},drink:{l:[0.1485,0.7835,0.3071],r:[-0.2343,0.8099,0.3666]},eat:{l:[0.0367,0.7771,0.3615],r:[-0.1369,0.903,0.3652]}}},
+     tolX:0.04, liftMax:0.015, tolV:0.015, TOLV:{type:0.03,typepad:0.03,write:0.01}, shiftBack:0.03, probesPer:3 };
+   const SITT={raw:null,src:null,clips:{},failed:false,loading:false}, HPROP={scene:null,failed:false,loading:false};
+   C._task=SITT; C._handProps=HPROP;
+@@ -738,16 +745,18 @@
+      回傳 null（照舊）或 {kind, clip, body, prop, shift（往前坐幾公尺；負的＝往後）, lift（往上坐幾公尺；負的＝往下）, deskH, edge}。片段、配件還沒下載的會開始下載；第一次會在他的骨架上量一次（taskDev；urgent＝不排隊）*/
+   C.sitTaskFit=function(h,kind,desk,urgent){ const u=h&&h.userData, K=C.SIT_TASK; if(!C.sitTask||!C.sitAmb||!u||u.driver!=='vrm'||!u.v0||!K.CLIP[kind]||!desk) return null;
+     if(!taskReady()) return null;
+-    const body=taskBody(h,u); if(!body) return null;
+-    const clip='Sit_'+K.CLIP[kind]+'_'+body+'_Loop', c=taskClip(clip); if(!c) return null;
+-    const prop=K.PROP[kind]||null; if(prop&&!propReady(prop)) return null;   /* 寫字、滑手機、喝飲料要拿東西：配件還沒好＝照舊 */
+-    const R0=K.HANDS[body]&&K.HANDS[body][kind], dv=R0&&taskDev(h,u,c,urgent); if(!dv) return null;
+-    const dl=[dv.l.x-R0.l[0],dv.l.y-R0.l[1],dv.l.z-R0.l[2]], dr=[dv.r.x-R0.r[0],dv.r.y-R0.r[1],dv.r.z-R0.r[2]];
+-    if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX) return null;   /* 手往旁邊差太多（肩膀寬很多）*/
+-    const dy=(dl[1]+dr[1])/2, dz=(dl[2]+dr[2])/2;
+-    const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)) return null;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
+-    const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-K.REF.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)) return null;
+-    return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge}; };
++    const fam=taskBody(h,u); if(!fam) return null;
++    const prop=K.PROP[kind]||null; if(prop&&!propReady(prop)) return null;   /* 寫字、滑手機、喝飲料、吃飯要拿東西：配件還沒好＝照舊 */
++    for(const body of (K.ALT&&K.ALT[fam])||[fam]){   /* 同一種骨架的幾種身材：第一個合得上的（F2、M2，LAWWW2-C 補件 2）*/
++      const clip='Sit_'+K.CLIP[kind]+'_'+body+'_Loop', c=taskClip(clip), R0=K.HANDS[body]&&K.HANDS[body][kind]; if(!c||!R0) continue;   /* 片段檔沒有這一種（舊的 GLB）＝試下一種 */
++      const dv=taskDev(h,u,c,urgent); if(dv===null) return null; if(!dv) continue;   /* null＝還沒量（這一格量不到、排隊）：下次 SEATACT 再來；false＝量不出來 */
++      const dl=[dv.l.x-R0.l[0],dv.l.y-R0.l[1],dv.l.z-R0.l[2]], dr=[dv.r.x-R0.r[0],dv.r.y-R0.r[1],dv.r.z-R0.r[2]];
++      if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX) continue;   /* 手往旁邊差太多（肩膀寬很多）*/
++      const dy=(dl[1]+dr[1])/2, dz=(dl[2]+dr[2])/2;
++      const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)) continue;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
++      const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-K.REF.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)) continue;
++      return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge}; }
++    return null; };
+   /* 套上／拿掉（fit＝C.sitTaskFit 的結果；null＝拿掉）：片段在 sitAmbient 裡慢慢換過去；配件馬上換（SEATACT 同一格把桌上那件藏起來／放回去）*/
+   C.setSitTask=function(h,fit){ const u=h&&h.userData; if(!u) return false; if(!fit){ u.sitTask=null; propVis(u,null); return false; }
+     const T=u.sitTask; if(!T||T.clip!==fit.clip||T.prop!==fit.prop||T.kind!==fit.kind||Math.abs((T.shift||0)-(fit.shift||0))>1e-4||Math.abs((T.lift||0)-(fit.lift||0))>1e-4||T.deskH!==fit.deskH) u.sitTask=Object.assign({},fit); return true; };
+--- a/tests/sit_task_wire_unit.js
++++ b/tests/sit_task_wire_unit.js
+@@ -46,7 +46,7 @@
+ const cleanup=(GM,Z)=>{ SEATACT.clear(); for(const n of GM.E.npcs){ scene.remove(n.obj); CHAR.release(n.obj); } scene.remove(Z.zone.group); };
+ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* 每個位子做什麼：照測試指定（真正的種子分配有 seat_activity_1104_unit 測）*/
+ (async()=>{
+-  await preload(['char.npc_f1','char.npc_m1','char.npc_nf2','char.npc_nm8','char.npc_nm1','char.npc_nm5','char.heroine_01']);
++  await preload(['char.npc_f1','char.npc_m1','char.npc_nf2','char.npc_nm8','char.npc_nm1','char.npc_nm5','char.heroine_01','char.npc_nf10','char.npc_nm11']);   /* nf10、nm11＝F2、M2 的參考骨架（LAWWW2-C 補件 2）*/
+   /* ---------- A：manifest ---------- */
+   { const T=MAN['char.ual_sit_tasks'], P=MAN['prop.hand_props']; const lic=fs.readFileSync(path.join(ROOT,'LICENSES.md'),'utf8');
+     check('A manifest：char.ual_sit_tasks（clips、lazy）、prop.hand_props（building、lazy），檔案都在',!!T&&T.type==='clips'&&T.lazy===true&&!!P&&P.type==='building'&&P.lazy===true&&fs.existsSync(path.join(ROOT,T.url))&&fs.existsSync(path.join(ROOT,P.url)),T?T.url+'、'+(P&&P.url):'沒有 char.ual_sit_tasks');
+@@ -114,12 +114,13 @@
+     cleanup(GM,Z); }
+   /* ---------- D2：每個人自己的骨架 ---------- */
+   { const Z=mkZone([{act:'laptop',top:0.75,edge:0.30},{act:'notes',top:0.75,edge:0.30},{act:'laptop',top:0.75,edge:0.30},{act:'notes',top:0.75,edge:0.30}]); const st=Z.zone.seats;
+-    const npcs=[mkNPC('char.npc_nm5',st[0]),mkNPC('char.npc_nm5',st[1]),mkNPC('char.npc_nm1',st[2]),mkNPC('char.npc_nm1',st[3])]; const GM=mkGM(Z,npcs); await run(GM,90);
++    const npcs=[mkNPC('char.npc_nm5',st[0]),mkNPC('char.npc_nm5',st[1]),mkNPC('char.npc_nm1',st[2]),mkNPC('char.npc_nm1',st[3])]; const GM=mkGM(Z,npcs); await run(GM,180);   /* 第二種身材（M2）要多等一次 SEATACT：一格量骨架的人數有上限（probesPer）*/
+     const dyOf=(h,cl,kind)=>{ const dv=CHAR._taskDev(h,cl), R0=CHAR.SIT_TASK.HANDS.M[kind]; return dv?((dv.l.y-R0.l[1])+(dv.r.y-R0.r[1]))/2:null; };
+     const d5=dyOf(npcs[0].obj,'Sit_Type_M_Loop','type'), d1=dyOf(npcs[2].obj,'Sit_Type_M_Loop','type'), t1=CHAR.sitTaskOf(npcs[2].obj), u1=npcs[2].obj.userData, sitY=(u1.model.userData.baseY||0)-0.47*u1.k;
+-    check('D2 骨架和參考差很多（LAWWW2 的 bl_npc_nm5：照片段擺，手比參考低 5 cm 以上）：打字、寫字都照舊，沒有片段',d5!=null&&d5<-0.05&&!CHAR.sitTaskOf(npcs[0].obj)&&!CHAR.sitTaskOf(npcs[1].obj),d5!=null?'手低了 '+cm(-d5):'量不到');
+-    check('D2 手低 4.5 cm 的骨架（bl_npc_nm1）：打字＝往上坐 1.5 cm、補完差 3 cm 以內（手腕離桌面本來就 5 cm）；寫字＝筆會壓進紙（補完還差 3 cm）照舊',d1!=null&&d1<-0.04&&!!t1&&/^Sit_Type/.test(t1.playing||'')&&Math.abs(t1.lift-0.015)<1e-6&&Math.abs((u1.model.position.y-sitY)-0.015)<1e-4&&!CHAR.sitTaskOf(npcs[3].obj),
+-      (d1!=null?'手低了 '+cm(-d1):'量不到')+'、打字 '+(t1?t1.playing+' 往上 '+cm(t1.lift)+'（人物實際往上 '+cm(u1.model.position.y-sitY)+'）':'沒有')+'、寫字 '+(CHAR.sitTaskOf(npcs[3].obj)?'有（錯）':'照舊'));
++    const t5=CHAR.sitTaskOf(npcs[0].obj), w5=CHAR.sitTaskOf(npcs[1].obj), w1=CHAR.sitTaskOf(npcs[3].obj);
++    check('D2 骨架和參考差很多（LAWWW2 的 bl_npc_nm5：照 M 的片段擺，手比參考低 5 cm 以上）：打字換手臂長的男生骨架的片段（M2，LAWWW2-C 補件 2）；寫字 M、M2 都合不上（筆尖只容許 1 cm）＝照舊',d5!=null&&d5<-0.05&&!!t5&&/^Sit_Type(Pad)?_M2_Loop$/.test(t5.playing||'')&&t5.body==='M2'&&!w5,(d5!=null?'手低了 '+cm(-d5):'量不到')+'、打字 '+(t5?t5.playing:'照舊')+'、寫字 '+(w5?w5.playing+'（錯）':'照舊'));
++    check('D2 手低 4.5 cm 的骨架（bl_npc_nm1）：打字＝先試 M、往上坐 1.5 cm、補完差 3 cm 以內（手腕離桌面本來就 5 cm）；寫字＝M 會壓進紙 → 換 M2（Sit_Write_M2_Loop）',d1!=null&&d1<-0.04&&!!t1&&/^Sit_Type(Pad)?_M_Loop$/.test(t1.playing||'')&&Math.abs(t1.lift-0.015)<1e-6&&Math.abs((u1.model.position.y-sitY)-0.015)<1e-4&&!!w1&&w1.playing==='Sit_Write_M2_Loop'&&w1.body==='M2',
++      (d1!=null?'手低了 '+cm(-d1):'量不到')+'、打字 '+(t1?t1.playing+' 往上 '+cm(t1.lift)+'（人物實際往上 '+cm(u1.model.position.y-sitY)+'）':'沒有')+'、寫字 '+(w1?w1.playing:'照舊'));
+     cleanup(GM,Z); }
+   { const h=mkNPC('char.npc_nf2',{x:0,z:0,yaw:0,lv:0}).obj; for(let i=0;i<10;i++){ CHAR.animate(h,DT,{pose:'sit',speed:0}); } scene.updateMatrixWorld(true);
+     const H=h.userData.vrm.humanoid, names=['hips','spine','chest','neck','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','rightIndexProximal','leftUpperLeg','leftLowerLeg','leftFoot'];
+@@ -189,7 +190,9 @@
+     scene.remove(Z.zone.group); }
+   /* ---------- H：WIN 和量到的一樣 ---------- */
+   { const REST={type:['left','right'],typepad:['left'],write:['left','right'],phone:['left'],page:['left'],drink:['left'],eat:['left']}; const bad=[];
+-    for(const [B,key] of [['F','char.npc_f1'],['M','char.npc_m1']]) for(const kind of Object.keys(CHAR.SIT_TASK.WIN)){
++    const ALT0=CHAR.SIT_TASK.ALT, MEAS=[];
++    for(const [B,key] of [['F','char.npc_f1'],['M','char.npc_m1'],['F2','char.npc_nf10'],['M2','char.npc_nm11']]) for(const kind of Object.keys(CHAR.SIT_TASK.WIN)){
++      if(ALT0) CHAR.SIT_TASK.ALT={F:[B[0]==='F'?B:'F'],M:[B[0]==='M'?B:'M']};   /* 量那一種身材自己的片段（F2、M2 的參考骨架 bl_npc_nf10、bl_npc_nm11）*/
+       const h=CHAR.build({model:key,height:MAN[key].height}); scene.add(h); for(let i=0;i<3;i++){ CHAR.animate(h,DT,{pose:'sit',speed:0}); }
+       const f=CHAR.sitTaskFit(h,kind,{h:0.75,edge:0.30,depth:0.3}); if(!f){ bad.push(B+kind+' 沒有 fit'); scene.remove(h); CHAR.release(h); continue; } CHAR.setSitTask(h,f);
+       for(let i=0;i<20;i++) CHAR.animate(h,DT,{pose:'sit',speed:0}); let zc=-1, far=9, tip=-1;
+@@ -197,11 +200,13 @@
+         for(const s of ['left','right']){ const S0=L(h,s+'UpperArm'), E0=L(h,s+'LowerArm'), W0=L(h,s+'Hand'); for(const [a,b] of [[S0,E0],[E0,W0]]) for(let k=0;k<=20;k++){ const p=a.clone().lerp(b,k/20); if(p.y<0.765&&p.z>zc) zc=p.z; } }
+         for(const s of REST[kind]) far=Math.min(far,L(h,s+'Hand').z+0.03);
+         if(kind==='type') for(const s of ['left','right']) tip=Math.max(tip,L(h,s+'MiddleDistal').z+0.02); }
+-      const w=CHAR.SIT_TASK.WIN[kind][B], nearMin=Math.min(REF.edge,zc)-0.011;
++      const w=CHAR.SIT_TASK.WIN[kind][B], nearMin=Math.min(REF.edge,zc)-0.011; MEAS.push(B+' '+kind+' 近≥'+nearMin.toFixed(3)+' 遠≤'+far.toFixed(3)+(f.body!==B?'（fit 用了 '+f.body+'）':''));
++      if(f.body!==B) bad.push(B+' '+kind+' fit 用了 '+f.body);
+       if(w[0]<nearMin) bad.push(B+' '+kind+' 近 '+w[0]+' < 量到的 '+nearMin.toFixed(3));
+       if(w[1]>far+0.001) bad.push(B+' '+kind+' 遠 '+w[1]+' > 量到的 '+far.toFixed(3));
+       if(kind==='type'&&w[0]+0.216<tip) bad.push(B+' 打字的指尖 '+tip.toFixed(3)+' 過了鉸鏈 '+(w[0]+0.216).toFixed(3));
+       scene.remove(h); CHAR.release(h); }
++    if(ALT0) CHAR.SIT_TASK.ALT=ALT0; if(process.env.SIT_WIN_LOG) console.log(MEAS.join('\n'));
+     check('H C.SIT_TASK.WIN 不比量到的鬆：女生不比參考的桌子更貼、放在桌上的手腕往前 3 cm 在桌上、打字的指尖不過筆電的鉸鏈',!bad.length,bad.join('；')); }
+   SEATACT.actAt=actAt0;
+   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
