@@ -10,7 +10,7 @@ BB-C 17:44 看了第一版的 Blender 預覽：方向過，標 ART_APPROVED 以�
 LAWWW-C 18:22 說第一版已經接進開發分支 `f8d17bfb7`，第二版請以它為底。`f8d17bfb7` 上這幾個檔和第一版 `d393b6f3c` 一模一樣（逐檔比過 blob），所以直接換檔：
 
 ```
-git checkout SOCLIB2F_V2_SHA -- src/data/soclib2f_layout.js src/soclib2f3d.js \
+git checkout 566512a40 -- src/data/soclib2f_layout.js src/soclib2f3d.js \
   assets/models/env/second_ai/soclib2f_interior.glb assets/models/env/second_ai/soclib2f_interior.json \
   assets/models/env/second_ai/soclib2f_interior_lm_day.webp assets/models/env/second_ai/soclib2f_interior_lm_night.webp
 ```
