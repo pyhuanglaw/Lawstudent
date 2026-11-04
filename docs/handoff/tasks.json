@@ -45035,6 +45035,27 @@
    ]
   },
   {
+   "id": "AA675-CANON-FOLLOWUP-1104",
+   "title": "AA_675：AA_661 要 LAWWW 判斷的八件 AA 定了——語彤寒暑假平日回淡水（約得到）、阿哲麵店日拿掉＋長桌閒聊搬桌遊夜 2D、ev_yu_sign_seat 桌遊夜 2D、語彤告白晚餐改期末考後第一個週六 17:30 一盞茶屋、聖誕碰公休提早一天、她家＝新生南路、礁溪 2D 對話（AA_609 第 8 節）、二十三週年語彤店員戲拿掉或換人、vac_activities:466 改一盞茶屋",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "語彤、阿哲、桌遊夜相關",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:49（企劃線 920791094、outbox a3cdd41ce；D109；接 CANON-PURGE-SRC-1104／X221）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:5x】派背景子代理在 worktree 做（D113 檢查點 wip_backup/aa675/）；和台詞八批子代理可能同時改到 events.js、vac_activities.js，合併時處理"
+  },
+  {
    "id": "ASK-USER-LIST-1104",
    "title": "接班／交班一定列出「要問使用者」的任務（AA-C 11-04 13:18 提議；使用者 13:2x 問 AA-C：「做到一半的東西，為什麼之後的帳號沒有收到還沒做完的訊息」；起因 VAC-GAP-ROUTES 暫停的恢復條件是「使用者說繼續」，帳號 A 記了醒來要問、沒問就交班）",
    "area": "HANDOFF",
