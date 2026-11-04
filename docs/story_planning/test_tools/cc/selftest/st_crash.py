@@ -13,7 +13,7 @@ async def main():
         cdp = await b.new_browser_cdp_session()
         print('  讓瀏覽器當掉（Browser.crash）', flush=True)
         try:
-            await cdp.send('Browser.crash')
+            await asyncio.wait_for(cdp.send('Browser.crash'), 5)   # 瀏覽器死了就不會回應：最多等 5 秒
         except Exception as e:
             print('  Browser.crash 回傳：%r' % (e,), flush=True)
         await asyncio.sleep(2)
