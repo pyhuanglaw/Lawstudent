@@ -545,7 +545,7 @@ const CROWD=(function(){
      從座位表後面往前找（劇情用的固定位子都在前面）；劇情寫死的位子不坐（DEPT_KEEP：總圖大廳 0、1＝小安「總圖的下午」，library3d.js；社科圖 16＝r3_3d.js SK12）；
      坐下的人有 seat：作息（populateSchedule）、約出去（INV.pairSeats）、樓上的自習區都會避開 */
   S.DEPT_KEEP={library_hall:[0,1],soclib:[16]};
-  S.DEPT_SIT={library_hall:1,library:1,soclib:1,gym:1};   /* 一起坐的對話放在哪些區域：總圖大廳（2F 自習區）、總圖 3F 閱覽區、社科圖、體育館 1F。B1 自習室、5F 書庫、研究小間有自己的人（LB1、LUP）和討論室的劇情站位，不放 */
+  S.DEPT_SIT={library_hall:1,library:1,soclib:1,soclib_2f:1,gym:1};   /* 一起坐的對話放在哪些區域：總圖大廳（2F 自習區）、總圖 3F 閱覽區、社科圖、體育館 1F。B1 自習室、5F 書庫、研究小間有自己的人（LB1、LUP）和討論室的劇情站位，不放 */
   S.deptSeatPair=function(GM,zone,stand){ const E=GM.E, G=GM.G, seats=(E.zone&&E.zone.seats)||[], N=seats.length; if(!N) return null; const near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z), keep=(S.DEPT_KEEP[zone]||[]).map(i=>seats[i]);
     const busy=st=>!!st.taken||E.npcs.some(n=>{ const q=n.seat||n.seatTarget||(n.obj&&n.obj.position); return !!q&&(n.lv|0)===(st.lv|0)&&near(q,st)<0.45; })||!!(E.player&&E.player.seat&&near(E.player.seat,st)<0.45);
     const ok=st=>(zone!=='gym'||st.z<11)&&!keep.includes(st)&&!st.label&&!busy(st)&&!!S.seatSide(E,st), yd=(a,b)=>Math.abs(Math.atan2(Math.sin((b.yaw||0)-(a.yaw||0)),Math.cos((b.yaw||0)-(a.yaw||0))));

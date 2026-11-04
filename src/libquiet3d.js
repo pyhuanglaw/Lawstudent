@@ -24,7 +24,7 @@ const LIBQ=(function(){
   const S={};
   S.PREFIX='（小聲）';
   S.NOD={f:'（她抬頭看到你，點了一下頭。）',m:'（他抬頭看到你，點了一下頭。）'};   /* AA_595 1-A1「建議改法」的那一句（她＝同表 1-A2 的寫法）*/
-  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,library_b1:1,us_lawlib_2f:1};
+  S.ZONES={library:1,library_hall:1,library_carrels:1,library_stacks:1,lawlib:1,soclib:1,soclib_2f:1,library_b1:1,us_lawlib_2f:1};
   S.BG_STUDY=['law_library.webp','ntu_library_2f.webp','ntu_lib_b1.webp','library_b1.webp','soc_library.webp'];   /* outings3d.js 的背景：法圖・二樓、總圖・二樓、總圖 B1・24 小時自習室、總圖 B1・討論室、社科院圖書館・閱覽區 */
   const G_=GM=>GM&&GM.G;
   /* 區域＋位置＝是不是讀書區 */

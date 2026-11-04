@@ -32,7 +32,7 @@ const SEATACT=(function(){
   S.CAP=24;
   S.FOOD=/(food|snack|bento|cake|sandwich|plate|bowl|toast|bread|noodle|rice|dessert)/i;
   /* 場所：圖書館、咖啡廳（可以用筆電）、輕食（茶屋、早午餐、茶飲：不用筆電）、吃飯的店（只有滑手機、什麼都不做）*/
-  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,us_lawlib:1,us_lawlib_2f:1};
+  S.LIB_ZONES={library:1,library_hall:1,library_stacks:1,library_carrels:1,library_b1:1,lawlib:1,soclib:1,soclib_2f:1,us_lawlib:1,us_lawlib_2f:1};
   S.CAFE_ZONES={cafe:1,afar:1,l118_cafe2:1,wz_mokuyobi:1,wz_offbeat:1};
   S.LIGHT_ZONES={daybreak:1,wz_brunch:1,wz_teahouse:1,aoki:1,l118_tea:1,wz_tea:1};
   S.placeOf=function(zone){ if(!zone) return null; if(S.LIB_ZONES[zone]) return 'library'; if(S.CAFE_ZONES[zone]) return 'cafe'; if(S.LIGHT_ZONES[zone]) return 'light';

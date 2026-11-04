@@ -1269,7 +1269,7 @@ const STORY = (function(){
       if(w&&hr>=w[1]-1/6&&hr<w[1]&&F.lawlibWarn!==G.day){ F.lawlibWarn=G.day; GM.toast('廣播：「本館將於 '+PLACES.hhmm(w[1])+' 閉館，請準備離館。」',5000); }
       if(!PLACES.isOpen('lawlib',hr,G.day)&&!S._llOut){ S._llOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('wancai',Object.assign({},LL3.HALL)); GM.toast(PLACES.closedText('lawlib',h(G),G.day),6000); } finally { S._llOut=false; } })(); return; } }
     /* 社科院圖書館閉館（D62，使用者 2026-10-14 查證館方網頁）：和法圖一樣——閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到社科院正門前）*/
-    if(G.zone==='soclib'&&typeof PLACES!=='undefined'&&PLACES.hours.soclib&&typeof SL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('soclib',G.day);
+    if((G.zone==='soclib'||G.zone==='soclib_2f')&&typeof PLACES!=='undefined'&&PLACES.hours.soclib&&typeof SL3!=='undefined'){   /* soclib_2f：東側館（二樓自習室、討論室；SOCLIB-2F-1104）跟著閱覽室的開放時間 */ const hr=h(G), w=PLACES.windowOf('soclib',G.day);
       if(w&&hr>=w[1]-1/6&&hr<w[1]&&F.soclibWarn!==G.day){ F.soclibWarn=G.day; GM.toast('廣播：「本館將於 '+PLACES.hhmm(w[1])+' 閉館，請準備離館。」',5000); }
       if(!PLACES.isOpen('soclib',hr,G.day)&&!S._slOut){ S._slOut=true; (async()=>{ try{ GM.sceneBegin(); await GM.say(null,'館員：「同學，我們閉館了喔。」你收好東西，走出圖書館。'); GM.sceneEnd(); await GM.enter('campus',Object.assign({},SL3.CAMPUS)); GM.toast(PLACES.closedText('soclib',h(G),G.day),6000); } finally { S._slOut=false; } })(); return; } }
     /* 之後的週四：13:20 民法總則的目標，下課以後換成自由活動（v9.5 審查：F.classDone 第二天之後一直是 true，不會再有上課劇情來換目標，導航整晚指著空的 201）*/
