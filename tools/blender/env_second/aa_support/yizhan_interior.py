@@ -19,7 +19,7 @@ W, H = LAY['w'], LAY['h']
 sh = K.Shop('yzn_', 'yizhan_interior', W, 10.0, H, texres=512, props={'layout': LAY['version'], 'zone': 'wz_teahouse'}, seed=1106)
 X0, X1, Z0, Z1 = sh.X0, sh.X1, sh.Z0, sh.Z1          # x −4.2～4.2、z −5～5（房子本體；緣側在 Z1～Z1+1.2）
 K.DIRS['engawa'] = [0, 0, -1]; sh.walls['engawa'] = {}
-sh._imgkeys = {'print', 'tatami'}
+sh._imgkeys = {'print'}   # v1b：榻榻米要盒狀 UV（v1 放在這裡沒有 UV，整片取到深綠布邊的顏色＝黑）
 P = 'yzn_'
 sh.M.update({
     'floor': L.pbr(P + 'floor_wood', 'laminate_floor_02', tile=2.2, target='#c9ac84', maps=('diff',), res=512, rough_value=0.5),
@@ -50,8 +50,13 @@ def lantern(x, z, y, s=0.32, h=0.34):
     CL.glow(sh.root, 'washi', x, y + h / 2, z, color='rgba(255,210,150,1)', size=0.8, day=0.0, night=0.85)
 
 
-def zabuton(x, z, ry, col=CUSH):
-    Xf(x, z, ry).rbox(sh.a('vc'), -0.27, 0.27, 0.0, 0.075, -0.3, 0.3, r=0.03, seg=2, col=col)
+def zabuton(x, z, ry, col=CUSH, y0=0.0):
+    """坐墊（v1d）：薄底＋中間鼓起（壓扁的球）＋四角的房（流蘇）；頂約 0.075"""
+    xf = Xf(x, z, ry, y0); xf.rbox(sh.a('vc'), -0.27, 0.27, 0.0, 0.035, -0.3, 0.3, r=0.015, seg=1, col=col)
+    bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=10, v_segments=6, radius=1.0)
+    for v in bm.verts: v.co.x *= 0.25; v.co.y *= 0.28; v.co.z *= 0.042
+    sh.a('vc').add_bm(K.paint_bm(bm, col), Matrix.Translation(g2b(*xf.p(0, 0.035, 0))) @ Matrix.Rotation(ry, 4, 'Z')); bm.free()
+    for (dx, dz) in ((-0.26, -0.29), (0.26, -0.29), (0.26, 0.29), (-0.26, 0.29)): xf.rbox(sh.a('vc'), dx - 0.012, dx + 0.012, 0.015, 0.04, dz - 0.012, dz + 0.012, r=0.0, seg=1, col=CUSH2 if col == CUSH else '#5a4a3a')
 
 
 def teacup(x, z, y, col=CERA):
@@ -84,7 +89,8 @@ for t in IT['tatami_room']:
 gk = IT['genkan'][0]; gx0, gx1, gz0, gz1 = gk['x'] - gk['w'] / 2, gk['x'] + gk['w'] / 2, gk['z'] - gk['d'] / 2, gk['z'] + gk['d'] / 2
 for i in range(3):                                                                                                         # 土間的石板（三塊）
     for j in range(2): xf0.rbox(sh.a('vcg'), gx0 + i * gk['w'] / 3 + 0.01, gx0 + (i + 1) * gk['w'] / 3 - 0.01, -0.02, 0.008, gz0 + 0.12 + j * (gk['d'] - 0.12) / 2 + 0.01, gz0 + 0.12 + (j + 1) * (gk['d'] - 0.12) / 2 - 0.01, r=0.0, seg=1, col=(STONE, '#9a958c', '#86827a')[(i + j) % 3])
-xf0.rbox(sh.a('post'), gx0, gx1, 0.0, 0.1, gz0 - 0.02, gz0 + 0.1, r=0.006, seg=1)                                          # 上框（一階木踏台）
+xf0.rbox(sh.a('post'), gx0, gx1, 0.0, 0.1, gz0 - 0.02, gz0 + 0.1, r=0.006, seg=1)
+xf0.rbox(sh.a('vcg'), X0, -2.2, -0.27, 0.005, Z1 - 0.03, Z1 + 0.02, r=0.0, seg=1, col='#7e7a72')   # v1d：玄關門口 z 5.0 的石材上框立面（前院土間 y −0.24，BB_257 交界）                                          # 上框（一階木踏台）
 for j, col in enumerate(('#2a2a2c', '#6a4a30')): Xf(gx0 + 0.9 + j * 0.3, gz0 + 0.45).rbox(sh.a('vc'), -0.05, 0.05, 0.01, 0.06, -0.12, 0.12, r=0.02, seg=1, col=col)   # 脫在門口的鞋
 gb = IT['getabako'][0]; Xf(gb['x'], gb['z']).rbox(sh.a('post'), -gb['w'] / 2, gb['w'] / 2, 0.0, gb['h'], -gb['d'] / 2, gb['d'] / 2, r=0.01, seg=1)
 for k in range(3): Xf(gb['x'] + gb['w'] / 2 + 0.005, gb['z'] - 0.4 + k * 0.4).rbox(sh.a('vc'), -0.005, 0.0, 0.08, gb['h'] - 0.06, -0.18, 0.18, r=0.0, seg=1, col='#5a3e28')
@@ -100,6 +106,9 @@ for z in [Z0 + k * 0.9 for k in range(1, 11)]: bt.quad([(X0, H - 0.03, z - 0.02)
 bt.finish(sh.root, uv=True)
 for z_ in (-0.6, 2.2): xf0.rbox(sh.a('post'), X0, X1, H - 0.24, H - 0.01, z_ - 0.1, z_ + 0.1, r=0.0, seg=1)            # 梁
 xf0.rbox(sh.a('post'), -2.2 - 0.1, -2.2 + 0.1, H - 0.24, H - 0.01, -0.6, Z1, r=0.0, seg=1)
+for x_ in (-3.2, -1.1, 1.0, 3.1): xf0.rbox(sh.a('post'), x_ - 0.05, x_ + 0.05, H - 0.14, H - 0.01, -0.6, Z1, r=0.0, seg=1)   # v1d：小梁（沿 z），接近參考圖的外露屋架
+for x_ in (-3.2, -1.1, 1.0, 3.1):
+    for z_ in (-0.6, 2.2): xf0.rbox(sh.a('post'), x_ - 0.04, x_ + 0.04, H - 0.24, H - 0.14, z_ - 0.04, z_ + 0.04, r=0.0, seg=1)   # 束
 for side in ('back', 'left', 'right'):
     a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1)
     sh.wall_box(side, 'wall', a0, a1, 0.5, H); sh.wall_box(side, 'post', a0, a1, 0.0, 0.5); sh.wall_box(side, 'post', a0, a1, 1.95, 2.05, -0.03, 0.0)   # 腰板、長押
@@ -159,6 +168,10 @@ sh.wall_img('back', 'print', tk['x'], 1.35, 0.36, 0.95, K.cell_uv(1, 0, 1, 2), o
 flowers(tk['x'] + 0.45, tk['z'], 0.15, col='#f4f0e6')
 for (y, a, b) in ((1.0, 1.3, 2.2), (1.25, 2.0, 2.9), (1.7, 1.2, 2.9)): xf0.rbox(sh.a('post'), a, b, y - 0.03, y, Z0 + 0.12, Z0 + 0.42, r=0.0, seg=1)   # 和室 B 的違い棚
 teapot(1.6, Z0 + 0.27, 1.0, col='#6a4a30'); K.jar(sh, 2.4, Z0 + 0.27, 1.25, h=0.14, r=0.05, col='#8a9aa4', lid='#3a2a1e'); teacup(2.7, Z0 + 0.27, 1.25)
+Xf(1.95, Z0 + 0.27, 0, 1.0).lathe(sh.a('vcm'), [(0.0, 0.0), (0.05, 0.0), (0.06, 0.04), (0.055, 0.07), (0.0, 0.075)], 0, 0, 0, seg=10, col='#5a4a2a')   # 香爐（v1d）
+for j in range(2): teacup(2.15 + j * 0.02, Z0 + 0.25, 1.25 + j * 0.04, col='#3a3a3a')
+for k in range(4): Xf(1.35 + k * 0.045, Z0 + 0.25, 0, 1.7).rbox(sh.a('vc'), -0.02, 0.02, 0.0, 0.2 + 0.02 * (k % 2), -0.1, 0.1, r=0.0, seg=1, col=('#7a2a22', '#2a3a5a', '#c8b898', '#3a4a2a')[k])   # 舊書
+flowers(2.6, Z0 + 0.27, 1.7, col='#f0c8c4'); flowers(-1.2, -4.4, 0.03, col='#f4f0e6')
 for t in IT['low_table']:
     xf = Xf(t['x'], t['z']); h = t.get('h', 0.34)
     xf.rbox(sh.a('post'), -t['w'] / 2, t['w'] / 2, h - 0.04, h, -t['d'] / 2, t['d'] / 2, r=0.012, seg=1)
@@ -171,7 +184,9 @@ for t in IT['low_table']:
         Xf(t['x'] - 0.2, t['z'], 0, h).lathe(sh.a('vcg'), [(0.0, 0.0), (0.035, 0.0), (0.04, 0.09), (0.02, 0.14), (0.0, 0.14)], 0, 0, 0, seg=8, col='#7a8a7a')
         for j in range(3): Xf(t['x'] - 0.2, t['z']).cyl(sh.a('vc'), (0, h + 0.12, 0), (0.05 * math.cos(j * 2.1), h + 0.32, 0.05 * math.sin(j * 2.1)), 0.003, col='#4a5a2a', seg=3, caps=False)
     else: teapot(t['x'] + 0.25, t['z'], h, col='#3a2418', r=0.06); teacup(t['x'] - 0.2, t['z'] + 0.1, h); teacup(t['x'] - 0.3, t['z'] - 0.15, h)
-for z_ in IT['zabuton']: zabuton(z_['x'], z_['z'], z_.get('ry', 0.0), col=CUSH if z_['z'] > -0.6 else CUSH2)
+rz = random.Random(1171)
+for z_ in IT['zabuton']: zabuton(z_['x'] + rz.uniform(-0.02, 0.02), z_['z'] + rz.uniform(-0.02, 0.02), z_.get('ry', 0.0) + rz.uniform(-0.09, 0.09), col=CUSH if z_['z'] > -0.6 else CUSH2)   # v1d：每個坐墊轉幾度、偏一點（座位點照舊）
+for j in range(3): zabuton(-0.55 + j * 0.01, -0.95 - j * 0.01, 0.15 * j, col=(CUSH2, '#7a6a52', CUSH2)[j], y0=j * 0.075)   # 和室 A 角落疊起來的三個（不在走道上：紙拉門 −1.0 那根柱子的北邊）
 for (x, z_) in ((-0.65, -4.3), (3.6, -4.4)):                                                                                # 和室的行燈（落地的方形紙燈）
     sh.a('pend').box(x - 0.14, x + 0.14, 0.0, 0.05, z_ - 0.14, z_ + 0.14); sh.a('washi').box(x - 0.12, x + 0.12, 0.05, 0.55, z_ - 0.12, z_ + 0.12)
     for (dx, dz) in ((-1, -1), (1, -1), (1, 1), (-1, 1)): sh.a('pend').box(x + dx * 0.12 - 0.012, x + dx * 0.12 + 0.012, 0.0, 0.58, z_ + dz * 0.12 - 0.012, z_ + dz * 0.12 + 0.012)
@@ -185,11 +200,14 @@ for k in range(5):                                                              
     z = mz0 + 0.06 + k * (mz['d'] - 0.12) / 5; z2 = z + (mz['d'] - 0.12) / 5 - 0.05
     xf0.rbox(sh.a('vc'), mx0 - 0.015, mx0, 0.1, top - 0.12, z, z2, r=0.0, seg=1, col='#5a3e28')
     for j in range(4): zz_ = z + (j + 1) * (z2 - z) / 5; xf0.rbox(sh.a('vc'), mx0 - 0.02, mx0 - 0.012, 0.12, top - 0.14, zz_ - 0.006, zz_ + 0.006, r=0.0, seg=1, col=POST2)
-xf0.rbox(sh.a('post'), mx0 - 0.04, mx1, top - 0.05, top, mz0 - 0.02, mz1 + 0.02, r=0.01, seg=1)                            # 厚檯面（往西只多 4 cm）
+xf0.rbox(sh.a('post'), mx0 - 0.04, mx1, top - 0.05, top, mz0 - 0.02, mz1 + 0.02, r=0.01, seg=1)
+xf0.rbox(sh.a('vc'), mx0 - 0.045, mx0 + 0.02, top - 0.052, top + 0.001, mz0 - 0.02, mz1 + 0.02, r=0.0, seg=1, col='#2e1e12')   # v1d：檯面外緣磨深的那一條                            # 厚檯面（往西只多 4 cm）
 xf0.rbox(sh.a('vcm'), mx0 + 0.15, mx1 - 0.12, top - 0.004, top + 0.002, mz0 + 0.3, mz0 + 0.8, r=0.0, seg=1, col='#a8a8a4')  # 流理台
 Xf(mx1 - 0.15, mz0 + 0.55).cyl(sh.a('vcm'), (0, top, 0), (0, top + 0.28, 0), 0.012, col='#a8a8a4', seg=6)
 Xf(mz['x'], mz0 + 1.2, 0, top).lathe(sh.a('vcm'), [(0.0, 0.0), (0.08, 0.0), (0.085, 0.02), (0.075, 0.2), (0.04, 0.24), (0.0, 0.25)], 0, 0, 0, seg=12, col='#d8d8d4')   # 電熱水壺
-for k in range(5): tin(mz['x'] + 0.15, mz0 + 1.55 + k * 0.13, top, k, face=-math.pi / 2)
+for (dz, dx, k, hh, rr_) in ((1.55, 0.18, 0, 0.2, 0.055), (1.66, 0.05, 2, 0.13, 0.04), (1.83, 0.2, 5, 0.16, 0.048), (2.05, 0.12, 6, 0.24, 0.06)):   # v1d：檯面茶罐四個大小不一、不排成一列
+    tin(mz['x'] + dx, mz0 + dz, top, k, h=hh, r=rr_, face=-math.pi / 2 + (k - 3) * 0.12)
+Xf(mz['x'] + 0.15, mz0 + 2.0 - 0.15, -0.3, top).rbox(sh.a('vc'), -0.09, 0.09, 0.0, 0.08, -0.06, 0.06, r=0.008, seg=1, col='#6a4a30')   # 小木盒（茶則、茶匙）
 hg = Xf(mz['x'] - 0.15, mz0 + 2.3, 0, top)                                                                                  # 計時沙漏
 hg.rbox(sh.a('post'), -0.05, 0.05, 0.0, 0.015, -0.05, 0.05, r=0.0, seg=1); hg.rbox(sh.a('post'), -0.05, 0.05, 0.16, 0.175, -0.05, 0.05, r=0.0, seg=1)
 hg.lathe(sh.a('glass'), [(0.0, 0.015), (0.035, 0.03), (0.006, 0.0875), (0.035, 0.145), (0.0, 0.16)], 0, 0, 0, seg=10)
@@ -200,19 +218,28 @@ cp = Mesh('TRACE_SQ14_catphoto', sh.M['print'])                                 
 pxf = Xf(mz['x'] - 0.05, mz1 - 0.35, -math.pi / 2 + 0.25, top)
 pxf.quad(cp, [(-0.07, 0.0, 0.0), (0.07, 0.0, 0.0), (0.07, 0.17, -0.03), (-0.07, 0.17, -0.03)], uv=K.cell_uv(0, 2, 2, 2)); cp.finish(sh.root, uv=False)
 pxf.rbox(sh.a('post'), -0.08, 0.08, 0.0, 0.012, -0.05, 0.0, r=0.0, seg=1)
-for y in (1.35, 1.75):                                                                                                     # 東牆上的茶具層架
+rs = random.Random(1172)
+for y in (1.35, 1.75):                                                                                                     # 東牆上的茶具層架（v1d，H：每格不同、尺寸和位置都打散、有空位）
     xf0.rbox(sh.a('post'), X1 - 0.3, X1 - 0.01, y - 0.03, y, mz0 + 0.1, mz1 - 0.1, r=0.0, seg=1)
-    for k in range(9):
-        z = mz0 + 0.3 + k * (mz['d'] - 0.6) / 8; q = (k + int(y * 10)) % 4
-        if q == 0: teapot(X1 - 0.15, z, y, col=('#3a2418', '#6a4a30', '#2a2a2c')[k % 3], r=0.06)
-        elif q == 1: tin(X1 - 0.15, z, y, k + 3, face=-math.pi / 2)
-        elif q == 2:
-            for j in range(3): teacup(X1 - 0.15, z - 0.06 + j * 0.06, y + j * 0.0, col=('#e8e2d4', '#c8b898', '#8a9aa4')[j])
-        else: K.jar(sh, X1 - 0.15, z, y, h=0.18, r=0.06, col='#c8b898', lid='#5a3e28')
-for k in range(3): Xf(X1 - 0.18, mz0 + 0.6 + k * 1.0, 0, 2.12).rbox(sh.a('vc'), -0.12, 0.12, 0.0, 0.16, -0.18, 0.18, r=0.03, seg=1, col='#b8985a')   # 竹籃
+    z = mz0 + 0.2 + rs.uniform(0.0, 0.1)
+    while z < mz1 - 0.25:
+        q = rs.random(); xo = X1 - 0.15 + rs.uniform(-0.05, 0.05); sc = rs.uniform(0.75, 1.35)
+        if q < 0.1: z += rs.uniform(0.15, 0.3); continue
+        if q < 0.28: teapot(xo, z, y, col=rs.choice(('#3a2418', '#6a4a30', '#2a2a2c', '#8a5a3a')), r=0.06 * sc); z += 0.16 * sc
+        elif q < 0.45: tin(xo, z, y, rs.randint(0, 7), h=0.16 * sc, r=0.045 * rs.uniform(0.8, 1.2), face=-math.pi / 2 + rs.uniform(-0.4, 0.4)); z += 0.11 * sc
+        elif q < 0.6:
+            for j in range(rs.randint(2, 5)): teacup(xo + rs.uniform(-0.008, 0.008), z, y + j * 0.04, col=rs.choice(('#e8e2d4', '#c8b898', '#8a9aa4', '#3a3a3a')))   # 疊起來的茶碗
+            z += 0.1
+        elif q < 0.72: Xf(xo, z, rs.uniform(-0.4, 0.4), y).rbox(sh.a('vc'), -0.07 * sc, 0.07 * sc, 0.0, 0.1 * sc, -0.09 * sc, 0.09 * sc, r=0.006, seg=1, col=rs.choice(('#6a4a30', '#8a6a3a', '#4a3222'))); z += 0.2 * sc   # 木盒
+        elif q < 0.84: K.jar(sh, xo, z, y, h=0.18 * sc, r=0.06 * sc, col=rs.choice(('#c8b898', '#8a9aa4', '#5a6a5a')), lid='#5a3e28'); z += 0.14 * sc
+        else:                                                                                                       # 斜靠著的茶筅、茶杓
+            Xf(xo, z, 0, y).lathe(sh.a('vc'), [(0.0, 0.0), (0.025, 0.0), (0.03, 0.06), (0.012, 0.11), (0.0, 0.115)], 0, 0, 0, seg=8, col='#d8c8a0')
+            Xf(xo, z + 0.05).cyl(sh.a('vc'), (0, y, 0), (0.0, y + 0.2, 0.06), 0.006, col='#b89868', seg=4); z += 0.12
+        z += rs.uniform(0.03, 0.12)
+for (dz, w_, h_) in ((0.5, 0.11, 0.14), (1.45, 0.14, 0.2), (2.6, 0.09, 0.12)): Xf(X1 - 0.18, mz0 + dz, 0.2, 2.12).rbox(sh.a('vc'), -w_, w_, 0.0, h_, -w_ * 1.4, w_ * 1.4, r=0.03, seg=1, col=('#b8985a', '#a8884a', '#c8a868')[int(dz) % 3])   # 竹籃三個大小不一
 xf0.rbox(sh.a('post'), X1 - 0.3, X1 - 0.01, 2.09, 2.12, mz0 + 0.1, mz1 - 0.1, r=0.0, seg=1)
-pq = IT['plaque'][0]; sh.wall_img('right', 'print', pq['along'], pq['y'], pq['w'], pq['h'], K.cell_uv(0, 0, 1, 2), off=0.03)
-xf0.rbox(sh.w('right', 'post'), X1 - 0.03, X1 - 0.005, pq['y'] - pq['h'] / 2 - 0.03, pq['y'] + pq['h'] / 2 + 0.03, pq['along'] - pq['w'] / 2 - 0.03, pq['along'] + pq['w'] / 2 + 0.03, r=0.0, seg=1)
+pq = IT['plaque'][0]; sh.img_quad(sh.w('right', 'print'), Xf(X1 - 0.04, pq['along'], -math.pi / 2, 0.0), 0.0, pq['y'] - pq['h'] / 2, 0.0, pq['w'], pq['h'], K.cell_uv(0, 0, 1, 2))   # v1d：字面朝室內、放在兩根柱子中間
+xf0.rbox(sh.w('right', 'post'), X1 - 0.035, X1 - 0.005, pq['y'] - pq['h'] / 2 - 0.03, pq['y'] + pq['h'] / 2 + 0.03, pq['along'] - pq['w'] / 2 - 0.03, pq['along'] + pq['w'] / 2 + 0.03, r=0.0, seg=1)
 st = IT['stool_round'][0]; sxf = Xf(st['x'], st['z'])                                                                       # 語彤的木凳（座面 0.45）
 sxf.lathe(sh.a('post'), [(0.0, 0.42), (0.17, 0.42), (0.18, 0.45), (0.0, 0.46)], 0, 0, 0, seg=14)
 for k in range(3): a = k * 2.094; sxf.cyl(sh.a('post'), (math.cos(a) * 0.16, 0.0, math.sin(a) * 0.16), (math.cos(a) * 0.11, 0.42, math.sin(a) * 0.11), 0.02, seg=5)

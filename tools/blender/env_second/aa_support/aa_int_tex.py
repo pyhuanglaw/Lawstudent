@@ -678,7 +678,7 @@ def yzn():
     im = Image.new('RGB', (1024, 1024), '#e8dcc4'); d = ImageDraw.Draw(im)
     def vtext(x, y0, s_, f, fill, step):
         for k, ch in enumerate(s_): text_c(d, (x, y0 + k * step), ch, f, fill)
-    bx = box(0, 0, 1, 2); x0, y0, x1, y1 = bx; paper(im, bx, '#7a5a3a', rng, grain=0.25); d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#4a321e', width=4)
+    bx = box(0, 0, 1, 2); x0, y0, x1, y1 = bx; paper(im, bx, '#a8845a', rng, grain=0.06); d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#4a321e', width=4)   # v1b：木紋顆粒小一點，字看得清楚
     vtext((x0 + x1) / 2, y0 + 70, '一盞', F(64), '#1e140c', 96)
     bx = box(1, 0, 1, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#8a7a5a'); ix0, iy0, ix1, iy1 = x0 + 14, y0 + 26, x1 - 14, y1 - 26
     hh, ww = iy1 - iy0, ix1 - ix0; Y = np.arange(hh)[:, None]; X = np.arange(ww)[None, :]; g = np.zeros((hh, ww), np.float32) + 0.9

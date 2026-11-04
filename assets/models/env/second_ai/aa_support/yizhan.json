@@ -1,12 +1,12 @@
 {
  "objects": 25,
  "unique_meshes": 25,
- "tris": 12490,
- "tris_drawn": 12490,
+ "tris": 15156,
+ "tris_drawn": 15156,
  "materials": 18,
  "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/yzn/yizhan.glb",
- "bytes": 797116,
+ "bytes": 1005972,
  "texres": 512,
- "layout": 1,
+ "layout": 2,
  "zone": "wz_teahouse"
 }
