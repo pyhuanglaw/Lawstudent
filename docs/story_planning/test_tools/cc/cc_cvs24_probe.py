@@ -2,7 +2,7 @@
   公館（店門 (−29.4, 21)「進入便利商店」）、溫州街 A5（店門 (45.8, 3.8)「進入日和便利店」，wzshops3d.js AA413；出來回溫州街）。
   E 進店（每間 × 03:00、07:00、15:00、23:30）：
      【前置／捷徑】讀檔：那一區、店門前的路上、2025-09-23（二）那個時間、條件事件關閉。
-     → 真的走到店門口 → 按互動 → ①進得去（zone＝cvs）②沒有「打烊」之類的字（對話、toast）③卡住檢查 → 走到「離開便利商店」→ ④回到原本那一區（溫州街那間要回溫州街）
+     → 真的走到店門口 → 按互動 → ①進得去（zone＝cvs）②沒有「打烊」之類的字（對話、toast）③卡住檢查 → 走到「離開…」（v2：離開日和便利店）→ ④回到原本那一區（溫州街那間要回溫州街）
      03:00 用 G.hour＝3（當天清晨）。另外印一個 INFO：G.hour＝27（＝前一天沒睡的 03:00）會怎樣（遊戲 02:30 以後強制回宿舍，不判 FAIL，只記錄；見回報）。
   M 跨午夜（公館那間；WZ=1 時溫州街那間也跑）：
      【前置／捷徑】讀檔：便利商店裡 (0, 1.5)、23:50（溫州街那間另設 flags.CVS_FROM＝'wenzhou'，和從溫州街門口進去一樣）、條件事件關閉。
@@ -139,9 +139,9 @@ async def enter_case(pg, cdp, key, hour, errs, info27=False):
     await pg.screenshot(path=os.path.join(OUT, 'cvs_%s_inside.png' % tag))
     if s['zone'] != 'cvs': return
     await stuck_check(pg, cdp, tag + '_inside', fb0, e0, errs)
-    ex = await pg.evaluate(FIND_JS % J('離開便利商店'))
-    if not check('[%s] 店裡有「離開便利商店」' % tag, bool(ex), J(ex)): return
-    await L.go_to(pg, cdp, Run(), ex['x'], ex['z'], max(0.5, ex['r'] * 0.6), '離開便利商店')
+    ex = await pg.evaluate(FIND_JS % J('離開'))
+    if not check('[%s] 店裡有「離開…」（日和 v2 是「離開日和便利店」）' % tag, bool(ex), J(ex)): return
+    await L.go_to(pg, cdp, Run(), ex['x'], ex['z'], max(0.5, ex['r'] * 0.6), ex['label'])
     await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact')
     ok = await wait_js(pg, "GAME.G.zone!=='cvs'&&!GAME.E.player.busy", 45); await pg.wait_for_timeout(1500)
     s = await pg.evaluate(ST)
