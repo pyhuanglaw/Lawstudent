@@ -41,6 +41,8 @@ const walk=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0
 function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
   for(let dz=-r;dz<=r+1e-6;dz+=0.1) for(let dx=-r;dx<=r+1e-6;dx+=0.1){ const d=Math.hypot(dx,dz); if(d>r) continue; const x=it.x+dx, z=it.z+dz; if(E.canStand(x,z,0.32,0)) c.push([d,x,z]); }
   c.sort((a,b)=>a[0]-b[0]); for(const [,x,z] of c){ P.obj.position.set(x,0,z); if(E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,z]).ok) continue; return [r2(x),r2(z)]; } return null; }
+const g3=rd('src/game3d.js'), sa0=g3.indexOf('function seatApproach('), sa1=g3.indexOf("return best||[seat.x+fx*0.5,seat.z+fz*0.5]; }",sa0);   /* A3b：game3d.js 的 seatApproach 原文（同 tests/seat_approach_reach_unit.js）*/
+const seatApproach=new Function('E',g3.slice(sa0,sa1)+"return best||[seat.x+fx*0.5,seat.z+fz*0.5]; }\nreturn seatApproach;")(E);
 const W=WZ_SHOPS_LAYOUT, req=f=>{ delete require.cache[require.resolve(path.join(ROOT,f))]; return require(path.join(ROOT,f)); };
 const deq=(a,b)=>{ try{ require('assert').deepStrictEqual(a,b); return true; }catch(e){ return false; } };
 // ---- A0 ----
@@ -70,6 +72,13 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
   check('A3 '+L.name+'：出口「'+X.exit+'」按得到、從出生點走得到',!!ex&&ex.label===X.exit&&!!tp,J(ex&&[ex.label,ex.x,ex.z]));
   const bad=[]; for(const it of its.filter(i=>(i.seat&&i.shop===k)||i.wzShop===k)) if(!touchable(it,sp)) bad.push((it.label||it.kind)+'@'+r2(it.x)+','+r2(it.z));
   check('A3 '+L.name+'：每個座位、互動點都按得到、從出生點走得到（'+its.filter(i=>(i.seat&&i.shop===k)||i.wzShop===k).length+' 個）',!bad.length,bad.join(' '));
+  /* A3b「坐下」先走到的那一點（GAME.seatApproach，game3d.js 原文；和 tests/reachability_all.py 同一套：玩家在出生點算、引擎的 E.simWalk dt 1/30 與 0.1）——
+     上面的 touchable 只證明「按鈕按得到」，按下去以後走的是 seatApproach 的點：SUNNY SIDE table 4 北側 (1.9, 0.0) 一張候選全站不住、退回椅子正前方 0.5 m (1.9, 0.5)＝桌子裡，
+     走到一半卡在 (2.4, 1.25)（CC 在使用者電腦 reachability_all，dac871e25，cc-testing 2ef943d99 CC_01）。2026-11-04 加；修改前 FAIL */
+  { const P=E.player.obj.position, badAp=[]; P.set(sp[0],0,sp[1]);
+    for(const it of its.filter(i=>i.seat&&i.shop===k)){ const ap=seatApproach(it.seat), w=walk(sp,ap), stand=E.canStand(ap[0],ap[1],0.3,0), inR=Math.hypot(ap[0]-it.x,ap[1]-it.z)<(it.radius||1.8)-0.05;
+      if(!stand||!inR||!w.ok) badAp.push('('+r2(it.seat.x)+','+r2(it.seat.z)+')→('+r2(ap[0])+','+r2(ap[1])+')'+(stand?'':' 站不住')+(inR?'':' 不在按鈕範圍')+(w.ok?'':' 走不到 '+J({dt:w.dt,at:[r2(w.x),r2(w.z)]}))); P.set(sp[0],0,sp[1]); }
+    check('A3b '+L.name+'：每個座位「坐下」先走到的點（GAME.seatApproach）站得住、在按鈕範圍、從出生點走得到（dt 1/30、0.1；同 reachability_all）',!badAp.length,badAp.join(' ')); }
   // A5 孤島
   { const n=z.nav, a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1), minx=Math.min(a[0],b[0]), maxx=Math.max(a[0],b[0]), minz=Math.min(a[1],b[1]), maxz=Math.max(a[1],b[1]), h=0.1;
     const Wd=Math.floor((maxx-minx)/h)+1, Hd=Math.floor((maxz-minz)/h)+1, St=new Uint8Array(Wd*Hd), lab=new Int32Array(Wd*Hd).fill(-1), comps=[];
