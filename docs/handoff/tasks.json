@@ -46171,7 +46171,7 @@
    "title": "tools/ladder/import_ladder.py 在現在的白名單上跑不完：停在 AA_630 L-134（ladder_aa_y3s1 已照 AA_657 改成「常來的那個阿伯」，對不上）",
    "area": "TOOLS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "META",
@@ -46186,7 +46186,9 @@
    "source": "AA664 台詞八批子代理 11-04 17:5x 回報（AA670 改成直接改 ladder.js）",
    "authorized": "D85",
    "notWaitUser": "工具修正，不用問使用者",
-   "next": "把 AA_657 的換字（常來的那個阿伯）放進 read_fix 的 fix 檔或白名單換到改過的源檔，讓 import_ladder.py 重新跑得完；重匯以後 ladder.js 應該和現在一字不差"
+   "next": "【LAWWW-C 11-04 21:0x】完成 3d53aff1b：tools/story/aa657_fix.json（AA_657 補二八句，企劃線 65a1b2fe9）進 read_fix 兩份清單（排在 aa630 後面）；import_ladder.py 跑得完（原本停在 AA_630 L-134）、加 --out；重匯的 ladder.js 和原本只差來源字串、一個開發註解、三個和 social3d.js 重複的記憶名稱（玩家看到的不變）；tests/ladder_reimport_unit.js 修改前 FAILED 5、修改後 ALL PASS；讀稿換字表相關 197 支、回覆池相關 132 支 0 失敗。只改工具，不需要瀏覽器｜把 AA_657 的換字（常來的那個阿伯）放進 read_fix 的 fix 檔或白名單換到改過的源檔，讓 import_ladder.py 重新跑得完；重匯以後 ladder.js 應該和現在一字不差",
+   "sha": "3d53aff1b",
+   "evidence": "tests/ladder_reimport_unit.js、tests/msg_gen_reimport_unit.js（重產＝遊戲檔一字不差）；3d53aff1b"
   },
   {
    "id": "V7-RELOCATE-1104",
@@ -46268,7 +46270,7 @@
    "title": "msg2_pool.js 的產生器（build_msg2.py → to_js2.py）和遊戲檔差 8 行：重產會把語彤 7 行（AA_630／AA_627）、阿哲「今天燒臘店我請」（AA_612）退回舊句；msg_pool 的 build_pool.py 還讀 AA_202@b10d0567f（白名單已換 3b5043eef）",
    "area": "TOOLS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "META",
@@ -46283,7 +46285,9 @@
    "source": "台詞第 671b～683 批子代理 11-04 19:0x 回報",
    "authorized": "D85",
    "notWaitUser": "工具修正，不用問使用者",
-   "next": "產生器補上 AA_612／AA_627／AA_630 的換字（read_fix 或源檔），讓重產和現在的 msg2_pool.js 一字不差；build_pool.py 的來源換 3b5043eef 重產、確認 msg_pool.js 不變"
+   "next": "【LAWWW-C 11-04 21:0x】完成 3d53aff1b：to_js.py／to_js2.py 寫檔前句子照 read_fix 換（原本重產 msg2_pool 退回 8 行、msg_pool 退回 4 行）、MSG_JS_OUT；gen_aa630_fix.py「選項「…」」的格先拿掉「選項」（aa630_fix.json 只差這一組：選項「回去請妳喝茶。」）、加 --out；build_pool.py 的 AA_202 換白名單上的 3b5043eef（第 6 節不變，msg_pool.js 只差來源 SHA）；tests/msg_gen_reimport_unit.js 修改前 FAILED 16、修改後 ALL PASS；回覆池相關 132 支 0 失敗。只改工具，不需要瀏覽器｜產生器補上 AA_612／AA_627／AA_630 的換字（read_fix 或源檔），讓重產和現在的 msg2_pool.js 一字不差；build_pool.py 的來源換 3b5043eef 重產、確認 msg_pool.js 不變",
+   "sha": "3d53aff1b",
+   "evidence": "tests/ladder_reimport_unit.js、tests/msg_gen_reimport_unit.js（重產＝遊戲檔一字不差）；3d53aff1b"
   },
   {
    "id": "SEATFIG-LOD1-HAIR-1104",
