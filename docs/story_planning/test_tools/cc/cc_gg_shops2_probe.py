@@ -96,6 +96,10 @@ GG2IT_JS = """(([k,kind])=>{ const it=GAME.E.interactables.find(i=>!i.hidden&&i.
 SI_JS = """(k=>{ const q=Z3.SHOP_IN&&Z3.SHOP_IN[k]; return q?{x:q.x,z:q.z,out:q.out}:null; })(%s)"""
 SEATLINE_JS = """(([k,x,z])=>(typeof GG2!=='undefined'&&GG2.seatLine)?GG2.seatLine(k,{x,z}):null)(%s)"""
 NOSIT_JS = """(k=>{ const L=k==='afar'?AFAR_LAYOUT:DAYBREAK_LAYOUT; const its=GAME.E.interactables.filter(i=>i.seat); return L.seats.filter(s=>!its.some(q=>Math.abs(q.seat.x-s.x)<0.05&&Math.abs(q.seat.z-s.z)<0.05)).map(s=>({x:s.x,z:s.z,table:s.table,seatH:s.seatH||null, near:its.filter(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.6).map(q=>[q.label,+q.seat.x.toFixed(2),+q.seat.z.toFixed(2)])})); })(%s)"""
+DOORDIAG_JS = """(k=>{ const G=GAME.G, D=GAME.D||{}, q=f=>{ try{ return f(); }catch(e){ return 'ERR '+String(e).slice(0,50); } }, dl=document.getElementById('dlg');
+  return {t:+(performance.now()/1000).toFixed(1), zone:G.zone, hour:+(+G.hour).toFixed(3), doorDue:q(()=>GG2.doorDue(GAME)), sceneFree:q(()=>typeof INV!=='undefined'&&INV.sceneFree?INV.sceneFree(GAME):'no INV.sceneFree'),
+    alone:q(()=>GG2.alone(G,k)), isOpen:q(()=>GG2.isOpen(k,G)), GG2_DOOR:q(()=>(G.flags||{}).GG2_DOOR||null), enterN:GAME.enterN|0, busyDepth:D.busyDepth|0, dActive:!!D.active, pbusy:!!(GAME.E.player&&GAME.E.player.busy),
+    phone:q(()=>!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())), titleIdle:!!GAME.titleIdle, dlg:!!(dl&&!dl.classList.contains('hide')), dlgText:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60)}; })(%s)"""
 HRS_JS = """(k=>({text:(PLACES.hours[k]||{}).text||null, typhoonShop:PLACES.typhoonShops.includes(k)}))(%s)"""
 
 
@@ -156,6 +160,12 @@ async def case_door(pg, cdp, errs, k):
     check('[%s] 走到店門口：按鈕是「%s」' % (tag, S['door']), s['interact'].startswith(S['door']), J({q: s[q] for q in ('x', 'z', 'interact')}))
     await L.tap(pg, cdp, '#interact')
     ok = await GI.wait_js(pg, "GAME.G.zone===%s" % J(S['zone']), 60)
+    if os.environ.get('DOORDIAG') == '1':   # CC-C 11-04：進門句沒出來——進店後 10 秒內每 0.5 秒記 GG2 進門的條件（doorDue／sceneFree／alone／GG2_DOOR／enterN）
+        for i in range(20):
+            dg = await pg.evaluate(DOORDIAG_JS % J(S['zone']))
+            print('  [%s] 進店 +%.1fs：%s' % (tag, i * 0.5, J(dg)), flush=True)
+            if dg.get('dlg') or dg.get('GG2_DOOR'): break
+            await pg.wait_for_timeout(500)
     lines, menus, odd = await GI.converse(pg, cdp, tag + '_in', None, 60)
     s = await pg.evaluate(GI.ST)
     check('[%s] 進店（zone %s）' % (tag, S['zone']), ok and s['zone'] == S['zone'], J({q: s[q] for q in ('zone', 'x', 'z')}))
