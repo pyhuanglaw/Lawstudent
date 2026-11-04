@@ -2428,7 +2428,8 @@
   - **木曜日之後改從 LAWWW2 分支（claude/second-ai-env-art）那一份開始**：LAWWW2 v3c 把樓梯間往北加長（stairWell z0 2.03、店門改東邊隔間牆、西牆書櫃縮短、table 3 北移 0.35）；企劃線這一份的 mokuyobi_layout.js 已過時。
   - 公館四間新店（使用者 11-04，AA_647，GG-SHOPS-REDO-1104）：
     - AA 做的室內：頁間書屋 v2（a6d78f484），LAWWW2 已收（MODEL_READY）；還剩兩點不擋，等 LAWWW2 在遊戲裡截圖。
-    - 青木茶室 v2（1fcd9a695），已交 LAWWW2（READY_FOR_REVIEW）。照 LAWWW2 外觀，店寬 9.2 m、22 席，配置在 src/data/aoki_layout.js，新區域 aoki。v1（e1773695d）作廢。
+    - 青木茶室 v2b（16c1c6f16），LAWWW2 11-04 01:57 收（MODEL_READY）。LAWWW 接區域時用這個 commit 的 aoki.glb 和 aoki_layout.js。照 LAWWW2 外觀，店寬 9.2 m、22 席，新區域 aoki。v1（e1773695d）、v2（1fcd9a695）都被取代了。
+    - AA 這兩間的美術支援做完了，下一項照 LAWWW 的佇列。
     - 日和便利店、慢輪單車由 BB／CC 做。
   - 已寫好的台詞：AA_648 §6（adf1c2f78）期末聚餐坐長桌，已回 BB；AA_649 約念書（X207），已回 LAWWW。
   - 店內偶遇第二批（新生南路的店、木曜日、日常失速、118 巷）——AA_632 第 4 節。
