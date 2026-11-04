@@ -75,7 +75,7 @@ const SOCIAL = (function(){
      AA_363 T4：畢業以後資料頁一律不回到學年的規則——表上沒有新的一列（或那一列是 null）就沿用最後一列（所有畢業的人；明軒 2030-08-01 以後照樣「德國」）。
      2029-06-02～08-31 表還沒開始＝照原本的年級寫法（照現在）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。
      學姊「研究單位」、方奕廷「嘉義」是 AA_267 附錄 C18 的建議，AA 採用 */
-  S.PG_TAG={ heroine_01:[['2029-09-01','首都帝大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
+  S.PG_TAG={ heroine_01:[['2029-09-01','首都帝大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','2:30 AM']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
     heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','大學研究中心（助理）']], kexin:[['2029-09-01','木柵大學法律系畢業'],['2029-12-14','律師（職前訓練）']],
     zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','首都帝大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國']],
     yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']],
@@ -112,7 +112,7 @@ const SOCIAL = (function(){
   /* 停用的事件（events.js 的 retired，例：書記官那一段 ev_an_mother）留下的記憶：人物面板只寫標籤（「聊過家裡的事」），不寫舊備註；存檔不改（AA 2026-10-14）*/
   let retiredNotes=null;
   /* 記憶的備註是地點 id 的（SOCIAL.meet 記的 where：camp、dorm、wancai…）→ 人物面板顯示中文（AA_205 6-14 程式 3）*/
-  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'兩點半 Café',cvs:'便利商店',noodle:'公館燒臘',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'家'};
+  S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'法律系館B',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'法律系館A',library:'總圖',library_hall:'總圖',cafe:'2:30 AM',cvs:'便利商店',noodle:'公館燒臘',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博思教學館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'家'};
   S.dayLabel=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const d=CALENDAR.dateOf(day); if(d&&d.m) return d.m+'/'+d.d; } return '第 '+day+' 天'; };   /* 人物面板的記憶：日期（8/22），不是「第 -25 天」*/
   /* AA380 改名 Alison（使用者 10-21 23:2x「改成Alison」）：舊存檔裡已經存下的字還是舊名（\u5c0f\u8a9e）——顯示的時候照匯入工具同一套規則換（Alison 和中文字之間半形空格、挨標點不空；tools/story/import_guard.py 的 alison），存檔不改（同 filmRename）*/
   const ALISON_OLD=/\u5c0f\u8a9e/g, ALISON_CJK=/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]/;

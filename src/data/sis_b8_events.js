@@ -18,7 +18,7 @@ const SISB8_EVENTS=(function(){
   return [
     /* ---------- 第 1 節：2026-08-14（五）15:00 兩點半 Café：大二的選課 ---------- */
     { id:'ev_sis_course_y2', title:'大二的選課', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-      dialogue:[ {scene:'兩點半 Café',bg:'cafe'},
+      dialogue:[ {scene:'2:30 AM',bg:'cafe'},
         N('（她把你的課表印出來，用紅筆在上面畫。）'),
         SIS('債總選周老師那班。他會點人，你會被逼著想。'),
         SIS('這樣排可以。'),

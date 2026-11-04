@@ -3842,7 +3842,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_01',expression:'serious',text:'……謝謝學姊。我想先回去了。'},
       {speaker:'heroine_05',expression:'serious',text:'等一下。'},
       {speaker:'heroine_05',expression:'serious',text:'我們明天一起找他。'} ] },
-  { id:'ev_two_hearts_cafe', title:'兩點半 Café，打烊後', participants:['heroine_05','heroine_01'], location:'cafe', trigger:'enter', once:true, background:'blur',
+  { id:'ev_two_hearts_cafe', title:'2:30 AM，打烊後', participants:['heroine_05','heroine_01'], location:'cafe', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.twoHeartsCafeDue&&STORY.twoHeartsCafeDue(G)}, after:(G,GM)=>{ if(typeof STORY!=='undefined'&&STORY.twoHeartsPick) STORY.twoHeartsPick(G,GM); },
     dialogue:[ {speaker:null,text:'（學姊和以安坐在同一張桌子的兩邊。你走進去的時候，她們同時抬頭。）'},
       {speaker:'heroine_05',expression:'serious',text:'坐。'},

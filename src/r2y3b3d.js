@@ -413,7 +413,7 @@ const R2Y3B=(function(){
   S.anBackPhone=function(G){ const F=G.flags, d5=D(AB_K.ret), d6=D(AB_K.nb); if(d5==null||isJP(G)) return;
     const away=typeof STORY!=='undefined'&&STORY.abroad?STORY.abroad(Object.assign({},G,{day:d5})):false;
     if(dating(G,'heroine_01')&&!away&&G.day>=d5-1&&G.day<=d5&&!outGet(G,'y3_an_airport')&&now(G)<T(d5,16)) plan(G,{id:'y3_an_airport',ev:'ev_an_airport_y3',day:d5,h:15,late:1,place:'桃園機場・入境大廳',title:'桃園機場（接以安）',travel:'捷運 約 1 小時',travelH:1,back:'回到臺北。'});
-    if(F.AN_TANABATA==='confess'&&dating(G,'heroine_01')&&!away&&d6!=null&&G.day>=d6-1&&G.day<=d6&&!outGet(G,'y3_an_notebook')&&now(G)<T(d6,16.5)) plan(G,{id:'y3_an_notebook',ev:'ev_an_notebook',day:d6,h:16,late:0.5,place:'兩點半 Café・窗邊',title:'和以安：兩點半 Café',travel:'走過去約 10 分鐘',travelH:1/6}); };
+    if(F.AN_TANABATA==='confess'&&dating(G,'heroine_01')&&!away&&d6!=null&&G.day>=d6-1&&G.day<=d6&&!outGet(G,'y3_an_notebook')&&now(G)<T(d6,16.5)) plan(G,{id:'y3_an_notebook',ev:'ev_an_notebook',day:d6,h:16,late:0.5,place:'2:30 AM・窗邊',title:'和以安：2:30 AM',travel:'走過去約 10 分鐘',travelH:1/6}); };
 
   /* ===================== 2-Y3-54 大三暑假（AA_185 1-3，AA_326 2-Y3-54）===================== */
   const rk=G=>isJP(G)?'JP':(isUS(G)?'US':'TW');   /* 路線（還沒定＝台灣）*/
@@ -554,7 +554,7 @@ const R2Y3B=(function(){
       return P; };
     const pd0=TERMEND.planDinner; TERMEND.planDinner=function(G,w,who,kind){
       if(kind==='heart'&&w&&w.id==='Y3S2'&&S.special(G,who)==='z13'&&typeof OUT!=='undefined'){ const day=TERMEND.dinnerDay(G,w,{h:22,wd:4},who); if(day==null) return false;   /* 6/15（四）22:00（她 6 月照排週三、四晚班）*/
-        return OUT.plan(G,{id:'te_'+w.id,ev:'ev_termend_dinner',day,h:22,late:1,place:'兩點半 Café 打烊以後',title:'學期末的飯：'+nm(who)+'（兩點半 Café 打烊以後）',travel:'走過去約 15 分鐘',travelH:0.25,te:{term:w.id,who,kind,special:'z13'}}); }
+        return OUT.plan(G,{id:'te_'+w.id,ev:'ev_termend_dinner',day,h:22,late:1,place:'2:30 AM 打烊以後',title:'學期末的飯：'+nm(who)+'（2:30 AM 打烊以後）',travel:'走過去約 15 分鐘',travelH:0.25,te:{term:w.id,who,kind,special:'z13'}}); }
       const r=pd0.apply(this,arguments); if(kind==='heart'&&w&&w.id==='Y3S2'&&S.special(G,who)==='q15'){ const q=outGet(G,'te_'+w.id); if(q&&q.te&&q.te.who===who) q.te.special='q15'; } return r; };
     const dn0=TERMEND.dinner; S._dn0=dn0; TERMEND.dinner=async function(GM,q){ if(q&&q.te&&q.te.special==='z13') return S.z13Dinner(GM,q); return dn0.apply(this,arguments); };
     const wh0=TERMEND.walkHome; TERMEND.walkHome=async function(GM,who,term){ if(who==='heroine_04'&&term==='Y3S2'&&S.special(GM.G,who)==='q15'&&!S.knowsOther(GM.G,who)) return S.q15Walk(GM,who,term); return wh0.apply(this,arguments); };   /* 排好以後才知道（AA_474 3b）：一般的回家路上（知情版由 multirel3d.js 先接）*/
@@ -580,7 +580,7 @@ const R2Y3B=(function(){
   S.z13BringDue=G=>{ const q=S.z13Out(G); return !!q&&!q.arrived&&q.state!=='done'&&now(G)>=T(q.day,23)&&now(G)<T(q.day+1,6)&&G.flags.Z13_BROUGHT==null; };
   S.z13Bring=async function(GM,o){ const G=GM.G, q=S.z13Out(G); if(!q||!S.z13BringDue(G)) return false; G.flags.Z13_BROUGHT=G.day; q.state='done';
     GM.sceneBegin(); try{ if(o&&o.fromHome&&typeof HOME!=='undefined'&&HOME.rec){ const H=HOME.rec(G); H.at=false; H.wakeAsk=null; }
-      if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title||'兩點半 Café 打烊以後','',2000);
+      if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title||'2:30 AM 打烊以後','',2000);
       if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); await GM.fade(false);
       await GM.say(null,XT().Z13_TXT.bring);
       await S.z13Dinner(GM,q);

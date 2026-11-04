@@ -36,7 +36,7 @@ const GUIDE=(function(){
     [/萬才館|法律系館B/, {zone:'wancai',name:'法律系館B'}],
     [/共同教學館/, {zone:'campus',label:'共同教學館',name:'共同教學館'}],
     [/大一女舍|女舍/, {zone:'campus',label:'大一女舍 A 棟（傳達室）',name:'大一女舍'}],
-    [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'兩點半 Café'}],
+    [/溫州街|兩點半|Café|咖啡廳/, {zone:'cafe',name:'2:30 AM'}],
     [/自習區|總圖/, LIB2F],
     [/麵店|燒臘/, {zone:'noodle',name:'公館燒臘'}],
   ];

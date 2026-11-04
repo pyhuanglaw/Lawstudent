@@ -192,7 +192,7 @@ const SISB13_EVENTS=(function(){
         {set:{SIS_THESIS_COPY:true}} ] },
     /* ---------- 第 2 節第 8 點：2/1 15:00 Café（出遊，2D）---------- */
     { id:'ev_sis13_feb_plan', title:'二月那一頁', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'兩點半 Café',bg:'cafe'},
+      dialogue:[ {scene:'2:30 AM',bg:'cafe'},
         N('（她把計畫本攤開在二月那一頁。你們一格一格填。）'),
         N('（填到週日那一格，她停下來，把筆遞給你。）'),
         SIS('這天你排。'),

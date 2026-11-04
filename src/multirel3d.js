@@ -868,7 +868,7 @@ const MREL=(function(){
   S.zzStartHook=function(G,x){ const F=G.flags||{}; if(F.ZQ_ZR_ENDED_DAY==null||(x!==ZQ&&x!==ZR)||F.RESTART_WITH) return; F.RESTART_WITH=x; S.rec(G).zz.tellAt=T(G.day,(+G.hour||0)+0.25); S.rec(G).zz.tellWho=x; };   /* 重新交往的那一位自己告訴另一位（BB_194 22-3）*/
   S.zzCap=function(G){ const F=G.flags||{}; if(!F.RESTART_WITH||typeof SOCIAL==='undefined'||!SOCIAL.rel) return; const o=F.RESTART_WITH===ZQ?ZR:ZQ, r=SOCIAL.rel(o); if((+r.npcRom||0)>=30) r.npcRom=29; };   /* 另一位：戀愛停在第 4 階以下 */
   S.zzTick=function(G){ if(!law(G)) return null; const Z=S.rec(G).zz, t=now(G);
-    if(S.bellDue(G,S._gm)) return {k:'zz_bell',x:ZR,cap:'兩點半 Café・打烊前',run:async GM=>S.zzBell(GM)};   /* 門鈴（I10）*/
+    if(S.bellDue(G,S._gm)) return {k:'zz_bell',x:ZR,cap:'2:30 AM・打烊前',run:async GM=>S.zzBell(GM)};   /* 門鈴（I10）*/
     if(S.zzDue(G)) return {k:'zz_friday',cap:'週五下午，校園',bg:'ntu_avenue',cut:true,run:async GM=>S.zzFriday(GM)};
     if(Z.calloutAt!=null&&!Z.callout&&t>=Z.calloutAt&&!S.heAbroad(G)) return {k:'zz_callout',x:ZQ,bg:'phone_street_night',run:async GM=>S.zzCallout(GM)};
     if(Z.splitZrAt!=null&&!Z.splitZr&&Z.callout&&t>=Z.splitZrAt&&!S.heAbroad(G)) return {k:'zz_split_zr',x:ZR,cap:'Café 打烊',run:async GM=>S.zzSplitZr(GM)};

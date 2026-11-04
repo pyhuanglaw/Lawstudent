@@ -51,9 +51,9 @@ const POOL_STORY=(function(){
       where:[ {days:[3],from:12+10/60,to:12+40/60,zone:'classroom',act:'linger',at:[1.2,6.9,-1.2,0],terms:['Y1S1'],weeks:[7],noHoliday:true,pri:true,door:true,desc:'總是最後進教室的人',label:'教室門口'},   /* 5-3：期中考前一週的週三下課（大一上第 7 週週三，刑總 9:10～12:10 在霖澤館 201）在教室門口 */
         {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'法律系館A一樓，迎新'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
       cls:{door:true,seat:[5,0],desc:'總是最後進教室的人'} },   /* 上課前 10 分鐘在教室門口（霖澤館 201 的後門口；其他教室沒有門口的站位＝直接坐）、上課時坐最後一排（表上只寫門口：她是同班同學，上課照樣在）*/
-    pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'兩點半 Café',
+    pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'2:30 AM',
       model:'char.npc_nf9', props:['folder'],   /* 抱著一疊講義＝folder；撥片鑰匙圈沒有 */
-      where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'兩點半 Café'} ] },
+      where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'2:30 AM'} ] },
     pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰影大道',
       model:'char.npc_nm9', props:['camera_film'],   /* 底片相機＝camera_film（背帶照這個底模量過，換底模要重量；NPC-POOL-ART-1028）；格子襯衫沒有（衣服，D99）*/
       where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'法律系館A穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/

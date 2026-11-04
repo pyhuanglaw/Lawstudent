@@ -261,7 +261,7 @@ const SUP497=(function(){
     { const mon=termDay('Y2S2',2,1); if(mon!=null&&!S.secondDone(G)&&dmOK(G,XC)&&!F.XC_FIX_ASKED){ const tue=mon+1;   /* 補救：第 15 週還沒演（Y2S1 已經結束）、大二下第 2 週週一 21:00 她約 */
         if(S.at(G,XC,mon,21,[dm(XC,L.xc.fix.ask,{ask:askOf('xc_fix',[{t:L.xc.fix.opts[0],fix:'yes'},{t:L.xc.fix.opts[1],say:[say1(XC,L.xc.fix.no)],set:{XC_FIX:'no'}}],{until:T(tue,15.5)})})],'xc_fix')) F.XC_FIX_ASKED=G.day; } } };
   S.onFix=function(G,m,o){ if(!xcOld()||!m||!m.ask||m.ask.id!=='xc_fix'||!o||o.fix!=='yes'||typeof INV==='undefined'||!INV.accept) return; G.flags.XC_FIX='yes'; const tue=m.day+1;
-    const iv=INV.accept(G,XC,'cafe',tue,16,{by:'npc'}); if(iv){ iv.ev='ev_xinci_second_day'; iv.label='和'+nameOf(XC)+'約在兩點半 Café'; } };
+    const iv=INV.accept(G,XC,'cafe',tue,16,{by:'npc'}); if(iv){ iv.ev='ev_xinci_second_day'; iv.label='和'+nameOf(XC)+'約在 2:30 AM'; } };
   /* 2-4 她爸爸（2027-04-23（五）17:30～18:00，霖澤館門口，有點熟以上；一次）；當晚 22:00 私訊 */
   S.DAD_AT={x:34,z:-109};   /* 霖澤館穿堂的門口（zones3d.js：進入霖澤館 (34＋lobby.x, −112＋lobby.z)）*/
   S.DAD={ id:'ev_xc_dad', title:'銀色的車', participants:[XC], location:'campus', trigger:'auto', once:true, time:[17.5,18], background:'blur', near:{x:34,z:-109,r:7},

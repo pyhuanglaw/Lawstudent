@@ -11,7 +11,7 @@ const WZ_JOBS_DATA=(function(){
   return {
     /* ---------- 三家店（AA_164 第 2 節）：班表、時段（AA_420 2-1：早午餐＝上午、茶屋＝下午、影印＝晚上）、老闆 ---------- */
     shops:{
-      brunch:{ name:'半熟早午餐', short:'半熟', zone:'wz_brunch', boss:'小米姐', bossId:'wz_mi', days:[6,7], t0:7.5, t1:11.5, period:'am', title:'半熟的班（07:30～11:30）', travel:'走過去約 15 分鐘', place:'溫州街・半熟早午餐',
+      brunch:{ name:'SUNNY SIDE', short:'SUNNY SIDE', zone:'wz_brunch', boss:'小米姐', bossId:'wz_mi', days:[6,7], t0:7.5, t1:11.5, period:'am', title:'SUNNY SIDE 的班（07:30～11:30）', travel:'走過去約 15 分鐘', place:'溫州街・SUNNY SIDE',
         desk:{x:2.2,z:-2.1,label:'廚房門口'} },
       copy:{ name:'阿德影印輸出', short:'阿德影印', zone:'wz_print', boss:'阿德', bossId:'wz_ade', days:[2,3,4], t0:18, t1:22, period:'ev', title:'阿德影印的班（18:00～22:00）', travel:'走過去約 15 分鐘', place:'溫州街・阿德影印輸出',
         desk:{x:1.05,z:0.9,label:'櫃台'}, ot:{t0:21,t1:24,title:'阿德影印・考試週加班（21:00～24:00）'} },
@@ -19,7 +19,7 @@ const WZ_JOBS_DATA=(function(){
         desk:{x:2.95,z:1.3,label:'水屋'} },
       /* 兩點半 Café 外場、舊路書房（AA_431 第 2 節，企劃線 f00b9e9f1）：一週兩天、每天的時間不同（hours：週幾→[開始, 結束]）；四小時 784 元（AA_289 第 2 節時薪 196）；
          x：一班三段工作照 AA_431 的表（JOBS.runShiftX），小事件照 AA_289 3-1、3-2（下面的 x）。contact＝手機上老闆的名字（系統字）；title、travel 是系統字 */
-      cafe:{ name:'兩點半 Café', short:'Café', zone:'cafe', boss:'老闆', bossId:'cafe_boss', contact:'兩點半的老闆', days:[4,6], hours:{4:[18,22],6:[14.5,18.5]}, title:'Café 的班', travel:'走過去約 15 分鐘', place:'兩點半 Café',
+      cafe:{ name:'2:30 AM', short:'Café', zone:'cafe', boss:'老闆', bossId:'cafe_boss', contact:'兩點半的老闆', days:[4,6], hours:{4:[18,22],6:[14.5,18.5]}, title:'Café 的班', travel:'走過去約 15 分鐘', place:'2:30 AM',
         desk:{x:2.0,z:4.6,label:'門上的告示'}, pay:784, payToast:'Café 薪水 784 元', x:true },
       books:{ name:'頁間書屋', short:'頁間書屋', zone:'bookstore', boss:'老闆', bossId:'books_boss', contact:'頁間書屋的老闆', days:[6,7], hours:{6:[10,14],7:[13,17]}, title:'頁間書屋的班', travel:'走過去約 15 分鐘', place:'公館・頁間書屋',
         desk:{x:1.9,z:3.9,label:'門上的告示'}, pay:784, payToast:'頁間書屋 薪水 784 元', x:true },
