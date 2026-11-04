@@ -800,9 +800,12 @@ const Z3 = (function(){
       addCol(cx,FZ+ARC+0.3+(SHOPD-ARC-0.3)/2,W,SHOPD-ARC-0.3,0,b.userData.h+1); addCol(cx,FZ+(ARC+0.3)/2,W,ARC+0.3,GH-0.35,b.userData.h+1);
       const ix=x+s.w/2;
       if(s.type==='noodle') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入公館燒臘',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
-      if(s.type==='tea') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'});
-      if(s.type==='book') E.interactables.push({x:s.door!=null?s.door:ix,z:FZ+2,radius:2.2,label:'進入頁間書屋',exit:{to:'bookstore',spawn:{x:0,z:4,yaw:Math.PI}}});   /* door：頁間書屋的門在店面最左邊（LAWWW2 新外觀 fb5d7f367；2026-11-04 從店面中間 −41.6 移到 −36.4，z 照舊）*/
-      if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:{x:0,z:3.4,yaw:Math.PI}}});
+      /* 青木茶室進得去坐（GG-SHOPS-REDO-1104，AA_647 第 1 節；新區域 aoki，配置 src/data/aoki_layout.js）：門在店面中間偏西（配置的門 x 1.85＝世界 cx−1.85，房間轉 180°）；
+         外帶的點餐（AA_647 第 6 節的三種茶）移到店裡吧台東端的「點茶」。沒有 aoki 區域（配置檔沒載入）時照舊是門口的「買一杯飲料」 */
+      if(s.type==='tea'){ if(ZONES.aoki) E.interactables.push({x:+(cx-SHOP_IN.aoki.door).toFixed(2),z:FZ+2,radius:2.2,label:'進入青木茶室',exit:{to:'aoki',spawn:inSp('aoki')}});
+        else E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'}); }
+      if(s.type==='book') E.interactables.push({x:s.door!=null?s.door:ix,z:FZ+2,radius:2.2,label:'進入頁間書屋',exit:{to:'bookstore',spawn:inSp('bookstore')}});   /* door：頁間書屋的門在店面最左邊（LAWWW2 新外觀 fb5d7f367；2026-11-04 從店面中間 −41.6 移到 −36.4，z 照舊）*/
+      if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:inSp('cvs')}});   /* 進門站的地方照配置（SHOP_IN；GG-SHOPS-REDO-1104）*/
       x=X1; });
     /* 輪轉單車（G06，正對校門；LAWWW2-B 2026-10-16，原本是「眼鏡・手機維修」）：店名虛構（D77）。街景——載妹墊開局就有（使用者 10-16，D78），不用在這裡裝、沒有互動點。
        騎樓靠櫥窗停三台（和店面平行，騎樓還有 1.6 m 寬可以走；店門口 x −2.1～1.7 不放車）、櫥窗裡兩台、騎樓外一塊立牌。
@@ -1865,8 +1868,74 @@ const Z3 = (function(){
       if(night) for(const side of [-1,1]) for(const s1 of [0.48,0.26,0.14]){ const p=P(side,s1,0.5); const px=VX+(p[0]-VX)*0.74; const g=x.createRadialGradient(px,p[1],0,px,p[1],60*s1+6); g.addColorStop(0,'rgba(255,214,150,0.9)'); g.addColorStop(1,'rgba(255,214,150,0)'); x.fillStyle=g; x.fillRect(px-70,p[1]-70,140,140); }
       if(!night){ x.fillStyle=dusk?'rgba(255,170,90,0.10)':'rgba(255,255,255,0.08)'; x.fillRect(0,0,W,H); } });
     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
+  /* ---------- 公館三間新室內（GG-SHOPS-REDO-1104；USER_WANTS X206；AA_647；LAWWW2 驗收 MODEL_READY）----------
+     日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v3，story-planning 53275eaf4）、
+     頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v2，a6d78f484）、
+     青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v2，16c1c6f16）。
+     接法照溫州街 wzShop、慢輪單車：room()（尺寸照配置）＋配置的導航阻擋（備用的家具色塊，D38 ③）＋座位＋互動點，正式模型 attachRoomGLB。
+     配置檔沒有載入（Node 測試沒載、或拿掉）時 cvs、bookstore 照舊是舊的程序化室內，也沒有 aoki 區域（公館門口照舊外帶）。
+     進門站的地方（SHOP_IN）：配置的 spawn 在店門出口的範圍裡（tests/spawn_exit_unit.js 的規則：出生點離出口要大於半徑＋0.2），改成往店裡走一段；出口在門內、半徑小一點（店都不大）。
+     door：店門在配置裡的 x（公館的店門口互動點＝那一棟的中心 cx − door：房間轉 180°）；out：回公館站的地方（人行道、門口互動範圍外）；clerk：店員站哪；job：打工的告示（jobs3d.js S.addDesk）。
+     測試：node tests/gg_interiors_1104_unit.js */
+  const GG_L={cvs:()=>typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, bookstore:()=>typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, aoki:()=>typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null};
+  const SHOP_IN=(()=>{ const c=GG_L.cvs(), b=GG_L.bookstore(), a=GG_L.aoki(), P=Math.PI, o={};
+    /* 日和便利店：門 x 0.4（自動門）；進門往裡 2 m（門墊上、櫃台西邊）；結帳的店員在收銀機後面（配置的 clerk）；打工的告示在櫃台北端外面（配置沒有寫：LAWWW 放的位置）*/
+    o.cvs=c?{x:c.exit.at.x,z:+(c.d/2-2).toFixed(2),yaw:P,door:c.front.door.x,exit:{x:c.exit.at.x,z:+(c.d/2-0.6).toFixed(2),r:0.9},out:{x:-29.4,z:18,yaw:P},clerk:{x:c.clerk.x,z:c.clerk.z,yaw:c.clerk.yaw},job:{x:1.5,z:-1.6},gg:true}
+      :{x:0,z:3.4,yaw:P,exit:{x:0,z:4.2,r:1.5},out:{x:-29.4,z:18,yaw:P},clerk:{x:4.0,z:-2.35,yaw:0},job:null};
+    /* 頁間書屋：門在西端 x −4.6；進門往裡 2 m；店員在咖啡吧後面（配置 walkNote：x 5.05～5.7），面向西；打工的告示＝配置的 job_notice（門邊）*/
+    const jn=b&&(b.interact||[]).find(q=>q.kind==='job_notice');
+    o.bookstore=b?{x:b.exit.at.x,z:+(b.d/2-2).toFixed(2),yaw:P,door:b.front.door.x,exit:{x:b.exit.at.x,z:+(b.d/2-0.6).toFixed(2),r:0.9},out:{x:-38.8,z:20.2,yaw:P},clerk:{x:5.35,z:0.6,yaw:-P/2},job:jn?{x:jn.x,z:jn.z}:null,gg:true}
+      :{x:0,z:4,yaw:P,exit:{x:0,z:4.6,r:1.5},out:{x:-38.8,z:20.2,yaw:P},clerk:{x:0.55,z:1.95,yaw:0},job:null};
+    /* 青木茶室：門 x 1.85（店深只有 7 m：配置的出口往裡 1.2 m＝(1.85, 2.05)，就在方桌三的旁邊；places.js 的快速前往同一個算法）；店員在吧台後面東段（z −2.85～−2.2），面向客人 */
+    if(a) o.aoki={x:a.exit.at.x,z:+(a.exit.at.z-1.2).toFixed(2),yaw:P,door:a.front.door.x,exit:{x:a.exit.at.x,z:3.0,r:0.7},out:{x:-54.05,z:18,yaw:P},clerk:{x:3.3,z:-2.5,yaw:0},gg:true};
+    return o; })();
+  const inSp=k=>{ const q=SHOP_IN[k]; return q?{x:q.x,z:q.z,yaw:q.yaw}:null; };
+  /* 室內共用的建法（三間都一樣；導航格 0.2 m：配置的走道 0.8 m（便利店貨架之間、茶室窗邊椅子後面），0.4 m 的格子會把走道整條吃掉）：k＝區域 id、L＝配置、o：{label 出口的字、warm、floor 備用地板色、winXs／winW／winH／winY／view／viewDepth（窗外的景）、glb 資產 key、attach 接完正式模型以後、study 座位能不能讀書、seatR、shop 座位的 shop 值} */
+  function ggRoom(E,k,L,o){ const IN=SHOP_IN[k]; ggReg();
+    const z=room(E,{w:L.w,d:L.d,h:L.h,cell:0.2,warm:!!o.warm,wallColor:L.wallColor||'#efe6d6',floorTex:W3.stoneTex(o.floor||'#d8d3c8'),spawn:inSp(k),windows:o.winXs&&o.winXs.length?undefined:false,winWall:'front',winXs:o.winXs,winW:o.winW,winH:o.winH,winY:o.winY,view:o.view,viewDepth:o.viewDepth});
+    const g0=z.group, nav=z.nav; z.gg=k;
+    const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const c of g0.children.slice()){ if(c.isLight) continue; g0.remove(c); fb.add(c); } g0.add(fb);   /* 正式模型來了整組藏起來 */
+    const onSeat=b=>(L.seats||[]).some(s=>Math.abs(b[0]-s.x)<0.05&&Math.abs(b[1]-s.z)<0.05);   /* 椅子、高腳椅本身不擋路（便利店的配置把座位也列進 blocks；溫州街、118 巷的店都不擋座位：坐下要走到椅子旁邊）*/
+    const fbM=M('#a88b6a',{rough:0.8}); for(const b of L.blocks||[]){ if(onSeat(b)) continue; nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]); fb.add(m); }   /* 備用的家具色塊 */
+    z.seats=[]; for(const s of L.seats||[]){ const lift=s.seatH&&s.seatH>0.6?+(s.seatH-0.45).toFixed(2):0, seat=Object.assign({x:s.x,z:s.z,yaw:s.yaw},lift?{lift}:{});   /* lift＝高腳椅（座面 seatH 0.72～0.75 m：坐姿抬高，和木曜日、巷子裡定食的吧台一樣）*/
+      const ap=o.ap&&o.ap(s); if(ap) seat.ap=ap;   /* ap：指定的走近點（沙發前面是矮桌：從桌子的一端走近，和 Café 的沙發一樣）；按鈕範圍 1.5 m：站在矮桌另一邊也按得到 */
+      z.seats.push(Object.assign({table:s.table,kind:'shop'},seat)); if(o.noSit&&o.noSit(s)){ z.seats[z.seats.length-1].npcOnly=true; continue; }   /* 玩家走不到的位子：不出「坐下」（路人照坐），見各店的說明 */
+      E.interactables.push({x:s.x,z:s.z,radius:ap?1.5:(o.seatR||0.9),label:s.label||'坐下',seat,shop:o.shop||k,study:!!(o.study&&s.canStudy)}); }
+    E.interactables.push({x:IN.exit.x,z:IN.exit.z,radius:IN.exit.r,label:o.label||L.exit.label,exit:{to:'gongguan',spawn:Object.assign({},IN.out)}});
+    nav._cm=null; P3.mergeStatic(fb);
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[o.glb]) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,fb,root); if(o.attach) o.attach(E,z,g0,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
+    return z; }
+  /* 正式模型的資產登錄（url 照配置；不動 assets3d.js 的舊登錄：配置沒載入時 cvs、bookstore 照舊用舊模型）*/
+  function ggReg(){ if(typeof ASSETS==='undefined'||!ASSETS.manifest) return; const reg=(key,L,src)=>{ if(L&&!ASSETS.manifest[key]) ASSETS.manifest[key]={url:L.glb,type:'building',lazy:true,source:src,license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; };
+    reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 53275eaf4，配置 src/data/cvs_layout.js v3）');
+    reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning a6d78f484，配置 src/data/yejian_layout.js v2）');
+    reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 16c1c6f16，配置 src/data/aoki_layout.js v2）'); }
+  ggReg();   /* 載入時登錄；建區域時再登錄一次（Node 測試 assets3d.js 可能比這個檔晚載入）*/
+  /* AA 的兩間（頁間、青木）：GLOW_* 空節點＝燈的光暈（合成一個網格，照路燈開了沒切白天／晚上，和體育館一樣）；窗外的景是模型裡的一張圖（WALL_front_VIEW_*）：晚上調暗（和木曜日的街景卡一樣）*/
+  function ggAAattach(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+    if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,z.gg+'_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+    const vm=[]; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)) for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } });
+    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){ m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
+      if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }
+    return root; }
+  function buildCvs2(E){ const L=GG_L.cvs(), fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';
+    /* 窗外的景：一整片（正面左段落地窗 x −5.3～−0.66、自動門、右段窗 1.46～2.93 一起；attachRoomGLB 會放大 1.35 倍放到玻璃外面）。照片是舊店面的角度（cvs／cvs_wz），新店面的窗要 LAWWW2 重拍 */
+    const z=ggRoom(E,'cvs',L,{label:L.exit.label,floor:'#e3e1dc',winXs:[1.18],winW:8.3,winH:2.65,winY:1.4,view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,glb:'bldg.cvs_interior_v2',shop:'cvs_seat',attach:(E,z,g0,root)=>attachCvsInterior(z,g0,root)});
+    const ck=L.interact.find(q=>q.kind==='checkout');
+    E.interactables.push({x:ck.x,z:ck.z,radius:1.1,label:ck.label,shop:'cvs'});   /* 結帳（照舊 story3d.js 的 shop:'cvs'）。配置的熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃這一版不接：稿上沒有那幾句（缺台詞）*/
+    return z; }
+  function buildYejian(E){ const L=GG_L.bookstore();
+    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true,ap:s=>s.table===4?[3.45,-3.05]:null});   /* 沙發（table 4）：前面的茶几離沙發只有 0.3 m、東邊被盆栽擋住，從茶几西端 (3.45,−3.05) 走近 */   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
+    const law=L.interact.find(q=>q.kind==='shelf_law');
+    E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）。看書牆、看新書、點咖啡這一版不接：稿上沒有那幾句（缺台詞）*/
+    return z; }
+  const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
+    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',noSit:s=>s.table===5&&s.z<-1.6});   /* 最裡面四人桌（table 5）北側兩張：桌子到吧台西端、到書櫃都只有 0.6 m，人（半徑 0.32）走不進去——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */   /* 不能讀書（照一盞茶屋；AA_647 沒有寫可以）；窗外的景在模型裡 */
+    const od=L.interact.find(q=>q.kind==='order');
+    E.interactables.push({x:od.x,z:od.z,radius:0.9,label:od.label,shop:'tea'});   /* 點茶＝原本門口外帶的三種茶（story3d.js counter(GM,'清葉茶行',…)：熟客次數、SQ18 的 key 照舊）。看書櫃、看茶具櫃、看茶罐這一版不接：稿上沒有那幾句（缺台詞）*/
+    return z; } };
   // ---------- 便利商店 ----------
-  const cvs={ id:'cvs', name:'日和便利店', indoor:true, camDist:4.0, build(E){ const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
+  const cvs={ id:'cvs', name:'日和便利店', indoor:true, camDist:4.0, build(E){ if(GG_L.cvs()) return buildCvs2(E); const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
     const z=room(E,{view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3.6,3.6]});   /* 窗在店面（後牆是貨架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.cvs_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
@@ -1878,17 +1947,18 @@ const Z3 = (function(){
     return z; } };
   /* 便利商店室內的正式模型（第二個 AI：tools/blender/env_second/cvs_interior.py）：LED 燈條、飲料櫃背光一直亮；店內材質有燈光感（TK.bounce）；
      走道分類牌用 canvas 畫（白底、店的青綠色字、琥珀色色帶，和溫州街「日日便利」招牌同一套）；自動門玻璃外放一片窗景（和窗戶同一個材質，跟著時段換） */
-  const CVS_BOUNCE={cvs_wall:[0.45,0.55],cvs_floor:[0.4,0.5],cvs_shelf:[0.4,0.5],cvs_counter:[0.4,0.5],cvs_countertop:[0.3,0.4]};   /* TK.bounce 的自發光是白色（乘貼圖）：只給白色或有貼圖的材質；有顏色的純色材質不加（會變白） */
+  const CVS_BOUNCE={cvs_wall:[0.45,0.55],cvs_floor:[0.4,0.5],cvs_shelf:[0.4,0.5],cvs_counter:[0.4,0.5],cvs_countertop:[0.3,0.4],cvs_wood:[0.3,0.4],cvs_print:[0.25,0.35]};   /* cvs_wood、cvs_print：日和便利店 v2（BB 的 bb_support/cvs_interior.glb，GG-SHOPS-REDO-1104）的淺色橡木、印刷圖集；v2 的燈都是 GLOW_cvs_led／GLOW_cvs_cooler／GLOW_cvs_screen（模型自己帶發光強度 KHR_materials_emissive_strength），不用另外設 */   /* TK.bounce 的自發光是白色（乘貼圖）：只給白色或有貼圖的材質；有顏色的純色材質不加（會變白） */
   function attachCvsInterior(z,g0,root){
     root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;
       if(/SIGN_FACE_aisle/.test(o.name)){ const t=cafeCanvas(512,128,(x,w,h)=>{ x.fillStyle='#ffffff'; x.fillRect(0,0,w,h); x.fillStyle='#e8a33a'; x.fillRect(0,h*0.84,w,h*0.16); x.fillStyle='#1f6f78'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold 60px '+WZ_SANS; x.fillText((o.userData||{}).sign||'',w/2,h*0.44); }); cafeFacePaint(o,t,null); o.material.emissiveIntensity=0.35; return; }
       if(/SIGN_FACE_promo/.test(o.name)){ const t=cafeCanvas(1152,128,(x,w,h)=>{ x.fillStyle='#e8a33a'; x.fillRect(0,0,w,h); x.fillStyle='#1f6f78'; x.fillRect(0,0,w,h*0.12); x.fillStyle='#ffffff'; x.textAlign='center'; x.textBaseline='middle'; x.font='bold 64px '+WZ_SANS; x.fillText((o.userData||{}).sign||'',w/2,h*0.58); }); cafeFacePaint(o,t,null); o.material.emissive=new THREE.Color(0xffffff); o.material.emissiveMap=t; o.material.emissiveIntensity=0.3; return; }   /* 後牆的促銷看板（琥珀底白字） */
       if(!mt||mt.userData.cvsReg) return; mt.userData.cvsReg=true;
       if(nm==='cvs_led'){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveIntensity=1.5; }
+      if(/^GLOW_cvs_/.test(nm||'')&&mt.emissive&&mt.emissive.getHex()===0){ mt.emissive=new THREE.Color(0xffffff); mt.emissiveIntensity=1.2; }   /* v2 的發光材質：模型沒帶發光色時（舊版 GLTFLoader 不認 emissive_strength）補一個 */
       if(nm==='cvs_cooler_light'){ mt.emissive=new THREE.Color(0xe9f4ff); mt.emissiveIntensity=1.1; }
       const b=CVS_BOUNCE[nm]; if(b&&!mt.lightMap) TK.bounce(mt,b[0],b[1]);   /* 有光照貼圖（tools/blender/env_second/lightbake/bake_cvs.sh；attachRoomGLB 先接好）的材質不加補光：燈的光、貨架和櫃檯的影子都在貼圖裡，再加一層均勻的自發光會把影子洗掉（和宿舍四人房 DORM_BOUNCE 一樣）。測試：node tests/cvs_interior_lm_unit.js */
       if(nm==='cvs_goods'||nm==='cvs_poster'){ /* 商品與海報的顏色在頂點色：自發光也照頂點色加一點（店裡很亮，只靠燈光會偏暗） */ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.32;\n#endif'); }; mt.customProgramCacheKey=()=>'cvsVcGlow'; mt.needsUpdate=true; } });
-    if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
+    if(!z.gg&&z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
   // ---------- 麵店 ----------
   const noodle={ id:'noodle', name:'公館燒臘', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'noodle',viewDepth:24,w:10,d:9,h:3.2,warm:true,wallColor:'#f1e7d6',floorTex:W3.stoneTex('#d9cbb0'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3,3]});   /* 窗在店面那一面（後牆是廚房和價目表）*/ const g0=z.group, nav=z.nav;
@@ -1915,7 +1985,7 @@ const Z3 = (function(){
     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
   // ---------- 書店 ----------
-  const bookstore={ id:'bookstore', name:'頁間書屋', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
+  const bookstore={ id:'bookstore', name:'頁間書屋', indoor:true, camDist:4.0, build(E){ if(GG_L.bookstore()) return buildYejian(E); const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:1.8,z:3.2,radius:0.9,label:'看看法律書與文具',shop:'book'})   /* 櫃台桌的東端、收銀機那一頭（BOOKSTORE-EXIT-SHOP-1028，LAWWW2-C）：原本 (0,4.05) 半徑 1.1 就在門口——桌子前緣到門口站得到的地方只有 0.37 m，進門落腳點 (0,4) 也在範圍裡，門口按下去是買書選單。店員站桌子北側 (0.55,1.95) 面向門口，所以不移到桌子後面 */;   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-38.8,z:20.2,yaw:Math.PI}}});   /* 出來站在店門（−36.4，在店面最左邊）旁邊的騎樓、門口互動範圍外（原本 (−42,18)：門在店面中間 −41.6 時的人行道）*/
@@ -2207,7 +2277,7 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
-  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat;   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
+  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku}; if(wz_offbeat) ZONES.wz_offbeat=wz_offbeat; if(GG_L.aoki()) ZONES.aoki=aoki;   /* 青木茶室（GG-SHOPS-REDO-1104）：配置檔有載入才有 */   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
   /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
      原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
      淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
@@ -2305,5 +2375,5 @@ const Z3 = (function(){
         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
-  return {ZONES,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+  return {ZONES,SHOP_IN,attachWenzhouModel,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,roomDarkMap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,wzCatSpot,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
 })();

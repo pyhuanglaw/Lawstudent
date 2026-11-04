@@ -37,7 +37,7 @@ const POOL_STORY=(function(){
   const PEOPLE={
     pool_1:{ card:'在寫一篇兇手是律師的推理小說', before:'常在頁間書屋看推理小說的同學', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'頁間書屋',
       model:'char.npc_nf17', props:['tote','novel'],   /* 布書袋＝tote；封面朝內的推理小說＝novel（NPC-POOL-ART-1028）；鯊魚夾沒有（髮型配件，D99）*/
-      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'頁間書屋，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
+      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[0.3,-3.95,P,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'頁間書屋，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。頁間書屋 v2（GG-SHOPS-REDO-1104，src/data/yejian_layout.js）：北牆整面書牆前、梯子東邊，面向書牆（蹲下的動作沒有，站著找）；原本 (−3.2, 0.5) 是舊室內西側兩排書架中間 */
       cls:{seat:[2,1],desc:'坐第三排的人'} },
     pool_2:{ card:'雙主修財金，在學日文', personality:'修太多學分的人', place:'總圖',
       model:'char.npc_nm11', props:['calc','handouts'],   /* 計算機＝calc（左手）；一疊財金的講義＝handouts（右手，NPC-POOL-ART-1028）*/
