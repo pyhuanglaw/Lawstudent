@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_wzstreet",
+  "sha": "d2a692410",
+  "kind": "game",
+  "script": "tests/wz_street_integration.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T16:33:42",
+  "end": "2026-11-04T16:35:35",
+  "seconds": 112,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 59,
+    "mem": 57,
+    "used_gb": 17.9,
+    "chrome_testing": 27
+  }
+}

@@ -259,3 +259,18 @@
 [16:33:42] ==== START WZ4_wzstreet  (game @ d2a692410) ====
 [16:33:45] [res] cpu=29% mem=53% (16.7/31.4 GB) chrome_testing=17  START WZ4_wzstreet
 [16:34:51] [res] cpu=30% mem=52% (16.5/31.4 GB) chrome_testing=19  END SEAT_ACT
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       c3f8c3a68..f53186bb7  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:34:58] ==== END   SEAT_ACT  exit=1  295s   ====
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[16:35:01] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[16:35:01] memory 48% before starting WZ4_reach (2 running)
+[16:35:01] ==== START WZ4_reach  (game @ dac871e25) ====
+[16:35:04] [res] cpu=26% mem=49% (15.3/31.4 GB) chrome_testing=18  START WZ4_reach
+[16:35:35] [res] cpu=35% mem=50% (15.6/31.4 GB) chrome_testing=19  END WZ4_wzstreet
