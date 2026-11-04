@@ -137,12 +137,18 @@ async def main():
         k = await bike(pg)
         bz = k['bike'] or {}
         run.check('D 進店：先下車（店裡沒有車）、車停在公館的門口（離門 3 m 內）', ok and not k['riding'] and not k['on'] and bz.get('zone') == 'gongguan' and math.hypot(bz.get('x', 99) - door['x'], bz.get('z', 99) - door['z']) < 3, json.dumps(bz))
+        await run.shot(pg, 'D_inside_shop')   # r4（BB 11-04 要 D 的截圖）：進店後
         out = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='gongguan'); return i&&{x:i.x,z:i.z}; })()")
         await L.go_to(pg, cdp, run, out['x'], out['z'], 1.2, '店門')
         await L.tap(pg, cdp, '#interact')
         ok = await wait_until(pg, "GAME.G.zone==='gongguan'", 60)
         ok2 = await wait_until(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
         k = await bike(pg)
+        await run.shot(pg, 'D_after_exit')   # r4：出店後（車應該在出口旁）
+        try:
+            await pg.evaluate("(()=>{ const b=GAME.G.bike; if(b) GAME.E.cam.yaw=Math.atan2(GAME.E.player.obj.position.x-b.x, GAME.E.player.obj.position.z-b.z); })()")
+            await pg.wait_for_timeout(1500); await run.shot(pg, 'D_after_exit_look_at_saved_pos')   # 鏡頭轉向 G.bike 記錄的位置（只轉鏡頭，不動人）
+        except Exception as e: print('  shot err', e, flush=True)
         diag = await pg.evaluate("""(()=>{ const out={}; try{ out.snap=(GAME.stateSnapshot?GAME.stateSnapshot():null); }catch(e){ out.snap='ERR '+e; } try{ out.bike=GAME.G.bike||null; }catch(e){}
           const objs=[]; try{ GAME.E.scene.traverse(o=>{ if(/bike/i.test(o.name||'')){ const p=o.getWorldPosition(new THREE.Vector3()); objs.push({name:o.name, visible:o.visible, parent:o.parent&&o.parent.name, x:+p.x.toFixed(2), z:+p.z.toFixed(2)}); } }); }catch(e){ objs.push('ERR '+e); }
           out.bikeObjs=objs.slice(0,40); out.zone=GAME.G.zone; return out; })()""")
