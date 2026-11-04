@@ -27,6 +27,7 @@ sh.M.update({
     'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.2),
     'print': K.img_mat(P + 'print', 'dbk_print.png', rough=0.75),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
+    'frame': L.flat(P + 'frame_sage', '#8a9e8a', rough=0.5),                                                   # 灰綠窗框（v1b，和外觀一致）
 })
 sh.M['shade'] = sh.M['bulb']
 IT = {}
@@ -92,40 +93,46 @@ for k in range(5):                                                              
         x = X0 + 1.6 + k * (W - 3.2) / 4 - 0.45; sh.a('bulb').cyl((x, H - 0.006, zz), (x, H - 0.012, zz), 0.05, seg=10)
         if (k + int(zz)) % 2 == 0: CL.glow(sh.root, 'spot', x, H - 0.3, zz, color='rgba(255,228,190,1)', size=0.45, day=0.0, night=0.45)
 xf0.rbox(sh.a('vcm'), -0.6, 0.4, H - 0.22, H - 0.01, -0.3, 0.7, r=0.02, seg=1, col='#f2f2ee'); xf0.rbox(sh.a('vcm'), -0.45, 0.25, H - 0.225, H - 0.215, -0.15, 0.55, r=0.005, seg=1, col='#d8d8d4')
-xf0.rbox(sh.a('vcm'), X0 + 0.6, X1 - 0.5, H - 0.32, H - 0.29, 2.95, 2.99, r=0.004, seg=1, col='#f4f2ec')                    # 一條白軌道燈（窗邊）
-for k in range(6): x = X0 + 1.0 + k * (W - 1.8) / 5; Xf(x, 2.97).cyl(sh.a('vcm'), (0, H - 0.32, 0), (0, H - 0.46, 0.04), 0.03, col='#f4f2ec', seg=8)
+for zz in (2.9, -1.0):                                                                                                    # 兩條黑色軌道燈（v1b）
+    xf0.rbox(sh.a('vcm'), X0 + 0.6, X1 - 0.5, H - 0.32, H - 0.29, zz - 0.02, zz + 0.02, r=0.004, seg=1, col='#2e2e2e')
+    for k in range(7):
+        x = X0 + 0.9 + k * (W - 1.6) / 6; sp = Xf(x, zz, 0.0); sp.cyl(sh.a('vcm'), (0, H - 0.32, 0), (0, H - 0.47, 0.04 if zz > 0 else -0.04), 0.03, col='#2e2e2e', seg=8)
+        sh.a('bulb').cyl(sp.p(0, H - 0.47, 0.04 if zz > 0 else -0.04), sp.p(0, H - 0.475, 0.042 if zz > 0 else -0.042), 0.024, seg=8)
 fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']
 ops = [(dx - dw / 2, dx + dw / 2, 0.0, dh, 'door')] + [(a, b, fr['sill'] if (b - a) > 1 else 0.1, fr['head'] if (b - a) > 1 else dh, 'win') for a, b in fr['windows']]
-sh.wall_with_openings('front', ops, 'wall', 'wall', 0.0, 'wood', mull=1.6)
+sh.wall_with_openings('front', ops, 'wall', 'wall', 0.0, 'frame', mull=1.6)
 for side in ('back', 'left', 'right'):
     a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wall', a0, a1, 0.0, H)
 for (a, b) in fr['windows']:
-    if b - a > 1: xf0.rbox(sh.w('front', 'wood'), a - 0.05, b + 0.05, fr['sill'] - 0.04, fr['sill'], Z1 - 0.22, Z1, r=0.006, seg=1)
+    if b - a > 1: xf0.rbox(sh.w('front', 'frame'), a - 0.05, b + 0.05, fr['sill'] - 0.04, fr['sill'], Z1 - 0.22, Z1, r=0.006, seg=1)
 vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])
 xf0.quad(vw, [(7.5, 5.5, vz), (-7.5, 5.5, vz), (-7.5, -1.0, vz), (7.5, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.0))
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
-for xx in (-2.6, -1.0, 0.6): sh.hanging_pothos('pothos', xx, 2.75, Z1 - 0.35, n=9, drop=0.8)                           # 窗上的垂吊黃金葛
-for xx in (-2.6, -1.0, 0.6): Xf(xx, Z1 - 0.35, 0, 2.75).lathe(sh.a('vcg'), [(0.0, 0.0), (0.12, 0.0), (0.15, 0.14), (0.0, 0.14)], 0, 0, 0, seg=10, col='#efe9de'); xf0.cyl(sh.a('vcm'), (xx, H, Z1 - 0.35), (xx, 2.89, Z1 - 0.35), 0.003, col='#8a8a86', seg=3, caps=False)
+for xx in (-2.6, -1.0, 0.6): sh.hanging_pothos('pothos', xx, 2.75, Z1 - 0.35, n=14, drop=1.1, size=0.085)              # 窗上的垂吊黃金葛（v1b：小葉、往下垂）
+for xx in (-2.6, -1.0, 0.6): Xf(xx, Z1 - 0.35, 0, 2.75).lathe(sh.a('vcg'), [(0.0, 0.0), (0.08, 0.0), (0.1, 0.11), (0.0, 0.11)], 0, 0, 0, seg=10, col='#efe9de'); xf0.cyl(sh.a('vcm'), (xx, H, Z1 - 0.35), (xx, 2.89, Z1 - 0.35), 0.003, col='#8a8a86', seg=3, caps=False)
 sh.tally('shell')
 
 # ---------------------------------------------------------------- 後牆的長吧台、綠磁磚、層板、抽油煙機、黑板
 ct = IT['counter'][0]; cx0, cx1, cz0, cz1 = ct['x'] - ct['w'] / 2, ct['x'] + ct['w'] / 2, ct['z'] - ct['d'] / 2, ct['z'] + ct['d'] / 2
 xf0.rbox(sh.a('wood'), cx0, cx1, 0.0, ct['h'] - 0.05, cz0, cz1, r=0.01, seg=1)
-for k in range(40): xx = cx0 + 0.06 + k * (ct['w'] - 0.12) / 39; xf0.rbox(sh.a('vc'), xx - 0.035, xx + 0.035, 0.08, ct['h'] - 0.12, cz1, cz1 + 0.012, r=0.003, seg=1, col=OAK2)   # 直紋
+for k in range(40): xx = cx0 + 0.06 + k * (ct['w'] - 0.12) / 39; xf0.rbox(sh.a('vc'), xx - 0.035, xx + 0.035, 0.08, ct['h'] - 0.12, cz1, cz1 + 0.012, r=0.0, seg=1, col=OAK2)   # 直紋
 sh.a('bulb').box(cx0 + 0.05, cx1 - 0.05, ct['h'] - 0.1, ct['h'] - 0.085, cz1 + 0.02, cz1 + 0.03)                    # 檯面下的燈條
 xf0.rbox(sh.a('vcg'), cx0 - 0.03, cx1 + 0.03, ct['h'] - 0.05, ct['h'], cz0 - 0.02, cz1 + 0.06, r=0.012, seg=1, col=STONE)
 top = ct['h']; m = sh.a('vcm')
-em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top); em.rbox(m, -0.38, 0.38, 0.0, 0.42, -0.22, 0.22, r=0.03, seg=1, col='#d4d4d0'); em.rbox(m, -0.38, 0.38, 0.42, 0.46, -0.22, 0.22, r=0.01, seg=1, col='#a0a09c')
-for k in range(3): em.cyl(m, (-0.24 + k * 0.24, 0.2, 0.22), (-0.24 + k * 0.24, 0.16, 0.28), 0.035, col='#2e2e2e', seg=8)
-for k in range(6): K.mug(sh, cx0 + 1.0 + (k % 3) * 0.14, ct['z'] - 0.1 + (k // 3) * 0.14, top + 0.46, col='#f6f3ec', r=0.03, h=0.06, handle=False)
+em = Xf(cx0 + 1.2, ct['z'] - 0.05, 0.0, top); em.rbox(sh.a('vcg'), -0.46, 0.46, 0.0, 0.5, -0.24, 0.22, r=0.03, seg=2, col='#e8e8e6'); em.rbox(sh.a('vcg'), -0.46, 0.46, 0.5, 0.55, -0.24, 0.22, r=0.01, seg=1, col='#3a3a38')   # v1b 大、亮面
+for k in range(3): em.cyl(m, (-0.28 + k * 0.28, 0.22, 0.22), (-0.28 + k * 0.28, 0.18, 0.3), 0.04, col='#2e2e2e', seg=8)
+for k in range(6): K.mug(sh, cx0 + 0.95 + (k % 3) * 0.16, ct['z'] - 0.1 + (k // 3) * 0.14, top + 0.55, col='#f6f3ec', r=0.03, h=0.06, handle=False)
 for (gx, hh) in ((cx0 + 1.85, 0.42), (cx0 + 2.6, 0.38)):                                                                 # 磨豆機兩台
     g = Xf(gx, ct['z'] - 0.05, 0, top); g.rbox(m, -0.09, 0.09, 0.0, hh * 0.65, -0.09, 0.09, r=0.02, seg=1, col='#e4e4e0'); g.lathe(sh.a('glass'), [(0.03, hh * 0.65), (0.08, hh), (0.07, hh + 0.02)], 0, 0, 0, seg=10)
 for k in range(6): Xf(cx0 + 0.25 + k * 0.1, ct['z'] - 0.15, 0, top).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.04, 0.1), (0.0, 0.1)], 0, 0, 0, seg=8, col='#f6f3ec')   # 一疊外帶杯
-pc0, pc1 = cx1 - 1.6, cx1 - 1.0                                                                                         # 甜點櫃
-xf0.rbox(m, pc0, pc1, top, top + 0.04, cz0 + 0.05, cz1 - 0.05, r=0.005, seg=1, col='#d0d0cc')
-sh.a('glass').box(pc0, pc1, top + 0.04, top + 0.36, cz0 + 0.05, cz1 - 0.05); sh.a('glass').box(pc0 + 0.02, pc1 - 0.02, top + 0.19, top + 0.2, cz0 + 0.07, cz1 - 0.07)
-for row, y in enumerate((top + 0.04, top + 0.2)):
-    for k in range(3): Xf(pc0 + 0.12 + k * 0.18, ct['z'], 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05, 0.0), (0.05, 0.05), (0.0, 0.06)], 0, 0, 0, seg=8, col=('#f0d890', '#e8c070', '#f6ecd8')[(k + row) % 3])
+pc0, pc1 = cx1 - 1.75, cx1 - 0.95                                                                                        # 甜點櫃（v1b：加高、木框、三層麵包）
+xf0.rbox(sh.a('wood'), pc0, pc1, top, top + 0.06, cz0 + 0.05, cz1 - 0.05, r=0.006, seg=1)
+for (ax, az) in ((pc0, cz0 + 0.05), (pc1 - 0.03, cz0 + 0.05), (pc0, cz1 - 0.08), (pc1 - 0.03, cz1 - 0.08)): xf0.rbox(sh.a('wood'), ax, ax + 0.03, top + 0.06, top + 0.48, az, az + 0.03, r=0.003, seg=1)
+xf0.rbox(sh.a('wood'), pc0, pc1, top + 0.48, top + 0.51, cz0 + 0.05, cz1 - 0.05, r=0.004, seg=1)
+sh.a('glass').box(pc0 + 0.01, pc1 - 0.01, top + 0.06, top + 0.48, cz0 + 0.06, cz1 - 0.06); sh.a('bulb').box(pc0 + 0.04, pc1 - 0.04, top + 0.465, top + 0.475, cz0 + 0.1, cz1 - 0.1)
+for y in (top + 0.2, top + 0.33): sh.a('glass').box(pc0 + 0.02, pc1 - 0.02, y, y + 0.01, cz0 + 0.07, cz1 - 0.07)
+for row, y in enumerate((top + 0.06, top + 0.21, top + 0.34)):
+    for k in range(5): Xf(pc0 + 0.1 + k * 0.15, ct['z'] + 0.03 * (k % 2), 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05, 0.0), (0.055, 0.035), (0.035, 0.06), (0.0, 0.065)], 0, 0, 0, seg=8, col=('#e8b868', '#d9a050', '#f0d090', '#c98a40', '#f4e4c0')[(k + row) % 5])
 Xf(cx1 - 0.55, ct['z'], 0.0, top).rbox(m, -0.15, 0.15, 0.0, 0.08, -0.12, 0.12, r=0.01, seg=1, col='#3a3a38')               # 收銀機
 Xf(cx1 - 0.55, ct['z'], 0.0, top).rbox(m, -0.13, 0.13, 0.08, 0.28, -0.13, -0.11, r=0.006, seg=1, col='#3a3a38')
 pu = Xf(cx1 - 0.2, cz1 - 0.02, 0.0, top); pu.rbox(sh.a('wood'), -0.16, 0.16, 0.0, 0.02, -0.04, 0.04, r=0.004, seg=1)
@@ -136,13 +143,13 @@ for i in range(int((tx1 - tx0) / 0.15)):
     for j in range(int(2.0 / 0.15)):
         x = tx0 + 0.075 + i * 0.15; y = 0.95 + 0.075 + j * 0.15
         if tx0 + 2.3 < x < tx0 + 3.4 and y > 1.6: continue                                                                # 抽油煙機那一段
-        xf0.rbox(sh.a('vcg'), x - 0.07, x + 0.07, y - 0.07, y + 0.07, Z0, Z0 + 0.012, r=0.004, seg=1, col=R.choice(['#9fb59c', '#98b096', '#a6bba3', '#93ab91']))
+        xf0.rbox(sh.a('vcg'), x - 0.07, x + 0.07, y - 0.07, y + 0.07, Z0, Z0 + 0.012, r=0.0, seg=1, col=R.choice(['#9fb59c', '#98b096', '#a6bba3', '#93ab91']))
 xf0.rbox(sh.a('vcm'), tx0 + 2.3, tx0 + 3.4, 0.95, 1.6, Z0, Z0 + 0.012, r=0.004, seg=1, col='#d8d8d4')     # 抽油煙機下的不鏽鋼牆
-xf0.rbox(m, tx0 + 2.25, tx0 + 3.45, 1.95, 2.45, Z0, Z0 + 0.55, r=0.02, seg=1, col='#cfcfcb'); xf0.rbox(m, tx0 + 2.6, tx0 + 3.1, 2.45, H, Z0, Z0 + 0.3, r=0.01, seg=1, col='#cfcfcb')
+xf0.rbox(sh.a('vcg'), tx0 + 2.25, tx0 + 3.45, 1.95, 2.45, Z0, Z0 + 0.55, r=0.02, seg=1, col='#dadad8'); xf0.rbox(sh.a('vcg'), tx0 + 2.22, tx0 + 3.48, 1.93, 1.98, Z0, Z0 + 0.58, r=0.01, seg=1, col='#a8a8a4'); xf0.rbox(m, tx0 + 2.6, tx0 + 3.1, 2.45, H, Z0, Z0 + 0.3, r=0.01, seg=1, col='#cfcfcb')
 for (y, kind) in ((1.75, 'bowl'), (2.25, 'jar')):                                                                       # 兩層木層板（抽油煙機兩邊）
     for (a0, a1) in ((tx0 + 0.1, tx0 + 2.15), (tx0 + 3.55, tx1 - 0.1)):
         xf0.rbox(sh.a('wood'), a0, a1, y - 0.035, y, Z0 + 0.012, Z0 + 0.3, r=0.004, seg=1)
-        n = max(3, int((a1 - a0) / 0.17))
+        n = max(3, int((a1 - a0) / 0.11))
         for k in range(n):
             xx = a0 + 0.1 + k * (a1 - a0 - 0.2) / (n - 1)
             if kind == 'bowl': Xf(xx, Z0 + 0.15, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05, 0.0), (0.08, 0.06), (0.075, 0.065)], 0, 0, 0, seg=10, col='#f6f3ec') if k % 3 else K.mug(sh, xx, Z0 + 0.15, y, col='#f6f3ec')
@@ -163,9 +170,20 @@ for k in range(11): xf0.rbox(sh.a('vcg'), qx0 + 0.03 + k * (bq['w'] - 0.06) / 11
 for (xx, col) in ((qx0 + 0.45, '#f0d070'), (qx1 - 0.4, '#f4e4a0')): Xf(xx, Z0 + 0.25, 0.25).rbox(sh.a('vc'), -0.2, 0.2, 0.48, 0.84, -0.07, 0.07, r=0.06, seg=2, col=col)
 mu = IT['mural'][0]; sh.wall_img('back', 'print', mu['along'], mu['y'], mu['w'], mu['h'], K.cell_uv(0, 0, 4, 2), off=0.004)
 for k, ar in enumerate(IT['art']):
+    ar = dict(ar, y=2.75)                                                                                             # v1b：層板在下面，畫往上移
     sh.wall_img('left', 'print', ar['along'], ar['y'], ar['w'], ar['h'], K.cell_uv(k * 2, 2, 2, 2), off=0.025)
     xf0.rbox(sh.w('left', 'wood'), X0, X0 + 0.02, ar['y'] - ar['h'] / 2 - 0.03, ar['y'] + ar['h'] / 2 + 0.03, ar['along'] - ar['w'] / 2 - 0.03, ar['along'] + ar['w'] / 2 + 0.03, r=0.004, seg=1)
 mt = IT['mat'][0]; xf0.rbox(sh.a('vc'), mt['x'] - mt['w'] / 2, mt['x'] + mt['w'] / 2, 0.0, 0.012, mt['z'] - mt['d'] / 2, mt['z'] + mt['d'] / 2, r=0.004, seg=1, col='#b8935e')
+for (y, kind) in ((1.55, 'jar'), (2.05, 'cup')):                                                                       # 西牆兩層開放層板（v1b：遠處那面牆不要空）
+    xf0.rbox(sh.w('left', 'wood'), X0, X0 + 0.26, y - 0.035, y, -1.3, 3.4, r=0.004, seg=1)
+    for k in range(int(4.7 / 0.16)):
+        zz = -1.2 + k * 0.16
+        if 0.0 < zz < 1.8 and kind == 'jar' and k % 5: continue                                                           # 長桌後面那段留空一點（人坐著頭會碰到）
+        if k % 6 == 0: sh.plant(X0 + 0.13, zz, h=0.32, r=0.08, pot_col='#efe9de', y0=y)
+        elif kind == 'jar': K.jar(sh, X0 + 0.13, zz, y, h=0.18, r=0.05, col=('#c9a26a', '#e8d8b0', '#8a6a3a', '#d9b070')[k % 4], lid='#efe9de')
+        else: K.mug(sh, X0 + 0.13, zz, y, col=('#f6f3ec', '#e8dcc8', '#a8b8a0')[k % 3], r=0.038, h=0.08)
+for zz in (-1.2, 3.3): xf0.cyl(sh.w('left', 'vcm'), (X0 + 0.2, 1.52, zz), (X0 + 0.2, H, zz), 0.008, col='#2e2e2e', seg=4, caps=False)
+sh.hanging_pothos('pothos', X0 + 0.15, 2.05, 2.9, n=10, drop=0.8, size=0.085); sh.hanging_pothos('pothos', X0 + 0.15, 2.05, -0.9, n=10, drop=0.8, size=0.085)
 sh.tally('banquette')
 
 # ---------------------------------------------------------------- 桌子、椅子、桌上的早午餐
@@ -186,7 +204,7 @@ for tid in (1, 2, 3, 4, 5, 7, 8):
             sx, sz = s_['x'], s_['z']; ex, ez = t['x'] + (sx - t['x']) * 0.45, t['z'] + (sz - t['z']) * 0.45
             setting(ex, ez, 0.75, s_['yaw'] + math.pi, food=(tid + int(sx * 10)) % 3 != 0)
 for k in range(2): K.mug(sh, TB[1]['x'] + 0.12 + k * 0.1, TB[1]['z'] + 0.1, 0.75, col='#f6f3ec')
-for zz in (1.0, -0.4): wood_pendant(TB[4]['x'] if zz > 0 else 1.55, zz if zz > 0 else -2.9, 2.55, r=0.24)
+for zz in (1.0, -0.4): wood_pendant(TB[4]['x'] if zz > 0 else 1.3, zz if zz > 0 else -2.9, 2.55, r=0.24)
 wood_pendant(TB[5]['x'], TB[5]['z'], 2.55, r=0.24); wood_pendant(TB[6]['x'], TB[6]['z'], 2.6, r=0.2)
 sh.tally('tables')
 

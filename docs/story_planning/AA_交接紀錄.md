@@ -2430,6 +2430,11 @@
     - AA 做的室內：頁間書屋 v2（a6d78f484），LAWWW2 已收（MODEL_READY）；還剩兩點不擋，等 LAWWW2 在遊戲裡截圖。
     - 青木茶室 v2b（16c1c6f16），LAWWW2 11-04 01:57 收（MODEL_READY）。LAWWW 接區域時用這個 commit 的 aoki.glb 和 aoki_layout.js。照 LAWWW2 外觀，店寬 9.2 m、22 席，新區域 aoki。v1（e1773695d）、v2（1fcd9a695）都被取代了。
     - AA 這兩間的美術支援做完了，下一項照 LAWWW 的佇列。
+  - **公館第二批（使用者 11-04 02:0x，AA_650，X209／GG-SHOPS2-1104）**：
+    - afar café v1b（8a0bd80f2）、Daybreak v1b（8094770c7）：LAWWW2 02:39 收了（MODEL_READY），等 LAWWW 接成區域。配置在 `src/data/afar_layout.js`、`src/data/daybreak_layout.js`。
+    - 不擋的小點，等遊戲裡截圖再看：afar 右邊天花板的管線、前景椅背從背面看像一塊板；Daybreak 的吧台比參考圖短、咖啡機在鏡頭外。
+    - 洋洋鹹酥雞是 BB 做，轉角唱片是 CC 做。
+    - 台詞（進門、點餐、看店裡的東西、打烊、約去答應的一句）等區域接好再寫。
     - 日和便利店、慢輪單車由 BB／CC 做。
   - 已寫好的台詞：AA_648 §6（adf1c2f78）期末聚餐坐長桌，已回 BB；AA_649 約念書（X207），已回 LAWWW。
   - 店內偶遇第二批（新生南路的店、木曜日、日常失速、118 巷）——AA_632 第 4 節。
