@@ -45679,7 +45679,7 @@
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45691,7 +45691,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "next": "【LAWWW-C 11-04 21:5x】合併 a9752dcd6（子代理 sitloops-1104 7bf63de3d，6 個 commit）：用筆電（Type／TypePad）、寫筆記（Write＋hand_pen、桌上的筆藏起來）、看桌上的書（Page）、滑手機（Phone＋hand_phone）的路人桌子合得上就播 LAWWW2 的片段；桌緣遠的往前坐最多 12 cm、上下最多 1.5 cm、每個模型每個片段在自己骨架上量一次；?nositask 關掉；子代理 991 支全過、tests/sit_task_wire_unit.js 54 項（底上 FAILED 11）。LAWWW 決定：①吃飯先關（Sit_Eat 是握筷子的手、手上沒有筷子；S.TASK_EAT 留著，等 LAWWW2 右手筷子配件＋S.PROP_FAM 藏桌上那雙再併回）②Drink 先不給「休息」的人（不新增行為，D99）。要 LAWWW2 的（P3）：另外兩組骨架的片段（寫字、打字合不上的底模清單在子代理報告）、Café 桌緣 0.20 的版本、右手筷子、寫字筆尖壓進紙 4–5 mm；BB 瀏覽器：手在不在東西上、往前坐 12 cm 自不自然、配件亮度、一起打字的節奏、滑手機片段晚到跳一次 18 cm｜【LAWWW-C 11-04 20:1x】LAWWW2 交件 2962616ac；派子代理接線（manifest char.ual_sit_tasks、prop.hand_props；SEATACT 播片段 速度 1、手臂 grp 2 吃片段；喝／寫／滑手機時配件上手、桌上那個藏）｜【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
    "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
    "authorized": "使用者直接要求（X222）",
    "xai": {
@@ -45701,7 +45701,10 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "sha": "2962616ac"
+   "sha": [
+    "a9752dcd6",
+    "7bf63de3d"
+   ]
   },
   {
    "id": "LAMPSHADE-FLIP-1104",

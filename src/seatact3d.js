@@ -77,7 +77,9 @@ const SEATACT=(function(){
      桌高、桌緣）；不合＝照舊（坐姿循環、手放大腿上／拿著手機）。每 30 格再對一次（片段、配件晚一點才載好；正式模型載好、桌子換了）。
      手上拿著的東西（筆、手機、紙杯）這個位子的桌上也有＝桌上那一件藏起來：自己組的（S_notes…）拿掉那一件；合併成一個網格的（tset_notes、rset_notes）近的時候換成 S.SPLIT 的單件、
      遠的 _lod1 本來就沒有筆（照用）；有那一件、又拆不開的組＝那個片段先不用（不要桌上一支、手上一支）。起身、走了、換區域＝配件拿掉、桌上放回來 */
-  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone',eat:'eat',eat2:'eat'};
+  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone'};   /* NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段——Sit_Eat 是握筷子的手、手上沒有筷子、桌上那雙還在（LAWWW-C 11-04 21:4x）。
+     等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
+  S.TASK_EAT={eat:'eat',eat2:'eat'};
   S.TASK_NEED={type:/laptop_open|^[tr]set_laptop$/,write:/notebook_open|^[tr]set_notes$/,page:/code_open|^[tr]set_book$/,eat:/^item_bowl/};   /* 桌上要有的東西 */
   S.TASK_DEPTH={phone:0.1};   /* 左手放在桌上：桌子至少要這麼深 */
   S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/};   /* 手上的配件 → 桌上同一件東西 */
