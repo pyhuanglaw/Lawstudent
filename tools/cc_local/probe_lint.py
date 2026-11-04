@@ -31,9 +31,19 @@ def check_py(path, out):
         tree = ast.parse(src)
     except SyntaxError as e:
         out.append('%s:%s：ast 解析失敗 %s' % (path, e.lineno, e.msg)); return
+    consts = {}   # 模組層的字串常數（XXX_JS = """..."""），之後「XXX_JS % 參數」也照樣檢查
+    for st in getattr(tree, 'body', []):
+        if isinstance(st, ast.Assign) and len(st.targets) == 1 and isinstance(st.targets[0], ast.Name) and isinstance(st.value, ast.Constant) and isinstance(st.value.value, str):
+            consts[st.targets[0].id] = st.value.value
     for node in ast.walk(tree):
-        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mod) and isinstance(node.left, ast.Constant) and isinstance(node.left.value, str):
-            n, named = count_ph(node.left.value)
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mod) and ((isinstance(node.left, ast.Constant) and isinstance(node.left.value, str)) or (isinstance(node.left, ast.Name) and node.left.id in consts)):
+            fmt = node.left.value if isinstance(node.left, ast.Constant) else consts[node.left.id]
+            n, named = count_ph(fmt)
+            stray = PH.sub('', fmt.replace('%%', ''))
+            if not named and '%' in stray:   # CC-C 11-04：JS 字串裡的 wd%7 被 Python 的 % 格式化吃掉（shops2、CVS24 兩次 ValueError stray %）——要寫成 %%
+                k = stray.index('%')
+                out.append('%s:%d：格式字串裡有不是佔位符的 %%（要寫成 %%%%）：…%s…' % (path, node.lineno, stray[max(0, k - 25):k + 10].replace('\n', ' ')))
+                continue
             if named or n == 0:
                 continue
             r = node.right

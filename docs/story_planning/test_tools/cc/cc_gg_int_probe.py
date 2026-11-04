@@ -613,7 +613,7 @@ async def case_aoki_hours(pg, cdp, errs):
             check('[%s] 關著按「外帶」：同一句、沒有選單（不賣）' % tag, has_line(lines2, A['door_closed']) and not m2, J({'lines': lines2, 'menus': m2}))
         await stuck_check(pg, cdp, tag, s['fb'], e0, errs)
     tag = 'aoki_typhoon'
-    td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
+    td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
     check('[%s] 前置：%s 是颱風假' % (tag, TYPHOON_KEY), td['typhoon'], J(td))
     hp, label, lines, s, toasts, menus = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, 15.0, d=td, desc='青木茶室門口、%s 颱風假' % TYPHOON_KEY)
     check('[%s] 颱風假 15:00：進不去、「%s」（逐字）' % (tag, A['door_typhoon']), s['zone'] == 'gongguan' and has_line(lines, A['door_typhoon']), J({'zone': s['zone'], 'lines': lines, 'toasts': toasts}))
