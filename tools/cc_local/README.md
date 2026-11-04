@@ -79,6 +79,10 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 
 - 最新一筆「CC-local: … result」的時間（+0800 是 PC 的台灣時間），和正在跑的那一項的逾時比一比。超過逾時很久都沒有新 commit，可能是 PC 睡眠了、視窗被關掉、或 runner 已經跑完佇列結束（預設跑一輪就停）。這時請 BB 問使用者。
 - 正在跑哪一項：看 queue.txt 裡最後一筆有結果的項目的下一項，跳過已經有 meta 的項目。
+- **主控台被選取卡住（CC-C 11-04）**：Windows 舊式主控台（conhost）有「快速編輯模式」——滑鼠在視窗裡點一下或拖曳選字，視窗就進入選取狀態（標題列開頭會出現「選取」／「Select」），**這時程式一印字就整個停住**，按 Esc 或 Enter 才繼續。11-04 23:48 以後電腦沒再推結果，最可能就是使用者複製畫面的字時停在選取狀態。
+  - runner 11-04 16:4x 起：啟動時把這個視窗的快速編輯關掉（console 會印 `Windows console: QuickEdit off …`）；而且 runner 的輸出改由專門的執行緒印，畫面卡住只卡那一條，測試、commit、push 照跑（`tools/cc_local/console_unit.py`）。
+  - run_forever.ps1 自己印的青色字還是會被選取卡住（.ps1 要使用者重啟才會換）。要複製畫面上的字：標題列按右鍵 → 編輯 → 標記，選好按 Enter；或直接看雲端的 console.log。
+  - 同時 runner 在跑的時候不讓 Windows 閒置睡眠（SetThreadExecutionState；螢幕照樣會關；runner 結束就取消）。
 
 ## 佇列項目與視窗
 
