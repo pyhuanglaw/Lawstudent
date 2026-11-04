@@ -418,3 +418,21 @@
 [20:57:37] AUTORETRY TT_V4_selector: first run exit 1 - rerun once with trace (whole probe)
 [20:58:09] [res] cpu=7% mem=42% (13.4/31.4 GB) chrome_testing=19  END TT_V4_selector
 [20:58:10] AUTORETRY TT_V4_selector: final FAIL  class TEST_BUG/初判
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d7a72e161..be6fd6797  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:58:16] ==== END   TT_V4_selector  exit=1  64s   ====
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[20:58:18] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[20:58:18] memory 43% before starting TT_V5_jserror (2 running)
+[20:58:18] ==== START TT_V5_jserror  (probe @ d2e36f6eb) ====
+[20:58:21] [res] cpu=4% mem=43% (13.6/31.4 GB) chrome_testing=19  START TT_V5_jserror
+[20:58:57] AUTORETRY TT_V5_jserror: first run exit 1 - rerun once with trace (whole probe)
+[20:59:05] 正在跑：GG_shops2_afar_seat（已跑 54 分／上限 90 分）、GG_shops2_db_seat（已跑 54 分／上限 80 分）、TT_V5_jserror（已跑 0 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:59:31] [res] cpu=5% mem=42% (13.4/31.4 GB) chrome_testing=19  END TT_V5_jserror
+[20:59:33] AUTORETRY TT_V5_jserror: final FAIL  class GAME_BUG/初判
