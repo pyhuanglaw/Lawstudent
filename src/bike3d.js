@@ -161,7 +161,9 @@ const BIKE=(function(){
     parked=null; };
   /* 換區域之後（populate 之後）：騎著就重新接上；停在這裡就擺出來；快速前往進了建築就把車移到這棟的門外 */
   B.afterEnter=function(GM,to){ const E=GM.E, G=GM.G, s=st(G);
-    if(pendingPark){ pendingPark=false; const ex=E.interactables.find(i=>i.exit&&B.ok(i.exit.to)&&i.exit.spawn); if(ex){ const sp=ex.exit.spawn; s.zone=ex.exit.to; s.x=sp.x+Math.cos(sp.yaw||0)*1.4; s.z=sp.z-Math.sin(sp.yaw||0)*1.4; s.yaw=(sp.yaw||0)+Math.PI/2; s.fix=true; } }
+    if(pendingPark){ pendingPark=false; let ex=E.interactables.find(i=>i.exit&&B.ok(i.exit.to)&&i.exit.spawn);
+      if(to==='cvs'&&G.flags&&G.flags.CVS_FROM==='wenzhou'&&typeof WZS!=='undefined'&&WZS.AA413&&WZS.AA413.cvs&&WZS.AA413.cvs.out) ex={exit:{to:'wenzhou',spawn:WZS.AA413.cvs.out}};   /* 溫州街 A5 的日和：同一間室內（出口寫公館，closed3d.js 出門時換回溫州街）→ 車停溫州街 A5 門外（CC／BB 11-04）*/
+      if(ex){ const sp=ex.exit.spawn; s.zone=ex.exit.to; s.x=sp.x+Math.cos(sp.yaw||0)*1.4; s.z=sp.z-Math.sin(sp.yaw||0)*1.4; s.yaw=(sp.yaw||0)+Math.PI/2; s.fix=true; } }
     if(s.riding&&!B.ok(to)) s.riding=false;   /* 不該發生（騎著進了室內）：當作沒騎 */
     /* 自動停車（AA_646 第 3 節）：從別的區域走進有車的戶外區域（不是騎著來、不是讀檔）＝車已經停在出來的地方最近的合法停車處 */
     if(!s.riding&&B.ok(to)&&fromZone&&fromZone!==to&&E.player){ const p=E.player.obj.position; let q=null;

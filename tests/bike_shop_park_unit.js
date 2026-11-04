@@ -126,6 +126,12 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
   { loadZone('bikeshop'); const BL=BIKE_LAYOUT.bike.repairBike.blockWhenShown, nb=()=>E.nav.b.reduce((a,v)=>a+(v?1:0),0), n0=nb(), c0=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null;
     BIKESHOP.repairBike(true); const n1=nb(), c1=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null; BIKESHOP.repairBike(false); const n2=nb();
     check('8d 修車架上的車打開時加導航阻擋（repairBike.blockWhenShown）、收起來還原（BB 11-04）',n1>n0&&n2===n0,J({n0,n1,n2,c0,c1})); }
+  { const W0=globalThis.WZS, src=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8'), m=src.match(/cvs:\{[^\n]*?out:\{x:([-\d.]+),z:([-\d.]+),yaw:([-\d.]+)\}/); const out=m?{x:+m[1],z:+m[2],yaw:+m[3]}:{x:44,z:2.4,yaw:0};
+    globalThis.WZS=Object.assign({},W0||{},{AA413:{cvs:{out}}}); G.flags=G.flags||{};
+    try{ await enter('wenzhou',{x:0,z:0,yaw:0}); const q=BIKE.parkSpots(E,'wenzhou')[0]; G.bike.zone='wenzhou'; G.bike.x=q.x; G.bike.z=q.z; G.bike.yaw=q.yaw; G.bike.riding=false; loadZone('wenzhou',{x:q.x,z:q.z,yaw:0}); BIKE.afterEnter(GM,'wenzhou'); await tick();
+      P.obj.position.set(q.x,0,q.z); BIKE.mount(GM); const rode=P.riding; P.obj.position.set(-20,0,0); G.flags.CVS_FROM='wenzhou'; await enter('cvs',{x:0,z:3.4,yaw:Math.PI});
+      check('9c 騎車快速前往溫州街 A5 的日和便利店（CVS_FROM wenzhou）：車停在溫州街 A5 門外（WZS.AA413.cvs.out 旁），不是公館（CC／BB 11-04）',rode&&!!m&&G.bike.zone==='wenzhou'&&Math.hypot(G.bike.x-out.x,G.bike.z-out.z)<3,J({rode,m:!!m,bike:G.bike})); }
+    finally { G.flags.CVS_FROM=null; if(W0===undefined) delete globalThis.WZS; else globalThis.WZS=W0; } }
   loadZone('xinsheng'); check('9 新生南路：還沒有停車架、停車格＝沒有合法停車處（車照舊）',BIKE.parkSpots(E,'xinsheng').length===0);
   // 校園：回宿舍再出來＝宿舍門口；法律系館A＝最近的停車架
   G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false}; G.hour=15;
