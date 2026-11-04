@@ -10,7 +10,8 @@
 //   4-3 子晴那句的店名換 2:30 AM；AA_494 0777c92ac 子晴交往中、可昕兩句也換（讀稿的換字表 aa655_fix.json pairs）。
 // 第一版　修改前（開發分支 55f685380 的程式＋這支測試）：FAILED 41——第 0 節（模組、index.html、白名單、台詞表）、G1～G6 每一項「有出現」的檢查、4-3；
 //   修改前後都 PASS 的 12 項：讀稿兩項、「不出現／舊存檔不補」那幾項、4-1 兩項、4-2（後三項是查證，沒改程式）。修改後 ALL PASS（53 項）。
-// 第二版（0777c92ac）　修改前（開發分支 71281be8e 的 src＋這支測試）：見 PRE_RESULT（下面）。
+// 第二版（0777c92ac）　修改前（開發分支 71281be8e 的 src＋這支測試；白名單、換字表已經是新的）：FAILED 17——第 0 節兩項（台詞表、src 的舊句）、G1-1 兩項、G3-2、
+//   G1-3 芯慈版三項、G1-5 芯慈版、G2-1 兩項、G2-2 五項、4-3 店名；修改前後都 PASS 的 49 項：讀稿、白名單、換字表（不看 src）、沒改的 G1～G6 與第 4 節、G2-1 開關關掉。修改後 ALL PASS（66 項）。
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
