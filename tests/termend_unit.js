@@ -257,12 +257,13 @@ GM.money=function(n){ G.money+=n; };
     check('13. 子晴大四上（已經畢業）：「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」',JSON.stringify(a)===JSON.stringify(['欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱']),JSON.stringify(a));
     w=setup('Y4S1','heroine_04',{EXCHANGE_ROUTE:'US'}); G.day=w.to-2; run(20,21); a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
     check('13. 子晴大四上美國路線：「欸 你回來了齁 宵夜」',a[0]==='欸 你回來了齁 宵夜',JSON.stringify(a));
-    w=setup('Y4S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); L=lines();
+    /* TE-HEART-EXEMPT-1104：語彤的心意邀約（examDay）不佔「只能接一個」的名額，她那一頓是另一場出遊 te_ex_<學期>_heroine_03（一般名額那一頓照舊 te_<學期>）——下面三處照新的 id 拿，檢查的內容不變 */
+    w=setup('Y4S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_ex_Y4S1_heroine_03'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); L=lines();
     const i3=L.findIndex(x=>x.endsWith('這一次，我想選你。'));   /* AA_661 第 73、89 列（AA_625 事件 16「告白的那一段」）：原本「……你要不要試試看，被我分一點時間？」 */
     check('13. 語彤大四上她說＝AA_625 事件 16 告白那一段＋理由一句（沒有雨天總圖門口的記憶＝第一次一起上班那一句，AA_661 第 56 列），CG-12 在最後一句「這一次，我想選你。」',L.some(x=>x.endsWith('從小，什麼都有人幫我選好。學校、補習班、要學什麼樂器。'))&&L.some(x=>x.endsWith('第一次一起上班，你把我洗好的杯子又擦了一遍。'))&&i3>0&&JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03'])&&G.flags.dating_heroine_03===true,JSON.stringify(cgs));
-    w=setup('Y4S1','heroine_03'); SOCIAL.remember('heroine_03','NOTICED_EMPTY_SEAT',''); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
+    w=setup('Y4S1','heroine_03'); SOCIAL.remember('heroine_03','NOTICED_EMPTY_SEAT',''); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_ex_Y4S1_heroine_03'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
     check('13. 語彤大四上玩家先說：CG-12 放在她答應那一句',JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03']));
-    w=setup('Y3S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y3S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y3S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
+    w=setup('Y3S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y3S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_ex_Y3S1_heroine_03'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
     check('13. 語彤大三上：不放 CG-12（只有大四上）',!cgs.length&&G.flags.dating_heroine_03===true);
     // 玩家自己約、選的店
     w=setup('Y1S2','heroine_01'); TERMEND.plan(G,w); said=[]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'heart',term:'Y1S2',place:'brunch',placeName:'半熟'}}); L=lines();

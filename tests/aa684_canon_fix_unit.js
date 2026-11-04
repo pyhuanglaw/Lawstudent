@@ -163,7 +163,7 @@ await sec(6,async()=>{
     const P=TERMEND.plan(H.G,w); at(DK('2027-06-11'),20); run(20,21);
     const M=(H.G.msgs||[]).filter(m=>m.tag==='te_Y2S2_heroine_03').map(m=>[K(m.day),m.h,m.text]);
     check('6. 大二下：心意邀約在最後一科考完的那天（6/11 五）20:30 傳，句子是基本版（「……茶屋下班以後，我泡茶。只有我們。」）',P.heart.includes(YT)&&J(M)===J([['2027-06-11',20.5,'禮拜六我沒排班。……茶屋下班以後，我泡茶。只有我們。']]),J({heart:P.heart,M}));
-    PHONE.answer(H.G,'te_Y2S2_heroine_03',0); STORY.phoneRules(GM); const q=OUT.get(H.G,'te_Y2S2');
+    PHONE.answer(H.G,'te_Y2S2_heroine_03',0); STORY.phoneRules(GM); const q=OUT.get(H.G,'te_ex_Y2S2_heroine_03');   /* TE-HEART-EXEMPT-1104：她這一則不佔「只能接一個」的名額，那一頓是另一場出遊 te_ex_Y2S2_heroine_03（檢查的內容不變）*/
     check('6. 答應以後：出遊排 6/12（六）17:30、一盞茶屋（不是 6/19）',!!q&&q.te&&q.te.who===YT&&K(q.day)==='2027-06-12'&&q.h===17.5&&q.place==='一盞茶屋',J(q&&[K(q.day),q.h,q.place])); }
 });
 
