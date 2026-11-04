@@ -494,3 +494,11 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
   for(const id in DATA){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}), w=p.walk||(p.walk={});
     for(const e of DATA[id]){ const k=e.where; w[k]=one(w[k]).concat([{one:e.one,if:e.if,l:e.l}]); } }
   INVITE_DATA.walk118=DATA; })();
+/* ---------- 木曜日（溫州街 B4 二樓；AA_617 第 3 節、AA_618 1-6，使用者 11-03 同意、AA 定稿 D109）當邀約地點 ----------
+   約人只給兩個人的約（這裡的邀約本來就是一對一；群約不列這裡）；有理由的（喝咖啡、念書，reason：和兩點半 Café 同一把尺）；營業 13:00～22:00、週二公休（off）、颱風天關（places.js）；
+   自己走去過一次才列（show：G.visited.wz_mokuyobi；AA_617 第 1 節「兩家都要自己走去一次才出現」）。見面兩個人一起坐下（seatPose）。
+   見面那一段（進門旁白、第一次的那一句、隨機一句、朋友一句）在 src/mokuyobi_sys3d.js（MOKS.meetScene；台詞照 AA_618 1-6 一字照抄）；答應、改天照一般規則（AA_618 沒有寫答應句：系統旁白）。
+   可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白 */
+INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+  days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
+  scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});

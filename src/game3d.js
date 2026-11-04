@@ -7,7 +7,7 @@ const GAME = (function(){
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
   const GM={E:null,G:null,S,npc:{},extras:[],running:false,hourRate:1/150,lastAuto:0};
   // ---------- 狀態 ----------
-  function defaults(name){ return {v:SAVE_VER,stage:'law',name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true,YT_JOB_V:1,NAMECARD_V:1},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},savedAt:0}; }
+  function defaults(name){ return {v:SAVE_VER,stage:'law',name:name||'祐廷',day:1,weekday:3,hour:21.2,energy:100,money:22000,zone:'dorm',pos:null,weather:'clear',flags:{dating_kexin:true,KX_DEC3_MIGRATED:true,YT_JOB_V:1,NAMECARD_V:1},rel:{an:6,zhe:12,sis:2,kai:8,yu:3},notes:[],memo:[],visited:{dorm:true},stats:{steps:0,classes:0,study:0},choices:{},social:null,events:null,legal:null,cg:{unlocked:[]},mokuyobi:{n:0,seats:{}},savedAt:0}; }   /* mokuyobi：木曜日（AA_618 1-4）來過幾次、每個位子坐過幾次……；舊存檔沒有＝migrate 補這個預設（從零開始），壞掉的 MOKS.rec 重設（src/mokuyobi_sys3d.js）*/
   function bindSystems(){ SOCIAL.bind(G); EVENTS.bind(GM); LEGAL.bind(G,GM); if(!G.cg) G.cg={unlocked:[]}; }
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
@@ -320,7 +320,7 @@ const GAME = (function(){
     else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); break; }
     else break;
     }
-    { const nl=typeof STORY!=='undefined'&&STORY.studyNarr?STORY.studyNarr(GM):null; if(nl) await say(null,nl); }   /* 讀完那個地方的一句旁白（慢讀咖啡四句輪流，AA_535 第 3 節；src/slowread3d.js）*/
+    { const nl=typeof STORY!=='undefined'&&STORY.studyNarr?STORY.studyNarr(GM):null; if(nl) for(const l of [].concat(nl)){ if(Array.isArray(l)) await say(l[0]?{name:l[0]}:null,l[1]); else await say(null,l); } }   /* 讀完那個地方的一句旁白（慢讀咖啡四句輪流，AA_535 第 3 節；src/slowread3d.js）；陣列＝好幾句，[說話的人, 句子]＝有人說（木曜日 21:40 老闆的溫水，AA_618 1-4；src/mokuyobi_sys3d.js）*/
     { const ln=course&&typeof STUDY!=='undefined'&&STUDY.line?STUDY.line(G,course):''; if(ln) caption('',ln,4200); }   /* D118-B2（D118_PLAN ②-2）：讀完那一科的進度（和「法律」頁同一行）*/
     }
   GM.studySession=studySession;
