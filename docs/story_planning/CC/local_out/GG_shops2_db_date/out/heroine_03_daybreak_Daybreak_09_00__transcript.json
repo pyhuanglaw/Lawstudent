@@ -1,0 +1,191 @@
+{
+ "pid": "heroine_03",
+ "tag": "daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）",
+ "rec0": {
+  "day": 21,
+  "hour": 8.5597,
+  "t": 512.5597,
+  "money": 30000,
+  "rel": {
+   "fam": 25,
+   "trust": 12,
+   "comf": 10,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 1,
+  "mem": [
+   "FIRST_MET"
+  ],
+  "zone": "gongguan",
+  "fb": 0,
+  "err": 0
+ },
+ "rec1": {
+  "day": 21,
+  "hour": 9.5969,
+  "t": 513.5969,
+  "money": 30000,
+  "rel": {
+   "fam": 28,
+   "trust": 13,
+   "comf": 13,
+   "aff": 0,
+   "rom": 0,
+   "npcRom": 0
+  },
+  "nmem": 2,
+  "mem": [
+   "FIRST_MET",
+   "SHARED_MEAL"
+  ],
+  "zone": "daybreak"
+ },
+ "hours": 1.0371999999999844,
+ "say": [
+  {
+   "n": "",
+   "c": null,
+   "t": "（餐點送來的時候，她先拿手機拍了一張。）",
+   "h": 8.829,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "「……好，可以吃了。」",
+   "h": 8.829,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "",
+   "c": null,
+   "t": "你和陳語彤在 Daybreak 吃早午餐。",
+   "h": 8.829,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  },
+  {
+   "n": "陳語彤",
+   "c": "heroine_03",
+   "t": "掰。",
+   "h": 9.579,
+   "d": 21,
+   "z": "daybreak",
+   "adv": true
+  }
+ ],
+ "screen": [
+  {
+   "name": "",
+   "text": "（餐點送來",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "（餐點送來的時候，她先拿手機拍了一張。）",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "「……好，可以吃了。」",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "",
+   "text": "你和陳語彤在 Daybreak 吃早午餐。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  },
+  {
+   "name": "陳語彤",
+   "text": "掰。",
+   "slots": [
+    {
+     "id": "advL",
+     "show": false,
+     "img": false
+    },
+    {
+     "id": "advR",
+     "show": true,
+     "img": true
+    }
+   ],
+   "adv": true
+  }
+ ],
+ "seat": {
+  "zone": "daybreak",
+  "lv": 0,
+  "pseat": true,
+  "nseat": true,
+  "seatD": 1.45,
+  "sameGroup": false,
+  "doorD": 7.08,
+  "spawnD": 5.72,
+  "npc": true,
+  "nD": 1.45,
+  "nbeh": "idle",
+  "nleaving": false,
+  "nx": 2.05,
+  "nz": -3.5,
+  "p": [
+   0.6,
+   -3.5
+  ]
+ }
+}

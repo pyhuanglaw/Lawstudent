@@ -1,0 +1,95 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_shops2_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_shops2_db_date\out
+CASES=["daybreak_date"]
+== daybreak_date：約會（cc_social_smoke_probe.py 的 Person）
+PASS [heroine_03] 遊戲載入
+== 人物 heroine_03 陳語彤 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S1": 8, "Y3S2": 8, "Y4S1": 8, "Y4S2": 9, "Y1S1": 8}、店內偶遇 []、自由出行 ["D12", "D13", "D14", "D18"]）
+-- [heroine_03] gg2
+  [前置／捷徑] [heroine_03] 讀檔：daybreak：平日 07:00 在公館（今天還有時段可以約）（gongguan 21 7.00）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_03] 前置：認識（ACQUAINTANCE）、有聯絡方式：{"stage": "ACQUAINTANCE", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] Daybreak：認識（ACQUAINTANCE）約不到（minStage FAMILIAR）  再熟一點，才約得出去吃飯。
+  [前置／捷徑] [heroine_03] 前置：有點熟（FAMILIAR）、有聯絡方式：{"stage": "FAMILIAR", "name": "陳語彤", "fm": true, "lad": null, "contact": true}
+  [前置／捷徑] [heroine_03] 讀回存檔（套用關係以後重讀）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] daybreak 約之前：15 秒內回到可以自由移動
+PASS [heroine_03] daybreak 約之前：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] daybreak 約之前：搖桿推得動（≥0.3 m）  2.93 m
+PASS [heroine_03] daybreak 約之前：點地走得動（≥0.3 m）  點 [-20, 17.43]，走了 0.95 m
+PASS [heroine_03] daybreak 約之前：遊戲時間有在走  7.1376→7.1577
+PASS [heroine_03] daybreak 約之前：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約之前：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約之前：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] Daybreak 14:30 約：今天的時段一個都沒有、旁白「（Daybreak 下午三點就關了。）」  {"today": [], "late": "（Daybreak 下午三點就關了。）"}
+  [heroine_03] daybreak：手機約得到的時段（預測她的回答）：[["今天 09:00", "accept", 9], ["今天 10:00", "accept", 10], ["今天 11:30", "accept", 11.5], ["今天 13:00", "accept", 13], ["明天 09:00", "accept", 9], ["明天 10:00", "accept", 10], ["明天 11:30", "accept", 11.5], ["明天 13:00", "accept", 13]]
+PASS [heroine_03] daybreak：手機有 heroine_03 會答應的時段（08:00～14:00 開始）  [{"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "今天 09:00", "day": 21, "h": 9, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "今天 10:00", "day": 21, "h": 10, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "今天 11:30", "day": 21, "h": 11.5, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "今天 13:00", "day": 21, "h": 13, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "明天 09:00", "day": 22, "h": 9, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "明天 10:00", "day": 22, "h": 10, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "明天 11:30", "day": 22, "h": 11.5, "res": "accept", "why": null}, {"pid": "daybreak", "zone": "daybreak", "name": "Daybreak", "verb": "去 Daybreak 吃早午餐", "cat": "吃飯", "study": false, "t": "明天 13:00", "day": 22, "h": 13, "res": "accept", "why": null}]
+PASS [heroine_03] Daybreak：列出來的時段都在 08:00～14:00 開始  [9, 10, 11.5, 13, 9, 10, 11.5, 13]
+  [前置／捷徑] [heroine_03] 讀回存檔（daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：約之前）
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約：手機朋友頁他那一行有「訊息」  ‹ 訊息
+陳語彤
+☆
+傳訊息
+約
+還沒有訊息。按上面的「傳訊息」傳第一則。
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…（灰）", "運動…", "出去玩…（灰）", "算了"] → 選「吃飯…」
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 選單 ["去半熟吃早午餐", "去 Daybreak 吃早午餐", "返回"] → 選「去 Daybreak 吃早午餐」
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 選單 ["今天 09:00", "今天 10:00", "今天 11:30", "今天 13:00", "明天 09:00", "明天 10:00", "明天 11:30", "明天 13:00", "其他日子…", "算了"] → 選「今天 09:00」
+INFO [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約：手機自己打開（遊戲暫停），按「收起來」  
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約（去 Daybreak 吃早午餐 今天 09:00，預期 accept）台詞：["陳語彤（手機）｜「Daybreak？好。我想吃法式吐司。」", "｜約好 今天 09:00，Daybreak。"]
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約：手機約一路點得完
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：15 秒內回到可以自由移動
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：沒有新的 JS 例外
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：搖桿推得動（≥0.3 m）  3.03 m
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：點地走得動（≥0.3 m）  點 [-17.5, 20.29]，走了 0.95 m
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：遊戲時間有在走  7.2528→7.2730
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約 回覆之後：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 約：約成（daybreak 21 9.00）
+  [前置／捷徑] [heroine_03] 讀回存檔（daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：離約好的時間還有 1.3 小時，存檔的時間改到 21 8.55（手機的跳過時間只到固定時刻））
+  [前置／捷徑] [heroine_03] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 選單 ["直接過去：和陳語彤約在Daybreak（09:00）", "自己走過去"] → 選「直接過去：和陳語彤約在Daybreak（09:00）」
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：出發、到場、見面那一場一路點得完
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：開演時她在場（離玩家 ≤ 4 m）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.45, "sameGroup": false, "doorD": 7.08, "spawnD": 5.72, "npc": true, "nD": 1.45, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -3.5, "p": [0.6, -3.5]}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：X207 ⑤ 開演點在座位、桌子或櫃台，不在區域入口（玩家坐著，或離出生點／門口 ≥ 3 m）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.45, "sameGroup": false, "doorD": 7.08, "spawnD": 5.72, "npc": true, "nD": 1.45, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -3.5, "p": [0.6, -3.5]}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：約會中時間有往前走  遊戲時間 1.04 小時（21 8.56 → 21 9.60）
+INFO [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：錢 30000 → 30000（+0）  
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：關係或記憶有變化  {"rel": {"fam": 3, "trust": 1, "comf": 3}, "mem": "1→2 ['FIRST_MET', 'SHARED_MEAL']"}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：對話沒有空白的句子  []
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：說話的人名字不是 id  []
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：對話紀錄 4 句 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_shops2_db_date\out\heroine_03_daybreak_Daybreak_09_00__transcript.json
+    （旁白）｜（餐點送來的時候，她先拿手機拍了一張。）
+    陳語彤｜「……好，可以吃了。」
+    （旁白）｜你和陳語彤在 Daybreak 吃早午餐。
+    陳語彤｜掰。
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：15 秒內回到可以自由移動
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：沒有新的 JS 例外
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：HUD（手機、選單、小地圖）看得到也按得到  {"btnPhone": "ok", "btnMenu": "ok", "minimap": "ok"}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：搖桿推得動（≥0.3 m）  1.09 m
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：點地走得動（≥0.3 m）  點 [3.04, -3.08]，走了 0.83 m
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：遊戲時間有在走  9.6138→9.6340
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：按 #btnPhone 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：按 #btnMenu 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00） 結束：按 #minimap 打得開、關得掉  {"open": true, "closed": true}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：人在約定的地點（G.zone＝daybreak）  daybreak
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：那一筆約記成 done  [{"id": "iv1", "state": "done", "place": "daybreak", "zone": "daybreak", "day": 21, "h": 9}]
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：結束後玩家起身了  {"seat": false}
+PASS [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：她回到自己的行程（150 秒內離開，不黏在原地）  {"where": {"zone": "library", "away": null, "act": "看書"}, "npc": {"zone": "daybreak", "lv": 0, "pseat": false, "nseat": false, "seatD": null, "sameGroup": false, "doorD": 6.31, "spawnD": 4.92, "npc": false, "nD": null, "nbeh": null, "nleaving": false, "nx": null, "nz": null, "p": [2.95, -2.86]}}
+  [heroine_03] daybreak 約會（去 Daybreak 吃早午餐 今天 09:00）：見面那一場的選單 1 個，換選項重跑 0 次
+FAIL [heroine_03] daybreak：答應的一句（AA_652：「Daybreak？好。我想吃法式吐司。」）  ["約好了：今天 09:00，Daybreak（陳語彤）。", "和陳語彤在Daybreak。"]
+  [heroine_03] daybreak：開演那一刻 {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.45, "sameGroup": false, "doorD": 7.08, "spawnD": 5.72, "npc": true, "nD": 1.45, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -3.5, "p": [0.6, -3.5]}
+PASS [heroine_03] daybreak：X207 坐下才開演、兩個人同一桌（玩家坐、她坐、≤ 2.3 m 或同一張桌子）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.45, "sameGroup": false, "doorD": 7.08, "spawnD": 5.72, "npc": true, "nD": 1.45, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -3.5, "p": [0.6, -3.5]}
+FAIL [heroine_03] daybreak：X207 帶路時她離玩家 ≤ 3 m  取樣 4 次，最遠 5.50 m
+PASS [heroine_03] daybreak：X207 道別那一刻她在旁邊（≤ 4 m）  {"zone": "daybreak", "lv": 0, "pseat": true, "nseat": true, "seatD": 1.45, "sameGroup": false, "doorD": 7.08, "spawnD": 5.72, "npc": true, "nD": 1.45, "nbeh": "idle", "nleaving": false, "nx": 2.05, "nz": -3.5, "p": [0.6, -3.5]}
+PASS [heroine_03] daybreak：坐下以後的開場句（AA_652 seatOpen 兩句之一，逐字）  ["（餐點送來的時候，她先拿手機拍了一張。）", "「……好，可以吃了。」", "你和陳語彤在 Daybreak 吃早午餐。", "掰。"]
+    （旁白）｜（餐點送來的時候，她先拿手機拍了一張。）
+    陳語彤｜「……好，可以吃了。」
+    （旁白）｜你和陳語彤在 Daybreak 吃早午餐。
+    陳語彤｜掰。
+== daybreak_date 結果：FAIL 2：daybreak：答應的一句（AA_652：「Daybreak？好。我想吃法式吐司。」）；daybreak：X207 帶路時她離玩家 ≤ 3 m
+FAILED 2: [date daybreak] daybreak：答應的一句（AA_652：「Daybreak？好。我想吃法式吐司。」）；[date daybreak] daybreak：X207 帶路時她離玩家 ≤ 3 m
