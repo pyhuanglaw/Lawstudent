@@ -4893,6 +4893,21 @@
    "receiver": "LAWWW",
    "next": "AA_623 麵店團改成桌遊團（帳號 A 已交）",
    "note": "AA-C 補登記"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "國外那幾個月的逐週重讀、交往中的出發前／回國當天版本（AA_660 第 5 節，下一批）",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "VAC-GAP-ROUTES",
+   "sha": "d88f39e3f",
+   "files": [
+    "docs/story_planning/AA_660_交換路線_出發前回國後的空白_缺口表與第一批稿.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_660 第 2、3 節接線；BB 照第 4 節確認",
+   "note": "使用者 11-04 13:0x 選恢復（UA-AA-1104-15）"
   }
  ],
  "items": [
