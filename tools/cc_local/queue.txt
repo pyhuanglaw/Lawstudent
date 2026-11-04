@@ -188,6 +188,10 @@ SITAMB_class1 | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_pl
 SITAMB_player | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=player;CTL=both;CC_SEED=1104;CC_HEADLESS=0
 #HOLD-SITAMB SITAMB_tea | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=tea;CTL=both;CC_SEED=1104;CC_HEADLESS=0
 #HOLD-SITAMB SITAMB_fps | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_sitamb_probe.py | index.html | 20 | LOC=fps;CTL=both;CC_SEED=1104;SOLO=1;CC_HEADLESS=0
+# ===== GG_VIEWS（BB-C 22:43，D131，P3）：電腦恢復以後才跑，排在 v9.10.20 的 PC 項目後面；530a72ff4（GG-VIEWS-1104 第一步：套 LAWWW2 14923bc1 的 A_shots_script.patch）=====
+#   遊戲要用的素材＝一定要在 PC 拍（雲端 SwiftShader 拍的不能用）。cc_shop_views_gg.py＝530a 的 tools/shots/shop_views_layers.py 同一份拍攝邏輯（CC-C 22:5x 逐行比過：只差輸入輸出路徑、沒有 numpy／PIL 時先存原始三張、fast_shots 子行程走 gpu_wrap）
+#   推回 cc-local：{out}/assets/models/env/views/{cvs,cvs_wz,yejian,aoki}{,_near}_{day,night}.webp 16 張＋{out}/shop_views_layers.json（景深）；沒有 numpy／PIL＝{out}/raw/*_far／_nb／_nw.png，雲端 CC 用 VIEWS_REMATTE 去背轉 webp 再交 LAWWW-C（填 VIEW_LAYERS）
+GG_VIEWS_530a | 530a72ff44c81385688b3e624f4a65b5dcf5544f | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
 # PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面
