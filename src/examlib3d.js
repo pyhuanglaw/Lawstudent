@@ -144,11 +144,12 @@ const EXLIB=(function(){
   /* 同一排的旁邊（S.adjacent 的第一種：同一層、同一個方向、左右 0.45～1.5 m、前後 0.3 m 內）*/
   S.sameRow=function(st,q){ const yaw=st.yaw||0, fx=Math.sin(yaw), fz=Math.cos(yaw), dx=q.x-st.x, dz=q.z-st.z, f=dx*fx+dz*fz, l=dx*fz-dz*fx, dy=Math.abs(Math.atan2(Math.sin((q.yaw||0)-yaw),Math.cos((q.yaw||0)-yaw)));
     return (q.lv|0)===(st.lv|0)&&dy<0.3&&Math.abs(f)<0.3&&Math.abs(l)>=0.45&&Math.abs(l)<=1.5; };
-  /* 4-1 占哪一個（第 6 節）：之後的學期答應的是「老位子」那一句（H.old）＝玩家的老位子；社科圖二樓「我旁邊」：旁邊就是老位子（seat.old）＝占老位子；其他＝旁邊（S.adjacent，照舊）*/
+  /* 社科圖二樓：st 同一排的旁邊就是老位子（seat.old）而且 ok＝老位子；其他＝null（第 6 節「劇情和占位子會用到其中一排」：占位子、招手都坐到老位子）*/
+  S.besideOld=function(E,z,st,ok){ if(z!=='soclib_2f'||!st) return null; const o=((E&&E.zone&&E.zone.seats)||[]).find(q=>q&&q.old); return o&&o!==st&&(!ok||ok(o))&&S.sameRow(st,o)?o:null; };
+  /* 4-1 占哪一個（第 6 節）：之後的學期答應的是「老位子」那一句（H.old）＝玩家的老位子；社科圖二樓「我旁邊」：旁邊就是老位子＝占老位子；其他＝旁邊（S.adjacent，照舊）*/
   S.holdPick=function(E,z,H,fs,P,free){ const seats=(E&&E.zone&&E.zone.seats)||[];
     if(Array.isArray(H.old)){ const q=seats.find(q=>q&&(q.lv|0)===(H.old[2]|0)&&Math.hypot(q.x-H.old[0],q.z-H.old[1])<0.1); if(q&&free(q)) return q; }
-    if(!fs) return null; if(z==='soclib_2f'){ const o=seats.find(q=>q&&q.old); if(o&&o!==fs&&free(o)&&S.sameRow(fs,o)) return o; }
-    return S.adjacent(E,fs,P&&P.hold&&P.hold.side,free); };
+    if(!fs) return null; return S.besideOld(E,z,fs,free)||S.adjacent(E,fs,P&&P.hold&&P.hold.side,free); };
 
   /* ---------- 這一間的位子狀態（換區域就重來；座位物件是區域建好時才有的）---------- */
   let ZS=null;   /* {zone:E.zone, id, day, order, held:Set, lastH, holdSeat, holdIt, d42Seat} */
@@ -280,7 +281,7 @@ const EXLIB=(function(){
     return S.nearHeld(GM); };
   /* 招手的朋友：這一間、坐著、FRIEND 以上、旁邊有位子（沒有人坐；放了東西的＝他幫你收）*/
   S.waver=function(GM){ const G=GM.G, E=GM.E; const out=[]; for(const id of Object.keys(S.cast(G))){ const P=S.inCast(G,id); if(!P||S.zoneOf(P.place)!==G.zone) continue; const n=GM.npc&&GM.npc[id]; if(!n||!n.seat||!E.npcs.includes(n)) continue; if(!S.friendUp(G,id)) continue;
-      const a=S.adjacent(E,n.seat,null,q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken); if(a) out.push({id,n,seat:a}); } return out[0]||null; };
+      const ok=q=>S.studySeat(G.zone,q)&&!S.occupied(E,q)&&!q.taken, a=S.besideOld(E,G.zone,n.seat,ok)||S.adjacent(E,n.seat,null,ok); if(a) out.push({id,n,seat:a}); } return out[0]||null; };   /* 社科圖二樓：旁邊是老位子就招手叫你坐老位子（第 6 節）*/
   S.waveText=id=>String((L().full||{}).wave||'').replace('{她／他}',male(id)?'他':'她');
   const seatIt=(E,st)=>(E.interactables||[]).find(it=>it&&it.seat===st)||{x:st.x,z:st.z,lv:st.lv|0,radius:0.8,label:'坐下讀書',seat:st,study:true};
   const sitDown=async(GM,st)=>{ const E=GM.E; if(ZS&&ZS.held.has(st)){ S.unhold(E,st); ZS.held.delete(st); } if(st.taken==='exlib41') st.taken=null; const it=seatIt(E,st); if(GM.seatMenu) await GM.seatMenu(it); return true; };
