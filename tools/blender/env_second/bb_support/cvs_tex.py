@@ -366,11 +366,26 @@ def outside(path):
     return _save(a, path)
 
 
+def leaves(path):
+    """窗外行道樹的葉子（透明底 RGBA，只給渲染用：陽光穿過去，地上有樹影）"""
+    W, H = 1024, 512; rng = np.random.RandomState(411)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); can = np.zeros((H, W), np.float32)
+    for k in range(40):
+        cx, cy, r = rng.randint(0, W), rng.randint(0, int(H * 0.8)), rng.randint(40, 110)
+        can = np.maximum(can, np.clip(1 - ((xx - cx) ** 2 + ((yy - cy) * 1.2) ** 2) / r ** 2, 0, 1))
+    n = _noise(H, W, 6, 412, 3); n2 = _noise(H, W, 2, 413, 2)
+    a = ((can * (0.55 + 0.7 * n) + 0.25 * (n2 - 0.5)) > 0.5).astype(np.float32)
+    col = np.array([70, 104, 46], np.float32) * (0.75 + 0.5 * n[..., None])
+    for x in (180, 560, 900): a[int(H * .55):, x:x + 14] = 1; col[int(H * .55):, x:x + 14] = [86, 72, 56]
+    im = np.concatenate([np.clip(col, 0, 255), (a * 255)[..., None]], -1).astype(np.uint8)
+    Image.fromarray(im, 'RGBA').save(path); return path
+
+
 def build_all(outdir):
     os.makedirs(outdir, exist_ok=True); p = lambda n: os.path.join(outdir, n)
     return dict(floor=floor(p('cvs_floor.png'), p('cvs_floor_rough.png')), ceil=ceiling(p('cvs_ceil.png')), wood=wood(p('cvs_wood.png')),
                 prints=prints(p('cvs_print.png')), goods=goods(p('cvs_goods.png')), cooler=cooler(p('cvs_cooler.png')), screen=screen(p('cvs_screen.png')),
-                decal=decals(p('cvs_decal.png')), outside=outside(p('cvs_outside.png')))
+                decal=decals(p('cvs_decal.png')), outside=outside(p('cvs_outside.png')), leaves=leaves(p('cvs_leaves.png')))
 
 
 if __name__ == '__main__':
