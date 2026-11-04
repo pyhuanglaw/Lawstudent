@@ -5,6 +5,7 @@
     refcam    參考圖鏡頭（LAWWW2 docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md：從參考圖招牌四個角反推）：
               眼 (−3.0, 1.61, −2.97)、看 (−6.33, 1.61, 6.46)、再向右轉 3.6°（BB-C 15:33）、垂直 FOV 45.7°、上下移軸 shift_y 0.0733、1672×941（和參考圖一樣大，可以直接疊圖）
   WZ_COPY_SHOP='moved'（劇情選「搬到轉角」以後）：轉角店（北巷，玻璃門 x 3.1、z 6.0～6.95；互動點 (3.9, 6.5)）三張：front、street（從溫州街往巷子看）、oblique。
+  另外 A1 每個時段留一張不藏出口標籤的 approach（ade_approach_labels_*；BB-C 15:54 看標籤會不會擋招牌），其他張都藏（cc_det.HIDE_LABELS_JS）。
   做法（同 cc_baseline_probe 的 DET）：遊戲載入前固定種子（cc_det）、路人照 cc_det 藏、HUD 藏；每張停主迴圈、時刻和 shader 時間設回固定值、手動畫一幀再截圖。
   【前置／捷徑】讀檔指定地點、時間、旗標（條件事件關閉）、固定鏡頭——不是玩家看到的流程，只用來比畫面。Windows＋GPU（電腦）／SwiftShader（雲端）≠ iPhone。
   參考圖的比對（same_angle_check --mode shop，對 story-planning 的 ref_images/shops/wz_ade_ext.webp）在雲端跑，不在這支。
@@ -93,6 +94,12 @@ async def main():
                 if state == 'moved':
                     check('[moved] 店門換到轉角（互動點 x>0）', bool(cp['door']) and cp['door'][0] > 0, J(cp['door']))
                 await pg.evaluate(cc_det.HIDE_PEOPLE_JS); await pg.evaluate(HUD + '(false)')
+                if not state:   # BB-C 15:54：另外留一張不藏標籤的玩家視角（看門上的出口標籤會不會擋到招牌）；美術判定用藏標籤的那幾張
+                    name, e, l, fov, shift = A1[0]
+                    ri = await pg.evaluate(AIM + '(%s)' % J([e, l, h, seed, fov, shift]))
+                    fn = 'ade_%s_labels_%02d%02d.png' % (name, int(h), int(round(h % 1 * 60)))
+                    await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=e, look=l, state='A1', hour=h, labels=True)
+                    print('  %s（不藏出口標籤）：calls %s、tris %s' % (fn, ri['calls'], ri['tris']), flush=True)
                 print('  藏起來的出口標籤：%d' % (await pg.evaluate(cc_det.HIDE_LABELS_JS)), flush=True)
                 for k, (name, e, l, fov, shift) in enumerate(shots):
                     big = name == 'refcam'
