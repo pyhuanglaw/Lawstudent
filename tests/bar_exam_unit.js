@@ -3,6 +3,7 @@
 //   沒報名、交換延畢的 8/4；9/7 一試放榜三段系統字、朋友、不到 12 題；10/20～21 二試；12/14 二試放榜（16 題以上司法官那一行）、麵店、學姊那一句（AA_327 2-Y4-60）；
 //   以安的二試、三試放榜＝她打來的電話（AA_319 c9b4f60e；不到 FRIEND 只有 1/25 麵店團一則）；2030 年（交換延畢、2029 不到 12 題）；12/14 讀書小組三個版本（Z1）。
 //   2026-10-22 AA_296 2-3-1 ③（企劃線 3f406dbc）改了第 10 組的期待值：和可昕交往、沒考＝12/14 15:05 她打來（場景 kx_bar_2029），那兩則私訊是沒接的替代版。用法：node tests/bar_exam_unit.js
+//   2026-11-04 AA_688 第 3 節（企劃線 8dce2f94c；CANON-PURGE-SRC-1104）改了第 12 組的期待值：語彤的報榜兩則搬到 2029 年（9/7、12/14），2030-12-13 群組沒有她那兩則
 const H=require('./pg_harness.js'); const {check}=H;
 const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findIndex(x=>String(x.v)===String(q.answer)); return i<k?right:(right===0?1:0); });   /* 前 k 題答對 */
@@ -105,7 +106,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     H.at('2030-08-02',20.6); PG.rules(GM); H.at('2030-08-02',21.1); H.tick(); check('12. 2030 重考的便條（照片）：「（便條：「你比去年多念了一年。」）」',H.msgs('p:heroine_05').includes('（便條：「你比去年多念了一年。」）'));
     H.at('2030-12-13',14.6); G.flags.BAR_SIT_2030=true; G.flags.BAR_SCORE_2030=8; G.flags.BAR_STAGE_2030='lawyer'; PG.rec(G).done.exam_2030=1; PG.rec(G).done.r1_2030=1; PG.rec(G).done.e2a_2030=1; PG.rec(G).done.e2b_2030=1;
     PG.rules(GM); H.at('2030-12-13',15.1); await H.run('r2_2030'); H.at('2030-12-13',15.4); H.tick();
-    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；Alison、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&H.msgs('g:noodle_team').includes('蘇姨已經在寫紅紙了。')); }   /* AA_630 Z-134：語彤那一句的紅紙是蘇姨寫的（YT-REWRITE-1103）*/
+    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；Alison、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&!G.msgs.some(m=>m.th==='g:noodle_team'&&m.from==='heroine_03'&&m.day===PG.DK('2030-12-13'))&&G.msgs.some(m=>m.th==='g:noodle_team'&&m.from==='heroine_03'&&m.text==='一試過了。'&&m.day===PG.DK('2029-09-07'))); }   /* AA_630 Z-134：語彤那一句的紅紙是蘇姨寫的（YT-REWRITE-1103）*/   /* AA_688 第 3 節（企劃線 8dce2f94c，CANON-PURGE-SRC-1104）：語彤 2029 年就考上了——「上了。」「蘇姨已經在寫紅紙了。」搬到 2029-12-14、「一試過了。」搬到 2029-09-07（這一組 9/7 15:24 跑過群組，有那一則），2030-12-13 沒有她那兩則（原本這裡查「蘇姨已經在寫紅紙了。」）*/
   // ---- 2029 已經考上的玩家，2030-12-13 阿哲那一句 ----
   { const G=H.fresh('2030-12-13',14.6,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); PG.rules(GM); H.at('2030-12-13',15.3); H.tick();
     check('13. 2029 已經考上：阿哲「上了。去年那頓宵夜，今天換我請。」；沒考的系統字不出現',H.msgs('g:noodle_team').includes('上了。去年那頓宵夜，今天換我請。')&&!H.msgs('g:noodle_team').includes('國考放榜了。')); }
