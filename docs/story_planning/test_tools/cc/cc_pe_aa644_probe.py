@@ -11,7 +11,9 @@
     swim_closed  大一上第 13 週 2025-11-24（第四個星期一 B1 休館）：照舊在球場、旁白「（今天在球場講游泳的安全守則。下週下水。）」
     late         大一上第 14 週 2025-12-01（一，游泳週）：開始以後才走進去＝遲到 1～15 分鐘：R.late、出席 +1、沒有 R.abs；旁白照說
     absent       大一上第 11 週 2025-11-10（一）：人在校園、不去，站著等到「沒去」：沒有 done、出席不加（點名週＝缺一次）
-    econ         經濟系那一年 2024-09-11（三，pe_y0s1 第 2 週）：旁白名字換經濟系的同學、沒有法律系的名字
+    econ_ff      經濟系那一年 2024-09-11，照正常網址讀檔：只記錄「事件接事件」（econff3d.js）會不會把體育課跳過、自動算出席（INFO，不判 FAIL）
+    econ         同一堂，網址加 ?nofastecon（[前置／捷徑]，關掉事件接事件）：旁白名字換經濟系的同學、沒有法律系的名字
+                 （PE644 第一次跑：讀檔 15:10 → 空下來 1.5 秒就跳到 9/12 21:00，體育課自動算出席，門口沒有「進去上課」）
   每一個 CASE 的檢查：
     ① 第一句對話時人在 gym／gym_b1、ADV 背景 freeze ② 玩家站位 ③ 老師站位、朝向、名牌 ④ 同學人數、半圈／長椅、面向老師
     ⑤ 那段時間羽球場（游泳週：池邊公眾長椅）沒有人 ⑥ 這週的旁白和 AA_644 稿逐字一樣（本檔 DOC 照抄稿，名字照在場與否換「有人」）、只出現一句、沒有台詞池那一句
@@ -28,7 +30,7 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
-ALL = ['normal', 'name', 'swim', 'swim_closed', 'late', 'absent', 'econ']
+ALL = ['normal', 'name', 'swim', 'swim_closed', 'late', 'absent', 'econ_ff', 'econ']
 CASES = [c.strip() for c in (os.environ.get('CASES') or ','.join(ALL)).split(',') if c.strip()]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 FAILS = []
@@ -369,6 +371,8 @@ async def case_class(pg, cdp, tag, key, expect, lead_h, shots, stage='law', flag
     pool_lines = await pg.evaluate(js(POOL_LINES, fh['it']['id']))
     r0 = await pg.evaluate(js(REC, {'key': fh['it']['key'], 'cid': fh['it']['id']}))
     print('  上課前：%s' % J(r0), flush=True)
+    if not check('%s 前置：讀檔以後時間沒有被跳走（還在 %.2f 時附近、這堂還沒上）' % (tag, h), not r0['done'] and abs(r0['hour'] - h) < 0.5, J({k: r0[k] for k in ('hour', 'st', 'done', 'zone')})):
+        return None
     exp_rows = DOC['pe_y1s1'][:8] if fh['it']['id'] == 'pe_y0s1' else DOC.get(fh['it']['id'], [])
     base = exp_rows[fh['it']['week'] - 1] if 1 <= fh['it']['week'] <= len(exp_rows) else ''
     def narr_ok(t):
@@ -474,8 +478,27 @@ async def main():
                     info('absent ⑩ 點名', '這週不是點名週（不算缺）：%s' % J(rs))
                 await pg.screenshot(path=os.path.join(OUT, 'absent_after.png'))
 
+        if 'econ_ff' in CASES:
+            # 經濟系 9/2～10/31 是「事件接事件」（src/econff3d.js ECONFF.on：stage econ、E01_MORNING、沒有 Y0_MOVED_OUT）：
+            # 玩家空下來 1.5 秒就黑幕跳到下一個事件，中間的課自動算出席（R.note['skip_'+key]）——PE644 第一次跑 econ 就是這樣跳到 9/12 21:00
+            print('== econ_ff 經濟系那一年、照正常網址（事件接事件）：記錄體育課會不會被跳過', flush=True)
+            fh = await find_class(pg, '2024-09-11', 'econ')
+            if fh.get('it'):
+                h = fh['it']['t0'] - 0.4; F = dict(FLAGS); F.update(ECON0)
+                st = {'zone': 'campus', 'hour': h, 'day': fh['day'], 'weekday': fh['wd'], 'weather': 'clear', 'flags': F, 'pos': DOOR_SOUTH, 'stage': 'econ', 'energy': 90, 'money': 20000}
+                await load(pg, cdp, st, '2024-09-11 %.2f 時、體育館門口南邊、stage=econ（正常網址）' % h)
+                ff = await pg.evaluate(js(r"""(k=>{ const G=GAME.G, R=CLS.rec(G); return {ffOn:typeof ECONFF!=='undefined'&&ECONFF.on?!!ECONFF.on(G):null, day:G.day, hour:+(+G.hour).toFixed(2), done:!!R.done[k], skipNote:!!(R.note||{})['skip_'+k]}; })(__A__)""", fh['it']['key']))
+                print('  讀檔 9 秒後：%s' % J(ff), flush=True)
+                info('econ_ff [稿對照] 正常玩經濟系那一年，體育課是被「事件接事件」自動算出席、不演的',
+                     '事件接事件=%s；體育課 done=%s、自動出席記號 skip=%s、時間跳到 day %s %.2f 時（讀檔 day %s %.2f 時）' % (ff['ffOn'], ff['done'], ff['skipNote'], ff['day'], ff['hour'], fh['day'], h))
+                await pg.screenshot(path=os.path.join(OUT, 'econ_ff_after_load.png'))
+
         if 'econ' in CASES:
-            print('== econ 經濟系那一年', flush=True)
+            print('== econ 經濟系那一年（網址加 ?nofastecon：關掉事件接事件，才走得到門口上體育課）', flush=True)
+            u = URL + ('&' if '?' in URL else '?') + 'nofastecon'
+            print('  [前置／捷徑] 重新載入 %s（econff3d.js 給測試舊流程用的開關；正常玩不會這樣）' % u, flush=True)
+            await pg.goto(u); check('econ：遊戲載入（nofastecon）', await L.wait_loaded(pg))
+            await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
             x = await case_class(pg, cdp, 'econ', '2024-09-11', {'cid': 'pe_y0s1', 'week': 2, 'swim': False}, -0.4, ('first', 'narr'), stage='econ', flags=ECON0,
                                  meet=ECON_FRIENDS, names=ECON_NAMES, friends=ECON_FRIENDS, rename=True)
             if x:

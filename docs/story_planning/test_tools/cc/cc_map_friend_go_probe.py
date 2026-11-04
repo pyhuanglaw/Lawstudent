@@ -31,11 +31,11 @@ def check(name, ok, info=''):
 # 每個人：能不能直接過去、同一區嗎、走不到的原因
 WHO = """(()=>{ const G=GAME.G, out=[]; for(const id of Object.keys(CHARACTERS||{})){ let w=null; try{ w=STORY.whereIs&&STORY.whereIs(GAME,id); }catch(e){}
   let g=null; try{ g=GAME.friendGoInfo&&GAME.friendGoInfo(id); }catch(e){} const nm=(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||id);
-  const met=!!(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id));
+  const met=!!(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id))||(!!(CHARACTERS[id]||{}).name&&nm===(CHARACTERS[id]||{}).name);   /* 認識＝顯示的是他的名字（不是「不認識的女生」這類描述）；MAP_fix2 第一次 PC：met_ 旗標判斷不到沈以安、阿哲 */
   if(!w&&!g) continue; out.push({id, nm, met:!!met, zone:w&&w.zone||null, away:w&&w.away||null, here:!!(w&&w.zone===G.zone&&!w.away), npc:!!(GAME.npc&&GAME.npc[id]), go:g?(g.why?'why:'+g.why:(g.here?'here':'mins:'+g.mins)):null}); }
   return {zone:G.zone, hour:G.hour, people:out}; })()"""
 SCAN = """(()=>{ const G=GAME.G, keep={day:G.day,hour:G.hour,weekday:G.weekday}, out=[];
-  const ids=Object.keys(CHARACTERS||{}).filter(id=>(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id)));
+  const ids=Object.keys(CHARACTERS||{}).filter(id=>(G.flags&&G.flags['met_'+id])||(typeof SOCIAL!=='undefined'&&SOCIAL.known&&SOCIAL.known(id))||((CHARACTERS[id]||{}).name&&typeof SOCIAL!=='undefined'&&SOCIAL.displayName&&SOCIAL.displayName(id)===CHARACTERS[id].name));
   try{ for(let d=4; d<=60 && out.length<12; d++){ const c=CALENDAR.dateOf(d); if(!c) continue; const wd=c.wd%7;
       for(const hr of [9.5,11,12.5,14,15.5,17,18.5,20]){ G.day=d; G.hour=hr; G.weekday=wd; let n=0, zs=[];
         for(const id of ids){ let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} if(w&&w.zone&&!w.away){ n++; zs.push(id+'@'+w.zone); } }

@@ -188,14 +188,31 @@ def url_for():
 
 # ---------------------------------------------------------------- 稿檢查（期望句子逐字在稿裡；回報檔名:行）
 def load_docs():
+    """讀企劃線的稿。PC（Windows）上 git show 帶中文路徑讀不到（YT3-* 第一次 PC 全部 0 字）：
+    改成 ls-tree -z 找 blob（輸出用 UTF-8 解）、cat-file 讀（參數只有 ASCII）；讀不到先 fetch 企劃線一次。錯誤印出來。"""
+    def run(args, t=60):
+        r = subprocess.run(['git', '-C', REPO] + args, capture_output=True, timeout=t)
+        return r.returncode, r.stdout, r.stderr.decode('utf-8', 'replace')[:300]
+    def tree():
+        rc, out_, err = run(['ls-tree', '-z', '-r', REF, '--', 'docs/story_planning/'])
+        ents = {}
+        for e in out_.split(b'\0'):
+            if not e: continue
+            meta, _, path = e.partition(b'\t'); parts = meta.split()
+            if len(parts) >= 3: ents[path.decode('utf-8', 'replace')] = parts[2].decode()
+        return rc, ents, err
+    rc, ents, err = tree()
+    if not ents and REF.startswith('origin/'):
+        run(['fetch', 'origin', REF[len('origin/'):]], 240); rc, ents, err = tree()
+    if not ents: print('  讀稿：ls-tree %s 失敗（repo %s）：%s' % (REF, REPO, err), flush=True)
     out = {}
     for k, f in DOCS.items():
-        rd = lambda: subprocess.run(['git', '-C', REPO, 'show', '%s:docs/story_planning/%s' % (REF, f)], capture_output=True, text=True, encoding='utf-8', timeout=60).stdout
-        try:
-            out[k] = rd()
-            if not out[k] and REF.startswith('origin/'):   # 這台的 repo 還沒 fetch 企劃線：fetch 一次再讀（只讀，不改工作樹）
-                subprocess.run(['git', '-C', REPO, 'fetch', 'origin', REF[len('origin/'):]], capture_output=True, text=True, timeout=180); out[k] = rd()
-        except Exception: out[k] = ''
+        sha = ents.get('docs/story_planning/' + f)
+        if not sha:   # 檔名對不上（全形／半形）就用 AA_6xx_ 開頭找
+            sha = next((v for pth, v in ents.items() if pth.split('/')[-1].startswith('AA_%s_' % k)), None)
+        if not sha: out[k] = ''; continue
+        rc, b_, err = run(['cat-file', 'blob', sha])
+        out[k] = b_.decode('utf-8', 'replace') if rc == 0 else ''
     return out
 
 

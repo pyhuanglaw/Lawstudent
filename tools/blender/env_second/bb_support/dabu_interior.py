@@ -48,7 +48,7 @@ M = {
     'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.6, target='#a97d55', normal=0.5, maps=('diff', 'nor'), rough_value=0.42),   # 參考圖的暖色中間木地板（D112）
     'wood': L.pbr(P + 'oak', 'walnut_veneer', tile=0.9, target='#d3ae7e', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.5, sat=0.85),  # 淺橡木（層板、長凳、櫃台、下櫃門）
     'paint': L.pbr(P + 'wall_paint', 'painted_plaster_wall', tile=2.0, target='#e6d8c4', maps=('diff',), res=256, rough_value=0.88),   # 暖米白（不是純白）
-    'ceil': L.flat(P + 'ceiling', '#ddd1bf', rough=0.92, cull=True),                                                                       # 平頂；單面朝下（剖面視角）
+    'sun': None,                                                     # 地上的光斑（v2b；天花板改用牆的材質，空出這一個）
     'fabric': L.pbr(P + 'cushion', 'rough_linen', tile=0.35, target='#8a8078', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.92),  # 灰褐布座墊
     'vc': L.vc_material(P + 'vc', rough=0.6),                        # 層板背板、隔板、鞋盒、襪子、毛巾、燈具外殼……（頂點色）
     'vcm': L.vc_metal(P + 'vc_metal', rough=0.38, metal=0.4),        # 鐵網、軌道、鋁框、門把
@@ -58,6 +58,20 @@ M = {
     'shoe': img_mat(P + 'shoe', SHOE_PNG, rough=0.58),               # 鞋子圖集
     'leaf': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 }
+def sun_mat(name, fn):
+    """窗外照進來的光斑：暖色、半透明（貼圖 alpha）、一點點自發光；glTF alphaMode BLEND"""
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.9
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(fn, check_existing=True)
+    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); nt.links.new(tx.outputs['Alpha'], bs.inputs['Alpha'])
+    bs.inputs['Emission Strength'].default_value = 2.0
+    try: m.surface_render_method = 'BLENDED'
+    except Exception: pass
+    try: m.blend_method = 'BLEND'
+    except Exception: pass
+    m['tile'] = 1.0; return m
+
+
+M['sun'] = sun_mat(P + 'sunpatch', os.path.join(GEN, 'dabu_sun.png'))
 VC = L.CMesh(P + 'vc_parts', M['vc']); VCM = L.CMesh(P + 'metal_parts', M['vcm'])
 
 
@@ -257,7 +271,7 @@ BOXC = [('#efede7', '#e1ded6'), ('#b9bdc2', '#a9adb3'), ('#5e636b', '#53575e'), 
 
 # ---------------- 地板、天花板、外牆 ----------------
 Mesh(P + 'floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
-ce = Mesh(P + 'ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
+ce = Mesh(P + 'ceiling', M['paint']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root)   # 平頂（牆的材質、單面朝下＝剖面視角）
 
 
 def wall_box(side, key, a0, a1, y0, y1, t0=0.0, t1=WT):
@@ -534,6 +548,9 @@ VC.cbox(ob_x - 0.09, ob_x + 0.09, 0.11, 0.115, ob_z - 0.16, ob_z + 0.16, '#f4ecd
 put_shoe('bb_high', 0, -2.4, 0.0, -0.62, 0.1 - math.pi / 2); put_shoe('bb_high', 0, -2.28, 0.0, -0.55, -0.15 - math.pi / 2)
 rg = it['rug'][0]; rx0, rx1, rz0, rz1 = rg['x'] - rg['w'] / 2, rg['x'] + rg['w'] / 2, rg['z'] - rg['d'] / 2, rg['z'] + rg['d'] / 2; ry_ = 0.01
 uv_quad(None, 'print', M['print'], [(rx0, ry_, rz1), (rx1, ry_, rz1), (rx1, ry_, rz0), (rx0, ry_, rz0)], PU('rug'))
+# 地上的光斑（v2b）：午後的太陽從櫥窗照進來（往 −z、偏西），兩道斜的平行四邊形，一道落在地毯邊上、一道在櫃台前的走道（參考圖右下那片光）
+for (x0_, x1_, za_, zb_, sk_) in ((-0.95, 0.15, 0.1, -2.3, -0.55), (-0.35, 0.45, -2.85, -4.15, -0.3)):
+    uv_quad(None, 'sun', M['sun'], [(x0_, 0.016, za_), (x1_, 0.016, za_), (x1_ + sk_, 0.016, zb_), (x0_ + sk_, 0.016, zb_)], (0.0, 0.0, 1.0, 1.0))
 
 # ---------------- 展示架（白檯面＋原木框，兩側鐵網籃）、落地盆栽 ----------------
 ir = it['island_rack'][0]; ixf = Xf(ir['x'], ir['z']); iw, idp, ih = ir['w'], ir['d'], ir['h']; wd = acc('wood')
@@ -702,7 +719,7 @@ for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 # 圖面（印刷：海報、標籤、紙條、地毯）只從正面看、鞋子（底部、鞋口裡面開口，看不到）：單面、不補反面（nodup）；拼起來的牆、木作也不補（補了反面重疊的面在 Cycles 變黑）
-_ss = L.single_side(root, keep=r'glass', nodup=r'^dabu_(print|wall_paint|oak|floor_oak|shoe)$')
+_ss = L.single_side(root, keep=r'glass|sunpatch', nodup=r'^dabu_(print|wall_paint|oak|floor_oak|shoe)$')
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 patch_glb(OUT); info['bytes'] = os.path.getsize(OUT)

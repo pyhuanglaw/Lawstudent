@@ -49,9 +49,9 @@ def img_mat(name, fn, rough=0.6, emit_fn=None):
 
 # ---------------- 材質（12 個） ----------------
 M = {
-    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.8, target='#d6b88e', normal=0.5, maps=('diff', 'nor'), rough_value=0.5),   # 淺色木地板（D112；參考圖：淺橡木）
-    'plaster': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#ecdfca', normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.9),   # 米色（參考圖），不是純白
-    'ceil': L.flat(P + 'ceiling', '#eee4d2', rough=0.92, cull=True),   # 單面朝下；暖白
+    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.8, target='#cba57a', normal=0.5, maps=('diff', 'nor'), rough_value=0.5),   # 淺色木地板（D112；參考圖：淺橡木）
+    'plaster': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#e8d5b6', normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.9),   # 米色（參考圖），不是純白
+    'ceil': L.flat(P + 'ceiling', '#ecdcc2', rough=0.92, cull=True),   # 單面朝下；暖白
     'slat': L.pbr(P + 'slatwall', 'fine_grained_wood', tile=1.3, target='#e6d6b8', normal=0.3, maps=('diff', 'nor'), rough_value=0.6),   # v4：米色烤漆的木條（參考圖），溝是深色
     'wood': L.pbr(P + 'wood', 'wood_table_001', tile=1.0, target='#9c6e48', normal=0.4, maps=('diff', 'nor'), rough_value=0.5),
     'guitar': img_mat(P + 'guitars', 'tongxian_guitar.png', rough=0.3),
@@ -490,8 +490,9 @@ for wn in WINS:
             bm_.cbox(a0, a1, b0, b1, Z0 + zo - 0.012, Z0 + zo + 0.012, '#45484a')
         uvquad(G('glass', 'back'), [(x_a + 0.03, ws + fr_t + 0.03, Z0 + zo), (x_b - 0.03, ws + fr_t + 0.03, Z0 + zo), (x_b - 0.03, wh - fr_t - 0.03, Z0 + zo), (x_a + 0.03, wh - fr_t - 0.03, Z0 + zo)], (0, 0, 1, 1))
     G('wood', 'back').rbox(wx0 - 0.05, wx1 + 0.05, ws - 0.03, ws, Z0 - 0.06, Z0 + 0.08, r=0.006)
-VZ = Z0 - 1.6   # 窗外景的板（1.6 m 外，比窗大很多：斜看也不露邊）
-uvquad(G('props', 'back'), [(-4.6, -0.6, VZ), (4.6, -0.6, VZ), (4.6, 5.15, VZ), (-4.6, 5.15, VZ)], pc('view', 1))
+for k, wn in enumerate(WINS):   # 窗外景的板（窗外 1.6 m；每扇窗一片、比窗大：斜看也不露邊；整張圖＝從窗口看出去的那一段街）
+    VZ = Z0 - 1.6 - 0.05 * k; vx0, vx1, vy0 = wn['x0'] - 0.8, wn['x1'] + 1.0, wn['sill'] - 0.5; vy1 = vy0 + (vx1 - vx0) / 1.6
+    uvquad(G('props', 'back'), [(vx0, vy0, VZ), (vx1, vy0, VZ), (vx1, vy1, VZ), (vx0, vy1, VZ)], pc('view', 1))
 # 冷氣（窗的上面）
 ac = IT['aircon'][0]; av = G('vc', 'back'); ax_, ay_ = ac['x'], ac['y']
 av.crbox(ax_ - 0.5, ax_ + 0.5, ay_ - 0.15, ay_ + 0.15, Z0, Z0 + 0.23, '#efeee8', r=0.03, seg=3)
@@ -738,8 +739,8 @@ def stool(m_wood, cm, x, z, sh, r=0.17, legc='#1c1c1e', ring=0.24):
     m_wood.add_bm(L.lathe([(0.0, 0.0), (r - 0.012, 0.0), (r, 0.012), (r, 0.033), (r - 0.012, 0.045), (0.0, 0.045)], seg=16), Xf_)
     for k in range(4):
         a = math.pi / 4 + k * math.pi / 2; ca, sa = math.cos(a), math.sin(a)
-        vpaint(cm, legc, lambda: cm.cyl((x + ca * (r * 0.62), sh - 0.045, z + sa * (r * 0.62)), (x + ca * (r + 0.05), 0.0, z + sa * (r + 0.05)), 0.011, seg=6))
-        vpaint(cm, '#2a2a2a', lambda: cm.cyl((x + ca * (r + 0.05), 0.0, z + sa * (r + 0.05)), (x + ca * (r + 0.05), 0.012, z + sa * (r + 0.05)), 0.014, seg=6))
+        vpaint(cm, legc, lambda: cm.cyl((x + ca * (r * 0.62), sh - 0.045, z + sa * (r * 0.62)), (x + ca * (r + 0.05), 0.0, z + sa * (r + 0.05)), 0.011, seg=5, caps=False))
+        vpaint(cm, '#2a2a2a', lambda: cm.cyl((x + ca * (r + 0.05), 0.0, z + sa * (r + 0.05)), (x + ca * (r + 0.05), 0.012, z + sa * (r + 0.05)), 0.014, seg=5))
     rr = r * 0.62 + (r + 0.05 - r * 0.62) * (1 - ring / (sh - 0.045))
     vpaint(cm, legc, lambda: cm.add_bm(L.lathe([(rr + 0.007, -0.007), (rr + 0.007, 0.007), (rr - 0.007, 0.007), (rr - 0.007, -0.007), (rr + 0.007, -0.007)], seg=12), Matrix.Translation(g2b(x, ring, z))))   # 腳踏圈
     vpaint(cm, legc, lambda: cm.add_bm(L.lathe([(r * 0.66, 0.0), (r * 0.6, 0.0), (r * 0.6, 0.03), (r * 0.66, 0.03)], seg=12), Matrix.Translation(g2b(x, sh - 0.075, z))))
@@ -760,7 +761,7 @@ uvquad(PR, [(ax0 + 0.03, 0.05, az1 + 0.002), (ax1 - 0.03, 0.05, az1 + 0.002), (a
 for (a0, a1, b0, b1) in ((ax0 + 0.03, ax1 - 0.03, 0.045, 0.052), (ax0 + 0.03, ax1 - 0.03, ah - 0.103, ah - 0.096), (ax0 + 0.026, ax0 + 0.033, 0.045, ah - 0.096), (ax1 - 0.033, ax1 - 0.026, 0.045, ah - 0.096)):
     CMt.cbox(a0, a1, b0, b1, az1, az1 + 0.005, '#c9c9c4')
 CMt.crbox(ax0 + 0.03, ax1 - 0.03, ah - 0.09, ah - 0.02, az1 - 0.002, az1 + 0.003, '#b9bcbe', r=0.003, seg=1)
-for k in range(6): vpaint(CV, '#151515', lambda: CV.cyl((ax0 + 0.07 + k * 0.06, ah - 0.055, az1 + 0.003), (ax0 + 0.07 + k * 0.06, ah - 0.055, az1 + 0.02), 0.011, seg=8))
+for k in range(6): vpaint(CV, '#151515', lambda: CV.cyl((ax0 + 0.07 + k * 0.06, ah - 0.055, az1 + 0.003), (ax0 + 0.07 + k * 0.06, ah - 0.055, az1 + 0.02), 0.011, seg=6))
 CV.poly([(ax1 - 0.06, ah - 0.06, az1 + 0.0035), (ax1 - 0.045, ah - 0.06, az1 + 0.0035), (ax1 - 0.045, ah - 0.045, az1 + 0.0035), (ax1 - 0.06, ah - 0.045, az1 + 0.0035)], '#e84a2a')
 CV.crbox(am['x'] - 0.1, am['x'] + 0.1, ah, ah + 0.03, am['z'] - 0.02, am['z'] + 0.02, '#151515', r=0.01, seg=2)
 c0 = (am['x'] - 0.1, am['z'] + 0.45)
@@ -793,35 +794,30 @@ EM.add_bm(L.lathe([(0.0, 0.0), (0.03, 0.01), (0.04, 0.05), (0.03, 0.09), (0.0, 0
 CL.glow(root, 'pendant', px, py - 0.02, pz, color='rgba(255,214,160,1)', size=1.6, day=0.3, night=1.0)
 
 # ---------------- 書架（隔間）＋上面的黃金葛；門口上方的吊盆 ----------------
-bs = IT['bookshelf'][0]; bx0, bx1, bz0, bz1, bh = bs['x'] - bs['w'] / 2, bs['x'] + bs['w'] / 2, bs['z'] - bs['d'] / 2, bs['z'] + bs['d'] / 2, bs['h']
-WD.rbox(bx0, bx1, 0.0, 0.06, bz0 + 0.02, bz1 - 0.02, r=0.004, seg=1); WD.rbox(bx0, bx0 + 0.02, 0.06, bh, bz0, bz1, r=0.004, seg=1)   # 底座、背板
-for zz_ in (bz0, (bz0 + bz1) / 2 - 0.012, bz1 - 0.024): WD.rbox(bx0, bx1, 0.0, bh, zz_, zz_ + 0.024, r=0.004, seg=1)
+bs = IT['bookshelf'][0]; bx0, bx1, bz0, bz1, bh = bs['x'] - bs['w'] / 2, bs['x'] + bs['w'] / 2, bs['z'] - bs['d'] / 2, bs['z'] + bs['d'] / 2, bs['h']   # 沿著 x、書背朝南（+z，朝店門）
+WD.rbox(bx0 + 0.02, bx1 - 0.02, 0.0, 0.06, bz0, bz1, r=0.004, seg=1); WD.rbox(bx0, bx1, 0.06, bh, bz0, bz0 + 0.02, r=0.004, seg=1)   # 底座、背板
+XM_ = (bx0 + bx1) / 2
+for xx_ in (bx0, XM_ - 0.012, bx1 - 0.024): WD.rbox(xx_, xx_ + 0.024, 0.0, bh, bz0, bz1, r=0.004, seg=1)
 for yy_ in (0.06, 0.38, 0.71, bh - 0.025): WD.rbox(bx0, bx1, yy_, yy_ + 0.025, bz0, bz1, r=0.004, seg=1)
-def book(xf, y0, y1, z0, z1, xb, col):
-    """書：只做看得到的四面（書背朝 +x、頂、兩側；背面靠背板、底面貼層板）"""
-    CV.poly([(xf, y0, z1), (xf, y0, z0), (xf, y1, z0), (xf, y1, z1)], col); CV.poly([(xf, y1, z1), (xf, y1, z0), (xb, y1, z0), (xb, y1, z1)], col, 0.9)
-    CV.poly([(xb, y0, z0), (xb, y1, z0), (xf, y1, z0), (xf, y0, z0)], col, 0.8); CV.poly([(xf, y0, z1), (xf, y1, z1), (xb, y1, z1), (xb, y0, z1)], col, 0.8)
-
-
 PAL = ['#8c3b47', '#2f5d50', '#c9a24f', '#e8dcc4', '#4a6c8c', '#7b5a3a', '#3a3a3a', '#a85a3a', '#5a4a7a', '#d8d0bc', '#efe9da', '#1f2a44']
 rb = random.Random(11)
 for (y0_, y1_) in ((0.085, 0.38), (0.405, 0.71), (0.735, bh - 0.03)):
-    for (za, zb) in ((bz0 + 0.024, (bz0 + bz1) / 2 - 0.012), ((bz0 + bz1) / 2 + 0.012, bz1 - 0.024)):
-        z_ = za + 0.01
-        while z_ < zb - 0.04:
-            t_ = rb.uniform(0.018, 0.045); h_ = rb.uniform(0.2, min(0.3, y1_ - y0_ - 0.02)); dd = rb.uniform(0.18, 0.24)
-            if rb.random() < 0.06: z_ += 0.05; continue
-            book(bx0 + 0.025 + dd, y0_, y0_ + h_, z_, z_ + t_, bx0 + 0.025, rb.choice(PAL)); z_ += t_ + 0.002
-        CV.crbox(bx0 + 0.04, bx0 + 0.26, y0_, y0_ + 0.06, zb - 0.035, zb - 0.002, rb.choice(PAL), r=0.002, seg=1)
-for (pz_, sd) in ((bz0 + 0.3, 13), (bz1 - 0.35, 17)):
-    pot(CV, bs['x'], bh, pz_, 0.09, 0.14, '#ece8de'); pothos_mound(bs['x'], bh + 0.14, pz_, 0.08, 16, sd)
-    for k in range(3): vine((bs['x'] + 0.06, bh + 0.13, pz_ + (k - 1) * 0.05), (1, 0, (k - 1) * 0.4), 0.45 + 0.18 * k, sd * 10 + k)
-vpaint(CV, '#2a2a2c', lambda: CV.add_bm(L.lathe([(0.0, 0.0), (0.06, 0.0), (0.03, 0.2), (0.0, 0.2)], seg=4), Matrix.Translation(g2b(bs['x'], bh, bs['z']))))   # 節拍器
+    for (xa_, xb_) in ((bx0 + 0.024, XM_ - 0.012), (XM_ + 0.012, bx1 - 0.024)):
+        x_ = xa_ + 0.01
+        while x_ < xb_ - 0.04:
+            t_ = rb.uniform(0.025, 0.06); h_ = rb.uniform(0.2, min(0.3, y1_ - y0_ - 0.02)); dd = rb.uniform(0.18, 0.24)   # 樂譜本、教本
+            if rb.random() < 0.06: x_ += 0.05; continue
+            CV.cbox(x_, x_ + t_, y0_, y0_ + h_, bz1 - 0.02 - dd, bz1 - 0.02, rb.choice(PAL)); x_ += t_ + 0.002
+        CV.crbox(xb_ - 0.035, xb_ - 0.002, y0_, y0_ + 0.06, bz1 - 0.26, bz1 - 0.04, rb.choice(PAL), r=0.002, seg=1)
+for (px__, sd) in ((bx0 + 0.25, 13), (bx1 - 0.22, 17)):
+    pot(CV, px__, bh, bs['z'], 0.09, 0.14, '#ece8de'); pothos_mound(px__, bh + 0.14, bs['z'], 0.08, 16, sd)
+    for k in range(3): vine((px__ + (k - 1) * 0.05, bh + 0.13, bs['z'] + 0.06), ((k - 1) * 0.4, 0, 1), 0.45 + 0.18 * k, sd * 10 + k)
+vpaint(CV, '#2a2a2c', lambda: CV.add_bm(L.lathe([(0.0, 0.0), (0.06, 0.0), (0.03, 0.2), (0.0, 0.2)], seg=4), Matrix.Translation(g2b(XM_, bh, bs['z']))))   # 節拍器
 hp = IT['hanging_plant'][0]; hx2, hy2, hz2 = hp['x'], hp['y'], hp['z']
 for k in range(3):
     a = 2 * math.pi * k / 3; vpaint(CV, '#c9b08a', lambda: CV.cyl((hx2, H, hz2), (hx2 + 0.12 * math.cos(a), hy2 + 0.13, hz2 + 0.12 * math.sin(a)), 0.003, seg=4))
 pot(CV, hx2, hy2, hz2, 0.13, 0.14, '#e2ddd2'); pothos_mound(hx2, hy2 + 0.14, hz2, 0.11, 22, 23, size=(0.08, 0.11))
-for k in range(8): vine((hx2 + 0.11 * math.cos(k * 0.8), hy2 + 0.12, hz2 + 0.11 * math.sin(k * 0.8)), (math.cos(k * 0.8), 0, math.sin(k * 0.8)), 0.9 + 0.25 * (k % 4), 120 + k, step=0.075, droop=0.7, size=0.09)
+for k in range(15): vine((hx2 + 0.11 * math.cos(k * 0.42), hy2 + 0.12, hz2 + 0.11 * math.sin(k * 0.42)), (math.cos(k * 0.42), 0, math.sin(k * 0.42)), 0.7 + 0.3 * (k % 4), 120 + k, step=0.075, droop=0.35, size=0.13)   # 參考圖：左上一大叢（大葉子、先往外長再垂下）
 
 # ---------------- 店門：門框＋開著的門片（壓花玻璃）＋「同弦樂器」木牌 ----------------
 fw = G('wood', 'left')
@@ -866,15 +862,14 @@ def wall_row_left(protos, yh, z0, z1, pitch, ang, arm, scl):
 
 NU = wall_row_left(UKE, 2.35, UZ0 + 0.2, UZ0 + 1.9, 0.3, math.radians(25), 0.15, 0.6)
 NC = wall_row_left(CLS, 2.35, UZ0 + 2.4, UZ1 - 0.2, 0.42, math.radians(25), 0.2, 0.97)
-NU += wall_row_left(UKE, 1.55, UZ0 + 0.35, UZ0 + 1.3, 0.3, math.radians(25), 0.15, 0.6)
 ak = IT['amp_shelf'][0]
 
 
 def amp_box(x0, x1, y0, y1, z0, z1, cell='grille_dark', body='#211f1e'):
-    CV.crbox(x0, x1, y0, y1, z0, z1, body, r=0.015, seg=2); fx = x1 + 0.002
+    CV.crbox(x0, x1, y0, y1, z0, z1, body, r=0.015, seg=1); fx = x1 + 0.002
     uvquad(PR, [(fx, y0 + 0.04, z1 - 0.03), (fx, y0 + 0.04, z0 + 0.03), (fx, y1 - 0.09, z0 + 0.03), (fx, y1 - 0.09, z1 - 0.03)], pc(cell))
     CMt.cbox(fx - 0.003, fx + 0.003, y1 - 0.08, y1 - 0.02, z0 + 0.03, z1 - 0.03, '#b9bcbe')
-    for k in range(5): vpaint(CV, '#151515', lambda: CV.cyl((fx, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), (fx + 0.018, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), 0.01, seg=8))
+    for k in range(5): vpaint(CV, '#151515', lambda: CV.cyl((fx, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), (fx + 0.018, y1 - 0.05, z0 + 0.07 + k * (z1 - z0 - 0.14) / 4), 0.01, seg=6))
 
 
 axb = X0 + 0.05
@@ -906,7 +901,7 @@ G('vc', 'front').cbox(wx0, wx1, 1.05, 1.95, Z1 - 0.02, Z1, '#c9b08a')   # 洞洞
 for i in range(18):
     for j in range(9): G('vc', 'front').poly([(wx0 + 0.065 + i * 0.105, 1.1 + j * 0.1, Z1 - 0.021), (wx0 + 0.05 + i * 0.105, 1.1 + j * 0.1, Z1 - 0.021), (wx0 + 0.05 + i * 0.105, 1.115 + j * 0.1, Z1 - 0.021), (wx0 + 0.065 + i * 0.105, 1.115 + j * 0.1, Z1 - 0.021)], '#6a5a44')
 for k, (tx_, ty_, tl, col) in enumerate(((0.95, 1.7, 0.22, '#c83a2a'), (1.12, 1.7, 0.18, '#1a1a1a'), (1.3, 1.72, 0.2, '#e0b030'), (1.5, 1.68, 0.25, '#2a4a9a'), (1.75, 1.7, 0.16, '#1a1a1a'), (2.0, 1.66, 0.28, '#8a8c8e'), (2.25, 1.7, 0.2, '#c83a2a'))):   # 掛著的工具（起子、銼刀、鉗子）
-    CMt.crbox(tx_ - 0.012, tx_ + 0.012, ty_ - tl, ty_ - tl * 0.45, Z1 - 0.06, Z1 - 0.035, '#9a9ea2', r=0.004, seg=1)
+    CMt.cbox(tx_ - 0.012, tx_ + 0.012, ty_ - tl, ty_ - tl * 0.45, Z1 - 0.06, Z1 - 0.035, '#9a9ea2')
     CV.crbox(tx_ - 0.016, tx_ + 0.016, ty_ - tl * 0.45, ty_, Z1 - 0.065, Z1 - 0.03, col, r=0.008, seg=1)
 lmp = (wx1 - 0.25, wz1 - 0.15)   # 檯燈（彈簧臂）
 CMt.crbox(lmp[0] - 0.07, lmp[0] + 0.07, whh, whh + 0.03, lmp[1] - 0.07, lmp[1] + 0.07, '#2a2a2c', r=0.01, seg=2)
@@ -954,8 +949,8 @@ for tr in IT['track']:
         top = Vector(g2b(x_, H - 0.03, z_)); jt = top + Vector((0, 0, -0.09)); dv = (tgt - jt).normalized()
         vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.008, 0.0), (0.008, 0.09)], seg=6), Matrix.Translation(jt)))
         rot = Vector((0, 0, -1)).rotation_difference(dv).to_matrix().to_4x4()
-        vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.0, 0.04), (0.03, 0.04), (0.042, 0.0), (0.045, -0.13), (0.038, -0.135), (0.0, -0.12)], seg=8), Matrix.Translation(jt) @ rot))
-        EM.add_bm(L.lathe([(0.036, -0.125), (0.0, -0.126)], seg=8), Matrix.Translation(jt) @ rot)
+        vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.0, 0.04), (0.03, 0.04), (0.042, 0.0), (0.045, -0.13), (0.038, -0.135), (0.0, -0.12)], seg=7), Matrix.Translation(jt) @ rot))
+        EM.add_bm(L.lathe([(0.036, -0.125), (0.0, -0.126)], seg=7), Matrix.Translation(jt) @ rot)
         SPOTS.append([list(jt + dv * 0.14), list(tgt)])
 ot = Vector(g2b(ogx, H - 0.12, Z1 - 1.0)); SPOTS.append([list(ot), list(g2b(ogx, ogy - 0.2, Z1))])   # 老闆那把的燈
 vpaint(CMt, '#1c1c1e', lambda: CMt.add_bm(L.lathe([(0.0, 0.04), (0.03, 0.04), (0.042, 0.0), (0.045, -0.13), (0.0, -0.12)], seg=8), Matrix.Translation(ot) @ Vector((0, 0, -1)).rotation_difference((Vector(g2b(ogx, ogy - 0.2, Z1)) - ot).normalized()).to_matrix().to_4x4()))
@@ -974,6 +969,7 @@ for (base, d, nrm, Lf, var) in LEAVES:
         f = lf.bm.faces.new(f_vs)
         for lp, t in zip(f.loops, uvs): lp[luv].uv = t
 for pts in STEMS:
+    pts = pts[::2] + ([pts[-1]] if len(pts) % 2 == 0 else [])   # 莖每兩節一段（三角形預算）
     for a, b in zip(pts, pts[1:]):
         before = set(lf.bm.faces); lf.cyl((a.x, a.y, a.z), (b.x, b.y, b.z), 0.0028, seg=3, caps=False)
         for f in lf.bm.faces:
