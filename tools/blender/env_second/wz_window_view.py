@@ -1,7 +1,7 @@
 """溫州街店家的窗景照片（給 W3.windowMat 的 <名稱>_<day|night>.webp）：用遊戲裡同一批溫州街正式模型在 Blender 拍（LAWWW2-C 2026-11-04，KOMICHI-NIGHTVIEW-1104）。
 原因：小路（wz_teishoku）的窗景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏，BB-C 判「22:00 窗外還是白天」（BB_255 1(a)）；2:30 AM、SUNNY SIDE 的窗景卡是 Blender 拍的夜景（窗、店、路燈亮，天空暗），這支照同一個做法。
 鏡頭照 tools/shots/shop_views_layers.py 的同一個名稱（窗那一片的中心、朝外、水平 90°、2:1）：W3.windowMat 的視差以那一片為準，換照片不用改程式。
-用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18]
+用法：/opt/blenv/bin/python tools/blender/env_second/wz_window_view.py -- --eye x,y,z --at x,y,z --out <png> [--night] [--res 1024x512] [--samples 96] [--glb a.glb,b.glb,...] [--lens 18] [--copy none|moved|stay]
   座標是遊戲座標（x 東、y 上、z 南）；--glb 沒寫＝溫州街主巷、雜物、日式宿舍、小公園（assets/models/env/second_ai/）。
 例（小路）：-- --eye -2.8,1.25,-4.6 --at -2.8,1.25,40 --out /tmp/wz_teishoku_night.png --night
 夜晚的亮度照遊戲 zones3d.js 的 WZ_NIGHT（材質名 → 顏色、晚上亮度），GLOW_* 空節點（extras glow／size／night）放點光源；店內（wz_in_*）晚上自己發一點光（店裡開著燈）。"""
@@ -39,6 +39,8 @@ for p in GLBS.split(','):
 #   阿德影印 COPY_*（zones3d.js wzCopyVis）：還沒決定＝A1 開著、轉角拉下鐵捲門 → 藏 COPY_A1_SHUT／COPY_A1_RENEW／COPY_CORNER_OPEN
 #   季節 SEASON_<種類>_<on|off>（wzParkSeason）：照 --month（預設 11 月：杜鵑沒開、楓香沒紅、冰菓室關著）
 MONTH = int(opt('--month', '11'))
+COPY = opt('--copy', 'none')   # 阿德影印 WZ_COPY_SHOP：none＝還沒決定（預設）、moved＝搬到轉角、stay＝留下來續約
+COPY_HIDE = {'none': r'^COPY_(A1_SHUT|A1_RENEW|CORNER_OPEN)', 'moved': r'^COPY_(A1_RENEW|CORNER_SHUT)', 'stay': r'^COPY_(A1_SHUT|CORNER_OPEN)'}[COPY]
 def season_on(kind): return MONTH == 3 if kind == 'AZALEA' else ((MONTH in (12, 1)) if kind == 'SWEETGUM' else (not (5 <= MONTH <= 9) if kind == 'ICECLOSED' else False))
 import re as _re
 def hide_tree(ob):
@@ -49,7 +51,7 @@ for ob in list(bpy.data.objects):
     nm = ob.name.split('.')[0]
     k = _re.match(r'^SEASON_([A-Z]+)_(on|off)', nm)
     if k and ((k.group(2) == 'on') != season_on(k.group(1))): hide_tree(ob); nhide += 1
-    if _re.match(r'^COPY_(A1_SHUT|A1_RENEW|CORNER_OPEN)', nm): hide_tree(ob); nhide += 1
+    if _re.match(COPY_HIDE, nm): hide_tree(ob); nhide += 1
 
 def principled(m):
     if not m or not m.use_nodes: return None

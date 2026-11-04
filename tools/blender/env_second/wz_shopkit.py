@@ -105,9 +105,9 @@ def hsign(xf, sid, key, cx, sw, sy0, depth=None, lamps=None, lampcol='goose_dark
     xf.box(acc(SK['alu2'] if lit else SK['black']), cx - sw / 2 - 0.03, cx + sw / 2 + 0.03, sy0 - 0.03, sy0 + sh_ + 0.03, 0.0, dp)
     sy1 = sign_tex(xf, key, cx, sy0, sw, dp + 0.004, f'sk_sign_{sid}')
     if lit: CL.glow(root, 'signbox', *xf.p(cx, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
-    elif lamps:                                                                       # WZ-SECOND-1104：參考圖的鵝頸燈（招牌上緣往外彎、燈罩朝下照著字）
+    if lamps:                                                                         # WZ-SECOND-1104：參考圖的鵝頸燈（招牌上緣往外彎、燈罩朝下照著字）；WZ-FIVE-1104 阿德：燈箱招牌上面也可以有鵝頸燈（參考圖 wz_ade_ext 三盞）
         for lx in lamps: gooseneck(xf, cx + lx, sy1, dp, lampcol)
-    else:                                                                             # 木招牌、鐵皮招牌：上面一盞投光燈照著
+    elif not lit:                                                                             # 木招牌、鐵皮招牌：上面一盞投光燈照著
         for lx in (cx - sw / 3, cx + sw / 3):
             xf.cyl(acc(SK['black']), (lx, sy1 + 0.05, 0.05), (lx, sy1 + 0.12, 0.35), 0.012, seg=5); acc(SK['black']).sphere(xf.p(lx, sy1 + 0.12, 0.38), 0.05, seg=8, rings=4)
             CL.glow(root, 'signspot', *xf.p(lx, sy1 - 0.2, 0.45), color='rgba(255,226,180,1)', size=1.4, day=0.0, night=0.6)
@@ -498,9 +498,13 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
     dw = sf.get('door_w', 1.8); dx = sf.get('door_x', 0.0)
     if door == 'alu':
         a = acc(SK['alu2'])
-        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(a, x - 0.04, x + 0.04, 0.085, ih + 0.175, gz - 0.05, gz + 0.05)   # 直框的兩端藏在上下橫框裡（BUG-WZFLICKER-2：原本頂面、底面和橫框同一個平面）
+        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2) + tuple(sf.get('mullions', ())): xf.box(a, x - 0.04, x + 0.04, 0.085, ih + 0.175, gz - 0.05, gz + 0.05)   # 直框的兩端藏在上下橫框裡（BUG-WZFLICKER-2：原本頂面、底面和橫框同一個平面）；mullions＝窗中間多的直框（阿德）
         for x in (dx - 0.12, dx + 0.08): xf.box(a, x, x + 0.03, 0.9, 1.45, gz + 0.05, gz + 0.1)                    # 長把手
-        xf.box(a, -iw / 2, iw / 2, 1.0, 1.04, gz - 0.03, gz + 0.03)                                                   # 腰框
+        if not sf.get('full_glass'): xf.box(a, -iw / 2, iw / 2, 1.0, 1.04, gz - 0.03, gz + 0.03)                    # 腰框（full_glass＝落地玻璃，沒有腰框：阿德參考圖）
+        if sf.get('glass_band'):                                                                                      # 玻璃上的一條色條（阿德：藍色，窗的部分，門不貼）
+            bc, by0, by1 = sf['glass_band']; bm_ = acc(flat('wz_sf_band_' + bc[1:], bc, rough=0.5)); xr = sf['pier_r'] if sf.get('pier_r') is not None else iw / 2
+            for x0_, x1_ in ((-iw / 2, dx - dw / 2), (dx + dw / 2, xr)):
+                if x1_ - x0_ > 0.2: xf.box(bm_, x0_ + 0.04, x1_ - 0.04, by0, by1, gz + 0.012, gz + 0.018)
     elif door in ('wood', 'lattice'):
         w = acc(frame_mat(sf['frame'])) if sf.get('frame') else acc(SK['wood_dk'])   # WZ-FIVE-1104：frame＝框的顏色（SUNNY SIDE 深綠框）
         if sf.get('grid'):   # WZ-FIVE-1104：大窗的格子（每 grid 公尺一根直框、上面一道橫框；門那一段不畫）——SUNNY SIDE 參考圖的綠框落地窗
@@ -553,6 +557,43 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
     if sf.get('rollbox', True):
         a = acc(M['alu']); xf.box(a, -iw / 2 - 0.05, iw / 2 + 0.05, ih + 0.2, top - 0.05, gz + 0.06, gz + 0.36)
         for sx in (-1, 1): xf.box(a, sx * (iw / 2 + 0.02) - 0.035, sx * (iw / 2 + 0.02) + 0.035, 0.0, ih + 0.2, gz + 0.06, gz + 0.14)
+
+
+# OPEN-SRC-2D3D-1104（LAWWW2-C 2026-11-04，使用者「從 GitHub 開源找…還有很多你需要用的美術內容」）：Poly Haven（CC0）的實景掃描模型，
+# lib2.ph_model 自動下載（tools/blender/models_ph/，不放 repo）、減面、貼圖縮成 512；一個原型 instancing（同一種東西整條街一份網格）
+PH = {}
+def ph_proto(key):
+    if key not in PH:
+        if key == 'ac': PH[key] = L.ph_model('exterior_aircon_unit', nodes=['exterior_aircon_unit'], ratio=0.16, name='ph_ac', back=True)   # 冷氣室外機：9,493 → 1,517 面
+        elif key == 'pot': PH[key] = L.ph_model('potted_plant_02', ratio={'potted_plant_02_leaves': 0.2, 'potted_plant_02_pot': 0.12, 'potted_plant_02_dirt': 0.004}, name='ph_pot_syngonium')   # 陶盆合果芋：69,806 → 約 3,000 面
+    return PH[key]
+
+
+def _decal_tex(kind):
+    """玻璃上的白字貼紙（透明底）：阿德＝參考圖 wz_ade_ext 的四行服務項目（圖示＋字），本作自己畫（PIL），不是裁參考圖（裁下來的背景是店裡的灰色）"""
+    from PIL import Image, ImageDraw, ImageFont
+    fn = f'wz_decal_{kind}.png'; out = os.path.join(GEN, fn)
+    if os.path.exists(out): return fn
+    W_, H_ = 512, 512; im = Image.new('RGBA', (W_, H_), (255, 255, 255, 0)); d = ImageDraw.Draw(im)
+    f = ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc', 64); wh = (250, 250, 248, 255)
+    rows = ['影印・複印', '掃描建檔', '彩色列印', '論文裝訂']
+    for i, t in enumerate(rows):
+        y = 28 + i * 120; d.rounded_rectangle((18, y, 98, y + 80), radius=10, outline=wh, width=6)
+        if i == 0: d.rectangle((36, y + 18, 80, y + 62), outline=wh, width=5); d.line((44, y + 34, 72, y + 34), fill=wh, width=5); d.line((44, y + 48, 72, y + 48), fill=wh, width=5)
+        elif i == 1: d.rectangle((32, y + 38, 84, y + 58), outline=wh, width=5); d.line((32, y + 30, 84, y + 30), fill=wh, width=6)
+        elif i == 2:
+            for (cx, cy, col) in ((40, y + 24, (220, 60, 60, 255)), (62, y + 24, (60, 160, 80, 255)), (40, y + 46, (50, 110, 200, 255)), (62, y + 46, (240, 200, 40, 255))): d.rectangle((cx, cy, cx + 18, cy + 18), fill=col)
+        else:
+            for k in range(3): d.line((32, y + 26 + k * 14, 84, y + 20 + k * 14), fill=wh, width=6)
+        d.text((122, y + 4), t, font=f, fill=wh)
+    im.save(out); return fn
+
+
+def glass_decal(xf, kind, x, y, w, z):
+    """玻璃上的白字貼紙：左下角 (x − w/2, y)，寬 w（高照貼圖比例）；自己一個 alpha clip 材質"""
+    k = 'decal_' + kind
+    if k not in SK: SK[k] = _img_mat('wz_sf_decal_' + kind, _decal_tex(kind), rough=0.4, clip=True)
+    h = w; uvquad(f'sk_decal_{kind}_{len(_inst)}', SK[k], [xf.p(x - w / 2, y, z), xf.p(x + w / 2, y, z), xf.p(x + w / 2, y + h, z), xf.p(x - w / 2, y + h, z)]); _inst.append(1)
 
 
 def shopfront_v2(spec, xf, W, gt, wall):
@@ -633,6 +674,9 @@ def shopfront_v2(spec, xf, W, gt, wall):
         for yy in (ly - 0.3, ly + 0.27): xf.cyl(acc(SK['black']), (lx, yy, lz), (lx, yy + 0.05, lz), 0.11, seg=10)
         xf.box(acc(SK['black']), lx - 0.01, lx + 0.01, ly + 0.32, ih + 0.15, lz - 0.01, lz + 0.01)
         q = xf.p(lx, ly, lz + 0.25); CL.glow(root, 'lantern', q[0], q[1], q[2], color='rgba(255,120,80,1)', size=1.1, day=0.0, night=0.8)
+    if sf.get('pier_r') is not None:   # WZ-FIVE-1104 阿德：玻璃右邊一段白磁磚壁面（參考圖：軟木公告板、價目表、一盞壁燈掛在這裡）
+        px0 = sf['pier_r']; xf.box(wall, px0, iw / 2 + 0.02, 0.0, ih + 0.18, gz - 0.06, gz + 0.02); sconce(xf, (px0 + iw / 2) / 2 + 0.05, 2.12, gz + 0.02)
+    if sf.get('decal'): glass_decal(xf, *sf['decal'], gz + 0.016)
     for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, gz + 0.03)
     if sf.get('board'): cork_board(xf, *sf['board'], gz + 0.03)
     for sx in sf.get('sconce', []): sconce(xf, sx, 2.15, 0.0)   # WZ-SECOND-1104 常在洗衣
@@ -641,12 +685,13 @@ def shopfront_v2(spec, xf, W, gt, wall):
         k, x, z = it[0], it[1], it[2]; zz = gz + z
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         elif k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(xf, x, zz); B.instance(_pm, f'skpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
+        elif k == 'ph_pot': _pm = ph_proto('pot'); _w = _wp(xf, x, zz); B.instance(_pm, f'skphpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skphpot', _w[0], _w[2], x * 1.7)   # Poly Haven 的盆栽（OPEN-SRC-2D3D-1104）
         else:
             inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
             for (cn, cx_, cy_, cz_, cw_) in FRUIT_CARDS.get(k, []):   # WZ-SECOND-1104：參考圖裁的手寫價錢牌（插在箱子前緣、往後仰一點）
                 note_tilt([xf.p(x + cx_ - cw_ / 2, cy_, zz + cz_), xf.p(x + cx_ + cw_ / 2, cy_, zz + cz_), xf.p(x + cx_ + cw_ / 2, cy_ + cw_ * 1.05, zz + cz_ - 0.04), xf.p(x + cx_ - cw_ / 2, cy_ + cw_ * 1.05, zz + cz_ - 0.04)], cn)
     # 設備：一樓冷氣（門楣旁）、電錶箱、排油煙管
-    if sf.get('ac'): ax = sf['ac']; inst(AC, f'skac_{spec["id"]}', xf, ax, GH - 0.95, 0.0)
+    if sf.get('ac'): ax = sf['ac']; inst(ph_proto('ac') if sf.get('ac_ph') else AC, f'skac_{spec["id"]}', xf, ax, GH - (1.05 if sf.get('ac_ph') else 0.95), 0.0)   # ac_ph：Poly Haven 的冷氣室外機（CC0 實景掃描）
     if sf.get('meter') is not None: inst(PROTO['meter'], f'skmeter_{spec["id"]}', xf, sf['meter'], 1.5, 0.0)
     if sf.get('duct') is not None:
         dxp = sf['duct']; xf.cyl(acc(SK['steel']), (dxp, GH - 0.4, 0.18), (dxp, GH + 3 * FH, 0.18), 0.11, seg=10)
@@ -1964,9 +2009,10 @@ SF_GG = {
 
 
 SF = {
-    'A1': dict(inner=True, door='alu', sign='lightbox', awning='metal', floor='f_granite', step=0.06, light='cool', ac=2.6, meter=-3.5,
-               notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('nobook', 1.6, 1.3, 0.5, 0.5), ('pay', 2.3, 1.45, 0.34, 0.34)],
-               clutter=[('vend', -3.0, 0.42), ('boxes', 2.9, 0.35)]),
+    'A1': dict(inner=True, door='alu', sign='lightbox', awning=None, floor='f_granite', step=0.06, light='cool', ac=2.6, ac_ph=True, meter=-3.5,   # WZ-FIVE-1104 阿德（參考圖 wz_ade_ext）：
+               lamps=[-2.2, 0.0, 2.2], full_glass=True, mullions=[-2.3], glass_band=('#1f4e8c', 0.6, 0.66), pier_r=2.55, decal=('ade', -3.0, 1.05, 0.86),   #   三盞鵝頸燈、鋁框落地玻璃（沒有腰框）、藍色飾條、右邊白磁磚壁面掛軟木板＋價目表＋壁燈、玻璃上的白字服務項目
+               notes=[('wz_ade_cork', 2.86, 0.95, 0.5, 0.75), ('wzade_price', 3.4, 1.0, 0.48, 0.58), ('pay', -1.25, 1.42, 0.28, 0.28)],                                  #   冷氣、盆栽是 Poly Haven 的 CC0 實景掃描模型（OPEN-SRC-2D3D-1104）
+               clutter=[('ph_pot', 2.95, 0.42)]),
     'A3': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', step=0.1, door_x=1.4, frame='#4a2e1c', sign_w=10.4, bright=0.85, light='warm',   # WZ-SECOND-1104 溫州書屋（原本的巷口書房；參考圖 wenzhou_books_ext）：米白長飾帶深綠字、四盞綠色鵝頸燈、深色木框大窗、沒有雨遮、營業時間黑板
                lamps=[-4.2, -1.4, 1.4, 4.2], lampcol='goose_green', notes=[],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'wz2_wenzhou_books_chalk'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
@@ -2124,13 +2170,14 @@ def copy_variants():
         note(c, 'rent', -0.7, 1.05, 0.7, 0.7, z + 0.012); note(c, 'poster', 0.75, 1.15, 0.42, 0.5, z + 0.012)   # 空店面：招租＋一張舊的社區海報（不貼「暫停營業」：空店面不是暫停）
     def corner_open():
         gz = -0.32; iw = 2 * hw - 0.12; ih = t - 0.45; top = ih + 0.4
-        sf = dict(door='alu', door_w=0.95, door_x=1.05, rollbox=True)
+        sf = dict(door='alu', door_w=0.95, door_x=1.05, rollbox=True, full_glass=True, mullions=[-0.55], glass_band=('#1f4e8c', 0.6, 0.66))   # WZ-FIVE-1104：照參考圖 wz_ade_ext（落地玻璃、藍色飾條）
         c.box(acc(SK['f_granite']), -hw + 0.02, hw - 0.02, 0.0, 0.035, gz, 0.0)              # 門口那一段的地（和店裡同一種）
-        _door_glass(dict(id='A2C'), c, sf, iw, ih, gz, frame_mat('#3b5a8c'), top)
-        for (cn, x, y, w_, h_) in (('copyprice', -1.45, 0.82, 0.56, 0.56), ('copyprice2', -0.8, 0.86, 0.56, 0.56), ('copyprice', -0.15, 0.8, 0.56, 0.56), ('nobook', -1.1, 1.48, 0.42, 0.42),
+        _door_glass(dict(id='A2C'), c, sf, iw, ih, gz, frame_mat('#c3c7ca'), top)              # 框：參考圖的銀色鋁框（原本藍色）
+        glass_decal(c, 'ade', -1.35, 1.62, 0.62, gz + 0.016)                               # 白字貼紙在左邊玻璃上段（下段貼滿價目表：AA_420「玻璃上的價目表貼得滿滿的」）
+        for (cn, x, y, w_, h_) in (('copyprice', -1.45, 0.82, 0.56, 0.56), ('copyprice2', -0.8, 0.86, 0.56, 0.56), ('copyprice', -0.15, 0.8, 0.56, 0.56), ('nobook', -0.45, 1.48, 0.42, 0.42),
                                     ('copyprice2', 0.32, 1.42, 0.42, 0.42), ('pay', 1.32, 1.5, 0.26, 0.26), ('copyprice', 0.8, 0.95, 0.4, 0.4), ('hours2', 1.3, 1.05, 0.3, 0.3)):
             note(c, cn, x, y, w_, h_, gz + 0.03)
-        hsign(c, 'A2C', 'ade_print_h', 0.0, 2.6, t + 0.06)                               # 招牌：和 A1 同一張設計稿（BB-B signs_approved），掛在門楣上（往上蓋到二樓的牆）
+        hsign(c, 'A2C', 'wz_ade_h', 0.0, 3.5, t + 0.1, lamps=[-1.2, 0.0, 1.2])          # 招牌：和 A1 同一張（WZ-FIVE-1104 參考圖 wz_ade_ext 的白底藍字＋三盞鵝頸燈；原本是 10 月的 ade_print_h），掛在門楣上（往上蓋到二樓的牆）
         # 店裡（玻璃後面 1.8 m）：左邊一台大影印機、中間櫃台（電腦螢幕朝裡）、後牆的紙箱架、天花板一支日光燈
         cp = acc(flat('wz_c6_copier', '#dcdcd6', rough=0.4)); dk = acc(flat('wz_c6_dark', '#3a3c40', rough=0.5)); wd = acc(SK['wood_lt']); st = acc(SK['steel'])
         c.box(cp, -1.75, -1.0, 0.0, 1.0, -RD + 0.08, -RD + 0.78); c.box(dk, -1.72, -1.03, 1.0, 1.06, -RD + 0.12, -RD + 0.74); c.box(dk, -1.6, -1.2, 0.62, 0.66, -RD + 0.78, -RD + 0.9)   # 影印機＋上蓋＋出紙盤
