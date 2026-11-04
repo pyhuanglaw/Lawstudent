@@ -46513,6 +46513,27 @@
    "resumeWhen": "iPhone 記憶體那兩個問題有結論（修好或量到餘裕）、v9.10.20 發布以後，LAWWW2 有空先做 Blender 前後對照",
    "nextCheck": "2026-11-11（或下一次發布）",
    "next": "【LAWWW-C 11-04 21:3x】暫停（五欄見 pausedReason／resumeWhen／nextCheck；負責人 LAWWW2 做對照、LAWWW 接引擎）"
+  },
+  {
+   "id": "TE-KOMICHI-STAGE-1104",
+   "title": "語彤期末飯在小路：六月那兩次（大一下 6/20、大三下 6/10，17:30 天還亮）在 3D 的小路室內演、背景 blur；十二月照舊 2D 夜景 teishoku_night（BB-C 11-04 21:28）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一下期末考完（6/20 週六 17:30）語彤的期末飯",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 21:28（回 LAWWW-C 21:27 第 2 件：小路只有夜景背景，六月 17:30 天還亮）",
+   "authorized": "BB 決定不跟使用者要圖（D97、D100）；LAWWW 實作",
+   "next": "【LAWWW-C 11-04 21:4x】termend3d.js S.komichiStage（OUT.STAGE，和宵夜 offbeat_sys3d、霖澤館 5F 同一套）：4～9 月語彤在小路的期末飯換到 wz_teishoku（玩家坐窗邊第一桌靠門那一側、她坐對面）、OUT.bg('teishoku_night')＝blur、演完回到原本的地方；從家裡出發、騎車、有人跟著、十二月＝照舊 2D；tests/te_komichi_stage_unit.js（修改前 FAILED 3）；瀏覽器交 BB／CC"
   }
  ]
 }

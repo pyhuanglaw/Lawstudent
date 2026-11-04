@@ -439,5 +439,32 @@ const TERMEND=(function(){
     if(a===0){ if(again&&h.she2Yes) await run(GM,who,h.she2Yes);   /* 第二次她問「你要看嗎？」、你說好＝補兩拍再交往（以安，AA_587 第 13 節）*/ if(again&&h.she2YesMem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!(SOCIAL.has&&SOCIAL.has(who,h.she2YesMem))) SOCIAL.remember(who,h.she2YesMem,'');   /* 第一次已經記過同一個（AN_SHOP_PAGE）就不重複記（BB_246 P3：記憶上限 80）*/ if(!start()) return 'blocked'; await knownLine(); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
   S.hooks();   /* TE-HEART-EXEMPT-1104：手機的「好。」當下處理、傳到就看撞不撞（phone3d.js 先載；沒載到的話 S.phone 第一次跑的時候補）*/
+  /* ---- TE-KOMICHI-STAGE-1104（BB-C 2026-11-04 21:28；AA_686 第 2 項的背景）----
+     語彤的期末飯（朋友那一則）在溫州街・小路、17:30。十二月那三次天已經暗了＝照舊 2D 背景 teishoku_night；
+     六月那兩次（大一下 6/20、大三下 6/10）17:30 天還亮＝不用夜景圖，改在 3D 的小路室內演（窗邊那一桌：玩家坐靠門那一側、她坐對面；小路室內有白天的窗景，WZ4_komichi 驗過），背景 blur。
+     做法和宵夜（offbeat_sys3d.js S.stage）、霖澤館 5F（lab5f3d.js）同一套：OUT.STAGE 演之前換到那個區域、演完回到原本的地方；從家裡出發、國外、騎車、有人跟著＝照舊 2D（夜景圖）。
+     月份：4～9 月 17:30 天還亮（期末飯只會在六月、十二月）。舊存檔排好「公館燒臘」的那一頓（q.place 不是小路）不換。 */
+  S.KOMICHI={zone:'wz_teishoku',me:0,her:2,months:[4,5,6,7,8,9]};   /* WZ_SHOPS_LAYOUT.teishoku（小路 v4）的座位：0＝窗邊第一桌靠門那一側、2＝對面 */
+  S.komichiStaged=null;
+  S.komichiDue=function(G,q,ev){ if(!ev||ev.id!=='ev_termend_dinner'||!q||!q.te||q.te.who!=='heroine_03') return false; const P=(L().PLACE||{}).teishoku; if(!P||q.place!==P.name) return false;
+    const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&q.day!=null?CALENDAR.dateOf(q.day):null; return !!dd&&S.KOMICHI.months.includes(dd.m); };
+  S.komichiCan=function(GM){ const G=GM&&GM.G, E=GM&&GM.E, Ly=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT.teishoku:null;
+    if(!G||!E||!E.player||!Ly||!Array.isArray(Ly.seats)||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES[S.KOMICHI.zone]||!Z3.ZONES[G.zone]) return false;
+    if(typeof OUT!=='undefined'&&OUT.fromHome) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;
+    if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) return false; if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)) return false;
+    if(E.player.riding||(G.flags&&G.flags.companion)) return false; return true; };
+  S.komichiStage=async function(GM,q,ev){ if(!GM||!S.komichiDue(GM.G,q,ev)||!S.komichiCan(GM)) return null;
+    const G=GM.G, P=GM.E.player, Ly=WZ_SHOPS_LAYOUT.teishoku, me=Ly.seats[S.KOMICHI.me], her=Ly.seats[S.KOMICHI.her]; if(!me||!her) return null;
+    const prev={zone:G.zone,x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; if(P.seat&&GM.standUp) GM.standUp(P);
+    const st=s=>({x:s.x,z:s.z,yaw:s.yaw,lv:0}), sp=Ly.spawn||{x:me.x,z:me.z,yaw:me.yaw}; S.komichiStaged=q.id;
+    await GM.enter(S.KOMICHI.zone,{x:sp.x,z:sp.z,yaw:sp.yaw||0},{noFade:true,deferStory:true,noAutosave:true});   /* 小路的出生點（一定站得住），接著坐到位子上（sitAt 直接放到座位）*/
+    if(GM.sitAt) GM.sitAt(P,st(me));
+    const id='heroine_03'; if(GM.npc&&GM.npc[id]&&GM.removeNPC) GM.removeNPC(id);
+    const n=GM.spawnCharacter?GM.spawnCharacter(id,her.x,her.z,{seat:st(her),pose:'sit'}):null; if(n){ n.idlePose='sit'; n.frozen=true; }
+    let done=false;
+    return {restore:async()=>{ if(done) return; done=true; S.komichiStaged=null; if(P.seat&&GM.standUp) GM.standUp(P);
+      await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
+  if(typeof OUT!=='undefined'&&Array.isArray(OUT.STAGE)&&!OUT._teKomichi){ OUT.STAGE.push(S.komichiStage); OUT._teKomichi=true;
+    if(OUT.bg){ const b0=OUT.bg; OUT.bg=function(id){ if(S.komichiStaged&&id==='teishoku_night') return 'blur'; return b0.apply(this,arguments); }; } }   /* 演的時候這一頓的背景（PLACE.teishoku.bg）＝模糊的 3D */
   return S;
 })();
