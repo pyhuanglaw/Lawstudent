@@ -45123,7 +45123,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "next": "【LAWWW-C 11-04 14:25】BB 的 IMG2-3D-RESEARCH-1104（同一題，使用者也問了 BB-C）試跑 CPU 版工具，成果交 LAWWW2 一起決定｜【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
    "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -45131,6 +45131,62 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "交件附開源工具／素材來源、授權（LICENSES.md）、照參考圖前後對照（D133）",
     "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "TEST-METHODS-1104",
+   "title": "參考 GitHub 開源找更有效的測試遊戲方法（使用者 11-04 14:2x 對 BB-C：「你沒辦法從github開源找一些更有效的測試遊戲方法嗎」，選擇題答「自己參考github開源自己決定」）",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:25】BB_257（企劃線 a8636451c）：T1 Node 隨機玩家快轉一整年（tests/pg_harness.js，種子可重現）、T3 事件與分支覆蓋率、T2 使用者電腦瀏覽器亂點、T4 WebKit（iPhone Safari 引擎，裝在使用者電腦）、T6 畫面基準比對，排在 v9.10.20 擋發布那一批後面；T5（每次 push 自動跑 Node 單元測試）LAWWW 同意並加了 .github/workflows/node-unit-auto.yml（claude/** 分支、只在改到 src／tests／lib／assets／index.html 時跑、同分支新 push 取消舊的）",
+   "source": "使用者 11-04 14:2x 對 BB-C（user_asks_BB.json 9c85f657a）",
+   "authorized": "使用者直接要求（交 BB 自己決定）",
+   "xai": {
+    "spec": "BB_257",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "每種方法跑出第一份結果（找到的問題或覆蓋率表），寫明在哪台機器、不等於 iPhone 實機",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "IMG2-3D-RESEARCH-1104",
+   "title": "試跑能在 CPU 跑的開源 2D→3D 工具（TripoSR 這類）、照片轉材質、深度轉遠景、CC0 素材庫，給 LAWWW2 決定要不要用（使用者 11-04 14:2x 對 BB-C 同一題，選擇題答「允許雲端下載試跑」）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:25】BB 背景子代理在暫存資料夾試，不碰遊戲檔；成果交 LAWWW2-C（美術總監）決定，和 OPEN-SRC-2D3D-1104（LAWWW2，同一題）合併看，不重複做",
+   "source": "使用者 11-04 14:2x 對 BB-C（user_asks_BB.json 9c85f657a）",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "spec": "user_asks_BB.json 9c85f657a",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "每個工具：能不能在雲端 CPU 跑、要多久、輸出品質（和參考圖並排）、授權",
+    "receiver": "LAWWW2",
     "ack": "ACK"
    }
   }

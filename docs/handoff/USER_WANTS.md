@@ -561,6 +561,8 @@
 | X221 | 人物設定檔裡和現在設定不符的字直接刪掉（檔案留著，只刪不符的字；不是整份刪） | 11-04 13:4x（對 AA-C；UA-AA-1104-19） | 進行中 | CANON-PURGE-1104（AA：00_現行設定總表、00_人物口氣表、voice_canon 17 份、各人物事件書與企劃的設定段落，子代理分四組）；CANON-PURGE-SRC-1104（LAWWW：遊戲 characters.js 不符的欄位，等 AA 清單） | 11-05 |
 | X222 | 坐著的 NPC 不能一直不動：拿著書、拿著手機也要真的在做事（翻頁、滑手機、打字、喝飲料、抬頭看、伸懶腰、和同桌聊天）；查 GitHub 上別人怎麼做、用開源的動作 | 11-04 13:5x（對 LAWWW；UA-LAWWW-1104-86） | 進行中 | NPC-AMBIENT-ANIM-1104（LAWWW：CC0 動作庫 Quaternius UAL1／2、Mesh2Motion＋情境動作排程＋程序化呼吸視線；缺的動作 LAWWW2 用 Blender 做）；接 X217 SEAT-ACTIVITY-1104 | 11-05 |
 | X223 | 遊戲裡每一棟有原型的建築，都去學校官網（*.ntu.edu.tw，使用者已開放）找圖片介紹，好好比對遊戲畫面 | 11-04 14:15（對 LAWWW；UA-LAWWW-1104-92） | 進行中 | NTU-REF-AUDIT-1104（LAWWW 子代理逐棟蒐集官方照片與事實 → CC 拍遊戲同角度 → LAWWW2 比對修改 → BB 判）；第一棟大一女舍 24 張已存 | 11-05 |
+| X224 | 參考 GitHub 開源找更有效的測試遊戲方法（交給 BB 自己決定） | 11-04 14:2x（對 BB；user_asks_BB 9c85f657a） | 進行中 | TEST-METHODS-1104（BB_257：Node 隨機玩家快轉、覆蓋率、瀏覽器亂點、WebKit、畫面基準；每次 push 自動跑 Node 單元測試 LAWWW 已加 .github/workflows/node-unit-auto.yml） | 11-05 |
+| X225 | 從 GitHub 開源找把使用者給的 2D 圖做成好看 3D 的方法，還有其他需要的美術內容（允許雲端下載試跑） | 11-04 14:1x（對 LAWWW2；UA-LAWWW2-1104-05）、14:2x（對 BB；9c85f657a） | 進行中 | OPEN-SRC-2D3D-1104（LAWWW2：Poly Haven CC0 模型＋HDRI、疊圖對位、DeepBump、Depth Anything）＋IMG2-3D-RESEARCH-1104（BB 試跑 CPU 版 2D→3D 工具，交 LAWWW2 決定） | 11-05 |
 
 ---
 
