@@ -46534,6 +46534,27 @@
    "source": "BB-C 11-04 21:28（回 LAWWW-C 21:27 第 2 件：小路只有夜景背景，六月 17:30 天還亮）",
    "authorized": "BB 決定不跟使用者要圖（D97、D100）；LAWWW 實作",
    "next": "【LAWWW-C 11-04 21:4x】termend3d.js S.komichiStage（OUT.STAGE，和宵夜 offbeat_sys3d、霖澤館 5F 同一套）：4～9 月語彤在小路的期末飯換到 wz_teishoku（玩家坐窗邊第一桌靠門那一側、她坐對面）、OUT.bg('teishoku_night')＝blur、演完回到原本的地方；從家裡出發、騎車、有人跟著、十二月＝照舊 2D；tests/te_komichi_stage_unit.js（修改前 FAILED 3）；瀏覽器交 BB／CC"
+  },
+  {
+   "id": "AA687-FIX4-1104",
+   "title": "AA_687（企劃線 d41750385，AA-C 定 D109）：語彤期末飯（朋友那一則）邀約六句改字、Y1S2 那一欄拿掉、18:00、小路開場收尾兩句、邀約照心意邀約（最後一科考完那天 20:30 發、那天以後第一個週六 18:00）、暑假「淡水熱嗎？」、過年茶屋休息那幾天也用平日那一組",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 18,
+    "earliest": "大一上期末考完語彤的期末飯邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 21:30（AA_687，回 LAWWW-C 21:27 七件；outbox 1f5e5de30）",
+   "authorized": "D109（AA 劇情自主）",
+   "next": "【LAWWW-C 11-04 21:4x】派子代理（worktree aa687-1104，從 39c9d8b5c）；好了給 BB SHA（CC AA684_walk r4 用那一個跑）"
   }
  ]
 }
