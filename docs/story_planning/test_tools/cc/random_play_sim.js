@@ -155,7 +155,10 @@ async function child(o){
     const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
     if(f.cls==='UNKNOWN'||kind==='EXCEPTION'){ for(const k of KNOWN){ if(!k.kinds.includes(kind)) continue; if(!k.re.test(f.why+'\n'+f.msg)) continue; try{ if(k.need&&!k.need(FEAT,f)) continue; }catch(e){ continue; } f.cls=k.cls; f.known=k.id; f.why=k.why+'｜（原本的判斷：'+why+'）'; break; } }
     R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+f.cls+'）'+String(msg).split('\n').slice(0,o.verbose?6:1).join('\n    ').slice(0,900)); return f; }
-  function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':''); R.notes.set(k,n); }
+  function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':'');
+    /* CC-C 11-04（BB-C 17:30）：BUG-TALK-STUCK 每一次都留（在哪裡、誰、前一個動作），總表列最常出現的情境 */
+    if(/TALK-STUCK/.test(k)&&GM&&GM.G){ if(!n.all) n.all=[]; if(n.all.length<60) n.all.push({at:dayKey(GM.G.day)+' '+fmtH(GM.G.hour), zone:GM.G.zone, msg:String(ex||'').slice(0,160), last:(R.actions||[]).slice(-3)}); }
+    R.notes.set(k,n); }
   /* 例外的初判（KNOWN 表優先）*/
   const FEAT={};   // 被測版本的特徵（KNOWN 表用）
   const missing=new Map();   // 假引擎 E 被讀了、但沒有的屬性（TEST_BUG 的線索）

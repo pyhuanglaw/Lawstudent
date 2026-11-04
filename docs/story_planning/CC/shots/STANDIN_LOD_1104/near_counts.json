@@ -1,0 +1,46 @@
+{
+ "d382_near_b0": {
+  "lod0": 17,
+  "lod1": 0,
+  "first_lod0_s": 1.88,
+  "busy": false,
+  "busy_seat": null
+ },
+ "d382_near_b1": {
+  "lod0": 0,
+  "lod1": 17,
+  "first_lod0_s": null,
+  "busy": true,
+  "busy_seat": {
+   "ok": true,
+   "seat": [
+    -10.75,
+    -0.85,
+    0
+   ],
+   "dist": 1.06
+  }
+ },
+ "ec06_near_b0": {
+  "lod0": 17,
+  "lod1": 0,
+  "first_lod0_s": 0.26,
+  "busy": false,
+  "busy_seat": null
+ },
+ "ec06_near_b1": {
+  "lod0": 16,
+  "lod1": 1,
+  "first_lod0_s": 1.04,
+  "busy": true,
+  "busy_seat": {
+   "ok": true,
+   "seat": [
+    -10.75,
+    -0.85,
+    0
+   ],
+   "dist": 1.06
+  }
+ }
+}
