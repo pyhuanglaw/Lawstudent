@@ -445,3 +445,65 @@
 [22:39:41] ==== START GG_shops2_afar_seat_08  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
 [22:39:45] [res] cpu=10% mem=51% (16.2/31.4 GB) chrome_testing=19  START GG_shops2_afar_seat_08
 [22:43:59] [res] cpu=20% mem=50% (15.8/31.4 GB) chrome_testing=19  END GG_int_aoki_hours_r2
+[22:44:01] 正在跑：CVS24_r5（已跑 6 分／上限 60 分）、GG_int_aoki_hours_r2（已跑 6 分／上限 45 分）、GG_shops2_afar_seat_08（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[22:44:43] push failed for GG_int_aoki_hours_r2 (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[22:44:43] ==== END   GG_int_aoki_hours_r2  exit=1  361s   ====
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:44:47] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[22:44:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[22:44:49] memory 50% before starting GG_shops2_afar_seat_12 (2 running)
+[22:44:49] ==== START GG_shops2_afar_seat_12  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[22:44:52] [res] cpu=15% mem=50% (16.0/31.4 GB) chrome_testing=19  START GG_shops2_afar_seat_12
+[22:49:01] 正在跑：CVS24_r5（已跑 11 分／上限 60 分）、GG_shops2_afar_seat_08（已跑 9 分／上限 20 分）、GG_shops2_afar_seat_12（已跑 4 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[22:50:32] [res] cpu=7% mem=49% (15.5/31.4 GB) chrome_testing=19  END CVS24_r5
