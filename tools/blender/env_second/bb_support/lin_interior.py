@@ -293,7 +293,7 @@ for x in (dr_['x0'], dr_['x1']): VM.cbox(x - 0.015, x + 0.015, 0, dr_['h'], dr_[
 for y in (0.3, 0.75, 1.2, 1.65):
     for k in range(5):
         for j in range(R.randint(4, 9)): clathe(GL, [(0.0, 0.0), (0.05, 0.0), (0.085, 0.06), (0.0, 0.012)], dr_['x0'] + 0.15 + k * 0.25, y + j * 0.028, (dr_['z0'] + dr_['z1']) / 2, R.choice(['#f4f2ec', '#eef2f6']), seg=10)
-for k in range(2): face(PR, (dr_['x0'] + 0.35 + k * 0.6, dr_['h'] + 0.14, dr_['z1'] - 0.1), '+z', 0.5, 0.28, C['carton']); VC.cbox(dr_['x0'] + 0.1 + k * 0.6, dr_['x0'] + 0.6 + k * 0.6, dr_['h'], dr_['h'] + 0.28, dr_['z0'] + 0.05, dr_['z1'] - 0.1, '#c8a070')
+for k in range(2): face(PR, (dr_['x0'] + 0.35 + k * 0.6, dr_['h'] + 0.14, dr_['z1'] - 0.094), '+z', 0.5, 0.28, C['carton']); VC.cbox(dr_['x0'] + 0.1 + k * 0.6, dr_['x0'] + 0.6 + k * 0.6, dr_['h'], dr_['h'] + 0.28, dr_['z0'] + 0.05, dr_['z1'] - 0.1, '#c8a070')
 
 # ================= 右牆：紅紙菜單、時鐘、壁扇、相框、自助調味區、收銀台 =================
 mn = S['menu']; rp = wg('right', 'print'); rv = wg('right', 'vc')
@@ -311,9 +311,10 @@ def wall_fan(x, y, z, yaw):
     VC.crbox(x - 0.07, x + 0.07, y - 0.12, y + 0.12, z - 0.07, z + 0.07, '#e8e6e0', r=0.02, seg=1)
     hx, hz = T(0, 0.22); ccyl(VC, (x, y, z), (hx, y - 0.05, hz), 0.025, '#e8e6e0', seg=6)
     cx_, cz_ = T(0, 0.3)
-    for k in range(3):
-        a = k * 2 * PI / 3; p0 = (cx_, y - 0.08, cz_)
-        lx, ly = 0.17 * math.cos(a), 0.17 * math.sin(a); e = T(lx, 0.3); VC.poly([p0, (e[0], y - 0.08 + ly, e[1]), (T(lx * 0.6 - ly * 0.4, 0.3)[0], y - 0.08 + ly * 0.6 + lx * 0.4, T(lx * 0.6 - ly * 0.4, 0.3)[1])], '#cfd4d8')
+    f0 = set(VC.bm.faces); VC.sphere((cx_, y - 0.08, cz_), 0.05, seg=8, rings=5); VC.paint(nf(VC, f0), '#d8dcdf')
+    for k in range(3):   # 扇葉：三片在網罩裡（扁的小方塊）
+        a = k * 2 * PI / 3 + 0.3; e0 = T(0.0, 0.3); e1 = T(0.16 * math.cos(a), 0.3)
+        f0 = set(VC.bm.faces); VC.ell(((e0[0] + e1[0]) / 2, y - 0.08 + 0.08 * math.sin(a), (e0[1] + e1[1]) / 2), 0.07 if abs(math.cos(a)) > 0.3 else 0.02, 0.04 + 0.05 * abs(math.sin(a)), 0.02 if abs(math.cos(a)) > 0.3 else 0.07, seg=6, rings=3); VC.paint(nf(VC, f0), '#cfd4d8')
     for k in range(10):
         a = k * PI / 5; p0 = T(0.21 * math.cos(a), 0.26); p1 = T(0.21 * math.cos(a + PI / 5), 0.26)
         ccyl(VM, (p0[0], y - 0.08 + 0.21 * math.sin(a), p0[1]), (p1[0], y - 0.08 + 0.21 * math.sin(a + PI / 5), p1[1]), 0.004, '#9a9ea2', seg=3, caps=False)

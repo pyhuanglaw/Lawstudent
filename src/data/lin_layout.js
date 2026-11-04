@@ -34,8 +34,8 @@ const LIN_LAYOUT = (function () {
     blocks: [], seats: [],
     interact: [
       {x: -0.1, z: 2.55, kind: 'order', label: '點餐（林家乾麵）', note: '照舊：攤車右邊'},
-      {x: X1 - 1.15, z: -0.1, kind: 'menu', yaw: Math.PI / 2, label: '看菜單', note: '舊 (−1.3, −0.3) 在新的桌子上，搬到右牆菜單下面'},
-      {x: X1 - 1.15, z: 2.45, kind: 'pay', yaw: Math.PI / 2, label: '結帳', note: '新增：收銀台前'},
+      {x: +(X1 - 1.15).toFixed(2), z: -0.1, kind: 'menu', yaw: Math.PI / 2, label: '看菜單', note: '舊 (−1.3, −0.3) 在新的桌子上，搬到右牆菜單下面'},
+      {x: +(X1 - 1.15).toFixed(2), z: 2.45, kind: 'pay', yaw: Math.PI / 2, label: '結帳', note: '新增：收銀台前'},
       {x: X1 - 0.85, z: -2.0, kind: 'condiments', yaw: Math.PI / 2, label: '自助調味區'}
     ],
     clerk: {x: -1.7, z: 2.55, yaw: 0, note: '照舊：攤車後面（店裡這一側），面向街上'},
