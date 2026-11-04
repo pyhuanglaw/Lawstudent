@@ -5,6 +5,7 @@
 //       ——資料、程式、invites3d.js 的接線都沒有了；YT_CLOSED_OUT 的 2027 店休也只有旁白
 //   N2 同一年再去一次：只有鐵門的旁白
 //   N3 2/10 21:00 群組「這週店休，到初三。」「阿姨說要大掃除。想吃燒臘的，初四以後。」（AA_612 A-311）；N4 2/20 12:00「開了。」「阿姨說，今天第一碗加蛋。」（照留）
+//   AA_685 A2（企劃線 c96613e51，AA-C 定 D109）：A、D 改阿哲傳（from zhe），句號照 AA_477 第 3 節拿掉（中間的換一個空格）；D 2026「阿姨說 今天每盤送一顆滷蛋」、2029「每盤送滷蛋 今年也是」——N3、N4 照新字（決定改了，不是放寬）
 //   另外：不在群組＝沒有 A、D，B 只有旁白；不是朋友／17:00 以後＝只有旁白；那天在店裡有約＝照常進去；店休以外照常；接線（story3d.js、index.html）
 // 修改前：沒有 NOODLE_CLOSED（第 0 項 FAIL）。AA_683 以前的 src（89d78a186 的 src、index.html 放進這一支實際跑過）：FAILED 8（N1 兩項、N1′ 三項、N3、N4 的 2028、接線）；修改後 ALL PASS。用法：node tests/noodle_closed_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -62,11 +63,11 @@ fresh('2026-02-12',14); group(); FRIEND(); const fam0=SOCIAL.rel('heroine_03').f
   // N3、N4
   fresh('2026-02-10',21.1); group(); STORY.phoneRules(GM); PHONE.tick(G);
   const M=()=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.text);
-  check('N3. 2/10 21:00 群組：「這週店休，到初三。」「阿姨說要大掃除。想吃燒臘的，初四以後。」（AA_612 A-311；傳的人照舊）',JSON.stringify(M())===JSON.stringify(['這週店休，到初三。','阿姨說要大掃除。想吃燒臘的，初四以後。'])&&JSON.stringify(M())===JSON.stringify(NOODLE_CLOSED.L.a[2026])&&/* AA_456 1-2：L.a 改成照年份，2026 是原句 */(G.msgs||[]).filter(m=>m.th==='g:noodle_team').every(m=>m.from==='heroine_03'),JSON.stringify(M()));
+  check('N3. 2/10 21:00 群組：阿哲「這週店休，到初三」「阿姨說要大掃除 想吃燒臘的，初四以後」（AA_612 A-311；AA_685 A2：阿哲傳、句號照 AA_477 拿掉）',JSON.stringify(M())===JSON.stringify(['這週店休，到初三','阿姨說要大掃除 想吃燒臘的，初四以後'])&&JSON.stringify(M())===JSON.stringify(NOODLE_CLOSED.L.a[2026])&&/* AA_456 1-2：L.a 改成照年份，2026 是原句 */(G.msgs||[]).filter(m=>m.th==='g:noodle_team').every(m=>m.from==='zhe'),JSON.stringify(M()));
   G.day=D('2026-02-20'); G.hour=12.1; STORY.phoneRules(GM); PHONE.tick(G);
-  check('N4. 2/20 12:00「開了。」「阿姨說，今天第一碗加蛋。」',M().slice(-2).join('|')==='開了。|阿姨說，今天第一碗加蛋。',JSON.stringify(M()));
+  check('N4. 2/20 12:00 阿哲「開了」「阿姨說 今天每盤送一顆滷蛋」（AA_685 A2：「第一碗加蛋」是麵店的說法）',M().slice(-2).join('|')==='開了|阿姨說 今天每盤送一顆滷蛋'&&(G.msgs||[]).filter(m=>m.tag==='noodle_closed_d_2026').every(m=>m.from==='zhe'),JSON.stringify(M()));
   fresh('2026-02-10',21.1); STORY.phoneRules(GM); PHONE.tick(G); check('不在麵店團：沒有群組訊息',!(G.msgs||[]).some(m=>m.th==='g:noodle_team'));
-  check('N4. 2028 初四：「開了。」「阿姨從老家帶了一箱橘子，吃飯送一顆。」（AA_612 A-312）',JSON.stringify(NOODLE_CLOSED.L.d[2028])===JSON.stringify(['開了。','阿姨從老家帶了一箱橘子，吃飯送一顆。']));
+  check('N4. 2028 初四：「開了」「阿姨從老家帶了一箱橘子，吃飯送一顆」（AA_612 A-312；AA_685 A2 照字拿掉句號）',JSON.stringify(NOODLE_CLOSED.L.d[2028])===JSON.stringify(['開了','阿姨從老家帶了一箱橘子，吃飯送一顆']));
   // 接線
   { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), iv=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'), ix=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
     check('接線：店門口（S.interact）、index.html、手機規則（STORY.PHONE_RULES）；邀約（invites3d.js）的接線 AA_683 拿掉了（N1′）',/if\(it\.exit&&it\.exit\.to==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&await NOODLE_CLOSED\.door\(GM\)\) return true;/.test(s)&&iv.indexOf('NOODLE_CLOSED.inviteAdjust')<0&&/src\/noodle_closed3d\.js/.test(ix)&&STORY.PHONE_RULES.length>=1); }

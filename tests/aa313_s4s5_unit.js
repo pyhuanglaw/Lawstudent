@@ -59,11 +59,13 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     fresh(D('2026-07-07'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y1','yes'); said=[]; const q2=OUT.get(G,'vac_C03@Y1_0'); G.day=q2.day; G.hour=19; await VAC.outing(GM,q2);
     check('4-1 第 6 點. C03 大一、認識以安：照稿「你也來了。」',lines().includes('沈以安：你也來了。'),J(lines())); }
   // C05 日本五天：以安、語彤同一天不再收到兩次（拿掉 va11_jp_*；出國輪播照舊）
+  const WD8=d=>CALENDAR.dateOf(d).wd%7;
   { fresh(D('2026-08-24'),6,'dorm',{dating_heroine_01:true,dating_heroine_03:true}); R('heroine_01','CLO'); R('heroine_03','CLO'); R('kai','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0,0,0];
     await VAC.outing(GM,OUT.get(G,'vac_C05@Y1')); G.day=D('2026-08-29'); G.hour=12; run(12,12.2);
     const A=allTxt('p:heroine_01'), Y=allTxt('p:heroine_03'), n=(L,t)=>L.filter(x=>x===t).length;
     check('4-3. C05：以安「到了傳一張照片。一張就好。」只收到一次',n(A,'到了傳一張照片。一張就好。')===1,J(A));
-    check('4-4. C05：語彤「回來了嗎」只收到一次；va11_jp_* 拿掉了',n(Y,'回來了嗎')===1&&!VAC_DATA.MSGS.some(m=>/^va11_jpb?_/.test(m.tag)),J(Y)); }
+    /* AA_685 A6-4（企劃線 c96613e51）：回來那天「回來了嗎」「蘇姨說幫你留一杯」是講店裡的，只在週六、日傳——C05 8/28 是週五＝不傳（0 次）；當晚 21:00 的重逢邀約照傳 */
+    check('4-4. C05：語彤「回來了嗎」沒有重複（8/28 週五回來：AA_685 A6-4 平日不傳那一則＝0 次）；va11_jp_* 拿掉了；當晚的重逢邀約一次',n(Y,'回來了嗎')===0&&WD8(D('2026-08-28'))===5&&n(Y,'這週六我五點下班')===1&&!VAC_DATA.MSGS.some(m=>/^va11_jpb?_/.test(m.tag)),J(Y)); }
   // 貓空 D09：大四下她已經交棒（4-3）
   { const row=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D09'), sch=CHARACTERS.heroine_01.daily_schedule.find(q=>q.enc==='D09');
     check('4-3. 偶遇 D09 以安：terms 拿掉 Y4S2（encounters.js、characters.js 作息兩邊）',!!row&&!row.terms.includes('Y4S2')&&row.terms.includes('Y4S1')&&!!sch&&!sch.terms.includes('Y4S2'),J([row&&row.terms,sch&&sch.terms])); }

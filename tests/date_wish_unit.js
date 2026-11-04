@@ -180,7 +180,7 @@ const E_=id=>X()&&X().ev(id);
     setup('2026-05-07',21.5,{lv:{[PS]:5}}); phone();
     check('4. 她有交往的對象（大一下第 7 週起和柏翰）：不約（AA_128 4-5）',msgs(PS).length===0);
     setup('2025-10-12',9,{lv:{[PS]:5},ev:['ev_peishan_syllogism']}); const m0=H.G.money; r=await goDate(PS,'D06',13,['畫框',1,'展廳',0,'差不多',0]);
-    check('4. 那一天：門票 30 照扣；「這裡好安靜。像考場。」「……可是沒有人在寫字。」；空畫框選②＋看過三段論多「你記得我說過。」；收尾〈無題〉、第 5 階結尾',has(r.L,sp(PS,ev.arrive.lines).concat(['框外面，是看框的人。……今天是我們。','你記得我說過。','〈無題〉。……它連題目都沒有。','好。這是一個答案。','今天，我什麼都沒寫。']))&&m0-H.G.money===30+60,J(r.L)+' '+(m0-H.G.money));
+    check('4. 那一天：門票 30 照扣；「這裡好安靜。像考場。」「……可是沒有人在寫字。」；空畫框選②「框外面，是看框的人。」（AA_685 A6-2：拿掉「……今天是我們。」）＋看過三段論多「你記得我說過。」；收尾〈無題〉、第 5 階結尾',has(r.L,sp(PS,ev.arrive.lines).concat(['框外面，是看框的人。','你記得我說過。','〈無題〉。……它連題目都沒有。','好。這是一個答案。','今天，我什麼都沒寫。']))&&!r.L.some(t=>/今天是我們/.test(t))&&m0-H.G.money===30+60,J(r.L)+' '+(m0-H.G.money));
     check('4. 記：WISH_DONE_classmate_peishan、PS_UNTITLED；大一沒有 after 那一句（大二上、大二下、大三以後才有）',H.G.flags.WISH_DONE_classmate_peishan===true&&SOCIAL.has(PS,'PS_UNTITLED')&&!r.L.some(t=>/標準答案了|又是一小時|學怎麼教書/.test(t)));
   }
 

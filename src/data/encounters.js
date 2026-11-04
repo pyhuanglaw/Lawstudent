@@ -55,8 +55,10 @@ const ENCOUNTERS={
       ex:{apart_life:['嗨。這邊的店都不錯，你慢慢逛。'],apart_lifeNarr:'（她先走了。）',apart_drift:['……{name}。','我在幫我媽買東西。']},src:'AA_271 1、1-1、1-2'},
     // ---- D14 淡水漁人碼頭（語彤：心願 D13 以後，寒暑假的週日；雨天沒有；前任不出現）----
     /* AA_684 第 1 項（企劃線 0382b8a34，AA-C 定 D109）：原本 15:00～19:00 撞她週末茶屋的班（13:00～17:00）——改成她下班以後，18:00 起（17:00 下班、搭捷運回淡水）；到 19:00 照舊（characters.js 作息同一筆）。
-       她的句子沒有夕陽；同行的「海風與夕陽」那一項（enc_walk.js D14.sunset）暑假 18:00 以後還看得到，寒假太陽已經下山（freetrip3d.js 那一項灰掉、演不到）——橋上的燈沒有現成的句子，記給 AA */
-    {who:'heroine_03',spot:'D14',why:'她坐在渡輪站的長椅上，手上拿著一張回淡水的船票。',days:[0],from:18,to:19,terms:null,vacation:true,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:'ENC_D14_YT',away:'在漁人碼頭',
+       她的句子沒有夕陽；同行的「海風與夕陽」那一項（enc_walk.js D14.sunset）暑假 18:00 以後還看得到，寒假太陽已經下山（freetrip3d.js 那一項灰掉、演不到）——橋上的燈沒有現成的句子，記給 AA
+       AA_685 B1（企劃線 c96613e51，AA-C 定 D109）：時段延長到 18:00～20:00（景點開到 20:00；characters.js 作息同一筆）；寒假 18:00 那一項本來就灰掉，不改字。
+       AA_685 C 節第 1 點（91f240e50）：日落以後同行換「海風與燈」那一項（enc_walk.js D14.lights、free_trips.js、freetrip3d.js S.nightOn）*/
+    {who:'heroine_03',spot:'D14',why:'她坐在渡輪站的長椅上，手上拿著一張回淡水的船票。',days:[0],from:18,to:20,terms:null,vacation:true,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:'ENC_D14_YT',away:'在漁人碼頭',
       lines:{friend:['你也來這邊？','我在等船。下一班還有二十分鐘。'],dating:['你怎麼也在這。','船還要二十分鐘。你要不要一起坐回淡水。']},src:'AA_271 1、1-1'},
     // ---- D11 新北投（柏翰：大一下～大二下，每學期第 6、7 週週日；大三起週日上午在 D06）----
     {who:'classmate_bohan',spot:'D11',why:'他坐在北投圖書館靠窗的位子，桌上攤著一疊考古題，旁邊放著一個便當。',days:[0],from:10,to:16,terms:['Y1S2','Y2S1','Y2S2'],weeks:[6,7],stageMin:'FAMILIAR',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_BH',away:'在北投讀書',

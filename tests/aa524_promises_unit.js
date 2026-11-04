@@ -430,8 +430,11 @@ await sec('Y2',async()=>{
   check('Y2. 沒有旗標：照現有',J(said())===J(['（電話。她那邊很安靜。）','……新年快樂。','茶屋今天提早收。蘇姨說跨年沒有人喝茶。','你那邊好吵。……好，你去看。我掛了。'])&&!H.opts.length,J(said()));
 });
 await sec('Y3',async()=>{
+  /* AA_685 A3（企劃線 c96613e51，AA-C 定 D109）：2026 情人節（ev_yt_vday_y1，已退場、定義留給舊存檔）的「下次店休也出來。」拿掉（說了沒做到的約定不要開，AA_524）——
+     它的兩句不演、不記 YT_CLOSED_OUT；舊存檔有 YT_CLOSED_OUT 的照樣讀得進來（下面店休那幾格照舊只有鐵門的旁白；AA_685 C 節第 3 點：不另外收尾）*/
   fresh('2026-02-14',17); H.FRIEND(YT); await runEv('ev_yt_vday_y1',['下次店休也出來']);
-  check('Y3. 2026 情人節「下次店休也出來。」→「下次店休是明年。」「……那明年也出來。」、記 YT_CLOSED_OUT',has('……那明年也出來。')&&H.G.flags.YT_CLOSED_OUT===true);
+  check('Y3. 2026 情人節：選項只剩「冷嗎？」→「……有一點。」；「下次店休也出來。」「下次店休是明年。」「……那明年也出來。」都沒有、不記 YT_CLOSED_OUT（AA_685 A3）',
+    J(H.opts.map(o=>[...o]))===J([['「冷嗎？」']])&&has('……有一點。')&&!has('下次店休是明年。')&&!has('……那明年也出來。')&&!('YT_CLOSED_OUT' in H.G.flags)&&!J(ev('ev_yt_vday_y1').dialogue).includes('YT_CLOSED_OUT'),J({o:H.opts,L:said()}));
   const door=async(day,flags,pick)=>{ fresh(day,11,flags); H.FRIEND(YT); PHONE.join(H.G,'noodle_team','麵店團'); H.said=[]; H.picks=[pick]; const r=await NOODLE_CLOSED.door(GM); return {r,L:said()}; };
   /* AA_683 第 1 節（企劃線 ef5c6c742，AA 定稿 D109）：燒臘店過年店休裡語彤自己的那幾段拿掉（新設定她不在燒臘店幫忙）——Y3 的 2027 店休那一場
      （第一句換「店休。……說好要出去的。」、河濱那一句、AA_526 的「我在外面等妳。」）跟著沒有了：有沒有旗標、哪一年，店休去按門都只有鐵門的旁白。情人節那一段（上面）照留 */

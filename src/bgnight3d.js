@@ -87,19 +87,22 @@ const BGN=(function(){
      1-3 ev_yu_sign_seat（events.js，「Alison 每次都坐阿哲旁邊。」）：Alison 23:00 趕到的那一次桌遊夜，接在場景後面演（2D，不等 3D）；條件照事件（認識 Alison、大一下第 13～15 週、只一次），
        記 yu2SeatDay（第三個徵兆 ev_yu_sign_question_* 照舊讀）、記成演過。 */
   const REG=['zhe','yu','classmate_bohan','classmate_xinci'];   /* 長桌常客（story3d.js NDL_REGULARS）*/
+  /* AA_685 B5（企劃線 c96613e51，AA-C 定 D109）：每一則每個存檔只演一次，那一學期的用完就不演（不再從頭輪）。演過的記在 G.flags.ndlTalkOnce[key]＝那一天：
+     key＝once（heard3d.js 加的那幾則，原本就只演一次）、id（noodle_table.js 的那幾則）、都沒有＝組＋第幾則。舊存檔沒有這些 key＝一則都還沒演（ndlTalkN 照舊決定從第幾則開始找）*/
+  S.talkKey=(k,i,e)=>(e&&(e.once||e.id))||('bgn_'+k+'_'+i);
   S.talkHere=(G,id)=>(S.here(G,id,G.day)||(id==='yu'&&S.yuLate(G.day)))&&pres(G,id);
   S.talkPick=function(G){ if(!G||!G.flags||typeof NOODLE_TABLE==='undefined'||typeof STORY==='undefined'||!STORY.ndlTalkGroup||!inGrp(G)) return null; const k=STORY.ndlTalkGroup(G), T=k&&NOODLE_TABLE[k]; if(!T||!T.length) return null;
     const F=G.flags, N=F.ndlTalkN||{}, i0=(N[k]|0)%T.length, O=F.ndlTalkOnce||{}, kn=id=>knows(id,G);
-    const ok=e=>!!e&&!e.retired&&e.bgn!==false&&!(e.once&&O[e.once]!=null)&&(e.who||[]).concat(e.know||[]).every(kn)&&(!STORY.ndlTalkIf||STORY.ndlTalkIf(G,e.if))
+    const ok=(e,i)=>!!e&&!e.retired&&e.bgn!==false&&O[S.talkKey(k,i,e)]==null&&(e.who||[]).concat(e.know||[]).every(kn)&&(!STORY.ndlTalkIf||STORY.ndlTalkIf(G,e.if))
       &&((e.who&&e.who.length)?e.who.every(id=>S.talkHere(G,id)):REG.some(id=>kn(id)&&S.talkHere(G,id)))
       &&!(e.about&&typeof HEARD!=='undefined'&&HEARD&&HEARD.herNear&&HEARD.herNear(G,e.about,(e.who||[])[0]));
-    for(let i=0;i<T.length;i++){ const e=T[i]; if(e&&e.pri&&ok(e)) return {k,i,e}; }
-    for(let n=0;n<T.length;n++){ const i=(i0+n)%T.length, e=T[i]; if(!e||e.pri||!ok(e)) continue; return {k,i,e}; }
+    for(let i=0;i<T.length;i++){ const e=T[i]; if(e&&e.pri&&ok(e,i)) return {k,i,e}; }
+    for(let n=0;n<T.length;n++){ const i=(i0+n)%T.length, e=T[i]; if(!e||e.pri||!ok(e,i)) continue; return {k,i,e}; }
     return null; };
   S.talk=async function(GM){ const G=GM.G, F=G.flags, p=S.talkPick(G); if(!p) return false; const t=hasCal()?CALENDAR.termOf(G.day):null;
     F.ndlTalkDay=G.day; if(t) F.ndlTalkWk=t.id+':'+t.week;
     const NN=F.ndlTalkN&&typeof F.ndlTalkN==='object'?F.ndlTalkN:(F.ndlTalkN={}); if(!p.e.pri) NN[p.k]=p.i+1;
-    if(p.e.once){ const O=F.ndlTalkOnce&&typeof F.ndlTalkOnce==='object'?F.ndlTalkOnce:(F.ndlTalkOnce={}); O[p.e.once]=G.day; }
+    { const O=F.ndlTalkOnce&&typeof F.ndlTalkOnce==='object'?F.ndlTalkOnce:(F.ndlTalkOnce={}); O[S.talkKey(p.k,p.i,p.e)]=G.day; }   /* AA_685 B5：每一則都只演一次（原本只有 once 的那幾則）*/
     const here=(p.e.who&&p.e.who.length)?p.e.who:REG.filter(id=>knows(id,G)&&S.talkHere(G,id));
     if(typeof ADV!=='undefined'&&ADV.preload) ADV.preload(p.e.who||[]);
     if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(p.e.dialogue||[],{id:'bgn_table_'+p.k+'_'+(p.i+1)});

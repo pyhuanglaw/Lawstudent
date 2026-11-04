@@ -851,6 +851,18 @@ const ENC_WALK={
  {
   "who": "heroine_03",
   "spot": "D14",
+  "act": "D14.lights",
+  "friend": [
+   "橋上的燈亮了。要拍的話就是現在。"
+  ],
+  "dating": [
+   "你站過去一點。好，不要動。"
+  ],
+  "note": "AA_685 C 節第 1 點（企劃線 91f240e50，AA-C 定 D109）：日落以後（寒假 18:00 以後、暑假日落以後）「海風與夕陽」灰掉，同行換「海風與燈」（free_trips.js D14.lights，freetrip3d.js S.nightOn）；第二句和夕陽版同一句"
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
   "act": "walk",
   "friend": [
    "這邊的人都在釣魚。我站了十分鐘，沒看到誰釣到。"

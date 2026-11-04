@@ -26,7 +26,7 @@ const FREE_TRIPS={
    "12": 17.17
   }
  },
- "source": "第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 spots_v2.json@32d11245＋spots_v3.json@3b599624",
+ "source": "第一批＝DL-06 照抄（free_trips.js 原有）＋白名單 spots_v2.json@32d11245＋spots_v3.json@3b599624＋AA_685 C1（D14.lights）",
  "spots": [
   {
    "id": "D04",
@@ -1550,6 +1550,15 @@ const FREE_TRIPS={
       "太陽落進海裡以前，碼頭上很多人拿起手機。你找了一段沒有人的欄杆靠著。",
       "今天雲比較多，太陽還沒落到海裡就看不到了。"
      ]
+    },
+    {
+     "id": "D14.lights",
+     "label": "海風與燈",
+     "minutes": 30,
+     "cost": 0,
+     "outdoor": true,
+     "nightOf": "D14.sunset",
+     "lines": []
     }
    ],
    "leave": "回程先坐公車到淡水站。淡水是起點站，你一上車就有位子。",
