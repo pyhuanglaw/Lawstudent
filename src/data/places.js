@@ -65,6 +65,8 @@ const PLACES={
   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const inW=(ws,x)=>!!ws&&ws.some(w=>x>=w[0]-1e-6&&x<w[1]-1e-6); const ws=PLACES.windowsOf(zone,day); if(inW(ws,h)) return true;
       /* 過午夜的那一段（late：[18,26]＝開到 02:00，小路 AA_655）：遊戲過了午夜還是同一天（G.hour 25，或呼叫的人先 %24 成 1）＝照這一天晚上那一段算（和 cafe 的 close>24 同一個想法）*/
       return !!o.late&&inW(ws,h+24); }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開；一天兩段的店：在任何一段裡都算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
+  /* 接在中文字後面的地點名（「和以安約在」＋名字）：英文店名（2:30 AM、SUNNY SIDE）前面空一個半形空格；after＝後面也接中文字（AA_655 第 1 節最後一列）*/
+  at(n,after){ n=String(n==null?'':n); const L=/^(2:30 AM|SUNNY SIDE)$/.test(n); return (L?' ':'')+n+(after&&L?' ':''); },   /* 只管這兩個（afar café、Daybreak 照原本的寫法）*/
   hhmm(x){ if(x>24+1e-6) x-=24;   /* 過午夜的關門時間（26＝02:00，小路）；24 照舊寫 24:00 */ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
   /* 今天的開放時間（一行）：「今天 08:10–21:45」「今天不開放（國定假日）」；沒有 rules 的地點＝原本的 text */
   todayText(zone,day){ const o=PLACES.hours[zone]; if(!o) return ''; if(!o.rules) return o.text||''; const ws=PLACES.windowsOf(zone,day); if(ws&&ws.length) return '今天 '+ws.map(w=>PLACES.hhmm(w[0])+'–'+PLACES.hhmm(w[1])).join('、');   /* 一天兩段：「今天 11:00–14:00、17:00–21:00」 */

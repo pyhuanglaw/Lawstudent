@@ -230,22 +230,22 @@ await sec('2 SQ18',async()=>{ fresh('2027-03-03',15,'gongguan'); know('清葉茶
   set('2027-03-08',15); await shop('清葉茶行',[0]); const l=said(); set('2027-03-10',16,'wenzhou'); const N2=PARK.notices(H.G).find(x=>/^餵貓表/.test(x[0]));
   check('2. SQ18 那個週日沒去＝過期：茶行老闆娘「那二十杯，我自己送了。」；之後不出現（你認得這個字。）',R('SQ18').state==='lapsed'&&J(l)===J(['茶行老闆娘：那二十杯，我自己送了。'])&&!N2[2],J([l,N2]));
   fresh('2027-02-20',15,'gongguan'); know('清葉茶行',5); check('2. SQ18 大二下起',!X().canOffer(H.G,'SQ18')&&(set('2027-03-01',15),X().canOffer(H.G,'SQ18'))); });
-await sec('2 SQ19',async()=>{ fresh('2026-10-07',12,'wz_teishoku'); know('巷子裡定食',4); SOCIAL.remember(XC,'FIRST_MET','');   /* 大二上（週三）*/
+await sec('2 SQ19',async()=>{ fresh('2026-10-07',19,'wz_teishoku'); know('巷子裡定食',4); SOCIAL.remember(XC,'FIRST_MET','');   /* 大二上（週三）；19:00（2026-11-04 改期望：小路 18:00 才開，AA_655 第 4 節）*/
   H.said=[]; H.opts=[]; H.picks=[0,0]; await WZS.order364(GM,'teishoku');
   check('2. SQ19 定食店點餐出現（order364）：定食店長「昨天有個女生把筆記本忘在這裡。…」「……你認識嗎？」；「看」筆記本：封面「吳芯慈」、最後一頁那張表、「下次換我先約她。」；一週內還她',
-    !!R('SQ19')&&R('SQ19').step==='ret'&&seq(['昨天有個女生把筆記本忘在這裡。封面寫法律系。','……你認識嗎？','（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）','（筆記本最後一頁不是筆記。是一張兩欄的表，左邊寫「以安」，右邊寫「我」。一格一格是考試、報告、發言的次數。）','（表的最下面另外寫了一行，字比較小：「下次換我先約她。」）'])&&whoOf('……你認識嗎？')==='定食店長'&&R('SQ19').by===H.G.day+7,J(said()));
+    !!R('SQ19')&&R('SQ19').step==='ret'&&seq(['昨天有個女生把筆記本忘在這裡。封面寫法律系。','……你認識嗎？','（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）','（筆記本最後一頁不是筆記。是一張兩欄的表，左邊寫「以安」，右邊寫「我」。一格一格是考試、報告、發言的次數。）','（表的最下面另外寫了一行，字比較小：「下次換我先約她。」）'])&&whoOf('……你認識嗎？')==='小路的老闆'&&R('SQ19').by===H.G.day+7,J(said()));
   set('2026-10-08',12,'campus'); const due=EVENTS.check(X().XC_EV); H.said=[]; H.opts=[]; H.picks=[0]; await EVENTS.run(X().XC_EV);
   check('2. SQ19 找芯慈說話（interact 事件）：（她接過筆記本，第一件事是翻到最後一頁。）「……你看了嗎？」；「看了最後一行。」→「……喔。」（她把那一頁摺起來。）「那一行，我會自己去做。」；做完',
     due&&seq(['（她接過筆記本，第一件事是翻到最後一頁。）','……你看了嗎？','……喔。','（她把那一頁摺起來。）','那一行，我會自己去做。'])&&!has('……謝謝。')&&J(H.opts[0])===J(['「看了最後一行。」','「沒有。」'])&&R('SQ19').state==='done'&&R('SQ19').saw&&!H.G.flags.SQ19_SAW&&!EVENTS.check(X().XC_EV)&&X().XC_EV.participants[0]===XC&&X().XC_EV.trigger==='interact',J(said()));
   LC(); ph(); set('2026-10-22',8.9); ph(); const g0=grp().length; set('2026-10-22',9.1); ph(); const g1=grp().map(m=>[m.from,m.text]); ph(); set('2026-10-23',9.1); ph(); const g2=grp().length;
   check('2. SQ19 兩週以後 09:00：芯慈在班上群組約讀書會三則（AA_408 6，取代兩句旁白；一次）',!g0&&J(g1)===J([[XC,'週四晚上我借了一間討論室，讀這週的進度。要來的跟我說。'],[XC,'@以安 妳要來嗎？'],[AN,'好。']])&&g2===3&&grp().every(m=>m.th==='g:law_class'),J(g1));
-  set('2026-10-23',12,'wz_teishoku'); await shop('巷子裡定食',[0]); const b=has('（定食店的櫃台多一個小籃子，寫著「失物」。）'); set('2026-10-24',12); await shop('巷子裡定食',[0]);
-  check('2. SQ19 痕跡：櫃台的「失物」籃子；之後定食店長「今天沒有人忘東西。」（一次）',b&&has('今天沒有人忘東西。')&&whoOf('今天沒有人忘東西。')==='定食店長');
+  set('2026-10-23',12,'wz_teishoku'); await shop('巷子裡定食',[0]); const b=has('（小路的吧台角落多一個小籃子，寫著「失物」。）'); set('2026-10-24',12); await shop('巷子裡定食',[0]);
+  check('2. SQ19 痕跡：櫃台的「失物」籃子；之後小路的老闆「今天沒有人忘東西。」（一次）',b&&has('今天沒有人忘東西。')&&whoOf('今天沒有人忘東西。')==='小路的老闆');
   fresh('2026-10-07',12,'wz_teishoku'); know('巷子裡定食',4); SOCIAL.remember(XC,'FIRST_MET',''); await shop('巷子裡定食',[0]); set('2026-10-08',12,'campus'); H.said=[]; H.picks=[1]; await EVENTS.run(X().XC_EV); LC(); ph(); set('2026-10-25',12); ph();
   check('2. SQ19「沒有。」→「……謝謝。」（她看了你一下，好像不太相信。）；沒有讀書會那一則',seq(['……謝謝。','（她看了你一下，好像不太相信。）'])&&!has('……喔。')&&R('SQ19').state==='done'&&!grp().length);
   fresh('2026-10-07',12,'wz_teishoku'); know('巷子裡定食',4); SOCIAL.remember(XC,'FIRST_MET',''); LC(); await shop('巷子裡定食',[0]); set('2026-10-15',12); X().lapse(H.G); const ev=EVENTS.check(X().XC_EV); await shop('巷子裡定食',[0]); const l=said();
   set('2026-10-30',12); ph(); const lg=grp().length===3&&grp()[0].day===D('2026-10-29'); set('2026-10-31',12); await shop('巷子裡定食',[0]);
-  check('2. SQ19 過期：不能還了；定食店長「筆記本那個女生，自己回來拿了。」；讀書會那一則照樣有（她自己會約）；沒有籃子',R('SQ19').state==='lapsed'&&!ev&&J(l)===J(['定食店長：筆記本那個女生，自己回來拿了。'])&&lg&&!has('（定食店的櫃台多一個小籃子，寫著「失物」。）'),J(l));
+  check('2. SQ19 過期：不能還了；小路的老闆「筆記本那個女生，自己回來拿了。」；讀書會那一則照樣有（她自己會約）；沒有籃子',R('SQ19').state==='lapsed'&&!ev&&J(l)===J(['小路的老闆：筆記本那個女生，自己回來拿了。'])&&lg&&!has('（小路的吧台角落多一個小籃子，寫著「失物」。）'),J(l));
   fresh('2026-10-07',12,'wz_teishoku'); know('巷子裡定食',5); check('2. SQ19 要認識芯慈',!X().canOffer(H.G,'SQ19')); });
 await sec('2 SQ20',async()=>{ fresh('2027-09-28',9,'wz_brunch'); know('溫州街・半熟',4); H.FAMILIAR(BH);   /* 大三上（週二）；柏翰熟悉 */
   H.said=[]; H.opts=[]; H.picks=[0,0,1]; await WZS.interact(GM,{wzShop:'brunch',kind:'cashier'}); const q=outOf('ev_sq20_s1');
