@@ -1,5 +1,5 @@
 {
- "note": "AA663-LINES-1104（AA_663 第 1 節三十句，企劃線 c488a56ea；照 AA_662 檢查表，使用者 11-04 14:2x 選「併進我們的禁用句型表」；第 12 列照使用者 15:0x 選擇題「直接說想一個人」；第 29 列 SQ19 已在 24bbac4e0 先做）：遊戲 src 已照表換（tools/story/apply_line_table.py 23 列＋人工 6 列）；企劃源稿（含自動產生的 invite_replies、eat_lines、shop_enc、solo_before 的來源）還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js 共用；長的先換）。",
+ "note": "AA663-LINES-1104（AA_663 第 1 節三十句，企劃線 c488a56ea；照 AA_662 檢查表，使用者 11-04 14:2x 選「併進我們的禁用句型表」；第 12 列照使用者 15:0x 選擇題「直接說想一個人」；第 16 列照使用者 15:3x 選的新句（企劃線 5df89d95a）；第 29 列 SQ19 已在 24bbac4e0 先做）：遊戲 src 已照表換（tools/story/apply_line_table.py 23 列＋人工 6 列）；企劃源稿（含自動產生的 invite_replies、eat_lines、shop_enc、solo_before 的來源）還是舊句，讀稿、讀稿比對時照這張表換（import_guard.py read_fix、tests/alison.js 共用；長的先換）。",
  "pairs": [
   [
    "你沒來的那堂，我筆記多寫了一頁。不是為你，是那堂真的很重要。",
@@ -11,7 +11,7 @@
   ],
   [
    "蘇姨說不要辦十週年。我說要。這是我第一次跟她說『要』。",
-   "蘇姨說不要辦十週年。我說要。……她看了我很久，然後說好。"
+   "蘇姨說不要辦十週年，太麻煩。我說熟客都在問。她想了一下，說那就簡單辦。"
   ],
   [
    "（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）",
