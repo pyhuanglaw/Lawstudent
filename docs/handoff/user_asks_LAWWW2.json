@@ -656,6 +656,16 @@
    "src": "使用者回答 LAWWW2-C 的選擇題（看了官方地圖↔遊戲對照圖 map_compare_1104.jpg：普通、博雅教學館東邊是化學館、電機一館，遊戲裡那裡只剩 8 m，社科院貼在普通、博思東邊）；選項：普通、博思往西搬／電機一館先不放／社科院往東搬",
    "note": "電機一館不放進遊戲（不放錯地方）；普通、博思、社科院都不搬。EE1-A3 撤回。CAMPUS-RELAYOUT-1102 剩的：背景建築照舊不主動加",
    "task": "CAMPUS-RELAYOUT-1102"
+  },
+  {
+   "id": "UA-LAWWW2-1104-05",
+   "at": "2026-11-04T14:1x",
+   "kind": "原話",
+   "status": "進行中",
+   "quote": "你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容",
+   "src": "使用者直接對 LAWWW2-C 工作階段說（LAWWW2-C 正在做阿德轉角外觀 WZ-FIVE-1104）",
+   "note": "LAWWW2-C 查了（14:1x）：①單張圖轉 3D 的 AI（TRELLIS.2／TripoSR MIT；Hunyuan3D 2.1、SF3D、Pixal3D、SAM 3D 有限制）都要 NVIDIA 顯示卡，雲端機器沒有、HuggingFace 大檔下載站被擋；而且只適合小物件，店面、招牌字會糊。②這台機器能用：Poly Haven 521 個 CC0 模型（之前只用貼圖）、HDRI；參考圖鏡頭對位（同角度疊圖）；DeepBump（GPL，CPU）法線／高度圖、Depth Anything V2 Small（Apache-2.0，GitHub release）估深度。③擋住：ambientCG 下載、Sketchfab、Kenney、Quaternius、blender.org、MakeHuman。先拿阿德轉角試做；問使用者電腦有沒有 NVIDIA 顯示卡（要不要在 PC 試 TRELLIS.2，由使用者決定）",
+   "task": "OPEN-SRC-2D3D-1104"
   }
  ]
 }
