@@ -1,5 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📌 進度快照（11-04 07:4x，LAWWW2，用量 93%：還沒交班，先保存）
+- 分支 `claude/second-ai-env-art`，最新見這次 push（ls-remote 核對）。
+- 已交件、LAWWW 已接：WZ-SECOND-1104 v3b＋SUNNY 東側轉角窗（3de4ef933）、一盞前院（b0bcc117c，開發分支 b53bfab72）、公館打烊光暈（fdd2593a1 → 5eab062b7）。
+- 已交件、待 LAWWW 接／CC 跑：gongguan_glb_integration 量法一致（89788745a，瀏覽器沒跑過）；SUNNY 窗景卡（a485b6722，給 AA）。
+- **進行中（P1，擋 v9.10.20）**：GG_night 窗卡前 0.5 m 那個沒名字的網格——已排除套件店面、公館群組內載入前的東西、GLB 內網格、光暈批次；請 CC 跑診斷段（07:3x 給 LAWWW 的訊息）拿到父節點鏈再做 patch（接 75a095355）。
+- 下一步：小路深色木立面、阿德轉角外觀、2:30 AM 外觀（WZ-FIVE-1104）。
+- 暫存 worktree 的 diff 備份：`docs/art-rebuild/second_ai/wip/wip_backup_1104/`。
+
 ## ⚠️ 新規則 D131（使用者 11-03 22:3x 對 BB 回「好」，LAWWW 22:42 轉達）
 - 瀏覽器測試一律排使用者的電腦：包括探針、流程、截圖、test_charlook、deploy、線上版。排 CC 的 cc-local 佇列，找 BB 或 CC 排。我的模型遊戲內截圖、瀏覽器 lookdev 也一樣。
 - Node 全套丟 GHA。
