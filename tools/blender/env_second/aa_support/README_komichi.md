@@ -1,4 +1,5 @@
-# 小路 室內（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04 v1，READY_FOR_REVIEW）
+# 小路 室內（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04 v1b，READY_FOR_REVIEW）
+- v1b（照 LAWWW 11-04 05:00 的 WZ_SHOPS1_FIXED_COORDS.md）：窗邊座位離店面牆 0.55（原本 0.45，seats_on_furniture 的 0.45 m 邊緣）；卡座座位 x −3.6（原本 −3.72，在牆內 0.4 站不住的帶子裡），卡座、桌子、對面椅子一起往東 0.1；座位加 tag（corner 卡座、bar 吧台凳、door 門邊）。**要 LAWWW 改的測試**：`wz_shops2_unit.js` 第 5 項要求模型裡有 `GLOW_wz_teishoku_washi`——新版沒有和紙燈籠，seeThru 改成空的。
 
 ## 依據
 - 使用者 11-04 04:4x 給的參考圖。
