@@ -1,0 +1,25 @@
+CC GG_cards_shot 公館 13 張窗卡從騎樓看；SHA=?；CARDS=ggtea_int,ggbook_int,ggdb_int；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  37.8 秒
+  [前置／捷徑] 讀檔到公館人行道 day (−30, 14)，條件事件關閉
+PASS day：正式模型 gongguan_shops_glb 有載入  讀檔後 19.04 秒
+  day ggLit：{"name":"NOSHADOW_xs_fronts_lit","mat":"wz_xs_fronts","uv1":true,"inScene":true,"compiled":1,"rewrap":0,"lit":[1,0.03,1,1,1,0.03,0.03,0.03,0.03],"glow":{"1":2,"2":5,"3":4,"4":5,"5":6,"6":3,"7":3,"8":3},"hour":21.003333333333337,"found":true,"matSame":"wz_xs_fronts"}
+  day 用到 xs_fronts 材質的網格：[{"mesh":"NOSHADOW_xs_fronts","type":"Mesh","mat":"wz_xs_fronts_matte","matUuid":"b03df0a3","vis":true,"verts":168,"uv1":false,"parent":"gongguan_shops"},{"mesh":"NOSHADOW_xs_fronts_lit","type":"Mesh","mat":"wz_xs_fronts","matUuid":"44fe3c63","vis":true,"verts":112,"uv1":true,"parent":"gongguan_shops"}]
+  day G01 青木茶室 ggtea_int：卡的頂點 4（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 27.7
+  day G02 頁間書屋 ggbook_int：卡的頂點 6（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 92.9
+  day G14 Daybreak ggdb_int：卡的頂點 4（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 33.2
+  [前置／捷徑] 讀檔到公館人行道 night (−30, 14)，條件事件關閉
+PASS night：正式模型 gongguan_shops_glb 有載入  讀檔後 7.46 秒
+  night ggLit：{"name":"NOSHADOW_xs_fronts_lit","mat":"wz_xs_fronts","uv1":true,"inScene":true,"compiled":2,"rewrap":0,"lit":[1,1,1,1,0.03,1,1,1,1],"glow":{"1":2,"2":5,"3":4,"4":5,"5":6,"6":3,"7":3,"8":3},"hour":14.002222000000003,"found":true,"matSame":"wz_xs_fronts"}
+  night 用到 xs_fronts 材質的網格：[{"mesh":"NOSHADOW_xs_fronts","type":"Mesh","mat":"wz_xs_fronts_matte","matUuid":"b03df0a3","vis":true,"verts":168,"uv1":false,"parent":"gongguan_shops"},{"mesh":"NOSHADOW_xs_fronts_lit","type":"Mesh","mat":"wz_xs_fronts","matUuid":"44fe3c63","vis":true,"verts":112,"uv1":true,"parent":"gongguan_shops"}]
+  night ggtea_int 「底」：窗卡 color／emissive＝0 的截圖 _black
+  night G01 青木茶室 ggtea_int：卡的頂點 4（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 117.5
+  night ggbook_int 「底」：窗卡 color／emissive＝0 的截圖 _black
+  night G02 頁間書屋 ggbook_int：卡的頂點 6（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 110.8
+  night ggdb_int 「底」：窗卡 color／emissive＝0 的截圖 _black
+  night G14 Daybreak ggdb_int：卡的頂點 4（NOSHADOW_xs_fronts_lit）；材質 {"name": "wz_xs_fronts", "color": "#ffffff", "emissive": "#ededed", "emissiveIntensity": 1, "emissiveMap": true, "map": true, "transparent": false, "toneMapped": true}；卡面平均亮度 156.9
+PASS 沒有 JS 例外  []
+INFO G01 ggtea_int  找得到：白天 True／晚上 True；晚上材質有變：False（白天 emissive #ededed×1、晚上 #ededed×1）；卡面亮度 白天 27.7→晚上 117.5
+INFO G02 ggbook_int  找得到：白天 True／晚上 True；晚上材質有變：False（白天 emissive #ededed×1、晚上 #ededed×1）；卡面亮度 白天 92.9→晚上 110.8
+INFO G14 ggdb_int  找得到：白天 True／晚上 True；晚上材質有變：False（白天 emissive #ededed×1、晚上 #ededed×1）；卡面亮度 白天 33.2→晚上 156.9
+INFO 總覽圖  /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/ggre/fix_n_then_d/cards_day.png、/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/ggre/fix_n_then_d/cards_night.png
+ALL PASS
