@@ -4908,6 +4908,38 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_660 第 2、3 節接線；BB 照第 4 節確認",
    "note": "使用者 11-04 13:0x 選恢復（UA-AA-1104-15）"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "CANON-PURGE-SRC-1104",
+   "sha": "6c6933175",
+   "files": [
+    "docs/story_planning/AA_661_遊戲裡的人物資料_和現行設定不符的欄位.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_661 第 1、2 節改 src（47 項）",
+   "note": "CANON-PURGE-1104 企劃線部分：voice_canon 17 份、口氣表、總表、事件書與人物企劃 20 多份已清（56cf47f22～6c6933175）"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "範圍外的舊企劃稿（溫書瑀_角色企劃、沈以安_角色企劃_合併版、BB_40、AA_13、AA_121、AA_187、BB_107、AA_543、AA_546、AA_118、AA_502、AA_606、語彤 AA_503～511 等）第三輪",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "CANON-PURGE-1104",
+   "sha": "6c6933175",
+   "files": [
+    "docs/story_planning/voice_canon/",
+    "docs/story_planning/00_人物口氣表.md",
+    "docs/story_planning/00_現行設定總表.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA 第三輪清範圍外文件",
+   "note": "使用者 11-04 13:4x（UA-AA-1104-19）"
   }
  ],
  "items": [
