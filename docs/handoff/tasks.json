@@ -43829,6 +43829,56 @@
    "title": "約念書／吃飯／咖啡／電影：從入口帶路到座位、兩人坐下才開演、結束一起起身走到門口道別（USER_WANTS X207）",
    "status": "進行中",
    "next": "LAWWW：invites3d startTogether 的 pairSeats 只找到達那一區（總圖大廳沒有成對座位＝門口就演）→ place 加 sitAt（座位群組、樓層）、arrive 帶路；AA 寫到場一句、念書中小聲聊、收書、道別；BB 驗收 7 點（CC 先跑對照組）"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "SOCIAL-STUCK-1104",
+   "owner": "BB",
+   "priority": "P0",
+   "title": "BB 的任務名：使用者 11-04 聊天／約會卡住的驗收與 social_smoke（同 BUG-TALK-STUCK-1104、TEST-SOCIAL-SMOKE-1104、約會實跑）",
+   "status": "進行中",
+   "next": "LAWWW 修：BUG-TALK-STUCK-1104（27929f2a8＋74c1ffb37，熱修 fd8d447d2）、INV-SIT-TOGETHER-1104；BB／CC 驗收",
+   "xai": {
+    "spec": "使用者 11-04",
+    "branch": "claude/cc-testing",
+    "acceptance": "見 next",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "STUDY-DATE-SEAT-1104",
+   "owner": "AA",
+   "priority": "P1",
+   "title": "AA 的任務名：約念書走到桌子坐下的台詞（AA_649，企劃線 37daf8027；X207）",
+   "status": "已實作待整合",
+   "next": "台詞已交 LAWWW，子代理照接（INV-SIT-TOGETHER-1104）",
+   "xai": {
+    "spec": "使用者 11-04",
+    "branch": "claude/story-planning",
+    "acceptance": "見 next",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
