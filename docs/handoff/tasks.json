@@ -46198,6 +46198,34 @@
    "notWaitUser": "引擎修正，不用問使用者",
    "next": "【LAWWW-C 11-04 18:1x】原因：出生點照「模型還沒載好」的導航格找（E.unstick 本來就照人的半徑 0.3 挑），一兩秒後 bldg.gongguan_shops 載好、propBlocks 擋上頁間門口的盆栽 GG_PROP_BLOCKS (−9.3, 21.5)（01505ccd0 接 LAWWW2 f936fd2c8 搬過來的），人就在旁邊站不住。修正：propBlocks 擋好以後 propReStand（站不住就 E.unstick 挪到最近站得住的地方；在演、坐著不動），公館、溫州街兩處；tests/prop_restand_unit.js 修改前 FAILED 1、修改後 ALL PASS。下一步：BB 排 CC 用 v7pt.py 重跑",
    "tests": "node tests/prop_restand_unit.js"
+  },
+  {
+   "id": "AA684-CANON-FIX-1104",
+   "title": "AA_684：AA675／679 後續七件——漁人碼頭 18:00 起（燈的台詞）、重逢「這週六我五點下班」排最近週六 17:15、阿哲週二四 18:00～19:30 公館燒臘晚餐（四個事件＋騎樓徵兆看作息）、Alison 趕到的旁白、告白晚餐考完當天 20:30 邀約＋之後第一個週六 17:30、ENC_D24_SIS 記憶名稱中性、長桌閒聊刪 13 則＋桌遊夜版 4 則",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上起（語彤、阿哲、桌遊夜）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 18:12（企劃線 0382b8a34；outbox 30b2fca72；D109）回 LAWWW-C 18:10 的十二件（2、7、9、10、12 照現在的做法）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_684（企劃線 0382b8a34）",
+    "acceptance": "照 AA_684 七件；台詞逐字；換不了的夕陽台詞記給 AA；BB 測",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）"
   }
  ]
 }

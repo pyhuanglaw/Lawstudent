@@ -17084,6 +17084,19 @@
    "task": "ADE-V2-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 17:4x 套 patch（src/zones3d.js 3 行）；溫州街 wz_* 21 支＋aa413_wz ALL PASS"
+  },
+  {
+   "id": "DL-AA-0382b8a34",
+   "date": "2026-11-04T18:12Z",
+   "from": "AA",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0382b8a34",
+   "msg": "ACK",
+   "what": "AA_684 AA675／679 後續七件（回 LAWWW-C 18:10 的十二件）；outbox 30b2fca72",
+   "task": "AA684-CANON-FIX-1104",
+   "integration": "未整合",
+   "note": "LAWWW-C 18:1x 登記、派子代理"
   }
  ],
  "ignored": [
