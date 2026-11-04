@@ -8,7 +8,7 @@
    v2：照 LAWWW2 外觀（8de87af16）店寬 9.2 m、門 x 1.85 寬 1.1 高 2.65、大窗 x −1.93～1.27、外帶窗口 x 2.94～4.24。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。 */
 const AOKI_LAYOUT = {
-  version: 2,
+  version: 3,
   id: 'aoki', zone: 'aoki', name: '青木茶室', glb: 'assets/models/env/second_ai/aa_support/aoki.glb',
   w: 9.2, d: 7.0, h: 3.6, floorY: 0, floor: 'terrazzo_light', wallColor: '#efe8da',
   note: '店面 9.2 m 寬（臨街，照 LAWWW2 外觀 8de87af16 的 GG_XS）、7 m 深、3.6 m 高。參考室內圖是站在東端往西看的長條空間：臨街木框大窗＋窗邊長桌；門在大窗東邊，門的東邊是外帶窗口（店員從裡面遞出去）。北邊一條長吧台（磨石子檯面、直木條正面）＋五張木高腳椅，吧台後面綠色磁磚牆、一整排深綠茶罐、白瓷茶壺、玻璃公道杯、秤、熱水壺。西牆綠色布面卡座＋兩張小圓桌、書櫃；中間兩張方桌（米白布面椅）；最裡面一張四人桌。天花板淺木條＋軌道燈，紙燈籠吊燈、玻璃吊燈。地板淺色磨石子（D112）。',
@@ -23,7 +23,7 @@ const AOKI_LAYOUT = {
     {kind: 'display', x: 0.88, z: 3.12, w: 0.7, d: 0.44, h: 1.15, note: '玻璃展示櫃（v2b，LAWWW2「左前景加一座玻璃展示櫃（茶葉禮盒）」）：窗邊長桌東端、窗前，兩層茶葉禮盒＋一層茶罐，櫃頂燈條'},
     {kind: 'vitrine', x: 2.7, z: 3.1, w: 0.54, d: 0.4, h: 1.3, note: '玻璃展示櫃（v2b：茶葉禮盒兩層＋茶壺一層、櫃頂燈條）；門和外帶窗口之間'},
     {kind: 'takeaway_bench', x: 3.64, z: 3.2, w: 1.1, d: 0.6, h: 0.9, note: '外帶窗口裡面的小工作檯（杯子）'},
-    {kind: 'bar', x: 1.0, z: -1.85, w: 5.2, d: 0.6, h: 1.0, note: '長吧台（v2b：淺色石材檯面、直木條正面、東端半圓圓角（多 0.3 m）；檯面上玻璃公道杯、兩個茶盤、秤、竹茶具筒、試聞茶罐、茶葉樣品罐）'},
+    {kind: 'bar', x: 1.25, z: -1.85, w: 4.7, d: 0.6, h: 1.0, note: '長吧台（v2c：西端往東縮 0.5 m，最裡面那桌東邊留 1.1 m 走道（LAWWW2 11-04 03:12）；v2b：淺色石材檯面、直木條正面、東端半圓圓角（多 0.3 m）；檯面上玻璃公道杯、兩個茶盤、秤、竹茶具筒、試聞茶罐、茶葉樣品罐）'},
     {kind: 'back_bench', x: 1.0, z: -3.2, w: 5.2, d: 0.6, h: 0.9, note: '吧台後面的工作檯（熱水壺、煮水機）；上面四層木層板（v2b，層板下燈條）：玻璃茶葉罐＋禮盒、牛皮紙茶包、白瓷茶壺、深綠茶罐'},
     {kind: 'tile_wall', note: '北牆 x −1.9～4.6、0.95～2.85 m 綠色長條磁磚（直貼）'},
     {kind: 'banquette', x: -4.3, z: 1.3, w: 0.6, d: 2.6, note: '西牆的綠色布面卡座（三顆抱枕）'},
@@ -41,7 +41,7 @@ const AOKI_LAYOUT = {
   ],
   blocks: [
     [-0.7, 3.2, 2.3, 0.5], [0.88, 3.12, 0.7, 0.44], [2.7, 3.1, 0.54, 0.4], [3.64, 3.2, 1.1, 0.6],
-    [1.15, -1.85, 5.5, 0.62], [1.0, -3.2, 5.2, 0.6],
+    [1.4, -1.85, 5.0, 0.62], [1.0, -3.2, 5.2, 0.6],
     [-4.3, 1.3, 0.6, 2.6], [-4.42, -1.4, 0.36, 1.3],
     [-3.6, 2.0, 0.66, 0.66], [-3.6, 0.6, 0.66, 0.66], [2.3, 1.0, 0.82, 0.82], [-0.6, 0.7, 0.82, 0.82], [-2.9, -1.6, 1.4, 0.8],
     [-4.25, 3.1, 0.55, 0.55], [-4.25, -0.45, 0.55, 0.55], [4.3, -0.6, 0.55, 0.55]
@@ -57,9 +57,9 @@ const AOKI_LAYOUT = {
     {x: -1.15, z: 0.7, yaw: Math.PI / 2, table: 4, canStudy: true, label: '坐下'}, {x: -0.05, z: 0.7, yaw: -Math.PI / 2, table: 4, canStudy: true, label: '坐下'},
     {x: -3.25, z: -2.15, yaw: 0, table: 5, canStudy: true, label: '坐下'}, {x: -2.55, z: -2.15, yaw: 0, table: 5, canStudy: true, label: '坐下'},
     {x: -3.25, z: -1.05, yaw: Math.PI, table: 5, canStudy: true, label: '坐下'}, {x: -2.55, z: -1.05, yaw: Math.PI, table: 5, canStudy: true, label: '坐下'},
-    {x: -1.1, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}, {x: -0.05, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'},
-    {x: 1.0, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}, {x: 2.05, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'},
-    {x: 3.1, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}
+    {x: -0.6, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}, {x: 0.4, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'},
+    {x: 1.4, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}, {x: 2.4, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'},
+    {x: 3.35, z: -1.15, yaw: Math.PI, table: 7, seatH: 0.72, label: '坐吧台'}
   ],
   interact: [
     {x: 3.9, z: -1.2, kind: 'order', label: '點茶', note: '吧台東端；店員在吧台後面'},

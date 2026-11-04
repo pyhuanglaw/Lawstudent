@@ -4210,6 +4210,15 @@
    "task": "GG-SHOPS2-1104",
    "kind": "text",
    "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）"
+  },
+  {
+   "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",
+   "sha": "d26fecd2f",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "GG-SHOPS-REDO-1104",
+   "kind": "text",
+   "note": "公館三間室內缺的台詞：日和便利店（熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃）、頁間書屋（書牆、新書、點咖啡）、青木茶室（書櫃、茶具櫃、茶罐、內用點茶、坐下、21:00 打烊、打烊／颱風天門口、約去答應的一句、開場句）；青木門口外帶＋店內內用、可以讀書、每天 11–21（§0，d26fecd2f）。照抄進 src/ggshops_sys3d.js、src/data/invites.js（tests/aa653_shops_unit.js 逐字對照）"
   }
  ]
 }

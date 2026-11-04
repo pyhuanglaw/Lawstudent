@@ -357,8 +357,8 @@ const CROWD=(function(){
     add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
     /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
     const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
-    /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */
-    if(CV) add('cvs','cvs',[CV.spawn.x,CV.spawn.z],standUnits([[-3.95,-2.7,P/2],[-3.95,-0.5,P/2],[-2.4,-1.6,P/2],[-0.8,-2.6,P/2],[-0.8,-0.4,P/2],[0.75,-2.8,-P/2],[-4.6,-3.6,-P/2],[2.3,-4.3,P],[4.1,-4.3,P]]).concat(standUnits([[1.45,2.15,P/2]],'pay')));
+    /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */   /* 排隊結帳：原本 (1.45, 2.15)＝收銀機南邊、就站在「包裹暫取」「看熱食櫃」的按鈕上（AA_653 接了那兩個點）；往西退一步站 (0.85, 1.4)，還是面向櫃台 */   /* 配置 v4（模型 v2b，BB 61a107016）：貨架移到 x −3.7、−1.7、0.3，走道 1.05～1.2 m——站的點改在走道中間（西牆和一號之間 x −4.6、一二號之間 −2.7、三號和櫃台之間 1.3）*/
+    if(CV) add('cvs','cvs',[CV.spawn.x,CV.spawn.z],standUnits([[-4.6,-2.7,P/2],[-4.6,-0.5,P/2],[-2.7,-1.6,P/2],[-0.8,-2.6,P/2],[-0.8,-0.4,P/2],[1.3,-2.8,-P/2],[-4.6,-3.6,-P/2],[2.3,-4.3,P],[4.1,-4.3,P]]).concat(standUnits([[0.85,1.4,P/2]],'pay')));
     else add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
     if(YJ) add('bookstore','book',[YJ.spawn.x,YJ.spawn.z],standUnits([[-2.3,-4.0,P],[2.3,-4.0,P],[-0.6,1.55,0],[3.0,1.55,0]]));   /* 北牆書牆前兩個（西段是買法律書的互動點、梯子東邊 (0.3,−3.95) 是法律系同學「找書的女生」的位子 src/data/pool_story.js）、窗前兩座斜面書架北邊（書架面向北）*/
     else add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));

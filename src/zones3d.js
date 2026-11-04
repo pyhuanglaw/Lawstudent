@@ -810,8 +810,9 @@ const Z3 = (function(){
       const ix=x+s.w/2;
       if(s.type==='noodle') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入公館燒臘',exit:{to:'noodle',spawn:{x:0,z:3.4,yaw:Math.PI}}});
       /* 青木茶室進得去坐（GG-SHOPS-REDO-1104，AA_647 第 1 節；新區域 aoki，配置 src/data/aoki_layout.js）：門在店面中間偏西（配置的門 x 1.85＝世界 cx−1.85，房間轉 180°）；
-         外帶的點餐（AA_647 第 6 節的三種茶）移到店裡吧台東端的「點茶」。沒有 aoki 區域（配置檔沒載入）時照舊是門口的「買一杯飲料」 */
-      if(s.type==='tea'){ if(ZONES.aoki) E.interactables.push({x:+(cx-SHOP_IN.aoki.door).toFixed(2),z:FZ+2,radius:2.2,label:'進入青木茶室',exit:{to:'aoki',spawn:inSp('aoki')}});
+         門口的「外帶」照舊（AA_647 第 6 節的三種茶；AA_653 A：兩個都要），店裡吧台的「點茶」是內用（src/ggshops_sys3d.js）。沒有 aoki 區域（配置檔沒載入）時照舊是門口的「買一杯飲料」 */
+      if(s.type==='tea'){ if(ZONES.aoki){ E.interactables.push({x:+(cx-SHOP_IN.aoki.door).toFixed(2),z:FZ+2,radius:2.2,label:'進入青木茶室',exit:{to:'aoki',spawn:inSp('aoki')}});
+          E.interactables.push({x:+(cx-SHOP_IN.aoki.take).toFixed(2),z:FZ+2,radius:1.2,label:'外帶',shop:'tea',ggsTake:true}); }   /* AA_653 A：門口的外帶窗口照舊（AA_647 第 6 節三種茶、key「清葉茶行」）；窗口在門的西邊（配置 front.takeaway 的中間）；打烊、颱風天＝src/ggshops_sys3d.js 的門口那一句 */
         else E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'買一杯飲料',shop:'tea'}); }
       if(s.type==='book') E.interactables.push({x:s.door!=null?s.door:ix,z:FZ+2,radius:2.2,label:'進入頁間書屋',exit:{to:'bookstore',spawn:inSp('bookstore')}});   /* door：頁間書屋的門在店面最左邊（LAWWW2 新外觀 fb5d7f367；2026-11-04 從店面中間 −41.6 移到 −36.4，z 照舊）*/
       if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:inSp('cvs')}});   /* 進門站的地方照配置（SHOP_IN；GG-SHOPS-REDO-1104）*/
@@ -1883,9 +1884,9 @@ const Z3 = (function(){
       if(!night){ x.fillStyle=dusk?'rgba(255,170,90,0.10)':'rgba(255,255,255,0.08)'; x.fillRect(0,0,W,H); } });
     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
   /* ---------- 公館三間新室內（GG-SHOPS-REDO-1104；USER_WANTS X206；AA_647；LAWWW2 驗收 MODEL_READY）----------
-     日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v3，story-planning 53275eaf4）、
-     頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v2，a6d78f484）、
-     青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v2，16c1c6f16）。
+     日和便利店（cvs：BB 的 bb_support/cvs_interior.glb＋src/data/cvs_layout.js v4＝模型 v2b，story-planning 61a107016）、
+     頁間書屋（bookstore：AA 的 aa_support/yejian.glb＋src/data/yejian_layout.js v3＝模型 v3b，d593be119）、
+     青木茶室（新區域 aoki：AA 的 aa_support/aoki.glb＋src/data/aoki_layout.js v3＝模型 v2c，697ed69cf）。
      接法照溫州街 wzShop、慢輪單車：room()（尺寸照配置）＋配置的導航阻擋（備用的家具色塊，D38 ③）＋座位＋互動點，正式模型 attachRoomGLB。
      配置檔沒有載入（Node 測試沒載、或拿掉）時 cvs、bookstore 照舊是舊的程序化室內，也沒有 aoki 區域（公館門口照舊外帶）。
      進門站的地方（SHOP_IN）：配置的 spawn 在店門出口的範圍裡（tests/spawn_exit_unit.js 的規則：出生點離出口要大於半徑＋0.2），改成往店裡走一段；出口在門內、半徑小一點（店都不大）。
@@ -1901,7 +1902,7 @@ const Z3 = (function(){
     o.bookstore=b?{x:b.exit.at.x,z:+(b.d/2-2).toFixed(2),yaw:P,door:b.front.door.x,exit:{x:b.exit.at.x,z:+(b.d/2-0.6).toFixed(2),r:0.9},out:{x:-38.8,z:20.2,yaw:P},clerk:{x:5.35,z:0.6,yaw:-P/2},job:jn?{x:jn.x,z:jn.z}:null,gg:true}
       :{x:0,z:4,yaw:P,exit:{x:0,z:4.6,r:1.5},out:{x:-38.8,z:20.2,yaw:P},clerk:{x:0.55,z:1.95,yaw:0},job:null};
     /* 青木茶室：門 x 1.85（店深只有 7 m：配置的出口往裡 1.2 m＝(1.85, 2.05)，就在方桌三的旁邊；places.js 的快速前往同一個算法）；店員在吧台後面東段（z −2.85～−2.2），面向客人 */
-    if(a) o.aoki={x:a.exit.at.x,z:+(a.exit.at.z-1.2).toFixed(2),yaw:P,door:a.front.door.x,exit:{x:a.exit.at.x,z:3.0,r:0.7},out:{x:-54.05,z:18,yaw:P},clerk:{x:3.3,z:-2.5,yaw:0},gg:true};
+    if(a) o.aoki={x:a.exit.at.x,z:+(a.exit.at.z-1.2).toFixed(2),yaw:P,door:a.front.door.x,take:a.front.takeaway?+((a.front.takeaway.x0+a.front.takeaway.x1)/2).toFixed(2):3.59,exit:{x:a.exit.at.x,z:3.0,r:0.7},out:{x:-54.05,z:18,yaw:P},clerk:{x:3.3,z:-2.5,yaw:0},gg:true};
     /* afar café、Daybreak（GG-SHOPS2-1104）：店深 8 m，進門往裡 2 m（配置的 spawn (門 x, 3.3) 在出口的範圍裡）；出口在門內 (門 x, 3.4)、半徑 0.9（和便利店、頁間一樣）；
        回公館站在門口正前方的人行道 z 18（門口互動點 z 21 半徑 2.2 的外面；騎樓前的機車在門口兩側讓開）；店員在吧台後面：afar 吧台（x −2.725～−2.075）和深綠隔牆（x −3.4）中間、點咖啡那一段，面向東；
        Daybreak 長吧台（z −3.2～−2.5）後面（配置 walkNote：z −3.5～−3.2 是店員）、收銀機那一段，面向南（客人）。cx：那一棟的中心（店面街第 7、14 棟，照上面 shops 表算）*/
@@ -1927,9 +1928,9 @@ const Z3 = (function(){
     return z; }
   /* 正式模型的資產登錄（url 照配置；不動 assets3d.js 的舊登錄：配置沒載入時 cvs、bookstore 照舊用舊模型）*/
   function ggReg(){ if(typeof ASSETS==='undefined'||!ASSETS.manifest) return; const reg=(key,L,src)=>{ if(L&&!ASSETS.manifest[key]) ASSETS.manifest[key]={url:L.glb,type:'building',lazy:true,source:src,license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; };
-    reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 53275eaf4，配置 src/data/cvs_layout.js v3）');
-    reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning a6d78f484，配置 src/data/yejian_layout.js v2）');
-    reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 16c1c6f16，配置 src/data/aoki_layout.js v2）');
+    reg('bldg.cvs_interior_v2',GG_L.cvs(),'本作 Blender 腳本 tools/blender/env_second/bb_support/cvs_interior.py（公館「日和便利店」室內 v2，BB〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 61a107016（v2b），配置 src/data/cvs_layout.js v4）');
+    reg('bldg.yejian_interior',GG_L.bookstore(),'本作 Blender 腳本 tools/blender/env_second/aa_support/yejian_interior.py（公館「頁間書屋」室內 v2，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning d593be119（v3b），配置 src/data/yejian_layout.js v3）');
+    reg('bldg.aoki_interior',GG_L.aoki(),'本作 Blender 腳本 tools/blender/env_second/aa_support/aoki_interior.py（公館「青木茶室」室內 v2b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 697ed69cf（v2c），配置 src/data/aoki_layout.js v3）');
     reg('bldg.afar_interior',GG_L.afar(),'本作 Blender（tools/blender/env_second/aa_support/README_afar.md；公館「afar café」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8a0bd80f2，配置 src/data/afar_layout.js）');
     reg('bldg.daybreak_interior',GG_L.daybreak(),'本作 Blender（tools/blender/env_second/aa_support/README_daybreak.md；公館「Daybreak」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8094770c7，配置 src/data/daybreak_layout.js）'); }
   ggReg();   /* 載入時登錄；建區域時再登錄一次（Node 測試 assets3d.js 可能比這個檔晚載入）*/
@@ -1944,17 +1945,23 @@ const Z3 = (function(){
     /* 窗外的景：一整片（正面左段落地窗 x −5.3～−0.66、自動門、右段窗 1.46～2.93 一起；attachRoomGLB 會放大 1.35 倍放到玻璃外面）。照片是舊店面的角度（cvs／cvs_wz），新店面的窗要 LAWWW2 重拍 */
     const z=ggRoom(E,'cvs',L,{label:L.exit.label,floor:'#e3e1dc',winXs:[1.18],winW:8.3,winH:2.65,winY:1.4,view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,glb:'bldg.cvs_interior_v2',shop:'cvs_seat',attach:(E,z,g0,root)=>attachCvsInterior(z,g0,root)});
     const ck=L.interact.find(q=>q.kind==='checkout');
-    E.interactables.push({x:ck.x,z:ck.z,radius:1.1,label:ck.label,shop:'cvs'});   /* 結帳（照舊 story3d.js 的 shop:'cvs'）。配置的熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃這一版不接：稿上沒有那幾句（缺台詞）*/
+    E.interactables.push({x:ck.x,z:ck.z,radius:1.1,label:ck.label,shop:'cvs'});   /* 結帳（照舊 story3d.js 的 shop:'cvs'）*/
+    ggLooks(E,L,'cvs');   /* 熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃（AA_653 第 1 節；src/ggshops_sys3d.js）*/
     return z; }
+  /* 三間室內「看東西、買東西」的互動點（AA_653；台詞和買賣在 src/ggshops_sys3d.js，互動點帶 ggs＝配置的 kind）：位置、字照配置 interact；GGS_KINDS＝每一間接哪幾個（稿上有台詞的）。
+     半徑 0.9（便利店的櫃台前四個點間隔只有 0.65～1.2 m：照「最近的那一個」選）*/
+  const GGS_KINDS={cvs:['hotfood','coffee','parcel','microwave','cooler'],bookstore:['shelf_browse','new_books','cafe_order'],aoki:['bookcase','vitrine','tea_tins','order']};
+  function ggLooks(E,L,k){ for(const q of (L.interact||[])) if(GGS_KINDS[k].includes(q.kind)) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:q.label,ggs:q.kind}); }
   function buildYejian(E){ const L=GG_L.bookstore();
-    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true,ap:s=>s.table===4?[3.45,-3.05]:null});   /* 沙發（table 4）：前面的茶几離沙發只有 0.3 m、東邊被盆栽擋住，從茶几西端 (3.45,−3.05) 走近 */   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
+    const z=ggRoom(E,'bookstore',L,{label:L.exit.label,warm:true,floor:'#d9d4c8',glb:'bldg.yejian_interior',attach:ggAAattach,study:true});   /* 頁間 v3b（AA d593be119，LAWWW2 驗過導航）：茶几往南 0.6 m、沙發往北 0.2 m，沙發前留 0.9 m——兩個位子照一般的走近（原本茶几離沙發只有 0.3 m，用 ap 從茶几西端走近，拿掉）*/   /* 窗外的景在模型裡（WALL_front_VIEW）；座位照配置的 canStudy 可以讀書（和木曜日、山嵐同一種書店，AA_647 第 2 節）*/
     const law=L.interact.find(q=>q.kind==='shelf_law');
-    E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）。看書牆、看新書、點咖啡這一版不接：稿上沒有那幾句（缺台詞）*/
+    E.interactables.push({x:law.x,z:law.z,radius:1.0,label:law.label,shop:'book'});   /* 買教科書（story3d.js bookshop，照舊）*/
+    ggLooks(E,L,'bookstore');   /* 看看書牆、看新書、點咖啡（AA_653 第 2 節）*/
     return z; }
   const aoki={ id:'aoki', name:'青木茶室', indoor:true, camDist:3.8, build(E){ const L=GG_L.aoki();
-    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',noSit:s=>s.table===5&&s.z<-1.6});   /* 最裡面四人桌（table 5）北側兩張：桌子到吧台西端、到書櫃都只有 0.6 m，人（半徑 0.32）走不進去——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */   /* 不能讀書（照一盞茶屋；AA_647 沒有寫可以）；窗外的景在模型裡 */
-    const od=L.interact.find(q=>q.kind==='order');
-    E.interactables.push({x:od.x,z:od.z,radius:0.9,label:od.label,shop:'tea'});   /* 點茶＝原本門口外帶的三種茶（story3d.js counter(GM,'清葉茶行',…)：熟客次數、SQ18 的 key 照舊）。看書櫃、看茶具櫃、看茶罐這一版不接：稿上沒有那幾句（缺台詞）*/
+    const z=ggRoom(E,'aoki',L,{label:L.exit.label,warm:true,floor:'#d9d1c3',glb:'bldg.aoki_interior',attach:ggAAattach,seatR:0.8,shop:'aoki',study:true,ap:s=>s.x<-4?[-3.6,1.3]:null});   /* v2c（AA 697ed69cf，LAWWW2 驗收）：吧台西端縮 0.5 m，最裡面四人桌北側兩張走得進去了（原本 noSit 只給路人坐，拿掉）；
+     卡座兩位 (−4.15, 2.0)、(−4.15, 0.6)：前面是小圓桌，從兩張圓桌中間 (−3.6, 1.3) 走近（LAWWW2 量過：到兩個位子 0.89／0.71 m）*/   /* 可以讀書：照配置 canStudy（吧台高腳椅沒有＝不能），AA_653 B（和一盞茶屋不一樣）；窗外的景在模型裡 */
+    ggLooks(E,L,'aoki');   /* 吧台的「點茶」＝內用（熱茶一壺、冷泡、茶點，AA_653 第 3 節）；門口的外帶照舊在公館（AA_653 A）。看書櫃、看茶具櫃、看茶罐（AA_653 第 3 節）*/
     return z; } };
   /* afar café、Daybreak（GG-SHOPS2-1104；AA_650、AA_652）：照青木茶室的 ggRoom；座位照配置的 canStudy 可以讀書（AA_652 第 1 節「在這裡讀書照讀書系統算」）。
      點餐、看甜點櫃、看看書架、看菜單（配置的 interact）＝src/gg2shops3d.js（GG2.interact，台詞照 AA_652）。

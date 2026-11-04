@@ -7,8 +7,9 @@
 //   2 公館店門口：「進入○○」→ 那一間；門的位置照外觀（青木茶室 cx−1.85、頁間書屋 −36.4）；店門口站得住、從人行道走得到；青木茶室門口不再是外帶的「買一杯飲料」
 //   3 進門站的地方：站得住、不在那一間任何出口的範圍（＋0.2 m）裡（tests/spawn_exit_unit.js 的規則）；出口從進門的地方走得到、按得到；出來回公館站得住、不在公館任何出口的範圍裡
 //   4 座位：數量照配置（便利店 8、頁間 16、青木 22）；每一個都按得到（E.fitSeatRadius 之後，範圍裡有站得住、最近的互動就是它的點）、從進門的地方走得到；
-//     高腳椅抬高（lift）；能不能讀書：頁間照配置 canStudy、青木不能（照一盞茶屋）、便利店不能
-//   5 點餐：便利店「結帳」（shop:'cvs'）、頁間「看看法律書與文具」（shop:'book'）、青木「點茶」（shop:'tea'，吧台東端 (3.9,−1.2)）按得到、走得到；story3d.js 的 shop:'tea' 照舊是三種茶、key「清葉茶行」
+//     青木 v2c／日和 v2b／頁間 v3b（2026-11-04 換模型與配置：AA 697ed69cf、BB 61a107016、AA d593be119）：青木 22 張都能坐、卡座走近點；頁間沙發照一般走近；高腳椅抬高（lift）；能不能讀書：頁間、青木照配置 canStudy（青木：AA_653 B，2026-11-04 改；原本照一盞茶屋不能）、便利店不能
+//   5 點餐：便利店「結帳」（shop:'cvs'）、頁間「看看法律書與文具」（shop:'book'）、青木「點茶」（內用，ggs:'order'，吧台東端 (3.9,−1.2)；AA_653 A 改，原本是門口外帶的 shop:'tea'）按得到、走得到；
+//     story3d.js 的 shop:'tea' 照舊是三種茶、key「清葉茶行」＝公館門口的「外帶」（AA_653 A：門口外帶照舊）
 //   6 其他接線：店員、打工告示、路人站的點（CROWD）、「找書的女生」（pool_story.js）、快速前往、大地圖、溫州街進日和便利店的落點、index.html 載入順序、LICENSES.md
 //   7 配置沒有載入的版本：照舊（舊的程序化室內、門口外帶）
 // 用法：node tests/gg_interiors_1104_unit.js
@@ -42,7 +43,7 @@ function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
 const inExit=(its,s,margin)=>its.filter(q=>q.exit&&!q.hidden&&Math.hypot(q.x-s.x,q.z-s.z)<(q.radius||1.8)+margin).map(q=>q.label+' '+Math.hypot(q.x-s.x,q.z-s.z).toFixed(2)+'m');
 const SPEC={cvs:{L:CVS_LAYOUT.shop,name:'日和便利店',seats:8,glb:'bldg.cvs_interior_v2',order:{shop:'cvs',label:'結帳：飯糰／咖啡／飲料'},study:false,door:'進入便利商店'},
   bookstore:{L:YEJIAN_LAYOUT,name:'頁間書屋',seats:16,glb:'bldg.yejian_interior',order:{shop:'book',label:'看看法律書與文具'},study:true,door:'進入頁間書屋'},
-  aoki:{L:AOKI_LAYOUT,name:'青木茶室',seats:22,glb:'bldg.aoki_interior',order:{shop:'tea',label:'點茶',x:3.9,z:-1.2},study:false,door:'進入青木茶室'}};
+  aoki:{L:AOKI_LAYOUT,name:'青木茶室',seats:22,glb:'bldg.aoki_interior',order:{ggs:'order',label:'點茶',x:3.9,z:-1.2},study:true,door:'進入青木茶室'}};
 const SI=Z3.SHOP_IN;
 // ---- 2 公館店門口 ----
 const GG=loadZone('gongguan'); const gIts=GG.its, gNav=GG.z.nav;
@@ -56,7 +57,10 @@ for(const k of ['cvs','bookstore','aoki']){ const S=SPEC[k], door=gIts.find(q=>q
   E.zone=GG.z; E.nav=gNav; E.interactables=gIts; const tp=touchable(door);
   check(`2 ${S.name}：店門口按得到（範圍裡站得住、最近的互動就是它）`,!!tp,J(tp));
   if(tp){ const w=walk([door.x,15],tp); check(`2 ${S.name}：從羅斯福路人行道 (${door.x.toFixed(1)}, 15) 走到店門口`,w.ok,J(w).slice(0,200)); } }
-check('2 青木茶室門口不再是外帶的「買一杯飲料」（點茶移到店裡吧台）',!gIts.some(q=>q.shop==='tea'),J(gIts.filter(q=>q.shop==='tea').map(q=>q.label)));
+/* AA_653 A（2026-11-04）：門口的外帶照舊（原本這一項是「門口不再外帶」：GG-SHOPS-REDO-1104 第一版把外帶移到店裡，AA 定兩個都要）*/
+{ const tk=gIts.filter(q=>q.shop==='tea'), dr=gIts.find(q=>q.exit&&q.exit.to==='aoki'), t=tk[0];
+  check('2 青木茶室門口有外帶（shop:tea「外帶」，窗口在門的西邊：那一棟中心 − 配置 front.takeaway 的中間）',tk.length===1&&t.label==='外帶'&&Math.abs(t.x-r2(SHOPX.aoki-(AOKI_LAYOUT.front.takeaway.x0+AOKI_LAYOUT.front.takeaway.x1)/2))<0.01&&t.z===21,J(tk.map(q=>[q.label,q.x,q.z])));
+  if(t&&dr){ E.zone=GG.z; E.nav=gNav; E.interactables=gIts; const a=touchable(t), b=touchable(dr); check('2 青木茶室：門口「外帶」和「進入青木茶室」都按得到（各自有站的地方最近的就是它）',!!a&&!!b,J([a,b])); } }
 // ---- 1、3、4、5 三間室內 ----
 for(const k of ['cvs','bookstore','aoki']){ const S=SPEC[k], L=S.L; let R;
   try{ R=loadZone(k); }catch(e){ check(`1 ${S.name}：區域建得起來`,false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); continue; }
@@ -77,16 +81,18 @@ for(const k of ['cvs','bookstore','aoki']){ const S=SPEC[k], L=S.L; let R;
   const bad=[], badW=[]; for(const it of seats){ const tp=touchable(it,[sp.x,sp.z]); if(!tp){ bad.push([it.seat.x,it.seat.z]); continue; } if(it.seat.ap){ const w=walk([sp.x,sp.z],it.seat.ap); if(!w.ok||!E.canStand(it.seat.ap[0],it.seat.ap[1],0.32,0)) badW.push([it.seat.x,it.seat.z,'ap',w.reason||w.dt]); } }
   check(`4 ${S.name}：每一個座位都按得到、走得到（從進門的地方走到一個「坐下」最近的互動就是它的點）`,!bad.length,J(bad));
   check(`4 ${S.name}：指定走近點（ap，沙發）站得住、走得到`,!badW.length,J(badW));
-  const npcOnly=(z.seats||[]).filter(q=>q.npcOnly); if(k==='aoki') check('4 青木茶室：最裡面四人桌北側兩張（走道 0.6 m，人走不進去）只給路人坐、不出「坐下」（要 LAWWW2／AA 調配置）',npcOnly.length===2&&npcOnly.every(q=>q.table===5)&&seats.length===20,J(npcOnly.map(q=>[q.x,q.z])));
+  if(k==='bookstore') check('4 頁間書屋 v3b（AA d593be119：茶几南移、沙發北移）：沙發兩位照一般走近（沒有 ap 特例；按得到、走得到在上一項）',seats.filter(q=>q.seat.ap).length===0&&seats.filter(q=>q.label==='坐沙發').length===2,J(seats.filter(q=>q.seat.ap).map(q=>[q.seat.x,q.seat.z])));
+  const npcOnly=(z.seats||[]).filter(q=>q.npcOnly); if(k==='aoki'){ check('4 青木茶室 v2c（AA 697ed69cf：吧台西端縮 0.5 m）：22 張玩家都能坐（最裡面四人桌北側兩張原本走不進去、只給路人坐，現在拿掉）',!npcOnly.length&&seats.length===22,J(npcOnly.map(q=>[q.x,q.z])));
+    const bq=seats.filter(q=>q.seat.x<-4); check('4 青木茶室：卡座兩位從兩張小圓桌中間 (−3.6, 1.3) 走近（ap；LAWWW2 量過 0.89／0.71 m）',bq.length===2&&bq.every(q=>J(q.seat.ap)===J([-3.6,1.3])),J(bq.map(q=>q.seat.ap))); }
   const hi=(L.seats||[]).filter(s=>s.seatH>0.6), lifted=seats.filter(q=>q.seat.lift>0);
   check(`4 ${S.name}：高腳椅 ${hi.length} 張坐姿抬高（lift＝座面 − 0.45）`,lifted.length===hi.length&&hi.every(s=>seats.some(q=>q.seat.x===s.x&&q.seat.z===s.z&&Math.abs(q.seat.lift-(s.seatH-0.45))<0.01)),J(lifted.map(q=>q.seat.lift)));
-  const st=seats.filter(q=>q.study).length, want=S.study?(L.seats||[]).filter(s=>s.canStudy).length:0;
-  check(`4 ${S.name}：能讀書的座位 ${want} 個（${k==='bookstore'?'照配置 canStudy':(k==='aoki'?'青木不能讀書：照一盞茶屋，AA_647 沒寫可以':'便利店不能讀書')}）`,st===want,st+'／'+want);
+  const npc1=s=>(z.seats||[]).some(q=>q.npcOnly&&q.x===s.x&&q.z===s.z), st=seats.filter(q=>q.study).length, want=S.study?(L.seats||[]).filter(s=>s.canStudy&&!npc1(s)).length:0;
+  check(`4 ${S.name}：能讀書的座位 ${want} 個（${k==='bookstore'?'照配置 canStudy':(k==='aoki'?'照配置 canStudy，吧台高腳椅不能（AA_653 B）；只給路人坐的不算':'便利店不能讀書')}）`,st===want&&seats.filter(q=>q.study).every(q=>!(q.seat.lift>0)||k==='bookstore'),st+'／'+want);
   // 5 點餐
-  const od=its.find(q=>q.shop===S.order.shop&&!q.seat);
-  check(`5 ${S.name}：「${S.order.label}」（shop:'${S.order.shop}'）${S.order.x!=null?'在 ('+S.order.x+', '+S.order.z+')':''}`,!!od&&od.label===S.order.label&&(S.order.x==null||(od.x===S.order.x&&od.z===S.order.z)),J(od&&[od.label,od.x,od.z]));
+  const od=its.find(q=>(S.order.ggs?q.ggs===S.order.ggs:q.shop===S.order.shop)&&!q.seat);
+  check(`5 ${S.name}：「${S.order.label}」（${S.order.ggs?"ggs:'"+S.order.ggs+"'":"shop:'"+S.order.shop+"'"}）${S.order.x!=null?'在 ('+S.order.x+', '+S.order.z+')':''}`,!!od&&od.label===S.order.label&&(S.order.x==null||(od.x===S.order.x&&od.z===S.order.z)),J(od&&[od.label,od.x,od.z]));
   if(od){ const tp=touchable(od,[sp.x,sp.z]); check(`5 ${S.name}：「${od.label}」按得到`,!!tp,J(tp)); if(tp){ const w=walk([sp.x,sp.z],tp); check(`5 ${S.name}：從進門的地方走到「${od.label}」`,w.ok,J(w).slice(0,200)); } }
-  check(`5 ${S.name}：座位的 shop 不是點餐的 shop（坐下不會變成點東西）`,seats.every(q=>q.shop!==S.order.shop),J([...new Set(seats.map(q=>q.shop))]));
+  check(`5 ${S.name}：座位的 shop 不是點餐的 shop（坐下不會變成點東西）`,seats.every(q=>q.shop!==S.order.shop&&!q.ggs),J([...new Set(seats.map(q=>q.shop))]));
   // 6 店員、打工告示、路人、找書的女生
   check(`6 ${S.name}：店員站的地方（SHOP_IN.clerk ${J(IN.clerk)}）在店裡`,!!IN.clerk&&Math.abs(IN.clerk.x)<L.w/2&&Math.abs(IN.clerk.z)<L.d/2);
   if(IN.job){ const it={x:IN.job.x,z:IN.job.z,radius:1.0,label:'告示'}; E.interactables.push(it); const tp=touchable(it,[sp.x,sp.z]); E.interactables.pop(); check(`6 ${S.name}：打工的告示 (${IN.job.x}, ${IN.job.z}) 按得到、走得到`,!!tp&&walk([sp.x,sp.z],tp).ok,J(tp)); }
