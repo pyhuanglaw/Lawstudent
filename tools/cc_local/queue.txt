@@ -178,8 +178,9 @@ ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_
 ADE_int_job | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 50 | CASES=JOB,SUNNY;CC_HEADLESS=0
 ADE_touchwz | 0c2d4997b | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url}
 # ADE 重跑（BB-C 13:00，判定 BB_255）：ENC 每一輪 day 要真的 +1（GI.load 原本印的日期是寫死的 2025-09-23，現在印讀檔後的實際日期）；touchwz 診斷＝按「繼續」以後、推搖桿以前截圖＋phoneIsOpen／busyDepth／charsAll／每個路人 driver（CC-C）
-ADE_int_enc_r2 | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=ENC;CC_HEADLESS=0
-ADE_touchwz_diag | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_touchwz_diag_probe.py | index.html | 15 | CC_HEADLESS=0
+# ADE_int_enc_r2／ADE_touchwz_diag：BB-C 15:10 換到最新 head 963a85c9b（和 048b 比沒改到遊戲；ADE 兩件 BB 還沒判）
+ADE_int_enc_r2 | 963a85c9b259ad1f93b7696a4dda72f4e119fb5e | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=ENC;CC_HEADLESS=0
+ADE_touchwz_diag | 963a85c9b259ad1f93b7696a4dda72f4e119fb5e | probe | docs/story_planning/test_tools/cc/cc_touchwz_diag_probe.py | index.html | 15 | CC_HEADLESS=0
 ADE_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wz_print
 ADE_zones | 0c2d4997b | game | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
 # WZ3r2：玩家視角改成從溫州街走進店門（e18f746c4）；固定角度照舊
@@ -296,53 +297,53 @@ TT_V12_moku    | aa8cb5beb | node  | tests/mokuyobi_unit.js                     
 TT_V12_noodle  | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py   | index.html | 15 | CC_AUTORETRY=1;CC_HEADLESS=0
 TT_GG_ext_nav2 | 23eaaa7ae | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_AUTORETRY=1;CC_HEADLESS=0
 # ===== WZ2 v3（BB 06:24；7fbf558c9；前一版 10b6ebbf8；GG 系列、TT_ 之後）=====
-WZ2_shots | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz2_probe.py | index.html | 30 | CASES=shots;CC_HEADLESS=0
-WZ2_door | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz2_probe.py | index.html | 30 | CASES=door;CC_HEADLESS=0
-WZ2_perf_A1 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_B1 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_C1 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_A2 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_B2 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_C2 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_A3 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_B3 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_perf_C3 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
-WZ2_touchwz | 7fbf558c9 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
-WZ2_wzst | 7fbf558c9 | game | tests/wz_street_integration.py | index.html | 20 | CC_HEADLESS=0
-WZ2_reach | 7fbf558c9 | game | tests/reachability_all.py | index.html?turbo | 25 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
-WZ2_n_aa413_wz | 7fbf558c9 | node | tests/aa413_wz_unit.js | index.html | 5 | 
-WZ2_n_aa420_wz | 7fbf558c9 | node | tests/aa420_wz_unit.js | index.html | 5 | 
-WZ2_n_aa420_wz2 | 7fbf558c9 | node | tests/aa420_wz2_unit.js | index.html | 5 | 
-WZ2_n_aa427_wz | 7fbf558c9 | node | tests/aa427_wz_unit.js | index.html | 5 | 
-WZ2_n_cafe_wz4 | 7fbf558c9 | node | tests/cafe_wz4_unit.js | index.html | 5 | 
-WZ2_n_dorm_wz_items | 7fbf558c9 | node | tests/dorm_wz_items_unit.js | index.html | 5 | 
-WZ2_n_wz_aa364_shops | 7fbf558c9 | node | tests/wz_aa364_shops_unit.js | index.html | 5 | 
-WZ2_n_wz_cat_float_rub | 7fbf558c9 | node | tests/wz_cat_float_rub_unit.js | index.html | 5 | 
-WZ2_n_wz_cat | 7fbf558c9 | node | tests/wz_cat_unit.js | index.html | 5 | 
-WZ2_n_wz_cat_walk | 7fbf558c9 | node | tests/wz_cat_walk_unit.js | index.html | 5 | 
-WZ2_n_wz_copy_shop | 7fbf558c9 | node | tests/wz_copy_shop_unit.js | index.html | 5 | 
-WZ2_n_wz_market_keeper | 7fbf558c9 | node | tests/wz_market_keeper_unit.js | index.html | 5 | 
-WZ2_n_wz_market | 7fbf558c9 | node | tests/wz_market_unit.js | index.html | 5 | 
-WZ2_n_wz_offbeat | 7fbf558c9 | node | tests/wz_offbeat_unit.js | index.html | 5 | 
-WZ2_n_wz_park_people | 7fbf558c9 | node | tests/wz_park_people_unit.js | index.html | 5 | 
-WZ2_n_wz_park_talk | 7fbf558c9 | node | tests/wz_park_talk_unit.js | index.html | 5 | 
-WZ2_n_wz_park | 7fbf558c9 | node | tests/wz_park_unit.js | index.html | 5 | 
-WZ2_n_wz_shops2 | 7fbf558c9 | node | tests/wz_shops2_unit.js | index.html | 5 | 
-WZ2_n_wz_shops_cam | 7fbf558c9 | node | tests/wz_shops_cam_unit.js | index.html | 5 | 
-WZ2_n_wz_shops_lm | 7fbf558c9 | node | tests/wz_shops_lm_unit.js | index.html | 5 | 
-WZ2_n_wz_shops | 7fbf558c9 | node | tests/wz_shops_unit.js | index.html | 5 | 
-WZ2_n_wz_swing_front | 7fbf558c9 | node | tests/wz_swing_front_unit.js | index.html | 5 | 
-WZ2_n_wz_teahouse_seats | 7fbf558c9 | node | tests/wz_teahouse_seats_unit.js | index.html | 5 | 
-WZ2_n_wz_work_spots | 7fbf558c9 | node | tests/wz_work_spots_unit.js | index.html | 5 | 
-WZ2_n_singleside_streets | 7fbf558c9 | node | tests/singleside_streets_unit.js | index.html | 5 | 
-WZ2_n_street_props_nav | 7fbf558c9 | node | tests/street_props_nav_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_shots | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz2_probe.py | index.html | 30 | CASES=shots;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_door | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz2_probe.py | index.html | 30 | CASES=door;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_A1 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_B1 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_C1 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC1;RERUN=wz1;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_A2 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_B2 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_C2 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC2;RERUN=wz2;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_A3 | 7fbf558c9 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzA3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_B3 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzB3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_perf_C3 | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=wzC3;RERUN=wz3;PERF_ZONE=wenzhou;PERF_POS={"x":10,"z":0,"yaw":1.5708};PERF_GLB=wenzhou_street_glb;PERF_VIEWS={"wz_east":[[2,1.7,1.5],[40,3.5,-3]],"wz_west":[[42,1.7,0.5],[-25,3.5,-1.5]]};CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_touchwz | 7fbf558c9 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_wzst | 7fbf558c9 | game | tests/wz_street_integration.py | index.html | 20 | CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_reach | 7fbf558c9 | game | tests/reachability_all.py | index.html?turbo | 25 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_aa413_wz | 7fbf558c9 | node | tests/aa413_wz_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_aa420_wz | 7fbf558c9 | node | tests/aa420_wz_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_aa420_wz2 | 7fbf558c9 | node | tests/aa420_wz2_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_aa427_wz | 7fbf558c9 | node | tests/aa427_wz_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_cafe_wz4 | 7fbf558c9 | node | tests/cafe_wz4_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_dorm_wz_items | 7fbf558c9 | node | tests/dorm_wz_items_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_aa364_shops | 7fbf558c9 | node | tests/wz_aa364_shops_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_cat_float_rub | 7fbf558c9 | node | tests/wz_cat_float_rub_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_cat | 7fbf558c9 | node | tests/wz_cat_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_cat_walk | 7fbf558c9 | node | tests/wz_cat_walk_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_copy_shop | 7fbf558c9 | node | tests/wz_copy_shop_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_market_keeper | 7fbf558c9 | node | tests/wz_market_keeper_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_market | 7fbf558c9 | node | tests/wz_market_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_offbeat | 7fbf558c9 | node | tests/wz_offbeat_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_park_people | 7fbf558c9 | node | tests/wz_park_people_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_park_talk | 7fbf558c9 | node | tests/wz_park_talk_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_park | 7fbf558c9 | node | tests/wz_park_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_shops2 | 7fbf558c9 | node | tests/wz_shops2_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_shops_cam | 7fbf558c9 | node | tests/wz_shops_cam_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_shops_lm | 7fbf558c9 | node | tests/wz_shops_lm_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_shops | 7fbf558c9 | node | tests/wz_shops_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_swing_front | 7fbf558c9 | node | tests/wz_swing_front_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_teahouse_seats | 7fbf558c9 | node | tests/wz_teahouse_seats_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_wz_work_spots | 7fbf558c9 | node | tests/wz_work_spots_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_singleside_streets | 7fbf558c9 | node | tests/singleside_streets_unit.js | index.html | 5 | 
+#HOLD-1104（BB-C 15:10：WZ2 早上已判 PASS，lane_east 三支會蓋過它）WZ2_n_street_props_nav | 7fbf558c9 | node | tests/street_props_nav_unit.js | index.html | 5 | 
 # ===== WZ_RENAME（BB 11-04 06:45；AA_655＋AA_658 改名，3424d8e66＝e8c657891 以後的 HEAD；Node 單元雲端 ALL PASS）=====
-WZ_RENAME_U | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=U;CC_HEADLESS=0
-WZ_RENAME_T | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=T;CC_HEADLESS=0
-WZ_RENAME_BC | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=B,C;CC_HEADLESS=0
-WZ_RENAME_X | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=X;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：等 v9.10.20 候選 SHA，換成候選再跑一次，併進 GO／NO-GO）WZ_RENAME_U | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=U;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：等 v9.10.20 候選 SHA，換成候選再跑一次，併進 GO／NO-GO）WZ_RENAME_T | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=T;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：等 v9.10.20 候選 SHA，換成候選再跑一次，併進 GO／NO-GO）WZ_RENAME_BC | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=B,C;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：等 v9.10.20 候選 SHA，換成候選再跑一次，併進 GO／NO-GO）WZ_RENAME_X | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=X;CC_HEADLESS=0
 # 舊存檔：改名前 47909c659 真的點東西存檔（out/oldsave.json）→ CC 收進 fixtures 再排 WZ_RENAME_OL
-WZ_RENAME_MK | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 40 | CASES=MK;CC_HEADLESS=0
+#HOLD-1104（BB-C 15:10：等 v9.10.20 候選 SHA，換成候選再跑一次，併進 GO／NO-GO）WZ_RENAME_MK | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 40 | CASES=MK;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 #HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 #HOLD-1104（CC_50 第 43 條：SHA 比開發分支最新的 048b4c898 舊 12 小時，跑之前先問 BB）STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
