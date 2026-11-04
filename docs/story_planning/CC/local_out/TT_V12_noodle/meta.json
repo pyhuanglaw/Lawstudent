@@ -1,0 +1,25 @@
+{
+  "rerun": "",
+  "id": "TT_V12_noodle",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py",
+  "env": "CC_AUTORETRY=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:07:41",
+  "end": "2026-11-04T21:09:17",
+  "seconds": 96,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "attempt": 1,
+  "final": "PASS",
+  "res_peak": {
+    "cpu": 37,
+    "mem": 53,
+    "used_gb": 16.3,
+    "chrome_testing": 28
+  }
+}
