@@ -121,6 +121,11 @@ async def sofa_seats(pg, cdp):
         await pg.screenshot(path=os.path.join(OUT, 'sofa_%s_seated.png' % tag))
         check('[%s] 坐下了（seat）' % tag, c['seat'], J(c))
         check('[%s] 鏡頭在店裡（x −7～7、z −6～6、y ≤ 3.4）' % tag, -7.05 <= c['cam'][0] <= 7.05 and -6.05 <= c['cam'][2] <= 6.05 and c['cam'][1] <= 3.45, J(c['cam']))
+        _ch = await pg.evaluate("[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim())")
+        if _ch:   # 11-04 CAFE230v3：坐下以後跳出選單（坐一下／點咖啡／起身），r1 沒選「起身」就推搖桿＝探針卡住
+            _k = next((i for i, t in enumerate(_ch) if t.startswith('起身') or t.startswith('站起')), len(_ch) - 1)
+            print('  坐下的選單：%s → %s' % (J(_ch), _ch[_k]), flush=True)
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (_k + 1)); await pg.wait_for_timeout(1500)
         lab = (await L.state(pg))['interact']
         if lab.startswith('起身') or lab.startswith('站起'): await L.tap(pg, cdp, '#interact')
         else: await L.joystick(pg, cdp, -60, 0, 800)
