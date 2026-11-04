@@ -1,0 +1,1455 @@
+{
+ "sha": "d2b962a3f",
+ "url": "http://127.0.0.1:8813/index.html",
+ "cases": [
+  "xinhai",
+  "study08",
+  "sixlaw",
+  "teahouse",
+  "aunts",
+  "cat"
+ ],
+ "shots": [
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\xinhai_balcony_curve_start.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\xinhai_balcony_curve_mid.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\xinhai_balcony_se_leg.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\xinhai_overhead.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\study08_0_stand.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\study08_1_sat_menu.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\study08_2_sat.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_book.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_00.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_01.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_02.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_03.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_04.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_05.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_06.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_07.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\teahouse_stool_follow.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\teahouse_stool.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\teahouse_table.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\teahouse_sat_stool.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\teahouse_sat_stool_side.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\aunts_su.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\aunts_xiuqin_shortcut.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_0.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_1.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_2.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_3.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_4.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_left_5.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_0.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_1.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_2.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_3.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_4.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_rub_right_5.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_walk.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_idle.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_sit.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_sit_idle.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_rub.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_rub_r.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_lie_idle.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_jump_down.png",
+  "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\cat_clip_cat_jump_up.png"
+ ],
+ "data": {
+  "xinhai_geo": {
+   "road": true,
+   "n": 43,
+   "bbox": [
+    61.6,
+    -167,
+    281.8,
+    22.8
+   ],
+   "vis": true
+  },
+  "xinhai_balcony": [
+   {
+    "tag": "curve_start",
+    "turned": true,
+    "vis": {
+     "inView": 16,
+     "seen": 0,
+     "blockers": [
+      [
+       "EXT_ext_glass_lobby",
+       6
+      ],
+      [
+       "EXT_ext_door",
+       5
+      ],
+      [
+       "EXT_ext_concrete",
+       3
+      ],
+      [
+       "EXT_ext_granite",
+       1
+      ],
+      [
+       "EXT_ext_frame",
+       1
+      ]
+     ]
+    },
+    "cam": {
+     "x": 86.358,
+     "y": 5.998,
+     "z": -81.66,
+     "yaw": 6.52,
+     "pitch": 0.12,
+     "dist": 6,
+     "distTarget": 6,
+     "mode": "follow"
+    }
+   },
+   {
+    "tag": "curve_mid",
+    "turned": true,
+    "vis": {
+     "inView": 17,
+     "seen": 0,
+     "blockers": [
+      [
+       "EXT_ext_glass_lobby",
+       5
+      ],
+      [
+       "EXT_ext_door",
+       5
+      ],
+      [
+       "EXT_ext_concrete",
+       4
+      ],
+      [
+       "EXT_ext_granite",
+       2
+      ],
+      [
+       "EXT_ext_frame",
+       1
+      ]
+     ]
+    },
+    "cam": {
+     "x": 85.633,
+     "y": 5.998,
+     "z": -81.531,
+     "yaw": 6.396,
+     "pitch": 0.12,
+     "dist": 6,
+     "distTarget": 6,
+     "mode": "follow"
+    }
+   },
+   {
+    "tag": "se_leg",
+    "turned": true,
+    "vis": {
+     "inView": 17,
+     "seen": 0,
+     "blockers": [
+      [
+       "EXT_ext_glass_lobby",
+       11
+      ],
+      [
+       "EXT_ext_concrete",
+       2
+      ],
+      [
+       "EXT_ext_door",
+       2
+      ],
+      [
+       "EXT_ext_frame",
+       1
+      ],
+      [
+       "EXT_ext_granite",
+       1
+      ]
+     ]
+    },
+    "cam": {
+     "x": 80.586,
+     "y": 5.998,
+     "z": -83.406,
+     "yaw": 5.459,
+     "pitch": 0.12,
+     "dist": 6,
+     "distTarget": 6,
+     "mode": "follow"
+    }
+   }
+  ],
+  "xinhai_overhead": {
+   "inView": 23,
+   "seen": 23,
+   "blockers": []
+  },
+  "study08": {
+   "stand": {
+    "seat": null,
+    "pose": "idle",
+    "idlePose": "idle",
+    "frozen": false,
+    "busy": true,
+    "pxz": [
+     0.2,
+     0,
+     1.85
+    ],
+    "cam": {
+     "x": 0.2,
+     "y": 3.208,
+     "z": -2.05,
+     "yaw": 3.142,
+     "pitch": 0.38,
+     "dist": 4.2,
+     "distTarget": 4.2,
+     "mode": "follow"
+    },
+    "head": {
+     "name": "Hair001",
+     "d": 4.2,
+     "L": 4.25,
+     "mine": true
+    },
+    "body": {
+     "name": "Bodybaked_1",
+     "d": 4.4,
+     "L": 4.53,
+     "mine": true
+    },
+    "pHead": {
+     "sx": 422,
+     "sy": 174,
+     "inView": true
+    },
+    "fbVisible": false,
+    "readers": [
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "01",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "05",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf4",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "06",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "07",
+      "clerk": false,
+      "x": -2.2,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf5",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "09",
+      "clerk": false,
+      "x": 2.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf6",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "10",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm4",
+      "vrm": true,
+      "placeholder": false
+     }
+    ],
+    "zone": "library_carrels"
+   },
+   "sat_menu": {
+    "seat": {
+     "x": 0.2,
+     "z": 2.45
+    },
+    "pose": "sit",
+    "idlePose": "sit",
+    "frozen": true,
+    "busy": true,
+    "pxz": [
+     0.2,
+     0,
+     2.45
+    ],
+    "cam": {
+     "x": 0.2,
+     "y": 2.281,
+     "z": 0.871,
+     "yaw": 3.142,
+     "pitch": 0.38,
+     "dist": 1.7,
+     "distTarget": 1.7,
+     "mode": "follow"
+    },
+    "head": {
+     "name": "Hair001",
+     "d": 1.91,
+     "L": 2,
+     "mine": true
+    },
+    "body": {
+     "name": "Bodybaked_1",
+     "d": 2.04,
+     "L": 2.1,
+     "mine": true
+    },
+    "pHead": {
+     "sx": 422,
+     "sy": 244,
+     "inView": true
+    },
+    "fbVisible": false,
+    "readers": [
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "01",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "05",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf4",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "06",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "07",
+      "clerk": false,
+      "x": -2.2,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf5",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "09",
+      "clerk": false,
+      "x": 2.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf6",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "10",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": 2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm4",
+      "vrm": true,
+      "placeholder": false
+     }
+    ],
+    "zone": "library_carrels"
+   },
+   "sat": {
+    "seat": null,
+    "pose": "idle",
+    "idlePose": "idle",
+    "frozen": false,
+    "busy": false,
+    "pxz": [
+     -0.55,
+     0,
+     2.45
+    ],
+    "cam": {
+     "x": -0.549,
+     "y": 3.195,
+     "z": -1.418,
+     "yaw": 3.142,
+     "pitch": 0.38,
+     "dist": 4.18,
+     "distTarget": 4.2,
+     "mode": "follow"
+    },
+    "head": {
+     "name": "Hair001",
+     "d": 4.13,
+     "L": 4.22,
+     "mine": true
+    },
+    "body": {
+     "name": "Bodybaked_1",
+     "d": 4.36,
+     "L": 4.5,
+     "mine": true
+    },
+    "pHead": {
+     "sx": 422,
+     "sy": 173,
+     "inView": true
+    },
+    "fbVisible": false,
+    "readers": [
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "01",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "05",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": -2.45,
+      "vis": false,
+      "objVis": false,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf4",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "06",
+      "clerk": false,
+      "x": -4.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm3",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "07",
+      "clerk": false,
+      "x": -2.2,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf5",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "09",
+      "clerk": false,
+      "x": 2.6,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nf6",
+      "vrm": true,
+      "placeholder": false
+     },
+     {
+      "id": null,
+      "name": "",
+      "carrelId": "10",
+      "clerk": false,
+      "x": 5,
+      "y": 0,
+      "z": 2.45,
+      "vis": true,
+      "objVis": true,
+      "hidden": false,
+      "pose": "read",
+      "driver": "vrm",
+      "model": "char.npc_nm4",
+      "vrm": true,
+      "placeholder": false
+     }
+    ],
+    "zone": "library_carrels"
+   },
+   "real_tap": true
+  },
+  "sixlaw_geo": {
+   "ladder": {
+    "min": [
+     -2,
+     0,
+     1.245
+    ],
+    "max": [
+     -0.9,
+     2.02,
+     1.765
+    ]
+   },
+   "deck": {
+    "min": [
+     -2,
+     1.56,
+     -0.805
+    ],
+    "max": [
+     -0.9,
+     2.02,
+     1.765
+    ]
+   },
+   "named": [],
+   "liufa": {
+    "vis": true,
+    "box": {
+     "min": [
+      -1.924,
+      0.761,
+      0.252
+     ],
+     "max": [
+      -1.632,
+      0.825,
+      0.528
+     ]
+    }
+   },
+   "room": "203"
+  },
+  "sixlaw_paths": [
+   {
+    "item": "書架上的舊《民法》",
+    "cam0": {
+     "x": -1.181,
+     "y": 2.985,
+     "z": 2.883,
+     "yaw": -0.19,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 483,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.181,
+      2.985,
+      2.883,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -0.95,
+      1.3,
+      0.15,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 0,
+    "in_deck": 0,
+    "seg_deck": 0,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_0_07.png"
+    ]
+   },
+   {
+    "item": "經濟學原理",
+    "cam0": {
+     "x": -1.2,
+     "y": 2.985,
+     "z": 2.879,
+     "yaw": -0.196,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 484,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.2,
+      2.985,
+      2.879,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -0.95,
+      1.3,
+      0.12,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 0,
+    "in_deck": 0,
+    "seg_deck": 0,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_1_07.png"
+    ]
+   },
+   {
+    "item": "寫滿的筆記本",
+    "cam0": {
+     "x": -1.202,
+     "y": 2.985,
+     "z": 2.879,
+     "yaw": -0.196,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 538,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.202,
+      2.985,
+      2.879,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -1.05,
+      1.3,
+      -0.3,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 0,
+    "in_deck": 0,
+    "seg_deck": 0,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_2_07.png"
+    ]
+   },
+   {
+    "item": "摩天輪的票根（夾在桌墊下）",
+    "cam0": {
+     "x": -1.202,
+     "y": 2.985,
+     "z": 2.879,
+     "yaw": -0.196,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 534,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.202,
+      2.985,
+      2.879,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -1.2,
+      1.05,
+      0.26,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 1,
+    "in_deck": 0,
+    "seg_deck": 1,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_3_07.png"
+    ]
+   },
+   {
+    "item": "手機相簿的一張照片",
+    "cam0": {
+     "x": -1.205,
+     "y": 2.985,
+     "z": 2.878,
+     "yaw": -0.197,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 520,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.205,
+      2.985,
+      2.878,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -1.1,
+      1.15,
+      0.05,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 0,
+    "in_deck": 0,
+    "seg_deck": 0,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_4_07.png"
+    ]
+   },
+   {
+    "item": "阿凱的泡麵評鑑表",
+    "cam0": {
+     "x": -1.186,
+     "y": 2.985,
+     "z": 2.882,
+     "yaw": -0.191,
+     "pitch": 0.38,
+     "dist": 3.6,
+     "distTarget": 3.6,
+     "mode": "follow"
+    },
+    "frames": 481,
+    "cine": true,
+    "via_used": true,
+    "first": [
+     [
+      -1.186,
+      2.985,
+      2.882,
+      0,
+      0
+     ]
+    ],
+    "last": [
+     [
+      -1.4,
+      1.5,
+      0.2,
+      1,
+      0
+     ]
+    ],
+    "in_ladder": 0,
+    "seg_ladder": 0,
+    "in_deck": 0,
+    "seg_deck": 0,
+    "seg_named": [],
+    "shots": [
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_00.png",
+     "C:\\Users\\USER\\Documents\\Lawstudent_cclocal\\docs\\story_planning\\CC\\local_out\\ART_V20\\out\\sixlaw_path_5_07.png"
+    ]
+   }
+  ],
+  "teahouse_geo": {
+   "stools": [
+    {
+     "name": "wzs_post",
+     "c": [
+      3.05,
+      3.35
+     ],
+     "top": 0.465
+    },
+    {
+     "name": "wzs_post",
+     "c": [
+      2.95,
+      3.35
+     ],
+     "top": 0.465
+    },
+    {
+     "name": "wzs_post",
+     "c": [
+      3.15,
+      3.35
+     ],
+     "top": 0.465
+    },
+    {
+     "name": "wzs_post",
+     "c": [
+      3.05,
+      3.25
+     ],
+     "top": 0.465
+    },
+    {
+     "name": "wzs_post",
+     "c": [
+      3.05,
+      3.45
+     ],
+     "top": 0.465
+    }
+   ],
+   "seats": [
+    [
+     -2.5,
+     0.95,
+     ""
+    ],
+    [
+     -1.6,
+     0.95,
+     ""
+    ],
+    [
+     -0.7,
+     0.95,
+     ""
+    ],
+    [
+     -2.5,
+     2.45,
+     ""
+    ],
+    [
+     -1.6,
+     2.45,
+     ""
+    ],
+    [
+     -0.7,
+     2.45,
+     ""
+    ],
+    [
+     3.05,
+     3.35,
+     ""
+    ],
+    [
+     0.6,
+     5.55,
+     ""
+    ],
+    [
+     2.4,
+     5.55,
+     ""
+    ],
+    [
+     -2.15,
+     -3.5,
+     ""
+    ],
+    [
+     -2.15,
+     -2.1,
+     ""
+    ],
+    [
+     2.15,
+     -3.5,
+     ""
+    ],
+    [
+     2.15,
+     -2.1,
+     ""
+    ]
+   ],
+   "its": [
+    [
+     -2.5,
+     0.95,
+     "坐下喝茶"
+    ],
+    [
+     -1.6,
+     0.95,
+     "坐下喝茶"
+    ],
+    [
+     -0.7,
+     0.95,
+     "坐下喝茶"
+    ],
+    [
+     -2.5,
+     2.45,
+     "坐下喝茶"
+    ],
+    [
+     -1.6,
+     2.45,
+     "坐下喝茶"
+    ],
+    [
+     -0.7,
+     2.45,
+     "坐下喝茶"
+    ],
+    [
+     3.05,
+     3.35,
+     "坐在水屋旁"
+    ],
+    [
+     0.6,
+     5.55,
+     "坐在緣側"
+    ],
+    [
+     2.4,
+     5.55,
+     "坐在緣側"
+    ],
+    [
+     -2.15,
+     -3.5,
+     "在和室坐下"
+    ],
+    [
+     -2.15,
+     -2.1,
+     "在和室坐下"
+    ],
+    [
+     2.15,
+     -3.5,
+     "在和室坐下"
+    ],
+    [
+     2.15,
+     -2.1,
+     "在和室坐下"
+    ]
+   ],
+   "zone": "wz_teahouse"
+  },
+  "teahouse_occupied": [
+   [
+    "",
+    "char.npc_nf7",
+    -0.7,
+    0.95,
+    "sit"
+   ],
+   [
+    "",
+    "char.npc_nm6",
+    -0.7,
+    2.45,
+    "sit"
+   ],
+   [
+    "",
+    "char.npc_nm7",
+    3.05,
+    3.35,
+    "sit"
+   ]
+  ],
+  "teahouse_sat": {
+   "seat": [
+    3.05,
+    3.35,
+    ""
+   ],
+   "y": 0,
+   "cam": {
+    "x": -0.665,
+    "y": 3.134,
+    "z": 3.35,
+    "yaw": 4.712,
+    "pitch": 0.38,
+    "dist": 4,
+    "distTarget": 4,
+    "mode": "follow"
+   },
+   "hit": {
+    "name": "Hair001",
+    "d": 4.05,
+    "L": 4.23,
+    "mine": true
+   },
+   "stool_top": 0.465,
+   "real_tap": true
+  },
+  "aunts_days": {
+   "found": [
+    {
+     "day": -10,
+     "wd": 6,
+     "h": 14,
+     "row": "c503_6_2"
+    },
+    {
+     "day": -9,
+     "wd": 0,
+     "h": 14,
+     "row": "c503_6_2"
+    },
+    {
+     "day": -2,
+     "wd": 0,
+     "h": 14,
+     "row": "c503_6_2"
+    }
+   ]
+  },
+  "aunts_su": {
+   "id": "wz_su",
+   "name": "蘇姨",
+   "carrelId": null,
+   "clerk": false,
+   "x": 2.95,
+   "y": 0,
+   "z": 1.3,
+   "vis": true,
+   "objVis": true,
+   "hidden": false,
+   "pose": "idle",
+   "driver": "vrm",
+   "model": "char.su_apron",
+   "vrm": true,
+   "placeholder": false,
+   "view": {
+    "p": {
+     "sx": 441,
+     "sy": 140,
+     "inView": true
+    },
+    "hit": {
+     "name": "Hair001",
+     "d": 2.39,
+     "L": 5.21,
+     "mine": false
+    },
+    "d": 2.78
+   }
+  },
+  "aunts_xiuqin_shortcut": {
+   "driver": "vrm",
+   "model": "char.xiuqin_apron",
+   "vrm": true,
+   "placeholder": false
+  },
+  "cat_rub": {
+   "left": {
+    "samples": [
+     {
+      "side": 0.43266868151705373,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.45
+     },
+     {
+      "side": 0.43283101407959856,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.43186830565732637,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.43172684247360554,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.43169097687852553,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.4316761472584981,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     }
+    ],
+    "clips": [
+     "cat_rub"
+    ],
+    "frac": 1.0
+   },
+   "right": {
+    "samples": [
+     {
+      "side": 0.3797854979641525,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.45
+     },
+     {
+      "side": 0.4334261697464531,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.43200271270532403,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.4316804040998149,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.43159990212975585,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     },
+     {
+      "side": 0.4316392801157551,
+      "clip": "cat_rub",
+      "state": "rub",
+      "dir": 1,
+      "d": 0.44
+     }
+    ],
+    "clips": [
+     "cat_rub"
+    ],
+    "frac": 0.0
+   }
+  },
+  "cat_clips": {
+   "cat_walk": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.01,
+    "moveTail": 0.0442,
+    "moveMax": 0.0957,
+    "maxBone": "paw_R"
+   },
+   "cat_idle": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.0151,
+    "moveTail": 0.0302,
+    "moveMax": 0.0302,
+    "maxBone": "tail5"
+   },
+   "cat_sit": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.0147,
+    "moveTail": 0.0891,
+    "moveMax": 0.0891,
+    "maxBone": "tail5"
+   },
+   "cat_sit_idle": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0,
+    "moveTail": 0.0051,
+    "moveMax": 0.0051,
+    "maxBone": "tail5"
+   },
+   "cat_rub": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.0293,
+    "moveTail": 0.0126,
+    "moveMax": 0.0714,
+    "maxBone": "paw_R"
+   },
+   "cat_rub_r": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.0293,
+    "moveTail": 0.0144,
+    "moveMax": 0.0752,
+    "maxBone": "paw_R"
+   },
+   "cat_lie_idle": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.0032,
+    "moveTail": 0.0031,
+    "moveMax": 0.0054,
+    "maxBone": "paw_L"
+   },
+   "cat_jump_down": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.4601,
+    "moveTail": 0.4759,
+    "moveMax": 0.568,
+    "maxBone": "foot_L"
+   },
+   "cat_jump_up": {
+    "head": "head",
+    "tail": "tail5",
+    "moveHead": 0.3376,
+    "moveTail": 0.3701,
+    "moveMax": 0.3864,
+    "maxBone": "shin_R"
+   }
+  }
+ },
+ "errs": [],
+ "fails": [
+  "xinhai：從陽台看出去，彎道中線至少 3 個取樣點看得到（沒被房子、樹全部擋住；路在萬才館背後〔東北〕、陽台朝西南，先量看看）",
+  "sixlaw：鏡頭路線（每一格＋相鄰兩格的線段）沒有進到梯子的範圍",
+  "sixlaw：鏡頭路線沒有穿過上舖床板、床欄",
+  "aunts：秀琴姨由遊戲自己放在店裡（d2b962a3f src 沒有任何地方放 char.xiuqin／xiuqin_apron）",
+  "cat right：蹭的時候播 cat_rub_r",
+  "cat right：玩家在貓的右邊（蹭的那幾格 ≥ 60%）"
+ ],
+ "secs": 369
+}

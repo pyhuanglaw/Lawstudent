@@ -1,0 +1,110 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_art_v20_shots_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out
+PASS 遊戲載入
+== xinhai
+  [前置／捷徑] 讀檔：萬才館二樓陽台（校園第 1 層），10:00 晴（{"zone": "campus", "day": 8, "weekday": 3, "hour": 10.0, "pos": {"x": 84.96, "z": -87.45, "yaw": 2.4086, "lv": 1, "y": 3.63}}）
+PASS xinhai：人在校園第 1 層的陽台上（lv 1、y > 3）  {"zone": "campus", "x": 84.96, "z": -87.45, "y": 3.63, "lv": 1}
+PASS xinhai：背景有彎道路面網格 xinhai_curve_road（顯示中）  {"road": true, "n": 43, "bbox": [61.6, -167, 281.8, 22.8], "vis": true}
+  陽台看 curve_start（61.9,-156.0）：轉到了 True、中線點在畫面裡 16、看得到 0、擋住的 [["EXT_ext_glass_lobby", 6], ["EXT_ext_door", 5], ["EXT_ext_concrete", 3], ["EXT_ext_granite", 1], ["EXT_ext_frame", 1]]；鏡頭 {"x": 86.358, "y": 5.998, "z": -81.66, "yaw": 6.52, "pitch": 0.12, "dist": 6, "distTarget": 6, "mode": "follow"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\xinhai_balcony_curve_start.png
+  陽台看 curve_mid（83.4,-152.0）：轉到了 True、中線點在畫面裡 17、看得到 0、擋住的 [["EXT_ext_glass_lobby", 5], ["EXT_ext_door", 5], ["EXT_ext_concrete", 4], ["EXT_ext_granite", 2], ["EXT_ext_frame", 1]]；鏡頭 {"x": 85.633, "y": 5.998, "z": -81.531, "yaw": 6.396, "pitch": 0.12, "dist": 6, "distTarget": 6, "mode": "follow"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\xinhai_balcony_curve_mid.png
+  陽台看 se_leg（125.8,-119.2）：轉到了 True、中線點在畫面裡 17、看得到 0、擋住的 [["EXT_ext_glass_lobby", 11], ["EXT_ext_concrete", 2], ["EXT_ext_door", 2], ["EXT_ext_frame", 1], ["EXT_ext_granite", 1]]；鏡頭 {"x": 80.586, "y": 5.998, "z": -83.406, "yaw": 5.459, "pitch": 0.12, "dist": 6, "distTarget": 6, "mode": "follow"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\xinhai_balcony_se_leg.png
+FAIL xinhai：從陽台看出去，彎道中線至少 3 個取樣點看得到（沒被房子、樹全部擋住；路在萬才館背後〔東北〕、陽台朝西南，先量看看）  [["curve_start", 16, 0], ["curve_mid", 17, 0], ["se_leg", 17, 0]]
+  [捷徑] 劇情鏡頭 E.cinematic 放到彎道東北邊上空 75 m 往西南俯視（只為了截圖）
+  俯視：中線點在畫面裡 23／43、看得到 23、擋住 [] → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\xinhai_overhead.png
+PASS xinhai：俯視看得到彎道中線一半以上的取樣點  23／43
+  xinhai 用了 39 秒
+== study08
+  [前置／捷徑] 讀檔：研究小間（flags.carrelDay＝今天＝有預約，08 的門開），站在 08 椅子的走近點、面向椅子（{"zone": "library_carrels", "day": 9, "weekday": 4, "hour": 10.0, "pos": {"x": 0.2, "z": 1.85, "yaw": 0}}）
+  坐下以後的選單：["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 10:31", "趴著睡一下：1 小時睡到 11:01", "起身"]
+  坐下（選單還開著）：{"seat": {"x": 0.2, "z": 2.45}, "pose": "sit", "pxz": [0.2, 0, 2.45], "cam": {"x": 0.2, "y": 2.281, "z": 0.871, "yaw": 3.142, "pitch": 0.38, "dist": 1.7, "distTarget": 1.7, "mode": "follow"}, "head": {"name": "Hair001", "d": 1.91, "L": 2, "mine": true}, "body": {"name": "Bodybaked_1", "d": 2.04, "L": 2.1, "mine": true}, "pHead": {"sx": 422, "sy": 244, "inView": true}} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\study08_1_sat_menu.png
+  選了：'坐一下，看看四周時間 +20 分鐘'
+  選完：{"seat": null, "pose": "idle", "idlePose": "idle", "frozen": false, "busy": false, "pxz": [-0.55, 0, 2.45], "cam": {"x": -0.549, "y": 3.195, "z": -1.418, "yaw": 3.142, "pitch": 0.38, "dist": 4.18, "distTarget": 4.2, "mode": "follow"}, "head": {"name": "Hair001", "d": 4.13, "L": 4.22, "mine": true}, "body": {"name": "Bodybaked_1", "d": 4.36, "L": 4.5, "mine": true}, "pHead": {"sx": 422, "sy": 173, "inView": true}} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\study08_2_sat.png
+  （只記錄）選「坐一下，看看四周」以後：{"seat": null, "pose": "idle", "pxz": [-0.55, 0, 2.45]}——game3d.js seatMenu 這一項做完就起身（照設計），所以第二張是站在 08 裡
+PASS study08：坐在 08 的椅子 (0.2,2.45)  {"x": 0.2, "z": 2.45}
+PASS study08：坐下以後 distTarget＝1.7  {"x": 0.2, "y": 2.281, "z": 0.871, "yaw": 3.142, "pitch": 0.38, "dist": 1.7, "distTarget": 1.7, "mode": "follow"}
+PASS study08：鏡頭轉到背後（yaw 和 π 差 < 0.3）  差 0.000
+PASS study08：鏡頭到玩家頭部／身體的射線先打到玩家自己（沒被隔板、牆擋住）  [{"name": "Hair001", "d": 1.91, "L": 2, "mine": true}, {"name": "Bodybaked_1", "d": 2.04, "L": 2.1, "mine": true}]
+PASS study08：玩家頭部在畫面裡  {"sx": 422, "sy": 244, "inView": true}
+PASS study08：其他間玻璃後面的讀者都是 VRM（不是方塊、程序化人物）  [["01", "vrm", "char.npc_nf3"], ["05", "vrm", "char.npc_nf4"], ["06", "vrm", "char.npc_nm3"], ["07", "vrm", "char.npc_nf5"], ["09", "vrm", "char.npc_nf6"], ["10", "vrm", "char.npc_nm4"]]
+  讀者 6 位：["01", "05", "06", "07", "09", "10"]
+PASS study08：研究小間正式模型載好（fallback 群組藏起來）  false
+  study08 用了 38 秒
+== sixlaw
+  [前置／捷徑] 讀檔：宿舍 203（大一）、書桌前「看看房間裡的東西」旁（{"zone": "dorm", "day": 9, "weekday": 4, "hour": 20.0, "pos": {"x": -0.55, "z": -0.4, "yaw": 3.1416}}）
+  房間 203；梯子盒 {"min": [-2, 0, 1.245], "max": [-0.9, 2.02, 1.765]}；床板盒 {"min": [-2, 1.56, -0.805], "max": [-0.9, 2.02, 1.765]}；名字有 ladder 的網格 0 個 []
+PASS sixlaw：書桌上的六法 ITEM_desk_liufa_203 在、顯示中  {"vis": true, "box": {"min": [-1.924, 0.761, 0.252], "max": [-1.632, 0.825, 0.528]}}
+  [捷徑] 劇情鏡頭看書桌上的六法（不在「看東西」選單裡，只為了截圖）
+  六法 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\sixlaw_book.png
+  選單：["書架上的舊《民法》", "經濟學原理", "寫滿的筆記本", "摩天輪的票根（夾在桌墊下）", "手機相簿的一張照片", "阿凱的泡麵評鑑表", "不看了"]
+  「書架上的舊《民法》」：483 格、劇情鏡頭 True、用了 via True；起點 [[-1.181, 2.985, 2.883, 0, 0]] 終點 [[-0.95, 1.3, 0.15, 1, 0]]；在梯子裡 0 格／穿過 0 段、在床板裡 0／0、名字有 ladder 的 []
+  「經濟學原理」：484 格、劇情鏡頭 True、用了 via True；起點 [[-1.2, 2.985, 2.879, 0, 0]] 終點 [[-0.95, 1.3, 0.12, 1, 0]]；在梯子裡 0 格／穿過 0 段、在床板裡 0／0、名字有 ladder 的 []
+  「寫滿的筆記本」：538 格、劇情鏡頭 True、用了 via True；起點 [[-1.202, 2.985, 2.879, 0, 0]] 終點 [[-1.05, 1.3, -0.3, 1, 0]]；在梯子裡 0 格／穿過 0 段、在床板裡 0／0、名字有 ladder 的 []
+  「摩天輪的票根（夾在桌墊下）」：534 格、劇情鏡頭 True、用了 via True；起點 [[-1.202, 2.985, 2.879, 0, 0]] 終點 [[-1.2, 1.05, 0.26, 1, 0]]；在梯子裡 0 格／穿過 1 段、在床板裡 0／1、名字有 ladder 的 []
+  「手機相簿的一張照片」：520 格、劇情鏡頭 True、用了 via True；起點 [[-1.205, 2.985, 2.878, 0, 0]] 終點 [[-1.1, 1.15, 0.05, 1, 0]]；在梯子裡 0 格／穿過 0 段、在床板裡 0／0、名字有 ladder 的 []
+  「阿凱的泡麵評鑑表」：481 格、劇情鏡頭 True、用了 via True；起點 [[-1.186, 2.985, 2.882, 0, 0]] 終點 [[-1.4, 1.5, 0.2, 1, 0]]；在梯子裡 0 格／穿過 0 段、在床板裡 0／0、名字有 ladder 的 []
+PASS sixlaw：選單裡有鏡頭的東西都量到了（至少 1 項）  ["書架上的舊《民法》", "經濟學原理", "寫滿的筆記本", "摩天輪的票根（夾在桌墊下）", "手機相簿的一張照片", "阿凱的泡麵評鑑表", "不看了"]
+PASS sixlaw：選了以後鏡頭轉過去（劇情鏡頭）  [["書架上的舊《民法》", true], ["經濟學原理", true], ["寫滿的筆記本", true], ["摩天輪的票根（夾在桌墊下）", true], ["手機相簿的一張照片", true], ["阿凱的泡麵評鑑表", true]]
+FAIL sixlaw：鏡頭路線（每一格＋相鄰兩格的線段）沒有進到梯子的範圍  ["摩天輪的票根（夾在桌墊下）"]
+FAIL sixlaw：鏡頭路線沒有穿過上舖床板、床欄  ["摩天輪的票根（夾在桌墊下）"]
+  sixlaw 用了 80 秒
+== teahouse
+  [前置／捷徑] 讀檔：一盞茶屋週六 14:00，茶席旁（{"zone": "wz_teahouse", "day": 11, "weekday": 6, "hour": 14.0, "pos": {"x": 0.9, "z": 3.6, "yaw": -1.5708}}）
+  木凳網格 [{"name": "wzs_post", "c": [3.05, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [2.95, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [3.15, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [3.05, 3.25], "top": 0.465}, {"name": "wzs_post", "c": [3.05, 3.45], "top": 0.465}]；座位 [[-2.5, 0.95, ""], [-1.6, 0.95, ""], [-0.7, 0.95, ""], [-2.5, 2.45, ""], [-1.6, 2.45, ""], [-0.7, 2.45, ""], [3.05, 3.35, ""], [0.6, 5.55, ""], [2.4, 5.55, ""], [-2.15, -3.5, ""]]
+PASS teahouse：區域的座位有水屋旁的木凳 (3.05,3.35)
+PASS teahouse：長桌面向院子的兩個位子 (-0.7,0.95)、(-0.7,2.45) 都在
+PASS teahouse：木凳正上方往下打射線，打到 0.3～0.7 m 高的座面（不是地板＝有木凳）  [{"name": "wzs_post", "c": [3.05, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [2.95, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [3.15, 3.35], "top": 0.465}, {"name": "wzs_post", "c": [3.05, 3.25], "top": 0.465}, {"name": "wzs_post", "c": [3.05, 3.45], "top": 0.465}]
+  坐在木凳、長桌那兩個位子上的 NPC：[["", "char.npc_nf7", -0.7, 0.95, "sit"], ["", "char.npc_nm6", -0.7, 2.45, "sit"], ["", "char.npc_nm7", 3.05, 3.35, "sit"]]
+  木凳（跟隨鏡頭）→ C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\teahouse_stool_follow.png
+  [捷徑] teahouse_stool → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\teahouse_stool.png
+  [捷徑] teahouse_table → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\teahouse_table.png
+  [前置／捷徑] 讀檔：一盞茶屋，站在木凳旁（c510_3_2 的 standAt (2.3,3.4)）（{"zone": "wz_teahouse", "day": 11, "weekday": 6, "hour": 14.0, "pos": {"x": 2.3, "z": 3.4, "yaw": 1.5708}}）
+  [捷徑] 木凳上已經有路人坐著 [["", 3.05, 3.35]]：先把他拿掉，玩家才坐得下（只為了截圖；玩家實際上會看到「有人坐了」）
+  坐下以後的選單：["坐一下，看看四周時間 +20 分鐘", "讀書", "起身"]
+  坐在木凳上：{"seat": [3.05, 3.35, ""], "y": 0, "cam": {"x": -0.665, "y": 3.134, "z": 3.35, "yaw": 4.712, "pitch": 0.38, "dist": 4, "distTarget": 4, "mode": "follow"}, "hit": {"name": "Hair001", "d": 4.05, "L": 4.23, "mine": true}} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\teahouse_sat_stool.png
+  另一個角度 → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\teahouse_sat_stool_side.png
+PASS teahouse：坐下了，坐的是木凳  [3.05, 3.35, ""]
+  （只記錄）玩家根節點高度 0、木凳座面（射線中位數）0.465
+  teahouse 用了 55 秒
+== aunts
+  [前置／捷徑] 讀檔：一盞茶屋（先進來找蘇姨在的日子；flags.YT_MET_JOB）（{"zone": "wz_teahouse", "day": 11, "weekday": 6, "hour": 14.0, "pos": {"x": -1.0, "z": 3.8, "yaw": -1.2}}）
+  HCIRCLE 有 wz_su 那一列的日子：{"found": [{"day": -10, "wd": 6, "h": 14, "row": "c503_6_2"}, {"day": -9, "wd": 0, "h": 14, "row": "c503_6_2"}, {"day": -2, "wd": 0, "h": 14, "row": "c503_6_2"}]}
+  [前置／捷徑] 讀檔：一盞茶屋第 -10 天（週6）14.0 時，圈子表 c503_6_2（{"zone": "wz_teahouse", "day": -10, "weekday": 6, "hour": 14, "pos": {"x": 0.3, "z": 0.45, "yaw": 1.5708}}）
+  NPC：[[null, "", "vrm", "char.npc_nf8", 2.95, 1.3], [null, "", "vrm", "char.npc_nf9", -1.6, 0.95], [null, "", "vrm", "char.npc_nf10", 2.4, 5.55], [null, "", "vrm", "char.npc_nm8", 2.15, -3.5], ["heroine_03", "不認識的女生", "vrm", "char.heroine_03", 2.95, 2.4], ["wz_su", "蘇姨", "vrm", "char.su_apron", 2.95, 1.3]]
+PASS aunts：蘇姨在一盞茶屋（圈子表 wz_su 成立的日子）  [{"day": -10, "wd": 6, "h": 14, "row": "c503_6_2"}, {"day": -9, "wd": 0, "h": 14, "row": "c503_6_2"}]
+PASS aunts：蘇姨是 VRM、model char.su_apron（不是方塊、不是路人底模）  {"id": "wz_su", "name": "蘇姨", "carrelId": null, "clerk": false, "x": 2.95, "y": 0, "z": 1.3, "vis": true, "objVis": true, "hidden": false, "pose": "idle", "driver": "vrm", "model": "char.su_apron", "vrm": true, "placeholder": false}
+  蘇姨（離玩家 2.78 m）：{"p": {"sx": 441, "sy": 140, "inView": true}, "hit": {"name": "Hair001", "d": 2.39, "L": 5.21, "mine": false}, "d": 2.78} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\aunts_su.png
+PASS aunts：蘇姨在畫面裡（胸口高度投影在畫面內）  {"sx": 441, "sy": 140, "inView": true}
+FAIL aunts：秀琴姨由遊戲自己放在店裡（d2b962a3f src 沒有任何地方放 char.xiuqin／xiuqin_apron）  []
+  [捷徑] 在茶屋用 CHAR.build 放一個秀琴姨（char.xiuqin_apron），站在長桌東邊，只為了看模型在遊戲光線下的樣子——不是遊戲自己放的
+  秀琴姨（捷徑）{"driver": "vrm", "model": "char.xiuqin_apron", "vrm": true, "placeholder": false} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\aunts_xiuqin_shortcut.png
+PASS aunts：（捷徑放的）秀琴姨模型載好：VRM、model char.xiuqin_apron、有眼鏡配件（名字含 glass 的節點 6 個）  {"driver": "vrm", "model": "char.xiuqin_apron", "vrm": true, "placeholder": false}
+  aunts 用了 43 秒
+== cat
+  [前置／捷徑] 讀檔：溫州街公園 14:00 晴，貓（圓椅前 (26.0,23.3)）北邊 2 m（{"zone": "wenzhou", "day": 9, "weekday": 4, "hour": 14.0, "pos": {"x": 26.0, "z": 21.3, "yaw": 3.1416}}）
+  讀檔後 busy：{"busy": false, "who": [], "dlg": false}
+  貓：{"state": "approach", "t": 18.8, "busy": false, "x": 27.48, "z": 23.02, "yaw": 2.36, "clip": "cat_walk", "at": [26, 23.3], "path": 4, "lie": null, "still": 10, "rubCd": -10.1, "rub": null}
+PASS cat：GLB 的九段片段都在（含 f22ef5dcd 新加的五段）  ["cat_idle", "cat_jump_down", "cat_jump_up", "cat_lie_idle", "cat_rub", "cat_rub_r", "cat_sit", "cat_sit_idle", "cat_walk"]
+  [捷徑] 貓的亂數換成固定序列：蹭腳擲中、繞的方向 dir＝1（玩家在貓的左邊）
+  left：[{"side": 0.43266868151705373, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.45}, {"side": 0.43283101407959856, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.43186830565732637, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.43172684247360554, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.43169097687852553, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.4316761472584981, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}]
+PASS cat left：蹭的時候播 cat_rub  ["cat_rub"]
+PASS cat left：玩家在貓的左邊（蹭的那幾格 ≥ 60%）  1.00（6 格）
+  [前置／捷徑] 讀檔：溫州街公園 14:00 晴，貓（圓椅前 (26.0,23.3)）北邊 2 m（{"zone": "wenzhou", "day": 9, "weekday": 4, "hour": 14.0, "pos": {"x": 26.0, "z": 21.3, "yaw": 3.1416}}）
+  讀檔後 busy：{"busy": false, "who": [], "dlg": false}
+  貓：{"state": "approach", "t": 13.1, "busy": false, "x": 28.25, "z": 21.52, "yaw": 3.14, "clip": "cat_walk", "at": [26, 23.3], "path": 3, "lie": null, "still": 15.8, "rubCd": -15.8, "rub": null}
+  [捷徑] 貓的亂數換成固定序列：蹭腳擲中、繞的方向 dir＝-1（玩家在貓的右邊）
+  right：[{"side": 0.3797854979641525, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.45}, {"side": 0.4334261697464531, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.43200271270532403, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.4316804040998149, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.43159990212975585, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}, {"side": 0.4316392801157551, "clip": "cat_rub", "state": "rub", "dir": 1, "d": 0.44}]
+FAIL cat right：蹭的時候播 cat_rub_r  ["cat_rub"]
+FAIL cat right：玩家在貓的右邊（蹭的那幾格 ≥ 60%）  0.00（6 格）
+  [捷徑] 直接用貓的 mixer 播每一段（貓停住、鏡頭拉近）——cat_lie_idle、cat_jump_down、cat_jump_up 遊戲還沒接（2aaa7d22b 說明）
+  cat_walk：{"head": "head", "tail": "tail5", "moveHead": 0.01, "moveTail": 0.0442, "moveMax": 0.0957, "maxBone": "paw_R"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_walk.png
+  cat_idle：{"head": "head", "tail": "tail5", "moveHead": 0.0151, "moveTail": 0.0302, "moveMax": 0.0302, "maxBone": "tail5"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_idle.png
+  cat_sit：{"head": "head", "tail": "tail5", "moveHead": 0.0147, "moveTail": 0.0891, "moveMax": 0.0891, "maxBone": "tail5"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_sit.png
+  cat_sit_idle：{"head": "head", "tail": "tail5", "moveHead": 0, "moveTail": 0.0051, "moveMax": 0.0051, "maxBone": "tail5"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_sit_idle.png
+  cat_rub：{"head": "head", "tail": "tail5", "moveHead": 0.0293, "moveTail": 0.0126, "moveMax": 0.0714, "maxBone": "paw_R"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_rub.png
+  cat_rub_r：{"head": "head", "tail": "tail5", "moveHead": 0.0293, "moveTail": 0.0144, "moveMax": 0.0752, "maxBone": "paw_R"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_rub_r.png
+  cat_lie_idle：{"head": "head", "tail": "tail5", "moveHead": 0.0032, "moveTail": 0.0031, "moveMax": 0.0054, "maxBone": "paw_L"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_lie_idle.png
+  cat_jump_down：{"head": "head", "tail": "tail5", "moveHead": 0.4601, "moveTail": 0.4759, "moveMax": 0.568, "maxBone": "foot_L"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_jump_down.png
+  cat_jump_up：{"head": "head", "tail": "tail5", "moveHead": 0.3376, "moveTail": 0.3701, "moveMax": 0.3864, "maxBone": "shin_R"} → C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\ART_V20\out\cat_clip_cat_jump_up.png
+PASS cat：九段片段播了以後骨架有動（任一根骨頭 2 秒內 > 5 mm）  {"cat_walk": [0.01, 0.0442, 0.0957, "paw_R", null], "cat_idle": [0.0151, 0.0302, 0.0302, "tail5", null], "cat_sit": [0.0147, 0.0891, 0.0891, "tail5", null], "cat_sit_idle": [0, 0.0051, 0.0051, "tail5", null], "cat_rub": [0.0293, 0.0126, 0.0714, "paw_R", null], "cat_rub_r": [0.0293, 0.0144, 0.0752, "paw_R", null], "cat_lie_idle": [0.0032, 0.0031, 0.0054, "paw_L", null], "cat_jump_down": [0.4601, 0.4759, 0.568, "foot_L", null], "cat_jump_up": [0.3376, 0.3701, 0.3864, "shin_R", null]}
+  cat 用了 91 秒
+PASS 沒有 JS 例外  []
+FAILED 6: xinhai：從陽台看出去，彎道中線至少 3 個取樣點看得到（沒被房子、樹全部擋住；路在萬才館背後〔東北〕、陽台朝西南，先量看看）；sixlaw：鏡頭路線（每一格＋相鄰兩格的線段）沒有進到梯子的範圍；sixlaw：鏡頭路線沒有穿過上舖床板、床欄；aunts：秀琴姨由遊戲自己放在店裡（d2b962a3f src 沒有任何地方放 char.xiuqin／xiuqin_apron）；cat right：蹭的時候播 cat_rub_r；cat right：玩家在貓的右邊（蹭的那幾格 ≥ 60%）

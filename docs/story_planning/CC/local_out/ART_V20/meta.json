@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "ART_V20",
+  "sha": "d2b962a3f",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py",
+  "env": "CASES=xinhai,study08,sixlaw,teahouse,aunts,cat;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T08:14:55",
+  "end": "2026-11-04T08:21:44",
+  "seconds": 408,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 91,
+    "mem": 55,
+    "used_gb": 17.5,
+    "chrome_testing": 20
+  }
+}
