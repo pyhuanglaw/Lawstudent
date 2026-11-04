@@ -5424,7 +5424,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "8aceeeaf4",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "LAMPSHADE-FLIP-1104",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
@@ -5435,11 +5435,40 @@
     "docs/art-rebuild/second_ai/wip/lampshade_1104/lampshade_flip_unit_e90636eb6.patch",
     "docs/art-rebuild/second_ai/wip/lampshade_1104/singleside_streets_unit_e90636eb6.patch"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "瀏覽器沒量（三角形 −6、draw call 不變；要量請 BB 排 CC 跑 wz_street_integration）",
    "next": "換 wenzhou_street.glb／.json＋套兩個測試 patch；跑 lampshade_flip_unit、singleside_streets_unit、street_props_nav_unit、wz_copy_shop_unit",
    "noDirectIntegrate": false,
-   "note": "LAWWW-C 14:14 問 lampshade_flip FAIL（溫州街店內吊燈 0 個三角形）是模型還是測試：兩個都是。①測試過時：1d64f3511 店內按店拆網格，節點 wz_in_shop→sk_in_<棟號>；②模型錯：WZ-SECOND v2 帝大紅茶、冰菓室兩盞新吊燈輪廓由上往下＝裡外相反（1d64f3511 以前的 GLB 舊測試也 FAIL 2）。修：輪廓反過來重匯（123,737→123,731，吊燈本身不變、重匯刪底面差 6；節點、props.json 一樣）；新版測試修改後 ALL PASS、修改前 FAIL；騎樓夜景修改前後差 >24 的像素 0（燈在牆後）"
+   "note": "LAWWW-C 14:14 問 lampshade_flip FAIL（溫州街店內吊燈 0 個三角形）是模型還是測試：兩個都是。①測試過時：1d64f3511 店內按店拆網格，節點 wz_in_shop→sk_in_<棟號>；②模型錯：WZ-SECOND v2 帝大紅茶、冰菓室兩盞新吊燈輪廓由上往下＝裡外相反（1d64f3511 以前的 GLB 舊測試也 FAIL 2）。修：輪廓反過來重匯（123,737→123,731，吊燈本身不變、重匯刪底面差 6；節點、props.json 一樣）；新版測試修改後 ALL PASS、修改前 FAIL；騎樓夜景修改前後差 >24 的像素 0（燈在牆後）｜LAWWW-C 已接（開發分支 048b4c898 的 singleside 期望 123,731、lampshade_flip 查 sk_in_*）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0a6f626be",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "WZ-FIVE-1104",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/wenzhou_street.json",
+    "assets/models/env/second_ai/wenzhou_street.props.json",
+    "tools/blender/env_second/wz_shopkit.py",
+    "tools/blender/env_second/wz_street.py",
+    "tools/blender/env_second/lib2.py",
+    "tools/blender/env_second/textures/gen/wz_decal_ade.png",
+    "tools/blender/env_second/textures/gen/wz_small_atlas_wenzhou.png",
+    "tools/blender/env_second/textures/gen/wz_tiles_wenzhou_base.png",
+    "tools/blender/env_second/textures/gen/wz_tiles_wenzhou_nor.png",
+    "tools/blender/env_second/textures/gen/wz_tiles_wenzhou_orm.png",
+    "LICENSES.md",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/singleside_streets_unit_048b4c898.patch",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_pilot_cmp.jpg"
+   ],
+   "state": "已交付",
+   "remaining": "PC 遊戲畫面（A1 白天／晚上、轉角店 moved）、lane_west 效能（A1 只在 lane_west 看得到）沒量；店內（玻璃後面）還很空＝下一版；BB 判 ART",
+   "next": "換 wenzhou_street.glb／.json／.props.json＋套 singleside patch（123,731→129,147、材質 46→51）；LICENSES.md 合併「Poly Haven 模型」一節；跑 singleside_streets_unit、street_props_nav_unit、lampshade_flip_unit、wz_copy_shop_unit；導航照 props.json（販賣機＋紙箱→一盆盆栽）",
+   "noDirectIntegrate": false,
+   "note": "阿德影印照參考圖 wz_ade_ext（A1＋轉角店）＋OPEN-SRC-2D3D-1104 第一個試做（使用者 14:1x「從 GitHub 開源找…」）：lib2.ph_model（Poly Haven CC0 自動下載、減面、貼圖先縮 512 RGB、半透明一律 MASK）；冷氣 9,493→1,517 面、盆栽 69,806→約 3,000 面。A1：白色馬賽克外牆、三盞鵝頸燈、銀框落地玻璃＋藍飾條、右邊白磁磚壁面（軟木板、價目表 NT$2、壁燈）、白字貼紙。轉角：新招牌＋兩盞鵝頸燈。對照圖 ade_pilot_cmp.jpg"
   }
  ]
 }
