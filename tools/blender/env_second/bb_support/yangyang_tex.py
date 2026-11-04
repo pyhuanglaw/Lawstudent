@@ -15,7 +15,7 @@ def floor(path, rough_path):
     """1024＝2.4 m：30 cm 淺灰小方磚（8 × 8），縫比較深、每塊顏色稍有不同"""
     W = H = 1024; t = 128; rng = np.random.RandomState(501)
     n1 = _noise(H, W, 200, 502); n2 = _noise(H, W, 4, 503, 2)
-    base = np.array([190, 188, 184], np.float32)
+    base = np.array([178, 174, 168], np.float32)
     col = base[None, None] * (0.94 + 0.08 * n1[..., None] + 0.05 * (n2[..., None] - 0.5)) * np.ones((H, W, 1), np.float32)
     for i in range(8):
         for j in range(8): col[i * t:(i + 1) * t, j * t:(j + 1) * t] *= rng.uniform(0.95, 1.05)
@@ -40,7 +40,7 @@ def wall(path):
     """暖黃色舊漆（1024＝2 m 寬、3.2 m 高），下緣稍髒、有一點點色差"""
     W, H = 1024, 1024; n1 = _noise(H, W, 160, 521); n2 = _noise(H, W, 10, 522, 3)
     yy = np.linspace(0, 1, H)[:, None]
-    col = np.array([236, 204, 132], np.float32)[None, None] * (0.93 + 0.08 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))
+    col = np.array([230, 186, 104], np.float32)[None, None] * (0.93 + 0.08 * n1[..., None] + 0.04 * (n2[..., None] - 0.5))
     col *= (1 - 0.12 * np.clip((yy - 0.85) / 0.15, 0, 1))[..., None]
     return _save(col, path)
 
@@ -50,7 +50,7 @@ def wood(path):
     rows = rng.normal(0, 1, (H, 1)).astype(np.float32); rows = (rows - rows.min()) / (np.ptp(rows) + 1e-6)
     rows = np.asarray(Image.fromarray((rows * 255).astype(np.uint8)).resize((1, H), Image.BILINEAR), np.float32) / 255
     g = 0.65 * rows + 0.35 * _noise(H, W, 3, 532, 2)
-    col = np.array([206, 150, 86], np.float32)[None, None] * (0.86 + 0.2 * g[..., None])
+    col = np.array([196, 134, 70], np.float32)[None, None] * (0.86 + 0.2 * g[..., None])
     return _save(col, path)
 
 
