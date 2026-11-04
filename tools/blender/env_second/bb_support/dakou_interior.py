@@ -160,7 +160,7 @@ def t_counter(im, d):      # 一樓櫃檯正面（v2b，照外觀圖）：白底
     d.polygon(og, fill=ORANGE)
     og2 = [(w * 0.70 + w * 0.30 * t, h - h * 0.44 * math.sin(math.pi * t / 2) ** 1.2) for t in [i / 40 for i in range(41)]] + [(w, h)]
     d.line(og2[:-1], fill=(250, 246, 238), width=max(3, h // 40))
-    logo_light(d, int(w * 0.5), int(h * 0.5), int(h * 0.4))
+    logo_light(d, int(w * 0.572), int(h * 0.55), int(h * 0.34))   # 位置（x −0.34）：從街上（同角度圖的鏡頭 x 1.4）隔著右邊那扇門看得到整個標誌
     d.rectangle([0, h - h // 14, w, h], fill=ORANGE); d.rectangle([0, h - h // 40, w, h], fill=(60, 62, 66))
 
 
@@ -193,11 +193,11 @@ def food_fries(d, cx, cy, s):
     r = random.Random(int(cx + cy))
     for k in range(16):
         x = cx + r.uniform(-0.55, 0.55) * s; a = r.uniform(-0.25, 0.25); L_ = r.uniform(0.7, 1.05) * s
-        c = (r.randint(236, 252), r.randint(176, 206), r.randint(50, 80))
-        d.line([(x, cy), (x + math.sin(a) * L_, cy - L_)], fill=c, width=max(3, int(s * 0.13)))
-    d.polygon([(cx - s * 0.7, cy - s * 0.1), (cx + s * 0.7, cy - s * 0.1), (cx + s * 0.55, cy + s * 0.9), (cx - s * 0.55, cy + s * 0.9)], fill=(206, 40, 36))
-    d.polygon([(cx - s * 0.7, cy - s * 0.1), (cx + s * 0.7, cy - s * 0.1), (cx + s * 0.62, cy + s * 0.25), (cx - s * 0.62, cy + s * 0.25)], fill=(226, 60, 48))
-    d.ellipse([cx - s * 0.22, cy + s * 0.35, cx + s * 0.22, cy + s * 0.65], fill=ORANGE)
+        c = (r.randint(240, 255), r.randint(196, 222), r.randint(60, 90))
+        d.line([(x, cy + s * 0.1), (x + math.sin(a) * L_, cy - L_)], fill=c, width=max(4, int(s * 0.2)))
+    d.polygon([(cx - s * 0.6, cy + s * 0.25), (cx + s * 0.6, cy + s * 0.25), (cx + s * 0.48, cy + s * 0.95), (cx - s * 0.48, cy + s * 0.95)], fill=(206, 40, 36))   # 紙盒（下半）
+    d.polygon([(cx - s * 0.6, cy + s * 0.25), (cx, cy + s * 0.42), (cx + s * 0.6, cy + s * 0.25)], fill=(226, 60, 48))
+    d.ellipse([cx - s * 0.17, cy + s * 0.5, cx + s * 0.17, cy + s * 0.75], fill=(250, 200, 60))
 
 
 def food_drink(d, cx, cy, s, col=(150, 60, 30)):
@@ -233,8 +233,8 @@ def t_menu(i):
     def f(im, d):
         w, h = im.size
         for y in range(h):   # 照片的背景：暖白到淺橘的漸層（像打光的商品照）
-            t = y / h; d.line([(0, y), (w, y)], fill=(int(255 - 10 * t), int(246 - 36 * t), int(226 - 70 * t)))
-        d.ellipse([w * 0.08, h * 0.55, w * 0.92, h * 1.08], fill=(240, 196, 140))   # 桌面的光
+            t = y / h; d.line([(0, y), (w, y)], fill=(int(70 + 90 * t), int(130 + 80 * t), int(214 + 30 * t)))   # 外觀圖的菜單螢幕：亮藍底
+        d.ellipse([w * 0.06, h * 0.6, w * 0.94, h * 1.1], fill=(236, 240, 250))   # 白色的盤子／桌面的光
         d.rectangle([0, 0, w, 50], fill=ORANGE); d.text((20, 4), ['超值套餐', '點心', '飲料・甜點', '早餐'][i], font=font(38), fill=(255, 255, 255))
         logo_light(d, w - 46, 26, 18)
         if i == 0:
@@ -337,7 +337,7 @@ def t_night(im, d):       # 只給渲染：窗外的新生南路夜景（樹、�
 
 # ---------------- v2：一張發光貼圖集 GLOW_dk_screens（窗外夜景、菜單螢幕、點餐機、筆電螢幕；正式 GLB 也有）----------------
 GS = 2048
-GEMIT = 1.0 if FL == 2 else 2.2   # v2b：一樓的發光貼圖集（菜單螢幕、點餐機）亮一點；二樓照舊（MODEL_READY，不動）
+GEMIT = 1.0 if FL == 2 else 1.5   # v2b：一樓的發光貼圖集（菜單螢幕、點餐機）亮一點；二樓照舊（MODEL_READY，不動）
 GR = {}   # 名稱 → (u0, v0, u1, v1)，v 從下往上
 
 
@@ -437,11 +437,11 @@ for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 # ---------------- 材質（≤12，最後 vc_consolidate／atlas_small 合併）----------------
 m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
-m_wall = L.flat('dk_wall', '#e8c492', rough=0.8)   # v2：晚上暖光下的奶油色   # v2：暖一點的米白（晚上的暖光下）
+m_wall = L.flat('dk_wall', '#e8c492' if FL == 2 else '#f2e0c6', rough=0.8)   # v2b：一樓的牆淺一點（外觀圖是暖白）   # v2：晚上暖光下的奶油色   # v2：暖一點的米白（晚上的暖光下）
 m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
 m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
-m_panel = glowmat('dk_lightpanel', '#ffc98a' if FL == 2 else '#ffcf96', 2.4 if FL == 2 else 9.0)   # v2b：一樓的燈板、崁燈再亮再暖（曝光 0 就接近參考圖）   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
+m_panel = glowmat('dk_lightpanel', '#ffc98a' if FL == 2 else '#ffcf96', 2.4 if FL == 2 else 26.0)   # v2b：一樓的燈板、崁燈再亮再暖（曝光 0 就接近參考圖）   # v2：晚上的燈板約 3000K 暖光   # v2：晚上的燈板，暖白、不刺眼
 m_warm = glowmat('dk_warm', '#ffc070', 5.0 if FL == 2 else 9.0)
 m_screens = img_mat('GLOW_dk_screens', GLOW_PATH, rough=0.3, emit=GEMIT)   # v2：窗外夜景、菜單、點餐機、筆電螢幕（一張發光貼圖集＝一個材質）
 SCR = Mesh('GLOW_SCREENS', m_screens)
@@ -702,16 +702,20 @@ if FL == 1:
     # v2b：樓梯前、靠正面窗的座位區（外觀圖右邊那一段）：兩張雙人桌（椅子在東西兩邊，深藍布面＋木頭）、三盞白色吊燈
     for i, t in enumerate(F['frontTables2']):
         table(tops, legs, t['x'], t['z'], 0.7, 0.7); chair(props, legs, t['x'] - 0.55, t['z'], math.pi / 2, SEAT_COLS[(i + 1) % 2]); chair(props, legs, t['x'] + 0.55, t['z'], -math.pi / 2, SEAT_COLS[i % 2])
-    sp = Mesh('SEAT_PENDANTS', m_steel); spl = Mesh('SEAT_PENDANT_GLOW', m_warm)
+    sp = Mesh('SEAT_PENDANTS', m_panel);   # 白色燈罩，亮著（外觀圖的三盞吊燈）
+    spl = Mesh('SEAT_PENDANT_GLOW', m_warm)
     for (x, z) in F['seatPendants']:
         y = 2.45; legs.cyl((x, y + 0.3, z), (x, YC, z), 0.006, seg=6)
         sp.add_bm(L.lathe([(0.0, 0.32), (0.03, 0.31), (0.05, 0.22), (0.2, 0.03), (0.21, 0.0), (0.195, 0.0), (0.185, 0.03), (0.04, 0.21), (0.0, 0.22)], seg=24), Matrix.Translation(g2b(x, y, z)))
         down_quad(spl, x - 0.14, x + 0.14, z - 0.14, z + 0.14, y + 0.03)
     sp.finish(root, smooth=True); spl.finish(root)
     # 牆上的海報（後牆、員工通道左邊）、門邊的垃圾桶、盆栽
-    wall_card('POSTER_1F', X1 - 0.01, 5.9, 7.3, 1.25, 3.0, IM['poster1'], -1)   # v2b：座位區東牆的漢堡飲料海報（外觀圖右邊）
+    # v2b：漢堡飲料海報（外觀圖右邊）：掛在座位區靠窗的地方、面向新生南路（兩面都印）；東牆從街上看是斜的，看不到
+    pz = Z1 - 0.35; zcard('POSTER_1F', pz + 0.006, 4.85, 5.75, 1.25, 2.5, IM['poster1'], +1); zcard('POSTER_1F_back', pz - 0.006, 4.85, 5.75, 1.25, 2.5, IM['poster1'], -1)
+    props.cbox(4.82, 5.78, 1.22, 2.53, pz - 0.005, pz + 0.005, '#24345f')
+    for x in (4.95, 5.65): legs.box(x - 0.004, x + 0.004, 2.53, YC, pz - 0.004, pz + 0.004)
     props.crbox(-3.1, -2.6, 0.0, 1.0, 7.5, 7.95, '#24345f', r=0.02); props.cbox(-3.05, -2.65, 0.8, 0.92, 7.49, 7.5, '#111111')
-    plant(props, -5.6, 7.5); plant(props, 5.4, 7.45, s=0.9)
+    plant(props, -5.6, 7.5); plant(props, 5.5, 7.1, s=0.9)   # v2b：讓出海報
     # 桌上的東西（深夜也有人在讀書：可樂、紙袋、課本）
     r = random.Random(41)
     for t in F['tables2'][:2] + F['frontTables2']:
