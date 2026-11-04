@@ -417,7 +417,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2029-01-02',21.1,'dorm',TWF({KX_TRIP:{Y1S2:'sea'}})); date('kexin'); rules(); const kh0=txt('p:kexin'); answer('y4_kh',0); rules(); const qh=OUT.get(G,'y4_kh'); const m0=G.money; at('2029-01-06',6.8); picks=[2]; said=[]; await OUT.go(GM,qh);
   check('KH1. 1/2 21:00「寒假的旅行，一天也算。……」「你來高雄。我開車。」；「好。」＝出發選單「高鐵 07:00（去高雄）」；票錢 2980；左營站「上車。……音樂你管。」；一起旅行過＝「今年交換。」；「坐著就好。」；傍晚「二月十四號，視訊。」；KX_TRIP.Y4WIN', seq(kh0,['kexin:寒假的旅行，一天也算。……而且今年真的只有一天。','kexin:你來高雄。我開車。'])&&!!qh&&qh.title==='高鐵 07:00（去高雄）'&&m0-G.money===2980&&has('（她靠在一台舊舊的家用車旁邊。）')&&has('上車。……音樂你管。')&&has('第一次去的時候，我管音樂，你管方向。')&&has('今年交換。')&&has('……你很無聊。')&&has('回去讀書。……二月十四號，視訊。')&&!hasRe(/假設/)&&G.flags.KX_TRIP.Y4WIN==='kaohsiung', JSON.stringify({m:m0-G.money}));
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',0); rules(); at('2029-01-06',6.8); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kh'));
-  check('KH. 沒有一起旅行過：「我們沒有「第一次去的地方」。……那今天就是。」', has('我們沒有「第一次去的地方」。……那今天就是。')&&!has('今年交換。'));
+  check('KH. 沒有一起旅行過：「我們沒有「第一次去的地方」。……那就今天去一個。」', has('我們沒有「第一次去的地方」。……那就今天去一個。')&&!has('今年交換。'));
   fresh('2029-01-02',21.1,'dorm',TWF()); date('kexin'); rules(); answer('y4_kh',1); at('2029-01-06',7.1); rules(); at('2029-01-06',12.1); rules();
   check('KH2. 「這次不行。」＝沒去：畫了一輛車的表「欠著。考完再去。」', txt('p:kexin').includes('kexin:📷（讀書計畫表，那一天的格子畫了一輛車）')&&txt('p:kexin').includes('kexin:欠著。考完再去。'));
 
