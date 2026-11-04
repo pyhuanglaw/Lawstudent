@@ -17,7 +17,7 @@
   "cr_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/corner.glb",
- "bytes": 3791932,
+ "bytes": 3791424,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
@@ -49,6 +49,18 @@
  },
  "records_in_bins": 637,
  "single_side": {
+  "cr_plaster": [
+   108,
+   0
+  ],
+  "cr_alpha": [
+   3464,
+   0
+  ],
+  "cr_vc_metal": [
+   5376,
+   56
+  ],
   "cr_vc": [
    7064,
    7294
@@ -57,44 +69,32 @@
    10216,
    0
   ],
-  "cr_vc_metal": [
-   5376,
-   56
-  ],
-  "（翻面）cr_emit": [
-   80,
-   0
-  ],
-  "cr_emit": [
-   80,
-   42
-  ],
-  "cr_alpha": [
-   3464,
-   0
-  ],
-  "cr_floor_terrazzo": [
-   12,
-   0
-  ],
   "cr_goods": [
    3738,
-   0
-  ],
-  "cr_plaster": [
-   108,
-   0
-  ],
-  "cr_sign": [
-   4,
    0
   ],
   "cr_concrete": [
    38,
    0
   ],
+  "cr_sign": [
+   4,
+   0
+  ],
+  "cr_emit": [
+   80,
+   42
+  ],
+  "（翻面）cr_emit": [
+   80,
+   0
+  ],
   "（翻面）cr_vc": [
    482,
+   0
+  ],
+  "cr_floor_terrazzo": [
+   12,
    0
   ]
  }
