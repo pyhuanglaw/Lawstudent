@@ -27,8 +27,8 @@ const YANGYANG_LAYOUT = (function () {
     partition: {x: OPEN.x1, z0: KZ, z1: 2.3, dado: 0.95, note: '廚房後段：白磁磚腰牆＋不鏽鋼框玻璃'},
     menuBoard: {x: OPEN.x1, z0: 2.2, z1: Z1 - 0.3, y0: 1.95, y1: 3.15},
     tables4: [{n: 1, x: 1.0, z: 1.7}, {n: 2, x: 1.0, z: -0.6}, {n: 3, x: 1.0, z: -2.9}, {n: 4, x: -2.2, z: -1.3}, {n: 5, x: -2.2, z: -3.5}],   // 四人桌 1.1 × 0.75（長邊沿 x），椅子在 z ±0.6
-    tables2: [{n: 6, x: 3.3, z: 4.3}, {n: 7, x: 3.3, z: 2.7}, {n: 8, x: 3.5, z: -1.0}, {n: 9, x: 3.5, z: -2.6}],   // 兩人桌 0.7 × 0.7，椅子在 z ±0.55
-    selfServe: {x0: X1 - 0.6, x1: X1, z0: 0.4, z1: 2.3, h: 0.9, note: '自助區：餐具、醬料（辣椒、蒜泥、胡椒粉）、飲用水桶、垃圾分類三格'},
+    tables2: [{n: 6, x: 3.4, z: 1.8}, {n: 7, x: 3.4, z: 0.2}, {n: 8, x: 3.5, z: -1.6}, {n: 9, x: 3.5, z: -3.2}],   // 兩人桌 0.7 × 0.7，椅子在 z ±0.55
+    selfServe: {x0: X1 - 0.6, x1: X1, z0: 3.0, z1: 4.9, h: 0.9, note: '自助區：餐具、醬料（辣椒、蒜泥、胡椒粉）、飲用水桶、垃圾分類三格'},
     fridge: {x0: 2.3, x1: 3.2, z0: Z0, z1: Z0 + 0.72, h: 2.0, label: '冷飲'},
     curtainDoor: {x: 0.9, w: 0.9, note: '後牆的紅色門簾（往後面，關著）'},
     backShelf: {x0: -1.0, x1: 0.2, z0: Z0, z1: Z0 + 0.4, h: 2.4},
@@ -42,7 +42,7 @@ const YANGYANG_LAYOUT = (function () {
       {kind: 'order', x: OPEN.x1 + 0.45, z: 3.6, yaw: -Math.PI / 2, label: '點炸物（店內）'},
       {kind: 'menu', x: OPEN.x1 + 0.45, z: 2.4, yaw: -Math.PI / 2, label: '看菜單'},
       {kind: 'drink', x: 2.75, z: Z0 + 1.2, yaw: Math.PI, label: '拿冷飲'},
-      {kind: 'selfserve', x: +(X1 - 1.0).toFixed(2), z: 1.35, yaw: Math.PI / 2, label: '自助區（餐具、醬料、水）'}
+      {kind: 'selfserve', x: +(X1 - 1.0).toFixed(2), z: 3.95, yaw: Math.PI / 2, label: '自助區（餐具、醬料、水）'}
     ],
     spots: {},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
