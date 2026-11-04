@@ -214,8 +214,10 @@ await sec('5',async()=>{
   check('5. 語彤→社科圖（二樓做好以後＝二樓）、學姊→法圖、沛珊→總圖大廳二樓、芯慈→法圖',yt&&yt.zone==='soclib'&&yt2&&yt2.zone==='soclib_2f'&&sis&&sis.zone==='lawlib'&&ps&&ps.zone==='library_hall'&&xc&&xc.zone==='lawlib',J([yt,yt2,sis,ps,xc].map(e=>e&&e.zone)));
   const cls=ent('heroine_01','2025-12-01',10);
   check('5. 上課照舊（以安週一上午的憲法）',cls&&cls.act==='class',J(cls));
-  const zq=ent('heroine_04','2025-12-03',21.8), zq2=ent('heroine_04','2025-12-03',22.05);
-  check('5. 那一間沒開＝照作息（子晴週三 21:40 在 Café 讀書：總圖 22:00 以前換到大廳二樓、22:00 以後照舊在 Café）',zq&&zq.zone==='library_hall'&&zq.to<=22&&zq2&&zq2.zone==='cafe',J([zq,zq2].map(e=>e&&[e.zone,e.from,e.to])));
+  const ac=ent('heroine_01','2025-12-02',16.5), zq=ent('heroine_04','2025-12-03',21.8), sc=ent('heroine_05','2026-12-10',19.5);
+  check('5. Café 的讀書照作息（那裡有她們的戲）：以安 16:30、子晴週三 21:40、學姊大二上第 14 週週四 19:30 都還在 Café',ac&&ac.zone==='cafe'&&!ac.exlib&&zq&&zq.zone==='cafe'&&!zq.exlib&&sc&&sc.zone==='cafe'&&!sc.exlib,J([ac,zq,sc].map(e=>e&&[e.zone,e.exlib])));
+  const yS=ent('heroine_03','2026-05-30',17.75), yU=ent('heroine_03','2026-05-31',17.75);
+  check('5. 那一間沒開＝照作息（語彤大一下第 14 週週末 17:30 在總圖 3F 讀書：週六社科圖開到 22:00＝換過去；週日社科圖 17:00 關＝照舊在總圖 3F）',yS&&yS.zone==='soclib'&&yS.exlib==='3'&&yU&&yU.zone==='library'&&!yU.exlib,J([yS,yU].map(e=>e&&[e.zone,e.exlib])));
   /* 同一天最多三位 */
   const old=L.people.classmate_bohan.place; L.people.classmate_bohan.place='hall2f'; L.people.heroine_02.place='hall2f';
   const ids=Object.keys(L.people).filter(id=>L.people[id].place==='hall2f'); setT('2025-12-02',9); const ok=ids.filter(id=>EXLIB.capOk(G,id,'library_hall'));

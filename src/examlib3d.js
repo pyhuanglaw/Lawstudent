@@ -15,7 +15,7 @@
      再繞一圈：時間 +20 分鐘；平日 14:00 以前一半的機會（照日期＋區域）有人收東西走了＝坐下；沒有＝這一次不能再繞。去別間：其他開著的圖書館（快速前往，路程照現有的）。回宿舍讀：快速前往宿舍（住家裡＝HOME.go）。
      有人幫你占了位子（第 4-1 節）的那一天、那一間不跳；約好一起來的（邀約、一起走）也不跳。
    ■ 第 3 節 有名字的人（S.sched：STORY.SCHED_X）：這一段，表上的人作息裡「讀書」（act read）的時段坐到表上的地方（只換讀書的時段；上課、約好的、出遊、劇情的位置、別的模組的作息都照舊；
-     那一間沒開＝照作息）；同一天最多三位在同一間。經濟系那一年三位朋友沒有作息：這一段的平日給一段讀書的時間（S.Y0_SLOTS，LAWWW 暫定，作息歸 BB 可以改）。
+     那一間沒開＝照作息；只換本來就在圖書館、自習區讀書的時段（S.STUDY_FROM）——Café、店裡、研究室的讀書照作息，那裡有她們的戲）；同一天最多三位在同一間。經濟系那一年三位朋友沒有作息：這一段的平日給一段讀書的時間（S.Y0_SLOTS，LAWWW 暫定，作息歸 BB 可以改）。
      說話（STORY.talkCharacter 包一層，S.talk）：這一段在表上的那一間的讀書區，第一次碰到（這一段、這一間）＝點頭（LIBQ 今天點過頭的也算）；之後每人每學期照順序一句（小聲）那幾句，用完只點頭（在別間照原本的）；
      交往中的人第一句前面多一個動作。pool（二十位同學）：每人每學期一句（四句輪流），說過就照原本的閒聊。劇情、約好的、門檻台詞、第一次見面照舊先。
    ■ 第 4-1 節 請朋友占（S.topicOk／S.send41：手機私訊的話題「明天幫我占位子」，包住 MSG.topics／MSG.send）：這一段每天 18:00～23:00，FRIEND 以上、表上有答應那一句的人，一天只能問一個人。
@@ -169,6 +169,9 @@ const EXLIB=(function(){
   S.special=function(b){ if(!b) return true; if(b.pri||b.talkEvent||b.spot||b.activity||b.cls||b.invite||b.shopEnc||b.exlib||b.taipei) return true;
     if(Array.isArray(b.dates)&&b.dates.length&&typeof STORY!=='undefined'&&STORY.dayOfKey&&b.dates.every(r=>{ const a=STORY.dayOfKey(r[0]), z=STORY.dayOfKey(r[1]); return a!=null&&z!=null&&z-a<7; })) return true;
     return false; };
+  /* 換哪些地方的讀書時段：圖書館、自習的地方（總圖各層、社科圖、法圖、霖澤館 3F／4F、教學館的自習區）。
+     Café、店裡、研究室的讀書照作息——那裡常有她們的戲（例：大三下 5/25 Café「帶哪一本」，sis_b15_3d.js S.thuYield 讓她那一晚留在 Café；tests/aa518_sis_b15_unit.js）*/
+  S.STUDY_FROM=['library','library_hall','library_media','library_b1','library_stacks','library_carrels','soclib','soclib_2f','lawlib','linze_3f','linze_4f','gongtong','boya','putong'];
   /* 同一天最多三位在同一間：表上同一間的人超過三位＝照日期輪，多的照作息 */
   S.capOk=function(G,id,z){ const C=S.cast(G), ids=Object.keys(C).filter(k=>S.inCast(G,k)&&S.zoneOf(C[k].place)===z); if(ids.length<=3) return true;
     ids.sort((a,b)=>hash('excap|'+G.day+'|'+a)-hash('excap|'+G.day+'|'+b)); return ids.indexOf(id)<3; };
@@ -190,7 +193,7 @@ const EXLIB=(function(){
     const z=S.zoneOf(P.place); if(!z||!S.isOpen(z,day,h)) return null;
     const b=S.base(c,G);
     if(!b){ const Y=econ(G)&&S.Y0_SLOTS[id]; if(!Y||weekendDay(day)) return null; const o=Math.max(Y[0],S.openH(z,day)||Y[0]); if(h<o||h>=Y[1]) return null; return entry(G,id,z,o,Math.min(Y[1],S.closeH(z,day,h)),loadedSeat(z,id),'y0'); }
-    if(b.act!=='read'||b.zone==null||b.zone===z||S.special(b)) return null;
+    if(b.act!=='read'||b.zone==null||b.zone===z||!S.STUDY_FROM.includes(b.zone)||S.special(b)) return null;
     if(!S.capOk(G,id,z)) return null;
     return entry(G,id,z,b.from,Math.min(b.to,S.closeH(z,day,h)),loadedSeat(z,id),'3'); };
 
@@ -309,8 +312,7 @@ const EXLIB=(function(){
       if(id==='classmate_xinci') R.note[t.id]=1; }
     else for(const m of (weekendDay(day)&&P.hold.noWe?P.hold.noWe:(P.hold.no||[]))) items.push(m);
     const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day|0,h:hr(G)+0.1}; if(items.length&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items.map(text=>({th,from:id,text})),'exlib41_'+(G.day|0));
-    if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'msg');
-    return {ok:true,text:S.TOPIC_T,at,goes}; };
+    return {ok:true,text:S.TOPIC_T,at,goes}; };   /* 熟悉度不加、不扣（這是約占位子，不是閒聊；D118）*/
   /* 到了：坐到占好的位子（GM.seatMenu → STORY.onSeat）*/
   S.arrive41=async function(GM,seat){ const G=GM.G, H=holdToday(G,G.zone); if(!H||!ZS||!seat||ZS.holdSeat!==seat&&!(ZS.holdSeat&&Math.hypot(ZS.holdSeat.x-seat.x,ZS.holdSeat.z-seat.z)<0.1)) return false;
     H.arrived=true; H.sitH=hr(G); const n=GM.npc&&GM.npc[H.who]; const P=S.cast(G)[H.who]; if(!P||!P.hold||!n||!GM.E.npcs.includes(n)) return true;
