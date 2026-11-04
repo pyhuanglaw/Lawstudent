@@ -18,7 +18,7 @@
 - 新測試 `tests/wz_props_poles_unit.js`（Node）：套件的電線桿、路燈臂和正式模型一根對一根（差 ≤ 5 cm）。
   - 開發分支 `effb5d9b3` 原樣：① ② FAIL（−12.7 沒有正式桿、−9.2 多一根）。
   - 換新 GLB：ALL PASS。`bike_park_1104_unit`、`street_props_nav_unit`、`wz_copy_shop_unit` 也 ALL PASS。
-- 拿檔：`git checkout <SHA> -- assets/models/env/second_ai/wz_props.glb assets/models/env/second_ai/wz_props.json tests/wz_props_poles_unit.js`（程式不用改）。
+- 拿檔：`git checkout 8200806e2 -- assets/models/env/second_ai/wz_props.glb assets/models/env/second_ai/wz_props.json tests/wz_props_poles_unit.js`（程式不用改）。
 
 ## ADE-PROPS-1104（BB_255 P3，LAWWW2-C 11-04 18:0x）：電線桿、機車擋到價目表
 

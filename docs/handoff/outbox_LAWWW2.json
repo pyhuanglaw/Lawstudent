@@ -5738,6 +5738,25 @@
    "next": "等 CC 的數字；teach_east 估 243→237（陰影也算 231）",
    "noDirectIntegrate": false,
    "note": "BB-C P3：普通、博雅的貼圖材質合成一張貼圖集＋頂點色零件併進同一個材質（白色帶子；lib2.atlas_tiles solid／orm_div、lib2.fold_vc）。遊戲裡一棟 4 個網格、1 個投影（普通 6＋3、博雅 8＋5）；三角形 8,558→13,704、5,626→8,630（teach_east 餘裕 28,695）；GLB 0.78→1.27、0.72→0.96 MB；外觀不變（Cycles 前後比較）；teach_east_drawcall_unit 原樣 ②②④④ FAIL、新 GLB ALL PASS；副本 BB-C（DELIVERED）"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8200806e2",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ADE-PROPS-1104",
+   "files": [
+    "assets/models/env/second_ai/wz_props.glb",
+    "assets/models/env/second_ai/wz_props.json",
+    "tools/blender/env_second/wz_props.py",
+    "tests/wz_props_poles_unit.js",
+    "docs/art-rebuild/second_ai/wip/ade_pilot_1104/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 換 wz_props.glb／.json＋tests/wz_props_poles_unit.js（程式不用改）；CC 拍阿德門口（ADE_v2_shots）時一起看桿子、電線",
+   "next": "等 LAWWW-C 換檔",
+   "noDirectIntegrate": false,
+   "note": "補 c73d37367 的漏：patch 只挪了套件的電線桿（zones3d.js），正式模型 wz_props.glb 的桿子、路燈臂還在 x −9.2——畫面上的桿子照樣擋價目表、−12.7 有看不見的阻擋、電線接到半空中。wz_props.py POLES 第 2 根 −9.2→−12.7 重建（只有那根桿、路燈臂、桿號牌的位置變）；wz_props_poles_unit 開發分支原樣 FAIL、新 GLB ALL PASS；bike_park、street_props_nav、wz_copy_shop ALL PASS"
   }
  ]
 }
