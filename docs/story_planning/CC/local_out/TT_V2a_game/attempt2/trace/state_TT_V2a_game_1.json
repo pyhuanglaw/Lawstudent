@@ -1,0 +1,127 @@
+{
+  "why": "browser.close",
+  "pages": [
+    {
+      "page": 1,
+      "state": {
+        "href": "http://127.0.0.1:8801/index.html",
+        "snapshot": {
+          "v": 1,
+          "zone": "dorm",
+          "day": 1,
+          "hour": 17.55,
+          "dateKey": null,
+          "pos": {
+            "x": -40,
+            "z": -5,
+            "y": 0,
+            "lv": 0,
+            "yaw": -1.571
+          },
+          "player": {
+            "busy": true,
+            "frozen": false,
+            "pose": "idle",
+            "riding": false,
+            "seat": null,
+            "path": false
+          },
+          "paused": false,
+          "busyDepth": 0,
+          "dlg": false,
+          "adv": false,
+          "events": false,
+          "phone": false,
+          "entering": false,
+          "lastTalkError": null,
+          "goal": null,
+          "money": 22000,
+          "flags": {
+            "dating_kexin": true,
+            "KX_DEC3_MIGRATED": true,
+            "YT_JOB_V": 1,
+            "NAMECARD_V": 1,
+            "deptHear": {
+              "talk:椰": 1,
+              "醫學:平常": 1,
+              "電機:平常": 1,
+              "經濟:平常": 1,
+              "中文:平常": 0,
+              "社工:平常": 1,
+              "化學:平常": 1,
+              "數學:平常": 0,
+              "政治:平常": 0,
+              "大氣:平常": 1,
+              "獸醫:平常": 1,
+              "心理:平常": 1,
+              "農藝:平常": 1,
+              "歷史:平常": 1
+            },
+            "HCIRCLE": {
+              "heard": {},
+              "once": {},
+              "intro": {}
+            },
+            "HEARD": {
+              "said": {},
+              "day": {},
+              "ph": {}
+            }
+          },
+          "invites": [],
+          "npcs": [
+            {
+              "id": "classmate_mingxuan",
+              "x": 36.22,
+              "z": -10.19,
+              "lv": 0,
+              "beh": "wander",
+              "frozen": false,
+              "talking": false
+            },
+            {
+              "id": "pool_14",
+              "x": 47.5,
+              "z": -14.4,
+              "lv": 0,
+              "beh": "idle",
+              "frozen": false,
+              "talking": false
+            }
+          ]
+        },
+        "zone": "dorm",
+        "day": 1,
+        "hour": 17.55,
+        "weekday": 3,
+        "date": null,
+        "player": {
+          "x": -40,
+          "z": -5,
+          "y": 0,
+          "lv": 0,
+          "pose": "idle",
+          "busy": true
+        },
+        "dlg": {
+          "active": false,
+          "busyDepth": 0
+        },
+        "dlgText": null,
+        "choices": [],
+        "event": null,
+        "flagKeys": [
+          "dating_kexin",
+          "KX_DEC3_MIGRATED",
+          "YT_JOB_V",
+          "NAMECARD_V",
+          "deptHear",
+          "HCIRCLE",
+          "HEARD"
+        ],
+        "lastTalkError": null,
+        "walkFallbacks": 0
+      }
+    }
+  ]
+}
