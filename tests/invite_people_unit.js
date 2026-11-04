@@ -84,14 +84,14 @@ rel('zhe',30,10,5); r=ask('zhe','noodle',MON,12+10/60); check('8. 阿哲約吃�
 check('9. 時間的中文：21:10＝九點十分、21:30＝九點半、22:30＝十點半、12:10＝十二點十分、9:00＝九點',INV.zhTime(21+10/60)==='九點十分'&&INV.zhTime(21.5)==='九點半'&&INV.zhTime(22.5)==='十點半'&&INV.zhTime(12+10/60)==='十二點十分'&&INV.zhTime(9)==='九點',[21+10/60,21.5,22.5,12+10/60,9].map(INV.zhTime).join('、'));
 // 10 流程（手機）
 const GMk=(picks)=>{ const out=[]; return {out,G,say:async(w,t)=>{ out.push((w?w.name+'：':'旁白：')+t); },choose:async o=>{ const want=picks.shift(); out.push('選：'+o.map(q=>q.t).join('/')); if(typeof want==='string'){ let k=o.findIndex(q=>q.t.includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?o.length-1:k; } return want|0; }}; };
-fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); let gm=GMk(['兩點半','15:30','好，就']); gm.G=G; await0();
+fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); let gm=GMk(['2:30 AM','15:30','好，就']); gm.G=G; await0();
 async function await0(){}
 (async()=>{
   await INV.flow(gm,'classmate_bohan',null,false); const o=gm.out.join('｜');
   check('10. 手機約柏翰去 Café：「柏翰（手機）：「我要念書，九點十分可以。」」→ 選改天 → 約好今天 21:10（AA_194 第 4 節）',/柏翰（手機）：「我要念書，九點十分可以。」/.test(o)&&G.invites.some(iv=>iv.who==='classmate_bohan'&&iv.state==='accepted'&&Math.abs(iv.h-(21+10/60))<0.01),o);
   fresh(MON,10); G.contacts.heroine_01=1; rel('heroine_01',45,30,10); gm=GMk(['溫州街','15:30','好，就']); gm.G=G; await INV.flow(gm,'heroine_01',null,false); const o2=gm.out.join('｜');
   check('10. 以安大一散步：「好。」「……今天不行，明天。」、然後問改天（祐廷「沒有目的。」那句刪，AA_576 第 11 列）',!/祐廷：「沒有目的。」/.test(o2)&&/「……今天不行，明天。」/.test(o2)&&/選：好，就 /.test(o2),o2);
-  fresh(MON,10); G.contacts.classmate_youchen=1; rel('classmate_youchen',25,8,4); gm=GMk(['兩點半','15:30']); gm.G=G; const before=INVITE_DATA.people.classmate_youchen;
+  fresh(MON,10); G.contacts.classmate_youchen=1; rel('classmate_youchen',25,8,4); gm=GMk(['2:30 AM','15:30']); gm.G=G; const before=INVITE_DATA.people.classmate_youchen;
   if(!before&&CHARACTERS.classmate_youchen){ await INV.flow(gm,'classmate_youchen',null,false); check('10. 沒有個性資料的人照舊：「某某答應了。約好 …」（旁白）',gm.out.some(t=>/^旁白：.*答應了。約好/.test(t)),gm.out.join('｜')); }
   // 11 第一次散步
   fresh(MON,10); rel('heroine_04',45,30,10); r=ask('heroine_04','wenzhou',MON,15.5);
@@ -151,12 +151,12 @@ async function await0(){}
     check('13. 沛珊大一下起：選「還是法律，只是沒人守。」→ 兩句 →「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said[2]==='沛珊：「所以寫下來就算數喔？」'&&r.said[3]==='沛珊：「那寫的人壓力好大。」'&&r.said[4]==='沛珊：「好。我要拿這題去問課輔班的小孩，看看他們怎麼說。」',r.said.slice(0,4).join('｜')); }
   { const iv={id:'z',who:'heroine_02',ask:'NOPE'}; const r=await INV.walkAsk({G,say:async()=>{},choose:async()=>0},iv,{name:'x'}); check('13. 找不到的選項句（資料改過）：不演、不出錯',r===false&&iv.ask===null); }
   /* AA_134 第 4 節（AA_140 G49）：當面約——第一句照可選的時間（AA-B 2026-10-16 21:53 定稿：今天還有時段「你等一下有空嗎？」、只剩明天「你明天有空嗎？」）、她看手機行事曆、答應時點頭；手機約沒有這些 */
-  { fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); const caps=[]; gm=GMk(['兩點半','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps.push(t); gm.sleep=async()=>{};
+  { fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); const caps=[]; gm=GMk(['2:30 AM','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps.push(t); gm.sleep=async()=>{};
     await INV.flow(gm,'classmate_bohan',{obj:{}},false); const o=gm.out.join('｜');
     check('G49 當面約（10:00，今天還有時段）：祐廷先說「你等一下有空嗎？」，她看手機行事曆（字幕）',gm.out[0]==='祐廷：你等一下有空嗎？'&&caps.some(t=>/看了一下手機的行事曆/.test(t)),JSON.stringify({o:gm.out.slice(0,2),caps}));
-    { fresh(MON,22.5); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['兩點半','明天','好，就']); gm.G=G; gm.caption=()=>{}; gm.sleep=async()=>{}; await INV.flow(gm,'classmate_bohan',{obj:{}},false);
+    { fresh(MON,22.5); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['2:30 AM','明天','好，就']); gm.G=G; gm.caption=()=>{}; gm.sleep=async()=>{}; await INV.flow(gm,'classmate_bohan',{obj:{}},false);
       check('G49 當面約（22:30，只剩明天）：「你明天有空嗎？」，沒有「週末」',gm.out[0]==='祐廷：你明天有空嗎？'&&!gm.out.some(t=>/週末/.test(t)),JSON.stringify(gm.out.slice(0,2))); }
-    const caps2=[]; fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['兩點半','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps2.push(t); await INV.flow(gm,'classmate_bohan',null,false);
+    const caps2=[]; fresh(MON,10); G.contacts.classmate_bohan=1; rel('classmate_bohan',25,8,4); gm=GMk(['2:30 AM','15:30','好，就']); gm.G=G; gm.caption=(w,t)=>caps2.push(t); await INV.flow(gm,'classmate_bohan',null,false);
     check('G49 手機約：沒有當面的第一句、沒有動作字幕',!gm.out.some(t=>/有空嗎/.test(t))&&caps2.length===0,JSON.stringify({o:gm.out.slice(0,2),caps2})); }
   const s3=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'); check('INV.flow 用 INV.personal（decide 之後）',/S\.personal\(G,id,P,W\.day,W\.h,(Object\.assign\()?S\.decide\(/.test(s3));   /* Object.assign：當面約加 face（BB_172 10-1 第 17 點，手機／當面兩版）*/
   { const se=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'); check('跟著走的人停下來是站姿，不退回作息的坐姿（使用者 2026-10-16：郭沛珊我停下來她就坐回去）',/n\.pose=n\.beh==='follow'\?'idle':\(n\.idlePose\|\|'idle'\)/.test(se)); }

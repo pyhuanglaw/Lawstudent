@@ -1,4 +1,4 @@
-// 1A-19 第一份工作（2030-10-01 21:00 群組）＋1A-20 尾聲（2034-06-03 19:00 兩點半 Café，CG-10）（AA_319；src/postgrad3d.js）——不需要瀏覽器。
+// 1A-19 第一份工作（2030-10-01 21:00 群組）＋1A-20 尾聲（2034-06-03 19:00 2:30 AM，CG-10）（AA_319；src/postgrad3d.js）——不需要瀏覽器。
 //   第一份工作：六種落點的照片（AA_319 1A-19）、只有認識的人傳照片、交換延畢＝補習班的自習室＋「（你的第一天，還在後面。）」（b6757852）；
 //   尾聲：字卡、只有認識的人在那一桌、每人一句（條件由低到高取最後一列，AA_327 2-Y4-53）、前任在店的另一頭、CG-10 的八張（右手邊＝畢業時的伴侶，單身＝阿凱）、
 //   「你一直都是……」、祐廷最後一句、桌上的東西、星期六沒有人講上班的事（AA_319 1A-20 第 5 節、BB 驗收 P1～P5）、方奕廷那句（AA_327 f252a7b5）、回標題。用法：node tests/epilogue_unit.js
@@ -35,9 +35,9 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   // ---- 1A-20 尾聲 ----
   // P1：單身、傾向 A、律師
   { const G=await epi(Object.assign({},leanA,LAWYER),()=>{ H.FRIEND('zhe'); });
-    check('P1. 字卡「五年後」→「2034 年 6 月 3 日」「兩點半 Café」→ 演完「法條之外」',JSON.stringify(H.cards)===JSON.stringify([['五年後',''],['2034 年 6 月 3 日','兩點半 Café'],['法條之外','']]),JSON.stringify(H.cards));
-    check('P1. 兩點半 Café（3D 區域＋模糊背景），19:00',H.entered.includes('cafe')&&H.bgs.includes('blur')&&G.hour===19&&G.day===PG.DK('2034-06-03'));
-    check('P1. 開場旁白：窗邊那張雙人桌、阿哲的習慣',H.said[0].t==='（兩點半 Café。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）'&&H.said[1].t==='（阿哲的習慣。五年了，還是一樣。）');
+    check('P1. 字卡「五年後」→「2034 年 6 月 3 日」「2:30 AM」→ 演完「法條之外」',JSON.stringify(H.cards)===JSON.stringify([['五年後',''],['2034 年 6 月 3 日','2:30 AM'],['法條之外','']]),JSON.stringify(H.cards));
+    check('P1. 2:30 AM（3D 區域＋模糊背景），19:00',H.entered.includes('cafe')&&H.bgs.includes('blur')&&G.hour===19&&G.day===PG.DK('2034-06-03'));
+    check('P1. 開場旁白：窗邊那張雙人桌、阿哲的習慣',H.said[0].t==='（2:30 AM。窗邊那張雙人桌坐滿了人，旁邊的桌子都被併過來了。）'&&H.said[1].t==='（阿哲的習慣。五年了，還是一樣。）');
     check('P1. CG-10 阿凱在旁邊（單身）',JSON.stringify(H.cgs)===JSON.stringify(['cg_reunion_window_table_kai']));
     check('P1. 阿凱（律師）「……喔對，你現在是律師。」；阿哲「我在事務所，每天寫狀子。」',said('阿凱','……喔對，你現在是律師。')&&said('阿哲','我在事務所，每天寫狀子。'));
     check('P1. ④ 阿哲「你一直都是這樣。誰有事，你就先去查。」（CG 以後）',said('阿哲','你一直都是這樣。誰有事，你就先去查。')&&idx('你一直都是這樣。誰有事，你就先去查。')>=cgAt[0]);
