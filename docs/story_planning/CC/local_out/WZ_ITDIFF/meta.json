@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ_ITDIFF",
+  "sha": "75a095355",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_it_diff_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T16:28:54",
+  "end": "2026-11-04T16:31:17",
+  "seconds": 143,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 37,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 27
+  }
+}

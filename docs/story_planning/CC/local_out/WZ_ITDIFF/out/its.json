@@ -1,0 +1,786 @@
+{
+ "formal": [
+  {
+   "label": "往新生南路",
+   "x": -33.4,
+   "z": -28.4,
+   "r": 2.2,
+   "to": "xinsheng",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去日常失速",
+   "x": -36.5,
+   "z": -9.6,
+   "r": 1.2,
+   "to": "wz_offbeat",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進入 2:30 AM",
+   "x": 54.2,
+   "z": 0,
+   "r": 2.3,
+   "to": "cafe",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "上二樓（木曜日）",
+   "x": 7.4,
+   "z": -4.55,
+   "r": 1.4,
+   "to": "wz_mokuyobi",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去 SUNNY SIDE",
+   "x": 42,
+   "z": -4.6,
+   "r": 1.4,
+   "to": "wz_brunch",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去阿德影印輸出",
+   "x": -8,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_print",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去一盞",
+   "x": -20.5,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_teahouse",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去林家乾麵",
+   "x": 35,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_lin",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去小路",
+   "x": -4.8,
+   "z": -4.6,
+   "r": 1.4,
+   "to": "wz_teishoku",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 26,
+   "z": 19.9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 24.7,
+   "z": 21.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 27.3,
+   "z": 21.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在小公園的長椅",
+   "x": 23.66,
+   "z": 9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在小公園的長椅",
+   "x": 28.34,
+   "z": 9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在長椅上看孩子玩",
+   "x": 19.26,
+   "z": 21.4,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在後面的長椅",
+   "x": 29.6,
+   "z": 26.54,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "盪鞦韆",
+   "x": 31.7,
+   "z": 24.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "盪鞦韆",
+   "x": 33.5,
+   "z": 24,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在涼亭的石凳",
+   "x": 14.6,
+   "z": 24.25,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在涼亭的石凳",
+   "x": 14.6,
+   "z": 26.15,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "看公布欄",
+   "x": 22,
+   "z": 5.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "涼亭的象棋（08:00～11:00）",
+   "x": 14.6,
+   "z": 23.4,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "拜土地公",
+   "x": 12.8,
+   "z": 27.2,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "直飲台",
+   "x": 29.9,
+   "z": 5.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "那隻貓",
+   "x": 25.48,
+   "z": 23.88,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看書店的櫥窗",
+   "x": 14.2,
+   "z": 3.8,
+   "r": 1.6,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看便利商店",
+   "x": 44,
+   "z": 3.8,
+   "r": 1.6,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買一杯飲料",
+   "x": 17.4,
+   "z": -7.35,
+   "r": 1.4,
+   "to": null,
+   "wz": "tea",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買一碗冰",
+   "x": 24.4,
+   "z": -7.4,
+   "r": 1.4,
+   "to": null,
+   "wz": "ice",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看夏日冰菓室",
+   "x": 26.5,
+   "z": -7.4,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "看價目板",
+   "x": 25.4,
+   "z": -7.4,
+   "r": 1,
+   "to": null,
+   "wz": "ice",
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "進入日和便利店",
+   "x": 45.8,
+   "z": 3.8,
+   "r": 1.2,
+   "to": null,
+   "wz": "cvs413",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買水果",
+   "x": 35.3,
+   "z": -3.9,
+   "r": 1.4,
+   "to": null,
+   "wz": "fruit",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看阿忠鮮果",
+   "x": 33.6,
+   "z": -3.9,
+   "r": 1,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看常在洗衣",
+   "x": -18.6,
+   "z": -3.8,
+   "r": 1.2,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看布告欄",
+   "x": -16.65,
+   "z": -3.8,
+   "r": 1,
+   "to": null,
+   "wz": "laundry",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "回公館",
+   "x": 51.3,
+   "z": -13.4,
+   "r": 2.6,
+   "to": "gongguan",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "找貓",
+   "x": 23.2,
+   "z": 5.6,
+   "r": 1.2,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "逛二手市集",
+   "x": 26,
+   "z": 12.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  }
+ ],
+ "nobldg": [
+  {
+   "label": "往新生南路",
+   "x": -33.4,
+   "z": -28.4,
+   "r": 2.2,
+   "to": "xinsheng",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去日常失速",
+   "x": -36.5,
+   "z": -9.6,
+   "r": 1.2,
+   "to": "wz_offbeat",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進入 2:30 AM",
+   "x": 54.2,
+   "z": 0,
+   "r": 2.3,
+   "to": "cafe",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "上二樓（木曜日）",
+   "x": 7.4,
+   "z": -4.55,
+   "r": 1.4,
+   "to": "wz_mokuyobi",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去 SUNNY SIDE",
+   "x": 42,
+   "z": -4.6,
+   "r": 1.4,
+   "to": "wz_brunch",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去阿德影印輸出",
+   "x": -8,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_print",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去一盞",
+   "x": -20.5,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_teahouse",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去林家乾麵",
+   "x": 35,
+   "z": 4.6,
+   "r": 1.4,
+   "to": "wz_lin",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "進去小路",
+   "x": -4.8,
+   "z": -4.6,
+   "r": 1.4,
+   "to": "wz_teishoku",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 26,
+   "z": 19.9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 24.7,
+   "z": 21.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在老樹下的圓椅",
+   "x": 27.3,
+   "z": 21.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在小公園的長椅",
+   "x": 23.66,
+   "z": 9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在小公園的長椅",
+   "x": 28.34,
+   "z": 9,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在長椅上看孩子玩",
+   "x": 19.26,
+   "z": 21.4,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在後面的長椅",
+   "x": 29.6,
+   "z": 26.54,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "盪鞦韆",
+   "x": 31.7,
+   "z": 24.2,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "盪鞦韆",
+   "x": 33.5,
+   "z": 24,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在涼亭的石凳",
+   "x": 14.6,
+   "z": 24.25,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "坐在涼亭的石凳",
+   "x": 14.6,
+   "z": 26.15,
+   "r": 1.3,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": true
+  },
+  {
+   "label": "看公布欄",
+   "x": 22,
+   "z": 5.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "涼亭的象棋（08:00～11:00）",
+   "x": 14.6,
+   "z": 23.4,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "拜土地公",
+   "x": 12.8,
+   "z": 27.2,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "直飲台",
+   "x": 29.9,
+   "z": 5.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "那隻貓",
+   "x": 26,
+   "z": 22.85,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看書店的櫥窗",
+   "x": 14.2,
+   "z": 3.8,
+   "r": 1.6,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看便利商店",
+   "x": 44,
+   "z": 3.8,
+   "r": 1.6,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買一杯飲料",
+   "x": 17.4,
+   "z": -7.35,
+   "r": 1.4,
+   "to": null,
+   "wz": "tea",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買一碗冰",
+   "x": 24.4,
+   "z": -7.4,
+   "r": 1.4,
+   "to": null,
+   "wz": "ice",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看夏日冰菓室",
+   "x": 26.5,
+   "z": -7.4,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "看價目板",
+   "x": 25.4,
+   "z": -7.4,
+   "r": 1,
+   "to": null,
+   "wz": "ice",
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "進入日和便利店",
+   "x": 45.8,
+   "z": 3.8,
+   "r": 1.2,
+   "to": null,
+   "wz": "cvs413",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "買水果",
+   "x": 35.3,
+   "z": -3.9,
+   "r": 1.4,
+   "to": null,
+   "wz": "fruit",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看阿忠鮮果",
+   "x": 33.6,
+   "z": -3.9,
+   "r": 1,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看常在洗衣",
+   "x": -18.6,
+   "z": -3.8,
+   "r": 1.2,
+   "to": null,
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "看布告欄",
+   "x": -16.65,
+   "z": -3.8,
+   "r": 1,
+   "to": null,
+   "wz": "laundry",
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "回公館",
+   "x": 51.3,
+   "z": -13.4,
+   "r": 2.6,
+   "to": "gongguan",
+   "wz": null,
+   "hidden": false,
+   "seat": false
+  },
+  {
+   "label": "找貓",
+   "x": 23.2,
+   "z": 5.6,
+   "r": 1.2,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  },
+  {
+   "label": "逛二手市集",
+   "x": 26,
+   "z": 12.6,
+   "r": 1.4,
+   "to": null,
+   "wz": null,
+   "hidden": true,
+   "seat": false
+  }
+ ]
+}

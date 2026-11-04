@@ -198,3 +198,19 @@
 [16:28:57] [res] cpu=10% mem=45% (14.4/31.4 GB) chrome_testing=10  START WZ_ITDIFF
 [16:29:00] [res] cpu=15% mem=46% (14.4/31.4 GB) chrome_testing=10  START WZ3_qa_w1
 [16:29:48] [res] cpu=12% mem=51% (16.2/31.4 GB) chrome_testing=19  END WZ3_qa_w1
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       eedf46dad..11aebcb5f  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:29:53] ==== END   WZ3_qa_w1  exit=1  52s   ====
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[16:29:56] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[16:29:56] memory 50% before starting SEAT_ACT (2 running)
+[16:29:56] ==== START SEAT_ACT  (probe @ ae0095d0d) ====
+[16:29:59] [res] cpu=32% mem=51% (16.0/31.4 GB) chrome_testing=19  START SEAT_ACT
+[16:31:03] 正在跑：CAFE230v3_shots（已跑 9 分／上限 30 分）、WZ_ITDIFF（已跑 2 分／上限 10 分）、SEAT_ACT（已跑 1 分／上限 50 分）——還沒測完，請不要關 (tests still running - please do not close)
+[16:31:17] [res] cpu=37% mem=52% (16.4/31.4 GB) chrome_testing=18  END WZ_ITDIFF
