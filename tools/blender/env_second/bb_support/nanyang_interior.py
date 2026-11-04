@@ -206,7 +206,10 @@ ex0, ex1 = EN['x'] - EN['w'] / 2, EN['x'] + EN['w'] / 2
 for x in (ex0, (ex0 + ex1) / 2, ex1): fr.box(x - 0.035, x + 0.035, 0, 2.9, Z1 - 0.03, Z1 + 0.05)
 fr.box(ex0, ex1, 2.86, 2.94, Z1 - 0.03, Z1 + 0.05); fr.box(ex0, ex1, 0.0, 0.08, Z1 - 0.03, Z1 + 0.05)
 gl.box(ex0 + 0.04, ex1 - 0.04, 0.08, 2.86, Z1 + 0.0, Z1 + 0.012); fr.finish(root); gl.finish(root, props={'glass': 1})
-Mesh('DOORMAT', L.flat('ny_mat', '#5c2a24', rough=0.95)).rbox(ex0 + 0.1, ex1 - 0.1, 0.0, 0.015, Z1 - 1.3, Z1 - 0.1, r=0.006, seg=1).finish(root)
+dm = CMesh('DOORMAT', L.vc_material('ny_mat_vc', rough=0.95))   # v5b（LAWWW2 選 B：近景加東西）：門口一塊深色地墊（炭灰、一圈深紅邊）
+dm.crbox(ex0 - 0.2, ex1 + 0.2, 0.0, 0.018, Z1 - 1.9, Z1 - 0.15, '#5a1c1c', r=0.008, seg=1); dm.cbox(ex0 - 0.08, ex1 + 0.08, 0.018, 0.022, Z1 - 1.78, Z1 - 0.27, '#262022')
+for k in range(9): dm.cbox(ex0 + 0.05 + k * 0.33, ex0 + 0.07 + k * 0.33, 0.022, 0.024, Z1 - 1.7, Z1 - 0.35, '#3a3032')
+dm.finish(root)
 
 # 售票亭的背面（外觀的售票窗在正面左半；大廳這側是一間小房間的牆＋一扇小門＋門上「售票」牌）
 bk = Mesh('BOOTH_BACK', m_cream); bk.box(bo['x0'], bo['x1'], 0, 3.2, bo['z0'] - 0.12, bo['z0']); bk.box(bo['x1'] - 0.12, bo['x1'], 0, 3.2, bo['z0'], Z1); bk.finish(root)
@@ -390,12 +393,57 @@ for k in range(2):
     seatl.box(X1 - 0.6, X1 - 0.3, 0, 0.42, z - 0.03, z + 0.03)
 seats.finish(root, smooth=True); seatl.finish(root)
 
+# ---------------- v5b（LAWWW2 11-04 選 B：配置不縮，近景加東西）----------------
+EXTRA = []
+# 1)「本日放映」立牌（右前方、長椅和放映機中間，不擋中間走道）：黑色鐵架＋一張虛構的電影海報
+def standee_tex(im, d):
+    w, h = im.size; r = random.Random(11)
+    for y in range(h): t = y / h; d.line([(0, y), (w, y)], fill=(int(40 + 140 * t), int(60 + 70 * t), int(110 - 40 * t)))   # 黃昏的天空
+    d.rectangle([0, int(h * 0.62), w, h], fill=(60, 52, 48)); d.rectangle([int(w * 0.1), int(h * 0.5), int(w * 0.9), int(h * 0.62)], fill=(150, 60, 40))   # 月台、電車
+    for k in range(5): d.rectangle([int(w * (0.14 + k * 0.15)), int(h * 0.53), int(w * (0.24 + k * 0.15)), int(h * 0.58)], fill=(240, 210, 140))
+    d.ellipse([int(w * 0.38), int(h * 0.3), int(w * 0.62), int(h * 0.5)], fill=(60, 40, 36)); d.rectangle([int(w * 0.36), int(h * 0.44), int(w * 0.64), int(h * 0.62)], fill=(230, 226, 214))   # 背影
+    d.rectangle([0, 0, w, int(h * 0.2)], fill=(248, 240, 224)); d.text((int(w * 0.08), int(h * 0.02)), '本日放映', font=font(int(w * 0.16)), fill=(150, 30, 28))
+    d.rectangle([0, int(h * 0.8), w, h], fill=(30, 24, 22)); d.text((int(w * 0.08), int(h * 0.82)), '晚風月台', font=font(int(w * 0.16)), fill=(250, 236, 200))
+    d.text((int(w * 0.1), int(h * 0.93)), '13:00　15:10', font=font(int(w * 0.07)), fill=(230, 214, 170))
+P['standee'] = tex('standee.png', (420, 640), standee_tex); IM['standee'] = img_mat('ny_standee', P['standee'], rough=0.6)
+sx_, sz_ = 3.35, 3.0
+stn = Mesh('STANDEE_FRAME', m_iron)
+stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
+for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
+stn.finish(root)
+uvquad('STANDEE_FACE', (sx_ - 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 1.96, sz_ + 0.003), (sx_ - 0.32, 1.96, sz_ + 0.003), IM['standee'])   # 面向入口（+z）
+EXTRA.append([sx_, sz_ - 0.02, 0.8, 0.5, '本日放映立牌'])
+# 2) 排隊的地方：兩支紅龍柱（銅柱、深紅絨繩）——櫃檯前排隊那一條（x −3.2～−2.0）和中間走道中間；售票窗口在外觀那一面（LAWWW2），大廳裡排隊的是爆米花櫃檯
+qx, qz0, qz1 = -1.95, -1.4, 0.6
+rp = Mesh('QUEUE_POSTS', m_brass); rope = Mesh('QUEUE_ROPE', L.flat('ny_rope', '#7a1018', rough=0.8))
+for z in (qz0, qz1):
+    rp.add_bm(L.lathe([(0.0, 0.0), (0.16, 0.0), (0.17, 0.02), (0.06, 0.05), (0.025, 0.07), (0.025, 0.92), (0.045, 0.95), (0.05, 0.99), (0.0, 1.01)], seg=16), Matrix.Translation(g2b(qx, 0.0, z)))
+n = 14
+for k in range(n):   # 絨繩：中間垂下來的懸鏈線
+    t0, t1 = k / n, (k + 1) / n; y0_ = 0.88 - 0.22 * math.sin(math.pi * t0); y1_ = 0.88 - 0.22 * math.sin(math.pi * t1)
+    rope.cyl((qx, y0_, qz0 + (qz1 - qz0) * t0), (qx, y1_, qz0 + (qz1 - qz0) * t1), 0.022, seg=8)
+rp.finish(root, smooth=True); rope.finish(root, smooth=True)
+EXTRA.append([qx, (qz0 + qz1) / 2, 0.36, qz1 - qz0 + 0.36, '紅龍柱＋絨繩（櫃檯排隊那一條和中間走道中間；走道剩 x −1.77～3.3）'])
+# 3) 牆邊放傳單的鐵架（前牆、入口右邊）
+fx_, fz_ = 2.25, Z1 - 0.22
+fr_ = Mesh('FLYER_RACK', m_iron); fl_ = CMesh('FLYERS', L.vc_material('ny_flyer_vc', rough=0.6))
+for dx in (-0.3, 0.3): fr_.box(fx_ + dx - 0.012, fx_ + dx + 0.012, 0.0, 1.45, fz_ - 0.12, fz_ - 0.1)
+for k in range(4):
+    y = 0.45 + k * 0.28; z_ = fz_ - 0.1 - 0.06 * (3 - k)
+    fr_.box(fx_ - 0.3, fx_ + 0.3, y, y + 0.012, z_ - 0.12, z_); fr_.box(fx_ - 0.3, fx_ + 0.3, y + 0.012, y + 0.12, z_ - 0.125, z_ - 0.115)
+    for j in range(4):
+        x_ = fx_ - 0.27 + j * 0.14; c_ = ['#e8d8a8', '#c8443a', '#3a6a9a', '#f0ece0', '#6a8a4a', '#d89a3a'][(k * 4 + j) % 6]
+        fl_.cbox(x_, x_ + 0.12, y + 0.012, y + 0.22, z_ - 0.1, z_ - 0.085, c_)
+fr_.box(fx_ - 0.3, fx_ + 0.3, 1.43, 1.45, fz_ - 0.12, fz_ - 0.1); fr_.finish(root); fl_.finish(root)
+EXTRA.append([fx_, fz_ - 0.15, 0.7, 0.35, '放傳單的鐵架'])
+root['extraBlocks'] = json.dumps(EXTRA, ensure_ascii=False)
+
 # ---------------- 減量（SCENE_RULES 第 10 節：材質 ≤ 12）----------------
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('ny_vc_matte', rough=0.62); vc_g = L.vc_material('ny_vc_gloss', rough=0.35); vc_x = L.vc_metal('ny_vc_metal', rough=0.35, metal=0.4)
 grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'ny_glass', 'ny_warm', 'ny_whiteglow', 'ny_ceiling'})
-grp['ny_props_vc'] = vc_m
+grp['ny_props_vc'] = vc_m; grp['ny_mat_vc'] = vc_m; grp['ny_flyer_vc'] = vc_m
 L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'ny3_atlas.png'), 'ny_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.6)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
