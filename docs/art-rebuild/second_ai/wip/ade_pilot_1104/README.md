@@ -5,6 +5,20 @@
 - v2.1 等 BB 判 ART（D120／D133），過了再請 LAWWW-C 接。
 - 遊戲畫面（14:00、20:30、搬到轉角的 moved）和 lane_west 效能，要 CC 在 PC 上拍、量。
 
+## 使用者 11-04 21:4x「阿德影印前面不應該有電線桿」（UA-LAWWW2-1104-08）
+
+- 原本：發布版在 x −9.2（店面正前方）；ADE-PROPS 挪到 −12.7（阿德西緣 x −12 外面 0.7 m），從街上很多角度看還是在店前面。
+- 改到 **x −16.0**：日式宿舍院牆前面（院牆 x −29.5～−12.5），離阿德西緣 4 m。
+  - 宿舍的門在 x −21.7～−19.3（左邊柱子是一盞的匾額，右邊是燈籠和門牌），桿子離門最近的柱子 2.3 m，不擋門。
+  - 跨巷那一條電線改成直直接到對面常在洗衣（B2，x −21～−15）的 (−16, −5.2)，原本是斜的接到 (−9.5, −5.2)。
+  - 路燈的地面光圈跟著桿子到 (−16, 2.75)：晚上照到宿舍門口和阿德的西邊。
+- 要改的檔：
+  - 正式模型 `wz_props.glb`（`wz_props.py` 的 `POLES`）。
+  - 遊戲程式 `zones3d.js` 兩行（LAWWW-C 的檔，給 patch `ade_pole16_1104.patch`，以開發分支 af0170be2 為底）：`poleXs` 第 2 個、跨巷電線那一組。導航阻擋、電線、光圈都是照 `poleXs` 算的，跟著動。
+- 測試（開發分支 af0170be2＋patch＋新 GLB，Node）：`wz_props_poles_unit`、`bike_park_1104_unit`、`street_props_nav_unit`、`wz_copy_shop_unit`、`prop_restand_unit`、`cafe230_ext_nav_unit`、`wz_teahouse_yard_unit` 都 ALL PASS。
+  - 另外量了：宿舍門口、阿德門口、桿子兩邊都走得到；桿子附近沒有站得住但走不到的點；A 側每一段都走得過去。
+- 畫面：`ade_pole16.jpg`（Blender，阿德的參考圖鏡頭，14:00；左邊 −12.7、右邊 −16.0）。
+
 ## ADE-PROPS 補件（LAWWW2-C 11-04 21:3x）：正式模型的電線桿沒有跟著挪
 
 - **下面那個 patch 只挪了套件的電線桿**（`zones3d.js`）。正式模型 `wz_props.glb` 的電線桿和路燈臂還在 x −9.2。

@@ -3,7 +3,7 @@
   /opt/blenv/bin/python tools/blender/env_second/wz_props.py [-- --out assets/models/env/second_ai/wz_props.glb]
 
 取代 src/zones3d.js buildWenzhou 裡這些套件物件的外觀（位置、方向、高度照套件；導航阻擋、電線、路燈的光暈與地面光圈在遊戲程式裡，不變）：
-  TK.utilityPole：主巷 A 側 5 根（x＝−26.5、−12.7、12.2、34.2、45.5，z＝4.65，轉 π/2；第 2 根原本 −9.2，ADE-PROPS-1104 挪到阿德和西邊鄰居的分界；都有路燈臂、第 3 根有變壓器、第 5 根有路牌）、
+  TK.utilityPole：主巷 A 側 5 根（x＝−26.5、−16.0、12.2、34.2、45.5，z＝4.65，轉 π/2；第 2 根原本 −9.2（阿德影印正前方），ADE-PROPS-1104 挪到 −12.7（分界）；使用者 11-04 21:4x「阿德影印前面不應該有電線桿」→ −16.0：日式宿舍院牆前（院牆 x −29.5～−12.5，門在 −21.7～−19.3），離阿德西緣 4 m；都有路燈臂、第 3 根有變壓器、第 5 根有路牌）、
                   路口往北 1 根（47.55, 14.2，沒有路燈臂）。電線接點（礙子 x＝±0.75、0，高 8.52）、路燈燈頭（臂端 1.9 m、高 6.08）不變。
   TK.trafficMirror：3 支（8.7,4.5）（−9.4,−4.5）（−30.4,4.6）。
   路名牌：路口 (47.7, 7.6)。紅磚人行道：Café 門前 1.9×13.4 m（54.3, 0）＋路緣。
@@ -133,7 +133,7 @@ def inst(mesh, x, z, ry, tag):
 
 
 # ---- 電線桿：主巷 A 側 5 根＋路口往北 1 根（位置要和 zones3d.js 的套件電線桿一樣：電線、導航阻擋、路燈地面光圈都照套件的位置；tests/wz_props_poles_unit.js 檢查）
-POLES = [(-26.5, 4.65, True, False, None), (-12.7, 4.65, True, False, None), (12.2, 4.65, True, True, None), (34.2, 4.65, True, False, None), (45.5, 4.65, True, False, '溫州街'), (47.55, 14.2, False, False, None)]
+POLES = [(-26.5, 4.65, True, False, None), (-16.0, 4.65, True, False, None), (12.2, 4.65, True, True, None), (34.2, 4.65, True, False, None), (45.5, 4.65, True, False, '溫州街'), (47.55, 14.2, False, False, None)]
 for i, (px, pz, arm, tr, sign) in enumerate(POLES):
     ry = math.pi / 2; xf = Xf(px, pz, ry)
     inst(POLE, px, pz, ry, 'pole')

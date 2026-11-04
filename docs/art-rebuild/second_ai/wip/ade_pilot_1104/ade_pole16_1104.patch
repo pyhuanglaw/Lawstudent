@@ -1,0 +1,16 @@
+--- a/src/zones3d.js	2026-11-04 21:44:13.994452120 +0000
++++ b/src/zones3d.js	2026-11-04 21:44:14.013114943 +0000
+@@ -1077,11 +1077,11 @@
+       for(const [hx,hz] of [[20.6,5.6],[30.0,5.6]]){ const pt=TK.pots(4,7); pt.position.set(hx,0,hz); pt.rotation.y=Math.PI; g.add(pt); nav.blockRect(hx-0.8,hz,1.8,0.7,0,0); }
+       const sg=TK.signTex('溫州公園',{bg:'#2f4a3a',color:'#f4ead8',serif:true}); const sp=new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.4),new THREE.MeshStandardMaterial({map:sg})); sp.position.set(20.2,1.4,5.6); sp.rotation.y=Math.PI; g.add(sp); pkTag(sp); }
+     // ---- 電線桿＋路燈（A 側沿街）、電線 ----
+-    const poleXs=[-26.5,-12.7,12.2,34.2,45.5]; const tops=[];   /* ADE-PROPS-1104（BB_255 P3，LAWWW2-C 11-04）：第二支原本在 x −9.2＝阿德影印輸出店面正前方，擋住右邊白磁磚壁面上的價目表、布告欄——挪到阿德和西邊鄰居的分界 */
++    const poleXs=[-26.5,-16.0,12.2,34.2,45.5]; const tops=[];   /* ADE-PROPS-1104（BB_255 P3，LAWWW2-C 11-04）：第二支原本在 x −9.2＝阿德影印輸出店面正前方，擋住右邊白磁磚壁面上的價目表、布告欄。使用者 11-04 21:4x「阿德影印前面不應該有電線桿」：−12.7（分界）還是看起來在店前面 → −16.0＝日式宿舍院牆前（院牆 x −29.5～−12.5、門 −21.7～−19.3），離阿德西緣（x −12）4 m。正式模型 wz_props.glb 同一個位置（tests/wz_props_poles_unit.js） */
+     poleXs.forEach((px,i)=>{ const p=TK.utilityPole({arm:true,armDir:1,transformer:i===2,sign:i===4?'溫州街':null}); p.position.set(px,0,4.65); p.rotation.y=Math.PI/2; g.add(p); prTag(p,'pole'); nav.blockCircle(px,4.65,0.3); tops.push([px,8.52,4.65]); const L=p.userData.lamp; if(L){ const wx=px, wz=4.65-L.x; lamps.push({x:wx,z:wz}); const pool=TK.lightPool(4.5,'rgba(255,214,150,1)'); pool.position.set(wx,0.03,wz); g.add(pool); pools.push(pool); } });
+     { const pairs=[]; for(let i=0;i<tops.length-1;i++){ for(const dy of [0,-0.6]) pairs.push([[tops[i][0]-0.75,tops[i][1]+dy,tops[i][2]],[tops[i+1][0]-0.75,tops[i+1][1]+dy,tops[i+1][2]],0.7]); pairs.push([[tops[i][0]+0.75,tops[i][1],tops[i][2]],[tops[i+1][0]+0.75,tops[i+1][1],tops[i+1][2]],0.55]); }
+       // 跨巷到對面建築、到巷子
+-      for(const [px,tx,tz] of [[-12.7,-9.5,-5.2],[12.2,10,-5.2],[34.2,36,-5.2],[12.2,5.8,9],[-26.5,-30,-5.2]]) pairs.push([[px,8.0,4.65],[tx,7.2,tz],0.4]);
++      for(const [px,tx,tz] of [[-16.0,-16.0,-5.2],[12.2,10,-5.2],[34.2,36,-5.2],[12.2,5.8,9],[-26.5,-30,-5.2]]) pairs.push([[px,8.0,4.65],[tx,7.2,tz],0.4]);
+       g.add(TK.wires(pairs)); }
+     // 轉角反光鏡
+     for(const [mx,mz,ry] of [[8.7,4.5,-2.4],[-9.4,-4.5,0.7],[-30.4,4.6,-2.3]]){ const m=TK.trafficMirror(); m.position.set(mx,0,mz); m.rotation.y=ry; g.add(m); prTag(m,'mirror'); nav.blockCircle(mx,mz,0.2); }
