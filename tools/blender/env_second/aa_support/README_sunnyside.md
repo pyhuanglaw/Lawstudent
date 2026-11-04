@@ -1,4 +1,5 @@
-# SUNNY SIDE 室內（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04 v1，READY_FOR_REVIEW）
+# SUNNY SIDE 室內（溫州街 B7，取代半熟；歐式街角早午餐；AA 2026-11-04 v1b，READY_FOR_REVIEW）
+- **v1b**（LAWWW2 11-04 05:57：卡座兩個位子站不進去）：沙發 block 深 0.45（中心 x −2.975）、卡座桌和對面椅子往東 0.15（桌 x −1.575、椅 x −0.95）。shopchk2.js（LAWWW2 021262b9b）：17 個互動點 NG 0。
 - 使用者 11-04 04:4x 參考圖；分工 AA_654（室內 AA、MODEL_READY LAWWW2、功能 BB／CC、ART_APPROVED BB）；菜單照 AA_655 §5。
 - 參考圖：`docs/story_planning/ref_images/shops/wz_sunnyside_int.webp`（室內）、`wz_sunnyside_ext.webp`（外觀，LAWWW2）。
 - **遊戲區域照舊 `wz_brunch`**：配置 `src/data/sunnyside_layout.js`＝WZ_SHOPS_LAYOUT.brunch 的新版（格式一樣）。
