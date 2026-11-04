@@ -54,6 +54,7 @@ DOORX = {'cvs': -29.4, 'aoki': -54.05, 'yejian': -36.4}
 DOORLB = {'cvs': '進入便利商店', 'aoki': '進入青木茶室', 'yejian': '進入頁間書屋'}
 ZONE = {'cvs': 'cvs', 'aoki': 'aoki', 'yejian': 'bookstore'}
 FAILS = []
+UNKNOWN = []   # CC_50 第 9 條：沒測到／看不出來的，不算 PASS 也不算 FAIL，最後寫幾項、exit 1 交 BB
 
 
 def check(name, ok, info=''):
@@ -160,7 +161,12 @@ async def stuck_check(pg, cdp, tag, fb0, e0, errs, soft=False):
         if moved >= 0.3: break
     s = await pg.evaluate(ST); new = errs[e0:]
     ok = (not s['dlg'] and not s['choices'] and s['depth'] == 0 and moved >= 0.3 and s['fb'] == fb0 and not new)
-    info = J({'zone': s['zone'], 'dlg': s['dlg'], 'depth': s['depth'], 'moved': round(moved, 2), 'fb': [fb0, s['fb']], 'errs': new[:2]})
+    extra = {}
+    if s['depth'] != 0:   # CC-C 11-04：afar_seats14 起身後 busyDepth 1（前一張一樣的流程是 0）——只多記資訊，判準不變：誰鎖住、幾點、3 秒後還在不在
+        extra['who'] = await pg.evaluate("(()=>{ const D=GAME.D||{}; return {who:(D.busyWho||[]).slice(0,6), cover:D.coverWho||null, evr:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, hour:+(+GAME.G.hour).toFixed(3)}; })()")
+        await pg.wait_for_timeout(3000)
+        extra['depth3s'] = await pg.evaluate("(GAME.D&&GAME.D.busyDepth)|0")
+    info = J(dict({'zone': s['zone'], 'dlg': s['dlg'], 'depth': s['depth'], 'moved': round(moved, 2), 'fb': [fb0, s['fb']], 'errs': new[:2]}, **extra))
     if soft: obs('[%s] 卡住檢查%s' % (tag, '通過' if ok else '沒通過'), info)
     else: check('[%s] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）' % tag, ok, info)
     if not ok: await pg.screenshot(path=os.path.join(OUT, 'STUCK_%s.png' % tag))
@@ -229,7 +235,7 @@ async def reload_continue(pg, cdp, tag):
     return ok
 
 
-async def approach_seat(pg, cdp, t, sv):
+async def approach_seat(pg, cdp, t, sv, p3=None):
     """走到「最近的互動就是這一張」的地方（照 E.nearestInteractable 的規則算：相鄰座位同一個字，站在兩張中間會變成另一張）。
     PC 11-04 GG_int_cvs C3：原本走到座位本身 0.35 m，最近的常是隔壁那張（字一樣），判 FAIL。回傳 True＝按鈕就是這一張"""
     cands = await pg.evaluate(PICKPT_JS % J([sv['x'], sv['z']])) or []
@@ -239,7 +245,14 @@ async def approach_seat(pg, cdp, t, sv):
         await pg.wait_for_timeout(800)
         if await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])): break
     s = await pg.evaluate(ST); near_ok = await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])); nb = await pg.evaluate(NEARSEAT_JS)
-    return check('[%s] 走到座位旁：最近的互動是這一張（%s,%s）「%s」' % (t, sv['sx'], sv['sz'], sv['label']), near_ok and s['interact'].startswith(sv['label']),
+    ok = bool(near_ok and s['interact'].startswith(sv['label']))
+    # BB-C 15:34（BB_255）：GG_shops2_afar_seat_08 那種——換了幾個點，最近的還是同桌隔壁那張（同一個字、1.2 m 內）＝P3 相鄰座位搶按鈕，跟 seat_20 一致，不算 FAIL。
+    #   p3 有傳（shops2）才這樣歸類；沒傳（cc_gg_int 自己的座位測試）照舊判 FAIL
+    if not ok and p3 is not None and nb and nb.get('label') == sv['label'] and math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']) <= 1.2:
+        line = 'P3 [%s] 相鄰座位搶按鈕（換了 %d 個點都一樣）：要的是 (%s,%s)「%s」，最近的是同桌隔壁 (%s,%s)（%.2f m）；人在 (%s, %s)' % (t, len(tries), sv['sx'], sv['sz'], sv['label'], nb['sx'], nb['sz'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']), s['x'], s['z'])
+        print(line, flush=True); p3.append(line)
+        return False
+    return check('[%s] 走到座位旁：最近的互動是這一張（%s,%s）「%s」' % (t, sv['sx'], sv['sz'], sv['label']), ok,
                  J({'at': [s['x'], s['z']], 'interact': s['interact'], 'nearest': nb, 'cands': cands}))
 
 
@@ -467,16 +480,22 @@ async def press_at(pg, cdp, tag, x, z_load, h, d=None, desc=''):
     """【前置】讀檔到門口比 h 早 3 分鐘 → 等到 h → 按（照 cc_gg_shops2_probe.py 的 press_door）。回傳 (按下那一刻的 G.hour, 按鈕, 台詞, 狀態, toasts)"""
     ex = {'weather': 'clear'}
     if d is not None: ex.update({'day': d['day'], 'weekday': d['wd']})
-    for attempt in (0, 1):
-        await load(pg, cdp, 'gongguan', x, z_load, h - (3 if attempt == 0 else 1.5) / 60, desc, extra=dict(ex))
+    # CC-C 11-04：GG_int_aoki_hours_r2 電腦上 10:59 那一項，讀完檔就已經 11:01，重來的時候反而只提早 1.5 分鐘讀檔，按下去 11:02 店已經開了（TEST_BUG）
+    #   → 讀檔要花的遊戲時間比提早量多：重來一次就提早更多（3 → 8 → 15 分鐘）；三次都超過就不按，記 UNKNOWN（CC_50 第 9 條），回傳 None
+    for attempt, margin in enumerate((3, 8, 15)):
+        await load(pg, cdp, 'gongguan', x, z_load, h - margin / 60, desc, extra=dict(ex))
         t0 = time.time()
         while time.time() - t0 < 300:
             s = await pg.evaluate(ST)
             if (s['hour'] % 24) >= h - 1e-4: break
             await pg.wait_for_timeout(250)
         s = await pg.evaluate(ST)
-        if (s['hour'] % 24) < h + 0.9 / 60 or attempt == 1: break
-        print('  [%s] 等到的時候已經 %s，重來一次' % (tag, hhmm(s['hour'])), flush=True)
+        if (s['hour'] % 24) < h + 0.9 / 60: break
+        print('  [%s] 等到的時候已經 %s（讀檔提早 %d 分鐘不夠），%s' % (tag, hhmm(s['hour']), margin, '重來一次' if attempt < 2 else '不按'), flush=True)
+    else:
+        print('UNKNOWN [%s] 三次讀完檔都已經超過 %s：這一項沒測到（不算 PASS 也不算 FAIL）' % (tag, hhmm(h)), flush=True)
+        UNKNOWN.append(tag)
+        return None
     hp, label = s['hour'], s['interact']
     await L.tap(pg, cdp, '#interact')
     toasts = []; t0 = time.time()
@@ -596,7 +615,9 @@ async def case_aoki_hours(pg, cdp, errs):
     A = A653['aoki']
     for h, want in ((10 + 59 / 60, False), (11.0, True), (20 + 59 / 60, True), (21.0, False)):
         tag = 'aoki_hours_' + hhmm(h).replace(':', '')
-        hp, label, lines, s, toasts, menus = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, h, desc='青木茶室門口（門前 1 m）')
+        r = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, h, desc='青木茶室門口（門前 1 m）')
+        if r is None: continue
+        hp, label, lines, s, toasts, menus = r
         e0 = len(errs); hh = hp % 24
         hit = h - 1e-4 <= hh < h + 1 / 60
         if not hit: obs('[%s] 按下去那一刻 %s 不在 %s 那一分鐘裡，照那一刻判' % (tag, hhmm(hp), hhmm(h)))
@@ -609,13 +630,17 @@ async def case_aoki_hours(pg, cdp, errs):
             check('[%s] %s 關著：進不去' % (tag, hhmm(hp)), s['zone'] == 'gongguan', J({k: s[k] for k in ('zone', 'x', 'z')}))
             check('[%s] 關著到門口：「%s」（AA_653 §0，逐字）' % (tag, A['door_closed']), has_line(lines, A['door_closed']), J({'lines': lines, 'toasts': toasts}))
             # 外帶窗口也是同一句、不賣
-            hp2, l2, lines2, s2, t2, m2 = await press_at(pg, cdp, tag + '_take', A['take_at'][0], 20.0, hh if hh >= 6 else h, desc='青木茶室外帶窗口前')
-            check('[%s] 關著按「外帶」：同一句、沒有選單（不賣）' % tag, has_line(lines2, A['door_closed']) and not m2, J({'lines': lines2, 'menus': m2}))
+            r2 = await press_at(pg, cdp, tag + '_take', A['take_at'][0], 20.0, hh if hh >= 6 else h, desc='青木茶室外帶窗口前')
+            if r2 is not None:
+                hp2, l2, lines2, s2, t2, m2 = r2
+                check('[%s] 關著按「外帶」：同一句、沒有選單（不賣）' % tag, has_line(lines2, A['door_closed']) and not m2, J({'lines': lines2, 'menus': m2}))
         await stuck_check(pg, cdp, tag, s['fb'], e0, errs)
     tag = 'aoki_typhoon'
     td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
     check('[%s] 前置：%s 是颱風假' % (tag, TYPHOON_KEY), td['typhoon'], J(td))
-    hp, label, lines, s, toasts, menus = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, 15.0, d=td, desc='青木茶室門口、%s 颱風假' % TYPHOON_KEY)
+    r = await press_at(pg, cdp, tag, DOORX['aoki'], 20.0, 15.0, d=td, desc='青木茶室門口、%s 颱風假' % TYPHOON_KEY)
+    if r is None: return
+    hp, label, lines, s, toasts, menus = r
     check('[%s] 颱風假 15:00：進不去、「%s」（逐字）' % (tag, A['door_typhoon']), s['zone'] == 'gongguan' and has_line(lines, A['door_typhoon']), J({'zone': s['zone'], 'lines': lines, 'toasts': toasts}))
     await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
     await stuck_check(pg, cdp, tag, s['fb'], len(errs), errs)
@@ -815,7 +840,8 @@ async def main():
         if 'aoki_date' in CASES:
             try: await case_aoki_date(p)
             except Exception as e: check('[aoki_date] 探針本身沒有例外', False, repr(e)[:300])
-    print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:10])), flush=True)
-    sys.exit(1 if FAILS else 0)
+    if UNKNOWN: print('UNKNOWN %d 項（沒測到，不算 PASS 也不算 FAIL）：%s' % (len(UNKNOWN), '；'.join(UNKNOWN)), flush=True)
+    print(('ALL PASS' if not UNKNOWN else 'NOT ALL TESTED') if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:10])), flush=True)
+    sys.exit(1 if (FAILS or UNKNOWN) else 0)
 
 asyncio.run(main())

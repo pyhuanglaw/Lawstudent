@@ -333,15 +333,15 @@ async def sit_one(pg, cdp, tag, k, sv):
     if ap:
         await L.go_to(pg, cdp, GI.Run(), ap[0], ap[1], 0.15, '座位 (%s,%s) 的走近點（GAME.seatApproach）%s' % (sv['sx'], sv['sz'], J(ap)), max_s=300)
         await pg.wait_for_timeout(800)
-    near_ok = await pg.evaluate(GI.NEAREST_JS % J([sv['x'], sv['z']]))
+    near_ok = await pg.evaluate(GI.NEAREST_JS % J([sv['x'], sv['z']])); logged_p3 = False
     if not near_ok:
         nb = await pg.evaluate(GI.NEARSEAT_JS)
         if nb and nb.get('label') == sv['label'] and math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']) <= 1.2:
             # BB-C 13:40：站在這一張自己的走近點上，按鈕卻是同桌隔壁那張＝「P3 相鄰座位搶按鈕」（不擋發布，BB 整理給 LAWWW2）；再照舊找別的點
             s0 = await pg.evaluate(GI.ST)
             line = 'P3 [%s] 相鄰座位搶按鈕：站在 (%s,%s) 的走近點 %s（人在 %s, %s），最近的是同桌隔壁 (%s,%s)「%s」（%.2f m）' % (tag, sv['sx'], sv['sz'], J(ap), s0['x'], s0['z'], nb['sx'], nb['sz'], nb['label'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']))
-            print(line, flush=True); P3.append(line)
-        if not await GI.approach_seat(pg, cdp, tag, sv):
+            print(line, flush=True); P3.append(line); logged_p3 = True
+        if not await GI.approach_seat(pg, cdp, tag, sv, p3=(None if logged_p3 else P3)):
             nb2 = await pg.evaluate(GI.NEARSEAT_JS)
             if nb2 and nb2.get('label') == sv['label'] and math.hypot(nb2['sx'] - sv['sx'], nb2['sz'] - sv['sz']) <= 1.2:
                 print('INFO [%s] 走到桌子另一邊也被同桌隔壁那張搶走按鈕（%s,%s）' % (tag, nb2['sx'], nb2['sz']), flush=True)
