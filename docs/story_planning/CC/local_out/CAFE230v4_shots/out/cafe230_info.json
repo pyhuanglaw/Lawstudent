@@ -1,0 +1,1168 @@
+{
+ "14.0": {
+  "ref_east_to_west": {
+   "calls": 237,
+   "tris": 557108,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 433.8,
+      "sy": 241.2,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 384.4,
+      "sy": 242.5,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 404.7,
+      "sy": 238.3,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 414.6,
+      "sy": 245.5,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 296.1,
+      "sy": 226,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 432.9,
+      "sy": 215.5,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "door_in": {
+   "calls": 218,
+   "tris": 541154,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 422,
+      "sy": 269.5,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 422,
+      "sy": 287.3,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 375.2,
+      "sy": 277.6,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 468.8,
+      "sy": 277.1,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -816.7,
+      "sy": 430.6,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -9.6,
+      "sy": 252.7,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "booth": {
+   "calls": 142,
+   "tris": 382396,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 437.5,
+      "sy": 19.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 541.7,
+      "sy": 23.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 511.4,
+      "sy": 4.3,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 474.5,
+      "sy": 36,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -243.8,
+      "sy": 356.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 479.7,
+      "sy": 299,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "bar": {
+   "calls": 159,
+   "tris": 420434,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 13909.9,
+      "sy": -3763.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 2809.3,
+      "sy": -448,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 12914,
+      "sy": -2918,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 2521,
+      "sy": -471.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -2139.5,
+      "sy": 489.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -303.3,
+      "sy": 259.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "pastry": {
+   "calls": 157,
+   "tris": 414730,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 2868.3,
+      "sy": -326.2,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 2049.8,
+      "sy": -140.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 3228,
+      "sy": -332.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 1845.8,
+      "sy": -136.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -2985.3,
+      "sy": 498,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -503.1,
+      "sy": 236.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "record": {
+   "calls": 91,
+   "tris": 264258,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 468,
+      "sy": 67.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 433.9,
+      "sy": 77.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 480.7,
+      "sy": 75.3,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 416.6,
+      "sy": 69.7,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 637.7,
+      "sy": 95.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 847,
+      "sy": 84,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "window_bar": {
+   "calls": 229,
+   "tris": 507822,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 593.3,
+      "sy": 7762.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 256.4,
+      "sy": 708.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 644,
+      "sy": 890.2,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": -593.5,
+      "sy": 1926.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "desk:tset_notes"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 879.6,
+      "sy": 263.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 2924.1,
+      "sy": 570.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  }
+ },
+ "22.0": {
+  "ref_east_to_west": {
+   "calls": 136,
+   "tris": 291438,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 433.8,
+      "sy": 241.2,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 384.4,
+      "sy": 242.5,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 404.7,
+      "sy": 238.3,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 414.6,
+      "sy": 245.8,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 296.1,
+      "sy": 226,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 432.9,
+      "sy": 215.5,
+      "on": true,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "door_in": {
+   "calls": 138,
+   "tris": 327549,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 422,
+      "sy": 269.5,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 422,
+      "sy": 287.3,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 375.2,
+      "sy": 277.6,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 468.8,
+      "sy": 277.6,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -816.7,
+      "sy": 430.6,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -9.6,
+      "sy": 252.7,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "booth": {
+   "calls": 118,
+   "tris": 318775,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 437.5,
+      "sy": 19.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 541.7,
+      "sy": 23.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 511.4,
+      "sy": 4.3,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 474.5,
+      "sy": 35.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -243.8,
+      "sy": 356.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 479.7,
+      "sy": 299,
+      "on": true,
+      "vis": true,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "bar": {
+   "calls": 113,
+   "tris": 302065,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 13909.9,
+      "sy": -3763.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 2809.3,
+      "sy": -448,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 12914,
+      "sy": -2918,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 2522.1,
+      "sy": -474.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -2139.5,
+      "sy": 489.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -303.3,
+      "sy": 259.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "pastry": {
+   "calls": 111,
+   "tris": 296361,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 2868.3,
+      "sy": -326.2,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 2049.8,
+      "sy": -140.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 3228,
+      "sy": -332.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 1846.4,
+      "sy": -138.4,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": -2985.3,
+      "sy": 498,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": -503.1,
+      "sy": 236.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "record": {
+   "calls": 87,
+   "tris": 252971,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 468,
+      "sy": 67.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 433.9,
+      "sy": 77.1,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 480.7,
+      "sy": 75.3,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 416.6,
+      "sy": 69.3,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 637.7,
+      "sy": 95.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 847,
+      "sy": 84,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  },
+  "window_bar": {
+   "calls": 185,
+   "tris": 394141,
+   "lamp": {
+    "vw": 844,
+    "vh": 390,
+    "lamps": 3,
+    "lampNames": [
+     "lamp_post_lens@11.8,4.0,12.5",
+     "wz_wz_sf_lamp_red wz_sf_lamp_red@-5.6,2.1,64.5",
+     "(PointLight)@0.0,3.1,0.0"
+    ],
+    "lit": [],
+    "unlit": [
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.15,
+      "sx": 593.3,
+      "sy": 7762.5,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0,
+      "y": 0.75,
+      "z": 1.85,
+      "sx": 256.4,
+      "sy": 708.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": 644,
+      "sy": 890.2,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": 0.4,
+      "y": 0.75,
+      "z": 1.5,
+      "sx": -591.3,
+      "sy": 1931.2,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.5,
+      "y": 0.48,
+      "z": 3.4,
+      "sx": 879.6,
+      "sy": 263.9,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     },
+     {
+      "x": -5.1,
+      "y": 0.72,
+      "z": 0,
+      "sx": 2924.1,
+      "sy": 570.8,
+      "on": false,
+      "vis": false,
+      "lamp": null,
+      "surf": "a23_wood"
+     }
+    ]
+   }
+  }
+ }
+}

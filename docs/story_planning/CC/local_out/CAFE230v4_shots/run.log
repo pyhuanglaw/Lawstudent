@@ -1,0 +1,51 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_cafe230_shot_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\CAFE230v4_shots\out
+PASS 遊戲載入
+== 1400
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、1400、條件事件關閉
+PASS [1400] 正式模型掛上（有 a23_ 材質；場景 mesh 193 → 197）  7 秒
+  [1400] 材質名：["brownLight", "leaves", "wood.002", "textile", "_defaultMat", "a23_bulb", "a23_wall_warm", "a23_floor_wood", "a23_glass", "a23_leaf_pothos", "a23_print", "a23_vc", "a23_vc_gloss", "a23_vc_metal", "a23_walnut", "a23_window_view", "wz_glow_batch", "lamp_paint", "wz_curb", "wz_brick_walk", "wz_vc_metal", "wz_vc_matte", "wz_road", "wz_mirror_glass", "wz_pole_concrete", "wz_lamp_lens", "cafe_sign_face", "cafe_glass", "cafe_vc_wz_gloss", "cafe_vc_wz_matte", "cafe_vc_wz_metal", "wz_copy_notices", "wz_shop_notes", "wz_shutter", "wz_signs_lit", "wz_sf_granite", "wz_sf_wood_light", "wz_tube", "wz_fruitprice", "wz_in_goods"]
+  [1400] ref_east_to_west：calls 237、tris 557108
+  [1400] door_in：calls 218、tris 541154
+  [1400] booth：calls 142、tris 382396
+  [1400] bar：calls 159、tris 420434
+  [1400] pastry：calls 157、tris 414730
+  [1400] record：calls 91、tris 264258
+  [1400] window_bar：calls 229、tris 507822
+  [前置／捷徑] 讀檔：溫州街 2:30 AM 門口西邊 (52.0, 0)、1400 → 點地面走到門口、按「進入 2:30 AM」
+PASS [1400] 溫州街有「進入 2:30 AM」  {"x": 54.2, "z": 0, "r": 2.3, "label": "進入 2:30 AM"}
+  [   2.8s] 到達「進入 2:30 AM」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [1400] 玩家視角的鏡頭：{"mode": "follow", "cam": [-0.0, 3.21, 8.9], "player": [0, 5], "yaw": 6.28}
+== 2200
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、2200、條件事件關閉
+PASS [2200] 正式模型掛上（有 a23_ 材質；場景 mesh 195 → 195）  4 秒
+  [2200] 材質名：["brownLight", "leaves", "wood.002", "textile", "_defaultMat", "a23_bulb", "a23_wall_warm", "a23_floor_wood", "a23_glass", "a23_leaf_pothos", "a23_print", "a23_vc", "a23_vc_gloss", "a23_vc_metal", "a23_walnut", "a23_window_view", "wz_glow_batch", "lamp_paint", "cafe_glass", "cafe_vc_wz_gloss", "cafe_vc_wz_matte", "cafe_vc_wz_metal", "wz_copy_notices", "wz_shop_notes", "wz_shutter", "wz_signs_lit", "wz_sf_granite", "wz_sf_wood_light", "wz_tube", "wz_fruitprice", "wz_in_goods", "wz_in_shop", "wz_in_board_u", "wz_in_price_u", "wz_menu_ice", "wz7_street_props", "cafe_band", "cafe_bulb", "cafe_corrugated", "wz_vc_metal"]
+  [2200] ref_east_to_west：calls 136、tris 291438
+  [2200] door_in：calls 138、tris 327549
+  [2200] booth：calls 118、tris 318775
+  [2200] bar：calls 113、tris 302065
+  [2200] pastry：calls 111、tris 296361
+  [2200] record：calls 87、tris 252971
+  [2200] window_bar：calls 185、tris 394141
+  [前置／捷徑] 讀檔：溫州街 2:30 AM 門口西邊 (52.0, 0)、2200 → 點地面走到門口、按「進入 2:30 AM」
+PASS [2200] 溫州街有「進入 2:30 AM」  {"x": 54.2, "z": 0, "r": 2.3, "label": "進入 2:30 AM"}
+  [   2.6s] 到達「進入 2:30 AM」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [2200] 玩家視角的鏡頭：{"mode": "follow", "cam": [-0.0, 3.21, 8.9], "player": [0, 5], "yaw": 6.28}
+== SOFA 坐沙發椅
+  [前置／捷徑] 讀檔：cafe 門口 (0, 4.4)、14:00、條件事件關閉
+PASS [SOFA] 有兩張「坐沙發椅」  [{"x": 6.3, "z": 3.85, "label": "坐沙發椅", "sx": 6.3, "sz": 3.85}, {"x": 6.3, "z": -4.65, "label": "坐沙發椅", "sx": 6.3, "sz": -4.65}]
+  [ 181.1s] 走不到「坐沙發椅」：最後位置 (5.56,3.84)，目標 (6.3,3.85)；點地面 61 次、轉鏡頭 1 次、搖桿 6 次
+  [ 181.1s]   這段時間：畫面 6725 格／181 秒、遊戲時間 14.06→15.27、paused=False、開著的面板 []
+PASS [S0] 走到旁邊：按鈕「坐沙發椅」  {"interact": "坐沙發椅", "x": 5.56, "z": 3.84}
+PASS [S0] 坐下了（seat）  {"seat": true, "pose": "sit", "x": 6.3, "y": 0, "z": 3.85, "cam": [2.4, 3.21, 4.04]}
+PASS [S0] 鏡頭在店裡（x −7～7、z −6～6、y ≤ 3.4）  [2.4, 3.21, 4.04]
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "點杯咖啡慢慢讀120 元。", "起身"] → 起身
+PASS [S0] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）  {"moved": 8.92, "stand": true, "x": 5.27, "z": -4.67}
+  [ 388.6s] 走不到「坐沙發椅」：最後位置 (5.65,-4.32)，目標 (6.3,-4.65)；點地面 62 次、轉鏡頭 0 次、搖桿 7 次
+  [ 388.6s]   這段時間：畫面 7709 格／181 秒、遊戲時間 15.32→16.53、paused=False、開著的面板 []
+PASS [S1] 走到旁邊：按鈕「坐沙發椅」  {"interact": "坐沙發椅", "x": 5.65, "z": -4.32}
+PASS [S1] 坐下了（seat）  {"seat": true, "pose": "sit", "x": 6.3, "y": 0, "z": -4.65, "cam": [2.4, 3.21, -4.46]}
+PASS [S1] 鏡頭在店裡（x −7～7、z −6～6、y ≤ 3.4）  [2.4, 3.21, -4.46]
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "點杯咖啡慢慢讀120 元。", "起身"] → 起身
+PASS [S1] 起身：不是坐著、站得住、推得動 ≥ 0.3 m（不卡住）  {"moved": 0.48, "stand": true, "x": 4.84, "z": -4.97}
+PASS 沒有 JS 例外  []
+ALL PASS
