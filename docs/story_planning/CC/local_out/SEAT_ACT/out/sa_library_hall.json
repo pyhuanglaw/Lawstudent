@@ -1,0 +1,241 @@
+{
+ "zone": "library_hall",
+ "n": 6,
+ "loaded": true,
+ "people": [
+  {
+   "act": "phone",
+   "set": "L_phone_side",
+   "kind": "wide",
+   "named": false,
+   "x": -8.07,
+   "z": 3.8,
+   "lv": 1,
+   "items": [
+    "item_textbook",
+    "item_notebook_closed_b"
+   ],
+   "pose": "read",
+   "hold": "phone",
+   "yaw": 3.14,
+   "px": -8.07,
+   "pz": 3.8,
+   "headFwdY": 0.417,
+   "hipsFwdY": 0,
+   "headPitch": 0.417,
+   "phone": {
+    "mesh": "item_phone_on",
+    "hand": {
+     "b": "leftHand",
+     "d": 0.325
+    }
+   }
+  },
+  {
+   "act": "tablet",
+   "set": "L_book_tiny",
+   "kind": "wide",
+   "named": false,
+   "x": -9.13,
+   "z": 5.8,
+   "lv": 1,
+   "items": [
+    "item_notebook_closed"
+   ],
+   "pose": "read",
+   "hold": "tablet",
+   "yaw": 0,
+   "px": -9.13,
+   "pz": 5.8,
+   "headFwdY": 0.391,
+   "hipsFwdY": 0,
+   "headPitch": 0.391
+  },
+  {
+   "act": "textbook",
+   "set": "tset_book",
+   "kind": "wide",
+   "named": false,
+   "x": -7.02,
+   "z": 7.4,
+   "lv": 1,
+   "items": [
+    "tset_book"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": 3.14,
+   "px": -7.02,
+   "pz": 7.4,
+   "headFwdY": 0.037,
+   "hipsFwdY": 0,
+   "headPitch": 0.037
+  },
+  {
+   "act": "book",
+   "set": "L_book_side",
+   "kind": "wide",
+   "named": true,
+   "x": 2,
+   "z": -1.41,
+   "lv": 0,
+   "items": [
+    "item_textbook",
+    "item_highlighter"
+   ],
+   "pose": "read",
+   "hold": null,
+   "yaw": 3.14,
+   "px": 2,
+   "pz": -1.41,
+   "headFwdY": 0.4,
+   "hipsFwdY": 0,
+   "headPitch": 0.4
+  },
+  {
+   "act": "book",
+   "set": "L_book_side",
+   "kind": "wide",
+   "named": true,
+   "x": 3.6,
+   "z": -1.41,
+   "lv": 0,
+   "items": [
+    "item_textbook",
+    "item_highlighter"
+   ],
+   "pose": "read",
+   "hold": null,
+   "yaw": 3.14,
+   "px": 3.6,
+   "pz": -1.41,
+   "headFwdY": 0.412,
+   "hipsFwdY": 0,
+   "headPitch": 0.412
+  },
+  {
+   "act": "book",
+   "set": "L_book_side",
+   "kind": "wide",
+   "named": true,
+   "x": 2.8,
+   "z": -1.41,
+   "lv": 0,
+   "items": [
+    "item_textbook",
+    "item_highlighter"
+   ],
+   "pose": "read",
+   "hold": null,
+   "yaw": 3.14,
+   "px": 2.8,
+   "pz": -1.41,
+   "headFwdY": 0.41,
+   "hipsFwdY": 0,
+   "headPitch": 0.41
+  }
+ ],
+ "items": [
+  {
+   "name": "desk:item_textbook",
+   "x": -7.89,
+   "z": 3.35,
+   "minY": 5.76,
+   "surf": 5.76,
+   "gap": 0,
+   "under": "L1_wood",
+   "lv": "seatact:1"
+  },
+  {
+   "name": "desk:item_notebook_closed_b",
+   "x": -8.27,
+   "z": 3.35,
+   "minY": 5.76,
+   "surf": 5.76,
+   "gap": 0,
+   "under": "L1_wood",
+   "lv": "seatact:1"
+  },
+  {
+   "name": "desk:item_notebook_closed",
+   "x": -9.01,
+   "z": 6.24,
+   "minY": 5.76,
+   "surf": 5.76,
+   "gap": 0,
+   "under": "L1_wood",
+   "lv": "seatact:1"
+  },
+  {
+   "name": "desk:tset_book_lod1",
+   "x": -7.14,
+   "z": 6.97,
+   "minY": 5.76,
+   "surf": 5.76,
+   "gap": 0,
+   "under": "L1_wood",
+   "lv": "seatact:1"
+  },
+  {
+   "name": "desk:item_textbook",
+   "x": 1.8,
+   "z": -1.99,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_textbook",
+   "x": 3.4,
+   "z": -1.99,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_textbook",
+   "x": 2.6,
+   "z": -1.99,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_highlighter",
+   "x": 1.8,
+   "z": -1.86,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": -0.0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_highlighter",
+   "x": 3.4,
+   "z": -1.86,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": -0.0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_highlighter",
+   "x": 2.6,
+   "z": -1.86,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": -0.0,
+   "under": "L0_vc",
+   "lv": "seatact:0"
+  }
+ ],
+ "tablet": true
+}

@@ -1,0 +1,344 @@
+{
+ "zone": "wz_teishoku",
+ "n": 7,
+ "loaded": true,
+ "people": [
+  {
+   "act": "phone",
+   "set": "rset_cup",
+   "kind": "narrow",
+   "named": false,
+   "x": -0.15,
+   "z": 2.9,
+   "lv": 0,
+   "items": [
+    "rset_cup"
+   ],
+   "pose": "read",
+   "hold": "phone",
+   "yaw": 1.57,
+   "px": -0.15,
+   "pz": 2.9,
+   "headFwdY": 0.41,
+   "hipsFwdY": 0,
+   "headPitch": 0.41,
+   "phone": {
+    "mesh": "item_phone_on",
+    "hand": {
+     "b": "leftHand",
+     "d": 0.321
+    }
+   }
+  },
+  {
+   "act": "eat2",
+   "set": "S_meal2",
+   "kind": "narrow",
+   "named": false,
+   "x": 1.8,
+   "z": 2.9,
+   "lv": 0,
+   "items": [
+    "item_bowl",
+    "item_plate",
+    "item_chopsticks"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": 1.57,
+   "px": 1.8,
+   "pz": 2.9,
+   "headFwdY": 0.067,
+   "hipsFwdY": 0,
+   "headPitch": 0.067
+  },
+  {
+   "act": "eat2",
+   "set": "S_meal2",
+   "kind": "narrow",
+   "named": false,
+   "x": -1.85,
+   "z": 0.1,
+   "lv": 0,
+   "items": [
+    "item_bowl",
+    "item_plate",
+    "item_chopsticks"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": -1.57,
+   "px": -1.85,
+   "pz": 0.1,
+   "headFwdY": 0.05,
+   "hipsFwdY": 0,
+   "headPitch": 0.05
+  },
+  {
+   "act": "eat",
+   "set": "S_meal",
+   "kind": "wide",
+   "named": false,
+   "x": -3,
+   "z": -1.35,
+   "lv": 0,
+   "items": [
+    "item_bowl_noodle",
+    "item_chopsticks",
+    "item_plate"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": 3.14,
+   "px": -3,
+   "pz": -1.35,
+   "headFwdY": 0.039,
+   "hipsFwdY": 0,
+   "headPitch": 0.039
+  },
+  {
+   "act": "phone",
+   "set": "rset_cup",
+   "kind": "narrow",
+   "named": false,
+   "x": 0.8,
+   "z": -1.35,
+   "lv": 0,
+   "items": [
+    "rset_cup"
+   ],
+   "pose": "read",
+   "hold": "phone",
+   "yaw": 3.14,
+   "px": 0.8,
+   "pz": -1.35,
+   "headFwdY": 0.413,
+   "hipsFwdY": 0,
+   "headPitch": 0.413,
+   "phone": {
+    "mesh": "item_phone_on",
+    "hand": {
+     "b": "rightHand",
+     "d": 0.322
+    }
+   }
+  },
+  {
+   "act": "eat2",
+   "set": "S_meal2",
+   "kind": "wide",
+   "named": false,
+   "x": -1.1,
+   "z": -1.35,
+   "lv": 0,
+   "items": [
+    "item_bowl",
+    "item_plate",
+    "item_chopsticks"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": 3.14,
+   "px": -1.1,
+   "pz": -1.35,
+   "headFwdY": 0.03,
+   "hipsFwdY": 0,
+   "headPitch": 0.03
+  },
+  {
+   "act": "eat2",
+   "set": "S_meal2",
+   "kind": "narrow",
+   "named": false,
+   "x": 0.6,
+   "z": 0.1,
+   "lv": 0,
+   "items": [
+    "item_bowl",
+    "item_plate",
+    "item_chopsticks"
+   ],
+   "pose": "sit",
+   "hold": null,
+   "yaw": 0,
+   "px": 0.6,
+   "pz": 0.1,
+   "headFwdY": 0.031,
+   "hipsFwdY": 0,
+   "headPitch": 0.031
+  }
+ ],
+ "items": [
+  {
+   "name": "desk:rset_cup",
+   "x": 0.3,
+   "z": 2.92,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:rset_cup",
+   "x": 0.82,
+   "z": -1.81,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_bowl",
+   "x": 2.23,
+   "z": 2.88,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_bowl",
+   "x": -2.4,
+   "z": 0.12,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_bowl",
+   "x": -1.12,
+   "z": -1.79,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_bowl",
+   "x": 0.62,
+   "z": 0.56,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_plate",
+   "x": 2.22,
+   "z": 3.09,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_plate",
+   "x": -2.39,
+   "z": -0.09,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_plate",
+   "x": -2.8,
+   "z": -1.77,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_plate",
+   "x": -0.91,
+   "z": -1.78,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_plate",
+   "x": 0.41,
+   "z": 0.55,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_chopsticks",
+   "x": 2.12,
+   "z": 2.72,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_chopsticks",
+   "x": -2.3,
+   "z": 0.28,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_chopsticks",
+   "x": -3.17,
+   "z": -1.68,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_chopsticks",
+   "x": -1.28,
+   "z": -1.68,
+   "minY": 1,
+   "surf": 1,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_chopsticks",
+   "x": 0.78,
+   "z": 0.44,
+   "minY": 0.75,
+   "surf": 0.75,
+   "gap": 0,
+   "under": "kmc_wood",
+   "lv": "seatact:0"
+  },
+  {
+   "name": "desk:item_bowl_noodle",
+   "x": -3,
+   "z": -1.8,
+   "minY": 1,
+   "surf": 1.016,
+   "gap": -0.016,
+   "under": "kmc_vcg",
+   "lv": "seatact:0"
+  }
+ ],
+ "tablet": true
+}
