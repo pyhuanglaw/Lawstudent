@@ -327,6 +327,15 @@
    "status": "進行中",
    "task": "IMG2-3D-RESEARCH-1104",
    "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則"
+  },
+  {
+   "id": "UA-BB-1104-TRELLIS2-HOW",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "TRELLIS.2 怎麼安裝",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "BB-C 照官方 README（github.com/microsoft/TRELLIS.2）回：只支援 Linux＋NVIDIA 24 GB 以上（A100／H100 驗過）＋CUDA 12.4；使用者電腦 Windows＋AMD RX 6600M 8 GB 裝不了；可以用官方線上 demo（huggingface.co/spaces/microsoft/TRELLIS.2）在瀏覽器生成、下載 GLB，交 LAWWW2-C 整理"
   }
  ]
 }
