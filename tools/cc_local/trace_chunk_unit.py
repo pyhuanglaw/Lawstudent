@@ -50,8 +50,8 @@ async def run_chunked():
     files = sorted(f for f in os.listdir(d) if f.endswith('.zip'))
     kept = [c['file'] for c in r['chunks'] if c['kept']]
     check('段數：7 段（6 次換段＋flush）', len(r['chunks']) == 7, [c['file'] for c in r['chunks']])
-    check('有 FAIL 的 c002 留著', 'trace_U_1_c002.zip' in files, files)
-    check('沒 FAIL 的只留最後 2 段（c006、c007），c001、c003～c005 刪掉', files == ['trace_U_1_c002.zip', 'trace_U_1_c006.zip', 'trace_U_1_c007.zip'], files)
+    check('有 FAIL 的 c002 留著（檔名加 _FAIL）', 'trace_U_1_c002_FAIL.zip' in files, files)
+    check('沒 FAIL 的只留最後 2 段（c006、c007），c001、c003～c005 刪掉', files == ['trace_U_1_c002_FAIL.zip', 'trace_U_1_c006.zip', 'trace_U_1_c007.zip'], files)
     check('kept 欄位和檔案一致', sorted(kept) == files, kept)
     check('換段原因有 case 和 time', any('case: == C' in (c['until'] or '') for c in r['chunks']) and any('time' in (c['until'] or '') for c in r['chunks']), [c['until'] for c in r['chunks']])
     check('flush：tracing.stop() 不帶 path', ctx.tracing.log[-1] == 'stop:None', ctx.tracing.log[-3:])
