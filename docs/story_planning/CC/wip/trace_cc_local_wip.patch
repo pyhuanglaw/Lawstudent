@@ -41,3 +41,276 @@ index 36cd3ca7d..e0cc2b49f 100644
 +            TR.finish('exception %s' % type(e).__name__); raise
 +        else:
 +            TR.finish('normal end')
+diff --git a/tools/cc_local/run_queue.py b/tools/cc_local/run_queue.py
+index 9201211e2..568de124a 100644
+--- a/tools/cc_local/run_queue.py
++++ b/tools/cc_local/run_queue.py
+@@ -447,6 +447,268 @@ def parse_env(s):
+     return d
+ 
+ 
++# ================= 失敗自動追蹤（CC_AUTORETRY／CC_TRACE；TEST-TRACE-1104、BB_256）=================
++# 預設關：佇列 ENV 寫 CC_AUTORETRY=1、或 runner 加 --autoretry 才開。關的時候下面的程式一行都不會執行。
++# 出錯一律只寫一行警告、退回舊行為（不讓 runner 當掉）。
++AR_KEEP = ('meta.json', 'running.json', 'notes.txt', 'attempt1', 'attempt2', 'report.json', 'report.md')
++ENV_PATTERNS = [
++    (r'BROWSER DISCONNECTED', '瀏覽器斷線（gpu_wrap 診斷 BROWSER DISCONNECTED）'),
++    (r'PAGE CRASH', '頁面 renderer 當掉（gpu_wrap 診斷 PAGE CRASH）'),
++    (r'TargetClosedError|Target page, context or browser has been closed|Target closed|Browser has been closed|Browser closed', '瀏覽器／頁面被關掉（Target closed）'),
++    (r"BrowserType\.launch|Executable doesn't exist|Failed to launch|Host system is missing dependencies", 'playwright 啟動瀏覽器失敗'),
++    (r'out of memory|MemoryError|Cannot allocate memory|ENOMEM|OOM', '記憶體不足'),
++    (r"GPU process isn't usable|GPU process exited unexpectedly|Failed to create WebGL|Could not create a WebGL context|Error creating WebGL context|GPU initialization failed", 'GPU 初始化失敗'),
++]
++TB_PATTERNS = [
++    (r'playwright\._impl\._errors\.TimeoutError|playwright\.\w+\.TimeoutError|TimeoutError: [A-Za-z.]+: Timeout \d+ms exceeded', 'playwright 等待逾時（TimeoutError）'),
++    (r'\bKeyError\b', 'KeyError'), (r'\bNameError\b', 'NameError'), (r'\bAttributeError\b', 'AttributeError'),
++    (r'\bTypeError\b', 'TypeError'), (r'\bIndexError\b', 'IndexError'), (r'\bSyntaxError\b', 'SyntaxError'),
++    (r'\bModuleNotFoundError\b|\bImportError\b', 'ImportError'), (r'\bZeroDivisionError\b', 'ZeroDivisionError'),
++]
++TEXT_EXT = ('.log', '.json', '.jsonl', '.txt', '.md')
++
++
++def ar_env_flag(env, key, default=''):
++    return str(env.get(key, os.environ.get(key, default)) or '').strip()
++
++
++def read_text(path, limit=4 * 1024 * 1024):
++    try:
++        with open(path, 'rb') as fh:
++            return fh.read(limit).decode('utf-8', 'replace')
++    except OSError:
++        return ''
++
++
++def read_jsonl(path):
++    out = []
++    for line in read_text(path).splitlines():
++        try:
++            out.append(json.loads(line))
++        except Exception:
++            pass
++    return out
++
++
++def git_blob(path):
++    if not path or not os.path.exists(path):
++        return None
++    try:
++        r = subprocess.run([GIT, 'hash-object', path], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, timeout=30)
++        return r.stdout.strip() or None
++    except Exception:
++        return None
++
++
++def input_hash(envd, xargs):
++    """存檔／種子／輸入＝佇列這一項的 ENV（不含 RERUN、CASES、CC_AUTORETRY 這些只管 runner 的鍵）＋XARGS；CASES 另外列"""
++    keep = {k: v for k, v in envd.items() if k not in ('RERUN', 'CASES', 'CC_AUTORETRY', 'CC_TRACE', 'CC_TRACE_DIR')}
++    s = json.dumps([sorted(keep.items()), xargs], ensure_ascii=False)
++    return hashlib.sha256(s.encode('utf-8')).hexdigest()[:16]
++
++
++class Sanitizer(object):
++    """把本機絕對路徑、使用者名稱、Cookie／Token 換掉（推上 GitHub 之前）"""
++    SECRET = re.compile(r'(?i)\b(authorization|cookie|set-cookie|x-api-key|api[_-]?key|access[_-]?token|token|password)(\s*[:=]\s*)([^\s,;&"\']+)')
++    HDR = re.compile(r'(?i)("name"\s*:\s*"(?:cookie|set-cookie|authorization|proxy-authorization|x-api-key)"\s*,\s*"value"\s*:\s*")[^"]*')
++
++    def __init__(self, paths):
++        pairs = []
++        for p, tok in paths:
++            if p and len(p) >= 4:
++                for v in {p, p.replace('\\', '/'), p.replace('\\', '\\\\'), p.replace('/', '\\')}:
++                    pairs.append((v, tok))
++        pairs.sort(key=lambda x: -len(x[0]))
++        self.pairs = pairs
++        try:
++            import getpass
++            u = getpass.getuser()
++        except Exception:
++            u = ''
++        self.user = u
++        self.user_word = re.compile(r'(?i)(?<![A-Za-z0-9])%s(?![A-Za-z0-9])' % re.escape(u)) if len(u) >= 3 else None
++        self.user_path = re.compile(r'(?i)([\\/]+)%s(?=[\\/"\'\s]|$)' % re.escape(u)) if len(u) >= 3 else None
++
++    def text(self, s, word=True):
++        for p, tok in self.pairs:
++            if p in s:
++                s = s.replace(p, tok)
++        if self.user_path is not None:
++            s = self.user_path.sub(lambda m: m.group(1) + '<USER>', s)
++        if word and self.user_word is not None:
++            s = self.user_word.sub('<USER>', s)
++        s = self.HDR.sub(lambda m: m.group(1) + '<REDACTED>', s)
++        return self.SECRET.sub(lambda m: m.group(1) + m.group(2) + '<REDACTED>', s)
++
++    def hits(self, s):
++        h = [tok for p, tok in self.pairs if p in s]
++        if self.user_path is not None and self.user_path.search(s):
++            h.append('<USER>')
++        if self.SECRET.search(s) and '<REDACTED>' not in self.SECRET.search(s).group(3):
++            h.append('secret')
++        return sorted(set(h))
++
++    def file(self, path):
++        try:
++            with open(path, 'rb') as fh:
++                raw = fh.read()
++            s = raw.decode('utf-8')
++        except Exception:
++            return False
++        t = self.text(s)
++        if t != s:
++            with open(path, 'wb') as fh:
++                fh.write(t.encode('utf-8'))
++            return True
++        return False
++
++    def zipfile(self, path):
++        """trace.zip：文字的 entry（.trace／.network／.stacks／json、html、css、js）改寫；回傳 (改了幾個 entry, 掃描後還留著的命中)"""
++        import zipfile
++        tmp = path + '.san'
++        changed = 0
++        left = []
++        with zipfile.ZipFile(path) as zi, zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zo:
++            for info in zi.infolist():
++                data = zi.read(info.filename)
++                try:
++                    s = data.decode('utf-8')
++                    t = self.text(s, word=False)        # trace 裡只換路徑形式的使用者名稱，不動一般文字（免得弄壞 JSON 鍵）
++                    if t != s:
++                        changed += 1
++                        data = t.encode('utf-8')
++                    hh = self.hits(t)
++                    if hh:
++                        left.append('%s:%s' % (info.filename, ','.join(hh)))
++                except UnicodeDecodeError:
++                    pass
++                zo.writestr(info, data)
++        os.replace(tmp, path)
++        return changed, left
++
++
++def classify(a1, a2, same, notes):
++    """回傳 (分類, 細項, 依據[])。a1／a2：attempt dict（a2 可能 None）"""
++    basis = []
++
++    def env_hits(a):
++        txt = a['err'] + '\n' + a['run']
++        out = []
++        for pat, why in ENV_PATTERNS:
++            m = re.search(pat, txt)
++            if m:
++                ln = txt[max(0, txt.rfind('\n', 0, m.start()) + 1): txt.find('\n', m.end()) if txt.find('\n', m.end()) >= 0 else len(txt)]
++                out.append('%s：「%s」' % (why, ln.strip()[:200]))
++        for e in a['events']:
++            if e.get('kind') in ('crash', 'browser_disconnected'):
++                out.append('events.jsonl：%s（rel %.1fs）' % (e['kind'], e.get('rel') or 0))
++        return out
++
++    def fail_before_env(a):
++        """有沒有 FAIL 行比第一次 crash／斷線更早（events.jsonl 的時間）"""
++        tc = [e.get('t') for e in a['events'] if e.get('kind') in ('crash', 'browser_disconnected')]
++        tf = [e.get('t') for e in a['events'] if e.get('kind') == 'fail_line']
++        if tc:
++            return bool(tf) and min(tf) < min(tc)
++        return bool(a['fails'])   # 沒有時間資訊（第一次沒開 trace）：有 FAIL 行就當作先 FAIL
++
++    def game_errors(a):
++        return [e for e in a['events'] if e.get('kind') == 'pageerror' and '__playwright_evaluation_script__' not in (e.get('stack') or '')] \
++            + [{'kind': 'pageerror(gpu_wrap)', 'message': x} for x in re.findall(r'\] pageerror (.*)', a['err'])]
++
++    def ltes(a):
++        out = []
++        for st in a['states']:
++            for pg in st.get('pages', []):
++                s = pg.get('state') or {}
++                v = s.get('lastTalkError') or ((s.get('snapshot') or {}).get('lastTalkError') if isinstance(s.get('snapshot'), dict) else None)
++                if v:
++                    out.append(v)
++        return out
++
++    def tb_hits(a):
++        if 'Traceback (most recent call last)' not in a['err']:
++            return []
++        tb = a['err'][a['err'].rfind('Traceback (most recent call last)'):]
++        out = []
++        for pat, why in TB_PATTERNS:
++            if re.search(pat, tb):
++                out.append(why)
++        return out, tb
++
++    def tb_detail(tb):
++        lines = [x for x in tb.splitlines() if x.strip()]
++        frames = [x.strip() for x in lines if x.strip().startswith('File ')]
++        last = lines[-1].strip() if lines else ''
++        sel = re.search(r'waiting for (?:locator\()?["\']([^"\']+)["\']', tb) or re.search(r'wait_for_selector\(\s*["\']([^"\']+)', tb)
++        probe_frames = [f for f in frames if 'site-packages' not in f and 'dist-packages' not in f and 'playwright' not in f and 'gpu_wrap' not in f and 'runpy' not in f and 'cc_trace' not in f]
++        return last[:300], (sel.group(1) if sel else None), (probe_frames[-1][:300] if probe_frames else None)
++
++    # --- runner 自己的例外（沒跑到探針）
++    if a1.get('runner_error'):
++        e = a1['runner_error']
++        if re.search(r'worktree add|no free port|server|node not found|blender not found', e):
++            return 'ENVIRONMENT', 'runner', ['runner 例外（沒跑到探針）：%s' % e[:300]]
++        if re.search(r'SCRIPT_FROM|unknown kind', e):
++            return 'TEST_BUG', 'queue', ['佇列設定錯誤：%s' % e[:300]]
++        return 'UNKNOWN', 'runner', ['runner 例外，分不出原因：%s' % e[:300]]
++    # --- 重跑通過
++    if a2 is not None and a2['exit'] == 0 and not a2['timeout']:
++        if same['all']:
++            return 'FLAKY', '首次失敗、重跑通過', ['第一次 %s，重跑 exit 0；兩次的遊戲 SHA、腳本 blob、輸入雜湊都相同（見 conditions）' %
++                                             ('逾時' if a1['timeout'] else 'exit %s' % a1['exit'])] + notes
++        return 'UNKNOWN', '重跑通過但條件不同', ['重跑 exit 0，但兩次條件不同：%s，不能判 FLAKY' % '、'.join(same['diff'])] + notes
++    last = a2 if a2 is not None else a1
++    # --- 逾時（兩次都逾時、或沒重跑）
++    if last['timeout']:
++        eh = env_hits(a1) + (env_hits(a2) if a2 else [])
++        if eh:
++            return 'TIMEOUT', 'ENVIRONMENT', ['逾時被 runner 中止；另有環境訊號：' + '；'.join(eh[:4])] + notes
++        return 'TIMEOUT', 'UNKNOWN', ['逾時被 runner 中止（%s）；沒有環境訊號、沒有 traceback 可以判斷——只憑逾時不判 GAME_BUG' % last['error']] + notes
++    # --- 都 FAIL：以有 trace 的那一次為主，第一次的 log 也看
++    eh = env_hits(last)
++    if eh and not fail_before_env(last):
++        return 'ENVIRONMENT', 'browser', eh[:5] + ['在 crash／斷線之前沒有探針的 FAIL 行'] + notes
++    ge = game_errors(last)
++    lt = ltes(last)
++    tbr = tb_hits(last)
++    tbh, tb = (tbr if tbr else ([], ''))
++    if last['fails'] and (ge or lt):
++        b = ['探針斷言 FAIL %d 行（第一行：%s）' % (len(last['fails']), last['fails'][0]['name'][:120])]
++        if ge:
++            g = ge[0]
++            b.append('遊戲頁面 pageerror %d 筆，第一筆：%s %s' % (len(ge), g.get('name') or '', (g.get('message') or '')[:200]))
++            if g.get('stack'):
++                b.append('stack 第一行：%s' % (g['stack'].strip().splitlines()[1:2] or [''])[0].strip()[:200])
++        if lt:
++            b.append('GAME.lastTalkError：%s' % json.dumps(lt[0], ensure_ascii=False)[:200])
++        if tbh:
++            b.append('另有探針 traceback（%s），要一起看' % '、'.join(tbh))
++        if eh:
++            b.append('另有環境訊號（但在 FAIL 之後）：' + '；'.join(eh[:2]))
++        return 'GAME_BUG', '初判', b + notes
++    if tbh and not ge:
++        lastl, sel, frame = tb_detail(tb)
++        b = ['探針 Python traceback：%s' % lastl, '原因類型：%s' % '、'.join(tbh)]
++        if frame:
++            b.append('探針出錯的位置：%s' % frame)
++        if sel:
++            b.append('等待的 selector：%s' % sel)
++            dom = last.get('dom_check', {}).get(sel)
++            if dom is not None:
++                b.append('trace 的 DOM snapshot 裡%s這個 selector（%s）' % ('有' if dom else '沒有', '只檢查 #id 形式'))
++        b.append('遊戲頁面沒有 pageerror')
++        return 'TEST_BUG', '初判', b + notes
++    if eh:
++        return 'UNKNOWN', 'env-after-fail', ['有環境訊號，但探針在那之前已經 FAIL：' + '；'.join(eh[:3])] + notes
++    if last['fails']:
++        return 'UNKNOWN', 'assert', ['探針斷言 FAIL %d 行（%s），兩次%s；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針' %
++                                     (len(last['fails']), last['fails'][0]['name'][:120], '一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
++    if ge:
++        return 'UNKNOWN', 'jserror-no-assert', ['有遊戲 pageerror 但探針沒有 FAIL 斷言（exit %s）：%s' % (last['exit'], (ge[0].get('message') or '')[:200])] + notes
++    return 'UNKNOWN', '', ['exit %s，沒有 FAIL 行、traceback、JS 例外或環境訊號可以判斷' % last['exit']] + notes
++
++
+ class Item(object):
+     def __init__(self, f):
+         self.id, self.sha, self.kind, self.script, self.url = f[0], f[1], f[2], f[3], f[4]
