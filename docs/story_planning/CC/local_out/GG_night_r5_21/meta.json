@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_night_r5_21",
+  "sha": "b38be8560",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py",
+  "env": "HOURS=14,21;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T15:25:53",
+  "end": "2026-11-04T15:27:43",
+  "seconds": 110,
+  "exit": 0,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 41,
+    "mem": 57,
+    "used_gb": 18.0,
+    "chrome_testing": 29
+  }
+}
