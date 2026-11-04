@@ -521,7 +521,7 @@ SG.save(os.path.join(GEN, 'corner_sign.png'))
 
 # ======================= 5. 地板（1024²＝1.0 m 淺灰磨石子，無縫） =======================
 FW = 1024; rr = np.random.default_rng(12)
-fa = np.zeros((FW, FW, 3), np.float32) + rgb('#b4b0aa'); fa += noise(FW, FW, 64, 6, rr)[..., None]
+fa = np.zeros((FW, FW, 3), np.float32) + rgb('#b8afa3'); fa += noise(FW, FW, 64, 6, rr)[..., None]
 F = Image.fromarray(np.clip(fa, 0, 255).astype(np.uint8)); fd = ImageDraw.Draw(F)
 CH = [('#e8e6e0', 0.45), ('#8a8680', 0.25), ('#3a3836', 0.12), ('#c8b8a0', 0.12), ('#a89888', 0.06)]
 for k in range(5200):
