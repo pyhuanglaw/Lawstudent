@@ -5,9 +5,11 @@
 鏡頭放在 8 m 外，視野剛好框住那張窗卡（從那裡看過去，窗卡上的畫和真的店內一樣；別的角度有一點視差）。
 拍的時候把那一面牆（WALL_front_*／WALL_right_*）藏起來：外觀自己的牆、窗框會遮住窗卡，只露出窗洞。窗外的景卡（VIEW）也藏起來（晚上窗外是暗的）。
 燈：照 lightbake/bake_cafe230.sh 的位置（吧台吊燈、壁燈、檯燈、立燈、軌道燈）。
-輸出一張貼圖集 2048×1024（上面 front、左下 side），外觀 cafe_exterior.py 的窗卡用。
+輸出：貼圖集 1024×512（上面 front、左下 side；先拼 2048×1024 留在 --keep 資料夾）＋同名 .json（範圍，cafe_exterior.py 讀的格式），外觀 cafe_exterior.py 的窗卡用。
 
-用法：/opt/blenv/bin/python tools/blender/env_second/cafe230_wincard.py -- <cafe230.glb> <輸出 png> [--samples 96] [--exposure EV] [--keep 暫存資料夾]
+用法：/opt/blenv/bin/python tools/blender/env_second/cafe230_wincard.py -- <cafe230.glb> <輸出 png> [--samples 96] [--exposure EV] [--keep 暫存資料夾] [--compose-only]
+  現在的檔案：--samples 64 --exposure 0.25，輸出 tools/blender/env_second/textures/gen/cafe230_wincard.png；拍完重跑 cafe_exterior.py。
+  --compose-only：不拍，用 --keep 資料夾裡的 front.png、side.png 重組貼圖集
 """
 import math, os, sys, json
 import bpy
@@ -82,14 +84,28 @@ def shoot(sc, key):
     return p
 
 
-sc = scene()
-shots = {k: shoot(sc, k) for k in CARDS}
-# 貼圖集：2048×1024，上面 front（v 1−466/1024 … 1）、左下 side
+if '--compose-only' in A:                                               # 不拍，用 --keep 資料夾裡已經拍好的 front.png、side.png 重組貼圖集
+    shots = {k: os.path.join(KEEP, k + '.png') for k in CARDS}
+else:
+    sc = scene()
+    shots = {k: shoot(sc, k) for k in CARDS}
+# 貼圖集：先拼 2048×1024（上面 front、左下 side，留在 --keep 資料夾），再縮成 1024×512 給外觀用（cafe_exterior.py 的 uvrect 照 1024×512 算）
 from PIL import Image
 at = Image.new('RGB', (2048, 1024), (20, 16, 12))
 f = Image.open(shots['front']).convert('RGB'); at.paste(f, (0, 0))
 s = Image.open(shots['side']).convert('RGB'); at.paste(s, (0, 512))
-at.save(OUT)
-info = {k: dict(CARDS[k], rect_px=[0, 0, 2048, 466] if k == 'front' else [0, 512, 1024, 512 + 372]) for k in CARDS}
+at.save(os.path.join(KEEP, 'atlas_2048.png'))
+at.resize((1024, 512), Image.LANCZOS).save(OUT)
+# 範圍寫成 cafe_exterior.py 讀的格式（外觀座標：z' = 室內 z − 6；像素是 1024×512 的）
+IZ = -6.0
+F, Sd = CARDS['front'], CARDS['side']
+fp, sp_ = (0, 0, F['px'][0] // 2, F['px'][1] // 2), (0, 256, Sd['px'][0] // 2, 256 + Sd['px'][1] // 2)
+info = {
+    'note': '2:30 AM 外觀的店內窗卡：tools/blender/env_second/cafe230_wincard.py 用 AA 的 aa_support/cafe230.glb 開燈拍（Cycles %d 取樣、Khronos PBR Neutral、曝光 %+.2f），縮成 1024×512' % (SAMPLES, EXPO),
+    'front': {'plane': "z'=%g" % (F['at'] + IZ), 'x': list(F['u']), 'y': list(F['v']), 'px': list(fp),
+              'cam': "(%g, %g, z' %g)" % ((F['u'][0] + F['u'][1]) / 2, (F['v'][0] + F['v'][1]) / 2, F['at'] + F['cam'] + IZ)},
+    'side': {'plane': 'x=%g' % Sd['at'], 'z': [round(Sd['u'][0] + IZ, 4), round(Sd['u'][1] + IZ, 4)], 'y': list(Sd['v']), 'px': list(sp_),
+             'cam': "(x %g, %g, z' %g)" % (Sd['at'] + Sd['cam'], (Sd['v'][0] + Sd['v'][1]) / 2, (Sd['u'][0] + Sd['u'][1]) / 2 + IZ)},
+}
 json.dump(info, open(OUT[:-4] + '.json', 'w'), ensure_ascii=False, indent=1)
 print('atlas', OUT)

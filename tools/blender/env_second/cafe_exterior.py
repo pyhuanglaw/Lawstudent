@@ -272,19 +272,31 @@ for sgn in (-1, 1):
     for yy in (0.67, 1.48, 1.86): mun.box(x0, x1, yy - 0.016, yy + 0.016, -0.012, 0.022)
 mun.finish(shop)
 lmet = Mesh('lanterns_metal', mat['metal']); lgl = Mesh('lanterns_glass', mat['lampglass']); lbu = Mesh('lanterns_bulb', mat['bulb'])
-def sconce(x, y, z, s=1.0):
-    """壁燈（參考圖：黑色圓筒，上下兩頭出光；牆面在 z）"""
-    lmet.box(x - 0.055 * s, x + 0.055 * s, y - 0.09 * s, y + 0.09 * s, z - 0.02, z + 0.012)
-    lmet.cyl((x, y, z + 0.01), (x, y, z + 0.08 * s), 0.014 * s, seg=6)
-    r = 0.062 * s; cz = z + 0.08 * s + r
-    lmet.cyl((x, y - 0.13 * s, cz), (x, y + 0.13 * s, cz), r, seg=16)
+def sconce(x, y, z, s=1.0, side=False):
+    """壁燈（參考圖：黑色圓筒，上下兩頭出光；牆面在 z）。side＝轉角那一面（牆面在 x、燈朝 +x；z＝沿著牆的位置）：
+    在本地座標（牆面 z=0、燈在 x=0）做好，再繞 y 轉 90°（本地 z → +x、本地 x → −z）搬到 (x, ·, z)"""
+    tm, tg, tb = (Mesh('_sct_m', mat['metal']), Mesh('_sct_g', mat['lampglass']), Mesh('_sct_b', mat['bulb'])) if side else (lmet, lgl, lbu)
+    lx, lz = (0.0, 0.0) if side else (x, z)
+    tm.box(lx - 0.055 * s, lx + 0.055 * s, y - 0.09 * s, y + 0.09 * s, lz - 0.02, lz + 0.012)
+    tm.cyl((lx, y, lz + 0.01), (lx, y, lz + 0.08 * s), 0.014 * s, seg=6)
+    r = 0.062 * s; cz = lz + 0.08 * s + r
+    tm.cyl((lx, y - 0.13 * s, cz), (lx, y + 0.13 * s, cz), r, seg=16)
     for sg in (-1, 1):
-        lgl.cyl((x, y + sg * 0.13 * s, cz), (x, y + sg * 0.136 * s, cz), r * 0.82, seg=16)
-        lbu.sphere((x, y + sg * 0.1 * s, cz), 0.022 * s, seg=8, rings=4)
-    CL.glow(root, 'sconce', x, y - 0.22 * s, cz, size=1.3 * s, day=0.15, night=1.0); CL.glow(root, 'sconce', x, y + 0.22 * s, cz, size=1.0 * s, day=0.1, night=0.85)
+        tg.cyl((lx, y + sg * 0.13 * s, cz), (lx, y + sg * 0.136 * s, cz), r * 0.82, seg=16)
+        tb.sphere((lx, y + sg * 0.1 * s, cz), 0.022 * s, seg=8, rings=4)
+    if side:
+        M = Matrix.Translation(g2b(x, 0.0, z)) @ Matrix.Rotation(math.pi / 2, 4, 'Z')
+        for t_, d_ in ((tm, lmet), (tg, lgl), (tb, lbu)): d_.add_bm(t_.bm, M); t_.bm.free()
+        gx, gz = x + cz, z
+    else: gx, gz = x, cz
+    CL.glow(root, 'sconce', gx, y - 0.22 * s, gz, size=1.3 * s, day=0.15, night=1.0); CL.glow(root, 'sconce', gx, y + 0.22 * s, gz, size=1.0 * s, day=0.1, night=0.85)
 for sgn in (-1, 1):
     sconce(sgn * (W / 2 - PIL / 2), 2.25, 0.06, 1.15)
     sconce(sgn * (DOOR + POST / 2), 2.0, 0.08, 0.85)
+# 轉角那一面（v2，BB-C 19:02 第 4 點「轉角一樓牆色統一」）：灰泥和正面是同一個材質，晚上偏灰是因為那一面沒有燈——參考圖側窗左右各一盞壁燈，照亮那一面的灰泥。
+# 兩扇側窗的窗洞 z' −9.6～−7.4、−5.6～−3.4：燈放在兩扇窗的外側（離窗 0.5 m）；靠轉角那一盞在垂藤下面（藤只垂到 2 m 左右，燈 2.2 m：藤在燈前面一點，像參考圖）
+for zz in (-3.4 + 0.5, -9.6 - 0.5):
+    sconce(W / 2, 2.2, zz, 1.0, side=True)
 lmet.finish(shop); lgl.finish(shop); lbu.finish(shop, smooth=True)
 
 # ================================================================ 4. 店內窗卡（v2，BB-C 19:02 第 1 點「晚上從玻璃看進去，一整間暖黃的燈、書架、檯燈」）
@@ -430,9 +442,10 @@ fm.quad(q); uv01(fm.finish(props, props={'aboard': ['Business Hours', '11:00 –
 fb_ = Mesh('ABOARD_FACE_back', mat['chalk'])                                                  # 板子背面也是黑板（往店裡那一面寫手沖菜單；遊戲照舊畫兩面：tests/cafe_glb_integration.py 要四個字面）
 fb_.quad([ep(EW / 2, fr0 + 0.03, -0.014), ep(-EW / 2, fr0 + 0.03, -0.014), ep(-EW / 2, fr1 - 0.03, -0.014), ep(EW / 2, fr1 - 0.03, -0.014)])
 uv01(fb_.finish(props, props={'aboard': ['今日手沖', '衣索比亞', '耶加雪菲', '—', '讀書位 有']}))
-# 門口的木椅（參考圖：門旁一張木椅；v2，BB-C 19:02 第 4 點）：門的另一邊（畫架在 x 3.6），靠著左邊那段櫥窗下的木板、稍微轉向門。
-# 導航：遊戲要加一個小阻擋——世界座標 blockCircle(54.95, −2.3, 0.32)（外觀 x −2.3、z 0.45；cafeB 原點在世界 x 55.4、正面朝 −x）。LAWWW-C 接
-CHX, CHZ, CHR = -2.3, 0.45, math.radians(18)
+# 門口的木椅（參考圖：畫架和轉角那棵樹中間一張木椅；v2，BB-C 19:02 第 4 點）：畫架（x 3.6）和右邊那組盆栽（x 4.54 起）中間，靠著牆、稍微轉向門。
+# 導航：不用加。椅子在世界 (54.98, 4.2)（外觀 x 4.2、z 0.42；cafeB 原點在世界 x 55.4、正面朝 −x），轉 15° 以後佔 x 54.71～55.25、z 3.93～4.47——
+#   zones3d.js 本來就有的 blockRect(54.8,4.22,0.7,0.65)（A 字立牌和盆栽之間的縫，v9.3 #31）蓋住 x 54.45～55.15、z 3.90～4.55，剩下靠牆的 10 cm 是店面本身擋住的
+CHX, CHZ, CHR = 4.2, 0.42, math.radians(-15)
 _ch = Mesh('_chair_tmp', mat['wood2'])
 for lx in (-0.18, 0.18):
     _ch.cyl((lx, 0.0, 0.16), (lx, 0.44, 0.16), 0.017, seg=6)                                       # 前腳
