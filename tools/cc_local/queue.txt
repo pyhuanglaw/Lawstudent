@@ -72,7 +72,7 @@ CAFE230v4_shots | 8f936f018 | probe | docs/story_planning/test_tools/cc/cc_cafe2
 CAFE230v4_seats | 8f936f018 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
 CAFE230v4_reach | 8f936f018 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
 # GG_glb_measure2：停著的車合併網格；量法照測試本身（騎士、npc_far 要不要移出由 BB 定）
-GG_glb_measure2 | 8f936f018 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+#HOLD（LAWWW 08:53：等 LAWWW2 量法 patch 的 SHA，不用舊量法跑）GG_glb_measure2 | 8f936f018 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
 CAFE230v3_shots | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0;RERUN=dac871
 CAFE230v3_seats | dac871e25 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
