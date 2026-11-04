@@ -1158,7 +1158,9 @@ const STORY = (function(){
       const need=ev.trigger==='interact'?(ev.participants||[])[0]:(ev.near&&ev.near.npc); if(need&&!(EVENTS.npcOf&&EVENTS.npcOf(need))) continue;   /* 要走近、要找他說話的人不在店裡＝現在演不了 */
       let ok=false; try{ ok=!!EVENTS.check(ev); }catch(e){ ok=false; } if(ok) return true; }
     return false; };
-  S.ndlTalkDue=function(G,other){ const F=G.flags||{}; if((G.stage||'law')!=='law'||G.zone!=='noodle'||!S.noodleDay(G.day)||F.abroad) return false; const hh=h(G); if(hh<17||hh>=21) return false;
+  /* AA_675 1-2（AA_661 第 42 列，AA-C 定 D109）：阿哲的麵店日拿掉、長桌閒聊搬到桌遊夜（src/bgnight3d.js S.talk，挑法同 S.ndlTalkPick、照舊讀 ndlTalkN／ndlTalkOnce）——燒臘店裡不再演 */
+  S.NDL_TALK_BGN=true;
+  S.ndlTalkDue=function(G,other){ const F=G.flags||{}; if(S.NDL_TALK_BGN) return false; if((G.stage||'law')!=='law'||G.zone!=='noodle'||!S.noodleDay(G.day)||F.abroad) return false; const hh=h(G); if(hh<17||hh>=21) return false;
     if(F.ndlTalkDay===G.day||typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||!S.ndlTalkPick(G)) return false;
     { const t=CALENDAR.termOf(G.day); if(t&&F.ndlTalkWk===t.id+':'+t.week) return false; }   /* 一週最多一則（AA_542 第 4 節：背景就是偶爾聽到）*/
     return other===false?true:!S.ndlOtherDue(G); };

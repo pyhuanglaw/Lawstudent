@@ -463,7 +463,7 @@ const VAC_DATA=(function(){
     reunionHomeBack:{heroine_01:['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。']},
     reunion:{
       heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'library_gate_day',lines:[{narr:'（她站在門口，手上拿著兩杯飲料。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
-      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle_table',lines:[{narr:'（她把一杯烏龍放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的茶點我自己吃了']},
+      heroine_03:{invite:['明天我五點下班','你來店裡'],h:17.25,place:'一盞茶屋',bg:'wenzhou_teahouse',lines:[{narr:'（她把一杯烏龍放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'這壺是蘇姨請的。'}],miss:['昨天那壺我自己喝了']},   /* AA_675 2-6（企劃線 920791094，AA-C 定 D109）：語彤回來那一場改一盞茶屋（原本麵店、收店以後九點、長桌的背景）*/
       heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'2:30 AM',bg:'cafe_night',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',inviteOn:'2026-08-26',text:'回來了？……我 26 號回臺北。'},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北以後補一場。
           inviteOn：AA_550 第 4 節第 4 點（企劃線 2664ed6f1；ZR-SUMMER-LINES-1031）——8/26 回臺北當天不排班、第一個晚班 8/27，所以 8/26 21:00 才約、8/27 22:00 見面（原本 8/25 約、8/26 見）；台詞照原本 */
         noShift:{from:ZR_NOSHIFT[0],to:ZR_NOSHIFT[1],invite:['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'],h:15,

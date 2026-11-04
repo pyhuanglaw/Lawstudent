@@ -56,6 +56,7 @@ const ENC=(function(){
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
       if(row.stageMin&&tr.t!=='dating'&&tr.t!=='ex'&&tr.t!=='catch'&&ST().indexOf(tr.st)<ST().indexOf(row.stageMin)) return no('還不夠熟'); }
     if(row.flags&&!row.flags.every(f=>G.flags&&G.flags[f])) return no('旗標');
+    if(row.onceMemo&&row.memo&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(row.who,row.memo)) return no('演過了');   /* 只遇到一次的那一場（AA_675 2-4 礁溪：打過招呼＝記了 memo；舊存檔看過舊版的也不重演）*/
     const R=S.rec(G); if(R.encMet.who.includes(row.who)) return no('今天遇過了');
     if(typeof OUT!=='undefined'&&OUT.rec&&OUT.rec(G).some(q=>q.day===G.day&&q.state!=='missed'&&(q.who===row.who||q.with===row.who||(row.who==='kexin'&&/^kx/.test(String(q.id||'')))))) return no('今天和她有約');
     if(!row.kexin){ const c=typeof CHARACTERS!=='undefined'?CHARACTERS[row.who]:null; const e=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null;
@@ -97,7 +98,8 @@ const ENC=(function(){
       R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30); return 'busy'; }
     const join=!exAcq&&S.canJoin(G,row,tr); const ops=[{t:'打招呼'},{t:'不打擾'}]; if(join) ops.push({t:'一起走一段'});   /* 第三批（DL-08）：朋友以上、不忙、這裡有她的同行台詞 */
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
-    for(const t of S.linesFor(row,tr.t)){ if(t&&typeof t==='object'&&t.narr) await ESAY(GM,null,t.narr); else await ESAY(GM,who,t); }   /* {narr:'（…）'}＝旁白（AA_313 5-6 芯慈松菸）*/
+    for(const t of S.linesFor(row,tr.t)){ if(t&&typeof t==='object'){ if(t.ifFlag&&!(G.flags&&G.flags[t.ifFlag])) continue; if(t.narr){ await ESAY(GM,null,t.narr); continue; } if(t.who){ await ESAY(GM,S.sayer(t.who)||{name:t.who},t.t); continue; } } await ESAY(GM,who,t); }   /* {narr:'（…）'}＝旁白（AA_313 5-6 芯慈松菸）；{who,t}＝旁邊的人說的（立繪照 S.sayer；AA_675 2-4 礁溪的 Alison）；ifFlag＝有那個旗標才有這一句 */
+    if(row.setFlag&&G.flags) G.flags[row.setFlag]=true;   /* 演完記的旗標（AA_675 2-4：礁溪 KNOWS_SIS_ALISON）*/
     if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,S.sayer(a.who)||{name:a.who},a.text); }
     if(row.extra&&((G.flags&&G.flags[row.extra.if])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(row.who,row.extra.if)))) await ESAY(GM,{name:row.extra.name},row.extra.text);   /* extra：有那個旗標或記憶才多一句（BB_213：沛珊有 WZ_PS_KIDS 的話，綁馬尾的小女生也在）*/
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.activity) SOCIAL.activity(row.who,'chat');

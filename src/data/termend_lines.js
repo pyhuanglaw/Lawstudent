@@ -59,7 +59,7 @@ const TERMEND_LINES=(function(){
       she2Yes:[{cg:'cg_shop_page_check_heroine01'},{narr:'（她把手帳翻到「想去的店」那一頁，推到你面前。在「和你」旁邊，畫了一個勾。）'},'……勾了。'],   /* AA_587 第 13 節（@8541f607f，CC_28）：你說好以後補兩拍再交往；第一拍 CG-27 手帳特寫（BB 2026-11-02 19:20 交件、AA 確認構圖，企劃線 496150a1f；CG_REGISTRY 沒登錄＝只演字）*/
       sheMem:'AN_SHOP_PAGE', she2YesMem:'AN_SHOP_PAGE',   /* 看過「想去的店」那一頁（不在人物面板顯示，SOCIAL.MEMORY_HIDE）*/
       yes2:['……嗯。這次換你先說了。','好。我們在一起。'] },   /* 第二次、七月：玩家選「說出來」的答應（AA_254 第 0 節第 7 點）*/
-    heroine_03:{ src:'AA_254 第 2 節', place:'noodle_closed', placeName:'茶屋打烊以後', optsFrom:'confess',   /* 三選一照 AA_187 9-2（AA-C 11:58 確認），答應照 AA_254 第 2 節 */ wd:4, h:21, walkBg:null, walkPlace:'新生南路・她家樓下',
+    heroine_03:{ src:'AA_254 第 2 節', place:'tea_closed', placeName:'一盞茶屋', optsFrom:'confess',   /* 三選一照 AA_187 9-2（AA-C 11:58 確認），答應照 AA_254 第 2 節 */ wd:6, h:17.5, walkBg:null, walkPlace:'新生南路・她家樓下',   /* AA_675 2-1（AA_661 第 72 列，企劃線 920791094，AA-C 定 D109）：改時間、不改句子——期末考考完以後的第一個週六 17:30、一盞茶屋（她 17:00 下班；邀約、第二次的邀約都是這個時間）。原本週四 21:00、燒臘店打烊以後（noodle_closed），句子卻是「禮拜六」。termend3d.js S.dinnerDay：最後一科考完、她傳邀約的隔天起第一個週六 */
       invite:'禮拜六我沒排班。……茶屋打烊以後，我泡茶。只有我們。', decline:'好。那我去上班。',
       table:'你的茶我換成熱的了。……你剛剛一直在搓手。',   /* AA_661 第 74 列（AA_624；AA_254 已同步）：原本「這碗沒放蔥。……你都會挑出來，我看了（經過多久）。」——她不在店裡端麵 */
       walk:['我家到了。……你要說什麼就現在說。'],
