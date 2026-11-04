@@ -600,3 +600,14 @@
 [07:57:44] ==== START MAP_ctl2  (probe @ bf6dbda44) ====
 [07:57:47] [res] cpu=69% mem=55% (17.4/31.4 GB) chrome_testing=19  START MAP_ctl2
 [08:00:47] [res] cpu=71% mem=55% (17.4/31.4 GB) chrome_testing=19  END MAP_ctl2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       113da24ad..16725aac8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:00:52] ==== END   MAP_ctl2  exit=1  183s   ====
+[08:00:54] blender item MD_haopai_v2 waits until the 2 running item(s) finish; other items go first
+[08:00:54] blender item MD_dabu_v2 waits until the 2 running item(s) finish; other items go first
+[08:00:54] memory 55% before starting N20_libcorner2 (2 running)
+[08:00:54] ==== START N20_libcorner2  (probe @ d2b962a3f) ====
+[08:00:58] [res] cpu=54% mem=55% (17.3/31.4 GB) chrome_testing=19  START N20_libcorner2
+[08:02:19] 正在跑：YT3-E（已跑 36 分／上限 45 分）、YT3-C（已跑 32 分／上限 45 分）、N20_libcorner2（已跑 1 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:03:07] [res] cpu=74% mem=54% (16.9/31.4 GB) chrome_testing=19  END N20_libcorner2
