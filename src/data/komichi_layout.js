@@ -1,4 +1,4 @@
-/* ===== 小路 室內（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04 v1c（v1b：照 LAWWW 的 FIXED_COORDS——窗邊座離牆 0.55、卡座座位離西牆 0.4、加 tag；v1c：LAWWW2 量到 (3.05,3.45) 走不到，拿掉，東側只留一張；牆上兩排木札、天花板椽格、三盞和紙燈籠、吧台上擺滿）；使用者 11-04 04:4x 參考圖；AA_654、AA_655） =====
+/* ===== 小路 室內（溫州街 B3，取代巷子裡定食；昭和懷舊居酒屋；AA 2026-11-04 v1c（v1b：照 LAWWW 的 FIXED_COORDS——窗邊座離牆 0.55、卡座座位離西牆 0.4、加 tag；v1c：LAWWW2 量到 (3.05,3.45) 走不到，改 npcOnly；牆上兩排木札、天花板椽格、三盞和紙燈籠、吧台上擺滿）；使用者 11-04 04:4x 參考圖；AA_654、AA_655） =====
    參考圖：docs/story_planning/ref_images/shops/wz_komichi_int.webp（室內）、wz_komichi_ext.webp（外觀，LAWWW2 做）。美術規則：SCENE_RULES §10～12＋LAWWW2 11-04 04:45。
    **遊戲區域照舊是 `wz_teishoku`**：這份是 WZ_SHOPS_LAYOUT.teishoku 的新版（格式一樣，LAWWW 換掉那一筆就好）。
    不動的（照舊版 teishoku 和 LAWWW2 給的門窗數字）：房間 8 × 8 × 2.9、格子拉門 x −2.0（寬 1.8）、窗 x −3.7～−3.1 和 −0.6～3.4（窗台 0.85、窗頂 2.3）、
@@ -39,7 +39,7 @@ const KOMICHI_LAYOUT = {
   ],
   tables: [
     {id: 1, kind: 'rect', x: 0.475, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座一（四人）'},
-    {id: 2, kind: 'rect', x: 2.425, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座二（三人：東側只有一張，靠牆那張走不到）'},
+    {id: 2, kind: 'rect', x: 2.425, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座二（四人：東側靠牆那張 npcOnly，玩家走不到）'},
     {id: 3, kind: 'rect', x: 0.9, z: 0.75, w: 1.2, d: 0.7, note: '中間四人桌'},
     {id: 4, kind: 'rect', x: -2.55, z: 0.4, w: 0.6, d: 1.2, note: '卡座的桌子（卡座前緣到桌邊 0.6 m）'}
   ],
@@ -55,7 +55,7 @@ const KOMICHI_LAYOUT = {
     {x: -0.15, z: 2.9, yaw: Math.PI / 2, table: 1, label: '坐下', tag: 'door'}, {x: -0.15, z: 3.45, yaw: Math.PI / 2, table: 1, label: '坐下'},
     {x: 1.1, z: 2.9, yaw: -Math.PI / 2, table: 1, label: '坐下'}, {x: 1.1, z: 3.45, yaw: -Math.PI / 2, table: 1, label: '坐下'},
     {x: 1.8, z: 2.9, yaw: Math.PI / 2, table: 2, label: '坐下'}, {x: 1.8, z: 3.45, yaw: Math.PI / 2, table: 2, label: '坐下'},
-    {x: 3.05, z: 2.9, yaw: -Math.PI / 2, table: 2, label: '坐下'},
+    {x: 3.05, z: 2.9, yaw: -Math.PI / 2, table: 2, label: '坐下'}, {x: 3.05, z: 3.45, yaw: -Math.PI / 2, table: 2, label: '坐下', npcOnly: true, note: 'LAWWW2 11-04 05:22 建議①：玩家走不到，留給背景客人'},
     {x: 0.6, z: 0.1, yaw: 0, table: 3, label: '坐下'}, {x: 1.2, z: 0.1, yaw: 0, table: 3, label: '坐下'},
     {x: 0.6, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'}, {x: 1.2, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'},
     {x: -3.6, z: 0.1, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'}, {x: -3.6, z: 0.7, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'},
