@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "CAFE230_reach",
+  "sha": "d432de8ba",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url} --zones cafe",
+  "machine": "MSI",
+  "start": "2026-11-04T15:12:05",
+  "end": "2026-11-04T15:13:26",
+  "seconds": 81,
+  "exit": 1,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html?turbo",
+  "res_peak": {
+    "cpu": 55,
+    "mem": 52,
+    "used_gb": 16.6,
+    "chrome_testing": 20
+  }
+}
