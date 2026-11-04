@@ -395,7 +395,7 @@ seats.finish(root, smooth=True); seatl.finish(root)
 
 # ---------------- v5b（LAWWW2 11-04 選 B：配置不縮，近景加東西）----------------
 EXTRA = []
-# 1)「本日放映」立牌（大廳右前方的空地毯上、面向入口；中間走道剩 x −1.77～2.45）：黑色鐵架＋一張虛構的電影海報
+# 1)「本日放映」立牌（大廳右前方的空地毯上、面向入口；中間走道剩 x −1.77～1.8）：黑色鐵架＋一張虛構的電影海報
 def standee_tex(im, d):
     w, h = im.size; r = random.Random(11)
     for y in range(h): t = y / h; d.line([(0, y), (w, y)], fill=(int(40 + 140 * t), int(60 + 70 * t), int(110 - 40 * t)))   # 黃昏的天空
@@ -413,7 +413,7 @@ def _remap_uv(obname, u0, u1, v0, v1):
     me = bpy.data.objects[obname].data
     for d_ in me.uv_layers.active.data: d_.uv = (u0 + d_.uv[0] * (u1 - u0), v0 + d_.uv[1] * (v1 - v0))
 _remap_uv('CHALK_FACE', 0.0, 512 / 848, 1 - 444 / 512, 1.0)
-sx_, sz_ = 2.9, 0.4
+sx_, sz_ = 2.2, 0.0
 stn = Mesh('STANDEE_FRAME', m_iron)
 stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
 for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
