@@ -1,4 +1,5 @@
 # 南洋戲院（AA_615 第 3 節）——BB 協助建模（2026-11-03，使用者「lawww2在忙 你和bb cc協助建模」）
+- **2026-11-04：子代理開工中（subagent working）**——大廳 v5（光和色：暗暖黃、深色木頭）、1 廳 v2（斜地板、暗銀幕＋布幔、弧形椅背＋扶手），照 SCENE_RULES §12、ref_match。
 - **1 廳（影廳）v1（11-03 22:3x）＝`READY_FOR_REVIEW`**：使用者 22:1x「盡量接近我給你的圖 復古風」。`hall_v1_ref_vs_6views.jpg`（左上是參考圖：大廳右邊那組開著的門後面；其他是 Blender Cycles 渲染，不是遊戲畫面）。
   - 腳本 `tools/blender/env_second/bb_support/nanyang_hall.py`；配置 `src/data/nanyang_layout.js` 的 `hall`（11 × 16 × 5.6 m，往大廳的門在 +z 的 x 3.5，銀幕在 −z）。
   - 照參考圖：紅地毯、亮紅高背座椅（9 排 × 12 張、木扶手、黑鐵腳）、右邊一條直走道、走道邊每排一顆小地燈＋排號牌、白銀幕。
