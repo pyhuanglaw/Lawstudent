@@ -983,7 +983,23 @@ class Runner(object):
             if rc != 0:
                 log('merge of cc-testing failed - keep the current queue')
                 git('-C', self.work, 'merge', '--abort', quiet=True)
+            self.sync_results_branch('refresh')
             self.update_heads()
+
+    def sync_results_branch(self, why):
+        """結果分支（cc-local）也合併遠端：別人（雲端的 CC）推了 cc-local，這一輪後面每一項都會推不上去
+        （11-04 22:32～23:1x：只有開新一輪時才合併，push 失敗只原地重推 5 次）。要在 GIT_LOCK 裡呼叫。回傳是否合併成功"""
+        if self.a.no_push:
+            return True
+        rcf, _ = git('-C', self.repo, 'fetch', 'origin', self.branch, quiet=True)
+        if rcf != 0:
+            return False
+        rc, _ = git('-C', self.work, 'merge', '--no-edit', 'origin/' + self.branch, quiet=True)
+        if rc != 0:
+            log('merge of origin/%s failed (%s) - results stay local, next push retries' % (self.branch, why))
+            git('-C', self.work, 'merge', '--abort', quiet=True)
+            return False
+        return True
 
     # ---------- 2. 佇列 ----------
     def read_queue(self):
@@ -1708,6 +1724,7 @@ class Runner(object):
                 for w in (0, 2, 4, 8, 16):
                     if w:
                         time.sleep(w)
+                        self.sync_results_branch('push retry')   # 被拒（fetch first）＝遠端有別人的 commit：先合併再推
                     rc, _ = git('-C', self.work, 'push', '-u', 'origin', self.branch)
                     if rc == 0:
                         return True
