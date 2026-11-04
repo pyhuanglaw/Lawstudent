@@ -493,6 +493,43 @@ def dbk():
     im.save(os.path.join(GEN, 'dbk_print.png'))
 
 
+def a23():
+    """2:30 AM（溫州街東端路口，取代兩點半 Café；AA 2026-11-04；AA_654）：(0,0) 4×1 深綠底金字「2:30 AM」招牌、(4,0) 2×2 黑板菜單、
+    (6,0) 2×2 舊照片一（街景）、(0,1) 2×2 舊照片二（山城）、(2,1) 2×2 舊照片三（港邊）、(0,3) 8×1 黑膠封面 8 張、(6,2) 2×1 營業時間牌"""
+    rng = np.random.default_rng(1109); im = Image.new('RGB', (1024, 1024), '#e8dcc4'); d = ImageDraw.Draw(im)
+    bx = box(0, 0, 4, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#2f3d30'); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#b8944a', width=3)
+    text_c(d, ((x0 + x1) / 2, y0 + 62), '2:30 AM', F(58), '#e8d29a')
+    bx = box(4, 0, 2, 2); paper(im, bx, '#2a2e2a', rng, grain=0.12); x0, y0, x1, y1 = bx
+    d.rectangle(bx, outline='#5a3e28', width=9); d.text((x0 + 22, y0 + 18), '2:30 AM', font=F(30), fill='#f1ead8'); d.text((x0 + 22, y0 + 56), 'COFFEE & NIGHT', font=F(14), fill='#e8e0cc')
+    for k, (n_, p_) in enumerate((('Hand Drip', 160), ('Latte', 150), ('Mocha', 160), ('Earl Grey', 140), ('Cheesecake', 130), ('Toast', 90))):
+        y = y0 + 88 + k * 26; d.text((x0 + 22, y), n_, font=F(15), fill='#f1ead8'); d.text((x1 - 54, y), str(p_), font=F(15), fill='#f1ead8')
+    def photo(c, r, kind):
+        bx = box(c, r, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d4'); ix0, iy0, ix1, iy1 = x0 + 22, y0 + 22, x1 - 22, y1 - 22
+        a = np.zeros((iy1 - iy0, ix1 - ix0), np.float32) + 0.72
+        hh, ww = a.shape; yy = np.arange(hh)[:, None]; xx = np.arange(ww)[None, :]
+        if kind == 0:   # 街景：兩排樓、中間一條路
+            a[:, :] = 0.78; a = np.where(yy > hh * 0.55, 0.5, a)
+            for k in range(6):
+                bw = ww // 7; xa = k * bw + 4; h0 = int(hh * (0.2 + 0.1 * ((k * 37) % 4)))
+                if k != 3: a[h0:int(hh * 0.62), xa:xa + bw - 6] = 0.32 + 0.05 * (k % 3)
+        elif kind == 1:   # 山城：山稜線、房子
+            a[:, :] = 0.8
+            ridge = (hh * (0.45 + 0.12 * np.sin(xx / ww * 6.0))).astype(int); a = np.where(yy > ridge, 0.42, a)
+            a = np.where(yy > hh * 0.75, 0.3, a)
+        else:   # 港邊：海平面、船
+            a[:, :] = 0.82; a = np.where(yy > hh * 0.6, 0.55, a)
+            for k in range(3): xa = int(ww * (0.2 + 0.25 * k)); a[int(hh * 0.5):int(hh * 0.6), xa:xa + 30] = 0.25
+        a += rng.normal(0, 0.03, a.shape)
+        rgb = np.stack([a * 230, a * 205, a * 170], -1).clip(0, 255).astype(np.uint8)
+        im.paste(Image.fromarray(rgb), (ix0, iy0)); d.rectangle(bx, outline='#3a2a1e', width=6)
+    photo(6, 0, 0); photo(0, 1, 1); photo(2, 1, 2)
+    covs = [('#2f3d30', '#e8d29a'), ('#8c3b47', '#f1e6d2'), ('#1f2e45', '#d9a441'), ('#e8dcc4', '#3a2a1e'), ('#4a6c8c', '#f4ead8'), ('#3a3a3a', '#c98a5a'), ('#7b5a3a', '#efe6d4'), ('#5a6a3a', '#f1ead8')]
+    for k, (bg, fg) in enumerate(covs):   # 黑膠封面
+        x0, y0 = k * 128, 384; d.rectangle([x0 + 3, y0 + 3, x0 + 124, y0 + 124], fill=bg); d.ellipse([x0 + 30, y0 + 30, x0 + 98, y0 + 98], outline=fg, width=6); d.rectangle([x0 + 14, y0 + 104, x0 + 70, y0 + 112], fill=fg)
+    bx = box(6, 2, 2, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#2f3d30'); text_c(d, ((x0 + x1) / 2, y0 + 22), 'Business Hours', F(22), '#e8d29a'); text_c(d, ((x0 + x1) / 2, y0 + 64), '11:00 – 02:30', F(26), '#f1ead8')
+    im.save(os.path.join(GEN, 'a23_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -573,4 +610,5 @@ if __name__ == '__main__':
     if w in ('aok', 'all'): aok()
     if w in ('afr', 'all'): afr()
     if w in ('dbk', 'all'): dbk()
+    if w in ('a23', 'all'): a23()
     print('ok', w)
