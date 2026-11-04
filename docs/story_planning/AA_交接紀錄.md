@@ -1,3 +1,27 @@
+值班登記：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 69a24fa5d（快轉合併 AA-B 的 `claude/cool-heisenberg-o8kuqx`，含帳號 A 的 story-planning 81f740cb7）｜2026-11-04 UTC
+上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 69a24fa5d｜正常交班（2026-11-04 12:20 UTC，快照 `2026-11-04T1220Z_B_AA.json`）
+接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g`，規則 SHA b61337187；`duty find`：值班沒有人、上一任 B、HV-20 工具版、seq 60；規則讀到 HV-25）：
+- 使用者 11-04 對 AA-C：「你上次沒有交班 使用量就到達上限 你之後有其他帳號接續工作 現在換你接班 有新增一個腳色CC幫助BB測試 你接班之後訊息同個帳號其他AI確認可以傳訊息 我也會通知他們接班」。
+  - 我（帳號 C）上一次是 2026-10-28 15:2x 用量到上限、**沒有交班**；之後帳號 A（11-02～11-04 09:0x）、AA-B（11-04 12:1x～12:2x）接過。
+  - 我 10-28 最後推的 ea43bd9a0 已在它們的分支裡，沒有遺失。
+- 新規則已讀：
+  - HV-22（CC 第五個職位）、HV-23（交班後停用喚醒）、HV-24（LAWWW 可以直接聯絡 CC）、HV-25（CC 可以直接聯絡任何職位）；
+  - D116（不跟別人比）、D117（選擇題）、D118、D125（等測試不閒著）、D126（每小時推）、D127（AA 內容規則：圖書館小聲講、保溫瓶空不空整條拿掉、學姊不說「你們系」、不寫「回臺北」、「臺北的家」改「家」）、D128（美術驗收不經使用者）；
+  - `docs/WORLD_NAMING.md`（首都帝大等新名稱）。
+- `duty verify --ref`：OK。`asks --role AA`：OK（138 筆）。`roles --role AA`：OK（全部待辦 9 行、5 個 ID）。
+- `check --ref`：異常 4 項，都是 LAWWW 的總表：TEST-TRACE-1104 負責人 CC、TEST-OFFLOAD-1103／-*、SYS-1102 沒進 tasks.json。給值班 LAWWW。
+- `incr --ref`：異常 559 項。
+  - AA 179 項：帳號 A 和 AA-B 的建模、layout commit 沒登記進 outbox／deliveries。
+  - BB 179、LAWWW2 192：各自的職位。
+  - AA 那 179 項由我補分類（排在接班後第一批工作）。
+- `check_orphans`：有幾項暫停、等「AA-C 結構化交付新的美國線時間線」（SCN-US-2D／CG／CH／EV、V4-R-US、ART-US-SEASON）。美國路線已經照 AA_516 等實作，這幾項很可能過時；我查完回 LAWWW。
+- `duty register --account C --role AA --ref`：已寫 `docs/handoff/duty_AA.json`，等值班 LAWWW `duty sync`。
+- 接著做：
+  1. 照使用者要求，和帳號 C 其他職位試傳訊息；
+  2. 照 AA-B「下一班第一步」回 LAWWW B3（AA_639 §2）、換三個檔；
+  3. 補 incr 的 AA 分類；
+  4. 照帳號 A 的待辦（溫州街四間等 BB 判定、2:30 AM 重烘、AA_659 §3）。
+
 ## 交班（AA-B 帳號 B → 下一班）｜2026-11-04 12:3x UTC｜使用者：「我開錯帳號了 你們使用量快沒了 現在交班」
 - 帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 `claude/cool-heisenberg-o8kuqx`｜接班 12:1x（基準 81f740cb7＝快轉 `claude/story-planning`）→ 只做了約 20 分鐘就交班。最後 commit＝含本節的交班 commit。**交班紀錄不代表下一班已經接班。**
 - **A. 本班成果**：值班登記 699789b7f；`AA_659` §3 一盞前院五點座標照 LAWWW 開發分支 0310aa37a 改寫（看院子 (0.4,7.7)、石燈籠 (−0.85,8.9)、樟樹 (2.95,8.75)、貓碗 (3.95,7.9)／碗 (4.05,8.35)、木牌 (−2.0,8.4)；舊座標標「不要再用」），台詞沒動。通訊測試：CC-B ACK、LAWWW-B ACK（它 12:17 接班、RULE_SOURCE `claude/modest-rubin-2lyp7g` @ 9f4d237e2、已 duty sync AA-B）；BB-B、LAWWW2-B 已 DELIVERED、還沒回。
