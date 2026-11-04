@@ -12,6 +12,26 @@
    "task": "CC-NOIDLE-1102",
    "src": "CC_00「CC 工作規則：不閒置、主動要工作」",
    "note": "CC 寫進 CC_00 規則；同時傳 BB【CC 要工作】"
+  },
+  {
+   "id": "UA-CC-1104-01",
+   "at": "2026-11-04T12:13Z",
+   "quote": "你可以直接連絡任何人 直接改規則",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "D134",
+   "src": "CC-B 對話",
+   "note": "CC-B 先推 confident-ritchie 28f5f5287；RULE_SOURCE 已換成 modest-rubin，交 LAWWW-B 寫進 D134"
+  },
+  {
+   "id": "UA-CC-1104-02",
+   "at": "2026-11-04T12:2xZ",
+   "quote": "交給 LAWWW 寫（建議）",
+   "kind": "選擇題答案",
+   "status": "規則（永久）",
+   "task": "D134",
+   "src": "CC-B AskUserQuestion：CC 能不能自己改規則檔",
+   "note": "規則檔照舊只有值班 LAWWW 改；CC 把使用者要求交 LAWWW"
   }
  ]
 }
