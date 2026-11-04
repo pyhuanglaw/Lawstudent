@@ -11,3 +11,23 @@
 
 - 這四間現在沒有店門口的互動點。外觀做好後，我會把互動點位置（門的中心、z FZ+2）交給 LAWWW。
 - 店寬是 gongguan_shops GLB 定的，不能改。
+
+## 外觀 v1（11-04 02:4x，已做；patch `gongguan5_fronts_v1.patch` 接開發分支 e32c366bf）
+- `gongguan_shops.glb`：
+  - 四間照參考圖，做法同第一批的 gg_front。
+  - 招牌、窗裡的店內、門裡面、黑板、菜單板、唱片箱是參考圖裁的。
+  - Afar 的招牌字是自己做的（參考圖寫的是真實店名）。
+  - 三角形 79,642 → 72,212，材質 138 → 142。
+- 四間店門前不放中間那根騎樓柱子（參考圖沒有）。GLB 和 zones3d.js 一起改。
+- zones3d.js：
+  - `GG_PROP_BLOCKS` 換成新的門口雜物（拿掉 13 個舊的、加 9 個）；
+  - 騎樓外機車留空給新店門（`DOORS` 加 −10.6／7.93／53.97／70.94，四段機車移開）。
+- **店門口互動點（給 LAWWW；z 都是 FZ+2＝21）**：洋洋 x −10.6、Afar x 7.93、轉角 x 53.97、Daybreak x 70.94。這四個點是門的中心。
+- Node：
+  - 從馬路直直走到四個門口都走得到；
+  - street_props_nav、bike、bookstore_exit、zone_prewarm、spawn_exit、singleside_streets 全過。
+- 比較圖（左參考圖、右 Blender 渲染，不是遊戲截圖）：`fronts_v1_vs_ref.jpg`。
+  - 畫面中間那根柱子是相鄰兩間店之間的柱子。
+  - 這張渲染是拿掉中間柱子之前拍的。
+
+![比較](fronts_v1_vs_ref.jpg)

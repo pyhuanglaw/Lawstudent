@@ -77,6 +77,31 @@ QG = [
     ('gongguan_bike_ext', 'board', [(907, 584), (1060, 584), (1060, 820), (907, 820)], 192, 288),
     ('gongguan_bike_ext', 'plaque', [(1429, 400), (1491, 400), (1491, 500), (1429, 500)], 96, 160),
     ('gongguan_bike_int', 'int2', [(80, 100), (1400, 100), (1400, 730), (80, 730)], 1024, 488),
+    # 公館第二批（AA_650，使用者 11-04 02:0x）：洋洋鹹酥雞（yangyang）、Afar café（afar）、轉角唱片（corner）、Daybreak（daybreak）
+    ('gongguan_yangyang_ext', 'sign', [(460, 109), (1269, 213), (1267, 349), (460, 287)], 1024, 192),
+    ('gongguan_yangyang_ext', 'kitchen', [(331, 355), (807, 345), (807, 727), (331, 727)], 768, 576),
+    ('gongguan_yangyang_ext', 'door', [(887, 371), (1087, 371), (1087, 767), (887, 767)], 256, 512),
+    ('gongguan_yangyang_int', 'win', [(560, 250), (1150, 250), (1150, 920), (560, 920)], 384, 448),
+    ('gongguan_yangyang_ext', 'board', [(807, 549), (960, 549), (960, 813), (807, 813)], 192, 320),
+    ('gongguan_yangyang_ext', 'bins', [(1233, 607), (1387, 607), (1387, 760), (1233, 760)], 192, 192),
+    ('@textures/src/ggafar_sign.jpg', 'sign', None, 1600, 160),
+    ('gongguan_afar_int', 'win', [(490, 70), (1640, 70), (1640, 770), (490, 770)], 1024, 624),
+    ('gongguan_afar_ext', 'int', [(800, 353), (1067, 353), (1067, 627), (800, 627)], 384, 384),
+    ('gongguan_afar_ext', 'door', [(1073, 349), (1220, 349), (1220, 727), (1073, 727)], 256, 640),
+    ('gongguan_afar_ext', 'menu', [(1256, 407), (1353, 407), (1353, 557), (1256, 557)], 128, 192),
+    ('gongguan_afar_ext', 'shelf', [(864, 557), (1053, 557), (1053, 731), (864, 731)], 256, 224),
+    ('gongguan_corner_ext', 'sign', [(457, 215), (1420, 215), (1420, 333), (457, 333)], 1600, 196),
+    ('gongguan_corner_ext', 'int', [(633, 349), (1027, 349), (1027, 740), (633, 740)], 640, 640),
+    ('gongguan_corner_int', 'win', [(0, 105), (520, 105), (520, 905), (0, 905)], 384, 592),
+    ('gongguan_corner_ext', 'door', [(1053, 400), (1247, 400), (1247, 853), (1053, 853)], 256, 592),
+    ('gongguan_corner_ext', 'notice', [(1300, 447), (1403, 447), (1403, 587), (1300, 587)], 128, 176),
+    ('gongguan_corner_ext', 'crate', [(1251, 633), (1407, 633), (1407, 760), (1251, 760)], 192, 160),
+    ('gongguan_daybreak_ext', 'sign', [(680, 233), (1173, 233), (1173, 304), (680, 304)], 768, 112),
+    ('gongguan_daybreak_ext', 'int', [(500, 380), (1053, 380), (1053, 607), (500, 607)], 1024, 416),
+    ('gongguan_daybreak_ext', 'tile', [(660, 620), (1053, 620), (1053, 700), (660, 700)], 512, 104),   # 左邊的黑板立牌不要裁進來
+    ('gongguan_daybreak_ext', 'door', [(1073, 393), (1207, 393), (1207, 700), (1073, 700)], 192, 448),
+    ('gongguan_daybreak_ext', 'menu', [(1273, 440), (1360, 440), (1360, 576), (1273, 576)], 128, 192),
+    ('gongguan_daybreak_ext', 'board', [(536, 576), (647, 576), (647, 740), (536, 740)], 128, 192),
 ]
 
 
@@ -129,4 +154,4 @@ def build(QQ, atlas_name, alias=lambda n: n):
 
 build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
 build(QW, 'wz_fronts_atlas', lambda n: 'offbeat' if n.startswith('@') else n.replace('_ref_v2', ''))
-build(QG, 'gg_fronts_atlas', lambda n: n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', ''))   # key：ggtea_sign、ggbook_int2…
+build(QG, 'gg_fronts_atlas', lambda n: 'ggafar' if n.startswith('@') else n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'))   # key：ggtea_sign、ggbook_int2…

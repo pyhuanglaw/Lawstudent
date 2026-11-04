@@ -89,12 +89,12 @@ if SET == 'gongguan':
     GH = 4.2                # 公館的騎樓店面一樓高 4.2 m（groundH）
     _SHOPS = [dict(n='阿鳳麵店', c='#c9463d', w=10, type='noodle', it='noodle', sub='乾麵・餛飩湯・小菜', v='阿鳳麵店', atlas='gg_afeng_h', vatlas='gg_afeng_v'), dict(n='青木茶室', c='#2f7d5b', w=8, type='tea', it='tea', sub='茶室・外帶'),
               dict(n='頁間書屋', c='#3b5a8c', w=12, type='book', it='books', sub='書店・咖啡'), dict(n='日和便利店', c='#3a6fb0', w=10, type='cvs', it='cvs', band='#e0a030'),
-              dict(n='公館藥局', c='#4a9a6a', w=8, type='none', it='cvs', v='藥局', atlas='gg_yaoju_h', vatlas='gg_yaoju_v'), dict(n='滷味・鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei', atlas='gg_luwei_h'),
-              dict(n='慢輪單車', c='#b5532c', w=9, type='bike', it='bike', sub='維修・保養・二手單車'), dict(n='咖啡・輕食', c='#8c3b47', w=9, type='none', it='cafe', atlas='gg_kafei_h'),
+              dict(n='公館藥局', c='#4a9a6a', w=8, type='none', it='cvs', v='藥局', atlas='gg_yaoju_h', vatlas='gg_yaoju_v'), dict(n='洋洋鹹酥雞', c='#e0b24a', sc='#3b2a1e', w=8, type='none', it='luwei'),
+              dict(n='慢輪單車', c='#b5532c', w=9, type='bike', it='bike', sub='維修・保養・二手單車'), dict(n='Afar café', c='#3e4c42', w=9, type='none', it='cafe'),
               dict(n='水果行', c='#e0a030', sc='#3b2a1e', w=8, type='none', it='fruit', atlas='gg_shuiguo_h'), dict(n='自助洗衣', c='#4a90c2', w=9, type='none', it='laundry', atlas='gg_laundry_h'),
               dict(n='影印・輸出', c='#2f3a44', w=9, type='none', it='print', v='影印', atlas='gg_yingyin_h', vatlas='gg_yingyin_v'), dict(n='日日定食', c='#5c3a21', w=10, type='none', it='teishoku', v='定食', atlas='gg_ririteishoku_h', vatlas='gg_ririteishoku_v'),
-              dict(n='二手唱片', c='#2b2b2b', w=8, type='none', it='books', atlas='gg_changpian_h'), dict(n='文具・畫材', c='#8c3b47', w=9, type='none', it='books', atlas='gg_wenju_h'),
-              dict(n='早午餐', c='#c9463d', w=9, type='none', it='cafe', atlas='gg_brunch_h')]
+              dict(n='轉角唱片', c='#2b3a4a', w=8, type='none', it='books'), dict(n='文具・畫材', c='#8c3b47', w=9, type='none', it='books', atlas='gg_wenju_h'),
+              dict(n='Daybreak', c='#3e5a3e', w=9, type='none', it='cafe')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
     # 樓上的住戶（套件沒有；台北商店街的樓上是補習班、診所、髮廊…）：直立招牌（建築另一側：字、底色、字色、長度）、二樓整面大招牌（二樓不開窗）、屋頂廣告看板
     _VT = {1: ('美髮', '#ffffff', '#c9463d', 2.6), 4: ('中醫診所', '#f4ead8', '#2f5d50', 4.2), 6: ('民宿', '#ffffff', '#3b5a8c', 2.6), 7: ('數學補習', '#fff2a8', '#c9463d', 4.2),
@@ -138,11 +138,36 @@ if SET == 'gongguan':
                     awning=dict(x0=-4.6, x1=4.6, y0=2.76, y1=2.44, d=0.7), signs=[('ggbike_sign', -2.6, 1.2, 2.84, 3.8, 'front')], sign_back='black',
                     decals=[('ggbike_plaque', 4.25, 4.6, 1.5, 2.1, 0.03)], lamps=[(-2.95, 3.62), (1.55, 3.62), (4.42, 2.55)],
                     props=[('pump', 4.55, 0.25), ('board', 'ggbike_board', 2.05, 0.55)]),
+        # 公館第二批（使用者 11-04 02:0x，AA_650；門窗數字 docs/art-rebuild/second_ai/wip/gongguan5/DOORS.md）
+        'G05': dict(dep=3.0, wallc='#d9b46a', frame='alu', street='ggyy_sign', street_lit=True, sign_lit=True,   # 洋洋鹹酥雞：左邊開放式炸物櫃台、右邊玻璃門＋落地窗；黃色舊牆、燈箱招牌
+                    cards=[('ggyy_kitchen', -4.3, -0.25, 0.82, 2.85, 0.7), ('ggyy_win', 1.95, 3.5, 0.3, 2.47, 0.8)], open=('ggyy_kitchen',),
+                    door=dict(x0=0.45, x1=1.95, y1=2.47, style='wood', key='ggyy_door', d=0.6, frame='alu', hinge='right'),
+                    ledges=[(-4.3, -0.25, 0.82, 0.25, 'steel')], signs=[('ggyy_sign', -2.2, 2.8, 2.88, 3.8, 'front')], sign_back='#c9a24e',
+                    props=[('board', 'ggyy_board', -0.1, 0.5), ('box', 'ggyy_bins', 3.55, 4.25, 0.95, 0.4, 0.4, 'steel')]),
+        'G07': dict(dep=3.0, wallc='#e8dfcc', street='ggafar_sign', street_x=0.6,   # Afar café：深綠飾帶上的招牌字、木框大窗、木門；黑板菜單、壁燈、窗前矮書架
+                    cards=[('ggafar_win', -3.9, -0.3, 0.73, 2.68, 0.8, [-2.1]), ('ggafar_int', -0.3, 1.75, 0.73, 2.68, 0.8, [0.7])],
+                    door=dict(x0=1.8, x1=3.35, y1=2.82, style='wood', key='ggafar_door', d=0.6, hinge='left'),
+                    signs=[('ggafar_sign', -4.8, 4.8, 2.9, 3.84, 'front')], sign_back='black',
+                    decals=[('ggafar_menu', 3.7, 4.3, 1.15, 2.05, 0.03)], lamps=[(3.95, 2.6)],
+                    props=[('box', 'ggafar_shelf', 0.25, 1.65, 1.1, 0.3, 0.35, 'wood'), ('pot', 4.45, 0.35, 'broad')]),
+        'G12': dict(dep=3.0, wallc='#e9e1d0', street='ggcorner_sign',   # 轉角唱片：深藍飾帶、櫥窗（海報、唱機、黑膠）、木門；營業時間牌、門外唱片箱
+                    cards=[('ggcorner_win', -3.39, -2.0, 0.64, 2.81, 0.8), ('ggcorner_int', -2.0, 0.69, 0.64, 2.81, 0.8)],
+                    door=dict(x0=0.84, x1=2.42, y1=2.81, leaf=2.47, style='wood', key='ggcorner_door', d=0.6, hinge='left'),
+                    signs=[('ggcorner_sign', -3.7, 3.7, 2.9, 3.84, 'front')], sign_back='black',
+                    decals=[('ggcorner_notice', 2.75, 3.35, 1.3, 2.12, 0.03)], lamps=[(3.05, 2.75)],
+                    props=[('box', 'ggcorner_crate', 2.6, 3.4, 1.0, 0.35, 0.4, 'wood'), ('pot', 3.5, 0.75, 'fern')]),
+        'G14': dict(dep=3.0, wallc='#efe8da', frame='#7d9a86', street='ggdb_sign', base='ggdb_tile',   # Daybreak：灰綠框大窗＋黃色小方磚腰牆、灰綠框玻璃門＋側窗；米色帆布雨棚、米白飾帶上的招牌
+                    cards=[('ggdb_int', -3.31, 1.48, 0.76, 2.53, 0.8, [-1.7, -0.1]), ('ggdb_door', 2.73, 3.07, 0.05, 2.43, 0.6)],
+                    door=dict(x0=1.6, x1=2.73, y1=2.43, style='wood', key='ggdb_door', d=0.6, hinge='right'),
+                    awning=dict(x0=-3.5, x1=3.1, y0=2.94, y1=2.5, d=0.75, style='canvas', color='#e8dcc0'),
+                    canopy=dict(x0=-4.2, x1=4.2, y0=2.96, y1=3.84, d=0.12, color='#efe8da'), signs=[('ggdb_sign', -2.2, 2.9, 3.05, 3.76, 'canopy')],
+                    decals=[('ggdb_menu', 3.3, 3.95, 1.2, 2.15, 0.03)], lamps=[(3.62, 2.62)],
+                    props=[('board', 'ggdb_board', -2.6, 0.5), ('pot', -3.85, 0.35, 'broad'), ('pot', 3.95, 0.4, 'broad')]),
     }
     SPECS = []; _x = -68.0
     for _i, _s in enumerate(_SHOPS):
         _last = _i == len(_SHOPS) - 1; _X0 = _x; _X1 = _x + _s['w'] + (1.2 if (_i < 8 and not _last) else 0.0); _W = _X1 - _X0; _cx = (_X0 + _X1) / 2
-        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if _s['type'] == 'none' else 1
+        _pl = [_W / 2]; _nb = max(1, round(_W / 5)) if (_s['type'] == 'none' and _i not in (5, 7, 12, 14)) else 1   # 第二批四間（AA_650）變成進得去的店：店門前不放中間那根柱子（參考圖沒有；zones3d.js 一起改）
         for _k in range(1, _nb): _pl.append(_W / 2 - _k * _W / _nb)
         if _last: _pl.append(-_W / 2)
         _sp = dict(id=f'G{_i:02d}', pos=(_cx, 19.0), ry=math.pi, w=_W, d=16, floors=_GG_FLOORS[_i], wall=_WALLT[_i % 4], color=_WALLC[_i % 7],
