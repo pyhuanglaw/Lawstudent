@@ -36,7 +36,7 @@ NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h
 NAV_HASH_PROPS = "(()=>{ const n0=GAME.E.nav, n=new E3.NavGrid(n0.w,n0.h,n0.cell,n0.ox,n0.oz); n.b.set(n0.b); const L=(Z3.PROP_BLOCKS&&Z3.PROP_BLOCKS.wenzhou)||[]; if(Z3.propBlocks) Z3.propBlocks(n,L); let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0), L.length]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
     const col=E.colliders.map(c=>[r(c.position.x),r(c.position.y),r(c.position.z),r(c.geometry.parameters.width),r(c.geometry.parameters.height),r(c.geometry.parameters.depth)]).sort();
-    const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
+    const it=E.interactables.filter(i=>i.park!=='cat').map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).concat(E.interactables.filter(i=>i.park==='cat').map(i=>['（貓的互動點，位置不比：跟著貓走）',0,0,r(i.radius||0)])).sort();   /* 2026-11-04 改：貓的「摸摸」互動點跟著貓走（src/wzcat3d.js，J13）——正式模型有骨架的 bldg.wz_cat，17:30 以前貓醒著在公園走；?nobldg 沒有 bldg.wz_cat，貓趴在圓椅不動。兩邊位置本來就不同（CC 75a095355 那次 39 對 39 個、「完全相同」FAIL 的原因）：只比有沒有、半徑 */
     return {col, it}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景（引擎每格會重設 visible，所以不能只設 visible=false），只比場景 */
