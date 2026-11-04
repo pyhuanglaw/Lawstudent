@@ -17120,7 +17120,7 @@
    "sha": "30c0ae20",
    "msg": "ACTIONED",
    "what": "SEATFIG-LOD1-HAIR-1104（BB-C P3；CC SITAMB_CLOUD_1104 ⑧）：坐著的替身遠處版（_lod1）頭頂不再是一塊方的——脖子以上照 LOD0 不減，400→800 面；網格名字不變，遊戲程式不用改",
-   "task": "STANDIN-LOD-1104",
+   "task": "SEATFIG-LOD1-HAIR-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 18:4x 換檔（seated_figures.glb／.json／seated_figures.py＋README）；seated_figures、seated_figures_lod、desk_furniture ALL PASS；CC 用 ⑧ 同一個鏡頭重拍"
   },

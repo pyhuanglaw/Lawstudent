@@ -46279,6 +46279,36 @@
    "authorized": "D85",
    "notWaitUser": "工具修正，不用問使用者",
    "next": "產生器補上 AA_612／AA_627／AA_630 的換字（read_fix 或源檔），讓重產和現在的 msg2_pool.js 一字不差；build_pool.py 的來源換 3b5043eef 重產、確認 msg_pool.js 不變"
+  },
+  {
+   "id": "SEATFIG-LOD1-HAIR-1104",
+   "title": "坐著的替身遠處版（_lod1）頭頂一塊方的：脖子以上照 LOD0 不減（400→800 面）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "sha": "1eb7182b7",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一週博思 101 國文課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 17:19（CC SITAMB_CLOUD_1104 ⑧）",
+   "authorized": "D108；BB 測試回報",
+   "notWaitUser": "美術修正",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB_255／CC SITAMB ⑧",
+    "acceptance": "遠處版頭頂沒有方塊；CC 同一個鏡頭重拍",
+    "ack": "ACTIONED"
+   },
+   "next": "【LAWWW-C 11-04 18:4x】LAWWW2 30c0ae20 換檔進 1eb7182b7；BB Blender 階段 PASS（BB_255 ae24b083a）；下一步 CC 用 ⑧ 同一個鏡頭重拍"
   }
  ]
 }
