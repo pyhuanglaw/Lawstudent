@@ -26,6 +26,9 @@ const XS3=(function(){
     for(const [x,z] of L.lamps) nav.blockCircle(x,z,0.3);
     for(const [x,z] of L.bollards) nav.blockCircle(x,z,0.2);
     { const b=L.busStop; nav.blockRect(b.x+0.9,b.z,0.5,b.w,0); }
+    const BR=(typeof Z3!=='undefined'&&Z3.BIKE_RACKS&&Z3.BIKE_RACKS.xinsheng)||[];   /* BIKE-PARK-1104：腳踏車停車架（側門兩邊圍牆前、店面那一側路邊）；bike3d.js 的合法停車處讀同一份 */
+    for(const [x,z,ry] of BR) nav.blockRect(x,z,4.6,1.6,-ry);
+    if(W3.bikeRack) for(const [x,z,ry] of BR){ const r=W3.bikeRack(7); r.name='xs_bike_rack'; r.position.set(x,0,z); r.rotation.y=ry; g.add(r); }
     // 樹、路燈（套件；參考圖：校園那一側是大王椰子和樟樹，店面那一側是樟樹）
     L.trees.palms.forEach(([x,z],i)=>{ if(!TK.royalPalm) return; const p=TK.royalPalm(15+(i%3)*1.2,700+i,{crown:0.72}); p.position.set(x,0,z); p.rotation.y=i*1.7; g.add(p); });
     L.trees.camphor.forEach(([x,z],i)=>{ if(!TK.tree) return; const t=TK.tree(9+(i%4)*1.1,900+i,{sp:'camphor'}); t.position.set(x,0,z); t.rotation.y=i*2.3; g.add(t); });
