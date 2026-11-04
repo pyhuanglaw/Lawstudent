@@ -1,11 +1,12 @@
-"""CC（帳號 A）11-04：BIKE_shop——慢輪單車（LAWWW 049592a15 進得去／買車／換車／自動停車；f63591e37 AA_651 補胎、櫃台小東西、換車後兩句）。測 b85e1afc1。
+"""CC（帳號 A）11-04：BIKE_shop——慢輪單車（LAWWW 049592a15 進得去／買車／換車／自動停車；f63591e37 AA_651 補胎、櫃台小東西、換車後兩句；933b9c36d 室內 v1b）。測 03713452b。
   真實玩家流程（不用 ?turbo、不瞬移、不改劇情狀態）；只有前置讀檔，標【前置／捷徑】。每一段都做卡住檢查、逐句印對話（transcript）、截圖。
   P 錢不夠：【前置／捷徑】讀檔：公館、慢輪單車門口南邊 (−0.3, 14)、2025-09-23（二）15:00、money 50、條件事件關閉。
      P1 走到店門口 →「進入慢輪單車」→ 進店（zone bikeshop）
      P2 看淑女車 → 選「買這台」→ 老闆「這台不急。……下次再來看。」、不扣錢、沒有多一台車
      P3 找車行老闆 →「補胎」→ 老闆「先打氣撐一下，……明天再來。」、不扣錢
   M 錢夠：【前置／捷徑】同上、money 30000。
-     M1 進店
+     M1 進店；室內 v1b（933b9c36d）：正式模型接上以後修車架上的車（GLB 節點 REPAIR_BIKE*）是藏的（visible＝false）；
+        修車架旁邊走得過去：真的走到兩支修車架後面、工作台前的走道 (2.0, −4.85)，再走到左邊那條縫 (0.65, −4.0)
      M2 看淑女車 → 買這台 → 奶油白：扣 4,200、現在騎的＝淑女車奶油白、買過的車 2 台、時間 +10 分；台詞：調座墊、旁白、「騎看看。」
      M3 找車行老闆 → 換一台騎 → 城市通勤車：AA_651「好，這台。……那台先放我這裡。」＋旁白「（座墊還是你上次調的高度。）」；再換回淑女車（同兩句）
      M4 補胎：扣 100、時間 +15 分；台詞：老闆「扎到釘子了。……十五分鐘。」、旁白「（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）」、老闆「好了。最近那條路在施工，繞一下。」
@@ -72,6 +73,8 @@ PCHK = """(()=>{ const E=GAME.E, G=GAME.G, s=G.bike||{}, z=G.zone; const spots=B
   const doors=E.interactables.filter(i=>i.exit&&!i.bike).map(i=>({l:i.label,d:+(Math.hypot(i.x-s.x,i.z-s.z)-(i.radius||1.5)).toFixed(2)})).sort((a,b)=>a.d-b.d).slice(0,2);
   return {zone:s.zone, x:s.x, z:s.z, yaw:s.yaw, kind:s.kind, color:s.color, inSpot:inSpot?inSpot.src:null, ok:BIKE.parkOK(E,{x:s.x,z:s.z,yaw:s.yaw||0}), nSpots:spots.length,
     legal:leg?{x:+leg.x.toFixed(2),z:+leg.z.toFixed(2),d:+leg.d.toFixed(1)}:null, maxd:BIKE.MAXD, dPlayer:+Math.hypot(s.x-p.x,s.z-p.z).toFixed(2), doors}; })()"""
+REPAIR_JS = """(()=>{ const z=GAME.E.zone; if(!z||!z.group) return null; const ns=[]; z.group.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)) ns.push({n:o.name,v:o.visible}); });
+  return {formal:!!z.formal, nodes:ns, stand:[GAME.E.canStand(2.0,-2.85,0.3,0),GAME.E.canStand(0.65,-3.4,0.3,0)]}; })()"""
 FARSIDE_JS = """(([bx,bz])=>{ const E=GAME.E; const ds=E.interactables.filter(i=>i.exit&&!i.bike).sort((a,b)=>Math.hypot(a.x-bx,a.z-bz)-Math.hypot(b.x-bx,b.z-bz)); const d=ds[0];
   const cand=[]; for(let k=0;k<12;k++){ const a=k/12*Math.PI*2; for(const r of [0.7,0.95]){ const x=bx+Math.sin(a)*r, z=bz+Math.cos(a)*r; if(!E.canStand(x,z,0.3,0)) continue; cand.push({x:+x.toFixed(2),z:+z.toFixed(2),dd:d?Math.hypot(d.x-x,d.z-z)-(d.radius||1.5):99}); } }
   cand.sort((a,b)=>b.dd-a.dd); return cand.slice(0,4); })(%s)"""
@@ -252,6 +255,17 @@ async def main():
                 check('M 進不了店，後面不測', False)
             else:
                 fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+                # M1b 室內 v1b：REPAIR_BIKE 預設藏、修車架旁邊走得過去
+                await wait_js(pg, "!!(GAME.E.zone&&GAME.E.zone.formal)", 60)
+                r = await pg.evaluate(REPAIR_JS)
+                check('M1b 慢輪單車室內正式模型接上（zone.formal）', bool(r) and r['formal'], J(r))
+                check('M1b 修車架上的車（REPAIR_BIKE*）是藏的（visible＝false）', bool(r) and bool(r['nodes']) and all(not q['v'] for q in r['nodes']), J(r and r['nodes']))
+                for tx, tz, nm in ((2.0, -4.85, '修車架後面、工作台前的走道'), (0.65, -4.0, '左邊修車架和鐵架之間的縫')):
+                    ok = await L.go_to(pg, cdp, Run(), tx, tz, 0.5, nm, max_s=300)
+                    s = await pg.evaluate(ST)
+                    check('M1b 修車架旁邊走得過去：走到%s (%.2f,%.2f)' % (nm, tx, tz), ok and math.hypot(s['x'] - tx, s['z'] - tz) <= 0.7, J({k: s[k] for k in ('x', 'z')}))
+                await pg.screenshot(path=os.path.join(OUT, 'M1b_repair_area.png'))
+                await stuck_check(pg, cdp, 'M1b_repair_area', fb0, e0, errs)
                 # M2 買車
                 if await walk_tap(pg, cdp, 'M2', {'look': 'lady'}, '看這台車'):
                     s0 = await pg.evaluate(ST)
