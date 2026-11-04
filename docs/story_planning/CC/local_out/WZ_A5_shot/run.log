@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_a5_shot_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ_A5_shot\out
+PASS 遊戲載入
+== D_day（14:00）
+  [前置／捷徑] 讀檔：溫州街 A5 日和便利店門前的路上 [45.8, 0.4]、2025-09-23（二）14:00、條件事件關閉
+PASS [D_day] 溫州街正式模型載入  {"glb": true, "man": true}
+  [D_day] 招牌：{"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0, "uv": null, "img": [1024, 1024], "flipY": false}；套件：A5 套件在（正式模型接上後藏起來）
+FAIL [D_day] ① 招牌網格 wz_signs_lit 在、A5 那一塊有頂點  {"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0}
+FAIL [D_day] ② 讀得到 A5 招牌的貼圖顏色  {"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0, "uv": null, "img": [1024, 1024], "flipY": false}
+  到達「對街看得到 A5 招牌的地方」附近（0.22 m）：點地面 5 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+PASS [D_day] 真的走到拍招牌的位置 [44, -2.2]  {"x": 44.12, "z": -2.02}
+  [D_day] 截圖 wz_a5_day.png（鏡頭對準招牌：True）
+PASS [D_day] 鏡頭轉到招牌方向
+PASS [D_day] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 6.74, "fb": [0, 0], "errs": []}
+== N_night（20:00）
+  [前置／捷徑] 讀檔：溫州街 A5 日和便利店門前的路上 [45.8, 0.4]、2025-09-23（二）20:00、條件事件關閉
+PASS [N_night] 溫州街正式模型載入  {"glb": true, "man": true}
+  [N_night] 招牌：{"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0, "uv": null, "img": [1024, 1024], "flipY": false}；套件：A5 套件在（正式模型接上後藏起來）
+FAIL [N_night] ① 招牌網格 wz_signs_lit 在、A5 那一塊有頂點  {"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0}
+FAIL [N_night] ② 讀得到 A5 招牌的貼圖顏色  {"found": true, "name": "sk_sign_A2C", "mat": "wz_signs_lit", "nVerts": 0, "uv": null, "img": [1024, 1024], "flipY": false}
+  到達「對街看得到 A5 招牌的地方」附近（0.24 m）：點地面 5 次、轉鏡頭 1 次、搖桿 0 次，18 秒
+PASS [N_night] 真的走到拍招牌的位置 [44, -2.2]  {"x": 44.14, "z": -2}
+  [N_night] 截圖 wz_a5_night.png（鏡頭對準招牌：True）
+PASS [N_night] 鏡頭轉到招牌方向
+PASS [N_night] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 6.66, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+FAILED 4: [D_day] ① 招牌網格 wz_signs_lit 在、A5 那一塊有頂點；[D_day] ② 讀得到 A5 招牌的貼圖顏色；[N_night] ① 招牌網格 wz_signs_lit 在、A5 那一塊有頂點；[N_night] ② 讀得到 A5 招牌的貼圖顏色

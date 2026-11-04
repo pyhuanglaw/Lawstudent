@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ_A5_shot",
+  "sha": "c7fde4f3e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_a5_shot_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:08:38",
+  "end": "2026-11-04T11:11:03",
+  "seconds": 146,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 34,
+    "mem": 57,
+    "used_gb": 18.1,
+    "chrome_testing": 29
+  }
+}
