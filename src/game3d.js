@@ -363,8 +363,8 @@ const GAME = (function(){
     if(typeof BIKE!=='undefined'&&BIKE.migrate){ try{ BIKE.migrate(s); }catch(e){ console.warn('BIKE.migrate',e); } }
     if(typeof SIDEQ!=='undefined'&&SIDEQ.renameMigrate){ try{ SIDEQ.renameMigrate(s); }catch(e){ console.warn('SIDEQ.renameMigrate',e); } }   /* 公館四間店改名（AA_647 第 6 節）：相簿裡已經存下的順手的事標題換新店名；熟客次數、任務進度的 key 照舊 */   /* 單車的款式、顏色、買過的車（BIKE-SHOP-PARK-1104；舊存檔＝開局那台城市通勤車）*/   /* CG 補記（BB 2026-11-02；adv3d.js）*/
     if(typeof FRIENDS2!=='undefined'&&FRIENDS2.migrate){ try{ FRIENDS2.migrate(s); }catch(e){ console.warn('FRIENDS2.migrate',e); } }   /* AA_637 第 3 節：舊存檔已經認識的朋友，名字卡不出現 */
-    if(typeof YTJOB!=='undefined'&&YTJOB.migrate){ try{ YTJOB.migrate(s); }catch(e){ console.warn('YTJOB.migrate',e); } }
-    if(typeof STORY!=='undefined'&&STORY.fafuMigrate&&s.flags&&typeof s.flags==='object'){ try{ STORY.fafuMigrate(s); }catch(e){ console.warn('STORY.fafuMigrate',e); } }   /* D118-B5a（D118_PLAN 第 8 節第 6 點）：只看過法服公告的 lawclub 改 LAWCLUB_NOTICE；還在排的值班出發選單 cancelled；FAFU_STORY_SEEN 補 0；FAFU_TRK／FAFU_OFF／FAFU_ROT 留著 */   /* AA_610：已經認識語彤的舊存檔＝記 YT_MET_JOB（照舊）；沒認識的要去一盞茶屋打工才認識（src/ytjob3d.js）*/
+    if(typeof YTJOB!=='undefined'&&YTJOB.migrate){ try{ YTJOB.migrate(s); }catch(e){ console.warn('YTJOB.migrate',e); } }   /* AA_610：已經認識語彤的舊存檔＝記 YT_MET_JOB（照舊）；沒認識的要去一盞茶屋打工才認識（src/ytjob3d.js）*/
+    if(typeof STORY!=='undefined'&&STORY.fafuMigrate&&s.flags&&typeof s.flags==='object'){ try{ STORY.fafuMigrate(s); }catch(e){ console.warn('STORY.fafuMigrate',e); } }   /* D118-B5a（D118_PLAN 第 8 節第 6 點）：只看過法服公告的 lawclub 改 LAWCLUB_NOTICE；還在排的值班出發選單 cancelled；FAFU_STORY_SEEN 補 0；FAFU_TRK／FAFU_OFF／FAFU_ROT 留著 */
     if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
