@@ -40095,9 +40095,9 @@
    "title": "國考題目範圍＋國考總複習",
    "area": null,
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【LAWWW-C 11-04 23:0x】派子代理（worktree d118b7-1104，從 530a72ff4）：CLS.takenCourses、PG.poolFor、STUDY.review(GM,'bar')（一試前 30 天、6 小時）、PG.examDay 回寫卡片與 cue；國考版介面字只照 AA_638 機械替換並標暫定、交件時列給 AA；新測試 d118_b7（修改前要 FAIL）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
+   "next": "【LAWWW-C 11-05 00:0x】合併 a544cc690（子代理 d118b7-1104 2ce8ec738）：CLS.takenCourses、PG.poolFor（只出修過的課，不到 40 題退回全部；已存題組不重抽）、PG.barReview（一試前 30 天～開考：2029 7/5、2030 7/4、2031 7/3）、STUDY.review(GM,'bar')（6 小時、答錯過的排前面、入口和期末同一個、家裡也接）、一試 cue＋交卷逐題回寫觀念卡。tests/d118_b7_unit.js 61 項（修改前 FAILED 41）；子代理全套 1004 支 0 失敗；合併後關鍵 25 支 ALL PASS。暫定字 STUDY.BAR_TEXT 七句＋結束字幕最多 8 科（BAR_CAP_LINES）→ AA 定稿（D118-B7-TEXT-1104）；國考總複習沒有提醒／停點 → AA 字＋BB 機制（D118-B7-REMIND-1104）；美國路線大五上補修的強制執行法、法律倫理不算修過 → BB 定；司法官二試題池沒限修過的課、二試和研究所沒有 cue／卡片回寫、研究所總複習 grad 沒做 → D118-B7-FOLLOW-1104（P3）｜【LAWWW-C 11-04 23:0x】派子代理（worktree d118b7-1104，從 530a72ff4）：CLS.takenCourses、PG.poolFor、STUDY.review(GM,'bar')（一試前 30 天、6 小時）、PG.examDay 回寫卡片與 cue；國考版介面字只照 AA_638 機械替換並標暫定、交件時列給 AA；新測試 d118_b7（修改前要 FAIL）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40111,7 +40111,92 @@
    "source": "D118_PLAN.md D118-B7（使用者 11-02 D118）",
    "authorized": "使用者直接指派（X151）；D111 LAWWW 遊戲總監",
    "parent": "STUDY-EXAM-SYS-1102",
-   "notes": "依賴：B3；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：從 2029-07-10 的存檔：做國考總複習 → 8/4 作答 → 9/7 的結果和答對題數一致。約 20 分鐘。"
+   "notes": "依賴：B3；工時：LAWWW 2h；BB 20 分鐘；BB 驗收：從 2029-07-10 的存檔：做國考總複習 → 8/4 作答 → 9/7 的結果和答對題數一致。約 20 分鐘。",
+   "sha": [
+    "a544cc690",
+    "2ce8ec738",
+    "2c9ac59d7"
+   ]
+  },
+  {
+   "id": "D118-B7-TEXT-1104",
+   "title": "國考總複習的介面字定稿：STUDY.BAR_TEXT 七句（what、hint、open、late、closed、exam、line）照 AA_638 換數字換詞的暫定字＋結束字幕最多 8 科的做法",
+   "area": "SYS",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 18,
+    "earliest": "畢業以後 2029-07-05 起（一試前 30 天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D118-B7 子代理交件（a544cc690）：「暫定字（請轉給 AA 定稿）」",
+   "authorized": "D118（使用者 11-02）",
+   "next": "【LAWWW-C 11-05 00:0x】send_message 給 AA-C（七句的暫定字＋AA_638 對照）；AA 給字 LAWWW 換、d118_b7 改期望值",
+   "sha": null,
+   "xai": {
+    "spec": "src/study3d.js STUDY.BAR_TEXT、STUDY.BAR_CAP_LINES；AA_638（企劃線 3271973c6）第 1 節",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 定稿七句（或照留）＋結束字幕列幾科；LAWWW 換字、跑 d118_b7",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "D118-B7-REMIND-1104",
+   "title": "國考總複習沒有提醒：期末有考前一週週日 20:00 的系統訊息，國考沒有；畢業以後篇站著不動會直接跳到下一件事，玩家可能不知道可以做國考總複習——要不要加提醒和停點（字 AA、機制 BB）",
+   "area": "SYS",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 18,
+    "earliest": "畢業以後 2029-07-05 起（一試前 30 天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 2 點",
+   "authorized": "D118（使用者 11-02）",
+   "next": "【LAWWW-C 11-05 00:0x】問 BB-C（停點、提醒的時間）、AA-C（提醒的字）；定了 LAWWW 做",
+   "sha": null,
+   "xai": {
+    "spec": "src/study3d.js S.REMIND_TEXT（期末）；PG.barReview 開放日期；畢業以後篇跳時間 CLS.STOP_FNS",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "BB 定提醒時間與停點、AA 給字；LAWWW 實作＋單元測試",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "D118-B7-FOLLOW-1104",
+   "title": "D118-B7 範圍外的後續：司法官二試題池（judgePool）沒照修過的課（美國路線可能考到刑事／公法判決研討）；二試、研究所筆試沒有 cue 和卡片回寫；研究所總複習（'grad'，D118 計畫 B6）沒做",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": 18,
+    "earliest": "畢業以後 2029-07-05 起（一試前 30 天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 4、5 點",
+   "authorized": "D118（使用者 11-02）",
+   "next": "國考一試那一套照做到二試、研究所；做之前問 BB 二試題池要不要限修過的課",
+   "sha": null
   },
   {
    "id": "D118-B8-1102",
