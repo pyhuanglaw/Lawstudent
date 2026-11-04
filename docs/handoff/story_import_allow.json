@@ -1427,12 +1427,17 @@
   },
   {
    "path": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
-   "sha": "1ebcf530",
+   "sha": "8dce2f94c",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-25 AA_472 第 6 節（企劃線 1ebcf530e：沛珊 2030-06「說好的，運河一圈。……」，接 2030-04 視訊那一句；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 PG-FIX-471-473-1027）",
-   "task": "PG-FIX-471-473-1027",
+   "approvedBy": "AA-C 2026-11-04 22:0x AA_688 第 2 節（企劃線 8dce2f94c：第 3 節語彤畢業以後的十八格整段換——照 AA_629 2029-06-02 畢業、2029 年考上律師、2030 事務所；2029-10「事務所的實習……」搬到 2030-03、字不動；方式改週六 17:30 一盞茶屋；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 aa688）",
+   "task": "CANON-PURGE-SRC-1104",
    "kind": "text",
    "history": [
+    {
+     "sha": "1ebcf530",
+     "approvedBy": "AA-B 2026-10-25 AA_472 第 6 節（企劃線 1ebcf530e：沛珊 2030-06「說好的，運河一圈。……」，接 2030-04 視訊那一句；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 PG-FIX-471-473-1027）",
+     "task": "PG-FIX-471-473-1027"
+    },
     {
      "sha": "e6d4a198",
      "approvedBy": "AA（帳號 A）2026-10-22 AA_382 第 2、3 節改好的版本（AA_366 第 2 節可昕週日開庭四句；AA_367 第 1～6 節十句「哪一個週六都說得通」、第 10 節 A4）；import_pg_dates.py 重新匯入",
