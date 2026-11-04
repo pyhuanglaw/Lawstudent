@@ -79,9 +79,10 @@ const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(
   /* 5 圖書館三樓（AA_643 第 9-1 節，企劃線 4862b7139）：新遊戲（YT_JOB_V）＝大一下第 10 週以後週末 17:30～19:00、YT_PARENTS_KNOW；舊存檔照舊 21:00～22:00 阿姨那一版 */
   { const T=STORY_EVENTS.find(e=>e.id==='ev_yutong_thanks'), C=T.prereq.custom, g=(wk,wd,h,f)=>({day:tdOf('Y1S2',wk,wd),hour:h,flags:Object.assign({YT_JOB_V:1,YT_PARENTS_KNOW:true},f||{})});
     const A643=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 4862b7139:"docs/story_planning/AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
-    const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text);
+    const A673=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 9198858cf:"docs/story_planning/AA_673_台詞第九批_事件後半.md"',{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();   /* AA673-LINES-1104：v3e 那一句照 AA_673 第 1 節第 2 列改短、後面多一句旁白 */
+    const i=T.dialogue.findIndex(l=>l.label==='v3'), V=T.dialogue.slice(i).filter(l=>l.text).map(l=>l.text), inDoc=t=>{ const x=t.replace(/^「|」$/g,''); return A643.includes(x)||A673.includes(x); };
     check('5. 新遊戲：第 10 週週六 18:00＝有；週三、第 9 週、19:30、沒有 YT_PARENTS_KNOW＝沒有；舊存檔（沒有 YT_JOB_V）照舊 21:00～22:00＋yutong_hospital',C(g(10,6,18))&&C(g(12,7,17.6))&&!C(g(10,3,18))&&!C(g(9,6,18))&&!C(g(10,6,19.5))&&!C(g(10,6,18,{YT_PARENTS_KNOW:false}))&&C({day:tdOf('Y1S2',10,2),hour:21.5,flags:{yutong_hospital:true}})&&!C({day:tdOf('Y1S2',10,6),hour:18,flags:{}}));
-    check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句）',A643.length>1000&&V.length===8&&V.every(t=>A643.includes(t.replace(/^「|」$/g,''))),JSON.stringify(V.filter(t=>!A643.includes(t)))); }
+    check('5. 新稿的句子都在 AA_643 第 9-1 節（開頭旁白、三句、三個選項的回覆、最後一句；v3e 那一句和後面的旁白照 AA_673 第 1 節第 2 列）',A643.length>1000&&A673.length>500&&V.length===9&&V.every(inDoc)&&A673.includes(V[V.length-1])&&!A643.includes(V[V.length-1]),JSON.stringify(V.filter(t=>!inDoc(t)))); }
   /* 第一次去她家（AA_625；交往以後的第一個平日傍晚 17:00 私訊 → 18:30 去她家，記 YT_HOME_SEEN）＋事件 6 在她家當面版（AA_643 第 5 節）*/
   { global.OUT={bg:k=>k,get:(g,id)=>(g._out||{})[id]||null,plan:(g,o)=>((g._out=g._out||{})[o.id]=Object.assign({state:'planned'},o))};
     const home=async(wk,f)=>{ fresh(); Object.assign(G.flags,{YT_MET_JOB:true,dating_heroine_03:true,romance:{heroine_03:{status:'dating',sinceDay:tdOf('Y2S1',3,1)-1}}},f||{}); G.flags.romance.heroine_03.sinceDay=wk[2]-1; G.day=wk[2]; G.hour=17.1; YTJOB.homePhone(G); PHONE.tick(G);
