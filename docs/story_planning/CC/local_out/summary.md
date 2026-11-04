@@ -773,3 +773,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [STUCK_1104_main2] | [gpu_wrap 78.7s] pageerror c.attended.every is not a function | [gpu_wrap 134.6s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 134.8s] BROWSER DISCONNECTED
 - 2026-11-04T09:10:41  HOT_soc_zr  sha=fd8d447d2  exit=0  307s       用了 4.5 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
       err.log (last 5): [gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [HOT_soc_zr] | [gpu_wrap 268.9s] page close url=http://127.0.0.1:8813/index.html | [gpu_wrap 269.0s] BROWSER DISCONNECTED
+- 2026-11-04T09:12:57  HOT_stuck  sha=fd8d447d2  exit=0  481s    == 林芷若 跑了 9 次（上限 15，還有 0 條沒試） / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [HOT_stuck] | [gpu_wrap 442.5s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 442.6s] BROWSER DISCONNECTED

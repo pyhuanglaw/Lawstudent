@@ -1,0 +1,104 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_stuck1104_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\HOT_stuck\out
+  存檔：第 35 天、週2、15.40 時、library_media {"x": -3.12, "z": 0.12, "yaw": 4.917, "lv": 0, "y": 0}
+PASS 遊戲載入
+PASS 讀檔（自動存檔 → 標題「繼續」）  {"zone": "library_media", "hour": 15.4052, "day": 35, "x": -3.12, "z": 0.12, "lv": 0, "dlg": false, "depth": 0, "who": [], "adv": false, "cam": "follow", "frozen": false, "busy": false, "pose": "idle", "paused": false, "name": "", "text": "", "choices": [], "interact": "和林芷若說話", "running": null, "lastTalkError": null, "nch": 0}
+  這一區的 NPC（1）：[{"id": "heroine_02", "key": "heroine_02", "name": "林芷若", "crowd": null, "x": -4.05, "z": 0.3, "lv": 0, "pose": "read"}]
+PASS 讀檔後（還沒找人說話）可以玩：搖桿、時間、手機  {"moved": 2.1, "time_flows": true, "phone_open": true}
+== 林芷若（heroine_02）(-4.05,0.3) pose=read
+  到達「林芷若」附近（0.58 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [heroine_02_1] 按互動以後：對話框 1 行 ["經原我是第二次修啦。第一次期中考完我就沒去了。"]；體育課 []
+  [heroine_02_1] 第 1 步：林芷若「經原我是第二次修啦。第一次期中考完我就沒去了。」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 第 2 步：林芷若「那學期很亂。」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 第 3 步：林芷若「那學期很亂。」選單 ["「這次我盯著妳，不讓妳翹。」", "「那學期怎麼了？」"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 選單 ["「這次我盯著妳，不讓妳翹。」", "「那學期怎麼了？」"] → 「這次我盯著妳，不讓妳翹。」
+  [heroine_02_1] 第 4 步：林芷若「好啊，那你要記得叫我。我早上真的爬不起來。」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 第 5 步：林芷若「好啊，那你要記得叫我。我早上真的爬不起來。」選單 ["約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 選單 ["約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"] → 約她去…念書、吃飯、喝咖啡、散步、運動、出去玩
+  [heroine_02_1] 第 6 步：祐廷「你等一下有空嗎？」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 第 7 步：祐廷「你等一下有空嗎？」選單 ["念書…總圖、慢讀咖啡、法律學院圖書館", "吃飯…公館燒臘、半熟", "喝咖啡、喝茶…兩點半 Café、慢讀咖啡", "散步…散步要等你們變成朋友。", "運動…新體育館羽球場", "出去玩…還沒熟到可以兩個人出去", "算了"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 選單 ["念書…總圖、慢讀咖啡、法律學院圖書館", "吃飯…公館燒臘、半熟", "喝咖啡、喝茶…兩點半 Café、慢讀咖啡", "散步…散步要等你們變成朋友。", "運動…新體育館羽球場", "出去玩…還沒熟到可以兩個人出去", "算了"] → 念書…總圖、慢讀咖啡、法律學院圖書館
+  [heroine_02_1] 第 8 步：祐廷「你等一下有空嗎？」選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 去總圖一起念書
+  [heroine_02_1] 第 9 步：祐廷「你等一下有空嗎？」選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…之後 7 天內選一天", "算了"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1] 選單 ["現在一起過去", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…之後 7 天內選一天", "算了"] → 現在一起過去
+  [heroine_02_1] 第 10 步：林芷若「「總圖太安靜了，我會想講話。」」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_1]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c01952e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1] 和「林芷若」說話（選項路徑 ["「這次我盯著妳，不讓妳翹。」", "約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "念書…總圖、慢讀咖啡、法律學院圖書館", "去總圖一起念書", "現在一起過去"]）以後沒有卡住  {"moved": 0.34, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（0.37 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_02_2] 按互動以後：對話框 1 行 ["欸，你也在！剛好，我正想找人講話。"]；體育課 []
+  [heroine_02_2] 第 1 步：林芷若「欸，你也在！剛好，我正想找人講話。」選單 []｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_2] 第 2 步：林芷若「欸，你也在！剛好，我正想找人講話。」選單 ["約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"]｜busy=True depth=1 adv=True running=None frozen=False lastTalkError=None
+  [heroine_02_2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_2] 選單 ["約她去…念書、吃飯、喝咖啡、散步、運動、出去玩", "就這樣"] → 就這樣
+  [heroine_02_2] 第 3 步：林芷若「欸，你也在！剛好，我正想找人講話。」選單 []｜busy=False depth=0 adv=False running=None frozen=False lastTalkError=None
+  [heroine_02_2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c0a24f800] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_2] 和「林芷若」說話（選項路徑 ["就這樣"]）以後沒有卡住  {"moved": 3.01, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_02_1-2] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-2] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c04306200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c04306200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-2] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-2] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c04306200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c04306200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-2] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.94, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.07 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_02_1-1-2] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-2] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c5b6f5400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c5b6f5400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-1-2] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-2] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-2]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c5b6f5400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c5b6f5400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-1-2] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.95, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_02_1-1-3] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-3] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-3]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c04302600] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c04302600] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-1-3] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-3] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-3]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c04302600] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c04302600] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-1-3] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.93, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.08 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+  [heroine_02_1-1-4] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-4] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-4]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c5b6f9000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c5b6f9000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-1-4] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-4] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-4]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c5b6f9000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c5b6f9000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-1-4] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.95, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_02_1-1-5] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-5] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-5]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c007f1400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c007f1400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-1-5] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-5] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-5]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c007f1400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c007f1400] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-1-5] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.95, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_02_1-1-6] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-6] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-6]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+  [heroine_02_1-1-6] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-6] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-6]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."]
+PASS [heroine_02_1-1-6] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.95, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+  到達「林芷若」附近（1.19 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，5 秒
+  [heroine_02_1-1-7] 按互動以後：對話框 0 行 []；體育課 []
+  [heroine_02_1-1-7] 第 1 步：（旁白）「」選單 ["坐一下，看看四周時間 +20 分鐘", "起身"]｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-7]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning 星期和日期對不上，照行事曆改： 4 → 3"]
+  [heroine_02_1-1-7] 選單 ["坐一下，看看四周時間 +20 分鐘", "起身"] → 坐一下，看看四周時間 +20 分鐘
+  [heroine_02_1-1-7] 第 2 步：（旁白）「」選單 []｜busy=True depth=1 adv=False running=None frozen=True lastTalkError=None
+  [heroine_02_1-1-7]   console warn/error（最近）：["warning THREE.WebGLRenderer: Texture marked for update but no image data found.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning [.WebGL-0x7b4c00459200] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.", "warning 星期和日期對不上，照行事曆改： 4 → 3"]
+PASS [heroine_02_1-1-7] 和「林芷若」說話（選項路徑 ["坐一下，看看四周時間 +20 分鐘"]）以後沒有卡住  {"moved": 0.95, "time_flows": true, "phone_open": true} {"zone": "library_media", "dlg": false, "depth": 0, "adv": false, "frozen": false, "cam": "follow", "pose": "idle"}
+== 林芷若 跑了 9 次（上限 15，還有 0 條沒試）
+PASS 沒有 JS 例外  []
+ALL PASS
