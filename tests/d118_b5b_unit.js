@@ -74,7 +74,7 @@ const sit=async picks=>{ H.said=[]; H.opts=[]; H.picks=(picks||[0]).slice(); con
     for(const x of res) check('2. 第 '+x.k+' 場：前一天 20:00 法服群組一則（照稿）、出發選單（法服值班 9:00／這週請假）；到萬才館坐圓桌＝開頭'+(x.k>1?'→回訪（上一場那位）':'')+'→新個案→收尾；12:00；FAFU_STORY_'+x.k+'；SEEN＝'+x.k+'；同一天不能再演',
       x.okMsg&&x.okQ&&x.zone==='wancai'&&x.r===true&&x.again===false&&x.lines&&x.opts&&x.hour===12&&x.flag&&x.seen===x.k,x.lines?J({okMsg:x.okMsg,okQ:x.okQ,again:x.again,hour:x.hour,seen:x.seen}):x.got+' ≠ '+x.want);
     const mem=(H.G.social.mem.classmate_bohan||[]).filter(m=>m.tag==='FAFU_STORY').map(m=>m.note);
-    check('2. 記憶 FAFU_STORY 每場一筆（柏翰；note＝那件個案）',J(mem)===J(S.map(s=>s.note)),J(mem));
+    check('2. 記憶 FAFU_STORY 每場一筆（柏翰；note＝那件個案）；人物面板有記憶名稱',J(mem)===J(S.map(s=>s.note))&&!!SOCIAL.MEMORY_LABEL.FAFU_STORY,J([mem,SOCIAL.MEMORY_LABEL.FAFU_STORY]));
     check('2. 不給關係數值（柏翰、學姊的關係不變；純劇情）',J(SOCIAL.rel('classmate_bohan'))===R0.bh&&J(SOCIAL.rel('heroine_05'))===R0.sis);
     const n4=grp().length; at(dayOf(S[3])+14,21.9); rules(); const pre=grp().length===n4; at(dayOf(S[3])+14,22.1); rules(); const a4=grp().slice(n4);
     check('2. 第 4 場（第 8 件太太）兩週以後 22:00 法服群組：雅筑學姊「上次那位太太，律師那一週她們全家都來了。坐下來講了。」',pre&&a4.length===1&&a4[0].text===STORY.FAFU_STORY_AFTER4.text&&a4[0].name==='雅筑學姊',J(a4.map(m=>m.text)));
