@@ -1,11 +1,11 @@
 {
  "objects": 29,
  "unique_meshes": 29,
- "tris": 60054,
- "tris_drawn": 60054,
+ "tris": 58844,
+ "tris_drawn": 58844,
  "materials": 18,
  "out": "../mok/v3c.glb",
- "bytes": 3885740,
+ "bytes": 3835064,
  "texres": 512,
  "layout": 4,
  "seats": 24
