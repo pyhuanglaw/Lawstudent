@@ -841,3 +841,11 @@
 [09:10:57] [res] cpu=29% mem=57% (17.9/31.4 GB) chrome_testing=18  START HOT_deploy
 [09:12:19] 正在跑：HOT_stuck（已跑 7 分／上限 60 分）、HOT_soc_talk（已跑 5 分／上限 240 分）、HOT_deploy（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
 [09:12:57] [res] cpu=47% mem=58% (18.4/31.4 GB) chrome_testing=18  END HOT_stuck
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d47316e54..d31c2847a  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[09:13:07] ==== END   HOT_stuck  exit=0  481s   ====
+[09:13:10] memory 58% before starting HOT_p0 (2 running)
+[09:13:10] ==== START HOT_p0  (game @ fd8d447d2) ====
+[09:13:13] [res] cpu=56% mem=59% (18.5/31.4 GB) chrome_testing=18  START HOT_p0
+[09:14:22] [res] cpu=27% mem=55% (17.4/31.4 GB) chrome_testing=20  END HOT_deploy
