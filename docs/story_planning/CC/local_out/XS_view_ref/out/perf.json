@@ -1,0 +1,91 @@
+{
+ "sha": "555b9e0cb",
+ "perf_only": true,
+ "boot_s": 19.5,
+ "eye": [
+  19.0,
+  1.7,
+  9.0
+ ],
+ "look": [
+  52.92,
+  3.0,
+  30.200000000000003
+ ],
+ "day": {
+  "hour": 14.0,
+  "glb_ready_s": {
+   "xinsheng_street_glb": 4.33,
+   "xs_campus_pavilion_glb": null,
+   "xs_campus_hist_glb": null
+  },
+  "camera": {
+   "pos": [
+    19,
+    1.7,
+    9
+   ],
+   "fov": 46,
+   "aspect": 2.164,
+   "far": 170
+  },
+  "perf": {
+   "calls": 87,
+   "tris": 121109,
+   "frames": 1385,
+   "avg": 172.9,
+   "min": 42.92,
+   "low1": 50,
+   "calls_live": 87,
+   "tris_live": 121109
+  }
+ },
+ "night": {
+  "hour": 20.0,
+  "glb_ready_s": {
+   "xinsheng_street_glb": 1.88,
+   "xs_campus_pavilion_glb": null,
+   "xs_campus_hist_glb": null
+  },
+  "camera": {
+   "pos": [
+    19,
+    1.7,
+    9
+   ],
+   "fov": 46,
+   "aspect": 2.164,
+   "far": 170
+  },
+  "perf": {
+   "calls": 58,
+   "tris": 79099,
+   "frames": 1092,
+   "avg": 136.33,
+   "min": 37.45,
+   "low1": 43.95,
+   "calls_live": 58,
+   "tris_live": 79099
+  }
+ },
+ "table": {
+  "day": {
+   "calls": 87,
+   "tris": 121109,
+   "avg": 172.9,
+   "min": 42.92,
+   "low1": 50,
+   "calls_live": 87,
+   "tris_live": 121109
+  },
+  "night": {
+   "calls": 58,
+   "tris": 79099,
+   "avg": 136.33,
+   "min": 37.45,
+   "low1": 43.95,
+   "calls_live": 58,
+   "tris_live": 79099
+  }
+ }
+}

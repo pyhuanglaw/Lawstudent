@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "XS_view_ref",
+  "sha": "555b9e0cb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_xs_view_probe.py",
+  "env": "CC_HEADLESS=0;PERF_ONLY=1",
+  "machine": "MSI",
+  "start": "2026-11-04T12:53:12",
+  "end": "2026-11-04T12:57:02",
+  "seconds": 230,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 99,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 28
+  }
+}

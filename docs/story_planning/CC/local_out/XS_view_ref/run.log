@@ -1,0 +1,14 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_view_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_view_ref\out
+CC XS_view 新生南路側門往校園看；SHA=555b9e0cb；PERF_ONLY=True；EYE=[19.0, 1.7, 9.0] LOOK=[52.92, 3.0, 30.2]；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  19.5 秒
+  [前置／捷徑] 讀檔到新生南路側門 白天 14:00 (14.3, 10.0)，條件事件關閉
+PASS 白天 14:00：進到新生南路區域  zone.group=xinsheng_zone
+INFO 白天 14:00：正式模型（讀檔後幾秒出現）  {"xinsheng_street_glb": 4.33, "xs_campus_pavilion_glb": null, "xs_campus_hist_glb": null}
+  白天 14:00：draw call 87、三角形 121109（藏路人）；FPS 平均 172.9、最低 42.92、1%low 50（1385 格；路人在：call 87／tris 121109）
+  [前置／捷徑] 讀檔到新生南路側門 晚上 20:00 (14.3, 10.0)，條件事件關閉
+PASS 晚上 20:00：進到新生南路區域  zone.group=xinsheng_zone
+INFO 晚上 20:00：正式模型（讀檔後幾秒出現）  {"xinsheng_street_glb": 1.88, "xs_campus_pavilion_glb": null, "xs_campus_hist_glb": null}
+  晚上 20:00：draw call 58、三角形 79099（藏路人）；FPS 平均 136.33、最低 37.45、1%low 43.95（1092 格；路人在：call 58／tris 79099）
+PASS 沒有 JS 例外  []
+表：{"day": {"calls": 87, "tris": 121109, "avg": 172.9, "min": 42.92, "low1": 50, "calls_live": 87, "tris_live": 121109}, "night": {"calls": 58, "tris": 79099, "avg": 136.33, "min": 37.45, "low1": 43.95, "calls_live": 58, "tris_live": 79099}}
+ALL PASS
