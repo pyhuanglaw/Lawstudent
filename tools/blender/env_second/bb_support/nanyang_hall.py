@@ -23,6 +23,8 @@ W, D, H = LAY['w'], LAY['d'], LAY['h']
 X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
 DIRS = LAY['wallsFade']
 WAIN = 1.15
+SL = LAY['slope']; YF = SL['y1']   # v2：斜地板（前低後高）；銀幕那頭的地板 y＝YF（−0.96）
+def floorY(z): return SL['y0'] if z >= SL['z0'] else SL['y1'] if z <= SL['z1'] else SL['y0'] + (SL['y1'] - SL['y0']) * (SL['z0'] - z) / (SL['z0'] - SL['z1'])
 random.seed(6151)
 B.reset(texres=512)
 root = B.group('nanyang_hall', props={'kind': 'nanyang_hall', 'w': W, 'd': D, 'h': H, 'layout': LAY.get('v', 1)})
@@ -72,8 +74,8 @@ def screen_tex(im, d):  # 銀幕：中間亮、邊緣一點暗角（放映燈打
     w, h = im.size
     for y in range(0, h, 4):
         for x in range(0, w, 4):
-            dx, dy = (x - w / 2) / (w / 2), (y - h / 2) / (h / 2); v = int(236 - 34 * (dx * dx * 0.6 + dy * dy * 0.8))
-            d.rectangle([x, y, x + 3, y + 3], fill=(v, v - 2, v - 10))
+            dx, dy = (x - w / 2) / (w / 2), (y - h / 2) / (h / 2); v = int(200 - 50 * (dx * dx * 0.6 + dy * dy * 0.8))
+            d.rectangle([x, y, x + 3, y + 3], fill=(v, v - 8, v - 22))   # v2：暗一點、偏暖（放映機的光打在舊銀幕上）
 
 
 def velvet(im, d):      # 絨布：直條皺褶的明暗（布幕、牆板共用）
@@ -88,23 +90,26 @@ P = {k: tex(f'hall_{k}.png', s, f) for k, s, f in (('exit', (520, 180), exit_sig
 
 # ---------------- 材質（≤12，最後合併）----------------
 m_carpet = L.pbr('nh_carpet', 'dirty_carpet', tile=1.6, target='#8a1c24', normal=0.4, maps=('diff', 'nor'), rough_value=0.95)
-m_wall = L.pbr('nh_plaster', 'painted_plaster_wall', tile=2.5, target='#e3d2b4', normal=0.3, maps=('diff', 'nor'))
-m_wood = L.pbr('nh_wood', 'wood_table_001', tile=1.0, target='#8a5a34', normal=0.3, maps=('diff', 'nor'), rough_value=0.5)   # 扶手、門（不是地板）
+m_wall = L.pbr('nh_plaster', 'painted_plaster_wall', tile=2.5, target='#a87c50', normal=0.3, maps=('diff', 'nor'))   # v2：暖褐（不是白）
+m_wood = L.pbr('nh_wood', 'wood_table_001', tile=1.0, target='#4a2c1a', normal=0.3, maps=('diff', 'nor'), rough_value=0.5)   # 扶手、門（不是地板）
 m_maroon = L.flat('nh_maroon', '#7c1e24', rough=0.55)
 m_seat = L.flat('nh_seat', '#b4222a', rough=0.82)        # 參考圖的亮紅座椅（絨布）
 m_seatback = L.flat('nh_seatback', '#5a161b', rough=0.7)  # 椅背後面的殼
 m_ceil = L.flat('nh_ceil', '#3a2420', rough=0.9)
-m_cream = L.flat('nh_cream', '#e8dcc6', rough=0.75)
+m_cream = L.flat('nh_cream', '#a88660', rough=0.75)   # v2：壁柱、台口、天花板格樑：暖褐米色（不是白）
 m_gold = L.flat('nh_gold', '#c39a4c', rough=0.35, metal=0.42)
 m_iron = L.flat('nh_iron', '#2b2a2a', rough=0.5, metal=0.35)
 m_black = L.flat('nh_black', '#101010', rough=0.9)
 m_warm = glowmat('nh_warm', '#ffd9a0', 4.0)
 m_aisle = glowmat('nh_aisle', '#ffc27a', 6.0)
 IM = {k: img_mat('nh_' + k, p, rough=0.85 if k == 'velvet' else 0.6,
-                 emit=(2.2 if k == 'exit' else 0.9 if k == 'screen' else 0.0)) for k, p in P.items()}
+                 emit=(2.2 if k == 'exit' else 0.3 if k == 'screen' else 0.0)) for k, p in P.items()}   # v2：銀幕暗一點
 
 # ---------------- 地板、天花板 ----------------
-Mesh('FLOOR', m_carpet, tile=1.6).box(X0, X1, -0.05, 0.0, Z0, Z1).finish(root)
+fl = Mesh('FLOOR', m_carpet, tile=1.6)   # v2：三段——門口平的（y 0）、斜面（每排降 0.12）、銀幕前平的（y YF）
+for (za, zb) in ((SL['z0'], Z1), (SL['z1'], SL['z0']), (Z0, SL['z1'])):
+    fl.quad([(X0, floorY(zb), zb), (X1, floorY(zb), zb), (X1, floorY(za), za), (X0, floorY(za), za)])
+fl.finish(root, props={'slope': json.dumps(SL)})
 Mesh('CEILING', m_ceil).box(X0, X1, H, H + 0.04, Z0, Z1).finish(root, props={'ceiling': 1})
 cb = Mesh('CEIL_DECO', m_cream)   # 天花板的米色格樑（Art Deco 的階梯邊）
 for z in [Z0 + 2.0 * i for i in range(1, int(D / 2.0))]:
@@ -116,12 +121,12 @@ cb.finish(root)
 T = 0.2
 
 
-def wains(m, ax, a0, a1, fixed, inward):
+def wains(m, ax, a0, a1, fixed, inward, y0=0.0):
     n = int(abs(a1 - a0) / 0.12)
     for i in range(n):
         u0 = a0 + i * (a1 - a0) / n; u1 = a0 + (i + 1) * (a1 - a0) / n; g_ = 0.006
-        if ax == 'x': m.rbox(min(u0, u1) + g_, max(u0, u1) - g_, 0, WAIN, min(fixed, fixed + inward), max(fixed, fixed + inward), r=0.004, seg=1)
-        else: m.rbox(min(fixed, fixed + inward), max(fixed, fixed + inward), 0, WAIN, min(u0, u1) + g_, max(u0, u1) - g_, r=0.004, seg=1)
+        if ax == 'x': m.rbox(min(u0, u1) + g_, max(u0, u1) - g_, y0, WAIN, min(fixed, fixed + inward), max(fixed, fixed + inward), r=0.004, seg=1)
+        else: m.rbox(min(fixed, fixed + inward), max(fixed, fixed + inward), y0, WAIN, min(u0, u1) + g_, max(u0, u1) - g_, r=0.004, seg=1)
     if ax == 'x': m.rbox(min(a0, a1), max(a0, a1), WAIN - 0.02, WAIN + 0.06, min(fixed, fixed + inward * 1.8), max(fixed, fixed + inward * 1.8), r=0.01, seg=1)
     else: m.rbox(min(fixed, fixed + inward * 1.8), max(fixed, fixed + inward * 1.8), WAIN - 0.02, WAIN + 0.06, min(a0, a1), max(a0, a1), r=0.01, seg=1)
 
@@ -129,8 +134,8 @@ def wains(m, ax, a0, a1, fixed, inward):
 def side_wall(dname, xw, inward):
     g = B.group(f'WALL_{dname}', root, props={'dir': DIRS[dname]})
     out = xw - (T if inward > 0 else -T)
-    Mesh(f'WALL_{dname}_plaster', m_wall, tile=2.5).box(min(xw, out), max(xw, out), 0, H, Z0, Z1).finish(g)
-    wm = Mesh(f'WALL_{dname}_wains', m_maroon); wains(wm, 'z', Z0, Z1, xw, inward); wm.finish(g)
+    Mesh(f'WALL_{dname}_plaster', m_wall, tile=2.5).box(min(xw, out), max(xw, out), YF, H, Z0, Z1).finish(g)
+    wm = Mesh(f'WALL_{dname}_wains', m_maroon); wains(wm, 'z', Z0, Z1, xw, inward, YF); wm.finish(g)
     pil = Mesh(f'WALL_{dname}_pilasters', m_cream); pz = [Z0 + 1.0 + k * 2.0 for k in range(int(D / 2.0))]
     vel = []
     for k, z in enumerate(pz):
@@ -171,23 +176,23 @@ Mesh('WALL_back_curtain_hint', m_black).box(dx0, dx1, 0, DR['h'], Z1 + T - 0.01,
 uvquad('WALL_back_exitsign', (DR['x'] + 0.55, 2.86, Z1 - 0.09), (DR['x'] - 0.55, 2.86, Z1 - 0.09), (DR['x'] - 0.55, 3.24, Z1 - 0.09), (DR['x'] + 0.55, 3.24, Z1 - 0.09), IM['exit'], gb)
 # 前牆（−z：銀幕那面，不淡出——鏡頭在後面看過來）
 gf = B.group('WALL_front', root, props={'dir': DIRS['front']})
-Mesh('WALL_front_plaster', L.flat('nh_frontdark', '#2a1416', rough=0.9)).box(X0, X1, 0, H, Z0 - T, Z0).finish(gf)
+Mesh('WALL_front_plaster', L.flat('nh_frontdark', '#2a1416', rough=0.9)).box(X0, X1, YF, H, Z0 - T, Z0).finish(gf)
 
 # ---------------- 舞台、台口拱框、銀幕、布幕 ----------------
 st = LAY['stage']; sc = LAY['screen']; pr = LAY['proscenium']
 stg = Mesh('STAGE_FRONT', IM['velvet'])
-stg.box(X0 + 0.4, X1 - 0.4, 0, st['h'], st['z1'] - 0.02, st['z1']); stg.finish(root)
-Mesh('STAGE_TOP', m_carpet, tile=1.6).box(X0 + 0.4, X1 - 0.4, st['h'] - 0.03, st['h'], st['z0'], st['z1']).finish(root)
-Mesh('STAGE_NOSING', m_gold).box(X0 + 0.4, X1 - 0.4, st['h'] - 0.04, st['h'] + 0.01, st['z1'] - 0.04, st['z1'] + 0.01).finish(root)
+stg.box(X0 + 0.4, X1 - 0.4, YF, YF + st['h'], st['z1'] - 0.02, st['z1']); stg.finish(root)
+Mesh('STAGE_TOP', m_carpet, tile=1.6).box(X0 + 0.4, X1 - 0.4, YF + st['h'] - 0.03, YF + st['h'], st['z0'], st['z1']).finish(root)
+Mesh('STAGE_NOSING', m_gold).box(X0 + 0.4, X1 - 0.4, YF + st['h'] - 0.04, YF + st['h'] + 0.01, st['z1'] - 0.04, st['z1'] + 0.01).finish(root)
 for sx in (X0 + 0.4, X1 - 0.4):   # 舞台兩端的小台階（左右各三階，往後台）
     s = 1 if sx < 0 else -1; xs = sx; stp = Mesh(f'STAGE_STEP{int(s)}', m_maroon)
-    for k in range(3): stp.box(min(xs, xs - s * (0.9 - k * 0.3)), max(xs, xs - s * (0.9 - k * 0.3)), 0, st['h'] * (k + 1) / 3, st['z1'], st['z1'] + 0.36 - k * 0.12)
+    for k in range(3): stp.box(min(xs, xs - s * (0.9 - k * 0.3)), max(xs, xs - s * (0.9 - k * 0.3)), YF, YF + st['h'] * (k + 1) / 3, st['z1'], st['z1'] + 0.36 - k * 0.12)
     stp.finish(root)
 # 台口拱框：米色、兩側方柱、上面一道帶階梯線的楣，中間頂端一個扇形裝飾
 pro = Mesh('PROSCENIUM', m_cream); gold = Mesh('PROSCENIUM_GOLD', m_gold)
 zf = st['z1'] - 0.05
 for x0_, x1_ in ((pr['x0'] - 0.55, pr['x0']), (pr['x1'], pr['x1'] + 0.55)):
-    pro.rbox(x0_, x1_, 0, pr['top'], zf - 0.3, zf, r=0.02, seg=1)
+    pro.rbox(x0_, x1_, YF, pr['top'], zf - 0.3, zf, r=0.02, seg=1)
     for k in range(3): gold.box(x0_ + 0.06 + k * 0.14, x0_ + 0.09 + k * 0.14, 0.3, pr['top'] - 0.3, zf + 0.0, zf + 0.012)
 pro.rbox(pr['x0'] - 0.55, pr['x1'] + 0.55, pr['top'] - 0.6, pr['top'] + 0.35, zf - 0.3, zf, r=0.02, seg=1)
 for k in range(3): gold.box(pr['x0'] - 0.4 + k * 0.1, pr['x1'] + 0.4 - k * 0.1, pr['top'] - 0.5 + k * 0.12, pr['top'] - 0.47 + k * 0.12, zf, zf + 0.012)
@@ -214,8 +219,8 @@ def curtain(name, xa, xb, y0, y1, z, folds, depth=0.12):   # 一片有皺褶的�
 
 
 zc = st['z1'] - 0.45
-curtain('CURTAIN_L', pr['x0'], sx0 - 0.1, 0.0 + st['h'], pr['top'] - 0.6, zc, 4)          # 收在左邊
-curtain('CURTAIN_R', sx1 + 0.1, pr['x1'], 0.0 + st['h'], pr['top'] - 0.6, zc, 4)
+curtain('CURTAIN_L', pr['x0'], sx0 + 0.25, YF + st['h'], pr['top'] - 0.6, zc, 5)          # v2：布幔收在兩邊、蓋住銀幕的邊（參考圖銀幕兩邊是暗的布）
+curtain('CURTAIN_R', sx1 - 0.25, pr['x1'], YF + st['h'], pr['top'] - 0.6, zc, 5)
 curtain('CURTAIN_VALANCE', pr['x0'], pr['x1'], pr['top'] - 1.25, pr['top'] - 0.6, zc + 0.12, 14, depth=0.06)   # 上面的垂幔
 fr_ = Mesh('CURTAIN_FRINGE', m_gold); fr_.box(pr['x0'], pr['x1'], pr['top'] - 1.32, pr['top'] - 1.24, zc + 0.1, zc + 0.2)
 for k in range(40): x = pr['x0'] + (pr['x1'] - pr['x0']) * (k + 0.5) / 40; fr_.box(x - 0.012, x + 0.012, pr['top'] - 1.44, pr['top'] - 1.32, zc + 0.14, zc + 0.16)   # 流蘇
@@ -223,38 +228,62 @@ for x in (sx0 - 0.25, sx1 + 0.25): fr_.cyl((x, 2.2, zc + 0.15), (x + (0.12 if x 
 fr_.finish(root)
 
 # ---------------- 座椅：亮紅高背、黑鐵腳、木扶手（一排 n 張，扶手兩張共用）----------------
-sb = LAY['seatBlock']; rows = LAY['rowZ']
+sb = LAY['seatBlock']; rows = LAY['rowZ']; rowY = LAY['rowY']
 cush = Mesh('SEAT_CUSHION', m_seat); back = Mesh('SEAT_BACK', m_seat); shell = Mesh('SEAT_SHELL', m_seatback); std = Mesh('SEAT_STANDARD', m_iron); arm = Mesh('SEAT_ARM', m_wood)
 plates = []
+NU, NV = 8, 5
+
+
+def seat_back(x, hw, z, yr):
+    """v2：弧形椅背——上緣是圓弧（中間高）、整片微微往前包（兩邊比中間靠前）；正面紅絨、背面深色殼、頂和兩側也包起來"""
+    def P(u, v, t):   # u −1..1（左右）、v 0..1（下到上）、t 0＝正面 1＝背面
+        top = 0.5 + 0.08 * math.cos(u * PI / 2)
+        return (x + u * hw, yr + 0.47 + v * top, z + 0.22 + 0.045 * (1 - u * u) * 0 - 0.04 * u * u + t * 0.075 + 0.02 * v)
+    for i in range(NU):
+        for j in range(NV):
+            u0, u1 = -1 + 2 * i / NU, -1 + 2 * (i + 1) / NU; v0, v1 = j / NV, (j + 1) / NV
+            back.quad([P(u1, v0, 0), P(u0, v0, 0), P(u0, v1, 0), P(u1, v1, 0)])          # 正面（面向銀幕 −z）
+            shell.quad([P(u0, v0, 1), P(u1, v0, 1), P(u1, v1, 1), P(u0, v1, 1)])         # 背面
+        shell.quad([P(u1, 1, 0), P(u0, 1, 0), P(u0, 1, 1), P(u1, 1, 1)])                 # 上緣（包邊）
+    for u in (-1, 1):
+        for j in range(NV):
+            v0, v1 = j / NV, (j + 1) / NV
+            q = [P(u, v0, 0), P(u, v0, 1), P(u, v1, 1), P(u, v1, 0)]
+            shell.quad(q if u > 0 else q[::-1])
+
+
+PI = math.pi
 for r, z in enumerate(rows):
+    yr = rowY[r]
     for i in range(sb['n']):
         x = sb['x0'] + sb['pitch'] * (i + 0.5); hw = sb['pitch'] / 2 - 0.05
-        cush.rbox(x - hw, x + hw, 0.40, 0.50, z - 0.24, z + 0.20, r=0.04, seg=1)                          # 坐墊（翻下來）
-        back.rbox(x - hw, x + hw, 0.48, 1.02, z + 0.22, z + 0.30, r=0.05, seg=1)                          # 椅背正面（紅絨）
-        back.rbox(x - hw + 0.03, x + hw - 0.03, 1.0, 1.08, z + 0.23, z + 0.31, r=0.04, seg=1)             # 圓一點的椅背頂
-        shell.box(x - hw, x + hw, 0.46, 1.04, z + 0.30, z + 0.33)                                          # 椅背後面的殼（深色）
-    for i in range(sb['n'] + 1):   # 扶手立柱＋木扶手
-        x = sb['x0'] + sb['pitch'] * i
-        std.box(x - 0.03, x + 0.03, 0.0, 0.62, z - 0.12, z + 0.3); std.box(x - 0.06, x + 0.06, 0.0, 0.03, z - 0.2, z + 0.34)
-        arm.rbox(x - 0.045, x + 0.045, 0.62, 0.67, z - 0.3, z + 0.3, r=0.02, seg=1)
-    plates.append((sb['x1'] + 0.035, z))
+        cush.rbox(x - hw, x + hw, yr + 0.40, yr + 0.50, z - 0.24, z + 0.20, r=0.04, seg=2)        # 坐墊（翻下來）
+        seat_back(x, hw, z, yr)
+    for i in range(sb['n'] + 1):   # 扶手立柱（兩端是大一點的鑄鐵側板）＋木扶手（前端圓頭）
+        x = sb['x0'] + sb['pitch'] * i; end = i in (0, sb['n'])
+        if end: std.rbox(x - 0.025, x + 0.025, yr + 0.0, yr + 0.62, z - 0.22, z + 0.32, r=0.02, seg=2)
+        else: std.box(x - 0.03, x + 0.03, yr + 0.0, yr + 0.62, z - 0.12, z + 0.3)
+        std.box(x - 0.06, x + 0.06, yr + 0.0, yr + 0.03, z - 0.2, z + 0.34)
+        arm.rbox(x - 0.04, x + 0.04, yr + 0.62, yr + 0.68, z - 0.26, z + 0.3, r=0.025, seg=2)
+        arm.cyl((x, yr + 0.65, z - 0.26), (x, yr + 0.65, z - 0.3), 0.04, seg=10)
+    plates.append((sb['x1'] + 0.03, z, yr))
 cush.finish(root); back.finish(root); shell.finish(root); std.finish(root); arm.finish(root)
 # 走道邊每一排的排號牌（貼在最右邊立柱外側）＋地燈
 pl = bmesh.new(); ul = pl.loops.layers.uv.new(); n = len(rows)
-for i, (x, z) in enumerate(plates):
-    vs = [pl.verts.new(g2b(x, 0.3, z + 0.14)), pl.verts.new(g2b(x, 0.3, z - 0.1)), pl.verts.new(g2b(x, 0.5, z - 0.1)), pl.verts.new(g2b(x, 0.5, z + 0.14))]
+for i, (x, z, yr) in enumerate(plates):
+    vs = [pl.verts.new(g2b(x, yr + 0.3, z + 0.14)), pl.verts.new(g2b(x, yr + 0.3, z - 0.1)), pl.verts.new(g2b(x, yr + 0.5, z - 0.1)), pl.verts.new(g2b(x, yr + 0.5, z + 0.14))]
     f = pl.faces.new(vs)
     for lp, uv in zip(f.loops, ((i / n, 0), ((i + 1) / n - 0.01, 0), ((i + 1) / n - 0.01, 1), (i / n, 1))): lp[ul].uv = uv
 B.mesh_obj('ROW_PLATES', pl, IM['rowplate'], root, None)
 al = Mesh('AISLE_LIGHTS', m_aisle); ah = Mesh('AISLE_LIGHT_HOUSING', m_gold)
 for L_ in LAY['lights']:
     if L_['kind'] != 'aisle': continue
-    al.box(L_['x'] - 0.06, L_['x'] + 0.06, 0.08, 0.16, L_['z'] - 0.02, L_['z'] + 0.02); ah.box(L_['x'] - 0.08, L_['x'] + 0.08, 0.06, 0.18, L_['z'] - 0.04, L_['z'] - 0.02)
+    yl = L_['y'] - 0.18; al.box(L_['x'] - 0.06, L_['x'] + 0.06, yl + 0.08, yl + 0.16, L_['z'] - 0.02, L_['z'] + 0.02); ah.box(L_['x'] - 0.08, L_['x'] + 0.08, yl + 0.06, yl + 0.18, L_['z'] - 0.04, L_['z'] - 0.02)
 al.finish(root); ah.finish(root)
 # 左邊前方的太平門（左牆上、靠銀幕）
-ez = -6.0; ed = Mesh('EXIT_DOOR_L', m_wood); ed.rbox(X0 + 0.02, X0 + 0.07, 0, 2.3, ez - 0.55, ez + 0.55, r=0.01, seg=1); ed.finish(root)
-Mesh('EXIT_DOOR_L_BAR', m_gold).box(X0 + 0.07, X0 + 0.11, 1.0, 1.05, ez - 0.45, ez + 0.45).finish(root)
-uvquad('EXIT_SIGN_L', (X0 + 0.09, 2.42, ez + 0.5), (X0 + 0.09, 2.42, ez - 0.5), (X0 + 0.09, 2.78, ez - 0.5), (X0 + 0.09, 2.78, ez + 0.5), IM['exit'])   # 面向 +x：看的人右手是 −z
+ez = -6.0; ed = Mesh('EXIT_DOOR_L', m_wood); ed.rbox(X0 + 0.02, X0 + 0.07, YF, YF + 2.3, ez - 0.55, ez + 0.55, r=0.01, seg=1); ed.finish(root)
+Mesh('EXIT_DOOR_L_BAR', m_gold).box(X0 + 0.07, X0 + 0.11, YF + 1.0, YF + 1.05, ez - 0.45, ez + 0.45).finish(root)
+uvquad('EXIT_SIGN_L', (X0 + 0.09, YF + 2.42, ez + 0.5), (X0 + 0.09, YF + 2.42, ez - 0.5), (X0 + 0.09, YF + 2.78, ez - 0.5), (X0 + 0.09, YF + 2.78, ez + 0.5), IM['exit'])   # 面向 +x：看的人右手是 −z
 
 # ---------------- Art Deco 壁燈（層層燈罩，掛在壁柱上）----------------
 scn = Mesh('SCONCE', m_gold); scg = Mesh('SCONCE_GLASS', m_warm)
