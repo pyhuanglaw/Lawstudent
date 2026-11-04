@@ -3,7 +3,9 @@
 LAWWW2-C 2026-11-04。
 
 - 狀態：研究做完，已經實際用在兩件交件上（阿德、2:30 AM）。
-- 第 4 節的 R1、R2、HDRI 是 **PROPOSAL**：美術規範要 LAWWW-C 和使用者決定，引擎是 LAWWW-C 的程式。
+- 第 4 節（11-04 21:3x 更新）：
+  - **R1、R2 定案**：D128（美術驗收不經使用者，LAWWW2 提、LAWWW 和 BB 同意就定）。LAWWW-C 21:25、BB-C 21:25 同意，已經寫進 `ART_DIRECTION.md` 12.2、12.8（含 BB 補的細節、TripoSR「目前不用」）。
+  - **HDRI 暫停**（任務 HDRI-ENV-1104）：所有材質亮度都會變；iPhone 現在就有記憶體不足的問題（BUG-IOS-RELOAD、BUG-MAPBLACK）。恢復條件：那兩個問題有結論、v9.10.20 發布以後，先拍 Blender 前後對照。下次檢查 11-11。
 
 ## 使用者問的
 
