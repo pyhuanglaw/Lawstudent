@@ -1,3 +1,58 @@
+diff --git a/tools/cc_local/cc_trace.py b/tools/cc_local/cc_trace.py
+index e0dd57543..752765793 100644
+--- a/tools/cc_local/cc_trace.py
++++ b/tools/cc_local/cc_trace.py
+@@ -113,6 +113,7 @@ class Tracer(object):
+                     'cc_gpu': os.environ.get('CC_GPU'), 'cc_browser': os.environ.get('CC_BROWSER') or 'chromium',
+                     'trace_max_mb': MAX_MB, 'traces': [], 'states': [], 'end': None}
+         self.finished = False
++        self.closing = False     # 探針自己關瀏覽器（browser.close／playwright 結束）之後的斷線＝正常，不算環境問題
+         self.write_env()
+ 
+     @staticmethod
+@@ -145,7 +146,7 @@ class Tracer(object):
+             self.env['browser'].append(browser.version)
+             self.env['headless'].append(kw.get('headless', True))
+             self.write_env()
+-            browser.on('disconnected', lambda *_: self.event('browser_disconnected'))
++            browser.on('disconnected', lambda *_: self.event('browser_disconnected', expected=self.closing))
+         except Exception as e:
+             _warn('on_launch: %r' % (e,))
+ 
+@@ -406,7 +407,7 @@ def install():
+     AC.close = ctx_close
+     a_bc = AB.close
+     async def br_close(self, *a, **kw):
+-        await tr.a_flush_all('browser.close', list(self.contexts)); return await a_bc(self, *a, **kw)
++        await tr.a_flush_all('browser.close', list(self.contexts)); tr.closing = True; return await a_bc(self, *a, **kw)
+     AB.close = br_close
+     s_cc = SC.close
+     def sctx_close(self, *a, **kw):
+@@ -414,7 +415,7 @@ def install():
+     SC.close = sctx_close
+     s_bc = SB.close
+     def sbr_close(self, *a, **kw):
+-        tr.s_flush_all('browser.close', list(self.contexts)); return s_bc(self, *a, **kw)
++        tr.s_flush_all('browser.close', list(self.contexts)); tr.closing = True; return s_bc(self, *a, **kw)
+     SB.close = sbr_close
+ 
+     # async_playwright()／sync_playwright() 結束（探針在 async with 裡 sys.exit、或沒關瀏覽器）
+@@ -424,6 +425,7 @@ def install():
+             await tr.a_flush_all('playwright exit%s' % (' (%s)' % a[0].__name__ if a and a[0] else ''))
+         except Exception as e:
+             _warn('aexit flush: %r' % (e,))
++        tr.closing = True
+         return await a_exit(self, *a)
+     acm.PlaywrightContextManager.__aexit__ = aexit
+     s_exit = scm.PlaywrightContextManager.__exit__
+@@ -432,6 +434,7 @@ def install():
+             tr.s_flush_all('playwright exit%s' % (' (%s)' % a[0].__name__ if a and a[0] else ''))
+         except Exception as e:
+             _warn('exit flush: %r' % (e,))
++        tr.closing = True
+         return s_exit(self, *a)
+     scm.PlaywrightContextManager.__exit__ = sexit
+ 
 diff --git a/tools/cc_local/gpu_wrap.py b/tools/cc_local/gpu_wrap.py
 index 36cd3ca7d..e0cc2b49f 100644
 --- a/tools/cc_local/gpu_wrap.py
@@ -42,10 +97,10 @@ index 36cd3ca7d..e0cc2b49f 100644
 +        else:
 +            TR.finish('normal end')
 diff --git a/tools/cc_local/run_queue.py b/tools/cc_local/run_queue.py
-index 9201211e2..92e320b7c 100644
+index 9201211e2..d1051e4a6 100644
 --- a/tools/cc_local/run_queue.py
 +++ b/tools/cc_local/run_queue.py
-@@ -447,6 +447,268 @@ def parse_env(s):
+@@ -447,6 +447,324 @@ def parse_env(s):
      return d
  
  
@@ -54,7 +109,6 @@ index 9201211e2..92e320b7c 100644
 +# 出錯一律只寫一行警告、退回舊行為（不讓 runner 當掉）。
 +AR_KEEP = ('meta.json', 'running.json', 'notes.txt', 'attempt1', 'attempt2', 'report.json', 'report.md')
 +ENV_PATTERNS = [
-+    (r'BROWSER DISCONNECTED', '瀏覽器斷線（gpu_wrap 診斷 BROWSER DISCONNECTED）'),
 +    (r'PAGE CRASH', '頁面 renderer 當掉（gpu_wrap 診斷 PAGE CRASH）'),
 +    (r'TargetClosedError|Target page, context or browser has been closed|Target closed|Browser has been closed|Browser closed', '瀏覽器／頁面被關掉（Target closed）'),
 +    (r"BrowserType\.launch|Executable doesn't exist|Failed to launch|Host system is missing dependencies", 'playwright 啟動瀏覽器失敗'),
@@ -189,12 +243,66 @@ index 9201211e2..92e320b7c 100644
 +        return changed, left
 +
 +
++HEAVY_EXT = ('.glb', '.gltf', '.bin', '.wrl', '.vrm', '.woff', '.woff2', '.ttf', '.otf', '.ktx2', '.mp3', '.ogg', '.wav', '.mp4', '.webm', '.hdr', '.exr')
++
++
++def slim_zip(path, max_bytes, body_max=512 * 1024):
++    """trace.zip 變小（遊戲 trace 會把 GLB／貼圖／字型的下載內容整包存進去，一份 27～63 MB）：
++    1. resources/ 底下的模型、字型、音效（HEAVY_EXT）和超過 body_max 的回應內容拿掉（Trace Viewer 的 Network 分頁看不到那些內容，時間軸、DOM snapshot、畫面不受影響）。
++    2. 還是超過 max_bytes：畫面截圖（screencast）平均抽掉一部分，trace.trace 裡對應的 screencast-frame 行一起拿掉。
++    回傳 dict（前後大小、拿掉幾個、抽幀間隔）。"""
++    import zipfile
++    st = {'before': os.path.getsize(path), 'dropped_bodies': 0, 'dropped_bytes': 0, 'frame_step': 1, 'frames': 0}
++    with zipfile.ZipFile(path) as zi:
++        infos = zi.infolist()
++        keep = []
++        for i in infos:
++            n = i.filename
++            if n.startswith('resources/') and (n.lower().endswith(HEAVY_EXT) or i.file_size > body_max):
++                st['dropped_bodies'] += 1; st['dropped_bytes'] += i.file_size
++                continue
++            keep.append(i)
++        frames = [i for i in keep if i.filename.startswith('screencast/')]
++        st['frames'] = len(frames)
++        other = sum(i.compress_size for i in keep if not i.filename.startswith('screencast/'))
++        fb = sum(i.compress_size for i in frames)
++        step = 1
++        if other + fb > max_bytes and fb > 0:
++            room = max(max_bytes - other, max_bytes // 4)
++            step = max(1, -(-fb // max(1, room)))
++        st['frame_step'] = step
++        drop_frames = set(i.filename for k, i in enumerate(frames) if step > 1 and k % step)
++        if st['dropped_bodies'] == 0 and not drop_frames:
++            st['after'] = st['before']
++            return st
++        tmp = path + '.slim'
++        with zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zo:
++            for i in keep:
++                if i.filename in drop_frames:
++                    continue
++                data = zi.read(i.filename)
++                if drop_frames and i.filename.endswith('.trace'):
++                    out = []
++                    for line in data.decode('utf-8', 'replace').splitlines():
++                        if '"screencast-frame"' in line:
++                            m = re.search(r'"file"\s*:\s*"([^"]+)"', line)
++                            if m and m.group(1) in drop_frames:
++                                continue
++                        out.append(line)
++                    data = ('\n'.join(out) + '\n').encode('utf-8')
++                zo.writestr(i, data)
++    os.replace(tmp, path)
++    st['after'] = os.path.getsize(path)
++    st['frames_kept'] = st['frames'] - len(drop_frames)
++    return st
++
++
 +def classify(a1, a2, same, notes):
 +    """回傳 (分類, 細項, 依據[])。a1／a2：attempt dict（a2 可能 None）"""
 +    basis = []
 +
 +    def env_hits(a):
-+        txt = a['err'] + '\n' + a['run']
++        txt = '\n'.join(x for x in (a['err'] + '\n' + a['run']).splitlines() if not x.startswith('[cc_trace'))   # 追蹤工具自己的警告不算證據
 +        out = []
 +        for pat, why in ENV_PATTERNS:
 +            m = re.search(pat, txt)
@@ -202,21 +310,23 @@ index 9201211e2..92e320b7c 100644
 +                ln = txt[max(0, txt.rfind('\n', 0, m.start()) + 1): txt.find('\n', m.end()) if txt.find('\n', m.end()) >= 0 else len(txt)]
 +                out.append('%s：「%s」' % (why, ln.strip()[:200]))
 +        for e in a['events']:
-+            if e.get('kind') in ('crash', 'browser_disconnected'):
++            if e.get('kind') == 'crash' or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False):
 +                out.append('events.jsonl：%s（rel %.1fs）' % (e['kind'], e.get('rel') or 0))
 +        return out
 +
 +    def fail_before_env(a):
 +        """有沒有 FAIL 行比第一次 crash／斷線更早（events.jsonl 的時間）"""
-+        tc = [e.get('t') for e in a['events'] if e.get('kind') in ('crash', 'browser_disconnected')]
++        tc = [e.get('t') for e in a['events'] if e.get('kind') == 'crash' or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False)]
 +        tf = [e.get('t') for e in a['events'] if e.get('kind') == 'fail_line']
 +        if tc:
 +            return bool(tf) and min(tf) < min(tc)
 +        return bool(a['fails'])   # 沒有時間資訊（第一次沒開 trace）：有 FAIL 行就當作先 FAIL
 +
 +    def game_errors(a):
-+        return [e for e in a['events'] if e.get('kind') == 'pageerror' and '__playwright_evaluation_script__' not in (e.get('stack') or '')] \
-+            + [{'kind': 'pageerror(gpu_wrap)', 'message': x} for x in re.findall(r'\] pageerror (.*)', a['err'])]
++        ev = [e for e in a['events'] if e.get('kind') == 'pageerror' and '__playwright_evaluation_script__' not in (e.get('stack') or '')]
++        if ev or a['events']:
++            return ev     # 有 events.jsonl（開了 trace）：以它為準；gpu_wrap 的診斷行是同一批，不重複算
++        return [{'kind': 'pageerror(gpu_wrap)', 'message': x} for x in re.findall(r'\] pageerror (.*)', a['err'])]
 +
 +    def ltes(a):
 +        out = []
@@ -241,7 +351,8 @@ index 9201211e2..92e320b7c 100644
 +    def tb_detail(tb):
 +        lines = [x for x in tb.splitlines() if x.strip()]
 +        frames = [x.strip() for x in lines if x.strip().startswith('File ')]
-+        last = lines[-1].strip() if lines else ''
++        exc = [x.strip() for x in lines if re.match(r'^[A-Za-z_][\w.]*(Error|Exception|Exit)\b', x.strip())]
++        last = exc[-1] if exc else (lines[-1].strip() if lines else '')
 +        sel = re.search(r'waiting for (?:locator\()?["\']([^"\']+)["\']', tb) or re.search(r'wait_for_selector\(\s*["\']([^"\']+)', tb)
 +        probe_frames = [f for f in frames if 'site-packages' not in f and 'dist-packages' not in f and 'playwright' not in f and 'gpu_wrap' not in f and 'runpy' not in f and 'cc_trace' not in f]
 +        return last[:300], (sel.group(1) if sel else None), (probe_frames[-1][:300] if probe_frames else None)
@@ -314,7 +425,7 @@ index 9201211e2..92e320b7c 100644
  class Item(object):
      def __init__(self, f):
          self.id, self.sha, self.kind, self.script, self.url = f[0], f[1], f[2], f[3], f[4]
-@@ -746,6 +1008,12 @@ class Runner(object):
+@@ -746,6 +1064,12 @@ class Runner(object):
          srv = srv2 = p = None
          ports = []
          log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
@@ -327,7 +438,7 @@ index 9201211e2..92e320b7c 100644
          running_f = os.path.join(od, 'running.json')   # BB 11-03：被打斷的項目要記下來（中斷時間、跑到哪）；正常結束會刪掉
          try:
              with open(running_f, 'w', encoding='utf-8') as fh:
-@@ -817,6 +1085,11 @@ class Runner(object):
+@@ -817,6 +1141,11 @@ class Runner(object):
                      kill_tree(p)
                      meta['error'] = 'timeout %d min' % it.tmin
              meta['exit'] = p.returncode
@@ -339,7 +450,7 @@ index 9201211e2..92e320b7c 100644
          except Exception as e:
              meta['error'] = str(e)
              log('ERROR %s : %s' % (it.id, e))
-@@ -843,6 +1116,11 @@ class Runner(object):
+@@ -843,6 +1172,11 @@ class Runner(object):
              pass
          meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
          meta['seconds'] = int(round(time.time() - t0))
@@ -351,7 +462,7 @@ index 9201211e2..92e320b7c 100644
          with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
              json.dump(meta, fh, ensure_ascii=False, indent=2)
          lines = self.summary_lines(it, meta, od)
-@@ -850,6 +1128,306 @@ class Runner(object):
+@@ -850,6 +1184,308 @@ class Runner(object):
          log('==== END   %s  exit=%s  %ss  %s ====' % (it.id, meta['exit'], meta['seconds'], meta['error'] or ''))
          return meta
  
@@ -374,7 +485,7 @@ index 9201211e2..92e320b7c 100644
 +        """開這一項之前：刪掉上一次（舊 RERUN）留下的 attempt1／attempt2／report"""
 +        for n in ('attempt1', 'attempt2'):
 +            shutil.rmtree(os.path.join(od, n), ignore_errors=True)
-+        for n in ('report.json', 'report.md'):
++        for n in ('report.json', 'report.md', 'notes.txt'):
 +            try:
 +                os.remove(os.path.join(od, n))
 +            except OSError:
@@ -575,6 +686,10 @@ index 9201211e2..92e320b7c 100644
 +            notes.append('重跑 PASS：照規則刪掉 attempt2 的 trace.zip（events／state／env 保留）')
 +        san = Sanitizer([(self.work, '<REPO>'), (self.repo, '<REPO_MAIN>'), (self.wtroot, '<WTROOT>'),
 +                         (os.path.expanduser('~'), '<HOME>'), (__import__('tempfile').gettempdir(), '<TMP>')])
++        try:
++            max_mb = float(ar_env_flag(it.envd, 'CC_TRACE_MAX_MB', '20') or 20)
++        except ValueError:
++            max_mb = 20.0
 +        scan = {'text_files_rewritten': [], 'zip_entries_rewritten': 0, 'left_hits': []}
 +        for sub_d in ('attempt1', 'attempt2'):
 +            for dp, _, fs in os.walk(os.path.join(od, sub_d)):
@@ -588,15 +703,13 @@ index 9201211e2..92e320b7c 100644
 +                            scan['left_hits'].append('%s:%s' % (os.path.relpath(fp, od), ','.join(hh)))
 +                    elif f.lower().endswith('.zip'):
 +                        try:
++                            if ar_env_flag(it.envd, 'CC_TRACE_KEEP_BODIES') != '1':
++                                scan.setdefault('slim', {})[os.path.relpath(fp, od).replace('\\', '/')] = slim_zip(fp, int(max_mb * 1024 * 1024))
 +                            n, left = san.zipfile(fp)
 +                            scan['zip_entries_rewritten'] += n
 +                            scan['left_hits'] += ['%s!%s' % (os.path.relpath(fp, od), x) for x in left]
 +                        except Exception as e:
 +                            scan['left_hits'].append('%s: zip not scanned %r' % (f, e))
-+        try:
-+            max_mb = float(ar_env_flag(it.envd, 'CC_TRACE_MAX_MB', '20') or 20)
-+        except ValueError:
-+            max_mb = 20.0
 +
 +        def rel(p):
 +            return os.path.relpath(p, od).replace('\\', '/')
@@ -615,7 +728,7 @@ index 9201211e2..92e320b7c 100644
 +        for st in last['states']:
 +            for pg in st.get('pages', []):
 +                state_view.append({'ctx_why': st.get('why'), 'page': pg.get('page'), 'state': pg.get('state'), 'error': pg.get('error'), 'closed': pg.get('closed')})
-+        rc_cc, cc_sha = git('-C', self.work, 'rev-parse', '--short', 'HEAD', capture=True)
++        rc_cc, cc_sha = git('-C', self.repo, 'rev-parse', '--short', 'origin/' + CC_BRANCH, capture=True)   # 腳本版本＝runner 合併進來的 cc-testing
 +        rep = OrderedDict([
 +            ('id', it.id), ('sha', meta['sha']), ('kind', it.kind), ('script', it.script), ('script_from', it.envd.get('SCRIPT_FROM') or None),
 +            ('script_blob', cond['script_blob']), ('cc_testing_sha', cc_sha.strip() if rc_cc == 0 else None), ('runner', self.self_hash[:10]),
@@ -658,7 +771,7 @@ index 9201211e2..92e320b7c 100644
      @staticmethod
      def tail(path, n):
          if not os.path.exists(path):
-@@ -858,12 +1436,19 @@ class Runner(object):
+@@ -858,12 +1494,19 @@ class Runner(object):
              return [x.rstrip('\r\n') for x in fh.readlines()[-n:]]
  
      def summary_lines(self, it, meta, od):
@@ -679,7 +792,7 @@ index 9201211e2..92e320b7c 100644
          return lines
  
      # ---------- 5. commit＋push（一把鎖，序列化） ----------
-@@ -882,8 +1467,9 @@ class Runner(object):
+@@ -882,8 +1525,9 @@ class Runner(object):
              skipped = 0
              add = []
              big = []
@@ -690,7 +803,7 @@ index 9201211e2..92e320b7c 100644
                      continue
                  if os.path.getsize(f) > BIG_CAP:   # BB 13:30：超過 50 MB 的不推，只記路徑和大小
                      big.append(f)
-@@ -909,6 +1495,27 @@ class Runner(object):
+@@ -909,6 +1553,27 @@ class Runner(object):
                      fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                  if nf not in add:
                      add.append(nf)
@@ -718,7 +831,7 @@ index 9201211e2..92e320b7c 100644
              # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
              git('-C', self.work, 'reset', '-q', quiet=True)
              for i in range(0, len(add), 50):
-@@ -1172,6 +1779,7 @@ def parse_args(argv):
+@@ -1172,6 +1837,7 @@ def parse_args(argv):
      ap.add_argument('--queue', default=None)
      ap.add_argument('--branch-local', default='claude/cc-local')
      ap.add_argument('--headless', action='store_true', help='no browser windows (default: visible windows on Windows / when DISPLAY is set)')
