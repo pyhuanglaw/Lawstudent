@@ -722,3 +722,16 @@
 [08:38:25] ==== START YT3-B2  (probe @ d2b962a3f) ====
 [08:38:28] [res] cpu=41% mem=55% (17.4/31.4 GB) chrome_testing=18  START YT3-B2
 [08:40:41] [res] cpu=29% mem=55% (17.5/31.4 GB) chrome_testing=18  END YT3-B2
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       bbd590f54..aa0074b54  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[08:40:47] ==== END   YT3-B2  exit=0  136s   ====
+[08:40:51] blender item MD_haopai_v2b waits until the 2 running item(s) finish; other items go first
+[08:40:51] blender item MD_dabu_v2b waits until the 2 running item(s) finish; other items go first
+[08:40:51] blender item MD_tx_v4 waits until the 2 running item(s) finish; other items go first
+[08:40:51] blender item MD_xinsheng_v3 waits until the 2 running item(s) finish; other items go first
+[08:40:51] memory 55% before starting N20X_reach (2 running)
+[08:40:51] ==== START N20X_reach  (game @ aa8cb5beb) ====
+[08:40:55] [res] cpu=49% mem=55% (17.4/31.4 GB) chrome_testing=18  START N20X_reach
+[08:42:19] 正在跑：YT3-C2（已跑 12 分／上限 35 分）、YT3-E2（已跑 6 分／上限 40 分）、N20X_reach（已跑 1 分／上限 25 分）——還沒測完，請不要關 (tests still running - please do not close)
+[08:43:41] [res] cpu=38% mem=57% (18.1/31.4 GB) chrome_testing=18  END YT3-E2
