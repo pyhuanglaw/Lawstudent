@@ -304,3 +304,19 @@
 [20:40:33] ==== START PARK_campus_nav  (game @ 555b9e0cb) ====
 [20:40:36] [res] cpu=10% mem=43% (13.5/31.4 GB) chrome_testing=19  START PARK_campus_nav
 [20:42:36] [res] cpu=25% mem=42% (13.6/31.4 GB) chrome_testing=19  END PARK_campus_nav
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0a326c86c..1c29e61f0  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:42:40] ==== END   PARK_campus_nav  exit=0  123s   ====
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[20:42:42] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[20:42:42] memory 42% before starting PARK_zones (2 running)
+[20:42:42] ==== START PARK_zones  (game @ 555b9e0cb) ====
+[20:42:45] [res] cpu=16% mem=42% (13.2/31.4 GB) chrome_testing=19  START PARK_zones
+[20:44:05] 正在跑：GG_shops2_afar_seat（已跑 39 分／上限 90 分）、GG_shops2_db_seat（已跑 39 分／上限 80 分）、PARK_zones（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:45:10] [res] cpu=8% mem=43% (13.6/31.4 GB) chrome_testing=19  END PARK_zones

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PARK_zones",
+  "sha": "555b9e0cb",
+  "kind": "game",
+  "script": "tests/zone_transitions.py",
+  "env": "XARGS={url}",
+  "machine": "MSI",
+  "start": "2026-11-04T20:42:42",
+  "end": "2026-11-04T20:45:10",
+  "seconds": 148,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html?turbo",
+  "res_peak": {
+    "cpu": 23,
+    "mem": 52,
+    "used_gb": 16.2,
+    "chrome_testing": 28
+  }
+}
