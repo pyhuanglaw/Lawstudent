@@ -25,7 +25,7 @@ const YANGYANG_LAYOUT = (function () {
     streetCounter: {x0: OPEN.x0, x1: OPEN.x1, z0: Z1 - 0.6, z1: Z1, h: OPEN.counterH, caseTop: OPEN.caseTop, note: '臨騎樓的炸物櫃台：櫃台面 0.82＋玻璃展示櫃（生料一盤一盤），客人在騎樓夾'},
     insideCase: {x0: OPEN.x1 - 0.8, x1: OPEN.x1, z0: 1.0, z1: Z1 - 0.8, h: 1.0, note: '店內那一側的炸物櫃（斜玻璃），面向 +x；上面是招牌與菜單板'},
     partition: {x: OPEN.x1, z0: KZ, z1: 1.0, dado: 0.95, note: '廚房後段：白磁磚腰牆＋不鏽鋼框玻璃'},
-    menuBoard: {x: OPEN.x1, z0: 0.9, z1: Z1 - 0.3, y0: 1.95, y1: 3.2},
+    menuBoard: {x: OPEN.x1, z0: 0.9, z1: 4.3, y0: 1.95, y1: 3.2},
     tables4: [{n: 1, x: 1.2, z: 2.9}, {n: 2, x: 1.2, z: 0.6}, {n: 3, x: 1.1, z: -1.7}, {n: 4, x: -2.9, z: -4.3}],   // 四人桌 1.1 × 0.75（長邊沿 x），椅子在 z ±0.6
     tables2: [{n: 6, x: 3.4, z: 1.4}, {n: 7, x: 3.5, z: -0.4}, {n: 8, x: 3.5, z: -2.2}, {n: 9, x: 3.6, z: -4.0}],   // 兩人桌 0.7 × 0.7，椅子在 z ±0.55
     selfServe: {x0: X1 - 0.6, x1: X1, z0: 3.0, z1: 4.9, h: 0.9, note: '自助區：餐具、醬料（辣椒、蒜泥、胡椒粉）、飲用水桶、垃圾分類三格'},
