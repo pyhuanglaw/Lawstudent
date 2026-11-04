@@ -61,8 +61,8 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
   /* 不是前任（FRIEND）：照舊打電話、麵店團沒有那兩則 */
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); PG.rules(GM); H.at('2029-12-14',21); const c=PG.due(G);
     check('2. 不是前任（FRIEND）：21:00 照舊有那一步（an1；S6 起是祐廷自己查到、她回訊息）',!!c&&c.id==='an1'); H.said=[]; await PG.runStep(GM,c); H.tick();
-    check('2. S6：她回「謝謝。一月面試。」、不是交往中不提美國（「'+US+'」不在）；麵店團沒有那一則',H.has('謝謝。一月面試。')&&!H.has(US)&&!H.has(L1)&&!noodle(G).length,J(noodle(G))); }
-  /* 交往中：照舊打電話（「……我只跟你講了。」）*/
+    check('2. S6：她回「謝謝。一月口試。」、不是交往中不提美國（「'+US+'」不在）；麵店團沒有那一則',H.has('謝謝。一月口試。')&&!H.has(US)&&!H.has(L1)&&!noodle(G).length,J(noodle(G))); }
+  /* 交往中：照舊打電話（「……紐約那間。」，AA_674 第 2 列）*/
   { const G=H.fresh('2029-12-14',21,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); const c=PG.due(G);
     check('2. 交往中：照舊打電話',!!c&&c.id==='an1'); }
   /* 前任但不到 FRIEND：照原本（12/14 沒有、1/25 麵店團一則）*/

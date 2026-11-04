@@ -4878,6 +4878,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'妳曬黑了。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_01',text:'日本的夏天。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'那就是吃太多。'},
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'語彤，妳上學期都在幹嘛？'},
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……蘇姨是第二十三個。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'她一開始說她沒有故事。後來我問她，店為什麼叫一盞，她講了兩個小時。'},   /* AA_677 第 4 節（企劃線 d784b1634）：蘇姨後來答應受訪的原因（改變心意要有原因）*/
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'給我看。'},
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃飯先。'},
     /* AA_524 A1：餞行（y34b3d.js fw_b）或閒聊階梯 A5-L8 說了「回來第一碗我請。」（AN_FIRST_BOWL）——以安在場：放在語彤「吃麵先。」之後；沒有語彤那幾句的放在阿哲第一句之後（上面）*/

@@ -139,7 +139,7 @@ const YTJOB=(function(){
       {label:'opt'},
       {choice:[{text:'「妳一個人住這麼大？」',goto:'a'},{text:'「秀琴姨煮得很好吃。」',goto:'b'}]},
       {label:'a'},{speaker:YT,text:'我媽買的。……我只是想知道一個人過日子是什麼感覺。'},{goto:'e'},
-      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……不要跟蘇姨說。'},
+      {label:'b'},{speaker:YT,text:'嗯。比茶屋的點心好吃。……蘇姨聽到會難過。'},
       {label:'e'},{set:{YT_HOME_SEEN:true}} ],
     after:G=>{ G.flags.YT_HOME_SEEN=true; if(G.flags.YT_RENT_AT_HOME&&G.events&&G.events.done) G.events.done.ev_yutong_landlord=G.day; } };
   S.homeInstall=function(){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HOME_EV.id)) STORY_EVENTS.push(S.HOME_EV);

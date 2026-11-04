@@ -66,8 +66,8 @@ const RW=r=>ENCOUNTERS.rows.find(q=>q.who===r[0]&&q.spot===r[1]);
     check('15. 芷若：第二週「又遇到了。……我們看電影的時間好像一樣。」',out[1].includes('又遇到了。……我們看電影的時間好像一樣。'),out[1].slice(0,200));
     check('15. 第三週：「第三次了。我開始覺得，你是故意的。」＋選項「是故意的。」→「嗯。」',out[2].includes('第三次了。我開始覺得，你是故意的。')&&out[2].includes('林芷若：嗯。'));
     check('15. 第四週：「下次直接約。不要靠運氣。」、記 ENC_D04_ZR3（不改任何約會條件）',out[3].includes('下次直接約。不要靠運氣。')&&SOCIAL.has('heroine_02','ENC_D04_ZR3'));
-    const Gc=mk(days[3]+1,15,{zone:'cafe'}); Gc.daily=share.daily; Gc.social=share.social; GG=Gc; const q=ENC.schoolLine(Gc,'heroine_02'); check('15. 之後在 Café：西門町那句先說；說完再聊才是「那部老片下週重映。……我只是告訴你。」',!!q&&(q.tag==='ENC_D04_ZR'||q.tag==='ENC_D04_ZR3'),JSON.stringify(q));
-    ENC.markSaid(Gc,q.tag); const q2=ENC.schoolLine(Gc,'heroine_02'); check('15. 第二次聊天：另一句',!!q2&&q2.tag!==q.tag&&(q2.lines[0]==='那部老片下週重映。……我只是告訴你。'||q.lines[0]==='那部老片下週重映。……我只是告訴你。'),JSON.stringify(q2)); delete STAGE.heroine_02; }
+    const Gc=mk(days[3]+1,15,{zone:'cafe'}); Gc.daily=share.daily; Gc.social=share.social; GG=Gc; const q=ENC.schoolLine(Gc,'heroine_02'); check('15. 之後在 Café：西門町那句先說；說完再聊才是「那部老片下週重映。週六早場。」',!!q&&(q.tag==='ENC_D04_ZR'||q.tag==='ENC_D04_ZR3'),JSON.stringify(q));
+    ENC.markSaid(Gc,q.tag); const q2=ENC.schoolLine(Gc,'heroine_02'); check('15. 第二次聊天：另一句',!!q2&&q2.tag!==q.tag&&(q2.lines[0]==='那部老片下週重映。週六早場。'||q.lines[0]==='那部老片下週重映。週六早場。'),JSON.stringify(q2)); delete STAGE.heroine_02; }
   // 可昕同行：予樂的一句
   { const G=mk(SAT,19); force(G,'D04','kexin',0); G.hour=18.75; const gm=mkGM(G,[0,'一起走一段','回去','回公館']); await TRIP.menu(gm);
     check('16. 可昕（交往中）在西門町一起走：予樂「我去買東西。……很久。」',gm.L.says.includes('予樂：我去買東西。……很久。'),JSON.stringify(gm.L.says.slice(0,6))); }

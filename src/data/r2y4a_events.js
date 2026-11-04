@@ -568,7 +568,7 @@ const R2Y4A_EVENTS=(function(){
       kx('上車。……音樂你管。'),
       {scene:'車上',bg:'car_morning'},
       IF(TRIPPED,kx('第一次去的時候，我管音樂，你管方向。')),IF(TRIPPED,kx('今年交換。')),
-      UN(TRIPPED,kx('我們沒有「第一次去的地方」。……那今天就是。')),
+      UN(TRIPPED,kx('我們沒有「第一次去的地方」。……那就今天去一個。')),
       {scene:'高雄・海邊',bg:'trip_sea'},
       kx('到了。今天你說要做什麼，就做什麼。'),
       {choice:[{text:'「走到那個堤防的盡頭。」',goto:'a'},{text:'「找一家沒吃過的。」',goto:'b'},{text:'「坐著就好。」',goto:'c'}]},

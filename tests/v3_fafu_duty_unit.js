@@ -83,7 +83,7 @@ GM.money=function(n){ G.money+=n; };
   { const R=await watch(sat('Y2S1',7),{},2);
     check('8. 大一一次都沒來、大二才來：第一次是值班的學長那兩句（AA_238 2-1）；第二次不再有 ⓐ',JSON.stringify(ldOf(R[0]))===JSON.stringify(['第一次來？站這邊聽就好。','不要插話，也先不要給意見。看我們怎麼問。……問題問對了，事情就清楚一半。'])&&R[0].some(t=>t.startsWith('值班的學長：'))&&!ldOf(R[1]).some(t=>STORY.FAFU_W1.a1.concat(STORY.FAFU_W1.a2,STORY.FAFU_W1.a3).includes(t)),JSON.stringify(R)); }
   { const R=await watch(sat('Y2S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true},7); const S2=R.map(ldOf);
-    check('8. 大二：一天最多一句；ⓑ「哪天想坐下來，跟我說。……不說也沒關係。」和旁白池一起輪；沒有學姊、沒有「九月我還在這裡」',R.every(L=>L.filter(t=>/點頭，回到圓桌/.test(t)).length<=1)&&S2.some(x=>x.includes('哪天想坐下來，跟我說。……不說也沒關係。'))&&!R.some(L=>L.some(t=>SISRE.test(t)||/九月我還在這裡/.test(t))),JSON.stringify(S2)); }
+    check('8. 大二：一天最多一句；ⓑ「哪天想坐下來，跟我說。咖啡我請。」和旁白池一起輪；沒有學姊、沒有「九月我還在這裡」',R.every(L=>L.filter(t=>/點頭，回到圓桌/.test(t)).length<=1)&&S2.some(x=>x.includes('哪天想坐下來，跟我說。咖啡我請。'))&&!R.some(L=>L.some(t=>SISRE.test(t)||/九月我還在這裡/.test(t))),JSON.stringify(S2)); }
   { const R=await watch(sat('Y3S1',7),{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true,FAFU_W:{y2:1}},6); const S3=R.map(ldOf);
     check('8. 大三上第一次：值班的學長 ⓒ「還是站旁邊？看我們怎麼問，看他在哪裡停下來。」；之後沒有「升官」（w8 刪）',JSON.stringify(S3[0])===JSON.stringify(STORY.FAFU_W1.c)&&!R.some(L=>L.some(t=>/升官/.test(t))),JSON.stringify(S3)); }
   { const k1=STORY.termDay('Y4S1',3,6); const R=await watch(k1,{LAWCLUB_SAT_FIRST:true,FAFU_Y1_SEEN:true,FAFU_W:{y2:1,y3:1}},3);

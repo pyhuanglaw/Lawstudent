@@ -308,7 +308,7 @@ const date=id=>H.date(id);
     at('2029-09-03',12); const p1=STORY.presence('classmate_mingxuan',H.G); at('2030-07-31',12); const p2=STORY.presence('classmate_mingxuan',H.G); at('2030-08-01',12); const p3=STORY.presence('classmate_mingxuan',H.G);
     check('2-Y4-48 presence：2029-09-02～2030-07-31 在德國', p1.here===false&&p1.kind==='abroad'&&p2.here===false&&p3.here!==false); }
   /* ===== 2-Y4-49 以安：二試放榜、三試放榜（已在 AA_319 1A-18）===== */
-  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月面試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月面試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
+  check('2-Y4-49 已在 AA_319（AA_589 第 7-5 節 S6 起改成祐廷自己查到）：以安二試、錄取兩步還在 postgrad_lines.js（「謝謝。一月口試。」「謝謝。」「但我不去。」）、麵店團那一則還在', POSTGRAD_LINES.AN.call1[0]==='謝謝。一月口試。'&&POSTGRAD_LINES.AN.call2[0]==='謝謝。'&&POSTGRAD_LINES.AN.call2[1]==='但我不去。'&&PG.MSGS.some(m=>m.tag==='pg_an_group'));
   /* ===== 2-Y4-50 以安：哥大＋紐約送機 ===== */
   const ANF=()=>{ H.FRIEND('heroine_01'); contact('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); grp(); };
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg();

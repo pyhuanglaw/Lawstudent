@@ -805,7 +805,7 @@ const STORY = (function(){
   S.fafuWatchLine=function(G){ const F=G.flags, W=F.FAFU_W||(F.FAFU_W={}), yr=S.fafuWYear(G), here=true;   /* 帶的人每次都在（AA_238 2-4）*/
     if(here&&yr&&!W[yr]){ W[yr]=G.day; if(yr==='y2'){ const y1seen=!!F.FAFU_Y1_SEEN||(!!F.LAWCLUB_SAT_FIRST&&!F.FAFU_FIRST_Y2PLUS); return {lead:F.LAWCLUB_SAT_FIVE?FAFU_W1.a1:(y1seen?FAFU_W1.a2:FAFU_W1.a3)}; } return {lead:yr==='y3'?FAFU_W1.c:FAFU_W1.d}; }
     const extra=[];
-    if(here&&yr==='y2') extra.push({id:'wb',lead:['哪天想坐下來，跟我說。……不說也沒關係。']});   /* w5、w8、w11 是學姊自己的事，刪（AA_238 2-4）*/
+    if(here&&yr==='y2') extra.push({id:'wb',lead:['哪天想坐下來，跟我說。咖啡我請。']});   /* w5、w8、w11 是學姊自己的事，刪（AA_238 2-4）*/
     const pool=FAFU_POOL.map((q,i)=>q.lead?null:{id:'n'+i,t:q.t}).filter(Boolean).concat(extra);
     const used=Array.isArray(F.fafuWUsed)?F.fafuWUsed:(F.fafuWUsed=[]); let cand=pool.filter(q=>!used.includes(q.id)); if(!cand.length){ used.length=0; cand=pool; }
     const it=cand[0]; used.push(it.id); return it; };
@@ -1335,7 +1335,7 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='classroom'&&S.mainDay(G)===2&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
     if(it.exit&&it.exit.to==='wz_teishoku'&&typeof WZS!=='undefined'&&WZS.teiDoorAt&&await WZS.teiDoorAt(GM,it)) return true;   /* 小路（AA_655 第 4 節）：18:00 才開；中午、公休日、颱風天走到門口各一句旁白 */
     if(it.exit&&PLACES.typhoonClosed&&PLACES.typhoonClosed(it.exit.to,G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 颱風假店家不開（AA_160 3-4 D）*/
-    if(it.exit&&it.exit.to==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&await NOODLE_CLOSED.door(GM)) return true;   /* 阿鳳麵店過年店休（AA_333；src/noodle_closed3d.js）：鐵門、語彤刷椅子腳；那天在麵店有約照常進去 */
+    if(it.exit&&it.exit.to==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&await NOODLE_CLOSED.door(GM)) return true;   /* 公館燒臘過年店休（AA_333、AA_683；src/noodle_closed3d.js）：鐵門的旁白、不能進去；那天在店裡有約照常進去 */
     const fdIn=!!(it.exit&&it.exit.to==='wz_teahouse'&&typeof AA187!=='undefined'&&AA187.fdDoorOpen&&AA187.fdDoorOpen(G));   /* AA_657 第 2 節：打烊後的那一桌（2029-04-26、邀請送出了）茶屋的門開到 21:00；20:00 以後門口一句旁白（src/aa187_3d.js）*/
     if(fdIn&&AA187.fdDoorLine&&AA187.fdDoorLine(G)){ GM.sceneBegin(); try{ await GM.say(null,AA187.fdDoorLine(G)); } finally { GM.sceneEnd(); } }
     if(it.exit&&!fdIn&&/^wz_(brunch|print|teahouse|lin|teishoku|mokuyobi)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 木曜日（AA_617 第 3 節）：13:00–22:00、週二公休——「上二樓（木曜日）」照其他溫州街的店門 */   /* 溫州街新店的營業時間（AA_164 1-2；林家乾麵、巷子裡定食 AA_364 第 2 節：一天兩段、週一／週二公休）*/
@@ -2217,7 +2217,7 @@ const STORY = (function(){
     { const m2=termDay('Y1S2',2,1); if(m2&&F.dating_kexin&&G.day>=m2-1&&G.day<=m2+13){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
         const MODE=[{t:'我開車去木柵大學。',set:{_kxOM:'nccu'},say:[K('好。我負責選宵夜。')]},{t:'妳來首都帝大。',set:{_kxOM:'ntu'},say:[K('好。我順便看品妤。')]},{t:'約在外面。',set:{_kxOM:'mid'},say:[K('公館、溫州街、河濱，輪流。我坐公車下山。')]},{t:'視訊也算。',set:{_kxOM:'video'},say:[K('算。可是一個月至少見一次面。')]}];
         const DAYS=[['週五晚上。','fri','好，週五。我那天下午沒課。']/* AA_209 附錄B §2 */,['週六。','sat','整天？……好，我不會整天都要。'],['週日下午。','sun','週日下午很好。隔天要上課，我們不會玩太晚。']].map(([t,k,r])=>({t,set:{_kxOD:k},say:[Object.assign(K(r),{ask:{opts:MODE}})]}));
-        const L=[K('我們選一天。不是約會日，是「我們的日子」。')];   /* AA_389 第 4 點（企劃線 345234b3）：這一句保留（AA_362 §1）、「名字很重要。」刪、「約在中間。」照 AA_313 第 20 列改「約在外面。」＋「我坐公車下山。」*/ if(F.KX_VDAY_SEE) L.push(K('你情人節說想見我。這個週末我已經空下來了。'));/* AA_209 附錄B §2；AA_373 #10（3/2 傳：第一個週末已經過了） */ Object.assign(L[L.length-1],{ask:{opts:DAYS}});   /* BB_161 ⑰：「我想見妳」多的那一句接在後面（選項掛在最後一則）*/
+        const L=[K('我們選一天。叫它「我們的日子」。')];   /* AA_389 第 4 點（企劃線 345234b3）：這一句保留（AA_362 §1）、「名字很重要。」刪、「約在中間。」照 AA_313 第 20 列改「約在外面。」＋「我坐公車下山。」*/ if(F.KX_VDAY_SEE) L.push(K('你情人節說想見我。這個週末我已經空下來了。'));/* AA_209 附錄B §2；AA_373 #10（3/2 傳：第一個週末已經過了） */ Object.assign(L[L.length-1],{ask:{opts:DAYS}});   /* BB_161 ⑰：「我想見妳」多的那一句接在後面（選項掛在最後一則）*/
         if(!PHONE.sent(G,'kx_our_day')) PHONE.at(G,m2,21,L,'kx_our_day');
         if(F._kxOD&&F._kxOM&&!F.KX_OUR_DAY){ F.KX_OUR_DAY={day:F._kxOD,mode:F._kxOM}; delete F._kxOD; delete F._kxOM; }
         const OD=F.KX_OUR_DAY; if(OD&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_our_day1')){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day]; let d=termDay('Y1S2',2,wd); if(d!=null&&(G.day>d||(G.day===d&&G.hour>hh))) d=termDay('Y1S2',3,wd);
