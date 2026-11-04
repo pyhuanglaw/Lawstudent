@@ -86,6 +86,9 @@ WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_pl
 GG_views_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # CVS24_r4：force_gg_after 睡醒以後自動去上課＝照設計 → 改挑週五晚上（隔天週六沒課）
 CVS24_r4 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+# CVS24_r5／GG_int_aoki_hours_r2：r4 是 CC-C 自己新加的那行 JS 裡 wd%7 被 Python % 格式化吃掉（ValueError stray %）＝探針；probe_lint 已加這種檢查，又抓到 cc_gg_int_probe 的 aoki_hours 同一種錯
+CVS24_r5 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+GG_int_aoki_hours_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=aoki_hours;CC_HEADLESS=0
 # PARK_glb_r2（BB-C 13:24）：campus_glb_integration 跑兩次（a、b）；avenue 超過 1.1 的話看 PARK_glb_groups（同一頁兩輪，avenue 鏡頭每個群組的估計 calls／tris，差最多的 10 組）
 PARK_glb_r2a | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_r2b | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0;RERUN=b
