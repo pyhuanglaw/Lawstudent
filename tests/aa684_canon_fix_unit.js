@@ -83,6 +83,10 @@ await sec(3,()=>{
   check('3. 2026-08-28（五）回來：出遊隔天 8/29（六）；2026-07-28（二）回來：8/1（六）；2028-01-30（日）回來：2/5（六）',J(b.q)===J(['2026-08-29',17.25,'一盞茶屋'])&&b.t[0][2]==='這週六我五點下班'&&J(c.q)===J(['2026-08-01',17.25,'一盞茶屋'])&&J(d.q)===J(['2028-02-05',17.25,'一盞茶屋']),J([b,c,d]));
   const e=yre('C10','Y2');
   check('3. 2027-07-31（六）20:00 回來：21:00 約，17:15 已經過了＝下一個週六 8/7（句子用「這週六」，記給 AA）',J(e.q)===J(['2027-08-07',17.25,'一盞茶屋'])&&e.t[0][2]==='這週六我五點下班',J(e));
+  { const I1=VAC.inst('C10','Y2'), I2=VAC.inst('T02','Y2'); fresh(I1.to,17.9,'dorm',{dating_heroine_03:true}); H.CLOSE(YT); VAC.rec(H.G).reg[I1.key]='done'; VAC.rec(H.G).reg[I2.key]='yes'; run(17.9,21.5);
+    at(I2.to,17.9); VAC.rec(H.G).reg[I2.key]='done'; run(17.9,21.5);
+    const re=OUT.rec(H.G).filter(q=>q&&q.vac&&q.vac.k==='re'&&q.vac.who===YT).map(q=>[q.id,K(q.day),q.state]), tags=[...new Set((H.G.msgs||[]).filter(m=>/^vac_re_.*_heroine_03$/.test(m.tag||'')).map(m=>m.tag))];
+    check('3. 兩趟回來都排到同一個週六（大二暑假 C10 7/31 回來、T02 8/4 回來＝都是 8/7）：只約一次、只排一場（第二趟記在 V.reSame）',J(re)===J([['vac_C10@Y2_re_heroine_03','2027-08-07','planned']])&&J(tags)===J(['vac_re_C10@Y2_heroine_03'])&&(VAC.rec(H.G).reSame||{})['vac_re_T02@Y2_heroine_03']===DK('2027-08-07'),J({re,tags,same:VAC.rec(H.G).reSame})); }
   check('3. 程式：見面那一天、約的句子都照 VAC.reInvite（presence 看見面那一天）',/const RI=S\.reInvite\(R,inv,21\);/.test(strip(src('src/vac3d.js')))&&/STORY\.presence\(id,Object\.assign\(\{\},G,\{day:RI\.day\}\)\)/.test(src('src/vac3d.js'))&&/day:RI\.day,/.test(src('src/vac3d.js')));
 });
 
