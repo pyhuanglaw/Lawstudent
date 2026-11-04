@@ -66,12 +66,6 @@ const LUP=(function(){
     let glow=[]; const applyTime0=z.applyTime; z.applyTime=function(h,weather){ if(applyTime0) applyTime0.call(z,h,weather); const [c,k]=skyTint(h,weather==='rain'); for(const m of nodes.sky.map(o=>o.material)) if(m){ if(m.emissive) m.emissive.setHex(c); m.emissiveIntensity=k; m.color&&m.color.setHex(c); }
       applyCarrel(); const G2=G_(); sisL.intensity=G2&&S_.sisPeriod(G2)&&S_.sisHere(G2)?2.4:0; };
     seatsOf(E,z,L,s=>!bk);   /* 座位只有 08：有預約才能坐 */
-    /* 坐在 08 的時候鏡頭（BB 11-03 13:42 P3：小間只有 2.4×2.2 m，坐下以後鏡頭被隔板擋住、畫面左半邊是牆）：拉近到 1.7 m、轉到背後（門那一側，−z），
-       看得到自己和桌子；玩家自己轉鏡頭（manualT）的時候不搶。站起來恢復區域的距離。 */
-    { const s8=L.spots.my_seat; let sat=false; const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E.player, C=E.cam, s=P&&P.seat; if(!C) return;
-        const on=!!s&&!!s8&&Math.hypot(s.x-s8.x,s.z-s8.z)<0.3;
-        if(on){ C.distTarget=1.7; if(!(C.manualT>0)){ let d=Math.PI-C.yaw; d=Math.atan2(Math.sin(d),Math.cos(d)); C.yaw+=d*Math.min(1,dt*3); } sat=true; }
-        else if(sat){ C.distTarget=carrels.camDist||4.2; sat=false; } }; }
     const IT=E.interactables, back=(LL().doors.find(d=>d.id==='carrels')||{}).back;
     for(const q of L.interact){ if(q.id==='hall'){ IT.push({x:q.x,z:q.z,radius:q.r,lv:0,id:q.id,label:q.label,exit:{to:'library_hall',spawn:Object.assign({},back||{x:9.6,z:5.6,lv:1,yaw:-Math.PI/2})}}); continue; }
       if(q.id==='door08'&&bk) continue;   /* 有預約：門開著，直接進去 */
@@ -116,21 +110,6 @@ const LUP=(function(){
       o.position.set(dr.x,0,dr.z); o.rotation.y=dr.yaw||0; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,stSeat:i,lv:0}); if(!n) continue; n.seatTarget=st; k++;
       const sit=()=>{ n.seatTarget=null; if(n.leaving) return; if(busy(st)){ n.until=G.hour%24; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };
       const ap=(GM.seatApproach&&GM.seatApproach(st))||st.ap||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,0))) sit(); }
-    return k; };
-
-  /* 研究小間玻璃後面的讀者（LAWWW 11-03 12:08，CARREL-FREE-1103 以後；LAWWW2）：08 開館時間開著給玩家，其他九間關著——整排都空著很怪。
-     開館時段（08:00～22:00）01～10 扣掉 08（玩家的）和 03（學姊的，她自己的劇情 lupstory3d.js 放）每一間照日子、時段（上午／下午／晚上）決定有沒有人：
-     大約六成有人，坐那一間的椅子（carrels[].seat）、pose 'read'、frozen（門關著，從門上的小窗看得到）。閉館、時段換了沒輪到的：藏起來（不走出來：門是關的）。
-     story3d.js 進來（entering）、待著都叫。 */
-  S_.carrelWant=function(G){ const h=G.hour%24; if(h<8||h>=22) return []; const slot=h<12?0:(h<18?1:2), out=[];
-    for(const c of LAY('carrels').carrels||[]){ if(c.id==='08'||c.id==='03'||!c.seat) continue; let sd=(((G.day|0)*131+slot*17+(+c.id)*7919)%2147483646)+1; for(let k=0;k<3;k++) sd=(sd*16807)%2147483647; if(sd%10<6) out.push(c.id); }
-    return out; };
-  S_.populateCarrels=function(GM,entering){ const E=GM.E, G=GM.G; if(G.zone!=='library_carrels'||!E.zone||!E.npcs||typeof CHAR==='undefined'||typeof STORY==='undefined') return 0;
-    const want=S_.carrelWant(G), C=LAY('carrels').carrels||[]; let k=0;
-    for(const n of E.npcs) if(n&&n.carrelId){ const on=want.includes(n.carrelId); if(n.obj) n.obj.visible=on; n.hidden=!on; }
-    for(const id of want){ if(E.npcs.some(n=>n&&n.carrelId===id)) continue; const c=C.find(q=>q.id===id); if(!c) continue; const st=c.seat;
-      const o=CHAR.build(STORY.extraSpec(880+(((G.day|0)*13+(+id))%60))); o.position.set(st.x,0,st.z); o.rotation.y=st.yaw||0;
-      const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,carrelId:id,seat:{x:st.x,z:st.z,yaw:st.yaw||0,lv:0}}); if(n) k++; }
     return k; };
 
   /* 窗外的景深（tools/shots/shop_views_layers.json：遊戲裡拍的照片，景在幾公尺外）*/

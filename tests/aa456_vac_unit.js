@@ -29,7 +29,6 @@ const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
 const oldMsg=(tag,th,from,text,d,h)=>{ PHONE.rec(H.G); H.G.msgs.push({th,from,text,tag,day:d,h}); };   /* 舊存檔：這一則已經用舊的字收過了 */
 
 /* ---- 讀稿（企劃線 71f260ecc）---- */
-require('./alison.js');   /* YT-REWRITE-1103：讀 AA_456 稿照 aa630_fix.json 換語彤的句子（AA_630 Z-149、Z-150：期末心意邀約搬到茶屋）*/
 let doc=''; try{ doc=cp.execSync('git show 71f260ecc:"docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 /* 以安改稿④b（AA_594 第 19～23 列：termend_lines.js 女朋友版的邀約與飯桌）改了這份稿上她的幾格：讀稿時照改成欄換（逐列核對在 tests/aa594_an_4b_unit.js）*/
 const AN594_USED=(()=>{ const [d,u]=require('./an_rev_doc.js').overlay(doc,/^termend_lines\.js/); doc=d; return u; })();
@@ -124,7 +123,7 @@ await sec('1-5',()=>{
   check('1-5. 芷若前三學期照舊 22:00、週五；沛珊大三上照舊在台南（over 的地點留著）',zr.every(g=>g.h===22&&(g.wd||5)===5)&&ps.place==='eatery_tn',J([zr.map(g=>g.h),ps.place]));
   const dup=Object.values(WHO).filter(id=>{ const L=X15.filter(x=>x.who===id).map(x=>inv(x.who,x.term)); return new Set(L).size!==L.length; });
   check('1-5. 每個人稿裡的每一學期都不一樣（原句只留在稿說保留的學期）',!dup.length&&X15.filter(x=>x.orig).length===7,J(dup));
-  const FB=[['heroine_01','Y3S2','考完了。……今天不讀書，你也不准讀。'],['heroine_05','Y1S1','考完了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_03','Y5S1','打烊以後。我泡茶。'],['heroine_01','Y5S1','你實習結束了吧。……今天我訂位子。'],['heroine_05','Y5S1','你實習結束了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_04','Y5S1','你實習完了吧 宵夜 我想吃兩份'],['classmate_peishan','Y5S1','學期結束了吧！你下來，我們吃熱的。'],['heroine_02','Y2S2','禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'],['heroine_02','Y3S2','禮拜四十點，等我下班。']];
+  const FB=[['heroine_01','Y3S2','考完了。……今天不讀書，你也不准讀。'],['heroine_05','Y1S1','考完了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_03','Y5S1','打烊以後。我煮。'],['heroine_01','Y5S1','你實習結束了吧。……今天我訂位子。'],['heroine_05','Y5S1','你實習結束了吧？今天晚上我空著。法圖旁邊那家。'],['heroine_04','Y5S1','你實習完了吧 宵夜 我想吃兩份'],['classmate_peishan','Y5S1','學期結束了吧！你下來，我們吃熱的。'],['heroine_02','Y2S2','禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'],['heroine_02','Y3S2','禮拜四十點，等我下班。']];
   const fb=FB.filter(([id,t,s])=>inv(id,t)!==s).map(([id,t,s])=>[id,t,inv(id,t)]);
   check('1-5. 稿沒寫的學期照 invite（以安大三下、學姊大一上、語彤大五上）；over 寫的照 over（大五上四人、芷若大二下、大三下）',!fb.length,J(fb));
   /* 實際手機：交往中，約會當天 12:00 那一則（AA_378 #3） */

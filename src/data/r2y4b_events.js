@@ -20,16 +20,16 @@ const R2Y4B_BAR_NARR={
       '（你們互相出了五題。她錯兩題，你錯三題。）','（今天讀民訴。她說民訴讀起來像在排隊。）','（掛之前，她把桌上的日曆翻給你看：又劃掉一格。）'],
     sat:['（木柵大學山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
     wdEnd:'（讀到十一點。）', satEnd:'（讀到傍晚。）' },
-  yutong:{   /* 2-2 語彤（平日大口漢堡二樓；週六在總圖）*/
-    wd:['（十點，大口漢堡二樓的人少了一半，只剩長桌這邊亮著。）','（語彤把今天讀的抄在一張小卡上，放進外套口袋。）','（你講完一段，她說：「再一次。」你又講了一次。）','（語彤下樓買了兩杯熱可可，沒說話，放一杯在你旁邊，又坐回去。）',
+  yutong:{   /* 2-2 語彤（麵店；週六在總圖）*/
+    wd:['（十點，阿姨把燈關掉一半，留長桌那一盞。）','（語彤把今天讀的抄在一張小卡上，放進圍裙口袋。）','（你講完一段，她說：「再一次。」你又講了一次。）','（阿姨端了兩碗湯過來，沒說話，又走回廚房。）',
       '（她在你筆記的邊邊寫了一個字：「慢」。）','（收桌的時候，她把你的筆蓋蓋好，放回你的筆袋。）'],
     sat:['（總圖的長桌。她讀社會系的書，你讀你的，中間隔一個位子放水壺。）','（她問了一題你答不出來的。你們一起查到閉館。）'],
-    wdEnd:'（讀到十點半，店員來收托盤。）', satEnd:'（讀到閉館。）' },
+    wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到閉館。）' },
   three:{   /* 第 4 節 三個人一起讀（都在麵店）*/
-    list:['（可昕出題，語彤計時。你答完，兩個人一起看你。）','（語彤把薯條推到長桌另一頭，可昕把考古題推回來。）','（可昕問了一題，語彤說她社會系也學過。兩個人講了五分鐘，你在旁邊寫答案。）',
-      '（十點，大口漢堡二樓的人少了一半。可昕說：「再一題。」語彤說：「最後一題。」）','（週六的長桌。三疊考古題，一包沒人拆的餅乾。）','（可昕和語彤交換了筆記。兩個人的字，一個圓一個方。）'],
+    list:['（可昕出題，語彤計時。你答完，兩個人一起看你。）','（語彤把麵推到長桌另一頭，可昕把考古題推回來。）','（可昕問了一題，語彤說她社會系也學過。兩個人講了五分鐘，你在旁邊寫答案。）',
+      '（十點，阿姨把燈關掉一半。可昕說：「再一題。」語彤說：「最後一題。」）','（週六的長桌。三疊考古題，一盤沒人動的滷味。）','（可昕和語彤交換了筆記。兩個人的字，一個圓一個方。）'],
     when:[null,null,null,'wd','sat',null],
-    wdEnd:'（讀到十點半，店員來收托盤。）', satEnd:'（讀到傍晚。）' } };
+    wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到傍晚。）' } };
 const R2Y4B_EVENTS=(function(){
   const R=()=>typeof R2Y4B!=='undefined'?R2Y4B:null;
   /* CG-20「斜對面的位子」（AA_121；AA-B 11-01 定 (a)）：只有語彤、第一次在總圖讀的那一次（週六），從下午讀到天黑，她占好斜對面放熱茶。
@@ -544,20 +544,20 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-58 律師讀書小組（AA_253 第 11 節、11-1）：2/23 成立（三種）、每週一三五晚上＋週六（麵店／視訊）、6/23 三個人的長桌 ---------- */
   { id:'ev_bar_group_start', title:'律師讀書小組', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {if:{flagIs:{BAR_GROUP_START:'kexin'}},goto:'kx'},{if:{flagIs:{BAR_GROUP_START:'yutong'}},goto:'yt'},
-      {scene:'大口漢堡・二樓',bg:'dark'},   /* AA_642 第 6 節：大口漢堡沒有 3D，用 2D（dark＋字幕）*/
-      {speaker:null,text:'（開學第一個週五晚上，大口漢堡二樓。長桌上多了一張手寫的表，可昕寫的。）'},
+      {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（開學第一個週五晚上，燒臘店打烊以後。長桌上多了一張手寫的表，可昕寫的。）'},
       {speaker:'kexin',expression:'serious',text:'每週一、三、五晚上，週六整天。……有意見現在說。'},
-      {speaker:'heroine_03',text:'週末我在茶屋。你們平常在這裡讀，我順便考你們。'},
+      {speaker:'heroine_03',text:'週二我在店裡。你們在這裡讀，我順便考你們。'},
       {speaker:'kexin',expression:'smile',text:'……好。那表上多一格。'},{end:true},
       {label:'kx'},{scene:'視訊',bg:'video'},
       {if:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'teasing',text:'情人節那張表，我把八月以前都排完了。'},
       {unless:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'serious',text:'我排了一張表，到八月，一天三科。'},   /* 沒有 2/14 那張表（KX_VDAY[4] 不是 'video'）*/
       {speaker:'kexin',expression:'smile',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
-      {label:'yt'},{scene:'大口漢堡・二樓',bg:'dark'},
-      {speaker:'heroine_03',text:'我今年也考。……你考的那幾科，我也要考。'},   /* AA_642 第 4 節（AA_629：她 2029 和祐廷一起考）*/
+      {label:'yt'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+      {speaker:'heroine_03',text:'我今年不考。……可是你考的那幾科，我也要修。'},
       {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ] },   /* 成立那一晚不算讀書（BAR_GROUP_N＝讀的次數，從 2/26 第一次讀書算起；三個人的那一晚先輪到可昕）*/
   /* 讀書的那一晚（麵店）：一晚一句，輪流；只有語彤的第一次是那三句（AA_253 第 11 節）。只出題、不給答案、不寫條號 */
-  { id:'ev_bar_group_night', title:'律師讀書小組', participants:[], location:['library','library_hall'], trigger:'auto', background:'blur',   /* AA_642 第 6 節：平日晚上（原本麵店）改成大口漢堡二樓的 2D 出遊＝ev_bar_group_out（同一份台詞）；這一個只剩週六的總圖 */   /* 週六只有語彤的那幾天在總圖 */
+  { id:'ev_bar_group_night', title:'律師讀書小組', participants:[], location:['noodle','library','library_hall'], trigger:'auto', background:'blur',   /* 週六只有語彤的那幾天在總圖 */
     prereq:{custom:G=>{ const r=R(); return !!r&&r.groupNightDue(G); }},
     dialogue:[ {if:{custom:G=>R().groupLine(G)==='yt_first'},goto:'first'},
       ...CG20_LINES,   /* 第一次在總圖、不是第一次讀（AA-B 11-01 CG-20 (a)）*/
@@ -573,10 +573,10 @@ const R2Y4B_EVENTS=(function(){
       ...threeRows(),
       {end:true},
       {label:'first'},
-      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，語彤買了三杯熱可可上來，推了兩杯到長桌另一頭。）'},
+      {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）'},
       {if:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（星期六下午，總圖的長桌。語彤把自己的書收進包包，桌上只剩你的。）'},   /* AA_350 N1 白天版 */
       ...CG20_LINES,   /* AA-B 11-01 CG-20 (a)：白天那句照留，後面加旁白再放 CG */
-      {speaker:'heroine_03',text:'我們一起考。……我先考你。'},   /* AA_642 第 4 節 */
+      {speaker:'heroine_03',text:'我今年不考。……可是我可以考你。'},
       {speaker:'heroine_03',text:'買賣不破租賃那一條。你講給我聽，講到我聽得懂。'} ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },
   { id:'ev_bar_group_video', title:'律師讀書小組（視訊）', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2, kxAway:true,
@@ -588,10 +588,10 @@ const R2Y4B_EVENTS=(function(){
       ...narrRows('kexin','k','kexin') ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'video'); } },
   { id:'ev_bar_group_three', title:'三個人的長桌', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'大口漢堡・二樓',bg:'dark'},   /* AA_642 第 6 節 */
-      {speaker:null,text:'（長桌上攤著三疊考古題。語彤把桌上的空杯子疊起來，拿去回收。可昕在算時間。）'},
+    dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+      {speaker:null,text:'（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）'},
       {speaker:'kexin',expression:'serious',text:'還有四十二天。'},
-      {speaker:'heroine_03',text:'先吃，湯要涼了。'} ] },
+      {speaker:'heroine_03',text:'先吃，麵要糊了。'} ] },
   /* ---------- 2-Y4-61 沛珊大四下的學期末（2029-06-08（五）18:30 台南；AA_254 第 6 節、AA_282 第 5 節第 5 點）：飯與回家的路在 R2Y4B.psDinner ---------- */
   { id:'ev_ps_termend_y4s2', title:'學期末的飯：沛珊（台南）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.psDinner(GM,q); } },
@@ -602,7 +602,4 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.apartMissed(G,q); } }))
   ];
 })();
-/* AA_642 第 6 節（YT-REWRITE-1103）：律師讀書小組平日晚上在大口漢堡二樓（原本麵店打烊以後）——沒有 3D＝2D 出遊（dark＋字幕），台詞同 ev_bar_group_night；R2Y4B 的 groupVideoRules 一次排下一場 */
-{ const n=R2Y4B_EVENTS.find(e=>e.id==='ev_bar_group_night'); if(n) R2Y4B_EVENTS.push({id:'ev_bar_group_out',title:'律師讀書小組（大口漢堡）',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,
-  dialogue:[{scene:'大口漢堡・二樓',bg:'dark'}].concat(n.dialogue),after:n.after}); }
 Array.prototype.push.apply(STORY_EVENTS,R2Y4B_EVENTS);

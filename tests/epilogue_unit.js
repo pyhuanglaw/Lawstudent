@@ -67,9 +67,9 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('P3. B（分開又回來）：多「我們兩個是不是很笨？……好，這題不算。」',H.has('書狀寫到一半。……先吃。')&&H.has('我們兩個是不是很笨？……好，這題不算。')); }
   // P4：和語彤分手過
   { const G=await epi(Object.assign({},leanA,LAWYER),()=>{ H.FRIEND('zhe'); H.FRIEND('heroine_03'); H.date('heroine_03'); ROM.end(H.G,'heroine_03','apart_talk'); });
-    const y=SOCIAL.displayName('heroine_03'), a=H.said.findIndex(s=>s.t==='茶屋還在。你們有空來喝茶。');
-    check('P4. 語彤在店的另一頭：起身經過時「茶屋還在。你們有空來喝茶。」＋她自己的那一句「我在事務所，租賃的案子比較多。」',said(y,'茶屋還在。你們有空來喝茶。')&&H.said[a+1].t==='我在事務所，租賃的案子比較多。');
-    check('P4. 不在那一桌：沒有「蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。」，在同一桌的人說完以後',!H.has('蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。')&&a>idx('……喔對，你現在是律師。')&&a<cgAt[0]);
+    const y=SOCIAL.displayName('heroine_03'), a=H.said.findIndex(s=>s.t==='麵店還在。你們有空來吃。');
+    check('P4. 語彤在店的另一頭：起身經過時「麵店還在。你們有空來吃。」＋她自己的那一句「我在事務所，租賃的案子比較多。」',said(y,'麵店還在。你們有空來吃。')&&H.said[a+1].t==='我在事務所，租賃的案子比較多。');
+    check('P4. 不在那一桌：沒有「阿姨說你很久沒來了。下禮拜二來吃。」，在同一桌的人說完以後',!H.has('阿姨說你很久沒來了。下禮拜二來吃。')&&a>idx('……喔對，你現在是律師。')&&a<cgAt[0]);
     check('P4. 不在旁邊、不在對面：CG-10 是阿凱那張；沒有「麵店還開著」的旁白',JSON.stringify(H.cgs)===JSON.stringify(['cg_reunion_window_table_kai'])&&!H.has('（麵店還開著。牆上的紅紙又多了好幾張。）')); }
   // 阿勳「好久不見」＋前任以安「你們都在啊。」
   { await epi(Object.assign({PLAYED_Y0:true},leanA,LAWYER),()=>{ H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(H.G,'heroine_01','apart_talk'); });
@@ -100,7 +100,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('P5. 阿哲、Alison 同一桌＝兩人那一組（Alison「他現在每次都說『有事』。很煩。」阿哲「有事啊。我餓了。」）',said('Alison','他現在每次都說『有事』。很煩。')&&said('阿哲','有事啊。我餓了。')&&!H.has('我在事務所，每天寫狀子。'));
     check('P5. 經濟系那桌（沒講過）阿勳「好久不見」在同一桌的人之後',H.has('好久不見')&&idx('好久不見')>idx('……喔對，你現在是律師。'));
     check('P5. 學姊（不是戀人、傾向 A、律師）「我的研究，用的是你們法扶的申請統計。」',H.has('我的研究，用的是你們法扶的申請統計。'));
-    check('P5. 語彤 FRIEND（結局 4）「我在事務所，租賃的案子比較多。」「蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。」',H.has('我在事務所，租賃的案子比較多。')&&H.has('蘇姨說你很久沒來了。週末來，吧檯最旁邊那個位子還在。')); }
+    check('P5. 語彤 FRIEND（結局 4）「我在事務所，租賃的案子比較多。」「阿姨說你很久沒來了。下禮拜二來吃。」',H.has('我在事務所，租賃的案子比較多。')&&H.has('阿姨說你很久沒來了。下禮拜二來吃。')); }
   // 尾聲等第一份工作、等 2030 那一輪
   { const G=H.fresh('2034-06-03',19,'dorm',{}); graduated(G);
     check('W1. 第一份工作還沒演（FIRST_DAY_SEEN 沒有）：先演 2030-10-01 那一段，不是尾聲',PG.due(G)&&PG.due(G).id==='first');

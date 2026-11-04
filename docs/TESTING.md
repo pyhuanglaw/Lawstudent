@@ -133,7 +133,7 @@
 
 > 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。
 
-1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣；**?v= 全部要和標題字樣是同一個版號**——2026-11-03 起，v9.10.19 PR #25 標題改了、309 處 ?v= 還是舊版號沒被抓到；BB／CC 驗過：main e1603907e PASS、039a9227a 只有這項 FAIL）
+1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣）
 2. `tests/reachability_all.py`（全遊戲可達性）
 3. `tests/flow_class_real.py`、`tests/minimap_direction.py`、`tests/joystick_direction.py`（永久回歸：教室卡住、小地圖方向、搖桿方向）
 4. `tests/zone_transitions.py`、`tests/touch_flow_wenzhou.py`、`tests/p0_movement.py`
@@ -143,8 +143,6 @@
 8. v9.4 起（多樓層）：`tests/flow_linze_floors.py`
 
 9. **HV-15（2026-10-18）**：`python3 tools/story/check_orphans.py`、`python3 tools/story/check_lines.py`、`python3 tools/exam/import_exam_bank.py` 的漏收檢查；看 `docs/handoff/USER_WANTS.md` 的「不在遊戲裡」，發布前跟使用者說這一版有什麼、她要過但這版沒有的是哪些、為什麼。
-
-10. **social_smoke（2026-11-04 使用者 P0，經 BB；USER_WANTS X204）**：使用者原話「我還蠻常跟別人講話或者約會就卡住的……你不能只是確認地圖走得到，你應該要試著跟別的 npc 說話，可以攻略的對象尤其重要，也要跟他約會，朋友也是。」——每個候選版都跑：可以攻略的對象和朋友，每個人照真實流程測說話（每一個選項）、約會、傳訊息約、偶遇時一起坐、讀檔以後再試一次；每一步都檢查有沒有卡住（對話框收不掉、選單沒反應、玩家 busy 不放、walkFallbacks、JS 例外）。BB 定範圍、CC 在使用者電腦跑（D131），結果沒過不發布。
 
 發布後：GitHub「pages build and deployment」紀錄確認發布的 commit；請使用者在手機看標題的版本字樣（沙盒連不到 github.io）。
 

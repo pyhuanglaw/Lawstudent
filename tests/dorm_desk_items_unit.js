@@ -58,34 +58,20 @@ const keysOf=()=>STORY.roomItemKeys(G), labels=()=>STORY.roomItemList(G).map(r=>
   // 選了那一項鏡頭轉去看那件東西（BB 11-03 14:03 第 4 點；STORY.roomItemFocus＋GLB 節點 extras 的 eye／look）
   { const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/dorm_desk_items.glb')), jl=b.readUInt32LE(12), gj=JSON.parse(b.slice(20,20+jl).toString('utf8'));
     const ex={}; for(const n of gj.nodes||[]) if(/^ITEM_desk_/.test(n.name||'')) ex[n.name.slice(10)]=n.extras||{};
-    const noCam=Object.keys(ex).filter(k=>k!=='board'&&!/^liufa_/.test(k)&&!(Array.isArray(ex[k].eye)&&ex[k].eye.length===3&&Array.isArray(ex[k].look)&&ex[k].look.length===3));
-    check('15. 每一件（軟木板、六法以外：不在選單裡）的節點都有鏡頭 eye／look',!noCam.length,JSON.stringify(noCam));
+    const noCam=Object.keys(ex).filter(k=>k!=='board'&&!(Array.isArray(ex[k].eye)&&ex[k].eye.length===3&&Array.isArray(ex[k].look)&&ex[k].look.length===3));
+    check('15. 每一件（軟木板以外）的節點都有鏡頭 eye／look',!noCam.length,JSON.stringify(noCam));
     const far=Object.keys(ex).filter(k=>ex[k].eye&&ex[k].look&&Math.hypot(ex[k].eye[0]-ex[k].look[0],ex[k].eye[1]-ex[k].look[1],ex[k].eye[2]-ex[k].look[2])>1.0);
     check('16. 鏡頭離東西 1 m 以內（第一版 1.1 m：照片、評鑑表太小）',!far.length,JSON.stringify(far));
     const inDeck=Object.keys(ex).filter(k=>ex[k].eye&&ex[k].eye[0]<-0.95&&ex[k].eye[1]>1.55);
     check('17. 鏡頭不在上舖床板裡（x < −0.95 的鏡頭低於 1.55 m）',!inDeck.length,JSON.stringify(inDeck));
     let got=null; const par={visible:true,parent:null,updateMatrixWorld(){},localToWorld:v=>({x:v.x+10,y:v.y,z:v.z})};
     const node={visible:true,parent:par,userData:{eye:[1,2,3],look:[4,5,6]}};
-    const GMf={G:{flags:{}},E:{scene:{getObjectByName:n=>n==='ITEM_desk_notebook'?node:null},cinematic:(p,l,v)=>{ got=[p,l,v]; }}};
+    const GMf={G:{flags:{}},E:{scene:{getObjectByName:n=>n==='ITEM_desk_notebook'?node:null},cinematic:(p,l)=>{ got=[p,l]; }}};
     const r1=STORY.roomItemFocus(GMf,'寫滿的筆記本');
     check('18. roomItemFocus：選「寫滿的筆記本」→ E.cinematic（GLB 根節點座標換成世界座標）',r1===true&&got&&got[0].x===11&&got[1].x===14&&got[1].z===6,JSON.stringify(got));
     got=null; node.visible=false; const r2=STORY.roomItemFocus(GMf,'寫滿的筆記本');
     check('19. 那件東西沒顯示（別的年份）就不轉鏡頭',r2===false&&got===null);
     got=null; const r3=STORY.roomItemFocus(GMf,'經濟系的系外套');
-    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null);
-    // 六法（BB 11-03 16:16 P3 (a)：書桌上的紅色方塊像盒子 → 厚書）：一年一個節點，整本把 dorm_room4 的方塊包住（x −1.92～−1.64、z 0.26～0.52、頂 0.82／大三起 0.85）
-    const J=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/dorm_desk_items.json'),'utf8')), bad6=[];
-    for(const [room,top] of [['203',0.82],['312',0.82],['507',0.85],['409',0.85]]){ const k='liufa_'+room, b=J.pos&&J.pos['ITEM_desk_'+k];
-      if(!ex[k]||ex[k].room!==room||!b||!(b.min[0]<=-1.92&&b.max[0]>=-1.64&&b.min[2]<=0.26&&b.max[2]>=0.52&&b.min[1]<=0.761&&b.max[1]>top)) bad6.push(k+' '+JSON.stringify(b)); }
-    check('21. 六法：203／312／507／409 各一本（room 對得上），整本包住 dorm_room4 的紅色方塊',!bad6.length,bad6.join('；'));
-    const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-    check('22. zones3d.js deskItemKeys 照房間加 liufa_<房間>（不在「看東西」選單裡，每一年都顯示）',/K\.push\('liufa_'\+room\)/.test(zsrc));
-    // 鏡頭轉過去的路線（P3 (b)：會穿過梯子、床欄）：先到走道上的 via（x ≥ −0.65：祐廷那組的床板、床欄、梯子在 x −2.0～−0.9），和 eye 同高同 z，再平移到 eye
-    const noVia=Object.keys(ex).filter(k=>ex[k].eye&&!(Array.isArray(ex[k].via)&&ex[k].via[0]>=-0.65&&Math.abs(ex[k].via[1]-ex[k].eye[1])<1e-6&&Math.abs(ex[k].via[2]-ex[k].eye[2])<1e-6));
-    check('23. 每一件有鏡頭的都有 via（走道 x ≥ −0.65、和 eye 同高同 z）',!noVia.length,JSON.stringify(noVia));
-    node.visible=true; node.userData.via=[7,2,3]; got=null; STORY.roomItemFocus(GMf,'寫滿的筆記本');
-    check('24. roomItemFocus 把 via（換成世界座標）交給 E.cinematic 第三個參數',!!got&&!!got[2]&&got[2].x===17&&got[2].z===3,JSON.stringify(got&&got[2]));
-    const esrc=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
-    check('25. engine3d.js：E.cinematic(pos,look,via)，鏡頭先往 via、到了（15 cm 內）再往 pos',/E\.cinematic=function\(pos,look,via\)/.test(esrc)&&/camera\.position\.lerp\(s\.via\|\|s\.pos/.test(esrc)&&/s\.via=null/.test(esrc)); }
+    check('20. 沒有鏡頭資料的（系外套、沒有節點）不轉鏡頭',r3===false&&got===null); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

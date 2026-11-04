@@ -38,9 +38,7 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   for(const p of FEED_Y1S1.posts){ add(p.pic,p.id); add(p.say,p.id); for(const x of p.cm||[]) add(x,p.id); for(const x of p.dm||[]) add(x,p.id); }
   for(const q of FEED_Y1S1.dms){ for(const l of q.lines) add(l,q.id); if(q.ask) for(const o of q.ask.opts){ add(o.t,q.id); if(typeof o.post==='string') add(o.post,q.id); for(const r of o.r||[]) add(r,q.id); } }
   add(FEED_Y1S1.video.start,'video'); add(FEED_Y1S1.video.end,'video');
-  /* YT-REWRITE-1103：語彤的句子照 AA_630 第 3 節（F 列）換了；短句（tests/alison.js 的語料不收）直接對 AA_630 表上的「改成」那一格 */
-  const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
-  const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | ')));
+  const bad=L.filter(([w,t])=>!doc.includes(t));
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
   check('0. 動態 44 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 3、可昕 8、沛珊 6）、私訊 10 則',FEED_Y1S1.posts.length===44&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
@@ -86,7 +84,7 @@ sec('1',()=>{ const W2SUN=TD(2,7); fresh(TD(1,1),8); who('heroine_01','ACQ'); ti
   check('1. 以安第 2 則（朋友）只認識：沒有（done x:stage），畫面上沒有「寫完了。」、沒有「鎖」',R().done.an2==='x:stage'&&!item('an2')&&!h1.includes('寫完了。')&&!/鎖/.test(h1),J(R().done.an2));
   rel('heroine_01','FRIEND'); walk(TD(7,3),12); check('1. 之後變朋友：那一則還是沒有（判斷過就不再判斷）',!item('an2')&&R().done.an2==='x:stage');
   /* 沒有聯絡方式 */
-  fresh(TD(3,1),8); rel('heroine_03','CLOSE'); walk(TD(3,6),21); check('1. 語彤很熟、沒有聯絡方式：第 1 則不出（x:contact；AA_630 F-001：時間改第 3 週週六 17:20，她的班）',R().done.yt1==='x:contact'&&!item('yt1'),J(R().done));
+  fresh(TD(3,1),8); rel('heroine_03','CLOSE'); walk(TD(3,2),21); check('1. 語彤很熟、沒有聯絡方式：第 1 則不出（x:contact）',R().done.yt1==='x:contact'&&!item('yt1'),J(R().done));
   /* 睡過、跳時間：照原本的時間補 */
   fresh(TD(3,7),20); who('heroine_02','ACQ'); tickF(); jump(TD(4,1),8);
   const z=item('zr1'); check('1. 芷若第 1 則（第 3 週週日 22:07）：週日 20:00 睡到週一 08:00，補在週日 22:07',!!z&&z.day===TD(3,7)&&Math.abs(z.h-(22+7/60))<0.01,J(z));
@@ -110,8 +108,8 @@ sec('2',()=>{ const W10THU=TD(10,4), W11WED=TD(11,3), W13SUN=TD(13,7);
   walk(W13SUN,22.6); const r3=FEED.respond(H.G,'zr3','dm'); const L3=th('heroine_02').slice(-2);
   check('2. 私訊問一句「這是小婷的？」→「嗯。她很會。我教的。」；隔天以後再回＝熟悉再 +1',!!r3&&J(L3.map(m=>m.text))===J(['這是小婷的？','嗯。她很會。我教的。'])&&famOf('heroine_02')===f0+2,J(L3.map(m=>m.text)));
   /* 這則不能留言、私訊問的條件 */
-  fresh(TD(6,7),8); who('heroine_03','FRIEND'); walk(TD(6,7),19); const c=HT();   /* AA_630 F-005～F-008：第 6 週週日 18:30 淡水捷運站 */
-  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳回家？」→ 兩句（AA_630 F-007、F-008）',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳回家？','嗯。我媽叫我回去吃飯。','……謝謝你問。']));
+  fresh(TD(6,3),8); who('heroine_03','FRIEND'); walk(TD(6,3),11); const c=HT();
+  check('2. 語彤第 2 則「（這則不能留言）」：沒有留言的按鈕、留言回 null；私訊問「妳在醫院？」→ 兩句',!c.includes('data-fd="yt2|cm"')&&c.includes('data-fd="yt2|dm"')&&FEED.respond(H.G,'yt2','cm')===null&&!!FEED.respond(H.G,'yt2','dm')&&J(th('heroine_03').slice(-3).map(m=>m.text))===J(['妳在醫院？','陪我媽。例行的。','……謝謝你問。']));
   fresh(TD(7,2),21); who('heroine_01','FRIEND'); walk(TD(7,2),22.2); const a=HT(); H.G.flags.AN_DORM_RULES='group'; const b=HT();
   check('2. 以安第 2 則的私訊問「三頁是因為字很大嗎？」：Alison 在群組爆料（AN_DORM_RULES group）以後才有',!a.includes('data-fd="an2|dm"')&&b.includes('data-fd="an2|dm"')&&b.includes('三頁是因為字很大嗎？'));
   H.G.flags.AN_DORM_RULES='peishan'; check('2. 沛珊當面說的（不是 Alison）：沒有那一格',FEED.respond(H.G,'an2','dm')===null);
@@ -202,7 +200,7 @@ sec('7',()=>{ const TUE=TD(10,2);
   const W11=TD(11,3); for(const [k,flag,want] of [[0,'filled',['還沒。……截止日還很久。']],[1,'where',['英國吧。……我隨便說的。']],[2,'none',[]]]){ fresh(W11,20); who('heroine_02','FRIEND'); walk(W11,22.2); const mm=dm('zr_exch'); const n=th('heroine_02').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_02').slice(n);
     check('7. 芷若交換說明會（第 11 週週三 22:07）選第 '+(k+1)+' 個（ZR_EXCH_DM '+flag+'）',J(th('heroine_02').filter(x=>x.tag==='aa503_zr_exch').map(x=>x.text))===J(['今天去了交換說明會。','拿了表格。表格現在在吧檯下面。'])&&J(L.filter(x=>x.from!=='player').map(x=>x.text))===J(want)&&H.G.flags.ZR_EXCH_DM===flag&&(k===2?L.length===0:L[0].from==='player')); }
   /* 語彤 */
-  const W9=TD(9,4); for(const [k,flag,want] of [[0,'fast',['她說正常人不會那麼快。……我只是想快點結束。']],[1,'xh',['她還差十二個人。……我叫蘇姨問茶屋的客人。']],[2,'none',[]]]){ fresh(W9,20); who('heroine_03','FRIEND'); walk(W9,20.8); const mm=dm('yt_subject'); const n=th('heroine_03').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_03').slice(n);
+  const W9=TD(9,4); for(const [k,flag,want] of [[0,'fast',['她說正常人不會那麼快。……我只是想快點結束。']],[1,'xh',['她還差十二個人。……我叫阿姨問店裡的客人。']],[2,'none',[]]]){ fresh(W9,20); who('heroine_03','FRIEND'); walk(W9,20.8); const mm=dm('yt_subject'); const n=th('heroine_03').length; PHONE.answer(H.G,mm.ask.id,k); const L=th('heroine_03').slice(n);
     check('7. 語彤當筱涵的受試者（第 9 週週四：20:40 第 3 則、20:45 三則）選第 '+(k+1)+' 個（YT_SUBJECT_DM '+flag+'）',!!item('yt3')&&J(th('heroine_03').filter(x=>x.tag==='aa503_yt_subject').map(x=>x.text))===J(['今天當筱涵的受試者。','看螢幕，看到就按。四十分鐘。','她說我太快，那一份資料不能用。'])&&J(L.filter(x=>x.from!=='player').map(x=>x.text))===J(want)&&H.G.flags.YT_SUBJECT_DM===flag); }
   /* 學姊 */
   const D=DK('2026-01-18'); fresh(D,20); who('heroine_05','CLOSE'); walk(D,22.8); const s=th('heroine_05').filter(x=>x.tag==='aa503_sis_ch3');
@@ -260,11 +258,11 @@ sec('9',()=>{ const SAT=TD(5,6);
 sec('10',()=>{ fresh(TD(13,5),8); who('heroine_03','ACQ'); who('classmate_peishan','CLOSE'); walk(TD(13,7),16.5);
   check('10. 新的動態：小點（newCount）',FEED.newCount(H.G)===2,J(FEED.newCount(H.G)));
   const h=HT(); const i1=h.indexOf('大稻埕的老房子'), i2=h.indexOf('夜行列車與貓');
-  check('10. 最新的在上面（週六 01:10 沛珊在週五 16:00 語彤上面；AA_630 F-009 語彤那則改到第 13 週週五）、照片寫成「（照片：……）」、沒有字的那則只有照片、三個回應按鈕',i2>0&&i1>i2&&h.includes('（照片：大稻埕的老房子，窗戶有一盆花）')&&h.includes('data-fd="yt4|heart"')&&h.includes('>（按愛心）<')&&h.includes('>大稻埕？<')&&h.includes('（私訊問一句）')&&h.includes('妳常去？'));
+  check('10. 最新的在上面（週日 16:00 語彤在週六 01:10 沛珊上面）、照片寫成「（照片：……）」、沒有字的那則只有照片、三個回應按鈕',i1>0&&i2>i1&&h.includes('（照片：大稻埕的老房子，窗戶有一盆花）')&&h.includes('data-fd="yt4|heart"')&&h.includes('>（按愛心）<')&&h.includes('>大稻埕？<')&&h.includes('（私訊問一句）')&&h.includes('妳常去？'));
   check('10. 看過就熄（markSeen）',FEED.newCount(H.G)===0);
   check('10. 動態不算手機的未讀',PHONE.unread(H.G)===0,J(PHONE.unread(H.G)));
-  FEED.respond(H.G,'yt4','heart'); const h2=HT();   /* AA_630 F-009：語彤那則改到第 13 週週五 16:00，第 14 週週六 02:00 已經過七天、不在畫面上——回應的檢查放到走時間以前 */ check('10. 回過的那一則：按鈕換成結果',h2.includes('♥ 你按了愛心。')&&!h2.includes('data-fd="yt4|'));
   walk(TD(14,6),2); check('10. 只顯示七天：第 13 週週六 01:10 那一則，第 14 週週六 02:00 已經不在畫面上',!HT().includes('夜行列車與貓'));
+  FEED.respond(H.G,'yt4','heart'); const h2=HT(); check('10. 回過的那一則：按鈕換成結果',h2.includes('♥ 你按了愛心。')&&!h2.includes('data-fd="yt4|'));
   HT(); walk(TD(15,4),22); FEED.respond(H.G,'an5','cm');   /* 以安沒有聯絡方式：沒有 an5 */
   check('10. 沒有她的聯絡方式：動態頁上沒有她',!HT().includes('民總。剩六張。')); });
 

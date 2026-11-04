@@ -337,7 +337,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（河濱。兩個烤肉架，一支夾子。）'),
       IF(G=>knows('yu',G)&&done(G,'ev_y2_midautumn'),{speaker:'yu',text:'又來了。'}),
       IF(G=>knows('yu',G)&&!done(G,'ev_y2_midautumn'),{speaker:'yu',text:'……兩個架子，一支夾子？'}),
-      IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨今年醃了兩倍。她說你們最後一年了。'}),
+      IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨今年醃了兩倍。她說你們最後一年了。'}),
       IF(here(BH),{speaker:BH,text:'夾子排班。一人十分鐘。'}),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'……我贊成。'}),   /* 大四只說「……我贊成。」（裁定第 4 點）*/
       IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',expression:'laugh',text:'……今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
@@ -396,15 +396,15 @@ const R2Y4A_EVENTS=(function(){
       TO('heroine_01','我收著。'),TO('heroine_03','嗯。'),TO('zhe','好，我帶回宿舍。'),TO(BH,'謝謝。'),TO('classmate_xinci','謝謝。……我會用。'),TO('yu','我要拍照！'),
       IF(Y1G,{pick:{flag:'XMAS_Y4_SAME',from:G=>[ITEM[G.flags.XMAS_GIFT]]}}),
       IF(Y1G,nar('（你抽到的是{flag:XMAS_Y4_SAME}。和你三年前帶來的那一個，幾乎一樣。）')),
-      UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'秀琴姨的。……不要一次吃完。'})),
-      nar('（阿姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_627 A-263 不換：這一場在燒臘店，送小菜的是燒臘店的阿姨（阿鳳，不是語彤的人；AA_519 1-3 送小菜第八處）——已列給 AA 確認 */   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
-      {speaker:'阿姨',name:'燒臘店阿姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_642 第 1 節：A-264 說話人寫「燒臘店阿姨」（AA_627 那兩列作廢）*/ /* AA_519 1-3：「吃好一點」只留大一上那一次 */
+      UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨的。……不要一次吃完。'})),
+      nar('（阿姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
+      {speaker:'阿姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_519 1-3：「吃好一點」只留大一上那一次 */
       {set:{XMAS_Y4:'went'}} ] });
 
   /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */
   const YT='heroine_03', yt=t=>({speaker:YT,text:t});
   const YT_DAYS=['2028-10-17','2028-10-24'];
-  EV.push({ id:'ev_yt_essay', retired:true /* AA_625 第 15b 節（YT-REWRITE-1103）：〈溫州街的時間〉只剩總圖三樓的期刊架（r2y4a3d.js S.shelfLook）；她不在燒臘店的班，這一場退場，定義留給舊存檔 */, title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
+  EV.push({ id:'ev_yt_essay', title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:YT,min:'FAMILIAR'},custom:G=>YT_DAYS.some(k=>D(k)===G.day)&&(!G.flags.YT_ESSAY||G.flags.YT_ESSAY==='shelf')&&notUS(G)},   /* 先翻過期刊架（shelf）的，那兩個班照樣遇得到她 */
     dialogue:[ yt('系刊登了。我沒有寫阿姨是我阿姨。'),
       yt('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。'),
@@ -470,15 +470,12 @@ const R2Y4A_EVENTS=(function(){
   const FN=G=>has(YT,'FIELD_NOTES_IDEA');
   EV.push({ id:'ev_yt_share_time', title:'分一點時間', participants:[YT], location:'library', trigger:'auto', once:true, time:[17.25,18.75], background:'blur',
     prereq:{custom:G=>{ const a=D('2028-12-21'), b=D('2028-12-28'); return knows(YT,G)&&!G.flags.YT16&&(G.day===a||G.day===b); }},
-    /* AA_625 第 16 節（YT-REWRITE-1103，AA 定稿）：她先在三樓小聲問（加（小聲））、田野筆記第三本；讀完走出總圖（libOut）以後的句子不加 */
-    dialogue:[ yt('我可以給你看一個東西嗎。'),
-      nar('（田野筆記，已經寫到第三本。）'),
+    dialogue:[ IF(FN,nar('（她把一本寫滿的筆記本推過來。）')),UN(FN,nar('（她把一疊印出來的初稿推過來。）')),
       Object.assign(nar('（讀完，你們走出總圖。）'),{libOut:true}),   /* libOut（AA_595 1-B52；AA 11-02 22:30 定稿）*/
-      yt('這本不是作業。是我自己想寫的。'),
-      yt('我媽到現在還是希望我去考牙醫。'),
-      yt('可是這四年，打工、社會系、法律、這本筆記，每一件都是我自己選的。'),
+      yt('我可以給你看一個東西嗎。'),
+      yt('這本不是作業，也不是幫阿姨寫的。是我自己想寫的。'),
       {if:{memory:[{npc:YT,tag:'GIFT_NOTEBOOK_YT'}]},speaker:YT,text:'這本是聖誕節抽到的。……寫滿了。'},
-      {choice:[{text:'「我想看下一本。」',set:{YT_NOTES_NEXT:true},goto:'a'},{text:'「這本以後要做什麼？」',goto:'b'}]},   /* 選項照 AA_625 第 16 節（已經讀完、走出總圖，拿掉「（讀完）」）；回覆照 AA_11 */
+      {choice:[{text:'（讀完）「我想看下一本。」',set:{YT_NOTES_NEXT:true},goto:'a'},{text:'（讀完）「這本以後要做什麼？」',goto:'b'}]},
       {label:'a'},yt('……下一本還沒寫。'),yt('寫了再說。'),{goto:'e'},
       {label:'b'},yt('畢業專題。老師說可以再寫長一點。'),
       {label:'e'},IF(G=>dating(G,YT),nar('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）')),

@@ -85,10 +85,8 @@ const WZCAT=(function(){
       const p=E.pathTo?E.pathTo(o.position.x,o.position.z,0,tx,tz,0):[[tx,tz]]; if(!p||!p.length||Math.hypot(p[p.length-1][0]-tx,p[p.length-1][1]-tz)>0.3) continue;
       c.path=p.map(q=>({x:q[0],z:q[1]})); c.state='approach'; c.t=25; c.rub=null; play('cat_walk',0.25); return true; }
     c.rubCd=S.RUB.MISS; return false; }
-  /* cat_rub＝頭和側身往貓的左邊貼；cat_rub_r＝右邊（LAWWW2 f22ef5dcd）。dir＝1 繞的時候玩家在貓的左邊、－1 在右邊 */
-  S.rubClip=c=>c.rub&&c.rub.dir<0&&c.act.cat_rub_r?'cat_rub_r':'cat_rub';
   function beginRub(pp){ const c=cat, o=c.obj.position; c.rub={cx:pp.x,cz:pp.z,a:Math.atan2(o.x-pp.x,o.z-pp.z),r:Math.max(S.RUB.RING,Math.hypot(o.x-pp.x,o.z-pp.z)),dir:c.rnd()<0.5?1:-1,left:Math.PI*(1+c.rnd()),flips:0,swept:0};
-    c.state='rub'; c.path=null; if(c.act.cat_rub){ play(S.rubClip(c),0.25); } else { play('cat_walk',0.2); c.act.cat_walk.timeScale=S.RUB.V/S.SPEED; } }   /* LAWWW2 補了 cat_rub（原地、一圈 2 秒、頭和側身往內貼）就用它；沒有就用 cat_walk 慢速播 */
+    c.state='rub'; c.path=null; if(c.act.cat_rub){ play('cat_rub',0.25); } else { play('cat_walk',0.2); c.act.cat_walk.timeScale=S.RUB.V/S.SPEED; } }   /* LAWWW2 補了 cat_rub（原地、一圈 2 秒、頭和側身往內貼）就用它；沒有就用 cat_walk 慢速播 */
   function endRub(E,stopped){ const c=cat; c.rubCd=stopped?S.RUB.MISS+10:S.RUB.CD; c.rub=null;
     if(stopped){ play('cat_idle',0.2); c.state='look'; c.t=2.5; return; }
     if(c.rnd()<0.5){ play('cat_sit',0.25); c.state='sit'; c.at=null; c.t=8+c.rnd()*12; return; }   /* 坐在玩家旁邊 */
@@ -139,7 +137,7 @@ const WZCAT=(function(){
     else if(c.state==='rub'){ const r=c.rub;
       if(!aw||bz||c.moved){ if(bz){ c.rub=null; c.rubCd=S.RUB.CD; play('cat_sit',0.2); c.state='sit'; c.t=20; } else endRub(E,true); }
       else { r.r+=(S.RUB.RING-r.r)*Math.min(1,dt*2); const da=S.RUB.V/r.r*dt, na=r.a+r.dir*da, nx=r.cx+Math.sin(na)*r.r, nz=r.cz+Math.cos(na)*r.r;
-        if(E.canStand&&!E.canStand(nx,nz,S.RUB.CAT_R,0)){ if(r.flips<1){ r.dir=-r.dir; r.flips++; if(cat.act.cat_rub&&cat.cur!==S.rubClip(cat)) play(S.rubClip(cat),0.25); } else endRub(E,false); }
+        if(E.canStand&&!E.canStand(nx,nz,S.RUB.CAT_R,0)){ if(r.flips<1){ r.dir=-r.dir; r.flips++; } else endRub(E,false); }
         else { o.position.x=nx; o.position.z=nz; r.a=na; r.left-=da; r.swept+=da;
           const h=Math.atan2(r.dir*Math.cos(na),-r.dir*Math.sin(na)), cy=na+Math.PI; let dd=cy-h; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); turnTo(h+Math.sign(dd)*S.RUB.LEAN,6);   /* 身體沿著腳邊、頭往玩家那邊偏 */
           if(r.left<=0) endRub(E,false); } } }
