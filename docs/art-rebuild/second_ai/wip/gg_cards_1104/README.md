@@ -70,3 +70,7 @@
   ggafar_int（x −0.3～1.75）看進去是後牆：兩幅畫、綠色腰牆、讀書桌。要讓窗外看得到咖啡店的樣子，要補在這一段的後牆上（請 AA 決定）。
 - Daybreak、頁間：畫面幾乎一樣。
 - 數字不變：primitive 47、材質 40、三角形 105,166／118,630，draw call 估計 50／52／31；street_props_nav、zq_arcade_seat ALL PASS。
+
+## v4（AA afar v1d a7f16be34，11-04 04:4x）
+afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層層板（咖啡罐、豆袋、小盆栽、燈條）、深綠吊燈、黃金葛；ggafar_win 右上角也看得到層板。
+比較圖 `rerender_afar_v1d_before_after.jpg`（左舊、右新）。這版 GLB 也包含 gg_ext_nav2 的兩項修正（f936fd2c8：頁間盆栽、白天光暈 0）。數字不變。
