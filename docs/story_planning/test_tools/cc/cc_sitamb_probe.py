@@ -112,7 +112,7 @@ SEATED_JS = r"""(()=>{ const E=GAME.E, P=E.player; const sa=typeof SEATACT!=='un
       amb:m?{n:m.n|0,kinds:m.kinds,fx:m.fx?m.fx.kind:null,next:+(+m.next||0).toFixed(2),t:+(+m.t||0).toFixed(3),rate:+(+m.rate||0).toFixed(4),base:m.base||null,pst:(m.pst||[]).map(v=>+v.toFixed(3))}:null}); });
   let clips=null; try{ const r=CHAR._amb&&CHAR._amb.raw; if(r&&r.animations) clips=r.animations.map(a=>[a.name,+a.duration.toFixed(3)]); }catch(e){}
   return {zone:GAME.G.zone, hour:+(+GAME.G.hour).toFixed(2), day:GAME.G.day, weekday:GAME.G.weekday, date:typeof CALENDAR!=='undefined'?CALENDAR.dateOf(GAME.G.day).key:null,
-    sitAmb:!!CHAR.sitAmb, ready:!!(CHAR.sitAmbReady&&CHAR.sitAmbReady()), npcs:E.npcs.length, seatact:sa?{n:sa.n,loaded:sa.loaded,acts:sa.list.map(r=>r.act+(r.named?'*':''))}:null,
+    sitAmb:!!CHAR.sitAmb, ready:!!(CHAR.sitAmbReady&&CHAR.sitAmbReady()), npcs:E.npcs.length, seatact:sa?{zone:sa.zone,place:SEATACT.placeOf?SEATACT.placeOf(GAME.G.zone):null,n:sa.n,loaded:sa.loaded,acts:sa.list.map(r=>r.act+(r.named?'*':''))}:null,
     pairs:(typeof SEATACT!=='undefined'&&SEATACT.pairs)?SEATACT.pairs().length:null, fig:(typeof CLS!=='undefined'&&CLS.figState)?CLS.figState():null,
     player:{x:+P.obj.position.x.toFixed(2),y:+P.obj.position.y.toFixed(2),z:+P.obj.position.z.toFixed(2),lv:P.lv|0,pose:P.pose||null,seat:!!P.seat}, seated:out, clips}; })()"""
 
@@ -181,6 +181,7 @@ FPS_JS = r"""(async P=>{ const E=GAME.E, ts=[], gf=[]; const r0=E.render, sk0=E.
 
 PLAYER_SIT_JS = r"""(([k,pose])=>{ const E=GAME.E, P=E.player, st=(E.zone.seats||[])[k]; if(!st) return null; GAME.sitAt(P,st); if(pose){ P.pose=pose; P.idlePose=pose; } E.player.obj.visible=true;
   return {seat:{x:st.x,z:st.z,yaw:st.yaw||0,lv:st.lv|0}, pose:P.pose, cam:E.cam.mode}; })"""
+ALL_NPC_JS = "(()=>GAME.E.npcs.map((n,i)=>[i,n.name||'',n.pose,+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0,!!n.hidden,n.beh,n.leaving||false]))()"
 ZONE_MESH_JS = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
 
 
@@ -211,7 +212,9 @@ async def wait_people(pg, ctl, want_idx=None, max_s=90, min_s=8):
         sa = r.get('seatact') or {}
         sig = (len(ppl), sa.get('n'), r.get('pairs'), sum(1 for s in ppl if s['drv'] == 'vrm'))
         # 畫面外 16 m 以上的人不更新骨架（engine3d.js updateNPC）＝ambOn 一直是 false：只看畫面裡的人
-        ok = bool(ppl) and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl)))
+        # SEATACT（坐著做什麼、桌上的東西）每 30 格才跑一次：要等它處理過這個區域（state().zone＝這一區；不是 SEATACT 管的地方＝不用等）
+        sa_ok = not sa or not sa.get('place') or (sa.get('zone') == r['zone'] and (sa.get('n') or 0) > 0)
+        ok = bool(ppl) and sa_ok and all(s['drv'] == 'vrm' for s in ppl) and (ctl or (r['ready'] and all(s['ambOn'] for s in ppl if s['vis']) and any(s['ambOn'] for s in ppl)))
         if ok and sig == sig0 and time.time() - t1 >= min_s: return r, True, time.time() - t1
         sig0 = sig
         await pg.wait_for_timeout(2000)
@@ -353,7 +356,9 @@ async def record(pg, mode, tag, targets, plans, cam, secs, player=False, top=TOP
         for t in targets:
             if t == 'player': t2.append(t); continue
             m = [c for c in cur if c['lv'] == t['lv'] and abs(c['x'] - t['x']) < 0.08 and abs(c['z'] - t['z']) < 0.08]
-            if not m: info('[%s] 找不到原本的 #%d（%.2f, %.2f）：他起身走了？' % (tag, t['i'], t['x'], t['z'])); continue
+            if not m:
+                allp = await pg.evaluate(ALL_NPC_JS)
+                info('[%s] 找不到原本的 #%d（%.2f, %.2f）：他起身走了？現在的人 %s' % (tag, t['i'], t['x'], t['z'], J(allp)[:900])); continue
             if m[0]['i'] != t['i']: info('[%s] #%d 現在是 E.npcs[%d]' % (tag, t['i'], m[0]['i']))
             t2.append(m[0])
         if len(t2) != len(targets):
