@@ -15,6 +15,10 @@
 //   9  不扣關係、不改成績：沒到、沒占到、沒去都只發那一則（SOCIAL.adjust 沒有負的、關係數值沒有下降、考試紀錄不變）
 //   10 舊存檔：沒有 G.exlib、壞掉的、JSON 存讀
 //   11 BB_260 多給的讀書時段（子晴、阿哲、Alison、明軒大二以後；只填空檔、上課吃飯照舊）——修改前（8215f8d53）FAIL
+//   12 第 6 節社科圖二樓（SOCLIB-2F-1104：LAWWW2 d393b6f3c 接進來）：語彤、阿勳在 soclib_2f（坐靠窗那排、老位子旁邊）；二樓「滿」只算自習室（討論室不算）；安靜的地方只有自習室；
+//      第一次在這一段坐到靠窗那排＝旁白一次、記 SOCLIB_2F_SEAT（長桌、第 13 週、一樓不演）；有人占（4-1 占老位子）、招手（坐老位子）也演；之後的學期語彤、阿勳換「老位子」那一句、占記下的那一個；
+//      二樓自習室讀書的人（src/soclib2f_people3d.js：平常三到四成、期末週和前一週八成五、閉館沒有、畫質低和放假減半、老位子和表上的人的位子不坐、討論室偶爾 2～4 人、走 SL2.WALK_ROUTE、待著的時候從門口走進來）
+//      ——修改前（4388a722f：還沒有 soclib_2f；cbbd90ae0：套了接線 patch、還沒做第 6 節）FAIL，修改後 PASS
 // 修改前（開發分支 1f7283aee，git archive 那一版、把這支測試放進去真的跑過）：FAILED 13——index.html 沒有載入、沒有 EXLIB／EXAMLIB_LINES（第 0 節三項、第 1～10 節每一節都 FAIL）；
 //   修改後：ALL PASS。用法：node tests/exam_lib_crowd_unit.js（第 0 節用 git show 讀 AA 的稿；讀不到先 git fetch origin claude/magical-albattani-bk7b4n）
 require('./alison.js');
@@ -39,11 +43,11 @@ const SEAT_DUMP=`const fs=require('fs'),vm=require('vm'),path=require('path');co
 const ctx2d=new Proxy({},{get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={createElementNS:()=>({getContext:()=>ctx2d,style:{}}),createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}),getElementById:()=>null,addEventListener(){}};
 global.navigator={userAgent:'node'};global.addEventListener=()=>{};global.innerWidth=844;global.innerHeight=390;global.location={search:''};console.warn=()=>{};console.log=()=>{};process.on('unhandledRejection',()=>{});global.fetch=()=>Promise.reject(new Error('x'));
-const GL=/^[A-Z][A-Z0-9_]+$/;const F=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/library_3f_layout.js','src/library_3f_v2.js','src/data/library_b1_layout.js','src/library_b1_3d.js','src/data/library_upper_layouts.js','src/library_upper3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/linze_upper_layouts.js','src/linze_upper3d.js','src/data/characters.js','src/data/calendar.js','src/data/places.js'];
-for(const f of F){let s=fs.readFileSync(path.join(ROOT,f),'utf8');s=s.replace(/^const (\\w+)\\s*=/mg,(m,n)=>GL.test(n)?'globalThis.'+n+'=':m);try{vm.runInThisContext(s,{filename:f});}catch(e){}}
+const GL=/^[A-Z][A-Z0-9_]+$/;const F=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/library_layout.js','src/library3d.js','src/library_hall_v2.js','src/data/library_3f_layout.js','src/library_3f_v2.js','src/data/library_b1_layout.js','src/library_b1_3d.js','src/data/library_upper_layouts.js','src/library_upper3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/soclib_layout.js','src/soclib3d.js','src/data/soclib2f_layout.js','src/soclib2f3d.js','src/data/linze_upper_layouts.js','src/linze_upper3d.js','src/data/characters.js','src/data/calendar.js','src/data/places.js'];
+for(const f of F){let s;try{s=fs.readFileSync(path.join(ROOT,f),'utf8');}catch(e){continue;}s=s.replace(/^const (\\w+)\\s*=/mg,(m,n)=>GL.test(n)?'globalThis.'+n+'=':m);try{vm.runInThisContext(s,{filename:f});}catch(e){}}
 global.CHAR={build:spec=>{const g=new THREE.Group();g.userData.spec=spec;return g;},release(){}};const E=E3;E.scene=new THREE.Scene();E.q={level:'medium'};const out={};
-for(const id of ['library_hall','library','library_b1','soclib','lawlib','linze_4f']){E.interactables=[];E.colliders=[];E.lampGlows=[];E.seats=[];E.npcs=[];E.spawnHint=null;let z;try{z=Z3.ZONES[id].build(E);}catch(e){continue;}
- out[id]=(z.seats||[]).map(s=>{const o={x:+s.x.toFixed(3),z:+s.z.toFixed(3),yaw:+(s.yaw||0).toFixed(4),lv:s.lv|0};for(const k of ['kind','table','room','study']) if(s[k]!=null) o[k]=s[k];const it=E.interactables.find(q=>q.seat===s);if(it){o.it=it.label;if(it.study) o.st=1;}return o;});}
+for(const id of ['library_hall','library','library_b1','soclib','soclib_2f','lawlib','linze_4f']){if(!Z3.ZONES[id])continue;E.interactables=[];E.colliders=[];E.lampGlows=[];E.seats=[];E.npcs=[];E.spawnHint=null;let z;try{z=Z3.ZONES[id].build(E);}catch(e){continue;}
+ out[id]=(z.seats||[]).map(s=>{const o={x:+s.x.toFixed(3),z:+s.z.toFixed(3),yaw:+(s.yaw||0).toFixed(4),lv:s.lv|0};for(const k of ['kind','table','room','study','old']) if(s[k]!=null) o[k]=s[k];const it=E.interactables.find(q=>q.seat===s);if(it){o.it=it.label;if(it.study) o.st=1;}return o;});}
 process.stdout.write(JSON.stringify(out));`;
 let SEATS={}; try{ SEATS=JSON.parse(cp.execFileSync(process.execPath,['-e',SEAT_DUMP],{cwd:ROOT,env:Object.assign({},process.env,{EXROOT:ROOT}),encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26})); }catch(e){ SEATS={}; }
 
@@ -428,6 +432,125 @@ await sec('11',async()=>{
   const end=(()=>{ for(let d=DK('2025-12-15');d<DK('2026-01-20');d++){ setT(d,13.5); if(!EXLIB.on(G,d,13.5)&&CALENDAR.dateOf(d).wd===1) return d; } return null; })();
   check('11. 期末考考完以後的週一 13:30：子晴沒有',end!=null&&at('heroine_04',end,13.5)!=='library_hall/bb260',String(end));
   check('11. 經濟系那一年不用這張表（S.EXTRA 只給法律系）',(()=>{ const st=G.stage; G.stage='econ'; const r=EXLIB.extraSlot(G,'zhe',DK('2025-12-01'),14); G.stage=st; return r===null; })());
+});
+
+/* ======================= 12 第 6 節：社科圖二樓（SOCLIB-2F-1104，LAWWW2-C d393b6f3c 接進來）＋二樓自習室讀書的人 ======================= */
+/* 修改前（4388a722f：還沒有 soclib_2f、EXLIB 沒有第 6 節；cbbd90ae0：套了接線 patch、還沒做第 6 節）：FAIL；修改後：PASS */
+await sec('12',async()=>{
+  const fn=(o,k)=>!!o&&typeof o[k]==='function';
+  const SL2ok=typeof SL2!=='undefined'&&!!SL2.soclib_2f&&typeof SL2.soclib_2f.build==='function';
+  if(SL2ok) global.Z3.ZONES.soclib_2f=SL2.soclib_2f;   /* 第 2、5 節測 fallback 時把區域拿掉了：這一節用真的區域 */
+  check('12. 社科圖二樓的區域載入了（src/soclib2f3d.js）；EXLIB、LIBQ、SEATACT 都認得 soclib_2f；PLACES.base＝社科圖那一棟',SL2ok&&EXLIB.isLib('soclib_2f')&&!!LIBQ.ZONES.soclib_2f&&!!SEATACT.LIB_ZONES.soclib_2f&&EXLIB.zoneOf('soc2f')==='soclib_2f'&&PLACES.base('soclib_2f')==='soclib',J([SL2ok,EXLIB.zoneOf('soc2f'),PLACES.base('soclib_2f')]));
+  const S2=SEATS.soclib_2f||[];
+  check('12. 拿到二樓真正的座位（自習室長桌 36＋靠窗 13＋討論室 12；老位子一個，在靠窗那排北往南第三個）',S2.filter(q=>q.kind==='study').length===36&&S2.filter(q=>q.kind==='window').length===13&&S2.filter(q=>q.kind==='discuss').length===12&&S2.filter(q=>q.old).length===1
+    &&(()=>{ const w=S2.filter(q=>q.kind==='window').sort((a,b)=>a.z-b.z); return !!w[2]&&w[2].old===true; })(),J([S2.length,S2.filter(q=>q.old).map(q=>[q.x,q.z])]));
+  /* 第 6 節的三句：照稿一字不差（git show 468a1d0b9） */
+  let MD=''; try{ MD=cp.execFileSync('git',['show','468a1d0b9:docs/story_planning/AA_669_期末考前的圖書館_位子很滿_請朋友占位子_社科圖二樓.md'],{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){}
+  const s6=(MD.split(/^## 6\./m)[1]||'').split(/^## 7\./m)[0], narr=(s6.match(/^\s*-\s*(（二樓比一樓[^\n]*）)\s*$/m)||[])[1], ytL=(s6.match(/^\s*-\s*語彤：(.+?)\s*$/m)||[])[1], xuL=(s6.match(/^\s*-\s*阿勳：(.+?)\s*$/m)||[])[1];
+  const yesOldYT=L.people.heroine_03&&L.people.heroine_03.hold&&L.people.heroine_03.hold.yesOld, yesOldXU=L.econ.econ_zhengxun&&L.econ.econ_zhengxun.hold&&L.econ.econ_zhengxun.hold.yesOld;
+  check('12. 第 6 節的三句照稿一字不差：第一次坐下的旁白、語彤「嗯。／二樓靠窗，你的老位子。」（兩則）、阿勳「嗯。你那個位子。七點五十。」',!!narr&&L.seat2f===narr&&!!ytL&&J(yesOldYT)===J(ytL.split('／'))&&!!xuL&&J(yesOldXU)===J(xuL.split('／')),J([L.seat2f,yesOldYT,yesOldXU]));
+  if(!SL2ok||!S2.length) return;
+  const oldOf=ss=>ss.find(q=>q.old), prefOf=ss=>{ const o=oldOf(ss); return ss.find(q=>q.kind==='window'&&Math.abs(q.x-o.x)<0.05&&q.z-o.z>0.45&&q.z-o.z<1.2); };
+  /* ---- 語彤、阿勳去二樓 ---- */
+  fresh('2025-12-02',10); let s=zone('soclib_2f',1,3.0,5.0); const yt=STORY.schedEnt(CHARACTERS.heroine_03,H.G), pf=prefOf(s);
+  check('12. 語彤（heroine_03，表上 soc2f）期末那一段讀書的時段在社科圖二樓（soclib_2f），坐靠窗那排、老位子南邊那一個',!!yt&&yt.zone==='soclib_2f'&&!!yt.exlib&&!!yt.seatAt&&!!pf&&Math.hypot(yt.seatAt[0]-pf.x,yt.seatAt[1]-pf.z)<0.01&&yt.seatAt[2]===1,J(yt));
+  fresh('2024-12-02',10,'campus'); H.G.stage='econ'; const xu=STORY.schedEnt(CHARACTERS.econ_zhengxun,H.G);
+  check('12. 經濟系那一年：阿勳（表上 soc2f）也在社科圖二樓',!!xu&&xu.zone==='soclib_2f',J(xu&&[xu.zone,xu.exlib]));
+  /* ---- 二樓「滿」只算自習室；安靜的地方只有自習室 ---- */
+  fresh('2025-12-02',10.5); s=zone('soclib_2f',1,3.0,5.0); EXLIB.syncSeats(GM,true); const held=s.filter(q=>q.exHeld);
+  check('12. 平日 10:30（二樓 09:00 就滿）：自習室的長桌、靠窗 49 位都「有人了」；討論室的 12 位不算（第 6 節：討論室不是自習室）',held.length===49&&held.every(q=>q.kind==='study'||q.kind==='window'),J([held.length,s.filter(q=>q.kind==='discuss'&&q.exHeld).length]));
+  { const qa=(lv,x,z)=>LIBQ.studyAt('soclib_2f',lv,x,z), dsc=s.find(q=>q.kind==='discuss'), win=s.find(q=>q.kind==='window');
+    check('12. 安靜的地方（LIBQ）只有二樓自習室：討論室「可以講話（裡面不用（小聲））」、二樓走廊、一樓門廳不算',qa(1,win.x,win.z)===true&&qa(1,3,5)===true&&qa(1,dsc.x,dsc.z)===false&&qa(1,0,-5.8)===false&&qa(0,-6.4,-8.4)===false,J([qa(1,win.x,win.z),qa(1,dsc.x,dsc.z),qa(1,0,-5.8),qa(0,-6.4,-8.4)])); }
+  /* ---- 第一次坐下的旁白 ---- */
+  fresh('2025-12-02',8.6); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; const w5=s.filter(q=>q.kind==='window'&&!q.old)[4];
+  H.said=[]; await GM.seatMenu({seat:w5,study:true}); const l6=lines(), F6=H.G.flags.SOCLIB_2F_SEAT;
+  check('12. 這一段第一次在二樓自習室坐下（自己搶到，靠窗那排）＝第 6 節的旁白一次',!!L.seat2f&&J(l6)===J([L.seat2f]),J(l6));
+  check('12. 記 G.flags.SOCLIB_2F_SEAT＝那一個位子（{x,z,lv,term,day}）',!!F6&&F6.x===w5.x&&F6.z===w5.z&&F6.lv===1&&F6.term==='Y1S1'&&F6.day===H.G.day,J(F6));
+  P.seat=null; setT('2025-12-03',8.6); s=zone('soclib_2f',1,5.6,3.0); const w6=s.filter(q=>q.kind==='window'&&!q.old)[7]; H.said=[]; await GM.seatMenu({seat:w6,study:true});
+  check('12. 只演一次：之後再坐下（別天、別的位子）不再演，記下的位子不變',!lines().includes(L.seat2f)&&!!H.G.flags.SOCLIB_2F_SEAT&&H.G.flags.SOCLIB_2F_SEAT.x===w5.x&&H.G.flags.SOCLIB_2F_SEAT.z===w5.z,J(lines()));
+  fresh('2025-12-02',8.6); s=zone('soclib_2f',1,3.0,5.0); H.said=[]; await GM.seatMenu({seat:s.find(q=>q.kind==='study'),study:true});
+  check('12. 坐長桌（不是靠窗那排）：不演、不記（旁白寫「你在靠窗那排坐下」）',!lines().includes(L.seat2f)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
+  fresh('2025-11-25',10.5); s=zone('soclib_2f',1,5.6,3.0); H.said=[]; await GM.seatMenu({seat:s.find(q=>q.kind==='window'),study:true});
+  check('12. 期末那一段以外（第 13 週）：坐靠窗那排也不演、不記（照一般自習的地方）',!lines().includes(L.seat2f)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
+  fresh('2025-12-02',8.6); const s1=zone('soclib',0,-9,-5); H.said=[]; await GM.seatMenu({seat:s1.find(q=>q.kind==='window'),study:true});
+  check('12. 一樓閱覽室的窗邊：不演',!lines().includes(L.seat2f)&&!H.G.flags.SOCLIB_2F_SEAT,J(lines()));
+  /* ---- 有人占（4-1 語彤，還沒有老位子）---- */
+  const findGo=(id,from,to)=>{ for(let d=DK(from);d<=DK(to);d++){ setT(d,19); if(EXLIB.goes(H.G,id,d+1)) return d; } return null; };
+  fresh('2025-12-01',19); friend('heroine_03'); const dY=findGo('heroine_03','2025-12-01','2025-12-12');
+  check('12. 測試用的日子：語彤明天會去二樓（'+(dY!=null?CALENDAR.dateOf(dY+1).key:'沒有')+'）',dY!=null);
+  if(dY!=null){ setT(dY,19); MSG.send(H.G,'heroine_03','exlib_seat'); setT(dY,22); deliver();
+    check('12. 第一學期（還沒有老位子）：語彤答應照第 4-1 節「嗯。／二樓。我旁邊。」',J(msgs('heroine_03'))===J(['我：明天幫我占位子'].concat(L.people.heroine_03.hold.yes))&&!(H.G.exlib.hold&&H.G.exlib.hold.old),J(msgs('heroine_03')));
+    setT(dY+1,8.7); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; EXLIB.syncSeats(GM,true); const hs=EXLIB._zs().holdSeat, yS=EXLIB.spotSeat(E,'soclib_2f','heroine_03');
+    check('12. 「我旁邊」＝她旁邊的老位子（靠窗那排北往南第三個，seat.old）；她坐南邊那一個',!!hs&&hs.old===true&&hs.taken==='exlib41'&&!!yS&&yS.kind==='window'&&Math.abs(yS.z-hs.z-0.85)<0.05,J([hs&&[hs.x,hs.z,hs.old],yS&&[yS.x,yS.z]]));
+    if(yS) npcAt('heroine_03',yS); H.said=[]; seatCalls.length=0; await tick(); await tick();
+    const F7=H.G.flags.SOCLIB_2F_SEAT;
+    check('12. 有人占：走進自習室直接坐到老位子；先第 6 節的旁白（第一次坐二樓），再語彤到了以後那一句；記下的是老位子',seatCalls.length===1&&seatCalls[0].seat===hs&&J(lines())===J([L.seat2f].concat(L.people.heroine_03.hold.at))&&!!F7&&!!hs&&F7.x===hs.x&&F7.z===hs.z,J(lines())); }
+  /* ---- 之後的學期：「老位子」那一句、占記下的那一個 ---- */
+  const wRec=S2.filter(q=>q.kind==='window'&&!q.old)[8];
+  fresh('2026-05-25',19); friend('heroine_03'); H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y1S1',day:DK('2025-12-02')}; const dY2=findGo('heroine_03','2026-05-25','2026-06-08');
+  check('12. 測試用的日子：大一下語彤明天會去二樓（'+(dY2!=null?CALENDAR.dateOf(dY2+1).key:'沒有')+'）',dY2!=null);
+  if(dY2!=null){ setT(dY2,19); MSG.send(H.G,'heroine_03','exlib_seat'); setT(dY2,22); deliver();
+    check('12. 之後的學期（老位子是上學期記的）：語彤答應換成第 6 節「嗯。／二樓靠窗，你的老位子。」',J(msgs('heroine_03'))===J(['我：明天幫我占位子'].concat(yesOldYT||['(沒有 yesOld)']))&&!!H.G.exlib.hold&&J(H.G.exlib.hold.old)===J([wRec.x,wRec.z,1]),J([msgs('heroine_03'),H.G.exlib.hold&&H.G.exlib.hold.old]));
+    setT(dY2+1,8.7); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S2:soclib_2f']=1; EXLIB.syncSeats(GM,true); const hs2=EXLIB._zs().holdSeat;
+    check('12. 隔天占的是記下的那一個位子（「老位子」照這個位子；不是她旁邊）',!!hs2&&Math.hypot(hs2.x-wRec.x,hs2.z-wRec.z)<0.01&&hs2.taken==='exlib41'&&E.interactables.some(it=>it.exHoldSeat===hs2&&/語彤/.test(it.label)),J(hs2&&[hs2.x,hs2.z]));
+    npcAt('heroine_03',EXLIB.spotSeat(E,'soclib_2f','heroine_03')); H.said=[]; seatCalls.length=0; await tick(); await tick();
+    check('12. 坐下：旁白不再演（已經記過）；她說到了以後那一句',seatCalls.length===1&&seatCalls[0].seat===hs2&&J(lines())===J(L.people.heroine_03.hold.at),J(lines())); }
+  { const u=(G,id)=>fn(EXLIB,'useOld41')?EXLIB.useOld41(G,id):undefined;
+    fresh('2026-05-25',19); H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y1S2',day:DK('2026-05-25')}; const same=u(H.G,'heroine_03'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S1'; const cross=u(H.G,'heroine_03'); H.G.flags.SOCLIB_2F_SEAT.term='Y1S1'; const later=u(H.G,'heroine_03');
+    check('12. 「之後的學期」才換：同一學期記的照第 4-1 節；經濟系那一年記的（法律系的語彤不知道那個位子）照第 4-1 節；上學期記的換',same===null&&cross===null&&!!later,J([same,cross,!!later]));
+    fresh('2025-05-19',19,'campus'); H.G.stage='econ'; H.G.flags.SOCLIB_2F_SEAT={x:wRec.x,z:wRec.z,lv:1,term:'Y0S1',day:-287}; const e1=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S2'; const e2=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y1S1'; const e3=u(H.G,'econ_zhengxun'); H.G.flags.SOCLIB_2F_SEAT.term='Y0S1';
+    let r41=null, dX=null; if(fn(EXLIB,'send41')){ for(let d=DK('2025-05-19');d<=DK('2025-05-30');d++){ setT(d,19); if(EXLIB.goes(H.G,'econ_zhengxun',d+1)){ dX=d; break; } }
+      if(dX!=null){ setT(dX,19); const t0=EXLIB.topicOk; EXLIB.topicOk=()=>true; try{ r41=EXLIB.send41(H.G,'econ_zhengxun'); } finally { EXLIB.topicOk=t0; } setT(dX,22); deliver(); } }   /* 經濟系那一年手機還沒有私訊（MSG.open）：話題本身不出，這裡只看選哪一句 */
+    check('12. 經濟系那一年的阿勳：大一下（老位子是大一上記的）答應換成「嗯。你那個位子。七點五十。」；同一學期、法律系那幾年記的不換',!!e1&&e2===null&&e3===null&&!!r41&&r41.goes&&J(msgs('econ_zhengxun'))===J(['我：明天幫我占位子'].concat(yesOldXU||['(沒有 yesOld)'])),J([!!e1,e2,e3,r41&&r41.goes,dX!=null&&CALENDAR.dateOf(dX).key,msgs('econ_zhengxun')])); }
+  /* ---- 招手：旁邊是老位子 ---- */
+  fresh('2025-12-03',10.5); s=zone('soclib_2f',1,5.6,3.0); EXLIB.rec(H.G).atm.seen['Y1S1:soclib_2f']=1; friend('heroine_03'); const yS3=EXLIB.spotSeat(E,'soclib_2f','heroine_03'); if(yS3) npcAt('heroine_03',yS3); EXLIB.syncSeats(GM,true);
+  H.said=[]; H.opts=[]; H.picks=['（看到她在對你招手）']; seatCalls.length=0; await tick(); const ws=seatCalls[0]&&seatCalls[0].seat, lw=lines();
+  check('12. 找不到位子、語彤坐在靠窗那排：多一個「（看到她在對你招手）」→ 坐到她旁邊的老位子；第一次坐二樓＝第 6 節的旁白，接著她點頭',!!H.opts[0]&&H.opts[0].includes('（看到她在對你招手）')&&!!ws&&ws.old===true&&lw.includes(L.seat2f)&&lw.indexOf(L.seat2f)<lw.indexOf(NOD('heroine_03')),J([H.opts[0],lw]));
+  /* ---- 舊存檔 ---- */
+  fresh('2025-12-02',8.6);
+  check('12. 舊存檔（沒有 SOCLIB_2F_SEAT）：照「還沒坐過」，下一次在這一段坐到靠窗那排才演；壞掉的當成沒有（不丟例外）；記下以後 JSON 存讀不變',fn(EXLIB,'seat2fDue')&&EXLIB.seat2fDue(Object.assign({},H.G,{zone:'soclib_2f'}),S2.find(q=>q.kind==='window'))===true
+    &&(H.G.flags.SOCLIB_2F_SEAT='壞掉的',EXLIB.old2f(H.G)===null&&EXLIB.seat2fDue(Object.assign({},H.G,{zone:'soclib_2f'}),S2.find(q=>q.kind==='window'))===true)
+    &&(H.G.flags.SOCLIB_2F_SEAT={x:6.82,z:1.5,lv:1,term:'Y1S1',day:77},J(JSON.parse(J(H.G)).flags.SOCLIB_2F_SEAT)===J(H.G.flags.SOCLIB_2F_SEAT)&&!EXLIB.seat2fDue(Object.assign({},H.G,{zone:'soclib_2f'}),S2.find(q=>q.kind==='window'))));
+  /* ---- 二樓自習室讀書的人（src/soclib2f_people3d.js）---- */
+  const okP=typeof SL2P!=='undefined'&&fn(SL2P,'populate');
+  check('12. 二樓自習室讀書的人（src/soclib2f_people3d.js，SL2P）載入了；story3d.js 進來、待著的時候都叫',okP&&/SL2P\.populate\(GM,true\)/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'))&&/SL2P\.populate\(GM,false\)/.test(fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'))&&ORDER.includes('src/soclib2f_people3d.js'));
+  if(okP){ const keep0={build:CHAR.build,add:E.addNPC,mv:E.moveTo,sx:GM.spawnExtra,lv:E.q.level}; const walkers=[];
+    CHAR.build=spec=>({position:{x:0,y:0,z:0,set(a,b,c){ this.x=a; this.y=b; this.z=c; }},rotation:{y:0},userData:{spec}});
+    E.addNPC=n=>{ E.npcs.push(n); return n; }; E.moveTo=(n,x,z,cb,lv)=>{ n.moveTo=[x,z,lv]; n.onArrive=cb; return true; }; GM.spawnExtra=(spec,route)=>{ const n={isExtra:true,beh:'route',waypoints:route,spec}; walkers.push(n); E.npcs.push(n); return n; };
+    try{
+      const here=()=>E.npcs.filter(n=>n.sl2Seat!=null&&!n.leaving&&n.until==null);
+      const pop=(key,h,level)=>{ fresh(key,h,'soclib_2f'); const ss=zone('soclib_2f',0,-6.4,-8.4); walkers.length=0; E.q.level=level||'medium'; SL2P.populate(GM,true); E.q.level='medium'; return ss; };
+      const studyR=ss=>here().filter(n=>{ const q=ss[n.sl2Seat]; return q.kind==='study'||q.kind==='window'; });
+      let ss=pop('2025-11-04',10.5); const nor=studyR(ss);
+      check('12. 平常（第 10 週平日 10:30）：自習室坐三到四成（15～20 位），坐在二樓、讀書的樣子；老位子沒有人',nor.length>=15&&nor.length<=20&&nor.every(n=>n.lv===1&&n.pose==='read'&&n.frozen&&!!n.seat&&n.seat.lv===1)&&!here().some(n=>ss[n.sl2Seat].old),J(nor.length));
+      check('12. 走動的人照 SL2.WALK_ROUTE（18:00 以前兩個）',walkers.length===2&&walkers.every(w=>J(w.waypoints)===J(SL2.WALK_ROUTE)),J(walkers.length));
+      const k1=nor.map(n=>n.sl2Seat).sort((a,b)=>a-b).join(','); ss=pop('2025-11-04',15); const k2=studyR(ss).map(n=>n.sl2Seat).sort((a,b)=>a-b).join(',');
+      check('12. 同一天出去再進來：同一批人坐同樣的位子',k1===k2&&!!k1);
+      ss=pop('2025-11-04',19); check('12. 18:00 以後走動的人一個',walkers.length===1);
+      ss=pop('2025-12-16',10.5); const fin=studyR(ss), ytSeat=EXLIB.spotSeat(E,'soclib_2f','heroine_03');
+      check('12. 期末週（第 16 週）：自習室坐八成五（40 位左右）；老位子、語彤常坐的位子空著',fin.length>=40&&fin.length<=42&&!fin.some(n=>ss[n.sl2Seat].old)&&!!ytSeat&&!fin.some(n=>ss[n.sl2Seat]===ytSeat),J(fin.length));
+      ss=pop('2025-12-09',10.5); const w15=studyR(ss).length; ss=pop('2025-12-02',10.5); const w14=studyR(ss).length;
+      check('12. 期末週的前一週（第 15 週）也是八成五；第 14 週照平常（坐不滿的位子由 EXLIB 標「有人了」）',w15>=40&&w15<=42&&w14>=15&&w14<=20,J([w15,w14]));
+      ss=pop('2025-11-04',23); check('12. 閉館（23:00）：沒有人',here().length===0&&walkers.length===0,J([here().length,walkers.length]));
+      ss=pop('2025-11-04',10.5,'low'); const low=studyR(ss).length; check('12. 畫質「低」：減半（手機效能）',low===Math.floor(nor.length*0.5),J([low,nor.length]));
+      ss=pop('2025-12-22',11); const brk=studyR(ss).length, exp=Math.floor(Math.round(SL2P.frac(H.G)*49)/2);
+      check('12. 放假的日子（寒假 12/22，閱覽室有開）：減半；討論室沒有人',brk===exp&&!here().some(n=>ss[n.sl2Seat].kind==='discuss'),J([brk,exp]));
+      let dd=null; for(let d=DK('2025-11-03');d<DK('2025-11-30');d++){ setT(d,14); H.G.zone='soclib_2f'; if(CALENDAR.kind(d)==='term'&&SL2P.discWant(H.G,ss).length){ dd=d; break; } }
+      if(dd!=null){ ss=pop(CALENDAR.dateOf(dd).key,14); const dsc=here().filter(n=>ss[n.sl2Seat].kind==='discuss'), tbs=new Set(dsc.map(n=>ss[n.sl2Seat].table));
+        check('12. 討論室：有的日子其中一間有 2～4 個人（'+CALENDAR.dateOf(dd).key+'）',dsc.length>=2&&dsc.length<=4&&tbs.size===1&&dsc.every(n=>n.pose==='sit'&&n.lv===1),J([dsc.length,[...tbs]]));
+        setT(dd,21.05); SL2P.populate(GM,false); const left=E.npcs.filter(n=>n.sl2Seat!=null&&ss[n.sl2Seat].kind==='discuss'&&n.until!=null);
+        check('12. 待著到 21:00：討論室的人起身離開（until），自習室的人照舊',left.length===dsc.length&&studyR(ss).length>=15,J([left.length,dsc.length]));
+        let none=0; for(let d=DK('2025-11-03');d<DK('2025-11-30');d++){ setT(d,14); if(CALENDAR.kind(d)==='term'&&!SL2P.discWant(H.G,ss).length) none++; } check('12. 討論室是「偶爾」：也有沒人的日子',none>0,String(none)); }
+      else check('12. 找得到討論室有人的日子',false);
+      ss=pop('2025-11-04',10.5); const v=here()[0], vi=v.sl2Seat; E.npcs.splice(E.npcs.indexOf(v),1); SL2P.populate(GM,false); const arr=E.npcs.find(n=>n.sl2Seat===vi&&n!==v);
+      check('12. 待著的時候該有人的位子空了：從一樓西牆的門走進來、上樓坐下（不是憑空出現）',!!arr&&!arr.frozen&&arr.seatTarget===ss[vi]&&!!arr.moveTo&&arr.moveTo[2]===1&&(arr.lv|0)===0&&Math.hypot(arr.obj.position.x-SL2.ENTRY().x,arr.obj.position.z-SL2.ENTRY().z)<0.01,J(arr&&{lv:arr.lv,moveTo:arr.moveTo}));
+      /* 期末週、語彤幫你占位子的那一天：EXLIB 先標占的位子（populate 之前），讀書的人不坐占的、不坐她的；之後「滿」照 EXLIB */
+      fresh('2025-12-09',8.7,'soclib_2f'); ss=zone('soclib_2f',1,5.6,3.0); walkers.length=0; EXLIB.rec(H.G).hold={who:'heroine_03',day:H.G.day,zone:'soclib_2f',place:'soc2f',from:8+20/60,until:12,stay:12,arrived:false,missSent:false,atDone:false,term:'Y1S1',old:null};
+      EXLIB.syncSeats(GM,true); const hs3=EXLIB._zs().holdSeat; SL2P.populate(GM,true); const rd=studyR(ss), yS4=EXLIB.spotSeat(E,'soclib_2f','heroine_03');
+      check('12. 期末週、語彤幫你占位子的那一天：占的位子（老位子）、語彤自己的位子沒有路人坐；其他照八成五',!!hs3&&hs3.old===true&&!rd.some(n=>ss[n.sl2Seat]===hs3||ss[n.sl2Seat]===yS4)&&rd.length>=40,J([hs3&&hs3.old,rd.length]));
+      setT('2025-12-09',10.5); EXLIB.syncSeats(GM,true); const occ=new Set(rd.map(n=>ss[n.sl2Seat])), stS=ss.filter(q=>q.kind==='study'||q.kind==='window');
+      check('12. 期末那一段的「滿」照 EXLIB：10:30 自習室每一位不是有人坐、就是「有人了」（占給你的、語彤的除外）；坐著的人那一位不標',stS.every(q=>occ.has(q)||q.exHeld||q===hs3||q===yS4)&&[...occ].every(q=>!q.exHeld),J([stS.filter(q=>q.exHeld).length,occ.size]));
+    } finally { CHAR.build=keep0.build; E.addNPC=keep0.add; E.moveTo=keep0.mv; GM.spawnExtra=keep0.sx; E.q.level=keep0.lv; } }
 });
 
 H.done(); })();

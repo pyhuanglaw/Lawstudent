@@ -1075,7 +1075,7 @@ const CLS=(function(){
   /* 路線（R2；1-3 第 3 點「宿舍 → 校園 → 那棟建築 → 教室」）：每一區出去是哪裡，往外走到校園，再走進要去的那一棟。
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
-  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',lane118:'campus',gongguan:'campus',
+  const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',soclib_2f:'soclib',lane118:'campus',gongguan:'campus',
                noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',aoki:'gongguan',afar:'gongguan',daybreak:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };

@@ -85,6 +85,14 @@ const SL3=(function(){
       g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
     const t=signTex((o.userData||{}).sign,true); const m=o.material; m.map=t; m.color=new THREE.Color(0xffffff); m.emissive=new THREE.Color(0xffffff); m.emissiveMap=t; m.emissiveIntensity=0.25; m.needsUpdate=true; }
 
+  // ---- 東牆往東側館的門（SOCLIB-2F-1104）：雙開門＋門框＋上面的指標；貼在東牆內側（x＝W/2 − 0.12），面向西 ----
+  function eastDoor(HL,W){ const g=new THREE.Group(); g.name='SOCLIB_EAST_DOOR'; g.userData.dyn=true; const b=new TK.Bin(), x=W/2-0.12, w=HL.w, h=2.35;
+    const trim=M('#d8d2c4',{rough:0.6}), leafM=M('#c3ad84',{rough:0.55}), metal=M('#9aa0a6',{rough:0.35}), dark=M('#2f3337',{rough:0.5});
+    for(const s of [-1,1]) b.add(trim,TK.boxG(0.06,h+0.1,0.1),x,(h+0.1)/2,HL.z+s*(w/2+0.05)); b.add(trim,TK.boxG(0.06,0.1,w+0.2),x,h+0.05,HL.z);
+    for(const s of [-1,1]){ const cz=HL.z+s*w/4; b.add(leafM,TK.boxG(0.04,h-0.02,w/2-0.02),x+0.01,h/2,cz); b.add(dark,TK.boxG(0.01,0.9,w/2-0.3),x-0.012,1.45,cz); b.add(metal,TK.boxG(0.04,0.04,w/2-0.2),x-0.04,1.05,cz); }
+    b.build(g); const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.5,0.33),new THREE.MeshBasicMaterial({map:TK.signTex('2F 自習室・討論室',{bg:'#2f4f5e',color:'#f3efe4'})})); sg.position.set(x-0.04,h+0.42,HL.z); sg.rotation.y=-Math.PI/2; g.add(sg);
+    return g; }
+
   // ---- 區域 ----
   const soclib={ id:'soclib', name:'社科院圖書館', indoor:true, camDist:4.6, build(E){ const L=LAYOUT(), W=L.W, D=L.D, H=L.H;
     const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#f1efea',floorTex:W3.stoneTex('#d6d3cb'),spawn:Object.assign({},L.entrance.spawn)}); const g0=z.group, nav=z.nav;
@@ -103,6 +111,10 @@ const SL3=(function(){
     for(const st of seats){ if(st.kind!=='lounge') Z3.chair(fb,st.x,st.z,st.yaw,'#c9a46a'); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:seatLabel(st),seat:st,study:true}); }
     const EN=L.entrance; IT.push({x:EN.x,z:D/2-0.5,radius:0.9,lv:0,label:'離開圖書館（回社科院前）',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 南牆的門：配置的 exitZ（10.2）離出生點只有 0.9 m，一進來就會跳出「離開」——貼著牆放（出生點 1.2 m 外）*/
     { const dk=L.desk; IT.push({x:(dk.x0+dk.x1)/2,z:dk.z0-0.7,radius:1.2,lv:0,label:'服務台',look:'服務台：借書、還書都在這裡辦。館員小聲說：「閱覽室裡請保持安靜，飲料要有蓋子喔。」'}); }
+    /* 東牆的門：往東側館（soclib_2f：樓梯、電梯上 2F 自習室、討論室、洗手間；SOCLIB-2F-1104，LAWWW2-C 11-04，src/soclib2f3d.js）。
+       門的畫面放在 g0（正式模型載入後照樣在）；跟著東牆淡出（z.winParts：鏡頭在牆外時一起藏，不然會浮在半空中；正式模型載入後 attachRoomGLB 重設 winParts，下面再加回去）*/
+    let eastPart=null; if(typeof SOCLIB2F_LAYOUT!=='undefined'&&Z3.ZONES.soclib_2f){ const HL=SOCLIB2F_LAYOUT.hall; IT.push({x:HL.it.x,z:HL.it.z,radius:HL.it.r,lv:0,label:'往 2F 自習室、討論室',door:true,exit:{to:'soclib_2f',spawn:Object.assign({},SOCLIB2F_LAYOUT.entrance.spawn)}});
+      const dg=eastDoor(HL,W); g0.add(dg); eastPart={obj:dg,at:new THREE.Vector3(W/2,1.2,HL.z),dir:new THREE.Vector3(-1,0,0)}; (z.winParts||(z.winParts=[])).push(eastPart); }
     for(const f of L.furniture){
       if(f.type==='opac') IT.push({x:f.x,z:f.z-0.85,radius:0.9,lv:0,label:'館藏查詢',look:'館藏查詢：輸入書名就查得到書在哪一區、有沒有被借走。這裡的書大多是社會科學——經濟、政治、社會、社工、國發。'});
       else if(f.type==='display') IT.push({x:f.x,z:f.z-f.d/2-0.7,radius:1.0,lv:0,label:'看新書展示',look:'新書展示：這個月新進的書，經濟學、公共政策、社會學都有。'});
@@ -112,7 +124,7 @@ const SL3=(function(){
     for(const gv of groves(L)) IT.push({x:gv.x,z:gv.z,radius:1.0,lv:0,label:'看書架（林間書房）',look:'弧形的竹書架圍著一根白色的樹狀柱，像樹林裡的小書房。抬頭看，柱頂像荷葉一樣散開，光從天窗灑下來。'});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）；招牌畫字；窗外的景搬到玻璃外面
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.soclib_interior']){ ASSETS.loadOne('bldg.soclib_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-      Z3.attachRoomGLB(z,g0,fb,root);
+      Z3.attachRoomGLB(z,g0,fb,root); if(eastPart&&!(z.winParts||[]).includes(eastPart)) (z.winParts||(z.winParts=[])).push(eastPart);
       root.traverse(o=>{ if(o.isMesh&&/SIGN_FACE/.test(o.name)) paintSign(o);
         if(o.isMesh&&o.material&&/^soclib_skylight/.test(o.material.name||'')&&!skyMats.includes(o.material)){ if(o.material.userData.slBase==null) o.material.userData.slBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });   /* 引擎每 5 格呼叫 applyTime，天窗的亮度下一次就跟上時段。
         原本的亮度只記第一次：clone 出來的模型共用快取的材質，第二次進館時材質已經被調暗過（2026-10-13 批次 2：晚上量到 0.0064＝0.08×0.08）*/

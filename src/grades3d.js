@@ -35,7 +35,7 @@ const GRADES=(function(){
   S.windowTerm=function(G){ if(typeof CALENDAR==='undefined') return null; for(let i=LAW_TERMS.length-1;i>=0;i--){ const t=LAW_TERMS[i], g=gd(t); if(g==null||G.day<g) continue;
       const nx=LAW_TERMS[i+1], r=nx?CALENDAR.termDays(nx):null, end=r?r.from+20:g+20; return G.day<=end?t:null; } return null; };
   /* ---- 讀書地點的次數（每學期）---- */
-  const LIBS=['library','library_hall','library_carrels','library_stacks','library_b1','lawlib','soclib'];
+  const LIBS=['library','library_hall','library_carrels','library_stacks','library_b1','lawlib','soclib','soclib_2f'];
   S.studyN=function(G,t,kind){ const R=(G.flags&&G.flags.GR_STUDY&&G.flags.GR_STUDY[t])||{}; return R[kind]|0; };
   S.onStudy=function(GM){ const G=GM&&GM.G; if(!law(G)||typeof CALENDAR==='undefined') return; const T=CALENDAR.termOf(G.day); if(!T) return;
     const kind=G.zone==='cafe'?'cafe':(LIBS.includes(G.zone)?'lib':(G.zone==='dorm'?'dorm':null)); if(!kind) return;
