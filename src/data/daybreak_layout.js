@@ -17,10 +17,10 @@ const DAYBREAK_LAYOUT = {
   enterAt: null,
   items: [
     {kind: 'counter', x: -2.4, z: -2.85, w: 4.0, d: 0.7, h: 1.0, note: '沿後牆的長吧台（淺色橡木直紋、淺色石材檯面、檯面下燈條）：咖啡機、磨豆機、甜點櫃、收銀機、Pick Up 牌'},
-    {kind: 'tile_wall', x0: -4.5, x1: -0.2, note: '吧台後面的綠磁磚牆（0.9～2.9 m）、兩層木層板（碗盤、杯子、罐子）、不鏽鋼抽油煙機'},
-    {kind: 'menu_board', side: 'back', along: -0.2, y: 2.05, w: 0.8, h: 0.95, note: '黑板（Daybreak：Brunch、Plates、Sandwiches、Salads、Drinks、Sweets）'},
-    {kind: 'banquette', x: 1.55, z: -3.72, w: 2.9, d: 0.55, note: '後牆前面的綠色卡座（直條紋靠背、黃色抱枕）'},
-    {kind: 'mural', side: 'back', along: 1.6, y: 2.25, w: 3.2, h: 1.6, note: '牆上「Daybreak BRUNCH & COFFEE」字＋太陽＋黃色山丘'},
+    {kind: 'tile_wall', x0: -4.5, x1: -1.2, note: '吧台後面的綠磁磚牆（0.9～2.9 m）、兩層木層板（碗盤、杯子、罐子）、不鏽鋼抽油煙機'},
+    {kind: 'menu_board', side: 'back', along: -0.75, y: 2.15, w: 0.8, h: 0.95, note: '黑板（Daybreak：Brunch、Plates、Sandwiches、Salads、Drinks、Sweets）'},
+    {kind: 'banquette', x: 1.3, z: -3.72, w: 2.9, d: 0.55, note: '後牆前面的綠色卡座（直條紋靠背、黃色抱枕）'},
+    {kind: 'mural', side: 'back', along: 1.3, y: 2.25, w: 3.2, h: 1.6, note: '牆上「Daybreak BRUNCH & COFFEE」字＋太陽＋黃色山丘'},
     {kind: 'art', side: 'left', along: 2.1, y: 1.9, w: 0.6, h: 0.6}, {kind: 'art', side: 'left', along: 1.2, y: 1.9, w: 0.6, h: 0.6},
     {kind: 'art', side: 'left', along: 0.3, y: 1.9, w: 0.6, h: 0.6},
     {kind: 'mat', x: 2.165, z: 2.9, w: 1.4, d: 0.9, note: '門口的草編腳踏墊'},
@@ -33,15 +33,15 @@ const DAYBREAK_LAYOUT = {
     {id: 4, kind: 'rect', x: 1.6, z: 1.0, w: 1.2, d: 0.8, note: '中間四人桌（前景）'},
     {id: 5, kind: 'rect', x: -1.1, z: 0.9, w: 1.2, d: 0.8, note: '中間四人桌二'},
     {id: 6, kind: 'long', x: -3.75, z: 0.9, w: 0.8, d: 1.9, note: '最裡面的長桌（六人）'},
-    {id: 7, kind: 'pedestal', x: 0.85, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌一（灰綠桌腳）'},
-    {id: 8, kind: 'pedestal', x: 2.3, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌二'}
+    {id: 7, kind: 'pedestal', x: 0.6, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌一（灰綠桌腳）'},
+    {id: 8, kind: 'pedestal', x: 2.05, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌二'}
   ],
   blocks: [
     [-2.4, -2.85, 4.0, 0.7], [-2.45, -3.7, 4.1, 0.6],
-    [1.55, -3.72, 2.9, 0.55],
+    [1.3, -3.72, 2.9, 0.55],
     [-2.6, 3.45, 0.62, 0.62], [-1.05, 3.45, 0.62, 0.62], [0.5, 3.45, 0.62, 0.62],
     [1.6, 1.0, 1.22, 0.82], [-1.1, 0.9, 1.22, 0.82], [-3.75, 0.9, 0.82, 1.92],
-    [0.85, -3.05, 0.67, 0.62], [2.3, -3.05, 0.67, 0.62],
+    [0.6, -3.05, 0.67, 0.62], [2.05, -3.05, 0.67, 0.62],
     [-4.15, 3.55, 0.55, 0.55], [-4.15, -1.5, 0.55, 0.55], [3.55, -3.55, 0.55, 0.55]
   ],
   walkNote: '店門 (2.165, 4.0) 進來：中間走道 z −1.9～0.2（吧台前、卡座小桌前面），窗邊兩人桌和中間四人桌之間 z 1.6～2.9；吧台後面 z −3.5～−3.2 是店員（不開放，第二個 block）。',
@@ -56,13 +56,13 @@ const DAYBREAK_LAYOUT = {
     {x: -4.2, z: 0.3, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -4.2, z: 0.9, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
     {x: -4.2, z: 1.5, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -3.3, z: 0.3, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
     {x: -3.3, z: 0.9, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -3.3, z: 1.5, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
-    {x: 0.85, z: -3.5, yaw: 0, table: 7, seatH: 0.45, canStudy: true, label: '坐卡座'}, {x: 0.85, z: -2.5, yaw: Math.PI, table: 7, canStudy: true, label: '坐下'},
-    {x: 2.3, z: -3.5, yaw: 0, table: 8, seatH: 0.45, canStudy: true, label: '坐卡座'}, {x: 2.3, z: -2.5, yaw: Math.PI, table: 8, canStudy: true, label: '坐下'}
+    {x: 0.6, z: -3.5, yaw: 0, table: 7, seatH: 0.45, canStudy: true, label: '坐卡座'}, {x: 0.6, z: -2.5, yaw: Math.PI, table: 7, canStudy: true, label: '坐下'},
+    {x: 2.05, z: -3.5, yaw: 0, table: 8, seatH: 0.45, canStudy: true, label: '坐卡座'}, {x: 2.05, z: -2.5, yaw: Math.PI, table: 8, canStudy: true, label: '坐下'}
   ],
   interact: [
     {x: -0.9, z: -2.1, kind: 'order', label: '點餐', note: '吧台東段；收銀機旁邊'},
     {x: -2.9, z: -2.1, kind: 'pastry', label: '看甜點櫃'},
-    {x: -0.2, z: -2.3, kind: 'menu', label: '看菜單', note: '後牆的黑板'}
+    {x: -0.75, z: -2.1, kind: 'menu', label: '看菜單', note: '後牆的黑板'}
   ],
   floorSit: [],
   wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
