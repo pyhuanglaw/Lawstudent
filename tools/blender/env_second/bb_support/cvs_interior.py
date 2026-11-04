@@ -268,7 +268,7 @@ LEV = [0.12, 0.42, 0.72, 1.02, 1.32]
 KINDS = {1: ['bottle', 'paper', 'mix_daily', 'bottle', 'paper'], 2: ['chips', 'box', 'noodle', 'mix_snack', 'chips'], 3: ['stat', 'stat', 'box', 'can', 'mix_daily']}
 
 
-def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38):
+def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38, real=None):
     """沿 z 的一段貨架（一面）：xb＝背板、sgn＝商品朝向（+1＝+x）；每 1.2 m 一格"""
     nseg = max(1, round((z1 - z0) / 1.2)); sl = (z1 - z0) / nseg; n = '+x' if sgn > 0 else '-x'
     for i, y in enumerate(levels):
@@ -280,6 +280,20 @@ def shelf_run(xb, sgn, z0, z1, levels, top, kinds, dep=0.38):
             za, zb = z0 + s * sl + 0.02, z0 + (s + 1) * sl - 0.02
             rect = cell_u(GC[kinds[i % len(kinds)]][R.randrange(2)], zb - za)
             d = dep * R.uniform(0.74, 0.9); hh = (ytop - y) - R.uniform(0.03, 0.06)
+            if real and i in real:   # 真的模型：最前面一排（後面還是貼圖方塊，看起來有深度）
+                xf = xb + sgn * (dep - 0.11); gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
+                kind = real[i]; z = za + 0.06
+                while z < zb - 0.05:
+                    xc_ = xb + sgn * (dep - 0.055)
+                    if kind == 'bottle':
+                        hb = R.uniform(0.17, 0.24); col = R.choice(['#f2f2ee', '#5a8ac8', '#e890b0', '#f0c040', '#70b070', '#e8e4dc'])
+                        clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.042, hb * 0.75), (0.02, hb * 0.9), (0.014, hb), (0.0, hb)], xc_, y, z, col, seg=8)
+                        z += 0.095
+                    else:
+                        clathe(VC, [(0.0, 0.0), (0.045, 0.0), (0.06, 0.1), (0.062, 0.105), (0.0, 0.105)], xc_, y, z, R.choice(['#d83a2c', '#e8e4dc', '#e8a030', '#c8302a', '#3a6ab0']), seg=10)
+                        clathe(VC, [(0.0, 0.105), (0.045, 0.105), (0.06, 0.205), (0.062, 0.21), (0.0, 0.21)], xc_, y, z, R.choice(['#d83a2c', '#e8e4dc', '#e8a030']), seg=10) if hh > 0.24 else None
+                        z += 0.135
+                continue
             xf = xb + sgn * d
             gbox(GD, min(xb, xf), max(xb, xf), y, y + hh, za, zb, n, rect)
 
@@ -289,7 +303,7 @@ for g in S['gondolas']:
     VC.cbox(gx - hw, gx + hw, 0, 0.1, z0, z1, '#e4e2dc'); VC.cbox(gx - 0.02, gx + 0.02, 0.1, gh + 0.05, z0, z1, '#ecebe6')
     for z in (z0, z1): VC.cbox(gx - hw, gx + hw, 0, gh, z - 0.015 if z == z0 else z - 0.03, z + 0.03 if z == z0 else z + 0.015, '#f0efea')
     kinds = KINDS[g['n']]
-    for sgn in (1, -1): shelf_run(gx + sgn * 0.02, sgn, z0 + 0.03, z1 - 0.03, LEV, gh, kinds[::sgn] if sgn < 0 else kinds, dep=hw - 0.03)
+    for sgn in (1, -1): shelf_run(gx + sgn * 0.02, sgn, z0 + 0.03, z1 - 0.03, LEV, gh, kinds[::sgn] if sgn < 0 else kinds, dep=hw - 0.03, real={1: {0: 'bottle', 3: 'bottle'}, 2: {2: 'cup'}, 3: {}}[g['n']])
     # 兩頭的端面也擺商品（淺的，0.22 m）：+z 那頭（端架的除外）、−z 那頭
     for zend, n in ((z1, '+z'), (z0, '-z')):
         if n == '+z' and 'endcap' in g: continue
@@ -403,6 +417,15 @@ for k in range(3): clathe(VC, [(0.0, 0.0), (0.04, 0.0), (0.05, 0.3), (0.0, 0.3)]
 clathe(VM, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.16), (0.0, 0.16)], (CX0 + 0.220), ch_, 0.1, '#b8bcbe', seg=10)
 for k in range(8): ccyl(VC, ((CX0 + 0.220) + R.uniform(-0.03, 0.03), ch_ + 0.1, 0.1 + R.uniform(-0.03, 0.03)), ((CX0 + 0.220) + R.uniform(-0.05, 0.05), ch_ + 0.32, 0.1 + R.uniform(-0.05, 0.05)), 0.004, R.choice(['#3a8a4a', '#e8e4dc', '#d84030']), seg=3)
 VC.cbox((CX0 + 0.150), (CX0 + 0.400), ch_, ch_ + 0.08, 0.25, 0.4, '#d8c8a0')
+# 櫃台靠冷藏櫃那一頭的小貨架（朝走道 −x）
+ir = S['impulseRack']
+VC.cbox(ir['x0'], ir['x1'], 0, 0.1, ir['z0'], ir['z1'], GREEN); VC.cbox(ir['x1'] - 0.03, ir['x1'], 0.1, ir['h'], ir['z0'], ir['z1'], '#ecebe6')
+for z in (ir['z0'], ir['z1']): VC.cbox(ir['x0'], ir['x1'], 0, ir['h'], z - 0.012, z + 0.012, '#f0efea')
+IRL = [0.1, 0.36, 0.62, 0.88]
+for i, y in enumerate(IRL):
+    VC.cbox(ir['x0'], ir['x1'] - 0.03, y - 0.02, y, ir['z0'], ir['z1'], '#d6d6d2')
+    face(GD, (ir['x0'] - 0.002, y - 0.02, (ir['z0'] + ir['z1']) / 2), '-x', ir['z1'] - ir['z0'], 0.04, cell_u(GC['price'][0], 0.9, per=3.6))
+    gbox(GD, ir['x0'] + 0.04, ir['x1'] - 0.03, y, (IRL[i + 1] if i + 1 < len(IRL) else ir['h']) - 0.04, ir['z0'] + 0.02, ir['z1'] - 0.02, '-x', cell_u(GC[['chips', 'box', 'mix_snack', 'can'][i]][1], ir['z1'] - ir['z0']))
 # 櫃台後面：矮櫃、咖啡機兩台、杯子、上方層板；右牆標誌、咖啡價目黑板
 bc = S['backCounter']
 VC.crbox(bc['x0'], bc['x1'], 0, bc['h'] - 0.04, bc['z0'], bc['z1'], WHITE, r=0.006, seg=1); VC.crbox(bc['x0'] - 0.03, bc['x1'], bc['h'] - 0.04, bc['h'], bc['z0'], bc['z1'], '#f6f6f2', r=0.006, seg=1)

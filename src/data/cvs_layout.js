@@ -35,6 +35,7 @@ const CVS_LAYOUT = {
     chestFreezer: {x0: 2.75, x1: 3.55, z0: -3.4, z1: -2.3, h: 0.85},
     counter: {x0: 3.1, x1: 3.85, z0: -0.6, z1: 4.0, h: 0.95, flap: {z0: 4.0, z1: 4.7},
       parts: [{kind: 'coffee_side', z0: -0.6, z1: 0.5}, {kind: 'register', z0: 0.5, z1: 1.6}, {kind: 'display', z0: 1.6, z1: 2.4}, {kind: 'hot_case', z0: 2.4, z1: 3.6}]},
+    impulseRack: {x0: 2.8, x1: 3.1, z0: -0.55, z1: 0.35, h: 1.15, note: '櫃台靠冷藏櫃那一頭的小貨架（零食、口香糖），朝走道'},
     backCounter: {x0: 4.45, x1: 5.0, z0: -0.6, z1: 4.6, h: 0.95, note: '櫃台後面：咖啡機、杯子、菸櫃位置改成紙杯／吸管架（不放菸）'},
     endPanel: {x0: 3.85, x1: 5.0, z0: -0.75, z1: -0.6, note: '員工區北邊的隔板（客人走不進櫃台後面）'},
     lockers: {x0: 4.45, x1: 5.0, z0: 4.9, z1: 6.7, h: 2.0, label: '包裹暫取區'},
@@ -47,7 +48,7 @@ const CVS_LAYOUT = {
     interact: [
       {kind: 'checkout', x: 2.7, z: 1.05, yaw: Math.PI / 2, label: '結帳：飯糰／咖啡／飲料'},
       {kind: 'hotfood', x: 2.7, z: 3.0, yaw: Math.PI / 2, label: '看熱食櫃'},
-      {kind: 'coffee', x: 2.7, z: -0.1, yaw: Math.PI / 2, label: '點日和咖啡'},
+      {kind: 'coffee', x: 2.45, z: -0.1, yaw: Math.PI / 2, label: '點日和咖啡'},
       {kind: 'parcel', x: 3.85, z: 5.8, yaw: Math.PI / 2, label: '包裹暫取'},
       {kind: 'microwave', x: -3.8, z: -1.55, yaw: Math.PI, label: '微波加熱'},
       {kind: 'cooler', x: 3.75, z: -4.0, yaw: Math.PI / 2, label: '看冷藏櫃'}
@@ -68,7 +69,7 @@ const CVS_LAYOUT = {
     S.tables.map(t => [t.x, +(t.z - 0.55).toFixed(2), 0.42, 0.42]), S.tables.map(t => [t.x, +(t.z + 0.55).toFixed(2), 0.42, 0.42]),
     g,
     [B(S.backShelf), B({x0: st.x0, x1: st.x1 + 0.06, z0: st.z0, z1: st.z1 + 0.06}), B(S.microwave), B(S.bins), B(S.coolers), B(S.chestFreezer),
-     B(S.counter), B({x0: S.counter.x0, x1: S.counter.x1, z0: S.counter.flap.z0, z1: S.counter.flap.z1}),
+     B(S.counter), B(S.impulseRack), B({x0: S.counter.x0, x1: S.counter.x1, z0: S.counter.flap.z0, z1: S.counter.flap.z1}),
      B({x0: S.counter.x1, x1: S.w / 2, z0: S.endPanel.z0, z1: S.lockers.z0 - 0.2}),   // 員工區（櫃台後面）整塊擋：店員走在裡面
      B(S.lockers)]);
   S.seats = [].concat(
