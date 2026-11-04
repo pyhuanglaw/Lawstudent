@@ -84,7 +84,7 @@ const POSTGRAD_LINES=(function(){
         invite:['畢業快樂','晚上吃飯 只有我們兩個'], invite2:['畢業快樂','晚上吃飯 上次那個 你想好沒'], decline:'好啦 那下次'} },   /* 飯桌一句照大四上那一句（AA_254 第 5 節）*/
     GF:{
       heroine_01:{h:17.5,invite:'今天不讀書。……晚上的位子我訂好了。'},
-      heroine_03:{h:17.5,invite:'今天不排班。晚上來我家，我煮。'},   /* AA_643 第 8 節（交往中）*/
+      heroine_03:{h:18.5,placeName:'她家',invite:'今天不排班。晚上來我家，我煮。'},   /* AA_643 第 8 節（交往中）；第 11 節第 1 點：字幕「學期末的飯：陳語彤（她家）18:30」*/
       heroine_05:{h:17.5,invite:'晚上一起吃飯？我訂好位子了。',table:'拍照拍到臉僵了。……你也是。'},
       heroine_04:{h:18,dm:16.5,invite:'畢業快樂 晚上吃飯 我請'} },
     ME_OK:'「好。」', ME_NO:'「今天晚上我有約了。」' },   /* 當面答的兩句（手機的「好。」「今天晚上我有約了。」照 termend3d.js、TERMEND_LINES.AUTO_ME_GRAD）*/
