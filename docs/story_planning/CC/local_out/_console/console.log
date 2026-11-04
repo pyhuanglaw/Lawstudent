@@ -405,3 +405,19 @@
 [15:02:20] ==== START GG_night_r3_typhoon  (probe @ ed0b5699e) ====
 [15:02:24] [res] cpu=73% mem=54% (16.9/31.4 GB) chrome_testing=19  START GG_night_r3_typhoon
 [15:04:05] [res] cpu=65% mem=53% (17.2/31.4 GB) chrome_testing=19  END GG_night_r3_typhoon
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       40938ef4c..66076656c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:04:12] ==== END   GG_night_r3_typhoon  exit=0  105s   ====
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:04:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:04:15] memory 54% before starting GG_npc_main_D1 (2 running)
+[15:04:15] ==== START GG_npc_main_D1  (probe @ 3424d8e66) ====
+[15:04:19] [res] cpu=79% mem=54% (17.0/31.4 GB) chrome_testing=19  START GG_npc_main_D1
+[15:04:37] 正在跑：GG_int_cvs_menu_tt（已跑 48 分／上限 45 分）、GG_int_yejian_r2（已跑 39 分／上限 75 分）、GG_npc_main_D1（已跑 0 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[15:06:55] [res] cpu=51% mem=55% (17.4/31.4 GB) chrome_testing=19  END GG_npc_main_D1
