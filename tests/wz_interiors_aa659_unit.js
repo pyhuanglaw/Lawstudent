@@ -54,7 +54,7 @@ check('A0 WZ_SHOPS_LAYOUT.teahouse＝AA yizhan_layout.js v2（前院打開改的
   check('A0 一盞前院：出生點 (−3, 9.0)、出口 (−3, 9.3)、work.end (−3, 8.0)；AA 的最後兩塊阻擋拿掉、AA v1b 的三塊（甕、盆栽、坐墊疊）還在',J([T2.spawn.x,T2.spawn.z])===J([-3,9])&&J([T2.exit.at.x,T2.exit.at.z])===J([-3,9.3])&&J([T2.work.end.x,T2.work.end.z])===J([-3,8])&&!T2.blocks.some(b=>J(b)===J([0,7.9,8.4,3.4])||J(b)===J([-3.2,5.6,2,1.2]))&&['-1.8,4.55,0.5,0.5','3.85,4.55,0.6,0.6','-0.55,-0.95,0.6,0.65'].every(s=>Yb.includes(s)&&T2.blocks.some(b=>b.join(',')===s))&&!!T2.yard);
   check('A0 一盞：其他不能動的點照舊（enterAt (−20.5, 4.6)、回溫州街 (−20.5, 4.1)、打工 a／b／c）',J(T2.enterAt&&[T2.enterAt.x,T2.enterAt.z])===J([-20.5,4.6])&&J([T2.exit.spawn.x,T2.exit.spawn.z])===J([-20.5,4.1])&&deq(T2.work.a,Y.work.a)&&deq(T2.work.b,Y.work.b)&&deq(T2.work.c,Y.work.c)); }
 // ---- 三間 ----
-const SH={teishoku:{zone:'wz_teishoku',L:K,exit:'離開小路',ver:3,n:22,player:16,tags:{corner:2,bar:6,door:1}},
+const SH={teishoku:{zone:'wz_teishoku',L:K,exit:'離開小路',ver:3,n:22,player:16,tags:{bar:6,door:1}},   /* 西牆卡座兩張（tag corner）走不進去、不在座位表（WZ_AA_NOSIT）*/
           brunch:{zone:'wz_brunch',L:S,exit:'離開 SUNNY SIDE',ver:3,n:14,player:14,tags:{sofa:2,bar:2,door:1,window:1}},
           teahouse:{zone:'wz_teahouse',L:Y,exit:'離開一盞',ver:2,n:13,player:13,tags:{}}};
 const Zs={};
