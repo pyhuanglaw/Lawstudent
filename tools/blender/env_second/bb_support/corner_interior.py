@@ -593,9 +593,11 @@ lpn = IT['logo_panel']   # 上半段的飾板（深灰綠漆面＋字：從店�
 pw['vc'].crbox(XI0, XI0 + 0.02, lpn['y'] - lpn['h'] / 2, lpn['y'] + lpn['h'] / 2, lpn['z'] - lpn['d'] / 2, lpn['z'] + lpn['d'] / 2, '#43504d', r=0.004)
 pw['sign'].rect((XI0 + 0.0215, lpn['y'], lpn['z']), (0, 0, -1), (0, 1, 0), lpn['d'] / 2, lpn['h'] / 2, ATL['logo_panel'])
 pw.done()
-pothos('pothos_l1', XI0 + 0.12, ps_['y'], ps_['z'] - 0.3, side='left', nv=12, drop=1.15, dirx=1)
-pothos('pothos_l2', XI0 + 0.12, ps_['y'], ps_['z'] + 0.3, side='left', nv=9, drop=0.8, dirx=1, dirz=0.5)
-pothos('pothos_l3', XI0 + 0.12, lpn['y'] + lpn['h'] / 2 + 0.02, lpn['z'] - 0.4, side='left', nv=8, drop=0.7, dirx=1)   # 飾板上面再一盆
+RW_TOP = IT['record_wall']['h']
+pothos('pothos_l1', XI0 + 0.12, ps_['y'], ps_['z'] - 0.3, side='left', nv=14, drop=1.3, dirx=1)
+pothos('pothos_l2', XI0 + 0.12, ps_['y'], ps_['z'] + 0.3, side='left', nv=12, drop=1.0, dirx=1, dirz=0.5)
+pothos('pothos_l3', XI0 + 0.2, RW_TOP, -1.9, side='left', nv=9, drop=0.9, dirx=1)   # 唱片牆上面兩盆（參考圖：後段的唱片架上面有植物）
+pothos('pothos_l4', XI0 + 0.2, RW_TOP, -4.1, side='left', nv=8, drop=0.8, dirx=1)
 psl = IT['plant_stool']; pss = Part('plant_stool')
 pss['wood'].rbox(psl['x'] - 0.15, psl['x'] + 0.15, 0.42, 0.45, psl['z'] - 0.15, psl['z'] + 0.15, r=0.006)
 for sx in (-1, 1):
@@ -748,6 +750,7 @@ for y, row in RACK:
         pr_.place(RT @ fm((x, y, 0.04 if kind != 'tt' else 0.0), rot('Y', random.uniform(-0.06, 0.06))))
 bpl = IT['big_plant']
 pbp = Part('big_plant_pole'); ccyl(pbp['vc'], (bpl['x'], 0.3, bpl['z']), (bpl['x'], 1.9, bpl['z']), 0.035, '#6a5a3a', seg=8); pbp.done()   # 水苔柱
+pothos('pothos_rack', XI1 - 0.25, IT['audio_rack']['h'], IT['audio_rack']['z'] + IT['audio_rack']['d'] / 2 - 0.2, side='right', nv=11, drop=1.0, dirx=-1)   # 鐵架上面一盆（參考圖）
 leafy('big_plant', bpl['x'], 0, bpl['z'], ['leaf0', 'leaf1', 'leaf2', 'leaf3'], n=46, rad=0.32, hgt=(0.35, 1.65), size=(0.13, 0.19), pot=(0.24, 0.45), potcol='#ecebe6', seed=11, droop=0.7)
 ld = IT['listen_desk']; xd0, xd1, zd0, zd1, hd = XI1 - ld['w'], XI1, ld['z'] - ld['d'] / 2, ld['z'] + ld['d'] / 2, ld['h']
 pld = Part('listen_desk', side='right'); w_, c, cm, g = pld['wood'], pld['vc'], pld['vcm'], pld['goods']
@@ -799,11 +802,12 @@ psc['goods'].rect((xa_ - 0.001, sch * 0.55, scz), (0, 0, 1), (0, 1, 0), 0.12, 0.
 psc.done()
 for j in range(2): stack_proto(int((scd - 0.09) / 0.03), j + 1).place(fm((scx - scw / 4 + j * scw / 2, sch - 0.2, zb_ - 0.045), rot('Y', 0.0)))
 pwr = Part('rightwall_deco', side='right'); xw = XI1 - 0.012
-POSTERS = [(4.06, 2.35, 0.66, 1.15, 'poster_river', '#2a2622'), (3.21, 2.5, 0.5, 0.72, 'poster_crowd', '#2a2622'), (2.52, 2.35, 0.5, 0.68, 'poster_girl', '#d8d0c0'),
-           (1.94, 2.65, 0.36, 0.36, 'frame_vinyl', '#2a2622'), (1.88, 2.15, 0.34, 0.34, 'cover12', '#2a2622'), (1.33, 2.5, 0.42, 0.54, 'poster_sea', '#6b4a30'),
-           (0.65, 2.6, 0.5, 0.4, 'poster_mtn', '#2a2622'), (0, 2.55, 0.36, 0.46, 'portrait', '#2a2622'), (-0.65, 2.6, 0.5, 0.4, 'poster_city', '#6b4a30'),
-           (-1.24, 2.55, 0.32, 0.4, 'lineart_tt', '#2a2622'), (-1.78, 2.68, 0.34, 0.34, 'cover21', '#2a2622'), (-2.23, 2.45, 0.34, 0.34, 'cover30', '#2a2622'),
-           (-2.73, 2.68, 0.34, 0.34, 'cover8', '#2a2622'), (-3.22, 2.45, 0.4, 0.4, 'frame_vinyl', '#6b4a30'), (-4.16, 1.8, 0.5, 0.36, 'poster_mtn', '#2a2622'), (-4.95, 1.75, 0.36, 0.46, 'portrait', '#6b4a30')]
+POSTERS = [(4.05, 2.3, 0.74, 1.3, 'poster_river', '#2a2622'), (3.2, 2.45, 0.56, 0.8, 'poster_crowd', '#2a2622'), (2.5, 2.3, 0.56, 0.76, 'poster_girl', '#d8d0c0'),
+           (1.92, 2.7, 0.4, 0.4, 'frame_vinyl', '#2a2622'), (1.9, 2.12, 0.38, 0.38, 'cover12', '#2a2622'), (1.38, 2.42, 0.46, 0.6, 'poster_sea', '#6b4a30'),
+           (0.78, 2.6, 0.56, 0.44, 'poster_mtn', '#2a2622'), (0.18, 2.6, 0.4, 0.52, 'portrait', '#2a2622'), (-0.4, 2.62, 0.56, 0.44, 'poster_city', '#6b4a30'),
+           (-0.98, 2.6, 0.36, 0.46, 'lineart_tt', '#2a2622'), (-1.48, 2.75, 0.36, 0.36, 'cover21', '#2a2622'), (-1.52, 2.32, 0.34, 0.34, 'cover5', '#2a2622'),
+           (-1.98, 2.55, 0.4, 0.4, 'cover30', '#2a2622'), (-2.5, 2.7, 0.36, 0.36, 'cover8', '#2a2622'), (-2.95, 2.45, 0.44, 0.44, 'frame_vinyl', '#6b4a30'),
+           (-3.45, 2.65, 0.36, 0.46, 'portrait', '#2a2622'), (-4.0, 1.85, 0.56, 0.42, 'poster_mtn', '#2a2622'), (-4.55, 2.0, 0.36, 0.36, 'cover17', '#6b4a30'), (-4.95, 1.8, 0.36, 0.46, 'lineart_tt', '#6b4a30')]
 for (z, y, w, h, cell, fc) in POSTERS: frame_on_wall(pwr, xw, y, z, w, h, cell, sgn=-1, fcol=fc, depth=0.022)
 ls_ = IT['listen_sign']; crb(pwr['vcm'], XI1 - 0.01, XI1, ls_['y'] - 0.07, ls_['y'] + 0.07, ls_['z'] - 0.14, ls_['z'] + 0.14, '#b9b6ae', r=0.003)
 pwr['goods'].rect((XI1 - 0.0105, ls_['y'], ls_['z']), (0, 0, 1), (0, 1, 0), 0.135, 0.06, ATL['sign_listen'])
