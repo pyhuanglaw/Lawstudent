@@ -113,3 +113,9 @@
 - 規格：38,516 三角形、12 材質、2.44 MB。ref_match 全部通過；shopchk2 wz_brunch 17 點、NG 0。
 - 圖：`model_renders/sunnyside_v1d_refcam{.png,_cmp.jpg,_report.json}`、`sunnyside_v1d_rightwin.png`（鏡頭 `[-1.8,1.5,4.2]→[3.2,1.4,-0.5] 24`）、`sunnyside_v1d_pothos.png`。
 - 還沒做到：窗景卡是平面圖，沒有視差；外牆對齊的圖由 LAWWW2 拍。
+
+## v1e（2026-11-04 07:5x，LAWWW2 a485b6722 交的窗景卡）
+- 兩塊窗景卡（`WALL_right_VIEW_sns_window_view`、`WALL_front_VIEW_sns_window_view`，名字不變）原本暫借 mok_view.png。現在換成 LAWWW2 用溫州街正式模型從 SUNNY SIDE 往外拍的景。
+- 材質已經 12 個，不再加：把兩張拼成一張 `textures/gen/sns_views_day.jpg`（1024×1024，上半＝正面 front_day、下半＝東側 right_day），兩塊卡各取一半的 UV。
+- 夜版 `sns_views_night.jpg` 同樣的排法；換日夜由 LAWWW 決定（zones3d 現在晚上把 VIEW 材質調暗，也可以直接換這張）。
+- 規格：38,516 三角形、12 材質、2.19 MB。圖：`model_renders/sunnyside_v1e_views.jpg`（上＝往右牆的落地窗看、下＝往正面看；Blender 渲染）。

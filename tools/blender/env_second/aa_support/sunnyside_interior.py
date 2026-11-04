@@ -24,7 +24,7 @@ sh.M.update({
     'wood': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#4e3220', maps=('diff',), res=256, rough_value=0.45, cull=True),
     'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff4e0', rough=0.3, emit=B.srgb('#ffd8a0')),
-    'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.12),
+    'view': K.img_mat(P + 'window_view', 'sns_views_day.jpg', rough=0.9, emit=0.12),   # v1e：LAWWW2 a485b6722 從 SUNNY SIDE 往外拍的窗景（上半＝正面、下半＝東側；夜版 sns_views_night.jpg 同樣排法，LAWWW 換）
     'print': K.img_mat(P + 'print', 'sns_print.png', rough=0.7),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
     'mirror': B.pbr(P + 'mirror', None, tint=B.srgb('#c8d0d4'), rough=0.04, metal=0.45),   # v1c：鏡面（亮面）
@@ -105,10 +105,10 @@ WR(RW0, RW1, 1.98, 2.02, -0.04, 0.05)                                           
 xf0.rbox(sh.w('right', 'wood'), X1 - 0.16, X1, RS0 - 0.03, RS0, RW0, RW1, r=0.008, seg=1)                                # 窗台（可以放小盆栽）
 sh.w('right', 'glass').box(X1 + 0.004, X1 + 0.008, RS0 + 0.02, RS1 - 0.02, RW0 + 0.02, RW1 - 0.02)
 vx_ = X1 + 2.5; vr = Mesh('WALL_right_VIEW_' + P + 'window_view', sh.M['view'])                                           # 窗外的街樹（之後 LAWWW2 換溫州街）
-xf0.quad(vr, [(vx_, -1.0, -3.0), (vx_, -1.0, 6.5), (vx_, 4.5, 6.5), (vx_, 4.5, -3.0)], uv=(0.0, 0.0, 1.0, 1.0))
+xf0.quad(vr, [(vx_, -1.0, -3.0), (vx_, -1.0, 6.5), (vx_, 4.5, 6.5), (vx_, 4.5, -3.0)], uv=(0.0, 0.0, 1.0, 0.5))   # 圖的下半
 vr.finish(sh.root, uv=False, props={'dir': K.DIRS['right'], 'windowView': True})
 vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])
-xf0.quad(vw, [(7.0, 4.5, vz), (-7.0, 4.5, vz), (-7.0, -1.0, vz), (7.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.0))
+xf0.quad(vw, [(7.0, 4.5, vz), (-7.0, 4.5, vz), (-7.0, -1.0, vz), (7.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.5))   # 圖的上半
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
 for (side, along) in (('left', -1.5), ('left', 1.4), ('right', -3.4)): sconce(side, along)   # v1d：右牆開窗，壁燈只留後段一盞
 sh.tally('shell')
