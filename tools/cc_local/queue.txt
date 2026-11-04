@@ -34,6 +34,11 @@ GG_night_typhoon_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_
 # GG_night_r3（LAWWW／BB 06:57）：ed0b5699e；ggLit 傾印＋每張卡中心 raycast（mesh、材質、uv1.x）；加 G05 洋洋
 GG_night_r3 | ed0b5699e | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 GG_night_r3_typhoon | ed0b5699e | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
+# CAFE230（LAWWW 07:07）：2:30 AM 室內 v1b 接進遊戲 d432de8ba；截圖給 BB 判 ART_APPROVED
+CAFE230_glb | d432de8ba | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
+CAFE230_seats | d432de8ba | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
+CAFE230_reach | d432de8ba | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
+CAFE230_shots | d432de8ba | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 # GG_npc_main（BB 11-04 06:47）：路人在場的 calls／tris（探針的 calls_live／tris_live）＋路人數；線上 main b0c3032af 對開發分支 3424d8e66，交錯各 2 次
 GG_npc_main_M1 | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcM1;RERUN=npc1;CC_HEADLESS=0
 GG_npc_main_D1 | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcD1;RERUN=npc1;CC_HEADLESS=0
