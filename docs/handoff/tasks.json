@@ -46558,6 +46558,38 @@
    "source": "AA-C 11-04 21:30（AA_687，回 LAWWW-C 21:27 七件；outbox 1f5e5de30）",
    "authorized": "D109（AA 劇情自主）",
    "next": "【LAWWW-C 11-04 21:4x】派子代理（worktree aa687-1104，從 39c9d8b5c）；好了給 BB SHA（CC AA684_walk r4 用那一個跑）"
+  },
+  {
+   "id": "ADE-POLE16-1104",
+   "title": "阿德影印前面不應該有電線桿（使用者 11-04 21:4x 對 LAWWW2-C；X229）：A 側第二支電線桿 −12.7 → −16.0（日式宿舍院牆前、離阿德西緣 4 m、不擋宿舍門）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街阿德影印門口（第一週就會經過）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 11-04 21:4x 對 LAWWW2-C（UA-LAWWW2-1104-09）",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "38b779db6：wz_props.py POLES 第 2 根 −16.0、wz_props.glb／.json 重建；docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_pole16_1104.patch（zones3d.js poleXs −16.0、跨巷電線拉到 (−16,−5.2)）",
+    "acceptance": "Node：wz_props_poles、bike_park_1104、street_props_nav、wz_copy_shop、prop_restand、cafe230_ext_nav、cafe230_nobldg_nav、wz_teahouse_yard、wz_teahouse_seats、ade_v1c；瀏覽器（CC）：street_props_integration、reachability_all、阿德門口截圖（桿子、電線、路燈光圈）；小路窗景晚上那張 LAWWW2 重拍（KOMICHI-VIEW-POLISH）",
+    "ack": "ACK"
+   },
+   "notWaitUser": "使用者已說清楚（店前面不要有電線桿）",
+   "sha": [
+    "38b779db6"
+   ],
+   "next": "【LAWWW-C 11-04 21:5x】接進開發分支（GLB×1、JSON、wz_props.py、zones3d.js patch）；Node 10 支 ALL PASS；瀏覽器交 BB／CC；要不要放進 v9.10.20（候選版 d3828452a 沒有 ADE-PROPS）等 BB 的 GO 一起決定；線上版的桿子還在 −9.2"
   }
  ]
 }
