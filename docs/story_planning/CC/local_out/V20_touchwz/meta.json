@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20_touchwz",
+  "sha": "322cd967db8188ae8c81fe3de473d0b5b7ad871c",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "XARGS={url};SOLO=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:29:23",
+  "end": "2026-11-04T22:32:01",
+  "seconds": 157,
+  "exit": 0,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "res_peak": {
+    "cpu": 41,
+    "mem": 48,
+    "used_gb": 15.0,
+    "chrome_testing": 9
+  }
+}
