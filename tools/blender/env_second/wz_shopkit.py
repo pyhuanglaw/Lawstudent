@@ -325,7 +325,7 @@ def _crate(m, x0, x1, y0, y1, z0, z1, col='#c9a46a', slat=0.028):
 def p_fruitcrates(kind):
     """WZ-SECOND-1104 阿忠鮮果（參考圖 azhong_fruit_ext）：攤子兩邊的水果箱。原點＝底部中央、正面朝 +z、深 ≤ 0.55 m（在店面門廊的導航阻擋裡）。
     pine＝兩個疊起來的木箱、上面六顆鳳梨；banana＝兩階的木架、一串一串的香蕉；melon＝綠色塑膠籃上的木箱、四顆大西瓜＋一顆剖半"""
-    m = _cm('fruitcrates_' + kind); rr = random.Random(hash(kind) % 997); parts = []
+    m = _cm('fruitcrates_' + kind); rr = random.Random(sum(ord(c) * (i + 3) for i, c in enumerate(kind)) % 997); parts = []   # 固定的雜湊（Python 的 hash() 每次執行都不一樣：重匯 GLB 時水果、葉子會變，BB-C 11-04 15:00 T0 比對看到）
     def balls(lst, col, rough=0.45, seg=8):
         f = Mesh('fruit', flat('wz_sf_fruit_' + col[1:], col, rough=rough))
         for (c, rx, ry, rz) in lst: f.ell(c, rx, ry, rz, seg=seg, rings=5)
@@ -661,7 +661,7 @@ def shopfront_v2(spec, xf, W, gt, wall):
         xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)][::-1]); xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)])
         xf.box(m, -aw / 2, aw / 2, ay1 - 0.2, ay1, ad - 0.01, ad + 0.01)
         if sf.get('ivy'):   # WZ-FIVE-1104 小路：雨遮上垂下來的常春藤（參考圖：左右兩段、中間門口那一段少）；葉片卡、不投影（cafe_leaf_ 開頭）
-            iv = acc(base['ivy']); rr = random.Random(hash(spec['id']) % 991)
+            iv = acc(base['ivy']); rr = random.Random(sum(ord(c) * (i + 5) for i, c in enumerate(spec['id'])) % 991)   # 固定的雜湊（同上）
             for (xa, xb, n_) in sf['ivy']:
                 for k in range(n_):
                     for j in range(2):   # 一條藤蔓兩張窄卡交叉（原本一張寬卡，渲染出來像一塊塊綠色方旗）

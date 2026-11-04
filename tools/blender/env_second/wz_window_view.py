@@ -165,7 +165,7 @@ else:
     bg.inputs['Color'].default_value = (0.42, 0.58, 0.85, 1); bg.inputs['Strength'].default_value = 1.1
     sd = bpy.data.lights.new('sun', 'SUN'); sd.energy = 3.2; sd.color = (1.0, 0.96, 0.9); sd.angle = math.radians(1.5)
 so = bpy.data.objects.new('sun', sd); sc.collection.objects.link(so)
-so.rotation_euler = (math.radians(38), 0, math.radians(150))   # 11:00 前後：太陽在南偏東、仰角約 52°（Blender −y＝遊戲 +z＝南）
+so.rotation_euler = (math.radians(38), 0, math.radians(float(opt('--sun-z', '150'))))   # 11:00 前後：太陽在南偏東、仰角約 52°（Blender −y＝遊戲 +z＝南）；--sun-z：繞垂直軸轉幾度（比對參考圖材質用，例如 A 側朝北的店面打正面光：--sun-z 330）
 
 # 鏡頭：窗那一片的中心、朝外，水平 90°（2:1 → 垂直 53.13°）
 cd = bpy.data.cameras.new('cam'); cd.sensor_fit = 'HORIZONTAL'; cd.sensor_width = 36.0; cd.lens = float(opt('--lens', '18')); cd.shift_y = float(opt('--shift-y', '0')); cd.clip_start = 0.05; cd.clip_end = 400

@@ -36,16 +36,21 @@
 - 店內是玻璃後面的淺店內（頂點色、不受場景光），不是 CC 的室內 GLB。CC 的 `wz_print_interior` 寬 4.4 m，A1 店面寬 8 m，直接拍下來貼上去比例對不起來。
 
 ## 數字
-- `wenzhou_street.glb`：三角形 123,731 → 133,347；材質（GLB）46 → 52。
+- `wenzhou_street.glb`：三角形 123,731 → 133,335；材質（GLB）46 → 53；大面單面材質 9 → 10（新的 `wz_wall_tile_sq`）。
   - 多的面：冷氣、合果芋、多肉、店內、鵝頸燈、鐵窗。
   - A1 只在 `wz_street_integration` 的 lane_west 鏡頭看得到，lane_east（BB 量 298 calls、40.7 萬面）看不到。
   - lane_west 的實際數字要請 BB 排 CC 量。
-- 測試：寫在交件訊息裡（開發分支的 src＋這顆 GLB）。
+- 測試（開發分支 0bd546bd5 的 src＋這顆 GLB）：`singleside_streets_unit`（套 `singleside_streets_unit_0bd546bd5.patch`：三角形 133,335、材質 53、大面 10）、`lampshade_flip_unit`、`street_props_nav_unit`、`wz_copy_shop_unit` 都 ALL PASS。
+- 重匯變成固定結果：`wz_shopkit.py` 有兩處用 Python 的 `hash()` 當隨機種子（水果箱、小路的常春藤），每次執行都不一樣。
+  - 這就是 BB-C 15:00 T0 比對看到「葉片有一點變化」、以前「重匯差幾個三角形」的原因。
+  - 改成固定的雜湊以後，連續重匯兩次三角形數一樣（133,335）。還剩頂點的順序不同，畫面一樣。
 
 ## 對照
 - `ade_v2_refcam_cmp.jpg`：參考圖／修改前／v2／參考圖＋v2 各一半，同一個參考圖鏡頭。
 - `ade_v2_corner.jpg`：轉角店（moved）。
-- `same_angle/`：BB 的 `same_angle_check.py`（BB_259）跑出來的 `_overlay.jpg`、`_structure.json`。
+- `refcam_v2_1672x941.jpg`（照遊戲的光：A1 朝北，整天在陰影裡）、`refcam_v2_frontlit_1672x941.jpg`（只為了比材質，把太陽轉到正面，不是遊戲的光）：和參考圖同尺寸，可以直接跑 `tools/art/same_angle_check.py --mode shop`。
+- `ade_v2_frontlit_pair.jpg`：參考圖／正面光的 v2，上下排。
+- same_angle_check：雲端裝 opencv-python-headless、scikit-image 一直卡在下載，這一版沒跑，請 BB 用上面兩張跑；裝好以後我補。
 - `ade_pilot_cmp.jpg`：v1 的對照（保留，看得出 v1 錯在哪）。
 
 ## 開源素材（OPEN-SRC-2D3D-1104）
