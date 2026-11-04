@@ -1,0 +1,509 @@
+{
+ "console": [
+  {
+   "t": 1793776526.23,
+   "type": "warning",
+   "text": "星期和日期對不上，照行事曆改： 4 → 3"
+  },
+  {
+   "t": 1793776529.03,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776529.51,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.34,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.34,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.47,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.47,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.55,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.56,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.73,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.73,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.88,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776532.88,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.02,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.02,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.16,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.16,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.29,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.29,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.42,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.42,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.54,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.54,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.66,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.66,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.79,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.79,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.93,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776533.94,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776534.06,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776534.06,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776534.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776534.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793776534.58,
+   "type": "warning",
+   "text": "[.WebGL-0x6fbc0042dc00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  },
+  {
+   "t": 1793776534.58,
+   "type": "warning",
+   "text": "[.WebGL-0x6fbc0042dc00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  }
+ ],
+ "diag": {
+  "snap": {
+   "v": 1,
+   "zone": "gongguan",
+   "day": 7,
+   "hour": 15.486,
+   "dateKey": null,
+   "pos": {
+    "x": -29.4,
+    "z": 18,
+    "y": 0,
+    "lv": 0,
+    "yaw": 3.142
+   },
+   "player": {
+    "busy": false,
+    "frozen": false,
+    "pose": "idle",
+    "riding": false,
+    "seat": null,
+    "path": false
+   },
+   "paused": false,
+   "busyDepth": 0,
+   "dlg": false,
+   "adv": false,
+   "events": false,
+   "phone": false,
+   "entering": false,
+   "lastTalkError": null,
+   "goal": "—",
+   "money": 22000,
+   "flags": {
+    "introDone": true,
+    "campusIntro": true,
+    "readCase": "full",
+    "classDone": true,
+    "afternoonDone": true,
+    "metAn": true,
+    "zheNoodleDone": true,
+    "dating_kexin": true,
+    "KX_DEC3_MIGRATED": true,
+    "LIFELINE_V": 1,
+    "ROMANCE_HISTORY": [
+     {
+      "id": "kexin",
+      "from": "Y0",
+      "to": null,
+      "how": null
+     }
+    ],
+    "CLEANUP_DONE": true,
+    "romance": {
+     "kexin": {
+      "status": "dating",
+      "since": "Y0",
+      "knows": [],
+      "suspicion": 0,
+      "history": []
+     },
+     "heroine_01": {
+      "status": "none",
+      "since": null,
+      "knows": [],
+      "suspicion": 0,
+      "history": []
+     }
+    },
+    "knowsRel_V": 1,
+    "knowsRel": {},
+    "ytKnows": {},
+    "YT_CONFESSED": {},
+    "YT_PROMISED": {},
+    "YT_BROKE_PROMISE": {},
+    "YT_LIED": {},
+    "OPEN_OK": {},
+    "YT_HONEST": {},
+    "YT_DODGED": {},
+    "YT_INTENT": {},
+    "DATE_OVERNIGHT": {},
+    "NAMECARD_V": 1,
+    "YT_JOB_V": 1,
+    "HCIRCLE": {
+     "heard": {},
+     "once": {},
+     "intro": {}
+    },
+    "deptHear": {
+     "talk:椰": 1,
+     "政治:平常": 0,
+     "社工:平常": 1,
+     "物理:平常": 0,
+     "數學:平常": 0,
+     "資工:平常": 1,
+     "農藝:平常": 1,
+     "土木:平常": 1,
+     "中文:平常": 0,
+     "獸醫:平常": 1,
+     "戲劇:平常": 1,
+     "電機:平常": 1,
+     "歷史:平常": 1,
+     "化學:平常": 1,
+     "大氣:平常": 1,
+     "經濟:平常": 1,
+     "心理:平常": 1,
+     "醫學:平常": 1,
+     "外文:平常": 1,
+     "talk:館": 0,
+     "會計:平常": 0
+    },
+    "HEARD": {
+     "said": {},
+     "day": {},
+     "ph": {}
+    },
+    "BIKE_TIP": true,
+    "STUDY_AT_LAW": 0,
+    "CAREER_LEAN_V": 2,
+    "ZZ": {
+     "v": 1,
+     "state": "friends",
+     "since": 7,
+     "ev": {},
+     "yt": "none",
+     "sem": {},
+     "fy": null,
+     "f3": null,
+     "forceB": false,
+     "held": null,
+     "version": null,
+     "month": null,
+     "ending": null
+    },
+    "ZZ_STATE": "friends",
+    "ZZ_DATING": false,
+    "MREL": {
+     "v": 1,
+     "disc": {},
+     "pend": {},
+     "st": {},
+     "zr": {},
+     "zz": {},
+     "gh": {},
+     "scan": {},
+     "block": {},
+     "prom": {},
+     "once": {},
+     "like": {},
+     "liked": {},
+     "cpend": {},
+     "rb": {}
+    },
+    "PS_YC": {},
+    "CRACKTALK": {
+     "r": {
+      "heroine_01": {
+       "talked": {}
+      },
+      "heroine_03": {
+       "talked": {}
+      },
+      "classmate_peishan": {
+       "talked": {}
+      },
+      "heroine_02": {
+       "talked": {}
+      },
+      "heroine_04": {
+       "talked": {}
+      }
+     },
+     "seat": {},
+     "pc": {
+      "from": 0,
+      "note": {}
+     },
+     "src": {
+      "an1": {},
+      "an2": {
+       "used": {}
+      },
+      "yt2": {
+       "next": null
+      },
+      "ps": {
+       "visits": []
+      },
+      "zr": {},
+      "zq": {}
+     }
+    },
+    "V6EX": {
+     "starts": [],
+     "notes": []
+    },
+    "FEED": {
+     "start": 7,
+     "items": [],
+     "done": {
+      "kx1": "old",
+      "an1": "old",
+      "yt1": "old",
+      "zr1": "old"
+     },
+     "dm": {},
+     "seen": -1000000000,
+     "dq": [],
+     "dt": {},
+     "dtTrip": {}
+    },
+    "HASK": {
+     "sent": [],
+     "st": {},
+     "redo": [],
+     "plan": 7
+    },
+    "YL_PH": {},
+    "EF_PH": {},
+    "AA519": {
+     "talk": {}
+    },
+    "spreadScan": {},
+    "_bbqUntilFix": 1,
+    "dpDay": 7,
+    "dpN": {},
+    "kaiDorm": {},
+    "amb": {},
+    "CVS_FROM": null,
+    "BIKE_PARK_TIP": true
+   },
+   "invites": [],
+   "npcs": []
+  },
+  "bike": {
+   "riding": false,
+   "zone": "gongguan",
+   "x": -26.25,
+   "z": 18.15,
+   "yaw": 0,
+   "kind": "city",
+   "color": null,
+   "owned": [
+    {
+     "kind": "city",
+     "color": null
+    }
+   ],
+   "fix": false
+  },
+  "bikeObjs": [
+   {
+    "name": "bike_road",
+    "visible": true,
+    "parent": "",
+    "x": -3,
+    "z": 21.55
+   },
+   {
+    "name": "bike_city",
+    "visible": true,
+    "parent": "",
+    "x": 2.6,
+    "z": 21.55
+   },
+   {
+    "name": "bike_mtb",
+    "visible": true,
+    "parent": "",
+    "x": 4.5,
+    "z": 21.55
+   },
+   {
+    "name": "bike_fold",
+    "visible": true,
+    "parent": "",
+    "x": -1.9,
+    "z": 22.75
+   },
+   {
+    "name": "bike_road",
+    "visible": true,
+    "parent": "",
+    "x": 1.9,
+    "z": 22.75
+   },
+   {
+    "name": "gg_bike_rack",
+    "visible": true,
+    "parent": "",
+    "x": -14.5,
+    "z": 9.2
+   },
+   {
+    "name": "gg_bike_rack",
+    "visible": true,
+    "parent": "",
+    "x": 34,
+    "z": 9.2
+   },
+   {
+    "name": "gg_bike_rack",
+    "visible": true,
+    "parent": "",
+    "x": 0,
+    "z": -42
+   },
+   {
+    "name": "bike_ride",
+    "visible": true,
+    "parent": "",
+    "x": -26.25,
+    "z": 18.15
+   },
+   {
+    "name": "bike_ride",
+    "visible": true,
+    "parent": "",
+    "x": -59.07,
+    "z": -12
+   },
+   {
+    "name": "bike_ride",
+    "visible": true,
+    "parent": "",
+    "x": -58.26,
+    "z": -12
+   }
+  ],
+  "zone": "gongguan"
+ }
+}

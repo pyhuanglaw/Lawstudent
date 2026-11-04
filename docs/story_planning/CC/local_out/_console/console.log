@@ -544,3 +544,18 @@
 [15:14:51] ==== START BIKE_flow_r5  (probe @ ae50cb459) ====
 [15:14:55] [res] cpu=24% mem=51% (16.2/31.4 GB) chrome_testing=18  START BIKE_flow_r5
 [15:15:25] [res] cpu=37% mem=49% (15.3/31.4 GB) chrome_testing=19  END GG_night_r4_0130
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       4cb3be66a..bb83e47df  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:15:32] ==== END   GG_night_r4_0130  exit=0  112s   ====
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:15:36] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:15:36] memory 50% before starting CAFE230_shots (2 running)
+[15:15:36] ==== START CAFE230_shots  (probe @ d432de8ba) ====
+[15:15:39] [res] cpu=40% mem=51% (16.0/31.4 GB) chrome_testing=19  START CAFE230_shots
+[15:17:59] [res] cpu=20% mem=51% (16.0/31.4 GB) chrome_testing=19  END BIKE_flow_r5
