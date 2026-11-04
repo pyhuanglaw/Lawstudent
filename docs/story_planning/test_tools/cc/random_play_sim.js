@@ -4,23 +4,36 @@
  * 用法：
  *   node random_play_sim.js --seeds 20 --from 2025-08-29 --to 2026-06-30      （20 個種子，每個種子一個子程序，同時跑 --jobs 個）
  *   node random_play_sim.js --seed 7                                         （只跑一個種子，印出完整的失敗內容；同一個種子＝同一串操作、同一個失敗）
- *   其他參數：--root <遊戲 checkout>（預設：這支腳本往上四層＝repo 根目錄）、--max-steps N（步數上限，預設 6,000,000 格）、
- *            --track law|econ（法律系大一／經濟系那一年）、--procedural（人物模型用「沒有 VRM 骨架」的版本＝設定「使用正式人物模型」關掉）、--jobs N、--json <結果檔>、--hang-ms N（子程序多久沒有心跳算卡死，預設 120000）、-v（印遊戲的 console）
+ *   node random_play_sim.js --seed-list 3,7,12                               （只跑這幾個種子）
+ *   其他參數：
+ *     --root <遊戲 checkout>   預設：這支腳本往上四層＝repo 根目錄（測舊 commit：git worktree add --detach <dir> <sha>，再 --root <dir>）
+ *     --max-steps N            格數上限（一格＝主迴圈一格），預設 6,000,000
+ *     --track law|econ         法律系大一（標題「從法律系開始」，預設 2025-08-29 → 2026-06-30）／經濟系那一年（「從經濟系開始」，2024-08-23 → 2025-08-28）
+ *     --procedural             人物模型沒有 VRM 骨架（＝設定「使用正式人物模型」關掉、或 VRM 載不到的程序化人物）
+ *     --jobs N（預設 4 和 CPU 數取小）、--json <結果檔>、--out <心跳檔資料夾>、--hang-ms N（子程序多久沒有輸出算卡死，預設 120000）、-v（印每個動作和遊戲的 console）
+ *   結束碼：全部 PASS＝0，有 FAIL＝1。
  *
- * 做法（和 tests/pg_harness.js 不一樣的地方）：
- *   - 照 index.html 的順序載入 src/ 全部的 script（含 game3d.js——真正的 GM：say、choose、enter、quickGo、seatMenu、手機、autosave、applySave、validate、migrate 都是遊戲原本的），
- *     不載 lib/ 的 three.js：THREE 換成「什麼都接受」的假物件（向量 Vector3 是真的算），區域的 build() 照樣跑，門口、座位、床、櫃台這些互動點都是遊戲自己建出來的。
- *   - 假的東西只有三層：①網頁（DOM：照 index.html 建元素，innerHTML 會解析成元素，手機的按鈕 onclick 是遊戲自己掛的）②3D 引擎 E（E3.init 換成假的：走路＝直線走過去、
- *     不畫圖）③ CHAR.build（人物模型＝只有位置、方向的空物件）。另外 ASSETS 下載、音效（A3）不做事。
- *   - 時間：setTimeout／setInterval／requestAnimationFrame／Date.now／performance.now 全部換成虛擬時鐘（每一格 100 ms＝遊戲主迴圈 dt 的上限 0.1 秒），
- *     主迴圈就是 game3d.js 的 frame()（每 30 格 STORY.tick(GM,dt*30)、EVENTS.tick(dt*30)），對話要「點一下」才往下（GM.dlgAdvance），選單照種子隨機按一個按鈕。
- *   - 隨機：Math.random 換成 mulberry32(種子)，玩家的每一個決定也用同一顆。同一個種子、同一個 --root＝完全一樣的一串操作。
- *   - 玩家能做的事（都是按遊戲本來的按鈕或互動鍵）：走到某個互動點按互動（門＝換區域、座位＝上課／讀書、床＝睡覺／熬夜、櫃台、和人說話）、打開手機按按鈕
- *     （直接去上課、跳過時間、約人、回訊息、傳訊息、快速前往、答應／改天）、一鍵（回去睡覺、到下一堂課）、等一下（時間照主迴圈走）、讀自動存檔。
- * 每一格檢查：①沒有例外（含 unhandled rejection、遊戲自己 catch 起來 console.warn 的 Error）②選單不是空的 ③遊戲時間只往前（讀檔、開局除外）
- *   ④只演一次的事件（STORY_EVENTS 的 once、max_times）沒有重演 ⑤隨機時間點 GM.snapshot→validate→migrate 要和現在的 G 一樣，再用 applySave 讀回來，日期時間地點金錢不變
- *   ⑥錢是有限的數字、關係值（social3d.js 的 fam／trust／aff／resp／comf／rom／npcRom）在 0～100 ⑦步數上限 ⑧卡住：劇情鎖著、畫面上沒有對話或選項超過 30 秒（同 game3d.js staleCheck）
- * 結果分類照 BB_256：GAME_BUG（遊戲程式錯）／TEST_BUG（假物件少了東西）／UNKNOWN。自動分類只是初判，KNOWN 表是看過以後確定的。
+ * 做法（和 tests/pg_harness.js 不一樣：pg_harness 的假 GM 沒有 enter、quickGo、seatMenu、手機、存讀檔，隨機玩家要的這些都得自己再寫一份，所以改成跑真的 game3d.js）：
+ *   - 照 index.html 的順序載入 src/ 全部的 script，包括 game3d.js——GM 是遊戲本來的（say、choose、enter、quickGo、seatMenu、doInteract、手機、autosave、applySave、snapshot、validate、migrate）。
+ *     game3d.js 只在 IIFE 最後加一行測試出口 GM.__T（validate、migrate、frame、chooseCur…的參照），遊戲程式一個字都沒改。
+ *     不載 lib/ 的 three.js：THREE 換成「什麼都接受」的假物件（Vector3 是真的算），區域的 build() 照樣跑——門、座位、床、櫃台、店這些互動點都是遊戲自己建出來的。
+ *   - 每次「開頁面」（開機、重新整理頁面）都是一個新的 vm context：模組的狀態清空、舊頁面的計時器不再跑；localStorage（自動存檔）留著。
+ *   - 假的東西：①網頁 DOM（照 index.html 建元素；innerHTML 會解析成元素，手機、選單的按鈕 onclick 是遊戲自己掛的）②3D 引擎 E（E3.init 換成假的：走路＝直線走過去、
+ *     沒有碰撞和導航、跟著走的人站到玩家旁邊、區域自己的 update（電梯、門）照跑）③CHAR.build（人物＝只有位置、方向的空物件，帶一副假的 VRM 骨架）
+ *     ④ASSETS 不下載、A3 音效不出聲、Z3.prewarm／warmup 不做事。⑤效能：CALENDAR 的查詢（只看日期的純函數）記下來。
+ *   - 時間：setTimeout／setInterval／requestAnimationFrame／Date／performance.now 全部是虛擬時鐘：一格 100 ms（主迴圈 dt 的上限 0.1 秒）；
+ *     玩家空下來、站著「等一下」的時候開 GM.turbo、一格 300 ms（和 ?turbo 一樣），走路、劇情、對話、選單都是一般的格。主迴圈就是 game3d.js 的 frame()。
+ *   - 隨機：遊戲的 Math.random＝mulberry32(種子)，玩家的決定用另一顆同種子的。同一個種子、同一個 --root＝完全一樣的一串操作（--seeds 和 --seed 跑出來一樣）。
+ *   - 玩家（都是按遊戲本來的按鈕或互動鍵，不直接改旗標）：走到互動點按互動（門＝換區域、座位＝上課／讀書、床＝睡覺或「再撐一下」熬夜、櫃台、店、和人說話；
+ *     約好一起走來的人到了常常先找他說話）；打開手機按按鈕（直接去上課、跳過時間、約人、回訊息、傳訊息、快速前往、答應／改天／不了、前往）；一鍵（回去睡覺、到下一堂課）；
+ *     等一下；遊戲裡讀自動存檔；重新整理頁面再按標題的「繼續」（劇情演到一半也會）。選單照種子隨機按，只有「上課」「睡覺／再撐一下」照這個種子的個性加權。
+ *     黑幕（#fade.on）蓋著的時候按不到底下的東西（對話框、選單要被 overFade 放到黑幕上面才按得到）。
+ * 檢查：①沒有例外（含 unhandled rejection、遊戲自己 catch 起來 console.warn／error 的 Error）②選單不是空的 ③遊戲時間只往前（開局演完以後；讀檔重新算）
+ *   ④只演一次的事件（STORY_EVENTS 的 once、max_times）沒有重演 ⑤隨機時間點 GM.snapshot→JSON→validate→migrate 和存之前比（補欄位只記注意，改掉、刪掉已有的值才算），
+ *   再 applySave 讀回來，日期、時間、地點、錢不變 ⑥錢是有限的數字、關係值（social3d.js 的 fam／trust／aff／resp／comf／rom／npcRom，G.rel）在 0～100 ⑦格數上限
+ *   ⑧卡住：劇情鎖著、畫面上沒有對話或選項超過 30 秒（同 game3d.js staleCheck）、鎖著超過 30 分鐘、玩家 300 秒沒有任何東西按得到；子程序沒有輸出（同步的無窮迴圈）由父程序砍掉
+ *   ⑨一起走過去的邀約到了約好的地方 15 分鐘還停在 going ⑩過了 04:00 空著沒被送回去睡（forceHome）。卡住以後照玩家的做法重新整理頁面讀自動存檔（最多 8 次）。
+ * 結果分類照 BB_256：GAME_BUG（遊戲程式錯）／TEST_BUG（假物件少了東西）／UNKNOWN。自動分類只是初判；KNOWN 表是看過、確定的（照被測版本有沒有那個修正決定套不套）。
  */
 'use strict';
 const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process'), os=require('os');
@@ -33,7 +46,7 @@ const SELF=__filename;
 function parseArgs(argv){
   const o={seeds:20,seed:null,from:null,to:null,root:path.resolve(__dirname,'../../../..'),maxSteps:6000000,track:'law',jobs:Math.max(1,Math.min(4,os.cpus().length)),child:false,verbose:false,json:null,hangMs:120000,out:null};
   for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
-    if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
+    if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed-list') o.seedList=nx().split(',').map(Number).filter(x=>Number.isFinite(x)); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
     else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
     else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx(); else if(a==='--procedural') o.procedural=true;
     else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
@@ -52,13 +65,17 @@ const KNOWN=[
    why:'AN-MEAL-STUCK-1027（推定）：到了約好的地方、S.autoStart 的見面和玩家按的「和○○說話」同時開演，說話那一段被見面蓋掉（invites3d.js 沒有先 sceneBegin；修正 35f8e7fb2／rc2）'},
   {id:'SAY-COVER-1027',kinds:['STUCK'],re:/./,need:F=>!F.sayStack,cls:'GAME_BUG',
    why:'這一版 game3d.js 的 say 只留一個等點擊的 resolve（沒有 sayStack）：兩段劇情同時說話，先開始的那一段永遠等不到＝停在那一句（同一類在 STUCK-HARDEN-1027 33d24f9db 修好：say 的 sayStack 保底）'},
+  {id:'CAMP-Y1-DAY-BEFORE-HOUR',kinds:['TIME_BACK'],re:/./,need:(F,f)=>!!(f.G&&(f.G.busyWho||[]).some(w=>/campY1/.test(w))),cls:'GAME_BUG',
+   why:'（輕微）story3d.js S.campY1：換到宿營下一天時先設 G.day、等 1.6 秒日期卡（titleCard）、才設 G.hour——那 1.6 秒是「隔天＋前一段的時刻」（例 8/23 19:30），接著設成 17:30＝時間倒退 2 小時。經濟系路線 8/22 從家裡出發去宿營才看得到（法律系開局的宿營在檢查開始以前）；影響：日期卡那 1.6 秒 HUD 的時間是錯的'},
+  {id:'FORCING-SAVED',kinds:['NO_FORCEHOME','TIME_BACK'],re:/_forcing=true|./,need:(F,f)=>F.forcingPersist&&(/_forcing=true/.test(f.msg)||(f.kind==='TIME_BACK'&&/之前 G\.day=-?\d+ G\.hour=(2[7-9]|[3-9]\d|\d{3,})\./.test(f.msg))),cls:'GAME_BUG',
+   why:'story3d.js S.forceHome 把 G.flags._forcing=true 放在存檔的旗標裡：凌晨被送回去睡（sleepNow 醒來那一下會 GM.autosave）的自動存檔帶著 _forcing=true，醒來後 45 秒內（下一次自動存檔前）重新整理頁面、按繼續，讀回來 _forcing 一直是 true，forceHome 第一行就 return——之後每天都不會在 02:30 被送回去睡，時間一直往上加（29:00、47:00…），睡覺的時候日期只加一天，時間看起來倒退。migrate 沒有清 _forcing'},
   {id:'BADCLIP-NOVRM',kinds:['EXCEPTION'],re:/racketHead|badminton_clip3d/,need:F=>F.procedural,cls:'GAME_BUG',
    why:'羽球片段（badminton_clip3d.js）：人物沒有 VRM 骨架（程序化備用人物：設定「使用正式人物模型」關掉、或 VRM 載不到）時 attachRacket 回傳 null，racketHead(null) 在 requestAnimationFrame 裡丟例外、動畫迴圈停掉、BADCLIP.play 永遠不回來（跳過鈕也沒用）＝卡住。瀏覽器還沒驗'},
 ];
 
 /* ====================== 父程序：分派種子、收結果 ====================== */
 async function parent(o){
-  const seeds=o.seed!=null?[o.seed]:Array.from({length:o.seeds},(_,i)=>i+1);
+  const seeds=o.seed!=null?[o.seed]:(o.seedList&&o.seedList.length?o.seedList:Array.from({length:o.seeds},(_,i)=>i+1));
   const outDir=o.out||path.join(os.tmpdir(),'rps_'+process.pid); fs.mkdirSync(outDir,{recursive:true});
   RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
   try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
@@ -96,6 +113,8 @@ function fmtFail(f,r,o){ const L=[];
 
 /* ====================== 子程序：跑一個種子 ====================== */
 async function child(o){
+  /* --out 資料夾裡有 STOP 檔＝這一批先不要再開新的種子（別的測試要 CPU）：還沒開始的種子直接回報「略過」，正在跑的照跑 */
+  if(o.out&&fs.existsSync(path.join(o.out,'STOP'))){ const r={seed:o.seed,ok:false,skipped:true,reached:null,steps:0,frames:0,fails:[{kind:'SKIPPED',cls:'—',why:'--out 裡有 STOP（暫停開新的種子），沒有跑',msg:'',lastActions:[]}]}; process.stdout.write('@@RESULT '+JSON.stringify(r)+'\n'); return r; }
   const R={seed:o.seed,ok:true,fails:[],sig:new Map(),notes:new Map(),actions:[],step:0,frame:0,reached:null,steps:0,frames:0,pages:0};
   const t0=realMs();
   /* ---------- 種子、虛擬時鐘 ---------- */
@@ -135,7 +154,7 @@ async function child(o){
   function fail(kind,cls,why,msg,extra){ const sig=kind==='TIME_BACK'?kind:kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
     const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
     if(f.cls==='UNKNOWN'||kind==='EXCEPTION'){ for(const k of KNOWN){ if(!k.kinds.includes(kind)) continue; if(!k.re.test(f.why+'\n'+f.msg)) continue; try{ if(k.need&&!k.need(FEAT,f)) continue; }catch(e){ continue; } f.cls=k.cls; f.known=k.id; f.why=k.why+'｜（原本的判斷：'+why+'）'; break; } }
-    R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+cls+'）'+String(msg).split('\n')[0].slice(0,300)); return f; }
+    R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+f.cls+'）'+String(msg).split('\n').slice(0,o.verbose?6:1).join('\n    ').slice(0,900)); return f; }
   function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':''); R.notes.set(k,n); }
   /* 例外的初判（KNOWN 表優先）*/
   const FEAT={};   // 被測版本的特徵（KNOWN 表用）
@@ -269,6 +288,7 @@ async function child(o){
   if(loadFail.length) for(const [f,e] of loadFail) fail('LOAD','TEST_BUG','照 index.html 載入時失敗（檔案不在或語法錯）',f+'：'+e);
   const SAY_STACK=/sayStack/.test(g3src), CHOOSE_STACK=/chooseStack/.test(g3src);
   const srcOf=f=>{ try{ return fs.readFileSync(path.join(o.root,f),'utf8'); }catch(e){ return ''; } };
+  FEAT.forcingPersist=!/_forcing/.test(g3src);   /* game3d.js（migrate／applySave）沒有處理 _forcing＝讀檔不會清掉 */
   FEAT.sayStack=SAY_STACK; FEAT.invArriveLock=/S\.arriveDue/.test(srcOf('src/invites3d.js')); FEAT.procedural=!!o.procedural;
   const pageFail=new Set();
 
@@ -367,8 +387,10 @@ async function child(o){
   const DIMS=['fam','trust','aff','resp','comf','rom','npcRom'];
   let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set(), goingSeen=new Set(); let lateV=0; const lateFail=new Set();
   function abs(g){ return g.day*24+(+g.hour); }
+  let tracedG=null;
   function checkFrame(){ const g=GM.G; if(!g) return;
-    if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6){ const d0=Math.floor(track.abs/24), h0=track.abs-d0*24; fail('TIME_BACK','UNKNOWN','遊戲時間倒退','從 '+dayKey(d0)+' '+fmtH(h0)+' 退到 '+dayKey(g.day)+' '+fmtH(g.hour)+'（'+(track.abs-a).toFixed(2)+' 小時）'); } track.abs=a; }
+    if(process.env.RPS_TRACE_DAY&&g!==tracedG){ tracedG=g; let dv=g.day; Object.defineProperty(g,'day',{configurable:true,enumerable:true,get:()=>dv,set:v=>{ if(v!==dv) RC.log('[day] '+dv+' → '+v+' hour='+g.hour+'\n   '+String(new Error().stack).split('\n').slice(2,9).join('\n   ')); dv=v; }}); }
+    if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6){ const d0=Math.floor(track.abs/24), h0=track.abs-d0*24; fail('TIME_BACK','UNKNOWN','遊戲時間倒退','從 '+dayKey(d0)+' '+fmtH(h0)+' 退到 '+dayKey(g.day)+' '+fmtH(g.hour)+'（'+(track.abs-a).toFixed(2)+' 小時；之前 G.day='+track.day+' G.hour='+(+track.hour).toFixed(2)+'）'); } track.abs=a; track.day=g.day; track.hour=+g.hour; }
     if(!Number.isFinite(g.money)) fail('MONEY_NAN','UNKNOWN','錢不是有限的數字','G.money='+g.money);
     if(!Number.isFinite(+g.hour)||!Number.isFinite(g.day)) fail('TIME_NAN','UNKNOWN','日期或時間不是數字','day='+g.day+' hour='+g.hour);
     { const te=getById('toast'); if(te){ const t=te.textContent||''; if(t&&t!==lastToast&&!te.classList.contains('hide')){ lastToast=t; act('（提示）'+t.slice(0,60)); } else if(!t) lastToast=''; } }
@@ -426,7 +448,10 @@ async function child(o){
   const label=b=>(b.textContent||'').replace(/\s+/g,' ').trim().slice(0,40)||JSON.stringify(b.dataset).slice(0,40);
   function clickEl(b,why){ act(why+'：'+label(b)); let r; try{ r=b.click(); }catch(e){ onExc(e,'按「'+label(b)+'」'); } if(r&&typeof r.then==='function') r.then(null,e=>onExc(e,'按「'+label(b)+'」之後')); }
   let react=0, wait=0, want=null, phoneClicks=0, emptyMenuSeen=null, pendingPhoneClick=null;
-  const free=()=>{ const Pl=E.player; return Pl&&!Pl.busy&&!E.paused&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
+  /* 黑幕（#fade.on：z-index 9、pointer-events:auto）蓋著的時候按不到底下的東西；對話框、選單要被 game3d.js overFade 放到黑幕上面（z-index 10）才按得到。日期卡 #title3 是 pointer-events:none，不擋 */
+  const covered=()=>{ const fe=getById('fade'); return !!(fe&&fe.classList.contains('on')); };
+  const overFadeOk=el=>!covered()||(!!el&&+el.style.zIndex>=10);
+  const free=()=>{ const Pl=E.player; return Pl&&!Pl.busy&&!E.paused&&!covered()&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
   /* 選單的按鈕：大部分平均（隨機玩家），只有「上課」「睡覺／熬夜」照這個種子的個性加權；灰掉的少按 */
   function optW(b){ const t=label(b), g=GM.G, h=(+g.hour)%24, night=h>=22||g.hour>=24; let w=b.classList.contains('dim')?0.25:1;
     if(/^上課：|直接去上課|去上課|進教室/.test(t)) w*=0.3+persona.classP*8; else if(/^(聽演講|參加)：/.test(t)) w*=2;
@@ -439,9 +464,9 @@ async function child(o){
     const cc=T.chooseCur; const box=getById('choices');
     if(cc){ const opts=(cc.options||[]); const shown=opts.filter(q=>q&&!q.hidden);
       if(!shown.length){ if(emptyMenuSeen!==cc){ emptyMenuSeen=cc; fail('EMPTY_MENU','UNKNOWN','GM.choose 收到的選單沒有可以按的選項','選項：'+JSON.stringify(opts).slice(0,300)); } return false; }
-      if(react>0){ react--; return false; } const btns=box?clickables(box):[]; if(!btns.length){ if(!R.chooseNoBtn){ R.chooseNoBtn=true; note('選單出來了但畫面上沒有按鈕（假 DOM？）',JSON.stringify(shown.map(q=>q.t)).slice(0,200)); } return false; }
+      if(react>0){ react--; return false; } if(!overFadeOk(box)) return false; const btns=box?clickables(box):[]; if(!btns.length){ if(!R.chooseNoBtn){ R.chooseNoBtn=true; note('選單出來了但畫面上沒有按鈕（假 DOM？）',JSON.stringify(shown.map(q=>q.t)).slice(0,200)); } return false; }
       const b=wpick(btns.map(x=>[optW(x),x])); R.step++; busyV=0; clickEl(b,'選單（'+shown.length+' 個）'); react=ri(1,6); return true; }
-    if(D.active){ if(react>0){ react--; return false; } R.step++; busyV=0; act('點對話：'+String(D.full||$text('dlgText')||'').slice(0,36)); try{ GM.dlgAdvance(); if(D.active&&D.typing) GM.dlgAdvance(); }catch(e){ onExc(e,'點對話（dlgAdvance）'); } react=ri(0,4); return true; }
+    if(D.active){ if(react>0){ react--; return false; } if(!overFadeOk(getById('dlg'))) return false; R.step++; busyV=0; act('點對話：'+String(D.full||$text('dlgText')||'').slice(0,36)); try{ GM.dlgAdvance(); if(D.active&&D.typing) GM.dlgAdvance(); }catch(e){ onExc(e,'點對話（dlgAdvance）'); } react=ri(0,4); return true; }
     /* 羽球片段的「跳過」*/
     const bs0=getById('badclipSkip'); if(bs0&&vis(bs0)&&rnd()<0.02){ R.step++; clickEl(bs0,'跳過片段'); return true; }
     /* 一鍵的確認框、選單 */
@@ -461,7 +486,7 @@ async function child(o){
     if(!free()){ want=null; return false; }
     /* 走路中（要去按某個互動點）*/
     if(want){ const Pl=E.player; if(Pl.path&&Pl.path.length) return false; const tgt=want; want=null; E0.__want=tgt; const it=E.nearestInteractable(); R.step++;
-      act('按互動：'+(it?(it.label||(it.exit?'往 '+it.exit.to:Object.keys(it).filter(k=>!['x','z','y','lv','radius','prio','label'].includes(k)).join('+'))):'（旁邊沒有東西）')+(tgt.npc?'（想找 '+(tgt.npc.name||tgt.npc.talkLabel||tgt.npc.id||'路人')+'）':''));
+      act('按互動：'+(it?(it.label||(Object.getOwnPropertyDescriptor(it,'exit')&&Object.getOwnPropertyDescriptor(it,'exit').value?'往 '+it.exit.to:Object.keys(it).filter(k=>!['x','z','y','lv','radius','prio','label'].includes(k)).join('+'))):'（旁邊沒有東西）')+(tgt.npc?'（想找 '+(tgt.npc.name||tgt.npc.talkLabel||tgt.npc.id||'路人')+'）':''));
       try{ const r=GM.doInteract(); if(r&&r.then) r.then(null,e=>onExc(e,'互動（doInteract）之後')); }catch(e){ onExc(e,'互動（doInteract）'); } E0.__want=null; react=ri(1,5); return true; }
     if(wait>0){ wait--; return false; }
     if(react>0){ react--; return false; }
@@ -470,11 +495,14 @@ async function child(o){
   function decide(){ const g=GM.G, h=(+g.hour)%24, late=g.hour>=24, night=h>=22||late; R.step++;
     if(track&&rnd()<persona.snapP){ act('（隨機時間點）存讀檔檢查'); return snapCheck().then(()=>true); }
     if(track&&rnd()<persona.reloadP){ return reloadAuto(rnd()<0.5).then(()=>true); }
-    const its=E.interactables.filter(it=>!it.hidden&&(it.exit||it.seat||it.sleep||it.shop||it.counter||it.eat||it.onInteract||it.deskStudy||it.home||it.mrt||it.look||it.notice||it.wzShop||it.shop118||it.ggs||it.gg2||it.mokOrder||it.offOrder||it.roomItems||it.cafeRota||it.elevator||it.park||it.teaTable||it.board));
+    /* 不讀 getter（例：CLS.addActHints 的 look 是 getter，玩家按下去才算）：用屬性描述判斷有沒有 */
+    const IKEYS=['exit','seat','sleep','shop','counter','eat','onInteract','deskStudy','home','mrt','look','notice','wzShop','shop118','ggs','gg2','mokOrder','offOrder','roomItems','cafeRota','elevator','park','teaTable','board'];
+    const hasK=(it,k)=>{ const d=Object.getOwnPropertyDescriptor(it,k); return !!d&&(d.get?true:!!d.value); };
+    const its=E.interactables.filter(it=>!it.hidden&&IKEYS.some(k=>hasK(it,k)));
     const npcs=E.npcs.filter(n=>n.talk&&!n.hidden&&n.obj);
     const CLS=W.CLS; const todays=(CLS&&CLS.dayItems)?CLS.dayItems(g).filter(it=>!CLS.storyClass(g,it)):[]; const upcoming=todays.filter(it=>{ const s=CLS.status(g,it); return s==='open'||s==='upcoming'; });
-    const sleepIt=its.find(it=>it.sleep);
-    const here=upcoming.filter(it=>it.room&&it.room.zone===g.zone&&it.t0-h<0.5); const seatsHere=here.length?its.filter(q=>q.seat&&!q.seat.taken&&(!here[0].room.room||q.seat.room===here[0].room.room)):[];
+    const sleepIt=its.find(it=>hasK(it,'sleep'));
+    const here=upcoming.filter(it=>it.room&&it.room.zone===g.zone&&it.t0-h<0.5); const seatsHere=here.length?its.filter(q=>hasK(q,'seat')&&!q.seat.taken&&(!here[0].room.room||q.seat.room===here[0].room.room)):[];
     const choices=[];
     const wantSleep=night?(late?0.6:0.25)*(1-persona.lateP):0;
     if(sleepIt) choices.push([night?40*(1-persona.lateP*0.7):1,'bed']);
@@ -483,7 +511,10 @@ async function child(o){
     if(seatsHere.length) choices.push([persona.classP*30,'sitclass']);
     choices.push([persona.phoneP*20,'phone']);
     if(npcs.length) choices.push([persona.talkP*14,'talk']);
-    const followers=npcs.filter(n=>n.beh==='follow'); if(followers.length) choices.push([persona.talkP*30,'talkf']);   /* 一起走的人（約好現在一起過去、同行）：玩家常常一到就找他說話（BB_218：進門 2.9 秒按「和沈以安說話」）*/
+    const followers=npcs.filter(n=>n.beh==='follow'); if(followers.length) choices.push([persona.talkP*30,'talkf']);
+    /* 約好的人就在這裡、差不多到約好的時間：玩家多半直接走過去找他（INVITE：時間到了兩個人都在＝INV.autoStart 自己開始；玩家同時按「和他說話」）*/
+    const invitees=(g.invites||[]).filter(iv=>(iv.state==='accepted'||iv.state==='going')&&iv.day===g.day&&iv.zone===g.zone&&h>=iv.h-0.5&&h<iv.h+1).map(iv=>npcs.find(n=>n.charId===iv.who||n.id===iv.who)).filter(Boolean);
+    if(invitees.length) choices.push([persona.talkP*30,'talki']);   /* 一起走的人（約好現在一起過去、同行）：玩家常常一到就找他說話（BB_218：進門 2.9 秒按「和沈以安說話」）*/
     if(its.length) choices.push([8,'interact']);
     choices.push([night?2:5,'skip']);
     choices.push([10,'wait']);
@@ -491,9 +522,10 @@ async function child(o){
     if(c==='wait'){ wait=ri(10,rnd()<0.2?1500:300); act('等一下（'+(wait/10).toFixed(0)+' 秒）'); return true; }
     if(c==='bed'){ walkTo({it:sleepIt},'床'); return true; }
     if(c==='sitclass'){ const it=pick(seatsHere); walkTo({it},'教室的座位（'+here[0].c.name+'）'); return true; }
+    if(c==='talki'){ const n=pick(invitees); walkTo({npc:n},(n.name||n.charId||'約好的人')+'（約好的）'); return true; }
     if(c==='talkf'){ const n=pick(followers); walkTo({npc:n},(n.name||n.charId||'同行的人')+'（一起走來的）'); return true; }
     if(c==='talk'){ const n=pick(npcs); walkTo({npc:n},n.name||n.talkLabel||n.charId||n.id||'路人'); return true; }
-    if(c==='interact'){ const wt=its.map(it=>[it.exit?3:it.seat?3:(it.shop||it.counter||it.eat||it.wzShop||it.shop118||it.mokOrder||it.offOrder)?2.5:it.sleep?0.5:1,it]); const it=wpick(wt); walkTo({it},it.label||(it.exit?'往 '+it.exit.to:'互動點')); return true; }
+    if(c==='interact'){ const wt=its.map(it=>[hasK(it,'exit')?3:hasK(it,'seat')?3:['shop','counter','eat','wzShop','shop118','mokOrder','offOrder'].some(k=>hasK(it,k))?2.5:hasK(it,'sleep')?0.5:1,it]); const it=wpick(wt); walkTo({it},it.label||(hasK(it,'exit')?'往 '+it.exit.to:'互動點')); return true; }
     if(c==='onetap'){ const b=getById('btnGo'); if(b&&typeof b.onclick==='function'){ clickEl(b,'一鍵'); react=ri(2,6); } return true; }
     if(c==='phone'||c==='goclass'||c==='skip'){ const tab=c==='goclass'||c==='skip'?'today':pick(['today','today','msg','msg','friends','friends','places','events','week','feed']); act('打開手機（'+tab+'）'+(c!=='phone'?'想'+(c==='goclass'?'直接去上課':'跳過時間'):''));
       try{ GM.openPhone(tab); }catch(e){ onExc(e,'打開手機'); return true; } phoneClicks=c==='phone'?ri(1,5):0;
@@ -517,7 +549,7 @@ async function child(o){
     if(track&&g&&g.day>D_TO){ act('到了 '+o.to+' 的隔天，結束'); break; }
     if(R.stuckNow){ R.stuckRecover=(R.stuckRecover|0)+1; if(R.stuckRecover>8){ fail('STUCK_GIVEUP','UNKNOWN','卡住、重新整理頁面讀檔 8 次以後還是卡住，放棄這個種子','reached '+R.reached); break; } act('卡住了 → 重新整理頁面、讀自動存檔（玩家會這樣做）'); await reloadAuto(true); continue; }
     if(R.fails.length>60){ act('失敗太多種，停下來'); break; }
-    let r=ui(); if(r&&r.then) r=await r;
+    let r=false; try{ r=ui(); if(r&&r.then) r=await r; }catch(e){ fail('HARNESS','TEST_BUG','random_play_sim.js 自己的程式丟例外（不是遊戲的錯）',(e&&e.stack)||String(e)); if(R.fails.filter(x=>x.kind==='HARNESS').length>5) break; }
     /* ⑧-2 玩家完全沒有東西可以按（不是空下來、也沒有對話、選項、手機）超過 120 秒（虛擬時間）：例如換區域的淡出淡入一直沒結束（GM.isEntering）、E.paused 一直開著 */
     if(r||(wait>0&&free())) noActV=0; else { noActV+=FRAME_MS/1000; if(noActV>300&&!R.stuckNow){ R.stuckNow=true; const Pl=E.player; fail('STUCK','UNKNOWN','玩家超過 300 秒（虛擬時間）沒有按到任何東西（不是在「等一下」；走路走不到、畫面停住、換區域沒結束…）',JSON.stringify({want:want?(want.npc?'npc '+(want.npc.name||want.npc.id):'it '+(want.it.label||'')):null,path:!!(E.player&&E.player.path),busy:Pl&&Pl.busy,depth:D.busyDepth,by:D.busyWho,dlg:D.active,choose:!!T.chooseCur,entering:GM.isEntering&&GM.isEntering(),titleIdle:GM.titleIdle,phone:T.phoneOpen,menu:T.menuOpen,paused:E.paused,fade:getById('fade')&&getById('fade').classList.contains('on'),evRunning:W.EVENTS&&W.EVENTS.running})); } }
   }
@@ -541,6 +573,7 @@ async function child(o){
 /* ====================== 入口 ====================== */
 (async()=>{ let o; try{ o=parseArgs(process.argv.slice(2)); }catch(e){ RC.error(e.message); process.exit(2); }
   if(o.help){ RC.log(fs.readFileSync(SELF,'utf8').split('*/')[0]); return; }
-  if(o.child){ const r=await child(o); process.exit(r&&r.ok?0:1); }
-  if(o.seed!=null){ o.single=true; const t0=realMs(); const r=await child(o); RC.log('（'+((realMs()-t0)/1000).toFixed(1)+' 秒）'); process.exit(r&&r.ok?0:1); }
+  const run=async()=>{ try{ return await child(o); }catch(e){ RC.error('random_play_sim.js 自己丟例外：',e&&e.stack||e); process.stdout.write('@@RESULT '+JSON.stringify({seed:o.seed,ok:false,fails:[{kind:'HARNESS',cls:'TEST_BUG',why:'random_play_sim.js 自己的程式丟例外',msg:String(e&&e.stack||e),lastActions:[]}]})+'\n'); return null; } };
+  if(o.child){ const r=await run(); process.exit(r&&r.ok?0:1); }
+  if(o.seed!=null){ o.single=true; const t0=realMs(); const r=await run(); RC.log('（'+((realMs()-t0)/1000).toFixed(1)+' 秒）'); process.exit(r&&r.ok?0:1); }
   await parent(o); })();
