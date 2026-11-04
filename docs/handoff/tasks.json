@@ -45138,6 +45138,27 @@
    "resumeWhen": "v9.10.20 發布以後"
   },
   {
+   "id": "AA667-VAC-GAP2-1104",
+   "title": "AA_667 交換路線第二批：同時交往、沒有一起出國的另一位，在祐廷出發前／出發當天／回國當天的版本（日本：子晴、語彤、芷若、沛珊、學姊、可昕 8/5；美國：以安、子晴、語彤、芷若、沛珊）＋改現有三處（H6 termend_lines 子晴 Y4S1 期末飯美國路線版、H7 ytjob3d HOME_INV 語彤宜蘭田野期間不約、fest_events 沛珊聖誕拿掉「……不用勉強。」）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本路線出發前（大三下）／美國路線出發前（大四上前的暑假）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:05（企劃線 090981ebe、outbox 472671fcb；D109；X200 同時交往／交換路線）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:0x】排在 AA660-VAC-GAP-1104（子代理做中）合併以後；條件、時間、旗標照 AA_667 第 2、3、5 節；AA_660 G1-1 更正（09:30 起飛、「那六點要出門」）已轉給 AA660 子代理"
+  },
+  {
    "id": "NTU-REF-AUDIT-1104",
    "title": "遊戲裡每一棟有原型的建築都去學校官網（*.ntu.edu.tw）找照片和介紹，逐棟和遊戲畫面比對（使用者 11-04 14:15：「這個就是我的大學的網站裡有任何建筑物請你都去查它裡面一定會有圖片介紹你要好好檢查你現在圖片裡的游戲裡」）",
    "area": "ART",
