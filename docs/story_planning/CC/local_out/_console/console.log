@@ -335,3 +335,19 @@
 [20:45:17] ==== START PARK_glb  (game @ 555b9e0cb) ====
 [20:45:20] [res] cpu=18% mem=42% (13.2/31.4 GB) chrome_testing=19  START PARK_glb
 [20:47:20] [res] cpu=6% mem=43% (13.6/31.4 GB) chrome_testing=19  END PARK_glb
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       28c271b32..f66233be4  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[20:47:24] ==== END   PARK_glb  exit=1  123s   ====
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[20:47:26] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[20:47:26] memory 43% before starting PARK_glb_prev (2 running)
+[20:47:26] ==== START PARK_glb_prev  (game @ cb1d84290) ====
+[20:47:29] [res] cpu=13% mem=43% (13.6/31.4 GB) chrome_testing=19  START PARK_glb_prev
+[20:49:05] 正在跑：GG_shops2_afar_seat（已跑 44 分／上限 90 分）、GG_shops2_db_seat（已跑 44 分／上限 80 分）、PARK_glb_prev（已跑 1 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
+[20:49:25] [res] cpu=5% mem=42% (13.7/31.4 GB) chrome_testing=19  END PARK_glb_prev
