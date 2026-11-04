@@ -148,7 +148,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     L=await go(2,['zhe','yu']); check('5-3、5-4. 都認識：照舊是阿哲、Alison',L.includes('阿哲：哥！')&&L.includes('Alison：欸，為什麼重考？'),J(L)); }
   // 柏翰（5-1 第 13 點、5-5）：值班分大二、大三起；大二第一次值班的開場；聽到分開以後第一次說話
   { const MEM={lawclub:true,CLUB_lawclub_study:true}, shift=async(term,w,flags)=>{ fresh(STORY.termDay(term,w,6),9,'wancai',Object.assign({},MEM,flags||{})); G.stage='law'; R('classmate_bohan','FAM'); R('heroine_05','FAM'); picks=['從頭講','先走']; said=[]; await STORY.fafuShift(GM); return lines().filter(t=>/柏翰：/.test(t)); };
-    const a=await shift('Y2S1',7), b=await shift('Y2S1',11,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});
+    const a=await shift('Y2S1',11), b=await shift('Y2S1',13,{FAFU_BH_HELLO:1}), c=await shift('Y3S1',3,{FAFU_BH_HELLO:1});   /* D118-B5b（2026-11-04）：大二上第 7 週六 10/24 是 AA_604 法服固定場次第 1 場（坐圓桌＝那一場），一般值班改用第 11、13 週 */
     check('5-5. 大二第一次值班（他當社長以後）：柏翰開場「這學期起我排班。有事找我。」，那一次不再說班表那句',a.length===1&&a[0].endsWith('：這學期起我排班。有事找我。'),J(a));
     check('5-1 第 13 點. 之後的大二值班：照舊班表那兩句；大三起「我交接了。現在只排我自己的班。」「學弟排錯一格。我沒說。」（不說「我以為社長只要排班」）',b.length===1&&STORY.FAFU_BH.some(t=>b[0].endsWith('：'+t))&&c.length===1&&(STORY.FAFU_BH_Y3||[]).some(t=>c[0].endsWith('：'+t))&&!c.some(t=>/社長只要排班/.test(t)),J([b,c]));
     const f6=STORY.termDay('Y2S1',6,5); fresh(f6,20.9,'dorm',{}); PHONE.join(G,'noodle_team','麵店團'); R('classmate_bohan','FRI'); R('classmate_peishan','FAM'); run(20.9,21.1); const sent=PHONE.sent(G,'ps_split_group');

@@ -850,7 +850,9 @@ const STORY = (function(){
      只看過公告的 lawclub（沒有 CLUB_lawclub_study、SIS_CLUB_EXPO、FAFU_SHIFT_N）＝LAWCLUB_NOTICE；FAFU_TRK、FAFU_OFF、FAFU_ROT 留著（前兩個不再讀）；
      FAFU_STORY_SEEN 補 0（careerLean 從此只算固定場次，週六去過的次數不算）；還在排的值班出發選單（fafu_<天>，不是溫州街線、不是固定場次那天、不是 5/22）＝cancelled */
   S.fafuWzPlan=(G,q)=>{ const F=(G&&G.flags)||{}; return !!q&&(q.silent===true||q.no==='這次不去'||/今天陪/.test(String(q.title||''))||['WZ_LINE_L','WZ_LINE_I'].some(k=>F[k]&&F[k].day===q.day)); };
-  S.fafuKeepDay=(G,d)=>{ const F=(G&&G.flags)||{}, g2={day:d,flags:F,stage:G&&G.stage}; if(!S.fafuMember(g2)) return false; if(d===S.dayOfKey('2027-05-22')) return true; const s=S.FAFU_STORY.find(x=>S.fafuStoryDay(x)===d); return !!s&&F['FAFU_STORY_'+s.k]==null&&!S.abroad(g2); };
+  /* 那一天是不是這個玩家還沒演的固定場次（社員、人不在國外）：遷移留那天的選單、SQ02（sideq3d.js）排法服初談時避開 */
+  S.fafuStoryOn=(G,d)=>{ const F=(G&&G.flags)||{}, s=S.FAFU_STORY.find(x=>S.fafuStoryDay(x)===d); if(!s||F['FAFU_STORY_'+s.k]!=null) return false; const g2={day:d,flags:F,stage:G&&G.stage}; return S.fafuMember(g2)&&!S.abroad(g2); };
+  S.fafuKeepDay=(G,d)=>{ const F=(G&&G.flags)||{}, g2={day:d,flags:F,stage:G&&G.stage}; if(!S.fafuMember(g2)) return false; if(d===S.dayOfKey('2027-05-22')) return true; return S.fafuStoryOn(G,d); };
   S.fafuMigrate=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||F.FAFU_PURE) return false;
     if(F.lawclub&&!F.CLUB_lawclub_study&&!F.SIS_CLUB_EXPO&&!((+F.FAFU_SHIFT_N||0)>0)){ F.lawclub=false; F.LAWCLUB_NOTICE=true; }
     if(F.FAFU_STORY_SEEN==null) F.FAFU_STORY_SEEN=0;

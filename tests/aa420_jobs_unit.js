@@ -119,8 +119,8 @@ await sec(7,async()=>{ /* 臺灣路線：大四下第 15 週最後一班＝離�
   const r5=CALENDAR.termDays('Y5S1'); let l5=r5.to; while(CALENDAR.dateOf(l5).wd!==7) l5--; check('7. 大五上的週日有班（termOfDelayed）',JOBS.due(H.G,'tea',l5)&&!JOBS.due(H.G,'tea',l5-7*20));
   at(l5,12.9,'wz_teahouse'); H.said=[]; H.picks=[0,0,0,0]; await JOBS.runShift(GM,'tea'); check('7. 大五上最後一班：離開的時候',said('你泡得最好的那一種。')&&k.gone==='grad'); });
 
-await sec(8,async()=>{ /* 大二上第 3 週週六（單週，法服值班）：社員 */ const sat=STORY.termDayIn('Y2S1',3,6); fresh(key(sat),6.9,'dorm',{lawclub:true}); hire('brunch',[6]);
-  STORY.phoneRules(GM); JOBS.plan(H.G); const ids=OUT.rec(H.G).map(q=>q.id); check('8. 週六：早午餐、法服兩個出門提醒都排了',ids.includes('job_brunch_'+sat)&&ids.includes('fafu_'+sat),J(ids));
+await sec(8,async()=>{ /* 大二上第 7 週週六 10/24（AA_604 法服固定場次第 1 場的一次性出發選單）：社員。D118-B5a（2026-11-04）起一般的值班週六（原本用第 3 週）沒有法服的出發選單 */ const sat=STORY.termDayIn('Y2S1',7,6); fresh(key(sat),6.9,'dorm',{lawclub:true}); hire('brunch',[6]);
+  STORY.phoneRules(GM); JOBS.plan(H.G); const ids=OUT.rec(H.G).map(q=>q.id); check('8. 週六（法服固定場次那天）：早午餐、法服兩個出門提醒都排了',ids.includes('job_brunch_'+sat)&&ids.includes('fafu_'+sat),J(ids));
   H.G.hour=7.1; const q=OUT.due(H.G); H.picks=['出發：法服值班']; await OUT.prompt(GM,q);
   const o=H.opts.slice(-1)[0]||[]; check('8. 出門提醒兩個都列（早午餐、法服）',o.some(t=>/^出發：SUNNY SIDE 的班/.test(t))&&o.some(t=>/^出發：法服值班/.test(t)),J(o));
   check('8. 選法服：早午餐算這週請假（missed）、到萬才館',OUT.get(H.G,'job_brunch_'+sat).state==='missed'&&H.entered.includes('wancai'),J(H.entered));
