@@ -291,6 +291,33 @@
    "status": "進行中",
    "task": "IMG2-3D-RESEARCH-1104",
    "note": "BB-C 研究開源 image-to-3D（單張圖→模型、照片→PBR 材質、深度→2.5D 遠景）和開源美術素材庫；在雲端實際試跑能跑的、做對照圖，交 LAWWW2-C（美術總監，D111）決定要不要用。總表的列等 LAWWW-C 開"
+  },
+  {
+   "id": "UA-BB-1104-IMG2-3D-OK",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "允許雲端下載試跑（建議）",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "BB-C 問：TripoSR／TRELLIS／Hunyuan3D 等開源 2D→3D 要不要在雲端下載試跑（第一次被系統以外部程式碼擋下）；只在暫存資料夾、不碰遊戲檔、成果交 LAWWW2-C 決定"
+  },
+  {
+   "id": "UA-BB-1104-TEST-METHODS",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "你沒辦法從github開源找一些更有效的測試遊戲方法嗎",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "TEST-METHODS-1104",
+   "note": "BB-C 整理成 BB_257"
+  },
+  {
+   "id": "UA-BB-1104-TEST-METHODS-DELEG",
+   "at": "2026-11-04T14:2xZ",
+   "quote": "自己參考github開源自己決定",
+   "kind": "選擇題答案",
+   "status": "規則（永久）",
+   "task": "TEST-METHODS-1104",
+   "note": "BB-C 問要先做哪幾項測試方法（①Node 快轉一學期 ②WebKit ③GitHub Actions ④⑤亂點＋覆蓋率），使用者授權 BB 自己參考開源決定"
   }
  ]
 }
