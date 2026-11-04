@@ -1,0 +1,45 @@
+# afar café 室內（公館 G07，取代「咖啡・輕食」；AA 2026-11-04 v1，READY_FOR_REVIEW）
+- 使用者 11-04 02:0x 新店名（elsewhere café 是真實店名 → 選 Afar），02:2x 換新版參考圖（招牌寫小寫 afar）。分工 AA_650 §6：室內 AA、MODEL_READY LAWWW2、功能 BB（CC 跑）、ART_APPROVED BB。
+- 參考圖：`docs/story_planning/ref_images/shops/gongguan_afar_int.webp`（室內）、`gongguan_afar_ext.webp`（外觀，LAWWW2）。
+- 門窗照 LAWWW2 外觀（DOORS.md，ccc8996a9）：店寬 10.2；大窗 x −3.9～1.75（窗台 0.73、窗頂 2.68）；木框玻璃門 x 1.8～3.35（高 2.82）。
+- 配置：`src/data/afar_layout.js`（新區域 `afar`；10.2 × 8 × 3.7 m；26 席：窗邊 6、中間方桌 12、靠牆小桌 4、卡座兩桌 4）。腳本 `afar_interior.py`；貼圖 `aa_int_tex.py afr`（afr_print.png）；地板 `yej_terrazzo.png`；書背 `shl_bookrows.png`；窗景 `mok_view.png`。
+- 匯出：`/opt/blenv/bin/python tools/blender/env_second/aa_support/afar_interior.py -- --out assets/models/env/second_ai/aa_support/afar.glb`（要用 origin/claude/second-ai-env-art 的 lib2.py、cafe_layout.py、plants.py）。
+
+## 規格（glb_specs.py）
+- 三角形 **30,932**（≤ 6 萬）、材質 **12**、GLB 2.14 MB。
+
+## 拆圖清單（參考圖 → 模型）
+| 參考圖 | 模型 |
+|---|---|
+| 左邊臨街大窗（木框分格、窗頂暖光條） | `front` 窗（照外觀）＋窗頂燈條 |
+| 窗邊長桌、灰色布椅、黃銅檯燈、筆電、杯子、書、插座、黃金葛 | `window_counter` 4.45 m、6 張 uchair、4 盞 brass_lamp、筆電 2、插座 6、盆栽＋垂吊黃金葛 |
+| 中間一排胡桃木方桌、胡桃木椅灰坐墊、桌上的書、筆記本、耳機、杯子、花 | 方桌 3 張（12 席）、wchair、桌上小物 |
+| 正前方深綠牆上「afar」、三層層板（咖啡罐、杯子、豆袋）、層板下燈條 | `partition` 深綠隔牆、afar 字（2.0 × 1.0 m）、層板三層（杯 12、深色咖啡罐 12、豆袋 8＋標籤） |
+| 吧台：胡桃木、淺色石材檯面、咖啡機、磨豆機、手沖架、甜點櫃、收銀機 | `bar`（沿 z 3.2 m、直紋面板、南端圓角）、各設備 |
+| 黑板菜單「afar COFFEE MENU」 | `menu_board`（貼圖 (6,0)） |
+| 吧台左邊的書架（上面書、下面雜誌斜架） | `bookshelf`：書四層、雜誌斜架兩層 6 本、頂上盆栽＋黃金葛 |
+| 深綠搪瓷吊燈三盞 | dome_pendant ×3（#3f4f3c） |
+| 右邊靠牆小桌、灰色扶手椅、黃銅檯燈、山景畫、深綠腰牆 | `wall_desk` ×4、扶手椅 ×4、檯燈 ×4、畫 3 張、後牆／東牆腰牆 |
+| 後面的卡座＋小圓桌 | `banquette`（直條紋靠背）、圓桌 2、椅子 2 |
+| 外露天花板：管線、嵌入式冷氣、黑色軌道燈 | 管線 3、冷氣 1、軌道 2 × 7 盞 |
+| 大盆栽 | 3 盆 |
+
+## 鏡頭對參考圖（§12-2）
+- `[["refcam",[4.8,1.5,0.9],[-5.0,1.15,0.3],18]]`：站在東端門邊往西看：左邊大窗、正前方吧台、右邊靠牆小桌。
+- 渲染：`--res 800x450 --samples 16 --sun 22,-30 --sunE 6 --sunC 1.0,0.85,0.65 --lamp 45 --lampC 1.0,0.78,0.5 --world 0.03 --exposure -0.1`
+
+## ref_match（§12-4）：ALL PASS
+- 亮度 0.404／0.420、對比 0.601／0.547（門檻 0.481）、冷暖 +0.273／+0.241、色票 ΔE 8.2、九宮格 0.059。
+- 圖：`docs/story_planning/ref_images/model_renders/afar_v1_refcam{.png,_cmp.jpg,_report.json}`（左參考、中渲染、右疊圖）。
+
+## 醜點清單
+1. 天花板靠窗那條管線在鏡頭上方看起來像一根斜的梁；參考圖的管線比較細、比較高。
+2. 吧台和層板上的東西從遠處看偏少、偏小（參考圖層板塞滿）。
+3. 地板的磨石子偏米色，參考圖偏灰。
+4. 椅子是簡化的（灰色布面是一塊塊的圓角方塊），近看不像真的包布。
+5. 窗外是畫的樹（木曜日那張窗景）。
+
+## 和參考圖不同的地方（§12-5）
+- **配合外觀**：參考室內圖看不到門；門照外觀在東段（鏡頭左後方）。外觀圖從窗外看得到吧台在右邊（門那一側），和室內圖（吧台在最裡面）不一致，照室內圖做。
+- **遊戲需要**：隔牆後面是工作區（不開放，配置的第一個 block 擋住）；中間走道 ≥ 1.2 m；吧台前留點餐位置 (−1.75, 1.4)。
+- **拿掉品牌**：Elsewhere 換成 afar（使用者選的，D77）。
