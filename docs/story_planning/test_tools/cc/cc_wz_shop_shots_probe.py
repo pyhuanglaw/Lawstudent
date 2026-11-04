@@ -69,10 +69,13 @@ def in_box(c):
 
 
 async def load(pg, cdp, zone, x, z, h, yaw=math.pi, keep=False):
-    print('  [前置／捷徑] 讀檔：%s (%s, %s)、%s、條件事件關閉%s' % (zone, x, z, tag_of(h), '、WZ_CAT_FOUND' if keep else ''), flush=True)
+    print('  [前置／捷徑] 讀檔：%s (%s, %s)、%s、%s' % (zone, x, z, tag_of(h), '條件事件照常（只關手機自動打開）、WZ_CAT_FOUND' if keep else '條件事件關閉'), flush=True)
     st = {'zone': zone, 'hour': h, 'weather': 'clear', 'pos': {'x': x, 'z': z, 'yaw': yaw, 'lv': 0}}
     if keep: st['flags'] = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'WZ_CAT_FOUND': 3}
-    await L.load_state(pg, st, quiet_events=True)
+    if keep:   # 前院：冠木門的旁白是 STORY.onEnter 叫的，條件事件全關（quiet_events）會把它一起關掉 → 只關手機自動打開
+        await L.load_state(pg, st, quiet_phone=True)
+    else:
+        await L.load_state(pg, st, quiet_events=True)
     last = -1; stable = 0; t0 = time.time()
     while time.time() - t0 < 90:
         await pg.wait_for_timeout(1000)
