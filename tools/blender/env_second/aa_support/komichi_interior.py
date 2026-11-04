@@ -301,11 +301,11 @@ sh.hanging_pothos('pothos', X0 + 0.2, 2.5, qz1 - 0.15, n=9, drop=0.7)
 tb = [t for t in LAY['tables'] if t['id'] == 4][0]; K.rect_table(sh, tb['x'], tb['z'], 0.0, tb['w'], tb['d'], h=0.75, top_key='wood', leg_key='wood', leg='wood')
 table_set(tb['x'], tb['z'] - 0.2); candle(tb['x'], tb['z'] + 0.25, 0.75)
 K.dome_pendant(sh, -2.75, tb['z'], 1.95, r=0.16, col='#c8903e', inner='#f8e0b0', kind='dome', glow_size=0.6)
-sh.wall_img('left', 'print', (qz0 + qz1) / 2 - 0.35, 1.62, 0.42, 0.42, K.cell_uv(4, 3, 2, 2), off=0.02)                   # 卡座牆上：舊照片＋紙菜單
+sh.wall_img('left', 'print', (qz0 + qz1) / 2 - 0.35, 1.62, 0.48, 0.4, K.cell_uv(4, 3, 2, 2), off=0.02)   # v1f：照片照原本的長寬比（橫的）                   # 卡座牆上：舊照片＋紙菜單
 for k in range(4): sh.wall_img('left', 'print', (qz0 + qz1) / 2 + 0.15 + k * 0.14, 1.62, 0.12, 0.24, K.cell_uv(4 + k, 0, 1, 1), off=0.02)
 for pz in IT['poster']:
     c = pz['cell']; sh.wall_img(pz['side'], 'print', pz['along'], pz['y'], pz['w'], pz['h'], K.cell_uv(c[0], c[1], c[2], c[3]), off=0.02)
-sh.wall_img('left', 'print', 3.45, 1.75, 0.36, 0.36, K.cell_uv(6, 3, 2, 2), off=0.02)
+sh.wall_img('left', 'print', 3.45, 1.75, 0.32, 0.4, K.cell_uv(6, 3, 2, 2), off=0.02)   # v1f：人像（直的）
 FUDA = lambda k: (k / 16 + 0.004, 1 - 3 / 8 + 0.004, (k + 1) / 16 - 0.004, 1 - 1 / 8 - 0.004)
 for k in range(26):                                                                                                      # v1c：西牆一整排木札（掛在 2.05～2.5，卡座凹間上方照樣掛）
     zz = Z0 + 0.6 + k * (D - 1.2) / 25

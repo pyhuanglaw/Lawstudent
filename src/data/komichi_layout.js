@@ -32,7 +32,7 @@ const KOMICHI_LAYOUT = {
     {kind: 'partition', x: 3.4, z0: 2.45, z1: 4.0, h: 1.75},
     {kind: 'booth', x0: -4.0, x1: -3.45, z0: -0.5, z1: 1.3, note: '西牆的綠色皮卡座（直條紋靠背），兩根木柱框成凹間，上面一層木架（收音機、書、黃金葛）'},
     {kind: 'poster', side: 'left', along: 2.7, y: 1.6, w: 0.7, h: 1.05, cell: [0, 3, 2, 3], note: '懷舊電影海報一（虛構片名「青い季節」）'},
-    {kind: 'poster', side: 'left', along: -1.15, y: 1.65, w: 0.6, h: 0.9, cell: [2, 3, 2, 3], note: '懷舊電影海報二（虛構片名「夕陽の街」）'},
+    {kind: 'poster', side: 'left', along: -1.15, y: 1.65, w: 0.6, h: 0.96, cell: [2, 3, 2, 3], note: '懷舊電影海報二（虛構片名「夕陽の街」）'},
     {kind: 'clock', x: -3.97, y: 2.2, z: 1.75, ry: Math.PI / 2, r: 0.15},
     {kind: 'shelf_wall', x: 3.97, y: 1.65, z: 0.35, ry: -Math.PI / 2, w: 1.6, note: '照舊：右牆的層板（陶壺、清酒瓶、招財貓）'},
     {kind: 'plant_big', x: 3.7, z: 1.95}

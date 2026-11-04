@@ -611,10 +611,15 @@ def kmc():
         vtext(x0 + 64, y0 + 38, nm, F(40), fg, 46); d.rectangle([x0 + 92, y0 + 20, x0 + 100, y0 + 52], fill='#a8392e')
     for k, (bg, fg) in enumerate((('#2a2a2a', '#d9a441'), ('#f1ead8', '#2a4a2e'), ('#7a2a22', '#f1ead8'), ('#e8dcc0', '#1e1610'), ('#3a4a2a', '#e8dcc0'), ('#c8a44a', '#2a1e18'), ('#f4f0e6', '#2a3a5a'), ('#5a3a22', '#efe2c4'))):
         x0, y0 = k * 128, 896; d.rectangle([x0 + 4, y0 + 4, x0 + 123, y0 + 123], fill=bg); d.ellipse([x0 + 34, y0 + 30, x0 + 94, y0 + 90], outline=fg, width=5); d.rectangle([x0 + 24, y0 + 100, x0 + 104, y0 + 108], fill=fg)
-    # v1e（使用者 11-04 06:3x「海報上的人也太醜了吧沒辦法用2D的圖貼上嗎？」）：海報直接用使用者給的參考圖裁下來的那兩張（＋一張人像），蓋掉上面畫的版本
+    # v1e（使用者 11-04 06:3x「海報上的人也太醜了吧沒辦法用2D的圖貼上嗎？」）：海報、人像、街景照片直接用使用者參考圖 wz_komichi_int.webp 的那幾張
+    # v1f（BB_257 §10：v1e 直接裁斜牆、被拉寬、帶到木框和光斑）：四點透視校正（左上、左下、右下、右上），只取框裡面那一塊、邊緣往內縮
     ref = Image.open(os.path.join(HERE, '..', '..', '..', '..', 'docs', 'story_planning', 'ref_images', 'shops', 'wz_komichi_int.webp')).convert('RGB')
-    for (crop, cell) in (((160, 160, 286, 476), (0, 3, 2, 3)), ((822, 258, 931, 416), (2, 3, 2, 3)), ((292, 124, 362, 268), (6, 3, 2, 2)), ((556, 342, 636, 410), (4, 3, 2, 2))):
-        bx_ = box(*cell); im.paste(ref.crop(crop).resize((bx_[2] - bx_[0], bx_[3] - bx_[1]), Image.LANCZOS), (bx_[0], bx_[1]))
+    for (quad, cell) in (((163, 168, 166, 468, 282, 453, 281, 212), (0, 3, 2, 3)),          # 青い季節（左牆斜面）
+                         ((831, 261, 832, 410, 925, 410, 925, 261), (2, 3, 2, 3)),          # 夕陽の街
+                         ((304, 133, 304, 246, 358, 251, 359, 166), (6, 3, 2, 2)),          # 人像（燈罩以上那一段）
+                         ((562, 349, 563, 405, 630, 405, 630, 348), (4, 3, 2, 2))):         # 街景照片（避開右上的燈）
+        bx_ = box(*cell); w_, h_ = bx_[2] - bx_[0], bx_[3] - bx_[1]
+        im.paste(ref.transform((w_, h_), Image.QUAD, quad, Image.BICUBIC), (bx_[0], bx_[1]))
     im.save(os.path.join(GEN, 'kmc_print.png'))
 
 
