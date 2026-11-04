@@ -49,7 +49,7 @@ const scene=new THREE.Scene();
       await tick(h,'idle',3); const b3=!!(u.readBook&&u.readBook.visible), p3=!!(ph&&ph.visible);
       check(`⑥ ${key} 換回書：書出現、手機藏；再換成手機：手機出現、書藏；起身兩樣都藏`,b1&&!p1&&p2&&!b2&&!b3&&!p3,'書 '+[b1,b2,b3]+'、手機 '+[p1,p2,p3]);
       CHAR.setReadItem(h,'tablet'); await tick(h,'read',8); const tb=u.readHeld&&u.readHeld.tablet;
-      check(`⑦ ${key} 平板（desk_props 還沒有 item_tablet）：照拿書`,!!(u.readBook&&u.readBook.visible)&&!(tb&&tb.visible),'書 '+!!(u.readBook&&u.readBook.visible)+'、平板 '+!!(tb&&tb.visible)); }
+      check(`⑦ ${key} 平板（LAWWW2 60fd15d38 起 desk_props 有 item_tablet／hold_tablet）：手上是平板、書收起來`,!(u.readBook&&u.readBook.visible)&&!!(tb&&tb.visible),'書 '+!!(u.readBook&&u.readBook.visible)+'、平板 '+!!(tb&&tb.visible)); }
     else { check(`⑥ ${key}（沒有 setReadItem）`,false); check(`⑦ ${key}（沒有 setReadItem）`,false); }
     scene.remove(h); CHAR.release(h); }
   console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);

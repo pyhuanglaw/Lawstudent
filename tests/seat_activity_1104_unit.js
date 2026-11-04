@@ -106,7 +106,9 @@ const fwdOf=st=>[Math.sin(st.yaw||0),Math.cos(st.yaw||0)];
       check('H 換區域：上一區的桌上小物整組拿掉；一個區域最多 S.CAP 組',goneOld&&n0<=SA.CAP&&n0===Math.min(SA.CAP,46),'上一區的群組還在 '+!goneOld+'、總圖大廳 '+n0+' 組（上限 '+SA.CAP+'）'); }
     /* D 吃飯的店、早午餐：沒有筆電 */
     for(const id of ['wz_teishoku','daybreak']){ const z=build(id,mkG(DAY,12.5)); sitAll(z); await run(); const st=SA.state(); const lap=st.list.filter(r=>r.act==='laptop'||r.items.some(n=>/laptop/.test(n)));
-      check('D '+id+'（'+(SA.placeOf(id))+'）：沒有人用筆電、桌上沒有筆電',st.n>0&&!lap.length,'人數 '+st.n+'、筆電 '+lap.length+'、做的事 '+[...new Set(st.list.map(r=>r.act))].join('、')); }
+      check('D '+id+'（'+(SA.placeOf(id))+'）：沒有人用筆電、桌上沒有筆電',st.n>0&&!lap.length,'人數 '+st.n+'、筆電 '+lap.length+'、做的事 '+[...new Set(st.list.map(r=>r.act))].join('、'));
+      if(SA.placeOf(id)==='meal'){ const eat=st.list.filter(r=>r.act==='eat'||r.act==='eat2'), bowl=eat.filter(r=>r.items.some(n=>/^item_bowl/.test(n))&&r.items.some(n=>/^item_chopsticks/.test(n)));
+        check('D2 '+id+'：在吃飯的人桌上有碗和筷子（LAWWW2 60fd15d38 item_bowl／item_bowl_noodle／item_chopsticks）',eat.length>0&&bowl.length>0,'吃飯 '+eat.length+'、有碗筷 '+bowl.length); } }
     /* I 店裡的客人：一個人／兩個人；有名字的人 */
     { let found=false; for(const h of [10,11,13,15,16,17]){ const z=build('afar',mkG(DAY,h)); readItem.clear(); CROWD.enter(GM,'afar'); const crowd=E.npcs.filter(n=>/^shop_/.test(n.crowd||'')&&n.seat);
         if(crowd.length<3) continue; await run(); const st=SA.state(); const recOf=n=>st.list.find(r=>Math.abs(r.x-n.seat.x)<1e-6&&Math.abs(r.z-n.seat.z)<1e-6);

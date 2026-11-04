@@ -37,7 +37,7 @@ const SEATACT=(function(){
     const d=typeof CROWD!=='undefined'&&CROWD.SHOP_ZONES&&CROWD.SHOP_ZONES[zone]; if(d){ if(d.kind==='meal') return 'meal'; if(d.kind==='cafe') return 'cafe'; if(d.kind==='brunch'||d.kind==='tea'||d.kind==='drink') return 'light'; } return null; };
   /* 一個人坐的路人可以做的事（順序不重要：每個位子照種子洗牌）*/
   S.TABLET_OK=false;   /* desk_props 有 item_tablet＋hold_tablet 才打開（S.ready 檢查）*/
-  S.actsFor=function(place){ const t=S.TABLET_OK?['tablet']:[];
+  S.actsFor=function(place){ const t=['tablet'];   /* 一律排進當天的計畫（不看 desk_props 載好了沒）：同一天出去再進來要一樣；模型還沒好的時候 decide 把平板換成手機 */
     if(place==='library') return ['book','laptop','notes','textbook','phone','rest'].concat(t);
     if(place==='cafe') return ['book','laptop','phone','notes','rest','textbook'].concat(t);
     if(place==='light') return ['phone','book','rest','notes'].concat(t);
@@ -52,7 +52,7 @@ const SEATACT=(function(){
     notes:{pose:'sit',desk:{wide:'tset_notes',narrow:'rset_notes',tiny:'S_notes'},alt:'book'},
     textbook:{pose:'sit',desk:{wide:'tset_book',narrow:'rset_book',tiny:'S_textbook'},alt:'book'},
     rest:{pose:'sit',desk:C_({wide:'tset_away',narrow:'L_book_tiny',tiny:'L_book_tiny'},{wide:'S_cup_phone',narrow:'S_cup_phone',tiny:'S_cup'})},
-    eat:{pose:null,desk:null}, eat2:{pose:null,desk:null},
+    eat:{pose:null,desk:{wide:'S_meal',narrow:'S_meal',tiny:'S_meal_t'}}, eat2:{pose:null,desk:{wide:'S_meal2',narrow:'S_meal2',tiny:'S_meal_t'}},   /* 吃飯的店：LAWWW2 60fd15d38 的碗盤（item_bowl_noodle／bowl／plate／chopsticks）；模型沒有就不放 */
     chat:{pose:null,desk:{wide:'S_cup',narrow:'S_cup',tiny:'S_cup'}} };
   /* 自己組的（單件 item_*；座標＝桌緣、+z 往桌子裡面、yaw 繞 y 轉；單件的 +z＝離開坐的人＝桌子裡面）：放得下一個人面前 x ±0.3、z 0.02～0.3 */
   S.CUSTOM={
@@ -63,7 +63,10 @@ const SEATACT=(function(){
     L_book_tiny:[['item_notebook_closed',0.12,0.14,-0.08]],
     S_laptop:[['item_laptop_open',0,0.112,0]],
     S_notes:[['item_notebook_open',0.03,0.135,-0.06],['item_pen',-0.21,0.1,0.7]],
-    S_textbook:[['item_code_open',0,0.118,0.05]] };
+    S_textbook:[['item_code_open',0,0.118,0.05]],
+    S_meal:[['item_bowl_noodle',0,0.16,0],['item_chopsticks',0.17,0.04,0],['item_plate',-0.2,0.13,0]],
+    S_meal2:[['item_bowl',0.02,0.15,0],['item_plate',-0.19,0.14,0],['item_chopsticks',0.18,0.04,0]],
+    S_meal_t:[['item_bowl_noodle',0,0.13,0],['item_chopsticks',0.14,0.03,0]] };
   const prng=seed=>{ let s=(seed>>>0)%2147483646+1; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; };
   const hash=str=>{ let h=2166136261; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; };
   const skey=st=>(+st.x).toFixed(2)+','+(+st.z).toFixed(2)+','+(st.lv|0);
