@@ -111,6 +111,8 @@ const MOKS=(function(){
     const pool=L0.map((t,i)=>i).filter(i=>L0.length<2||i!==prev), i=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; lk[kind]=i; return L0[i]; };
   /* ---------- 進門（二樓的店門以東）：1-1 第一次、1-5 考試週、1-4 老位子 ---------- */
   let doorVisit=null, busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['mokuyobi:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['mokuyobi:mute']=()=>{ mute=0; };
   S.inShop=function(GM){ const E=GM.E, P=E&&E.player, L=LAY(); if(!P||!L||(P.lv|0)!==1) return false; return P.obj.position.x>L.stairWell.x1+0.15; };
   S.doorDue=function(GM){ const G=GM.G; return !!G&&G.zone===ZONE&&doorVisit!==(GM.enterN|0)&&S.inShop(GM)&&S.isOpen(G); };
   S.door=async function(GM){ const G=GM.G, r=S.rec(G); doorVisit=GM.enterN|0; r.n=(r.n|0)+1; if(!S.alone(G)) return 'together';
