@@ -72,8 +72,7 @@ const ofDoc=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show
 /* 白名單上那一筆的 commit（docs/handoff/story_import_allow.json；還沒登記＝任務給的 commit）*/
 const ALLOW=(()=>{ try{ return JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]; }catch(e){ return []; } })();
 const shaOf=(f,def)=>{ const e=ALLOW.find(x=>x.path===f&&x.status==='approved'); return e?e.sha:def; };
-const RN647=s=>String(s).replace(/舊路書房/g,'頁間書屋').replace(/清葉茶行/g,'青木茶室').replace(/輪轉單車/g,'慢輪單車').replace(/日日便利/g,'日和便利店');   /* 2026-11-04 改期望：公館四間店改名（AA_647 第 6 節，企劃線 403b7c51c）——稿裡的舊店名照改名清單換成新店名再比 */
-const DOC={}; for(const k in DOCS) DOC[k]=RN647(ofDoc(shaOf(DOCS[k][2],DOCS[k][1]),DOCS[k][2]));
+const DOC={}; for(const k in DOCS) DOC[k]=ofDoc(shaOf(DOCS[k][2],DOCS[k][1]),DOCS[k][2]);
 
 async function main(){
 /* ---------- 0 稿（雙向）---------- */

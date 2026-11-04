@@ -46,7 +46,7 @@ check('3. SQ16 劇本到了（AA_405 第 3 節）：SIDEQ.bikeShop 有了（按�
   /* 第 5 次＝認得你：開口 */
   const G2=H.fresh('2026-10-05',15,'gongguan',{EXCHANGE_ROUTE:'TW'}); G2.flags.BIKE_SHOP={n:4,day:D('2026-10-04'),g:0}; H.picks=[0]; await S.bikeShop(GM); const r=S.get(G2,'SQ16');
   check('4. 大二上、第 5 次：車行老闆兩句開口 →「要我幫忙嗎？」→ 看車架的旁白；掛進順手的事（兩週內）',!!r&&r.state==='open'&&r.step==='ask'&&r.by===G2.day+14&&H.said[0].who==='車行老闆'&&H.said[0].t===L.open[0]&&H.said.some(x=>x.t===L.look),J(said()));
-  check('4. 手機「今天」：慢輪單車那一則（2026-11-04 輪轉單車改名，AA_647 第 6 節）＋下一步「問登山社的人」',/慢輪單車：兩年沒人來牽的車/.test(S.todayHTML(G2))&&/問登山社的人/.test(S.todayHTML(G2)));
+  check('4. 手機「今天」：輪轉單車那一則＋下一步「問登山社的人」',/輪轉單車：兩年沒人來牽的車/.test(S.todayHTML(G2))&&/問登山社的人/.test(S.todayHTML(G2)));
   /* 普通 201：週四 19:30～21:00、第 5～15 週 */
   go('2026-10-08',19.75,'putong'); const due=S.hikeAskDue(G2); go('2026-10-08',18,'putong'); const early=S.hikeAskDue(G2); go('2026-10-07',19.75,'putong'); const wed=S.hikeAskDue(G2);
   check('4. 普通 201 門口：週四 19:45 可以問；18:00、週三不行',due&&!early&&!wed);

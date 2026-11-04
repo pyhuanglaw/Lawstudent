@@ -24,7 +24,7 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'wz_street_integration')
 IDS = ['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2', 'W0',
-       'F1', 'F2', 'F3', 'S1', 'S2', 'S3', 'S4', 'N1', 'N2', 'N3', 'N4', 'W1', 'W2']   # 近景 15 棟（含巷底 W0）＋遠景 13 棟（巷口兩端、Café 往南／往北的路）；F4 拿掉了：西側橫巷北口打開接新生南路（ART-XINSHENG-GATE-1103）
+       'F1', 'F2', 'F3', 'F4', 'S1', 'S2', 'S3', 'S4', 'N1', 'N2', 'N3', 'N4', 'W1', 'W2']   # 近景 15 棟（含巷底 W0）＋遠景 14 棟（巷口兩端、Café 往南／往北的路）
 SHOPS_INT = ['A1', 'A3', 'A4', 'A5', 'B2', 'B3', 'B6', 'B7']      # 原本有店內景深卡的 8 家店；溫州街 v6c（LAWWW2-B b7a091b8）起都改成立體淺店內，每家兩盞店內燈（GLOW_shopin_*）
 VERT = ['A1', 'A3', 'A4', 'B3']                                    # 有直立招牌
 

@@ -303,8 +303,7 @@ const CLS=(function(){
     if(lateAbs&&!o.lateOk){ const k=await (async()=>{ if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,'已經開始 '+Math.floor(S.lateMin(G,it))+' 分鐘了。現在進去會記缺席。'); return await GM.choose([{t:'還是進去聽',hint:'記缺席；聽得到後半堂'},{t:'算了'}]); } finally { if(!o.inScene) GM.sceneEnd(); } })(); if(k!==0) return false; }
     if(c.kind!=='service'&&!lateAbs) await S.beforeClassEvent(GM,it);
     { const zf=it.room&&it.room.zone, line=zf&&ROOM_FIRST[zf]; if(line&&!exam&&!lateAbs&&G.flags&&!G.flags['ROOM_FIRST_'+zf]){ G.flags['ROOM_FIRST_'+zf]=true; if(!o.inScene) GM.sceneBegin(); try{ await GM.say(null,line); } finally { if(!o.inScene) GM.sceneEnd(); } } }   /* 第一次在那間教室上課的一句旁白（X78，AA_330 第 3 點；只演一次）*/   /* 上課前的人物事件（BB_135 1-4：芯慈在重修教室上課前）。坐在 3D 座位上課（inScene）也要演：原本只有門口上課才演，座位教室（201、普通 101…）的課前、課後事件從來不會出現（AA-B 2026-10-16 回報）*/
-    const peN=!exam&&S.peNarr?S.peNarr(G,it):null; if(o.inGym&&!exam){ try{ S.peCast(GM,it); }catch(e){ console.warn('CLS.peCast',e); } }   /* 體育課（AA_644）：這週的旁白；有修這堂、在場的朋友站進半圈 */
-    const dBg=door&&o.inGym?'freeze':(door&&it.room&&S.DOOR_BG[it.room.door]&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.DOOR_BG[it.room.door]):null);   /* inGym：在體育館裡上體育課＝看得到館內（BUG-PE-DOOR-2D-1103）*/   /* 門口上課有自己的背景圖（BB 10:24：研討室 A 上課、考試都是空的模糊背景）*/
+    const dBg=door&&it.room&&S.DOOR_BG[it.room.door]&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.DOOR_BG[it.room.door]):null;   /* 門口上課有自己的背景圖（BB 10:24：研討室 A 上課、考試都是空的模糊背景）*/
     if(!o.inScene) GM.sceneBegin(door?(dBg?{adv:true,background:dBg}:{adv:true}):undefined); else if(dBg&&typeof ADV!=='undefined'&&ADV.active&&ADV.setBg) ADV.setBg(dBg);
     try{
       if(door&&exam&&it.room&&S.DOOR_EXAM_LINE[it.room.door]) await GM.say(null,S.DOOR_EXAM_LINE[it.room.door].replace(/\{課名\}/g,c.name));   /* 考試那一堂開頭一句（研討室裡的人；AA 寫，到了填進 S.DOOR_EXAM_LINE）*/
@@ -322,21 +321,21 @@ const CLS=(function(){
         if(h0<it.t0-0.5/60){ await GM.fade(true); { const R=S.rec(G); if(R.waitLast!==it.key){ R.waitLast=it.key; await GM.say(null,'（你在座位上等。教室慢慢坐滿了。）'); } }   /* AA_489 第 3 節（c4bcf86f6）：提早坐下等上課，轉暗時一句，一堂課一次 */ S.settleRoom(GM); GM.advance(it.t0-h0); keepCrowd(G); if(typeof CROWD!=='undefined'&&CROWD.resync) CROWD.resync(GM); S.syncRoom(GM,{full:true,instant:true}); stPre=seatTalk(GM,it,'pre'); await GM.fade(false); if(stPre) await CROWD.seatTalkPlay(GM,stPre); }   /* 前一排或旁邊的同學說上課前那一段（AA_495 第 3、4 節，原本在教室門口；CROWD-NO-DOOR-1103）：轉暗的時候排好位子、亮了才說 */
         else S.syncRoom(GM,{full:true}); }
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
-      else if(!exam&&!o.inGym&&GM.caption&&ct.board&&ct.board[0]) GM.caption('黑板',ct.board.filter(Boolean).join('　'),6000);   /* D118-B2（D118_PLAN ②-7）：沒有 3D 黑板的教室（法律系館B多功能教室、法律系館A 202、研討室 A、門口上課）用字幕顯示黑板三行 */
+      else if(!exam&&GM.caption&&ct.board&&ct.board[0]) GM.caption('黑板',ct.board.filter(Boolean).join('　'),6000);   /* D118-B2（D118_PLAN ②-7）：沒有 3D 黑板的教室（法律系館B多功能教室、法律系館A 202、研討室 A、門口上課）用字幕顯示黑板三行 */
       if(exam&&S.isExamCourse(c)) await S.runExam(GM,it);   /* 考五題的法律課（AA_130 第 3 節）*/
       else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
         await GM.say(null,p>=8?'題目你都見過——上課講過、自己也讀過。你寫得很順。':p>=4?'有幾題你有印象，有一題你只記得老師在黑板上畫過圖。':'你認得題目裡的每一個字，合起來就不太認得了。'); }
-      else { const PL=o.inGym&&S.PE_LATE&&GM.G&&S.PE_LATE[GM.G.zone]; if(lateAbs) await GM.say(null,PL?PL.abs:'（你從後門進去，在最後面的空位坐下。前半堂已經講完了。）'); else if(S.isLate(G,it)) await GM.say(prof||null,(prof?'':S.profName(c)+'：')+(PL?PL.late:'後面有位子。'));   /* AA_137 第 4 節：遲到 1～15 分鐘，教授一句、課照常；超過 15 分鐘選了還是進去聽：記缺席、看得到後半堂、課堂提問照常 */
+      else { if(lateAbs) await GM.say(null,'（你從後門進去，在最後面的空位坐下。前半堂已經講完了。）'); else if(S.isLate(G,it)) await GM.say(prof||null,(prof?'':S.profName(c)+'：')+'後面有位子。');   /* AA_137 第 4 節：遲到 1～15 分鐘，教授一句、課照常；超過 15 分鐘選了還是進去聽：記缺席、看得到後半堂、課堂提問照常 */
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
         if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } if(!lateAbs&&S.rollWeeks(G,c,it.term).includes(it.week)){ R.rollSaid=R.rollSaid&&typeof R.rollSaid==='object'?R.rollSaid:{}; const rk2=it.term+':'+c.id+':'+it.week; if(!R.rollSaid[rk2]){ R.rollSaid[rk2]=1; await GM.say(null,'（老師今天點名。）'); } } }   /* ATTEND-ROLLCALL-1102（AA_574 方案 B）：點名日那堂坐在教室才知道；遲到超過 15 分鐘＝缺，不說 */   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
-        if(peN) await GM.say(null,peN); else await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);   /* 體育課：每週一句旁白取代台詞池那一句（AA_644）*/
+        await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r,it); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
         for(const f of S.IN_CLASS){ try{ await f(GM,it,prof,ct); }catch(e){ console.warn('CLS.IN_CLASS',e); } }
-        if(p1){ for(const l of S.P1_LINES) await GM.say(null,typeof l==='function'?l():l); } else if(ct.react&&!peN) await GM.say(null,ct.react);
+        if(p1){ for(const l of S.P1_LINES) await GM.say(null,typeof l==='function'?l():l); } else if(ct.react) await GM.say(null,ct.react);
         if(S.e04Due(G,it)) await S.e04(GM);   /* E04 微積分初體驗（BB_104 8b-1）：第 2 週那一堂才有，沒去就沒有 */   /* P1：BB_105 2-3 的四句（阿勳、韋綸、品妤、遠處的可昕）*/
         /* B：觀察的小選擇（只顯示一行結果，不影響數值）；C：被點到（三個選項共用收尾）——BB 的 syllabus（AA_104）*/
         if(ct.tpl==='B'&&ct.obs&&ct.obs.kind==='discuss'&&ct.obs.options&&ct.obs.options.length){ await S.discuss(GM,it,ct,prof); if(ct.obs.disc&&ct.obs.disc.qid) await S.classAsk(GM,it,prof,ct,ct.obs.disc.qid); }   /* 討論課的題目（BB-B 64406c8，使用者 2026-10-15：討論課的題目要進期末考）：討論收尾之後教授在黑板寫這一題，流程和課堂提問一樣 */
@@ -420,13 +419,11 @@ const CLS=(function(){
       for(let i=0;i<2;i++){ const q=CHAR.build(STORY.extraSpec(150+i*7)); q.position.set(x+0.8*(i?1:-1),0,z+1.2); const n=E.addNPC({obj:q,name:'',beh:'buddy',buddy:lib,side:i?1:-1,followOff:0.9+i*0.4,isExtra:true,lv:lv|0}); if(E.placeAt) E.placeAt(n,x+0.8*(i?1:-1),z+1.2,lv|0); crew.push(n); }
       if(withAn&&GM.spawnCharacter){ const an=GM.spawnCharacter('heroine_01',x+0.6,z-0.8,{lv:lv|0,beh:'buddy'}); if(an){ an.buddy=lib; an.side=1; an.followOff=0.7; crew.push(an); } } };
     const near=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)===(lib.lv|0)&&Math.hypot(P.x-L.x,P.z-L.z)<4.5; };
-    const far=()=>{ const P=E.player.obj.position, L=lib.obj.position, h=Math.hypot(P.x-L.x,P.z-L.z); return (E.player.lv|0)!==(lib.lv|0)?h>8:h>25; };   /* BUG-TOUR-STAIRS-FAR-1103（BB 17:01，CC N19_tour_joy）：館員在樓梯平台等、玩家在下一層就在她腳下＝不算走遠（原本不同層一律算，40 秒就判「你離開了」）*/
-    let zone0=G.zone, farT=0, left=false, upNote=false, warned=false;
-    /* BUG-TOUR-STAIRS-FAR-1103 的兩句（AA 11-03 17:04）：館員在上一層等＝旁白一次（每一站）；走遠到一半時間（20 秒）＝館員小聲提醒一次（回來以後再走遠才會再提醒）*/
-    const TOUR_UP='（館員站在樓梯平台上，回頭等你們跟上來。）', TOUR_WARN='（小聲）導覽往這邊喔，還要一起走嗎？';
-    const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else { farT=0; warned=false; } if(!upNote&&lib&&(lib.lv|0)>(E.player.lv|0)){ upNote=true; GM.caption('',TOUR_UP,3600); } if(!warned&&farT>=20){ warned=true; GM.caption('館員',TOUR_WARN,4200); } if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
+    const far=()=>{ const P=E.player.obj.position, L=lib.obj.position; return (E.player.lv|0)!==(lib.lv|0)||Math.hypot(P.x-L.x,P.z-L.z)>25; };
+    let zone0=G.zone, farT=0, left=false;
+    const waitFor=async(cond,maxS)=>{ let t=0; while(!cond()){ await GM.sleep(300); t+=0.3; if(G.zone!==zone0&&!E._tourMove){ left=true; return false; } if(far()) farT+=0.3; else farT=0; if(farT>40){ left=true; return false; } if(maxS&&t>maxS) return true; } return true; };
     spawnCrew(TOUR[0].x,TOUR[0].z,0); GM.caption('館員',TOUR[0].say,5000); await waitFor(near,20);
-    for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i]; upNote=false;
+    for(let i=1;i<TOUR.length&&!left;i++){ const st=TOUR[i];
       if(st.zone){ E._tourMove=true; GM.caption('','（你們跟著館員從樓梯間上三樓。）',2400); const sp=(typeof LIBRARY_LAYOUT!=='undefined'&&LIBRARY_LAYOUT.reading&&LIBRARY_LAYOUT.reading.spawnFromStairs)?Object.assign({},LIBRARY_LAYOUT.reading.spawnFromStairs):{x:0,z:7,yaw:Math.PI};   /* 3F 的樓梯間（第一版南牆 (0,7)；LIB-3F-1102 第二版東牆 (10.6,−6)，src/library_3f_v2.js 寫回 reading.spawnFromStairs）*/ try{ await GM.enter(st.zone,sp); } finally { E._tourMove=false; } if(GM.G.zone!==st.zone){ left=true; break; } zone0=st.zone; { const dx=0-sp.x, dz=-4-sp.z, dl=Math.hypot(dx,dz)||1; spawnCrew(sp.x+dx/dl*1.5-dz/dl*0.8,sp.z+dz/dl*1.5+dx/dl*0.8,0); } }
       let arrived=false; if(!E.moveTo(lib,st.x,st.z,()=>{ arrived=true; },st.lv)){ if(E.placeAt) E.placeAt(lib,st.x,st.z,st.lv); arrived=true; }
       await waitFor(()=>arrived,60); if(left) break; lib.pose=lib.idlePose='idle'; if(GM.face) GM.face(lib,E.player.obj.position.x,E.player.obj.position.z);
@@ -481,61 +478,6 @@ const CLS=(function(){
                 campus_service:{zone:'campus',x:-40,z:11.2,radius:1.6,label:'服務學習集合點',verb:'報到',terms:['Y2S1'],look:'晨思鐘旁的服務學習集合點。'},   /* 服務學習（二）（大二上；內容 AA 大二前再補）：只在那學期出現 */
                 wancai_seminar:{zone:'wancai',built:true,label:'研討室 A',look:'研討室 A：法律系館B二樓的小教室，大四的研討課在這裡上。'} };   /* built：門的互動點由區域自己建（wancai3d.js 的研討室 A），addDoors 不另外加 */
   S.DOORS=DOORS;
-  S.PE_IN_GYM={x:0,z:-2.6,yaw:Math.PI};   /* 體育課的站位：體育館球場中圈（gym_layout.js pe_class (0,-4)）前面、面向中圈 */
-  /* ---------- 體育課在體育館裡上（AA_644，企劃線 96d771c8d，AA 定稿 D109；PE-IN-GYM-AA644-1103）----------
-     站位：老師在中圈北邊、面向南；同學圍成半圈（crowd3d.js 的 gym_pe：10 個位子，玩家站在半圈最南邊 S.PE_IN_GYM）；有修這堂、在場的朋友站進半圈（S.peCast：換掉離玩家最近的路人）。
-     游泳週（大一上第 10～16 週）整班改到 B1 游泳池（gym_b1）：老師站池邊、同學坐池邊的長椅（crowd3d.js 的 gym_pe_pool），玩家站在 S.PE_POOL；
-     B1 那天沒開（每月第四個星期一休館；B1 區域沒有）＝照舊在球場，旁白換成 S.PE_SWIM_CLOSED。
-     每週一句旁白（S.PE_NARR，稿上的字照抄）取代原本台詞池（syllabus.js pools）的那一句和同學反應；朋友不在場（S.peHere）＝名字換成「有人」（稿第 3 節的例子）。
-     經濟系那一年（pe_y0s1）：大一上第 1～8 週的旁白，名字換經濟系的同學（S.PE_Y0）。體育老師不認得個別學生（AA_596 §八）；旁白沒有選項、不影響數值，朋友只在旁白裡出現（不另開對話）。測試：node tests/pe_aa644_unit.js */
-  S.PE_POOL={x:16.6,z:-2.2,yaw:+Math.atan2(19.8-16.6,-3.4+2.2).toFixed(4)};   /* B1 池邊（東側兩張長椅西邊）、面向站在池邊的老師（crowd3d.js gym_pe_pool：老師 (19.8,−3.4)）*/
-  S.PE_NARR={
-    pe_y1s1:['（第一堂。老師點完名，說這學期分三段：體適能、球類、游泳。）','（暖身跑了六圈。最後一圈大家都在用走的。）','（量身高、體重、坐姿體前彎。排隊的時候大家都在講昨天的報告。）','（折返跑。阿哲跑在最前面，回頭喊你們快一點。）',
-      '（開始打籃球。老師先教運球，球一直滾到隔壁的羽球場。）','（分組三對三。球一直打到界外。）','（排球低手傳球。整堂課都在撿球。）','（分組比賽。柏翰站在籃下，算好位置才動。輸的那一組收球。）',
-      '（老師說下週開始游泳，記得帶泳衣泳帽。）','（第一次下水。水比想像中冷。老師說先閉氣十秒就好。）','（扶著池邊練踢水。旁邊那一水道有人游得很快。）','（第一次不扶池邊，游了半趟。上岸的時候腿有點軟。）',
-      '（換氣。嗆了兩次水，第三次就對了。）','（老師說期末要游二十五公尺，不限姿勢。）','（期末前最後一次練習。你游到對面，扶著牆喘了很久。）','（期末測驗。二十五公尺，你游完了。）'],
-    pe_y1s2:['（這學期打羽球。老師發球拍，有幾支的線鬆了。）','（練握拍和高遠球。羽球一直往旁邊飛。）','（兩人一組對打。Alison 每打一球就喊一聲。）','（練殺球。老師說手腕不要太用力。）',
-      '（雙打的站位。你和同組的人撞在一起兩次。）','（羽球分組比賽。打到後來沒人在記分。）','（換排球。網子拉起來，比去年高。）','（練發球。第五球終於過網。）',
-      '（排球分組比賽。明軒一直跑到你的位置接球。）','（練扣球。跳起來的那一下，球擦過手指。）','（排球分組比賽第二輪。這次贏了一局。）','（體適能檢測前的練習：仰臥起坐一分鐘。）',
-      '（立定跳遠。粉筆在地上畫了一條線。）','（八百公尺。跑完大家都坐在地上。）','（體適能檢測。老師一個一個登記。）','（期末：羽球和排球各考一項。考完老師說暑假也要動。）'],
-    pe_y2s1:['（這學期打桌球和籃球。桌球桌從倉庫推出來，有一張的網歪了。）','（練正手推擋。球一直彈到別桌。）','（練反手。老師說腳要動，不要只動手。）','（練發球。芯慈一直在調球拍的角度，發得很準。）',
-      '（桌球單打比賽。打到十一分，換人。）','（桌球雙打。輪流接球，常常兩個人都沒動。）','（桌球考試前的練習。一直有人喊「好球」。）','（桌球考試：推擋連續二十下。）',
-      '（換籃球。阿哲說他等這一段等一年了。）','（練上籃。第三次終於進了。）','（練傳球和跑位。老師一直吹哨。）','（分組比賽。阿哲傳給你一球，你沒進，他說沒事啦。）',
-      '（分組比賽第二輪。中場的時候大家都在喝水。）','（體適能：一分鐘仰臥起坐、坐姿體前彎。）','（八百公尺。今年比去年快了一點。）','（期末：投籃十球、運球繞錐。考完大家一起收球。）']};
-  S.PE_SWIM={pe_y1s1:[10,11,12,13,14,15,16]};   /* 稿上地點寫「B1 游泳池」的週 */
-  S.PE_SWIM_CLOSED='（今天在球場講游泳的安全守則。下週下水。）';   /* 稿第 3 節：游泳週 B1 沒開 */
-  /* AA_644 §4（企劃線 a1302b8db，AA 11-03 23:36）：第 16 週（期末）碰到 B1 休館、換成「有人」以後要另寫的那一句、遲到的體育館版（教室那兩句在體育館不出）*/
-  S.PE_SWIM_CLOSED16='（B1 游泳池今天休館。期末改在球場考體適能。）';
-  S.PE_SWIM_CLOSED_MID='（今天 B1 游泳池休館，改在球場練划手和換氣的動作。）';   /* AA_644 §5（企劃線 92c089f47）*/
-  S.PE_ANON_FIX={'（換籃球。有人說他等這一段等一年了。）':'（換籃球。有人說終於輪到籃球了。）'};   /* 不認識的人不會知道他等了一年 */
-  S.PE_LATE={gym:{abs:'（你到的時候大家已經在暖身了。你站到半圈最後面。）',late:'先跑兩圈再進來。'},gym_b1:{abs:'（你到的時候大家已經下水了。）',late:'先在池邊暖身。'}};
-  S.PE_FRIENDS=['zhe','classmate_bohan','classmate_mingxuan','yu','classmate_xinci','classmate_youchen'];   /* 稿第 1 節：有修這堂的朋友（法律系同屆）*/
-  S.PE_NAME={'阿哲':'zhe','柏翰':'classmate_bohan','明軒':'classmate_mingxuan','Alison':'yu','芯慈':'classmate_xinci'};   /* 旁白裡的名字 → 人物 */
-  S.PE_Y0={from:'pe_y1s1',weeks:8,rename:{'阿哲':'韋綸','柏翰':'阿勳'},friends:['econ_weilun','econ_zhengxun'],name:{'韋綸':'econ_weilun','阿勳':'econ_zhengxun'}};   /* 經濟系：大一上第 1～8 週，阿哲→韋綸、柏翰→阿勳（照台詞池同一句的對應：pe_y1s1 阿哲／pe_y0s1 韋綸「唯一不會遲到的課」；給 AA 確認）*/
-  S.peTable=function(c){ if(!c) return null; if(S.PE_NARR[c.id]) return {lines:S.PE_NARR[c.id],name:S.PE_NAME,friends:S.PE_FRIENDS};
-    if(c.id==='pe_y0s1'){ const Y=S.PE_Y0; return {lines:S.PE_NARR[Y.from].slice(0,Y.weeks).map(t=>{ for(const a in Y.rename) t=t.split(a).join(Y.rename[a]); return t; }),name:Y.name,friends:Y.friends}; } return null; };
-  S.b1Open=function(G){ if(typeof Z3==='undefined'||!Z3.ZONES.gym_b1||typeof GYM_LAYOUT==='undefined'||!GYM_LAYOUT.b1) return false; if(typeof CALENDAR==='undefined'||!G) return true; const d=CALENDAR.dateOf(G.day); return !(d.wd===1&&d.d>=22&&d.d<=28); };   /* 每月第四個星期一休館（gym3d.js fourthMonday、crowd3d.js gymHours 同一個判斷）*/
-  S.peSwimWeek=it=>!!(it&&it.c&&(S.PE_SWIM[it.c.id]||[]).includes(it.week));
-  S.peSwim=(G,it)=>S.peSwimWeek(it)&&S.b1Open(G);   /* 這一堂在 B1 游泳池上 */
-  /* 朋友在不在這一堂：這學期在學校（STORY.present）、認識（不認識的人旁白不寫名字，S.reactLine 同一個規矩）；宥辰照他的作息：第 14 週以後才來（稿第 1 節）*/
-  S.peHere=function(G,id,it){ if(typeof STORY==='undefined') return false; if(STORY.present&&!STORY.present(id,G)) return false; if(STORY.knows&&!STORY.knows(id,G)) return false;
-    if(id===(STORY.YOUCHEN||'classmate_youchen')&&!((it&&it.week)>=14)) return false; return true; };
-  S.peFriends=function(G,it){ const T=S.peTable(it&&it.c); return T?T.friends.filter(id=>S.peHere(G,id,it)):[]; };
-  S.peNarr=function(G,it){ const T=S.peTable(it&&it.c); if(!T) return null; let t=T.lines[(it.week|0)-1]; if(!t) return null; if(S.peSwimWeek(it)&&!S.b1Open(G)) return (it.week|0)===16?S.PE_SWIM_CLOSED16:((it.week|0)>=11?S.PE_SWIM_CLOSED_MID:S.PE_SWIM_CLOSED);   /* AA_644 §5：第 10 週還沒下過水＝講安全守則；11～15 週＝在球場練划手換氣；16 週＝改考體適能 */
-    for(const nm in T.name){ if(t.indexOf(nm)<0||S.peHere(G,T.name[nm],it)) continue; t=t.split(nm+(/^[A-Za-z]/.test(nm)?' ':'')).join('有人'); } return S.PE_ANON_FIX[t]||t; };
-  S.pePlace=(G,it)=>S.peSwim(G,it)?Object.assign({zone:'gym_b1'},S.PE_POOL):Object.assign({zone:'gym'},S.PE_IN_GYM);
-  /* 朋友站進半圈（坐上長椅）：換掉這一堂離玩家最近的路人同學（crowd3d.js 的 pe_student／pe_swim，crowdKey 最後的序號＝離玩家的遠近），朋友照那個位置、朝向、座位；
-     下課（it.t1）照作息離開（story3d.js n.until）。換掉的位子記在 S._peTaken：人群重排時那幾個位子不再放路人 */
-  S._peTaken={key:null,keys:new Set()};
-  S.peTakenKey=k=>S._peTaken.keys.has(k);
-  S.peCast=function(GM,it){ const E=GM.E; if(!E||!Array.isArray(E.npcs)||!GM.spawnCharacter) return []; if(S._peTaken.key!==it.key) S._peTaken={key:it.key,keys:new Set()};
-    const role=S.peSwim(GM.G,it)?'pe_swim':'pe_student', idx=n=>+String(n.crowdKey||'').split('|').pop();
-    const ext=E.npcs.filter(n=>n&&n.crowdRole===role&&!n.leaving&&String(n.crowdKey||'').indexOf(it.key)>=0).sort((a,b)=>idx(a)-idx(b)), out=[];
-    for(const id of S.peFriends(GM.G,it)){ if(GM.npc&&GM.npc[id]&&E.npcs.includes(GM.npc[id])){ out.push(GM.npc[id]); continue; } const x=ext.shift(); if(!x) break;
-      const P=x.obj.position, yaw=x.obj.rotation.y, st=x.seat||null; S._peTaken.keys.add(x.crowdKey); E.removeNPC(x);
-      const n=GM.spawnCharacter(id,P.x,P.z,{yaw,lv:x.lv|0,seat:st||undefined,pose:st?'sit':'idle',talk:null,talkLabel:null,greet:false}); if(!n) continue;
-      n.until=it.t1; n.peFriend=it.key; n.frozen=true; if(!st) n.obj.rotation.y=yaw; out.push(n); }
-    return out; };
   S.DOOR_BG={wancai_seminar:'wancai_seminar'};   /* 門口上課的 ADV 背景（OUT.BG 的 id）：研討室 A＝法律系館B・研討室（現有的圖）；共同、普通、博思、體育館照舊模糊（不考五題，BB 10:24 先記下）*/
   S.DOOR_EXAM_LINE={wancai_seminar:'（法律系館B 的研討室。{課名}只有十幾個人，大家圍著長桌坐，老師坐在桌子的另一頭，手邊一疊考卷。）'};   /* 研討室 A 期末考開頭的旁白（AA_578 第 7 節 @9a767de08，BB 口氣審 PASS 10:24）：法律倫理、刑事判決研討、公法判決研討共用 */
   S.addDoors=function(GM,zoneId){ const E=GM.E; const tm=typeof CALENDAR!=='undefined'&&GM.G?CALENDAR.termOf(GM.G.day):null; for(const k in DOORS){ const d=DOORS[k]; if(d.zone!==zoneId||d.built) continue; if(d.terms&&!(tm&&d.terms.includes(tm.id))) continue;
@@ -589,10 +531,7 @@ const CLS=(function(){
   S.doorInteract=async function(GM,k,o){ o=o||{}; const G=GM.G, d=DOORS[k]; const it=S.liveDoor(G,k);
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]&&(!it||it.room.zone===d.enter)){ await GM.enter(d.enter); if(it&&S.status(G,it)!=='done') GM.toast(S.status(G,it)==='open'?'上課的教室：'+it.room.name+'（找個位子坐下）':it.c.name+'快下課了（'+it.room.name+'），現在進去不算出席',4200); return; }   /* liveDoor 只會是 open 或 missed（2026-10-13 審查：遲到時原本寫「等一下的課在」）*/   /* 課在館內的教室上（2026-10-13）*/
     if(it&&S.status(G,it)==='open'){ const opts=[{t:(d.verb||'進去上課')+'：'+it.c.name,hint:hhmm(it.t0)+'–'+hhmm(it.t1)+'（點對話可以略過）'}]; if(d.enter&&Z3.ZONES[d.enter]) opts.push({t:'進館裡逛逛（不上課）'}); opts.push({t:'不上了'});
-      const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })();
-      /* BUG-PE-DOOR-2D-1103（使用者 11-03 22:5x 截圖：「體育課上課 用對話呈現？體育館都已經建立好了」「然後背景是校園？」）：體育課＝走進體育館、站到球場中圈上課，背景是館內的 3D（freeze），不在校園門口用模糊背景演 */
-      if(ch===0&&k==='gym'&&S.PE_IN_GYM&&typeof Z3!=='undefined'&&Z3.ZONES.gym&&GM.enter){ const P=S.pePlace(G,it); await GM.enter(P.zone,{x:P.x,z:P.z,yaw:P.yaw||0,lv:0}); await S.attend(GM,it,{door:true,inGym:true}); return; }   /* 游泳週：B1 游泳池（S.pePlace，AA_644）*/
-      if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
+      const ch=await (async()=>{ GM.sceneBegin(); try{ return await GM.choose(opts); } finally { GM.sceneEnd(); } })(); if(ch===0) await S.attend(GM,it,{door:true}); else if(d.enter&&opts[ch].t.startsWith('進館')) await GM.enter(d.enter); return; }
     if(d.enter&&typeof Z3!=='undefined'&&Z3.ZONES[d.enter]){ await GM.enter(d.enter); return; }   /* 沒有課：公共空間照常可以進（使用者 2026-10-13：「不必每次進入都觸發故事」）*/
     const today=S.dayItems(G).filter(q=>q.room.door===k); if(d.noToday&&!today.length){ GM.caption('',o.look||d.look,4800); return; } const s=today.length?'今天在這裡的課：'+today.map(q=>hhmm(q.t0)+' '+q.c.name+'（'+({done:'上過了',missed:'沒去',open:'可以進去',upcoming:'還沒開始'})[S.status(G,q)]+'）').join('、'):'今天沒有你在這裡的課。'; GM.caption('',(o.pre?o.pre:'')+(o.look||d.look)+s,o.pre?6000:4800); };
   // ---------- 自學：選一門課（AA_104 4-3：和上課累積同一個「準備」）----------
@@ -1005,7 +944,7 @@ const CLS=(function(){
      「買六法」「逛社團博覽會」不列（AA_110 6-3；AA_355 第 3 節：過時、不用做事——社團博覽會已經在遊戲裡，S.fairMenu）。 */
   S.todoItems=function(G){ if(typeof CALENDAR==='undefined') return []; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week>5) return [];
     const R=S.rec(G), F=G.flags||{}, A=typeof ACTIVITIES!=='undefined'?ACTIVITIES:null, went=id=>!!(A&&A.stateOf&&A.stateOf(G,id));
-    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（頁間書屋），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
+    return [{key:'textbook',text:'買民總、刑總、憲法的教科書（舊路書房），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve||(F.books&&Object.keys(F.books).length))},
             {key:'libtour',text:'總圖新生導覽（9/19、9/23、9/25、9/26 15:30，總圖大廳；去一場就好）',done:went('lib_tour_y1s1')},
             {key:'lawlibintro',text:'法律資料怎麼查（9/24、10/1 15:30，法律學院圖書館 討論室 A）',done:went('lawlib_intro_y1s1')},
             {key:'service',text:'服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台）',done:(R.attend.service_1||0)>=1}]; };
@@ -1072,7 +1011,7 @@ const CLS=(function(){
      樓上樓層、房間照 PLACES.base 對到那一棟（宿舍房間→男生宿舍、總圖 3F→總圖、霖澤館 3F→霖澤館、溫州街的店→溫州街）；
      公館、溫州街從校門進校園。走不到校園的區域（國外、日本、美國…）＝不知道路線，不停（照舊直接到）。 */
   const OUTER={classroom:'linze',lawlib:'wancai',linze:'campus',wancai:'campus',dorm_hall:'campus',library_hall:'campus',gongtong:'campus',putong:'campus',boya:'campus',gym:'campus',soclib:'campus',lane118:'campus',gongguan:'campus',
-               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',bikeshop:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
+               noodle:'gongguan',cvs:'gongguan',bookstore:'gongguan',wenzhou:'gongguan',cafe:'wenzhou'};
   const outerOf=z=>{ if(OUTER[z]) return OUTER[z]; const b=typeof PLACES!=='undefined'&&PLACES.base?PLACES.base(z):z; return b&&b!==z?b:null; };
   const upTo=z=>{ const out=[]; for(let q=z,n=0;q&&n<8;n++){ out.push(q); if(q==='campus') return out; q=outerOf(q); } return null; };
   /* 中間經過的區域（不含出發的那一區、不含教室那一區），照走的順序 */

@@ -35,14 +35,10 @@ async def main():
             await pg.wait_for_timeout(500)
         check('遊戲載入完成（載入畫面消失）', ok)
         info = await pg.evaluate("""(()=>{ const v=document.getElementById('verLabel'); const ss=[...document.scripts].map(s=>s.getAttribute('src')).filter(Boolean);
-            return {ver:v?v.textContent:null, title:!document.getElementById('titleScreen').classList.contains('hide'), scripts:ss.length, noVer:ss.filter(s=>!/[?&]v=/.test(s)), vers:[...new Set(ss.map(s=>(s.match(/[?&]v=([^&#]+)/)||[])[1]).filter(Boolean))]}; })()""")
+            return {ver:v?v.textContent:null, title:!document.getElementById('titleScreen').classList.contains('hide'), scripts:ss.length, noVer:ss.filter(s=>!/[?&]v=/.test(s))}; })()""")
         check('標題畫面顯示', info['title'])
         check('標題畫面有版本字樣' + (f'（預期含「{WANT_VER}」）' if WANT_VER else ''), bool(info['ver']) and (WANT_VER is None or WANT_VER in info['ver']), str(info['ver']))
         check(f'{info["scripts"]} 個 script 都帶版本號 ?v=', not info['noVer'], json.dumps(info['noVer'], ensure_ascii=False))
-        # BB 11-03 21:06：v9.10.19 PR #25 標題改了、309 處 ?v= 還是 9.10.18（只查「有沒有 ?v=」抓不到）。?v= 只能有一種，而且要和標題字樣的版號一樣
-        import re as _re
-        lv = (_re.search(r'v(\d+(?:\.\d+)+)', info['ver'] or '') or [None, None])[1]
-        check(f'?v= 全部是同一個版號、和標題字樣一樣（標題 {lv}）', bool(lv) and info['vers'] == [lv], json.dumps(info['vers'], ensure_ascii=False))
         for z in ZONES:
             st = {'zone': z, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': None, 'flags': FLAGS}
             r = await pg.evaluate("""(async(st)=>{ try{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); return {ok:GAME.G.zone===st.zone}; }catch(e){ return {ok:false, err:String(e)}; } })(%s)""" % json.dumps(st))

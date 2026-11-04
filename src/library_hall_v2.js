@@ -59,18 +59,6 @@ const LBV2=(function(){
         if(ns){ b.add(B3.MAT.woodD(),TK.boxG(d,h,f.w),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(d+0.02,h,0.03),f.x,y+h/2,f.z+e*(f.w/2+0.015)); nav.blockRect(f.x,f.z,d,f.w+0.06,0,0.05); }
         else { b.add(B3.MAT.woodD(),TK.boxG(f.w,h,d),f.x,y+h/2,f.z); for(const e of [-1,1]) b.add(cap,TK.boxG(0.03,h,d+0.02),f.x+e*(f.w/2+0.015),y+h/2,f.z);
         nav.blockRect(f.x,f.z,f.w+0.06,d,0,0.05); } }
-      else if(f.type==='roomBlock'){ const h=L.floors[1].y-L.slabT, w=f.x1-f.x0, d=f.z1-f.z0;   /* 第五版③（BB 11-03 12:11）：一樓北邊翼樓圍成小房間（廁所、演奏室、討論室）：朝大廳的牆＋靠中間的側牆；門關著（L.doors），裡面整塊擋住 */
-        b.add(B3.MAT.plaster(),TK.boxG(w,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z1); b.add(B3.MAT.plaster(),TK.boxG(0.12,h,d,1.2),f.side,y+h/2,(f.z0+f.z1)/2);
-        nav.blockRect((f.x0+f.x1)/2,(f.z0+f.z1)/2,w+0.1,d+0.1,0,0); }
-      else if(f.type==='carrelRow'){ const h=2.6, n=f.n||20, dz=(f.z1-f.z0)/n, d=f.x1-f.x0;   /* 第五版⑥：二樓西牆一排研究小間 230～249（門朝東、關著）：備用模型＝前牆＋每間一扇門片；裡面整塊擋住 */
-        b.add(B3.MAT.plaster(),TK.boxG(0.12,h,f.z1-f.z0,1.2),f.x1,y+h/2,(f.z0+f.z1)/2); for(let k=0;k<n;k++) b.add(M('#8a6a4a',{rough:0.6}),TK.boxG(0.04,2.1,dz*0.72),f.x1+0.08,y+1.05,f.z0+(k+0.5)*dz);
-        b.add(B3.MAT.plaster(),TK.boxG(d,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z0); b.add(B3.MAT.plaster(),TK.boxG(d,h,0.12,1.2),(f.x0+f.x1)/2,y+h/2,f.z1);
-        nav.blockRect((f.x0+f.x1)/2,(f.z0+f.z1)/2,d+0.1,f.z1-f.z0+0.1,0,0);
-        IT.push({x:f.x1+0.7,z:(f.z0+f.z1)/2,radius:Math.max(1.2,(f.z1-f.z0)/2),lv,label:'看研究小間',look:'研究小間 '+f.first+'～'+(f.first+n-1)+'：一排小房間，門上的小窗看得到桌子和檯燈。大部分的門都關著，有幾間掛著「使用中」。'}); }
-      else if(f.type==='compact'){ const h=f.h||2.3, rows=f.rows||9;   /* 第五版⑧：密集書庫（可以移動的密集書架）：備用模型＝一整塊書架＋端板；整塊擋住 */
-        b.add(B3.MAT.woodD(),TK.boxG(f.w,h,f.d),f.x,y+h/2,f.z); const cap=M(f.cap||'#e8b923',{rough:0.5}); for(let k=0;k<rows;k++) b.add(cap,TK.boxG(0.03,h,f.d/rows*0.92),f.x+f.w/2+0.015,y+h/2,f.z-f.d/2+(k+0.5)*f.d/rows);
-        nav.blockRect(f.x,f.z,f.w+0.1,f.d+0.1,0,0); }
-      else if(f.type==='hangSign'){ b.add(M('#24303a',{rough:0.5}),TK.boxG(f.w+0.12,f.w*0.18+0.12,0.04),f.x,y+f.y,f.z); }   /* 數位媒體區的吊牌（BB 11-03 19:28）：底板；字是 L.signs 兩面；不擋路（在 4 m 高）*/
       else if(f.type==='roundTable'){ b.add(M('#d8d2c6',{rough:0.6}),new THREE.CylinderGeometry(f.r,f.r,0.04,20),f.x,y+0.73,f.z); b.add(M('#3a3f45',{rough:0.5}),new THREE.CylinderGeometry(0.05,0.05,0.7,8),f.x,y+0.35,f.z);
         nav.blockCircle(f.x,f.z,f.r+0.25);
         for(let i=0;i<(f.seats||3);i++){ const a=i*2*Math.PI/(f.seats||3)+Math.PI/6, cx=f.x+Math.sin(a)*(f.r+0.45), cz=f.z+Math.cos(a)*(f.r+0.45), yaw=a+Math.PI, seat={x:cx,z:cz,yaw,lv}; Z3.chair(grp,cx,cz,yaw,'#7a5a46'); seats.push(seat); IT.push({x:cx,z:cz,radius:0.8,lv,label:'坐下',seat}); } } }

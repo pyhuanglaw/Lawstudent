@@ -153,7 +153,7 @@ const POOL_MORE=(function(){
     PQ_HPY:{who:PY,title:'洪珮瑜：當一次她媽媽'}, PQ_SMR:{who:MR,title:'施孟儒：早上六點的球場'} });
   Object.assign(P.HINT,{ PQ_HYX1:{office:r=>md(r.outDay)+'（三）15:00 陪宇軒去敲周老師研究室的門（法律系館A）'}, PQ_HYX2:{cases:r=>md(r.outDay)+'（四）19:00～21:00 到總圖 B1 討論室幫宇軒讀判決'},
     PQ_LQ:{teach:r=>md(r.outDay)+'（四）19:00 到普通教學館的空教室，當立群的國中生'}, PQ_SCE:{tutor:r=>md(r.outDay)+'（六）10:00 陪維倫去社福中心的課輔'},
-    PQ_TZL:{books:r=>md(r.outDay)+'（六）14:00 幫宗霖把書搬去頁間書屋寄賣'}, PQ_YSH:{debate:r=>md(r.outDay)+'（六）14:00 博思 201，坐第一排看書豪上台'},
+    PQ_TZL:{books:r=>md(r.outDay)+'（六）14:00 幫宗霖把書搬去舊路書房寄賣'}, PQ_YSH:{debate:r=>md(r.outDay)+'（六）14:00 博思 201，坐第一排看書豪上台'},
     PQ_YCX:{beat:r=>'週一或週三 21:00 以後到法律系館B旁邊，幫晨希打拍子（'+(r.n|0)+'／3）'}, PQ_SMR:{court:r=>md(r.day0)+'（五）06:00～06:30 到映月湖東側的籃球場幫系籃佔場'} });
   P.register();
 
@@ -288,7 +288,7 @@ const POOL_MORE=(function(){
 
   /* ===== 蔡宗霖（AA_500 第 1 節）===== */
   S.acceptTzl=GM=>{ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,TZ); const d=nextWd(G,6); P.openQ(GM,'PQ_TZL','books',{outDay:d,by:d});
-    planOut(G,{id:'pool_tzl_books_'+d,ev:'ev_pool_tzl_books',day:d,h:14,place:'頁間書屋',title:'蔡宗霖：二手書（頁間書屋 14:00）',travel:'走過去約 15 分鐘'}); };
+    planOut(G,{id:'pool_tzl_books_'+d,ev:'ev_pool_tzl_books',day:d,h:14,place:'舊路書房',title:'蔡宗霖：二手書（舊路書房 14:00）',travel:'走過去約 15 分鐘'}); };
   FLOW[TZ]=[
     gradScene(TZ,'Y3S2','tzlGrad','library_hall'),
     async(GM,who)=>{ const G=GM.G; if(has(TZ,'SHARED_SECRET')||!fam(TZ)||small(G,TZ).day===G.day) return false; if(!(ti(G)>1||(tid(G)==='Y1S2'&&week(G)>=4))) return false;   /* 秘密：大一下第 4 週起 */

@@ -56,8 +56,8 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('A2. 清單上沒有的區域（霖澤館 3F、118 巷滇香小館、總圖 B1）：都有「直接過去」',['heroine_02','heroine_03','heroine_04'].every(id=>/data-fgo="[a-z_0-9]+">直接過去（約 \d+ 分鐘）/.test(r(id))),J(['heroine_02','heroine_03','heroine_04'].map(id=>r(id).replace(/<[^>]+>/g,' ').slice(0,90))));
     check('A2b. 人在 118 巷的店裡：「現在大概在」寫店名（滇香小館），不是區域代號 l118_dian',/滇香小館/.test(r('heroine_03'))&&!/>l118_dian/.test(r('heroine_03')),r('heroine_03').replace(/<[^>]+>/g,' ').slice(0,80));
     check('A3. 校園裡的人：有「直接過去」（到最近的校園地點）',/data-fgo="classmate_peishan">直接過去/.test(r('classmate_peishan')));
-    check('A4. 「帶我去」拿掉（使用者 11-03 23:0x：「不需要再有帶我去這個功能…我要直接過去」）：有區域的人只有「直接過去」',['heroine_01','heroine_02','heroine_04','classmate_peishan'].every(id=>!/data-find=/.test(r(id))&&/data-fgo=/.test(r(id))));
-    check('A5. 排除表（機場）：走路到不了＝沒有直接過去、也沒有帶我去（使用者 11-03 23:0x：「沒辦法客觀上讓我真的能走路到達的就不要有直接過去也不需要有帶我去」）',!/data-fgo=/.test(r('heroine_05'))&&!/data-find=/.test(r('heroine_05')),r('heroine_05').replace(/<[^>]+>/g,' '));
+    check('A4. 「帶我去」照留（有區域的人兩個都有）',['heroine_01','heroine_02','heroine_04','classmate_peishan'].every(id=>/data-find=/.test(r(id))&&/data-fgo=/.test(r(id))));
+    check('A5. 排除表（機場）：沒有直接過去、有「帶我去」、小字寫原因',!/data-fgo=/.test(r('heroine_05'))&&/data-find=/.test(r('heroine_05'))&&/不能直接過去：機場/.test(r('heroine_05')),r('heroine_05').replace(/<[^>]+>/g,' '));
     check('A6. 和你同一區（阿哲在宿舍房間、你也在）：沒有直接過去，寫「就在這裡」',!/data-fgo=/.test(r('zhe'))&&/就在這裡/.test(r('zhe')),r('zhe').replace(/<[^>]+>/g,' '));
     check('A7. 按鈕字是「直接過去」，不再是「過去（約」',!/>過去（約/.test(h)&&/直接過去（約/.test(h));
     W.heroine_01={away:'在台中'}; const h2=P?P.friendsHTML():''; check('A8. 不在臺北（away）：沒有直接過去、也沒有帶我去（照舊）',!/data-fgo=/.test(rowOf(h2,'heroine_01'))&&!/data-find=/.test(rowOf(h2,'heroine_01')));
@@ -70,7 +70,7 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     if(P&&fg&&fg.pl){ await P.quickGo(fg.pl); check('A10. 沒去過、沒有 force：照舊「還沒去過」不移動',!entered.length&&/還沒去過/.test(toasts[0]||''),J(toasts)); toasts=[];
       await P.quickGo(fg.pl,{force:true}); check('A10. force（直接過去）：沒去過也進得去霖澤館 3F（預設出生點）、花路程時間',entered.length===1&&entered[0][0]==='linze_3f'&&entered[0][1]===null&&adv>0,J({entered,adv,toasts})); }
     else check('A10. quickGo force（沒有 friendGo）',false);
-    check('A11. 手機畫面：data-fgo 按了＝GM.friendGoNow（照他現在在哪重算、quickGo 帶 force、到了站到他旁邊）',/querySelectorAll\('\[data-fgo\]'\)[^\n]*GM\.friendGoNow\(id\)/.test(SRC)&&/GM\.friendGoNow=async id=>\{[^\n]*\n[^\n]*friendGo\(id,w,PLACE_LIST\(\)\); if\(fg&&fg\.pl\)\{ await quickGo\(fg\.pl,\{force:true\}\)/.test(SRC)); }
+    check('A11. 手機畫面：data-fgo 按了照他現在在哪重算、quickGo 帶 force',/querySelectorAll\('\[data-fgo\]'\)[^\n]*friendGo\([^\n]*quickGo\(fg\.pl,\{force:true\}\)/.test(SRC)); }
   { fresh('2025-10-08',18,'dorm'); H.FRIEND('heroine_02'); W={heroine_02:{zone:'linze_office'}}; const P=mk(); const fg=P&&P.friendGo?P.friendGo('heroine_02',W.heroine_02,P.PLACE_LIST()):null;
     if(P&&fg&&fg.pl){ await P.quickGo(fg.pl,{force:true}); check('A12. 有開放時段的房間（系辦 18:00 關了）：照舊提示、不進去',!entered.length&&/法律學院辦公室 現在沒有開/.test(toasts.join('|')),J(toasts)); } else check('A12. 系辦（沒有 friendGo）',false); }
   { fresh('2025-10-08',23,'dorm'); H.FRIEND('heroine_04'); W={heroine_04:{zone:'library_b1'}}; const P=mk(); const fg=P&&P.friendGo?P.friendGo('heroine_04',W.heroine_04,P.PLACE_LIST()):null;
@@ -80,9 +80,9 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
   { fresh('2025-10-08',10,'dorm'); const P=mk(); const st=P?P.placeState(['cafe','兩點半 Café',{x:0,z:5}]):null, st2=P?P.placeState(['dorm_hall','男生宿舍',null]):null;
     check('A15. 手機「地點」的清單照舊（Café 10:00 沒開、宿舍開；沒有多出來的關門原因）',!!st&&st.open===false&&!st.shut&&!!st2&&st2.open===true,J({st,st2})); }
   { fresh('2025-10-08',14,'dorm'); H.FRIEND('heroine_02'); W={heroine_02:{zone:'linze_3f'}}; const P=mk({HOME:Object.assign(Object.create(HOME),{baseMode:()=>true,movedOut:()=>false})}); const h=P?P.friendsHTML():'', r=rowOf(h,'heroine_02');
-    check('A16. 休學退宿以後（HOME.baseMode）：台大裡的地方沒有直接過去、也沒有帶我去（照 PLACE_LIST 同一套）',!/data-fgo=/.test(r)&&!/data-find=/.test(r),r.replace(/<[^>]+>/g,' ')); }
+    check('A16. 休學退宿以後（HOME.baseMode）：台大裡的地方沒有直接過去、寫原因（照 PLACE_LIST 同一套）',!/data-fgo=/.test(r)&&/不能直接過去：休學退宿了/.test(r)&&/data-find=/.test(r),r.replace(/<[^>]+>/g,' ')); }
   { fresh('2025-10-08',14,'dorm'); H.FRIEND('heroine_02'); W={heroine_02:{zone:'cafe'}}; const P=mk({EXCH:{inUS:()=>true,places:()=>[['us_apartment','公寓',null]]}}); const h=P?P.friendsHTML():'', r=rowOf(h,'heroine_02');
-    check('A17. 人在美國、她在臺灣：沒有直接過去、也沒有帶我去',!/data-fgo=/.test(r)&&!/data-find=/.test(r),r.replace(/<[^>]+>/g,' ')); }
+    check('A17. 人在美國、她在臺灣：沒有直接過去、寫「你人在美國」',!/data-fgo=/.test(r)&&/你人在美國/.test(r),r.replace(/<[^>]+>/g,' ')); }
 
   /* ================= B 手機「訊息」：所有聯絡人都能開、傳 ================= */
   const SEVEN=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];

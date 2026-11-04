@@ -86,7 +86,7 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 { at(ND1('2026-03-02'),18); H.G.flags.ndlTalkN={Y1:7}; const {L}=await play(); check('5. Y1S2 還沒交往：第 8 則照演',J(L)===J(SPEC.Y1[7]),J(L)); }
 
 /* 6. 讓給別的麵店事件 */
-{ at('2025-09-16',18); const e=STORY_EVENTS.find(q=>q.location==='noodle'&&q.trigger==='enter'&&!q.retired&&!q.off);   /* 不挑停用的（AA_648 以後期末最後一頓的地點是陣列，第一個找到的變成停用的 ev_yutong_landlord）*/ H.G.events.last[e.id]=H.G.day; check('6. 今天已經演過一件麵店事件（'+e.id+'）：不演',!STORY.ndlTalkDue(H.G));
+{ at('2025-09-16',18); const e=STORY_EVENTS.find(q=>q.location==='noodle'&&q.trigger==='enter'); H.G.events.last[e.id]=H.G.day; check('6. 今天已經演過一件麵店事件（'+e.id+'）：不演',!STORY.ndlTalkDue(H.G));
   delete H.G.events.last[e.id]; H.G.events.last[e.id]=H.G.day-3; check('6. 那件是三天前演的：照演',STORY.ndlTalkDue(H.G)); }
 { at('2025-09-16',17); OUT.plan(H.G,{id:'t_ndl',ev:'ev_y2_first_meal',day:H.G.day,h:19,place:'阿鳳麵店',title:'考完的晚餐'}); check('6. 今天 19:00 有出遊在阿鳳麵店：不演',!STORY.ndlTalkDue(H.G)); }
 { at('2025-09-16',18); const fake={id:'ev_test_ndl_enter',title:'',participants:[],location:'noodle',trigger:'enter',weekday:[2],time:[17,21],once:true,dialogue:[]}; STORY_EVENTS.push(fake);

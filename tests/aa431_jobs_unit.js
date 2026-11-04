@@ -56,7 +56,7 @@ await sec(2,async()=>{ const d=TD('Y1S2',3,4); fresh(key(d),17,'dorm'); hire('ca
   at(d+2,13.5); JOBS.plan(H.G); const q2=OUT.get(H.G,'job_cafe_'+(d+2)); check('2. 週六：14:30、「Café 的班（14:30～18:30）」',!!q2&&q2.h===14.5&&q2.title==='Café 的班（14:30～18:30）');
   at(d+2,14.2,'cafe'); check('2. 週六 14:12 在店裡：開班的時間',JOBS.shiftNow(H.G,'cafe')); at(d+2,13.5,'cafe'); check('2. 13:30：還沒',!JOBS.shiftNow(H.G,'cafe'));
   fresh(key(d),17,'dorm'); hire('brunch',[6,7]); H.picks=['「好。」']; const a=await JOBS.pickDays(GM,'cafe'); check('2. 一週最多兩班（早午餐已經兩班）：不能再選',a===null&&toasts.some(t=>/一週最多兩班/.test(t)));
-  fresh(key(TD('Y1S2',3,6)),9,'dorm'); hire('books',[6,7]); JOBS.plan(H.G); const qb=OUT.get(H.G,'job_books_'+H.G.day); check('2. 書店週六 10:00（「頁間書屋的班（10:00～14:00）」；舊路書房 2026-11-04 改名，AA_647 第 6 節）',!!qb&&qb.h===10&&qb.title==='頁間書屋的班（10:00～14:00）'&&qb.goto.zone==='bookstore',J(qb)); });
+  fresh(key(TD('Y1S2',3,6)),9,'dorm'); hire('books',[6,7]); JOBS.plan(H.G); const qb=OUT.get(H.G,'job_books_'+H.G.day); check('2. 書店週六 10:00（「舊路書房的班（10:00～14:00）」）',!!qb&&qb.h===10&&qb.title==='舊路書房的班（10:00～14:00）'&&qb.goto.zone==='bookstore',J(qb)); });
 
 await sec(3,async()=>{ const s1=TD('Y1S2',3,6); fresh(key(s1),14,'cafe'); hire('cafe',[6]); const pay=await shift('cafe',s1,['「先送靠窗那桌。」','「慢慢走。」','「掃地。」']);
   const i0=H.said.findIndex(s=>s.t===CAFE1), i1=H.said.findIndex(s=>s.t==='（你把點單夾在吧檯邊。字寫得有點歪。）');
@@ -80,7 +80,7 @@ await sec(4,async()=>{ /* 芷若在英國的學期：沒有她那一句、Café 
   const b1=TD('Y1S2',3,6); fresh(key(b1),9.5,'bookstore'); hire('books',[6,7]); const pay=await shift('books',b1,['「照作者排。」','「幫他找。」','「先擦乾淨。」']);
   const k=H.said.findIndex(s=>s.t==='（老闆經過，看了一眼，沒有說話。）');
   check('4. 書店週六（沛珊在）：整理書架之後沛珊一句；第 1 件「藍色的書」（三段之後）',H.said[k+1]&&H.said[k+1].t==='（她蹲在最下面一排，小聲念書名給自己聽。）'&&said('我記得是藍色的封面。……書名忘了。')&&saidBy('沛珊','（小聲）他剛剛說，他媽媽以前常煮這道。')   /* AA_606 第 2 節：對話框寫叫的名字（原本「郭沛珊」）*/,J(L()));
-  check('4. 書店：三段、借一本書、薪水 784（toast「頁間書屋 薪水 784 元」；AA_647 第 6 節改名）',said('（有人問有沒有一本書。你翻了三本目錄。）')&&said('（找到的時候，他已經在看別本了。）')&&said('（擦完的書放在門口那一格，下午就賣掉兩本。）')&&said('（你借了一本書回去。）')&&pay===784&&toasts.includes('頁間書屋 薪水 784 元'),J(L()));
+  check('4. 書店：三段、借一本書、薪水 784（toast「舊路書房 薪水 784 元」）',said('（有人問有沒有一本書。你翻了三本目錄。）')&&said('（找到的時候，他已經在看別本了。）')&&said('（擦完的書放在門口那一格，下午就賣掉兩本。）')&&said('（你借了一本書回去。）')&&pay===784&&toasts.includes('舊路書房 薪水 784 元'),J(L()));
   await shift('books',b1+1); check('4. 週日：只有老闆（沒有沛珊那一句）',!said('（她蹲在最下面一排，小聲念書名給自己聽。）')&&!said('（她把一本書抽出來給你看：「這本封面好可愛。……我沒有要買，我只是給你看。」）'));
   await shift('books',b1+7); check('4. 第三班：第 2 件「老闆的規則」',saidBy('老闆','在這裡看書不用買，坐著看也可以。')&&said('不要把書弄濕就好。……上次有人邊看邊吃剉冰。'));
   const g=DK('2026-12-19'); await shift('books',g); check('4. 2026-12-17 以後第一個週六的班：老闆「那個女生這學期沒來排班。」',saidBy('老闆','那個女生這學期沒來排班。'));
@@ -94,7 +94,7 @@ await sec(5,async()=>{ const thu=TD('Y1S2',4,4); fresh(key(thu),17,'dorm'); hire
   const pr=JOBS.partner(H.G,OUT.get(H.G,'job_books_'+sat)); check('5. 書店週六＋法服值班：兩個出門提醒一起列',!!pr&&pr.q&&pr.q.id==='fafu_'+sat,J(pr));
   const s2=DK('2026-07-11'); fresh(key(s2),12,'dorm'); hire('books',[6]); JOBS.phone(H.G); check('5. 暑假：老闆沒有私訊、這個假先停（不排班）',!JOBS.scheduled(H.G,'books',s2)&&Object.values(JOBS.job(H.G,'books').brk).includes('stop')&&!(H.G.msgs||[]).some(m=>m.th==='p:books_boss'));
   fresh(key(TD('Y1S2',5,3)),15,'cafe'); hire('cafe',[6]); H.said=[]; H.picks=['（辭職）']; await JOBS.desk(GM,'cafe'); check('5. 辭職：老闆「好。……告示我再貼回去。」（AA_519 3-2 的 Café 離職那一句，原本「有空回來看看」；沒有離開的時候那一段）',saidBy('老闆','好。……告示我再貼回去。')&&!saidBy('老闆','有空回來看看')&&JOBS.job(H.G,'cafe').gone==='quit',J(L()));
-  check('5. 手機上的名字：兩點半的老闆、頁間書屋的老闆（AA_647 第 6 節改名）',typeof PORTRAIT_ONLY==='undefined'||(PORTRAIT_ONLY.cafe_boss&&PORTRAIT_ONLY.cafe_boss.name==='兩點半的老闆'&&PORTRAIT_ONLY.books_boss.name==='頁間書屋的老闆')); });
+  check('5. 手機上的名字：兩點半的老闆、舊路書房的老闆',typeof PORTRAIT_ONLY==='undefined'||(PORTRAIT_ONLY.cafe_boss&&PORTRAIT_ONLY.cafe_boss.name==='兩點半的老闆'&&PORTRAIT_ONLY.books_boss.name==='舊路書房的老闆')); });
 
 H.done();
 })();

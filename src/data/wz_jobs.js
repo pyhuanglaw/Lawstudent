@@ -21,8 +21,8 @@ const WZ_JOBS_DATA=(function(){
          x：一班三段工作照 AA_431 的表（JOBS.runShiftX），小事件照 AA_289 3-1、3-2（下面的 x）。contact＝手機上老闆的名字（系統字）；title、travel 是系統字 */
       cafe:{ name:'兩點半 Café', short:'Café', zone:'cafe', boss:'老闆', bossId:'cafe_boss', contact:'兩點半的老闆', days:[4,6], hours:{4:[18,22],6:[14.5,18.5]}, title:'Café 的班', travel:'走過去約 15 分鐘', place:'兩點半 Café',
         desk:{x:2.0,z:4.6,label:'門上的告示'}, pay:784, payToast:'Café 薪水 784 元', x:true },
-      books:{ name:'頁間書屋', short:'頁間書屋', zone:'bookstore', boss:'老闆', bossId:'books_boss', contact:'頁間書屋的老闆', days:[6,7], hours:{6:[10,14],7:[13,17]}, title:'頁間書屋的班', travel:'走過去約 15 分鐘', place:'公館・頁間書屋',
-        desk:{x:1.9,z:3.9,label:'門上的告示'}, pay:784, payToast:'頁間書屋 薪水 784 元', x:true },
+      books:{ name:'舊路書房', short:'舊路書房', zone:'bookstore', boss:'老闆', bossId:'books_boss', contact:'舊路書房的老闆', days:[6,7], hours:{6:[10,14],7:[13,17]}, title:'舊路書房的班', travel:'走過去約 15 分鐘', place:'公館・舊路書房',
+        desk:{x:1.9,z:3.9,label:'門上的告示'}, pay:784, payToast:'舊路書房 薪水 784 元', x:true },
       /* 第二批（AA_433，企劃線 78641fff5）：便利商店夜班（公館那一間，3D）、補習班助教（大二起，2D：d2）、事務所工讀（大三起，2D；撞到課照樣可以選：classOk）。
          from＝哪一學期起可以應徵；夜班週五 22:00～隔天 02:00（hours 26＝隔天 02:00）。toast 的字、title、travel、contact 是系統字 */
       cvs:{ name:'公館的便利商店', short:'便利商店', zone:'cvs', boss:'店長', bossId:'cvs_boss', contact:'便利商店的店長', days:[2,5], hours:{2:[18,22],5:[22,26]}, title:'便利商店的班', travel:'走過去約 15 分鐘', place:'公館的便利商店',

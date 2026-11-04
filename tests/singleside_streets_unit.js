@@ -3,7 +3,7 @@
 //   這一份只把「大面、背面看不到」的材質改單面（店內的貨、店內牆、牆面磁磚／馬賽克／粉刷、騎樓柱、地面的牆腳、亮著的房間），不補反面、幾何不動：
 //   1. 這幾個材質單面（溫州街 9 個、118 巷 7 個）；
 //   2. 其他材質照舊雙面（原本就單面的 wz_stain 除外）——葉片、鐵窗、招牌、遮雨棚、電線這些兩面都看得到；
-//   3. 三角形數和改前一樣（94,809、63,826；溫州街 2026-11-04 日常失速 W2 外觀 +1,428 面、材質 44→46（LAWWW2 82d541853）；之前木曜日 B4 外觀：拿掉 F4、加樓梯間與木招牌 PLATE_FACE_mok_B4＝FACE 5，LAWWW2 50c1b0681 README 寫明 93,881→93,381）：沒有補反面、沒有少東西；
+//   3. 三角形數和改前一樣（93,881、63,826）：沒有補反面、沒有少東西；
 //   4. 遊戲照名字找的 FACE 節點（招牌、店內的面）都在（4、45 個）；材質數一樣（44、33）。
 // 修改前 FAIL。用法：node tests/singleside_streets_unit.js
 const fs=require('fs'), path=require('path');
@@ -11,7 +11,7 @@ const ROOT=path.resolve(__dirname,'..');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 function load(n){ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+n+'.glb')), jl=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+jl).toString('utf8')); }
 const BIG=/^(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)/;
-const W={wenzhou_street:{big:9,tris:94809,face:5,mats:46}, lane118_street:{big:7,tris:63826,face:45,mats:33}};
+const W={wenzhou_street:{big:9,tris:93881,face:4,mats:44}, lane118_street:{big:7,tris:63826,face:45,mats:33}};
 for(const [n,want] of Object.entries(W)){ const J=load(n), M=J.materials;
   const big=M.filter(m=>BIG.test(m.name)), bigDs=big.filter(m=>m.doubleSided).map(m=>m.name);
   check('1. '+n+'：大面的材質單面（'+want.big+' 個）', big.length===want.big&&!bigDs.length, bigDs.length?'還是雙面：'+bigDs.join(' '):big.map(m=>m.name).join(' '));

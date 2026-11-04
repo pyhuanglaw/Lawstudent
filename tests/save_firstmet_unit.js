@@ -90,10 +90,4 @@ for(const [name,f] of bad){ reset(); let raw=f?oldSave():null; if(f) f(raw); let
   const changed=!!(zr&&zr.includes('GREETED'));
   const expectChange=name==='沒有 flags';   /* 只少了 flags：照樣可以判斷（事件紀錄、記憶都在），改了也不會出錯 */
   check('⑥ 壞掉的存檔（'+name+'）：不丟例外；'+(expectChange?'照樣修正':'無法確定時不改'),!err&&(expectChange?changed:!changed),err?String(err):JSON.stringify(zr)); }
-/* BUG-YT-FIRSTMET-RELABEL-1103（BB 11-03 22:43）：語彤第三版初遇在茶屋第一班（YT_MET_JOB、SOCIAL.meet，不是事件）——讀檔不能把她改成 GREETED、刪 met_ */
-{ const s={flags:{YT_MET_JOB:true,met_heroine_03:true},events:{done:{}},social:{mem:{heroine_03:[{tag:'FIRST_MET',t:'tea'}]}}};
-  const out=M.relabelFirstMet(s);
-  check('YT. 茶屋初遇（YT_MET_JOB）：讀檔不改、met_heroine_03 留著',!out.includes('heroine_03')&&s.social.mem.heroine_03[0].tag==='FIRST_MET'&&s.flags.met_heroine_03===true,JSON.stringify(out)); }
-{ const so=fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8');
-  check('YT. 新遊戲的 social 一開始就有 fm120（新遊戲不跑舊存檔遷移）',/G\.social=\{rel:\{\},mem:\{\},reveal:\{\},prof:\{\},grad:\{[^}]*\},fm120:true\}/.test(so)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -79,8 +79,7 @@ const msgs=id=>(H.G.msgs||[]).filter(m=>m.th==='p:'+id).map(m=>m.text);
 const ph=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
 const phAt=(day,h)=>{ set(day-1,22); ph(); set(day,h); ph(); };
 const L=()=>PS().LINES;
-const RN647=s=>String(s).replace(/舊路書房/g,'頁間書屋').replace(/清葉茶行/g,'青木茶室').replace(/輪轉單車/g,'慢輪單車').replace(/日日便利/g,'日和便利店');   /* 2026-11-04 改期望：公館四間店改名（AA_647 第 6 節，企劃線 403b7c51c）——稿裡的舊店名照改名清單換成新店名再比 */
-let doc=''; try{ doc=RN647(cp.execSync('git -c core.quotepath=false show '+SRC+':"'+DOCF+'"',{cwd:H.ROOT,encoding:'utf8'})); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git -c core.quotepath=false show '+SRC+':"'+DOCF+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 
 /* ---------- 0 稿 ---------- */
 await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五位都有台詞',ok&&!!P()&&!!PS()&&[Z,Y,C,YS,Q].every(id=>PS().LINES[id]),err);
@@ -322,7 +321,7 @@ await sec(7,async()=>{ const ev=STORY_EVENTS.find(e=>e.id==='ev_pool_greet');
 await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
   check('8. 沒說過話的人不進朋友頁（game3d.js knownIds：B 層＝ACQUAINTANCE／FRIEND；看過三次的 RECOGNIZABLE 不算）',/if\(c\.social_layer==='B'\) return \['ACQUAINTANCE','FRIEND'\]\.includes\(SOCIAL\.reveal\(id\)\);/.test(g));
   check('8. 人物頁：B 層用 POOL.pageDesc（一句話；朋友＝personality）＋做過的事（POOL.deedsHTML）',/POOL\.pageDesc\(id\)/.test(g)&&/POOL\.deedsHTML\(id,G\)/.test(g));
-  fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後、心事說出來以前）：中性的一句「常在頁間書屋看推理小說的同學」（AA_498「實作時定的」第 4 點，照 AA_120；店名照 AA_647 第 6 節改）；說出來以後換回「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='常在頁間書屋看推理小說的同學'&&(SOCIAL.remember(C,'SHARED_SECRET',''),P().pageDesc(C)==='在寫一篇兇手是律師的推理小說'));
+  fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後、心事說出來以前）：中性的一句「常在舊路書房看推理小說的同學」（AA_498「實作時定的」第 4 點，照 AA_120）；說出來以後換回「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='常在舊路書房看推理小說的同學'&&(SOCIAL.remember(C,'SHARED_SECRET',''),P().pageDesc(C)==='在寫一篇兇手是律師的推理小說'));
   check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學姊」（AA_528 第 3 節：她大祐廷一屆）「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學姊|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
   check('8. 沒有回答選項的「……你呢？」不再出現（其他十五位照舊自我介紹）',!/。……你呢？」'\)/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8')));
   /* 順手的事和店員的一起算（SIDEQ.MAX）*/
