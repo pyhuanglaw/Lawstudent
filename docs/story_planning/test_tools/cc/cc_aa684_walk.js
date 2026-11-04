@@ -119,19 +119,21 @@ await sec('2 重逢：回到臺北那天 21:00 約、之後第一個有班的週
     let ret=I.to; while(ret<I.to+40&&onTrip(ret)) ret++;   /* 她回到臺北的那一天＝她自己出遠門（trip）回來的那一天；寒暑假平日在淡水不算不在（玩家回來那天她沒出遠門＝那天）*/
     const works=d=>{ const G2=Object.assign({},H.G,{day:d,hour:16,weekday:WD(d)}); const e=STORY.schedEnt(CHARACTERS[YT],G2); return !!e&&e.zone==='wz_teahouse'&&!onTrip(d)&&!(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed(H.G,d)); };   /* 茶屋過年和燒臘店同一段休息（AA_685 A4）*/
     let first=ret+1; while(WD(first)!==6) first++; let meet=first; while(meet<ret+70&&!(WD(meet)===6&&works(meet))) meet++;
-    const send=meet===first?ret:meet-7;   /* AA_685 B2 沒寫「第一個週六她沒班」：LAWWW-C 的做法＝見面前一個週六約（INFO）*/
-    const word=(WD(send)>=1&&WD(send)<=5)?'這週六我五點下班':'下週六我五點下班';
+    const send=ret;   /* AA_685 D 節第 1 點（企劃線 2d4d5dc72）：一律回到臺北那天 21:00 就約（不再挪到見面前一個週六）*/
+    const md=CALENDAR.dateOf(meet), dateWord=md.m+'/'+md.d+' 那個週六我五點下班', newYear=meet!==first&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed(H.G,first);
+    const word=meet!==first?dateWord:((WD(send)>=1&&WD(send)<=5)?'這週六我五點下班':'下週六我五點下班');   /* 中間隔了她沒班的週六＝用日期講（D 節）*/
+    const wantTx=(newYear?['茶屋過年休息']:[]).concat([word,'你來店裡']);   /* 隔掉的是過年茶屋休息＝最前面多「茶屋過年休息」（D 節）*/
     walk(I.to,17.9,Math.min(meet,I.to+60),18,0.25);
     const M=(H.G.msgs||[]).filter(m=>m.tag==='vac_re_'+I.key+'_'+YT).map(m=>[K(m.day),m.h,m.text]), q=OUT.get(H.G,'vac_'+I.key+'_re_'+YT);
-    const r={key:I.key,back:K(I.to)+'（'+WDN(I.to)+'）',ret:K(ret)+'（'+WDN(ret)+'）',want:[K(send)+' 約',K(meet)+'（'+WDN(meet)+'）',word],mate:!!mate,msgs:M,out:q?[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place,q.state]:null}; rows.push(r);
+    const r={key:I.key,back:K(I.to)+'（'+WDN(I.to)+'）',ret:K(ret)+'（'+WDN(ret)+'）',want:[K(send)+' 約',K(meet)+'（'+WDN(meet)+'）',wantTx.join('／')],mate:!!mate,msgs:M,out:q?[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place,q.state]:null}; rows.push(r);
     if(M.some(m=>/今天我五點下班/.test(m[2]))) today.push(I.key);
     if(mate){ if(M.length||q) bad.push(r); continue; }
     const same=(VAC.rec(H.G).reSame||{})['vac_re_'+I.key+'_'+YT]; if(same!=null){ r.note='和前一趟排到同一個週六（V.reSame）＝不再約'; continue; }
-    if(send!==ret) r.note='第一個週六（'+K(first)+'）她沒班＝見面排 '+K(meet)+'、前一個週六 '+K(send)+' 才約（AA_685 B2 沒寫這種，INFO 給 BB）';
-    const mOk=M.length===2&&M.every(m=>m[0]===K(send)&&m[1]>=21&&m[1]<21.5)&&M[0][2]===word&&M[1][2]==='你來店裡';
+    if(meet!==first) r.note='第一個週六（'+K(first)+'）她沒班'+(newYear?'（過年茶屋休息）':'')+'＝見面排 '+K(meet)+'；AA_685 D 節：回到臺北那天就約、用日期講';
+    const mOk=M.length===wantTx.length&&M.every(m=>m[0]===K(send)&&m[1]>=21&&m[1]<21.5)&&J(M.map(m=>m[2]))===J(wantTx);
     if(!mOk||!q||q.day!==meet||q.h!==17.25||q.place!=='一盞茶屋') bad.push(r); }
   for(const r of rows) console.log('     '+r.key+'　回來 '+r.back+'　她回到臺北 '+r.ret+(r.mate?'　（她同行）':'')+'　照規則 '+J(r.want)+'　訊息 '+J(r.msgs)+'　見面 '+J(r.out)+(r.note?'　'+r.note:''));
-  check('2. 每一趟國外的（'+IS.length+' 趟）：她回到臺北那天 21:00～21:29「這週六／下週六我五點下班」（平日／週末）「你來店裡」，見面排在那天以後第一個她有班的週六 17:15 一盞茶屋；她同行的沒有',!bad.length,bad.length?J(bad.slice(0,3)):'');
+  check('2. 每一趟國外的（'+IS.length+' 趟）：她回到臺北那天 21:00～21:29「這週六／下週六我五點下班」（平日／週末；中間隔了她沒班的週六＝「{月}/{日} 那個週六我五點下班」，隔掉的是過年＝前面多「茶屋過年休息」，AA_685 D 節）「你來店裡」，見面排在那天以後第一個她有班的週六 17:15 一盞茶屋；她同行的沒有',!bad.length,bad.length?J(bad.slice(0,3)):'');
   check('2. 「今天我五點下班」不再用（AA_685 B2③）',!today.length,J(today));
 });
 
