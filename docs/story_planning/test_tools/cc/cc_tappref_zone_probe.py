@@ -50,9 +50,11 @@ BTN = "(()=>{ const b=document.getElementById('interact'); return b&&!b.classLis
 
 
 async def to_wenzhou(pg, cdp):
-    await L.load_state(pg, {'zone': 'wenzhou', 'hour': 14.0, 'day': 7, 'weekday': 2, 'weather': 'clear', 'pos': {'x': START[0], 'z': START[1], 'yaw': 0, 'lv': 0}}, quiet_events=True)
+    # 同 cc_wz_shop_shots_probe 的 enter_gate（PC 上進得了門的做法）：帶開場已過的旗標、只關手機自動打開（quiet_events 會連門口的流程一起關）
+    st = {'zone': 'wenzhou', 'hour': 14.0, 'weather': 'clear', 'pos': {'x': START[0], 'z': START[1], 'yaw': 0, 'lv': 0},
+          'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'WZ_TEA_YARD_IN': True}}
+    await L.load_state(pg, st, quiet_phone=True)
     await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
-    await pg.evaluate("(()=>{ GAME.G.flags.WZ_TEA_YARD_IN=true; return true; })()")   # 【捷徑】第一次進門的旁白先記成看過了：進門後才能馬上按互動鈕
     it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(DOOR[2]))
     return it
 
@@ -75,7 +77,7 @@ async def main():
             await b.close(); print('FAILED 1: 遊戲載入', flush=True); sys.exit(1)
         await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
         # ---- 0. 偵察 ----
-        print('  [前置／捷徑] 讀檔：溫州街 (%s, %s)、2025-09-23（二）14:00、晴、條件事件關閉；WZ_TEA_YARD_IN 先設 true' % (START[0], START[1]), flush=True)
+        print('  [前置／捷徑] 讀檔：溫州街 (%s, %s)、14:00、晴；開場已過的旗標＋WZ_TEA_YARD_IN（第一次進門的旁白當看過了，進門後才能馬上按互動鈕）；只關手機自動打開' % (START[0], START[1]), flush=True)
         door = await to_wenzhou(pg, cdp)
         if not check('溫州街有「%s」' % DOOR[2], bool(door), J(door)):
             await b.close(); print('FAILED %d' % len(FAILS), flush=True); sys.exit(1)

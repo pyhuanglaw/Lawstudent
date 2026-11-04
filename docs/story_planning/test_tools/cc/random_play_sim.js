@@ -121,7 +121,7 @@ async function child(o){
       evRunning:typeof EVENTS!=='undefined'?EVENTS.running||null:null,companion:F.companion||null,dating_kexin:F.dating_kexin,invites:iv.slice(0,4),evDone:g.events&&g.events.count}; };
   const act=t=>{ const g=GM&&GM.G; const s='#'+R.step+' f'+R.frame+' '+(g?dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone:'')+'｜'+t; R.actions.push(s); if(R.actions.length>20) R.actions.shift(); if(o.verbose) RC.log(s); };
   const fmtH=h=>{ h=+h||0; const m=Math.round(h*60); return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
-  function fail(kind,cls,why,msg,extra){ const sig=kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
+  function fail(kind,cls,why,msg,extra){ const sig=kind==='TIME_BACK'?kind:kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
     const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
     R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+cls+'）'+String(msg).split('\n')[0].slice(0,300)); return f; }
   function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':''); R.notes.set(k,n); }
@@ -329,15 +329,15 @@ async function child(o){
   let track=null;   // 時間只往前：{abs}（開局、讀檔重設）
 
   /* ---------- 玩家的「個性」（每個種子不一樣）---------- */
-  const persona={classP:0.35+rnd()*0.6,lateP:rnd()*0.5,phoneP:0.15+rnd()*0.25,talkP:0.2+rnd()*0.3,reloadP:rnd()<0.5?0.0004:0.002,snapP:0.0025};
+  const persona={classP:0.35+rnd()*0.6,lateP:rnd()*0.5,phoneP:0.15+rnd()*0.25,talkP:0.2+rnd()*0.3,reloadP:rnd()<0.5?0.0004:0.002,snapP:0.0025,midReloadP:rnd()<0.5?0.0002:0.001};
   act('個性：上課 '+persona.classP.toFixed(2)+'、熬夜 '+persona.lateP.toFixed(2)+'、手機 '+persona.phoneP.toFixed(2)+'、說話 '+persona.talkP.toFixed(2));
 
   /* ---------- 每一格的檢查 ---------- */
   const D=GM.D; const DIMS=['fam','trust','aff','resp','comf','rom','npcRom'];
-  let staleV=0, busyV=0, lastDay=null, lastToast='';
+  let staleV=0, busyV=0, lastDay=null, lastToast=''; const goingAt=new Map(), goingFail=new Set();
   function abs(g){ return g.day*24+(+g.hour); }
   function checkFrame(){ const g=GM.G; if(!g) return;
-    if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6) fail('TIME_BACK','UNKNOWN','遊戲時間倒退（'+dayKey(Math.floor(track.abs/24))+' '+fmtH(track.abs%24)+' → '+dayKey(g.day)+' '+fmtH(g.hour)+'）','從 '+track.abs.toFixed(3)+' 退到 '+a.toFixed(3)); track.abs=Math.max(track.abs,a); }
+    if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6){ const d0=Math.floor(track.abs/24), h0=track.abs-d0*24; fail('TIME_BACK','UNKNOWN','遊戲時間倒退','從 '+dayKey(d0)+' '+fmtH(h0)+' 退到 '+dayKey(g.day)+' '+fmtH(g.hour)+'（'+(track.abs-a).toFixed(2)+' 小時）'); track.abs=a; } else track.abs=a; }
     if(!Number.isFinite(g.money)) fail('MONEY_NAN','UNKNOWN','錢不是有限的數字','G.money='+g.money);
     if(!Number.isFinite(+g.hour)||!Number.isFinite(g.day)) fail('TIME_NAN','UNKNOWN','日期或時間不是數字','day='+g.day+' hour='+g.hour);
     /* 卡住（同 game3d.js staleCheck：劇情鎖著、沒有對話、選項、事件、淡入淡出、日期卡、走路）*/
@@ -346,6 +346,8 @@ async function child(o){
     if(busy) busyV+=0.1; else busyV=0;
     if(busyV>1800&&!R.stuckNow){ R.stuckNow=true; fail('STUCK','UNKNOWN','劇情鎖住超過 30 分鐘（虛擬時間；一直有東西在演但沒有結束）','by='+JSON.stringify(D.busyWho||[])+' EVENTS.running='+(typeof EVENTS!=='undefined'&&EVENTS.running)); }
     { const te=getById('toast'); if(te){ const t=te.textContent||''; if(t&&t!==lastToast&&!te.classList.contains('hide')){ lastToast=t; act('（提示）'+t.slice(0,60)); } else if(!t) lastToast=''; } }
+    /* ⑨ 一起走過去（invites3d.js going）、人已經在約好的地方、玩家空下來 15 分鐘（遊戲時間）還沒開始見面＝她一直跟著（AN-MEAL-STUCK ②那一種）*/
+    if(Array.isArray(g.invites)&&free()){ for(const iv of g.invites){ if(iv.state==='going'&&iv.zone===g.zone&&iv.day===g.day){ const k=iv.id+'@'+g.day; const t0=goingAt.get(k); if(t0==null) goingAt.set(k,abs(g)); else if(abs(g)-t0>0.25&&!goingFail.has(k)){ goingFail.add(k); fail('STUCK_INVITE','UNKNOWN','一起走過去的邀約已經到了約好的地方（'+iv.zone+'），玩家空下來 15 分鐘（遊戲時間）還停在 going：人一直跟著、見面沒開始',JSON.stringify(iv)); } } } }
     if(g.day!==lastDay){ lastDay=g.day; R.reached=dayKey(g.day); heartbeat(true); checkDaily(); } }
   function checkDaily(){ const g=GM.G; if(!g) return;
     const so=g.social&&g.social.rel; if(so) for(const id in so){ const r=so[id]; for(const k of DIMS){ if(r[k]==null) continue; if(typeof r[k]!=='number'||!Number.isFinite(r[k])||r[k]<0||r[k]>100){ fail('REL_RANGE','UNKNOWN','關係值超出 0～100 或不是數字（social3d.js S.adjust 的範圍）',id+'.'+k+'='+r[k]); } } for(const k of ['seen','talked']) if(r[k]!=null&&!(Number.isFinite(r[k])&&r[k]>=0)) fail('REL_RANGE','UNKNOWN','關係的次數不是非負數',id+'.'+k+'='+r[k]); }
@@ -373,11 +375,12 @@ async function child(o){
     R.loading=true; try{ await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave（讀回剛存的檔）'); }catch(e){ onExc(e,'applySave'); } R.loading=false;
     const g2=GM.G; const k=['day','zone','money','stage']; const dd=k.filter(x=>JSON.stringify(g2[x])!==JSON.stringify(before[x])); const dh=(+g2.hour)-before.hour; if(dh<-0.002||dh>0.25) dd.push('hour');   /* 讀檔的淡入淡出那幾秒時間照樣在走（主迴圈）：往前 15 分鐘以內不算 */
     if(dd.length) fail('LOAD_DIFF','UNKNOWN','applySave 讀回剛存的檔以後，'+dd.join('、')+' 變了',dd.map(x=>x+'：'+JSON.stringify(before[x])+' → '+JSON.stringify(g2[x])).join('；'));
-    track={abs:abs(g2)}; }
-  async function reloadAuto(){ const raw=LS.getItem(T.KEY_AUTO||'fatiao3d_auto'); if(!raw){ act('讀自動存檔：沒有'); return; } let s; try{ s=JSON.parse(raw); }catch(e){ fail('SAVE','UNKNOWN','自動存檔不是 JSON',String(e)); return; }
-    act('讀自動存檔（'+dayKey(s.day)+' '+fmtH(s.hour)+' '+s.zone+'）');
-    R.loading=true; try{ if(T.loadFrom) await pump(Promise.resolve().then(()=>T.loadFrom(s)),60000,'讀自動存檔（loadFrom）'); else await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave'); }catch(e){ onExc(e,'讀自動存檔'); } R.loading=false;
-    track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; }
+    if(track) track={abs:abs(g2)}; }
+  async function reloadAuto(page){ const raw=LS.getItem(T.KEY_AUTO||'fatiao3d_auto'); if(!raw){ act('讀自動存檔：沒有'); return; } let s; try{ s=JSON.parse(raw); }catch(e){ fail('SAVE','UNKNOWN','自動存檔不是 JSON',String(e)); return; }
+    act((page?'重新整理頁面 → 標題「繼續」':'讀自動存檔')+'（'+dayKey(s.day)+' '+fmtH(s.hour)+' '+s.zone+'）');
+    /* page：標題畫面的「繼續」（不管劇情有沒有在演，同一個 process 裡用 applySave；真的重新整理會把模組的狀態清掉，這裡只靠 applySave 的 loadRelease，見限制）*/
+    R.loading=true; try{ if(page) await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave（重新整理頁面後的繼續）'); else if(T.loadFrom) await pump(Promise.resolve().then(()=>T.loadFrom(s)),60000,'讀自動存檔（loadFrom）'); else await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave'); }catch(e){ onExc(e,'讀自動存檔'); } R.loading=false;
+    if(track) track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; }
 
   /* ---------- 玩家：看畫面上有什麼可以按 ---------- */
   const vis=el=>{ for(let x=el;x&&x!==DOC;x=x.parentNode){ if(x.classList&&x.classList.contains('hide')) return false; if(x.style&&x.style.display==='none') return false; } return !!el&&el.isConnected; };
@@ -388,6 +391,8 @@ async function child(o){
   const free=()=>{ const P=E.player; return P&&!P.busy&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
   /* 回傳 true＝這一格做了事 */
   async function ui(){ const g=GM.G;
+    /* 劇情演到一半（對話、選單）：很少數的時候「重新整理頁面、按繼續」＝讀自動存檔（使用者 10-27 AN-MEAL-STUCK 就是這樣讀回來的）*/
+    if((D.active||T.chooseCur)&&rnd()<persona.midReloadP){ R.step++; act('（劇情中途）重新整理頁面、按「繼續」'); await reloadAuto(true); return true; }
     /* 選單 */
     const cc=T.chooseCur; const box=getById('choices');
     if(cc){ const opts=(cc.options||[]); const shown=opts.filter(q=>q&&!q.hidden);
