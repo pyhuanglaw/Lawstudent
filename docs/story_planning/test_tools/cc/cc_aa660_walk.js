@@ -8,8 +8,8 @@
    - 日本：3/22～3/24（G4 阿哲那則）；8/5 JP.returnHome 回國 → 8/31（G5、G6 摘要日 JP.dueStop／playStop）。和以安交往中、沒交往兩種。
    - 臺灣：同樣的日子走一遍，aa660 的東西一則都不能有。
    - 舊存檔：7/28 10:00 才讀進來（隔天）＝G1-1 照補；7/29 10:00 才讀進來（第三天）＝不補。
-   預期台詞照 AA_660 第 2 節抄（EXP_090981 ＝ 程式照的那一版；LATEST ＝ 企劃線 0777c92ac 16:28 AA 回 LAWWW-C 五件以後的版本）；兩版不一樣的句子分開報：
-     和 090981ebe 一致、和 0777c92ac 不一致＝「稿已更新、程式還沒接」（INFO，不算 FAIL；BB 判）。
+   預期台詞照 AA_660 第 2 節抄。r1（d88edf9）：090981ebe 和 0777c92ac 不一樣的句子分開報（和 090981ebe 一致＝「稿已更新、程式還沒接」INFO）。
+   r2（BB-C 17:08；35f1fff36 接好 0777c92ac、de9628d67）：美國那段一律照最新稿（de9628d67）比，不一樣就 FAIL；加「沒認識 Alison、認識芯慈」「只認識明軒」兩組。
    【前置／捷徑】pg_harness 的假 GM（不需要瀏覽器）、直接設 G 的日期時間和路線旗標（出發、到達、回國照 AA_660 第 1 節與 ROUTE_DATES 的日子手動設）。
    用法：LW_ROOT=<開發分支 worktree> node cc_aa660_walk.js */
 'use strict';
@@ -86,82 +86,90 @@ const both=(name,got,v0909,latest)=>{ const a=J(got)===J(v0909), b=J(got)===J(la
   const STEP=0.25;
   const walk=async(C,d0,h0,d1,h1,hook)=>{ for(let t=T(d0,h0);t<=T(d1,h1)+1e-9;t+=STEP){ const d=Math.floor(t/24+1e-9), h=+(t-d*24).toFixed(4); at(d,h); if(hook) await hook(d,h); phone(); C.take(); } };
 
-  /* ================= 美國 ================= */
-  const usWalk=async(mode,fl)=>{ const route=fl||US0; fresh('2028-07-26',8,'dorm',Object.assign({},route)); atHome(H.G); PRE(); const C=collector(); let ev=null, lists={}; const sums={};
+  /* ================= 美國 =================
+     r2（BB-C 17:08；35f1fff36＝AA 兩批改稿 0777c92ac、de9628d67 接好以後）：預期照 AA_660 最新版（de9628d67）逐字；三種人際狀態：
+       A＝Alison、明軒、芯慈、阿哲都認識（原本的）；X＝沒認識 Alison、認識芯慈（芯慈拿清單，US_PHOTO_LIST＋US_PHOTO_LIST_XC）；M＝只認識明軒（不排餞行、7/31 21:00 明軒私訊兩則、不記清單）*/
+  const SC={
+    A:{name:'Alison 在',fr:['yu','classmate_mingxuan','classmate_xinci','zhe'],
+      g13grp:X.g13grp, ev:X.g13ev.a, close:X.g13ev.close, list:true, xc:false,
+      g15:X.g15, g22:X.g22list, g22say:X.g22say.latest},
+    X:{name:'沒認識 Alison、認識芯慈',fr:['classmate_mingxuan','classmate_xinci','zhe'],
+      g13grp:['明軒：禮拜一幫祐廷餞行','明軒：七點 燒臘店','阿哲：我在高雄 幫我多吃一盤'],
+      ev:['（燒臘店最裡面那張長桌。芯慈把一張折成四折的紙推到你面前。）','芯慈：這是我們列的。你到了以後要拍給我們看的東西。','（紙上用三種顏色的筆寫著：校園的松鼠、超市最大包的洋芋片、教室、你的房間。最後一行是明軒的字：「你自己」。）',
+        '明軒：最後那個是我寫的。……拍你自己，不要只拍風景。','芯慈：時差幾個小時？'], close:'（吃完，芯慈把那張紙折好，塞進你的護照套裡。）', list:true, xc:true,
+      g15:['你（自動）：📷（校園的松鼠，站在垃圾桶的蓋子上）','芯慈：打勾。','芯慈：剩下三個'],
+      g22:['明軒：回來了？','芯慈：清單最後一項，你一直沒拍。','明軒：現在拍也可以。'], g22say:[['明軒：好。這張可以。','芯慈：清單完成。'],['芯慈：好。那也算。']]},
+    M:{name:'只認識明軒',fr:['classmate_mingxuan'], g13grp:null, ev:null, list:false, xc:false, g15:[],
+      dm:['明軒：八月二號走？','明軒：到了拍一張你自己。不要只拍風景。'], g22:['明軒：回來了？','明軒：下次桌遊夜，位子留給你。'], g22say:null} };
+  const usWalk=async(mode,sc)=>{ fresh('2028-07-26',8,'dorm',Object.assign({},US0)); atHome(H.G); for(const id of sc.fr) H.FRIEND(id); PHONE.join(H.G,'noodle_team','桌遊團'); PHONE.join(H.G,'family_law','法律系直屬家族');
+    const C=collector(); let ev=null; const sums={};
     const ans=(id,k)=>{ if(mode==='none') return; answer(C,id,k); };
-    /* 摘要日：要在那天之前問（HOLFF.sums 只列還沒過的；11-04 第一輪走完才問，7/29 已經過了＝探針的 bug）*/
+    /* 摘要日：要在那天之前問（HOLFF.sums 只列這一段假期的）*/
     const grab=()=>{ if(typeof HOLFF==='undefined'||!HOLFF.sums) return; for(const q of HOLFF.sums(H.G)) if([D('2028-07-29'),D('2028-12-25'),D('2029-01-13')].includes(q.day)&&!sums[dk(q.day)]) sums[dk(q.day)]=typeof q.s.line==='function'?q.s.line(H.G):q.s.line; };
+    let outSeen=false;
     await walk(C,D('2028-07-26'),8,D('2028-08-01'),23.75,async(d,h)=>{
       if(h===8) grab();
       ans('aa660_us_flight',mode==='b'?1:0);
-      if(d===D('2028-07-31')&&h>=19&&!ev&&typeof OUT!=='undefined'){ const q=OUT.get(H.G,'aa660_us_farewell'); if(q){ H.said=[]; H.picks=[mode==='b'?1:0]; await OUT.go(GM,q,{fromHome:true}); ev={lines:H.lines(),list:!!H.G.flags.US_PHOTO_LIST,at:dk(d)+' '+hm(h)}; } } });
-    lists.afterFarewell=!!H.G.flags.US_PHOTO_LIST;
-    /* 8/2 出發（09:30 起飛；到達當地 8/2）；之後的鐘是美國當地時間 */
+      if(typeof OUT!=='undefined'&&OUT.get(H.G,'aa660_us_farewell')) outSeen=true;
+      if(d===D('2028-07-31')&&h>=19&&!ev&&typeof OUT!=='undefined'){ const q=OUT.get(H.G,'aa660_us_farewell'); if(q){ H.said=[]; H.picks=[mode==='b'?1:0]; await OUT.go(GM,q,{fromHome:true}); ev={lines:H.lines(),at:dk(d)+' '+hm(h)}; } } });
+    const fl0={US_PHOTO_LIST:!!H.G.flags.US_PHOTO_LIST,US_PHOTO_LIST_XC:!!H.G.flags.US_PHOTO_LIST_XC};
     Object.assign(H.G.flags,{US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:D('2028-08-02'),US1:'together'}); H.G.zone='us_apartment';
     await walk(C,D('2028-08-02'),12,D('2028-08-07'),23.75);
-    /* 12/23 回國（05:40 落地；媽媽接機） */
     Object.assign(H.G.flags,{US_RETURNED:D('2028-12-23'),US_TRIP_DONE:true,ROOM_Y4:D('2028-12-23')}); H.G.zone='dorm';
-    await walk(C,D('2028-12-23'),5,D('2028-12-26'),0,async(d,h)=>{ if(h===8) grab(); ans('aa660_us_back_photo',mode==='b'?1:0); }); grab();   /* HOLFF.sums 只列這一段假期的（12/24 還是期末週，12/25 起才是寒假）*/
-    return {C,ev,sums,flags:{US_PHOTO_LIST:!!H.G.flags.US_PHOTO_LIST}}; };
+    await walk(C,D('2028-12-23'),5,D('2028-12-26'),0,async(d,h)=>{ if(h===8) grab(); ans('aa660_us_back_photo',mode==='b'?1:0); }); grab();
+    return {C,ev,sums,fl0,outSeen}; };
 
-  for(const mode of ['none','a','b']){
-    const tagM={none:'不回',a:'選第一個',b:'選第二個'}[mode], r=await usWalk(mode), L=r.C.out;
-    show('美國路線（問句'+tagM+'）走一遍收到的 aa660 訊息',L);
+  for(const [sk,mode] of [['A','none'],['A','a'],['A','b'],['X','a'],['X','b'],['M','none']]){
+    const sc=SC[sk], tagM=sc.name+'／'+({none:'不回',a:'選第一個',b:'選第二個'}[mode]), r=await usWalk(mode,sc), L=r.C.out, P='[美國/'+tagM+'] ';
+    show('美國路線（'+tagM+'）走一遍收到的 aa660 訊息',L);
     const g11=L.filter(m=>m.tag==='aa660_us_flight'), g11s=L.filter(m=>m.tag==='aa660_us_flight_sis');
-    eqSeq('[美國/'+tagM+'] G1-1 7/27 21:00 家人群組第一則',g11.slice(0,1).map(m=>m.who+'：'+m.text),X.g11ask,g11[0]?g11[0].date+' '+g11[0].time+' '+g11[0].th:'');
-    check('[美國/'+tagM+'] G1-1 在 7/27 21:00、家人群組',!!g11[0]&&g11[0].date==='7/27'&&g11[0].time==='21:00'&&/home/.test(g11[0].th||''),g11[0]?J([g11[0].date,g11[0].time,g11[0].th]):'沒有');
-    if(g11[0]) both('[美國/'+tagM+'] G1-1 兩個回法',g11[0].ask,X.g11opt.v0909,X.g11opt.latest);
+    eqSeq(P+'G1-1 7/27 21:00 家人群組第一則',g11.slice(0,1).map(m=>m.who+'：'+m.text),X.g11ask,g11[0]?g11[0].date+' '+g11[0].time+' '+g11[0].th:'');
+    check(P+'G1-1 在 7/27 21:00、家人群組',!!g11[0]&&g11[0].date==='7/27'&&g11[0].time==='21:00'&&/home/.test(g11[0].th||''),g11[0]?J([g11[0].date,g11[0].time,g11[0].th]):'沒有');
+    if(g11[0]) eqSeq(P+'G1-1 兩個回法（最新稿）',g11[0].ask,X.g11opt.latest);
     if(mode==='none'){
-      eqSeq('[美國/不回] G1-1 兩個小時沒回：姊姊兩則、爸爸「？」照樣傳（23:00、quiet＝快轉不停）',g11s.map(m=>m.who+'：'+m.text),X.g11after,g11s[0]?g11s[0].date+' '+g11s[0].time:'');
-      check('[美國/不回] G1-1 那三則都是 quiet、在 7/27 23:00～23:15',g11s.length===3&&g11s.every(m=>m.quiet&&m.date==='7/27'&&m.h>=23&&m.h<23.3),J(g11s.map(m=>[m.time,m.quiet])));
+      eqSeq(P+'G1-1 兩個小時沒回：姊姊兩則、爸爸「？」照樣傳',g11s.map(m=>m.who+'：'+m.text),X.g11after,g11s[0]?g11s[0].date+' '+g11s[0].time:'');
+      check(P+'G1-1 那三則都是 quiet、在 7/27 23:00～23:15',g11s.length===3&&g11s.every(m=>m.quiet&&m.date==='7/27'&&m.h>=23&&m.h<23.3),J(g11s.map(m=>[m.time,m.quiet])));
     } else {
-      const k=mode==='a'?0:1, rep=L.filter(m=>m.tag==='aa660_us_flight_ans'), got=g11.slice(1).concat(rep.filter(m=>m.from!=='player')).map(m=>m.who+'：'+m.text);
-      info('[美國/'+tagM+'] G1-1 玩家回的那則：'+J(rep.filter(m=>m.from==='player').map(m=>m.text)));
-      both('[美國/'+tagM+'] G1-1 回了以後媽媽的回答＋姊姊兩則、爸爸「？」',got,X.g11say.v0909[k].concat(X.g11after),X.g11say.latest[k].concat(X.g11after));
-      check('[美國/'+tagM+'] G1-1 回了就不再補傳那三則',!g11s.length,J(g11s.length));
+      const k=mode==='a'?0:1, rep=L.filter(m=>m.tag==='aa660_us_flight_ans');
+      check(P+'G1-1 玩家回的那則＝選項原文',J(rep.filter(m=>m.from==='player').map(m=>m.text))===J([X.g11opt.latest[k]]),J(rep.filter(m=>m.from==='player').map(m=>m.text)));
+      eqSeq(P+'G1-1 回了以後（最新稿）',g11.slice(1).concat(rep.filter(m=>m.from!=='player')).map(m=>m.who+'：'+m.text),X.g11say.latest[k].concat(X.g11after));
+      check(P+'G1-1 回了就不再補傳那三則',!g11s.length,J(g11s.length));
     }
     const g13=L.filter(m=>m.tag==='aa660_us_farewell_grp');
-    eqSeq('[美國/'+tagM+'] G1-3 7/30 21:00 桌遊團群組（Alison 揪、阿哲在高雄、明軒會到）',seq(g13,/./),X.g13grp,g13[0]?g13[0].date+' '+g13[0].time+' '+g13[0].th:'');
-    check('[美國/'+tagM+'] G1-3 群組在 7/30 21:00',!!g13[0]&&g13[0].date==='7/30'&&g13[0].time==='21:00',g13[0]?J([g13[0].date,g13[0].time]):'沒有');
-    if(r.ev){ const exp=X.g13ev.a.concat([mode==='b'?X.g13ev.optB:X.g13ev.optA,X.g13ev.close]);
-      const got=r.ev.lines.filter(l=>!/^(公館燒臘|——)/.test(l));
-      eqSeq('[美國/'+tagM+'] G1-3 7/31 19:00 公館燒臘的台詞（逐字、順序）',got,exp,'出門 '+r.ev.at);
-      check('[美國/'+tagM+'] G1-3 演完記 US_PHOTO_LIST',r.ev.list,J(r.ev.list)); }
-    else check('[美國/'+tagM+'] G1-3 7/31 有餞行可以出門（OUT.get aa660_us_farewell）',false,'沒有排');
+    if(sc.g13grp){ eqSeq(P+'G1-3 7/30 21:00 桌遊團群組',seq(g13,/./),sc.g13grp,g13[0]?g13[0].date+' '+g13[0].time+' '+g13[0].th:'');
+      check(P+'G1-3 群組在 7/30 21:00',!!g13[0]&&g13[0].date==='7/30'&&g13[0].time==='21:00',g13[0]?J([g13[0].date,g13[0].time]):'沒有'); }
+    else info(P+'7/30 桌遊團群組（稿沒寫只認識明軒時群組怎麼辦，照實記）：'+J(seq(g13,/./)));
+    if(sc.ev){ if(r.ev){ const exp=sc.ev.concat([mode==='b'?X.g13ev.optB:X.g13ev.optA,sc.close]); eqSeq(P+'G1-3 7/31 19:00 公館燒臘的台詞（逐字、順序）',r.ev.lines.filter(l=>!/^(公館燒臘|——)/.test(l)),exp,'出門 '+r.ev.at); }
+      else check(P+'G1-3 7/31 有餞行可以出門（OUT.get aa660_us_farewell）',false,'沒有排');
+      check(P+'G1-3 演完記 US_PHOTO_LIST'+(sc.xc?'＋US_PHOTO_LIST_XC':'（不記 _XC）'),r.fl0.US_PHOTO_LIST===sc.list&&r.fl0.US_PHOTO_LIST_XC===sc.xc,J(r.fl0)); }
+    else { check(P+'G1-3 餞行的出遊不排（一直沒有 OUT aa660_us_farewell）',!r.outSeen&&!r.ev,J({outSeen:r.outSeen,ev:!!r.ev}));
+      check(P+'不記 US_PHOTO_LIST',!r.fl0.US_PHOTO_LIST&&!r.fl0.US_PHOTO_LIST_XC,J(r.fl0));
+      const dm=L.filter(m=>m.tag==='aa660_us_mx_dm'); eqSeq(P+'G1-3 7/31 21:00 明軒私訊兩則',seq(dm,/./),sc.dm,dm[0]?dm[0].date+' '+dm[0].time+' '+dm[0].th:'');
+      check(P+'明軒私訊在 7/31 21:00、不是群組',!!dm[0]&&dm[0].date==='7/31'&&dm[0].time==='21:00'&&!/noodle_team|^g:/.test(dm[0].th||''),dm[0]?J([dm[0].date,dm[0].time,dm[0].th]):'沒有'); }
     const g14=L.filter(m=>m.tag==='aa660_us_eve_fam');
-    eqSeq('[美國/'+tagM+'] G1-4 8/1 22:00 家人群組',seq(g14,/./),X.g14,g14[0]?g14[0].date+' '+g14[0].time:'');
+    eqSeq(P+'G1-4 8/1 22:00 家人群組',seq(g14,/./),X.g14,g14[0]?g14[0].date+' '+g14[0].time:'');
     const g15=L.filter(m=>/^aa660_us_photo1/.test(m.tag));
-    eqSeq('[美國/'+tagM+'] G1-5 美國第一週週末 臺灣 21:00（當地 09:00）桌遊團：松鼠照片＋Alison 兩則',seq(g15,/./),X.g15,g15[0]?g15[0].date+' '+g15[0].time+'（遊戲鐘＝當地）':'');
-    check('[美國/'+tagM+'] G1-5 在 8/5 當地 09:00',!!g15[0]&&g15[0].date==='8/5'&&g15[0].time==='09:00',g15[0]?J([g15[0].date,g15[0].time]):'沒有');
+    eqSeq(P+'G1-5 美國第一週週末 臺灣 21:00（當地 09:00）'+(sc.g15.length?'':'：沒有清單＝不演'),seq(g15,/./),sc.g15,g15[0]?g15[0].date+' '+g15[0].time+'（遊戲鐘＝當地）':'');
+    if(sc.g15.length) check(P+'G1-5 在 8/5 當地 09:00',!!g15[0]&&g15[0].date==='8/5'&&g15[0].time==='09:00',g15[0]?J([g15[0].date,g15[0].time]):'沒有');
     const g21=L.filter(m=>/^aa660_us_back_(fam|me)$/.test(m.tag));
-    check('[美國/'+tagM+'] G2-1 12/23 家人群組沒出現（S.G21_ON＝'+AA660.G21_ON+'，等 AA 確認）',!g21.length,J(seq(g21,/./)));
-    if(mode==='none') info('G2-1：AA_660 16:28 已定稿（媽媽接到以後約 10:30 在群組報：'+J(X.g21latest)+'），程式還是舊稿、而且關著（G21_ON=false）——稿已更新、程式還沒接');
-    const g22=L.filter(m=>m.tag==='aa660_us_back_grp'||m.tag==='aa660_us_back_photo');
-    eqSeq('[美國/'+tagM+'] G2-2 12/23 21:00 桌遊團（有清單）前三則',seq(g22,/^aa660_us_back_grp$/).slice(0,3),X.g22list,g22[0]?g22[0].date+' '+g22[0].time:'');
-    if(g22.length){ const askM=g22.find(m=>m.ask); if(askM) both('[美國/'+tagM+'] G2-2 兩個回法',askM.ask,X.g22opt.v0909,X.g22opt.latest);
+    eqSeq(P+'G2-1 12/23 家人群組（媽媽接到了 → 湯的照片 → 爸爸 → 姊姊）',seq(g21,/./),X.g21latest,g21[0]?g21[0].date+' '+g21[0].time+' '+g21[0].th:'');
+    check(P+'G2-1 在 12/23 10:30、家人群組',!!g21[0]&&g21[0].date==='12/23'&&g21[0].time==='10:30'&&/home/.test(g21[0].th||''),g21[0]?J([g21[0].date,g21[0].time,g21[0].th]):'沒有');
+    const g22=L.filter(m=>m.tag==='aa660_us_back_grp');
+    eqSeq(P+'G2-2 12/23 21:00 桌遊團'+(sc.list?'（有清單）':'（沒有清單）'),seq(g22,/./),sc.g22,g22[0]?g22[0].date+' '+g22[0].time:'');
+    check(P+'G2-2 在 12/23 21:00',!!g22[0]&&g22[0].date==='12/23'&&g22[0].time==='21:00',g22[0]?J([g22[0].date,g22[0].time]):'沒有');
+    if(sc.list){ const askM=g22.find(m=>m.ask); eqSeq(P+'G2-2 兩個回法（最新稿）',askM?askM.ask:null,X.g22opt.latest);
       if(mode!=='none'){ const k=mode==='a'?0:1, rep=L.filter(m=>m.tag==='aa660_us_back_photo_ans');
-        info('[美國/'+tagM+'] G2-2 玩家回的那則：'+J(rep.filter(m=>m.from==='player').map(m=>m.text)));
-        both('[美國/'+tagM+'] G2-2 回了以後',rep.filter(m=>m.from!=='player').map(m=>m.who+'：'+m.text),X.g22say.v0909[k],X.g22say.latest[k]); } }
+        eqSeq(P+'G2-2 回了以後',rep.filter(m=>m.from!=='player').map(m=>m.who+'：'+m.text),sc.g22say[k]); } }
+    else check(P+'G2-2 沒有清單：沒有問句',!g22.some(m=>m.ask),J(g22.map(m=>m.ask)));
     const kev=L.filter(m=>m.tag==='heard_h509_kevin');
-    check('[美國/'+tagM+'] G2-3 12/24 Kevin 那則第一句＝「'+X.g23first+'」',!!kev[0]&&kev[0].text===X.g23first,kev.length?J(kev.map(m=>m.date+' '+m.time+' '+m.text)):'沒有收到 heard_h509_kevin');
-    if(r.sums){ const s=k=>r.sums[k];
-      check('[美國/'+tagM+'] G1-2 7/29 摘要日旁白',s('7/29')===X.g12,J(s('7/29')));
-      check('[美國/'+tagM+'] G3-1 12/25 摘要日旁白',s('12/25')===X.g31,J(s('12/25')));
-      both('[美國/'+tagM+'] G3-2 1/13 摘要日旁白',s('1/13'),X.g32.v0909,X.g32.latest); }
-    else check('[美國/'+tagM+'] HOLFF.sums 拿得到',false);
+    check(P+'G2-3 12/24 Kevin 那則第一句＝「'+X.g23first+'」',!!kev[0]&&kev[0].text===X.g23first,kev.length?J(kev.map(m=>m.date+' '+m.time+' '+m.text)):'沒有收到 heard_h509_kevin');
+    const s=k=>r.sums[k];
+    check(P+'G1-2 7/29 摘要日旁白',s('7/29')===X.g12,J(s('7/29')));
+    check(P+'G3-1 12/25 摘要日旁白',s('12/25')===X.g31,J(s('12/25')));
+    check(P+'G3-2 1/13 摘要日旁白（最新稿）',s('1/13')===X.g32.latest,J(s('1/13')));
     const dup=L.filter((m,i)=>L.findIndex(q=>q.tag===m.tag&&q.text===m.text)!==i);
-    check('[美國/'+tagM+'] 一路上沒有重複的訊息',!dup.length,J(dup.map(m=>m.tag+' '+m.text)));
+    check(P+'一路上沒有重複的訊息',!dup.length,J(dup.map(m=>m.tag+' '+m.text)));
   }
-  /* 沒有清單（Alison 從沒認識）：照 090981ebe＝明軒揪、沒有清單；最新稿＝芯慈拿清單、一樣記 US_PHOTO_LIST */
-  { fresh('2028-07-26',8,'dorm',Object.assign({},US0)); atHome(H.G); for(const id of ['classmate_mingxuan','classmate_xinci','zhe']) H.FRIEND(id); PHONE.join(H.G,'noodle_team','桌遊團'); const C=collector(); let ev=null;
-    await walk(C,D('2028-07-30'),20,D('2028-07-31'),20,async(d,h)=>{ if(d===D('2028-07-31')&&h>=19&&!ev){ const q=OUT.get(H.G,'aa660_us_farewell'); if(q){ H.said=[]; H.picks=[0]; await OUT.go(GM,q,{fromHome:true}); ev=H.lines(); } } });
-    show('美國路線（沒認識 Alison）7/30～7/31',C.out); info('沒認識 Alison 的餞行台詞：'+J(ev));
-    const grp=seq(C.out,/^aa660_us_farewell_grp$/);
-    both('[美國/沒認識 Alison] G1-3 群組',grp,['明軒：禮拜一幫祐廷餞行','明軒：七點 燒臘店','阿哲：我在高雄 幫我多吃一盤'],['明軒：禮拜一幫祐廷餞行','明軒：七點 燒臘店','阿哲：我在高雄 幫我多吃一盤']);
-    const lst=!!H.G.flags.US_PHOTO_LIST;
-    if(!lst) info('[美國/沒認識 Alison] 沒有 US_PHOTO_LIST、燒臘店沒有拿清單那幾句：和 090981ebe 一致；AA_660 16:28 最新稿改成芯慈拿清單、一樣記 US_PHOTO_LIST——稿已更新、程式還沒接');
-    else check('[美國/沒認識 Alison] 照最新稿：芯慈拿清單、記 US_PHOTO_LIST',ev&&ev.some(l=>/芯慈把一張折成四折的紙/.test(l)),J(ev)); }
-
   /* ================= 美國：舊存檔 ================= */
   for(const [k,h,exp] of [['2028-07-28',10,true],['2028-07-29',10,false]]){ fresh(k,h,'dorm',Object.assign({},US0)); atHome(H.G); PRE(); const C=collector(); at(D(k),h); phone(); C.take();
     const got=C.out.filter(m=>/^aa660_us_flight/.test(m.tag));
