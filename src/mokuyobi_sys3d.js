@@ -8,9 +8,9 @@
      來過八次以上，點完東西以後每學期一句輪流。
    - 1-5 考試那兩週（日曆的考試週：期中第 8～9 週、期末第 16 週，term.exam）：一個人進門的旁白（一天一次）；柏翰（14:00～22:00）、明軒（週四 15:00～19:00）的作息在木曜日，
      跟他說話先說稿上那一句（一天一次，STORY.PRE_TALK）；22:00 打烊、柏翰那天在＝他問要不要去兩點半（去＝一起走過去：邀約的「現在一起過去」，到了照兩點半的見面；不去＝明天見）。
-     明軒稿上是週二、週四，但木曜日週二公休：只排週四（報告 LAWWW 轉問 AA）；芯慈稿上沒有句子、時段寫法不確定：不排。
-   - 打烊（22:00、週二、颱風天、還沒開）人還在店裡：請你出來，站在 B4 門口（店門的開放時間照 PLACES.hours.wz_mokuyobi 的字）。
-   - 1-6 兩個人來：src/data/invites.js 的地點 mokuyobi；見面那一段 S.meetScene（她先到＝進門旁白；七位第一次＝第一次那一句、之後隨機一次＝那一句；朋友五位一句）。
+     明軒稿上是週二、週四，但木曜日週二公休：只排週四（AA_645 5-a 同意）；芯慈週一、週三 14:00～17:00、她那一句照 AA_645 5-b。
+   - 打烊人還在店裡：請你出來，站在 B4 門口。一般的 22:00＝老闆一句＋旁白（AA_645 第 3 節；當晚出過 21:40 溫水＝只出旁白）；週二、颱風天、還沒開＝只寫開放時間（PLACES.hours.wz_mokuyobi）。
+   - 1-6 兩個人來：src/data/invites.js 的地點 mokuyobi（答應的一句照 AA_645 第 4 節：十人各一句、沒列的人一般那句 S.ACC0）；見面那一段 S.meetScene（約的人先到＝進門旁白 S.meetLine，AA_645 第 2 節不分男女、窗邊滿了＝靠書櫃那桌；七位第一次＝第一次那一句、之後隨機一次＝那一句；朋友五位一句）。
      「點什麼」只登記在 S.DATE[id].order（稿上沒有要說出來的句子）。
    - 1-7 雨天：交往中、今天在木曜日見過面（邀約 done）、下雨、每段關係一次（G.mokuyobi.rain[人]）；按「離開木曜日」時演，兩個選項。CG 還沒有：S.RAIN_CG(id) 登錄點，CG_REGISTRY 有那張才出（ADV.cg）。
    - 1-8 深談的地點：現有的告白、和好、畢業前事件都沒有「她提議地點」那一步，這裡不改事件（報告列出來）。
@@ -18,7 +18,7 @@
    - 老闆站在吧檯後面（STORY.populate；路人底模，不說話——他的台詞在上面的場合用「老闆」compact）。
    存檔：G.mokuyobi＝{n:來過幾次, seats:{座位編號: 坐過幾次}, last:上一次坐的座位, first, narr, water:學期, chat:{t:學期,k:第幾句}, examDay, bh, mx, rain:{人物:那天}}；
      舊存檔沒有＝game3d.js defaults 補 {n:0,seats:{}}（從零開始），壞掉的欄位 S.rec 重設。
-   書櫃、唱片機、海報（配置的 interact bookcase／record／poster）：AA_618 沒有台詞，不放按鈕（報告「缺台詞」）。
+   書櫃、唱片機、海報（配置的 interact bookcase／record／poster）：AA_645 第 1 節的旁白，每次隨機一句、不連續同一句（S.look）。
    測試：node tests/mokuyobi_aa618_unit.js */
 'use strict';
 const MOKS=(function(){
@@ -39,7 +39,14 @@ const MOKS=(function(){
     bh:[[null,'（柏翰抬頭，指了一下旁邊的位子。）'],['classmate_bohan','「（小聲）總圖位子搶不到。」']],
     mx:[['classmate_mingxuan','「（小聲）我七點半家教。……再讀一章就走。」']],
     bhAsk:'「兩點半還開。你要去嗎？」', bhGo:'「去。」', bhHome:'「我回去了。」', bhBye:'「嗯，明天見。」',
-    meet:'（她坐在窗邊那桌，已經點好了。）',   /* 1-6 進門（約的人先到）*/
+    meet:'（她坐在窗邊那桌，已經點好了。）',   /* AA_618 1-6 原句：AA_645 第 2 節改成 S.meetLine（不分男女、名字代入），留著給對照 */
+    meetFmt:'（{名字}坐在窗邊那桌，已經點好了。）', meetBook:'靠書櫃那桌', meetWin:'窗邊那桌',   /* AA_645 第 2 節 */
+    look:{bookcase:['（書櫃上的書都很舊，書背褪成差不多的顏色。有一本詩集夾著別人留下的書籤。）','（最下面一層貼著一張紙：「可以拿下來看，看完請放回原位。」）','（你抽出一本小說，翻了兩頁，又放回去。旁邊那個人抬頭看了你一眼，又低頭讀書。）'],
+      record:['（唱片機在轉，放的是一張沒有歌詞的鋼琴曲。）','（旁邊的木箱裡，唱片照年份一張一張排好。）','（一面放完了。老闆走過來把唱片翻面，又回到吧檯。）'],
+      poster:['（《夏の残光》。海報上的女生站在海邊，看著畫面外面。下面一行小字：一九九八年上映。）','（海報的角落有一點泛黃，框是和書櫃一樣的胡桃木。）']},   /* AA_645 第 1 節（海報稿上只有兩句；第三點是 D77 的註）*/
+    lookLabel:{bookcase:'看看書櫃',record:'看唱片機',poster:'看海報'},   /* 按鈕的字照配置 interact 的 label */
+    close:[['老闆','「（小聲）十點了。……要打烊了。」'],[null,'（你收好書，走下樓梯。巷子裡只剩路燈。）']],   /* AA_645 第 3 節：一般 22:00 打烊（當晚出過 21:40 溫水＝只出旁白）*/
+    xc:[['classmate_xinci','「（小聲）這裡的燈剛好，看書不累。」']],   /* AA_645 5-b：進門看到芯慈 */
     rain:['（下樓的時候，外面的雨變大了。兩個人站在樓梯口的鐵門裡面。）','（巷子裡沒有人。雨打在樓下洗衣店的鐵皮上。）'],   /* 1-7 */
     rainOpts:[{t:'「等雨小一點。」',narr:'（你們站了十分鐘。雨小了，你們一起走出巷子。）',h:10/60},{t:'「我去樓下便利商店買傘。」',narr:'（你跑回來的時候，她笑了。傘只買到一把。）',h:5/60}] };
   /* 1-6：七位（第一次來，坐下以後／點什麼／在這裡聊的時候隨機一次）*/
@@ -68,7 +75,7 @@ const MOKS=(function(){
   /* 存檔欄位（舊存檔沒有、壞掉的：重設）*/
   S.rec=function(G){ let r=G.mokuyobi; if(!r||typeof r!=='object'||Array.isArray(r)) r=G.mokuyobi={n:0,seats:{}};
     if(typeof r.n!=='number'||!(r.n>=0)) r.n=0; if(!r.seats||typeof r.seats!=='object'||Array.isArray(r.seats)) r.seats={}; if(!r.rain||typeof r.rain!=='object'||Array.isArray(r.rain)) r.rain={};
-    if(!r.chat||typeof r.chat!=='object') r.chat={t:null,k:0}; return r; };
+    if(!r.chat||typeof r.chat!=='object') r.chat={t:null,k:0}; if(r.look!=null&&(typeof r.look!=='object'||Array.isArray(r.look))) r.look={}; return r; };
   const sceneFree=GM=>{ if(typeof INV!=='undefined'&&INV.sceneFree) return INV.sceneFree(GM); const E=GM&&GM.E, D=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(D&&(D.active||(D.busyDepth|0)>0)); };
   /* 今天這一趟是不是一個人：今天在木曜日有約（一起走過去、約好的時間到了、剛見過）＝不是 */
   S.alone=function(G){ const h=G.hour%24; return !(G.invites||[]).some(iv=>iv&&iv.zone===ZONE&&iv.day===G.day&&(iv.state==='going'||iv.state==='done'||(iv.state==='accepted'&&h>=iv.h-0.5&&h<iv.h+0.75))); };
@@ -99,6 +106,9 @@ const MOKS=(function(){
   /* 熟了以後的閒聊（1-4）：來過八次以上、這學期還沒說，三句輪流 */
   S.chat=async function(GM){ const G=GM.G, r=S.rec(G), k=S.termKey(G); if(r.n<8||r.chat.t===k) return false; const n=r.chat.k|0; r.chat={t:k,k:n+1}; await GM.say(BOSS,S.L.chat[n%S.L.chat.length]); return true; };
 
+  /* ---------- 看看書櫃、看唱片機、看海報（AA_645 第 1 節）：每次隨機一句、同一句不連續出（G.mokuyobi.look＝{種類: 上一次那句}）---------- */
+  S.look=function(G,kind){ const L0=S.L.look[kind]; if(!L0||!L0.length) return null; const r=S.rec(G), lk=r.look||(r.look={}), prev=lk[kind];
+    const pool=L0.map((t,i)=>i).filter(i=>L0.length<2||i!==prev), i=pool[Math.min(pool.length-1,Math.floor(S.rand()*pool.length))]; lk[kind]=i; return L0[i]; };
   /* ---------- 進門（二樓的店門以東）：1-1 第一次、1-5 考試週、1-4 老位子 ---------- */
   let doorVisit=null, busy=false;
   S.inShop=function(GM){ const E=GM.E, P=E&&E.player, L=LAY(); if(!P||!L||(P.lv|0)!==1) return false; return P.obj.position.x>L.stairWell.x1+0.15; };
@@ -116,14 +126,17 @@ const MOKS=(function(){
     const c=CHARACTERS.classmate_bohan; if(!c) return false; const e=STORY.schedEnt(c,Object.assign({},G,{hour:21.9})); if(!e||!e.mokuyobi) return false;
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage('classmate_bohan')==='STRANGER') return false;
     return !(G.invites||[]).some(iv=>iv&&iv.who==='classmate_bohan'&&(iv.state==='going'||(iv.state==='accepted'&&iv.day===G.day))); };
-  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G);
+  /* 一般的 22:00 打烊（AA_645 第 3 節）：那天有開、現在是打烊那一刻（22:00～22:30）；颱風、週二、還沒開、讀檔回到半夜＝照舊只寫開放時間 */
+  S.closingNow=G=>{ const h=G.hour%24; if(h<22-1e-6||h>=22.5) return false; const ws=typeof PLACES!=='undefined'&&PLACES.windowsOf?PLACES.windowsOf(ZONE,G.day):null; return !!(ws&&ws.length)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G.day)); };
+  S.closeOut=async function(GM){ const G=GM.G, P=GM.E&&GM.E.player; let go=false; const bh=S.bohanOut(G), gen=!bh&&S.closingNow(G), r=S.rec(G);
     GM.sceneBegin(); try{ if(P&&P.seat&&GM.standUp) GM.standUp(P);
+      if(gen){ const L0=r.waterDay===G.day?S.L.close.filter(x=>x[0]==null):S.L.close; await sayAll(GM,L0); }   /* 當晚出過溫水：老闆不再說 */
       if(bh) await S.mute(async()=>{ const w=whoOf(GM,'classmate_bohan'); await GM.say(w,S.L.bhAsk); const k=await GM.choose([{t:S.L.bhGo},{t:S.L.bhHome}]); if(k===0) go=true; else await GM.say(w,S.L.bhBye); }); }
     finally { GM.sceneEnd(); }
     if(go&&typeof INV!=='undefined'&&INV.accept) INV.accept(G,'classmate_bohan','cafe',G.day,G.hour%24,{now:true,by:'npc'});   /* 一起走到兩點半（邀約的「現在一起過去」：他跟著你，到了照兩點半的見面）*/
     const h=G.hour, d=G.day; await GM.enter('wenzhou',Object.assign({},MOK3.OUT));
-    if(!bh&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(ZONE,h,d),5000);
-    return go?'cafe':(bh?'home':'out'); };
+    if(!bh&&!gen&&typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(ZONE,h,d),5000);
+    return go?'cafe':(bh?'home':(gen?'close':'out')); };
 
   /* ---------- 每 0.5 秒（STORY.TICKS）：打烊優先，再來進門 ---------- */
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||G.zone!==ZONE||busy||GM.titleIdle||!sceneFree(GM)) return false;
@@ -138,13 +151,14 @@ const MOKS=(function(){
   let lastStudy=null;
   S.markStudy=function(GM,hrs){ const G=GM&&GM.G; if(!G) return; lastStudy={day:G.day,zone:G.zone,to:G.hour,from:G.hour-(+hrs||1)}; };
   S.narr=function(GM){ const G=GM&&GM.G; if(!G||G.zone!==ZONE) return null; const r=S.rec(G), W40=21+40/60, ls=lastStudy;
-    if(ls&&ls.zone===ZONE&&ls.day===G.day&&ls.from<W40-1e-6&&ls.to>=W40-1e-6&&r.water!==S.termKey(G)){ r.water=S.termKey(G); return [S.L.waterNarr,['老闆',S.L.waterBoss]]; }
+    if(ls&&ls.zone===ZONE&&ls.day===G.day&&ls.from<W40-1e-6&&ls.to>=W40-1e-6&&r.water!==S.termKey(G)){ r.water=S.termKey(G); r.waterDay=G.day; return [S.L.waterNarr,['老闆',S.L.waterBoss]]; }
     const n=r.narr|0; r.narr=n+1; return S.L.narr[n%S.L.narr.length]; };
 
   /* ---------- 1-5 常客的作息（考試週）＋當面那一句 ---------- */
   const LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   const ent=o=>Object.assign({zone:ZONE,act:'read',terms:LAW_TERMS,weeks:[8,9,16],noHoliday:true,mokuyobi:true,if:{custom:G=>!(typeof PLACES!=='undefined'&&PLACES.typhoonClosed&&PLACES.typhoonClosed(ZONE,G&&G.day))}},o);
   S.REGULARS=[{id:'classmate_bohan',ent:ent({days:[0,1,3,4,5,6],from:14,to:22,label:'在木曜日念書',note:'AA_617 第 4 節第 5 點、AA_618 1-5：考試那兩週 14:00～22:00（週二公休不排）'}),line:'bh'},
+    {id:'classmate_xinci',ent:ent({days:[1,3],from:14,to:17,label:'在木曜日念書',note:'AA_645 5-b：考試那兩週週一、週三 14:00～17:00（週四 15:30～17:30 她有事）'}),line:'xc'},
     {id:'classmate_mingxuan',ent:ent({days:[4],from:15,to:19,label:'在木曜日念書',note:'AA_618 1-5：稿上週二、週四 15:00～19:00；木曜日週二公休，只排週四（問 AA）'}),line:'mx'}];
   S.apply=function(){ let n=0; for(const R of S.REGULARS){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[R.id]; if(!c) continue; const L=c.daily_schedule||(c.daily_schedule=[]); if(L.some(e=>e&&e.mokuyobi)) continue; L.push(Object.assign({},R.ent)); n++; } return n; };   /* 接在最後面、寫學期：同學期有寫的作息（上課、事件）先算 */
   S.apply();
@@ -154,12 +168,22 @@ const MOKS=(function(){
 
   /* ---------- 1-6 兩個人來：見面那一段（invites.js 地點 mokuyobi 的 scene）---------- */
   S.rand=()=>Math.random();
-  S.meetScene=async function(GM,iv,who){ const G=GM.G, id=iv.who, c=(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])||{}, D=S.DATE[id], F=S.FRIEND[id];
+  /* AA_645 第 2 節：約的人先到的進門旁白（不分男女、名字代入）；窗邊兩桌（配置 seats 的 table 1、2＝label「坐窗邊」那四個位子，臨街那面窗前）都有人＝「靠書櫃那桌」。
+     有沒有人看別的 NPC 坐在哪（約的那個人、玩家不算）；她實際坐哪一張是邀約一般的 INV.pairSeats 決定的（離玩家最近、旁邊有空位），這一句只照窗邊滿不滿 */
+  S.WIN_TABLES=[1,2];
+  S.windowFull=function(GM,id){ const L=LAY(), E=GM&&GM.E; if(!L||!E) return false; const her=GM.npc&&GM.npc[id];
+    return S.WIN_TABLES.every(t=>L.seats.some(s=>s.table===t&&(E.npcs||[]).some(n=>n&&n!==her&&n.charId!==id&&n.seat&&(n.seat.lv|0)===1&&Math.hypot(n.seat.x-s.x,n.seat.z-s.z)<0.35))); };
+  S.meetLine=(GM,id)=>S.L.meetFmt.replace('{名字}',nameOf(id)).replace(S.L.meetWin,S.windowFull(GM,id)?S.L.meetBook:S.L.meetWin);
+  S.meetScene=async function(GM,iv,who){ const G=GM.G, id=iv.who, D=S.DATE[id], F=S.FRIEND[id];
     const before=(G.invites||[]).some(q=>q!==iv&&q.who===id&&q.place==='mokuyobi'&&q.state==='done');
-    if(!iv.now&&c.gender==='f') await GM.say(null,S.L.meet);   /* 約的人先到（一起走過來的不說）；稿上寫「她」：男生朋友沒有這一句 */
+    if(!iv.now) await GM.say(null,S.meetLine(GM,id));   /* 約的人先到（一起走過來的不說）：AA_645 第 2 節不分男女 */
     if(D){ if(!before) await GM.say(who,D.first); else if(S.rand()<0.5) await GM.say(who,D.line); return; }
     if(F){ if(!before||S.rand()<0.5) await GM.say(who,F); return; }
-    await GM.say(null,'你和'+nameOf(id)+'在木曜日坐坐。'); };   /* 稿上沒有的人（照邀約一般的見面旁白）*/
+    if(iv.now) await GM.say(null,'你和'+nameOf(id)+'在木曜日坐坐。'); };   /* 稿上沒有的人、一起走過來的（沒有進門那一句）：照邀約一般的見面旁白 */
+  /* AA_645 第 4 節：約去木曜日答應的那一句——十人各一句在 src/data/invites.js（people[人].acc.mokuyobi）；沒列的人（答應了、沒有自己的句子）＝一般那句 */
+  S.ACC0='「好啊。那裡要小聲一點喔。」';
+  if(typeof INV!=='undefined'&&INV.personal&&!INV._moks){ INV._moks=true; const p0=INV.personal; INV.personal=function(G,id,P,day,h,r){ const out=p0.apply(this,arguments);
+      if(P&&P.id==='mokuyobi'&&out&&out.res==='accept'&&!(Array.isArray(out.lines)&&out.lines.length)) return Object.assign({},out,{lines:[S.ACC0]}); return out; }; }
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER=SOCIAL.MEMORY_LABEL.MOKUYOBI_TOGETHER||'一起去木曜日';   /* 人物頁的記憶名稱 */
 
   /* ---------- 1-7 雨天（離開的時候）---------- */
@@ -178,7 +202,8 @@ const MOKS=(function(){
   /* ---------- 接到遊戲 ---------- */
   /* 吧檯的「點東西」（配置的 interact order；書櫃、唱片機、海報沒有台詞，不放）*/
   if(typeof MOK3!=='undefined'&&MOK3.zone&&!MOK3.zone._moks){ MOK3.zone._moks=true; const b0=MOK3.zone.build; MOK3.zone.build=function(E){ const z=b0.apply(this,arguments); const L=LAY();
-      for(const q of ((L&&L.interact)||[])) if(q.kind==='order') E.interactables.push({x:q.x,z:q.z,radius:1.0,lv:1,label:'點東西',mokOrder:true});
+      for(const q of ((L&&L.interact)||[])){ if(q.kind==='order') E.interactables.push({x:q.x,z:q.z,radius:1.0,lv:1,label:'點東西',mokOrder:true});
+        else if(S.L.look[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:1.0,lv:1,label:S.L.lookLabel[q.kind]||q.label,mokLook:q.kind}); }   /* AA_645 第 1 節：書櫃、唱片機、海報 */
       return z; }; }
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)&&!STORY.TICKS.includes(S.tick)) STORY.TICKS.push(S.tick);
@@ -189,6 +214,7 @@ const MOKS=(function(){
       const n0=STORY.studyNarr; STORY.studyNarr=GM=>S.narr(GM)||(typeof n0==='function'?n0(GM):null);
       if(STORY.interact){ const oi=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;
         if(it&&it.mokOrder&&G){ GM.sceneBegin(); try{ await S.order(GM); } finally { GM.sceneEnd(); } return true; }
+        if(it&&it.mokLook&&G){ GM.sceneBegin(); try{ await GM.say(null,S.look(G,it.mokLook)); } finally { GM.sceneEnd(); } return true; }
         if(it&&it.exit&&G&&G.zone===ZONE&&it.exit.to==='wenzhou'){ const iv=S.rainDue(G); if(iv) await S.rainScene(GM,iv); }   /* 演完照常走出去 */
         return oi.apply(this,arguments); }; }
       if(STORY.populate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId===ZONE) S.populate(GM); }catch(e){ console.warn('MOKS.populate',e); } return r; }; } } }
