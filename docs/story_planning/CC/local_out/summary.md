@@ -1020,3 +1020,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T16:27:00  TT_V15b_chunk  sha=d2e36f6eb  exit=1  344s    == C / FAIL CASE C 結束  自測：C 故意 FAIL / FAILED 1: CASE C 結束
       err.log (last 5): [cc_trace 0.3s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V15b_chunk\attempt2\trace | [gpu_wrap 1.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15b_chunk] | [gpu_wrap 168.1s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 168.1s] BROWSER DISCONNECTED
       autoretry: final FAIL  class UNKNOWN/assert  exit2 1
+- 2026-11-04T16:28:41  CAFE230v3_seats  sha=dac871e25  exit=0  99s    [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_CAFE230v3_seats\tests\seats_on_furniture.py http://127.0.0.1:8810/index.html cafe / OK  cafe：座位 22，有問題 0 / {"bad": 0}
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [CAFE230v3_seats] | [gpu_wrap 58.1s] page close url=http://127.0.0.1:8810/index.html?turbo&start0 | [gpu_wrap 58.2s] BROWSER DISCONNECTED

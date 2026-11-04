@@ -1,23 +1,23 @@
 {
   "rerun": "",
   "id": "CAFE230v3_seats",
-  "sha": "0c2d4997b",
+  "sha": "dac871e25",
   "kind": "game",
   "script": "tests/seats_on_furniture.py",
   "env": "XARGS={url} cafe",
   "machine": "MSI",
-  "start": "2026-11-04T16:23:49",
-  "end": "2026-11-04T16:25:30",
-  "seconds": 101,
+  "start": "2026-11-04T16:27:00",
+  "end": "2026-11-04T16:28:39",
+  "seconds": 99,
   "exit": 0,
   "error": null,
   "runner": "6f08f2eb23",
   "rf_round": "25",
-  "url": "http://127.0.0.1:8811/index.html",
+  "url": "http://127.0.0.1:8810/index.html",
   "res_peak": {
-    "cpu": 77,
-    "mem": 59,
-    "used_gb": 19.3,
+    "cpu": 57,
+    "mem": 56,
+    "used_gb": 17.6,
     "chrome_testing": 28
   }
 }
