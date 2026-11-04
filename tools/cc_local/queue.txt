@@ -92,7 +92,9 @@ WZ3_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_
 WZ3_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
 WZ3_yizhan_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=yizhan;HOURS=14,22;CC_HEADLESS=0
 WZ3_yizhan_floor | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=yizhan;HOURS=;FLOOR=1;CC_HEADLESS=0
-WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py | index.html | 30 | CC_HEADLESS=0
+# WZ4_yizhan_floor（CC-C 11-04）：WZ3_yizhan_floor（b53bfab72）是 07:49 UTC 跑的，比探針修好「坐下後選起身」（f03686817，08:27）早——站起來 6 項 FAIL＝舊探針；鏡頭檢查改成 BB-C 的標準。用現在的探針在最新的 060a1a093 重跑地板座位
+WZ4_yizhan_floor | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=yizhan;HOURS= ;FLOOR=1;SIT_WAIT=6;CC_HEADLESS=0
+WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py | index.html | 30 | CC_HEADLESS=0;RERUN=winpath1104
 # SEAT_ACT（BB 07:44；X217 SEAT-ACTIVITY-1104）：31ce5f785；六區全景＋近景 1.5 m、小物浮空／穿桌、手機在手上、筆電頭向、同桌同事（H）
 SEAT_ACT | ae0095d0d | probe | docs/story_planning/test_tools/cc/cc_seat_act_probe.py | index.html | 50 | ZONES=cafe,library_hall,library,lawlib,afar,daybreak,wz_teishoku@19;CC_HEADLESS=0
 # WZ4（BB 08:17，排在 ADE_int 前）：e9023bae7 小路 v4、SUNNY v1e、一盞 v1e；lane_east 超標記 FAIL 不重量

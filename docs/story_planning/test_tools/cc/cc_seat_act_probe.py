@@ -32,13 +32,14 @@ MEASURE = r"""(()=>{ if(typeof SEATACT==='undefined') return {err:'no SEATACT'};
   const out={zone:st.zone, n:st.n, loaded:st.loaded, people:[], items:[], tablet:!!SEATACT.TABLET_OK};
   /* 每個人：從 E.npcs 找回人（座位座標一樣）*/
   const npcAt=(x,z)=>(E.npcs||[]).find(n=>n.seat&&Math.abs(n.seat.x-x)<0.01&&Math.abs(n.seat.z-z)<0.01);
-  const bone=(o,b)=>{ try{ const v=o.userData&&o.userData.vrm; const h=v&&v.humanoid&&v.humanoid.getNormalizedBoneNode(b); return h||null; }catch(e){ return null; } };
+  const bone=(o,b)=>{ try{ const v=o.userData&&o.userData.vrm, H=v&&v.humanoid; const h=H&&((H.getRawBoneNode&&H.getRawBoneNode(b))||H.getNormalizedBoneNode(b)); return h||null; }catch(e){ return null; } };   /* CC-C 11-04：遊戲的動畫驅動 raw 骨（character3d.js 用 getRawBoneNode 16 處）；原本量 normalized 骨，三個人都差 0.32 m＝量到沒動的骨頭 */
+  const boneN=(o,b)=>{ try{ const v=o.userData&&o.userData.vrm; return (v&&v.humanoid&&v.humanoid.getNormalizedBoneNode(b))||null; }catch(e){ return null; } };
   const fwdY=(node)=>{ const q=node.getWorldQuaternion(new THREE.Quaternion()); const f=new V(0,0,1).applyQuaternion(q); return +f.y.toFixed(3); };
   for(const p of st.list){ const n=npcAt(p.x,p.z), o=n&&n.obj; const r={act:p.act,set:p.set,kind:p.kind,named:p.named,x:+p.x.toFixed(2),z:+p.z.toFixed(2),lv:p.lv,items:p.items,pose:p.pose,hold:p.hold,yaw:n&&n.seat?+(+(n.seat.yaw||0)).toFixed(2):null,
       px:o?+o.position.x.toFixed(2):null, pz:o?+o.position.z.toFixed(2):null};
     if(o){ const hd=bone(o,'head'), hp=bone(o,'hips'); if(hd&&hp){ r.headFwdY=fwdY(hd); r.hipsFwdY=fwdY(hp); r.headPitch=+(r.headFwdY-r.hipsFwdY).toFixed(3); }
       if(p.hold==='phone'){ let ph=null; o.traverse(q=>{ if(!ph&&q.isMesh&&/phone/i.test(q.name||'')&&q.visible!==false) ph=q; });
-        if(ph){ const c=new THREE.Box3().setFromObject(ph).getCenter(new V()); let best=null; for(const b of ['rightHand','leftHand']){ const h=bone(o,b); if(!h) continue; const d=h.getWorldPosition(new V()).distanceTo(c); if(best==null||d<best.d) best={b,d:+d.toFixed(3)}; } r.phone={mesh:ph.name, hand:best}; }
+        if(ph){ const c=new THREE.Box3().setFromObject(ph).getCenter(new V()); let best=null; let bestN=null; for(const b of ['rightHand','leftHand']){ const h=bone(o,b); if(h){ const d=h.getWorldPosition(new V()).distanceTo(c); if(best==null||d<best.d) best={b,d:+d.toFixed(3)}; } const hn=boneN(o,b); if(hn){ const d=hn.getWorldPosition(new V()).distanceTo(c); if(bestN==null||d<bestN.d) bestN={b,d:+d.toFixed(3)}; } } r.phone={mesh:ph.name, hand:best, handNormalized:bestN}; }
         else r.phone={mesh:null}; } }
     out.people.push(r); }
   /* 桌上小物：每個 InstancedMesh 的每個 instance */
