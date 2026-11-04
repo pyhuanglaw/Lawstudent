@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "NOODLE_exit",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:35:46",
+  "end": "2026-11-04T12:37:19",
+  "seconds": 94,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 66,
+    "mem": 54,
+    "used_gb": 17.6,
+    "chrome_testing": 17
+  }
+}

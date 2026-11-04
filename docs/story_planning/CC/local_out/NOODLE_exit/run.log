@@ -1,0 +1,16 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_noodle_exit_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\NOODLE_exit\out
+PASS 遊戲載入
+== A 出生點 (0,3.5) 直接按
+  [前置／捷徑] 讀檔：noodle (0,3.5) 15:00、條件事件關閉
+  A 按之前：{"zone": "noodle", "x": 0, "z": 3.5, "busy": false, "stand": true, "interact": "離開公館燒臘", "dlg": false, "depth": 0}
+  A 按之後 30 秒內（秒, zone, busy）：[[4.9, "gongguan", false]]
+  A console（按下以後）：[]
+PASS A 出生點站得住  {"zone": "noodle", "x": 0, "z": 3.5, "busy": false, "stand": true, "interact": "離開公館燒臘", "dlg": false, "depth": 0}
+PASS A 互動按鈕是「離開…」  "離開公館燒臘"
+PASS A 按下去以後回到公館（zone 改變）  {"zone": "gongguan", "x": -63, "z": 18, "busy": false, "stand": true, "interact": null, "dlg": false, "depth": 0}
+PASS A 回到公館站得住、不 busy  {"zone": "gongguan", "x": -63, "z": 18, "busy": false, "stand": true, "interact": null, "dlg": false, "depth": 0}
+== B 真實流程：公館走進麵店、走到出口按「離開」
+  [前置／捷徑] 讀檔：公館人行道 (−63,15) 15:00、條件事件關閉
+  往麵店的門：[{"x": -63, "z": 21, "r": 2.2, "label": "進入公館燒臘"}]
+PASS B 有往 noodle 的門  [{"x": -63, "z": 21, "r": 2.2, "label": "進入公館燒臘"}]
+FAILED
