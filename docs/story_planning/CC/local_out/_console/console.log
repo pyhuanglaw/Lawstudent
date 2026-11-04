@@ -1778,3 +1778,19 @@
 [12:51:30] ==== START GATE_walk  (probe @ 9ac863212) ====
 [12:51:34] [res] cpu=21% mem=55% (17.8/31.4 GB) chrome_testing=17  START GATE_walk
 [12:52:11] [res] cpu=49% mem=54% (17.1/31.4 GB) chrome_testing=18  END GATE_shot
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       3685b61c6..2b78330d8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:52:18] ==== END   GATE_shot  exit=0  161s   ====
+[12:52:20] 正在跑：GATE_shot_before（已跑 1 分／上限 20 分）、GATE_walk（已跑 0 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[12:52:20] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[12:52:20] memory 56% before starting XS_view (2 running)
+[12:52:20] ==== START XS_view  (probe @ 23eaaa7ae) ====
+[12:52:24] [res] cpu=40% mem=55% (17.7/31.4 GB) chrome_testing=18  START XS_view
+[12:53:01] [res] cpu=24% mem=53% (16.7/31.4 GB) chrome_testing=18  END GATE_shot_before

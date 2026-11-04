@@ -1,0 +1,197 @@
+{
+ "sha": "23eaaa7ae",
+ "cases": [
+  "shot"
+ ],
+ "boot_s": 21.9,
+ "shot": {
+  "east_day": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "west_day": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "out_day": {
+   "zone": "campus",
+   "zebra": [],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  },
+  "far_px_day": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "far_nx_day": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "east_night": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "west_night": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "out_night": {
+   "zone": "campus",
+   "zebra": [],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  },
+  "far_px_night": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  },
+  "far_nx_night": {
+   "zone": "gongguan",
+   "zebra": [],
+   "fog": {
+    "near": 40,
+    "far": 130
+   },
+   "fogFar": 130,
+   "zone_viewFar": null,
+   "zone_fogNear": null,
+   "camera_far": 170,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   },
+   "zebra_ok_x_-6_6": false
+  }
+ }
+}
