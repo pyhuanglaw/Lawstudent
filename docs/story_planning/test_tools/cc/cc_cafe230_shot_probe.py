@@ -78,7 +78,19 @@ async def run_hour(pg, cdp, h):
         info[name] = ri
         print('  [%s] %s：calls %s、tris %s' % (tag, name, ri['calls'], ri['tris']), flush=True)
     await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()")
-    await pg.evaluate(HUD + '(true)'); await pg.wait_for_timeout(6000)   # r1：2.5 秒拍到一整面灰牆 → 等久一點，並記鏡頭位置（灰牆還在＝看鏡頭是不是在牆裡）
+    await pg.evaluate(HUD + '(true)')
+    # r3（BB 07:5x）：讀檔只設人的方向、不設鏡頭，鏡頭會在人前面 → 玩家視角改成真的從溫州街走進「進入 2:30 AM」
+    print('  [前置／捷徑] 讀檔：溫州街 2:30 AM 門口西邊 (52.0, 0)、%s → 點地面走到門口、按「進入 2:30 AM」' % tag, flush=True)
+    await L.load_state(pg, {'zone': 'wenzhou', 'hour': h, 'weather': 'clear', 'pos': {'x': 52.0, 'z': 0, 'yaw': 1.5708, 'lv': 0}}, quiet_events=True)
+    await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+    it = await pg.evaluate("(()=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith('進入 2:30 AM')); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })()")
+    if check('[%s] 溫州街有「進入 2:30 AM」' % tag, bool(it), J(it)):
+        await L.go_to(pg, cdp, L.Run('enter', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
+        await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact')
+        for _ in range(60):
+            await pg.wait_for_timeout(500)
+            if await pg.evaluate("GAME.G.zone==='cafe'&&!GAME.E.player.busy"): break
+    await pg.wait_for_timeout(6000)   # r1：2.5 秒拍到一整面灰牆 → 等久一點，並記鏡頭位置（灰牆還在＝看鏡頭是不是在牆裡）
     cam = await pg.evaluate("(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position; return {mode:E.cam.mode, cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+p.x.toFixed(2),+p.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(2)}; })()")
     print('  [%s] 玩家視角的鏡頭：%s' % (tag, J(cam)), flush=True)
     await pg.screenshot(path=os.path.join(OUT, 'cafe230_%s_game.png' % tag))

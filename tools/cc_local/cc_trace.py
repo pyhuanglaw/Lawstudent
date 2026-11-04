@@ -304,7 +304,7 @@ class Tracer(object):
                 await asyncio.sleep(1.0)
                 if r['done']:
                     break
-                if self.rot != r['rot0']:
+                if self.rot != r['rot0'] and time.time() - r['t0'] >= 1.0:
                     await self.a_rotate(r, 'case: ' + self.rot_text[:80])
                 elif time.time() - r['t0'] >= CHUNK_S:
                     await self.a_rotate(r, 'time %ds' % CHUNK_S)
@@ -324,6 +324,12 @@ class Tracer(object):
             except Exception as e:
                 err = repr(e)[:300]; _warn('stop_chunk failed: %s' % err)
             bad = self.bad > r['bad0']
+            if bad and os.path.exists(zp):   # 有 FAIL 的段：檔名加 _FAIL，runner 推的時候排第一個（25 MB 額度先給它）
+                zf = zp[:-4] + '_FAIL.zip'
+                try:
+                    os.replace(zp, zf); zp = zf
+                except OSError:
+                    pass
             info = {'ctx': r['n'], 'chunk': r['k'], 'file': os.path.basename(zp), 'from': r.get('why'), 'until': why,
                     'seconds': round(time.time() - r['t0'], 1), 'bad': bad, 'kept': True, 'error': err,
                     'bytes': os.path.getsize(zp) if os.path.exists(zp) else None}

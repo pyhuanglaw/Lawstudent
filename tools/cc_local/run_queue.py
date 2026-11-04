@@ -1589,7 +1589,7 @@ class Runner(object):
                 except ValueError:
                     tmax = 20 * 1024 * 1024
                 tnotes = []
-                for f in sorted(traces):
+                for f in sorted(traces, key=lambda f: ('_FAIL' not in os.path.basename(f), f)):   # 分段 trace：有 FAIL 的那一段先推（TT_V15：c005 有 FAIL，卻被沒 FAIL 的 c004 擠掉 25 MB 額度）
                     sz = os.path.getsize(f)
                     if sz > tmax:
                         tnotes.append('trace not pushed (over %d MB): %s  %d bytes' % (tmax // 1048576, os.path.relpath(f, od), sz))
