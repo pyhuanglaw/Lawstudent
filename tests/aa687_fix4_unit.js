@@ -64,9 +64,10 @@ await sec('1',()=>{
   const f=TERMEND_LINES.FRIEND[YT];
   check('1. y1s1 照留：「'+(ROWS.y1s1||{}).now+'」（稿「照留」）',!!ROWS.y1s1&&ROWS.y1s1.to==='照留'&&f.y1s1===ROWS.y1s1.now,J([f.y1s1,ROWS.y1s1]));
   check('1. gen 換成稿的「改成」：「'+(ROWS.gen||{}).to+'」（原本「'+(ROWS.gen||{}).now+'」）',!!ROWS.gen&&f.gen===ROWS.gen.to&&f.gen==='考完了。禮拜六下班以後，要吃飯嗎。',J(f.gen));
-  check('1. Y1S2 那一欄拿掉（稿「拿掉這一欄，用 gen」）：genByTerm 沒有 Y1S2',!!ROWS.Y1S2&&/拿掉這一欄/.test(ROWS.Y1S2.to)&&/用 gen/.test(ROWS.Y1S2.to)&&!!f.genByTerm&&!('Y1S2' in f.genByTerm),J(Object.keys(f.genByTerm||{})));
+  { const P87=gshow('1881111f2','docs/story_planning/AA_687_回LAWWW_AA686合併後七件.md'), L87='考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。', y=f.genByTerm&&f.genByTerm.Y1S2;
+    check('1. Y1S2（AA_687 補 1881111f2 加回來）：邀約那天在 6/18 以前＝「'+L87+'」、6/18 以後（筆試考完了）＝gen',!!P87&&P87.includes(L87)&&P87.includes('用 gen')&&typeof y==='function'&&y(H.G,DK('2026-06-11'))===L87&&y(H.G,DK('2026-06-17'))===L87&&y(H.G,DK('2026-06-18'))===f.gen&&y(H.G,DK('2026-06-19'))===f.gen,J([typeof y,typeof y==='function'?[y(H.G,DK('2026-06-11')),y(H.G,DK('2026-06-18'))]:y])); }
   const bad=LATER.filter(t=>!ROWS[t]||f.genByTerm[t]!==ROWS[t].to);
-  check('2. Y2S1～Y4S1 一字不差照稿的「改成」（五句，Y2S1 是「小路，我想吃那裡的玉子燒。」那一句）',!bad.length&&Object.keys(f.genByTerm).sort().join()===LATER.join()&&f.genByTerm.Y2S1==='考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。',J(bad.map(t=>[t,f.genByTerm[t],ROWS[t]&&ROWS[t].to])));
+  check('2. Y2S1～Y4S1 一字不差照稿的「改成」（五句，Y2S1 是「小路，我想吃那裡的玉子燒。」那一句；Y1S2 是 AA_687 補的函式）',!bad.length&&Object.keys(f.genByTerm).filter(k=>k!=='Y1S2').sort().join()===LATER.join()&&f.genByTerm.Y2S1==='考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。',J(bad.map(t=>[t,f.genByTerm[t],ROWS[t]&&ROWS[t].to])));
   const s=J(f), old=['gen','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].map(k=>ROWS[k]&&ROWS[k].now).filter(Boolean);
   check('1、2. 舊的七句（禮拜四、禮拜五、秀琴姨說要煮火鍋、我煮…）都不在資料裡',old.length===7&&!old.some(t=>s.includes(t)),J(old.filter(t=>s.includes(t))));
   check('1、2. 心意邀約（第 64 行，一盞茶屋 17:30）、交往中那一則（第 179 行，打烊以後 20:30）、茶屋的 PLACE.tea_closed 沒有動（和 39c9d8b5c 一字不差）',
@@ -83,8 +84,8 @@ await sec('5',()=>{
     at(ex,19.9); run(19.9,20.42); const early=!!PHONE.byAsk(H.G,tagOf(term));
     const m=walkInvite(term,w); let q=null; if(m){ PHONE.answer(H.G,tagOf(term),0); rules(); q=outOf('te_'+term); }
     R[term]={friend:P.friend.includes(YT),exempt:J(P.exempt),exam:K(ex),examWd:WD(ex),back:K(P.back),early,sent:m?[K(m.day),WD(m.day),m.h]:null,text:m&&m.text,dinner:dayH(q),place:q&&q.place}; }
-  const want=t=>t==='Y1S1'?ROWS.y1s1.now:(t==='Y1S2'?ROWS.gen.to:ROWS[t].to);
-  check('1、2. 每一學期她傳來的那一句：大一上 y1s1、大一下 gen、大二上～大四上照稿',TERMS.every(t=>R[t].text===want(t)),J(TERMS.map(t=>[t,R[t].text])));
+  const want=t=>t==='Y1S1'?ROWS.y1s1.now:(t==='Y1S2'?'考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。':ROWS[t].to);   /* Y1S2：AA_687 補 1881111f2（6/11 傳＝6/18 以前那一句）*/
+  check('1、2. 每一學期她傳來的那一句：大一上 y1s1、大一下 AA_687 補的那一句（6/11 傳）、大二上～大四上照稿',TERMS.every(t=>R[t].text===want(t)),J(TERMS.map(t=>[t,R[t].text])));
   check('5. 這學期語彤是朋友的邀約、不佔名額的只有心意那一則（exempt 是空的：朋友那一則照舊佔「只能接一個」）',TERMS.every(t=>R[t].friend&&R[t].exempt==='[]'),J(TERMS.map(t=>[t,R[t].friend,R[t].exempt])));
   check('5. 邀約在玩家最後一科考完的那天 20:30 傳（照心意邀約的規則；20:25 以前還沒有）',TERMS.every(t=>!!R[t].sent&&R[t].sent[0]===R[t].exam&&R[t].sent[2]>=20.5&&R[t].sent[2]<21&&!R[t].early)&&in687('**最後一科考完的那天 20:30 發**'),J(TERMS.map(t=>[t,R[t].exam,R[t].sent,R[t].early])));
   check('5. 週五考完的學期：大二下 6/11（五）20:30 傳 → 6/12（六）18:00；大四上 12/22（五）20:30 傳 → 12/23（六）18:00（稿「週五考完＝隔天週六（大二下 2027-06-12、大四上 2028-12-23）」；原本隔天 20:30 才傳、飯排到下一個週六 6/19、12/30）',

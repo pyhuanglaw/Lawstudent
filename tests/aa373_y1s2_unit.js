@@ -114,7 +114,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const inv=(term,kind)=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_03','FRI'); TERMEND.rec(G,term).plan={back:w.from,heart:kind==='heart'?['heroine_03']:[],friend:kind==='friend'?['heroine_03']:[],fallback:null,gf:[],nope:{},kx:false};
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };
     const f=inv('Y1S2','friend'), h=inv('Y1S2','heart');
-    check('7／BB-5. 語彤大一下期末邀約（一般）：原本「考完了。禮拜五，要吃飯嗎。」——AA_687 第 1、2 項（企劃線 d41750385）：Y1S2 那一欄拿掉、用 gen「考完了。禮拜六下班以後，要吃飯嗎。」（飯排在 6/18 以後的週六）',f==='考完了。禮拜六下班以後，要吃飯嗎。',f);
+    check('7／BB-5. 語彤大一下期末邀約（一般）：原本「考完了。禮拜五，要吃飯嗎。」——AA_687 第 1、2 項（企劃線 d41750385）：Y1S2 那一欄拿掉、用 gen；AA_687 補（企劃線 1881111f2）：加回來——邀約在 6/18 以前＝「考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。」（飯排在 6/18 以後的週六）',f==='考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。',f);
     check('7／BB-5. 語彤大一下期末邀約（心意）：AA_661 第 72 列（使用者 11-04 選）「禮拜六我上班到五點。下班以後，你要不要來店裡？」（原本「禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。」）',h==='禮拜六我上班到五點。下班以後，你要不要來店裡？',h);
     check('7. 對照：大二上（一般：AA_687 第 2 項「考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。」，原本「考完了。禮拜六，秀琴姨說要煮火鍋。」；心意的基本版 AA_684 第 6 項「打烊以後」改「下班以後」；AA_685 B3「禮拜六我上班到五點。下班以後，我泡茶。只有我們。」）',inv('Y2S1','friend')==='考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。'&&inv('Y2S1','heart')==='禮拜六我上班到五點。下班以後，我泡茶。只有我們。');
     const w=TERMEND.windowOf('Y1S2'); fresh(w.from,20,'dorm',{}); const dd=TERMEND.dinnerDay(G,w,{h:19,wd:4},'heroine_03');

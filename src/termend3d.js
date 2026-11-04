@@ -122,13 +122,13 @@ const TERMEND=(function(){
     P.friend=C.filter(x=>x.c>=6&&atLeast(x.id,'FAMILIAR')).slice(0,2).map(x=>x.id);
     if(!P.heart.length&&!P.friend.length){ const b=C.find(x=>x.c>0&&atLeast(x.id,'ACQUAINTANCE')); if(b) P.friend=[b.id]; else P.fallback='kai'; }   /* BB_203 第 1 節第 7 點 */
     R.plan=P; return P; };
-  const resolve=(x,G)=>typeof x==='function'?x(G):x;
+  const resolve=(x,G,d)=>typeof x==='function'?x(G,d):x;   /* d：邀約傳的那一天（send 傳進來；AA_687 補 1881111f2 語彤大一下那一句看邀約那天在不在 6/18 以前）*/
   /* 她的心意邀約規格：HEART[id] 疊上那一學期的 over（沛珊大三起的地點、大四上的版本…）*/
   const overOf=(h,term)=>{ if(!h) return null; let o=h; for(const v of (h.over||[])) if(v.terms.includes(term)){ o=Object.assign({},o,v); delete o.terms; } return o; };
   S.heart=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.HEART[id],term); };
   S.gf=function(id,term){ const Lx=L(), g=Lx&&Lx.GF[id], iv=g&&g.invByTerm&&g.invByTerm[term]; return overOf(iv!=null?Object.assign({},g,{invite:iv}):g,term); };   /* 女朋友的學期末約會也照學期換（沛珊大三起的地點）；邀約那一句照 invByTerm（AA_456 1-5：沒寫的學期照 invite，over 寫的照 over）*/
   S.friend=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.FRIEND[id],term); };   /* 朋友的一對一邀約也照學期換（芷若大二下：她 6/3 以後不上班，不在 Café 打烊以後，AA_375 第 1 項）*/
-  const lines=(x,G)=>{ x=resolve(x,G); return x==null?[]:(Array.isArray(x)?x:[x]); };
+  const lines=(x,G,d)=>{ x=resolve(x,G,d); return x==null?[]:(Array.isArray(x)?x:[x]); };
   /* 不發心意邀約的那一句、朋友邀約的婉拒照學期換（AA_260 (b-1) 第 5、6、11、14 項，AA_262 (b) 第 4 條）：NOPE[種類][她] 可以是字串（照舊）或 {gen, byTerm:{學期:句子}}；FRIEND[她].noByTerm 優先於 noBySem、no */
   S.nopeText=function(Lx,kind,id,term){ const v=(Lx&&Lx.NOPE&&Lx.NOPE[kind]||{})[id]; if(v&&typeof v==='object'&&!Array.isArray(v)) return (v.byTerm&&v.byTerm[term])||v.gen||null; return v; };
   S.friendNo=function(f,term){ if(!f) return null; const sem=String(term).slice(2); return (f.noByTerm&&f.noByTerm[term])||(f.noBySem&&f.noBySem[sem])||f.no; };
@@ -149,7 +149,7 @@ const TERMEND=(function(){
         const dd=RH[id]; if(dd<0||now<T(dd,12)) return; const T3=lines(txt,G); if(!T3.length) return;
         const ask={id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
         PHONE.at(G,dd,Math.min(Math.max(12,G.day===dd?(+G.hour||0):12),17),T3.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T3.length-1?{ask}:{})),tag); R.asks[id]=tag; return; }
-      if(now<T(d0,h)||PHONE.sent(G,tag)||taken) return;   /* 已經接了一場（收到的或自己約的）就不再發 */ const T2=lines(txt,G);
+      if(now<T(d0,h)||PHONE.sent(G,tag)||taken) return;   /* 已經接了一場（收到的或自己約的）就不再發 */ const T2=lines(txt,G,d0);
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ S.planKexin(G,w); const q=typeof OUT!=='undefined'?OUT.get(G,tag):null, dw=q&&q.state!=='cancelled'?S.dayWord(d1,q.day):''; PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:S.fillDay(t,dw)})),tag); } }   /* 可昕：她排好了，直接排出遊（不佔名額）；先排好日子、句子裡的 {哪天} 照那一天換（AA_460 第 5 節；排不到日子＝拿掉 {哪天}）*/
@@ -169,7 +169,7 @@ const TERMEND=(function(){
         PHONE.at(G,dd,hAt,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }   /* 同一天那一場沒去（不去了、過了時間）＝照平常約（18:30 的飯照排）*/
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ if(id==='zhe'&&w.id==='Y2S1'&&G.events&&G.events.done&&G.events.done.ev_term_last_meal_y2s1) continue;   /* AA_374 第 24 項：最後一科考完那天 17:00 阿哲約的「期末最後一頓」（麵店）演過了，20:30 他不再約期末飯（同一晚約兩次）*/
-      const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',resolve(w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),G),S.friendNo(f,w.id)); }   /* noByTerm：學姊大三下「好。我出發前再找你。」（AA_260 (b-1) 第 14 項）*/   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
+      const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),S.friendNo(f,w.id));   /* 字在 send 裡照邀約那一天換（lines(txt,G,d0)；AA_687 補）*/ }   /* noByTerm：學姊大三下「好。我出發前再找你。」（AA_260 (b-1) 第 14 項）*/   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
     S.pickCheck(GM); S.exSweep(G,w); };
   /* 約會那天（dd）或前兩天內（dd-2、dd-1）已經去她的城市找過她（AA_462 第 4 節：沛珊在台南，聖誕那天開車下去、隔天學期末又要「你下來」＝連兩天往返；
      第 8 節①、AA_464 4-2：同一天也算——12/24 聖誕開車下去、學期末的飯也排在 12/24）：
