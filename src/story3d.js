@@ -2563,23 +2563,9 @@ const STORY = (function(){
         PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。要好玩喔。'}],'ps_p4_missed');
       const w2=termDay('Y2S2',2,4); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
         PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'（照片：白板上每個人這週要讀到哪裡）'}],'han3_chart'); }   /* AA_375 第 23 項：第 1 週沒有小考，表是讀了幾頁 */
-    /* 沛珊 P4b 換你陪我念（BB_97 4-4；大二下第 2 週起，前置 MIRROR_PEISHAN 或和她朋友以上）：第 2 週週五 21:00 她私訊（時間 LAWWW-B 排，已告訴 AA-B）。
-       她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
-       祐廷在和別人交往、而且她知道：之後她開小群組「陪重考生念書」（祐廷、阿哲；阿哲「我來補債各」），便條寫「你們呢？」（invites.js 的 afterMeet）。
-       第 8 週週六 4/17 12:30「總圖滿了。兩點半，靠窗。」（AA_177 第 8 節②；只有兩個人的版本）→ Café 13～15 點到就演 ev_peishan_cafe_42（CG BCG-35）
-       2026-10-21（PS-TAINAN-AA282）：放榜（2027-08-06）以後不傳——原本消失期一結束，暑假還算 Y2S2、psGone 不成立，8/6 起朋友以上的玩家會收到這一則重考的問題；AA_282 第 2 節：放榜後她不先找人 */
-    { const d=termDay('Y2S2',2,5), ps='classmate_peishan', rd=S.dayOfKey('2027-08-06'); if(d!=null&&!S.psGone(G)&&rd!=null&&G.day<rd&&typeof SOCIAL!=='undefined'&&SOCIAL.has(ps,'FIRST_MET')&&(G.day>d||(G.day===d&&G.hour>=21))&&S.termAt(G.day)==='Y2S2'&&!PHONE.sent(G,'ps_p4b')&&(SOCIAL.has(ps,'MIRROR_PEISHAN')||['FRIEND','CLOSE_FRIEND'].includes(fl(ps)))){
-        const know=F.ECON_PAST_SHARED==='full'||SOCIAL.has(ps,'MIRROR_PEISHAN'), P=t=>({th:'p:'+ps,from:ps,text:t}), other=typeof ROM!=='undefined'&&ROM.knows(G,ps).length>0;   /* 她知道祐廷在和別人交往（BB_191 9-4 #4：不是祐廷有沒有伴侶）*/
-        const opts=[{t:'每天去同一個位子。',say:[P('……好。我先試這個。')],set:{PS_P4B:'seat'}},{t:'知道自己要去哪裡，就不難撐。',say:[P('我知道要去哪裡。那我應該撐得住。')],set:{PS_P4B:'where'}},{t:'我也不知道，就撐過來了。',say:[P('……這個答案好誠實。我收下了。')],set:{PS_P4B:'dunno'}}];
-        if(know) opts.push({t:'那時候有人陪我一起準備。',say:[P('……好。那我也找一個人。')],set:{PS_P4B:'someone'}});
-        const L=know?[P('欸，問你一個重考的人才能回答的問題。'),P('你重考那一年，怎麼撐過來的？')]:[P('欸，問你一個問題。'),P('你有沒有很想放棄、可是撐過來的事？')];
-        L[1]=Object.assign(L[1],{ask:{id:'ps_p4b',opts}}); const dd=G.day===d?d:G.day, hh=G.day===d?21:Math.max(G.hour%24,9); PHONE.at(G,dd,hh,L,'ps_p4b');
-        if(other){ F.PS_P4B_GROUP=true; PHONE.join(G,'ps_study','陪重考生念書'); PHONE.at(G,dd,hh+0.3,[{th:'g:ps_study',from:'zhe',text:'我來補債各'}],'ps_p4b_group'); } }
-      if(F.PS_P4B_GROUP&&PHONE.inGroup(G,'ps_study')&&S.termAt(G.day)==='Y2S2'){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;   /* 小組每週五 21:00 揪（BB-B 20c81473）：大二下第 2 週起，三句輪流 */
-        if(T&&T.week>=2&&G.weekday===5&&G.hour>=21&&!PHONE.sent(G,'ps_study_w'+T.week)){ const SL=['明天總圖，老位子旁邊的長桌。想來的就來，不用回。','這週末我在總圖。進度：債總第三章。……你們不用回，來就好。','週末總圖。阿哲說要補債各，我先幫他占位。'];
-          PHONE.at(G,G.day,21,[{th:'g:ps_study',from:'classmate_peishan',text:SL[(T.week-2)%3]}],'ps_study_w'+T.week); } }
-      const c=S.dayOfKey('2027-04-17'); if(c!=null&&PHONE.sent(G,'ps_p4b')&&!F.PS_P4B_GROUP&&G.day===c&&G.hour>=12.5&&!PHONE.sent(G,'ps_p4b_cafe'))
-        PHONE.at(G,c,12.5,[{th:'p:'+ps,from:ps,text:'總圖滿了。兩點半，靠窗。'}],'ps_p4b_cafe'); }
+    /* 沛珊 P4b 換你陪我念（BB_97 4-4）：大二下第 2 週週五的私訊 ps_p4b、小群組 ps_study「陪重考生念書」（阿哲「我來補債各」、每週五 21:00 揪）、4/17「總圖滿了。兩點半，靠窗。」整段拿掉——
+       AA_661 第 28 列（AA_281 4-2 第 3 點：C18～C22 死碼，BB_194 §19、BB_205 §3）：大二下是她的重考消失期，整段在台中、誰都聯絡不到（總表第 2 節）。
+       旗標 PS_P4B、PS_P4B_GROUP 和群組 ps_study 不再產生；舊存檔有的照留、不讀 */
     /* 杜鵑花第二張（AA_177 第 6 節、AA_143 2-2）：大二下第 3 週週四 3/11 12:40 以安在麵店團群組傳照片（照片本身就是事件）*/
     { const d=S.dayOfKey('2027-03-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&(G.day>d||(G.day===d&&G.hour>=12+40/60))&&G.day<=d+7&&!PHONE.sent(G,'y2_azalea'))
         PHONE.at(G,d,12+40/60,[{th:'g:noodle_team',from:'heroine_01',text:'📷（杜鵑花。和去年同一個位置。）'}],'y2_azalea'); }

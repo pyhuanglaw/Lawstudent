@@ -258,8 +258,8 @@ GM.money=function(n){ G.money+=n; };
     w=setup('Y4S1','heroine_04',{EXCHANGE_ROUTE:'US'}); G.day=w.to-2; run(20,21); a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
     check('13. 子晴大四上美國路線：「欸 你回來了齁 宵夜」',a[0]==='欸 你回來了齁 宵夜',JSON.stringify(a));
     w=setup('Y4S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); L=lines();
-    const i3=L.findIndex(x=>x.endsWith('……你要不要試試看，被我分一點時間？'));
-    check('13. 語彤大四上她說＝事件 16 三句＋理由一句（沒有 NOTICED_EMPTY_SEAT＝碗拿到櫃台），CG-12 在最後一句',L.some(x=>x.endsWith('我以前覺得，喜歡一個人要有時間。'))&&L.some(x=>x.endsWith('你每次吃完，都自己把碗拿到櫃台。'))&&i3>0&&JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03'])&&G.flags.dating_heroine_03===true,JSON.stringify(cgs));
+    const i3=L.findIndex(x=>x.endsWith('這一次，我想選你。'));   /* AA_661 第 73、89 列（AA_625 事件 16「告白的那一段」）：原本「……你要不要試試看，被我分一點時間？」 */
+    check('13. 語彤大四上她說＝AA_625 事件 16 告白那一段＋理由一句（沒有雨天總圖門口的記憶＝第一次一起上班那一句，AA_661 第 56 列），CG-12 在最後一句「這一次，我想選你。」',L.some(x=>x.endsWith('從小，什麼都有人幫我選好。學校、補習班、要學什麼樂器。'))&&L.some(x=>x.endsWith('第一次一起上班，你把我洗好的杯子又擦了一遍。'))&&i3>0&&JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03'])&&G.flags.dating_heroine_03===true,JSON.stringify(cgs));
     w=setup('Y4S1','heroine_03'); SOCIAL.remember('heroine_03','NOTICED_EMPTY_SEAT',''); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
     check('13. 語彤大四上玩家先說：CG-12 放在她答應那一句',JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03']));
     w=setup('Y3S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y3S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y3S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
@@ -268,7 +268,7 @@ GM.money=function(n){ G.money+=n; };
     w=setup('Y1S2','heroine_01'); TERMEND.plan(G,w); said=[]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'heart',term:'Y1S2',place:'brunch',placeName:'半熟'}}); L=lines();
     check('13. 玩家約以安去半熟（不是她那一家）：開場照半熟、不說飯桌一句、照樣走一段路（AA_587 第 59 列）',L[0]==='（半熟。）'&&!L.some(x=>x.includes('今天是特地訂的'))&&L.some(x=>x.includes('走一下。我有東西給你看。')),JSON.stringify(L.slice(0,4)));
     w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'阿鳳麵店'}}); L=lines();
-    check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句',L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
+    check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句（AA_661 第 74 列「你的茶我換成熱的了。……你剛剛一直在搓手。」，原本「這碗沒放蔥……」）',L.some(x=>x.includes('你的茶我換成熱的了。……你剛剛一直在搓手。'))&&!L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
     TERMEND.hookFor=hf; }
   // 14. AA_250 全檔口語審（01029de1、BB_212 6f6e9c7e）的條件
   { const P=TERMEND_LINES.POOL, res=(x,G)=>typeof x==='function'?x(G):x;

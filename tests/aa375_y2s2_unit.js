@@ -187,7 +187,10 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('15. 20:30 群組「麵店分店」不算 Alison、柏翰',J(G.flags.NOODLE_BRANCH_MEMBERS)===J(['kexin','yule','zhe']),J(G.flags.NOODLE_BRANCH_MEMBERS)); }
   // ===== 第 16 項：語彤第 8～9 週 =====
   { fresh('2027-04-13',18,'dorm'); const a=sched('heroine_03'); to('2027-04-20',18); const b=sched('heroine_03'); to('2027-03-30',18); const c=sched('heroine_03');
-    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；第 6 週（3/30）也不在（AA_610／AA_624：她從來不在燒臘店）',!!a&&a.zone!=='noodle'&&!!b&&b.zone!=='noodle'&&!(c&&c.zone==='noodle'),J([a&&a.zone,b&&b.zone,c&&c.zone])); }
+    to('2027-04-17',14); const w8=sched('heroine_03'); to('2027-04-25',14); const w9=sched('heroine_03'); to('2027-04-10',14); const w7=sched('heroine_03');
+    /* AA_661 第 11 列（AA_627 P-05、AA_630 L-131）：第 8～9 週改成蘇姨叫她不用來上班、週末那兩格（茶屋 13～17）放總圖；原本週二、四麵店時段那一筆拿掉（週二 18:00 不再一定有一筆）*/
+    check('16. 大二下第 8～9 週語彤不排麵店（4/13、4/20 週二 18:00）；第 6 週（3/30）也不在（AA_610／AA_624：她從來不在燒臘店）',!(a&&a.zone==='noodle')&&!(b&&b.zone==='noodle')&&!(c&&c.zone==='noodle'),J([a&&a.zone,b&&b.zone,c&&c.zone]));
+    check('16. 第 8～9 週的週末 14:00 在總圖（4/17、4/25；AA_661 第 11 列）；第 7 週週六照常在一盞茶屋',!!w8&&w8.zone==='library'&&!!w9&&w9.zone==='library'&&!!w7&&w7.zone==='wz_teahouse',J([w8&&w8.zone,w9&&w9.zone,w7&&w7.zone])); }
   // ===== 第 17 項：以安「上次那份公文」=====
   { fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); STORY.neededRec(G).shown.an_admin=D('2026-12-06'); const L=await play('ev_an_mother_map',[0]);
     check('17. an_admin 發過（聽過）：「上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。」，不再當新消息講',L.includes('上次那份公文，你還記得嗎？我後來陪他們寫了訴願書。')&&!L.includes('我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'),J(L.slice(0,2)));

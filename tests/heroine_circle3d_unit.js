@@ -184,7 +184,9 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HCIRCLE',false,'沒有 HCIRCLE');
   const noOn=[], compOff=[], mirrorBad=[]; let nOn=0;
   for(const r of rows()){ if(!live(r)) continue; const f=findOn(r,FLAGS[r.id],{prep:PREP[r.id]}); if(!f){ noOn.push(r.id); continue; } nOn++;
     const he=HCIRCLE.heroEnt(r,H.G); for(const c of (r.with||[])){ if(isLabel(c)) continue; const e=ent(c); if(!e||e.zone!==he.zone) compOff.push(r.id+':'+c+'@'+(e&&e.zone)); else if(e.hc&&e.hc!==r.id&&!rows().some(q=>q.id===e.hc&&q.with&&q.with.includes(c))) mirrorBad.push(r.id+':'+c); } }
-  const noOnYt=noOn.filter(id=>ytNdl(R(id))), noOnX=noOn.filter(id=>!ytNdl(R(id)));
+  const DEAD661=['c509_1_1'];   /* AA_661 第 3 列（AA_623）：以安大四上週四燒臘店那一筆作息拿掉（「麵店日」已經沒有）＝這一列不會成立，另外檢查「不成立」*/
+  const noOnYt=noOn.filter(id=>ytNdl(R(id))), noOnX=noOn.filter(id=>!ytNdl(R(id))&&!DEAD661.includes(id));
+  check('1. 以安大四上週四燒臘店那一列（c509_1_1）找不到成立的時候（AA_661 第 3 列）',DEAD661.every(id=>noOn.includes(id)),J(DEAD661.filter(id=>!noOn.includes(id))));
   check('1. 每一列（同框、一個人）在它的學期週次日期裡都找得到成立的時候（她照作息在那一區）：'+nOn+' 列（語彤在燒臘店的那幾列除外）',!noOnX.length&&nOn>=70,J(noOnX));
   /* AA_630 第 4 節（YT-REWRITE-1103）：「阿姨」那八列（c503_6_2、c504_3_2、c505_3_3、c505_3_4、c503_14_1～5 扣掉刪掉的 c504_3_3）搬到一盞茶屋（蘇姨）＝不再是燒臘店的列；剩下 c506_3_3（暑假午休，C-001 作息補要茶屋靠窗那一桌的座位）、c510_3_2（2029 暑假，C-015 座位照茶屋吧檯〔LAWWW2〕）兩列還沒搬 */
   /* AA_657 第 1 節（WZ-YIZHAN-1104）：剩下那兩列（c506_3_3、c510_3_2）也搬到一盞＝語彤沒有燒臘店的列了；兩列在一盞找得到成立的時候（上面那一項已經算進去）*/
@@ -379,9 +381,9 @@ await sec('7',async()=>{ if(!HAS()){ check('7. HCIRCLE',false,'沒有 HCIRCLE');
     check('7. 總圖門口的媽媽（spot）：第 10 週週四 18:00 走進總圖大廳門廳＝旁白一句、同一天不再一次；大廳裡面、第 9 週、18:30、校園的總圖門口照樣（一天一次，每一處都可以先聽到）',
       J(a)===J(want)&&again===0&&!b.length&&!c.length&&!e.length&&J(g)===J(want)&&!!r.spot&&HCIRCLE.on(r,(fresh(d10,18,'library_hall'),H.G))===true,J({a,again,b,c,e,g})); }
   /* (d) 語彤的法律課（一個人）、以安週四麵店（一個人）、子晴公館騎樓（一個人＋補的作息）*/
-  { const L=[]; for(const rid of ['c509_1_1','c509_3_3','c509_4_1','c510_3_2']){ const r=Rw(rid), f=findOn(r); L.push([rid,!!f&&r.alone===true&&HCIRCLE.heroEnt(r,(fresh(f.d,f.h,r.zone),H.G)).zone===r.zone]); }
+  { const L=[]; for(const rid of ['c509_3_3','c509_4_1','c510_3_2']){   /* c509_1_1（以安週四麵店）：AA_661 第 3 列作息拿掉，見第 1 項 */ const r=Rw(rid), f=findOn(r); L.push([rid,!!f&&r.alone===true&&HCIRCLE.heroEnt(r,(fresh(f.d,f.h,r.zone),H.G)).zone===r.zone]); }
     const zq=(()=>{ const r=Rw('c509_4_1'), f=findOn(r); fresh(f.d,22.5,'gongguan'); const e=ent('heroine_04'); return e&&e.act==='read'&&e.hc==='c509_4_1'&&J(e.seatAt)===J([15.6,19.8])&&e.prop==='laptop_lap'; })();   /* 2026-11-01 ZQ-ARCADE-SEAT-1028：原本站在插座旁邊（linger），改坐柱子旁的凳子、腿上筆電 */
-    check('7. 一個人的列：以安週四麵店（第 2～13 週）、語彤的法律課（週一上午、週四下午）、子晴公館騎樓（插座旁邊，補的作息）、語彤暑假週四一盞（c510_3_2，AA_657 從麵店搬到一盞）都找得到成立的時候',L.every(x=>x[1])&&zq,J({L,zq})); }
+    check('7. 一個人的列：語彤的法律課（週一上午、週四下午）、子晴公館騎樓（插座旁邊，補的作息）、語彤暑假週四一盞（c510_3_2，AA_657 從麵店搬到一盞）都找得到成立的時候',L.every(x=>x[1])&&zq,J({L,zq})); }
   /* (e) 子晴 6/28 起週五公館和阿凱（畢業以後篇照樣成立）：兩個人都生在公館、一起走 */
   { const r=Rw('c510_4_1'), d=DK('2029-07-06'); fresh(d,22.5,'gongguan',{GRADUATED:true}); const on=HCIRCLE.on(r,H.G); stage('gongguan'); STORY._bindGM(GM); POOL.bind(GM); HCIRCLE.bind(GM); STORY.refreshSchedule(GM);
     const zq=GM.npc.heroine_04, kai=GM.npc.kai; HCIRCLE.arrange(GM,false);

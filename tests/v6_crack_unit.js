@@ -132,7 +132,7 @@ await sec('Y',async()=>{
     if(res==='apart') check('Y9. 好好分開：apart_talk',H.G.flags.dating_heroine_03===false&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===YT&&h.how==='apart_talk'));
     if(res==='drift'){ at(t4+7,12.5); rules(); const noSeat=!PHONE.byAsk(H.G,'ct_yt_seat_'+keyOf(t4+7)); at(t4+7,21); rules(); const ended=H.G.flags.dating_heroine_03===false;
       at(t4+9,18); H.G.zone='noodle'; H.said=[]; await tick();
-      check('Y9. 不回答：她不再留位子；一週後分開（apart_drift），之後到麵店「加滷蛋。……這個不會變。」',noSeat&&ended&&J(said())===J(['加滷蛋。……這個不會變。'])&&H.G.flags.EX_heroine_03_REASON==='drift',J(said())); } }
+      check('Y9. 不回答：她不再留位子；一週後分開（apart_drift），之後到麵店「你的杯子還是放在那一格。……這個不會變。」（AA_661 第 57 列；演的地方照舊，LAWWW 定）',noSeat&&ended&&J(said())===J(['你的杯子還是放在那一格。……這個不會變。'])&&H.G.flags.EX_heroine_03_REASON==='drift',J(said())); } }
   /* 沒到：20:00「沒關係。下週四。」→ 下週四；還是沒到＝不回答 */
   ytG('2028-09-14'); for(const d of [t1,t1+7,t1+14]){ at(d,12.5); rules(); at(d,20); rules(); } at(t4,12.5); rules(); at(t4,20.1); rules();
   check('Y10. 沒到：20:00「沒關係。下週四。」，延到下一個週四',dm(YT).slice(-1)[0]==='heroine_03:沒關係。下週四。'&&pr(YT).plan.i===1);

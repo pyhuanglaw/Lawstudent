@@ -703,12 +703,9 @@ const Y2R2=(function(){
   /* ==================== 對話選單的一次性選項（STORY.TALK_OPTS）==================== */
   const ytShop=G=>G.zone==='noodle';
   S.talkOpts=function(G,id,GM){ const F=G.flags||{}, out=[]; if(!law(G)) return out;
-    /* 2-Y2-01 語彤事件 7 新版：大二第一次法服值班之後 14 天內，在麵店 */
-    if(id==='heroine_03'&&ytShop(G)&&F.FAFU_FIRST_SHIFT_Y2!=null&&!F.YT_DUTY_HEARD&&typeof STORY!=='undefined'&&STORY.fafuMember&&STORY.fafuMember(G)&&atLeast('heroine_03','FAMILIAR')){ const k=G.day-F.FAFU_FIRST_SHIFT_Y2;
-      if(k>=1&&k<=14) out.push({t:k<=7?'禮拜六法服第一次值班。':'前兩個禮拜，法服第一次值班。',run:S.ytDutyChat}); }
-    /* 2-Y2-22 「幫她」三個選項：有 RENT_CONSULTATION、到 6/2 為止、麵店或總圖 */
-    if(id==='heroine_03'&&(ytShop(G)||/^library/.test(G.zone||''))&&mem('heroine_03','RENT_CONSULTATION')&&G.day<=d('k14')){ const H=F.YT_HELP_PICKED||{};
-      [['job','要不要我問問看有沒有打工？'],['lend','需要的話，我可以先借妳。'],['info','我找了一些資料。']].forEach(([k,t])=>{ if(!H[k]) out.push({t,run:async(GM,who)=>S.ytHelp(GM,who,k,t)}); }); }
+    /* AA_661 第 17 列（AA_643 第 7 節，AA 定：退場，不搬）：2-Y2-01 語彤事件 7 新版（ev_yt_shift_chat，麵店閒聊法服第一次值班）、
+       2-Y2-22「幫她」三個選項（麵店或總圖）整段拿掉——她不在麵店、不在法服；想幫她的新版是 AA_625 第 11 節「想幫秀琴姨」（src/ytjob3d.js）。
+       S.ytDutyChat、S.ytHelp 留著（舊存檔、測試讀得到），沒有入口 */
     /* 2-Y2-18 以安「明軒的事……」：聽說以後到 9/5、一次；和以安交往中而且明軒知道的不會有這件事。
        priv（AA_503 第 14 節第 5 項，企劃線 6bc3cd784：擋）：她旁邊有她的人時不出，清單 src/privtalk3d.js 的 an_mx（期限 9/5：那天照出，選了先一句旁白）*/
     if(id==='heroine_01'&&F.MX_HEARD&&!F.AN_MX_ASKED&&G.day<=d('an_end')&&!mxKnows(G)) out.push({t:'明軒的事……',priv:true,privKey:'an_mx',run:async(GM,who)=>{ G.flags.AN_MX_ASKED=true; GM.sceneBegin(); try{ await GM.say(who,'他還好嗎？'); await GM.say({name:G.name},'他今天還跟阿哲去打球。'); await GM.say(who,'嗯。'); await GM.say(who,'……你今天晚餐吃什麼。'); }   /* AA_587 第 41 列（共創第十三、十四批：反過來問他還好嗎，然後轉話題；中間一句祐廷）*/ finally { GM.sceneEnd(); } }});

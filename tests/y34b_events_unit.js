@@ -301,17 +301,18 @@ const date=id=>H.date(id);
     check('1B-20 12/12 語彤的班（她在店裡）：「週四，二十三週年。你要來。」', !a&&b&&has('週四，二十三週年。你要來。')); GM.npc={}; }
   fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'none'}); H.FRIEND('heroine_03'); H.FAMILIAR('yu'); H.FAMILIAR('heroine_05'); SOCIAL.remember('heroine_03','SHARED_MEAL','她端來的乾麵');
   check('1B-20 12/14 18:45～ 在麵店＝演', S.a23Due(H.G)); H.said=[]; H.cgs=[]; await S.a23Run(GM);
-  check('Y1 Alison「這兩個位子」、阿哲「今天剛好是週四」、阿姨「明年也是。」、最後一碗「乾麵，加滷蛋。」、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃麵就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
+  /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：燒臘店的字照 AA_612（A-450～A-458）、語彤端碗和語彤的媽媽那幾句拿掉、可昕「你說了三年的叉燒」 */
+  check('Y1 Alison「這兩個位子」、阿哲「想吃飯就來」、阿姨「明年也是。」、語彤不端最後一碗（AA_661 第 63 列）、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃飯就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&!H.said.some(x=>/把最後一碗放在/.test(x.t||''))&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
   { fresh('2028-12-14',18.9,'noodle'); H.FRIEND('heroine_03'); date('heroine_03'); await S.a23Run(GM);
-    check('Y3 和語彤交往中：媽媽多一句、「這把是我們的。」；最後一碗一定給你（沒有備註＝招牌乾麵那句）', has('……他也很少講話。你們兩個怎麼聊天的？')&&has('（撐開另一把）這把是我們的。')&&has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
+    check('Y3 和語彤交往中：「這把是我們的。」；語彤的媽媽那一句、最後一碗都拿掉（AA_661 第 63 列）', !has('……他也很少講話。你們兩個怎麼聊天的？')&&has('（撐開另一把）這把是我們的。')&&!has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
   { fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'share'}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM);
     check('1B-20 和別人交往中：「兩把。你們自己分。」（傘的那幾句不出）；不熟的最後一碗不給你', has('兩把。你們自己分。')&&!has('這次換我送你。')&&!has('（把最後一碗放在你面前）乾麵，加滷蛋。'));
-    const a=idx('你點的是餛飩湯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
-    check('AA_337 第 3 節 最後一碗給阿哲：接阿姨那句 →「（把最後一碗放在阿哲面前）餛飩湯。」→ 阿哲「……我真的記錯了喔。」→「我記得。我記得每個人第一次點什麼。」', a>=0&&b>a&&c===b+1&&e===c+1&&/阿哲|哲/.test(H.said[c].who||''), JSON.stringify([a,b,c,e]));
+    const a=idx('你點的是油雞腿飯，你記錯了。'), b=idx('（把最後一碗放在阿哲面前）餛飩湯。'), c=idx('……我真的記錯了喔。'), e=idx('我記得。我記得每個人第一次點什麼。');
+    check('AA_337 第 3 節：阿姨「你點的是油雞腿飯，你記錯了。」（AA_612 A-456）→ 阿哲「……我真的記錯了喔。」→「我記得。我記得每個人第一次點什麼。」；語彤端最後一碗那句拿掉（AA_661 第 63 列）', a>=0&&b<0&&c>a&&e===c+1&&/阿哲|哲/.test(H.said[c].who||''), JSON.stringify([a,b,c,e]));
     at('2028-12-14',22.4); phone(); const k0=th('p:kexin').length; at('2028-12-14',22.5); phone(); const km=(H.G.msgs||[]).filter(m=>m.th==='p:kexin');
     check('AA_337 第 3 節 和可昕交往、她沒見過麵店團：22:30 系統字「（你傳了一張長桌的照片給可昕。）」＋可昕「人好多。」「……下次帶我去。人少的時候。」', k0===0&&km.map(m=>m.text).join('|')==='（你傳了一張長桌的照片給可昕。）|人好多。|……下次帶我去。人少的時候。'&&!km[0].from&&km[1].from==='kexin', JSON.stringify(km.map(m=>[m.from,m.text]))); }
   { fresh('2028-12-14',18.9,'noodle',{KX_MET_NOODLE_TEAM:true}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM); at('2028-12-14',22.5); phone();
-    check('1B-20 見過麵店團的可昕：她在場（「你說了三年的麵，原來是真的。」）、沒有事後照片', has('你說了三年的麵，原來是真的。')&&!th('p:kexin').length); }
+    check('1B-20 見過麵店團的可昕：她在場（「你說了三年的叉燒，原來是真的。」，AA_661 第 63 列）、沒有事後照片', has('你說了三年的叉燒，原來是真的。')&&!th('p:kexin').length); }
   { fresh('2028-12-11',20,'dorm'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-11',21); phone(); const a=th('g:noodle_team').slice(); at('2028-12-12',21); phone(); const b=th('g:noodle_team').slice(); at('2028-12-13',20.9); phone(); const c=th('g:noodle_team').length; at('2028-12-13',21); phone();
     const L=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
     check('AA_337 第 3 節 麵店團群組的倒數：12/11 阿哲「週四 燒臘店二十三週年 倒數三天」（AA_464 4-1 加「麵店」）、12/12 Alison「兩天」、12/13 阿哲「明天七點 不准遲到」柏翰「我六點半到。」', a.join('|')==='週四 燒臘店二十三週年 倒數三天'&&b.slice(-1)[0]==='兩天'&&c===2&&L.join('|')==='zhe:週四 燒臘店二十三週年 倒數三天|yu:兩天|zhe:明天七點 不准遲到|classmate_bohan:我六點半到。', JSON.stringify(L)); }

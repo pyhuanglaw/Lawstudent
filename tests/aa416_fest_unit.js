@@ -31,6 +31,7 @@ const sec550=(doc550.split('## 4.')[1]||'');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const ANREV=require('./an_rev_doc.js');   /* 以安改稿（AA_587／589／592／594）改過的句子：在改成欄也算（逐列核對在 tests/aa587_b3、aa589_an_b4、aa592_an_1b、aa594_an_4b）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
+const doc661=git('5df89d95a','AA_661_遊戲裡的人物資料_和現行設定不符的欄位.md');   /* CANON-PURGE-SRC-1104 */
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
 const D=k=>H.D(k);
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -63,7 +64,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('0. index.html：fest_events.js、fest3d.js 接在 an_yt_hol3d.js 後面（?v= 照舊）',/src\/an_yt_hol3d\.js\?v=([^"]+)"><\/script>\n<script src="src\/data\/fest_events\.js\?v=\1"><\/script>\n<script src="src\/fest3d\.js\?v=\1"><\/script>/.test(html)); }
   check('0. STORY.PHONE_RULES、STORY.TICKS、OUT.BEFORE（校外約會）、OUT.AFTER（子晴跨年）都接了',STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0&&OUT.BEFORE.length>0&&OUT.AFTER.length>0);
   { const ML=SOCIAL.MEMORY_LABEL||{}; check('0. 人物頁記憶 HOL_<節日>_<年>（1-7：「<年> 的情人節，和她一起過」照節日換字）',ML.HOL_VDAY_2027==='2027 的情人節，和她一起過'&&ML.HOL_WHITE_2026==='2026 的白色情人節，和她一起過'&&ML.HOL_QIXI_2028==='2028 的七夕，和她一起過'&&ML.HOL_BDAY_2026==='2026 的生日，和她一起過'&&ML.HOL_XMAS_2025==='2025 的聖誕節，和她一起過'&&ML.HOL_NYE_2026==='2026 的跨年，和她一起過'&&inDoc('「<年> 的情人節，和她一起過」')); }
-  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
+  { const bad=[], normed=[]; const T=(t,d)=>{ if(typeof t!=='string') return; if((d||doc).indexOf(t)>=0||ANREV.has(t)) return; if(!d&&doc661&&(doc661.indexOf(t)>=0||doc661.indexOf(norm(t))>=0)) return;   /* AA_661 第 78～83 列改的語彤節日句（企劃線 5df89d95a，AA 定稿）：AA_416 白名單那一版還是舊句 */ if(inDoc(t,d)){ normed.push(t); return; } bad.push(t); };
     const T523=t=>{ const q=(/「[^」]+」/.exec(t)||[''])[0]; if(!(q&&row614.includes(q)&&doc.indexOf(t.replace(q,'「明年也要。」'))>=0)) bad.push('（AA_523 6-14）'+t); };
     const lines=(L,d)=>{ for(const l of (L||[])){ if(l.aa523){ T523(l.text); continue; } if(l.aa550){ if(sec550.indexOf('> 芷若：'+l.text)<0) bad.push('（AA_550 第 4 節）'+l.text); continue; } if(l.text!==undefined) T(l.text,d); if(l.scene!==undefined) T(l.scene,d); for(const c of (l.choice||[])) T(c.text,d); } };
     for(const id of ALL){ const P=FEST_DATA.PEOPLE[id];
@@ -195,17 +196,17 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('5. 3/14 第 6 階：中午 12:00 她先傳「（照片：茶屋今天的茶點）」「這碗是你的。」',pre===0&&J(dms(YT))===J(['（照片：茶屋今天的茶點）','這碗是你的。']),J(dms(YT)));
     const m=await play({id:YT,k:'white',y:2026,mode:'meet'}); check('5. 當面：「回禮。……我不知道要送什麼。」旁白（她把一個保鮮盒推過來，裡面是兩顆滷蛋。）',J(m.L)===J(['回禮。……我不知道要送什麼。','（她把一個保鮮盒推過來，裡面是兩顆滷蛋。）'])); }
   { setup('2028-03-13',10,{lv:{[YT]:'dt'}}); const a=await ask(YT,[1,0]); const m=await play({id:YT,k:'white',y:2028,mode:'meet'}); setup('2027-03-14',10,{lv:{[YT]:'dt'}}); const n=await play({id:YT,k:'white',y:2027,mode:'meet'});
-    /* AA_610／AA_624（使用者 11-03）：語彤不在燒臘店（INV.NEVER_AT）＝2028 那一格地點寫死在燒臘店（venueBy dt 2028）約不成、兩個時段都灰掉「那個時段約不到地方」；節日內容（直接 play）照舊，待 AA 改稿 */
-    check('5. 交往中 2028（週二）：地點寫死在燒臘店＝約不成（兩個時段灰掉）；內容照舊「今天我在店裡。你來，我留一顆。」；2027「……我做了滷蛋。秀琴姨教的。第一次做。」',!a.r&&a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['今天我在店裡。你來，我留一顆。'])&&J(n.L)===J(['……我做了滷蛋。秀琴姨教的。第一次做。']),J({L:a.L,m:m.L,n:n.L})); }
+    /* AA_661 第 78 列（AA_624）：2028 那一格（3/14 是週二，她不上班）「今天我在店裡。你來，我留一顆。」和 venueBy（燒臘店）刪＝每年都是同一句、約得到（原本約不成、兩個時段灰掉）*/
+    check('5. 交往中 2028（週二）：約得到（不再寫死在燒臘店）；內容和 2027 一樣「……我做了滷蛋。秀琴姨教的。第一次做。」（AA_661 第 78 列）',!!a.r&&!a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['……我做了滷蛋。秀琴姨教的。第一次做。'])&&J(n.L)===J(['……我做了滷蛋。秀琴姨教的。第一次做。']),J({L:a.L,m:m.L,n:n.L})); }
   { setup('2026-08-19',10,{lv:{[YT]:'dt'}}); const a=await play({id:YT,k:'qixi',y:2026,mode:'meet'}); setup('2026-08-19',10,{lv:{[YT]:6}}); const b=await play({id:YT,k:'qixi',y:2026,mode:'meet'});
     check('5. 七夕：交往中「我跟蘇姨請假了。」旁白（她說完就低頭看菜單。）；第 6 階「七夕……茶屋照常開。」「……可是我晚上沒班。」',J(a.L)===J(['我跟蘇姨請假了。','（她說完就低頭看菜單。）'])&&J(b.L)===J(['七夕……茶屋照常開。','……可是我晚上沒班。'])); }
   { setup('2026-07-08',10,{lv:{[YT]:5}}); const a=await ask(YT,[0,0]); at('2026-07-09',12); const m=await play({id:YT,k:'bday',y:2026,mode:'meet'},[0]);
-    /* 生日的地點寫死在燒臘店（bday venue:'noodle'）：AA_610／AA_624 約不成；內容（直接 play）照舊，待 AA 改稿 */
-    check('5. 生日 7/9 第 5 階：地點寫死在燒臘店＝約不成（灰掉「那個時段約不到地方」）；內容照舊「……你怎麼知道。」「阿姨說的？……嗯。」「今天麵店。你來就好。」→ 禮物（一條髮圈 120：「……舊的那條鬆了。你有看到。」）',!a.r&&a.L.includes('那個時段約不到地方。')&&J(m.L)===J(['……你怎麼知道。','阿姨說的？……嗯。','今天麵店。你來就好。','……舊的那條鬆了。你有看到。']),J({aL:a.L,L:m.L}));
+    /* AA_661 第 79 列（AA_416 第 5 節已同步）：生日第 6 階的地點改一盞茶屋（原本 venue 燒臘店＝約不成）；句子照新稿 */
+    check('5. 生日 7/9 第 5 階：約得到一盞（AA_661 第 79 列）；「……你怎麼知道。」「我媽早上傳了一張蛋糕的照片。她自己先吃了一塊。」「……這個，我想留到晚上再拆。」→ 禮物（一條髮圈 120：「……舊的那條鬆了。你有看到。」）',!!a.r&&a.L.some(l=>/^約好 7\/9.*一盞。$/.test(l))&&J(m.L)===J(['……你怎麼知道。','我媽早上傳了一張蛋糕的照片。她自己先吃了一塊。','……這個，我想留到晚上再拆。','……舊的那條鬆了。你有看到。']),J({aL:a.L,L:m.L}));
     setup('2028-07-08',10,{lv:{[YT]:'dt'},flags:{EXCHANGE_ROUTE:'JP'}}); const b=await ask(YT,[0]); const q=b.r; at('2028-07-09',21.9); const g=q?await goOut(q.id):{L:[]};
-    check('5. 2028 生日日本路線：視訊（臺灣 21:00＝日本 22:00）「麵店今天好吵。阿姨在後面煮麵線。」「……你那邊幾點？」',!!q&&q.h===22&&J(g.L)===J(['麵店今天好吵。阿姨在後面煮麵線。','……你那邊幾點？']),J({q,L:g.L})); }
+    check('5. 2028 生日日本路線：視訊（臺灣 21:00＝日本 22:00）「我剛洗完杯子回到家。」「……你那邊幾點？」（AA_661 第 79 列）',!!q&&q.h===22&&J(g.L)===J(['我剛洗完杯子回到家。','……你那邊幾點？']),J({q,L:g.L})); }
   { setup('2026-12-24',10,{lv:{[YT]:'dt'}}); const a=await play({id:YT,k:'xmas',y:2026,mode:'meet'},[4]); setup('2027-12-24',10,{lv:{[YT]:'dt'}}); const b=await play({id:YT,k:'xmas',y:2027,mode:'meet'},[4]);
-    check('5. 聖誕交往中：「今天打烊早。阿姨說，聖誕節要給年輕人。」；麵店團交換禮物的年份（2026）多「交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。」、2027 沒有',J(a.L.slice(0,2))===J(['今天打烊早。阿姨說，聖誕節要給年輕人。','交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'])&&b.L[0]==='今天打烊早。阿姨說，聖誕節要給年輕人。'&&!b.L.includes('交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'),J({a:a.L,b:b.L})); }
+    check('5. 聖誕交往中：「今天打烊早。蘇姨說，聖誕節要給年輕人。」（AA_661 第 80 列）；麵店團交換禮物的年份（2026）多「交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。」、2027 沒有',J(a.L.slice(0,2))===J(['今天打烊早。蘇姨說，聖誕節要給年輕人。','交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'])&&b.L[0]==='今天打烊早。蘇姨說，聖誕節要給年輕人。'&&!b.L.includes('交換禮物我抽到一條圍巾。……我換給你了。阿哲不知道。'),J({a:a.L,b:b.L})); }
   });
 
   /* ======================= 6 子晴 ======================= */

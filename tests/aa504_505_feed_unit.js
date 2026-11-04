@@ -98,19 +98,20 @@ const strs=S=>{ const L=[]; const add=x=>{ if(x==null||x==='') return; if(typeof
 sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_y1s1.js'), i2=sc('src/data/feed_y1s2.js'), i3=sc('src/data/feed_y2s1.js'), iF=sc('src/feed3d.js'), iB=sc('src/data/bbpack_events.js');
   check('0. 載得到；index.html：feed_y1s1.js → feed_y1s2.js → feed_y2s1.js → feed3d.js（在 bbpack_events.js 前面）',!errs.filter(e=>!/heard/.test(e)).length&&i1>0&&i2>i1&&i3>i2&&iF>i3&&iB>iF,J(errs));
   check('0. FEED 三個學期都接上（SETS）',HAS()&&J(FEED.SETS().map(s=>s.term))===J(['Y1S1','Y1S2','Y2S1']),HAS()?J(FEED.SETS().map(s=>s.term)):'沒有 FEED');
-  check('0. 大一下：動態 47 則（以安 7、芷若 6、語彤 6、子晴 8、學姊 5、沛珊 8、可昕 7）、私訊 7 則；大二上：動態 38 則（6、6、4、6、5、5、6——可昕多 AA_514 第 2 節的第 4b 則）、私訊 3 則',!!SET.Y1S2&&!!SET.Y2S1&&SET.Y1S2.posts.length===47&&SET.Y1S2.dms.length===7&&SET.Y2S1.posts.length===38&&SET.Y2S1.dms.length===3,
+  check('0. 大一下：動態 46 則（以安 7、芷若 6、語彤 6、子晴 8、學姊 5、沛珊 7、可昕 7；沛珊 ps2b 志工報名表 2026-11-04 拿掉：AA_661 第 51 列）、私訊 7 則；大二上：動態 38 則（6、6、4、6、5、5、6——可昕多 AA_514 第 2 節的第 4b 則）、私訊 3 則',!!SET.Y1S2&&!!SET.Y2S1&&SET.Y1S2.posts.length===46&&!SET.Y1S2.posts.some(p=>p.id==='ps2b')&&SET.Y1S2.dms.length===7&&SET.Y2S1.posts.length===38&&SET.Y2S1.dms.length===3,
     J([SET.Y1S2&&SET.Y1S2.posts.length,SET.Y1S2&&SET.Y1S2.dms.length,SET.Y2S1&&SET.Y2S1.posts.length,SET.Y2S1&&SET.Y2S1.dms.length]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 三個學期的 id 都不重複（動態 43＋47＋38、私訊 10＋7＋3）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===148&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
+  check('0. 三個學期的 id 都不重複（動態 43＋46＋38、私訊 10＋7＋3）（大一上 sis2 保溫瓶、大一下 ps2b 志工報名表 2026-11-04 拿掉：D127④、AA_661 第 48、51 列）',ids.length===147&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
   /* 2026-10-30 AA_524 Z3（企劃線 8fd10848d）：芷若 zr3c 多了 yes 版（前一晚回「我去。」去看了早場的玩家：圖、私訊的回答）——對 AA_505 的稿用 no 版（原句）；yes 版在 tests/aa524_promises_unit.js 對 AA_524 的稿 */
   const A524=p=>p.id!=='zr3c'?p:Object.assign({},p,{went:undefined,pic:p.pic&&typeof p.pic==='object'?p.pic.no:p.pic,dm:(p.dm||[]).map(x=>x&&typeof x==='object'&&x.no!=null?x.no:x)});
+  const CUT661=['ps2b'];   /* AA_661 第 51 列（AA_614）：沛珊大一上第 3 週起就是課輔班的打工助教，大一下的志工報名表那一則拿掉 */
   for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const L=strs(S), bad=L.filter(t=>!md.includes(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+D.sha+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y1S2'?300:230)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列 */
-    const rows=rowsOf(md), wrong=[], wd=[];
+    const rows=rowsOf(md).filter(r=>!CUT661.includes(expectRow(term,r).id)), wrong=[], wd=[];   /* CUT661：稿上有、遊戲拿掉的（AA_661 第 51 列 ps2b）*/
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when);
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when);
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;

@@ -26,7 +26,7 @@ const MSG=(function(){
      free＝有空時幾分鐘；sleep～wake＝睡了（wake 點回，先說 wakeLine）；win＝固定不回的時段（days 星期、from～to，to 以後才回）；slots＝只在這幾個時間回（學姊）*/
   const TIMING={
     heroine_01:{free:[1,10],sleep:22.5,wake:7.25,wakeLine:['昨天睡了。早。']},
-    heroine_03:{free:[10,60],win:[{days:[2,4],from:17,to:20.5}]},   /* 週二、週四麵店時間，20:30 以後才回 */
+    heroine_03:{free:[10,60],win:[{days:[6,0],from:13,to:17}]},   /* 週六、週日下午在茶屋上班，17:00 以後才回（AA_661 第 14 列；原本週二、週四麵店時間 17:00～20:30）*/
     zhe:{free:[1,3]}, yu:{free:[1,5]}, classmate_bohan:{free:[5,30],sleep:2,wake:8.5}, classmate_xinci:{free:[10,30],sleep:3,wake:9.5,fastFrom:0.5,fastTo:3},   /* 00:30 以後反而秒回 */
     heroine_02:{free:[5,30],sleep:1,wake:9,wakeLine:['昨天太晚看到了。']},   /* 上班時間由作息判斷；祐廷交往中改 15:10 回（replyAt 另外處理）*/
     heroine_04:{free:[1,10],sleep:3,wake:14,wakeLine:['早','剛看到'],fastFrom:22,fastTo:24},   /* 22～24 點最活躍、下午兩點才醒 */

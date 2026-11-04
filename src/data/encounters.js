@@ -20,8 +20,7 @@ const ENCOUNTERS={
       lines:{dating:['你也來看這部？……那我們兩個是不是要假裝不認識予樂。']},ex:{kx_b:['……嗨。','……今天就當沒遇到，好不好。'],kx_bNarr:'（她笑了一下，跟予樂走了。）'},src:'BB_144 1、2、3-6'},
     {who:'zhe',spot:'D04',why:'他和系籃的人蹲在一家排隊的店門口。',days:[6],from:19,to:22,terms:null,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D04_ZHE',away:'在西門町',
       lines:{acq:['欸，你也在這！','我們系籃的在等位子，等四十分鐘了，你說扯不扯？……很扯。'],friend:['哥！來得好，幫我們排一下，我去買飲料。','……排完一起吃？吃完再走。']},src:'AA_162 1、2-4'},
-    {who:'yu',spot:'D04',why:'她在一家二手衣店裡，兩手各拿一件外套。',days:[6],from:17,to:20,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D04_YU',away:'在西門町',
-      lines:{acq:['欸！{name}？你也來逛？','對了，我在幫社團學姊挑外套，你覺得哪件——你一定說都一樣。'],friend:['欸你來評評理，這兩件明明不一樣，她們說一樣。','……對，是一樣。我只是想要有人跟我說不一樣。']},src:'AA_162 1、2-4'},
+    /* Alison D04 西門町（週六 17:00～20:00）拿掉：AA_661 第 30 列（AA_615 第 4 節）——週五、週六 18:00～23:00 她在南洋戲院打工，作息那一筆一起拿掉；記憶 ENC_D04_YU 和之後那一句照留（舊存檔遇過的照讀）*/
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
       lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
     // ---- D06 臺北市立美術館 ----（沛珊大三起的美術館那一列拿掉：AA_282 第 5 節第 1 點，她在台南、不來臺北；D20 烏來、D08 大三下／大四下同，AA_342 C2）
@@ -39,14 +38,14 @@ const ENCOUNTERS={
       ex:{apart_drift:['欸不是……好久不見。我要回去改 bug 了。']},src:'BB_144 1、3-2'},
     {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],weeks:'even'/* AA_372 第 6 節第 8 題：大一上到大二上只排雙數週的週六（單數週她回台中；作息 characters.js 同）*/,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
       lines:{acq:['啊，嗨！……我在找一本舊的繪本。','找到了我就回去。你也逛逛。'],friend:['你來得正好。幫我看這兩本，哪一本小孩會喜歡？','……你選的那本字比較少。對，就是這本。'],dating:['……你怎麼知道我在這裡？','不知道也來了？那我們一起找。書單有七本。']},src:'BB_144 1、3-4'},
-    {who:'heroine_03',spot:'D12',why:'她拿著相機，蹲在一間南北貨行的騎樓下。',days:[0],from:15,to:18,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:{y12:'no',y3:'short'},join:'friend',memo:'ENC_D12_YT',away:'在大稻埕拍照',
+    {who:'heroine_03',spot:'D12',why:'她拿著相機，蹲在一間南北貨行的騎樓下。',days:[0],from:17.5,to:19,terms:null,weeks:'odd'/* AA_661 第 46 列（AA 定）：原本 15:00～18:00 撞茶屋的班，改下班以後 17:30～19:00（characters.js 作息同一筆）*/,stageMin:'ACQUAINTANCE',busy:{y12:'no',y3:'short'},join:'friend',memo:'ENC_D12_YT',away:'在大稻埕拍照',
       lines:{acq:['……你？','我在拍老闆娘包貨的手，課堂作業。'],friend:['（她把鏡頭蓋遞給你）「拿一下。」','這條街好多店都是阿公阿嬤在顧。'],/* AA_209 附錄A §2 */dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
       ex:{apart_life:['……嗨。'],apart_lifeNarr:'（她舉起相機，示意她在忙。）',apart_driftNarr:'（她看到你，把相機收起來，走進騎樓另一邊。）'},src:'AA_162 1、2-2、3'},
     // ---- D13 淡水金色水岸 ----
     {who:'kexin',spot:'D13',why:'她和予樂、邵鈞坐在河邊等夕陽。',days:[0],from:16.5,to:19,terms:null,stageMin:null,kexin:true,busy:'short',join:'dating',memo:'ENC_D13_KX',memoIf:'dating',
       lines:{dating:['你怎麼也在淡水？','……好，不用解釋了。予樂，我先走，他來了。'],datingAfter:{who:'予樂',text:'我們什麼都沒看到。邵鈞，走。'}},
       ex:{kx_b:['……嗨。','……今天就當沒遇到，好不好。'],kx_bNarr:'（她笑了一下，跟予樂走了。）',kx_c:['好久不見。……夕陽還是一樣。','我們要回去了。你慢慢看。']},src:'BB_144 1、2、3-5'},
-    {who:'heroine_03',spot:'D13',why:'她一個人坐在河邊，這次沒有拍照。',days:[0],from:16,to:18,terms:null,weeks:'even',stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:null,away:'在淡水',
+    {who:'heroine_03',spot:'D13',why:'她一個人坐在河邊，這次沒有拍照。',days:[1,2,3,4,5],from:15,to:18,terms:null,vacation:true/* AA_661 第 46 列（AA 定）：原本雙週週日 16～18 撞茶屋的班，改寒暑假平日 15:00～18:00（她回淡水的日子；characters.js 作息同一筆）*/,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:null,away:'在淡水',
       lines:{friend:['……又是你。','上次是兩個人。這次是一個人。也很好。'],dating:['你也來了。','那就又是兩個人了。']},src:'AA_162 1、2-3（心願以後；前任不出現在 D13）'},
     /* ---- 第三批景點（spots_v3）的 AA 六位：AA_271 第 1 節（AA-C 01e9d706，2026-10-17）。避開 BB_213 的時段；外縣市只放住在那裡的人。
        dates＝日期區間（含頭尾）；vacation＝寒暑假；weeks 寫陣列＝學期的第幾週。 */
@@ -61,7 +60,7 @@ const ENCOUNTERS={
     {who:'classmate_bohan',spot:'D11',why:'他坐在北投圖書館靠窗的位子，桌上攤著一疊考古題，旁邊放著一個便當。',days:[0],from:10,to:16,terms:['Y1S2','Y2S1','Y2S2'],weeks:[6,7],stageMin:'FAMILIAR',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_BH',away:'在北投讀書',
       lines:{acq:['{name}？','總圖這兩週都搶不到位子，我就來這裡。我還有兩題，先不聊。'],friend:['你也是來讀書的？看起來不是。','我要去吃飯了。你要一起的話，我知道哪裡有椅子。']},src:'AA_271 1、1-1'},
     // ---- D01 華山（Alison：大三起，第 3、6、11、14 週週日；避開子晴的第 5、12 週）----
-    {who:'yu',spot:'D01',why:'她一個人站在展場出口的蓋章台前面，在小冊子上蓋章。',days:[0],from:13,to:17,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[3,6,11,14],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D01_YU',away:'在華山看展',
+    {who:'yu',spot:'D01',why:'她一個人站在展場出口的蓋章台前面，在小冊子上蓋章。',days:[0],from:13,to:17,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[6,11,14]/* AA_661 第 31 列（AA_611 #4）：第 3 週她和家人在礁溪，拿掉（characters.js 作息同一筆）*/,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D01_YU',away:'在華山看展',
       lines:{acq:['欸！{name}？你也來看展？','我在蓋章。這個展有六個章，我只找到五個。'],friend:['欸你來得剛好，你有看到第六個章在哪嗎？','我繞兩圈了。……可能根本沒有第六個。']},src:'AA_271 1、1-1'},
     // ---- D02 松菸（芯慈：第 4、12 週週日；芷若是週六）----
     {who:'classmate_xinci',spot:'D02',why:'她在一間特展的出口，手上拎著一個紙袋，正在對收據。',days:[0],from:13,to:17,terms:null,weeks:[4,12],stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D02_XC',away:'在松菸看展',
@@ -155,5 +154,5 @@ const ENCOUNTERS={
     ENC_D06_AN:'在美術館遇到她',ENC_D12_YT:'在迪化街遇到她',ENC_D04_ZHE:'在西門町遇到他',ENC_D04_YU:'在西門町遇到她',ENC_D06_BH:'在美術館遇到他',ENC_D04_XC:'在西門町遇到她',
     ENC_D26_AN:'在臺中遇到她',ENC_D14_YT:'在漁人碼頭遇到她',ENC_D11_BH:'在北投的圖書館遇到他',ENC_D01_YU:'在華山遇到她',ENC_D02_XC:'在松菸遇到她',ENC_D29_ZHE:'在高雄駁二遇到他',
     ENC_D01_ZQ:'在華山的市集遇到她',ENC_D02_ZR:'在松菸的書店門口遇到她',ENC_D11_SIS:'在北投圖書館遇到學姊',ENC_D08_PS:'在動物園遇到她',ENC_D10_KX:'在碧潭遇到她',
-    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊和她媽媽、奶奶',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她'}
+    ENC_D18_YT:'在九份遇到她',ENC_D25_ZHE:'在外澳遇到他',ENC_D09_BH:'在貓空遇到他',ENC_D18_XC:'在九份遇到她',ENC_D09_KX:'在貓空遇到她',ENC_D18_ZQ:'在九份遇到她',ENC_D24_SIS:'在礁溪遇到學姊一家',ENC_D20_PS:'在烏來遇到她',ENC_D25_ZR:'在外澳遇到她'}
 };

@@ -414,8 +414,9 @@ await sec('Y1',async()=>{
   f=await din('Y2S2',w('Y2S2')); check('Y1. 大二下起是 tableByTerm（沒有「我媽問你」）＝不記',f==null&&!said().some(t=>/我媽/.test(t)),J(said()));
   const a23=async(flags,dt)=>{ fresh('2028-12-14',19.5,flags); H.FRIEND(YT); if(dt) H.date(YT); H.FAMILIAR('zhe'); await runEv('ev_noodle_23rd'); };
   await a23({YT_MOM_ASKED:D('2025-12-21')},true);
-  check('Y1. 二十三週年，交往中＋聽過：她媽媽第一次看到你「問了好幾年，終於看到人了。」（接著「……他也很少講話。」）',adj([NEW.Y1[3],'……他也很少講話。你們兩個怎麼聊天的？'])&&H.said[idx(NEW.Y1[3])].who==='語彤的媽媽',J(said().slice(0,6)));
-  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&has('……他也很少講話。你們兩個怎麼聊天的？'));
+  /* AA_661 第 63 列（AA 定：公館燒臘二十三週年是阿鳳和熟客的場）：語彤的媽媽那幾句拿掉（她和阿鳳不是親戚）——原本交往中＋聽過「我媽問你」＝她媽媽第一次看到你 */
+  check('Y1. 二十三週年，交往中＋聽過：語彤的媽媽不出現（「問了好幾年，終於看到人了。」「……他也很少講話。」都拿掉，AA_661 第 63 列）',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？')&&!H.said.some(x=>x.who==='語彤的媽媽'),J(said().slice(0,6)));
+  await a23({},true); check('Y1. 沒聽過：沒有',!has(NEW.Y1[3])&&!has('……他也很少講話。你們兩個怎麼聊天的？'));
   await a23({YT_MOM_ASKED:5},false); check('Y1. 沒在交往：沒有',!has(NEW.Y1[3]));
 });
 await sec('Y2',async()=>{

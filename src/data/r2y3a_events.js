@@ -322,10 +322,10 @@ const R2Y3A_EVENTS=(function(){
   const CW=v=>({custom:G=>!!G.flags&&G.flags._CR_WITH===v});
   const COURT={ id:'ev_crimpro_court_visit', title:'旁聽作業', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     beforeOuting:async(G,GM,q)=>{ G.flags._CR_WITH=(q&&q.crWith)||'self'; },
-    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
+    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」：AA_661 第 91 列（AA 定）接在「法官進來的時候，大家站起來」那一拍（這一場本來就只有去旁聽的玩家才演）；圖要不要重生由 BB 決定（現在的圖是全班加林教授）*/
       {speaker:null,text:'（法院的走廊很長，椅子上坐滿了等開庭的人。有一個阿姨一直在看手上的通知單。）'},
       {speaker:null,text:'（法庭比你想的小。旁聽席三排，坐了不到一半。）'},
-      {speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
+      {cg:'cg_court_gallery_rise'},{speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
       {speaker:null,text:'（檢察官念起訴的事實，念得很快。被告坐在前面，背對著你們，一直低著頭。）'},
       {speaker:null,text:'（辯護人問證人：「你那天站在哪裡？」證人想了很久。）'},
       {if:CW('an'),speaker:'heroine_01',text:'證人想那麼久，是在想答案，還是在想怎麼說。'},
