@@ -94,10 +94,11 @@ await sec('b2',async()=>{
 const cSetup=()=>{ const w=setup('Y1S1',[YT,AN,ZQ],[]); TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,21); return w; };
 await sec('c1',async()=>{
   const w=cSetup(), R=()=>H.G.termend.Y1S1;
-  const sYT=TERMEND.exNatural(H.G,w,YT), sAN=TERMEND.askSlot(H.G,w,AN,'heart'), sZQ=TERMEND.askSlot(H.G,w,ZQ,'heart');
-  check('c1. 前置：三則都到了、都還沒回（兩個都先讓玩家看到）；本來的時間：語彤 12/20（六）17:30、以安 12/20 19:00（撞到）、子晴 12/20 22:00 宵夜（沒撞到）',
-    isOpen('Y1S1',YT)&&isOpen('Y1S1',AN)&&isOpen('Y1S1',ZQ)&&J([K(sYT.day),sYT.h])===J(['2025-12-20',17.5])&&J([K(sAN.day),sAN.h])===J(['2025-12-20',19])&&J([K(sZQ.day),sZQ.h])===J(['2025-12-20',22])&&TERMEND.overlap(sYT,sAN)&&!TERMEND.overlap(sYT,sZQ),
-    J([sYT,sAN,sZQ].map(s=>s&&[K(s.day),s.h])));
+  check('c1. 前置：三則都到了、都還沒回（兩個都先讓玩家看到）',isOpen('Y1S1',YT)&&isOpen('Y1S1',AN)&&isOpen('Y1S1',ZQ));
+  { const has=typeof TERMEND.exNatural==='function'&&typeof TERMEND.askSlot==='function'&&typeof TERMEND.overlap==='function', sYT=has?TERMEND.exNatural(H.G,w,YT):null, sAN=has?TERMEND.askSlot(H.G,w,AN,'heart'):null, sZQ=has?TERMEND.askSlot(H.G,w,ZQ,'heart'):null;
+    check('c1. 撞不撞照時間：語彤 12/20（六）17:30、以安 12/20 19:00（重疊＝撞到）、子晴 12/20 22:00 宵夜（不重疊＝沒撞到）',
+      !!(sYT&&sAN&&sZQ)&&J([K(sYT.day),sYT.h])===J(['2025-12-20',17.5])&&J([K(sAN.day),sAN.h])===J(['2025-12-20',19])&&J([K(sZQ.day),sZQ.h])===J(['2025-12-20',22])&&TERMEND.overlap(sYT,sAN)&&!TERMEND.overlap(sYT,sZQ),
+      J([sYT,sAN,sZQ].map(s=>s&&[K(s.day),s.h]))); }
   adj=[]; PHONE.answer(H.G,tag('Y1S1',YT),0);
   check('c1. 選語彤（按「好。」的當下，手機還開著）：以安那一則立刻照「改天」——自動「那天有約了。」＋她原本的婉拒句「好。那開學見。」（TE_NO），不能再答應',
     ans('Y1S1',AN)===1&&thread(AN).slice(-2).join('|')==='player:那天有約了。|'+AN+':'+TERMEND_LINES.HEART[AN].decline&&PHONE.answer(H.G,tag('Y1S1',AN),0)===null,J(thread(AN).slice(-2)));
@@ -147,7 +148,7 @@ await sec('d',async()=>{
     check('d. 接以安＝子晴（心意，22:00 沒撞到也一樣）、芯慈自動「那天有約了。」；R.picked＝以安、沒有 heartPick',R().picked&&R().picked.who===AN&&ans('Y1S1',ZQ)===1&&ans('Y1S1',XC)===1&&!R().heartPick,J({zq:ans('Y1S1',ZQ),xc:ans('Y1S1',XC)})); }
   { const H0=TERMEND_LINES.HEART[YT], ed=H0.examDay; delete H0.examDay;
     try{ const w=setup('Y1S1',[YT,AN,ZQ],[]), R=()=>H.G.termend.Y1S1; const P=TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,21); PHONE.answer(H.G,tag('Y1S1',YT),0); rules();
-      check('d. 語彤的 examDay 拿掉（測試用）：不在 exempt；答應她＝佔名額（R.picked、te_Y1S1），以安、子晴都自動婉拒',!P.exempt.length&&R().picked&&R().picked.who===YT&&!!outOf('te_Y1S1')&&!outOf(EXID('Y1S1',YT))&&ans('Y1S1',AN)===1&&ans('Y1S1',ZQ)===1,J({exempt:P.exempt,picked:R().picked})); }
+      check('d. 語彤的 examDay 拿掉（測試用）：不在 exempt；答應她＝佔名額（R.picked、te_Y1S1），以安、子晴都自動婉拒',!(P.exempt||[]).length&&R().picked&&R().picked.who===YT&&!!outOf('te_Y1S1')&&!outOf(EXID('Y1S1',YT))&&ans('Y1S1',AN)===1&&ans('Y1S1',ZQ)===1,J({exempt:P.exempt,picked:R().picked})); }
     finally{ H0.examDay=ed; } }
 });
 
@@ -157,14 +158,14 @@ await sec('e',async()=>{
     if(picked) H.G.termend.Y2S2.picked={who:XC,kind:'friend',day:DK('2027-06-10'),by:'player'};
     H.G=JSON.parse(J(H.G)); SOCIAL.bind(H.G); return w; };
   { old(true); const R=()=>H.G.termend.Y2S2; at('2027-06-11',20); run(20,21); at('2027-06-12',20); run(20,21);
-    check('e. 舊存檔（名單沒有 exempt、已經接了芯慈）讀進來：照原本——語彤、以安的邀約都不發；沒有 heartPick；自己再約吃飯照一般的吃飯',!ask('Y2S2',YT)&&!ask('Y2S2',AN)&&!R().heartPick&&!R().heartDone&&R().picked.who===XC&&TERMEND.playerInvite(H.G,AN,INVITE_DATA.places.find(p=>p.id==='noodle'),{day:DK('2027-06-13'),h:12+10/60})===null&&!TERMEND.isExempt(H.G,'Y2S2',YT),J(Object.keys(R()))); }
+    check('e. 舊存檔（名單沒有 exempt、已經接了芯慈）讀進來：照原本——語彤、以安的邀約都不發；沒有 heartPick；自己再約吃飯照一般的吃飯',!ask('Y2S2',YT)&&!ask('Y2S2',AN)&&!R().heartPick&&!R().heartDone&&R().picked.who===XC&&TERMEND.playerInvite(H.G,AN,INVITE_DATA.places.find(p=>p.id==='noodle'),{day:DK('2027-06-13'),h:12+10/60})===null&&!(TERMEND.isExempt&&TERMEND.isExempt(H.G,'Y2S2',YT)),J(Object.keys(R()))); }
   { old(false); const R=()=>H.G.termend.Y2S2; at('2027-06-11',20); run(20,21); PHONE.answer(H.G,tag('Y2S2',YT),0); rules(); at('2027-06-12',20); run(20,21);
     check('e. 舊版名單的學期，答應語彤＝照原本佔名額（R.picked、te_Y2S2），以安、芯慈的不發',R().picked&&R().picked.who===YT&&!R().heartPick&&!!outOf('te_Y2S2')&&outOf('te_Y2S2').te.who===YT&&!outOf(EXID('Y2S2',YT))&&!ask('Y2S2',AN)&&!ask('Y2S2',XC),J({picked:R().picked}));
     TERMEND.hookFor=()=>null; H.picks=[3,1]; await TERMEND.dinner(GM,outOf('te_Y2S2')); TERMEND.hookFor=hookFor0;
     check('e. 那一頓吃完照原本記 R.done（沒有 heartDone）',R().done&&R().done.who===YT&&!R().heartDone,J({done:R().done})); }
   { const w=setup('Y2S2',[YT,AN],[XC]); TERMEND.plan(H.G,w); at('2027-06-11',20); run(20,21); PHONE.answer(H.G,tag('Y2S2',YT),0); rules();
     H.G=JSON.parse(J(H.G)); SOCIAL.bind(H.G); const R=()=>H.G.termend.Y2S2;
-    check('e. 新的欄位存讀檔以後還在：plan.exempt、heartPick、te_ex 那一場；R.picked 照舊沒有',J(R().plan.exempt)===J([YT])&&R().heartPick&&R().heartPick.who===YT&&!R().picked&&!!outOf(EXID('Y2S2',YT))&&TERMEND.isExempt(H.G,'Y2S2',YT),J(Object.keys(R())));
+    check('e. 新的欄位存讀檔以後還在：plan.exempt、heartPick、te_ex 那一場；R.picked 照舊沒有',J(R().plan.exempt)===J([YT])&&R().heartPick&&R().heartPick.who===YT&&!R().picked&&!!outOf(EXID('Y2S2',YT))&&!!(TERMEND.isExempt&&TERMEND.isExempt(H.G,'Y2S2',YT)),J(Object.keys(R())));
     at('2027-06-12',20); run(20,21); check('e. 讀檔以後別人的邀約照樣傳來',isOpen('Y2S2',AN)&&isOpen('Y2S2',XC)); }
 });
 
