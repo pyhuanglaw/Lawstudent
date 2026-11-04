@@ -5086,6 +5086,21 @@
    "receiver": "LAWWW",
    "next": "invites.js:187 直接改兩句；msg2_pool 兩句照新源檔重產（AA_202、AA_257 來源 commit 換這一個）",
    "note": "使用者睡覺中，AA 自己定"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "events.js 後半（AA_673）",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "DIALOGUE-DEPTH-1031",
+   "sha": "0b322ccd5",
+   "files": [
+    "docs/story_planning/AA_672_台詞第八批_事件前半.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_672 第 1 節換 4 處（events.js，只換字；第 1 列多一句旁白）",
+   "note": "使用者睡覺中，AA 自己定"
   }
  ],
  "items": [
