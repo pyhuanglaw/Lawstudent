@@ -1,0 +1,126 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_social_smoke_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SOC_dev_quick\out
+CASES=["heroine_02"] STEPS=["media", "greet"] LAD_TERMS=["Y1S1"] LAD_MAX=0 MENU_MAX=10 STUCK_S=15.0 QUICK=True PHONE_AUTO=False
+PASS [heroine_02] 遊戲載入
+== 人物 heroine_02 林芷若 開始（層 D、可攻略 True、階梯 {"Y1S2": 8, "Y2S1": 8, "Y2S2": 8, "Y3S2": 8, "Y1S1": 8}、店內偶遇 []、自由出行 ["D04", "D02", "D25"]）
+-- [heroine_02] media
+  [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_02] media：芷若在 library_media 的時段 [["2025-09-16", 14.25], ["2025-09-18", 14.25], ["2025-09-23", 14.25], ["2025-09-25", 14.25], ["2025-09-30", 14.25], ["2025-10-02", 14.25]]；第 35 天＝{"d": 35, "wd": 2, "key": "2025-10-21"}
+  [前置／捷徑] [heroine_02] 讀檔：media FAMILIAR：2025-10-21 14.25 library_media（第 35 天）（library_media 35 14.25）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：FAMILIAR、在總圖多媒體中心：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_02] media FAMILIAR 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_02] media FAMILIAR 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8811/src/story3d.js?v=9.10.19:939:25)"]}
+PASS [heroine_02] media FAMILIAR 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media FAMILIAR 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_02] media FAMILIAR 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜哈囉，法律系的。"]
+PASS [heroine_02] media FAMILIAR 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_02] media FAMILIAR 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media FAMILIAR 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_02] media FAMILIAR 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media FAMILIAR 連按兩次：沒有新的 JS 例外
+  [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（media FAMILIAR 再約一次））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_02] media FAMILIAR 約她去…：按「和林芷若說話」
+PASS [heroine_02] media FAMILIAR 約她去…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media FAMILIAR 約她去… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [heroine_02] media FAMILIAR 約她去… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…（灰）", "運動…", "出去玩…（灰）", "算了"] → 選「念書…」
+  [heroine_02] media FAMILIAR 約她去… 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_02] media FAMILIAR 約她去… 選單 ["現在一起過去", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [heroine_02] media FAMILIAR 約她去… 台詞（6 句）：["林芷若｜字幕翻譯的作業。…", "林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜哈囉，法律系的。", "祐廷｜你等一下有空嗎？", "林芷若｜「總圖", "林芷若｜「總圖太安靜了，我會想講話。」"]
+PASS [heroine_02] media FAMILIAR 約她去…：對話一路點得完  4 個選單
+PASS [heroine_02] media FAMILIAR 約她去…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media FAMILIAR 約她去…：15 秒內回到可以自由移動
+PASS [heroine_02] media FAMILIAR 約她去…：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media FAMILIAR 約她去…：沒有新的 JS 例外
+  [前置／捷徑] [heroine_02] 讀檔：media FRIEND：2025-10-21 14.25 library_media（第 35 天）（library_media 35 14.25）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：FRIEND、在總圖多媒體中心：{"stage": "FRIEND", "name": "林芷若", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_02] media FRIEND 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_02] media FRIEND 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8811/src/story3d.js?v=9.10.19:939:25)"]}
+PASS [heroine_02] media FRIEND 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media FRIEND 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_02] media FRIEND 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜欸，你也在！剛好，我正想找人講話。"]
+PASS [heroine_02] media FRIEND 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_02] media FRIEND 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media FRIEND 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_02] media FRIEND 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media FRIEND 連按兩次：沒有新的 JS 例外
+  [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（media FRIEND 再約一次））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.83 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_02] media FRIEND 約她去…：按「和林芷若說話」
+PASS [heroine_02] media FRIEND 約她去…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media FRIEND 約她去… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [heroine_02] media FRIEND 約她去… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…（灰）", "算了"] → 選「念書…」
+  [heroine_02] media FRIEND 約她去… 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_02] media FRIEND 約她去… 選單 ["現在一起過去", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [heroine_02] media FRIEND 約她去… 台詞（7 句）：["林芷若｜字幕翻譯的作業。", "林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜欸，你也在！剛好，我正想找人講話。", "祐廷｜你等一下有空嗎？", "林芷若｜「好！", "林芷若｜「好！下班以後腦袋是空的，剛好。」", "｜你們一起去總圖一起念書。"]
+PASS [heroine_02] media FRIEND 約她去…：對話一路點得完  4 個選單
+PASS [heroine_02] media FRIEND 約她去…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media FRIEND 約她去…：15 秒內回到可以自由移動
+PASS [heroine_02] media FRIEND 約她去…：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media FRIEND 約她去…：沒有新的 JS 例外
+  [前置／捷徑] [heroine_02] 讀檔：media POSSIBLE_ROMANTIC_INTEREST：2025-10-21 14.25 library_media（第 35 天）（library_media 35 14.25）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：POSSIBLE_ROMANTIC_INTEREST、在總圖多媒體中心：{"stage": "POSSIBLE_ROMANTIC_INTEREST", "name": "林芷若", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.84 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["S.talkCharacter (http://127.0.0.1:8811/src/story3d.js?v=9.10.19:939:25)"]}
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「就這樣」
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次 台詞（2 句）：["林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜祐廷！哈囉。"]
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 連按兩次：沒有新的 JS 例外
+  [前置／捷徑] [heroine_02] 讀回存檔（回到「走到她旁邊」那一刻（media POSSIBLE_ROMANTIC_INTEREST 再約一次））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.84 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按「和林芷若說話」
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["約她去…", "交換聯絡方式", "就這樣"] → 選「約她去…」
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["念書…", "吃飯…", "喝咖啡、喝茶…", "散步…", "運動…", "出去玩…", "算了"] → 選「念書…」
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["去總圖一起念書", "去慢讀咖啡念書", "去法圖一起念書", "返回"] → 選「去總圖一起念書」
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 選單 ["現在一起過去", "今天 15:30", "今天 17:30", "今天 19:00", "今天 21:00", "明天 12:10", "明天 19:00", "其他日子…", "算了"] → 選「現在一起過去」
+  [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去… 台詞（6 句）：["林芷若｜字幕翻譯的作業", "林芷若｜字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。", "林芷若｜祐廷！哈囉。", "祐廷｜你等一下有空嗎？", "｜林芷若", "｜林芷若答應了。你們一起去總圖一起念書。"]
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：對話一路點得完  4 個選單
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：15 秒內回到可以自由移動
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] media POSSIBLE_ROMANTIC_INTEREST 約她去…：沒有新的 JS 例外
+-- [heroine_02] greet
+  [前置／捷徑] [heroine_02] 讀檔：掃時段用（campus 15 12.00）；條件事件關閉（只用來掃時段）
+  [heroine_02] 她在 3D 的時段（前 8 個，照區域排）：[["2025-09-16", 10.5, "campus", "走走"], ["2025-09-18", 10.5, "campus", "走走"], ["2025-09-23", 10.5, "campus", "走走"], ["2025-09-25", 10.5, "campus", "走走"], ["2025-09-30", 10.5, "campus", "走走"], ["2025-10-02", 10.5, "campus", "走走"], ["2025-10-07", 10.5, "campus", "走走"], ["2025-10-09", 10.5, "campus", "走走"]]
+  [前置／捷徑] [heroine_02] 讀檔：greet：2025-09-16 10.5 campus（走走）（campus 0 10.50）
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [前置／捷徑] [heroine_02] 前置：認識、有點熟（FAMILIAR）、門檻台詞說過、階梯走完：{"stage": "FAMILIAR", "name": "林芷若", "fm": true, "lad": null, "contact": false}
+  [前置／捷徑] [heroine_02] 讀回存檔（套用關係以後用遊戲的讀檔重讀一次（人物照新的關係生成））
+  [前置／捷徑] [heroine_02] 關掉「要回覆的訊息自動打開手機」（STORY.phoneAuto；PHONE_AUTO=1 可以打開）
+  [heroine_02] 到達「林芷若 旁邊」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，32 秒
+  [heroine_02] greet：互動鍵是「」，往他再走近
+  [heroine_02] 到達「林芷若 旁邊（再近一點）」附近（0.25 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+  [heroine_02] 到達「林芷若 旁邊」附近（0.95 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [heroine_02] greet 連按兩次：按「和林芷若說話」（連按兩次，間隔約 200 ms）
+PASS [heroine_02] greet 連按兩次：連按兩次只開出一段對話（busyDepth 最多 1、沒有兩套）  {"maxDepth": 1, "busyWho": ["X.run (http://127.0.0.1:8811/src/events3d.js?v=9.10.19:107:96)"]}
+PASS [heroine_02] greet 連按兩次：按了以後開始說話  {"interact": "", "depth": 1, "busy": true, "cap": ""}
+  [heroine_02] greet 連按兩次 選單 ["「妳上完課都在這裡發呆？」"] → 選「「妳上完課都在這裡發呆？」」
+  [heroine_02] greet 連按兩次 台詞（2 句）：["林芷若｜剛下外文系的課。今天一句詩翻了一整堂。", "林芷若｜對啊。下一堂三點，懶得走。"]
+PASS [heroine_02] greet 連按兩次：對話一路點得完  1 個選單
+PASS [heroine_02] greet 連按兩次：說話途中沒有丟例外（GAME.lastTalkError 空）
+PASS [heroine_02] greet 連按兩次：15 秒內回到可以自由移動
+PASS [heroine_02] greet 連按兩次：GAME.walkFallbacks 沒增加  0→0
+PASS [heroine_02] greet 連按兩次：沒有新的 JS 例外
+== 人物 heroine_02 結果 PASS（47 項；SKIP 0：）
+   用了 4.8 分鐘
+==== 總結：1 人，FAIL 0 人：[]
+ALL PASS

@@ -783,3 +783,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.4s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [HOT_smoke] | [gpu_wrap 188.9s] page close url=http://127.0.0.1:8813/index.html?turbo&start0 | [gpu_wrap 189.0s] BROWSER DISCONNECTED
 - 2026-11-04T09:22:00  HOT_v7  sha=fd8d447d2  exit=0  341s    PASS v7 各區域 48 個位置的存檔：新版都讀得進來、站得住、走得動  [] / PASS 新版沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [HOT_v7] | [gpu_wrap 39.2s] page close url=http://127.0.0.1:8814/index.html?turbo | [gpu_wrap 298.6s] page close url=http://127.0.0.1:8811/index.html?turbo | [gpu_wrap 298.7s] BROWSER DISCONNECTED
+- 2026-11-04T09:27:31  SOC_dev_quick  sha=27929f2a8  exit=0  324s       用了 4.8 分鐘 / ==== 總結：1 人，FAIL 0 人：[] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.5s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [SOC_dev_quick] | [gpu_wrap 286.1s] page close url=http://127.0.0.1:8811/index.html | [gpu_wrap 286.3s] BROWSER DISCONNECTED

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "SOC_dev_quick",
+  "sha": "27929f2a8",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_social_smoke_probe.py",
+  "env": "CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T09:22:07",
+  "end": "2026-11-04T09:27:31",
+  "seconds": 324,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 70,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 28
+  }
+}
