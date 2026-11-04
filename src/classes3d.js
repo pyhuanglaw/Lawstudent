@@ -79,11 +79,16 @@ const CLS=(function(){
      人在國外的學期（S.termAway：日本路線的大三下、美國路線的大四上）不算——舊存檔留著那一學期的成績單、考試紀錄也一樣。
      重修那一門＝原課（id 一樣）；日本路線的補修（civpro_2_re、insurance_re）＝原課（S.redoOf）；刪掉的舊課（DROPPED）、不考五題的課不算。
      回傳 COURSES.list 的課（照課程順序、不重複）；沒有 G.courses（新遊戲、舊的測試存檔）＝[]，也不建 G.courses。不改成績單、考試紀錄（S.rec 照舊換舊課程代號）*/
+  S.Y5_MAKEUP=['enforcement','legal_ethics'];   /* 美國路線大五上補修的兩門（同 src/y5s1_3d.js Y5.MAKEUP；Y5 載入了就照 Y5.MAKEUP）*/
   S.takenCourses=function(G){ if(!G||!G.courses||typeof G.courses!=='object') return []; const R=S.rec(G), seen=new Set();
     const add=id=>{ const rd=S.redoOf(id), cid=rd?rd.id:id, c=S.byId(cid); if(c&&S.isExamCourse(c)) seen.add(cid); };
     for(const t of S.LAW_TERMS){ if(S.termAway(G,t)) continue; const g=R.grades&&R.grades[t]; if(g&&typeof g==='object'&&!Array.isArray(g)) for(const id in g) add(id); }
     const E=R.exam&&typeof R.exam==='object'?R.exam:{};
     for(const k in E){ const p=String(k).split(':'); if(p.length!==3||(p[2]!=='final'&&p[2]!=='makeup')||!S.LAW_TERMS.includes(p[0])||S.termAway(G,p[0])) continue; const e=E[k]; if(e&&e.status==='done') add(p[1]); }
+    /* BB-C 11-04 23:46（D118-B7 ①）：美國路線大五上補修的強制執行法、法律倫理（src/y5s1_3d.js Y5.MAKEUP）沒有成績單、也沒有考試，可是課是在遊戲裡上過的
+       （Y5.attend 播大四上那兩門的課堂內容 CLS.content）——上過至少一堂（G.y5.cls 有那一門的鍵 '日:課'）＝算修過；不算等於罰去交換的人。Y5 晚載入（y5s1_3d.js 在後面），呼叫的時候才看 */
+    { const y5=G.y5&&G.y5.cls&&typeof G.y5.cls==='object'?G.y5.cls:null, MK=typeof Y5!=='undefined'&&Array.isArray(Y5.MAKEUP)?Y5.MAKEUP.map(m=>m.id):S.Y5_MAKEUP;
+      if(y5){ const ks=Object.keys(y5); for(const id of MK) if(ks.some(k=>y5[k]&&String(k).split(':')[1]===id)) add(id); } }
     return COURSES.list.filter(c=>seen.has(c.id)); };
   S.retakeTermAfter=function(G,termId){ let i=S.LAW_TERMS.indexOf(termId); if(i<0) return null;
     for(i++;i<S.LAW_TERMS.length;i++){ const t=S.LAW_TERMS[i]; if(S.termAway(G,t)) continue; return t; } return null; };

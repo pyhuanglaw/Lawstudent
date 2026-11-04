@@ -68,7 +68,13 @@ const legacyDraw=(seed,y,used)=>{ const r=rng(hashStr(seed+'|bar|'+y)), a=PG.poo
     let bad=[]; for(let s=1;s<=40;s++){ const G1=fresh29('2030-07-10',10,{EXCHANGE_ROUTE:'US',BAR_REG:false,BAR_REG_2030:true,examSeed:3000+s}); transcripts(G1); const q=PG.draw(G1,2030).filter(x=>Y4S1.includes(x.course)); if(q.length) bad.push(s+':'+q.map(x=>x.id).join('/')); }
     check('b3. 美國路線 2030 一試（40 個 examSeed）：20 題裡都沒有大四上的課',!bad.length,J(bad.slice(0,5)));
     const R=CLS.rec(G); R.grades.Y4S1={enforcement:'缺考',legal_ethics:'缺考',crim_judgment_sem:'缺考'}; R.exam['Y4S1:enforcement:final']={qs:[],ans:[],correct:0,score:0,status:'done'};   /* 舊存檔：美國路線還沒排除大四上以前發過的成績單、考試紀錄 */
-    const tk2=taken(G); check('b4. 舊存檔留著大四上的成績單、考試紀錄（人在國外的學期）：照樣不算',!!tk2&&!tk2.some(id=>Y4S1.includes(id)),J(tk2)); });
+    const tk2=taken(G); check('b4. 舊存檔留著大四上的成績單、考試紀錄（人在國外的學期）：照樣不算',!!tk2&&!tk2.some(id=>Y4S1.includes(id)),J(tk2));
+    /* BB-C 11-04 23:46（D118-B7 ①）：大五上補修的強制執行法、法律倫理（Y5.MAKEUP）在遊戲裡上過＝算修過 */
+    { const G2=fresh29('2030-07-10',10,{EXCHANGE_ROUTE:'US',BAR_REG:false,BAR_REG_2030:true}); transcripts(G2); const d0=STORY.dayOfKey('2029-09-03'); G2.y5={cls:{[(d0+7)+':enforcement']:1}};
+      const t5=taken(G2), p5=poolFor(G2);
+      check('b5. 美國路線大五上補修上過強制執行法（G.y5.cls 有一堂）：算修過、題池有強制執行法；沒上過的法律倫理照樣不算（BB-C 23:46：遊戲裡上過就算）',J(CLS.Y5_MAKEUP)===J(['enforcement','legal_ethics'])&&!!t5&&t5.includes('enforcement')&&!t5.includes('legal_ethics')&&!!p5&&p5.some(q=>q.course==='enforcement')&&!p5.some(q=>q.course==='legal_ethics'),J({t5,enf:p5&&p5.filter(q=>q.course==='enforcement').length}));
+      G2.y5.cls[(d0+9)+':legal_ethics']=1; const t6=taken(G2);
+      check('b6. 兩門都上過：強制執行法、法律倫理都算；大四上其他課（判決研討、智財、勞社、稅法）照樣不算',!!t6&&t6.includes('enforcement')&&t6.includes('legal_ethics')&&!t6.some(id=>Y4S1.filter(x=>x!=='enforcement'&&x!=='legal_ethics').includes(id)),J(t6)); } });
   /* ---------- c 已經存下的題不重抽 ---------- */
   await sec('c',async()=>{ const old=legacyDraw(424242,2029); const all=new Map(PG.pool(true).map(q=>[q.id,q]));
     let ids=old.slice(); const sec1=PG.pool().filter(q=>q.course==='securities').slice(0,2).map(q=>q.id), enf=PG.pool().filter(q=>q.course==='enforcement').slice(0,2).map(q=>q.id);
