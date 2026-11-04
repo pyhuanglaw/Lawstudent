@@ -1,8 +1,8 @@
 {
- "objects": 171,
- "unique_meshes": 64,
- "tris": 30296,
- "tris_drawn": 40166,
+ "objects": 172,
+ "unique_meshes": 65,
+ "tris": 31210,
+ "tris_drawn": 41080,
  "materials": [
   "cr_alpha",
   "cr_concrete",
@@ -17,11 +17,11 @@
   "cr_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/corner.glb",
- "bytes": 2781524,
+ "bytes": 2850396,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
- "drawn_tris": 40166,
+ "drawn_tris": 41080,
  "protos": {
   "lpstack34_0": 2,
   "lpstack34_1": 2,
@@ -45,9 +45,9 @@
  },
  "records_in_bins": 490,
  "single_side": {
-  "cr_vc": [
-   5760,
-   4080
+  "cr_goods": [
+   2576,
+   0
   ],
   "cr_vc_metal": [
    4188,
@@ -57,20 +57,20 @@
    80,
    42
   ],
-  "cr_plaster": [
-   36,
+  "cr_alpha": [
+   2140,
    0
   ],
-  "cr_goods": [
-   2576,
-   0
+  "cr_vc": [
+   5760,
+   4080
   ],
   "cr_wood": [
-   7096,
+   7932,
    0
   ],
-  "cr_concrete": [
-   38,
+  "cr_plaster": [
+   108,
    0
   ],
   "cr_sign": [
@@ -81,16 +81,16 @@
    80,
    0
   ],
-  "cr_alpha": [
-   2140,
+  "（翻面）cr_vc": [
+   482,
    0
   ],
   "cr_floor_terrazzo": [
    12,
    0
   ],
-  "（翻面）cr_vc": [
-   482,
+  "cr_concrete": [
+   38,
    0
   ]
  }

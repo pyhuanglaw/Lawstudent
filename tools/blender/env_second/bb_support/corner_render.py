@@ -2,6 +2,7 @@
 用法：/opt/blenv/bin/python tools/blender/env_second/bb_support/corner_render.py -- <glb> <輸出資料夾> [--views views.json] [--only 名字,名字] [--res 480x270] [--samples 16]
   extras.defaultVisible=false 的節點預設不渲染（和遊戲一樣；這間目前沒有）；--show 打開。
   views.json：[[名字, [眼睛 x,y,z], [看的點 x,y,z], 焦距mm], …]（遊戲座標）；沒給就只渲染 ref（參考圖的角度）。
+  --backdrop 0：不要渲染用的騎樓背景板（店門外一片暖白、只有相機看得到）。
   調光：--spot（投射燈 W）、--pend（吊燈 W）、--win（櫥窗天光 W）、--door（門口天光 W）、--emit（燈泡、燈面、螢幕的發光強度）、--fill（天花板往下的補光 W）、--exposure。
   環境變數：CC_BLENDER_DEVICE=GPU（PC 用）、CC_SAMPLES（覆蓋 --samples）。"""
 import json, math, os, subprocess, sys
@@ -30,7 +31,7 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.samples = int(os.
 sc.cycles.device = os.environ.get('CC_BLENDER_DEVICE', 'CPU')
 sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 sc.render.resolution_x, sc.render.resolution_y = rx, ry; sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = float(arg('--exposure', '0.0'))
+sc.view_settings.exposure = float(arg('--exposure', '0.4'))
 sc.cycles.max_bounces = 5; sc.cycles.transparent_max_bounces = 24
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; bg = w.node_tree.nodes['Background']
 bg.inputs['Color'].default_value = (0.95, 0.85, 0.7, 1); bg.inputs['Strength'].default_value = float(arg('--world', '0.08'))
@@ -61,6 +62,13 @@ fr = LAY['front']; wx0, wx1 = fr['windows'][0][0], fr['windows'][0][1]
 p = g2b((wx0 + wx1) / 2, 1.6, LAY['d'] / 2 + 0.6); light('AREA', p, float(arg('--win', '420')), (1.0, 0.9, 0.76), aim=g2b((wx0 + wx1) / 2, 1.0, 1.0), sx=4.2, sy=2.2)   # 櫥窗外騎樓的光（下午）
 p = g2b(fr['door']['x'], 1.4, LAY['d'] / 2 + 0.6); light('AREA', p, float(arg('--door', '160')), (1.0, 0.92, 0.8), aim=g2b(fr['door']['x'], 1.0, 2.0), sx=1.6, sy=2.4)
 p = g2b(0.0, H - 0.45, 0.0); light('AREA', p, float(arg('--fill', '110')), WARM, aim=p + Vector((0, 0, -1)), sx=6.5, sy=10.0)          # 天花板反射的補光
+# 只給渲染用的騎樓背景（GLB 裡沒有；遊戲裡窗外是 LAWWW2 的騎樓和街道）：店門外 1.2 m 一片暖白的發光板，只有相機看得到（不照亮室內、不擋光），從店裡往外看時窗外才不是一片黑
+if arg('--backdrop', '1') != '0':
+    bpy.ops.mesh.primitive_plane_add(size=1.0); bd = bpy.context.active_object; bd.name = 'render_backdrop'
+    bd.scale = (LAY['w'] + 4, 4.0, 1); bd.location = g2b(0, 2.0, LAY['d'] / 2 + 1.2); bd.rotation_euler = (math.pi / 2, 0, 0)
+    mb = bpy.data.materials.new('backdrop'); mb.use_nodes = True; nb = mb.node_tree.nodes; nb.clear(); em = nb.new('ShaderNodeEmission'); em.inputs['Color'].default_value = (0.85, 0.78, 0.66, 1); em.inputs['Strength'].default_value = 1.2
+    out = nb.new('ShaderNodeOutputMaterial'); mb.node_tree.links.new(em.outputs[0], out.inputs[0]); bd.data.materials.append(mb)
+    for k in ('visible_diffuse', 'visible_glossy', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'): setattr(bd, k, False)
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
 cam.data.sensor_width = 36
 os.makedirs(outdir, exist_ok=True)
