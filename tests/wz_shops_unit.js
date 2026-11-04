@@ -58,7 +58,7 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
   check('5. 一盞：週一、週二公休；週三 12:00～20:00',!PLACES.isOpen('wz_teahouse',14,MON)&&!PLACES.isOpen('wz_teahouse',14,TUE)&&PLACES.isOpen('wz_teahouse',14,WED)&&!PLACES.isOpen('wz_teahouse',11,WED)&&!PLACES.isOpen('wz_teahouse',20,WED));
   const t1=PLACES.closedText('wz_teahouse',14,MON), t2=PLACES.closedText('wz_brunch',16,TUE);
   check('5. 關門的說明：「一盞 今天公休。下次開門：這週三 12:00。」不推薦去總圖',t1==='一盞 今天公休。下次開門：這週三 12:00。',t1);
-  check('5. 今天已經關了：「半熟 現在沒有開（今天 08:00–15:00）。下次開門：明天 08:00。」',t2==='半熟 現在沒有開（今天 08:00–15:00）。下次開門：明天 08:00。',t2);
+  check('5. 今天已經關了：「SUNNY SIDE 現在沒有開（今天 08:00–15:00）。下次開門：明天 08:00。」',t2==='SUNNY SIDE 現在沒有開（今天 08:00–15:00）。下次開門：明天 08:00。',t2);
   check('5. 颱風假三家都不開',['wz_brunch','wz_print','wz_teahouse'].every(k=>PLACES.typhoonShops.includes(k))); }
 // 冰菓室的季節
 { const mk=()=>{ const r=new THREE.Group(); for(const nm of ['SEASON_ICECLOSED_on_B5i','other']){ const o=new THREE.Object3D(); o.name=nm; r.add(o); } return r; };
