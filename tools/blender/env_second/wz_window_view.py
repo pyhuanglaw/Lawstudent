@@ -156,6 +156,12 @@ if SCJ and os.path.exists(SCJ) and os.path.exists(SCG):
                 if sl.material and sl.material.name.split('.')[0] == 'scooter_paint' and col in paintM: sl.link = 'OBJECT'; sl.material = paintM[col]
         nsc += 1
 
+# --ground：一大片地面（校園建築的 GLB 沒有地面；TEACH-PTBOYA-REF-1104 拍普通、博雅用）：--ground '#8f8c84'
+if opt('--ground'):
+    gm = bpy.data.materials.new('view_ground'); gm.use_nodes = True; gb_ = gm.node_tree.nodes['Principled BSDF']
+    gc_ = int(opt('--ground').lstrip('#'), 16); gb_.inputs['Base Color'].default_value = (*hexcol(gc_), 1); gb_.inputs['Roughness'].default_value = 0.9
+    bpy.ops.mesh.primitive_plane_add(size=600, location=(0, 0, -0.01)); pl_ = bpy.context.active_object; pl_.data.materials.append(gm)
+
 # 天空與太陽
 wd = bpy.data.worlds.new('W'); sc.world = wd; wd.use_nodes = True; bg = wd.node_tree.nodes['Background']
 if NIGHT:
