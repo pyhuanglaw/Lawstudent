@@ -97,6 +97,13 @@ Mesh(P + 'floor', sh.M['floor'], tile=2.2).box(X0, X1, -0.02, 0.0, Z0, Z1).finis
 ce = Mesh(P + 'ceiling', sh.M['dark'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
 for x_ in (-2.6, -0.2, 2.2): xf0.rbox(sh.a('vc'), x_ - 0.09, x_ + 0.09, H - 0.2, H - 0.005, Z0, Z1, r=0.0, seg=1, col=CEIL)   # 深色木梁（沿 z）
 for z_ in (-1.0, 1.6): xf0.rbox(sh.a('vc'), X0, X1, H - 0.14, H - 0.005, z_ - 0.07, z_ + 0.07, r=0.0, seg=1, col=CEIL)
+for x_ in (-3.4, -1.4, 1.0, 3.2): xf0.rbox(sh.a('vc'), x_ - 0.04, x_ + 0.04, H - 0.09, H - 0.005, Z0, Z1, r=0.0, seg=1, col='#2e2016')   # v1c：細椽，和梁組成格子
+for z_ in (-3.0, 0.3, 2.9): xf0.rbox(sh.a('vc'), X0, X1, H - 0.09, H - 0.005, z_ - 0.04, z_ + 0.04, r=0.0, seg=1, col='#2e2016')
+for (lx, lz) in ((0.475, 2.6), (2.425, 2.6), (0.9, 0.75)):                                                               # v1c：和紙燈籠（窗邊兩座、中間四人桌）
+    Xf(lx, lz).cyl(sh.a('vcm'), (0, H, 0), (0, 2.43, 0), 0.004, col='#2a2a2a', seg=4)
+    Xf(lx, lz, 0, 2.2).lathe(sh.a('bulb'), [(0.0, 0.0), (0.07, 0.01), (0.11, 0.06), (0.12, 0.11), (0.11, 0.17), (0.07, 0.22), (0.0, 0.23)], 0, 0, 0, seg=12)
+    for yy in (2.2, 2.43): Xf(lx, lz, 0, yy).lathe(sh.a('vc'), [(0.0, -0.01), (0.07, -0.01), (0.07, 0.01), (0.0, 0.01)], 0, 0, 0, seg=12, col='#2e2016')
+    CL.glow(sh.root, 'washi', lx, 2.31, lz, color='rgba(255,200,140,1)', size=0.7, day=0.0, night=0.8)
 xf0.rbox(sh.a('vcm'), 0.4, 1.4, H - 0.24, H - 0.2, 0.25, 1.25, r=0.01, seg=1, col='#a8a49a'); xf0.rbox(sh.a('vcm'), 0.55, 1.25, H - 0.245, H - 0.24, 0.4, 1.1, r=0.0, seg=1, col='#8a8680')   # 天花板嵌入式冷氣
 fr = IT['genkan'][0]
 ops = [(-3.7, -3.1, LAY['front']['sill'], LAY['front']['head'], 'win'), (-2.9, -1.1, 0.0, 2.3, 'door'), (-0.6, 3.4, LAY['front']['sill'], LAY['front']['head'], 'win')]
@@ -141,11 +148,14 @@ xf0.rbox(sh.a('vc'), cx0, cx1, 0.0, 0.08, cz1 - 0.06, cz1 - 0.01, r=0.0, seg=1, 
 xf0.rbox(sh.a('wood'), cx0, cx1 + 0.02, ch - 0.06, ch, cz0 - 0.05, cz1 + 0.1, r=0.015, seg=1)                          # 厚木檯面（往客人那邊伸出）
 xf0.rbox(sh.a('wood'), cx0, cx1, ch + 0.12, ch + 0.16, cz0 - 0.05, cz0 + 0.18, r=0.008, seg=1)                           # 後面高一階的出菜台
 xf0.rbox(sh.a('wood'), cx0, cx1, ch, ch + 0.12, cz0 + 0.14, cz0 + 0.18, r=0.0, seg=1)
-for k in range(9):                                                                                                       # 檯面上：小碟、燭杯、筷筒、玻璃煙灰缸位置放小盤
-    x = cx0 + 0.35 + k * (cx1 - cx0 - 0.7) / 8
-    if k % 3 == 1: candle(x, cz1 - 0.08, ch)
-    elif k % 3 == 2: K.plate(sh, x, cz1 - 0.12, ch + 0.005, r=0.08, col='#e8e2d4')
-    else: Xf(x, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vc'), [(0.0, 0.0), (0.035, 0.0), (0.035, 0.12), (0.0, 0.12)], 0, 0, 0, seg=8, col='#3a4a5a')
+for k in range(22):                                                                                                      # v1c：檯面上一整排——小菜盤、燒酎瓶、醬油瓶、燭杯；後面高台上筷筒、小酒杯
+    x = cx0 + 0.25 + k * (cx1 - cx0 - 0.5) / 21; q = k % 4
+    if q == 0: K.plate(sh, x, cz1 - 0.12, ch + 0.005, r=0.075, col='#e8e2d4'); xf0.rbox(sh.a('vc'), x - 0.04, x + 0.04, ch + 0.012, ch + 0.035, cz1 - 0.15, cz1 - 0.09, r=0.0, seg=1, col=('#c8783a', '#6a8a3a', '#e8d8a8')[k % 3])
+    elif q == 1: candle(x, cz1 - 0.06, ch)
+    elif q == 2: Xf(x, cz1 - 0.1, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.03, 0.12), (0.012, 0.17), (0.012, 0.2), (0.0, 0.2)], 0, 0, 0, seg=7, col=('#e8e4d8', '#2e4a2e', '#4a2e1e')[k % 3])
+    else: Xf(x, cz1 - 0.1, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.022, 0.0), (0.022, 0.08), (0.01, 0.11), (0.0, 0.115)], 0, 0, 0, seg=6, col='#2a1810')
+    if k % 2 == 0: Xf(x, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vc'), [(0.0, 0.0), (0.035, 0.0), (0.035, 0.12), (0.0, 0.12)], 0, 0, 0, seg=8, col='#3a4a5a')
+    else: Xf(x, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vcg'), [(0.0, 0.0), (0.025, 0.0), (0.03, 0.05), (0.0, 0.05)], 0, 0, 0, seg=6, col='#e8e4d8')
 for x in (cx0 + 1.2, cx1 - 0.6): berries(x, cz0 + 0.1, ch + 0.16)
 hd = Xf(3.1, -2.0, 0, 0); hd.rbox(sh.a('wood'), -0.9, 0.9, 0.0, ch - 0.06, -0.27, 0.22, r=0.0, seg=1); hd.rbox(sh.a('wood'), -0.92, 0.92, ch - 0.06, ch, -0.3, 0.3, r=0.012, seg=1)   # 半門那一段（照舊 block）
 for s_ in LAY['seats']:
@@ -236,6 +246,16 @@ for k in range(4): sh.wall_img('left', 'print', (qz0 + qz1) / 2 + 0.15 + k * 0.1
 for pz in IT['poster']:
     c = pz['cell']; sh.wall_img(pz['side'], 'print', pz['along'], pz['y'], pz['w'], pz['h'], K.cell_uv(c[0], c[1], c[2], c[3]), off=0.02)
 sh.wall_img('left', 'print', 3.45, 1.75, 0.36, 0.36, K.cell_uv(6, 3, 2, 2), off=0.02)
+FUDA = lambda k: (k / 16 + 0.004, 1 - 3 / 8 + 0.004, (k + 1) / 16 - 0.004, 1 - 1 / 8 - 0.004)
+for k in range(26):                                                                                                      # v1c：西牆一整排木札（掛在 2.05～2.5，卡座凹間上方照樣掛）
+    zz = Z0 + 0.6 + k * (D - 1.2) / 25
+    if abs(zz - 2.7) < 0.45 or abs(zz + 1.15) < 0.4: continue
+    sh.wall_img('left', 'print', zz, 2.3, 0.12, 0.42, FUDA(k % 16), off=0.03)
+xf0.rbox(sh.w('left', 'wood'), X0, X0 + 0.05, 2.52, 2.58, Z0 + 0.4, Z1 - 0.4, r=0.0, seg=1)
+for k in range(14):                                                                                                      # v1c：後牆層架上方一整排木札
+    x = -3.7 + k * 0.42
+    if abs(x - 2.9) < 0.6: continue
+    sh.wall_img('back', 'print', x, 2.6, 0.12, 0.4, FUDA((k + 5) % 16), off=0.03)
 cl = IT['clock'][0]; cz_, cy_ = cl['z'], cl['y']                                                                     # 掛鐘（木框、米白鐘面）
 xf0.cyl(sh.w('left', 'vc'), (X0, cy_, cz_), (X0 + 0.05, cy_, cz_), cl['r'], col='#5a3a24', seg=16); xf0.cyl(sh.w('left', 'vc'), (X0 + 0.05, cy_, cz_), (X0 + 0.055, cy_, cz_), cl['r'] - 0.025, col='#f1ead8', seg=16)
 sh.tally('booth')
