@@ -46376,7 +46376,7 @@
    "title": "AA_686（回 AA_685 接線五件）：語彤期末飯改週六 17:30 溫州街小路；平日旅行訊息補三則、平日玩家回覆兩句、烏龍照片只在週末、傳的時間週末 22:30 平日 21:30；茶屋過年開門日每年照算（2027＝初五）；D14「海風與燈」改從源檔匯入（白名單換新版、拿掉 EXTRA）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46397,14 +46397,18 @@
     "acceptance": "照稿逐字；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 20:5x】加兩件給同一個子代理：AA_685 D-1（2d4d5dc72）；AA_686 第 4 項延伸（72707f636）：手機「新年快樂」語彤 L「初四開店。你要第一個來喝。」的「初四」照年份換（2027＝初五）——msg2_pool.js 是產生的檔，執行時換、不改資料檔｜【LAWWW-C 11-04 20:2x】和 TE-HEART-AVOID-1104 同一個子代理做（都改 termend）"
+   "next": "【LAWWW-C 11-04 21:3x】合併 2a3b6434e（子代理 aa686-teavoid-1104 6e09fe6c5）：AA_686 第 2、3b～3e、4、5 項＋AA_685 D-1＋新年快樂「初四」照年份（2027＝初五，msg3d.js 傳的時候換、msg2_pool.js 不改）；tests/aa686_fix3_unit.js 49 項（修改前 FAILED 25）；子代理全部 992 支過、合併後關鍵 9 支 ALL PASS；要 AA 定的（期末飯改週六以後還寫禮拜四／禮拜五的四句、「秀琴姨說要煮火鍋」、小路 18:00 才開、小路開場收尾旁白、六月用夜景背景…）已傳；BB 測｜【LAWWW-C 11-04 20:5x】加兩件給同一個子代理：AA_685 D-1（2d4d5dc72）；AA_686 第 4 項延伸（72707f636）：手機「新年快樂」語彤 L「初四開店。你要第一個來喝。」的「初四」照年份換（2027＝初五）——msg2_pool.js 是產生的檔，執行時換、不改資料檔｜【LAWWW-C 11-04 20:2x】和 TE-HEART-AVOID-1104 同一個子代理做（都改 termend）",
+   "sha": [
+    "2a3b6434e",
+    "6e09fe6c5"
+   ]
   },
   {
    "id": "TE-HEART-AVOID-1104",
    "title": "TE-HEART-EXEMPT 後續（BB-C 20:17）：還沒回的一般期末邀約排日子時避開語彤那一頓那一整晚；找不到別的晚上才照字面互斥並 console.info；玩家先接了同一個週六時間不重疊的一般邀約＝兩頓都留",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46419,7 +46423,11 @@
    "source": "BB-C 11-04 20:17：「改成避開：還沒回的一般邀約排日子時，避開語彤那一頓那一整晚……只有找不到別的晚上才照字面互斥、自動婉拒；這種情況請記一筆 console.info」",
    "authorized": "BB 判定（條件歸 BB）",
    "notWaitUser": "BB 已定做法",
-   "next": "【LAWWW-C 11-04 20:2x】派子代理（和 AA686-FIX3-1104 一起）；好了給 BB SHA，CC 重跑 AA684_walk＋週四考完三個邀約都接得到"
+   "next": "【LAWWW-C 11-04 21:3x】合併 2a3b6434e：S.genDay／S.exEvening 避開語彤那一整晚（planDinner、askSlot、當天才約的保留日），找不到別的晚上才照字面互斥（console.info「TE-HEART-AVOID 找不到別的晚上…」，其他照字面互斥記「TE-HEART-AVOID 照字面互斥…」）；先接的同週六不重疊兩頓都留；邀約傳來的時間不動；tests/te_heart_avoid_unit.js 35 項（修改前 FAILED 16）；「三個邀約都接得到」＝語彤＋一般其中一個在不同晚上（一般的「只能接一個」照舊）——給 BB 確認期望值｜【LAWWW-C 11-04 20:2x】派子代理（和 AA686-FIX3-1104 一起）；好了給 BB SHA，CC 重跑 AA684_walk＋週四考完三個邀約都接得到",
+   "sha": [
+    "2a3b6434e",
+    "6e09fe6c5"
+   ]
   },
   {
    "id": "TE-PLAYER-MEAL-OVERLAP-1104",

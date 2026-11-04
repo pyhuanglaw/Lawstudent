@@ -17173,8 +17173,8 @@
    "msg": "ACK",
    "what": "AA_686 回 LAWWW-C 20:14 的 AA_685 接線五件；outbox 2c98673f4",
    "task": "AA686-FIX3-1104",
-   "integration": "未整合",
-   "note": "LAWWW-C 20:2x 登記、派子代理"
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 20:2x 登記、派子代理；LAWWW-C 21:3x 合併 2a3b6434e"
   },
   {
    "id": "DL-AA-2d4d5dc72",
@@ -17186,8 +17186,8 @@
    "msg": "ACK",
    "what": "AA_685 D 節：回 BB-C 20:30 兩件——語彤重逢中間隔了沒班的週六（回到臺北當天 21:00 約、用日期講見面那天、過年加「茶屋過年休息」）；阿哲訊息逗號照留；outbox ca877bf4a",
    "task": "AA686-FIX3-1104",
-   "integration": "未整合",
-   "note": "LAWWW-C 20:5x 登記，併進 AA686-FIX3 的子代理"
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 20:5x 登記，併進 AA686-FIX3 的子代理；LAWWW-C 21:3x 合併 2a3b6434e"
   },
   {
    "id": "DL-AA-72707f636",
@@ -17199,8 +17199,8 @@
    "msg": "ACK",
    "what": "AA_686 第 4 項延伸：手機「新年快樂」語彤 L「初四開店。你要第一個來喝。」同規則照年份換（回 LAWWW-C 20:44 的問題）",
    "task": "AA686-FIX3-1104",
-   "integration": "未整合",
-   "note": "LAWWW-C 20:5x 登記，併進 AA686-FIX3 的子代理"
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 20:5x 登記，併進 AA686-FIX3 的子代理；LAWWW-C 21:3x 合併 2a3b6434e"
   },
   {
    "id": "DL-LAWWW2-75383530f",
