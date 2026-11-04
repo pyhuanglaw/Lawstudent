@@ -1,0 +1,88 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ4_yizhan_r2\out
+PASS 遊戲載入
+== yizhan 1400
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "desk_props", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "wz_glow_batch", "tree_bark_camphor", "tree_leaf", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE"]
+INFO [1400] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_genkan_ne：calls 169、tris 389043
+  [1400] tea_table：calls 127、tris 280576
+  [1400] washitsu_A_in：calls 28、tris 69660
+  [1400] washitsu_B_in：calls 26、tris 69668
+  [1400] mizuya_east：calls 107、tris 228064
+  [1400] engawa：calls 128、tris 284114
+  [1400] yard_to_genkan：calls 126、tris 247198
+  [1400] engawa_to_yard：calls 85、tris 182984
+  [1400] pillar_base：calls 91、tris 183148
+  [1400] yard_fence_w：calls 39、tris 65400
+  [1400] yard_fence_e：calls 34、tris 64946
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 2.4)、1400、條件事件關閉
+PASS [1400] 溫州街有「進去一盞」  {"x": -20.5, "z": 4.6, "r": 1.4, "label": "進去一盞"}
+  [   2.8s] 到達「進去一盞」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [-3, 2.71, 12.71], "player": [-3, -0.42, 9], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [-3, 2.71, 12.71], "player": [-3, -0.42, 9], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.56, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、1400、條件事件關閉
+  [1400] street_gate（溫州街）：calls 153、tris 240813
+== yizhan 2200
+  [前置／捷徑] 讀檔：wz_teahouse (-3.0, 9.0)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "desk_props", "tree_bark_camphor", "tree_leaf", "wzy_apt", "wzy_apt2", "wzy_azalea", "wzy_bamboo", "wzy_bamboo_old", "wzy_brick", "wzy_chochin", "wzy_lamp_metal", "wzy_curb", "wzy_curb_red", "wzy_crawl", "wzy_leaf_fern", "wzy_gravel", "wzy_hedge", "wzy_leaf_broad", "wzy_gutter", "wzy_moss", "wzy_noren", "wzy_lamp_paper", "wzy_sidewalk", "wzy_plaque", "wzy_plaster", "wzy_ridge", "wzy_road", "wzy_rock", "wzy_rope", "wzy_slab", "wzy_stone", "wzy_urn", "wzy_vc", "wzy_wood_old", "wzy_kawara", "wzy_soffit", "wz_glow_batch", "yzn_print", "yzn_post", "yzn_wall_plaster", "yzn_glass", "yzn_vc", "yzn_ceiling_boards", "yzn_floor_wood", "wzs_pendant", "yzn_tatami", "yzn_vc_gloss", "yzn_vc_metal", "wzs_washi", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE"]
+INFO [2200] 符合 ^(yz_|yizhan|a2[0-9]_|wzt_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_genkan_ne：calls 64、tris 87717
+  [2200] tea_table：calls 55、tris 80550
+  [2200] washitsu_A_in：calls 29、tris 69672
+  [2200] washitsu_B_in：calls 27、tris 69680
+  [2200] mizuya_east：calls 73、tris 127482
+  [2200] engawa：calls 76、tris 132442
+  [2200] yard_to_genkan：calls 66、tris 83316
+  [2200] engawa_to_yard：calls 52、tris 81346
+  [2200] pillar_base：calls 56、tris 81506
+  [2200] yard_fence_w：calls 40、tris 65406
+  [2200] yard_fence_e：calls 34、tris 64946
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 2.4)、2200、條件事件關閉
+PASS [2200] 溫州街有「進去一盞」  {"x": -20.5, "z": 4.6, "r": 1.4, "label": "進去一盞"}
+  [   2.7s] 到達「進去一盞」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [-20.5, 2.78, -0.7], "player": [-20.5, 0, 4.37], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+INFO [2200] 玩家視角：沒有進到店裡（22:00 這個時間可能沒開），只截了門口  {"mode": "follow", "cam": [-20.5, 2.78, -0.7], "player": [-20.5, 0, 4.37], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 1.0)、2200、條件事件關閉
+  [2200] street_gate（溫州街）：calls 108、tris 154242
+== YARD 一盞前院（冠木門旁白、五個互動點）
+  [前置／捷徑] 讀檔時設 WZ_CAT_FOUND（找到貓了、還沒收養）＝貓碗看得到；WZ_TEA_YARD_IN 不設（第一次進前院）
+  [前置／捷徑] 讀檔：wenzhou (-20.5, 2.4)、1400、條件事件照常（只關手機自動打開）、WZ_CAT_FOUND
+PASS [YARD1] 溫州街有「進去一盞」  {"x": -20.5, "z": 4.6, "r": 1.4, "label": "進去一盞"}
+  [   2.7s] 到達「進去一盞」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+FAIL [YARD] 第一次從冠木門進來：旁白逐字＝AA_659  ""
+  前院互動點：[{"x": 0.4, "z": 7.7, "r": 1, "label": "看院子", "kind": "garden"}, {"x": -0.85, "z": 8.9, "r": 1, "label": "看石燈籠", "kind": "lantern"}, {"x": 2.95, "z": 8.75, "r": 1, "label": "看樟樹", "kind": "camphor"}, {"x": 3.95, "z": 7.9, "r": 1, "label": "看貓碗", "kind": "catbowl"}, {"x": -2, "z": 8.4, "r": 1, "label": "看門口的木牌", "kind": "gatesign"}]
+PASS [YARD] 五個互動點都在（看院子、石燈籠、樟樹、貓碗、木牌）  ["garden", "lantern", "camphor", "catbowl", "gatesign"]
+  [ 120.3s] 走不到「看院子」：最後位置 (-0.08,8.4)，目標 (0.4,7.7)；點地面 40 次、轉鏡頭 2 次、搖桿 2 次
+  [ 120.3s]   這段時間：畫面 6533 格／120 秒、遊戲時間 14.18→14.98、paused=False、開著的面板 []
+PASS [YARD_garden] 走到旁邊：按鈕「看院子」  {"interact": "看院子", "x": -0.08, "z": 8.4}
+PASS [YARD_garden] 台詞逐字＝AA_659  ["杜鵑、小楓樹、一棵老樟樹。院子不大，每一棵都站得剛剛好。"]
+  [   2.7s] 到達「看石燈籠」附近（0.04 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+PASS [YARD_lantern] 走到旁邊：按鈕「看石燈籠」  {"interact": "看石燈籠", "x": -0.88, "z": 8.88}
+PASS [YARD_lantern] 台詞逐字＝AA_659  ["（石燈籠的小窗口裡積了一點落葉。笠上長了一圈青苔。）"]
+  [  96.9s] 到達「看樟樹」附近（0.30 m）：點地面 33 次、轉鏡頭 1 次、搖桿 2 次，97 秒
+PASS [YARD_camphor] 走到旁邊：按鈕「看樟樹」  {"interact": "看樟樹", "x": 2.89, "z": 8.46}
+PASS [YARD_camphor] 台詞逐字＝AA_659  ["（老樟樹的樹幹比你兩隻手合抱還粗。樹皮一條一條裂開，摸起來是乾的。）"]
+  [  97.8s] 到達「看貓碗」附近（0.30 m）：點地面 34 次、轉鏡頭 1 次、搖桿 2 次，98 秒
+PASS [YARD_catbowl] 走到旁邊：按鈕「看貓碗」  {"interact": "看貓碗", "x": 3.68, "z": 8.03}
+PASS [YARD_catbowl] 台詞逐字＝AA_659  ["（樟樹下放著一個小碗，裡面的水是新換的。旁邊的石頭上黏著一小撮橘白色的毛。）"]
+  [ 120.2s] 走不到「看門口的木牌」：最後位置 (-1.34,7.85)，目標 (-2,8.4)；點地面 37 次、轉鏡頭 3 次、搖桿 2 次
+  [ 120.2s]   這段時間：畫面 12706 格／120 秒、遊戲時間 16.41→17.21、paused=False、開著的面板 []
+PASS [YARD_gatesign] 走到旁邊：按鈕「看門口的木牌」  {"interact": "看門口的木牌", "x": -1.34, "z": 7.85}
+PASS [YARD_gatesign] 台詞逐字＝AA_659  ["（門柱上掛著一塊木牌，寫著「一盞」。字被太陽曬得有點淡了。）"]
+  [  46.6s] 到達「離開一盞」附近（0.28 m）：點地面 17 次、轉鏡頭 0 次、搖桿 1 次，47 秒
+FAIL [YARD] 出來以後 WZ_TEA_YARD_IN 已經記下
+  [   0.0s] 到達「進去一盞」附近（0.50 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [YARD] 第二次進冠木門：沒有旁白  ""
+== EAVE 樟樹與緣側屋簷的交界
+  [前置／捷徑] 讀檔：wz_teahouse (1.5, 6.6)、1400、條件事件關閉
+  [EAVE 1400] 樟樹：{"trunk": {"min": [-0.58, -0.49, 6.3], "max": [5.86, 7.38, 12.01]}, "meshes": ["camphor_a_bark"], "it": {"x": 2.95, "z": 8.75}, "cx": 2.64, "cz": 9.16}
+PASS [EAVE 1400] 找得到樟樹（材質 camphor 或互動點）
+  [EAVE 1400] front：鏡頭 [3.84, 1.5, 12.96] → [2.64, 2.7, 8.56]
+  [EAVE 1400] side：鏡頭 [-0.56, 1.6, 10.76] → [2.64, 2.6, 8.76]
+  [前置／捷徑] 讀檔：wz_teahouse (1.5, 6.6)、2200、條件事件關閉
+  [EAVE 2200] 樟樹：{"trunk": {"min": [-0.58, -0.49, 6.3], "max": [5.86, 7.38, 12.01]}, "meshes": ["camphor_a_bark"], "it": {"x": 2.95, "z": 8.75}, "cx": 2.64, "cz": 9.16}
+PASS [EAVE 2200] 找得到樟樹（材質 camphor 或互動點）
+  [EAVE 2200] front：鏡頭 [3.84, 1.5, 12.96] → [2.64, 2.7, 8.56]
+  [EAVE 2200] side：鏡頭 [-0.56, 1.6, 10.76] → [2.64, 2.6, 8.76]
+PASS 沒有 JS 例外  []
+FAILED 2: [YARD] 第一次從冠木門進來：旁白逐字＝AA_659；[YARD] 出來以後 WZ_TEA_YARD_IN 已經記下

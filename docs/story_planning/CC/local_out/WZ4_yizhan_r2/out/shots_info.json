@@ -1,0 +1,94 @@
+{
+ "14.0": {
+  "ref_genkan_ne": {
+   "calls": 169,
+   "tris": 389043
+  },
+  "tea_table": {
+   "calls": 127,
+   "tris": 280576
+  },
+  "washitsu_A_in": {
+   "calls": 28,
+   "tris": 69660
+  },
+  "washitsu_B_in": {
+   "calls": 26,
+   "tris": 69668
+  },
+  "mizuya_east": {
+   "calls": 107,
+   "tris": 228064
+  },
+  "engawa": {
+   "calls": 128,
+   "tris": 284114
+  },
+  "yard_to_genkan": {
+   "calls": 126,
+   "tris": 247198
+  },
+  "engawa_to_yard": {
+   "calls": 85,
+   "tris": 182984
+  },
+  "pillar_base": {
+   "calls": 91,
+   "tris": 183148
+  },
+  "yard_fence_w": {
+   "calls": 39,
+   "tris": 65400
+  },
+  "yard_fence_e": {
+   "calls": 34,
+   "tris": 64946
+  }
+ },
+ "22.0": {
+  "ref_genkan_ne": {
+   "calls": 64,
+   "tris": 87717
+  },
+  "tea_table": {
+   "calls": 55,
+   "tris": 80550
+  },
+  "washitsu_A_in": {
+   "calls": 29,
+   "tris": 69672
+  },
+  "washitsu_B_in": {
+   "calls": 27,
+   "tris": 69680
+  },
+  "mizuya_east": {
+   "calls": 73,
+   "tris": 127482
+  },
+  "engawa": {
+   "calls": 76,
+   "tris": 132442
+  },
+  "yard_to_genkan": {
+   "calls": 66,
+   "tris": 83316
+  },
+  "engawa_to_yard": {
+   "calls": 52,
+   "tris": 81346
+  },
+  "pillar_base": {
+   "calls": 56,
+   "tris": 81506
+  },
+  "yard_fence_w": {
+   "calls": 40,
+   "tris": 65406
+  },
+  "yard_fence_e": {
+   "calls": 34,
+   "tris": 64946
+  }
+ }
+}
