@@ -36,6 +36,8 @@ PE644-ECON | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_p
 YT3-C2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 35 | CASES=ev9,ev14,home,home_rent;CASE_S=900;CC_HEADLESS=0
 YT3-D2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
 YT3-E2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 40 | CASES=ev8,grad_gf,end4;CASE_S=1200;CC_HEADLESS=0
+YT3-B2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 10 | CASES=ev5;CASE_S=900;CC_HEADLESS=0
+ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
 MD_haopai_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
 MD_dabu_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
@@ -60,6 +62,15 @@ YT3-C | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe
 YT3-B | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 30 | CASES=ev5,ev13,ev16,ev15b_shelf;CASE_S=900;CC_HEADLESS=0
 YT3-D | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=xmas_y4,box_y3;CASE_S=900;CC_HEADLESS=0
 ART_V20 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 35 | CASES=xinhai,study08,sixlaw,teahouse,aunts,cat;CC_HEADLESS=0
+# ===== N20X（BB 00:29 P1：新生南路＋木曜日，aa8cb5beb）：回歸六支（慢的先）＋真實流程探針（之後加）=====
+N20X_reach  | aa8cb5beb | game | tests/reachability_all.py | index.html | 25 | CC_HEADLESS=0
+N20X_touchwz | aa8cb5beb | game | tests/touch_flow_wenzhou.py | index.html | 20 | CC_HEADLESS=0
+N20X_wzst   | aa8cb5beb | game | tests/wz_street_integration.py | index.html | 20 | CC_HEADLESS=0
+N20X_zone   | aa8cb5beb | game | tests/zone_transitions.py | index.html | 15 | CC_HEADLESS=0
+N20X_campus | aa8cb5beb | game | tests/campus_layout_nav.py | index.html | 15 | CC_HEADLESS=0
+N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEADLESS=0
+N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
+N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
 MD_tx_v3    | eb5dc11dc | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 MD_dabu_v1 | 5cac0555e | blender | tools/blender/env_second/render_cycles.py | index.html | 60 | SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} dabu docs/story_planning/test_tools/cc/blender/dabu_views.json --res 960x540 --samples 64 --exposure -0.3 --point -2.9,3.25,-6.5,45 --point -2.9,3.25,-3.5,45 --point -2.9,3.25,-0.5,45 --point -2.9,3.25,2.5,45 --point -2.9,3.25,5.5,45 --point 0.3,3.25,-6.5,45 --point 0.3,3.25,-3.5,45 --point 0.3,3.25,-0.5,45 --point 0.3,3.25,2.5,45 --point 0.3,3.25,5.5,45 --point 3.0,3.25,-6.5,45 --point 3.0,3.25,-3.5,45 --point 3.0,3.25,-0.5,45 --point 3.0,3.25,2.5,45 --point 3.0,3.25,5.5,45
 # （MD_dabu_v1：使用者 11-03 22:2x「還沒做好的繼續」；大步第一版正式渲染，五個視角）

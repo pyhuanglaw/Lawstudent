@@ -329,13 +329,22 @@ async def do_action(pg, cdp, run, cs):
         run.note('她在：%s' % J(p))
         if not p: return False
         await L.go_to(pg, cdp, run, p['x'], p['z'], 1.6, '走到語彤旁邊', max_s=400, stop=stop)
-        for _ in range(15):
+        moved = []
+        for _ in range(24):
             s = await pg.evaluate(TS)
+            if s['dlg'] and '點了一下頭' in s['txt'] and not s['ch']:
+                # 讀書區第一次遇到＝只點頭（libquiet3d.js LIBQ.gate）：點掉這一句、再找她說話（PC YT3-B ev5：探針把點頭當成事件開始，就不再點了）
+                run.note('讀書區第一次：%s → 點掉，再跟她說一次' % s['txt'][:30]); await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1500); continue
             if s['dlg'] or s['ch']: return True
             if '語彤' in s['act']:   # 讀書區第一次遇到＝只點頭（libquiet3d.js LIBQ.gate）；沒有開始就像玩家一樣再點一次（最多三次）
                 run.note('點「%s」' % s['act']); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(8000); continue
             p2 = await pg.evaluate(NPC_AT, YT)
             if p2 and math.hypot(p2['x'] - s['x'], p2['z'] - s['z']) > 1.6: await L.go_to(pg, cdp, run, p2['x'], p2['z'], 1.4, '再靠近一點', max_s=120, stop=stop)
+            elif p2 and '語彤' not in s['act']:
+                # 按鈕變成別的（PC YT3-B ev5：點頭以後同一個位置的按鈕變成「坐下讀書」——她坐的那張桌子的座位比她近）：像玩家一樣換個站的位置，找出「和陳語彤說話」
+                off = [(0.9, 0), (-0.9, 0), (0, 0.9), (0, -0.9), (0.7, 0.7), (-0.7, 0.7), (0.7, -0.7), (-0.7, -0.7)][len(moved) % 8]; moved.append(off)
+                run.note('按鈕是「%s」，換到她旁邊 %s 再看' % (s['act'], J(off)))
+                await L.go_to(pg, cdp, run, p2['x'] + off[0], p2['z'] + off[1], 0.35, '換個位置', max_s=90, stop=stop)
             await pg.wait_for_timeout(1000)
         return True
     if act.startswith('it:'):

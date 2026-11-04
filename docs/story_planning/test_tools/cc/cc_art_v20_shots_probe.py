@@ -27,7 +27,7 @@ CASES（逗號分開，預設全部）：
     ＝照實記 FAIL「遊戲沒有放她」；另外【捷徑】在茶屋用 CHAR.build({model:'char.xiuqin_apron'}) 放一個，只為了看模型在遊戲光線下的樣子（標明不是遊戲自己放的）。
 - cat：溫州街公園的橘貓（src/wzcat3d.js）。GLB 的片段（wz_cat.json）：cat_walk、cat_idle、cat_sit、cat_sit_idle＋f22ef5dcd 新加五段 cat_rub、cat_rub_r、cat_lie_idle、cat_jump_down、cat_jump_up。
     2aaa7d22b 只接了 cat_rub／cat_rub_r（蹭的方向照玩家在哪一邊，S.rubClip），趴姿、跳上跳下還沒接（commit 說明）。
-    ① 【前置／捷徑】讀檔到溫州街 14:00 晴天（避開 08～11 點第一次進公園的 ev_wz_p1）、站在貓（第一個點 (26.0,23.3)）旁 1.6～2.5 m；【捷徑】把貓的亂數換成固定序列（c.rnd：先擲中蹭腳，再決定繞的方向 dir＝1／−1），
+    ① 【前置／捷徑】讀檔到溫州街 14:00 晴天（避開 08～11 點第一次進公園的 ev_wz_p1）、站在貓（第一個點 (26.0,23.3)）旁 1.6～2.5 m；【捷徑】把貓的亂數換成常數（c.rnd：0.2＝擲中且 dir 1、0.52＝擲中且 dir −1；已經自己擲過、在走過來的先打斷），
        玩家站著不動等貓走過來蹭。dir＝1（玩家在貓的左邊）、dir＝−1（右邊）各一次，蹭的時候每 0.5 秒截一張（共 6 張）。
        量：播的片段是 cat_rub（dir 1）／cat_rub_r（dir −1）；蹭的那幾格裡，玩家在貓身體的左邊（貓朝向的左手邊）／右邊的比例 ≥ 0.6。
     ② 每一段片段在遊戲裡的樣子：【捷徑】直接用貓的 mixer 播 cat_walk、cat_idle、cat_sit、cat_sit_idle、cat_lie_idle、cat_jump_down、cat_jump_up 各 1 張（貓停住、鏡頭拉近）；
@@ -520,8 +520,14 @@ async def case_aunts(pg, cdp):
 # ---------------------------------------------------------------- cat
 CAT_ST = "(()=>typeof WZCAT!=='undefined'&&WZCAT.state?WZCAT.state():null)()"
 CAT_SIDE = r"""(()=>{ const c=WZCAT._cat(); if(!c) return null; const o=c.obj, p=GAME.E.player.obj.position, y=o.rotation.y; const lx=Math.cos(y), lz=-Math.sin(y);   /* 貓朝 (sin y, cos y)；左手邊＝(cos y, −sin y)（朝 +z 時左邊是 +x，wz_cat.json：cat_rub 往左邊 +x 貼）*/
-  const dx=p.x-o.position.x, dz=p.z-o.position.z; return {side:dx*lx+dz*lz, clip:c.cur, state:c.state, dir:c.rub?c.rub.dir:null, d:+Math.hypot(dx,dz).toFixed(2)}; })()"""
-CAT_RND = r"""(dir=>{ const c=WZCAT._cat(); if(!c) return false; const seq=[0.1, dir>0?0.2:0.8, 0.6]; let i=0; c.rnd=()=> i<seq.length?seq[i++]:0.6; c.rubCd=0; c.rolled=false; c.still=0; return true; })(%d)"""
+  const dx=p.x-o.position.x, dz=p.z-o.position.z; return {side:dx*lx+dz*lz, clip:c.cur, state:c.state, dir:c.rub?c.rub.dir:null, flips:c.rub?c.rub.flips:null, d:+Math.hypot(dx,dz).toFixed(2)}; })()"""
+# 繞的方向只看亂數（wzcat3d.js:90 beginRub 的 dir:c.rnd()<0.5?1:-1；:142 擋住時翻一次），不看玩家在哪一邊；dir 決定片段（:89 S.rubClip）和身體朝向（:144 h），
+# 所以 dir＝1 時玩家一定在貓的左邊、−1 在右邊。PC 第一輪（ART_V20）right 失敗＝探針：讀檔等 15 秒的時候玩家已經站著不動，貓用自己的 Math.random 擲過了、
+# 正在走過來（state approach）；探針這時才換亂數序列，序列的第一個數 0.1 被 beginRub 拿去當方向＝dir 1（left 那一場也是同一個原因，只是剛好對）。
+# 改成：亂數換成常數（不管第幾次叫）——0.2＝擲中（< P 0.55）且 dir 1；0.52＝擲中且 dir −1；已經在走過來或在蹭的，打斷回到 look（t 99：站著看，等重新擲骰）
+CAT_RND = r"""(dir=>{ const c=WZCAT._cat(); if(!c) return null; const v=dir>0?0.2:0.52; c.rnd=()=>v; const was={state:c.state, dir:c.rub?c.rub.dir:null};
+  if(c.state==='approach'||c.state==='rub'||c.state==='walk'){ c.rub=null; c.path=null; c.state='look'; c.t=99; c.leave=false; }
+  c.rubCd=0; c.rolled=false; c.still=0; c.anchor=null; return was; })(%d)"""
 
 
 async def case_cat(pg, cdp):
@@ -546,8 +552,9 @@ async def case_cat(pg, cdp):
         if tag == 'left':
             want = ['cat_walk', 'cat_idle', 'cat_sit', 'cat_sit_idle', 'cat_rub', 'cat_rub_r', 'cat_lie_idle', 'cat_jump_down', 'cat_jump_up']
             check('cat：GLB 的九段片段都在（含 f22ef5dcd 新加的五段）', all(a in acts for a in want), J(acts))
-        note('[捷徑] 貓的亂數換成固定序列：蹭腳擲中、繞的方向 dir＝%d（玩家在貓的%s邊）' % (dir_, '左' if dir_ > 0 else '右'))
-        await pg.evaluate(CAT_RND % dir_)
+        note('[捷徑] 貓的亂數換成常數：蹭腳擲中、繞的方向 dir＝%d（玩家在貓的%s邊）' % (dir_, '左' if dir_ > 0 else '右'))
+        was = await pg.evaluate(CAT_RND % dir_)
+        note('換亂數之前貓的狀態：%s（approach／rub＝已經自己擲過，打斷重來）' % J(was))
         await L.turn_camera_to(pg, cdp, 26.0, 23.3, tries=5); await low_cam(pg, 0.35, 3.0)
         got = None
         bzlog = []
@@ -577,6 +584,9 @@ async def case_cat(pg, cdp):
         wantc = 'cat_rub' if dir_ > 0 else 'cat_rub_r'
         check('cat %s：蹭的時候播 %s' % (tag, wantc), bool(rr) and clips == [wantc], J(clips))
         check('cat %s：玩家在貓的%s邊（蹭的那幾格 ≥ 60%%）' % (tag, '左' if dir_ > 0 else '右'), frac >= 0.6, '%.2f（%d 格）' % (frac, len(rr)))
+        # 遊戲自己的一致性（不管探針要的是哪一邊）：每一格播的片段要和玩家實際在哪一邊對得上（左＝cat_rub、右＝cat_rub_r）；對不上＝遊戲（wzcat3d.js:89／:142／:144）
+        bad = [x for x in rr if x['clip'] != ('cat_rub' if x['side'] > 0 else 'cat_rub_r')]
+        check('cat %s：每一格播的片段和玩家實際在哪一邊一致（左 cat_rub／右 cat_rub_r）' % tag, bool(rr) and not bad, J(bad[:3]))
     REC['data']['cat_rub'] = rubs
     # 每一段片段【捷徑】
     note('[捷徑] 直接用貓的 mixer 播每一段（貓停住、鏡頭拉近）——cat_lie_idle、cat_jump_down、cat_jump_up 遊戲還沒接（2aaa7d22b 說明）')

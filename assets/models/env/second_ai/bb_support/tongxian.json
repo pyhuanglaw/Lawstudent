@@ -1,8 +1,8 @@
 {
  "objects": 179,
  "unique_meshes": 60,
- "tris": 42996,
- "tris_drawn": 57922,
+ "tris": 42816,
+ "tris_drawn": 57742,
  "materials": [
   "tx_ceiling",
   "tx_floor_oak",
@@ -18,11 +18,11 @@
   "tx_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/tongxian.glb",
- "bytes": 3035080,
+ "bytes": 2966084,
  "texres": 512,
  "shop": "tongxian",
  "layout": 4,
- "drawn_tris": 57922,
+ "drawn_tris": 57742,
  "guitars": {
   "electric_wall": 22,
   "acoustic_wall": 20,
