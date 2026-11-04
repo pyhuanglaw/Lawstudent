@@ -9,6 +9,10 @@
      → events.jsonl（每行有 t＝epoch 秒、rel＝程序開始後秒數、ctx、page）。
   4. env.json：瀏覽器版本、playwright 版本、GPU renderer（UNMASKED_RENDERER_WEBGL，第一個 page 讀一次）、CC_ITEM、SHA、CC_SLOT、
      headless、OS、每份 trace 的大小（超過 CC_TRACE_MAX_MB＝oversize:true，交給 runner 決定推不推）。
+  5. 分段（BB 11-04 07:19：長測試 629 MB 推不上去）：async API 的 context 用 tracing.start_chunk／stop_chunk 切段，
+     探針印「== 」開頭的行（CASE 開頭）或滿 CC_TRACE_CHUNK_S 秒（預設 120）就換一段；那一段有 FAIL 行、pageerror、crash 就留，
+     沒有的只留最後 CC_TRACE_KEEP_LAST 段（預設 2），其他當場刪掉。檔名 trace_<item>_<n>_c<k>.zip。CC_TRACE_CHUNK=0＝舊做法（整份一個 zip）。
+     sync API 照舊整份。
   所有寫出去的字串先把 repo／家目錄／暫存資料夾路徑換成 <REPO>／<HOME>／<TMP>，使用者名稱換成 <USER>。
   任何一步出錯只寫一行 [cc_trace] 警告到 stderr，不影響探針本身。
 """
@@ -19,6 +23,15 @@ DIR = os.environ.get('CC_TRACE_DIR') or os.path.join(os.getcwd(), 'cc_trace')
 ITEM = re.sub(r'[^A-Za-z0-9_.-]', '_', os.environ.get('CC_ITEM') or 'item')
 MAX_MB = float(os.environ.get('CC_TRACE_MAX_MB') or 20)
 TRACE_OPTS = dict(screenshots=True, snapshots=True, sources=False)
+CHUNK = os.environ.get('CC_TRACE_CHUNK', '1') != '0'
+try:
+    CHUNK_S = max(10.0, float(os.environ.get('CC_TRACE_CHUNK_S') or 120))
+except ValueError:
+    CHUNK_S = 120.0
+try:
+    KEEP_LAST = max(1, int(os.environ.get('CC_TRACE_KEEP_LAST') or 2))
+except ValueError:
+    KEEP_LAST = 2
 
 STATE_JS = r"""() => { const out = {};
   const tr = (k, f) => { try { out[k] = f(); } catch (e) { out[k] = null; } };
@@ -136,6 +149,9 @@ class Tracer(object):
                     'cc_gpu': os.environ.get('CC_GPU'), 'cc_browser': os.environ.get('CC_BROWSER') or 'chromium',
                     'trace_max_mb': MAX_MB, 'traces': [], 'states': [], 'end': None}
         self.finished = False
+        self.bad = 0             # FAIL 行、pageerror、crash 的累計：分段時看這一段裡有沒有增加
+        self.rot = 0             # 探針印「== 」的次數：換段的訊號
+        self.rot_text = ''
         self.closing = False     # 探針自己關瀏覽器（browser.close／playwright 結束）之後的斷線＝正常，不算環境問題
         self.write_env()
 
@@ -152,6 +168,8 @@ class Tracer(object):
         try:
             rec = {'t': round(time.time(), 3), 'rel': round(time.time() - T0, 2), 'kind': kind, 'ctx': ctx, 'page': page}
             rec.update(kw)
+            if kind in ('fail_line', 'pageerror', 'crash'):
+                self.bad += 1
             with self.lk:
                 self.ev.write(json.dumps(san_obj(rec), ensure_ascii=False) + '\n'); self.ev.flush()
         except Exception as e:
@@ -183,7 +201,7 @@ class Tracer(object):
         r = self.find(ctx)
         if r:
             return r, False
-        r = {'ctx': ctx, 'n': len(self.ctxs) + 1, 'async': is_async, 'done': False, 'pages': []}
+        r = {'ctx': ctx, 'n': len(self.ctxs) + 1, 'async': is_async, 'done': False, 'pages': [], 'chunked': False, 'chunks': [], 'recent': []}
         self.ctxs.append(r)
         try:
             ctx.on('page', lambda pg: self.watch(r, pg))
@@ -239,6 +257,12 @@ class Tracer(object):
                 with open(self.paths(r)[1], 'w', encoding='utf-8') as fh:
                     json.dump(san_obj(states), fh, ensure_ascii=False, indent=2)
                 self.env['states'].append(os.path.basename(self.paths(r)[1]))
+            for c in r.get('chunks') or []:
+                self.env['traces'].append(c)
+            if r.get('chunked'):
+                self.write_env()
+                self.event('trace_chunks', r['n'], None, kept=[c['file'] for c in r['chunks'] if c.get('kept')], dropped=sum(1 for c in r['chunks'] if not c.get('kept')), error=err)
+                return
             info = {'ctx': r['n'], 'file': os.path.basename(zp), 'error': err}
             if os.path.exists(zp):
                 sz = os.path.getsize(zp)
@@ -259,8 +283,70 @@ class Tracer(object):
             try:
                 await ctx.tracing.start(**TRACE_OPTS)
             except Exception as e:
-                _warn('tracing.start failed: %r' % (e,))
+                _warn('tracing.start failed: %r' % (e,)); return r
+            if CHUNK:
+                try:
+                    r['lock'] = asyncio.Lock(); r['k'] = 1
+                    await ctx.tracing.start_chunk(title='c001')
+                    r['chunked'] = True; r['t0'] = time.time(); r['bad0'] = self.bad; r['rot0'] = self.rot; r['why'] = 'start'
+                    r['task'] = asyncio.get_running_loop().create_task(self.a_chunker(r))
+                except Exception as e:
+                    r['chunked'] = False
+                    _warn('start_chunk failed, whole trace: %r' % (e,))
         return r
+
+    def chunk_path(self, r):
+        return os.path.join(DIR, 'trace_%s_%d_c%03d.zip' % (ITEM, r['n'], r['k']))
+
+    async def a_chunker(self, r):
+        try:
+            while not r['done']:
+                await asyncio.sleep(1.0)
+                if r['done']:
+                    break
+                if self.rot != r['rot0']:
+                    await self.a_rotate(r, 'case: ' + self.rot_text[:80])
+                elif time.time() - r['t0'] >= CHUNK_S:
+                    await self.a_rotate(r, 'time %ds' % CHUNK_S)
+        except asyncio.CancelledError:
+            pass
+        except Exception as e:
+            _warn('chunker: %r' % (e,))
+
+    async def a_rotate(self, r, why, final=False):
+        async with r['lock']:
+            if not r['chunked'] or (r['done'] and not final):
+                return
+            zp = self.chunk_path(r)
+            err = None
+            try:
+                await asyncio.wait_for(r['ctx'].tracing.stop_chunk(path=zp), 90)
+            except Exception as e:
+                err = repr(e)[:300]; _warn('stop_chunk failed: %s' % err)
+            bad = self.bad > r['bad0']
+            info = {'ctx': r['n'], 'chunk': r['k'], 'file': os.path.basename(zp), 'from': r.get('why'), 'until': why,
+                    'seconds': round(time.time() - r['t0'], 1), 'bad': bad, 'kept': True, 'error': err,
+                    'bytes': os.path.getsize(zp) if os.path.exists(zp) else None}
+            if info['bytes']:
+                info['oversize'] = info['bytes'] > MAX_MB * 1024 * 1024
+            r['chunks'].append(info)
+            if not bad:
+                r['recent'].append(info)
+                while len(r['recent']) > KEEP_LAST:
+                    old = r['recent'].pop(0)
+                    try:
+                        os.remove(os.path.join(DIR, old['file']))
+                    except OSError:
+                        pass
+                    old['kept'] = False; old['bytes_dropped'] = old.get('bytes'); old['bytes'] = None
+            self.event('trace_chunk', r['n'], None, chunk=r['k'], bad=bad, until=why, bytes=info['bytes'])
+            if final:
+                return
+            r['k'] += 1; r['t0'] = time.time(); r['bad0'] = self.bad; r['rot0'] = self.rot; r['why'] = why
+            try:
+                await r['ctx'].tracing.start_chunk(title='c%03d' % r['k'])
+            except Exception as e:
+                r['chunked'] = False; _warn('start_chunk failed: %r' % (e,))
 
     async def a_flush(self, r, why):
         if r['done']:
@@ -279,11 +365,22 @@ class Tracer(object):
             except Exception as e:
                 states['pages'].append({'page': pn, 'error': repr(e)[:300]})
         err = None
-        try:
-            await asyncio.wait_for(r['ctx'].tracing.stop(path=zp), 90)
-        except Exception as e:
-            err = repr(e)[:300]
-            _warn('tracing.stop failed (%s): %s' % (why, err))
+        if r.get('chunked'):
+            # 不 cancel 分段的 task（可能正在 stop_chunk）：done 已設，它 1 秒內自己結束；最後一段等它的鎖
+            try:
+                await self.a_rotate(r, 'flush: ' + why, final=True)
+            except Exception as e:
+                _warn('last chunk: %r' % (e,))
+            try:
+                await asyncio.wait_for(r['ctx'].tracing.stop(), 60)
+            except Exception as e:
+                err = repr(e)[:300]
+        else:
+            try:
+                await asyncio.wait_for(r['ctx'].tracing.stop(path=zp), 90)
+            except Exception as e:
+                err = repr(e)[:300]
+                _warn('tracing.stop failed (%s): %s' % (why, err))
         self.after_stop(r, zp, states, err)
 
     async def a_flush_all(self, why, ctxs=None):
@@ -367,6 +464,8 @@ class FailTee(object):
                 line, self.part = self.part.split('\n', 1)
                 if line.startswith('FAIL'):
                     self.tr.event('fail_line', None, None, text=line[:300])
+                elif line.startswith('== '):
+                    self.tr.rot_text = line; self.tr.rot += 1
         except Exception:
             pass
         return n

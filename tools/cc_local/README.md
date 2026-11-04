@@ -157,6 +157,10 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
   - `CC_TRACE_MAX_MB`：單一 trace 上限，預設 20。
   - `CC_RETRY_TIMEOUT=1`：逾時也重跑一次（預設不重跑）。只有逾時 ≤ `CC_RETRY_MAX_MIN`（預設 20 分）才生效，避免一項吃掉兩倍逾時。
   - `CC_TRACE_KEEP_BODIES=1`：trace 保留模型、字型等下載內容（預設拿掉，見下面「大小」）。
+  - 分段（11-04 07:2x，BB：GG_int_cvs_menu_tt 跑了 25 分鐘，trace 有 629 MB，推不上去）：
+    - `CC_TRACE_CHUNK=0`：關掉分段，照舊整份一個 zip。預設開。
+    - `CC_TRACE_CHUNK_S`：每段最長幾秒，預設 120。
+    - `CC_TRACE_KEEP_LAST`：沒有 FAIL 的段留最後幾段，預設 2。
 - `CC_TRACE=1`＋`CC_TRACE_DIR=<資料夾>` 是 runner 重跑時自己設給 gpu_wrap 的；手動跑探針也可以設（`python gpu_wrap.py <探針> <url> <out>`）。只對經 gpu_wrap 跑的 kind（probe、game、webkit）有 trace；node、blender、py、gpu 只有重跑和分類，沒有 trace。
 
 ### 流程
@@ -170,7 +174,13 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
 - `meta.json`：舊欄位全部照舊，`exit` 仍然是**第一次**的 exit（FLAKY 不會看起來像 PASS）。新增 `attempt`、`final`（PASS／FAIL／FLAKY／TIMEOUT／ERROR）、`exit2`、`class`、`class_basis`、`report`。
 - `report.json`＋`report.md`：測試 ID、SHA、腳本和兩次的 git blob、cc-testing SHA、兩次結果、FAIL 行（每行截 300 字，拆成斷言名稱和 info＝預期／實際）、JS／console 錯誤（含 stack）、遊戲狀態、環境（瀏覽器版本、GPU renderer、headless、OS）、截圖和 trace 的相對路徑、turbo／【前置／捷徑】／讀檔、分類和判斷依據、`conditions`（兩次的遊戲 SHA、腳本 blob、輸入雜湊、CASES）、清理掃描結果。
 - `attempt2/trace/`（gpu_wrap 寫）：
-  - `trace_<ID>_<n>.zip`：每個 browser context 一份，Trace Viewer 開得起來。
+  - `trace_<ID>_<n>_c<k>.zip`：分段 trace（async API）。換段的時機有兩個：探針印「== 」開頭的行（CASE 開頭），或滿 `CC_TRACE_CHUNK_S` 秒。
+    - 那一段裡有 FAIL 行、pageerror 或 crash，就留下來。
+    - 沒有的，只留最後 `CC_TRACE_KEEP_LAST` 段（失敗前的那幾段），其他的當場刪掉。
+    - 每一段都可以單獨用 Trace Viewer 開。
+    - env.json 的 `traces` 列出每一段：從哪裡到哪裡、秒數、有沒有 FAIL、留了沒有。
+    - `CC_TRACE_CHUNK=0` 或 sync API 照舊是 `trace_<ID>_<n>.zip`，每個 context 一份。
+    - 單元測試：`python3 tools/cc_local/trace_chunk_unit.py`（假的 context，不開瀏覽器）。
   - `events.jsonl`：console error／warning、pageerror（含 stack）、requestfailed、crash、close、瀏覽器斷線（`expected`＝是不是探針自己關的）、探針印的 FAIL 行。每行有 `t`、`rel`、`ctx`、`page`。
   - `state_<ID>_<n>.json`：關閉前每個還活著的 page 讀一次遊戲狀態。遊戲有 `GAME.stateSnapshot()`（d2e36f6eb 起）就整份存（`snapshot`），另外自己讀 zone、day、hour、weekday、玩家 x／z／y／lv／pose／busy、D.active／busyDepth、對話框文字、選項、EVENTS.running、flags 的鍵、lastTalkError、walkFallbacks、href。舊 SHA 沒有 stateSnapshot 時只有後面這些。
   - `env.json`：瀏覽器版本、playwright 版本、GPU renderer（UNMASKED_RENDERER_WEBGL）、CC_ITEM、SHA、CC_SLOT、headless、OS、每份 trace 的大小與 oversize。
