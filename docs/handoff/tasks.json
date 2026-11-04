@@ -43740,8 +43740,8 @@
    "owner": "LAWWW",
    "priority": "P0",
    "title": "使用者回報：和 NPC 聊天、約會常常卡住（存檔 day35 15:23 library_media；USER_WANTS X204）",
-   "status": "已實作待整合",
-   "next": "根因：ladder Z-L3 attended:{course,min} 被 EVENTS.cond 當陣列丟例外（CC 在使用者電腦重現 main／dev 都卡）；27929f2a8 修＋74c1ffb37 guardTalk；熱修 v9.10.19.1 測試樹 fd8d447d2（main＋兩個修正）等 BB GO 發布；v9.10.20 也含",
+   "status": "已驗收",
+   "next": "v9.10.19.1 熱修已發布 main b0c3032af（PR #27，BB GO）；CC 排 LIVE 驗",
    "sha": "27929f2a8"
   },
   {
@@ -43827,8 +43827,9 @@
    "owner": "LAWWW",
    "priority": "P1",
    "title": "約念書／吃飯／咖啡／電影：從入口帶路到座位、兩人坐下才開演、結束一起起身走到門口道別（USER_WANTS X207）",
-   "status": "進行中",
-   "next": "LAWWW：invites3d startTogether 的 pairSeats 只找到達那一區（總圖大廳沒有成對座位＝門口就演）→ place 加 sitAt（座位群組、樓層）、arrive 帶路；AA 寫到場一句、念書中小聲聊、收書、道別；BB 驗收 7 點（CC 先跑對照組）"
+   "status": "已整合待測試",
+   "next": "已合（子代理 600514d5d）：總圖帶路到二樓長桌、滿了三樓、讀檔接續、演完解凍、30 秒內不自動開手機、出錯收掉、早到提示；BB 七點驗收排 PC（v9.10.20）；問 AA：早到提示的系統字、以安 meetLine 閉館那句和收書重複",
+   "sha": "909c729a6"
   },
   {
    "first": {
