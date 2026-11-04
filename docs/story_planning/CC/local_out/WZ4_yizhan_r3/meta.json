@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_yizhan_r3",
+  "sha": "e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
+  "env": "SHOP=yizhan;HOURS= ;YARD=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:14:57",
+  "end": "2026-11-04T22:23:41",
+  "seconds": 525,
+  "exit": 1,
+  "error": null,
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 90,
+    "mem": 57,
+    "used_gb": 17.8,
+    "chrome_testing": 27
+  }
+}
