@@ -40,14 +40,15 @@ const setup=(term,o)=>{ const w=TERMEND.windowOf(term); H.fresh('2025-09-01',9,'
   for(const id of o.dating||[]){ H.CLOSE(id); ROM.start(H.G,id); }
   H.G.termend={contact:{[term]:C},think:{}}; const P=TERMEND.plan(H.G,w); if(o.addHeart&&!P.heart.includes(o.addHeart)) P.heart.push(o.addHeart); return {w,P}; };
 /* 照時間一格一格走；answer：第一則到了 1 分鐘以後回第一個選項 */
-const walkTerm=(w,answer)=>{ let answered=null; const seenAt={};
-  for(let d=w.from;d<=w.to;d++) for(const [a,b] of [[11.9,12.3],[19.9,21.5]]) for(let h=a;h<=b+1e-9;h+=0.05){ at(d,+h.toFixed(3)); rules();
+const walkTerm=(w,answer,term)=>{ let answered=null, snap=null; const seenAt={};
+  for(let d=w.from;d<=w.to;d++){ for(const [a,b] of [[11.9,12.3],[19.9,21.5]]) for(let h=a;h<=b+1e-9;h+=0.05){ at(d,+h.toFixed(3)); rules();
     for(const m of (H.G.msgs||[])){ if(!/^te_/.test(m.tag||'')||!m.ask) continue; if(seenAt[m.tag]==null&&(d>m.day||(d===m.day&&H.G.hour>=m.h-1e-6))) seenAt[m.tag]=[d,H.G.hour]; }
     if(answer&&!answered){ const first=(H.G.msgs||[]).filter(m=>/^te_/.test(m.tag||'')&&m.ask&&seenAt[m.tag]&&PHONE.askOpen(H.G,m)).sort((x,y)=>(x.day*24+x.h)-(y.day*24+y.h))[0];
       if(first&&(d*24+H.G.hour)>=first.day*24+first.h+0.0166){ PHONE.answer(H.G,first.ask.id,0); answered={tag:first.tag,from:first.from,day:d,h:H.G.hour}; rules(); } } }
+    if(answered&&!snap&&answered.day===d) answered.snap=snap=invOf(term); }   /* 回了的那一晚 21:30 的手機（走完整個時段，每一則都過期關了，open 看不出來）*/
   return answered; };
 const invOf=(term)=>{ const L=(H.G.msgs||[]).map((m,i)=>Object.assign({i},m)).filter(m=>/^te_/.test(m.tag||'')&&m.ask&&(m.tag.startsWith('te_'+term+'_')||m.tag.startsWith('te_gf_'+term+'_')||m.tag.startsWith('te_ex_')));
-  return L.map(m=>({tag:m.tag,from:m.from,key:K(m.day),wd:WDN(m.day),h:+(+m.h).toFixed(3),i:m.i,open:PHONE.askOpen?!!PHONE.askOpen(H.G,m):null,ans:m.ans!=null?m.ans:null,text:m.text})); };
+  return L.map(m=>({tag:m.tag,from:m.from,key:K(m.day),wd:WDN(m.day),h:+(+m.h).toFixed(3),i:m.i,open:PHONE.askOpen?!!PHONE.askOpen(H.G,m):null,ans:m.ans!=null?m.ans:null,opts:(m.ask.opts||[]).map(o=>o.t),reply:(H.G.msgs||[]).filter(y=>y.th===m.th&&(y.from==='player'||y.from==='me'||y.me)&&(y.day*24+(+y.h||0))>=(m.day*24+(+m.h||0))-1e-6).map(y=>y.text),text:m.text})); };
 const outsOf=(term)=>OUT.rec(H.G).filter(q=>q&&q.te&&q.te.term===term).map(q=>({id:q.id,who:q.te.who,kind:q.te.kind,key:K(q.day),h:q.h,place:q.place,state:q.state}));
 const SC={
   friends4:{hearts:[],friends:[YT,AN,ZQ,XC]},
@@ -62,13 +63,13 @@ console.log('cc_te_same_night_walk　LW_ROOT='+ROOT+'　SHA='+HEADSHA+(BASE?'　
 check('0. 載得到 TERMEND、PHONE、OUT；TERMEND.windowOf 八個學期都有',typeof TERMEND!=='undefined'&&TERMS.every(t=>!!TERMEND.windowOf(t)));
 for(const term of TERMS) for(const sc of Object.keys(SC)) for(const ans of (sc==='friends4'||sc==='heart2friend2')?[false,true]:[false]){
   const key=term+'/'+sc+(ans?'/answer':''); let r;
-  try{ const {w,P}=setup(term,SC[sc]); const answered=walkTerm(w,ans);
-    r={plan:{heart:P.heart,friend:P.friend,exempt:P.exempt||[],back:K(P.back),fallback:P.fallback||null},exam:TERMEND.examDay?K(TERMEND.examDay(H.G,w)):null,answered:answered&&{tag:answered.tag,key:K(answered.day),h:+answered.h.toFixed(3)},inv:invOf(term),outs:outsOf(term),gf:(H.G.msgs||[]).filter(m=>/^te_gf_/.test(m.tag||'')).map(m=>({tag:m.tag,key:K(m.day),h:m.h,text:m.text}))};
+  try{ const {w,P}=setup(term,SC[sc]); const answered=walkTerm(w,ans,term);
+    r={plan:{heart:P.heart,friend:P.friend,exempt:P.exempt||[],back:K(P.back),fallback:P.fallback||null},exam:TERMEND.examDay?K(TERMEND.examDay(H.G,w)):null,answered:answered&&{tag:answered.tag,key:K(answered.day),h:+answered.h.toFixed(3),snap:answered.snap||null},inv:invOf(term),outs:outsOf(term),gf:(H.G.msgs||[]).filter(m=>/^te_gf_/.test(m.tag||'')).map(m=>({tag:m.tag,key:K(m.day),h:m.h,text:m.text}))};
   }catch(e){ r={err:String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')}; }
   RES.runs[key]=r; }
 if(process.env.OUT_JSON) fs.writeFileSync(process.env.OUT_JSON,J(RES,null,1));
 /* ---------- 檢查 ---------- */
-const nm=id=>({heroine_03:'語彤',heroine_01:'芷若',heroine_04:'子晴',heroine_05:'學姊',classmate_xinci:'芯慈',kexin:'可昕'})[id]||id;
+const nm=id=>({heroine_03:'語彤',heroine_01:'以安',heroine_02:'芷若',heroine_04:'子晴',heroine_05:'學姊',classmate_xinci:'芯慈',kexin:'可昕'})[id]||id;
 const fmt=r=>r.err?r.err:r.inv.map(x=>nm(x.from)+' '+x.key+'（'+x.wd+'）'+hm(x.h)).join('、');
 for(const k of Object.keys(RES.runs)) info(k+'：'+fmt(RES.runs[k])+(RES.runs[k].answered?'｜回了 '+RES.runs[k].answered.tag+' '+RES.runs[k].answered.key+' '+hm(RES.runs[k].answered.h):''));
 const errs=Object.keys(RES.runs).filter(k=>RES.runs[k].err); check('0. 每一輪都跑完（沒有例外）',!errs.length,J(errs.map(k=>[k,RES.runs[k].err])));
@@ -90,6 +91,17 @@ for(const k of Object.keys(RES.runs).filter(k=>/\/answer$/.test(k))){ const r=RE
   info('② '+k+'：回了 '+(r.answered?nm((r.inv.find(x=>x.tag===r.answered.tag)||{}).from)+' '+hm(r.answered.h):'（沒有）')+'；同一晚其他幾則 '+J(sameNight.filter(t=>!r.answered||t!==r.answered.tag).map(tg=>{ const x=r.inv.find(y=>y.tag===tg); return x?[nm(x.from),x.open?'還開著':'關了',x.ans]:[tg,'不見了']; })));
 }
 check('② 回了第一則以後，同一晚其他幾則都還在手機裡（沒有消失）',!bad2.length,J(bad2.slice(0,8)));
+/* ② 自動回「那天有約了。」（BB-C 23:03）：回的那一則佔名額（不是 exempt 的心意）＝同一晚其他幾則照「只能接一個」自動回；回的是不佔名額的（語彤心意 exempt）＝其他照樣開著（只記錄） */
+{ const bad=[], rows=[];
+  for(const k of Object.keys(RES.runs).filter(k=>/\/answer$/.test(k))){ const r=RES.runs[k], r0=RES.runs[k.replace(/\/answer$/,'')]; if(r.err||!r0||r0.err||!r.answered) continue;
+    const first=r.inv.find(x=>x.tag===r.answered.tag)||{}, ex=(r.plan.exempt||[]).includes(first.from);
+    const SN=r.answered.snap||r.inv, others=r0.inv.filter(x=>x.key===r.answered.key&&Math.abs(x.h-12)>0.01&&x.tag!==r.answered.tag).map(x=>SN.find(y=>y.tag===x.tag)).filter(Boolean);
+    for(const x of others){ const declined=!x.open&&((x.ans!=null&&x.opts[x.ans]==='那天有約了。')||x.reply.includes('那天有約了。')), xEx=(r.plan.exempt||[]).includes(x.from);
+      rows.push(k+' 回了'+nm(first.from)+(ex?'（不佔名額）':'')+'→'+nm(x.from)+(xEx?'（不佔名額）':'')+'：當晚 21:30 '+(x.open?'開著':'關了')+' ans='+x.ans+' 回覆 '+J(x.reply));
+      if(!ex&&!xEx&&!declined) bad.push(k+' '+nm(x.from)+' 當晚沒有自動回「那天有約了。」（'+(x.open?'還開著':'關了')+'、ans '+x.ans+'、回覆 '+J(x.reply)+'）');
+      if(ex&&!x.open) bad.push(k+' 回的是不佔名額的語彤心意，'+nm(x.from)+' 當晚卻關了（ans '+x.ans+'、回覆 '+J(x.reply)+'）'); } }
+  info('② 狀態：'+J(rows).slice(0,1500));
+  check('② 回的那一則佔名額的時候，同一晚其他幾則（佔名額的）當晚自動回「那天有約了。」；回的是不佔名額的語彤心意＝其他照樣開著（BB-C 23:03；不佔名額的那一則照 TE-HEART-EXEMPT，只記錄）',!bad.length,J(bad.slice(0,8))); }
 /* ③ 照原本：對照組 */
 if(BASE){ const b3=[], b4=[];
   for(const k of Object.keys(RES.runs)){ const r=RES.runs[k], o=BASE.runs[k]; if(!o||o.err||r.err) continue;
