@@ -17250,7 +17250,7 @@
    "sha": "8200806e2",
    "msg": "ACK",
    "what": "ADE-PROPS-1104 補件：wz_props.glb／.json、wz_props.py（電線桿、路燈臂挪到 −12.7）、tests/wz_props_poles_unit.js",
-   "task": "ADE-PROPS-1104",
+   "task": "ADE-V2-1104",
    "integration": "已整合待測試",
    "note": "LAWWW-C 21:4x 接進開發分支（README 不帶：開發分支那一版和 LAWWW2 的分岔，留在 LAWWW2 分支）"
   },
