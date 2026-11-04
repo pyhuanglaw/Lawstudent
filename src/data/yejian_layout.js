@@ -21,7 +21,7 @@ const YEJIAN_LAYOUT = {
     {kind: 'reading_table', x: 1.0, z: -1.9, w: 1.7, d: 0.95, h: 0.75, note: '閱讀桌二（四人；筆記、攤開的書）'},
     {kind: 'display_rack', x: -0.6, z: 2.3, w: 2.0, d: 0.55, h: 1.15, note: 'v2：窗前中段第一座斜面書架（雜誌，面向北）'}, {kind: 'display_rack', x: 2.4, z: 2.3, w: 2.0, d: 0.55, h: 1.15, note: 'v2：第二座（新書推薦，面向北）'},
     {kind: 'cafe_counter', x: 4.65, z: 0.6, w: 0.75, d: 4.2, h: 1.0, note: '咖啡吧（面向西；檯面上蛋糕玻璃櫃、濃縮咖啡機、磨豆機、手沖架、收銀機）；後牆層板放罐子、杯子；手寫菜單黑板掛在東牆'},
-    {kind: 'sofa', x: 4.3, z: -3.85, w: 1.8, d: 0.85, note: '沙發角：雙人沙發（面向南）＋茶几＋落地燈＋圓地毯'},
+    {kind: 'sofa', x: 4.3, z: -4.05, w: 1.8, d: 0.85, note: 'v3b：往北 0.2 m（LAWWW2 11-04 03:34，導航格）；沙發角：雙人沙發（面向南）＋茶几＋落地燈＋圓地毯'},
     {kind: 'coffee_table', x: 4.3, z: -2.25, w: 0.9, d: 0.55, h: 0.42, note: 'v3：往南移 0.6 m，沙發前留 0.9 m（LAWWW2 11-04 03:12）'},
     {kind: 'floor_lamp', x: 3.1, z: -4.05},
     {kind: 'plant_big', x: -5.45, z: 2.0}, {kind: 'plant_big', x: 5.5, z: 4.3}, {kind: 'plant_big', x: 5.55, z: -2.2},
@@ -33,7 +33,7 @@ const YEJIAN_LAYOUT = {
     [-2.1, -1.9, 1.7, 0.95], [1.0, -1.9, 1.7, 0.95],
     [-0.6, 2.3, 2.0, 0.55], [2.4, 2.3, 2.0, 0.55],
     [4.65, 0.6, 0.77, 4.2], [5.85, 0.6, 0.3, 4.4],
-    [4.3, -3.85, 1.8, 0.85], [4.3, -2.25, 0.9, 0.55], [3.1, -4.05, 0.4, 0.4],
+    [4.3, -4.05, 1.8, 0.85], [4.3, -2.25, 0.9, 0.55], [3.1, -4.05, 0.4, 0.4],
     [-5.45, 2.0, 0.6, 0.6], [5.5, 4.3, 0.6, 0.6], [5.55, -2.2, 0.5, 0.5]
   ],
   walkNote: 'v2：店門 (−4.6, 4.6) 進來：中間走道 z −0.85～1.95（閱讀桌的椅子和斜面書架之間 2.8 m）往東到咖啡吧；書牆前 z −4.55～−2.95；斜面書架和高腳椅之間 z 2.6～3.8；咖啡吧前 x 3.3～4.25（店員在 x 5.05～5.7）。',
@@ -45,7 +45,7 @@ const YEJIAN_LAYOUT = {
     {x: -2.8, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'}, {x: -1.6, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'},
     {x: -0.4, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'}, {x: 0.8, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'},
     {x: 2.0, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'}, {x: 3.2, z: 4.05, yaw: 0, table: 3, seatH: 0.75, canStudy: true, label: '坐窗邊'},
-    {x: 3.9, z: -3.65, yaw: 0, table: 4, seatH: 0.42, canStudy: true, label: '坐沙發'}, {x: 4.7, z: -3.65, yaw: 0, table: 4, seatH: 0.42, canStudy: true, label: '坐沙發'}
+    {x: 3.9, z: -3.85, yaw: 0, table: 4, seatH: 0.42, canStudy: true, label: '坐沙發'}, {x: 4.7, z: -3.85, yaw: 0, table: 4, seatH: 0.42, canStudy: true, label: '坐沙發'}
   ],
   interact: [
     {x: -4.0, z: -3.9, kind: 'shelf_law', label: '看看法律書與文具', note: '原本 bookstore 的「看看法律書與文具」（shop:\'book\'，買書照舊）'},

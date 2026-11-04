@@ -56,3 +56,7 @@
 ## v3（LAWWW2 11-04 03:12：沙發前的茶几只留 0.3 m，坐東邊那張會滑開）
 - 茶几往南移 0.6 m：`coffee_table` z −2.85 → −2.25，沙發前留 0.9 m；圓地毯一起移（中心 sofa z + 1.4）。block 改成 `[4.3, -2.25, 0.9, 0.55]`。盆栽 (5.55, −2.2) 不動。
 - `yejian_layout.js` version 3。規格不變：36,652 三角形、12 材質、2.51 MB。ref_match ALL PASS（鏡頭同 v2）。圖 `model_renders/yejian_v3_refcam_cmp.jpg`。
+
+## v3b（LAWWW2 11-04 03:34：東邊那張沙發座位在導航格上還是只有一條線站得住）
+- 沙發往北 0.2 m：`sofa` z −3.85 → −4.05，兩個座位 z −3.65 → −3.85，block `[4.3, -4.05, 1.8, 0.85]`。茶几照 v3（z −2.25）不動，圓地毯位置不變（中心 sofa z + 1.6 ＝ −2.45）。沙發背 −4.475，書牆前緣 −4.55，不會碰到。
+- 規格不變（36,652 三角形、12 材質）；ref_match ALL PASS。圖 `model_renders/yejian_v3b_refcam_cmp.jpg`。
