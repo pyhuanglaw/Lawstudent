@@ -120,6 +120,9 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
   for(const id of ['campus','gongguan','wenzhou','lane118']){ loadZone(id); const S=BIKE.parkSpots(E,id); let bad=[];
     for(const q of S){ if(!BIKE.parkOK(E,q)) bad.push(q); if(id==='gongguan'&&q.z>=19) bad.push(['騎樓',q]); }
     check('9 '+id+'：合法停車處 '+S.length+' 個，每個都站得住（車頭、車尾）、不擋出入口'+(id==='gongguan'?'、都不在騎樓（z<19）':''),S.length>=2&&!bad.length,J(bad.slice(0,3))); }
+  { const z=fs.readFileSync(path.join(ROOT,"src/zones3d.js"),"utf8"), m=z.match(/const DOORS=(\[[^\]]*\])[\s\S]*?for\(const \[x0,x1\] of (\[\[[^;]*?\]\])\)\{/); const DOORS=m?JSON.parse(m[1]):[], segs=m?JSON.parse(m[2]):[];
+    const rows=BIKE.PARKS.gongguan.rows.map(r=>[r[0],r[1]]); loadZone('gongguan'); const S=BIKE.parkSpots(E,'gongguan'), atDoor=S.filter(q=>DOORS.some(d=>Math.abs(q.x-d)<1.45&&q.z>17));
+    check('9b 公館停車排位和 zones3d.js 騎樓前機車同一份；車身（1.7 m）不和店門（1.2 m 寬）重疊（含第二批四間還沒有互動點的門：洋洋、afar、轉角唱片、Daybreak；CC 11-04）',!!m&&JSON.stringify(rows)===JSON.stringify(segs)&&!atDoor.length,J({rows:rows.length,segs:segs.length,atDoor})); }
   loadZone('xinsheng'); check('9 新生南路：還沒有停車架、停車格＝沒有合法停車處（車照舊）',BIKE.parkSpots(E,'xinsheng').length===0);
   // 校園：回宿舍再出來＝宿舍門口；法律系館A＝最近的停車架
   G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false}; G.hour=15;
