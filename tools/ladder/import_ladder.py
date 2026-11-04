@@ -11,7 +11,7 @@ AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註�
 AA_525（說了沒發生（二））：子晴 Q2-L5、沛珊 P3-L3／P5-L2、可昕 K2-L8／K3-L5／K6-L6 的選項（字、回覆）整句相同才換（_swap，大一下～大三下各學期）；選了哪一個要記的旗標在 src/aa525_3d.js。
 AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
 AA_524（說了沒發生（一））：以安 A2-L5、A4-L6 選項②的回覆、A3-L8 extraIf，芷若 Z3-L4 選項②的回覆、Z5-L5 extraIf 用 _fix 疊上去（旗標 AN_COOK_PROMISE、ZR_LUROU_HALF 在 src/aa524_3d.js 記）。
-用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
+用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref] [--out 檔名]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔；--out：寫到那個檔、不改 src/data/ladder.js，tests/ladder_reimport_unit.js 用）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -73,6 +73,7 @@ def mems(cs):
                 if x.get('mem'): yield x['mem']
 skipped = {}
 dst = os.path.join(ROOT, 'src', 'data', 'ladder.js')
+OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else dst   # LADDER-IMPORT-AA657-1104：--out 檔名＝寫到別的地方（測試比對重匯結果用；上一次匯入的版本照舊讀 src/data/ladder.js）
 try:   # 上一次匯入的版本：缺中文名稱的學期先保留舊的（不讓那一學期整個消失）
     _s = open(dst, encoding='utf8').read(); OLD = json.loads(_s[_s.index('{'):_s.index(';\nLADDER.byTerm.Y1S1')])
 except Exception: OLD = {}
@@ -412,7 +413,7 @@ if X595:
     _swap(f'AA_595@{S595}', md595, y1, [('4-1', 'heroine_01', '寒假你回臺北的家，對吧。', '寒假你會回家住嗎？', '「寒假你會回家住嗎？」')])
     out['source'] += f'＋{os.path.basename(P595)[:6]}@{S595}（以安 A-L10 一句）'
 if R630: out['source'] += f'＋AA_630@{R630["sha"]}（語彤 {sum(int(re.search(r"(\d+) 列", x).group(1)) for x in LOG630)} 列）'
-with open(dst, 'w', encoding='utf8') as fo:
+with open(OUT, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')
-print('wrote', dst, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))
+print('wrote', OUT, 'Y1S1', {k: len(v['steps']) for k, v in out['characters'].items()}, {t: {k: len(v['steps']) for k, v in c.items()} for t, c in out['byTerm'].items()}, 'kaiDorm', len(out['kaiDorm']))
