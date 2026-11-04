@@ -595,3 +595,19 @@
 [17:36:46] ==== START ADE_int_job  (probe @ 0c2d4997b) ====
 [17:36:49] [res] cpu=51% mem=53% (16.7/31.4 GB) chrome_testing=20  START ADE_int_job
 [17:39:44] [res] cpu=29% mem=53% (16.7/31.4 GB) chrome_testing=20  END ADE_int_job
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       1c0e040c2..5d1ab594c  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[17:40:28] ==== END   ADE_int_job  exit=1  178s   ====
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[17:40:30] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[17:40:30] memory 53% before starting ADE_touchwz (2 running)
+[17:40:30] ==== START ADE_touchwz  (game @ 0c2d4997b) ====
+[17:40:33] [res] cpu=24% mem=53% (16.8/31.4 GB) chrome_testing=20  START ADE_touchwz
+[17:41:03] 正在跑：SUNNY_seatfix_sit（已跑 40 分／上限 40 分）、WZ4_komichi（已跑 25 分／上限 50 分）、ADE_touchwz（已跑 0 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
+[17:41:17] [res] cpu=44% mem=54% (17.1/31.4 GB) chrome_testing=18  END SUNNY_seatfix_sit

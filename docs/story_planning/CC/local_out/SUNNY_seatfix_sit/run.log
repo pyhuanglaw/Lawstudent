@@ -1,0 +1,150 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\SUNNY_seatfix_sit\out
+PASS 遊戲載入
+== sunny 1400
+  [前置／捷徑] 讀檔：wz_brunch (0.4, 4.0)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "sns_bulb", "sns_wall_cream", "sns_floor_checker", "sns_glass", "sns_leaf_pothos", "sns_print", "sns_vc", "sns_vc_gloss", "sns_vc_metal", "sns_walnut", "sns_window_view", "sns_mirror", "wz_glow_batch", "desk_props", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF2_HairCard_HAIR", "NF3_HairCard_HAIR", "NF4_HairCard_HAIR", "NF5_HairCard_HAIR"]
+INFO [1400] 符合 ^(ss_|sunny|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_door_in：calls 121、tris 247783
+  [1400] menu_kitchen：calls 91、tris 190990
+  [1400] booth_left：calls 98、tris 191568
+  [1400] right_window：calls 53、tris 90220
+  [1400] tables：calls 115、tris 241512
+  [1400] counter：calls 54、tris 89966
+  [1400] kitchen：calls 46、tris 89434
+  [前置／捷徑] 讀檔：wenzhou (42.0, -2.4)、1400、條件事件關閉
+PASS [1400] 溫州街有「進去 SUNNY SIDE」  {"x": 42, "z": -4.6, "r": 1.4, "label": "進去 SUNNY SIDE"}
+  [   2.8s] 到達「進去 SUNNY SIDE」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [0.4, 3.13, 7.71], "player": [0.4, 0, 4], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面（房間裡或前牆外的剖面視角）  {"mode": "follow", "cam": [0.4, 3.13, 7.71], "player": [0.4, 0, 4], "dist": 4.08, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== sunny 2200
+  [前置／捷徑] 讀檔：wz_brunch (0.4, 4.0)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "sns_bulb", "sns_wall_cream", "sns_floor_checker", "sns_glass", "sns_leaf_pothos", "sns_print", "sns_vc", "sns_vc_gloss", "sns_vc_metal", "sns_walnut", "sns_window_view", "sns_mirror", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF5_HairCard_HAIR"]
+INFO [2200] 符合 ^(ss_|sunny|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_door_in：calls 49、tris 48270
+  [2200] menu_kitchen：calls 57、tris 91574
+  [2200] booth_left：calls 42、tris 41932
+  [2200] right_window：calls 54、tris 90132
+  [2200] tables：calls 60、tris 91884
+  [2200] counter：calls 55、tris 89878
+  [2200] kitchen：calls 47、tris 89346
+  [前置／捷徑] 讀檔：wenzhou (42.0, -2.4)、2200、條件事件關閉
+PASS [2200] 溫州街有「進去 SUNNY SIDE」  {"x": 42, "z": -4.6, "r": 1.4, "label": "進去 SUNNY SIDE"}
+  [   2.6s] 到達「進去 SUNNY SIDE」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [42, 2.78, 0.71], "player": [42, 0, -4.36], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+INFO [2200] 玩家視角：沒有進到店裡（22:00 這個時間可能沒開），只截了門口  {"mode": "follow", "cam": [42, 2.78, 0.71], "player": [42, 0, -4.36], "dist": 5.25, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== SEATS 全部座位
+  [前置／捷徑] 讀檔：wz_brunch (0.4, 4.0)、1400、條件事件關閉
+  座位：[{"x": -2.75, "z": -0.85, "label": "坐下點餐", "kind": null, "sx": -2.75, "sz": -0.85}, {"x": -0.95, "z": -0.85, "label": "坐下點餐", "kind": null, "sx": -0.95, "sz": -0.85}, {"x": -2.75, "z": 0.65, "label": "坐下點餐", "kind": null, "sx": -2.75, "sz": 0.65}, {"x": -0.95, "z": 0.65, "label": "坐下點餐", "kind": null, "sx": -0.95, "sz": 0.65}, {"x": -0.3, "z": 0.4, "label": "坐下點餐", "kind": null, "sx": -0.3, "sz": 0.4}, {"x": -0.3, "z": 1.6, "label": "坐下點餐", "kind": null, "sx": -0.3, "sz": 1.6}, {"x": 1.9, "z": 0, "label": "坐下點餐", "kind": null, "sx": 1.9, "sz": 0}, {"x": 1.9, "z": 1.2, "label": "坐下點餐", "kind": null, "sx": 1.9, "sz": 1.2}, {"x": 2.35, "z": 2.1, "label": "坐下點餐", "kind": null, "sx": 2.35, "sz": 2.1}, {"x": 2.35, "z": 3.4, "label": "坐下點餐", "kind": null, "sx": 2.35, "sz": 3.4}, {"x": -2.1, "z": 2.65, "label": "坐下點餐", "kind": null, "sx": -2.1, "sz": 2.65}, {"x": -2.1, "z": 3.95, "label": "坐下點餐", "kind": null, "sx": -2.1, "sz": 3.95}, {"x": -2.3, "z": -2.1, "label": "坐吧台", "kind": null, "sx": -2.3, "sz": -2.1}, {"x": -1.6, "z": -2.1, "label": "坐吧台", "kind": null, "sx": -1.6, "sz": -2.1}]
+PASS [SEATS] npcOnly 的 0 張沒有「坐下」按鈕  []
+PASS [FLOOR] 有座位  14
+  [ 182.8s] 走不到「坐下點餐」：最後位置 (-2.28,-0.84)，目標 (-2.75,-0.85)；點地面 26 次、轉鏡頭 0 次、搖桿 12 次
+  [ 182.8s]   這段時間：畫面 3139 格／183 秒、遊戲時間 14.05→14.52、paused=False、開著的面板 []
+FAIL [F00] 走到「坐下點餐」(-2.75, -0.85)：按鈕出現  {"interact": "", "x": -2.28, "z": -0.84}
+  [  19.0s] 到達「坐下點餐」附近（0.24 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，19 秒
+PASS [F01] 走到「坐下點餐」(-0.95, -0.85)：按鈕出現  {"interact": "坐下點餐", "x": -1.05, "z": -1.07}
+  [F01] 坐下：{"mode": "follow", "cam": [-0.95, 3.13, 2.86], "player": [-0.95, 0, -0.85], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F01] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F01] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F01] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.95, 3.13, 2.86], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F01] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.31, "stand": true, "x": -1.42, "z": 4.02, "pose": "run"}
+  [ 187.7s] 走不到「坐下點餐」：最後位置 (-2.25,0.64)，目標 (-2.75,0.65)；點地面 8 次、轉鏡頭 0 次、搖桿 13 次
+  [ 187.7s]   這段時間：畫面 187 格／188 秒、遊戲時間 14.55→14.67、paused=False、開著的面板 []
+PASS [F02] 走到「坐下點餐」(-2.75, 0.65)：按鈕出現  {"interact": "坐下點餐", "x": -2.25, "z": 0.64}
+  [F02] 坐下：{"mode": "follow", "cam": [-2.75, 3.13, 4.36], "player": [-2.75, 0, 0.65], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F02] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F02] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F02] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.75, 3.13, 4.36], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F02] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.29, "stand": true, "x": -2.54, "z": 2.28, "pose": "run"}
+  [  65.6s] 到達「坐下點餐」附近（0.10 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，66 秒
+PASS [F03] 走到「坐下點餐」(-0.95, 0.65)：按鈕出現  {"interact": "坐下點餐", "x": -0.95, "z": 0.55}
+  [F03] 坐下：{"mode": "follow", "cam": [-0.95, 3.13, 4.36], "player": [-0.95, 0, 0.65], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F03] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F03] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F03] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.95, 3.13, 4.36], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F03] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.62, "stand": true, "x": -0.95, "z": 3.88, "pose": "run"}
+  [ 183.7s] 走不到「坐下點餐」：最後位置 (-0.27,0.03)，目標 (-0.3,0.4)；點地面 15 次、轉鏡頭 0 次、搖桿 8 次
+  [ 183.7s]   這段時間：畫面 183 格／184 秒、遊戲時間 14.75→14.87、paused=False、開著的面板 []
+PASS [F04] 走到「坐下點餐」(-0.3, 0.4)：按鈕出現  {"interact": "坐下點餐", "x": -0.27, "z": 0.03}
+  [F04] 坐下：{"mode": "follow", "cam": [-0.3, 3.13, 4.11], "player": [-0.3, 0, 0.4], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F04] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F04] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F04] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.3, 3.13, 4.11], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F04] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.81, "stand": true, "x": -1.36, "z": 4.04, "pose": "run"}
+  [ 181.7s] 走不到「坐下點餐」：最後位置 (-0.28,1.96)，目標 (-0.3,1.6)；點地面 15 次、轉鏡頭 0 次、搖桿 10 次
+  [ 181.7s]   這段時間：畫面 181 格／182 秒、遊戲時間 14.88→15.00、paused=False、開著的面板 []
+PASS [F05] 走到「坐下點餐」(-0.3, 1.6)：按鈕出現  {"interact": "坐下點餐", "x": -0.28, "z": 1.96}
+  [F05] 坐下：{"mode": "follow", "cam": [-0.3, 3.13, 5.31], "player": [-0.3, 0, 1.6], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F05] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F05] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F05] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-0.3, 3.13, 5.31], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F05] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.62, "stand": true, "x": -1.36, "z": 4, "pose": "run"}
+  [ 182.7s] 走不到「坐下點餐」：最後位置 (1.91,-0.35)，目標 (1.9,0)；點地面 13 次、轉鏡頭 0 次、搖桿 7 次
+  [ 182.8s]   這段時間：畫面 182 格／183 秒、遊戲時間 15.02→15.14、paused=False、開著的面板 []
+PASS [F06] 走到「坐下點餐」(1.9, 0)：按鈕出現  {"interact": "坐下點餐", "x": 1.91, "z": -0.35}
+  [F06] 坐下：{"mode": "follow", "cam": [1.9, 3.13, 3.71], "player": [1.9, 0, 0], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F06] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F06] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F06] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.9, 3.13, 3.71], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F06] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.32, "stand": true, "x": 1.82, "z": 2.88, "pose": "run"}
+  [ 186.0s] 走不到「坐下點餐」：最後位置 (2.38,1.37)，目標 (1.9,1.2)；點地面 26 次、轉鏡頭 0 次、搖桿 3 次
+  [ 186.0s]   這段時間：畫面 185 格／186 秒、遊戲時間 15.16→15.28、paused=False、開著的面板 []
+PASS [F07] 走到「坐下點餐」(1.9, 1.2)：按鈕出現  {"interact": "坐下點餐", "x": 2.38, "z": 1.37}
+  [F07] 坐下：{"mode": "follow", "cam": [1.9, 3.13, 4.91], "player": [1.9, 0, 1.2], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F07] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F07] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+PASS [F07] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [1.9, 3.13, 4.91], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F07] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.12, "stand": true, "x": 0.68, "z": 4.08, "pose": "run"}
+  [  30.2s] 到達「坐下點餐」附近（0.11 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，30 秒
+PASS [F08] 走到「坐下點餐」(2.35, 2.1)：按鈕出現  {"interact": "坐下點餐", "x": 2.25, "z": 2.05}
+  [F08] 坐下：{"mode": "follow", "cam": [2.35, 3.13, 5.81], "player": [2.35, 0, 2.1], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F08] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F08] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F08] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.35, 3.13, 5.81], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F08] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.12, "stand": true, "x": 2.62, "z": 3.49, "pose": "run"}
+  [   0.0s] 到達「坐下點餐」附近（0.28 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS [F09] 走到「坐下點餐」(2.35, 3.4)：按鈕出現  {"interact": "坐下點餐", "x": 2.62, "z": 3.49}
+  [F09] 坐下：{"mode": "follow", "cam": [2.13, 3.13, 7.18], "player": [2.08, 0, 3.45], "dist": 4.1, "pose": "idle", "seat": false, "hips": 0.96, "between": []}
+FAIL [F09] 坐下了（seat、pose）  {"pose": "idle", "hips": 0.96}
+INFO [F09] 姿勢 pose＝idle、hips 高度 0.96 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F09] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [2.13, 3.13, 7.18], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F09] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 1.12, "stand": true, "x": 2.62, "z": 3.55, "pose": "run"}
+  [ 182.7s] 走不到「坐下點餐」：最後位置 (-1.74,2.64)，目標 (-2.1,2.65)；點地面 16 次、轉鏡頭 0 次、搖桿 8 次
+  [ 182.7s]   這段時間：畫面 182 格／183 秒、遊戲時間 15.38→15.50、paused=False、開著的面板 []
+PASS [F10] 走到「坐下點餐」(-2.1, 2.65)：按鈕出現  {"interact": "坐下點餐", "x": -1.74, "z": 2.64}
+  [F10] 坐下：{"mode": "follow", "cam": [-2.1, 3.13, 6.36], "player": [-2.1, 0, 2.65], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F10] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F10] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F10] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.1, 3.13, 6.36], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F10] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.48, "stand": true, "x": 1.13, "z": 3.89, "pose": "run"}
+  [  41.1s] 到達「坐下點餐」附近（0.18 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，41 秒
+PASS [F11] 走到「坐下點餐」(-2.1, 3.95)：按鈕出現  {"interact": "坐下點餐", "x": -1.92, "z": 3.97}
+  [F11] 坐下：{"mode": "follow", "cam": [-2.1, 3.13, 7.66], "player": [-2.1, 0, 3.95], "dist": 4.08, "pose": "sit", "seat": true, "hips": 0.52, "between": []}
+PASS [F11] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.52}
+INFO [F11] 姿勢 pose＝sit、hips 高度 0.52 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F11] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.1, 3.13, 7.66], "between": []}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
+PASS [F11] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 2.48, "stand": true, "x": 1.13, "z": 3.95, "pose": "run"}
+  [  49.4s] 到達「坐吧台」附近（0.26 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，49 秒
+PASS [F12] 走到「坐吧台」(-2.3, -2.1)：按鈕出現  {"interact": "坐吧台", "x": -2.35, "z": -1.84}
+  [F12] 坐下：{"mode": "follow", "cam": [-2.36, 3.13, 2.05], "player": [-2.38, 0, -1.66], "dist": 4.08, "pose": "walk", "seat": false, "hips": 0.95, "between": [{"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.24}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.39}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.51}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.74}]}
+FAIL [F12] 坐下了（seat、pose）  {"pose": "walk", "hips": 0.95}
+INFO [F12] 姿勢 pose＝walk、hips 高度 0.95 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F12] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-2.36, 3.13, 2.05], "between": [{"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.24}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.39}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.51}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 3.74}]}
+FAIL [F12] 站起來：不是坐著、站得住、推得動 ≥0.3 m  {"moved": 0.5, "stand": true, "x": -2.3, "z": -2.1, "pose": "sit"}
+  [  41.1s] 到達「坐吧台」附近（0.10 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，41 秒
+PASS [F13] 走到「坐吧台」(-1.6, -2.1)：按鈕出現  {"interact": "坐吧台", "x": -1.6, "z": -2.2}
+  [F13] 坐下：{"mode": "follow", "cam": [-1.6, 5.24, 0.13], "player": [-1.6, 0.27, -2.1], "dist": 4.17, "pose": "sit", "seat": true, "hips": 0.79, "between": [{"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.27}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.35}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.35}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.38}]}
+PASS [F13] 坐下了（seat、pose）  {"pose": "sit", "hips": 0.79}
+INFO [F13] 姿勢 pose＝sit、hips 高度 0.79 m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）
+FAIL [F13] 鏡頭不在牆裡、頭到鏡頭之間沒有東西  {"cam": [-1.6, 5.24, 0.13], "between": [{"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.27}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.35}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.35}, {"mesh": "sns_vcm", "mat": "sns_vc_metal", "d": 1.38}]}
+  坐下的選單：["坐一下，看看四周時間 +20 分鐘", "起身"] → 起身
