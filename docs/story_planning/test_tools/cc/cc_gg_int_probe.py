@@ -15,7 +15,7 @@
     Y1 16 個座位逐一（每一張先【前置／捷徑】讀檔到店裡進門的地方 14:00，時段次數才是新的）：坐下 → 選單有「讀書」（不是灰的）→ 按讀書 → 選第一個長度 → 讀書時 P.seat 有、pose 是 sit／read → 結束後起身；
        另記每一張坐下的位置和座位差多少（INFO）；沙發東邊那張（v3b (4.7, −3.85)）：坐下前要站在走近點（GAME.seatApproach）0.3 m 內、坐下那一下移動 ≤ 0.9 m、路上不穿過配置阻擋（BB 04:30 改判 PASS／FAIL）
     Y2 「看看法律書與文具」(−4.0, −3.9)、「門上的告示」(−4.0, 3.6)：各按一次、有反應（對話／選單／toast）、不卡住
-    Y3 「找書的女生」（pool_story.js pool_1，平日 13～17 在書牆前 (0.3, −3.95)）：場景裡有她、量她到書牆（z −4.78＋0.22）的距離（≤ 1.2 m）
+    Y3 「找書的女生」（pool_story.js pool_1，平日 13～17 在書牆前 (0.3, −3.95)）：場景裡有她（E.npcs 找 charId，不看 obj.visible：鏡頭看不到的人引擎會設 false；看 n.hidden）、量她到書牆（z −4.78＋0.22）的距離（≤ 1.2 m）
   wzbike（cb1d84290）
     B1 【前置／捷徑】溫州街 (40, 0.4) 15:00，車停在溫州街一個合法停車處（先讀一次檔算 BIKE.parkSpots，再讀檔把車放那裡）→ 走到車旁上車 → 騎到 A5 門口 → 騎著按「進入日和便利店」
        → 店裡：G.bike.zone＝wenzhou、在 A5 附近（≤ BIKE.MAXD）；在店裡存檔 → 重新整理 → 繼續：G.bike.zone 還是 wenzhou、人還在店裡
@@ -110,7 +110,9 @@ FARSIDE_JS = """(([bx,bz])=>{ const E=GAME.E; const ds=E.interactables.filter(i=
   cand.sort((a,b)=>b.dd-a.dd); return cand.slice(0,4); })(%s)"""
 BLOCKS_JS = """(()=>(typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT.blocks:[]))()"""
 GIRL_JS = """(()=>{ let at=null; try{ for(const k in POOL_STORY.PEOPLE){ const p=POOL_STORY.PEOPLE[k]; for(const w of (p&&p.where)||[]) if(w.zone==='bookstore'&&w.at) at={id:k,at:w.at}; } }catch(e){}
-  const out={want:at, npcs:[]}; for(const n of GAME.E.npcs||[]){ if(!n.obj||n.obj.visible===false) continue; const p=n.obj.position; out.npcs.push({id:n.charId||n.id||n.poolId||null,clerk:!!n.clerk,x:+p.x.toFixed(2),z:+p.z.toFixed(2),ry:+n.obj.rotation.y.toFixed(2)}); }
+  /* 不能用 obj.visible 篩：engine3d.js 的 NPC 迴圈（距離 LOD＋視錐）把鏡頭看不到的人設 obj.visible=false——玩家站在門口面向窗、她在背後的書牆前就被濾掉（PC 11-04 809163ee4：npcs 整個是空的，連店員都沒有）。
+     遊戲層面「不在」看 n.hidden（底模還沒下載完、被劇情藏起來）；vis 只記錄這一格畫面有沒有畫她 */
+  const out={want:at, npcs:[]}; for(const n of GAME.E.npcs||[]){ if(!n.obj) continue; const p=n.obj.position; out.npcs.push({id:n.charId||n.id||n.poolId||null,clerk:!!n.clerk,hidden:!!n.hidden,vis:n.obj.visible!==false,x:+p.x.toFixed(2),z:+p.z.toFixed(2),ry:+n.obj.rotation.y.toFixed(2)}); }
   return out; })()"""
 
 
@@ -697,9 +699,11 @@ async def case_yejian(pg, cdp, errs):
     print('  [Y3] 找書的女生：%s' % J(g), flush=True)
     if g['want']:
         wx, wz = g['want']['at'][0], g['want']['at'][1]
-        cand = sorted([n for n in g['npcs'] if not n['clerk']], key=lambda n: math.hypot(n['x'] - wx, n['z'] - wz))
+        mine = [n for n in g['npcs'] if n['id'] == g['want']['id']]   # 先認人（charId pool_1）；沒有才退回離配置點最近、不是店員的人
+        cand = mine or sorted([n for n in g['npcs'] if not n['clerk'] and not n['hidden']], key=lambda n: math.hypot(n['x'] - wx, n['z'] - wz))
         n = cand[0] if cand else None
-        ok = bool(n) and math.hypot(n['x'] - wx, n['z'] - wz) < 1.0
+        if n and n['hidden']: print('INFO [Y3] 她在 E.npcs 裡但 n.hidden（底模還沒下載完／被藏起來）：%s' % J(n), flush=True)
+        ok = bool(n) and not n['hidden'] and math.hypot(n['x'] - wx, n['z'] - wz) < 1.0
         check('Y3 場景裡有找書的女生（在配置的 (%.2f, %.2f) 1 m 內）' % (wx, wz), ok, J(n))
         if ok:
             wall = -4.78 + 0.22
