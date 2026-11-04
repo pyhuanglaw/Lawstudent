@@ -1,0 +1,672 @@
+{
+ "sha": "9f481443de130b93f3a65f515c988080cf8facdf",
+ "hours": [
+  14.0,
+  21.0
+ ],
+ "drawn_min": 4.0,
+ "lit_min": 8.0,
+ "entries": [
+  {
+   "tag": "R1_14_1",
+   "state": {
+    "zone": "gongguan",
+    "hour": 14.021577333333331,
+    "enterN": 1,
+    "found": true,
+    "mat": "wz_xs_fronts",
+    "matUuid": "19439929",
+    "visible": true,
+    "link": true,
+    "vlog": "",
+    "flog": "",
+    "uShopLitDecl": 1,
+    "lit": [
+     1,
+     1,
+     1,
+     1,
+     0.03,
+     1,
+     1,
+     1,
+     1
+    ],
+    "ids": [
+     "ggtea",
+     "ggbook",
+     "ggcvs",
+     "ggyy",
+     "ggbike",
+     "ggafar",
+     "ggcorner",
+     "ggdb"
+    ]
+   },
+   "cards": {
+    "ggtea_int": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": true,
+     "luma": 115.6,
+     "hidden": 96.2,
+     "black": 22.2,
+     "pxdiff_hidden": 29.93
+    },
+    "ggtea_take": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": true,
+     "luma": 132.4,
+     "hidden": 100.3,
+     "black": 23.6,
+     "pxdiff_hidden": 40.78
+    },
+    "ggbook_int": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 110.5,
+     "hidden": 103.4,
+     "black": 21.8,
+     "pxdiff_hidden": 40.6
+    },
+    "ggbook_int2": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 122.7,
+     "hidden": 103.4,
+     "black": 21.8,
+     "pxdiff_hidden": 40.02
+    },
+    "ggcvs_int": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 129.8,
+     "hidden": 85,
+     "black": 28.3,
+     "pxdiff_hidden": 47.69
+    },
+    "ggcvs_side": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 133.5,
+     "hidden": 86.4,
+     "black": 24,
+     "pxdiff_hidden": 53.21
+    },
+    "ggyy_int": {
+     "shop": "洋洋鹹酥雞",
+     "idx": 4,
+     "open": false,
+     "luma": 42.4,
+     "hidden": 101.2,
+     "black": 35.6,
+     "pxdiff_hidden": 58.81
+    },
+    "ggbike_int2": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": true,
+     "luma": 133,
+     "hidden": 88,
+     "black": 22.2,
+     "pxdiff_hidden": 52.84
+    },
+    "ggbike_int": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": true,
+     "luma": 124.5,
+     "hidden": 89.5,
+     "black": 22.8,
+     "pxdiff_hidden": 44.11
+    },
+    "ggafar_int": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": true,
+     "luma": 111.8,
+     "hidden": 99.4,
+     "black": 28.5,
+     "pxdiff_hidden": 28.01
+    },
+    "ggafar_win": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": true,
+     "luma": 136.7,
+     "hidden": 99.3,
+     "black": 22.7,
+     "pxdiff_hidden": 49.47
+    },
+    "ggcorner_int": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": true,
+     "luma": 115,
+     "hidden": 106.8,
+     "black": 22.5,
+     "pxdiff_hidden": 43.63
+    },
+    "ggcorner_win": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": true,
+     "luma": 118.2,
+     "hidden": 107.3,
+     "black": 24.8,
+     "pxdiff_hidden": 39.29
+    },
+    "ggdb_int": {
+     "shop": "Daybreak",
+     "idx": 8,
+     "open": true,
+     "luma": 150.1,
+     "hidden": 100.2,
+     "black": 23.5,
+     "pxdiff_hidden": 54.74
+    }
+   }
+  },
+  {
+   "tag": "R1_14_2",
+   "state": {
+    "zone": "gongguan",
+    "hour": 14.344905333333982,
+    "enterN": 3,
+    "found": true,
+    "mat": "wz_xs_fronts",
+    "matUuid": "19439929",
+    "visible": true,
+    "link": true,
+    "vlog": "",
+    "flog": "",
+    "uShopLitDecl": 1,
+    "lit": [
+     1,
+     1,
+     1,
+     1,
+     0.03,
+     1,
+     1,
+     1,
+     1
+    ],
+    "ids": [
+     "ggtea",
+     "ggbook",
+     "ggcvs",
+     "ggyy",
+     "ggbike",
+     "ggafar",
+     "ggcorner",
+     "ggdb"
+    ]
+   },
+   "cards": {
+    "ggtea_int": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": true,
+     "luma": 115.5,
+     "hidden": 95.7,
+     "black": 22.1,
+     "pxdiff_hidden": 30.06
+    },
+    "ggtea_take": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": true,
+     "luma": 132.2,
+     "hidden": 99.8,
+     "black": 23.5,
+     "pxdiff_hidden": 40.94
+    },
+    "ggbook_int": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 110.4,
+     "hidden": 102.9,
+     "black": 21.8,
+     "pxdiff_hidden": 40.55
+    },
+    "ggbook_int2": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 122.5,
+     "hidden": 102.9,
+     "black": 21.8,
+     "pxdiff_hidden": 40.06
+    },
+    "ggcvs_int": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 129.6,
+     "hidden": 84.6,
+     "black": 28.2,
+     "pxdiff_hidden": 47.87
+    },
+    "ggcvs_side": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 133.4,
+     "hidden": 86,
+     "black": 23.9,
+     "pxdiff_hidden": 53.38
+    },
+    "ggyy_int": {
+     "shop": "洋洋鹹酥雞",
+     "idx": 4,
+     "open": false,
+     "luma": 42.2,
+     "hidden": 100.8,
+     "black": 35.5,
+     "pxdiff_hidden": 58.52
+    },
+    "ggbike_int2": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": true,
+     "luma": 132.7,
+     "hidden": 87.4,
+     "black": 22.1,
+     "pxdiff_hidden": 53.03
+    },
+    "ggbike_int": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": true,
+     "luma": 124.2,
+     "hidden": 88.9,
+     "black": 22.5,
+     "pxdiff_hidden": 44.27
+    },
+    "ggafar_int": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": true,
+     "luma": 111.5,
+     "hidden": 98.8,
+     "black": 28.2,
+     "pxdiff_hidden": 28.08
+    },
+    "ggafar_win": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": true,
+     "luma": 136.5,
+     "hidden": 98.9,
+     "black": 22.6,
+     "pxdiff_hidden": 49.61
+    },
+    "ggcorner_int": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": true,
+     "luma": 114.8,
+     "hidden": 106.3,
+     "black": 22.3,
+     "pxdiff_hidden": 43.63
+    },
+    "ggcorner_win": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": true,
+     "luma": 118,
+     "hidden": 106.8,
+     "black": 24.7,
+     "pxdiff_hidden": 39.28
+    },
+    "ggdb_int": {
+     "shop": "Daybreak",
+     "idx": 8,
+     "open": true,
+     "luma": 149.9,
+     "hidden": 99.7,
+     "black": 23.4,
+     "pxdiff_hidden": 54.97
+    }
+   }
+  },
+  {
+   "tag": "R2_21_1",
+   "state": {
+    "zone": "gongguan",
+    "hour": 21.02744466666663,
+    "enterN": 4,
+    "found": true,
+    "mat": "wz_xs_fronts",
+    "matUuid": "19439929",
+    "visible": true,
+    "link": true,
+    "vlog": "",
+    "flog": "",
+    "uShopLitDecl": 1,
+    "lit": [
+     1,
+     0.03,
+     1,
+     1,
+     1,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "ids": [
+     "ggtea",
+     "ggbook",
+     "ggcvs",
+     "ggyy",
+     "ggbike",
+     "ggafar",
+     "ggcorner",
+     "ggdb"
+    ]
+   },
+   "cards": {
+    "ggtea_int": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": false,
+     "luma": 20.5,
+     "hidden": 56.2,
+     "black": 13.4,
+     "pxdiff_hidden": 35.7
+    },
+    "ggtea_take": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": false,
+     "luma": 19.8,
+     "hidden": 58.4,
+     "black": 14.1,
+     "pxdiff_hidden": 38.6
+    },
+    "ggbook_int": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 110.4,
+     "hidden": 81.3,
+     "black": 32.6,
+     "pxdiff_hidden": 39.71
+    },
+    "ggbook_int2": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 122.2,
+     "hidden": 81.3,
+     "black": 32.6,
+     "pxdiff_hidden": 45.91
+    },
+    "ggcvs_int": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 124.7,
+     "hidden": 66,
+     "black": 34.7,
+     "pxdiff_hidden": 59.1
+    },
+    "ggcvs_side": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 133.2,
+     "hidden": 70.8,
+     "black": 36.4,
+     "pxdiff_hidden": 63.63
+    },
+    "ggyy_int": {
+     "shop": "洋洋鹹酥雞",
+     "idx": 4,
+     "open": true,
+     "luma": 97.5,
+     "hidden": 71.2,
+     "black": 32.7,
+     "pxdiff_hidden": 30.07
+    },
+    "ggbike_int2": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": false,
+     "luma": 20,
+     "hidden": 50,
+     "black": 13.3,
+     "pxdiff_hidden": 30.02
+    },
+    "ggbike_int": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": false,
+     "luma": 17.4,
+     "hidden": 50.7,
+     "black": 13.4,
+     "pxdiff_hidden": 33.25
+    },
+    "ggafar_int": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": false,
+     "luma": 19.9,
+     "hidden": 56.6,
+     "black": 15.7,
+     "pxdiff_hidden": 36.65
+    },
+    "ggafar_win": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": false,
+     "luma": 20.6,
+     "hidden": 57.3,
+     "black": 13.3,
+     "pxdiff_hidden": 36.71
+    },
+    "ggcorner_int": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": false,
+     "luma": 17.1,
+     "hidden": 63.3,
+     "black": 13.2,
+     "pxdiff_hidden": 46.24
+    },
+    "ggcorner_win": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": false,
+     "luma": 18.8,
+     "hidden": 63,
+     "black": 14,
+     "pxdiff_hidden": 44.14
+    },
+    "ggdb_int": {
+     "shop": "Daybreak",
+     "idx": 8,
+     "open": false,
+     "luma": 22.5,
+     "hidden": 58.6,
+     "black": 13.4,
+     "pxdiff_hidden": 36.06
+    }
+   }
+  },
+  {
+   "tag": "R2_21_2",
+   "state": {
+    "zone": "gongguan",
+    "hour": 21.342532666665154,
+    "enterN": 6,
+    "found": true,
+    "mat": "wz_xs_fronts",
+    "matUuid": "19439929",
+    "visible": true,
+    "link": true,
+    "vlog": "",
+    "flog": "",
+    "uShopLitDecl": 1,
+    "lit": [
+     1,
+     0.03,
+     1,
+     1,
+     1,
+     0.03,
+     0.03,
+     0.03,
+     0.03
+    ],
+    "ids": [
+     "ggtea",
+     "ggbook",
+     "ggcvs",
+     "ggyy",
+     "ggbike",
+     "ggafar",
+     "ggcorner",
+     "ggdb"
+    ]
+   },
+   "cards": {
+    "ggtea_int": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": false,
+     "luma": 20.3,
+     "hidden": 55.8,
+     "black": 13.4,
+     "pxdiff_hidden": 35.45
+    },
+    "ggtea_take": {
+     "shop": "青木茶室",
+     "idx": 1,
+     "open": false,
+     "luma": 19.6,
+     "hidden": 57.9,
+     "black": 14,
+     "pxdiff_hidden": 38.28
+    },
+    "ggbook_int": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 110,
+     "hidden": 80.8,
+     "black": 32.5,
+     "pxdiff_hidden": 39.65
+    },
+    "ggbook_int2": {
+     "shop": "頁間書屋",
+     "idx": 2,
+     "open": true,
+     "luma": 121.7,
+     "hidden": 80.7,
+     "black": 32.5,
+     "pxdiff_hidden": 45.91
+    },
+    "ggcvs_int": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 124.2,
+     "hidden": 65.6,
+     "black": 34.6,
+     "pxdiff_hidden": 59.03
+    },
+    "ggcvs_side": {
+     "shop": "日和便利店",
+     "idx": 3,
+     "open": true,
+     "luma": 132.7,
+     "hidden": 70.4,
+     "black": 36.3,
+     "pxdiff_hidden": 63.55
+    },
+    "ggyy_int": {
+     "shop": "洋洋鹹酥雞",
+     "idx": 4,
+     "open": true,
+     "luma": 97.2,
+     "hidden": 70.8,
+     "black": 32.6,
+     "pxdiff_hidden": 30.09
+    },
+    "ggbike_int2": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": false,
+     "luma": 19.9,
+     "hidden": 49.6,
+     "black": 13.2,
+     "pxdiff_hidden": 29.76
+    },
+    "ggbike_int": {
+     "shop": "慢輪單車",
+     "idx": 5,
+     "open": false,
+     "luma": 17.4,
+     "hidden": 50.3,
+     "black": 13.3,
+     "pxdiff_hidden": 32.92
+    },
+    "ggafar_int": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": false,
+     "luma": 19.8,
+     "hidden": 56.1,
+     "black": 15.6,
+     "pxdiff_hidden": 36.3
+    },
+    "ggafar_win": {
+     "shop": "Afar café",
+     "idx": 6,
+     "open": false,
+     "luma": 20.5,
+     "hidden": 56.9,
+     "black": 13.3,
+     "pxdiff_hidden": 36.41
+    },
+    "ggcorner_int": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": false,
+     "luma": 17,
+     "hidden": 62.8,
+     "black": 13.1,
+     "pxdiff_hidden": 45.77
+    },
+    "ggcorner_win": {
+     "shop": "轉角唱片",
+     "idx": 7,
+     "open": false,
+     "luma": 18.8,
+     "hidden": 62.4,
+     "black": 13.9,
+     "pxdiff_hidden": 43.67
+    },
+    "ggdb_int": {
+     "shop": "Daybreak",
+     "idx": 8,
+     "open": false,
+     "luma": 22.4,
+     "hidden": 58.1,
+     "black": 13.4,
+     "pxdiff_hidden": 35.75
+    }
+   }
+  }
+ ],
+ "shader_console": []
+}

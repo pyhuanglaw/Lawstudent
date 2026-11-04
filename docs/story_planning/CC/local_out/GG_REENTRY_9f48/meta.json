@@ -1,22 +1,23 @@
 {
-  "rerun": "",
+  "rerun": "fullsha",
   "id": "GG_REENTRY_9f48",
-  "sha": "9f481443d",
+  "sha": "9f481443de130b93f3a65f515c988080cf8facdf",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_gg_reentry_probe.py",
-  "env": "HOURS=14,21;CC_HEADLESS=0",
+  "env": "HOURS=14,21;CC_HEADLESS=0;RERUN=fullsha",
   "machine": "MSI",
-  "start": "2026-11-04T21:21:36",
-  "end": "2026-11-04T21:21:46",
-  "seconds": 10,
-  "exit": null,
-  "error": "worktree add 9f481443d failed: fatal: invalid reference: 9f481443d",
+  "start": "2026-11-04T21:25:38",
+  "end": "2026-11-04T21:30:13",
+  "seconds": 275,
+  "exit": 1,
+  "error": null,
   "runner": "bde5cea8d9",
   "rf_round": "2",
+  "url": "http://127.0.0.1:8800/index.html",
   "res_peak": {
-    "cpu": 16,
-    "mem": 47,
-    "used_gb": 14.8,
-    "chrome_testing": 18
+    "cpu": 63,
+    "mem": 54,
+    "used_gb": 16.9,
+    "chrome_testing": 29
   }
 }
