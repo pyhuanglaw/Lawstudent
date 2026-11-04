@@ -86,6 +86,25 @@ WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_pl
 GG_views_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_shop_views_gg.py | index.html | 40 | VIEW_NAMES=cvs,cvs_wz,yejian,aoki;CC_HEADLESS=0
 # CVS24_r4：force_gg_after 睡醒以後自動去上課＝照設計 → 改挑週五晚上（隔天週六沒課）
 CVS24_r4 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+# PARK_glb_r2（BB-C 13:24）：campus_glb_integration 跑兩次（a、b）；avenue 超過 1.1 的話看 PARK_glb_groups（同一頁兩輪，avenue 鏡頭每個群組的估計 calls／tris，差最多的 10 組）
+PARK_glb_r2a | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+PARK_glb_r2b | 7c970654c48b2d28f32e6d1c2241870e12d5998b | game | tests/campus_glb_integration.py | index.html | 40 | CC_HEADLESS=0;RERUN=b
+PARK_glb_groups | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 20 | CC_HEADLESS=0
+# PARK_ride_r2（BB-C 13:24）：總圖門口在平台上＝平台前自動下車是照設計；remount 每一步印 toast、lv、y、車的位置、BIKE.ok、跟著走的人的 rideBlock；卡住檢查不往平台推
+PARK_ride_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 60 | CASES=R;CC_HEADLESS=0
+# GG_shops2 座位拆項（BB-C 13:24：每項上限 15 分鐘；上次 afar 75 分、db 61 分卡住佇列兩個多小時）：每項 4 張；先走 GAME.seatApproach 再判、同桌相鄰不算 FAIL、先印占用（有人＝照設計不判）、每一步前後印 walkFallbacks（daybreak 02、14、15 各 +1）；afar06 按鈕空白重看
+GG_shops2_afar_seat_00 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=0,1,2,3;CC_HEADLESS=0
+GG_shops2_afar_seat_04 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=4,5,6,7;CC_HEADLESS=0
+GG_shops2_afar_seat_08 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=8,9,10,11;CC_HEADLESS=0
+GG_shops2_afar_seat_12 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=12,13,14,15;CC_HEADLESS=0
+GG_shops2_afar_seat_16 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=16,17,18,19;CC_HEADLESS=0
+GG_shops2_afar_seat_20 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=afar_seats;SEATS=20,21,22,23;CC_HEADLESS=0
+GG_shops2_db_seat_00 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=0,1,2,3;CC_HEADLESS=0
+GG_shops2_db_seat_04 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=4,5,6,7;CC_HEADLESS=0
+GG_shops2_db_seat_08 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=8,9,10,11;CC_HEADLESS=0
+GG_shops2_db_seat_12 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=12,13,14,15;CC_HEADLESS=0
+GG_shops2_db_seat_16 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=16,17,18,19;CC_HEADLESS=0
+GG_shops2_db_seat_20 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_gg_shops2_probe.py | index.html | 15 | CASES=db_seats;SEATS=20,21;CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住

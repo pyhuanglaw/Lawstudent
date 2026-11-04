@@ -311,9 +311,36 @@ async def case_order(pg, cdp, errs, k):
         await GI.stuck_check(pg, cdp, tag, fb0, e0, errs)
 
 
+OCC2_JS = r"""(([sx,sz])=>{ const E=GAME.E; const near=(E.npcs||[]).filter(n=>n&&(n.seat||n.seatTarget)).map(n=>{ const st=n.seat||null, tg=n.seatTarget||null;
+    return {name:n.name||'(路人)', id:n.id||n.cid||null, dSeat:st?+Math.hypot((+st.x)-sx,(+st.z)-sz).toFixed(2):null, dTarget:tg?+Math.hypot((+tg.x)-sx,(+tg.z)-sz).toFixed(2):null}; }).filter(q=>(q.dSeat!=null&&q.dSeat<=0.5)||(q.dTarget!=null&&q.dTarget<=0.5));
+  const it=E.interactables.find(i=>i.seat&&Math.abs((+i.seat.x)-sx)<0.12&&Math.abs((+i.seat.z)-sz)<0.12); return {near, taken:it&&it.seat.taken!==undefined?it.seat.taken:null, label:it?it.label:null}; })(%s)"""
+FB_JS = "(GAME.walkFallbacks|0)"
+
+
 async def sit_one(pg, cdp, tag, k, sv):
-    """一張座位：走過去、確定最近的互動是它、按、坐下那一句、選單、讀書、起身。回傳 dict"""
-    if not await GI.approach_seat(pg, cdp, tag, sv): return None
+    """一張座位：走過去、確定最近的互動是它、按、坐下那一句、選單、讀書、起身。回傳 dict
+    BB-C 11-04：①先走到遊戲自己的走近點（GAME.seatApproach）再判；最近的是同桌相鄰的另一張（字一樣、1.2 m 內）不算 FAIL，記 INFO 換下一張
+    ②坐之前先印占用（0.5 m 內 seat／seatTarget 的 NPC），有人＝照設計（freeSeat），記 INFO 不判 ③每一步前後印 walkFallbacks（走近、坐下、讀書、起身）"""
+    occ = await pg.evaluate(OCC2_JS % J([sv['sx'], sv['sz']]))
+    print('  [%s] 座位占用：%s' % (tag, J(occ)), flush=True)
+    if occ.get('near') or occ.get('taken'):
+        print('INFO [%s] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 這一張不判，挑別張' % tag, flush=True); return None
+    ap = await pg.evaluate(GI.APPROACH_JS % J([sv['x'], sv['z']]))
+    fb_a = await pg.evaluate(FB_JS)
+    if ap:
+        await L.go_to(pg, cdp, GI.Run(), ap[0], ap[1], 0.15, '座位 (%s,%s) 的走近點（GAME.seatApproach）%s' % (sv['sx'], sv['sz'], J(ap)), max_s=300)
+        await pg.wait_for_timeout(800)
+    near_ok = await pg.evaluate(GI.NEAREST_JS % J([sv['x'], sv['z']]))
+    if not near_ok:
+        nb = await pg.evaluate(GI.NEARSEAT_JS)
+        if nb and nb.get('label') == sv['label'] and math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']) <= 1.2:
+            print('INFO [%s] 走近點最近的是同桌相鄰的另一張 (%s,%s)「%s」（字一樣、%.2f m）——不算 FAIL，這一張不判' % (tag, nb['sx'], nb['sz'], nb['label'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz'])), flush=True)
+            return None
+        if not await GI.approach_seat(pg, cdp, tag, sv): return None
+    else:
+        s0 = await pg.evaluate(GI.ST)
+        check('[%s] 走到座位的走近點：最近的互動是這一張（%s,%s）「%s」' % (tag, sv['sx'], sv['sz'], sv['label']), s0['interact'].startswith(sv['label']), J({'at': [s0['x'], s0['z']], 'ap': ap, 'interact': s0['interact']}))
+    fb_b = await pg.evaluate(FB_JS); print('  [%s] walkFallbacks 走近 %s→%s' % (tag, fb_a, fb_b), flush=True)
     want = await pg.evaluate(SEATLINE_JS % J([k, sv['sx'], sv['sz']]))
     await L.tap(pg, cdp, '#interact')
     lines = []; smp = []; t0 = time.time(); last = None; s = None
@@ -327,16 +354,19 @@ async def sit_one(pg, cdp, tag, k, sv):
     check('[%s] 坐下（P.seat、pose sit）' % tag, bool(s and s['seat']) and s['pose'] in ('sit', 'read'), J({q: s[q] for q in ('pose', 'seat')}) if s else 'null')
     if want: check('[%s] 坐下那一句照位子類型（AA_652，逐字）' % tag, has_line(lines, want), J({'want': want, 'got': lines}))
     else: check('[%s] 這張位子稿上沒有句子：不說坐下句' % tag, not any_line(lines, AA[k]['seat']), J(lines))
+    fb_c = await pg.evaluate(FB_JS); print('  [%s] walkFallbacks 坐下 %s→%s' % (tag, fb_b, fb_c), flush=True)
     menu = (s or {}).get('choices') or []
     check('[%s] 座位選單有「讀書」（不是灰的）' % tag, any(c.startswith('讀書') for c in menu) and not any(c.startswith('讀書') and d for c, d in zip(menu, (s or {}).get('dims') or [])), J(menu))
     await pg.screenshot(path=os.path.join(OUT, '%s.png' % tag))
     ln2, menus, odd = await GI.converse(pg, cdp, tag, ['讀書', '', '起身'], 300, smp)
+    fb_d = await pg.evaluate(FB_JS); print('  [%s] walkFallbacks 讀書 %s→%s' % (tag, fb_c, fb_d), flush=True)
     reading = [q for q in smp if q[1] and q[0] in ('sit', 'read')]
     check('[%s] 讀書時坐著（P.seat、pose sit／read）' % tag, len(reading) >= 2, J(sorted(set(str(q[0]) for q in smp))))
     s2 = await pg.evaluate(GI.ST)
     if s2['seat']:
         await GI.converse(pg, cdp, tag + '_stand', ['起身'], 60); s2 = await pg.evaluate(GI.ST)
     check('[%s] 起身（P.seat 沒了）' % tag, not s2['seat'], J({q: s2[q] for q in ('pose', 'seat', 'x', 'z')}))
+    fb_e = await pg.evaluate(FB_JS); print('  [%s] walkFallbacks 起身 %s→%s（這一張共 +%d）' % (tag, fb_d, fb_e, fb_e - fb_a), flush=True)
     r = await pg.evaluate(GI.STAND_JS)
     check('[%s] 起身後腳下站得住（nav.free、canStand 0.3）' % tag, r['free'] and r['stand'], J(dict(r, x=s2['x'], z=s2['z'])))
     return {'lines': lines + ln2}
