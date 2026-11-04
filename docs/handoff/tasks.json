@@ -46172,6 +46172,29 @@
    "authorized": "D85",
    "notWaitUser": "工具修正，不用問使用者",
    "next": "把 AA_657 的換字（常來的那個阿伯）放進 read_fix 的 fix 檔或白名單換到改過的源檔，讓 import_ladder.py 重新跑得完；重匯以後 ladder.js 應該和現在一字不差"
+  },
+  {
+   "id": "V7-RELOCATE-1104",
+   "title": "v7 舊存檔讀進公館：人被放在 (−8.75, 20.75)，模型載好以後站不住（canStand 0.3 false，走得動）",
+   "area": "ENGINE",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "讀 v7 舊存檔（公館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 18:01（V20R 雲端備援 v7 FAILED 1，不擋；重現 cc-testing CC/logs/V20R_cloud_1104/ v7pt.py、v7pt3.py fc48d4101）",
+   "authorized": "D85",
+   "notWaitUser": "引擎修正，不用問使用者",
+   "next": "【LAWWW-C 11-04 18:1x】原因：出生點照「模型還沒載好」的導航格找（E.unstick 本來就照人的半徑 0.3 挑），一兩秒後 bldg.gongguan_shops 載好、propBlocks 擋上頁間門口的盆栽 GG_PROP_BLOCKS (−9.3, 21.5)（01505ccd0 接 LAWWW2 f936fd2c8 搬過來的），人就在旁邊站不住。修正：propBlocks 擋好以後 propReStand（站不住就 E.unstick 挪到最近站得住的地方；在演、坐著不動），公館、溫州街兩處；tests/prop_restand_unit.js 修改前 FAILED 1、修改後 ALL PASS。下一步：BB 排 CC 用 v7pt.py 重跑",
+   "tests": "node tests/prop_restand_unit.js"
   }
  ]
 }
