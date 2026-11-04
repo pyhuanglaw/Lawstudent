@@ -433,6 +433,32 @@ def aok():
     im.save(os.path.join(GEN, 'aok_print.png'))
 
 
+def afr():
+    """afar café（公館 G07，AA 2026-11-04；AA_650）：(0,0) 2×1 綠牆上的「afar」字（底色＝綠牆）、(2,0) 2×2 山景畫、(4,0) 2×2 湖景畫、(6,0) 2×2 黑板菜單、
+    (0,1) 2×1 咖啡豆袋標籤、(0,2) 8×1 雜誌封面 8 張"""
+    rng = np.random.default_rng(1107); im = Image.new('RGB', (1024, 1024), '#efe8da'); d = ImageDraw.Draw(im)
+    bx = box(0, 0, 2, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#4a5a45'); text_c(d, ((x0 + x1) / 2, y0 + 40), 'afar', F(64), '#efe4cc')
+    for (c, pal) in ((2, ('#dfe3da', '#b9c4b4', '#93a493', '#6f8573', '#4f6656')), (4, ('#e8e4d6', '#c9cfc2', '#a3b0a4', '#7d9184', '#bfcfd3'))):
+        bx = box(c, 0, 2, 2); paper(im, bx, '#f1ede2', rng); x0, y0, x1, y1 = bx
+        for k, col in enumerate(pal[:4]):
+            base = y0 + 70 + k * 34; d.polygon([(x0 + 12, y1 - 12), (x0 + 12, base + 40)] + [(x0 + 12 + j * 29, base + 40 - 46 * abs(math.sin(j * 0.6 + k * 1.3 + c))) for j in range(9)] + [(x1 - 12, base + 30), (x1 - 12, y1 - 12)], fill=col)
+        if c == 4: d.rectangle([x0 + 12, y1 - 70, x1 - 12, y1 - 12], fill=pal[4])
+        d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#f6f2ea', width=14); d.rectangle([x0 + 2, y0 + 2, x1 - 3, y1 - 3], outline='#6a4a30', width=4)
+    bx = box(6, 0, 2, 2); paper(im, bx, '#2a2e2a', rng, grain=0.12); x0, y0, x1, y1 = bx   # 黑板
+    d.rectangle(bx, outline='#5a3e28', width=9); d.text((x0 + 22, y0 + 18), 'afar', font=F(34), fill='#f1ead8'); d.text((x0 + 22, y0 + 58), 'COFFEE MENU', font=F(14), fill='#e8e0cc')
+    d.ellipse([x1 - 46, y0 + 22, x1 - 26, y0 + 52], outline='#a8b890', width=2)
+    for k, (n_, p_) in enumerate((('Espresso', 100), ('Americano', 110), ('Latte', 140), ('Cappuccino', 140), ('Mocha', 160), ('Pour Over', 170))):
+        y = y0 + 88 + k * 26; d.text((x0 + 22, y), n_, font=F(15), fill='#f1ead8'); d.text((x1 - 54, y), str(p_), font=F(15), fill='#f1ead8')
+    bx = box(0, 1, 2, 1); paper(im, bx, '#c9a77c', rng, grain=0.08); x0, y0, x1, y1 = bx   # 咖啡豆袋
+    d.rectangle([x0 + 30, y0 + 30, x1 - 30, y1 - 30], fill='#efe6d2'); text_c(d, ((x0 + x1) / 2, y0 + 46), 'afar', F(26), '#4a5a45')
+    covs = [('#e8d9b8', '#6f8a9a'), ('#d9e2e4', '#c98a5a'), ('#efe2cc', '#7a9a7e'), ('#e4e0d6', '#8a6a8a'), ('#f1e6d2', '#5a7a9a'), ('#dfe6dc', '#b8a050'), ('#ece0d8', '#6a8a6a'), ('#e6e2ea', '#a86a5a')]
+    for k, (bg, fg) in enumerate(covs):   # 雜誌封面
+        x0, y0 = k * 128, 256; d.rectangle([x0 + 4, y0 + 2, x0 + 124, y0 + 126], fill=bg)
+        d.rectangle([x0 + 14, y0 + 12, x0 + 80, y0 + 20], fill=fg); d.ellipse([x0 + 30, y0 + 44, x0 + 98, y0 + 112], fill=fg)
+        d.polygon([(x0 + 10, y0 + 120), (x0 + 50, y0 + 70), (x0 + 80, y0 + 100), (x0 + 118, y0 + 60), (x0 + 118, y0 + 120)], fill=tuple(int(v * 0.85) for v in hexc(fg)))
+    im.save(os.path.join(GEN, 'afr_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -511,4 +537,5 @@ if __name__ == '__main__':
     if w in ('shl', 'all'): bookrows('shl_bookrows.png', '#a88a62', 613, law=True)
     if w in ('yej', 'all'): yej()
     if w in ('aok', 'all'): aok()
+    if w in ('afr', 'all'): afr()
     print('ok', w)
