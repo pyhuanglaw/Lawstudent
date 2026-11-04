@@ -352,15 +352,17 @@ await sec('8 AA_685 A 節換字、語彤旅行訊息（茶屋版、店裡的只�
 
 /* ================= 10 語彤期末飯（朋友的邀約）：週六 17:30 溫州街・小路（AA_686 第 2 項；BB-C 21:28 第 1 點）================= */
 const friendSetup=(w,ids)=>{ fresh(w.from,9,'campus'); H.G.stage='law'; for(const [id,pts] of ids){ SOCIAL.remember(id,'FIRST_MET',''); H.FRIEND(id); const C=(H.G.termend||(H.G.termend={})).contact||(H.G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts,k:{}}; } };
-await sec('10 語彤期末飯（朋友那一則）：週六 17:30 溫州街・小路',()=>{
+await sec('10 語彤期末飯（朋友那一則）：週六 18:00 溫州街・小路（AA_686 第 2 項、AA_687）',()=>{
   const WANT={Y1S1:'2025-12-20',Y1S2:'2026-06-20',Y2S1:'2026-12-26',Y3S1:'2027-12-25',Y3S2:'2028-06-10'};   /* BB-C 21:28 */
   const pl=(TERMEND_LINES.PLACE||{}).teishoku;
   check('10. 地點 teishoku＝「溫州街・小路」（AA_686 第 2 項）',!!pl&&pl.name==='溫州街・小路',J(pl));
+  { const OPEN='（六點，小路的布簾剛掛出來。你們是今天第一組客人。）', hit=grepSrc(new RegExp(OPEN.replace(/[()（）。]/g,'.')));   /* AA_687（企劃線 d41750385）*/
+    check('10. 開場旁白「'+OPEN+'」在程式裡（AA_687）',hit.length>0&&SRC.some(([f,t])=>t.includes(OPEN)),J(hit)); }
   for(const t of Object.keys(WANT)){ const w=TERMEND.windowOf(t); friendSetup(w,[[YT,12]]); const P=TERMEND.plan(H.G,w);
     if(!check('10. '+t+'：語彤是朋友的期末邀約（plan.friend）',P.friend.includes(YT)&&!P.heart.includes(YT),J({friend:P.friend,heart:P.heart}))) continue;
     let asked=null; walk(w.from,9,w.to,23.75,0.25,(d,hh)=>{ if(asked) return; const m=(H.G.msgs||[]).find(x=>x.tag==='te_'+t+'_'+YT&&x.ask); if(m&&(d>m.day||(d===m.day&&hh>=m.h))){ asked={day:m.day,h:m.h,text:m.text}; PHONE.answer(H.G,'te_'+t+'_'+YT,0); STORY.phoneRules(GM); } });
     const q=OUT.rec(H.G).find(x=>x&&x.te&&x.te.who===YT&&x.te.term===t);
-    check('10. '+t+'：答應以後晚餐 '+WANT[t]+'（六）17:30 溫州街・小路',!!q&&K(q.day)===WANT[t]&&q.h===17.5&&q.place==='溫州街・小路',J({asked:asked&&[K(asked.day),asked.h,asked.text],out:q&&[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place]})); }
+    check('10. '+t+'：答應以後晚餐 '+WANT[t]+'（六）18:00 溫州街・小路（AA_687）',!!q&&K(q.day)===WANT[t]&&q.h===18&&q.place==='溫州街・小路',J({asked:asked&&[K(asked.day),asked.h,asked.text],out:q&&[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place]})); }
   /* 舊存檔：已經排好公館燒臘的，照公館燒臘（不重排）*/
   { const t='Y2S1', w=TERMEND.windowOf(t); friendSetup(w,[[YT,12]]); TERMEND.plan(H.G,w); const R0=TERMEND.rec(H.G,t);
     OUT.plan(H.G,{id:'te_'+t,ev:'ev_termend_dinner',day:DK('2026-12-24'),h:19,late:0.25,place:'公館燒臘',title:'學期末的飯：'+SOCIAL.displayName(YT)+'（公館燒臘）',te:{term:t,who:YT,kind:'friend'}}); R0.picked={who:YT,kind:'friend'};
