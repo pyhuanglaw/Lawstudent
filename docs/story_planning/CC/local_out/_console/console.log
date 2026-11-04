@@ -1194,3 +1194,27 @@
 [11:11:14] [res] cpu=12% mem=51% (16.1/31.4 GB) chrome_testing=20  START CVS24
 [11:12:19] 正在跑：PD_romA（已跑 66 分／上限 360 分）、BIKE_shop（已跑 8 分／上限 70 分）、CVS24（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [11:15:15] [res] cpu=12% mem=52% (16.3/31.4 GB) chrome_testing=20  END BIKE_shop
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       ed574690f..696433a28  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[11:15:22] ==== END   BIKE_shop  exit=1  664s   ====
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[11:15:27] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[11:15:27] memory 52% before starting BIKE_shop (2 running)
+[11:15:27] ==== START BIKE_shop  (probe @ 555b9e0cb) ====
+[11:15:30] [res] cpu=12% mem=52% (16.5/31.4 GB) chrome_testing=20  START BIKE_shop
+[11:17:19] 正在跑：PD_romA（已跑 71 分／上限 360 分）、CVS24（已跑 6 分／上限 60 分）、BIKE_shop（已跑 1 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[11:20:33] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[11:22:19] 正在跑：PD_romA（已跑 76 分／上限 360 分）、CVS24（已跑 11 分／上限 60 分）、BIKE_shop（已跑 6 分／上限 70 分）——還沒測完，請不要關 (tests still running - please do not close)
+[11:23:33] [res] cpu=21% mem=52% (16.4/31.4 GB) chrome_testing=20  END CVS24
