@@ -97,7 +97,25 @@ const NOT={zhe:[5],yu:[3],classmate_mingxuan:[5]};   /* 「五不去」「三不
       for(const z in cnt) if(!worst||cnt[z]>worst.n) worst={n:cnt[z],z,at:CALENDAR.dateOf(d).key+' '+hm(h)}; }
     check('[T-e] 同一天同一間最多三位（第 3 節的名單；Y2S1 第 14～15 週每小時）',!worst||worst.n<=3,J(worst)); }
   /* ---------- T-f 經濟系那一年 ---------- */
-  { const ET=['Y0S1','Y0S2'].filter(t=>{ try{ const r=CALENDAR.termDays(t); return !!r&&r.to>r.from; }catch(e){ return false; } }); info('[T-f] 經濟系的學期（termDays 拿得到的）：'+J(ET));
+  /* ECON=off（預設；BB-C 21:08 EXAMLIB_econ_off，f6e9df954：AA_669 第 5 節 11-04 17:2x 改「不用做」、AA-C 20:56）：經濟系那一年第 14～16 週——
+     品妤、阿勳、韋綸都沒有 exlib 的時段（schedEnt 的 exlib 欄、EXLIB.on 都是 false）、沒有「明天幫我占位子」（topicOk）、在家那幾天和進圖書館都沒有圖書館的旁白（atmosDue）。ECON=on＝原本的期望值（第 5 節的設計）*/
+  if((process.env.ECON||'off')==='off'){ const ET=['Y0S1','Y0S2'].filter(t=>{ try{ const r=CALENDAR.termDays(t); return !!r&&r.to>r.from; }catch(e){ return false; } }); info('[T-f off] 經濟系的學期：'+J(ET));
+    const Y0={econ_pinyu:'品妤',econ_zhengxun:'阿勳',econ_weilun:'韋綸'};
+    for(const term of ET){ const r=CALENDAR.termDays(term); H.fresh(CALENDAR.dateOf(r.from).key,9,'dorm',{}); H.G.stage='econ'; EXLIB._reset&&EXLIB._reset();
+      const days=[14,15,16].flatMap(w=>daysOfWeek(term,w)); let on=0, cells=0;
+      for(const [id,name] of Object.entries(Y0)){ let ex=0, exs=[], top=0, n=0;
+        for(const d of days) for(let h=7;h<23.5;h+=0.5){ setT(d,h); n++; const z=zoneNow(id); if(z.src){ ex++; if(exs.length<3) exs.push(CALENDAR.dateOf(d).key+' '+hm(h)+' '+z.zone+'（'+z.src+'）'); } if(EXLIB.on(H.G,d,h)) on++; cells++;
+          if(h>=18&&h<23&&EXLIB.topicOk&&EXLIB.topicOk(H.G,id)) top++; }
+        check('[T-f off] '+term+' '+name+'：第 14～16 週沒有 exlib 的時段（'+days.length+' 天、每 30 分鐘）',ex===0,ex?(ex+' 格：'+J(exs)):(n+' 格都沒有'));
+        check('[T-f off] '+term+' '+name+'：18:00～23:00 沒有「明天幫我占位子」這個話題（EXLIB.topicOk）',top===0,String(top)); }
+      check('[T-f off] '+term+'：第 14～16 週 EXLIB.on 都是 false',on===0,on+'／'+cells);
+      /* 在家那幾天（休學 Y0_LEFT 以後在家）、還有走進圖書館：都沒有圖書館的旁白 */
+      let atm=0, atmEx=[]; const GMo=H.GM;
+      for(const d of days) for(const zh of ['home','library_hall','soclib','library_b1']){ setT(d,10); H.G.zone=zh; H.G.flags.Y0_LEFT=(zh==='home'); let a=false; try{ a=!!EXLIB.atmosDue(GMo); }catch(e){ a=false; } if(a){ atm++; if(atmEx.length<3) atmEx.push(CALENDAR.dateOf(d).key+' '+zh); } }
+      H.G.flags.Y0_LEFT=false; H.G.zone='dorm';
+      check('[T-f off] '+term+'：在家那幾天、走進圖書館（大廳、社科圖、B1）都沒有圖書館的旁白（EXLIB.atmosDue）',atm===0,atm?J(atmEx):'');
+    } }
+  else { const ET=['Y0S1','Y0S2'].filter(t=>{ try{ const r=CALENDAR.termDays(t); return !!r&&r.to>r.from; }catch(e){ return false; } }); info('[T-f] 經濟系的學期（termDays 拿得到的）：'+J(ET));
     const Y0={econ_pinyu:['品妤','soclib',8,14],econ_zhengxun:['阿勳','soclib',8,17],econ_weilun:['韋綸','library_b1',8,12]};
     for(const term of ET){
       const r=CALENDAR.termDays(term); if(!r) continue; H.fresh(CALENDAR.dateOf(r.from).key,9,'dorm',{}); H.G.stage='econ'; EXLIB._reset&&EXLIB._reset();
