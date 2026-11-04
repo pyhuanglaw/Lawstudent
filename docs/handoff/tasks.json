@@ -45609,6 +45609,27 @@
    "next": "【LAWWW-C 11-04 16:5x】和 AA674、AA676 一起，在台詞八批子代理合併以後做；events.js:4879 是加一句（不是換字），條件不動"
   },
   {
+   "id": "AA678-LINES-1104",
+   "title": "AA_678 台詞第十二批 8 處：vac_activities.js 語彤舊設定（:425 shut 三組、:483 朋友版照片鐵門→茶屋木門＋註解、:565 香港那則）、hometown_lines.js:73 沛珊、enc_walk 兩句（D04 芷若、D06 沛珊 dating；源檔 free_trip/bb_walk_v1.json 已改，換白名單重匯）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "寒暑假活動／自由出行偶遇",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 17:05（企劃線 4e39653c9、outbox 413cc70f1；D109）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 17:0x】和 AA674、676、677 一起，在台詞八批子代理和 AA675 子代理合併以後做；vac_activities.js 和 AA675（:466）同一個檔，注意先後；AA 下一批會全遊戲掃語彤還在麵店、跟阿姨住的地方"
+  },
+  {
    "id": "NPC-ANIM-LOOPS-1104",
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
