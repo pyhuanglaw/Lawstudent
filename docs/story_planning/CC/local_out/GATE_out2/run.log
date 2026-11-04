@@ -1,0 +1,13 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gate_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GATE_out2\out
+CC GATE 公館校門斑馬線＋遠景；SHA=3dce31a93；CASES=shot；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  20.0 秒
+  [前置／捷徑] 讀檔到 campus (-119, 0) day 15:00，條件事件關閉
+INFO day out：校園遠景的斑馬線  [{"min": [-173.6, 0.05, -6], "max": [-139.4, 0.05, 6], "visible": true}]
+INFO day out：霧／視距  {"fog": {"near": 100, "far": 260}, "fogFar": 260, "zone_viewFar": 260, "zone_fogNear": 100, "camera_far": 300, "quality": "medium", "weather": "clear"}
+INFO day out：遠景亮度  {"err": "No module named 'PIL'"}
+  [前置／捷徑] 讀檔到 campus (-119, 0) night 20:00，條件事件關閉
+INFO night out：校園遠景的斑馬線  [{"min": [-173.6, 0.05, -6], "max": [-139.4, 0.05, 6], "visible": true}]
+INFO night out：霧／視距  {"fog": {"near": 100, "far": 260}, "fogFar": 260, "zone_viewFar": 260, "zone_fogNear": 100, "camera_far": 300, "quality": "medium", "weather": "clear"}
+INFO night out：遠景亮度  {"err": "No module named 'PIL'"}
+PASS 沒有 JS 例外  []
+ALL PASS

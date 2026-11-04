@@ -1,0 +1,73 @@
+{
+ "sha": "3dce31a93",
+ "cases": [
+  "shot"
+ ],
+ "boot_s": 20.0,
+ "shot": {
+  "out_day": {
+   "zone": "campus",
+   "zebra": [
+    {
+     "min": [
+      -173.6,
+      0.05,
+      -6
+     ],
+     "max": [
+      -139.4,
+      0.05,
+      6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 15.03,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  },
+  "out_night": {
+   "zone": "campus",
+   "zebra": [
+    {
+     "min": [
+      -173.6,
+      0.05,
+      -6
+     ],
+     "max": [
+      -139.4,
+      0.05,
+      6
+     ],
+     "visible": true
+    }
+   ],
+   "fog": {
+    "near": 100,
+    "far": 260
+   },
+   "fogFar": 260,
+   "zone_viewFar": 260,
+   "zone_fogNear": 100,
+   "camera_far": 300,
+   "quality": "medium",
+   "weather": "clear",
+   "hour": 20.04,
+   "image": {
+    "err": "No module named 'PIL'"
+   }
+  }
+ }
+}
