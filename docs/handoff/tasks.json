@@ -46008,6 +46008,103 @@
    "evidence": "BB-C 11-04 17:24 PASS（雲端只看版面，BB_255 8b647e648；CC shots/ADV_LETTERBOX_1104）：圖片背景直向、橫向上下黑邊 0；3D 模糊背景照舊 8%；修改前 afd931ca0 看得到",
    "tests": "node tests/adv_letterbox_unit.js",
    "next": "不進 v9.10.20，進下一版"
+  },
+  {
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "authorized": "D85（LAWWW 修 bug）",
+   "notWaitUser": "程式 bug，不用問使用者",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "FORCING-SAVED-1104",
+   "title": "凌晨送回去睡的鎖 G.flags._forcing 會存進存檔：讀檔以後 forceHome 再也不送人回去睡（時間跑到 29:00、47:00）",
+   "source": "BB-C 11-04 17:30（CC T1 random_play_sim.js，Node 跑真的 game3d frame()；紀錄 CC/logs/T1_1104 868e94d1b）：「story3d.js:1298 S.forceHome 一開始設 G.flags._forcing=true，finally 才清。中間 GM.enter／sleepNow 自動存檔時，這個 true 會跟著存進去」",
+   "next": "【LAWWW-C 11-04 17:5x】改成模組的鎖（不存檔；LOADLOCKS story3d:forcing 讀檔放開）；舊存檔帶著的 _forcing 第一次叫就刪；tests/t1_time_bugs_unit.js ①：修改前 FAIL 4、修改後 ALL PASS；BB 排 CC 用同一個種子驗",
+   "tests": "node tests/t1_time_bugs_unit.js"
+  },
+  {
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "authorized": "D85（LAWWW 修 bug）",
+   "notWaitUser": "程式 bug，不用問使用者",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "CAFE-TIME-BACK-1104",
+   "title": "第二天下午 Café／總圖那一場最後 GM.advance(17.7-G.hour)：太晚才開演會把時間退回 17:42",
+   "source": "BB-C 11-04 17:30（CC T1 random_play_sim.js，Node 跑真的 game3d frame()；紀錄 CC/logs/T1_1104 868e94d1b）：「story3d.js:3813、3822 的 GM.advance(17.7-G.hour) 沒看現在幾點。23:08 才走進 Café 開演，時間會退回 17:42」",
+   "next": "【LAWWW-C 11-04 17:5x】Math.max(0,…)：晚於 17:42 開演時間照常往前；tests/t1_time_bugs_unit.js ②：修改前 FAIL 2、修改後 ALL PASS。旁白「窗外的光慢慢變成橘色」在很晚開演時不對：已問 AA-C 要不要晚上的版本（AA 交稿再接）",
+   "tests": "node tests/t1_time_bugs_unit.js"
+  },
+  {
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "authorized": "D85（LAWWW 修 bug）",
+   "notWaitUser": "程式 bug，不用問使用者",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "CAMP-DAYHOUR-1104",
+   "title": "宿營換日：先設 G.day、等 1.6 秒日期卡才設 G.hour（8/23 從 19:30 退到 17:30）",
+   "source": "BB-C 11-04 17:30（CC T1 random_play_sim.js，Node 跑真的 game3d frame()；紀錄 CC/logs/T1_1104 868e94d1b）：「S.campY1 換到下一天時先設 G.day，等 1.6 秒日期卡，才設 G.hour」",
+   "next": "【LAWWW-C 11-04 17:5x】日期和時間一起換（字卡之前）；tests/camp_y1_unit.js A2b：修改前 FAIL 2、修改後 ALL PASS",
+   "tests": "node tests/camp_y1_unit.js"
+  },
+  {
+   "id": "AA682-LINES-1104",
+   "title": "AA_682 台詞第十四批 3 處（國外那學期）：r2y3b_events.js:128 阿勳「……我沒想過。」、:557 芷若 Z13 table 拿掉拿小說講心事的說法、r2y4a_events.js:571 可昕「……那就今天去一個。」",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "大三下以後國外那學期",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 17:29（企劃線 f24d63b5c；outbox 49f56b860；D109）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_682（企劃線 f24d63b5c）",
+    "acceptance": "3 處換字；相關 Node 測試",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 17:5x】和 AA674、676、677、678、681 同一批（台詞八批子代理、AA675 子代理合併以後）"
   }
  ]
 }
