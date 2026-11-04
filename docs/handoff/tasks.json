@@ -42798,10 +42798,11 @@
    "id": "AA617-WZ-CAFES-1103",
    "title": "木曜日（13–22，週二休，可讀書）、日常失速（13–01，不給讀書）接進遊戲：營業時間、互動、同學作息、台詞（AA 接著寫）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "note": "AA_617（企劃線 3e4651ebf）；使用者排在 D99 三項之後",
-   "next": "等 ART-WZ-CAFES-1103 場景＋AA 台詞＋BB 2D 背景"
+   "next": "木曜日：LAWWW2 場景已整合（開發分支 aa8cb5beb，second-ai-env-art 50c1b0681）；AA_618 第 1 節的系統與台詞由 LAWWW 子代理在 worktree 做（11-04 00:3x 開工）；日常失速等場景。2D 背景（BB 照 D97 要）、雨天 CG 還沒有",
+   "sha": "aa8cb5beb"
   },
   {
    "first": {
@@ -43474,10 +43475,10 @@
    "id": "XINSHENG-SIDE-1103",
    "title": "新生南路側：側門、店面、過馬路到溫州街；新店都放這一側",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "X178；同 ART-XINSHENG-GATE-1103",
-   "next": "LAWWW2 新區域 xinsheng WIP（3a4fb056a：導航、側門 (−124,−84)、七家店門口；街景 BLOCKOUT；溫州街西端還沒接）"
+   "next": "已整合 aa8cb5beb（側門 (−124,−84)、溫州街西側橫巷北口 (−33.4,−28.4)）；街景仍 BLOCKOUT，立面 bldg.xinsheng_street 等 LAWWW2；瀏覽器測試派 BB（D131 PC）"
   },
   {
    "first": {
@@ -43598,7 +43599,7 @@
    "status": "等待其他AI／素材",
    "priority": "P1",
    "note": "UA-AA-1103-92～94；AA 已通知 LAWWW2",
-   "next": "地圖那一半 LAWWW2 已做在 xinsheng_zone_WIP.patch（4c6ce4d12，載入 xinsheng3d.js 才生效：公館「往溫州街」拿掉、巷口導航擋住；溫州街「回公館」拿掉）。第 1 批交件整合時 LAWWW 改：guide 去兩點半的路線（新生南路側門→新生南路「往溫州街」）＋tests/guide_flow.py；tests/gongguan_layout_nav.py 98～106 行（巷口走到溫州街）；places.js 溫州街說明（快速移動落點 (51.3,−9.8) 照留）；整合後跑 tests/flow_day2_an.py"
+   "next": "11-04：整合的新版 xinsheng patch（50c1b0681，接 e95e0e4e9）沒有包含「公館『往溫州街』拿掉、溫州街『回公館』拿掉」那一段（4c6ce4d12 舊版才有）；溫州街西側往新生南路的出口已在。等 LAWWW2 立面進來時一起拿掉公館巷口，並改 guide 路線（兩點半走側門）、tests/guide_flow.py、gongguan_layout_nav.py 98–106、places.js"
   },
   {
    "first": {
