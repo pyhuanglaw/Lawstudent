@@ -44458,9 +44458,9 @@
    "title": "帳號 B→C 接班（11-04 12:2x，使用者「你上次沒有交班 使用量就到達上限……現在換你接班 有新增一個腳色CC幫助BB測試 你接班之後訊息同個帳號其他AI確認可以傳訊息」）：LAWWW-C 十四步、五職位登記、duty sync、通訊測試、incr 918 項分類（帳號 A 交班 B6 留下）",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
-   "next": "【LAWWW-C 11-04 13:3x】duty sync 修好（45e64135d：上一筆沒有 since 拿 handedOffAt 比，handoff_duty_sim 26／26）；CC-C 登記 sync（fd989b03c）——五職位都是帳號 C；剩：duty verify 異常 6 三項誤報（交班紀錄 commit）、check 第 6 項、incr 104 項分類、兩個舊 worktree bundle、接班確認｜【11-04 12:3x LAWWW-C】duty find＝claude/modest-rubin-2lyp7g（上一任 B，已交班）；快轉 1827 個 commit 到 b61337187；check／duty verify／roles／asks OK；incr 918 項（LAWWW2 192、AA 179、BB 179、CC 359 未分類＋LAWWW2 outbox 寫法）待分類；LAWWW-C duty register 完成；下一步：通訊測試（LAWWW2-C、AA-C、BB-C、CC-C）、duty sync、check_orphans、branch_audit、incr 分類",
+   "next": "【LAWWW-C 11-04 14:41】接班完成；量測：12:28 收到使用者 → 12:43 登記＋通訊 4／4 ACK（15 分鐘）→ 14:27 交接紀錄全部清完（含修工具、918 項分類、同時處理使用者 20 多則新要求）｜【LAWWW-C 11-04 13:3x】duty sync 修好（45e64135d：上一筆沒有 since 拿 handedOffAt 比，handoff_duty_sim 26／26）；CC-C 登記 sync（fd989b03c）——五職位都是帳號 C；剩：duty verify 異常 6 三項誤報（交班紀錄 commit）、check 第 6 項、incr 104 項分類、兩個舊 worktree bundle、接班確認｜【11-04 12:3x LAWWW-C】duty find＝claude/modest-rubin-2lyp7g（上一任 B，已交班）；快轉 1827 個 commit 到 b61337187；check／duty verify／roles／asks OK；incr 918 項（LAWWW2 192、AA 179、BB 179、CC 359 未分類＋LAWWW2 outbox 寫法）待分類；LAWWW-C duty register 完成；下一步：通訊測試（LAWWW2-C、AA-C、BB-C、CC-C）、duty sync、check_orphans、branch_audit、incr 分類",
    "first": {
     "term": "META",
     "week": 0,
@@ -44473,16 +44473,16 @@
    },
    "source": "使用者 11-04 12:2x 對 LAWWW-C",
    "authorized": "使用者直接要求",
-   "evidence": ""
+   "evidence": "五職位帳號 C 登記（LAWWW-C 12:3x、LAWWW2／AA／BB 12:4x、CC-C 13:28）；check 十二項 OK、roles OK、asks OK、incr OK（918→0，水位線前進 e3bde13be）、duty verify OK；三種工具誤報修（45e64135d、cd784999e、d6c74f628）；舊 worktree 備份 wip_backup/handoff_c_1104（e90636eb6）"
   },
   {
    "id": "HANDOFF-SLIM-1104",
    "title": "接班規則精簡討論（使用者 11-04 12:3x：「等你接班後 認真看一下接班花了多久 現在接班規則有點長 我們討論要不要精簡一下接班規則 怕重複 但原則上仍然要完整接班……只是看是不是規則有些重複的事情可以刪掉」）：量這次接班花多久、逐條列重複可刪的、用選擇題給使用者定",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【LAWWW-C 11-04 13:3x】加 ASK-USER-LIST-1104（要問使用者的清單，守住第二個原則）｜【11-04 12:5x LAWWW-C】使用者選：①合併重複章節（D135；沒選「流程只寫一處」「提示詞一份範本」）②incr 只逐筆分類會改遊戲的 commit（D135）。做法：check_handoff.py incr 改＋回歸測試；CLAUDE.md 合併（舊條文搬 docs/history/CLAUDE_superseded_1104.md，對照表）；HV-26；另外 LAWWW 自己修三種誤報（duty sync 上一筆沒有 since、duty verify 交班紀錄 commit、check 第 6 項和 incr 重複）｜【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
+   "next": "【LAWWW-C 11-04 14:41】完成；接班時間量測寫在 HANDOFF-C-1104｜【LAWWW-C 11-04 13:3x】加 ASK-USER-LIST-1104（要問使用者的清單，守住第二個原則）｜【11-04 12:5x LAWWW-C】使用者選：①合併重複章節（D135；沒選「流程只寫一處」「提示詞一份範本」）②incr 只逐筆分類會改遊戲的 commit（D135）。做法：check_handoff.py incr 改＋回歸測試；CLAUDE.md 合併（舊條文搬 docs/history/CLAUDE_superseded_1104.md，對照表）；HV-26；另外 LAWWW 自己修三種誤報（duty sync 上一筆沒有 since、duty verify 交班紀錄 commit、check 第 6 項和 incr 重複）｜【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
    "first": {
     "term": "META",
     "week": 0,
@@ -44495,7 +44495,7 @@
    },
    "source": "使用者 11-04 12:3x 對 LAWWW-C",
    "authorized": "使用者直接要求（討論，刪改規則要使用者選）",
-   "evidence": ""
+   "evidence": "D135：CLAUDE.md 合併（0a1a750f2、4d70a75e7，800→625 行）、incr 只逐筆分類改到遊戲的（4ff38f08d）、HV-26；ASK-USER-LIST-1104（d6c74f628）"
   },
   {
    "id": "WZ-FIVE-1104",
@@ -44980,7 +44980,7 @@
    "title": "接班／交班一定列出「要問使用者」的任務（AA-C 11-04 13:18 提議；使用者 13:2x 問 AA-C：「做到一半的東西，為什麼之後的帳號沒有收到還沒做完的訊息」；起因 VAC-GAP-ROUTES 暫停的恢復條件是「使用者說繼續」，帳號 A 記了醒來要問、沒問就交班）",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "META",
@@ -44994,7 +44994,8 @@
    },
    "next": "【LAWWW-C 11-04 13:3x】做法：check_handoff.py 新子指令（或 check 的一項）列出狀態暫停／待開工／等待、而且 resumeWhen 或 next 寫「使用者」（說繼續、回來問、選擇題、等使用者）的任務；接班確認要逐項寫「問了／沒問、原因」，交班快照的「下一班第一步」自動帶進去；回歸測試用 VAC-GAP-ROUTES 的真實案例（舊工具看不到、新工具列出）；屬於 HANDOFF-SLIM-1104 守住的第二個原則（做到一半的事一定有人接）",
    "source": "AA-C 11-04 13:18（使用者 13:2x 問 AA-C）",
-   "authorized": "使用者直接要求（守住交接原則，HANDOFF-SLIM-1104）"
+   "authorized": "使用者直接要求（守住交接原則，HANDOFF-SLIM-1104）",
+   "evidence": "check 第 12 項＋askuser（d6c74f628），tests/handoff_check_unit.py 舊工具 FAIL／新工具 PASS；這一班 25 項清查完"
   },
   {
    "id": "AA619-GUITAR-1104",
