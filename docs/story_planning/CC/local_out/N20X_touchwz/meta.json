@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N20X_touchwz",
+  "sha": "aa8cb5beb",
+  "kind": "game",
+  "script": "tests/touch_flow_wenzhou.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T08:43:52",
+  "end": "2026-11-04T08:47:50",
+  "seconds": 238,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8810/index.html",
+  "res_peak": {
+    "cpu": 83,
+    "mem": 64,
+    "used_gb": 20.4,
+    "chrome_testing": 27
+  }
+}
