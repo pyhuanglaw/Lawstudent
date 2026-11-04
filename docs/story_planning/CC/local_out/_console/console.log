@@ -1794,3 +1794,18 @@
 [12:52:20] ==== START XS_view  (probe @ 23eaaa7ae) ====
 [12:52:24] [res] cpu=40% mem=55% (17.7/31.4 GB) chrome_testing=18  START XS_view
 [12:53:01] [res] cpu=24% mem=53% (16.7/31.4 GB) chrome_testing=18  END GATE_shot_before
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       2b78330d8..cd11201aa  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[12:53:08] ==== END   GATE_shot_before  exit=0  159s   ====
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[12:53:12] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[12:53:12] memory 55% before starting XS_view_ref (2 running)
+[12:53:12] ==== START XS_view_ref  (probe @ 555b9e0cb) ====
+[12:53:16] [res] cpu=43% mem=56% (17.6/31.4 GB) chrome_testing=18  START XS_view_ref
+[12:53:54] [res] cpu=24% mem=53% (16.8/31.4 GB) chrome_testing=19  END XS_view

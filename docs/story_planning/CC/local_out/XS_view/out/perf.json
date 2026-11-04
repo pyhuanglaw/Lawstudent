@@ -1,0 +1,285 @@
+{
+ "sha": "23eaaa7ae",
+ "perf_only": false,
+ "boot_s": 17.9,
+ "eye": [
+  19.0,
+  1.7,
+  9.0
+ ],
+ "look": [
+  52.92,
+  3.0,
+  30.200000000000003
+ ],
+ "day": {
+  "hour": 14.0,
+  "glb_ready_s": {
+   "xinsheng_street_glb": 5.67,
+   "xs_campus_pavilion_glb": 5.68,
+   "xs_campus_hist_glb": 5.68
+  },
+  "camera": {
+   "pos": [
+    19,
+    1.7,
+    9
+   ],
+   "fov": 46,
+   "aspect": 2.164,
+   "far": 170
+  },
+  "frustum": {
+   "camera": {
+    "pos": [
+     19,
+     1.7,
+     9
+    ],
+    "fov": 46,
+    "aspect": 2.164
+   },
+   "xs_campus_back": true,
+   "lawn": {
+    "found": true,
+    "roots": [
+     "kit:"
+    ],
+    "visible_meshes": 1,
+    "meshes_in_frustum": 1,
+    "in_frustum": true,
+    "center": [
+     88.8,
+     0,
+     0
+    ],
+    "size": [
+     140,
+     0,
+     170
+    ],
+    "dist": 70.3,
+    "center_ndc": [
+     -0.89,
+     -0.15
+    ],
+    "center_on_screen": true
+   },
+   "trees": {
+    "found": true,
+    "roots": [
+     "xs_campus_trees"
+    ],
+    "visible_meshes": 0,
+    "in_frustum": false
+   },
+   "pavilion": {
+    "found": true,
+    "roots": [
+     "xs_campus_pavilion_glb",
+     "kit:pavilion"
+    ],
+    "visible_meshes": 5,
+    "meshes_in_frustum": 5,
+    "in_frustum": true,
+    "center": [
+     38.4,
+     4.7,
+     64
+    ],
+    "size": [
+     24.2,
+     9.4,
+     16.2
+    ],
+    "dist": 58.4,
+    "center_ndc": [
+     0.87,
+     0.08
+    ],
+    "center_on_screen": true
+   },
+   "hist": {
+    "found": true,
+    "roots": [
+     "xs_campus_hist_glb",
+     "kit:hist"
+    ],
+    "visible_meshes": 11,
+    "meshes_in_frustum": 11,
+    "in_frustum": true,
+    "center": [
+     65.4,
+     7.3,
+     66.4
+    ],
+    "size": [
+     25.6,
+     14.7,
+     20.3
+    ],
+    "dist": 74,
+    "center_ndc": [
+     0.37,
+     0.11
+    ],
+    "center_on_screen": true
+   }
+  },
+  "perf": {
+   "calls": 110,
+   "tris": 187707,
+   "frames": 1074,
+   "avg": 134.2,
+   "min": 33.33,
+   "low1": 41.18,
+   "calls_live": 110,
+   "tris_live": 187707
+  }
+ },
+ "night": {
+  "hour": 20.0,
+  "glb_ready_s": {
+   "xinsheng_street_glb": 1.93,
+   "xs_campus_pavilion_glb": 1.94,
+   "xs_campus_hist_glb": 1.95
+  },
+  "camera": {
+   "pos": [
+    19,
+    1.7,
+    9
+   ],
+   "fov": 46,
+   "aspect": 2.164,
+   "far": 170
+  },
+  "frustum": {
+   "camera": {
+    "pos": [
+     19,
+     1.7,
+     9
+    ],
+    "fov": 46,
+    "aspect": 2.164
+   },
+   "xs_campus_back": true,
+   "lawn": {
+    "found": true,
+    "roots": [
+     "kit:"
+    ],
+    "visible_meshes": 1,
+    "meshes_in_frustum": 1,
+    "in_frustum": true,
+    "center": [
+     88.8,
+     0,
+     0
+    ],
+    "size": [
+     140,
+     0,
+     170
+    ],
+    "dist": 70.3,
+    "center_ndc": [
+     -0.89,
+     -0.15
+    ],
+    "center_on_screen": true
+   },
+   "trees": {
+    "found": true,
+    "roots": [
+     "xs_campus_trees"
+    ],
+    "visible_meshes": 0,
+    "in_frustum": false
+   },
+   "pavilion": {
+    "found": true,
+    "roots": [
+     "xs_campus_pavilion_glb",
+     "kit:pavilion"
+    ],
+    "visible_meshes": 5,
+    "meshes_in_frustum": 5,
+    "in_frustum": true,
+    "center": [
+     38.4,
+     4.7,
+     64
+    ],
+    "size": [
+     24.2,
+     9.4,
+     16.2
+    ],
+    "dist": 58.4,
+    "center_ndc": [
+     0.87,
+     0.08
+    ],
+    "center_on_screen": true
+   },
+   "hist": {
+    "found": true,
+    "roots": [
+     "xs_campus_hist_glb",
+     "kit:hist"
+    ],
+    "visible_meshes": 11,
+    "meshes_in_frustum": 11,
+    "in_frustum": true,
+    "center": [
+     65.4,
+     7.3,
+     66.4
+    ],
+    "size": [
+     25.6,
+     14.7,
+     20.3
+    ],
+    "dist": 74,
+    "center_ndc": [
+     0.37,
+     0.11
+    ],
+    "center_on_screen": true
+   }
+  },
+  "perf": {
+   "calls": 79,
+   "tris": 116113,
+   "frames": 1060,
+   "avg": 132.34,
+   "min": 37.59,
+   "low1": 42.24,
+   "calls_live": 79,
+   "tris_live": 116113
+  }
+ },
+ "table": {
+  "day": {
+   "calls": 110,
+   "tris": 187707,
+   "avg": 134.2,
+   "min": 33.33,
+   "low1": 41.18,
+   "calls_live": 110,
+   "tris_live": 187707
+  },
+  "night": {
+   "calls": 79,
+   "tris": 116113,
+   "avg": 132.34,
+   "min": 37.59,
+   "low1": 42.24,
+   "calls_live": 79,
+   "tris_live": 116113
+  }
+ }
+}

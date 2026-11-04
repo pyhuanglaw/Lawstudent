@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_xs_view_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\XS_view\out
+CC XS_view 新生南路側門往校園看；SHA=23eaaa7ae；PERF_ONLY=False；EYE=[19.0, 1.7, 9.0] LOOK=[52.92, 3.0, 30.2]；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  17.9 秒
+  [前置／捷徑] 讀檔到新生南路側門 白天 14:00 (14.3, 10.0)，條件事件關閉
+PASS 白天 14:00：進到新生南路區域  zone.group=xinsheng_zone
+INFO 白天 14:00：正式模型（讀檔後幾秒出現）  {"xinsheng_street_glb": 5.67, "xs_campus_pavilion_glb": 5.68, "xs_campus_hist_glb": 5.68}
+INFO 白天 14:00：lawn 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["kit:"], "meshes": 1, "center": [88.8, 0, 0], "ndc": [-0.89, -0.15], "dist": 70.3}
+INFO 白天 14:00：trees 在鏡頭裡  {"in_frustum": false, "center_on_screen": null, "roots": ["xs_campus_trees"], "meshes": 0, "center": null, "ndc": null, "dist": null}
+INFO 白天 14:00：pavilion 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["xs_campus_pavilion_glb", "kit:pavilion"], "meshes": 5, "center": [38.4, 4.7, 64], "ndc": [0.87, 0.08], "dist": 58.4}
+INFO 白天 14:00：hist 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["xs_campus_hist_glb", "kit:hist"], "meshes": 11, "center": [65.4, 7.3, 66.4], "ndc": [0.37, 0.11], "dist": 74}
+  截圖 xs_view_day.png；鏡頭 {"pos": [19, 1.7, 9], "fov": 46, "aspect": 2.164, "far": 170}
+  白天 14:00：draw call 110、三角形 187707（藏路人）；FPS 平均 134.2、最低 33.33、1%low 41.18（1074 格；路人在：call 110／tris 187707）
+  [前置／捷徑] 讀檔到新生南路側門 晚上 20:00 (14.3, 10.0)，條件事件關閉
+PASS 晚上 20:00：進到新生南路區域  zone.group=xinsheng_zone
+INFO 晚上 20:00：正式模型（讀檔後幾秒出現）  {"xinsheng_street_glb": 1.93, "xs_campus_pavilion_glb": 1.94, "xs_campus_hist_glb": 1.95}
+INFO 晚上 20:00：lawn 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["kit:"], "meshes": 1, "center": [88.8, 0, 0], "ndc": [-0.89, -0.15], "dist": 70.3}
+INFO 晚上 20:00：trees 在鏡頭裡  {"in_frustum": false, "center_on_screen": null, "roots": ["xs_campus_trees"], "meshes": 0, "center": null, "ndc": null, "dist": null}
+INFO 晚上 20:00：pavilion 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["xs_campus_pavilion_glb", "kit:pavilion"], "meshes": 5, "center": [38.4, 4.7, 64], "ndc": [0.87, 0.08], "dist": 58.4}
+INFO 晚上 20:00：hist 在鏡頭裡  {"in_frustum": true, "center_on_screen": true, "roots": ["xs_campus_hist_glb", "kit:hist"], "meshes": 11, "center": [65.4, 7.3, 66.4], "ndc": [0.37, 0.11], "dist": 74}
+  截圖 xs_view_night.png；鏡頭 {"pos": [19, 1.7, 9], "fov": 46, "aspect": 2.164, "far": 170}
+  晚上 20:00：draw call 79、三角形 116113（藏路人）；FPS 平均 132.34、最低 37.59、1%low 42.24（1060 格；路人在：call 79／tris 116113）
+PASS 沒有 JS 例外  []
+表：{"day": {"calls": 110, "tris": 187707, "avg": 134.2, "min": 33.33, "low1": 41.18, "calls_live": 110, "tris_live": 187707}, "night": {"calls": 79, "tris": 116113, "avg": 132.34, "min": 37.59, "low1": 42.24, "calls_live": 79, "tris_live": 116113}}
+ALL PASS
