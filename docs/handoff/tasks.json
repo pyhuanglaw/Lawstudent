@@ -45179,7 +45179,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:25】BB 背景子代理在暫存資料夾試，不碰遊戲檔；成果交 LAWWW2-C（美術總監）決定，和 OPEN-SRC-2D3D-1104（LAWWW2，同一題）合併看，不重複做",
+   "next": "【LAWWW-C 11-04 14:31】使用者 14:3x 對 BB-C：「你如果測試成功要把你的方法 加入美術規則」（UA-BB-1104-IMG2-3D-RULE）→ 試成功、LAWWW2 同意採用以後：LAWWW2 寫進 ART_DIRECTION 第 12 節 SOP、LAWWW 在 CLAUDE.md MANDATORY 第 2 點工具表補一行；沒成功照實回報、不寫規則｜【LAWWW-C 11-04 14:25】BB 背景子代理在暫存資料夾試，不碰遊戲檔；成果交 LAWWW2-C（美術總監）決定，和 OPEN-SRC-2D3D-1104（LAWWW2，同一題）合併看，不重複做",
    "source": "使用者 11-04 14:2x 對 BB-C（user_asks_BB.json 9c85f657a）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -45211,6 +45211,27 @@
    "evidence": "outbox_BB.json 第 77 筆 256ecbe4（已交付、ACK）",
    "source": "BB-C 11-04 outbox 補登",
    "authorized": "BB 職責內文件"
+  },
+  {
+   "id": "AA663-LINES-1104",
+   "title": "AA_663 台詞編修試跑 30 句換字（AA-C 14:25 交，企劃線 e89728272；使用者選「對，照這樣改」；AA_662 檢查表＋line_lint.py）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "各處台詞",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:31】第 29 列（sideq3d.js SQ19 芯慈筆記本最後一頁：和以安的考試、報告、發言次數比較表 → 三家公司的財報比率；違反 D116、「違反的內容不進下一版」）先做、進 v9.10.20；tests/aa404_sideq_unit、aa397_sideq_unit 的稿加 AA_663（e89728272）ALL PASS；其餘 29 列 v9.10.20 以後照第 1 節位置換字（只換字，條件旗標不動）",
+   "source": "AA-C 11-04 14:25（使用者 14:2x「讓台詞劇情更自然」）",
+   "authorized": "D109；使用者選擇題「對，照這樣改」"
   }
  ]
 }

@@ -2857,6 +2857,15 @@
    "status": "進行中",
    "wants": "X223",
    "task": "NTU-REF-AUDIT-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-93",
+   "at": "2026-11-04T14:31Z",
+   "quote": "（貼了目前環境 Allowed domains 清單）你給我的我那些沒有 直接給我可以複製貼上的",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "NTU-REF-AUDIT-1104",
+   "note": "回覆時給了清單裡還沒有的網域（可以直接貼）"
   }
  ]
 }
