@@ -80,3 +80,7 @@
 - 地板改成每片木板深淺不一：`aa_int_tex.yzn_floor()` 產生 `yzn_floor.png`（laminate_floor_02 的木紋，平均色照舊 #c9ac84，每片乘 0.82～1.12、冷暖微調，中間走道淡一點）。材質名稱照舊 `yzn_floor_wood`。還是淺色木地板（D112）。
 - 規格：18,624 三角形、1.04 MB。ref_match 全部通過（亮度 0.329／0.282、ΔE 4.9、九宮格 0.108）。
 - 圖：`model_renders/yizhan_v1d_refcam{.png,_cmp.jpg,_report.json}`。
+
+## v1e（2026-11-04 07:5x，LAWWW b53bfab72 wz_shops_cam 1 項 FAIL）
+- 天花板的小梁（x −3.2、−2.2、−1.1、1.0、3.1，沿 z）原本一路到 z 5.0，那一截在正面那一排（WALL_engawa）的位置、但不在會淡出的組，鏡頭在前院上方時會擋人。改成停在 z 4.91（WALL_engawa 的橫樑前面）。
+- 在開發分支 b53bfab72 本機副本換上這顆跑 `tests/wz_shops_cam_unit.js`：ALL PASS。規格不變（18,624 三角形、1.04 MB）。

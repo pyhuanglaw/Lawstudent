@@ -7,7 +7,7 @@
    參考圖的鏡頭站在門邊往裡面看：左邊隔板座位、右邊吧台和高腳凳、正前方的卡座。遊戲裡的對應：站在東邊往西看——左手邊（+z）窗邊的隔板座位，右手邊（−z）吧台，正前方（西牆）卡座。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。 */
 const KOMICHI_LAYOUT = {
-  version: 3,
+  version: 4,
   id: 'wz_teishoku', name: '小路', glb: 'assets/models/env/second_ai/aa_support/komichi.glb',
   w: 8.0, d: 8.0, h: 2.9, wallColor: '#e6d8b8', floor: 'wood_light（D112：參考圖是深色木地板，改淺色）',
   note: '約 8×8 m 的昭和懷舊居酒屋（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張綠色皮面高腳凳），吧台後面是開放廚房：炭烤台、排油煙罩、整面酒瓶層架；吧台上方橫樑掛木札、上面一排清酒瓶、吊杯架。窗邊兩個隔板四人座，西牆綠色皮卡座，中間一張四人桌。黃銅吊燈、壁燈、懷舊電影海報、舊照片。',
@@ -41,25 +41,25 @@ const KOMICHI_LAYOUT = {
     {id: 1, kind: 'rect', x: 0.475, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座一（四人）'},
     {id: 2, kind: 'rect', x: 2.425, z: 3.25, w: 0.7, d: 1.3, note: '窗邊隔板座二（四人：東側靠牆那張 npcOnly，玩家走不到）'},
     {id: 3, kind: 'rect', x: 0.9, z: 0.75, w: 1.2, d: 0.7, note: '中間四人桌'},
-    {id: 4, kind: 'rect', x: -2.55, z: 0.4, w: 0.6, d: 1.2, note: '卡座的桌子（卡座前緣到桌邊 0.6 m）'}
+    {id: 4, kind: 'rect', x: -2.3, z: 0.4, w: 0.6, d: 1.2, note: '卡座的桌子（v4：往東 0.25，卡座前緣到桌邊 0.85 m——LAWWW 11-04 導航改 0.2 m 以後 0.6 m 站不進去）'}
   ],
   blocks: [
     [-3.4, 2.55, 0.6, 0.9], [-0.9, -2.0, 6.2, 0.55], [0.0, -3.15, 8.0, 1.7], [3.1, -2.0, 1.8, 0.55],
     [-0.5, 3.225, 0.1, 1.55], [1.45, 3.225, 0.1, 1.55], [3.4, 3.225, 0.1, 1.55],
     [0.475, 3.25, 0.72, 1.32], [2.425, 3.25, 0.72, 1.32], [0.9, 0.75, 1.22, 0.72],
-    [-3.725, 0.4, 0.55, 1.8], [-2.55, 0.4, 0.62, 1.22],
+    [-3.725, 0.4, 0.55, 1.8], [-2.3, 0.4, 0.62, 1.22],
     [3.7, 1.95, 0.5, 0.5], [-0.75, 3.62, 0.3, 0.3]
   ],
   walkNote: '門口 x −2.9～−1.1；主走道 x −3.0～−0.6 從門口直到吧台前（2.4 m）；吧台高腳凳後面到中間四人桌 z −1.0～−0.15（0.85 m）；中間四人桌和窗邊座位之間 z 1.65～2.7；卡座從北邊（z 1.0～1.3）走進桌子和卡座之間 0.6 m 的空檔；吧台和半門從左牆一直到右牆（後面整排是廚房，不能進去）',
   seats: [
-    {x: -0.15, z: 2.9, yaw: Math.PI / 2, table: 1, label: '坐下', tag: 'door'}, {x: -0.15, z: 3.45, yaw: Math.PI / 2, table: 1, label: '坐下'},
-    {x: 1.1, z: 2.9, yaw: -Math.PI / 2, table: 1, label: '坐下'}, {x: 1.1, z: 3.45, yaw: -Math.PI / 2, table: 1, label: '坐下'},
-    {x: 1.8, z: 2.9, yaw: Math.PI / 2, table: 2, label: '坐下'}, {x: 1.8, z: 3.45, yaw: Math.PI / 2, table: 2, label: '坐下'},
+    {x: -0.15, z: 2.9, yaw: Math.PI / 2, table: 1, label: '坐下', tag: 'door'}, {x: -0.15, z: 3.45, yaw: Math.PI / 2, table: 1, label: '坐下', npcOnly: true, note: 'v4：隔板到桌邊 0.47 m，人站不進去（LAWWW 11-04 導航 0.2 m）；留給背景客人'},
+    {x: 1.1, z: 2.9, yaw: -Math.PI / 2, table: 1, label: '坐下'}, {x: 1.1, z: 3.45, yaw: -Math.PI / 2, table: 1, label: '坐下', npcOnly: true},
+    {x: 1.8, z: 2.9, yaw: Math.PI / 2, table: 2, label: '坐下'}, {x: 1.8, z: 3.45, yaw: Math.PI / 2, table: 2, label: '坐下', npcOnly: true},
     {x: 3.05, z: 2.9, yaw: -Math.PI / 2, table: 2, label: '坐下'}, {x: 3.05, z: 3.45, yaw: -Math.PI / 2, table: 2, label: '坐下', npcOnly: true, note: 'LAWWW2 11-04 05:22 建議①：玩家走不到，留給背景客人'},
     {x: 0.6, z: 0.1, yaw: 0, table: 3, label: '坐下'}, {x: 1.2, z: 0.1, yaw: 0, table: 3, label: '坐下'},
     {x: 0.6, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'}, {x: 1.2, z: 1.4, yaw: Math.PI, table: 3, label: '坐下'},
     {x: -3.6, z: 0.1, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'}, {x: -3.6, z: 0.7, yaw: Math.PI / 2, table: 4, seatH: 0.45, label: '坐卡座', tag: 'corner'},
-    {x: -1.85, z: 0.1, yaw: -Math.PI / 2, table: 4, label: '坐下'}, {x: -1.85, z: 0.7, yaw: -Math.PI / 2, table: 4, label: '坐下'},
+    {x: -1.6, z: 0.1, yaw: -Math.PI / 2, table: 4, label: '坐下'}, {x: -1.6, z: 0.7, yaw: -Math.PI / 2, table: 4, label: '坐下'},
     {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'},
     {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'},
     {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台', tag: 'bar'}

@@ -108,8 +108,8 @@ bt = Mesh(P + 'ceiling_batten', sh.M['post'])
 for z in [Z0 + k * 0.9 for k in range(1, 11)]: bt.quad([(X0, H - 0.03, z - 0.02), (X1, H - 0.03, z - 0.02), (X1, H - 0.03, z + 0.02), (X0, H - 0.03, z + 0.02)])   # 格縁：朝下的單面
 bt.finish(sh.root, uv=True)
 for z_ in (-0.6, 2.2): xf0.rbox(sh.a('post'), X0, X1, H - 0.24, H - 0.01, z_ - 0.1, z_ + 0.1, r=0.0, seg=1)            # 梁
-xf0.rbox(sh.a('post'), -2.2 - 0.1, -2.2 + 0.1, H - 0.24, H - 0.01, -0.6, Z1, r=0.0, seg=1)
-for x_ in (-3.2, -1.1, 1.0, 3.1): xf0.rbox(sh.a('post'), x_ - 0.05, x_ + 0.05, H - 0.14, H - 0.01, -0.6, Z1, r=0.0, seg=1)   # v1d：小梁（沿 z），接近參考圖的外露屋架
+xf0.rbox(sh.a('post'), -2.2 - 0.1, -2.2 + 0.1, H - 0.24, H - 0.01, -0.6, Z1 - 0.09, r=0.0, seg=1)   # v1e：停在正面那一排（WALL_engawa 的橫樑）前面，不然鏡頭在前院上方時這一截不會淡出（wz_shops_cam）
+for x_ in (-3.2, -1.1, 1.0, 3.1): xf0.rbox(sh.a('post'), x_ - 0.05, x_ + 0.05, H - 0.14, H - 0.01, -0.6, Z1 - 0.09, r=0.0, seg=1)   # v1d：小梁（沿 z），接近參考圖的外露屋架
 for x_ in (-3.2, -1.1, 1.0, 3.1):
     for z_ in (-0.6, 2.2): xf0.rbox(sh.a('post'), x_ - 0.04, x_ + 0.04, H - 0.24, H - 0.14, z_ - 0.04, z_ + 0.04, r=0.0, seg=1)   # 束
 for side in ('back', 'left', 'right'):
