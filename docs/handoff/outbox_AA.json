@@ -4774,6 +4774,125 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "一盞 v1e（小梁不進正面那排，wz_shops_cam PASS）；MODEL_READY＝BB"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "MODEL-HELP-1103",
+   "sha": "ba43e31a",
+   "files": [
+    "tools/blender/env_second/",
+    "assets/models/env/",
+    "docs/story_planning/ref_images/",
+    "docs/story_planning/bb_models/nanyang/",
+    "docs/story_planning/bb_models/lin/",
+    "docs/story_planning/bb_models/yangyang/",
+    "docs/story_planning/bb_models/dakou/",
+    "docs/story_planning/bb_models/shaola/",
+    "docs/story_planning/bb_models/cvs/",
+    "src/data/afar_layout.js",
+    "src/data/aoki_layout.js",
+    "src/data/cafe230_layout.js",
+    "src/data/cvs_layout.js",
+    "src/data/daily_offbeat_layout.js",
+    "src/data/dakou_layout.js",
+    "src/data/daybreak_layout.js",
+    "src/data/komichi_layout.js",
+    "src/data/lin_layout.js",
+    "src/data/mokuyobi_layout.js",
+    "src/data/nanyang_layout.js",
+    "src/data/shanlan_layout.js",
+    "src/data/shaola_layout.js",
+    "src/data/sunnyside_layout.js",
+    "src/data/yangyang_layout.js",
+    "src/data/yejian_layout.js",
+    "src/data/yizhan_layout.js"
+   ],
+   "receiver": "LAWWW2",
+   "next": "帳號 A、AA-B 的室內建模（公館、溫州街、南洋、日和、大口、山嵐、燒臘…）補登記：各店交付與驗收照 BB／LAWWW2 的流程，這一筆只為 incr 分類",
+   "note": "AA-C 2026-11-04 接班補登記（incr 179 項中 AA 自己的 120 項）"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "WZ-YIZHAN-1104",
+   "sha": "ba43e31a",
+   "files": [
+    "docs/story_planning/AA_656_一盞茶屋_內外部重做與庭院可走_分工.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA_656 一盞分工（帳號 A 已交）",
+   "note": "AA-C 補登記"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "AA624-YT-BACKGROUND-1103",
+   "sha": "ba43e31a",
+   "files": [
+    "docs/story_planning/AA_630_語彤台詞改寫.md",
+    "docs/story_planning/AA_627_語彤舊設定清查.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA_627、AA_630 語彤新背景（帳號 A 已交）",
+   "note": "AA-C 補登記"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "AA631-D33-XINYI-1103",
+   "sha": "ba43e31a",
+   "files": [
+    "docs/story_planning/AA_631_信義區院線影城_D33.md",
+    "docs/story_planning/date_system/lines/D33.json",
+    "docs/story_planning/date_system/lines/D33.py",
+    "docs/story_planning/date_system/date_locations.json"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA_631 D33 光年影城（帳號 A 已交）",
+   "note": "AA-C 補登記"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "AA617-WZ-CAFES-1103",
+   "sha": "ba43e31a",
+   "files": [
+    "docs/story_planning/AA_618_木曜日與日常失速_台詞.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA_618 木曜日、日常失速台詞（帳號 A 已交）",
+   "note": "AA-C 補登記"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "ACK",
+   "task": "AA623-BOARDGAME-TEAM-1103",
+   "sha": "ba43e31a",
+   "files": [
+    "docs/story_planning/AA_623_麵店團改成桌遊團.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "AA_623 麵店團改成桌遊團（帳號 A 已交）",
+   "note": "AA-C 補登記"
   }
  ],
  "items": [
