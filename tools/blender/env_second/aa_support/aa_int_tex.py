@@ -634,6 +634,46 @@ def sns():
     im.save(os.path.join(GEN, 'sns_print.png'))
 
 
+def yzn():
+    """一盞茶屋（溫州街日式宿舍改的茶屋；AA 2026-11-04；AA_656／AA_657）：
+    yzn_tatami.png：一張 1.8 m 見方＝兩疊榻榻米並排（藺草紋、深綠布邊）；
+    yzn_print.png：(0,0) 1×2 「一盞」直的木牌、(1,0) 1×2 掛軸（水墨山水）、(2,0) 4×1 茶罐標籤 8 張（64×128，虛構茶名）、(6,0) 2×1 小菜單卡、(0,2) 2×2 豆花的舊照片（TRACE_SQ14）"""
+    rng = np.random.default_rng(1106)
+    S = 512; a = np.zeros((S, S, 3), np.float32); yy, xx = np.mgrid[0:S, 0:S]
+    base = np.array(hexc('#c8be8a'), np.float32); a[:] = base
+    a *= (1 + ((np.sin(yy * 1.9) * 0.5 + 0.5) * 0.07 - 0.035))[..., None]
+    a *= (1 + (noise(S, S, 3, 7) - 0.5)[..., None] * 0.08)
+    for k in range(2):
+        x0 = k * 256
+        for (u0, u1) in ((x0, x0 + 14), (x0 + 242, x0 + 256)): a[:, u0:u1] = np.array(hexc('#2f4a34'), np.float32) * (1 + (noise(14, S, 2, 8 + k)[:, :u1 - u0] - 0.5)[..., None] * 0.1)
+    a[:3, :] *= 0.75; a[-3:, :] *= 0.75
+    Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).save(os.path.join(GEN, 'yzn_tatami.png'))
+    im = Image.new('RGB', (1024, 1024), '#e8dcc4'); d = ImageDraw.Draw(im)
+    def vtext(x, y0, s_, f, fill, step):
+        for k, ch in enumerate(s_): text_c(d, (x, y0 + k * step), ch, f, fill)
+    bx = box(0, 0, 1, 2); x0, y0, x1, y1 = bx; paper(im, bx, '#7a5a3a', rng, grain=0.25); d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#4a321e', width=4)
+    vtext((x0 + x1) / 2, y0 + 70, '一盞', F(64), '#1e140c', 96)
+    bx = box(1, 0, 1, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#8a7a5a'); ix0, iy0, ix1, iy1 = x0 + 14, y0 + 26, x1 - 14, y1 - 26
+    hh, ww = iy1 - iy0, ix1 - ix0; Y = np.arange(hh)[:, None]; X = np.arange(ww)[None, :]; g = np.zeros((hh, ww), np.float32) + 0.9
+    for k, (cx, cy, r) in enumerate(((0.3, 0.45, 0.35), (0.7, 0.55, 0.3), (0.5, 0.75, 0.4))):
+        ridge = hh * cy - np.sqrt(np.clip((ww * r) ** 2 - (X - ww * cx) ** 2, 0, None)) * 1.2
+        g = np.where(Y > ridge, g - 0.18 - 0.08 * k, g)
+    g = np.clip(g + rng.normal(0, 0.03, g.shape), 0.2, 1.0)
+    im.paste(Image.fromarray(np.stack([g * 236, g * 228, g * 208], -1).astype(np.uint8)), (ix0, iy0)); d.rectangle([ix0, iy0, ix1, iy1], outline='#5a4a32', width=2)
+    for k, (nm, bg) in enumerate((('煎茶', '#3a5a3a'), ('焙茶', '#7a4a2a'), ('玉露', '#2a4a3a'), ('抹茶', '#4a6a2a'), ('玄米', '#a88a4a'), ('烏龍', '#5a3a22'), ('包種', '#3a4a5a'), ('紅茶', '#7a2a22'))):
+        x0, y0 = 256 + k * 64, 0; d.rectangle([x0 + 3, y0 + 3, x0 + 60, y0 + 124], fill='#f1ead8'); d.rectangle([x0 + 8, y0 + 20, x0 + 55, y0 + 108], fill=bg)
+        vtext(x0 + 32, y0 + 44, nm, F(22), '#f1ead8', 30)
+    bx = box(6, 0, 2, 1); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#f4ecd8'); d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#7a5a3a', width=2)
+    text_c(d, ((x0 + x1) / 2, y0 + 24), '一盞　品書', F(20), '#2a1e14')
+    for k, t in enumerate(('煎茶・焙茶・抹茶', '季節の和菓子')): text_c(d, ((x0 + x1) / 2, y0 + 58 + k * 30), t, F(15), '#3a2a1e')
+    bx = box(0, 2, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d4'); ix0, iy0, ix1, iy1 = x0 + 22, y0 + 22, x1 - 22, y1 - 22
+    hh, ww = iy1 - iy0, ix1 - ix0; Y = np.arange(hh)[:, None]; X = np.arange(ww)[None, :]; g = np.zeros((hh, ww), np.float32) + 0.72
+    g = np.where(((X - ww * 0.5) ** 2 / (ww * 0.25) ** 2 + (Y - hh * 0.6) ** 2 / (hh * 0.2) ** 2) < 1, 0.92, g)
+    g = np.where(((X - ww * 0.62) ** 2 + (Y - hh * 0.42) ** 2) < (ww * 0.1) ** 2, 0.9, g)
+    g += rng.normal(0, 0.03, g.shape); im.paste(Image.fromarray(np.stack([g * 232, g * 210, g * 176], -1).clip(0, 255).astype(np.uint8)), (ix0, iy0)); d.rectangle(bx, outline='#3a2a1e', width=6)
+    im.save(os.path.join(GEN, 'yzn_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -717,4 +757,5 @@ if __name__ == '__main__':
     if w in ('a23', 'all'): a23()
     if w in ('kmc', 'all'): kmc()
     if w in ('sns', 'all'): sns()
+    if w in ('yzn', 'all'): yzn()
     print('ok', w)
