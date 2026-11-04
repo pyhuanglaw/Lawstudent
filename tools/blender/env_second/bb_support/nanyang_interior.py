@@ -405,13 +405,21 @@ def standee_tex(im, d):
     d.rectangle([0, 0, w, int(h * 0.2)], fill=(248, 240, 224)); d.text((int(w * 0.08), int(h * 0.02)), '本日放映', font=font(int(w * 0.16)), fill=(150, 30, 28))
     d.rectangle([0, int(h * 0.8), w, h], fill=(30, 24, 22)); d.text((int(w * 0.08), int(h * 0.82)), '晚風月台', font=font(int(w * 0.16)), fill=(250, 236, 200))
     d.text((int(w * 0.1), int(h * 0.93)), '13:00　15:10', font=font(int(w * 0.07)), fill=(230, 214, 170))
-P['standee'] = tex('standee.png', (420, 640), standee_tex); IM['standee'] = img_mat('ny_standee', P['standee'], rough=0.6)
+P['standee'] = tex('standee.png', (420, 640), standee_tex)
+# 材質 ≤ 12：立牌和黑板架共用一張圖（左邊黑板 512 × 444、右邊立牌 336 × 512）
+_cb = Image.new('RGB', (848, 512), (30, 34, 32)); _cb.paste(Image.open(P['chalk']).convert('RGB').resize((512, 444)), (0, 0)); _cb.paste(Image.open(P['standee']).convert('RGB').resize((336, 512), Image.LANCZOS), (512, 0))
+_cb.save(P['chalk']); IM['chalk'].node_tree.nodes['Image Texture'].image.reload(); IM['standee'] = IM['chalk']
+def _remap_uv(obname, u0, u1, v0, v1):
+    me = bpy.data.objects[obname].data
+    for d_ in me.uv_layers.active.data: d_.uv = (u0 + d_.uv[0] * (u1 - u0), v0 + d_.uv[1] * (v1 - v0))
+_remap_uv('CHALK_FACE', 0.0, 512 / 848, 1 - 444 / 512, 1.0)
 sx_, sz_ = 2.9, 0.4
 stn = Mesh('STANDEE_FRAME', m_iron)
 stn.rbox(sx_ - 0.36, sx_ + 0.36, 0.55, 2.0, sz_ - 0.03, sz_ + 0.0, r=0.01, seg=1)
 for dx in (-0.3, 0.3): stn.box(sx_ + dx - 0.015, sx_ + dx + 0.015, 0.0, 0.6, sz_ - 0.02, sz_ + 0.0); stn.box(sx_ + dx - 0.02, sx_ + dx + 0.02, 0.0, 0.02, sz_ - 0.25, sz_ + 0.2)
 stn.finish(root)
 uvquad('STANDEE_FACE', (sx_ - 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 0.6, sz_ + 0.003), (sx_ + 0.32, 1.96, sz_ + 0.003), (sx_ - 0.32, 1.96, sz_ + 0.003), IM['standee'])   # 面向入口（+z）
+_remap_uv('STANDEE_FACE', 512 / 848, 1.0, 0.0, 1.0)
 EXTRA.append([sx_, sz_ - 0.02, 0.8, 0.5, '本日放映立牌'])
 # 2) 排隊的地方：兩支紅龍柱（銅柱、深紅絨繩）——櫃檯前排隊那一條（x −3.2～−2.0）和中間走道中間；售票窗口在外觀那一面（LAWWW2），大廳裡排隊的是爆米花櫃檯
 qx, qz0, qz1 = -1.95, -1.4, 0.6
