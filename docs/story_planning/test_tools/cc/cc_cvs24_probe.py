@@ -214,6 +214,12 @@ async def force_case(pg, cdp, key, errs):
     texts = lines + toasts + caps
     bad = [t for t in texts if any(w in t for w in ('打烊', '關門', '請離開', '鐵捲門', '營業時間'))]
     check('[%s] 02:30 以後的字幕／對話／toast 沒有「打烊」類的字（回家睡可以）' % tag, not bad, J({'bad': bad, 'texts': texts}))
+    more = []; t1 = time.time()
+    while time.time() - t1 < 120:   # 事件一個接一個（起床選單約 4 秒後才出）：點完以後再等 5 秒，還有就再點
+        more += await converse(pg, cdp, tag + '_after', max(5, 120 - (time.time() - t1)))
+        await pg.wait_for_timeout(5000); q = await pg.evaluate(ST)
+        if not q['dlg'] and not q['choices'] and q['depth'] == 0: break   # 睡醒以後早上的條件事件（手機訊息、旁白、選單）先點完，再做卡住檢查（PC 11-04：對話還開著就檢查，dlg true、depth 1）
+    print('  [%s] 睡醒以後的對話（%d 句）點完' % (tag, len(more)), flush=True)
     await stuck_check(pg, cdp, tag + '_after', fb0, e0, errs)
 
 

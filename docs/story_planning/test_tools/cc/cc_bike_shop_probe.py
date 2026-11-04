@@ -8,7 +8,7 @@
      M1 進店；室內 v1b（933b9c36d）：正式模型接上以後修車架上的車（GLB 節點 REPAIR_BIKE*）是藏的（visible＝false）；
         修車架旁邊走得過去：真的走到兩支修車架後面、工作台前的走道 (2.0, −4.85)，再走到左邊那條縫 (0.65, −4.0)
      M1c（c7fde4f3e）：【前置／捷徑】直接叫遊戲自己的 BIKESHOP.repairBike(true)（調座墊、補胎、打氣那一幕用的同一個入口）打開修車架上的車：
-        BIKE_LAYOUT.bike.repairBike.blockWhenShown 那一塊的導航格全部 E.nav.free＝false（走不進去）；repairBike(false) 收起來：同一塊回到打開前的樣子（原本 free 的格子都 free），
+        BIKE_LAYOUT.bike.repairBike.blockWhenShown 那一塊（照 NavGrid.blockRect：格子中心落在矩形裡的格）全部擋住；0.1 m 取樣還 free 的點印出座標和格子（邊緣半格不算）；repairBike(false) 收起來：每一格回到打開前，
         而且真的走得到那一塊裡站得住的一點（L.go_to）
      M2 看淑女車 → 買這台 → 奶油白：扣 4,200、現在騎的＝淑女車奶油白、買過的車 2 台、時間 +10 分；台詞：調座墊、旁白、「騎看看。」
      M3 找車行老闆 → 換一台騎 → 城市通勤車：AA_651「好，這台。……那台先放我這裡。」＋旁白「（座墊還是你上次調的高度。）」；再換回淑女車（同兩句）
@@ -17,6 +17,7 @@
      M6 再點一次：選項寫「買過了」、老闆「你上次買過了。……還在用吧？」、不扣錢
      M7 離開慢輪單車：車停在車行門口的停車位（BIKESHOP.PARK，z<19 不在騎樓）、站得住不擋門（BIKE.parkOK）
      M8 騎車：公館 → 溫州街（進一棟、出來）→ 回公館 → 校園（進一棟、出來）→ 118 巷（進一棟、出來）。
+        騎到 118 巷時遊戲可能說「（樓梯不能騎，車停在下面。）」（設計如此）：接受已下車，車要停在 118 巷、parkOK、不擋門，走過去重新上車再繼續；
         每次出來：車在這一區、停在 bike_shop_park_unit.js 的規則下的位置（最近的合法停車處 ≤ BIKE.MAXD；都太遠才停門旁）、BIKE.parkOK（站得住、不擋門）、公館不在騎樓；
         （M7、M8 每次）停好的車身（場景裡 bike_ride 的外框）不和任何店門交疊：店門＝這一區所有店的門口互動點（含打烊時換成的字、溫州街 wzShop 的「進入」）為圓心、1.2 m 寬（半徑 0.6）；
         公館另外加 zones3d.js DOORS 九個門（含第二批四間還沒有互動點的門）門前 1.2 m 寬的通道（門x±0.6、z 16.5～21.6）；
@@ -104,12 +105,20 @@ DOORHIT_JS = """(([outdoor,ggDoors])=>{ const E=GAME.E, G=GAME.G, pk=E.zone&&E.z
     else if(bb.x0<d.x1&&bb.x1>d.x0&&bb.z0<d.z1&&bb.z1>d.z0) hit.push(d); }
   return {bb, nDoors:doors.length, hit:hit.slice(0,4)}; })(%s)"""
 REPNAV_JS = """(op=>{ const E=GAME.E, nav=E.nav, BL=(typeof BIKE_LAYOUT!=='undefined'&&BIKE_LAYOUT.bike.repairBike)?BIKE_LAYOUT.bike.repairBike.blockWhenShown:null; if(!BL||typeof BIKESHOP==='undefined') return {err:'沒有 blockWhenShown 或 BIKESHOP'};
-  const [cx,cz,w,d]=BL, pts=[]; for(let x=cx-w/2+0.1;x<=cx+w/2-0.1+1e-6;x+=0.1) for(let z=cz-d/2+0.1;z<=cz+d/2-0.1+1e-6;z+=0.1) pts.push([x,z]);
-  if(op==='open'){ GAME._ccRepFree=pts.map(([x,z])=>!!nav.free(x,z)); const n=BIKESHOP.repairBike(true); const fr=pts.filter(([x,z])=>nav.free(x,z)); let vis=null; E.zone.group.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)) vis=o.visible; });
-    return {BL, nodes:n, n:pts.length, freeBefore:GAME._ccRepFree.filter(Boolean).length, freeNow:fr.length, sample:fr.slice(0,3), visible:vis}; }
-  const n=BIKESHOP.repairBike(false); const before=GAME._ccRepFree||[]; const lost=pts.filter(([x,z],i)=>before[i]&&!nav.free(x,z)); let vis=null; E.zone.group.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)) vis=o.visible; });
-  let tgt=null; for(const [x,z] of pts){ if(E.canStand(x,z,0.3,0)){ tgt=[+x.toFixed(2),+z.toFixed(2)]; break; } }
-  return {BL, nodes:n, n:pts.length, freeBefore:before.filter(Boolean).length, freeNow:pts.filter(([x,z])=>nav.free(x,z)).length, lost:lost.length, visible:vis, target:tgt}; })(%s)"""
+  /* 照遊戲 NavGrid.blockRect 的做法：格子中心（toWorld）落在矩形裡的格子才算這一塊（bikeshop3d.js c7fde4f3e：repairNav.blockRect(x,z,w,d,0)，pad 0）*/
+  const [cx,cz,w,d]=BL, hw=w/2, hd=d/2, cells=[]; const [c0,r0]=nav.toCell(cx-hw-nav.cell,cz-hd-nav.cell), [c1,r1]=nav.toCell(cx+hw+nav.cell,cz+hd+nav.cell);
+  for(let r=r0;r<=r1;r++) for(let c=c0;c<=c1;c++){ if(c<0||r<0||c>=nav.cols||r>=nav.rows) continue; const [wx,wz]=nav.toWorld(c,r); if(Math.abs(wx-cx)<=hw&&Math.abs(wz-cz)<=hd) cells.push([c,r,+wx.toFixed(2),+wz.toFixed(2)]); }
+  const bl=()=>cells.map(([c,r])=>!!nav.b[nav.idx(c,r)]);
+  const pts=[]; for(let x=cx-hw+0.1;x<=cx+hw-0.1+1e-6;x+=0.1) for(let z=cz-hd+0.1;z<=cz+hd-0.1+1e-6;z+=0.1) pts.push([+x.toFixed(2),+z.toFixed(2)]);
+  const cellOf=([x,z])=>{ const [c,r]=nav.toCell(x,z), [wx,wz]=nav.toWorld(c,r); return {pt:[x,z],cell:[c,r],center:[+wx.toFixed(2),+wz.toFixed(2)],centerInRect:Math.abs(wx-cx)<=hw&&Math.abs(wz-cz)<=hd}; };
+  let vis=null;
+  if(op==='open'){ GAME._ccRepB=bl(); const n=BIKESHOP.repairBike(true); const now=bl(); E.zone.group.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)) vis=o.visible; });
+    const freePts=pts.filter(([x,z])=>nav.free(x,z)).map(cellOf);
+    return {BL, cell:nav.cell, nodes:n, nCells:cells.length, blockedBefore:GAME._ccRepB.filter(Boolean).length, freeCellsNow:cells.filter((q,i)=>!now[i]).map(q=>q.slice(0,4)), nPts:pts.length, freePts, visible:vis}; }
+  const n=BIKESHOP.repairBike(false); const now=bl(), before=GAME._ccRepB||[]; E.zone.group.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)) vis=o.visible; });
+  const diff=cells.filter((q,i)=>now[i]!==before[i]).map(q=>q.slice(0,4));
+  let tgt=null; for(const q of cells){ if(!now[cells.indexOf(q)]&&E.canStand(q[2],q[3],0.3,0)){ tgt=[q[2],q[3]]; break; } }
+  return {BL, nodes:n, nCells:cells.length, blockedBefore:before.filter(Boolean).length, blockedNow:now.filter(Boolean).length, diff, visible:vis, target:tgt}; })(%s)"""
 ARCADE_RULE = {'gongguan': '公館 z < 19', 'wenzhou': '溫州街 |z| ≤ 4.3', 'xinsheng': '新生南路 x 不在 −16.5～−13.0'}
 
 
@@ -455,9 +464,11 @@ async def main():
                 print('  [前置／捷徑] 直接呼叫遊戲的 BIKESHOP.repairBike(true)（調座墊、補胎那一幕用的同一個入口）', flush=True)
                 ro = await pg.evaluate(REPNAV_JS % J('open'))
                 await pg.wait_for_timeout(1200); await pg.screenshot(path=os.path.join(OUT, 'M1c_repair_bike_shown.png'))
-                check('M1c 打開：REPAIR_BIKE 看得到、blockWhenShown 那一塊導航格全部擋住（nav.free＝false，走不進去）', 'err' not in ro and ro['visible'] is True and ro['freeNow'] == 0, J(ro))
+                if ro.get('freePts'): print('  [M1c] 0.1 m 取樣裡還是 free 的點（%d 個）和所在格子：%s' % (len(ro['freePts']), J(ro['freePts'])), flush=True)
+                check('M1c 打開：REPAIR_BIKE 看得到、blockWhenShown 那一塊（格子中心落在矩形裡的 %s 格，照 NavGrid.blockRect）全部擋住' % ro.get('nCells'), 'err' not in ro and ro['visible'] is True and ro['nCells'] > 0 and not ro['freeCellsNow'], J({k: ro.get(k) for k in ('BL', 'cell', 'nCells', 'blockedBefore', 'freeCellsNow', 'visible')}))
+                if ro.get('freePts'): check('M1c 取樣裡還是 free 的點都在邊緣（所在格子的中心不在矩形裡）', all(not q['centerInRect'] for q in ro['freePts']), J([q for q in ro['freePts'] if q['centerInRect']]))
                 rc = await pg.evaluate(REPNAV_JS % J('close'))
-                check('M1c 收起來：REPAIR_BIKE 藏回去、那一塊回到打開前（原本 free 的格子都 free）', 'err' not in rc and rc['visible'] is False and rc['lost'] == 0 and rc['freeNow'] == rc['freeBefore'] and rc['freeBefore'] > 0, J(rc))
+                check('M1c 收起來：REPAIR_BIKE 藏回去、那一塊的每一格都回到打開前（擋的照擋、free 的照 free）', 'err' not in rc and rc['visible'] is False and not rc['diff'] and rc['blockedNow'] == rc['blockedBefore'] and rc['nCells'] > rc['blockedBefore'], J(rc))
                 if rc.get('target'):
                     tx, tz = rc['target']
                     ok = await L.go_to(pg, cdp, Run(), tx, tz, 0.4, '修車架上的車原本佔的地方 (%.2f,%.2f)' % (tx, tz), max_s=300)
@@ -523,8 +534,20 @@ async def main():
                         if not await ride_exit(pg, cdp, 'M8_wz_gg', 'gongguan'): break
                         cur = 'gongguan'
                     if not await ride_exit(pg, cdp, 'M8_%s' % zone, zone): riding = False; break
-                    k = await pg.evaluate(BK)
-                    check('M8 騎到%s：還在騎' % zone, k['riding'], J(k))
+                    k = await pg.evaluate(BK); st8 = await pg.evaluate(ST)
+                    if k['riding']:
+                        check('M8 騎到%s：還在騎' % zone, True, J(k))
+                    elif '樓梯不能騎' in (st8.get('toast') or ''):
+                        # 遊戲的設計（engine：第 1 層以上或 y>0.12 自動下車）：「（樓梯不能騎，車停在下面。）」→ 接受已下車，車要停在這一區、位置合法，走過去重新上車
+                        print('INFO M8 騎到%s：遊戲說「%s」，車停在 %s（樓梯不能騎：接受下車）' % (zone, st8['toast'], J(k['parked'])), flush=True)
+                        c8 = await pg.evaluate(PCHK); dh8 = await pg.evaluate(DOORHIT_JS % J([OUTDOOR, GG_DOORS]))
+                        check('M8 %s 樓梯前下車：車停在 %s、場景裡看得到' % (zone, zone), c8['zone'] == zone and bool(k['parked']), J({'bike': [c8['zone'], round(c8['x'], 2), round(c8['z'], 2)], 'parked': k['parked']}))
+                        check('M8 %s 樓梯前下車：停的位置合法（BIKE.parkOK：站得住、不擋出入口）' % zone, c8['ok'], J(c8['doors']))
+                        check('M8 %s 樓梯前下車：車身不和任何門口交疊（0.6 m）' % zone, bool(dh8) and not dh8['hit'], J(dh8))
+                        await pg.screenshot(path=os.path.join(OUT, 'M8_%s_stairs_park.png' % zone))
+                        if not await r_mount_near(pg, cdp, 'M8_%s_remount' % zone): riding = False; break
+                    else:
+                        check('M8 騎到%s：還在騎（或遊戲說樓梯不能騎）' % zone, False, J({'bike': k, 'toast': st8.get('toast')}))
                     cur = zone
                     if zone == 'campus' and 'campus' not in LEGS: continue
                     riding = await in_and_out(pg, cdp, 'M8_%s' % zone, errs, zone, prefer)
