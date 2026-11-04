@@ -30,7 +30,7 @@ OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/' + {'gongg
 SHOP = lambda **k: k
 SPECS = [
     # A 側（z>0，立面朝 −z）：aptA(x0,x1,spec) → 位置 ((x0+x1)/2, 5)、rotation.y=π、深 12
-    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile_sq', color='#e6dac5', p_grille=1.0, p_pot=1.0, pots_n=3, ground='shop', shop=SHOP(type='print', name='阿德影印輸出', frame='#c3c7ca', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
+    dict(id='A1', side='A', x0=-12, x1=-4, floors=4, wall='tile_sq', color='#efd6b0', p_grille=1.0, p_pot=1.0, pots_n=4, pot_mix=True, p_laundry=0.7, ground='shop', shop=SHOP(type='print', name='阿德影印輸出', frame='#c3c7ca', sub='影印・膠裝・大圖輸出', signBg='#f4f1ea', signColor='#1f4e8c', band='#1f4e8c', vertical='影印', vBg='#ffffff', vColor='#1f4e8c', vBand='#1f4e8c')),
     dict(id='A2', side='A', x0=-4, x1=3.1, floors=5, wall='mosaic', color='#cfd8d0', ground='door', door='#9c2f2a'),
     dict(id='A3', side='A', x0=8.4, x1=20, floors=4, wall='tile', color='#c9b49a', balcony=True, ground='shop', shop=SHOP(type='books', name='溫州書屋', sub='二手書・人文社會・法律', signBg='#2f4a3a', signColor='#f4ead8', serif=True, awning='#2f4a3a', vertical='書', vBg='#f4ead8', vColor='#2f4a3a', vBand='#2f4a3a')),
     dict(id='A4', side='A', x0=32, x1=40, floors=4, wall='tile', color='#e9e6df', ground='shop', shop=SHOP(type='noodle', name='林家乾麵', sub='乾麵・餛飩・滷味', signBg='#2f5a47', signColor='#e9d9a8', awning='#2f5a47', atlas='wz_lin_h')),
@@ -540,10 +540,10 @@ def window_proto(wh, part):
     return _WIN[key]
 
 
-def potted_proto(kind, r, h, lift, size, n, seed):
-    """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央"""
+def potted_proto(kind, r, h, lift, size, n, seed, potm='pot_terra', prof='taper4'):
+    """盆栽（instancing）：陶盆＋葉片卡。原點＝盆底中央；potm／prof：盆子的材質、形狀（ADE-V2.1：白瓷、水泥盆）"""
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8)   # 街上的盆栽：8 邊、4 點輪廓（Café 裡 18 邊）
+    pm = Mesh('pot', M[potm]); pot(pm, 0.0, 0.0, r, h, prof, y0=0.0, seg=8)   # 街上的盆栽：8 邊、4 點輪廓（Café 裡 18 邊）
     lv = Mesh('leaves', M[kind]); bush(lv, 0.0, lift, 0.0, size, n=n, span=0.45)
     return combine([pm.finish(None, smooth=True), lv.finish(None, uv=False)], f'potted_{kind}_{seed}')
 
@@ -569,7 +569,7 @@ def laundry_proto(seed):
 
 LAUNDRY = [laundry_proto(s) for s in (21, 22, 23)]
 POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, 11)] * 2   # 效能第二輪：兩個種子的蕨類盆栽合成一個原型（每個原型 2 次 draw call；擺的時候本來就各自轉向）
-def broad_proto(r, h, seed):
+def broad_proto(r, h, seed, potm='pot_terra', prof='taper4', ph=0.62, pw=0.42, stems=3):
     """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
     import plants as PL_
     if '_PLM_ST' not in globals():
@@ -578,10 +578,10 @@ def broad_proto(r, h, seed):
         for k_, hx_ in (('leaf_dark', '#3d6a3a'), ('leaf_mid', '#55894a')):
             _PLM_ST[k_].node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (*PL_._srgb(hx_), 1.0)
     random.seed(seed)
-    pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
+    pm = Mesh('pot', M[potm]); pot(pm, 0.0, 0.0, r, h, prof, y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=r * 0.95, radius2=r * 0.95, depth=0.02); bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(0.0, h - 0.03, 0.0)); B.mesh_obj('tmp_pl_soil', bm, _PLM_ST['soil'], tmp)
-    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, 0.62, 0.42, seed, stems=3, leaf_n=4)   # 街上的盆栽遠看：3 根莖（室內 5 根）、葉子 4 段（室內 6）
+    PL_.broad_plant(B.mesh_obj, _PLM_ST, 'tmp_pl', tmp, 0.0, h - 0.02, 0.0, ph, pw, seed, stems=stems, leaf_n=4)   # 街上的盆栽遠看：3 根莖（室內 5 根）、葉子 4 段（室內 6）
     for ob in list(tmp.children):
         ob.parent = None
         if ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
@@ -591,6 +591,11 @@ def broad_proto(r, h, seed):
 
 
 POT_BROAD = broad_proto(0.16, 0.3, 13)
+# ADE-V2.1（BB_255 第 4 點：門口的盆栽大多是同一種紅陶盆，D133 H）：白瓷、水泥盆，大小、高度都不同（放在 random.seed(707) 前面：不改後面的亂數）
+M['pot_conc'] = L.flat('wz_pot_concrete', '#9d9b95', rough=0.92)
+POT_TALL_W = broad_proto(0.19, 0.5, 17, potm='ceramic', prof='cyl', ph=0.95, pw=0.55, stems=4)   # 高的白瓷圓筒盆＋大葉（總高約 1.4 m）
+POT_BROAD_W = broad_proto(0.15, 0.24, 23, potm='ceramic', prof='bowl', ph=0.5, pw=0.4)          # 白瓷碗形盆的矮大葉
+POT_FERN_C = potted_proto('fern', 0.15, 0.26, 0.4, 0.4, 5, 19, potm='pot_conc', prof='cyl')     # 水泥圓筒盆的蕨類
 random.seed(707)
 
 # 累積的網格（同材質一個）：用 dict 依材質名取用
@@ -732,12 +737,13 @@ def apartment(spec):
         else: xf.quad(cm, [(x0 + 0.03, y0 + 0.03, -0.29), (x0 + cw, y0 + 0.03, -0.29), (x0 + cw, y1 - 0.05, -0.29), (x0 + 0.03, y1 - 0.05, -0.29)])
         if w['kind'] == 'grille':
             inst(GRILLE, f'grille_{spec["id"]}', xf, cx, y0 - 0.14, 0.0); inst(HOOD, f'ghood_{spec["id"]}', xf, cx, y0 - 0.14 + 1.77, 0.0)
-            if not spec.get('far') and lrng.random() < 0.28: bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)
+            if not spec.get('far') and lrng.random() < spec.get('p_laundry', 0.28): bake(LAUNDRY[lrng.randrange(3)], f'laundry_{spec["id"]}', xf, cx, y0 - 0.14, 0.0)   # p_laundry：ADE-V2.1 阿德樓上多曬一點衣服（BB_255 第 5 點）
             if not spec.get('far') and rng.random() < spec.get('p_pot', 0.6):
                 npot = spec.get('pots_n', 1)   # ADE-V2-1104：阿德（參考圖 wz_ade_ext）鐵窗裡一排盆栽——一扇窗放 npot 盆，蕨類和大葉輪流、間距和角度不一樣
                 for k_ in range(npot):
                     px_ = (cx + rng.uniform(-0.9, 0.9)) if npot == 1 else (cx - 0.95 + (k_ + 0.5) * 1.9 / npot + rng.uniform(-0.12, 0.12)); pz_ = rng.uniform(0.16, 0.28); q = xf.p(px_, 0, pz_)
                     pm_ = POT_FERN[rng.randrange(2)] if (npot == 1 or k_ % 2 == 0) else POT_BROAD
+                    if spec.get('pot_mix'): pm_ = (POT_FERN[0], POT_BROAD_W, POT_FERN_C, POT_BROAD)[(k_ + int(abs(cx) * 3)) % 4]   # ADE-V2.1：紅陶、白瓷、水泥盆混著放（上面那行照舊用掉亂數，後面的配置不變）
                     B.instance(pm_, f'pot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.11, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['kind'] == 'balcony':
             bx0, bx1, bd = x0 - 0.6, x1 + 0.6, 1.05; xf.box(band, bx0, bx1, y0 - 0.3, y0 - 0.16, -0.25, bd)
