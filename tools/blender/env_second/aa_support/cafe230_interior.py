@@ -26,7 +26,7 @@ sh.M.update({
     'wood': L.pbr(P + 'walnut', 'walnut_veneer', tile=1.0, target='#5e3f28', maps=('diff',), res=256, rough_value=0.45, cull=True),   # v1b：單面（木頭都是封閉的盒子；天花板也用它）
     'glass': L.flat(P + 'glass', '#dfe6e6', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff2d8', rough=0.3, emit=B.srgb('#ffcf8a')),
-    'view': K.img_mat(P + 'window_view', 'a23_view.png', rough=0.9, emit=0.08),   # v1c：mok_view 的半尺寸（LAWWW2 的窗卡會換掉它；GLB 省 0.27 MB）
+    'view': K.img_mat(P + 'window_view', 'a23_views_day.jpg', rough=0.9, emit=0.08),   # v1f：LAWWW2 f785028e6 從 2:30 AM 往外拍的窗景（上半＝正面溫州街；下半＝右窗：外面是 0.7 m 的防火巷，做成毛玻璃——巷子的圖模糊、調亮）；夜版 a23_views_night.jpg 同樣排法
     'print': K.img_mat(P + 'print', 'a23_print.png', rough=0.7),
     'books': K.img_mat(P + 'books', 'mok_bookrows.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
@@ -171,10 +171,10 @@ for side in ('back', 'left'):
     a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wood', a0, a1, 0.0, 1.0); sh.wall_box(side, 'wall', a0, a1, 1.0, H)
 for side, (a0, a1) in (('left', (Z0, Z1)), ('right', (Z0, Z1)), ('back', (X0, X1)), ('front', (X0, -CF.DOOR - CF.POST)), ('front', (CF.DOOR + CF.POST, X1))): sh.wall_box(side, 'wood', a0, a1, 0.98, 1.04, -0.03, 0.0)   # 護牆板上緣的木條（門口斷開）
 vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])
-xf0.quad(vw, [(9.0, 5.5, vz), (-9.0, 5.5, vz), (-9.0, -1.0, vz), (9.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.0))
+xf0.quad(vw, [(9.0, 5.5, vz), (-9.0, 5.5, vz), (-9.0, -1.0, vz), (9.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.5))   # 圖的上半
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
 vx = X1 + 2.5; vr = Mesh('WALL_right_VIEW_' + P + 'window_view', sh.M['view'])
-xf0.quad(vr, [(vx, -1.0, -5.0), (vx, -1.0, 5.0), (vx, 5.0, 5.0), (vx, 5.0, -5.0)], uv=(0.0, 0.0, 1.0, 1.0))
+xf0.quad(vr, [(vx, -1.0, -5.0), (vx, -1.0, 5.0), (vx, 5.0, 5.0), (vx, 5.0, -5.0)], uv=(0.0, 0.0, 1.0, 0.5))   # 圖的下半
 vr.finish(sh.root, uv=False, props={'dir': K.DIRS['right'], 'windowView': True})
 for zz in (-4.4, 4.2):                                                                                                     # 西牆的黃銅壁燈（拱門兩邊）
     wx = sh.wall_xf('left', zz, 0.0, 2.15); wx.rbox(sh.w('left', 'vcm'), -0.05, 0.05, -0.08, 0.08, 0.0, 0.03, r=0.01, seg=1, col=BRASS)
