@@ -4238,6 +4238,25 @@
    "kind": "text",
    "history": [{"sha": "6af703d63", "note": "第 1～3 節（改名對照）；6ee7ea3a5 加第 4 節帝大紅茶菜單、第 5 節溫州書屋營業時間"}],
    "note": "溫州街第二批改名（使用者 11-04 05:4x）：巷口書房→溫州書屋、巷口茶飲→帝大紅茶、阿忠水果→阿忠鮮果、自助洗衣→常在洗衣（夏日冰菓室不改；key 不改）；帝大紅茶菜單（紅茶／奶茶／檸檬紅茶 中、大）、firstLine、可昕那一杯的品項照換；溫州書屋 週二～週日 10:00–20:00、週一公休、櫥窗四句（6ee7ea3a5）。照抄進 src/zones3d.js、src/data/places.js、src/wzshops3d.js、src/sideq3d.js、src/foodfav3d.js、src/data/food_fav_lines.js；讀稿換字表 tools/story/aa658_fix.json；shop_enc.js 重新匯入（tests/aa655_wz_rename_unit.js 第 8 節逐字對照）"
+  },
+  {
+   "path": "docs/story_planning/AA_659_溫州街新室內_店內台詞.md",
+   "sha": "21beb9d12",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-SHOPS1-1104",
+   "kind": "text",
+   "note": "這一版只接第 1 節 2:30 AM：「看唱片」三句（輪流第 1、2 句，22:00 以後固定第 3 句）、「看蛋糕櫃」20:00 前後各一句＋芷若在吧檯時第一次那一句、吧檯高腳椅「坐吧檯」與長桌兩端「坐下」（可以點杯咖啡慢慢讀）。照抄進 src/wzshops3d.js S.CAFE230、src/zones3d.js cafe230Add（tests/cafe230_aa657_unit.js 逐字對照）。第 2 節 SUNNY SIDE、第 3 節一盞前院先不做（模型還沒進遊戲）"
+  },
+  {
+   "path": "docs/story_planning/AA_657_一盞茶屋_劇情對位置的決定.md",
+   "sha": "1aadca7e4",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "WZ-YIZHAN-1104",
+   "kind": "text",
+   "history": [{"sha": "ff94eff38", "note": "第一版；1aadca7e4 更正 c510_3_2 standAt (2.3,3.4)、c506_3_3 坐長桌最東"}],
+   "note": "一盞：c510_3_2、c506_3_3 從麵店搬到 wz_teahouse（座標、時間、「常來的阿伯」、place 說明）；ev_yt_family_dinner 當天 20:00～21:00 茶屋的門讓玩家進去、20:00 以後門口旁白。照抄進 src/data/heroine_circle.js、src/hcircle3d.js、src/aa187_3d.js、src/story3d.js（tests/cafe230_aa657_unit.js）"
   }
  ]
 }

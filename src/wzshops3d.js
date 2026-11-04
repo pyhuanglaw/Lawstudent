@@ -228,11 +228,22 @@ const WZS=(()=>{
 
   /* 順手的事（src/sideq3d.js，AA_404 SQ14、AA_405 SQ20）：一盞茶屋、半熟早午餐點完（真的買了）叫 SIDEQ.atShop */
   async function sideq(GM,key,it){ if(!it||typeof SIDEQ==='undefined'||!SIDEQ.atShop) return; try{ await SIDEQ.atShop(GM,key,{item:it[0],price:it[1]}); }catch(e){ console.warn('SIDEQ',e); } }
+  /* 2:30 AM 店內的兩個互動（AA_659 第 1 節，D109 逐字；zones3d.js cafe230Add 放按鈕，kind record、pastry）：
+     「看唱片」照順序輪流第 1、2 句，22:00 以後固定第 3 句（G.flags.CAFE230_REC＝下一次輪到第幾句）；
+     「看蛋糕櫃」20:00 前、後各一句；芷若在吧檯上班（店員 staff cafe）時第一次看＝換成她那一句（G.flags.CAFE230_PASTRY_ZR，之後照時段）*/
+  S.CAFE230={record:['（唱盤上轉著一張爵士。封套靠在旁邊，上面的字是手寫的。）','（書牆中間那一格全是黑膠。最外面那張封套上貼著一張便利貼：「可以點，不能帶走。」）','（唱針走到最後一圈，沙沙響了好幾秒，才有人過去換下一張。）'],
+    pastry:['（玻璃櫃分三層：起司蛋糕、檸檬塔，還有一盤看不出名字的司康。價錢寫在小黑板上。）','（蛋糕櫃裡只剩兩塊。燈還開著，那兩塊看起來特別亮。）'],
+    pastryZr:'「司康是老闆烤的。我不推薦。……也不是不推薦。」'};
+  S.cafe230Line=function(G,kind,zr){ const F=G.flags||(G.flags={}), H=(((+hr(G)||0)%24)+24)%24;
+    if(kind==='record'){ if(H>=22||H<5) return {lines:[S.CAFE230.record[2]]}; const i=(F.CAFE230_REC|0)%2; F.CAFE230_REC=i+1; return {lines:[S.CAFE230.record[i]]}; }   /* 22:00 以後：營業到 02:30（凌晨也算「22:00 以後」）*/
+    if(kind==='pastry'){ if(zr&&!F.CAFE230_PASTRY_ZR){ F.CAFE230_PASTRY_ZR=true; return {zr:true,lines:[S.CAFE230.pastryZr]}; } return {lines:[S.CAFE230.pastry[H>=20||H<5?1:0]]}; }
+    return null; };
   S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind;
     if(k==='cvs413'){ G.flags.CVS_FROM='wenzhou'; const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN.cvs; await GM.enter('cvs',SI?{x:SI.x,z:SI.z,yaw:SI.yaw}:{x:0,z:3.4,yaw:Math.PI}); return; }   /* 進門站的地方照 zones3d.js SHOP_IN（日和便利店 v2，GG-SHOPS-REDO-1104）*/   /* AA_413：日日便利，24 小時 */
     GM.sceneBegin();
     try{
-      if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ if(x[2]) await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
+      if(k==='cafe'&&(kind==='record'||kind==='pastry')){ const zn=GM.npc&&GM.npc.heroine_02, zr=!!(zn&&zn.staff==='cafe'&&!zn.leaving&&!zn.hidden); const r=S.cafe230Line(G,kind,zr); if(r) for(const t of r.lines) await GM.say(r.zr?(zn&&zn.name?zn:{name:'芷若'}):null,t); }   /* AA_659 第 1 節 */
+      else if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ if(x[2]) await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
       else if(k==='teahouse'&&kind==='tea'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'su');   /* 順手的事 SQ08：問蘇姨（下午）*/ const it=await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); if(typeof AA524!=='undefined'&&AA524.ytEgg) await AA524.ytEgg(GM);   /* AA_524 Y8（AA_630 Z-002）：語彤生日「蘇姨說要請你吃茶點。下次來。」以後第一次點茶 */ await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); await sideq(GM,'溫州街・一盞',it); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }

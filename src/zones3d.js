@@ -1766,7 +1766,7 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_3f']) ASSETS.loadOne('bldg.library_3f').then(c=>{ if(!c||!c.scene||E.zone!==z) return; attachRoomGLB(z,g0,g,c.scene.clone(true)); }).catch(e=>console.warn('總圖 3F 正式模型',e));
     return z; } };
   // ---------- 溫州街咖啡廳 ----------
-  const cafe={ id:'cafe', name:'2:30 AM', indoor:true, camDist:4.2, seeThru:true, build(E){   /* seeThru：吊燈電線（seethru_cafe_cord）擋住玩家時網點透空 */ const z=room(E,{view:'cafe',viewDepth:11,w:14,d:12,h:3.4,warm:true,wallColor:'#e8dcc4',floorTex:W3.canvasTex('cafe_screed',256,256,(x,w,h)=>{ x.fillStyle='#9d9b96'; x.fillRect(0,0,w,h); for(let n=0;n<70;n++){ const cx=(n*73)%w, cy=(n*151)%h, r=18+(n*37)%40, a=0.035+((n*13)%5)*0.01; const g=x.createRadialGradient(cx,cy,0,cx,cy,r); const v=n%2?255:40; g.addColorStop(0,'rgba('+v+','+v+','+v+','+a+')'); g.addColorStop(1,'rgba('+v+','+v+','+v+',0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); } for(let n=0;n<240;n++){ x.fillStyle='rgba(60,58,55,0.28)'; x.fillRect((n*97)%w,(n*61)%h,1,1); } })   /* 自流坪水泥灰（使用者 2026-10-16 23:4x「地板跟桌子顏色太近 我要自流坪那種水泥顏色」；正式模型 cafe_interior.glb 由 LAWWW2-B 改 ART-CAFE-FLOOR，這是載入前／失敗時的備用）*/,spawn:{x:0,z:5,yaw:Math.PI},winWall:'right',winXs:[2.5,-1.5],winY:1.9}); const g0=z.group, nav=z.nav; z.seeThru=true;   /* 吊燈電線擋住玩家時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），寫在定義上沒有用 */   /* 窗在右牆 z=−2.5、1.5（窗邊的雙人桌旁邊；正式模型的窗也在這裡）*/
+  const cafe={ id:'cafe', name:'2:30 AM', indoor:true, camDist:4.2, seeThru:true, build(E){   /* seeThru：吊燈電線（seethru_cafe_cord）擋住玩家時網點透空 */ const z=room(E,{view:'cafe',viewDepth:11,w:14,d:12,h:3.4,warm:true,wallColor:'#e8dcc4',floorTex:W3.canvasTex('cafe_screed',256,256,(x,w,h)=>{ x.fillStyle='#9d9b96'; x.fillRect(0,0,w,h); for(let n=0;n<70;n++){ const cx=(n*73)%w, cy=(n*151)%h, r=18+(n*37)%40, a=0.035+((n*13)%5)*0.01; const g=x.createRadialGradient(cx,cy,0,cx,cy,r); const v=n%2?255:40; g.addColorStop(0,'rgba('+v+','+v+','+v+','+a+')'); g.addColorStop(1,'rgba('+v+','+v+','+v+',0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); } for(let n=0;n<240;n++){ x.fillStyle='rgba(60,58,55,0.28)'; x.fillRect((n*97)%w,(n*61)%h,1,1); } })   /* 自流坪水泥灰（使用者 2026-10-16 23:4x「地板跟桌子顏色太近 我要自流坪那種水泥顏色」；正式模型 cafe_interior.glb 由 LAWWW2-B 改 ART-CAFE-FLOOR，這是載入前／失敗時的備用）*/,spawn:{x:0,z:5,yaw:Math.PI},winWall:'right',winXs:[2.5,-1.5],winY:1.9}); const g0=z.group, nav=z.nav; z.seeThru=true; const L230=cafe230L(); if(L230) z.cafe230=L230.version;   /* 2:30 AM 室內 v1b（AA cafe230_layout.js v2、aa_support/cafe230.glb；WZ-SHOPS1-1104）：配置沒載入＝照舊 */   /* 吊燈電線擋住玩家時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），寫在定義上沒有用 */   /* 窗在右牆 z=−2.5、1.5（窗邊的雙人桌旁邊；正式模型的窗也在這裡）*/
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.cafe_interior'，第二個 AI）載入後整組藏起來；導航、座位、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     // 吧檯
@@ -1778,9 +1778,9 @@ const Z3 = (function(){
     /* ART-WZ4（LAWWW2-B patches/cafe_wz4.md，AA_164 第 4 節）：格局不動、座位只增不減——中間那張改成四人長方桌（兩端各加一個位子）、吧檯座 ×4、角落沙發 ×3；
        沙發、矮桌、立燈、傘桶擋住。原本的站位、seatApproach、存檔都不變 */
     for(const sx of [-1,1]){ chair(g,sx*0.85,1.5,sx<0?Math.PI/2:-Math.PI/2,'#3b2a1e'); z.seats.push({x:sx*0.85,z:1.5,yaw:sx<0?Math.PI/2:-Math.PI/2,pair:'0,1.5'}); }
-    for(const sx of [-4.5,-2.9,-1.3,0.3]) z.seats.push({x:sx,z:-3.3,yaw:Math.PI,bar:true,lift:0.27});   /* 吧檯高腳椅座面 0.72 m（一般椅子 0.45）：坐姿抬高 0.27，原本人坐進椅子裡（QA-W1 seats_on_furniture）*/
+    for(const sx of [-4.5,-2.9,-1.3,0.3]) z.seats.push({x:sx,z:-3.3,yaw:Math.PI,bar:true,tag:'bar',lift:0.27});   /* 吧檯高腳椅座面 0.72 m（一般椅子 0.45）：坐姿抬高 0.27，原本人坐進椅子裡（QA-W1 seats_on_furniture）*/
     nav.blockRect(-6.35,3.4,0.9,2.2,0,0.1); nav.blockRect(-5.3,3.4,0.5,0.8,0,0.1); nav.blockCircle(-6.55,4.85,0.18); nav.blockCircle(-1.05,5.15,0.2);
-    for(const [sz,ap] of [[2.85,[-5.0,2.4]],[3.4,[-5.0,4.4]],[3.95,[-5.0,4.4]]]) z.seats.push({x:-5.95,z:sz,yaw:Math.PI/2,sofa:true,ap});   /* ap：前面是矮桌（離沙發 0.15 m），從桌子的一端走近再坐下 */
+    for(const [sz,ap] of [[2.85,[-5.0,2.4]],[3.4,[-5.0,4.4]],[3.95,[-5.0,4.4]]]) z.seats.push({x:-5.95,z:sz,yaw:Math.PI/2,sofa:true,tag:'sofa',ap});   /* ap：前面是矮桌（離沙發 0.15 m），從桌子的一端走近再坐下 */
     E.interactables.push({x:-5.0,z:4.2,radius:1.1,label:'坐在角落的沙發',seat:{x:-5.95,z:3.4,yaw:Math.PI/2,ap:[-5.0,4.4]}});
     { const sm=M('#6b4a3a',{rough:0.8}), lt=M('#c9a57a',{rough:0.5}), mt=M('#3a3f46',{rough:0.5}); const sofa=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.45,2.2),sm); sofa.position.set(-6.35,0.225,3.4); g.add(sofa); const back=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.45,2.2),sm); back.position.set(-6.7,0.65,3.4); g.add(back);
       const ct=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.4,0.8),lt); ct.position.set(-5.3,0.2,3.4); g.add(ct); const lp=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.12,1.5,8),mt); lp.position.set(-6.55,0.75,4.85); g.add(lp); const um=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.5,10),mt); um.position.set(-1.05,0.25,5.15); g.add(um); }   /* 備用模型的量體 */
@@ -1797,10 +1797,41 @@ const Z3 = (function(){
     { const wm=M('#7a5536',{rough:0.6}), bm=M('#5a3d26',{rough:0.7}), pm=M('#e4dccb',{rough:0.4});
       for(const s of [-1,1]){ const c=new THREE.Mesh(new THREE.BoxGeometry(4.85,0.05,0.42),wm); c.position.set(s*3.775,1.0,5.56); g.add(c); nav.blockRect(s*3.775,5.56,4.85,0.42,0,0.1); }
       const bc=new THREE.Mesh(new THREE.BoxGeometry(5.4,3.08,0.38),bm); bc.position.set(4.1,1.54,-5.81); g.add(bc); nav.blockRect(4.1,-5.81,5.4,0.38,0,0.1);
-      for(const [px,pz] of [[-6.35,0.4],[6.35,-0.5],[-6.3,-2.6]]){ const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.22,0.45,14),pm); pt.position.set(px,0.225,pz); g.add(pt); nav.blockCircle(px,pz,0.3); } }
+      const mv=L230&&(L230.added||[]).find(q=>q.kind==='plant_moved'&&q.from&&q.from[0]===-6.35&&q.from[1]===0.4), P1=mv?mv.to:[-6.35,0.4];   /* 2:30 AM（cafe230_layout.js v2）：西牆中間那盆搬到拱門北邊 (−6.35, 1.95)，讓出拱門卡座 */
+      for(const [px,pz] of [P1,[6.35,-0.5],[-6.3,-2.6]]){ const pt=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.22,0.45,14),pm); pt.position.set(px,0.225,pz); g.add(pt); nav.blockCircle(px,pz,0.3); } }
+    if(L230) cafe230Add(E,z,g,nav,L230);
     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_interior']) ASSETS.loadOne('bldg.cafe_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafeInterior(z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型載入失敗，用程序化備用模型',e));
+    if(L230){ cafe230Reg(L230); if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe230_interior']) ASSETS.loadOne('bldg.cafe230_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafe230(E,z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型（cafe230）載入失敗，用程序化備用模型',e)); }
+    else if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.cafe_interior']) ASSETS.loadOne('bldg.cafe_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachCafeInterior(z,g0,root); }).catch(e=>console.warn('2:30 AM 室內正式模型載入失敗，用程序化備用模型',e));
     return z; } };
+  /* ---------- 2:30 AM 室內 v1b（WZ-SHOPS1-1104；AA src/data/cafe230_layout.js v2＋aa_support/cafe230.glb，LAWWW2 MODEL_READY）----------
+     固定的 17 個座位、出口、進門落點、點餐、班表、告示都照 cafe 原本的（docs/handoff/WZ_SHOPS1_FIXED_COORDS.md 第 1 節）；這裡只加配置寫的新東西：
+     · 座位：吧檯高腳椅 10～13 號開放玩家坐（「坐吧檯」、可以「點杯咖啡慢慢讀」，AA_659 第 1 節）、長桌兩端 8、9 號（「坐下」、可以讀書）；
+       拱門卡座三個（配置 seats，接在 17 號後面＝17～19 號，tag booth，late：照作息坐下的人最後才挑，誰坐哪裡照舊，story3d.js seatFree）；
+     · 阻擋：卡座 (−6.7, 0, 0.6×2.6)、卡座小圓桌 (−5.4, 0, 0.7×0.7)；大盆栽 (−6.35, 0.4) → (−6.35, 1.95) 在上面備用模型那一段搬；
+     · 互動：「看唱片」(4.1, −5.0)、「看蛋糕櫃」(1.4, −3.65)（kind record、pastry；台詞 src/wzshops3d.js S.cafe230Line，AA_659 第 1 節）。 */
+  function cafe230L(){ const L=typeof CAFE230_LAYOUT!=='undefined'?CAFE230_LAYOUT:null; return L&&L.version>=2&&L.zone==='cafe'?L:null; }
+  function cafe230Reg(L){ if(typeof ASSETS==='undefined'||!ASSETS.manifest||ASSETS.manifest['bldg.cafe230_interior']) return; ASSETS.manifest['bldg.cafe230_interior']={url:L.glb,type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/aa_support/cafe230_interior.py（溫州街「2:30 AM」室內 v1b，AA〔帳號 A〕製作、LAWWW2 驗收 MODEL_READY；claude/story-planning 8d494790d，配置 src/data/cafe230_layout.js v2）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
+  const CAFE230_CUST={record:'看唱片',pastry:'看蛋糕櫃'};
+  function cafe230Add(E,z,g,nav,L){ const fbM=M('#5a6b4e',{rough:0.8});
+    for(const b of L.blocks||[]){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.5,b[3]),fbM); m.position.set(b[0],0.25,b[1]); g.add(m); }   /* 備用模型的卡座、小圓桌色塊 */
+    const S0=z.seats.slice(0,17), lab=i=>i>=10&&i<=13?'坐吧檯':'坐下';
+    for(const i of [8,9,10,11,12,13]){ const q=S0[i]; if(!q) continue; const seat={x:q.x,z:q.z,yaw:q.yaw}; if(q.lift) seat.lift=q.lift; E.interactables.push({x:q.x,z:q.z,radius:0.9,label:lab(i),seat,cafeTable:true,cafeSeat:i}); }   /* 「點杯咖啡慢慢讀」只認 cafeTable（game3d.js seatMenu）*/
+    for(const st of L.seats||[]){ const q={x:st.x,z:st.z,yaw:st.yaw,tag:st.table||'booth',table:st.table||'booth',late:true}; z.seats.push(q); E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:{x:st.x,z:st.z,yaw:st.yaw},cafeTable:true,cafeSeat:z.seats.length-1}); }
+    for(const q of L.interact||[]) if(CAFE230_CUST[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:CAFE230_CUST[q.kind],wzShop:'cafe',kind:q.kind});
+    nav._cm=null; }
+  /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；
+     正面那張畫（z 8.5）不參加牆面淡出、改成窗的零件——溫州街的 3D 街景（cafeStreetLive）載入以後藏起來（不然會蓋住窗外真的街）；牆面淡出時整面藏起來（細木框的殘影，和舊 Café 一樣）*/
+  function attachCafe230(E,z,g0,root){ const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); });
+    if(gl.length){ const mesh=wzGlowBatch(E,g0,root,gl,'cafe230_glows',2.5); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; }
+    root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name; if(nm&&/^seethru_/.test(nm)&&!mt.userData.seeThrough){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); } if(nm&&/leaf|pothos/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+    const vm=[]; let front=null; root.traverse(o=>{ if(o.isMesh&&/VIEW/.test(o.name)){ if(/^WALL_front/.test(o.name)) front=o; for(const m of [].concat(o.material)) if(m&&!vm.includes(m)){ if(m.userData.ei0==null) m.userData.ei0=m.emissiveIntensity!=null?m.emissiveIntensity:1; vm.push(m); } } });
+    if(vm.length){ const at=z.applyTime; z.applyTime=function(h,w){ if(at) at.call(this,h,w); const hh=((h%24)+24)%24, night=hh<6||hh>=18.8; for(const m of vm){ m.color.setScalar(night?0.18:1); m.emissiveIntensity=m.userData.ei0*(night?0.35:1); } };
+      if(typeof GAME!=='undefined'&&GAME.G) z.applyTime(GAME.G.hour||12,GAME.G.weather); }
+    if(front){ const i=z.walls.indexOf(front); if(i>=0) z.walls.splice(i,1); front.material.opacity=1; z.winParts.push({obj:front,at:new THREE.Vector3(0,1.7,6),dir:new THREE.Vector3(0,0,-1)}); }
+    const baseFade=z.fadeWalls; z.fadeWalls=function(cam,pp){ baseFade.call(this,cam,pp); for(const w of this.walls) w.visible=w.material.opacity>0.5; };
+    if(front) cafeStreetLive(z,g0,front);
+    return root; }
   /* 兩點半 Café 室內正式模型（attachRoomGLB 之後）：黑板菜單的字、燈泡與燈罩發光、葉片、吊燈光暈；店面玻璃外的街景（從店裡往溫州街看）。
      街景平面放在店面玻璃外 0.55 m，跟著前牆淡出（winParts），依時段換白天／黃昏／夜晚三張。 */
   function attachCafeInterior(z,g0,root){
