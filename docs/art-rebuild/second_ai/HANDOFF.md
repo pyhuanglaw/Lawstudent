@@ -6,7 +6,24 @@
 - 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
 - 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
 
-## 🔨 現在在做（11-04 00:5x UTC 更新）
+## 🔨 現在在做（11-04 01:5x UTC 更新）
+- 分支 `claude/second-ai-env-art`，最新 `8de87af16`。
+- **11-04 00:4x 以後交出去的**（都接開發分支、Node 測試全過；瀏覽器測試照 D131 排 PC）：
+  1. SPAWN-EXIT-1104：新生南路、木曜日六個出生點移到出口範圍外＋`tests/spawn_exit_unit.js`（7940369f0）。LAWWW 已整合（dc5c8c78d）。
+  2. 日常失速 WZ-OFFBEAT-1104：溫州街 W2 外觀照參考圖＋區域 wz_offbeat（82d541853）。LAWWW 已整合。
+  3. 同弦二樓窗景圖 `wip/xinsheng/views/tongxian_view_day.jpg`＋腳本 `xs_window_view.py`（657f27eea）。CC 已換進 v4d。
+  4. 審查：大口 2F v2、南洋大廳 v5b MODEL_READY；大口 1F 退回 v2b（f15ac2f5c）；頁間書屋室內 v1 退回 v2（訊息，七項）。
+  5. **公館四間新店外觀 v1**（使用者 01:0x，AA_647）：`wip/gongguan4/`，patch 接 e678da595（8de87af16）。
+     - 等 LAWWW：頁間書屋的互動點移到 x −36.4。
+- **還沒做／下一步**：
+  - bikePark（AA_646）：各建築出口標停車點＋停車架。
+  - 新生南路室內整合（大口、南洋、山嵐…）。
+  - 室內收了以後，四間公館店的窗改成渲染室內模型。
+  - 新生南路側門外的遠景（圍牆後現在是空地）。
+  - 木曜日 P3。
+- **注意**：`wz_street.py` 要寫成 `-- --set gongguan`（沒有 `--` 會用錯招牌貼圖集）。
+
+## 🔨 之前（11-04 00:5x UTC）
 - **LAWWW 已經整合**（開發分支 aa8cb5beb）：新生南路區域、木曜日。瀏覽器測試已經派 BB 排到 PC。
 - **新生南路店面 v1**（ART-XINSHENG-FRONTS-1104）：已交 LAWWW，patch `wip/xinsheng/xinsheng_fronts_v1.patch`（接 a141fce2c），WORK_IN_PROGRESS。
   - 做法：從參考圖裁出貼圖（`xs_front_tex.py`）＋3D 框、招牌板、騎樓。說明在 PLAN.md 最後一節。
