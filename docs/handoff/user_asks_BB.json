@@ -324,9 +324,9 @@
    "at": "2026-11-04T14:3xZ",
    "quote": "你如果測試成功要把你的方法 加入美術規則",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "task": "IMG2-3D-RESEARCH-1104",
-   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則｜15:1x 試驗完成（BB_259）：R1 同角度疊圖驗收、R2 TripoSR 中遠景雜物試成功；LAWWW2-C 同意寫進 ART_DIRECTION 第 12 節；已請 LAWWW-C 在 CLAUDE.md MANDATORY 第 2 點補兩行；頭髮改法未在遊戲內驗證、不寫"
+   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則｜15:1x 試驗完成（BB_259）：R1 同角度疊圖驗收、R2 TripoSR 中遠景雜物試成功；LAWWW2-C 同意寫進 ART_DIRECTION 第 12 節；已請 LAWWW-C 在 CLAUDE.md MANDATORY 第 2 點補兩行；頭髮改法未在遊戲內驗證、不寫｜15:2x LAWWW-C e9c091c10：D138 寫進 CLAUDE.md MANDATORY 第 2 點（R1 驗收鏡頭結構、R2 中遠景有機小雜物），腳本搬進 tools/art/；campus 模式版本（7cebf3622）請 LAWWW-C 更新"
   },
   {
    "id": "UA-BB-1104-TRELLIS2-HOW",
