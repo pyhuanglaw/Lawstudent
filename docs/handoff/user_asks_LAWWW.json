@@ -2702,6 +2702,15 @@
    "status": "在開發分支",
    "wants": "X208",
    "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-72",
+   "at": "2026-11-04T05:5x",
+   "quote": "Lawww2沒空驗收的話 你給BB 請他按照lawww2美術標準",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X215",
+   "task": "WZ-SHOPS1-1104"
   }
  ]
 }
