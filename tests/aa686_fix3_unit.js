@@ -9,6 +9,7 @@
 //   4   「茶屋○○開」照那一年茶屋過年以後第一個開門的日子（2027 初四是週二公休＝初五）；新年快樂 L「初四開店。你要第一個來喝。」也照年份換「初四」（msg2_pool.js 不改，傳的時候換）
 //   5   D14「海風與燈」從源稿 spots_v3.json／aa_walk_v1.json@1df3c189e 匯入（白名單換版、EXTRA 拿掉）：一個人來也出這一項；同行照 AA_685 C1
 //   D1  語彤重逢中間隔了她沒班的週六：回到臺北那天 21:00 就約、「{月}/{日} 那個週六我五點下班」「你來店裡」、隔掉的是過年茶屋休息＝前面多「茶屋過年休息」；D-2 阿哲的逗號照留
+//   AA_687（企劃線 d41750385，AA-C 定 D109）以後：2 的時間 18:00、邀約照 examDay（考完那天 20:30）、小路的開場收尾旁白；3c 暑假的回覆「淡水熱嗎？」；3b 店休的輪流用平日那一組——這幾項照新的規則改（本身的測試在 tests/aa687_fix4_unit.js）
 // 修改前（e25149ef0）：FAILED 25（2、3、3d、4、5、D1 每一節都有 FAIL）；用法：node tests/aa686_fix3_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -54,38 +55,38 @@ await sec(0,()=>{ check('0. 載得到 VAC、TERMEND、NOODLE_CLOSED、MSG、TRIP
 /* ---------- 2 語彤的期末飯：週六 17:30、溫州街的小路 ---------- */
 await sec('2',async()=>{
   const f=TERMEND_LINES.FRIEND[YT], PL=TERMEND_LINES.PLACE.teishoku;
-  check('2. 資料：期末飯 wd 6（週六）、h 17.5、地點 teishoku＝「溫州街・小路」、背景 teishoku_night（小路的 2D）；店名照 AA_655（wzshops3d.js、places.js 的「小路」）；稿：「期末飯排**週六 17:30，地點溫州街的小路**」',
-    f.wd===6&&f.h===17.5&&f.place==='teishoku'&&!!PL&&PL.name==='溫州街・小路'&&PL.bg==='teishoku_night'&&!!OUT.BG.teishoku_night&&PLACES.names.wz_teishoku==='小路'&&/teishoku:\{zone:'wz_teishoku',key:'巷子裡定食',name:'小路'/.test(src('src/wzshops3d.js'))&&in686('期末飯排**週六 17:30，地點溫州街的小路**'),J({wd:f.wd,h:f.h,place:f.place,PL}));
-  /* 每一學期：她那一則傳來的那一刻（最後一科考完的隔天 20:30；考完那天就是時段第一天＝那天 20:30）答應，排在哪裡 */
+  check('2. 資料：期末飯 wd 6（週六）、地點 teishoku＝「溫州街・小路」、背景 teishoku_night（小路的 2D）；店名照 AA_655（wzshops3d.js、places.js 的「小路」）；稿：「期末飯排**週六 17:30，地點溫州街的小路**」——時間 AA_687 第 3 項（企劃線 d41750385）改 18:00（h 18，見 tests/aa687_fix4_unit.js）',
+    f.wd===6&&f.h===18&&f.place==='teishoku'&&!!PL&&PL.name==='溫州街・小路'&&PL.bg==='teishoku_night'&&!!OUT.BG.teishoku_night&&PLACES.names.wz_teishoku==='小路'&&/teishoku:\{zone:'wz_teishoku',key:'巷子裡定食',name:'小路'/.test(src('src/wzshops3d.js'))&&in686('期末飯排**週六 17:30，地點溫州街的小路**'),J({wd:f.wd,h:f.h,place:f.place,PL}));
+  /* 每一學期：她那一則傳來的那一刻答應，排在哪裡——AA_687 第 5 項（企劃線 d41750385）以後照心意邀約的規則：最後一科考完的那天 20:30 傳（S.heartFrom；原本最後一科考完的隔天 P.back）*/
   const day=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,9,'campus',{}); H.G.stage='law'; H.rel(YT,30,10,5); H.G.termend={contact:{[term]:{[YT]:{pts:9,k:{}}}},think:{}};
-    const P=TERMEND.plan(H.G,w); at(P.back,20.5); const d=TERMEND.dinnerDay(H.G,w,Object.assign({},TERMEND.friend(YT,term),{h:TERMEND.dinnerH(term,'friend',TERMEND.friend(YT,term))}),YT);
-    return {fr:P.friend.includes(YT),exam:K(TERMEND.examDay(H.G,w)),inv:K(P.back),d:K(d),wd:d!=null?WD(d):null,h:TERMEND.dinnerH(term,'friend',TERMEND.friend(YT,term))}; };
+    const P=TERMEND.plan(H.G,w), d0=TERMEND.heartFrom(H.G,w,YT,TERMEND.friend(YT,term)); at(d0,20.5); const d=TERMEND.dinnerDay(H.G,w,Object.assign({},TERMEND.friend(YT,term),{h:TERMEND.dinnerH(term,'friend',TERMEND.friend(YT,term))}),YT);
+    return {fr:P.friend.includes(YT),exam:K(TERMEND.examDay(H.G,w)),inv:K(d0),d:K(d),wd:d!=null?WD(d):null,h:TERMEND.dinnerH(term,'friend',TERMEND.friend(YT,term))}; };
   const T={}; for(const t of ['Y1S1','Y2S1','Y3S1','Y3S2','Y1S2','Y2S2','Y4S1']) T[t]=day(t);
-  check('2. 週四考完的學期：期末考完以後的第一個週六 17:30——大一上 12/20、大二上 12/26、大三上 12/25、大三下 6/10（原本下一個週四）',
-    ['Y1S1','Y2S1','Y3S1','Y3S2'].every(t=>T[t].fr&&T[t].wd===6&&T[t].h===17.5)&&T.Y1S1.d==='2025-12-20'&&T.Y2S1.d==='2026-12-26'&&T.Y3S1.d==='2027-12-25'&&T.Y3S2.d==='2028-06-10',J(T));
+  check('2. 週四考完的學期：期末考完以後的第一個週六（AA_687 第 3 項起 18:00）——大一上 12/20、大二上 12/26、大三上 12/25、大三下 6/10（原本下一個週四）',
+    ['Y1S1','Y2S1','Y3S1','Y3S2'].every(t=>T[t].fr&&T[t].wd===6&&T[t].h===18)&&T.Y1S1.d==='2025-12-20'&&T.Y2S1.d==='2026-12-26'&&T.Y3S1.d==='2027-12-25'&&T.Y3S2.d==='2028-06-10',J(T));
   check('2. 大一下：她 6/18 雙主修筆試以前不來（AA_250 第 2 節，照舊）＝那以後的第一個週六 6/20',T.Y1S2.d==='2026-06-20'&&T.Y1S2.wd===6,J(T.Y1S2));
-  check('2. 最後一科在週五的學期（大二下 6/11、大四上 12/22）：朋友的邀約照舊隔天（週六）20:30 傳，那時候當天 17:30 已經過了＝下一個週六（6/19、12/30；記給 AA）',T.Y2S2.inv==='2027-06-12'&&T.Y2S2.d==='2027-06-19'&&T.Y4S1.inv==='2028-12-23'&&T.Y4S1.d==='2028-12-30',J([T.Y2S2,T.Y4S1]));
-  /* 實際走一次：大一上 12/18 20:30 她傳「禮拜六我上到五點。下班以後，要吃飯嗎？」→ 好。→ 12/20（六）17:30 溫州街・小路 */
+  check('2. 最後一科在週五的學期（大二下 6/11、大四上 12/22）：原本隔天（週六）20:30 傳＝下一個週六（6/19、12/30；記給 AA）——AA_687 第 5 項改：考完那天（週五）20:30 傳、隔天週六（6/12、12/23）',T.Y2S2.inv==='2027-06-11'&&T.Y2S2.d==='2027-06-12'&&T.Y4S1.inv==='2028-12-22'&&T.Y4S1.d==='2028-12-23',J([T.Y2S2,T.Y4S1]));
+  /* 實際走一次：大一上 12/18 20:30 她傳「禮拜六我上到五點。下班以後，要吃飯嗎？」→ 好。→ 12/20（六）溫州街・小路（AA_687 第 3 項起 18:00）*/
   { const w=TERMEND.windowOf('Y1S1'); fresh(w.from,9,'campus',{}); H.G.stage='law'; H.rel(YT,30,10,5); H.G.termend={contact:{Y1S1:{[YT]:{pts:9,k:{}}}},think:{}}; TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,21);
     const m=PHONE.byAsk(H.G,'te_Y1S1_'+YT);
     check('2. 大一上 12/18（四）20:30：「禮拜六我上到五點。下班以後，要吃飯嗎？」',!!m&&m.text==='禮拜六我上到五點。下班以後，要吃飯嗎？'&&K(m.day)==='2025-12-18',J(m&&[m.text,K(m.day),m.h]));
     PHONE.answer(H.G,'te_Y1S1_'+YT,0); rules(); const q=outOf('te_Y1S1');
-    check('2. 答應：出遊 12/20（六）17:30、地點「溫州街・小路」、標題「學期末的飯：語彤（溫州街・小路）」（原本 12/25 週四 19:00 公館燒臘）',!!q&&J(dayH(q))===J(['2025-12-20',6,17.5])&&q.place==='溫州街・小路'&&q.title==='學期末的飯：'+SOCIAL.displayName(YT)+'（溫州街・小路）'&&q.te.kind==='friend',J(q&&{d:dayH(q),place:q.place,title:q.title}));
+    check('2. 答應：出遊 12/20（六）、地點「溫州街・小路」、標題「學期末的飯：語彤（溫州街・小路）」（原本 12/25 週四 19:00 公館燒臘；時間 AA_687 第 3 項起 18:00）',!!q&&J(dayH(q))===J(['2025-12-20',6,18])&&q.place==='溫州街・小路'&&q.title==='學期末的飯：'+SOCIAL.displayName(YT)+'（溫州街・小路）'&&q.te.kind==='friend',J(q&&{d:dayH(q),place:q.place,title:q.title}));
     TERMEND.hookFor=()=>null; H.said=[]; H.bgs=[]; H.picks=[0,0,0,0]; await TERMEND.dinner(GM,q); const L=H.lines();
-    check('2. 那一頓：開場「（溫州街・小路。）」、背景小路的 2D（teishoku_night）；沒有公館燒臘的旁白（阿姨端碗、收碗）',L[0]==='（溫州街・小路。）'&&H.bgs.some(b=>b&&b.image&&/teishoku_night/.test(b.image))&&!L.some(t=>/阿姨端了兩碗|阿姨來收碗/.test(t)),J({L:L.slice(0,3),bg:H.bgs})); }
+    check('2. 那一頓：開場照小路（AA_686 沒有稿＝「（溫州街・小路。）」；AA_687 第 4 項起 PLACE.teishoku.open「（六點，小路的布簾剛掛出來。…）」）、背景小路的 2D（teishoku_night）；沒有公館燒臘的旁白（阿姨端碗、收碗）',L[0]===PL.open&&/^（六點，小路的布簾剛掛出來。/.test(L[0])&&H.bgs.some(b=>b&&b.image&&/teishoku_night/.test(b.image))&&!L.some(t=>/阿姨端了兩碗|阿姨來收碗/.test(t)),J({L:L.slice(0,3),bg:H.bgs})); }
   /* 舊存檔：更新以前已經排好的那一頓（出遊寫公館燒臘、週四 19:00）＝照排好的演，不改到一半 */
   { const w=TERMEND.windowOf('Y1S1'); fresh('2025-12-25',18,'dorm',{}); H.G.stage='law'; H.rel(YT,30,10,5);
     H.G.termend={contact:{},think:{},Y1S1:{plan:{back:w.from,heart:[],friend:[YT],fallback:null,gf:[],nope:{},kx:false},picked:{who:YT,kind:'friend',day:DK('2025-12-18')}}};
     OUT.plan(H.G,{id:'te_Y1S1',ev:'ev_termend_dinner',day:DK('2025-12-25'),h:19,late:0.25,place:'公館燒臘',title:'學期末的飯：語彤（公館燒臘）',travel:'走過去約 15 分鐘',travelH:0.25,te:{term:'Y1S1',who:YT,kind:'friend'}});
     H.G=JSON.parse(J(H.G)); SOCIAL.bind(H.G); const q=outOf('te_Y1S1'); H.said=[]; H.bgs=[]; H.picks=[0,0,0,0]; await TERMEND.dinner(GM,q); const L=H.lines();
-    check('2. 舊存檔已經排好的那一頓（12/25 週四 19:00、公館燒臘）：照排好的演——開場、收尾是公館燒臘那兩句、背景 noodle_table；沒有被搬到小路',J(dayH(q))===J(['2025-12-25',4,19])&&L[0]===TERMEND_LINES.PLACE.noodle.open&&L.includes(TERMEND_LINES.PLACE.noodle.close)&&H.bgs.some(b=>b&&b.image&&/noodle_table/.test(b.image))&&!L.includes('（溫州街・小路。）'),J({L:[L[0],L[L.length-1]],bg:H.bgs})); }
+    check('2. 舊存檔已經排好的那一頓（12/25 週四 19:00、公館燒臘）：照排好的演——開場、收尾是公館燒臘那兩句、背景 noodle_table；沒有被搬到小路',J(dayH(q))===J(['2025-12-25',4,19])&&L[0]===TERMEND_LINES.PLACE.noodle.open&&L.includes(TERMEND_LINES.PLACE.noodle.close)&&H.bgs.some(b=>b&&b.image&&/noodle_table/.test(b.image))&&!L.includes('（溫州街・小路。）')&&!L.includes(PL.open)&&!L.includes(PL.close),J({L:[L[0],L[L.length-1]],bg:H.bgs})); }
   TERMEND.hookFor=hookFor0;
 });
 
 /* ---------- 3a、3b、3c、3e 交往中的旅行訊息 ---------- */
 await sec('3',()=>{
   const P=P3(), OW=P.offWd||{}, NEU=[['你那邊在吃什麼'],['……晚安']];
-  check('3b. 資料：平日輪流多的三則照稿（各兩句）、平日的回覆「淡水冷嗎？」「好好休息。」（offWd）；週末的回覆照舊「辛苦了。」「想喝茶。」',
+  check('3b. 資料：平日輪流多的三則照稿（各兩句）、平日的回覆「淡水冷嗎？」「好好休息。」（offWd.rep；AA_687 第 6 項起這是寒假的，暑假 repSummer「淡水熱嗎？」，見 tests/aa687_fix4_unit.js）；週末的回覆照舊「辛苦了。」「想喝茶。」',
     J(OW.pool)===J([['今天在淡水','河邊的風很大'],['📷（診所門口的盆栽，土是濕的）','我媽澆的 她每天都叫我澆'],['秀琴姨傳訊息問我吃了沒','我說吃了 其實還沒']])&&J(OW.rep)===J(['淡水冷嗎？','好好休息。'])&&J(P.rep)===J(['辛苦了。','想喝茶。'])
     &&['「今天在淡水」／「河邊的風很大」','「📷（診所門口的盆栽，土是濕的）」／「我媽澆的 她每天都叫我澆」','「秀琴姨傳訊息問我吃了沒」／「我說吃了 其實還沒」','「淡水冷嗎？」／「好好休息。」'].every(in686),J(OW));
   /* 2026-07-13（一）～08-02（日）三週：每天一則的是 7/14～8/1（平日 14 天、週末 5 天；中間那天 7/23 是週四＝也是平日輪流的那一則）*/
@@ -95,16 +96,16 @@ await sec('3',()=>{
     wk.length===14&&wk.every(k=>D[k].every(t=>ALLWK.includes(t)))&&J(D['2026-07-14'])===J(OW.pool[0])&&J(D['2026-07-15'])===J(OW.pool[1])&&J(D['2026-07-16'])===J(OW.pool[2])&&J(D['2026-07-17'])===J(NEU[0])&&J(D['2026-07-20'])===J(NEU[1])&&J(D['2026-07-21'])===J(OW.pool[0]),J(wk.map(k=>[k,D[k]])));
   check('3b. 週末：新的三則不出現（她在茶屋）；照舊講店裡的那幾則',we.length===5&&we.every(k=>!D[k].some(t=>NEW.includes(t)))&&we.every(k=>D[k].some(t=>SHOP.includes(t))),J(we.map(k=>[k,D[k]])));
   const M=Pl.filter(x=>x.ask), wkA=M.filter(x=>!WE(x.day)), weA=M.filter(x=>WE(x.day));
-  check('3c. 平日她傳的，玩家能回「淡水冷嗎？」「好好休息。」；週末照「辛苦了。」「想喝茶。」',wkA.length===14&&weA.length===5&&wkA.every(x=>J(x.ask)===J(['淡水冷嗎？','好好休息。']))&&weA.every(x=>J(x.ask)===J(['辛苦了。','想喝茶。'])),J([wkA[0]&&wkA[0].ask,weA[0]&&weA[0].ask]));
+  check('3c. 平日她傳的，玩家能回「淡水冷嗎？」「好好休息。」——這一趟是暑假：AA_687 第 6 項（企劃線 d41750385）起換「淡水熱嗎？」「好好休息。」；週末照「辛苦了。」「想喝茶。」',wkA.length===14&&weA.length===5&&wkA.every(x=>J(x.ask)===J(['淡水熱嗎？','好好休息。']))&&weA.every(x=>J(x.ask)===J(['辛苦了。','想喝茶。'])),J([wkA[0]&&wkA[0].ask,weA[0]&&weA[0].ask]));
   check('3e. 傳的時間：週六、日 22:30、平日 21:30（原本週二、四 23:00、其他 22:30）；資料 freq {h:21.5, we:22.5}、沒有 tt',J(P.freq)===J({h:21.5,we:22.5})&&Pl.filter(x=>WE(x.day)).every(x=>x.h===22.5)&&Pl.filter(x=>!WE(x.day)).every(x=>x.h===21.5)&&!Pl.some(x=>x.h===23)&&in686('**改**：週六、日 22:30（下班、吃完飯以後）；平日 21:30'),J([...new Set(Pl.map(x=>WD(x.day)+'@'+x.h))]));
   check('3d. 交往中：烏龍的照片（📷（一壺泡好的烏龍…））、茶壺（📷（茶屋的茶壺））只在週六、日',L.filter(x=>/烏龍|茶屋的茶壺/.test(x.t)).length>0&&L.filter(x=>/烏龍|茶屋的茶壺/.test(x.t)).every(x=>WE(x.day)),J(L.filter(x=>/烏龍|茶屋的茶壺/.test(x.t)).map(x=>[K(x.day),x.t])));
   /* 中間那天是週六（7/13～7/24：7/18）＝茶壺那則照傳、22:30 */
   const L2=ytTrip('2026-07-13','2026-07-24',true), mid=L2.filter(x=>/_mid$/.test(x.tag));
   check('3e. 中間那則（7/18 週六）「📷（茶屋的茶壺）」「今天也有開」22:30',J(mid.map(x=>x.t))===J(['📷（茶屋的茶壺）','今天也有開'])&&mid.every(x=>K(x.day)==='2026-07-18'&&x.h===22.5),J(mid));
   check('3a. 平日回國（7/24 週五）不傳「回來了嗎」（照現在）；週日回國（8/2）照傳',!L2.some(x=>/_back$/.test(x.tag))&&J(L.filter(x=>/_back$/.test(x.tag)).map(x=>x.t))===J(['回來了嗎','蘇姨說幫你留一杯']));
-  /* 過年店休那幾天照 shut：店休的輪流照舊只用不講店裡的那兩則（新的三則不放進店休）*/
+  /* 過年店休那幾天照 shut：AA_686 時店休的輪流照舊只用不講店裡的那兩則（新的三則不放進店休）——AA_687 第 7 項（企劃線 d41750385）改：店休的輪流也用平日那一組（新的三則＋那兩則，不管星期幾）*/
   const W=ytTrip('2028-01-17','2028-01-30',true,'winter'), WD_=byDay(pool(W)), sk=Object.keys(WD_).filter(k=>NOODLE_CLOSED.closed(H.G,DK(k)));
-  check('3b. 過年店休那幾天照 shut（第一天、兩句、之後不講店裡的那兩則）：新的三則不出現；店休以外的平日（1/18）才有',sk.length===10&&sk.every(k=>!WD_[k].some(t=>NEW.includes(t)))&&J(WD_['2028-01-19'])===J(P.shut.first)&&(WD_['2028-01-18']||[]).every(t=>NEW.includes(t))&&WD_['2028-01-18'].length>0,J([WD_['2028-01-18'],sk.map(k=>[k,WD_[k]])]));
+  check('3b. 過年店休那幾天照 shut（第一天、兩句）；之後的輪流 AA_687 第 7 項起用平日那一組（新的三則也會出現，不講店裡；見 tests/aa687_fix4_unit.js）；店休以前的平日（1/18）照舊是新的三則',sk.length===10&&sk.every(k=>WD_[k].every(t=>ALLWK.concat(P.shut.first,...P.shut.pool).includes(t)))&&sk.some(k=>WD_[k].some(t=>NEW.includes(t)))&&J(WD_['2028-01-19'])===J(P.shut.first)&&(WD_['2028-01-18']||[]).every(t=>NEW.includes(t))&&WD_['2028-01-18'].length>0,J([WD_['2028-01-18'],sk.map(k=>[k,WD_[k]])]));
   check('3c. 店休那幾天玩家能回的照舊「好好休息。」「開店我第一個去。」',pool(W).filter(x=>x.ask&&NOODLE_CLOSED.closed(H.G,x.day)).every(x=>J(x.ask)===J(P.shut.rep))&&pool(W).filter(x=>x.ask&&NOODLE_CLOSED.closed(H.G,x.day)).length>=5);
 });
 

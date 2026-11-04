@@ -314,10 +314,16 @@ const VAC=(function(){
       const offWd=d=>Array.isArray(SO.wd)&&!SO.wd.includes(wdOf(d));
       const soSet=new Set(SO.pool||[]), sAlt=P.pool.map((x,i)=>i).filter(i=>!soSet.has(i)), sUsed={}; let sj=0;
       /* AA_686 第 3b、3c 項（企劃線 1df3c189e，AA-C 定 D109）：offWd＝不是 wd 那幾天（語彤寒暑假的平日在淡水）——輪流的是 offWd.pool 那三則（先）＋不講店裡的那兩則（sAlt），自己一個順序（wj）；
-         玩家能回的換 offWd.rep。過年店休那幾天照 shut（店休先算），店休的輪流照舊只用 sAlt（AA_369 第 8 節第 5 題）。沒有 offWd＝照 AA_685 A6-4（只有 sAlt）*/
+         玩家能回的換 offWd.rep。過年店休那幾天照 shut（店休先算），店休的輪流原本只用 sAlt（AA_369 第 8 節第 5 題；AA_687 第 7 項改，見 shutPick）。沒有 offWd＝照 AA_685 A6-4（只有 sAlt）*/
       const OW=P.offWd||{}, wAlt=(OW.pool||[]).map(t=>({t})).concat(sAlt.map(i=>({i}))); let wj=0;
+      /* AA_687 第 6 項（企劃線 d41750385，AA-C 定 D109）：平日玩家能回的分寒假、暑假——寒假 offWd.rep（「淡水冷嗎？」）、暑假 offWd.repSummer（「淡水熱嗎？」），「好好休息。」兩個假期都有。
+         寒假、暑假照那一天：HOME.breakOf(那一天).kind（home3d.js 判斷寒假／暑假的那一支，S.momOf 也用它）；那天不在它的假期裡（沒載到 HOME、經濟系那一年、畢業以後）＝照這一趟的 A.season */
+      const summerOn=d=>{ const B=typeof HOME!=='undefined'&&HOME.breakOf?HOME.breakOf(d):null; return B?B.kind==='summer':A.season==='summer'; };
+      const owRep=d=>OW.repSummer&&summerOn(d)?OW.repSummer:OW.rep;
       const shutPick=d=>{ const W=NOODLE_CLOSED.window?NOODLE_CLOSED.window(d):null; if(W&&d===W.from&&SH.first&&!sUsed.first){ sUsed.first=true; return SH.first; }
         if(W&&d<W.from+7) for(let i=0;i<(SH.pool||[]).length;i++) if(!sUsed['p'+i]){ sUsed['p'+i]=true; return SH.pool[i]; }   /* W.from+7＝初一 */
+        if((OW.pool||[]).length&&wAlt.length){ const o=wAlt[(wj++)%wAlt.length]; return o.t?tx(o.t):tx(P.pool[o.i]); }   /* AA_687 第 7 項（企劃線 d41750385，AA-C 定 D109）：三句都用過、或過了初一＝平日那一組（offWd.pool 那三則先、再不講店裡的那兩則），
+                                                                                                                          和平日同一個順序（wj）、不管星期幾（那幾天她在淡水家裡）；first、pool、back、rep 照舊。沒有 offWd.pool＝照原本只用 sAlt */
         return sAlt.length?tx(P.pool[sAlt[(sj++)%sAlt.length]]):null; };
       put(id,sd,Math.min(tr.start.h+0.5,23),P.dep,T0+id+'_dep');
       let k=0; for(let d=sd+1;d<ed;d++){ if(fr.every&&(d-sd)%fr.every!==1%fr.every) continue; const w=at(d), away=(tpSet.size||TP.mid)&&!work(w.d), closed=!!SH&&shut(w.d), off=!closed&&offWd(w.d);
@@ -325,7 +331,7 @@ const VAC=(function(){
         let idx=null, texts; if(closed){ texts=shutPick(w.d); if(!texts) continue; }
         else { let ot=null; if(off&&soSet.size&&wAlt.length){ const o=wAlt[(wj++)%wAlt.length]; if(o.t) ot=o.t; else idx=o.i; } else if(away&&tpSet.size&&alt.length){ idx=alt[(j++)%alt.length]; } else { idx=k<8?k:(k-8)%4; k++; }
           texts=ot?tx(ot):tx(P.homePool&&P.homePool[idx]&&inHome(id,w.d)?P.homePool[idx]:P.pool[idx]); }   /* homePool：那一天她在老家（presence home）換的那幾則（芷若在台中「我媽在旁邊一直問我在跟誰傳訊息。」，AA_550 第 4 節第 2 點）；off：平日輪流的那幾則（wAlt），輪到第幾則（k）不動 */
-        const ask={id:T0+id+'_p'+d,until:T(w.d+1,24),opts:(closed&&SH.rep?SH.rep:(off&&OW.rep?OW.rep:P.rep)).map(t=>({t,say:[]}))}; put(id,w.d,w.h,texts,T0+id+'_p'+d,ask);   /* 店休那幾天玩家能回的換 shut.rep（AA_369 第 9 節第 3 題）；平日換 offWd.rep（AA_686 第 3c 項）*/
+        const ask={id:T0+id+'_p'+d,until:T(w.d+1,24),opts:(closed&&SH.rep?SH.rep:(off&&OW.rep?owRep(w.d):P.rep)).map(t=>({t,say:[]}))}; put(id,w.d,w.h,texts,T0+id+'_p'+d,ask);   /* 店休那幾天玩家能回的換 shut.rep（AA_369 第 9 節第 3 題）；平日換 offWd.rep（AA_686 第 3c 項）、暑假 offWd.repSummer（AA_687 第 6 項）*/
         if(id==='heroine_04'&&w.d<ed&&idx!=null){ const V=S.rec(G), Z=(V.zq2||(V.zq2={}))[I.key]||(V.zq2[I.key]=[]); Z.push({d:w.d,tag:T0+id+'_p'+d,texts:tx(P.pool[(idx+4)%8])}); } }   /* 子晴第二則：池子另一半的那一則 */
       const shutBack=!!(SH&&SO.back&&SH.back&&shut(ed));   /* 回國那天是過年店休＝shut.back（先算）；不是 wd 那幾天（AA_685 A6-4：語彤平日）＝回來那天那一則不傳 */
       const backTx=shutBack?SH.back.map(t=>typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.teaText?NOODLE_CLOSED.teaText(t,ed):t):P.back;   /* AA_686 第 4 項：「茶屋初四開。…」的「初四」照那一年茶屋過年以後第一個開門的日子（2027＝初五）*/
