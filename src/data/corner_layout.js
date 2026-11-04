@@ -50,7 +50,7 @@ const CORNER_LAYOUT = {
       {kind: 'poster_taipei', x: -3.87, y: 1.6, z: 2.65, w: 0.62, h: 0.88, note: '海報「台北的午後 獨立音樂合輯 Vol.2」（虛構）'},
       {kind: 'plant_shelf', x: -3.87, y: 2.2, z: 3.5, d: 1.2, note: '小木層板上的黃金葛（垂到海報旁邊）'},
       {kind: 'plant_stool', x: -3.4, z: 1.6, note: '小木凳上的一盆小葉植物'},
-      {kind: 'logo_panel', x: -3.87, y: 2.72, z: 1.8, d: 5.0, h: 1.0, note: '牆的上半段：深色飾板「轉角唱片 Corner Records」（黑膠圖示）'},
+      {kind: 'logo_panel', x: -3.87, y: 2.82, z: 1.8, d: 5.0, h: 0.96, note: '牆的上半段：深色飾板「轉角唱片 Corner Records」（黑膠圖示）'},
       {kind: 'record_wall', x: -3.66, z: -1.625, w: 0.44, d: 5.95, h: 2.3, note: '左牆唱片牆（z 1.35～−4.6）：最上一排封面朝外、中間一格一格黑膠、CD，下面木門櫃'},
       {kind: 'bin', x: -0.45, z: 3.105, w: 1.45, d: 1.15, h: 0.82, signs: ['indie'], poster: true, note: '最前面的唱片箱：分類牌「搖滾 / Indie」；正面「公館聲響祭」海報、手寫紙卡（二手黑膠、二手CD、獨立發行、在地音樂、試聽歡迎）'},
       {kind: 'bin', x: -0.45, z: 1.305, w: 1.45, d: 1.15, h: 0.82, signs: ['folk'], note: '第二座：「民謠 / Folk」'},
