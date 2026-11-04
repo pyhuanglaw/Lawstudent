@@ -542,28 +542,55 @@ def kmc():
     text_c(d, ((x0 + x1) / 2, (y0 + y1) / 2 + 2), '小 路', F(64), '#efe2c4')
     bx = box(2, 0, 2, 1); x0, y0, x1, y1 = bx; paper(im, bx, '#6a4a2e', rng, grain=0.25); d.rectangle([x0 + 4, y0 + 4, x1 - 5, y1 - 5], outline='#3a2618', width=3)
     text_c(d, ((x0 + x1) / 2, y0 + 36), '營業時間', F(26), '#f1e6cc'); text_c(d, ((x0 + x1) / 2, y0 + 86), '18:00 ～ 02:00', F(28), '#f1e6cc')
-    for k, s_ in enumerate(('ビール', '日本酒', '焼酎', 'ハイボール', '梅酒', '烏龍茶', 'カルピス', 'ラムネ')):   # 牆上的紙菜單（米色紙、黑字直排、紅色價錢）
+    for k, s_ in enumerate(('ビール', '日本酒', '焼酎', 'ハイボール', '梅酒', '烏龍茶', '乳酸飲料', 'ラムネ')):   # 牆上的紙菜單（米色紙、黑字直排、紅色價錢）
         x0 = 512 + k * 64; y0 = 0; paper(im, (x0 + 3, y0 + 3, x0 + 61, y0 + 125), '#efe4c8', rng, grain=0.08)
         n = len(s_); st = min(24, 92 // n); vtext(x0 + 32, y0 + 16, s_, F(min(22, st)), '#2a2018', st)
         d.rectangle([x0 + 22, y0 + 112, x0 + 42, y0 + 115], fill='#a8392e')
-    fuda = ('焼き鳥', '揚げ出し豆腐', '塩焼き鯖', 'だし巻き玉子', 'おひたし', '冷やっこ', '枝豆', '唐揚げ', '焼きおにぎり', '漬物', '生ビール', '冷酒', '熱燗', '烏龍茶', 'カルピス', '味噌汁')
+    fuda = ('焼き鳥', '揚げ出し豆腐', '塩焼き鯖', 'だし巻き玉子', 'おひたし', '冷やっこ', '枝豆', '唐揚げ', '焼きおにぎり', '漬物', '生ビール', '冷酒', '熱燗', '烏龍茶', '乳酸サワー', '味噌汁')
     for k, s_ in enumerate(fuda):   # 木札：淺木色、四邊略暗、頂端小孔、墨字直排
         x0 = (k % 16) * 64; y0 = 128; paper(im, (x0 + 4, y0 + 4, x0 + 60, y0 + 252), ('#d9c29a', '#d2b98e', '#dcc6a0')[k % 3], rng, edge='#9a7a52', grain=0.12)
         d.ellipse([x0 + 29, y0 + 12, x0 + 35, y0 + 18], fill='#5a4028')
         n = len(s_); st = min(34, 200 // n); vtext(x0 + 32, y0 + 44, s_, F(min(30, st - 2)), '#1e1610', st)
-    def poster(c, title, red, seed):
-        bx = box(c, 3, 2, 3); x0, y0, x1, y1 = bx; r2 = np.random.default_rng(seed); paper(im, bx, '#e9dcbc', r2, grain=0.14)
-        w, h = x1 - x0, y1 - y0; cx = x0 + w * 0.58
-        d.ellipse([cx - 52, y0 + 70, cx + 52, y0 + 200], fill='#2a1e18')                    # 頭髮
-        d.ellipse([cx - 38, y0 + 92, cx + 38, y0 + 196], fill='#e8c4a4')                    # 臉
-        d.polygon([(cx - 90, y1 - 30), (cx - 40, y0 + 200), (cx + 40, y0 + 200), (cx + 95, y1 - 30)], fill=red)   # 衣服
-        d.ellipse([cx - 20, y0 + 130, cx - 10, y0 + 138], fill='#3a2a22'); d.ellipse([cx + 10, y0 + 130, cx + 20, y0 + 138], fill='#3a2a22')
-        d.ellipse([cx - 10, y0 + 166, cx + 10, y0 + 172], fill='#b0403a')
-        vtext(x0 + 40, y0 + 46, title, F(46), '#b8302a', 54)
-        d.text((x0 + 18, y1 - 40), '主演　白川 遥', font=F(16), fill='#3a2a22')
-        a = np.asarray(im.crop(bx), np.float32); a = a * 0.92 + 12; a *= (1 + (noise(w, h, 3, seed) - 0.5)[..., None] * 0.12); im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (x0, y0))
-        d.rectangle([x0 + 2, y0 + 2, x1 - 3, y1 - 3], outline='#3a2618', width=5)
-    poster(0, '青い季節', '#a8392e', 31); poster(2, '夕陽の街', '#c2783a', 32)
+    def grad(w, h, c0, c1, vertical=True):
+        t = np.linspace(0, 1, h if vertical else w)[:, None] if vertical else np.linspace(0, 1, w)[None, :]
+        a0, a1 = np.array(hexc(c0), np.float32), np.array(hexc(c1), np.float32)
+        g = a0 + (a1 - a0) * t[..., None]; return np.broadcast_to(g, (h, w, 3)).copy()
+    def shade_ellipse(a, cx, cy, rx, ry, col, light=(-0.4, -0.5), k=0.35):
+        h, w = a.shape[:2]; yy, xx = np.mgrid[0:h, 0:w].astype(np.float32); u = (xx - cx) / rx; v = (yy - cy) / ry; m = u * u + v * v < 1
+        sh_ = 1 + k * (-(u * light[0] + v * light[1])) - 0.25 * (u * u + v * v); c = np.array(hexc(col), np.float32)
+        a[m] = (c[None, :] * sh_[m][:, None]).clip(0, 255)
+    def poster(c, title, kind, seed):
+        """v1d（BB_257：寫實一點、兩張不同人物和構圖）：漸層底、有明暗的臉和頭髮、手寫標題、片商小字、褪色、邊角捲起、膠帶"""
+        bx = box(c, 3, 2, 3); x0, y0, x1, y1 = bx; w, h = x1 - x0, y1 - y0; r2 = np.random.default_rng(seed)
+        if kind == 0:   # 女主角半身、側光、藍綠底，直排紅字標題在左
+            a = grad(w, h, '#3e6a6a', '#d8c8a0')
+            shade_ellipse(a, w * 0.6, h * 0.3, w * 0.25, h * 0.2, '#2a1a14', k=0.5)          # 頭髮（大波浪）
+            shade_ellipse(a, w * 0.72, h * 0.42, w * 0.12, h * 0.16, '#2a1a14', k=0.4)
+            shade_ellipse(a, w * 0.58, h * 0.33, w * 0.15, h * 0.15, '#e8c0a0', k=0.45)       # 臉
+            shade_ellipse(a, w * 0.58, h * 0.48, w * 0.05, h * 0.06, '#d8b090', k=0.3)        # 脖子
+            shade_ellipse(a, w * 0.6, h * 0.78, w * 0.36, h * 0.3, '#a8392e', k=0.45)         # 洋裝
+            shade_ellipse(a, w * 0.6, h * 0.62, w * 0.12, h * 0.05, '#e8c0a0', k=0.3)         # 領口
+        else:           # 男主角戴帽、四分之三側臉，夕陽街景剪影在下，橫的標題在上
+            a = grad(w, h, '#e8a050', '#5a2a2a')
+            for k_ in range(7):
+                bw = w // 8; xa = k_ * bw + 2; ht = int(h * (0.62 + 0.08 * ((k_ * 53) % 4) / 3)); a[ht:, xa:xa + bw - 3] = np.array(hexc('#2a1a1a'), np.float32)
+            shade_ellipse(a, w * 0.45, h * 0.42, w * 0.16, h * 0.15, '#d8a880', light=(0.5, -0.4), k=0.5)   # 臉
+            shade_ellipse(a, w * 0.45, h * 0.29, w * 0.24, h * 0.05, '#2a2420', k=0.3)        # 帽簷
+            shade_ellipse(a, w * 0.45, h * 0.24, w * 0.14, h * 0.07, '#3a3430', k=0.4)        # 帽頂
+            shade_ellipse(a, w * 0.47, h * 0.66, w * 0.3, h * 0.12, '#3a3a44', k=0.4)         # 西裝肩
+            shade_ellipse(a, w * 0.47, h * 0.6, w * 0.06, h * 0.07, '#e8e4d8', k=0.2)         # 襯衫領
+        a *= (1 + (noise(w, h, 2, seed) - 0.5)[..., None] * 0.14); a = a * 0.82 + np.array([46, 38, 22], np.float32)   # 褪色、泛黃
+        im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)), (x0, y0)); dd = ImageDraw.Draw(im)
+        if kind == 0:
+            vtext(x0 + 38, y0 + 52, title, F(48), '#c8302a', 56); d.ellipse([x0 + w * 0.53, y0 + h * 0.31, x0 + w * 0.55, y0 + h * 0.32], fill='#2a1a14'); d.ellipse([x0 + w * 0.6, y0 + h * 0.31, x0 + w * 0.62, y0 + h * 0.32], fill='#2a1a14')
+            d.ellipse([x0 + w * 0.565, y0 + h * 0.4, x0 + w * 0.6, y0 + h * 0.41], fill='#a8302a'); d.text((x0 + 16, y1 - 56), '主演　白川 遥', font=F(15), fill='#f1e6cc'); d.text((x0 + 16, y1 - 36), '曙映画社　総天然色', font=F(13), fill='#f1e6cc')
+        else:
+            text_c(d, (x0 + w / 2, y0 + 40), title, F(44), '#f6e8b0'); d.line([x0 + 30, y0 + 70, x1 - 30, y0 + 70], fill='#f6e8b0', width=2)
+            d.ellipse([x0 + w * 0.48, y0 + h * 0.4, x0 + w * 0.5, y0 + h * 0.41], fill='#2a1a14'); d.text((x0 + 18, y1 - 40), '主演　風間 透　　大東映画', font=F(14), fill='#f1e0c0')
+        for (tx, ty) in ((x0 + 4, y0 + 4), (x1 - 34, y0 + 6)): d.rectangle([tx, ty, tx + 30, ty + 14], fill='#e8dcb0')   # 膠帶
+        d.polygon([(x1 - 1, y1 - 40), (x1 - 1, y1 - 1), (x1 - 40, y1 - 1)], fill='#c8b890'); d.line([(x1 - 40, y1 - 1), (x1 - 1, y1 - 40)], fill='#8a7a5a', width=2)   # 捲起來的角
+        d.line([(x0, y0 + h * 0.5), (x1, y0 + h * 0.52)], fill='#b8a888', width=1)
+    poster(0, '青い季節', 0, 31); poster(2, '夕陽の街', 1, 32)
     for c, kind in ((4, 0), (6, 1)):   # 舊照片：泛黃黑白、白邊、木框
         bx = box(c, 3, 2, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d4'); ix0, iy0, ix1, iy1 = x0 + 20, y0 + 20, x1 - 20, y1 - 20
         hh, ww = iy1 - iy0, ix1 - ix0; yy = np.arange(hh)[:, None]; xx = np.arange(ww)[None, :]; a = np.zeros((hh, ww), np.float32) + 0.78
