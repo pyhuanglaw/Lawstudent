@@ -1578,8 +1578,8 @@ class Runner(object):
                         add.append(nf)
             # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
             git('-C', self.work, 'reset', '-q', quiet=True)
-            for i in range(0, len(add), 50):
-                git('-C', self.work, 'add', '--', *add[i:i + 50], quiet=True)
+            for i in range(0, len(add), 50):   # -f：清單是上面一個一個挑出來的（已照 PNG_CAP 過濾）；trace.zip 會被 .gitignore 的 *.zip 擋掉（BB 05:15：be2d80d58 的範例 zip 沒進 repo），所以強制加
+                git('-C', self.work, 'add', '-f', '--', *add[i:i + 50], quiet=True)
             git('-C', self.work, 'add', '--', sum_file, quiet=True)
             cf = self.write_console()
             if cf:
