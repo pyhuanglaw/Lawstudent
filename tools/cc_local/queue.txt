@@ -24,7 +24,7 @@
 # ===== BB 05:17：GG 系列最前面（3dce31a93）=====
 # ===== 06:1x：日和微波後走不回結帳（疑似卡在後牆走道）＝開 CC_AUTORETRY 重跑拿 trace（排最前）=====
 # FETCH_FRESHMAN_HOUSE（LAWWW-C 14:12 轉使用者 14:07：「超多的 內裝也有」；雲端 proxy 擋這個網域）：不是測試、不判定——抓 https://osa_dorm.ntu.edu.tw/Freshman_House 同一網站的圖（寬 ≥300、總量 ≤60 MB）、整頁截圖、HTML、文字、清單；只當美術參考，不能放進遊戲
-FETCH_FRESHMAN_HOUSE | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | probe | docs/story_planning/test_tools/cc/cc_fetch_site_probe.py | index.html | 15 | CC_HEADLESS=0
+#取消（LAWWW-C 14:2x：雲端連得到了，LAWWW-C 自己抓了 24 張，開發分支 180668b45）FETCH_FRESHMAN_HOUSE | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | probe | docs/story_planning/test_tools/cc/cc_fetch_site_probe.py | index.html | 15 | CC_HEADLESS=0
 GG_int_cvs_menu_tt | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0
 GG_int_cvs_menu_fix | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 45 | CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0
 GG_int_yejian_r2 | 10b6ebbf8 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 75 | CASES=yejian;CC_HEADLESS=0
