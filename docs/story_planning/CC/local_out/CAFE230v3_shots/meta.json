@@ -1,23 +1,23 @@
 {
-  "rerun": "",
+  "rerun": "dac871",
   "id": "CAFE230v3_shots",
-  "sha": "0c2d4997b",
+  "sha": "dac871e25",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py",
-  "env": "HOURS=14,22;SOFA=1;CC_HEADLESS=0",
+  "env": "HOURS=14,22;SOFA=1;CC_HEADLESS=0;RERUN=dac871",
   "machine": "MSI",
-  "start": "2026-11-04T16:21:03",
-  "end": "2026-11-04T16:32:06",
-  "seconds": 663,
-  "exit": 1,
+  "start": "2026-11-04T16:32:15",
+  "end": "2026-11-04T16:42:13",
+  "seconds": 598,
+  "exit": 0,
   "error": null,
   "runner": "6f08f2eb23",
   "rf_round": "25",
   "url": "http://127.0.0.1:8813/index.html",
   "res_peak": {
-    "cpu": 87,
-    "mem": 60,
-    "used_gb": 18.8,
-    "chrome_testing": 28
+    "cpu": 83,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 29
   }
 }
