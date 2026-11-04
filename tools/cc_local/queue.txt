@@ -25,12 +25,12 @@ LIVE1910_deploy | b0c3032af | game | tests/deploy_check.py | index.html | 30 | X
 LIVE1910_stuck | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 90 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.19.1;CC_HEADLESS=0
 LIVE1910_deploy2 | b0c3032af | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
 # ===== v9.10.20 BB 02:28（LIVE 之後）：1 GG_ext → 2 BIKE_shop → 3 CVS24；HEAD b85e1afc1 =====
-GG_ext_nav | 03713452b | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
-GG_ext_glb | 03713452b | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
-GG_ext_shots | 03713452b | probe | docs/story_planning/test_tools/cc/cc_gg_ext_shots_probe.py | index.html | 45 | CC_HEADLESS=0
-BIKE_flow | 03713452b | game | tests/flow_bike.py | index.html | 40 | XARGS={url} {out}
-BIKE_shop | 03713452b | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 60 | CC_HEADLESS=0
-CVS24 | 03713452b | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
+GG_ext_nav | 5c8450327 | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
+GG_ext_glb | 5c8450327 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+GG_ext_shots | 5c8450327 | probe | docs/story_planning/test_tools/cc/cc_gg_ext_shots_probe.py | index.html | 45 | CC_HEADLESS=0
+BIKE_flow | 5c8450327 | game | tests/flow_bike.py | index.html | 40 | XARGS={url} {out}
+BIKE_shop | 5c8450327 | probe | docs/story_planning/test_tools/cc/cc_bike_shop_probe.py | index.html | 60 | CC_HEADLESS=0
+CVS24 | 5c8450327 | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
