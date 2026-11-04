@@ -1,0 +1,193 @@
+{
+ "run": "npcD2",
+ "sha": "3424d8e66",
+ "zone": "gongguan",
+ "glb": "gongguan_shops_glb",
+ "pos": {
+  "x": -30,
+  "z": 14,
+  "yaw": 1.5708
+ },
+ "hour": 17.5,
+ "views_def": {
+  "street_west": [
+   [
+    -22,
+    1.7,
+    11
+   ],
+   [
+    -62,
+    4.5,
+    19
+   ]
+  ],
+  "arcade": [
+   [
+    -18,
+    1.6,
+    20.6
+   ],
+   [
+    -34,
+    2.2,
+    20.6
+   ]
+  ]
+ },
+ "formal": {
+  "boot_s": 20.8,
+  "zone_s": 9.11,
+  "glb_s": 9.13,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 140,
+   "geometries": 401,
+   "texCount": 189,
+   "texPixels": 26118854,
+   "texMP": 26.12,
+   "biggest": {
+    "w": 1024,
+    "h": 1024,
+    "name": "tree_leaves"
+   }
+  },
+  "views": {
+   "street_west": {
+    "calls": 191,
+    "tris": 319849,
+    "frames": 401,
+    "avg": 50.06,
+    "min": 11.53,
+    "low1": 17.64,
+    "calls_live": 220,
+    "tris_live": 394234,
+    "hour": 17.592,
+    "npcs": 12,
+    "npcsVisible": 12
+   },
+   "arcade": {
+    "calls": 190,
+    "tris": 329879,
+    "frames": 496,
+    "avg": 61.9,
+    "min": 27.25,
+    "low1": 31.23,
+    "calls_live": 202,
+    "tris_live": 355394,
+    "hour": 17.66,
+    "npcs": 12,
+    "npcsVisible": 12
+   }
+  }
+ },
+ "nobldg": {
+  "boot_s": 16.6,
+  "zone_s": 4.48,
+  "glb_s": null,
+  "glb_files": [],
+  "glb_kb_total": 0,
+  "mem": {
+   "textures": 105,
+   "geometries": 171,
+   "texCount": 145,
+   "texPixels": 9524771,
+   "texMP": 9.52,
+   "biggest": {
+    "w": 2048,
+    "h": 256,
+    "name": "map"
+   }
+  },
+  "views": {
+   "street_west": {
+    "calls": 162,
+    "tris": 446161,
+    "frames": 581,
+    "avg": 72.6,
+    "min": 7.37,
+    "low1": 11.03,
+    "calls_live": 169,
+    "tris_live": 458868,
+    "hour": 17.587,
+    "npcs": 12,
+    "npcsVisible": 12
+   },
+   "arcade": {
+    "calls": 158,
+    "tris": 439908,
+    "frames": 467,
+    "avg": 58.3,
+    "min": 11.55,
+    "low1": 20.29,
+    "calls_live": 185,
+    "tris_live": 509872,
+    "hour": 17.654,
+    "npcs": 12,
+    "npcsVisible": 12
+   }
+  }
+ },
+ "table": {
+  "street_west": {
+   "calls": 191,
+   "nobldg_calls": 162,
+   "limit_1.3x": 210.6,
+   "margin": 19.6,
+   "ratio": 1.179,
+   "tris": 319849,
+   "tris_limit": 420000,
+   "tris_margin": 100151,
+   "fps_avg": 50.06,
+   "fps_min": 11.53,
+   "fps_low1": 17.64,
+   "nobldg_fps_avg": 72.6,
+   "nobldg_fps_min": 7.37
+  },
+  "arcade": {
+   "calls": 190,
+   "nobldg_calls": 158,
+   "limit_1.3x": 205.4,
+   "margin": 15.4,
+   "ratio": 1.2025,
+   "tris": 329879,
+   "tris_limit": 420000,
+   "tris_margin": 90121,
+   "fps_avg": 61.9,
+   "fps_min": 27.25,
+   "fps_low1": 31.23,
+   "nobldg_fps_avg": 58.3,
+   "nobldg_fps_min": 11.55
+  },
+  "_mem": {
+   "formal": {
+    "textures": 140,
+    "geometries": 401,
+    "texCount": 189,
+    "texPixels": 26118854,
+    "texMP": 26.12,
+    "biggest": {
+     "w": 1024,
+     "h": 1024,
+     "name": "tree_leaves"
+    }
+   },
+   "nobldg": {
+    "textures": 105,
+    "geometries": 171,
+    "texCount": 145,
+    "texPixels": 9524771,
+    "texMP": 9.52,
+    "biggest": {
+     "w": 2048,
+     "h": 256,
+     "name": "map"
+    }
+   },
+   "glb_kb_total": 0,
+   "glb_files": [],
+   "glb_s": 9.13
+  }
+ }
+}
