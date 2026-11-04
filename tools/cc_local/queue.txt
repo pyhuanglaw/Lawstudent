@@ -19,6 +19,14 @@
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
 # ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
+# ===== P0 熱修 v9.10.19.1 GO 組（BB；LAWWW fd8d447d2＝main＋attended 修正＋guardTalk）：最前面 =====
+HOT_stuck   | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+HOT_soc_zr  | fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
+HOT_soc_talk| fd8d447d2 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=heroine_01,heroine_03,heroine_04,heroine_05,zhe,yu,classmate_bohan,kai;STEPS=first,greet,menu,reload;QUICK=1;CC_HEADLESS=0
+HOT_deploy  | fd8d447d2 | game | tests/deploy_check.py | index.html | 30 | XARGS={url} v9.10.19.1（2026-11-04）
+HOT_p0      | fd8d447d2 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
+HOT_smoke   | fd8d447d2 | game | tests/smoke_release.py | index.html | 60 | XARGS={url} {out}
+HOT_v7      | fd8d447d2 | game | tests/save_compat_v7.py | index.html | 60 | SHA2=385e194;XARGS={url2} {url}
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_fix  | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
