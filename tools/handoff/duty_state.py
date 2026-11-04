@@ -532,9 +532,13 @@ def sync(args):
                 print(f'[略過] {r}：{ref} fetch 以後帳號變了——不收，重新 sync')
                 continue
         # ② 只收比 duty.json 現在這一筆新的登記：職位交班沒用 duty handoff 改自己的 duty_<職位>.json 時，檔案會一直寫 state on，下次那個帳號回來就被當成新登記
-        rt, ct = _ts(reg.get('since')), _ts(cur.get('since'))
-        if rt and ct and rt < ct:
-            print(f'[略過] {r}：{ref} 的登記（帳號 {reg.get("account")}，since {reg.get("since")}）比 duty.json 現在的（帳號 {cur.get("account")}，since {cur.get("since")}）舊——是上一次值班留下的檔，等它重新 duty register')
+        # ③ 2026-11-04 事故：duty.json 上一筆（帳號 A 的 BB）已交班但沒有 since（只有 handedOffAt）→ 原本 ct＝None 不比，收了帳號 C 10-27 的舊檔；
+        #   上一筆沒有 since 就拿 handedOffAt 比（新登記一定在上一任交班以後）；登記本身沒有 since 也不收
+        m5 = lambda t: t[:5] if t else None   # 只比到分鐘：since 通常只記到分鐘、handedOffAt 可能記到秒（同一分鐘內接班不能被當成舊的）
+        rt = m5(_ts(reg.get('handedOffAt') if reg.get('state') == 'handed-off' and reg.get('handedOffAt') else reg.get('since')))   # 交班紀錄沒有 since，用交班時間
+        ct = max((m5(t) for t in (_ts(cur.get('since')), _ts(cur.get('handedOffAt'))) if t), default=None)
+        if not rt or (ct and rt < ct):
+            print(f'[略過] {r}：{ref} 的登記（帳號 {reg.get("account")}，since {reg.get("since")}）比 duty.json 現在的（帳號 {cur.get("account")}，since {cur.get("since")}，交班 {cur.get("handedOffAt")}）舊或沒有 since——是上一次值班留下的檔，等它重新 duty register')
             continue
         tip = git(args.root, 'rev-parse', '--short=8', ref)[1]
         new = {'account': reg['account'], 'session': reg.get('session'), 'branch': reg.get('branch'), 'sha': reg.get('sha') or tip,

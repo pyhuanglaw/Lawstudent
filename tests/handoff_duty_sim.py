@@ -433,6 +433,23 @@ def stale_sync():
               json.dumps({'st': st, 'pending': dj.get('pending'), 'lh': (dj.get('lastHandoff') or {}).get('from'), 'sync': out[-300:]}, ensure_ascii=False))
     finally:
         w.done()
+    # ③ 2026-11-04 事故（帳號 C 第三次接班）：duty.json 上一筆 BB 是帳號 A 已交班、沒有 since（只有 handedOffAt）；帳號 C 的 BB 分支還留著 10-27 的 state on
+    w = World('C')
+    try:
+        d = w.clone('BB', 'C'); reg = w.rjson(d, 'docs/handoff/duty_BB.json'); reg['since'] = '2026-10-27T17:21Z'
+        w.wjson(d, 'docs/handoff/duty_BB.json', reg); w.push(d, 'BB 10-27 登記')
+        w.work('C', 'C1'); w.handoff('C', skip=('LAWWW2', 'AA', 'BB', 'CC'))
+        w.takeover('A', user_ok=True); w.work('A', 'A1'); w.handoff('A')   # 帳號 A 五個職位都正式交班
+        lw = w.clone('LAWWW', 'A'); dj = w.rjson(lw, 'docs/handoff/duty.json')
+        dj['roles']['BB'].pop('since', None); dj['roles']['BB'].setdefault('handedOffAt', '2026-11-04T09:04Z')   # 舊工具留下的樣子：沒有 since、只有 handedOffAt
+        w.wjson(lw, 'docs/handoff/duty.json', dj); w.push(lw, 'BB since 拿掉（模擬舊工具）')
+        r3 = w.takeover('C', user_ok=True, roles=('LAWWW',))   # 帳號 C 回來，只有 LAWWW 先登記
+        bb = r3['duty']['roles']['BB']
+        check('HV-20 ③ 11-04 事故：上一筆 BB（帳號 A）已交班、沒有 since；帳號 C 的 BB 分支留著 10-27 的 state on——sync 不收（印「略過」），BB 照舊是帳號 A handed-off',
+              bb.get('account') == 'A' and bb.get('state') == 'handed-off' and '[略過] BB' in (r3.get('sync') or ''),
+              json.dumps({'bb': bb, 'sync': (r3.get('sync') or '')[-300:]}, ensure_ascii=False))
+    finally:
+        w.done()
 
 
 def main():
