@@ -154,7 +154,15 @@ for k, (zone, ppos, pos, look, D, *top) in VIEWS.items():
                       'state': {'zone': zone, 'hour': h, 'pos': {'x': ppos[0], 'z': ppos[1], 'yaw': 0}}, 'cam': {'pos': pos, 'look': look},
                       'js': "(async()=>{ %s GAME.E.camera.fov=%s; GAME.E.camera.updateProjectionMatrix(); })()" % (WAIT_ASSETS, FOV), 'wait': 5000, 'post': LAYERS % (D, top[0] if top else 99)})
 spec = os.path.join(tmp, 'shots.json'); json.dump(shots, open(spec, 'w'), indent=1)
-r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools/blender/env_second/shots/fast_shots.py'), URL, spec], capture_output=True, text=True)
+# 11-04 GG_views_r2 電腦上 FAIL：fast_shots.py（LAWWW2 的，不改）寫死雲端的 /opt/pw-browsers/chromium；gpu_wrap 只在同一個行程裡改 launch，子行程拿不到
+#   → 雲端那個路徑不存在（＝在使用者電腦上）時，子行程也透過 tools/cc_local/gpu_wrap.py 跑（拿掉不存在的 executable_path、SwiftShader 參數，改用 GPU）
+FAST = os.path.join(ROOT, 'tools/blender/env_second/shots/fast_shots.py')
+GPU_WRAP = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tools', 'cc_local', 'gpu_wrap.py'))
+cmd = [sys.executable, FAST, URL, spec]
+if (os.environ.get('VIEWS_WRAP') == '1' or not os.path.exists('/opt/pw-browsers/chromium')) and os.path.exists(GPU_WRAP):   # VIEWS_WRAP=1：雲端也強制走 gpu_wrap（驗證用）
+    cmd = [sys.executable, GPU_WRAP, FAST, URL, spec]
+print('  fast_shots：%s' % ('透過 gpu_wrap（電腦）' if cmd[1] == GPU_WRAP else '直接跑（雲端）'), flush=True)
+r = subprocess.run(cmd, capture_output=True, text=True)
 jpath = os.path.join(ROOT, 'tools', 'shots', 'shop_views_layers.json')
 depth = json.load(open(jpath)) if os.path.exists(jpath) else {}
 if CC_OUT: jpath = os.path.join(CC_OUT, 'shop_views_layers.json')
