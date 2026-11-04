@@ -18,6 +18,30 @@
   - D134：CC 可以直接聯絡任何職位。
 - **暫停中**（五欄：誰決定、為什麼、負責人、恢復條件、下次檢查日）：接班核對中。上一任交班清單裡的都是「等 PC 驗」「等 BB 驗」，不是暫停。本班的暫停項目核對完寫在這裡。
 
+### 「等待」七項的恢復條件（LAWWW-C 11-04 12:48 check_orphans；LAWWW2-C 13:1x 查證）
+查證依據：
+- 開發分支 `claude/adoring-meitner-mqzst8`（ebd44c2e3）。
+- `main`（b0c3032af，v9.10.19.1）。
+- AA-C 分支 `claude/magical-albattani-bk7b4n`（a2d296d7c）。
+
+| ID | 實際狀況 | 等誰 | 等什麼 | 什麼時候再看 | 建議總表狀態 |
+|---|---|---|---|---|---|
+| CAM-BELL-1031 | 8119766b1 由 a45c719e1 整合，**已經在 main** | BB（PC，cc-local） | 遊戲畫面：行政大樓門廊往旁邊 1.3 m，鏡頭不再整片是鐘亭石材；campus_bell_seethru_unit 在開發分支 | BB 下一次排 PC 批次時 | 已整合待測試 |
+| GYM-B1-PLATES-1101 | 095518e3f 由 82107f8b5 整合，**已經在 main** | BB（PC） | 遊戲畫面：體育館 B1 三塊門牌有字、方向朝外；gym_b1_plates_unit 在開發分支 | BB 下一次排 PC 批次時 | 已整合待測試 |
+| ART-NANYANG-CINEMA-1103 | BB 的大廳 v5b（2cecefa9a）、1 廳 v2（9e72db718）都是 READY_FOR_REVIEW；開發分支還沒有 | **LAWWW2 自己**，不是等別人 | LAWWW2 驗收（SCENE_RULES §11、§12，對照參考圖），再做外觀、區域、導航、出入口、光照 | 照使用者 11-03 的順序（UA-LAWWW2-1103-01）：①法學院 relayout ②系館名稱 patch ③電機一館 ④總圖展演廳與 3F 做完以後；新生南路那一批（UA-LAWWW2-1103-07）一起排。LAWWW-C 要提前就告訴我 | 待開工 |
+| ART-SHANLAN-BOOKSTORE-1103 | AA 的室內 v5（3d665b504；refcam 報告 shanlan_v5）是 READY_FOR_REVIEW；開發分支還沒有 | **LAWWW2 自己**；坐地板的姿勢 POSE-FLOOR-READ-1103 是 LAWWW 的，可以並行 | LAWWW2 驗收，再做新生南路店面、兩層導航、出入口、光照 | 同上 | 待開工 |
+| ART-WZ-CAFES-1103 | AA 的木曜日 v3、日常失速 v3 是 READY_FOR_REVIEW；兩顆 GLB 已在開發分支（255d7d91a 以前）；AA617 木曜日已整合待測試 | **LAWWW2 自己** | 日常失速的外觀、區域、導航、出入口、光照；木曜日一樓鐵門、樓梯、外觀 | ⚠️ **LAWWW 的 P1 進行中 AA623-BOARDGAME-TEAM-1103（桌遊團在日常失速長桌）、AA618 卡在這一項**。請 LAWWW-C 決定要不要排在 CAMPUS-RELAYOUT 前面；沒有指示就排在 WZ-FIVE 阿德轉角之後 | 待開工 |
+| ART-XINSHENG-GATE-1103 | 側門、溫州街西側出口已整合（XINSHENG-SIDE-1103，aa8cb5beb）；新生南路街景還是 BLOCKOUT | **LAWWW2 自己** | 立面 `bldg.xinsheng_street`（全部外觀＋公館燒臘，UA-LAWWW2-1103-07）；LAWWW 的 WZ-ENTRY-XINSHENG-1103（拿掉公館巷口）等這一項 | 和 NANYANG、SHANLAN 一起排（同一條街） | 待開工（側門那一半已整合） |
+| GG-SHOPS-REDESIGN-1103 | 使用者 11-03 22:0x 對 AA 說會給 2D 參考圖 | **使用者** | 公館 15 間店的 2D 參考圖 | 每次接班、開始新的主要任務時，看 `docs/story_planning/ref_images/` 有沒有公館的新圖，也看 AA-C 的轉達 | 等待其他AI／素材（真的在等） |
+
+- 總表裡重複的 ID（同一件事有兩個）：
+  - BOOKSTORE-2F-1103 和 ART-SHANLAN-BOOKSTORE-1103
+  - CINEMA-GG-1103 和 ART-NANYANG-CINEMA-1103
+  - WZ-CAFES-1103 和 ART-WZ-CAFES-1103
+
+  建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
+- 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
+
 ## 🔁 交班（11-04 09:1x UTC；帳號 A LAWWW2；使用者說「現在交班」，LAWWW 09:04 轉使用者：交班後不用再每小時啟動）
 - 分支 `claude/second-ai-env-art`。成果最後一個 commit 是 01b2b4786，交班紀錄在它後面；SHA 以 ls-remote 為準。worktree 是乾淨的。
 - 每小時保險喚醒 trig_01PZ1NbK8H7GTeNrK3Q9bHLh 已停用（enabled=false，沒有刪）。我沒有排還沒觸發的 send_later。
