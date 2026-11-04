@@ -1,0 +1,380 @@
+[
+ {
+  "tot": {
+   "calls": 199,
+   "tris": 445123
+  },
+  "groups": {
+   "(無名)#Mesh": {
+    "calls": 36,
+    "tris": 68569,
+    "meshes": 36
+   },
+   "avenue_line#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "lib_old_camphor#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "(無名)#Group": {
+    "calls": 34,
+    "tris": 68630,
+    "meshes": 34
+   },
+   "skybridge_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "lake_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "court_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "linze_big_camphor#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "linze_big_camphor_pit#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campusBackdrop#Group": {
+    "calls": 12,
+    "tris": 21286,
+    "meshes": 12
+   },
+   "blackforest_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "(無名)#Sprite": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_ground_tap#Mesh": {
+    "calls": 1,
+    "tris": 2,
+    "meshes": 1
+   },
+   "parked_bikes#Group": {
+    "calls": 17,
+    "tris": 48844,
+    "meshes": 17
+   },
+   "bike_ride#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "street_trees_field#Group": {
+    "calls": 9,
+    "tris": 53388,
+    "meshes": 9
+   },
+   "Scene#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_library_glb#Group": {
+    "calls": 13,
+    "tris": 9081,
+    "meshes": 13
+   },
+   "campus_lib_lawn_glb#Group": {
+    "calls": 10,
+    "tris": 13535,
+    "meshes": 10
+   },
+   "campus_blackforest_glb#Group": {
+    "calls": 6,
+    "tris": 5486,
+    "meshes": 6
+   },
+   "campus_gate_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_gate_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_lake_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_bell_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_bell_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_gongtong_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_male1_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_putong_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_boya_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_freshman_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_admin_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_arts_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_hist_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_pavilion_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_socsci_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_socsci_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   }
+  },
+  "nGroups": 36
+ },
+ {
+  "tot": {
+   "calls": 198,
+   "tris": 439686
+  },
+  "groups": {
+   "(無名)#Mesh": {
+    "calls": 36,
+    "tris": 68569,
+    "meshes": 36
+   },
+   "avenue_line#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "lib_old_camphor#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "(無名)#Group": {
+    "calls": 34,
+    "tris": 68630,
+    "meshes": 34
+   },
+   "skybridge_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "lake_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "court_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "linze_big_camphor#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "linze_big_camphor_pit#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campusBackdrop#Group": {
+    "calls": 12,
+    "tris": 21286,
+    "meshes": 12
+   },
+   "blackforest_fallback#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "(無名)#Sprite": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_ground_tap#Mesh": {
+    "calls": 1,
+    "tris": 2,
+    "meshes": 1
+   },
+   "parked_bikes#Group": {
+    "calls": 12,
+    "tris": 46982,
+    "meshes": 12
+   },
+   "bike_ride#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "street_trees_field#Group": {
+    "calls": 9,
+    "tris": 52620,
+    "meshes": 9
+   },
+   "Scene#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_library_glb#Group": {
+    "calls": 13,
+    "tris": 9081,
+    "meshes": 13
+   },
+   "campus_lib_lawn_glb#Group": {
+    "calls": 10,
+    "tris": 13535,
+    "meshes": 10
+   },
+   "campus_blackforest_glb#Group": {
+    "calls": 6,
+    "tris": 5486,
+    "meshes": 6
+   },
+   "campus_gate_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_gate_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_lake_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_bell_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_bell_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_gongtong_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_male1_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_putong_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_boya_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_freshman_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_admin_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_arts_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_hist_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_pavilion_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_socsci_glb#Group": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   },
+   "campus_socsci_glb_glows#Mesh": {
+    "calls": 0,
+    "tris": 0,
+    "meshes": 0
+   }
+  },
+  "nGroups": 36
+ }
+]

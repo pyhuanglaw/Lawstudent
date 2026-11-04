@@ -1,0 +1,32 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_park_glb_groups_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\PARK_glb_groups\out
+CC PARK_glb 群組拆解：avenue 鏡頭 [38.0, 1.7, 0.5] → [100.0, 10.0, 0.0]；2 輪；SHA=7c970654c48b2d28f32e6d1c2241870e12d5998b；Playwright，不是手機實機
+PASS 遊戲載入  19.9 秒
+== 第 1 輪：[前置／捷徑] 讀檔：校園 (30, 0.5)、14:00、條件事件關閉
+  [第 1 輪] mesh 954、renderer.info calls 199、tris 445123、群組 36 個
+== 第 2 輪：[前置／捷徑] 讀檔：校園 (30, 0.5)、14:00、條件事件關閉
+  [第 2 輪] mesh 955、renderer.info calls 198、tris 439686、群組 36 個
+PASS 沒有 JS 例外  []
+INFO 兩輪 renderer.info：calls 199 → 198、tris 445123 → 439686
+INFO 兩輪估計 calls 差最多的 10 組：
+  parked_bikes#Group：calls 17 → 12、tris 48844 → 46982、mesh 17 → 12
+  campus_boya_glb#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  linze_big_camphor_pit#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  campus_bell_glb#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  Scene#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  campus_lake_glb#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  bike_ride#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  campus_gongtong_glb#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  campus_freshman_glb#Group：calls 0 → 0、tris 0 → 0、mesh 0 → 0
+  campus_ground_tap#Mesh：calls 1 → 1、tris 2 → 2、mesh 1 → 1
+INFO 估計 calls 最多的 10 組（兩輪）：
+  (無名)#Mesh：calls 36／36、tris 68569／68569
+  (無名)#Group：calls 34／34、tris 68630／68630
+  parked_bikes#Group：calls 17／12、tris 48844／46982
+  campus_library_glb#Group：calls 13／13、tris 9081／9081
+  campusBackdrop#Group：calls 12／12、tris 21286／21286
+  campus_lib_lawn_glb#Group：calls 10／10、tris 13535／13535
+  street_trees_field#Group：calls 9／9、tris 53388／52620
+  campus_blackforest_glb#Group：calls 6／6、tris 5486／5486
+  campus_ground_tap#Mesh：calls 1／1、tris 2／2
+  campus_boya_glb#Group：calls 0／0、tris 0／0
+ALL PASS
