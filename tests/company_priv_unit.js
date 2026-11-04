@@ -450,11 +450,12 @@ const noodle3Dend=()=>{ try{ delete GM.spawnNPC; delete GM.removeNPC; }catch(e){
 /* 大一上週二：c503_6_2（語彤和阿姨）那一天擲到（on true）／沒擲到（on false）、語彤照樣顧店的第一天 */
 const ayiDay=on=>{ const r=HCIRCLE.row('c503_6_2'); for(let w=2;w<=15;w++){ const x=TD('Y1S1',w,2); fresh(x,18,'noodle'); if(HCIRCLE.on(r,H.G)===on&&MREL.ytShift(H.G)) return x; } return null; };
 /* AA_610／AA_624：大一上到大四下每學期第 3、10 週的週二、四 17:30～20:00，語彤都不在燒臘店顧店（MREL.ytShift）、她和阿姨的圈子（c503_*、c504_*、c505_*）都不成立 */
+const ytRowsMoved=()=>{ const R=HCIRCLE.ROWS||[]; return R.some(r=>r&&r.who==='heroine_03'&&r.zone==='wz_teahouse'&&/^c50[345]_/.test(r.id||r.hc||''))&&!R.some(r=>r&&r.who==='heroine_03'&&r.zone==='noodle'); };   /* 2026-11-04：語彤的圈子（c503／c504／c505）整列搬到一盞茶屋（AA_610／AA_624），麵店那幾列不存在＝本來就不可能成立；資料沒載到（一列都沒有）照舊 FAIL */
 const ytNoShop=()=>{ let shift=0, rows=0; const RS=(HCIRCLE.ROWS||[]).filter(r=>r&&r.who==='heroine_03'&&r.zone==='noodle'); for(const t of ['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']) for(const w of [3,10]) for(const wd of [2,4]) for(const h of [17.6,18.5,19.5]){ const x=TD(t,w,wd); if(x==null) continue; fresh(x,h,'noodle'); if(MREL.ytShift(H.G)) shift++; for(const r of RS) if(HCIRCLE.on(r,H.G)) rows++; } return {shift,rows,n:RS.length}; };
 /* 第 12 項 真的圈子：麵店的阿姨（HCIRCLE.withNow 回傳旁邊那幾個人的 id）；後補第 6 點起，麵店只有阿姨＝「約她去…」也照出，旁邊再多一個同伴才擋 */
 await sec('8. 第 12 項 真的圈子：麵店的阿姨（HCIRCLE.w',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('8. 第 12 項 真的圈子（語彤顧店、阿姨在旁邊）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('8. 第 12 項 真的圈子（語彤顧店、阿姨在旁邊）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 /* ===================== 第 14 節後補（AA_503 第 14 節後補，企劃線 0e46fdc7e）：第 3 項擋下來沒演的不算知情的次數（第 4 項不重算＝第 7 段 (e)）===================== */
 await sec('9. 對稿：第 14 節後補',async()=>{ const L=(HAS()&&PRIVTALK.LATER)||[];
   check('9. 對稿（白名單上 AA_503 那一版有第 14 節後補）：第 3 項「擋下來沒演的不算」「只有真的演出來的才算一次」、第 4 項「不重新算」「7 天從這一項第一次被擋那天起算，到第 8 天照演」、第 5 點三句；PRIVTALK.LATER 9 項（第 6、7 點＝第 10 段，第 8、9 點＝第 11 段）、REF2＝0e46fdc7e、19b4307eb、5ec2fe771',
@@ -487,7 +488,7 @@ await sec('9. 第 3 項 語彤被打擾（dist）',async()=>{ const st=ytWaiting
 /* 第 5 點（AA 19b4307eb）：語彤在麵店，阿姨不算旁邊有人——麵店的發現（kind noodle：她在麵店顧店、玩家走進去）、打擾（kind talk）；旁邊還有別的同伴照擋 */
 await sec('9. 第 5 點 語彤在麵店：阿姨不算旁邊有人',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('9. 第 5 點（語彤在麵店的發現、打擾）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('9. 第 5 點（語彤在麵店的發現、打擾）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 await sec('9. 第 3 項 只有次數的那一次，等了 7 天',async()=>{ const st=sisTalked('2027-10-12',0), d0=H.G.day, n=npc('heroine_05'); crowd('heroine_05',['npc_ta_chen']);
   H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m1=st.meets, w1=W('knows_talk','heroine_05'), nn1=noNarr();
   day(d0+7); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m8=st.meets, nf=narrFirst(), w8=W('knows_talk','heroine_05'), s8=said();
@@ -528,16 +529,16 @@ await sec('10. (A) 第 7 項交往中那一版：麵店只有阿姨',async()=>{ 
 /* (A) 真的圈子：BB 那一天（2025-09-09 週二 18:12 麵店，c503_6_2 那一天擲到＝HCIRCLE.arrange 生出阿姨，站在語彤旁邊）*/
 await sec('10. (A) 真的圈子：BB 那一天的麵店',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('10. (A) 真的圈子（BB 那一天的麵店）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('10. (A) 真的圈子（BB 那一天的麵店）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 /* (B) 第 7 點：auntIn 看 3D 的阿姨（HCIRCLE.labelIn：c503_6_2 那幾列現在成立）。AA_519 第 8 節第 1 點（d75cd0228）起：語彤顧店的時段阿姨一定在廚房＝店開著就算在（廚房那位就是阿姨）；
    阿姨真的不在（HCIRCLE.auntAway：過年店休、2029-04-19～25 出國；這支測試沒有載 r2y4b3d.js、noodle_closed3d.js，用強制的，真的那幾天在 tests/aa519_support2_unit.js）才不在 */
 const awayAs=async(v,fn)=>{ const a0=HCIRCLE.auntAway; HCIRCLE.auntAway=()=>v; try{ return await fn(); } finally { HCIRCLE.auntAway=a0; } };
 await sec('10. (B) auntIn 看 3D 的阿姨',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('10. (B) auntIn（c503_6_2 那一列）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('10. (B) auntIn（c503_6_2 那一列）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 await sec('10. (B) 發現那一場：3D 的阿姨在／不在',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('10. (B) 語彤《等我下班一下》那一場：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('10. (B) 語彤《等我下班一下》那一場：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 /* ===================== 第 14 節後補第 8、9 點（PRIV-AUNT-1028 第二輪，企劃線 38a74680d、f6069e42d）===================== */
 /* 那一學期阿姨那一列（rid）擲到（on true）／沒擲到（on false）、語彤照樣顧店的週二或週四（h 點）*/
 const ayiDayT=(rid,on,h)=>{ const r=HCIRCLE.row(rid), q=r&&CALENDAR.termDays(r.terms[0]); if(!q) return null; for(let x=q.from;x<=q.to;x++){ const wd=wdOf(x); if(wd!==2&&wd!==4) continue; fresh(x,h||18.5,'noodle'); if(MREL.ytShift(H.G)&&HCIRCLE.on(r,H.G)===on) return x; } return null; };
@@ -569,14 +570,14 @@ await sec('11. 對稿：第 8、9 點',async()=>{ const L=(HAS()&&PRIVTALK.LATER
 /* ① 第 8 點第 1 項：交往中那一版照說——真的圈子（大四下 c503_14_5 擲到的週二 18:30，HCIRCLE.arrange 生出阿姨）*/
 await sec('11. ① 交往中那一版（真的圈子）',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('11. ① 交往中那一版（c503_14_5）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('11. ① 交往中那一版（c503_14_5）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 /* ② 第 8 點第 2 項：廚房那位就是阿姨——「阿姨呢？」「去買東西。」對得上、點餐（阿姨不在＝阿姨的話不說）*/
 await sec('11. ② 廚房那位就是阿姨',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('11. ② 廚房那位就是阿姨（語彤顧店的時段）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('11. ② 廚房那位就是阿姨（語彤顧店的時段）：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 /* ③ 第 8 點第 3 項：大二下以後每學期阿姨那一列——擲到那一天 18:30 在、19:30 那一場最後有「蘇姨，我等一下自己收。」；18:30 那一場沒有；沒擲到＝「阿姨呢？」；2029-09 以後沒有 */
 await sec('11. ③ 每學期阿姨那一列',async()=>{   /* AA_610／AA_624（使用者 11-03）：語彤從來不在燒臘店顧店＝原本這一段（她顧店、阿姨在旁邊的圈子、MREL 的麵店場）走不到；換成「不會發生」的檢查 */
   const R=ytNoShop();
-  check('11. ③ 每學期阿姨那一列：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',R.n>0&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
+  check('11. ③ 每學期阿姨那一列：語彤不在燒臘店（ytShift 一直 false、她的阿姨那幾列不成立、ayiDay 找不到那一天）',(R.n>0||ytRowsMoved())&&R.shift===0&&R.rows===0&&ayiDay(true)===null&&ayiDay(false)===null,J(R)); });
 H.done();
 })();
