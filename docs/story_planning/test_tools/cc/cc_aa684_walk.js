@@ -315,8 +315,9 @@ await sec('8 AA_685 A 節換字、語彤旅行訊息（茶屋版、店裡的只�
   const NT=t=>String(t).replace(/茶屋初.開/,'茶屋初四開').replace(/^初.開店/,'初四開店');   /* AA_686 第 4 項：初四／初五照年份換——比的時候先換回來 */
   const shopTx=new Set([].concat(P3.mid||[],...(P3.shopOpen.pool||[]).map(i=>P3.pool[i]||[]),P3.back||[]).filter(t=>t!=='回來了嗎')), shutTx=new Set([].concat(P3.shut.first||[],...(P3.shut.pool||[]),P3.shut.back||[]).filter(t=>t!=='回來了嗎'));
   const OW=P3.offWd||{pool:[],rep:[]}, owTx=new Set([].concat(...(OW.pool||[]))), dailyFirst=new Set([].concat([(P3.mid||[])[0]],(P3.pool||[]).map(x=>x[0]),(OW.pool||[]).map(x=>x[0])).filter(Boolean));
-  check('8. AA_686 3b、3c：平日（她在淡水）多三則、平日的回覆「淡水冷嗎？」「好好休息。」（逐字）',J(OW.pool)===J([['今天在淡水','河邊的風很大'],['📷（診所門口的盆栽，土是濕的）','我媽澆的 她每天都叫我澆'],['秀琴姨傳訊息問我吃了沒','我說吃了 其實還沒']])&&J(OW.rep)===J(['淡水冷嗎？','好好休息。']),J(OW));
-  const badT=[], badRep=[], badTea=[]; let nOw=0, nRepWd=0, nRepWe=0;
+  check('8. AA_686 3b：平日（她在淡水）多三則（逐字）',J(OW.pool)===J([['今天在淡水','河邊的風很大'],['📷（診所門口的盆栽，土是濕的）','我媽澆的 她每天都叫我澆'],['秀琴姨傳訊息問我吃了沒','我說吃了 其實還沒']]),J(OW));   /* 回覆分寒暑假（AA_687 第 6 項）：下面逐則看 */
+  const badT=[], badRep=[], badTea=[], badRot=[], rotRows=[]; let nOw=0, nOwCl=0, nRepWd=0, nRepWe=0, nRepSum=0, nRepWin=0, nGrpCl=0;
+  const NEU=(P3.pool||[]).filter((x,i)=>!(P3.shopOpen.pool||[]).includes(i)), GRP=(OW.pool||[]).concat(NEU), GRPF=GRP.map(x=>x[0]);   /* 平日那一組＝新的三則＋池子裡不講店裡的那幾則（AA_686 3b、AA_687 第 7 項）*/
   const IS=[]; for(const id in VAC_DATA.A){ const a=VAC_DATA.A[id]; for(const yk of ['Y1','Y2','Y3','Y4']){ const I=VAC.inst(id,yk); if(I&&I.A&&I.A.place&&I.A.place.kind==='abroad') IS.push(I); } }
   const badW=[], badS=[], rows=[], delayed=[]; let nShop=0, nShut=0, nAll=0;
   for(const I of IS){ if(VAC.mates&&VAC.mates(I).has(YT)) continue; fresh(I.from,6,'dorm',{dating_heroine_03:true}); H.CLOSE(YT); VAC.rec(H.G).reg[I.key]='yes';
@@ -324,23 +325,28 @@ await sec('8 AA_685 A 節換字、語彤旅行訊息（茶屋版、店裡的只�
     walk(I.from,6,I.to,23.5,0.5);
     const M=(H.G.msgs||[]).filter(m=>/^vac_tm_/.test(m.tag||'')&&(m.from===YT||m.th==='p:'+YT)).map(m=>({d:m.day,date:K(m.day)+'（'+WDN(m.day)+'）',h:m.h,text:NT(m.text),raw:m.text,tag:m.tag,ask:m.ask?m.ask.opts.map(o=>o.t):null}));
     nAll+=M.length; const cl=d=>typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed(H.G,d), tr=I.A.trip||{}, dk=tr.dark&&VAC.dayOf?VAC.dayOf(I.yk,I.A.season,tr.dark):null;
+    const seq=[];
     for(const m of M){ const sent=(dk!=null&&tr.signalAfter&&m.d===dk+1&&Math.abs(m.h-8)<0.01)?dk:m.d;   /* 停電那晚（tr.dark）的訊息隔天 08:00 才收到（vac3d.js when）：照她傳的那一天算 */
       if(sent!==m.d) delayed.push(I.key+' '+K(sent)+'（'+WDN(sent)+'）傳、'+m.date+' 08:00 收到：'+m.text);
       if(shopTx.has(m.text)){ nShop++; if(!(WD(sent)===6||WD(sent)===0)) badW.push(I.key+' '+m.date+' '+m.text); if(cl(m.d)) badS.push(I.key+' '+m.date+'（茶屋過年休息）'+m.text); }
       if(shutTx.has(m.text)){ nShut++; if(!cl(m.d)) badS.push(I.key+' '+m.date+'（不是店休）'+m.text); }
       const we=WD(sent)===6||WD(sent)===0;
-      if(owTx.has(m.text)){ nOw++; if(we||cl(sent)) badW.push(I.key+' '+m.date+'（平日那三則在週末或店休）'+m.text); }
+      if(owTx.has(m.text)){ nOw++; if(cl(sent)) nOwCl++; else if(we) badW.push(I.key+' '+m.date+'（平日那三則在週末，不是店休）'+m.text); }   /* AA_687 第 7 項：過年茶屋休息那幾天也用平日那一組、不管星期幾 */
+      { const gi=GRPF.indexOf(m.text); if(gi>=0&&(!we||cl(sent))){ seq.push({d:sent,gi,cl:!!cl(sent)}); if(cl(sent)) nGrpCl++; } }
       if(dailyFirst.has(m.text)&&sent===m.d){ let want=we?22.5:21.5; if(tr.signalAfter&&want<tr.signalAfter){ const sd=I.from, ed=I.to; if(m.d>sd&&m.d<ed) want=tr.signalAfter; }   /* 柬埔寨（signalAfter 22）：白天收不到，照遊戲原本的規則 22:00 才到 */ if(!(m.h>=want-1e-6&&m.h<want+0.25)) badT.push(I.key+' '+m.date+' '+hm(m.h)+' 應該 '+hm(want)+'：'+m.text); }   /* AA_686 3e：週末 22:30、平日 21:30 */
-      if(m.ask&&!cl(m.d)&&(dailyFirst.has(m.text)||owTx.has(m.text)||shopTx.has(m.text))){ const want=we?P3.rep:OW.rep; if(we) nRepWe++; else nRepWd++; if(J(m.ask)!==J(want)) badRep.push(I.key+' '+m.date+' 選項 '+J(m.ask)+' 應該 '+J(want)); }
+      if(m.ask&&!cl(m.d)&&(dailyFirst.has(m.text)||owTx.has(m.text)||shopTx.has(m.text))){ const summer=[6,7,8,9].includes(+K(sent).slice(5,7)), want=we?['辛苦了。','想喝茶。']:(summer?['淡水熱嗎？','好好休息。']:['淡水冷嗎？','好好休息。']); if(we) nRepWe++; else { nRepWd++; if(summer) nRepSum++; else nRepWin++; }   /* AA_686 3c、AA_687 第 6 項：寒假「淡水冷嗎？」、暑假「淡水熱嗎？」 */ if(J(m.ask)!==J(want)) badRep.push(I.key+' '+m.date+' 選項 '+J(m.ask)+' 應該 '+J(want)); }
       if(/^茶屋初.開/.test(m.raw)){ const y=+CALENDAR.dateOf(m.d).key.slice(0,4), want=y===2027?'茶屋初五開':'茶屋初四開'; if(m.raw.slice(0,5)!==want) badTea.push(I.key+' '+m.date+' '+m.raw+' 應該 '+want); else rows.push('（'+I.key+' '+m.date+' '+m.raw+'）'); } }
+    for(let i=1;i<seq.length;i++) if(seq[i].cl&&!seq[i-1].cl&&seq[i].gi!==(seq[i-1].gi+1)%GRP.length) badRot.push(I.key+' '+K(seq[i-1].d)+' 第 '+(seq[i-1].gi+1)+' 則 → 店休 '+K(seq[i].d)+' 第 '+(seq[i].gi+1)+' 則');   /* AA_687 補 2：過年那幾天接著平日的順序輪（不重新從第一則開始）*/
+    if(seq.some(x=>x.cl)) rotRows.push(I.key+'：'+seq.map(x=>K(x.d).slice(5)+(x.cl?'店休':'')+'#'+(x.gi+1)).join(' '));
     rows.push(I.key+' '+K(I.from)+'～'+K(I.to)+'：'+M.length+' 則'+(M.some(m=>shutTx.has(m.text))?'（有 shut）':'')); }
   info('8. 旅行訊息（'+IS.length+' 趟國外，扣掉她同行的）：共 '+nAll+' 則、講店裡的 '+nShop+' 則、過年 shut '+nShut+' 則；'+rows.join('｜').slice(0,600));
   if(delayed.length) info('8. 停電那晚隔天早上才收到的（照傳的那一天算星期幾）：'+J(delayed.slice(0,6)));
   check('8. 講店裡的那幾則（今天也有開、店裡很忙、客人的烏龍、修鞋的阿伯、貓碗、收店了、沒什麼客人、蘇姨說幫你留一杯）只在週六、日傳',!badW.length&&nShop>0,badW.length?(badW.length+' 則：'+J(badW.slice(0,6))):(nShop+' 則都在週末'));
   check('8. 過年茶屋休息那幾天不講店裡、shut 的句子只在店休那幾天',!badS.length,J(badS.slice(0,6)));
-  check('8. 平日那三則有傳、只在平日（AA_686 3b）',nOw>0&&!badW.some(x=>/平日那三則/.test(x)),nOw+' 則');
+  check('8. 平日那三則有傳、只在平日或過年茶屋休息那幾天（AA_686 3b、AA_687 第 7 項）',nOw>0&&!badW.some(x=>/平日那三則/.test(x)),nOw+' 則（店休那幾天 '+nOwCl+' 則）'+(badW.length?' '+J(badW.filter(x=>/平日那三則/.test(x)).slice(0,4)):''));
+  check('8. 過年茶屋休息那幾天用平日那一組（新的三則＋不講店裡的那幾則），接著平日的順序輪（AA_687 第 7 項、22:08 補 2）',nGrpCl>0&&!badRot.length,badRot.length?J(badRot.slice(0,5)):('店休那幾天 '+nGrpCl+' 則；'+rotRows.join('｜').slice(0,500)));
   check('8. 時間：週六、日 22:30、平日 21:30（AA_686 3e）',!badT.length,badT.length?(badT.length+' 則：'+J(badT.slice(0,5))):'');
-  check('8. 回覆：平日「淡水冷嗎？」「好好休息。」、週末「辛苦了。」「想喝茶。」（AA_686 3c）',!badRep.length&&nRepWd>0&&nRepWe>0,badRep.length?J(badRep.slice(0,5)):('平日 '+nRepWd+'、週末 '+nRepWe+' 則'));
+  check('8. 回覆：平日寒假「淡水冷嗎？」「好好休息。」、暑假「淡水熱嗎？」「好好休息。」、週末「辛苦了。」「想喝茶。」（AA_686 3c、AA_687 第 6 項）',!badRep.length&&nRepWin>0&&nRepSum>0&&nRepWe>0,badRep.length?J(badRep.slice(0,5)):('平日寒假 '+nRepWin+'、暑假 '+nRepSum+'、週末 '+nRepWe+' 則'));
   check('8. 過年回國那天「茶屋初X開」：2027 年「初五」、其他年「初四」（AA_686 第 4 項）',!badTea.length&&rows.some(x=>/茶屋初.開/.test(x)),badTea.length?J(badTea):J(rows.filter(x=>/茶屋初/.test(x))));
   { const t1=NOODLE_CLOSED.teaText?NOODLE_CLOSED.teaText('初四開店。你要第一個來喝。',DK('2027-02-03')):null, t2=NOODLE_CLOSED.teaText?NOODLE_CLOSED.teaText('初四開店。你要第一個來喝。',DK('2026-02-12')):null;
     check('8. 「新年快樂」回覆池的「初四開店。你要第一個來喝。」照年份換：2027「初五開店。…」、2026「初四開店。…」（AA_686 第 4 項）',t1==='初五開店。你要第一個來喝。'&&t2==='初四開店。你要第一個來喝。',J([t1,t2])); }
@@ -351,18 +357,42 @@ await sec('8 AA_685 A 節換字、語彤旅行訊息（茶屋版、店裡的只�
 });
 
 /* ================= 10 語彤期末飯（朋友的邀約）：週六 17:30 溫州街・小路（AA_686 第 2 項；BB-C 21:28 第 1 點）================= */
-const friendSetup=(w,ids)=>{ fresh(w.from,9,'campus'); H.G.stage='law'; for(const [id,pts] of ids){ SOCIAL.remember(id,'FIRST_MET',''); H.FRIEND(id); const C=(H.G.termend||(H.G.termend={})).contact||(H.G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts,k:{}}; } };
-await sec('10 語彤期末飯（朋友那一則）：週六 18:00 溫州街・小路（AA_686 第 2 項、AA_687）',()=>{
-  const WANT={Y1S1:'2025-12-20',Y1S2:'2026-06-20',Y2S1:'2026-12-26',Y3S1:'2027-12-25',Y3S2:'2028-06-10'};   /* BB-C 21:28 */
+const friendSetup=(w,ids,flags)=>{ fresh(w.from,9,'campus',flags); H.G.stage='law'; for(const [id,pts] of ids){ SOCIAL.remember(id,'FIRST_MET',''); H.FRIEND(id); const C=(H.G.termend||(H.G.termend={})).contact||(H.G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts,k:{}}; } };
+await sec('10 語彤期末飯（朋友那一則）：最後一科考完那天 20:30 約、之後第一個週六 18:00 溫州街・小路（AA_687 第 1、2、3、5 項＋22:08 補；BB-C 22:09／22:12）',()=>{
+  /* 期望值：BB-C 22:09（SHA 2dde08594）、22:12（391603230）＋AA_687（企劃線 d41750385、1881111f2）。[邀約那天, 飯, 邀約的字, 3D 小路（4～9 月，TE-KOMICHI-STAGE）] */
+  const EXP={Y1S1:['2025-12-18','2025-12-20','禮拜六我上到五點。下班以後，要吃飯嗎？',false],
+    Y1S2:['2026-06-11','2026-06-20','考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。',true],
+    Y2S1:['2026-12-24','2026-12-26','考完了。禮拜六我五點下班。小路，我想吃那裡的玉子燒。',false],
+    Y2S2:['2027-06-11','2027-06-12','考完了。田野出發前，禮拜六下班以後吃一頓。',true],
+    Y3S1:['2027-12-23','2027-12-25','考完了。禮拜六下班以後吃飯。秀琴姨續約了，明年還是她煮。',false],
+    Y3S2:['2028-06-08','2028-06-10','考完了。禮拜六我上到五點，之後吃飯嗎。七月底我就收不到訊號了。',true],
+    Y4S1:['2028-12-22','2028-12-23','考完了。禮拜六下班以後。法律的必修，我還剩三科。',false]};
+  const GEN='考完了。禮拜六下班以後，要吃飯嗎。';   /* AA_687 第 1 項 gen；22:08 補：大一下邀約那天已經是 6/18 以後＝用 gen */
   const pl=(TERMEND_LINES.PLACE||{}).teishoku;
   check('10. 地點 teishoku＝「溫州街・小路」（AA_686 第 2 項）',!!pl&&pl.name==='溫州街・小路',J(pl));
-  { const OPEN='（六點，小路的布簾剛掛出來。你們是今天第一組客人。）', hit=grepSrc(new RegExp(OPEN.replace(/[()（）。]/g,'.')));   /* AA_687（企劃線 d41750385）*/
-    check('10. 開場旁白「'+OPEN+'」在程式裡（AA_687）',hit.length>0&&SRC.some(([f,t])=>t.includes(OPEN)),J(hit)); }
-  for(const t of Object.keys(WANT)){ const w=TERMEND.windowOf(t); friendSetup(w,[[YT,12]]); const P=TERMEND.plan(H.G,w);
-    if(!check('10. '+t+'：語彤是朋友的期末邀約（plan.friend）',P.friend.includes(YT)&&!P.heart.includes(YT),J({friend:P.friend,heart:P.heart}))) continue;
-    let asked=null; walk(w.from,9,w.to,23.75,0.25,(d,hh)=>{ if(asked) return; const m=(H.G.msgs||[]).find(x=>x.tag==='te_'+t+'_'+YT&&x.ask); if(m&&(d>m.day||(d===m.day&&hh>=m.h))){ asked={day:m.day,h:m.h,text:m.text}; PHONE.answer(H.G,'te_'+t+'_'+YT,0); STORY.phoneRules(GM); } });
-    const q=OUT.rec(H.G).find(x=>x&&x.te&&x.te.who===YT&&x.te.term===t);
-    check('10. '+t+'：答應以後晚餐 '+WANT[t]+'（六）18:00 溫州街・小路（AA_687）',!!q&&K(q.day)===WANT[t]&&q.h===18&&q.place==='溫州街・小路',J({asked:asked&&[K(asked.day),asked.h,asked.text],out:q&&[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place]})); }
+  for(const [k,OPEN] of [['開場','（六點，小路的布簾剛掛出來。你們是今天第一組客人。）'],['收尾','（出來的時候，巷子裡的燈都亮了。她往新生南路那邊走，到巷口回頭揮了一下手。）']]){ const hit=grepSrc(new RegExp(OPEN.replace(/[()（）。，]/g,'.')));   /* AA_687 第 4 項 */
+    check('10. 小路的'+k+'旁白「'+OPEN+'」在程式裡（AA_687 第 4 項）',hit.length>0&&SRC.some(([f,t])=>t.includes(OPEN)),J(hit)); }
+  const one=(t,label,want,o)=>{ o=o||{}; const w=TERMEND.windowOf(t); friendSetup(w,[[YT,12]].concat(o.more||[]),o.flags); if(o.pre) o.pre(w); const P=TERMEND.plan(H.G,w);
+    if(!check('10. '+label+'：語彤是朋友的期末邀約（plan.friend）',P.friend.includes(YT)&&!P.heart.includes(YT),J({friend:P.friend,heart:P.heart,back:P.back!=null?K(P.back):null}))) return null;
+    let asked=null; const others={};
+    walk(w.from,9,w.to,23.75,0.25,(d,hh)=>{ for(const m of (H.G.msgs||[])){ if(!/^te_/.test(m.tag||'')||!m.ask||(d<m.day||(d===m.day&&hh<m.h))) continue; if(m.from!==YT){ if(!others[m.from]) others[m.from]=K(m.day)+'（'+WDN(m.day)+'）'+hm(m.h)+' '+m.text; continue; }
+      if(asked) continue; if(m.tag==='te_'+t+'_'+YT){ asked={day:m.day,h:m.h,text:m.text}; PHONE.answer(H.G,'te_'+t+'_'+YT,0); STORY.phoneRules(GM); } } });
+    const q=OUT.rec(H.G).find(x=>x&&x.te&&x.te.who===YT&&x.te.term===t), due=q?!!TERMEND.komichiDue(H.G,q,{id:'ev_termend_dinner'}):null;
+    check('10. '+label+'：邀約 '+want[0]+'（'+WDN(DK(want[0]))+'）20:30 到',!!asked&&K(asked.day)===want[0]&&Math.abs(asked.h-20.5)<0.01,J(asked&&[K(asked.day)+'（'+WDN(asked.day)+'）',hm(asked.h)]));
+    check('10. '+label+'：邀約的字逐字「'+want[2]+'」',!!asked&&asked.text===want[2],J(asked&&asked.text));
+    check('10. '+label+'：答應以後晚餐 '+want[1]+'（'+WDN(DK(want[1]))+'）18:00 溫州街・小路（AA_687 第 3、5 項）',!!q&&K(q.day)===want[1]&&q.h===18&&q.place==='溫州街・小路',J(q&&[K(q.day)+'（'+WDN(q.day)+'）',q.h,q.place]));
+    check('10. '+label+'：'+(want[3]?'4～9 月＝在 3D 的小路室內演（TERMEND.komichiDue）':'十二月＝照舊 2D 夜景（komichiDue false）'),due===want[3],J(due));
+    if(o.more) info('10. '+label+'：其他人的期末邀約（照實記，BB-C 22:09：LAWWW-C 在改成同一個週五晚上到）：'+J(others));
+    return {asked,q}; };
+  for(const t of Object.keys(EXP)) one(t,t,EXP[t]);
+  /* 大一下：邀約那天在 6/18（雙主修筆試）以後＝用 gen（22:08 補）。【捷徑】TERMEND.heartFrom 這一輪回 6/19（遊戲裡要玩家晚回來才會這樣） */
+  { const hf=TERMEND.heartFrom; try{ TERMEND.heartFrom=function(G,w,id,spec){ return id===YT&&w.id==='Y1S2'?DK('2026-06-19'):hf.apply(this,arguments); }; one('Y1S2','Y1S2【捷徑】邀約那天 6/19（筆試以後）',['2026-06-19','2026-06-20',GEN,true]); } finally { TERMEND.heartFrom=hf; } }
+  /* 美國路線大四上：12/23 回國、12/24 起才發（AA_378 #12）→ BB-C 22:09：12/24 → 12/30 */
+  one('Y4S1','Y4S1（美國路線）',['2028-12-24','2028-12-30',EXP.Y4S1[2],false],{flags:{EXCHANGE_ROUTE:'US'}});
+  /* 週五考完的兩個學期：其他人的期末邀約照實記（BB-C 22:09） */
+  for(const t of ['Y2S2','Y4S1']){ const w=TERMEND.windowOf(t); friendSetup(w,[[YT,12],['heroine_01',10],['heroine_04',10],['classmate_xinci',9]]); const P=TERMEND.plan(H.G,w); walk(w.from,9,w.to,23.75,0.25);   /* 誰都不回：每一則都會到 */
+    const Lm=(H.G.msgs||[]).filter(m=>/^te_/.test(m.tag||'')&&m.from).map(m=>m.from+' '+K(m.day)+'（'+WDN(m.day)+'）'+hm(m.h)+' '+m.text);
+    info('10. '+t+'（週五考完，最後一科 '+K(TERMEND.examStart?TERMEND.examStart(H.G,w)-1:w.termTo)+'）誰都不回的時候期末邀約什麼時候到（照實記；BB-C 22:09：LAWWW-C 在改成同一個週五晚上到）：friend '+J(P.friend)+'、heart '+J(P.heart)+'；'+J(Lm)); }
   /* 舊存檔：已經排好公館燒臘的，照公館燒臘（不重排）*/
   { const t='Y2S1', w=TERMEND.windowOf(t); friendSetup(w,[[YT,12]]); TERMEND.plan(H.G,w); const R0=TERMEND.rec(H.G,t);
     OUT.plan(H.G,{id:'te_'+t,ev:'ev_termend_dinner',day:DK('2026-12-24'),h:19,late:0.25,place:'公館燒臘',title:'學期末的飯：'+SOCIAL.displayName(YT)+'（公館燒臘）',te:{term:t,who:YT,kind:'friend'}}); R0.picked={who:YT,kind:'friend'};

@@ -27,7 +27,8 @@ R = L.Run('komichi_stage', OUT)
 YT = 'heroine_03'
 OPEN = os.environ.get('OPEN') or '（六點，小路的布簾剛掛出來。你們是今天第一組客人。）'   # AA_687（企劃線 d41750385；BB-C 21:4x）
 DIN_H = float(os.environ.get('DIN_H') or 18.0)                                          # AA_687：18:00
-CFG = {'jun': {'term': 'Y1S2', 'date': '2026-06-20', 'stage': True}, 'dec': {'term': 'Y1S1', 'date': '2025-12-20', 'stage': False}}
+CFG = {'jun': {'term': 'Y1S2', 'date': '2026-06-20', 'stage': True, 'ask': '2026-06-11', 'text': '考完了。我十八號還有雙主修的筆試。考完那個禮拜六，下班以後吃飯嗎。'},   # BB-C 22:12（391603230）、AA_687 22:08 補
+       'dec': {'term': 'Y1S1', 'date': '2025-12-20', 'stage': False, 'ask': '2025-12-18', 'text': '禮拜六我上到五點。下班以後，要吃飯嗎？'}}   # BB-C 22:09、AA_687 第 1 項（y1s1 照留）
 SAYHOOK = r"""(()=>{ if(window.__ccSayOn) return true; window.__ccSay=[]; const s0=GAME.say; GAME.say=function(who,t){ try{ window.__ccSay.push({who:who&&(who.name||who.charId)||(typeof who==='string'?who:null), t:String(t), h:+(+GAME.G.hour).toFixed(3), zone:GAME.G.zone}); }catch(e){} return s0.apply(this,arguments); }; window.__ccSayOn=true; return true; })()"""
 BGHOOK = r"""(()=>{ if(window.__ccBgOn) return true; window.__ccBg=[]; const b0=OUT.bg; OUT.bg=function(id){ const r=b0.apply(this,arguments); try{ window.__ccBg.push({id:String(id), r:typeof r==='string'?r:(r&&r.image?('image:'+String(r.image).split('/').slice(-1)[0]+(r.night?'+night':'')):J(r)), zone:GAME.G.zone, h:+(+GAME.G.hour).toFixed(3)}); }catch(e){} return r; }; function J(x){ try{ return JSON.stringify(x); }catch(e){ return String(x); } } window.__ccBgOn=true; return true; })()"""
 UI = r"""(()=>{ const t=(document.getElementById('dlgText')||{}).textContent||'', ch=document.getElementById('choices'); const open=!!ch&&!ch.classList.contains('hide');
@@ -44,7 +45,7 @@ SCENE = r"""(()=>{ const E=GAME.E, G=GAME.G, P=E.player, cam=E.camera, V=THREE.V
 SETUP = r"""(c=>{ const G=GAME.G, F=G.flags||(G.flags={}); G.stage='law'; G.contacts=G.contacts||{}; const id=c.id;
   SOCIAL.meet&&SOCIAL.meet(id,G.zone); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); F['met_'+id]=true; const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,45); r.trust=Math.max(r.trust||0,30); G.contacts[id]=G.day-30;
   const w=TERMEND.windowOf(c.term); G.termend=G.termend||{}; const C=G.termend.contact||(G.termend.contact={}); (C[w.id]||(C[w.id]={}))[id]={pts:12,k:{}}; if(G.termend[w.id]) delete G.termend[w.id].plan;
-  const P=TERMEND.plan(G,w); const d0=Math.max(TERMEND.fromDay(w,id),P.back||w.from);
+  const P=TERMEND.plan(G,w); const xs=TERMEND.friend?TERMEND.friend(id,w.id):null; const d0=xs&&xs.examDay&&TERMEND.heartFrom?TERMEND.heartFrom(G,w,id,xs):Math.max(TERMEND.fromDay(w,id),P.back||w.from);   /* AA_687 第 5 項：最後一科考完那天（examDay）*/
   return {stage:SOCIAL.stage?SOCIAL.stage(id):null, w:{id:w.id,from:CALENDAR.dateOf(w.from).key,to:CALENDAR.dateOf(w.to).key}, friend:P.friend, heart:P.heart, nope:P.nope, d0, d0key:CALENDAR.dateOf(d0).key}; })"""
 
 
@@ -131,6 +132,8 @@ async def run_case(pg, cdp, c):
         await pg.wait_for_timeout(1000)
     R.note('%s 收到的邀約：%s' % (tag, J(m)))
     if not R.check('%s %s 20:30 語彤傳期末飯的邀約（可以回覆）' % (tag, st['d0key']), bool(m and m['ask']), J(m)): return
+    R.check('%s 邀約那天 %s、20:30（最後一科考完那天，AA_687 第 5 項）' % (tag, cf['ask']), m['key'] == cf['ask'] and abs(m['h'] - 20.5) < 0.01, J([m['key'], m['h']]))
+    R.check('%s 邀約的字逐字「%s」' % (tag, cf['text']), m['texts'][-1] == cf['text'], J(m['texts']))
     ok1, ok2, body = await answer(pg, cdp, 'p:' + YT, m['ask']['id'], 0)
     R.note('%s 手機：私訊 %s、回「%s」%s；%s' % (tag, ok1, m['ask']['opts'][0], ok2, body.replace('\n', ' / ')[-160:]))
     if not ok2:
