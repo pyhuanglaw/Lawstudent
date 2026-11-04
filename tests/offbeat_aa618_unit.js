@@ -143,7 +143,7 @@ const T=()=>said.map(s=>s.t);
     said=[]; picks=[0]; await OFFB.order(GM); check('16. 冰拿鐵點完：「（冰拿鐵上面的奶泡慢慢沉下去。）」',J(T())===J(['（冰拿鐵上面的奶泡慢慢沉下去。）']),J(T()));
     const ch=E.interactables.find(q=>q.offChat); global.GAME={G}; check('17. 找店員聊天的按鈕（今天還沒聊）',!!ch&&ch.label==='找店員聊天'&&!ch.hidden);
     said=[]; await STORY.interact(ch,GM); check('17. 店員說四句之一；說完今天按鈕就不見',said.length===1&&said[0].who==='店員'&&OFFB.L.chat.includes(said[0].t)&&ch.hidden,J(said));
-    G.day++; check('17. 隔天又可以',!ch.hidden); const got=[]; for(let i=0;i<12;i++){ G.day++; said=[]; await OFFB.chat(GM); got.push(T()[0]); } check('17. 四句都會出現、不連續同一句',OFFB.L.chat.every(t=>got.includes(t))&&!got.some((t,i)=>i>0&&t===got[i-1]),J(got.slice(0,6))); delete global.GAME; }
+    G.day++; check('17. 隔天又可以',!ch.hidden); const got=[]; for(let i=0;i<40;i++){ G.day++; said=[]; await OFFB.chat(GM); got.push(T()[0]); } check('17. 四句都會出現、不連續同一句',OFFB.L.chat.every(t=>got.includes(t))&&!got.some((t,i)=>i>0&&t===got[i-1]),J(got.slice(0,6))); delete global.GAME; }
   { fresh(wed,25.05); const r=await OFFB.closeOut(GM);
     check('18. 01:00 打烊：店員「我們一點打烊喔。……桌遊放回櫃子就好。」＋旁白，出去、不跳開放時間',r==='close'&&J(said)===J([{who:'店員',t:'「我們一點打烊喔。……桌遊放回櫃子就好。」'},{who:null,t:'（你走出店門。巷子很安靜，只剩路燈。）'}])&&!toasts.length&&entered[0][0]==='wenzhou',J([r,said,toasts]));
     fresh(wed,10); const r2=await OFFB.closeOut(GM); check('18. 10:00（讀檔回到店裡）：只寫開放時間',r2==='out'&&!said.length&&toasts.length===1); }
@@ -178,7 +178,7 @@ const T=()=>said.map(s=>s.t);
     check('21. 大一上：阿哲私訊（不在群組）「最後一科！老地方！」',!!q1&&J(q1.items)===J([{th:'p:zhe',from:'zhe',text:'最後一科！老地方！'}]),J(G.phone.q));
     const e11=evOf('ev_term_last_meal'); G.zone='wz_offbeat'; said=[]; await EVENTS.run(e11); check('21. 大一上（日常失速）：沒有阿姨、小菜，結尾第一句旁白',!T().some(t=>/阿姨|吃好一點/.test(t))&&T().includes('期末最後一科考完。阿哲在群組喊了一聲。')&&T()[T().length-1]===OFFB.L.finalNarr[0],J(T()));
     const e12=evOf('ev_term_last_meal_y1s2'); said=[]; await EVENTS.run(e12); check('21. 大一下（日常失速）：沒有叉燒那句、結尾第二句',!T().some(t=>/叉燒/.test(t))&&T()[T().length-1]===OFFB.L.finalNarr[1],J(T()));
-    const e22=evOf('ev_term_last_meal_y2s2'); said=[]; await EVENTS.run(e22); check('21. 大二下（日常失速）：沒有阿姨、結尾第一句（照學期輪）',J(T())===J(['（大二下最後一科考完。）',OFFB.L.finalNarr[0]]),J(T()));
+    const e22=evOf('ev_term_last_meal_y2s2'); said=[]; await EVENTS.run(e22); check('21. 大二下（日常失速）：沒有阿姨、店員那句（AA_648 第 5 節）、結尾第一句（照學期輪）',J(T())===J(['（大二下最後一科考完。）','明年你們大三了。……我記得你們第一次來，桌遊規則看了一個小時。',OFFB.L.finalNarr[0]])&&!said.some(x=>x.who==='阿姨'),J(T()));
     check('21. 今天吃過期末那一頓＝進門不演「一個人」的那一段',(()=>{ G.events.last=G.events.last||{}; G.events.last.ev_term_last_meal_y2s2=G.day; return !OFFB.alone(G); })()); }
   // ===== 22. 期中聚餐、桌遊夜搬進 3D =====
   { const sat=TD('Y1S1',16,3); fresh(sat,20); G.zone='wenzhou'; E.player.obj.position.x=5; E.player.obj.position.z=1; know('classmate_bohan',S4); know('classmate_mingxuan',S4);
