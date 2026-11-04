@@ -1388,21 +1388,32 @@ const Z3 = (function(){
   /* 公館窗卡 v5（LAWWW2 1d4675069）：亮窗網格 NOSHADOW_xs_fronts_lit 的第二組 UV（uv1.x）＝店編號（1～8，0＝永遠亮；對照在 node extras.xsShops），
      打烊的店乘 0.18（BB 11-04「打烊的店窗還亮」FAIL）；照 PLACES.isOpen 每 30 幀更新一次 uniform，不多 draw call。洋洋 17:00～01:00、轉角唱片 12:00～21:00（AA_650 §4，BB 11-04） */
   const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak'};   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；室內還沒接）*/
+  const ggLitWired=new WeakMap();   /* 接過窗卡打烊調暗的材質 → {lit, U, mine, compiled, rewrap, entries}（第二次進公館沿用，見 ggShopLit 裡的註解）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
-    const lit=new Array(9).fill(1), U={value:lit}, m=mesh.material;   /* 不複製材質：夜間亮度（TK.addNight 登記在原本的材質上）要照舊跟著走（CC 11-04 GG_night：複製以後 22:00／14:00 亮度比 ≈1）*/
-    let compiled=0; const prev0=m.onBeforeCompile; const mine=function(sh,r){ if(mine.prev&&mine.prev!==mine) mine.prev.call(this,sh,r); patch(sh); compiled++; }; mine.prev=prev0&&prev0!==THREE.Material.prototype.onBeforeCompile?prev0:null;
-    const patch=sh=>{ sh.uniforms.uShopLit=U;
-      sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
-      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); }; m.onBeforeCompile=mine;
-    m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true;
+    const m=mesh.material;   /* 不複製材質：夜間亮度（TK.addNight 登記在原本的材質上）要照舊跟著走（CC 11-04 GG_night：複製以後 22:00／14:00 亮度比 ≈1）*/
+    /* 第二次進公館（GG-NIGHT-CARDS-1104：CC-C r8c 11-04 12:52、BB-C 讀碼）：快取的 GLB 每次進區域是 c.scene.clone(true)，材質是同一個——原本每次都再包一層 onBeforeCompile（新的 mine.prev＝上一次的 mine），
+       shader 被 patch 兩次（uv1、vShopIdx、uShopLit 重複宣告）→ 程式連結失敗、整張窗卡不畫（營業中的店也一樣，只看到後面的磚牆；r8b 設黑、打烊乘數改多少都沒差就是這個）。
+       和 LOBBY-REENTRY（roomLightmap 的 lmWired）同型：接過的材質記在 ggLitWired（材質 → uniform、lit 陣列、包裝函式），再進來沿用、不再包；
+       uniform 物件也沿用：材質沒有被丟掉的話 three.js 用快取的程式、不會再呼叫 onBeforeCompile，綁著的是第一次的 uniform——新的 upd 要寫同一個 lit 陣列才有用。
+       patch 本身也先看原始碼有沒有 uShopLit：有就只接 uniform、不改原始碼（別的程式串接時被叫兩次也不會重複宣告）；包裝函式防遞迴（guard 接回去時兩個包裝互相串）*/
+    let W=ggLitWired.get(m);
+    if(!W){ const lit=new Array(9).fill(1), U={value:lit};
+      const patch=sh=>{ sh.uniforms.uShopLit=U;
+        if(sh.vertexShader.indexOf('vShopIdx')<0) sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
+        if(sh.fragmentShader.indexOf('uShopLit')<0) sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=k; }'); };
+      let busy=false; const mine=function(sh,r){ if(busy) return; busy=true; try{ if(mine.prev&&mine.prev!==mine) mine.prev.call(this,sh,r); patch(sh); W.compiled++; } finally{ busy=false; } };
+      const prev0=m.onBeforeCompile; mine.prev=prev0&&prev0!==THREE.Material.prototype.onBeforeCompile?prev0:null;
+      W={lit,U,mine,compiled:0,rewrap:0,entries:0}; ggLitWired.set(m,W);
+      m.onBeforeCompile=mine; m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true; }
+    W.entries++; const lit=W.lit, U=W.U, mine=W.mine;
     const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.03):1; } };
-    let f=0, rewrap=0;
+    let f=0;
     /* 別的程式（夜間、透視、調色）後來換掉 onBeforeCompile 的話：每次更新時接回去（串在它後面），重新編譯 */
-    const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; rewrap++; } };
+    const guard=()=>{ if(m.onBeforeCompile!==mine){ mine.prev=m.onBeforeCompile; m.onBeforeCompile=mine; m.needsUpdate=true; W.rewrap++; } };
     const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0){ guard(); upd(); } }; upd();
     const glow=ggShopGlow(root,mesh,U);   /* 打烊的店：店內、招牌、店門口自己的燈的光暈一起熄（LAWWW 11-04 06:58；CC GG_night：窗卡調暗了，但亮的主要是前面的光暈）*/
-    const R={mesh,lit,ids,upd,glow}; zone.ggLit={glow:glow&&glow.info,name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>compiled,rewrap:()=>rewrap,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）*/
+    const R={mesh,lit,ids,upd,glow}; zone.ggLit={glow:glow&&glow.info,name:mesh.name,mat:m.name,uv1:!!mesh.geometry.attributes.uv1,inScene:()=>{ let o=mesh; while(o.parent) o=o.parent; return o.isScene===true; },compiled:()=>W.compiled,rewrap:()=>W.rewrap,entries:()=>W.entries,lit};   /* 除錯：CC 在瀏覽器看 GAME.E.zone.ggLit（GG_night 沒暗的原因）；entries＝這個材質接過幾次（第幾次進公館）、compiled＝patch 跑了幾次（每個新程式一次）*/
     return R; }
   /* 公館打烊調暗的光暈那一半（LAWWW2 11-04，LAWWW 06:58 P1）：wzGlowBatch 合成的光暈網格加一個每頂點的店編號 aShop（和窗卡 uv1.x 同一套 1～8、xsShops 同順序，0＝不屬於哪一間），
      著色器乘 ggShopLit 的同一組 uShopLit：那一間打烊（< 0.99）就整個不畫。哪個光暈屬於哪一間：光暈中心落在那一間窗卡的範圍（z 在店面前後 5 m）裡——店內、門口的燈 x 前後各放 0.8 m（門口的燈在門框兩側，窗卡外面一點）；招牌、直立招牌不放寬（在店的邊上，放寬會分到隔壁那間：公館 GLB 的 vsign_40、vsign_50 就是隔壁店的）；
