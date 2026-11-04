@@ -463,7 +463,7 @@ const STORY_EVENTS=[
      「交往中的玩家（AA_112 8-1）」那一版＝和別人交往中（GFO），照舊 */
   { id:'ev_zhiruo_secret', title:'十點的電話', participants:['heroine_02'], location:'wenzhou', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[11,12,13,14,15], weekday:[6], time:[14,18], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ if(!DHN(G,'heroine_02')) return true; const d=G.flags&&G.flags.ZR_Z4_INV_DAY; return typeof d==='number'&&G.day>d&&(G.hour%24)>=15; }}, background:'blur',
     dialogue:[ {speaker:'heroine_02',expression:'neutral',text:'週六我都在溫州街。這裡的人不會問我週末在幹嘛。'},
-      {speaker:'heroine_02',expression:'thinking',text:'交換的申請，我拖了兩個月。不是懶。'},
+      {speaker:'heroine_02',expression:'thinking',text:'交換的申請，我拖了兩個月。'},
       {speaker:'heroine_02',expression:'neutral',text:'我媽每天晚上十點打給我。講店裡的事。'},
       {speaker:'heroine_02',expression:'neutral',text:'誰來印考卷、哪一台又卡紙。'},
       {speaker:'heroine_02',expression:'thinking',text:'我去英國的話，那邊是下午三點。'},
@@ -1179,7 +1179,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
       {speaker:'classmate_xinci',text:'我們統計課那個人說他認識你。'},{speaker:'classmate_xinci',text:'盧正勳。他說你還欠他一場保齡球。'},   /* AA_305 第 9 節 */
-      {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'原來你們以前住同一間。'},/* AA_209 附錄A §2 */{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'你沒說過。……沒關係，不用說。'},
+      {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'原來你們以前住同一間。'},/* AA_209 附錄A §2 */{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'你沒說過。'},{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:null,text:'（她看了你一眼，又低頭寫自己的筆記。）'},
       {speaker:'classmate_xinci',text:'你們週五都在學活吃？那我下次可以一起嗎？'},{set:{ECON_LAW_BRIDGE:true}} ] },   /* AA_209 附錄A §2 */
   /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節、BB_96 10-5、BB_106 SK05）：期末考週玩家閃三下（story3d.js phoneRules 的 23:00 訊息）→ 阿勳在法學院廣場的販賣機前（作息 SK05_GO），
      走到他旁邊（npcNear）才算「去」；只回訊息不算。記 SK05_Y1；大二、大三照 BB_106 SK05（之後做）。走到一半回頭＝23:45 阿勳傳「……你閃了三下又不來。」「明年再說。」（不扣分）*/
@@ -1232,7 +1232,7 @@ const STORY_EVENTS=[
   { id:'ev_b106_42_game', title:'球賽', participants:[], location:'any', trigger:'outing', once:true, background:'gym_court', hours:3,
     dialogue:[ {speaker:null,text:'（球場的看台。韋綸一邊看球，一邊在手機上記數字。）'},
       {speaker:null,text:'（他們的隊每得一分，他就站起來喊「走啦！」，坐下來，再記一個數字。）'},
-      {speaker:null,text:'（可昕坐在你旁邊。她看的不是球，是韋綸的手機。）',if:{flags:['WL_GAME_KX','dating_kexin']}} ] },   /* AA_383 第 4-1 節（企劃線 98516b51）：出發的字卡之後、時間往後 3 小時之前；和可昕交往中、她在群組說了要來（WL_GAME_KX：選「走。」那時候交往中）多最後一句。回來以後群組的合照、韋綸那句照舊 */
+      {speaker:null,text:'（可昕坐在你旁邊。她沒在看球，在看韋綸的手機。）',if:{flags:['WL_GAME_KX','dating_kexin']}} ] },   /* AA_383 第 4-1 節（企劃線 98516b51）：出發的字卡之後、時間往後 3 小時之前；和可昕交往中、她在群組說了要來（WL_GAME_KX：選「走。」那時候交往中）多最後一句。回來以後群組的合照、韋綸那句照舊 */
   /* BB_106 日常 D1 大一女舍門口的長椅：法律系大一，等要一起出門的以安（麵店團；週二麵店日 19:00 在女舍門口集合，STORY.fdormGather——D4b 同一個集合，給 AA 的問題）。
      18:30～19:00 人在長椅旁＝品妤來送東西給住大一女舍的直屬學妹，經過：「你又在等人？這次等誰？」。所有玩家都有「又」字（經濟系那年他在這裡等過人，劇情事實）。
      法律系時期第一次見到品妤（MET_PINYU 沒有）先加一句介紹。她那時候照作息不在學校（大一下週二晚上在補習班櫃台）就沒有。一次 */
@@ -2114,7 +2114,7 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'kexin',expression:'smile',text:'你那邊的天氣？'},
       {choice:[{text:'「晴天。很冷。」',set:{_kxVwx:'sunny'},goto:'w1'},{text:'「下雨。」',set:{_kxVwx:'rain'},goto:'w2'},{text:'（把鏡頭轉向窗外）',set:{_kxVwx:'window'},goto:'w3'}]},
-      {label:'w1'},{speaker:'kexin',expression:'smile',text:'臺北的冷是濕的，我這邊是乾的。……加起來剛好。'},{goto:'q'},
+      {label:'w1'},{speaker:'kexin',expression:'smile',text:'臺北的冷是濕的，我這邊是乾的。……你多穿一件。'},{goto:'q'},
       {label:'w2'},{speaker:'kexin',expression:'laugh',text:'我這邊也是。那是同一片雨。……氣象不是這樣講的。算了。'},{goto:'q'},
       {label:'w3'},{speaker:null,text:'她也把手機轉向她的窗戶。'},{speaker:'kexin',expression:'smile',text:'交換。'},
       {label:'q'},{speaker:'kexin',expression:'teasing',text:'情人節我們不在同一個地方。……你今天做了什麼？'},

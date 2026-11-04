@@ -39,7 +39,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
   const play=async(pk)=>{ fresh(VD,19.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(19.9,19.95); picks=pk.slice(); said=[]; opts=[]; await OUT.go(GM,OUT.get(G,'kx_vday1')); return lines(); };
   let L=await play(['晴天','讀民總']);
   check('3. 她先問天氣、天氣三個選項、「情人節我們不在同一個地方。……你今天做了什麼？」三個選項（AA_295）',L[0]==='杜可昕：你那邊的天氣？'&&JSON.stringify(opts[0])==='["「晴天。很冷。」","「下雨。」","（把鏡頭轉向窗外）"]'&&L.includes('杜可昕：情人節我們不在同一個地方。……你今天做了什麼？')&&JSON.stringify(opts[1])==='["「讀民總。」","「傳訊息給妳。」","「我不知道。我想見妳。」"]',JSON.stringify({L0:L[0],o:opts}));
-  check('3. 晴天＋讀民總：「臺北的冷是濕的……」「……寒假還在讀民總的人，都這樣回答。」「她笑。」，最後「情人節快樂。臺北冷，穿厚一點。」',L.includes('杜可昕：臺北的冷是濕的，我這邊是乾的。……加起來剛好。')&&L.includes('杜可昕：……寒假還在讀民總的人，都這樣回答。')&&L.includes('她笑。')&&L[L.length-1]==='杜可昕：情人節快樂。臺北冷，穿厚一點。',JSON.stringify(L));
+  check('3. 晴天＋讀民總：「臺北的冷是濕的……」「……寒假還在讀民總的人，都這樣回答。」「她笑。」，最後「情人節快樂。臺北冷，穿厚一點。」',L.includes('杜可昕：臺北的冷是濕的，我這邊是乾的。……你多穿一件。')&&L.includes('杜可昕：……寒假還在讀民總的人，都這樣回答。')&&L.includes('她笑。')&&L[L.length-1]==='杜可昕：情人節快樂。臺北冷，穿厚一點。',JSON.stringify(L));
   check('3. 記 KX_VDAY {1:video}、KX_VDAY_WX {1:sunny}；沒有 KX_VDAY_SEE',G.flags.KX_VDAY[1]==='video'&&G.flags.KX_VDAY_WX[1]==='sunny'&&!G.flags.KX_VDAY_SEE&&G.flags._kxVwx===undefined,JSON.stringify([G.flags.KX_VDAY,G.flags.KX_VDAY_WX]));
   L=await play(['鏡頭','我想見妳']);
   check('4. 鏡頭轉向窗外：「她也把手機轉向她的窗戶。」「交換。」；我想見妳：「嘴角先動了。」「開學第二個週末。我寫進行事曆了。」（AA_373 #10）、KX_VDAY_SEE、WX window',L.includes('她也把手機轉向她的窗戶。')&&L.includes('杜可昕：交換。')&&L.includes('嘴角先動了。')&&L.includes('杜可昕：開學第二個週末。我寫進行事曆了。')&&G.flags.KX_VDAY_SEE===true&&G.flags.KX_VDAY_WX[1]==='window',JSON.stringify(L));
