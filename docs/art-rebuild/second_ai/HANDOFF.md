@@ -1,6 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 📌 進度快照（11-04 07:4x，LAWWW2，用量 93%：還沒交班，先保存）
+## 📌 進度快照（11-04 08:5x，LAWWW2；還沒交班）
+- 分支 `claude/second-ai-env-art`，最新的 SHA 用 ls-remote 核對。
+- 這一輪交件，LAWWW 都接了（開發分支 d2a692410、8f936f018）：
+  - 溫州街 lane_east 減面（1d64f3511）：店內一間一個網格，水果減面、不投影。
+  - 公館停著的腳踏車照材質合併（742c78c50 的 patch）。
+  - 打烊乘數 0.18 → 0.03：原因是 gamma，判讀寫在 gg_cards_1104/README。
+  - 2:30 AM 用 v1f 重烘（aede8b99a）。
+- 已交件、LAWWW 還沒回：一盞前院第二版（26bc41c6b）。BB 07:55 提的兩點：竹籬外加生垣、對面改成一間一間的店面、樟樹不碰簷。
+- 等 CC 在 PC 上量：GG_night_r8（含量「底」那段）、GG_glb_measure（停車合併以後；騎士和 npc_far 的量法請 BB 判）、CAFE230、lane_east 真數字。
+- 下一步（WZ-FIVE-1104 第一批還沒做的）：小路深色木立面、阿德轉角外觀、2:30 AM 外觀。
+- 公館 draw call 如果還超過：把 bike_ride.glb 的座墊、車燈併進 ride_vc（騎士一台 −2），或者遠處的騎士用合併好的車。
+
+## 📌 （舊）進度快照（11-04 07:4x，LAWWW2，用量 93%：還沒交班，先保存）
 - 分支 `claude/second-ai-env-art`，最新見這次 push（ls-remote 核對）。
 - 已交件、LAWWW 已接：WZ-SECOND-1104 v3b＋SUNNY 東側轉角窗（3de4ef933）、一盞前院（b0bcc117c，開發分支 b53bfab72）、公館打烊光暈（fdd2593a1 → 5eab062b7）。
 - 已交件、待 LAWWW 接／CC 跑：gongguan_glb_integration 量法一致（89788745a，瀏覽器沒跑過）；SUNNY 窗景卡（a485b6722，給 AA）。
