@@ -4,6 +4,8 @@
     front     店門口正面
     refcam    參考圖鏡頭（LAWWW2 v2.1，BB-C 16:12）：24 mm＝垂直 FOV 45.7°、眼 (−3.563, 1.504, −1.187) → (−6.543, 1.504, 7.305)、上下移軸 shift_y 0.0867（Blender 單位）、
               1672×941（和參考圖一樣大，可以直接疊圖）
+    wall_front（BB-C 19:03 加；1a191554d ADE-PROPS-1104 挪走電線桿、兩台機車以後）：店門西邊白磁磚壁面上的價目表、布告欄正面——
+              在溫州街的模型裡找名字像 price／board／notice／價目／布告 的物件（x −13～−8.5、店面那一側），對著它們的中心、離 3.2 m 正面拍；找不到＝固定 (−10.8, 1.5, 1.8)→(−10.8, 1.5, 5.2)
   WZ_COPY_SHOP='moved'（劇情選「搬到轉角」以後）：轉角店（北巷，玻璃門 x 3.1、z 6.0～6.95；互動點 (3.9, 6.5)）三張：front、street（從溫州街往巷子看）、oblique。
   另外 A1 每個時段留一張不藏出口標籤的 approach（ade_approach_labels_*；BB-C 15:54 看標籤會不會擋招牌），其他張都藏（cc_det.HIDE_LABELS_JS）。
   做法（同 cc_baseline_probe 的 DET）：遊戲載入前固定種子（cc_det）、路人照 cc_det 藏、HUD 藏；每張停主迴圈、時刻和 shader 時間設回固定值、手動畫一幀再截圖。
@@ -57,6 +59,10 @@ AIM = """(([e,l,h,seed,fov,shift])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.
   cam.fov=fov; cam.updateProjectionMatrix(); if(shift){ cam.projectionMatrix.elements[9]+=2*shift*Math.max(1,cam.aspect); cam.projectionMatrixInverse.copy(cam.projectionMatrix).invert(); }
   E._shT=0; E.render(); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, fov:cam.fov, aspect:+cam.aspect.toFixed(4)};
   cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
+WALL = """(()=>{ const z=GAME.E.zone, re=/price|board|notice|bulletin|menu|價目|布告|公告/i, V=THREE.Vector3, hits=[]; if(!z||!z.group) return {hits};
+  z.group.updateMatrixWorld(true); z.group.traverse(o=>{ if(!o.isMesh) return; let nm=''; for(let p=o;p&&p!==z.group;p=p.parent){ if(re.test(p.name||'')){ nm=p.name; break; } } if(!nm) return;
+    const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new V()); if(c.x<-13.2||c.x>-8.4||c.z<3.5||c.z>7) return; hits.push({name:nm, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], min:[+b.min.x.toFixed(2),+b.min.y.toFixed(2),+b.min.z.toFixed(2)], max:[+b.max.x.toFixed(2),+b.max.y.toFixed(2),+b.max.z.toFixed(2)]}); });
+  return {hits}; })()"""
 COPY = """(()=>{ const z=GAME.E.zone, r={flag:(GAME.G.flags||{}).WZ_COPY_SHOP||'', nodes:{}}; if(z&&z.group) z.group.traverse(o=>{ if(/^COPY_/.test(o.name||'')){ let v=true; for(let p=o;p;p=p.parent) if(!p.visible){ v=false; break; } r.nodes[o.name]=v; } });
   const it=GAME.E.interactables.find(i=>/阿德影印/.test(i.label||'')); r.door=it?[+(+it.x).toFixed(2),+(+it.z).toFixed(2)]:null; return r; })()"""
 
@@ -104,6 +110,20 @@ async def main():
                     await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=e, look=l, state='A1', hour=h, labels=True)
                     print('  %s（不藏出口標籤）：calls %s、tris %s' % (fn, ri['calls'], ri['tris']), flush=True)
                 print('  藏起來的出口標籤：%d' % (await pg.evaluate(cc_det.HIDE_LABELS_JS)), flush=True)
+                if not state:   # wall_front：價目表、布告欄正面（BB-C 19:03）
+                    w = await pg.evaluate(WALL)
+                    hs = w.get('hits') or []
+                    if hs:
+                        xs = [q['min'][0] for q in hs] + [q['max'][0] for q in hs]; ys = [q['min'][1] for q in hs] + [q['max'][1] for q in hs]; zs = [q['min'][2] for q in hs]
+                        cx, cy, cz = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2, min(zs)
+                        we, wl, how = [round(cx, 3), round(max(1.3, cy), 3), round(cz - 3.2, 3)], [round(cx, 3), round(cy, 3), round(cz, 3)], '模型裡找到 %d 個（%s）' % (len(hs), '、'.join(sorted(set(q['name'] for q in hs)))[:160])
+                    else:
+                        we, wl, how = [-10.8, 1.5, 1.8], [-10.8, 1.5, 5.2], '模型裡找不到名字像價目表／布告欄的物件＝用固定鏡頭（白磁磚壁面 x −12.7～−9）'
+                    await pg.evaluate(cc_det.HIDE_PEOPLE_JS)
+                    ri = await pg.evaluate(AIM + '(%s)' % J([we, wl, h, seed + 7, 46, 0.0]))
+                    fn = 'ade_wall_front_%02d%02d.png' % (int(h), int(round(h % 1 * 60)))
+                    await pg.screenshot(path=os.path.join(OUT, fn)); meta[fn] = dict(ri, cam=we, look=wl, state='A1', hour=h, found=hs[:12])
+                    print('  %s（價目表、布告欄正面；%s）：鏡頭 %s → %s、calls %s、tris %s' % (fn, how, we, wl, ri['calls'], ri['tris']), flush=True)
                 for k, (name, e, l, fov, shift) in enumerate(shots):
                     big = name == 'refcam'
                     if big: await pg.set_viewport_size({'width': REF['w'], 'height': REF['h']}); await pg.wait_for_timeout(800)
