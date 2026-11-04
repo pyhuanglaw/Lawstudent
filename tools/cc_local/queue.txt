@@ -29,6 +29,17 @@ GG_perf_rep_A2 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_per
 GG_perf_rep_B2 | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=B2;RERUN=rep2;CC_HEADLESS=0
 GG_perf_rep_A3 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=A3;RERUN=rep3;CC_HEADLESS=0
 GG_perf_rep_B3 | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=B3;RERUN=rep3;CC_HEADLESS=0
+# ===== X210 公館校門斑馬線＋遠景（BB 04:35；9ac863212；GG_perf_rep 之後）=====
+GATE_glb | 9ac863212 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+GG_perf_fog_A1 | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogA1;RERUN=fog1;CC_HEADLESS=0
+GG_perf_fog_B1 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogB1;RERUN=fog1;CC_HEADLESS=0
+GG_perf_fog_A2 | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogA2;RERUN=fog2;CC_HEADLESS=0
+GG_perf_fog_B2 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogB2;RERUN=fog2;CC_HEADLESS=0
+GG_perf_fog_A3 | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogA3;RERUN=fog3;CC_HEADLESS=0
+GG_perf_fog_B3 | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=fogB3;RERUN=fog3;CC_HEADLESS=0
+#HOLD（探針寫好再開）GATE_shot | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=shot;CC_HEADLESS=0
+#HOLD（探針寫好再開）GATE_shot_before | 23eaaa7ae | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=shot;CC_HEADLESS=0
+#HOLD（探針寫好再開）GATE_walk | 9ac863212 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 20 | CASES=walk;CC_HEADLESS=0
 LIVE1910_deploy | b0c3032af | game | tests/deploy_check.py | index.html | 30 | XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
 LIVE1910_stuck | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 90 | LIVE_URL=https://pyhuanglaw.github.io/Lawstudent/index.html;WANT_VER=v9.10.19.1;CC_HEADLESS=0
 LIVE1910_deploy2 | b0c3032af | game | tests/deploy_check.py | index.html | 30 | RERUN=r2;XARGS=https://pyhuanglaw.github.io/Lawstudent/index.html v9.10.19.1（2026-11-04）
