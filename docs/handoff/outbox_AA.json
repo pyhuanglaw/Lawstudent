@@ -4957,6 +4957,22 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_663 第 1 節換 30 句（第 29 列 SQ19 是 D116，優先）",
    "note": "使用者 14:5x 選「對，照這樣改」（UA-AA-1104-21）"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "單句碎片 123 句與使用者 11-04 三條的人工抽查（下一批）",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "DIALOGUE-DEPTH-1031",
+   "sha": "ab65c4b22",
+   "files": [
+    "docs/story_planning/AA_664_台詞第二批_可昕假設題與假對比.md",
+    "docs/story_planning/free_trip/solo_before_bb_v1.json"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_664 換 12 句；solo_before 照新源稿重匯（白名單換版本）",
+   "note": "使用者睡覺中，AA 自己定（UA-AA-1104-26）"
   }
  ],
  "items": [
