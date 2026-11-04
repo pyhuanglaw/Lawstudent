@@ -147,6 +147,14 @@ for(const [k,X] of Object.entries(SH)){ const R=loadZone(X.zone), z=R.z, its=R.i
       got.forEach((it,i)=>{ if(!it){ if(found||WANT[i][0]!=='catbowl') bad.push(WANT[i][0]+' 沒有'); return; } if(it.label!==WANT[i][1]) bad.push(WANT[i][0]+' 字 '+it.label); if(!touchable(it,sp)) bad.push(WANT[i][0]+' 按不到／走不到'); });
       const cb=got[3], bowl=z.teaCatBowl;
       check('A8 一盞前院（'+(found?'找到貓以後 WZ_CAT_FOUND':'還沒找到貓')+'）：'+(found?'五個':'四個（沒有看貓碗）')+'互動點按鈕字對、從冠木門的出生點走得到、按得到（最近的就是它自己）'+(found?'；碗在 (4.0, 8.7) 地上、看得到':'；碗看不到'),!bad.length&&(found?!!cb&&!!bowl&&bowl.visible&&r2(bowl.position.x)===4&&r2(bowl.position.z+z.group.position.z)===8.7:!cb&&(!bowl||!bowl.visible)),J({bad,bowl:bowl?[r2(bowl.position.x),r2(bowl.position.y),r2(bowl.position.z),bowl.visible]:null})); }
+    /* A8b（2026-11-04，CC dac871e25 一盞探針）：照玩家／探針的走法——從冠木門的出生點朝互動點本身走（E.simWalk 到 (it.x, it.z)，dt 1/30 與 0.1），停下來的地方最近的按鈕要是它自己。
+       A8 只問「範圍內有沒有一格按得到」，石燈籠、木牌、貓碗互相搶在 A8 看不出來（修改前 46d459625 FAIL） */
+    { GAME.G.flags={WZ_CAT_FOUND:30}; pend.length=0; const R=loadZone('wz_teahouse'), z=R.z, its=R.its; await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
+      const sp=[z.spawn.x,z.spawn.z], bad=[], P=E.player;
+      for(const w of WANT){ const it=its.find(i=>i.wzShop==='teahouse'&&i.kind===w[0]); if(!it){ bad.push(w[0]+' 沒有'); continue; }
+        for(const dt of [1/30,0.1]){ const r=E.simWalk(sp[0],sp[1],it.x,it.z,{dt}); if(r.x===undefined){ bad.push(w[1]+' dt'+r2(dt)+' '+r.reason); continue; } P.obj.position.set(r.x,0,r.z); const n=E.nearestInteractable();
+          if(n!==it) bad.push(w[1]+' dt'+r2(dt)+' 停在 ('+r.x+', '+r.z+')'+(r.ok?'':'（'+r.reason+'）')+' 按鈕是 '+(n?n.label:'沒有')); } }
+      check('A8b 一盞前院：從冠木門朝每個互動點本身走（E.simWalk dt 1/30、0.1，同 CC 一盞探針），停下來最近的按鈕就是它自己（不會被石燈籠／木牌、樟樹／貓碗搶走）',!bad.length,bad.join('；')); }
     GAME.G.flags={}; FAKE=null; }
   FAKE=null;
   console.log(fails?('FAILED '+fails):'ALL PASS'); const r=cp.spawnSync('node',[__filename,'B'],{encoding:'utf8',maxBuffer:1<<26}); process.stdout.write(r.stdout||''); process.stderr.write(r.stderr||''); process.exit(fails||r.status?1:0);
