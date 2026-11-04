@@ -1,0 +1,94 @@
+{
+  "id": "TT_V7_timeout",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_timeout.py",
+  "script_from": null,
+  "script_blob": [
+    "524f8b4fdc97c91b2d70d593c14f3fb975bcc4f3",
+    null
+  ],
+  "cc_testing_sha": "4aa1dbb44",
+  "runner": "6f08f2eb23",
+  "final": "TIMEOUT",
+  "class": "TIMEOUT",
+  "class_sub": "UNKNOWN",
+  "basis": [
+    "逾時被 runner 中止（timeout 1 min）；沒有環境訊號、沒有 traceback 可以判斷——只憑逾時不判 GAME_BUG",
+    "逾時不重跑（預設；要重跑：ENV CC_RETRY_TIMEOUT=1，而且逾時 ≤ CC_RETRY_MAX_MIN=20 分）"
+  ],
+  "conditions": {
+    "same": false,
+    "diff": [],
+    "game_sha": [
+      "d2e36f6eb",
+      null
+    ],
+    "script_blob": [
+      "524f8b4fdc97c91b2d70d593c14f3fb975bcc4f3",
+      null
+    ],
+    "input_hash": [
+      "9fa1f54107ca81d2",
+      null
+    ],
+    "cases": [
+      "(探針預設)",
+      null
+    ]
+  },
+  "rerun_scope": null,
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": "timeout 1 min",
+      "timeout": true,
+      "seconds": 60,
+      "fails": [],
+      "dir": ".",
+      "run_tail": [
+        "[gpu_wrap] CC_GPU=1 跑 <REPO>\\docs\\story_planning\\test_tools\\cc\\selftest\\st_timeout.py http://127.0.0.1:8802/index.html <REPO>\\docs\\story_planning\\CC\\local_out\\TT_V7_timeout\\out",
+        "  睡覺中 0/200 秒",
+        "  睡覺中 10/200 秒",
+        "  睡覺中 20/200 秒",
+        "  睡覺中 30/200 秒",
+        "  睡覺中 40/200 秒",
+        "  睡覺中 50/200 秒"
+      ],
+      "err_tail": [
+        "[gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V7_timeout]"
+      ]
+    }
+  ],
+  "js_errors": [],
+  "js_errors_gpu_wrap": [],
+  "state": [],
+  "env": {
+    "browser": null,
+    "playwright": null,
+    "gpu_renderer": null,
+    "headless": null,
+    "os": null,
+    "cc_gpu": null,
+    "slot": 1
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8802/index.html",
+    "setup_lines": 0,
+    "setup_first": [],
+    "load_save": 0
+  },
+  "screenshots": [],
+  "traces": [],
+  "sanitize": {
+    "text_files_rewritten": [],
+    "zip_entries_rewritten": 0,
+    "left_hits": []
+  },
+  "notes": [
+    "逾時不重跑（預設；要重跑：ENV CC_RETRY_TIMEOUT=1，而且逾時 ≤ CC_RETRY_MAX_MIN=20 分）"
+  ],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}

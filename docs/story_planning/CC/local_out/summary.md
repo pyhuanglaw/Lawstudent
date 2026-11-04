@@ -1121,3 +1121,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T21:00:32  TT_V6_crash  sha=d2e36f6eb  exit=1  51s    [gpu_wrap] CC_GPU=1 跑 <REPO>\docs\story_planning\test_tools\cc\selftest\st_crash.py http://127.0.0.1:8802/index.html <REPO>\docs\story_planning\CC\local_out\TT_V6_crash\attempt2\out /   讓瀏覽器當掉（Browser.crash） /   Browser.crash 回傳：TimeoutError()
       err.log (last 5):     ) |     ^ |   File "<HOME>\AppData\Local\Python\pythoncore-3.15-64\Lib\site-packages\playwright\_impl\_connection.py", line 636, in wrap_api_call |     raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None | playwright._impl._errors.TargetClosedError: Page.evaluate: Target page, context or browser has been closed
       autoretry: final FAIL  class ENVIRONMENT/browser  exit2 1
+- 2026-11-04T21:02:09  TT_V7_timeout  sha=d2e36f6eb  exit=1  91s  timeout 1 min    睡覺中 30/200 秒 /   睡覺中 40/200 秒 /   睡覺中 50/200 秒
+      err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V7_timeout]
+      autoretry: final TIMEOUT  class TIMEOUT/UNKNOWN  exit2 None
