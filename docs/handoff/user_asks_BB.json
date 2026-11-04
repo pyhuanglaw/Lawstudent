@@ -318,6 +318,15 @@
    "status": "規則（永久）",
    "task": "TEST-METHODS-1104",
    "note": "BB-C 問要先做哪幾項測試方法（①Node 快轉一學期 ②WebKit ③GitHub Actions ④⑤亂點＋覆蓋率），使用者授權 BB 自己參考開源決定"
+  },
+  {
+   "id": "UA-BB-1104-IMG2-3D-RULE",
+   "at": "2026-11-04T14:3xZ",
+   "quote": "你如果測試成功要把你的方法 加入美術規則",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "IMG2-3D-RESEARCH-1104",
+   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則"
   }
  ]
 }
