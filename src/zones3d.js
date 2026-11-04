@@ -1952,9 +1952,9 @@ const Z3 = (function(){
   const GG2_MOVE={daybreak:{menu:{x:-1.75,z:-2.1}}};
   function gg2Items(E,k,L){ for(const q of L.interact||[]){ const mv=(GG2_MOVE[k]||{})[q.kind]||q; E.interactables.push({x:mv.x,z:mv.z,radius:0.9,label:q.label,gg2:k,kind:q.kind}); } }
   const afar={ id:'afar', name:'afar café', indoor:true, camDist:3.8, build(E){ const L=GG_L.afar();
-    const z=ggRoom(E,'afar',L,{label:L.exit.label,warm:true,floor:'#d6d4cf',glb:'bldg.afar_interior',attach:ggAAattach,study:true,shop:'afar'}); gg2Items(E,'afar',L); return z; } };
+    const z=ggRoom(E,'afar',L,{label:L.exit.label,warm:true,floor:'#d6d4cf',glb:'bldg.afar_interior',attach:ggAAattach,study:true,shop:'afar',noSit:s=>s.seatH===0.45});   /* 卡座（西牆，table 4、5 的 seatH 0.45 兩張）：卡座前緣（x −4.6）到小圓桌（x −4.46）只有 0.14 m、南北兩頭是牆和隔牆，人走不到——這一版玩家不能坐（路人照坐），配置要 LAWWW2／AA 調 */ gg2Items(E,'afar',L); return z; } };
   const daybreak={ id:'daybreak', name:'Daybreak', indoor:true, camDist:3.8, build(E){ const L=GG_L.daybreak();
-    const z=ggRoom(E,'daybreak',L,{label:L.exit.label,warm:true,floor:'#e3dfd6',glb:'bldg.daybreak_interior',attach:ggAAattach,study:true,shop:'daybreak'}); gg2Items(E,'daybreak',L); return z; } };
+    const z=ggRoom(E,'daybreak',L,{label:L.exit.label,warm:true,floor:'#e3dfd6',glb:'bldg.daybreak_interior',attach:ggAAattach,study:true,shop:'daybreak',noSit:s=>(s.table===6&&s.x<-4&&Math.abs(s.z-0.9)<0.01)||(s.table===7&&s.seatH===0.45)});   /* 走不到的兩張（這一版玩家不能坐，路人照坐；配置要 LAWWW2／AA 調）：長桌西側中間 (−4.2, 0.9)——西牆到長桌只有 0.34 m，兩頭的位子從桌角按得到、中間那張按不到；卡座小桌一的卡座 (0.6, −3.5)——卡座前緣到小桌只有 0.085 m、西邊是吧台（卡座小桌二的卡座從兩張小桌中間按得到）*/ gg2Items(E,'daybreak',L); return z; } };
   // ---------- 便利商店 ----------
   const cvs={ id:'cvs', name:'日和便利店', indoor:true, camDist:4.0, build(E){ if(GG_L.cvs()) return buildCvs2(E); const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
     const z=room(E,{view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3.6,3.6]});   /* 窗在店面（後牆是貨架）*/ const g0=z.group, nav=z.nav;
