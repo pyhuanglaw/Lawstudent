@@ -43768,6 +43768,49 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "BIKE-SHOP-PARK-1104",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "title": "慢輪單車進得去、買五款車、換車；單車停在剛離開的建築外最近的合法停車處（AA_646；USER_WANTS X205）",
+   "status": "待開工",
+   "next": "排在熱修 v9.10.19.1 之後：LAWWW 系統（買車、存檔 kind/color/owned、停車點選擇）；LAWWW2 各區合法停車點＋店外觀；CC 室內；價格照經濟系統調"
+  },
+  {
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次進健身中心（gym_b1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "GG-SHOPS-REDO-1104",
+   "owner": "LAWWW2",
+   "priority": "P1",
+   "title": "公館互動店照新店名、外觀、室內重做（青木茶室、頁間書屋、日和便利店、慢輪單車；AA_647；USER_WANTS X206）",
+   "status": "待開工",
+   "next": "LAWWW 先照 AA 的改名清單改顯示文字（內部 id 不改）；外觀 LAWWW2、室內 AA 兩間／BB 一間／CC 一間；併 GG-SHOPS-REDESIGN-1103",
+   "xai": {
+    "spec": "AA_647（企劃線 24ff8562e）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "四家店進得去、照 LAWWW2 美術規則、BB 驗收",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
