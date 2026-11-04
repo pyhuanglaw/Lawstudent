@@ -80,6 +80,7 @@ def _atlas_mat(name, emit):
 SK['sign'] = _atlas_mat('wz_signs', 0.0); SK['sign_lit'] = _atlas_mat('wz_signs_lit', 0.6)
 SK['enamel_red'] = flat('wz_sf_enamel_red', '#b8322a', rough=0.35)   # 麵攤正面的紅色烤漆板
 if SET == 'wenzhou': SK['enamel_red'] = flat('wz_sf_enamel_steel', '#c9ccc9', rough=0.28, metal=0.45)   # WZ-FIVE-1104：林家的攤車照參考圖是不鏽鋼（溫州街只有林家用麵攤）
+SK['lamp_red'] = flat('wz_sf_lamp_red', '#d4442e', rough=0.5, emit=B.srgb('#e8583c'))   # WZ-FIVE-1104：小路門邊的紅燈籠（名字照 wz_sf_lamp 開頭：不投影、晚上亮）
 SK['noren'] = _img_mat('wz_noren', 'shop_noren.png', rough=0.9)   # 定食店的暖簾（shopkit_tex.noren）
 SK['bowl_w'] = flat('wz_sf_bowl_white', '#f2efe8', rough=0.3); SK['bowl_b'] = flat('wz_sf_bowl_indigo', '#2f4a6a', rough=0.3)   # 燈箱：貼圖自己發光（白天也微微亮，和真的燈箱一樣）
 # 有使用者核可招牌圖（BB-B signs_approved）的店：棟號 → 貼圖集的名字（_h 橫、_v 直）
@@ -393,7 +394,14 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
         for x in (dx - 0.12, dx + 0.08): xf.box(a, x, x + 0.03, 0.9, 1.45, gz + 0.05, gz + 0.1)                    # 長把手
         xf.box(a, -iw / 2, iw / 2, 1.0, 1.04, gz - 0.03, gz + 0.03)                                                   # 腰框
     elif door in ('wood', 'lattice'):
-        w = acc(SK['wood_dk'])
+        w = acc(frame_mat(sf['frame'])) if sf.get('frame') else acc(SK['wood_dk'])   # WZ-FIVE-1104：frame＝框的顏色（SUNNY SIDE 深綠框）
+        if sf.get('grid'):   # WZ-FIVE-1104：大窗的格子（每 grid 公尺一根直框、上面一道橫框；門那一段不畫）——SUNNY SIDE 參考圖的綠框落地窗
+            l0, l1 = dx - dw / 2, dx + dw / 2
+            for x0_, x1_ in ((-iw / 2, l0), (l1, iw / 2)):
+                if x1_ - x0_ < 0.3: continue
+                xf.box(w, x0_, x1_, ih - 0.55, ih - 0.5, gz - 0.04, gz + 0.04)
+                n_ = max(1, round((x1_ - x0_) / sf['grid']))
+                for j in range(1, n_): x = x0_ + j * (x1_ - x0_) / n_; xf.box(w, x - 0.025, x + 0.025, 0.55, ih + 0.1, gz - 0.04, gz + 0.04)
         for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(w, x - 0.06, x + 0.06, 0.085, ih + 0.175, gz - 0.065, gz + 0.065)   # 直框：兩端藏在橫框裡、前後凸出橫框 5 mm（BUG-WZFLICKER-2）
         xf.box(w, -iw / 2, iw / 2, 0.085, 0.55, gz - 0.04, gz + 0.04)                                                  # 下半部木板
         if door == 'lattice':                                                                                         # 木格拉門（定食、茶屋）：只有門那一段是格子，其他是木框玻璃窗（v5 整面格子像籠子）
@@ -492,6 +500,12 @@ def shopfront_v2(spec, xf, W, gt, wall):
         xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)][::-1]); xf.quad(m, [(-aw / 2, ay0, 0.02), (aw / 2, ay0, 0.02), (aw / 2, ay1, ad), (-aw / 2, ay1, ad)])
         xf.box(m, -aw / 2, aw / 2, ay1 - 0.2, ay1, ad - 0.01, ad + 0.01)
     # 玻璃上的紙條、門邊的牌子
+    if sf.get('lantern'):   # WZ-FIVE-1104：紅燈籠（小路參考圖：門右邊掛一顆，上下黑色蓋子、鐵勾掛在門楣）
+        lx, ly = sf['lantern']; lz = gz + 0.34
+        for k, (yy, rr) in enumerate(((ly - 0.16, 0.15), (ly, 0.2), (ly + 0.16, 0.15))): acc(SK['lamp_red']).sphere(xf.p(lx, yy, lz), rr, seg=12, rings=6)
+        for yy in (ly - 0.3, ly + 0.27): xf.cyl(acc(SK['black']), (lx, yy, lz), (lx, yy + 0.05, lz), 0.11, seg=10)
+        xf.box(acc(SK['black']), lx - 0.01, lx + 0.01, ly + 0.32, ih + 0.15, lz - 0.01, lz + 0.01)
+        q = xf.p(lx, ly, lz + 0.25); CL.glow(root, 'lantern', q[0], q[1], q[2], color='rgba(255,120,80,1)', size=1.1, day=0.0, night=0.8)
     for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, gz + 0.03)
     if sf.get('board'): cork_board(xf, *sf['board'], gz + 0.03)
     # 門廊雜物（都在 z∈(gz, 0)：建築的導航阻擋範圍內）
@@ -1730,14 +1744,14 @@ SF = {
     'B2': dict(inner=True, door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4)], board=(1.35, 1.0, 0.9, 0.7),   # AA_413（10-23）：門右邊的布告欄（尋貓的紙條搬到布告欄上；「看布告欄」在世界 x −16.4）
                clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
-    'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', light='warm', door_x=-2.0, door_w=1.8, ac=4.8,   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
+    'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', lantern=(-0.75, 2.05), light='warm', door_x=-2.0, door_w=1.8, ac=4.8,   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
                notes=[],
                clutter=[('aboard', 0.2, 0.45, 'wz_komichi_menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', 2.6, 0.32, 'broad'), ('pot', 5.4, 0.32)]),
     'B5': dict(split=[dict(id='B5', kind='tea', x0=-7.0, x1=0.0, floor='f_white', shop=dict(name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a'),
                            notes=[('pay', -2.9, 0.62, 0.26, 0.26), ('hiring', 2.75, 1.1, 0.4, 0.44)], clutter=[('bins', 3.0, 0.4)]),
                       dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・古早味', signBg='#f7efe0', signColor='#b0322a', band='#2f7a8a', serif=True),
                            notes=[('hours', 2.95, 1.3, 0.34, 0.34)], clutter=[('aboard', 3.0, 0.5, 'menu')])]),
-    'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
+    'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
                notes=[('hours', -1.0, 1.25, 0.34, 0.34)],
                clutter=[('aboard', 0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', 1.5, 0.32)]),
     'B6': dict(inner=True, door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', ac=-3.7,
