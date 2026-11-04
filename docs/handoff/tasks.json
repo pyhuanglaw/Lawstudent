@@ -45024,7 +45024,7 @@
    "title": "坐著的 NPC 要真的在做事、會動（使用者 11-04 13:5x 對 LAWWW-C：「就算只是拿著書和拿著手機都太不自然了一個人坐在那裡什麼都不做」「你不能查GitHub 別人怎麼設計嗎」）：照開源做法做「情境動作」——每種活動一段會動的循環＋隨機小動作＋程序化呼吸、視線＋同桌聊天",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45036,7 +45036,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:0x】下載並逐支列出 Quaternius UAL1／UAL2（CC0，GitHub 鏡像 tilakpatell/tilakverse-assets）：坐姿 7 支（Sitting_Enter／Exit／Idle_Loop／Idle02／Idle03／Nodding／Talking）、Drink、Idle_LookAround、Idle_Talking、Counter_*（店員）、GroundSit_*（坐地上）；UAL2：Idle_TalkingPhone、Idle_Rail（靠欄杆）、Idle_FoldArms、Yes、Consume；骨架 UE 命名。子代理（worktree）實作中：抽片段 ual_sit_clips.glb、UE→VRM 重定向、坐著播循環＋8～25 秒隨機小動作＋同桌聊天、tests/seat_ambient_unit.js（舊 FAIL／新 PASS）；打字、拇指滑手機、寫字沒有現成的→列清單給 LAWWW2 Blender｜【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
+   "next": "【LAWWW-C 11-04 14:40】合併進開發分支 2acb34afd（子代理 1c769c6e1）：ual_sit_clips.glb 12 片段（308 KB）、坐姿循環＋8～25 秒小動作、翻頁、滑手機、同桌聊天、sitFocus 低頭看桌上；seat_ambient_unit 56／56（舊 31 FAIL）＋相關 40 支 ALL PASS；?nositamb 關掉比較。待：CC 在使用者電腦錄影（2:30 AM 沙發和兩人桌撥頭髮穿模、聊天手穿桌面；總圖／法圖低頭看桌子、手放大腿穿模、一排同步；茶屋跪坐；吃飯的店；霖澤 201／博雅 101 上課；玩家坐下；圖書館 20 人低階手機幀率）；打字、寫字、滑手機、翻真的書頁、坐著喝飲料、吃飯 → NPC-ANIM-LOOPS-1104（LAWWW2 Blender）｜【LAWWW-C 11-04 14:0x】下載並逐支列出 Quaternius UAL1／UAL2（CC0，GitHub 鏡像 tilakpatell/tilakverse-assets）：坐姿 7 支（Sitting_Enter／Exit／Idle_Loop／Idle02／Idle03／Nodding／Talking）、Drink、Idle_LookAround、Idle_Talking、Counter_*（店員）、GroundSit_*（坐地上）；UAL2：Idle_TalkingPhone、Idle_Rail（靠欄杆）、Idle_FoldArms、Yes、Consume；骨架 UE 命名。子代理（worktree）實作中：抽片段 ual_sit_clips.glb、UE→VRM 重定向、坐著播循環＋8～25 秒隨機小動作＋同桌聊天、tests/seat_ambient_unit.js（舊 FAIL／新 PASS）；打字、拇指滑手機、寫字沒有現成的→列清單給 LAWWW2 Blender｜【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
    "source": "使用者 11-04 13:5x 對 LAWWW-C（UA-LAWWW-1104-86）；接 X217 SEAT-ACTIVITY-1104",
    "authorized": "使用者直接要求"
   },
@@ -45233,6 +45233,34 @@
    "next": "【LAWWW-C 11-04 14:31】第 29 列（sideq3d.js SQ19 芯慈筆記本最後一頁：和以安的考試、報告、發言次數比較表 → 三家公司的財報比率；違反 D116、「違反的內容不進下一版」）先做、進 v9.10.20；tests/aa404_sideq_unit、aa397_sideq_unit 的稿加 AA_663（e89728272）ALL PASS；其餘 29 列 v9.10.20 以後照第 1 節位置換字（只換字，條件旗標不動）",
    "source": "AA-C 11-04 14:25（使用者 14:2x「讓台詞劇情更自然」）",
    "authorized": "D109；使用者選擇題「對，照這樣改」"
+  },
+  {
+   "id": "NPC-ANIM-LOOPS-1104",
+   "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進 Café、總圖看到坐著的人",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:40】Blender 做在現有骨架（VRM humanoid／UE 對照照 NPC-AMBIENT-ANIM-1104 的表），交 GLB 片段＋要動的骨頭；LAWWW 接進 sitAmbient（character3d.js）；排在阿德轉角、共同教學館／女舍比對之後",
+   "source": "NPC-AMBIENT-ANIM-1104 子代理回報（使用者 13:5x X222）",
+   "authorized": "使用者直接要求（X222）",
+   "xai": {
+    "spec": "NPC-AMBIENT-ANIM-1104 回報「還沒做到的」六項",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每個循環能接在坐姿上不穿模（CC 錄影）、骨頭名照 VRM humanoid",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   }
  ]
 }
