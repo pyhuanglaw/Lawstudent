@@ -1,0 +1,27 @@
+cc_d118_electives　LW_ROOT=/tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/wt_0bf7　SHA=0bf744055
+INFO PG.POOL_EXCLUDE_COURSES（一試不收的科）＝["maritime","ip_law","labor_social","tax_law"]
+INFO 大四的選修組（CLS.choiceGroups）：[{"term":"Y4S1","group":"Y4S1_elec","def":"labor_social","none":false,"opts":["labor_social 勞動社會法","tax_law 財稅法"]},{"term":"Y4S1","group":"Y4S1_sem","def":"crim_judgment_sem","none":false,"opts":["crim_judgment_sem 刑事判決研討","public_judgment_sem 公法判決研討"]},{"term":"Y4S2","group":"y4s2_mar","def":"maritime","none":true,"opts":["maritime 海商法與海洋法"]}]
+INFO 預設：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"maritime"}；修過的大四選修 ["labor_social","crim_judgment_sem","maritime"]
+FAIL 預設（Y4S1 Y4S1_elec）：勞動社會法——修了＝要進題池（現在：不在）　{"taken":true,"inPool":false}
+PASS 預設（Y4S1 Y4S1_elec）：財稅法——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+PASS 預設（Y4S1 Y4S1_sem）：刑事判決研討——修了＝要進題池（現在：在）　{"taken":true,"inPool":true}
+PASS 預設（Y4S1 Y4S1_sem）：公法判決研討——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+FAIL 預設（Y4S2 y4s2_mar）：海商法與海洋法——修了＝要進題池（現在：不在）　{"taken":true,"inPool":false}
+INFO Y4S1 Y4S1_elec 選「勞動社會法」：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"maritime"}
+FAIL Y4S1 Y4S1_elec 選「勞動社會法」：勞動社會法——修了＝要進題池（現在：不在）　{"taken":true,"inPool":false}
+PASS Y4S1 Y4S1_elec 選「勞動社會法」：財稅法——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+INFO Y4S1 Y4S1_elec 選「財稅法」：electives {"Y4S1_elec":"tax_law","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"maritime"}
+PASS Y4S1 Y4S1_elec 選「財稅法」：勞動社會法——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+FAIL Y4S1 Y4S1_elec 選「財稅法」：財稅法——修了＝要進題池（現在：不在）　{"taken":true,"inPool":false}
+INFO Y4S1 Y4S1_sem 選「刑事判決研討」：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"maritime"}
+PASS Y4S1 Y4S1_sem 選「刑事判決研討」：刑事判決研討——修了＝要進題池（現在：在）　{"taken":true,"inPool":true}
+PASS Y4S1 Y4S1_sem 選「刑事判決研討」：公法判決研討——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+INFO Y4S1 Y4S1_sem 選「公法判決研討」：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"public_judgment_sem","y4s2_mar":"maritime"}
+PASS Y4S1 Y4S1_sem 選「公法判決研討」：刑事判決研討——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+PASS Y4S1 Y4S1_sem 選「公法判決研討」：公法判決研討——修了＝要進題池（現在：在）　{"taken":true,"inPool":true}
+INFO Y4S2 y4s2_mar 選「海商法與海洋法」：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"maritime"}
+FAIL Y4S2 y4s2_mar 選「海商法與海洋法」：海商法與海洋法——修了＝要進題池（現在：不在）　{"taken":true,"inPool":false}
+INFO Y4S2 y4s2_mar 選「這學期不修」：electives {"Y4S1_elec":"labor_social","Y4S1_sem":"crim_judgment_sem","y4s2_mar":"none"}
+PASS Y4S2 y4s2_mar 選「這學期不修」：海商法與海洋法——沒修＝不進題池（現在：不在）　{"taken":false,"inPool":false}
+
+FAILED 5（判定歸 BB；FAIL＝修了卻不在題池，或沒修卻在題池）

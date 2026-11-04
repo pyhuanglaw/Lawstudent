@@ -18,3 +18,15 @@
 ## 瀏覽器：照玩家操作走（`cc_d118b7_play.py`，0bf744055）
 - 雲端：chain8 排在小路兩支後面，還沒跑。
 - PC：queue.txt `D118B7_play`，排在 GG_VIEWS 後面，等電腦恢復。
+
+## Node：大四選修照遊戲的選課跑（`cc_d118_electives.js`，BB-C 23:52）——FAILED 5（判定歸 BB）
+- 做法：CLS.selectTerm 的選單照選項選，成績單照 transcripts 發，再看 takenCourses 和 PG.poolFor。
+- BB-C 的期望：修了就要進題池，沒修就不進。
+- 結果：
+  - 刑事、公法判決研討：照選的進或不進，PASS。
+  - 「不修」海商法：不在題池，PASS。
+  - FAIL 5 都是「修了卻不在題池」：預設和選了的勞動社會法、選了的財稅法、預設和選了的海商法。
+- 原因：`PG.POOL_EXCLUDE_COURSES=['maritime','ip_law','labor_social','tax_law']` 不管修沒修都排除。
+  - 程式註解寫的出處：BUG-BAR-POOL-PREFIX（CC_34，BB 2026-11-02 22:15），「一試不考的四科」。
+  - 這和 BB-C 23:52 的新規則不一樣，要 BB 定。
+- 智財（ip_law）不在大四的選修組裡，三條路線都修過，但同樣被排除。
