@@ -62,7 +62,7 @@ def stool(x, z, h=0.72):
 def candle(x, z, y):
     """琥珀色玻璃燭杯"""
     Xf(x, z, 0, y).lathe(sh.a('amber'), [(0.0, 0.0), (0.03, 0.0), (0.034, 0.05), (0.03, 0.075), (0.0, 0.075)], 0, 0, 0, seg=8)
-    CL.glow(sh.root, 'candle', x, y + 0.05, z, color='rgba(255,180,100,1)', size=0.3, day=0.0, night=0.6)
+    CL.glow(sh.root, 'candle', x, y + 0.05, z, color='rgba(255,180,100,1)', size=0.22, day=0.0, night=0.35)
 
 
 def table_set(x, z):
@@ -81,11 +81,38 @@ def berries(x, z, y):
         for q in range(3): sh.a('vcg').add_bm(K.paint_bm(L.lathe([(0.0, -0.012), (0.012, 0.0), (0.0, 0.012)], seg=5), '#b02a22'), Matrix.Translation(g2b(x + tx * (0.6 + q * 0.2), y + 0.26 + q * 0.04 + (j % 2) * 0.03, z + tz * (0.6 + q * 0.2))))
 
 
-def bottle(x, z, y, k, h=0.3, label=True, row=6, face=0.0):
-    """一瓶酒：一升瓶／四合瓶（深綠、茶色、透明）＋正面標籤"""
-    col = BOTTLE[k % len(BOTTLE)]; r = 0.045 if h > 0.26 else 0.035
-    Xf(x, z, 0, y).lathe(sh.a('vcg'), [(0.0, 0.0), (r, 0.0), (r, h * 0.62), (r * 0.4, h * 0.82), (r * 0.32, h), (0.0, h)], 0, 0, 0, seg=8, col=col)
-    if label: sh.img_quad(sh.a('print'), Xf(x, z, face, y), 0.0, h * 0.18, r + 0.003, r * 1.4, h * 0.36, K.cell_uv(k % 8, row, 1, 1))
+def bottle(x, z, y, k, h=0.3, label=True, row=6, face=0.0, kind=None):
+    """一瓶酒（v1d：四種瓶型、高度不一）：isho＝一升瓶、yongo＝四合瓶、sq＝方瓶燒酎、toku＝陶德利；kind 沒給就照 k 挑"""
+    kind = kind or ('isho', 'yongo', 'yongo', 'sq', 'toku', 'isho')[k % 6]
+    col = BOTTLE[k % len(BOTTLE)]; xf = Xf(x, z, face, y)
+    if kind == 'sq':
+        w = 0.05 + 0.01 * (k % 3); xf.rbox(sh.a('vcg'), -w, w, 0.0, h * 0.75, -w, w, r=0.01, seg=1, col=('#d8d0b0', '#5a3a22', '#e8e4d8')[k % 3])
+        xf.cyl(sh.a('vcg'), (0, h * 0.75, 0), (0, h * 0.95, 0), 0.015, col='#2a2a2a', seg=6)
+        if label: sh.img_quad(sh.a('print'), xf, 0.0, h * 0.15, w + 0.003, w * 1.6, h * 0.42, K.cell_uv(k % 8, 7, 1, 1)); return
+        return
+    if kind == 'toku':
+        xf.lathe(sh.a('vcg'), [(0.0, 0.0), (0.035, 0.0), (0.05, h * 0.35), (0.045, h * 0.6), (0.018, h * 0.85), (0.022, h), (0.0, h)], 0, 0, 0, seg=10, col=('#e8e2d4', '#8a9aa4', '#6a4a30', '#c8b898')[k % 4]); return
+    r = (0.05 if kind == 'isho' else 0.038) * (0.9 + 0.2 * ((k * 37) % 7) / 6)
+    xf.lathe(sh.a('vcg'), [(0.0, 0.0), (r, 0.0), (r, h * 0.62), (r * 0.4, h * 0.82), (r * 0.32, h), (0.0, h)], 0, 0, 0, seg=8, col=col)
+    if label: sh.img_quad(sh.a('print'), xf, 0.0, h * 0.18, r + 0.003, r * 1.4, h * 0.36, K.cell_uv(k % 8, row, 1, 1))
+
+
+def bottle_row(x0, x1, z, y, seed, hmax=0.4, gap=0.0):
+    """一排酒瓶（v1d，H：不等距、高低不一、偶爾前後錯開或轉一點、留空位、偶爾一個倒扣的杯子）"""
+    rr = random.Random(seed); x = x0 + rr.uniform(0.02, 0.1); k = seed
+    while x < x1 - 0.06:
+        k += 1; t = rr.random()
+        if t < 0.12: x += rr.uniform(0.15, 0.3); continue                                                          # 空位
+        if t < 0.2: teacup_inv(x, z + rr.uniform(-0.04, 0.04), y); x += rr.uniform(0.09, 0.14); continue
+        kind = rr.choice(('isho', 'isho', 'yongo', 'yongo', 'sq', 'toku'))
+        h = {'isho': rr.uniform(0.34, hmax), 'yongo': rr.uniform(0.26, 0.31), 'sq': rr.uniform(0.2, 0.26), 'toku': rr.uniform(0.15, 0.19)}[kind]
+        bottle(x, z + rr.uniform(-0.05, 0.05), y, k, h=h, kind=kind, face=rr.uniform(-0.35, 0.35) if rr.random() < 0.3 else 0.0)
+        x += rr.uniform(0.09, 0.2)
+
+
+def teacup_inv(x, z, y):
+    """倒扣的小酒杯"""
+    Xf(x, z, 0, y).lathe(sh.a('vcg'), [(0.0, 0.05), (0.022, 0.05), (0.03, 0.0), (0.0, 0.0)], 0, 0, 0, seg=8, col='#e8e4d8')
 
 
 def brass_pendant(x, z, y, r=0.22):
@@ -103,6 +130,7 @@ for (lx, lz) in ((0.475, 2.6), (2.425, 2.6), (0.9, 0.75)):                      
     Xf(lx, lz).cyl(sh.a('vcm'), (0, H, 0), (0, 2.43, 0), 0.004, col='#2a2a2a', seg=4)
     Xf(lx, lz, 0, 2.2).lathe(sh.a('bulb'), [(0.0, 0.0), (0.07, 0.01), (0.11, 0.06), (0.12, 0.11), (0.11, 0.17), (0.07, 0.22), (0.0, 0.23)], 0, 0, 0, seg=12)
     for yy in (2.2, 2.43): Xf(lx, lz, 0, yy).lathe(sh.a('vc'), [(0.0, -0.01), (0.07, -0.01), (0.07, 0.01), (0.0, 0.01)], 0, 0, 0, seg=12, col='#2e2016')
+    for (yy, rr_) in ((2.245, 0.106), (2.29, 0.12), (2.34, 0.118), (2.385, 0.1)): Xf(lx, lz, 0, yy).lathe(sh.a('vc'), [(rr_, -0.003), (rr_ + 0.004, -0.003), (rr_ + 0.004, 0.003), (rr_, 0.003)], 0, 0, 0, seg=12, col='#7a6a50')   # v1d：竹骨橫紋
     CL.glow(sh.root, 'washi', lx, 2.31, lz, color='rgba(255,200,140,1)', size=0.7, day=0.0, night=0.8)
 xf0.rbox(sh.a('vcm'), 0.4, 1.4, H - 0.24, H - 0.2, 0.25, 1.25, r=0.01, seg=1, col='#a8a49a'); xf0.rbox(sh.a('vcm'), 0.55, 1.25, H - 0.245, H - 0.24, 0.4, 1.1, r=0.0, seg=1, col='#8a8680')   # 天花板嵌入式冷氣
 fr = IT['genkan'][0]
@@ -148,14 +176,29 @@ xf0.rbox(sh.a('vc'), cx0, cx1, 0.0, 0.08, cz1 - 0.06, cz1 - 0.01, r=0.0, seg=1, 
 xf0.rbox(sh.a('wood'), cx0, cx1 + 0.02, ch - 0.06, ch, cz0 - 0.05, cz1 + 0.1, r=0.015, seg=1)                          # 厚木檯面（往客人那邊伸出）
 xf0.rbox(sh.a('wood'), cx0, cx1, ch + 0.12, ch + 0.16, cz0 - 0.05, cz0 + 0.18, r=0.008, seg=1)                           # 後面高一階的出菜台
 xf0.rbox(sh.a('wood'), cx0, cx1, ch, ch + 0.12, cz0 + 0.14, cz0 + 0.18, r=0.0, seg=1)
-for k in range(22):                                                                                                      # v1c：檯面上一整排——小菜盤、燒酎瓶、醬油瓶、燭杯；後面高台上筷筒、小酒杯
-    x = cx0 + 0.25 + k * (cx1 - cx0 - 0.5) / 21; q = k % 4
-    if q == 0: K.plate(sh, x, cz1 - 0.12, ch + 0.005, r=0.075, col='#e8e2d4'); xf0.rbox(sh.a('vc'), x - 0.04, x + 0.04, ch + 0.012, ch + 0.035, cz1 - 0.15, cz1 - 0.09, r=0.0, seg=1, col=('#c8783a', '#6a8a3a', '#e8d8a8')[k % 3])
-    elif q == 1: candle(x, cz1 - 0.06, ch)
-    elif q == 2: Xf(x, cz1 - 0.1, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.03, 0.12), (0.012, 0.17), (0.012, 0.2), (0.0, 0.2)], 0, 0, 0, seg=7, col=('#e8e4d8', '#2e4a2e', '#4a2e1e')[k % 3])
-    else: Xf(x, cz1 - 0.1, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.022, 0.0), (0.022, 0.08), (0.01, 0.11), (0.0, 0.115)], 0, 0, 0, seg=6, col='#2a1810')
-    if k % 2 == 0: Xf(x, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vc'), [(0.0, 0.0), (0.035, 0.0), (0.035, 0.12), (0.0, 0.12)], 0, 0, 0, seg=8, col='#3a4a5a')
-    else: Xf(x, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vcg'), [(0.0, 0.0), (0.025, 0.0), (0.03, 0.05), (0.0, 0.05)], 0, 0, 0, seg=6, col='#e8e4d8')
+rb = random.Random(1141); x = cx0 + 0.25                                                                                # v1d（H）：檯面上的東西成組、不等距，有的地方空出來；小菜碟三種形狀；燭杯只放四個、往裡面移
+while x < cx1 - 0.3:
+    if rb.random() < 0.3: x += rb.uniform(0.4, 0.7); continue                                                         # 空出來給客人放杯子
+    for j in range(rb.randint(2, 4)):
+        xx = x + rb.uniform(-0.04, 0.04); zz = cz1 - rb.uniform(0.06, 0.24); q = rb.random(); sc = rb.uniform(0.8, 1.25); yaw = rb.uniform(-0.35, 0.35)
+        if q < 0.35:
+            shp = rb.choice(('round', 'square', 'long'))
+            if shp == 'round': K.plate(sh, xx, zz, ch + 0.005, r=0.07 * sc, col=rb.choice(('#e8e2d4', '#3a3a3a', '#8a9aa4')))
+            elif shp == 'square': Xf(xx, zz, yaw, ch).rbox(sh.a('vcg'), -0.06 * sc, 0.06 * sc, 0.003, 0.018, -0.06 * sc, 0.06 * sc, r=0.008, seg=1, col=rb.choice(('#e8e2d4', '#2a2a2a', '#c8b898')))
+            else: Xf(xx, zz, yaw, ch).rbox(sh.a('vcg'), -0.12 * sc, 0.12 * sc, 0.003, 0.016, -0.04, 0.04, r=0.008, seg=1, col=rb.choice(('#e8e2d4', '#6a4a30')))
+            Xf(xx, zz, yaw, ch).rbox(sh.a('vc'), -0.035 * sc, 0.035 * sc, 0.014, 0.034, -0.025, 0.025, r=0.008, seg=1, col=rb.choice(('#c8783a', '#6a8a3a', '#e8d8a8', '#a84a2a')))
+        elif q < 0.55: Xf(xx, zz, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03 * sc, 0.0), (0.03 * sc, 0.12 * sc), (0.012, 0.17 * sc), (0.012, 0.2 * sc), (0.0, 0.2 * sc)], 0, 0, 0, seg=7, col=rb.choice(('#e8e4d8', '#2e4a2e', '#4a2e1e')))
+        elif q < 0.75: Xf(xx, zz, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.022, 0.0), (0.022, 0.08 * sc), (0.01, 0.11 * sc), (0.0, 0.115 * sc)], 0, 0, 0, seg=6, col='#2a1810')
+        else: Xf(xx, zz, 0, ch).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.035, 0.06 * sc), (0.0, 0.06 * sc)], 0, 0, 0, seg=8, col=rb.choice(('#e8e4d8', '#8a9aa4')))   # 小酒杯
+        x += rb.uniform(0.1, 0.2)
+    x += rb.uniform(0.2, 0.45)
+for xx in (cx0 + 0.9, cx0 + 2.6, cx0 + 4.1, cx1 - 0.7): candle(xx, cz1 - 0.28, ch)
+for k in range(rb.randint(5, 7)):                                                                                       # 後面高台：筷筒、醬料、疊起來的碟子，不等距
+    xx = cx0 + 0.3 + k * (cx1 - cx0 - 0.6) / 6 + rb.uniform(-0.2, 0.2); q = rb.random()
+    if q < 0.4: Xf(xx, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vc'), [(0.0, 0.0), (0.035, 0.0), (0.035, 0.12 * rb.uniform(0.85, 1.2)), (0.0, 0.12)], 0, 0, 0, seg=8, col=rb.choice(('#3a4a5a', '#6a4a30')))
+    elif q < 0.7:
+        for j in range(rb.randint(2, 5)): K.plate(sh, xx + rb.uniform(-0.01, 0.01), cz0 + 0.08, ch + 0.16 + j * 0.012, r=0.06, col='#e8e2d4')
+    else: Xf(xx, cz0 + 0.08, 0, ch + 0.16).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.035, 0.08), (0.02, 0.12), (0.0, 0.12)], 0, 0, 0, seg=8, col=rb.choice(('#a84a2a', '#2a1810'))) 
 for x in (cx0 + 1.2, cx1 - 0.6): berries(x, cz0 + 0.1, ch + 0.16)
 hd = Xf(3.1, -2.0, 0, 0); hd.rbox(sh.a('wood'), -0.9, 0.9, 0.0, ch - 0.06, -0.27, 0.22, r=0.0, seg=1); hd.rbox(sh.a('wood'), -0.92, 0.92, ch - 0.06, ch, -0.3, 0.3, r=0.012, seg=1)   # 半門那一段（照舊 block）
 for s_ in LAY['seats']:
@@ -164,7 +207,7 @@ mb = IT['menu_beam'][0]; bx0_, bx1_ = mb['x'] - mb['w'] / 2, mb['x'] + mb['w'] /
 xf0.rbox(sh.a('wood'), bx0_, bx1_ + 0.4, by, by + 0.14, bz - 0.12, bz + 0.12, r=0.0, seg=1)                             # 木札的橫樑
 for x_ in (bx0_ + 0.05, bx1_ + 0.3): xf0.rbox(sh.a('wood'), x_ - 0.05, x_ + 0.05, by + 0.14, H, bz - 0.05, bz + 0.05, r=0.0, seg=1)
 xf0.rbox(sh.a('wood'), bx0_, bx1_ + 0.4, by + 0.14, by + 0.17, bz - 0.2, bz + 0.12, r=0.0, seg=1)                       # 橫樑上的酒瓶架
-for k in range(26): bottle(bx0_ + 0.12 + k * 0.24, bz - 0.06, by + 0.17, k + 3, h=0.34, row=6)
+bottle_row(bx0_ + 0.05, bx1_ + 0.35, bz - 0.06, by + 0.17, 301, hmax=0.4)                                         # v1d：橫樑上的酒瓶（四種瓶型、高低不一、留空位）
 for k in range(16):                                                                                                      # 木札 16 枚（掛在橫樑前面）
     x = bx0_ + 0.5 + k * (mb['w'] - 1.0) / 15
     sh.img_quad(sh.a('print'), Xf(x, bz + 0.135, 0.0, 0.0), 0.0, by - 0.4, 0.0, 0.12, 0.44, (k / 16 + 0.004, 1 - 3 / 8 + 0.004, (k + 1) / 16 - 0.004, 1 - 1 / 8 - 0.004))
@@ -181,22 +224,39 @@ kz0, kz1 = Z0, cz0
 xf0.rbox(sh.a('vcm'), -3.9, 2.1, 0.0, 0.9, Z0 + 0.02, Z0 + 0.62, r=0.0, seg=1, col=STEEL)                              # 後牆的不鏽鋼工作台
 xf0.rbox(sh.a('vcm'), -3.9, 2.1, 0.9, 0.93, Z0 + 0.02, Z0 + 0.64, r=0.0, seg=1, col='#d0d0cc')
 gl = Xf(-0.6, Z0 + 0.32, 0, 0.93); gl.rbox(sh.a('vcm'), -0.55, 0.55, 0.0, 0.12, -0.2, 0.2, r=0.0, seg=1, col='#2e2e2e')   # 炭烤台＋烤雞串
-sh.a('amber').box(-1.1, -0.1, 1.03, 1.04, Z0 + 0.16, Z0 + 0.48)                                                       # 炭火
+xf0.rbox(sh.a('vc'), -1.1, -0.1, 1.03, 1.045, Z0 + 0.16, Z0 + 0.48, r=0.0, seg=1, col='#a8381a')                                                       # 炭火
 for k in range(12): gl.rbox(sh.a('vc'), -0.48 + k * 0.085, -0.45 + k * 0.085, 0.13, 0.16, -0.22, 0.22, r=0.0, seg=1, col=('#8a4a22', '#a86a3a')[k % 2])
-CL.glow(sh.root, 'grill', -0.6, 1.15, Z0 + 0.35, color='rgba(255,140,60,1)', size=0.7, day=0.0, night=0.7)
-hood = Xf(-0.6, Z0 + 0.35, 0, 1.75); hood.rbox(sh.a('vcm'), -0.85, 0.85, 0.0, 0.08, -0.35, 0.3, r=0.0, seg=1, col=STEEL)   # 排油煙罩
-hood.rbox(sh.a('vcm'), -0.6, 0.6, 0.08, 0.45, -0.35, 0.05, r=0.0, seg=1, col=STEEL); hood.rbox(sh.a('vcm'), -0.25, 0.25, 0.45, H - 1.75, -0.35, -0.05, r=0.0, seg=1, col=STEEL)
+CL.glow(sh.root, 'candle_grill', -0.6, 1.08, Z0 + 0.4, color='rgba(255,140,60,1)', size=0.35, day=0.0, night=0.4)   # v1d：烤台的光小一點（v1c 把排油煙罩後面照成一片白）
+hb = bmesh.new()                                                                                                        # v1d：排油煙罩＝往上收斜的罩子（下緣 1.7×0.65、上緣 0.6×0.35），上面接煙囪
+def hv(x, y, z): return hb.verts.new(g2b(-0.6 + x, 1.72 + y, Z0 + 0.33 + z))
+lo = [hv(-0.85, 0.0, -0.32), hv(0.85, 0.0, -0.32), hv(0.85, 0.0, 0.33), hv(-0.85, 0.0, 0.33)]
+lo2 = [hv(-0.85, 0.06, -0.32), hv(0.85, 0.06, -0.32), hv(0.85, 0.06, 0.33), hv(-0.85, 0.06, 0.33)]
+hi = [hv(-0.3, 0.5, -0.32), hv(0.3, 0.5, -0.32), hv(0.3, 0.5, 0.02), hv(-0.3, 0.5, 0.02)]
+for ring_a, ring_b in ((lo, lo2), (lo2, hi)):
+    for i in range(4): hb.faces.new((ring_a[i], ring_a[(i + 1) % 4], ring_b[(i + 1) % 4], ring_b[i]))
+hb.faces.new(lo[::-1]); hb.normal_update(); sh.a('vcm').add_bm(K.paint_bm(hb, '#b4b4b0')); hb.free()
+Xf(-0.6, Z0 + 0.2, 0, 2.22).rbox(sh.a('vcm'), -0.22, 0.22, 0.0, H - 2.22, -0.15, 0.13, r=0.02, seg=1, col='#a8a8a4')
+for k in range(4): Xf(-0.6 - 0.6 + k * 0.4, Z0 + 0.33, 0, 1.73).rbox(sh.a('vcm'), -0.12, 0.12, 0.0, 0.01, -0.25, 0.25, r=0.0, seg=1, col=('#8a8a86', '#9a9a96')[k % 2])   # 下面的濾網
+rt = random.Random(77)                                                                                                    # v1d：烤台後面的磁磚牆（深綠灰、每塊深淺不一），不再是一面被燈照白的灰泥
+for i in range(10):
+    for j in range(5):
+        xx = -1.58 + i * 0.198; yy = 0.95 + j * 0.15
+        xf0.rbox(sh.a('vcg'), xx, xx + 0.19, yy, yy + 0.142, Z0 + 0.005, Z0 + 0.015, r=0.0, seg=1, col=rt.choice(('#4e564c', '#565e52', '#4a5248', '#5c6456')))
+xf0.rbox(sh.a('vc'), -1.6, 0.4, 0.93, 1.72, Z0, Z0 + 0.004, r=0.0, seg=1, col='#2e2e2a')
 for k in range(2): Xf(-2.4 + k * 0.6, Z0 + 0.35, 0, 0.93).lathe(sh.a('vcm'), [(0.0, 0.0), (0.16, 0.0), (0.16, 0.18), (0.15, 0.18), (0.15, 0.01), (0.0, 0.01)], 0, 0, 0, seg=12, col='#a8a8a4')   # 鍋
 Xf(1.2, Z0 + 0.35, 0, 0.93).lathe(sh.a('vcm'), [(0.0, 0.0), (0.17, 0.0), (0.18, 0.3), (0.16, 0.34), (0.0, 0.36)], 0, 0, 0, seg=12, col='#d8d4cc')   # 大電鍋
-for k in range(6): K.plate(sh, -3.4 + (k % 3) * 0.25, Z0 + 0.35, 0.94 + (k // 3) * 0.02, r=0.1, col='#e8e2d4')
+for (px_, n_, r_) in ((-3.45, 5, 0.1), (-3.1, 3, 0.08), (-2.85, 2, 0.12)):
+    for j in range(n_): K.plate(sh, px_ + R.uniform(-0.01, 0.01), Z0 + 0.35, 0.94 + j * 0.016, r=r_, col=('#e8e2d4', '#3a3a3a')[(j + n_) % 2 if r_ < 0.09 else 0])   # v1d：疊起來的碗盤（三疊高低不一）
 for sy, kind in ((1.25, 'cup'), (1.6, 'bottle'), (1.95, 'bottle'), (2.3, 'bottle')):                                      # 後牆的層架（爐台上方以外）
     for (a, b) in ((-3.95, -1.6), (0.4, 2.15)):
         xf0.rbox(sh.a('wood'), a, b, sy - 0.03, sy, Z0 + 0.01, Z0 + 0.3, r=0.0, seg=1)
-        n = int((b - a) / 0.13)
-        for k in range(n):
-            x = a + 0.08 + k * (b - a - 0.16) / max(1, n - 1)
-            if kind == 'cup': Xf(x, Z0 + 0.15, 0, sy).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.035, 0.08), (0.0, 0.08)], 0, 0, 0, seg=6, col=('#e8e4d8', '#8a9aa4', '#c8b898')[k % 3])
-            elif (k + int(sy * 10)) % 2 == 0: bottle(x, Z0 + 0.16, sy, k + int(sy * 7), h=0.3 if sy < 2.2 else 0.26, row=6 if k % 3 else 7)
+        if kind == 'cup':
+            rc = random.Random(int(sy * 100 + a * 10)); x = a + 0.08
+            while x < b - 0.08:
+                if rc.random() < 0.15: x += rc.uniform(0.12, 0.25); continue
+                for j in range(rc.randint(1, 3)): Xf(x, Z0 + 0.15 + rc.uniform(-0.04, 0.04), 0, sy + j * 0.055).lathe(sh.a('vcg'), [(0.0, 0.0), (0.03, 0.0), (0.035, 0.055), (0.0, 0.055)], 0, 0, 0, seg=6, col=rc.choice(('#e8e4d8', '#8a9aa4', '#c8b898', '#3a3a3a')))
+                x += rc.uniform(0.08, 0.16)
+        else: bottle_row(a + 0.02, b - 0.02, Z0 + 0.16, sy, int(sy * 1000 + a * 10), hmax=0.33 if sy < 2.2 else 0.27)
     if sy == 1.6: xf0.rbox(sh.a('bulb'), -3.95, 2.15, sy - 0.04, sy - 0.03, Z0 + 0.26, Z0 + 0.28, r=0.0, seg=1)
 for (a, b) in ((-3.95, -1.6), (0.4, 2.15)):
     for x_ in (a, b): xf0.rbox(sh.a('wood'), x_ - 0.02, x_ + 0.02, 1.0, 2.33, Z0 + 0.01, Z0 + 0.3, r=0.0, seg=1)
