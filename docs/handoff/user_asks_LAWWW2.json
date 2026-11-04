@@ -616,6 +616,16 @@
    "src": "使用者",
    "note": "不等使用者回答：遇到判斷題照最合理的做法先做，寫明理由，事後可以改。（11-03 15:2x 照 check_handoff 格式改：原 kind「原話（使用者直接對 LAWWW2 說）」、status「照做（自主進行；已轉 LAWWW、AA、BB）」、task「全部」）",
    "wants": "X194"
+  },
+  {
+   "id": "UA-LAWWW2-1104-01",
+   "at": "2026-11-04T13:2x",
+   "kind": "轉述",
+   "status": "進行中",
+   "quote": "人物的頭髮真的太像泡麵了",
+   "src": "使用者直接對 CC-C 說（CC-C session_01S1Gk9V6WCgJmkoo3wxHxhv 13:16 轉述給 LAWWW2-C；CC 記在 user_asks_CC.json 的 UA-CC-1104-03）",
+   "note": "沒有指定是哪個角色。人物 3D 是 LAWWW2 的，角色美術驗收是 BB（D59）。先請 CC 排近景探針（local_out/HAIR_1104：主要人物四個角度、白天戶外和晚上室內、平常的跟隨鏡頭距離），看是貼圖條紋、髮束太細太捲還是高光；改法提案給 BB；D99 凍結期間要不要動，原因出來後和 LAWWW 確認",
+   "task": "HAIR-NOODLE-1104"
   }
  ]
 }
