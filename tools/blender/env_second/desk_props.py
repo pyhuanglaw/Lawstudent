@@ -63,6 +63,9 @@ SW = {   # 純色小格（sRGB）：(顏色, 粗糙度, 金屬度)
     'cup_white': ((241, 239, 233), 0.7, 0.0), 'lid_white': ((232, 232, 228), 0.45, 0.0),
     'th_sage': ((132, 160, 136), 0.6, 0.0), 'th_navy': ((46, 62, 98), 0.6, 0.0), 'th_cream': ((231, 222, 203), 0.6, 0.0),
     'rubber': ((36, 36, 39), 0.9, 0.0), 'case_navy': ((42, 54, 82), 0.95, 0.0), 'pen_blue': ((40, 72, 162), 0.45, 0.0), 'pen_white': ((240, 240, 236), 0.45, 0.0),
+    # SEAT-ACTIVITY-1104（LAWWW 11-04 07:44）：吃飯的店的碗盤
+    'porcelain': ((246, 244, 238), 0.22, 0.0), 'porc_blue': ((46, 78, 146), 0.25, 0.0), 'broth': ((168, 112, 58), 0.15, 0.0), 'noodle': ((232, 208, 150), 0.6, 0.0),
+    'scallion': ((92, 150, 62), 0.6, 0.0), 'pork': ((112, 62, 38), 0.5, 0.0), 'bamboo': ((196, 156, 98), 0.7, 0.0),
 }
 SW_CELL, SW_Y0 = 48, 802
 for i, k in enumerate(SW):
@@ -522,7 +525,7 @@ def lathe(pm, bands, n, caps=(), M=None):
         b = [sub.vid((r1 * math.cos(2 * math.pi * k / n), y1, r1 * math.sin(2 * math.pi * k / n))) for k in range(n + 1)]
         for k in range(n):
             ang = 2 * math.pi * (k + 0.5) / n
-            w = (math.cos(ang), 0, math.sin(ang)) if want == 'out' else ((0, 1, 0) if want == 'up' else (0, -1, 0))
+            w = (math.cos(ang), 0, math.sin(ang)) if want == 'out' else ((-math.cos(ang), 0, -math.sin(ang)) if want == 'in' else ((0, 1, 0) if want == 'up' else (0, -1, 0)))   # in：碗的內壁（朝向軸心）
             sub.face([a[k], a[k + 1], b[k + 1], b[k]], [fn(k / n, 0), fn((k + 1) / n, 0), fn((k + 1) / n, 1), fn(k / n, 1)], w)
     for (r, y, fn, want) in caps:
         sub.poly([(r * math.cos(2 * math.pi * k / n), y, r * math.sin(2 * math.pi * k / n)) for k in range(n)], lambda p, fn=fn: fn(p[0], p[2]), (0, 1, 0) if want == 'up' else (0, -1, 0))
@@ -646,6 +649,66 @@ def item_laptop(open_deg=110.0, lod=0):
 
 
 PH_W, PH_D, PH_H = 0.0715, 0.1465, 0.0078
+TB_W, TB_D, TB_H = 0.17, 0.25, 0.007   # 平板（SEAT-ACTIVITY-1104，LAWWW 11-04）：x 寬 0.17、z 長 0.25（+z＝頂端）、厚 7 mm
+
+
+def item_tablet(lod=0, two_sided=False):
+    """平板：螢幕朝 +y，頂端在 +z（離開坐的人）；螢幕畫面借筆電螢幕那一格（長寬比一樣 1.47，橫的畫面直著放＝看橫向的講義）；背面鋁、黑色側邊"""
+    pm = PM(); W, D, h = TB_W, TB_D, TB_H
+    top = lambda x, z: ruv('scr_laptop', (z + D / 2) / D, (x + W / 2) / W)   # 畫面的 u 沿著平板的長邊
+    back = lambda x, z: ruv('sw_alu', (x + W / 2) / W, (z + D / 2) / D)
+    if lod:
+        pm.poly([(-W / 2, h, -D / 2), (W / 2, h, -D / 2), (W / 2, h, D / 2), (-W / 2, h, D / 2)], lambda p: top(p[0], p[2]), (0, 1, 0))
+        if two_sided: pm.poly([(-W / 2, 0, -D / 2), (W / 2, 0, -D / 2), (W / 2, 0, D / 2), (-W / 2, 0, D / 2)], lambda p: back(p[0], p[2]), (0, -1, 0))
+        return pm
+    return prism(pm, W, D, 0.012, 3, 0, h, top, lambda s, t: ruv('sw_black_pl', s, t), back, cht=0.001, chb=0.0015)
+
+
+def item_bowl(lod=0, noodle=False):
+    """湯麵碗（白瓷、碗口一圈藍線）：口徑 16 cm、高 7.5 cm、碗底圈足；noodle＝裝了湯麵（湯面、麵、蔥、一片肉）"""
+    pm = PM(); n = 8 if lod else 18
+    w = lambda s, t: ruv('sw_porcelain', s, t); bl = lambda s, t: ruv('sw_porc_blue', s, t)
+    if lod:
+        lathe(pm, [(0.034, 0.0, 0.080, 0.075, w, 'out')], n, caps=[(0.034, 0.0, lambda x, z: w(0.5, 0.5), 'down')])
+    else:
+        lathe(pm, [(0.030, 0.0, 0.032, 0.008, w, 'out'), (0.032, 0.008, 0.036, 0.008, w, 'down'), (0.036, 0.008, 0.062, 0.030, w, 'out'), (0.062, 0.030, 0.077, 0.064, w, 'out'),
+                   (0.077, 0.064, 0.080, 0.071, bl, 'out'), (0.080, 0.071, 0.080, 0.075, w, 'out'), (0.080, 0.075, 0.076, 0.075, w, 'up'),
+                   (0.076, 0.075, 0.073, 0.066, w, 'in'), (0.073, 0.066, 0.058, 0.030, w, 'in'), (0.058, 0.030, 0.030, 0.012, w, 'in')], n,
+              caps=[(0.030, 0.0, lambda x, z: w(0.5, 0.5), 'down'), (0.030, 0.012, lambda x, z: w(0.5, 0.5), 'up')])
+    if noodle:
+        yb = 0.058; br = 0.070
+        lathe(pm, [], n, caps=[(br, yb, lambda x, z: ruv('sw_broth', (x / br + 1) / 2, (z / br + 1) / 2), 'up')])   # 湯面
+        if not lod:
+            import random as _r; rq = _r.Random(7)
+            for k in range(14):   # 麵：細長彎曲的麵條（寬 3.5 mm、浮在湯面上 1～3 mm），一條一條沿著弧線走，彎的方向、長短都不同
+                a = rq.uniform(0, 2 * math.pi); r0 = rq.uniform(0.006, 0.055); da = rq.uniform(0.5, 1.4) * rq.choice((-1, 1)); dr = rq.uniform(-0.02, 0.02)
+                pts = [((r0 + dr * t) * math.cos(a + da * t), yb + 0.0012 + 0.0015 * math.sin(t * 9 + k), (r0 + dr * t) * math.sin(a + da * t)) for t in [i / 10 for i in range(11)]]
+                for (p0, p1) in zip(pts, pts[1:]):
+                    dx, dz = p1[0] - p0[0], p1[2] - p0[2]; L_ = math.hypot(dx, dz) or 1e-6; nx, nz = -dz / L_ * 0.00175, dx / L_ * 0.00175
+                    pm.poly([(p0[0] - nx, p0[1], p0[2] - nz), (p1[0] - nx, p1[1], p1[2] - nz), (p1[0] + nx, p1[1], p1[2] + nz), (p0[0] + nx, p0[1], p0[2] + nz)], lambda p: ruv('sw_noodle', 0.5, 0.5), (0, 1, 0))
+            for (x_, z_) in ((0.02, -0.015), (-0.012, 0.02), (0.03, 0.025), (-0.03, -0.02), (0.005, 0.035)):   # 蔥花
+                box(pm, x_ - 0.0025, x_ + 0.0025, yb + 0.0015, yb + 0.0035, z_ - 0.0025, z_ + 0.0025, {'*': swq('scallion')}, faces='tfkrl')
+            lathe(pm, [(0.020, yb + 0.002, 0.019, yb + 0.006, lambda s, t: ruv('sw_pork', s, t), 'out')], 10, caps=[(0.019, yb + 0.006, lambda x, z: ruv('sw_pork', 0.5 + x * 8, 0.5 + z * 8), 'up')], M=T(-0.022, 0, -0.018) @ np.diag([1.0, 1.0, 0.7, 1.0]))   # 一片滷肉（橢圓、厚 4 mm）
+    return pm
+
+
+def item_plate(lod=0):
+    """小菜盤（白瓷、盤緣一圈藍線）：直徑 20 cm、高 2.2 cm"""
+    pm = PM(); n = 8 if lod else 20
+    w = lambda s, t: ruv('sw_porcelain', s, t); bl = lambda s, t: ruv('sw_porc_blue', s, t)
+    if lod:
+        return lathe(pm, [(0.060, 0.0, 0.100, 0.022, w, 'out')], n, caps=[(0.060, 0.0, lambda x, z: w(0.5, 0.5), 'down'), (0.100, 0.022, lambda x, z: w(0.5, 0.5), 'up')])
+    return lathe(pm, [(0.055, 0.0, 0.058, 0.006, w, 'out'), (0.058, 0.006, 0.098, 0.020, w, 'out'), (0.098, 0.020, 0.100, 0.022, bl, 'out'),
+                      (0.100, 0.022, 0.093, 0.022, bl, 'up'), (0.093, 0.022, 0.065, 0.010, w, 'in'), (0.065, 0.010, 0.0, 0.009, w, 'up')], n,
+                 caps=[(0.055, 0.0, lambda x, z: w(0.5, 0.5), 'down')])
+
+
+def item_chopsticks(lod=0):
+    """竹筷一雙：沿著 +z（尖端朝 +z），長 23 cm，平放"""
+    pm = PM()
+    for sx in (-0.008, 0.008):
+        box(pm, sx - 0.0035, sx + 0.0035, 0.0, 0.006, -0.115, 0.115, {'*': swq('bamboo')}, faces='tbfkrl' if not lod else 't')
+    return pm
 
 
 def item_phone(on=True, lod=0, two_sided=False):
@@ -783,6 +846,20 @@ def phone_in_hands(avg):
     return M @ T(0, -PH_H / 2, 0)     # 手機的網格 y 從 0 到 PH_H：中心移到 0
 
 
+def tablet_in_hands(avg):
+    """看平板：照滑手機的手（底緣靠在兩個手掌上、往臉斜），平板直著拿；比手機大，底緣往前 1 cm"""
+    pal = [(avg('phone', s + '_Hand') + avg('phone', s + '_Middle1')) / 2 for s in ('L', 'R')]
+    tips = [avg('phone', s + '_Middle3_tip') for s in ('L', 'R')]
+    c = (pal[0] + pal[1]) / 2; tip = (tips[0] + tips[1]) / 2
+    fwd = tip - c; fwd[1] = 0; fwd /= np.linalg.norm(fwd)
+    tilt = math.radians(38)
+    A = fwd * math.cos(tilt) + np.array([0, math.sin(tilt), 0])
+    head = avg('phone', 'Head'); Nn = head - c; Nn -= A * np.dot(Nn, A); Nn /= np.linalg.norm(Nn)
+    base = c + np.array([0, 0.016, 0]) + fwd * 0.014
+    center = base + A * (TB_D / 2) + Nn * (TB_H / 2)
+    return frame(center, Nn, A) @ T(0, -TB_H / 2, 0)
+
+
 def SETS(avg):
     """每一組：[(單件的名稱, 參數, 矩陣)]"""
     nb_y = nb_top_y(0.08)   # 打開的筆記本，右頁中間的紙面高度
@@ -798,6 +875,7 @@ def SETS(avg):
                       ('cup', {}, lay(-0.20, DESK_Y, 0.57, 0.0))]
     S['hold_phone'] = [('phone', {'on': True}, phone_in_hands(avg))]
     S['hold_pen'] = [('pen', {}, pen_in_hand(avg, DESK_Y + nb_y))]
+    S['hold_tablet'] = [('tablet', {}, tablet_in_hands(avg))]   # SEAT-ACTIVITY-1104：看平板（滑手機的姿勢）
     # ---- 自習雙人桌（桌面座標：原點在坐的人面前的桌緣，+z 往桌子裡面；一個人用 x −0.42～0.42、z 0～0.3）----
     S['tset_notes'] = [('notebook_open', {}, lay(0.055, 0, 0.121, 0.0)), ('pen', {}, lay_pen(-0.05, nb_y, 0.14, math.radians(-35))),   # 桌子中間有插座盒（x ±0.07、z 0.255–0.345）：筆記本不能超過 z 0.255（靠人那一邊凸出桌緣 1 cm）
                        ('pencil_case', {}, lay(0.33, 0, 0.17, math.radians(78))), ('cup', {}, lay(-0.30, 0, 0.21, 0.0))]
@@ -846,9 +924,11 @@ ITEMS = {   # 名稱 → (函式, 參數)
     'phone_on': (item_phone, {'on': True}), 'phone_off': (item_phone, {'on': False}),
     'pen': (item_pen, {}), 'highlighter': (item_highlighter, {}), 'highlighter_pink': (item_highlighter, {'pink': True}),
     'pencil_case': (item_pencil_case, {}), 'cup': (item_cup, {}), 'thermos_sage': (item_thermos, {'col': 'th_sage'}), 'thermos_navy': (item_thermos, {'col': 'th_navy'}),
+    'tablet': (item_tablet, {}), 'bowl': (item_bowl, {}), 'bowl_noodle': (item_bowl, {'noodle': True}), 'plate': (item_plate, {}), 'chopsticks': (item_chopsticks, {}),   # SEAT-ACTIVITY-1104
 }
+ITEM_LOD1 = {'tablet', 'bowl', 'bowl_noodle', 'plate', 'chopsticks'}   # 這幾個單件也有 _lod1（LAWWW 11-04：item_tablet 要 _lod1）
 FN = {'notebook_open': item_notebook_open, 'notebook_closed': item_notebook_closed, 'book_closed': item_book_closed, 'book_open': item_book_open,
-      'laptop': item_laptop, 'phone': item_phone, 'pen': item_pen, 'highlighter': item_highlighter, 'pencil_case': item_pencil_case, 'cup': item_cup, 'thermos': item_thermos}
+      'laptop': item_laptop, 'phone': item_phone, 'pen': item_pen, 'highlighter': item_highlighter, 'pencil_case': item_pencil_case, 'cup': item_cup, 'thermos': item_thermos, 'tablet': item_tablet}
 NO_LOD1 = {'pen', 'highlighter'}
 
 
@@ -857,7 +937,7 @@ def build_set(entries, lod):
     for name, kw, M in entries:
         if lod and name in NO_LOD1: continue
         kw = dict(kw)
-        if name == 'phone' and lod: kw['two_sided'] = True
+        if name in ('phone', 'tablet') and lod: kw['two_sided'] = True
         pm.add(FN[name](lod=lod, **kw), M)
     return pm
 
@@ -895,6 +975,10 @@ def build():
         if fn in (item_pen, item_highlighter): pm = PM().add(pm, lay_pen(0, 0, 0, 0, r=0.0052 if fn is item_pen else 0.0061))   # 單件的筆：平放在桌上，中心在原點
         to_blender(pm, 'item_' + name, mat, root)
         mn, mx = pm.bbox(); mods['item_' + name] = {'tris': pm.tris(), 'min': mn, 'max': mx}
+        if name in ITEM_LOD1:
+            kw1 = dict(kw); kw1['lod'] = 1
+            if fn is item_tablet: kw1['two_sided'] = True
+            pm1 = fn(**kw1); to_blender(pm1, 'item_' + name + '_lod1', mat, root); mn, mx = pm1.bbox(); mods['item_' + name + '_lod1'] = {'tris': pm1.tris(), 'min': mn, 'max': mx}
     for name, entries in S.items():
         for lod in (0, 1):
             pm = build_set(entries, lod)
@@ -911,7 +995,7 @@ def build():
         'tset_*': '自習雙人桌：坐的人正前方的桌緣、y=0＝桌面、+z＝往桌子裡面；一個人的範圍 x −0.42～0.42、z 0～0.3（對面的人用自己的那一組）',
         'rset_*': '圓桌（Ø1.0）：坐的人正前方的桌緣（離桌心 0.5）、y=0＝桌面、+z＝往桌心',
         'lset_*': '講堂：座位的地面中心（＝講堂椅、坐姿替身的原點），桌板 y 0.75、z 0.30–0.64；lset_write／lset_phone 配替身的抄筆記／滑手機',
-        'hold_*': '座位座標（和替身同一個矩陣）：hold_phone＝滑手機的手機；hold_pen＝抄筆記的筆（筆尖在座位座標 y≈0.754）',
+        'hold_*': '座位座標（和替身同一個矩陣）：hold_phone＝滑手機的手機；hold_pen＝抄筆記的筆（筆尖在座位座標 y≈0.754）；hold_tablet＝看平板（滑手機的姿勢、平板直著拿）',
     }
     info['placement_check'] = [' '.join(b) for b in bad] or 'ok'
     info['note'] = '一個材質 desk_props（底色 1024＋粗糙度／金屬度 256＋自發光 512：只有螢幕）；每個網格一個 InstancedMesh；_lod1 是遠處用的（筆、螢光筆省略）。GLB 裡的物件位置只是排開給人看'
