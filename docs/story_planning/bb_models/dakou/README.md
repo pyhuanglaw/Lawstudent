@@ -1,5 +1,7 @@
 # 大口漢堡（AA_621）兩層室內：BB 協助建模（2026-11-03）
 
+- **2026-11-04：子代理開工中（subagent working）**——v2：晚上的暖光、窗外夜景（正式 GLB 也有）、二樓每張桌子擺滿（instancing）、一樓照外觀圖，照 SCENE_RULES §12。
+
 - 使用者原話（經 AA）：「lawww2在忙 你和bb cc協助建模」。參考圖是使用者 11-03 給的 `docs/story_planning/ref_images/shops/dakou_2f.webp`（二樓學生自習區）、`dakou_ext.webp`（外觀，一樓看得到點餐櫃檯）。
 - **v1＝`READY_FOR_REVIEW`**：照 SCENE_RULES 第 10 節做的，還沒整合進遊戲、沒有遊戲內截圖。LAWWW2 驗收前不算完成。
   - 對照圖：`f1_v1_ref_vs_4views.jpg`（一樓：外觀參考圖＋門口、點餐機和樓梯、窗邊吧台、廚房）、`f2_v1_ref_vs_4views.jpg`（二樓：參考圖＋同角度、樓梯口、靠牆插座吧台、窗邊雙人桌）。
