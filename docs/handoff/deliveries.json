@@ -17277,8 +17277,8 @@
    "msg": "ACK",
    "what": "AA_687 回 LAWWW-C 21:27 七件（語彤期末飯邀約改字、18:00、小路旁白、邀約照心意邀約、淡水熱嗎、過年那幾天用平日那一組）；outbox 1f5e5de30",
    "task": "AA687-FIX4-1104",
-   "integration": "未整合",
-   "note": "LAWWW-C 21:4x 登記、派子代理"
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 21:4x 登記、派子代理；LAWWW-C 22:1x 合併 f1e29e311"
   },
   {
    "id": "DL-LAWWW2-38b779db6",
