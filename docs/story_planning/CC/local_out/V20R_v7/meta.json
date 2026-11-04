@@ -1,0 +1,26 @@
+{
+  "rerun": "",
+  "id": "V20R_v7",
+  "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+  "kind": "game",
+  "script": "tests/save_compat_v7.py",
+  "env": "SHA2=385e194;XARGS={url2} {url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T23:59:36",
+  "end": "2026-11-05T00:06:32",
+  "seconds": 415,
+  "exit": 1,
+  "error": null,
+  "runner": "818ef52815",
+  "rf_round": "6",
+  "url": "http://127.0.0.1:8801/index.html",
+  "url2": "http://127.0.0.1:8803/index.html",
+  "sha2": "385e194",
+  "headless_forced": true,
+  "res_peak": {
+    "cpu": 51,
+    "mem": 58,
+    "used_gb": 18.1,
+    "chrome_testing": 15
+  }
+}
