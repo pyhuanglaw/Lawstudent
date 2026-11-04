@@ -1,0 +1,31 @@
+{
+  "rerun": "",
+  "id": "TT_V8_par_a",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_parallel.py",
+  "env": "CC_AUTORETRY=1;ST_PAGE=game",
+  "machine": "MSI",
+  "start": "2026-11-04T21:05:01",
+  "end": "2026-11-04T21:06:23",
+  "seconds": 82,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 34,
+    "mem": 49,
+    "used_gb": 15.2,
+    "chrome_testing": 26
+  },
+  "final": "FAIL",
+  "class": "UNKNOWN/assert",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 1 行（TT_V8_par_a 故意 FAIL），兩次一致；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ]
+}

@@ -1,0 +1,4 @@
+[cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V8_par_a\attempt2\trace
+[gpu_wrap 1.3s] headed slot 2: --window-position=1840,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V8_par_a]
+[gpu_wrap 32.6s] page close url=http://127.0.0.1:8801/index.html
+[gpu_wrap 32.7s] BROWSER DISCONNECTED
