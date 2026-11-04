@@ -1,0 +1,58 @@
+[14:04:37] run_forever round: - (not started by run_forever)   runner sha256: fee63a3724
+[14:04:37] python : /usr/local/bin/python3 (3.13.18)
+[14:04:37]          playwright 1.63.0 OK
+[14:04:37] git    : git version 2.43.0
+[14:04:37] node   : /opt/node22/bin/node  v22.23.4
+[14:04:37] blender: not found (blender items will fail; set CC_BLENDER)
+[14:04:37] repo   : /home/user/pyhuanglaw/lawstudent
+[14:04:37] work   : /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rq_work  (branch claude/cc-local, no push)
+[14:04:37] parallel: 1  (blender items run alone)
+[14:04:37] browser: headless (no window)
+[14:04:37] git fetch
+    From https://github.com/pyhuanglaw/lawstudent
+     * branch                claude/cc-testing -> FETCH_HEAD
+     * branch                claude/confident-ritchie-8rwh7t -> FETCH_HEAD
+    From https://github.com/pyhuanglaw/lawstudent
+     * branch                claude/second-ai-env-art -> FETCH_HEAD
+    Already on 'claude/cc-local'
+    Your branch and 'origin/claude/cc-local' have diverged,
+    and have 5 and 3 different commits each, respectively.
+      (use "git pull" if you want to integrate the remote branch with yours)
+    Auto-merging docs/story_planning/CC/local_out/_console/console.log
+    CONFLICT (content): Merge conflict in docs/story_planning/CC/local_out/_console/console.log
+    Auto-merging docs/story_planning/CC/local_out/summary.md
+    CONFLICT (content): Merge conflict in docs/story_planning/CC/local_out/summary.md
+    Automatic merge failed; fix conflicts and then commit the result.
+[14:04:40] local claude/cc-local could not be merged - rebuilding it from origin (old behaviour)
+    Reset branch 'claude/cc-local'
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+    Your branch is up to date with 'origin/claude/cc-local'.
+    Merge made by the 'ort' strategy.
+     docs/story_planning/test_tools/cc/cc_cvs24_probe.py  |  2 +-
+     docs/story_planning/test_tools/cc/cc_gg_int_probe.py |  2 +-
+     tools/cc_local/probe_lint.py                         | 14 ++++++++++++--
+     tools/cc_local/queue.txt                             |  3 +++
+     4 files changed, 17 insertions(+), 4 deletions(-)
+[14:04:40] dev head = 28f5f5287   lawww2 head = 5f85444cd
+[14:04:40] config.txt: PARALLEL 1 -> 3
+[14:04:40] memory used: 5%  (new items wait while >= 85%)
+[14:04:40] queue: TT_E2E_chunk2
+[14:04:40] memory 5% before starting TT_E2E_chunk2 (0 running)
+[14:04:40] ==== START TT_E2E_chunk2  (probe @ d2e36f6eb) ====
+[14:04:41] [res] cpu=0% mem=5% (0.9/15.7 GB) chrome_testing=0  START TT_E2E_chunk2
+[14:07:17] AUTORETRY TT_E2E_chunk2: first run exit 1 - rerun once with trace (whole probe)
+[14:09:40] 正在跑：TT_E2E_chunk2（已跑 4 分／上限 15 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:11:09] [res] cpu=0% mem=5% (0.8/15.7 GB) chrome_testing=0  END TT_E2E_chunk2
+[14:11:11] AUTORETRY TT_E2E_chunk2: final FAIL  class UNKNOWN/assert
+[14:11:11] ==== END   TT_E2E_chunk2  exit=1  389s   ====
+[14:11:12] run_queue.py has a new version - restart (exit 75) after the running item(s) finish; while long items (>=120 min) run, free slots still take short items
+
+===== SUMMARY =====
+ran 1 item(s), skipped 0 already done
+TT_E2E_chunk2  sha=d2e36f6eb  exit=1  389s    == C / FAIL CASE C 結束  自測：C 故意 FAIL / FAILED 1: CASE C 結束
+    err.log (last 5): [cc_trace 0.0s] CC_TRACE on: <REPO>/docs/story_planning/CC/local_out/TT_E2E_chunk2/attempt2/trace | [gpu_wrap 228.3s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 228.3s] BROWSER DISCONNECTED
+    autoretry: final FAIL  class UNKNOWN/assert  exit2 1
+Results: /tmp/claude-0/-home-user/bf9567b3-8550-59a7-85d5-19c7b8aa16e5/scratchpad/rq_work/docs/story_planning/CC/local_out  (not pushed: --no-push)
+run_queue.py was updated - exit 75 so run_forever.ps1 restarts the new version now
+[14:11:12] 正在換新版，馬上會自己重新開始——請不要關 (restarting with the new version - please do not close)
+EXIT 75
