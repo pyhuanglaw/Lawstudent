@@ -46366,6 +46366,78 @@
    },
    "next": "【LAWWW-C 11-04 20:2x】合併 a2de8c84e（子代理 aa685-1104 ab8f7610f；含 C 節 91f240e50「海風與燈」）；tests/aa685_canon_fix2_unit.js 56 項修改前 FAILED 37、修改後 ALL PASS；子代理全套 989 支全過；合併後相關 17 支 0 失敗。要 AA 定的 5 件已傳；BB 測｜【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）",
    "sha": "ab8f7610f"
+  },
+  {
+   "id": "AA686-FIX3-1104",
+   "title": "AA_686（回 AA_685 接線五件）：語彤期末飯改週六 17:30 溫州街小路；平日旅行訊息補三則、平日玩家回覆兩句、烏龍照片只在週末、傳的時間週末 22:30 平日 21:30；茶屋過年開門日每年照算（2027＝初五）；D14「海風與燈」改從源檔匯入（白名單換新版、拿掉 EXTRA）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上期末起（語彤）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 20:17（企劃線 1df3c189e；outbox 2c98673f4；D109）",
+   "authorized": "D109",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_686（企劃線 1df3c189e）",
+    "acceptance": "照稿逐字；BB 測",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 11-04 20:2x】和 TE-HEART-AVOID-1104 同一個子代理做（都改 termend）"
+  },
+  {
+   "id": "TE-HEART-AVOID-1104",
+   "title": "TE-HEART-EXEMPT 後續（BB-C 20:17）：還沒回的一般期末邀約排日子時避開語彤那一頓那一整晚；找不到別的晚上才照字面互斥並 console.info；玩家先接了同一個週六時間不重疊的一般邀約＝兩頓都留",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "週四考完的學期（大一上、大二上、大三上、大三下）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 20:17：「改成避開：還沒回的一般邀約排日子時，避開語彤那一頓那一整晚……只有找不到別的晚上才照字面互斥、自動婉拒；這種情況請記一筆 console.info」",
+   "authorized": "BB 判定（條件歸 BB）",
+   "notWaitUser": "BB 已定做法",
+   "next": "【LAWWW-C 11-04 20:2x】派子代理（和 AA686-FIX3-1104 一起）；好了給 BB SHA，CC 重跑 AA684_walk＋週四考完三個邀約都接得到"
+  },
+  {
+   "id": "TE-PLAYER-MEAL-OVERLAP-1104",
+   "title": "玩家自己約的吃飯和語彤告白晚餐撞時間：邀約系統本來就不擋和出遊重疊的時間（BB-C 20:17 第 6 點：這次不改，記一筆 P3）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "期末時段",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 11-04 20:17 第 6 點",
+   "authorized": "BB 判定",
+   "notWaitUser": "BB 已定這次不改",
+   "next": "之後做邀約系統時：玩家自己約的時間和已排的出遊重疊要擋或提醒"
   }
  ]
 }
