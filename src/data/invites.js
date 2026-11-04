@@ -507,3 +507,8 @@ INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:
     classmate_peishan:'「好！我想吃那個布丁。」',kexin:'「好啊。我想吃巴斯克。」',zhe:'「那裡我講話會被瞪吧。……好啦。」',classmate_bohan:'「好，讀書。」',classmate_mingxuan:'「好。我帶筆電去。」'};
   INVITE_DATA.mokuyobiAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).mokuyobi=[ACC[id]]; } })();
+/* ---------- 日常失速（溫州街轉角；AA_617 第 3 節，使用者 11-03「日常失速是吃飯打屁桌遊」）當邀約地點 ----------
+   吃飯那一類（meal：和公館燒臘同一把尺——有點熟以上；兩個人單獨吃飯的規則照舊）；AA_617「兩個人、一群人都可以」：這裡的邀約是一對一，群約另外（桌遊夜 src/bgnight3d.js、聚餐的群組）。
+   每天 13:00～01:00（約的時間照一般 23:30 前結束）、颱風天關（places.js）；自己走去過一次才列（show）。見面兩個人一起坐下；台詞：AA_618 沒有寫約來的句子＝邀約一般的答應、見面旁白 */
+INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb:'去日常失速吃東西',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal','sit'],
+  hours:[13,24],show:G=>!!G&&!!G.visited&&!!G.visited.wz_offbeat});
