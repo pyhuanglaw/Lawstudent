@@ -719,6 +719,7 @@ const CHAR = (function(){
   C._taskDevCache=TDEV;   /* 測試用 */
   function taskDev(h,u,c,urgent){ const D=u.taskDev||(u.taskDev={}); if(D[c.name]!==undefined) return D[c.name];   /* 量過了（量不出來的記 false，不再量）*/
     const key=(u.key||'?')+'|'+(+u.k||1).toFixed(4)+'|'+c.name; if(TDEV.has(key)) return (D[c.name]=TDEV.get(key));
+    if(u.anim&&!u.anim.static&&u.anim.cur) return null;   /* 正在播站著、走路的片段（骨盆被動畫轉過）：量出來不準，等坐下（靜態坐姿，或還沒動過）再量——結果整個模型共用，不能量錯 */
     const now=prbNow(); if(now-PRB.t0>20){ PRB.t0=now; PRB.n=0; } if(!urgent&&PRB.n>=C.SIT_TASK.probesPer) return null; PRB.n++;
     const R=ambRig(u), H=u.vrm&&u.vrm.humanoid; if(!R.order.length||!H) return null; const n=R.order.length;
     const raw=[]; for(const b in VRM_BONE){ const o=H.getRawBoneNode(VRM_BONE[b]); if(o) raw.push(o); }

@@ -8,10 +8,10 @@
 //   C  配件：寫字＝右手骨頭上的 hand_pen（位置 0、不轉、看得到，筆尖在筆記本上）、滑手機＝hand_phone（眼睛看著它）；一次只開一個；桌上那支筆藏起來
 //      （自習桌 tset_notes：近的換成拆開的單件、沒有筆；遠的照用 _lod1）；不做了（?nositask／拿掉）＝手上的藏、桌上的放回來；起身＝配件藏、那一組拿掉；換區域＝全部拿掉
 //   D  照舊（沒有片段）：吧台的高腳椅、矮桌、太高的桌子（0.85 m）、太遠的桌子（桌緣 0.60 m）、有名字的人、聊天、手上捧書
-//   E  桌緣比參考遠（0.42 m）：人往前坐 12 cm；E2 桌子 0.77 m：往上坐 1.5 cm，筆照樣在紙上、手和桌緣的相對位置跟參考一樣（≤ 1 cm）
+//   E  桌緣比參考遠（0.42 m）：人往前坐 12 cm、手和桌緣的相對位置跟參考一樣（≤ 1 cm）；E2 桌子 0.77 m：往上坐 1.5 cm，筆照樣在紙上
 //   F  載不到：片段的 GLB 不見＝不報錯、和沒有這個功能一模一樣（骨頭的四元數分量）；載入失敗以後 30 秒內不再下載；配件的 GLB 不見＝要拿東西的（寫字、滑手機）照舊、打字照樣
 //   G  不留垃圾：每一格不會一直加配件；C.release 把配件從骨頭拿下來（VRM 的第一個實例會被下一個人重用）；CHAR.upgrade（換模型）接著做
-//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm5）照舊、差一點的往上下坐補（nm1 打字可以、寫字不行）；一次量的人數有上限、同一個模型共用、滑手機不排隊
+//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm5）照舊、差一點的往上下坐補（nm1 打字可以、寫字不行）；一次量的人數有上限、同一個模型共用、滑手機不排隊、走路的時候不量
 //   H  C.SIT_TASK.WIN（桌緣的範圍）和量到的一樣：前臂在桌面上的那一段離桌面不到 1.5 cm 的地方不能在桌子上（女生不比參考的桌子更糟）、放在桌上的手腕往前 3 cm 在桌上、男生打字的指尖不過筆電的鉸鏈
 // 修改前（開發分支 060f12491）：沒有 manifest、沒有 CHAR.sitTaskFit：A～H 幾乎全部 FAIL。用法：node tests/sit_task_wire_unit.js
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
@@ -134,7 +134,12 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* �
     const a1=!!CHAR.sitTaskFit(g1,'type',D), a2=!!CHAR.sitTaskFit(g2,'type',D), a3=!!CHAR.sitTaskFit(g3,'type',D), a4=!!CHAR.sitTaskFit(g4,'phone',D,true); await sleep(25); const a5=!!CHAR.sitTaskFit(g2,'type',D);
     CHAR.SIT_TASK.probesPer=P0;
     check('D2 一次量的人數有上限（probesPer＝1：第一個量、別的模型等下一次）、同一個模型量過就共用（不用再量）、滑手機（urgent）不排隊',a1&&!a2&&a3&&a4&&a5,'第一個 '+a1+'、別的模型 '+a2+'、同模型 '+a3+'、urgent '+a4+'、過 25 ms '+a5);
-    for(const o of [h,g1,g2,g3,g4]){ scene.remove(o); CHAR.release(o); } }
+    for(const o of [h,g1,g2,g3,g4]){ scene.remove(o); CHAR.release(o); }
+    /* 站著、正在播走路／站著的動畫（骨盆被動畫轉過）＝不量（量錯會整個模型共用）；坐下以後才量 */
+    CHAR._taskDevCache.clear(); const w=mkNPC('char.npc_nf2',{x:11,z:0,yaw:0,lv:0},{pose:'idle'}).obj; for(let i=0;i<5;i++) CHAR.animate(w,DT,{pose:'walk',speed:1.2});
+    const w1=CHAR.sitTaskFit(w,'type',{h:0.75,edge:0.30,depth:0.3},true), wc=CHAR._taskDevCache.size; for(let i=0;i<3;i++) CHAR.animate(w,DT,{pose:'sit',speed:0}); const w2=CHAR.sitTaskFit(w,'type',{h:0.75,edge:0.30,depth:0.3},true);
+    check('D2 走路、站著的時候不量骨架（不存進整個模型共用的結果）；坐下以後才量',!w1&&wc===0&&!!w2&&CHAR._taskDevCache.size===1,'走路 '+!!w1+'（共用 '+wc+'）、坐下 '+!!w2);
+    scene.remove(w); CHAR.release(w); }
   /* ---------- E：桌緣比參考遠：往前坐 ---------- */
   { const Z=mkZone([{act:'laptop',top:0.75,edge:0.30},{act:'laptop',top:0.75,edge:0.42}]); const npcs=Z.zone.seats.map(st=>mkNPC('char.npc_m1',st)); const GM=mkGM(Z,npcs); await run(GM,120);
     const [a,b]=npcs, ta=CHAR.sitTaskOf(a.obj), tb=CHAR.sitTaskOf(b.obj);
