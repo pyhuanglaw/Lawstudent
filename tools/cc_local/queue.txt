@@ -31,6 +31,11 @@ GG_night_typhoon | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gg_c
 # GG_night_fix：LAWWW 3424d8e66 打烊調暗修正；舊版 3dce31a93 已 FAIL（22/14≈0.8–1.4）
 GG_night_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
 GG_night_typhoon_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 15 | HOURS=14;DATEKEY=2025-10-13;CC_HEADLESS=0
+# GG_npc_main（BB 11-04 06:47）：路人在場的 calls／tris（探針的 calls_live／tris_live）＋路人數；線上 main b0c3032af 對開發分支 3424d8e66，交錯各 2 次
+GG_npc_main_M1 | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcM1;RERUN=npc1;CC_HEADLESS=0
+GG_npc_main_D1 | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcD1;RERUN=npc1;CC_HEADLESS=0
+GG_npc_main_M2 | b0c3032af | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcM2;RERUN=npc2;CC_HEADLESS=0
+GG_npc_main_D2 | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 15 | RUN=npcD2;RERUN=npc2;CC_HEADLESS=0
 GATE_out2 | 3dce31a93 | probe | docs/story_planning/test_tools/cc/cc_gate_probe.py | index.html | 15 | CASES=shot;GATE_VIEWS=out;CC_HEADLESS=0
 GG_ext_glb4 | 3dce31a93 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 NOODLE_exit | 809163ee4 | probe | docs/story_planning/test_tools/cc/cc_noodle_exit_probe.py | index.html | 15 | CC_HEADLESS=0
@@ -176,6 +181,13 @@ WZ2_n_wz_teahouse_seats | 7fbf558c9 | node | tests/wz_teahouse_seats_unit.js | i
 WZ2_n_wz_work_spots | 7fbf558c9 | node | tests/wz_work_spots_unit.js | index.html | 5 | 
 WZ2_n_singleside_streets | 7fbf558c9 | node | tests/singleside_streets_unit.js | index.html | 5 | 
 WZ2_n_street_props_nav | 7fbf558c9 | node | tests/street_props_nav_unit.js | index.html | 5 | 
+# ===== WZ_RENAME（BB 11-04 06:45；AA_655＋AA_658 改名，3424d8e66＝e8c657891 以後的 HEAD；Node 單元雲端 ALL PASS）=====
+WZ_RENAME_U | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=U;CC_HEADLESS=0
+WZ_RENAME_T | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=T;CC_HEADLESS=0
+WZ_RENAME_BC | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=B,C;CC_HEADLESS=0
+WZ_RENAME_X | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 60 | CASES=X;CC_HEADLESS=0
+# 舊存檔：改名前 47909c659 真的點東西存檔（out/oldsave.json）→ CC 收進 fixtures 再排 WZ_RENAME_OL
+WZ_RENAME_MK | 47909c659 | probe | docs/story_planning/test_tools/cc/cc_wz_rename_probe.py | index.html | 40 | CASES=MK;CC_HEADLESS=0
 # ===== STUDY_fix（BB 02:16；X207＋風險 2/3/4/6＋作罷；HEAD b85e1afc1 含 909c729a6；對照 c2232eb6c）=====
 STUDY_fix_a | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 200 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_x207,study_f3,study_reload_lead,study_phone_reload;ROSTER=0;CC_HEADLESS=0
 STUDY_fix_b | 03713452b | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 180 | CASES=heroine_01,heroine_03,classmate_bohan;STEPS=study_r2,study_r3,study_r4,study_r6;ROSTER=0;CC_HEADLESS=0
