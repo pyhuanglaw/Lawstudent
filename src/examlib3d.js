@@ -177,6 +177,17 @@ const EXLIB=(function(){
     ids.sort((a,b)=>hash('excap|'+G.day+'|'+a)-hash('excap|'+G.day+'|'+b)); return ids.indexOf(id)<3; };
   /* 經濟系那一年：三位朋友在這一段沒有作息＝平日給一段讀書的時間（LAWWW 暫定；作息歸 BB）*/
   S.Y0_SLOTS={econ_pinyu:[8,14],econ_zhengxun:[8,17],econ_weilun:[8,12]};
+  /* 這一段多給的讀書時段（BB_260 第 1 節，BB-C 11-04 17:3x；使用者 16:1x「會看到很多同學在唸書不一定有約」）：只填原本的空檔——作息這個時間沒有東西，或只是在校園裡晃（wander）、走路（walk）；
+     上課、考試、打工、劇情、約好的事照舊優先（S.special、act 不是 wander／walk 的都不動）。wd：0＝週日…6＝週六。since：從哪一學期起（明軒：大二以後）。地方照 AA_669 表上的那一間（S.cast 的 place）
+     子晴「有插座的那一排」：總圖大廳二樓的配置沒有標插座，位子照 spotSeat（人＋區域當種子）*/
+  S.EXTRA={heroine_04:[{wd:[1,3,5],from:13,to:17.5},{wd:[6],from:10,to:15}],   /* 子晴：二、四照原本的作息（系館）*/
+    zhe:[{wd:[1,2,3,4],from:10+40/60,to:16.5},{wd:[0],from:13,to:18}],   /* 阿哲：五不去（「我明天睡到中午」）*/
+    yu:[{wd:[1,2,4,5],from:11,to:17}],   /* Alison：三不去（「明天早上我起不來」）*/
+    classmate_mingxuan:[{wd:[1,2,3,4],from:13,to:19,since:'Y2S1'}] };   /* 明軒：五不去（「明天我在宿舍讀」）*/
+  S.FILL_ACTS=['wander','walk'];
+  S.extraSlot=function(G,id,day,h){ const L=S.EXTRA[id]; if(!L||econ(G)||typeof CALENDAR==='undefined') return null; const wd=CALENDAR.dateOf(day).wd%7, t=termOf(G,day);
+    for(const X of L){ if(!X.wd.includes(wd)||h<X.from||h>=X.to) continue; if(X.since&&(!t||String(t.id)<X.since)) continue; return X; } return null; };
+  S.fillable=b=>!b||(S.FILL_ACTS.includes(b.act)&&!S.special(b));
   const entMemo=new Map();
   const entry=(G,id,z,from,to,seat,src)=>{ const k=[id,G.day|0,z,from,to,seat?skey(seat):'-',src].join('|'); let e=entMemo.get(k); if(!e){ if(entMemo.size>200) entMemo.clear();
       e={days:[G.weekday],from,to,zone:z,act:'read',exlib:src,noPair:true}; if(seat) e.seatAt=[seat.x,seat.z,seat.lv|0]; entMemo.set(k,e); } return e; };
@@ -192,6 +203,7 @@ const EXLIB=(function(){
     const H=R&&R.hold; if(H&&H.who===id&&H.day===day&&h>=H.from&&h<H.stay&&S.isOpen(H.zone,day,h)) return entry(G,id,H.zone,H.from,H.stay,loadedSeat(H.zone,id),'4-1');
     const z=S.zoneOf(P.place); if(!z||!S.isOpen(z,day,h)) return null;
     const b=S.base(c,G);
+    if(S.fillable(b)){ const X=S.extraSlot(G,id,day,h); if(X&&S.capOk(G,id,z)){ const o=Math.max(X.from,S.openH(z,day)||X.from); if(h>=o) return entry(G,id,z,o,Math.min(X.to,S.closeH(z,day,h)),loadedSeat(z,id),'bb260'); } }   /* BB_260：多給的讀書時段（只填空檔）*/
     if(!b){ const Y=econ(G)&&S.Y0_SLOTS[id]; if(!Y||weekendDay(day)) return null; const o=Math.max(Y[0],S.openH(z,day)||Y[0]); if(h<o||h>=Y[1]) return null; return entry(G,id,z,o,Math.min(Y[1],S.closeH(z,day,h)),loadedSeat(z,id),'y0'); }
     if(b.act!=='read'||b.zone==null||b.zone===z||!S.STUDY_FROM.includes(b.zone)||S.special(b)) return null;
     if(!S.capOk(G,id,z)) return null;

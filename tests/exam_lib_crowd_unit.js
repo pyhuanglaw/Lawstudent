@@ -14,6 +14,7 @@
 //   8  第 5 節經濟系那一年：人換成品妤、阿勳、韋綸（法律系的人不說）；他們平日有讀書的時間；手機的話題不出（經濟系那一年還沒有私訊、休學以後不約去台大）
 //   9  不扣關係、不改成績：沒到、沒占到、沒去都只發那一則（SOCIAL.adjust 沒有負的、關係數值沒有下降、考試紀錄不變）
 //   10 舊存檔：沒有 G.exlib、壞掉的、JSON 存讀
+//   11 BB_260 多給的讀書時段（子晴、阿哲、Alison、明軒大二以後；只填空檔、上課吃飯照舊）——修改前（8215f8d53）FAIL
 // 修改前（開發分支 1f7283aee，git archive 那一版、把這支測試放進去真的跑過）：FAILED 13——index.html 沒有載入、沒有 EXLIB／EXAMLIB_LINES（第 0 節三項、第 1～10 節每一節都 FAIL）；
 //   修改後：ALL PASS。用法：node tests/exam_lib_crowd_unit.js（第 0 節用 git show 讀 AA 的稿；讀不到先 git fetch origin claude/magical-albattani-bk7b4n）
 require('./alison.js');
@@ -396,6 +397,37 @@ await sec('10',async()=>{
   G.exlib='壞掉的'; const R2=EXLIB.rec(G); G.exlib.hold={who:'x'}; const R3=EXLIB.rec(G);
   check('10. 壞掉的欄位重設（不丟例外）',R2&&R2.v===1&&R3.hold===null);
   G.exlib.said={Y1S1:{heroine_01:2}}; const back=JSON.parse(J(G)); check('10. JSON 存讀',J(back.exlib)===J(G.exlib));
+});
+
+/* ======================= 11 BB_260 多給的讀書時段（BB-C 11-04 17:3x，企劃線 BB 分支 e814965c2）======================= */
+/* 只填空檔（作息沒有東西、或只是 wander／walk）；上課、吃飯（劇情、約好的）照舊；子晴一三五 13～17:30、六 10～15（總圖大廳二樓）；阿哲一～四 10:40～16:30、日 13～18（B1）；
+   Alison 一二四五 11～17（B1）；明軒大二以後一～四 13～19（A館 4F）；第 13 週、期末考考完以後沒有。修改前（8215f8d53）：子晴、阿哲、Alison、明軒的空檔都是 null＝FAIL */
+await sec('11',async()=>{
+  fresh('2025-12-01',10); const G=H.G;
+  const at=(id,k,h)=>{ setT(k,h); const e=STORY.schedEnt(CHARACTERS[id],G); return e?(e.zone+(e.exlib?'/'+e.exlib:'')+(e.act&&e.act!=='read'?'/'+e.act:'')):'null'; };
+  const want=(name,id,k,h,exp)=>{ const r=at(id,k,h); check('11. '+name+'：'+exp,typeof exp==='function'?exp(r):r===exp,r); };
+  want('子晴 第 14 週一 13:30＝總圖大廳二樓','heroine_04','2025-12-01',13.5,'library_hall/bb260');
+  want('子晴 週三 17:00','heroine_04','2025-12-03',17,'library_hall/bb260');
+  want('子晴 週二 13:30 照原本（沒有加）','heroine_04','2025-12-02',13.5,'null');
+  want('子晴 週六 10:30','heroine_04','2025-12-06',10.5,'library_hall/bb260');
+  want('子晴 週一 18:00（時段外）','heroine_04','2025-12-01',18,'null');
+  want('子晴 第 13 週一 13:30 沒有','heroine_04','2025-11-24',13.5,'null');
+  want('阿哲 週一 11:00 上課照舊','zhe','2025-12-01',11,r=>/^classroom/.test(r)&&!/bb260/.test(r));
+  want('阿哲 週一 14:00＝B1','zhe','2025-12-01',14,'library_b1/bb260');
+  want('阿哲 週一 16:00（原本在校園晃）＝B1','zhe','2025-12-01',16,'library_b1/bb260');
+  want('阿哲 週五 14:00 不去','zhe','2025-12-05',14,'null');
+  want('阿哲 週日 13:30＝B1','zhe','2025-12-07',13.5,'library_b1/bb260');
+  want('阿哲 週日 12:00 吃飯照舊','zhe','2025-12-07',12,r=>/\/eat$/.test(r));
+  want('Alison 週一 15:00＝B1','yu','2025-12-01',15,'library_b1/bb260');
+  want('Alison 週三 15:00 不去','yu','2025-12-03',15,'null');
+  want('Alison 週一 11:00 上課照舊','yu','2025-12-01',11,r=>!/bb260/.test(r));
+  want('明軒 大二上第 14 週一 13:30＝A館 4F','classmate_mingxuan','2026-12-07',13.5,'linze_4f/bb260');
+  want('明軒 大二 週一 18:00（原本在 118 巷走路）＝A館 4F','classmate_mingxuan','2026-12-07',18,'linze_4f/bb260');
+  want('明軒 大二 週五 14:00 不去','classmate_mingxuan','2026-12-11',14,'null');
+  want('明軒 大一 週一 13:30 不加（大二以後）','classmate_mingxuan','2025-12-01',13.5,'null');
+  const end=(()=>{ for(let d=DK('2025-12-15');d<DK('2026-01-20');d++){ setT(d,13.5); if(!EXLIB.on(G,d,13.5)&&CALENDAR.dateOf(d).wd===1) return d; } return null; })();
+  check('11. 期末考考完以後的週一 13:30：子晴沒有',end!=null&&at('heroine_04',end,13.5)!=='library_hall/bb260',String(end));
+  check('11. 經濟系那一年不用這張表（S.EXTRA 只給法律系）',(()=>{ const st=G.stage; G.stage='econ'; const r=EXLIB.extraSlot(G,'zhe',DK('2025-12-01'),14); G.stage=st; return r===null; })());
 });
 
 H.done(); })();
