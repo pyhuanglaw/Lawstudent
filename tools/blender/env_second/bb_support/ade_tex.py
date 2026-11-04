@@ -261,6 +261,7 @@ def copier_front(kind):
             d.rectangle([4, y0 + 3, w - 4, y1 - 3], fill=rgb('#f2f2f0'), outline=rgb('#b8bab8'), width=2)
             d.rounded_rectangle([w * 0.35, y0 + (y1 - y0) * 0.3, w * 0.65, y0 + (y1 - y0) * 0.45], radius=4, fill=rgb('#3a3c40'))
             d.rectangle([w * 0.8, y0 + (y1 - y0) * 0.3, w * 0.9, y0 + (y1 - y0) * 0.6], fill=rgb('#9aa0a8')); d.text((10, y0 + (y1 - y0) * 0.5), str(k + 1), font=font((y1 - y0) * 0.22), fill=rgb('#8a8e96'), anchor='lm')
+        if kind == 'self': d.rectangle([4, h - (h - top) / n + 3, w - 4, h - 3], fill=rgb('#3c3f44'))   # 最下面一格深灰（參考圖）
         if kind == 'self': d.rectangle([w * 0.06, top + 6, w * 0.3, top + 6 + h * 0.07], fill=rgb('#2b56a8')); text_c(d, (w * 0.18, top + 6 + h * 0.035), '自助', font(h * 0.045), rgb(WHITE))
     return f
 
