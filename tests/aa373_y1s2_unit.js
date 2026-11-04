@@ -115,7 +115,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
       G.hour=20.9; TERMEND.phone(GM); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.tag==='te_'+term+'_heroine_03'); return m?m.text:null; };
     const f=inv('Y1S2','friend'), h=inv('Y1S2','heart');
     check('7／BB-5. 語彤大一下期末邀約（一般）：「考完了。禮拜五，要吃飯嗎。」',f==='考完了。禮拜五，要吃飯嗎。',f);
-    check('7／BB-5. 語彤大一下期末邀約（心意）：「禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。」',h==='禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。',h);
+    check('7／BB-5. 語彤大一下期末邀約（心意）：AA_661 第 72 列（使用者 11-04 選）「禮拜六我上班到五點。下班以後，你要不要來店裡？」（原本「禮拜五晚上我有空。……店裡打烊以後，我煮。只有我們。」）',h==='禮拜六我上班到五點。下班以後，你要不要來店裡？',h);
     check('7. 對照：大二上照舊「禮拜四」（一般、心意）',inv('Y2S1','friend')==='考完了。禮拜六，秀琴姨說要煮火鍋。'&&inv('Y2S1','heart')==='禮拜六我沒排班。……茶屋打烊以後，我泡茶。只有我們。');
     const w=TERMEND.windowOf('Y1S2'); fresh(w.from,20,'dorm',{}); const dd=TERMEND.dinnerDay(G,w,{h:19,wd:4},'heroine_03');
     check('7. 對照：大一下語彤的飯在 6/19（五）（6/18 雙主修筆試）',K(dd)==='2026-06-19',K(dd)); }
@@ -216,7 +216,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const S6=LADDER.byTerm.Y1S2.heroine_05.steps.find(s=>s.id==='S2-L6'), fl=S6&&(S6.linesIf||[]).find(x=>x.if&&J(x.if).includes('ev_sis_empty_flask'));
     check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：整層刪了（AA_584 第 11 節第 6 點，空保溫瓶這條線拿掉）',!S6&&!fl,fl&&fl.lines[0]);
     const h2=TERMEND.heart('heroine_03','Y1S2'), h3=TERMEND.heart('heroine_03','Y2S1');
-    check('第 6-2 節第 7 題. 語彤大一下心意第二次：「禮拜五。打烊以後。……你上次說要想，想好了嗎。」（對照：大二上照舊「禮拜四」）',!!h2&&h2.invite2==='禮拜五。打烊以後。……你上次說要想，想好了嗎。'&&!!h3&&h3.invite2==='禮拜四。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
+    check('第 6-2 節第 7 題. 語彤大一下心意第二次：AA_661 第 72 列換成「我會在吧檯收杯子。你到了敲門。」（原本「禮拜五。打烊以後。……」；對照：大二上 AA_661 第 71 列改「禮拜六」，她週六、日上班）',!!h2&&h2.invite2==='我會在吧檯收杯子。你到了敲門。'&&!!h3&&h3.invite2==='禮拜六。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
     const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/A館/.test(t)); };
     const y2=await dbt(termDay('Y2S1',3,3));
     check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在A館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一年多都自在。']),J(y2));
