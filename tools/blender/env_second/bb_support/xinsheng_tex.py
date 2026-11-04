@@ -134,7 +134,7 @@ def pack(kind, head, body, label):
         w, h = im.size; d.rectangle([0, 0, w, h], fill=hx(body)); d.rectangle([0, 0, w, h * 0.17], fill=hx(head))
         d.rounded_rectangle([w / 2 - 16, 10, w / 2 + 16, 24], radius=7, fill=hx('#4a4d52'))
         text_c(d, (w / 2, h * 0.1 + 6), label, font(h * 0.07), hx('#f4f1e8'))
-        d.rounded_rectangle([14, h * 0.21, w - 14, h * 0.9], radius=16, fill=hx('#cfd5da'))
+        d.rounded_rectangle([14, h * 0.21, w - 14, h * 0.9], radius=16, fill=hx('#6a7480'))
         if kind == 'knee':
             d.rounded_rectangle([34, h * 0.26, w - 34, h * 0.86], radius=40, fill=hx('#27282c'))
             d.ellipse([w * 0.3, h * 0.42, w * 0.7, h * 0.66], fill=hx('#3b3d42')); d.ellipse([w * 0.38, h * 0.48, w * 0.62, h * 0.6], fill=hx('#202125'))
@@ -257,9 +257,9 @@ JERSEYS = [('j37', '#1f2d55', '電機系', 37, '#f4f2ec', None), ('j16', '#b8242
            ('j5', '#8fb8de', '大氣系', 5, '#1f2d55', None), ('j30', '#26272b', '機械系', 30, '#d8742c', None)]
 for k, (nm, col, dept, no, nc, sd) in enumerate(JERSEYS):
     cell(nm, k * 256, 512, 256, 256, jersey_front(col, None, dept, no, nc, sd))
-PACKS = [('p_knee', 'knee', '#1b1c20', '#e9e9e6', '護膝'), ('p_elbow', 'knee', '#2a3f8a', '#e9e9e6', '護肘'), ('p_wrist', 'wrist', '#233f8f', '#dfe3ea', '護腕'),
-         ('p_ankle', 'knee', '#3b3d42', '#e9e9e6', '護踝'), ('p_sock', 'sock', '#2a52a8', '#2a4a9a', '運動襪'), ('p_sock2', 'sock', '#1f2d55', '#3a6ac0', '籃球襪'),
-         ('p_tape', 'wrist', '#c8202a', '#e9e9e6', '肌貼'), ('p_band', 'wrist', '#2f6b45', '#e9e9e6', '頭帶')]
+PACKS = [('p_knee', 'knee', '#1b1c20', '#2a2b30', '護膝'), ('p_elbow', 'knee', '#2a3f8a', '#1f2a55', '護肘'), ('p_wrist', 'wrist', '#e8a33a', '#233f8f', '護腕'),
+         ('p_ankle', 'knee', '#3b3d42', '#26272b', '護踝'), ('p_sock', 'sock', '#2a52a8', '#2a4a9a', '運動襪'), ('p_sock2', 'sock', '#1f2d55', '#3a6ac0', '籃球襪'),
+         ('p_tape', 'wrist', '#c8202a', '#26272b', '肌貼'), ('p_band', 'wrist', '#2f6b45', '#1f2a55', '頭帶')]
 for k, (nm, kind, head, body, lab) in enumerate(PACKS):
     cell(nm, k * 256, 768, 256, 384, pack(kind, head, body, lab))
 cell('tags', 0, 1152, 512, 512, tags)

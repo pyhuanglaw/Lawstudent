@@ -64,8 +64,8 @@ P = 'xs_'
 # 12 個材質（兩層共用）：地磚（自製）、牆、天花板、木頭、石材（Poly Haven CC0）＋頂點色（霧面、金屬）＋玻璃＋透明圖集、印刷圖集、會亮的、招牌
 M = {
     'floor': img_mat(P + 'floor_tile', 'xs_floor.png', rough=0.32, tile=1.8),
-    'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d6c8b2', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.9),
-    'ceil': L.pbr(P + 'ceiling', 'ceiling_interior', tile=0.6, target='#d0c2aa', maps=('diff',), res=512, rough_value=0.92, cull=True),
+    'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#c9b69c', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.9),
+    'ceil': L.pbr(P + 'ceiling', 'ceiling_interior', tile=0.6, target='#c2ae92', maps=('diff',), res=512, rough_value=0.92, cull=True),
     'wood': L.pbr(P + 'wood', 'fine_grained_wood', tile=0.9, target='#b48654', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.5),
     'stone': L.pbr(P + 'stone', 'granite_tile_03', tile=1.0, target='#9d968c', normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.45),
     'vc': L.vc_material(P + 'vc', rough=0.62), 'vcm': L.vc_metal(P + 'vc_metal', rough=0.35, metal=0.4),
@@ -293,7 +293,6 @@ def garment_into(c, style, col, trim=None, flat=1.0, lite=False, hanger='#b98a58
         for cc in range(NC):
             tr = (style == 'jersey' and TS[r] < 0.27 and cc in (0, NC - 1)) or (style == 'shorts' and cc in (0, NC - 1))
             hx_ = trim if (tr or (r == 0 and style != 'tee') or (style == 'jersey' and r == NR - 1)) else col
-            if side_col and cc in (0, NC - 1) and TS[r] >= 0.27: hx_ = side_col
             face([F[r][cc], F[r][cc + 1], F[r + 1][cc + 1], F[r + 1][cc]], hx_); face([K[r][cc + 1], K[r][cc], K[r + 1][cc], K[r + 1][cc + 1]], hx_)
         sc = side_col if (side_col and TS[r] >= 0.27) else (trim if style != 'tee' else col)
         face([F[r + 1][0], K[r + 1][0], K[r][0], F[r][0]], sc); face([F[r][NC], K[r][NC], K[r + 1][NC], F[r + 1][NC]], sc)
@@ -348,9 +347,9 @@ BOTTLE_COLS = [('#e8a8b0', '#f2f2ee'), ('#9cc6e4', '#2a2c30'), ('#2c3e66', '#c9c
 def bottle_build(body, cap):
     def f(pt):
         c = pt['vc']
-        clathe(c, [(0.0, 0.0), (0.0375, 0.0), (0.0375, 0.205), (0.03, 0.232), (0.022, 0.24)], 0, 0, 0, body, seg=7)
-        clathe(c, [(0.0235, 0.0), (0.0235, 0.032), (0.0, 0.036)], 0, 0.24, 0, cap, seg=7)
-        c.cbox(-0.006, 0.006, 0.255, 0.278, 0.016, 0.04, cap)
+        clathe(c, [(0.0, 0.0), (0.045, 0.0), (0.045, 0.235), (0.036, 0.262), (0.026, 0.27)], 0, 0, 0, body, seg=7)
+        clathe(c, [(0.028, 0.0), (0.028, 0.036), (0.0, 0.04)], 0, 0.27, 0, cap, seg=7)
+        c.cbox(-0.007, 0.007, 0.29, 0.315, 0.018, 0.046, cap)
     return f
 
 
@@ -600,10 +599,10 @@ def hook(x, y, Ln=0.12):
     ccyl(cm, (x, y, 0.0), (x, y + 0.01, Ln), 0.003, '#a0a4a8', seg=3)
 
 
-for (px_, py_) in ((-0.48, 1.78), (-0.24, 1.78), (-0.48, 1.22), (-0.24, 1.22)):                       # 護膝（黑色、一對一對掛著；中間一塊護墊）
-    hook(px_, py_ + 0.1); crb(c, px_ - 0.07, px_ + 0.07, py_ - 0.22, py_ + 0.08, 0.025, 0.085, '#26272b', r=0.028, seg=2)
-    cell_(c, 0.052, 0.07, 0.02, (px_, py_ - 0.07, 0.088), '#3a3c41', seg=8, rings=4)
-    for k in range(3): c.cbox(px_ - 0.066, px_ + 0.066, py_ - 0.19 + k * 0.1, py_ - 0.185 + k * 0.1, 0.084, 0.087, '#45474c')
+for (px_, py_) in ((-0.5, 1.82), (-0.27, 1.82), (-0.5, 1.2), (-0.27, 1.2)):                       # 護膝（黑色、一對一對掛著；中間一塊護墊）
+    hook(px_, py_ + 0.1); crb(c, px_ - 0.09, px_ + 0.09, py_ - 0.3, py_ + 0.08, 0.025, 0.1, '#232427', r=0.035, seg=2)
+    cell_(c, 0.065, 0.085, 0.025, (px_, py_ - 0.1, 0.102), '#3a3c41', seg=8, rings=4)
+    for k in range(3): c.cbox(px_ - 0.085, px_ + 0.085, py_ - 0.26 + k * 0.13, py_ - 0.254 + k * 0.13, 0.099, 0.102, '#45474c')
 PK = [['p_wrist', 'p_elbow', 'p_wrist', 'p_tape'], ['p_elbow', 'p_wrist', 'p_ankle', 'p_wrist'], ['p_ankle', 'p_band', 'p_wrist', 'p_tape']]
 for r_, row in enumerate(PK):
     y = 1.92 - r_ * 0.42
@@ -642,7 +641,7 @@ for k, (x, z, ry) in enumerate(((-0.33, 0.12, 0.25), (0.0, 0.05, 0.12), (0.31, 0
 # 人台（深藍運動 T、白色側邊、深藍球褲；黑色立桿、方形底座）——有肩、腰、手臂的弧度（不是方塊拼的）
 # ======================================================================
 mq = I1('mannequin'); MQT = fm((mq['x'], 0, mq['z']), rot('Y', mq['ry']))
-pm = Part('mannequin', T=MQT); c = pm['vc']
+pm = Part('mannequin', T=MQT @ Matrix.Scale(1.08, 4)); c = pm['vc']
 NV, WH, SKIN = '#1f2d55', '#eeede8', '#e9e6e0'
 crb(c, -0.2, 0.2, 0.0, 0.025, -0.2, 0.2, '#1c1c1e', r=0.008); ccyl(c, (0, 0.025, 0), (0, 0.78, 0), 0.018, '#1c1c1e', seg=8)
 ccyl(c, (0, 0.025, 0), (0, 0.06, 0), 0.05, '#1c1c1e', seg=10)
@@ -739,7 +738,7 @@ pg.done()
 for t, y in enumerate(GT[1:]):                                                                    # 水壺（西面一整排、東面少一點）
     z = gz0 + 0.06; k = 0
     while z < gz1 - 0.05:
-        BOTTLE[(k * 5 + t * 3) % len(BOTTLE)].place(fm((gx0 + 0.07 + random.uniform(-0.005, 0.01), y, z), rot('Y', random.uniform(-0.5, 0.5)))); z += 0.088; k += 1
+        BOTTLE[(k * 5 + t * 3) % len(BOTTLE)].place(fm((gx0 + 0.08 + random.uniform(-0.005, 0.01), y, z), rot('Y', random.uniform(-0.5, 0.5)))); z += 0.102; k += 1
     pb2 = Part(f'gondola_east{t}'); z = gz0 + 0.05
     while z < gz1 - 0.2:
         w2 = random.uniform(0.18, 0.3); pb2['goods'].box(gx1 - 0.13, y + 0.11, z + w2 / 2, 0.22, 0.22, w2 - 0.01, random.choice(['kraft3', 'sb_w', 'sb_b', 'kraft2']), front='+x'); z += w2
@@ -750,8 +749,8 @@ for xe in (gx0 + 0.02, gx1 - 0.02): crb(cm, xe - 0.018, xe + 0.018, 0.0, gh, gz1
 ga.rect((bgd['x'], (0.15 + gh) / 2, gz1 + 0.03), (1, 0, 0), (0, 1, 0), (gx1 - gx0) / 2 - 0.02, (gh - 0.15) / 2, (g[0], g[1], g[0] + (g[2] - g[0]) * (gx1 - gx0) / 0.5, g[1] + (g[3] - g[1]) * (gh - 0.15) / 0.5), both=True)
 SK = ['p_sock', 'p_sock2', 'p_sock', 'p_band', 'p_sock2', 'p_sock']
 for r_ in range(5):
-    for k in range(3):
-        x = gx0 + 0.11 + k * 0.19; y = 1.68 - r_ * 0.3
+    for k in range(2):
+        x = gx0 + 0.2 + k * 0.22; y = 1.68 - r_ * 0.3
         ccyl(cm, (x, y + 0.03, gz1 + 0.03), (x, y + 0.04, gz1 + 0.16), 0.003, '#a0a4a8', seg=3)
         for j in range(2): gd.box(x, y - 0.1 - j * 0.003, gz1 + 0.06 + j * 0.012, 0.13, 0.2, 0.006, SK[(r_ * 3 + k) % 6], front='+z', skip=('-y', '-z'))
 pe.done()
@@ -825,13 +824,13 @@ prm.done()
 # 樓層指示牌（樓梯東側的牆、面向西）、收銀台的吊牌、球鞋區的吊牌
 # ======================================================================
 psg = Part('signs', lv=1); u = psg['sign']
-fgz0, fgz1, fgy0, fgy1 = 1.6, 2.85, 2.75, 6.05
+fgz0, fgz1, fgy0, fgy1 = 1.1, 2.35, 2.45, 5.75
 crb(psg['vc'], FIN0 - 0.03, FIN0, fgy0 - 0.03, fgy1 + 0.03, fgz0 - 0.03, fgz1 + 0.03, '#1a2f6e', r=0.006)
 u.rect((FIN0 - 0.032, (fgy0 + fgy1) / 2, (fgz0 + fgz1) / 2), (0, 0, 1), (0, 1, 0), (fgz1 - fgz0) / 2, (fgy1 - fgy0) / 2, ATL['floor_guide'], rotuv=90)
 psg.done()
 pcs = Part('sign_small')
 ca = I1('cashier'); u = pcs['sign']
-for (cx_, cy_, cz_, w2, h2, nm) in ((ca['x'], 2.55, ca['z'] - 0.1, 0.6, 0.2, 'sign_cashier'), (-6.3, 2.75, 4.0, 0.6, 0.2, 'sign_shoes'), (5.6, 2.9, 3.6, 0.6, 0.2, 'sign_shoes')):
+for (cx_, cy_, cz_, w2, h2, nm) in ((ca['x'], 2.55, ca['z'] - 0.1, 0.6, 0.2, 'sign_cashier'), (-6.3, 2.75, 4.0, 0.6, 0.2, 'sign_shoes'), (5.6, 2.9, 4.6, 0.6, 0.2, 'sign_shoes')):
     crb(pcs['vc'], cx_ - w2 - 0.02, cx_ + w2 + 0.02, cy_ - h2 - 0.02, cy_ + h2 + 0.02, cz_ - 0.015, cz_ + 0.015, '#1a2f6e', r=0.004)
     u.rect((cx_, cy_, cz_ + 0.017), (1, 0, 0), (0, 1, 0), w2, h2, ATL[nm]); u.rect((cx_, cy_, cz_ - 0.017), (-1, 0, 0), (0, 1, 0), w2, h2, ATL[nm])
     for s in (-1, 1): ccyl(pcs['vcm'], (cx_ + s * (w2 - 0.05), cy_ + h2, cz_), (cx_ + s * (w2 - 0.05), HT if cz_ > 0 else H1, cz_), 0.002, '#9a9ea2', seg=3)
@@ -964,7 +963,7 @@ JCOL = {37: ('#1f2d55', '#efefea', 'j37'), 16: ('#b8242c', '#efefea', 'j16'), 88
 zw = ZB2 + 0.01
 for it in JD['list']:                                                                              # 三件展示球衣（大一號、衣架掛在牆上的掛勾：參考圖）
     col, tr, dc = JCOL[it['no']]
-    garment_proto(f'jd{it["no"]}', 'jersey', col, tr, flat=0.55, decal=dc, scale=1.35).place(fm((it['x'], JD['y'] + 1.1, zw + 0.06)), 1)
+    garment_proto(f'jd{it["no"]}', 'jersey', col, tr, flat=0.5, decal=dc, scale=JD['scale']).place(fm((it['x'], JD['y'] + 1.1, zw + 0.07)), 1)
     ph_ = Part(f'jhook{it["no"]}', lv=1); ccyl(ph_['vcm'], (it['x'], JD['y'] + 1.12, zw), (it['x'], JD['y'] + 1.12, zw + 0.08), 0.006, '#a0a4a8', seg=5); ph_.done()
 jl = I1('jersey_law')
 garment_proto('jlaw7', 'jersey', JCOL[7][0], JCOL[7][1], flat=0.45, decal='j7', scale=1.05).place(fm((jl['x'], jl['y'] + 0.9, zw + 0.05)), 1)

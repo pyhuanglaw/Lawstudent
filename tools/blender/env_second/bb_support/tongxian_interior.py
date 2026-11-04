@@ -49,10 +49,10 @@ def img_mat(name, fn, rough=0.6, emit_fn=None):
 
 # ---------------- 材質（12 個） ----------------
 M = {
-    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.8, target='#cba57a', normal=0.5, maps=('diff', 'nor'), rough_value=0.5),   # 淺色木地板（D112；參考圖：淺橡木）
+    'floor': L.pbr(P + 'floor_oak', 'laminate_floor_02', tile=1.8, target='#c49c70', normal=0.5, maps=('diff', 'nor'), rough_value=0.72),   # 淺色木地板（D112；參考圖：淺橡木）
     'plaster': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#e8d5b6', normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.9),   # 米色（參考圖），不是純白
     'ceil': L.flat(P + 'ceiling', '#ecdcc2', rough=0.92, cull=True),   # 單面朝下；暖白
-    'slat': L.pbr(P + 'slatwall', 'fine_grained_wood', tile=1.3, target='#e6d6b8', normal=0.3, maps=('diff', 'nor'), rough_value=0.6),   # v4：米色烤漆的木條（參考圖），溝是深色
+    'slat': L.pbr(P + 'slatwall', 'fine_grained_wood', tile=1.3, target='#ecdcc0', normal=0.25, maps=('diff', 'nor'), rough_value=0.6, contrast=0.3),   # v4：米色烤漆的木條（參考圖），溝是深色
     'wood': L.pbr(P + 'wood', 'wood_table_001', tile=1.0, target='#9c6e48', normal=0.4, maps=('diff', 'nor'), rough_value=0.5),
     'guitar': img_mat(P + 'guitars', 'tongxian_guitar.png', rough=0.3),
     'props': img_mat(P + 'props', 'tongxian_props.png', rough=0.8, emit_fn='tongxian_props_emit.png'),
@@ -603,7 +603,6 @@ uvquad(GL, [(cx0, YT + 0.002, GZB), (cx1, YT + 0.002, GZB), (cx1, YT + 0.002, cz
 for q in ([(cx0, yb2, GZB), (cx0, yb2, cz0), (cx0, YT - 0.018, cz0), (cx0, YT - 0.018, GZB)], [(cx1, yb2, cz0), (cx1, yb2, GZB), (cx1, YT - 0.018, GZB), (cx1, YT - 0.018, cz0)],
           [(cx0, yb2, cz0), (cx1, yb2, cz0), (cx1, YT - 0.018, cz0), (cx0, YT - 0.018, cz0)]): uvquad(GL, q, (0, 0, 1, 1))
 GL.box(cx0 + 0.02, cx1 - 0.02, 0.78, 0.788, cz0 + 0.9, GZB - 0.02)                                  # 南半的玻璃層板
-EM.box(cx1 - 0.05, cx1 - 0.03, YT - 0.03, YT - 0.022, cz0 + 0.04, GZB - 0.04)                       # 櫃裡的燈條
 # 木頭段（收銀）
 WD.rbox(cx0, cx1, 0.06, 0.96, GZB, cz1, r=0.008, seg=2); WD.rbox(cx0 - 0.03, cx1 + 0.01, 0.96, 1.0, GZB - 0.01, cz1 + 0.03, r=0.008, seg=2)
 for k in range(4): CV.cbox(cx0 - 0.004, cx0 - 0.001, 0.09, 0.93, GZB + 0.2 + k * 0.28, GZB + 0.206 + k * 0.28, '#6a4a32')
@@ -817,7 +816,8 @@ hp = IT['hanging_plant'][0]; hx2, hy2, hz2 = hp['x'], hp['y'], hp['z']
 for k in range(3):
     a = 2 * math.pi * k / 3; vpaint(CV, '#c9b08a', lambda: CV.cyl((hx2, H, hz2), (hx2 + 0.12 * math.cos(a), hy2 + 0.13, hz2 + 0.12 * math.sin(a)), 0.003, seg=4))
 pot(CV, hx2, hy2, hz2, 0.13, 0.14, '#e2ddd2'); pothos_mound(hx2, hy2 + 0.14, hz2, 0.11, 22, 23, size=(0.08, 0.11))
-for k in range(15): vine((hx2 + 0.11 * math.cos(k * 0.42), hy2 + 0.12, hz2 + 0.11 * math.sin(k * 0.42)), (math.cos(k * 0.42), 0, math.sin(k * 0.42)), 0.7 + 0.3 * (k % 4), 120 + k, step=0.075, droop=0.35, size=0.13)   # 參考圖：左上一大叢（大葉子、先往外長再垂下）
+for k in range(13):   # 參考圖：左上一大叢，藤幾乎直直垂下來（一點點往外）
+    a_ = 1.6 + k * 0.26; vine((hx2 + 0.1 * math.cos(a_), hy2 + 0.12, hz2 + 0.1 * math.sin(a_)), (math.cos(a_), 0, math.sin(a_)), 0.9 + 0.22 * (k % 4), 120 + k, step=0.07, droop=1.6, size=0.11)   # 參考圖：左上一大叢（大葉子、先往外長再垂下）
 
 # ---------------- 店門：門框＋開著的門片（壓花玻璃）＋「同弦樂器」木牌 ----------------
 fw = G('wood', 'left')
@@ -840,7 +840,7 @@ vpaint(CMt, '#8a7a60', lambda: CMt.cyl(((sgx0 + sgx1) / 2, sgy1 + 0.2, lz1), ((s
 
 # ---------------- 西半邊：烏克麗麗＋古典吉他的牆、音箱、琴架上的吉他、第二扇窗 ----------------
 uw = IT['uke_wall'][0]; UZ0, UZ1 = uw['z0'], uw['z1']
-slatwall('left', UZ0, UZ1, 0.9, 2.6)
+slatwall('left', UZ0, UZ1, 1.45, 2.75)
 UKE = [GProto(f'u{i}', dict(kind='ac', top=t, side=sd, shape='om', pg=None if i % 2 else 'pg_tort'), 'left', scale=0.6) for i, (t, sd) in enumerate((('koa_dark', 'side_rose'), ('mahog_top', 'side_mahog'), ('spruce', 'side_maple'), ('sunburst_ac', 'side_mahog')))]
 CLS = [GProto(f'c{i}', dict(kind='ac', top=t, side='side_rose', shape='om'), 'left', scale=0.97) for i, t in enumerate(('spruce_aged', 'mahog_top'))]
 for p_ in UKE + CLS:

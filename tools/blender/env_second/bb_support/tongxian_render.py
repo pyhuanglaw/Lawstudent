@@ -68,7 +68,8 @@ Z0, H = -LAY['d'] / 2, LAY['h']
 for wn in LAY['windows']:   # 窗的天光（面光，往店裡）
     cx = (wn['x0'] + wn['x1']) / 2; cy = (wn['sill'] + wn['head']) / 2; p = g2b(cx, cy, Z0 - 0.1)
     light('AREA', p, float(arg('--sky', '120')), (1.0, 0.96, 0.9), aim=p + Vector((0, -1, 0)), sx=wn['x1'] - wn['x0'], sy=wn['head'] - wn['sill'])
-p = g2b(0.3, H - 0.05, 0.0); light('AREA', p, float(arg('--fill', '60')), (1.0, 0.88, 0.72), aim=p + Vector((0, 0, -1)), sx=5.0, sy=8.0)   # 天花板反射的補光
+p = g2b(0.3, H - 0.05, 0.0); fl_ = light('AREA', p, float(arg('--fill', '60')), (1.0, 0.86, 0.68), aim=p + Vector((0, 0, -1)), sx=5.0, sy=8.0)   # 天花板反射的補光
+fl_.visible_glossy = False; fl_.visible_camera = False   # 不要在木地板上反射出一大片白
 sd = Vector(g2b(-0.22, -0.68, 0.72)).normalized()   # 午後的太陽：從窗外斜斜照進來（往南、往下）
 sun = light('SUN', Vector((0, 0, 10)), float(arg('--sun', '3.5')), (1.0, 0.86, 0.66)); sun.rotation_euler = (-sd).to_track_quat('Z', 'Y').to_euler(); sun.data.angle = math.radians(1.5)
 # 窗外的樹影板（程式的雜訊當透明度）：在窗外 0.8 m
