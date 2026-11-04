@@ -5,7 +5,7 @@
    - 地名座標：區域座標（x 往東、−z 往北；公館的區域座標轉過方向，大地圖照 zones3d.js 的 sunYaw 轉成北朝上），
      和 zones3d.js 擺建築的位置相同；搬建築時這裡一起改。入口不用寫在這裡：大地圖和入口標記直接讀區域的出口互動點。 */
 const PLACES={
-  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'兩點半 Café', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', bookstore:'頁間書屋', wz_brunch:'半熟', wz_print:'阿德影印輸出', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'巷子裡定食', wz_tea:'巷口茶飲', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
+  names:{ gongtong:'共同教學館', boya:'博思教學館', putong:'普通教學館', campus:'首都帝大校園', gongguan:'公館', wenzhou:'溫州街', lane118:'118 巷', cafe:'兩點半 Café', cvs:'日和便利店', noodle:'公館燒臘', bikeshop:'慢輪單車', bookstore:'頁間書屋', wz_brunch:'半熟', wz_print:'阿德影印輸出', wz_teahouse:'一盞', wz_lin:'林家乾麵', wz_teishoku:'巷子裡定食', wz_tea:'巷口茶飲', wz_ice:'夏日冰菓室', wz_mokuyobi:'木曜日', wz_offbeat:'日常失速', xinsheng:'新生南路', gym:'綜合體育館', gym_b1:'綜合體育館 B1',
     linze:'法律系館A', linze_3f:'法律系館A 3F 討論區', linze_4f:'法律系館A 4F 自習討論區', classroom:'法律系館A 201 教室', wancai:'法律系館B', library_hall:'總圖書館', library:'總圖 3F 閱覽區', library_b1:'總圖 B1 自習室・討論室', library_carrels:'總圖 2F 研究小間', library_stacks:'總圖 5F 書庫', lawlib:'法律學院圖書館', soclib:'社科院圖書館', dorm:'宿舍房間', dorm_hall:'男生宿舍' },
   // open／close：小時（close 超過 24＝隔天凌晨）；text：畫面上寫的時間
   hours:{ cafe:{open:11,close:26.5,text:'11:00–02:30'}, library_hall:{open:8,close:22,text:'08:00–22:00'}, library:{open:8,close:22,text:'08:00–22:00'}, library_carrels:{open:8,close:22,text:'08:00–22:00'}, library_stacks:{open:8,close:22,text:'08:00–22:00'}, lawlib:{ rules:{ term:{wd:[8+10/60,21.75],we:[9+10/60,17]}, break:{wd:[9+10/60,17],we:null}, holiday:null },
@@ -27,6 +27,8 @@ const PLACES={
     wz_ice:{shop:true,rules:{week:[[12,21],null,[12,21],[12,21],[12,21],[12,21],[12,21]],months:[5,6,7,8,9]},text:'5～9 月 12:00–21:00；週一公休'},
     /* 木曜日（AA_617 第 3 節，使用者 11-03 同意；區域 wz_mokuyobi，溫州街 B4 二樓）：13:00–22:00、週二公休；颱風天關（typhoonShops）。打烊時人還在店裡＝src/mokuyobi_sys3d.js 請你出來 */
     wz_mokuyobi:{shop:true,rules:{week:[[13,22],[13,22],null,[13,22],[13,22],[13,22],[13,22]]},text:'13:00–22:00；週二公休'},
+    /* 日常失速（AA_617 第 3 節；區域 wz_offbeat，溫州街轉角 W2 一樓）：每天 13:00–01:00（跨午夜照兩點半 Café 的 open／close）；颱風天關；打烊人在店裡＝src/offbeat_sys3d.js 請你出來 */
+    wz_offbeat:{open:13,close:25,text:'每天 13:00–01:00'},
     /* 美國交換：大超市對面的竹葉亞洲超市（AA_370 L9：照台詞「亞洲超市九點關。」、結帳台的「週日公休」；開門照 AA_291 第 3 節 10:00，AA_370 第 6 節第 2 題）；擋門在 us_life3d.js 的 S.interact（從草原超市過馬路）*/
     us_asian_market:{shop:true,rules:{week:[null,[10,21],[10,21],[10,21],[10,21],[10,21],[10,21]]},text:'週一～週六 10:00–21:00；週日公休'} },
   /* 法律學院圖書館（D53，使用者 2026-10-13 查證台大法律圖書館官網）：依日曆（src/data/calendar.js）分學期間／寒暑假／國定假日、平日／週末。
@@ -52,7 +54,7 @@ const PLACES={
   /* 這一天在不在開店的月份（rules.months；沒寫＝整年）：夏日冰菓室 5～9 月 */
   inSeason(zone,day){ const o=PLACES.hours[zone], M=o&&o.rules&&o.rules.months; if(!M) return true; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; if(typeof CALENDAR==='undefined') return true; return M.includes(CALENDAR.dateOf(day).m); },
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_mokuyobi'],
+  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_mokuyobi','wz_offbeat'],
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const ws=PLACES.windowsOf(zone,day); return !!ws&&ws.some(w=>h>=w[0]-1e-6&&h<w[1]-1e-6); }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開；一天兩段的店：在任何一段裡都算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
   hhmm(x){ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
@@ -75,7 +77,7 @@ const PLACES={
     return [['campus','首都帝大校園（法律系館A前）',{x:34,z:-98,yaw:0}],['campus','椰影大道・晨思鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博思教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
       L1&&['linze','法律系館A（大廳）',L1],['classroom','法律系館A 201 教室',null],['wancai','法律系館B（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
       ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','公館燒臘',{x:0,z:3.4,yaw:Math.PI}],['cvs','日和便利店',{x:0,z:3.4,yaw:Math.PI}],['bookstore','頁間書屋',{x:0,z:4,yaw:Math.PI}],
-      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
+      ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['wz_mokuyobi','木曜日',{x:-3.75,z:5.4,yaw:Math.PI,lv:0}],['wz_offbeat','日常失速',{x:-3.9,z:3.0,yaw:Math.PI}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
   /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、宿舍 205→dorm_hall）；
      其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
   base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';

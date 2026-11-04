@@ -75,7 +75,7 @@ await sec(3,async()=>{
   const yi=yt.indexOf('反正就這樣。以後在燒臘店吃完，他說要陪我走去捷運站。');
   check('3. 在一起：Alison「反正就這樣。以後在燒臘店吃完，他說要陪我走去捷運站。」接旁白「（阿哲端著兩盤飯走過來，她馬上坐正。）」',yi>0&&/^（看了一眼正在跟阿姨點菜的阿哲）/.test(yt[yi-1])&&yt[yi+1]==='（阿哲端著兩盤飯走過來，她馬上坐正。）'&&!yt.some(t=>/我都有人一起回家了/.test(t)),J(yt));
   const lm=texts(ev('ev_term_last_meal_y2s1'));
-  check('3. 期末最後一頓：語彤「今天我是客人。……秀琴姨叫我出來吃。」',lm.includes('今天我是客人。……秀琴姨叫我出來吃。')&&!lm.some(t=>/不用端/.test(t)),J(lm));
+  check('3. 期末最後一頓：語彤「考完了。……今天什麼都不想讀。」',lm.includes('考完了。……今天什麼都不想讀。')&&!lm.some(t=>/不用端/.test(t)),J(lm));
   const fp=texts(ev('ev_fair_booth_y2_pass'));
   check('3. 問答攤（路過）：「阿嬤，這三件要分開問，我先記下來。」（原本語彤，現在顧攤的是柏翰；AA_428 §2 第 3 點：維持柏翰）',fp.includes('阿嬤，這三件要分開問，我先記下來。')&&!fp.some(t=>/……三件。答案不一樣/.test(t)),J(fp));
   const fb=texts(ev('ev_fair_booth_y2'));
