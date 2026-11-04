@@ -204,3 +204,38 @@
 [14:28:54] [res] cpu=26% mem=49% (15.6/31.4 GB) chrome_testing=20  START BIKE_flow_r3
 [14:29:37] 正在跑：GG_int_cvs_menu_tt（已跑 13 分／上限 45 分）、GG_int_yejian_r2（已跑 4 分／上限 75 分）、BIKE_flow_r3（已跑 0 分／上限 40 分）——還沒測完，請不要關 (tests still running - please do not close)
 [14:33:05] [res] cpu=25% mem=49% (15.6/31.4 GB) chrome_testing=20  END BIKE_flow_r3
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       a4b99b32f..22dd16253  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[14:33:11] ==== END   BIKE_flow_r3  exit=1  255s   ====
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[14:33:15] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[14:33:15] skip GG_groups (already done on 610c528cb)
+[14:33:15] skip GG_ext_nav3 (already done on 610c528cb)
+[14:33:15] skip GG_ext_glb3 (already done on 610c528cb)
+[14:33:15] skip GG_perf_rep_A1 (already done on 23eaaa7ae)
+[14:33:15] skip GG_perf_rep_B1 (already done on c7fde4f3e)
+[14:33:15] skip GG_perf_rep_A2 (already done on 23eaaa7ae)
+[14:33:15] skip GG_perf_rep_B2 (already done on c7fde4f3e)
+[14:33:15] skip GG_perf_rep_A3 (already done on 23eaaa7ae)
+[14:33:15] skip GG_perf_rep_B3 (already done on c7fde4f3e)
+[14:33:15] skip GATE_glb (already done on 9ac863212)
+[14:33:15] skip GG_perf_fog_A1 (already done on 9ac863212)
+[14:33:15] skip GG_perf_fog_B1 (already done on 23eaaa7ae)
+[14:33:15] skip GG_perf_fog_A2 (already done on 9ac863212)
+[14:33:15] skip GG_perf_fog_B2 (already done on 23eaaa7ae)
+[14:33:15] skip GG_perf_fog_A3 (already done on 9ac863212)
+[14:33:15] skip GG_perf_fog_B3 (already done on 23eaaa7ae)
+[14:33:15] skip GATE_shot (already done on 9ac863212)
+[14:33:15] skip GATE_shot_before (already done on 23eaaa7ae)
+[14:33:15] skip GATE_walk (already done on 9ac863212)
+[14:33:15] memory 49% before starting GATE_walk2 (2 running)
+[14:33:15] ==== START GATE_walk2  (probe @ 9ac863212) ====
+[14:33:19] [res] cpu=12% mem=49% (15.4/31.4 GB) chrome_testing=20  START GATE_walk2
+[14:34:37] 正在跑：GG_int_cvs_menu_tt（已跑 18 分／上限 45 分）、GG_int_yejian_r2（已跑 9 分／上限 75 分）、GATE_walk2（已跑 1 分／上限 30 分）——還沒測完，請不要關 (tests still running - please do not close)
+[14:38:04] [res] cpu=17% mem=49% (15.4/31.4 GB) chrome_testing=20  END GATE_walk2

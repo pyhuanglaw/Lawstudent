@@ -1,0 +1,71 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gate_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GATE_walk2\out
+CC GATE 公館校門斑馬線＋遠景；SHA=9ac863212；CASES=walk；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  20.3 秒
+  [前置] 讀檔到公館校門外人行道 (0, −34) 15:00（條件事件、手機自動打開關閉）；之後只用搖桿
+PASS 起點在公館  {"zone": "gongguan", "x": 0, "z": -34, "stand": true, "fallbacks": 0}
+PASS 搖桿推得動（第一次推）  1.27 m／1 次
+PASS A 過斑馬線 (0,−34)→(0,8)：走得到（離目標 0.21 m ≤ 1.0）  {"label": "A 過斑馬線 (0,−34)→(0,8)", "target": [0, 8], "end": [-0.02, 7.79], "dist_left": 0.21, "pushes": 29, "secs": 27.3, "detours": 0, "first_push_m": 1.37, "stuck": false, "fallbacks_delta": 0, "stand": true}
+PASS A 過斑馬線 (0,−34)→(0,8)：沒有卡住、walkFallbacks 沒增加  {"stuck": false, "fallbacks_delta": 0, "pushes": 29, "secs": 27.3}
+  到達「B 往西 → (-12, 10)」附近（0.24 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS B 往西 → (-12, 10)：走得到（離目標 0.24 m ≤ 1.2）  {"label": "B 往西 → (-12, 10)", "target": [-12, 10], "end": [-11.98, 10.24], "dist_left": 0.24, "secs": 11.2, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-12, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-12, 10)", "target": [-12, 10], "end": [-11.98, 10.24], "dist_left": 0.24, "secs": 11.2, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-24, 10)」附近（0.23 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS B 往西 → (-24, 10)：走得到（離目標 0.23 m ≤ 1.2）  {"label": "B 往西 → (-24, 10)", "target": [-24, 10], "end": [-23.77, 10.01], "dist_left": 0.23, "secs": 11.2, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-24, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-24, 10)", "target": [-24, 10], "end": [-23.77, 10.01], "dist_left": 0.23, "secs": 11.2, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-36, 10)」附近（0.98 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS B 往西 → (-36, 10)：走得到（離目標 0.98 m ≤ 1.2）  {"label": "B 往西 → (-36, 10)", "target": [-36, 10], "end": [-35.02, 10], "dist_left": 0.98, "secs": 8.5, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-36, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-36, 10)", "target": [-36, 10], "end": [-35.02, 10], "dist_left": 0.98, "secs": 8.5, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-48, 10)」附近（0.24 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS B 往西 → (-48, 10)：走得到（離目標 0.24 m ≤ 1.2）  {"label": "B 往西 → (-48, 10)", "target": [-48, 10], "end": [-47.77, 9.93], "dist_left": 0.24, "secs": 10.1, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-48, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-48, 10)", "target": [-48, 10], "end": [-47.77, 9.93], "dist_left": 0.24, "secs": 10.1, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-60, 10)」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS B 往西 → (-60, 10)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "B 往西 → (-60, 10)", "target": [-60, 10], "end": [-59.78, 10.02], "dist_left": 0.22, "secs": 9.7, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-60, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-60, 10)", "target": [-60, 10], "end": [-59.78, 10.02], "dist_left": 0.22, "secs": 9.7, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-72, 10)」附近（0.23 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS B 往西 → (-72, 10)：走得到（離目標 0.23 m ≤ 1.2）  {"label": "B 往西 → (-72, 10)", "target": [-72, 10], "end": [-71.77, 10], "dist_left": 0.23, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-72, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-72, 10)", "target": [-72, 10], "end": [-71.77, 10], "dist_left": 0.23, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「B 往西 → (-72, 10)」附近（0.23 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS B 往西 → (-72, 10)：走得到（離目標 0.23 m ≤ 1.2）  {"label": "B 往西 → (-72, 10)", "target": [-72, 10], "end": [-71.77, 10], "dist_left": 0.23, "secs": 0.0, "fallbacks_delta": 0, "mode": "go_to"}
+PASS B 往西 → (-72, 10)：walkFallbacks 沒增加  {"label": "B 往西 → (-72, 10)", "target": [-72, 10], "end": [-71.77, 10], "dist_left": 0.23, "secs": 0.0, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (-60, 10)」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (-60, 10)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "C 往東 → (-60, 10)", "target": [-60, 10], "end": [-60.22, 10], "dist_left": 0.22, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (-60, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (-60, 10)", "target": [-60, 10], "end": [-60.22, 10], "dist_left": 0.22, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (-48, 10)」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (-48, 10)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "C 往東 → (-48, 10)", "target": [-48, 10], "end": [-48.22, 10.02], "dist_left": 0.22, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (-48, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (-48, 10)", "target": [-48, 10], "end": [-48.22, 10.02], "dist_left": 0.22, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (-36, 10)」附近（0.22 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，10 秒
+PASS C 往東 → (-36, 10)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "C 往東 → (-36, 10)", "target": [-36, 10], "end": [-36.04, 9.78], "dist_left": 0.22, "secs": 10.1, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (-36, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (-36, 10)", "target": [-36, 10], "end": [-36.04, 9.78], "dist_left": 0.22, "secs": 10.1, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (-24, 10)」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (-24, 10)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "C 往東 → (-24, 10)", "target": [-24, 10], "end": [-24.22, 10], "dist_left": 0.22, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (-24, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (-24, 10)", "target": [-24, 10], "end": [-24.22, 10], "dist_left": 0.22, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (-12, 10)」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (-12, 10)：走得到（離目標 0.24 m ≤ 1.2）  {"label": "C 往東 → (-12, 10)", "target": [-12, 10], "end": [-11.97, 10.24], "dist_left": 0.24, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (-12, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (-12, 10)", "target": [-12, 10], "end": [-11.97, 10.24], "dist_left": 0.24, "secs": 10.9, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (0, 10)」附近（0.24 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (0, 10)：走得到（離目標 0.24 m ≤ 1.2）  {"label": "C 往東 → (0, 10)", "target": [0, 10], "end": [-0.24, 10.01], "dist_left": 0.24, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (0, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (0, 10)", "target": [0, 10], "end": [-0.24, 10.01], "dist_left": 0.24, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (12, 10)」附近（0.21 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，11 秒
+PASS C 往東 → (12, 10)：走得到（離目標 0.21 m ≤ 1.2）  {"label": "C 往東 → (12, 10)", "target": [12, 10], "end": [11.79, 10], "dist_left": 0.21, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (12, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (12, 10)", "target": [12, 10], "end": [11.79, 10], "dist_left": 0.21, "secs": 10.8, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (24, 8.5)」附近（0.22 m）：點地面 4 次、轉鏡頭 0 次、搖桿 0 次，12 秒
+PASS C 往東 → (24, 8.5)：走得到（離目標 0.22 m ≤ 1.2）  {"label": "C 往東 → (24, 8.5)", "target": [24, 8.5], "end": [24.22, 8.47], "dist_left": 0.22, "secs": 12.4, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (24, 8.5)：walkFallbacks 沒增加  {"label": "C 往東 → (24, 8.5)", "target": [24, 8.5], "end": [24.22, 8.47], "dist_left": 0.22, "secs": 12.4, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (36, 10.5)」附近（0.94 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+PASS C 往東 → (36, 10.5)：走得到（離目標 0.94 m ≤ 1.2）  {"label": "C 往東 → (36, 10.5)", "target": [36, 10.5], "end": [35.06, 10.5], "dist_left": 0.94, "secs": 8.5, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (36, 10.5)：walkFallbacks 沒增加  {"label": "C 往東 → (36, 10.5)", "target": [36, 10.5], "end": [35.06, 10.5], "dist_left": 0.94, "secs": 8.5, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (48, 10)」附近（0.23 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS C 往東 → (48, 10)：走得到（離目標 0.23 m ≤ 1.2）  {"label": "C 往東 → (48, 10)", "target": [48, 10], "end": [47.82, 10.15], "dist_left": 0.23, "secs": 11.8, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (48, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (48, 10)", "target": [48, 10], "end": [47.82, 10.15], "dist_left": 0.23, "secs": 11.8, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (60, 10)」附近（0.23 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS C 往東 → (60, 10)：走得到（離目標 0.23 m ≤ 1.2）  {"label": "C 往東 → (60, 10)", "target": [60, 10], "end": [59.82, 10.15], "dist_left": 0.23, "secs": 7.3, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (60, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (60, 10)", "target": [60, 10], "end": [59.82, 10.15], "dist_left": 0.23, "secs": 7.3, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (72, 10)」附近（0.31 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，7 秒
+PASS C 往東 → (72, 10)：走得到（離目標 0.31 m ≤ 1.2）  {"label": "C 往東 → (72, 10)", "target": [72, 10], "end": [71.69, 10.03], "dist_left": 0.31, "secs": 7.3, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (72, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (72, 10)", "target": [72, 10], "end": [71.69, 10.03], "dist_left": 0.31, "secs": 7.3, "fallbacks_delta": 0, "mode": "go_to"}
+  到達「C 往東 → (72, 10)」附近（0.31 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+PASS C 往東 → (72, 10)：走得到（離目標 0.31 m ≤ 1.2）  {"label": "C 往東 → (72, 10)", "target": [72, 10], "end": [71.69, 10.03], "dist_left": 0.31, "secs": 0.0, "fallbacks_delta": 0, "mode": "go_to"}
+PASS C 往東 → (72, 10)：walkFallbacks 沒增加  {"label": "C 往東 → (72, 10)", "target": [72, 10], "end": [71.69, 10.03], "dist_left": 0.31, "secs": 0.0, "fallbacks_delta": 0, "mode": "go_to"}
+PASS 全程 walkFallbacks 沒增加  0 → 0
+PASS 沒有 JS 例外  []
+ALL PASS
