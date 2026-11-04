@@ -107,7 +107,7 @@ const FEST_DATA=(function(){
           grp:{years:[2025],q:'xmas_y1',ev:'ev_xmas_exchange',end:21.5,here:inXmas(YT),no:{flag:'YT_XMAS_GARLIC_Y1',is:'no'},
             s6:[N('（大家走了以後，語彤還沒走。蘇姨在吧檯後面喊她。）'),Y('蘇姨說明天要用的杯子還沒洗。'),Y('打烊以後，你要不要來幫忙。'),
               {choice:[{text:'「好。」',set:{YT_XMAS_GARLIC_Y1:'yes'},goto:'g_yes'},{text:'「今天不行。」',set:{YT_XMAS_GARLIC_Y1:'no'},goto:'g_no'}]},
-              {label:'g_yes'},N('（剝到九點半，手上都是蒜味。）'),{goto:'g_end'},
+              {label:'g_yes'},N('（洗到九點半，手上都是茶的味道。）'),{goto:'g_end'},
               {label:'g_no'},Y('嗯，沒關係。'),
               {label:'g_end'}],
             dt:[N('（大家走了以後，語彤從吧檯底下拿出一個紙袋。）'),Y('給你。圍巾。'),Y('你騎車脖子都露在外面。')]}} },
@@ -116,7 +116,7 @@ const FEST_DATA=(function(){
         {id:'umbrella',name:'一把新的傘',price:350,ok:true,lines:[Y('……我有傘。'),Y('……可是這把我會用。')]},
         {id:'shoes',name:'一雙上班穿的布鞋',price:500,ok:true,lines:[Y('店裡的地板很滑。……你怎麼知道。')]},
         {id:'perfume',name:'一瓶香水',price:1500,ok:false,lines:[Y('……太貴了。我不能收。'),Y('……我收一半。'),N('（她真的把盒子裡的試用瓶留下，正瓶推回來給你。）')]} ],
-      none:[Y('嗯。你來店裡吃麵就好。')] },
+      none:[Y('沒關係。……那你陪我把這壺喝完。')] },
     /* ---------------- 第 6 節 高子晴 ---------------- */
     [ZQ]:{
       fest:{
