@@ -288,6 +288,67 @@ def p_fruitstall():
     parts.append(cm_.finish(None, uv=False, merge=False))
     return combine(parts, 'sk_fruitstall')
 
+def _crate(m, x0, x1, y0, y1, z0, z1, col='#c9a46a', slat=0.028):
+    """木條水果箱：底板＋四面一條一條的木條（中間有縫，看得到裡面的水果）"""
+    m.cbox(x0, x1, y0, y0 + 0.02, z0, z1, col, 0.85)
+    n = max(2, int((y1 - y0) / 0.075))
+    for k in range(n):
+        yy = y0 + 0.02 + k * (y1 - y0 - 0.02) / n; h_ = (y1 - y0 - 0.02) / n * 0.62; c_ = col if k % 2 else '#b8935a'
+        m.cbox(x0, x1, yy, yy + h_, z1 - slat, z1, c_); m.cbox(x0, x1, yy, yy + h_, z0, z0 + slat, c_)
+        m.cbox(x0, x0 + slat, yy, yy + h_, z0, z1, c_); m.cbox(x1 - slat, x1, yy, yy + h_, z0, z1, c_)
+    for xx in (x0, x1 - 0.04):
+        for zz in (z0, z1 - 0.04): m.cbox(xx, xx + 0.04, y0, y1, zz, zz + 0.04, '#9c7a4c')
+
+
+def p_fruitcrates(kind):
+    """WZ-SECOND-1104 阿忠鮮果（參考圖 azhong_fruit_ext）：攤子兩邊的水果箱。原點＝底部中央、正面朝 +z、深 ≤ 0.55 m（在店面門廊的導航阻擋裡）。
+    pine＝兩個疊起來的木箱、上面六顆鳳梨；banana＝兩階的木架、一串一串的香蕉；melon＝綠色塑膠籃上的木箱、四顆大西瓜＋一顆剖半"""
+    m = _cm('fruitcrates_' + kind); rr = random.Random(hash(kind) % 997); parts = []
+    def balls(lst, col, rough=0.45, seg=8):
+        f = Mesh('fruit', flat('wz_sf_fruit_' + col[1:], col, rough=rough))
+        for (c, rx, ry, rz) in lst: f.ell(c, rx, ry, rz, seg=seg, rings=5)
+        parts.append(f.finish(None, smooth=True))
+    if kind == 'pine':
+        _crate(m, -0.32, 0.32, 0.0, 0.3, -0.24, 0.24); _crate(m, -0.32, 0.32, 0.3, 0.6, -0.24, 0.24)
+        body = []; crown = Mesh('pinecrown', flat('wz_sf_pine_leaf', '#4d7a30', rough=0.6))
+        for a in range(3):
+            for b in range(2):
+                x = -0.2 + a * 0.2 + rr.uniform(-0.015, 0.015); z = -0.1 + b * 0.2; y = 0.6 + 0.12
+                body.append(((x, y, z), 0.075, 0.12, 0.075))
+                for k in range(6):
+                    ang = k * math.pi / 3 + rr.uniform(-0.3, 0.3); tx, tz = x + math.cos(ang) * 0.06, z + math.sin(ang) * 0.06
+                    crown.cyl((x, y + 0.1, z), (tx, y + 0.27 + rr.uniform(-0.03, 0.03), tz), 0.018, seg=4, r2=0.002)
+        balls(body, '#c08a2c', rough=0.75); parts.append(crown.finish(None, smooth=False))
+    elif kind == 'banana':
+        _crate(m, -0.36, 0.36, 0.0, 0.32, -0.04, 0.26); _crate(m, -0.36, 0.36, 0.0, 0.58, -0.27, -0.04)
+        fing = Mesh('banana', flat('wz_sf_banana', '#efcd3c', rough=0.5)); stem = []
+        for (cx, cy, cz) in ((-0.2, 0.34, 0.11), (0.02, 0.35, 0.12), (0.22, 0.34, 0.1), (-0.17, 0.6, -0.16), (0.1, 0.61, -0.15)):
+            for k in range(5):
+                ang = -0.5 + k * 0.25; dx, dz = math.sin(ang) * 0.09, math.cos(ang) * 0.09
+                fing.cyl((cx, cy + 0.02, cz - 0.02), (cx + dx * 0.6, cy + 0.06, cz + dz * 0.5), 0.022, seg=6, r2=0.026)
+                fing.cyl((cx + dx * 0.6, cy + 0.06, cz + dz * 0.5), (cx + dx * 1.1, cy + 0.1, cz + dz * 1.0), 0.026, seg=6, r2=0.012)
+            stem.append(((cx, cy + 0.035, cz - 0.03), 0.02, 0.02, 0.03))
+        parts.append(fing.finish(None, smooth=True)); balls(stem, '#5d4a22', rough=0.8, seg=6)
+    elif kind == 'melon':
+        m.cbox(-0.38, 0.38, 0.0, 0.25, -0.26, 0.26, '#2f8a4a', 0.9)                                                    # 綠色塑膠籃
+        for k in range(5): m.cbox(-0.36 + k * 0.17, -0.3 + k * 0.17, 0.05, 0.2, 0.258, 0.262, '#24703a')
+        _crate(m, -0.38, 0.38, 0.25, 0.5, -0.26, 0.26)
+        mel = []; stripes = []
+        for i, (x, z) in enumerate(((-0.18, -0.1), (0.18, -0.1), (-0.18, 0.12), (0.2, 0.13))):
+            c = (x, 0.5 + 0.13 + (0.03 if i < 2 else 0.0), z); mel.append((c, 0.17, 0.135, 0.2))
+            for k in range(6):   # 深綠色的條紋：貼在表面的細長橢球
+                a_ = k * math.pi / 3; stripes.append(((c[0] + math.cos(a_) * 0.158, c[1], c[2] + math.sin(a_) * 0.0), 0.02, 0.128, 0.19))
+        balls(mel, '#4d7a3a', rough=0.35, seg=12); balls(stripes, '#22401f', rough=0.35, seg=6)
+        cut = Mesh('melon_cut', flat('wz_sf_melon_red', '#d8403a', rough=0.5)); cut.box(-0.1, 0.1, 0.5, 0.505, 0.27, 0.29)
+        parts.append(cut.finish(None))
+    parts.insert(0, m.finish(None, uv=False))
+    return combine(parts, 'sk_fruitcrates_' + kind)
+
+
+FRUIT_CARDS = {'fruit_pine': [('wz2_azhong_fruit_pine', 0.0, 0.32, 0.26, 0.16)], 'fruit_banana': [('wz2_azhong_fruit_banana', 0.0, 0.36, 0.28, 0.16)],
+               'fruit_melon': [('wz2_azhong_fruit_melon', 0.0, 0.52, 0.28, 0.17)]}
+
+
 def p_noodle():
     """麵攤（台灣麵店在店門口煮麵）：倒角的不鏽鋼工作台（正面紅色烤漆板）、兩口有提耳的湯鍋（一鍋蓋著）、竹撈、湯杓、
     玻璃櫥窗（碗疊、麵團、滷味盤）。v6c：原本是直角方塊＋圓柱，像灰色積木"""
@@ -350,7 +411,7 @@ def p_outlet(face='x'):
 
 
 P_STOOL_R, P_STOOL_B = p_stool('#c8392e'), p_stool('#2f6fb0')
-PROTO = {'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
+PROTO = {'fruit_pine': p_fruitcrates('pine'), 'fruit_banana': p_fruitcrates('banana'), 'fruit_melon': p_fruitcrates('melon'), 'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
          'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter(), 'outlet': p_outlet('x'), 'outlet_z': p_outlet('z')}
 
 NOTE_Q = []   # (四點世界座標, 圖集格名稱)：最後合成一個網格（一次 draw call）
@@ -473,7 +534,7 @@ def shopfront_v2(spec, xf, W, gt, wall):
     s = spec['shop']; sf = spec['sf']; R = sf.get('recess', 0.9); gz = -R
     iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e')); top = ih + 0.4
     # 店內景深卡（退到玻璃後 1.2 m）＋店內地板、兩側的牆
-    if sf.get('inner'): shallow_interior(spec, xf, iw, gz, ih)                                  # 立體的淺店內（深 2.6 m）
+    if sf.get('inner'): shallow_interior(spec, xf, iw, gz, ih, bright=sf.get('bright', 0.62))   # 立體的淺店內（深 2.6 m）；bright＝店內亮度（WZ-SECOND-1104：常在洗衣、溫州書屋照參考圖調亮）
     else:
         face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
         xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
@@ -539,7 +600,10 @@ def shopfront_v2(spec, xf, W, gt, wall):
         k, x, z = it[0], it[1], it[2]; zz = gz + z
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         elif k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(xf, x, zz); B.instance(_pm, f'skpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
-        else: inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
+        else:
+            inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
+            for (cn, cx_, cy_, cz_, cw_) in FRUIT_CARDS.get(k, []):   # WZ-SECOND-1104：參考圖裁的手寫價錢牌（插在箱子前緣、往後仰一點）
+                note_tilt([xf.p(x + cx_ - cw_ / 2, cy_, zz + cz_), xf.p(x + cx_ + cw_ / 2, cy_, zz + cz_), xf.p(x + cx_ + cw_ / 2, cy_ + cw_ * 1.05, zz + cz_ - 0.04), xf.p(x + cx_ - cw_ / 2, cy_ + cw_ * 1.05, zz + cz_ - 0.04)], cn)
     # 設備：一樓冷氣（門楣旁）、電錶箱、排油煙管
     if sf.get('ac'): ax = sf['ac']; inst(AC, f'skac_{spec["id"]}', xf, ax, GH - 0.95, 0.0)
     if sf.get('meter') is not None: inst(PROTO['meter'], f'skmeter_{spec["id"]}', xf, sf['meter'], 1.5, 0.0)
@@ -1823,7 +1887,7 @@ SF = {
     'A1': dict(inner=True, door='alu', sign='lightbox', awning='metal', floor='f_granite', step=0.06, light='cool', ac=2.6, meter=-3.5,
                notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('nobook', 1.6, 1.3, 0.5, 0.5), ('pay', 2.3, 1.45, 0.34, 0.34)],
                clutter=[('vend', -3.0, 0.42), ('boxes', 2.9, 0.35)]),
-    'A3': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', step=0.1, door_x=1.4, frame='#4a2e1c', sign_w=10.4,   # WZ-SECOND-1104 溫州書屋（原本的巷口書房；參考圖 wenzhou_books_ext）：米白長飾帶深綠字、四盞綠色鵝頸燈、深色木框大窗、沒有雨遮、營業時間黑板
+    'A3': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', step=0.1, door_x=1.4, frame='#4a2e1c', sign_w=10.4, bright=0.85, light='warm',   # WZ-SECOND-1104 溫州書屋（原本的巷口書房；參考圖 wenzhou_books_ext）：米白長飾帶深綠字、四盞綠色鵝頸燈、深色木框大窗、沒有雨遮、營業時間黑板
                lamps=[-4.2, -1.4, 1.4, 4.2], lampcol='goose_green', notes=[],
                clutter=[('bookcart', -3.4, 0.35), ('aboard', 3.9, 0.45, 'wz2_wenzhou_books_chalk'), ('pot', -4.9, 0.3, 'broad'), ('pot', 5.0, 0.3)]),
     'A4': dict(inner=True, door='open', sign='panel', awning='#2f5a47', floor='f_mosaic', light='warm', ac=-2.7, duct=3.4,   # WZ-FIVE-1104 林家（參考圖 wz_lin_ext）：深綠雨遮、門邊參考圖裁的價目牌、兩盆大盆栽
@@ -1832,7 +1896,7 @@ SF = {
     'A5': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_white', light='cool', door_x=-1.4, rollbox=False,
                notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)],
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),
-    'B2': dict(inner=True, door='alu', sign='panel', awning=None, floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6, sign_w=5.6, sconce=[-2.86, 2.86],   # WZ-SECOND-1104 常在洗衣（原本的自助洗衣；參考圖 changzai_laundry_ext）：整面灰藍燈箱招牌、沒有雨遮、兩側壁燈
+    'B2': dict(inner=True, door='alu', sign='panel', awning=None, floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6, sign_w=5.6, sconce=[-2.86, 2.86], bright=1.0,   # WZ-SECOND-1104 常在洗衣（原本的自助洗衣；參考圖 changzai_laundry_ext）：整面灰藍燈箱招牌、沒有雨遮、兩側壁燈
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4)], board=(1.35, 1.0, 0.9, 0.7),   # AA_413（10-23）：門右邊的布告欄（尋貓的紙條搬到布告欄上；「看布告欄」在世界 x −16.4）
                clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
     'B3': dict(inner=True, door='lattice', sign='wood', awning='#3a2a1f', floor='f_floral', step=0.12, noren='wz_komichi_noren', lantern=(-0.75, 2.05), light='warm', door_x=-2.0, door_w=1.8, ac=4.8,   # WZ-FIVE-1104 小路（參考圖 wz_komichi_ext）：深色木雨遮、參考圖的暖簾、黑板立牌
@@ -1843,14 +1907,14 @@ SF = {
                            notes=[('pay', -1.75, 1.05, 0.2, 0.2), ('hiring', 2.75, 1.45, 0.34, 0.38)], clutter=[('aboard', 3.0, 0.4, 'wz2_dida_tea_aboard')]),   # 立牌放在原本垃圾桶的位置（導航的道具阻擋 [22.73,−7.6,1.46,0.44] 不變，比立牌大一點）
                       dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・古早味', signBg='#f7efe0', signColor='#2a5f8a', band='#2f7a8a', serif=True),   # WZ-SECOND-1104（參考圖 summer_ice_ext）：薄荷綠木腰板、窗口、雙開玻璃格子門、「冰」旗
                            lamps=[-1.6, 1.6], front=dict(win=(-3.2, 0.25), frame='#86bab2', wains='#a6d2ca', ledge='wood', curtain=True, door=(0.95, 2.25), door_col='#9cc9c1', awning='stripe_mint', awn_door=True,
-                                                         menu=('wz2_summer_ice_menu', 0.6, 1.1, 0.5, 1.0), flag=('wz2_summer_ice_flag', 2.6), pots=[(-3.05, 'fern')]),
+                                                         menu=('wz2_summer_ice_menu', 0.6, 1.1, 0.5, 1.0), flag=('wz2_summer_ice_flag', 2.6)),   # 參考圖左邊的繡球花盆不放：騎樓走得到的地方沒有導航阻擋（tests/street_props_nav_unit.js），不新增阻擋
                            notes=[('hours', 2.95, 1.3, 0.3, 0.3)], clutter=[('aboard', 3.0, 0.5, 'wz2_summer_ice_menu')])]),
     'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
                notes=[('hours', -1.0, 1.25, 0.34, 0.34)],
                clutter=[('aboard', 0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', 1.5, 0.32)]),
     'B6': dict(inner=True, door='open', sign='panel', awning='#4b7055', floor='f_concrete', light='warm', ac=-3.7, sign_w=9.0,   # WZ-SECOND-1104 阿忠鮮果（原本的阿忠水果；參考圖 azhong_fruit_ext）：米白招牌＋水果插畫、綠色帆布雨遮
                notes=[('pay', 3.5, 1.6, 0.32, 0.32)],
-               clutter=[('fruitstall', -0.1, 0.5), ('boxes', 3.4, 0.35), ('stool_b', 2.4, 0.45)]),   # AA_413（10-23）：門廊前緣的攤子（原本是 x −1.2 的三層木架 crates）；老闆站在攤子後面＝世界 (34.9, −6.15)
+               clutter=[('fruitstall', -0.1, 0.5), ('fruit_pine', -3.75, 0.5), ('fruit_banana', -2.45, 0.5), ('fruit_melon', 3.6, 0.5), ('stool_b', 2.4, 0.45)]),   # WZ-SECOND-1104：攤子兩邊加鳳梨箱、香蕉架、西瓜箱（參考圖；都在門廊的導航阻擋裡），紙箱拿掉   # AA_413（10-23）：門廊前緣的攤子（原本是 x −1.2 的三層木架 crates）；老闆站在攤子後面＝世界 (34.9, −6.15)
 }
 # 住家、空店面
 # 118 巷九間店（ART-L118-FACADE-3D-1023，使用者 10-23：「118店面裡面做了 但外觀還是很2D」）：原本是舊的 shopfront（玻璃後面一張平面景深卡）→ 店面組件＋立體淺店內。

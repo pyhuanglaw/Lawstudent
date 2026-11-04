@@ -6,7 +6,24 @@
 - 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
 - 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
 
-## 🔨 現在在做（11-04 04:5x UTC 更新）
+## 🔨 現在在做（11-04 06:4x UTC 更新）
+- **WZ-SECOND-1104（使用者 05:4x 直接交辦）溫州街第二批五間：MODEL_READY，已交 LAWWW**。溫州書屋、常在洗衣、帝大紅茶、夏日冰菓室、阿忠鮮果，都不能進去。
+  - 文件：`wip/wz_second_1104/README.md`；對照圖：`v2_ref_before_after.jpg`。
+  - 導航沒動；`tests/street_props_nav_unit.js` ALL PASS。
+  - 室內參考圖 5 張沒收到，已請使用者補傳。
+  - 遊戲截圖要 CC 在 PC 拍。
+- 一盞前院（WZ-YIZHAN-1104）：WIP 4a5c97140，暫停。單元測試修改後 ALL PASS、修改前 9 FAIL；其他茶屋相關測試沒跑完。
+  - 下一步：接 AA 的室內 v1（13994dfdd）一起量 → 溫州街那一側的冠木門。
+- 審查：
+  - 小路 v1c：MODEL_READY。
+  - SUNNY SIDE v1：卡座 2 個座位走不到，已給 AA 修法。
+  - 阿德室內 v1（CC）：7／8 走不到，退回 v1b。
+  - 一盞室內 v1：等前院一起看。
+- 工具：`tools/dev_scratch/shopchk2.js`、`shopmap2.js`（021262b9b），給 AA、BB、CC 用遊戲的導航格量座位。
+- 阿德外觀價目牌改成 NT$2（`textures/src/wz_cards/wzade_price.jpg`），等阿德轉角外觀做的時候用。
+- 第一批還沒做：小路深色木立面、阿德轉角外觀、2:30 AM 外觀（cafe_exterior.py）、五間的窗卡、cafe 重烘。
+
+## 🔨 （舊）11-04 04:5x UTC
 - **WZ-FIVE-1104 溫州街第一批五間**（使用者 04:4x 定案，AA_654 §6）：
   - 我做五間的外觀、招牌、窗卡、烘焙。室內：2:30 AM、小路、SUNNY SIDE 是 AA；林家是 BB；阿德是 CC。
   - 門窗數字已經給 AA、BB、CC（04:5x，照 cafe_layout.py 和 wz_shops_layout.js，房間、門、出口都不動）。已請 LAWWW 列出不能動的劇情座標。
