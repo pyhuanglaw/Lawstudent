@@ -1,6 +1,6 @@
 // 坐在桌前做事的循環的接線（NPC-ANIM-LOOPS-1104；LAWWW2-C 交件 2962616ac 的片段 ual_sit_tasks.glb、配件 hand_props.glb）——不需要瀏覽器。
 // 在 Node 載入遊戲的 three.js／three-vrm／CHAR／SEATACT（不算圖）、坐姿循環、做事的片段、右手配件、桌上小物（desk_props）的 GLB，
-// 用真的 VRoid 路人（vroid_npc_f1／m1、LAWWW2 的 bl_npc_nf2／nm8／nm1）坐在測試用的桌子前，跑 SEATACT.tick（每 30 格）＋CHAR.animate（每格 1/30 秒）：
+// 用真的 VRoid 路人（vroid_npc_f1／m1、LAWWW2 的 bl_npc_nf2／nm8／nm1／nm5）坐在測試用的桌子前，跑 SEATACT.tick（每 30 格）＋CHAR.animate（每格 1/30 秒）：
 //   A  manifest：char.ual_sit_tasks（clips、lazy）、prop.hand_props（building、lazy）都有、檔案在、LICENSES.md 有；開場預載（ASSETS.preload）不會載它們
 //   B  SEATACT 的路人：用筆電＝Sit_Type／Sit_TypePad、寫筆記＝Sit_Write、看桌上的書＝Sit_Page、滑手機＝Sit_Phone（姿勢從 read 換成 sit、手上的手機換成配件）；
 //      片段的名字照骨架分 _F／_M（女生 npc_f1、nf2；男生 npc_m1、nm8）；速度 1（60 格＝片段走 2 秒）；手臂吃片段：照片段播的時候兩手手腕、右手中指根和
@@ -8,10 +8,10 @@
 //   C  配件：寫字＝右手骨頭上的 hand_pen（位置 0、不轉、看得到，筆尖在筆記本上）、滑手機＝hand_phone（眼睛看著它）；一次只開一個；桌上那支筆藏起來
 //      （自習桌 tset_notes：近的換成拆開的單件、沒有筆；遠的照用 _lod1）；不做了（?nositask／拿掉）＝手上的藏、桌上的放回來；起身＝配件藏、那一組拿掉；換區域＝全部拿掉
 //   D  照舊（沒有片段）：吧台的高腳椅、矮桌、太高的桌子（0.85 m）、太遠的桌子（桌緣 0.60 m）、有名字的人、聊天、手上捧書
-//   E  桌緣比參考遠（0.42 m）：人往前坐 12 cm、手和桌緣的相對位置跟參考一樣（≤ 1 cm）
+//   E  桌緣比參考遠（0.42 m）：人往前坐 12 cm；E2 桌子 0.77 m：往上坐 1.5 cm，筆照樣在紙上、手和桌緣的相對位置跟參考一樣（≤ 1 cm）
 //   F  載不到：片段的 GLB 不見＝不報錯、和沒有這個功能一模一樣（骨頭的四元數分量）；載入失敗以後 30 秒內不再下載；配件的 GLB 不見＝要拿東西的（寫字、滑手機）照舊、打字照樣
 //   G  不留垃圾：每一格不會一直加配件；C.release 把配件從骨頭拿下來（VRM 的第一個實例會被下一個人重用）；CHAR.upgrade（換模型）接著做
-//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm1）照舊；一次量的人數有上限、同一個模型共用、滑手機不排隊
+//   D2 每個人自己的骨架：照片段擺一次量手（量完骨頭全部放回去）、和參考差很多的（bl_npc_nm5）照舊、差一點的往上下坐補（nm1 打字可以、寫字不行）；一次量的人數有上限、同一個模型共用、滑手機不排隊
 //   H  C.SIT_TASK.WIN（桌緣的範圍）和量到的一樣：前臂在桌面上的那一段離桌面不到 1.5 cm 的地方不能在桌子上（女生不比參考的桌子更糟）、放在桌上的手腕往前 3 cm 在桌上、男生打字的指尖不過筆電的鉸鏈
 // 修改前（開發分支 060f12491）：沒有 manifest、沒有 CHAR.sitTaskFit：A～H 幾乎全部 FAIL。用法：node tests/sit_task_wire_unit.js
 const {preload,ROOT}=require('../tools/dev_scratch/spring_sim/harness.js');
@@ -46,7 +46,7 @@ const recOf=(n)=>SEATACT.state().list.find(r=>Math.abs(r.x-n.seat.x)<1e-6&&Math.
 const cleanup=(GM,Z)=>{ SEATACT.clear(); for(const n of GM.E.npcs){ scene.remove(n.obj); CHAR.release(n.obj); } scene.remove(Z.zone.group); };
 const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* 每個位子做什麼：照測試指定（真正的種子分配有 seat_activity_1104_unit 測）*/
 (async()=>{
-  await preload(['char.npc_f1','char.npc_m1','char.npc_nf2','char.npc_nm8','char.npc_nm1','char.heroine_01']);
+  await preload(['char.npc_f1','char.npc_m1','char.npc_nf2','char.npc_nm8','char.npc_nm1','char.npc_nm5','char.heroine_01']);
   /* ---------- A：manifest ---------- */
   { const T=MAN['char.ual_sit_tasks'], P=MAN['prop.hand_props']; const lic=fs.readFileSync(path.join(ROOT,'LICENSES.md'),'utf8');
     check('A manifest：char.ual_sit_tasks（clips、lazy）、prop.hand_props（building、lazy），檔案都在',!!T&&T.type==='clips'&&T.lazy===true&&!!P&&P.type==='building'&&P.lazy===true&&fs.existsSync(path.join(ROOT,T.url))&&fs.existsSync(path.join(ROOT,P.url)),T?T.url+'、'+(P&&P.url):'沒有 char.ual_sit_tasks');
@@ -113,9 +113,13 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* �
     check('D 吧台、矮桌、太高、太遠、有名字的人、手上捧書：沒有片段（照舊：坐姿循環、手放在大腿上）',!bad.length&&lap,bad.join('；')||('手在大腿上 '+lap));
     cleanup(GM,Z); }
   /* ---------- D2：每個人自己的骨架 ---------- */
-  { const Z=mkZone([{act:'laptop',top:0.75,edge:0.30},{act:'notes',top:0.75,edge:0.30}]); const npcs=Z.zone.seats.map(st=>mkNPC('char.npc_nm1',st)); const GM=mkGM(Z,npcs); await run(GM,90);
-    const dv=CHAR._taskDev(npcs[0].obj,'Sit_Type_M_Loop'), R0=CHAR.SIT_TASK.HANDS.M.type, dy=dv?((dv.l.y-R0.l[1])+(dv.r.y-R0.r[1]))/2:null;
-    check('D2 骨架和參考差很多（LAWWW2 的 bl_npc_nm1：照片段擺，手比參考低 4 cm 以上）：照舊，沒有片段',dy!=null&&dy<-0.04&&npcs.every(n=>!CHAR.sitTaskOf(n.obj)),dy!=null?'手低了 '+cm(-dy):'量不到');
+  { const Z=mkZone([{act:'laptop',top:0.75,edge:0.30},{act:'notes',top:0.75,edge:0.30},{act:'laptop',top:0.75,edge:0.30},{act:'notes',top:0.75,edge:0.30}]); const st=Z.zone.seats;
+    const npcs=[mkNPC('char.npc_nm5',st[0]),mkNPC('char.npc_nm5',st[1]),mkNPC('char.npc_nm1',st[2]),mkNPC('char.npc_nm1',st[3])]; const GM=mkGM(Z,npcs); await run(GM,90);
+    const dyOf=(h,cl,kind)=>{ const dv=CHAR._taskDev(h,cl), R0=CHAR.SIT_TASK.HANDS.M[kind]; return dv?((dv.l.y-R0.l[1])+(dv.r.y-R0.r[1]))/2:null; };
+    const d5=dyOf(npcs[0].obj,'Sit_Type_M_Loop','type'), d1=dyOf(npcs[2].obj,'Sit_Type_M_Loop','type'), t1=CHAR.sitTaskOf(npcs[2].obj), u1=npcs[2].obj.userData, sitY=(u1.model.userData.baseY||0)-0.47*u1.k;
+    check('D2 骨架和參考差很多（LAWWW2 的 bl_npc_nm5：照片段擺，手比參考低 5 cm 以上）：打字、寫字都照舊，沒有片段',d5!=null&&d5<-0.05&&!CHAR.sitTaskOf(npcs[0].obj)&&!CHAR.sitTaskOf(npcs[1].obj),d5!=null?'手低了 '+cm(-d5):'量不到');
+    check('D2 手低 4.5 cm 的骨架（bl_npc_nm1）：打字＝往上坐 1.5 cm、補完差 3 cm 以內（手腕離桌面本來就 5 cm）；寫字＝筆會壓進紙（補完還差 3 cm）照舊',d1!=null&&d1<-0.04&&!!t1&&/^Sit_Type/.test(t1.playing||'')&&Math.abs(t1.lift-0.015)<1e-6&&Math.abs((u1.model.position.y-sitY)-0.015)<1e-4&&!CHAR.sitTaskOf(npcs[3].obj),
+      (d1!=null?'手低了 '+cm(-d1):'量不到')+'、打字 '+(t1?t1.playing+' 往上 '+cm(t1.lift)+'（人物實際往上 '+cm(u1.model.position.y-sitY)+'）':'沒有')+'、寫字 '+(CHAR.sitTaskOf(npcs[3].obj)?'有（錯）':'照舊'));
     cleanup(GM,Z); }
   { const h=mkNPC('char.npc_nf2',{x:0,z:0,yaw:0,lv:0}).obj; for(let i=0;i<10;i++){ CHAR.animate(h,DT,{pose:'sit',speed:0}); } scene.updateMatrixWorld(true);
     const H=h.userData.vrm.humanoid, names=['hips','spine','chest','neck','head','leftUpperArm','leftLowerArm','leftHand','rightUpperArm','rightLowerArm','rightHand','rightIndexProximal','leftUpperLeg','leftLowerLeg','leftFoot'];
@@ -138,6 +142,12 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* �
     amb(b.obj).tt=amb(a.obj).tt; for(const n of npcs) CHAR.animate(n.obj,DT,{pose:'sit',speed:0}); scene.updateMatrixWorld(true);
     const da=L(a.obj,'leftHand').z-0.30, db=L(b.obj,'leftHand').z-0.42;   /* 左手（打字、打字＋觸控板的左手一樣）*/
     check('E 桌緣 0.42 m：人往前坐 0.12 m、手腕到桌緣的距離和參考（0.30 m）一樣（≤ 1 cm）；桌緣 0.30 不挪',!!ta&&!!tb&&Math.abs(sh-0.12)<0.003&&Math.abs(a.obj.userData.model.position.z)<1e-9&&Math.abs(da-db)<=0.01,'往前 '+cm(sh)+'、手腕到桌緣 '+cm(da)+'／'+cm(db)+'（'+(tb&&tb.playing)+'）');
+    cleanup(GM,Z); }
+  /* ---------- E2：0.77 m 的桌子（法圖、Café 常見）：往上坐 1.5 cm 補，筆照樣在紙上 ---------- */
+  { const Z=mkZone([{act:'notes',top:0.77,edge:0.30}]); const n=mkNPC('char.npc_f1',Z.zone.seats[0]); const GM=mkGM(Z,[n]); await run(GM,90);
+    const t=CHAR.sitTaskOf(n.obj), pen=n.obj.userData.taskProps&&n.obj.userData.taskProps.hand_pen; let lo=9; const bb=new THREE.Box3();
+    if(pen) for(let i=0;i<150;i++){ CHAR.animate(n.obj,DT,{pose:'sit',speed:0}); scene.updateMatrixWorld(true); bb.setFromObject(pen,true); lo=Math.min(lo,bb.min.y-0.77); }
+    check('E2 桌子 0.77 m（比參考高 2 cm）：寫字照樣有片段、往上坐 1.5 cm、筆最低的那一點在桌面上下 1.5 cm',!!t&&/^Sit_Write_F/.test(t.playing||'')&&Math.abs(t.lift-0.015)<1e-6&&!!pen&&Math.abs(lo-0.005)<=0.015,t?(t.playing+' 往上 '+cm(t.lift)+'、筆最低點離桌面 '+cm(lo)):'沒有片段');
     cleanup(GM,Z); }
   /* ---------- F：載不到 ---------- */
   { const keep={c:ASSETS.cache['char.ual_sit_tasks'],d:window.ASSET_DATA[MAN['char.ual_sit_tasks'].url]};

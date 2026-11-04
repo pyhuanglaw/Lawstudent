@@ -652,13 +652,13 @@ const CHAR = (function(){
        不像這兩種的骨架、VRM 1.0（骨頭方向不一樣，配件掛不對）＝不用片段（照舊）。
      桌子：片段照參考的桌子擺手（總圖自習桌：桌面離座位的地面 0.75 m、桌緣在座位前面 0.30 m；女生身高 1.62、男生 1.74：ual_sit_tasks.json 的 ref、bodies）。
        C.sitTaskFit 在這個人自己的骨架上量手會落在哪裡（taskDev，和參考骨架的手 HANDS 比），再看這張桌子：
-       手和桌面的高低合不上（下面 tolUp／tolDown：矮桌、太高的桌子、手比參考高或低很多的人；吧台的高腳椅 SEATACT 另外擋）＝不用；
+       手和桌面的高低合不上（往上下坐一點補完還差太多：下面 liftMax、TOLV；矮桌、太高的桌子、手比參考高或低很多的人；吧台的高腳椅 SEATACT 另外擋）＝不用；
        桌緣比該在的地方遠＝整個人往前坐（最多 12 cm、手太前面的往後 3 cm；跟著片段的權重慢慢挪過去：u.model；骨盆、腿的姿勢不變）；挪完還是太遠、或比 WIN 近＝不用
        （太遠：手按在桌子外面；太近：女生的前臂穿進桌子、指尖伸過筆電的鉸鏈——量過的範圍在 WIN，女生、男生各一組）。
      手上的配件 assets/models/char/second_ai/hand_props.glb（ASSETS 'prop.hand_props'，lazy）：hand_pen（寫字）、hand_phone（滑手機）、hand_cup（喝飲料），已經擺在右手骨頭（J_Bip_R_Hand）的座標裡：
        複製節點掛到右手的真實骨頭、位置 0、不轉（網格、材質和快取共用）；一次只開一個；換掉、起身、拿掉就藏；C.release 拿下來（VRM 的第一個實例會被下一個人重用）。配件還沒好＝要拿東西的那幾種先不用（照舊）。
      眼睛：用筆電、寫筆記、看書＝看桌上那一組（SEATACT 的 sitFocus）；滑手機＝看手上的手機；吃飯＝看碗（LOOK）。
-     換過去、換回來：片段的權重 0.5 秒（blend）慢慢換（手從大腿上慢慢放到桌上）。滑手機從拿著手機（pose read，readIK）換過來那一格手會跳（量過 18 cm）：只有片段晚到才會這樣——
+     換過去、換回來：片段的權重 0.5 秒（blend）慢慢換（手從大腿上慢慢放到桌上；往前、往後、往上下坐也跟著慢慢挪）。滑手機從拿著手機（pose read，readIK）換過來那一格手會跳（量過 18 cm）：只有片段晚到才會這樣——
        片段在第一個人坐下、坐姿循環好了的時候就開始下載（ambReady），SEATACT 量骨架時滑手機的人不排隊（urgent），同一個模型量過就不再量（TDEV）。
      沒載好、載入失敗（30 秒後再試，最多 3 次）、片段缺、網址 ?nositask＝照舊（坐姿循環＋手放大腿上／拿著手機）、不報錯。遠距離版本（u.isFar）照舊不算手指；每一格不配置新物件。
      測試：node tests/sit_task_wire_unit.js、node tests/sit_task_loops_unit.js */
@@ -678,14 +678,15 @@ const CHAR = (function(){
     /* 參考骨架（vroid_npc_f1 1.62 m、vroid_npc_m1 1.74 m：產生片段用的）坐在參考桌子前、片段 0 秒的兩手手腕（人物座標 x 左、y 上、z 前；遊戲裡量的，和 ual_sit_tasks.json 的 expect 一樣）。
        每個人的骨架不一樣（LAWWW2 的路人底模分好幾種比例：手臂÷身高 0.251／0.264（女）、0.246／0.266（男），肩膀高低也不同）：同一個片段，手會差到 6 cm。
        所以每個人第一次要用某一個片段的時候，在他自己的骨架上照片段 0 秒擺一次（taskDev，量完放回去），手腕和這裡差多少＝他的偏差：
-       上下差（扣掉桌子本身的高低）：手比該在的地方低超過 tolDown（手會壓進桌子、筆電）或高超過 tolUp（LAWWW2：3 cm；寫字 TOLUP 2 cm：筆尖要碰到紙）＝不用；
+       上下差（扣掉桌子本身的高低）：整個人往上／往下坐一點補（最多 liftMax 1.5 cm，像坐墊的厚薄），補完手和桌面還差超過 TOLV（打字 3 cm：手腕本來就離桌面 5 cm；
+       寫字 1 cm：筆尖要碰到紙；其他 1.5 cm：手放在桌上、書上、杯子在桌上）＝不用（LAWWW2 README 的「桌高差 3 cm」：手和桌面合起來差 3 cm 以內）；
        前後差用往前／往後坐補（shiftBack～shiftMax），補完桌緣還要在 WIN 裡；左右差超過 tolX＝不用。
-       量過（本作 44 個路人底模、參考桌子）：女生 17／22、男生 10／22 個合得上；其他的（手臂比較長、肩膀比較低或高的那幾組）照舊——要 LAWWW2 照那幾種骨架再出一份片段 */
+       合不上的人（手臂比較長、肩膀比較低或高的那幾組底模）照舊——要 LAWWW2 照那幾種骨架再出一份片段（量到的結果：tests/sit_task_wire_unit.js、交件報告）*/
     HANDS:{F:{type:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},typepad:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},write:{l:[0.1384,0.7819,0.3864],r:[-0.0605,0.7919,0.3816]},
         phone:{l:[0.1367,0.7806,0.3458],r:[-0.0862,0.8186,0.3145]},page:{l:[0.1179,0.8045,0.35],r:[-0.1179,0.8045,0.35]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.3668]},eat:{l:[0.1667,0.7806,0.3658],r:[-0.0945,0.8567,0.3959]}},
       M:{type:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},typepad:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},write:{l:[0.1388,0.7824,0.3857],r:[-0.0614,0.7927,0.3801]},
         phone:{l:[0.1371,0.7812,0.3451],r:[-0.0808,0.8194,0.3038]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2342,0.812,0.3661]},eat:{l:[0.1671,0.7812,0.3651],r:[-0.0925,0.859,0.3945]}}},
-    tolX:0.04, tolUp:0.03, tolDown:0.015, TOLUP:{write:0.02}, shiftBack:0.03, probesPer:3 };
+    tolX:0.04, liftMax:0.015, tolV:0.015, TOLV:{type:0.03,typepad:0.03,write:0.01}, shiftBack:0.03, probesPer:3 };
   const SITT={raw:null,src:null,clips:{},failed:false,loading:false}, HPROP={scene:null,failed:false,loading:false};
   C._task=SITT; C._handProps=HPROP;
   C._taskReset=function(){ Object.assign(SITT,{raw:null,src:null,clips:{},failed:false,loading:false,broken:false,tries:0,failT:0,done:false}); Object.assign(HPROP,{scene:null,failed:false,loading:false,broken:false,tries:0,failT:0,done:false}); };   /* 測試用 */
@@ -733,7 +734,7 @@ const CHAR = (function(){
     if(out) TDEV.set(key,out); return (D[c.name]=out||false); }
   C._taskDev=(h,clip)=>{ const u=h&&h.userData, c=taskClip(clip); return u&&c?taskDev(h,u,c):null; };   /* 測試用 */
   /* 這個人、這張桌子能不能做 kind（type／typepad／write／phone／page／drink／eat）：desk＝{h：桌面離這個人的根（座位的地面＋lift）多高, edge：座位到桌緣, depth}；
-     回傳 null（照舊）或 {kind, clip, body, prop, shift（往前坐幾公尺；負的＝往後）, deskH, edge}。片段、配件還沒下載的會開始下載；第一次會在他的骨架上量一次（taskDev；urgent＝不排隊）*/
+     回傳 null（照舊）或 {kind, clip, body, prop, shift（往前坐幾公尺；負的＝往後）, lift（往上坐幾公尺；負的＝往下）, deskH, edge}。片段、配件還沒下載的會開始下載；第一次會在他的骨架上量一次（taskDev；urgent＝不排隊）*/
   C.sitTaskFit=function(h,kind,desk,urgent){ const u=h&&h.userData, K=C.SIT_TASK; if(!C.sitTask||!C.sitAmb||!u||u.driver!=='vrm'||!u.v0||!K.CLIP[kind]||!desk) return null;
     if(!taskReady()) return null;
     const body=taskBody(h,u); if(!body) return null;
@@ -743,13 +744,13 @@ const CHAR = (function(){
     const dl=[dv.l.x-R0.l[0],dv.l.y-R0.l[1],dv.l.z-R0.l[2]], dr=[dv.r.x-R0.r[0],dv.r.y-R0.r[1],dv.r.z-R0.r[2]];
     if(Math.max(Math.abs(dl[0]),Math.abs(dr[0]))>K.tolX) return null;   /* 手往旁邊差太多（肩膀寬很多）*/
     const dy=(dl[1]+dr[1])/2, dz=(dl[2]+dr[2])/2;
-    const dyE=dy-(+desk.h-K.REF.desk); if(!(dyE<=(K.TOLUP[kind]||K.tolUp)&&dyE>=-K.tolDown)) return null;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）*/
+    const dyE=dy-(+desk.h-K.REF.desk), lift=Math.min(K.liftMax,Math.max(-K.liftMax,-dyE)); if(!(Math.abs(dyE+lift)<=(K.TOLV[kind]||K.tolV)+1e-6)) return null;   /* 手的高低和這張桌子合不上（吧台、矮桌、手比參考高或低很多的人）；lift＝往上（＋）／往下坐多少 */
     const e0=+desk.edge-dz, sh=Math.min(K.shiftMax,Math.max(-K.shiftBack,e0-K.REF.edge)), e2=e0-sh, w=K.WIN[kind]&&K.WIN[kind][body]; if(!w||!(e2>=w[0]-1e-6&&e2<=w[1]+1e-6)) return null;
-    return {kind,clip,body,prop,shift:+sh.toFixed(4),deskH:+desk.h,edge:+desk.edge}; };
+    return {kind,clip,body,prop,shift:+sh.toFixed(4),lift:+lift.toFixed(4),deskH:+desk.h,edge:+desk.edge}; };
   /* 套上／拿掉（fit＝C.sitTaskFit 的結果；null＝拿掉）：片段在 sitAmbient 裡慢慢換過去；配件馬上換（SEATACT 同一格把桌上那件藏起來／放回去）*/
   C.setSitTask=function(h,fit){ const u=h&&h.userData; if(!u) return false; if(!fit){ u.sitTask=null; propVis(u,null); return false; }
-    const T=u.sitTask; if(!T||T.clip!==fit.clip||T.prop!==fit.prop||T.kind!==fit.kind||Math.abs((T.shift||0)-(fit.shift||0))>1e-4||T.deskH!==fit.deskH) u.sitTask=Object.assign({},fit); return true; };
-  C.sitTaskOf=function(h){ const u=h&&h.userData, m=u&&u.amb; return u&&u.sitTask?{kind:u.sitTask.kind,clip:u.sitTask.clip,body:u.sitTask.body,prop:u.taskPropOn||null,playing:m&&m.tc||null,w:m&&m.tc?m.tw||0:0,rate:1,shift:u.sitTask.shift}:null; };   /* 測試用 */
+    const T=u.sitTask; if(!T||T.clip!==fit.clip||T.prop!==fit.prop||T.kind!==fit.kind||Math.abs((T.shift||0)-(fit.shift||0))>1e-4||Math.abs((T.lift||0)-(fit.lift||0))>1e-4||T.deskH!==fit.deskH) u.sitTask=Object.assign({},fit); return true; };
+  C.sitTaskOf=function(h){ const u=h&&h.userData, m=u&&u.amb; return u&&u.sitTask?{kind:u.sitTask.kind,clip:u.sitTask.clip,body:u.sitTask.body,prop:u.taskPropOn||null,playing:m&&m.tc||null,w:m&&m.tc?m.tw||0:0,rate:1,shift:u.sitTask.shift,lift:u.sitTask.lift||0}:null; };   /* 測試用 */
   /* 右手的配件：只開 nm（null＝全部藏）；第一次用到才從 hand_props 複製一份掛上去 */
   function propVis(u,nm){ if((u.taskPropOn||null)===nm) return; u.taskPropOn=nm||null;
     if(u.taskProps) for(const k in u.taskProps) u.taskProps[k].visible=k===nm;
@@ -762,7 +763,7 @@ const CHAR = (function(){
     const want=T&&free&&pose==='sit'&&C.sitTask&&taskClip(T.clip)?T.clip:null;
     if(m.tc&&m.tc!==want){ m.tw=Math.max(0,(m.tw||0)-inc); if(m.tw<=0) m.tc=null; }
     if(!m.tc&&want){ m.tc=want; m.tw=0; m.tt=ambRnd(0,5); }
-    if(m.tc&&m.tc===want){ m.tw=Math.min(1,(m.tw||0)+inc); m.tShift=T.shift||0; }
+    if(m.tc&&m.tc===want){ m.tw=Math.min(1,(m.tw||0)+inc); m.tShift=T.shift||0; m.tLift=T.lift||0; }
     if(m.tc) m.tt=(m.tt||0)+dt;
     propVis(u,want&&m.tc===want?(T.prop||null):null);
     return m.tc?taskClip(m.tc):null; }
@@ -864,7 +865,7 @@ const CHAR = (function(){
     if(pose==='read'&&kd&&kd!=='book'&&!talked){ m.scT-=dt; if(m.scT<=0&&m.sc<=0){ m.sc=ambRnd(0.8,1.6); m.scT=ambRnd(K.scroll[0],K.scroll[1]); } } if(m.sc>0) m.sc=Math.max(0,m.sc-dt);
     u.readScroll=m.sc>0?m.sc:0; u.readScrollT=(u.readScrollT||0)+dt;
     // 做事的片段：桌子比參考遠的位子整個人往前坐（外面每一格先把 u.model 放回 0）；眼睛看手上的手機、碗（有 sitFocus 的看桌上那一組，外面照舊）
-    if(tc) u.model.position.z=(m.tShift||0)*tw;
+    if(tc){ u.model.position.z=(m.tShift||0)*tw; u.model.position.y+=(m.tLift||0)*tw; }   /* 外面每一格先把 y 放回坐姿的高度：加上去不會累加 */
     u.taskLook=null; if(tc&&tw>0.3&&!u.sitFocus){ const T=u.sitTask, hp=u.taskProps&&u.taskProps.hand_phone;
       if(T&&T.prop==='hand_phone'&&hp&&hp.visible) u.taskLook=hp;
       else { const L=T&&C.SIT_TASK.LOOK[T.kind]; if(L){ const v=u.taskLookP||(u.taskLookP=new THREE.Vector3()), RF=C.SIT_TASK.REF; v.set(L[0],(T.deskH!=null?T.deskH:RF.desk)+L[1],(T.edge!=null?T.edge:RF.edge)+L[2]); u.taskLook=v; } } }
