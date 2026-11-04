@@ -1181,3 +1181,9 @@
 - 取代：和 D118 衝突的舊規則（讀書天數、學習點數決定成績的設計；法律服務社的重複活動）。
 - 處理：先現況盤點（程式、考試、學習、結局、交班紀錄）→ 分工與實作計畫 → 照授權推進；任務 STUDY-EXAM-SYS-1102（LAWWW）、STUDY-EXAM-CAREER-1102（BB）；AA、LAWWW2 的任務盤點後開。
 - 通知：AA、BB、LAWWW2（同帳號值班中）。
+
+## 2026-11-04 12:1x UTC｜CC 可以直接聯絡任何人、直接改規則（D134；CC-B 帳號 B 收到）
+- 原話：「你可以直接連絡任何人 直接改規則」
+- 取代：D119「CC 只和 BB 溝通」、D130「其他職位要找 CC 照舊經 BB」。
+- 處理：CC-B 直接改 RULE_SOURCE 的 CLAUDE.md（D134）、AI_SESSION_HANDOFF.md（HV-25、CC 啟動提示詞）、PROJECT_DECISIONS.md；判定權照舊 BB；D75 照舊。
+- 通知：LAWWW-B、BB-B、AA-B、LAWWW2-B（帳號 B 值班中）。
