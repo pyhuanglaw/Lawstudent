@@ -235,7 +235,7 @@ async def reload_continue(pg, cdp, tag):
     return ok
 
 
-async def approach_seat(pg, cdp, t, sv):
+async def approach_seat(pg, cdp, t, sv, p3=None):
     """走到「最近的互動就是這一張」的地方（照 E.nearestInteractable 的規則算：相鄰座位同一個字，站在兩張中間會變成另一張）。
     PC 11-04 GG_int_cvs C3：原本走到座位本身 0.35 m，最近的常是隔壁那張（字一樣），判 FAIL。回傳 True＝按鈕就是這一張"""
     cands = await pg.evaluate(PICKPT_JS % J([sv['x'], sv['z']])) or []
@@ -245,7 +245,14 @@ async def approach_seat(pg, cdp, t, sv):
         await pg.wait_for_timeout(800)
         if await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])): break
     s = await pg.evaluate(ST); near_ok = await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])); nb = await pg.evaluate(NEARSEAT_JS)
-    return check('[%s] 走到座位旁：最近的互動是這一張（%s,%s）「%s」' % (t, sv['sx'], sv['sz'], sv['label']), near_ok and s['interact'].startswith(sv['label']),
+    ok = bool(near_ok and s['interact'].startswith(sv['label']))
+    # BB-C 15:34（BB_255）：GG_shops2_afar_seat_08 那種——換了幾個點，最近的還是同桌隔壁那張（同一個字、1.2 m 內）＝P3 相鄰座位搶按鈕，跟 seat_20 一致，不算 FAIL。
+    #   p3 有傳（shops2）才這樣歸類；沒傳（cc_gg_int 自己的座位測試）照舊判 FAIL
+    if not ok and p3 is not None and nb and nb.get('label') == sv['label'] and math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']) <= 1.2:
+        line = 'P3 [%s] 相鄰座位搶按鈕（換了 %d 個點都一樣）：要的是 (%s,%s)「%s」，最近的是同桌隔壁 (%s,%s)（%.2f m）；人在 (%s, %s)' % (t, len(tries), sv['sx'], sv['sz'], sv['label'], nb['sx'], nb['sz'], math.hypot(nb['sx'] - sv['sx'], nb['sz'] - sv['sz']), s['x'], s['z'])
+        print(line, flush=True); p3.append(line)
+        return False
+    return check('[%s] 走到座位旁：最近的互動是這一張（%s,%s）「%s」' % (t, sv['sx'], sv['sz'], sv['label']), ok,
                  J({'at': [s['x'], s['z']], 'interact': s['interact'], 'nearest': nb, 'cands': cands}))
 
 
