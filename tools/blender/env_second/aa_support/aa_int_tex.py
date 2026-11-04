@@ -459,6 +459,40 @@ def afr():
     im.save(os.path.join(GEN, 'afr_print.png'))
 
 
+def dbk():
+    """Daybreak（公館 G14，AA 2026-11-04；AA_650）：(0,0) 4×2 牆上的 Daybreak 字＋太陽＋黃色山丘（底色＝牆）、(4,0) 2×2 黑板菜單、(6,0) 2×1 Pick Up 牌、
+    (0,2) 6×2 三張早午餐插畫（吐司煎蛋、日出山景、鬆餅）"""
+    rng = np.random.default_rng(1108); im = Image.new('RGB', (1024, 1024), '#f1ebdf'); d = ImageDraw.Draw(im)
+    bx = box(0, 0, 4, 2); x0, y0, x1, y1 = bx; d.rectangle(bx, fill='#efe6d6')
+    for k, (col, amp, base) in enumerate((('#f3dc9a', 26, 190), ('#ecc970', 20, 214))):   # 黃色山丘
+        d.polygon([(x0, y1)] + [(x0 + j * 16, y0 + base - amp * math.sin(j * 0.18 + k * 1.7)) for j in range(33)] + [(x1, y1)], fill=col)
+    cx, cy = x0 + 380, y0 + 70
+    d.pieslice([cx - 34, cy - 34, cx + 34, cy + 34], 180, 360, fill='#e8b84a')
+    for k in range(7):
+        a = math.pi * (1 + (k + 0.5) / 7); d.line([cx + 44 * math.cos(a), cy + 44 * math.sin(a), cx + 60 * math.cos(a), cy + 60 * math.sin(a)], fill='#e8b84a', width=4)
+    d.text((x0 + 120, y0 + 84), 'Daybreak', font=F(70), fill='#4a5a40'); text_c(d, ((x0 + x1) / 2 + 40, y0 + 186), 'BRUNCH  &  COFFEE', F(18), '#5a6a50')
+    bx = box(4, 0, 2, 2); paper(im, bx, '#2b302c', rng, grain=0.12); x0, y0, x1, y1 = bx   # 黑板
+    d.rectangle(bx, outline='#8a6a44', width=9); d.text((x0 + 26, y0 + 22), 'Daybreak', font=F(30), fill='#f1ead8')
+    for k, n_ in enumerate(('Brunch', 'Plates', 'Sandwiches', 'Salads', 'Drinks', 'Sweets')):
+        y = y0 + 72 + k * 28; d.text((x0 + 30, y), n_, font=F(18), fill='#f1ead8'); d.line([x0 + 160, y + 12, x0 + 200, y + 12], fill='#d9d0bc', width=2)
+    bx = box(6, 0, 2, 1); paper(im, bx, '#d9b98e', rng, grain=0.06); x0, y0, x1, y1 = bx   # Pick Up 牌
+    d.rectangle([x0 + 6, y0 + 6, x1 - 7, y1 - 7], outline='#6a4a2a', width=3); text_c(d, ((x0 + x1) / 2, y0 + 34), 'Pick Up', F(40), '#4a3a28')
+    for k in range(3):   # 早午餐插畫
+        bx = box(k * 2, 2, 2, 2); paper(im, bx, '#f6f0e2', rng); x0, y0, x1, y1 = bx
+        if k == 0:
+            d.rounded_rectangle([x0 + 50, y0 + 90, x1 - 50, y1 - 60], 30, fill='#d9a860'); d.ellipse([x0 + 80, y0 + 110, x1 - 80, y1 - 80], fill='#fbf6ea'); d.ellipse([x0 + 112, y0 + 140, x1 - 112, y1 - 110], fill='#f0b830')
+            d.ellipse([x0 + 60, y0 + 40, x0 + 110, y0 + 80], fill='#7a9a5a')
+        elif k == 1:
+            d.rectangle([x0 + 20, y0 + 20, x1 - 20, y1 - 20], fill='#f8e8c8'); d.ellipse([x0 + 98, y0 + 80, x1 - 98, y0 + 140], fill='#f0b840')
+            d.polygon([(x0 + 20, y1 - 20), (x0 + 20, y0 + 150), (x0 + 120, y0 + 120), (x1 - 20, y0 + 160), (x1 - 20, y1 - 20)], fill='#a8c08a')
+            d.polygon([(x0 + 20, y1 - 20), (x0 + 20, y0 + 190), (x0 + 150, y0 + 170), (x1 - 20, y0 + 200), (x1 - 20, y1 - 20)], fill='#7a9a6a')
+        else:
+            for j in range(4): d.ellipse([x0 + 60, y0 + 150 - j * 22, x1 - 60, y0 + 180 - j * 22], fill=('#e0b070', '#d9a560', '#e4b878', '#dcaa66')[j])
+            d.ellipse([x0 + 110, y0 + 70, x1 - 110, y0 + 96], fill='#f8f0d8'); d.ellipse([x0 + 118, y0 + 50, x0 + 140, y0 + 72], fill='#c0392b')
+        d.rectangle([x0 + 3, y0 + 3, x1 - 4, y1 - 4], outline='#c9a272', width=6)
+    im.save(os.path.join(GEN, 'dbk_print.png'))
+
+
 def spines():
     """書背 16 欄 × 4 列（每格 64×224）＋最下面 32 px 的書頂紙色；每本：底色、上下色帶、書名的細線或短直排字"""
     rng = random.Random(1103); W, H = 1024, 1024; im = Image.new('RGB', (W, H), '#e9e2d0'); d = ImageDraw.Draw(im)
@@ -538,4 +572,5 @@ if __name__ == '__main__':
     if w in ('yej', 'all'): yej()
     if w in ('aok', 'all'): aok()
     if w in ('afr', 'all'): afr()
+    if w in ('dbk', 'all'): dbk()
     print('ok', w)
