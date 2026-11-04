@@ -24,7 +24,7 @@ import playlib as PL
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'cafe_glb_integration')
-CAFE230_SEAT_BTNS = [[-0.85, 1.5], [0.85, 1.5], [-4.5, -3.3], [-2.9, -3.3], [-1.3, -3.3], [0.3, -3.3], [-6.3, -0.55], [-6.3, 0.55], [-4.65, 0]]   # 2:30 AM v1b：長桌兩端、吧檯 4、卡座 3（cafe230_layout.js v2）
+CAFE230_SEAT_BTNS = [[-0.85, 1.5], [0.85, 1.5], [-4.5, -3.3], [-2.9, -3.3], [-1.3, -3.3], [0.3, -3.3], [-6.3, -0.55], [-6.3, 0.55], [-4.65, 0], [6.3, 3.85], [6.3, -4.65]]   # 2:30 AM：長桌兩端、吧檯 4、卡座 3（cafe230_layout.js v2）＋窗邊沙發椅 2（v3，AA 86454e368；2026-11-04 改期望：原本 9 個、現在 11 個）
 SEATS = [(4.5, -3.3, 0), (4.5, -1.7, 3.1416), (4.5, 0.7, 0), (4.5, 2.3, 3.1416), (0, 0.7, 0), (0, 2.3, 3.1416), (-4, 1.7, 0), (-4, 3.3, 3.1416)]   # twoTop：先 z−0.8（朝 +z）再 z+0.8（朝 −z）
 
 # 等 Café 那一棟（套件 14×13、x＝55.4）接上正式模型：不能等「任何一個物件有 formal」——溫州街公寓的正式模型接上時，那些套件公寓也會標 formal，
@@ -89,7 +89,7 @@ async def cafe(pg, run, formal):
     # ART-WZ4（LAWWW2-B bbc566da）起座位只增不減：前 8 個（故事用到的）不變，後面多的是新座位
     run.check('8 個座位的位置與方向不變（seats[0..7]；ART-WZ4 起座位只增不減）', info['seats'][:8] == want and len(info['seats']) >= 8, json.dumps({'n': len(info['seats']), 'first8': info['seats'][:8]}))
     # 原本 4 個雙人桌（故事用到的）不變；2:30 AM v1b（cafe230_layout v2 seatPlan）起後面多 9 個座位按鈕：長桌兩端 8、9 號、吧檯 10～13 號、拱門卡座 2 個（LAWWW 11-04 照 GLB 坐墊改 x −6.3）＋卡座對面 1 個
-    run.check('4 個雙人桌互動點不變（前 4 個）；2:30 AM 新開放的 9 個座位按鈕照配置', info['tables'][:4] == [[4.5, -1.7], [4.5, 2.3], [0, 2.3], [-4, 3.3]] and info['tables'][4:] == CAFE230_SEAT_BTNS, json.dumps(info['tables']))
+    run.check('4 個雙人桌互動點不變（前 4 個）；2:30 AM 新開放的 11 個座位按鈕照配置（v3 加窗邊沙發椅 2）', info['tables'][:4] == [[4.5, -1.7], [4.5, 2.3], [0, 2.3], [-4, 3.3]] and info['tables'][4:] == CAFE230_SEAT_BTNS, json.dumps(info['tables']))
     run.check('吧檯點餐 (−2.5,−3.2)、出口 (0,5.6) 不變', info['bar'] == [-2.5, -3.2] and info['exit'] == [0, 5.6], json.dumps([info['bar'], info['exit']]))
     for (x, z, name) in ((3.775, 5.56, '右段窗邊吧台'), (-3.775, 5.56, '左段窗邊吧台'), (4.1, -5.81, '書牆'), (-6.35, 1.95, '左牆大盆栽（cafe230_layout v2 從 (−6.35,0.4) 搬來）'), (6.35, -0.5, '右牆大盆栽'), (-2.5, -4.4, '吧檯'), (-6.56, 0, '拱門卡座'), (-5.4, 0, '卡座小圓桌')):
         run.check(f'導航：{name} ({x},{z}) 擋住', not await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
