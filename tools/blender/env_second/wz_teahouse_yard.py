@@ -261,6 +261,14 @@ for y in (YG + 0.3, YG + 0.62, YG + 0.94):                                      
     for i in range(int((FX1 - FX0) / 0.3) + 1):
         x = FX0 + 0.15 + i * 0.3
         if x < FX1: acc('rope').box(x - 0.02, x + 0.02, y - 0.02, y + 0.02, ZS - 0.03, ZS + 0.05)
+# 四つ目垣外側的生垣（BB 11-04 07:55「竹籬外一片白」：矮竹籬看得穿，後面就是淺色的人行道。照一般的作法，竹籬外種一排修剪過的山茶／犬黃楊，高 1.45；
+# 在牆線外 z 9.72～10.22，走不到、不加導航阻擋；冠木門那一段（x < −2.05）不種）
+_hr = random.Random(9)
+acc('hedge').rbox(FX0 - 0.05, FX1, YG, YG + 1.45, ZS + 0.12, ZS + 0.62, r=0.12, seg=2)
+for i in range(int((FX1 - FX0) / 0.32)):
+    x = FX0 + 0.1 + i * 0.32 + _hr.uniform(-0.06, 0.06)
+    for (yy, zz, rx) in ((YG + 1.42, ZS + 0.37, -1.2), (YG + _hr.uniform(0.6, 1.3), ZS + 0.11, 0.0)):
+        CL.card(acc('azalea'), x, yy, zz, _hr.uniform(0.3, 0.42), _hr.uniform(0.26, 0.36), ry=_hr.uniform(-0.4, 0.4), rx=rx + _hr.uniform(-0.3, 0.3), uv=CL.rand_uv(0.5))
 # 東側：建仁寺垣（x 4.45、z 6.2～9.6、高 1.7）
 EH = YG + 1.7
 for i in range(int((ZS - ZE) / 0.055)):
@@ -379,10 +387,29 @@ for (x0, x1, h, key) in ((-16, -6.5, 10.0, 'apt'), (-6.5, 3.2, 13.0, 'apt2'), (3
                 for k in range(7): VC.crbox(x - 0.78 + k * 0.26, x - 0.765 + k * 0.26, y - 0.05, y + 1.45, 19.22, 19.24, '#4f514e', r=0.002)
                 VC.crbox(x - 0.8, x + 0.8, y + 1.43, y + 1.47, 19.2, 19.46, '#4f514e', r=0.003); VC.crbox(x - 0.8, x + 0.8, y - 0.07, y - 0.03, 19.2, 19.46, '#4f514e', r=0.003)
             elif (i + fl) % 3 == 0: VC.crbox(x + 0.2, x + 0.75, y - 0.5, y - 0.08, 19.2, 19.46, '#dcdbd5', r=0.02)   # 冷氣
-    VC.crbox(x0 + 0.3, x1 - 0.3, YG, YG + 2.6, 19.45, 19.5, '#8b8881', r=0.005)                                   # 一樓的鐵捲門
+    # 一樓：一間一間的店面（BB 11-04 07:55：原本整排一片灰的鐵捲門，從前院看像一大片白牆）。每間 3～4.2 m：拉下一半的鐵捲門、亮著的玻璃門面（裡面暗的層架＋燈管）、
+    # 招牌（不同顏色）、柱子；顏色、寬度用固定亂數，每次匯出一樣
+    rs = random.Random(int(x0 * 10) + 7); xx = x0 + 0.25
+    while xx < x1 - 1.5:
+        w = min(rs.choice((3.0, 3.4, 3.8, 4.2)), x1 - 0.25 - xx); kind = rs.choice(('lit', 'lit', 'half', 'shut'))
+        VC.crbox(xx, xx + 0.28, YG, YG + 2.75, 19.4, 19.5, '#c9c4b8', r=0.01)                                     # 柱子
+        a0, a1 = xx + 0.28, xx + w
+        if kind == 'shut': VC.crbox(a0, a1, YG, YG + 2.55, 19.45, 19.5, rs.choice(('#8b8881', '#9a968e', '#7d7a73')), r=0.005)
+        else:
+            VC.crbox(a0, a1, YG, YG + 2.55, 19.47, 19.5, '#2c2a27', r=0.005)                                     # 店裡（暗）
+            for k in range(3): VC.crbox(a0 + 0.2, a1 - 0.2, YG + 0.5 + k * 0.55, YG + 0.56 + k * 0.55, 19.4, 19.47, rs.choice(('#b9a27a', '#8fa3a8', '#c7b9a0')), r=0.004)   # 層架
+            VC.crbox(a0 + 0.1, a1 - 0.1, YG + 2.38, YG + 2.44, 19.38, 19.46, '#f4f1e6', r=0.004)                 # 燈管
+            VC.crbox(a0 + 0.05, a1 - 0.05, YG, YG + 0.06, 19.3, 19.47, '#6d6a64', r=0.004)                       # 門檻
+            if kind == 'half': VC.crbox(a0, a1, YG + 1.55, YG + 2.55, 19.42, 19.46, '#8f8c85', r=0.005)          # 拉下一半的鐵捲門
+            for k in range(1, int((a1 - a0) / 1.1) + 1): VC.crbox(a0 + k * (a1 - a0) / (int((a1 - a0) / 1.1) + 1) - 0.025, a0 + k * (a1 - a0) / (int((a1 - a0) / 1.1) + 1) + 0.025, YG, YG + 2.55, 19.36, 19.4, '#9aa0a2', r=0.003)   # 鋁框
+        VC.crbox(a0 + 0.1, a1 - 0.1, YG + 2.98, YG + 3.6, 19.15, 19.3, rs.choice(('#b8352f', '#2f5d8c', '#e2b23a', '#3d7a4f', '#e8e4da', '#5a3c2e')), r=0.02)   # 招牌
+        xx += w
+
     VC.crbox(x0, x1, YG + 2.75, YG + 2.95, 19.3, 19.5, '#9a958a', r=0.01)                                         # 一樓的雨遮
 for sx in (-1, 1):                                                                                                  # 兩側鄰居（從前院看得到上半）：兩層樓高、有窗、冷氣、鐵窗
-    xa, xb = sorted((sx * 5.4, sx * 7.4)); acc('apt').box(xa, xb, YG, YG + 6.2, -6.0, ZS - 0.3); xf = sx * 5.4 - sx * 0.02
+    xa, xb = sorted((sx * 5.4, sx * 7.4)); xf = sx * 5.4 - sx * 0.02
+    if sx > 0: acc('apt').box(xa, xb, YG, YG + 6.2, -6.0, 7.0); acc('apt').box(xa, xb, YG, YG + 5.0, 7.0, ZS - 0.3); acc('curb').box(xa, xb, YG + 5.0, YG + 5.12, 7.0, ZS - 0.3)   # 東鄰臨街那一段是一層半的增建（老樟樹的枝從上面伸過去；原本 6.2 m 一整棟，樹枝穿進牆裡）
+    else: acc('apt').box(xa, xb, YG, YG + 6.2, -6.0, ZS - 0.3)
     for i in range(4):
         zc = -4.5 + i * 3.6
         for y in (YG + 1.2, YG + 4.0):
@@ -398,7 +425,7 @@ for y in (YG + 7.6, YG + 7.9): acc('wood').cyl((-16, y, 11.2), (16, y + 0.3, 11.
 try:
     bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets', 'models', 'env', 'second_ai', 'street_trees.glb'))
     for part in ('bark', 'leaf'):
-        o = bpy.data.objects['camphor_a_' + part]; o.parent = root; o.location = g2b(3.65, YG - 0.02, 9.0); o.rotation_euler = (0, 0, 2.3); o.scale = (1.25, 1.25, 1.2); o.name = 'wzy_camphor_' + part
+        o = bpy.data.objects['camphor_a_' + part]; o.parent = root; o.location = g2b(3.65, YG - 0.02, 9.0); o.rotation_euler = (0, 0, 1.49); o.scale = (1.05, 1.05, 1.0)   # BB 11-04 07:55「樹幹頂到緣側屋簷」：原本 2.3 rad、1.25 倍，一根橫枝伸到簷下（z 5.4）。轉 1.49 rad、1.05 倍：最大的枝朝街、兩側的枝沿著前院，離簷 ≥ 0.1 m（tree_fit 掃 16 個角度×5 種大小）; o.name = 'wzy_camphor_' + part
     for o in list(bpy.data.objects):
         if o.parent is None and o != root and o.name.startswith(('tree_', 'street_trees', 'camphor_b', 'banyan', 'palm')): bpy.data.objects.remove(o)
         elif o.name.startswith(('camphor_b_', 'banyan_', 'palm_')): bpy.data.objects.remove(o)
