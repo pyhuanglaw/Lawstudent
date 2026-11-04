@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_ext_nav2",
+  "sha": "23eaaa7ae",
+  "kind": "game",
+  "script": "tests/gongguan_layout_nav.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:56:55",
+  "end": "2026-11-04T11:59:23",
+  "seconds": 148,
+  "exit": 1,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 64,
+    "used_gb": 20.3,
+    "chrome_testing": 26
+  }
+}
