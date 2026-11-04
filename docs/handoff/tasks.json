@@ -45588,6 +45588,27 @@
    "next": "【LAWWW-C 11-04 16:5x】和 AA674 一起，在台詞八批子代理合併以後做（做法同 AA663）"
   },
   {
+   "id": "AA677-LINES-1104",
+   "title": "AA_677：CANON-PURGE 子代理留給 AA 的幾項——postgrad_lines.js:288 語彤結局 5、cracktalk_lines.js:33／36 語彤談話、events.js:4879 ev_grad_debate 加一句語彤（蘇姨改變心意的原因）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "語彤結局／畢業辯論",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:59（企劃線 d784b1634、outbox f6e9b340e；D109；接 CANON-PURGE-SRC-1104）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:5x】和 AA674、AA676 一起，在台詞八批子代理合併以後做；events.js:4879 是加一句（不是換字），條件不動"
+  },
+  {
    "id": "NPC-ANIM-LOOPS-1104",
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
