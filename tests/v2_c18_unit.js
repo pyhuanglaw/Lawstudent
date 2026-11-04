@@ -66,10 +66,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* ③ 其他玩家：麵店散場後的騎樓（公館） */
   { const T=termDay('Y1S2',14,2);
     const setup=(o)=>{ o=o||{}; fresh(T,18,'noodle'); met(); G.flags.noodleTableDay=termDay('Y1S1',6,2); if(o.club) G.flags.CLUB_club_guitar=true; if(o.sign!==false) G.flags.yu2SeatDay=T;
-      if(o.ate!==false) STORY.phoneRules(GM);   /* 麵店日 17–21 在麵店＝記 ndlDays（story3d.js）*/
+      if(o.ate!==false) STORY.zheNdlMark(G);   /* AA_684 第 4 項：在燒臘店、那時候阿哲照作息也在（週二 18:00）＝記 zheNdlDay（story3d.js 的 S.tick 在燒臘店裡每一格叫；原本看麵店日的 ndlDays）*/
       G.zone='gongguan'; G.hour=o.h||20.6; return EVENTS.check(eC2); };
     const r={ok:setup(),club:setup({club:true}),noSign:setup({sign:false}),notAte:setup({ate:false}),late:setup({h:22.3})};
-    check('③ 騎樓：麵店團、今天有在麵店（ndlDays）、看過 ① 或 ② 其中一個、不是吉他社、走到公館＝演；吉他社的玩家、沒看過其他徵兆、今天沒去麵店、22:18 都沒有',r.ok&&!r.club&&!r.noSign&&!r.notAte&&!r.late,JSON.stringify(r));
+    check('③ 騎樓：今天在燒臘店的時候阿哲照作息也在（zheNdlDay，AA_684 第 4 項）、看過 ① 或 ② 其中一個、不是吉他社、走到公館＝演；吉他社的玩家、沒看過其他徵兆、今天沒去麵店、22:18 都沒有',r.ok&&!r.club&&!r.noSign&&!r.notAte&&!r.late,JSON.stringify(r));
     const play=async k=>{ setup(); picks=[k]; await EVENTS.run(eC2); return lines(); };
     let L=await play(0); check('③ 騎樓（她沒背吉他，AA 50da3a9）選「對每個人都好。」：Alison「……喔。」（她低頭滑手機。）「也是啦。」',JSON.stringify(L.slice(1))===JSON.stringify(['Alison：……喔。','她低頭滑手機。','Alison：也是啦。'])&&G.flags.YU2_PICK==='everyone'&&SOCIAL.has('yu','ASKED_ABOUT_ZHE'),JSON.stringify(L));
     L=await play(1); check('③ 騎樓選「對妳比較好。」：（她停住，然後很大聲地哼了一段成發要彈的旋律。）Alison「欸你很煩！」',JSON.stringify(L.slice(1))===JSON.stringify(['她停住，然後很大聲地哼了一段成發要彈的旋律。','Alison：欸你很煩！'])&&G.flags.YU2_PICK==='you',JSON.stringify(L));

@@ -9,6 +9,9 @@
 //   8  第 63 列：二十三週年裡語彤的店員戲拿掉或換人
 //   9  表外 vac_activities.js:466：語彤回來那一場改一盞茶屋
 // 修改前（開發分支 9f70c066f）：1～9 都 FAIL。用法：node tests/aa675_canon_followup_unit.js
+// AA_684（企劃線 0382b8a34，AA-C 定 D109；AA684-CANON-FIX-1104）改了其中幾件，期望值照 AA_684 換（tests/aa684_canon_fix_unit.js 測新的部分）：
+//   第 2 節：阿哲週二、四 18:00～19:30 照一般作息在燒臘店（和麵店日無關）；bgn:false 的 10 則刪了、大一第 2 則換成桌遊夜版（便利貼）
+//   第 3 節：大一第 7 則（憲法課）往前一則＝第 6 則；第 7 節：ENC_D24_SIS 的名稱中性、「Alison 是她妹妹」另外一條（KNOWS_SIS_ALISON）；第 9 節：invite「這週六我五點下班」
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -84,20 +87,20 @@ await sec(1,()=>{
 await sec(2,async()=>{
   const Z=CHARACTERS.zhe.daily_schedule;
   check('2. 阿哲的作息沒有麵店日（zone noodle＋ndlDay 那一筆拿掉）',!Z.some(e=>e&&e.zone==='noodle'&&e.ndlDay));
-  let nd=null; for(let d=DK('2025-10-06');d<DK('2025-10-31');d++) if(STORY.noodleDay(d)){ nd=d; break; }
+  let nd=null; for(let d=DK('2025-10-06');d<DK('2025-10-31');d++) if(STORY.noodleDay(d)&&![2,4].includes(CALENDAR.dateOf(d).wd%7)){ nd=d; break; }   /* AA_684 第 4 項：週二、四 18:00～19:30 他照一般作息在燒臘店（不是麵店日）——麵店日挑週一、三、五的那一天 */
   fresh(nd,18,'noodle'); H.FAMILIAR('zhe'); const ez=STORY.schedEnt(CHARACTERS.zhe,H.G);
-  check('2. 麵店日 18:00 阿哲不在燒臘店',!(ez&&ez.zone==='noodle'),J(ez&&ez.zone));
+  check('2. 麵店日（週一、三、五的那一天）18:00 阿哲不在燒臘店（麵店日的作息拿掉；週二、四的晚餐照 AA_684 第 4 項另外一筆）',nd!=null&&!(ez&&ez.zone==='noodle'),J([CALENDAR.dateOf(nd).key,ez&&ez.zone]));
   PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci','yu']) H.FAMILIAR(id);
   check('2. 燒臘店裡的長桌閒聊不再演（STORY.ndlTalkDue＝false；STORY.NDL_TALK_BGN）',STORY.NDL_TALK_BGN===true&&STORY.ndlTalkDue(H.G,false)===false);
   const skip=[]; for(const k of Object.keys(NOODLE_TABLE)) NOODLE_TABLE[k].forEach((e,i)=>{ if(e&&e.bgn===false) skip.push(k+'-'+(i+1)); });
-  check('2. 換不了的標 bgn:false（滷蛋、碗、筷子、阿姨端菜、燒臘店、語彤顧店…）：大一 3 則、大二 2 則、大三 2 則、大四 3 則（大二第 6 則「語彤在櫃台後面寫作業」AA_679 第 7 列整則拿掉）',J(skip)===J(['Y1-2','Y1-6','Y1-8','Y2-1','Y2-4','Y3-2','Y3-6','Y4-4','Y4-5','Y4-6']),J(skip));
+  check('2. 換不了的（原本標 bgn:false 的大一 3 則、大二 2 則、大三 2 則、大四 3 則）AA_684 第 11 項都刪了：一則都不剩',J(skip)===J([]),J(skip));
   /* 桌遊夜：在群組、在場的人說的那一則照順序 */
   const n5=STORY.termDayIn('Y1S1',5,5); fresh(n5,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX]) H.FAMILIAR(id);
   const p1=B.talkPick(H.G);
   check('2. 大一上第 5 週的桌遊夜：照順序挑第 1 則（阿哲、柏翰：「長桌已經坐了一半。…」）',!!p1&&p1.k==='Y1'&&p1.i===0,J(p1&&{k:p1.k,i:p1.i}));
   H.G.flags.ndlTalkN={Y1:1};
   const p2=B.talkPick(H.G);
-  check('2. 輪到第 2 則（Alison 的滷蛋，bgn:false＋Alison 不在）跳過、演第 3 則（柏翰的期末考範圍表）',!!p2&&p2.i===2,J(p2&&p2.i));
+  check('2. 輪到第 2 則：AA_684 第 11 項的桌遊夜版（芯慈的便利貼；芯慈、阿哲都在）',!!p2&&p2.i===1&&J(NOODLE_TABLE.Y1[1].who)===J(['classmate_xinci','zhe']),J(p2&&p2.i));
   H.G.flags.ndlTalkN={Y1:6}; const p7=B.talkPick(H.G);
   check('2. Alison 不在的那一晚：有 Alison 的那幾則跳過（第 7 則跳到第 1 則重新輪）',!!p7&&!(NOODLE_TABLE.Y1[p7.i].who||[]).includes('yu'),J(p7&&p7.i));
   PHONE.rec(H.G).groups.noodle_team=undefined; delete PHONE.rec(H.G).groups.noodle_team;
@@ -125,8 +128,8 @@ await sec(3,async()=>{
   check('3. 那一晚的桌遊夜：場景後面演「Alison 每次都坐阿哲旁邊。」、記 yu2SeatDay、記成演過（只一次）',iEnd>=0&&iS>iEnd&&H.G.flags.yu2SeatDay===n14&&!!H.G.events.done.ev_yu_sign_seat&&!EVENTS.check(e),J(L));
   fresh(n14,23.2,'dorm'); const s=B.sched({id:'yu'},H.G); fresh(n14,22,'dorm'); const s0=B.sched({id:'yu'},H.G);
   check('3. 那一晚 23:00 以後 Alison 也在日常失速（作息），23:00 以前不在',!!s&&s.away===B.LINES.away&&s0===null,J([s,s0]));
-  fresh(n14,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX,'yu']) H.FAMILIAR(id); H.G.flags.ndlTalkN={Y1:6};
-  const p=B.talkPick(H.G); check('3. 那一晚長桌閒聊有 Alison 的那幾則也可以輪到（輪到第 7 則「憲法課老師今天點了阿哲兩次。」，Alison 在）',!!p&&(NOODLE_TABLE.Y1[p.i].who||[]).includes('yu')&&p.i===6,J(p&&p.i));
+  fresh(n14,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX,'yu']) H.FAMILIAR(id); H.G.flags.ndlTalkN={Y1:5};
+  const p=B.talkPick(H.G); check('3. 那一晚長桌閒聊有 Alison 的那幾則也可以輪到（輪到「憲法課老師今天點了阿哲兩次。」——AA_684 刪掉前面兩則以後是第 6 則，Alison 在）',!!p&&(NOODLE_TABLE.Y1[p.i].who||[]).includes('yu')&&p.i===5&&NOODLE_TABLE.Y1[5].dialogue[0].text==='憲法課老師今天點了阿哲兩次。整桌都在學那個語氣。',J(p&&p.i));
   check('3. 第三個徵兆（騎樓、社課後）照舊讀 yu2SeatDay',/yu2SeatDay!=null/.test(src('src/data/events.js')));
   { const P=CHARACTERS.yu.presence, k14=CALENDAR.dateOf(n14).key, k15=CALENDAR.dateOf(n14+1).key, keep=P.absentDates; P.absentDates=(keep||[]).concat([[k14,k15,'（測試）出遠門','trip']]);   /* absentDates 不含最後一天 */
     fresh(n14,23.2,'dorm'); H.G.flags.met_yu=true; const s1=B.sched({id:'yu'},H.G), t1=B.talkHere(H.G,'yu'); const y1=await B.yuSign(GM); P.absentDates=keep;
@@ -180,7 +183,7 @@ await sec(7,async()=>{
   const yuL=m.L.filter(x=>x.id==='yu').map(x=>x.t), sisL=m.L.filter(x=>x.id===SIS).map(x=>x.t);
   check('7. 認識（有點熟）：學姊「學弟。……我們一家來泡腳。」→ 旁白 Alison 轉過頭來 → Alison 那幾句用她的立繪（charId yu）放在同一段對話',sisL[0]==='學弟。……我們一家來泡腳。'&&m.L.some(x=>x.id==null&&x.t==='（那個背對你的女生轉過頭來。是 Alison。）')&&J(yuL)===J(['欸？祐廷？！你怎麼在這裡！','他是阿哲的同學啊！……姊，他是妳直屬？','（看看你，又看看她）你們都沒說過！','……我是想說，又沒人問。']),J(m.L));
   check('7. 沒聽過 Alison 說姊姊在考法研所（沒有 HEARD_YU_SISTER）＝沒有「你想起…」那一句；不是朋友＝沒有「坐下來一起泡吧」',!m.L.some(x=>/你想起 Alison 說過/.test(x.t))&&!m.L.some(x=>/坐下來一起泡吧/.test(x.t)));
-  check('7. 演完記 KNOWS_SIS_ALISON、記憶 ENC_D24_SIS（名稱「在礁溪遇到學姊一家，Alison 是她妹妹」）',H.G.flags.KNOWS_SIS_ALISON===true&&SOCIAL.has(SIS,'ENC_D24_SIS')&&SOCIAL.MEMORY_LABEL.ENC_D24_SIS==='在礁溪遇到學姊一家，Alison 是她妹妹'&&inDoc(AA609,'在礁溪遇到學姊一家，Alison 是她妹妹'));
+  check('7. 演完記 KNOWS_SIS_ALISON、記憶 ENC_D24_SIS（AA_684 第 8 項：名稱中性「在礁溪遇到學姊一家」；「Alison 是她妹妹」另外一條 KNOWS_SIS_ALISON）',H.G.flags.KNOWS_SIS_ALISON===true&&SOCIAL.has(SIS,'ENC_D24_SIS')&&SOCIAL.MEMORY_LABEL.ENC_D24_SIS==='在礁溪遇到學姊一家'&&SOCIAL.has(SIS,'KNOWS_SIS_ALISON')&&SOCIAL.MEMORY_LABEL.KNOWS_SIS_ALISON==='Alison 是她妹妹'&&inDoc(AA609,'在礁溪遇到學姊一家，Alison 是她妹妹'));
   { const w=[]; const r=ENC.eligible(H.G,row,w); check('7. 只一次：打過招呼以後同一場不再出現（大三下、大四下的第 3 週也一樣）',!r&&w.some(x=>/演過了/.test(x)),J(w)); }
   m=await meet('friend',{HEARD_YU_SISTER:true});
   check('7. 朋友＋聽過 Alison 說姊姊：多「（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）」和最後「坐下來一起泡吧。阿公說人多比較好。」',m.L.some(x=>x.t==='（你想起 Alison 說過，她姊姊在考法研所。原來就是學姊。）')&&m.L.some(x=>x.id===SIS&&x.t==='坐下來一起泡吧。阿公說人多比較好。'),J(m.L));
@@ -205,9 +208,9 @@ await sec(8,()=>{
 /* ---------- 9 表外 vac_activities.js:466 ---------- */
 await sec(9,()=>{
   const R=VAC_DATA.TRIP_MSG.reunion[YT];
-  check('9. 語彤回來那一場：invite「明天我五點下班」／「你來店裡」、17:15、一盞茶屋、茶屋的背景',J(R.invite)===J(['明天我五點下班','你來店裡'])&&R.h===17.25&&R.place==='一盞茶屋'&&R.bg==='wenzhou_teahouse',J({invite:R.invite,h:R.h,place:R.place,bg:R.bg}));
+  check('9. 語彤回來那一場：invite（AA_684 第 3 項改「這週六我五點下班」／「你來店裡」，排最近的週六）、17:15、一盞茶屋、茶屋的背景',J(R.invite)===J(['這週六我五點下班','你來店裡'])&&R.h===17.25&&R.place==='一盞茶屋'&&R.bg==='wenzhou_teahouse',J({invite:R.invite,h:R.h,place:R.place,bg:R.bg}));
   check('9. lines：（她把一杯烏龍放在你前面，坐到對面。）／「回來了。」／「這壺是蘇姨請的。」；miss「昨天那壺我自己喝了」（字照 AA_675 2-6）',
-    J(R.lines)===J([{narr:'（她把一杯烏龍放在你前面，坐到對面。）'},{who:YT,text:'回來了。'},{who:YT,text:'這壺是蘇姨請的。'}])&&J(R.miss)===J(['昨天那壺我自己喝了'])&&['明天我五點下班','你來店裡','這壺是蘇姨請的。','昨天那壺我自己喝了','（她把一杯烏龍放在你前面，坐到對面。）'].every(t=>inDoc(AA675,t)));
+    J(R.lines)===J([{narr:'（她把一杯烏龍放在你前面，坐到對面。）'},{who:YT,text:'回來了。'},{who:YT,text:'這壺是蘇姨請的。'}])&&J(R.miss)===J(['昨天那壺我自己喝了'])&&['你來店裡','這壺是蘇姨請的。','昨天那壺我自己喝了','（她把一杯烏龍放在你前面，坐到對面。）'].every(t=>inDoc(AA675,t)));   /* 「明天我五點下班」AA_684 第 3 項換掉了（tests/aa684_canon_fix_unit.js 對 AA_684）*/
 });
 
 H.done();

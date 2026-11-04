@@ -77,7 +77,7 @@ await sec(5,()=>{
 
 /* 7 */
 await sec(7,()=>{ const all=Object.values(NOODLE_TABLE).flat();
-  check('7. 長桌閒聊「語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。」拿掉',!all.some(e=>J(e.dialogue||[]).includes('語彤在櫃台後面寫作業'))&&NOODLE_TABLE.Y2.length===5,J(NOODLE_TABLE.Y2.length)); });
+  check('7. 長桌閒聊「語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。」拿掉（大二剩 3 則：AA_684 第 11 項又刪了第 1、4、5 則、補一則桌遊夜版）',!all.some(e=>J(e.dialogue||[]).includes('語彤在櫃台後面寫作業'))&&NOODLE_TABLE.Y2.length===3,J(NOODLE_TABLE.Y2.length)); });
 
 /* 8 */
 await sec(8,()=>{

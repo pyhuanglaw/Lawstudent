@@ -87,12 +87,13 @@ const ROWS = [
   ['71', 'src/data/events.js', null, "text:'明天晚上燒臘店，七點，來不來？'"],
   ['72', 'src/story3d.js', null, "s2.day!==s2.exam?'考完了 今天燒臘店，七點，長桌':'刑總考完了 今天燒臘店，七點，長桌'"],   /* AA_612 A-373 */
   /* 第 7B 列的兩句（「（阿姨的手好了，今天端麵的還是語彤。）」「（今天端麵的是一個沒見過的女生。）」）AA_679 第 1 列整句拿掉（她不在燒臘店端麵）：改在下面那一項查不在 */
-  ['7C', 'src/data/noodle_table.js', "if:{weeks:[6,7,14,15]}", "{who:['zhe'],if:{weeks:[14,15]}"],
-];
+];   /* 第 7C 列（noodle_table.js 大二「考試前的燒臘店」的 if:{weeks:[14,15]}）：AA_684 第 11 項整則刪了（換不了），改在下面那一項查不在 */
 for (const [row, f, oldS, newS] of ROWS) {
   const s = R(f);
   check('(a) 第 ' + row + ' 列 ' + f + '：有「' + newS.slice(0, 40) + '」' + (oldS ? '、沒有「' + oldS.slice(0, 30) + '」' : ''), !!s && s.includes(newS) && (!oldS || !s.includes(oldS)), JSON.stringify({有新: s.includes(newS), 舊還在: oldS ? cnt(s, oldS) : 0}));
 }
+{ const s = R('src/data/noodle_table.js');
+  check('(a) 第 7C 列 src/data/noodle_table.js：舊的「if:{weeks:[6,7,14,15]}」不在；那一則（考試前的燒臘店）AA_684 第 11 項整則刪了', !!s && !s.includes('if:{weeks:[6,7,14,15]}') && !s.includes("text:'考試前的燒臘店，長桌比平常安靜。")); }
 { const s = R('src/data/events.js');
   check('(a) 第 7B 列 src/data/events.js：護腕那一句不在；AA_679 第 1 列：「端麵的還是語彤」「端麵的是一個沒見過的女生」兩句也拿掉', !!s && !s.includes('（阿姨的手腕綁著護腕。') && !s.includes("text:'（阿姨的手好了，今天端麵的還是語彤。）'") && !s.includes("text:'（今天端麵的是一個沒見過的女生。）'")); }
 /* 第 63～65 列：民總、刑分、債總二第 7 週的黑板（經濟系那一年的會計學 acct_y0 同字，照舊）*/
