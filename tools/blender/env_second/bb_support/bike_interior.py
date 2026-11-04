@@ -414,13 +414,13 @@ for zb in (3.0, 0.2, -2.8):   # 外露的樑（沿 x）
 bm_['ceil'].box(XI0, XI0 + 0.3, H - 0.42, H, ZI0, ZI1); bm_['ceil'].box(XI1 - 0.3, XI1, H - 0.42, H, ZI0, ZI1)
 bm_.done()
 pp = Part('pipes')   # 管線（沿 z）：消防水管、電線導管、一支往下接到日光燈
-for (x, y, r, col) in ((-1.4, H - 0.12, 0.045, '#b9b2a6'), (0.55, H - 0.1, 0.03, '#a9a49a'), (0.72, H - 0.1, 0.018, '#c9c4b8'), (2.45, H - 0.13, 0.055, '#b0aaa0'), (2.85, H - 0.08, 0.02, '#8d8a84')):
+for (x, y, r, col) in ((-2.6, H - 0.12, 0.045, '#b9b2a6'), (-0.9, H - 0.1, 0.03, '#a9a49a'), (0.55, H - 0.1, 0.018, '#c9c4b8'), (2.9, H - 0.13, 0.055, '#b0aaa0'), (3.6, H - 0.08, 0.02, '#8d8a84')):
     ccyl(pp['vcm'], (x, y, ZI1), (x, y, ZI0), r, col, seg=8)
     zz = ZI1 - 0.6
     while zz > ZI0:
         crb(pp['vcm'], x - r - 0.01, x + r + 0.01, y - r - 0.01, H, zz - 0.012, zz + 0.012, '#6f6b64', r=0.002); zz -= 1.5   # 吊架
 for zz in (4.2, 1.6, -1.6, -4.2): ccyl(pp['vcm'], (XI0 + 0.32, H - 0.2, zz), (XI1 - 0.32, H - 0.2, zz), 0.016, '#a9a49a', seg=6)   # 橫的導管
-for xt in (-1.95, 1.95):   # 電纜線槽（沿 z、掛在天花板下；參考圖兩側上方一條一條的線槽）
+for xt in (-2.0, 2.6):   # 電纜線槽（沿 z、掛在天花板下；參考圖兩側上方一條一條的線槽）
     crb(pp['vcm'], xt - 0.12, xt + 0.12, H - 0.3, H - 0.26, ZI0 + 0.2, ZI1 - 0.1, '#8d8a84', r=0.003)
     for sx_ in (-1, 1): crb(pp['vcm'], xt + sx_ * 0.12 - 0.006, xt + sx_ * 0.12 + 0.006, H - 0.3, H - 0.22, ZI0 + 0.2, ZI1 - 0.1, '#8d8a84', r=0.002)
     for k in range(3): ccyl(pp['vc'], (xt - 0.06 + k * 0.05, H - 0.245, ZI1 - 0.1), (xt - 0.06 + k * 0.05, H - 0.245, ZI0 + 0.2), 0.008, ['#2a2b2d', '#d8d2c4', '#2a2b2d'][k], seg=4)
@@ -440,18 +440,24 @@ pw_['wood'].box(XI0, px, 0, 0.1, pz, pz + 0.015); pw_['wood'].box(px, px + 0.015
 pw_.done()
 
 # 店面：左邊大片櫥窗、右邊木框玻璃折門（打開：四扇折到兩側）
-fr = LAY['front']; dx, dw = fr['door']['x'], fr['door']['w']; sill, head = fr['sill'], fr['head']
+fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']; head = dh
 pf = Part('front', side='front', smooth=False)
-wa, wb2 = fr['windows'][0]; da, db = dx - dw / 2, dx + dw / 2
-for a, b in ((XI0, wa), (wb2, da), (db, XI1)): pf['wall'].box(a, b, 0, H, ZI1, Z1)
-pf['wall'].box(wa, wb2, head, H, ZI1, Z1); pf['wall'].box(wa, wb2, 0, sill, ZI1, Z1); pf['wall'].box(da, db, head, H, ZI1, Z1)
-WD = '#7a5434'
-for (a, b, y0) in ((wa, wb2, sill), (da, db, 0.0)):   # 木框
-    pf['wood'].rbox(a, b, head - 0.07, head, ZI1 - 0.06, Z1 - 0.02, r=0.006)
-    for x in (a, b): pf['wood'].rbox(x - 0.04, x + 0.04, y0, head, ZI1 - 0.06, Z1 - 0.02, r=0.006)
-pf['wood'].rbox(wa, wb2, sill - 0.02, sill + 0.04, ZI1 - 0.12, Z1 - 0.02, r=0.006)
-for k in range(1, 4): x = wa + k * (wb2 - wa) / 4; pf['wood'].rbox(x - 0.03, x + 0.03, sill, head, ZI1 - 0.05, Z1 - 0.04, r=0.005)
-pf['glass'].quad([(wb2, sill + 0.02, Z1 - 0.06), (wa, sill + 0.02, Z1 - 0.06), (wa, head - 0.03, Z1 - 0.06), (wb2, head - 0.03, Z1 - 0.06)])
+da, db = dx - dw / 2, dx + dw / 2
+ops = sorted([(a, b, sl, hd) for a, b, sl, hd in fr['windows']] + [(da, db, 0.0, dh)])
+xs_ = XI0
+for a, b, sl, hd in ops:   # 開口之間的實牆＋開口上下的牆
+    pf['wall'].box(xs_, a, 0, H, ZI1, Z1); pf['wall'].box(a, b, hd, H, ZI1, Z1)
+    if sl > 0: pf['wall'].box(a, b, 0, sl, ZI1, Z1)
+    xs_ = b
+pf['wall'].box(xs_, XI1, 0, H, ZI1, Z1)
+for a, b, sl, hd in ops:   # 木框
+    pf['wood'].rbox(a, b, hd - 0.07, hd, ZI1 - 0.06, Z1 - 0.02, r=0.006)
+    for x in (a, b): pf['wood'].rbox(x - 0.04, x + 0.04, sl, hd, ZI1 - 0.06, Z1 - 0.02, r=0.006)
+    if sl > 0:
+        pf['wood'].rbox(a, b, sl - 0.02, sl + 0.04, ZI1 - 0.14, Z1 - 0.02, r=0.006)
+        nm_ = max(1, int(round((b - a) / 1.0)))
+        for k in range(1, nm_): x = a + k * (b - a) / nm_; pf['wood'].rbox(x - 0.03, x + 0.03, sl, hd, ZI1 - 0.05, Z1 - 0.04, r=0.005)
+        pf['glass'].quad([(b, sl + 0.02, Z1 - 0.06), (a, sl + 0.02, Z1 - 0.06), (a, hd - 0.03, Z1 - 0.06), (b, hd - 0.03, Z1 - 0.06)])
 for side_x, sgn in ((da, 1), (db, -1)):   # 折門：兩扇一組，營業時往外折開、貼在門框外側（外觀參考圖：門打開在騎樓那一側）
     for k in range(2):
         Lw = 0.58; x0_ = side_x + sgn * (0.06 + k * 0.06); cz_ = Z1 + 0.04 + Lw / 2 + k * 0.0
@@ -460,7 +466,7 @@ for side_x, sgn in ((da, 1), (db, -1)):   # 折門：兩扇一組，營業時往
             dp['wood'].rbox(xa_, xb_, ya_, yb_, -0.022, 0.022, r=0.005)
         dp['glass'].quad([(-Lw / 2 + 0.06, 0.14, 0.0), (Lw / 2 - 0.06, 0.14, 0.0), (Lw / 2 - 0.06, head - 0.18, 0.0), (-Lw / 2 + 0.06, head - 0.18, 0.0)])
         dp.done()
-pf['goods'].rect((da - 0.25, 1.4, ZI1 - 0.065), (-1, 0, 0), (0, 1, 0), 0.09, 0.09, ATL['note_hours'])   # 營業時間紙條（貼在櫥窗玻璃上）
+pf['goods'].rect((da - 0.3, 1.55, ZI1 - 0.065), (-1, 0, 0), (0, 1, 0), 0.09, 0.09, ATL['note_hours'])   # 營業時間紙條（貼在左櫥窗玻璃上，從店裡看）
 pf.done()
 mat_ = Part('doormat'); crb(mat_['vc'], da + 0.1, db - 0.1, 0.0, 0.012, ZI1 - 0.75, ZI1 - 0.1, '#3f4a40', r=0.005); mat_.done()
 
@@ -574,10 +580,10 @@ def frame_on_wall(p, x, y, z, w, h, cell, axis='x', sgn=1, fcol='#6b4a30', depth
         p['goods'].rect((x, y, z + sgn * (depth + 0.001)), (sgn, 0, 0), (0, 1, 0), w / 2, h / 2, ATL[cell] if isinstance(cell, str) else cell)
 
 
-frame_on_wall(pl, xw, 2.2, 4.35, 0.5, 0.73, 'anatomy')
-frame_on_wall(pl, xw, 1.43, 4.35, 0.5, 0.35, 'photo_street')
-pl['wood'].rbox(XI0, XI0 + 0.26, 2.92, 2.95, 4.0, 4.8, r=0.004)
-for zz in (4.1, 4.7): ccyl(pl['vcm'], (XI0, 2.82, zz), (XI0 + 0.22, 2.92, zz), 0.006, '#2a2b2d', seg=4)
+frame_on_wall(pl, xw, 2.2, 4.75, 0.5, 0.73, 'anatomy')
+frame_on_wall(pl, xw, 1.43, 4.75, 0.5, 0.35, 'photo_street')
+pl['wood'].rbox(XI0, XI0 + 0.26, 2.92, 2.95, 4.4, 5.2, r=0.004)
+for zz in (4.5, 5.1): ccyl(pl['vcm'], (XI0, 2.82, zz), (XI0 + 0.22, 2.92, zz), 0.006, '#2a2b2d', seg=4)
 pl.done()
 
 
@@ -602,18 +608,25 @@ def pothos(name, x, y, z, side=None, nv=7, spread=0.55, drop=1.0, pot='#e8e3d6',
     p.done()
 
 
-pothos('pothos_tl', XI0 + 0.14, 2.95, 4.4, side='left', nv=10, drop=1.0, dirx=1)
+pothos('pothos_tl', XI0 + 0.14, 2.95, 4.8, side='left', nv=10, drop=1.0, dirx=1)
 # 低櫃（櫃台後面靠左牆）：三層木板、資料夾、書、紙箱；下面綠色鐵櫃
 ls = IT['low_shelf_left']; lx0, lx1, lz0, lz1, lh = XI0, XI0 + ls['w'], ls['z'] - ls['d'] / 2, ls['z'] + ls['d'] / 2, ls['h']
 pl2 = Part('low_shelf', side='left'); w_, c, g = pl2['wood'], pl2['vc'], pl2['goods']
-for y in (0.55, 1.0, lh - 0.03): w_.rbox(lx0, lx1, y, y + 0.03, lz0, lz1, r=0.004)
-for zz in (lz0, (lz0 + lz1) / 2, lz1): w_.rbox(lx0, lx1, 0.55, lh, zz - 0.015, zz + 0.015, r=0.004)
-crb(c, lx0, lx1, 0.0, 0.55, lz0 + 0.02, lz0 + 1.2, '#4c5d4a', r=0.01)   # 綠色鐵櫃
+for y in (0.08, 0.55, 1.0, lh - 0.03): w_.rbox(lx0, lx1, y, y + 0.03, lz0, lz1, r=0.004)
+for k in range(5): zz = lz0 + k * (lz1 - lz0) / 4; w_.rbox(lx0, lx1, 0.0 if k else 0.55, lh, zz - 0.015, zz + 0.015, r=0.004)
+crb(c, lx0, lx1, 0.0, 0.55, lz0 + 0.02, lz0 + 1.2, '#4c5d4a', r=0.01)   # 綠色鐵櫃（下層一段）
 for k in range(2): c.cbox(lx1, lx1 + 0.004, 0.06, 0.5, lz0 + 0.04 + k * 0.58, lz0 + 0.6 + k * 0.58, '#56685a'); crb(c, lx1, lx1 + 0.02, 0.4, 0.44, lz0 + 0.5 + k * 0.58, lz0 + 0.56 + k * 0.58, '#c9ccce', r=0.004)
-g.box(lx0 + 0.16, 0.75, lz0 + 1.3, 0.28, 0.38, 0.55, 'spines', front='+x', cells={'+x': sub('spines', 0, 0, 0.5, 1)})
-g.box(lx0 + 0.15, 1.17, lz0 + 1.3, 0.26, 0.3, 0.5, 'kraft0', front='+x'); g.box(lx0 + 0.15, 1.15, lz0 + 1.75, 0.24, 0.26, 0.36, 'kraft3', front='+x')
-g.box(lx0 + 0.15, 1.12, lz0 + 0.55, 0.26, 0.2, 0.36, 'pack1', front='+x'); g.box(lx0 + 0.15, 1.24, lz0 + 0.95, 0.26, 0.44, 0.34, 'spines', front='+x', cells={'+x': sub('spines', 0.5, 0, 1, 1)})
-g.box(lx0 + 0.16, lh + 0.12, lz0 + 0.6, 0.28, 0.24, 0.5, 'kraft4', front='+x'); g.box(lx0 + 0.15, lh + 0.1, lz0 + 1.5, 0.26, 0.2, 0.5, 'pack5', front='+x')
+rr = random.Random(21); z = lz0 + 1.25
+while z < lz1 - 0.15:   # 上兩層：資料夾、書背、紙箱、零件盒（參考圖：低櫃塞滿）
+    for y in (0.58, 1.03):
+        w2 = rr.uniform(0.3, 0.5); kind = rr.choice(['spines', 'spines', 'kraft0', 'kraft3', 'pack1', 'pack5', 'kraft4'])
+        h2 = 0.38 if kind == 'spines' else rr.uniform(0.18, 0.36)
+        cell = sub('spines', *( (0, 0, 0.5, 1) if rr.random() < 0.5 else (0.5, 0, 1, 1))) if kind == 'spines' else kind
+        g.box(lx0 + 0.15, y + h2 / 2, min(z + w2 / 2, lz1 - 0.02 - w2 / 2), 0.26, h2, min(w2, lz1 - z - 0.04), cell, front='+x', cells={'+x': cell})
+    z += rr.uniform(0.38, 0.56)
+z = lz0 + 0.1
+while z < lz1 - 0.3:   # 櫃子上面也擺紙箱
+    w2 = rr.uniform(0.35, 0.55); g.box(lx0 + 0.16, lh + 0.12, z + w2 / 2, 0.28, 0.22, w2, rr.choice(['kraft4', 'pack5', 'kraft1', 'pack0']), front='+x'); z += w2 + rr.uniform(0.3, 0.7)
 pl2.done()
 
 # ---------------- 櫃台（木頭、正面小招牌；上面的東西） ----------------
@@ -905,8 +918,8 @@ crb(c, -tc['w'] / 2 + 0.05, tc['w'] / 2 - 0.05, tc['h'], tc['h'] + 0.02, -tc['d'
 ptc.done()
 # 地上：一顆拆下來的輪子靠在工作台腳、紙箱
 LOOSE = wheel_proto(0.34, 0.016, '#b9bcbf', 36, None)
-LOOSE.place(fm((0.02, 0.35, -4.75), rot('Y', math.pi / 2 + 0.12)))   # 拆下來的輪子靠在鐵架尾端
-fb_ = Part('floor_boxes'); fb_['goods'].box(2.57, 0.17, -3.27, 0.5, 0.34, 0.4, 'kraft2', front='-x'); fb_['goods'].box(2.6, 0.47, -3.3, 0.42, 0.26, 0.36, 'kraft6', front='-x'); fb_.done()
+LOOSE.place(fm((IT['loose_wheel']['x'] - 0.1, 0.35, IT['loose_wheel']['z']), rot('Y', math.pi / 2 + 0.12)))   # 拆下來的輪子靠在鐵架尾端
+fbI = IT['floor_boxes']; fb_ = Part('floor_boxes'); fb_['goods'].box(fbI['x'], 0.17, fbI['z'], 0.5, 0.34, 0.4, 'kraft2', front='-x'); fb_['goods'].box(fbI['x'] + 0.03, 0.47, fbI['z'] - 0.03, 0.42, 0.26, 0.36, 'kraft6', front='-x'); fb_.done()
 
 # ======================================================================
 for ob in list(root.children):

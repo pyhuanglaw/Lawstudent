@@ -18,13 +18,16 @@ CASES：
   date_zr 手機約芷若「去木曜日坐坐」→ 答應 → 跳過時間 →「出發」或自己走進 B4 → 上樓見面（《挪威的森林》那句）→ 下樓回溫州街；每一步：對話框關了、D.active false、搖桿推得動、walkFallbacks 不變
   rain 晴天／雨天的二樓窗前（窗景、雨、聲音，只記）；names 大地圖、手機、HUD 沒有 wz_mokuyobi／xinsheng 的 id
   二樓有名字的台詞都要有「（小聲）」（order、date_zr 裡檢查）
+  nichijo_*（日常失速 wz_offbeat，27970f958 起；AA_618 第 2 節＋AA_648）：enter ① 走進店門（第一次的旁白）／order ② 五個選項各讀檔一次（扣錢、旁白）／
+     cat ③ 看看兩次、摸摸兩次／game ④ 照作息挑朋友在的時段（[前置／捷徑]）→ 玩桌遊 → 回到自由移動／close ⑤ 00:56 在店裡跨過 01:00、01:24 和 11:00 在店外按入口／
+     final ⑥ 大一上期末最後一科考完那晚（CLS.lastExamEnd；條件事件照開）走進店裡 → ev_term_last_meal → 坐位、演完、回到自由移動。每一段都做卡住檢查、印 transcript
   facade（BB 追加，d5138cd27 起有正式立面 74557a245）：側門往南、往北各一張；沿騎樓走到 layout 七家店門口（山嵐、南洋、大口漢堡、同弦、大步、好拍、新生運動廣場），
      跟隨鏡頭轉向店門截圖、記互動按鈕；再走「往溫州街」拍日常失速（W2 轉角，還沒有 3D）、木曜日（B4）。只拍紀錄，不判 FAIL（換區那一步照 go_exit 檢查）。
 每一段記：區域換對沒（GAME.G.zone／E.zone）、出生點（E.lastSpawn 的 fixed 和要求的位置差多少、站得住、搖桿推一下有沒有位移）、
   GAME.walkFallbacks（要 0）、JS 例外（pageerror）。
 只記狀態、不算 FAIL：新生南路是 BLOCKOUT（沒有正式立面）；木曜日點餐／書櫃／唱片機／海報還沒接；公館往溫州街的巷子還在；鏡頭射線（WARN）；出生點落在出口按鈕範圍內（WARN）。
 Playwright 手機模擬（橫向 844×390），不是 iPhone 實機。
-用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade,closed,order,date_zr,rain,names] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade,closed,order,date_zr,rain,names,nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
 import os, sys, json, math, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -187,17 +190,26 @@ async def spawn_checks(pg, cdp, tag, want, s):
     check('%s：換區後搖桿往前推有位移（%.2f m，推 %d 次）' % (tag, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'y')}))
 
 
-async def setup(pg, cdp, zone, x, z, yaw, hour, lv=None, why='', daykey=None, weather='clear', extra=None):
-    dk = daykey or DAYKEY
-    day = await pg.evaluate("STORY.dayOfKey(%s)" % J(dk))
-    wd = await pg.evaluate("new Date(%s+'T12:00:00').getDay()" % J(dk))
+async def setup(pg, cdp, zone, x, z, yaw, hour, lv=None, why='', daykey=None, weather='clear', extra=None, dayn=None, quiet=True):
+    if dayn is not None:   # 直接給遊戲的第幾天（例：CLS.lastExamEnd 算出來的那天）
+        day = dayn; dk = await pg.evaluate("(d=>{ const x=CALENDAR.dateOf(d); return x.key||(x.y+'-'+String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0')); })(%d)" % dayn)
+        wd = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % dayn)
+    else:
+        dk = daykey or DAYKEY
+        day = await pg.evaluate("STORY.dayOfKey(%s)" % J(dk))
+        wd = await pg.evaluate("new Date(%s+'T12:00:00').getDay()" % J(dk))
     pos = {'x': x, 'z': z, 'yaw': yaw}
     if lv is not None: pos['lv'] = lv
     st = {'zone': zone, 'hour': hour, 'day': day, 'weekday': wd, 'weather': weather, 'flags': FLAGS, 'pos': pos}
     if extra: st.update(extra)
-    print('  [前置／捷徑] 讀檔：%s（day %s、weekday %s）%02d:%02d %s %s 天氣 %s%s；條件事件關閉、手機自動訊息關閉。%s' % (dk, day, wd, int(hour), round(hour % 1 * 60), zone, J(pos), weather, ('；另外 ' + J(extra)) if extra else '', why), flush=True)
+    print('  [前置／捷徑] 讀檔：%s（day %s、weekday %s）%02d:%02d %s %s 天氣 %s%s；%s。%s' % (dk, day, wd, int(hour), round(hour % 1 * 60), zone, J(pos), weather, ('；另外 ' + J(extra)) if extra else '', '條件事件關閉、手機自動訊息關閉' if quiet else '條件事件照開、手機自動打開關閉', why), flush=True)
     await pg.evaluate("STORY.phoneAuto=()=>{}")
-    await L.load_state(pg, st, quiet_events=True)
+    if quiet:
+        await L.load_state(pg, st, quiet_events=True)
+    else:   # 要測條件事件（期末聚餐）：條件事件照開，只關手機自動打開（playlib 的 quiet_phone；舊版 playlib 沒有這個參數）
+        print('  [前置／捷徑] 這一次讀檔條件事件照開（要測事件本身）', flush=True)
+        try: await L.load_state(pg, st, quiet_phone=True)
+        except TypeError: await L.load_state(pg, st)
     s = await wait_zone(pg, zone)
     await pg.evaluate("STORY.phoneAuto=()=>{}")
     await pg.wait_for_timeout(4000)
@@ -763,6 +775,210 @@ async def case_date_zr(pg, cdp, errs):
         await shot(pg, 'date_zr_back_wenzhou'); await stuck_check(pg, cdp, 'date_zr 回到溫州街', (await zst(pg))['fb'])
 
 
+# ================= 日常失速（wz_offbeat；AA_618 第 2 節＋AA_648；開發分支 27970f958 起，c2232eb6c 之後）=================
+# 讀程式確認（27970f958）：
+#   溫州街「進去日常失速」(−36.5, −9.6) r1.2（zones3d.js）→ wz_offbeat 出生 (−3.9, 3.0)；「離開日常失速」(−3.9, 4.55) → 溫州街 (−34.8, −9.6)
+#   營業 13:00～01:00 每天（places.js wz_offbeat {open:13, close:25}）、颱風天關；過午夜 G.hour 是 24 以上（同一天）
+#   src/offbeat_sys3d.js：「點東西吃」(−1.2, −2.55)：冰拿鐵 120／檸檬氣泡美式 130／肉桂捲 110／明太子厚片 140／不用了（點完各一句旁白）
+#     「看看店長／摸摸店長」(2.95, 0.15)：看看＝每天第一次「睜開一隻眼睛」、之後「在睡覺」；摸摸＝三句隨機
+#     「玩桌遊（長桌；有朋友在的時候）」(−1.85, 0.15)：店裡有認識的朋友 NPC（OFFB.friendsHere）才玩，四款輪流、時間 +1 小時、結束一句；沒有＝「長桌上沒有人」
+#     偶遇作息：Alison（yu）週日 14–17、阿哲＋明軒 大一上週五 19:15（系籃練完）、沛珊 週三 21:30（外帶）
+#     01:00～01:30 人在店裡＝店員「我們一點打烊喔……」＋旁白、走到溫州街（不出 toast）；其他關門時間＝toast（OFFB.closedText）；店外按「進去日常失速」關門＝toast
+#   events.js ev_term_last_meal（大一上）：trigger enter、location ['noodle','wz_offbeat']、time 17–22、once、participants []；
+#     條件：flags.noodleTableDay 有值、CLS.lastExamEnd(G,'Y1S1','final') 之後、G.zone＝OFFB.finalZone（沒收過舊的燒臘店訊息＝wz_offbeat）
+OB_DOOR = (-36.5, -9.6)
+OB_MENU = [('冰拿鐵', 120, '奶泡'), ('檸檬氣泡美式', 130, '檸檬氣泡美式'), ('肉桂捲', 110, '肉桂捲'), ('明太子厚片', 140, '明太子厚片'), ('不用了', 0, None)]
+OB_KNOWN = {'zhe': {'fam': 40, 'trust': 30, 'aff': 30, 'resp': 20, 'comf': 30, 'rom': 0, 'npcRom': 0, 'seen': 8, 'talked': 8},
+            'yu': {'fam': 35, 'trust': 26, 'aff': 25, 'resp': 15, 'comf': 25, 'rom': 0, 'npcRom': 0, 'seen': 6, 'talked': 6},
+            'classmate_mingxuan': {'fam': 30, 'trust': 25, 'aff': 20, 'resp': 15, 'comf': 20, 'rom': 0, 'npcRom': 0, 'seen': 6, 'talked': 6},
+            'classmate_bohan': {'fam': 30, 'trust': 25, 'aff': 20, 'resp': 15, 'comf': 20, 'rom': 0, 'npcRom': 0, 'seen': 6, 'talked': 6},
+            'classmate_peishan': {'fam': 30, 'trust': 25, 'aff': 20, 'resp': 15, 'comf': 20, 'rom': 0, 'npcRom': 0, 'seen': 6, 'talked': 6}}
+
+
+def ob_extra(first=True, social=False, more=None):
+    e = {'visited': {'wenzhou': True, 'wz_offbeat': True}}
+    if not first: e['offbeat'] = {'n': 2, 'first': 1}   # 來過了（不演 2-1 第一次進去）
+    if social: e['social'] = {'rel': dict(OB_KNOWN), 'mem': {}, 'reveal': {}, 'prof': {}, 'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+    if more: e.update(more)
+    return e
+
+
+def transcript(tag, lines):
+    print('  ---- transcript %s（%d 句）' % (tag, len(lines)), flush=True)
+    for l in lines: print('    [%s %s 第%s層 %.2f] %s：%s' % (tag, l['z'], l['lv'], l['h'], l['n'] or '（旁白）', l['t']), flush=True)
+
+
+async def drain(pg, cdp, max_s=60, pick=0):
+    """點對話、選第 pick 個選項，直到沒有對話、選單、busy；回傳點過的選單"""
+    t0 = time.time(); menus = []
+    while time.time() - t0 < max_s:
+        await pg.wait_for_timeout(800); st = await L.state(pg)
+        if st['choices']:
+            bs = await btns(pg); menus.append([b['t'][:30] for b in bs]); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (pick + 1)); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+        if not st['busy']:
+            await pg.wait_for_timeout(1200); st = await L.state(pg)
+            if not st['dlg'] and not st['choices'] and not st['busy']: break
+    return menus
+
+
+async def ob_inside(pg, cdp, hour, why, daykey=None, extra=None):
+    await setup(pg, cdp, 'wz_offbeat', -3.9, 3.0, math.pi, hour, daykey=daykey, why=why, extra=extra or ob_extra(first=False))
+    await observers(pg); await drain(pg, cdp, 20)
+
+
+async def case_nichijo_enter(pg, cdp, errs):
+    print('== nichijo_enter ① 溫州街 → 走進日常失速（第一次）→ 離開', flush=True)
+    await setup(pg, cdp, 'wenzhou', -30.0, 0.5, math.pi / 2, 15.0, why='溫州街主巷西段（日常失速店門東邊）；第一次來', extra={'visited': {'wenzhou': True}})
+    await observers(pg); k = len(await pg.evaluate("window.__dl||[]"))
+    await shot(pg, 'ob_enter_outside_before')
+    s = await go_exit(pg, cdp, errs, 'nichijo① 溫州街→日常失速', '進去日常失速', 'wz_offbeat', OB_DOOR)
+    if not s: return
+    menus = await drain(pg, cdp, 40)
+    lines = await dl_since(pg, k); transcript('nichijo①', lines)
+    await shot(pg, 'ob_enter_inside')
+    check('nichijo① 第一次進去的旁白（「玻璃門一推開」）＋店員一句', any('玻璃門一推開' in l['t'] for l in lines) and any(l['n'] == '店員' for l in lines), J(lines[:3]))
+    if menus: obs('nichijo① 進門途中的選單', J(menus))
+    await stuck_check(pg, cdp, 'nichijo① 進門以後', (await zst(pg))['fb'])
+    s = await go_exit(pg, cdp, errs, 'nichijo① 日常失速→溫州街', '離開日常失速', 'wenzhou', (-3.9, 4.55))
+    if s: await shot(pg, 'ob_enter_back_outside')
+
+
+async def case_nichijo_order(pg, cdp, errs):
+    print('== nichijo_order ② 吧檯「點東西吃」：每一個選項各讀檔一次', flush=True)
+    for name, price, key in OB_MENU:
+        await ob_inside(pg, cdp, 15.0, '店裡出生點（來過了）；這一次點「%s」' % name)
+        it = await approach(pg, cdp, 'nichijo② ' + name, '點東西吃', (-1.2, -2.55))
+        if not it: continue
+        await L.tap(pg, cdp, '#interact')
+        picked, m0, m1, lines = await order_one(pg, cdp, 'ob_order_' + name, name)
+        transcript('nichijo② ' + name, lines)
+        check('nichijo② 選單有「%s」並選了它' % name, bool(picked) and picked.startswith(name), J(picked))
+        if price:
+            check('nichijo② %s：扣 %d 元（%d → %d）' % (name, price, m0, m1), m0 - m1 == price, str(m0 - m1))
+            check('nichijo② %s：點完有旁白（含「%s」）' % (name, key), any(not l['n'] and key in l['t'] for l in lines), J(lines))
+        else:
+            check('nichijo② 不用了：不扣錢（%d → %d）' % (m0, m1), m1 == m0)
+        await stuck_check(pg, cdp, 'nichijo② %s 之後' % name, (await zst(pg))['fb'])
+
+
+async def case_nichijo_cat(pg, cdp, errs):
+    print('== nichijo_cat ③ 看看店長／摸摸店長', flush=True)
+    await ob_inside(pg, cdp, 15.0, '店裡出生點（來過了；今天還沒看過店長）')
+    k = len(await pg.evaluate("window.__dl||[]"))
+    for i, pick in enumerate(('看看', '看看', '摸摸', '摸摸')):
+        it = await approach(pg, cdp, 'nichijo③ 第 %d 次' % (i + 1), '看看店長', (2.95, 0.15))
+        if not it: return
+        await L.tap(pg, cdp, '#interact')
+        picked, m0, m1, lines = await order_one(pg, cdp, 'ob_cat_%d_%s' % (i + 1, pick), pick)
+        check('nichijo③ 第 %d 次選「%s」、有一句旁白' % (i + 1, pick), bool(picked) and any(not l['n'] and ('店長' in l['t'] or '摸' in l['t']) for l in lines), J(lines))
+    lines = await dl_since(pg, k); transcript('nichijo③', lines)
+    check('nichijo③ 看看：第一次「睜開一隻眼睛」、第二次「在睡覺」', any('睜開一隻眼睛' in l['t'] for l in lines) and any('在睡覺' in l['t'] for l in lines), J([l['t'] for l in lines]))
+    await stuck_check(pg, cdp, 'nichijo③ 看完店長', (await zst(pg))['fb'])
+
+
+async def case_nichijo_game(pg, cdp, errs):
+    print('== nichijo_game ④ 有朋友在的時候玩桌遊', flush=True)
+    cands = [('2025-09-28', 15.0, 'yu'), ('2025-10-05', 15.0, 'yu'), ('2025-10-19', 15.5, 'yu'), ('2025-09-26', 19.4, 'zhe'), ('2025-10-03', 19.4, 'zhe')]
+    pick = None
+    for dk, h, who in cands:   # [前置／捷徑] 照遊戲的作息挑時段：OFFB.slotNow 說那個人那時候在日常失速
+        await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, daykey=dk, why='挑時段：%s 的作息在不在日常失速' % who, extra=ob_extra(first=False, social=True))
+        sl = await pg.evaluate("(id=>{ const e=OFFB.slotNow(GAME.G,id); return e?{label:e.label,from:e.from,to:e.to}:null; })(%s)" % J(who))
+        print('  OFFB.slotNow(%s) %s %.2f：%s' % (who, dk, h, J(sl)), flush=True)
+        if sl: pick = (dk, h, who); break
+    if not check('nichijo④ 前置：找得到朋友作息在日常失速的時段', bool(pick), J(cands)): return
+    k = len(await pg.evaluate("window.__dl||[]"))
+    s = await go_exit(pg, cdp, errs, 'nichijo④ 進店（%s 在）' % pick[2], '進去日常失速', 'wz_offbeat', OB_DOOR)
+    if not s: return
+    await drain(pg, cdp, 60)   # 偶遇那一段（Alison「欸！坐這邊」、阿哲「練完好餓」）
+    fr = await pg.evaluate("OFFB.friendsHere(GAME)")
+    npc = await pg.evaluate("(GAME.E.npcs||[]).filter(n=>n&&n.charId).map(n=>({id:n.charId,x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),seat:!!n.seat,pose:n.pose}))")
+    print('  店裡的人：%s；friendsHere %s' % (J(npc), J(fr)), flush=True)
+    check('nichijo④ 店裡有認識的朋友（OFFB.friendsHere 有 %s）' % pick[2], pick[2] in (fr or []), J(fr))
+    it = await approach(pg, cdp, 'nichijo④', '玩桌遊', (-1.85, 0.15))
+    if not it: return
+    h0 = (await zst(pg))['hour']
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await shot(pg, 'ob_game_start')
+    await drain(pg, cdp, 90)
+    h1 = (await zst(pg))['hour']; lines = await dl_since(pg, k); transcript('nichijo④', lines)
+    await shot(pg, 'ob_game_end')
+    check('nichijo④ 開始玩：「你們把「…」攤開在長桌上」', any('攤開在長桌上' in l['t'] for l in lines), J(lines[-4:]))
+    check('nichijo④ 不是「長桌上沒有人」', not any('長桌上沒有人' in l['t'] for l in lines))
+    check('nichijo④ 玩了大約一小時（%.2f → %.2f）' % (h0, h1), h1 - h0 >= 0.9)
+    await stuck_check(pg, cdp, 'nichijo④ 桌遊演完', (await zst(pg))['fb'])
+
+
+async def case_nichijo_close(pg, cdp, errs):
+    print('== nichijo_close ⑤ 01:00 打烊', flush=True)
+    await ob_inside(pg, cdp, 24.93, '店裡出生點、00:56（週六晚上過午夜：G.hour 24.93）')
+    k = len(await pg.evaluate("window.__dl||[]")); kt = len(await pg.evaluate("window.__ts||[]")); t0 = time.time(); z = None; shot_done = False
+    while time.time() - t0 < 240:
+        await pg.wait_for_timeout(1500); z = await zst(pg); st = await L.state(pg)
+        if st['dlg']:
+            if not shot_done: await shot(pg, 'ob_close_line'); shot_done = True
+            await L.tap(pg, cdp, '#dlg')
+        if z['zone'] == 'wenzhou' and not z['loading']: break
+    lines = await dl_since(pg, k); ts = await toast_since(pg, kt); transcript('nichijo⑤ 打烊', lines)
+    print('  打烊：%s；toast %s' % (J(z), J(ts)), flush=True)
+    check('nichijo⑤ 跨過 01:00 被請到店外（溫州街）', bool(z) and z['zone'] == 'wenzhou' and z['hour'] >= 25 - 0.02, J(z))
+    check('nichijo⑤ 有打烊的字（店員「一點打烊」或 toast）', any('打烊' in l['t'] for l in lines) or bool(ts), J({'lines': [l['t'] for l in lines], 'toast': ts}))
+    if z and z['zone'] == 'wenzhou':
+        await shot(pg, 'ob_close_outside'); await stuck_check(pg, cdp, 'nichijo⑤ 打烊出來', z['fb'])
+    for h, tag in ((25.4, '01:24 打烊後'), (11.0, '11:00 還沒開')):
+        await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, why='店門東邊 3.5 m；' + tag, extra=ob_extra(first=False))
+        await observers(pg)
+        it = await approach(pg, cdp, 'nichijo⑤ ' + tag, '進去日常失速', OB_DOOR)
+        if not it: continue
+        kt = len(await pg.evaluate("window.__ts||[]")); e0 = len(errs)
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4500)
+        ts = await toast_since(pg, kt); z = await zst(pg)
+        print('  %s 擋的字：%s' % (tag, J(ts)), flush=True); await shot(pg, 'ob_closed_%s' % ('late' if h > 24 else 'early'))
+        check('nichijo⑤ %s：按「進去日常失速」沒有進去（還在 %s）' % (tag, z['zone']), z['zone'] == 'wenzhou', J(z))
+        check('nichijo⑤ %s：有擋下來的字（toast）' % tag, bool(ts), J(ts))
+        check('nichijo⑤ %s：沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
+
+
+async def case_nichijo_final(pg, cdp, errs):
+    print('== nichijo_final ⑥ 大一上期末最後一科考完那晚：日常失速長桌聚餐（ev_term_last_meal）', flush=True)
+    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, 15.0, why='先讀一次檔，讓遊戲算大一上期末最後一科考完的時間')
+    e = await pg.evaluate("(()=>{ try{ return CLS.lastExamEnd(GAME.G,'Y1S1','final'); }catch(err){ return {err:String(err)}; } })()")
+    print('  CLS.lastExamEnd(Y1S1, final)：%s' % J(e), flush=True)
+    if not check('nichijo⑥ 前置：算得出大一上期末最後一科考完的時間', bool(e) and 'day' in e, J(e)): return
+    h = max(17.1, (e.get('h') or 0) + 0.1)
+    more = {'flags': dict(FLAGS, noodleTableDay=5)}
+    await setup(pg, cdp, 'wenzhou', -33.0, -9.6, -math.pi / 2, h, dayn=e['day'], quiet=False,
+                why='最後一科考完那天 %.2f；flags.noodleTableDay＝5（麵店團成立，事件的前提）；大家都認識' % h, extra=ob_extra(first=False, social=True, more=more))
+    await observers(pg); await drain(pg, cdp, 60)
+    pre = await pg.evaluate("""(()=>{ const G=GAME.G, ev=STORY_EVENTS.find(x=>x.id==='ev_term_last_meal'); let ok=null; try{ ok=ev.prereq.custom(Object.assign({},G,{zone:'wz_offbeat'})); }catch(e){ ok=String(e); }
+      return {finalZone:OFFB.finalZone(G,'Y1S1'), prereqInOffbeat:ok, done:!!(G.events&&G.events.done&&G.events.done.ev_term_last_meal), msgs:(G.msgs||[]).slice(-4).map(m=>m.text)}; })()""")
+    print('  前置檢查：%s' % J(pre), flush=True)
+    check('nichijo⑥ 前置：聚餐地點是日常失速（OFFB.finalZone）、條件在店裡會成立', pre['finalZone'] == 'wz_offbeat' and pre['prereqInOffbeat'] is True, J(pre))
+    k = len(await pg.evaluate("window.__dl||[]")); fb0 = (await zst(pg))['fb']
+    s = await go_exit(pg, cdp, errs, 'nichijo⑥ 走進日常失速', '進去日常失速', 'wz_offbeat', OB_DOOR)
+    if not s: return
+    seats = None; started = False; t0 = time.time()
+    while time.time() - t0 < 180:
+        await pg.wait_for_timeout(800)
+        run_ = await pg.evaluate("(()=>({running:!!(typeof EVENTS!=='undefined'&&EVENTS.running), cur:(typeof EVENTS!=='undefined'&&EVENTS.running&&EVENTS.running.id)||null, done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal)}))()")
+        st = await L.state(pg)
+        if (run_['running'] or st['dlg']) and not started:
+            started = True; await shot(pg, 'ob_final_start')
+            seats = await pg.evaluate("""(()=>{ const P=GAME.E.player; return {player:{seat:!!P.seat, pose:P.pose}, npcs:(GAME.E.npcs||[]).filter(n=>n&&n.charId&&!n.isExtra).map(n=>({id:n.charId, seat:n.seat?{x:+n.seat.x.toFixed(2),z:+n.seat.z.toFixed(2)}:null, pose:n.pose}))}; })()""")
+            print('  聚餐開始：%s；坐位 %s' % (J(run_), J(seats)), flush=True)
+        if st['choices']: await L.tap(pg, cdp, '#choices button:nth-child(1)'); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+        if run_['done'] and not st['busy'] and not run_['running']: break
+    lines = await dl_since(pg, k); transcript('nichijo⑥', lines)
+    await shot(pg, 'ob_final_end')
+    done = await pg.evaluate("!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal)")
+    check('nichijo⑥ 聚餐有觸發（有開始演）', started, J(lines[:2]))
+    check('nichijo⑥ 演完（G.events.done.ev_term_last_meal）', done)
+    check('nichijo⑥ 是日常失速那一版（「店員多送了一盤薯條」）', any('薯條' in l['t'] for l in lines), J([l['t'] for l in lines][:6]))
+    np_ = (seats or {}).get('npcs') or []
+    check('nichijo⑥ 大家坐得下：長桌有朋友、每個人 seat 都有值（%d 位）' % len(np_), bool(np_) and all(n['seat'] for n in np_), J(seats))
+    await stuck_check(pg, cdp, 'nichijo⑥ 聚餐演完', fb0)
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     print('CC N20X 新生南路＋木曜日 真實流程探針；CASES=%s；不用 ?turbo；Playwright 手機模擬（橫向），不是實機' % ','.join(CASES), flush=True)
@@ -781,7 +997,9 @@ async def main():
         have = await pg.evaluate("({xs:typeof XS3!=='undefined', mok:typeof MOK3!=='undefined', zx:!!Z3.ZONES.xinsheng, zm:!!Z3.ZONES.wz_mokuyobi, v:(document.getElementById('ver')||{}).textContent||null})")
         check('前置：這一版有 xinsheng、wz_mokuyobi 區域（XS3、MOK3 載入）', have['xs'] and have['mok'] and have['zx'] and have['zm'], J(have))
         obs('新生南路現在是 BLOCKOUT（套件方塊立面／正式立面 bldg.xinsheng_street 如果有載到會換掉）；公館往溫州街的巷子還在——照 BB 只記')
-        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade), ('closed', case_closed), ('order', case_order), ('date_zr', case_date_zr), ('rain', case_rain), ('names', case_names)):
+        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade), ('closed', case_closed), ('order', case_order), ('date_zr', case_date_zr), ('rain', case_rain), ('names', case_names),
+                      ('nichijo_enter', case_nichijo_enter), ('nichijo_order', case_nichijo_order), ('nichijo_cat', case_nichijo_cat),
+                      ('nichijo_game', case_nichijo_game), ('nichijo_close', case_nichijo_close), ('nichijo_final', case_nichijo_final)):
             if c not in CASES: continue
             try:
                 await fn(pg, cdp, errs)

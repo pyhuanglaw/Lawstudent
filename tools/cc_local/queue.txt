@@ -27,6 +27,7 @@ HOT_deploy  | fd8d447d2 | game | tests/deploy_check.py | index.html | 30 | XARGS
 HOT_p0      | fd8d447d2 | game | tests/p0_movement.py | index.html | 30 | XARGS={url}
 HOT_smoke   | fd8d447d2 | game | tests/smoke_release.py | index.html | 60 | XARGS={url} {out}
 HOT_v7      | fd8d447d2 | game | tests/save_compat_v7.py | index.html | 60 | SHA2=385e194;XARGS={url2} {url}
+N20X_nichijo | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 80 | CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close,nichijo_final;CC_HEADLESS=0
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_fix  | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
