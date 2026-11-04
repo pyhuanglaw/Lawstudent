@@ -45521,7 +45521,7 @@
    "title": "AA_671 台詞第七批：invites.js:187 明軒 brunch 的 phone／face 兩句（改成「你請的話就可以」）；msg2_pool.js 柏翰生日（:64）、方奕廷 F3 還好嗎（:203）——源檔 AA_202 7-3、AA_257 §8 已改",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45535,8 +45535,8 @@
    },
    "source": "AA-C 11-04 16:30（企劃線 3b5043eef、outbox 93d02f39b；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 17:5x】第 1、2 列合併 883329550（子代理 613aa9094）；msg2_pool 兩句（第 3、4 列）還沒做——EXAM-LIB 已合併，下一批做｜【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）；AA671 的 msg2_pool 兩句先不做（EXAM-LIB-CROWD 子代理在改手機話題的檔，合併後再做）｜【LAWWW-C 11-04 16:3x】排在 AA664～670 後面；msg2_pool 用匯入工具重產（白名單 AA_202、AA_257 換 3b5043eef；msg_chat_unit F 逐字比對），invites.js:187 直接改；invites.js:232／:424／:460 在 AA_664 第 6～8 列",
-   "sha": "613aa9094",
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 8042c42a9）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 17:5x】第 1、2 列合併 883329550（子代理 613aa9094）；msg2_pool 兩句（第 3、4 列）還沒做——EXAM-LIB 已合併，下一批做｜【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）；AA671 的 msg2_pool 兩句先不做（EXAM-LIB-CROWD 子代理在改手機話題的檔，合併後再做）｜【LAWWW-C 11-04 16:3x】排在 AA664～670 後面；msg2_pool 用匯入工具重產（白名單 AA_202、AA_257 換 3b5043eef；msg_chat_unit F 逐字比對），invites.js:187 直接改；invites.js:232／:424／:460 在 AA_664 第 6～8 列",
+   "sha": "8042c42a9",
    "tests": "node tests/<相關>_unit.js（apply_line_table --tests 改過的 25 支＋手改 10 支）"
   },
   {
@@ -45590,7 +45590,7 @@
    "title": "AA_674 台詞第十批：postgrad_lines.js 3 處（AN.call1「一月面試」→「一月口試」、AN.call1Dating「……我只跟你講了。」→「……紐約那間。」、語彤 fb「FB 貼文」→「社群貼文」D77）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -45604,14 +45604,15 @@
    },
    "source": "AA-C 11-04 16:46（企劃線 0787572c6、397e5efd4、outbox 5d9256f35；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:4x】排在 AA664～673（子代理做中）後面；做法同 AA663"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 c8754f481）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 16:4x】排在 AA664～673（子代理做中）後面；做法同 AA663",
+   "sha": "c8754f481"
   },
   {
    "id": "AA676-LINES-1104",
    "title": "AA_676 台詞第十一批：story3d.js 2 句（學姊 wb lead「……不說也沒關係。」→「咖啡我請。」、可昕「不是約會日，是『我們的日子』」→「叫它『我們的日子』。」）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45625,14 +45626,15 @@
    },
    "source": "AA-C 11-04 16:52（企劃線 94bdb359b、outbox e3575c90b；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:5x】和 AA674 一起，在台詞八批子代理合併以後做（做法同 AA663）"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 fe0b062f1）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 16:5x】和 AA674 一起，在台詞八批子代理合併以後做（做法同 AA663）",
+   "sha": "fe0b062f1"
   },
   {
    "id": "AA677-LINES-1104",
    "title": "AA_677：CANON-PURGE 子代理留給 AA 的幾項——postgrad_lines.js:288 語彤結局 5、cracktalk_lines.js:33／36 語彤談話、events.js:4879 ev_grad_debate 加一句語彤（蘇姨改變心意的原因）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -45646,14 +45648,15 @@
    },
    "source": "AA-C 11-04 16:59（企劃線 d784b1634、outbox f6e9b340e；D109；接 CANON-PURGE-SRC-1104）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:5x】和 AA674、AA676 一起，在台詞八批子代理合併以後做；events.js:4879 是加一句（不是換字），條件不動"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 18c73ade1）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 16:5x】和 AA674、AA676 一起，在台詞八批子代理合併以後做；events.js:4879 是加一句（不是換字），條件不動",
+   "sha": "18c73ade1"
   },
   {
    "id": "AA678-LINES-1104",
    "title": "AA_678 台詞第十二批 8 處：vac_activities.js 語彤舊設定（:425 shut 三組、:483 朋友版照片鐵門→茶屋木門＋註解、:565 香港那則）、hometown_lines.js:73 沛珊、enc_walk 兩句（D04 芷若、D06 沛珊 dating；源檔 free_trip/bb_walk_v1.json 已改，換白名單重匯）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45667,7 +45670,8 @@
    },
    "source": "AA-C 11-04 17:05（企劃線 4e39653c9、outbox 413cc70f1；D109）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 17:0x】和 AA674、676、677 一起，在台詞八批子代理和 AA675 子代理合併以後做；vac_activities.js 和 AA675（:466）同一個檔，注意先後；AA 下一批會全遊戲掃語彤還在麵店、跟阿姨住的地方"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 4b2b54910）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 17:0x】和 AA674、676、677 一起，在台詞八批子代理和 AA675 子代理合併以後做；vac_activities.js 和 AA675（:466）同一個檔，注意先後；AA 下一批會全遊戲掃語彤還在麵店、跟阿姨住的地方",
+   "sha": "4b2b54910"
   },
   {
    "id": "NPC-ANIM-LOOPS-1104",
@@ -45981,7 +45985,7 @@
    "title": "AA_681 台詞第十三批 8 處：fit3d.js NOTICE、NOTICE_NOCARD 6 句（以安、沛珊「我只是看到了／觀察」、沛珊「我不是質疑」兩句、學姊「這句是稱讚」）、r2y4b3d.js:416 語彤 last（＝AA_677 cracktalk_lines.js:36 同一句）、ytjob3d.js:142 語彤「蘇姨聽到會難過」",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46002,7 +46006,8 @@
     "acceptance": "8 處換字；line_lint 照 D137；相關 Node 測試",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 17:3x】和 AA674、676、677、678 一起，在台詞八批子代理（664～673）和 AA675 子代理合併以後做；r2y4b3d.js:416 和 AA_677 cracktalk_lines.js:36 同一句，一起換"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 d191d3ec4）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 17:3x】和 AA674、676、677、678 一起，在台詞八批子代理（664～673）和 AA675 子代理合併以後做；r2y4b3d.js:416 和 AA_677 cracktalk_lines.js:36 同一句，一起換",
+   "sha": "d191d3ec4"
   },
   {
    "id": "ADV-LETTERBOX-1104",
@@ -46103,7 +46108,7 @@
    "title": "AA_682 台詞第十四批 3 處（國外那學期）：r2y3b_events.js:128 阿勳「……我沒想過。」、:557 芷若 Z13 table 拿掉拿小說講心事的說法、r2y4a_events.js:571 可昕「……那就今天去一個。」",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -46124,14 +46129,15 @@
     "acceptance": "3 處換字；相關 Node 測試",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 17:5x】和 AA674、676、677、678、681 同一批（台詞八批子代理、AA675 子代理合併以後）"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 3197306e9）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 17:5x】和 AA674、676、677、678、681 同一批（台詞八批子代理、AA675 子代理合併以後）",
+   "sha": "3197306e9"
   },
   {
    "id": "AA683-NOODLE-CLOSED-1104",
    "title": "AA_683 noodle_closed3d.js 語彤舊設定拿掉：B 的 inside、offer、opts（我來幫忙／初四再來）、out、NOODLE_CLEAN_<年>；C 店休期間約她那一句和 18:00 的規則；群組 A、D 和鐵門旁白照留（AA_612 換好的字）；檔頭改「公館燒臘過年店休」；tests/noodle_closed_unit.js 跟著改",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46152,7 +46158,8 @@
     "acceptance": "照 AA_683 拿掉語彤那幾段、留群組與鐵門旁白；noodle_closed_unit 改；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 17:4x】AA675／679 子代理（語彤舊設定）合併以後做，避免改同一段"
+   "next": "【LAWWW-C 11-04 19:1x】合併 e00155d70（子代理 lines671b-1104 5d74e78af）；子代理全套 986 支 984 過（bike_park 是底太舊、合併後通過；bookstore_exit 本來就這樣）｜【LAWWW-C 11-04 17:4x】AA675／679 子代理（語彤舊設定）合併以後做，避免改同一段",
+   "sha": "5d74e78af"
   },
   {
    "id": "LADDER-IMPORT-AA657-1104",
@@ -46204,7 +46211,7 @@
    "title": "AA_684：AA675／679 後續七件——漁人碼頭 18:00 起（燈的台詞）、重逢「這週六我五點下班」排最近週六 17:15、阿哲週二四 18:00～19:30 公館燒臘晚餐（四個事件＋騎樓徵兆看作息）、Alison 趕到的旁白、告白晚餐考完當天 20:30 邀約＋之後第一個週六 17:30、ENC_D24_SIS 記憶名稱中性、長桌閒聊刪 13 則＋桌遊夜版 4 則",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46225,7 +46232,8 @@
     "acceptance": "照 AA_684 七件；台詞逐字；換不了的夕陽台詞記給 AA；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）"
+   "next": "【LAWWW-C 11-04 19:1x】合併 b8b0918de（子代理 aa684-1104 e6d8410c4）；tests/aa684_canon_fix_unit.js 53 項，修改前 FAILED 26、修改後 ALL PASS；全套 987 支結束碼 0；要 AA 定的已傳｜【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）",
+   "sha": "e6d8410c4"
   },
   {
    "id": "D42-RESERVE-1104",
@@ -46249,6 +46257,28 @@
    "notWaitUser": "程式修正，BB 已定做法",
    "next": "【LAWWW-C 11-04 18:3x】S.sync42：答應的那天、那一間、還沒放、還沒過他說的時間＝保留一對（taken exlib42，keepSeats 有）；S.auto42Due＝走進讀書區直接坐（seatMenu）；place42 先用這一對；放好、過時間、換區域＝放開。tests/exam_lib_crowd_unit.js 第 13 節修改前 FAILED 3、修改後 ALL PASS；相關 8 支 0 失敗。下一步：BB 排 CC 照玩家操作走",
    "tests": "node tests/exam_lib_crowd_unit.js"
+  },
+  {
+   "id": "MSG2-GEN-DRIFT-1104",
+   "title": "msg2_pool.js 的產生器（build_msg2.py → to_js2.py）和遊戲檔差 8 行：重產會把語彤 7 行（AA_630／AA_627）、阿哲「今天燒臘店我請」（AA_612）退回舊句；msg_pool 的 build_pool.py 還讀 AA_202@b10d0567f（白名單已換 3b5043eef）",
+   "area": "TOOLS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "下一次重產手機訊息池",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "台詞第 671b～683 批子代理 11-04 19:0x 回報",
+   "authorized": "D85",
+   "notWaitUser": "工具修正，不用問使用者",
+   "next": "產生器補上 AA_612／AA_627／AA_630 的換字（read_fix 或源檔），讓重產和現在的 msg2_pool.js 一字不差；build_pool.py 的來源換 3b5043eef 重產、確認 msg_pool.js 不變"
   }
  ]
 }
