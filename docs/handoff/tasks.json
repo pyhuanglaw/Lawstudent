@@ -45523,6 +45523,27 @@
    "next": "【LAWWW-C 11-04 16:5x】CANON-PURGE-SRC 合併完（86ad6f472），八批一起派背景子代理在 worktree 照順序做（一批一個 commit；做法同 AA663；D113 檢查點 wip_backup/lines664/）｜【LAWWW-C 11-04 16:4x】和 AA664～672 一起，等 CANON-PURGE-SRC 子代理合併完一次做"
   },
   {
+   "id": "AA674-LINES-1104",
+   "title": "AA_674 台詞第十批：postgrad_lines.js 3 處（AN.call1「一月面試」→「一月口試」、AN.call1Dating「……我只跟你講了。」→「……紐約那間。」、語彤 fb「FB 貼文」→「社群貼文」D77）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "畢業後（司法官考試、出路）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:46（企劃線 0787572c6、397e5efd4、outbox 5d9256f35；D109）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:4x】排在 AA664～673（子代理做中）後面；做法同 AA663"
+  },
+  {
    "id": "NPC-ANIM-LOOPS-1104",
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
