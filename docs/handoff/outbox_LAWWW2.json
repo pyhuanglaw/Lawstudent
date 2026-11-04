@@ -5202,7 +5202,7 @@
    "branch": "claude/second-ai-env-art",
    "sha": "0d45928c8",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACK",
    "task": "LIB-FRONT-1102",
    "files": [
     "assets/models/env/second_ai/campus_library.glb",
@@ -5226,8 +5226,8 @@
    "branch": "claude/second-ai-env-art",
    "sha": "3591dcb47",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
-   "task": "LIB-INTERIOR-1102（B1）",
+   "ack": "ACK",
+   "task": "LIB-INTERIOR-1102",
    "files": [
     "assets/models/env/second_ai/library_b1.glb",
     "assets/models/env/second_ai/library_b1.json",
@@ -5243,15 +5243,15 @@
    "remaining": "光照烘焙（INTERIOR-AAA，B1 第一版就還沒烘，這版照舊即時光）；總圖北側行政入口沒做；沒跑手機實機；pool_aafix_unit 第 4 項、guide_flow 校園導航三項在乾淨的 b1b249873 就 FAIL（逐項相同，不在這包範圍）",
    "next": "LAWWW 換二進位＋套 patch（b1b249873、ba125d6f3 apply --check 乾淨）；BB 照 D120 看畫面（README 第二～四節）",
    "noDirectIntegrate": false,
-   "note": "使用者 11-02 08:58、10:0x 直接對 LAWWW2（UA-LAWWW2-1102-04、-07）：照平面圖重排 B1，尤其 24 小時自習室。配置：自習室 A 區 101 座、B 區、大廳（服務台、自助借還、置物櫃）＋下沉中庭、國際會議廳（關）、討論室 1/2（各 6 座）、影印中心，共 115 座，navcheck 全走得到。椅子、檯燈 GPU instancing；29k 三角形（畫出 65k）；GLB 2.7 MB（md5 c20ee8585b37）。patch：library_b1_layout.js 重產、b1story3d.js BAR_SEATS／STAGES、r2y4b3d.js act_bar_study.spot (3.0,8.3)、library_b1_unit 座位 28→101。測試（b1b249873＋patch＋GLB）：Node 61 支 60 PASS（pool_aafix_unit 基準就 FAIL）；guide_flow 10 PASS／3 FAIL（基準逐項相同）",
+   "note": "使用者 11-02 08:58、10:0x 直接對 LAWWW2（UA-LAWWW2-1102-04、-07）：照平面圖重排 B1，尤其 24 小時自習室。配置：自習室 A 區 101 座、B 區、大廳（服務台、自助借還、置物櫃）＋下沉中庭、國際會議廳（關）、討論室 1/2（各 6 座）、影印中心，共 115 座，navcheck 全走得到。椅子、檯燈 GPU instancing；29k 三角形（畫出 65k）；GLB 2.7 MB（md5 c20ee8585b37）。patch：library_b1_layout.js 重產、b1story3d.js BAR_SEATS／STAGES、r2y4b3d.js act_bar_study.spot (3.0,8.3)、library_b1_unit 座位 28→101。測試（b1b249873＋patch＋GLB）：Node 61 支 60 PASS（pool_aafix_unit 基準就 FAIL）；guide_flow 10 PASS／3 FAIL（基準逐項相同）｜B1（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 11-02 14:42 ACK：已整合進 int/next1102＝3e6855649（md5 對得上、B1 unit 全過）。BB 14:43 BB_236：可以整合、還不標 ART_APPROVED（木紋、椅子、桌上小物、牆面、烘焙 → B1 第三版）"
   },
   {
    "branch": "claude/second-ai-env-art",
    "sha": "219e5dc45",
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
-   "task": "CGI-TESTS-1102（campus_glb_integration 只改 tests）",
+   "ack": "ACK",
+   "task": "LIB-FRONT-1102",
    "files": [
     "docs/art-rebuild/second_ai/patches/campus_glb_integration_1102.patch",
     "docs/art-rebuild/second_ai/test_logs/campus_glb_integration_1102/README.md"
@@ -5260,7 +5260,7 @@
    "remaining": "效能那一項 FAIL（遊戲本身的數字，門檻沒改）：soc_court 1.105 倍、teach_east 1.106 倍兩次都超過；arts_front、gate_avenue 在邊緣、跟著一組約 26 次 draw call／7.26 萬三角形的量測雜訊變（還沒找到是什麼）",
    "next": "LAWWW 套 patch（a5935aa30、3e6855649 apply --check 乾淨）；LAWWW2 之後：①找出雜訊讓量測固定（只改 tests，另交）②校門、男一舍、普通、博雅四棟減 draw call",
    "noDirectIntegrate": false,
-   "note": "LAWWW 11-02 14:30 要的。原因：soc 接的是 campus_socsci_glb（X75）；TAGS 少四棟；改之前那一輪刪 key 會改到總圖（LIBF）、社科院（SOCX）、校門（ckTag）、男一舍（門廊燈）的配置（13 個 key 全刪：擋住的導航格少 4784、互動點少 2、鏡頭碰撞少 8）。改成：刪 key／STUB（key 留著、loadOne 回 null）／KEEP（新社科院兩輪都有）。外框容許只放寬屋頂樓梯間、機房（量過）。兩次全套都是 94 PASS／1 FAIL",
+   "note": "LAWWW 11-02 14:30 要的。原因：soc 接的是 campus_socsci_glb（X75）；TAGS 少四棟；改之前那一輪刪 key 會改到總圖（LIBF）、社科院（SOCX）、校門（ckTag）、男一舍（門廊燈）的配置（13 個 key 全刪：擋住的導航格少 4784、互動點少 2、鏡頭碰撞少 8）。改成：刪 key／STUB（key 留著、loadOne 回 null）／KEEP（新社科院兩輪都有）。外框容許只放寬屋頂樓梯間、機房（量過）。兩次全套都是 94 PASS／1 FAIL｜原寫 CGI-TESTS-1102：campus_glb_integration 只改 tests；總表沒有這個 ID，對到 LIB-FRONT-1102（總圖外觀改了，校園 GLB 整合測試跟著改；LAWWW-C 11-04 12:4x 要求改標準寫法）（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 11-02 15:31 ACK：已進 int/next1102＝eb3920914（apply 乾淨；效能門檻不改，同意）"
   },
   {
@@ -5268,7 +5268,7 @@
    "sha": "54d6e41c1",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LIB-B1-V4-1102（總圖 B1 第四版：使用者 18:1x「太擠」「桌子和進門的門平行」）",
+   "task": "LIB-B1-V4-1102",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_b1_v4_1102.patch",
     "assets/models/env/second_ai/library_b1.glb",
@@ -5276,11 +5276,11 @@
     "assets/models/env/second_ai/library_b1.layout.json",
     "docs/art-rebuild/second_ai/test_shots/library_b1_v4_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 驗收）",
+   "state": "已交付",
    "remaining": "reachability_all(library_b1) 排在佇列；BB_236 ④牆面⑤烘焙還沒做；兩排中間走道的方柱 BB 覺得擋路可以拿掉",
    "next": "LAWWW 以 48918ca20 為基準套 patch（3e6855649、48918ca20 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等",
    "noDirectIntegrate": false,
-   "note": "A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；兩排雙面排距 5 m、桌間 2 m；自習室 101→72 位；spots.study_door／study_night、芯慈／明軒 seatAt 改座標（README 第六節對照表）。第三版不交件（材質、椅子、小物沿用）。",
+   "note": "A 區正門搬到西段南牆、B 區門搬到南牆，桌子東西向＝和門平行；兩排雙面排距 5 m、桌間 2 m；自習室 101→72 位；spots.study_door／study_night、芯慈／明軒 seatAt 改座標（README 第六節對照表）。第三版不交件（材質、椅子、小物沿用）。｜原任務欄：LIB-B1-V4-1102（總圖 B1 第四版：使用者 18:1x「太擠」「桌子和進門的門平行」）；原狀態欄：已交付（READY_FOR_ART_REVIEW；BB 驗收）（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 已整合：int/next1102 5627d9453（BB_242 方向 ACCEPT、不標 ART_APPROVED；4.1 接在後面）"
   },
   {
@@ -5288,7 +5288,7 @@
    "sha": "cca10dd55",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LIB-B1-V4-1102（總圖 B1 第 4.1 版：BB_242 ②③④⑤＋使用者 18:4x「B1 排距維持 4.4 m 就好」UA-LAWWW-1102-26）",
+   "task": "LIB-B1-V4-1102",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_b1_v41_incr_1102.patch",
     "docs/art-rebuild/second_ai/patches/library_b1_v41_1102.patch",
@@ -5297,11 +5297,11 @@
     "assets/models/env/second_ai/library_b1.layout.json",
     "docs/art-rebuild/second_ai/test_shots/library_b1_v41_1102/README.md"
    ],
-   "state": "已定稿 ART_APPROVED（BB_242 標在 cca10dd55；使用者 19:2x「B1 4.1 版可以，標定稿」）",
+   "state": "已驗收",
    "remaining": "B1 光照烘焙（BB_242 ⑥，排到使用者電腦）；牆裙以上偏灰是沒烘光的關係；沒有 B1 專用的瀏覽器流程測試；沒跑實機",
    "next": "已整合第四版（5627d9453）就套 library_b1_v41_incr_1102.patch（5627d9453、1a5110e07 apply --check 乾淨）＋換三個二進位；跑 library_b1_unit、b1story_unit、aa497_supporting_unit 等 9 支",
    "noDirectIntegrate": false,
-   "note": "排距 5→4.4 m（背靠背 2.04 m、北走道約 1.9 m）；同一排連成長條桌，只在進門走道、中間走道斷開；自習室 72→76（A 56→60）；方柱 A 區中間 2→1 根（x −0.8）；北牆、B 區東牆、A 區南邊兩道隔間加 1 m 木牆裙、上面白一點；椅子加深加厚、隔板換蜂蜜橘。study_night、芯慈、明軒 seatAt 改座標（README 第六節）。library_b1_unit 背靠背門檻 2.3→2.0 m（使用者決定 4.4 m；第三版 1.64 m 照樣 FAIL）。reachability_all(library_b1) ALL PASS（109 互動點）",
+   "note": "排距 5→4.4 m（背靠背 2.04 m、北走道約 1.9 m）；同一排連成長條桌，只在進門走道、中間走道斷開；自習室 72→76（A 56→60）；方柱 A 區中間 2→1 根（x −0.8）；北牆、B 區東牆、A 區南邊兩道隔間加 1 m 木牆裙、上面白一點；椅子加深加厚、隔板換蜂蜜橘。study_night、芯慈、明軒 seatAt 改座標（README 第六節）。library_b1_unit 背靠背門檻 2.3→2.0 m（使用者決定 4.4 m；第三版 1.64 m 照樣 FAIL）。reachability_all(library_b1) ALL PASS（109 互動點）｜原任務欄：LIB-B1-V4-1102（總圖 B1 第 4.1 版：BB_242 ②③④⑤＋使用者 18:4x「B1 排距維持 4.4 m 就好」UA-LAWWW-1102-26）；原狀態欄：已定稿 ART_APPROVED（BB_242 標在 cca10dd55；使用者 19:2x「B1 4.1 版可以，標定稿」）（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 19:08 ACK：已進 int/next1102＝fd5d37105（B1 相關 unit、nav_buildings、loadgen_locks 全過）；BB 19:16：使用者「B1 4.1 版可以，標定稿」→ BB_242 ART_APPROVED（cca10dd55）"
   },
   {
@@ -5309,7 +5309,7 @@
    "sha": "c7c2996ff",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LIB-INTERIOR-1102（總圖一樓、二樓第二版：使用者 08:58 平面圖、09:01 照片——中庭台階書牆＋夾層、半圓展演廳、多元共享區、數位媒體區；二樓人社中日韓文／西文書架、討論室 225／226）",
+   "task": "LIB-INTERIOR-1102",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_hall_v2_1102.patch",
     "assets/models/env/second_ai/library_hall_v2.glb",
@@ -5320,11 +5320,11 @@
     "docs/art-rebuild/second_ai/patches/flow_lib_tour_l3_1102.patch",
     "docs/art-rebuild/second_ai/test_shots/library_hall_v2_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 驗收，D120）",
+   "state": "已交付",
    "remaining": "展演廳斜看／二樓往下看、二樓俯視 3 張還沒拍（排在 3F 那一批）；flow_lib_tour caption 修正以後重跑中（跑完重產 flow_lib_tour_l3_1102.patch）；seats_on_furniture 3F 補跑；展演廳還不到照片：牆偏米色、沒有第二層環廊和拱窗、展品是色塊；沒跑實機",
    "next": "patch 在 1a5110e07、48918ca20、3e6855649 apply --check 乾淨；換 GLB＋兩張光照貼圖；跑 README 第七節測試單（Node 92 支、reachability_all、zone_transitions、flow_library_floors、flow_library_scene、stairs_cam_browser、seats_on_furniture、flow_lib_tour）",
    "noDirectIntegrate": false,
-   "note": "layout version 2（version 1 留作備用：換回 library_layout.js 就退回第一版）；舊存檔 715 個取樣點 0 個退回出生點；小安「總圖的下午」座位不變。展演廳弧牆頂點順序修正後重烘（GLB 9d3afdcb73a8）。雲端：Node 92 支 ALL PASS（19:00）、reachability_all 1142 點、zone_transitions 37、flow_library_floors、flow_library_scene、stairs_cam_browser（套 tests patch）都 ALL PASS",
+   "note": "layout version 2（version 1 留作備用：換回 library_layout.js 就退回第一版）；舊存檔 715 個取樣點 0 個退回出生點；小安「總圖的下午」座位不變。展演廳弧牆頂點順序修正後重烘（GLB 9d3afdcb73a8）。雲端：Node 92 支 ALL PASS（19:00）、reachability_all 1142 點、zone_transitions 37、flow_library_floors、flow_library_scene、stairs_cam_browser（套 tests patch）都 ALL PASS｜原任務欄：LIB-INTERIOR-1102（總圖一樓、二樓第二版：使用者 08:58 平面圖、09:01 照片——中庭台階書牆＋夾層、半圓展演廳、多元共享區、數位媒體區；二樓人社中日韓文／西文書架、討論室 225／226）；原狀態欄：已交付（READY_FOR_ART_REVIEW；BB 驗收，D120）（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 19:31 ACK：已進 int/m590＝0e11c43a3（三份 patch apply 乾淨；Node 92 支 91 PASS，bookstore_exit 是已知的最後一行 }）；展演廳 BB_244 NOT PASS → 第三版接在後面做增量 patch"
   },
   {
@@ -5332,7 +5332,7 @@
    "sha": "d594acbee",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LIB-FRONT-1102 v3.1（平台上兩棵尖塔形針葉樹，照片 40；BB_234 第二節 2）",
+   "task": "LIB-FRONT-1102",
    "files": [
     "docs/art-rebuild/second_ai/patches/lib_front_1102_v31_incr.patch",
     "docs/art-rebuild/second_ai/patches/lib_front_1102_v3d.patch",
@@ -5340,11 +5340,11 @@
     "assets/models/env/second_ai/campus_lib_lawn.json",
     "docs/art-rebuild/second_ai/test_shots/lib_front_v31_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））",
+   "state": "已交付",
    "remaining": "v3.2（BB_234 ①③④）另外交；沒跑實機",
    "next": "已整合第三版：套 lib_front_1102_v31_incr.patch（3caff35d9、1a5110e07 apply --check 乾淨）＋換 campus_lib_lawn.glb／.json；跑 lib_front_unit、lib_lawn_unit、campus_layout_nav、reachability_all(campus)",
    "noDirectIntegrate": false,
-   "note": "樹在平台 (78.9, ±12.4)，nav.blockCircle 0.75（放在 LIB-FRONT freeRect 後面）；lib_front_unit 多一項（樹擋住、兩邊走得過去）。雲端：Node 3 支、campus_layout_nav 82 項、reachability_all(campus) 45 互動點都 ALL PASS；改前改後截圖各 5 張沒有 JS 例外",
+   "note": "樹在平台 (78.9, ±12.4)，nav.blockCircle 0.75（放在 LIB-FRONT freeRect 後面）；lib_front_unit 多一項（樹擋住、兩邊走得過去）。雲端：Node 3 支、campus_layout_nav 82 項、reachability_all(campus) 45 互動點都 ALL PASS；改前改後截圖各 5 張沒有 JS 例外｜原任務欄：LIB-FRONT-1102 v3.1（平台上兩棵尖塔形針葉樹，照片 40；BB_234 第二節 2）；原狀態欄：已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "LAWWW 19:34 ACK：已進 int/m590（incr patch apply 乾淨；lib_front、lib_lawn、campus_hall_pillar_seethru、nav_buildings ALL PASS）"
   },
   {
@@ -5352,7 +5352,7 @@
    "sha": "47851b07d",
    "receiver": "LAWWW",
    "ack": "ACK",
-   "task": "LIB-FRONT-1102 v3.2（BB_234 ①③④：拱廊深度、白石立面線腳、近看磚石）",
+   "task": "LIB-FRONT-1102",
    "files": [
     "assets/models/env/second_ai/campus_library.glb",
     "assets/models/env/second_ai/campus_library.json",
@@ -5360,11 +5360,11 @@
     "tools/blender/env_second/campus_library.py",
     "docs/art-rebuild/second_ai/test_shots/lib_front_v32_1102/README.md"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））",
+   "state": "已交付",
    "remaining": "拱廊後牆花崗石近看一格一格；白石線腳遠看不明顯；campus_glb_integration、實機沒跑",
    "next": "只換三個二進位（layout.json 和 v3.1 一模一樣、材質名字不變，程式不用改）；跑 lib_front_unit 等 3 支、reachability_all(campus)",
    "noDirectIntegrate": false,
-   "note": "拱廊後牆白石→花崗石、天花板 #e6e1d7→#a49d91、中間三拱吊燈（玻璃晚上亮）；白石面壁柱／腰帶／簷口／拱心石／拱墩；磚法線 1.2＋對比 1.25、石材法線 0.9。材質 13→13、三角形 8771→9081。Node 3 支 ALL PASS，截圖 13 張沒有 JS 例外",
+   "note": "拱廊後牆白石→花崗石、天花板 #e6e1d7→#a49d91、中間三拱吊燈（玻璃晚上亮）；白石面壁柱／腰帶／簷口／拱心石／拱墩；磚法線 1.2＋對比 1.25、石材法線 0.9。材質 13→13、三角形 8771→9081。Node 3 支 ALL PASS，截圖 13 張沒有 JS 例外｜原任務欄：LIB-FRONT-1102 v3.2（BB_234 ①③④：拱廊深度、白石立面線腳、近看磚石）；原狀態欄：已交付（READY_FOR_ART_REVIEW；BB 場景驗收並標 ART_APPROVED（D120；D128 美術不經使用者））（LAWWW2-C 11-04 12:4x 照 outbox 標準改寫）",
    "integrated": "int/m590（LAWWW 19:48：換 campus_library.glb／json，讀 campus_library 的單元測試 ALL PASS；跟這一批進開發分支給 BB 驗收）"
   }
  ]
