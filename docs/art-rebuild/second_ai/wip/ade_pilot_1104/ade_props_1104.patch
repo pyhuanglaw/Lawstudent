@@ -1,0 +1,27 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5d59f9aa9..70eb38cdc 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1072,11 +1072,11 @@ const Z3 = (function(){
+       for(const [hx,hz] of [[20.6,5.6],[30.0,5.6]]){ const pt=TK.pots(4,7); pt.position.set(hx,0,hz); pt.rotation.y=Math.PI; g.add(pt); nav.blockRect(hx-0.8,hz,1.8,0.7,0,0); }
+       const sg=TK.signTex('溫州公園',{bg:'#2f4a3a',color:'#f4ead8',serif:true}); const sp=new THREE.Mesh(new THREE.PlaneGeometry(1.6,0.4),new THREE.MeshStandardMaterial({map:sg})); sp.position.set(20.2,1.4,5.6); sp.rotation.y=Math.PI; g.add(sp); pkTag(sp); }
+     // ---- 電線桿＋路燈（A 側沿街）、電線 ----
+-    const poleXs=[-26.5,-9.2,12.2,34.2,45.5]; const tops=[];
++    const poleXs=[-26.5,-12.7,12.2,34.2,45.5]; const tops=[];   /* ADE-PROPS-1104（BB_255 P3，LAWWW2-C 11-04）：第二支原本在 x −9.2＝阿德影印輸出店面正前方，擋住右邊白磁磚壁面上的價目表、布告欄——挪到阿德和西邊鄰居的分界 */
+     poleXs.forEach((px,i)=>{ const p=TK.utilityPole({arm:true,armDir:1,transformer:i===2,sign:i===4?'溫州街':null}); p.position.set(px,0,4.65); p.rotation.y=Math.PI/2; g.add(p); prTag(p,'pole'); nav.blockCircle(px,4.65,0.3); tops.push([px,8.52,4.65]); const L=p.userData.lamp; if(L){ const wx=px, wz=4.65-L.x; lamps.push({x:wx,z:wz}); const pool=TK.lightPool(4.5,'rgba(255,214,150,1)'); pool.position.set(wx,0.03,wz); g.add(pool); pools.push(pool); } });
+     { const pairs=[]; for(let i=0;i<tops.length-1;i++){ for(const dy of [0,-0.6]) pairs.push([[tops[i][0]-0.75,tops[i][1]+dy,tops[i][2]],[tops[i+1][0]-0.75,tops[i+1][1]+dy,tops[i+1][2]],0.7]); pairs.push([[tops[i][0]+0.75,tops[i][1],tops[i][2]],[tops[i+1][0]+0.75,tops[i+1][1],tops[i+1][2]],0.55]); }
+       // 跨巷到對面建築、到巷子
+-      for(const [px,tx,tz] of [[-9.2,-6,-5.2],[12.2,10,-5.2],[34.2,36,-5.2],[12.2,5.8,9],[-26.5,-30,-5.2]]) pairs.push([[px,8.0,4.65],[tx,7.2,tz],0.4]);
++      for(const [px,tx,tz] of [[-12.7,-9.5,-5.2],[12.2,10,-5.2],[34.2,36,-5.2],[12.2,5.8,9],[-26.5,-30,-5.2]]) pairs.push([[px,8.0,4.65],[tx,7.2,tz],0.4]);
+       g.add(TK.wires(pairs)); }
+     // 轉角反光鏡
+     for(const [mx,mz,ry] of [[8.7,4.5,-2.4],[-9.4,-4.5,0.7],[-30.4,4.6,-2.3]]){ const m=TK.trafficMirror(); m.position.set(mx,0,mz); m.rotation.y=ry; g.add(m); prTag(m,'mirror'); nav.blockCircle(mx,mz,0.2); }
+@@ -1087,7 +1087,7 @@ const Z3 = (function(){
+     const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
+     const scRow=(x0,n,z,ry,gap)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; if(gap&&x>gap[0]&&x<gap[1]) continue; scAdd(s,c); }   /* gap：這一段不停車（亂數照樣抽，其他機車的位置、顏色不變）*/
+       if(!gap) nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); else { const a=x0-0.425, b=x0+(n-1)*0.85+0.425; for(const [u,v] of [[a,gap[0]],[gap[1],b]]) if(v-u>0.4) nav.blockRect((u+v)/2,z,v-u,1.7,0,0.05); } };
+-    if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）*/ scRow(5.0,12,-3.95,Math.PI,typeof MOK3!=='undefined'?[6.3,8.5]:undefined); scRow(31.5,8,-3.95,Math.PI,[32.8,36.2]);   /* 木曜日（B4 鐵門 x 7.4，src/mokuyobi3d.js）：門口 x 6.3–8.5 不停機車 */   /* AA_413（10-23）：阿忠水果（B6）攤子前面不停車，留 3.4 m 給買水果的人（x 32.8–36.2）*/ scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
++    if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0,[-12.0,-10.0]); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）；門西邊那兩台（x −11.5、−10.65）用 gap 不停：停在白磁磚壁面（價目表、布告欄）正前方（ADE-PROPS-1104，BB_255）。用 gap 不是整排拿掉：亂數照樣抽，後面每一排機車的位置、顏色、有沒有停都不變 */ scRow(5.0,12,-3.95,Math.PI,typeof MOK3!=='undefined'?[6.3,8.5]:undefined); scRow(31.5,8,-3.95,Math.PI,[32.8,36.2]);   /* 木曜日（B4 鐵門 x 7.4，src/mokuyobi3d.js）：門口 x 6.3–8.5 不停機車 */   /* AA_413（10-23）：阿忠水果（B6）攤子前面不停車，留 3.4 m 給買水果的人（x 32.8–36.2）*/ scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
+     for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bikeAny(c,Math.round(bx*10)); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
+     // 盆栽（住家門口）、郵筒、立牌
+     for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]].filter(q=>!(q[0]===41.5&&typeof WZ_SHOPS_LAYOUT!=='undefined'))){   /* B7 改成半熟（溫州街 v5）：店門口有自己的黑板、長椅、大盆栽（模型），套件那一排盆栽會擋住店門 */ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
