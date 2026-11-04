@@ -65,14 +65,14 @@ CAFE230v2_shots | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_cafe2
 # GG_night_r7（LAWWW2 07:51）：75a095355、14 對 21；①著色器有沒有 uShopLit ②lit 全部 0 再拍 ③藏 cafe_glass 再拍
 GG_night_r7 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;DIAG2=1;CC_HEADLESS=0
 # GG_night_r8（LAWWW 08:45，擋 v9.10.20，最前）：8f936f018 打烊乘數 0.03；21:00、01:30 對 14:00；21:00 另外量「底」（窗卡 color／emissive＝0）
-GG_night_r8_21 | 8f936f018 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;BASE=1;CC_HEADLESS=0
-GG_night_r8_0130 | 8f936f018 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
+GG_night_r8_21 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;BASE=1;CC_HEADLESS=0
+GG_night_r8_0130 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
 # CAFE230v4（LAWWW 08:45）：8f936f018 2:30 AM 光照貼圖（22:00 燈下光圈）
-CAFE230v4_shots | 8f936f018 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
-CAFE230v4_seats | 8f936f018 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
-CAFE230v4_reach | 8f936f018 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
+CAFE230v4_shots | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
+CAFE230v4_seats | 060a1a093 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
+CAFE230v4_reach | 060a1a093 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
 # GG_glb_measure2：停著的車合併網格；量法照測試本身（騎士、npc_far 要不要移出由 BB 定）
-GG_glb_measure2 | 8f936f018 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+#HOLD（LAWWW 08:53：等 LAWWW2 量法 patch 的 SHA，不用舊量法跑）GG_glb_measure2 | 8f936f018 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
 CAFE230v3_shots | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0;RERUN=dac871
 CAFE230v3_seats | dac871e25 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
@@ -91,9 +91,9 @@ SEAT_ACT | ae0095d0d | probe | docs/story_planning/test_tools/cc/cc_seat_act_pro
 WZ4_cafe_glb | dac871e25 | game | tests/cafe_glb_integration.py | index.html | 40 | XARGS={url}
 WZ4_wzstreet | d2a692410 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
 WZ4_reach | dac871e25 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url} --zones wz_teahouse,wz_teishoku,wz_brunch
-WZ4_komichi | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0
+WZ4_komichi | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0
 WZ4_sunny | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
-WZ4_yizhan | 5dc06d913 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0
+WZ4_yizhan | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0
 # ADE_int（BB 07:56，SEAT_ACT 後）：0c2d4997b（dfca69671 以後）阿德影印 v1c 進遊戲：走進去／四張椅子／印東西／買文具、8 角度、12:30 客人、阿德站位、柏翰站點、打工一班、SUNNY 轉角窗；加 touch_flow_wenzhou、reachability（wz_print）、zone_transitions
 ADE_int_in | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=IN,SHOTS;CC_HEADLESS=0
 ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=CUST,ENC;CC_HEADLESS=0
