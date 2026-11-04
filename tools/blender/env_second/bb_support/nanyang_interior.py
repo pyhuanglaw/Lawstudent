@@ -118,32 +118,53 @@ def dark_hall(im, d):    # 開著的門後面：影廳一角（暗、紅椅子�
     for k in range(6): d.ellipse([w * 0.1, h * (0.62 + k * 0.06), w * 0.1 + 6, h * (0.62 + k * 0.06) + 6], fill=(255, 200, 120))
 
 
+def carpet_tex(path):
+    """v5 地毯（整片 9 × 14 m＝720 × 1120）：深紅、纖維雜訊、一塊一塊深淺不一、中間走道（入口→兩組門、櫃檯前）磨得淡一點、牆邊暗"""
+    import numpy as np
+    Wp, Hp = 720, 1120; ppm = 80; rng = np.random.RandomState(615)
+    def nz(sc, seed):
+        g = np.random.RandomState(seed).rand(Hp // sc + 2, Wp // sc + 2).astype(np.float32)
+        return np.asarray(Image.fromarray((g * 255).astype(np.uint8)).resize(((Wp // sc + 2) * sc, (Hp // sc + 2) * sc), Image.BICUBIC), np.float32)[:Hp, :Wp] / 255
+    n1, n2 = nz(90, 1), nz(18, 2); fib = rng.rand(Hp, Wp).astype(np.float32)
+    X, Zg = np.meshgrid((np.arange(Wp) + 0.5) / ppm - W / 2, (np.arange(Hp) + 0.5) / ppm - D / 2)   # 第 0 列＝z −7（後牆）
+    base = np.array([118, 22, 26], np.float32)
+    k = 0.82 + 0.22 * n1 + 0.1 * (n2 - 0.5) + 0.12 * (fib - 0.5)
+    worn = np.exp(-((X - 0.2) / 1.3) ** 2) * 0.6 + np.exp(-((X + 2.6) / 0.6) ** 2) * (Zg < 3.6) * (Zg > -5.6) * 0.5   # 走道、櫃檯前
+    edge = np.clip(1 - np.minimum.reduce([X + W / 2, W / 2 - X, Zg + D / 2, D / 2 - Zg]) / 0.5, 0, 1)
+    col = base[None, None] * (k * (1 + 0.16 * worn - 0.3 * edge))[..., None]
+    col = col * (1 - 0.25 * worn[..., None]) + np.array([150, 70, 64]) * 0.25 * worn[..., None] * (0.8 + 0.4 * n2[..., None])
+    Image.fromarray(np.clip(col, 0, 255).astype(np.uint8)).save(path); return path
+
+
 P = {k: tex(f'{k}.png', s, f) for k, s, f in (('sign', (1024, 300), big_sign), ('menu', (560, 420), menu_board), ('chalk', (600, 520), chalk_stand),
                                                ('popbox', (560, 180), popcorn_box), ('slats', (512, 256), slats), ('photos', (340, 460), photo_board),
                                                ('hall', (512, 512), dark_hall))}
+Image.open(P['chalk']).resize((512, 444), Image.LANCZOS).save(P['chalk'])   # v5：縮到 512 以內，才收得進貼圖集（材質 ≤ 12）
 posters = [('sea', '夏日的風'), ('bike', '河邊的約定'), ('train', '小站的…')]
 for k, t in posters: P['poster_' + k] = titled_poster(k, t, os.path.join(TMP, f'poster3_{k}.png'))
 
 # ---------------- 材質（≤12，最後 vc_consolidate／atlas_small 合併）----------------
-m_carpet = L.pbr('ny_carpet', 'dirty_carpet', tile=1.6, target='#8c1d24', normal=0.4, maps=('diff', 'nor'), rough_value=0.95)
-m_wall = L.pbr('ny_plaster', 'painted_plaster_wall', tile=2.5, target='#eadbc0', normal=0.3, maps=('diff', 'nor'))
-m_top = L.pbr('ny_counter', 'granite_tile_03', tile=0.8, target='#d9d0c2', normal=0.3, maps=('diff', 'nor'), rough_value=0.3)
-m_wood = L.pbr('ny_wood', 'wood_table_001', tile=1.0, target='#7a4a2c', normal=0.3, maps=('diff', 'nor'), rough_value=0.5)   # 門、長椅木條（不是地板）
-m_maroon = L.flat('ny_maroon', '#7c1e24', rough=0.55)
-m_cream = L.flat('ny_cream', '#e8dcc6', rough=0.75)
-m_beam = L.flat('ny_beam', '#d9c9ad', rough=0.8)
+m_carpet = img_mat('ny_carpet', carpet_tex(os.path.join(TMP, 'carpet5.png')), rough=0.95)   # v5：自己畫的整片地毯（深紅、深淺不一、走道磨淡）
+m_wall = L.pbr('ny_plaster', 'painted_plaster_wall', tile=2.5, target='#c9ae84', normal=0.3, maps=('diff', 'nor'))   # v5：暖黃的舊灰泥（不是白）
+m_top = L.pbr('ny_counter', 'granite_tile_03', tile=0.8, target='#b8ab96', normal=0.3, maps=('diff', 'nor'), rough_value=0.3)
+m_wood = L.pbr('ny_wood', 'wood_table_001', tile=1.0, target='#4a2c1a', normal=0.3, maps=('diff', 'nor'), rough_value=0.45)   # v5：深色木頭（門、長椅、招牌框；不是地板）
+m_maroon = L.flat('ny_maroon', '#5e1418', rough=0.5)
+m_cream = L.flat('ny_cream', '#a88c66', rough=0.8)   # v5：天花板、售票亭背牆：暖褐米色、比牆暗（不是白）
+m_beam = L.flat('ny_beam', '#b49870', rough=0.8)
 m_brass = L.flat('ny_brass', '#b58a43', rough=0.32, metal=0.42)
 m_iron = L.flat('ny_iron', '#2b2a2a', rough=0.5, metal=0.35)
 m_steel = L.flat('ny_steel', '#b8bcc0', rough=0.3, metal=0.4)
 m_glass = L.flat('ny_glass', '#d8e6ea', rough=0.05, alpha=0.25)
-m_warm = glowmat('ny_warm', '#ffe1ad', 4.0)
-m_white = glowmat('ny_whiteglow', '#f6f2e8', 1.6)
+m_warm = glowmat('ny_warm', '#ffc878', 6.0)
+m_white = m_warm   # v5：材質 ≤ 12（天花板多一個單面材質），飲料櫃的燈也用暖光
 m_vc = L.vc_material('ny_props_vc', rough=0.6)
 IM = {k: img_mat('ny_' + k, p, rough=0.6) for k, p in P.items()}
 
 # ---------------- 地板、天花板、樑 ----------------
-Mesh('FLOOR', m_carpet, tile=1.6).box(X0, X1, -0.05, 0.0, Z0, Z1).finish(root)
-Mesh('CEILING', m_cream).box(X0, X1, H, H + 0.04, Z0, Z1).finish(root, props={'ceiling': 1})
+_fl = Mesh('FLOOR', m_carpet); _uv = _fl.bm.loops.layers.uv.verify(); _f = _fl.bm.faces.new([_fl.bm.verts.new(g2b(*p_)) for p_ in ((X0, 0, Z1), (X1, 0, Z1), (X1, 0, Z0), (X0, 0, Z0))])
+for _lp, _t in zip(_f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): _lp[_uv].uv = _t
+_fl.finish(root, uv=False)
+Mesh('CEILING', L.flat('ny_ceiling', '#9c805c', rough=0.85, cull=True)).quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]).finish(root, props={'ceiling': 1})   # v5：單面朝下、暖褐（不是白）
 bm_ = Mesh('BEAMS', m_beam)
 for z in [Z0 + 2.0 * i for i in range(1, int(D / 2.0))]: bm_.rbox(X0, X1, H - 0.34, H, z - 0.17, z + 0.17, r=0.02, seg=2)
 for x in (X0 + 0.25, X1 - 0.25): bm_.rbox(x - 0.25, x + 0.25, H - 0.34, H, Z0, Z1, r=0.02, seg=2)
@@ -355,7 +376,7 @@ seats.finish(root, smooth=True); seatl.finish(root)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('ny_vc_matte', rough=0.62); vc_g = L.vc_material('ny_vc_gloss', rough=0.35); vc_x = L.vc_metal('ny_vc_metal', rough=0.35, metal=0.4)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'ny_glass', 'ny_warm', 'ny_whiteglow'})
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'ny_glass', 'ny_warm', 'ny_whiteglow', 'ny_ceiling'})
 grp['ny_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
 L.atlas_small(root, os.path.join(TMP, 'ny3_atlas.png'), 'ny_atlas', max_tris=6000, max_rep=1, cell=512, rough=0.6)
