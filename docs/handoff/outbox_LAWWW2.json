@@ -5400,6 +5400,25 @@
    "next": "只換兩張 webp（git checkout 561d2a772 -- assets/models/env/views/wz_teishoku_day.webp assets/models/env/views/wz_teishoku_night.webp），程式不用改；BB 用 WZ4_komichi 22:00 重拍",
    "noDirectIntegrate": false,
    "note": "KOMICHI-NIGHTVIEW-1104（擋 v9.10.20，BB_255 1(a)）：原本那張夜景是 10-22 在遊戲裡 20:30 拍的，街上亮得像黃昏（平均亮度 75）。改用 Blender 拍（溫州街正式模型＋遊戲同款機車、WZ_NIGHT 發光、GLOW 點光源），同一個鏡頭 (−2.8,1.25,−4.6) 朝 +z、水平 90°；晚上平均亮度 54、中位數 43。白天那張也換成同一套，過渡時東西才不會突然變不見"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "6a9aecee3",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "WZ-LANEEAST-TRIS-1104",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/wenzhou_street.json",
+    "tools/blender/env_second/wz_street.py",
+    "docs/art-rebuild/second_ai/wip/laneeast_tris2_1104/singleside_streets_unit_fd989b03c.patch",
+    "docs/art-rebuild/second_ai/wip/laneeast_tris2_1104/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "瀏覽器數字沒量（CC 在 PC 上跑 tests/wz_street_integration.py：三個鏡頭 draw call ≤ 310、三角形 ≤ 42 萬）；lampshade_flip 的溫州街吊燈 FAIL 是修改前就有的，另外查",
+   "next": "換 wenzhou_street.glb／.json 兩個檔＋套 singleside_streets_unit patch（固定三角形數 128,837→123,737）；跑 singleside_streets_unit、street_props_nav_unit、wz_copy_shop_unit",
+   "noDirectIntegrate": false,
+   "note": "LANEEAST-TRIS2-1104（擋 v9.10.20）：BB 表上的 45.6 萬是 75a095355 量的（比第一次減面 d2a692410 早；d2a692410 在 PC 是 419,713）。這次：整條街一個網格的四種大材質照面的 x 切四段、店裡隔著玻璃的東西背對街道的面刪掉（−5,104）。GLB 128,837→123,737；lane_east 鏡頭估 85,190→71,289；Blender 同鏡頭修改前後差 >24 的像素 0"
   }
  ]
 }
