@@ -46,6 +46,39 @@ QW = [
     ('@textures/src/offbeat_side_render.jpg', 'side', None, 704, 512),   # 側面：眼睛 (11.5,1.6,−1.75)、看 (0,1.6,−1.75)、52.7 mm、藏 WALL_right；畫面＝室內 z 0.3～−3.8（側窗）
 ]
 
+# 公館四間新店（gg_fronts_atlas；使用者 11-04 01:0x，AA_647）：青木茶室（tea）、頁間書屋（book）、日和便利店（cvs）、慢輪單車（bike）。
+# 參考圖 ref_images/shops/gongguan_<店>_ext.webp（企劃線）；遊戲的店面比參考圖寬，多出來的那一段用同一間店的室內參考圖（_int.webp）做第二扇窗
+QG = [
+    ('gongguan_tea_ext', 'sign', [(305, 118), (1580, 76), (1580, 194), (305, 226)], 1024, 136),
+    ('gongguan_tea_ext', 'eave', [(253, 287), (1633, 149), (1633, 222), (253, 325)], 1024, 64),
+    ('gongguan_tea_ext', 'int', [(367, 309), (1007, 287), (1007, 660), (367, 653)], 768, 448),
+    ('gongguan_tea_ext', 'door', [(1013, 280), (1233, 276), (1233, 807), (1013, 810)], 256, 512),
+    ('gongguan_tea_ext', 'take', [(1340, 320), (1600, 316), (1600, 567), (1340, 569)], 384, 384),
+    ('gongguan_tea_ext', 'plaque', [(1271, 397), (1313, 397), (1313, 540), (1271, 540)], 64, 224),
+    ('gongguan_tea_ext', 'board', [(797, 567), (980, 567), (980, 840), (797, 840)], 192, 288),
+    ('gongguan_book_ext', 'sign', [(420, 149), (1335, 147), (1335, 296), (420, 299)], 1024, 168),
+    ('gongguan_book_ext', 'int', [(720, 304), (1347, 301), (1347, 627), (720, 629)], 1024, 512),
+    ('gongguan_book_ext', 'door', [(460, 353), (600, 350), (600, 733), (460, 735)], 192, 512),
+    ('gongguan_book_ext', 'side', [(612, 353), (663, 353), (663, 733), (612, 733)], 64, 512),
+    ('gongguan_book_ext', 'stone', [(767, 640), (1353, 640), (1353, 780), (767, 780)], 512, 128),
+    ('gongguan_book_ext', 'board', [(617, 543), (767, 543), (767, 787), (617, 787)], 192, 320),
+    ('gongguan_book_ext', 'pic', [(340, 424), (413, 424), (413, 493), (340, 493)], 96, 96),
+    ('gongguan_book_ext', 'cart', [(296, 557), (429, 557), (429, 763), (296, 763)], 160, 256),
+    ('gongguan_book_int', 'int2', [(230, 150), (1400, 150), (1400, 800), (230, 800)], 768, 432),
+    ('gongguan_cvs_ext', 'sign', [(693, 149), (1380, 149), (1380, 300), (693, 300)], 768, 168),
+    ('gongguan_cvs_ext', 'int', [(540, 300), (1247, 300), (1247, 740), (540, 740)], 1024, 640),
+    ('gongguan_cvs_ext', 'side', [(205, 350), (530, 295), (530, 745), (205, 690)], 768, 512),
+    ('gongguan_cvs_ext', 'locker', [(1251, 453), (1373, 453), (1373, 731), (1251, 731)], 128, 288),
+    ('gongguan_cvs_ext', 'bins', [(1320, 593), (1493, 593), (1493, 736), (1320, 736)], 256, 208),
+    ('gongguan_cvs_ext', 'vend', [(1433, 420), (1640, 420), (1640, 720), (1433, 720)], 224, 320),
+    ('gongguan_bike_ext', 'sign', [(596, 138), (1404, 127), (1404, 278), (596, 288)], 1024, 200),
+    ('gongguan_bike_ext', 'int', [(460, 353), (1033, 345), (1033, 627), (460, 627)], 1024, 512),
+    ('gongguan_bike_ext', 'shop', [(1133, 320), (1340, 320), (1340, 787), (1133, 787)], 256, 576),
+    ('gongguan_bike_ext', 'board', [(907, 584), (1060, 584), (1060, 820), (907, 820)], 192, 288),
+    ('gongguan_bike_ext', 'plaque', [(1429, 400), (1491, 400), (1491, 500), (1429, 500)], 96, 160),
+    ('gongguan_bike_int', 'int2', [(80, 100), (1400, 100), (1400, 730), (80, 730)], 1024, 488),
+]
+
 
 def coeffs(dst, src):
     """PIL PERSPECTIVE 的 8 個係數：輸出（dst 長方形）→ 輸入（src 四邊形）"""
@@ -70,6 +103,9 @@ def build(QQ, atlas_name, alias=lambda n: n):
       c = coeffs([(0, 0), (w, 0), (w, h), (0, h)], quad)
       o = im.transform((w, h), Image.PERSPECTIVE, c, Image.BICUBIC).filter(ImageFilter.UnsharpMask(radius=1, percent=40, threshold=2))
       key = f'{alias(name)}_{part}'
+      if key == 'ggtea_int':   # 青木茶室：窗前的 A 字立牌（店門外的東西，3D 另外做）不要留在店內的景深卡上：用它左邊那一段鏡射蓋掉
+          bx0 = int((797 - 367) / 640 * w); by0 = int((567 - 309) / 351 * h); bw = w - bx0
+          o.paste(o.crop((bx0 - bw, by0, bx0, h)).transpose(Image.FLIP_LEFT_RIGHT), (bx0, by0))
       if key == 'xsports_up':   # 球衣上的校名（參考圖寫了真實的大學名字，D77 要虛構）：只把字那一條糊掉，號碼留著
           band = o.crop((0, 62, w, 112)).filter(ImageFilter.GaussianBlur(5)); o.paste(band, (0, 62))
       cache[key] = o; print(key, o.size)
@@ -93,3 +129,4 @@ def build(QQ, atlas_name, alias=lambda n: n):
 
 build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
 build(QW, 'wz_fronts_atlas', lambda n: 'offbeat' if n.startswith('@') else n.replace('_ref_v2', ''))
+build(QG, 'gg_fronts_atlas', lambda n: n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', ''))   # key：ggtea_sign、ggbook_int2…

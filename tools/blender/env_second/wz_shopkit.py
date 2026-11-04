@@ -642,11 +642,11 @@ def mok_window(spec, xf, w):
 # ======================================================================== 新生南路七家店（ART-XINSHENG-FRONTS-1104，LAWWW2）
 # 參考圖就是規格（SCENE_RULES 第 12 節）：招牌、玻璃後面看到的店內、二樓窗後面，都是從使用者的參考圖直接裁出來校正透視（xs_front_tex.py → xs_fronts_atlas.jpg，整條街一個材質）；
 # 框、玻璃、招牌板、騎樓柱子、天花板、店內的地板／兩側牆／天花燈是 3D。店內景深卡在玻璃後 0.8 m（看斜一點看得到兩側的牆，不是貼在玻璃上的一張照片）。
-_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
+_XSA = {'xinsheng': 'xs_fronts_atlas', 'wenzhou': 'wz_fronts_atlas', 'gongguan': 'gg_fronts_atlas'}.get(SET)   # 溫州街（日常失速，WZ-OFFBEAT-1104）用自己的小圖集：兩條街不同 GLB，各帶各的
 XS_ATLAS = _json.load(open(os.path.join(GEN, _XSA + '.json'), encoding='utf-8')) if (_XSA and os.path.exists(os.path.join(GEN, _XSA + '.json'))) else {}
 XS_MAT = _img_mat('wz_xs_fronts', _XSA + '.jpg', rough=0.55, emit=0.85) if XS_ATLAS else None   # 店裡、二樓窗後面、燈箱：自發光（參考圖裡店都是亮的；在騎樓的陰影裡只靠反光會變成一片暗）
 XS_MAT_M = _img_mat('wz_xs_fronts_matte', _XSA + '.jpg', rough=0.75, emit=0.1) if XS_ATLAS else None   # 外牆上的字、招牌板、海報櫃：不發光
-XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v')
+XS_LIT = ('_int', '_up', '_side', 'nanyang_sign', 'dakou_sign', 'dakou_v', 'xsports_v', '_door', '_take', '_shop', 'ggcvs_sign', 'ggcvs_vend')
 _XSQ = []   # 先收起來，最後一次做成兩個網格（同材質合併）
 
 
@@ -817,6 +817,146 @@ def bistro_table(xf, x, z):
         xf.cyl(g_, (x + dx, 0.76, z + dz), (x + dx, 0.9, z + dz), 0.04, seg=8); xf.cyl(cf, (x + dx, 0.765, z + dz), (x + dx, 0.86, z + dz), 0.037, seg=8)
     xf.cyl(w_, (x + 0.12, 0.76, z - 0.08), (x + 0.12, 0.77, z - 0.08), 0.1, seg=12); xf.cyl(cf, (x + 0.12, 0.77, z - 0.08), (x + 0.12, 0.81, z - 0.08), 0.06, seg=10)
     xf.cyl(g_, (x - 0.02, 0.76, z - 0.14), (x - 0.02, 0.88, z - 0.14), 0.03, seg=6); xf.box(w_, x - 0.07, x + 0.03, 0.88, 0.95, z - 0.19, z - 0.09)
+
+
+GG_WOOD = '#8a5a32'   # 公館四間新店共用的木框色（材質少一點：每個顏色一個材質、一次 draw call）
+
+
+def gg_plaster(col):
+    nm = 'gg_xs_plaster_' + col.lstrip('#')
+    if nm not in _mats: _mats[nm] = L.pbr(nm, 'plaster_grey_04', tile=1.5, target=col, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.9)
+    return _mats[nm]
+
+
+def gg_front(spec, xf, W, wall, gz, ceil_y):
+    """公館四間新店的店面（使用者 11-04 01:0x，AA_647：青木茶室、頁間書屋、日和便利店、慢輪單車；LAWWW2 11-04）。
+    參考圖就是規格（SCENE_RULES §12）：窗後面看到的店內、門裡面、招牌、黑板立牌、販賣機等等是參考圖裁的（xs_front_tex.py 的 QG → gg_fronts_atlas）；
+    牆、窗框、門框、玻璃、屋簷、雨遮、燈、盆栽是 3D。遊戲的店面比參考圖寬，多出來的那一段用同一間店的室內參考圖做另一扇窗。
+    c＝spec['xs']（wz_street.py 的 GG_XS）：cards＝窗（貼圖、範圍、景深）；door；eave／canopy／awning；signs；decals；lamps；props"""
+    c = spec['xs']; wl = acc(gg_plaster(c.get('wallc', '#e9dfcc'))); fr = acc(SK['alu2'] if c.get('frame') == 'alu' else frame_mat(GG_WOOD)); cream = acc(frame_mat('#e8e2d6'))
+    X0, X1 = -W / 2 + 0.3, W / 2 - 0.3
+    opens = [(cd[1], cd[2], cd[3], cd[4]) for cd in c.get('cards', [])]
+    dr = c.get('door')
+    if dr: opens.append((dr['x0'], dr['x1'], 0.0, dr['y1']))
+    # 牆：店面那一面（窗、門以外的地方），一格一格補
+    xs_ = sorted({X0, X1} | {v for o in opens for v in (o[0], o[1]) if X0 < v < X1})
+    for a_, b_ in zip(xs_, xs_[1:]):
+        if b_ - a_ < 1e-3: continue
+        m_ = (a_ + b_) / 2; cov = sorted((o[2], o[3]) for o in opens if o[0] <= m_ <= o[1]); y = 0.0
+        for (p0, p1) in cov + [(ceil_y, ceil_y)]:
+            if p0 > y + 1e-3: xf.box(wl, a_, b_, y, p0, gz - 0.25, gz)
+            y = max(y, p1)
+    bs = c.get('base')   # 窗台下的腰牆貼圖（頁間書屋的石材）
+    if bs:
+        for cd in c.get('cards', []):
+            if cd[3] > 0.2: _xq(xf, bs, cd[1], cd[2], 0.0, cd[3] - 0.04, 0.006 + gz)
+    # 窗：景深卡＋窗台、兩側、上緣的內牆＋玻璃＋框
+    for cd in c.get('cards', []):
+        key, x0, x1, y0, y1, d = cd[:6]; mull = cd[6] if len(cd) > 6 else []; tr = cd[7] if len(cd) > 7 else None; zc = gz - d
+        _xq(xf, key, x0, x1, y0, y1, zc, tiles=1)
+        xf.box(acc(SK['f_terrazzo']) if y0 < 0.2 else cream, x0, x1, y0 - 0.04, y0, zc, gz)
+        for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, y0, y1, zc, gz - 0.01)
+        xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
+        xf.quad(acc(M['glass']), [(x0, y0, gz + 0.005), (x1, y0, gz + 0.005), (x1, y1, gz + 0.005), (x0, y1, gz + 0.005)])
+        fw = c.get('fw', 0.05)
+        for (a_, b_) in ((x0 - fw, x0 + 0.01), (x1 - 0.01, x1 + fw)): xf.box(fr, a_, b_, y0 - fw, y1 + fw, gz - 0.04, gz + 0.05)
+        xf.box(fr, x0, x1, y1 - 0.01, y1 + fw, gz - 0.04, gz + 0.05); xf.box(fr, x0, x1, y0 - fw, y0 + 0.01, gz - 0.04, gz + 0.06)
+        for mx in mull: xf.box(fr, mx - 0.025, mx + 0.025, y0, y1, gz - 0.03, gz + 0.04)
+        if tr: xf.box(fr, x0, x1, tr - 0.025, tr + 0.025, gz - 0.03, gz + 0.04)
+        if c.get('lit', True): CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, (y0 + y1) / 2, zc + 0.3), color='rgba(255,236,200,1)', size=min(3.5, x1 - x0), day=0.0, night=0.5)
+    # 門
+    if dr:
+        x0, x1, y1, st = dr['x0'], dr['x1'], dr['y1'], dr.get('style', 'wood'); dfr = acc(SK['alu2'] if dr.get('frame', c.get('frame')) == 'alu' else frame_mat(GG_WOOD))
+        if st == 'open':   # 整面拉開（慢輪單車）：門裡面的店（景深卡在 1.4 m）＋地板＋兩側內牆、兩扇門片往裡打開貼在兩側
+            zc = gz - dr.get('d', 1.4); _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1)
+            xf.box(acc(SK['f_concrete'] if 'f_concrete' in SK else SK['f_terrazzo']), x0, x1, -0.02, 0.02, zc, gz)
+            for xx in (x0, x1): xf.box(cream, xx - 0.03, xx + 0.03, 0.0, y1, zc, gz)
+            xf.box(cream, x0, x1, y1, y1 + 0.05, zc, gz)
+            lw = (x1 - x0) / 2
+            for xx, sg in ((x0 + 0.06, 1), (x1 - 0.06, -1)):
+                xf.box(dfr, xx - 0.03, xx + 0.03, 0.0, y1 - 0.05, gz - lw, gz); xf.quad(acc(M['glass']), [(xx + 0.031 * sg, 0.9, gz - lw + 0.08), (xx + 0.031 * sg, 0.9, gz - 0.08), (xx + 0.031 * sg, y1 - 0.2, gz - 0.08), (xx + 0.031 * sg, y1 - 0.2, gz - lw + 0.08)])
+            CL.glow(root, 'gg_xs_in', *xf.p((x0 + x1) / 2, 1.6, zc + 0.4), color='rgba(255,236,200,1)', size=2.4, day=0.0, night=0.6)
+        else:
+            if dr.get('key'):
+                zc = gz - dr.get('d', 0.6); _xq(xf, dr['key'], x0, x1, 0.0, y1, zc, tiles=1); xf.box(acc(SK['f_terrazzo']), x0, x1, -0.02, 0.0, zc, gz)
+                for xx in (x0, x1): xf.box(cream, xx - 0.02, xx + 0.02, 0.0, y1, zc, gz - 0.01)
+                xf.box(cream, x0, x1, y1, y1 + 0.04, zc, gz - 0.01)
+                xf.quad(acc(M['glass']), [(x0, 0.0, gz + 0.005), (x1, 0.0, gz + 0.005), (x1, y1, gz + 0.005), (x0, y1, gz + 0.005)])
+            fw = 0.07 if st == 'wood' else 0.045
+            for (a_, b_) in ((x0 - fw, x0 + 0.01), (x1 - 0.01, x1 + fw)): xf.box(dfr, a_, b_, 0.0, y1 + fw, gz - 0.05, gz + 0.06)
+            xf.box(dfr, x0, x1, y1 - 0.01, y1 + fw, gz - 0.05, gz + 0.06)
+            if st == 'wood':   # 木框玻璃門：門片外框＋直把手
+                for (a_, b_) in ((x0, x0 + 0.1), (x1 - 0.1, x1)): xf.box(dfr, a_, b_, 0.0, dr.get('leaf', y1), gz - 0.02, gz + 0.04)
+                xf.box(dfr, x0, x1, 0.0, 0.18, gz - 0.02, gz + 0.04); xf.box(dfr, x0, x1, dr.get('leaf', y1) - 0.08, dr.get('leaf', y1), gz - 0.02, gz + 0.04)
+                hx = x1 - 0.17 if dr.get('hinge', 'left') == 'left' else x0 + 0.17; xf.cyl(acc(M['metal']), (hx, 0.85, gz + 0.09), (hx, 1.45, gz + 0.09), 0.014, seg=6)
+            elif st == 'auto':   # 自動門：鋁框、中間兩扇的接縫、上面一道橫框（感應器盒）
+                mx = (x0 + x1) / 2; xf.box(dfr, mx - 0.03, mx + 0.03, 0.0, dr.get('leaf', y1), gz - 0.02, gz + 0.04)
+                xf.box(dfr, x0, x1, dr.get('leaf', y1) - 0.03, dr.get('leaf', y1) + 0.03, gz - 0.03, gz + 0.05); xf.box(dfr, mx - 0.25, mx + 0.25, dr.get('leaf', y1) + 0.03, dr.get('leaf', y1) + 0.14, gz, gz + 0.12)
+        if dr.get('mat'): xf.box(acc(frame_mat('#4a5a44')), x0 + 0.05, x1 - 0.05, 0.0, 0.012, gz + 0.06, gz + 0.85)
+    # 屋簷（青木茶室的綠瓦）、雨遮框（日和的白色招牌框）、鐵皮雨遮（慢輪單車）
+    ev = c.get('eave')
+    if ev:
+        key, x0, x1, yw, yo, d = ev; asp = XS_ATLAS.get(key, [0, 0, 1, 1, 8])[4]; sl = math.hypot(yw - yo, d); n = max(1, round((x1 - x0) / (sl * asp)))
+        xs_quad(key, [xf.p(x0, yo, gz + d), xf.p(x1, yo, gz + d), xf.p(x1, yw, gz + 0.02), xf.p(x0, yw, gz + 0.02)], tiles=n)
+        xf.quad(acc(SK['black']), [(x1, yw - 0.05, gz + 0.02), (x0, yw - 0.05, gz + 0.02), (x0, yo - 0.05, gz + d), (x1, yo - 0.05, gz + d)])
+        xf.box(acc(SK['black']), x0, x1, yo - 0.07, yo + 0.01, gz + d - 0.03, gz + d + 0.02)
+        n2 = max(1, round((x1 - x0) / (0.3 * asp)))   # 前緣一排瓦（從騎樓、馬路往上看，看到的是這一條；參考圖的綠瓦屋簷）
+        xs_quad(key, [xf.p(x0, yo - 0.26, gz + d + 0.025), xf.p(x1, yo - 0.26, gz + d + 0.025), xf.p(x1, yo + 0.04, gz + d + 0.025), xf.p(x0, yo + 0.04, gz + d + 0.025)], tiles=n2)
+    cn = c.get('canopy')
+    if cn:
+        x0, x1, y0, y1, d = cn['x0'], cn['x1'], cn['y0'], cn['y1'], cn['d']; cm = acc(gg_plaster(c.get('wallc', '#f0eee8')))
+        xf.box(cm, x0, x1, y0, y1, gz, gz + d); xf.box(cm, x0, x1, y0 - 0.06, y0, gz + d - 0.08, gz + d)
+        for (a_, b_, yy) in cn.get('stripes', []): xf.box(acc(frame_mat(cn.get('stripe', '#8a9a4a'))), a_, b_, yy, yy + 0.06, gz + d, gz + d + 0.01)
+        for k in range(max(1, round((x1 - x0) / 2.2))):   # 雨遮框底下的崁燈
+            lx = x0 + (k + 0.5) * (x1 - x0) / max(1, round((x1 - x0) / 2.2)); xf.box(acc(M['bulb']), lx - 0.08, lx + 0.08, y0 - 0.005, y0, gz + d / 2 - 0.08, gz + d / 2 + 0.08)
+    aw = c.get('awning')
+    if aw:
+        x0, x1, yw, yo, d = aw['x0'], aw['x1'], aw['y0'], aw['y1'], aw['d']; m_ = acc(SK['corr'])
+        q = [(x0, yw, gz + 0.02), (x1, yw, gz + 0.02), (x1, yo, gz + d), (x0, yo, gz + d)]; xf.quad(m_, q); xf.quad(m_, q[::-1])
+        xf.box(acc(SK['black']), x0, x1, yo - 0.06, yo, gz + d - 0.02, gz + d + 0.02)
+        nb = max(2, round((x1 - x0) / 1.8) + 1)
+        for k in range(nb):
+            bx = x0 + 0.1 + k * (x1 - x0 - 0.2) / (nb - 1); xf.cyl(acc(SK['black']), (bx, yw - 0.55, gz + 0.02), (bx, yo + 0.01, gz + d * 0.85), 0.018, seg=5)
+    # 招牌、牆上的小東西
+    for (key, x0, x1, y0, y1, where) in c.get('signs', []):
+        if where == 'canopy': zz = gz + cn['d'] + 0.012
+        else:
+            zz = gz + 0.03
+            if c.get('sign_back'): xf.box(acc(SK['black'] if c['sign_back'] == 'black' else frame_mat(GG_WOOD)), x0 - 0.04, x1 + 0.04, y0 - 0.04, y1 + 0.04, gz, gz + 0.06); zz = gz + 0.064
+        _xq(xf, key, x0, x1, y0, y1, zz, tiles=1)
+        if c.get('sign_lit'): CL.glow(root, 'signbox', *xf.p((x0 + x1) / 2, (y0 + y1) / 2, zz + 0.5), color='rgba(255,250,235,1)', size=2.0, day=0.0, night=0.55)
+    for (key, x0, x1, y0, y1, zo) in c.get('decals', []):
+        xf.box(acc(frame_mat(GG_WOOD)), x0 - 0.02, x1 + 0.02, y0 - 0.02, y1 + 0.02, gz + zo - 0.02, gz + zo + 0.02); _xq(xf, key, x0, x1, y0, y1, gz + zo + 0.022, tiles=1)
+    for (x0, x1, y, dp) in c.get('ledges', []): xf.box(acc(SK['wood_lt']), x0, x1, y - 0.05, y, gz, gz + dp)   # 外帶窗口的木檯面
+    for (lx, ly) in c.get('lamps', []):   # 黑色鵝頸燈（照招牌）
+        k_ = acc(SK['black']); xf.box(k_, lx - 0.05, lx + 0.05, ly - 0.06, ly + 0.06, gz, gz + 0.03); xf.cyl(k_, (lx, ly, gz + 0.03), (lx, ly + 0.05, gz + 0.38), 0.012, seg=5)
+        xf.cyl(k_, (lx, ly - 0.02, gz + 0.38), (lx, ly - 0.14, gz + 0.42), 0.09, seg=10); acc(M['bulb']).sphere(xf.p(lx, ly - 0.13, gz + 0.42), 0.04, seg=6, rings=3)
+        q = xf.p(lx, ly - 0.2, gz + 0.42); CL.glow(root, 'gg_xs_lamp', q[0], q[1], q[2], color='rgba(255,214,150,1)', size=0.8, day=0.1, night=0.85)
+    # 門口的東西（騎樓走得到的地方：腳印寫進 props.json，遊戲端照 GG_PROP_BLOCKS 擋）
+    for it in c.get('props', []):
+        k = it[0]
+        if k == 'pot':
+            _pm = POT_BROAD if it[3] == 'broad' else POT_FERN[0]; _w = _wp(xf, it[1], gz + it[2]); B.instance(_pm, f'ggpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=it[1] * 1.7); _inst.append(1); prop_fp(_pm, 'ggpot', _w[0], _w[2], it[1] * 1.7)
+        elif k == 'board': gg_board(xf, it[1], it[2], gz + it[3])
+        elif k == 'box':
+            _, key, x0, x1, h, zo, dp, col = it; zf = gz + zo; xf.box(acc(SK['steel'] if col == 'steel' else frame_mat(GG_WOOD if col == 'wood' else '#e8e2d6')), x0, x1, 0.0, h, zf - dp, zf); _xq(xf, key, x0 + 0.02, x1 - 0.02, 0.03, h - 0.03, zf + 0.004, tiles=1)
+            a_, b_ = xf.p(x0, 0, zf - dp), xf.p(x1, 0, zf); PROP_FP.append(dict(tag='gg_' + key, rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=h))
+        elif k == 'pump':   # 打氣站（慢輪單車）
+            x, zo = it[1], gz + it[2]; g_ = acc(frame_mat('#8a9a4a')); xf.box(g_, x - 0.07, x + 0.07, 0.0, 1.15, zo - 0.07, zo + 0.07); xf.box(g_, x - 0.12, x + 0.12, 0.0, 0.05, zo - 0.12, zo + 0.12)
+            xf.cyl(acc(SK['steel']), (x, 1.2, zo), (x, 1.2, zo + 0.06), 0.07, seg=12); xf.cyl(acc(SK['black']), (x + 0.08, 1.0, zo), (x + 0.25, 0.6, zo + 0.1), 0.012, seg=5)
+            a_, b_ = xf.p(x - 0.15, 0, zo - 0.15), xf.p(x + 0.15, 0, zo + 0.15); PROP_FP.append(dict(tag='gg_pump', rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=1.27))
+
+
+def gg_board(xf, key, x, z):
+    """黑板 A 字立牌：木腳＋前後兩面（參考圖裁的字）"""
+    a_, b_ = xf.p(x - 0.32, 0, z - 0.24), xf.p(x + 0.32, 0, z + 0.24); PROP_FP.append(dict(tag='gg_aboard', rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=1.1))
+    m = acc(SK['wood_lt'])
+    for sx in (-0.31, 0.28):
+        for s_ in (-1, 1): xf.cyl(m, (x + sx + 0.015, 0.0, z + s_ * 0.24), (x + sx + 0.015, 1.08, z + s_ * 0.02), 0.015, seg=4)
+    for s_ in (-1, 1):
+        zb, zt = z + s_ * 0.22, z + s_ * 0.035
+        p = [xf.p(x - 0.29, 0.12, zb), xf.p(x + 0.29, 0.12, zb), xf.p(x + 0.29, 1.02, zt), xf.p(x - 0.29, 1.02, zt)]
+        xs_quad(key, p if s_ > 0 else [p[1], p[0], p[3], p[2]], tiles=1)
 
 
 def xs_stair(xf, st, z):
@@ -1476,7 +1616,9 @@ def arcade_front_v2(spec, xf, W, wall):
     s = spec['shop']; sf = spec['sf']; dep = 3.0; gz = -dep; iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e'))
     ceil_y = GH - 0.35; top = ceil_y - 0.02; kind = sf.get('kind', s['type'])
     # 店內
-    if kind == 'tea':                                                                               # 手搖飲：臨騎樓的點餐櫃台（溫州街巷口茶飲同一套）
+    XSM = spec.get('xs')
+    if XSM: gg_front(spec, xf, W, wall, gz, ceil_y)                                                 # 公館四間新店（AA_647）：照參考圖的店面
+    elif kind == 'tea':                                                                               # 手搖飲：臨騎樓的點餐櫃台（溫州街巷口茶飲同一套）
         xf.box(acc(SK[sf['floor_in']]), -iw / 2, iw / 2, 0.0, 0.06, gz - DI, gz)
         for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.04, sx * iw / 2 + 0.04, 0.0, ceil_y, gz - DI, gz - 0.012)   # 前端退到壁柱後面 1.2 cm（BUG-WZFLICKER-2）
         xf.box(acc(M['ceilA']), -iw / 2, iw / 2, 2.95, 3.0, gz - DI, gz)
@@ -1495,7 +1637,7 @@ def arcade_front_v2(spec, xf, W, wall):
             for sx in (-1, 1): xf.box(acc(M['ceilA']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz - 0.012)   # 前端退到壁柱後面 1.2 cm（BUG-WZFLICKER-2）
         _door_glass(spec, xf, sf, iw, ih, gz, fr, top)
         xf.box(wall, -W / 2, W / 2, ih + 0.18, ceil_y, gz - 0.15, gz)                                # 店門上方到騎樓天花板的牆
-    for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0.0, ceil_y, gz - (DI if (sf.get('inner') or kind == 'tea') else 1.3) - 0.1, gz)   # 店與店之間的壁柱（這一棟的外牆）
+    for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0.0, ceil_y, gz - (0.9 if XSM else (DI if (sf.get('inner') or kind == 'tea') else 1.3)) - 0.1, gz)   # 店與店之間的壁柱（這一棟的外牆）
     # 騎樓：天花板、這一棟的地磚、柱子（包外牆）、日光燈（晚上亮）
     xf.box(acc(M['ceilA']), -W / 2, W / 2, ceil_y, GH - 0.12, -dep, 0.0)
     xf.box(acc(SK[sf['floor']]), -W / 2, W / 2, 0.0, 0.05, -dep, 0.0)
@@ -1510,7 +1652,11 @@ def arcade_front_v2(spec, xf, W, wall):
         CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(244,248,255,1)', size=1.5, day=0.0, night=0.7)
     # 招牌（設計稿；和原本的 shopfront 同一套）
     sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
-    if s.get('atlas') and s['atlas'] in SIGN_ATLAS:
+    if XSM:   # 公館四間新店：騎樓外的招牌也是參考圖裁的字（同一塊招牌，貼在騎樓樑上給馬路看）
+        key = XSM['street']; h_ = sy1 - sy0; w_ = min(sw, h_ * XS_ATLAS.get(key, [0, 0, 1, 1, 4])[4]); cx_ = XSM.get('street_x', 0.0)
+        xf.box(acc(SK['alu2']), cx_ - w_ / 2 - 0.04, cx_ + w_ / 2 + 0.04, sy0 - 0.05, sy1 + 0.03, 0.0, 0.2); _xq(xf, key, cx_ - w_ / 2, cx_ + w_ / 2, sy0, sy1, 0.204, tiles=1)
+        if XSM.get('street_lit'): CL.glow(root, 'signbox', *xf.p(cx_, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
+    elif s.get('atlas') and s['atlas'] in SIGN_ATLAS:
         h_ = sy1 - sy0 + 0.08; w_ = min(sw, h_ * SIGN_ATLAS[s['atlas']]['aspect'])
         xf.box(acc(SK['alu2']), -w_ / 2 - 0.03, w_ / 2 + 0.03, sy0 - 0.07, sy0 - 0.04 + h_ + 0.03, 0.0, 0.2)
         sign_tex(xf, s['atlas'], 0.0, sy0 - 0.04, w_, 0.204, f'sk_sign_{spec["id"]}')
@@ -1522,10 +1668,10 @@ def arcade_front_v2(spec, xf, W, wall):
     if s.get('vatlas') and s['vatlas'] in SIGN_ATLAS: vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
     elif s.get('vertical'):
         vsign(xf, spec['id'], W / 2 - 0.5, GH + 0.3, GH + 2.9, {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0})
-    for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, gz + (0.32 if kind == 'tea' else 0.03))
+    for (cn, x, y, w, h) in ([] if XSM else sf.get('notes', [])): note(xf, cn, x, y, w, h, gz + (0.32 if kind == 'tea' else 0.03))
     # 騎樓裡貼著店面玻璃的雜物（ART-WZ0 第三批，LAWWW2 10-21；7b-2 第 1 條：騎樓兩樣東西）：玻璃前 0.7 m 內、避開店門和店門口的互動點；
     # 人走的地方：zones3d.js 的 gongguan 照 gongguan_shops.props.json 的腳印擋住那幾格（tests/street_props_nav_unit.js），騎樓照樣整排走得通
-    for it in sf.get('clutter', []):
+    for it in ([] if XSM else sf.get('clutter', [])):   # 公館四間新店：門口的東西照參考圖（gg_front 的 props）
         k, x, zc = it[0], it[1], it[2]; zz = gz + zc
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         elif k == 'outlet': inst(PROTO['outlet' + ('_z' if len(it) > 4 and it[4] == 'z' else '')], f'sk_outlet_{spec["id"]}', xf, x, it[3] if len(it) > 3 else 0.35, zz)   # 柱子、牆上離地的東西（inst 只替地上的東西登記腳印：不擋路）
