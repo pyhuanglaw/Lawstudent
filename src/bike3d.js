@@ -72,7 +72,7 @@ const BIKE=(function(){
   /* 存檔的車：G.bike {zone,x,z,yaw,riding, kind,color,owned:[{kind,color}]}——kind／color 是現在騎的那台，owned 是買過的全部（含開局那台）。舊存檔沒有新欄位＝開局那台 */
   function fill(b){ if(!KINDS[b.kind]) b.kind=B.DEFAULT_KIND; if(b.color===undefined||(b.color!==null&&typeof b.color!=='string')) b.color=null;
     if(!Array.isArray(b.owned)) b.owned=[]; b.owned=b.owned.filter(o=>o&&typeof o==='object'&&KINDS[o.kind]).map(o=>({kind:o.kind,color:typeof o.color==='string'?o.color:null}));
-    if(!b.owned.length) b.owned.push({kind:B.DEFAULT_KIND,color:null});
+    if(!b.owned.length) b.owned.push({kind:B.DEFAULT_KIND,color:null}); if(b.parts!=null&&(typeof b.parts!=='object'||Array.isArray(b.parts))) b.parts={};   /* 櫃台的小東西（AA_651；bikeshop3d.js S.parts）*/
     if(!b.owned.some(o=>o.kind===b.kind&&o.color===b.color)) b.owned.push({kind:b.kind,color:b.color}); return b; }
   function st(G){ if(!G.bike||typeof G.bike!=='object') G.bike=Object.assign({riding:false},HOME); return fill(G.bike); }
   B.state=st;

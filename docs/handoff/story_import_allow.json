@@ -4192,6 +4192,15 @@
    "task": "AA617-WZ-CAFES-1103",
    "kind": "text",
    "note": "木曜日補台詞：看書櫃／唱片機／海報、朋友先到、一般 22:00 打烊、約去木曜日答應的一句、芯慈作息（子代理 01a9fbfd3 照抄進 src/mokuyobi_sys3d.js、invites.js；mokuyobi_aa618_unit 第 15～20 項逐字對照）；第 6 節三題（叫法、明軒「好。我帶筆電去。」、海報第三句）350c90382"
+  },
+  {
+   "path": "docs/story_planning/AA_651_回LAWWW_1104_02點_單車店小東西_約念書兩句_機場便利店.md",
+   "sha": "d07e6d124",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_651，第②級，D109）",
+   "task": "BIKE-SHOP-PARK-1104",
+   "kind": "text",
+   "note": "單車店小東西／補胎／換車台詞（bikeshop3d.js）、約念書早到旁白（invites3d.js）、以安總圖見面旁白改館內（rel_lines.js、libquiet3d OUT_LINES 拿掉）、機場便利商店改日和便利店（us_layouts.js）"
   }
  ]
 }

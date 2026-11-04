@@ -40,7 +40,7 @@ GM.sitAt=(ent,seat)=>{ ent._sat=seat; ent.seat=seat; ent.pose='sit'; ent.idlePos
 GM.standUp=ent=>{ const s=ent.seat; ent.seat=null; ent.pose='idle'; ent.idlePose='idle'; ent.frozen=false; if(s){ ent.obj.position.x=s.x+0.75; } };
 GM.seatApproach=st=>[st.x,st.z+(st.yaw?-0.6:0.6)];
 GM.fade=v=>{ fadeN++; if(fadeThrow&&fadeN===fadeThrow) return Promise.reject(new Error('測試：淡出淡入途中出錯')); return Promise.resolve(); };
-GM.toast=t=>toasts.push(t); GM.setGoal=t=>{ goals.push(t); H.G.goal=t; };
+GM.toast=t=>toasts.push(t); GM.caption=(w,t)=>toasts.push(t); GM.setGoal=t=>{ goals.push(t); H.G.goal=t; };
 const place=(ent,x,z,lv)=>{ ent.obj.position.x=x; ent.obj.position.z=z; if(lv!=null) ent.lv=lv|0; };
 GM.walkTo=(ent,x,z,o)=>{ walks.push({who:ent===E.player?'P':(ent.charId||ent.id),x,z,lv:o&&o.lv}); if(ent.seat&&ent.frozen) GM.standUp(ent); const go=()=>place(ent,x,z,o&&o.lv); if(holdWalk) return new Promise(r=>held.push(()=>{ go(); r(true); })); go(); return Promise.resolve(true); };
 const setup=(key,h,zone,seats,spawn)=>{ const G=H.fresh(key,h,zone); G.invites=[]; G.stats=G.stats||{}; E.zone={seats:seats.map(s=>Object.assign({},s)),spawn:Object.assign({},spawn),roomAt:()=>null}; E.npcs=[]; E.player.seat=null; E.player.busy=false; E.player.lv=spawn.lv|0; place(E.player,spawn.x,spawn.z-0.5);
@@ -127,7 +127,7 @@ const dEnt=s=>Math.hypot(s.x-SPAWN.x,s.z-SPAWN.z);
     check('9. 她正在帶路：手機不自己再打開',iv.lead&&INV.phoneBack(G)===false); }
   { const G=setup('2025-09-12',14.3,'library_hall',hallSeats(),SPAWN); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','library',G.day,15,{by:'player'});
     INV.tick(GM); INV.tick(GM); G.hour=14.5; INV.tick(GM);
-    check('9. 提早 15 分鐘以上到（14:18 到、約 15:00）：系統提示一次「約好的是 15:00，還早。」',toasts.filter(t=>t==='約好的是 15:00，還早。').length===1&&iv.state==='accepted',JSON.stringify(toasts)); }
+    check('9. 提早 15 分鐘以上到（14:18 到、約 15:00）：旁白一次「（約好的是 15:00。還早。你在門口的長椅坐了一下。）」（AA_651 第 3 節）',toasts.filter(t=>t==='（約好的是 15:00。還早。你在門口的長椅坐了一下。）').length===1&&iv.state==='accepted',JSON.stringify(toasts)); }
   /* ---- 9 第 4 項：開演途中出錯（坐下以後淡入失敗）：兩個人站起來、她解凍、深度回去 ---- */
   { const G=setup('2025-09-13',15,'cafe',[{x:0,z:0,yaw:0,lv:0},{x:0.8,z:0,yaw:0,lv:0}],{x:0,z:4,lv:0}); H.FRIEND('heroine_02'); const iv=INV.accept(G,'heroine_02','cafe',G.day,15,{by:'player'}); const n=npc('heroine_02',2,2,{beh:'idle'});
     fadeThrow=2; const ce=console.error; let errs=0; console.error=()=>{ errs++; };

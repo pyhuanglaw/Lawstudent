@@ -101,6 +101,16 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
     said=[]; picks=['幫我打氣']; await BIKESHOP.owner(GM); check('8 「幫我打氣」：老闆「好了。」，不扣錢',said.includes('車行老闆：好了。')&&G.money===50000,J(said));
     said=[]; opts=[]; picks=['我想看車','登山車',0,0]; await BIKESHOP.owner(GM);
     check('8 「我想看車」→ 選登山車：說明、老闆一句、買（黑）',said.includes('（輪胎很粗，前面有避震。）')&&said.includes('車行老闆：你要騎山路的話。……校園裡騎會有點重。')&&G.bike.kind==='mtb'&&G.money===50000-15800,J(said));
+    // ---- AA_651 第 2 節（d07e6d124）：換車之後兩句、補胎、櫃台小東西 ----
+    { const k=said.length; said=[]; picks=['換一台騎','小折']; await BIKESHOP.owner(GM); check('8b 換一台騎之後：老闆「好，這台。……那台先放我這裡。」＋旁白「（座墊還是你上次調的高度。）」',said.includes('車行老闆：好，這台。……那台先放我這裡。')&&said.includes('（座墊還是你上次調的高度。）'),J(said)); }
+    { G.money=1000; const h0=G.hour; said=[]; picks=['補胎']; await BIKESHOP.owner(GM); check('8b 補胎 100：老闆兩句＋旁白、扣 100、時間過 15 分鐘',G.money===900&&said.includes('車行老闆：扎到釘子了。……十五分鐘。')&&said.includes('（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）')&&said.includes('車行老闆：好了。最近那條路在施工，繞一下。')&&Math.abs(G.hour-h0-0.25)<1e-6,J([G.money,G.hour-h0,said]));
+      G.money=50; said=[]; picks=['補胎']; await BIKESHOP.owner(GM); check('8b 補胎錢不夠：老闆「先打氣撐一下，……明天再來。」、不扣錢',G.money===50&&said.includes('車行老闆：先打氣撐一下，……明天再來。'),J(said)); }
+    { G.money=2000; said=[]; picks=['車燈']; await BIKESHOP.parts(GM); const own=G.bike.parts||{};
+      check('8c 櫃台買車燈 350：扣錢、旁白＋老闆一句、記在 G.bike.parts',G.money===1650&&!!own.light&&said.includes('（老闆把車燈鎖在把手上，按了一下。前面的地上亮了一圈。）')&&said.includes('車行老闆：晚上騎河濱要開。'),J([G.money,said]));
+      said=[]; picks=['車燈']; await BIKESHOP.parts(GM); check('8c 已經買過又點：老闆「你上次買過了。……還在用吧？」、不扣錢',G.money===1650&&said.includes('車行老闆：你上次買過了。……還在用吧？'),J(said));
+      said=[]; picks=['鈴']; await BIKESHOP.parts(GM); said2=said.slice(); said=[]; picks=['鎖']; await BIKESHOP.parts(GM);
+      check('8c 鈴 120、鎖 680 各一句',G.money===850&&said2.includes('（新的車鈴裝在左手邊。你按了一下，聲音比原本的清楚。）')&&said.includes('車行老闆：這個剪不斷。……鎖在柱子上，不要只鎖輪子。'),J([G.money,said2,said])); }
+    { const s=JSON.parse(JSON.stringify({bike:{kind:'city',color:null,owned:[{kind:'city',color:null}],parts:'壞'}})); BIKE.migrate(s); check('8c 存檔 parts 壞掉：重設成 {}',s.bike.parts&&typeof s.bike.parts==='object'&&!Array.isArray(s.bike.parts)); }
     delete global.SIDEQ;
     // ---- 出店：車停在車行門口（人行道，不在騎樓）----
     await enter('gongguan',out.exit.spawn);

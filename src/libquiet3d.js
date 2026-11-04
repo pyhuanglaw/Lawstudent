@@ -43,7 +43,7 @@ const LIBQ=(function(){
   S.reset=()=>{ loudN=0; };
   S.isLoud=()=>loudN>0;   /* 木曜日（src/mokuyobi_sys3d.js）也照這個「這一段不加（小聲）」*/
   /* 字串版的 libOut（AA 2026-11-02 22:30 定稿 1-D10、Q16）*/
-  S.OUT_LINES=['閉館音樂響了，她才抬頭問你晚餐吃什麼。'];   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
+  S.OUT_LINES=[];   /* AA_651 第 3 節：以安那句改成館內的「她讀到一半，把你的螢光筆拿去用……」，不再是走出館外的句子 */   /* Q16：rel_lines.js 以安約總圖（library）朋友以上的見面旁白；這句之後就要離開了 */
   const OUT_HEAD='（走出';
   S.isOut=function(text){ const t=String(text==null?'':text).trim(); return t.startsWith(OUT_HEAD)||S.OUT_LINES.includes(t); };
   /* 一段不是事件的台詞（INV.meet）：chk(這一句) 遇到走出館外的那一句起 loudBegin（只一次）；end() 在 finally 配對 */

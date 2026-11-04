@@ -37,8 +37,23 @@ const BIKESHOP=(function(){
   // ---------- 台詞（AA_646 原文）----------
   const BOSS={name:'車行老闆'};
   S.L={ fit:'好，我幫你調一下座墊。……十分鐘。', fitDone:'（老闆把座墊調到你的高度，按了兩下車鈴。）', tryIt:'騎看看。', poor:'這台不急。……下次再來看。', which:'哪一台？', pump:'好了。',
-    look:'看這台車', want:'我想看車', swap:'換一台騎', pumpAsk:'幫我打氣' };
+    look:'看這台車', want:'我想看車', swap:'換一台騎', pumpAsk:'幫我打氣', fixAsk:'補胎',
+    /* AA_651 第 2 節（企劃線 d07e6d124）：小東西、補胎、換車 */
+    swapDone:'好，這台。……那台先放我這裡。', swapNarr:'（座墊還是你上次調的高度。）',
+    fix:'扎到釘子了。……十五分鐘。', fixNarr:'（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）', fixDone:'好了。最近那條路在施工，繞一下。', fixPoor:'先打氣撐一下，……明天再來。',   /* 錢不夠：AA 給的兩種寫法選「不能補」那一種（不記欠款）*/
+    partsAgain:'你上次買過了。……還在用吧？' };
+  S.PARTS=[{id:'light',name:'車燈',price:350,say:[[null,'（老闆把車燈鎖在把手上，按了一下。前面的地上亮了一圈。）'],['boss','晚上騎河濱要開。']]},
+    {id:'bell',name:'鈴',price:120,say:[[null,'（新的車鈴裝在左手邊。你按了一下，聲音比原本的清楚。）']]},
+    {id:'lock',name:'鎖',price:680,say:[['boss','這個剪不斷。……鎖在柱子上，不要只鎖輪子。']]}];
+  S.FIX_PRICE=100;
   let busy=false;
+  /* 櫃台的小東西（配置 bike_parts）：買過的不再賣（G.bike.parts＝{light,bell,lock}，舊存檔沒有＝都沒買）*/
+  S.parts=async function(GM){ if(busy) return true; busy=true; const G=GM.G, s=BIKE.state(G), own=s.parts||(s.parts={}); GM.sceneBegin();
+    try{ const opts=S.PARTS.map(q=>({t:q.name+'　'+q.price+' 元',hint:own[q.id]?'買過了':'',dim:!own[q.id]&&G.money<q.price,q})); opts.push({t:'不用了'}); const i=await GM.choose(opts), q=opts[i]&&opts[i].q; if(!q) return true;
+      if(own[q.id]){ await GM.say(BOSS,S.L.partsAgain); return true; } if(G.money<q.price){ GM.toast&&GM.toast('錢不夠'); return true; }
+      GM.money(-q.price); own[q.id]=G.day; for(const [w,t] of q.say) await GM.say(w==='boss'?BOSS:null,t); } finally { busy=false; GM.sceneEnd(); } return true; };
+  S.fix=async function(GM){ const G=GM.G; if(G.money<S.FIX_PRICE){ await GM.say(BOSS,S.L.fixPoor); return false; } GM.money(-S.FIX_PRICE); S.repairBike(true);
+    try{ await GM.say(BOSS,S.L.fix); if(GM.advance) GM.advance(0.25); await GM.say(null,S.L.fixNarr); await GM.say(BOSS,S.L.fixDone); } finally { S.repairBike(false); } return true; };
   /* 修車架上夾著的那台車（GLB 節點 REPAIR_BIKE*）：預設藏；調座墊、打氣的那一幕顯示（AA_646 第 2 節）*/
   let repairNodes=[];
   S.repairBike=on=>{ for(const o of repairNodes) o.visible=!!on; return repairNodes.length; };
@@ -68,11 +83,12 @@ const BIKESHOP=(function(){
   /* 「找車行老闆」：先照舊（SQ16 的進度、認得你、招呼；SIDEQ.bikeShop），再問要做什麼 */
   S.owner=async function(GM){ if(busy) return true; busy=true; const G=GM.G;
     try{ if(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop) await SIDEQ.bikeShop(GM);
-      GM.sceneBegin(); try{ const s=BIKE.state(G), opts=[{t:S.L.want,v:'want'}]; if(s.owned.length>1) opts.push({t:S.L.swap,v:'swap'}); opts.push({t:S.L.pumpAsk,v:'pump'},{t:'不用了',v:null});
+      GM.sceneBegin(); try{ const s=BIKE.state(G), opts=[{t:S.L.want,v:'want'}]; if(s.owned.length>1) opts.push({t:S.L.swap,v:'swap'}); opts.push({t:S.L.pumpAsk,v:'pump'},{t:S.L.fixAsk+'　'+S.FIX_PRICE+' 元',v:'fix'},{t:'不用了',v:null});
         const i=await GM.choose(opts), v=opts[i]&&opts[i].v;
         if(v==='want'){ const ks=BIKE.KIND_ORDER.map(id=>({t:K(id).name+'　'+K(id).price.toLocaleString('en-US')+' 元',id})); const j=await GM.choose(ks.concat([{t:'再看看'}])); if(j>=0&&j<ks.length){ await pitch(GM,ks[j].id); await buyFlow(GM,ks[j].id); } }
         else if(v==='swap'){ await GM.say(BOSS,S.L.which); const os=s.owned.map(o=>({t:K(o.kind).short+'・'+BIKE.colorName(o.kind,o.color),o,cur:o.kind===s.kind&&o.color===s.color})); const j=await GM.choose(os.map(q=>({t:q.t,hint:q.cur?'現在騎的':'',dim:q.cur})).concat([{t:'不用了'}]));
-          if(j>=0&&j<os.length&&!os[j].cur) S.ride(G,os[j].o.kind,os[j].o.color); }
+          if(j>=0&&j<os.length&&!os[j].cur&&S.ride(G,os[j].o.kind,os[j].o.color)){ await GM.say(BOSS,S.L.swapDone); await GM.say(null,S.L.swapNarr); } }
+        else if(v==='fix'){ await S.fix(GM); }
         else if(v==='pump'){ S.repairBike(true); try{ await GM.say(BOSS,S.L.pump); } finally { S.repairBike(false); } }
       } finally { GM.sceneEnd(); } } finally { busy=false; }
     return true; };
@@ -94,6 +110,7 @@ const BIKESHOP=(function(){
     // 老闆、出口
     const os=S.ownerSpot(G); z.bikeOwner=os;
     IT.push({x:os.ix,z:os.iz,radius:1.0,lv:0,label:'找車行老闆',onInteract:()=>S.owner(GAME_(E))});
+    { const pt=(L.interact||[]).find(i=>i.kind==='bike_parts'); if(pt) IT.push({x:pt.x,z:pt.z,radius:0.7,lv:0,label:pt.label||'車燈・車鈴・鎖',onInteract:()=>S.parts(GAME_(E))}); }
     IT.push({x:EXIT.x,z:EXIT.z,radius:EXIT.r,lv:0,label:'離開慢輪單車',exit:{to:'gongguan',spawn:Object.assign({},S.OUT_SPAWN),bikePark:{x:S.PARK.x,z:S.PARK.z,yaw:S.PARK.yaw}}});
     nav._cm=null; repairNodes=[];
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bikeshop_interior']) ASSETS.loadOne('bldg.bikeshop_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
