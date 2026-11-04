@@ -140,6 +140,15 @@ await sec('c4',async()=>{
     void noodle; }
 });
 
+await sec('c5',async()=>{
+  /* 自己約語彤本人吃飯（一般名額，原本的做法）：她自己那一則不替你回「這次我有約了」（原本也是跳過她）；再按她那一則「好。」也不會多排一頓 */
+  const w=cSetup(), R=()=>H.G.termend.Y1S1; at('2025-12-18',21);
+  const iv=INV.accept(H.G,YT,'noodle',DK('2025-12-20'),17.5,{by:'player'}); iv.te={term:'Y1S1',kind:'heart'}; TERMEND.playerPicked(H.G,iv); rules();
+  check('c5. 自己約語彤本人 12/20（六）17:30（和她那一則同一個時段）：她那一則不自動回（原本也是跳過她）、以安和子晴照原本婉拒',isOpen('Y1S1',YT)&&!thread(YT).includes('player:'+TERMEND_LINES.AUTO_ME)&&ans('Y1S1',AN)!=null&&ans('Y1S1',ZQ)!=null&&R().picked&&R().picked.who===YT,J(thread(YT)));
+  PHONE.answer(H.G,tag('Y1S1',YT),0); rules();
+  check('c5. 再按她那一則「好。」：不會多排一頓（沒有 heartPick、沒有 te_ex 那一場）',!R().heartPick&&!outOf(EXID('Y1S1',YT)),J({heartPick:R().heartPick}));
+});
+
 /* ---------- d 沒寫 examDay 的心意邀約照原本「只能接一個」---------- */
 await sec('d',async()=>{
   { const w=setup('Y1S1',[AN,ZQ],[XC]), R=()=>H.G.termend.Y1S1; const P=TERMEND.plan(H.G,w); at('2025-12-18',20); run(20,21);

@@ -304,7 +304,7 @@ const TERMEND=(function(){
   S.exSweep=function(G,w,force){ if(!G||!w||typeof PHONE==='undefined'||!PHONE.byAsk) return; const ex=S.exempts(G,w.id); if(!ex.length) return; const R=S.rec(G,w.id); if(!R.picked&&!R.heartPick) return;
     const key=[w.id,G.day,Math.floor((+G.hour||0)*4),(G.msgs||[]).length,R.picked?R.picked.who:'',R.heartPick?R.heartPick.who:''].join('|'); if(!force&&swept&&swept.get(G)===key) return; if(swept) swept.set(G,key);
     const A=R.asks||{}, open=id=>{ const m=A[id]?PHONE.byAsk(G,A[id]):null; return m&&PHONE.askOpen(G,m)?m:null; };
-    if(R.picked){ const rs=S.regSlot(G,w); if(rs) for(const id of ex){ const m=open(id); if(m&&S.overlap(S.exNatural(G,w,id),rs)) S.teNo(G,w.id,id,m,R.picked.by==='player'); } }   /* 一般的那一頓定了：她那一則和它撞到＝照「改天」*/
+    if(R.picked){ const rs=S.regSlot(G,w); if(rs) for(const id of ex){ if(id===R.picked.who) continue; const m=open(id); if(m&&S.overlap(S.exNatural(G,w,id),rs)) S.teNo(G,w.id,id,m,R.picked.by==='player'); } }   /* 一般的那一頓定了：她那一則和它撞到＝照「改天」（一般的那一頓就是約她本人＝不回，原本 S.playerPicked 也跳過她）*/
     if(R.heartPick){ const xs=S.exPlanned(G,w); if(xs) for(const id in A){ if(ex.includes(id)) continue; const m=open(id), k=m&&S.askKind(m); if(k&&S.overlap(S.askSlot(G,w,id,k),xs)) S.teNo(G,w.id,id,m,false); } } };   /* 她那一頓定了：還沒回的一般邀約和它撞到＝照「改天」*/
   /* 手機上按「好。」的當下就處理（手機開著、遊戲暫停也一樣：原本等手機收起來的下一格才處理，兩則都按得到「好。」）；新的邀約傳到的當下就看撞不撞（PHONE.tick 之後、自動打開手機之前）。只在這學期有不佔名額的那一則才做 */
   S.onAnswer=function(G,m,o){ const v=o&&o.set&&o.set.TE_PICK; if(typeof v!=='string'||!G||!S.exempts(G,v.split('|')[0]).length) return; S.pickCheck({G}); };
