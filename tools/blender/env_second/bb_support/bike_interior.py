@@ -387,10 +387,32 @@ def bike(name, model, col, T, side=None, kick=True, tag=None):
     if s.get('lamp'): clathe(c, [(0.0, 0.0), (0.035, 0.0), (0.04, 0.06), (0.0, 0.065)], hb[0] + 0.05, hb[1] - 0.03, 0.0, '#2a2b2d', seg=10, R=rot('Z', -math.pi / 2))
     if kick: ccyl(cm, (bb[0] - 0.1, bb[1] - 0.01, -0.06), (bb[0] - 0.24, 0.0, -0.2), 0.008, '#8d9196', seg=5)   # 側柱
     if tag: p['goods'].rect((ht[0] - 0.03, ht[1] - 0.12, 0.0), (1, 0, 0), (0, 1, 0), 0.07, 0.044, ATL[tag], both=True)   # 掛在頭管上的車價卡
-    p.done()
+    obs = p.done()
     wp = wheel_proto(R, t, s['rim'], s['spokes'], side)
     for ax_, sp_ in ((ra, 0.1), (fa, 0.7)): wp.place(T @ fm(ax_, rot('Z', sp_)))
-    return dict(ra=ra, fa=fa, bb=bb, st=st, ht=ht, R=R)
+    return dict(ra=ra, fa=fa, bb=bb, st=st, ht=ht, R=R, obs=obs, wp=wp, model=model, side=side)
+
+
+def bike_clone(g, name, T, parent=None, side=None, skip=('goods',)):
+    """v1b：同一台車再放一次（linked duplicate：同一個網格、同一組材質，不新增材質）。skip＝不複製的網格（車價卡）。
+    parent＝掛在哪個節點底下（REPAIR_BIKE：遊戲要能整台開關）。回傳新物件。"""
+    par = parent if parent is not None else root; out = []
+    for ob in g['obs']:
+        key = ob.name.rsplit('_', 1)[-1]
+        if key in skip: continue
+        no = bpy.data.objects.new((f'WALL_{side}_' if side else P) + f'{name}_{key}', ob.data); B.scene().collection.objects.link(no); no.parent = par
+        no.matrix_basis = T
+        if side: no['dir'] = DIRS[side]
+        out.append(no)
+    wp = g['wp']
+    for ax_, sp_ in ((g['ra'], 0.4), (g['fa'], 1.1)):
+        Tw = T @ fm(ax_, rot('Z', sp_))
+        if parent is None: wp.place(Tw); continue
+        wp.n += 1
+        for ob in wp.obs:
+            key = ob.name.rsplit('_', 1)[-1]
+            no = bpy.data.objects.new(f'{name}_wheel{wp.n}_{key}', ob.data); B.scene().collection.objects.link(no); no.parent = par; no.matrix_basis = Tw; out.append(no)
+    return out
 
 
 def stand_rear(x, z, yaw, y0=0.3):
@@ -550,22 +572,36 @@ def platform(it, front_x, face):
 
 
 platform(IT['platform_left'], None, 'L'); platform(IT['platform_right'], None, 'R')
+BIKES = {}
 for it in ITL:
     if it['kind'] in ('bike_lady', 'bike_city', 'bike_fold', 'bike_road'):
         tag = {'lady': 'price0', 'city': 'price1', 'fold': 'price2', 'road': 'price4'}[it['model']]
-        bike(it['kind'], it['model'], it['color'], fm((it['x'], it['y'], it['z']), rot('Y', it['yaw'])), tag=tag)
+        BIKES[it['model']] = bike(it['kind'], it['model'], it['color'], fm((it['x'], it['y'], it['z']), rot('Y', it['yaw'])), tag=tag)
         if it['model'] in ('lady', 'road'): stand_rear(it['x'], it['z'], it['yaw'])
 WALLB = [it for it in ITL if it['kind'] in ('bike_wall', 'bike_mtb')]
 hk = Part('wallhooks', side='left')
 for k, it in enumerate(WALLB):
     tilt = (0.16, 0.1, 0.13)[k]; T_ = fm((it['x'], it['y'] - 0.6, it['z']), rot('Y', math.pi / 2) @ rot('Z', tilt))
-    g = bike(f'wallbike{k}', it['model'], it['color'], T_, side='left', kick=False, tag='price3' if it['model'] == 'mtb' else None)
+    g = bike(f'wallbike{k}', it['model'], it['color'], T_, side='left', kick=False, tag='price3' if it['model'] == 'mtb' else None); BIKES['wall_' + it['model']] = g
     for lx in (-0.22, 0.2):   # 兩支掛勾（從牆伸出來、勾住上管）
         wp = T_ @ Vector(g2b(lx, g['ht'][1] - 0.1 + lx * 0.25, 0)); gp = Vector((wp.x, -wp.y, wp.z))   # Blender → 遊戲
         ccyl(hk['vcm'], (XI0, gp.z - 0.02, gp.y), (gp.x - 0.04, gp.z - 0.03, gp.y), 0.006, '#2a2b2d', seg=5)
         ccyl(hk['vcm'], (gp.x - 0.04, gp.z - 0.03, gp.y), (gp.x - 0.03, gp.z + 0.04, gp.y), 0.006, '#2a2b2d', seg=5)
         crb(hk['vcm'], XI0, XI0 + 0.01, gp.z - 0.06, gp.z + 0.02, gp.y - 0.03, gp.y + 0.03, '#2a2b2d', r=0.003)
+# v1b（LAWWW2 驗收意見：左牆掛四台車）：第四台直掛在左牆最前面（前輪朝上、掛勾勾住前輪框）；重用左牆中間那台米白城市車的網格（linked duplicate）
+VB = LAY['wallVertical']; gv = BIKES['wall_' + VB['model']]; sv_ = SPEC[VB['model']]
+T_v = fm((VB['x'], 0.0, 0.0), rot('Y', math.pi / 2) @ rot('Z', math.pi / 2))   # 車的 +x（車頭）朝上、車的 +y（坐墊、把手）朝 +z（店門那一邊）
+lo_ = T_v @ Vector(g2b(gv['ra'][0] - sv_['R'], 0.0, 0.0)); lo_g = (lo_.x, lo_.z, -lo_.y)   # 後輪最下緣（遊戲座標）
+T_v = fm((0.0, VB['y0'] - lo_g[1], VB['z0'] - lo_g[2]), Matrix.Identity(3)) @ T_v   # 後輪最下緣 y＝y0；車的 y＝0 那條線（輪子下緣）z＝z0
+bike_clone(gv, 'wallbike_v', T_v, side='left')
+RIN = gv['R'] - 2 * sv_['t'] - 0.018   # 輪框內緣的半徑（wheel_proto：輪框中心 R−2t−0.009、粗 0.009）
+fw_ = T_v @ Vector(g2b(gv['fa'][0] + RIN, gv['fa'][1], 0.0)); fwg = (fw_.x, fw_.z, -fw_.y)   # 前輪框內緣的頂點（遊戲座標）
+HKR = 0.007; hy_ = fwg[1] - HKR - 0.003   # （輪框斷面是三角形，再低 3 mm 才不插進輪框） 掛勾的橫桿頂面＝輪框內緣（輪框壓在掛勾上：不懸空）
+ccyl(hk['vcm'], (XI0, hy_, fwg[2]), (fwg[0] + 0.045, hy_, fwg[2]), HKR, '#2a2b2d', seg=5)   # 直掛的掛勾：從牆伸出來、穿過輻條、從輪框裡面勾住
+ccyl(hk['vcm'], (fwg[0] + 0.045, hy_, fwg[2]), (fwg[0] + 0.045, hy_ + 0.06, fwg[2]), HKR, '#2a2b2d', seg=5)
+crb(hk['vcm'], XI0, XI0 + 0.012, hy_ - 0.05, hy_ + 0.05, fwg[2] - 0.035, fwg[2] + 0.035, '#2a2b2d', r=0.003)
 hk.done()
+VB_INFO = dict(rear_bottom_y=round(VB['y0'], 3), front_rim_top=[round(v, 3) for v in fwg])
 # 左牆：構造海報＋黑白照（最前面）、植物層板
 pl = Part('leftwall_deco', side='left'); xw = XI0 + 0.012
 
@@ -580,8 +616,11 @@ def frame_on_wall(p, x, y, z, w, h, cell, axis='x', sgn=1, fcol='#6b4a30', depth
         p['goods'].rect((x, y, z + sgn * (depth + 0.001)), (sgn, 0, 0), (0, 1, 0), w / 2, h / 2, ATL[cell] if isinstance(cell, str) else cell)
 
 
-frame_on_wall(pl, xw, 2.2, 4.75, 0.5, 0.73, 'anatomy')
-frame_on_wall(pl, xw, 1.43, 4.75, 0.5, 0.35, 'photo_street')
+PZ = LAY['wallVertical']['posterZ']   # v1b：直掛的車佔了 z 4.1～5.3，海報、黑白照往店門那邊挪
+frame_on_wall(pl, xw, 2.2, PZ, 0.5, 0.73, 'anatomy')
+frame_on_wall(pl, xw, 1.43, PZ, 0.5, 0.35, 'photo_street')
+for (fz_, cell_n) in ((4.32, 'photo_rider'), (4.9, 'lineart')):   # v1b：再兩個小相框（直掛那台車上面、植物層板下面；牆角的樑底 3.18）
+    frame_on_wall(pl, xw, 2.36, fz_, 0.24, 0.3, cell_n)
 pl['wood'].rbox(XI0, XI0 + 0.26, 2.92, 2.95, 4.4, 5.2, r=0.004)
 for zz in (4.5, 5.1): ccyl(pl['vcm'], (XI0, 2.82, zz), (XI0 + 0.22, 2.92, zz), 0.006, '#2a2b2d', seg=4)
 pl.done()
@@ -788,6 +827,16 @@ for bi, y in enumerate(BOARDS):
         else:
             for j in range(2): LOCK[j % 2].place(fm((sx0 + 0.1, y + 0.11, z - 0.07 - j * 0.15), rot('Y', math.pi / 2)))
             z -= 0.32
+# v1b（LAWWW2：右牆層架擺滿）：最下面加一層板（0.12）：零件盒、安全帽；兩疊外胎在後面（TIREP 定義以後）
+w_.rbox(sx0 - 0.02, sx1, 0.1, 0.13, sz0, sz1, r=0.005)
+rr2 = random.Random(46); z = 2.32; N_LOW = 0
+while z > 0.3:
+    w2 = rr2.uniform(0.2, 0.3); h2 = rr2.uniform(0.2, 0.42)
+    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, rr2.choice(['kraft0', 'kraft1', 'kraft3', 'pack0', 'pack2', 'pack4', 'pack6']), front='-x'); z -= w2 + 0.03; N_LOW += 1
+z = 0.2
+while z > sz0 + 0.25:   # 最下層靠走道那一頭：再一排小零件盒（預算：安全帽太貴，用印刷圖集的盒子）
+    w2 = rr2.uniform(0.18, 0.26); h2 = rr2.uniform(0.15, 0.3)
+    g.box(sx0 + 0.18, 0.13 + h2 / 2, z - w2 / 2, 0.26, h2, w2, f'pack{rr2.randrange(8)}', front='-x'); z -= w2 + 0.03; N_LOW += 1
 for k, nm in enumerate(('note_lock', 'note_pump')): g.rect((sx0 - 0.023, BOARDS[k] - 0.005, sz0 + 1.3 + k * 2.4), (0, 0, 1), (0, 1, 0), 0.06, 0.028, sub(nm, 0, 0.3, 1, 0.75))   # 層板前緣的手寫紙條
 frame_on_wall(psr, XI1 - 0.012, 2.95, 0.55, 0.42, 0.53, 'lineart', axis='x', sgn=-1)
 frame_on_wall(psr, XI1 - 0.012, 2.95, -0.35, 0.4, 0.5, 'photo_rider', axis='x', sgn=-1, fcol='#2a2a2a')
@@ -829,6 +878,34 @@ z = tz1 - 0.08; k = 0
 while z > tz0 + 0.05:
     TIREP[k % 2].place(fm((tr_['x'] + 0.02 * (k % 2), tr_['y'] + 0.02 - 0.29, z), rot('Y', 0.06 * (k % 3 - 1))))
     z -= 0.14; k += 1
+# v1b：右牆層架最下面兩疊外胎（同一組外胎原型，貼著牆立著、一疊三條）
+for zc in (3.85, 2.81):
+    for j in range(2):
+        tp = TIREP[j % 2]; Ro, tt = ((0.34, 0.02), (0.33, 0.028))[j % 2]
+        tp.place(fm((sx0 + 0.1 + j * 0.07, 0.13 + Ro - tt * (1 - math.cos(math.pi / 4)) + 0.0005, zc), rot('Y', math.pi / 2)))   # 外胎是四邊形斷面（最低的頂點在 R−0.29t）：貼著層板
+# v1b：右牆上面一整排掛著的內胎（每條一支掛釘；內胎＝一個原型 instancing）
+def tube_build(pt):
+    """掛著的內胎：橢圓的環（在 y-z 平面、頂點在原點、往下垂 2b），封閉的管子（不用補反面）"""
+    c = pt['vc']; n0 = _N0(c); a_, b_, r_, su, sv = 0.075, 0.31, 0.0095, 12, 3; rings = []
+    for i in range(su):
+        th = 2 * math.pi * i / su
+        cy, cz = -b_ * (1 - math.cos(th)), a_ * math.sin(th)
+        ty, tz_ = -b_ * math.sin(th), a_ * math.cos(th); ln = math.hypot(ty, tz_); ny, nz = -tz_ / ln, ty / ln   # 平面內、垂直於切線
+        if ny * (cy + b_) + nz * cz < 0: ny, nz = -ny, -nz   # 朝外
+        rings.append([c.bm.verts.new(g2b(r_ * math.sin(2 * math.pi * j / sv), cy + r_ * math.cos(2 * math.pi * j / sv) * ny, cz + r_ * math.cos(2 * math.pi * j / sv) * nz)) for j in range(sv)])
+    for i in range(su):
+        a, b = rings[i], rings[(i + 1) % su]
+        for j in range(sv): c.bm.faces.new((a[j], a[(j + 1) % sv], b[(j + 1) % sv], b[j]))
+    new = _new(c, n0); bmesh.ops.recalc_face_normals(c.bm, faces=new); c.paint(new, '#1f1e1d')
+TUBE = Proto('innertube', tube_build, side='right')
+ptb = Part('tube_pegs', side='right'); cm = ptb['vcm']; PEG_Y, PEG_R, TX = 3.1, 0.006, XI1 - 0.16   # 牆邊的樑底在 3.18（v1b 第一版 3.3 插進樑裡）
+crb(cm, XI1 - 0.012, XI1, PEG_Y - 0.03, PEG_Y + 0.03, 1.05, 3.95, '#2c3a30', r=0.003)   # 牆上的掛條
+N_TUBE = 0
+for k in range(16):
+    zt = 3.85 - k * 0.18
+    ccyl(cm, (XI1 - 0.012, PEG_Y, zt), (TX - 0.05, PEG_Y, zt), PEG_R, '#2a2b2d', seg=4)
+    TUBE.place(fm((TX, PEG_Y + PEG_R + 0.0095, zt), rot('X', 0.0))); N_TUBE += 1   # 內胎的頂端壓在掛釘上
+ptb.done()
 dc = IT['drawer_cab']; pdc = Part('drawer_cab', side='right'); c, g = pdc['vc'], pdc['goods']
 dx0, dz0, dz1 = XI1 - dc['w'], dc['z'] - dc['d'] / 2, dc['z'] + dc['d'] / 2
 crb(c, dx0, XI1, 0.0, dc['h'], dz0, dz1, '#4a5e4a', r=0.01)
@@ -871,17 +948,39 @@ def stand_build(pt):
     crb(c, -0.045, 0.045, 1.1, 1.2, -0.045, 0.045, BL, r=0.012)
     ccyl(c, (0, 1.16, 0), (0.25, 1.2, 0), 0.02, BL, seg=8)
     crb(c, 0.24, 0.32, 1.13, 1.27, -0.045, 0.045, '#1d1d1d', r=0.015)                                           # 夾頭
-    for s_ in (-1, 1): crb(c, 0.31, 0.36, 1.15, 1.25, s_ * 0.03 - 0.012, s_ * 0.03 + 0.012, '#2a2b2d', r=0.006)
-    ccyl(c, (0.28, 1.27, 0), (0.28, 1.36, 0), 0.006, '#c8202a', seg=5); csph(c, (0.28, 1.37, 0), 0.016, '#c8202a', seg=6, rings=3)
+    # v1b：夾口改成左右兩片（往 ±x 夾；中間 x 0.329～0.361 夾座管，CLAMP）＋上下兩條連接（z ±0.04～0.05，座管從中間穿過）
+    for (xa_, xb_) in ((0.316, 0.329), (0.361, 0.374)): crb(c, xa_, xb_, 1.15, 1.25, -0.05, 0.05, '#2a2b2d', r=0.004)
+    for s_ in (-1, 1): crb(c, 0.316, 0.374, 1.17, 1.23, s_ * 0.045 - 0.006, s_ * 0.045 + 0.006, '#2a2b2d', r=0.003)
+    # 快拆把手（紅）：v1 在夾頭上面（會頂到夾著的車的坐墊），v1b 移到夾頭後面、轉軸下方
+    ccyl(c, (0.25, 1.15, 0), (0.17, 1.07, 0), 0.006, '#c8202a', seg=5); csph(c, (0.165, 1.065, 0), 0.016, '#c8202a', seg=6, rings=3)
     clathe(c, [(0.0, 0.0), (0.15, 0.0), (0.16, 0.025), (0.15, 0.03), (0.14, 0.012), (0.0, 0.012)], 0, 0.68, 0, BL, seg=14)   # 工具盤
     for k, col in enumerate(('#c8202a', '#e8e6e0', '#1d1d1d')): crb(c, -0.08 + k * 0.06, -0.05 + k * 0.06, 0.692, 0.71, -0.06, 0.06, col, r=0.004)
 
 
 STAND = Proto('stand', stand_build)
-for k, it in enumerate([i for i in ITL if i['kind'] == 'repair_stand']): STAND.place(fm((it['x'], 0, it['z']), rot('Y', (2.6, 3.4)[k])))
+STANDS = [i for i in ITL if i['kind'] == 'repair_stand']
+for k, it in enumerate(STANDS): STAND.place(fm((it['x'], 0, it['z']), rot('Y', it.get('yaw', (2.6, 3.4)[k]))))
+# v1b：AA_646「立式修車架上夾著一台車」（BB 11-04）：夾在 bike_repair 互動點旁那一支（layout repairBike.stand）；重用左展示台的淑女車網格（linked duplicate，不加材質、不帶車價卡）。
+# 獨立節點 REPAIR_BIKE、預設關（extras.defaultVisible=false）：遊戲載入時藏起來，AA_646 那一幕再打開（BB 定案）。
+RB = LAY['repairBike']; sti = STANDS[RB['stand']]; gr = BIKES[RB['model']]; sr_ = SPEC[RB['model']]
+CLX, CLY = 0.345, 1.2   # 夾口中心（修車架自己的座標：轉軸往 +x、夾口 x 0.329～0.361、y 1.15～1.25）
+stT = fm((sti['x'], 0, sti['z']), rot('Y', sti['yaw']))
+sd_ = (-0.292, 0.956); top_y = gr['st'][1] + sd_[1] * sr_['post']
+yb_ = gr['st'][1] + 0.055   # 夾在座管露出來那一段的下面（夾口下緣 0.005 以上是座管、不是車架）：坐墊離夾頭越遠越好
+pb_x = gr['st'][0] + sd_[0] * (yb_ - gr['st'][1]) / sd_[1]
+# 車的座標（x＝車頭、y＝上、z＝右手邊）→ 修車架的座標：車頭朝修車架的 −z、車的右手邊朝 +x（轉軸伸出去的方向）；車身平面和轉軸垂直
+Rb = Matrix(((0, 0, 1), (0, 1, 0), (-1, 0, 0)))
+tb = Vector((CLX, CLY, 0)) - Rb @ Vector((pb_x, yb_, 0))
+TB = stT @ fm(tuple(tb), Rb)
+rb_root = bpy.data.objects.new('REPAIR_BIKE', None); B.scene().collection.objects.link(rb_root); rb_root.parent = root
+rb_root['defaultVisible'] = False; rb_root['show'] = 'AA_646 劇情'; rb_root['note'] = '修車架上夾著的車：遊戲載入時 visible=false，劇情時再打開'
+RB_OBS = bike_clone(gr, 'repair_bike', TB, parent=rb_root)
+RB_INFO = dict(stand=[sti['x'], sti['z']], model=RB['model'], lift=round(CLY - yb_, 3), saddle_bottom=round(CLY + (top_y + 0.03 - 0.035) - yb_, 3), clamp_head_top=1.27,
+               wheel_bottom=round(CLY - yb_, 3))
 pg = IT['pegboard']; ppg = Part('pegboard', side='back'); g, w_ = ppg['goods'], ppg['wood']
 zw = ZI0 + 0.015
-for (x0_, x1_, u0, u1) in ((pg['x'] - pg['w'] / 2, pg['x'] + 0.15, 0.0, 0.64), (pg['x'] + 0.25, pg['x'] + pg['w'] / 2, 0.36, 1.0)):
+PEG_EXTRA = [(0.32, 0.72, 0.0, 0.26), (3.92, 4.3, 0.7, 0.96)]   # v1b（LAWWW2：工具牆補滿）：工作台左邊、工具車上面再各一片洞洞板（同一張貼圖的一段）
+for (x0_, x1_, u0, u1) in [(pg['x'] - pg['w'] / 2, pg['x'] + 0.15, 0.0, 0.64), (pg['x'] + 0.25, pg['x'] + pg['w'] / 2, 0.36, 1.0)] + PEG_EXTRA:
     w_.rbox(x0_ - 0.03, x1_ + 0.03, pg['y'] - pg['h'] / 2 - 0.03, pg['y'] + pg['h'] / 2 + 0.03, ZI0, zw, r=0.004)
     g.rect(((x0_ + x1_) / 2, pg['y'], zw + 0.001), (1, 0, 0), (0, 1, 0), (x1_ - x0_) / 2, pg['h'] / 2, sub('pegboard', u0, 0.0, u1, 1.0))
 w_.rbox(pg['x'] - pg['w'] / 2, pg['x'] + pg['w'] / 2, pg['y'] + pg['h'] / 2 + 0.12, pg['y'] + pg['h'] / 2 + 0.15, ZI0, ZI0 + 0.32, r=0.005)   # 上面一層板
@@ -915,11 +1014,27 @@ for sx_ in (-1, 1):
 ccyl(cm, (-tc['w'] / 2 - 0.04, tc['h'] - 0.1, -0.15), (-tc['w'] / 2 - 0.04, tc['h'] - 0.1, 0.15), 0.012, '#c9ccce', seg=6)
 for (a, b) in ((-0.15, -0.15), (0.15, 0.15)): ccyl(cm, (-tc['w'] / 2 - 0.04, tc['h'] - 0.1, a), (-tc['w'] / 2, tc['h'] - 0.1, b), 0.01, '#c9ccce', seg=5)
 crb(c, -tc['w'] / 2 + 0.05, tc['w'] / 2 - 0.05, tc['h'], tc['h'] + 0.02, -tc['d'] / 2 + 0.05, tc['d'] / 2 - 0.05, '#2a2b2d', r=0.005)
+# v1b：工具車上面：托盤、三罐噴罐（潤滑油、清潔劑）、一盒零件、一支扳手
+crb(cm, -0.3, 0.05, tc['h'] + 0.02, tc['h'] + 0.035, -0.2, 0.2, '#8d9196', r=0.004)
+for k, col in enumerate(('#2f6fb8', '#c8202a', '#e0a030')): clathe(c, [(0.0, 0.0), (0.03, 0.0), (0.03, 0.17), (0.02, 0.19), (0.008, 0.2), (0.0, 0.2)], -0.22 + k * 0.075, tc['h'] + 0.035, -0.08 + 0.05 * (k % 2), col, seg=10)
+g.box(0.17, tc['h'] + 0.02 + 0.06, 0.02, 0.22, 0.12, 0.3, 'pack2', front='+z')
+crb(cm, -0.08, 0.04, tc['h'] + 0.035, tc['h'] + 0.045, 0.08, 0.1, '#a9adb0', r=0.003)
 ptc.done()
 # 地上：一顆拆下來的輪子靠在工作台腳、紙箱
 LOOSE = wheel_proto(0.34, 0.016, '#b9bcbf', 36, None)
 LOOSE.place(fm((IT['loose_wheel']['x'] - 0.1, 0.35, IT['loose_wheel']['z']), rot('Y', math.pi / 2 + 0.12)))   # 拆下來的輪子靠在鐵架尾端
-fbI = IT['floor_boxes']; fb_ = Part('floor_boxes'); fb_['goods'].box(fbI['x'], 0.17, fbI['z'], 0.5, 0.34, 0.4, 'kraft2', front='-x'); fb_['goods'].box(fbI['x'] + 0.03, 0.47, fbI['z'] - 0.03, 0.42, 0.26, 0.36, 'kraft6', front='-x'); fb_.done()
+fbI = IT['floor_boxes']; fb_ = Part('floor_boxes'); fbx = fbI['x'] - 0.1   # v1b：往西 0.1（v1 的下面那箱插進右牆高層架的最下層板 x 4.35～4.45）
+G_ = fb_['goods']
+G_.box(fbx, 0.17, fbI['z'], 0.5, 0.34, 0.4, 'kraft2', front='-x'); G_.box(fbx + 0.03, 0.47, fbI['z'] - 0.03, 0.42, 0.26, 0.36, 'kraft6', front='-x')
+# v1b（LAWWW2：紙箱補滿）：上面再一箱、旁邊一疊兩箱、左後角（拆下來的輪子後面）一疊三箱
+BOXES_V1B = [(fbx + 0.02, 0.7, fbI['z'] - 0.02, 0.34, 0.2, 0.3, 'kraft4', '-x'),
+             (fbI['x'] - 0.12, 0.2, fbI['z'] - 0.46, 0.46, 0.4, 0.42, 'kraft1', '-x'), (fbI['x'] - 0.12, 0.5, fbI['z'] - 0.48, 0.36, 0.2, 0.32, 'pack5', '-x')]
+for (bx_, by_, bz_, bw_, bh_, bd_, nm_, fr_) in BOXES_V1B: G_.box(bx_, by_, bz_, bw_, bh_, bd_, nm_, front=fr_)
+CB = LAY['cornerBoxes']
+for (dx_, by_, dz_, bw_, bh_, bd_, nm_) in ((0.0, 0.2, 0.0, 0.52, 0.4, 0.44, 'kraft3'), (-0.02, 0.53, -0.02, 0.44, 0.26, 0.38, 'kraft0'), (0.0, 0.76, 0.02, 0.34, 0.2, 0.3, 'pack3')):
+    G_.box(CB['x'] + dx_, by_, CB['z'] + dz_, bw_, bh_, bd_, nm_, front='+z')
+N_BOX_V1B = len(BOXES_V1B) + 3
+fb_.done()
 
 # ======================================================================
 for ob in list(root.children):
@@ -948,7 +1063,10 @@ def fix_instanced_names(path):
 
 fix_instanced_names(OUT); info['bytes'] = os.path.getsize(OUT); info['out'] = os.path.relpath(OUT, REPO)
 drawn = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in root.children_recursive if ob.type == 'MESH')
-protos = {p.name: p.n for p in list(WHEELS.values()) + HEL + LOCK + PUMP + TIREP + [STAND, PEND, FIXP]}
+protos = {p.name: p.n for p in list(WHEELS.values()) + HEL + LOCK + PUMP + TIREP + [STAND, PEND, FIXP, TUBE]}
+rb_tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in rb_root.children_recursive if ob.type == 'MESH')
+info['v1b'] = {'repair_bike': dict(RB_INFO, node='REPAIR_BIKE', defaultVisible=False, tris=rb_tris), 'wall_vertical': VB_INFO,
+               'right_low_boxes': N_LOW, 'right_low_tires': 4, 'inner_tubes': N_TUBE, 'pegboard_panels_added': len(PEG_EXTRA), 'boxes_added': N_BOX_V1B}
 info.update({'shop': 'bike', 'layout': 2, 'drawn_tris': drawn, 'protos': protos,
              'materials': sorted({m.name for ob in root.children_recursive if ob.type == 'MESH' for m in ob.data.materials if m})})
 L.write_json(OUT[:-4] + '.json', info)
