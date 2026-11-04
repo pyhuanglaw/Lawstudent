@@ -379,8 +379,8 @@ cell('snaps', 960, 560, 384, 288, snaps)
 cell('pegboard', 0, 720, 1024, 512, pegboard)
 for i, nt in enumerate(('內胎 700C', '煞車皮', '外胎 26"', '鏈條', '二手零件', '', '坐墊', '燈')):
     cell(f'kraft{i}', 1024 + (i % 4) * 256, 848 + (i // 4) * 192, 256, 192, kraft(nt))
-PACKS = [('#ecebe6', '#2f6fb8', '內胎', 'tire'), ('#2f4f8a', '#f0d23a', '鏈條', 'chain'), ('#f0d23a', '#1d1d1d', '車燈', 'light'), ('#b8302c', '#f2efe6', '煞車皮', 'pad'),
-         ('#2f6a4a', '#e8e2d0', '外胎', 'tire'), ('#e8e2d0', '#b8302c', '踏板', 'pad'), ('#3a3a3a', '#d8c35a', '潤滑油', 'pad'), ('#1d4f7a', '#e8e2d0', '水壺架', 'pad')]
+PACKS = [('#ecebe6', '#3a3a3a', '內胎', 'tire'), ('#2a2b2d', '#c9b98e', '鏈條', 'chain'), ('#e8e2d0', '#2c4436', '車燈', 'light'), ('#3a3a3a', '#b8302c', '煞車皮', 'pad'),
+         ('#2c4436', '#e8e2d0', '外胎', 'tire'), ('#e8e2d0', '#6b4a30', '踏板', 'pad'), ('#2a2b2d', '#d8c35a', '潤滑油', 'pad'), ('#ecebe6', '#2f4f8a', '水壺架', 'pad')]   # 參考圖右牆的包裝大多是黑、白、灰
 for i, p in enumerate(PACKS): cell(f'pack{i}', (i % 8) * 192, 1232, 192, 192, pack(*p))
 for i, b in enumerate((('車鈴', '#2f6fb8', 'bell'), ('前燈', '#f0d23a', 'light'), ('後燈', '#c8202a', 'light'), ('U 型鎖', '#2a2a2a', 'lock'))):
     cell(f'blister{i}', 1536 + (i % 2) * 256, 1232 + (i // 2) * 320, 256, 320, blister(*b))
@@ -437,7 +437,7 @@ FW = 1024; T = FW // 2
 fa = np.zeros((FW, FW, 3), np.float32); rr = np.random.default_rng(8)
 for i in range(2):
     for j in range(2):
-        c = np.array(hx('#a8a198')[:3], np.float32) * rr.uniform(0.94, 1.05); fa[j * T:(j + 1) * T, i * T:(i + 1) * T] = c
+        c = np.array(hx('#958e85')[:3], np.float32) * rr.uniform(0.94, 1.05); fa[j * T:(j + 1) * T, i * T:(i + 1) * T] = c
 fa += noise(FW, FW, 24, 9)[..., None]; fa += noise(FW, FW, 3, 6)[..., None]
 spots = noise(FW, FW, 60, 1, np.random.default_rng(2)); fa *= (1 - 0.05 * np.clip(spots, 0, 1))[..., None]
 for k in (0, T):   # 磚縫（積灰）

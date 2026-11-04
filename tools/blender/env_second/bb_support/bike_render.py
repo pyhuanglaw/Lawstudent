@@ -44,10 +44,10 @@ def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
 
 WARM = (1.0, 0.78, 0.52); TUBE = (1.0, 0.92, 0.8)
 H = LAY['h']
-for (x, y, z) in [(-2.05, 2.72, 3.95), (2.6, 2.72, 3.95), (-1.35, 2.8, 1.05), (2.15, 2.8, 1.1), (1.95, 2.85, -1.85), (1.3, 2.9, -3.75), (2.7, 2.95, -4.5), (0.6, 2.95, -4.9)]:
+for (x, y, z) in LAY['lights']['pendants']:
     light('SPOT', g2b(x, y - 0.12, z), float(arg('--pend', '90')), WARM, aim=g2b(x, 0, z), size=0.05).data.spot_size = math.radians(110)
     light('POINT', g2b(x, y - 0.1, z), float(arg('--pend', '90')) * 0.15, WARM, size=0.05)
-for (x, z, ax) in [(-3.25, 4.4, 'z'), (-3.25, 1.6, 'z'), (3.25, 4.4, 'z'), (3.25, 1.6, 'z'), (1.6, -1.5, 'x'), (1.6, -4.3, 'x'), (-2.0, -0.4, 'x')]:
+for (x, z, ax) in LAY['lights']['tubes']:
     p = g2b(x, H - 0.1, z); light('AREA', p, float(arg('--tube', '45')), TUBE, aim=p + Vector((0, 0, -1)), sx=0.14 if ax == 'z' else 1.2, sy=1.2 if ax == 'z' else 0.14)
 p = g2b(1.0, 1.7, 6.3); light('AREA', p, float(arg('--door', '120')), (1.0, 0.95, 0.88), aim=g2b(0.6, 1.2, 2.0), sx=4.5, sy=2.4)   # 門外騎樓的光（在相機後面）
 p = g2b(0.6, H - 0.5, 0.5); light('AREA', p, float(arg('--fill', '60')), WARM, aim=p + Vector((0, 0, -1)), sx=6.0, sy=9.0)          # 天花板反射的補光
