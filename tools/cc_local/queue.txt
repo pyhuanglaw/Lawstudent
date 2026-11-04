@@ -93,9 +93,13 @@ WZ4_komichi_r2 | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | probe | docs/story_p
 V20_wzstreet | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url};CC_HEADLESS=0
 V20_reach_wz | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
 V20_touchwz | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
+# lane_east 改到 909c6391b（BB-C 14:39：溫州街 GLB de0baeec0 修 lampshade_flip；e2ff17c40 只改 tasks.json，遊戲同 909c；兩個都早於 2acb34afd 坐著的 NPC 會動）。
+#   V20_touchwz@322c 22:29 已開跑（console：solo 等 komichi 結束才開始）→ 照 CC_50 第 19 條不改那一行、另外加一行
+V20_reach_wz_r2 | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wenzhou;CC_HEADLESS=0
 # WZ_SLICE_SHOTS（BB-C 14:14）：溫州街東段 4 站 × 8 方向（每 45°）、14:00、藏路人；0e2ca42d4（減面前）和 322cd967（減面後）各一輪，兩輪逐像素差 CC 在雲端算、列差最大的 5 張
 V20_slice_0e2c | 0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
-V20_slice_322c | 322cd967db8188ae8c81fe3de473d0b5b7ad871c | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
+V20_slice_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | probe | docs/story_planning/test_tools/cc/cc_wz_slice_probe.py | index.html | 20 | CC_HEADLESS=0
+V20_touchwz_909c | 909c6391b24bba4fa66624effc8817dd6c8c0d27 | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url};SOLO=1;CC_HEADLESS=0
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
 PARK_glb_r3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 40 | CC_HEADLESS=0
 PARK_glb_groups2 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/story_planning/test_tools/cc/cc_park_glb_groups_probe.py | index.html | 25 | VIEWS=admin_arcade:-58.6,1.6,26.4,-20,2.4,26.4;soc_court:24,1.7,-71,0,3,-71;HIDE_BIKES=1;CC_HEADLESS=0
@@ -367,14 +371,14 @@ STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck
 STUCK_1104_fix  | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_main2 | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 # ===== P0 社交冒煙（BB 00:42；使用者「跟別人講話或者約會就卡住」）：先短的確認探針能跑，再芷若，再其他人 =====
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 30 | CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0
 SOC_main_zr | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0
-W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 120 | CASES=heroine_02;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0
+#格式壞掉（少了 ID 欄，runner 每輪 skip；帳號 A 的舊社交冒煙，要跑請重排）W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0
 SOC_main_romA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 300 | CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0
 SOC_main_frA | e1603907e | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py | index.html | 240 | CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;CC_HEADLESS=0
 PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
