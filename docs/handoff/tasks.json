@@ -42801,7 +42801,7 @@
    "status": "已整合待測試",
    "priority": "P2",
    "note": "AA_617（企劃線 3e4651ebf）；使用者排在 D99 三項之後",
-   "next": "木曜日 AA_618 第 1 節已合（b04191041，子代理 ab7fbd7cf）；缺台詞五項＋四個自定判斷已問 AA（11-04 00:5x）；念書路人 6～10 個 LAWWW 待排；BB 排 PC 真實流程；日常失速等場景",
+   "next": "木曜日 AA_618＋AA_645 已合（b04191041、897597845）；三個小問題問 AA（{名字}叫法、明軒週六那句、海報兩句）；念書路人 LAWWW 待排；BB 排 PC；日常失速等 LAWWW2 場景",
    "sha": "b04191041"
   },
   {
@@ -43741,7 +43741,8 @@
    "priority": "P0",
    "title": "使用者回報：和 NPC 聊天、約會常常卡住（存檔 day35 15:23 library_media；USER_WANTS X204）",
    "status": "進行中",
-   "next": "CC 在 PC 用線上 main 重現使用者存檔 → LAWWW 修；BB 建 social_smoke（每個可攻略對象、朋友：說話每個選項、約會、傳訊息約、偶遇一起坐、讀檔再試），加進 TESTING 第五節第 10 項（已加）"
+   "next": "第一步 74c1ffb37：說話走 GM.guardTalk（例外收段落、不重複開）；截圖判讀＝「紀錄」面板（前一天體育課），卡在芷若 talkNo 之後；等 CC STUCK_1104 在 de38333d1 重現（console、lastTalkError、busyDepth）→ 找真正停住的 await；CC_45 其他四點等結果",
+   "sha": "74c1ffb37"
   },
   {
    "first": {
