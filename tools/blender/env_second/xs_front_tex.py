@@ -44,6 +44,22 @@ QW = [
     # 從外面看到的店內＝走進去看到的店內（參考圖畫的店內和 AA 做的室內配置不一樣，以走得進去的那一個為準）
     ('@textures/src/offbeat_int_render.jpg', 'int', None, 1024, 300),    # 正面：眼睛 (0.35,1.55,11)、看 (0.35,1.55,0)、22.3 mm、藏 WALL_front；畫面＝本地 x −4.55～5.25、y 0.11～2.99
     ('@textures/src/offbeat_side_render.jpg', 'side', None, 704, 512),   # 側面：眼睛 (11.5,1.6,−1.75)、看 (0,1.6,−1.75)、52.7 mm、藏 WALL_right；畫面＝室內 z 0.3～−3.8（側窗）
+    # 溫州街第一批五間（WZ-FIVE-1104，使用者 11-04 04:4x，AA_654）：參考圖 ref_images/shops/wz_<店>_ext.webp（企劃線 41169746b）；店內的窗卡等室內 MODEL_READY 再用室內 GLB 拍
+    ('wz_lin_ext', 'sign', [(797, 262), (1398, 323), (1398, 425), (797, 387)], 1024, 176),          # 林家乾麵：深綠底金字招牌
+    ('wz_lin_ext', 'menu', [(1365, 535), (1452, 538), (1452, 668), (1365, 667)], 128, 200),          # 門邊的價目牌（乾麵 55…滷味 30）
+    ('wz_sunnyside_ext', 'sign', [(835, 285), (1545, 330), (1545, 410), (835, 375)], 1600, 176),    # SUNNY SIDE：米白飾帶上的深綠字
+    ('wz_sunnyside_ext', 'board', [(1100, 625), (1203, 628), (1203, 795), (1100, 795)], 160, 256),   # 門口黑板立牌（Brunch）
+    ('wz_komichi_ext', 'sign', [(905, 250), (1428, 235), (1428, 342), (905, 378)], 1024, 208),      # 小路：深色木招牌
+    ('wz_komichi_ext', 'noren', [(985, 400), (1258, 400), (1258, 537), (985, 540)], 512, 256),      # 門口的暖簾（小路）
+    ('wz_komichi_ext', 'door', [(1030, 540), (1228, 540), (1228, 815), (1030, 808)], 256, 352),     # 木格拉門
+    ('wz_komichi_ext', 'menu', [(1250, 600), (1395, 598), (1395, 840), (1250, 842)], 192, 320),     # 本日のおすすめ黑板
+    ('wz_ade_ext', 'sign', [(670, 236), (1558, 325), (1558, 397), (670, 365)], 1600, 156),          # 阿德影印輸出：白底藍字＋藍線
+    ('wz_ade_ext', 'price', [(1432, 478), (1540, 483), (1540, 615), (1432, 612)], 160, 192),        # 價目表
+    ('wz_ade_ext', 'cork', [(1323, 483), (1420, 487), (1420, 633), (1323, 632)], 160, 240),         # 軟木公告板
+    ('wz_ade_ext', 'decal', [(685, 465), (815, 465), (815, 612), (685, 612)], 160, 176),            # 玻璃上的服務項目貼紙
+    ('wz_230am_ext', 'sign', [(700, 255), (1545, 345), (1545, 440), (700, 397)], 1600, 160),        # 2:30 AM：深綠飾帶
+    ('wz_230am_ext', 'door', [(1005, 415), (1140, 425), (1140, 770), (1005, 775)], 192, 448),       # 木門（玻璃格）
+    ('@textures/src/wz_cards/wz230am_board.jpg', 'board', None, 192, 216),                       # 營業時間立牌：參考圖寫 21:00–02:30，使用者 11-04 定 11:00～02:30（AA_654 §6），時間那一行重寫
 ]
 
 # 公館四間新店（gg_fronts_atlas；使用者 11-04 01:0x，AA_647）：青木茶室（tea）、頁間書屋（book）、日和便利店（cvs）、慢輪單車（bike）。
@@ -153,5 +169,5 @@ def build(QQ, atlas_name, alias=lambda n: n):
 
 
 build(Q, 'xs_fronts_atlas', lambda n: n.replace('_ext', '').replace('xinsheng_sports', 'xsports'))
-build(QW, 'wz_fronts_atlas', lambda n: 'offbeat' if n.startswith('@') else n.replace('_ref_v2', ''))
+build(QW, 'wz_fronts_atlas', lambda n: os.path.basename(n).split('_')[0] if n.startswith('@') else n.replace('_ref_v2', '').replace('_ext', ''))   # key：offbeat_int、wz_lin_sign、wz230am_board…
 build(QG, 'gg_fronts_atlas', lambda n: os.path.basename(n).split('_')[0] if n.startswith('@') else n.replace('gongguan_', 'gg').replace('_ext', '').replace('_int', '').replace('yangyang', 'yy').replace('daybreak', 'db'))   # key：ggtea_sign、ggbook_int2…
