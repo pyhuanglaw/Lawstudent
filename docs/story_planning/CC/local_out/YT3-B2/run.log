@@ -1,0 +1,35 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3-B2\out
+cc_yutong_v3_probe  SHA=d2b962a3f  URL=http://127.0.0.1:8813/index.html  CASES=ev5
+PASS 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  1576 字
+PASS 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  4925 字
+PASS 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  7950 字
+PASS 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  2296 字
+PASS 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  2881 字
+
+==== ev5：5 圖書館三樓（AA_643 第 9-1 節） ====
+PASS [ev5] 遊戲載入
+  [前置／捷徑] [ev5] 最小存檔讀檔：2026-05-02（星期六，Y1S2 第 10 週）17.58 library；遊戲 API 設前置：{"stage": "FAMILIAR", "rel": {"fam": 30, "trust": 10, "aff": 0, "resp": 0, "comf": 0, "rom": 0, "npcRom": 0, "seen": 1, "talked": 1}, "knows": true, "dating": false, "jobs": null, "groups": []}
+  [前置／捷徑] [ev5] GAME.snapshot() 再讀一次（條件事件照開、只關手機自動打開）
+  [  48.9s] 她在：{"x": 3.22, "z": -10.88, "lv": 0}
+  [  55.3s] 到達「走到語彤旁邊」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，6 秒
+  [  55.4s] 點「和陳語彤說話」
+  [  63.7s] 讀書區第一次：（她抬頭看到你，點了一下頭。） → 點掉，再跟她說一次
+  [  65.6s] 點「和陳語彤說話」
+  [  85.4s] 選項 ["「要不要我幫妳看民總？」", "「妳不會掉的。」", "「（坐到她對面，打開自己的書。）」"] → 點「「要不要我幫妳看民總？」」
+  [ev5] 事件：["ev_yutong_thanks"]
+  [ev5] 台詞：[["旁白", "（她抬頭看到你，點了一下頭。）"], ["旁白", "（總圖三樓靠窗。語彤桌上攤著兩本書，一本社會學，一本民法總則。茶屋的圍裙還塞在包包旁邊。）"], ["語彤", "……下班才來的。三樓比較安靜。"], ["語彤", "我跟我媽說，成績不會掉。掉了我就不做。"], ["語彤", "所以我要念。"], ["語彤", "好。……意思表示那一章，我看了三遍。"], ["語彤", "那天你沒有問我媽的事。……謝謝。"]]
+  [ev5] 立繪框：{"ev5_語彤_land": [{"id": "advL", "show": false, "dim": false, "off": true, "img": null}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8813/assets/portraits/heroine_03/campus/neutral.webp"}], "ev5_語彤_port": [{"id": "advL", "show": false, "dim": false, "off": true, "img": null}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8813/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [ev5] 演完（!!(((GAME.G.events||{}).done||{}).ev_yutong_thanks)）
+PASS [ev5] 稿逐句「旁白：（總圖三樓靠窗。語彤桌上攤著兩本書，一本社會學，一本民法總則。茶屋的圍裙還塞在包」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:47）
+PASS [ev5] 稿逐句「語彤：……下班才來的。三樓比較安靜。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:49）
+PASS [ev5] 稿逐句「語彤：我跟我媽說，成績不會掉。掉了我就不做。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:51）
+PASS [ev5] 稿逐句「語彤：所以我要念。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:53）
+PASS [ev5] 稿逐句「語彤：好。……意思表示那一章，我看了三遍。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:55）
+PASS [ev5] 稿逐句「語彤：那天你沒有問我媽的事。……謝謝。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:59）
+PASS [ev5] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+PASS [ev5] 沒有 JS 例外  []
+
+==== 摘要 ====
+PASS ev5 5 圖書館三樓（AA_643 第 9-1 節）
+SHA d2b962a3f
+ALL PASS
