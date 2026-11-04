@@ -1,0 +1,497 @@
+#!/usr/bin/env node
+/* T1 隨機玩家快轉（BB_257 TEST-METHODS-1104，CC-C 寫）——在 Node 跑整個遊戲邏輯，不用瀏覽器、不畫 3D。
+ *
+ * 用法：
+ *   node random_play_sim.js --seeds 20 --from 2025-08-29 --to 2026-06-30      （20 個種子，每個種子一個子程序，同時跑 --jobs 個）
+ *   node random_play_sim.js --seed 7                                         （只跑一個種子，印出完整的失敗內容；同一個種子＝同一串操作、同一個失敗）
+ *   其他參數：--root <遊戲 checkout>（預設：這支腳本往上四層＝repo 根目錄）、--max-steps N（步數上限，預設 6,000,000 格）、
+ *            --track law|econ（法律系大一／經濟系那一年）、--jobs N、--json <結果檔>、--hang-ms N（子程序多久沒有心跳算卡死，預設 120000）、-v（印遊戲的 console）
+ *
+ * 做法（和 tests/pg_harness.js 不一樣的地方）：
+ *   - 照 index.html 的順序載入 src/ 全部的 script（含 game3d.js——真正的 GM：say、choose、enter、quickGo、seatMenu、手機、autosave、applySave、validate、migrate 都是遊戲原本的），
+ *     不載 lib/ 的 three.js：THREE 換成「什麼都接受」的假物件（向量 Vector3 是真的算），區域的 build() 照樣跑，門口、座位、床、櫃台這些互動點都是遊戲自己建出來的。
+ *   - 假的東西只有三層：①網頁（DOM：照 index.html 建元素，innerHTML 會解析成元素，手機的按鈕 onclick 是遊戲自己掛的）②3D 引擎 E（E3.init 換成假的：走路＝直線走過去、
+ *     不畫圖）③ CHAR.build（人物模型＝只有位置、方向的空物件）。另外 ASSETS 下載、音效（A3）不做事。
+ *   - 時間：setTimeout／setInterval／requestAnimationFrame／Date.now／performance.now 全部換成虛擬時鐘（每一格 100 ms＝遊戲主迴圈 dt 的上限 0.1 秒），
+ *     主迴圈就是 game3d.js 的 frame()（每 30 格 STORY.tick(GM,dt*30)、EVENTS.tick(dt*30)），對話要「點一下」才往下（GM.dlgAdvance），選單照種子隨機按一個按鈕。
+ *   - 隨機：Math.random 換成 mulberry32(種子)，玩家的每一個決定也用同一顆。同一個種子、同一個 --root＝完全一樣的一串操作。
+ *   - 玩家能做的事（都是按遊戲本來的按鈕或互動鍵）：走到某個互動點按互動（門＝換區域、座位＝上課／讀書、床＝睡覺／熬夜、櫃台、和人說話）、打開手機按按鈕
+ *     （直接去上課、跳過時間、約人、回訊息、傳訊息、快速前往、答應／改天）、一鍵（回去睡覺、到下一堂課）、等一下（時間照主迴圈走）、讀自動存檔。
+ * 每一格檢查：①沒有例外（含 unhandled rejection、遊戲自己 catch 起來 console.warn 的 Error）②選單不是空的 ③遊戲時間只往前（讀檔、開局除外）
+ *   ④只演一次的事件（STORY_EVENTS 的 once、max_times）沒有重演 ⑤隨機時間點 GM.snapshot→validate→migrate 要和現在的 G 一樣，再用 applySave 讀回來，日期時間地點金錢不變
+ *   ⑥錢是有限的數字、關係值（social3d.js 的 fam／trust／aff／resp／comf／rom／npcRom）在 0～100 ⑦步數上限 ⑧卡住：劇情鎖著、畫面上沒有對話或選項超過 30 秒（同 game3d.js staleCheck）
+ * 結果分類照 BB_256：GAME_BUG（遊戲程式錯）／TEST_BUG（假物件少了東西）／UNKNOWN。自動分類只是初判，KNOWN 表是看過以後確定的。
+ */
+'use strict';
+const fs=require('fs'), path=require('path'), vm=require('vm'), cp=require('child_process'), os=require('os');
+const RealDate=Date, realSetImmediate=setImmediate, realSetTimeout=setTimeout;
+const realMs=()=>Number(process.hrtime.bigint()/1000000n);
+const RC={log:console.log.bind(console),warn:console.warn.bind(console),error:console.error.bind(console)};
+const SELF=__filename;
+
+/* ====================== 參數 ====================== */
+function parseArgs(argv){
+  const o={seeds:20,seed:null,from:null,to:null,root:path.resolve(__dirname,'../../../..'),maxSteps:6000000,track:'law',jobs:Math.max(1,Math.min(4,os.cpus().length)),child:false,verbose:false,json:null,hangMs:120000,out:null};
+  for(let i=0;i<argv.length;i++){ const a=argv[i], nx=()=>argv[++i];
+    if(a==='--seeds') o.seeds=+nx(); else if(a==='--seed') o.seed=+nx(); else if(a==='--from') o.from=nx(); else if(a==='--to') o.to=nx();
+    else if(a==='--root') o.root=path.resolve(nx()); else if(a==='--max-steps') o.maxSteps=+nx(); else if(a==='--track') o.track=nx(); else if(a==='--jobs') o.jobs=+nx();
+    else if(a==='--child') o.child=true; else if(a==='-v'||a==='--verbose') o.verbose=true; else if(a==='--json') o.json=nx(); else if(a==='--hang-ms') o.hangMs=+nx(); else if(a==='--out') o.out=nx();
+    else if(a==='-h'||a==='--help') o.help=true; else throw new Error('不認得的參數：'+a); }
+  const TR={law:{from:'2025-08-29',to:'2026-06-30'},econ:{from:'2024-08-23',to:'2025-08-28'}};
+  if(!TR[o.track]) throw new Error('--track 只有 law、econ');
+  o.from=o.from||TR[o.track].from; o.to=o.to||TR[o.track].to; return o; }
+
+/* ====================== 分類表（看過、確定的）====================== */
+/* re 比對「訊息＋stack」；cls 是確定的分類，why 是原因。自動判斷（classify）之前先看這張表。 */
+const KNOWN=[
+];
+
+/* ====================== 父程序：分派種子、收結果 ====================== */
+async function parent(o){
+  const seeds=o.seed!=null?[o.seed]:Array.from({length:o.seeds},(_,i)=>i+1);
+  const outDir=o.out||path.join(os.tmpdir(),'rps_'+process.pid); fs.mkdirSync(outDir,{recursive:true});
+  RC.log('隨機玩家快轉：root='+o.root+'　track='+o.track+'　'+o.from+' → '+o.to+'　種子 '+seeds.join(',')+'　同時 '+o.jobs+' 個');
+  try{ RC.log('遊戲版本：'+cp.execSync('git -C '+JSON.stringify(o.root)+' log --oneline -1',{encoding:'utf8'}).trim()); }catch(e){}
+  const t0=realMs(); const results=[]; let next=0;
+  const runOne=seed=>new Promise(res=>{ const args=[SELF,'--child','--seed',String(seed),'--root',o.root,'--from',o.from,'--to',o.to,'--track',o.track,'--max-steps',String(o.maxSteps),'--out',outDir];
+    const ch=cp.spawn(process.execPath,['--max-old-space-size=3072',...args],{stdio:['ignore','pipe','pipe']}); const ts=realMs(); let buf='', lastHb=realMs(), result=null, hb=null, errTail='';
+    ch.stdout.on('data',d=>{ buf+=d; let k; while((k=buf.indexOf('\n'))>=0){ const line=buf.slice(0,k); buf=buf.slice(k+1); lastHb=realMs();
+      if(line.startsWith('@@RESULT ')){ try{ result=JSON.parse(line.slice(9)); }catch(e){ errTail+='結果解析失敗 '; } } else if(line.startsWith('@@HB ')){ try{ hb=JSON.parse(line.slice(5)); }catch(e){} } } });
+    ch.stderr.on('data',d=>{ errTail=(errTail+d).slice(-3000); lastHb=realMs(); });
+    const wd=setInterval(()=>{ if(realMs()-lastHb>o.hangMs){ clearInterval(wd); ch.kill('SIGKILL'); } },2000);
+    ch.on('exit',(code,sig)=>{ clearInterval(wd); const ms=realMs()-ts;
+      if(!result){ let ring=null; try{ ring=JSON.parse(fs.readFileSync(path.join(outDir,'seed_'+seed+'.ring.json'),'utf8')); }catch(e){}
+        result={seed,ok:false,crashed:true,ms,code,sig,hb,fails:[{kind:sig?'HANG':'CRASH',cls:sig?'UNKNOWN':'UNKNOWN',why:sig?('子程序 '+o.hangMs+' ms 沒有任何輸出（同步的無窮迴圈或 Node 本身卡住），被砍掉'):('子程序結束碼 '+code),
+          msg:errTail.slice(-800),lastActions:ring&&ring.actions||[],G:ring&&ring.G||null,step:ring&&ring.step,frame:ring&&ring.frame}]}; }
+      result.ms=ms; res(result); }); });
+  const pool=Array.from({length:Math.min(o.jobs,seeds.length)},async()=>{ while(next<seeds.length){ const s=seeds[next++]; const r=await runOne(s); results.push(r); RC.log(fmtLine(r)); } });
+  await Promise.all(pool); results.sort((a,b)=>a.seed-b.seed);
+  const tot=realMs()-t0; RC.log('\n================ 總結 ================');
+  for(const r of results) RC.log(fmtLine(r));
+  const pass=results.filter(r=>r.ok).length; RC.log('PASS '+pass+'／'+results.length+'　總時間 '+(tot/1000).toFixed(1)+' 秒（每個種子平均 '+(results.reduce((a,r)=>a+r.ms,0)/results.length/1000).toFixed(1)+' 秒）');
+  for(const r of results) if(!r.ok||r.fails.length){ RC.log('\n---------- 種子 '+r.seed+' ----------'); for(const f of r.fails) RC.log(fmtFail(f,r,o)); }
+  const warnAgg={}; for(const r of results) for(const w of (r.notes||[])){ const k=w.k; warnAgg[k]=warnAgg[k]||{k,n:0,seeds:[],ex:w.ex}; warnAgg[k].n+=w.n; warnAgg[k].seeds.push(r.seed); }
+  if(Object.keys(warnAgg).length){ RC.log('\n---------- 注意（不算 FAIL：遊戲自己有保底或只是提示）----------'); for(const w of Object.values(warnAgg).sort((a,b)=>b.n-a.n)) RC.log('  '+w.n+' 次（種子 '+w.seeds.join(',')+'）'+w.k+(w.ex?'　例：'+w.ex:'')); }
+  if(o.json) fs.writeFileSync(o.json,JSON.stringify({root:o.root,track:o.track,from:o.from,to:o.to,ms:tot,results},null,1));
+  process.exit(results.every(r=>r.ok)?0:1); }
+function fmtLine(r){ const f=r.fails||[]; const cls=[...new Set(f.map(x=>x.cls))].join('/');
+  return '種子 '+String(r.seed).padStart(3)+'  '+(r.ok?'PASS':'FAIL')+'  '+(r.ms/1000).toFixed(1).padStart(6)+' 秒  到 '+(r.reached||'?')+'  步數 '+(r.steps||0)+'  格數 '+(r.frames||0)+(f.length?'  失敗 '+f.length+' 種（'+cls+'）':''); }
+function fmtFail(f,r,o){ const L=[];
+  L.push('【'+f.cls+'】'+f.kind+(f.count>1?'（同樣的 '+f.count+' 次）':'')+'　第 '+f.step+' 步、第 '+f.frame+' 格');
+  if(f.why) L.push('  為什麼：'+f.why); if(f.msg) L.push('  內容：'+String(f.msg).split('\n').slice(0,8).join('\n         '));
+  if(f.G) L.push('  G：'+JSON.stringify(f.G));
+  if(f.lastActions&&f.lastActions.length){ L.push('  最後 '+f.lastActions.length+' 個動作：'); for(const a of f.lastActions) L.push('    '+a); }
+  L.push('  重現：node '+path.relative(process.cwd(),SELF)+' --seed '+r.seed+' --root '+o.root+' --from '+o.from+' --to '+o.to+(o.track!=='law'?' --track '+o.track:''));
+  return L.join('\n'); }
+
+/* ====================== 子程序：跑一個種子 ====================== */
+async function child(o){
+  const R={seed:o.seed,ok:true,fails:[],sig:new Map(),notes:new Map(),actions:[],step:0,frame:0,reached:null,steps:0,frames:0,phase:'boot'};
+  const t0=realMs();
+  /* ---------- 種子、虛擬時鐘 ---------- */
+  const mulberry32=a=>()=>{ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
+  const rngGame=mulberry32(o.seed*2654435761>>>0), rngPlay=mulberry32((o.seed*40503+12345)>>>0);
+  Math.random=()=>rngGame();
+  const rnd=()=>rngPlay(), ri=(a,b)=>a+Math.floor(rnd()*(b-a+1)), pick=a=>a[Math.floor(rnd()*a.length)];
+  const wpick=list=>{ const tot=list.reduce((s,x)=>s+x[0],0); if(tot<=0) return null; let r=rnd()*tot; for(const x of list){ r-=x[0]; if(r<=0) return x[1]; } return list[list.length-1][1]; };
+  const EPOCH=RealDate.UTC(2026,10,4,12,0,0);
+  const VC={now:0,seq:0,timers:new Map(),heap:[]};
+  const hLess=(a,b)=>a.at<b.at||(a.at===b.at&&a.id<b.id);
+  const hPush=t=>{ const H=VC.heap; H.push(t); let i=H.length-1; while(i>0){ const p=(i-1)>>1; if(hLess(H[i],H[p])){ [H[i],H[p]]=[H[p],H[i]]; i=p; } else break; } };
+  const hPop=()=>{ const H=VC.heap; const top=H[0]; const last=H.pop(); if(H.length){ H[0]=last; let i=0; for(;;){ const l=2*i+1, r=l+1; let m=i; if(l<H.length&&hLess(H[l],H[m])) m=l; if(r<H.length&&hLess(H[r],H[m])) m=r; if(m===i) break; [H[i],H[m]]=[H[m],H[i]]; i=m; } } return top; };
+  const vSetTimeout=(fn,ms,...args)=>{ const id=++VC.seq; const t={id,at:VC.now+Math.max(0,+ms||0),fn,args,iv:0}; VC.timers.set(id,t); hPush(t); return id; };
+  const vSetInterval=(fn,ms,...args)=>{ const id=++VC.seq; const iv=Math.max(1,+ms||0); const t={id,at:VC.now+iv,fn,args,iv}; VC.timers.set(id,t); hPush(t); return id; };
+  const vClear=id=>{ VC.timers.delete(id); };
+  const flush=()=>new Promise(r=>realSetImmediate(r));
+  async function vAdvance(ms){ const end=VC.now+ms; for(;;){ const H=VC.heap; while(H.length&&!VC.timers.has(H[0].id)) hPop(); const t=H[0]; if(!t||t.at>end) break; hPop();
+      if(VC.timers.get(t.id)!==t) continue; VC.now=Math.max(VC.now,t.at); if(t.iv){ t.at=VC.now+t.iv; hPush(t); } else VC.timers.delete(t.id);
+      try{ if(typeof t.fn==='function') t.fn(...t.args); }catch(e){ onExc(e,'計時器（setTimeout）裡丟出'); } await flush(); }
+    VC.now=end; }
+  class VDate extends RealDate{ constructor(...a){ if(!a.length) super(EPOCH+VC.now); else super(...a); } static now(){ return EPOCH+VC.now; } }
+  VDate.UTC=RealDate.UTC; VDate.parse=RealDate.parse;
+  let rafQ=[]; const raf=cb=>{ rafQ.push(cb); return rafQ.length; };
+  Object.assign(globalThis,{setTimeout:vSetTimeout,setInterval:vSetInterval,clearTimeout:vClear,clearInterval:vClear,Date:VDate,requestAnimationFrame:raf,cancelAnimationFrame:()=>{}});
+  Object.defineProperty(globalThis,'performance',{value:{now:()=>VC.now,mark(){},measure(){},getEntriesByName:()=>[],timeOrigin:EPOCH,memory:{usedJSHeapSize:0}},configurable:true,writable:true});
+
+  /* ---------- 紀錄：失敗、注意、動作 ---------- */
+  let G=null, GM=null, E=null;   // 遊戲的 G（每格從 GM.G 拿）
+  const dayKey=d=>{ try{ return CALENDAR.dateOf(d).key; }catch(e){ return 'day'+d; } };
+  const gSum=()=>{ const g=GM&&GM.G; if(!g) return null; const F=g.flags||{}; const iv=(g.invites||[]).filter(v=>['offered','accepted','going','changed'].includes(v.state)).map(v=>v.id+':'+v.who+'@'+v.place+':'+v.state);
+    return {day:g.day,date:dayKey(g.day),hour:+(+g.hour).toFixed(3),zone:g.zone,stage:g.stage,money:g.money,energy:g.energy,weekday:g.weekday,busy:!!(E&&E.player&&E.player.busy),depth:GM.D&&GM.D.busyDepth,busyWho:GM.D&&GM.D.busyWho&&GM.D.busyWho.slice(0,3),
+      evRunning:typeof EVENTS!=='undefined'?EVENTS.running||null:null,companion:F.companion||null,dating_kexin:F.dating_kexin,invites:iv.slice(0,4),evDone:g.events&&g.events.count}; };
+  const act=t=>{ const g=GM&&GM.G; const s='#'+R.step+' f'+R.frame+' '+(g?dayKey(g.day)+' '+fmtH(g.hour)+' '+g.zone:'')+'｜'+t; R.actions.push(s); if(R.actions.length>20) R.actions.shift(); if(o.verbose) RC.log(s); };
+  const fmtH=h=>{ h=+h||0; const m=Math.round(h*60); return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
+  function fail(kind,cls,why,msg,extra){ const sig=kind+'|'+String(msg).split('\n')[0].slice(0,200); if(R.sig.has(sig)){ R.sig.get(sig).count++; return R.sig.get(sig); }
+    const f={kind,cls,why,msg:String(msg).slice(0,4000),step:R.step,frame:R.frame,G:gSum(),lastActions:R.actions.slice(),extra:extra||null,count:1};
+    R.fails.push(f); R.sig.set(sig,f); R.ok=false; if(o.verbose||o.single) RC.log('\n!!! FAIL '+kind+'（'+cls+'）'+String(msg).split('\n')[0].slice(0,300)); return f; }
+  function note(k,ex){ const n=R.notes.get(k)||{k,n:0,ex:null}; n.n++; if(!n.ex&&ex) n.ex=String(ex).slice(0,240)+(GM&&GM.G?'（'+dayKey(GM.G.day)+' '+fmtH(GM.G.hour)+' '+GM.G.zone+'）':''); R.notes.set(k,n); }
+  /* 例外的初判（KNOWN 表優先）*/
+  const missing=new Map();   // 假引擎 E 被讀了、但沒有的屬性（TEST_BUG 的線索）
+  function classify(err,where){ const msg=String(err&&err.message||err), st=String(err&&err.stack||''); const both=msg+'\n'+st;
+    for(const k of KNOWN) if(k.re.test(both)) return {cls:k.cls,why:k.why};
+    const frames=st.split('\n').slice(1).map(s=>s.trim()).filter(Boolean); const top=frames[0]||'';
+    if(/random_play_sim\.js/.test(top)) return {cls:'TEST_BUG',why:'例外丟在假物件（random_play_sim.js）裡：'+top};
+    const mm=msg.match(/(?:\b(\w+) is not a function|reading '(\w+)'|setting '(\w+)')/); const key=mm&&(mm[1]||mm[2]||mm[3]);
+    if(key&&missing.has(key)) return {cls:'TEST_BUG',why:'假引擎 E 沒有 '+key+'（遊戲讀了 E.'+key+'）'};
+    const src=frames.find(f=>/src\//.test(f));
+    if(src) return {cls:'UNKNOWN',why:'例外在遊戲程式（'+src.replace(/^at /,'')+'），'+where+'；還沒確認是不是假物件不夠真'};
+    return {cls:'UNKNOWN',why:where+'；stack 裡沒有 src/ 的檔案'}; }
+  function onExc(e,where){ const c=classify(e,where); fail('EXCEPTION',c.cls,c.why,(e&&e.stack)||String(e)); }
+  process.on('unhandledRejection',e=>onExc(e,'unhandled rejection（沒有人接的 Promise 錯誤）'));
+  process.on('uncaughtException',e=>onExc(e,'uncaught exception'));
+  /* 遊戲的 console：Error 物件＝遊戲 catch 起來的例外（照樣算 FAIL）；其他字串照類別記成「注意」 */
+  const NOISE=/正式模型載入失敗|assets failed|載入失敗，用|Failed to parse URL|NO_NET|shader|GLB|glb|貼圖|texture|模型/;
+  const NOTABLE=[[/一句話還沒點，另一段的話蓋上來/,'對話重疊：一句話還沒點，另一段的話蓋上來（game3d.js 會在演完後放回去）'],[/選單蓋在另一個還沒選的選單上/,'選單重疊：一個選單蓋在另一個還沒選的選單上'],
+    [/劇情鎖住沒有結束/,'game3d.js staleCheck：劇情鎖住沒有結束（BUG-BOWL-STUCK-1018 那一個保底）'],[/walkTo 卡住/,'walkTo 卡住 → 放到目的地（走路保底）'],[/說話結束時還有沒結束的段落/,'說話結束時還有沒結束的段落（BUG-TALK-STUCK-1104 的 warn）'],
+    [/星期和日期對不上/,'星期和日期對不上（syncWeekday 改回來）'],[/spawn was inside|spawn relocated|relocated spot/,'出生點落在擋住的格子（假引擎沒有導航網格，不算）']];
+  const conWrap=(lvl)=>(...a)=>{ if(o.verbose) RC[lvl==='log'?'log':'warn']('  [game '+lvl+']',...a.map(x=>x&&x.stack?x.stack.split('\n').slice(0,3).join(' | '):x));
+    if(lvl==='log') return; const err=a.find(x=>x instanceof Error||(x&&typeof x==='object'&&typeof x.stack==='string'&&typeof x.message==='string'));
+    const head=a.filter(x=>typeof x==='string').join(' ');
+    if(err){ if(NOISE.test(head+' '+err.message)) { note('3D／素材相關的例外（不算，假的 THREE）：'+head.slice(0,40),err.message); return; } onExc(err,'遊戲自己 catch 起來、console.'+lvl+'（'+head.slice(0,60)+'）'); return; }
+    if(NOISE.test(head)) return; for(const [re,k] of NOTABLE) if(re.test(head)){ note(k,head); return; } note('console.'+lvl+'：'+head.slice(0,50),head); };
+  console.log=conWrap('log'); console.warn=conWrap('warn'); console.error=conWrap('error'); console.info=conWrap('log'); console.debug=conWrap('log');
+
+  /* ---------- 假的網頁（DOM）：照 index.html 建，innerHTML 會解析 ---------- */
+  const VOID=new Set(['area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr']);
+  const dec=s=>String(s).replace(/&(amp|lt|gt|quot|#39|nbsp|#(\d+));/g,(m,k,n)=>n?String.fromCharCode(+n):({amp:'&',lt:'<',gt:'>',quot:'"','#39':"'",nbsp:' '})[k]);
+  const camel=s=>s.replace(/-([a-z])/g,(m,c)=>c.toUpperCase());
+  const idMap=new Map();
+  class ClassList{ constructor(el){ this.el=el; this.s=new Set(); } add(...c){ for(const x of c) this.s.add(x); } remove(...c){ for(const x of c) this.s.delete(x); } contains(c){ return this.s.has(c); }
+    toggle(c,f){ const on=f===undefined?!this.s.has(c):!!f; if(on) this.s.add(c); else this.s.delete(c); return on; } replace(a,b){ if(this.s.has(a)){ this.s.delete(a); this.s.add(b); } } get length(){ return this.s.size; } toString(){ return [...this.s].join(' '); } }
+  class Txt{ constructor(t){ this.nodeType=3; this.data=String(t); this.parentNode=null; } get textContent(){ return this.data; } }
+  class El{ constructor(tag){ this.tagName=String(tag).toUpperCase(); this.nodeName=this.tagName; this.nodeType=1; this.childNodes=[]; this.parentNode=null; this.attrs={}; this.dataset={}; this.style={setProperty(){},removeProperty(){},getPropertyValue:()=>''}; this.classList=new ClassList(this); this._id='';
+      this.listeners={}; this.scrollTop=0; this.scrollLeft=0; this.scrollHeight=0; this.clientHeight=0; this.clientWidth=0; this.offsetWidth=100; this.offsetHeight=30; this.value=''; this.checked=false; this.disabled=false; this.width=300; this.height=150; this.onclick=null; }
+    get id(){ return this._id; } set id(v){ this._id=String(v); if(v) idMap.set(String(v),this); }
+    get className(){ return this.classList.toString(); } set className(v){ this.classList.s=new Set(String(v).split(/\s+/).filter(Boolean)); }
+    get children(){ return this.childNodes.filter(n=>n.nodeType===1); } get firstElementChild(){ return this.children[0]||null; } get lastElementChild(){ const c=this.children; return c[c.length-1]||null; }
+    get firstChild(){ return this.childNodes[0]||null; } get lastChild(){ return this.childNodes[this.childNodes.length-1]||null; }
+    get nextElementSibling(){ const p=this.parentNode; if(!p) return null; const c=p.children; return c[c.indexOf(this)+1]||null; }
+    get textContent(){ return this.childNodes.map(n=>n.textContent).join(''); } set textContent(v){ for(const n of this.childNodes) n.parentNode=null; this.childNodes=v===''||v==null?[]:[new Txt(v)]; this.childNodes.forEach(n=>n.parentNode=this); }
+    get innerText(){ return this.textContent; } set innerText(v){ this.textContent=v; }
+    get innerHTML(){ return this._html!=null?this._html:this.textContent; } set innerHTML(v){ for(const n of this.childNodes) n.parentNode=null; this.childNodes=[]; this._html=String(v); parseHTML(String(v),this); }
+    set outerHTML(v){} get outerHTML(){ return this.innerHTML; }
+    appendChild(c){ if(c.parentNode&&c.parentNode.removeChild) c.parentNode.removeChild(c); c.parentNode=this; this.childNodes.push(c); return c; } append(...cs){ for(const c of cs) this.appendChild(typeof c==='string'?new Txt(c):c); } prepend(...cs){ for(const c of cs.reverse()){ const n=typeof c==='string'?new Txt(c):c; n.parentNode=this; this.childNodes.unshift(n); } }
+    insertBefore(c,ref){ if(c.parentNode&&c.parentNode.removeChild) c.parentNode.removeChild(c); const i=this.childNodes.indexOf(ref); c.parentNode=this; if(i<0) this.childNodes.push(c); else this.childNodes.splice(i,0,c); return c; }
+    removeChild(c){ const i=this.childNodes.indexOf(c); if(i>=0) this.childNodes.splice(i,1); c.parentNode=null; return c; } remove(){ if(this.parentNode) this.parentNode.removeChild(this); } replaceWith(n){ const p=this.parentNode; if(p){ p.insertBefore(n,this); p.removeChild(this); } }
+    replaceChildren(...cs){ this.childNodes=[]; this.append(...cs); }
+    setAttribute(k,v){ v=String(v); this.attrs[k]=v; if(k==='id') this.id=v; else if(k==='class') this.className=v; else if(k.startsWith('data-')) this.dataset[camel(k.slice(5))]=v; else if(k==='value') this.value=v; }
+    getAttribute(k){ if(k==='id') return this._id||null; if(k==='class') return this.className; return k in this.attrs?this.attrs[k]:null; } hasAttribute(k){ return k in this.attrs||(k==='id'&&!!this._id); } removeAttribute(k){ delete this.attrs[k]; if(k.startsWith('data-')) delete this.dataset[camel(k.slice(5))]; }
+    toggleAttribute(k,f){ const on=f===undefined?!(k in this.attrs):!!f; if(on) this.attrs[k]=''; else delete this.attrs[k]; return on; }
+    addEventListener(t,f){ (this.listeners[t]=this.listeners[t]||[]).push(f); } removeEventListener(t,f){ const L=this.listeners[t]; if(L){ const i=L.indexOf(f); if(i>=0) L.splice(i,1); } }
+    dispatchEvent(ev){ for(const f of (this.listeners[ev.type]||[]).slice()) f.call(this,ev); const h=this['on'+ev.type]; if(typeof h==='function') h.call(this,ev); return true; }
+    click(){ const ev=mkEv('click',this); const r=typeof this.onclick==='function'?this.onclick.call(this,ev):undefined; for(const f of (this.listeners.click||[]).slice()) f.call(this,ev); return r; }
+    focus(){} blur(){} select(){} scrollIntoView(){} scrollTo(){} animate(){ return {finished:Promise.resolve(),cancel(){},onfinish:null}; } requestFullscreen(){ return Promise.resolve(); }
+    getBoundingClientRect(){ return {left:0,top:0,right:100,bottom:30,width:100,height:30,x:0,y:0}; } getClientRects(){ return []; }
+    getContext(){ return CTX; } toDataURL(){ return 'data:,'; } toBlob(f){ f&&f(null); } setPointerCapture(){} releasePointerCapture(){}
+    contains(n){ for(let x=n;x;x=x.parentNode) if(x===this) return true; return false; }
+    closest(sel){ for(let x=this;x&&x.nodeType===1;x=x.parentNode) if(matches(x,sel)) return x; return null; } matches(sel){ return matches(this,sel); }
+    querySelectorAll(sel){ const out=[]; const walk=n=>{ for(const c of n.childNodes){ if(c.nodeType!==1) continue; if(matches(c,sel,this)) out.push(c); walk(c); } }; walk(this); return out; }
+    querySelector(sel){ return this.querySelectorAll(sel)[0]||null; } getElementsByTagName(t){ return this.querySelectorAll(t); } getElementsByClassName(c){ return this.querySelectorAll('.'+c); }
+    cloneNode(){ const e=new El(this.tagName); e.className=this.className; return e; } get isConnected(){ for(let x=this;x;x=x.parentNode) if(x===DOC) return true; return false; } }
+  const mkEv=(type,target)=>({type,target,currentTarget:target,preventDefault(){},stopPropagation(){},stopImmediatePropagation(){},clientX:0,clientY:0,touches:[],changedTouches:[],button:0,key:''});
+  let CANVAS0=null; const CTX=new Proxy({},{get:(t,k)=>{ if(k in t) return t[k]; if(k==='canvas') return CANVAS0; if(k==='measureText') return ()=>({width:10}); if(k==='getImageData'||k==='createImageData') return (x,y,w,h)=>({data:new Uint8ClampedArray(Math.max(4,(w|0)*(h|0)*4)),width:w|0,height:h|0}); if(k==='createLinearGradient'||k==='createRadialGradient'||k==='createPattern') return ()=>({addColorStop(){}}); return ()=>{}; },set:(t,k,v)=>{ t[k]=v; return true; }});
+  /* 選擇器：tag、#id、.class、[attr]、[attr="v"]、子孫（空白）、逗號 */
+  const selCache=new Map();
+  function parseSel(sel){ if(selCache.has(sel)) return selCache.get(sel); const groups=sel.split(',').map(g=>g.trim()).filter(Boolean).map(g=>g.split(/\s+/).map(part=>{ const c={tag:null,id:null,cls:[],attrs:[]}; const re=/([a-zA-Z][\w-]*)|#([\w-]+)|\.([\w-]+)|\[([\w-]+)(?:([*^$]?=)"?([^"\]]*)"?)?\]|(:[\w-]+(?:\([^)]*\))?)/g; let m; while((m=re.exec(part))){ if(m[1]) c.tag=m[1].toUpperCase(); else if(m[2]) c.id=m[2]; else if(m[3]) c.cls.push(m[3]); else if(m[4]) c.attrs.push([m[4],m[5]||null,m[6]]); } return c; })); selCache.set(sel,groups); return groups; }
+  function attrOf(el,k){ if(k==='id') return el._id||null; if(k==='class') return el.className; if(k.startsWith('data-')){ const v=el.dataset[camel(k.slice(5))]; return v===undefined?null:v; } return k in el.attrs?el.attrs[k]:null; }
+  function cmatch(el,c){ if(c.tag&&el.tagName!==c.tag) return false; if(c.id&&el._id!==c.id) return false; for(const k of c.cls) if(!el.classList.contains(k)) return false;
+    for(const [k,op,v] of c.attrs){ const a=attrOf(el,k); if(a==null) return false; if(op==='='&&a!==v) return false; if(op==='*='&&!a.includes(v)) return false; if(op==='^='&&!a.startsWith(v)) return false; if(op==='$='&&!a.endsWith(v)) return false; } return true; }
+  function matches(el,sel,root){ for(const chain of parseSel(sel)){ if(!cmatch(el,chain[chain.length-1])) continue; let i=chain.length-2, x=el.parentNode; while(i>=0&&x&&x!==root&&x.nodeType===1){ if(cmatch(x,chain[i])) i--; x=x.parentNode; } if(i<0) return true; } return false; }
+  function parseHTML(html,root){ const st=[root]; const re=/<!--[\s\S]*?-->|<\/([a-zA-Z][\w-]*)\s*>|<([a-zA-Z][\w-]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)|</g; let m;
+    while((m=re.exec(html))){ const cur=st[st.length-1];
+      if(m[1]){ const t=m[1].toUpperCase(); for(let i=st.length-1;i>0;i--) if(st[i].tagName===t){ st.length=i; break; } continue; }
+      if(m[2]){ const el=new El(m[2]); const ar=/([^\s=\/]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g; let a; const s=m[3]||''; while((a=ar.exec(s))){ if(a[1]==='/') continue; el.setAttribute(a[1],dec(a[2]!=null?a[2]:a[3]!=null?a[3]:a[4]!=null?a[4]:'')); }
+        if(el.attrs.checked!=null) el.checked=true; cur.appendChild(el); if(!VOID.has(m[2].toLowerCase())&&!/\/\s*$/.test(s)){ if(/^(script|style|textarea)$/i.test(m[2])){ const end=html.toLowerCase().indexOf('</'+m[2].toLowerCase(),re.lastIndex); if(end>=0){ el.childNodes=[new Txt(html.slice(re.lastIndex,end))]; re.lastIndex=end; } } st.push(el); } continue; }
+      if(m[4]!=null){ const t=new Txt(dec(m[4])); t.parentNode=cur; cur.childNodes.push(t); } } }
+  CANVAS0=new El('canvas'); CANVAS0.width=224; CANVAS0.height=160;
+  const DOC=new El('#document'); const HTML=new El('html'); DOC.appendChild(HTML); const HEAD=new El('head'), BODY=new El('body'); HTML.appendChild(HEAD); HTML.appendChild(BODY);
+  const idxHtml=fs.readFileSync(path.join(o.root,'index.html'),'utf8');
+  { const b=idxHtml.indexOf('<body'), e=idxHtml.lastIndexOf('</body>'); const inner=idxHtml.slice(idxHtml.indexOf('>',b)+1,e>0?e:undefined).replace(/<script[\s\S]*?<\/script>/gi,''); parseHTML(inner,BODY); }
+  const getById=id=>{ const el=idMap.get(String(id)); return el&&el.isConnected?el:null; };
+  const documentObj={nodeType:9,body:BODY,head:HEAD,documentElement:HTML,hidden:false,visibilityState:'visible',readyState:'complete',fonts:{ready:Promise.resolve(),load:()=>Promise.resolve()},
+    getElementById:getById,querySelector:s=>DOC.querySelector(s),querySelectorAll:s=>DOC.querySelectorAll(s),createElement:t=>new El(t),createElementNS:(ns,t)=>new El(t),createTextNode:t=>new Txt(t),createDocumentFragment:()=>new El('#fragment'),
+    addEventListener(t,f){ (DOC.listeners[t]=DOC.listeners[t]||[]).push(f); },removeEventListener(){},dispatchEvent(){ return true; },activeElement:null,elementFromPoint:()=>null,exitFullscreen:()=>Promise.resolve(),fullscreenElement:null,
+    get cookie(){ return ''; },set cookie(v){} };
+  const store=()=>{ const m=new Map(); return {getItem:k=>m.has(String(k))?m.get(String(k)):null,setItem:(k,v)=>{ m.set(String(k),String(v)); },removeItem:k=>{ m.delete(String(k)); },clear:()=>m.clear(),key:i=>[...m.keys()][i]||null,get length(){ return m.size; },_m:m}; };
+  const LS=store();
+  class FakeImage extends El{ constructor(){ super('img'); this.complete=false; this.naturalWidth=0; } set src(v){ this._src=v; vSetTimeout(()=>{ if(this.onerror) this.onerror(mkEv('error',this)); },0); } get src(){ return this._src||''; } decode(){ return Promise.reject(new Error('NO_NET')); } }
+  const defG=o=>{ for(const k of Object.keys(o)) Object.defineProperty(globalThis,k,{value:o[k],writable:true,configurable:true,enumerable:true}); };
+  defG({window:globalThis,self:globalThis,document:documentObj,navigator:{userAgent:'Mozilla/5.0 (node random_play_sim)',maxTouchPoints:0,vibrate(){ return false; },onLine:true,language:'zh-TW',hardwareConcurrency:4,deviceMemory:4,storage:{estimate:()=>Promise.resolve({usage:0,quota:1e9}),persist:()=>Promise.resolve(false)}},
+    location:{search:'',href:'http://localhost/index.html',hash:'',pathname:'/index.html',origin:'http://localhost',host:'localhost',protocol:'http:',reload(){} },history:{replaceState(){},pushState(){}},
+    localStorage:LS,sessionStorage:store(),innerWidth:844,innerHeight:390,devicePixelRatio:2,screen:{width:844,height:390,orientation:{type:'landscape-primary',angle:90,addEventListener(){}}},
+    addEventListener(){},removeEventListener(){},dispatchEvent(){ return true; },matchMedia:()=>({matches:false,addListener(){},removeListener(){},addEventListener(){},removeEventListener(){}}),getComputedStyle:()=>({getPropertyValue:()=>'',display:'block'}),
+    Image:FakeImage,HTMLElement:El,HTMLCanvasElement:El,Element:El,Node:El,Event:class{ constructor(t){ this.type=t; } },CustomEvent:class{ constructor(t,o){ this.type=t; this.detail=o&&o.detail; } },
+    ResizeObserver:class{ observe(){} unobserve(){} disconnect(){} },MutationObserver:class{ observe(){} disconnect(){} takeRecords(){ return []; } },IntersectionObserver:class{ observe(){} disconnect(){} },
+    fetch:()=>Promise.reject(new Error('NO_NET（random_play_sim 不下載素材）')),alert(){},confirm:()=>true,prompt:()=>null,open:()=>null,scrollTo(){},focus(){},
+    speechSynthesis:undefined,AudioContext:undefined,webkitAudioContext:undefined});
+  globalThis.P3=globalThis.P3||{CAST:{}};
+
+  /* ---------- 假的 THREE：什麼都接受（區域、模型的 build 照跑），向量是真的算 ---------- */
+  class Vector3{ constructor(x,y,z){ this.x=+x||0; this.y=+y||0; this.z=+z||0; this.isVector3=true; } set(x,y,z){ this.x=+x||0; this.y=+y||0; this.z=+z||0; return this; } setScalar(s){ this.x=this.y=this.z=s; return this; }
+    copy(v){ this.x=+v.x||0; this.y=+v.y||0; this.z=+v.z||0; return this; } clone(){ return new Vector3(this.x,this.y,this.z); } add(v){ this.x+=+v.x||0; this.y+=+v.y||0; this.z+=+v.z||0; return this; } sub(v){ this.x-=+v.x||0; this.y-=+v.y||0; this.z-=+v.z||0; return this; }
+    addVectors(a,b){ return this.set(a.x+b.x,a.y+b.y,a.z+b.z); } subVectors(a,b){ return this.set(a.x-b.x,a.y-b.y,a.z-b.z); } multiplyScalar(s){ this.x*=s; this.y*=s; this.z*=s; return this; } divideScalar(s){ return this.multiplyScalar(1/(s||1)); }
+    addScaledVector(v,s){ this.x+=v.x*s; this.y+=v.y*s; this.z+=v.z*s; return this; } length(){ return Math.hypot(this.x,this.y,this.z); } lengthSq(){ return this.x*this.x+this.y*this.y+this.z*this.z; }
+    normalize(){ const l=this.length()||1; return this.multiplyScalar(1/l); } negate(){ this.x=-this.x; this.y=-this.y; this.z=-this.z; return this; } distanceTo(v){ return Math.hypot(this.x-v.x,this.y-v.y,this.z-v.z); } distanceToSquared(v){ const d=this.distanceTo(v); return d*d; }
+    lerp(v,t){ this.x+=(v.x-this.x)*t; this.y+=(v.y-this.y)*t; this.z+=(v.z-this.z)*t; return this; } lerpVectors(a,b,t){ return this.copy(a).lerp(b,t); } dot(v){ return this.x*v.x+this.y*v.y+this.z*v.z; }
+    cross(v){ const x=this.y*v.z-this.z*v.y, y=this.z*v.x-this.x*v.z, z=this.x*v.y-this.y*v.x; return this.set(x,y,z); } crossVectors(a,b){ return this.copy(a).cross(b); } equals(v){ return v.x===this.x&&v.y===this.y&&v.z===this.z; }
+    applyAxisAngle(ax,a){ if(ax&&ax.y){ const c=Math.cos(a), s=Math.sin(a); const x=this.x*c+this.z*s, z=-this.x*s+this.z*c; this.x=x; this.z=z; } return this; } applyMatrix4(){ return this; } applyQuaternion(){ return this; } applyEuler(){ return this; } project(){ return this; } unproject(){ return this; }
+    setFromMatrixPosition(){ return this; } toArray(){ return [this.x,this.y,this.z]; } fromArray(a,o){ o=o||0; return this.set(a[o],a[o+1],a[o+2]); } min(v){ this.x=Math.min(this.x,v.x); this.y=Math.min(this.y,v.y); this.z=Math.min(this.z,v.z); return this; } max(v){ this.x=Math.max(this.x,v.x); this.y=Math.max(this.y,v.y); this.z=Math.max(this.z,v.z); return this; }
+    angleTo(v){ const d=this.length()*v.length(); return d?Math.acos(Math.max(-1,Math.min(1,this.dot(v)/d))):0; } setLength(l){ return this.normalize().multiplyScalar(l); } floor(){ this.x=Math.floor(this.x); this.y=Math.floor(this.y); this.z=Math.floor(this.z); return this; } }
+  class Vector2{ constructor(x,y){ this.x=+x||0; this.y=+y||0; } set(x,y){ this.x=x; this.y=y; return this; } copy(v){ this.x=v.x; this.y=v.y; return this; } clone(){ return new Vector2(this.x,this.y); } length(){ return Math.hypot(this.x,this.y); } lengthSq(){ return this.x*this.x+this.y*this.y; } normalize(){ const l=this.length()||1; this.x/=l; this.y/=l; return this; } multiplyScalar(s){ this.x*=s; this.y*=s; return this; } add(v){ this.x+=v.x; this.y+=v.y; return this; } sub(v){ this.x-=v.x; this.y-=v.y; return this; } distanceTo(v){ return Math.hypot(this.x-v.x,this.y-v.y); } }
+  class Euler{ constructor(x,y,z){ this.x=+x||0; this.y=+y||0; this.z=+z||0; } set(x,y,z){ this.x=x; this.y=y; this.z=z; return this; } copy(e){ this.x=e.x; this.y=e.y; this.z=e.z; return this; } clone(){ return new Euler(this.x,this.y,this.z); } }
+  /* 人物、玩家的 3D 物件：只有位置、方向、子物件（CHAR.build 的替身）*/
+  class FakeObj{ constructor(){ this.position=new Vector3(); this.rotation=new Euler(); this.scale=new Vector3(1,1,1); this.userData={}; this.children=[]; this.visible=true; this.parent=null; this.isObject3D=true; this.quaternion=deep('quat'); this.matrixWorld=deep('mw'); }
+    add(...c){ for(const x of c){ if(x&&typeof x==='object'){ try{ x.parent=this; }catch(e){} this.children.push(x); } } return this; } remove(...c){ for(const x of c){ const i=this.children.indexOf(x); if(i>=0) this.children.splice(i,1); } return this; }
+    traverse(f){ f(this); for(const c of this.children){ if(c&&typeof c.traverse==='function'&&c instanceof FakeObj) c.traverse(f); } } getObjectByName(){ return null; } lookAt(){} updateMatrixWorld(){} updateMatrix(){} getWorldPosition(v){ return (v||new Vector3()).copy(this.position); } getWorldDirection(v){ return (v||new Vector3()).set(Math.sin(this.rotation.y),0,Math.cos(this.rotation.y)); }
+    clone(){ const c=new FakeObj(); c.position.copy(this.position); c.rotation.copy(this.rotation); return c; } removeFromParent(){ return this; } }
+  function deep(name){ const f=function(){}; f.__c={}; return new Proxy(f,{get:(t,k)=>{ if(k===Symbol.toPrimitive) return ()=>0; if(k==='__c') return t.__c; if(k===Symbol.iterator) return function*(){}; if(k==='then'||k==='toJSON'||k==='nodeType'||k==='isConnected') return undefined; if(k==='length') return 0; if(typeof k==='symbol') return undefined; if(!(k in t.__c)) t.__c[k]=deep(name+'.'+String(k)); return t.__c[k]; },
+    apply:()=>deep(name+'()'),construct:()=>deep('new '+name),set:(t,k,v)=>{ t.__c[k]=v; return true; },has:()=>true}); }
+  const THREE=deep('THREE'); THREE.Vector3=Vector3; THREE.Vector2=Vector2; THREE.Euler=Euler; THREE.MathUtils={clamp:(v,a,b)=>Math.max(a,Math.min(b,v)),lerp:(a,b,t)=>a+(b-a)*t,degToRad:d=>d*Math.PI/180,radToDeg:r=>r*180/Math.PI,smoothstep:(x,a,b)=>{ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t); },euclideanModulo:(n,m)=>((n%m)+m)%m,generateUUID:()=>'u'+(++VC.seq)};
+  globalThis.THREE=THREE; globalThis.THREE_JSM=deep('THREE_JSM'); globalThis.THREE_VRM=deep('THREE_VRM');
+
+  /* ---------- 載入遊戲（index.html 的順序；game3d.js 加測試用的出口）---------- */
+  const files=[...idxHtml.matchAll(/<script[^>]*src="(src\/[^"?]+)/g)].map(m=>m[1]);
+  const loadFail=[];
+  let g3src=null;
+  for(const f of files){ const p=path.join(o.root,f); if(!fs.existsSync(p)){ loadFail.push([f,'不存在']); continue; }
+    let src=fs.readFileSync(p,'utf8'); src=src.replace(/^(const|let) (\w+)\s*=/mg,(m,k,n)=>'globalThis.'+n+'=');
+    if(/(^|\/)game3d\.js$/.test(f)){ g3src=src; const tail=/\n\s*return GM;\s*\n\}\)\(\);\s*$/; if(!tail.test(src)){ loadFail.push([f,'找不到 GAME IIFE 結尾的「return GM; })();」，無法加測試出口']); }
+      src=src.replace(tail,'\n  GM.__T={ get E(){ return E; }, get G(){ return G; }, validate:typeof validate==="function"?validate:null, migrate:typeof migrate==="function"?migrate:null, defaults:typeof defaults==="function"?defaults:null,'+
+        ' frame:typeof frame==="function"?frame:null, setLast:t=>{ last=t; }, get phoneOpen(){ return typeof phoneOpen!=="undefined"?phoneOpen:false; }, get menuOpen(){ return typeof menuOpen!=="undefined"?menuOpen:false; },'+
+        ' get chooseCur(){ return typeof chooseCur!=="undefined"?chooseCur:undefined; }, get sayStack(){ return typeof sayStack!=="undefined"?sayStack:null; }, get walks(){ return typeof walks!=="undefined"?walks:null; },'+
+        ' loadFrom:typeof loadFrom==="function"?loadFrom:null, KEY_AUTO:typeof KEY_AUTO!=="undefined"?KEY_AUTO:null, get entering(){ return typeof entering!=="undefined"?entering:false; } };\n  return GM;\n})();\n'); }
+    try{ vm.runInThisContext(src,{filename:f}); }catch(e){ loadFail.push([f,String(e&&e.message||e).slice(0,200)]); } }
+  if(loadFail.length) for(const [f,e] of loadFail) fail('LOAD','TEST_BUG','照 index.html 載入時失敗（假的 THREE／DOM 不夠，或檔案不在）',f+'：'+e);
+  if(typeof GAME==='undefined'||!GAME.__T){ fail('LOAD','TEST_BUG','game3d.js 沒有載進來／沒有測試出口','GAME 不存在'); return finish(); }
+  GM=GAME; const T=GM.__T;
+  const SAY_STACK=/sayStack/.test(g3src), CHOOSE_STACK=/chooseStack/.test(g3src);
+
+  /* ---------- 載入後的替身：人物模型、素材下載、音效、3D 小工具 ---------- */
+  if(typeof CHAR!=='undefined'){ CHAR.build=()=>{ const o=new FakeObj(); o.userData.driver=null; return o; }; CHAR.headY=()=>1.55; CHAR.setExpr=()=>{}; CHAR.release=()=>{}; CHAR.useModels=false; }
+  if(typeof ASSETS!=='undefined'){ ASSETS.ensure=async()=>{}; ASSETS.manifest={}; ASSETS.bytes={done:0,total:0}; ASSETS.errors=[]; ASSETS.reqStart=()=>{}; ASSETS.reqTake=()=>[]; ASSETS.waitLoaded=async()=>({ms:0,missing:[]}); }
+  if(typeof A3!=='undefined'){ for(const k of Object.keys(A3)) if(typeof A3[k]==='function') A3[k]=()=>{}; }
+  if(typeof Z3!=='undefined'){ Z3.prewarm=async()=>{}; Z3.warmup=()=>{}; }
+  if(typeof W3!=='undefined'){ W3.releaseViews=()=>{}; }
+  GM.upgradeModels=()=>{};
+
+  /* ---------- 假的 3D 引擎 E（E3.init 換成這個）---------- */
+  const E0={frame:0,time:0,w:844,h:390,canvas:new El('canvas'),npcs:[],extras:[],interactables:[],colliders:[],seats:[],exits:[],lampGlows:[],roadMats:[],zone:null,levels:null,nav:null,indoor:false,hour:12,weather:'clear',paused:false,lampsOn:false,
+    q:{level:'medium',far:200,shadows:false,pr:1,forcePR:null},input:{joy:{x:0,y:0,active:false},runToggle:false,keys:{}},prefNpc:null,spawnHint:null,lastSpawn:null,
+    cam:{mode:'follow',yaw:0,pitch:0.22,pitchAdd:0,distTarget:6,target:new Vector3(),blend:null,ctl:false,swingAcc:0,dragging:false,manualT:0,seeThru:false,look:new Vector3(),cine:null},
+    camera:{position:new Vector3(0,2,5),quaternion:deep('q'),projectionMatrix:deep('pm'),matrixWorldInverse:deep('mwi'),lookAt(){},updateProjectionMatrix(){},fov:55,aspect:2},
+    renderer:{info:{render:{calls:0,triangles:0},memory:{geometries:0,textures:0}},capabilities:{getMaxAnisotropy:()=>1},localClippingEnabled:false,domElement:new El('canvas'),setPixelRatio(){},setSize(){},render(){},compile(){},dispose(){}},
+    scene:{add(){},remove(){},traverse(){},getObjectByName:()=>null,getObjectById:()=>null,children:[]},player:null,sky:null,skyline:null,sun:deep('sun'),hemi:deep('hemi'),fill:deep('fill'),rain:null,
+    setPlayer(obj){ this.player={obj,speed:0,path:null,target:null,pose:'idle',run:false,busy:false,radius:0.32,lv:0}; },
+    loadZone(def,spawn){ const E=this; E.npcs=[]; E.extras=[]; E.colliders=[]; E.interactables=[]; E.lampGlows=[]; E.seats=[]; E.exits=[]; E.spawnHint=spawn||null;
+      const z=def.build(E); z.def=def; E.zone=z; E.levels=z.levels||null; E.nav=z.nav||null; E.indoor=!!def.indoor; E.cam.distTarget=E.indoor?(def.camDist||3.8):(def.camDist||6);
+      if(E.player){ const sp=spawn||z.spawn||{x:0,z:0,yaw:0}; E.player.lv=E.levels?Math.max(0,Math.min(E.levels.length-1,sp.lv|0)):0; E.player.obj.position.set(+sp.x||0,0,+sp.z||0); E.player.obj.rotation.y=+sp.yaw||0; E.player.path=null; E.player.target=null; E.lastSpawn={zone:def.id,x:sp.x,z:sp.z,lv:E.player.lv|0}; }
+      return z; },
+    addNPC(n){ n.path=null; n.speed=0; n.pose=n.pose||'idle'; n.radius=0.32; n.timer=0; n.lodPhase=this.npcs.length; n.lv=n.lv|0; if(n.seat&&n.seat.y!=null&&n.obj) n.obj.position.y=n.seat.y; this.npcs.push(n); return n; },
+    removeNPC(n){ const i=this.npcs.indexOf(n); if(i>=0) this.npcs.splice(i,1); },
+    addExtra(x){ this.extras.push(x); return x; },
+    placeAt(ent,x,z,lv){ if(!ent||!ent.obj) return; ent.obj.position.x=+x||0; ent.obj.position.z=+z||0; if(lv!=null) ent.lv=lv|0; },
+    moveTo(ent,x,z,onArrive,lv){ if(!ent) return false; ent.path=[[+x||0,+z||0]]; ent.onArrive=onArrive||null; ent._toLv=lv; return true; },
+    pathTo:(x0,z0,l0,x1,z1)=>[[x1,z1]], canStand:()=>true, unstick:()=>false,
+    navOf(lv){ const L=this.levels; return L?(L[lv|0]||L[0]):this.nav; },   /* 同 engine3d.js navOf：區域 build 建的導航格（真的 E3.NavGrid）*/
+    heightAt(x,z,lv){ const n=this.navOf(lv===undefined?(this.player?this.player.lv|0:0):lv); try{ return n&&typeof n.heightAt==='function'?(+n.heightAt(x,z)||0):0; }catch(e){ return 0; } }, setLv(ent,lv){ if(ent) ent.lv=lv|0; }, prePose(){}, recenter(){}, freeScore:()=>0, setQuality(){}, applyViewFar(){},
+    setWeather(w){ this.weather=w; }, applyTime(h){ this.hour=h; }, setLamps(on){ this.lampsOn=!!on; }, endCinematic(){ this.cam.mode='follow'; this.cam.cine=null; }, cinematic(){ this.cam.mode='cine'; }, snapCinematic(){}, tapRedirect:null, rideMode(){}, render(){}, renderSkip:null,
+    /* 每一格：照路徑直線走（走路 1.4 m/s、跑 3.4 m/s），到了叫 onArrive；跟著走的人站到玩家旁邊 */
+    update(dt){ const E=this; E.frame++; E.time=(E.time||0)+dt; const P=E.player; const step=ent=>{ if(!ent||!ent.path||!ent.path.length||ent.frozen) return; const [tx,tz]=ent.path[0]; const p=ent.obj.position; const dx=tx-p.x, dz=tz-p.z, d=Math.hypot(dx,dz); const sp=(ent.run?3.4:(ent.walkSpeed||1.4))*dt;
+        if(d<=sp||d<0.05){ p.x=tx; p.z=tz; ent.path.shift(); if(!ent.path.length){ ent.path=null; if(ent._toLv!=null){ ent.lv=ent._toLv|0; ent._toLv=null; } if(ent.pose==='walk'||ent.pose==='run') ent.pose=ent.idlePose||'idle'; const cb=ent.onArrive; ent.onArrive=null; if(cb){ try{ cb(); }catch(e){ onExc(e,'走到了（onArrive）'); } } } }
+        else { p.x+=dx/d*sp; p.z+=dz/d*sp; if(ent.obj.rotation) ent.obj.rotation.y=Math.atan2(dx,dz); if(ent.pose!=='sit') ent.pose=ent.run?'run':'walk'; } };
+      if(E.zone&&typeof E.zone.update==='function'){ try{ E.zone.update(dt,E); }catch(e){ onExc(e,'區域的 update（電梯、門的動畫）'); } }
+      step(P); for(const n of E.npcs.slice()){ if(n.beh==='follow'&&P&&!n.path&&!n.seat){ const pp=P.obj.position, q=n.obj.position, d=Math.hypot(pp.x-q.x,pp.z-q.z); const off=n.followOff||1.2; if(d>off+0.3){ q.x=pp.x-(pp.x-q.x)/d*off; q.z=pp.z-(pp.z-q.z)/d*off; n.lv=P.lv|0; } } step(n); } },
+    /* 互動鍵：遊戲引擎的判斷（engine3d.js nearestInteractable）的簡化版——範圍內最近的互動點；人（有 talk）在 2.2 m 內 */
+    nearestInteractable(){ const E=this, P=E.player; if(!P) return null; const px=P.obj.position.x, pz=P.obj.position.z, plv=P.lv|0; let best=null, bd=1e9; const occupied=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
+      for(const it of E.interactables){ if(it.hidden) continue; if(it.seat&&(occupied(it.seat)||it.seat.taken)) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==plv) continue; const d=Math.hypot((+it.x||0)-px,(+it.z||0)-pz); if(d<(it.radius||1.8)&&d-(it.prio||0)<bd){ bd=d-(it.prio||0); best=it; } }
+      if(E.__want&&E.__want.it&&E.interactables.includes(E.__want.it)&&!E.__want.it.hidden){ const it=E.__want.it; const d=Math.hypot((+it.x||0)-px,(+it.z||0)-pz); if(d<(it.radius||1.8)) best=it; }
+      for(const n of E.npcs){ if(!n.talk||n.hidden||!n.obj) continue; const d=Math.hypot(n.obj.position.x-px,n.obj.position.z-pz); const bias=(!best||best.seat?0.5:0)+(E.__want&&E.__want.npc===n?9:0); if(d<2.2&&d-bias<bd){ bd=d-bias; best={npc:n,label:n.talkLabel||('和'+n.name+'說話'),x:n.obj.position.x,z:n.obj.position.z,onInteract:()=>n.talk(n)}; } }
+      return best; } };
+  E=new Proxy(E0,{get:(t,k)=>{ if(k in t) return t[k]; if(typeof k==='string'&&k!=='then'&&k!=='toJSON'&&!k.startsWith('__')){ missing.set(k,(missing.get(k)||0)+1); } return undefined; }});
+  if(typeof E3!=='undefined') E3.init=()=>E; else globalThis.E3={init:()=>E};
+
+  /* ---------- 開機（GAME.boot，和瀏覽器一樣）---------- */
+  async function pump(p,maxMs,label){ let done=false, val, err; p.then(v=>{ done=true; val=v; },e=>{ done=true; err=e; }); const t0v=VC.now; while(!done){ await vAdvance(100); runRaf(); await flush(); if(VC.now-t0v>maxMs){ fail('STUCK','UNKNOWN',label+' 超過 '+(maxMs/1000)+' 秒（虛擬時間）沒有結束',label); return undefined; } } if(err) throw err; return val; }
+  function runRaf(){ const q=rafQ; rafQ=[]; for(const cb of q){ try{ cb(VC.now); }catch(e){ onExc(e,'主迴圈（requestAnimationFrame）'); } } }
+  R.phase='boot';
+  try{ await pump(Promise.resolve().then(()=>GM.boot()),60000,'GAME.boot'); }catch(e){ onExc(e,'GAME.boot'); }
+  if(!GM.E||!GM.G){ fail('BOOT','TEST_BUG','開機沒有完成（GM.E 或 GM.G 是空的）',$text('loadMsg')); return finish(); }
+  function $text(id){ const el=getById(id); return el?el.textContent:''; }
+  if(/載入失敗/.test($text('loadMsg'))) fail('BOOT','TEST_BUG','GAME.boot 丟例外（畫面寫載入失敗）',$text('loadMsg'));
+  GM.charsMain=true; GM.charsAll=true; GM.charsMainP=Promise.resolve(); GM.charsAllP=Promise.resolve();
+
+  /* ---------- 開新遊戲：按標題畫面的按鈕 ---------- */
+  const fromDay=CALENDAR.dayOf?CALENDAR.dayOf(o.from):null; const dayOfKey=k=>{ if(typeof STORY!=='undefined'&&STORY.dayOfKey) return STORY.dayOfKey(k); const t=RealDate.UTC(...k.split('-').map((x,i)=>i===1?x-1:+x)); return Math.round((t-RealDate.UTC(2025,8,17))/864e5)+1; };
+  const D_FROM=dayOfKey(o.from), D_TO=dayOfKey(o.to);
+  R.phase='newgame'; act('按標題畫面「'+(o.track==='econ'?'從經濟系開始':'從法律系開始')+'」');
+  const btn=getById(o.track==='econ'?'btnNew':'btnNewLaw'); if(!btn||typeof btn.onclick!=='function'){ fail('BOOT','TEST_BUG','標題畫面的按鈕沒有掛 onclick（bindUI 沒跑？）',o.track); return finish(); }
+  let ngDone=false; const ngP=Promise.resolve().then(()=>btn.onclick(mkEv('click',btn))).then(()=>{ ngDone=true; },e=>{ ngDone=true; onExc(e,'開新遊戲（STORY.newGame）'); });
+  let track=null;   // 時間只往前：{abs}（開局、讀檔重設）
+
+  /* ---------- 玩家的「個性」（每個種子不一樣）---------- */
+  const persona={classP:0.35+rnd()*0.6,lateP:rnd()*0.5,phoneP:0.15+rnd()*0.25,talkP:0.2+rnd()*0.3,reloadP:rnd()<0.5?0.0004:0.002,snapP:0.0025};
+  act('個性：上課 '+persona.classP.toFixed(2)+'、熬夜 '+persona.lateP.toFixed(2)+'、手機 '+persona.phoneP.toFixed(2)+'、說話 '+persona.talkP.toFixed(2));
+
+  /* ---------- 每一格的檢查 ---------- */
+  const D=GM.D; const DIMS=['fam','trust','aff','resp','comf','rom','npcRom'];
+  let staleV=0, busyV=0, lastDay=null, lastToast='';
+  function abs(g){ return g.day*24+(+g.hour); }
+  function checkFrame(){ const g=GM.G; if(!g) return;
+    if(track&&!R.loading){ const a=abs(g); if(a<track.abs-1e-6) fail('TIME_BACK','UNKNOWN','遊戲時間倒退（'+dayKey(Math.floor(track.abs/24))+' '+fmtH(track.abs%24)+' → '+dayKey(g.day)+' '+fmtH(g.hour)+'）','從 '+track.abs.toFixed(3)+' 退到 '+a.toFixed(3)); track.abs=Math.max(track.abs,a); }
+    if(!Number.isFinite(g.money)) fail('MONEY_NAN','UNKNOWN','錢不是有限的數字','G.money='+g.money);
+    if(!Number.isFinite(+g.hour)||!Number.isFinite(g.day)) fail('TIME_NAN','UNKNOWN','日期或時間不是數字','day='+g.day+' hour='+g.hour);
+    /* 卡住（同 game3d.js staleCheck：劇情鎖著、沒有對話、選項、事件、淡入淡出、日期卡、走路）*/
+    const P=E.player; const busy=!!(P&&(P.busy||D.busyDepth>0)); const live=D.active||!!T.chooseCur||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||T.phoneOpen||T.menuOpen||(getById('fade')&&getById('fade').classList.contains('on'))||(T.walks&&T.walks.size>0)||!!(P&&P.path&&P.path.length)||(typeof STORY!=='undefined'&&!!STORY._bedBusy)||(getById('goConfirm')&&!getById('goConfirm').classList.contains('hide'));
+    if(busy&&!live){ staleV+=0.1; if(staleV>30&&!R.stuckNow){ R.stuckNow=true; fail('STUCK','UNKNOWN','劇情鎖住、畫面上沒有對話或選項超過 30 秒（虛擬時間；game3d.js staleCheck 會說「畫面好像停住了」）','busyDepth='+D.busyDepth+' busy='+(P&&P.busy)+' by='+JSON.stringify(D.busyWho||[])+' ADV='+(typeof ADV!=='undefined'&&ADV.active)); } } else { staleV=0; }
+    if(busy) busyV+=0.1; else busyV=0;
+    if(busyV>1800&&!R.stuckNow){ R.stuckNow=true; fail('STUCK','UNKNOWN','劇情鎖住超過 30 分鐘（虛擬時間；一直有東西在演但沒有結束）','by='+JSON.stringify(D.busyWho||[])+' EVENTS.running='+(typeof EVENTS!=='undefined'&&EVENTS.running)); }
+    { const te=getById('toast'); if(te){ const t=te.textContent||''; if(t&&t!==lastToast&&!te.classList.contains('hide')){ lastToast=t; act('（提示）'+t.slice(0,60)); } else if(!t) lastToast=''; } }
+    if(g.day!==lastDay){ lastDay=g.day; R.reached=dayKey(g.day); heartbeat(true); checkDaily(); } }
+  function checkDaily(){ const g=GM.G; if(!g) return;
+    const so=g.social&&g.social.rel; if(so) for(const id in so){ const r=so[id]; for(const k of DIMS){ if(r[k]==null) continue; if(typeof r[k]!=='number'||!Number.isFinite(r[k])||r[k]<0||r[k]>100){ fail('REL_RANGE','UNKNOWN','關係值超出 0～100 或不是數字（social3d.js S.adjust 的範圍）',id+'.'+k+'='+r[k]); } } for(const k of ['seen','talked']) if(r[k]!=null&&!(Number.isFinite(r[k])&&r[k]>=0)) fail('REL_RANGE','UNKNOWN','關係的次數不是非負數',id+'.'+k+'='+r[k]); }
+    if(g.rel) for(const id in g.rel){ const v=g.rel[id]; if(!(Number.isFinite(v)&&v>=0&&v<=100)) fail('REL_RANGE','UNKNOWN','舊版關係 G.rel 超出 0～100（game3d.js rel）',id+'='+v); }
+    if(g.money<0) note('錢是負的（不算 FAIL，看要不要擋）','money='+g.money);
+    /* 只演一次的事件 */
+    if(typeof STORY_EVENTS!=='undefined'&&g.events&&g.events.done){ for(const ev of STORY_EVENTS){ const n=g.events.done[ev.id]|0; if(!n) continue; if(ev.once&&n>1) fail('EVENT_REPEAT','UNKNOWN','once 的事件演了 '+n+' 次（events3d.js G.events.done）',ev.id); else if(ev.max_times&&n>ev.max_times) fail('EVENT_REPEAT','UNKNOWN','max_times '+ev.max_times+' 的事件演了 '+n+' 次',ev.id); } } }
+  let hbT=realMs();
+  function heartbeat(force){ const now=realMs(); if(!force&&now-hbT<3000) return; hbT=now; const g=GM&&GM.G;
+    process.stdout.write('@@HB '+JSON.stringify({seed:o.seed,day:g&&dayKey(g.day),step:R.step,frame:R.frame})+'\n');
+    if(o.out){ try{ fs.writeFileSync(path.join(o.out,'seed_'+o.seed+'.ring.json'),JSON.stringify({actions:R.actions,G:gSum(),step:R.step,frame:R.frame})); }catch(e){} } }
+
+  /* ---------- 存讀檔（⑤）：GM.snapshot → JSON → validate → migrate → 比；再 applySave 讀回來 ---------- */
+  const norm=s=>{ const c=JSON.parse(JSON.stringify(s)); delete c.pos; delete c.savedAt; delete c.v; delete c._busy; delete c._stuck; c.hour=+(+c.hour).toFixed(3); return c; };
+  function diffs(a,b,p,out){ if(out.length>12) return out; if(a===b) return out; const ta=typeof a, tb=typeof b; if(ta!==tb||a===null||b===null||ta!=='object'){ if(!(ta==='number'&&tb==='number'&&Math.abs(a-b)<1e-9)) out.push(p+'：'+JSON.stringify(a)+' → '+JSON.stringify(b)); return out; }
+    if(Array.isArray(a)!==Array.isArray(b)){ out.push(p+'：型別不同'); return out; } const ks=new Set([...Object.keys(a),...Object.keys(b)]); for(const k of ks) diffs(a[k],b[k],p+'.'+k,out); return out; }
+  async function snapCheck(){ const g=GM.G; if(!g||!T.validate||!T.migrate){ if(!R.noVM){ R.noVM=true; fail('SAVE','TEST_BUG','抽不到 game3d.js 的 validate／migrate','validate='+typeof T.validate+' migrate='+typeof T.migrate); } return; }
+    const before=norm(g); let s; try{ s=JSON.parse(JSON.stringify(GM.snapshot())); }catch(e){ onExc(e,'GM.snapshot'); return; }
+    const err=T.validate(s); if(err){ fail('SAVE','UNKNOWN','validate 不接受剛存的檔',err); return; }
+    let m; try{ m=T.migrate(JSON.parse(JSON.stringify(s))); if(GM.firstMetMigrate) m=GM.firstMetMigrate(m,s); }catch(e){ onExc(e,'migrate'); return; }
+    const d0=diffs(before,norm(m),'G',[]).filter(x=>!/^G\.energy：/.test(x)); const add=d0.filter(x=>/：undefined → /.test(x)), d=d0.filter(x=>!/：undefined → /.test(x));
+    for(const x of add) note('migrate 補了存檔裡沒有的欄位（不算 FAIL）：'+x.split('：')[0],x);   /* 補欄位＝migrate 本來就該做的；改掉、刪掉已經有的值才算 */
+    if(d.length) fail('SAVE_DIFF','UNKNOWN','存檔 → validate → migrate 以後，已經有的值被改掉或刪掉（照理只會補缺的欄位）',d.join('\n'));
+    act('存讀檔檢查：snapshot→validate→migrate'+(d.length?'（不一樣 '+d.length+' 處）':'一樣')+' → applySave 讀回');
+    R.loading=true; try{ await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave（讀回剛存的檔）'); }catch(e){ onExc(e,'applySave'); } R.loading=false;
+    const g2=GM.G; const k=['day','zone','money','stage']; const dd=k.filter(x=>JSON.stringify(g2[x])!==JSON.stringify(before[x])); const dh=(+g2.hour)-before.hour; if(dh<-0.002||dh>0.25) dd.push('hour');   /* 讀檔的淡入淡出那幾秒時間照樣在走（主迴圈）：往前 15 分鐘以內不算 */
+    if(dd.length) fail('LOAD_DIFF','UNKNOWN','applySave 讀回剛存的檔以後，'+dd.join('、')+' 變了',dd.map(x=>x+'：'+JSON.stringify(before[x])+' → '+JSON.stringify(g2[x])).join('；'));
+    track={abs:abs(g2)}; }
+  async function reloadAuto(){ const raw=LS.getItem(T.KEY_AUTO||'fatiao3d_auto'); if(!raw){ act('讀自動存檔：沒有'); return; } let s; try{ s=JSON.parse(raw); }catch(e){ fail('SAVE','UNKNOWN','自動存檔不是 JSON',String(e)); return; }
+    act('讀自動存檔（'+dayKey(s.day)+' '+fmtH(s.hour)+' '+s.zone+'）');
+    R.loading=true; try{ if(T.loadFrom) await pump(Promise.resolve().then(()=>T.loadFrom(s)),60000,'讀自動存檔（loadFrom）'); else await pump(Promise.resolve().then(()=>GM.applySave(s)),60000,'applySave'); }catch(e){ onExc(e,'讀自動存檔'); } R.loading=false;
+    track={abs:abs(GM.G)}; R.stuckNow=false; staleV=0; busyV=0; }
+
+  /* ---------- 玩家：看畫面上有什麼可以按 ---------- */
+  const vis=el=>{ for(let x=el;x&&x!==DOC;x=x.parentNode){ if(x.classList&&x.classList.contains('hide')) return false; if(x.style&&x.style.display==='none') return false; } return !!el&&el.isConnected; };
+  const clickables=root=>root?root.querySelectorAll('button,[data-ask],[data-ans],[data-go],[data-skip],[data-inv],[data-th],[data-msgto],[data-msgt],[data-place],[data-fgo],[data-invgo],[data-tact],[data-gact],[data-person],[data-vac],[data-vac13],[data-gok],[data-fd],[data-fav],[data-thback],[data-personback],[data-gohome],[data-y5go],[data-msg]').filter(b=>typeof b.onclick==='function'&&vis(b)&&!b.disabled):[];
+  const label=b=>(b.textContent||'').replace(/\s+/g,' ').trim().slice(0,40)||JSON.stringify(b.dataset).slice(0,40);
+  function clickEl(b,why){ act(why+'：'+label(b)); let r; try{ r=b.click(); }catch(e){ onExc(e,'按「'+label(b)+'」'); } if(r&&typeof r.then==='function') r.then(null,e=>onExc(e,'按「'+label(b)+'」之後')); }
+  let react=0, wait=0, want=null, phoneClicks=0, freeStreak=0, emptyMenuSeen=null;
+  const free=()=>{ const P=E.player; return P&&!P.busy&&!D.active&&!T.chooseCur&&!(GM.isEntering&&GM.isEntering())&&!GM.titleIdle&&!T.phoneOpen&&!T.menuOpen; };
+  /* 回傳 true＝這一格做了事 */
+  async function ui(){ const g=GM.G;
+    /* 選單 */
+    const cc=T.chooseCur; const box=getById('choices');
+    if(cc){ const opts=(cc.options||[]); const shown=opts.filter(q=>q&&!q.hidden);
+      if(!shown.length){ if(emptyMenuSeen!==cc){ emptyMenuSeen=cc; fail('EMPTY_MENU','UNKNOWN','GM.choose 收到的選單沒有可以按的選項','選項：'+JSON.stringify(opts).slice(0,300)); } return false; }
+      if(react>0){ react--; return false; } const btns=box?clickables(box):[]; if(!btns.length){ if(!R.chooseNoBtn){ R.chooseNoBtn=true; note('選單出來了但畫面上沒有按鈕（假 DOM？）',JSON.stringify(shown.map(q=>q.t)).slice(0,200)); } return false; }
+      /* 灰掉的選項比較少按（玩家會按，按了遊戲寫原因再選一次），「算了」「先不要」照常 */
+      const b=wpick(btns.map(x=>[optW(x),x])); R.step++; busyV=0; clickEl(b,'選單（'+shown.length+' 個）'); react=ri(1,6); return true; }
+    if(D.active){ if(react>0){ react--; return false; } R.step++; busyV=0; const t=(getById('dlgText')||{}).textContent||D.full||''; act('點對話：'+String(D.full||t).slice(0,36)); try{ GM.dlgAdvance(); if(D.active&&D.typing===false&&D.shown!=null){} GM.dlgAdvance&&D.typing&&GM.dlgAdvance(); }catch(e){ onExc(e,'點對話（dlgAdvance）'); } react=ri(0,4); return true; }
+    /* 一鍵的確認框 */
+    const gc=getById('goConfirm'); if(gc&&vis(gc)){ if(react>0){ react--; return false; } const y=getById('goCfYes'), n=getById('goCfNo'); R.step++; clickEl(rnd()<0.85?y:n,'一鍵確認'); react=ri(1,4); return true; }
+    const pop=getById('goPop'); if(pop&&vis(pop)){ if(react>0){ react--; return false; } const bs=clickables(pop); R.step++; if(bs.length&&rnd()<0.9) clickEl(wpick(bs.map(b=>[b.classList.contains('dim')?0.2:1,b])),'一鍵選單'); else clickEl(getById('btnGo'),'一鍵（收起來）'); react=ri(1,4); return true; }
+    /* 手機開著 */
+    if(T.phoneOpen){ if(react>0){ react--; return false; } R.step++;
+      if(phoneClicks<=0||rnd()<0.15){ act('收起手機'); try{ GM.closePhone(); }catch(e){ onExc(e,'收起手機'); } return true; }
+      phoneClicks--; const body=getById('phoneBody'); const bs=clickables(body), tabs=clickables(getById('phoneTabs'));
+      const W=bs.map(b=>{ const k=Object.keys(b.dataset)[0]||''; const w={go:6,skip:4,inv:4,ans:5,ask:6,th:3,msgto:3,msgt:4,place:3,fgo:2,invgo:6,tact:2,gact:2,vac:2,vac13:1,person:0.6,fav:0.2,fd:0.6,thback:0.8,personback:0.8,gohome:2,y5go:1,msg:2}[k]; return [w==null?0.5:w,b]; });
+      const b=wpick(W.concat(tabs.map(t=>[0.8,t]))); if(b) clickEl(b,'手機'); else { act('手機：沒有可以按的 → 收起來'); GM.closePhone(); } react=ri(1,5); return true; }
+    /* 筆記本（選單）開著：多半直接收起來（存檔欄位、設定、回標題都不按）*/
+    if(T.menuOpen){ if(react>0){ react--; return false; } R.step++; act('收起筆記本（選單）'); try{ GM.closeMenu(); }catch(e){ onExc(e,'收起選單'); } react=ri(1,4); return true; }
+    if(!free()){ want=null; freeStreak=0; return false; }
+    freeStreak++;
+    /* 走路中（要去按某個互動點）*/
+    if(want){ const P=E.player; if(P.path&&P.path.length) return false; const tgt=want; want=null; E0.__want=tgt; const it=E.nearestInteractable(); R.step++;
+      act('按互動：'+(it?(it.label||(it.exit?'往 '+it.exit.to:Object.keys(it).filter(k=>!['x','z','y','lv','radius','prio','label'].includes(k)).join('+'))):'（旁邊沒有東西）')+(tgt.npc?'（想找 '+(tgt.npc.name||tgt.npc.talkLabel||tgt.npc.id||'路人')+'）':''));
+      try{ const r=GM.doInteract(); if(r&&r.then) r.then(null,e=>onExc(e,'互動（doInteract）之後')); }catch(e){ onExc(e,'互動（doInteract）'); } E0.__want=null; react=ri(1,5); return true; }
+    if(wait>0){ wait--; return false; }
+    if(react>0){ react--; return false; }
+    return decide(); }
+  /* 自由行動的時候：決定下一件事 */
+  function decide(){ const g=GM.G, h=(+g.hour)%24, late=g.hour>=24, night=h>=22||late; R.step++;
+    if(rnd()<persona.snapP){ act('（隨機時間點）存讀檔檢查'); return snapCheck().then(()=>true); }
+    if(rnd()<persona.reloadP){ return reloadAuto().then(()=>true); }
+    const its=E.interactables.filter(it=>!it.hidden&&(it.exit||it.seat||it.sleep||it.shop||it.counter||it.eat||it.onInteract||it.deskStudy||it.home||it.mrt||it.look||it.notice||it.wzShop||it.shop118||it.ggs||it.gg2||it.mokOrder||it.offOrder||it.roomItems||it.cafeRota||it.elevator||it.park||it.teaTable||it.board));
+    const npcs=E.npcs.filter(n=>n.talk&&!n.hidden&&n.obj);
+    const todays=(typeof CLS!=='undefined'&&CLS.dayItems)?CLS.dayItems(g).filter(it=>!CLS.storyClass(g,it)):[]; const upcoming=todays.filter(it=>{ const s=CLS.status(g,it); return s==='open'||s==='upcoming'; });
+    const sleepIt=its.find(it=>it.sleep);
+    const here=upcoming.filter(it=>it.room&&it.room.zone===g.zone&&it.t0-h<0.5); const seatsHere=here.length?its.filter(q=>q.seat&&!q.seat.taken&&(!here[0].room.room||q.seat.room===here[0].room.room)):[];
+    const choices=[];
+    const wantSleep=night?(late?0.6:0.25)*(1-persona.lateP):0;
+    if(sleepIt) choices.push([night?40*(1-persona.lateP*0.7):1,'bed']);
+    choices.push([night?wantSleep*60:0.5,'onetap']);
+    if(upcoming.length) choices.push([persona.classP*12,'goclass']);
+    if(seatsHere.length) choices.push([persona.classP*30,'sitclass']);
+    choices.push([persona.phoneP*20,'phone']);
+    if(npcs.length) choices.push([persona.talkP*14,'talk']);
+    if(its.length) choices.push([8,'interact']);
+    choices.push([night?2:5,'skip']);
+    choices.push([10,'wait']);
+    const c=wpick(choices);
+    if(c==='wait'){ wait=ri(10,rnd()<0.2?1500:300); act('等一下（'+(wait/10).toFixed(0)+' 秒）'); return true; }
+    if(c==='bed'){ walkTo({it:sleepIt},'床'); return true; }
+    if(c==='sitclass'){ const it=pick(seatsHere); walkTo({it},'教室的座位（'+here[0].c.name+'）'); return true; }
+    if(c==='talk'){ const n=pick(npcs); walkTo({npc:n},n.name||n.talkLabel||n.charId||n.id||'路人'); return true; }
+    if(c==='interact'){ const wt=its.map(it=>[it.exit?3:it.seat?3:(it.shop||it.counter||it.eat||it.wzShop||it.shop118||it.mokOrder||it.offOrder)?2.5:it.sleep?0.5:1,it]); const it=wpick(wt); walkTo({it},it.label||(it.exit?'往 '+it.exit.to:'互動點')); return true; }
+    if(c==='onetap'){ const b=getById('btnGo'); if(b&&typeof b.onclick==='function'){ clickEl(b,'一鍵'); react=ri(2,6); } return true; }
+    if(c==='phone'||c==='goclass'||c==='skip'){ const tab=c==='goclass'||c==='skip'?'today':pick(['today','today','msg','msg','friends','friends','places','events','week','feed']); act('打開手機（'+tab+'）'+(c!=='phone'?'想'+(c==='goclass'?'直接去上課':'跳過時間'):''));
+      try{ GM.openPhone(tab); }catch(e){ onExc(e,'打開手機'); return true; } phoneClicks=c==='phone'?ri(1,5):1;
+      if(c!=='phone'){ const body=getById('phoneBody'); const bs=clickables(body).filter(b=>c==='goclass'?b.dataset.go!=null:b.dataset.skip!=null); if(bs.length){ phoneClicks=0; react=ri(2,5); const b=pick(bs); vSetTimeout(()=>{},0); pendingPhoneClick=b; } }
+      react=ri(1,4); return true; }
+    return true; }
+  let pendingPhoneClick=null;
+  /* 選單的按鈕：大部分平均（隨機玩家），只有「上課」「睡覺／熬夜」照這個種子的個性加權；灰掉的少按 */
+  function optW(b){ const t=label(b), g=GM.G, h=(+g.hour)%24, night=h>=22||g.hour>=24; let w=b.classList.contains('dim')?0.25:1;
+    if(/^上課：|直接去上課|去上課|進教室/.test(t)) w*=0.3+persona.classP*8; else if(/^(聽演講|參加)：/.test(t)) w*=2;
+    else if(/睡到明天|^睡覺|回去睡覺/.test(t)) w*=night?3*(1-persona.lateP*0.8):0.6; else if(/再撐一下/.test(t)) w*=night?0.3+persona.lateP*3:1; else if(/^起身$/.test(t)) w*=0.6; return w; }
+  function walkTo(tgt,name){ const P=E.player; const x=tgt.npc?tgt.npc.obj.position.x:(+tgt.it.x||0), z=tgt.npc?tgt.npc.obj.position.z:(+tgt.it.z||0); const d=Math.hypot(x-P.obj.position.x,z-P.obj.position.z);
+    act('走去'+name+'（'+d.toFixed(1)+' m）'); P.run=d>16; const r=tgt.npc?0.9:Math.min(0.6,(tgt.it.radius||1.8)*0.4); const tx=x+(d>0.01?(P.obj.position.x-x)/d*r:0), tz=z+(d>0.01?(P.obj.position.z-z)/d*r:0);
+    if(tgt.it&&tgt.it.lv!=null) P.lv=tgt.it.lv|0; E.moveTo(P,tx,tz); want=tgt; }
+
+  /* ---------- 主迴圈 ---------- */
+  const FRAME_MS=100; R.phase='play';
+  const tStart=realMs();
+  while(true){
+    if(R.frame>=o.maxSteps){ fail('STEP_LIMIT','UNKNOWN','到了步數上限（--max-steps '+o.maxSteps+' 格）還沒玩到 '+o.to,'reached '+R.reached); break; }
+    await vAdvance(FRAME_MS); runRaf(); await flush(); R.frame++;
+    const g=GM.G; if(!track&&ngDone&&g&&g.day>=D_FROM){ track={abs:abs(g)}; act('開局演完，從這裡開始檢查時間只往前（'+dayKey(g.day)+' '+fmtH(g.hour)+'）'); }
+    checkFrame(); heartbeat(false);
+    if(track&&g&&g.day>D_TO){ act('到了 '+o.to+' 的隔天，結束'); break; }
+    if(R.stuckNow){ act('卡住了 → 照 game3d.js 的提示讀自動存檔'); R.stuckRecover=(R.stuckRecover|0)+1; if(R.stuckRecover>8){ fail('STUCK_GIVEUP','UNKNOWN','卡住讀檔 8 次以後還是卡住，放棄這個種子','reached '+R.reached); break; } await reloadAuto(); continue; }
+    if(R.fails.length>60){ act('失敗太多種，停下來'); break; }
+    if(pendingPhoneClick&&T.phoneOpen&&react<=0){ const b=pendingPhoneClick; pendingPhoneClick=null; R.step++; clickEl(b,'手機'); react=ri(1,4); continue; }
+    if(pendingPhoneClick&&!T.phoneOpen) pendingPhoneClick=null;
+    if(!ngDone&&!(g&&g.day>=D_FROM)){ /* 開局（回顧、宿營）：一樣點對話、按選單 */ }
+    const r=ui(); if(r&&r.then) await r;
+  }
+  R.ms=realMs()-t0; return finish();
+
+  function finish(){ R.steps=R.step; R.frames=R.frame; if(GM&&GM.G) R.reached=dayKey(GM.G.day);
+    const missTop=[...missing.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(([k,n])=>k+'×'+n);
+    const out={seed:R.seed,ok:R.ok&&R.fails.length===0,reached:R.reached,steps:R.steps,frames:R.frames,vms:VC.now,fails:R.fails,notes:[...R.notes.values()],missingE:missTop,persona,sayStack:SAY_STACK,chooseStack:CHOOSE_STACK,
+      g:GM&&GM.G?{attended:(()=>{ try{ const r=CLS.rec(GM.G); return Object.keys(r.done||{}).length; }catch(e){ return null; } })(),day:GM.G.day,date:dayKey(GM.G.day),evDone:GM.G.events&&GM.G.events.count,classes:GM.G.stats&&GM.G.stats.classes,money:GM.G.money,stage:GM.G.stage,contacts:Object.keys(GM.G.contacts||{}).length,invites:(GM.G.invites||[]).length,msgs:(GM.G.msgs||[]).length}:null};
+    for(const f of out.fails) delete f.extra;
+    if(o.single) printSingle(out); process.stdout.write('@@RESULT '+JSON.stringify(out)+'\n'); return out; }
+  function printSingle(out){ RC.log('\n================ 種子 '+out.seed+'：'+(out.ok?'PASS':'FAIL')+' ================');
+    RC.log('到 '+out.reached+'　步數 '+out.steps+'　格數 '+out.frames+'　虛擬時間 '+(out.vms/3600000).toFixed(1)+' 小時　真實 '+((realMs()-t0)/1000).toFixed(1)+' 秒　（game3d.js：'+(out.sayStack?'對話有 sayStack':'對話沒有 sayStack（新的一句蓋掉沒點的那一句）')+'）');
+    if(out.g) RC.log('結束時：'+JSON.stringify(out.g)); RC.log('個性：'+JSON.stringify(out.persona));
+    if(out.missingE.length) RC.log('假引擎 E 被讀但沒有的屬性：'+out.missingE.join('、'));
+    for(const f of out.fails) RC.log('\n'+fmtFail(f,{seed:out.seed},o));
+    if(out.notes.length){ RC.log('\n注意（不算 FAIL）：'); for(const n of out.notes.sort((a,b)=>b.n-a.n)) RC.log('  '+n.n+' 次　'+n.k+(n.ex?'　例：'+n.ex:'')); } }
+}
+
+/* ====================== 入口 ====================== */
+(async()=>{ let o; try{ o=parseArgs(process.argv.slice(2)); }catch(e){ RC.error(e.message); process.exit(2); }
+  if(o.help){ RC.log(fs.readFileSync(SELF,'utf8').split('*/')[0]); return; }
+  if(o.child){ const r=await child(o); process.exit(r&&r.ok?0:1); }
+  if(o.seed!=null){ o.single=true; const t0=realMs(); const r=await child(o); RC.log('（'+((realMs()-t0)/1000).toFixed(1)+' 秒）'); process.exit(r&&r.ok?0:1); }
+  await parent(o); })();
