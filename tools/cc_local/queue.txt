@@ -25,7 +25,7 @@ PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe
 # （BB 00:44 補三項，排在社交冒煙後面；社交冒煙寫好會插在 PE644b 前面）
 PE644-CARD | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 25 | CASES=econ_card;CC_HEADLESS=0
 YT3-F1 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 30 | CASES=grad_gf;CASE_S=1500;CC_HEADLESS=0
-YT3-F2 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=pgdate_month;CASE_S=900;CC_HEADLESS=0
+YT3-F2 | 861936419 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 15 | CASES=pgdate_month;CASE_S=900;CC_HEADLESS=0
 YT3-F3 | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
 N20X_facade | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 25 | CASES=facade;CC_HEADLESS=0
 # ===== CC 23:0x 順序（BB 22:59）：YT3FM 四支 → 體育課在館裡（PE）、大地圖直接過去（MAP）→ N20 其他 → YT3 → ART；店面渲染最後（等 LAWWW2 的規則）=====
