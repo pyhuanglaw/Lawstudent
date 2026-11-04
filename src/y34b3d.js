@@ -768,34 +768,32 @@ const Y34B=(function(){
   S.firstOrder=function(){ const s=So(); if(!s||!s.memories) return null; const L=(s.memories('heroine_03')||[]).filter(m=>m.tag==='SHARED_MEAL'&&m.note); for(const m of L){ if(/乾麵/.test(m.note)&&/滷蛋|她端來/.test(m.note)) return '乾麵，加滷蛋'; if(/餛飩湯/.test(m.note)) return '餛飩湯'; } return null; };   /* 大一第一次點的東西：SHARED_MEAL 的備註（「她端來的乾麵」＝第一次在麵店選「乾麵，加滷蛋。」）*/
   const order1=G=>{ const o=S.firstOrder(); G.flags.Y34B_ORDER1=o||''; return !!o; };
   const otherDt=G=>datingOther(G,'heroine_03');
-  const A23=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-    {speaker:null,text:'（麵店牆上，二十年那張泛黃的紅紙旁邊，多了一張新的：「感謝各位二十三年來的照顧。明年繼續煮。」）'},
+  /* AA_661 第 63 列（AA 定：兩場都留，分開）：公館燒臘二十三週年是阿鳳和熟客（桌遊團那群）的場——地點照 AA_612 換燒臘店的字（A-450～A-458），語彤端碗、語彤的媽媽那幾句拿掉（她和阿鳳不是親戚），
+     可昕那句改「你說了三年的叉燒」。語彤自己的是一盞茶屋十週年（AA_625 事件 15，另一場）*/
+  const A23=[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
+    {speaker:null,text:'（燒臘店牆上，二十年那張泛黃的紅紙旁邊，多了一張新的：「感謝各位二十三年來的照顧。明年繼續烤。」）'},
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
-    {speaker:null,text:'（阿姨一碗一碗煮，語彤端，工讀生在洗碗。語彤的媽媽坐在角落，對每個人說：「我女兒很少講話，她今天講太多了。」）'},
-    {if:C(G=>ytDt(G)&&G.flags.YT_MOM_ASKED!=null),speaker:'語彤的媽媽',text:'問了好幾年，終於看到人了。'},   /* AA_524 Y1：交往中、學期末約會聽過「我媽問你……」其中一句（termend3d.js 記 YT_MOM_ASKED）——她媽媽第一次看到你 */
-    {if:C(ytDt),speaker:'語彤的媽媽',text:'……他也很少講話。你們兩個怎麼聊天的？'},
     {if:C(()=>met('yu')),speaker:null,text:'（Alison 進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
     {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）第四年了。這兩個位子，本來就是我們的。'},   /* AA_378 #6：麵店團 2025-09 才開始（到 2028-12 是第四年）*/
-    {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗餛飩湯推過去）妳的。'},
+    {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗例湯推過去）妳的。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'你怎麼知道我要點這個？'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'妳每次都點這個。……還有，阿姨說妳大一第一次點的也是這個。'},
-    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了三年的麵，原來是真的。'},
+    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了三年的叉燒，原來是真的。'},
     {if:C(()=>met('heroine_05')),speaker:null,text:'（語彤把手機給大家看。）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
     {speaker:'zhe',text:'阿姨，三年前我說，我們會常來。'},
     {speaker:'zhe',text:'我們有做到喔。（停了一下）……大部分有。'},
-    {speaker:'zhe',text:'……以後也一樣。想吃麵就來，遇到就一起坐。'},
+    {speaker:'zhe',text:'……以後也一樣。想吃飯就來，遇到就一起坐。'},
     {speaker:'阿姨',text:'（舉起湯勺）明年也是。'},
-    {speaker:'zhe',text:'我大一第一次來，點的是乾麵。'},
-    {speaker:'阿姨',text:'你點的是餛飩湯，你記錯了。'},
+    {speaker:'zhe',text:'我大一第一次來，點的是叉燒飯。'},
+    {speaker:'阿姨',text:'你點的是油雞腿飯，你記錯了。'},
     {cg:'cg_anniversary_23'},
-    {if:C(G=>lastBowl(G)&&order1(G)),speaker:'heroine_03',text:'（把最後一碗放在你面前）{flag:Y34B_ORDER1}。'},
-    {if:C(G=>lastBowl(G)&&!S.firstOrder()),speaker:'heroine_03',text:'（把最後一碗放在你面前）招牌乾麵。你第一次來一定是點這個，大家都是。'},   /* {玩家大一第一次點的東西} 沒有備註＝這一句（AA_323）*/
-    {unless:C(lastBowl),speaker:'heroine_03',text:'（把最後一碗放在阿哲面前）餛飩湯。'},{unless:C(lastBowl),speaker:'zhe',text:'……我真的記錯了喔。'},   /* 給阿哲（AA_337 第 3 節）*/
+    /* AA_661 第 63 列：語彤端最後一碗的三句（給你兩版、給阿哲一版）拿掉——她不在燒臘店端碗 */
+    {unless:C(lastBowl),speaker:'zhe',text:'……我真的記錯了喔。'},
     {speaker:'heroine_03',text:'我記得。我記得每個人第一次點什麼。'},   /* 兩種都播 */
     {advance:G=>Math.max(0,21-(G.hour%24))},
-    {scene:'阿鳳麵店・騎樓',bg:false},
+    {scene:'公館燒臘・騎樓',bg:false},
     {if:C(G=>!ytDt(G)&&!otherDt(G)&&G.flags.rain_umbrella==='none'),speaker:'heroine_03',text:'這次我帶了兩把傘。'},
     {if:C(G=>!ytDt(G)&&!otherDt(G)&&['share','give'].includes(G.flags.rain_umbrella)),speaker:'heroine_03',text:'這次換我送你。'},
     {if:C(G=>!ytDt(G)&&!otherDt(G)&&!['none','share','give'].includes(G.flags.rain_umbrella)),speaker:'heroine_03',text:'下雨了。'},

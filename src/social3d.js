@@ -230,6 +230,7 @@ const SOCIAL = (function(){
   Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在燒臘店',AN_COLUMBIA:'她說紐約那間法學院上了，八月要去'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
   Object.assign(MEMORY_LABEL,{SIS5_LIBRARY_SEAT:'學姊在法學院圖書館的位子'});   /* 大二上 S3-L3 才記；AA_584 第 11 節整層刪了，源稿 03af79d17 起匯入不再帶這個名稱——舊存檔記過的照樣顯示中文（AA 2026-11-02 19:29）*/
   Object.assign(MEMORY_LABEL,{PS7_SPECIAL_ED:'沛珊說她晚兩年',PS7_DECIDE:'沛珊選了國小'});   /* 沛珊大四上的階梯記憶（AA_262 第 6 點、BB_209：階梯台詞照 AA_282 改了，名稱跟著改；企劃的階梯表 BB_142 還是舊名稱，匯入的 LADDER.labels 會帶舊的——這裡優先）*/
+  Object.assign(MEMORY_LABEL,{AN8_ELECTIVE:'她大四下多選了一門證券交易法',YT8_EXTRA_YEAR:'她四年修完雙主修',YT8_SUMMER_THURSDAY:'暑假她週末還在茶屋'});   /* AA_661 第 85 列（AA_152 記憶名稱表 c25969887；AA_510 0-2、AA_629、AA_630 L-262）：匯入工具的 labelsRef 讀固定 commit（先列的優先），企劃的新名稱讀不到——寫在這裡，優先於匯入的 LADDER.labels。AA_265 其他改了名稱的，這裡（上面幾行）已經是新名稱或 AA 定的遊戲版（AA_630 L-031 YT_TEN_MINUTES 照舊）*/
   Object.assign(MEMORY_LABEL,{AN_JP_LIGHT:'她房間的燈，是你換的',AN_JP_FIREWORK:'在河堤看了她在日本的第一場煙火'});   /* 面板名稱：日本篇的空白日（AA_435 第 7 節；src/jp_blank3d.js 也會登記，一字相同）*/
   MEMORY_LABEL.ZR_WITH_ZQ='她和子晴在交往'; MEMORY_LABEL.ZQ_WITH_ZR='她和芷若在交往';   /* 芷若×子晴：祐廷知道她們在一起以後的人物頁（AA_232 4-7「他之後在人物頁看到兩人的關係」；src/zrzq3d.js 的 coupleMem）*/
   Object.assign(MEMORY_LABEL,{ZQ_ZR_FILM_DAY:'她說室友跟系上的人去看了電影',ZZ_TOLD_YT:'她自己告訴你，她們在一起了'});   /* 名稱 AA_385 第 10 節（企劃線 946b1b72）定；AA_385 第 3 項（大一下子晴 Q2-L3 的 4-1 第 5 句）、第 4 項（其中一人自己告訴祐廷）的記憶：AA 沒寫人物頁的名稱，照台詞寫的暫定名稱（同 BB_130 ZQ_ZR_SETUP_* 的寫法），待 AA 定 */

@@ -431,11 +431,13 @@ if A594:
             i += 1
         old, new = c[2], c[3]
         if isinstance(cur, str):
+            if cur == new: continue   # AA_661 第 61 列：源稿已經是新字＝跳過（同 tools/story/aa630.py）；兩個都不是照舊停下來
             if cur != old:
                 sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{cur}」，不是原句「{old}」')
             par[key] = new
         elif isinstance(cur, dict) and isinstance(cur.get('text'), str):
             v = cur['text']
+            if v == new or (new.startswith('（') and new.endswith('）') and '（' + v + '）' == new): continue   # AA_661 第 61 列：已經是新字＝跳過
             if v == old: cur['text'] = new
             elif '（' + v + '）' == old and new.startswith('（') and new.endswith('）'): cur['text'] = new[1:-1]
             else: sys.exit(f'AA_594 第 {m.group(1)} 列：{pm.group(1)} 現在是「{v}」，不是原句「{old}」')

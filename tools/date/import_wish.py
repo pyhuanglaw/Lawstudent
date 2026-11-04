@@ -168,7 +168,9 @@ if A594:
         return n
     for n, old, new, want in rows594:
         cnt = lambda: json.dumps(EV['heroine_01'], ensure_ascii=False).count(json.dumps(new, ensure_ascii=False)[1:-1])
-        c0 = cnt(); _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        c0 = cnt(); hit = _sub594(EV['heroine_01'], old, new); got = cnt() - c0   # 輸出裡多了幾處（AA_127 大一版收尾和一般版共用同一個旁白物件，算輸出的處數）
+        if hit == 0 and c0 > 0:   # AA_661 第 61 列：源稿（AA_127 那幾格）已經是新字＝跳過，和 tools/story/aa630.py 一樣；兩個都不是照舊停下來
+            FIX592.add(new); FIX592.add('（' + new + '）'); continue
         if got != want:
             sys.exit(f'AA_594 第 {n} 列：以安 D07「{old}」換了 {got} 處（應該是 {want} 處）')
         FIX592.add(new); FIX592.add('（' + new + '）')
