@@ -6,7 +6,8 @@ wt_tests = os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.ab
 src_path = os.path.join(wt_tests, 'qa_w1_shots.py')
 url, out = sys.argv[1], sys.argv[2]
 src = open(src_path, encoding='utf-8').read()
-new, n = re.subn(r"^OUT = .*$", "OUT = %r" % os.path.abspath(out), src, count=1, flags=re.M)
+_line = "OUT = %r" % os.path.abspath(out)   # CC-C 11-04：替換值用函式——字串的話 re 會再處理一次反斜線，Windows 路徑 C:\\Users 變成 C:\Users → SyntaxError \U（WZ3_qa_w1 PC exit 1）
+new, n = re.subn(r"^OUT = .*$", lambda m: _line, src, count=1, flags=re.M)
 if n != 1:
     print('FAIL 找不到 qa_w1_shots.py 的 OUT＝ 那一行（測試改版了）'); sys.exit(1)
 os.makedirs(out, exist_ok=True)

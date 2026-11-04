@@ -93,6 +93,30 @@ GLASS_JS = "(async(on)=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.mat
 MATLIST_JS = "(()=>{ const out=[]; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ if(m&&/xs_fronts|wz_xs/.test(m.name||'')){ let vis=true; for(let q=o;q;q=q.parent) if(q.visible===false){ vis=false; break; } out.push({mesh:o.name||'(無名)', type:o.type, mat:m.name, matUuid:m.uuid.slice(0,8), vis, verts:o.geometry&&o.geometry.attributes.position?o.geometry.attributes.position.count:null, uv1:!!(o.geometry&&o.geometry.attributes.uv1), parent:o.parent&&(o.parent.name||o.parent.type)}); } } }); return JSON.stringify(out.slice(0,40)); })()"
 BLACK_JS = "(async(on)=>{ const W=window.__ccBlk||(window.__ccBlk=new Map()); GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material]; if(!ms.some(m=>m&&/xs_fronts|wz_xs/.test(m.name||''))) return; for(const m of ms){ if(!m||!/xs_fronts|wz_xs/.test(m.name||'')) continue; if(on){ if(!W.has(m)) W.set(m,{c:m.color.clone(),e:m.emissive?m.emissive.clone():null}); m.color.setRGB(0,0,0); if(m.emissive) m.emissive.setRGB(0,0,0); } else { const b=W.get(m); if(b){ m.color.copy(b.c); if(b.e&&m.emissive) m.emissive.copy(b.e); } } } }); if(!on) W.clear(); await " + TWO_FRAMES + "; return true; })"
 
+# GG_night_r8c（LAWWW-C 12:4x 決定，CC-C 寫）：HIDE=1——把所有用 xs_fronts／wz_xs 材質的網格 visible=false 再拍（_hidden），直接判斷卡面是不是這兩個網格；PROG=1——印這些材質的 onBeforeCompile、customProgramCacheKey、實際編好的 program。都只在晚上那一輪做
+HIDE_JS = "(async(on)=>{ const W=window.__ccHid||(window.__ccHid=new Map()); let n=0; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material]; if(!ms.some(m=>m&&/xs_fronts|wz_xs/.test(m.name||''))) return; if(on){ if(!W.has(o)) W.set(o,o.visible); o.visible=false; n++; } else if(W.has(o)){ o.visible=W.get(o); n++; } }); if(!on) W.clear(); await " + TWO_FRAMES + "; return n; })"
+PROG_JS = r"""(()=>{const E=GAME.E,R=E.renderer,out=[];E.scene.traverse(o=>{if(!o.isMesh)return;const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms){if(!m||!/xs_fronts|wz_xs/.test(m.name||''))continue;const p=R.properties.get(m),pr=p&&p.currentProgram;let obc=null;try{obc=m.onBeforeCompile?String(m.onBeforeCompile).slice(0,400):null;}catch(e){obc='ERR';}let ck=null;try{ck=m.customProgramCacheKey?String(m.customProgramCacheKey()).slice(0,120):null;}catch(e){ck='ERR';}let fsHas={};try{if(pr){const gl=R.getContext();const fs=gl.getShaderSource(pr.fragmentShader);fsHas={len:fs.length,uShopLit:/uShopLit/.test(fs),emissiveMapMul:/emissiveColor\s*\*=/.test(fs),diffuseMul:/diffuseColor\s*\*=\s*sampledDiffuseColor/.test(fs)};}}catch(e){fsHas={err:String(e).slice(0,80)};}out.push({mesh:o.name,mat:m.name,uuid:m.uuid.slice(0,8),type:m.type,obc:obc,cacheKey:ck,prog:pr?{name:pr.name,id:pr.id,cacheKey:String(pr.cacheKey||'').slice(0,80)}:null,fs:fsHas,users:R.info.programs?R.info.programs.filter(q=>q===pr).length:null});}});return JSON.stringify(out);})()"""
+
+# GG_night_r8c（LAWWW2-C 12:45 規格，CC-C 寫）：R8C=1、晚上那一輪才做。先印 ggLit 與畫面上那一個 NOSHADOW_xs_fronts_lit 的材質資訊；
+# 再四個單項各拍一張（量完還原再做下一項）：(a) m.visible=false (b) 直接改 m.material 的 color、emissive＝0 (c) 所有 cafe_glass visible=false (d) gongguan_shops_glb_glows visible=false
+R8C_DIAG_JS = r"""(()=>{const E=GAME.E,z=E.zone,L=z.ggLit,o={};const f=v=>{try{return typeof v==='function'?v():v;}catch(e){return 'ERR '+String(e).slice(0,60);}};
+if(L){o.L={name:L.name,mat:L.mat&&(L.mat.name||L.mat),inScene:f(L.inScene),compiled:f(L.compiled),rewrap:f(L.rewrap),lit:L.lit?Array.from(L.lit):null};}else o.L=null;
+const g=z.group||E.scene;const m=g.getObjectByName('NOSHADOW_xs_fronts_lit');
+if(m){const M=m.material;let anc=true;for(let q=m;q;q=q.parent)if(q.visible===false){anc=false;break;}
+let ck=null;try{ck=M.customProgramCacheKey?String(M.customProgramCacheKey()):null;}catch(e){ck='ERR';}
+let link=null,vlog=null,flog=null;try{const gl=E.renderer.getContext(),p=E.renderer.properties.get(M),pr=p&&p.currentProgram;if(pr&&pr.program){link=gl.getProgramParameter(pr.program,gl.LINK_STATUS);vlog=(gl.getShaderInfoLog(pr.vertexShader)||'').slice(0,200);flog=(gl.getShaderInfoLog(pr.fragmentShader)||'').slice(0,200);}else link='no program';}catch(e){link='ERR '+String(e).slice(0,60);}
+o.m={link:link,vlog:vlog,flog:flog,inGroup:!!z.group,matName:M&&M.name,matUuid:M&&M.uuid,cacheKey:ck,obc:M&&M.onBeforeCompile?String(M.onBeforeCompile).slice(0,120):null,visible:m.visible,ancestorsVisible:anc,
+count:(()=>{let n=0;E.scene.traverse(q=>{if(q.isMesh&&q.name==='NOSHADOW_xs_fronts_lit')n++;});return n;})()};}else o.m=null;
+const progs=(E.renderer.info.programs||[]);o.programs=progs.length;o.programsShopLit=progs.filter(q=>{try{const k=String(q.cacheKey||'');return /ggShopLit|uShopLit/.test(k);}catch(e){return false;}}).length;
+try{const gl=E.renderer.getContext();o.programsShopLitSrc=progs.filter(q=>{try{return /uShopLit/.test(gl.getShaderSource(q.fragmentShader)||'');}catch(e){return false;}}).length;}catch(e){o.programsShopLitSrc='ERR';}
+const gw=g.getObjectByName('gongguan_shops_glb_glows');o.glows=gw?{type:gw.type,visible:gw.visible}:null;return JSON.stringify(o);})()"""
+R8C_STEP_JS = r"""(async(step,on)=>{const E=GAME.E,z=E.zone,g=z.group||E.scene,W=window.__ccR8c||(window.__ccR8c={});let n=0;
+if(step==='a'){const m=g.getObjectByName('NOSHADOW_xs_fronts_lit');if(m){if(on){W.a=m.visible;m.visible=false;}else m.visible=W.a;n=1;}}
+else if(step==='b'){const m=g.getObjectByName('NOSHADOW_xs_fronts_lit');if(m){const M=m.material;if(on){W.b={c:M.color.clone(),e:M.emissive.clone()};M.color.setScalar(0);M.emissive.setScalar(0);}else{M.color.copy(W.b.c);M.emissive.copy(W.b.e);}n=1;}}
+else if(step==='c'){if(on)W.c=[];E.scene.traverse(o=>{if(o.isMesh&&o.material&&o.material.name==='cafe_glass'){if(on){W.c.push([o,o.visible]);o.visible=false;}n++;}});if(!on){for(const [o,v] of W.c)o.visible=v;n=W.c.length;}}
+else if(step==='d'){const gw=g.getObjectByName('gongguan_shops_glb_glows');if(gw){if(on){W.d=gw.visible;gw.visible=false;}else gw.visible=W.d;n=1;}}
+await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(()=>r(true))));return n;})"""
+
 
 def luma_of(png, quad, iw, ih):
     from PIL import Image, ImageStat
@@ -161,6 +185,13 @@ async def run_time(pg, hour, when):
         try: sh = await pg.evaluate(SHADER_JS)
         except Exception as e: sh = 'ERR ' + str(e)[:300]
         print('  %s ①著色器：%s' % (when, sh), flush=True)
+    if os.environ.get('PROG') == '1' and when == 'night':
+        try: print('  %s 材質／program：%s' % (when, await pg.evaluate(PROG_JS)), flush=True)
+        except Exception as e: print('  %s 材質／program 失敗：%r' % (when, e), flush=True)
+    r8c = os.environ.get('R8C') == '1'   # 白天也做一次當對照（CC-C：雲端 r8c 預跑發現晚上整張窗卡都沒畫出來）
+    if r8c:
+        try: print('  %s r8c 診斷：%s' % (when, await pg.evaluate(R8C_DIAG_JS)), flush=True)
+        except Exception as e: print('  %s r8c 診斷失敗：%r' % (when, e), flush=True)
     await pg.evaluate(HUD + '(false)')
     for k in SEL:
         G, shop, x0, x1, y0, y1, zz = ALLC[k]; cx = round((x0 + x1) / 2, 3)
@@ -192,6 +223,28 @@ async def run_time(pg, hour, when):
                 print('  %s %s 「底」：窗卡 color／emissive＝0 的截圖 _black' % (when, k), flush=True)
             except Exception as e:
                 print('  %s %s 「底」失敗：%r' % (when, k, e), flush=True)
+        if os.environ.get('HIDE') == '1' and when == 'night':
+            try:
+                ci['hidden_n'] = await pg.evaluate(HIDE_JS + '(true)'); await pg.wait_for_timeout(200)
+                await pg.screenshot(path=os.path.join(OUT, 'card_%s_%s_hidden.png' % (k, when)))
+                await pg.evaluate(HIDE_JS + '(false)')
+                print('  %s %s 藏起 xs_fronts 網格 %s 個的截圖 _hidden' % (when, k, ci['hidden_n']), flush=True)
+            except Exception as e:
+                print('  %s %s 藏網格失敗：%r' % (when, k, e), flush=True)
+        if r8c:
+            ci['r8c'] = {}
+            for st, tag in (('a', 'hide'), ('b', 'mblack'), ('c', 'noglass'), ('d', 'noglows')):
+                try:
+                    n = await pg.evaluate(R8C_STEP_JS + '(%s,true)' % J(st)); await pg.wait_for_timeout(200)
+                    fn2 = os.path.join(OUT, 'card_%s_%s_r8c_%s_%s.png' % (k, when, st, tag))
+                    await pg.screenshot(path=fn2)
+                    await pg.evaluate(R8C_STEP_JS + '(%s,false)' % J(st)); await pg.wait_for_timeout(200)
+                    try: lu = luma_of(fn2, ci['screen'], iw, ih)
+                    except Exception: lu = None
+                    ci['r8c'][st] = {'n': n, 'luma': lu}
+                except Exception as e:
+                    ci['r8c'][st] = {'err': str(e)[:160]}
+            print('  %s %s r8c 四項（a 藏網格／b 改 m 材質／c 藏玻璃／d 藏光暈）：%s' % (when, k, J(ci['r8c'])), flush=True)
         try: ci['ray'] = await pg.evaluate(RAY_JS + '(%s)' % J([cx, (y0 + y1) / 2, zz]))
         except Exception as e: ci['ray'] = 'ERR ' + str(e)[:200]
         print('  %s %s raycast：%s' % (when, k, J(ci['ray'])), flush=True)
@@ -207,6 +260,14 @@ async def main():
     print('CC GG_cards_shot 公館 13 張窗卡從騎樓看；SHA=%s；CARDS=%s；Playwright（PC 有 GPU、有視窗），不是手機實機' % (os.environ.get('SHA', '?'), ','.join(SEL)), flush=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        cons, shad = [], []
+        def _con(m):
+            t = m.text or ''
+            if m.type in ('error', 'warning') and any(w in t for w in ('WebGLProgram', 'Shader', 'shader', 'redefinition', 'VALIDATE_STATUS')):
+                if len(shad) < 20: shad.append('%s: %s' % (m.type, t[:600]))
+            elif m.type in ('error', 'warning') and len(cons) < 40:
+                cons.append('%s: %s' % (m.type, t[:300]))
+        pg.on('console', _con)
         t0 = time.time(); await pg.goto(URL); ok = await L.wait_loaded(pg); boot = time.time() - t0
         check('遊戲載入', ok, '%.1f 秒' % boot)
         if not ok:
@@ -216,6 +277,8 @@ async def main():
         day = await run_time(pg, hrs[0], 'day')
         night = await run_time(pg, hrs[1], 'night') if len(hrs) > 1 else day
         check('沒有 JS 例外', not errs, J(errs[:3]))
+        info('console 著色器錯誤', '%d 則：%s' % (len(shad), J(shad)))
+        info('console 其他錯誤／警告', '%d 則（最多記 40）：%s' % (len(cons), J(cons[:8])))
         await b.close()
     rows = {}
     for k in SEL:

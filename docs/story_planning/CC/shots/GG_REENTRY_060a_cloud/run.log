@@ -1,0 +1,53 @@
+CC GG_REENTRY 公館窗卡重複進區域；SHA=060a1a093；HOURS=[14.0, 21.0]；CARDS=ggtea_int,ggbook_int,ggdb_int；Playwright，不是手機實機
+PASS 遊戲載入  16.8 秒
+== 第 1 輪 14:00：[前置／捷徑] 讀檔到公館人行道 (−30, 14)，條件事件關閉
+PASS [R1_14_1] 正式模型 gongguan_shops_glb 有載入  8.18 秒
+INFO [R1_14_1] 窗卡狀態  {"zone": "gongguan", "hour": 14.004999333333338, "enterN": 0, "found": true, "mat": "wz_xs_fronts", "matUuid": "d37ce50a", "visible": true, "link": true, "vlog": "", "flog": "", "uShopLitDecl": 1, "lit": [1, 1, 1, 1, 0.03, 1, 1, 1, 1], "ids": ["ggtea", "ggbook", "ggcvs", "ggyy", "ggbike", "ggafar", "ggcorner", "ggdb"]}
+PASS [R1_14_1] 窗卡網格找得到
+PASS [R1_14_1] 窗卡 program LINK_STATUS＝true  {"link": true, "vlog": "", "flog": "", "uShopLitDecl": 1, "matUuid": "d37ce50a"}
+PASS [R1_14_1] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "青木茶室", "idx": 1, "open": true, "luma": 126, "hidden": 119.1, "black": 62.8}
+PASS [R1_14_1] G01 ggtea_int 營業→亮（原樣−黑≥8.0）  126.0−62.8
+PASS [R1_14_1] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "頁間書屋", "idx": 2, "open": true, "luma": 120.1, "hidden": 131.4, "black": 69.5}
+PASS [R1_14_1] G02 ggbook_int 營業→亮（原樣−黑≥8.0）  120.1−69.5
+PASS [R1_14_1] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "Daybreak", "idx": 8, "open": true, "luma": 159.3, "hidden": 127.1, "black": 67.4}
+PASS [R1_14_1] G14 ggdb_int 營業→亮（原樣−黑≥8.0）  159.3−67.4
+== 第 1 輪：GAME.enter(campus) → GAME.enter(gongguan)（遊戲自己的換區域）
+PASS [R1] 換到 campus
+PASS [R1_14_2] 再進公館、正式模型有載入  3.16 秒
+INFO [R1_14_2] 窗卡狀態  {"zone": "gongguan", "hour": 14.063778666666725, "enterN": 0, "found": true, "mat": "wz_xs_fronts", "matUuid": "d37ce50a", "visible": true, "link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\n", "uShopLitDecl": 2, "lit": [1, 1, 1, 1, 0.03, 1, 1, 1, 1], "ids": ["ggtea", "ggbook", "ggcvs", "ggyy", "ggbike", "ggafar", "ggcorner", "ggdb"]}
+PASS [R1_14_2] 窗卡網格找得到
+FAIL [R1_14_2] 窗卡 program LINK_STATUS＝true  {"link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\n", "uShopLitDecl": 2, "matUuid": "d37ce50a"}
+FAIL [R1_14_2] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "青木茶室", "idx": 1, "open": true, "luma": 118.8, "hidden": 118.8, "black": 118.8}
+FAIL [R1_14_2] G01 ggtea_int 營業→亮（原樣−黑≥8.0）  118.8−118.8
+FAIL [R1_14_2] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "頁間書屋", "idx": 2, "open": true, "luma": 131.2, "hidden": 131.2, "black": 131.2}
+FAIL [R1_14_2] G02 ggbook_int 營業→亮（原樣−黑≥8.0）  131.2−131.2
+FAIL [R1_14_2] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "Daybreak", "idx": 8, "open": true, "luma": 126.9, "hidden": 126.9, "black": 126.9}
+FAIL [R1_14_2] G14 ggdb_int 營業→亮（原樣−黑≥8.0）  126.9−126.9
+== 第 2 輪 21:00：[前置／捷徑] 讀檔到公館人行道 (−30, 14)，條件事件關閉
+PASS [R2_21_1] 正式模型 gongguan_shops_glb 有載入  2.61 秒
+INFO [R2_21_1] 窗卡狀態  {"zone": "gongguan", "hour": 21.002777333333338, "enterN": 0, "found": true, "mat": "wz_xs_fronts", "matUuid": "d37ce50a", "visible": true, "link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\nERROR: 0:302: 'uShopLit' : redefinition\nERROR: 0:303: 'vShopIdx' : redefinition\n", "uShopLitDecl": 3, "lit": [1, 0.03, 1, 1, 1, 0.03, 0.03, 0.03, 0.03], "ids": ["ggtea", "ggbook", "ggcvs", "ggyy", "ggbike", "ggafar", "ggcorner", "ggdb"]}
+PASS [R2_21_1] 窗卡網格找得到
+FAIL [R2_21_1] 窗卡 program LINK_STATUS＝true  {"link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\nERROR: 0:302: 'uShopLit' : redefinition\nERROR: 0:303: 'vShopIdx' : redefinition\n", "uShopLitDecl": 3, "matUuid": "d37ce50a"}
+FAIL [R2_21_1] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "青木茶室", "idx": 1, "open": false, "luma": 59.6, "hidden": 59.6, "black": 59.6}
+PASS [R2_21_1] G01 ggtea_int 打烊→暗（原樣−黑<8.0）  59.6−59.6
+FAIL [R2_21_1] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "頁間書屋", "idx": 2, "open": true, "luma": 82, "hidden": 82, "black": 82}
+FAIL [R2_21_1] G02 ggbook_int 營業→亮（原樣−黑≥8.0）  82.0−82.0
+FAIL [R2_21_1] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "Daybreak", "idx": 8, "open": false, "luma": 65.2, "hidden": 65.2, "black": 65.2}
+PASS [R2_21_1] G14 ggdb_int 打烊→暗（原樣−黑<8.0）  65.2−65.2
+== 第 2 輪：GAME.enter(campus) → GAME.enter(gongguan)（遊戲自己的換區域）
+PASS [R2] 換到 campus
+PASS [R2_21_2] 再進公館、正式模型有載入  3.66 秒
+INFO [R2_21_2] 窗卡狀態  {"zone": "gongguan", "hour": 21.06333266666675, "enterN": 0, "found": true, "mat": "wz_xs_fronts", "matUuid": "d37ce50a", "visible": true, "link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\nERROR: 0:168: 'uv1' : redefinition\nERROR: 0:170: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\nERROR: 0:302: 'uShopLit' : redefinition\nERROR: 0:303: 'vShopIdx' : redefinition\nERROR: 0:304: 'uShopLit' : redefinition\nERROR: 0:305: 'vShopIdx' : redefinition\n", "uShopLitDecl": 4, "lit": [1, 0.03, 1, 1, 1, 0.03, 0.03, 0.03, 0.03], "ids": ["ggtea", "ggbook", "ggcvs", "ggyy", "ggbike", "ggafar", "ggcorner", "ggdb"]}
+PASS [R2_21_2] 窗卡網格找得到
+FAIL [R2_21_2] 窗卡 program LINK_STATUS＝true  {"link": false, "vlog": "ERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\nERROR: 0:168: 'uv1' : redefinition\nERROR: 0:170: 'vShopIdx' : redefinition\n", "flog": "ERROR: 0:300: 'uShopLit' : redefinition\nERROR: 0:301: 'vShopIdx' : redefinition\nERROR: 0:302: 'uShopLit' : redefinition\nERROR: 0:303: 'vShopIdx' : redefinition\nERROR: 0:304: 'uShopLit' : redefinition\nERROR: 0:305: 'vShopIdx' : redefinition\n", "uShopLitDecl": 4, "matUuid": "d37ce50a"}
+FAIL [R2_21_2] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "青木茶室", "idx": 1, "open": false, "luma": 59.6, "hidden": 59.6, "black": 59.6}
+PASS [R2_21_2] G01 ggtea_int 打烊→暗（原樣−黑<8.0）  59.6−59.6
+FAIL [R2_21_2] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "頁間書屋", "idx": 2, "open": true, "luma": 82, "hidden": 82, "black": 82}
+FAIL [R2_21_2] G02 ggbook_int 營業→亮（原樣−黑≥8.0）  82.0−82.0
+FAIL [R2_21_2] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）  {"shop": "Daybreak", "idx": 8, "open": false, "luma": 65.1, "hidden": 65.1, "black": 65.1}
+PASS [R2_21_2] G14 ggdb_int 打烊→暗（原樣−黑<8.0）  65.1−65.1
+PASS 沒有 JS 例外  []
+FAIL console 沒有著色器錯誤（THREE.WebGLProgram／Shader Error／redefinition）  3 則：["error: THREE.WebGLProgram: Shader Error 1281 - VALIDATE_STATUS false\n\nMaterial Name: wz_xs_fronts\nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Vertex shader is not compiled.\nVERTEX\n\nERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\n\n  155: #ifndef USE_UV1\n  156: attribute vec2 uv1;\n  157: #endif\n  158: varying float vShopIdx;\n  159: #ifndef USE_UV1\n> 160: attribute vec2 uv1;\n  161: #endif\n  162: varying float vShopIdx;\n  163: #ifdef USE_BATCHING\n  164: \t#if ! defined( GL_ANGLE_multi_draw )\n  165: \t#define gl_DrawID _gl_DrawID\n  166: \tuniform int _gl_DrawID;\nFRAGMENT", "error: THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: wz_xs_fronts\nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Vertex shader is not compiled.\nVERTEX\n\nERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\n\n  155: #ifndef USE_UV1\n  156: attribute vec2 uv1;\n  157: #endif\n  158: varying float vShopIdx;\n  159: #ifndef USE_UV1\n> 160: attribute vec2 uv1;\n  161: #endif\n  162: varying float vShopIdx;\n  163: #ifndef USE_UV1\n  164: attribute vec2 uv1;\n  165: #endif\n  166: var", "error: THREE.WebGLProgram: Shader Error 1282 - VALIDATE_STATUS false\n\nMaterial Name: wz_xs_fronts\nMaterial Type: MeshStandardMaterial\n\nProgram Info Log: Vertex shader is not compiled.\nVERTEX\n\nERROR: 0:160: 'uv1' : redefinition\nERROR: 0:162: 'vShopIdx' : redefinition\nERROR: 0:164: 'uv1' : redefinition\nERROR: 0:166: 'vShopIdx' : redefinition\nERROR: 0:168: 'uv1' : redefinition\nERROR: 0:170: 'vShopIdx' : redefinition\n\n  155: #ifndef USE_UV1\n  156: attribute vec2 uv1;\n  157: #endif\n  158: varying float vShopIdx;\n  159: #ifndef USE_UV1\n> 160: attribute vec2 uv1;\n  161: #endif\n  162: varying float vShopIdx;"]
+INFO console 其他 error  0 則：[]
+FAILED 18: [R1_14_2] 窗卡 program LINK_STATUS＝true；[R1_14_2] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）；[R1_14_2] G01 ggtea_int 營業→亮（原樣−黑≥8.0）；[R1_14_2] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）；[R1_14_2] G02 ggbook_int 營業→亮（原樣−黑≥8.0）；[R1_14_2] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）；[R1_14_2] G14 ggdb_int 營業→亮（原樣−黑≥8.0）；[R2_21_1] 窗卡 program LINK_STATUS＝true；[R2_21_1] G01 ggtea_int 窗卡有畫（|原樣−藏|≥4.0）；[R2_21_1] G02 ggbook_int 窗卡有畫（|原樣−藏|≥4.0）；[R2_21_1] G02 ggbook_int 營業→亮（原樣−黑≥8.0）；[R2_21_1] G14 ggdb_int 窗卡有畫（|原樣−藏|≥4.0）…
+EXIT 1

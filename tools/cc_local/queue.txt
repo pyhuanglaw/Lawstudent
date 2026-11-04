@@ -69,6 +69,8 @@ GG_night_r8_21 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_car
 GG_night_r8_0130 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
 # GG_night_r8b：r8 的「底」只把名字叫 NOSHADOW_xs_fronts_lit 的網格設黑，畫面完全沒變 → 改成所有用 xs_fronts 材質的網格都設黑，並列出這些網格（名字、可見、uv1）
 GG_night_r8b | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;BASE=1;CC_HEADLESS=0
+# GG_night_r8c（BB-C 12:53 改方向）：(a)～(d) 不跑了（雲端已證實第二次進公館 shader 重複宣告）；PC 這一輪只要 GPU 版 console 的 shader 錯誤字串（探針已內建 console 收集：「INFO console 著色器錯誤」那一行），2 張卡就好。結果給 BB-C、LAWWW-C、LAWWW2-C
+GG_night_r8c | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,21;CARDS=ggtea_int,ggbook_int;CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住
@@ -90,7 +92,9 @@ WZ3_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_
 WZ3_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
 WZ3_yizhan_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=yizhan;HOURS=14,22;CC_HEADLESS=0
 WZ3_yizhan_floor | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=yizhan;HOURS=;FLOOR=1;CC_HEADLESS=0
-WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py | index.html | 30 | CC_HEADLESS=0
+# WZ4_yizhan_floor（CC-C 11-04）：WZ3_yizhan_floor（b53bfab72）是 07:49 UTC 跑的，比探針修好「坐下後選起身」（f03686817，08:27）早——站起來 6 項 FAIL＝舊探針；鏡頭檢查改成 BB-C 的標準。用現在的探針在最新的 060a1a093 重跑地板座位
+WZ4_yizhan_floor | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 40 | SHOP=yizhan;HOURS= ;FLOOR=1;SIT_WAIT=6;CC_HEADLESS=0
+WZ3_qa_w1 | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py | index.html | 30 | CC_HEADLESS=0;RERUN=winpath1104
 # SEAT_ACT（BB 07:44；X217 SEAT-ACTIVITY-1104）：31ce5f785；六區全景＋近景 1.5 m、小物浮空／穿桌、手機在手上、筆電頭向、同桌同事（H）
 SEAT_ACT | ae0095d0d | probe | docs/story_planning/test_tools/cc/cc_seat_act_probe.py | index.html | 50 | ZONES=cafe,library_hall,library,lawlib,afar,daybreak,wz_teishoku@19;CC_HEADLESS=0
 # WZ4（BB 08:17，排在 ADE_int 前）：e9023bae7 小路 v4、SUNNY v1e、一盞 v1e；lane_east 超標記 FAIL 不重量
@@ -105,6 +109,9 @@ ADE_int_in | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_pr
 ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=CUST,ENC;CC_HEADLESS=0
 ADE_int_job | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 50 | CASES=JOB,SUNNY;CC_HEADLESS=0
 ADE_touchwz | 0c2d4997b | game | tests/touch_flow_wenzhou.py | index.html?turbo | 60 | XARGS={url}
+# ADE 重跑（BB-C 13:00，判定 BB_255）：ENC 每一輪 day 要真的 +1（GI.load 原本印的日期是寫死的 2025-09-23，現在印讀檔後的實際日期）；touchwz 診斷＝按「繼續」以後、推搖桿以前截圖＋phoneIsOpen／busyDepth／charsAll／每個路人 driver（CC-C）
+ADE_int_enc_r2 | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=ENC;CC_HEADLESS=0
+ADE_touchwz_diag | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_touchwz_diag_probe.py | index.html | 15 | CC_HEADLESS=0
 ADE_reach | 0c2d4997b | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones wz_print
 ADE_zones | 0c2d4997b | game | tests/zone_transitions.py | index.html?turbo | 60 | XARGS={url}
 # WZ3r2：玩家視角改成從溫州街走進店門（e18f746c4）；固定角度照舊

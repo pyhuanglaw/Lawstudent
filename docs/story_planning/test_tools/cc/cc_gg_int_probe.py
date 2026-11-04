@@ -181,8 +181,13 @@ async def load(pg, cdp, zone, x, z, hour, desc, money=3000, extra=None, yaw=math
         fl = extra.pop('flags', None)
         st.update(extra)
         if fl: st['flags'].update(fl)
-    print('  [前置／捷徑] 讀檔：%s (%s, %s)、2025-09-23（二）%s、money %d、條件事件關閉%s' % (zone, x, z, hhmm(hour), money, ('、' + desc) if desc else ''), flush=True)
     await L.load_state(pg, st, quiet_events=True)
+    # CC-C 11-04（BB-C ADE_int_cust ENC）：原本這一行的日期是寫死的「2025-09-23（二）」，看不出 DAY 有沒有往前——改成讀檔後從遊戲讀實際的日期
+    try: gd = await pg.evaluate("(()=>{ const d=GAME.G.day, c=(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf)?CALENDAR.dateOf(d):null; return [d, c?c.key:null, c?c.wd:null]; })()")
+    except Exception as e: gd = [None, 'ERR', None]
+    wdn = '日一二三四五六'[gd[2] % 7] if isinstance(gd[2], int) else '?'
+    print('  [前置／捷徑] 讀檔：%s (%s, %s)、%s（%s）%s（day %s；要的是 day %s）、money %d、條件事件關閉%s' % (zone, x, z, gd[1], wdn, hhmm(hour), gd[0], DAY, money, ('、' + desc) if desc else ''), flush=True)
+    if gd[0] is not None and gd[0] != DAY: print('  ⚠ 讀檔後的 day %s ≠ 要的 day %s' % (gd[0], DAY), flush=True)
     await pg.wait_for_timeout(6500); await L.close_panels(pg, cdp); await converse(pg, cdp, 'load', None, 15)
 
 
