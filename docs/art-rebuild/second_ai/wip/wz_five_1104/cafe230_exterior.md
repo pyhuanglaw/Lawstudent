@@ -104,7 +104,7 @@ Blender Cycles 預覽（Standard 色彩），不是遊戲畫面：
 拿檔：
 
 ```
-git checkout <第二版 SHA> -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json tests/cafe230_ext_nav_unit.js
+git checkout 75383530f -- assets/models/env/second_ai/cafe_exterior.glb assets/models/env/second_ai/cafe_exterior.json tests/cafe230_ext_nav_unit.js
 ```
 
 - 不用改程式。
