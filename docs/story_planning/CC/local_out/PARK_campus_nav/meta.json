@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "PARK_campus_nav",
+  "sha": "555b9e0cb",
+  "kind": "game",
+  "script": "tests/campus_layout_nav.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T20:40:33",
+  "end": "2026-11-04T20:42:36",
+  "seconds": 123,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "res_peak": {
+    "cpu": 25,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 28
+  }
+}
