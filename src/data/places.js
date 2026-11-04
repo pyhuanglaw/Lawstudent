@@ -15,6 +15,7 @@ const PLACES={
     soclib:{ rules:{ term:{wd:[8+20/60,22],sat:[9,22],sun:[9,17]}, break:{wd:[8+20/60,21],sat:[9,17],sun:null}, holiday:null },
       text:'學期間 週一至五 08:20–22:00、週六 09:00–22:00、週日 09:00–17:00；寒暑假 週一至五 08:20–21:00、週六 09:00–17:00（週日不開）；國定、校定假日不開' }, cvs:{text:'24 小時'},   /* 公館的便利商店（AA_647 第 6 節：照新圖 07:00～24:00）。只寫說明、門照舊整天進得去：便利商店夜班（週五 22:00～02:00）、「凌晨的便利商店」（00:15）還在用，等 AA 改稿（BIKE-SHOP-PARK-1104 回報）*/
     /* 溫州街三家新店（AA_164 1-2，AA-B 定）：照星期（week[0]＝週日）；影印店考試週（第 8～9、16 週）開到 24:00。shop：關門的說明寫「開門」「公休」，不推薦去總圖 */
+    aoki:{shop:true,rules:{week:[[11,21],[11,21],[11,21],[11,21],[11,21],[11,21],[11,21]]},text:'每天 11:00–21:00'},   /* 青木茶室（AA_653 §0 B，企劃線 d26fecd2f）：每天 11:00～21:00、沒有公休日；颱風假不開（typhoonShops）。門口外帶照同一個時間；打烊、颱風天門口那一句、21:00 請你出來＝src/ggshops_sys3d.js */
     bikeshop:{shop:true,rules:{week:[[10,20],null,[10,20],[10,20],[10,20],[10,20],[10,20]]},text:'週二～週日 10:00–20:00；週一公休'},   /* 慢輪單車（AA_646 第 1 節：10:00～20:00、週一公休）*/
     wz_brunch:{shop:true,rules:{week:[[7.5,15],null,[8,15],[8,15],[8,15],[8,15],[7.5,15]]},text:'週二～週日 08:00–15:00（週末 07:30 開）；週一公休'},
     wz_print:{shop:true,rules:{week:[null,[9,22],[9,22],[9,22],[9,22],[9,22],[9,22]],examClose:24},text:'週一～週六 09:00–22:00（考試週開到 24:00）；週日公休'},
@@ -54,7 +55,7 @@ const PLACES={
   /* 這一天在不在開店的月份（rules.months；沒寫＝整年）：夏日冰菓室 5～9 月 */
   inSeason(zone,day){ const o=PLACES.hours[zone], M=o&&o.rules&&o.rules.months; if(!M) return true; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1; if(typeof CALENDAR==='undefined') return true; return M.includes(CALENDAR.dateOf(day).m); },
   /* 颱風假店家不開（AA_160 3-4 D，AA-B 2026-10-16：颱風假不能搭捷運、店家不開、不能打工、不能回家）；便利商店照開 */
-  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_mokuyobi','wz_offbeat'],
+  typhoonShops:['cafe','noodle','bookstore','wz_brunch','wz_print','wz_teahouse','wz_lin','wz_teishoku','wz_tea','wz_ice','wz_mokuyobi','wz_offbeat','aoki'],
   typhoonClosed(zone,day){ if(!PLACES.typhoonShops.includes(zone)) return false; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G)?GAME.G.day:null; return day!=null&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(day); },
   isOpen(zone,h,day){ if(PLACES.typhoonClosed(zone,day)) return false; const o=PLACES.hours[zone]; if(!o) return true; if(h<0||h>=24) h=((h%24)+24)%24; if(o.rules){ const ws=PLACES.windowsOf(zone,day); return !!ws&&ws.some(w=>h>=w[0]-1e-6&&h<w[1]-1e-6); }   /* 1e-6：08:10 剛好的時候（8+10/60 的浮點誤差）算開；一天兩段的店：在任何一段裡都算開 */ if(o.open==null) return true; return o.close>24?(h>=o.open||h<o.close-24):(h>=o.open&&h<o.close); },
   hhmm(x){ return String(Math.floor(x+1e-6)).padStart(2,'0')+':'+String(Math.round((x%1)*60)%60).padStart(2,'0'); },
