@@ -1,0 +1,119 @@
+diff --git a/src/data/xinsheng_layout.js b/src/data/xinsheng_layout.js
+index 4c5c1259d..0d9f8d6c8 100644
+--- a/src/data/xinsheng_layout.js
++++ b/src/data/xinsheng_layout.js
+@@ -70,12 +70,12 @@ const XINSHENG_LAYOUT={
+   "label": "回到首都帝大（新生南路側門）",
+   "name": "新生南路側門",
+   "campusSpawn": {
+-   "x": -122.0,
+-   "z": -84.0,
++   "x": -120.0,
++   "z": -83.0,
+    "yaw": 1.5708
+   },
+   "spawn": {
+-   "x": 15.0,
++   "x": 14.3,
+    "z": 10.0,
+    "yaw": -1.5708
+   },
+@@ -182,7 +182,7 @@ const XINSHENG_LAYOUT={
+    "label": "往溫州街",
+    "spawn": {
+     "x": -33.4,
+-    "z": -27.0,
++    "z": -25.8,
+     "yaw": 0
+    }
+   },
+diff --git a/src/mokuyobi3d.js b/src/mokuyobi3d.js
+index 8d420d32b..6c920edc0 100644
+--- a/src/mokuyobi3d.js
++++ b/src/mokuyobi3d.js
+@@ -15,8 +15,8 @@ const MOK3=(function(){
+   const Y1=MOKUYOBI_LAYOUT.stairWell.rise;        // 二樓地板（＝樓梯的總高，3.2）
+   const CX=11.15, CZ=-12.25;                      // 區域座標 → 溫州街世界座標：x＋CX、z＋CZ（B4 的門在本地 −2.6 → 世界 7.4；臨街的牆內面 z 7.0 → 世界 −5.25）
+   const DOOR_WZ={x:7.4,z:-4.55};                  // 溫州街上「上二樓」的互動點（人行道，B4 鐵門前）
+-  const OUT={x:7.4,z:-4.15,yaw:0};                // 走出來：B4 門口的人行道，面向巷子（+z）
+-  const IN={x:-3.75,z:6.6,yaw:Math.PI,lv:0};      // 走進來：一樓第一、二階，面向北（往上爬）
++  const OUT={x:7.4,z:-2.85,yaw:0};                // 走出來：B4 門口外的巷子，面向巷子（+z）；離「上二樓」1.7 m，在它的範圍（1.4）外面（tests/spawn_exit_unit.js）
++  const IN={x:-3.75,z:5.4,yaw:Math.PI,lv:0};      // 走進來：樓梯第五、六階，面向北（往上爬）；離門口的「離開木曜日」1.35 m，在它的範圍（1.0）外面（tests/spawn_exit_unit.js）
+   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.85},o||{}));
+ 
+   // ---- 樓梯：一條連續斜面（碰撞、找路），畫面上一階一階（tread／rise／low；engine3d.js visualHeightAt）----
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 87201c078..206fb3fd4 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -964,7 +964,7 @@ const Z3 = (function(){
+     const XSL=typeof XS3!=='undefined'&&typeof XINSHENG_LAYOUT!=='undefined';   /* 新生南路（ART-XINSHENG-GATE-1103）：西側橫巷的北口打開（遠景 F4 拿掉；正式模型 wz_street.py 也拿掉了），往北走出去是新生南路 */
+     for(const [x,z,ry,w,f,c] of [[-33.4,16.2,Math.PI,9,4,'#cfc4b2'],[-33.4,-16.2,0,9,5,'#d9cdb8']].filter(q=>!(XSL&&q[1]<0))){ const b=TK.apartment({w,d:10,floors:f,wall:'tile',color:c,detail:false,ground:{type:f>5?'shop':'door',shop:{type:'cvs',name:'新生大樓',sub:'',signBg:'#f4f1ea',signColor:'#333'}}}); b.position.set(x,0,z); b.rotation.y=ry; g.add(b); buildings.push(b); wzTag(b,z>0?'F3':'F4'); addCollider(x,z,ry%Math.PI?10:w,ry%Math.PI?w:10,30); }
+     if(XSL){ open(-36.4,-29.6,-30.6,-15); { const r=TK.road(15,6.6); r.position.set(-33.4,0.002,-22.4); r.rotation.y=Math.PI/2; g.add(r); }
+-      E.interactables.push({x:-33.4,z:-28.4,radius:2.2,label:'往新生南路',exit:{to:'xinsheng',spawn:{x:XINSHENG_LAYOUT.wenzhouLane.exit.x+1.6,z:XINSHENG_LAYOUT.wenzhouLane.exit.z,yaw:Math.PI/2}}}); }   /* 溫州街靠新生南路那一頭（AA_617 第 1 節：轉角是日常失速）；回來落在新生南路那一側巷口、面向馬路 */
++      E.interactables.push({x:-33.4,z:-28.4,radius:2.2,label:'往新生南路',exit:{to:'xinsheng',spawn:{x:XINSHENG_LAYOUT.wenzhouLane.exit.x+2.8,z:XINSHENG_LAYOUT.wenzhouLane.exit.z,yaw:Math.PI/2}}}); }   /* 溫州街靠新生南路那一頭（AA_617 第 1 節：轉角是日常失速）；回來落在新生南路那一側巷口、面向馬路；離「往溫州街」2.8 m，在它的範圍（2.4）外面（tests/spawn_exit_unit.js）*/
+     // 西端（巷底）：住家公寓。v9.2 起兩點半 Café 搬到東端路口（門面朝西，傍晚夕陽沿著巷子照到店門口）
+     { const endB=TK.apartment({w:14,d:13,floors:4,wall:'tile',color:'#cdbfa8',balcony:true,ground:{type:'door',color:'#5c3a21'}}); endB.position.set(-37.2,0,-1); endB.rotation.y=Math.PI/2; g.add(endB); buildings.push(endB); wzTag(endB,'W0'); nav.blockRect(-43.7,-1,13,14,0,0); addCollider(-43.7,-1,13,14,16); }
+     // 東端路口：兩點半 Café（一樓咖啡廳＋樓上住家；正對主巷，從公館走進溫州街第一眼就看到）
+diff --git a/tests/mokuyobi_unit.js b/tests/mokuyobi_unit.js
+index 2546f7748..cb1bfdb55 100644
+--- a/tests/mokuyobi_unit.js
++++ b/tests/mokuyobi_unit.js
+@@ -21,7 +21,7 @@ check('0. Z3.ZONES.wz_mokuyobi 有登記、配置是 v3c（樓梯 16 階）',!!Z
+ const z=loadZone('wz_mokuyobi'), [n0,n1]=z.levels;
+ check('1. 兩層導航同尺寸、同原點；二樓地板＝樓梯總高 3.2',z.levels.length===2&&n0.cols===n1.cols&&n0.rows===n1.rows&&n0.ox===n1.ox&&n0.oz===n1.oz&&Math.abs(n1.y0-S.rise)<1e-6&&Math.abs(S.rise-3.2)<1e-6);
+ const IN=MOK3.IN, top=[-3.75,(S.z0+S.top)/2,1], door=[S.x1+0.6,S.door.z,1];
+-check('2. 進來的出生點（一樓第一階）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
++check('2. 進來的出生點（樓梯第五、六階，離門口的出口 1.35 m）站得住',n0.clear(IN.x,IN.z,0.3),IN.x+','+IN.z);
+ // 樓梯的高度：一階一階（畫面）、連續（碰撞），最下面 0、最上面 3.2
+ { const st=MOK3.stairSurf(L); let okv=true, prev=-1; const T=S.tread; for(let k=1;k<S.risers;k++){ const zz=st.z1-(k-0.5)*T, v=n0.visualHeightAt?n0.visualHeightAt(-3.75,zz):null; if(v!==null&&Math.abs(v-k*0.2)>0.011) okv=false; }
+   const h0=n0.heightAt(-3.75,st.z1-0.02), h1=n1.heightAt(-3.75,S.top+0.02), hp=n1.heightAt(-3.75,(S.z0+S.top)/2);
+@@ -34,7 +34,8 @@ r=walk(top,door); check('6. 平台 → 東邊隔間牆的店門 → 店裡',r.ok
+ const seatAps=s=>{ const fx=Math.sin(s.yaw), fz=Math.cos(s.yaw); return [...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].map(([dx,dz])=>[s.x+dx,s.z+dz,1]).filter(a=>Math.hypot(a[0]-s.x,a[1]-s.z)<=0.85&&n1.clear(a[0],a[1],0.3)); };
+ const badSeat=[]; for(const s of L.seats){ const aps=seatAps(s); if(!aps.some(a=>walk(door,a).ok)) badSeat.push(`t${s.table}(${s.x},${s.z}) 候選點 ${aps.length} 個`); }
+ check(`7. 店門走得到 ${L.seats.length} 個座位「坐下」的走近點（GAME.seatApproach 的候選點）`,!badSeat.length,badSeat.join('｜'));
+-r=walk(door,[IN.x,IN.z,0]); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r));
++/* 走到一樓門口的「離開木曜日」（L.d/2−0.25）。11-04 以前走到出生點 IN；IN 搬到樓梯第五、六階以後（tests/spawn_exit_unit.js），那裡在樓梯上半、下半的交界附近，下樓的人還在第 1 層也算對，所以改走到真正的門口 */
++{ const D=[IN.x,L.d/2-0.25,0]; r=walk(door,D); check('8. 店裡 → 下樓 → 一樓門口（換回第 0 層）',r.ok,fmt(r)); }
+ // 一樓到不了二樓的地板（一定要走樓梯）、牆擋得住
+ { const p=E.pathTo(IN.x,IN.z,0,0.5,0.5,1); check('9. 一樓到二樓中間的找路經過樓梯（路線最高點在樓梯上、x 在樓梯間）',!!p&&p.length>0);
+   check('10. 一樓（第 0 層）在平台、店裡都站不住（樓梯間以外是實心的）',!n0.clear(-3.75,(S.z0+S.top)/2,0.2)&&!n0.clear(0,0,0.3)&&!n0.clear(-2.2,5,0.3));
+diff --git a/tests/spawn_exit_unit.js b/tests/spawn_exit_unit.js
+new file mode 100644
+index 000000000..0137d28df
+--- /dev/null
++++ b/tests/spawn_exit_unit.js
+@@ -0,0 +1,33 @@
++/* 換區的出生點不能落在那一區任何「出口」的互動半徑內（LAWWW 11-04 00:43 P2，D108；LAWWW2 11-04）。
++   原本新生南路、木曜日有好幾個出生點離「回頭」的出口只有 0.15～1.6 m：玩家一出現，畫面上就是往回走的按鈕（例：一進木曜日就出「離開木曜日」）。
++   萬才館的做法：出生點離互動點約 2.2 m（站在範圍外面，往前走一步才會碰到別的東西）。
++   做法：在 Node 建出遊戲真正的區域（溫州街、新生南路、木曜日、校園），蒐集每個區域的出口（interactables 的 exit），
++   每個「進到 A 區」的出口的 spawn，量它到 A 區每個出口互動點的水平距離（同一層），要大於那個出口的半徑＋0.2 m；出生點也要站得住（半徑 0.3）。
++   用法：node tests/spawn_exit_unit.js */
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{});
++const T=fs.readFileSync(path.join(ROOT,'tests/nav_buildings_unit.js'),'utf8');
++const files=[...new Set([...eval(T.match(/const files=(\[[^\]]+\])/)[1]),'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/xinsheng_layout.js','src/xinsheng3d.js','src/data/mokuyobi_layout.js','src/mokuyobi3d.js'])];
++// zones3d.js 要排在 xinsheng／mokuyobi 前面（和 index.html 一樣）；layout 要排在 zones3d 前面
++const order=f=>f.startsWith('lib/')?0:(/wz_park_layout|wz_shops_layout/.test(f)?1:(f==='src/zones3d.js'?2:(/xinsheng|mokuyobi/.test(f)?3:4)));
++const pre=files.filter(f=>order(f)<2).concat(['src/zones3d.js']).concat(files.filter(f=>order(f)===3)).concat(files.filter(f=>order(f)===4&&f!=='src/zones3d.js'));
++for(const f of pre){ if(!fs.existsSync(path.join(ROOT,f))) continue; let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return {z,its:E.interactables.slice(),levels:E.levels}; }
++const ZS=['wenzhou','xinsheng','wz_mokuyobi','campus'], Z={};
++for(const id of ZS) Z[id]=loadZone(id);
++const navOf=(id,lv)=>{ const q=Z[id]; return q.levels?q.levels[lv|0]:q.z.nav; };
++// 進到這四區的每一個出口（從這四區出發的；校園是「往新生南路」的那一個）
++const MARGIN=0.2;
++for(const from of ZS) for(const it of Z[from].its){ if(!it.exit||!it.exit.spawn||!Z[it.exit.to]) continue; if(from==='campus'&&it.exit.to!=='xinsheng') continue;
++  const to=it.exit.to, s=it.exit.spawn, lv=s.lv|0; const near=[];
++  for(const q of Z[to].its){ if(!q.exit) continue; if(Z[to].levels&&q.lv!==undefined&&(q.lv|0)!==lv) continue; const d=Math.hypot(q.x-s.x,q.z-s.z), r=q.radius||1.8; if(d<r+MARGIN) near.push(`「${q.label}」${d.toFixed(2)} m（半徑 ${r}）`); }
++  const n=navOf(to,lv), ok=n&&n.clear(s.x,s.z,0.3);
++  check(`${from}「${it.label}」→ ${to} (${s.x.toFixed(2)}, ${s.z.toFixed(2)}${lv?'、第 '+lv+' 層':''})：不在任何出口的範圍內、站得住`,!near.length&&ok,(near.join('、')||'')+(ok?'':' 站不住')); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
