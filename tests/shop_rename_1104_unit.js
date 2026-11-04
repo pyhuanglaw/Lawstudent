@@ -32,16 +32,16 @@ let money=[]; GM.money=d=>{ money.push(d); H.G.money+=d; };
     check('3 舊存檔相簿裡的任務標題換新（只換順手的事、只換有舊店名的；再讀一次不變）',n===2&&n2===0&&J(s)===once&&s.album[0].title==='頁間書屋：一箱法律系的舊書'&&s.album[1].title==='青木茶室：二十杯的訂單'&&s.album[2].title==='別的任務'&&s.album[3].title==='舊路書房',J(s.album));
     check('3 game3d.js 讀檔的 migrate 呼叫 SIDEQ.renameMigrate',/SIDEQ\.renameMigrate\(s\)/.test(rd('src/game3d.js'))); }
   // ---- 4 玩家看得到的字沒有舊店名 ----
-  { const OLD=/日日便利|輪轉單車|清葉茶行|舊路書房/;
+  { const OLD=/日日便利|輪轉單車|清葉茶行|舊路書房/;   /* 下面 KEYOK 的 note: '…'＝配置檔的 note 欄（遊戲不顯示；src/data/bike_layout.js「舊名輪轉單車」）*/
     const KEYOK=[/counter\(GM,'清葉茶行'/g,/'清葉茶行':'清葉茶行'/g,/EAT\.ordered\(GM,'舊路書房'/g,/SIDEQ\.atShop\(GM,'舊路書房'/g,/S\.EAT_KEY=\{[^}]*\}/g,/shop:'(舊路書房|輪轉單車|清葉茶行)'/g,/'(舊路書房|清葉茶行|輪轉單車)':'(頁間書屋（公館）|青木茶室（公館）|書店老闆|茶行老闆娘|車行老闆)'/g,
-      /key==='輪轉單車'/g,/ek==='清葉茶行'/g,/source:'[^']*'/g,/S\.atShop\(GM,'輪轉單車'/g,/S\.RENAME_1104=\{[^}]*\}/g,/replace\(\/[^/]+\/g,'[^']+'\)/g];
+      /key==='輪轉單車'/g,/ek==='清葉茶行'/g,/source:'[^']*'/g,/S\.atShop\(GM,'輪轉單車'/g,/S\.RENAME_1104=\{[^}]*\}/g,/note: '[^']*'/g,/replace\(\/[^/]+\/g,'[^']+'\)/g];
     const GEN={'src/data/shop_enc.js':'AA 的 shop_enc JSON（tools/shop_enc/import_shop_enc.py 產生，不手改）','src/data/us_layouts.js':'LAWWW2 的 gen_us_layouts.py（機場便利商店招牌）'};
     const strip=s=>s.replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/.*$/mg,'$1');
     const bad=[], gen=[]; const walk=d=>{ for(const f of fs.readdirSync(path.join(H.ROOT,d))){ const p=d+'/'+f; if(fs.statSync(path.join(H.ROOT,p)).isDirectory()){ walk(p); continue; } if(!/\.js$/.test(f)) continue;
         let s=strip(rd(p)); for(const re of KEYOK) s=s.replace(re,''); if(!OLD.test(s)) continue; if(GEN[p]){ gen.push(p); continue; } const ln=s.split('\n').filter(l=>OLD.test(l)).map(l=>l.trim().slice(0,90)); bad.push([p,ln]); } };
     walk('src');
     check('4 src/ 裡玩家看得到的字沒有舊店名（註解、存檔 key 除外）',!bad.length,J(bad));
-    check('4 還有舊店名、要改來源的自動產生檔：只剩 shop_enc.js（AA）、us_layouts.js（LAWWW2）',gen.every(p=>GEN[p]),J(gen.map(p=>p+'：'+GEN[p]))); console.log('　（待改來源）'+gen.map(p=>p+'＝'+GEN[p]).join('；'));
+    check('4 還有舊店名、要改來源的自動產生檔：只剩 us_layouts.js（LAWWW2）；shop_enc.js 已照 tools/story/aa647_fix.json 重新匯入',gen.every(p=>GEN[p])&&!gen.includes('src/data/shop_enc.js'),J(gen.map(p=>p+'：'+GEN[p]))); console.log('　（待改來源）'+gen.map(p=>p+'＝'+GEN[p]).join('；'));
     check('4 地點名、快速移動、大地圖：日和便利店、頁間書屋、慢輪單車',PLACES.names.cvs==='日和便利店'&&PLACES.names.bookstore==='頁間書屋'&&PLACES.names.bikeshop==='慢輪單車'&&/\['cvs','日和便利店'/.test(rd('src/data/places.js'))&&/\['bookstore','頁間書屋'\],\['cvs','日和便利店'\]/.test(rd('src/placemap3d.js')));
     check('4 打工：頁間書屋的班、頁間書屋的老闆（JOBS 的 key books、薪水照舊 784）',/books:\{ name:'頁間書屋', short:'頁間書屋'[^\n]*contact:'頁間書屋的老闆'[^\n]*title:'頁間書屋的班'/.test(rd('src/data/wz_jobs.js'))&&/pay:784, payToast:'頁間書屋 薪水 784 元'/.test(rd('src/data/wz_jobs.js'))); }
   // ---- 5 便利商店 ----
