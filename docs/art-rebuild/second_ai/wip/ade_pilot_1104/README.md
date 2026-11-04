@@ -35,13 +35,15 @@ A1（預設：還沒決定搬不搬，玩家最常看到的那一間）：
 - 鋁框改銀色、落地玻璃、藍色飾條、白字貼紙（左邊玻璃上段；下段照 AA_420 貼滿價目表）。
 
 ## 數字
-- `wenzhou_street.glb`：三角形 123,731 → 約 129,100；材質 169 → 177；檔案 10.8 → 11.5 MB。
+- `wenzhou_street.glb`：三角形 123,731 → 129,147；GLB 材質 46 → 51（冷氣 2、盆栽 2、白字貼紙 1）；檔案 10.8 → 11.5 MB。
+  - 冷氣散熱格柵、盆栽葉子、貼紙都是 alpha clip（MASK），不排序透明。
+  - 測試 patch：`singleside_streets_unit_048b4c898.patch`（三角形 123,731→129,147、材質 46→51；開發分支 048b4c898 上 `git apply --check` 過）。
 - 效能：
   - A1 只在 `wz_street_integration` 的 lane_west 鏡頭看得到。
   - 最吃緊的 lane_east（BB 量 298 calls、40.7 萬面）看不到 A1。
   - lane_west 的實際數字要請 BB 排 CC 在 PC 上量。
 - 導航：門口的雜物從販賣機＋紙箱換成一盆盆栽，`props.json` 變了。
-  - `street_props_nav_unit` ALL PASS（44 個地上雜物；可走的格子 5470 → 5452）。
+  - 開發分支 048b4c898 的 src＋這顆 GLB：`street_props_nav_unit`、`singleside_streets_unit`（套 patch）、`lampshade_flip_unit`、`wz_copy_shop_unit` 都 ALL PASS（地上雜物 44 個；可走的格子 5470 → 5452）。
 
 ## 對照
 `ade_pilot_cmp.jpg`：

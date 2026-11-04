@@ -3,24 +3,14 @@
  "note": "地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用",
  "props": [
   {
-   "tag": "sk_vend_A1",
+   "tag": "skphpot",
    "rect": [
-    -5.45,
-    5.1,
-    -4.55,
-    5.84
+    -11.369,
+    5.047,
+    -10.531,
+    5.913
    ],
-   "h": 1.82
-  },
-  {
-   "tag": "sk_boxes_A1",
-   "rect": [
-    -11.2,
-    5.322,
-    -10.6,
-    5.778
-   ],
-   "h": 1.05
+   "h": 0.84
   },
   {
    "tag": "skpot",
