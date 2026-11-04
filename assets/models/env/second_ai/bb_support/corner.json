@@ -1,0 +1,97 @@
+{
+ "objects": 171,
+ "unique_meshes": 64,
+ "tris": 30296,
+ "tris_drawn": 40166,
+ "materials": [
+  "cr_alpha",
+  "cr_concrete",
+  "cr_emit",
+  "cr_floor_terrazzo",
+  "cr_glass",
+  "cr_goods",
+  "cr_plaster",
+  "cr_sign",
+  "cr_vc",
+  "cr_vc_metal",
+  "cr_wood"
+ ],
+ "out": "assets/models/env/second_ai/bb_support/corner.glb",
+ "bytes": 2781524,
+ "texres": 1024,
+ "shop": "corner",
+ "layout": 1,
+ "drawn_tris": 40166,
+ "protos": {
+  "lpstack34_0": 2,
+  "lpstack34_1": 2,
+  "lpstack34_2": 2,
+  "lpstack34_3": 2,
+  "lpstack23_0": 2,
+  "lpstack23_1": 2,
+  "lpstack23_2": 2,
+  "lpstack23_3": 2,
+  "lpstack17_1": 1,
+  "lpstack17_2": 1,
+  "spot": 18,
+  "pendant": 2,
+  "armchair": 2,
+  "turntable": 5,
+  "speaker": 12,
+  "amp": 4,
+  "receiver": 3,
+  "deck": 2,
+  "stool": 2
+ },
+ "records_in_bins": 490,
+ "single_side": {
+  "cr_vc": [
+   5760,
+   4080
+  ],
+  "cr_vc_metal": [
+   4188,
+   56
+  ],
+  "cr_emit": [
+   80,
+   42
+  ],
+  "cr_plaster": [
+   36,
+   0
+  ],
+  "cr_goods": [
+   2576,
+   0
+  ],
+  "cr_wood": [
+   7096,
+   0
+  ],
+  "cr_concrete": [
+   38,
+   0
+  ],
+  "cr_sign": [
+   4,
+   0
+  ],
+  "（翻面）cr_emit": [
+   80,
+   0
+  ],
+  "cr_alpha": [
+   2140,
+   0
+  ],
+  "cr_floor_terrazzo": [
+   12,
+   0
+  ],
+  "（翻面）cr_vc": [
+   482,
+   0
+  ]
+ }
+}

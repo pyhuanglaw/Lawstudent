@@ -58,7 +58,7 @@ P = 'cr_'
 M = {
     'floor': img_mat(P + 'floor_terrazzo', 'corner_floor.png', rough=0.3, tile=1.0),
     'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d6cab2', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.9),
-    'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#8f8170', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
+    'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#94806c', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
     'wood': L.pbr(P + 'wood', 'walnut_veneer', tile=1.0, target='#7a5232', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.5),   # 參考圖的唱片箱、唱片牆是中間色的胡桃木
     'vc': L.vc_material(P + 'vc', rough=0.6), 'vcm': L.vc_metal(P + 'vc_metal', rough=0.38, metal=0.4),
     'glass': L.flat(P + 'glass', '#d4e2e0', rough=0.05, alpha=0.14),
