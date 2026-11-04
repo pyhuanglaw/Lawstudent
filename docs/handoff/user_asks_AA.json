@@ -1373,7 +1373,8 @@
    "status": "還沒做",
    "task": "GG-SHOPS2-1104",
    "src": "使用者對 AA",
-   "note": "分工與驗收 AA_650；USER_WANTS 列請值班 LAWWW 開"
+   "note": "分工與驗收 AA_650；USER_WANTS 列請值班 LAWWW 開",
+   "wants": "X209"
   },
   {
    "id": "UA-AA-1104-06",
@@ -1383,17 +1384,19 @@
    "status": "已完成",
    "task": "GG-SHOPS2-1104",
    "src": "使用者對 AA（elsewhere café 是真實店名，D77）",
-   "note": "AA_650 第 1 節"
+   "note": "AA_650 第 1 節",
+   "wants": "X209"
   },
   {
    "id": "UA-AA-1104-07",
    "at": "2026-11-04T02:0x",
    "quote": "（選擇題）四家店的參考圖怎麼來？→ 我會傳圖",
    "kind": "選擇題答案",
-   "status": "等使用者",
+   "status": "已完成",
    "task": "GG-SHOPS2-1104",
    "src": "使用者對 AA",
-   "note": "圖到之前不建模"
+   "note": "八張 02:2x 到齊（24ae5d2ab）；Afar 02:2x 換新版（62cc6f29c）",
+   "wants": "X209"
   }
  ]
 }
