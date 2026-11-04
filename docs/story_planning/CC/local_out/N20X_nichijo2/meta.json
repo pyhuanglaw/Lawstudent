@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "N20X_nichijo2",
+  "sha": "27970f958",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py",
+  "env": "CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T11:26:24",
+  "end": "2026-11-04T11:33:09",
+  "seconds": 405,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 51,
+    "mem": 58,
+    "used_gb": 18.3,
+    "chrome_testing": 29
+  }
+}
