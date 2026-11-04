@@ -37,6 +37,9 @@ GG_night_typhoon_fix | 3424d8e66 | probe | docs/story_planning/test_tools/cc/cc_
 # GG_night_r4（LAWWW 07:12：5eab062b7＝打烊光暈 patch fdd2593a1 合進來；r3 還沒跑就改跑 r4）：21:00、01:30 對 14:00；ggLit＋glow dump、raycast
 GG_night_r4_21 | 5eab062b7 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,21;CC_HEADLESS=0
 GG_night_r4_0130 | 5eab062b7 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
+# GG_night_r5（LAWWW 07:19）：b38be8560 打烊整個乘 0.18；Mesh 逐個 raycast（d2f171fef 前已改）
+GG_night_r5_21 | b38be8560 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,21;CC_HEADLESS=0
+GG_night_r5_0130 | b38be8560 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
 # BIKE_flow_r5：r4 跑的是修正前的探針（沒有「出口旁」那段）；12c5f6cba 起的探針走到出口 0.3 m、確認出店才判車
 BIKE_flow_r5 | ae50cb459 | probe | docs/story_planning/test_tools/cc/cc_flow_bike_diag.py | index.html | 40 | CC_HEADLESS=0
 # GG_glb_measure（LAWWW 07:16）：ff1283943＝LAWWW2 量法一致 patch（停時鐘、17:30、路人移出、census）；給 BB 判 draw call
