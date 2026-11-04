@@ -1,5 +1,7 @@
 # 大一女舍（遊戲裡的女舍）參考照片（使用者 2026-11-04 14:07 UTC 在 LAWWW-C 對話傳的 2 張＋說明）
 
+> **照片檔不放 repo（14:23 起）**：這個 repo 公開、main 直接當 GitHub Pages 網站，別人的照片重新公開有著作權問題。要看原檔：`git show 0e2ca42d4:<這個資料夾>/<檔名> > 檔名`（歷史裡還在），或從使用者對話紀錄取（D122，`tools/handoff/chat_images.py`）。
+
 使用者原話：「大一女介紹 你自己去這個網址抓圖好不好 超多的 內裝也有 https://osa_dorm.ntu.edu.tw/Freshman_House 是要走上二樓到一個平台(第一張照片) 才會到宿舍入口 一樓是一些店面」
 （那個網址這個雲端環境連不到：osa_dorm.ntu.edu.tw 要在環境的 Network access 加進 Allowed domains 才抓得到；加了以後再把網頁上的外觀、內裝照片抓進來。）
 

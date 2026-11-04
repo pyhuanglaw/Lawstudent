@@ -1,5 +1,7 @@
 # 大一女舍 官方網頁照片（24 張，2026-11-04 14:16 UTC 抓）
 
+> **照片檔不放 repo**：要看圖跑 `python3 tools/ref/fetch_ref_images.py docs/story_planning/ref_images/buildings/freshman_women_dorm_1104/web`，照 `list.json` 從官網抓到 `ref_cache/`（.gitignore；長邊 1600 px）。理由：repo 公開、main 直接當 GitHub Pages 網站，學校網站的照片重新公開有著作權問題。
+
 來源：國立臺灣大學 學務處 學生住宿服務組「大一女舍簡介」https://osa_dorm.ntu.edu.tw/Freshman_House （使用者 11-04 14:07 指定、14:15 開放 *.ntu.edu.tw）。
 著作權屬原網站；**只當建模參考，不放進遊戲、不當貼圖**；遊戲裡的校名、館名照 docs/WORLD_NAMING.md。原圖 PNG／JPEG 縮到長邊 1600 px、JPEG 82。
 

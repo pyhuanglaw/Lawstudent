@@ -45102,9 +45102,37 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:19】①LAWWW（子代理）：列出遊戲裡所有有原型的建築（zones3d／campuskit 的館、宿舍、總圖、系館…），逐棟在 *.ntu.edu.tw 找官方照片與介紹（樓層、入口、外牆材料、室內），存 docs/story_planning/ref_images/buildings/<建築>/web/＋README（事實＋逐張說明）②CC 在使用者電腦拍遊戲裡同角度的畫面（D131）③LAWWW2 逐棟比對、提修改（D108、D133 照參考圖）④BB 照 D120／D133 判；第一棟：大一女舍 24 張已存（freshman_women_dorm_1104/web/）；照片只當參考、不進遊戲，校名照 WORLD_NAMING",
+   "next": "【LAWWW-C 11-04 14:23】照片檔不放 repo（公開 repo＋GitHub Pages，著作權）：只放 README＋list.json，看圖用 tools/ref/fetch_ref_images.py 抓到 ref_cache/（.gitignore）；子代理照這個改｜【LAWWW-C 11-04 14:19】①LAWWW（子代理）：列出遊戲裡所有有原型的建築（zones3d／campuskit 的館、宿舍、總圖、系館…），逐棟在 *.ntu.edu.tw 找官方照片與介紹（樓層、入口、外牆材料、室內），存 docs/story_planning/ref_images/buildings/<建築>/web/＋README（事實＋逐張說明）②CC 在使用者電腦拍遊戲裡同角度的畫面（D131）③LAWWW2 逐棟比對、提修改（D108、D133 照參考圖）④BB 照 D120／D133 判；第一棟：大一女舍 24 張已存（freshman_women_dorm_1104/web/）；照片只當參考、不進遊戲，校名照 WORLD_NAMING",
    "source": "使用者 11-04 14:15 對 LAWWW-C（UA-LAWWW-1104-92）",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "OPEN-SRC-2D3D-1104",
+   "title": "從開源找把使用者給的 2D 參考圖做成好看 3D 的方法、還有其他需要的美術素材（使用者 11-04 14:1x 對 LAWWW2-C：「你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容」；UA-LAWWW2-1104-05）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開新遊戲走進校園、溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:23】LAWWW2-C 14:19（b8c42ea65）：單張圖轉 3D 的 AI 要 NVIDIA 顯示卡、模型大檔在雲端被擋，只適合小物件；雲端能用：Poly Haven 521 個 CC0 模型＋HDRI、參考圖鏡頭對位疊圖、DeepBump、Depth Anything V2 Small；之後交件開始用 Poly Haven 模型（LICENSES.md 同批補）；會提「低解析 CC0 HDRI 環境貼圖（PMREM）」的引擎提案（現在沒有環境貼圖、金屬度上限 0.45），改引擎 LAWWW 決定（v9.10.20 以後）；阿德轉角改試做：同角度疊圖＋Poly Haven 盆栽、花箱、冷氣",
+   "source": "使用者 11-04 14:1x 對 LAWWW2-C（UA-LAWWW2-1104-05，LAWWW2-C 14:19 轉 LAWWW-C）",
+   "authorized": "使用者直接要求",
+   "xai": {
+    "spec": "UA-LAWWW2-1104-05",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "交件附開源工具／素材來源、授權（LICENSES.md）、照參考圖前後對照（D133）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
