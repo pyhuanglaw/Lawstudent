@@ -24,7 +24,8 @@ const WZ={};
 for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const z=loadZone('wz_'+k); if(E.fitSeatRadius) E.fitSeatRadius();   /* 和引擎的 E.loadZone 一樣：導航格設好以後，站不到的座位放大互動範圍 */ const sp=[E.zone.spawn.x,E.zone.spawn.z];
   check('2. '+L.name+'：出生點 ('+sp+') 站得住',E.canStand(sp[0],sp[1],0.32,0));
   const seats=E.interactables.filter(i=>i.seat&&i.shop===k), want=L.seats.filter(s=>!s.npcOnly&&!/打工/.test(s.label||''));
-  check('2. '+L.name+'：座位 '+want.length+' 個（打工的位子不給客人坐；影印店沒有客人的位子）',seats.length===want.length&&(want.length>0||k==='print'),seats.length+'/'+want.length);
+  /* 影印店：原本的期望是「沒有客人的位子」（0 個，可以是 0）；阿德影印 v1c（ade_layout v3）自助電腦四張椅子客人可以坐＝4 個（依據 LAWWW 07:16 決定＋BB_257＋CC_49 v1c）*/
+  check('2. '+L.name+'：座位 '+want.length+' 個（打工的位子不給客人坐；影印店＝自助電腦四張）',seats.length===want.length&&want.length>0&&(k!=='print'||want.length===4),seats.length+'/'+want.length);
   /* 玩家從走道靠近：互動範圍內（範圍－0.05 m、0.2 m 格點）站得住的點，離出生點近的先試，有一個走得到就算（和 reachability_all 一樣，不是只試座位正中間）*/
   const reach=(i,from)=>{ const R=i.radius-0.05, pts=[]; for(let dx=-R;dx<=R+1e-9;dx+=0.2) for(let dz=-R;dz<=R+1e-9;dz+=0.2){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(E.canStand(x,zz,0.32,0)) pts.push([x,zz]); } pts.sort((a,b)=>Math.hypot(a[0]-from[0],a[1]-from[1])-Math.hypot(b[0]-from[0],b[1]-from[1])); for(const q of pts.slice(0,30)){ const r=walk(from,q); if(r.ok) return {ok:true}; } return {ok:false,reason:pts.length?'走不到':'範圍內站不住'}; };
   const bad=[]; for(const i of seats){ const r=reach(i,sp); if(!r.ok) bad.push('('+i.x+','+i.z+')'+r.reason); }
