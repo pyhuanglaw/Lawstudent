@@ -123,6 +123,9 @@ async function walkInOut(outer,inner,doorLabel){ const door=E.zone.def.id===oute
   { const z=fs.readFileSync(path.join(ROOT,"src/zones3d.js"),"utf8"), m=z.match(/const DOORS=(\[[^\]]*\])[\s\S]*?for\(const \[x0,x1\] of (\[\[[^;]*?\]\])\)\{/); const DOORS=m?JSON.parse(m[1]):[], segs=m?JSON.parse(m[2]):[];
     const rows=BIKE.PARKS.gongguan.rows.map(r=>[r[0],r[1]]); loadZone('gongguan'); const S=BIKE.parkSpots(E,'gongguan'), atDoor=S.filter(q=>DOORS.some(d=>Math.abs(q.x-d)<1.45&&q.z>17));
     check('9b 公館停車排位和 zones3d.js 騎樓前機車同一份；車身（1.7 m）不和店門（1.2 m 寬）重疊（含第二批四間還沒有互動點的門：洋洋、afar、轉角唱片、Daybreak；CC 11-04）',!!m&&JSON.stringify(rows)===JSON.stringify(segs)&&!atDoor.length,J({rows:rows.length,segs:segs.length,atDoor})); }
+  { loadZone('bikeshop'); const BL=BIKE_LAYOUT.bike.repairBike.blockWhenShown, nb=()=>E.nav.b.reduce((a,v)=>a+(v?1:0),0), n0=nb(), c0=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null;
+    BIKESHOP.repairBike(true); const n1=nb(), c1=E.nav.blocked?E.nav.blocked(BL[0],BL[1]):null; BIKESHOP.repairBike(false); const n2=nb();
+    check('8d 修車架上的車打開時加導航阻擋（repairBike.blockWhenShown）、收起來還原（BB 11-04）',n1>n0&&n2===n0,J({n0,n1,n2,c0,c1})); }
   loadZone('xinsheng'); check('9 新生南路：還沒有停車架、停車格＝沒有合法停車處（車照舊）',BIKE.parkSpots(E,'xinsheng').length===0);
   // 校園：回宿舍再出來＝宿舍門口；法律系館A＝最近的停車架
   G.bike={zone:'gongguan',x:BIKESHOP.PARK.x,z:BIKESHOP.PARK.z,yaw:0,riding:false}; G.hour=15;

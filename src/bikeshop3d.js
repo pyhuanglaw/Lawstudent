@@ -55,8 +55,11 @@ const BIKESHOP=(function(){
   S.fix=async function(GM){ const G=GM.G; if(G.money<S.FIX_PRICE){ await GM.say(BOSS,S.L.fixPoor); return false; } GM.money(-S.FIX_PRICE); S.repairBike(true);
     try{ await GM.say(BOSS,S.L.fix); if(GM.advance) GM.advance(0.25); await GM.say(null,S.L.fixNarr); await GM.say(BOSS,S.L.fixDone); } finally { S.repairBike(false); } return true; };
   /* 修車架上夾著的那台車（GLB 節點 REPAIR_BIKE*）：預設藏；調座墊、打氣的那一幕顯示（AA_646 第 2 節）*/
-  let repairNodes=[];
-  S.repairBike=on=>{ for(const o of repairNodes) o.visible=!!on; return repairNodes.length; };
+  let repairNodes=[], repairNav=null, repairBL=null, navSaved=null;
+  S.repairBike=on=>{ for(const o of repairNodes) o.visible=!!on;
+    if(repairNav&&repairBL){ if(on&&!navSaved){ navSaved=repairNav.b.slice(); const [x,z,w,d]=repairBL; repairNav.blockRect(x,z,w,d,0); }
+      else if(!on&&navSaved){ if(navSaved.length===repairNav.b.length) repairNav.b.set(navSaved); repairNav._cm=null; navSaved=null; } }   /* 打開時加阻擋、收起來還原（配置 repairBike.blockWhenShown；BB 11-04）*/
+    return repairNodes.length; };
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['bikeshop3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const K=k=>BIKE.KINDS[k];
   /* 款式說明：旁白、沒有後座的提醒、老闆一句 */
@@ -112,7 +115,7 @@ const BIKESHOP=(function(){
     IT.push({x:os.ix,z:os.iz,radius:1.0,lv:0,label:'找車行老闆',onInteract:()=>S.owner(GAME_(E))});
     { const pt=(L.interact||[]).find(i=>i.kind==='bike_parts'); if(pt) IT.push({x:pt.x,z:pt.z,radius:0.7,lv:0,label:pt.label||'車燈・車鈴・鎖',onInteract:()=>S.parts(GAME_(E))}); }
     IT.push({x:EXIT.x,z:EXIT.z,radius:EXIT.r,lv:0,label:'離開慢輪單車',exit:{to:'gongguan',spawn:Object.assign({},S.OUT_SPAWN),bikePark:{x:S.PARK.x,z:S.PARK.z,yaw:S.PARK.yaw}}});
-    nav._cm=null; repairNodes=[];
+    nav._cm=null; repairNodes=[]; repairNav=nav; navSaved=null; repairBL=(L.repairBike&&Array.isArray(L.repairBike.blockWhenShown))?L.repairBike.blockWhenShown:null;
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bikeshop_interior']) ASSETS.loadOne('bldg.bikeshop_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       repairNodes=[]; root.traverse(o=>{ if(/^REPAIR_BIKE/.test(o.name)){ o.visible=false; repairNodes.push(o); } });   /* 先藏再接（接的時候出錯也不會露出來）*/
       Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; }).catch(e=>console.warn('慢輪單車室內正式模型載入失敗，用備用的',e));
