@@ -31,14 +31,14 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.samples = int(os.
 sc.cycles.device = os.environ.get('CC_BLENDER_DEVICE', 'CPU')
 sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 sc.render.resolution_x, sc.render.resolution_y = rx, ry; sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = float(arg('--exposure', '0.3'))
+sc.view_settings.exposure = float(arg('--exposure', '-1.0'))
 sc.cycles.max_bounces = 5; sc.cycles.transparent_max_bounces = 24
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; bg = w.node_tree.nodes['Background']
 bg.inputs['Color'].default_value = (0.9, 0.92, 0.95, 1); bg.inputs['Strength'].default_value = float(arg('--world', '0.08'))
 for m in bpy.data.materials:   # 燈泡、燈管、螢幕的發光強度（GLB 的 emissive 是 1）
     if not m.use_nodes: continue
     b = m.node_tree.nodes.get('Principled BSDF')
-    if b and 'emit' in m.name: b.inputs['Emission Strength'].default_value = float(arg('--emit', '4.0'))
+    if b and 'emit' in m.name: b.inputs['Emission Strength'].default_value = float(arg('--emit', '1.5'))
 
 
 def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
@@ -53,12 +53,12 @@ def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
 COOL = (1.0, 0.96, 0.9)   # 日光燈色（約 4500～5000K；參考圖是偏中性的白、牆和地板略帶暖）
 H = LAY['h']; LT = LAY['lights']
 for (x, z) in LT['panels']:   # LED 平板燈：燈面往下的面光
-    light('AREA', g2b(x, H - 0.03, z), float(arg('--panel', '60')), COOL, aim=g2b(x, 0, z), sx=0.3, sy=1.2)
+    light('AREA', g2b(x, H - 0.03, z), float(arg('--panel', '25')), COOL, aim=g2b(x, 0, z), sx=0.3, sy=1.2)
 fr = LAY['front']
 for (wx0, wx1, sl, hd) in fr['windows']:
-    p = g2b((wx0 + wx1) / 2, 1.5, LAY['d'] / 2 + 0.8); light('AREA', p, float(arg('--win', '220')), (1.0, 0.97, 0.92), aim=g2b((wx0 + wx1) / 2, 0.6, 1.5), sx=1.2, sy=2.0)   # 窗外騎樓的光（白天）
-p = g2b(fr['door']['x'], 1.4, LAY['d'] / 2 + 0.8); light('AREA', p, float(arg('--door', '160')), (1.0, 0.97, 0.92), aim=g2b(fr['door']['x'], 0.6, 2.0), sx=1.4, sy=2.4)
-p = g2b(0.0, H - 0.25, 0.0); light('AREA', p, float(arg('--fill', '120')), COOL, aim=p + Vector((0, 0, -1)), sx=4.0, sy=9.0)          # 白天花板反射的補光
+    p = g2b((wx0 + wx1) / 2, 1.5, LAY['d'] / 2 + 0.8); light('AREA', p, float(arg('--win', '120')), (1.0, 0.97, 0.92), aim=g2b((wx0 + wx1) / 2, 0.6, 1.5), sx=1.2, sy=2.0)   # 窗外騎樓的光（白天）
+p = g2b(fr['door']['x'], 1.4, LAY['d'] / 2 + 0.8); light('AREA', p, float(arg('--door', '80')), (1.0, 0.97, 0.92), aim=g2b(fr['door']['x'], 0.6, 2.0), sx=1.4, sy=2.4)
+p = g2b(0.0, H - 0.25, 0.0); light('AREA', p, float(arg('--fill', '30')), COOL, aim=p + Vector((0, 0, -1)), sx=4.0, sy=9.0)          # 白天花板反射的補光
 # 只給渲染用的騎樓背景（GLB 裡沒有；遊戲裡窗外是 LAWWW2 的騎樓和街道）：店門外 1.2 m 一片暖白的發光板，只有相機看得到（不照亮室內、不擋光），從店裡往外看時窗外才不是一片黑
 if arg('--backdrop', '1') != '0':
     bpy.ops.mesh.primitive_plane_add(size=1.0); bd = bpy.context.active_object; bd.name = 'render_backdrop'

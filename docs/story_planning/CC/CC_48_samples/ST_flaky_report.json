@@ -53,7 +53,7 @@
       ],
       "dir": "attempt1",
       "run_tail": [
-        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_flaky.py http://127.0.0.1:8800/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trace_s",
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_flaky.py http://127.0.0.1:8800/index.html <SCRATCH>/trace_s",
         "FAIL 第一次（故意 FAIL）  記號檔不存在＝第一次",
         "FAILED 1: 第一次（故意 FAIL）"
       ],
@@ -71,7 +71,7 @@
       "fails": [],
       "dir": "attempt2",
       "run_tail": [
-        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_flaky.py http://127.0.0.1:8800/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trace_s",
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_flaky.py http://127.0.0.1:8800/index.html <SCRATCH>/trace_s",
         "PASS 第二次（記號檔在＝重跑）",
         "ALL PASS"
       ],

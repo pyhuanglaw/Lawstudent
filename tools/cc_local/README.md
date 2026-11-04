@@ -196,6 +196,8 @@ runner 印到畫面上的每一行都會留一份，只保留最後 2000 行，�
   - 路徑裡的使用者名稱換成 `<USER>`。
   - Cookie、Authorization、token、api key、password 的值換成 `<REDACTED>`。
   - 清完再掃一次，結果寫在 report 的 `sanitize.left_hits`，應該是空的。
+  - 不必事先知道路徑的情況用 regex 處理：雲端 scratchpad／worktree 換成 `<SCRATCH>`／`<WT>`；`-home-<user>-…` 這類編碼過的目錄名換成 `<HOMEDIR>`；Windows 的 `C:\Users\<名字>`、`C:/Users/<名字>`（含 JSON 跳脫、URL 編碼），以及 Linux 的 `/home/<名字>`，名字都換成 `<USER>`。單元測試：`python3 tools/cc_local/sanitize_unit.py [資料夾…]`，給了資料夾就順便掃描。
+  - git add：只有 `attempt2/trace/*.zip` 用 `-f`（.gitignore 有 `*.zip`），其他檔照舊。
   - 沒開 CC_AUTORETRY 的項目照舊，不清理。
 - 開 CC_AUTORETRY 的項目，開跑前會刪掉上一次留下的 attempt1、attempt2、report、notes.txt，每一輪各自獨立。
 

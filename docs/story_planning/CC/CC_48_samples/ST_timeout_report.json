@@ -48,7 +48,7 @@
       "fails": [],
       "dir": ".",
       "run_tail": [
-        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_timeout.py http://127.0.0.1:8801/index.html <TMP>/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/trace",
+        "[gpu_wrap] CC_GPU=0 跑 <REPO>/docs/story_planning/test_tools/cc/selftest/st_timeout.py http://127.0.0.1:8801/index.html <SCRATCH>/trace",
         "  睡覺中 0/200 秒",
         "  睡覺中 10/200 秒",
         "  睡覺中 20/200 秒",

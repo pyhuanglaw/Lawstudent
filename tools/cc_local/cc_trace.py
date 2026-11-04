@@ -70,6 +70,28 @@ def _pairs():
     return out
 
 
+# 不靠「知道本機路徑」也能認出來的本機資訊（BB 05:15 缺口 2）：雲端 scratchpad／worktree、編碼過的家目錄名、Windows／mac／Linux 的使用者資料夾。
+# 規則順序有關係：先整段換 scratchpad，再換編碼目錄名，最後換使用者資料夾的名字。名字字元不含 <>，所以換過的 <USER> 不會再被比對。
+_SEP = r'(?:\\\\|\\|/|%5[Cc]|%2[Ff])'
+GENERIC_RULES = [
+    (re.compile(r'(?:<TMP>|/tmp)/claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad(?:/wt_[^/\\\s"\'<>]+)?'),
+     lambda m: '<WT>' if '/wt_' in m.group(0) else '<SCRATCH>'),
+    (re.compile(r'claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad'), lambda m: '<SCRATCH>'),
+    (re.compile(r'<WTROOT>[/\\]+wt_cc_[^/\\\s"\'<>]+'), lambda m: '<WT>'),
+    (re.compile(r'(?<![A-Za-z0-9])-(?:home|Users|root)-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
+    (re.compile(r'(?<![A-Za-z0-9])[A-Za-z]--Users-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
+    (re.compile(r'(?i)((?:[A-Za-z]:)?)(' + _SEP + r')(Users|home)(' + _SEP + r')(?!<USER>)([^/\\\s"\'<>%]+)'),
+     lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(4) + '<USER>'),
+]
+GENERIC_LEFT = re.compile(r'claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?i:(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+)')
+
+
+def scrub_generic(s):
+    for rx, fn in GENERIC_RULES:
+        s = rx.sub(fn, s)
+    return s
+
+
 _PAIRS = _pairs()
 try:
     _USER = getpass.getuser()
@@ -85,6 +107,7 @@ def san(s):
     for p, tok in _PAIRS:
         if p in s:
             s = s.replace(p, tok)
+    s = scrub_generic(s)
     if _USER_RE is not None:
         s = _USER_RE.sub('<USER>', s)
     return _SECRET_RE.sub(lambda m: m.group(1) + m.group(2) + '<REDACTED>', s)

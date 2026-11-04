@@ -63,7 +63,7 @@ CC 推測的修法（只是建議）：`S.excused` 改成 `classOk` 只略過一
 - 大四下補考 6/26、國考日：沒有發現打工衝突。
 - 原 `tests/pg_harness.js` 沒有載 JOBS：建議之後和打工有關的 Node 測試都改用 `pg_harness_jobs.js`，或者在原 harness 補載這幾個檔。
 
-執行紀錄（b1b249873）：`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_b1b.log`（scratchpad，不會進 repo）
+執行紀錄（b1b249873）：`<SCRATCH>/n21_b1b.log`（scratchpad，不會進 repo）
 
 ## F 段：BB 11:12 判定成立、修法 (a) 的驗收檢查（2026-11-02 補）
 
@@ -78,4 +78,4 @@ BB 11:12 判定 **BUG-JOBS-OFFICE-EXAM 成立**，修法 (a)：`src/jobs3d.js:78
 - 套 (a) 的副本：`scratchpad/hdfix`，和 b1b249873（`scratchpad/hdb1`）只差 `src/jobs3d.js:78` 一行：`if((it.exam||!shop(k).classOk)&&S.overlap(...)) return it.exam?'exam':'class';`。整支 n21 在副本上 **ALL PASS**（A～F），在 b1b249873 上 FAILED 15（A1、B1～B5、B7、B8×2、F1×3、F2×3），F3 PASS。
 - 附帶發現（不是這個 bug）：事務所沒有寫「沒去」那句（`WZ_JOBS_DATA.x.office.miss` 不存在，2D 打工只有 Café 有），所以舊版的錯誤記錄玩家目前聽不到，只會累加 `missedRun`（三週沒去的計數，到 3 會觸發 `ask3`）。F1 量的是旗標本身，之後補上台詞也一樣有效。
 - 【前置／捷徑】：選班表走 `JOBS.apply`（真實流程，跳過公布欄、面試）；`chk`、`missPend`、`missedRun`、`wk` 歸零、`shifts` 至少 3（不演第一班那幾句）；考完直接寫 `CLS.rec(G).done`；寒假選「來。」直接寫 `brk`；時間用 `PG.setT`。只用 Node，沒開瀏覽器。
-- 執行紀錄（scratchpad，不進 repo）：`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_F_hdb1.log`、`/tmp/claude-0/-home-user-Lawstudent/d06332e2-ec70-5e42-a15c-5a4b27dbdb56/scratchpad/n21_F_hdfix.log`
+- 執行紀錄（scratchpad，不進 repo）：`<SCRATCH>/n21_F_hdb1.log`、`<SCRATCH>/n21_F_hdfix.log`

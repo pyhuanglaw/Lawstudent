@@ -348,9 +348,16 @@ for side in ('left', 'right', 'back'):
     else: p['wall'].box(X0, X1, 0, H, Z0, ZI0); p['vc'].cbox(XI0, XI1, 0, 0.09, ZI0, ZI0 + 0.012, '#b8bab8')
     p.done()
 # 天花板和牆的接縫：一圈白色收邊（L 形鋁條）
-cm = Part('ceil_trim', smooth=False)
-for (a, b, c0, c1) in ((XI0, XI0 + 0.025, ZI0, ZI1), (XI1 - 0.025, XI1, ZI0, ZI1)): cm['vc'].cbox(a, b, H - 0.02, H, c0, c1, '#f2f2f0')
-cm['vc'].cbox(XI0, XI1, H - 0.02, H, ZI0, ZI0 + 0.025, '#f2f2f0'); cm['vc'].cbox(XI0, XI1, H - 0.02, H, ZI1 - 0.025, ZI1, '#f2f2f0'); cm.done()
+
+
+def down_rect(c, x0, x1, z0, z1, y, col):
+    """朝下的一片（天花板上的東西只做朝下的面：遊戲鏡頭在天花板上面往下看時看不到，和天花板一樣單面）"""
+    return c.poly([(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)], col)
+
+
+cm = Part('ceilfx_trim', smooth=False)
+for (a, b, c0, c1) in ((XI0, XI0 + 0.03, ZI0, ZI1), (XI1 - 0.03, XI1, ZI0, ZI1), (XI0, XI1, ZI0, ZI0 + 0.03), (XI0, XI1, ZI1 - 0.03, ZI1)): down_rect(cm['vc'], a, b, c0, c1, H - 0.003, '#f6f6f4')
+cm.done()
 
 fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']
 pf = Part('front', side='front', smooth=False)
@@ -399,26 +406,29 @@ LT = LAY['lights']
 
 def panel_build(pt):
     """嵌在輕鋼架裡的 LED 平板燈（1.2 × 0.3 m；燈面會亮、白色鋁框）：原點在燈面中心，長邊沿 z"""
-    c = pt['vc']; hw, hl = 0.15, 0.6
-    c.cbox(-hw - 0.02, hw + 0.02, -0.012, 0.0, -hl - 0.02, -hl, '#f4f4f2'); c.cbox(-hw - 0.02, hw + 0.02, -0.012, 0.0, hl, hl + 0.02, '#f4f4f2')
-    c.cbox(-hw - 0.02, -hw, -0.012, 0.0, -hl, hl, '#f4f4f2'); c.cbox(hw, hw + 0.02, -0.012, 0.0, -hl, hl, '#f4f4f2')
+    c = pt['vc']; hw, hl = 0.15, 0.6; y = -0.004
+    down_rect(c, -hw - 0.025, hw + 0.025, -hl - 0.025, -hl, y, '#f4f4f2'); down_rect(c, -hw - 0.025, hw + 0.025, hl, hl + 0.025, y, '#f4f4f2')
+    down_rect(c, -hw - 0.025, -hw, -hl, hl, y, '#f4f4f2'); down_rect(c, hw, hw + 0.025, -hl, hl, y, '#f4f4f2')
     pt['emit'].rect((0, -0.006, 0), (1, 0, 0), (0, 0, 1), hw, hl, ATL['panel'])   # 朝下
 
 
-PANEL = Proto('panel', panel_build)
+PANEL = Proto('ceilfx_panel', panel_build)
 for (x, z) in LT['panels']:
     PANEL.place(fm((x, H, z)))
     CL.glow(root, 'panel', x, H - 0.1, z, color='rgba(240,246,255,1)', size=1.3, day=0.25, night=1.0)
-ac = IT['ac']; pa = Part('ac'); aw = ac['w']
-crb(pa['vc'], ac['x'] - aw / 2, ac['x'] + aw / 2, H - 0.05, H, ac['z'] - aw / 2, ac['z'] + aw / 2, '#ecebe6', r=0.008)
-pa['goods'].rect((ac['x'], H - 0.051, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.01, aw / 2 - 0.01, ATL['ac_grille'])
+ac = IT['ac']; pa = Part('ceilfx_ac'); aw = ac['w']
+for (a, b, c0, c1) in ((-aw / 2, aw / 2, -aw / 2, -aw / 2 + 0.03), (-aw / 2, aw / 2, aw / 2 - 0.03, aw / 2), (-aw / 2, -aw / 2 + 0.03, -aw / 2 + 0.03, aw / 2 - 0.03), (aw / 2 - 0.03, aw / 2, -aw / 2 + 0.03, aw / 2 - 0.03)):
+    down_rect(pa['vc'], ac['x'] + a, ac['x'] + b, ac['z'] + c0, ac['z'] + c1, H - 0.004, '#ecebe6')   # 冷氣面板的外框（只做朝下的面）
+pa['goods'].rect((ac['x'], H - 0.006, ac['z']), (1, 0, 0), (0, 0, 1), aw / 2 - 0.03, aw / 2 - 0.03, ATL['ac_grille'])
 for (x, z) in ((-1.0, 0.6), (1.0, 2.4), (-1.0, -3.0), (1.0, -1.2), (0.0, 3.9)):   # 灑水頭
     ccyl(pa['vcm'], (x, H, z), (x, H - 0.05, z), 0.012, '#d8d8d4', seg=6); ccyl(pa['vcm'], (x, H - 0.05, z), (x, H - 0.06, z), 0.03, '#c9a24a', seg=8)
 for (x, z) in ((0.0, -1.2), (0.0, 2.4)):   # 偵煙器
     clathe(pa['vc'], [(0.0, 0.0), (0.06, 0.0), (0.055, -0.03), (0.0, -0.035)], x, H, z, '#f4f4f0', seg=12)
-crb(pa['vc'], -0.18, 0.18, H - 0.33, H - 0.2, ZI1 - 0.06, ZI1, '#f0f0ec', r=0.005)   # 店門上面的出口燈（綠色面板）
-pa['emit'].rect((0, H - 0.265, ZI1 - 0.061), (-1, 0, 0), (0, 1, 0), 0.16, 0.055, sub('led_g', 0.2, 0.2, 0.8, 0.8))
 pa.done()
+pex = Part('exit_sign', side='front')   # 店門上面的出口燈（綠色面板）：放進店面那面牆的淡出組
+crb(pex['vc'], -0.18, 0.18, H - 0.33, H - 0.2, ZI1 - 0.06, ZI1, '#f0f0ec', r=0.005)
+pex['emit'].rect((0, H - 0.265, ZI1 - 0.061), (-1, 0, 0), (0, 1, 0), 0.16, 0.055, sub('led_g', 0.2, 0.2, 0.8, 0.8))
+pex.done()
 
 # ======================================================================
 # 左：自助影印機兩台、價目表、盆栽、大圖輸出機、紙樣櫃、公告板、時鐘、月曆
@@ -427,7 +437,7 @@ pa.done()
 
 def mfp_build(pt):
     """自助影印機（多功能事務機）：原點在地上、正面 +z；寬 0.62（x）、深 0.62（z）、高 1.22（送稿機頂）"""
-    c, cm, u, e = pt['vc'], pt['vcm'], pt['goods'], pt['emit']; w2, d2 = 0.31, 0.31
+    c, cm, u, e = pt['vc'], pt['vcm'], pt['goods'], pt['emit']; w2, d2 = 0.31, 0.29   # v1b：深 0.58（導航格）
     crb(c, -w2, w2, 0.04, 0.96, -d2, d2, '#ecedeb', r=0.012)                              # 機身（紙匣四層）
     u.rect((0, 0.39, d2 + 0.002), (1, 0, 0), (0, 1, 0), w2 - 0.01, 0.345, ATL['copier_self'])
     crb(c, -w2 + 0.01, w2 - 0.01, 0.0, 0.04, -d2 + 0.02, d2 - 0.02, '#3a3d42', r=0.0)        # 底座（輪子那一圈）
@@ -463,6 +473,12 @@ clathe(plw['vc'], [(0.0, 0.0), (0.16, 0.0), (0.165, 0.03), (0.0, 0.035)], XI0 + 
 plw['goods'].rect((XI0 + 0.038, 2.45, -0.35), (0, 0, -1), (0, 1, 0), 0.15, 0.15, ATL['clock'])
 plw['goods'].rect((XI0 + 0.003, 1.75, -2.25), (0, 0, -1), (0, 1, 0), 0.16, 0.24, ATL['calendar'])
 plw.done()
+rb_ = IT['recycle_bin']; prb = Part('recycle_bin')   # 廢紙回收桶（藍色、上面一圈白、丟進去的紙）
+clathe(prb['vc'], [(0.0, 0.0), (rb_['r'] * 0.85, 0.0), (rb_['r'], 0.52), (rb_['r'] * 0.93, 0.52), (rb_['r'] * 0.8, 0.03), (0.0, 0.03)], rb_['x'], 0, rb_['z'], '#2b56a8', seg=16)
+clathe(prb['vc'], [(rb_['r'] * 0.98, 0.5), (rb_['r'] * 1.02, 0.5), (rb_['r'] * 1.02, 0.54), (rb_['r'] * 0.92, 0.54)], rb_['x'], 0, rb_['z'], '#f2f2ee', seg=16)
+for k in range(5):
+    a_ = k * 1.3; prb['goods'].rect((rb_['x'] + 0.05 * math.cos(a_), 0.46 + k * 0.012, rb_['z'] + 0.05 * math.sin(a_)), (math.cos(a_), 0, math.sin(a_)), (0.2 * math.sin(a_), 0.6, -0.2 * math.cos(a_)), 0.08, 0.06, WHITE_PAPER, both=True)
+prb.done()
 fp_ = IT['front_plant']; broad_leaf('front_plant', fp_['x'], fp_['z'], 31, hmax=1.15, nst=7, potr=0.17)
 
 pl_ = IT['plotter']; ppl = Part('plotter', T=fm((pl_['x'], 0, pl_['z']), rot('Y', math.pi / 2)))   # 自己的座標：長邊沿 x（1.5）、正面 +z（轉了以後朝 +x）
@@ -502,7 +518,7 @@ psc.done()
 
 def table_build(pt):
     """淺木色長桌（灰色方管鐵腳＋桌下的框）：原點在地上中心；寬 0.65（x）、長 1.6（z）"""
-    w2, l2, h = 0.325, 0.8, 0.75; c = pt['vcm']
+    w2, l2, h = TB['w'] / 2, TB['d'] / 2, TB['h']; c = pt['vcm']
     pt['wood'].rbox(-w2, w2, h - 0.03, h, -l2, l2, r=0.004)
     for sx in (-1, 1):
         for sz in (-1, 1): crb(c, sx * (w2 - 0.04) - 0.02, sx * (w2 - 0.04) + 0.02, 0.0, h - 0.03, sz * (l2 - 0.05) - 0.02, sz * (l2 - 0.05) + 0.02, '#9a9ea6', r=0.0)
@@ -510,7 +526,7 @@ def table_build(pt):
     for sz in (-1, 1): crb(c, -w2 + 0.04, w2 - 0.04, h - 0.09, h - 0.03, sz * (l2 - 0.05) - 0.015, sz * (l2 - 0.05) + 0.015, '#9a9ea6', r=0.0)
 
 
-TABLE = Proto('table', table_build)
+TB = IT['table']; TABLE = Proto('table', table_build)
 
 
 PCS = []
@@ -549,7 +565,7 @@ for it in ITL:
     elif it['kind'] == 'chair': CHAIR.place(fm((it['x'], 0, it['z']), rot('Y', it['yaw'] + random.uniform(-0.12, 0.12))))
 tb0, tb1 = [i for i in ITL if i['kind'] == 'table']
 TX = tb0['x']; TY = 0.75
-pc_place(TX - 0.05, 2.35, 'scr_doc'); pc_place(TX - 0.05, 0.45, 'scr_pdf'); pc_place(TX - 0.05, -0.3, 'scr_doc2')
+pc_place(TX + 0.03, 2.45, 'scr_doc'); pc_place(TX + 0.03, 0.7, 'scr_pdf'); pc_place(TX + 0.03, -0.1, 'scr_doc2')
 pdk = Part('desk_items'); c, cm, g = pdk['vc'], pdk['vcm'], pdk['goods']
 
 
@@ -561,18 +577,18 @@ def pen_cup(c, x, z, y=TY, n=9, seed=1, col='#c8ccd2'):
         ccyl(c, b, t, 0.005, rr.choice(['#2a5ad0', '#d02a2a', '#2a2a2a', '#30a050', '#e0b020', '#a040c0']), seg=4)
 
 
-pen_cup(c, TX + 0.2, 1.95, seed=3, col='#dfe6ec'); pen_cup(c, TX + 0.22, 0.78, seed=4, col='#3a3c40'); pen_cup(c, TX + 0.2, -0.55, seed=5)
+pen_cup(c, TX + 0.17, 2.0, seed=3, col='#dfe6ec'); pen_cup(c, TX + 0.17, 1.05, seed=4, col='#3a3c40'); pen_cup(c, TX + 0.17, -0.5, seed=5)
 # 前面那張桌子：鐵絲文件籃（紙）、隔板（毛玻璃）、自助電腦的小立牌
-for k in range(6): cm.paint(bm_box(cm.bm, TX + 0.02, TX + 0.3, TY + 0.005 + k * 0.022, TY + 0.009 + k * 0.022, 1.3, 1.65), '#b8bcc2')
-for x_ in (TX + 0.02, TX + 0.3): cm.paint(bm_box(cm.bm, x_ - 0.004, x_ + 0.004, TY, TY + 0.12, 1.3, 1.65), '#b8bcc2')
-for k in range(4): tex_box(g, TX + 0.04, TX + 0.28, TY + 0.01 + k * 0.012, TY + 0.02 + k * 0.012, 1.33, 1.62, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)
-pdk['glass'].quad([(TX - 0.3, TY, 1.02), (TX + 0.3, TY, 1.02), (TX + 0.3, TY + 0.48, 1.02), (TX - 0.3, TY + 0.48, 1.02)])
-cm.cbox(TX - 0.31, TX + 0.31, TY + 0.46, TY + 0.49, 1.01, 1.03, '#c8ccd2'); cm.cbox(TX - 0.31, TX - 0.28, TY, TY + 0.49, 1.01, 1.03, '#c8ccd2'); cm.cbox(TX + 0.28, TX + 0.31, TY, TY + 0.49, 1.01, 1.03, '#c8ccd2')
-crb(c, TX + 0.02, TX + 0.3, TY + 0.45, TY + 0.5, 1.035, 1.055, '#f0f0ee', r=0.0)
-g.rect((TX + 0.16, TY + 0.55, 1.056), (1, 0, 0), (0, 1, 0), 0.13, 0.065, ATL['note_pay'])        # 隔板上面的「列印請至櫃台付款」
-for k in range(3): tex_box(g, TX + 0.0, TX + 0.24, TY + k * 0.012, TY + 0.011 + k * 0.012, 2.75, 2.92, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)   # 桌上一疊紙
-for k in range(5): tex_box(g, TX + 0.03, TX + 0.27, TY + k * 0.012, TY + 0.011 + k * 0.012, 0.1, 0.27, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)
-crb(c, TX + 0.08, TX + 0.22, TY, TY + 0.012, -0.62, -0.46, '#2a2c30', r=0.002)   # 手機（有人放著）
+for k in range(6): cm.paint(bm_box(cm.bm, TX - 0.1, TX + 0.18, TY + 0.005 + k * 0.022, TY + 0.009 + k * 0.022, 1.3, 1.65), '#b8bcc2')
+for x_ in (TX - 0.1, TX + 0.18): cm.paint(bm_box(cm.bm, x_ - 0.004, x_ + 0.004, TY, TY + 0.12, 1.3, 1.65), '#b8bcc2')
+for k in range(4): tex_box(g, TX - 0.08, TX + 0.16, TY + 0.01 + k * 0.012, TY + 0.02 + k * 0.012, 1.33, 1.62, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)
+pdk['glass'].quad([(TX - 0.24, TY, 1.22), (TX + 0.24, TY, 1.22), (TX + 0.24, TY + 0.48, 1.22), (TX - 0.24, TY + 0.48, 1.22)])
+cm.cbox(TX - 0.25, TX + 0.25, TY + 0.46, TY + 0.49, 1.21, 1.23, '#c8ccd2'); cm.cbox(TX - 0.25, TX - 0.22, TY, TY + 0.49, 1.21, 1.23, '#c8ccd2'); cm.cbox(TX + 0.22, TX + 0.25, TY, TY + 0.49, 1.21, 1.23, '#c8ccd2')
+crb(c, TX - 0.12, TX + 0.16, TY + 0.45, TY + 0.5, 1.235, 1.255, '#f0f0ee', r=0.0)
+g.rect((TX + 0.02, TY + 0.55, 1.256), (1, 0, 0), (0, 1, 0), 0.13, 0.065, ATL['note_pay'])        # 隔板上面的「列印請至櫃台付款」
+for k in range(3): tex_box(g, TX - 0.05, TX + 0.19, TY + k * 0.012, TY + 0.011 + k * 0.012, 2.6, 2.77, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)   # 桌上一疊紙
+for k in range(5): tex_box(g, TX - 0.07, TX + 0.17, TY + k * 0.012, TY + 0.011 + k * 0.012, 0.25, 0.42, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)
+crb(c, TX - 0.02, TX + 0.12, TY, TY + 0.012, -0.45, -0.3, '#2a2c30', r=0.002)   # 手機（有人放著）
 pdk.done()
 
 # ======================================================================
@@ -710,16 +726,16 @@ mon = Part('counter_monitor', T=fm((mx, 0.74, mz - 0.1), rot('Y', math.pi - 0.5)
 crb(mc, -0.02, 0.02, 0.0, 0.42, -0.02, 0.02, '#2a2b2e', r=0.0); crb(mc, -0.25, 0.25, 0.3, 0.6, 0.02, 0.05, '#1c1d20', r=0.006)
 mon['emit'].rect((0, 0.45, 0.051), (1, 0, 0), (0, 1, 0), 0.235, 0.135, ATL['scr_pos']); mon.done()
 tex_box(g, ct['x'] - 0.3, ct['x'] - 0.04, cy - 0.04, cy - 0.025, mz - 0.25, mz - 0.05, '+y', 'keyboard', side_cell=sub('keyboard', 0, 0, 0.05, 0.05))
-qx = ct['x'] + 0.25; crb(c, qx - 0.06, qx + 0.06, cy, cy + 0.01, cz1 - 0.12, cz1 - 0.05, '#2a2c30', r=0.002)   # 掃碼付款小牌（壓克力立牌）
+qx = ct['x'] - 0.05; crb(c, qx - 0.06, qx + 0.06, cy, cy + 0.01, cz1 - 0.12, cz1 - 0.05, '#2a2c30', r=0.002)   # 掃碼付款小牌（壓克力立牌）
 c.paint(bm_box(c.bm, qx - 0.055, qx + 0.055, cy + 0.01, cy + 0.175, cz1 - 0.09, cz1 - 0.084), '#f4f4f2')
 g.rect((qx, cy + 0.0925, cz1 - 0.083), (1, 0, 0), (0, 1, 0), 0.052, 0.08, ATL['qr_stand'])
-pen_cup(c, ct['x'] + 0.05, cz1 - 0.12, y=cy, n=7, seed=8)
-clathe(cm, [(0.0, 0.0), (0.045, 0.0), (0.045, 0.01), (0.035, 0.012), (0.03, 0.05), (0.0, 0.058)], ct['x'] + 0.55, cy, cz1 - 0.12, '#c8b070', seg=14)   # 叫人鈴
-ccyl(cm, (ct['x'] + 0.55, cy + 0.058, cz1 - 0.12), (ct['x'] + 0.55, cy + 0.07, cz1 - 0.12), 0.006, '#d8d8d4', seg=5)
-c.paint(bm_box(c.bm, ct['x'] + 0.42, ct['x'] + 0.68, cy, cy + 0.11, cz1 - 0.03, cz1 - 0.025), '#f4f4f2')   # 「有事請按鈴」小立牌
-g.rect((ct['x'] + 0.55, cy + 0.055, cz1 - 0.0245), (1, 0, 0), (0, 1, 0), 0.125, 0.052, ATL['note_bell'])
-for k in range(5): tex_box(g, cx0 + 0.06, cx0 + 0.32, cy + k * 0.016, cy + 0.015 + k * 0.016, cz0 + 0.05, cz0 + 0.4, '+z', 'kraft_env', side_cell=sub('kraft_env', 0, 0, 0.05, 0.05), top_cell=sub('kraft_env', 0, 0.45, 1, 1))   # 待取件
-c.paint(bm_box(c.bm, cx0 + 0.35, cx0 + 0.58, cy, cy + 0.13, cz1 - 0.05, cz1 - 0.045), '#f4f4f2'); g.rect((cx0 + 0.465, cy + 0.066, cz1 - 0.044), (1, 0, 0), (0, 1, 0), 0.11, 0.055, ATL['note_pickup'])   # 「取件處」小立牌
+pen_cup(c, ct['x'] + 0.15, cz1 - 0.12, y=cy, n=7, seed=8)
+clathe(cm, [(0.0, 0.0), (0.045, 0.0), (0.045, 0.01), (0.035, 0.012), (0.03, 0.05), (0.0, 0.058)], ct['x'] + 0.52, cy, cz1 - 0.12, '#c8b070', seg=14)   # 叫人鈴
+ccyl(cm, (ct['x'] + 0.52, cy + 0.058, cz1 - 0.12), (ct['x'] + 0.52, cy + 0.07, cz1 - 0.12), 0.006, '#d8d8d4', seg=5)
+c.paint(bm_box(c.bm, ct['x'] + 0.23, ct['x'] + 0.47, cy, cy + 0.11, cz1 - 0.03, cz1 - 0.025), '#f4f4f2')   # 「有事請按鈴」小立牌
+g.rect((ct['x'] + 0.35, cy + 0.055, cz1 - 0.0245), (1, 0, 0), (0, 1, 0), 0.115, 0.048, ATL['note_bell'])
+for k in range(5): tex_box(g, cx1 - 0.34, cx1 - 0.08, cy + k * 0.016, cy + 0.015 + k * 0.016, cz0 + 0.05, cz0 + 0.4, '+z', 'kraft_env', side_cell=sub('kraft_env', 0, 0, 0.05, 0.05), top_cell=sub('kraft_env', 0, 0.45, 1, 1))   # 待取件
+c.paint(bm_box(c.bm, cx0 + 0.2, cx0 + 0.43, cy, cy + 0.13, cz1 - 0.05, cz1 - 0.045), '#f4f4f2'); g.rect((cx0 + 0.315, cy + 0.066, cz1 - 0.044), (1, 0, 0), (0, 1, 0), 0.11, 0.055, ATL['note_pickup'])   # 「取件處」小立牌
 clathe(c, [(0.0, 0.0), (0.05, 0.0), (0.06, 0.08), (0.0, 0.08)], cx0 + 0.12, cy, cz1 - 0.1, '#f4f4f0', seg=12)
 for k in range(2): a = k * 1.6 + 0.3; pct['alpha'].rect((cx0 + 0.12, cy + 0.15, cz1 - 0.1), (math.cos(a), 0, math.sin(a)), (0, 1, 0), 0.08, 0.08, ATL['flowers_w'], both=True)
 for k in range(3): tex_box(g, ct['x'] - 0.05, ct['x'] + 0.25, 0.74 + k * 0.012, 0.751 + k * 0.012, cz0 + 0.05, cz0 + 0.27, '+z', sub('paper_edge', 0, 0, 1, 0.4), top_cell=WHITE_PAPER)   # 店員那一側：一疊紙
@@ -739,7 +755,7 @@ def office_chair(pt):
     ccyl(cm, (0, 0.45, -0.18), (0, 0.62, -0.24), 0.02, '#3a3c40', seg=6)
 
 
-oc = IT['office_chair']; Proto('ochair', office_chair).place(fm((oc['x'], 0, oc['z']), rot('Y', oc['yaw'] + 0.3)))
+oc = IT['office_chair']; Proto('ochair', office_chair).place(fm((oc['x'], 0, oc['z']), rot('Y', oc['yaw'])))
 
 cb = IT['cubby']; pcb = Part('cubby', side='back'); c, g = pcb['vc'], pcb['goods']
 bx0, bx1 = cb['x'] - cb['w'] / 2, cb['x'] + cb['w'] / 2; bz0, bz1 = ZI0, ZI0 + cb['d']; NC, NR = 5, 4; th = 0.022
@@ -811,10 +827,10 @@ crb(ptop['vc'], -0.21, 0.21, 0.12, 0.38, 0.015, 0.04, '#1c1d20', r=0.005); ptop[
 # ======================================================================
 for ob in list(root.children):
     if ob.type == 'MESH' and len(ob.data.polygons) == 0: bpy.data.objects.remove(ob)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'ceilfx' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 for ob in root.children:
     if ob.type == 'MESH' and ob.name.startswith('WALL_') and 'dir' not in ob: ob['dir'] = DIRS[ob.name.split('_')[1]]
-ss = None if os.environ.get('AD_NOSS') else L.single_side(root, keep=r'glass', nodup=r'ad_(plaster|wood|floor_tile|ceil|goods|sign|alpha)')
+ss = None if os.environ.get('AD_NOSS') else L.single_side(root, keep=r'glass', nodup=r'ad_(plaster|wood|floor_tile|ceil|goods|sign|alpha)', skip=lambda ob: 'ceilfx' in ob.name)   # 天花板上的東西（ad_ceilfx_*）只做朝下的面、不補反面：遊戲鏡頭從天花板上面看時看不到
 info = L.export(OUT, gpu_instances=True)
 
 
