@@ -21,7 +21,7 @@
 # ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
-STUCK_1104_fix  | de38333d1 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+STUCK_1104_fix  | 27929f2a8 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_main2 | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # （BB 00:44 補三項，排在社交冒煙後面；社交冒煙寫好會插在 PE644b 前面）
