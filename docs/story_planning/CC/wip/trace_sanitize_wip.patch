@@ -1,0 +1,107 @@
+diff --git a/tools/cc_local/cc_trace.py b/tools/cc_local/cc_trace.py
+index 752765793..41c3848c9 100644
+--- a/tools/cc_local/cc_trace.py
++++ b/tools/cc_local/cc_trace.py
+@@ -70,6 +70,28 @@ def _pairs():
+     return out
+ 
+ 
++# 不靠「知道本機路徑」也能認出來的本機資訊（BB 05:15 缺口 2）：雲端 scratchpad／worktree、編碼過的家目錄名、Windows／mac／Linux 的使用者資料夾。
++# 規則順序有關係：先整段換 scratchpad，再換編碼目錄名，最後換使用者資料夾的名字。名字字元不含 <>，所以換過的 <USER> 不會再被比對。
++_SEP = r'(?:\\\\|\\|/|%5[Cc]|%2[Ff])'
++GENERIC_RULES = [
++    (re.compile(r'(?:<TMP>|/tmp)/claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad(?:/wt_[^/\\\s"\'<>]+)?'),
++     lambda m: '<WT>' if '/wt_' in m.group(0) else '<SCRATCH>'),
++    (re.compile(r'claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad'), lambda m: '<SCRATCH>'),
++    (re.compile(r'<WTROOT>[/\\]+wt_cc_[^/\\\s"\'<>]+'), lambda m: '<WT>'),
++    (re.compile(r'(?<![A-Za-z0-9])-(?:home|Users|root)-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
++    (re.compile(r'(?<![A-Za-z0-9])[A-Za-z]--Users-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
++    (re.compile(r'(?i)((?:[A-Za-z]:)?)(' + _SEP + r')(Users|home)(' + _SEP + r')(?!<USER>)([^/\\\s"\'<>%]+)'),
++     lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(4) + '<USER>'),
++]
++GENERIC_LEFT = re.compile(r'(?i)claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+')
++
++
++def scrub_generic(s):
++    for rx, fn in GENERIC_RULES:
++        s = rx.sub(fn, s)
++    return s
++
++
+ _PAIRS = _pairs()
+ try:
+     _USER = getpass.getuser()
+@@ -85,6 +107,7 @@ def san(s):
+     for p, tok in _PAIRS:
+         if p in s:
+             s = s.replace(p, tok)
++    s = scrub_generic(s)
+     if _USER_RE is not None:
+         s = _USER_RE.sub('<USER>', s)
+     return _SECRET_RE.sub(lambda m: m.group(1) + m.group(2) + '<REDACTED>', s)
+diff --git a/tools/cc_local/run_queue.py b/tools/cc_local/run_queue.py
+index 8cc4c7c47..73db155d6 100644
+--- a/tools/cc_local/run_queue.py
++++ b/tools/cc_local/run_queue.py
+@@ -506,6 +506,28 @@ def input_hash(envd, xargs):
+     return hashlib.sha256(s.encode('utf-8')).hexdigest()[:16]
+ 
+ 
++# 不靠「知道本機路徑」也能認出來的本機資訊（BB 05:15 缺口 2）：雲端 scratchpad／worktree、編碼過的家目錄名、Windows／mac／Linux 的使用者資料夾。
++# 規則順序有關係：先整段換 scratchpad，再換編碼目錄名，最後換使用者資料夾的名字。名字字元不含 <>，所以換過的 <USER> 不會再被比對。
++_SEP = r'(?:\\\\|\\|/|%5[Cc]|%2[Ff])'
++GENERIC_RULES = [
++    (re.compile(r'(?:<TMP>|/tmp)/claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad(?:/wt_[^/\\\s"\'<>]+)?'),
++     lambda m: '<WT>' if '/wt_' in m.group(0) else '<SCRATCH>'),
++    (re.compile(r'claude-\d+/[^/\\\s"\'<>]+/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/scratchpad'), lambda m: '<SCRATCH>'),
++    (re.compile(r'<WTROOT>[/\\]+wt_cc_[^/\\\s"\'<>]+'), lambda m: '<WT>'),
++    (re.compile(r'(?<![A-Za-z0-9])-(?:home|Users|root)-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
++    (re.compile(r'(?<![A-Za-z0-9])[A-Za-z]--Users-[^/\\\s"\'<>]+'), lambda m: '<HOMEDIR>'),
++    (re.compile(r'(?i)((?:[A-Za-z]:)?)(' + _SEP + r')(Users|home)(' + _SEP + r')(?!<USER>)([^/\\\s"\'<>%]+)'),
++     lambda m: m.group(1) + m.group(2) + m.group(3) + m.group(4) + '<USER>'),
++]
++GENERIC_LEFT = re.compile(r'(?i)claude-\d+/[^/\s]+/[0-9a-f-]{36}/scratchpad|-home-(?!<)|(?:\\|/)(?:Users|home)(?:\\\\|\\|/)(?!<USER>)[^/\\\s"\'<>%]+')
++
++
++def scrub_generic(s):
++    for rx, fn in GENERIC_RULES:
++        s = rx.sub(fn, s)
++    return s
++
++
+ class Sanitizer(object):
+     """把本機絕對路徑、使用者名稱、Cookie／Token 換掉（推上 GitHub 之前）"""
+     SECRET = re.compile(r'(?i)\b(authorization|cookie|set-cookie|x-api-key|api[_-]?key|access[_-]?token|token|password)(\s*[:=]\s*)([^\s,;&"\']+)')
+@@ -532,6 +554,7 @@ class Sanitizer(object):
+         for p, tok in self.pairs:
+             if p in s:
+                 s = s.replace(p, tok)
++        s = scrub_generic(s)
+         if self.user_path is not None:
+             s = self.user_path.sub(lambda m: m.group(1) + '<USER>', s)
+         if word and self.user_word is not None:
+@@ -541,6 +564,9 @@ class Sanitizer(object):
+ 
+     def hits(self, s):
+         h = [tok for p, tok in self.pairs if p in s]
++        mg = GENERIC_LEFT.search(s)
++        if mg:
++            h.append('generic:' + mg.group(0)[:40])
+         if self.user_path is not None and self.user_path.search(s):
+             h.append('<USER>')
+         if self.SECRET.search(s) and '<REDACTED>' not in self.SECRET.search(s).group(3):
+@@ -1578,8 +1604,12 @@ class Runner(object):
+                         add.append(nf)
+             # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
+             git('-C', self.work, 'reset', '-q', quiet=True)
+-            for i in range(0, len(add), 50):   # -f：清單是上面一個一個挑出來的（已照 PNG_CAP 過濾）；trace.zip 會被 .gitignore 的 *.zip 擋掉（BB 05:15：be2d80d58 的範例 zip 沒進 repo），所以強制加
+-                git('-C', self.work, 'add', '-f', '--', *add[i:i + 50], quiet=True)
++            forced = [f for f in add if f in traces]   # 只有 CC_AUTORETRY 的 trace.zip 用 -f（.gitignore 的 *.zip 會擋掉它，BB 05:15）
++            normal = [f for f in add if f not in traces]
++            for i in range(0, len(normal), 50):   # 其他檔照舊不加 -f：被 .gitignore 擋的（探針自己產生的 .zip、.pyc…）照舊不推，和改版前相同
++                git('-C', self.work, 'add', '--', *normal[i:i + 50], quiet=True)
++            for i in range(0, len(forced), 50):
++                git('-C', self.work, 'add', '-f', '--', *forced[i:i + 50], quiet=True)
+             git('-C', self.work, 'add', '--', sum_file, quiet=True)
+             cf = self.write_console()
+             if cf:
