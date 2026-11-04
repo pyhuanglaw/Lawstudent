@@ -5,7 +5,7 @@
 //   1 兩間建得起來、尺寸照配置、正式模型的資產登錄、配置的導航阻擋都擋住
 //   2 公館店門口「進入 afar café」「進入 Daybreak」：門＝那一棟中心 − 配置的門 x（7.93、70.94）、按得到、從人行道走得到；洋洋鹹酥雞、轉角唱片的門口照舊站得住、沒有按鈕擋著
 //   3 進門站的地方站得住、不在出口範圍（＋0.2 m）裡；出口按得到、走得到；出來回公館站得住、不在公館任何出口的範圍裡
-//   4 座位：數量照配置（afar 26、Daybreak 24）、玩家坐得到的每一個按得到、走得到（走不到的四張只給路人坐）；能讀書的照 canStudy
+//   4 座位：數量照配置（afar 26、Daybreak 23：配置 v2 拿掉長桌西側中間那張，AA 68c166ed2）、玩家坐得到的每一個按得到、走得到（走不到的四張只給路人坐）；能讀書的照 canStudy
 //   5 點餐、看甜點櫃、看看書架、看菜單（配置的 interact）按得到、走得到；Daybreak 的看菜單不和點餐疊在一起
 //   6 店員、路人（CROWD）、快速前往、大地圖、引路、路程、城鎮判定、index.html 載入順序、LICENSES.md、劇情匯入白名單
 // 第二部分（B，子程序：tests/pg_harness.js 的遊戲資料＋邀約系統）：
@@ -45,7 +45,7 @@ function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
   c.sort((a,b)=>a[0]-b[0]); for(const [,x,z] of c){ P.obj.position.set(x,0,z); if(E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,z]).ok) continue; return [x,z]; } return null; }
 const inExit=(its,s,margin)=>its.filter(q=>q.exit&&!q.hidden&&Math.hypot(q.x-s.x,q.z-s.z)<(q.radius||1.8)+margin).map(q=>q.label+' '+Math.hypot(q.x-s.x,q.z-s.z).toFixed(2)+'m');
 const SPEC={afar:{L:typeof AFAR_LAYOUT!=='undefined'?AFAR_LAYOUT:null,name:'afar café',seats:26,glb:'bldg.afar_interior',npcOnly:[[-4.65,-2.3],[-4.65,-3.4]],door:'進入 afar café',cx:10.5,doorX:7.93,items:{order:'點咖啡',pastry:'看甜點櫃',bookshelf:'看看書架',menu:'看菜單'}},
-  daybreak:{L:typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null,name:'Daybreak',seats:24,glb:'bldg.daybreak_interior',npcOnly:[[-4.2,0.9],[0.6,-3.5]],door:'進入 Daybreak',cx:73.1,doorX:70.94,items:{order:'點餐',pastry:'看甜點櫃',menu:'看菜單'}}};
+  daybreak:{L:typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null,name:'Daybreak',seats:23,glb:'bldg.daybreak_interior',npcOnly:[[0.6,-3.5]],door:'進入 Daybreak',cx:73.1,doorX:70.94,items:{order:'點餐',pastry:'看甜點櫃',menu:'看菜單'}}};
 const SI=Z3.SHOP_IN;
 // ---- 2 公館店門口 ----
 const GG=loadZone('gongguan'); const gIts=GG.its, gNav=GG.z.nav;
@@ -130,7 +130,13 @@ const run=async()=>{
     G=fresh('2025-10-15',7,'gongguan'); await STORY.interact({exit:{to:'daybreak',spawn:{x:0,z:0,yaw:0}}},GM);
     check('7 Daybreak 開門以前（07:00）：寫開放時間（不是木牌）',!H.has(GG2.L.daybreak.sign)&&toasts.some(t=>/Daybreak/.test(t)&&/08:00/.test(t))&&!H.entered.length,J(toasts));
     G=fresh('2025-10-15',22,'gongguan'); await STORY.interact({exit:{to:'afar',spawn:{x:0,z:0,yaw:0}}},GM);
-    check('7 afar 21:00 以後按門：寫開放時間、不進去',toasts.some(t=>/afar café/.test(t)&&/11:00/.test(t))&&!H.entered.length,J(toasts)); }
+    check('7 afar 21:00 以後按門：AA_652 打烊以後那一句（89b4367ca：椅子倒扣、「本日營業結束 11:00～21:00」）、不進去',H.has(GG2.L.afar.sign)&&/本日營業結束 11:00～21:00/.test(GG2.L.afar.sign)&&!H.entered.length,J(said()));
+    G=fresh('2025-10-15',10,'gongguan'); await STORY.interact({exit:{to:'afar',spawn:{x:0,z:0,yaw:0}}},GM);
+    check('7 afar 開門以前（10:00）：寫開放時間、不說打烊那一句',!H.has(GG2.L.afar.sign)&&toasts.some(t=>/afar café/.test(t)&&/11:00/.test(t))&&!H.entered.length,J(toasts));
+    const TC=PLACES.typhoonClosed; PLACES.typhoonClosed=(z)=>PLACES.typhoonShops.includes(z);
+    try{ for(const [k,h,re] of [['afar',14,/颱風天休息，大家注意安全/],['daybreak',10,/颱風天暫停營業/]]){ fresh('2025-10-15',h,'gongguan'); await STORY.interact({exit:{to:k,spawn:{x:0,z:0,yaw:0}}},GM);
+      check(`7 ${k} 颱風假當天按門：AA_652 颱風那一句（89b4367ca）、不進去`,H.has(GG2.L[k].typhoon)&&re.test(GG2.L[k].typhoon)&&!H.entered.length,J(said())); } }
+    finally { PLACES.typhoonClosed=TC; } }
   // ---- 7 打烊請你出來 ----
   for(const [k,c] of [['afar',21.1],['daybreak',15.1]]){ fresh('2025-10-15',c,k); const r=await GG2.closeOut(GM);
     check(`7 ${k} 打烊那一刻（${c}）：店員一句＋走出去的旁白、回公館`,r==='close'&&J(H.said.map(s=>[s.who,s.t]))===J(GG2.L[k].close.map(x=>[x[0]?'店員':null,x[1]]))&&H.entered[0]==='gongguan',J(said()));
@@ -165,7 +171,7 @@ const run=async()=>{
     const cnt=(k,L)=>{ const c={}; for(const s of L.seats){ const t=GG2.seatKind(k,s)||'none'; c[t]=(c[t]|0)+1; } return c; };
     const ca=cnt('afar',AFAR_LAYOUT), cd=cnt('daybreak',DAYBREAK_LAYOUT);
     check('8 afar 坐下句照位子：窗邊 6、方桌 12、靠牆 4、卡座 2、卡座小圓桌對面的椅子 2（稿上沒有：不說）',J(ca)===J({window:6,middle:12,wall:4,booth:2,none:2}),J(ca));
-    check('8 Daybreak 坐下句照位子：窗邊 6、四人桌 8、長桌 6、卡座 2、卡座小桌對面的椅子 2（不說）',J(cd)===J({window:6,middle:8,long:6,booth:2,none:2}),J(cd));
+    check('8 Daybreak 坐下句照位子：窗邊 6、四人桌 8、長桌 5（配置 v2 拿掉一張）、卡座 2、卡座小桌對面的椅子 2（不說）',J(cd)===J({window:6,middle:8,long:5,booth:2,none:2}),J(cd));
     H.G.zone='afar'; H.said=[]; await STORY.onSeat(GM,{x:-0.9,z:3.1,yaw:0}); check('8 afar 在窗邊長桌坐下（STORY.onSeat）：窗邊那一句',H.has(GG2.L.afar.seat.window),J(said()));
     H.G.zone='daybreak'; H.said=[]; await STORY.onSeat(GM,{x:2.05,z:-3.5,yaw:0}); check('8 Daybreak 卡座坐下：卡座那一句',H.has(GG2.L.daybreak.seat.booth),J(said()));
     H.G.zone='cafe'; H.said=[]; await STORY.onSeat(GM,{x:-0.9,z:3.1,yaw:0}); check('8 別的店坐下：不說',!GG2.L.afar.seat.window||!H.has(GG2.L.afar.seat.window)); }

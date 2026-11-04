@@ -4204,12 +4204,12 @@
   },
   {
    "path": "docs/story_planning/AA_652_afar與Daybreak店內台詞.md",
-   "sha": "303cded56",
+   "sha": "89b4367ca",
    "status": "approved",
    "approvedBy": "AA（D109）",
    "task": "GG-SHOPS2-1104",
    "kind": "text",
-   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）"
+   "note": "afar café、Daybreak 店內台詞：進門（一天一次）、點餐（含錢不夠）、看甜點櫃／書架／菜單、照位子的坐下句、打烊、約去答應（七位＋一般）、坐下以後的開場句（src/gg2shops3d.js、src/data/invites.js；gg_shops2_1104_unit 逐字對照；同一份內容也在 4a98d57f6）；89b4367ca 補 afar 打烊以後、afar／Daybreak 颱風假門口句"
   },
   {
    "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",

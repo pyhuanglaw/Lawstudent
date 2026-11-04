@@ -43,7 +43,9 @@ const GG2=(function(){
         menu:['（黑板上寫著 Brunch、Plates、Sandwiches……每一行後面都畫了一條線，沒有寫價錢。價錢在吧台的小菜單上。）']},
       seat:{window:'（窗邊的陽光很亮。桌上的小花瓶插了幾枝滿天星。）',middle:'（四人桌的椅子有一張是綠色坐墊。你坐了那一張。）',long:'（最裡面那張長桌，牆上的層板放滿了罐子和小盆栽。）',booth:'（你在卡座坐下，旁邊的黃色抱枕很軟。牆上的 Daybreak 字就在你頭上。）'},
       close:[['店員','我們三點休息囉。……明天早上八點見。'],[null,'（你走出 Daybreak。午後的騎樓比早上熱很多。）']],
-      sign:'（Daybreak 的門上掛著「今日營業結束」的木牌。）' } };
+      sign:'（Daybreak 的門上掛著「今日營業結束」的木牌。）', typhoon:'（Daybreak 的遮雨棚收起來了。門上貼著：「颱風天暫停營業」。）' } };
+  /* AA_652（企劃線 89b4367ca）補的門口句：afar 打烊以後、afar 與 Daybreak 颱風假當天 */
+  S.L.afar.sign='（afar 的玻璃門後面，椅子都倒扣在桌上了。門上掛著小木牌：「本日營業結束 11:00～21:00」。）'; S.L.afar.typhoon='（afar 的門上貼著一張手寫的紙：「颱風天休息，大家注意安全。」）';
   S.EAT_KEY={afar:'afar café',daybreak:'Daybreak'};
   S.HRS={afar:0.15,daybreak:40/60};   /* afar 點完的時間照兩點半 Café 的櫃台（稿上沒寫）；Daybreak「時間過 40 分鐘（吃飯）」 */
   /* 約去答應的「一般」那一句（沒有自己句子的人）*/
@@ -85,7 +87,9 @@ const GG2=(function(){
     if(GM.autosave) GM.autosave(); return nm; };
 
   /* ---------- 店門：關門 ---------- */
-  S.door=async function(GM,k){ const G=GM.G; if(k==='daybreak'&&!typhoon(k,G)&&hr(G)>=15-1e-6){ GM.sceneBegin(); try{ await GM.say(null,S.L.daybreak.sign); } finally { GM.sceneEnd(); } return 'sign'; }
+  S.door=async function(GM,k){ const G=GM.G, h=hr(G), T=S.L[k]||{};
+    const line=typhoon(k,G)?T.typhoon:((k==='daybreak'&&h>=15-1e-6)||(k==='afar'&&(h>=21-1e-6||h<6)))?T.sign:null;   /* 颱風假＝颱風那一句；打烊以後（Daybreak 15:00 起、afar 21:00 起到清晨）＝木牌那一句；開門以前＝寫開放時間 */
+    if(line){ GM.sceneBegin(); try{ await GM.say(null,line); } finally { GM.sceneEnd(); } return typhoon(k,G)?'typhoon':'sign'; }
     if(typeof PLACES!=='undefined'&&PLACES.closedText) GM.toast(PLACES.closedText(k,G.hour,G.day),4500); return 'closed'; };
 
   /* ---------- 進門（一天第一次、一個人）---------- */
