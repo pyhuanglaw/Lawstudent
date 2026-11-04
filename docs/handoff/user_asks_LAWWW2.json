@@ -666,6 +666,17 @@
    "src": "使用者直接對 LAWWW2-C 工作階段說（LAWWW2-C 正在做阿德轉角外觀 WZ-FIVE-1104）",
    "note": "LAWWW2-C 查了（14:1x）：①單張圖轉 3D 的 AI（TRELLIS.2／TripoSR MIT；Hunyuan3D 2.1、SF3D、Pixal3D、SAM 3D 有限制）都要 NVIDIA 顯示卡，雲端機器沒有、HuggingFace 大檔下載站被擋；而且只適合小物件，店面、招牌字會糊。②這台機器能用：Poly Haven 521 個 CC0 模型（之前只用貼圖）、HDRI；參考圖鏡頭對位（同角度疊圖）；DeepBump（GPL，CPU）法線／高度圖、Depth Anything V2 Small（Apache-2.0，GitHub release）估深度。③擋住：ambientCG 下載、Sketchfab、Kenney、Quaternius、blender.org、MakeHuman。先拿阿德轉角試做；問使用者電腦有沒有 NVIDIA 顯示卡（要不要在 PC 試 TRELLIS.2，由使用者決定）",
    "task": "OPEN-SRC-2D3D-1104"
+  },
+  {
+   "id": "UA-LAWWW2-1104-06",
+   "at": "2026-11-04T15:1x",
+   "quote": "說到這個 普通 博雅 教學館目前感覺跟真正的太不向了／不像（15:3x 補：博雅是現在的博思 普通也是改名後的版本……我不是要你新增兩棟他們已經在了隻是不叫學校裡的名字）",
+   "kind": "轉述",
+   "status": "還沒做",
+   "wants": "X227",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "src": "LAWWW-C 15:20Z send_message（P1；開發分支 UA-LAWWW-1104-97、-98，459c87698、5c934dd45）",
+   "note": "LAWWW2-C 已核對開發分支原文。改遊戲裡已經有的普通、博思（＝博雅）外觀，照官網照片（ref_cache，不進 repo），D136 像但不照抄；不動導航本體、DOORS、空橋 Y0、樓層高度。順序：阿德 v2.1（BB_255 的 1～5）之後，2:30 AM、HAIR-NOODLE、NPC-ANIM-LOOPS 之前"
   }
  ]
 }
