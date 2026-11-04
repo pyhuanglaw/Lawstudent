@@ -1,0 +1,26 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_map_friend_go_probe.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\MAP_ctl2\out
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：先讀一個存檔，在瀏覽器裡掃時段（只算 whereIs，不動存檔；算完改回原本的日期時間）（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  認識的人：[]；有行程的時段（天, 週幾, 時, 人數, 誰@哪）：[]
+  [前置／捷徑] 讀檔：校園第 8 天找人（{"zone": "campus", "day": 8, "weekday": 4, "hour": 14.0}）
+  人：[["不認識的女生", "cafe", "mins:20"], ["不認識的女生", "library", "mins:5"], ["黃筱涵", "library", "mins:5"], ["陳助教", "library", "mins:5"], ["坐第三排的人", "bookstore", "mins:20"], ["常在圖書館的男生", "library_hall", "mins:5"], ["抱著一疊講義的女生", "cafe", "mins:20"], ["坐窗邊的人", "library", "mins:5"], ["常跟助教說話的男生", "library", "mins:5"], ["愛睡覺的男生", "library", "mins:5"]]
+  [前置／捷徑] 讀檔：校園第 8 天找人（{"zone": "campus", "day": 8, "weekday": 4, "hour": 17.5}）
+  人：[["沈以安", "cafe", "mins:20"], ["阿哲", "noodle", "mins:20"], ["柏翰", "library", "mins:5"], ["芯慈", "library", "mins:5"], ["陳助教", "library", "mins:5"]]
+  [前置／捷徑] 讀檔：校園第 9 天找人（{"zone": "campus", "day": 9, "weekday": 5, "hour": 12.3}）
+  人：[["常在圖書館的男生", "library_hall", "mins:5"], ["抱著一疊講義的女生", "cafe", "mins:20"]]
+  [前置／捷徑] 讀檔：校園第 10 天找人（{"zone": "campus", "day": 10, "weekday": 6, "hour": 15.0}）
+  人：[["不認識的女生", "cafe", "mins:20"], ["不認識的女生", "library", "mins:5"], ["黃筱涵", "library", "mins:5"], ["陳助教", "library", "mins:5"], ["坐第三排的人", "bookstore", "mins:20"], ["常在圖書館的男生", "library_hall", "mins:5"], ["抱著一疊講義的女生", "cafe", "mins:20"], ["坐窗邊的人", "library", "mins:5"], ["常跟助教說話的男生", "library", "mins:5"]]
+  [前置／捷徑] 讀檔：校園第 7 天找人（{"zone": "campus", "day": 7, "weekday": 3, "hour": 19.0}）
+  人：[["不認識的女生", "cafe", "mins:20"], ["不認識的女生", "cafe", "mins:20"], ["Alison", "wenzhou", "mins:20"], ["柏翰", "library", "mins:5"], ["明軒", "gongguan", "mins:15"], ["阿凱", "dorm", "mins:5"], ["筆記借人看的人", "library_b1", "mins:5"]]
+  [前置／捷徑] 讀檔：校園第 11 天找人（{"zone": "campus", "day": 11, "weekday": 0, "hour": 16.0}）
+  人：[["不認識的女生", "gongguan", "mins:15"], ["賴宥辰", "cafe", "mins:20"], ["抱著一疊講義的女生", "cafe", "mins:20"]]
+  [前置／捷徑] 讀檔：校園第 14 天找人（{"zone": "campus", "day": 14, "weekday": 3, "hour": 10.5}）
+  人：[["沈以安", "library", "mins:5"], ["柏翰", "classroom", "mins:15"], ["芯慈", "classroom", "mins:15"], ["明軒", "classroom", "mins:15"], ["沛珊", "classroom", "mins:15"], ["常在圖書館的男生", "library_hall", "mins:5"], ["講話很小聲的男生", "soclib", "mins:10"]]
+  [前置／捷徑] 讀檔：校園第 16 天找人（{"zone": "campus", "day": 16, "weekday": 5, "hour": 13.0}）
+  人：[["沈以安", "classroom", "mins:15"], ["不認識的女生", "library", "mins:5"], ["阿哲", "classroom", "mins:15"], ["Alison", "classroom", "mins:15"], ["柏翰", "classroom", "mins:15"], ["芯慈", "classroom", "mins:15"], ["明軒", "classroom", "mins:15"], ["賴宥辰", "classroom", "mins:15"], ["沛珊", "classroom", "mins:15"], ["坐第三排的人", "classroom", "mins:15"], ["常在圖書館的男生", "library_hall", "mins:5"], ["抱著一疊講義的女生", "cafe", "mins:20"], ["晨思鐘旁邊吃早餐的人", "classroom", "mins:15"], ["坐窗邊的人", "library", "mins:5"], ["愛睡覺的男生", "library", "mins:5"]]
+FAIL 前置：找到「同一區、走得到」的人  null
+FAIL 前置：找到「別區、走得到」的人  null
+== M 大地圖
+== P 手機朋友頁
+PASS 沒有 JS 例外  []
+FAILED 2: 前置：找到「同一區、走得到」的人；前置：找到「別區、走得到」的人

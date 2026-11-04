@@ -590,3 +590,13 @@
 [07:55:47] [res] cpu=85% mem=56% (17.7/31.4 GB) chrome_testing=19  START PE644-PRE
 [07:57:19] 正在跑：YT3-E（已跑 31 分／上限 45 分）、YT3-C（已跑 27 分／上限 45 分）、PE644-PRE（已跑 1 分／上限 10 分）——還沒測完，請不要關 (tests still running - please do not close)
 [07:57:32] [res] cpu=69% mem=56% (17.6/31.4 GB) chrome_testing=19  END PE644-PRE
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       0675ccaa0..113da24ad  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[07:57:39] ==== END   PE644-PRE  exit=1  109s   ====
+[07:57:44] blender item MD_haopai_v2 waits until the 2 running item(s) finish; other items go first
+[07:57:44] blender item MD_dabu_v2 waits until the 2 running item(s) finish; other items go first
+[07:57:44] memory 55% before starting MAP_ctl2 (2 running)
+[07:57:44] ==== START MAP_ctl2  (probe @ bf6dbda44) ====
+[07:57:47] [res] cpu=69% mem=55% (17.4/31.4 GB) chrome_testing=19  START MAP_ctl2
+[08:00:47] [res] cpu=71% mem=55% (17.4/31.4 GB) chrome_testing=19  END MAP_ctl2
