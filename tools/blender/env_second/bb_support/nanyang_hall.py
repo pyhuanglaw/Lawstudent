@@ -231,7 +231,7 @@ fr_.finish(root)
 sb = LAY['seatBlock']; rows = LAY['rowZ']; rowY = LAY['rowY']
 cush = Mesh('SEAT_CUSHION', m_seat); back = Mesh('SEAT_BACK', m_seat); shell = Mesh('SEAT_SHELL', m_seatback); std = Mesh('SEAT_STANDARD', m_iron); arm = Mesh('SEAT_ARM', m_wood)
 plates = []
-NU, NV = 8, 5
+NU, NV = 6, 3
 
 
 def seat_back(x, hw, z, yr):
@@ -257,15 +257,15 @@ for r, z in enumerate(rows):
     yr = rowY[r]
     for i in range(sb['n']):
         x = sb['x0'] + sb['pitch'] * (i + 0.5); hw = sb['pitch'] / 2 - 0.05
-        cush.rbox(x - hw, x + hw, yr + 0.40, yr + 0.50, z - 0.24, z + 0.20, r=0.04, seg=2)        # 坐墊（翻下來）
+        cush.rbox(x - hw, x + hw, yr + 0.40, yr + 0.50, z - 0.24, z + 0.20, r=0.04, seg=1)        # 坐墊（翻下來）
         seat_back(x, hw, z, yr)
     for i in range(sb['n'] + 1):   # 扶手立柱（兩端是大一點的鑄鐵側板）＋木扶手（前端圓頭）
         x = sb['x0'] + sb['pitch'] * i; end = i in (0, sb['n'])
-        if end: std.rbox(x - 0.025, x + 0.025, yr + 0.0, yr + 0.62, z - 0.22, z + 0.32, r=0.02, seg=2)
+        if end: std.rbox(x - 0.025, x + 0.025, yr + 0.0, yr + 0.62, z - 0.22, z + 0.32, r=0.02, seg=1)
         else: std.box(x - 0.03, x + 0.03, yr + 0.0, yr + 0.62, z - 0.12, z + 0.3)
         std.box(x - 0.06, x + 0.06, yr + 0.0, yr + 0.03, z - 0.2, z + 0.34)
-        arm.rbox(x - 0.04, x + 0.04, yr + 0.62, yr + 0.68, z - 0.26, z + 0.3, r=0.025, seg=2)
-        arm.cyl((x, yr + 0.65, z - 0.26), (x, yr + 0.65, z - 0.3), 0.04, seg=10)
+        arm.rbox(x - 0.04, x + 0.04, yr + 0.62, yr + 0.68, z - 0.26, z + 0.3, r=0.02, seg=1)
+        arm.cyl((x, yr + 0.65, z - 0.26), (x, yr + 0.65, z - 0.3), 0.035, seg=6)
     plates.append((sb['x1'] + 0.03, z, yr))
 cush.finish(root); back.finish(root); shell.finish(root); std.finish(root); arm.finish(root)
 # 走道邊每一排的排號牌（貼在最右邊立柱外側）＋地燈
