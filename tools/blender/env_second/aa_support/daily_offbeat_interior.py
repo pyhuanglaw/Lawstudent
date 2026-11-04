@@ -25,7 +25,7 @@ sh.M.update({
     'wood': L.pbr(P + 'wood_light', 'walnut_veneer', tile=1.2, target='#c39a6c', maps=('diff',), res=256, rough_value=0.45),
     'glass': L.flat(P + 'glass', '#dfe9ec', rough=0.05, alpha=0.16),
     'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')),
-    'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.3),   # v3：窗外的樹（借木曜日的窗景圖）；天花板改用牆的材質（單面），材質數不變
+    'view': K.img_mat(P + 'window_view', 'mok_view.png', rough=0.9, emit=0.9),   # v3c 0.3 → 0.9（白天、陽光下的窗外比較亮）   # v3：窗外的樹（借木曜日的窗景圖）；天花板改用牆的材質（單面），材質數不變
     'print': K.img_mat(P + 'print', 'dof_print.png', rough=0.8),
     'pothos': CL.leaf_mat(P + 'leaf_pothos', 'pothos_leaf.png'),
 })
@@ -47,7 +47,7 @@ def uvbox(m, xf, x0, x1, y0, y1, z0, z1, front, top, side):
 
 
 # ---------------------------------------------------------------- 地板、天花板、牆
-Mesh(P + 'floor', sh.M['floor'], tile=0.5).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
+Mesh(P + 'floor', sh.M['floor'], tile=0.6).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(sh.root)
 sh.M['wall'].use_backface_culling = True
 ce = Mesh(P + 'ceiling', sh.M['wall'], tile=1.6); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(sh.root, uv=True)
 fr = LAY['front']; dx, dw, dh = fr['door']['x'], fr['door']['w'], fr['door']['h']

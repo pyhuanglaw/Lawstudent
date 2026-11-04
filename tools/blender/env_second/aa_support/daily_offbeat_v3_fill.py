@@ -88,3 +88,30 @@ tp.rbox(sh.a('vcg'), -0.058, 0.058, 0.045, 0.055, -0.053, 0.053, r=0.006, seg=1,
 for k in range(4): tp.cyl(sh.a('vc'), (-0.04 + k * 0.025, 0.057, -0.02), (-0.035 + k * 0.025, 0.058, 0.02), 0.003, col='#4a6a2a', seg=3)   # 海苔絲
 daisies(ftx + 0.2, ftz + 0.14, TH)
 sh.tally('v3 foreground table')
+
+# ---------------------------------------------------------------- 6. v3c（LAWWW2 第三輪：每一格都要有東西）
+for (px_, pz_) in ((X1 - 0.35, -0.3), (X1 - 0.35, -2.75), (X1 - 0.9, 0.9), (X1 - 0.9, -1.2)):   # 東窗頂多四盆吊著的黃金葛
+    Xf(px_, pz_).cyl(sh.a('vcm'), (0, H, 0), (0, 2.8, 0), 0.003, col='#2a2a2a', seg=3, caps=False)
+    Xf(px_, pz_, 0, 2.66).lathe(sh.a('vcg'), [(0.05, 0.0), (0.1, 0.05), (0.11, 0.13), (0.1, 0.13)], 0, 0, 0, seg=10, col=R7.choice(['#e8dcc0', '#b0653e', '#7d8f52']))
+    sh.hanging_pothos('pothos', px_, 2.78, pz_, n=7, drop=0.65)
+for zz in (-3.45 + 0.55, -0.95 - 0.55, 1.0 + 0.55):                                              # 窗邊那排桌子之間再多三盞小吊燈
+    K.dome_pendant(sh, X1 - 0.95, zz, 2.45, r=0.12, col=R7.choice(['#e8875a', '#e8dcc0', '#6f8a5e']), kind='cone', glow_size=0.4)
+for (cz_, cell, w, h) in ((1.2, (4, 4, 2, 2), 0.55, 0.55), (2.55, (0, 4, 2, 1), 0.9, 0.45), (3.9, (6, 4, 2, 2), 0.55, 0.55)):   # 佈告欄上方一排小框（唱片海報、今日推薦、散步地圖）
+    sh.wall_img('right', 'print', cz_, 2.92, w, h, K.cell_uv(*cell), off=0.025)
+    Xf(0, 0).rbox(sh.w('right', 'wood'), X1 - 0.02, X1, 2.92 - h / 2 - 0.03, 2.92 + h / 2 + 0.03, cz_ - w / 2 - 0.03, cz_ + w / 2 + 0.03, r=0.004, seg=1)
+sh.tally('v3c density')
+
+# ---------------------------------------------------------------- 7. v3c：東窗外也一條遮雨棚（轉角兩面臨街；參考圖窗頂一整條深綠）
+aw2 = sh.w('right', 'vc'); za0, za1 = LAY['side']['right']['windows'][0][0] - 0.3, LAY['side']['right']['windows'][0][1] + 0.3
+bm2 = bmesh.new()
+q = [bm2.verts.new(g2b(X1 + 0.06, 3.36, za0)), bm2.verts.new(g2b(X1 + 0.06, 3.36, za1)), bm2.verts.new(g2b(X1 + 1.35, 2.92, za1)), bm2.verts.new(g2b(X1 + 1.35, 2.92, za0))]
+bm2.faces.new(q); bm2.normal_update(); K.paint_bm(bm2, AG); aw2.add_bm(bm2); bm2.free()
+nsc2 = 8; sw2 = (za1 - za0) / nsc2
+for k in range(nsc2):
+    a0 = za0 + k * sw2; vb = bmesh.new(); top = []; bot = []
+    for j in range(7):
+        u = a0 + sw2 * j / 6; top.append(vb.verts.new(g2b(X1 + 1.36, 2.92, u)))
+        bot.append(vb.verts.new(g2b(X1 + 1.36, 2.92 - 0.12 - 0.1 * math.sin(math.pi * j / 6), u)))
+    for j in range(6): vb.faces.new((top[j], top[j + 1], bot[j + 1], bot[j]))
+    vb.normal_update(); K.paint_bm(vb, AG if k % 2 else '#5a7850'); aw2.add_bm(vb); vb.free()
+sh.tally('v3c east awning')
