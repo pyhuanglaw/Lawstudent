@@ -1,0 +1,23 @@
+{
+  "rerun": "npc2",
+  "id": "GG_npc_main_M2",
+  "sha": "b0c3032af",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_perf_probe.py",
+  "env": "RUN=npcM2;RERUN=npc2;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T15:07:05",
+  "end": "2026-11-04T15:09:31",
+  "seconds": 145,
+  "exit": 0,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 73,
+    "mem": 56,
+    "used_gb": 17.7,
+    "chrome_testing": 26
+  }
+}
