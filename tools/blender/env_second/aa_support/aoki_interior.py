@@ -175,7 +175,16 @@ for q, y in enumerate((0.35, 0.67, 0.98)):
         giftbox(vt['x'], vt['z'] + 0.06, y + 0.14 if q == 0 else y + 0.11, '#c9a77c' if q == 0 else '#4f6b45', w=0.14, h=0.08)
 sh.a('bulb').box(vt['x'] - vt['w'] / 2 + 0.04, vt['x'] + vt['w'] / 2 - 0.04, vt['h'] - 0.055, vt['h'] - 0.045, vt['z'] - 0.02, vt['z'] + 0.02)   # 櫃頂的燈條
 tk = IT['takeaway_bench'][0]; xf0.rbox(sh.a('wood'), tk['x'] - tk['w'] / 2, tk['x'] + tk['w'] / 2, 0.0, tk['h'], tk['z'] - tk['d'] / 2, tk['z'] + tk['d'] / 2, r=0.01, seg=1)
-for k in range(4): Xf(tk['x'] - 0.3 + k * 0.18, tk['z'] - 0.05, 0, tk['h']).lathe(sh.a('vcg'), [(0.0, 0.0), (0.035, 0.0), (0.045, 0.14), (0.0, 0.14)], 0, 0, 0, seg=8, col='#f4f0e6')
+xf0.rbox(sh.a('vcg'), tk['x'] - tk['w'] / 2 - 0.02, tk['x'] + tk['w'] / 2 + 0.02, tk['h'], tk['h'] + 0.03, tk['z'] - tk['d'] / 2, tk['z'] + tk['d'] / 2 + 0.02, r=0.006, seg=1, col='#ece7de')   # 檯面（v2d）
+th_ = tk['h'] + 0.03
+for k in range(3):                                                                                                        # 三疊紙杯
+    for j in range(4): Xf(tk['x'] - 0.42 + k * 0.1, tk['z'] + 0.12, 0, th_ + j * 0.025).lathe(sh.a('vcg'), [(0.0, 0.0), (0.035, 0.0), (0.045, 0.12), (0.0, 0.12)], 0, 0, 0, seg=8, col='#f4f0e6' if j < 3 else '#d9c9a8')
+mxf = Xf(tk['x'] - 0.05, tk['z'] + 0.22, 0.0, th_); mxf.rbox(sh.a('wood'), -0.13, 0.13, 0.0, 0.02, -0.04, 0.04, r=0.004, seg=1)   # 菜單牌（朝街）
+sh.img_quad(sh.a('print'), mxf, 0, 0.02, 0.01, 0.24, 0.17, K.cell_uv(0, 2, 4, 2), tilt=0.2)
+teapot(tk['x'] + 0.2, tk['z'] + 0.05, th_, col='#f4f1ea', s=1.1)
+Xf(tk['x'] + 0.42, tk['z'] - 0.05, 0, th_).rbox(sh.a('vcm'), -0.08, 0.08, 0.0, 0.3, -0.12, 0.12, r=0.015, seg=1, col='#c8c8c4')   # 封口機
+sh.plant(tk['x'] + 0.45, tk['z'] + 0.18, h=0.3, r=0.07, pot_col='#e8e0d0', y0=th_)
+for k in range(3): K.glass_cup(sh, tk['x'] - 0.15 + k * 0.1, tk['z'] - 0.1, th_, h=0.13, r=0.035, fill=('#c9a050', '#a8b860', '#e8d8b0')[k])
 sh.tally('window')
 
 # ---------------------------------------------------------------- 長吧台、後面的工作檯、綠磁磚牆、茶罐層板

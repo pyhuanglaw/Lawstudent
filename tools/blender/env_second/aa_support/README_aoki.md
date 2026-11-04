@@ -63,3 +63,7 @@
 - 吧台後面的 `back_bench` 不動。綠磁磚和層板改成照 back_bench 的範圍（不跟著吧台縮）。
 - 高腳椅五張跟著移：x −0.6、0.4、1.4、2.4、3.35。
 - `aoki_layout.js` version 3。規格不變：38,092 三角形、12 材質、2.72 MB。ref_match ALL PASS（鏡頭同 v2）。圖 `model_renders/aoki_v2c_refcam_cmp.jpg`。
+
+## v2d（BB 11-04 03:52：外帶窗口從街上看要有東西）
+- 外帶窗口裡的工作檯拉高到 1.15 m（窗台 1.2 m 下面），檯面上：三疊紙杯、朝街的菜單牌（季節限定）、茶壺、三杯外帶飲料、封口機、小盆栽（圖 `model_renders/afar_aoki_street_check.jpg` 右）。
+- 規格：39,278 三角形、12 材質、2.77 MB；參考鏡頭 ref_match ALL PASS。

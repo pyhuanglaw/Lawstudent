@@ -6,7 +6,7 @@
    右手邊（−z）後牆前面綠色卡座＋兩張小桌、牆上「Daybreak」字和黃色山丘；最裡面（西）一張長桌、牆上三張早午餐插畫。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。 */
 const DAYBREAK_LAYOUT = {
-  version: 1,
+  version: 2,
   id: 'daybreak', zone: 'daybreak', name: 'Daybreak', glb: 'assets/models/env/second_ai/aa_support/daybreak.glb',
   w: 9.0, d: 8.0, h: 3.7, floorY: 0, floor: 'terrazzo_light', wallColor: '#f3ede2',
   note: '店面 9 m 寬（臨街）、8 m 深、3.7 m 高（騎樓天花板 3.85）。白色天花板＋梁＋嵌燈、淺色磨石子地板（D112）、米白牆、淺色橡木家具、灰綠窗框、綠磁磚、木編吊燈。',
@@ -32,7 +32,7 @@ const DAYBREAK_LAYOUT = {
     {id: 3, kind: 'small', x: 0.5, z: 3.45, w: 0.6, d: 0.6, note: '窗邊兩人桌三'},
     {id: 4, kind: 'rect', x: 1.6, z: 1.0, w: 1.2, d: 0.8, note: '中間四人桌（前景）'},
     {id: 5, kind: 'rect', x: -1.1, z: 0.9, w: 1.2, d: 0.8, note: '中間四人桌二'},
-    {id: 6, kind: 'long', x: -3.75, z: 0.9, w: 0.8, d: 1.9, note: '最裡面的長桌（六人）'},
+    {id: 6, kind: 'long', x: -3.75, z: 0.9, w: 0.8, d: 1.9, note: '最裡面的長桌（v2：西側中間那張拿掉，五人；西牆到桌子只有 0.34 m，LAWWW2 11-04 04:16）'},
     {id: 7, kind: 'pedestal', x: 0.6, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌一（灰綠桌腳）'},
     {id: 8, kind: 'pedestal', x: 2.05, z: -3.05, w: 0.65, d: 0.6, note: '卡座小桌二'}
   ],
@@ -53,7 +53,7 @@ const DAYBREAK_LAYOUT = {
     {x: 1.3, z: 0.45, yaw: 0, table: 4, canStudy: true, label: '坐下'}, {x: 1.9, z: 0.45, yaw: 0, table: 4, canStudy: true, label: '坐下'},
     {x: -1.4, z: 1.45, yaw: Math.PI, table: 5, canStudy: true, label: '坐下'}, {x: -0.8, z: 1.45, yaw: Math.PI, table: 5, canStudy: true, label: '坐下'},
     {x: -1.4, z: 0.35, yaw: 0, table: 5, canStudy: true, label: '坐下'}, {x: -0.8, z: 0.35, yaw: 0, table: 5, canStudy: true, label: '坐下'},
-    {x: -4.2, z: 0.3, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -4.2, z: 0.9, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
+    {x: -4.2, z: 0.3, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
     {x: -4.2, z: 1.5, yaw: Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -3.3, z: 0.3, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
     {x: -3.3, z: 0.9, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'}, {x: -3.3, z: 1.5, yaw: -Math.PI / 2, table: 6, canStudy: true, label: '坐長桌'},
     {x: 0.6, z: -3.5, yaw: 0, table: 7, seatH: 0.45, canStudy: true, label: '坐卡座'}, {x: 0.6, z: -2.5, yaw: Math.PI, table: 7, canStudy: true, label: '坐下'},
@@ -62,7 +62,7 @@ const DAYBREAK_LAYOUT = {
   interact: [
     {x: -0.9, z: -2.1, kind: 'order', label: '點餐', note: '吧台東段；收銀機旁邊'},
     {x: -2.9, z: -2.1, kind: 'pastry', label: '看甜點櫃'},
-    {x: -0.75, z: -2.1, kind: 'menu', label: '看菜單', note: '後牆的黑板'}
+    {x: -1.75, z: -2.1, kind: 'menu', label: '看菜單', note: '後牆的黑板'}
   ],
   floorSit: [],
   wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}

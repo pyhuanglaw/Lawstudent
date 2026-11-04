@@ -197,6 +197,23 @@ for row, y in enumerate((top + 0.06, top + 0.21, top + 0.35)):
 Xf(cx, -1.15, math.pi / 2, top).rbox(m, -0.15, 0.15, 0.0, 0.08, -0.12, 0.12, r=0.01, seg=1, col='#2e2e2e')                  # 收銀機
 Xf(cx, -1.15, math.pi / 2, top).quad(m, [(-0.13, 0.08, -0.05), (0.13, 0.08, -0.05), (0.13, 0.26, -0.1), (-0.13, 0.26, -0.1)])
 for k, zz in enumerate((-0.55, 0.3, 1.15)): K.dome_pendant(sh, cx + 0.45, zz, 2.3, r=0.26, col='#34443a', inner='#f8eed6', kind='dome', glow_size=0.8)   # v1b：放低、往吧台前面移，進鏡頭
+ss = IT['side_station'][0]; sx0, sx1, sz0_, sz1_ = ss['x'] - ss['w'] / 2, ss['x'] + ss['w'] / 2, ss['z'] - ss['d'] / 2, ss['z'] + ss['d'] / 2   # 門邊的咖啡工作檯（v1c）
+xf0.rbox(sh.a('wood'), sx0, sx1, 0.0, ss['h'] - 0.04, sz0_, sz1_, r=0.01, seg=1)
+xf0.rbox(sh.a('vcg'), sx0 - 0.03, sx1, ss['h'] - 0.04, ss['h'], sz0_ - 0.02, sz1_ + 0.02, r=0.01, seg=1, col=STONE)
+e2 = Xf(ss['x'] + 0.02, ss['z'] + 0.25, -math.pi / 2, ss['h']); e2.rbox(sh.a('vcg'), -0.3, 0.3, 0.0, 0.42, -0.2, 0.18, r=0.03, seg=2, col='#e6e6e4'); e2.rbox(sh.a('vcg'), -0.3, 0.3, 0.42, 0.46, -0.2, 0.18, r=0.01, seg=1, col='#2e2e2e')
+for k in range(2): e2.cyl(sh.a('vcm'), (-0.12 + k * 0.24, 0.2, 0.18), (-0.12 + k * 0.24, 0.16, 0.25), 0.035, col='#2e2e2e', seg=8)
+g2 = Xf(ss['x'] + 0.05, ss['z'] - 0.45, 0, ss['h']); g2.rbox(sh.a('vcm'), -0.08, 0.08, 0.0, 0.3, -0.08, 0.08, r=0.02, seg=1, col='#b8b8b4'); g2.lathe(sh.a('glass'), [(0.03, 0.3), (0.075, 0.46), (0.065, 0.48)], 0, 0, 0, seg=10)
+for k in range(4): K.mug(sh, ss['x'] - 0.12, ss['z'] - 0.75 + k * 0.1, ss['h'], col='#f2efe8', r=0.03, h=0.07, handle=False)
+for (y, kind) in ((1.55, 'jar'), (1.95, 'bag')):
+    xf0.rbox(sh.a('wood'), X1 - 0.28, X1, y - 0.035, y, sz0_, sz1_, r=0.004, seg=1); sh.a('bulb').box(X1 - 0.26, X1 - 0.24, y - 0.045, y - 0.035, sz0_ + 0.05, sz1_ - 0.05)
+    for k in range(9):
+        zz = sz0_ + 0.1 + k * (ss['d'] - 0.2) / 8
+        if kind == 'jar': K.jar(sh, X1 - 0.14, zz, y, h=0.22, r=0.055, col=('#5a3a22', '#6a4a2a', '#f2efe8')[k % 3], lid='#2e2e2e')
+        else:
+            xf0.rbox(sh.a('vc'), X1 - 0.2, X1 - 0.08, y, y + 0.24, zz - 0.065, zz + 0.065, r=0.01, seg=1, col='#c9a77c')
+            sh.img_quad(sh.a('print'), Xf(X1 - 0.201, zz, -math.pi / 2), 0, y + 0.06, 0.0, 0.11, 0.055, K.cell_uv(0, 1, 2, 1))
+K.dome_pendant(sh, ss['x'] - 0.35, ss['z'], 2.3, r=0.22, col='#34443a', inner='#f8eed6', kind='dome', glow_size=0.7)
+sh.hanging_pothos('pothos', X1 - 0.14, 2.0, sz1_ - 0.1, n=8, drop=0.8)
 sh.tally('bar')
 
 # ---------------------------------------------------------------- 書架（書、雜誌斜架、黃金葛）

@@ -1,12 +1,12 @@
 {
  "objects": 23,
  "unique_meshes": 23,
- "tris": 39464,
- "tris_drawn": 39464,
+ "tris": 42426,
+ "tris_drawn": 42426,
  "materials": 18,
  "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/afr/afar.glb",
- "bytes": 2767512,
+ "bytes": 2931468,
  "texres": 512,
- "layout": 1,
+ "layout": 2,
  "seats": 26
 }
