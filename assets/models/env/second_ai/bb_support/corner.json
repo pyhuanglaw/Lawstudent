@@ -1,8 +1,8 @@
 {
- "objects": 168,
- "unique_meshes": 62,
- "tris": 40678,
- "tris_drawn": 50398,
+ "objects": 170,
+ "unique_meshes": 63,
+ "tris": 44900,
+ "tris_drawn": 55004,
  "materials": [
   "cr_alpha",
   "cr_concrete",
@@ -17,23 +17,24 @@
   "cr_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/corner.glb",
- "bytes": 3522288,
+ "bytes": 3791932,
  "texres": 1024,
  "shop": "corner",
  "layout": 1,
- "drawn_tris": 50398,
+ "drawn_tris": 55004,
  "protos": {
   "lpstack34_0": 2,
   "lpstack34_1": 2,
-  "lpstack34_2": 1,
+  "lpstack34_2": 2,
   "lpstack34_3": 1,
   "lpstack34_4": 1,
   "lpstack34_5": 1,
-  "lpstack23_2": 1,
-  "lpstack23_3": 2,
-  "lpstack23_4": 2,
-  "lpstack23_5": 2,
-  "lpstack23_0": 1,
+  "lpstack33_3": 2,
+  "lpstack33_4": 2,
+  "lpstack33_5": 2,
+  "lpstack33_0": 1,
+  "lpstack33_1": 1,
+  "lpstack33_2": 1,
   "lpstack17_1": 1,
   "lpstack17_2": 1,
   "spot": 18,
@@ -46,54 +47,54 @@
   "deck": 2,
   "stool": 2
  },
- "records_in_bins": 490,
+ "records_in_bins": 637,
  "single_side": {
+  "cr_vc": [
+   7064,
+   7294
+  ],
+  "cr_wood": [
+   10216,
+   0
+  ],
   "cr_vc_metal": [
    5376,
    56
   ],
-  "cr_vc": [
-   6448,
-   6502
-  ],
-  "cr_wood": [
-   8704,
-   0
-  ],
-  "cr_plaster": [
-   108,
-   0
-  ],
-  "cr_goods": [
-   3228,
-   0
-  ],
-  "（翻面）cr_vc": [
-   482,
+  "（翻面）cr_emit": [
+   80,
    0
   ],
   "cr_emit": [
    80,
    42
   ],
-  "cr_sign": [
-   4,
-   0
-  ],
   "cr_alpha": [
    3464,
+   0
+  ],
+  "cr_floor_terrazzo": [
+   12,
+   0
+  ],
+  "cr_goods": [
+   3738,
+   0
+  ],
+  "cr_plaster": [
+   108,
+   0
+  ],
+  "cr_sign": [
+   4,
    0
   ],
   "cr_concrete": [
    38,
    0
   ],
-  "（翻面）cr_emit": [
-   80,
-   0
-  ],
-  "cr_floor_terrazzo": [
-   12,
+  "（翻面）cr_vc": [
+   482,
    0
   ]
  }

@@ -31,7 +31,7 @@ sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.samples = int(os.
 sc.cycles.device = os.environ.get('CC_BLENDER_DEVICE', 'CPU')
 sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 sc.render.resolution_x, sc.render.resolution_y = rx, ry; sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
-sc.view_settings.exposure = float(arg('--exposure', '0.4'))
+sc.view_settings.exposure = float(arg('--exposure', '0.55'))
 sc.cycles.max_bounces = 5; sc.cycles.transparent_max_bounces = 24
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; bg = w.node_tree.nodes['Background']
 bg.inputs['Color'].default_value = (0.95, 0.85, 0.7, 1); bg.inputs['Strength'].default_value = float(arg('--world', '0.08'))
@@ -50,7 +50,7 @@ def light(kind, loc, energy, color, aim=None, sx=0.2, sy=0.2, size=0.1):
     return o
 
 
-WARM = (1.0, 0.68, 0.4); SPOTC = (1.0, 0.7, 0.43)   # 約 2700～3000K（參考圖整張偏暖）
+WARM = (1.0, 0.62, 0.33); SPOTC = (1.0, 0.63, 0.34)   # 約 2700～3000K（參考圖整張偏暖）
 H = LAY['h']; LT = LAY['lights']
 for (x, z, tx, ty) in LT['spots']:   # 軌道投射燈（照 corner_interior 的打光方向）
     y = H - 0.25; aim = g2b(tx, ty, z if abs(tx - x) > 0.5 else z - 0.8)
