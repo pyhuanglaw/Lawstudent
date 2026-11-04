@@ -1,0 +1,339 @@
+"""CC（帳號 A）11-04：BIKE_shop——慢輪單車（LAWWW 049592a15 進得去／買車／換車／自動停車；f63591e37 AA_651 補胎、櫃台小東西、換車後兩句）。測 b85e1afc1。
+  真實玩家流程（不用 ?turbo、不瞬移、不改劇情狀態）；只有前置讀檔，標【前置／捷徑】。每一段都做卡住檢查、逐句印對話（transcript）、截圖。
+  P 錢不夠：【前置／捷徑】讀檔：公館、慢輪單車門口南邊 (−0.3, 14)、2025-09-23（二）15:00、money 50、條件事件關閉。
+     P1 走到店門口 →「進入慢輪單車」→ 進店（zone bikeshop）
+     P2 看淑女車 → 選「買這台」→ 老闆「這台不急。……下次再來看。」、不扣錢、沒有多一台車
+     P3 找車行老闆 →「補胎」→ 老闆「先打氣撐一下，……明天再來。」、不扣錢
+  M 錢夠：【前置／捷徑】同上、money 30000。
+     M1 進店
+     M2 看淑女車 → 買這台 → 奶油白：扣 4,200、現在騎的＝淑女車奶油白、買過的車 2 台、時間 +10 分；台詞：調座墊、旁白、「騎看看。」
+     M3 找車行老闆 → 換一台騎 → 城市通勤車：AA_651「好，這台。……那台先放我這裡。」＋旁白「（座墊還是你上次調的高度。）」；再換回淑女車（同兩句）
+     M4 補胎：扣 100、時間 +15 分；台詞：老闆「扎到釘子了。……十五分鐘。」、旁白「（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）」、老闆「好了。最近那條路在施工，繞一下。」
+     M5 車燈・車鈴・鎖 → 車燈：扣 350、G.bike.parts.light；旁白＋老闆「晚上騎河濱要開。」
+     M6 再點一次：選項寫「買過了」、老闆「你上次買過了。……還在用吧？」、不扣錢
+     M7 離開慢輪單車：車停在車行門口的停車位（BIKESHOP.PARK，z<19 不在騎樓）、站得住不擋門（BIKE.parkOK）
+     M8 騎車：公館 → 溫州街（進一棟、出來）→ 回公館 → 校園（進一棟、出來）→ 118 巷（進一棟、出來）。
+        每次出來：車在這一區、停在 bike_shop_park_unit.js 的規則下的位置（最近的合法停車處 ≤ BIKE.MAXD；都太遠才停門旁）、BIKE.parkOK（站得住、不擋門）、公館不在騎樓；
+        走到車停的地方站上去 → 卡住檢查；走到車旁邊 →「騎腳踏車」→ 上車。
+     M9 存檔（GAME.autosave，和換區域的自動存檔同一個）→ 重新整理 → 標題「繼續」：車還在、位置一樣、是買的那一台（淑女車奶油白）。
+  卡住檢查：對話框關掉、GAME.D.busyDepth 0、搖桿推得動 ≥ 0.3 m（四個方向試）、GAME.walkFallbacks 沒有增加、沒有 JS 例外。
+用法：LW_TESTS=<wt>/tests [CASES=P,M] [LEGS=wenzhou,campus,lane118] python3 cc_bike_shop_probe.py <url> <out>"""
+import os, sys, json, asyncio, time, math
+sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
+import playlib as L
+from playwright.async_api import async_playwright
+
+URL, OUT = sys.argv[1], sys.argv[2]
+CASES = [c.strip() for c in (os.environ.get('CASES') or 'P,M').split(',') if c.strip()]
+LEGS = [c.strip() for c in (os.environ.get('LEGS') or 'wenzhou,campus,lane118').split(',') if c.strip()]
+J = lambda o: json.dumps(o, ensure_ascii=False)
+FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'BIKE_TIP': True}
+DAY, WD = 7, 2          # 2025-09-23（二）：慢輪單車週一公休
+DOOR = (-0.3, 21.0)     # 公館店門口互動點（zones3d.js：sx−0.6、FZ+2）
+OUTDOOR = ['campus', 'gongguan', 'wenzhou', 'lane118', 'xinsheng']
+LADY_WHITE = '#efe8d8'
+# 台詞（AA_646／AA_651 原文；f63591e37）
+LN = {'poor': '這台不急。……下次再來看。', 'fit': '好，我幫你調一下座墊。……十分鐘。', 'fitDone': '（老闆把座墊調到你的高度，按了兩下車鈴。）', 'try': '騎看看。',
+      'which': '哪一台？', 'swapDone': '好，這台。……那台先放我這裡。', 'swapNarr': '（座墊還是你上次調的高度。）',
+      'fix': '扎到釘子了。……十五分鐘。', 'fixNarr': '（老闆把輪胎泡進水盆，看了一圈，沒有氣泡了。）', 'fixDone': '好了。最近那條路在施工，繞一下。', 'fixPoor': '先打氣撐一下，……明天再來。',
+      'light1': '（老闆把車燈鎖在把手上，按了一下。前面的地上亮了一圈。）', 'light2': '晚上騎河濱要開。', 'again': '你上次買過了。……還在用吧？',
+      'ladyDesc': '（前面一個大車籃，後座可以裝載人墊。）', 'ladyLine': '買菜、上課都好用。'}
+FAILS = []
+
+
+def check(name, ok, info=''):
+    print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
+    if not ok: FAILS.append(name)
+    return ok
+
+
+class Run:   # playlib.go_to 要的最小介面
+    def note(self, s): print('  ' + s, flush=True)
+    def check(self, n, ok, info=''): return check(n, ok, info)
+
+
+ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, p=P.obj.position, D=GAME.D||{}; const it=document.getElementById('interact');
+  return {zone:G.zone, hour:+(+G.hour).toFixed(4), x:+p.x.toFixed(2), z:+p.z.toFixed(2), dlg:!!D.active, depth:D.busyDepth|0, busy:!!P.busy, money:G.money|0, riding:!!P.riding,
+    name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:String(D.full||((document.getElementById('dlgText')||{}).textContent)||'').slice(0,160),
+    choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim()),
+    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', fb:GAME.walkFallbacks||0,
+    toast:((document.getElementById('toast')||{}).textContent||'').trim().slice(0,60)}; })()"""
+BK = """(()=>{ const E=GAME.E, G=GAME.G, P=E.player; const pk=E.zone&&E.zone.group.children.find(o=>o.name==='bike_ride');
+  return {zone:G.zone, riding:!!P.riding, parked:pk?[+pk.position.x.toFixed(2),+pk.position.z.toFixed(2)]:null, bike:G.bike?JSON.parse(JSON.stringify(G.bike)):null}; })()"""
+FIND_JS = """(q=>{ const its=GAME.E.interactables.filter(i=>!i.hidden&&(q.look?i.bikeLook===q.look:(q.exitTo?(i.exit&&i.exit.to===q.exitTo):(i.label||'').startsWith(q.label))));
+  const p=GAME.E.player.obj.position; its.sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z)); const it=its[0];
+  return it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1.5,label:it.label,to:it.exit?it.exit.to:null,lv:it.lv==null?null:it.lv}:null; })(%s)"""
+# 一棟可以進去的建築：最近的、看得到的、通往室內的出口（溫州街優先阿德影印輸出，和 bike_shop_park_unit.js 同一間）
+BLDG_JS = """(([outdoor,prefer])=>{ const p=GAME.E.player.obj.position; const its=GAME.E.interactables.filter(i=>!i.hidden&&i.exit&&i.exit.to&&!outdoor.includes(i.exit.to)&&(i.lv|0)===0);
+  its.sort((a,b)=>((prefer&&a.exit.to===prefer)?-1e6:0)+Math.hypot(a.x-p.x,a.z-p.z)-((prefer&&b.exit.to===prefer)?-1e6:0)-Math.hypot(b.x-p.x,b.z-p.z)); const it=its[0];
+  return it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1.5,label:it.label,to:it.exit.to}:null; })(%s)"""
+PCHK = """(()=>{ const E=GAME.E, G=GAME.G, s=G.bike||{}, z=G.zone; const spots=BIKE.parkSpots(E,z); const p=E.player.obj.position;
+  const inSpot=spots.find(q=>Math.hypot(q.x-s.x,q.z-s.z)<0.01)||null; const leg=BIKE.legalSpot(E,z,p.x,p.z);
+  const doors=E.interactables.filter(i=>i.exit&&!i.bike).map(i=>({l:i.label,d:+(Math.hypot(i.x-s.x,i.z-s.z)-(i.radius||1.5)).toFixed(2)})).sort((a,b)=>a.d-b.d).slice(0,2);
+  return {zone:s.zone, x:s.x, z:s.z, yaw:s.yaw, kind:s.kind, color:s.color, inSpot:inSpot?inSpot.src:null, ok:BIKE.parkOK(E,{x:s.x,z:s.z,yaw:s.yaw||0}), nSpots:spots.length,
+    legal:leg?{x:+leg.x.toFixed(2),z:+leg.z.toFixed(2),d:+leg.d.toFixed(1)}:null, maxd:BIKE.MAXD, dPlayer:+Math.hypot(s.x-p.x,s.z-p.z).toFixed(2), doors}; })()"""
+FARSIDE_JS = """(([bx,bz])=>{ const E=GAME.E; const ds=E.interactables.filter(i=>i.exit&&!i.bike).sort((a,b)=>Math.hypot(a.x-bx,a.z-bz)-Math.hypot(b.x-bx,b.z-bz)); const d=ds[0];
+  const cand=[]; for(let k=0;k<12;k++){ const a=k/12*Math.PI*2; for(const r of [0.7,0.95]){ const x=bx+Math.sin(a)*r, z=bz+Math.cos(a)*r; if(!E.canStand(x,z,0.3,0)) continue; cand.push({x:+x.toFixed(2),z:+z.toFixed(2),dd:d?Math.hypot(d.x-x,d.z-z)-(d.radius||1.5):99}); } }
+  cand.sort((a,b)=>b.dd-a.dd); return cand.slice(0,4); })(%s)"""
+
+
+async def converse(pg, cdp, tag, plan=None, max_s=180):
+    """逐句印對話（transcript）、點到底；選單照 plan 的順序挑（字開頭），plan 用完或對不上：選「不用了／再看看」或最後一個。回傳 (台詞清單, 選單清單, 對不上的選單)"""
+    plan = list(plan or []); lines = []; menus = []; odd = []; last = None; t0 = time.time(); idle = None
+    while time.time() - t0 < max_s:
+        s = await pg.evaluate(ST)
+        if s['choices']:
+            menus.append(s['choices']); k = None
+            if plan:
+                k = next((i for i, c in enumerate(s['choices']) if c.startswith(plan[0])), None)
+                if k is not None: plan.pop(0)
+            if k is None:
+                odd.append(s['choices']); k = next((i for i, c in enumerate(s['choices']) if c.startswith(('不用了', '再看看'))), len(s['choices']) - 1)
+            print('  [%s] 選單 %s → %s' % (tag, J(s['choices']), s['choices'][k]), flush=True)
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(900); idle = None; last = None; continue
+        if s['dlg']:
+            if (s['name'], s['text']) != last:
+                last = (s['name'], s['text']); lines.append(((s['name'] + '：') if s['name'] else '') + s['text'])
+                print('  [%s] %s：%s' % (tag, s['name'] or '（旁白）', s['text']), flush=True)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); idle = None; continue
+        if s['depth'] == 0 and not s['busy']:
+            if idle is None: idle = time.time()
+            if time.time() - idle > 2.5: break
+        await pg.wait_for_timeout(500)
+    if plan: print('  [%s] 選單計畫沒用完：%s' % (tag, J(plan)), flush=True)
+    return lines, menus, odd
+
+
+def has(lines, t):
+    return any(t in x for x in lines)
+
+
+async def stuck_check(pg, cdp, tag, fb0, e0, errs):
+    """卡住檢查：對話框關掉、busyDepth 0、搖桿推得動 ≥ 0.3 m（前、後、右、左都試，前面是牆不算卡住）、walkFallbacks 沒增加、沒有新的 JS 例外"""
+    await converse(pg, cdp, tag, None, 15)
+    moved = 0.0
+    for dx, dy in ((0, -60), (0, 60), (60, 0), (-60, 0)):
+        moved, _, _ = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=2, ms=1500)
+        if moved >= 0.3: break
+    s = await pg.evaluate(ST); new = errs[e0:]
+    ok = (not s['dlg'] and not s['choices'] and s['depth'] == 0 and moved >= 0.3 and s['fb'] == fb0 and not new)
+    check('[%s] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）' % tag, ok,
+          J({'zone': s['zone'], 'dlg': s['dlg'], 'depth': s['depth'], 'moved': round(moved, 2), 'fb': [fb0, s['fb']], 'errs': new[:2]}))
+    if not ok: await pg.screenshot(path=os.path.join(OUT, 'STUCK_%s.png' % tag))
+    return ok
+
+
+async def wait_js(pg, js, secs):
+    t0 = time.time()
+    while time.time() - t0 < secs:
+        if await pg.evaluate(js): return True
+        await pg.wait_for_timeout(800)
+    return False
+
+
+async def walk_tap(pg, cdp, tag, q, label_prefix, near=None):
+    """走到互動點 → 互動按鈕要是 label_prefix → 按下去。回傳互動點（dict）或 None"""
+    it = await pg.evaluate(FIND_JS % J(q))
+    if not check('[%s] 有「%s」互動點' % (tag, label_prefix), bool(it), J(it)): return None
+    await L.go_to(pg, cdp, Run(), it['x'], it['z'], near if near is not None else max(0.4, it['r'] * 0.7), it['label'], max_s=600, lv=it['lv'])
+    await pg.wait_for_timeout(1000); s = await pg.evaluate(ST)
+    if not check('[%s] 走到旁邊：互動按鈕是「%s…」' % (tag, label_prefix), s['interact'].startswith(label_prefix), J({k: s[k] for k in ('x', 'z', 'interact')})):
+        await pg.screenshot(path=os.path.join(OUT, 'NOBTN_%s.png' % tag)); return None
+    await L.tap(pg, cdp, '#interact'); return it
+
+
+async def enter_via(pg, cdp, tag, q, label_prefix, want_zone, near=None):
+    z0 = (await pg.evaluate(ST))['zone']
+    it = await walk_tap(pg, cdp, tag, q, label_prefix, near)
+    if not it: return False
+    ok = await wait_js(pg, "GAME.G.zone===%s&&!GAME.E.player.busy" % J(want_zone), 60); await pg.wait_for_timeout(2500)
+    s = await pg.evaluate(ST)
+    check('[%s] 按「%s」：%s → %s' % (tag, it['label'], z0, want_zone), ok and s['zone'] == want_zone, J({k: s[k] for k in ('zone', 'x', 'z', 'toast')}))
+    return ok
+
+
+async def load_door(pg, cdp, money, tag):
+    print('  [前置／捷徑] 讀檔：公館慢輪單車門口南邊 (−0.3, 14)、2025-09-23（二）15:00、money %d、條件事件關閉（%s）' % (money, tag), flush=True)
+    await L.load_state(pg, {'zone': 'gongguan', 'hour': 15.0, 'day': DAY, 'weekday': WD, 'weather': 'clear', 'flags': FLAGS, 'money': money, 'pos': {'x': -0.3, 'z': 14.0, 'yaw': math.pi, 'lv': 0}}, quiet_events=True)
+    await pg.wait_for_timeout(7000); await L.close_panels(pg, cdp)
+
+
+async def go_in_shop(pg, cdp, tag, errs):
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    ok = await enter_via(pg, cdp, tag, {'label': '進入慢輪單車'}, '進入慢輪單車', 'bikeshop', near=1.2)
+    await pg.wait_for_timeout(2000); await pg.screenshot(path=os.path.join(OUT, '%s_inside.png' % tag))
+    if ok:
+        s = await pg.evaluate(ST)
+        check('[%s] 一進門的按鈕不是「離開慢輪單車」' % tag, not s['interact'].startswith('離開'), s['interact'])
+        await stuck_check(pg, cdp, tag + '_inside', fb0, e0, errs)
+    return ok
+
+
+async def talk_owner(pg, cdp, tag, plan):
+    if not await walk_tap(pg, cdp, tag, {'label': '找車行老闆'}, '找車行老闆'): return [], [], []
+    return await converse(pg, cdp, tag, plan)
+
+
+async def park_check(pg, cdp, tag, errs, zone):
+    """出建築以後：車停的位置合法（bike_shop_park_unit.js 的規則）、站上去不會卡住、走到車旁邊上車"""
+    await wait_js(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 30)
+    k = await pg.evaluate(BK); c = await pg.evaluate(PCHK)
+    print('  [%s] 車：%s' % (tag, J(c)), flush=True)
+    check('[%s] 車在這一區（%s）、場景裡看得到停著的車' % (tag, zone), c['zone'] == zone and bool(k['parked']), J({'bike': c['zone'], 'parked': k['parked']}))
+    rule = (c['inSpot'] is not None and c['legal'] is not None and abs(c['legal']['x'] - c['x']) < 0.01 and abs(c['legal']['z'] - c['z']) < 0.01 and c['legal']['d'] <= c['maxd']) or \
+           (c['inSpot'] is None and (c['legal'] is None or c['legal']['d'] > c['maxd']))
+    check('[%s] 停在最近的合法停車處（≤ %s m；都太遠才停門旁）' % (tag, c['maxd']), rule, J({'inSpot': c['inSpot'], 'legal': c['legal'], 'at': [round(c['x'], 2), round(c['z'], 2)]}))
+    check('[%s] 停車位置站得住、不擋出入口（BIKE.parkOK）' % tag, c['ok'], J(c['doors']))
+    if zone == 'gongguan': check('[%s] 公館：車不在騎樓（z < 19）' % tag, c['z'] < 19, str(c['z']))
+    await pg.screenshot(path=os.path.join(OUT, '%s_parked.png' % tag))
+    if not k['parked']: return False
+    bx, bz = k['parked']
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    await L.go_to(pg, cdp, Run(), bx, bz, 0.45, '車停的地方（站上去）')
+    await stuck_check(pg, cdp, tag + '_on_bike_spot', fb0, e0, errs)
+    for cand in await pg.evaluate(FARSIDE_JS % J([bx, bz])):
+        await L.go_to(pg, cdp, Run(), cand['x'], cand['z'], 0.3, '車旁邊（離門遠的那一邊）')
+        await pg.wait_for_timeout(900)
+        if (await pg.evaluate(ST))['interact'].startswith('騎腳踏車'): break
+    s = await pg.evaluate(ST)
+    if not check('[%s] 車旁邊出現「騎腳踏車」' % tag, s['interact'].startswith('騎腳踏車'), s['interact']): return False
+    await L.tap(pg, cdp, '#interact')
+    ok = await wait_js(pg, "!!GAME.E.player.riding", 30)
+    return check('[%s] 上車' % tag, ok)
+
+
+async def ride_exit(pg, cdp, tag, to):
+    """騎到往 to 的出口、按下去"""
+    it = await pg.evaluate(FIND_JS % J({'exitTo': to}))
+    if not check('[%s] 有往 %s 的出口' % (tag, to), bool(it), J(it)): return False
+    return await enter_via(pg, cdp, tag, {'exitTo': to}, it['label'], to, near=min(2.2, max(0.6, it['r'] - 0.4)))
+
+
+async def in_and_out(pg, cdp, tag, errs, zone, prefer=None):
+    """騎到這一區最近的一棟可以進去的建築 → 進去（車停門旁）→ 卡住檢查 → 走出來 → 停車檢查 → 上車"""
+    b = await pg.evaluate(BLDG_JS % J([OUTDOOR, prefer]))
+    if not check('[%s] %s 有一棟可以進去的建築' % (tag, zone), bool(b), J(b)): return False
+    print('  [%s] 進 %s（%s）' % (tag, b['label'], b['to']), flush=True)
+    if not await enter_via(pg, cdp, tag + '_in', {'exitTo': b['to']}, b['label'], b['to'], near=min(1.8, max(0.5, b['r'] * 0.7))): return False
+    k = await pg.evaluate(BK)
+    check('[%s] 騎著進門：先下車（室內沒有車）' % tag, not k['riding'], J(k))
+    fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+    await pg.screenshot(path=os.path.join(OUT, '%s_inside.png' % tag))
+    await stuck_check(pg, cdp, tag + '_inside', fb0, e0, errs)
+    if not await enter_via(pg, cdp, tag + '_out', {'exitTo': zone}, '', zone, near=None): return False
+    return await park_check(pg, cdp, tag, errs, zone)
+
+
+async def main():
+    os.makedirs(OUT, exist_ok=True)
+    async with async_playwright() as p:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        await pg.goto(URL); check('遊戲載入', await L.wait_loaded(pg))
+        await pg.evaluate("localStorage.clear(); if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}")
+        if 'P' in CASES:
+            print('== P 錢不夠', flush=True)
+            await load_door(pg, cdp, 50, 'P')
+            if await go_in_shop(pg, cdp, 'P1', errs):
+                fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs); m0 = (await pg.evaluate(ST))['money']; n0 = len(((await pg.evaluate(BK))['bike'] or {}).get('owned') or [])
+                if await walk_tap(pg, cdp, 'P2', {'look': 'lady'}, '看這台車'):
+                    lines, menus, odd = await converse(pg, cdp, 'P2', ['買這台'])
+                    s = await pg.evaluate(ST); k = await pg.evaluate(BK)
+                    check('P2 錢不夠買淑女車：款式說明、老闆「%s」、不扣錢、沒有多一台' % LN['poor'], has(lines, LN['ladyDesc']) and has(lines, LN['poor']) and s['money'] == m0 and len(((k['bike'] or {}).get('owned') or [])) <= max(n0, 1),
+                          J({'money': [m0, s['money']], 'lines': lines[-3:]}))
+                    await pg.screenshot(path=os.path.join(OUT, 'P2_after.png'))
+                lines, menus, odd = await talk_owner(pg, cdp, 'P3', ['補胎'])
+                s = await pg.evaluate(ST)
+                check('P3 補胎錢不夠：老闆「%s」、不扣錢、沒有過 15 分鐘那一段' % LN['fixPoor'], has(lines, LN['fixPoor']) and s['money'] == m0 and not has(lines, LN['fix']), J({'money': [m0, s['money']], 'lines': lines[-3:]}))
+                await stuck_check(pg, cdp, 'P_end', fb0, e0, errs)
+        if 'M' in CASES:
+            print('== M 錢夠', flush=True)
+            await load_door(pg, cdp, 30000, 'M')
+            if not await go_in_shop(pg, cdp, 'M1', errs):
+                check('M 進不了店，後面不測', False)
+            else:
+                fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+                # M2 買車
+                if await walk_tap(pg, cdp, 'M2', {'look': 'lady'}, '看這台車'):
+                    s0 = await pg.evaluate(ST)
+                    lines, menus, odd = await converse(pg, cdp, 'M2', ['買這台', '奶油白'])
+                    s = await pg.evaluate(ST); k = await pg.evaluate(BK); bk = k['bike'] or {}
+                    check('M2 買淑女車（奶油白）：扣 4,200', s['money'] == s0['money'] - 4200, J([s0['money'], s['money']]))
+                    check('M2 現在騎的＝淑女車奶油白、買過的車 2 台', bk.get('kind') == 'lady' and bk.get('color') == LADY_WHITE and len(bk.get('owned') or []) == 2, J(bk))
+                    check('M2 調座墊：時間 +10 分（10/60 h）', 10 / 60 - 0.005 <= s['hour'] - s0['hour'] < 10 / 60 + 0.12, '%.3f h' % (s['hour'] - s0['hour']))
+                    check('M2 台詞：款式說明、老闆一句、調座墊、旁白、「騎看看。」', all(has(lines, LN[x]) for x in ('ladyDesc', 'ladyLine', 'fit', 'fitDone', 'try')), J(lines))
+                    await pg.screenshot(path=os.path.join(OUT, 'M2_bought.png'))
+                # M3 換車（換成城市通勤車、再換回來）
+                for want, kind in (('城市通勤車', 'city'), ('淑女車', 'lady')):
+                    lines, menus, odd = await talk_owner(pg, cdp, 'M3_' + kind, ['換一台騎', want])
+                    k = await pg.evaluate(BK); bk = k['bike'] or {}
+                    check('M3 換成%s：「%s」、AA_651 兩句（%s／%s）' % (want, LN['which'], LN['swapDone'], LN['swapNarr']), bk.get('kind') == kind and has(lines, LN['which']) and has(lines, LN['swapDone']) and has(lines, LN['swapNarr']),
+                          J({'kind': bk.get('kind'), 'color': bk.get('color'), 'lines': lines[-4:]}))
+                # M4 補胎
+                s0 = await pg.evaluate(ST)
+                lines, menus, odd = await talk_owner(pg, cdp, 'M4', ['補胎'])
+                s = await pg.evaluate(ST)
+                check('M4 補胎：扣 100', s['money'] == s0['money'] - 100, J([s0['money'], s['money']]))
+                check('M4 補胎：時間過 15 分鐘', 0.25 - 0.005 <= s['hour'] - s0['hour'] < 0.25 + 0.15, '%.3f h（含走到老闆旁邊）' % (s['hour'] - s0['hour']))
+                check('M4 補胎台詞：老闆兩句＋旁白（AA_651）', has(lines, LN['fix']) and has(lines, LN['fixNarr']) and has(lines, LN['fixDone']), J(lines[-4:]))
+                # M5 車燈
+                s0 = await pg.evaluate(ST)
+                if await walk_tap(pg, cdp, 'M5', {'label': '車燈'}, '車燈'):
+                    lines, menus, odd = await converse(pg, cdp, 'M5', ['車燈'])
+                    s = await pg.evaluate(ST); bk = (await pg.evaluate(BK))['bike'] or {}
+                    check('M5 買車燈：扣 350、記在 G.bike.parts.light', s['money'] == s0['money'] - 350 and bool((bk.get('parts') or {}).get('light')), J({'money': [s0['money'], s['money']], 'parts': bk.get('parts')}))
+                    check('M5 車燈台詞：旁白＋老闆「%s」' % LN['light2'], has(lines, LN['light1']) and has(lines, LN['light2']), J(lines))
+                # M6 再點一次
+                s0 = await pg.evaluate(ST)
+                if await walk_tap(pg, cdp, 'M6', {'label': '車燈'}, '車燈'):
+                    lines, menus, odd = await converse(pg, cdp, 'M6', ['車燈'])
+                    s = await pg.evaluate(ST)
+                    lt = next((c for m in menus for c in m if c.startswith('車燈')), '')
+                    check('M6 已經買過：選項寫「買過了」、老闆「%s」、不扣錢（不會再賣）' % LN['again'], '買過了' in lt and has(lines, LN['again']) and s['money'] == s0['money'] and not has(lines, LN['light1']), J({'opt': lt, 'money': [s0['money'], s['money']], 'lines': lines}))
+                await stuck_check(pg, cdp, 'M6_end', fb0, e0, errs)
+                # M7 出店
+                ok = await enter_via(pg, cdp, 'M7', {'label': '離開慢輪單車'}, '離開慢輪單車', 'gongguan')
+                pk = await pg.evaluate("typeof BIKESHOP!=='undefined'?BIKESHOP.PARK:null")
+                c = await pg.evaluate(PCHK) if ok else {}
+                if ok: check('M7 出店：車停在車行門口的停車位 %s' % J(pk), bool(pk) and abs(c['x'] - pk['x']) < 0.01 and abs(c['z'] - pk['z']) < 0.01 and c['zone'] == 'gongguan', J(c))
+                riding = ok and await park_check(pg, cdp, 'M7', errs, 'gongguan')
+                await pg.screenshot(path=os.path.join(OUT, 'M7_riding.png'))
+                # M8 騎車去三區
+                cur = 'gongguan'
+                route = []
+                if 'wenzhou' in LEGS: route += [('wenzhou', 'wz_print')]
+                if 'campus' in LEGS or 'lane118' in LEGS: route += [('campus', None)]
+                if 'lane118' in LEGS: route += [('lane118', None)]
+                for zone, prefer in route:
+                    if not riding: check('M8 還沒騎上車，後面的 %s 不測' % zone, False); break
+                    if zone == 'campus' and cur == 'wenzhou':
+                        if not await ride_exit(pg, cdp, 'M8_wz_gg', 'gongguan'): break
+                        cur = 'gongguan'
+                    if not await ride_exit(pg, cdp, 'M8_%s' % zone, zone): riding = False; break
+                    k = await pg.evaluate(BK)
+                    check('M8 騎到%s：還在騎' % zone, k['riding'], J(k))
+                    cur = zone
+                    if zone == 'campus' and 'campus' not in LEGS: continue
+                    riding = await in_and_out(pg, cdp, 'M8_%s' % zone, errs, zone, prefer)
+                # M9 存檔、重新整理、繼續
+                if riding:
+                    await L.tap(pg, cdp, '#btnBike'); await pg.wait_for_timeout(2000)
+                await converse(pg, cdp, 'M9_pre', None, 10)
+                saved = (await pg.evaluate(BK))['bike'] or {}; zs = (await pg.evaluate(ST))['zone']
+                print('  [捷徑] 存檔：GAME.autosave()（和換區域時的自動存檔同一個）；存檔裡的車 %s' % J(saved), flush=True)
+                await pg.evaluate("GAME.autosave()"); await pg.wait_for_timeout(1000)
+                await pg.reload(); await L.wait_loaded(pg); await L.no_phone_auto(pg); await pg.wait_for_timeout(1500)
+                check('M9 標題有「繼續」', await L.tap(pg, cdp, '#btnContinue'))
+                await pg.wait_for_timeout(8000); await L.close_panels(pg, cdp)
+                await wait_js(pg, "!!GAME.E.zone.group.children.find(o=>o.name==='bike_ride')", 60)
+                k = await pg.evaluate(BK); nb = k['bike'] or {}
+                check('M9 重新整理、繼續：車還在（同一區、同一個位置、場景裡有停著的車）', k['zone'] == zs and nb.get('zone') == saved.get('zone') and abs((nb.get('x') or 0) - (saved.get('x') or 0)) < 0.01 and abs((nb.get('z') or 0) - (saved.get('z') or 0)) < 0.01 and bool(k['parked']), J({'zone': k['zone'], 'bike': nb, 'parked': k['parked']}))
+                check('M9 是買的那一台（淑女車奶油白）、車燈還在', nb.get('kind') == 'lady' and nb.get('color') == LADY_WHITE and bool((nb.get('parts') or {}).get('light')), J(nb))
+                await pg.screenshot(path=os.path.join(OUT, 'M9_after_reload.png'))
+                fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
+                await stuck_check(pg, cdp, 'M9_after_reload', fb0, e0, errs)
+        check('沒有 JS 例外', not errs, J(errs[:3]))
+        await b.close()
+    print('ALL PASS' if not FAILS else 'FAILED %d: %s' % (len(FAILS), '；'.join(FAILS[:10])), flush=True)
+    sys.exit(1 if FAILS else 0)
+
+asyncio.run(main())
