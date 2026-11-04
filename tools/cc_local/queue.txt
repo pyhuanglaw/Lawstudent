@@ -83,6 +83,7 @@ N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEA
 N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
 N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
 N20X_flow | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
+N20X_moks | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 75 | CASES=closed,order,date_zr,rain,names;CC_HEADLESS=0
 ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
 ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
 N20_f606c     | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
