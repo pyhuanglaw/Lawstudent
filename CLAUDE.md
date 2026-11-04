@@ -19,7 +19,7 @@
 
 ## ⚠ 任何帳號回來接班先讀：2026-10-14 以後新增、修訂的永久規則（原本是寫給帳號 A 的，使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」；2026-11-02 改成通用）
 
-你讀到的這份如果**不是 RULE_SOURCE 分支上的版本**，可能是舊版。先照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；**不要寫死分支名**——2026-11-02 03:39 起帳號 A 值班、RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`，換班以後會變），讀那裡的版本。下面每一條的現行全文都在 RULE_SOURCE 的 CLAUDE.md（D135 起，使用者訊息優先、自主連續工作、分工三組重複的章節各合成一節；已被取代的舊條文和合併前的原文在 `docs/history/CLAUDE_superseded_1104.md`，附對照表）；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-22）。
+你讀到的這份如果**不是 RULE_SOURCE 分支上的版本**，可能是舊版。先照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；**不要寫死分支名**——2026-11-02 03:39 起帳號 A 值班、RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`，換班以後會變），讀那裡的版本。下面每一條的現行全文都在 RULE_SOURCE 的 CLAUDE.md（D135 起，使用者訊息優先、自主連續工作、分工三組重複的章節各合成一節；已被取代的舊條文和合併前的原文在 `docs/history/CLAUDE_superseded_1104.md`，附對照表）；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-26）。
 
 | 決策 | 一句話 | 對你的影響 |
 |---|---|---|
@@ -125,6 +125,7 @@
 **各職位有合理可以做的工作時，都不能被動等下一道人工指令**（D86）。
 - **需求找誰**（D86 第 1、5 點，照 D100 更新）：LAWWW 要 3D 模型、場景、動畫 → 主動派 LAWWW2（下面 D84 小段）；要劇情：缺少的事件、台詞、日常內容、人物反應、學期故事、觸發條件、跨學期銜接、法律課堂內容 → 主動向 AA 提（下面 D79 小段）；要 CG、2D 背景、立繪、測試 → 派 BB（第 2 點、D100a）；BB 要時間線、劇情協調 → 找 AA；LAWWW2 要美術規格 → 找 LAWWW 或 AA，人物外觀找 LAWWW（第 6 點）；CC 照 D119、D130、D134。各職位交付以後，LAWWW 負責接線、整合、發布（D85），測試派 BB。
 - **LAWWW2 主動找工作**（D86 第 4 點）：接 LAWWW 的派工，也可以主動問 LAWWW 要什麼美術、問 AA 正在規劃的劇情需要哪些場景、道具、視覺資產；工作少時先查自己登記的待辦和交付，對 AA 已批准的劇情需求可以先整理美術需求和規格，再和 LAWWW 協調；已批准的美術任務自主推進，完成交 LAWWW 整合；不做還沒批准的場景設定；不自己大改重要人物的外觀（人物外觀大改 LAWWW 定案、BB 可以給意見，D128；穿模之類的小錯誤 LAWWW2 可以修，D100a）。
+- **AA 主動找還沒完成的故事**（D86 第 2 點；D111 劇情總監）：AA 可以主動檢查哪些故事還沒完成、做到一半，建任務交 LAWWW（守住 D101「使用者要過的東西不能停在半路」）。
 - **AA 可以承接的**（D86 第 4 點「互助制度」）：學期骨架、日常事件銜接、已批准故事的補充事件規格、前置條件、錯過處理、時間限制、選擇對後續的影響、跨學期跨人物一致性、程式已接入內容的劇情驗收。
 - **手上沒工作時**（D86 第 6 點，照 D125、D121 更新；預設順序，不為了形式上的詢問擋住緊急工作或既有交付）：LAWWW 看整體 backlog、整合需求、bug、待派工項目（`check_handoff.py check`、`queue`），主動安排；LAWWW2 先看自己登記的待辦（`queue --owner LAWWW2`），再問 LAWWW，也可以問 AA；AA 問 LAWWW；BB 問 LAWWW；CC 跟 BB 要（佇列剩兩項以下就要，D121）。
 - **共同規則**（D86 第 7 點）：跨職位任務一定要有任務 ID、來源、負責人、狀態、交付紀錄、commit、ACK（tasks.json 的 `xai`、deliveries.json）；領工作前確認有沒有負責人、進行中的分支、既定交付，沒有確認不重複施工、不覆蓋別人的進度；卡在別人那裡時，先做不依賴它的已批准工作，不無限等待；不製造假工作（不為了看起來忙而重複審查、任意擴張內容、做低優先級資產）；P0 bug、阻斷問題先做，其餘照 D99、D81；互相支援不取消專業分工和既有審核權（角色美術 LAWWW、建築場景 BB 的 `ART_APPROVED`：第 6 點、D120、D128）；人物設定、感情走向、結局照舊由使用者決定（其餘劇情 AA 自己定，D109）；只聯絡目前值班帳號的職位，不為了找工作叫醒休班帳號（D75）。
@@ -241,7 +242,7 @@
 **最高原則：交接不能漏掉任何工作、半成品、未整合成果或已批准但尚未實作的企劃；同時不能每次交班都重新掃描數百筆舊 commit。**（起因：帳號 B 交班時 LAWWW-B 要逐筆重核 AA、BB、LAWWW2 約 255 筆 commit，耗掉大量額度；過程中 `roles` 讀到 0 行還報 OK、批次腳本把「covered_by＝沒有登記」當成已涵蓋，漏掉 BB 14 筆交付。）D92、D93 的檢查全部保留，這一節只減少重複工作。
 1. **四職位已核對水位線**（`docs/handoff/watermarks.json`，值班 LAWWW 維護）：每個職位一條「已核對到哪個 commit」（分支、完整 SHA、時間、誰核對、核對筆數、未結項目 `open`、`history`）。
    - 每次交班、接班只核對水位線以後的新 commit（`python3 tools/handoff/check_handoff.py incr`）；別的職位已核對的 commit（企劃線互相合併）不重算。
-   - **水位線以後的每一個非合併 commit 都要有結構化分類**，不靠關鍵字：`deliveries.json` 的交付、`ignored` 的 `kind`、職位的 outbox、`tasks.json` 的 `sha`。
+   - **水位線以後的每一個非合併 commit 都要有結構化分類**，不靠關鍵字：`deliveries.json` 的交付、`ignored` 的 `kind`、職位的 outbox、`tasks.json` 的 `sha`。**D135（2026-11-04，使用者 12:5x 選「只分類會改遊戲的」）：只有改到遊戲的 commit（`src/`、`assets/`、`tests/`、`lib/`、`index.html`）要逐筆分類；只改文件的（企劃、交接紀錄、報告）由該職位交班時的「全部待辦」與快照涵蓋，`incr` 自動算已分類（`docsOnly`），水位線一起前進；`check` 第 6 項的關鍵字掃描對有水位線的職位分支交給 `incr`，不重複報。**
    - **只有全部分類完、沒有異常、分類結果已 commit＋push、核對遠端 SHA 以後**才前進（`incr --advance <職位|all> --by <工作階段>`）；「正在核對」、部分結果不能前進。
    - **fail closed**：水位線的 commit 不存在、不是分支的祖先（歷史改寫、分岔、換了沒合併上一任的分支）、職位沒有水位線、`open` 記的項目在總表／交付／WIP 都找不到、快照的水位線被倒退 → 異常，只對那個範圍深入追查或回報使用者；不重掃全部歷史。
    - 值班 LAWWW 自己的整合分支 `classify:false`（成果直接寫在 tasks.json），祖先與未結項目照查。
