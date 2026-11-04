@@ -18,8 +18,8 @@
 | **頁間書屋**（公館，取代舊路書房） | gongguan_book_ext.webp | gongguan_book_int.webp | 可以 |
 | **Afar café**（公館 G07，取代「咖啡・輕食」；第二批 AA_650） | gongguan_afar_ext.webp | gongguan_afar_int.webp | 可以 |
 | **洋洋鹹酥雞**（公館 G05，取代「滷味・鹹酥雞」；第二批） | gongguan_yangyang_ext.webp | gongguan_yangyang_int.webp | 可以 |
-| **轉角唱片**（公館 G12，取代「二手唱片」；第二批） | gongguan_corner_ext.webp | （還沒收到） | 外觀可以 |
-| **daybreak**（公館 G14，取代「早午餐」；第二批） | （還沒收到） | （還沒收到） | — |
+| **轉角唱片**（公館 G12，取代「二手唱片」；第二批） | gongguan_corner_ext.webp | gongguan_corner_int.webp | 可以 |
+| **daybreak**（公館 G14，取代「早午餐」；第二批） | gongguan_daybreak_ext.webp | gongguan_daybreak_int.webp | 可以 |
 
 ## 照圖做的時候要改的地方
 - **大步球鞋**：圖上的鞋子有像真實品牌的勾勾標誌（內外都有），建模時**一律拿掉**，鞋側面用虛構的線條或不畫標誌（D77）。室內地板是中間色的木地板，D112 不要深色：照圖或再淺一點。
@@ -36,4 +36,6 @@
   - **Afar café**：圖上的招牌「Elsewhere Café」、室內黑板「他處咖啡 Elsewhere Café」是真實店名，**一律換成「Afar café」**（使用者選的，D77）。室內黑板的品項和價錢照用；外面那塊英文 COFFEE MENU 改成和室內同一份。門牌「羅斯福路四段 106、108」照用。地板淺灰磨石子（D112），深色胡桃木只用在家具。
   - **洋洋鹹酥雞**：招牌、店名照用。菜單用室內那一份（外面立牌的價錢不同，改成和室內一樣）。門牌「羅斯福路四段 136」和頁間書屋撞號，換一個號碼。地板淺灰磁磚。
   - **轉角唱片**：店名照用。營業時間照圖改成「週一～週日 12:00～21:00」（AA_650 原本寫週一公休，改掉）。「二手唱片 每張 150 元起」、海報「公館的風」「城市耳機」都照用。門牌「羅斯福路四段 92」照用。
-  - 三張外觀圖裡左右鄰居的招牌（文具・生活、公館麵館、公館書坊）不用照畫，鄰居照遊戲裡現在的店。
+  - **轉角唱片（室內）**：牆上的「轉角唱片 Corner Records」、海報「台北的午後」「公館聲響祭 Gongguan Sound Festival '02」「河岸音樂節 Riverside Music Festival 2000」（星際樂團、午後回聲、白色電車、南方早晨）都是虛構的，照用；分類牌（搖滾／Indie、民謠／Folk、電子／Electronic）照用；右邊是試聽區（耳機＋高腳椅）。地板淺灰磨石子。
+  - **daybreak**：招牌「Daybreak」照用（遊戲裡寫 daybreak 或 Daybreak 都可以，照招牌用 **Daybreak**）。門牌又是「羅斯福路四段 136」，和頁間書屋、洋洋撞號，換號碼。黑板只有分類（Brunch、Plates、Sandwiches、Salads、Drinks、Sweets）沒有價錢，品項和價錢照 AA_650。地板淺色磨石子＋淺色磁磚，家具淺色木頭。
+  - 外觀圖裡左右鄰居的招牌（文具・生活、公館麵館、公館書坊）不用照畫，鄰居照遊戲裡現在的店。
