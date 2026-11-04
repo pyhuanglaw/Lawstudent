@@ -1,0 +1,32 @@
+{
+  "rerun": "",
+  "id": "TT_V2b_probe",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_assert_probe.py",
+  "env": "CC_AUTORETRY=1;ST_PAGE=game",
+  "machine": "MSI",
+  "start": "2026-11-04T22:24:01",
+  "end": "2026-11-04T22:25:36",
+  "seconds": 95,
+  "exit": 1,
+  "error": null,
+  "runner": "b79ab1b098",
+  "rf_round": "3",
+  "url": "http://127.0.0.1:8800/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 87,
+    "mem": 56,
+    "used_gb": 16.9,
+    "chrome_testing": 17
+  },
+  "final": "FAIL",
+  "class": "TEST_BUG/assert-probe",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 1 行，比對的是探針自己的常數（[src=probe]），和遊戲無關；第一行：探針的兩個常數相等（故意寫錯）",
+    "探針的值：[src=probe] 探針常數 EXPECT_N＝3、ACTUAL_N＝4"
+  ]
+}
