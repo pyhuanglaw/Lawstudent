@@ -1,0 +1,66 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ2_door\out
+CC WZ2 v3 溫州街第二批五間；SHA=47909c659；CASES=door；店=A3,B5,B5i,B6,B2；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  16.6 秒
+== door
+  [前置／捷徑] 讀檔到溫州街 (14.20, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［door_A3］
+PASS [door_A3] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [door_A3] 正式模型 wenzhou_street_glb 有載入  讀檔後 13.74 秒
+PASS [door_A3] 溫州書屋 門口 [14.2, 3.8] 2 m 內沒有「進入／進去」開頭的互動點  []
+PASS [door_A3] 溫州書屋 門口 2 m 內沒有 exit 型（含 enter）互動點  []
+INFO [door_A3] 門口 2 m 內的互動點  [{"label": "看書店的櫥窗", "d": 0, "hidden": false}]
+FAIL [door_A3] 門口那一格 nav.free 而且 canStand(0.3)  {"free": true, "stand": false}
+  到達「溫州書屋 門口」附近（0.06 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，16 秒
+PASS [door_A3] 從街上真的走到 溫州書屋 門口 [14.2, 3.8]  {"x": 14.17, "z": 3.75, "d": 0.06, "interact": "看書店的櫥窗", "zone": "wenzhou"}
+PASS [door_A3] 走到門口以後還在溫州街（沒有被送進店裡）  wenzhou
+INFO [door_A3] 門口的互動按鈕  看書店的櫥窗
+PASS [door_A3] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 1.13, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔到溫州街 (17.40, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［door_B5］
+PASS [door_B5] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [door_B5] 正式模型 wenzhou_street_glb 有載入  讀檔後 3.29 秒
+PASS [door_B5] 帝大紅茶 門口 [17.4, -7.35] 2 m 內沒有「進入／進去」開頭的互動點  []
+PASS [door_B5] 帝大紅茶 門口 2 m 內沒有 exit 型（含 enter）互動點  []
+INFO [door_B5] 門口 2 m 內的互動點  [{"label": "買一杯飲料", "d": 0, "hidden": false}]
+PASS [door_B5] 門口那一格 nav.free 而且 canStand(0.3)  {"free": true, "stand": true}
+  到達「帝大紅茶 門口」附近（0.23 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+PASS [door_B5] 從街上真的走到 帝大紅茶 門口 [17.4, -7.35]  {"x": 17.4, "z": -7.12, "d": 0.23, "interact": "買一杯飲料", "zone": "wenzhou"}
+PASS [door_B5] 走到門口以後還在溫州街（沒有被送進店裡）  wenzhou
+INFO [door_B5] 門口的互動按鈕  買一杯飲料
+PASS [door_B5] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.57, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔到溫州街 (24.40, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［door_B5i］
+PASS [door_B5i] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [door_B5i] 正式模型 wenzhou_street_glb 有載入  讀檔後 2.49 秒
+PASS [door_B5i] 夏日冰菓室 門口 [24.4, -7.4] 2 m 內沒有「進入／進去」開頭的互動點  []
+PASS [door_B5i] 夏日冰菓室 門口 2 m 內沒有 exit 型（含 enter）互動點  []
+INFO [door_B5i] 門口 2 m 內的互動點  [{"label": "買一碗冰", "d": 0, "hidden": false}, {"label": "看價目板", "d": 1, "hidden": true}]
+PASS [door_B5i] 門口那一格 nav.free 而且 canStand(0.3)  {"free": true, "stand": true}
+  到達「夏日冰菓室 門口」附近（0.24 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，8 秒
+PASS [door_B5i] 從街上真的走到 夏日冰菓室 門口 [24.4, -7.4]  {"x": 24.4, "z": -7.16, "d": 0.24, "interact": "買一碗冰", "zone": "wenzhou"}
+PASS [door_B5i] 走到門口以後還在溫州街（沒有被送進店裡）  wenzhou
+INFO [door_B5i] 門口的互動按鈕  買一碗冰
+PASS [door_B5i] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 0.5, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔到溫州街 (35.30, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［door_B6］
+PASS [door_B6] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [door_B6] 正式模型 wenzhou_street_glb 有載入  讀檔後 2.78 秒
+PASS [door_B6] 阿忠鮮果 門口 [35.3, -3.9] 2 m 內沒有「進入／進去」開頭的互動點  []
+PASS [door_B6] 阿忠鮮果 門口 2 m 內沒有 exit 型（含 enter）互動點  []
+INFO [door_B6] 門口 2 m 內的互動點  [{"label": "買水果", "d": 0, "hidden": false}, {"label": "看阿忠水果", "d": 1.7, "hidden": false}]
+PASS [door_B6] 門口那一格 nav.free 而且 canStand(0.3)  {"free": true, "stand": true}
+  到達「阿忠鮮果 門口」附近（0.24 m）：點地面 4 次、轉鏡頭 1 次、搖桿 0 次，15 秒
+PASS [door_B6] 從街上真的走到 阿忠鮮果 門口 [35.3, -3.9]  {"x": 35.3, "z": -3.66, "d": 0.24, "interact": "買水果", "zone": "wenzhou"}
+PASS [door_B6] 走到門口以後還在溫州街（沒有被送進店裡）  wenzhou
+INFO [door_B6] 門口的互動按鈕  買水果
+PASS [door_B6] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 1.0, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔到溫州街 (-18.60, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［door_B2］
+PASS [door_B2] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [door_B2] 正式模型 wenzhou_street_glb 有載入  讀檔後 3.67 秒
+PASS [door_B2] 常在洗衣 門口 [-18.6, -3.8] 2 m 內沒有「進入／進去」開頭的互動點  []
+PASS [door_B2] 常在洗衣 門口 2 m 內沒有 exit 型（含 enter）互動點  []
+INFO [door_B2] 門口 2 m 內的互動點  [{"label": "看自助洗衣", "d": 0, "hidden": false}, {"label": "看布告欄", "d": 1.95, "hidden": false}]
+PASS [door_B2] 門口那一格 nav.free 而且 canStand(0.3)  {"free": true, "stand": true}
+  到達「常在洗衣 門口」附近（0.24 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，12 秒
+PASS [door_B2] 從街上真的走到 常在洗衣 門口 [-18.6, -3.8]  {"x": -18.6, "z": -3.56, "d": 0.24, "interact": "看自助洗衣", "zone": "wenzhou"}
+PASS [door_B2] 走到門口以後還在溫州街（沒有被送進店裡）  wenzhou
+INFO [door_B2] 門口的互動按鈕  看自助洗衣
+PASS [door_B2] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"dlg": false, "depth": 0, "moved": 1.11, "fb": [0, 0], "errs": []}
+PASS 沒有 JS 例外  []
+FAILED 1: [door_A3] 門口那一格 nav.free 而且 canStand(0.3)

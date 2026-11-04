@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ2_door",
+  "sha": "47909c659",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz2_probe.py",
+  "env": "CASES=door;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:11:43",
+  "end": "2026-11-04T21:14:45",
+  "seconds": 181,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 21,
+    "mem": 51,
+    "used_gb": 16.2,
+    "chrome_testing": 29
+  }
+}
