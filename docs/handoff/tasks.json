@@ -44633,7 +44633,7 @@
    "id": "WZ-LANEEAST-TRIS-1104",
    "title": "溫州街 lane_east 減面（店內 wz_in_shop 按店拆網格、看不到的店整間裁掉）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -44646,7 +44646,7 @@
     "confirmed": true
    },
    "sha": "d2a692410",
-   "next": "【LAWWW-C 11-04 13:1x】BB-C 13:10 BB_255：lane_east 三角形還沒過（45.6 萬），等 LAWWW2-C 再減面；擋 v9.10.20｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
+   "next": "【LAWWW-C 11-04 14:31】BB-C 14:31 V20_wzstreet @322cd967 效能 PASS：lane_east 298 calls／40.7 萬、lane_west 262／35.6 萬、arcade 303／41.4 萬（上限 310／42 萬）；導航、鏡頭碰撞、互動點不變；等 reachability wenzhou、touch_flow_wenzhou、WZ_SLICE_SHOTS 三支｜【LAWWW-C 11-04 13:1x】BB-C 13:10 BB_255：lane_east 三角形還沒過（45.6 萬），等 LAWWW2-C 再減面；擋 v9.10.20｜【LAWWW-C 11-04 12:4x 補進總表】LAWWW2 1d64f3511 已接 d2a692410；帳號 A 交班寫 419,713 tris PASS，BB 確認判定後改已驗收",
    "source": "LAWWW2-A 交班清單（second-ai-env-art 5f85444cd）；LAWWW2-C 11-04 12:38 指出總表沒有這個 ID",
    "xai": {
     "spec": "LAWWW2 1d64f3511",
@@ -44726,7 +44726,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】擋發布剩：lane_east（LAWWW2 重建 wenzhou_street.glb 切四段，預估省 3～4 萬）、小路窗景已接等 CC 22:00／14:00 看；SUNNY F00／F12 不擋（BB 14:03）；WZ-YIZHAN 前院第一次進門旁白沒出來（FAIL 2）等 CC 補印 fromLoad／P.z／yardIntro 回傳｜【LAWWW-C 11-04 13:4x】GG-REENTRY PASS（BB-C 13:35）；剩：小路 22:00 窗景（XIAOLU-NIGHT-VIEW-1104，LAWWW2 快好了）、lane_east 減面（WZ-LANEEAST-TRIS-1104）、SUNNY F00／F12 等 CC 占用補印（可能照設計）；GHA Node 全套觸發在 c7fcc5b81（gha-node-sweep）｜【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
+   "next": "【LAWWW-C 11-04 14:31】擋發布剩：lane_east 那三支（BB 排了）、lampshade_flip 結論（LAWWW2 查）；小路窗景、GG-REENTRY 已 PASS；SUNNY 不擋；D116 SQ19 筆記本已改（24bbac4e0）｜【LAWWW-C 11-04 14:08】擋發布剩：lane_east（LAWWW2 重建 wenzhou_street.glb 切四段，預估省 3～4 萬）、小路窗景已接等 CC 22:00／14:00 看；SUNNY F00／F12 不擋（BB 14:03）；WZ-YIZHAN 前院第一次進門旁白沒出來（FAIL 2）等 CC 補印 fromLoad／P.z／yardIntro 回傳｜【LAWWW-C 11-04 13:4x】GG-REENTRY PASS（BB-C 13:35）；剩：小路 22:00 窗景（XIAOLU-NIGHT-VIEW-1104，LAWWW2 快好了）、lane_east 減面（WZ-LANEEAST-TRIS-1104）、SUNNY F00／F12 等 CC 占用補印（可能照設計）；GHA Node 全套觸發在 c7fcc5b81（gha-node-sweep）｜【LAWWW-C 11-04 13:1x】BB-C 13:10 最新擋發布（BB_255 0b6f91b10）：GG-REENTRY（已接 9f481443d，等驗）、lane_east 三角形（LAWWW2 減面）、SUNNY F00、SUNNY F12（SUNNY-F12-SIT-1104）、小路 22:00 窗外白天、TEST-TRACE／SOCIAL-STUCK／約會實跑／約念書坐下（使用者要的 PC 那幾十項還沒跑，CC-C 沒 push 權限）｜【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
    "source": "帳號 A 交班 B1～B2；BB-C 11-04 12:58",
    "authorized": "D85（LAWWW 自主發布）",
    "evidence": ""
@@ -44755,7 +44755,7 @@
    "id": "XIAOLU-NIGHT-VIEW-1104",
    "title": "溫州街小路：22:00 窗外還是白天街景（夜景窗景卡沒換）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -44767,7 +44767,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】LAWWW2 561d2a772 的 wz_teishoku_day／night.webp（Blender 照 2:30 AM 做法，晚上平均亮度 75→54）接進開發分支；BB 對照圖方向 PASS，排 CC WZ4_komichi 22:00／14:00 看遊戲畫面｜【LAWWW-C 11-04 13:4x】LAWWW2-C 13:38：用 Blender 照 2:30 AM 夜景的做法重拍，快好了｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；BB 已交 LAWWW2-C；同類修法參考 SUNNY／2:30 AM 夜景換圖",
+   "next": "【LAWWW-C 11-04 14:31】BB PASS，從擋發布清單拿掉｜【LAWWW-C 11-04 14:08】LAWWW2 561d2a772 的 wz_teishoku_day／night.webp（Blender 照 2:30 AM 做法，晚上平均亮度 75→54）接進開發分支；BB 對照圖方向 PASS，排 CC WZ4_komichi 22:00／14:00 看遊戲畫面｜【LAWWW-C 11-04 13:4x】LAWWW2-C 13:38：用 Blender 照 2:30 AM 夜景的做法重拍，快好了｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；BB 已交 LAWWW2-C；同類修法參考 SUNNY／2:30 AM 夜景換圖",
    "source": "BB-C 11-04 12:58 BB_255（WZ4 小路）",
    "xai": {
     "spec": "BB_255 WZ4",
@@ -44775,7 +44775,8 @@
     "acceptance": "22:00 窗外是夜景、白天照舊",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-C 14:31（BB_255，D132 代 LAWWW2 驗收；qa/komichi_1104/komichi_r2_montage.jpg）：22:00 樓上窗亮、招牌亮、路面暗（窗區亮度 69／82），14:00 白天街景 103／108；0e2ca42d4（322cd967 圖檔相同）"
   },
   {
    "id": "WZ-SEAT-CAMS-1104",
