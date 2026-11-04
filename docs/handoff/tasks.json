@@ -45185,7 +45185,7 @@
    "title": "普通教學館、博雅教學館（遊戲裡叫博思）的外觀改得像真的（使用者 11-04 15:1x：「說到這個 普通 博雅 教學館目前感覺跟真正的太不像了」）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45204,9 +45204,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "官網照片清單 docs/story_planning/ref_images/buildings/boya/、putong/（README＋list.json；看圖用 tools/ref/fetch_ref_images.py 抓到 ref_cache/，照片不進 repo）；總表 docs/story_planning/ref_images/buildings/README.md 第 34、40 列、第 60、66 點：博雅＝靠普通那側上層紅磚、清水混凝土大雨遮中間一個圓洞、長滿草的斜坡綠屋頂、木格柵戶外長樓梯、入口上方木格柵；普通＝一樓半圓拱廊、綠色玻璃樓梯塔、中央山牆（紅褐面磚、五層照舊）；舊模型 tools/blender/env_second/campus_teach.py（ART-EXT-TEACH 10-18，依文字推測、沒有照片）；D136：材質、氣氛、大小、動線像真的，整棟外觀和獨特造型不照抄、改成自己的設計",
     "acceptance": "BB 照 D120／D133／D136：CC 在使用者電腦拍同角度（總表第 107～109 列）、和官網照片並排；tools/art/same_angle_check.py --mode campus 疊圖（D138：相似要接近、細部 1:1 照抄的格子要是 0）；每棟寫保留什麼、改掉什麼；導航、門口（DOORS.putong／boya）、空橋 Y0、樓層高度不動；node tests/nav_buildings_unit.js、tests/campus_layout_nav.py",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版",
+   "next": "【LAWWW-C 11-04 16:2x】LAWWW2-C 16:21：普通、博雅兩顆 GLB 重建好，nav_buildings_unit ALL PASS，same_angle_check --mode campus 四個角度照抄格子 0；在拍最後的對照圖、寫保留／改掉，做完一起交；網格數和舊版一樣 15 個（普通 7→6、博雅 8→9），再壓要貼圖合併（BB P3）｜【LAWWW-C 11-04 15:3x】使用者說明（UA-LAWWW-1104-98）：不是新增兩棟——改遊戲裡已經有的普通教學館（(−38,−58.5)，名字照 WORLD_NAMING 第 5 節保留）和博思教學館（＝博雅，(−38,−83)）的外觀，位置、門口、室內不動｜【LAWWW-C 11-04 15:2x】派 LAWWW2-C（目前手上的阿德店面 v2 做完就接，排在 HAIR-NOODLE、NPC-ANIM-LOOPS 前面）；CC-C 的 NTU_REF 探針先拍普通、博思；不進 v9.10.20，下一版",
    "notWaitUser": "使用者 15:1x／15:3x 已說清楚範圍（改現有兩棟外觀，不新增）；LAWWW2 照官網照片做、BB 驗收（D128 美術不經使用者），不用等使用者"
   },
   {
@@ -45696,9 +45696,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "AA_669 第 6 節（企劃線 468a1d0b9；AA 已直接傳 LAWWW2-C）；館方 2020 年公告：2 樓有自習室、討論室；參考照片照 NTU-REF-AUDIT-1104 的做法（只留網址）",
     "acceptance": "BB 照 D120／D133／D136＋D138 same_angle_check --mode campus；樓梯／電梯上得去、座位坐得下、洗手間；舊存檔在 soclib 的位置照舊",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置"
+   "next": "【LAWWW-C 11-04 16:2x】LAWWW2-C ACK：2 樓樓梯＋電梯、自習室 40～60 位（靠窗第三個是「老位子」）、討論室 2～3 間、男女洗手間、門口飲水機、走廊公告欄與置物櫃；D112、D136；排在 TEACH-PTBOYA 後面｜【LAWWW-C 11-04 16:1x】等 AA_669 的場景需求；先照館方資料盤點 2 樓配置"
   }
  ]
 }
