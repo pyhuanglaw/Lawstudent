@@ -7,6 +7,8 @@
      那一年拿到律師證照、司法官落榜＝當晚二選一（再考／就當律師）→ 重考那一年只考一試＋司法官二試（BAR_YEAR 不動），之後每年 5 月問一次、到 2033 → 錄取＝隔年 1 月三試、1 月下旬錄取（JUDGE_YEAR＝錄取那一年）→ 受訓兩年、結業前選法官／檢察官（J_judge／J_pros；2033 以後錄取＝尾聲還在受訓 J_trainee）。
      旗標：JUDGE_SCORE2_<年>、JUDGE_PASS_<年>、JUDGE_RETAKE（true／false／'done'）、JUDGE_RETAKE_Y、JUDGE_REG_<年>、JUDGE_TRIES、JUDGE_YEAR、JUDGE_ROLE；PG.judge／PG.grad＝抽過的題。測試：tests/d118_b8_unit.js、d118_b6_unit.js
    - D118-B6 落點 v2：有 BAR_YEAR 一定在律師家族（A_bar／C_zq／B_grad／L_firm）；研究所筆試照作答（S.gradQuiz，GRAD_SCORE_<年>）。
+   - D118-B7 國考題目範圍＋國考總複習：一試 20 題只從修過的課抽（S.poolFor＝CLS.takenCourses 的課；不到 40 題＝全部；已經存下的 PG.exam[年].qs 不重抽）；
+     一試前 30 天起可以做國考總複習（S.barReview → study3d.js 的 STUDY.review(GM,'bar')，6 小時）；一試逐題出 cue、回寫觀念卡（S.answerCards）。測試：tests/d118_b7_unit.js
    - 一試門檻（使用者 2026-11-02 09:1x，AA_572 第 5 節末 A3、A4）：每一年同一套——答對 ≥16 律師、司法官二試都進，≥12 進律師二試，不到 12 那一年就沒有二試（原本 2030 一律進律師二試的保底取消）。
    - 拍照演完（F.GRADUATED）以後是「畢業後篇」（S.on）：站著不動 2 秒、或睡覺＝跳到下一件事（場景、手機訊息、出遊；做法同經濟系的 ECONFF）；
      跳的途中照時間跑手機規則，收到訊息就停、打開那一段。課表的提醒、去上課的選單不再跳（classes3d.js 讀 PG.on）。
@@ -108,25 +110,50 @@ const PG=(function(){
   S.POOL_EXCLUDE_COURSES=['maritime','ip_law','labor_social','tax_law'];   /* BUG-BAR-POOL-PREFIX（CC_34，BB 2026-11-02 22:15）：主要看 q.course——只比 id 開頭會漏 Y4_MAR_01 這種寫法的 7 題 */
   S.pool=function(all){ const out=[];   /* all：連排除的也算（讀舊存檔已經抽好的題目用）*/ if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if((q.status==='USER_CONFIRMED'||q.status==='AI_CROSS_REVIEWED'||q.status==='Y4_CROSS_REVIEWED')&&(all||!(S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id))))) out.push(q);
     if(typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(q); return out; };   /* 四年各科期末考的題庫＋刑訴（AA_126 第 3 節）*/
+  /* D118-B7-1102（D118_PLAN 第 1 節 ③-4、第 4 節 B7）：一試只出玩家修過的範圍——S.pool() 裡、科目在 CLS.takenCourses(G)（法律系的成績單上有、不在國外的學期；
+     日本路線的大三下、美國路線的大四上不算）的題；刑訴題庫（QBANK）沒有 course＝刑事訴訟法。不到 S.POOL_MIN（40）題＝退回 S.pool() 全部
+     （沒有成績單的舊存檔、測試存檔：同一份、同一個順序＝抽到的題和以前一模一樣）。只用在新抽題：已經存下的 PG.exam[年].qs 不重抽（S.draw 先讀存下來的那一份）。題目、答案照題庫，不改 */
+  S.POOL_MIN=40;
+  S.qCourse=q=>q&&q.course?q.course:'crimpro';
+  S.poolFor=function(G){ const all=S.pool(); if(typeof CLS==='undefined'||!CLS.takenCourses) return all; let tk=null; try{ tk=CLS.takenCourses(G); }catch(e){ console.warn('CLS.takenCourses',e); return all; }
+    if(!tk||!tk.length) return all; const ids=new Set(tk.map(c=>c.id)), out=all.filter(q=>ids.has(S.qCourse(q))); return out.length<S.POOL_MIN?all:out; };
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };
   const rng=seed=>()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; };
-  S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), pool=S.pool(), byId=new Map(S.pool(true).map(q=>[q.id,q]));
+  S.draw=function(G,y){ const R=S.rec(G), X=R.exam&&typeof R.exam==='object'?R.exam:(R.exam={}), byId=new Map(S.pool(true).map(q=>[q.id,q]));
+    let pool0=null; const pool=()=>pool0||(pool0=S.poolFor(G));   /* D118-B7：新抽的題只從修過的課（已經存下的不用算）*/
     const used=new Set(); for(const k in X) if(+k!==+y) for(const id of (X[k].qs||[])) used.add(id);   /* 第二年換一組（AA_286 2-1）*/
     const F=G.flags; if(F.examSeed==null) F.examSeed=Math.floor(Math.random()*1e9);
+    /* 題池扣掉往年用過的不夠：改用全部的題池（修過的課很少、又考到 2031 以後的極端存檔；一般存檔修過的課有三四百題，用不到）*/
+    const left=have=>{ const ok=q=>!used.has(q.id)&&!have.has(q.id); let a=pool().filter(ok); if(a.length<S.N_Q-have.size){ const b=S.pool().filter(ok); if(b.length>a.length) a=b; } return a; };
     if(X[y]&&Array.isArray(X[y].qs)&&X[y].qs.length){ const qs=X[y].qs.map(id=>byId.get(id)).filter(Boolean); if(qs.length===X[y].qs.length){
       if(X[y].ans) return qs;   /* 已經作答（ans 記了）：照舊，分數、放榜要對得上 */
       const bad=q=>S.POOL_EXCLUDE_COURSES.includes(q.course)||S.POOL_EXCLUDE.some(r=>r.test(q.id));   /* BB 2026-11-02 22:15：抽好還沒作答（開考中途關掉）的舊存檔——四科拿掉、從題池補抽，不讓舊存檔考到海商法 */
-      if(!qs.some(bad)) return qs;
-      const keep=qs.filter(q=>!bad(q)), have=new Set(keep.map(q=>q.id)), r0=rng(hashStr(F.examSeed+'|bar-refill|'+y)), extra=pool.filter(q=>!used.has(q.id)&&!have.has(q.id));
+      if(!qs.some(bad)) return qs;   /* D118-B7：存下來的其他題照舊（不因為「沒修過」換掉，D118_PLAN 第 8 節第 7 點）*/
+      const keep=qs.filter(q=>!bad(q)), have=new Set(keep.map(q=>q.id)), r0=rng(hashStr(F.examSeed+'|bar-refill|'+y)), extra=left(have);
       for(let i=extra.length-1;i>0;i--){ const j=Math.floor(r0()*(i+1)); const x=extra[i]; extra[i]=extra[j]; extra[j]=x; }
       const out=keep.concat(extra.slice(0,S.N_Q-keep.length)); X[y].qs=out.map(q=>q.id); return out; } }
-    const r=rng(hashStr(F.examSeed+'|bar|'+y)), a=pool.filter(q=>!used.has(q.id)); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; }
+    const r=rng(hashStr(F.examSeed+'|bar|'+y)), a=left(new Set()); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; }
     const qs=a.slice(0,S.N_Q); X[y]={qs:qs.map(q=>q.id)}; return qs; };
   S.opts=q=>q.type==='tf'||!q.options?['對','錯'].map(t=>({t,v:t})):Object.keys(q.options).map(k=>({t:'（'+k+'）'+q.options[k],v:k}));   /* 照期末考的介面（classes3d.js optList）*/
   S.OK_STATUS=['USER_CONFIRMED','AI_CROSS_REVIEWED','Y4_CROSS_REVIEWED'];   /* 已核對（使用者 11-02 09:5x：AI 出題、另一位 AI 交叉審過的算已核對，AA_583）*/
   const shuffled=(arr,seedStr)=>{ const r=rng(hashStr(seedStr)), a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); const x=a[i]; a[i]=a[j]; a[j]=x; } return a; };
-  const ask=async(GM,qs)=>{ const ans=[]; let k=0; for(let i=0;i<qs.length;i++){ const q=qs[i]; await GM.say(null,(i+1)+'／'+qs.length+'　'+q.q); const o=S.opts(q); const j=await GM.choose(o.map(x=>({t:x.t}))); const v=(o[j]||o[0]).v; ans.push(v); if(String(v)===String(q.answer)) k++; } return {ans,k}; };   /* 作答畫面照一試（答完不逐題顯示對錯）*/
+  const ask=async(GM,qs,o)=>{ o=o||{}; const G=GM.G, ans=[]; let k=0; for(let i=0;i<qs.length;i++){ const q=qs[i];
+      if(o.cue&&typeof STUDY!=='undefined'&&STUDY.cueFor){ let cue=null; try{ cue=STUDY.cueFor(G,q); }catch(e){ console.warn('STUDY.cueFor',e); } if(cue) await GM.say(null,cue); }   /* D118-B7：讀過那一題的觀念卡＝題目前面多一行（STUDY.CUE_PREFIX，照期末考 CLS.runExam；只提醒觀念、會洩題的不出；不影響計分）*/
+      await GM.say(null,(i+1)+'／'+qs.length+'　'+q.q); const op=S.opts(q); const j=await GM.choose(op.map(x=>({t:x.t}))); const v=(op[j]||op[0]).v; ans.push(v); if(String(v)===String(q.answer)) k++; } return {ans,k}; };   /* 作答畫面照一試（答完不逐題顯示對錯）。o.cue：一試（examDay）出 cue */
   S.ask=ask;
+  /* D118-B7：一試的作答回寫觀念卡（照期末考 CLS.runExam：答對＝那張卡「答對過」、答錯＝推進 miss，下一次總複習排前面；不扣任何東西、不影響計分）*/
+  S.answerCards=function(G,qs,ans){ if(typeof STUDY==='undefined'||!STUDY.answer||!Array.isArray(qs)||!Array.isArray(ans)) return 0; let n=0;
+    try{ qs.forEach((q,i)=>{ n+=STUDY.answer(G,q.id,String(ans[i])===String(q.answer),'bar')|0; }); }catch(e){ console.warn('STUDY.answer',e); } return n; };
+  /* ---------- D118-B7-1102 國考總複習（study3d.js 的 STUDY.review(GM,'bar')；D118_PLAN 第 1 節 ③-3、第 2 節第四點 'bar'）----------
+     玩家要考的那一場一試前 S.BAR_REVIEW_DAYS（30）天起開放、到開考（08:00）為止：2029 一試 8/4＝7/5 起；2030 一試 8/3＝7/4 起；2031～2033 照那一年的一試。
+     誰：S.sitsAny（報了名的、2029 不到 12 題的重考、交換延畢的 2030、2031～2033 報了名的、司法官重考那一年）；那一年的一試已經演過、錯過（PG.done）＝不開。
+     S.barReview(G)＝{y, day（一試那一天）, at（開考：day*24+8）}；沒有＝null。先看日期才問報名（學期中不碰 flags.PG、不在存檔多寫東西）*/
+  S.BAR_REVIEW_DAYS=30;
+  S.EXAM_YEARS=[2029,2030].concat(S.LATE_YEARS);
+  S.barReview=function(G){ if(!G||!G.flags||!law(G)||typeof CALENDAR==='undefined') return null; const now=NOW(G), P=G.flags.PG, done=P&&P.done&&typeof P.done==='object'?P.done:{};
+    for(const y of S.EXAM_YEARS){ const K=Y[y], d=K&&K.exam?S.DK(K.exam):null; if(d==null||G.day<d-S.BAR_REVIEW_DAYS||now>=d*24+8||done['exam_'+y]) continue;
+      let ok=false; try{ ok=!!S.sitsAny(G,y); }catch(e){ ok=false; } if(ok) return {y,day:d,at:d*24+8}; }
+    return null; };
   /* ---------- 司法官二試（D118-B8；AA_583 b76dd619e）：從已核對的題庫用程式篩「爭點題」——不出新題、題目答案一字不改 ----------
      池：EXAM_BANK（status 三種已核對、type mc）＋QBANK 的 mc；科目四類；題幹有甲／乙／丙而且 ≥45 字（事例題）。
      每年 10 題：民法 3、刑法 3、公法 2、訴訟法 2（某類不夠由刑法、民法補）；排除當年一試抽到的題、往年二試抽過的題（重考年換題）；隨機照 S.draw（examSeed＋'|judge|'＋年）。*/
@@ -436,9 +463,10 @@ const PG=(function(){
       if(jr){ const c=S.jCard(y,2); if(c&&GM.titleCard) await GM.titleCard(c[0],c[1],2600); }   /* (g)「一試。你比去年早到半小時。」*/
       toAtLeast(GM,d*24+8.5); if(GM.titleCard) await GM.titleCard(Lx.EXAM.card,S.dateLabel(G.day,G.hour),2200);   /* 字幕「考場」*/
       if(A) A.begin({background:BG('exam_hs_classroom')}); await GM.fade(false);
-      const qs=S.draw(G,y), r=await ask(GM,qs);
+      const qs=S.draw(G,y), r=await ask(GM,qs,{cue:true});   /* D118-B7：讀過的觀念卡出 cue */
       await GM.say(null,'交卷。');   /* 答對題數不在這裡說（9/7 放榜）*/
       S.rec(G).exam[y].ans=r.ans; F['BAR_SCORE_'+y]=r.k; F['BAR_SIT_'+y]=true; if(jr) F.JUDGE_TRIES=(F.JUDGE_TRIES|0)+1;
+      S.answerCards(G,qs,r.ans);   /* D118-B7：逐題回寫觀念卡（答對＝答對過、答錯＝miss；分數照 BAR_SCORE）*/
       await GM.fade(true); toAtLeast(GM,d*24+17.5); await GM.fade(false);
       if(y===2029) await S.play(GM,Lx.EXAM.out);   /* 走出考場（柏翰 2029 考過了，2030 不在）*/
       if(y===2029&&S.dating(G,'kexin')&&typeof PHONE!=='undefined') PHONE.at(G,d,17.5+2/60,Lx.EXAM.kexin.map(t=>P_('kexin',t)),'pg_kx_exam_'+y);
