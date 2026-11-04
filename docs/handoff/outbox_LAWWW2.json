@@ -5521,7 +5521,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "e030cc9af",
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "ACK",
    "task": "TEACH-PTBOYA-REF-1104",
    "files": [
     "assets/models/env/second_ai/campus_putong.glb",
@@ -5531,11 +5531,29 @@
     "tools/blender/env_second/campus_teach.py",
     "docs/art-rebuild/second_ai/wip/teach_ptboya_1104/"
    ],
-   "state": "已交付",
-   "remaining": "CC 在遊戲拍同角度（總表 107～109 列）＋跑 campus_glb_integration.py（瀏覽器，D131）；BB 判（D120）；teach_east draw call 另外做（TEACH-EAST-DRAWCALL）",
+   "state": "已整合",
+   "remaining": "LAWWW-C 16:2x 接進開發分支 71281be8e（nav_buildings ALL PASS）；BB-C 16:3x 方向 PASS、雨遮天窗洞太像（D136）→ v2b 9be98513b；CC 遊戲內同角度＋campus_glb_integration；BB 判 ART",
    "next": "LAWWW-C 換 campus_putong／campus_boya 的 GLB＋json（不用改程式：新的 PLATE_FACE_BOYA_GARDEN 照 userData 畫字）；跑 nav_buildings_unit；排 CC 跑 campus_glb_integration、拍同角度",
    "noDirectIntegrate": false,
    "note": "使用者 15:1x「普通 博雅 教學館跟真正的太不像」。普通：盲拱、拱門門廊、綠色玻璃樓梯塔、階梯山牆；博雅：南面紅磚、清水混凝土大雨遮＋長條天窗洞、北面草坡＋木格柵樓梯（關著）。保留／改掉寫在 README"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9be98513b",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "TEACH-PTBOYA-REF-1104",
+   "files": [
+    "assets/models/env/second_ai/campus_boya.glb",
+    "assets/models/env/second_ai/campus_boya.json",
+    "tools/blender/env_second/campus_teach.py",
+    "docs/art-rebuild/second_ai/wip/teach_ptboya_1104/"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 接；CC 遊戲內同角度、--mode campus；BB 判 ART",
+   "next": "只換 campus_boya.glb／.json",
+   "noDirectIntegrate": false,
+   "note": "v2b：博雅雨遮的天窗洞（v2 長條橢圓）改成一排五個小方形天窗（BB-C 16:3x，D136）；三角形 5,738 → 5,626"
   }
  ]
 }
