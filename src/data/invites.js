@@ -512,3 +512,9 @@ INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:
    每天 13:00～01:00（約的時間照一般 23:30 前結束）、颱風天關（places.js）；自己走去過一次才列（show）。見面兩個人一起坐下；台詞：AA_618 沒有寫約來的句子＝邀約一般的答應、見面旁白 */
 INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb:'去日常失速吃東西',kind:'meal',minStage:'FAMILIAR',stay:1,memory:'SHARED_MEAL',sitAct:'eat',seatPose:'sit',cats:['meal','sit'],
   hours:[13,24],show:G=>!!G&&!!G.visited&&!!G.visited.wz_offbeat});
+/* AA_648 第 3 節（企劃線 1ebf7a590，一字照稿）：約去日常失速答應的那一句——十三人各一句（people[人].acc.offbeat）；沒列的人＝一般那句（OFFB.ACC0）；不答應照一般回覆表 */
+(function(){ const ACC={heroine_01:'「好。我想吃明太子厚片。」',heroine_02:'「好。……坐窗邊好不好？」',heroine_03:'「好。我晚一點到。」',heroine_04:'「日常失速？好，我要摸店長。」',heroine_05:'「好。我很久沒吃肉桂捲了。」',
+    classmate_peishan:'「好！我上次外帶的那個很好吃。」',kexin:'「好啊。等我到台北。」',zhe:'「走！我要吃兩份厚片。」',classmate_bohan:'「好。……吃完我要回去讀書。」',classmate_mingxuan:'「好。我帶一款新的桌遊。」',
+    yu:'「Yes！日常失速！」',classmate_xinci:'「好。我報告寫完就去。」'};
+  INVITE_DATA.offbeatAcc=ACC;
+  for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
