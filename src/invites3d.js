@@ -18,7 +18,8 @@ const INV=(function(){
   S.hhmm=hh;
   const LS=()=>D().libStudy||{};   /* 約念書的台詞（AA_649；src/data/invites.js 的 INVITE_DATA.libStudy）*/
   const pick=a=>Array.isArray(a)&&a.length?a[Math.floor(Math.random()*a.length)]:null;
-  let lastMeetEnd=-1e12; S._now=()=>Date.now();   /* 上一次見面演完的時間（真實時間）：剛演完不自己打開手機（S.phoneBack）*/
+  let lastMeetEnd=null; S._now=()=>Date.now();   /* 上一次見面演完的時間（真實時間）：剛演完不自己打開手機（S.phoneBack）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['invites3d:lastMeetEnd']=()=>{ lastMeetEnd=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀了別的檔＝不算剛演完 */
   S.place=pid=>D().places.find(p=>p.id===pid)||null;
   S.rec=function(G){ if(!Array.isArray(G.invites)) G.invites=[]; if(!Array.isArray(G.msgs)) G.msgs=[]; if(!G.contacts||typeof G.contacts!=='object') G.contacts={}; return G; };
   const nameOf=id=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
@@ -621,7 +622,7 @@ const INV=(function(){
     if(depth!=null&&GM.sceneDepth&&GM.sceneEnd){ let k=0; while(GM.sceneDepth()>depth&&k++<64) GM.sceneEnd(); }
     if(GM.fade) Promise.resolve().then(()=>GM.fade(false)).catch(()=>{}); };
   /* 手機的回呼要不要再打開手機（game3d.js：手機約人、改天之後）：剛演完見面（30 秒內）、她正在帶路、一起走過去的途中＝不打開（手機打開遊戲會停，玩家以為卡住）*/
-  S.phoneBack=function(G){ if(S._now()-lastMeetEnd<30000) return false; if(!G||!Array.isArray(G.invites)) return true; return !G.invites.some(iv=>iv.day===G.day&&(iv.state==='going'||S.leadOn(G,iv))); };
+  S.phoneBack=function(G){ if(lastMeetEnd!=null&&S._now()-lastMeetEnd<30000) return false; if(!G||!Array.isArray(G.invites)) return true; return !G.invites.some(iv=>iv.day===G.day&&(iv.state==='going'||S.leadOn(G,iv))); };
   /* ---------- 對方約你、臨時改約（給事件用；內容由 AA、BB 寫，使用者批准後才放）---------- */
   S.offer=function(G,who,pid,day,h,text,at){ S.rec(G); const P=S.place(pid); if(!P) return null; if(S.cool(G,who)) return null; if(typeof V6EX!=='undefined'&&V6EX.noContact&&V6EX.noContact(G,who)) return null;   /* AA_600 S3：以安、學姊是前任＝她那一方不約 */   /* 分開以後一個學期，她那一方的邀約不發（AA_434 4-3）*/ G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:'offered',accepted:false,by:'npc',label:nameOf(who)+'約你去'+P.name}; G.invites.push(iv);
