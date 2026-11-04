@@ -2,7 +2,7 @@
 //   1 麵店日（S.noodleDay）：每個上課週兩天、至少一天週二或週四；考試週、國定假日、寒暑假沒有；同一天問兩次一樣（學期＋週次當種子）
 //   2 群組名「法一吃飯」：建立的系統字、阿哲兩則「吃飯用」「誰要吃什麼就喊」；大二～大四上課第一天 12:00 改名（法二、法三、法四），系統一行
 //   3 舊存檔：群組叫「麵店團」＝換成當學年的名字、過了的改名不補發；舊的兩則規矩顯示新句子
-//   4 長桌閒聊一週最多一則；5 玩家看得到的字（遊戲資料）沒有「麵店團」
+//   4 長桌閒聊不在燒臘店演（AA_675 1-2 搬到桌遊夜；原本一週最多一則）；5 玩家看得到的字（遊戲資料）沒有「麵店團」
 // 修改前：298d5fd37（第一、二段）第 1 項 FAIL（每週都是週二、週四）、ndlPair 沒有就中斷；AA_542 以前（b98cfd02b）2、3、5 也不成立（群組叫麵店團）。用法：node tests/ndl_group_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -38,7 +38,7 @@ const gmsg=G=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>[m.from||'',
 { let k=null; for(let d=D('2025-10-06');d<D('2025-11-30')&&!k;d++){ const t=CALENDAR.termOf(d); if(!t||t.exam) continue; const L=[]; for(let e=d;e<d+7;e++){ const u=CALENDAR.termOf(e); if(u&&u.week===t.week&&STORY.noodleDay(e)) L.push(e); } if(L.length===2) k=L; }
   const F0=f=>{ H.fresh(CALENDAR.dateOf(k[0]).key,18,'noodle',{afternoonDone:true}); PHONE.join(H.G,'noodle_team','法一吃飯'); for(const id of ['zhe','yu','classmate_bohan','classmate_xinci','heroine_03']) SOCIAL.remember(id,'FIRST_MET',''); };
   F0(); const d1=STORY.ndlTalkDue(H.G); H.G.flags.ndlTalkDay=k[0]; const t=CALENDAR.termOf(k[0]); H.G.flags.ndlTalkWk=t.id+':'+t.week; H.at(CALENDAR.dateOf(k[1]).key,18); H.G.zone='noodle'; const d2=STORY.ndlTalkDue(H.G);
-  check('4. 同一週第一個麵店日可以演；演過以後同一週第二個麵店日不演（一週最多一則）',d1===true&&d2===false,J({days:k&&k.map(d=>CALENDAR.dateOf(d).key),d1,d2})); }
+  check('4. 燒臘店的麵店日一則都不演（AA_675 1-2：長桌閒聊搬到隔週五的桌遊夜，一晚一則；tests/noodle_table_1027_unit.js）',d1===false&&d2===false&&STORY.NDL_TALK_BGN===true,J({days:k&&k.map(d=>CALENDAR.dateOf(d).key),d1,d2})); }
 // 5 遊戲資料裡玩家看得到的字沒有「麵店團」（註解不算）
 { const hits=[]; for(const dir of ['src','src/data']) for(const f of fs.readdirSync(path.join(H.ROOT,dir))){ if(!/\.js$/.test(f)) continue; const src=fs.readFileSync(path.join(H.ROOT,dir,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/(^|[^:'"\\])\/\/[^\n]*/g,'$1').replace(/["']?(note|doc|src)["']?\s*:\s*("([^"\\\n]|\\.)*"|'([^'\\\n]|\\.)*')/g,'');   /* note／doc／src＝開發說明，玩家看不到 */ const re=/'([^'\\\n]|\\.)*'|"([^"\\\n]|\\.)*"|`([^`\\]|\\.)*`/g; let m; while((m=re.exec(src))){ if(m[0].indexOf('麵店團')>=0&&!/^'(「)?麵店團(」)?'$/.test(m[0])&&!(f==='v6ex3d.js'&&/^'A3 以安：/.test(m[0]))) hits.push(dir+'/'+f+': '+m[0].slice(0,40));   /* 除外：舊存檔改名比對用的「麵店團」、v6ex3d.js 的 S.NOT_DONE（給 LAWWW／AA 看的沒做清單）*/ } }
   check('5. src 的字串（不含註解、note 開發說明）沒有「麵店團」（舊存檔改名比對用的、S.NOT_DONE 除外）',!hits.length,hits.slice(0,6).join('｜')); }

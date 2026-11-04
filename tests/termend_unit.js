@@ -71,7 +71,7 @@ GM.money=function(n){ G.money+=n; };
   // 5. 飯 → 回家的路上：說出來＝交往
   { said=[]; picks=[0]; const q=OUT.get(G,'te_Y1S1'); await TERMEND.dinner(GM,q); const L=lines();
     check('5. 一對一的開場（簡餐，AA_250 10-1）、話題池兩句、飯桌一句、收尾',L.includes('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&L.some(t=>t.includes('民總最後一題，我寫到時間到。'))&&L.some(t=>t.includes('我這學期很少出來吃飯。……今天是特地訂的。'))&&L.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'),JSON.stringify(L));
-    check('5. 語彤：三選一照 AA_187 9-2、麵店打烊後的開場',TERMEND_LINES.HEART.heroine_03.optsFrom==='confess'&&TERMEND_LINES.HEART.heroine_03.place==='noodle_closed'&&TERMEND_LINES.PLACE.noodle_closed.open==='（鐵門拉下一半。店裡只開了長桌上那一盞燈。）');
+    check('5. 語彤：三選一照 AA_187 9-2；AA_675 2-1：期末考考完以後的第一個週六 17:30、一盞茶屋（tea_closed，茶屋的背景；原本週四 21:00 燒臘店打烊後）',TERMEND_LINES.HEART.heroine_03.optsFrom==='confess'&&TERMEND_LINES.HEART.heroine_03.place==='tea_closed'&&TERMEND_LINES.HEART.heroine_03.placeName==='一盞茶屋'&&TERMEND_LINES.HEART.heroine_03.wd===6&&TERMEND_LINES.HEART.heroine_03.h===17.5&&TERMEND_LINES.PLACE.tea_closed.bg==='wenzhou_teahouse');
     check('5. 回家的路上（AA_587 第 58、59 列）：「（走出店門，她沒有往宿舍那邊走。）」「走一下。我有東西給你看。」；選項＝以安的三句＋（先不說）',L.some(t=>t.includes('走一下。我有東西給你看。'))&&opts[opts.length-1].length===4&&opts[opts.length-1][3]==='（先不說）',JSON.stringify(opts[opts.length-1]));
     check('5. 說出來＝她答應（confess_lines；旁白是旁白）＋交往（dating_heroine_01）',L.some(t=>t.includes('好。我們在一起。'))&&L.includes('（她翻開手帳，翻到後面某一頁，又闔起來。）')&&G.flags.dating_heroine_01===true,JSON.stringify(L.slice(-4))); }
   // 6. 先不說＝她說 → 讓我想想 → 下學期第二次
@@ -267,8 +267,10 @@ GM.money=function(n){ G.money+=n; };
     // 玩家自己約、選的店
     w=setup('Y1S2','heroine_01'); TERMEND.plan(G,w); said=[]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'heart',term:'Y1S2',place:'brunch',placeName:'半熟'}}); L=lines();
     check('13. 玩家約以安去半熟（不是她那一家）：開場照半熟、不說飯桌一句、照樣走一段路（AA_587 第 59 列）',L[0]==='（半熟。）'&&!L.some(x=>x.includes('今天是特地訂的'))&&L.some(x=>x.includes('走一下。我有東西給你看。')),JSON.stringify(L.slice(0,4)));
-    w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'阿鳳麵店'}}); L=lines();
-    check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句（AA_661 第 74 列「你的茶我換成熱的了。……你剛剛一直在搓手。」，原本「這碗沒放蔥……」）',L.some(x=>x.includes('你的茶我換成熱的了。……你剛剛一直在搓手。'))&&!L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
+    w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'teahouse',placeName:'一盞'}}); L=lines();
+    check('13. 玩家約語彤去一盞（剛好是她那一家，AA_675 2-1：她的飯在一盞茶屋）：說飯桌一句（AA_661 第 74 列「你的茶我換成熱的了。……你剛剛一直在搓手。」，原本「這碗沒放蔥……」）',L.some(x=>x.includes('你的茶我換成熱的了。……你剛剛一直在搓手。'))&&!L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
+    w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'公館燒臘'}}); L=lines();
+    check('13. 玩家約語彤去燒臘店（不是她那一家了）：開場照燒臘店、不說飯桌一句',!L.some(x=>x.includes('你的茶我換成熱的了。'))&&/靠牆的兩人桌/.test(L[0]||''),JSON.stringify(L.slice(0,3)));
     TERMEND.hookFor=hf; }
   // 14. AA_250 全檔口語審（01029de1、BB_212 6f6e9c7e）的條件
   { const P=TERMEND_LINES.POOL, res=(x,G)=>typeof x==='function'?x(G):x;

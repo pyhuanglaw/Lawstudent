@@ -18,14 +18,14 @@ if(typeof STORY.ndlHere!=='function') H.done();
 // 作息
 { const bad=[]; for(const id of ['yu','classmate_bohan','classmate_xinci']){ const L=(CHARACTERS[id].daily_schedule||[]).filter(e=>e.zone==='noodle'&&e.ndlDay===true&&e.noExam===true&&e.from===17.5&&e.to===20.5&&Array.isArray(e.terms)&&e.terms.length===8); if(L.length!==1) bad.push(id); }
   const zl=(CHARACTERS.zhe.daily_schedule||[]).filter(e=>e.zone==='noodle'&&e.ndlDay===true);
-  check('1. AA_623 第 3 節：Alison、柏翰、芯慈的麵店日長桌作息拿掉了（桌遊團改到日常失速；阿哲自己的麵店日吃飯照留）',bad.length===3&&!['yu','classmate_bohan','classmate_xinci'].some(id=>(CHARACTERS[id].daily_schedule||[]).some(e=>e.zone==='noodle'&&e.ndlDay))&&zl.length===1,J(bad)); }
+  check('1. AA_623 第 3 節：Alison、柏翰、芯慈的麵店日長桌作息拿掉了（桌遊團改到日常失速）；AA_675 1-2：阿哲的麵店日也拿掉（改隔週五的桌遊夜）',bad.length===3&&!['yu','classmate_bohan','classmate_xinci'].some(id=>(CHARACTERS[id].daily_schedule||[]).some(e=>e.zone==='noodle'&&e.ndlDay))&&zl.length===0,J(bad)); }
 { const G=at('2025-09-16',18); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
-  check('1. 9/16（二）18:00 照遊戲的作息：阿哲在店裡，Alison、柏翰、芯慈不在（AA_623）',J(here)===J([['zhe',true],['yu',false],['classmate_bohan',false],['classmate_xinci',false]]),J(here)); }
-/* 下面測的是「說話的人要真的在店裡」的判斷（NDL-PRESENT-1030 的機制）：測試自己把三位放回麵店日的長桌（STORY.SCHED_X，只在這支測試）*/
-STORY.SCHED_X.push((c,G)=>{ if(!c||!['yu','classmate_bohan','classmate_xinci'].includes(c.id)||!G||G.day==null) return null; const T=CALENDAR.termOf(G.day), hr=G.hour%24; if(!T||T.exam||!STORY.noodleDay(G.day)||hr<17.5||hr>=20.5) return null; return {days:[1,2,3,4,5],from:17.5,to:20.5,zone:'noodle',act:'eat',noExam:true,note:'test：NDL-PRESENT 放回去'}; });
+  check('1. 9/16（二）18:00 照遊戲的作息：四位都不在店裡（AA_623；AA_675 1-2 阿哲的麵店日拿掉）',J(here)===J([['zhe',false],['yu',false],['classmate_bohan',false],['classmate_xinci',false]]),J(here)); }
+/* 下面測的是「說話的人要真的在店裡」的判斷（NDL-PRESENT-1030 的機制，STORY.ndlHere／ndlHereAll 照留）：測試自己把四位放回麵店日的長桌（STORY.SCHED_X，只在這支測試；AA_675 1-2 起阿哲也要放回去）*/
+STORY.SCHED_X.push((c,G)=>{ if(!c||!['zhe','yu','classmate_bohan','classmate_xinci'].includes(c.id)||!G||G.day==null) return null; const T=CALENDAR.termOf(G.day), hr=G.hour%24; if(!T||T.exam||!STORY.noodleDay(G.day)||hr<17.5||hr>=20.5) return null; return {days:[1,2,3,4,5],from:17.5,to:20.5,zone:'noodle',act:'eat',noExam:true,note:'test：NDL-PRESENT 放回去'}; });
 // 1.
 { const G=at('2025-09-16',18); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
-  check('1. （放回去以後）9/16（二）18:00：麵店團四位都在店裡',here.every(x=>x[1]),J(here)); check('1. 閒聊照演',STORY.ndlTalkDue(G)); }
+  check('1. （放回去以後）9/16（二）18:00：麵店團四位都在店裡',here.every(x=>x[1]),J(here)); check('1. 挑得到一則（STORY.ndlTalkPick），但燒臘店不演（AA_675 1-2：長桌閒聊搬到桌遊夜，ndlTalkDue＝false）',!!STORY.ndlTalkPick(G)&&!STORY.ndlTalkDue(G)&&STORY.NDL_TALK_BGN===true); }
 // 2.
 { const G=at('2025-09-16',20.75); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
   check('2. 20:45：四位都走了（20:30）、閒聊不演',here.every(x=>!x[1])&&!STORY.ndlTalkDue(G),J(here)); }

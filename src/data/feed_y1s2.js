@@ -6,7 +6,7 @@
    ■ 第 0 節先修的：可昕 kx2_late、kx2_azalea（手機小事第 4 週才開始、永遠不出）改成動態第 1、2 則（kx1b、kx2b，原句照用），story3d.js 的手機小事那兩則拿掉。
    ■ 沛珊第 3 則（4/9）只給沒有和沛珊交往的玩家（if:'psBohan'＝沛珊和柏翰那一段在：STORY.partnerOn）。
    ■ 選項的記號（稿上沒寫名字，這裡取）：YT_AUNT_DM（語彤訪問阿姨）、YT_PASS_DM（語彤雙主修放榜）、SIS_CAP_DM（學姊畢業典禮的帽子）、KX_MEI_DM（可昕被叫妹妹）。
-   ■ 語彤 7/3 那則傳了以後，第一次在麵店點餐，阿姨一句「語彤上了！今天你的麵我請。」，那一碗不用錢（FEED.ytTreat，story3d.js 的 noodleScene）。 */
+   ■ 語彤 7/3 那則傳了以後，第一次在一盞點東西，蘇姨一句「語彤上了！今天你的茶我請。」，那一杯不用錢（FEED.ytTreat，src/wzshops3d.js 的 buy；AA_679 第 3 列）。 */
 const FEED_Y1S2={
   term:'Y1S2', src:'AA_504 @ 62849944b',
   posts:[
@@ -75,9 +75,9 @@ const FEED_Y1S2={
     /* 3-2 語彤：訪問阿姨的作業交了（第 6 週週四 20:45，朋友）*/
     {id:'yt_aunt',who:'heroine_03',t:'W6四 20:45',st:'朋友',lines:['作業交了。','我訪問蘇姨。她講了二十分鐘。','開茶屋之前的事。……後面的她說沒有故事。'],
       ask:{flag:'YT_AUNT_DM',opts:[{t:'妳寫了什麼？',k:'wrote',r:['寫她第一年一個客人都沒有。……其他的我沒寫。那是她的。']},{t:'蘇姨講了什麼？',k:'what',r:['……那是她的。']},{t:'（不回）',k:'none',post:false}]}},
-    /* 3-2 語彤：雙主修放榜（7/3 20:40，朋友）。「我去吃。」不排約（玩家自己去）；之後第一次在麵店點餐，阿姨請（FEED.ytTreat）*/
+    /* 3-2 語彤：雙主修放榜（7/3 20:40，朋友）。「我去喝。」（AA_679 第 4 列：請的是茶，原本「我去吃。」）不排約（玩家自己去）；之後第一次在一盞點東西，蘇姨請（FEED.ytTreat，AA_679 第 3 列）*/
     {id:'yt_pass',who:'heroine_03',t:'2026-07-03 20:40',st:'朋友',lines:['上了。','雙主修。','蘇姨說要請你喝茶。'],
-      ask:{flag:'YT_PASS_DM',opts:[{t:'恭喜！',k:'congrats',r:['嗯。']},{t:'我去吃。',k:'eat',r:['好。週末都在。']},{t:'（不回）',k:'none',post:false}]}},
+      ask:{flag:'YT_PASS_DM',opts:[{t:'恭喜！',k:'congrats',r:['嗯。']},{t:'我去喝。',k:'eat',r:['好。週末都在。']},{t:'（不回）',k:'none',post:false}]}},
     /* 5-2 學姊：畢業典禮（6/6）的隔天 21:30（很熟；這學期唯一一則）*/
     {id:'sis_cap',who:'heroine_05',t:'2026-06-07 21:30',st:'很熟',lines:['畢業典禮的帽子，丟上去以後沒有接到。','找不到了。'],
       ask:{flag:'SIS_CAP_DM',opts:[{t:'我幫妳找。',k:'find',r:['不用。……反正也不會再戴。']},{t:'被誰撿走了吧。',k:'picked',r:['那他賺到了。']},{t:'（不回）',k:'none',post:false}]}},
@@ -85,6 +85,6 @@ const FEED_Y1S2={
     {id:'kx_mei',who:'kexin',t:'2026-07-09 22:40',st:'朋友',lines:['今天有一個客人一直叫我妹妹。','我忍住了。','……操。'],
       ask:{flag:'KX_MEI_DM',opts:[{t:'妳很棒。',k:'great',r:['我知道。……可是他還是很煩。']},{t:'下次叫他阿伯。',k:'abo',r:['（貼圖：長頸鹿）','好主意。明天他再來我就叫。']},{t:'辛苦了。',k:'tired',r:['嗯。我要睡了。']}]}}
   ],
-  /* 語彤雙主修放榜以後，第一次在麵店點餐：阿姨一句、那一碗不用錢（FEED.ytTreat；story3d.js 的 noodleScene）*/
+  /* 語彤雙主修放榜以後，第一次在一盞點東西：蘇姨一句、那一杯不用錢（FEED.ytTreat；src/wzshops3d.js 的 buy。AA_679 第 3 列：原本接在燒臘店的 noodleScene）*/
   ytTreat:{after:'yt_pass',line:'語彤上了！今天你的茶我請。'}
 };

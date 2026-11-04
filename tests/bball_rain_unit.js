@@ -48,7 +48,7 @@ if(process.argv[2]==='--sched'){
   const off=[[THU,17.75,'週四'],[HOL,17.75,'國慶日（10/10）'],[W4,17.75,'第 4 週'],[Y1S2FRI,17.75,'大一下的週五'],[FRI,17.4,'17:24'],[FRI,19.05,'19:03']].map(([k,h,why])=>{ const b=ids.filter(id=>gymRow(at(id,k,h,'rain'))); return b.length?why+' '+b.join(','):null; }).filter(Boolean);
   check('7. 週四、國定假日、第 4 週、大一下、17:30 以前、19:00 以後下雨：阿哲、明軒不在體育館那一筆',!off.length,off.join('｜'));
   { const ND=(()=>{ for(let d=STORY.dayOfKey('2025-10-13');d<STORY.dayOfKey('2025-10-31');d++){ const w=CALENDAR.dateOf(d).wd; if(w!==5&&STORY.noodleDay(d)) return CALENDAR.dateOf(d).key; } return THU; })();   /* AA_542 第 5 節：麵店日每週不固定兩天 */
-    const e=at('zhe',ND,18,'rain'); check('7. 下雨的麵店日（不是週五：'+ND+'）阿哲照舊在麵店',!!e&&e.zone==='noodle',e&&e.zone); }
+    const e=at('zhe',ND,18,'rain'); check('7. 下雨、不是週五的那一天（'+ND+'）18:00：阿哲不在體育館那一筆；也不在燒臘店（AA_675 1-2：阿哲的麵店日拿掉）',!gymRow(e)&&!(e&&e.zone==='noodle'),e&&e.zone); }
   /* 參加 */
   (async()=>{
     const narrK=()=>((G.acts&&G.acts.narr)||{})['dept_basketball@Y1S1']|0;
