@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_shop_shots_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_sunny_shots\out
+PASS 遊戲載入
+== sunny 1400
+  [前置／捷徑] 讀檔：wz_brunch (0.4, 4.0)、1400、條件事件關閉
+  [1400] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "sns_bulb", "sns_wall_cream", "sns_floor_checker", "sns_glass", "sns_leaf_pothos", "sns_print", "sns_vc", "sns_vc_gloss", "sns_vc_metal", "sns_walnut", "sns_window_view", "sns_mirror", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF2_HairCard_HAIR", "NF3_HairCard_HAIR", "NF4_HairCard_HAIR", "NF5_HairCard_HAIR"]
+INFO [1400] 符合 ^(ss_|sunny|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [1400] ref_door_in：calls 121、tris 248051
+  [1400] menu_kitchen：calls 91、tris 190990
+  [1400] booth_left：calls 114、tris 241752
+  [1400] right_window：calls 71、tris 140288
+  [1400] tables：calls 115、tris 241754
+  [1400] counter：calls 54、tris 89966
+  [1400] kitchen：calls 46、tris 89434
+  [1400] 玩家視角鏡頭：{"mode": "follow", "cam": [-0.64, 2.75, -0.1], "player": [0.4, 0, 4], "dist": 4.43, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [1400] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [-0.64, 2.75, -0.1], "player": [0.4, 0, 4], "dist": 4.43, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+== sunny 2200
+  [前置／捷徑] 讀檔：wz_brunch (0.4, 4.0)、2200、條件事件關閉
+  [2200] 材質（前 60）：["M00_000_00_FaceBrow_00_FACE", "M00_000_00_FaceMouth_00_FACE", "M00_000_00_EyeIris_00_EYE", "M00_000_00_EyeHighlight_00_EYE", "M00_000_00_EyeWhite_00_EYE", "M00_000_00_FaceEyelash_00_FACE", "M00_000_00_FaceEyeline_00_FACE", "M00_000_00_EyeExtra_01_EYE", "F00_000_Hair_00_HAIR", "sns_bulb", "sns_wall_cream", "sns_floor_checker", "sns_glass", "sns_leaf_pothos", "sns_print", "sns_vc", "sns_vc_gloss", "sns_vc_metal", "sns_walnut", "sns_window_view", "sns_mirror", "wz_glow_batch", "F00_000_00_FaceMouth_00_FACE", "F00_000_00_EyeWhite_00_EYE", "F00_000_00_FaceEyeline_00_FACE", "F00_000_00_FaceEyelash_00_FACE", "F00_000_00_FaceBrow_00_FACE", "H01_Iris_EYE", "F00_000_00_EyeExtra_01_EYE", "npc_far", "NF3_HairCard_HAIR"]
+INFO [2200] 符合 ^(ss_|sunny|a2[0-9]_) 的材質 mesh 數 0（0＝材質名稱和我猜的不一樣，看上面的清單）
+  [2200] ref_door_in：calls 49、tris 48257
+  [2200] menu_kitchen：calls 57、tris 90494
+  [2200] booth_left：calls 42、tris 41932
+  [2200] right_window：calls 54、tris 89052
+  [2200] tables：calls 60、tris 90804
+  [2200] counter：calls 55、tris 88798
+  [2200] kitchen：calls 47、tris 88266
+  [2200] 玩家視角鏡頭：{"mode": "follow", "cam": [-0.66, 2.72, -0.15], "player": [0.4, 0, 4], "dist": 4.47, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS [2200] 玩家視角：鏡頭回到玩家後面、在房間裡（不是牆裡）  {"mode": "follow", "cam": [-0.66, 2.72, -0.15], "player": [0.4, 0, 4], "dist": 4.47, "pose": "idle", "seat": false, "hips": 0.98, "between": []}
+PASS 沒有 JS 例外  []
+ALL PASS

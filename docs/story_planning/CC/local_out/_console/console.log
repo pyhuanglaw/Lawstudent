@@ -851,3 +851,18 @@
 [15:47:38] ==== START WZ3_sunny_shots  (probe @ b53bfab72) ====
 [15:47:41] [res] cpu=26% mem=50% (15.8/31.4 GB) chrome_testing=18  START WZ3_sunny_shots
 [15:48:30] [res] cpu=25% mem=51% (16.2/31.4 GB) chrome_testing=18  END WZ3_komichi_shots
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       d87e02c73..0cb143ef8  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[15:48:37] ==== END   WZ3_komichi_shots  exit=0  93s   ====
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[15:48:41] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[15:48:41] memory 50% before starting WZ3_yizhan_shots (2 running)
+[15:48:41] ==== START WZ3_yizhan_shots  (probe @ b53bfab72) ====
+[15:48:44] [res] cpu=29% mem=50% (15.8/31.4 GB) chrome_testing=18  START WZ3_yizhan_shots
+[15:49:15] [res] cpu=34% mem=49% (15.3/31.4 GB) chrome_testing=19  END WZ3_sunny_shots
