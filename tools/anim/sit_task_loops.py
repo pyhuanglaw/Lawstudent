@@ -362,17 +362,104 @@ CUP_HAND = (0.072, 0.075, 0.0)                              # 杯子中心線（
 PHONE_HAND = (0.085, 0.034, 0.0)                            # 手機中心相對手腕（手心上面、手機厚 0.8 cm）
 PEN_HAND = (0.165, 0.045, -0.012)                           # 筆尖相對手腕（三指握筆）
 REF = {'desk_h': 0.75, 'edge': 0.30, 'seat_h': 0.45}         # 參考的桌子：總圖自習桌（library3d.js studyTable：桌深 1.0、座位離桌心 0.8 → 桌緣離座位 0.30）
+PAPER_Y = 0.0044                                            # 攤開的筆記本紙面離桌面（desk_props nb_top_y(0.08)＝4.1 mm＋0.3 mm）：寫字的筆尖碰到紙、不壓進去（LAWWW-C 11-04 21:42Z「壓進紙約 4～5 mm」）
+# 碗（SEATACT S_meal 的 item_bowl_noodle：桌緣往裡 0.16、左右置中；desk_props item_bowl 口徑 16 cm、高 7.5 cm、湯面 0.058）
+BOWL = {'z': 0.16, 'food': 0.062, 'wall_r': 0.0664, 'wall_y': 0.040}
+# 右手的筷子（hand_chopsticks，NPC-ANIM-LOOPS-1104 補件）：兩支 23 cm，夾在虎口、上面那支（拇指那邊）和下面那支尖端靠在一起；
+# 形狀寫在女生手（參考身材）的座標裡（f 手指、n 手心、b 拇指那邊；相對手腕、公尺）：虎口＝握筆的同一點，虎口後面露出 7.5 cm，往筷子尖的方向比握筆平一點（和手指差 28°）
+CHOP = {'L': 0.23, 'back': 0.075, 'ax': (0.88, 0.30, -0.37), 'web': (0.55, 0.05, 0.35), 'sep_web': 0.009, 'sep_tip': 0.0015, 'w0': 0.0035, 'w1': 0.002}
+C_ = np.diag([-1.0, 1.0, -1.0])                              # UAL 的方向 ↔ VRM 0.x（模型檔）：繞 y 轉半圈
+
+
+def chop_geom_h(HL):
+    """手的座標裡兩支筷子：([(尾端, 尖端)]×2, 兩個尖端的中點, 拇指方向)"""
+    a = np.array(CHOP['ax'], float); a /= np.linalg.norm(a)
+    web = np.array(CHOP['web'], float) * HL
+    bp = np.array([0.0, 0.0, 1.0]) - a * a[2]; bp /= np.linalg.norm(bp)
+    tip = web + a * (CHOP['L'] - CHOP['back']); sticks = []
+    for sg in (1.0, -1.0):                                   # 上面那支（拇指那邊）、下面那支
+        t_ = tip + sg * CHOP['sep_tip'] * bp; w_ = web + sg * CHOP['sep_web'] * bp
+        d = (t_ - w_) / np.linalg.norm(t_ - w_); sticks.append((t_ - d * CHOP['L'], t_))
+    return sticks, tip, bp
+
+
+_REF_F = []
+def ref_female():
+    if not _REF_F: _REF_F.append(VSkel(*BODIES['F']))
+    return _REF_F[0]
+
+
+def chop_bone():
+    """筷子在右手骨頭的座標（模型檔的方向、單位；GLB 的頂點照這個）：女生骨架靜止時（骨頭都沒有旋轉）換算。回傳 ([(尾, 尖)]×2, 尖端中點)"""
+    VF = ref_female(); wr, wp = VF.fk(VF.r); f, n, b = hand_axes(wp, VF, 'r'); B0 = basis(f, n)
+    sticks, tip, _ = chop_geom_h(VF.HL); cv = lambda x: C_ @ (B0 @ x) / VF.s
+    return [(cv(p0), cv(p1)) for p0, p1 in sticks], cv(tip)
+
+
+def hand_rest(V):
+    wr, wp = V.fk(V.r); f, n, b = hand_axes(wp, V, 'r'); return basis(f, n)
+
+
+def prop_on(V, off_F):
+    """女生的手座標裡的一點 off_F（配件照它做）掛在 V 的右手以後，在 V 的手座標裡是哪裡（女生＝原樣）"""
+    VF = ref_female(); xb = C_ @ (hand_rest(VF) @ np.asarray(off_F, float)) / VF.s     # 右手骨頭的座標（模型檔）
+    return tuple(float(x) for x in hand_rest(V).T @ (C_ @ xb * V.s))
+
+
+def chop_on(V):
+    """同一副筷子（同一個 GLB）掛在 V 的右手：遊戲照人物縮放（V.s），男生的手座標裡尖端在哪裡、筷子朝哪裡（女生＝照設計）"""
+    sb, tb = chop_bone(); wr, wp = V.fk(V.r); f, n, b = hand_axes(wp, V, 'r'); B0 = basis(f, n)
+    h = lambda xb: B0.T @ (C_ @ xb * V.s)
+    s0 = [(h(p0), h(p1)) for p0, p1 in sb]; ax = sum((p1 - p0) for p0, p1 in s0); ax = ax / np.linalg.norm(ax)
+    return h(tb), ax
+
+
+def chop_hand(d, u_h, up=(0.2, 1.0, -0.1)):
+    """筷子（手的座標裡朝 u_h）要朝世界的 d、拇指那邊盡量朝 up：回傳手的 f、n"""
+    u_h = np.asarray(u_h, float); u_h = u_h / np.linalg.norm(u_h)
+    c2 = np.array([0.0, 0.0, 1.0]) - u_h * u_h[2]; c2 /= np.linalg.norm(c2); Ch = np.column_stack([u_h, c2, np.cross(u_h, c2)])
+    d = np.asarray(d, float); d = d / np.linalg.norm(d); up = np.asarray(up, float); w2 = up - d * np.dot(up, d); w2 /= np.linalg.norm(w2)
+    Bm = np.column_stack([d, w2, np.cross(d, w2)]) @ Ch.T
+    return Bm[:, 0], Bm[:, 1]
+
+
+def _dir(yaw, pitch, fwd):
+    """方向：yaw 度從 fwd（+1＝往前 +z、−1＝往後 −z）往左（+x）轉、pitch 度往上"""
+    y, p = math.radians(yaw), math.radians(pitch); return (math.sin(y) * math.cos(p), math.sin(p), fwd * math.cos(y) * math.cos(p))
+
+
+def _up(d, roll):
+    """拇指那邊：和 d 垂直、最朝上的方向再繞 d 轉 roll 度"""
+    d = np.asarray(d, float); pp = np.array([0.0, 1.0, 0.0]) - d * d[1]; pp /= np.linalg.norm(pp); return tuple(rot_about(d, math.radians(roll), pp))
+
+
+# 吃飯的筷子方向、拇指、手肘（照兩種身材在遊戲的骨架上找的：筷子朝的方向和要的一樣、手腕彎在範圍裡、手和手指不碰到碗和桌面；tools/anim 的搜尋見 README）
+#   碗裡：筷子往左前下插進碗（女生的桌子在胸口：筷子平一點 20°、手肘低；男生 38°）；嘴邊：筷子從右前方往左、往上一點送進嘴（往左 70°、往上 23°），手肘往外
+EAT = {'F': {'db': _dir(40, -20, 1), 'rb': -40, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)},
+       'M': {'db': _dir(40, -38, 1), 'rb': -60, 'pb': (-0.9, -0.4, 0.2), 'dm': _dir(70, 23, -1), 'rm': 0, 'pm': (-0.8, -0.6, 0.0)}}
+CHOP_DB, CHOP_DM = EAT['F']['db'], EAT['F']['dm']           # set_body 照那一種身材換
+CHOP_UPB, CHOP_UPM = _up(CHOP_DB, EAT['F']['rb']), _up(CHOP_DM, EAT['F']['rm'])   # 拇指那邊盡量朝哪裡（碗裡、嘴邊）
+CHOP_POLEB, CHOP_POLEM = EAT['F']['pb'], EAT['F']['pm']     # 手肘往哪裡（碗裡、嘴邊）
+CHOP_TIP, CHOP_AXH = (0.172, 0.05, -0.034), (0.88, 0.30, -0.37)   # set_body 照那一種身材換（chop_on）
+
+
 def set_body(V):
     """換成某一種身材（VSkel）：桌子在那個骨架座標裡的位置、手上各點照那雙手的長度"""
-    global DESK_Y, EDGE, MOUTH, EYES, PALM, CUP_HAND, PHONE_HAND, PEN_HAND
+    global DESK_Y, EDGE, MOUTH, EYES, PALM, CUP_HAND, PHONE_HAND, PEN_HAND, CHOP_TIP, CHOP_AXH, CHOP_DB, CHOP_DM, CHOP_UPB, CHOP_UPM, CHOP_POLEB, CHOP_POLEM
     HL = V.HL
     DESK_Y = REF['desk_h'] + 0.47 * V.H / 1.75                 # 遊戲坐下＝整個人往下 0.47×身高/1.75（character3d.js）：站著的座標裡桌子就高這麼多
     EDGE = REF['edge']
     MOUTH, EYES = V.mouth, V.eyes
     PALM = (0.6 * HL, 0.17 * HL, 0.0)
-    CUP_HAND = (0.6 * HL, 0.17 * HL + CUP_R + 0.003, 0.0)
-    PHONE_HAND = (0.68 * HL, 0.17 * HL + 0.004, 0.0)
-    PEN_HAND = (1.35 * HL, 0.37 * HL, -0.1 * HL)
+    # 手上配件的定位點：配件（hand_props.glb）照女生的手做、掛在右手骨頭上，遊戲照人物縮放——男生（縮放 0.907、手長 1.02 倍）手上的配件比照他的手算的近手腕約 9%。
+    # 所以每一種身材都用「那個配件真的掛上去以後」的位置擺手（女生＝設計值；prop_on）：杯子握的那一點、手機中心、筆尖、筷子尖（LAWWW-C 21:42Z 筆尖壓進紙也和這個有關）
+    HF = ref_female().HL
+    CUP_HAND = prop_on(V, (0.6 * HF, 0.17 * HF + CUP_R + 0.003, 0.0))
+    PHONE_HAND = prop_on(V, (0.68 * HF, 0.17 * HF + 0.004, 0.0))
+    PEN_HAND = prop_on(V, (1.35 * HF, 0.37 * HF, -0.1 * HF))
+    CHOP_TIP, CHOP_AXH = chop_on(V)
+    bk = next((k for k, (_, h) in BODIES.items() if abs(h - V.H) < 1e-6), 'F'); E = EAT[bk]
+    CHOP_DB, CHOP_DM, CHOP_POLEB, CHOP_POLEM = E['db'], E['dm'], E['pb'], E['pm']; CHOP_UPB, CHOP_UPM = _up(E['db'], E['rb']), _up(E['dm'], E['rm'])
 
 
 def task_pose(sk, rot, kind, t):
@@ -411,10 +498,10 @@ def task_pose(sk, rot, kind, t):
     elif kind == 'write':
         if t < 4.2:                                                  # 一行七個字（每個字 0.6 秒：幾筆小筆畫、筆畫之間抬筆）往右寫；最後 0.8 秒回到行頭
             c = t / 0.6; cu = c - int(c)
-            tip = np.array([-0.02 - 0.0135 * c - 0.004 * math.sin(2 * math.pi * cu * 3.0), D + 0.0035 * max(0.0, math.sin(2 * math.pi * cu * 3.0 + 1.2)) ** 2, EDGE + 0.15 + 0.004 * math.cos(2 * math.pi * cu * 2.0)])
+            tip = np.array([-0.02 - 0.0135 * c - 0.004 * math.sin(2 * math.pi * cu * 3.0), D + PAPER_Y + 0.0035 * max(0.0, math.sin(2 * math.pi * cu * 3.0 + 1.2)) ** 2, EDGE + 0.15 + 0.004 * math.cos(2 * math.pi * cu * 2.0)])   # 筆尖在紙面上（不是桌面）
         else:
             k = smooth((t - 4.2) / 0.8); x0 = -0.02 - 0.0135 * 7
-            tip = np.array([x0 + (-0.02 - x0) * k, D + 0.03 * math.sin(math.pi * k), EDGE + 0.154])
+            tip = np.array([x0 + (-0.02 - x0) * k, D + PAPER_Y + 0.03 * math.sin(math.pi * k), EDGE + 0.154])
         place_hand(sk, rot, 'r', tip, (0.42, -0.2, 1.0), (0.62, -0.78, 0.1), (-0.5, -1.0, -0.2), off=PEN_HAND)
         curl_fingers(sk, rot, 'r', {'index': 0.5, 'middle': 0.68, 'ring': 1.05, 'pinky': 1.15}, thumb=(0.65, 0.3))
         place_hand(sk, rot, 'l', (0.12, D + 0.007 + PALM[1], EDGE + 0.12), (-0.5, -0.08, 1.0), (-0.15, -1.0, 0.0), (0.45, -1.0, -0.3))   # 左手壓著筆記本的左頁
@@ -455,16 +542,19 @@ def task_pose(sk, rot, kind, t):
         place_hand(sk, rot, 'r', grip, f, n, lerp((-0.7, -0.8, -0.15), (-0.55, -1.0, 0.2), k_sip), off=CUP_HAND)
         curl_fingers(sk, rot, 'r', {'index': 0.62, 'middle': 0.68, 'ring': 0.74, 'pinky': 0.82}, thumb=(0.55, 0.25))
         rest_left()
-    elif kind == 'eat':
+    elif kind == 'eat':                                              # 照筷子尖擺手（同寫字照筆尖）：在碗裡夾麵 → 送到嘴邊，每 2.5 秒一口；左手扶著碗的左前側
         mouth = head_point(sk, rot, MOUTH)
-        Pb = np.array([-0.07, D + 0.085, EDGE + 0.12])               # 筷子在碗上面（碗在桌上、偏右）
-        Pm = mouth + np.array([-0.07, -0.055, 0.1])                  # 送到嘴前面（手在嘴的右前下方）
         e = smooth(k_eat)
-        P = lerp(Pb, Pm, e) + np.array([0.0, 0.02, 0.0]) * math.sin(math.pi * e) + np.array([0.004 * cyc(t, 4), 0.0, 0.003 * cyc(t, 6)]) * (1 - e)
-        f = lerp((0.5, -0.45, 0.9), (0.85, 0.15, 0.35), e); n = lerp((0.55, -0.78, -0.15), (0.35, -0.6, -0.7), e)
-        place_hand(sk, rot, 'r', P, f, n, lerp((-0.55, -0.9, -0.15), (-0.5, -1.0, 0.1), e))
+        Tb = np.array([0.004 * cyc(t, 4), D + BOWL['food'], EDGE + BOWL['z'] - 0.012 + 0.004 * cyc(t, 6)])   # 筷子尖在碗裡的麵上（碗心往人那邊 1.2 cm）
+        Tm = mouth + np.array([-0.004, -0.008, 0.012])               # 筷子尖到下唇前面
+        T_ = lerp(Tb, Tm, e) + np.array([0.0, 0.035, 0.0]) * math.sin(math.pi * e)   # 先往上夾起來、再往嘴邊
+        f, n = chop_hand(lerp(CHOP_DB, CHOP_DM, e), CHOP_AXH, lerp(CHOP_UPB, CHOP_UPM, e))
+        place_hand(sk, rot, 'r', T_, f, n, lerp(CHOP_POLEB, CHOP_POLEM, e), off=CHOP_TIP)
         curl_fingers(sk, rot, 'r', {'index': 0.35, 'middle': 0.55, 'ring': 0.95, 'pinky': 1.05}, thumb=(0.6, 0.3))
-        rest_left(z=EDGE + 0.1, x=0.15)
+        rd = np.array([0.6, 0.0, -0.8])                              # 碗心 → 左手：碗的左前側（往左、往人那邊；S_meal 的盤子在左後方 x 0.2、z 0.13，碰不到）
+        Pl = np.array([0.0, D + BOWL['wall_y'], EDGE + BOWL['z']]) + rd * (BOWL['wall_r'] + 0.003)
+        place_hand(sk, rot, 'l', Pl, (0.8, 0.3, 0.6), -rd, (0.45, -1.0, -0.3))   # 手心貼著碗壁、手指往左前繞著碗
+        curl_fingers(sk, rot, 'l', {'all': 0.3, 'index': 0.25}, thumb=(0.4, 0.25))
     return rot
 
 
@@ -579,12 +669,21 @@ if __name__ == '__main__':
     n = write_glb(A.out, J, sk, times, clips, A.tol)
     expect = {}
     J2, d2, bo2 = load_glb(A.src); sk2 = Skel(J2); tt = [0.0, 1.0, 2.35]; bs, _ = sample_clip(J2, d2, bo2, sk2, 'Sitting_Idle_Loop', tt)
+    chop = {}; hands0 = {}
     for bk in (A.bodies or BODIES):
         V = VSkel(*BODIES[bk]); set_body(V); drop = 0.47 * V.H / 1.75
-        for kind in ('type', 'drink', 'write'):
+        sv = lambda p: [round(float(p[0]), 4), round(float(p[1] - drop), 4), round(float(p[2]), 4)]   # 坐下以後的人物座標
+        for kind in ('type', 'drink', 'write', 'eat'):
             for k, t in enumerate(tt):
                 rv = vroid_pose(sk2, bs[k], V, kind, t); wv, pv = V.fk(rv)
-                expect['%s_%s_%.2f' % (bk, kind, t)] = {b: [round(float(pv[V.idx[b]][0]), 4), round(float(pv[V.idx[b]][1] - drop), 4), round(float(pv[V.idx[b]][2]), 4)] for b in ('hand_r', 'hand_l', 'middle_01_r', 'Head')}
+                expect['%s_%s_%.2f' % (bk, kind, t)] = {b: sv(pv[V.idx[b]]) for b in ('hand_r', 'hand_l', 'middle_01_r', 'Head')}
+                if kind == 'eat':                                   # 筷子尖（掛在右手的 hand_chopsticks）、嘴
+                    f, nn, b = hand_axes(pv, V, 'r'); tip = pv[V.idx['hand_r']] + basis(f, nn) @ np.array(CHOP_TIP); mo = head_point(V, rv, MOUTH)
+                    chop.setdefault(bk, {})['%.2f' % t] = {'tip': sv(tip), 'mouth': sv(mo), 'tip_mouth': round(float(np.linalg.norm(tip - mo)), 4),
+                                                           'bowl': [0.0, round(REF['desk_h'] + BOWL['food'], 4), round(REF['edge'] + BOWL['z'] - 0.012, 4)]}
+        for kind in [k for _, k, _ in CLIPS]:                        # 每一種片段 0 秒的兩手手腕（遊戲 character3d.js C.SIT_TASK.HANDS 用）
+            rv = vroid_pose(sk2, bs[0], V, kind, 0.0); wv, pv = V.fk(rv)
+            hands0.setdefault(bk, {})[kind] = {'l': sv(pv[V.idx['hand_l']]), 'r': sv(pv[V.idx['hand_r']])}
     sip = {}
     for bk in (A.bodies or BODIES):
         V = VSkel(*BODIES[bk]); set_body(V); rv = vroid_pose(sk2, bs[2], V, 'drink', 2.35); wv, pv = V.fk(rv)
@@ -592,7 +691,9 @@ if __name__ == '__main__':
         mo = head_point(V, rv, MOUTH); tw = mo - rim; tw = tw - b * np.dot(tw, b); near = rim + tw / np.linalg.norm(tw) * CUP_R   # 杯緣靠嘴那一點
         sip[bk] = {'rim_center': round(float(np.linalg.norm(rim - mo)), 4), 'rim_near': round(float(np.linalg.norm(near - mo)), 4)}
     info = {'out': A.out, 'bytes': n, 'fps': FPS, 'loop': LOOP, 'ref': REF, 'bodies': {k: {'vrm': v[0], 'height': v[1]} for k, v in BODIES.items()},
-            'expect': {'note': '坐下以後的人物座標（x 左手邊、y 上、z 前；原點＝座位的地面）：手腕 hand、中指根 middle_01、頭；sip＝喝的那一下（2.35 秒）杯口中心離嘴幾公尺；tests/sit_task_loops_unit.js 用', 'pos': expect, 'sip': sip},
+            'expect': {'note': '坐下以後的人物座標（x 左手邊、y 上、z 前；原點＝座位的地面）：手腕 hand、中指根 middle_01、頭；sip＝喝的那一下（2.35 秒）杯口中心離嘴幾公尺；'
+                               'chop＝吃飯 0／1／2.35 秒筷子尖（hand_chopsticks 掛在右手）、嘴、碗裡夾麵的那一點；hands0＝每一種片段 0 秒的兩手手腕（character3d.js C.SIT_TASK.HANDS）；tests/sit_task_loops_unit.js 用',
+                       'pos': expect, 'sip': sip, 'chop': chop, 'hands0': hands0},
             'clips': [{'name': nm, 'kind': k, 'body': bk, 'desc': ds} for nm, k, ds, _, bk in clips]}
     if A.json: json.dump(info, open(A.json, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(json.dumps(info, ensure_ascii=False))

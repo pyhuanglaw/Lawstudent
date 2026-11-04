@@ -1,0 +1,84 @@
+diff --git a/src/character3d.js b/src/character3d.js
+index c39baf9ce..ba1efd3cf 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -655,7 +655,7 @@ const CHAR = (function(){
+        手和桌面的高低合不上（往上下坐一點補完還差太多：下面 liftMax、TOLV；矮桌、太高的桌子、手比參考高或低很多的人；吧台的高腳椅 SEATACT 另外擋）＝不用；
+        桌緣比該在的地方遠＝整個人往前坐（最多 12 cm、手太前面的往後 3 cm；跟著片段的權重慢慢挪過去：u.model；骨盆、腿的姿勢不變）；挪完還是太遠、或比 WIN 近＝不用
+        （太遠：手按在桌子外面；太近：女生的前臂穿進桌子、指尖伸過筆電的鉸鏈——量過的範圍在 WIN，女生、男生各一組）。
+-     手上的配件 assets/models/char/second_ai/hand_props.glb（ASSETS 'prop.hand_props'，lazy）：hand_pen（寫字）、hand_phone（滑手機）、hand_cup（喝飲料），已經擺在右手骨頭（J_Bip_R_Hand）的座標裡：
++     手上的配件 assets/models/char/second_ai/hand_props.glb（ASSETS 'prop.hand_props'，lazy）：hand_pen（寫字）、hand_phone（滑手機）、hand_cup（喝飲料）、hand_chopsticks（吃飯，LAWWW2-C 補件：片段照筷子尖擺手），已經擺在右手骨頭（J_Bip_R_Hand）的座標裡：
+        複製節點掛到右手的真實骨頭、位置 0、不轉（網格、材質和快取共用）；一次只開一個；換掉、起身、拿掉就藏；C.release 拿下來（VRM 的第一個實例會被下一個人重用）。配件還沒好＝要拿東西的那幾種先不用（照舊）。
+      眼睛：用筆電、寫筆記、看書＝看桌上那一組（SEATACT 的 sitFocus）；滑手機＝看手上的手機；吃飯＝看碗（LOOK）。
+      換過去、換回來：片段的權重 0.5 秒（blend）慢慢換（手從大腿上慢慢放到桌上；往前、往後、往上下坐也跟著慢慢挪）。滑手機從拿著手機（pose read，readIK）換過來那一格手會跳（量過 18 cm）：只有片段晚到才會這樣——
+@@ -665,7 +665,7 @@ const CHAR = (function(){
+   C.sitTask=!(typeof location!=='undefined'&&/[?&]nositask\b/.test(location.search||''));
+   C.SIT_TASK_KEY='char.ual_sit_tasks'; C.HAND_PROP_KEY='prop.hand_props';
+   C.SIT_TASK={ CLIP:{type:'Type',typepad:'TypePad',write:'Write',phone:'Phone',page:'Page',drink:'Drink',eat:'Eat'},
+-    PROP:{write:'hand_pen',phone:'hand_phone',drink:'hand_cup'},
++    PROP:{write:'hand_pen',phone:'hand_phone',drink:'hand_cup',eat:'hand_chopsticks'},
+     REF:{desk:0.75,edge:0.30}, H:{F:1.62,M:1.74}, shiftMax:0.12, blend:0.5,
+     /* 挪完以後桌緣（參考身材的座標）可以在哪裡，女生／男生各一組（在遊戲裡量過，tests/sit_task_wire_unit.js 會再量一次）：
+        近：前臂伸到桌面上的那一段離桌面不到 1.5 cm 就算穿進桌子——女生（肩膀只比桌面高 11 cm）在參考的桌子就已經貼著桌緣（LAWWW2 README 的已知不足），桌子再近就穿進去：女生最近 0.29；
+@@ -673,7 +673,7 @@ const CHAR = (function(){
+        遠：放在桌上的手（打字兩手、寫字兩手、滑手機、翻書、吃飯、喝飲料的左手）手腕往前 3 cm（手掌根）還在桌上；喝飲料的杯子放得在桌上；打字＋觸控板：右手摸得到觸控板 */
+     WIN:{type:{F:[0.29,0.365],M:[0.26,0.365]},typepad:{F:[0.29,0.33],M:[0.26,0.33]},write:{F:[0.29,0.395],M:[0.29,0.395]},phone:{F:[0.29,0.37],M:[0.27,0.37]},
+       page:{F:[0.29,0.375],M:[0.24,0.375]},drink:{F:[0.28,0.335],M:[0.24,0.335]},eat:{F:[0.29,0.39],M:[0.29,0.39]}},
+-    LOOK:{eat:[-0.06,0.04,0.14]},   /* 沒有 sitFocus 的眼睛看哪裡（人物座標：x 左手邊、y 桌面以上、z 桌緣往裡面）*/
++    LOOK:{eat:[0,0.06,0.15]},   /* 沒有 sitFocus 的眼睛看哪裡（人物座標：x 左手邊、y 桌面以上、z 桌緣往裡面）*/
+     RATIO:{F:[0.93,1.03],M:[1.08,1.19]},
+     /* 參考骨架（vroid_npc_f1 1.62 m、vroid_npc_m1 1.74 m：產生片段用的）坐在參考桌子前、片段 0 秒的兩手手腕（人物座標 x 左、y 上、z 前；遊戲裡量的，和 ual_sit_tasks.json 的 expect 一樣）。
+        每個人的骨架不一樣（LAWWW2 的路人底模分好幾種比例：手臂÷身高 0.251／0.264（女）、0.246／0.266（男），肩膀高低也不同）：同一個片段，手會差到 6 cm。
+@@ -682,10 +682,10 @@ const CHAR = (function(){
+        寫字 1 cm：筆尖要碰到紙；其他 1.5 cm：手放在桌上、書上、杯子在桌上）＝不用（LAWWW2 README 的「桌高差 3 cm」：手和桌面合起來差 3 cm 以內）；
+        前後差用往前／往後坐補（shiftBack～shiftMax），補完桌緣還要在 WIN 裡；左右差超過 tolX＝不用。
+        合不上的人（手臂比較長、肩膀比較低或高的那幾組底模）照舊——要 LAWWW2 照那幾種骨架再出一份片段（量到的結果：tests/sit_task_wire_unit.js、交件報告）*/
+-    HANDS:{F:{type:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},typepad:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},write:{l:[0.1384,0.7819,0.3864],r:[-0.0605,0.7919,0.3816]},
+-        phone:{l:[0.1367,0.7806,0.3458],r:[-0.0862,0.8186,0.3145]},page:{l:[0.1179,0.8045,0.35],r:[-0.1179,0.8045,0.35]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.3668]},eat:{l:[0.1667,0.7806,0.3658],r:[-0.0945,0.8567,0.3959]}},
+-      M:{type:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},typepad:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},write:{l:[0.1388,0.7824,0.3857],r:[-0.0614,0.7927,0.3801]},
+-        phone:{l:[0.1371,0.7812,0.3451],r:[-0.0808,0.8194,0.3038]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2342,0.812,0.3661]},eat:{l:[0.1671,0.7812,0.3651],r:[-0.0925,0.859,0.3945]}}},
++    HANDS:{F:{type:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},typepad:{l:[0.0958,0.7996,0.3465],r:[-0.0901,0.802,0.3512]},write:{l:[0.1385,0.7819,0.3864],r:[-0.0605,0.7963,0.3816]},
++        phone:{l:[0.1367,0.7806,0.3458],r:[-0.0862,0.8186,0.3145]},page:{l:[0.1179,0.8045,0.35],r:[-0.1179,0.8045,0.35]},drink:{l:[0.1467,0.7806,0.3108],r:[-0.2338,0.812,0.3668]},eat:{l:[0.0332,0.7724,0.3688],r:[-0.127,0.8435,0.3207]}},
++      M:{type:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},typepad:{l:[0.096,0.8002,0.3457],r:[-0.0903,0.8026,0.3505]},write:{l:[0.1388,0.7824,0.3857],r:[-0.058,0.7934,0.387]},
++        phone:{l:[0.1371,0.7812,0.3451],r:[-0.0782,0.822,0.3061]},page:{l:[0.1181,0.8051,0.3493],r:[-0.1181,0.8051,0.3493]},drink:{l:[0.1471,0.7812,0.3101],r:[-0.2288,0.81,0.3685]},eat:{l:[0.0356,0.7839,0.3638],r:[-0.1109,0.8957,0.351]}}},
+     tolX:0.04, liftMax:0.015, tolV:0.015, TOLV:{type:0.03,typepad:0.03,write:0.01}, shiftBack:0.03, probesPer:3 };
+   const SITT={raw:null,src:null,clips:{},failed:false,loading:false}, HPROP={scene:null,failed:false,loading:false};
+   C._task=SITT; C._handProps=HPROP;
+diff --git a/src/seatact3d.js b/src/seatact3d.js
+index 8f5b04e63..17e0dfcac 100644
+--- a/src/seatact3d.js
++++ b/src/seatact3d.js
+@@ -77,12 +77,13 @@ const SEATACT=(function(){
+      桌高、桌緣）；不合＝照舊（坐姿循環、手放大腿上／拿著手機）。每 30 格再對一次（片段、配件晚一點才載好；正式模型載好、桌子換了）。
+      手上拿著的東西（筆、手機、紙杯）這個位子的桌上也有＝桌上那一件藏起來：自己組的（S_notes…）拿掉那一件；合併成一個網格的（tset_notes、rset_notes）近的時候換成 S.SPLIT 的單件、
+      遠的 _lod1 本來就沒有筆（照用）；有那一件、又拆不開的組＝那個片段先不用（不要桌上一支、手上一支）。起身、走了、換區域＝配件拿掉、桌上放回來 */
+-  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone'};   /* NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段——Sit_Eat 是握筷子的手、手上沒有筷子、桌上那雙還在（LAWWW-C 11-04 21:4x）。
++  S.TASK={laptop:'type',notes:'write',textbook:'page',phone:'phone',eat:'eat',eat2:'eat'};   /* 吃飯打開（LAWWW2-C 補件：右手筷子 hand_chopsticks＋Sit_Eat 照筷子尖重擺；桌上那雙照 S.PROP_FAM 拿掉）。下面是原本的說明 */
++     /* （舊）NPC-ANIM-LOOPS-1104：吃飯（eat、eat2）先不用片段——Sit_Eat 是握筷子的手、手上沒有筷子、桌上那雙還在（LAWWW-C 11-04 21:4x）。
+      等 LAWWW2 的右手筷子配件（hand_chopsticks）＋S.PROP_FAM 藏桌上那雙，再把 S.TASK_EAT 併回 S.TASK（Object.assign(S.TASK,S.TASK_EAT)）*/
+   S.TASK_EAT={eat:'eat',eat2:'eat'};
+   S.TASK_NEED={type:/laptop_open|^[tr]set_laptop$/,write:/notebook_open|^[tr]set_notes$/,page:/code_open|^[tr]set_book$/,eat:/^item_bowl/};   /* 桌上要有的東西 */
+   S.TASK_DEPTH={phone:0.1};   /* 左手放在桌上：桌子至少要這麼深 */
+-  S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/};   /* 手上的配件 → 桌上同一件東西 */
++  S.PROP_FAM={hand_pen:/^item_pen$/,hand_cup:/^item_cup$/,hand_phone:/^item_phone_/,hand_chopsticks:/^item_chopsticks$/};   /* 手上的配件 → 桌上同一件東西 */
+   /* 合併成一個網格的組裡有哪些東西（tools/blender/env_second/desk_props.py 的 SETS，名字加 item_；item_book_open＝SETS 的 book_open，GLB 裡沒有單獨的網格）：只用來查「有沒有筆、紙杯、手機」*/
+   S.SET_HAS={tset_notes:['item_notebook_open','item_pen','item_pencil_case','item_cup'],tset_laptop:['item_laptop_open','item_phone_off','item_thermos_navy'],tset_book:['item_book_open','item_highlighter_pink','item_notebook_closed','item_pen'],
+     tset_away:['item_laptop_closed','item_textbook','item_cup','item_phone_off'],rset_notes:['item_notebook_open','item_pen'],rset_laptop:['item_laptop_open'],rset_book:['item_book_open','item_highlighter'],rset_cup:['item_cup','item_notebook_closed_b']};
+diff --git a/tests/sit_task_wire_unit.js b/tests/sit_task_wire_unit.js
+index 97e40851b..65adc9da5 100644
+--- a/tests/sit_task_wire_unit.js
++++ b/tests/sit_task_wire_unit.js
+@@ -173,11 +173,9 @@ const actAt0=SEATACT.actAt; SEATACT.actAt=(zone,day,st)=>st.act||'rest';   /* 
+   /* ---------- 吃飯的店：坐著吃 ---------- */
+   { const Z=mkZone([{act:'eat',top:0.75,edge:0.30},{act:'eat',top:0.75,edge:0.30}],'test_meal'); const npcs=[mkNPC('char.npc_f1',Z.zone.seats[0]),mkNPC('char.npc_f1',Z.zone.seats[1],{pose:'read'})]; const GM=mkGM(Z,npcs); await run(GM,120);
+     const r0=recOf(npcs[0]), t0=CHAR.sitTaskOf(npcs[0].obj), t1=CHAR.sitTaskOf(npcs[1].obj);
+-    check('B 吃飯的店：吃飯先不用片段（LAWWW-C 11-04 21:4x：Sit_Eat 是握筷子的手、手上沒有筷子——等筷子配件）＝坐著吃的人照舊坐姿、桌上照舊有碗；S.TASK_EAT 留著（之後併回 S.TASK 就開）；坐著 read 的照舊',!t0&&!!r0&&r0.items.some(x=>/^item_bowl/.test(x))&&!t1&&npcs[1].pose==='read'&&!SEATACT.TASK.eat&&!SEATACT.TASK.eat2&&SEATACT.TASK_EAT&&SEATACT.TASK_EAT.eat==='eat'&&SEATACT.TASK_EAT.eat2==='eat',(t0?t0.playing:'沒有')+'、桌上 '+(r0?r0.items.join('、'):'-'));
++    const u0=npcs[0].obj.userData, ch=u0.taskProps&&u0.taskProps.hand_chopsticks;
++    check('B 吃飯的店：吃的人播 Sit_Eat_F_Loop、右手拿筷子（hand_chopsticks）、桌上那雙筷子拿掉（碗還在）；坐著 read 的照舊（LAWWW2-C 補件）',!!t0&&t0.playing==='Sit_Eat_F_Loop'&&t0.prop==='hand_chopsticks'&&!!ch&&ch.visible&&ch.parent===raw(npcs[0].obj,'rightHand')&&!!r0&&r0.items.some(x=>/^item_bowl/.test(x))&&!r0.items.some(x=>/^item_chopsticks$/.test(x))&&!t1&&npcs[1].pose==='read'&&SEATACT.TASK.eat==='eat'&&SEATACT.TASK.eat2==='eat',(t0?t0.playing+'／'+(t0.prop||'-'):'沒有')+'、桌上 '+(r0?r0.items.join('、'):'-'));
+     cleanup(GM,Z);
+-    { const T0=Object.assign({},SEATACT.TASK); Object.assign(SEATACT.TASK,SEATACT.TASK_EAT); CHAR._taskReset(); const Z2=mkZone([{act:'eat',top:0.75,edge:0.30}],'test_meal'); const n2=[mkNPC('char.npc_f1',Z2.zone.seats[0])]; const GM2=mkGM(Z2,n2); await run(GM2,120);
+-      const t2=CHAR.sitTaskOf(n2[0].obj); check('B 吃飯：S.TASK_EAT 併回 S.TASK 以後＝Sit_Eat_F_Loop（筷子配件到了就這樣開）',!!t2&&t2.playing==='Sit_Eat_F_Loop'&&!t2.prop,(t2?t2.playing:'沒有'));
+-      cleanup(GM2,Z2); for(const k of Object.keys(SEATACT.TASK)) delete SEATACT.TASK[k]; Object.assign(SEATACT.TASK,T0); CHAR._taskReset(); }
+   }
+   /* ---------- G：不留垃圾、換模型 ---------- */
+   { const Z=mkZone([{act:'notes',top:0.75,edge:0.30}]); const n=mkNPC('char.npc_nf2',Z.zone.seats[0]); const GM=mkGM(Z,[n]); await run(GM,60);
