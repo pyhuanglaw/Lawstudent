@@ -1,6 +1,6 @@
 """CC-C（帳號 C）11-04：NPCTASK_shots（BB-C 21:44；af0170be2 NPC-ANIM-LOOPS-1104：坐著做事的路人，桌子合得上的時候播 LAWWW2 的片段；?nositask＝整個關掉當對照）。
   只截圖、只記錄，不判（穿模、功能 BB 判；人物動作 ART 由 LAWWW 標）。Windows＋GPU（電腦）／SwiftShader（雲端）≠ iPhone；顏色（④）雲端不準，PC 恢復後補。
-  地點：總圖大廳二樓（library_hall 第 1 層）、總圖 3F（library）、法圖（lawlib）、社科二樓（soclib_2f 第 1 層）、B1（library_b1）；14:00、2025-09-25（四）。
+  地點（LOCS 預設多一個 lin＝林家乾麵 12:15，BB-C 23:13：吃飯先關著，要看沒有人播吃飯片段、手上沒有浮著的筷子）：總圖大廳二樓（library_hall 第 1 層）、總圖 3F（library）、法圖（lawlib）、社科二樓（soclib_2f 第 1 層）、B1（library_b1）；14:00、2025-09-25（四）。
   每個地點：等坐著的人換上做事的片段（CHAR.sitTaskOf：playing、權重 w≥0.95），挑最多 PER（3）個（不同 kind 優先），每個人：
     數字（人物座標 x 左、y 上、z 前；桌面＝座位地面＋sitTask.deskH）：
       ① 兩手手腕離桌面多高（hand_y − 桌面；負的＝穿進桌子）；
@@ -25,7 +25,7 @@ from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
 LOCS = {'hall': ('library_hall', 1, (-6.5, 3.0)), 'lib3f': ('library', 0, None), 'lawlib': ('lawlib', 0, None), 'soc2f': ('soclib_2f', 1, (-0.4, -0.2)), 'b1': ('library_b1', 0, None)}
-SEL = [x for x in (os.environ.get('LOCS') or 'hall,lib3f,lawlib,soc2f,b1').split(',') if x in LOCS]
+SEL = [x for x in (os.environ.get('LOCS') or 'hall,lib3f,lawlib,soc2f,b1,lin').split(',') if x in LOCS or x == 'lin']
 CTL = os.environ.get('CTL') or 'both'
 PER = int(os.environ.get('PER') or 3)
 DAY = int(os.environ.get('DAY') or 9)
@@ -62,6 +62,17 @@ TASKERS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; if(typeof CHAR==='
 AIM = """(([e,l,fov])=>{ const E=GAME.E, cam=E.camera; E.paused=true; if(E.player&&E.player.obj) E.player.obj.visible=false; const fov0=cam.fov; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l));
   for(let i=0;i<2;i++){ cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
   cam.fov=fov; cam.updateProjectionMatrix(); E.render(); const ri=E.renderer.info.render; cam.fov=fov0; cam.updateProjectionMatrix(); return {calls:ri.calls, tris:ri.triangles}; })"""
+# 林家乾麵 12:15（BB-C 23:13）：吃飯照 BB 的意見先關著——坐著吃飯的人要播舊的靜態姿勢、不播吃飯片段、手上沒有浮著的筷子（hand_chopsticks）
+SEATED_ALL = r"""(()=>{ const E=GAME.E, V=THREE.Vector3, out=[]; for(const n of (E.npcs||[])){ const o=n&&n.obj; if(!o||o.visible===false) continue; const u=o.userData||{}; const sat=!!(n.seat||n.beh==='sit'||n.pose==='sit'||u.sitPose); if(!sat) continue;
+    const t=(typeof CHAR!=='undefined'&&CHAR.sitTaskOf)?CHAR.sitTaskOf(o):null; const vrm=u.vrm, hb=nm=>{ try{ const b=vrm&&vrm.humanoid&&(vrm.humanoid.getRawBoneNode?vrm.humanoid.getRawBoneNode(nm):vrm.humanoid.getBoneNode(nm)); return b?b.getWorldPosition(new V()):null; }catch(e){ return null; } };
+    o.updateWorldMatrix(true,true); const root=o.getWorldPosition(new V()), lh=hb('leftHand'), rh=hb('rightHand'), hd=hb('head');
+    const props=[]; if(u.taskProps) for(const k in u.taskProps){ const q=u.taskProps[k]; let vis=!!(q&&q.visible); for(let x=q;x&&vis;x=x.parent) if(x.visible===false) vis=false; if(vis) props.push(k); }
+    let chop=[]; o.traverse(x=>{ if(/chopstick/i.test(x.name||'')){ let vis=x.visible!==false; for(let y=x.parent;y&&vis;y=y.parent) if(y.visible===false) vis=false; if(vis) chop.push(x.name); } });
+    const f=new V(0,0,1).applyQuaternion(o.getWorldQuaternion(new THREE.Quaternion())), s=new V(1,0,0).applyQuaternion(o.getWorldQuaternion(new THREE.Quaternion()));
+    out.push({id:n.charId||n.id||null, name:n.name||'', task:t?{kind:t.kind,clip:t.clip,playing:t.playing,w:+(+t.w||0).toFixed(2)}:null, act:u.seatAct||u.sitAct||n.act||null, sitPose:u.sitPose||null, hold:u.holdItem||u.hold||null, props, chop,
+      root:[+root.x.toFixed(3),+root.y.toFixed(3),+root.z.toFixed(3)], f:[+f.x.toFixed(3),+f.z.toFixed(3)], s:[+s.x.toFixed(3),+s.z.toFixed(3)],
+      mid:lh&&rh?[+((lh.x+rh.x)/2).toFixed(3),+((lh.y+rh.y)/2).toFixed(3),+((lh.z+rh.z)/2).toFixed(3)]:null, head:hd?[+hd.x.toFixed(3),+hd.y.toFixed(3),+hd.z.toFixed(3)]:null}); }
+  return {list:out, sitTask:typeof CHAR!=='undefined'?CHAR.sitTask:null, zone:GAME.G.zone}; })()"""
 RELEASE = "(()=>{ const E=GAME.E; E.paused=false; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()"
 STEP = """(n=>{ const E=GAME.E; E.paused=true; for(let i=0;i<n;i++){ E.update(1/30); } E.render(); return true; })"""
 PHASES = r"""(()=>{ const out=[]; for(const n of (GAME.E.npcs||[])){ const o=n&&n.obj, u=o&&o.userData; const t=o&&CHAR.sitTaskOf&&CHAR.sitTaskOf(o); if(!t||!/^type/.test(t.kind)||!u.amb||u.amb.tt==null) continue; out.push({id:n.charId||n.id||n.name||'', kind:t.kind, ph:+((u.amb.tt%5+5)%5).toFixed(3), w:+(+t.w||0).toFixed(2)}); } return out; })()"""
@@ -114,7 +125,31 @@ async def run_mode(p, mode, meta):
         big = [x for x in (r or {}).get('people', []) if x['maxJump_cm'] >= 10]
         info('[%s] ⑥ 第一次進 %s：%s 格／%s 秒、滑手機的人 %d 個；一格裡右手腕最大的跳動 %s；≥10 cm 的 %s' % (mode, zone, r and r['frames'], r and r['secs'], len((r or {}).get('people', [])),
              J(sorted([x['maxJump_cm'] for x in (r or {}).get('people', [])], reverse=True)[:6]), J(big)))
-    for key in SEL:
+    if 'lin' in SEL:
+        print('  [前置／捷徑] 讀檔：林家乾麵（wz_lin）12:15、day %d、條件事件關閉' % DAY, flush=True)
+        await enter(pg, cdp, 'wz_lin', 0, None, 12.25)
+        await pg.wait_for_timeout(8000)
+        r = await pg.evaluate(SEATED_ALL); Ls = r.get('list') or []
+        zok = r.get('zone')
+        if check('[%s lin] 讀到 wz_lin、有坐著的客人' % mode, zok == 'wz_lin' and len(Ls) > 0, J({'zone': zok, 'n': len(Ls)})):
+            info('[%s lin] 坐著的 %d 人：%s' % (mode, len(Ls), J([[x['name'] or x['id'], x['task'], x['act'], x['sitPose'], x['hold'], x['props'], x['chop']] for x in Ls])))
+            eat = [x for x in Ls if x['task'] and 'eat' in str(x['task'].get('kind', ''))]
+            chop = [x for x in Ls if x['chop'] or any('chop' in p for p in x['props'])]
+            check('[%s lin] 吃飯先關著：沒有人播吃飯片段（sitTaskOf 不是 eat）（BB-C 23:13）' % mode, not eat, J([[x['name'], x['task']] for x in eat]))
+            check('[%s lin] 手上沒有浮著的筷子（hand_chopsticks 看得到的 0 個）' % mode, not chop, J([[x['name'], x['props'], x['chop']] for x in chop]))
+            await pg.evaluate(HUD + '(false)')
+            for i, x in enumerate(Ls[:2]):
+                mid = x['mid'] or [x['root'][0] + x['f'][0] * 0.35, x['root'][1] + 0.8, x['root'][2] + x['f'][1] * 0.35]
+                f, sv = x['f'], x['s']
+                cams = {'hands': ([mid[0] - f[0] * 0.25 + sv[0] * 0.65, mid[1] + 0.45, mid[2] - f[1] * 0.25 + sv[1] * 0.65], mid, 45),
+                        'front': ([mid[0] + f[0] * 0.95, mid[1] + 0.35, mid[2] + f[1] * 0.95], [mid[0], mid[1] + 0.1, mid[2]], 50),
+                        'side': ([x['root'][0] + sv[0] * 1.3 + f[0] * 0.2, mid[1] + 0.1, x['root'][2] + sv[1] * 1.3 + f[1] * 0.2], [x['root'][0] + f[0] * 0.25, mid[1], x['root'][2] + f[1] * 0.25], 50)}
+                for cn, (e, l, fov) in cams.items():
+                    await pg.evaluate(AIM + '(%s)' % J([e, l, fov]))
+                    await pg.screenshot(path=os.path.join(OUT, 'npctask_%s_lin_%d_%s.png' % (mode, i, cn)))
+            await pg.evaluate(RELEASE); await pg.evaluate(HUD + '(true)')
+        M['locs']['lin'] = {'seated': Ls}
+    for key in [k for k in SEL if k in LOCS]:
         zone, lv, pos = LOCS[key]
         await enter(pg, cdp, zone, lv, pos)
         r, sec = await wait_tasks(pg) if mode == 'amb' else (await pg.evaluate(TASKERS), 0)
