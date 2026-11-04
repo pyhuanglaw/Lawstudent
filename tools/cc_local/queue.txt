@@ -31,6 +31,7 @@ PE644-PRE | 6c14ce66de9 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_
 # （CC 00:3x：MAP 認識的人判斷錯（掃到 0 人）→ fix3／ctl3；YT3 稿在 PC 讀不到（Windows 中文路徑）→ 讀稿改寫後重跑 A、C、D、E）
 MAP_fix3   | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
 MAP_ctl3   | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
+PE644-ECON | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 12 | CASES=econ_ff,econ;CC_HEADLESS=0
 YT3-A2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 45 | CASES=tea_first,tea_cats,tea_pay,mom_here,absent,mom_back,rent,ev11,ev15b_tea;CASE_S=900;CC_HEADLESS=0
 YT3-C2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 45 | CASES=ev9,ev9_msg,ev14,ev16b,home,home_rent;CASE_S=900;CC_HEADLESS=0
 YT3-E2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 45 | CASES=ev8,grad_friend,grad_gf,end4;CASE_S=900;CC_HEADLESS=0
