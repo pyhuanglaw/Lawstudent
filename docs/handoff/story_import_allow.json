@@ -4201,6 +4201,15 @@
    "task": "BIKE-SHOP-PARK-1104",
    "kind": "text",
    "note": "單車店小東西／補胎／換車台詞（bikeshop3d.js）、約念書早到旁白（invites3d.js）、以安總圖見面旁白改館內（rel_lines.js、libquiet3d OUT_LINES 拿掉）、機場便利商店改日和便利店（us_layouts.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_653_回LAWWW_公館三間室內缺的台詞_青木外帶與讀書.md",
+   "sha": "d26fecd2f",
+   "status": "approved",
+   "approvedBy": "AA（D109）",
+   "task": "GG-SHOPS-REDO-1104",
+   "kind": "text",
+   "note": "公館三間室內缺的台詞：日和便利店（熱食櫃、日和咖啡、包裹暫取、微波、冷藏櫃）、頁間書屋（書牆、新書、點咖啡）、青木茶室（書櫃、茶具櫃、茶罐、內用點茶、坐下、21:00 打烊、打烊／颱風天門口、約去答應的一句、開場句）；青木門口外帶＋店內內用、可以讀書、每天 11–21（§0，d26fecd2f）。照抄進 src/ggshops_sys3d.js、src/data/invites.js（tests/aa653_shops_unit.js 逐字對照）"
   }
  ]
 }

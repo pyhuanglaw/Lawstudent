@@ -519,6 +519,17 @@ INVITE_DATA.places.push({id:'offbeat',zone:'wz_offbeat',name:'日常失速',verb
   INVITE_DATA.offbeatAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).offbeat=[ACC[id]]; } })();
 
+/* ---------- 青木茶室（公館店面街 G01，區域 aoki；GG-SHOPS-REDO-1104，AA_653 第 3 節，企劃線 d26fecd2f，AA 定稿 D109）當邀約地點 ----------
+   有理由的（喝茶、念書，reason：和木曜日同一把尺——認識以上）；每天 11:00～21:00、颱風假不開（places.js hours.aoki）；自己走去過一次才列（show，和木曜日、日常失速一樣）。
+   座位照配置 canStudy 可以讀書（cats 有 study）；見面兩個人一起坐下（seatPose），坐下以後的開場句＝seatOpen.aoki（AA_653：店員把茶壺放下……「……你先喝。」）。
+   答應的那一句（一字照稿）：七人各一句（people[人].acc.aoki）；沒列的人＝一般那句（INVITE_DATA.aokiAcc0，src/ggshops_sys3d.js 接）；可昕照現在的規則（只在她在臺北、約得到的時候）*/
+INVITE_DATA.places.push({id:'aoki',zone:'aoki',name:'青木茶室',verb:'去青木茶室喝茶',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'AOKI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
+  hours:[11,21],show:G=>!!G&&!!G.visited&&!!G.visited.aoki});
+(function(){ const ACC={heroine_01:'「好。可以讀書嗎？……可以就好。」',heroine_02:'「好。我想喝東方美人。」',heroine_03:'「青木？好。……我想看看別人家的茶怎麼泡。」',heroine_04:'「茶室？好啊，我沒去過。」',
+    heroine_05:'「好。那裡的白茶不錯。」',classmate_peishan:'「好！他們的桂花糕很好吃。」',kexin:'「好啊。等我到台北。」'};
+  INVITE_DATA.aokiAcc=ACC; INVITE_DATA.aokiAcc0='「好。那裡很安靜。」';
+  for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).aoki=[ACC[id]]; } })();
+
 /* ===== 約念書走到桌子坐下（INV-SIT-TOGETHER-1104，USER_WANTS X207；台詞 AA_649，企劃線 37daf8027，D109 AA 定稿，一字照稿）=====
    使用者 2026-11-04 01:3x：「如果你們真的約一起念書的話，不可以一直走到圖書館門口然後約會就結束了，至少要走到桌子旁邊一起坐下來。」
    流程（系統 LAWWW，invites3d.js 的 S.leadStart／leadTick／leadScene）：門口會合（照現在的開場）→ lead（她帶路）→ 二樓長桌坐下（滿了：full 兩句 → 三樓閱覽區）
@@ -552,3 +563,4 @@ INVITE_DATA.seatOpen={
   bookstore:[['（你們在閱讀桌坐下。她從書牆上抽了一本書，放在你面前。）','「（小聲）這本你會喜歡。」']],
   byPlace:{cafe:'coffee',brunch:'coffee',noodle:'meal'}   /* 兩點半、半熟＝咖啡（AA_649 寫「咖啡（兩點半、半熟這種）」）；公館燒臘＝吃飯 */
 };
+INVITE_DATA.seatOpen.aoki=[['（店員把茶壺放下，她先幫你倒了第一杯。）','「……你先喝。」']]; INVITE_DATA.seatOpen.byPlace.aoki='aoki';   /* 青木茶室（AA_653 第 3 節：和她坐下以後的開場句）*/
