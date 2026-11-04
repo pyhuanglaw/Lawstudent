@@ -23632,7 +23632,7 @@
    "title": "經濟系路線進法律系：9/1 早上畫面還寫 8/31，上完課才變 9/1（使用者「8/31 開學？？法律系」「上完課又變成 9 月 1 號」）",
    "area": "v1",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -23646,9 +23646,7 @@
    },
    "source": "AA-C 轉述使用者（存檔 企劃線 6fbe1f15 qa_saves day-15、day-18）",
    "authorized": "使用者回報",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等使用者：等使用者回答 8/31～9/1 早上的操作；拿到操作後由 BB 照做重現 ｜ 查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現。08:5x LAWWW 瀏覽器實測：day-18 存檔 21:00 以後直接睡到 9/1，HUD 和換日字卡一致（不是一般睡覺那條路）；BB 照使用者的操作（床的快轉、開學典禮後、直接去上課）重現。09:5x BB-C（BB_218 最後一節）用使用者 day-18 存檔走床的選單、手機「今天」前往兩條路到 9/1 上完第一堂：日期都一致，沒有重現；開學典禮（8/31 14:00）兩輪都沒出現（ceremonyY1 要 KAI_MOVEIN）。已問使用者那天早上做了什麼",
-   "pausedReason": "等使用者：重現不出來，等使用者說當時怎麼操作",
-   "resumeWhen": "等使用者回答 8/31～9/1 早上的操作；拿到操作後由 BB 照做重現",
+   "next": "【LAWWW-C 11-04 14:04】使用者確認：遊戲介面和手機裡的日期不同造成的，已經修好，結案｜【LAWWW-C 2026-10-21 稽核 B2】等使用者：等使用者回答 8/31～9/1 早上的操作；拿到操作後由 BB 照做重現 ｜ 查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現。08:5x LAWWW 瀏覽器實測：day-18 存檔 21:00 以後直接睡到 9/1，HUD 和換日字卡一致（不是一般睡覺那條路）；BB 照使用者的操作（床的快轉、開學典禮後、直接去上課）重現。09:5x BB-C（BB_218 最後一節）用使用者 day-18 存檔走床的選單、手機「今天」前往兩條路到 9/1 上完第一堂：日期都一致，沒有重現；開學典禮（8/31 14:00）兩輪都沒出現（ceremonyY1 要 KAI_MOVEIN）。已問使用者那天早上做了什麼",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -23657,7 +23655,7 @@
      "note": "重現不出來，等使用者說當時怎麼操作"
     }
    ],
-   "waitUser": {
+   "waitUserDone": {
     "ask": "經濟系進法律系那天（8/31～9/1 早上）你當時怎麼操作？（9/1 早上畫面還寫 8/31）",
     "how": "選擇題（D117）：記得／不記得→我們用電腦測試迴圈自己重現",
     "log": [
@@ -23666,9 +23664,16 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "這一班還沒問：排進接班確認的選擇題"
+     },
+     {
+      "at": "2026-11-04T14:04Z",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "選擇題（D117）；回答：「那個是因為介面游戲介面跟手機裡的介面日期不同而且已經修好了所以你們現在當然重現不出來」"
      }
     ]
-   }
+   },
+   "evidence": "使用者 11-04 13:5x（選擇題自己打字，UA-LAWWW-1104-87）：原因是遊戲介面和手機介面的日期不同，已經修好"
   },
   {
    "id": "DORM-AFTER-MOVEOUT-1018",
@@ -27175,7 +27180,7 @@
    "id": "ART-PHOTO-CMP-1021",
    "title": "共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P3",
    "source": "LAWWW2-C 清查 caf482d1 B14",
    "first": {
@@ -27188,7 +27193,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
+   "next": "【LAWWW-C 11-04 14:05】使用者 14:03 傳共同教學館 4 張（docs/story_planning/ref_images/buildings/common_teaching_1104/，README 有逐張說明）：紅磚舊館＋米色翼樓、拱窗、大松樹、樹下木平台、下沉廣場擋土牆、常春藤 → LAWWW2 比對、定南面庭園和西側樓梯；女舍照片還沒給｜【LAWWW-C 11-04 14:04】使用者 13:5x 選「我之後給照片」（UA-LAWWW-1104-89）：照舊等｜【11-01 23:1x LAWWW-B】使用者選「我之後提供參考照片」→ 等使用者給共同教學館、女舍的照片；到了 LAWWW2 再決定南面庭園、西側樓梯｜【11-01 02:1x】LAWWW2 差異清單交了（880104746，photo_cmp_1101/README.md）；照片抓不到（wikimedia 403）——第四節列的照片要請使用者給，和其他要使用者的圖併成一批問（不單獨打擾）。LAWWW-B 定：①共同南面庭園往北挪、②西側戶外樓梯：等照片確認再做；③女舍路人「有電梯」和 A 級「沒有電梯」：轉 AA；④規模縮小：不改（照 LAWWW2 建議，D111）｜LAWWW2 先列差異清單，再決定要不要改",
    "xai": {
     "spec": "LAWWW2 清查 B14",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27196,11 +27201,11 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "pausedReason": "等使用者提供共同教學館、女舍的參考照片（使用者 11-01 23:1x 說之後給）",
-   "resumeWhen": "使用者給照片",
+   "pausedReason": "女舍照片還沒給",
+   "resumeWhen": "共同教學館：LAWWW2 現在就比對；女舍：使用者給照片",
    "nextCheck": "2026-11-08",
    "waitUser": {
-    "ask": "共同教學館、女舍的參考照片（使用者 11-01 23:1x 說之後給）",
+    "ask": "女舍的參考照片（共同教學館的 4 張 11-04 14:03 已給）",
     "how": "提醒一次（選擇題）：給照片／用公開地圖照片代替",
     "log": [
      {
@@ -27208,6 +27213,18 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "這一班還沒問：排進接班確認的選擇題（P3，提醒一次）"
+     },
+     {
+      "at": "2026-11-04T14:04Z",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "選擇題（D117）；回答：「我之後給照片」（照舊等；之後每一班可以記「沒問：使用者 11-04 說之後給，不催」）"
+     },
+     {
+      "at": "2026-11-04T14:05Z",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "使用者 14:03 傳了共同教學館 4 張（UA-LAWWW-1104-90）；女舍還沒給"
      }
     ]
    }
@@ -40888,7 +40905,7 @@
    },
    "id": "BUG-SAVE-QUOTA-HEAVY-1102",
    "title": "重度玩家 7 份存檔約 5.93 MB 還超過 5 MB（social.mem 22.4 萬字）（BB 10:15）",
-   "status": "等待其他AI／素材",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "評估：①social.mem 每人每種只留最近 N 筆、劇情讀到的 tag 一律保留（要先列出所有被讀的 tag：SOCIAL.has 等，範圍大、風險高）；②備份（backup、backup_new）壓縮後再存（要引入壓縮程式碼＋授權）。目標重度 7 份 ≤ 4 MB。不進今晚版本（已有空間不足提示＋可以刪欄位）；排下一版。CC 會在使用者電腦用真的瀏覽器量配額。 ｜LAWWW 14:0x 評估：(a) 壓縮——lz-string（MIT）下載後權限系統擋下執行外部程式碼，不繞過；要用的話請使用者同意引入，或自己寫 LZ（要完整往返測試）。(b) social.mem——ADJUST 只有 4 處會寫（SOCIAL.adjust 帶 why），刪了幫助小；讀取方式有 find（第一筆：loans3d memDay、encounter3d、metAtCamp FIRST_MET）、lastDay（最後一筆）、note 比對（postgrad helpedCoffee、y2b auntKnows、y34b firstOrder、termend AN_TREAT），安全的精簡＝同一 (tag,note) 重複的只留第一筆和最後一筆、超過 80 筆先刪這種重複，不再從最舊的整筆刪（現在的 80 筆上限會刪掉 FIRST_MET＝潛在 bug）。實際能省多少要真的長時間遊玩存檔的 tag 分布，CC 的模擬是估的 tag，不準。下一步：請 BB／CC 給一份真的長時間存檔再動手。 ｜14:1x CC heavy_save_m5（cc-testing 8a2d0bf23）：mem 224k＝58 人×80 筆頂到上限；tag 是從 600 個隨機抽、重複 (tag,note) 只有 2 筆＝去重量不出效果；等使用者電腦整學期真實存檔（BB (c)）。",
    "xai": {
@@ -40898,10 +40915,8 @@
     "ack": "ACK",
     "acceptance": "重度玩家 7 份 ≤ 4 MB"
    },
-   "pausedReason": "要真的長時間遊玩存檔量 social.mem 的 tag 分布；壓縮要引入外部程式碼（權限擋下）",
-   "resumeWhen": "使用者電腦整學期真實流程的存檔（BB 13:52 (c)），或使用者同意引入 lz-string",
-   "next": "（LAWWW 2026-11-02 補欄位）照 status；見 note／title",
-   "waitUser": {
+   "next": "【LAWWW-C 11-04 14:04】使用者選「加 lz-string」（UA-LAWWW-1104-88）→ 實作是 SAVE-LZ-1104｜（LAWWW 2026-11-02 補欄位）照 status；見 note／title",
+   "waitUserDone": {
     "ask": "重度玩家存檔超過 5 MB：同不同意加 lz-string（MIT 授權、壓縮存檔）",
     "how": "選擇題（D117）；或 CC 在使用者電腦跑整學期存檔量",
     "log": [
@@ -40910,9 +40925,17 @@
       "by": "LAWWW-C",
       "result": "沒問",
       "why": "這一班還沒問：排進接班確認的選擇題"
+     },
+     {
+      "at": "2026-11-04T14:04Z",
+      "by": "LAWWW-C",
+      "result": "問了",
+      "why": "選擇題（D117）；回答：「加 lz-string（建議）」"
      }
     ]
-   }
+   },
+   "replacedBy": "SAVE-LZ-1104",
+   "reason": "使用者 11-04 13:5x 選「加 lz-string」，實作開 SAVE-LZ-1104"
   },
   {
    "id": "BAR-POOL-NOMAR-1102",
@@ -44968,6 +44991,29 @@
    "next": "【LAWWW-C 11-04 14:0x】下載並逐支列出 Quaternius UAL1／UAL2（CC0，GitHub 鏡像 tilakpatell/tilakverse-assets）：坐姿 7 支（Sitting_Enter／Exit／Idle_Loop／Idle02／Idle03／Nodding／Talking）、Drink、Idle_LookAround、Idle_Talking、Counter_*（店員）、GroundSit_*（坐地上）；UAL2：Idle_TalkingPhone、Idle_Rail（靠欄杆）、Idle_FoldArms、Yes、Consume；骨架 UE 命名。子代理（worktree）實作中：抽片段 ual_sit_clips.glb、UE→VRM 重定向、坐著播循環＋8～25 秒隨機小動作＋同桌聊天、tests/seat_ambient_unit.js（舊 FAIL／新 PASS）；打字、拇指滑手機、寫字沒有現成的→列清單給 LAWWW2 Blender｜【LAWWW-C 11-04 13:5x】查過：①原因在程式——character3d.js 坐著（pose sit／read）＝靜止姿勢（a.static，動畫全部停掉，只有頭 0.02 弧度的晃動和眨眼）；②動作來源（照 LICENSES 規則只用 CC0）：Quaternius Universal Animation Library 1／2（CC0，有坐、說話；GitHub 上有鏡像可以下載）、Mesh2Motion（程式 MIT、動作 CC0）、FreeMotionPack1（CC0，21 支，內容待看）；Bandai Namco 資料集是 CC BY-NC-ND（禁止改作）不能用；Mixamo 不再加（再散布條款，CLAUDE.md 授權疑慮）；③做法參考：FF15 的 smart objects（椅子帶著動作）、behavior objects（arXiv 1508.00377）、每 8～18 秒一個小動作、每個人呼吸錯開、程序化（呼吸、視線、眨眼）打底＋做好的小動作片段疊上去。下一步：下載鏡像、列出坐姿片段、確認授權檔 → 重定向到 VRM（retarget）→ seatact3d 每種活動接循環＋小動作排程 → 缺的（打字、滑手機拇指、寫字）派 LAWWW2 用 Blender 做 → CC 在使用者電腦錄影、LAWWW 看遊戲內截圖驗收（D100a）",
    "source": "使用者 11-04 13:5x 對 LAWWW-C（UA-LAWWW-1104-86）；接 X217 SEAT-ACTIVITY-1104",
    "authorized": "使用者直接要求"
+  },
+  {
+   "id": "SAVE-LZ-1104",
+   "title": "存檔壓縮：加 lz-string（MIT）把 localStorage 存檔壓小，重度玩家 7 份存檔約 5.9 MB 超過 5 MB 上限（使用者 11-04 13:5x 選「加 lz-string」）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "玩很久、存很多份存檔的時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:04】做法：lz-string（MIT，GitHub pieroxy/lz-string 的發行版）放 lib/、LICENSES.md 記；寫入用 compressToUTF16（加前綴標記），讀取先認前綴、沒有前綴照舊 JSON.parse（舊存檔照讀）；匯出檔照舊明文；備份 fatiao3d_backup 也壓；tests：save_compat 類 Node 單元測試（舊存檔、壓縮後大小、讀寫來回一致、空間不足時的錯誤處理）；排在 v9.10.20 發布以後（存檔格式變更要完整回歸，D83）",
+   "source": "使用者 11-04 13:5x 選擇題（UA-LAWWW-1104-88）；BUG-SAVE-QUOTA-HEAVY-1102",
+   "authorized": "使用者直接選擇",
+   "pausedReason": "v9.10.20 擋發布項目先做",
+   "resumeWhen": "v9.10.20 發布以後"
   }
  ]
 }

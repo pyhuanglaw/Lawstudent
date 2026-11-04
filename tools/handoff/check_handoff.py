@@ -138,7 +138,7 @@ def wait_user_items(tasks):
         if t.get('waitUser'):
             marked.append(t)
             continue
-        if t.get('notWaitUser'):
+        if t.get('notWaitUser') or t.get('waitUserDone'):   # waitUserDone＝使用者已經回答了（log 搬過去留紀錄）；之後又要等使用者就重新寫 waitUser
             continue
         seg = ' '.join([t.get('resumeWhen') or '', t.get('pausedReason') or '', (t.get('next') or '').split('｜')[0]])
         m = WAIT_PAT.search(seg)

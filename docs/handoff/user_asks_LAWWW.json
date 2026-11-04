@@ -2805,6 +2805,40 @@
    "status": "進行中",
    "wants": "X222",
    "task": "NPC-AMBIENT-ANIM-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-87",
+   "at": "2026-11-04T14:04Z",
+   "quote": "那個是因為介面游戲介面跟手機裡的介面日期不同而且已經修好了所以你們現在當然重現不出來",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "BUG-DATE-0831-1018",
+   "note": "選擇題「8/31 日期」自己打字回答"
+  },
+  {
+   "id": "UA-LAWWW-1104-88",
+   "at": "2026-11-04T14:04Z",
+   "quote": "加 lz-string（建議）",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "task": "SAVE-LZ-1104"
+  },
+  {
+   "id": "UA-LAWWW-1104-89",
+   "at": "2026-11-04T14:04Z",
+   "quote": "我之後給照片",
+   "kind": "選擇題答案",
+   "status": "暫停",
+   "task": "ART-PHOTO-CMP-1021"
+  },
+  {
+   "id": "UA-LAWWW-1104-90",
+   "at": "2026-11-04T14:05Z",
+   "quote": "共同教學館（附 4 張照片）",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-PHOTO-CMP-1021",
+   "note": "照片存 docs/story_planning/ref_images/buildings/common_teaching_1104/"
   }
  ]
 }
