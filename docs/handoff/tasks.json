@@ -36962,7 +36962,7 @@
    "area": "STORY",
    "owner": "AA",
    "status": "待開工",
-   "next": "AA_530 已交（企劃線 0125b97a5）→ D99 那幾批之後派子代理",
+   "next": "【LAWWW-C 11-04 22:5x】AA_688 第 5 節（企劃線 7cc729232）：語彤那一列 2030 版的停點（談話一週六 16:30 茶屋、談話二 21:00 河堤、結果週六 16:30）、結果 D「還有蘇姨、我媽、事務所的事。」等這一項一起做；現在走到 2030 的語彤挽回用學期中那一套（第 4 節新字）｜AA_530 已交（企劃線 0125b97a5）→ D99 那幾批之後派子代理",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -46656,7 +46656,7 @@
    "title": "AA_688（企劃線 8dce2f94c，AA-C 定 D109）：語彤畢業以後的舊設定（延畢、2030 才考、阿姨的店）照 AA_629 改——pg_dates six.heroine_03 十八格、postgrad_lines Y2030／R2_2030／FIRST.friends、multirel REPAIR.heroine_03 六處、AA530 語彤那一列",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -46670,7 +46670,42 @@
    },
    "source": "AA-C 11-04 22:00（AA_688，CANON-PURGE-1104 漏網；outbox 0d9cf8732）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 22:0x】派子代理（worktree aa688-1104，和 AA687 的子代理同時；檔案不重疊）；AA530-PG-CONFESS-1030 語彤那一列（第 4 項）照舊 P3 排在後面"
+   "next": "【LAWWW-C 11-04 22:5x】合併 65694838a（子代理 aa688-1104 55ed458a5；2de855adb 程式、1a094db1a／55ed458a5 測試）：第 1～4、6 節照 7cc729232 做完——pg_dates 語彤 17 格從白名單 AA_367 8dce2f94c 重新匯入（不是手改；舊白名單重跑一字不差）、每月見面週六 17:30「一盞茶屋」；「一試過了。」搬 2029-09-07 15:10、「上了。」「蘇姨已經在寫紅紙了。」搬 2029-12-14 15:10（tag 照舊：已經收過的不再收）；R2_2030 兩行、FIRST.friends 照片和那一句、R2_2030.base 燒臘店長桌、2030 那一頓 place 公館燒臘；multirel REPAIR.heroine_03 六處。tests/aa688_yt_pg_unit.js 36 項（修改前 3666310f8 FAILED 30）；子代理全套 1001 支 0 失敗；合併後關鍵 10 支 ALL PASS；全套交 GHA。要 AA 確認：2030 那一頓出遊卡片的 title 跟著改「公館燒臘・長桌」（稿只寫 place；兩個字串都是 2029 那一頓現成的）。第 5 節（AA530 語彤那一列）沒做：要新的停點（2030 談話一週六 16:30 茶屋、談話二 21:00 河堤、結果週六 16:30），照舊排在 AA530-PG-CONFESS-1030（P3）。AA_688 沒寫到、還留著的五處另開 AA688-LEFTOVER-1104 給 AA｜【LAWWW-C 11-04 22:0x】派子代理（worktree aa688-1104，和 AA687 的子代理同時；檔案不重疊）；AA530-PG-CONFESS-1030 語彤那一列（第 4 項）照舊 P3 排在後面",
+   "sha": [
+    "65694838a",
+    "55ed458a5",
+    "1a094db1a",
+    "2de855adb"
+   ]
+  },
+  {
+   "id": "AA688-LEFTOVER-1104",
+   "title": "語彤畢業以後還留著的舊設定（AA_688 沒寫到，子代理 aa688-1104 盤點的五處）：S.PG_TAG.heroine_03 兩個標籤、feed_pg.js 三則動態、r2y4b3d S.TELL 沒有 loc30、2029-12-14 18:00 讀書小組那一則、註解裡的「麵店」——要 AA 給字或說照留",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後（2029-06 起）的資料頁、動態、2030「跟她們說實話」",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 子代理 aa688-1104 交件報告（11-04 22:4x）：還留著的舊設定（AA_688 沒寫到，沒改）",
+   "authorized": "D109（AA 劇情自主）",
+   "xai": {
+    "spec": "src/social3d.js S.PG_TAG.heroine_03（2029-09-01「社會系・延畢（修法律必修）」、2030-07-01「準備國考」）；src/data/feed_pg.js 語彤 yt4i（2030-12-16 紅紙，原本接 2030-12-13「上了。」，那一則已搬到 2029-12-14）、yt1i（2029-09-13 修鞋店錄音，落在準備二試那一段）、註解「延畢一年 → 2030 國考」；src/r2y4b3d.js S.TELL.heroine_03 沒有 loc30（字幕還是「茶屋打烊以後，她在吧檯後面洗杯子」，屬 AA530）；2029-12-14 18:00 讀書小組只有語彤的私訊最後一句「她說下一張要寫我的。」和同一天 15:10「蘇姨已經在寫紅紙了。」；註解：pgdates3d.js、postgrad3d.js 2030 那一頓、noodle2030Lines 的「麵店」",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "每一處 AA 給新字或寫照留；LAWWW 照字改、跑 aa688_yt_pg 等相關單元測試",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 11-04 22:5x】開任務、send_message 給 AA-C（附五處的檔案與行）；AA 回了照字改",
+   "sha": null
   }
  ]
 }
