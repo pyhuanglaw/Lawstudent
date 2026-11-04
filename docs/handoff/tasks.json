@@ -45917,7 +45917,7 @@
     "acceptance": "AA_669 定稿交 LAWWW 實作：期末考前兩週各圖書館座位滿、占位子、同學在念書、約朋友去；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 17:4x】BB_260（BB 分支 e814965c2）作息照做：S.EXTRA＋S.extraSlot——子晴一三五 13～17:30、六 10～15（總圖大廳二樓）；阿哲一～四 10:40～16:30、日 13～18（B1）；Alison 一二四五 11～17（B1）；明軒大二以後一～四 13～19（A館 4F）；只填空檔（作息沒有東西、或只是 wander／walk；上課、吃飯、劇情照舊）；tests/exam_lib_crowd_unit.js 第 11 節修改前 FAILED 10、修改後 ALL PASS。子晴「有插座那一排」：總圖大廳二樓配置沒有標插座，位子照 spotSeat｜【LAWWW-C 11-04 17:4x】合併 8215f8d53（子代理 d74078d81；src/examlib3d.js、src/data/examlib_lines.js；seatact3d.js S.AWAY 占著的位子桌上放「休息」那一組；story3d.js seatNear 不坐 taken 的位子、seatAt 第三個數＝樓層）；tests/exam_lib_crowd_unit.js 修改前 FAILED 13、修改後 ALL PASS；子代理相關 607 支 0 失敗。沒做：第 6 節（社科圖二樓：等 LAWWW2 SOCLIB-2F-1104；做好以後 LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）。要 AA 確認的 AI 解讀（已傳 AA-C）：沒到的時間（以安 9:30、子晴 10:00、學姊 9:00、其他 12:00）、答應／不行的判斷、交往中先動作再說到了、第 1 節旁白坐到五成以上才放、（小聲）只在表上那一間、第 14 週起 3F 寫死的小安移除；第 5 節經濟系那一年正常玩不到（10/17 休學在第 14 週前）。要 BB 決定的（作息）：子晴沒有圖書館讀書時段、阿哲／Alison／明軒（大二以後）第 14～15 週幾乎沒有讀書時段。下一步：BB 照 AA_669 第 7 節測｜【LAWWW-C 11-04 16:1x】AA_669 交了（468a1d0b9）：第 0～5、7 節派背景子代理在 worktree 接（每學期第 14 週起到期末考完、四個圖書館、找不到位子三選項＋招手、占位子兩個方向、經濟系那一年；不扣關係不影響成績 D118）；新測試 tests/exam_lib_crowd_unit.js；D113 檢查點 wip_backup/examlib/；第 6 節社科圖二樓＝SOCLIB-2F-1104（LAWWW2，AA 已直接傳）｜【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）",
+   "next": "【LAWWW-C 11-04 18:0x】BB T-e PASS（ec060dcee：四人表上空檔 100% 在表上那一間、原本有事照舊、不去那天沒加）；T-a、T-b（照玩家操作走）、T-h（社科圖二樓）還沒驗，先不標已驗收｜【LAWWW-C 11-04 17:4x】BB_260（BB 分支 e814965c2）作息照做：S.EXTRA＋S.extraSlot——子晴一三五 13～17:30、六 10～15（總圖大廳二樓）；阿哲一～四 10:40～16:30、日 13～18（B1）；Alison 一二四五 11～17（B1）；明軒大二以後一～四 13～19（A館 4F）；只填空檔（作息沒有東西、或只是 wander／walk；上課、吃飯、劇情照舊）；tests/exam_lib_crowd_unit.js 第 11 節修改前 FAILED 10、修改後 ALL PASS。子晴「有插座那一排」：總圖大廳二樓配置沒有標插座，位子照 spotSeat｜【LAWWW-C 11-04 17:4x】合併 8215f8d53（子代理 d74078d81；src/examlib3d.js、src/data/examlib_lines.js；seatact3d.js S.AWAY 占著的位子桌上放「休息」那一組；story3d.js seatNear 不坐 taken 的位子、seatAt 第三個數＝樓層）；tests/exam_lib_crowd_unit.js 修改前 FAILED 13、修改後 ALL PASS；子代理相關 607 支 0 失敗。沒做：第 6 節（社科圖二樓：等 LAWWW2 SOCLIB-2F-1104；做好以後 LIBQ.ZONES、SEATACT.LIB_ZONES 加 soclib_2f）。要 AA 確認的 AI 解讀（已傳 AA-C）：沒到的時間（以安 9:30、子晴 10:00、學姊 9:00、其他 12:00）、答應／不行的判斷、交往中先動作再說到了、第 1 節旁白坐到五成以上才放、（小聲）只在表上那一間、第 14 週起 3F 寫死的小安移除；第 5 節經濟系那一年正常玩不到（10/17 休學在第 14 週前）。要 BB 決定的（作息）：子晴沒有圖書館讀書時段、阿哲／Alison／明軒（大二以後）第 14～15 週幾乎沒有讀書時段。下一步：BB 照 AA_669 第 7 節測｜【LAWWW-C 11-04 16:1x】AA_669 交了（468a1d0b9）：第 0～5、7 節派背景子代理在 worktree 接（每學期第 14 週起到期末考完、四個圖書館、找不到位子三選項＋招手、占位子兩個方向、經濟系那一年；不扣關係不影響成績 D118）；新測試 tests/exam_lib_crowd_unit.js；D113 檢查點 wip_backup/examlib/；第 6 節社科圖二樓＝SOCLIB-2F-1104（LAWWW2，AA 已直接傳）｜【LAWWW-C 11-04 16:1x】開任務（AA-C 16:08 轉）：AA 寫 AA_669 規格與台詞 → LAWWW 實作 → BB 測；社科院圖書館 2 樓場景另開 SOCLIB-2F-1104（LAWWW2）",
    "sha": "8215f8d53",
    "tests": "node tests/exam_lib_crowd_unit.js"
   },
@@ -45955,7 +45955,7 @@
    "title": "教室替身（博思 101 等大教室的 seated_figures）走近 7 m 內沒有換成近處版本：遠近改成主迴圈每 0.5 秒（真實時間）換，上課坐著、劇情裡也換",
    "area": "ENGINE",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -45970,8 +45970,9 @@
    "source": "BB-C 11-04 17:19（SITAMB ⑧，CC shots/SITAMB_CLOUD_1104 README 第 25 行）：「博思 101 的 17 個替身全部是 _lod1……CC 把玩家移到替身中間，7 m 內也沒換……請查 classes3d.js 的 S.figPlace 和 LOD 切換」",
    "authorized": "D85（LAWWW 程式整合）；BB 測試回報",
    "notWaitUser": "引擎修正，不用問使用者",
-   "next": "【LAWWW-C 11-04 17:3x】原因：遠近只在 figTick 換，figTick 在 S.tick 裡——每 30 格一次（SwiftShader 1～4 fps＝8～30 秒；CC 只等 3 秒），而且對話中、玩家 busy（上課坐著）、睡覺時 S.tick 開頭就 return。修正：CLS.figLod，game3d.js frame 每 0.5 秒（真實時間）呼叫、不看 busy；tests/seated_figures_lod_unit.js ⑧ 修改前 FAILED 2、修改後 ALL PASS；相關 7 支 0 失敗。下一步：BB 排 CC 同一個鏡頭（NEAR=1）拍前後；替身方塊（SITAMB ⑧）是不是遠處版本才有，換近處以後一起看",
-   "tests": "node tests/seated_figures_lod_unit.js"
+   "next": "【LAWWW-C 11-04 18:0x】BB PASS → 已驗收（下一版）；遠處版本的方塊交 LAWWW2（seated_figures _lod1 頭髮，LAWWW2 已排進佇列）｜【LAWWW-C 11-04 17:3x】原因：遠近只在 figTick 換，figTick 在 S.tick 裡——每 30 格一次（SwiftShader 1～4 fps＝8～30 秒；CC 只等 3 秒），而且對話中、玩家 busy（上課坐著）、睡覺時 S.tick 開頭就 return。修正：CLS.figLod，game3d.js frame 每 0.5 秒（真實時間）呼叫、不看 busy；tests/seated_figures_lod_unit.js ⑧ 修改前 FAILED 2、修改後 ALL PASS；相關 7 支 0 失敗。下一步：BB 排 CC 同一個鏡頭（NEAR=1）拍前後；替身方塊（SITAMB ⑧）是不是遠處版本才有，換近處以後一起看",
+   "tests": "node tests/seated_figures_lod_unit.js",
+   "evidence": "BB-C 11-04 18:04 PASS（CC e259cb5bd；BB_255、BB_260 bbc95e1ff）：修改前坐著上課 12 秒都沒換；修改後 1.04 秒換好 16／17（剩下一位在 6.5～7 m 緩衝區，照設計）；近處版本頭髮正常，方塊只在遠處版本"
   },
   {
    "id": "AA681-LINES-1104",
