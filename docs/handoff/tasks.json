@@ -44233,9 +44233,9 @@
    "title": "接班規則精簡討論（使用者 11-04 12:3x：「等你接班後 認真看一下接班花了多久 現在接班規則有點長 我們討論要不要精簡一下接班規則 怕重複 但原則上仍然要完整接班……只是看是不是規則有些重複的事情可以刪掉」）：量這次接班花多久、逐條列重複可刪的、用選擇題給使用者定",
    "area": "HANDOFF",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
+   "next": "【11-04 12:5x LAWWW-C】使用者選：①合併重複章節（D135；沒選「流程只寫一處」「提示詞一份範本」）②incr 只逐筆分類會改遊戲的 commit（D135）。做法：check_handoff.py incr 改＋回歸測試；CLAUDE.md 合併（舊條文搬 docs/history/CLAUDE_superseded_1104.md，對照表）；HV-26；另外 LAWWW 自己修三種誤報（duty sync 上一筆沒有 since、duty verify 交班紀錄 commit、check 第 6 項和 incr 重複）｜【11-04 12:3x LAWWW-C】接班從 12:28 收到使用者訊息開始計時；接班完成後量各步驟時間、對 CLAUDE.md、AI_SESSION_HANDOFF 第 4／5 節、check_handoff 各子指令找重複，選擇題（D117）問使用者；守住兩個原則：交代過的事下一個帳號一定知道、做到一半的事一定有人接",
    "first": {
     "term": "META",
     "week": 0,

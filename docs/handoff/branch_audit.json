@@ -1,104 +1,159 @@
 {
- "at": "2026-11-02T05:28Z",
- "main": "27e6ce77e",
- "ruleSource": "claude/confident-ritchie-8rwh7t",
+ "at": "2026-11-04T12:53Z",
+ "main": "b0c3032af",
+ "ruleSource": "claude/adoring-meitner-mqzst8",
  "counts": {
   "保留｜主線": 1,
   "保留｜崗位在用": 4,
-  "保留｜WIP 沒整合完": 4,
-  "保留｜main 沒有的內容": 1,
-  "清理候選": 0
+  "保留｜WIP 沒整合完": 0,
+  "保留｜main 沒有的內容": 10,
+  "清理候選": 4
  },
  "branches": [
   {
    "ref": "origin/main",
    "branch": "main",
-   "sha": "27e6ce77e80782afe979404cdfcd67723ae6a2f8",
-   "date": "2026-11-01T10:52:37+08:00",
+   "sha": "b0c3032af4e6fdcf099a0f8ec55351780a7736e8",
+   "date": "2026-11-04T10:14:07+08:00",
    "who": "—",
    "kind": "保留｜主線",
    "why": "GitHub Pages 正式版",
    "ahead": 0
   },
   {
-   "ref": "origin/claude/cc-testing",
-   "branch": "claude/cc-testing",
-   "sha": "5d8d1decdd0c51c40bfbd6eb1ab89ff49a03489f",
-   "date": "2026-11-02T05:27:36+00:00",
-   "who": "CC-A",
-   "kind": "保留｜崗位在用",
-   "why": "duty.json：CC-A",
-   "ahead": 5447
-  },
-  {
-   "ref": "origin/claude/confident-ritchie-8rwh7t",
-   "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "48612ee7e23881b7200f4e81df8712bf32079647",
-   "date": "2026-11-02T05:24:48+00:00",
-   "who": "LAWWW-A、RULE_SOURCE",
-   "kind": "保留｜崗位在用",
-   "why": "duty.json：LAWWW-A、RULE_SOURCE",
-   "ahead": 271
-  },
-  {
-   "ref": "origin/claude/second-ai-env-art",
-   "branch": "claude/second-ai-env-art",
-   "sha": "4dc6b17b1421af1ca83630dbdb6b14652f0324a9",
-   "date": "2026-11-02T05:25:29+00:00",
-   "who": "LAWWW2-A",
-   "kind": "保留｜崗位在用",
-   "why": "duty.json：LAWWW2-A",
-   "ahead": 1515
-  },
-  {
-   "ref": "origin/claude/story-planning",
-   "branch": "claude/story-planning",
-   "sha": "eca9eb67109ad8d13618ef6b18aa0783120c53b9",
-   "date": "2026-11-02T05:26:32+00:00",
-   "who": "AA-A、BB-A",
-   "kind": "保留｜崗位在用",
-   "why": "duty.json：AA-A、BB-A",
-   "ahead": 5444
-  },
-  {
    "ref": "origin/claude/adoring-meitner-mqzst8",
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "c76d0cb698c6fd308dd67d0705eb9e26ed6b35d4",
-   "date": "2026-10-28T15:31:49+00:00",
-   "who": "LAWWW-C（交班過）",
-   "kind": "保留｜WIP 沒整合完",
-   "why": "wip.json：WIP-DORM-ROOM4-0829、WIP-AB65-3-Y1S2-L、WIP-V0-REWRITE-L、WIP-LAWWW-RC4-1021",
-   "ahead": 0
+   "sha": "ebd44c2e3d954ce153db93a6240e456c804c4b3d",
+   "date": "2026-11-04T12:46:33+00:00",
+   "who": "LAWWW-C、RULE_SOURCE",
+   "kind": "保留｜崗位在用",
+   "why": "duty.json：LAWWW-C、RULE_SOURCE",
+   "ahead": 170
   },
   {
    "ref": "origin/claude/focused-cray-c9uwvw",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "4b1fcc458085e9fb356fa1606c05dab0b0207be1",
-   "date": "2026-10-28T15:27:55+00:00",
-   "who": "LAWWW2-C（交班過）",
-   "kind": "保留｜WIP 沒整合完",
-   "why": "wip.json：WIP-L2-YUTING-FACE、WIP-L2-SHOP-BG、WIP-L2-DATE-CUTOUTS、WIP-L2-SOP、WIP-L2-PS-SKIRT-LEG、WIP-L2-SOC-COURT-1021",
-   "ahead": 1201
+   "sha": "2a47d1dae5a0d8084882fbdb080adcfd7766a181",
+   "date": "2026-11-04T12:42:17+00:00",
+   "who": "LAWWW2-C",
+   "kind": "保留｜崗位在用",
+   "why": "duty.json：LAWWW2-C",
+   "ahead": 1799
   },
   {
    "ref": "origin/claude/magical-albattani-bk7b4n",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "ea43bd9a0a5c34d93974683ca7dcc16dd2843f21",
-   "date": "2026-10-28T15:23:39+00:00",
-   "who": "AA-C（交班過）",
-   "kind": "保留｜WIP 沒整合完",
-   "why": "wip.json：WIP-AA-211、WIP-AA-194-L12、WIP-AA-199-VAC、WIP-AA-210-NYE、WIP-AA-212-AB655、WIP-AA-208-ROOM4、WIP-AA-103-SP、WIP-AA-213-US",
-   "ahead": 4325
+   "sha": "a2d296d7cd45b398958c8d3ffb3c78ff407845f2",
+   "date": "2026-11-04T12:46:02+00:00",
+   "who": "AA-C",
+   "kind": "保留｜崗位在用",
+   "why": "duty.json：AA-C",
+   "ahead": 6840
   },
   {
    "ref": "origin/claude/wonderful-mayer-7fm9g6",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "3e23808e7b4dc76349b492d2c74e37d578ffae69",
-   "date": "2026-10-28T15:33:05+00:00",
-   "who": "BB-C（交班過）",
-   "kind": "保留｜WIP 沒整合完",
-   "why": "wip.json：WIP-BB-181、WIP-BB-LADDER-Y2Y4、WIP-BB-HOLIDAY-SYS、WIP-BB-START-WEEK、WIP-BB-SIS-BF、WIP-BB-POSTCARDS、WIP-BB-S3",
-   "ahead": 4381
+   "sha": "f85214b6c13e298fc26ec495a9a851bc8c9fd30b",
+   "date": "2026-11-04T12:44:42+00:00",
+   "who": "BB-C",
+   "kind": "保留｜崗位在用",
+   "why": "duty.json：BB-C",
+   "ahead": 6836
+  },
+  {
+   "ref": "origin/claude/cc-local",
+   "branch": "claude/cc-local",
+   "sha": "f66233be433eb537401e94c13b67443a1227e959",
+   "date": "2026-11-04T20:47:20+08:00",
+   "who": "—",
+   "ahead": 7006,
+   "why": "main 沒有的 commit 6312 個（內容比對）；分出去以後改的檔案有 10882 個和 main 不一樣",
+   "kind": "保留｜main 沒有的內容",
+   "inside": []
+  },
+  {
+   "ref": "origin/claude/cc-testing",
+   "branch": "claude/cc-testing",
+   "sha": "4aa1dbb44d9608ae3c4eabd3c7b8be103912250c",
+   "date": "2026-11-04T12:20:05+00:00",
+   "who": "CC-A（交班過）",
+   "ahead": 6160,
+   "why": "main 沒有的 commit 5706 個（內容比對）；分出去以後改的檔案有 3597 個和 main 不一樣",
+   "kind": "保留｜main 沒有的內容",
+   "inside": []
+  },
+  {
+   "ref": "origin/claude/confident-ritchie-8rwh7t",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "28f5f5287c3c752ae62454d8f3e31e1ac4f254df",
+   "date": "2026-11-04T12:17:22+00:00",
+   "who": "LAWWW-A（交班過）",
+   "ahead": 160,
+   "why": "main 沒有的 commit 145 個（內容比對）；分出去以後改的檔案有 476 個和 main 不一樣",
+   "kind": "保留｜main 沒有的內容",
+   "inside": []
+  },
+  {
+   "ref": "origin/claude/cool-heisenberg-o8kuqx",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "69a24fa5d4d8c3ccc750df76982d8d74ab1d05a1",
+   "date": "2026-11-04T12:20:12+00:00",
+   "who": "AA-B（交班過）",
+   "ahead": 6835,
+   "why": "main 沒有的 commit 6079 個（內容比對）；分出去以後改的檔案有 4921 個和 main 不一樣；整條分支已經在 claude/magical-albattani-bk7b4n、claude/wonderful-mayer-7fm9g6 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/magical-albattani-bk7b4n",
+    "claude/wonderful-mayer-7fm9g6"
+   ]
+  },
+  {
+   "ref": "origin/claude/gha-node-sweep",
+   "branch": "claude/gha-node-sweep",
+   "sha": "73879d7bb3eed3f164c7e44c55ae707674265027",
+   "date": "2026-11-04T16:16:38+08:00",
+   "who": "—",
+   "ahead": 35,
+   "why": "main 沒有的 commit 35 個（內容比對）；分出去以後改的檔案有 2 個和 main 不一樣",
+   "kind": "保留｜main 沒有的內容",
+   "inside": []
+  },
+  {
+   "ref": "origin/claude/gha-node-trial",
+   "branch": "claude/gha-node-trial",
+   "sha": "2fb7ee03e5db7893a32f033a2b306a1c2d58f496",
+   "date": "2026-11-03T08:42:55+08:00",
+   "who": "—",
+   "ahead": 1,
+   "why": "main 沒有的 commit 1 個（內容比對）；分出去以後改的檔案有 1 個和 main 不一樣",
+   "kind": "保留｜main 沒有的內容",
+   "inside": []
+  },
+  {
+   "ref": "origin/claude/modest-rubin-2lyp7g",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "b6133718733ffd4bd201f3a7df52917fa1d401f3",
+   "date": "2026-11-04T12:23:42+00:00",
+   "who": "LAWWW-B（交班過）",
+   "ahead": 166,
+   "why": "main 沒有的 commit 151 個（內容比對）；分出去以後改的檔案有 477 個和 main 不一樣；整條分支已經在 claude/adoring-meitner-mqzst8 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/adoring-meitner-mqzst8"
+   ]
+  },
+  {
+   "ref": "origin/claude/second-ai-env-art",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5f85444cd4683f0444c665e9386d979ced7dde52",
+   "date": "2026-11-04T09:12:54+00:00",
+   "who": "LAWWW2-A（交班過）",
+   "ahead": 1797,
+   "why": "main 沒有的 commit 1791 個（內容比對）；分出去以後改的檔案有 3384 個和 main 不一樣；整條分支已經在 claude/focused-cray-c9uwvw 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/focused-cray-c9uwvw"
+   ]
   },
   {
    "ref": "origin/claude/second-ai-env-art-wip-trees",
@@ -110,6 +165,64 @@
    "why": "main 沒有的 commit 5 個（內容比對）；分出去以後改的檔案有 16 個和 main 不一樣",
    "kind": "保留｜main 沒有的內容",
    "inside": []
+  },
+  {
+   "ref": "origin/claude/story-planning",
+   "branch": "claude/story-planning",
+   "sha": "81f740cb73521469403ace41bed94adda8456dd0",
+   "date": "2026-11-04T09:05:35+00:00",
+   "who": "AA-A（交班過）、BB-A（交班過）",
+   "ahead": 6833,
+   "why": "main 沒有的 commit 6077 個（內容比對）；分出去以後改的檔案有 4920 個和 main 不一樣；整條分支已經在 claude/magical-albattani-bk7b4n、claude/wonderful-mayer-7fm9g6 裡（還沒發布到 main）",
+   "kind": "保留｜main 沒有的內容",
+   "inside": [
+    "claude/magical-albattani-bk7b4n",
+    "claude/wonderful-mayer-7fm9g6"
+   ]
+  },
+  {
+   "ref": "origin/wip/onetap-fav-1103",
+   "branch": "wip/onetap-fav-1103",
+   "sha": "d9f2fc0831cfd56b56b42cc9030339a64c87564b",
+   "date": "2026-11-03T12:03:00+00:00",
+   "who": "—",
+   "ahead": 0,
+   "why": "整條分支是 main 的祖先",
+   "kind": "清理候選",
+   "restore": "git push origin d9f2fc0831cf:refs/heads/wip/onetap-fav-1103"
+  },
+  {
+   "ref": "origin/wip/shop-diners-1103",
+   "branch": "wip/shop-diners-1103",
+   "sha": "8cf2acf3c7c23651e339b256d896c104051a0f31",
+   "date": "2026-11-03T12:02:39+00:00",
+   "who": "—",
+   "ahead": 0,
+   "why": "整條分支是 main 的祖先",
+   "kind": "清理候選",
+   "restore": "git push origin 8cf2acf3c7c2:refs/heads/wip/shop-diners-1103"
+  },
+  {
+   "ref": "origin/worktree-agent-a029e90a684b6474b",
+   "branch": "worktree-agent-a029e90a684b6474b",
+   "sha": "f74ecf26df4411313d8412c164174916ae8f2ecc",
+   "date": "2026-11-03T12:03:17+00:00",
+   "who": "—",
+   "ahead": 0,
+   "why": "整條分支是 main 的祖先",
+   "kind": "清理候選",
+   "restore": "git push origin f74ecf26df44:refs/heads/worktree-agent-a029e90a684b6474b"
+  },
+  {
+   "ref": "origin/worktree-agent-a922d4ff0a6f9fe72",
+   "branch": "worktree-agent-a922d4ff0a6f9fe72",
+   "sha": "d2fcf46cce11444188886e6407eee86b2ea4af65",
+   "date": "2026-11-03T12:04:49+00:00",
+   "who": "—",
+   "ahead": 0,
+   "why": "整條分支是 main 的祖先",
+   "kind": "清理候選",
+   "restore": "git push origin d2fcf46cce11:refs/heads/worktree-agent-a922d4ff0a6f9fe72"
   }
  ]
 }
