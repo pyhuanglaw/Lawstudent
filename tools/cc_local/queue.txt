@@ -99,7 +99,7 @@ WZ4_wzstreet | d2a692410 | game | tests/wz_street_integration.py | index.html | 
 WZ4_reach | dac871e25 | game | tests/reachability_all.py | index.html?turbo | 40 | XARGS={url} --zones wz_teahouse,wz_teishoku,wz_brunch
 WZ4_komichi | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=komichi;HOURS=14,22;SEATS=1;SEATS_N=18;CC_HEADLESS=0
 WZ4_sunny | dac871e25 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 30 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
-WZ4_yizhan | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0
+WZ4_yizhan | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 50 | SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0;RERUN=060a
 # ADE_int（BB 07:56，SEAT_ACT 後）：0c2d4997b（dfca69671 以後）阿德影印 v1c 進遊戲：走進去／四張椅子／印東西／買文具、8 角度、12:30 客人、阿德站位、柏翰站點、打工一班、SUNNY 轉角窗；加 touch_flow_wenzhou、reachability（wz_print）、zone_transitions
 ADE_int_in | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=IN,SHOTS;CC_HEADLESS=0
 ADE_int_cust | 0c2d4997b | probe | docs/story_planning/test_tools/cc/cc_ade_int_probe.py | index.html | 40 | CASES=CUST,ENC;CC_HEADLESS=0
