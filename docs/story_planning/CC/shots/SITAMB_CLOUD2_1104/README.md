@@ -1,7 +1,7 @@
 # SITAMB 雲端版（d3828，SwiftShader；BB-C 20:11 同意減成 5 項、不跑對照組）
 
 - 設定：VIEW=844x390、REC_FPS=10、CTL=0（每段 12 秒、動作種類全部）。fps 不量。
-- 結果：cafe（一般網址那一段）、libA0、libB0、eat、class0 流程 ALL PASS，都沒有 JS 例外。player 在跑。
+- 結果：cafe（一般網址那一段）、libA0、libB0、eat、class0、player 流程 ALL PASS，都沒有 JS 例外。
 - 縮圖：sheet_*.jpg（每張 36 格，檔名＝段落＿格數）。
 - CC-C 看縮圖：大部分沒有看到明顯的穿模、浮空。
   - **class0 疑似**：博雅 101、霖澤 201 的階梯座位，坐著的人大腿和椅面交疊——椅面前緣畫在大腿前面，看起來大腿陷進椅面。
