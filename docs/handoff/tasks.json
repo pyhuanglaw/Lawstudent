@@ -45039,7 +45039,7 @@
    "title": "AA_675：AA_661 要 LAWWW 判斷的八件 AA 定了——語彤寒暑假平日回淡水（約得到）、阿哲麵店日拿掉＋長桌閒聊搬桌遊夜 2D、ev_yu_sign_seat 桌遊夜 2D、語彤告白晚餐改期末考後第一個週六 17:30 一盞茶屋、聖誕碰公休提早一天、她家＝新生南路、礁溪 2D 對話（AA_609 第 8 節）、二十三週年語彤店員戲拿掉或換人、vac_activities:466 改一盞茶屋",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45053,14 +45053,15 @@
    },
    "source": "AA-C 11-04 16:49（企劃線 920791094、outbox a3cdd41ce；D109；接 CANON-PURGE-SRC-1104／X221）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 16:5x】派背景子代理在 worktree 做（D113 檢查點 wip_backup/aa675/）；和台詞八批子代理可能同時改到 events.js、vac_activities.js，合併時處理"
+   "next": "【LAWWW-C 11-04 18:1x】合併 7978edbef（子代理 aa675-canon-followup 276d60767）；tests/aa675_canon_followup_unit.js 修改前 FAILED 27、aa679_yt_remnants_unit.js 修改前 FAILED 11，修改後都 ALL PASS；子代理全部 982 支 981 過（bookstore_exit 本來就當，9f70c066f 一樣）。要 AA 定的 12 件已傳 AA-C；BB 測｜【LAWWW-C 11-04 16:5x】派背景子代理在 worktree 做（D113 檢查點 wip_backup/aa675/）；和台詞八批子代理可能同時改到 events.js、vac_activities.js，合併時處理",
+   "sha": "276d60767"
   },
   {
    "id": "AA679-YT-REMNANTS-1104",
    "title": "AA_679：語彤舊設定（麵店、阿姨）全遊戲殘留 9 處——events.js 燒臘長桌兩句、y34b3d T1 地點、story3d 雙主修請客搬到一盞茶屋＋feed_y1s2「我去喝」、social3d 兩個記憶名稱、noodle_table:28、privtalk PLACE_EXCEPT、sup519 阿姨出國、確認 characters.js 語彤作息",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45074,7 +45075,8 @@
    },
    "source": "AA-C 11-04 17:14（企劃線 ee055afbe、outbox 1939de80f；D109；接 CANON-PURGE-SRC-1104）",
    "authorized": "D109",
-   "next": "【LAWWW-C 11-04 17:1x】同主題、同幾個檔，追加給 AA675-CANON-FOLLOWUP 子代理一起做（另一個 commit）"
+   "next": "【LAWWW-C 11-04 18:1x】合併 7978edbef（子代理 aa675-canon-followup 276d60767）；tests/aa675_canon_followup_unit.js 修改前 FAILED 27、aa679_yt_remnants_unit.js 修改前 FAILED 11，修改後都 ALL PASS；子代理全部 982 支 981 過（bookstore_exit 本來就當，9f70c066f 一樣）。要 AA 定的 12 件已傳 AA-C；BB 測｜【LAWWW-C 11-04 17:1x】同主題、同幾個檔，追加給 AA675-CANON-FOLLOWUP 子代理一起做（另一個 commit）",
+   "sha": "276d60767"
   },
   {
    "id": "ASK-USER-LIST-1104",
