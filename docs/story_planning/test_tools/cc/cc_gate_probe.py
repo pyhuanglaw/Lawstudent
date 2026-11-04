@@ -14,7 +14,7 @@ CASES=shot（預設）：15:00、20:00 各三張（【捷徑：拍照】E.cinema
     fog near/far、E.fogFar、區域 viewFar／fogNear、camera.far、畫質。23eaaa7ae（之前）沒有斑馬線：記 INFO，不算 FAIL。
 CASES=walk：【前置】讀檔到公館校門外人行道 (0, −34) 15:00（條件事件、手機自動打開關閉）。之後全部用搖桿（#joy，CDP 觸控）：
     A 過斑馬線 (0,−34) → (0,8)；B 沿南側人行道往西每 12 m 一點到 x −72；C 再往東走到 x +72（點的 z 從 10 附近找人物站得住的格子，nav.clear 0.45 m）。
-    每一段走不到、連續 6 次推搖桿總共前進不到 0.3 m（卡住）、walkFallbacks 增加、第一次推不動、JS 例外：FAIL。每段結束截一張 walk_<段>.png。
+    每一段走不到、連續約 4 秒（6 次推）位移 <0.3 m 而且四個方向都推不動（卡住；推得動＝繞路，PASS）、walkFallbacks 增加、第一次推不動、JS 例外：FAIL。每段結束截一張 walk_<段>.png。
 只有載入失敗、JS 例外、（walk）走不到／卡住算 FAIL；shot 的數字只記錄（判定 BB）。
 用法：LW_TESTS=<wt>/tests CASES=shot|walk|shot,walk python3 cc_gate_probe.py <url> <out>"""
 import os, sys, json, asyncio, time, math
@@ -29,6 +29,9 @@ VIEWS = {   # name: (zone, 讀檔位置, eye, look)
     'east': ('gongguan', {'x': 0, 'z': 8, 'yaw': 0}, [0, 1.7, 8], [0, 1.6, -46]),
     'west': ('gongguan', {'x': 0, 'z': -36, 'yaw': 3.1416}, [0, 1.7, -36], [0, 4.0, 40]),
     'out': ('campus', {'x': -119, 'z': 0, 'yaw': -1.5708}, [-118.5, 1.7, 5.27], [-175, 2.5, 5.27]),
+    # BB 04:39 gate_far：站在羅斯福路中線（車道線 z −25～−2 的中間 z −13.5），沿路往兩頭看到最遠（公館的路沿 x：+x 一頭、−x 一頭）
+    'far_px': ('gongguan', {'x': 0, 'z': 8, 'yaw': 0}, [0, 1.7, -13.5], [200, 3.0, -13.5]),
+    'far_nx': ('gongguan', {'x': 0, 'z': 8, 'yaw': 0}, [0, 1.7, -13.5], [-200, 3.0, -13.5]),
 }
 FAILS = []
 
@@ -108,7 +111,7 @@ async def case_shot(pg):
 
 
 async def joy_to(pg, cdp, tx, tz, near, label, max_s=150):
-    s = await L.state(pg); fb0 = s['fallbacks']; t0 = time.time(); hist = []; pushes = 0; first = None
+    s = await L.state(pg); fb0 = s['fallbacks']; t0 = time.time(); hist = []; pushes = 0; first = None; detours = 0; stuck = False
     while time.time() - t0 < max_s:
         d = math.hypot(tx - s['x'], tz - s['z'])
         if d <= near: break
@@ -122,11 +125,17 @@ async def joy_to(pg, cdp, tx, tz, near, label, max_s=150):
         s = await L.state(pg); mv = math.hypot(s['x'] - p0[0], s['z'] - p0[1])
         if first is None: first = mv
         hist.append(mv)
-        if len(hist) >= 6 and sum(hist[-6:]) < 0.3:
-            break
+        if len(hist) >= 6 and sum(hist[-6:]) < 0.3:   # 連續約 4 秒（6 次 × 0.7 s）位移 < 0.3 m：BB 04:39＝四個方向都推不動才算卡住；推得動就是繞路（PASS）
+            free_dir = None
+            for nm, (jx, jy) in (('右', (32, 0)), ('左', (-32, 0)), ('後', (0, 32)), ('前', (0, -32))):
+                q0 = (s['x'], s['z']); await L.joystick(pg, cdp, jx, jy, 700); s = await L.state(pg)
+                if math.hypot(s['x'] - q0[0], s['z'] - q0[1]) >= 0.3: free_dir = nm; break
+            if free_dir is None or detours >= 25:
+                stuck = free_dir is None; break
+            detours += 1; hist.clear(); info(label, '繞路（第 %d 次，往%s推得動）at %s' % (detours, free_dir, J([round(s['x'], 2), round(s['z'], 2)])))
     d = math.hypot(tx - s['x'], tz - s['z'])
-    out = {'label': label, 'target': [tx, tz], 'end': [s['x'], s['z']], 'dist_left': round(d, 2), 'pushes': pushes, 'secs': round(time.time() - t0, 1),
-           'first_push_m': first and round(first, 2), 'stuck': len(hist) >= 6 and sum(hist[-6:]) < 0.3 and d > near, 'fallbacks_delta': s['fallbacks'] - fb0, 'stand': s.get('stand')}
+    out = {'label': label, 'target': [tx, tz], 'end': [s['x'], s['z']], 'dist_left': round(d, 2), 'pushes': pushes, 'secs': round(time.time() - t0, 1), 'detours': detours,
+           'first_push_m': first and round(first, 2), 'stuck': stuck and d > near, 'fallbacks_delta': s['fallbacks'] - fb0, 'stand': s.get('stand')}
     check('%s：走得到（離目標 %.2f m ≤ %.1f）' % (label, d, near), d <= near, J(out))
     check('%s：沒有卡住、walkFallbacks 沒增加' % label, not out['stuck'] and out['fallbacks_delta'] == 0, J({k: out[k] for k in ('stuck', 'fallbacks_delta', 'pushes', 'secs')}))
     return out
