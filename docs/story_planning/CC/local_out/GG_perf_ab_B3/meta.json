@@ -1,0 +1,23 @@
+{
+  "rerun": "ab3",
+  "id": "GG_perf_ab_B3",
+  "sha": "610c528cb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_perf_probe.py",
+  "env": "RUN=abB3;RERUN=ab3;LIST=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T14:26:15",
+  "end": "2026-11-04T14:28:42",
+  "seconds": 147,
+  "exit": 0,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8813/index.html",
+  "res_peak": {
+    "cpu": 71,
+    "mem": 56,
+    "used_gb": 18.0,
+    "chrome_testing": 29
+  }
+}
