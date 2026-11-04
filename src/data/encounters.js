@@ -20,8 +20,7 @@ const ENCOUNTERS={
       lines:{dating:['你也來看這部？……那我們兩個是不是要假裝不認識予樂。']},ex:{kx_b:['……嗨。','……今天就當沒遇到，好不好。'],kx_bNarr:'（她笑了一下，跟予樂走了。）'},src:'BB_144 1、2、3-6'},
     {who:'zhe',spot:'D04',why:'他和系籃的人蹲在一家排隊的店門口。',days:[6],from:19,to:22,terms:null,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D04_ZHE',away:'在西門町',
       lines:{acq:['欸，你也在這！','我們系籃的在等位子，等四十分鐘了，你說扯不扯？……很扯。'],friend:['哥！來得好，幫我們排一下，我去買飲料。','……排完一起吃？吃完再走。']},src:'AA_162 1、2-4'},
-    {who:'yu',spot:'D04',why:'她在一家二手衣店裡，兩手各拿一件外套。',days:[6],from:17,to:20,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D04_YU',away:'在西門町',
-      lines:{acq:['欸！{name}？你也來逛？','對了，我在幫社團學姊挑外套，你覺得哪件——你一定說都一樣。'],friend:['欸你來評評理，這兩件明明不一樣，她們說一樣。','……對，是一樣。我只是想要有人跟我說不一樣。']},src:'AA_162 1、2-4'},
+    /* Alison D04 西門町（週六 17:00～20:00）拿掉：AA_661 第 30 列（AA_615 第 4 節）——週五、週六 18:00～23:00 她在南洋戲院打工，作息那一筆一起拿掉；記憶 ENC_D04_YU 和之後那一句照留（舊存檔遇過的照讀）*/
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
       lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
     // ---- D06 臺北市立美術館 ----（沛珊大三起的美術館那一列拿掉：AA_282 第 5 節第 1 點，她在台南、不來臺北；D20 烏來、D08 大三下／大四下同，AA_342 C2）

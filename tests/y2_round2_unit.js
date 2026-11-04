@@ -65,14 +65,15 @@ const K=t=>'kexin:'+t;
   to('2026-10-10',9.5); G.flags.LAWCLUB_SAT_LAST=null; said=[]; picks=[0,0,0,0]; G.day=D('2026-10-24'); G.weekday=6; await STORY.fafuShift(GM);
   check('1. 第二次值班沒有那一行',!has('（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）')&&G.flags.FAFU_FIRST_SHIFT_Y2===D('2026-09-26'));
   const yto=(key,lv,extra)=>{ fresh(key,18,'noodle',Object.assign({lawclub:true,FAFU_FIRST_SHIFT_Y2:D('2026-09-26')},extra||{})); R('heroine_03',lv||'FAM'); return Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t); };
-  check('1. Y1 9/29 麵店：「禮拜六法服第一次值班。」',JSON.stringify(yto('2026-09-29'))===JSON.stringify(['禮拜六法服第一次值班。']),JSON.stringify(yto('2026-09-29')));
-  check('1. Y2 10/6（第 10 天）：「前兩個禮拜，法服第一次值班。」',JSON.stringify(yto('2026-10-06'))===JSON.stringify(['前兩個禮拜，法服第一次值班。']));
+  /* AA_661 第 17 列（AA_643 第 7 節，AA 定：退場，不搬）：2-Y2-01 語彤麵店閒聊（ev_yt_shift_chat）的對話選項拿掉——她不在麵店、不在法服。下面直接演 S.ytDutyChat 的定義（沒有入口，只確定定義照舊）*/
+  check('1. Y1 9/29 麵店：「禮拜六法服第一次值班。」退場，不出（AA_661 第 17 列）',yto('2026-09-29').length===0,JSON.stringify(yto('2026-09-29')));
+  check('1. Y2 10/6（第 10 天）：「前兩個禮拜，法服第一次值班。」退場，不出',yto('2026-10-06').length===0);
   check('1. Y4 第 15 天（10/11）沒有；只是認識（不到 FAMILIAR）沒有；不是法服成員沒有；不在麵店沒有',yto('2026-10-11').length===0&&yto('2026-09-29','ACQ').length===0&&yto('2026-09-29','FAM',{lawclub:false}).length===0&&(()=>{ yto('2026-09-29'); G.zone='cafe'; return Y2R2.talkOpts(G,'heroine_03',GM).length===0; })());
-  yto('2026-10-01'); { const fam0=SOCIAL.rel('heroine_03').fam, o=Y2R2.talkOpts(G,'heroine_03',GM)[0]; said=[]; picks=[1]; await o.run(GM,{name:'陳語彤',charId:'heroine_03'});
+  yto('2026-10-01'); { const fam0=SOCIAL.rel('heroine_03').fam, o={run:Y2R2.ytDutyChat}; said=[]; picks=[1]; await o.run(GM,{name:'陳語彤',charId:'heroine_03'});
     const W=['來的人多嗎？','一個阿伯講了十分鐘，大家都在翻六法。','他是不是一直講他兒子？','妳怎麼知道？','來店裡的阿伯都這樣。重點通常在最後一句。','（她把你的碗收走，又走回來。）','最後一句是什麼？','那就是那個了。','（她沒有再說。）'];
     check('1. 麵店那段逐字（AA_11）、兩選一、選「他兒子不回家」',JSON.stringify(said.map(s=>s.t))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「……我沒聽到。大家都在翻書。」','「他說，他兒子不回家。」']),JSON.stringify(said.map(s=>s.t)));
     check('1. YT_DUTY_HEARD、ev_yt_shift_chat 記成演過、語彤熟悉 +1；之後沒有這個選項',G.flags.YT_DUTY_HEARD===true&&!!G.events.done.ev_yt_shift_chat&&SOCIAL.rel('heroine_03').fam===fam0+1&&Y2R2.talkOpts(G,'heroine_03',GM).length===0); }
-  yto('2026-10-01'); { const o=Y2R2.talkOpts(G,'heroine_03',GM)[0]; said=[]; picks=[0]; await o.run(GM,{name:'陳語彤'}); check('1. 選「……我沒聽到。」→「下次聽完再翻。」',said[said.length-1].t==='下次聽完再翻。'); }
+  yto('2026-10-01'); { const o={run:Y2R2.ytDutyChat}; said=[]; picks=[0]; await o.run(GM,{name:'陳語彤'}); check('1. 選「……我沒聽到。」→「下次聽完再翻。」',said[said.length-1].t==='下次聽完再翻。'); }
 
   // 2. 2-Y2-03 K9
   fresh('2026-09-17',20,'dorm'); run('2026-09-17',20.5,21.5); check('2. 不是交往中：沒有 9/17 那則',!PHONE.sent(G,'y2r2_k9_ask'));
@@ -404,9 +405,10 @@ const K=t=>'kexin:'+t;
   // 20. 2-Y2-22 語彤事件 11
   const yth=(key,flags)=>{ fresh(key,18,'noodle',flags); R('heroine_03','FAM'); return Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t); };
   check('20. H3 沒有 RENT_CONSULTATION：沒有「幫她」選項',yth('2027-05-25').length===0);
-  SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); check('20. 有 RENT_CONSULTATION：三個「幫她」選項（麵店）',JSON.stringify(Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t))===JSON.stringify(['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。']));
-  { const o=Y2R2.talkOpts(G,'heroine_03',GM)[2]; said=[]; await o.run(GM,{name:'陳語彤'});
-    check('20. 選「我找了一些資料。」→「……嗯。我想一下。」；YT_HELP_OFFERED、HELP_OFFERED、ev_yt_help_offer；剩兩個',has('……嗯。我想一下。')&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','HELP_OFFERED')&&!!G.events.done.ev_yt_help_offer&&Y2R2.talkOpts(G,'heroine_03',GM).length===2); }
+  /* AA_661 第 17 列（AA_643 第 7 節）：「幫她」三個選項（麵店或總圖）拿掉——想幫她的新版是 AA_625 第 11 節「想幫秀琴姨」（src/ytjob3d.js）。下面直接演 S.ytHelp 的定義（沒有入口）*/
+  SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); check('20. 有 RENT_CONSULTATION：三個「幫她」選項也不出（AA_661 第 17 列）',Y2R2.talkOpts(G,'heroine_03',GM).length===0,JSON.stringify(Y2R2.talkOpts(G,'heroine_03',GM).map(o=>o.t)));
+  { said=[]; await Y2R2.ytHelp(GM,{name:'陳語彤'},'info','我找了一些資料。');
+    check('20. 定義照舊：「我找了一些資料。」→「……嗯。我想一下。」；YT_HELP_OFFERED、HELP_OFFERED、ev_yt_help_offer；選單照樣沒有',has('……嗯。我想一下。')&&G.flags.YT_HELP_OFFERED===true&&SOCIAL.has('heroine_03','HELP_OFFERED')&&!!G.events.done.ev_yt_help_offer&&Y2R2.talkOpts(G,'heroine_03',GM).length===0); }
   /* AA_643 第 7 節（YT-REWRITE-1103）：ev_yt_help_dishes（麵店洗碗）整條關掉，由 AA_625 第 11 節「想幫秀琴姨」取代（tests/aa625_yt_unit.js）；下面 H1～H3 直接演定義，只確定舊存檔照舊能演 */
   to('2027-06-03',18); check('20. 6/3（四）18:00 麵店：事件 11 的麵店版關掉（retired、不觸發）',!!ev('ev_yt_help_dishes').retired&&!EVENTS.check(ev('ev_yt_help_dishes')));
   await play('ev_yt_help_dishes',['捲起袖子']);

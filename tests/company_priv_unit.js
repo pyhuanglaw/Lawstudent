@@ -392,7 +392,8 @@ await sec('8. 第 5 項 以安「明軒的事……」（期限 9/5）',async()=
       !o1.includes(T)&&o2.includes(T)&&!o3.includes(T)&&!o4.includes(T)&&o5.includes(T)&&narrFirst()&&JSON.stringify(H.said.slice(1).map(x=>x&&x.t))===JSON.stringify(['他還好嗎？','他今天還跟阿哲去打球。','嗯。','……你今天晚餐吃什麼。'])&&!!H.G.flags.AN_MX_ASKED,J({o1,o2,o3,o4,o5,s:said()})); });
 /* 第 6 項 語彤租約「幫她」三個選項：不擋 */
 await sec('8. 第 6 項 語彤租約「幫她」三個選項：不擋',async()=>{ fresh(DK('2027-05-20'),18,'noodle'); H.FRIEND('heroine_03'); SOCIAL.meet('heroine_03','noodle'); SOCIAL.remember('heroine_03','RENT_CONSULTATION',''); crowd('heroine_03',['hc_ayi','npc_huangxh']); const o=await optsOf('heroine_03');
-    check('8. 第 6 項 語彤麵店租約「幫她」三個選項：旁邊有人（阿姨、筱涵）照出（不擋）',['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。'].every(t=>o.includes(t)),J(o)); });
+    /* AA_661 第 17 列（AA_643 第 7 節，AA 定：退場）：麵店的「幫她」三個選項整段拿掉（她不在麵店；新版是 AA_625 第 11 節「想幫秀琴姨」）——原本檢查旁邊有人照出 */
+    check('8. 第 6 項 語彤麵店租約「幫她」三個選項：退場，旁邊有人沒人都不出（AA_661 第 17 列）',['要不要我問問看有沒有打工？','需要的話，我可以先借妳。','我找了一些資料。'].every(t=>!o.includes(t)),J(o)); });
 /* 第 7 項 交往中的那一版：旁邊有人說一般版 */
 await sec('8. 第 7 項 交往中的那一版：旁邊有人說一般版',async()=>{ const R7=[];
     fresh(TD('Y3S1',15,2),15,'campus'); H.CLOSE('heroine_01'); SOCIAL.meet('heroine_01','campus'); H.date('heroine_01'); const s1=PRIVTALK.ladStep(H.G,'heroine_01','A5-L8');

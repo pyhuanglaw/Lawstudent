@@ -20,8 +20,8 @@ let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name
 // 1. 資料一致
 { const bad=[]; for(const r of ENCOUNTERS.rows){ if(r.kexin) continue; const e=(CHARACTERS[r.who].daily_schedule||[]).find(q=>q.enc===r.spot&&q.from===r.from&&q.to===r.to); if(!e||e.zone!==null||e.act!=='out'||e.away!==r.away||e.days.join()!==r.days.join()||(r.terms||null)&&JSON.stringify(e.terms)!==JSON.stringify(r.terms)&&!(e.terms&&r.terms==null)) bad.push(r.who+'@'+r.spot); }
   check('1. 每一列（可昕以外）在 characters.js 有同一個時段的 away（enc、星期、學期一樣）',!bad.length,bad.join(' '));
-  const n={D04:0,D06:0,D12:0,D13:0}; for(const r of ENCOUNTERS.rows) n[r.spot]++; check('1. 四個景點：西門町 6、北美館 3（沛珊大三起那一列拿掉，AA_282）、大稻埕 3、淡水 2（AA_160 5-6）',n.D04===6&&n.D06===3&&n.D12===3&&n.D13===2,JSON.stringify(n));
-  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句（沛珊 D20 那一列拿掉＝30 個，AA_282）',memos.length===30&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
+  const n={D04:0,D06:0,D12:0,D13:0}; for(const r of ENCOUNTERS.rows) n[r.spot]++; check('1. 四個景點：西門町 5（Alison 那一列拿掉，AA_661 第 30 列）、北美館 3（沛珊大三起那一列拿掉，AA_282）、大稻埕 3、淡水 2（AA_160 5-6）',n.D04===5&&n.D06===3&&n.D12===3&&n.D13===2,JSON.stringify(n));
+  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句（沛珊 D20 那一列拿掉、Alison D04 那一列拿掉＝29 個，AA_282、AA_661 第 30 列）',memos.length===29&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
   check('1. 記憶的字接進 SOCIAL.MEMORY_LABEL',SOCIAL.MEMORY_LABEL.ENC_D06_AN==='在美術館遇到她');
   const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); const se=ev.slice(0,ev.indexOf('const SMALLTALK'));
   check('2. R7：劇情事件（STORY_EVENTS）不讀 ENC_',se.indexOf('ENC_')<0); }

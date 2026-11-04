@@ -113,8 +113,8 @@ await sec(6,async()=>{
   const pg=J(PG_DATES);
   check('6. pg_dates：「元旦回家，我媽問研究單位在做什麼。……她說：『所以是公務員？』」照媽媽',pg.includes('元旦回家，我媽問研究單位在做什麼。我講了二十分鐘。她說：『所以是公務員？』')&&!pg.includes('元旦回家，我爸問研究單位'));
   const enc=(ENCOUNTERS.list||ENCOUNTERS.encounters||[]); const ej=J(ENCOUNTERS);
-  check('6. 礁溪偶遇 why「她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。」、記憶「在礁溪遇到學姊和她媽媽、奶奶」',ej.includes('"她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。"')&&ENCOUNTERS.labels.ENC_D24_SIS==='在礁溪遇到學姊和她媽媽、奶奶'&&LABEL('ENC_D24_SIS')!=='在礁溪遇到學姊和她媽媽',J([ENCOUNTERS.labels.ENC_D24_SIS,LABEL('ENC_D24_SIS')]));
-  check('6. 礁溪重訪（enc_walk）「泡腳池。上次學姊和她媽媽、奶奶坐在這裡。」',J(ENC_WALK).includes('"泡腳池。上次學姊和她媽媽、奶奶坐在這裡。"')&&!J(ENC_WALK).includes('"泡腳池。上次學姊和她媽媽坐在這裡。"'));
+  check('6. 礁溪偶遇 why「她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。」、記憶「在礁溪遇到學姊一家」（AA_661 第 32 列、AA_611 #3）',ej.includes('"她和媽媽、奶奶坐在泡腳池邊，褲管捲到膝蓋。"')&&ENCOUNTERS.labels.ENC_D24_SIS==='在礁溪遇到學姊一家'&&LABEL('ENC_D24_SIS')!=='在礁溪遇到學姊和她媽媽',J([ENCOUNTERS.labels.ENC_D24_SIS,LABEL('ENC_D24_SIS')]));
+  check('6. 礁溪重訪（enc_walk）「泡腳池。上次學姊一家坐在這裡。」（AA_661 第 32 列、AA_611 #3）',J(ENC_WALK).includes('"泡腳池。上次學姊一家坐在這裡。"')&&!J(ENC_WALK).includes('"泡腳池。上次學姊和她媽媽坐在這裡。"'));
   { const D=ev('ev_sis_graduation').dialogue.filter(l=>l.text), i=D.findIndex(l=>l.text==='來，拍一張。');
     check('6. 她的畢業典禮：「九月開學？」學姊的媽媽；「（媽媽笑了。）」後「來，拍一張。」＝學姊的奶奶',D[0].speaker==='學姊的媽媽'&&D[0].text==='九月開學？'&&i===3&&D[i].speaker==='學姊的奶奶'&&D[2].text==='（媽媽笑了。）'&&!D.some(l=>DAD.test(String(l.speaker))),J(D.slice(0,5))); }
 });
@@ -131,7 +131,7 @@ await sec(8,()=>{
   const bad=evs.filter(Boolean).filter(e=>DAD.test(J(e.dialogue))).map(e=>e.id);
   check('8. 3/14 書桌夜、3/17 晚餐、208 剪報、出來走一圈、她的畢業典禮：台詞和說話人都沒有「爸」',evs.every(Boolean)&&!bad.length,J(bad));
   check('8. 畢業典禮（fatherGrad）、3/14 私訊（R3.FATHER_ASK）沒有「爸」',!DAD.test(J(POSTGRAD_LINES.THERMOS))&&!DAD.test(J(R3.FATHER_ASK||'爸')));
-  check('8. 記憶名稱 MET_SIS_FATHER、US208_CLIPPING、ENC_D24_SIS 都不提爸爸',['MET_SIS_FATHER','US208_CLIPPING','ENC_D24_SIS'].every(k=>LABEL(k)&&!DAD.test(LABEL(k))&&/奶奶/.test(LABEL(k))),J(['MET_SIS_FATHER','US208_CLIPPING','ENC_D24_SIS'].map(LABEL)));
+  check('8. 記憶名稱 MET_SIS_FATHER、US208_CLIPPING、ENC_D24_SIS 都不提爸爸（ENC_D24_SIS＝「在礁溪遇到學姊一家」，AA_661 第 32 列）',['MET_SIS_FATHER','US208_CLIPPING','ENC_D24_SIS'].every(k=>LABEL(k)&&!DAD.test(LABEL(k))&&(k==='ENC_D24_SIS'?LABEL(k)==='在礁溪遇到學姊一家':/奶奶/.test(LABEL(k)))),J(['MET_SIS_FATHER','US208_CLIPPING','ENC_D24_SIS'].map(LABEL)));
 });
 
 H.done();

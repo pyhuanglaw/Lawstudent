@@ -77,9 +77,10 @@ await sec(1,async()=>{
     G.hour=12; check('1. 同一天 12:00：不在研討室 B',!(bh(G)&&bh(G).zone==='wancai_semb'));
     G.hour=10; const w=STORY.whereIs(GM,'classmate_bohan'); check('1. 人物線索：萬才館 研討室 B（幫忙，到 12:00）（房間名稱照配置檔）',!!w&&w.zone==='wancai_semb'&&w.act==='幫忙'&&w.until==='12:00'&&PLACES.names.wancai_semb===LAY('wancai_semb').name,J(w)+' '+PLACES.names.wancai_semb); }
   { const G=fresh(keyOf(d1),10,'wancai'); check('1. 大一（志工從大二開始）：不在研討室 B',!(bh(G)&&bh(G).zone==='wancai_semb')); }
-  { const bad=[]; let n=0; for(const t of ['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']){ const R=CALENDAR.termDays(t); for(let d=R.from;d<=R.to;d++){ if(CALENDAR.dateOf(d).wd!==6) continue; n++;
-      const G={day:d,hour:10,weekday:6,stage:'law',flags:{}}; const e=STORY.schedEnt(CHARACTERS.classmate_bohan,G), here=!!e&&e.zone==='wancai_semb'; if(here!==STORY.fafuDuty(G)) bad.push(keyOf(d)); } }
-    check('1. 大二～大四每一個週六：柏翰在研討室 B＝STORY.fafuDuty（第 3 週起的單週、考試週停、國定假日不值班）',n>80&&!bad.length,n+' 個週六；不一樣：'+bad.join('、')); }
+  /* AA_661 第 35 列（AA_604 第 3 場，AA 定）：柏翰法服值班到大三上，之後交接——大三下起不在研討室 B（原本大二～大四每個值班的週六都在）*/
+  { const bad=[], late=[]; let n=0; for(const t of ['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']){ const R=CALENDAR.termDays(t), on=['Y2S1','Y2S2','Y3S1'].includes(t); for(let d=R.from;d<=R.to;d++){ if(CALENDAR.dateOf(d).wd!==6) continue; n++;
+      const G={day:d,hour:10,weekday:6,stage:'law',flags:{}}; const e=STORY.schedEnt(CHARACTERS.classmate_bohan,G), here=!!e&&e.zone==='wancai_semb'; if(on&&here!==STORY.fafuDuty(G)) bad.push(keyOf(d)); if(!on&&here) late.push(keyOf(d)); } }
+    check('1. 大二上～大三上每一個週六：柏翰在研討室 B＝STORY.fafuDuty（第 3 週起的單週、考試週停、國定假日不值班）；大三下起不在（AA_661 第 35 列）',n>80&&!bad.length&&!late.length,n+' 個週六；不一樣：'+bad.join('、')+'｜大三下起還在：'+late.join('、')); }
   { const G=fresh(keyOf(d2),10,'wancai'); await GM.enter('wancai_semb',Object.assign({},LAY('wancai_semb').spawn)); const sp=LAY('wancai_semb').sets.consult.spots;
     const b=spawned.find(s=>s.id==='classmate_bohan'); check('1. 進研討室 B：柏翰坐在西邊隔間志工的位子（spots.duty，populateSchedule 照作息放）',!!b&&near(b,sp.duty)&&!!b.o&&!!b.o.seat,J(b&&{x:b.x,z:b.z,seat:!!(b.o&&b.o.seat)}));
     const v=xAt('rab3_semb_vol',sp.volunteer); check('1. 東邊隔間一位背景的初談志工（spots.volunteer，坐著、不能搭話）',!!v&&!!v.o.seat&&!v.o.talk&&v.o.greet===false,J(extras.map(e=>e.id)));
