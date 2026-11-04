@@ -28,6 +28,9 @@ PE_fix     | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_
 PE_ctl     | c6814325c | probe | docs/story_planning/test_tools/cc/cc_pe_in_gym_probe.py | index.html | 25 | CASES=A;CC_HEADLESS=0
 PE644     | 933f8e08d | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 45 | CASES=normal,name,swim,swim_closed,late,absent,econ;CC_HEADLESS=0
 PE644-PRE | 6c14ce66de9 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 10 | CASES=normal;CC_HEADLESS=0
+# （CC 00:3x：MAP 認識的人判斷錯（掃到 0 人）→ fix3／ctl3；YT3 稿在 PC 讀不到（Windows 中文路徑）→ 讀稿改寫後重跑 A、C、D、E）
+MAP_fix3   | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
+MAP_ctl3   | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
 MD_haopai_v2 | 1cd3e5950 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
 MD_dabu_v2 | e5be2b603 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
