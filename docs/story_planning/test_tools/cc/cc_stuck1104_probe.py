@@ -45,7 +45,7 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, D=GAME.D||{}, p=P.obj.posit
     dlg:!!D.active, depth:D.busyDepth|0, who:(D.busyWho||[]).slice(-4), adv:!!(typeof ADV!=='undefined'&&ADV.active), cam:E.cam&&E.cam.mode||null, frozen:!!P.frozen, busy:!!P.busy, pose:P.pose||null, paused:!!E.paused,
     name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60),
     choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim().slice(0,40)),
-    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, nch:document.querySelectorAll('#choices button').length}; })()"""
+    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, lastTalkError:GAME.lastTalkError?String(GAME.lastTalkError.message||GAME.lastTalkError).slice(0,200):null, nch:document.querySelectorAll('#choices button').length}; })()"""
 
 
 DIAG = """(()=>{ const G=GAME.G, D=GAME.D||{}; const t=document.getElementById('dlgText'), box=document.getElementById('dlg');
@@ -126,7 +126,7 @@ async def talk(pg, cdp, save, n, path, errs):
         if sig != last:
             last = sig; still = time.time(); step += 1
             # BB 00:56：每一步記 busy／depth／ADV＋截圖（前 12 步），看 talkNo 那一句點掉以後出現什麼
-            print('  [%s] 第 %d 步：%s「%s」選單 %s｜busy=%s depth=%s adv=%s running=%s frozen=%s' % (tag, step, s['name'] or '（旁白）', s['text'], J(s['choices']), s['busy'], s['depth'], s['adv'], s['running'], s['frozen']), flush=True)
+            print('  [%s] 第 %d 步：%s「%s」選單 %s｜busy=%s depth=%s adv=%s running=%s frozen=%s lastTalkError=%s' % (tag, step, s['name'] or '（旁白）', s['text'], J(s['choices']), s['busy'], s['depth'], s['adv'], s['running'], s['frozen'], s.get('lastTalkError')), flush=True)
             if step <= 12: await pg.screenshot(path=os.path.join(OUT, 'step_%s_%02d.png' % (tag, step)))
             warns = [c for c in CONSOLE[-40:] if c.startswith(('warning', 'error'))]
             if warns: print('  [%s]   console warn/error（最近）：%s' % (tag, J(warns[-4:])), flush=True)

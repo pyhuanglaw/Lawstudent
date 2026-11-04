@@ -21,6 +21,8 @@
 # ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
 STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 STUCK_1104_dev  | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+STUCK_1104_fix  | de38333d1 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+STUCK_1104_main2 | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
 PE644b | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # （BB 00:44 補三項，排在社交冒煙後面；社交冒煙寫好會插在 PE644b 前面）
 PE644-CARD | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 25 | CASES=econ_card;CC_HEADLESS=0
@@ -83,7 +85,7 @@ N20X_p0     | aa8cb5beb | game | tests/p0_movement.py | index.html | 15 | CC_HEA
 N20X_moku_u | aa8cb5beb | node | tests/mokuyobi_unit.js | index.html | 5 | 
 N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 | 
 N20X_flow | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
-N20X_moks | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 75 | CASES=closed,order,date_zr,rain,names;CC_HEADLESS=0
+N20X_moks | de38333d1 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 75 | CASES=closed,order,date_zr,rain,names;CC_HEADLESS=0
 ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
 ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
 N20_f606c     | a8c485729 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
