@@ -89,6 +89,10 @@ ALLOFF_JS = "(async()=>{ const L=GAME.E.zone.ggLit; if(!L||!L.lit) return 'no gg
 GLASS_JS = "(async(on)=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name==='cafe_glass'){ o.visible=on; n++; } }); await " + TWO_FRAMES + "; return n; })"
 
 
+# GG_night_r8（LAWWW／LAWWW2 08:45）：「底」——窗卡 mesh 的 color、emissive 設 (0,0,0) 再量同一個框（路燈、環境光、玻璃照在那一塊的亮度）；BASE=1、晚上那一輪才做
+BLACK_JS = "(async(on)=>{ const W=window.__ccBlk||(window.__ccBlk=new Map()); GAME.E.scene.traverse(o=>{ if(!o.isMesh||o.name!=='NOSHADOW_xs_fronts_lit') return; const m=o.material; if(on){ if(!W.has(m)) W.set(m,{c:m.color.clone(),e:m.emissive?m.emissive.clone():null}); m.color.setRGB(0,0,0); if(m.emissive) m.emissive.setRGB(0,0,0); } else { const b=W.get(m); if(b){ m.color.copy(b.c); if(b.e&&m.emissive) m.emissive.copy(b.e); } } }); if(!on) W.clear(); await " + TWO_FRAMES + "; return true; })"
+
+
 def luma_of(png, quad, iw, ih):
     from PIL import Image, ImageStat
     im = Image.open(png).convert('L'); W, H = im.size; sx, sy = W / iw, H / ih
@@ -176,6 +180,14 @@ async def run_time(pg, hour, when):
             except Exception as e:
                 print('  %s %s ②③ 失敗：%r' % (when, k, e), flush=True)
             await pg.wait_for_timeout(1200)   # ggShopLit 每 30 幀照營業時間寫回 lit
+        if os.environ.get('BASE') == '1' and when == 'night':
+            try:
+                await pg.evaluate(BLACK_JS + '(true)'); await pg.wait_for_timeout(200)
+                await pg.screenshot(path=os.path.join(OUT, 'card_%s_%s_black.png' % (k, when)))
+                await pg.evaluate(BLACK_JS + '(false)')
+                print('  %s %s 「底」：窗卡 color／emissive＝0 的截圖 _black' % (when, k), flush=True)
+            except Exception as e:
+                print('  %s %s 「底」失敗：%r' % (when, k, e), flush=True)
         try: ci['ray'] = await pg.evaluate(RAY_JS + '(%s)' % J([cx, (y0 + y1) / 2, zz]))
         except Exception as e: ci['ray'] = 'ERR ' + str(e)[:200]
         print('  %s %s raycast：%s' % (when, k, J(ci['ray'])), flush=True)
