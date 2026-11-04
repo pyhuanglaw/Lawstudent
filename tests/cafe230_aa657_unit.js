@@ -42,11 +42,11 @@ function touchable(it,from){ const r=(it.radius||1.5)-0.05, P=E.player, c=[];
   c.sort((a,b)=>a[0]-b[0]); for(const [,x,z] of c){ P.obj.position.set(x,0,z); if(E.nearestInteractable()!==it) continue; if(from&&!walk(from,[x,z]).ok) continue; return [r2(x),r2(z)]; } return null; }
 const L=typeof CAFE230_LAYOUT!=='undefined'?CAFE230_LAYOUT:null;
 // ---- A1 ----
-check('A1 配置 src/data/cafe230_layout.js v2 載入（zone cafe、glb aa_support/cafe230.glb）',!!L&&L.version===2&&L.zone==='cafe'&&L.glb==='assets/models/env/second_ai/aa_support/cafe230.glb',J(L&&[L.version,L.zone,L.glb]));
+check('A1 配置 src/data/cafe230_layout.js v3 載入（zone cafe、glb aa_support/cafe230.glb）',!!L&&L.version===3&&L.zone==='cafe'&&L.glb==='assets/models/env/second_ai/aa_support/cafe230.glb',J(L&&[L.version,L.zone,L.glb]));
 if(!L){ console.log('FAILED '+(fails)); process.exit(1); }
 const R=loadZone('cafe'), z=R.z, its=R.its, IN=[0,5];
 const man=ASSETS.manifest['bldg.cafe230_interior'];
-check('A1 區域照新配置建（z.cafe230＝2）、正式模型登錄 bldg.cafe230_interior＝配置的 glb（檔案在、building）',z.cafe230===2&&!!man&&man.url===L.glb&&man.type==='building'&&fs.existsSync(path.join(ROOT,L.glb)),J(man&&man.url));
+check('A1 區域照新配置建（z.cafe230＝3）、正式模型登錄 bldg.cafe230_interior＝配置的 glb（檔案在、building）',z.cafe230===3&&!!man&&man.url===L.glb&&man.type==='building'&&fs.existsSync(path.join(ROOT,L.glb)),J(man&&man.url));
 check('A1 zones3d.js：配置在的時候載 bldg.cafe230_interior、接 attachCafe230；不在照舊 bldg.cafe_interior＋attachCafeInterior',/if\(L230\)\{ cafe230Reg\(L230\); if\(typeof ASSETS!=='undefined'&&ASSETS\.manifest\['bldg\.cafe230_interior'\]\)/.test(rd('src/zones3d.js'))&&/attachRoomGLB\(z,g0,g,root\); attachCafe230\(E,z,g0,root\)/.test(rd('src/zones3d.js'))&&/else if\(typeof ASSETS!=='undefined'&&ASSETS\.manifest\['bldg\.cafe_interior'\]\)/.test(rd('src/zones3d.js')));
 { const h=rd('index.html'), sc=[...h.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]); check('A1 index.html：cafe230_layout.js 在 zones3d.js 前面',sc.indexOf('src/data/cafe230_layout.js')>0&&sc.indexOf('src/data/cafe230_layout.js')<sc.indexOf('src/zones3d.js')); }
 check('A1 LICENSES.md：cafe230.glb 一行（本作 Blender、AA 製作）',/\| [^\n]*aa_support\/cafe230\.glb[^\n]*本作 Blender[^\n]*AA 製作/.test(rd('LICENSES.md')));
@@ -75,17 +75,17 @@ for(const [n,ap] of [[0,[3.9,-4.1]],[1,[3.9,-0.9]]]){ const w=walk(IN,ap); check
 // ---- A3 座位 ----
 check('A3 吧檯 10～13 tag bar（照舊 bar、lift 0.27）、沙發 14～16 tag sofa',[10,11,12,13].every(i=>z.seats[i].tag==='bar'&&z.seats[i].bar&&z.seats[i].lift===0.27)&&[14,15,16].every(i=>z.seats[i].tag==='sofa'&&z.seats[i].sofa));
 const B=L.seats, bk=z.seats.slice(17);
-check('A3 卡座 3 個接在 17 號後面（照配置的位置、方向；tag booth、late＝照作息最後才挑）',z.seats.length===20&&bk.every((q,i)=>q.x===B[i].x&&q.z===B[i].z&&q.yaw===B[i].yaw&&q.tag==='booth'&&q.late===true),J(bk));
-const want={8:'坐下',9:'坐下',10:'坐吧檯',11:'坐吧檯',12:'坐吧檯',13:'坐吧檯',17:B[0].label,18:B[1].label,19:B[2].label};
+check('A3 卡座 3 個＋窗邊沙發椅 2 個（v3）接在 17 號後面（照配置的位置、方向；卡座 tag booth、late＝照作息最後才挑；沙發椅 tag sofa）',z.seats.length===22&&bk.length===5&&bk.every((q,i)=>q.x===B[i].x&&q.z===B[i].z&&q.yaw===B[i].yaw&&q.tag===(B[i].tag||'booth')&&(B[i].table!=='booth'||q.late===true)),J(bk));
+const want={8:'坐下',9:'坐下',10:'坐吧檯',11:'坐吧檯',12:'坐吧檯',13:'坐吧檯',17:B[0].label,18:B[1].label,19:B[2].label,20:B[3].label,21:B[4].label};
 const btn=i=>its.find(q=>q.seat&&q.cafeSeat===i);
 const lbad=Object.keys(want).filter(i=>{ const b=btn(+i), q=z.seats[+i]; return !b||b.label!==want[i]||!b.cafeTable||Math.abs(b.seat.x-q.x)>1e-6||Math.abs(b.seat.z-q.z)>1e-6||(q.lift&&b.seat.lift!==q.lift); });
-check('A3 8～13、17～19 有按鈕：吧檯「坐吧檯」（lift 0.27）、長桌兩端與卡座「坐下」／「坐卡座」；都帶 cafeTable（「點杯咖啡慢慢讀」，AA_659 第 1 節）',!lbad.length,J(lbad));
+check('A3 8～13、17～21 有按鈕：吧檯「坐吧檯」（lift 0.27）、長桌兩端與卡座「坐下」／「坐卡座」；都帶 cafeTable（「點杯咖啡慢慢讀」，AA_659 第 1 節）',!lbad.length,J(lbad));
 const seatBtns=its.filter(q=>q.seat), unreach=[];
 for(const b of seatBtns){ if(!touchable(b,IN)) unreach.push([b.label,b.seat.x,b.seat.z]); }
 check('A3 每一個座位按鈕（'+seatBtns.length+' 個：原本 4 桌＋沙發＋新開放 9 個）都按得到、從進門走得到',!unreach.length,J(unreach));
 // ---- A4 ----
 const blk=(L.blocks||[]).filter(b=>E.canStand(b[0],b[1],0.05,0));
-check('A4 配置的阻擋（卡座 (−6.7,0)、小圓桌 (−5.4,0)）中心站不住',!blk.length&&L.blocks.length===2,J(blk));
+check('A4 配置的阻擋（卡座、小圓桌，v3 加窗邊兩張沙發椅、兩張小圓桌、兩條窗台桌，共 8 個）中心站不住',!blk.length&&L.blocks.length===8,J(blk));
 check('A4 大盆栽搬到 (−6.35, 1.95)：那裡擋住（配置 plant_moved）',!E.canStand(-6.35,1.95,0.05,0)&&L.added.some(q=>q.kind==='plant_moved'&&J(q.to)===J([-6.35,1.95])));
 // ---- A5 ----
 for(const [kind,label,x,zz] of [['record','看唱片',4.1,-5.0],['pastry','看蛋糕櫃',1.4,-3.65]]){ const it=its.find(q=>q.wzShop==='cafe'&&q.kind===kind);

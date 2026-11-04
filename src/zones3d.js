@@ -1840,7 +1840,7 @@ const Z3 = (function(){
     for(const b of L.blocks||[]){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.5,b[3]),fbM); m.position.set(b[0],0.25,b[1]); g.add(m); }   /* 備用模型的卡座、小圓桌色塊 */
     const S0=z.seats.slice(0,17), lab=i=>i>=10&&i<=13?'坐吧檯':'坐下';
     for(const i of [8,9,10,11,12,13]){ const q=S0[i]; if(!q) continue; const seat={x:q.x,z:q.z,yaw:q.yaw}; if(q.lift) seat.lift=q.lift; E.interactables.push({x:q.x,z:q.z,radius:0.9,label:lab(i),seat,cafeTable:true,cafeSeat:i}); }   /* 「點杯咖啡慢慢讀」只認 cafeTable（game3d.js seatMenu）*/
-    for(const st of L.seats||[]){ const q={x:st.x,z:st.z,yaw:st.yaw,tag:st.table||'booth',table:st.table||'booth',late:true}, seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.ap){ q.ap=st.ap.slice(); seat.ap=st.ap.slice(); } z.seats.push(q); E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat,cafeTable:true,cafeSeat:z.seats.length-1}); }   /* ap：配置指定的走近點（卡座前到小圓桌只有 0.35 m，從桌子南北側走近；game3d.js seatApproach 先試它）*/
+    for(const st of L.seats||[]){ const q={x:st.x,z:st.z,yaw:st.yaw,tag:st.tag||st.table||'booth',table:st.table||'booth',late:true}, seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.ap){ q.ap=st.ap.slice(); seat.ap=st.ap.slice(); } z.seats.push(q); E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat,cafeTable:true,cafeSeat:z.seats.length-1}); }   /* ap：配置指定的走近點（卡座前到小圓桌只有 0.35 m，從桌子南北側走近；game3d.js seatApproach 先試它）*/
     for(const q of L.interact||[]) if(CAFE230_CUST[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:0.9,label:CAFE230_CUST[q.kind],wzShop:'cafe',kind:q.kind});
     nav._cm=null; }
   /* 正式模型（attachRoomGLB 之後）：GLOW_* 光暈合成一個網格（照開燈切白天／晚上，和 AA 的公館店一樣 ggAAattach）；窗外的畫（WALL_*_VIEW_*）晚上調暗；

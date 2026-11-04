@@ -1,12 +1,12 @@
 {
- "objects": 28,
- "unique_meshes": 28,
- "tris": 43648,
- "tris_drawn": 43648,
+ "objects": 27,
+ "unique_meshes": 27,
+ "tris": 49402,
+ "tris_drawn": 49402,
  "materials": 18,
  "out": "../../../tmp/claude-0/-home-user-Lawstudent/fa766b7f-0f91-5caf-86c3-26385a2a2ff9/scratchpad/a23/cafe230.glb",
- "bytes": 2800032,
+ "bytes": 3067928,
  "texres": 512,
- "layout": 2,
+ "layout": 3,
  "zone": "cafe"
 }
