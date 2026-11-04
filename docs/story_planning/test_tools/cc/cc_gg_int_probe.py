@@ -13,7 +13,7 @@
     A5 手機「地點」→ 青木茶室：快速前往到得了（zone aoki）
   yejian（頁間 v2）
     Y1 16 個座位逐一（每一張先【前置／捷徑】讀檔到店裡進門的地方 14:00，時段次數才是新的）：坐下 → 選單有「讀書」（不是灰的）→ 按讀書 → 選第一個長度 → 讀書時 P.seat 有、pose 是 sit／read → 結束後起身；
-       另記每一張坐下的位置和座位差多少（INFO）；沙發東邊那張（4.7, −3.65）：坐下滑多遠、路上有沒有穿過配置的阻擋、起身後卡不卡（OBS，不判 FAIL）
+       另記每一張坐下的位置和座位差多少（INFO）；沙發東邊那張（v3b (4.7, −3.85)）：坐下前要站在走近點（GAME.seatApproach）0.3 m 內、坐下那一下移動 ≤ 0.9 m、路上不穿過配置阻擋（BB 04:30 改判 PASS／FAIL）
     Y2 「看看法律書與文具」(−4.0, −3.9)、「門上的告示」(−4.0, 3.6)：各按一次、有反應（對話／選單／toast）、不卡住
     Y3 「找書的女生」（pool_story.js pool_1，平日 13～17 在書牆前 (0.3, −3.95)）：場景裡有她、量她到書牆（z −4.78＋0.22）的距離（≤ 1.2 m）
   wzbike（cb1d84290）
@@ -73,9 +73,19 @@ FIND_JS = """(q=>{ const p=GAME.E.player.obj.position; const its=GAME.E.interact
   return it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1.5,label:it.label,to:it.exit?it.exit.to:null}:null; })(%s)"""
 SEATS_JS = """(()=>GAME.E.interactables.filter(i=>i.seat&&!i.hidden).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),sx:+(+i.seat.x).toFixed(2),sz:+(+i.seat.z).toFixed(2),r:i.radius||0.8,label:i.label,study:!!i.study,ap:i.seat.ap||null})))()"""
 NEAREST_JS = """(([x,z])=>{ const it=GAME.E.nearestInteractable&&GAME.E.nearestInteractable(); return !!it&&!!it.seat&&Math.abs(it.x-x)<0.01&&Math.abs(it.z-z)<0.01; })(%s)"""
+PICKPT_JS = """(([x,z])=>{ const E=GAME.E, P=E.player, plv=P.lv|0; const it=E.interactables.find(i=>i.seat&&!i.hidden&&Math.abs(i.x-x)<0.01&&Math.abs(i.z-z)<0.01); if(!it) return null;
+  /* 照 engine3d.js E.nearestInteractable：範圍內、距離－prio 最小；有人坐的位子不算 */
+  const occ=st=>(E.npcs||[]).some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35);
+  const best=(px,pz)=>{ let b=null, bd=1e9; for(const q of E.interactables){ if(q.hidden) continue; if(q.seat&&(occ(q.seat)||q.seat.taken)) continue; if(E.levels&&q.lv!==undefined&&(q.lv|0)!==plv) continue; const d=Math.hypot(q.x-px,q.z-pz); if(d<(q.radius||1.8)&&d-(q.prio||0)<bd){ bd=d-(q.prio||0); b=q; } } return b; };
+  const r0=(it.radius||1.8)-0.05, out=[]; for(let r=0;r<=r0+1e-6;r+=0.1) for(let k=0;k<16;k++){ const px=it.x+Math.sin(k*Math.PI/8)*r, pz=it.z+Math.cos(k*Math.PI/8)*r; if(!E.canStand(px,pz,0.3,plv)) continue; if(best(px,pz)!==it) continue;
+    const pth=E.pathTo?E.pathTo(P.obj.position.x,P.obj.position.z,plv,px,pz,plv):[[px,pz]]; if(!pth||!pth.length) continue; out.push([+px.toFixed(2),+pz.toFixed(2),+r.toFixed(1)]); if(out.length>=4) return out; }
+  return out; })(%s)"""
+NEARSEAT_JS = """(()=>{ const it=GAME.E.nearestInteractable&&GAME.E.nearestInteractable(); return it&&it.seat?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),sx:+(+it.seat.x).toFixed(2),sz:+(+it.seat.z).toFixed(2),label:it.label}:null; })()"""
+APPROACH_JS = """(([x,z])=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-x)<0.01&&Math.abs(i.z-z)<0.01); if(!it||!GAME.seatApproach) return null; const a=GAME.seatApproach(it.seat); return a?[+a[0].toFixed(2),+a[1].toFixed(2)]:null; })(%s)"""
 STAND_JS = """(()=>{ const E=GAME.E, p=E.player.obj.position; return {free:!!E.nav.free(p.x,p.z), stand:!!E.canStand(p.x,p.z,0.3,E.player.lv|0)}; })()"""
 WINS_JS = """(()=>{ const z=GAME.E.zone; const w=(z&&z.wins)||[]; const vis=o=>{ for(let q=o;q;q=q.parent) if(q.visible===false) return false; return true; };
-  return w.map(o=>({pview:o.userData&&o.userData.pview||null, visible:vis(o), map:!!(o.material&&o.material.map)})); })()"""
+  const umap=o=>{ const U=o.material&&o.material.uniforms; const t=(U&&U.map&&U.map.value)||(o.material&&o.material.map)||null; return t?{img:!!(t.image&&(t.image.width||t.image.videoWidth)), w:t.image&&t.image.width||0}:null; };
+  return w.map(o=>({pview:o.userData&&o.userData.pview||null, visible:vis(o), self:o.visible!==false, map:umap(o), parent:o.parent&&o.parent.name||null})); })()"""
 BK = """(()=>{ const E=GAME.E, G=GAME.G, P=E.player; const pk=E.zone&&E.zone.group.children.find(o=>o.name==='bike_ride');
   return {zone:G.zone, riding:!!P.riding, parked:pk?[+pk.position.x.toFixed(2),+pk.position.z.toFixed(2)]:null, bike:G.bike?JSON.parse(JSON.stringify(G.bike)):null}; })()"""
 PCHK = """(()=>{ const E=GAME.E, G=GAME.G, s=G.bike||{}; const pk=E.zone.group.children.find(o=>o.name==='bike_ride'); let bb=null;
@@ -96,11 +106,15 @@ GIRL_JS = """(()=>{ let at=null; try{ for(const k in POOL_STORY.PEOPLE){ const p
 async def converse(pg, cdp, tag, plan=None, max_s=180, samples=None):
     """逐句印對話（transcript）、點到底；選單照 plan 的順序挑（字開頭；'' ＝第一個），對不上：選「不用了／起身／再看看」或最後一個。
     samples：list 的話，每一圈記一筆 (pose, seat)。回傳 (台詞, 選單, 對不上的選單)"""
-    plan = list(plan or []); lines = []; menus = []; odd = []; last = None; t0 = time.time(); idle = None
+    plan = list(plan or []); lines = []; menus = []; odd = []; last = None; t0 = time.time(); idle = None; lastc = None
     while time.time() - t0 < max_s:
         s = await pg.evaluate(ST)
         if samples is not None: samples.append((s['pose'], s['seat'], s['x'], s['z']))
         if s['toast'] and (not lines or lines[-1] != '［toast］' + s['toast']): lines.append('［toast］' + s['toast'])
+        if s['choices'] and lastc and lastc[0] == tuple(s['choices']) and time.time() - lastc[2] < 5 and lastc[3] < 3:
+            # 剛點過同一個選單、畫面還是它（點下去沒反應：toast、選單剛重畫）：再點同一個，不把 plan 往下用
+            print('  [%s] 選單還在（點了沒反應），再點一次「%s」' % (tag, s['choices'][lastc[1]]), flush=True)
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (lastc[1] + 1)); lastc = (lastc[0], lastc[1], time.time(), lastc[3] + 1); await pg.wait_for_timeout(1100); continue
         if s['choices']:
             menus.append(s['choices']); k = None
             if plan:
@@ -109,7 +123,8 @@ async def converse(pg, cdp, tag, plan=None, max_s=180, samples=None):
             if k is None:
                 odd.append(s['choices']); k = next((i for i, c in enumerate(s['choices']) if c.startswith(('不用了', '起身', '再看看', '算了'))), len(s['choices']) - 1)
             print('  [%s] 選單 %s → %s' % (tag, J(s['choices']), s['choices'][k]), flush=True)
-            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); await pg.wait_for_timeout(900); idle = None; last = None; continue
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (k + 1)); lastc = (tuple(s['choices']), k, time.time(), 0); await pg.wait_for_timeout(900); idle = None; last = None; continue
+        lastc = None
         if s['dlg']:
             if (s['name'], s['text']) != last:
                 last = (s['name'], s['text']); lines.append(((s['name'] + '：') if s['name'] else '') + s['text'])
@@ -196,33 +211,46 @@ async def reload_continue(pg, cdp, tag):
     return ok
 
 
+async def approach_seat(pg, cdp, t, sv):
+    """走到「最近的互動就是這一張」的地方（照 E.nearestInteractable 的規則算：相鄰座位同一個字，站在兩張中間會變成另一張）。
+    PC 11-04 GG_int_cvs C3：原本走到座位本身 0.35 m，最近的常是隔壁那張（字一樣），判 FAIL。回傳 True＝按鈕就是這一張"""
+    cands = await pg.evaluate(PICKPT_JS % J([sv['x'], sv['z']])) or []
+    tries = ([sv['ap']] if sv.get('ap') else []) + [c[:2] for c in cands][:3] + [[sv['x'], sv['z']]]
+    for k, tp in enumerate(tries):
+        await L.go_to(pg, cdp, Run(), tp[0], tp[1], 0.15 if k < len(tries) - 1 else 0.3, '座位 (%s,%s) 的按鈕點 %s' % (sv['sx'], sv['sz'], J(tp)), max_s=300)
+        await pg.wait_for_timeout(800)
+        if await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])): break
+    s = await pg.evaluate(ST); near_ok = await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])); nb = await pg.evaluate(NEARSEAT_JS)
+    return check('[%s] 走到座位旁：最近的互動是這一張（%s,%s）「%s」' % (t, sv['sx'], sv['sz'], sv['label']), near_ok and s['interact'].startswith(sv['label']),
+                 J({'at': [s['x'], s['z']], 'interact': s['interact'], 'nearest': nb, 'cands': cands}))
+
+
 async def sit_each(pg, cdp, tag, seats, idx, plan_extra, check_menu, after=None):
     """座位逐一：走過去、確定最近的互動是這一張、按下去、坐下、看選單、起身"""
     sv = seats[idx]; t = '%s_seat%02d' % (tag, idx)
-    target = sv['ap'] or [sv['x'], sv['z']]
-    await L.go_to(pg, cdp, Run(), target[0], target[1], 0.35, '座位 %d (%s,%s)' % (idx, sv['sx'], sv['sz']), max_s=300)
-    await pg.wait_for_timeout(800)
-    if not await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']])):
-        await L.go_to(pg, cdp, Run(), sv['x'], sv['z'], 0.2, '座位 %d（再靠近）' % idx, max_s=120); await pg.wait_for_timeout(800)
+    if not await approach_seat(pg, cdp, t, sv): return None
     s = await pg.evaluate(ST)
-    near_ok = await pg.evaluate(NEAREST_JS % J([sv['x'], sv['z']]))
-    if not check('[%s] 走到座位旁：按鈕是這一張的「%s」' % (t, sv['label']), near_ok and s['interact'].startswith(sv['label']), J({k: s[k] for k in ('x', 'z', 'interact')})):
-        return None
-    p0 = (s['x'], s['z']); samples = []
+    p0 = (s['x'], s['z']); samples = []; pre = []
+    apx = await pg.evaluate(APPROACH_JS % J([sv['x'], sv['z']]))   # 遊戲自己的走近點（GAME.seatApproach）
     await L.tap(pg, cdp, '#interact')
-    t0 = time.time(); s = None
-    while time.time() - t0 < 60:
+    t0 = time.time(); s = None; last = None
+    while time.time() - t0 < 90:
         s = await pg.evaluate(ST); samples.append((s['pose'], s['seat'], s['x'], s['z']))
         if s['choices']: break
+        if s['dlg']:   # 坐下那一句（青木、afar、Daybreak 的 STORY.onSeat）
+            if (s['name'], s['text']) != last: last = (s['name'], s['text']); pre.append(((s['name'] + '：') if s['name'] else '') + s['text']); print('  [%s] %s：%s' % (t, s['name'] or '（旁白）', s['text']), flush=True)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
         await pg.wait_for_timeout(400)
     seated = bool(s and s['seat']) and s['pose'] in ('sit', 'read')
     check('[%s] 坐下（P.seat 有、pose sit）' % t, seated, J({k: s[k] for k in ('pose', 'seat', 'x', 'z')}) if s else 'null')
     menu = (s or {}).get('choices') or []
-    res = {'menu': menu, 'p0': p0, 'sit': (s['x'], s['z']) if s else None, 'seat': (sv['sx'], sv['sz']), 'samples': samples}
+    k1 = next((i for i, q in enumerate(samples) if q[1]), None)
+    walk_end = (samples[k1 - 1][2], samples[k1 - 1][3]) if k1 else p0   # 坐下前最後一個取樣（走到走近點、還沒坐下）
+    res = {'menu': menu, 'p0': p0, 'sit': (s['x'], s['z']) if s else None, 'seat': (sv['sx'], sv['sz']), 'samples': samples, 'pre': pre, 'ap': apx, 'walkEnd': walk_end}
     if check_menu: check_menu(t, menu, s)
     await pg.screenshot(path=os.path.join(OUT, '%s.png' % t))
     lines, menus, odd = await converse(pg, cdp, t, plan_extra + ['起身'], 300, samples)
-    res['lines'] = lines
+    res['lines'] = pre + lines
     s2 = await pg.evaluate(ST)
     check('[%s] 起身（P.seat 沒了）' % t, not s2['seat'], J({k: s2[k] for k in ('pose', 'seat', 'x', 'z')}))
     if after: await after(t, s2)
@@ -246,8 +274,15 @@ async def case_cvs(pg, cdp, errs):
     fb0 = (await pg.evaluate(ST))['fb']; e0 = len(errs)
     if await enter_via(pg, cdp, 'C2', {'label': '進入日和便利店'}, '進入日和便利店', 'cvs', near=0.6):
         await wait_js(pg, "!!(GAME.E.zone&&GAME.E.zone.wins&&GAME.E.zone.wins.length)", 20)
+        w0 = await pg.evaluate(WINS_JS)
+        print('  [C2] 剛進門（鏡頭在店門外那一側，前牆淡出時窗的零件一起藏）：%s' % J(w0), flush=True)
+        # PC 11-04：剛進門判 visible false、map false——貼圖在 ShaderMaterial 的 uniforms.map（不是 material.map），前牆淡出時窗一起藏。走到店中間、鏡頭朝店門（窗）再看
+        await L.go_to(pg, cdp, Run(), 0.4, 0.2, 0.5, '店中間（看窗）')
+        await L.turn_camera_to(pg, cdp, 0.4, 6.0)
+        await wait_js(pg, "(()=>{ const w=(GAME.E.zone.wins||[])[0]; const U=w&&w.material&&w.material.uniforms; const t=U&&U.map&&U.map.value; return !!(t&&t.image&&t.image.width); })()", 30); await pg.wait_for_timeout(1500)
         w = await pg.evaluate(WINS_JS)
-        check('C2 從溫州街 A5 進：窗景是 cvs_wz、看得到', bool(w) and all(q['pview'] == 'cvs_wz' for q in w) and any(q['visible'] for q in w), J(w))
+        check('C2 從溫州街 A5 進：窗景是 cvs_wz（userData.pview）、貼圖載好了（uniforms.map 有圖）', bool(w) and all(q['pview'] == 'cvs_wz' for q in w) and any(q['map'] and q['map']['img'] for q in w), J(w))
+        check('C2 鏡頭朝窗的時候窗景看得到（自己和父節點都 visible）', any(q['visible'] for q in w), J(w))
         await pg.screenshot(path=os.path.join(OUT, 'C2_cvs_from_wz.png'))
         await stuck_check(pg, cdp, 'C2_inside', fb0, e0, errs)
         # C3 8 個座位
@@ -388,11 +423,13 @@ async def case_yejian(pg, cdp, errs):
         if res['sit']:
             slide = math.hypot(res['sit'][0] - res['p0'][0], res['sit'][1] - res['p0'][1]); off = math.hypot(res['sit'][0] - res['seat'][0], res['sit'][1] - res['seat'][1])
             print('INFO [Y1_seat%02d] 座位 %s：按下去的位置 %s → 坐好 %s（移動 %.2f m、離座位 %.2f m）' % (i, J(res['seat']), J(res['p0']), J(res['sit']), slide, off), flush=True)
-            if abs(res['seat'][0] - 4.7) < 0.05 and abs(res['seat'][1] + 3.65) < 0.05:
+            if abs(res['seat'][0] - 4.7) < 0.05 and abs(res['seat'][1] + 3.85) < 0.25:
+                # 頁間 v3b（919ec0f7c）：沙發照一般走近（沒有 ap）→ 走近點＝GAME.seatApproach；BB 04:30：「東邊那張不能再滑」改判 PASS／FAIL
                 thru = [q for q in sm if any(abs(q[2] - b[0]) < b[2] / 2 - 0.05 and abs(q[3] - b[1]) < b[3] / 2 - 0.05 for b in blocks) and not q[1]]
-                obs('[Y1_seat%02d] 沙發東邊那張：坐下前後移動 %.2f m（BB：約 1.3 m）、離座位 %.2f m；走路途中（還沒坐下）踩進配置阻擋的取樣 %d 筆' % (i, slide, off, len(thru)), J(thru[:4]))
-                await stuck_check(pg, cdp, 'Y1_sofa_east', fb0, e0, errs, soft=True)
-                continue
+                we, ap = res['walkEnd'], res['ap']; d_ap = math.hypot(we[0] - ap[0], we[1] - ap[1]) if ap else None; sl = math.hypot(res['sit'][0] - we[0], res['sit'][1] - we[1])
+                print('INFO [Y1_seat%02d] 沙發東邊：走近點 %s、坐下前站的地方 %s（離走近點 %s m）、坐好 %s（坐下那一下移動 %.2f m）；路上踩進配置阻擋 %d 筆' % (i, J(ap), J(we), d_ap if d_ap is None else round(d_ap, 2), J(res['sit']), sl, len(thru)), flush=True)
+                check('[Y1_seat%02d] 沙發東邊不再滑：坐下前站在走近點 0.3 m 內（GAME.seatApproach；v3b 沒有 ap）' % i, d_ap is not None and d_ap <= 0.3, J({'ap': ap, 'walkEnd': we}))
+                check('[Y1_seat%02d] 沙發東邊：坐下那一下移動 ≤ 0.9 m（走近點的候選最遠 0.9 m；v3a 滑 1.3 m）、路上沒有穿過配置的阻擋' % i, sl <= 0.9 and not thru, J({'slide': round(sl, 2), 'thru': thru[:3]}))
         await stuck_check(pg, cdp, 'Y1_seat%02d' % i, fb0, e0, errs)
     # Y2 買書、打工告示
     await load(pg, cdp, 'bookstore', sp['x'], sp['z'], 14.0, '頁間書屋進門的地方')
