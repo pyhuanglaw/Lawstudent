@@ -159,7 +159,10 @@ furn += [  # 二樓
          dict(type='sofa', lv=0, x=-2.2, z=-0.2, w=2.0, ry=r3(PI), seat=True),
          dict(type='coffeeTable', lv=0, x=-2.2, z=-1.4, w=1.2, d=0.6),
          dict(type='umbrella', lv=0, x=-7.45, z=-9.75, r=0.2),                                  # 門口的傘架（台灣的雨天）
-         dict(type='posterStand', lv=0, x=-3.0, z=-6.0, ry=r3(-PI / 4), w=0.62, d=0.45),     # 門廳的海報立牌（期末考週請勿占位、論文寫作工作坊）
+         dict(type='posterStand', lv=0, x=2.6, z=-6.4, ry=r3(-PI / 2), w=0.62, d=0.45),     # 門廳的海報立牌（期末考週請勿占位、論文寫作工作坊）：門廳中間、面向入口（BB_260 §5 第 1 點）
+         dict(type='bookcart', lv=0, x=7.6, z=0.2, ry=r3(-PI / 2), w=0.9, d=0.45),         # 還書車（影印區東牆窗下，BB_260 §5 第 1 點）
+         dict(type='planter', lv=0, x=-3.4, z=-5.6, r=0.3), dict(type='planter', lv=0, x=6.9, z=-6.3, r=0.3),   # 門廳兩盆大盆栽（BB_260 §5 第 1 點）
+         dict(type='bins', lv=0, x=-1.0, z=2.4, w=1.2, ry=r3(PI)),                           # 一樓回收桶（影印區南牆）
          dict(type='kiosk', lv=0, x=-7.6, z=-6.4, ry=r3(PI / 2), w=0.6, d=0.5)]              # 自助服務機（查館藏、印預約單；西牆、門和樓梯中間，面向東）
 
 # ---- 門（關著的、洗手間）：face＝門朝哪一邊（站在那一邊看得到門）----
@@ -173,6 +176,9 @@ doors = [dict(id='wc_m', lv=1, x=WC['doors'][0], z=DZ1, face='+z', label='男廁
 
 signs = [dict(lv=0, x=-4.95, z=-5.02, y=2.55, ry=r3(PI), w=1.6, text='2F 自習室・討論室・洗手間'),
          dict(lv=0, x=-7.94, z=ENT['z'], y=2.65, ry=r3(PI / 2), w=1.2, text='往閱覽室'),
+         dict(lv=0, x=-1.2, z=-7.6, y=2.95, ry=r3(-PI / 2), w=1.5, text='自習室在二樓', hang=True),   # BB_260 §5 第 1 點：從入口進來第一眼看到（吊牌，兩面都有字）
+         dict(lv=0, x=1.4, z=0.9, y=2.95, ry=r3(PI), w=1.0, text='影印區', hang=True),
+         dict(lv=0, x=-0.8, z=-11.06, y=2.35, ry=0.0, w=1.2, text='請保持安靜'),
          dict(lv=1, x=-4.95, z=r3(DZ1 + 0.14), y=2.55, ry=0.0, w=1.4, text='洗手間・飲水機'),
          dict(lv=1, x=sn['x'], z=-0.86, y=2.45, ry=r3(PI), w=1.0, text='自習室'),
          dict(lv=1, x=3.2, z=-0.86, y=2.1, ry=r3(PI), w=1.2, text='請保持安靜'),

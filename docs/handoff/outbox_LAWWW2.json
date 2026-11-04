@@ -5559,7 +5559,7 @@
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "d393b6f3c",
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
+   "ack": "ACK",
    "task": "SOCLIB-2F-1104",
    "files": [
     "src/soclib2f3d.js",
@@ -5576,7 +5576,7 @@
     "docs/art-rebuild/second_ai/wip/soclib2f_1104/"
    ],
    "state": "已交付",
-   "remaining": "LAWWW-C 拿檔＋git apply soclib2f_wiring.patch（ae5248250 為底）；加自習室讀書的人（平常 30～40%、期末 85%、老位子不放）；CC 真實流程＋截圖；BB 判 ART",
+   "remaining": "LAWWW-C 17:44 ACK：子代理在 worktree 接（檔案層級拿＋wiring patch；index.html examlib 衝突手動對）、AA_669 第 6 節旁白／老位子一起接、期末讀書的人八成五；總表 DL-LAWWW2-d393b6f3c。BB-C 17:44 Blender 階段方向 PASS（BB_260 §5），ART 前要改 4 點（P2）→ v2",
    "next": "LAWWW-C 接；二樓窗景照片（電腦上拍）；AA-C 看玩家文字",
    "noDirectIntegrate": false,
    "note": "使用者 11-04 16:1x 對 AA-C（X228、AA_669 第 6 節）。東側館＝新區域 soclib_2f：一樓門廳＋雙跑樓梯＋電梯＋影印休息區；二樓自習室 49 位（老位子＝靠窗北往南第三個 (6.82,1.5)，SL2.oldSeat()）、討論室 3、男女廁＋飲水機、置物櫃、公告欄。soclib2f_unit 等 7 支 ALL PASS；lm_probe 15 點過；沒在瀏覽器看過。檢查點 308df73ce、14b52ece0"

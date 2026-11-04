@@ -144,6 +144,7 @@ const SL2=(function(){
     clock:'牆上的鐘。走得比手機慢了一分鐘。',
     reserve:'預約書架：一格一格放著別人預約的書，每本都夾著一張寫了名字和取書期限的紙條。',
     newbooks:'新書推薦：館員挑的這個月新書，經濟、社會、政治、社工都有，旁邊放了一疊推薦卡。',
+    bookcart:'還書車：剛還回來、還沒上架的書，兩層都排得滿滿的。最上面一本夾著一張紙條：「請勿自行上架」。',
     poster:'海報：「期末考週，自習室請勿占位：離開超過 30 分鐘，東西會被館員收到服務台」。下面一張小的是「論文寫作工作坊，報名請洽一樓服務台」。',
     kiosk2:'自助服務機：查館藏、印預約單、查自己借了哪些書。螢幕上是「請先感應學生證」。' };
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin();
@@ -158,7 +159,7 @@ const SL2=(function(){
         nav.blockRect(cx,cz,dx,len,0,0); }
       else if(f.type==='discTable'){ b.add(M('#e4ddd0',{rough:0.5}),TK.boxG(f.w,0.04,f.d,1.2),f.x,y+0.74,f.z); for(const sx of [-1,1]) b.add(legM,TK.boxG(0.06,0.72,f.d-0.2),f.x+sx*(f.w/2-0.15),y+0.36,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
       else if(f.type==='whiteboard'){ b.add(M('#f6f7f5',{rough:0.25}),TK.boxG(f.w,1.0,0.03),f.x,y+1.45,f.z); b.add(alu(),TK.boxG(f.w+0.06,0.04,0.08),f.x,y+0.93,f.z+0.03); IT.push({x:f.x,z:f.z+0.65,radius:0.9,lv:f.lv,label:'看白板',look:LOOK.whiteboard}); }   /* 白板和桌子北端之間（三格走道的中間那一格）*/
-      else if(f.type==='bookingScreen'){ b.add(M('#2a2e33',{rough:0.4}),TK.boxG(0.26,0.18,0.03),f.x,y+1.45,f.z); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.22,0.14),new THREE.MeshBasicMaterial({map:TK.signTex(f.name,{bg:'#e9f4ee',color:'#1f4d38'})})); sc.position.set(f.x,y+1.46,f.z+0.026); (f.lv===1?lv1:lv0).add(sc);   /* 字放在樓層群組（正式模型載入後照樣在）、正式模型的螢幕面（f.z+0.023）前面 */
+      else if(f.type==='bookingScreen'){ b.add(M('#2a2e33',{rough:0.4}),TK.boxG(0.188,0.123,0.024),f.x,y+1.46,f.z); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.17,0.105),new THREE.MeshBasicMaterial({map:TK.signTex(f.name,{bg:'#e9f4ee',color:'#1f4d38'})})); sc.position.set(f.x,y+1.46,f.z+0.022); (f.lv===1?lv1:lv0).add(sc);   /* BB_260 §5 第 3 點：螢幕縮小、框改細（正式模型：框 0.188×0.123、螢幕 0.18×0.115）*/   /* 字放在樓層群組（正式模型載入後照樣在）、在正式模型的螢幕面（f.z+0.015）前面 7 mm */
         IT.push({x:f.x,z:f.z+0.75,radius:0.75,lv:f.lv,label:'看預約螢幕（'+f.name+'）',look:LOOK.booking}); }
       else if(f.type==='lockers'){ const len=f.z1-f.z0, cz=(f.z0+f.z1)/2, x=f.x+f.d/2; b.add(M('#c3c9cd',{rough:0.42,metal:0.2}),TK.boxG(f.d,1.8,len),x,y+0.9,cz); const cw=len/f.n;
         for(let i=0;i<f.n;i++) for(let j=0;j<4;j++){ const zc=f.z0+cw*(i+0.5), yc=y+0.25+j*0.44; b.add(M('#aeb5ba',{rough:0.42,metal:0.2}),TK.boxG(0.012,0.4,cw-0.03),f.x+f.d+0.006,yc,zc,0,{noShadow:true}); b.add(M('#6a7076',{rough:0.4}),TK.boxG(0.02,0.05,0.03),f.x+f.d+0.014,yc+0.08,zc+cw/2-0.07,0,{noShadow:true}); }
@@ -185,6 +186,8 @@ const SL2=(function(){
       else if(f.type==='slatWall'){ const len=f.z1-f.z0, pl=new THREE.Mesh(new THREE.PlaneGeometry(len,f.h),MAT.wood()); pl.position.set(f.x+0.02,y+0.1+f.h/2,(f.z0+f.z1)/2); pl.rotation.y=Math.PI/2; fb.add(pl); }   /* 竹木條牆（備用模型：一片竹色的面）*/
       else if(f.type==='hose'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#b3262b',{rough:0.4}),TK.boxG(0.74,1.3,0.12),0,0.9,0.06); sb.add(M('#e03a30',{rough:0.3}),TK.boxG(0.1,0.1,0.07),0,1.67,0.035); sb.build(g); }   /* 消防栓箱 */
       else if(f.type==='exitSign'){ const g=new THREE.Group(); g.position.set(f.x,y+f.y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#e6e8e6'),TK.boxG(0.44,0.16,0.06),0,0,0); sb.add(new THREE.MeshBasicMaterial({color:0x5fe08a}),TK.boxG(0.38,0.12,0.07),0,0,0); sb.build(g); }   /* 避難方向指示燈（綠色）*/
+      else if(f.type==='bookcart'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(MAT.steel(),TK.boxG(f.w,0.04,f.d),0,0.25,0); sb.add(MAT.steel(),TK.boxG(f.w,0.04,f.d),0,0.62,0); sb.add(M('#5a1f24'),TK.boxG(f.w-0.1,0.24,f.d-0.1),0,0.39,0); sb.add(M('#1f3350'),TK.boxG(f.w-0.1,0.24,f.d-0.1),0,0.76,0); sb.build(g);
+        nav.blockRect(f.x,f.z,f.w,f.d,-ry,0.05); IT.push({x:f.x+fx*0.75,z:f.z+fz*0.75,radius:0.9,lv:f.lv,label:'看還書車',look:LOOK.bookcart}); }   /* 還書車（BB_260 §5 第 1 點）*/
       else if(f.type==='umbrella'){ b.add(M('#6b7075',{rough:0.4}),new THREE.CylinderGeometry(f.r,f.r*0.9,0.55,14),f.x,y+0.275,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }   /* 傘架 */
       else if(f.type==='posterStand'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#3a3d41'),TK.boxG(f.w,1.25,0.04),0,0.95,0,0,{rx:-0.12}); sb.add(M('#3a3d41'),TK.boxG(f.w,1.25,0.04),0,0.95,-0.3,0,{rx:0.12}); sb.build(g);
         const pp=new THREE.Mesh(new THREE.PlaneGeometry(f.w-0.08,0.9),new THREE.MeshBasicMaterial({map:TK.signTex('期末考週 請勿占位',{bg:'#f6f1e4',color:'#7a2e2a',size:40})})); pp.position.set(0,1.0,0.075); pp.rotation.x=-0.12; g.add(pp); (f.lv===1?lv1:lv0).attach(pp);
@@ -198,7 +201,9 @@ const SL2=(function(){
       const ch=Z3.chair(s.lv===1?fb1:fb0,s.x,s.z,s.yaw,s.kind==='discuss'?'#5f6b75':'#c9b48e'); if(ch&&s.lv===1) ch.position.y=Y1;
       IT.push({x:s.x,z:s.z,radius:0.8,lv:s.lv,label:s.kind==='window'?'坐下讀書（靠窗）':(s.kind==='discuss'?'坐下（討論室）':'坐下讀書'),seat,study:s.kind!=='discuss'}); }
     // 指標（中文字一直顯示：正式模型沒有字）
-    for(const s of L.signs){ const y=(s.lv===1?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.22),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#2f4f5e',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; sp.name='sign_'+s.text; (s.lv===1?lv1:lv0).add(sp); } }
+    for(const s of L.signs){ const y=(s.lv===1?Y1:0)+s.y, mat=new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#2f4f5e',color:'#f3efe4'})});
+      for(const back of (s.hang?[0,1]:[0])){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.22),mat), ry=(s.ry||0)+(back?Math.PI:0), off=s.hang?0.026:0; sp.position.set(s.x+Math.sin(ry)*off,y,s.z+Math.cos(ry)*off); sp.rotation.y=ry; sp.name='sign_'+s.text; (s.lv===1?lv1:lv0).add(sp);
+        if(s.hang&&!back){ const fr=new THREE.Mesh(TK.boxG(s.w+0.06,s.w*0.22+0.06,0.04),M('#2b2d30')); fr.position.set(s.x,y,s.z); fr.rotation.y=s.ry||0; (s.lv===1?fb1:fb0).add(fr); } } } }   /* 吊牌（hang）：兩面都有字，中間一個深色框（框在備用模型裡；正式模型有自己的框和吊桿）*/
 
   // ---- 窗外的景：白天／晚上（B3.setOutView）；正式模型的玻璃是透明的：景搬到玻璃外面、放大 ----
   // ---- 區域 ----

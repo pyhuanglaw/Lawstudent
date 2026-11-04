@@ -344,9 +344,10 @@ for f in J['furniture']:
         c.vc.cbox(x - w / 2, x + w / 2, y + 0.95, y + 2.05, z - 0.015, z + 0.015, '#f7f8f6'); c.get('alu').box(x - w / 2 - 0.03, x + w / 2 + 0.03, y + 0.92, y + 2.08, z - 0.03, z - 0.016)
         c.get('alu').box(x - w / 2, x + w / 2, y + 0.9, y + 0.94, z + 0.0, z + 0.08)
         for j, col in enumerate(('#1f4a8a', '#b8262b', '#202225')): ccyl(c.vm, (x - 0.3 + j * 0.12, y + 0.945, z + 0.04), (x - 0.18 + j * 0.12, y + 0.945, z + 0.04), 0.009, col, seg=6)
-    elif k == 'bookingScreen':                                                            # 預約小螢幕（玻璃牆走廊那一面的直框上）；字由遊戲畫
-        x, z = f['x'], f['z']
-        c.vm.cbox(x - 0.14, x + 0.14, y + 1.36, y + 1.56, z - 0.02, z + 0.02, '#26292e'); c.get('screen').box(x - 0.12, x + 0.12, y + 1.38, y + 1.54, z + 0.02, z + 0.023)
+    elif k == 'bookingScreen':                                                            # 預約小螢幕（BB_260 §5 第 3 點：細框 4 mm、螢幕 0.18×0.115）＋一支短臂接到玻璃牆的鋁框；字由遊戲畫（f.z+0.022，在螢幕面 +0.015 前面）
+        x, z = f['x'], f['z']; yc = y + 1.46
+        c.vm.cbox(x - 0.094, x + 0.094, yc - 0.0615, yc + 0.0615, z - 0.012, z + 0.012, '#2a2e33'); c.get('screen').box(x - 0.09, x + 0.09, yc - 0.0575, yc + 0.0575, z + 0.012, z + 0.015)
+        c.vm.cbox(x - 0.02, x + 0.02, yc - 0.03, yc + 0.03, J['discZ'][1] + 0.045, z - 0.012, '#8f969b')
     elif k == 'lockers':                                                                  # 置物櫃：8 欄 × 4 層，灰色鋼板、門上一排通風孔、鑰匙（橘色號碼牌）
         x, z0, z1, dd, n = f['x'], f['z0'], f['z1'], f['d'], f['n']; cw = (z1 - z0) / n; xf = x + dd
         c.vm.cbox(x, xf - 0.02, y, y + 1.85, z0, z1, '#b9c0c5'); c.vm.cbox(x, xf, y, y + 0.08, z0, z1, '#5f656b')
@@ -360,9 +361,19 @@ for f in J['furniture']:
     elif k == 'notice':                                                                   # 公告欄：鋁框軟木板＋一張張的公告（頂點色）
         x, z, w = f['x'], f['z'], f['w']; T_ = rot(x, z, ry)
         rbox(c.get('alu'), T_, -w / 2 - 0.03, w / 2 + 0.03, y + 0.98, y + 2.12, -0.0, 0.025); rbox(c.vc, T_, -w / 2, w / 2, y + 1.0, y + 2.1, 0.0, 0.03, '#c4a77d')
-        for i in range(9):
-            u = -w / 2 + 0.15 + (i % 5) * (w - 0.3) / 4 + rng.uniform(-0.05, 0.05); v = y + (1.75 if i < 5 else 1.28) + rng.uniform(-0.06, 0.06); pw = rng.uniform(0.18, 0.3); ph = rng.uniform(0.24, 0.36)
-            rbox(c.vc, T_, u - pw / 2, u + pw / 2, v - ph / 2, v + ph / 2, 0.03, 0.033, rng.choice(['#fbfaf4', '#fff3c4', '#d9ecf4', '#f6d6cc', '#e2efd9', '#ffffff']))
+        # BB_260 §5 第 1 點「公告欄上的海報」：三張 A3 海報（標題色塊、圖、幾行字）＋幾張 A4 公告、便條；字不放
+        for (u, v, pw, ph, base, acc, img) in (((-0.66, 1.56, 0.32, 0.44, '#fbfaf4', '#c8452f', '#7fa7c9'), (-0.24, 1.6, 0.3, 0.42, '#24476b', '#f3c64a', '#e9e1cf'), (0.62, 1.53, 0.34, 0.46, '#f5e7c8', '#2f7d5b', '#d9774a'))
+                                               if f['what'] == 'floor1' else ((-0.62, 1.55, 0.34, 0.46, '#f5e7c8', '#2f6f8a', '#e0a24a'), (0.1, 1.58, 0.3, 0.42, '#fbfaf4', '#5b3e6b', '#9cc28a'), (0.6, 1.36, 0.3, 0.42, '#2d4a3a', '#efe3c2', '#c9d8de'))):
+            v = y + v
+            rbox(c.vc, T_, u - pw / 2, u + pw / 2, v - ph / 2, v + ph / 2, 0.03, 0.033, base)
+            rbox(c.vc, T_, u - pw / 2 + 0.02, u + pw / 2 - 0.02, v + ph / 2 - 0.02 - ph * 0.17, v + ph / 2 - 0.02, 0.033, 0.035, acc)          # 標題色塊
+            rbox(c.vc, T_, u - pw / 2 + 0.03, u + pw / 2 - 0.03, v - ph * 0.1, v + ph * 0.2, 0.033, 0.035, img)                                  # 圖
+            dark = base in ('#24476b', '#2d4a3a')
+            for j in range(3): rbox(c.vc, T_, u - pw / 2 + 0.03, u + pw / 2 - 0.03 - (0.07 if j == 2 else 0.0), v - ph * 0.2 - j * 0.04 - 0.012, v - ph * 0.2 - j * 0.04, 0.033, 0.035, '#e9e6dc' if dark else '#4a4d52')   # 幾行字（細線）
+            for sx in (-1, 1): rbox(c.vc, T_, u + sx * (pw / 2 - 0.03) - 0.008, u + sx * (pw / 2 - 0.03) + 0.008, v + ph / 2 - 0.018, v + ph / 2 - 0.002, 0.035, 0.038, '#d33b2f')   # 圖釘
+        for (u, v, pw, ph) in ((0.2 if f['what'] == 'floor1' else -0.26, 1.78, 0.21, 0.3), (0.2 if f['what'] == 'floor1' else -0.24, 1.3, 0.21, 0.3), (-0.86, 1.18, 0.14, 0.1), (0.86, 1.86, 0.15, 0.1)):
+            v = y + v; rbox(c.vc, T_, u - pw / 2, u + pw / 2, v - ph / 2, v + ph / 2, 0.03, 0.033, rng.choice(['#fbfaf4', '#fff3c4', '#d9ecf4', '#ffffff']))
+            for j in range(int(ph / 0.05)): rbox(c.vc, T_, u - pw / 2 + 0.02, u + pw / 2 - 0.02 - (0.04 if j % 3 == 2 else 0.0), v + ph / 2 - 0.04 - j * 0.035, v + ph / 2 - 0.032 - j * 0.035, 0.033, 0.035, '#6a6d72')
     elif k == 'water':                                                                    # 飲水機：不鏽鋼機身、上面的出水口、接水盤、三個按鈕
         x, z = f['x'], f['z']
         c.vm.cbox(x - 0.2, x + 0.2, y, y + 1.2, z - 0.2, z + 0.2, '#c9ccd0'); c.vm.cbox(x - 0.16, x + 0.16, y + 0.88, y + 1.05, z + 0.2, z + 0.23, '#4a4e52')
@@ -452,6 +463,29 @@ for f in J['furniture']:
         T_ = rot(f['x'], f['z'], ry); w, dd = f['w'], f['d']
         rbox(c.vc, T_, -w / 2, w / 2, y, y + 1.0, -dd / 2, dd / 2, '#d9d6d0', r=0.02, seg=1); rbox(c.vm, T_, -w / 2 + 0.03, w / 2 - 0.03, y + 1.0, y + 1.42, -0.06, 0.0, '#1a1c1f')
         rbox(c.get('screen'), T_, -w / 2 + 0.06, w / 2 - 0.06, y + 1.04, y + 1.38, 0.0, 0.004); rbox(c.vm, T_, -0.1, 0.1, y + 0.9, y + 0.93, dd / 2, dd / 2 + 0.05, '#3a3e44')
+    elif k == 'bookcart':                                                                 # 還書車（BB_260 §5 第 1 點）：不鏽鋼管框、三層層板（後面一條擋條）、四個輪子、一端推把；下兩層書排滿（書脊朝外）、最上層幾本平放，一本夾著紙條
+        T_ = rot(f['x'], f['z'], ry); w, dd = f['w'], f['d']                                   # 窗台 1.0 m、凸出 14 cm：車高 0.95，最上層的書放前半邊
+        for lx in (-w / 2 + 0.02, w / 2 - 0.02):
+            for lz in (-dd / 2 + 0.02, dd / 2 - 0.02):
+                (px, pz) = T_(lx, lz); ccyl(c.vm, (px, y + 0.08, pz), (px, y + 0.95, pz), 0.012, '#a7adb2', seg=8)
+                (ax, az), (bx, bz) = T_(lx - 0.014, lz), T_(lx + 0.014, lz); ccyl(c.vm, (ax, y + 0.035, az), (bx, y + 0.035, bz), 0.035, '#26282b', seg=10)   # 輪子
+                rbox(c.vm, T_, lx - 0.02, lx + 0.02, y + 0.065, y + 0.085, lz - 0.02, lz + 0.02, '#3a3d41')
+        for yy in (y + 0.16, y + 0.52, y + 0.86):
+            rbox(c.vm, T_, -w / 2 + 0.01, w / 2 - 0.01, yy - 0.018, yy, -dd / 2 + 0.01, dd / 2 - 0.01, '#b9bdc1'); rbox(c.vm, T_, -w / 2 + 0.01, w / 2 - 0.01, yy, yy + 0.05, -dd / 2 + 0.01, -dd / 2 + 0.022, '#b9bdc1')
+        for lz in (-dd / 2 + 0.06, dd / 2 - 0.06):
+            (ax, az), (bx, bz) = T_(-w / 2 + 0.02, lz), T_(-w / 2 - 0.07, lz); ccyl(c.vm, (ax, y + 0.92, az), (bx, y + 0.92, bz), 0.01, '#a7adb2', seg=6)
+        (ax, az), (bx, bz) = T_(-w / 2 - 0.07, -dd / 2 + 0.05), T_(-w / 2 - 0.07, dd / 2 - 0.05); ccyl(c.vm, (ax, y + 0.92, az), (bx, y + 0.92, bz), 0.015, '#2b2d30', seg=8)   # 推把（黑色握把）
+        BOOKC = ['#7b2e2a', '#2f4f6f', '#3f5d3a', '#c9b48a', '#8a3b5c', '#1f2a36', '#b0532c', '#d8cfb8', '#4a6b8a', '#6b4a2f', '#e8e2d2']
+        for ya in (y + 0.16, y + 0.52):
+            u = -w / 2 + 0.04
+            while u < w / 2 - 0.07:
+                bw = rng.uniform(0.022, 0.048); bh = rng.uniform(0.19, 0.29); bd = rng.uniform(0.16, 0.23)
+                if rng.random() < 0.12: rbox(c.vc, T_, u, u + bh * 0.75, ya, ya + bw, dd / 2 - 0.03 - bd, dd / 2 - 0.03, rng.choice(BOOKC)); u += bh * 0.75 + 0.004   # 偶爾一本平放
+                else: rbox(c.vc, T_, u, u + bw, ya, ya + bh, dd / 2 - 0.03 - bd, dd / 2 - 0.03, rng.choice(BOOKC)); u += bw + rng.uniform(0.0, 0.005)
+        hy = y + 0.86
+        for j, (u, bw, bh) in enumerate(((-0.28, 0.24, 0.035), (-0.27, 0.22, 0.03), (0.02, 0.26, 0.04), (0.25, 0.2, 0.03))):
+            yb = hy + (0.035 if j == 1 else 0.0); rbox(c.vc, T_, u - bw / 2, u + bw / 2, yb, yb + bh, -0.02, 0.16, BOOKC[(j * 3 + 1) % len(BOOKC)])
+        rbox(c.vc, T_, -0.33, -0.21, hy + 0.065, hy + 0.068, 0.0, 0.12, '#fbfaf4')                      # 「請勿自行上架」的紙條（字不放；遊戲的說明有）
     elif k == 'coffeeTable':
         x, z, w, dd = f['x'], f['z'], f['w'], f['d']; c.wood.rbox(x - w / 2, x + w / 2, y + 0.38, y + 0.42, z - dd / 2, z + dd / 2, r=0.01, seg=2)
         for ex in (x - w / 2 + 0.06, x + w / 2 - 0.06):
@@ -459,11 +493,21 @@ for f in J['furniture']:
         for j in range(3): c.vc.cbox(x - 0.3 + j * 0.2, x - 0.14 + j * 0.2, y + 0.42, y + 0.425, z - 0.12, z + 0.1, rng.choice(['#e8e2d2', '#d9433a', '#2d6cae', '#c9b48a']))   # 幾本雜誌
 
 
+# 吊牌（signs 的 hang：「自習室在二樓」「影印區」）：深色框＋兩支吊桿到天花板（字由遊戲畫在框的兩面 ±0.026）
+for s in J['signs']:
+    if not s.get('hang'): continue
+    lv = s['lv']; c = CL(lv); yy = YF(lv) + s['y']; w = s['w']; h = w * 0.22; T_ = rot(s['x'], s['z'], s.get('ry', 0.0)); top = RY if lv == 1 else H0
+    rbox(c.vm, T_, -w / 2 - 0.03, w / 2 + 0.03, yy - h / 2 - 0.03, yy + h / 2 + 0.03, -0.02, 0.02, '#2b2d30')
+    for lx in (-w / 2 + 0.12, w / 2 - 0.12):
+        (px, pz) = T_(lx, 0.0); ccyl(c.vm, (px, yy + h / 2 + 0.03, pz), (px, top - 0.01, pz), 0.006, '#9aa0a6', seg=6)
+        rbox(c.vm, T_, lx - 0.04, lx + 0.04, top - 0.012, top - 0.002, -0.03, 0.03, '#9aa0a6')    # 天花板的固定座
+
 # =====================================================================
-# 四之二、牆面的細節：自習室竹木腰板、走廊淺灰腰板（耐髒）、天花板空調出風口、自習室窗的捲簾
+# 四之二、牆面的細節：竹木腰板（自習室；BB_260 §5 第 2 點起一樓門廳、影印區、二樓走廊也是，嵌一條樓層色帶）、天花板空調出風口、窗的捲簾
 # =====================================================================
-def wainscot(c, along, at, inward, a0, a1, y, h, kind, skip=()):
-    """腰板：牆面（中心線 at、朝房間 inward＝±1）a0～a1、高 h；skip＝[(a, b)] 門或櫃子的範圍不做"""
+BAND = {0: '#b86f4f', 1: '#3f7f8c'}   # 樓層色帶（BB_260 §5 第 2 點）：一樓陶土紅、二樓灰藍綠——腰板上緣下面一條、地板嵌條同色
+def wainscot(c, along, at, inward, a0, a1, y, h, kind, skip=(), band=None):
+    """腰板：牆面（中心線 at、朝房間 inward＝±1）a0～a1、高 h；skip＝[(a, b)] 門或櫃子的範圍不做；band＝色帶的顏色（腰板上緣往下 5～13 cm）"""
     face = at + inward * T / 2; segs = [(a0, a1)]
     for (sa, sb) in skip: segs = [q for (p0, p1) in segs for q in ((p0, min(p1, sa)), (max(p0, sb), p1)) if q[1] - q[0] > 0.05]
     for (p0, p1) in segs:
@@ -474,11 +518,16 @@ def wainscot(c, along, at, inward, a0, a1, y, h, kind, skip=()):
             e0, e1 = sorted((face, face + inward * 0.035))
             if along: c.wood.box(p0, p1, y + h, y + h + 0.03, e0, e1)
             else: c.wood.box(e0, e1, y + h, y + h + 0.03, p0, p1)
+            gtop = y + h
+            if band:
+                b0_, b1_ = sorted((face + inward * 0.018, face + inward * 0.021)); gtop = y + h - 0.13
+                if along: c.vc.cbox(p0, p1, y + h - 0.13, y + h - 0.05, b0_, b1_, band)
+                else: c.vc.cbox(b0_, b1_, y + h - 0.13, y + h - 0.05, p0, p1, band)
             u = p0 + 0.6
             while u < p1 - 0.1:                                                               # 板和板之間的細縫
                 g0, g1 = sorted((face + inward * 0.018, face + inward * 0.0185))
-                if along: c.vc.cbox(u - 0.002, u + 0.002, y + 0.09, y + h, g0, g1, '#6b5034')
-                else: c.vc.cbox(g0, g1, y + 0.09, y + h, u - 0.002, u + 0.002, '#6b5034')
+                if along: c.vc.cbox(u - 0.002, u + 0.002, y + 0.09, gtop, g0, g1, '#6b5034')
+                else: c.vc.cbox(g0, g1, y + 0.09, gtop, u - 0.002, u + 0.002, '#6b5034')
                 u += 0.6
         else:
             if along: c.vc.cbox(p0, p1, y + 0.09, y + h, d0, d1, '#d6d9d3'); c.vm.cbox(p0, p1, y + h, y + h + 0.025, *sorted((face, face + inward * 0.03)), '#8f969b')
@@ -486,9 +535,22 @@ def wainscot(c, along, at, inward, a0, a1, y, h, kind, skip=()):
 SW = J['study']['doors'][1]
 wainscot(C1, False, SR['x0'], 1, SR['z0'] + 0.1, ZI1, Y1, 1.1, 'wood', skip=[(SW['z'] - 0.7, SW['z'] + 0.7)])   # 自習室西牆（室內那一面）
 wainscot(C1, True, ZS, -1, SR['x0'] + 0.1, XI1, Y1, 1.1, 'wood')                                            # 自習室南牆（時鐘、使用規則在腰板上面）
-wainscot(C1, False, SR['x0'], -1, SR['z0'] + 0.1, ZI1, Y1, 1.0, 'grey', skip=[(SW['z'] - 0.7, SW['z'] + 0.7)])  # 南北向走廊東側（自習室西牆的走廊那一面）
-wainscot(C1, False, -4.0, 1, J['research']['z0'], ZI1, Y1, 1.0, 'grey', skip=[(1.1, 3.3), (3.5, 4.5), (5.15, 6.05), (6.7, 7.7), (9.9, 10.9)])   # 研究小間的走廊那一面（公告欄、門、消防栓箱不做）
-wainscot(C1, True, J['discZ'][1], 1, XI0, J['wc']['x1'], Y1, 1.0, 'grey', skip=[(-7.35, -6.25), (-5.85, -5.35), (-4.95, -3.85)])   # 洗手間前牆（門、飲水機不做）
+wainscot(C1, False, SR['x0'], -1, SR['z0'] + 0.1, ZI1, Y1, 1.0, 'wood', skip=[(SW['z'] - 0.7, SW['z'] + 0.7)], band=BAND[1])  # 南北向走廊東側（自習室西牆的走廊那一面）
+wainscot(C1, False, -4.0, 1, J['research']['z0'], ZI1, Y1, 1.0, 'wood', skip=[(1.1, 3.3), (3.5, 4.5), (5.15, 6.05), (6.7, 7.7), (9.9, 10.9)], band=BAND[1])   # 研究小間的走廊那一面（公告欄、門、消防栓箱不做）
+wainscot(C1, True, J['discZ'][1], 1, XI0, J['wc']['x1'], Y1, 1.0, 'wood', skip=[(-7.35, -6.25), (-5.85, -5.35), (-4.95, -3.85)], band=BAND[1])   # 洗手間前牆（門、飲水機不做）
+# 一樓（BB_260 §5 第 2 點：門廳、影印休息區太白）：腰板 0.9 m（窗台 1.0 m 下面）＋陶土紅色帶；門、窗下的矮書架、消防栓箱、書庫門、館員辦公室的門不做
+wainscot(C0, False, XW, 1, ZI0, -9.35, 0.0, 0.9, 'wood', band=BAND[0]); wainscot(C0, False, XW, 1, -7.45, -5.0, 0.0, 0.9, 'wood', band=BAND[0])   # 西牆（往閱覽室的門兩邊）
+wainscot(C0, True, ZN, 1, XI0, XI1, 0.0, 0.9, 'wood', skip=[(-6.35, -2.45), (2.45, 5.95)], band=BAND[0])                                       # 北牆（矮書架那兩段不做）
+wainscot(C0, False, XE, -1, ZI0, 2.7, 0.0, 0.9, 'wood', skip=[(-5.75, -4.65)], band=BAND[0])                                                   # 東牆（館員辦公室的門不做）
+wainscot(C0, True, 2.8, -1, -3.9, XI1, 0.0, 0.9, 'wood', skip=[(-3.0, -2.2), (5.05, 6.15)], band=BAND[0])                                      # 影印區南牆（消防栓箱、書庫的門不做）
+wainscot(C0, False, -4.0, 1, 0.35, 2.7, 0.0, 0.9, 'wood', band=BAND[0])                                                                        # 影印區西牆（木條牆南邊那一段）
+wainscot(C0, False, -4.0, 1, -4.9, -4.35, 0.0, 0.9, 'wood', band=BAND[0])                                                                      # 影印區西牆（木條牆北邊那一小段）
+wainscot(C0, True, -4.9, -1, MW['x1'], -4.1, 0.0, 0.9, 'wood', band=BAND[0])                                                                   # 樓梯 B 跑下面那面牆（門廳往南看的正面；「2F 自習室・討論室・洗手間」牌子在上面）
+# 地板的樓層色嵌條：一樓門廳深色嵌條裡面再一圈陶土紅；二樓走廊沿著東西向、南北向走廊各一條灰藍綠（往自習室的方向）
+for (x0, x1, z0, z1) in ((XI0 + 1.28, XI1 - 1.28, ZI0 + 1.28, -6.18),):
+    for (a0, a1, b0_, b1_) in ((x0, x1, z0, z0 + 0.06), (x0, x1, z1 - 0.06, z1), (x0, x0 + 0.06, z0, z1), (x1 - 0.06, x1, z0, z1)):
+        C0.vc.cbox(a0, a1, 0.0, 0.003, b0_, b1_, BAND[0])
+C1.vc.cbox(XI0 + 0.3, XI1 - 0.3, Y1, Y1 + 0.003, -6.47, -6.41, BAND[1]); C1.vc.cbox(-2.13, -2.07, Y1, Y1 + 0.003, -6.41, 10.2, BAND[1])   # 南北向那條到盆栽前面停
 
 # 天花板的空調出風口（方形四面出風：外框＋三圈）
 DIFF = [(0, -4.0, -8.0), (0, 0.0, -8.0), (0, 4.0, -8.0), (0, -1.8, 0.8), (0, 4.2, 1.2), (1, -4.0, -5.8), (1, 0.0, -5.8), (1, 4.0, -5.8), (1, 0.0, -2.6), (1, 6.8, -2.6),
@@ -506,6 +568,16 @@ for k_ in range(nm):
     drop = (0.25, 0.0, 0.55, 0.1, 0.0, 0.45, 0.0, 0.3)[k_ % 8]
     if drop > 0.01:
         C1.vc.cbox(xr - 0.004, xr + 0.004, yt - drop * (wst['y1'] - wst['y0']), yt, u0, u1, '#e9e5da'); C1.vm.cbox(xr - 0.012, xr + 0.012, yt - drop * (wst['y1'] - wst['y0']) - 0.03, yt - drop * (wst['y1'] - wst['y0']), u0, u1, '#b9bdc1')
+
+# 一樓東面兩扇窗也有捲簾（早上太陽從東南東照進來；BB_260 §5 第 4 點：門廳的窗太亮）
+for k_w, wo in enumerate([o for o in J['windows'] if o['lv'] == 0 and o['wall'] == 'E']):
+    a, b = wo['a0'], wo['a1']; nm = max(1, round((b - a) / 1.5)); xr = XE - T / 2 - 0.09
+    for k_ in range(nm):
+        u0, u1 = a + (b - a) * k_ / nm + 0.04, a + (b - a) * (k_ + 1) / nm - 0.04; yt = wo['y1'] - 0.03
+        C0.get('steel').cyl((xr, yt, u0), (xr, yt, u1), 0.035, seg=10)
+        drop = ((0.35, 0.0, 0.25), (0.0, 0.4, 0.15, 0.3))[k_w % 2][k_ % (3 if k_w % 2 == 0 else 4)]
+        if drop > 0.01:
+            C0.vc.cbox(xr - 0.004, xr + 0.004, yt - drop * (wo['y1'] - wo['y0']), yt, u0, u1, '#e9e5da'); C0.vm.cbox(xr - 0.012, xr + 0.012, yt - drop * (wo['y1'] - wo['y0']) - 0.03, yt - drop * (wo['y1'] - wo['y0']), u0, u1, '#b9bdc1')
 
 # 天花板的日光燈盤（白色外框＋發光面）
 LIGHTS = []
@@ -533,6 +605,23 @@ if '--preview-elev' in ARGS:
     for x in (ex0 - 0.08, ex1 + 0.08): C0.get('glass').quad([(x, 0.0, ez0), (x, 0.0, ez1), (x, RY - 0.5, ez1), (x, RY - 0.5, ez0)])
     C0.vm.cbox(ex0 + 0.05, ex1 - 0.05, 0.0, 0.08, ez0 + 0.05, ez1 - 0.05, '#5a5d60'); C0.vm.cbox(ex0 - 0.2, ex1 + 0.2, RY - 0.5, RY, ez0 - 0.2, ez1 + 0.2, '#3a3d41')
     for yy in (0.0, Y1): C0.get('glass').quad([(ex0 + 0.4, yy, ez0 - 0.04), (ex1 - 0.4, yy, ez0 - 0.04), (ex1 - 0.4, yy + 2.3, ez0 - 0.04), (ex0 + 0.4, yy + 2.3, ez0 - 0.04)])
+
+# --preview-view：只給 Blender 預覽（BB_260 §5 第 4 點「窗曝光過頭」）：窗外放遊戲用的窗景圖（一樓 soclib_north、二樓 soclib_west：都是遊戲裡拍的校園畫面，不是照片），
+#   預覽的窗才和遊戲一樣亮；遊戲裡的窗景是 B3.outView（有視差），這裡只是外牆外 3 m 一整面發光的圖
+if '--preview-view' in ARGS:
+    for lv, name, sides in ((0, 'soclib_north_day', ('N', 'E')), (1, 'soclib_west_day', ('N', 'E', 'S'))):
+        img = bpy.data.images.load(os.path.join(L.ROOT, 'assets/models/env/views', name + '.webp'))
+        mat = bpy.data.materials.new(f'PREVIEW_view{lv}'); mat.use_nodes = True; nt = mat.node_tree; bs = nt.nodes['Principled BSDF']
+        tex = nt.nodes.new('ShaderNodeTexImage'); tex.image = img; bs.inputs['Base Color'].default_value = (0, 0, 0, 1)
+        nt.links.new(tex.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = 1.0
+        y0, y1 = YF(lv) - 1.0, YF(lv) + 4.6
+        for sd in sides:
+            if sd == 'N': q = [(XW - 4, y0, ZN - 3), (XE + 4, y0, ZN - 3), (XE + 4, y1, ZN - 3), (XW - 4, y1, ZN - 3)]
+            elif sd == 'S': q = [(XE + 4, y0, ZS + 3), (XW - 4, y0, ZS + 3), (XW - 4, y1, ZS + 3), (XE + 4, y1, ZS + 3)]
+            else: q = [(XE + 3, y0, ZN - 4), (XE + 3, y0, ZS + 4), (XE + 3, y1, ZS + 4), (XE + 3, y1, ZN - 4)]
+            me = bpy.data.meshes.new(f'PREVIEW_view{lv}{sd}'); me.from_pydata([g2b(*p) for p in q], [], [(0, 1, 2, 3) if sd != 'E' else (0, 1, 2, 3)]); me.uv_layers.new(name='UVMap')
+            for li, uv in zip(me.polygons[0].loop_indices, ((0, 0), (1, 0), (1, 1), (0, 1))): me.uv_layers[0].data[li].uv = uv
+            me.materials.append(mat); ob = bpy.data.objects.new(me.name, me); bpy.context.scene.collection.objects.link(ob); ob.parent = root
 
 # 椅子：instancing（一個網格、很多物件；GLB 的 EXT_mesh_gpu_instancing）——自習室、靠窗：竹色木頭靠背椅；討論室：辦公椅
 def inst(c_parent, key, spots, draw):
