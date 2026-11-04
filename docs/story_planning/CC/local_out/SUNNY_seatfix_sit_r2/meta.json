@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "SUNNY_seatfix_sit_r2",
+  "sha": "46d459625",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
+  "env": "SHOP=sunny;HOURS= ;SEATS=1;SIT_WAIT=6;STAND_WATCH=F13;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:21:53",
+  "end": "2026-11-04T21:49:48",
+  "seconds": 1675,
+  "exit": 1,
+  "error": null,
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8802/index.html",
+  "res_peak": {
+    "cpu": 57,
+    "mem": 55,
+    "used_gb": 17.3,
+    "chrome_testing": 30
+  }
+}
