@@ -1021,7 +1021,7 @@ const Z3 = (function(){
     if(typeof DAILY_OFFBEAT_LAYOUT!=='undefined'&&Z3.ZONES&&Z3.ZONES.wz_offbeat){ const OB=DAILY_OFFBEAT_LAYOUT; E.interactables.push({x:OB.enterAt.x,z:OB.enterAt.z,radius:1.2,label:OB.enterAt.label,exit:{to:'wz_offbeat',spawn:Object.assign({},OB.spawn)}}); }   /* 日常失速（AA_617、AA_618）：W2 一樓的店門（溫州街 (−37.2, −9.6)），進去是 wz_offbeat */
     E.interactables.push({x:54.2,z:0,radius:2.3,label:'進入 2:30 AM',exit:{to:'cafe',spawn:{x:0,z:5,yaw:Math.PI}}});
     const cafeKitProps=[];   // 套件的 A 字立牌、門口盆栽：Café 正式模型裡有自己的版本（位置、導航阻擋相同），載入後藏起來
-    { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
+    { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockRect(54.45,3.6,0.9,0.9,0,0);   /* WZ-FIVE-1104（LAWWW2-C 20:55）：畫架三支腳，0.5 m 格上圓形只擋一格、人可以站在腳中間；改成蓋住整個畫架（tests/cafe230_ext_nav_unit.js）*/ ab.userData.dyn=true; cafeKitProps.push(ab); }
     { const bk=W3.bikeAny('#2f5d50',546); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
     { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
