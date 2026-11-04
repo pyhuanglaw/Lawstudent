@@ -1,0 +1,697 @@
+{
+  "id": "TT_V15b_chunk",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_longchunk.py",
+  "script_from": null,
+  "script_blob": [
+    "e65111398fbe2a8e0c9e3e503ffc1454c1b830e3",
+    "e65111398fbe2a8e0c9e3e503ffc1454c1b830e3"
+  ],
+  "cc_testing_sha": "7647bdf86",
+  "runner": "6f08f2eb23",
+  "final": "FAIL",
+  "class": "UNKNOWN",
+  "class_sub": "assert",
+  "basis": [
+    "探針斷言 FAIL 1 行（CASE C 結束），兩次一致；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ],
+  "conditions": {
+    "same": true,
+    "diff": [],
+    "game_sha": [
+      "d2e36f6eb",
+      "d2e36f6eb"
+    ],
+    "script_blob": [
+      "e65111398fbe2a8e0c9e3e503ffc1454c1b830e3",
+      "e65111398fbe2a8e0c9e3e503ffc1454c1b830e3"
+    ],
+    "input_hash": [
+      "e93eb6d6e52aaab6",
+      "e93eb6d6e52aaab6"
+    ],
+    "cases": [
+      "(探針預設)",
+      "(探針預設)"
+    ]
+  },
+  "rerun_scope": "探針不支援 CASES 環境變數：整支重跑",
+  "attempts": [
+    {
+      "n": 1,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 142,
+      "fails": [
+        {
+          "line": "FAIL CASE C 結束  自測：C 故意 FAIL",
+          "name": "CASE C 結束",
+          "info": "自測：C 故意 FAIL"
+        }
+      ],
+      "dir": "attempt1",
+      "run_tail": [
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8810/index.html（自測：只開頁、不玩）",
+        "== A",
+        "PASS CASE A 結束  自測：C 故意 FAIL",
+        "== B",
+        "PASS CASE B 結束  自測：C 故意 FAIL",
+        "== C",
+        "FAIL CASE C 結束  自測：C 故意 FAIL",
+        "FAILED 1: CASE C 結束"
+      ],
+      "err_tail": [
+        "[gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15b_chunk]",
+        "[gpu_wrap 140.6s] page close url=http://127.0.0.1:8810/index.html",
+        "[gpu_wrap 140.7s] BROWSER DISCONNECTED"
+      ]
+    },
+    {
+      "n": 2,
+      "exit": 1,
+      "error": null,
+      "timeout": false,
+      "seconds": 170,
+      "fails": [
+        {
+          "line": "FAIL CASE C 結束  自測：C 故意 FAIL",
+          "name": "CASE C 結束",
+          "info": "自測：C 故意 FAIL"
+        }
+      ],
+      "dir": "attempt2",
+      "run_tail": [
+        "  [前置／捷徑] 開遊戲頁 http://127.0.0.1:8810/index.html（自測：只開頁、不玩）",
+        "== A",
+        "PASS CASE A 結束  自測：C 故意 FAIL",
+        "== B",
+        "PASS CASE B 結束  自測：C 故意 FAIL",
+        "== C",
+        "FAIL CASE C 結束  自測：C 故意 FAIL",
+        "FAILED 1: CASE C 結束"
+      ],
+      "err_tail": [
+        "[cc_trace 0.3s] CC_TRACE on: <REPO>\\docs\\story_planning\\CC\\local_out\\TT_V15b_chunk\\attempt2\\trace",
+        "[gpu_wrap 1.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15b_chunk]",
+        "[gpu_wrap 168.1s] page close url=http://127.0.0.1:8810/index.html",
+        "[gpu_wrap 168.1s] BROWSER DISCONNECTED"
+      ]
+    }
+  ],
+  "js_errors": [
+    {
+      "rel": 9.71,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "星期和日期對不上，照行事曆改： 4 → 3",
+      "url": "http://127.0.0.1:8810/src/game3d.js?v=9.10.19"
+    },
+    {
+      "rel": 12.18,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.53,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.66,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.69,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.71,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.73,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.74,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.76,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.77,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.78,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 15.92,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.12,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.29,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.31,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.47,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.62,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.75,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.98,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 16.99,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.18,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.24,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.38,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.57,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.62,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.77,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 17.92,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 18.04,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 18.15,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 18.29,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "THREE.WebGLRenderer: Texture marked for update but no image data found.",
+      "url": "http://127.0.0.1:8810/lib/three.bundle.js?v=9.10.19"
+    },
+    {
+      "rel": 18.92,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x732c040ad000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8810/index.html"
+    },
+    {
+      "rel": 18.92,
+      "kind": "console",
+      "ctx": 1,
+      "page": 1,
+      "level": "warning",
+      "text": "[.WebGL-0x732c040ad000] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions.",
+      "url": "http://127.0.0.1:8810/index.html"
+    }
+  ],
+  "js_errors_gpu_wrap": [
+    "BROWSER DISCONNECTED\r",
+    "BROWSER DISCONNECTED\r"
+  ],
+  "state": [
+    {
+      "ctx_why": "browser.close",
+      "page": 1,
+      "state": {
+        "href": "http://127.0.0.1:8810/index.html",
+        "snapshot": {
+          "v": 1,
+          "zone": "dorm",
+          "day": -379,
+          "hour": 7.396,
+          "dateKey": null,
+          "pos": {
+            "x": -0.9,
+            "z": 1.98,
+            "y": 0,
+            "lv": 0,
+            "yaw": -1.504
+          },
+          "player": {
+            "busy": false,
+            "frozen": false,
+            "pose": "walk",
+            "riding": false,
+            "seat": null,
+            "path": true
+          },
+          "paused": false,
+          "busyDepth": 0,
+          "dlg": false,
+          "adv": false,
+          "events": false,
+          "phone": false,
+          "entering": false,
+          "lastTalkError": null,
+          "goal": "今天的課：09:10 經濟學原理（上）。上課、讀書或自由活動都可以",
+          "money": 22000,
+          "flags": {
+            "dating_kexin": false,
+            "KX_DEC3_MIGRATED": true,
+            "YT_JOB_V": 1,
+            "NAMECARD_V": 1,
+            "LIFELINE_V": 1,
+            "fundsV2": 1,
+            "allowanceMonth": 9,
+            "KX_FIRST_MSG": true,
+            "ECON_CAMP_OPEN": true,
+            "clsGoal": "今天的課：09:10 經濟學原理（上）。上課、讀書或自由活動都可以",
+            "ZZ": {
+              "v": 1,
+              "state": "friends",
+              "since": -389,
+              "ev": {},
+              "yt": "none",
+              "sem": {},
+              "fy": null,
+              "f3": null,
+              "forceB": false,
+              "held": null,
+              "version": null,
+              "month": null,
+              "ending": null
+            },
+            "ZZ_STATE": "friends",
+            "ZZ_DATING": false,
+            "HASK": {
+              "sent": [],
+              "st": {},
+              "redo": [],
+              "plan": -380
+            },
+            "knowsRel": {},
+            "spreadScan": {},
+            "Y0_CRM_RETIRED": true,
+            "_bbqUntilFix": 1,
+            "ROMANCE_HISTORY": [],
+            "CLEANUP_DONE": true,
+            "romance": {
+              "kexin": {
+                "status": "none",
+                "since": null,
+                "knows": [],
+                "suspicion": 0,
+                "history": []
+              }
+            },
+            "knowsRel_V": 1,
+            "ytKnows": {},
+            "YT_CONFESSED": {},
+            "YT_PROMISED": {},
+            "YT_BROKE_PROMISE": {},
+            "YT_LIED": {},
+            "OPEN_OK": {},
+            "YT_HONEST": {},
+            "YT_DODGED": {},
+            "YT_INTENT": {},
+            "dpDay": -379,
+            "_autoAsk": [],
+            "V6EX": {
+              "starts": [],
+              "notes": []
+            },
+            "HEARD": {
+              "said": {},
+              "day": {},
+              "ph": {}
+            },
+            "kaiDorm": {},
+            "DATE_OVERNIGHT": {},
+            "amb": {},
+            "E15_BUS": "nosleep",
+            "met_kexin": true,
+            "met_econ_zhengxun": true,
+            "E15_WENT": true,
+            "ECON_CAMP_DONE": true,
+            "E01_NIGHT": "sleep",
+            "E01_DONE": true,
+            "companion": null,
+            "nightKai": false,
+            "morningLine": false,
+            "E01_MORNING": true
+          },
+          "invites": [],
+          "npcs": [
+            {
+              "id": "econ_zhengxun",
+              "x": 1.14,
+              "z": 0.14,
+              "lv": 0,
+              "beh": "idle",
+              "frozen": true,
+              "talking": false
+            }
+          ]
+        },
+        "zone": "dorm",
+        "day": -379,
+        "hour": 7.395838000000627,
+        "weekday": 1,
+        "date": null,
+        "player": {
+          "x": -0.9,
+          "z": 1.98,
+          "y": 0,
+          "lv": 0,
+          "pose": "walk",
+          "busy": false
+        },
+        "dlg": {
+          "active": false,
+          "busyDepth": 0
+        },
+        "dlgText": null,
+        "choices": [],
+        "event": null,
+        "flagKeys": [
+          "dating_kexin",
+          "KX_DEC3_MIGRATED",
+          "YT_JOB_V",
+          "NAMECARD_V",
+          "LIFELINE_V",
+          "fundsV2",
+          "allowanceMonth",
+          "KX_FIRST_MSG",
+          "ECON_CAMP_OPEN",
+          "clsGoal",
+          "ZZ",
+          "ZZ_STATE",
+          "ZZ_DATING",
+          "HASK",
+          "knowsRel",
+          "spreadScan",
+          "Y0_CRM_RETIRED",
+          "_bbqUntilFix",
+          "ROMANCE_HISTORY",
+          "CLEANUP_DONE",
+          "romance",
+          "knowsRel_V",
+          "ytKnows",
+          "YT_CONFESSED",
+          "YT_PROMISED",
+          "YT_BROKE_PROMISE",
+          "YT_LIED",
+          "OPEN_OK",
+          "YT_HONEST",
+          "YT_DODGED",
+          "YT_INTENT",
+          "dpDay",
+          "_autoAsk",
+          "V6EX",
+          "HEARD",
+          "kaiDorm",
+          "DATE_OVERNIGHT",
+          "amb",
+          "E15_BUS",
+          "met_kexin",
+          "met_econ_zhengxun",
+          "E15_WENT",
+          "ECON_CAMP_DONE",
+          "E01_NIGHT",
+          "E01_DONE",
+          "companion",
+          "nightKai",
+          "morningLine",
+          "E01_MORNING"
+        ],
+        "lastTalkError": null,
+        "walkFallbacks": 0
+      },
+      "error": null,
+      "closed": null
+    }
+  ],
+  "env": {
+    "browser": [
+      "156.0.8078.4"
+    ],
+    "playwright": "1.64.1",
+    "gpu_renderer": "ANGLE (AMD, AMD Radeon RX 6600M (0x000073FF) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "headless": [
+      true
+    ],
+    "os": "Windows 11",
+    "cc_gpu": "1",
+    "slot": 0
+  },
+  "shortcuts": {
+    "turbo": false,
+    "url": "http://127.0.0.1:8810/index.html",
+    "setup_lines": 2,
+    "setup_first": [
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8810/index.html（自測：只開頁、不玩）",
+      "[前置／捷徑] 開遊戲頁 http://127.0.0.1:8810/index.html（自測：只開頁、不玩）"
+    ],
+    "load_save": 0
+  },
+  "screenshots": [
+    "attempt1/out/long_A.png",
+    "attempt1/out/long_B.png",
+    "attempt1/out/long_C.png",
+    "attempt2/out/long_A.png",
+    "attempt2/out/long_B.png",
+    "attempt2/out/long_C.png"
+  ],
+  "traces": [
+    {
+      "path": "attempt2/trace/trace_TT_V15b_chunk_1_c004.zip",
+      "bytes": 19429544,
+      "push": true
+    },
+    {
+      "path": "attempt2/trace/trace_TT_V15b_chunk_1_c005_FAIL.zip",
+      "bytes": 20115142,
+      "push": true
+    },
+    {
+      "path": "attempt2/trace/trace_TT_V15b_chunk_1_c006.zip",
+      "bytes": 1664920,
+      "push": true
+    }
+  ],
+  "sanitize": {
+    "text_files_rewritten": [
+      "attempt1/run.log",
+      "attempt2/run.log"
+    ],
+    "zip_entries_rewritten": 2,
+    "left_hits": [],
+    "slim": {
+      "attempt2/trace/trace_TT_V15b_chunk_1_c004.zip": {
+        "before": 123748691,
+        "dropped_bodies": 132,
+        "dropped_bytes": 136396281,
+        "frame_step": 3,
+        "frames": 1392,
+        "after": 19429570,
+        "frames_kept": 464
+      },
+      "attempt2/trace/trace_TT_V15b_chunk_1_c005_FAIL.zip": {
+        "before": 144150238,
+        "dropped_bodies": 132,
+        "dropped_bytes": 136396281,
+        "frame_step": 4,
+        "frames": 1272,
+        "after": 20115169,
+        "frames_kept": 318
+      },
+      "attempt2/trace/trace_TT_V15b_chunk_1_c006.zip": {
+        "before": 70492254,
+        "dropped_bodies": 132,
+        "dropped_bytes": 136396281,
+        "frame_step": 1,
+        "frames": 0,
+        "after": 1664920,
+        "frames_kept": 0
+      }
+    }
+  },
+  "notes": [],
+  "show_trace": "python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）"
+}

@@ -1017,3 +1017,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.6s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [CAFE230v3_seats] | [gpu_wrap 63.7s] page close url=http://127.0.0.1:8811/index.html?turbo&start0 | [gpu_wrap 63.8s] BROWSER DISCONNECTED
 - 2026-11-04T16:26:51  CAFE230v3_reach  sha=0c2d4997b  exit=0  74s    統計：1 個區域、22 個互動點、2 個劇情走路目的地、1 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 1.5s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [CAFE230v3_reach] | [gpu_wrap 36.7s] page close url=http://127.0.0.1:8811/index.html?turbo?turbo | [gpu_wrap 36.8s] BROWSER DISCONNECTED
+- 2026-11-04T16:27:00  TT_V15b_chunk  sha=d2e36f6eb  exit=1  344s    == C / FAIL CASE C 結束  自測：C 故意 FAIL / FAILED 1: CASE C 結束
+      err.log (last 5): [cc_trace 0.3s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V15b_chunk\attempt2\trace | [gpu_wrap 1.6s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V15b_chunk] | [gpu_wrap 168.1s] page close url=http://127.0.0.1:8810/index.html | [gpu_wrap 168.1s] BROWSER DISCONNECTED
+      autoretry: final FAIL  class UNKNOWN/assert  exit2 1
