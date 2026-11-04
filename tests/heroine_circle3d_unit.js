@@ -65,6 +65,8 @@ const REV587=[['AA_503','21','Alison：欸妳今天手帳寫了幾頁？','Aliso
   ['AA_504','28','（她一個人走，手帳拿在手上，沒有打開。）','（她一個人走，走得比平常慢。）']];
 const REV587_BAD=REV587.filter(([k,n,o,w])=>!DOC587.includes('| '+n+' |')||!DOC587.includes('| '+o+' | '+w+' |')||!DOC[k].includes(o));
 for(const [k,n,o,w] of REV587) DOC[k]=DOC[k].split(o).join(w);
+/* AA_657 補二（企劃線 65a1b2fe9）：AA_503 6-1 第 2 列蘇姨那句「三號桌的烏龍」改「長桌那位的烏龍」——稿照逐句表換再比（tests/aa657b2.js）*/
+const A657=require('./aa657b2.js'); for(const k in DOC) DOC[k]=A657.fix(DOC[k]);
 /* AA_519（NPC-STORY2-1028，白名單上的那一版；配角第二批）：3-4 新來的工讀生 2027-06-04 起叫小禾（AA_508 2-1 那兩列說話人改「小禾」）、2-3 6/16 週五公館和學姊那一列（c519_2_3）*/
 const SPEC519='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md', E519=ALLOW.find(q=>q.path===SPEC519);
 const SHA519=(E519&&E519.status==='approved'&&E519.sha)?String(E519.sha):'d75cd0228', DOC519=show(SHA519,SPEC519);

@@ -51,7 +51,7 @@ const YTJOB=(function(){
     opts:[{t:'「那就留著。」',say:[[YT,'嗯。放在抽屜裡。']]},{t:'「請我喝一杯？」',say:[[YT,'好。不過是我請你，不是用這個。'],[null,'（她從錢包拿錢，薪水袋放回背包。）']]},{t:'「為什麼不拆？」',say:[[YT,'拆了就會花掉。……花掉就不知道它長什麼樣子了。']]}] };
   S.firstPay=async function(GM){ const G=GM.G; if(G.flags.YT_FIRST_PAY) return false; await JOBS.play(GM,S.PAY.a); await ch(GM,S.PAY.opts); G.flags.YT_FIRST_PAY=true; return true; };
   /* 茶屋平常的班：蘇姨、語彤輪流，一班最多一句（「這間店第七年了」大一；之後每年加一年，大四上十週年）*/
-  S.SHIFT_LINES=[[['蘇姨','水溫不要太高，烏龍會苦。']],[['蘇姨','語彤第一天來，把整壺茶倒在自己身上。你比她好。'],[YT,'……那壺很燙。']],[['蘇姨','這間店第七年了。']],[[YT,'客人坐下先給水。他們會自己看菜單。']],[[YT,'三號桌的阿伯每次都點一樣的。你不用問。']]];
+  S.SHIFT_LINES=[[['蘇姨','水溫不要太高，烏龍會苦。']],[['蘇姨','語彤第一天來，把整壺茶倒在自己身上。你比她好。'],[YT,'……那壺很燙。']],[['蘇姨','這間店第七年了。']],[[YT,'客人坐下先給水。他們會自己看菜單。']],[[YT,'常來的那位阿伯每次都點一樣的。你不用問。']]];
   const YEARN=['','七','八','九','十'];
   S.shiftLine=function(G){ const F=G.flags, i=(F.YT_SHIFT_LINE|0)%S.SHIFT_LINES.length; F.YT_SHIFT_LINE=(F.YT_SHIFT_LINE|0)+1; const t=termW(G.day), y=t?(+String(t.id).charAt(1)||1):1;
     return S.SHIFT_LINES[i].map(x=>x[1]==='這間店第七年了。'&&y>1?[x[0],'這間店第'+YEARN[Math.min(4,y)]+'年了。']:x); };   /* 第七年那一句照學年改字（稿：之後每年加一年）*/

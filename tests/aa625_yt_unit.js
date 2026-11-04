@@ -26,13 +26,13 @@ const card=id=>{ const m=(G.social.mem[id]||[]).find(x=>x.tag==='FRIEND_CARD'); 
 global.JOBS={SHIFT_EV:[],MID_EV:[],at:(G,k)=>k==='tea'?{lv:1}:null,play:async(GM,L)=>{ for(const x of (L||[])){ if(Array.isArray(x)) await GM.say(x[0]==='player'?{name:'祐廷'}:(x[0]&&CHARACTERS[x[0]]?{name:CHARACTERS[x[0]].name}:x[0]),x[1]); } }};
 load('src/ytjob3d.js');
 const cp=require('child_process'); require('./alison.js');
-const DOC=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 9ba14498e:"docs/story_planning/AA_625_語彤新版事件台詞.md"',{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } })();
+const DOC=(()=>{ try{ return cp.execSync('git -C '+JSON.stringify(ROOT)+' show 65a1b2fe9:"docs/story_planning/AA_625_語彤新版事件台詞.md"',{encoding:'utf8',maxBuffer:64*1024*1024}); }catch(e){ return ''; } })();
 const evsrc=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8');
 const tdOf=(term,week,wd)=>{ const T=CALENDAR.termDays(term); for(let d=T.from;d<=T.to;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd) return d; } return null; };
 const shift=async(n)=>{ for(const f of JOBS.MID_EV) await f(GM,'tea',n,{}); for(const f of JOBS.SHIFT_EV) await f(GM,'tea',n,{}); };
 (async()=>{
   fresh();
-  check('0. 稿讀得到（企劃線 9ba14498e AA_625）',DOC.length>5000);
+  check('0. 稿讀得到（企劃線 65a1b2fe9 AA_625（9ba14498e＋AA_657 補二第 7 句））',DOC.length>5000);
   const lines=[]; for(const k of ['CATS','PAY','MOM']) for(const v of Object.values(YTJOB[k])) for(const x of (Array.isArray(v)?v:[])){ if(Array.isArray(x)) lines.push(x[1]); else if(x&&x.t){ lines.push(x.t); for(const y of x.say||[]) lines.push(y[1]); } }
   for(const s of YTJOB.SHIFT_LINES) for(const x of s) lines.push(x[1]);
   const strip=t=>t.replace(/^「|」$/g,'');

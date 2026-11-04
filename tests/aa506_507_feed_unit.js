@@ -39,6 +39,8 @@ const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.
 const doc={Y2S2:show(SHA,DOC.Y2S2.spec),Y3S1:show(SHA,DOC.Y3S1.spec)}, old={Y2S2:show(OLD,DOC.Y2S2.spec),Y3S1:show(OLD,DOC.Y3S1.spec)};
 /* YT-REWRITE-1103：稿上語彤那一節（### 3-）照 AA_630 第 3 節（F 列）、AA_627 表 A 換成新句再比（tests/aa630_expect.js；只換位置是那一個 feed 檔的列）*/
 { const Y630=require('./aa630_expect.js'), FF={Y2S2:'src/data/feed_y2s2.js',Y3S1:'src/data/feed_y3s1.js'}; for(const k in FF) if(doc[k]) doc[k]=Y630.fixLines(doc[k],FF[k],(l,h)=>/^### 3-/.test(h)); }
+/* AA_657 補二（企劃線 65a1b2fe9，WZ-YIZHAN-1104）：一盞沒有桌號，yt5d、ytBday、yt3e 的「三號桌」照逐句表換成定稿再比（tests/aa657b2.js）*/
+const A657=require('./aa657b2.js'); for(const k in doc) if(doc[k]) doc[k]=A657.fix(doc[k]);
 /* 2026-10-28 AA_512 13-2「連帶」、第 4 節第 5 點（企劃線 c444f0757）：feed_y3s1 學姊第 1 則她的一句「第二次。」改「又煮了。」（5/9 家族在她新家吃的那一鍋已經是第二次）——
    那一格照 AA_512 的「→」右邊比；新句子要在 AA_512 裡（tests/aa512_sis_b13_unit.js 也查）*/
 const DOC512=show('c444f0757','docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md');
