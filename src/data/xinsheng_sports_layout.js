@@ -46,7 +46,7 @@ const XINSHENG_SPORTS_LAYOUT = {
     {kind: 'column', x: 2.2, z: -0.2, w: 0.35, note: '夾層前緣的柱子（樓梯旁）'}, {kind: 'column', x: -3.0, z: -0.2, w: 0.35},
     {kind: 'shoe_wall_left', x: -6.9, z: 3.95, d: 6.7, note: '左牆球鞋牆（窗台下面，四層；一隻一隻擺）'}, {kind: 'bench', x: -5.6, z: 3.5, w: 0.45, d: 1.4, note: '試穿椅'},
     {kind: 'cashier', x: 5.2, z: 6.65, w: 2.0, d: 0.7, h: 1.0, note: '收銀台（東邊前段，參考圖鏡頭後面）'},
-    {kind: 'shoe_wall_right', x: 6.89, z: -0.35, d: 12.3, note: '東邊球鞋牆'}, {kind: 'bench', x: 5.3, z: 0.2, w: 0.5, d: 1.6},
+    {kind: 'shoe_wall_right', x: 6.89, z: 1.35, d: 8.7, note: '東邊球鞋牆（z −3.0～5.7）'}, {kind: 'bench', x: 5.3, z: 0.2, w: 0.5, d: 1.6},
     {kind: 'trophy_shelf', x: -5.65, z: -7.62, w: 2.5, d: 0.5, h: 2.4, note: '後牆獎盃櫃（上面一排金色獎盃：店贊助的系際盃）'},
     {kind: 'back_shelf', x: -0.25, z: -7.6, w: 3.5, d: 0.55, h: 2.4, note: '後牆紙箱貨架'},
     {kind: 'gondola', x: -1.1, z: -3.5, w: 0.6, d: 4.0, h: 1.6}, {kind: 'gondola', x: 1.0, z: -3.5, w: 0.6, d: 4.0, h: 1.6},
@@ -80,7 +80,7 @@ const XINSHENG_SPORTS_LAYOUT = {
        [-6.9, 3.95, 0.36, 6.7],    /* 左牆球鞋牆 */
        [-5.6, 3.5, 0.45, 1.4],     /* 試穿椅 */
        [5.2, 6.65, 2.0, 0.7],      /* 收銀台 */
-       [6.89, -0.35, 0.38, 12.3],  /* 東邊球鞋牆 */
+       [6.89, 1.35, 0.38, 8.7],    /* 東邊球鞋牆 z −3.0～5.7 */
        [5.3, 0.2, 0.5, 1.6],       /* 東邊試穿椅 */
        [-5.65, -7.62, 2.5, 0.5],   /* 獎盃櫃 */
        [-0.25, -7.6, 3.5, 0.55],   /* 後牆紙箱貨架 */
@@ -106,7 +106,7 @@ const XINSHENG_SPORTS_LAYOUT = {
            risers: 21, rise: 0.1786, tread: 0.255, levels: [0, 1],
            note: '直跑樓梯：底端 z 3.3（y 0）往北爬到頂端 z −2.055（y 3.75，二樓）。西側米白牆＋玻璃欄杆＋木扶手（扶手高 0.92 m），東側到天花板的牆（牆上一支木扶手）。'},
   interact: [
-    {lv: 0, x: -3.3, z: 5.6, yaw: -Math.PI / 2, kind: 'look', label: '看看', note: '球架（籃球、排球、網球）'},
+    {lv: 0, x: -3.1, z: 5.6, yaw: -Math.PI / 2, kind: 'look', label: '看看', note: '球架（籃球、排球、網球）'},
     {lv: 0, x: -6.2, z: 3.0, yaw: -Math.PI / 2, kind: 'look_shoes', label: '看看', note: '球鞋牆'},
     {lv: 0, x: 5.2, z: 5.95, yaw: 0, kind: 'cashier', label: '買東西', note: '收銀台（參考圖鏡頭後面；店門右邊）。商品價錢照 AA_620 第 2 節'},
     {lv: 1, x: -4.4, z: -2.9, yaw: Math.PI, kind: 'jersey_wall', label: '看看', note: '二樓後牆的系隊球衣（37、16、88、法律系 7 號）'},

@@ -856,14 +856,14 @@ def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side):
     for y in tiers:
         z = za + 0.2
         while z < zb - 0.15:
-            ang = (0.0 if sgn > 0 else math.pi) - sgn * (0.5 + random.uniform(-0.12, 0.12))   # 鞋尖朝店內、稍微朝店門
+            ang = -math.pi / 2 + sgn * (0.3 + random.uniform(-0.1, 0.1))   # 側面朝走道、鞋尖朝店門（往外斜一點）
             SHOE[(k * 3 + int(y * 10)) % len(SHOE)].place(fm(((xa + xb) / 2, y, z), rot('Y', ang)))
             z += gap; k += 1
     return k
 
 
 ns1 = shoe_wall('shoe_left', XI0, 1, 0.75, 7.25, [0.4, 0.95, 1.5], 0.42, 'left')
-ns2 = shoe_wall('shoe_right', XI1, -1, -6.4, 5.7, [0.45, 1.0, 1.55], 1.6, 'right')
+ns2 = shoe_wall('shoe_right', XI1, -1, -3.0, 5.7, [0.45, 1.0, 1.55], 0.95, 'right')
 for bn in IT['bench']:
     p = Part('bench'); x, z, bw, bd = bn['x'], bn['z'], bn['w'], bn['d']
     p['wood'].rbox(x - bw / 2, x + bw / 2, 0.38, 0.42, z - bd / 2, z + bd / 2, r=0.012)
