@@ -35,7 +35,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "放假在台中", "msgs": ["在台中。", "在自己房間，比宿舍安靜。"], "tags": [], "ask": null, "src": "AA_202 6-2 情況版", "tierMin": true, "variantNote": "`AA_197` 1-4"},
    {"topic": "chat", "tier": "A", "variant": "放假在台中", "msgs": ["回台中了。在整理筆記。"], "tags": [], "ask": null, "src": "AA_202 6-2 情況版", "tierMin": true, "variantNote": "`AA_197` 1-4"}
   ]},
-  "heroine_03":{"name":"陳語彤","rules":{"replyFree": [10, 60], "noReplyText": "週二、週四麵店時間，20:30 以後才回", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）；「問課」不出現，她是社會系", "habitText": "常傳沒有字的照片；沒有貼圖；「問課」不出現，她是社會系", "wakeLine": [], "lTierText": "L（~~大四~~ 同上：交往中，或第 5 階以上而且單身；任何學期，2026-10-17 AA-C）", "otherText": ["語彤：沒有貼圖；"]},"replies":[
+  "heroine_03":{"name":"陳語彤","rules":{"replyFree": [10, 60], "noReplyText": "週六、週日下午在茶屋上班，17:00 以後才回", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）；「問課」不出現，她是社會系", "habitText": "常傳沒有字的照片；沒有貼圖；「問課」不出現，她是社會系", "wakeLine": [], "lTierText": "L（~~大四~~ 同上：交往中，或第 5 階以上而且單身；任何學期，2026-10-17 AA-C）", "otherText": ["語彤：沒有貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在店裡。"], "tags": ["店裡的時間"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在三樓。"], "tags": [], "ask": null, "src": "AA_202 6-3 在幹嘛", "note": "總圖三樓，她固定的位子"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（照片：茶屋今天的茶點）"], "tags": ["店裡的時間"], "ask": null, "src": "AA_202 6-3 在幹嘛"},
@@ -115,7 +115,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "放假在新竹", "msgs": ["在新竹。週四會上去總圖。"], "tags": [], "ask": null, "src": "AA_202 6-6 情況版", "tierMin": true},
    {"topic": "chat", "tier": "A", "variant": "深夜", "msgs": ["還沒睡，在整理考古題。"], "tags": [], "ask": null, "src": "AA_202 6-6 情況版", "tierMin": true}
   ]},
-  "classmate_xinci":{"name":"吳芯慈","rules":{"replyFree": [10, 30], "noReplyText": "00:30 以後反而秒回（在追劇）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "句子完整、客氣；00:30 以後變很多話", "wakeLine": [], "otherText": ["芯慈：追劇和經濟學；"]},"replies":[
+  "classmate_xinci":{"name":"吳芯慈","rules":{"replyFree": [10, 30], "noReplyText": "00:30 以後反而秒回（在追劇）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "句子完整、客氣；00:30 以後變很多話", "wakeLine": [], "otherText": ["芯慈：追劇和財金；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在家，剛吃完飯。"], "tags": ["晚上"], "ask": null, "src": "AA_202 6-7 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在排下禮拜的讀書計畫。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-7 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在讀書。等我一章。"], "tags": [], "ask": null, "src": "AA_202 6-7 在幹嘛"},

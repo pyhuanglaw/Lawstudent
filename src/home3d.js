@@ -552,8 +552,8 @@ const HOME=(function(){
         else if(o.k==='rest'){ if(await confirmMiss(GM,G.hour+1)){ GM.advance(1); } } else { await S.back(GM); break; } } }
     finally{ busy=false; GM.sceneEnd(); }
     if(a3) await S.a3FromHome(GM); if(toLaw) await STORY.toLaw(GM); if(roomY2) await S.roomY2FromHome(GM); if(roomY3) await S.roomY3FromHome(GM); if(backB) await S.breakBack(GM); if(exch) await EXCH.depart(GM); if(coldBack) await S.coldBack(GM); if(y4Go){ const k=y4Go; y4Go=null; await STORY.y4FromHome(GM,k); } };   /* 經濟系 → 法律系（8/31 早上，AA_154 2-4b）*/
-  /* 1A-04 感冒的那一週（AA_315 3-2）：10/24（日）18:00 人還在家＝旁白「（後天要考試。你提早回宿舍。）」→ 字卡「回宿舍」（AA_176 R8）→ 宿舍房間（21:30 那一晚在 story3d.js）*/
-  S.coldBack=async function(GM){ const G=GM.G, H=S.rec(G); GM.sceneBegin(); try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,'（後天要考試。你提早回宿舍。）');
+  /* 1A-04 感冒的那一週（AA_315 3-2）：10/24（日）18:00 人還在家＝旁白「（你提早回宿舍。）」（AA_661 第 86 列：沒有期中考，AA_578）→ 字卡「回宿舍」（AA_176 R8）→ 宿舍房間（21:30 那一晚在 story3d.js）*/
+  S.coldBack=async function(GM){ const G=GM.G, H=S.rec(G); GM.sceneBegin(); try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,'（你提早回宿舍。）');
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('回宿舍','捷運＋公車 約 40 分鐘',2400); GM.advance(0.7); H.at=false; H.wakeAsk=null; H.stayMon=null; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); }
     finally { GM.sceneEnd(); } await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); };
   /* 回家：轉場 → 到家（媽媽一句）→ 選單 */
