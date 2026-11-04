@@ -38143,9 +38143,9 @@
    "title": "行政大樓門廊往旁邊 1.3 m 時跟隨鏡頭落進晨思鐘鐘亭 (−38,16.5)，整個畫面是石材（鐘亭不在鏡頭碰撞裡；LAWWW2 做 CAM-PILLAR-HALLS 時找到）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【11-01 03:0x LAWWW-B】LAWWW2 8119766b1（傅鐘柱子、梁、石碑 seethru_bell_stone，門廊旁鏡頭 0%→32～33%）已整合在本機分支 feat-art-1031 a45c719e1；發布後合進開發分支、BB 看畫面",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：已經在 main（a45c719e1 ⊂ b0c3032af）；BB 排使用者電腦看畫面｜【11-01 03:0x LAWWW-B】LAWWW2 8119766b1（傅鐘柱子、梁、石碑 seethru_bell_stone，門廊旁鏡頭 0%→32～33%）已整合在本機分支 feat-art-1031 a45c719e1；發布後合進開發分支、BB 看畫面",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -38165,7 +38165,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": "8119766b1"
+   "sha": "8119766b1",
+   "resumeWhen": "BB 排 PC 看畫面"
   },
   {
    "id": "BUG-SEAT-AISLE-REACH-1031",
@@ -39121,9 +39122,9 @@
    "title": "體育館 B1 三塊門牌（女更衣室、男更衣室、壁球室・桌球室）遊戲沒有畫字：gym_b1 走 attachRoomGLB，它不畫 PLATE_FACE_*（只有 gym3d.js 樓梯口兩塊自己畫）；照 us3d.js 的 paintPlate 畫 props 的 text（LAWWW2 讀碼找到，還沒拍遊戲畫面）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【11-01 LAWWW-B】LAWWW2 交 095518e3f（遊戲內拍過：壁球室・桌球室沒字、更衣室門牌正面朝門板）；整合在本機分支 feat-art-1031 82107f8b5，體育館 6 支 Node ALL PASS；發布後合進開發分支、派 BB 看畫面",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：已經在 main（82107f8b5 ⊂ b0c3032af）；BB 排使用者電腦看畫面｜【11-01 LAWWW-B】LAWWW2 交 095518e3f（遊戲內拍過：壁球室・桌球室沒字、更衣室門牌正面朝門板）；整合在本機分支 feat-art-1031 82107f8b5，體育館 6 支 Node ALL PASS；發布後合進開發分支、派 BB 看畫面",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -39144,7 +39145,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "sha": "095518e3f"
+   "sha": "095518e3f",
+   "resumeWhen": "BB 排 PC 看畫面"
   },
   {
    "id": "AA555-L123-SCENES-1101",
@@ -40541,8 +40543,8 @@
    "id": "CAMPUS-RELAYOUT-1102",
    "title": "系館照官方地圖排相對位置；舊社科院 (112,−62) 那棟＝電機二館，電機一館照官方地圖位置也蓋（使用者 09:15 選擇題）",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LIB 之後；名稱照 WORLD_NAMING 規則",
+   "status": "進行中",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C f189eedfb 盤點交了；電機一館照 UA-LAWWW2-1103-10 定 A3（普通教學館西邊空草地 x −90～−66、z −64～−48），排在阿德轉角之後做 patch＋俯視圖＋campus_layout_nav／reachability_all｜LIB 之後；名稱照 WORLD_NAMING 規則",
    "sha": "",
    "source": "同上",
    "xai": {
@@ -42182,10 +42184,10 @@
    "id": "LAW-RELAYOUT-1102",
    "title": "法學院區重排：萬才館搬位、湖、黑森林（LAWWW2 d73588749 WIP；使用者給 5 張實景照片）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "note": "LAWWW 11-03 補登（LAWWW2 user_asks 指到、總表沒有）",
-   "next": "BB 測（開發分支 e76d577a4）",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 盤點（f189eedfb wip/campus_relayout/README.md 第七節）：萬才館 42°＋辛亥路彎道（e76d577a4、2aaa7d22b）BB ART_APPROVED、PC 5 支全過｜BB 測（開發分支 e76d577a4）",
    "xai": {
     "spec": "LAWWW2 user_asks 1102-12～16",
     "branch": "claude/second-ai-env-art",
@@ -42193,7 +42195,8 @@
     "receiver": "LAWWW",
     "ack": "ACK",
     "owner": "LAWWW2"
-   }
+   },
+   "evidence": "LAWWW2-C f189eedfb 盤點：BB ART_APPROVED、PC 5 支全過"
   },
   {
    "first": {
@@ -42628,17 +42631,18 @@
    "id": "ART-SHANLAN-BOOKSTORE-1103",
    "title": "兩層樓「山嵐書店」（有人坐地板看書，新生南路那一側；AA_613）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）；11-03 改名：承品→山嵐（使用者「不要諧音梗」；企劃線 52e3d83a8）",
-   "next": "室內 AA 第三版（企劃線 aa_support/shanlan，READY_FOR_REVIEW）→ LAWWW2 驗收、新生南路店面、兩層導航",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內 AA 第三版（企劃線 aa_support/shanlan，READY_FOR_REVIEW）→ LAWWW2 驗收、新生南路店面、兩層導航",
    "xai": {
     "spec": "AA_613（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
     "acceptance": "兩層樓書店室內＋外觀，坐地板看書的人，位置在新生南路側",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角"
   },
   {
    "first": {
@@ -42675,17 +42679,18 @@
    "id": "ART-XINSHENG-GATE-1103",
    "title": "地圖照實際（AA_615）：校園新生南路側門＋新生南路店面，過馬路是溫州街；公館巷口照留",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "同 XINSHENG-SIDE-1103",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜同 XINSHENG-SIDE-1103",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
     "acceptance": "校園新生南路側門可進出、新生南路店面街、過馬路接溫州街；導航、存檔位置相容",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角"
   },
   {
    "first": {
@@ -42702,17 +42707,18 @@
    "id": "ART-NANYANG-CINEMA-1103",
    "title": "新場景「南洋戲院」公館二輪戲院（AA_615）；Alison 週五、六晚上打工送爆米花（劇情 LAWWW 接）",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P1",
    "note": "企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿）",
-   "next": "大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜大廳 BB 第四版（企劃線 bb_support/nanyang_lobby，照使用者參考圖，READY_FOR_REVIEW）；影廳還沒做 → LAWWW2 驗收＋整合",
    "xai": {
     "spec": "AA_615（企劃線 a51db2f8f（使用者 11-03 直接對 AA，D109 AA 定稿））",
     "branch": "claude/second-ai-env-art",
     "acceptance": "公館的二輪戲院外觀＋大廳（售票、爆米花櫃台）＋影廳座位",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角"
   },
   {
    "first": {
@@ -42749,17 +42755,18 @@
    "id": "ART-WZ-CAFES-1103",
    "title": "溫州街兩家咖啡廳（AA_617）：「木曜日」巷子中段老公寓二樓（可坐下讀書、約會深談）、「日常失速 DAILY OFFBEAT」靠新生南路轉角一樓（聚會、桌遊）；外觀＋室內",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "note": "使用者 11-03 選「照 AA_617 做」，排在 D99 三項之後（企劃線 3e4651ebf；參考圖 docs/story_planning/ref_images/wz_cafes/）",
-   "next": "室內模型 AA 已做（企劃線 aa_support：mokuyobi 第二版、daily_offbeat 第一版，READY_FOR_REVIEW）→ LAWWW2 驗收、補外觀／區域／導航／出入口／光照",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：AA／BB 的室內已 READY_FOR_REVIEW，等的是 LAWWW2 自己驗收＋整合；排在使用者 11-03 的順序（法學院 relayout → 系館名稱 → 電機一館 → 總圖）和阿德轉角之後｜室內模型 AA 已做（企劃線 aa_support：mokuyobi 第二版、daily_offbeat 第一版，READY_FOR_REVIEW）→ LAWWW2 驗收、補外觀／區域／導航／出入口／光照",
    "xai": {
     "spec": "AA_617 第 1、2 節（企劃線 3e4651ebf）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "兩家店外觀＋室內照 AA_617；木曜日座位可坐下讀書",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "resumeWhen": "LAWWW2 做完使用者 11-03 順序的四項和 WZ-FIVE-1104 阿德轉角"
   },
   {
    "first": {
@@ -42980,10 +42987,11 @@
    "id": "RELEASE-V91018-1103",
    "title": "發布 v9.10.18（發布樹 0776cafc8＝候選 ffeec06e0＋版本字樣）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "note": "使用者 11-03 11:2x 選「不等 BB 現在就發布」，接著說「你丟測試給 GITHUB 免費測試的」「要瀏覽器測試的請 bb 優先建」：Node 交 GHA、瀏覽器發布前清單交 BB／CC 優先",
-   "next": "GHA Node（a64ddbf1 觸發）＋BB 瀏覽器清單 → PR dev→main → Pages 確認"
+   "next": "【LAWWW-C 11-04 13:1x】v9.10.18 已發布（e8b6a84dd，PR #24，Pages run 41633308118）；之後還有 v9.10.19、v9.10.19.1（b0c3032af，PR #27）｜GHA Node（a64ddbf1 觸發）＋BB 瀏覽器清單 → PR dev→main → Pages 確認",
+   "evidence": "docs/RELEASES.md v9.10.18 列：e8b6a84dd（PR #24）"
   },
   {
    "first": {
@@ -43416,17 +43424,20 @@
    "id": "BOOKSTORE-2F-1103",
    "title": "兩層樓的山嵐書店（有人坐在地板看書；店名原創）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "X176；同 ART-SHANLAN-BOOKSTORE-1103",
-   "next": "同 ART-SHANLAN-BOOKSTORE-1103（AA 室內第三版待 LAWWW2 驗收）",
+   "next": "【LAWWW-C 11-04 13:1x】和 ART-SHANLAN-BOOKSTORE-1103 重複（LAWWW2-C 979d5a1a8 建議留 ART-*），由 ART-SHANLAN-BOOKSTORE-1103 取代｜同 ART-SHANLAN-BOOKSTORE-1103（AA 室內第三版待 LAWWW2 驗收）",
    "xai": {
     "spec": "X176；同 ART-SHANLAN-BOOKSTORE-1103；任務 next 欄",
     "branch": "claude/second-ai-env-art",
     "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "replacedBy": "ART-SHANLAN-BOOKSTORE-1103",
+   "authorized": "LAWWW-C（重複 ID 合併，內容不變）",
+   "reason": "和 ART-SHANLAN-BOOKSTORE-1103 是同一件事（重複 ID），內容併在 ART-SHANLAN-BOOKSTORE-1103（LAWWW2-C 11-04 979d5a1a8 建議）"
   },
   {
    "first": {
@@ -43443,17 +43454,20 @@
    "id": "CINEMA-GG-1103",
    "title": "公館附近電影院（南洋戲院）＋在電影院打工的同學送爆米花",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "X178；同 ART-NANYANG-CINEMA-1103、AA615",
-   "next": "同 ART-NANYANG-CINEMA-1103",
+   "next": "【LAWWW-C 11-04 13:1x】和 ART-NANYANG-CINEMA-1103 重複（LAWWW2-C 979d5a1a8 建議留 ART-*），由 ART-NANYANG-CINEMA-1103 取代｜同 ART-NANYANG-CINEMA-1103",
    "xai": {
     "spec": "X178；同 ART-NANYANG-CINEMA-1103、AA615；任務 next 欄",
     "branch": "claude/second-ai-env-art",
     "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "replacedBy": "ART-NANYANG-CINEMA-1103",
+   "authorized": "LAWWW-C（重複 ID 合併，內容不變）",
+   "reason": "和 ART-NANYANG-CINEMA-1103 是同一件事（重複 ID），內容併在 ART-NANYANG-CINEMA-1103（LAWWW2-C 11-04 979d5a1a8 建議）"
   },
   {
    "first": {
@@ -43551,17 +43565,20 @@
    "id": "WZ-CAFES-1103",
    "title": "溫州街咖啡廳木曜日（念書）、日常失速（吃飯、桌遊；明軒桌遊團）；原本那家開到凌晨兩點",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "note": "X179、X181、X182",
-   "next": "同 ART-WZ-CAFES-1103",
+   "next": "【LAWWW-C 11-04 13:1x】和 ART-WZ-CAFES-1103 重複（LAWWW2-C 979d5a1a8 建議留 ART-*），由 ART-WZ-CAFES-1103 取代｜同 ART-WZ-CAFES-1103",
    "xai": {
     "spec": "X179、X181、X182；任務 next 欄",
     "branch": "claude/second-ai-env-art",
     "acceptance": "交 GLB／patch＋outbox，MODEL_READY（LAWWW2 或 BB 代驗 D132）→ LAWWW 整合 → BB／CC 驗",
     "receiver": "LAWWW",
     "ack": "未派"
-   }
+   },
+   "replacedBy": "ART-WZ-CAFES-1103",
+   "authorized": "LAWWW-C（重複 ID 合併，內容不變）",
+   "reason": "和 ART-WZ-CAFES-1103 是同一件事（重複 ID），內容併在 ART-WZ-CAFES-1103（LAWWW2-C 11-04 979d5a1a8 建議）"
   },
   {
    "first": {
@@ -43696,14 +43713,15 @@
    "status": "等待其他AI／素材",
    "priority": "P2",
    "note": "使用者 11-03 22:0x 對 AA（X200）",
-   "next": "等使用者參考圖；排在新生南路七批之後或照使用者給圖的順序",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 979d5a1a8：真的在等使用者的 2D 參考圖｜等使用者參考圖；排在新生南路七批之後或照使用者給圖的順序",
    "xai": {
     "receiver": "LAWWW2",
     "branch": "claude/second-ai-env-art",
     "spec": "使用者 2D 參考圖（待給）",
     "acceptance": "BB ART_APPROVED（D120）",
     "ack": "SENT"
-   }
+   },
+   "resumeWhen": "使用者給公館 15 間店的 2D 參考圖"
   },
   {
    "first": {
@@ -43949,8 +43967,8 @@
    "owner": "AA",
    "priority": "P1",
    "title": "AA 的任務名：約念書走到桌子坐下的台詞（AA_649，企劃線 37daf8027；X207）",
-   "status": "已實作待整合",
-   "next": "台詞已交 LAWWW，子代理照接（INV-SIT-TOGETHER-1104）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 11-04 13:1x】AA-C 13:05 核對 AA_649 的 32 句台詞、16 句旁白都在 src（909c729a6、03713452b）；BB 照 AA_649 第 1 節七步測｜台詞已交 LAWWW，子代理照接（INV-SIT-TOGETHER-1104）",
    "xai": {
     "spec": "使用者 11-04",
     "branch": "claude/story-planning",
@@ -44434,6 +44452,198 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "GG-NIGHT-CARDS-1104",
+   "title": "公館窗卡：第二次進公館整張不畫（ggShopLit 快取 GLB 共用材質重複 patch → shader 連結失敗）；打烊調暗（乘數 0.03＋光暈熄燈）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第二次進公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "9f481443d",
+   "next": "【LAWWW-C 11-04 13:1x】LAWWW2-C 22e81cfd0 patch 接 9f481443d（gg_shoplit_reentry 修改前 7 FAIL→ALL PASS）；BB／CC 排 GG_REENTRY 驗收（四種讀檔順序；060a1a093 FAIL、9f481443d PASS），PASS 再重量 GG_night；擋 v9.10.20",
+   "source": "帳號 A 交班 B1（GG_night 擋 v9.10.20）；CC-C r8b／r8c、BB-C 讀碼 11-04 12:5x",
+   "xai": {
+    "spec": "CC-C r8c、BB-C 12:53 讀碼",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "GG_REENTRY 四種順序 PASS、打烊暗營業亮",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "RELEASE-V91020-1104",
+   "title": "發布 v9.10.20（溫州街第一批六間室內、公館打烊調暗、SEAT-ACTIVITY、約會帶路坐下……；線上照舊 v9.10.19.1 b0c3032af）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】擋發布（BB-C 12:58 BB_255 520f75080＋LAWWW-C 定）：GG-NIGHT-CARDS-1104（已接 9f481443d，等驗收）、SUNNY F00 桌 4 北側「坐下點餐」按鈕沒出現（SUNNY-F00-SIT-1104）、小路 22:00 窗外還是白天（XIAOLU-NIGHT-VIEW-1104）、lane_east 三角形（BB 判）；不擋、下一版：吧台 sns_vcm 鏡頭、小路座位鏡頭、阿德影印電腦椅／走近點、公館兩個店門口鏡頭、約會帶路距離；PASS 的：GG_glb_measure2、CAFE230v4、SUNNY reach",
+   "source": "帳號 A 交班 B1～B2；BB-C 11-04 12:58",
+   "authorized": "D85（LAWWW 自主發布）",
+   "evidence": ""
+  },
+  {
+   "id": "SUNNY-F00-SIT-1104",
+   "title": "SUNNY SIDE 桌 4 北側「坐下點餐」(−2.75,−0.85)：PC 上按鈕沒出現，人停在 (−2.28,−0.84) 差 0.47 m（46d459625 走近點算進桌子的修正沒效）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進 SUNNY SIDE",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 seatApproach 的走近點與互動半徑（#202 seatApproach 退回點不檢查同一類）；修好 BB 排 SUNNY_seatfix sit",
+   "source": "BB-C 11-04 12:55（46d459625 PC GPU 判定）",
+   "evidence": ""
+  },
+  {
+   "id": "XIAOLU-NIGHT-VIEW-1104",
+   "title": "溫州街小路：22:00 窗外還是白天街景（夜景窗景卡沒換）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "晚上進小路",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；BB 已交 LAWWW2-C；同類修法參考 SUNNY／2:30 AM 夜景換圖",
+   "source": "BB-C 11-04 12:58 BB_255（WZ4 小路）",
+   "xai": {
+    "spec": "BB_255 WZ4",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "22:00 窗外是夜景、白天照舊",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "WZ-SEAT-CAMS-1104",
+   "title": "座位鏡頭被擋：SUNNY 吧台 F12／F13 被 sns_vcm 金屬吊架擋、小路座位鏡頭卡在樑和酒瓶層架之間",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在溫州街店裡坐下",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；接鏡頭淡出或 seeThrough",
+   "source": "BB-C 11-04 12:55、12:58",
+   "xai": {
+    "spec": "BB_255",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "坐下後鏡頭不被吊架、樑擋",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ADE-SEATS-NAV-1104",
+   "title": "阿德影印：四張電腦椅坐不下、後面那張被「印東西」搶、店內點地 222 次到不了、打工三個站位走不到（導航格太窄、走近點被擋）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進阿德影印",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；跑 nav_islands.py、reachability --zones wz_print 看 seatApproach 走近點",
+   "source": "BB-C 11-04 13:00（0c2d4997b ADE 判定）",
+   "xai": {
+    "spec": "BB_255 ADE",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "四張椅子坐得下、互動點不互搶、站位走得到",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "GG-DOOR-CAMS-1104",
+   "title": "公館店門口鏡頭被擋：青木茶室門口（−54.05,21）整片行道樹樹冠（樹葉沒走透視）、頁間書屋門口（−36.4,21）整片白牆或柱子",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20",
+   "source": "BB-C 11-04 13:07（809163ee4 GG_int_art）",
+   "xai": {
+    "spec": "GG_int_art art_aoki_door、art_yejian_door",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "門口鏡頭看得到門口",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "DATE-LEAD-PACE-1104",
+   "title": "約會帶路（X207）：她帶路時離玩家最遠 8.2 m（afar 芷若）、5.5 m（Daybreak 語彤），規格 ≤3 m（她走太快、沒等玩家）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次約會走到店裡",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 13:1x】不擋 v9.10.20；INV-SIT-TOGETHER-1104 的帶路速度／等人；「答應的那一句」等 CC 確認探針",
+   "source": "BB-C 11-04 13:07（GG_shops2_afar_date／db_date）",
+   "evidence": ""
   }
  ]
 }
