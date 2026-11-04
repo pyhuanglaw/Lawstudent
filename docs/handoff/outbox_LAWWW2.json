@@ -5852,6 +5852,27 @@
    "next": "LAWWW-C：checkout 四個檔＋測試、工具；git apply npc_eat_chopsticks_1104.patch（character3d.js HANDS 六格／PROP／LOOK、seatact3d.js 吃飯打開＋PROP_FAM、sit_task_wire_unit 吃飯那一項）",
    "noDirectIntegrate": false,
    "note": "補件 1、4（LAWWW-C 21:42Z）：右手筷子 hand_chopsticks（24 面）＋Sit_Eat 照筷子尖重擺（碗裡夾麵→嘴邊 1.5 cm；左手扶碗、不再壓盤子）；寫字筆尖碰紙（女生原本在紙面下 3.9 mm）；男生的寫字、喝飲料、滑手機照配件實際掛上去的位置擺手（差 3～7 mm）。開發分支 9039f2b20：sit_task_loops_unit ALL PASS、sit_task_wire_unit 54 ALL PASS（套 patch）、座位／路人 7 支 ALL PASS。檢查點 4d1d3966e"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bc862203f",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NPC-ANIM-LOOPS-1104",
+   "files": [
+    "assets/models/char/second_ai/ual_sit_tasks.glb",
+    "assets/models/char/second_ai/ual_sit_tasks.json",
+    "tests/sit_task_loops_unit.js",
+    "tools/anim/sit_task_loops.py",
+    "tools/anim/preview_vrm_clip.py",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_f2m2_1104.patch",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "21:42Z 的 3（Café 桌緣 0.20）還沒做；Sakurada 比較高的男生（nm2、6、10、14）要的話再出 M3；瀏覽器沒看過（D131）；BB 判 ART",
+   "next": "LAWWW-C：先套筷子那一份（048f3498c），再 checkout 這次的檔＋git apply npc_f2m2_1104.patch（character3d.js HANDS／WIN F2、M2、ALT 先試 F／M 再 F2／M2；接線測試 D2／H）",
+   "noDirectIntegrate": false,
+   "note": "補件 2（LAWWW-C 21:42Z）：F2＝Victoria_Rubin（手臂÷身高 0.251，參考 bl_npc_nf10 1.65 m）、M2＝HairSample_Male（0.266，bl_npc_nm11 1.74 m）各 7 個片段；F、M 不變。遊戲 sitTaskFit 量 44 個底模：打字 38→43、寫字 24→38、其他 29→41。開發分支 1e378a386＋兩份 patch：sit_task_loops_unit ALL PASS、sit_task_wire_unit 54 ALL PASS、座位／路人 7 支 ALL PASS"
   }
  ]
 }

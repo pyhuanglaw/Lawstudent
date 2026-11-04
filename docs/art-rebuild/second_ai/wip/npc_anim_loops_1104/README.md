@@ -146,8 +146,8 @@ patch（以開發分支 `9039f2b20` 為底）改三個檔：
 先照上面「補件」那一節換檔、套 `npc_eat_chopsticks_1104.patch`，再：
 
 ```
-git checkout <SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py
-git show <SHA>:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_f2m2_1104.patch | git apply
+git checkout bc862203f -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py tools/anim/preview_vrm_clip.py
+git show bc862203f:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_f2m2_1104.patch | git apply
 ```
 
 - patch 改 `src/character3d.js`（HANDS、WIN、H、ALT、sitTaskFit）和 `tests/sit_task_wire_unit.js`。`seatact3d.js` 不用動。
