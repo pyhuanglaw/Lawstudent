@@ -6,7 +6,30 @@
 - 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
 - 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
 
-## 🔨 現在在做（11-04 01:5x UTC 更新）
+## 🔨 現在在做（11-04 03:1x UTC 更新）
+- 分支 `claude/second-ai-env-art`，最新見 `git log -1`。
+- **11-04 02:3x 以後交出去的**（都接開發分支、Node 測試全過；瀏覽器測試照 D131 排 PC）：
+  1. 公館外觀 v1b：afar 招牌改用新參考圖的小寫 afar（498181d29）。LAWWW 已接。
+  2. 溫州街 A5 改日和便利店；公館 G03 招牌照透視重裁（93dbf8b99）。LAWWW 已接（4e3f6ccef）。
+  3. **BIKE-PARK-1104**：各建築出口、區域入口附近的停車架和停車位。
+     - patch 和距離表在 `wip/bike_park/`（77a599c60，接 7d5d5fff4）；新測試 bike_park_1104_unit。
+     - 等 LAWWW 整合、PC 跑 reachability／campus_glb_integration。
+  4. **GG-VIEWS-1104**：日和、頁間、青木、溫州街 A5 的窗景重拍（`wip/gg_views_1104/`）。
+     - A＝拍照腳本的位置，已請 CC 排 PC；
+     - B＝zones3d 接法，照片進來以後才套。
+  5. 審查（紀錄在 `wip/shop_review_1103/README.md`）：
+     - afar v1→v1b、Daybreak v1→v1b 都 MODEL_READY；
+     - 洋洋 v1b、v1c 都 MODEL_READY，ART_APPROVED 等遊戲內截圖（這間由我標）。
+  6. 公館三間室內走不到的地方：已請 AA 改青木（吧台西端縮 0.5 m）、頁間（茶几南移 0.6 m），BB 改日和（貨架中心 −3.7／−1.7／0.3）。等他們交件以後我驗走道。
+- **還沒做／下一步**：
+  - 洋洋的桌面光圈（烘焙或 SpotLight，等 LAWWW 接成區域）。
+  - 公館四間新店的窗卡換成室內模型的渲染圖（afar、Daybreak、洋洋接好以後）。
+  - 新生南路側門外的遠景（圍牆後現在是空地）。
+  - 新生南路室內整合（大口、南洋、山嵐…）。
+  - 木曜日 P3。
+- **注意**：`wz_street.py` 要寫成 `-- --set gongguan`。`sign_atlas.py` 要 scipy（沙盒用 `pip install scipy`）。`xs_front_tex.py` 要給參考圖資料夾（`$SP/refall` 或企劃線的 ref_images/shops）。
+
+## 🔨 之前（11-04 01:5x UTC）
 - 分支 `claude/second-ai-env-art`，最新 `8de87af16`。
 - **11-04 00:4x 以後交出去的**（都接開發分支、Node 測試全過；瀏覽器測試照 D131 排 PC）：
   1. SPAWN-EXIT-1104：新生南路、木曜日六個出生點移到出口範圍外＋`tests/spawn_exit_unit.js`（7940369f0）。LAWWW 已整合（dc5c8c78d）。
