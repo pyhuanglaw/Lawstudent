@@ -44517,7 +44517,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 seatApproach 的走近點與互動半徑（#202 seatApproach 退回點不檢查同一類）；修好 BB 排 SUNNY_seatfix sit",
+   "next": "【LAWWW-C 11-04 13:2x】查碼：(−2.75,−0.85) 是桌 1 左牆卡座（layout 第 0 張），不是 46d459625 修的桌 4 北側 (1.9,0)；玩家停 (−2.28,−0.84) 離座位 0.47 m、按鈕範圍 WZ_SEAT_R 0.9 m——E.nearestInteractable 只在那張有 NPC 坐（0.35 m 內）或 seat.taken 時不出按鈕；請 BB／CC 確認探針的 F00 是哪一張、當時有沒有人坐（印 E.npcs 的 seat、那一筆 interactable 的 hidden／radius），確認以前不改程式｜【LAWWW-C 11-04 13:1x】擋 v9.10.20；查 seatApproach 的走近點與互動半徑（#202 seatApproach 退回點不檢查同一類）；修好 BB 排 SUNNY_seatfix sit",
    "source": "BB-C 11-04 12:55（46d459625 PC GPU 判定）",
    "evidence": ""
   },
