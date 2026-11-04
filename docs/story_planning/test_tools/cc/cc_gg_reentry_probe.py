@@ -62,7 +62,7 @@ HUD = """(on=>{ const c=GAME.E.renderer.domElement; const keep=new Set(); for(le
 QUAD = """(c=>{ const E=GAME.E; E.camera.updateMatrixWorld(); const [x0,x1,y0,y1,zz]=c;
   return [[x0,y0],[x1,y0],[x1,y1],[x0,y1]].map(([x,y])=>{ const v=new THREE.Vector3(x,y,zz).project(E.camera); return [(v.x+1)/2*innerWidth,(1-v.y)/2*innerHeight,v.z]; }); })"""
 # 窗卡網格、program 狀態、營業表（ggLit.lit[i+1] 對 xsShops 第 i 間）
-STATE_JS = r"""(()=>{ const E=GAME.E, z=E.zone, g=z&&z.group, o={zone:GAME.G.zone, hour:+GAME.G.hour, enterN:(GAME.GM&&GAME.GM.enterN)|0};
+STATE_JS = r"""(()=>{ const E=GAME.E, z=E.zone, g=z&&z.group, o={zone:GAME.G.zone, hour:+GAME.G.hour, enterN:GAME.enterN|0};
   const m=g&&g.getObjectByName('NOSHADOW_xs_fronts_lit'); o.found=!!m;
   if(m){ const M=m.material, R=E.renderer, p=R.properties.get(M), pr=p&&p.currentProgram; o.mat=M.name; o.matUuid=M.uuid.slice(0,8); o.visible=m.visible;
     try{ const gl=R.getContext(); if(pr&&pr.program){ o.link=gl.getProgramParameter(pr.program,gl.LINK_STATUS); o.vlog=(gl.getShaderInfoLog(pr.vertexShader)||'').slice(0,240); o.flog=(gl.getShaderInfoLog(pr.fragmentShader)||'').slice(0,240);
@@ -157,7 +157,7 @@ async def main():
             await pg.evaluate("void GAME.enter('campus')")
             okc = False
             for _ in range(240):
-                if await pg.evaluate("GAME.G.zone==='campus'&&!(GAME.GM&&GAME.GM.isEntering&&GAME.GM.isEntering())"): okc = True; break
+                if await pg.evaluate("GAME.G.zone==='campus'&&!(GAME.isEntering&&GAME.isEntering())"): okc = True; break
                 await pg.wait_for_timeout(250)
             check('[R%d] 換到 campus' % n, okc, '')
             await pg.wait_for_timeout(1500)
@@ -165,7 +165,7 @@ async def main():
             t1 = time.time(); await pg.evaluate("void GAME.enter('gongguan',%s)" % J(SPAWN))
             tg = await wait_glb(pg, t1); check('[%s] 再進公館、正式模型有載入' % tag, tg is not None, '%s 秒' % tg)
             for _ in range(80):
-                if not await pg.evaluate("!!(GAME.GM&&GAME.GM.isEntering&&GAME.GM.isEntering())"): break
+                if not await pg.evaluate("!!(GAME.isEntering&&GAME.isEntering())"): break
                 await pg.wait_for_timeout(250)
             if tg is None: continue
             res.append({'tag': tag, **(await measure(pg, tag))})

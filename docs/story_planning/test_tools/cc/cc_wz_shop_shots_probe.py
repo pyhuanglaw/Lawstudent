@@ -47,6 +47,11 @@ CAM = """(()=>{ const E=GAME.E, c=E.camera.position, P=E.player, p=P.obj.positio
 MATS = "(rx=>{ const R=new RegExp(rx); let f=0; const names=new Set(); GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name){ names.add(o.material.name); if(R.test(o.material.name)) f++; } }); return {n:f, names:[...names].slice(0,60)}; })(%s)"
 
 
+WATCH_JS = """(()=>{ const E=GAME.E, P=E.player, D=GAME.D||{}; const q=v=>{ try{ return typeof v==='function'?v():v; }catch(e){ return 'ERR'; } };
+  return {seat:!!P.seat, busy:!!P.busy, pose:P.pose||(P.anim&&P.anim.pose)||null, busyDepth:q(D.busyDepth), lastTalkError:q(GAME.lastTalkError)||null,
+    choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim()).slice(0,6), dlg:!!document.querySelector('#dlg:not(.hide)'),
+    interact:(document.querySelector('#interact')||{}).textContent||'', x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), entering:!!(GAME.isEntering&&GAME.isEntering()), zone:GAME.G.zone, hour:+(+GAME.G.hour).toFixed(2)}; })()"""
+
 def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + (('  ' + info) if info else ''), flush=True)
     if not ok: FAILS.append(name)
@@ -66,6 +71,12 @@ def tag_of(h): return '%02d%02d' % (int(h), int(round((h % 1) * 60)))
 def in_box(c):
     x0, x1, z0, z1, hh = SH['box']
     return x0 - 0.05 <= c[0] <= x1 + 0.05 and z0 - 0.05 <= c[2] <= z1 + 0.05 and c[1] <= hh + 0.05
+
+
+def front_ok(c):
+    """BB-C 11-04 SUNNY_seatfix 判定：和 [hhmm] 玩家視角同一套——鏡頭在房間裡，或在前牆外（門在 +z、前牆淡出的剖面視角，z ≤ z1＋5 m）都可以"""
+    x0, x1, z0, z1, hh = SH['box']
+    return x0 - 0.05 <= c[0] <= x1 + 0.05 and z0 - 0.05 <= c[2] <= z1 + 5.0
 
 
 async def load(pg, cdp, zone, x, z, h, yaw=math.pi, keep=False):
@@ -155,8 +166,12 @@ async def floor_seats(pg, cdp, allseats=False):
         if want: check('[SEATS] 配置裡玩家可坐的座位 %d 張（預期 %d）、互動點 %d 個' % (len(ok_n), want, len(seats)), len(ok_n) == want and len(seats) == want, J({'layout': len(ok_n), 'its': len(seats)}))
         check('[SEATS] npcOnly 的 %d 張沒有「坐下」按鈕' % len(npc), not hit, J(hit))
     check('[FLOOR] 有座位' if allseats else '[FLOOR] 有坐墊（kind floor）的座位', bool(fl), str(len(fl)))
+    only = [t.strip() for t in (os.environ.get('SEAT_ONLY') or '').split(',') if t.strip()]   # BB-C 11-04：只重跑 F09,F12,F13
+    sit_wait = float(os.environ.get('SIT_WAIT') or 2.5)   # BB-C 11-04：「坐下了」等待放寬到 6 秒
+    watch = [t.strip() for t in (os.environ.get('STAND_WATCH') or '').split(',') if t.strip()]
     for k, s in enumerate(fl):
         tag = 'F%02d' % k
+        if only and tag not in only: continue
         await L.go_to(pg, cdp, L.Run('cc', OUT) if hasattr(L, 'Run') else None, s['x'], s['z'], 0.35, s['label'], max_s=180)
         await pg.wait_for_timeout(800)
         st = await L.state(pg)
@@ -166,29 +181,52 @@ async def floor_seats(pg, cdp, allseats=False):
         for _ in range(30):
             await pg.wait_for_timeout(500)
             if await pg.evaluate("!!GAME.E.player.seat&&!GAME.E.player.busy"): break
-        await pg.wait_for_timeout(2500)
+        await pg.wait_for_timeout(int(sit_wait * 1000))
+        if sit_wait > 2.5 and not await pg.evaluate("!!GAME.E.player.seat"):
+            print('  [%s] %s 秒還沒坐下：%s' % (tag, sit_wait, J(await pg.evaluate(WATCH_JS))), flush=True)
         c = await pg.evaluate(CAM)
         await pg.screenshot(path=os.path.join(OUT, '%s_seat_%s.png' % (SH['glb'], tag)))
         print('  [%s] 坐下：%s' % (tag, J(c)), flush=True)
         check('[%s] 坐下了（seat、pose）' % tag, c['seat'], J({'pose': c['pose'], 'hips': c['hips']}))
         info('[%s] 姿勢 pose＝%s、hips 高度 %s m（跪坐約 0.45～0.6；站著約 0.9～1.0；坐椅子約 0.55～0.7）' % (tag, c['pose'], c['hips']))
-        check('[%s] 鏡頭不在牆裡、頭到鏡頭之間沒有東西' % tag, in_box(c['cam']) and not c['between'], J({'cam': c['cam'], 'between': c['between']}))
+        check('[%s] 鏡頭在房間裡或前牆外的剖面視角、頭到鏡頭之間沒有東西' % tag, front_ok(c['cam']) and not c['between'], J({'cam': c['cam'], 'inRoom': in_box(c['cam']), 'between': c['between']}))
         _ch = await pg.evaluate("[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim())")
         if _ch:   # 11-04 CAFE230v3：坐下以後跳出選單（坐一下／點咖啡／起身），r1 沒選「起身」就推搖桿＝探針卡住
             _k = next((i for i, t in enumerate(_ch) if t.startswith('起身') or t.startswith('站起')), len(_ch) - 1)
             print('  坐下的選單：%s → %s' % (J(_ch), _ch[_k]), flush=True)
             await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (_k + 1)); await pg.wait_for_timeout(1500)
-        lab = (await L.state(pg))['interact']
-        if lab.startswith('起身') or lab.startswith('站起'):
-            await L.tap(pg, cdp, '#interact')
+        async def _stand():
+            lab = (await L.state(pg))['interact']
+            print('  [%s] 起身前：互動鈕「%s」、%s' % (tag, lab, J(await pg.evaluate(WATCH_JS))), flush=True)
+            if lab.startswith('起身') or lab.startswith('站起'):
+                await L.tap(pg, cdp, '#interact')
+            else:
+                await L.joystick(pg, cdp, 0, 60, 800)
+            await pg.wait_for_timeout(2000)
+            moved, _, _ = await L.push_until(pg, cdp, 0, 60, 0.3, max_pushes=3)
+            if moved < 0.3:
+                for dx, dy in ((60, 0), (-60, 0), (0, -60)):
+                    moved, _, _ = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=2)
+                    if moved >= 0.3: break
+            return moved
+        if tag in watch:   # BB-C 11-04：F13 起身以後 40 分鐘沒有輸出——每 10 秒截圖＋記狀態，最多 3 分鐘
+            async def _watch():
+                for i in range(18):
+                    await asyncio.sleep(10)
+                    try:
+                        w = await pg.evaluate(WATCH_JS)
+                        await pg.screenshot(path=os.path.join(OUT, '%s_stand_%s_%03ds.png' % (SH['glb'], tag, (i + 1) * 10)))
+                        print('  [%s] 起身 +%ds：%s' % (tag, (i + 1) * 10, J(w)), flush=True)
+                    except Exception as e:
+                        print('  [%s] 起身 +%ds 讀不到狀態：%r' % (tag, (i + 1) * 10, e), flush=True)
+            wt = asyncio.ensure_future(_watch())
+            try:
+                moved = await asyncio.wait_for(_stand(), timeout=180)
+            except asyncio.TimeoutError:
+                moved = 0.0; check('[%s] 起身在 3 分鐘內完成（探針這一步沒有卡住）' % tag, False, J(await pg.evaluate(WATCH_JS)))
+            wt.cancel()
         else:
-            await L.joystick(pg, cdp, 0, 60, 800)
-        await pg.wait_for_timeout(2000)
-        moved, _, _ = await L.push_until(pg, cdp, 0, 60, 0.3, max_pushes=3)
-        if moved < 0.3:
-            for dx, dy in ((60, 0), (-60, 0), (0, -60)):
-                moved, _, _ = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=2)
-                if moved >= 0.3: break
+            moved = await _stand()
         st = await L.state(pg)
         check('[%s] 站起來：不是坐著、站得住、推得動 ≥0.3 m' % tag, not await pg.evaluate("!!GAME.E.player.seat") and st['stand'] and moved >= 0.3, J({'moved': round(moved, 2), 'stand': st['stand'], 'x': st['x'], 'z': st['z'], 'pose': st.get('pose')}))
 
