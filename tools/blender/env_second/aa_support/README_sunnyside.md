@@ -105,3 +105,11 @@
 - 結帳櫃台在右邊中段：位置不能動。參考圖在左邊門口。
 - 門窗照現有店面，在 +z 那一面；參考圖的窗在右側。
 - 牌子、桌卡只寫店名 SUNNY SIDE，沒有放任何真實品牌。
+
+## v1d（2026-11-04，回 BB_257 §11）
+1. **右牆轉角落地窗**（照 LAWWW2 06:58 的數字）：右牆 x +3.2，窗洞 z −2.4～4.6、窗台 0.75、窗頂 2.55；深綠 #3f5a3c 窗框，13 根直櫺、y 2.0 一道橫楣；窗台下是牆，z 4.6～5.0 是轉角柱。窗台放小盆栽，窗外是窗景卡 `WALL_right_VIEW_sns_window_view`。layout 升到 v3，加 `rightWindow`。
+2. 右牆原本的壁燈、層架、水彩畫拿掉：壁燈只留後段一盞（right −3.4），小黑板搬到窗洞後面 z −3.55，第二張水彩畫改掛左牆 −3.7。
+3. **黃金葛不再飄在空中**：`aa_kit.hanging_pothos` 改成先畫藤蔓（細圓柱），葉子長在藤上（99e388f79）。
+- 規格：38,516 三角形、12 材質、2.44 MB。ref_match 全部通過；shopchk2 wz_brunch 17 點、NG 0。
+- 圖：`model_renders/sunnyside_v1d_refcam{.png,_cmp.jpg,_report.json}`、`sunnyside_v1d_rightwin.png`（鏡頭 `[-1.8,1.5,4.2]→[3.2,1.4,-0.5] 24`）、`sunnyside_v1d_pothos.png`。
+- 還沒做到：窗景卡是平面圖，沒有視差；外牆對齊的圖由 LAWWW2 拍。

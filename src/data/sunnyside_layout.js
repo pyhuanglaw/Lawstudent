@@ -8,10 +8,11 @@
    參考圖的鏡頭站在門邊往裡面看：左邊結帳櫃台＋卡座、正前方菜單板和開放廚房、右邊窗邊的大理石圓桌。遊戲裡的門在店面中間偏右，窗在門的兩邊，結帳櫃台在右邊中段（不能動），所以左右和參考圖不完全一樣。
    yaw：人面向 (sin yaw, cos yaw)。blocks：[x中心, z中心, 寬(x), 深(z)]。 */
 const SUNNYSIDE_LAYOUT = {
-  version: 2,
+  version: 3,
   id: 'wz_brunch', name: 'SUNNY SIDE', glb: 'assets/models/env/second_ai/aa_support/sunnyside.glb',
   w: 6.4, d: 10.0, h: 3.2, wallColor: '#efe6d6', floor: 'checker（黑白斜鋪小方磚）',
   note: '約 6×10 m 的歐式早午餐（B7）。後面是開放式廚房（銅鍋、不鏽鋼架、排油煙罩），前面一道胡桃木出餐檯（咖啡機、磨豆機、玻璃甜點櫃、兩張高腳凳），上方矮牆掛深綠菜單板；左牆奶油色長沙發卡座、金框鏡子、水彩畫、壁燈；中間和右邊方木桌、大理石小圓桌、曲木藤面椅；右邊中段結帳櫃台（金字木牌、檯燈、收銀機）。',
+  rightWindow: {z0: -2.4, z1: 4.6, sill: 0.75, head: 2.55, mullions: 13, transom: 2.0, color: '#3f5a3c', note: 'v1d（BB_257 §11①、LAWWW2 11-04 06:58）：轉角店的右牆整面落地窗；z 4.6～5.0 是轉角柱，z −5～−2.4 留牆給廚房'},
   front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55, note: '照舊（FIXED_COORDS §3）'},
   spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
   seeThru: ['wzs_pendant', 'wzs_bulb'],
@@ -27,7 +28,7 @@ const SUNNYSIDE_LAYOUT = {
     {kind: 'banquette', x0: -3.2, x1: -2.75, z0: -1.6, z1: 1.4, note: '左牆奶油色布面長沙發（直條紋靠背、灰色抱枕）'},
     {kind: 'mirror', side: 'left', along: -0.1, y: 1.85, w: 0.7, h: 1.0, note: '卡座上方的金框鏡子'},
     {kind: 'print', side: 'left', along: 2.4, y: 1.7, w: 0.55, h: 0.55, cell: [2, 2, 2, 2]},
-    {kind: 'print', side: 'right', along: 1.8, y: 1.7, w: 0.55, h: 0.55, cell: [4, 2, 2, 2]},
+    {kind: 'print', side: 'left', along: -3.7, y: 1.75, w: 0.55, h: 0.55, cell: [4, 2, 2, 2], note: 'v1d：右牆開落地窗，水彩畫二搬到左牆後段'},
     {kind: 'shelf_wall', x: -3.05, y: 2.2, z: 3.2, ry: Math.PI / 2, w: 1.0, note: '左前牆的小層架：書、黃金葛'},
     {kind: 'plant_big', x: -2.75, z: 4.45}, {kind: 'plant_big', x: 2.85, z: 4.45}
   ],

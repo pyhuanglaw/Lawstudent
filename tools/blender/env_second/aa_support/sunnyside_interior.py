@@ -91,13 +91,26 @@ for xx in (-1.6, 1.5):                                                          
 fr = LAY['front']; dx0, dx1 = fr['door']['x'] - fr['door']['w'] / 2, fr['door']['x'] + fr['door']['w'] / 2
 ops = [(fr['windows'][0][0], fr['windows'][0][1], fr['sill'], fr['head'], 'win'), (dx0, dx1, 0.0, 2.55, 'door'), (fr['windows'][1][0], fr['windows'][1][1], fr['sill'], fr['head'], 'win')]
 sh.wall_with_openings('front', ops, 'wood', 'wall', 0.75, 'wood', mull=0.5)
-for side in ('back', 'left', 'right'):
+for side in ('back', 'left'):
     a0, a1 = (X0, X1) if side == 'back' else (Z0, Z1); sh.wall_box(side, 'wall', a0, a1, 0.0, H)
     sh.wall_box(side, 'wood', a0, a1, 0.0, 0.12, -0.015, 0.0)
+RW0, RW1, RS0, RS1 = -2.4, 4.6, 0.75, 2.55                                                                                  # v1d（BB_257 §11①、LAWWW2 06:58）：右牆＝轉角店的整面落地窗
+sh.wall_box('right', 'wall', Z0, RW0, 0.0, H); sh.wall_box('right', 'wall', RW1, Z1, 0.0, H)                              # 後段留牆給廚房、轉角 0.4 m 柱
+sh.wall_box('right', 'wall', RW0, RW1, 0.0, RS0); sh.wall_box('right', 'wall', RW0, RW1, RS1, H)
+sh.wall_box('right', 'wood', Z0, Z1, 0.0, 0.12, -0.015, 0.0)
+WG = '#3f5a3c'; WR = lambda z0_, z1_, y0_, y1_, d0=-0.05, d1=0.06: xf0.rbox(sh.w('right', 'vcg'), X1 + d0, X1 + d1, y0_, y1_, z0_, z1_, r=0.0, seg=1, col=WG)
+WR(RW0, RW1, RS1 - 0.06, RS1); WR(RW0, RW1, RS0, RS0 + 0.06); WR(RW0, RW0 + 0.06, RS0, RS1); WR(RW1 - 0.06, RW1, RS0, RS1)   # 深綠框
+for k in range(1, 13): zc = RW0 + k * (RW1 - RW0) / 13; WR(zc - 0.022, zc + 0.022, RS0, RS1, -0.04, 0.05)                  # 13 格直框
+WR(RW0, RW1, 1.98, 2.02, -0.04, 0.05)                                                                                       # 橫框 y 2.0
+xf0.rbox(sh.w('right', 'wood'), X1 - 0.16, X1, RS0 - 0.03, RS0, RW0, RW1, r=0.008, seg=1)                                # 窗台（可以放小盆栽）
+sh.w('right', 'glass').box(X1 + 0.004, X1 + 0.008, RS0 + 0.02, RS1 - 0.02, RW0 + 0.02, RW1 - 0.02)
+vx_ = X1 + 2.5; vr = Mesh('WALL_right_VIEW_' + P + 'window_view', sh.M['view'])                                           # 窗外的街樹（之後 LAWWW2 換溫州街）
+xf0.quad(vr, [(vx_, -1.0, -3.0), (vx_, -1.0, 6.5), (vx_, 4.5, 6.5), (vx_, 4.5, -3.0)], uv=(0.0, 0.0, 1.0, 1.0))
+vr.finish(sh.root, uv=False, props={'dir': K.DIRS['right'], 'windowView': True})
 vz = Z1 + 2.5; vw = Mesh('WALL_front_VIEW_' + P + 'window_view', sh.M['view'])
 xf0.quad(vw, [(7.0, 4.5, vz), (-7.0, 4.5, vz), (-7.0, -1.0, vz), (7.0, -1.0, vz)], uv=(1.0, 1.0, 0.0, 0.0))
 vw.finish(sh.root, uv=False, props={'dir': K.DIRS['front'], 'windowView': True})
-for (side, along) in (('left', -1.5), ('left', 1.4), ('right', 0.2), ('right', 3.4)): sconce(side, along)
+for (side, along) in (('left', -1.5), ('left', 1.4), ('right', -3.4)): sconce(side, along)   # v1d：右牆開窗，壁燈只留後段一盞
 sh.tally('shell')
 
 # ---------------------------------------------------------------- v1c 共用：散擺（BB_257 H：不等間距、不同尺寸、yaw、前後位置；偶爾空一格）
@@ -359,18 +372,12 @@ sh.tally('left')
 def rw(along, off=0.0, y=0.0): return sh.wall_xf('right', along, off, y)
 
 
-sh.wall_img('right', 'print', -1.05, 1.78, 0.68, 0.68, K.cell_uv(0, 3, 2, 2), off=0.03)                                     # 小黑板（結帳櫃台上方）
-rw(-1.05, 0.0, 1.78).rbox(sh.w('right', 'wood'), -0.38, 0.38, -0.38, 0.38, 0.0, 0.025, r=0.01, seg=1)
-s0, s1, sy = 0.45, 2.75, 2.35; sxf = rw((s0 + s1) / 2, 0.0, sy)                                                           # 長層架（水彩畫上面）
-sxf.rbox(sh.w('right', 'wood'), -(s1 - s0) / 2, (s1 - s0) / 2, -0.03, 0.0, 0.0, 0.26, r=0.005, seg=1)
-for u in (-(s1 - s0) / 2 + 0.15, (s1 - s0) / 2 - 0.15): sxf.rbox(sh.w('right', 'vcm'), u - 0.01, u + 0.01, -0.16, -0.03, 0.0, 0.2, r=0.0, seg=1, col=IRON)
-for (mk, x, sc) in scatter(-(s1 - s0) / 2, (s1 - s0) / 2, SHELF + [(i_plant, 0.2)], gap=(0.04, 0.16)):
-    pxx, pyy, pzz = sxf.p(x, 0.0, 0.13 + j(0.04)); mk(pxx, pzz, pyy, sc, RS.uniform(-0.5, 0.5))
-for (u, n_) in ((-(s1 - s0) / 2 + 0.35, 8), ((s1 - s0) / 2 - 0.5, 10)):
-    p_ = sxf.p(u, 0.02, 0.15); sh.hanging_pothos('pothos', p_[0], p_[1], p_[2], n=n_, drop=0.85)
-for (along, y, w_, cell) in ((2.95, 1.62, 0.4, (2, 4)), (4.05, 1.72, 0.34, (4, 4))):                                       # 兩個小框（舊照片、蕨葉插畫）
-    sh.wall_img('right', 'print', along, y, w_, w_, K.cell_uv(cell[0], cell[1], 2, 2), off=0.028)
-    rw(along, 0.0, y).rbox(sh.w('right', 'wood'), -w_ / 2 - 0.03, w_ / 2 + 0.03, -w_ / 2 - 0.03, w_ / 2 + 0.03, 0.0, 0.022, r=0.004, seg=1)
+sh.wall_img('right', 'print', -3.55, 1.85, 0.62, 0.62, K.cell_uv(0, 3, 2, 2), off=0.03)                                     # v1d：小黑板搬到窗洞後面的實牆（z −3.55）
+rw(-3.55, 0.0, 1.85).rbox(sh.w('right', 'wood'), -0.35, 0.35, -0.35, 0.35, 0.0, 0.025, r=0.01, seg=1)
+for (zz, kind) in ((-1.9, 0), (-0.2, 1), (1.45, 0), (2.95, 1), (4.2, 0)):                                                 # 窗台上的小盆栽（間距、大小不一）
+    zz += RS.uniform(-0.15, 0.15); sc = RS.uniform(0.8, 1.3)
+    if kind == 0: sh.plant(X1 - 0.08, zz, h=0.25 * sc, r=0.08 * sc, pot_col=RS.choice(('#d8d0c0', '#b0653e', '#e8e2d6')), y0=RS0)
+    else: Xf(X1 - 0.08, zz, 0, RS0).lathe(sh.a('vcg'), [(0.0, 0.0), (0.05 * sc, 0.0), (0.06 * sc, 0.1 * sc), (0.0, 0.1 * sc)], 0, 0, 0, seg=10, col='#e8e2d6'); sh.hanging_pothos('pothos', X1 - 0.08, RS0 + 0.1 * sc, zz, n=5, drop=0.35)
 gx_, gz_ = X1 - 0.35, 1.75                                                                                                 # 天花板吊下來的植物（走道上方 2.05 m 以上）
 Xf(gx_, gz_).cyl(sh.a('vcm'), (0, H, 0), (0, 2.25, 0), 0.003, seg=3, col='#8a7a5a')
 Xf(gx_, gz_, 0, 2.05).lathe(sh.a('vcg'), [(0.0, 0.0), (0.09, 0.0), (0.12, 0.18), (0.0, 0.18)], 0, 0, 0, seg=10, col='#c8b48a'); sh.hanging_pothos('pothos', gx_, 2.2, gz_, n=9, drop=0.4)
