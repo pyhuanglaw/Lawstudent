@@ -45,7 +45,7 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, D=GAME.D||{}, p=P.obj.posit
     dlg:!!D.active, depth:D.busyDepth|0, who:(D.busyWho||[]).slice(-4), adv:!!(typeof ADV!=='undefined'&&ADV.active), cam:E.cam&&E.cam.mode||null, frozen:!!P.frozen, busy:!!P.busy, pose:P.pose||null, paused:!!E.paused,
     name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:((document.getElementById('dlgText')||{}).textContent||'').slice(0,60),
     choices:[...document.querySelectorAll('#choices:not(.hide) button')].map(b=>(b.textContent||'').trim().slice(0,40)),
-    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, nch:document.querySelectorAll('#choices button').length}; })()"""
+    interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, lastTalkError:GAME.lastTalkError?String(GAME.lastTalkError.message||GAME.lastTalkError).slice(0,200):null, nch:document.querySelectorAll('#choices button').length}; })()"""
 
 
 DIAG = """(()=>{ const G=GAME.G, D=GAME.D||{}; const t=document.getElementById('dlgText'), box=document.getElementById('dlg');
@@ -118,12 +118,18 @@ async def talk(pg, cdp, save, n, path, errs):
     e0 = len(errs); await L.tap(pg, cdp, '#interact')
     await pg.wait_for_timeout(1500); dd = await pg.evaluate(DIAG)
     print('  [%s] 按互動以後：對話框 %d 行 %s；體育課 %s' % (tag, dd['nlines'], J(dd['lines'][:6]), J(dd['pe'])), flush=True)
-    if dd['nlines'] > 1: check('[%s] 對話框只有一句（使用者截圖：疊了 5 行，前 4 行是體育課）' % tag, False, J(dd['lines'][:6]))
-    menus = []; t0 = time.time(); last = None; still = time.time()
+    # BB 00:56（LAWWW 判讀）：使用者截圖那五行是「紀錄」面板（adv3d A.log），不是對話框疊字——只記錄，不判 FAIL
+    menus = []; t0 = time.time(); last = None; still = time.time(); step = 0
     while time.time() - t0 < 240:
         s = await pg.evaluate(ST)
         sig = (s['text'], tuple(s['choices']))
-        if sig != last: last = sig; still = time.time()
+        if sig != last:
+            last = sig; still = time.time(); step += 1
+            # BB 00:56：每一步記 busy／depth／ADV＋截圖（前 12 步），看 talkNo 那一句點掉以後出現什麼
+            print('  [%s] 第 %d 步：%s「%s」選單 %s｜busy=%s depth=%s adv=%s running=%s frozen=%s lastTalkError=%s' % (tag, step, s['name'] or '（旁白）', s['text'], J(s['choices']), s['busy'], s['depth'], s['adv'], s['running'], s['frozen'], s.get('lastTalkError')), flush=True)
+            if step <= 12: await pg.screenshot(path=os.path.join(OUT, 'step_%s_%02d.png' % (tag, step)))
+            warns = [c for c in CONSOLE[-40:] if c.startswith(('warning', 'error'))]
+            if warns: print('  [%s]   console warn/error（最近）：%s' % (tag, J(warns[-4:])), flush=True)
         if time.time() - still > 15 and (s['dlg'] or s['choices'] or s['depth']):
             # 停在同一處 15 秒：④ 點「下一句」／選項有沒有反應
             b4 = await pg.evaluate(ST)
