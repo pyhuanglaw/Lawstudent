@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_sunny",
+  "sha": "dac871e25",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
+  "env": "SHOP=sunny;HOURS=14,22;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T16:36:21",
+  "end": "2026-11-04T16:39:37",
+  "seconds": 196,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 48,
+    "mem": 58,
+    "used_gb": 18.4,
+    "chrome_testing": 29
+  }
+}
