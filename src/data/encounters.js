@@ -13,7 +13,7 @@ const ENCOUNTERS={
     // ---- D04 西門町 ----
     {who:'heroine_02',spot:'D04',why:'她一個人來看電影。',days:[6],from:18,to:22,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S2'],stageMin:'ACQUAINTANCE',busy:{until:19.5,then:'no',before:'short'},join:'friend',memo:'ENC_D04_ZR',away:'在西門町看電影',
       lines:{acq:['你也來看電影？……我常常一個人來。','我看的是那部老片。你大概不會喜歡。'],friend:['你今天看哪一部？……那部的結尾很好，不要先查。','我坐倒數第三排。你要是也進來，坐前面一點。'],dating:['……你怎麼在這裡？我剛好多一個小時。','那我們一起看。你坐我旁邊，不要坐前面。']},
-      ex:{apart_life:['……嗨。這部片很好。你可以去看。']},src:'BB_144 1、3-1'},
+      ex:{apart_life:['……嗨。這部片很好看，你可以去看看。']},src:'BB_144 1、3-1'},
     {who:'heroine_04',spot:'D04',why:'她在大型電玩店的節奏遊戲機前面。',days:[6],from:18,to:21,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:null,away:'在西門町打電動',
       lines:{all:['欸不是，你看到我打歪的那一首了吧。……忘掉。']},ex:{apart_drift:['欸不是……好久不見。我要回去改 bug 了。']},src:'BB_144 1、3-6'},
     {who:'kexin',spot:'D04',why:'她和予樂在電影院門口排隊。',days:[6],from:18.5,to:21,terms:null,stageMin:null,kexin:true,busy:'short',join:'dating',memo:null,
@@ -46,7 +46,7 @@ const ENCOUNTERS={
       lines:{dating:['你怎麼也在淡水？','……好，不用解釋了。予樂，我先走，他來了。'],datingAfter:{who:'予樂',text:'我們什麼都沒看到。邵鈞，走。'}},
       ex:{kx_b:['……嗨。','……今天就當沒遇到，好不好。'],kx_bNarr:'（她笑了一下，跟予樂走了。）',kx_c:['好久不見。……夕陽還是一樣。','我們要回去了。你慢慢看。']},src:'BB_144 1、2、3-5'},
     {who:'heroine_03',spot:'D13',why:'她一個人坐在河邊，這次沒有拍照。',days:[1,2,3,4,5],from:15,to:18,terms:null,vacation:true/* AA_661 第 46 列（AA 定）：原本雙週週日 16～18 撞茶屋的班，改寒暑假平日 15:00～18:00（她回淡水的日子；characters.js 作息同一筆）*/,stageMin:'FRIEND',flags:['WISH_DONE_heroine_03'],noEx:true,busy:'no',join:true,memo:null,away:'在淡水',
-      lines:{friend:['……又是你。','上次是兩個人。這次是一個人。也很好。'],dating:['你也來了。','那就又是兩個人了。']},src:'AA_162 1、2-3（心願以後；前任不出現在 D13）'},
+      lines:{friend:['……又是你。','上次是兩個人來的。這次一個人，也還好。'],dating:['你也來了。','那就又是兩個人了。']},src:'AA_162 1、2-3（心願以後；前任不出現在 D13）'},
     /* ---- 第三批景點（spots_v3）的 AA 六位：AA_271 第 1 節（AA-C 01e9d706，2026-10-17）。避開 BB_213 的時段；外縣市只放住在那裡的人。
        dates＝日期區間（含頭尾）；vacation＝寒暑假；weeks 寫陣列＝學期的第幾週。 */
     // ---- D26 臺中（以安回台中的日子：AA_197 1-4、AA_244、AA_199 7-5；大三寒假留臺北、大三暑假在日本＝沒有）----

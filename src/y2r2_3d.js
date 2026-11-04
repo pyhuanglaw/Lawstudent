@@ -160,7 +160,7 @@ const Y2R2=(function(){
       {if:VW('sunny'),speaker:'kexin',expression:'smile',text:'去年你說晴天，很冷。'},
       {if:VW('rain'),speaker:'kexin',expression:'smile',text:'去年你說下雨。'},
       {if:VW('window'),speaker:'kexin',expression:'smile',text:'去年你給我看你的窗。'},
-      {if:{custom:G=>(G.flags.KX_VDAY||{})[1]==='missed'},speaker:'kexin',expression:'teasing',text:'去年你沒接。今年接了。很好。'},
+      {if:{custom:G=>(G.flags.KX_VDAY||{})[1]==='missed'},speaker:'kexin',expression:'teasing',text:'去年你沒接，今年有接。'},
       {choice:[{text:'「晴天。很冷。」',set:{_y2Vwx:'sunny'},goto:'w1'},{text:'「下雨。」',set:{_y2Vwx:'rain'},goto:'w2'},{text:'（把鏡頭轉向窗外）',set:{_y2Vwx:'window'},goto:'w3'}]},
       {label:'w1'},{speaker:'kexin',expression:'smile',text:'臺北的冬天很少晴天。……你今年運氣很好。'},{goto:'same'},
       {label:'w2'},{speaker:'kexin',expression:'teasing',text:'我這邊沒下，二十度。……你那邊有帶傘嗎？'},{goto:'same'},
@@ -266,7 +266,7 @@ const Y2R2=(function(){
     outingMissed:(G)=>{ G.flags.Y2R2_EN_MISSED=true; },
     dialogue:[ {scene:'社科院・一樓',bg:'soc_hall'},
       {speaker:null,text:'（社科院一樓。台上掛著「經濟系之夜」的布條，字是手寫的。）'},
-      {speaker:'econ_pinyu',text:'前系友席。你坐這裡。我們這屆的。'},
+      {speaker:'econ_pinyu',text:'這排是前系友席，你坐這裡。我們這屆的。'},
       {if:{custom:EKX},speaker:'econ_tangrui',text:'前系友席，今年兩位！而且是一對！'},
       {if:{custom:EKX},speaker:null,text:'（全場起鬨。可昕把臉埋進節目單。）'},
       {speaker:null,text:'（唐睿拿新生喊的詞「邊際效用！」即興了一段，全場笑倒。）'},
@@ -625,7 +625,7 @@ const Y2R2=(function(){
           plan(G,{id:'y2r2_k14_call',ev:'ev_kexin_summer_plan_call',day:m,h:21,late:3,place:'電話',title:'可昕打來',verb:'接起來',must:true,call:true,travel:'',travelH:0,back:'電話結束。'}); } } } }
     /* --- 2-Y2-23 經濟系之夜 --- */
     { const a=d('ps0'), m=d('en'); if(a!=null&&m!=null&&law(G)&&F.MET_PINYU){ const PY=t=>({th:'p:econ_pinyu',from:'econ_pinyu',text:t});
-        if(win(G,a,21,3)&&!sent(G,'y2r2_en_ask')) at(G,a,21,[PY(kx(G)?'經濟系之夜。你們兩個都可以來。你們又不是叛徒。':'經濟系之夜。你可以來。你又不是叛徒。'),Object.assign(PY('禮拜五七點，社科院一樓。'),{ask:{id:'y2r2_en_ask',until:abs(m,18.75),opts:[{t:'好。',set:{ECON_NIGHT_Y2:'yes'},say:[{from:'econ_pinyu',text:'好。椅子算你一張。'}]},{t:'那天不行。',set:{ECON_NIGHT_Y2:'no'},say:[{from:'econ_pinyu',text:'好。少搬一張。'}]}]}})],'y2r2_en_ask');
+        if(win(G,a,21,3)&&!sent(G,'y2r2_en_ask')) at(G,a,21,[PY(kx(G)?'經濟系之夜。你們兩個都可以來。你們又不是叛徒。':'經濟系之夜你可以來啊，你又不是叛徒。'),Object.assign(PY('禮拜五七點，社科院一樓。'),{ask:{id:'y2r2_en_ask',until:abs(m,18.75),opts:[{t:'好。',set:{ECON_NIGHT_Y2:'yes'},say:[{from:'econ_pinyu',text:'好。椅子算你一張。'}]},{t:'那天不行。',set:{ECON_NIGHT_Y2:'no'},say:[{from:'econ_pinyu',text:'好。少搬一張。'}]}]}})],'y2r2_en_ask');
         if(F.ECON_NIGHT_Y2==='yes'&&!outGet(G,'y2r2_en')&&now(G)<abs(m,19.25)) plan(G,{id:'y2r2_en',ev:'ev_econ_night_y2',day:m,h:19,late:0.25,place:'社科院一樓',title:'經濟系之夜（社科院）',travel:'走過去約 10 分鐘',travelH:1/6});
         if(sent(G,'y2r2_en_ask')&&!done(G,'ev_econ_night_y2')&&win(G,m,21.5,2)&&!sent(G,'y2r2_en_photo')){ const th=inGroup(G,'econ_friends')?'g:econ_friends':(inGroup(G,'econ_class')?'g:econ_class':null);
           if(th) at(G,m,21.5,[{th,from:'econ_tangrui',name:'唐睿',text:'📷（前系友席，一排椅子，中間空著一張，上面貼了一張紙，寫著「法律系」）'}],'y2r2_en_photo'); else (PHONE.rec(G).cut||(PHONE.rec(G).cut=[])).push('y2r2_en_photo');

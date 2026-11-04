@@ -291,7 +291,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   const z9=await pc('2028-09-22',12.5,['（先不回）']);
   check('Z0. 9/22 中午以後宿舍有明信片（9/21 還沒有）；大三收過第一輪：「又開始寄來了。」；九月兩行；回寄三個選項（戲院那句三月以後才有）', z0&&z9&&has('（明信片又開始寄來了。這次的字比較小，寫得比較多。）')&&has('「到英國了。宿舍窗戶看出去，是一棵很大的樹。」')&&has('「我還不知道它叫什麼。」')&&opts[0].length===4&&!opts[0].some(t=>/戲院/.test(t))&&G.flags.ZR_POSTCARD2.includes(9), JSON.stringify(opts));
   const z10=await pc('2028-10-20',13,['台北也下雨了']); const z11=await pc('2028-11-17',13,['（先不回）']);
-  check('Z1. 十月回寄「台北也下雨了。我帶了傘。」→ 十一月第一行「你說台北下雨。這裡也是。我們今天一樣。」；ZR_REPLY2', z10&&z11&&said[0]&&said[0].t==='「你說台北下雨。這裡也是。我們今天一樣。」'&&has('「又到四點就天黑的時候了。去年很不習慣，今年還好。」')&&JSON.stringify(G.flags.ZR_REPLY2)===JSON.stringify(['rain'])&&!opts[0].some(t=>/台北也下雨/.test(t)), JSON.stringify(lines().slice(0,2)));
+  check('Z1. 十月回寄「台北也下雨了。我帶了傘。」→ 十一月第一行「你說台北下雨。這裡也在下，下一整天了。」；ZR_REPLY2', z10&&z11&&said[0]&&said[0].t==='「你說台北下雨。這裡也在下，下一整天了。」'&&has('「又到四點就天黑的時候了。去年很不習慣，今年還好。」')&&JSON.stringify(G.flags.ZR_REPLY2)===JSON.stringify(['rain'])&&!opts[0].some(t=>/台北也下雨/.test(t)), JSON.stringify(lines().slice(0,2)));
   await pc('2028-12-15',13,['（先不回）']);
   check('Z3. 十二月那張：報告兩行＋（背面最後一行）「燒臘店生日快樂。」', has('「我在寫一篇關於『一個人看電影』的報告。」')&&has('（背面最後一行）')&&has('「燒臘店生日快樂。」')&&!has('「你也在國外。我們今天都不在家。」'));
   await pc('2029-01-05',13,['（先不回）']); await pc('2029-02-19',13,['（先不回）']); await pc('2029-03-16',13,['（先不回）']); const tk=opts[0]&&opts[0].some(t=>/妳的戲院，我要第一張票。/.test(t)); await pc('2029-04-20',13,[]);

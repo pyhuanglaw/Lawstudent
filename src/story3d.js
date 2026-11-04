@@ -2626,7 +2626,7 @@ const STORY = (function(){
        ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
     { const d=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='計畫本最後那一格，我寫好了。聚餐那天說。';
         if((G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'sis_m3')){ const tell=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME'), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
-          const opts=[{t:'恭喜學姊！',say:[W('謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'congrats'}},{t:'我就知道。',say:[W('你不知道。你只是希望。……謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'knew'}}];
+          const opts=[{t:'恭喜學姊！',say:[W('謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'congrats'}},{t:'我就知道。',say:[W('你又不知道。……謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'knew'}}];
           if(curry) opts.push({t:'（貼一張咖哩的照片）',post:'📷（咖哩）',say:[W('……好。考完說好的那家。'),W(LAST)],set:{SIS_M3_REPLY:'curry'}});
           const L=[W('上了。'),W('換了題目的那個。'),K('學姊上榜了！！！'),W('收到。'),K('學姊妳可以多講兩個字'),W('謝謝。')]; if(tell) L.push(W('@'+(G.name||'祐廷')+' 你說不管考得怎樣都要說。我說了。'));
           L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'sis_m3',until:d*24+22,opts}}); PHONE.at(G,d,20,L,'sis_m3'); }
