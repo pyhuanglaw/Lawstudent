@@ -40097,7 +40097,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "【LAWWW-C 11-05 00:0x】合併 a544cc690（子代理 d118b7-1104 2ce8ec738）：CLS.takenCourses、PG.poolFor（只出修過的課，不到 40 題退回全部；已存題組不重抽）、PG.barReview（一試前 30 天～開考：2029 7/5、2030 7/4、2031 7/3）、STUDY.review(GM,'bar')（6 小時、答錯過的排前面、入口和期末同一個、家裡也接）、一試 cue＋交卷逐題回寫觀念卡。tests/d118_b7_unit.js 61 項（修改前 FAILED 41）；子代理全套 1004 支 0 失敗；合併後關鍵 25 支 ALL PASS。暫定字 STUDY.BAR_TEXT 七句＋結束字幕最多 8 科（BAR_CAP_LINES）→ AA 定稿（D118-B7-TEXT-1104）；國考總複習沒有提醒／停點 → AA 字＋BB 機制（D118-B7-REMIND-1104）；美國路線大五上補修的強制執行法、法律倫理不算修過 → BB 定；司法官二試題池沒限修過的課、二試和研究所沒有 cue／卡片回寫、研究所總複習 grad 沒做 → D118-B7-FOLLOW-1104（P3）｜【LAWWW-C 11-04 23:0x】派子代理（worktree d118b7-1104，從 530a72ff4）：CLS.takenCourses、PG.poolFor、STUDY.review(GM,'bar')（一試前 30 天、6 小時）、PG.examDay 回寫卡片與 cue；國考版介面字只照 AA_638 機械替換並標暫定、交件時列給 AA；新測試 d118_b7（修改前要 FAIL）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
+   "next": "【LAWWW-C 11-05 00:0x】BB-C 23:46 ①：美國路線大五上補修上過的強制執行法、法律倫理算修過（1dde3a985）；②③ 提醒、介面字定稿（cd42dc4a9）｜【LAWWW-C 11-05 00:0x】合併 a544cc690（子代理 d118b7-1104 2ce8ec738）：CLS.takenCourses、PG.poolFor（只出修過的課，不到 40 題退回全部；已存題組不重抽）、PG.barReview（一試前 30 天～開考：2029 7/5、2030 7/4、2031 7/3）、STUDY.review(GM,'bar')（6 小時、答錯過的排前面、入口和期末同一個、家裡也接）、一試 cue＋交卷逐題回寫觀念卡。tests/d118_b7_unit.js 61 項（修改前 FAILED 41）；子代理全套 1004 支 0 失敗；合併後關鍵 25 支 ALL PASS。暫定字 STUDY.BAR_TEXT 七句＋結束字幕最多 8 科（BAR_CAP_LINES）→ AA 定稿（D118-B7-TEXT-1104）；國考總複習沒有提醒／停點 → AA 字＋BB 機制（D118-B7-REMIND-1104）；美國路線大五上補修的強制執行法、法律倫理不算修過 → BB 定；司法官二試題池沒限修過的課、二試和研究所沒有 cue／卡片回寫、研究所總複習 grad 沒做 → D118-B7-FOLLOW-1104（P3）｜【LAWWW-C 11-04 23:0x】派子代理（worktree d118b7-1104，從 530a72ff4）：CLS.takenCourses、PG.poolFor、STUDY.review(GM,'bar')（一試前 30 天、6 小時）、PG.examDay 回寫卡片與 cue；國考版介面字只照 AA_638 機械替換並標暫定、交件時列給 AA；新測試 d118_b7（修改前要 FAIL）｜見 docs/handoff/D118_PLAN.md 第 4 節 D118-B7",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -40115,7 +40115,9 @@
    "sha": [
     "a544cc690",
     "2ce8ec738",
-    "2c9ac59d7"
+    "2c9ac59d7",
+    "1dde3a985",
+    "cd42dc4a9"
    ]
   },
   {
@@ -40123,7 +40125,7 @@
    "title": "國考總複習的介面字定稿：STUDY.BAR_TEXT 七句（what、hint、open、late、closed、exam、line）照 AA_638 換數字換詞的暫定字＋結束字幕最多 8 科的做法",
    "area": "SYS",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -40137,14 +40139,16 @@
    },
    "source": "D118-B7 子代理交件（a544cc690）：「暫定字（請轉給 AA 定稿）」",
    "authorized": "D118（使用者 11-02）",
-   "next": "【LAWWW-C 11-05 00:0x】send_message 給 AA-C（七句的暫定字＋AA_638 對照）；AA 給字 LAWWW 換、d118_b7 改期望值",
-   "sha": null,
+   "next": "【LAWWW-C 11-05 00:0x】AA-C 23:45／23:49 AA_690（企劃線 c860ff820）：what「一試要考的」、line「一試範圍」、其他暫定定稿；結束字幕 8 科＋「（另外還翻了 {k} 科。）」→ cd42dc4a9｜【LAWWW-C 11-05 00:0x】send_message 給 AA-C（七句的暫定字＋AA_638 對照）；AA 給字 LAWWW 換、d118_b7 改期望值",
+   "sha": [
+    "cd42dc4a9"
+   ],
    "xai": {
     "spec": "src/study3d.js STUDY.BAR_TEXT、STUDY.BAR_CAP_LINES；AA_638（企劃線 3271973c6）第 1 節",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 定稿七句（或照留）＋結束字幕列幾科；LAWWW 換字、跑 d118_b7",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -40152,7 +40156,7 @@
    "title": "國考總複習沒有提醒：期末有考前一週週日 20:00 的系統訊息，國考沒有；畢業以後篇站著不動會直接跳到下一件事，玩家可能不知道可以做國考總複習——要不要加提醒和停點（字 AA、機制 BB）",
    "area": "SYS",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -40166,14 +40170,16 @@
    },
    "source": "D118-B7 子代理交件（a544cc690）「還沒做、要你決定的」第 2 點",
    "authorized": "D118（使用者 11-02）",
-   "next": "【LAWWW-C 11-05 00:0x】問 BB-C（停點、提醒的時間）、AA-C（提醒的字）；定了 LAWWW 做",
-   "sha": null,
+   "next": "【LAWWW-C 11-05 00:0x】BB-C 23:46 定時間與停點、AA_690 第 3 節字：兩則 20:00 系統提醒（開放那天、一試前一週的週日；報了那一年一試的才有、各一次），PG.stops 停一下 → cd42dc4a9；d118_b7 r0～r8｜【LAWWW-C 11-05 00:0x】問 BB-C（停點、提醒的時間）、AA-C（提醒的字）；定了 LAWWW 做",
+   "sha": [
+    "cd42dc4a9"
+   ],
    "xai": {
     "spec": "src/study3d.js S.REMIND_TEXT（期末）；PG.barReview 開放日期；畢業以後篇跳時間 CLS.STOP_FNS",
     "branch": "claude/wonderful-mayer-7fm9g6",
     "acceptance": "BB 定提醒時間與停點、AA 給字；LAWWW 實作＋單元測試",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
