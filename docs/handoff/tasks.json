@@ -46341,7 +46341,7 @@
    "title": "AA_685：AA_683／684 接線後第二輪——店休群組 A、D 改阿哲傳＋換字、情人節「下次店休也出來。」拿掉、茶屋初四開、六處換字（以安一月口試、沛珊心願、ytjob3d:44、語彤旅行訊息池茶屋版、語彤結局兩句）、D14 延到 18～20、重逢規則（回臺北那天 21:00 發、之後第一個她有班的週六 17:15、這週六／下週六）、告白邀約兩句、桌遊夜閒聊每則只演一次＋舊旁白加括號",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -46362,7 +46362,8 @@
     "acceptance": "照 AA_685 逐字；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）"
+   "next": "【LAWWW-C 11-04 20:2x】合併 a2de8c84e（子代理 aa685-1104 ab8f7610f；含 C 節 91f240e50「海風與燈」）；tests/aa685_canon_fix2_unit.js 56 項修改前 FAILED 37、修改後 ALL PASS；子代理全套 989 支全過；合併後相關 17 支 0 失敗。要 AA 定的 5 件已傳；BB 測｜【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）",
+   "sha": "ab8f7610f"
   }
  ]
 }
