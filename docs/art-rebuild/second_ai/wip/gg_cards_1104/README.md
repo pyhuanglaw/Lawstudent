@@ -88,3 +88,10 @@ afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層�
    - 校園那一側的斑馬線改成獨立網格 `zebra_campus_gate`，不再併進車道線，y 0.03 → 0.05。BB 說 gate_out 看不到；Node 裡位置是對的（x −173.6～−139.4、z ±6），要 PC 再拍。
    - 群組差 1：公館遠景 clone 改名 gongguan_far_glb；套件行道樹、校門、捷運套件給固定名字（gg_kit_trees／gg_kit_gate／gg_kit_mrt）；測試兩邊都排除這些名字和 street_trees_field。
    - Node：street_props_nav、bike_park_1104、spawn_exit ALL PASS。
+
+## 11-04 06:5x：GG_ext_glb4 的 ?nobldg 分母 164 → 184／176（BB 問、LAWWW 轉）
+- 用 `nobldg_mesh_census.js <checkout>` 在 Node 建公館區域（GLB 全部不載入＝?nobldg），數看得到的網格（不算視錐裁切）：
+  - 9ac863212（群組 patch 之前）1478、9271834e0（接 1d4675069）1478、3424d8e66 1478。
+  - 只差在名字：沒名字的 Group 1357 → 1334（−23）＝ gg_kit_gate 9＋gg_kit_mrt 8＋gg_kit_trees 6。
+- 所以 1d4675069 的群組 patch **沒有讓 ?nobldg 多畫東西**；prop.street 在 ?nobldg 照舊被 assets3d.js 第 230 行拿掉（patch 沒碰）。LAWWW 猜的那個原因不成立。
+- 同一版量兩次是 184 和 176，差 8：場景是靜態的，差的應該是跟時間有關、會開關的東西（路燈光暈、騎樓燈光暈、窗卡夜間），或路人沒有全部移出。雲端沒辦法數瀏覽器的 draw call（D131），請 CC 用下面那段在兩種網址、同一個鏡頭各跑一次，貼回清單比對。
