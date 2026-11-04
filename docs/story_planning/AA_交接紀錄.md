@@ -1,4 +1,4 @@
-值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 c989cc066｜2026-11-02 03:36 UTC
+值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 c989cc066｜2026-11-02 03:36 UTC｜**2026-11-04 09:0x UTC 交班**
 上一班：帳號 B｜AA-B｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit c989cc066（claude/cool-heisenberg-o8kuqx）｜正常交班（2026-11-01 08:55 UTC）
 
 > **歷史紀錄（2026-10-30 起）**：本文件裡的「首都帝大／首都帝大、木柵大學、A館、B館、晨思鐘、椰影大道、映月湖、小松、學活……」是當時的寫法，原文照留。遊戲現行名稱以 `docs/WORLD_NAMING.md` 為準（首都帝大、木柵大學、法律系館A／B……）；從這裡抄台詞或地名到遊戲、新企劃以前，先照規範換名。
@@ -30,6 +30,24 @@
 **16:4x 更新**：①b、④b 都寫完了，BB 口氣審 PASS 或正在審：AA_592（以安①b）、AA_593（學姊①b）、AA_594（以安④b）。AA_591 已經併入 BB_237 補回的停頓。
 **等使用者決定（累計）**：CG-11 新圖；學姊她先說出口的告白（AA_590 一支、AA_591 兩支、AA_593「這次，我選你。」、多段感情「我還是喜歡你。」）；以安裂縫談話、挽回、重新開始、分手（AA_594 使1～使8，AA 建議 A 案）；各批第 6 節的 10 句。
 **2026-11-02 晚（以安第四批、規則）**：使用者對以安第四批樣 1～4 指出四個前提問題（念法律理由要在大學以前、題目沒寫前情、町公所要先查日本人的看法、分手後不主動聯絡）→ AA_596 第七、八節、AA_565 第 10 節補兩條、AA_589 第 11 節（樣1、3、4 照方向定稿；**樣2 念法律的高中以前理由等使用者選**）。使用者去吃飯，選擇題暫停。背景兩件：分手後主動聯絡的全遊戲清查（以安、學姊）；①c 學姊 date_lines 逐句（AA_598，寫稿助手）。之後：以安第四批樣 5～10 補前情再問、AA_592、AA_594。
+
+## 交班（2026-11-04 09:0x UTC，AA 帳號 A，使用者：「現在交班 交班後不用再每小時啟動」）
+- 帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 `claude/story-planning`｜最後 commit＝含本節的交班 commit（遠端 SHA 見回報）。
+- **A. 本班成果（11-04，AA 臨時支援室內建模；全部已推遠端、已交 LAWWW）**：
+  - 公館：頁間書屋、青木茶室、afar café、Daybreak 室內（MODEL_READY）。
+  - 溫州街第一批（AA_654）：2:30 AM v1f（30c2d5998；BB 模型關過、等遊戲內 ART）、小路 v1f＋layout v4（bc021c7e1）、SUNNY SIDE v1e（86688bd91；layout 照 LAWWW 同步 efe1982c7）、一盞 v1e（bc021c7e1）——四間都 MODEL_READY。
+  - 台詞：AA_655 §7、AA_657（站位＋補二「三號桌」八句 65a1b2fe9）、AA_658（改名）、AA_659（新台詞、前院五個互動點座標、掛軸括號）。
+- **B. 全部未完成（全部待辦）**：
+  - 溫州街四間：等 LAWWW 接小路 v4／SUNNY v1e／一盞 v1e（阿德子代理合併後）→ BB 看遊戲內截圖判 ART_APPROVED；有退件 AA 改模型。
+  - 2:30 AM：等 LAWWW2 用 30c2d5998 重烘光照（f785028e6 那顆是舊 v1d 烘的，不要接）。
+  - AA_659 §3 前院互動（石燈籠、樟樹、貓碗、木牌、第一次進前院旁白）：LAWWW 實作中。
+  - 先前的待辦照本檔下方「全部待辦」（AA-C 全部待辦、BACKLOG-SWEEP-AA-1021 等）。
+- **C. 正在做**：沒有進行中的建模或寫稿；沒有背景子代理。
+- **D. 最新規則**：改這四間的 layout 先拉 LAWWW 開發分支那份再改（LAWWW 會照 GLB 實測修座標）；美術規則 SCENE_RULES §9-7、G（照參考圖）、H（不准複製貼上）。
+- **E. 跨 AI**：BB（2:30 AM v1e 模型 PASS、等遊戲內截圖）、LAWWW（ACK bc021c7e1、86688bd91、efe1982c7）、LAWWW2（ACK 重烘 30c2d5998）——全部 DELIVERED＋ACK。
+- **F. 測試**：本機用 LAWWW 開發分支 b53bfab72 副本跑過 cafe230_nobldg_nav_unit（含沙發椅版）、wz_shops_cam、shopchk2（小路 19 點、一盞 17 點）都 PASS；ref_match 四間 ALL PASS。遊戲內畫面 AA 沒看過（是 BB／CC 的事）。
+- **下一班第一步**：讀通知 → 看 BB 的遊戲內截圖判定（四間）、LAWWW2 重烘 SHA → 有退件就改。
+- **交班後關掉每小時保險喚醒（使用者 09:0x、D129）**：AA 的 trig_01Gs1X6fU3cVNnAyuA26KnRZ 已停用（enabled=false，沒刪）；沒有還沒觸發的 send_later。
 
 ## 值班登記（2026-11-03 02:1x UTC，AA 帳號 A，同一個工作階段重新接班）
 - 使用者：「你上次交班之後沒有其他帳號接班，繼續工作。」→ 交班後沒人接，原工作階段直接接回；duty_AA.json 已登記 on（`duty register --user-ok`）。
