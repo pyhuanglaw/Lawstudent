@@ -498,7 +498,12 @@ INVITE_DATA.places.push({id:'lake',zone:'campus',name:'映月湖',verb:'去映�
    約人只給兩個人的約（這裡的邀約本來就是一對一；群約不列這裡）；有理由的（喝咖啡、念書，reason：和兩點半 Café 同一把尺）；營業 13:00～22:00、週二公休（off）、颱風天關（places.js）；
    自己走去過一次才列（show：G.visited.wz_mokuyobi；AA_617 第 1 節「兩家都要自己走去一次才出現」）。見面兩個人一起坐下（seatPose）。
    見面那一段（進門旁白、第一次的那一句、隨機一句、朋友一句）在 src/mokuyobi_sys3d.js（MOKS.meetScene；台詞照 AA_618 1-6 一字照抄）；答應、改天照一般規則（AA_618 沒有寫答應句：系統旁白）。
-   可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白 */
+   可昕照現在的規則（只在她在臺北、約得到的時候）。沒有 MOKS（舊的測試環境）＝照一般的見面旁白。
+   答應的那一句（AA_645 第 4 節，企劃線 ed6a4329d，一字照稿）：下面十人各一句（people[人].acc.mokuyobi）；沒列的人＝一般那句（MOKS.ACC0）；不答應照一般回覆表 */
 INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:'去木曜日坐坐',kind:'reason',minStage:'ACQUAINTANCE',stay:1,memory:'MOKUYOBI_TOGETHER',sitAct:'sit',seatPose:'sit',cats:['sit','study'],
   days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
   scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});
+(function(){ const ACC={heroine_01:'「木曜日？好，我帶書。」',heroine_02:'「好。……我想坐窗邊。」',heroine_03:'「好。我把報告帶去寫。」',heroine_04:'「那裡不能大聲說話吧。……好啦。」',heroine_05:'「好。我很久沒去了。」',
+    classmate_peishan:'「好！我想吃那個布丁。」',kexin:'「好啊。我想吃巴斯克。」',zhe:'「那裡我講話會被瞪吧。……好啦。」',classmate_bohan:'「好，讀書。」',classmate_mingxuan:'「週四我在。」'};
+  INVITE_DATA.mokuyobiAcc=ACC;
+  for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).mokuyobi=[ACC[id]]; } })();
