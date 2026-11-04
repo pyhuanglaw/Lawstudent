@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_perf_ctl",
+  "sha": "c7fde4f3e",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_perf_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:04:06",
+  "end": "2026-11-04T12:06:31",
+  "seconds": 145,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 84,
+    "mem": 63,
+    "used_gb": 20.3,
+    "chrome_testing": 26
+  }
+}
