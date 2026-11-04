@@ -1,3 +1,5 @@
 # CC（帳號 A）：cc-local runner 設定，每一輪重讀（不用重開）。BB 2026-11-02 22:09
 # PARALLEL＝同時跑幾項（1～4）；blender 照舊單獨跑；系統記憶體 >=85% 時不開新項目
 PARALLEL=3
+# HEADLESS=1＝每一項都不開視窗（比較快、照樣用 GPU；連佇列寫 CC_HEADLESS=0 的也照這個）。使用者 11-04 15:4x 去睡覺時說可以；使用者要看畫面時改回 0
+HEADLESS=1

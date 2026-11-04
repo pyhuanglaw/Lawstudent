@@ -1260,6 +1260,10 @@ class Runner(object):
                 env['CC_HEADLESS'] = '0'           # 預設有視窗，讓使用者看得到遊戲畫面（佇列 ENV 有寫 CC_HEADLESS 的照佇列）
             for kk, vv in it.envd.items():
                 env[kk] = vv
+            if getattr(self, 'force_headless', False) and it.kind in ('probe', 'game', 'webkit'):
+                if env.get('CC_HEADLESS') != '1':
+                    meta['headless_forced'] = True   # config.txt HEADLESS=1：蓋過佇列的 CC_HEADLESS=0
+                env['CC_HEADLESS'] = '1'
             if it.kind == 'blender':
                 # 使用者 11-03 13:3x 選「改成只用 CPU」：PC 上的 Blender 一律 CPU，不用 HIP（佇列寫 HIP 也改回 CPU，記在 meta）；留兩個核心給系統
                 if env.get('CC_BLENDER_DEVICE', 'CPU').upper() != 'CPU':
@@ -1777,6 +1781,12 @@ class Runner(object):
             if n != self.a.parallel:
                 log('config.txt: PARALLEL %d -> %d' % (self.a.parallel, n))
                 self.a.parallel = n
+        # HEADLESS=1（使用者 11-04 15:4x 去睡覺：「我要去睡覺你可以采用那種……比較快」）：每一項都不開視窗，連佇列寫 CC_HEADLESS=0 的也照這個；
+        # 拿掉或 0＝原本的行為（有視窗讓使用者看）。gpu_wrap 量過：d3d11 無視窗 26.6 fps、有視窗 17.1 fps，無視窗照樣用 GPU
+        fh = cfg.get('HEADLESS', '').strip() == '1'
+        if fh != getattr(self, 'force_headless', False):
+            log('config.txt: HEADLESS %s -> %s（%s）' % (int(getattr(self, 'force_headless', False)), int(fh), '每一項都不開視窗' if fh else '照佇列和預設（有視窗）'))
+            self.force_headless = fh
 
     def write_console(self):
         """把畫面輸出的最後 2000 行寫到 local_out/_console/console.log；回傳路徑（失敗回 None）"""
