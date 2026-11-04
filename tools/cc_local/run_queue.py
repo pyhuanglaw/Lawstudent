@@ -94,7 +94,7 @@ def plan_trace_commits(sized, acc0, cap, tmax):
             first.append(f); a1 += sz; continue
         if role in ('prev', 'next', 'other', 'fail') and a2 + sz <= cap:
             second.append(f); a2 += sz; continue
-        skip.append((f, 'item over 25 MB with screenshots (two commits full)'))
+        skip.append((f, 'item over %.0f MB with screenshots (two commits full)' % (cap / 1048576.0)))
     return first, second, skip
 
 
