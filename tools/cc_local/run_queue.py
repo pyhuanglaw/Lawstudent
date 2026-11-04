@@ -1530,8 +1530,16 @@ class Runner(object):
         def rel(p):
             return os.path.relpath(p, od).replace('\\', '/')
         shots = sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(od) for f in fs if f.lower().endswith(('.png', '.jpg', '.webp')))
-        traces = [{'path': rel(z), 'bytes': os.path.getsize(z), 'push': os.path.getsize(z) <= max_mb * 1024 * 1024}
-                  for z in sorted(glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')))]
+        # BB-C 11-04：report 的 traces 照 commit 時真正的推送計畫寫（第一個／第二個 commit、或 skipped_size），不是只看單檔大小
+        zips = sorted(glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')))
+        pacc = 0
+        for f in sorted(os.path.join(dp, fn) for dp, _, fs in os.walk(od) for fn in fs if fn.lower().endswith('.png')):
+            sz = os.path.getsize(f)
+            if pacc + sz <= PNG_CAP: pacc += sz
+        t1, t2, tsk = plan_trace_commits([(z, r, os.path.getsize(z)) for z, r in trace_roles(zips)], pacc, PNG_CAP, max_mb * 1024 * 1024)
+        role = dict(trace_roles(zips)); skipd = dict(tsk)
+        traces = [{'path': rel(z), 'bytes': os.path.getsize(z), 'role': role.get(z), 'push': z in t1 or z in t2,
+                   'commit': 1 if z in t1 else (2 if z in t2 else None), 'skipped': 'skipped_size' if z in skipd else None, 'why': skipd.get(z)} for z in zips]
         js = []
         for e in last['events']:
             if e.get('kind') in ('pageerror', 'console', 'requestfailed', 'crash') or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False):
@@ -1662,8 +1670,12 @@ class Runner(object):
                 sized = [(f, r, os.path.getsize(f)) for f, r in trace_roles(traces)]
                 t1, t2, tskip = plan_trace_commits(sized, acc, PNG_CAP, tmax)
                 add.extend(t1); trace2 = t2
+                cap_mb = PNG_CAP / 1048576.0
                 for f, why in tskip:
-                    tnotes.append('trace not pushed (%s): %s  %d bytes' % (why, os.path.relpath(f, od), os.path.getsize(f)))
+                    if '_FAIL' in os.path.basename(f):   # BB-C 11-04：FAIL 段自己就超過上限——trace 不推，但 report、run.log、狀態快照、notes 照推
+                        tnotes.append('trace 太大沒推：FAIL 段 %.1f MB > 上限 %.0f MB（%s）' % (os.path.getsize(f) / 1048576.0, min(cap_mb, tmax / 1048576.0) if os.path.getsize(f) > tmax else cap_mb, os.path.relpath(f, od)))
+                    else:
+                        tnotes.append('trace not pushed (%s): %s  %d bytes' % (why, os.path.relpath(f, od), os.path.getsize(f)))
                 for f in t2:
                     tnotes.append('trace in second commit (part 2): %s  %d bytes' % (os.path.relpath(f, od), os.path.getsize(f)))
                 if tnotes:
