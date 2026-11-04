@@ -928,6 +928,33 @@ def xs_street_front(spec, xf, W, wall, c, gx0, gx1, gy1, z):
         CL.glow(root, 'offbeat_in', *xf.p((gx0 + gx1) / 2, 1.6, z - 0.4), color='rgba(255,232,190,1)', size=4.0, day=0.0, night=0.55)
 
 
+def side_glass(spec, xf, W, rec, wall):
+    """SUNNY SIDE 東側的綠框落地窗（本地 x＝+W/2 那一面）：玻璃在 x＝W/2−dep；z1～−rec 那一段看得到後面的立體淺店內，−rec 以後是店內景深卡（AA 的室內 GLB 從側面渲染，玻璃後 0.8 m）。
+    框照正面（wz_shopkit shopfront_v2 的 grid）：每 0.55 m 一根直框、y 2.0 一道橫框、0.55 以下木腰板；轉角 z1～門廊之間留實牆（參考圖轉角的米白柱子）"""
+    sg = spec['sf']['side_glass']; z0, z1, dep, hd = sg['z0'], sg['z1'], sg.get('dep', 0.15), sg.get('head', 2.6)
+    xg = W / 2 - dep; xc = xg - 0.8; w = acc(frame_mat(spec['sf'].get('frame', '#3f5a3c')))
+    if sg.get('int') in XS_ATLAS:
+        u0, v0, u1, v1 = XS_ATLAS[sg['int']][:4]; zc = -rec - 0.1
+        _XSQ.append(([xf.p(xc, 0.12, zc), xf.p(xc, 0.12, z0), xf.p(xc, hd, z0), xf.p(xc, hd, zc)], (u0, v0, u1, v1), True, sg['int']))
+        xf.box(acc(SK['f_terrazzo']), xc, xg, -0.02, 0.12, z0, -rec)                                             # 景深卡前面的地板
+    xf.box(acc(SK['f_wood']), W / 2 - 0.3, xg, -0.02, 0.12, -rec, z1)                                          # 淺店內和玻璃之間那一條地板
+    xf.box(wall, W / 2 - 0.26, W / 2, 0, GH, z1, -0.9)                                                           # 轉角的實牆（窗和門廊之間）
+    xf.box(wall, W / 2 - 0.26, W / 2, hd + 0.08, GH, -rec, z1)                                                   # 窗上的牆（淺店內那一段）
+    xf.quad(acc(M['glass']), [(xg + 0.01, 0.55, z1), (xg + 0.01, 0.55, z0), (xg + 0.01, hd, z0), (xg + 0.01, hd, z1)])
+    xf.box(w, xg - 0.04, xg + 0.04, 0.085, 0.55, z0, z1)                                                         # 木腰板（和正面同色）
+    xf.box(w, xg - 0.06, xg + 0.06, 0.0, 0.085, z0, z1); xf.box(w, xg - 0.06, xg + 0.06, hd, hd + 0.08, z0, z1)
+    xf.box(w, xg - 0.04, xg + 0.04, 1.98, 2.03, z0, z1)                                                          # 橫框
+    n = max(1, round((z1 - z0) / 0.55))
+    for i in range(n + 1): zz = z0 + i * (z1 - z0) / n; t = 0.06 if i in (0, n) else 0.025; xf.box(w, xg - 0.045, xg + 0.045, 0.085, hd, zz - t, zz + t)
+    # 側面也有條紋雨遮（參考圖）：用轉 90° 的座標（+z＝建築的 +x）照正面雨遮的做法畫，貼圖方向和正面一樣，才能和正面合進同一張圖集（不多一個 draw call）
+    ox, _, oz = xf.p(W / 2, 0, (z0 + z1) / 2); sx_ = Xf(ox, oz, xf.ry + math.pi / 2); m = acc(SK['stripe_green']); aw = (z1 - z0) + 0.1
+    ay0, ay1, ad = hd + 0.5, hd + 0.05, 0.9
+    for k in range(3):   # 分三段：貼圖照世界座標投影，一片 7 m 長在 v 方向超過 atlas_rows 的 6 個週期，整個材質會被排除、自己一個 draw call
+        a0, a1 = -aw / 2 + k * aw / 3, -aw / 2 + (k + 1) * aw / 3
+        q = [(a0, ay0, 0.02), (a1, ay0, 0.02), (a1, ay1, ad), (a0, ay1, ad)]; sx_.quad(m, q[::-1]); sx_.quad(m, q)
+        sx_.box(m, a0, a1, ay1 - 0.24, ay1, ad - 0.01, ad + 0.01)
+
+
 def xs_side_window(spec, xf, W, c, sd):
     """側面（本地 x＝+W/2 那一面）的落地窗：玻璃退 dep、後面 0.8 m 是店內的景深卡（從街上渲染 AA 的室內 GLB），一樓牆體在 wz_street.apartment 挖開"""
     z0, z1, y1, dep, D = sd['z0'], sd['z1'], sd.get('glass_h', 3.1), sd.get('dep', 0.3), 0.8
@@ -1299,7 +1326,10 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
     wallc = {'noodle': '#ecdcc4', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e2d2b4', 'books': '#e0d2b8', 'fruit': '#efe8d8', 'brunch': '#e9dcc4', 'buffet': '#efe6d6', 'tea': '#f4f2ec', 'luwei': '#eadcc6', 'pharm': '#f4f6f2', 'records': '#dccbb0', 'stationery': '#ece2d0'}.get(kind, '#eeeeea')
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
-    for sx in (-1, 1): vb(sx * iw / 2 - 0.047, sx * iw / 2 + 0.047, y0, yt, zb, gzf, wallc, r=0)   # 側牆厚 9.4 cm（BUG-WZFLICKER-2：內面原本和店面鋁框的側面同一個平面）
+    sgl = spec.get('sf', {}).get('side_glass')
+    for sx in (-1, 1):
+        if sx > 0 and sgl: vb(iw / 2 - 0.047, iw / 2 + 0.047, y0, yt, sgl['z1'], gzf, wallc, r=0); continue   # SUNNY SIDE：右側牆只留窗前面那一段（側窗看得到店內）
+        vb(sx * iw / 2 - 0.047, sx * iw / 2 + 0.047, y0, yt, zb, gzf, wallc, r=0)   # 側牆厚 9.4 cm（BUG-WZFLICKER-2：內面原本和店面鋁框的側面同一個平面）
     vb(-iw / 2, iw / 2, yt, yt + 0.05, zb, gzf, '#d8d2c6', r=0)                                          # 天花板（2026-10-23 改頂點色：和牆一起照深度變暗）
     warm = kind in ('teishoku', 'books', 'brunch', 'fruit', 'noodle', 'buffet', 'records', 'stationery', 'luwei')
     for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
@@ -1939,7 +1969,8 @@ SF = {
                            lamps=[-1.6, 1.6], front=dict(win=(-3.2, 0.25), frame='#86bab2', wains='#a6d2ca', ledge='wood', curtain=True, door=(0.95, 2.25), door_col='#9cc9c1', awning='stripe_mint', awn_door=True,
                                                          menu=('wz2_summer_ice_menu', 0.6, 1.1, 0.5, 1.0), flag=('wz2_summer_ice_flag', 2.6)),   # 參考圖左邊的繡球花盆不放：騎樓走得到的地方沒有導航阻擋（tests/street_props_nav_unit.js），不新增阻擋
                            notes=[('hours', 2.95, 1.3, 0.3, 0.3)], clutter=[('aboard', 3.0, 0.5, 'wz2_summer_ice_menu')])]),
-    'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
+    'B7': dict(inner=True, door='wood', sign='wood', awning='stripe_green', floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2, frame='#3f5a3c', grid=0.55,
+               side_glass=dict(z0=-8.3, z1=-1.3, dep=0.15, head=2.6, int='sunnyside_side'),   # BB 11-04 06:43：參考圖是轉角店，東側（朝 2:30 AM 路口）整排綠框落地窗；室內右牆 z −2.4～4.6（＝本地 z −8.3～−1.3，室內 z − 5.9），窗台 0.75 以下木腰板   # WZ-FIVE-1104 SUNNY SIDE（原本的半熟；參考圖 wz_sunnyside_ext）：綠白條紋雨遮、參考圖的黑板立牌、門口盆栽
                notes=[('hours', -1.0, 1.25, 0.34, 0.34)],
                clutter=[('aboard', 0.6, 0.5, 'wz_sunnyside_board'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('pot', 1.5, 0.32)]),
     'B6': dict(inner=True, door='open', sign='panel', awning='#4b7055', floor='f_concrete', light='warm', ac=-3.7, sign_w=9.0,   # WZ-SECOND-1104 阿忠鮮果（原本的阿忠水果；參考圖 azhong_fruit_ext）：米白招牌＋水果插畫、綠色帆布雨遮

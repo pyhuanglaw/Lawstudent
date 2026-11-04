@@ -775,6 +775,11 @@ def apartment(spec):
         sd = spec['xs']['side']; xi = W / 2 - sd.get('dep', 0.3) - 0.85
         xf.box(wall, -W / 2, xi, 0, GH, -D, -rec); xf.box(wall, xi, W / 2, 0, GH, -D, sd['z0']); xf.box(wall, xi, W / 2, 0, GH, sd['z1'], -rec)
         xf.box(wall, xi, W / 2, sd.get('glass_h', 3.1) + 0.08, GH, sd['z0'], sd['z1'])   # 窗上的牆
+    elif spec.get('sf', {}).get('side_glass'):   # SUNNY SIDE（B7）東側（本地 x＝+W/2，朝 2:30 AM 路口）照參考圖的轉角落地窗（BB 11-04 06:43；數字和 AA 室內右牆同一組，wz_shopkit.side_glass）
+        sg = spec['sf']['side_glass']; xi = W / 2 - sg.get('dep', 0.15) - 0.85; z0, z1 = sg['z0'], sg['z1']
+        xf.box(wall, -W / 2, xi, 0, GH, -D, -rec); xf.box(wall, xi, W / 2, 0, GH, -D, z0)
+        xf.box(wall, xi, W / 2, sg.get('head', 2.6) + 0.08, GH, z0, -rec)
+        side_glass(spec, xf, W, rec, wall)
     elif spec.get('sf', {}).get('stair_open'):   # 木曜日（B4）：鐵門打開，一樓牆體挖出往上的樓梯間（裡面的樓梯在 wz_shopkit.mok_stair_entry）
         so = spec['sf']; sx0, sx1 = so['door_x'] - so['door_w'] / 2, so['door_x'] + so['door_w'] / 2; dep, ph = so['stair_open']['depth'], GH - 0.05
         xf.box(wall, -W / 2, sx0, 0, GH, -D, -rec); xf.box(wall, sx1, W / 2, 0, GH, -D, -rec); xf.box(wall, sx0, sx1, ph, GH, -D, -rec); xf.box(wall, sx0, sx1, 0, ph, -D, -rec - dep)
