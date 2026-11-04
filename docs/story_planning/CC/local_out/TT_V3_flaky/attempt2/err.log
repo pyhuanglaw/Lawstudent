@@ -1,0 +1,4 @@
+[cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V3_flaky\attempt2\trace
+[gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V3_flaky]
+[gpu_wrap 25.2s] page close url=http://127.0.0.1:8802/index.html
+[gpu_wrap 25.3s] BROWSER DISCONNECTED

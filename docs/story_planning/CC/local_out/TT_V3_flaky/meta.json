@@ -1,0 +1,31 @@
+{
+  "rerun": "",
+  "id": "TT_V3_flaky",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_flaky.py",
+  "env": "CC_AUTORETRY=1;ST_PAGE=game",
+  "machine": "MSI",
+  "start": "2026-11-04T20:55:44",
+  "end": "2026-11-04T20:56:57",
+  "seconds": 73,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "attempt": 2,
+  "exit2": 0,
+  "res_peak": {
+    "cpu": 11,
+    "mem": 48,
+    "used_gb": 15.1,
+    "chrome_testing": 27
+  },
+  "final": "FLAKY",
+  "class": "FLAKY/首次失敗、重跑通過",
+  "report": "report.json",
+  "class_basis": [
+    "第一次 exit 1，重跑 exit 0；兩次的遊戲 SHA、腳本 blob、輸入雜湊都相同（見 conditions）"
+  ]
+}

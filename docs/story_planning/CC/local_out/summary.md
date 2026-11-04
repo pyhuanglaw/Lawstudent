@@ -1109,3 +1109,6 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
 - 2026-11-04T20:55:36  TT_V2_assert  sha=d2e36f6eb  exit=1  74s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩） / FAIL 文字是「這不可能」（故意寫錯的預期）  預期 這不可能，實際 dorm / FAILED 1: 文字是「這不可能」（故意寫錯的預期）
       err.log (last 5): [cc_trace 0.3s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V2_assert\attempt2\trace | [gpu_wrap 1.4s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V2_assert] | [gpu_wrap 25.6s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 25.7s] BROWSER DISCONNECTED
       autoretry: final FAIL  class UNKNOWN/assert  exit2 1
+- 2026-11-04T20:56:58  TT_V3_flaky  sha=d2e36f6eb  exit=1  73s      [前置／捷徑] 開遊戲頁 http://127.0.0.1:8802/index.html（自測：只開頁、不玩） / PASS 第二次（記號檔在＝重跑） / ALL PASS
+      err.log (last 5): [cc_trace 0.2s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\TT_V3_flaky\attempt2\trace | [gpu_wrap 1.3s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [TT_V3_flaky] | [gpu_wrap 25.2s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 25.3s] BROWSER DISCONNECTED
+      autoretry: final FLAKY  class FLAKY/首次失敗、重跑通過  exit2 0
