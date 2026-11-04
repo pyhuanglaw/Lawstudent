@@ -30,7 +30,7 @@ const HCIRCLE_DATA={
   NAMES:{'以安':'heroine_01','芷若':'heroine_02','語彤':'heroine_03','子晴':'heroine_04','學姊':'heroine_05','沛珊':'classmate_peishan','Alison':'yu','柏翰':'classmate_bohan',
     '阿凱':'kai','陳助教':'npc_ta_chen','筱涵':'npc_huangxh','方奕廷':'npc_fangyt','曾靖雯':'pool_7','晏如':'pool_5','晨希':'pool_11','芸萱':'pool_15',
     '小婷':'hc_xt','老闆':'hc_boss','阿姨':'hc_ayi','蘇姨':'wz_su','學姊的同學':'hc_sf1','新來的工讀生':'hc_np','小禾':'hc_np','大一的學妹':'hc_fr1','日文課的同學':'hc_jp','以安的室友':'hc_room',
-    '點乾麵的阿伯':'hc_uncle','三號桌的阿伯':'hc_uncle','讀書會的學妹':'hc_plg','社會系的學弟妹':'hc_soc1','吉他社的學弟':'hc_gtr','小朋友':'hc_kid'},
+    '點乾麵的阿伯':'hc_uncle','三號桌的阿伯':'hc_uncle','常來的阿伯':'hc_uncle','讀書會的學妹':'hc_plg','社會系的學弟妹':'hc_soc1','吉他社的學弟':'hc_gtr','小朋友':'hc_kid'},
   /* 標籤同伴：label＝說話人、頭上的名字；sex；model＝固定的路人底模；height＝小朋友縮小（crowd3d.js 公園的孩子同一個做法）；
      props＝看得出身分的配件（props3d.js；HEROINE-LIFE-NPC3D-1028，LAWWW2-C：D99 不換底模只加配件。托特包、後背包換顏色，不和以安的米白托特包、祐廷的深灰後背包撞；點乾麵的阿伯沒有配件）*/
   PEOPLE:{
@@ -46,7 +46,7 @@ const HCIRCLE_DATA={
     hc_nm:{label:'新社員',sex:'f',model:'char.npc_nf20',props:['guitar'],note:'吉他社的新社員（AA_505 4-1）'},
     hc_jp:{label:'日文課的同學',sex:'f',model:'char.npc_nf1',props:[{name:'backpack',color:'#3d4a3f'}],note:'以安日文課的同學（AA_506 1-1）'},
     hc_room:{label:'以安的室友',sex:'f',model:'char.npc_nf4',props:[{name:'tote',color:'#b0745a'}],note:'以安的室友（AA_506 1-1）'},
-    hc_uncle:{label:'三號桌的阿伯',sex:'m',model:'char.npc_nm3',note:'麵店的客人（AA_506 3-1）'},
+    hc_uncle:{label:'常來的阿伯',sex:'m',model:'char.npc_nm3',note:'一盞的常客（AA_506 3-1；AA_657 第 1 節從麵店搬到一盞、「三號桌的阿伯」改「常來的阿伯」）'},
     hc_plg:{label:'讀書會的學妹',sex:'f',model:'char.npc_nf12',props:[{name:'backpack',color:'#5b4b6b'},'folder'],note:'公法讀書會的學妹（AA_507 1-1）'},
     hc_soc1:{label:'社會系的學弟妹',sex:'f',model:'char.npc_nf19',props:[{name:'tote',color:'#6f7d5c'}],note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
     hc_soc2:{label:'社會系的學弟妹',sex:'m',model:'char.npc_nm15',props:[{name:'backpack',color:'#2f3a4a'}],note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
@@ -67,6 +67,9 @@ const HCIRCLE_DATA={
     {hc:'c506_1_2',who:'heroine_01',e:{days:[1,2,3,4,5],from:21+50/60,to:22+10/60,zone:'campus',act:'linger',at:[-92.6,56.4,-Math.PI/2,0],terms:['Y2S2'],weeks:[10,11,12,13],label:'女生宿舍門口'}},
     {hc:'c506_3_1',who:'heroine_03',e:{days:[1],from:12.2,to:12.5,zone:'campus',act:'linger',at:[36.6,-97.4,Math.PI/2,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],noHoliday:true,label:'法律系館A門口（債各下課）'}},
     /* c506_3_3 語彤暑假週二、四 14:30～15:30 在麵店（午休）的作息補：AA_624（使用者 11-03）她從來不在燒臘店，拿掉 */
+    /* AA_657 第 1 節（WZ-YIZHAN-1104）：兩列搬到一盞，作息補這兩筆（放在她 daily_schedule 最前面）——c506_3_3 週四、五 14:30～15:30 茶席最東邊（read，seatAt）；c510_3_2 週四 17:30～20:00 水屋旁（linger 在她上班的點 (2.95, 2.4)，圈子那一列成立再坐到木凳、客人進來站起來：hcircle3d.js S.shopSeat）*/
+    {hc:'c506_3_3',who:'heroine_03',e:{days:[4,5],from:14.5,to:15.5,zone:'wz_teahouse',act:'read',seatAt:[-0.7,0.95],dates:[['2027-07-09','2027-09-05']],label:'一盞：茶席最東邊（午後）',note:'AA_657 第 1 節'}},
+    {hc:'c510_3_2',who:'heroine_03',e:{days:[4],from:17.5,to:20,zone:'wz_teahouse',act:'linger',at:[2.95,2.4,-Math.PI/2,0],noPair:true,dates:[['2029-06-04','2029-09-02']],label:'一盞（顧店）',note:'AA_657 第 1 節'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:10,to:18,zone:null,act:'out',away:'在實習',dates:[['2027-07-06','2027-09-03']],note:'AA_506 4-1：暑假平日 10:00～18:00 實習（7/6 第一天、9/3 最後一天，AA_506 4-2 第 5 點），不在 3D'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'read',seatAt:[15.6,19.8],prop:'laptop_lap',at:[16,20.6,Math.PI,0],dates:[['2027-06-14','2027-09-05']],label:'公館騎樓（插座旁邊）'}},
@@ -184,8 +187,10 @@ const HCIRCLE_DATA={
     {id:'c506_3_1',doc:'AA_506',sec:'3-1',k:1,who:'heroine_03',with:['pool_7'],days:[1],from:12.2,to:12.5,terms:['Y2S2'],weeks:[2,3,4,5,6,7,10,11,12,13,14,15],zone:'campus',
       heard:'曾靖雯：妳往前坐了。／語彤：……嗯。／曾靖雯：第一排還有位子。／語彤：第二排就好。',place:'霖澤館門口（債各週一上午在霖澤館 201，12:12 下課；作息補 12:12～12:30，SCHED）'},
     {id:'c506_3_2',doc:'AA_506',sec:'3-1',k:2,who:'heroine_03',with:['npc_huangxh'],always:true,days:[2,4],from:12,to:13,terms:['Y2S2'],zone:'campus',heard:'筱涵：妳最近坐前面了？／語彤：第二排。／筱涵：那很前面了。'},
-    {id:'c506_3_3',doc:'AA_506',sec:'3-1',k:3,who:'heroine_03',with:['hc_uncle'],days:[2,4],from:14.5,to:15.5,dates:[['2027-07-09','2027-09-05']],zone:'noodle',act:'read',
-      heard:'三號桌的阿伯：妳錄這個要幹嘛？／語彤：做報告。／三號桌的阿伯：報告寫我？……那要寫我年輕的時候很帥。／語彤：……我記下來了。',place:'麵店的桌子（午休，作息補，SCHED）；阿伯坐她對面'},
+    /* AA_657 第 1 節（WZ-YIZHAN-1104，企劃線 1aadca7e4）：從麵店搬到一盞——語彤坐茶席長桌最東 (−0.7, 0.95)（作息補 SCHED seatAt）、阿伯坐她對面 (−0.7, 2.45)（comp seatAt，hcircle3d.js S.place）；
+       日子週四、週五（原本週二、四；一盞週二公休）；說話人「三號桌的阿伯」改「常來的阿伯」，其他照舊 */
+    {id:'c506_3_3',doc:'AA_506',sec:'3-1',k:3,who:'heroine_03',with:['hc_uncle'],days:[4,5],from:14.5,to:15.5,dates:[['2027-07-09','2027-09-05']],zone:'wz_teahouse',act:'read',comp:{hc_uncle:{seatAt:[-0.7,2.45]}},aa657:'1',
+      heard:'常來的阿伯：妳錄這個要幹嘛？／語彤：做報告。／常來的阿伯：報告寫我？……那要寫我年輕的時候很帥。／語彤：……我記下來了。',place:'一盞：茶席最東邊、靠水屋的位子，阿伯坐對面（午後客人少）'},
     {id:'c506_4_1',doc:'AA_506',sec:'4-1',k:1,who:'heroine_04',with:['pool_11'],days:[1,3],from:19,to:21,terms:['Y2S2'],zone:'wancai',act:'club',heard:'晨希：導線又少一條。／子晴：……我數過了。妳借走的。／晨希：啊。'},
     {id:'c506_4_2',doc:'AA_506',sec:'4-1',k:2,who:'heroine_04',alone:true,days:[2,4],from:21,to:23.5,terms:['Y2S2'],wk:[2,16],zone:'gongguan',heard:'（她坐在騎樓下的插座旁邊，筆電開著。路過的人很多，她沒有抬頭。）',
       place:'公館騎樓：柱子旁的紅色塑膠凳（插座旁邊），坐著、腿上筆電開著（ZQ-ARCADE-SEAT-1028，LAWWW2 凳子＋laptop_lap；原本沒有地方坐、只能站）；「暑假照舊」見下一列'},
@@ -246,9 +251,12 @@ const HCIRCLE_DATA={
       heard:'（語彤抬頭看你一眼，指了指以安，比了一個「噓」。以安沒有抬頭。）',
       place:'總圖三樓（library）；兩個人的作息都在（characters.js 大四下第 1～15 週週四 20:00～21:30，AA_510 0-2 第 1 點）＝照作息一定同框；以安坐語彤背後那一桌（同 c509_1_2）'},
     {id:'c510_3_1',doc:'AA_510',sec:'3-1',k:1,who:'heroine_03',ref:true,heardFrom:'c510_1_1',heard:'照 1-1',place:'＝c510_1_1（同一段同框，句子同那一列，不另外排）'},
-    {id:'c510_3_2',doc:'AA_510',sec:'3-1',k:2,who:'heroine_03',alone:true,days:[4],from:17.5,to:20.5,dates:[['2029-06-04','2029-09-02']],zone:'noodle',heard:'（她坐在吧檯最旁邊，考古題攤開。客人進來，她把書闔上，站起來。）',
-      seatAt:[3,-0.3],standAt:[4.15,1.1],
-      place:'麵店長桌＝她的作息（characters.js 暑假週四 17:30～20:30 麵店顧店，AA_510 0-2 第 2 點，現有，act help）；6/4 起畢業以後篇，照現有做法。'
+    /* AA_657 第 1 節（WZ-YIZHAN-1104，企劃線 1aadca7e4）：從麵店搬到一盞——seatAt＝水屋旁的木凳 (3.05, 3.35)、standAt (2.3, 3.4)（客人進來她站起來，離木凳 ≥ 0.6 m）；
+       週四 17:30～20:00（原本到 20:30，茶屋 20:00 關門）；「吧檯」＝水屋的工作台（AA_657 第 3 節），句子照舊。她那時候在茶屋＝作息補 SCHED（c510_3_2）。下面 place 後半段是麵店那一版的紀錄 */
+    {id:'c510_3_2',doc:'AA_510',sec:'3-1',k:2,who:'heroine_03',alone:true,days:[4],from:17.5,to:20,dates:[['2029-06-04','2029-09-02']],zone:'wz_teahouse',aa657:'1',heard:'（她坐在吧檯最旁邊，考古題攤開。客人進來，她把書闔上，站起來。）',
+      seatAt:[3.05,3.35],standAt:[2.3,3.4],
+      place:'一盞：水屋旁的木凳（語彤顧店的位子）。【舊：麵店那一版】'
+        +'麵店長桌＝她的作息（characters.js 暑假週四 17:30～20:30 麵店顧店，AA_510 0-2 第 2 點，現有，act help）；6/4 起畢業以後篇，照現有做法。'
         +'AA_509 實作時定的第 5 點（6bc3cd784）：坐長桌最裡面、靠廚房的那個位子＝seatAt（套件的三張桌子連成長桌，最東邊那張 x=3、靠廚房那一側 z=-0.3，廚房那一頭、她顧店的位置 (2.6,-3.6) 旁邊）；'
         +'客人進來她站起來，站在長桌那一頭、門口那一側＝standAt（那張桌子東端 x=4.15、往門口那一側 z=1.1，面向門口；hcircle3d.js S.shopSeat）'},
     {id:'c510_4_1',doc:'AA_510',sec:'4-1',k:1,who:'heroine_04',with:['kai'],always:true,days:[5],from:22,to:24,dates:[['2029-06-28','2029-09-02']],zone:'gongguan',

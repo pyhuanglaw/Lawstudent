@@ -103,6 +103,10 @@ const AA187=(function(){
   S.FD_MISS=['蘇姨說下次','她多煮了一碗 我吃掉了'];
   S.FD_EPI='（語彤的手機桌布，是茶屋吧檯那張照片：三個人，一張桌子。）';
   S.fdOk=G=>law(G)&&G.day===D(S.FD_DAY)&&dating(G,YT)&&here(YT,G)&&!abroad(G);
+  /* AA_657 第 2 節（WZ-YIZHAN-1104）：只有那一天、而且邀請送出了（aa187_fd），茶屋的門讓玩家進去、開到 21:00；20:00 以後走到冠木門一句旁白（story3d.js 溫州街的店門檢查）。其他日子 20:00 以後照舊進不去 */
+  S.FD_DOOR='（門口的燈還亮著。暖簾收起來了，可是門沒鎖。）';
+  S.fdDoorOpen=G=>{ if(!law(G)||G.day!==D(S.FD_DAY)||!sent(G,'aa187_fd')) return false; const h=((+G.hour||0)%24+24)%24; return h<21; };
+  S.fdDoorLine=G=>{ const h=((+G.hour||0)%24+24)%24; return S.fdDoorOpen(G)&&h>=20?S.FD_DOOR:null; };
   S.EV_FD={id:'ev_yt_family_dinner',title:'打烊後的那一桌',participants:[YT],location:'wz_teahouse',trigger:'auto',once:true,time:[20.5,21],background:'blur',
     prereq:{custom:G=>S.fdOk(G)},
     /* AA_630 Y-006（AA 定稿）：一盞茶屋打烊後的吧檯，第三個人＝蘇姨；「日本的寺廟」那一組拿掉 */

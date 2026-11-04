@@ -69,7 +69,9 @@ for(const [k,n,o,w] of REV587) DOC[k]=DOC[k].split(o).join(w);
 const SPEC519='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md', E519=ALLOW.find(q=>q.path===SPEC519);
 const SHA519=(E519&&E519.status==='approved'&&E519.sha)?String(E519.sha):'d75cd0228', DOC519=show(SHA519,SPEC519);
 const REN519=DOC519.includes('圈子 `heroine_circle.js:196、197` 那兩列的說話人改「小禾」。')?new Set(['AA_508 2-1 1','AA_508 2-1 2']):new Set();
-const heardOf=t=>REN519.has(t.doc+' '+t.sec+' '+t.k)?t.heard.split('新來的工讀生：').join('小禾：'):t.heard;   /* 稿上那一格照 AA_519 3-4 換說話人以後＝遊戲裡的「走近時聽到」*/
+/* AA_657 第 1 節（WZ-YIZHAN-1104，白名單 1aadca7e4）：c506_3_3（AA_506 3-1 第 3 列）搬到一盞，說話人「三號桌的阿伯」改「常來的阿伯」，其他照舊 */
+const REN657=new Set(['AA_506 3-1 3']);
+const heardOf=t=>REN519.has(t.doc+' '+t.sec+' '+t.k)?t.heard.split('新來的工讀生：').join('小禾：'):(REN657.has(t.doc+' '+t.sec+' '+t.k)?t.heard.split('三號桌的阿伯：').join('常來的阿伯：'):t.heard);   /* 稿上那一格照 AA_519 3-4 換說話人以後＝遊戲裡的「走近時聽到」*/
 /* AA_519 那一節的引文（> 說話人：句子），用「／」接起來＝那一列的「走近時聽到」*/
 const quote519=sec=>{ const L=DOC519.split('\n'), i=L.findIndex(l=>l.startsWith('### '+sec+'　')); if(i<0) return ''; const out=[]; for(let j=i+1;j<L.length;j++){ const l=L[j]; if(/^(### |## |---)/.test(l)) break; const m=/^\s*> (.+)$/.exec(l); if(m) out.push(m[1].trim()); else if(out.length) break; } return out.join('／'); };
 /* 稿上的圈子表：{doc,sec:'4-1',k,heard,when,who,where}；說明（- 開頭）另外收 */
@@ -183,7 +185,8 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HCIRCLE',false,'沒有 HCIRCLE');
   const noOnYt=noOn.filter(id=>ytNdl(R(id))), noOnX=noOn.filter(id=>!ytNdl(R(id)));
   check('1. 每一列（同框、一個人）在它的學期週次日期裡都找得到成立的時候（她照作息在那一區）：'+nOn+' 列（語彤在燒臘店的那幾列除外）',!noOnX.length&&nOn>=70,J(noOnX));
   /* AA_630 第 4 節（YT-REWRITE-1103）：「阿姨」那八列（c503_6_2、c504_3_2、c505_3_3、c505_3_4、c503_14_1～5 扣掉刪掉的 c504_3_3）搬到一盞茶屋（蘇姨）＝不再是燒臘店的列；剩下 c506_3_3（暑假午休，C-001 作息補要茶屋靠窗那一桌的座位）、c510_3_2（2029 暑假，C-015 座位照茶屋吧檯〔LAWWW2〕）兩列還沒搬 */
-  check('1. 語彤在燒臘店的那幾列（'+rows().filter(ytNdl).length+' 列）一列都找不到成立的時候（AA_610／AA_624）',rows().filter(r=>ytNdl(r)&&live(r)).length>=2&&rows().filter(r=>ytNdl(r)&&live(r)).every(r=>noOnYt.includes(r.id)),J(noOnYt));
+  /* AA_657 第 1 節（WZ-YIZHAN-1104）：剩下那兩列（c506_3_3、c510_3_2）也搬到一盞＝語彤沒有燒臘店的列了；兩列在一盞找得到成立的時候（上面那一項已經算進去）*/
+  check('1. 語彤沒有燒臘店的列了（AA_610／AA_624；AA_657 把 c506_3_3、c510_3_2 搬到一盞），兩列在 wz_teahouse 找得到成立的時候',!rows().some(r=>ytNdl(r)&&live(r))&&['c506_3_3','c510_3_2'].every(id=>R(id)&&R(id).zone==='wz_teahouse'&&!noOn.includes(id)),J({ndl:rows().filter(r=>ytNdl(r)&&live(r)).map(r=>r.id),noOnYt}));
   check('1. 那時候人物同伴照 schedEnt 也在那一區（本來就在的照他自己的、不在的跟著她）',!compOff.length&&!mirrorBad.length,J({compOff,mirrorBad}));
   /* 跟著她的那一筆：靖雯在霖澤館門口（大二下債各下課）、阿凱在校園（大一上週五）、晏如／晨希在萬才館（吉他社）*/
   const chk=(rid,c,flags)=>{ const r=R(rid), f=findOn(r,flags); if(!f) return null; const e=ent(c); return e?{zone:e.zone,act:e.act,hc:e.hc,with:e.with}:null; };
@@ -376,7 +379,7 @@ await sec('7',async()=>{ if(!HAS()){ check('7. HCIRCLE',false,'沒有 HCIRCLE');
   /* (d) 語彤的法律課（一個人）、以安週四麵店（一個人）、子晴公館騎樓（一個人＋補的作息）*/
   { const L=[]; for(const rid of ['c509_1_1','c509_3_3','c509_4_1','c510_3_2']){ const r=Rw(rid), f=findOn(r); L.push([rid,!!f&&r.alone===true&&HCIRCLE.heroEnt(r,(fresh(f.d,f.h,r.zone),H.G)).zone===r.zone]); }
     const zq=(()=>{ const r=Rw('c509_4_1'), f=findOn(r); fresh(f.d,22.5,'gongguan'); const e=ent('heroine_04'); return e&&e.act==='read'&&e.hc==='c509_4_1'&&J(e.seatAt)===J([15.6,19.8])&&e.prop==='laptop_lap'; })();   /* 2026-11-01 ZQ-ARCADE-SEAT-1028：原本站在插座旁邊（linger），改坐柱子旁的凳子、腿上筆電 */
-    check('7. 一個人的列：以安週四麵店（第 2～13 週）、語彤的法律課（週一上午、週四下午）、子晴公館騎樓（插座旁邊，補的作息）都找得到成立的時候；語彤暑假週四麵店（c510_3_2）找不到（AA_610／AA_624：她不在燒臘店）',L.every(x=>x[0]==='c510_3_2'?!x[1]:x[1])&&zq,J({L,zq})); }
+    check('7. 一個人的列：以安週四麵店（第 2～13 週）、語彤的法律課（週一上午、週四下午）、子晴公館騎樓（插座旁邊，補的作息）、語彤暑假週四一盞（c510_3_2，AA_657 從麵店搬到一盞）都找得到成立的時候',L.every(x=>x[1])&&zq,J({L,zq})); }
   /* (e) 子晴 6/28 起週五公館和阿凱（畢業以後篇照樣成立）：兩個人都生在公館、一起走 */
   { const r=Rw('c510_4_1'), d=DK('2029-07-06'); fresh(d,22.5,'gongguan',{GRADUATED:true}); const on=HCIRCLE.on(r,H.G); stage('gongguan'); STORY._bindGM(GM); POOL.bind(GM); HCIRCLE.bind(GM); STORY.refreshSchedule(GM);
     const zq=GM.npc.heroine_04, kai=GM.npc.kai; HCIRCLE.arrange(GM,false);
@@ -411,8 +414,9 @@ await sec('8',async()=>{ if(!HAS()){ check('8. HCIRCLE',false); return; }
       a&&b&&c&&d&&!e&&!f&&!!e1&&e1.hc==='c509_4_1'&&e1.act==='read'&&!!e2&&e2.hc!=='c509_4_1'&&e2.zone==='gongguan'&&k===true&&k0===false,J({a,b,c,d,e,f,e1:e1&&e1.hc,e2:e2&&[e2.hc,e2.act],k,k0})); }
   /* 第 5 點：語彤暑假在麵店——坐長桌最裡面、靠廚房；客人進來站在長桌那一頭、門口那一側 */
   /* 第 5 點（語彤暑假週四在麵店長桌讀書、客人來了站起來）：AA_610／AA_624 她不在燒臘店＝那一列不成立；2029-06-07 週四 18:00 她不在燒臘店（schedEnt 不是 noodle）*/
-  { const r=Rw('c510_3_2'), d=DK('2029-06-07'); fresh(d,18,'noodle'); const on=HCIRCLE.on(r,H.G), e=STORY.schedEnt(CHARACTERS.heroine_03,H.G);
-    check('8. 第 5 點：語彤暑假週四在麵店（c510_3_2）不成立、那天 18:00 她不在燒臘店（AA_610／AA_624）',on===false&&!(e&&e.zone==='noodle'),J({on,e:e&&e.zone})); } });
+  /* AA_657 第 1 節（WZ-YIZHAN-1104）：c510_3_2 搬到一盞（水屋旁的木凳）＝2029-06-07 週四 18:00 她在一盞、那一列成立；不在燒臘店（AA_610／AA_624）*/
+  { const r=Rw('c510_3_2'), d=DK('2029-06-07'); fresh(d,18,'wz_teahouse'); const on=HCIRCLE.on(r,H.G), e=STORY.schedEnt(CHARACTERS.heroine_03,H.G);
+    check('8. 第 5 點：語彤暑假週四在一盞（c510_3_2，AA_657）成立、那天 18:00 她在 wz_teahouse、不在燒臘店（AA_610／AA_624）',on===true&&!!e&&e.zone==='wz_teahouse',J({on,e:e&&e.zone})); } });
 
 /* ---------- 9 第四輪（PRIV-AUNT-1028 第二輪：AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d）：大二下以後每學期阿姨那一列、廚房那位就是阿姨 ---------- */
 await sec('9',async()=>{ if(!HAS()){ check('9. HCIRCLE',false); return; }

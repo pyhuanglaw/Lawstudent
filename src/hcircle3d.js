@@ -193,6 +193,9 @@ const HCIRCLE=(function(){
     if(r.anchor==='with'){   /* 她坐到他旁邊（必修課上課前和曾靖雯，第一排）*/
       const a=cn.seat||cn.seatTarget, hs=hn.seat||hn.seatTarget; if(!a) return; if(hs&&(opt.behind?S.behindOf(hs,a)&&Math.hypot(hs.x-a.x,hs.z-a.z)<3.6:Math.hypot(hs.x-a.x,hs.z-a.z)<1.7&&(a.row==null||hs.row===a.row))) return; if(hn._hcSeatTry===r.id+G0(GM)) return;
       hn._hcSeatTry=r.id+G0(GM); const st=S.seatNear(E,a,[hn,cn],!!opt.behind); if(st) sitMove(GM,hn,st,hn.idlePose==='read'?'read':'sit',quiet); return; }
+    if(opt.seatAt){   /* 指定的座位（AA_657 第 1 節：c506_3_3 阿伯坐語彤對面 (−0.7, 2.45)）：那個位子有人＝照下面一般的做法（坐她旁邊的空位、站她旁邊）*/
+      const want={x:opt.seatAt[0],z:opt.seatAt[1]}, cs=cn.seat||cn.seatTarget; if(cs&&near(cs,want,0.3)) return;
+      const st=S.seatAtXZ(E,opt.seatAt,cn); if(st){ sitMove(GM,cn,st,'sit',quiet); return; } }
     if(opt.clerk||opt.at){   /* 店員的位置、指定的位置 */
       const c=opt.at?{x:opt.at[0],z:opt.at[1],yaw:null}:S.CLERK[opt.clerk]; if(!c) return; if(near(P(cn),c,0.4)&&cn.frozen) return;
       standMove(GM,cn,{x:c.x,z:c.z,lv:hn.lv|0},hp,quiet||!!opt.clerk,opt.at?null:c.yaw); if(opt.at) face(cn,hp); return; }
