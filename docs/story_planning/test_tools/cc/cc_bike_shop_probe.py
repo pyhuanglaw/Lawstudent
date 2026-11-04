@@ -82,7 +82,7 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, p=P.obj.position, D=GAME.D|
 BK = """(()=>{ const E=GAME.E, G=GAME.G, P=E.player; const pk=E.zone&&E.zone.group.children.find(o=>o.name==='bike_ride');
   return {zone:G.zone, riding:!!P.riding, parked:pk?[+pk.position.x.toFixed(2),+pk.position.z.toFixed(2)]:null, bike:G.bike?JSON.parse(JSON.stringify(G.bike)):null}; })()"""
 FIND_JS = """(q=>{ const its=GAME.E.interactables.filter(i=>!i.hidden&&(q.look?i.bikeLook===q.look:(q.exitTo?(i.exit&&i.exit.to===q.exitTo):(i.label||'').startsWith(q.label))));
-  const p=GAME.E.player.obj.position; its.sort((a,b)=>Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z)); const it=its[0];
+  const p=GAME.E.player.obj.position; its.sort((a,b)=>((a.lv|0)-(b.lv|0))*1e4+Math.hypot(a.x-p.x,a.z-p.z)-Math.hypot(b.x-p.x,b.z-p.z)); const it=its[0];
   return it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),r:it.radius||1.5,label:it.label,to:it.exit?it.exit.to:null,lv:it.lv==null?null:it.lv}:null; })(%s)"""
 # 一棟可以進去的建築：最近的、看得到的、通往室內的出口（溫州街優先阿德影印輸出，和 bike_shop_park_unit.js 同一間）
 BLDG_JS = """(([outdoor,prefer])=>{ const p=GAME.E.player.obj.position; const its=GAME.E.interactables.filter(i=>!i.hidden&&i.exit&&i.exit.to&&!outdoor.includes(i.exit.to)&&(i.lv|0)===0);
