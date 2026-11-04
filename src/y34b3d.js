@@ -408,9 +408,9 @@ const Y34B=(function(){
   S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
-    const fafu=(+F.LAWCLUB_SAT_VISITS||0)>0||(+F.FAFU_SHIFT_N||0)>0, three=!!F.U_COPYRIGHT&&!!F.U_CONTRACT, R=t=>({from:'heroine_04',text:t});
+    const fafu=typeof STORY!=='undefined'&&STORY.fafuBeen?STORY.fafuBeen(G):((+F.LAWCLUB_SAT_VISITS||0)>0||(+F.FAFU_SHIFT_N||0)>0), three=!!F.U_COPYRIGHT&&!!F.U_CONTRACT, R=t=>({from:'heroine_04',text:t});
     const o=[us?{t:'我回去陪妳找律師。先把看不懂的地方標起來傳給妳。',set:{ZQ_CONTRACT:'lawyer'},say:[R('好。你標，我畫重點。……我睡醒再看')]}:{t:'我陪妳去找律師。我先幫妳把看不懂的地方標起來。',set:{ZQ_CONTRACT:'lawyer'},say:[R(dt?'好。你標，我畫重點。':'好。你標，我畫重點。……我們好像在念書')]}];
-    if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服 */
+    if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服；D118-B5a（D118_PLAN ④-5）：加入法服或去過一次（STORY.fafuBeen），原本只看去過的次數 */
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
     if(three) o.push({t:'先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('……你講話越來越像律師了。好，找律師。')]});   /* AA_398 第 33 列 */   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
     open[open.length-1].ask={id:'y4_q14',until,opts:o,note:S.Q14_NOTE.slice()}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
