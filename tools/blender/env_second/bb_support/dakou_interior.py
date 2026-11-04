@@ -15,7 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
 import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, bmesh, Vector, Matrix   # noqa: E402
-from PIL import Image, ImageDraw, ImageFont   # noqa: E402
+from PIL import Image, ImageDraw, ImageFont, ImageFilter   # noqa: E402
 
 LAY = json.loads(subprocess.check_output(['node', '-e', "process.stdout.write(JSON.stringify(require('./src/data/dakou_layout.js')))"], cwd=L.ROOT))['shop']
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
@@ -184,8 +184,8 @@ def t_kiosk(im, d):
 
 
 def t_ceiling(im, d):     # 輕鋼架天花板：60 cm 一格
-    w, h = im.size; d.rectangle([0, 0, w, h], fill=(236, 233, 226)); r = random.Random(9)
-    for _ in range(4000): x, y = r.randint(0, w - 1), r.randint(0, h - 1); g = r.randint(222, 236); d.point((x, y), fill=(g, g - 2, g - 6))
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=(228, 220, 204)); r = random.Random(9)
+    for _ in range(4000): x, y = r.randint(0, w - 1), r.randint(0, h - 1); g = r.randint(212, 228); d.point((x, y), fill=(g, g - 4, g - 12))
     for k in range(0, w, w // 4): d.rectangle([k, 0, k + 3, h], fill=(206, 204, 200)); d.rectangle([0, k, w, k + 3], fill=(206, 204, 200))
 
 
@@ -223,21 +223,114 @@ def t_night(im, d):       # 只給渲染：窗外的新生南路夜景（樹、�
     d.rectangle([0, int(h * 0.55), w, int(h * 0.62)], fill=(70, 66, 60))
 
 
+# ---------------- v2：一張發光貼圖集 GLOW_dk_screens（窗外夜景、菜單螢幕、點餐機、筆電螢幕；正式 GLB 也有）----------------
+GS = 2048
+GR = {}   # 名稱 → (u0, v0, u1, v1)，v 從下往上
+
+
+def _grect(name, x, y, w, h):
+    GR[name] = (x / GS, 1 - (y + h) / GS, (x + w) / GS, 1 - y / GS); return (x, y, x + w, y + h)
+
+
+def night_scene(im, box, seed, west=False):
+    """窗外的新生南路夜景（從店裡往外看）：深藍夜空、對面校園圍牆與行道樹（路燈照亮的樹冠）、暖色路燈、馬路的反光、遠處大樓的窗、紅綠燈、公車亭"""
+    x0, y0, x1, y1 = box; w, h = x1 - x0, y1 - y0; d = ImageDraw.Draw(im); r = random.Random(seed)
+    for y in range(h):
+        t = y / h; d.line([(x0, y0 + y), (x1, y0 + y)], fill=(int(10 + 16 * t), int(14 + 18 * t), int(30 + 14 * t)))
+    for k in range(14):   # 遠處大樓（亮著的窗）
+        bx = x0 + r.randint(0, w - 120); bw = r.randint(80, 200); bt = y0 + r.randint(int(h * 0.05), int(h * 0.3))
+        d.rectangle([bx, bt, bx + bw, y0 + int(h * 0.6)], fill=(24, 26, 34))
+        for wy in range(bt + 10, y0 + int(h * 0.58), 22):
+            for wx in range(bx + 8, bx + bw - 8, 18):
+                if r.random() < 0.35: d.rectangle([wx, wy, wx + 8, wy + 10], fill=(220, 200, 140) if r.random() < 0.7 else (180, 200, 220))
+    gy = y0 + int(h * 0.66)
+    d.rectangle([x0, gy, x1, y1], fill=(34, 34, 38))                                   # 馬路
+    d.rectangle([x0, gy - int(h * 0.05), x1, gy], fill=(58, 54, 50))                  # 人行道
+    d.rectangle([x0, gy - int(h * 0.13), x1, gy - int(h * 0.05)], fill=(70, 64, 56))  # 對面校園的圍牆
+    for k in range(12): xx = x0 + k * w // 12; d.rectangle([xx, gy - int(h * 0.16), xx + 10, gy - int(h * 0.05)], fill=(90, 84, 74))
+    for k in range(9):    # 行道樹（路燈照亮的樹冠：近燈的地方暖黃綠）
+        cx = x0 + int(w * (k + 0.5) / 9) + r.randint(-30, 30); d.rectangle([cx - 8, y0 + int(h * 0.3), cx + 8, gy - int(h * 0.03)], fill=(40, 32, 24))
+        for _ in range(70):
+            px, py = cx + r.randint(-150, 150), y0 + int(h * 0.28) + r.randint(-150, 60); rr = r.randint(16, 42); lit = max(0.0, 1 - abs(px - cx - 60) / 220)
+            g = r.randint(36, 60); d.ellipse([px - rr, py - rr, px + rr, py + rr], fill=(int(g * 0.7 + 120 * lit), int(g + 110 * lit), int(g * 0.45 + 40 * lit)))
+    for k in range(5):    # 路燈（暖色）＋地上的光
+        lx = x0 + int(w * (k * 2 + 1) / 10) + 40
+        d.line([(lx, gy), (lx, y0 + int(h * 0.22))], fill=(80, 80, 84), width=7); d.line([(lx, y0 + int(h * 0.22)), (lx + 50, y0 + int(h * 0.2))], fill=(80, 80, 84), width=6)
+        for rr, c in ((40, (120, 90, 40)), (24, (220, 170, 90)), (12, (255, 236, 190))): d.ellipse([lx + 50 - rr, y0 + int(h * 0.2) - rr, lx + 50 + rr, y0 + int(h * 0.2) + rr], fill=c)
+        d.ellipse([lx - 70, gy + 10, lx + 170, gy + 60], fill=(90, 74, 50))
+    for k in range(10): d.rectangle([x0 + k * w // 10 + 30, gy + int(h * 0.15), x0 + k * w // 10 + 110, gy + int(h * 0.165)], fill=(180, 176, 160))   # 車道線
+    if west:   # 路口：紅綠燈、斑馬線
+        tx = x0 + int(w * 0.55); d.rectangle([tx, y0 + int(h * 0.3), tx + 10, gy], fill=(70, 72, 70)); d.rectangle([tx - 30, y0 + int(h * 0.3), tx + 10, y0 + int(h * 0.42)], fill=(30, 32, 30))
+        d.ellipse([tx - 24, y0 + int(h * 0.31), tx + 2, y0 + int(h * 0.35)], fill=(230, 60, 50)); d.ellipse([tx - 24, y0 + int(h * 0.37), tx + 2, y0 + int(h * 0.41)], fill=(50, 60, 50))
+        for k in range(8): d.rectangle([x0 + int(w * 0.6) + k * 40, gy + int(h * 0.04), x0 + int(w * 0.6) + k * 40 + 22, y1 - 6], fill=(150, 148, 140))
+    else:      # 新生南路的路牌、公車亭
+        sx = x0 + int(w * 0.18); d.rectangle([sx, y0 + int(h * 0.28), sx + 8, gy], fill=(80, 82, 80)); d.rectangle([sx - 60, y0 + int(h * 0.24), sx + 70, y0 + int(h * 0.3)], fill=(24, 110, 64))
+        d.text((sx - 52, y0 + int(h * 0.245)), '新生南路', font=font(24), fill=(240, 240, 236))
+        bx = x0 + int(w * 0.7); d.rectangle([bx, gy - int(h * 0.2), bx + 180, gy - int(h * 0.18)], fill=(90, 94, 98)); d.rectangle([bx + 20, gy - int(h * 0.18), bx + 70, gy], fill=(120, 150, 170))
+    im.paste(im.crop(box).filter(ImageFilter.GaussianBlur(1.2)), (x0, y0))
+
+
+def make_glow_atlas():
+    im = Image.new('RGB', (GS, GS), (0, 0, 0))
+    night_scene(im, _grect('night_front', 0, 0, GS, 640), 5); night_scene(im, _grect('night_west', 0, 640, GS, 640), 9, west=True)
+    for i in range(4):
+        b = _grect(f'menu{i}', i * 512, 1280, 512, 288); m = Image.new('RGB', (640, 360)); t_menu(i)(m, ImageDraw.Draw(m)); im.paste(m.resize((512, 288)), b[:2])
+    b = _grect('kiosk', 0, 1568, 256, 464); m = Image.new('RGB', (420, 760)); t_kiosk(m, ImageDraw.Draw(m)); im.paste(m.resize((256, 464)), b[:2])
+    for k in range(6):   # 筆電螢幕：文件、簡報、判決、網頁、程式、PDF（深淺不一）
+        b = _grect(f'laptop{k}', 256 + (k % 3) * 256, 1568 + (k // 3) * 170, 256, 160); d = ImageDraw.Draw(im); x, y = b[:2]
+        bg = [(240, 242, 246), (30, 34, 44), (246, 244, 236), (232, 238, 248), (24, 28, 36), (236, 236, 232)][k]
+        d.rectangle([x, y, x + 255, y + 159], fill=bg); d.rectangle([x, y, x + 255, y + 14], fill=[(60, 90, 160), (50, 50, 60), (120, 40, 40), (40, 120, 200), (70, 70, 90), (180, 60, 50)][k])
+        r = random.Random(k)
+        for ln in range(9):
+            lw = r.randint(80, 220); c = (90, 96, 110) if sum(bg) > 300 else (170, 200, 180)
+            d.rectangle([x + 14, y + 24 + ln * 14, x + 14 + lw, y + 29 + ln * 14], fill=c)
+    p = os.path.join(TMP, 'dk_glow_atlas.png'); im.save(p); return p
+
+
+def gquad(m, pts, rect):
+    """發光貼圖集上的一片：pts＝左下、右下、右上、左上（站在正面看）"""
+    bm = m.bm; uvl = bm.loops.layers.uv.verify(); u0, v0, u1, v1 = rect
+    f = bm.faces.new([bm.verts.new(g2b(*p_)) for p_ in pts])
+    for lp, uv in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = uv
+    return f
+
+
+def gz(m, z, x0, x1, y0, y1, facing, rect):   # z＝常數的一片，facing ±1
+    if facing > 0: return gquad(m, [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)], rect)
+    return gquad(m, [(x1, y0, z), (x0, y0, z), (x0, y1, z), (x1, y1, z)], rect)
+
+
+def gx(m, x, z0, z1, y0, y1, facing, rect):   # x＝常數的一片
+    if facing > 0: return gquad(m, [(x, y0, z1), (x, y0, z0), (x, y1, z0), (x, y1, z1)], rect)
+    return gquad(m, [(x, y0, z0), (x, y0, z1), (x, y1, z1), (x, y1, z0)], rect)
+
+
+def t_books(im, d):   # 課本封面（照參考圖：民法（總則）、刑法、憲法；另外兩本是虛構的書名）
+    w, h = im.size; titles = [('民法（總則）', (36, 52, 95)), ('刑法', (140, 36, 34)), ('憲法', (32, 48, 92)), ('行政法', (40, 90, 70)), ('法學緒論', (110, 70, 40))]
+    cw = w // len(titles)
+    for i, (t, c) in enumerate(titles):
+        d.rectangle([i * cw, 0, (i + 1) * cw - 1, h], fill=c); d.rectangle([i * cw + 6, 6, (i + 1) * cw - 7, h - 7], outline=(230, 210, 150), width=3)
+        fs = 52 if len(t) <= 3 else 34; d.text((i * cw + 16, h // 2 - fs // 2), t, font=font(fs), fill=(244, 236, 214))
+
+
 P = {k: tex(f'{k}.png', s, f) for k, s, f in (('mural', (1400, 330), t_mural), ('study', (420, 840), t_study), ('counter', (1600, 200), t_counter),
                                                ('sign_order', (420, 170), t_sign('點餐')), ('sign_pick', (420, 170), t_sign('取餐')),
                                                ('kiosk', (420, 760), t_kiosk), ('ceiling', (512, 512), t_ceiling), ('poster', (520, 700), t_poster),
-                                               ('staff', (340, 110), t_staff), ('night', (1600, 500), t_night), ('floor', (512, 512), t_floor))}
+                                               ('staff', (340, 110), t_staff), ('floor', (512, 512), t_floor), ('books', (1000, 120), t_books))}
+GLOW_PATH = make_glow_atlas()
 for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 
 # ---------------- 材質（≤12，最後 vc_consolidate／atlas_small 合併）----------------
 m_floor = img_mat('dk_floor', P['floor'], rough=0.35); m_floor['tile'] = 1.2
 m_lam = L.pbr('dk_laminate', 'laminate_floor_02', tile=1.4, target='#d7b78a', normal=0.2, maps=('diff',), rough_value=0.45)   # 桌面、吧台檯面、木椅、扶手（不是地板）
-m_wall = L.flat('dk_wall', '#f1ede4', rough=0.8)
+m_wall = L.flat('dk_wall', '#e9dfcc', rough=0.8)   # v2：暖一點的米白（晚上的暖光下）
 m_black = L.flat('dk_black', '#26282c', rough=0.45, metal=0.35)
 m_steel = L.flat('dk_steel', '#b9bdc1', rough=0.3, metal=0.42)
-m_glass = L.flat('dk_glass', '#cfe0e6', rough=0.05, alpha=0.22)
-m_panel = glowmat('dk_lightpanel', '#fbf8f0', 3.0)
-m_warm = glowmat('dk_warm', '#ffd9a0', 3.5)
+m_glass = L.flat('dk_glass', '#c8d4d8', rough=0.04, alpha=0.07)   # v2：透明的玻璃（不是霧面板），看得到窗外的夜景
+m_panel = glowmat('dk_lightpanel', '#fff1dc', 1.8)   # v2：晚上的燈板，暖白、不刺眼
+m_warm = glowmat('dk_warm', '#ffc070', 5.0)
+m_screens = img_mat('GLOW_dk_screens', GLOW_PATH, rough=0.3, emit=1.0)   # v2：窗外夜景、菜單、點餐機、筆電螢幕（一張發光貼圖集＝一個材質）
+SCR = Mesh('GLOW_SCREENS', m_screens)
 m_vc = L.vc_material('dk_props_vc', rough=0.6)
 m_ceil = img_mat('dk_ceiling', P['ceiling'], rough=0.9); m_ceil.use_backface_culling = True
 IM = {k: img_mat('dk_' + k, p, rough=0.5) for k, p in P.items() if k not in ('ceiling', 'floor')}   # 選單螢幕不另外發光：全部併進一張貼圖集（材質 ≤ 12）；要亮由 LAWWW2 烘
@@ -402,10 +495,10 @@ def stairs():
 
 
 def outside_cards():
-    """--preview 才有：窗外夜景卡片（給 Blender 渲染看）"""
-    if not PREVIEW: return
-    zcard('PREVIEW_NIGHT_FRONT', Z1 + 3.0, X0 - 4.0, X1 + 4.0, Y0 - 1.0, Y0 + 6.0, IM['night'], -1)
-    wall_card('PREVIEW_NIGHT_WEST', X0 - 3.0, Z0 - 4.0, Z1 + 4.0, Y0 - 1.0, Y0 + 6.0, IM['night'], +1)
+    """v2：窗外夜景卡片（發光，正式 GLB 也有；LAWWW2 接上新生南路以後可以藏起來或刪掉：物件名 NIGHT_FRONT、NIGHT_WEST）"""
+    yb = Y0 - (1.5 if FL == 1 else 5.0); yt = Y0 + (6.0 if FL == 1 else 4.6)   # 二樓往下看得到馬路：卡片往下延伸
+    nf = Mesh('NIGHT_FRONT', m_screens); gz(nf, Z1 + 3.5, X0 - 6.0, X1 + 6.0, yb, yt, -1, GR['night_front']); nf.finish(root, uv=False)
+    nw = Mesh('NIGHT_WEST', m_screens); gx(nw, X0 - 3.5, Z0 - 6.0, Z1 + 6.0, yb, yt, +1, GR['night_west']); nw.finish(root, uv=False)
 
 
 props = CMesh('PROPS', m_vc); legs = Mesh('LEGS', m_black); tops = Mesh('TOPS', m_lam, tile=1.4)
@@ -463,7 +556,7 @@ if FL == 1:
     ms = F['menuScreens']
     for i, x in enumerate(ms['xs']):
         props.crbox(x - 0.58, x + 0.58, ms['y0'] - 0.03, ms['y1'] + 0.03, ms['z'] - 0.06, ms['z'], '#16181c', r=0.01); legs.box(x - 0.01, x + 0.01, ms['y1'] + 0.03, YC, ms['z'] - 0.04, ms['z'] - 0.02)
-        zcard(f'MENU_SCREEN_{i}', ms['z'] + 0.002, x - 0.55, x + 0.55, ms['y0'], ms['y1'], IM[f'menu{i}'], +1)
+        gz(SCR, ms['z'] + 0.002, x - 0.55, x + 0.55, ms['y0'], ms['y1'], +1, GR[f'menu{i}'])   # v2：菜單螢幕發光
     pend = Mesh('COUNTER_PENDANTS', L.flat('dk_orange', '#e07a30', rough=0.4)); pl = Mesh('COUNTER_PENDANT_GLOW', m_warm)
     for lt in F['lights']:
         if lt['kind'] == 'pendant_counter':
@@ -476,7 +569,7 @@ if FL == 1:
         x, z = k['x'], k['z']
         props.crbox(x - 0.22, x + 0.22, 0.0, 0.05, z - 0.18, z + 0.18, '#2a2c30', r=0.01); props.crbox(x - 0.06, x + 0.06, 0.05, 0.9, z - 0.06, z + 0.06, '#e8e8e6', r=0.02)
         props.crbox(x - 0.25, x + 0.25, 0.9, 1.85, z - 0.05, z + 0.03, '#f4f4f2', r=0.02); props.cbox(x - 0.25, x + 0.25, 1.85, 1.95, z - 0.05, z + 0.03, '#24345f')
-        zcard(f'KIOSK_SCREEN_{x:.1f}', z + 0.032, x - 0.21, x + 0.21, 0.98, 1.78, IM['kiosk'], +1)
+        gz(SCR, z + 0.032, x - 0.21, x + 0.21, 0.98, 1.78, +1, GR['kiosk'])   # v2：點餐機螢幕發光
     # 回收餐盤
     tr_ = F['tray']; props.crbox(tr_['x'] - 0.45, tr_['x'] + 0.45, 0.0, 1.0, tr_['z'] - 0.25, tr_['z'] + 0.25, '#24345f', r=0.02)
     props.cbox(tr_['x'] - 0.4, tr_['x'] - 0.05, 0.75, 0.9, tr_['z'] + 0.249, tr_['z'] + 0.252, '#1a1a1a'); props.cbox(tr_['x'] + 0.05, tr_['x'] + 0.4, 0.75, 0.9, tr_['z'] + 0.249, tr_['z'] + 0.252, '#1a1a1a')
@@ -592,14 +685,14 @@ else:
         props.crbox(x - 0.2, x + 0.2, Y0 + 0.55, Y0 + 0.9, z - 0.04 - 0.22, z + 0.04 - 0.22, '#8a8c8e', r=0.04)
 
 # ---------------- 收尾 ----------------
-props.finish(root, smooth=True); legs.finish(root); tops.finish(root)
+props.finish(root, smooth=True); legs.finish(root); tops.finish(root); SCR.finish(root, uv=False)
 for ob in list(root.children_recursive):
     if ob.type == 'MESH' and ob.data and len(ob.data.polygons) == 0: B.remove(ob)
 vc_m = L.vc_material('dk_vc_matte', rough=0.62); vc_g = L.vc_material('dk_vc_gloss', rough=0.3); vc_x = L.vc_metal('dk_vc_metal', rough=0.35, metal=0.4)
-grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc'})
+grp = L.auto_vc_groups(root, vc_m, vc_x, gloss=vc_g, protect={'dk_glass', 'dk_warm', 'dk_lightpanel', 'dk_ceiling', 'dk_props_vc', 'GLOW_dk_screens'})
 grp['dk_props_vc'] = vc_m
 L.vc_consolidate(root, grp)
-L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate'}, max_tris=6000, max_rep=1, cell=512, rough=0.55)
-L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.atlas_small(root, os.path.join(TMP, f'dk{FL}_atlas.png'), f'dk{FL}_atlas', protect={'dk_ceiling', 'dk_floor', 'dk_laminate', 'GLOW_dk_screens'}, max_tris=6000, max_rep=1, cell=512, rough=0.55)
+L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('NIGHT_'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 L.export(OUT)
 print('OK', OUT, B.stats())
