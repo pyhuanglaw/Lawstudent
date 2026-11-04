@@ -1,7 +1,7 @@
 {
  "objects": 179,
- "unique_meshes": 60,
- "tris": 42816,
+ "unique_meshes": 62,
+ "tris": 42884,
  "tris_drawn": 57742,
  "materials": [
   "tx_ceiling",
@@ -18,7 +18,7 @@
   "tx_wood"
  ],
  "out": "assets/models/env/second_ai/bb_support/tongxian.glb",
- "bytes": 2966084,
+ "bytes": 2973216,
  "texres": 512,
  "shop": "tongxian",
  "layout": 4,

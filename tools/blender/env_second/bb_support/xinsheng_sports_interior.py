@@ -374,16 +374,14 @@ SHOE = [Proto(f'shoe{i}', shoe_build(*sc)) for i, sc in enumerate(SHOE_COLS)]
 
 
 def fixture_build(pt):
-    """1.2 m 雙管日光燈（白色燈座＋兩支燈管；吸頂）：自己的座標燈座頂在 y 0、長邊沿 x"""
-    cm, u = pt['vcm'], pt['emit']
-    crb(cm, -0.64, 0.64, -0.05, -0.004, -0.11, 0.11, '#ecebe6', r=0.012, seg=1)
+    """v3b：1.2 × 0.3 m 嵌入式日光燈（和輕鋼架天花板齊平：白色鋁框＋發光的面板，都只朝下）——
+    從天花板上面看（遊戲鏡頭在天花板以上時）和天花板一樣看不到，不會浮在半空（v3 的吸頂燈座是方塊，從上面看會浮著）"""
+    u, cf = pt['emit'], pt['ceil']
     tu = ATL['tube']; tuv = ((tu[0] + tu[2]) / 2, (tu[1] + tu[3]) / 2)
-    for s in (-0.05, 0.05):
-        for xx in (-0.61, 0.61): cm.cbox(xx - 0.02, xx + 0.02, -0.08, -0.05, s - 0.016, s + 0.016, '#d2d0ca')
-        for k in range(5):
-            a0, a1 = 2 * math.pi * k / 5, 2 * math.pi * (k + 1) / 5; rr = 0.014; yc = -0.066
-            u.face([(-0.6, yc + rr * math.sin(a0), s + rr * math.cos(a0)), (-0.6, yc + rr * math.sin(a1), s + rr * math.cos(a1)),
-                    (0.6, yc + rr * math.sin(a1), s + rr * math.cos(a1)), (0.6, yc + rr * math.sin(a0), s + rr * math.cos(a0))], [tuv] * 4, smooth=True)
+    q = lambda x0, x1, z0, z1, y: [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)]
+    u.face(q(-0.58, 0.58, -0.13, 0.13, -0.006), [tuv] * 4)
+    for (x0, x1, z0, z1) in ((-0.62, 0.62, -0.17, -0.13), (-0.62, 0.62, 0.13, 0.17), (-0.62, -0.58, -0.13, 0.13), (0.58, 0.62, -0.13, 0.13)):
+        cf.quad(q(x0, x1, z0, z1, -0.007))
 
 
 FIXP = Proto('fixture', fixture_build)
@@ -525,7 +523,7 @@ pbd.done()
 FIX = [(x, z, HT) for x in (-5.4, -2.0, 1.4, 4.8) for z in (6.2, 3.6, 1.0, -1.3, -2.9)]
 FIX += [(x, z, H1) for x in (-5.4, -2.8, -0.2) for z in (-1.3, -3.3, -5.3, -7.0)] + [(x, z, H1) for x in (5.4,) for z in (-1.3, -3.3, -5.3, -7.0)] + [(2.9, z, H1) for z in (-3.3, -5.3, -7.0)]
 for x, z, y in FIX:
-    lv = lvof(y); FIXP.place(fm((x, y, z)), lv); LIGHTS['tubes'].append([x, y - 0.07, z])
+    lv = lvof(y); FIXP.place(fm((x, y, z)), lv); LIGHTS['tubes'].append([x, y - 0.05, z])
     CL.glow(root, 'tube', x, y - 0.12, z, color='rgba(255,244,226,1)', size=1.8, day=0.35, night=1.0)
 TRK = [(-6.0, 0.8, -1.75, 7), (-5.6, -2.0, 2.2, 4)]
 pt_ = Part('track', lv=1)
@@ -571,11 +569,11 @@ for k in range(3):
         u.rect(cc, r_, up, hw, hh, bw, both=True)
     crb(p['vcm'], xa, xb, ty + hb - 0.008, ty + hb, za, za + 0.008, '#e8e8e4', r=0); crb(p['vcm'], xa, xb, ty + hb - 0.008, ty + hb, zb - 0.008, zb, '#e8e8e4', r=0)
     p.done()
-    for j in range(30):                                                                              # 網球堆（上面一層冒出來＋側面看得到的）
+    for j in range(26):                                                                              # 網球堆（上面一層冒出來＋側面看得到的）
         bx_ = xa + 0.04 + (j % 6) * ((xb - xa - 0.08) / 5); bz_ = za + 0.05 + (j // 6) * ((zb - za - 0.1) / 5)
         h_ = ty + hb - 0.035 + random.uniform(-0.02, 0.03) - (0.02 if (j % 6) in (0, 5) else 0)
         BALL_T.place(fm((bx_ + random.uniform(-0.01, 0.01), h_, bz_ + random.uniform(-0.01, 0.01)), rot('Y', random.uniform(0, 6.28))))
-    for j in range(6): BALL_T.place(fm((xb - 0.04, ty + 0.02 + (j % 3) * 0.07, za + 0.08 + (j // 3) * 0.3), rot('Y', random.uniform(0, 6.28))))
+    for j in range(3): BALL_T.place(fm((xb - 0.04, ty + 0.02 + (j % 3) * 0.07, za + 0.15), rot('Y', random.uniform(0, 6.28))))
 # 排球（一層：前排＋後排）、籃球（兩層）
 for (proto, y, r, gap) in ((BALL_V, br['tiers'][1], 0.105, 0.222), (BALL_B, br['tiers'][2], 0.121, 0.248), (BALL_B, br['tiers'][3], 0.121, 0.248)):
     for row, xo in ((0, bx1 - r - 0.03), (1, bx0 + r + 0.04)):
@@ -641,7 +639,7 @@ for k, (x, z, ry) in enumerate(((-0.33, 0.12, 0.25), (0.0, 0.05, 0.12), (0.31, 0
 # 人台（深藍運動 T、白色側邊、深藍球褲；黑色立桿、方形底座）——有肩、腰、手臂的弧度（不是方塊拼的）
 # ======================================================================
 mq = I1('mannequin'); MQT = fm((mq['x'], 0, mq['z']), rot('Y', mq['ry']))
-pm = Part('mannequin', T=MQT @ Matrix.Scale(1.08, 4)); c = pm['vc']
+pm = Part('mannequin', T=MQT @ Matrix.Scale(1.08, 4) @ Matrix.Diagonal((1.16, 1.16, 1.0, 1.0))); c = pm['vc']   # v3b：加粗（寬、厚 ×1.16）
 NV, WH, SKIN = '#1f2d55', '#eeede8', '#e9e6e0'
 crb(c, -0.2, 0.2, 0.0, 0.025, -0.2, 0.2, '#1c1c1e', r=0.008); ccyl(c, (0, 0.025, 0), (0, 0.78, 0), 0.018, '#1c1c1e', seg=8)
 ccyl(c, (0, 0.025, 0), (0, 0.06, 0), 0.05, '#1c1c1e', seg=10)
@@ -705,12 +703,36 @@ p = Part('rack_b', T=RBT); rack_frame(p, rb_['len'], y_rail=1.48); p.done()
 hang_row(0, RBT, rb_['len'], 1.48, ['maroon', 'white', 'white', 'red', 'white', 'navy', 'navy', 'black'], gap=0.13, yaw=-0.95, lite=True)
 rc = I1('rack_c'); RCT = fm((rc['x'], 0, rc['z']), rot('Y', rc['ry']))
 p = Part('rack_c', T=RCT); rack_frame(p, rc['len'], y_rail=1.55); p.done()
-hang_row(0, RCT, rc['len'], 1.55, ['black', 'navy', 'grey', 'royal', 'black', 'heather', 'green'], style='jacket', gap=0.11, lite=True)
+hang_row(0, RCT, rc['len'], 1.55, ['black', 'navy', 'grey', 'royal', 'black', 'heather', 'green'], style='jacket', gap=0.2, lite=True)
 # 摺好的運動 T（衣架 A 的底板上）、試穿鏡（柱子上）
 fd_ = Part('folded', T=RAT); c = fd_['vc']
 for k, cn in enumerate(['navy', 'white', 'red', 'grey']):
     for j in range(4): crb(c, -0.7 + k * 0.3, -0.45 + k * 0.3, 0.14 + j * 0.03, 0.17 + j * 0.03, -0.17, 0.15, jit(COL[cn], 0.05), r=0.01)
 fd_.done()
+
+# v3b：圓形衣架（中間地板）、店門右邊的直衣架、球鞋展示台
+rr_ = I1('round_rack'); p = Part('round_rack'); cm = p['vcm']; R0 = rr_['r']
+for k in range(16):
+    a0, a1 = 2 * math.pi * k / 16, 2 * math.pi * (k + 1) / 16
+    ccyl(cm, (rr_['x'] + R0 * math.cos(a0), 1.42, rr_['z'] + R0 * math.sin(a0)), (rr_['x'] + R0 * math.cos(a1), 1.42, rr_['z'] + R0 * math.sin(a1)), 0.012, CHROME, seg=5, caps=False)
+ccyl(cm, (rr_['x'], 0.04, rr_['z']), (rr_['x'], 1.42, rr_['z']), 0.02, CHROME, seg=8)
+for k in range(4): a = math.pi / 4 + k * math.pi / 2; ccyl(cm, (rr_['x'], 1.42, rr_['z']), (rr_['x'] + R0 * math.cos(a), 1.42, rr_['z'] + R0 * math.sin(a)), 0.008, CHROME, seg=4, caps=False)
+clathe(cm, [(0, 0), (0.3, 0), (0.3, 0.03), (0.04, 0.045), (0, 0.045)], rr_['x'], 0, rr_['z'], '#3a3c40', seg=16)
+p.done()
+RCOL = ['navy', 'white', 'red', 'royal', 'white', 'grey', 'navy', 'maroon', 'white', 'sky', 'navy', 'red', 'white', 'black']
+for k in range(14):   # 一圈：衣服的面和桿垂直（正面朝圓的切線方向）
+    a = 2 * math.pi * k / 14; x = rr_['x'] + R0 * math.cos(a); z = rr_['z'] + R0 * math.sin(a)
+    G_('tee', RCOL[k], lite=True).place(fm((x, 1.42, z), rot('Y', -a)))
+re_ = I1('rack_e'); RET = fm((re_['x'], 0, re_['z']), rot('Y', re_['ry']))
+p = Part('rack_e', T=RET); rack_frame(p, re_['len'], y_rail=1.35); p.done()
+hang_row(0, RET, re_['len'], 1.35, ['navy', 'black', 'navy', 'grey', 'royal'], style='shorts', gap=0.1, lite=True)
+st_ = I1('shoe_table'); tx0, tx1, tz0, tz1 = st_['x'] - st_['w'] / 2, st_['x'] + st_['w'] / 2, st_['z'] - st_['d'] / 2, st_['z'] + st_['d'] / 2
+p = Part('shoe_table'); p['wood'].rbox(tx0, tx1, st_['h'] - 0.04, st_['h'], tz0, tz1, r=0.01)
+p['wood'].rbox(tx0 + 0.05, tx1 - 0.05, 0.0, st_['h'] - 0.04, tz0 + 0.05, tz1 - 0.05, r=0.01)
+crb(p['vc'], tx0 + 0.06, tx1 - 0.06, 0.0, 0.05, tz0 + 0.06, tz1 - 0.06, '#2a2622', r=0.004)
+p['goods'].rect((st_['x'] + 0.3, st_['h'] + 0.002, tz1 - 0.1), (1, 0, 0), (0, 0, -1), 0.05, 0.025, ATL['tag6']); p.done()
+for k, (dx_, dz_, a) in enumerate(((-0.33, -0.1, 0.4), (-0.1, 0.12, -0.3), (0.15, -0.12, 0.2), (0.35, 0.1, -0.5), (-0.38, 0.15, 2.6), (0.1, -0.05, 3.3))):
+    SHOE[k % len(SHOE)].place(fm((st_['x'] + dx_, st_['h'], st_['z'] + dz_), rot('Y', a)))
 
 # ======================================================================
 # 水壺雙面架（四層木層板；最下層毛巾）＋端架（運動襪吊卡）
@@ -842,7 +864,7 @@ pcs.done()
 # ======================================================================
 
 
-def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side):
+def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side, boxes=False):
     """牆上的層板（每層一排鞋，鞋尖朝店內稍微斜著）：sgn＝往室內的方向（+1＝往 +x）"""
     p = Part(name, side=side); w_, cm, gd = p['wood'], p['vcm'], p['goods']; dep = 0.32
     xa, xb = (x_wall, x_wall + dep) if sgn > 0 else (x_wall - dep, x_wall)
@@ -852,6 +874,13 @@ def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side):
         w_.rbox(xa, xb, y - 0.022, y, za, zb, r=0.005)
         z = za + 0.4
         while z < zb - 0.2: gd.rect((xb + 0.003 if sgn > 0 else xa - 0.003, y - 0.011, z), (0, 0, -sgn), (0, 1, 0), 0.035, 0.011, ATL[f'tag{random.randrange(8)}']); z += 0.9
+    if boxes:   # 鞋盒一疊一疊（側面朝走道）
+        for y in tiers:
+            z = za + 0.08
+            while z < zb - 0.35:
+                for j in range(2): gd.box((xa + xb) / 2, y + 0.06 + j * 0.12, z + 0.16, 0.28, 0.12, 0.32, random.choice(['sb_w', 'sb_o', 'sb_b', 'sb_k']), front='+x' if sgn > 0 else '-x')
+                z += 0.36
+        p.done(); return 0
     p.done(); k = 0
     for y in tiers:
         z = za + 0.2
@@ -862,8 +891,8 @@ def shoe_wall(name, x_wall, sgn, za, zb, tiers, gap, side):
     return k
 
 
-ns1 = shoe_wall('shoe_left', XI0, 1, 0.75, 7.25, [0.4, 0.95, 1.5], 0.42, 'left')
-ns2 = shoe_wall('shoe_right', XI1, -1, -3.0, 5.7, [0.45, 1.0, 1.55], 0.95, 'right')
+ns1 = shoe_wall('shoe_left', XI0, 1, 0.75, 7.25, [0.4, 0.95, 1.5], 0.5, 'left')
+ns2 = shoe_wall('shoe_right', XI1, -1, -3.0, 5.7, [0.45, 1.0, 1.55], 0.95, 'right', boxes=True)
 for bn in IT['bench']:
     p = Part('bench'); x, z, bw, bd = bn['x'], bn['z'], bn['w'], bn['d']
     p['wood'].rbox(x - bw / 2, x + bw / 2, 0.38, 0.42, z - bd / 2, z + bd / 2, r=0.012)

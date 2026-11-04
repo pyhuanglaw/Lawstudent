@@ -18,6 +18,10 @@
 # ===== BB 08:35：v9.10.17 已上線，線上版驗證（PC 才連得到 github.io）。測試程式取自發布樹 1d0904473 =====
 # ===== P0（BB 11:32，使用者經 LAWWW：「要瀏覽器測試的請 bb 優先建」）：v9.10.18 發布樹 0776cafc8（候選 ffeec06e0＋版本字樣），TESTING.md 第五節，排最前面 =====
 # ===== BB 12:12：v9.10.18 已上線（main e8b6a84dd，PR #24）：線上版驗證，測試程式取自發布樹 0776cafc8 =====
+# ===== P0（BB 00:43）：使用者 1104 卡住的存檔，最前面；main 先、開發分支後 =====
+STUCK_1104_main | e1603907e | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+STUCK_1104_dev  | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_stuck1104_probe.py | index.html | 60 | CC_HEADLESS=0
+PE644b | d5138cd27 | probe | docs/story_planning/test_tools/cc/cc_pe_aa644_probe.py | index.html | 50 | CASES=normal,name,swim,swim_closed,late,absent,econ_ff,econ;CC_HEADLESS=0
 # ===== CC 23:0x 順序（BB 22:59）：YT3FM 四支 → 體育課在館裡（PE）、大地圖直接過去（MAP）→ N20 其他 → YT3 → ART；店面渲染最後（等 LAWWW2 的規則）=====
 # （PE_fix 4ce25dc1d 要 PASS、PE_ctl c6814325c（修正前）A 要 FAIL；MAP_fix f157d0ff6 要 PASS、MAP_ctl bf6dbda44（還有「帶我去」）① 要 FAIL；BB 23:0x 改條件）
 YT3FM_new  | 9d8e00fdc | probe | docs/story_planning/test_tools/cc/cc_yt_newgame_fm120_probe.py | index.html | 5 | CC_HEADLESS=0
@@ -39,7 +43,7 @@ YT3-E2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_prob
 YT3-B2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 10 | CASES=ev5;CASE_S=900;CC_HEADLESS=0
 MD_haopai_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
 MD_dabu_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
-MD_tx_v4 | f148ac83b | blender | tools/blender/env_second/bb_support/tongxian_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} --views docs/story_planning/CC/shots/model/tongxian/tongxian_v4_views.json --res 1672x941 --sun 2.4 --exposure 0.15
+MD_tx_v4b | 28fbc3133 | blender | tools/blender/env_second/bb_support/tongxian_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} --views docs/story_planning/CC/shots/model/tongxian/tongxian_v4_views.json --res 1672x941 --sun 2.4 --exposure 0.15
 MD_xinsheng_v3 | 481e86ff7 | blender | tools/blender/env_second/bb_support/xinsheng_render.py | index.html | 120 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/xinsheng_sports.glb {out} --views docs/story_planning/CC/shots/model/xinsheng/xinsheng_v3_views.json --res 1672x941 --tube 40 --fill 120 --win 200 --fill1 45
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
 MAP_ctl    | bf6dbda44 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CASES=M,P;CC_HEADLESS=0
@@ -75,6 +79,8 @@ N20X_xs_u   | aa8cb5beb | node | tests/xinsheng_unit.js | index.html | 5 |
 N20X_flow | aa8cb5beb | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 60 | CASES=a,b,c,shots;CC_HEADLESS=0
 ART_V20_SIX | a141fce2c | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 10 | CASES=sixlaw;CC_HEADLESS=0
 ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
+N20_f606c     | 1ec7c8634 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
+N20_f606c_ctl | 3139e7b68 | probe | docs/story_planning/test_tools/cc/cc_bohan_card_walk_probe.py | index.html | 60 | CASES=goclass,sit;CC_HEADLESS=0
 MD_tx_v3    | eb5dc11dc | blender | docs/story_planning/test_tools/cc/blender/render_tx.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/tongxian.glb {out} docs/story_planning/test_tools/cc/blender/tx_views.json
 MD_dabu_v1 | 5cac0555e | blender | tools/blender/env_second/render_cycles.py | index.html | 60 | SCRIPT_FROM=lawww2;CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} dabu docs/story_planning/test_tools/cc/blender/dabu_views.json --res 960x540 --samples 64 --exposure -0.3 --point -2.9,3.25,-6.5,45 --point -2.9,3.25,-3.5,45 --point -2.9,3.25,-0.5,45 --point -2.9,3.25,2.5,45 --point -2.9,3.25,5.5,45 --point 0.3,3.25,-6.5,45 --point 0.3,3.25,-3.5,45 --point 0.3,3.25,-0.5,45 --point 0.3,3.25,2.5,45 --point 0.3,3.25,5.5,45 --point 3.0,3.25,-6.5,45 --point 3.0,3.25,-3.5,45 --point 3.0,3.25,-0.5,45 --point 3.0,3.25,2.5,45 --point 3.0,3.25,5.5,45
 # （MD_dabu_v1：使用者 11-03 22:2x「還沒做好的繼續」；大步第一版正式渲染，五個視角）
