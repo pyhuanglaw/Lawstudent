@@ -33,6 +33,11 @@ BIKE_shop | 555b9e0cb | probe | docs/story_planning/test_tools/cc/cc_bike_shop_p
 WZ_A5_shot | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_wz_a5_shot_probe.py | index.html | 15 | CC_HEADLESS=0
 CVS24 | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_cvs24_probe.py | index.html | 60 | CC_HEADLESS=0
 N20X_nichijo2 | 27970f958 | probe | docs/story_planning/test_tools/cc/cc_n20x_xinsheng_flow_probe.py | index.html | 80 | CASES=nichijo_enter,nichijo_order,nichijo_cat,nichijo_game,nichijo_close;CC_HEADLESS=0
+# ===== GG_ext 重跑（BB 03:34；LAWWW2 修騎樓盆栽、書店出口、青木、減 draw call；637ee6982；擋 v9.10.20，排 GG_int 前）=====
+GG_ext_nav2 | 637ee6982 | game | tests/gongguan_layout_nav.py | index.html | 40 | CC_HEADLESS=0
+GG_ext_glb2 | 637ee6982 | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
+GG_perf | 637ee6982 | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 30 | CC_HEADLESS=0
+GG_perf_ctl | c7fde4f3e | probe | docs/story_planning/test_tools/cc/cc_gg_perf_probe.py | index.html | 30 | CC_HEADLESS=0
 # ===== GG_int（BB 03:04；公館三間新室內＋溫州街日和 bike.zone；cb1d84290；排 STUDY 前）=====
 GG_int_cvs | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 40 | CASES=cvs;CC_HEADLESS=0
 GG_int_aoki | cb1d84290 | probe | docs/story_planning/test_tools/cc/cc_gg_int_probe.py | index.html | 60 | CASES=aoki;CC_HEADLESS=0
