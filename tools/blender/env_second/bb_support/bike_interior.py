@@ -36,6 +36,7 @@ for i in ITL: IT.setdefault(i['kind'], i)
 PT = LAY['partition']
 random.seed(646)
 B.reset(texres=1024)
+L.Mesh.rbox.__defaults__ = (0.03, 1)   # 倒角一段就好（木條、門框：三段的倒角在這個距離看不出來，三角形多三倍）
 root = B.group('bike_interior', props={'kind': 'bike_interior', 'w': W, 'd': D, 'h': H, 'layout': 1})
 DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
 
@@ -55,7 +56,7 @@ def img_mat(name, fn, rough=0.6, emit=0.0, clip=False, metal=0.0, tile=1.0, cull
 P = 'bk_'
 # 11 個材質：地板（自製）、牆、天花板（外露的水泥）、木頭（Poly Haven CC0）＋頂點色（霧面、金屬）＋玻璃＋透明圖集、印刷圖集、會亮的、招牌
 M = {
-    'floor': img_mat(P + 'floor_tile', 'bike_floor.png', rough=0.32, tile=1.2),
+    'floor': img_mat(P + 'floor_tile', 'bike_floor.png', rough=0.26, tile=1.2),
     'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d2c2a4', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.9),
     'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#a39482', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
     'wood': L.pbr(P + 'wood', 'fine_grained_wood', tile=0.9, target='#c29a6c', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.55),
@@ -187,8 +188,9 @@ def ccyl(c, a, b, r, col, seg=8, r2=None, caps=True):
 
 def cpath(c, pts, r, col, seg=6):
     """一串點連成的管子（彎的車架、把手、水管）"""
-    for a, b in zip(pts, pts[1:]): ccyl(c, a, b, r, col, seg=seg)
-    for p in pts[1:-1]: csph(c, p, r * 1.02, col, seg=seg, rings=3)
+    for a, b in zip(pts, pts[1:]): ccyl(c, a, b, r, col, seg=seg, caps=False)
+    if r >= 0.01:
+        for p in pts[1:-1]: csph(c, p, r * 1.02, col, seg=seg, rings=3)
 
 
 def clathe(c, prof, x, y, z, col, seg=16, R=None):
@@ -196,7 +198,7 @@ def clathe(c, prof, x, y, z, col, seg=16, R=None):
 
 
 def crb(c, x0, x1, y0, y1, z0, z1, col, r=0.01, seg=1):
-    if r <= 0.0005: return c.cbox(x0, x1, y0, y1, z0, z1, col)
+    if r <= 0.0005 or max(abs(x1 - x0), abs(y1 - y0), abs(z1 - z0)) < 0.13: return c.cbox(x0, x1, y0, y1, z0, z1, col)   # 小東西不倒角（看不出來，省三角形）
     return c.crbox(x0, x1, y0, y1, z0, z1, col, r=r, seg=seg)
 
 
@@ -265,8 +267,8 @@ def wheel_proto(R, t, rim, spokes, side):
 
     def build(pt):
         c, cm = pt['vc'], pt['vcm']
-        torus(c, R - t, t, '#1f1e1d', su=28, sv=5, tz=t * 1.05)                                   # 外胎（胎面）
-        torus(cm if rim != '#2a2b2d' else c, R - 2 * t - 0.009, 0.009, rim, su=28, sv=4, tz=0.011)   # 輪框
+        torus(c, R - t, t, '#1f1e1d', su=24, sv=4, tz=t * 1.05)                                   # 外胎（胎面）
+        torus(cm if rim != '#2a2b2d' else c, R - 2 * t - 0.009, 0.009, rim, su=24, sv=3, tz=0.011)   # 輪框
         pt['alpha'].disk((0, 0, 0), R - 2 * t - 0.012, f'spokes{spokes}', n=20, z_off=0.004)       # 輻條（卡片，兩面）
         ccyl(cm, (0, 0, -0.05), (0, 0, 0.05), 0.016, '#a9adb0', seg=8)                              # 花鼓
         ccyl(cm, (0, 0, -0.065), (0, 0, 0.065), 0.005, '#8d9196', seg=4)                            # 軸
@@ -413,12 +415,18 @@ for zb in (3.0, 0.2, -2.8):   # 外露的樑（沿 x）
 bm_['ceil'].box(XI0, XI0 + 0.3, H - 0.42, H, ZI0, ZI1); bm_['ceil'].box(XI1 - 0.3, XI1, H - 0.42, H, ZI0, ZI1)
 bm_.done()
 pp = Part('pipes')   # 管線（沿 z）：消防水管、電線導管、一支往下接到日光燈
-for (x, y, r, col) in ((-1.4, H - 0.12, 0.045, '#b9b2a6'), (0.55, H - 0.1, 0.03, '#a9a49a'), (0.72, H - 0.1, 0.018, '#c9c4b8'), (2.45, H - 0.13, 0.055, '#b0aaa0'), (3.25, H - 0.08, 0.02, '#8d8a84')):
+for (x, y, r, col) in ((-1.4, H - 0.12, 0.045, '#b9b2a6'), (0.55, H - 0.1, 0.03, '#a9a49a'), (0.72, H - 0.1, 0.018, '#c9c4b8'), (2.45, H - 0.13, 0.055, '#b0aaa0'), (2.85, H - 0.08, 0.02, '#8d8a84')):
     ccyl(pp['vcm'], (x, y, ZI1), (x, y, ZI0), r, col, seg=8)
     zz = ZI1 - 0.6
     while zz > ZI0:
         crb(pp['vcm'], x - r - 0.01, x + r + 0.01, y - r - 0.01, H, zz - 0.012, zz + 0.012, '#6f6b64', r=0.002); zz -= 1.5   # 吊架
 for zz in (4.2, 1.6, -1.6, -4.2): ccyl(pp['vcm'], (XI0 + 0.32, H - 0.2, zz), (XI1 - 0.32, H - 0.2, zz), 0.016, '#a9a49a', seg=6)   # 橫的導管
+for xt in (-1.95, 1.95):   # 電纜線槽（沿 z、掛在天花板下；參考圖兩側上方一條一條的線槽）
+    crb(pp['vcm'], xt - 0.12, xt + 0.12, H - 0.3, H - 0.26, ZI0 + 0.2, ZI1 - 0.1, '#8d8a84', r=0.003)
+    for sx_ in (-1, 1): crb(pp['vcm'], xt + sx_ * 0.12 - 0.006, xt + sx_ * 0.12 + 0.006, H - 0.3, H - 0.22, ZI0 + 0.2, ZI1 - 0.1, '#8d8a84', r=0.002)
+    for k in range(3): ccyl(pp['vc'], (xt - 0.06 + k * 0.05, H - 0.245, ZI1 - 0.1), (xt - 0.06 + k * 0.05, H - 0.245, ZI0 + 0.2), 0.008, ['#2a2b2d', '#d8d2c4', '#2a2b2d'][k], seg=4)
+    zz = ZI1 - 0.6
+    while zz > ZI0 + 0.2: ccyl(pp['vcm'], (xt, H - 0.26, zz), (xt, H, zz), 0.005, '#6f6b64', seg=4); zz -= 1.8
 pp.done()
 for side in ('left', 'right', 'back'):
     p = Part('wall', side=side, smooth=False)
@@ -463,8 +471,8 @@ mat_ = Part('doormat'); crb(mat_['vc'], da + 0.1, db - 0.1, 0.0, 0.012, ZI1 - 0.
 # ======================================================================
 def pendant_build2(pt):
     c = pt['vc']
-    clathe(c, [(0.205, -0.17), (0.2, -0.16), (0.17, -0.1), (0.1, -0.05), (0.05, -0.02), (0.03, 0.0), (0.02, 0.04), (0.0, 0.045)], 0, 0, 0, '#2f4a3a', seg=18)
-    clathe(c, [(0.0, -0.015), (0.045, -0.03), (0.095, -0.06), (0.165, -0.105), (0.193, -0.162)], 0, 0, 0, '#efe6d2', seg=18)
+    clathe(c, [(0.205, -0.17), (0.2, -0.16), (0.17, -0.1), (0.1, -0.05), (0.05, -0.02), (0.03, 0.0), (0.02, 0.04), (0.0, 0.045)], 0, 0, 0, '#2f4a3a', seg=14)
+    clathe(c, [(0.0, -0.015), (0.045, -0.03), (0.095, -0.06), (0.165, -0.105), (0.193, -0.162)], 0, 0, 0, '#efe6d2', seg=14)
     ccyl(pt['vcm'], (0, -0.03, 0), (0, -0.07, 0), 0.025, '#b49a5a', seg=8)
     u = pt['emit']; bu = ATL['bulb']; uv = ((bu[0] + bu[2]) / 2, (bu[1] + bu[3]) / 2)
     prof = [(0.0, -0.07), (0.035, -0.085), (0.046, -0.115), (0.03, -0.142), (0.0, -0.148)]; n = 10; rings = []
@@ -475,7 +483,7 @@ def pendant_build2(pt):
 
 
 PEND = Proto('pendant', pendant_build2)
-PENDS = [(-2.05, 2.72, 3.95), (2.6, 2.72, 3.95), (-1.35, 2.8, 1.05), (2.15, 2.8, 1.1), (1.95, 2.85, -1.85), (1.3, 2.9, -3.75), (2.7, 2.95, -4.5), (0.6, 2.95, -4.9)]
+PENDS = [tuple(p) for p in LAY['lights']['pendants']]
 cords = Part('cords')
 for (x, y, z) in PENDS:
     PEND.place(fm((x, y, z)))
@@ -496,7 +504,7 @@ def fixture_build(pt):
 
 
 FIXP = Proto('fixture', fixture_build)
-FIX = [(-3.25, 4.4, 'z', H), (-3.25, 1.6, 'z', H), (3.25, 4.4, 'z', H), (3.25, 1.6, 'z', H), (1.6, -1.5, 'x', H), (1.6, -4.3, 'x', H), (-2.0, -0.4, 'x', H)]
+FIX = [(x, z, ax, H) for x, z, ax in LAY['lights']['tubes']]
 for x, z, ax, yc in FIX:
     FIXP.place(fm((x, yc, z), rot('Y', math.pi / 2) if ax == 'x' else None))
     CL.glow(root, 'tube', x, yc - 0.12, z, color='rgba(255,246,228,1)', size=1.8, day=0.3, night=1.0)
@@ -526,11 +534,11 @@ def platform(it, front_x, face):
     for k in range(n + 1):
         zz = za + k * cw; wd_.rbox(fx - sg * 0.04, fx, 0.04, h - 0.035, zz - 0.02, zz + 0.02, r=0.004)   # 格子的隔板
     wd_.rbox(min(fx, fx - sg * 0.04), max(fx, fx - sg * 0.04), 0.04, 0.06, za, zb, r=0.003)
-    c.cbox(min(fx - sg * 0.3, fx - sg * 0.04), max(fx - sg * 0.3, fx - sg * 0.04), 0.04, h - 0.035, za, zb, '#4a3a2c')   # 格子裡面（暗）
+    c.cbox(min(fx - sg * 0.36, fx - sg * 0.34), max(fx - sg * 0.36, fx - sg * 0.34), 0.04, h - 0.035, za, zb, '#4a3a2c')   # 格子的背板（暗）
     for k in range(n):
         zc = za + (k + 0.5) * cw
         if (k * 7 + (1 if face == 'L' else 3)) % 5 == 2: continue
-        bx0, bx1 = (fx - sg * 0.32, fx - sg * 0.05)
+        bx0, bx1 = (fx - sg * 0.33, fx - sg * 0.065)
         crb(c, min(bx0, bx1), max(bx0, bx1), 0.06, h - 0.06, zc - cw / 2 + 0.05, zc + cw / 2 - 0.05, jit('#4f6248', 0.04), r=0.015)   # 綠色收納箱
         crb(c, min(fx - sg * 0.051, fx - sg * 0.049), max(fx - sg * 0.051, fx - sg * 0.049), 0.16, 0.19, zc - 0.07, zc + 0.07, '#2c3a2a', r=0.004)
     p.done()
@@ -567,10 +575,10 @@ def frame_on_wall(p, x, y, z, w, h, cell, axis='x', sgn=1, fcol='#6b4a30', depth
         p['goods'].rect((x, y, z + sgn * (depth + 0.001)), (sgn, 0, 0), (0, 1, 0), w / 2, h / 2, ATL[cell] if isinstance(cell, str) else cell)
 
 
-frame_on_wall(pl, xw, 2.05, 5.5, 0.5, 0.73, 'anatomy')
-frame_on_wall(pl, xw, 1.28, 5.5, 0.5, 0.35, 'photo_street')
-pl['wood'].rbox(XI0, XI0 + 0.26, 2.72, 2.75, 5.05, 5.85, r=0.004)
-for zz in (5.15, 5.75): ccyl(pl['vcm'], (XI0, 2.62, zz), (XI0 + 0.22, 2.72, zz), 0.006, '#2a2b2d', seg=4)
+frame_on_wall(pl, xw, 2.2, 4.35, 0.5, 0.73, 'anatomy')
+frame_on_wall(pl, xw, 1.43, 4.35, 0.5, 0.35, 'photo_street')
+pl['wood'].rbox(XI0, XI0 + 0.26, 2.92, 2.95, 4.0, 4.8, r=0.004)
+for zz in (4.1, 4.7): ccyl(pl['vcm'], (XI0, 2.82, zz), (XI0 + 0.22, 2.92, zz), 0.006, '#2a2b2d', seg=4)
 pl.done()
 
 
@@ -595,7 +603,7 @@ def pothos(name, x, y, z, side=None, n=40, spread=0.55, drop=1.0, pot='#e8e3d6',
     p.done()
 
 
-pothos('pothos_tl', XI0 + 0.14, 2.75, 5.45, side='left', drop=0.9, dirx=1)
+pothos('pothos_tl', XI0 + 0.14, 2.95, 4.4, side='left', drop=0.9, dirx=1)
 # 低櫃（櫃台後面靠左牆）：三層木板、資料夾、書、紙箱；下面綠色鐵櫃
 ls = IT['low_shelf_left']; lx0, lx1, lz0, lz1, lh = XI0, XI0 + ls['w'], ls['z'] - ls['d'] / 2, ls['z'] + ls['d'] / 2, ls['h']
 pl2 = Part('low_shelf', side='left'); w_, c, g = pl2['wood'], pl2['vc'], pl2['goods']
@@ -603,11 +611,10 @@ for y in (0.55, 1.0, lh - 0.03): w_.rbox(lx0, lx1, y, y + 0.03, lz0, lz1, r=0.00
 for zz in (lz0, (lz0 + lz1) / 2, lz1): w_.rbox(lx0, lx1, 0.55, lh, zz - 0.015, zz + 0.015, r=0.004)
 crb(c, lx0, lx1, 0.0, 0.55, lz0 + 0.02, lz0 + 1.2, '#4c5d4a', r=0.01)   # 綠色鐵櫃
 for k in range(2): c.cbox(lx1, lx1 + 0.004, 0.06, 0.5, lz0 + 0.04 + k * 0.58, lz0 + 0.6 + k * 0.58, '#56685a'); crb(c, lx1, lx1 + 0.02, 0.4, 0.44, lz0 + 0.5 + k * 0.58, lz0 + 0.56 + k * 0.58, '#c9ccce', r=0.004)
-g.box(lx0 + 0.18, 0.75, lz0 + 1.6, 0.28, 0.38, 0.6, 'spines', front='+x', cells={'+x': sub('spines', 0, 0, 0.5, 1)})
-g.box(lx0 + 0.17, 0.76, lz0 + 2.2, 0.26, 0.4, 0.5, 'spines', front='+x', cells={'+x': sub('spines', 0.5, 0, 1, 1)})
-g.box(lx0 + 0.17, 1.17, lz0 + 1.65, 0.3, 0.3, 0.45, 'kraft0', front='+x'); g.box(lx0 + 0.16, 1.15, lz0 + 2.25, 0.28, 0.26, 0.4, 'kraft3', front='+x')
-g.box(lx0 + 0.17, 1.26, lz0 + 0.6, 0.3, 0.2, 0.36, 'pack1', front='+x'); g.box(lx0 + 0.17, 0.66, lz0 + 0.5, 0.28, 0.2, 0.34, 'pack0', front='+x')
-g.box(lx0 + 0.18, lh + 0.12, lz0 + 1.0, 0.3, 0.24, 0.5, 'kraft4', front='+x'); g.box(lx0 + 0.17, lh + 0.1, lz0 + 1.9, 0.28, 0.2, 0.5, 'pack5', front='+x')
+g.box(lx0 + 0.16, 0.75, lz0 + 1.3, 0.28, 0.38, 0.55, 'spines', front='+x', cells={'+x': sub('spines', 0, 0, 0.5, 1)})
+g.box(lx0 + 0.15, 1.17, lz0 + 1.3, 0.26, 0.3, 0.5, 'kraft0', front='+x'); g.box(lx0 + 0.15, 1.15, lz0 + 1.75, 0.24, 0.26, 0.36, 'kraft3', front='+x')
+g.box(lx0 + 0.15, 1.12, lz0 + 0.55, 0.26, 0.2, 0.36, 'pack1', front='+x'); g.box(lx0 + 0.15, 1.24, lz0 + 0.95, 0.26, 0.44, 0.34, 'spines', front='+x', cells={'+x': sub('spines', 0.5, 0, 1, 1)})
+g.box(lx0 + 0.16, lh + 0.12, lz0 + 0.6, 0.28, 0.24, 0.5, 'kraft4', front='+x'); g.box(lx0 + 0.15, lh + 0.1, lz0 + 1.5, 0.26, 0.2, 0.5, 'pack5', front='+x')
 pl2.done()
 
 # ---------------- 櫃台（木頭、正面小招牌；上面的東西） ----------------
@@ -698,7 +705,7 @@ ps.done()
 def helmet_build(col, vent):
     def f(pt):
         c = pt['vc']; n0 = _N0(c)
-        bm = L.lathe([(0.125, 0.0), (0.13, 0.03), (0.122, 0.08), (0.1, 0.12), (0.06, 0.15), (0.0, 0.16)], seg=14)
+        bm = L.lathe([(0.125, 0.0), (0.13, 0.03), (0.122, 0.08), (0.1, 0.12), (0.06, 0.15), (0.0, 0.16)], seg=12)
         c.add_bm(bm, fm((0, 0, 0))); bm.free(); c.paint(_new(c, n0), col)
         for k in range(3): crb(c, -0.11 + k * 0.08, -0.07 + k * 0.08, 0.135 - abs(k - 1) * 0.02, 0.152 - abs(k - 1) * 0.02, -0.03, 0.03, vent, r=0.006)
         crb(c, -0.13, 0.13, 0.0, 0.012, -0.004, 0.004, '#2a2b2d', r=0.002)   # 帽沿的黑邊
@@ -764,7 +771,7 @@ for bi, y in enumerate(BOARDS):
                 crb(c, sx0 + 0.035, sx0 + 0.042, y + 0.025, y + 0.065, z - 0.045 - j * 0.09, z - 0.005 - j * 0.09, '#f4f0d0' if j != 1 else '#e04040', r=0.004)
             z -= 0.4
         elif kind == 'bottle':
-            for j in range(3): clathe(c, [(0.0, 0.0), (0.035, 0.0), (0.036, 0.17), (0.025, 0.2), (0.012, 0.21), (0.0, 0.215)], sx0 + 0.12, y + 0.01, z - 0.04 - j * 0.09, ['#2f6fb8', '#e8e6e0', '#3a7a4a'][j], seg=10)
+            for j in range(3): clathe(c, [(0.0, 0.0), (0.035, 0.0), (0.036, 0.17), (0.022, 0.2), (0.0, 0.205)], sx0 + 0.12, y + 0.01, z - 0.04 - j * 0.09, ['#2f6fb8', '#e8e6e0', '#3a7a4a'][j], seg=8)
             z -= 0.3
         else:
             for j in range(2): LOCK[j % 2].place(fm((sx0 + 0.1, y + 0.11, z - 0.07 - j * 0.15), rot('Y', math.pi / 2)))
@@ -801,7 +808,7 @@ ptr.done()
 
 
 def tire_build(R, t, col):
-    def f(pt): torus(pt['vc'], R - t, t, col, su=24, sv=4, tz=t * 1.1)
+    def f(pt): torus(pt['vc'], R - t, t, col, su=20, sv=4, tz=t * 1.1)
     return f
 
 
@@ -899,8 +906,8 @@ crb(c, -tc['w'] / 2 + 0.05, tc['w'] / 2 - 0.05, tc['h'], tc['h'] + 0.02, -tc['d'
 ptc.done()
 # 地上：一顆拆下來的輪子靠在工作台腳、紙箱
 LOOSE = wheel_proto(0.34, 0.016, '#b9bcbf', 36, None)
-LOOSE.place(fm((xb + 0.12, 0.34, zb + 0.18), rot('Y', -0.2) @ rot('X', 0.18)))
-fb_ = Part('floor_boxes'); fb_['goods'].box(3.05, 0.17, -3.25, 0.5, 0.34, 0.4, 'kraft2', front='-x'); fb_['goods'].box(3.08, 0.47, -3.28, 0.42, 0.26, 0.36, 'kraft6', front='-x'); fb_.done()
+LOOSE.place(fm((0.02, 0.35, -4.75), rot('Y', math.pi / 2 + 0.12)))   # 拆下來的輪子靠在鐵架尾端
+fb_ = Part('floor_boxes'); fb_['goods'].box(2.57, 0.17, -3.27, 0.5, 0.34, 0.4, 'kraft2', front='-x'); fb_['goods'].box(2.6, 0.47, -3.3, 0.42, 0.26, 0.36, 'kraft6', front='-x'); fb_.done()
 
 # ======================================================================
 for ob in list(root.children):
