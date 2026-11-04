@@ -1,0 +1,489 @@
+{
+ "console": [
+  {
+   "t": 1793775197.25,
+   "type": "warning",
+   "text": "星期和日期對不上，照行事曆改： 4 → 3"
+  },
+  {
+   "t": 1793775200.53,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775201.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.3,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.31,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.45,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.45,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.58,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.58,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.72,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.72,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.89,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775205.89,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.01,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.01,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.2,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.2,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.32,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.32,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.44,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.44,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.59,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.59,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.72,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.72,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.84,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775206.84,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.01,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.02,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.17,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.18,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.31,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.31,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.44,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.44,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.58,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.59,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.73,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.73,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.85,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.85,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.99,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775207.99,
+   "type": "warning",
+   "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+  },
+  {
+   "t": 1793775208.52,
+   "type": "warning",
+   "text": "[.WebGL-0x6bac02014e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  },
+  {
+   "t": 1793775208.52,
+   "type": "warning",
+   "text": "[.WebGL-0x6bac02014e00] GL_INVALID_VALUE: glTexSubImage2DRobustANGLE: Offset overflows texture dimensions."
+  }
+ ],
+ "diag": {
+  "snap": {
+   "v": 1,
+   "zone": "cvs",
+   "day": 7,
+   "hour": 15.445,
+   "dateKey": null,
+   "pos": {
+    "x": 0.43,
+    "z": 3.82,
+    "y": 0,
+    "lv": 0,
+    "yaw": 0.056
+   },
+   "player": {
+    "busy": true,
+    "frozen": false,
+    "pose": "idle",
+    "riding": false,
+    "seat": null,
+    "path": false
+   },
+   "paused": false,
+   "busyDepth": 1,
+   "dlg": true,
+   "adv": false,
+   "events": false,
+   "phone": false,
+   "entering": false,
+   "lastTalkError": null,
+   "goal": "—",
+   "money": 22000,
+   "flags": {
+    "introDone": true,
+    "campusIntro": true,
+    "readCase": "full",
+    "classDone": true,
+    "afternoonDone": true,
+    "metAn": true,
+    "zheNoodleDone": true,
+    "dating_kexin": true,
+    "KX_DEC3_MIGRATED": true,
+    "LIFELINE_V": 1,
+    "ROMANCE_HISTORY": [
+     {
+      "id": "kexin",
+      "from": "Y0",
+      "to": null,
+      "how": null
+     }
+    ],
+    "CLEANUP_DONE": true,
+    "romance": {
+     "kexin": {
+      "status": "dating",
+      "since": "Y0",
+      "knows": [],
+      "suspicion": 0,
+      "history": []
+     },
+     "heroine_01": {
+      "status": "none",
+      "since": null,
+      "knows": [],
+      "suspicion": 0,
+      "history": []
+     }
+    },
+    "knowsRel_V": 1,
+    "knowsRel": {},
+    "ytKnows": {},
+    "YT_CONFESSED": {},
+    "YT_PROMISED": {},
+    "YT_BROKE_PROMISE": {},
+    "YT_LIED": {},
+    "OPEN_OK": {},
+    "YT_HONEST": {},
+    "YT_DODGED": {},
+    "YT_INTENT": {},
+    "DATE_OVERNIGHT": {},
+    "NAMECARD_V": 1,
+    "YT_JOB_V": 1,
+    "HCIRCLE": {
+     "heard": {},
+     "once": {},
+     "intro": {}
+    },
+    "deptHear": {
+     "talk:椰": 1,
+     "政治:平常": 0,
+     "社工:平常": 0,
+     "物理:平常": 0,
+     "數學:平常": 0,
+     "資工:平常": 0,
+     "農藝:平常": 1,
+     "土木:平常": 1,
+     "中文:平常": 0,
+     "獸醫:平常": 0,
+     "戲劇:平常": 0,
+     "電機:平常": 1,
+     "歷史:平常": 1,
+     "化學:平常": 1,
+     "大氣:平常": 1,
+     "經濟:平常": 0,
+     "心理:平常": 1,
+     "醫學:平常": 1,
+     "外文:平常": 0,
+     "talk:館": 1,
+     "會計:平常": 0
+    },
+    "HEARD": {
+     "said": {},
+     "day": {},
+     "ph": {}
+    },
+    "BIKE_TIP": true,
+    "STUDY_AT_LAW": 0,
+    "CAREER_LEAN_V": 2,
+    "ZZ": {
+     "v": 1,
+     "state": "friends",
+     "since": 7,
+     "ev": {},
+     "yt": "none",
+     "sem": {},
+     "fy": null,
+     "f3": null,
+     "forceB": false,
+     "held": null,
+     "version": null,
+     "month": null,
+     "ending": null
+    },
+    "ZZ_STATE": "friends",
+    "ZZ_DATING": false,
+    "MREL": {
+     "v": 1,
+     "disc": {},
+     "pend": {},
+     "st": {},
+     "zr": {},
+     "zz": {},
+     "gh": {},
+     "scan": {},
+     "block": {},
+     "prom": {},
+     "once": {},
+     "like": {},
+     "liked": {},
+     "cpend": {},
+     "rb": {}
+    },
+    "PS_YC": {},
+    "CRACKTALK": {
+     "r": {
+      "heroine_01": {
+       "talked": {}
+      },
+      "heroine_03": {
+       "talked": {}
+      },
+      "classmate_peishan": {
+       "talked": {}
+      },
+      "heroine_02": {
+       "talked": {}
+      },
+      "heroine_04": {
+       "talked": {}
+      }
+     },
+     "seat": {},
+     "pc": {
+      "from": 0,
+      "note": {}
+     },
+     "src": {
+      "an1": {},
+      "an2": {
+       "used": {}
+      },
+      "yt2": {
+       "next": null
+      },
+      "ps": {
+       "visits": []
+      },
+      "zr": {},
+      "zq": {}
+     }
+    },
+    "V6EX": {
+     "starts": [],
+     "notes": []
+    },
+    "FEED": {
+     "start": 7,
+     "items": [],
+     "done": {
+      "kx1": "old",
+      "an1": "old",
+      "yt1": "old",
+      "zr1": "old"
+     },
+     "dm": {},
+     "seen": -1000000000,
+     "dq": [],
+     "dt": {},
+     "dtTrip": {}
+    },
+    "HASK": {
+     "sent": [],
+     "st": {},
+     "redo": [],
+     "plan": 7
+    },
+    "YL_PH": {},
+    "EF_PH": {},
+    "AA519": {
+     "talk": {}
+    },
+    "spreadScan": {},
+    "_bbqUntilFix": 1,
+    "dpDay": 7,
+    "dpN": {},
+    "kaiDorm": {},
+    "amb": {},
+    "CVS_FROM": "gongguan"
+   },
+   "invites": [],
+   "npcs": []
+  },
+  "bike": {
+   "riding": false,
+   "zone": "gongguan",
+   "x": -29.34681078850986,
+   "z": 20.938097385331364,
+   "yaw": -0.7044957977177173,
+   "kind": "city",
+   "color": null,
+   "owned": [
+    {
+     "kind": "city",
+     "color": null
+    }
+   ]
+  },
+  "bikeObjs": [],
+  "zone": "cvs"
+ }
+}
