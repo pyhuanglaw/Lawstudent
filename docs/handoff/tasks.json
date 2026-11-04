@@ -44973,7 +44973,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】AA-C 13:59：企劃線 voice_canon 17 份、口氣表、總表、二十幾份人物企劃／事件書不符的字都刪了（56cf47f22～6c6933175）；第三輪清範圍外的舊企劃稿｜【LAWWW-C 11-04 13:3x】AA-C 13:24：檔案留著、只刪不符的字——00_現行設定總表、00_人物口氣表、voice_canon 17 份、AA_10／113／11／112／545／12／159／162、BB_05／103／02／139／144；AA 派子代理分四組；遊戲 characters.js 的部分是 CANON-PURGE-SRC-1104（LAWWW）",
+   "next": "【LAWWW-C 11-04 15:3x】AA-C 15:29：企劃線四輪做完（約 70 份人物設定、企劃稿；最後 7ff6995a9）；遊戲端照 AA_661 做（CANON-PURGE-SRC-1104）｜【LAWWW-C 11-04 14:08】AA-C 13:59：企劃線 voice_canon 17 份、口氣表、總表、二十幾份人物企劃／事件書不符的字都刪了（56cf47f22～6c6933175）；第三輪清範圍外的舊企劃稿｜【LAWWW-C 11-04 13:3x】AA-C 13:24：檔案留著、只刪不符的字——00_現行設定總表、00_人物口氣表、voice_canon 17 份、AA_10／113／11／112／545／12／159／162、BB_05／103／02／139／144；AA 派子代理分四組；遊戲 characters.js 的部分是 CANON-PURGE-SRC-1104（LAWWW）",
    "source": "使用者 11-04 13:4x 對 AA-C（UA-AA-1104-19，AA-C 13:24 轉 LAWWW-C）",
    "authorized": "使用者直接要求",
    "xai": {
@@ -44989,7 +44989,7 @@
    "title": "遊戲 src/data/characters.js 刪改和現行人物設定不符的欄位（CANON-PURGE-1104 的程式部分；例：語彤 family_context 還是麵店、career_goal 舊志向、social_circle 的 sis）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -45001,7 +45001,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 11-04 14:08】AA-C 13:59 交清單 AA_661（企劃線 6c6933175；outbox 01ec77ae9）：47 項（女主角 28、其他 19；行號照 ebd44c2e3；撞時段的 AA 都定了）→ v9.10.20 以後派子代理改 characters.js、作息、事件退場｜【LAWWW-C 11-04 13:3x】等 AA-C 列清單（哪個人物、哪個欄位、改成什麼）；收到後改 characters.js、跑人物資料相關 Node 單元測試；台詞與畫面字樣照 AA 清單，不自己改設定",
+   "next": "【LAWWW-C 11-04 15:3x】AA_661 補到 91 項（企劃線 5df89d95a；65～85 語彤茶屋版換字、73 大四上告白照 AA_625 事件 16、86～91 旁白／CG title、85 記憶名稱匯入）；apply_line_table 空跑：自動 24、人工 67；派背景子代理在 worktree 做（不進 v9.10.20，候選 d3828452a），D113 檢查點 bundle 放 wip_backup/canon661/｜【LAWWW-C 11-04 14:08】AA-C 13:59 交清單 AA_661（企劃線 6c6933175；outbox 01ec77ae9）：47 項（女主角 28、其他 19；行號照 ebd44c2e3；撞時段的 AA 都定了）→ v9.10.20 以後派子代理改 characters.js、作息、事件退場｜【LAWWW-C 11-04 13:3x】等 AA-C 列清單（哪個人物、哪個欄位、改成什麼）；收到後改 characters.js、跑人物資料相關 Node 單元測試；台詞與畫面字樣照 AA 清單，不自己改設定",
    "source": "AA-C 11-04 13:24（使用者 13:4x UA-AA-1104-19）",
    "authorized": "使用者直接要求",
    "pausedReason": "v9.10.20 擋發布項目先做",
