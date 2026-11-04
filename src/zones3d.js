@@ -1390,10 +1390,10 @@ const Z3 = (function(){
   const GG_LIT_ZONE={ggtea:'aoki',ggbook:'bookstore',ggcvs:'cvs',ggyy:'yangyang',ggbike:'bikeshop',ggafar:'afar',ggcorner:'corner_records',ggdb:'daybreak'};   /* 洋洋、轉角唱片：AA_650 §4 的營業時間（places.js；室內還沒接）*/
   function ggShopLit(root,zone){ let mesh=null; root.traverse(o=>{ if(!mesh&&o.isMesh&&/xs_fronts_lit/.test(o.name||'')) mesh=o; if(!mesh&&o.name==='NOSHADOW_xs_fronts_lit') o.traverse(q=>{ if(!mesh&&q.isMesh) mesh=q; }); }); if(!mesh||!mesh.material||!mesh.geometry||!mesh.geometry.attributes.uv1) return null;
     let ex=null; root.traverse(o=>{ if(!ex&&o.userData&&o.userData.xsShops) ex=o.userData.xsShops; }); const ids=String(ex||'ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb').split(',');
-    const lit=new Array(9).fill(1), U={value:lit}, m=mesh.material=mesh.material.clone();
+    const lit=new Array(9).fill(1), U={value:lit}, m=mesh.material;   /* 不複製材質：夜間亮度（TK.addNight 登記在原本的材質上）要照舊跟著走（CC 11-04 GG_night：複製以後 22:00／14:00 亮度比 ≈1）*/
     m.onBeforeCompile=sh=>{ sh.uniforms.uShopLit=U;
       sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\n#ifndef USE_UV1\nattribute vec2 uv1;\n#endif\nvarying float vShopIdx;').replace('#include <begin_vertex>','#include <begin_vertex>\nvShopIdx=uv1.x;');
-      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; }'); };
+      sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform float uShopLit[9];\nvarying float vShopIdx;').replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n{ int si=int(vShopIdx+0.5); float k=1.0; for(int i=1;i<9;i++){ if(i==si) k=uShopLit[i]; } totalEmissiveRadiance*=k; diffuseColor.rgb*=mix(1.0,k,0.75); }'); };
     m.customProgramCacheKey=()=>'ggShopLit'; m.needsUpdate=true;
     const upd=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G||typeof PLACES==='undefined'||!PLACES.isOpen) return; for(let i=0;i<ids.length&&i<8;i++){ const zk=GG_LIT_ZONE[ids[i]]; lit[i+1]=zk?(PLACES.isOpen(zk,(+G.hour)%24,G.day)&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed(zk,G.day))?1:0.18):1; } };
     let f=0; const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(this,dt,E2); if((f++)%30===0) upd(); }; upd();

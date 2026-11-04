@@ -105,10 +105,11 @@ for(const k of ['afar','daybreak']){ const S=SPEC[k], L=S.L; let R;
 // ---- 9 窗卡 v5 打烊調暗（LAWWW2 1d4675069：亮窗網格 uv1.x＝店編號 1～8；BB 11-04「打烊的店窗還亮」）----
 { const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute([0,0,0,1,0,0,0,1,0],3)); geo.setAttribute('uv1',new THREE.Float32BufferAttribute([6,0,6,0,6,0],2));
   const mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({emissive:0xffffff})); mesh.name='NOSHADOW_xs_fronts_lit_1'; const grp=new THREE.Group(); grp.name='NOSHADOW_xs_fronts_lit'; grp.userData.xsShops='ggtea,ggbook,ggcvs,ggyy,ggbike,ggafar,ggcorner,ggdb'; grp.add(mesh); const root=new THREE.Group(); root.add(grp);
-  const zone={update:null}; G.zone="gongguan"; G.day=30; G.hour=14; const R=Z3.ggShopLit&&Z3.ggShopLit(root,zone);
+  const mat0=mesh.material; const zone={update:null}; G.zone="gongguan"; G.day=30; G.hour=14; const R=Z3.ggShopLit&&Z3.ggShopLit(root,zone);
   check('9 Z3.ggShopLit：找到亮窗網格、店編號照 extras.xsShops',!!R&&R.mesh===mesh&&R.ids.length===8&&R.ids[5]==='ggafar');
   if(R){ const sh={uniforms:{},vertexShader:'#include <common>\n#include <begin_vertex>',fragmentShader:'#include <common>\n#include <emissivemap_fragment>'}; mesh.material.onBeforeCompile(sh);
-    check('9 shader：讀 uv1.x、uniform uShopLit[9] 乘 totalEmissiveRadiance（不多 draw call：同一個網格同一個材質）',!!sh.uniforms.uShopLit&&/vShopIdx=uv1\.x/.test(sh.vertexShader)&&/uniform float uShopLit\[9\]/.test(sh.fragmentShader)&&/totalEmissiveRadiance\*=k/.test(sh.fragmentShader));
+    check('9 shader：讀 uv1.x、uniform uShopLit[9] 乘 totalEmissiveRadiance（不多 draw call：同一個網格同一個材質）',!!sh.uniforms.uShopLit&&/vShopIdx=uv1\.x/.test(sh.vertexShader)&&/uniform float uShopLit\[9\]/.test(sh.fragmentShader)&&/totalEmissiveRadiance\*=k/.test(sh.fragmentShader)&&/diffuseColor\.rgb\*=mix\(1\.0,k,0\.75\)/.test(sh.fragmentShader));
+    check('9 不複製材質（夜間亮度登記在原本的材質上；CC 11-04 GG_night 複製後 22:00／14:00≈1）、窗卡底色也一起暗（不只自發光）',mesh.material===mat0);
     const L=R.lit; check('9 14:00：afar（6）開、Daybreak（8）開、青木（1）開；轉角唱片（7，12:00～21:00）開；洋洋（4，17:00～01:00）還沒開＝0.18（AA_650 §4）',L[6]===1&&L[8]===1&&L[1]===1&&L[4]===0.18&&L[7]===1,J(L));
     G.hour=22; zone.update(0.016,E); check('9 22:00：afar、Daybreak、青木、轉角唱片打烊＝0.18；日和（3，24 小時）、洋洋（宵夜）亮',L[6]===0.18&&L[8]===0.18&&L[1]===0.18&&L[7]===0.18&&L[3]===1&&L[4]===1,J(L));
     G.hour=14; for(let i=0;i<30;i++) zone.update(0.016,E); check('9 回到 14:00：每 30 幀更新一次 uniform，又亮回來',L[6]===1&&L[8]===1,J(L)); } }
