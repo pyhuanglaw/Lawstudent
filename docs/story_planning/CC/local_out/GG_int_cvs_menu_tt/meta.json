@@ -1,0 +1,31 @@
+{
+  "rerun": "",
+  "id": "GG_int_cvs_menu_tt",
+  "sha": "809163ee4",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_int_probe.py",
+  "env": "CASES=cvs_menu;CC_AUTORETRY=1;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T14:16:18",
+  "end": "2026-11-04T15:07:57",
+  "seconds": 3099,
+  "exit": 1,
+  "error": null,
+  "runner": "18cdff31cb",
+  "rf_round": "24",
+  "url": "http://127.0.0.1:8810/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 100,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 30
+  },
+  "final": "FAIL",
+  "class": "UNKNOWN/assert",
+  "report": "report.json",
+  "class_basis": [
+    "探針斷言 FAIL 2 行（[cvs_pasta] 走到旁邊：互動按鈕是「結帳…」），兩次一致；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針"
+  ]
+}

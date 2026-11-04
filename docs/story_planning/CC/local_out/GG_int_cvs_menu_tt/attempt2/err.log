@@ -1,0 +1,5 @@
+[cc_trace 0.4s] CC_TRACE on: <REPO>\docs\story_planning\CC\local_out\GG_int_cvs_menu_tt\attempt2\trace
+[gpu_wrap 2.0s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_int_cvs_menu_tt]
+[cc_trace 1569.6s] tracing.stop failed (browser.close): TimeoutError()
+[gpu_wrap 1570.5s] page close url=http://127.0.0.1:8810/index.html
+[gpu_wrap 1570.6s] BROWSER DISCONNECTED
