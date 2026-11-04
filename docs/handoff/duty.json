@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-20",
  "ruleSource": {
-  "branch": "claude/modest-rubin-2lyp7g",
-  "sha": "e52a7703",
-  "updated": "2026-11-04T12:17Z"
+  "branch": "claude/adoring-meitner-mqzst8",
+  "sha": "b6133718",
+  "updated": "2026-11-04T12:38Z"
  },
  "accounts": [
   "A",
@@ -13,31 +13,29 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "C",
  "previous": "B",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "off",
+  "C": "on",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "B",
-   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "34a0112d",
-   "sinceSha": "e52a7703",
-   "since": "2026-11-04T12:17Z",
-   "state": "handed-off",
+   "account": "C",
+   "session": "session_01Me1thu8Zn934H58kWKNfuF",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "b6133718",
+   "sinceSha": "b6133718",
+   "since": "2026-11-04T12:38Z",
+   "state": "on",
    "prev": {
-    "account": "A",
-    "session": "session_01Eds6msqpsuzNEw98sdw8JX",
-    "branch": "claude/confident-ritchie-8rwh7t",
-    "sha": "8b87fad0"
-   },
-   "handedOffAt": "2026-11-04T12:23Z",
-   "handoffSnapshot": "2026-11-04T1223Z_B_LAWWW.json"
+    "account": "B",
+    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "sha": "34a0112d"
+   }
   },
   "LAWWW2": {
    "account": "A",
@@ -561,6 +559,21 @@
     }
    },
    "until": "2026-11-04T12:20Z"
+  },
+  {
+   "account": "B",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "34a0112d",
+     "since": "2026-11-04T12:17Z",
+     "handedOffAt": "2026-11-04T12:23Z",
+     "state": "handed-off"
+    }
+   },
+   "until": "2026-11-04T12:38Z"
   }
  ],
  "anomalies": [
@@ -923,7 +936,7 @@
    "note": "LAWWW-B 11-04 12:2x 查核：交班（0500bcca）以後 8 個都是帳號 A 的 AA、BB 自己 09:04～09:05 的交班紀錄與合併（AA、BB 共用企劃線），比帳號 B 12:1x 接班早；AA-B 12:11 快轉合併進 cool-heisenberg。不是兩個帳號同時寫"
   }
  ],
- "seq": 60,
+ "seq": 61,
  "chain": [
   {
    "seq": 1,
@@ -1344,6 +1357,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 61,
+   "at": "2026-11-04T12:38Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
   }
  ],
  "pending": null
