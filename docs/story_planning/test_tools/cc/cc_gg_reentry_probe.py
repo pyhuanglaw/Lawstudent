@@ -81,10 +81,19 @@ LUMA_JS = r"""(async(b64,box)=>{ const r=await fetch('data:image/png;base64,'+b6
   if(x1-x0<2||y1-y0<2) return null; const c=new OffscreenCanvas(x1-x0,y1-y0), cx=c.getContext('2d'); cx.drawImage(bmp,-x0,-y0); const d=cx.getImageData(0,0,x1-x0,y1-y0).data;
   let s=0; for(let i=0;i<d.length;i+=4) s+=0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]; return +(s/(d.length/4)).toFixed(1); })"""
 
+# 兩張截圖框內逐像素的亮度差平均（CC-C 11-04：平均亮度會碰巧一樣——轉角唱片、書屋第二張的窗卡和後面的牆一樣亮；壞掉時兩張圖幾乎完全相同）
+DIFF_JS = r"""(async(a64,b64,box)=>{ const ld=async b=>createImageBitmap(await (await fetch('data:image/png;base64,'+b)).blob()); const A=await ld(a64), B=await ld(b64);
+  const sx=A.width/innerWidth, sy=A.height/innerHeight; const xs=box.map(p=>p[0]*sx), ys=box.map(p=>p[1]*sy);
+  const x0=Math.max(0,Math.floor(Math.min(...xs))), x1=Math.min(A.width,Math.ceil(Math.max(...xs))), y0=Math.max(0,Math.floor(Math.min(...ys))), y1=Math.min(A.height,Math.ceil(Math.max(...ys)));
+  if(x1-x0<2||y1-y0<2) return null; const W=x1-x0, H=y1-y0; const px=bm=>{ const c=new OffscreenCanvas(W,H), x=c.getContext('2d'); x.drawImage(bm,-x0,-y0); return x.getImageData(0,0,W,H).data; };
+  const da=px(A), db=px(B); let s=0; for(let i=0;i<da.length;i+=4){ s+=Math.abs((0.299*da[i]+0.587*da[i+1]+0.114*da[i+2])-(0.299*db[i]+0.587*db[i+1]+0.114*db[i+2])); } return +(s/(da.length/4)).toFixed(2); })"""
 
-async def shot_luma(pg, box, fn=None):
+
+async def shot_luma(pg, box, fn=None, keep=None):
     png = await pg.screenshot(path=fn) if fn else await pg.screenshot()
-    return await pg.evaluate(LUMA_JS + '(%s,%s)' % (J(base64.b64encode(png).decode()), J(box)))
+    b64 = base64.b64encode(png).decode()
+    if keep is not None: keep.append(b64)
+    return await pg.evaluate(LUMA_JS + '(%s,%s)' % (J(b64), J(box)))
 
 
 async def wait_glb(pg, t1):
@@ -111,15 +120,17 @@ async def measure(pg, tag):
         await pg.evaluate(AIM + '(%s,%s)' % (J([cx, EYE_Y, EYE_Z]), J([cx, EYE_Y, zz])))
         await pg.wait_for_timeout(400)
         box = await pg.evaluate(QUAD + '(%s)' % J([x0, x1, y0, y1, zz]))
-        base = await shot_luma(pg, box, os.path.join(OUT, 'card_%s_%s.png' % (tag, k)))
+        kp = []
+        base = await shot_luma(pg, box, os.path.join(OUT, 'card_%s_%s.png' % (tag, k)), kp)
         await pg.evaluate(SET_JS + "('hide',true)"); await pg.wait_for_timeout(200)
-        hid = await shot_luma(pg, box); await pg.evaluate(SET_JS + "('hide',false)")
+        hid = await shot_luma(pg, box, None, kp); await pg.evaluate(SET_JS + "('hide',false)")
+        pxd = await pg.evaluate(DIFF_JS + '(%s,%s,%s)' % (J(kp[0]), J(kp[1]), J(box))) if len(kp) == 2 else None
         await pg.evaluate(SET_JS + "('black',true)"); await pg.wait_for_timeout(200)
         blk = await shot_luma(pg, box); await pg.evaluate(SET_JS + "('black',false)"); await pg.wait_for_timeout(200)
-        r = {'shop': shop, 'idx': idx, 'open': open_, 'luma': base, 'hidden': hid, 'black': blk}
+        r = {'shop': shop, 'idx': idx, 'open': open_, 'luma': base, 'hidden': hid, 'black': blk, 'pxdiff_hidden': pxd}
         rows[k] = r
-        drawn = None not in (base, hid) and abs(base - hid) >= DRAWN_MIN
-        check('[%s] %s %s 窗卡有畫（|原樣−藏|≥%s）' % (tag, G, k, DRAWN_MIN), drawn, J(r))
+        drawn = pxd is not None and pxd >= DRAWN_MIN   # 原樣和藏網格兩張圖，框內逐像素亮度差的平均（壞掉時 ≈0）
+        check('[%s] %s %s 窗卡有畫（原樣 vs 藏網格 逐像素差 ≥%s）' % (tag, G, k, DRAWN_MIN), drawn, J(r))
         if None not in (base, blk):
             if open_: check('[%s] %s %s 營業→亮（原樣−黑≥%s）' % (tag, G, k, LIT_MIN), base - blk >= LIT_MIN, '%.1f−%.1f' % (base, blk))
             else: check('[%s] %s %s 打烊→暗（原樣−黑<%s）' % (tag, G, k, LIT_MIN), base - blk < LIT_MIN, '%.1f−%.1f' % (base, blk))
