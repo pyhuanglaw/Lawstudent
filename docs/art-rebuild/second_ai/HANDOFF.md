@@ -6,7 +6,22 @@
 - 雲端只留：幾秒鐘的 Node 單元測試、讀 log、Node 模擬、Blender（CPU）。
 - 新生南路第 1 批的瀏覽器測試（reachability_all、campus_layout_nav、zone_transitions、touch_flow_wenzhou、wz_street_integration），和交件截圖，都照這條排 PC。
 
-## 🔨 現在在做（11-04 03:1x UTC 更新）
+## 🔨 現在在做（11-04 04:5x UTC 更新）
+- **WZ-FIVE-1104 溫州街第一批五間**（使用者 04:4x 定案，AA_654 §6）：
+  - 我做五間的外觀、招牌、窗卡、烘焙。室內：2:30 AM、小路、SUNNY SIDE 是 AA；林家是 BB；阿德是 CC。
+  - 門窗數字已經給 AA、BB、CC（04:5x，照 cafe_layout.py 和 wz_shops_layout.js，房間、門、出口都不動）。已請 LAWWW 列出不能動的劇情座標。
+  - 下一步：從參考圖 wz_*_ext 裁招牌和立面貼圖（sign_atlas、xs_front_tex 的 QW），改 wz_street.py 的五間店面和 cafe_exterior。窗卡等室內 MODEL_READY 後再拍。
+- 今天交出去的（都已 push）：
+  - 公館 GLB e0560b289：窗卡 v4、頁間盆栽、白天光暈 0；
+  - 斑馬線＋公館視距 305ef2d2a（LAWWW 已接 9ac863212）；
+  - 新生南路側門遠景 db7679c01；
+  - gg_ext_nav2 f936fd2c8。
+- 等別人：
+  - CC GG_groups 清單（群組差 1）；
+  - BB 公館 FPS 交錯 3 次（差 ≥5 FPS 就退掉暗窗、抽油煙機罩的攤平）；
+  - PC 截圖。
+
+## 🔨 之前（11-04 03:1x UTC）
 - 分支 `claude/second-ai-env-art`，最新見 `git log -1`。
 - **11-04 02:3x 以後交出去的**（都接開發分支、Node 測試全過；瀏覽器測試照 D131 排 PC）：
   1. 公館外觀 v1b：afar 招牌改用新參考圖的小寫 afar（498181d29）。LAWWW 已接。
