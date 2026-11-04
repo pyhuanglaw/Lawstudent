@@ -1,6 +1,7 @@
 // TE-KOMICHI-STAGE-1104（BB-C 2026-11-04 21:28；AA_686 第 2 項的背景）：語彤的期末飯在溫州街・小路 17:30——
 //   六月那兩次（大一下 6/20、大三下 6/10）天還亮：在 3D 的小路室內演（窗邊那一桌，玩家坐靠門那一側、她坐對面），背景 blur（OUT.bg('teishoku_night')＝'blur'）；
 //   十二月那三次照舊 2D 夜景 teishoku_night；舊存檔排好「公館燒臘」的那一頓不換；從家裡出發、騎車、有人跟著＝照舊 2D。演完回到原本的地方。
+//   AA_687（企劃線 d41750385，AA-C 定 D109）以後：那一頓 18:00（第 3 項）；週五考完的學期改在隔天週六（第 5 項）——大二下 6/12 也在六月（3D）、大四上 12/23 在十二月（2D）；背景照現在（第 4 項）
 // 修改前：termend3d.js 沒有 S.komichiStage（FAILED 全部）；用法：node tests/te_komichi_stage_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -23,12 +24,12 @@ await sec('0',async()=>{
     &&typeof WZ_SHOPS_LAYOUT!=='undefined'&&!!WZ_SHOPS_LAYOUT.teishoku&&WZ_SHOPS_LAYOUT.teishoku.seats[0].table===WZ_SHOPS_LAYOUT.teishoku.seats[2].table);
 });
 const PL=TERMEND_LINES&&TERMEND_LINES.PLACE?TERMEND_LINES.PLACE:null;
-const ev={id:'ev_termend_dinner'}, q=(day,o)=>Object.assign({id:'te_Y1S2',ev:'ev_termend_dinner',day,h:17.5,place:'溫州街・小路',te:{term:'Y1S2',who:YT,kind:'friend'}},o||{});
+const ev={id:'ev_termend_dinner'}, q=(day,o)=>Object.assign({id:'te_Y1S2',ev:'ev_termend_dinner',day,h:18/* AA_687 第 3 項：17:30 → 18:00 */,place:'溫州街・小路',te:{term:'Y1S2',who:YT,kind:'friend'}},o||{});
 await sec('1',async()=>{
   H.fresh('2026-06-20',17,'wz');
   const D=TERMEND.komichiDue;
-  check('1. 六月（大一下 6/20、大三下 6/10）語彤在小路的那一頓＝要換 3D',D(H.G,q(DK('2026-06-20')),ev)&&D(H.G,q(DK('2028-06-10')),ev));
-  check('1. 十二月那三次（12/20、12/26、12/25）照舊 2D 夜景',!D(H.G,q(DK('2025-12-20')),ev)&&!D(H.G,q(DK('2026-12-26')),ev)&&!D(H.G,q(DK('2027-12-25')),ev));
+  check('1. 六月（大一下 6/20、大三下 6/10；AA_687 第 5 項以後大二下 6/12）語彤在小路的那一頓＝要換 3D',D(H.G,q(DK('2026-06-20')),ev)&&D(H.G,q(DK('2028-06-10')),ev)&&D(H.G,q(DK('2027-06-12')),ev));
+  check('1. 十二月那幾次（12/20、12/26、12/25；AA_687 第 5 項以後大四上 12/23）照舊 2D 夜景',!D(H.G,q(DK('2025-12-20')),ev)&&!D(H.G,q(DK('2026-12-26')),ev)&&!D(H.G,q(DK('2027-12-25')),ev)&&!D(H.G,q(DK('2028-12-23')),ev));
   check('1. 舊存檔排好「公館燒臘」的那一頓不換；別人的期末飯不換；別的事件不換',!D(H.G,q(DK('2026-06-20'),{place:'公館燒臘'}),ev)&&!D(H.G,q(DK('2026-06-20'),{te:{term:'Y1S2',who:'heroine_01',kind:'friend'}}),ev)&&!D(H.G,q(DK('2026-06-20')),{id:'ev_other'}));
   check('1. 小路的名字照 PLACE.teishoku（「溫州街・小路」）、背景 teishoku_night',!!PL&&!!PL.teishoku&&PL.teishoku.name==='溫州街・小路'&&PL.teishoku.bg==='teishoku_night');
 });

@@ -6,7 +6,7 @@
 //   6     平日旅行訊息玩家能回的：寒假「淡水冷嗎？」、暑假「淡水熱嗎？」；「好好休息。」兩個都有（寒假、暑假照那一天：HOME.breakOf）
 //   7     平日新的三則排前面照舊；過年茶屋休息那幾天的輪流也用平日那一組（新的三則＋不講店裡的那兩則，不管星期幾）；shut 的 first、pool、back、rep 照舊
 //   另外  心意邀約（一盞茶屋 17:30）、交往中那一則（打烊以後 20:30）不動；舊存檔：已經排好的那一頓照排好的時間、已經傳來的邀約不動、讀檔不會出錯
-// 修改前（39c9d8b5c）：FAILED 見交付紀錄；用法：node tests/aa687_fix4_unit.js
+// 修改前（39c9d8b5c）：38 項 FAILED 21（1～7 每一項都有 FAIL）；用法：node tests/aa687_fix4_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
