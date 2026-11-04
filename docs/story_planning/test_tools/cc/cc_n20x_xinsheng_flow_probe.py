@@ -12,13 +12,19 @@ CASES：
   b 溫州街西段 →「往新生南路」→ 新生南路（截圖）→ 走過側門前的斑馬線 → 側門（截圖）→「回到首都帝大」→ 校園
   c 校園校門內側 (−110, 0) → 西側圍牆北段「往新生南路（側門）」（截圖）→ 新生南路 →「往溫州街」→ 溫州街
   shots 17:20（傍晚）另外讀檔：B4 外觀兩張、新生南路、木曜日店裡
+  （a8c485729 起，木曜日 AA_618 第 1 節 b04191041；a 的讀檔改 14:00：木曜日營業 13–22）
+  closed 週二公休（09-30）、22:18、颱風假（10-13）、12:30 按「上二樓」被擋（記 toast、人不進 wz_mokuyobi）；21:56 人在二樓、22:00 打烊被請出來
+  order 第一次上樓（1-1 旁白）→ 坐下先點東西（焙茶拿鐵：扣 150、奶泡那句）→ 吧檯「點東西」：什麼都不點（只要水／（小聲）好。不扣錢）、巴斯克（扣錢、旁白）
+  date_zr 手機約芷若「去木曜日坐坐」→ 答應 → 跳過時間 →「出發」或自己走進 B4 → 上樓見面（《挪威的森林》那句）→ 下樓回溫州街；每一步：對話框關了、D.active false、搖桿推得動、walkFallbacks 不變
+  rain 晴天／雨天的二樓窗前（窗景、雨、聲音，只記）；names 大地圖、手機、HUD 沒有 wz_mokuyobi／xinsheng 的 id
+  二樓有名字的台詞都要有「（小聲）」（order、date_zr 裡檢查）
   facade（BB 追加，d5138cd27 起有正式立面 74557a245）：側門往南、往北各一張；沿騎樓走到 layout 七家店門口（山嵐、南洋、大口漢堡、同弦、大步、好拍、新生運動廣場），
      跟隨鏡頭轉向店門截圖、記互動按鈕；再走「往溫州街」拍日常失速（W2 轉角，還沒有 3D）、木曜日（B4）。只拍紀錄，不判 FAIL（換區那一步照 go_exit 檢查）。
 每一段記：區域換對沒（GAME.G.zone／E.zone）、出生點（E.lastSpawn 的 fixed 和要求的位置差多少、站得住、搖桿推一下有沒有位移）、
   GAME.walkFallbacks（要 0）、JS 例外（pageerror）。
 只記狀態、不算 FAIL：新生南路是 BLOCKOUT（沒有正式立面）；木曜日點餐／書櫃／唱片機／海報還沒接；公館往溫州街的巷子還在；鏡頭射線（WARN）；出生點落在出口按鈕範圍內（WARN）。
 Playwright 手機模擬（橫向 844×390），不是 iPhone 實機。
-用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
+用法：LW_TESTS=<wt>/tests [CASES=a,b,c,shots,facade,closed,order,date_zr,rain,names] [FACADE_WZ=0] [CC_HEADLESS=0] python3 cc_n20x_xinsheng_flow_probe.py <url> <out>"""
 import os, sys, json, math, asyncio, time
 sys.path.insert(0, os.environ.get('LW_TESTS') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tests'))
 import playlib as L
@@ -414,6 +420,349 @@ async def case_facade(pg, cdp, errs):
     obs('facade 整段 walkFallbacks %d → %d' % (fb0, z['fb']))
 
 
+# ================= a8c485729 起（b04191041：木曜日 AA_618 第 1 節，src/mokuyobi_sys3d.js）=================
+# 營業 13:00～22:00、週二公休（places.js wz_mokuyobi）、颱風天關（typhoonShops；calendar.js 颱風假 2025-10-13）；擋門在 story3d.js 的 interact：GM.toast(PLACES.closedText(...))。
+# 打烊時人還在店裡：MOKS.closeOut 請你出來（站到 B4 門口）＋toast。點東西：第一次坐下（STORY.onSeat）＋吧檯「點東西」(−3.3, −4.95)；
+#   焙茶拿鐵 150／焦糖布丁 120／巴斯克乳酪蛋糕 140／什麼都不點（「只要水。」→ 老闆「（小聲）好。」），點完一句旁白。
+# 二樓店裡有名字的台詞一律「（小聲）」（MOKS.whisper 包 LIBQ.whisper）。約會：invites.js 地點 mokuyobi（ACQUAINTANCE 以上、自己去過一次、週二不行、13–22）。
+DLGOBS = """(()=>{ if(window.__dlObs) return; window.__dl=[]; const T=document.getElementById('dlgText'), N=document.getElementById('dlgName'); if(!T) return;
+  const rec=()=>{ const t=(T.textContent||'').trim(); if(!t) return; const n=((N&&N.textContent)||'').trim(); const E=GAME.E, G=GAME.G; const L=window.__dl, last=L[L.length-1];
+    const o={n, t, z:G.zone, lv:E.player?(E.player.lv|0):0, h:+G.hour.toFixed(2)};
+    if(last&&last.n===n&&(t.startsWith(last.t)||last.t.startsWith(t))){ if(t.length>last.t.length) last.t=t; return; } L.push(o); };
+  window.__dlObs=new MutationObserver(rec); window.__dlObs.observe(T,{childList:true,characterData:true,subtree:true}); })()"""
+TOASTOBS = """(()=>{ if(window.__tsObs) return; window.__ts=[]; const el=document.getElementById('toast'); if(!el) return;
+  window.__tsObs=new MutationObserver(()=>{ const t=(el.textContent||'').trim(); if(t&&window.__ts[window.__ts.length-1]!==t) window.__ts.push(t); }); window.__tsObs.observe(el,{childList:true,characterData:true,subtree:true}); })()"""
+
+
+async def observers(pg):
+    await pg.evaluate(DLGOBS); await pg.evaluate(TOASTOBS)
+
+
+async def dl_since(pg, k):
+    return await pg.evaluate("(window.__dl||[]).slice(%d)" % k)
+
+
+def whisper_check(tag, lines):
+    """二樓店裡（wz_mokuyobi、第 1 層）有名字、不是手機的台詞都要有「小聲」"""
+    up = [l for l in lines if l['z'] == 'wz_mokuyobi' and l['lv'] == 1 and l['n'] and '手機' not in l['n']]
+    bad = [l for l in up if '小聲' not in l['t']]
+    if not up: obs('%s：這一段二樓沒有有名字的台詞（小聲沒得檢查）' % tag); return
+    check('%s：二樓有名字的台詞都有「（小聲）」（%d 句）' % (tag, len(up)), not bad, J(bad[:4]))
+
+
+async def toast_since(pg, k):
+    return await pg.evaluate("(window.__ts||[]).slice(%d)" % k)
+
+
+async def stuck_check(pg, cdp, tag, fb0):
+    """沒有卡住：對話框關了、GAME.D.active false、沒有選單、沒有 busy、搖桿推得動、walkFallbacks 沒有增加"""
+    for _ in range(20):
+        st = await L.state(pg)
+        if not st['dlg'] and not st['choices'] and not st['busy']: break
+        if st['choices']: break
+        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900)
+    st = await L.state(pg); da = await pg.evaluate("!!(GAME.D&&GAME.D.active)")
+    check('%s：對話框關了、D.active false、沒有選單、不 busy' % tag, not st['dlg'] and not da and not st['choices'] and not st['busy'], J({k: st[k] for k in ('dlg', 'choices', 'busy', 'pose', 'zone', 'dtext')}))
+    seated = await pg.evaluate("!!GAME.E.player.seat")
+    if seated: obs('%s：人還坐著（搖桿推之前）' % tag)
+    moved, n, s2 = await L.push_until(pg, cdp, 0, -40, 0.3, max_pushes=3, ms=1200)
+    check('%s：搖桿推得動（%.2f m，推 %d 次）' % (tag, moved, n), moved >= 0.3, J({k: s2[k] for k in ('x', 'z', 'lv', 'pose')}))
+    fb = await pg.evaluate("GAME.walkFallbacks||0")
+    check('%s：walkFallbacks 沒有增加（%d → %d）' % (tag, fb0, fb), fb == fb0)
+    return fb
+
+
+async def try_enter_closed(pg, cdp, errs, tag, daykey, hour, weather='clear'):
+    await setup(pg, cdp, 'wenzhou', 9.5, 0.5, math.pi, hour, daykey=daykey, weather=weather, why='B4 東南邊；' + tag)
+    await observers(pg)
+    op = await pg.evaluate("({open:PLACES.isOpen('wz_mokuyobi',GAME.G.hour,GAME.G.day), typhoon:PLACES.typhoonClosed('wz_mokuyobi',GAME.G.day), text:PLACES.closedText('wz_mokuyobi',GAME.G.hour,GAME.G.day)})")
+    print('  遊戲判斷：%s' % J(op), flush=True)
+    check('%s：遊戲判斷木曜日現在沒開（PLACES.isOpen＝false）' % tag, not op['open'], J(op))
+    it = await approach(pg, cdp, tag, '上二樓（木曜日）', (7.4, -4.55))
+    if not it: return
+    k = len(await pg.evaluate("window.__ts||[]")); e0 = len(errs)
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(4500)
+    ts = await toast_since(pg, k); z = await zst(pg)
+    cap = await pg.evaluate("((document.getElementById('caption')||{}).textContent||'').trim()")
+    print('  擋下來的字：toast %s；caption %s' % (J(ts), J(cap)), flush=True)
+    await shot(pg, 'closed_' + tag)
+    check('%s：按「上二樓」沒有進 wz_mokuyobi（還在 %s）' % (tag, z['zone']), z['zone'] == 'wenzhou', J(z))
+    check('%s：有擋下來的字（toast）' % tag, bool(ts), J(ts))
+    obs('%s 擋的字' % tag, J(ts or cap))
+    check('%s：沒有 JS 例外' % tag, len(errs) == e0, J(errs[e0:e0 + 3]))
+
+
+async def case_closed(pg, cdp, errs):
+    print('== closed 木曜日沒開的時候按「上二樓」', flush=True)
+    await try_enter_closed(pg, cdp, errs, '週二公休', '2025-09-30', 15.0)
+    await try_enter_closed(pg, cdp, errs, '22點以後', DAYKEY, 22.3)   # 22:18
+    await try_enter_closed(pg, cdp, errs, '颱風天', '2025-10-13', 15.0, weather='rain')
+    await try_enter_closed(pg, cdp, errs, '還沒開（12點半）', DAYKEY, 12.5)
+    # 打烊那一刻人還在店裡：MOKS.closeOut 請你出來
+    print('-- 打烊（22:00）時人在二樓店裡', flush=True)
+    await setup(pg, cdp, 'wz_mokuyobi', -1.0, 0.6, math.pi / 2, 21.93, lv=1, why='二樓店裡中間；等到 22:00 打烊',
+                extra={'visited': {'wenzhou': True, 'wz_mokuyobi': True}, 'mokuyobi': {'n': 3, 'seats': {}, 'first': 1}})
+    await observers(pg); k = len(await pg.evaluate("window.__ts||[]")); t0 = time.time(); z = None
+    while time.time() - t0 < 180:
+        await pg.wait_for_timeout(1500); z = await zst(pg)
+        st = await L.state(pg)
+        if st['dlg']: await L.tap(pg, cdp, '#dlg')
+        if z['zone'] == 'wenzhou' and not z['loading']: break
+    ts = await toast_since(pg, k)
+    print('  打烊：%s；toast %s' % (J(z), J(ts)), flush=True)
+    check('打烊：22:00 以後被請到溫州街（B4 門口）', z and z['zone'] == 'wenzhou' and z['hour'] >= 22 - 0.02, J(z))
+    obs('打烊的字', J(ts))
+    if z and z['zone'] == 'wenzhou':
+        await shot(pg, 'closed_kicked_out'); await stuck_check(pg, cdp, '打烊出來以後', z['fb'])
+
+
+async def order_one(pg, cdp, tag, pick):
+    """選單出現時選 pick 開頭的那一項；回傳 (選到的字, 前後的錢, 這一段的台詞)"""
+    m0 = await pg.evaluate("GAME.G.money|0"); k = len(await pg.evaluate("window.__dl||[]")); picked = None; t0 = time.time()
+    while time.time() - t0 < 30 and not picked:
+        await pg.wait_for_timeout(700); bs = await btns(pg)
+        if bs:
+            print('  %s 選單：%s' % (tag, J(bs)), flush=True); await shot(pg, tag + '_menu')
+            picked = await tap_choice(pg, cdp, pick)
+            if not picked: break
+        elif (await L.state(pg))['dlg']: await L.tap(pg, cdp, '#dlg')
+    for _ in range(25):   # 點完的旁白、老闆的話
+        await pg.wait_for_timeout(900); st = await L.state(pg)
+        if st['choices']: break
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+        if not st['busy']: break
+    m1 = await pg.evaluate("GAME.G.money|0"); lines = await dl_since(pg, k)
+    print('  %s：選了 %s；錢 %d → %d；台詞 %s' % (tag, J(picked), m0, m1, J(lines)), flush=True)
+    return picked, m0, m1, lines
+
+
+async def case_order(pg, cdp, errs):
+    print('== order 木曜日坐下點東西、吧檯點東西', flush=True)
+    await setup(pg, cdp, 'wz_mokuyobi', -3.75, 6.6, math.pi, 14.0, lv=0, why='木曜日一樓樓梯口（第一次來：visited 只有溫州街）',
+                extra={'visited': {'wenzhou': True}})
+    await observers(pg); fb0 = (await zst(pg))['fb']; e0 = len(errs)
+    ok = await L.go_to(pg, cdp, RUN, -1.8, 2.065, 0.5, '上樓進店門', lv=1)
+    check('order：走樓梯上去、進店門', ok, J(await zst(pg)))
+    for _ in range(20):   # 1-1 第一次進去（兩句旁白＋老闆兩句）
+        await pg.wait_for_timeout(900); st = await L.state(pg)
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); continue
+        if not st['busy'] and not st['choices']: break
+    first = await dl_since(pg, 0)
+    obs('order 第一次進去的台詞', J(first))
+    check('order：第一次進去有旁白（「窄樓梯走上二樓」）', any('窄樓梯' in l['t'] for l in first), J(first[:3]))
+    whisper_check('order 進門', first)
+    it = await approach(pg, cdp, 'order 坐下', '坐下', (-0.05, 2.6), lv=1)
+    if it:
+        await L.tap(pg, cdp, '#interact')
+        picked, m0, m1, lines = await order_one(pg, cdp, 'order_seat', '焙茶拿鐵')
+        check('order：第一次坐下先出點東西的選單、選了焙茶拿鐵', bool(picked) and picked.startswith('焙茶拿鐵'), J(picked))
+        check('order：扣了錢（%d → %d，焙茶拿鐵 150）' % (m0, m1), m1 < m0, str(m0 - m1))
+        check('order：點完有旁白（「奶泡」）', any(not l['n'] and '奶泡' in l['t'] for l in lines), J(lines))
+        whisper_check('order 坐下點東西', lines)
+        bs = await btns(pg)
+        obs('order 點完以後的座位選單', J(bs))
+        if any(b['t'].startswith('起身') for b in bs): await tap_choice(pg, cdp, '起身'); await pg.wait_for_timeout(1500)
+        fb0 = await stuck_check(pg, cdp, 'order 坐下點完起身', fb0)
+    it = await approach(pg, cdp, 'order 吧檯', '點東西', (-3.3, -4.95), lv=1)
+    if it:
+        await L.tap(pg, cdp, '#interact')
+        picked, m0, m1, lines = await order_one(pg, cdp, 'order_bar_water', '什麼都不點')
+        check('order 吧檯：「什麼都不點」不扣錢', bool(picked) and m1 == m0, '%d → %d' % (m0, m1))
+        check('order 吧檯：祐廷「只要水。」、老闆「（小聲）好。」', any('只要水' in l['t'] for l in lines) and any(l['n'] == '老闆' and '好。' in l['t'] for l in lines), J(lines))
+        whisper_check('order 吧檯（只要水）', lines)
+        await L.tap(pg, cdp, '#interact')
+        picked, m0, m1, lines = await order_one(pg, cdp, 'order_bar_cake', '巴斯克')
+        check('order 吧檯：巴斯克乳酪蛋糕扣錢（%d → %d）、有旁白' % (m0, m1), bool(picked) and m1 < m0 and any(not l['n'] and '蛋糕' in l['t'] for l in lines), J(lines))
+        await stuck_check(pg, cdp, 'order 吧檯點完', fb0)
+    for lb in ('看看書櫃', '看唱片機', '看海報'):
+        f = await pg.evaluate(FIND_EX % J([lb, None, None]))
+        obs('order「%s」互動點%s' % (lb, '有' if f else '沒有（mokuyobi_sys3d.js：AA_618 沒有台詞，不放按鈕）'))
+    check('order 這一段沒有 JS 例外', len(errs) == e0, J(errs[e0:e0 + 3]))
+
+
+async def case_rain(pg, cdp, errs):
+    print('== rain 雨天的木曜日（只記錄）', flush=True)
+    for w in ('clear', 'rain'):
+        await setup(pg, cdp, 'wz_mokuyobi', -0.45, 4.3, 0, 15.0, lv=1, weather=w, why='二樓窗前（天氣 %s）' % w,
+                    extra={'visited': {'wenzhou': True, 'wz_mokuyobi': True}, 'mokuyobi': {'n': 3, 'seats': {}, 'first': 1}})
+        await pg.wait_for_timeout(3000)
+        info = await pg.evaluate("""(()=>{ const E=GAME.E, G=GAME.G; let view=null; E.scene.traverse(o=>{ if(!view&&o.isMesh&&/VIEW/.test(o.name||'')&&o.material) view={name:o.name, color:o.material.color?o.material.color.getHexString():null, em:o.material.emissiveIntensity}; });
+          return {weather:G.weather, rain:!!(E.rain&&E.rain.visible), view, audio:(typeof A3!=='undefined'&&A3.state)?A3.state():null}; })()""")
+        obs('rain 天氣 %s：%s' % (w, J(info)))
+        await L.turn_camera_to(pg, cdp, -0.45, 9.0); await shot(pg, 'rain_mok_window_%s' % w)
+
+
+async def case_names(pg, cdp, errs):
+    print('== names 大地圖、手機上的「木曜日」「新生南路」', flush=True)
+    HOOK = """(()=>{ if(window.__ftHook) return; window.__ftHook=1; window.__ft=[]; const f=CanvasRenderingContext2D.prototype.fillText; CanvasRenderingContext2D.prototype.fillText=function(t){ try{ if(this.canvas&&this.canvas.id==='bmCanvas') window.__ft.push(String(t)); }catch(e){} return f.apply(this,arguments); }; })()"""
+    RAW = ['wz_mokuyobi', 'xinsheng']
+    for zone, x, z, lv in (('wz_mokuyobi', -1.0, 0.6, 1), ('xinsheng', 15.0, 10.0, None)):
+        await setup(pg, cdp, zone, x, z, 0, 15.0, lv=lv, why='在 %s 開大地圖、手機' % zone,
+                    extra={'visited': {'wenzhou': True, 'wz_mokuyobi': True, 'xinsheng': True, 'campus': True}, 'mokuyobi': {'n': 3, 'seats': {}, 'first': 1}})
+        await pg.evaluate(HOOK); await pg.evaluate("window.__ft=[]")
+        await L.tap(pg, cdp, '#minimap'); await pg.wait_for_timeout(2500)
+        bm = await pg.evaluate("""(()=>{ const e=document.getElementById('bigmap'); const open=!!e&&!e.classList.contains('hide'); const t=id=>((document.getElementById(id)||{}).textContent||'').trim();
+          return {open, title:t('bmTitle'), sub:t('bmSub'), info:t('bmInfo').slice(0,200), people:t('bmPeople').slice(0,200), canvas:(window.__ft||[]).slice(0,80)}; })()""")
+        print('  大地圖（%s）：%s' % (zone, J(bm)), flush=True)
+        await shot(pg, 'names_bigmap_%s' % zone)
+        allt = ' '.join([bm['title'], bm['sub'], bm['info'], bm['people']] + bm['canvas'])
+        check('names 大地圖（在 %s）有打開' % zone, bm['open'], J(bm['title']))
+        check('names 大地圖（在 %s）沒有出現區域 id（%s）' % (zone, '、'.join(RAW)), not any(r in allt for r in RAW), allt[:200])
+        want = '木曜日' if zone == 'wz_mokuyobi' else '新生南路'
+        if want in allt: obs('names 大地圖（在 %s）寫了「%s」' % (zone, want))
+        else: warn('names 大地圖（在 %s）沒看到「%s」（placemap3d.js 只把木曜日加進溫州街圖釘；新生南路沒有圖釘）' % (zone, want), allt[:160])
+        if bm['open']: await L.tap(pg, cdp, '#bmClose'); await pg.wait_for_timeout(800)
+        txt = {}
+        for tab in ('places', 'today', 'friends'):
+            if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+                await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="%s"]' % tab); await pg.wait_for_timeout(900)
+            txt[tab] = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
+            await shot(pg, 'names_phone_%s_%s' % (tab, zone))
+        hud = await pg.evaluate("[...document.querySelectorAll('#hud, #hudPlace, #placeName, #topbar')].map(e=>(e.textContent||'').trim()).join(' | ')")
+        print('  手機（%s）：%s；HUD %s' % (zone, J({k: v[:240] for k, v in txt.items()}), J(hud[:200])), flush=True)
+        allp = ' '.join(txt.values()) + ' ' + hud
+        check('names 手機、HUD（在 %s）沒有出現區域 id' % zone, not any(r in allp for r in RAW), allp[:200])
+        if zone == 'wz_mokuyobi':
+            check('names 手機「地點」有「木曜日」', '木曜日' in txt['places'], txt['places'][:200])
+        else:
+            obs('names 手機（在新生南路）有沒有寫「新生南路」', '有' if '新生南路' in allp else '沒有')
+        (await L.close_panels(pg, cdp)) if hasattr(L, 'close_panels') else None
+
+
+ZR = 'heroine_02'
+
+
+async def phone_tab(pg, cdp, tab):
+    if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"):
+        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await L.tap(pg, cdp, '#phoneTabs button[data-ptab="%s"]' % tab); await pg.wait_for_timeout(900)
+    return await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
+
+
+async def tap_sel(pg, cdp, sel):
+    ok = await pg.evaluate("(s=>{ const e=document.querySelector(s); if(!e) return false; e.scrollIntoView({block:'center'}); return true; })(%s)" % J(sel))
+    if not ok: return False
+    await pg.wait_for_timeout(500); return await L.tap(pg, cdp, sel)
+
+
+IVJS = "(id=>(GAME.G.invites||[]).filter(v=>v.who===id).slice(-1)[0]||null)(%s)" % J(ZR)
+ZRNPC = "(id=>{ const n=(GAME.npc&&GAME.npc[id])||(GAME.E.npcs||[]).find(q=>q.id===id||q.charId===id); return n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),lv:n.lv|0,pose:n.pose||null,seat:!!n.seat}:null; })(%s)" % J(ZR)
+
+
+async def case_date_zr(pg, cdp, errs):
+    print('== date_zr 約芷若（heroine_02）去木曜日', flush=True)
+    social = {'rel': {ZR: {'fam': 45, 'trust': 32, 'aff': 30, 'resp': 25, 'comf': 30, 'rom': 0, 'npcRom': 0, 'seen': 6, 'talked': 6}}, 'mem': {}, 'reveal': {}, 'prof': {},
+              'grad': {'interest': 'NONE', 'field': None, 'prep': 0}, 'fm120': True}
+    extra = {'social': social, 'contacts': {ZR: 1}, 'visited': {'wenzhou': True, 'wz_mokuyobi': True, 'campus': True, 'gongguan': True, 'cafe': True},
+             'mokuyobi': {'n': 1, 'seats': {}, 'first': 1}}
+    await setup(pg, cdp, 'wenzhou', 9.5, 0.5, math.pi, 13.25, why='溫州街 B4 東南邊；芷若 FRIEND（fam 45／trust 32）、有聯絡方式、自己去過木曜日一次（invites.js show 條件）', extra=extra)
+    await observers(pg)
+    pre = await pg.evaluate("(id=>({stage:SOCIAL.stage(id), can:INV.canInvite(GAME.G,id), why:INV.whyNot?INV.whyNot(GAME.G,id):null, contact:INV.hasContact(GAME.G,id), present:STORY.present?STORY.present(id,GAME.G):null}))(%s)" % J(ZR))
+    print('  前置檢查：%s' % J(pre), flush=True)
+    check('date_zr 前置：芷若可以約（INV.canInvite）', pre['can'], J(pre))
+    fb0 = (await zst(pg))['fb']
+    # ---- 邀約：手機「朋友」→ 芷若「約」（沒有按鈕就記下來，改當面）----
+    txt = await phone_tab(pg, cdp, 'friends')
+    has = await pg.evaluate("!!document.querySelector('#phoneBody [data-inv=\"%s\"]')" % ZR)
+    print('  手機朋友：%s' % txt[:300], flush=True); await shot(pg, 'date_zr_phone_friends')
+    if not check('date_zr 邀約：手機「朋友」有芷若的「約」', has, txt[:200]):
+        (await L.close_panels(pg, cdp)) if hasattr(L, 'close_panels') else None; return
+    await tap_sel(pg, cdp, '#phoneBody [data-inv="%s"]' % ZR); await pg.wait_for_timeout(1500)
+    path = []
+    for lvl in range(5):
+        bs = await btns(pg)
+        if not bs: break
+        path.append([b['t'][:30] for b in bs])
+        i = next((k for k, b in enumerate(bs) if b['t'].startswith('去木曜日')), None)
+        if i is None: i = next((k for k, b in enumerate(bs) if '木曜日' in b['t']), None)
+        if i is None: break
+        await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1500)
+        if bs[i]['t'].startswith('去木曜日'): break
+    print('  地點選單：%s' % J(path), flush=True)
+    check('date_zr 邀約：地點選單找得到「去木曜日坐坐」', any(any(t.startswith('去木曜日') for t in lv) for lv in path), J(path))
+    bs = await btns(pg); print('  時間選單：%s' % J(bs), flush=True); await shot(pg, 'date_zr_time_menu')
+    i = next((k for k, b in enumerate(bs) if b['t'].startswith('今天') and not b['dim']), None)
+    if i is None: i = next((k for k, b in enumerate(bs) if not b['dim'] and not b['t'].startswith('算了')), None)
+    if i is None:
+        check('date_zr 邀約：時間選單有可以選的時間', False, J(bs)); return
+    await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (i + 1)); await pg.wait_for_timeout(1500)
+    for _ in range(20):   # 她的回覆；「改天」附時間就答應那個時間
+        st = await L.state(pg)
+        if st['choices']:
+            bs = await btns(pg); print('  回覆後的選單：%s' % J(bs), flush=True)
+            j = next((k for k, b in enumerate(bs) if not b['dim'] and not b['t'].startswith(('算了', '不', '改天再說'))), 0)
+            await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (j + 1)); await pg.wait_for_timeout(1300); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1000); continue
+        if not st['busy']: break
+        await pg.wait_for_timeout(800)
+    iv = await pg.evaluate(IVJS); lines = await dl_since(pg, 0)
+    print('  邀約結果：%s；台詞 %s' % (J(iv), J(lines[-6:])), flush=True)
+    if not check('date_zr 邀約：芷若答應了（accepted、木曜日）', bool(iv) and iv['state'] == 'accepted' and iv['place'] == 'mokuyobi', J(iv)): return
+    fb0 = await stuck_check(pg, cdp, 'date_zr 邀約之後', fb0)
+    # ---- 等到約好的時間：手機「今天」的「跳過時間」（約好的時間前 10 分鐘停下來）----
+    if iv['day'] == (await pg.evaluate("GAME.G.day")) and iv['h'] - (await pg.evaluate("GAME.G.hour")) > 0.5:
+        await phone_tab(pg, cdp, 'today')
+        sk = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-skip]')].map(b=>+b.dataset.skip)")
+        tgt = min([v for v in sk if v > iv['h'] - 0.2] or [max(sk or [0])])
+        print('  跳過時間的按鈕 %s → 按 %s（約 %.2f）' % (J(sk), tgt, iv['h']), flush=True)
+        if sk: await tap_sel(pg, cdp, '#phoneBody [data-skip="%.3f"]' % tgt); await pg.wait_for_timeout(5000)
+        (await L.close_panels(pg, cdp)) if hasattr(L, 'close_panels') else None
+    elif iv['day'] != (await pg.evaluate("GAME.G.day")):
+        obs('date_zr 約在別天（day %s），探針不跨日（只記狀態）' % iv['day']); return
+    # ---- 出發：「出發：」選單（INV.goPrompt）或自己走進 B4 ----
+    went = None; t0 = time.time()
+    while time.time() - t0 < 120:
+        st = await L.state(pg); z = await zst(pg)
+        if z['zone'] == 'wz_mokuyobi': went = went or 'walked'; break
+        if st['choices']:
+            bs = await btns(pg); print('  選單：%s' % J(bs), flush=True)
+            j = next((k for k, b in enumerate(bs) if '出發' in b['t'] or '過去' in b['t']), None)
+            if j is not None:
+                await shot(pg, 'date_zr_go_menu'); await L.tap(pg, cdp, '#choices button:nth-child(%d)' % (j + 1)); went = 'go_menu:' + bs[j]['t'][:20]
+                await wait_zone(pg, 'wz_mokuyobi', 60); continue
+            await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(1000); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900); continue
+        if (await pg.evaluate("GAME.G.hour")) >= iv['h'] - 0.35 or time.time() - t0 > 30:
+            s = await go_exit(pg, cdp, errs, 'date_zr 出發（自己走進 B4）', '上二樓（木曜日）', 'wz_mokuyobi', (7.4, -4.55))
+            went = 'walked'; fb0 = (await zst(pg))['fb']
+            if not s: break
+        await pg.wait_for_timeout(1500)
+    z = await zst(pg); iv = await pg.evaluate(IVJS)
+    print('  出發：%s；%s；邀約 %s' % (went, J(z), J(iv)), flush=True)
+    if not check('date_zr 出發：到了木曜日（wz_mokuyobi）', z['zone'] == 'wz_mokuyobi', J(z)): return
+    obs('date_zr 出發的方式', str(went))
+    fb0 = await stuck_check(pg, cdp, 'date_zr 到場（一樓樓梯口）', fb0)
+    # ---- 到場：上樓、找到芷若、見面 ----
+    ok = await L.go_to(pg, cdp, RUN, -1.8, 2.065, 0.5, '上樓進店門', lv=1)
+    check('date_zr 到場：上樓進店門', ok, J(await zst(pg)))
+    t0 = time.time(); k0 = len(await pg.evaluate("window.__dl||[]")); met = False
+    while time.time() - t0 < 300:
+        iv = await pg.evaluate(IVJS)
+        if iv and iv['state'] == 'done': met = True; break
+        st = await L.state(pg)
+        if st['choices']:
+            bs = await btns(pg); print('  見面選單：%s' % J(bs), flush=True); await L.tap(pg, cdp, '#choices button:nth-child(1)'); await pg.wait_for_timeout(1200); continue
+        if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900); continue
+        if st['busy']: await pg.wait_for_timeout(1000); continue
+        if '芷若' in (st.get('interact') or ''):
+            await shot(pg, 'date_zr_before_talk'); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); continue
+        n = await pg.evaluate(ZRNPC)
+        if not n: RUN.note('還沒看到芷若的 NPC'); await pg.wait_for_timeout(3000); continue
+        await L.go_to(pg, cdp, RUN, n['x'], n['z'], 1.0, '芷若旁邊', max_s=120, lv=n['lv'])
+    lines = await dl_since(pg, k0); iv = await pg.evaluate(IVJS)
+    print('  見面：%s；台詞 %s' % (J(iv), J(lines)), flush=True)
+    await shot(pg, 'date_zr_meet')
+    check('date_zr 演完：邀約變成見到了（done）', met, J(iv))
+    check('date_zr 演完：有她第一次來木曜日那一句（《挪威的森林》）', any('挪威' in l['t'] for l in lines), J(lines[-6:]))
+    whisper_check('date_zr 見面', lines)
+    fb0 = await stuck_check(pg, cdp, 'date_zr 演完', fb0)
+    # ---- 回去：下樓、離開木曜日 ----
+    s = await go_exit(pg, cdp, errs, 'date_zr 回去', '離開木曜日', 'wenzhou', (-3.75, 6.75), lv=0)
+    if s:
+        await shot(pg, 'date_zr_back_wenzhou'); await stuck_check(pg, cdp, 'date_zr 回到溫州街', (await zst(pg))['fb'])
+
+
 async def main():
     os.makedirs(OUT, exist_ok=True)
     print('CC N20X 新生南路＋木曜日 真實流程探針；CASES=%s；不用 ?turbo；Playwright 手機模擬（橫向），不是實機' % ','.join(CASES), flush=True)
@@ -432,7 +781,7 @@ async def main():
         have = await pg.evaluate("({xs:typeof XS3!=='undefined', mok:typeof MOK3!=='undefined', zx:!!Z3.ZONES.xinsheng, zm:!!Z3.ZONES.wz_mokuyobi, v:(document.getElementById('ver')||{}).textContent||null})")
         check('前置：這一版有 xinsheng、wz_mokuyobi 區域（XS3、MOK3 載入）', have['xs'] and have['mok'] and have['zx'] and have['zm'], J(have))
         obs('新生南路現在是 BLOCKOUT（套件方塊立面／正式立面 bldg.xinsheng_street 如果有載到會換掉）；公館往溫州街的巷子還在——照 BB 只記')
-        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade)):
+        for c, fn in (('a', case_a), ('b', case_b), ('c', case_c), ('shots', case_shots), ('facade', case_facade), ('closed', case_closed), ('order', case_order), ('date_zr', case_date_zr), ('rain', case_rain), ('names', case_names)):
             if c not in CASES: continue
             try:
                 await fn(pg, cdp, errs)

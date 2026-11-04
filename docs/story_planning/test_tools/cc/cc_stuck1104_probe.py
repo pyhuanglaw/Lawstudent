@@ -48,6 +48,30 @@ ST = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, D=GAME.D||{}, p=P.obj.posit
     interact:(it&&!it.classList.contains('hide')&&getComputedStyle(it).display!=='none')?(it.textContent||'').trim():'', running:(typeof EVENTS!=='undefined'&&EVENTS.running)?String(EVENTS.running.id||EVENTS.running):null, nch:document.querySelectorAll('#choices button').length}; })()"""
 
 
+DIAG = """(()=>{ const G=GAME.G, D=GAME.D||{}; const t=document.getElementById('dlgText'), box=document.getElementById('dlg');
+  const lines=((t&&t.innerText)||'').split('\\n').filter(x=>x.trim());
+  const dq={}; for(const k of ['queue','sayStack','chooseStack','busyWho','pending']) if(D[k]!=null) dq[k]=Array.isArray(D[k])?D[k].map(x=>typeof x==='string'?x.slice(0,80):(x&&(x.text||x.t||x.who||x.id)?String(x.who||'')+':'+String(x.text||x.t||x.id||'').slice(0,60):typeof x)).slice(-8):String(D[k]).slice(0,80);
+  let pe=null; try{ pe=(CLS.dayItems(G)||[]).filter(q=>q.room&&q.room.door==='gym').map(q=>({id:q.c.id, st:CLS.status(G,q), key:q.key, skip:!!(G.classRec&&G.classRec.note&&G.classRec.note['skip_'+q.key])})); }catch(e){ pe=String(e); }
+  const skipBtn=[...document.querySelectorAll('#advTop button, #adv button')].find(b=>(b.textContent||'').includes('略過對話'));
+  return {lines, nlines:lines.length, boxLines:((box&&box.innerText)||'').split('\\n').filter(x=>x.trim()).slice(0,12), D:dq, pe, skip:!!skipBtn, skipOn:!!(typeof ADV!=='undefined'&&ADV.skip)}; })()"""
+TAP_SKIP = """(()=>{ const b=[...document.querySelectorAll('#advTop button, #adv button')].find(b=>(b.textContent||'').includes('略過對話')); if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()"""
+
+
+async def diag_stuck(pg, cdp, tag):
+    """BB 00:53：使用者截圖＝芷若的對話框疊了 5 行（前 4 行是體育課的）。記 ①行數與內容 ②每點一次有沒有變 ③「略過對話」能不能解開 ④當天體育課的狀態 ⑤GAME.D 的佇列"""
+    d0 = await pg.evaluate(DIAG); print('  [%s] ①對話框 %d 行：%s ④體育課 %s ⑤D %s' % (tag, d0['nlines'], J(d0['lines'] or d0['boxLines']), J(d0['pe']), J(d0['D'])), flush=True)
+    for k in range(3):
+        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1200); d = await pg.evaluate(DIAG)
+        print('  [%s] ②第 %d 次點：%d 行 %s' % (tag, k + 1, d['nlines'], J(d['lines'][-2:])), flush=True)
+    xy = await pg.evaluate(TAP_SKIP)
+    if xy:
+        await L.touch_tap(cdp, xy[0], xy[1]); await pg.wait_for_timeout(3000); d = await pg.evaluate(DIAG); s2 = await pg.evaluate(ST)
+        print('  [%s] ③按「略過對話」以後：%d 行、dlg=%s depth=%s choices=%s' % (tag, d['nlines'], s2['dlg'], s2['depth'], J(s2['choices'])), flush=True)
+    else:
+        print('  [%s] ③畫面上沒有「略過對話」' % tag, flush=True)
+    await pg.screenshot(path=os.path.join(OUT, 'DIAG_%s.png' % tag))
+
+
 async def boot(pg, cdp, save):
     """遊戲自己的讀檔：自動存檔 → 重新載入 → 標題「繼續」"""
     await pg.evaluate("s=>{ localStorage.clear(); localStorage.setItem('fatiao3d_auto', s); }", save)
@@ -77,6 +101,7 @@ async def unstuck_check(pg, cdp, tag, err0):
     ok = (not s['dlg'] and not s['choices'] and not s['adv'] and s['depth'] == 0 and not s['frozen'] and moved >= 0.3 and h1 > h0 and ph_open and not err0)
     if not ok:
         await pg.screenshot(path=os.path.join(OUT, 'STUCK_%s.png' % tag))
+        await diag_stuck(pg, cdp, tag)
         print('  卡住細節 %s：%s\n  console 最後 30 行：\n    %s' % (tag, J(res), '\n    '.join(CONSOLE[-30:])), flush=True)
     return ok, res
 
@@ -91,6 +116,9 @@ async def talk(pg, cdp, save, n, path, errs):
     if not s['interact']:
         print('  [%s] 走到旁邊沒有互動按鈕：%s' % (tag, J(info)), flush=True); return {'interact': '', 'menus': []}
     e0 = len(errs); await L.tap(pg, cdp, '#interact')
+    await pg.wait_for_timeout(1500); dd = await pg.evaluate(DIAG)
+    print('  [%s] 按互動以後：對話框 %d 行 %s；體育課 %s' % (tag, dd['nlines'], J(dd['lines'][:6]), J(dd['pe'])), flush=True)
+    if dd['nlines'] > 1: check('[%s] 對話框只有一句（使用者截圖：疊了 5 行，前 4 行是體育課）' % tag, False, J(dd['lines'][:6]))
     menus = []; t0 = time.time(); last = None; still = time.time()
     while time.time() - t0 < 240:
         s = await pg.evaluate(ST)
@@ -103,6 +131,7 @@ async def talk(pg, cdp, save, n, path, errs):
             af = await pg.evaluate(ST)
             print('  [%s] 卡在同一處 15 秒：①字幕／選單 %s ③busy=%s running=%s depth=%s adv=%s 按鈕 %s ④點了以後 %s' % (tag, J([b4['name'], b4['text'], b4['choices']]), b4['busy'], b4['running'], b4['depth'], b4['adv'], b4['nch'], '有反應' if (af['text'], af['choices']) != (b4['text'], b4['choices']) else '沒反應'), flush=True)
             if (af['text'], af['choices']) != (b4['text'], b4['choices']): still = time.time(); continue
+            await diag_stuck(pg, cdp, tag)
             break
         if s['choices']:
             lvl = len(menus); menus.append(s['choices']); k = min(path[lvl], len(s['choices']) - 1) if lvl < len(path) else 0
