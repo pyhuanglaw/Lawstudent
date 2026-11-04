@@ -33,7 +33,7 @@ def build_putong():
     M = {
         'wall': L.pbr('ck_wall', 'exterior_wall_cladding_02', tile=2.0, target='#9a5341', normal=0.8, maps=('diff', 'nor'), rough_value=0.88),
         'trim': L.pbr('ck_trim', 'granular_concrete', tile=2.0, sat=0.3, target='#cfc8b8', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.85),   # 洗石子
-        'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#8f8a82', maps=('diff',), res=256, rough_value=0.7),
+        'base': L.flat('ck_stone_base', '#8f8a82', rough=0.7),   # v2：純色（併進頂點色材質：teach_east 鏡頭 draw call，BB-C 15:4x）
         'ceil': L.flat('ck_ceiling', '#e2dccf', rough=0.95),
         'frame': L.flat('ck_frame', '#8e9295', rough=0.4, metal=0.35),
         'glass': L.vc_material('ck_glass', rough=0.12),
@@ -124,6 +124,7 @@ def build_putong():
     for s_ in (-1, 1):
         kit.rect(tw, PF, min(s_ * ra, s_ * (ra + 0.16)), max(s_ * ra, s_ * (ra + 0.16)), 0.0, vsa)
         kit.strip(tw, PF, (s_ * ra, 0.0), (s_ * ra, vsa), 0.0, -TK, (-s_, 0, 0))
+    for s_ in (-1, 1): kit.face('wall', [(s_ * (PW2 + 0.45), 0.0, z1 - TK), (s_ * (PW2 + 0.45), 0.0, z1), (s_ * (PW2 + 0.45), YF[1], z1), (s_ * (PW2 + 0.45), YF[1], z1 - TK)], (s_, 0, 0))   # 拱門牆的兩端（厚 0.35；沒封會看到一條黑縫）
     kit.box('trim', -PW2 - 0.45, PW2 + 0.45, PHA, YF[1], z0, z1 - TK, skip=('bottom', 'back', 'front'))   # 門廊屋頂
     kit.box('trim', -PW2 - 0.52, PW2 + 0.52, YF[1], YF[1] + 0.12, z1 - TK - 0.05, z1 + 0.06)                # 拱門牆的壓頂
     kit.face('ceil', [(-PW2 + 0.45, PHA - 0.001, z0), (PW2 - 0.45, PHA - 0.001, z0), (PW2 - 0.45, PHA - 0.001, z1 - TK), (-PW2 + 0.45, PHA - 0.001, z1 - TK)], (0, -1, 0))
@@ -164,14 +165,22 @@ def build_putong():
 
 
 def build_boya():
-    W, D = 34.0, 18.0; YF = [0.0, 4.6, 8.45, 12.3, 16.15, 20.0]; TOP = YF[-1]; NF = 5
+    """v2（TEACH-PTBOYA-REF-1104，使用者 11-04「普通 博雅 教學館跟真正的太不像」；官網照片 boya_web_03～06；D136 像但不照抄）：
+    保留：五層、白色＋玻璃的樓層、一樓玻璃大廳、樓板邊的清水模帶。
+    改成照片的感覺：靠普通那面（南面）二樓以上改紅磚＋深的小方窗；主入口清水混凝土大雨遮（真的是正中間一個圓洞 → 這裡往東偏、長條橢圓的天窗洞，避開西邊的空橋）；
+      北面一大片長草的斜坡一路到二樓（二樓以上往南退到 z=−2.5），斜坡上一道木格柵樓梯（真的通到屋頂花園 → 這裡底下關著門）；入口上方木格柵、一樓圓柱。
+    不動：導航（CK.modern 34×18 本體）、門口 DOORS.boya、空橋（x=−41.2、二樓 4.6 m）、樓層高度。"""
+    W, D = 34.0, 18.0; YF = [0.0, 4.6, 8.45, 12.3, 16.15, 20.0]; TOP = YF[-1]; NF = 5; NZ = -2.5
     out = arg('--out') or os.path.join(L.ROOT, 'assets/models/env/second_ai/campus_boya.glb')   # --out：先輸出到別的地方看
     B.reset(texres=512)
     root = B.group('campus_boya', props={'kind': 'campus_boya'})
     M = {
-        'wall': L.pbr('ck_wall', 'white_plaster_02', tile=3.0, sat=0.15, target='#cdcbc4', normal=0.3, maps=('diff', 'nor'), rough_value=0.8),   # 淺灰外牆（第一版 large_sandstone_blocks：算圖裡一塊一塊的白斑，像髒的石頭）
-        'trim': L.pbr('ck_trim', 'concrete_wall_006', tile=3.0, sat=0.2, target='#bdbcb6', normal=0.3, maps=('diff',), res=512, rough_value=0.85),   # 樓板邊、屋頂板（清水模）
-        'base': L.pbr('ck_stone_base', 'granite_tile_03', tile=1.2, target='#7f7c78', maps=('diff',), res=256, rough_value=0.7),
+        'wall': L.pbr('ck_wall', 'white_plaster_02', tile=3.0, sat=0.15, target='#d6d4cd', normal=0.3, maps=('diff', 'nor'), rough_value=0.8),
+        'trim': L.pbr('ck_trim', 'socsci_formwork', tile=2.4, sat=0.2, target='#bcbab3', normal=0.45, maps=('diff', 'nor'), res=512, rough_value=0.82),   # 清水模（有模板的分格和繫桿孔）：樓板邊、雨遮、擋土牆
+        'base': L.flat('ck_stone_base', '#7f7c78', rough=0.7),   # 純色（併進頂點色材質：teach_east 鏡頭 draw call，BB-C 15:4x）
+        'brick': L.pbr('by_brick', 'red_brick_03', tile=1.6, target='#ad6249', normal=0.6, maps=('diff', 'nor'), rough_value=0.86),   # 靠普通那面的紅磚（比普通的紅褐色淺、偏橘）
+        'grass': L.pbr('by_grass', 'leafy_grass', tile=2.5, target='#5b7a3a', maps=('diff',), res=256, rough_value=0.95),
+        'wood': L.flat('by_wood', '#a8743f', rough=0.6),   # 木格柵：純色（細的直條看不出木紋；併進頂點色材質）
         'ceil': L.flat('ck_ceiling', '#e6e2da', rough=0.95),
         'frame': L.flat('ck_frame', '#4a4e52', rough=0.4, metal=0.4),
         'fin': L.flat('by_fin', '#8a8f94', rough=0.45, metal=0.35),
@@ -184,6 +193,7 @@ def build_boya():
     accs = {}; VC = ('glass', 'misc'); plates = []
     kit = K.Kit(M, accs, 'by_', place=(-38.0, -83.0, 0.0), vc=VC)
     Fc = K.faces4(W, D); FRONT, BACK, LEFT, RIGHT = Fc['front'], Fc['back'], Fc['left'], Fc['right']
+    BACK2 = K.Fr((0.0, 0, NZ), (-1, 0, 0), (0, 0, -1))   # 二樓以上的北面（往南退）
     def lit(*k): return K.lit_hash(29, *k)
 
     def curtain(fr, u0, u1, v0, v1, step, key, door_at=None, door_w=0.0):
@@ -197,71 +207,152 @@ def build_boya():
             u = u0 + st * i; kit.fbox('frame', fr, u - 0.04, u + 0.04, v0, v1, -0.04, 0.12, skip=('in',))
         for v in (v0, v0 + (v1 - v0) * 0.72, v1): kit.fbox('frame', fr, u0, u1, v - 0.04, v + 0.04, -0.04, 0.1, skip=('in',))
 
-    # 一樓：整面玻璃（大廳、公共空間），往內退 0.6（上面樓板挑出去）；兩端是石材實牆（階梯教室 101、102 的側面）
-    SET_ = 0.6
-    for (fr, side, ext) in ((FRONT, 'S', W), (BACK, 'N', W)):
-        a0, a1 = -W / 2 + 8.0, W / 2 - 8.0
-        IN = K.Fr(tuple(fr.O[i] - fr.N[i] * SET_ for i in range(3)), fr.R, fr.N)
-        kit.wall_strip(fr, -W / 2, a0 - 0.0, 0.0, YF[1], []); kit.wall_strip(fr, a1, W / 2, 0.0, YF[1], [])
-        curtain(IN, a0, a1, 0.15, YF[1] - 0.35, 1.5, 10 if side == 'S' else 11, door_at=0.0 if side == 'S' else None, door_w=3.0)
-        kit.fbox('trim', IN, a0, a1, YF[1] - 0.35, YF[1], 0.0, 0.02, skip=('in',))
-        kit.face('ceil', [IN.p(a0, YF[1] - 0.35, 0.0), IN.p(a1, YF[1] - 0.35, 0.0), fr.p(a1, YF[1] - 0.35, 0.0), fr.p(a0, YF[1] - 0.35, 0.0)], (0, -1, 0))   # 挑出樓板的底
-        kit.box('base', *(sorted([IN.p(a0, 0, 0)[0], fr.p(a1, 0, 0)[0]])), 0.0, 0.02, *(sorted([IN.p(a0, 0, 0)[2], fr.p(a0, 0, 0)[2]])), skip=('bottom',)) if False else None
-        for s_ in (-1, 1):                                                                       # 退縮處兩側的牆面
-            u = a0 if s_ < 0 else a1
-            kit.face('wall', [fr.p(u, 0.0, 0.0), IN.p(u, 0.0, 0.0), IN.p(u, YF[1] - 0.35, 0.0), fr.p(u, YF[1] - 0.35, 0.0)], tuple(fr.R[i] * -s_ for i in range(3)))
-        if side == 'S':                                                                          # 玻璃門（中間 3 m）
-            DF = IN
-            for (ua, ub) in ((-1.5, -0.03), (0.03, 1.5)): kit.glass_face(DF, [(ua, 0.05), (ub, 0.05), (ub, 2.6), (ua, 2.6)], -0.02, True, 0.05, 2.6)
-            for (ua, ub, va, vb_) in ((-1.55, -1.45, 0.0, 2.7), (1.45, 1.55, 0.0, 2.7), (-0.04, 0.04, 0.0, 2.6), (-1.55, 1.55, 2.6, 2.7)):
-                kit.fbox('frame', DF, ua, ub, va, vb_, -0.04, 0.08, skip=('in',))
-            kit.glass_face(DF, [(-1.5, 2.7), (1.5, 2.7), (1.5, YF[1] - 0.35), (-1.5, YF[1] - 0.35)], -0.02, True, 2.7, YF[1] - 0.35)
-        kit.fbox('base', fr, -W / 2 - 0.05, a0, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom')); kit.fbox('base', fr, a1, W / 2 + 0.05, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom'))
-    # 二～五樓：橫向長窗＋垂直鋁鰭；樓板邊（清水模帶）；東端一道直的樓梯間（石材、窄長窗）
-    for (fr, side) in ((FRONT, 'S'), (BACK, 'N')):
-        for fl in range(1, NF):
-            v0, v1 = YF[fl], YF[fl + 1]; wb, wt = v0 + 0.95, v1 - 0.45
-            kit.wall_strip(fr, -W / 2, W / 2, v0, wb, []); kit.wall_strip(fr, -W / 2, W / 2, wt, v1, [])
-            kit.wall_strip(fr, -W / 2, -W / 2 + 1.2, wb, wt, []); kit.wall_strip(fr, W / 2 - 4.2, W / 2, wb, wt, [])
-            kit.glass_face(fr, [(-W / 2 + 1.2, wb), (W / 2 - 4.2, wb), (W / 2 - 4.2, wt), (-W / 2 + 1.2, wt)], -0.12, lit(20 if side == 'S' else 21, fl), wb, wt)
-            for (a, b_, c0, c1) in ((-W / 2 + 1.2, W / 2 - 4.2, wb - 0.0, wb + 0.02), (-W / 2 + 1.2, W / 2 - 4.2, wt - 0.02, wt)):
-                kit.fbox('frame', fr, a, b_, c0, c1, -0.12, 0.0, skip=('in',))
-            kit.face('trim', [fr.p(-W / 2 + 1.2, wb, 0.0), fr.p(W / 2 - 4.2, wb, 0.0), fr.p(W / 2 - 4.2, wb, -0.12), fr.p(-W / 2 + 1.2, wb, -0.12)], (0, 1, 0))
-            kit.face('trim', [fr.p(-W / 2 + 1.2, wt, 0.0), fr.p(W / 2 - 4.2, wt, 0.0), fr.p(W / 2 - 4.2, wt, -0.12), fr.p(-W / 2 + 1.2, wt, -0.12)], (0, -1, 0))
-            for s_, uu in ((-1, -W / 2 + 1.2), (1, W / 2 - 4.2)):
-                kit.face('trim', [fr.p(uu, wb, 0.0), fr.p(uu, wt, 0.0), fr.p(uu, wt, -0.12), fr.p(uu, wb, -0.12)], tuple(fr.R[i] * -s_ for i in range(3)))
-            u = -W / 2 + 1.2 + 1.2
-            while u < W / 2 - 4.4:
-                kit.fbox('fin', fr, u - 0.025, u + 0.025, wb, wt, -0.12, 0.3, skip=('in',)); u += 1.2   # 垂直鋁鰭（第一版 0.9 m 一支、深 0.42：斜看整排黑色）
-            nar = W / 2 - 2.1 if side == 'S' else -(W / 2 - 2.1)
-            kit.glass_face(fr, [(W / 2 - 2.6, v0 + 0.6), (W / 2 - 1.6, v0 + 0.6), (W / 2 - 1.6, v1 - 0.6), (W / 2 - 2.6, v1 - 0.6)], 0.002, lit(22, fl, side == 'S'), v0, v1)
-        for k in range(1, NF + 1):
-            kit.fbox('trim', fr, -W / 2 - 0.05, W / 2 + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.5 if k == 1 else 0.12, skip=('in',))
+    def column(x, z, r, y0, y1, mk='trim', n=12):
+        m = kit.acc(mk)
+        for k in range(n):
+            a0, a1 = 2 * math.pi * k / n, 2 * math.pi * (k + 1) / n
+            p0, p1 = (x + r * math.cos(a0), z + r * math.sin(a0)), (x + r * math.cos(a1), z + r * math.sin(a1))
+            kit.face(m, [(p0[0], y0, p0[1]), (p1[0], y0, p1[1]), (p1[0], y1, p1[1]), (p0[0], y1, p0[1])], (math.cos((a0 + a1) / 2), 0, math.sin((a0 + a1) / 2)))
+
+    # ---- 一樓南面：玻璃大廳（往內退 0.6）、兩端實牆（東端清水模、西端白牆）、四支圓柱、門上方木格柵
+    SET_ = 0.6; fr = FRONT; a0, a1 = -W / 2 + 8.0, W / 2 - 8.0
+    IN = K.Fr(tuple(fr.O[i] - fr.N[i] * SET_ for i in range(3)), fr.R, fr.N)
+    kit.wall_strip(fr, -W / 2, a0, 0.0, YF[1], []); kit.wall_strip(fr, a1, W / 2, 0.0, YF[1], [], mk='trim')
+    curtain(IN, a0, a1, 0.15, YF[1] - 0.35, 1.5, 10, door_at=0.0, door_w=3.0)
+    kit.fbox('trim', IN, a0, a1, YF[1] - 0.35, YF[1], 0.0, 0.02, skip=('in',))
+    kit.face('ceil', [IN.p(a0, YF[1] - 0.35, 0.0), IN.p(a1, YF[1] - 0.35, 0.0), fr.p(a1, YF[1] - 0.35, 0.0), fr.p(a0, YF[1] - 0.35, 0.0)], (0, -1, 0))
+    for s_ in (-1, 1):
+        u = a0 if s_ < 0 else a1
+        kit.face('wall' if s_ < 0 else 'trim', [fr.p(u, 0.0, 0.0), IN.p(u, 0.0, 0.0), IN.p(u, YF[1] - 0.35, 0.0), fr.p(u, YF[1] - 0.35, 0.0)], tuple(fr.R[i] * -s_ for i in range(3)))
+    for (ua, ub) in ((-1.5, -0.03), (0.03, 1.5)): kit.glass_face(IN, [(ua, 0.05), (ub, 0.05), (ub, 2.6), (ua, 2.6)], -0.02, True, 0.05, 2.6)
+    for (ua, ub, va, vb_) in ((-1.55, -1.45, 0.0, 2.7), (1.45, 1.55, 0.0, 2.7), (-0.04, 0.04, 0.0, 2.6), (-1.55, 1.55, 2.6, 2.7)):
+        kit.fbox('frame', IN, ua, ub, va, vb_, -0.04, 0.08, skip=('in',))
+    kit.glass_face(IN, [(-1.5, 2.7), (1.5, 2.7), (1.5, YF[1] - 0.35), (-1.5, YF[1] - 0.35)], -0.02, True, 2.7, YF[1] - 0.35)
+    u = -2.9                                                                                      # 門上方的木格柵（直條 5 cm、間距 15 cm）
+    while u <= 2.9 + 1e-6: kit.fbox('wood', IN, u - 0.025, u + 0.025, 2.78, YF[1] - 0.42, 0.03, 0.15, skip=('in',)); u += 0.15
+    kit.fbox('wood', IN, -3.0, 3.0, 2.72, 2.78, 0.0, 0.16, skip=('in',)); kit.fbox('wood', IN, -3.0, 3.0, YF[1] - 0.42, YF[1] - 0.36, 0.0, 0.16, skip=('in',))
+    for x in (-7.5, -4.5, 4.5, 7.5): column(x, D / 2 - 0.3, 0.28, 0.0, YF[1] - 0.35)
+    kit.fbox('base', fr, -W / 2 - 0.05, a0, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom'))
+    # ---- 二～五樓南面（靠普通）：紅磚、深的小方窗（上面一道清水模遮陽板）；西邊二樓是空橋的入口；東端一道白框玻璃樓梯間
+    BRW, BRH, BRS = 1.3, 1.65, 2.4; SX0, SX1 = 13.2, 16.6
+    xs = [-W / 2 + 1.6 + BRS * k for k in range(12)]
+    for fl in range(1, NF):
+        v0, v1 = YF[fl], YF[fl + 1]; hs = []
+        for k, u in enumerate(xs):
+            if fl == 1 and abs(u + 3.2) < 1.9: continue
+            hs.append(kit.window(FRONT, u, v0 + 1.0, BRW, BRH, 0.0, lit(40, fl, k), dep=0.4, proud=0.0, mull=[0.0], has_sill=False, fmat='trim'))
+            kit.fbox('trim', FRONT, u - BRW / 2 - 0.1, u + BRW / 2 + 0.1, v0 + 1.0 + BRH, v0 + 1.0 + BRH + 0.08, 0.0, 0.34, skip=('in',))
+        if fl == 1: hs.append(kit.window(FRONT, -3.2, v0 + 0.02, 2.9, 2.75, 0.0, False, dep=0.3, proud=0.0, mull=[0.0], has_sill=False, transom=2.25))   # 空橋的入口（空橋的 GLB 從普通那邊接過來，蓋在這裡）
+        hs.append({'u': (SX0 + SX1) / 2, 'a': (SX1 - SX0) / 2, 'vb': v0, 'vs': v1, 'arch': False, 'vt': v1})
+        kit.wall_strip(FRONT, -W / 2, W / 2, v0, v1, hs, mk='brick')
+    kit.glass_face(FRONT, [(SX0, YF[1]), (SX1, YF[1]), (SX1, TOP + 0.6), (SX0, TOP + 0.6)], -0.15, True, YF[1], TOP + 0.6)   # 樓梯間的玻璃（白框）
+    for k in range(4): x_ = SX0 + (SX1 - SX0) * k / 3; kit.fbox('misc', FRONT, x_ - 0.05, x_ + 0.05, YF[1], TOP + 0.6, -0.15, -0.02, skip=('in',), col='#ecebe6')
+    y_ = YF[1]
+    while y_ <= TOP + 0.6 + 1e-6: kit.fbox('misc', FRONT, SX0, SX1, y_ - 0.04, y_ + 0.04, -0.15, -0.03, skip=('in',), col='#ecebe6'); y_ += 1.28
+    for s_, uu in ((-1, SX0), (1, SX1)): kit.face('brick', [FRONT.p(uu, YF[1], 0.0), FRONT.p(uu, TOP + 0.6, 0.0), FRONT.p(uu, TOP + 0.6, -0.15), FRONT.p(uu, YF[1], -0.15)], tuple(FRONT.R[i] * -s_ for i in range(3)))
+    # ---- 主入口的清水混凝土大雨遮（二樓樓板高、往外挑 3.6 m、厚 0.6）＋長條橢圓的天窗洞；底下四盞崁燈；名牌在雨遮前緣
+    CX0, CX1, CZ0, CZ1, CY0, CY1 = -1.2, 9.0, D / 2, D / 2 + 3.6, YF[1], YF[1] + 0.6
+    hc, ha, hb = (4.4, D / 2 + 1.95), 1.25, 0.62
+    def stad(th):
+        dx, dz = math.cos(th), math.sin(th); lo, hi = 0.0, ha + hb + 1.0
+        for _ in range(40):
+            t = (lo + hi) / 2; px, pz = dx * t, dz * t
+            ins = (abs(px) <= ha and abs(pz) <= hb) or math.hypot(abs(px) - ha, pz) <= hb
+            lo, hi = (t, hi) if ins else (lo, t)
+        return (hc[0] + dx * lo, hc[1] + dz * lo)
+    def rect_(th):
+        dx, dz = math.cos(th), math.sin(th); ts = []
+        if dx > 1e-9: ts.append((CX1 - hc[0]) / dx)
+        if dx < -1e-9: ts.append((CX0 - hc[0]) / dx)
+        if dz > 1e-9: ts.append((CZ1 - hc[1]) / dz)
+        if dz < -1e-9: ts.append((CZ0 - hc[1]) / dz)
+        t = min(ts); return (hc[0] + dx * t, hc[1] + dz * t)
+    ths = sorted(set([round(-math.pi + 2 * math.pi * k / 40, 9) for k in range(40)] + [round(math.atan2(cz - hc[1], cx - hc[0]), 9) for cx in (CX0, CX1) for cz in (CZ0, CZ1)]))
+    cm_ = kit.acc('trim')
+    for i in range(len(ths)):
+        t0, t1 = ths[i], ths[(i + 1) % len(ths)]
+        (ix0, iz0), (ix1, iz1) = stad(t0), stad(t1); (ox0, oz0), (ox1, oz1) = rect_(t0), rect_(t1)
+        kit.face(cm_, [(ix0, CY1, iz0), (ox0, CY1, oz0), (ox1, CY1, oz1), (ix1, CY1, iz1)], (0, 1, 0))
+        kit.face(cm_, [(ix0, CY0, iz0), (ox0, CY0, oz0), (ox1, CY0, oz1), (ix1, CY0, iz1)], (0, -1, 0))
+        mx, mz = (ix0 + ix1) / 2, (iz0 + iz1) / 2
+        kit.face(cm_, [(ix0, CY0, iz0), (ix1, CY0, iz1), (ix1, CY1, iz1), (ix0, CY1, iz0)], (hc[0] - mx, 0, hc[1] - mz))
+    for (p0, p1, n) in (((CX0, CZ1), (CX1, CZ1), (0, 0, 1)), ((CX0, CZ0), (CX0, CZ1), (-1, 0, 0)), ((CX1, CZ0), (CX1, CZ1), (1, 0, 0))):
+        kit.face(cm_, [(p0[0], CY0, p0[1]), (p1[0], CY0, p1[1]), (p1[0], CY1, p1[1]), (p0[0], CY1, p0[1])], n)
+    for (x, z) in ((0.6, D / 2 + 1.0), (0.6, D / 2 + 2.6), (7.8, D / 2 + 1.0), (7.8, D / 2 + 2.6)): kit.box(kit.acc('lamp'), x - 0.18, x + 0.18, CY0 - 0.02, CY0, z - 0.18, z + 0.18, skip=('top',))
+    SIGNF = K.Fr((0, 0, CZ1), (1, 0, 0), (0, 0, 1))
+    m = Mesh('PLATE_FACE_BOYA', M['board']); kit.face(m, [SIGNF.p(1.4, CY0 + 0.14, 0.006), SIGNF.p(6.6, CY0 + 0.14, 0.006), SIGNF.p(6.6, CY1 - 0.12, 0.006), SIGNF.p(1.4, CY1 - 0.12, 0.006)], SIGNF.N)
+    plates.append((m, {'text': '博思教學館', 'bg': '#c9c6bf', 'color': '#2c2f33', 'serif': 0, 'fs': 0.8}))
+    # ---- 二～五樓北面（往南退到 z=−2.5）：白色＋玻璃的橫向長窗、垂直鋁鰭、清水模樓板帶；二樓在斜坡樓梯頂端開一扇玻璃門
+    fr = BACK2; DU = -9.2
+    for fl in range(1, NF):
+        v0, v1 = YF[fl], YF[fl + 1]; wb, wt = v0 + 0.95, v1 - 0.45
+        kit.wall_strip(fr, -W / 2, W / 2, v0, wb, [{'u': DU, 'a': 1.15, 'vb': v0, 'vs': wb, 'arch': False, 'vt': wb}] if fl == 1 else []); kit.wall_strip(fr, -W / 2, W / 2, wt, v1, [])
+        kit.wall_strip(fr, -W / 2, -W / 2 + 1.2, wb, wt, []); kit.wall_strip(fr, W / 2 - 4.2, W / 2, wb, wt, [])
+        kit.glass_face(fr, [(-W / 2 + 1.2, wb), (W / 2 - 4.2, wb), (W / 2 - 4.2, wt), (-W / 2 + 1.2, wt)], -0.12, lit(21, fl), wb, wt)
+        if fl == 1:
+            kit.glass_face(fr, [(DU - 1.1, v0 + 0.02), (DU + 1.1, v0 + 0.02), (DU + 1.1, wb), (DU - 1.1, wb)], -0.12, False, v0, wb)
+            for uu in (DU - 1.12, DU, DU + 1.12): kit.fbox('frame', fr, uu - 0.03, uu + 0.03, v0, wb, -0.12, -0.04, skip=('in',))
+        for (a, b_, c0, c1) in ((-W / 2 + 1.2, W / 2 - 4.2, wb - 0.0, wb + 0.02), (-W / 2 + 1.2, W / 2 - 4.2, wt - 0.02, wt)):
+            kit.fbox('frame', fr, a, b_, c0, c1, -0.12, 0.0, skip=('in',))
+        kit.face('trim', [fr.p(-W / 2 + 1.2, wb, 0.0), fr.p(W / 2 - 4.2, wb, 0.0), fr.p(W / 2 - 4.2, wb, -0.12), fr.p(-W / 2 + 1.2, wb, -0.12)], (0, 1, 0))
+        kit.face('trim', [fr.p(-W / 2 + 1.2, wt, 0.0), fr.p(W / 2 - 4.2, wt, 0.0), fr.p(W / 2 - 4.2, wt, -0.12), fr.p(-W / 2 + 1.2, wt, -0.12)], (0, -1, 0))
+        for s_, uu in ((-1, -W / 2 + 1.2), (1, W / 2 - 4.2)):
+            kit.face('trim', [fr.p(uu, wb, 0.0), fr.p(uu, wt, 0.0), fr.p(uu, wt, -0.12), fr.p(uu, wb, -0.12)], tuple(fr.R[i] * -s_ for i in range(3)))
+        u = -W / 2 + 1.2 + 1.2
+        while u < W / 2 - 4.4:
+            kit.fbox('fin', fr, u - 0.025, u + 0.025, wb, wt, -0.12, 0.3, skip=('in',)); u += 1.2
+        kit.glass_face(fr, [(W / 2 - 2.6, v0 + 0.6), (W / 2 - 1.6, v0 + 0.6), (W / 2 - 1.6, v1 - 0.6), (W / 2 - 2.6, v1 - 0.6)], 0.002, lit(22, fl), v0, v1)
+    for k in range(1, NF + 1):
+        kit.fbox('trim', fr, -W / 2 - 0.05, W / 2 + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.5 if k == 1 else 0.12, skip=('in',))
+    # ---- 北面：長草的斜坡（一樓的屋頂，從 z=−9 高 0.3 m 斜到 z=−2.5 二樓樓板）＋木格柵樓梯（底下關著門）＋兩端清水模擋土牆
+    zN = -D / 2; SL0, SL1 = 0.3, YF[1]; STX0, STX1 = 7.8, 10.6; NST = 26; RISE = SL1 / NST; RUN = (NZ - zN) / NST
+    def sl(z): return SL0 + (SL1 - SL0) * (z - zN) / (NZ - zN)
+    gm = kit.acc('grass')
+    for (xa, xb) in ((-W / 2, STX0 - 0.2), (STX1 + 0.15, W / 2)):
+        kit.face(gm, [(xa, SL0, zN), (xb, SL0, zN), (xb, SL1, NZ), (xa, SL1, NZ)], (0, 0.83, -0.56))
+    kit.box('trim', -W / 2, W / 2, 0.0, SL0 + 0.06, zN - 0.06, zN + 0.22, skip=('bottom', 'top'))     # 斜坡底的清水模矮牆
+    kit.box('trim', -W / 2, STX0 - 0.2, SL0 + 0.06, SL0 + 0.08, zN - 0.06, zN + 0.22, skip=('bottom',)); kit.box('trim', STX1 + 0.15, W / 2, SL0 + 0.06, SL0 + 0.08, zN - 0.06, zN + 0.22, skip=('bottom',))
+    for k in range(NST):                                                                          # 樓梯（花崗石踏階；只做踏面和踢面）
+        z0_ = zN + k * RUN; kit.box('base', STX0, STX1, 0.0, (k + 1) * RISE, z0_, z0_ + RUN, skip=('bottom', 'front', 'left', 'right'))
+    for (xa, xb, sd) in ((STX0 - 0.2, STX0, 1), (STX1, STX1 + 0.15, -1)):                          # 樓梯兩邊的矮牆（清水模，高出斜坡 0.15）
+        kit.face('trim', [(xa, sl(zN) + 0.15, zN), (xb, sl(zN) + 0.15, zN), (xb, sl(NZ) + 0.15, NZ), (xa, sl(NZ) + 0.15, NZ)], (0, 0.83, -0.56))
+        xi = xb if sd > 0 else xa
+        kit.face('trim', [(xi, 0.0, zN), (xi, SL1 - RISE, NZ), (xi, SL1 + 0.15, NZ), (xi, SL0 + 0.15, zN)], (sd, 0, 0))
+        kit.face('trim', [(xa, 0.0, zN - 0.001), (xb, 0.0, zN - 0.001), (xb, SL0 + 0.15, zN - 0.001), (xa, SL0 + 0.15, zN - 0.001)], (0, 0, -1))
+        xo = xa if sd > 0 else xb                                                                  # 矮牆外面（草那一側）高出斜坡的那 15 cm
+        kit.face('trim', [(xo, sl(zN), zN), (xo, sl(NZ), NZ), (xo, sl(NZ) + 0.15, NZ), (xo, sl(zN) + 0.15, zN)], (-sd, 0, 0))
+    z_ = zN + 0.12                                                                                # 樓梯東邊一排木格柵（照片 boya_web_03：直條遮陽）＋上面一道斜的木樑
+    while z_ < NZ - 0.05:
+        yb = sl(z_) + 0.15; kit.box('wood', STX1 + 0.02, STX1 + 0.12, yb, yb + 2.3, z_ - 0.035, z_ + 0.035, skip=('bottom',)); z_ += 0.18
+    kit.face('wood', [(STX1 + 0.0, sl(zN) + 2.45, zN), (STX1 + 0.14, sl(zN) + 2.45, zN), (STX1 + 0.14, sl(NZ) + 2.45, NZ), (STX1 + 0.0, sl(NZ) + 2.45, NZ)], (0, 0.83, -0.56))
+    kit.face('wood', [(STX1 + 0.14, sl(zN) + 2.3, zN), (STX1 + 0.14, sl(NZ) + 2.3, NZ), (STX1 + 0.14, sl(NZ) + 2.45, NZ), (STX1 + 0.14, sl(zN) + 2.45, zN)], (1, 0, 0))
+    fm = kit.acc('frame'); GZ = zN - 0.08                                                          # 樓梯底的鐵門（關著）＋告示牌
+    for x in (STX0 + 0.02, STX1 - 0.02): kit.box(fm, x - 0.04, x + 0.04, 0.0, 1.15, GZ - 0.04, GZ + 0.04, skip=('bottom',))
+    for y in (0.12, 1.1): kit.box(fm, STX0, STX1, y - 0.025, y + 0.025, GZ - 0.02, GZ + 0.02)
+    x = STX0 + 0.2
+    while x < STX1 - 0.15: kit.box(fm, x - 0.012, x + 0.012, 0.12, 1.1, GZ - 0.012, GZ + 0.012); x += 0.14
+    GF = K.Fr(((STX0 + STX1) / 2, 0, GZ - 0.03), (-1, 0, 0), (0, 0, -1))
+    m = Mesh('PLATE_FACE_BOYA_GARDEN', M['board']); kit.face(m, [GF.p(-0.5, 0.52, 0.0), GF.p(0.5, 0.52, 0.0), GF.p(0.5, 0.86, 0.0), GF.p(-0.5, 0.86, 0.0)], GF.N)
+    plates.append((m, {'text': '屋頂花園 整修中', 'bg': '#ece8de', 'color': '#3a3a3a', 'serif': 0, 'fs': 0.6}))
+    # ---- 東西兩面：一樓（斜坡以南）＋二～五樓都在 z∈(−2.5, 9)；斜坡的側面是清水模擋土牆
     for fr, side in ((LEFT, -1), (RIGHT, 1)):
+        ua, ub = (NZ, D / 2) if side < 0 else (-D / 2, -NZ); uc = (ua + ub) / 2
         for fl in range(NF):
             v0, v1 = YF[fl], YF[fl + 1]; hs = []
-            if fl: hs.append(kit.window(fr, 0.0, v0 + 0.95, 6.0, v1 - v0 - 1.4, 0.0, lit(30, fl, side), dep=0.15, proud=0.0, mull=[-2.0, 0.0, 2.0], has_sill=False))
-            elif side > 0:   # 東側一樓：大廳的玻璃帶（2026-10-21 LAWWW2 ART-ECON-3D-GAP：原本整面沒開口的牆，經濟系每天走小椰林道過來，站在東側看整個畫面是一片灰牆；資料：入口在西南與東側）
-                hs.append(kit.window(fr, 0.0, 0.6, 13.0, YF[1] - 0.55 - 0.6, 0.0, True, dep=0.15, proud=0.0, mull=[-6.5 + 1.625 * k for k in range(1, 8)], has_sill=False, transom=2.0))
-            kit.wall_strip(fr, -D / 2, D / 2, v0, v1, hs)
-        for k in range(1, NF + 1): kit.fbox('trim', fr, -D / 2 - 0.05, D / 2 + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.12, skip=('in',))
-        kit.fbox('base', fr, -D / 2 - 0.05, D / 2 + 0.05, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom'))
-    # 屋頂：薄的出挑屋頂板（四面挑出 0.9 m）、屋面、機房
-    kit.box('trim', -W / 2 - 0.9, W / 2 + 0.9, TOP + 0.6, TOP + 0.85, -D / 2 - 0.9, D / 2 + 0.9)
-    for (a, b_, c0, c1) in ((-W / 2, W / 2, D / 2 - 0.2, D / 2), (-W / 2, W / 2, -D / 2, -D / 2 + 0.2), (-W / 2, -W / 2 + 0.2, -D / 2 + 0.2, D / 2 - 0.2), (W / 2 - 0.2, W / 2, -D / 2 + 0.2, D / 2 - 0.2)):
-        kit.box('wall', a, b_, TOP, TOP + 0.6, c0, c1, skip=('bottom', 'top'))
-    for (x, z) in ((-12.0, -3.0), (-10.5, -3.0), (8.0, 4.0), (9.5, 4.0)):
+            if fl: hs.append(kit.window(fr, uc, v0 + 0.95, 6.0, v1 - v0 - 1.4, 0.0, lit(30, fl, side), dep=0.15, proud=0.0, mull=[-2.0, 0.0, 2.0], has_sill=False))
+            elif side > 0: hs.append(kit.window(fr, uc, 0.6, 9.0, YF[1] - 0.55 - 0.6, 0.0, True, dep=0.15, proud=0.0, mull=[-4.5 + 1.5 * k for k in range(1, 6)], has_sill=False, transom=2.0))
+            kit.wall_strip(fr, ua, ub, v0, v1, hs)
+        for k in range(1, NF + 1): kit.fbox('trim', fr, ua - 0.05, ub + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.12, skip=('in',))
+        kit.fbox('base', fr, ua - 0.05, ub + 0.05, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom'))
+        xw = side * W / 2
+        kit.face('trim', [(xw, 0.0, zN), (xw, 0.0, NZ), (xw, SL1, NZ), (xw, SL0 + 0.08, zN)], (side, 0, 0))
+    # ---- 屋頂：薄的出挑屋頂板（四面挑出 0.9 m）、女兒牆（南面紅磚）、機房
+    kit.box('trim', -W / 2 - 0.9, W / 2 + 0.9, TOP + 0.6, TOP + 0.85, NZ - 0.9, D / 2 + 0.9)
+    for (a, b_, c0, c1, mk) in ((-W / 2, W / 2, D / 2 - 0.2, D / 2, 'brick'), (-W / 2, W / 2, NZ, NZ + 0.2, 'wall'), (-W / 2, -W / 2 + 0.2, NZ + 0.2, D / 2 - 0.2, 'wall'), (W / 2 - 0.2, W / 2, NZ + 0.2, D / 2 - 0.2, 'wall')):
+        kit.box(mk, a, b_, TOP, TOP + 0.6, c0, c1, skip=('bottom', 'top'))
+    for (x, z) in ((-12.0, 0.5), (-10.5, 0.5), (8.0, 4.0), (9.5, 4.0)):
         kit.box('misc', x - 0.5, x + 0.5, TOP + 0.02, TOP + 0.55, z - 0.3, z + 0.3, skip=('bottom',), col='#c9c8c3')
-    # 入口雨遮（南面中間，往外挑 2.4 m 的薄板＋兩支細鋼柱）、名牌
-    zf = D / 2
-    kit.box('trim', -3.0, 3.0, 3.6, 3.8, zf, zf + 2.4)
-    kit.face('ceil', [(-3.0, 3.599, zf), (3.0, 3.599, zf), (3.0, 3.599, zf + 2.4), (-3.0, 3.599, zf + 2.4)], (0, -1, 0))
-    for x in (-2.7, 2.7): kit.box('frame', x - 0.06, x + 0.06, 0.0, 3.6, zf + 2.1, zf + 2.22, skip=('bottom',))
-    for x in (-1.6, 1.6): kit.box(kit.acc('lamp'), x - 0.25, x + 0.25, 3.56, 3.6, zf + 1.0, zf + 1.5, skip=('top',))
-    SIGNF = K.Fr((0, 0, zf + 2.4), (1, 0, 0), (0, 0, 1))
-    m = Mesh('PLATE_FACE_BOYA', M['board']); kit.face(m, [SIGNF.p(-2.4, 3.62, 0.006), SIGNF.p(2.4, 3.62, 0.006), SIGNF.p(2.4, 3.78, 0.006), SIGNF.p(-2.4, 3.78, 0.006)], SIGNF.N)
-    plates.append((m, {'text': '博思教學館', 'bg': '#d9d6cf', 'color': '#2c2f33', 'serif': 0, 'fs': 0.8}))
-    return finish(root, accs, VC, plates, out, '博雅：五層現代建築（淺灰石材、玻璃大廳、橫向長窗＋鋁鰭）；依文字資料推測（沒有照片）')
+    return finish(root, accs, VC, plates, out, '博雅 v2（TEACH-PTBOYA-REF-1104）：南面二樓以上紅磚、清水混凝土大雨遮＋長條天窗洞、北面長草斜坡到二樓＋木格柵樓梯（底下關著）、入口木格柵、一樓圓柱；照官網照片，D136 像但不照抄')
 
 
 def finish(root, accs, VC, plates, out, note):
@@ -269,7 +360,7 @@ def finish(root, accs, VC, plates, out, note):
     for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
     pre = 'pt' if 'putong' in out else 'by'
     VCM = L.vc_material(f'wz_vc_{pre}', rough=0.55)
-    L.vc_consolidate(root, {n: VCM for n in (f'{pre}_misc', 'ck_ceiling', 'ck_frame')})
+    L.vc_consolidate(root, {n: VCM for n in (f'{pre}_misc', 'ck_ceiling', 'ck_frame', 'ck_stone_base', 'pt_green_frame', 'by_fin', 'by_wood')})   # TEACH-PTBOYA：純色的零件都併進頂點色（teach_east 鏡頭 draw call 超 1.1 倍，BB-C 15:4x）
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False); info['note'] = note
     L.write_json(out[:-4] + '.json', info)

@@ -1,0 +1,717 @@
+{
+ "ref": "putong_web_03.jpg（不進 repo）",
+ "shot": "pt03_old.png（v1＝old、v2＝new）",
+ "size": [
+  640,
+  480
+ ],
+ "tol_px": 7.7,
+ "edge": {
+  "precision": 0.454,
+  "recall": 0.461,
+  "F": 0.457
+ },
+ "line": {
+  "precision": 0.148,
+  "recall": 0.299,
+  "F": 0.198,
+  "n_ref": 115,
+  "n_shot": 174
+ },
+ "line_after_best_shift": {
+  "F": 0.306
+ },
+ "lift_vs_shifted_decoys": 0.075,
+ "decoy_F": [
+  0.303,
+  0.073,
+  0.072,
+  0.042
+ ],
+ "vanishing_point": {
+  "ref": [
+   0.102,
+   0.844,
+   0.81
+  ],
+  "shot": [
+   0.099,
+   0.849,
+   0.79
+  ],
+  "diff_pct": 0.55,
+  "note": "[x/寬, y/高, 支持的線長比例]"
+ },
+ "vertical_tilt_deg": {
+  "ref_left_right": [
+   -2.7533935880622753,
+   2.0785807186575966
+  ],
+  "shot_left_right": [
+   -4.354160458589025,
+   4.557596569323922
+  ],
+  "note": "線往下走時往右偏為正。左正右負＝往下收攏＝鏡頭往下看；左負右正＝鏡頭往上看；兩邊都≈0＝鏡頭水平（或參考圖用了移軸／AI 圖常見）"
+ },
+ "camera_fix": {
+  "fov_now": 50.0,
+  "fov_suggest_from_scale": 41.8,
+  "note": "先對消失點（左右、上下），對好以後再看縮放：縮放 s＜1＝截圖要縮小才對得上＝遊戲 FOV 太窄。兩者混在一起時縮放不可靠。",
+  "ref_axis_right_of_center_deg": -26.32,
+  "ref_pitch_down_deg": -17.8,
+  "shot_axis_right_of_center_deg": -26.5,
+  "shot_pitch_down_deg": -18.01,
+  "turn_left_deg": 0.19,
+  "pitch_down_more_deg": 0.21,
+  "how": "假設參考圖和截圖的 FOV 一樣（--fov）。消失點＝房間主軸的方向：參考圖的消失點在右邊＝參考的鏡頭偏左看；在上面＝鏡頭往下看（或移軸）。turn_left 正＝遊戲鏡頭要往左轉；pitch_down_more 正＝要再往下看。參考圖的垂直線幾乎平行、消失點卻偏高＝移軸（three.js camera.setViewOffset、Blender camera shift_y），不要用俯角。"
+ },
+ "best_shift": {
+  "scale": 1.22,
+  "dx_pct": 12.0,
+  "dy_pct": -2.7
+ },
+ "ssim_struct": 0.415,
+ "region_color": [
+  {
+   "cell": "0,0",
+   "dE_mean": 38.5,
+   "ab_hist_intersection": 0.01
+  },
+  {
+   "cell": "0,1",
+   "dE_mean": 35.8,
+   "ab_hist_intersection": 0.26
+  },
+  {
+   "cell": "0,2",
+   "dE_mean": 20.4,
+   "ab_hist_intersection": 0.15
+  },
+  {
+   "cell": "1,0",
+   "dE_mean": 53.9,
+   "ab_hist_intersection": 0.12
+  },
+  {
+   "cell": "1,1",
+   "dE_mean": 23.3,
+   "ab_hist_intersection": 0.35
+  },
+  {
+   "cell": "1,2",
+   "dE_mean": 23.0,
+   "ab_hist_intersection": 0.08
+  },
+  {
+   "cell": "2,0",
+   "dE_mean": 42.7,
+   "ab_hist_intersection": 0.16
+  },
+  {
+   "cell": "2,1",
+   "dE_mean": 8.5,
+   "ab_hist_intersection": 0.36
+  },
+  {
+   "cell": "2,2",
+   "dE_mean": 14.3,
+   "ab_hist_intersection": 0.21
+  }
+ ],
+ "detail_gap": [
+  {
+   "cell": "0,0",
+   "ref": 0.069,
+   "shot": 0.0,
+   "ratio": 14.76
+  },
+  {
+   "cell": "0,1",
+   "ref": 0.093,
+   "shot": 0.002,
+   "ratio": 13.54
+  },
+  {
+   "cell": "0,2",
+   "ref": 0.0,
+   "shot": 0.119,
+   "ratio": 0.04
+  },
+  {
+   "cell": "0,3",
+   "ref": 0.074,
+   "shot": 0.107,
+   "ratio": 0.71
+  },
+  {
+   "cell": "0,4",
+   "ref": 0.08,
+   "shot": 0.037,
+   "ratio": 2.02
+  },
+  {
+   "cell": "0,5",
+   "ref": 0.117,
+   "shot": 0.06,
+   "ratio": 1.87
+  },
+  {
+   "cell": "1,0",
+   "ref": 0.021,
+   "shot": 0.0,
+   "ratio": 5.26
+  },
+  {
+   "cell": "1,1",
+   "ref": 0.068,
+   "shot": 0.074,
+   "ratio": 0.92
+  },
+  {
+   "cell": "1,2",
+   "ref": 0.054,
+   "shot": 0.142,
+   "ratio": 0.4
+  },
+  {
+   "cell": "1,3",
+   "ref": 0.143,
+   "shot": 0.08,
+   "ratio": 1.73
+  },
+  {
+   "cell": "1,4",
+   "ref": 0.102,
+   "shot": 0.043,
+   "ratio": 2.23
+  },
+  {
+   "cell": "1,5",
+   "ref": 0.118,
+   "shot": 0.024,
+   "ratio": 4.22
+  },
+  {
+   "cell": "2,0",
+   "ref": 0.015,
+   "shot": 0.0,
+   "ratio": 3.91
+  },
+  {
+   "cell": "2,1",
+   "ref": 0.117,
+   "shot": 0.103,
+   "ratio": 1.13
+  },
+  {
+   "cell": "2,2",
+   "ref": 0.078,
+   "shot": 0.097,
+   "ratio": 0.81
+  },
+  {
+   "cell": "2,3",
+   "ref": 0.098,
+   "shot": 0.054,
+   "ratio": 1.76
+  },
+  {
+   "cell": "2,4",
+   "ref": 0.095,
+   "shot": 0.032,
+   "ratio": 2.71
+  },
+  {
+   "cell": "2,5",
+   "ref": 0.047,
+   "shot": 0.009,
+   "ratio": 3.63
+  },
+  {
+   "cell": "3,0",
+   "ref": 0.019,
+   "shot": 0.008,
+   "ratio": 1.84
+  },
+  {
+   "cell": "3,1",
+   "ref": 0.127,
+   "shot": 0.02,
+   "ratio": 5.32
+  },
+  {
+   "cell": "3,2",
+   "ref": 0.152,
+   "shot": 0.08,
+   "ratio": 1.84
+  },
+  {
+   "cell": "3,3",
+   "ref": 0.082,
+   "shot": 0.057,
+   "ratio": 1.4
+  },
+  {
+   "cell": "3,4",
+   "ref": 0.048,
+   "shot": 0.052,
+   "ratio": 0.93
+  },
+  {
+   "cell": "3,5",
+   "ref": 0.058,
+   "shot": 0.0,
+   "ratio": 12.7
+  }
+ ],
+ "mode": "campus",
+ "campus": {
+  "mass_ssim": 0.557,
+  "rhythm": {
+   "bay_px_ref": 54.0,
+   "bay_px_shot": 30.0,
+   "bay_ratio": 0.56,
+   "floor_px_ref": 41.0,
+   "floor_px_shot": 102.0,
+   "floor_ratio": 2.49
+  },
+  "material_cells_ok": 2,
+  "material": [
+   {
+    "cell": "0,0",
+    "dE": 39.7,
+    "texture_ratio": 0.12,
+    "ok": false
+   },
+   {
+    "cell": "0,1",
+    "dE": 26.4,
+    "texture_ratio": 1.26,
+    "ok": false
+   },
+   {
+    "cell": "0,2",
+    "dE": 14.2,
+    "texture_ratio": 0.67,
+    "ok": true
+   },
+   {
+    "cell": "1,0",
+    "dE": 65.7,
+    "texture_ratio": 0.13,
+    "ok": false
+   },
+   {
+    "cell": "1,1",
+    "dE": 19.2,
+    "texture_ratio": 0.71,
+    "ok": false
+   },
+   {
+    "cell": "1,2",
+    "dE": 21.3,
+    "texture_ratio": 0.45,
+    "ok": false
+   },
+   {
+    "cell": "2,0",
+    "dE": 52.0,
+    "texture_ratio": 0.15,
+    "ok": false
+   },
+   {
+    "cell": "2,1",
+    "dE": 11.8,
+    "texture_ratio": 0.42,
+    "ok": false
+   },
+   {
+    "cell": "2,2",
+    "dE": 5.9,
+    "texture_ratio": 0.65,
+    "ok": true
+   }
+  ],
+  "copy_cells": [],
+  "cells_checked": 35,
+  "cells": [
+   {
+    "cell": "0,0",
+    "F_fine": 0.0,
+    "ncc": 0.0,
+    "edge_density_ref": 0.058
+   },
+   {
+    "cell": "0,1",
+    "F_fine": 0.0,
+    "ncc": 0.98,
+    "edge_density_ref": 0.129
+   },
+   null,
+   null,
+   {
+    "cell": "0,4",
+    "F_fine": 0.38,
+    "ncc": 0.24,
+    "edge_density_ref": 0.066,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": 8.5,
+     "dy_pct": 12.3
+    }
+   },
+   null,
+   {
+    "cell": "0,6",
+    "F_fine": 0.53,
+    "ncc": 0.34,
+    "edge_density_ref": 0.129,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -14.1,
+     "dy_pct": 11.3
+    }
+   },
+   {
+    "cell": "0,7",
+    "F_fine": 0.33,
+    "ncc": 0.11,
+    "edge_density_ref": 0.098,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -0.4,
+     "dy_pct": 4.7
+    }
+   },
+   null,
+   {
+    "cell": "1,1",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.088
+   },
+   {
+    "cell": "1,2",
+    "F_fine": 0.0,
+    "ncc": 0.9,
+    "edge_density_ref": 0.033
+   },
+   null,
+   {
+    "cell": "1,4",
+    "F_fine": 0.45,
+    "ncc": 0.29,
+    "edge_density_ref": 0.167,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 3.0,
+     "dy_pct": -2.5
+    }
+   },
+   null,
+   {
+    "cell": "1,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.138
+   },
+   {
+    "cell": "1,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.118
+   },
+   null,
+   null,
+   {
+    "cell": "2,2",
+    "F_fine": 0.0,
+    "ncc": 0.81,
+    "edge_density_ref": 0.072
+   },
+   {
+    "cell": "2,3",
+    "F_fine": 0.42,
+    "ncc": 0.22,
+    "edge_density_ref": 0.071,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -14.1,
+     "dy_pct": -2.8
+    }
+   },
+   {
+    "cell": "2,4",
+    "F_fine": 0.52,
+    "ncc": 0.26,
+    "edge_density_ref": 0.174,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 5.2,
+     "dy_pct": -4.6
+    }
+   },
+   {
+    "cell": "2,5",
+    "F_fine": 0.32,
+    "ncc": 0.25,
+    "edge_density_ref": 0.061,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 9.4,
+     "dy_pct": -0.4
+    }
+   },
+   {
+    "cell": "2,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.103
+   },
+   {
+    "cell": "2,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.085
+   },
+   null,
+   {
+    "cell": "3,1",
+    "F_fine": 0.0,
+    "ncc": 0.9,
+    "edge_density_ref": 0.053
+   },
+   {
+    "cell": "3,2",
+    "F_fine": 0.51,
+    "ncc": 0.32,
+    "edge_density_ref": 0.112,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": -7.3,
+     "dy_pct": 12.3
+    }
+   },
+   {
+    "cell": "3,3",
+    "F_fine": 0.33,
+    "ncc": 0.19,
+    "edge_density_ref": 0.067,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 10.4,
+     "dy_pct": -4.5
+    }
+   },
+   {
+    "cell": "3,4",
+    "F_fine": 0.37,
+    "ncc": 0.29,
+    "edge_density_ref": 0.126,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 8.9,
+     "dy_pct": -5.2
+    }
+   },
+   {
+    "cell": "3,5",
+    "F_fine": 0.3,
+    "ncc": 0.23,
+    "edge_density_ref": 0.08,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": 9.7,
+     "dy_pct": -5.1
+    }
+   },
+   {
+    "cell": "3,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.039
+   },
+   {
+    "cell": "3,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.032
+   },
+   null,
+   {
+    "cell": "4,1",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.116
+   },
+   {
+    "cell": "4,2",
+    "F_fine": 0.3,
+    "ncc": 0.25,
+    "edge_density_ref": 0.077,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -7.0,
+     "dy_pct": 8.1
+    }
+   },
+   {
+    "cell": "4,3",
+    "F_fine": 0.5,
+    "ncc": 0.35,
+    "edge_density_ref": 0.078,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 0.5,
+     "dy_pct": 1.9
+    }
+   },
+   {
+    "cell": "4,4",
+    "F_fine": 0.42,
+    "ncc": 0.29,
+    "edge_density_ref": 0.066,
+    "found_at": {
+     "scale": 1.0,
+     "dx_pct": 0.0,
+     "dy_pct": -3.1
+    }
+   },
+   {
+    "cell": "4,5",
+    "F_fine": 0.46,
+    "ncc": 0.29,
+    "edge_density_ref": 0.107,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": 2.4,
+     "dy_pct": -6.7
+    }
+   },
+   {
+    "cell": "4,6",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.058
+   },
+   {
+    "cell": "4,7",
+    "F_fine": 0.0,
+    "ncc": 1.0,
+    "edge_density_ref": 0.032
+   },
+   null,
+   {
+    "cell": "5,1",
+    "F_fine": 0.0,
+    "ncc": 0.74,
+    "edge_density_ref": 0.076
+   },
+   {
+    "cell": "5,2",
+    "F_fine": 0.48,
+    "ncc": 0.26,
+    "edge_density_ref": 0.155,
+    "found_at": {
+     "scale": 0.9,
+     "dx_pct": 3.8,
+     "dy_pct": -7.9
+    }
+   },
+   {
+    "cell": "5,3",
+    "F_fine": 0.35,
+    "ncc": 0.2,
+    "edge_density_ref": 0.16,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -5.0,
+     "dy_pct": 1.1
+    }
+   },
+   {
+    "cell": "5,4",
+    "F_fine": 0.47,
+    "ncc": 0.33,
+    "edge_density_ref": 0.08,
+    "found_at": {
+     "scale": 1.1,
+     "dx_pct": -2.3,
+     "dy_pct": -6.1
+    }
+   },
+   null,
+   null,
+   {
+    "cell": "5,7",
+    "F_fine": 0.0,
+    "ncc": 0.14,
+    "edge_density_ref": 0.065
+   }
+  ],
+  "skyline": {
+   "columns_with_sky": 0.44,
+   "detail_corr": 0.55,
+   "rmse_frac_H": 0.5894,
+   "detail_std_ref": 0.0556,
+   "copy_flag": false
+  },
+  "thresholds": {
+   "copy_F_fine": 0.6,
+   "copy_ncc": 0.55,
+   "tol_px": 1.6
+  }
+ },
+ "checks": [
+  {
+   "name": "[鏡頭] 消失點位置差 ≤ 2%（左右、上下看的方向一樣）",
+   "ok": true,
+   "info": "0.6%"
+  },
+  {
+   "name": "[鏡頭] 垂直線傾斜差 ≤ 1.5°（俯仰／移軸一樣）",
+   "ok": false,
+   "info": "2.5°"
+  },
+  {
+   "name": "[鏡頭] 畫面比例相同（±3%）",
+   "ok": true,
+   "info": "參考 1.333｜截圖 1.333"
+  },
+  {
+   "name": "[相似] 大體量 SSIM（重模糊）≥ 0.50",
+   "ok": true,
+   "info": "0.56"
+  },
+  {
+   "name": "[相似] 材質區塊（色差 ≤ 15、紋理強度 0.6～1.6 倍）≥ 5／9",
+   "ok": false,
+   "info": "2／9"
+  },
+  {
+   "name": "[不能照抄] 細部 1:1 重疊的格子 = 0，屋頂輪廓不是 1:1",
+   "ok": true,
+   "info": "疑似照抄 0／35 格；屋頂輪廓細部相關 0.55、誤差 58.9%"
+  }
+ ],
+ "info": [
+  {
+   "name": "（參考）line_F 有方向的長直線",
+   "value": "0.20；移開 25% 的平均 0.12；lift +0.08；最佳 2D 對位後 0.31"
+  },
+  {
+   "name": "（參考）ssim_struct 大形狀",
+   "value": "0.41"
+  },
+  {
+   "name": "（參考）最佳 2D 對位",
+   "value": "縮放 1.22、平移 +12.0%／-2.7%（消失點對好以後還差很多＝房間比例／深度不一樣，不是鏡頭）"
+  },
+  {
+   "name": "（參考）開窗／柱距、樓層節奏（自相關；透視大的畫面不準）",
+   "value": "柱距 54.0→30.0 px；樓層 41.0→102.0 px"
+  }
+ ],
+ "vertical_tilt_diff_deg": 2.479015850666326,
+ "pass_all": false
+}
