@@ -1616,10 +1616,12 @@ def arcade_split_v2(spec, xf, W, wall):
         for lx in (-w / 4, w / 4):                                                                  # 店裡的燈
             px.box(acc(M['tube']), lx - 0.55, lx + 0.55, 2.92, 2.95, (zf + zb) / 2 - 0.06, (zf + zb) / 2 + 0.06)
             CL.glow(root, 'shoplamp', *px.p(lx, 2.6, (zf + zb) / 2), color='rgba(250,252,255,1)', size=1.6, day=0.0, night=0.8)
-        cm = _cm(f'sk_{pid}_vc')
-        if part.get('front'): split_front(px, w, zf, yo, part, wall, cm)   # WZ-SECOND-1104：騎樓後面的店面牆＋外帶窗口（照參考圖；騎樓和導航不變）
+        unlit = SET == 'wenzhou' and bool(part.get('front'))   # WZ-SECOND-1104 v3（使用者 06:2x：這五間的室內就是從外面看得到的那一塊）：店裡改用和其他店內一樣的 unlit 頂點色＋越裡面越暗，
+        cm = L.CMesh(f'sk_in_{pid}', IN_VC) if unlit else _cm(f'sk_{pid}_vc')   # 原本受光的材質在騎樓陰影下整片發黑（參考圖窗口裡是亮的）；店面牆、窗框、腰板另外一個受光的網格
+        if part.get('front'): cmf = _cm(f'sk_{pid}_front_vc'); split_front(px, w, zf, yo, part, wall, cmf); cmf.finish(root, uv=False)   # 騎樓後面的店面牆＋外帶窗口（照參考圖；騎樓和導航不變）
         if part['kind'] == 'tea': _tea(px, w, zf, zb, cm, pid)
         else: _ice(px, w, zf, zb, cm, pid, yo)
+        if unlit: _shade_interior(cm, px, w, zf, 2.95, bright=0.78, warm=True)
         cm.finish(root, uv=False)
         for (cn, x, y, ww, hh) in part.get('notes', []): note(px, cn, x, y, ww, hh, zf + 0.09)
         for it in part.get('clutter', []):
@@ -1727,8 +1729,11 @@ def _ice(px, w, zf, zb, cm, pid, yo):
     for sx in (-1, 1):                                                                               # 摺門收在兩側
         for k in range(4):
             x = sx * (w / 2 - 0.32 - k * 0.07); px.box(acc(SK['alu2']), x - 0.025, x + 0.025, 0.06, yo - 0.3, zf - 0.22 + (k % 2) * 0.1, zf + 0.02)
-    px.box(acc(SK['wood_lt']), -w / 2 + 0.24, w / 2 - 0.24, 0.0, 1.1, zb - 0.05, zb)                 # 後牆：木板牆腰
-    px.box(acc(M['plaster']), -w / 2 + 0.24, w / 2 - 0.24, 1.1, 2.95, zb - 0.05, zb)
+    if pid == 'B5i' and SET == 'wenzhou':                                                              # WZ-SECOND-1104 v3：店裡 unlit（和其他店內一樣），後牆用頂點色
+        vbox(cm, px, -w / 2 + 0.24, w / 2 - 0.24, 0.0, 1.1, zb - 0.05, zb, '#b48a5e', r=0); vbox(cm, px, -w / 2 + 0.24, w / 2 - 0.24, 1.1, 2.95, zb - 0.05, zb, '#eee6d6', r=0)
+    else:
+        px.box(acc(SK['wood_lt']), -w / 2 + 0.24, w / 2 - 0.24, 0.0, 1.1, zb - 0.05, zb)                 # 後牆：木板牆腰
+        px.box(acc(M['plaster']), -w / 2 + 0.24, w / 2 - 0.24, 1.1, 2.95, zb - 0.05, zb)
     mw, mh = 4.2, 1.31; mx0 = -mw / 2 + 0.3
     uvquad(f'sk_menu_{pid}', SK['menu_ice'], [px.p(mx0, 1.45, zb + 0.02), px.p(mx0 + mw, 1.45, zb + 0.02), px.p(mx0 + mw, 1.45 + mh, zb + 0.02), px.p(mx0, 1.45 + mh, zb + 0.02)])
     if pid == 'B5i' and SET == 'wenzhou': wz2_ice(px, w, zf, zb, cm, random.Random(5104))   # WZ-SECOND-1104 v2：窗台上的古早剉冰機、大小不同的配料罐、糖漿瓶、玻璃碗；後面的層架

@@ -17,15 +17,31 @@ def _jit(hexcol, rr, v=0.12, s=0.08, h=0.015):
     r, g, b = _cs.hls_to_rgb(hh, ll, ss); return '#%02x%02x%02x' % (int(r * 255), int(g * 255), int(b * 255))
 
 
+# 預算（BB 11-04 06:24，SCENE_RULES §5「整間室內 60k 以內」）：從街上看是 3 m 以外，段數設上限；小東西再少一點
+def _wseg(seg, r, lo=4, hi=8):
+    return max(lo, min(seg, hi if r >= 0.06 else (6 if r >= 0.025 else lo)))
+
+
+def _wl(m, xf, prof, x, y, z, seg=14):
+    return _lathe(m, xf, prof, x, y, z, seg=_wseg(seg, max(abs(p[0]) for p in prof), 5, 10))
+
+
+def _wc(m, xf, a, b, r, seg=8):
+    return xf_cyl(m, xf, a, b, r, seg=_wseg(seg, r, 3, 8))
+
+
 def _ell(cm, xf, col, x, y, z, rx, ry, rz, seg=8, rings=5):
+    rm = max(rx, ry, rz); seg = _wseg(seg, rm, 4, 6); rings = max(3, min(rings, 4 if rm >= 0.025 else 3))
     bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=rings, radius=1.0)
     for v in bm.verts: v.co = Vector((v.co.x * rx, v.co.y * rz, v.co.z * ry))
     _CP(cm, col).add_bm(bm, Matrix.Translation(g2b(*xf.p(x, y, z)))); bm.free()
 
 
-def _obox(cm, xf, col, cx, cy, cz, w, h, d, ry=0.0, rz=0.0, rx=0.0):
+def _obox(cm, xf, col, cx, cy, cz, w, h, d, ry=0.0, rz=0.0, rx=0.0, back=True, front_only=False, top=True, left=True):
     """任意角度的方塊（斜靠的書、倒下來的紙箱、仰著放的書）：中心 (cx,cy,cz)、寬 w（x）高 h（y）深 d（z）；ry 繞垂直軸、rz 往左右倒、rx 往前後仰"""
     bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+    cut = lambda n: n.z < -0.9 or (not back and n.y > 0.9) or (front_only and n.y > -0.9) or (not top and n.z > 0.9) or (not left and n.x < -0.9)   # 底面看不到（放在架上、桌上）；書櫃裡的書背面（+y＝遊戲的 -z）看不到；書名籤只留正面
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if cut(f.normal)], context='FACES')
     m = Matrix.Translation(g2b(*xf.p(cx, cy, cz))) @ Matrix.Rotation(getattr(xf, 'ry', 0.0) + ry, 4, 'Z') @ Matrix.Rotation(-rz, 4, 'Y') @ Matrix.Rotation(rx, 4, 'X') @ Matrix.Diagonal((w, d, h, 1.0))
     _CP(cm, col).add_bm(bm, m); bm.free()
 
@@ -36,9 +52,9 @@ BOOK_PAL = ['#6e2c28', '#2c4462', '#3a5236', '#b9a47c', '#e2d8c2', '#563826', '#
 def book_row(cm, xf, rr, x0, x1, y, zfront, ymax, dmax=0.22):
     """一層書：一本一本不同的厚度、高度、深度、顏色（同一系列的會挨在一起、同一種顏色深淺不同）；
     中間有空隙、有一疊橫放的、有斜靠在旁邊的、偶爾一個書擋"""
-    x = x0; prev_h = 0.2; series = None
+    x = x0; prev_h = 0.2; series = None; prev_book = None
     while x < x1 - 0.03:
-        r = rr.random()
+        pb = prev_book; prev_book = None; r = rr.random()
         if r < 0.05: x += rr.uniform(0.04, 0.14); continue                                           # 空隙
         if r < 0.11 and x1 - x > 0.3:                                                                    # 一疊橫放的
             n = rr.randint(2, 5); yy = y; L_ = rr.uniform(0.15, 0.25); dd = rr.uniform(0.12, min(dmax, 0.2))
@@ -57,10 +73,11 @@ def book_row(cm, xf, rr, x0, x1, y, zfront, ymax, dmax=0.22):
             series = (rr.choice(BOOK_PAL), rr.choice((0.018, 0.026, 0.034, 0.045, 0.06)), rr.uniform(0.16, 0.3), rr.randint(1, 6))
         col, tw, th, _ = series
         w_ = tw * rr.uniform(0.75, 1.3); h_ = min(ymax - y - 0.012, th * rr.uniform(0.92, 1.06)); d_ = rr.uniform(0.11, dmax)
-        _obox(cm, xf, _jit(col, rr), x + w_ / 2, y + h_ / 2, zfront - d_ / 2 - rr.uniform(0.0, 0.02), w_, h_, d_)
+        hid = pb is not None and abs(pb[0] - x) < 0.006 and pb[1] >= h_ - 0.01   # 左邊緊貼一本一樣高或更高的書：左側面看不到
+        _obox(cm, xf, _jit(col, rr), x + w_ / 2, y + h_ / 2, zfront - d_ / 2 - rr.uniform(0.0, 0.02), w_, h_, d_, back=False, top=y < 1.2, left=not hid)
         if rr.random() < 0.35:                                                                             # 書背上的書名籤（淺色的一小條）
-            ly = y + h_ * rr.uniform(0.55, 0.8); _obox(cm, xf, _jit('#e8dfc8', rr, 0.05), x + w_ / 2, ly, zfront - 0.0015 - rr.uniform(0, 0.02) + 0.002, w_ * 0.7, rr.uniform(0.02, 0.05), 0.003)
-        x += w_ + rr.uniform(0.0, 0.004); prev_h = h_
+            ly = y + h_ * rr.uniform(0.55, 0.8); _obox(cm, xf, _jit('#e8dfc8', rr, 0.05), x + w_ / 2, ly, zfront - 0.0015 - rr.uniform(0, 0.02) + 0.002, w_ * 0.7, rr.uniform(0.02, 0.05), 0.003, front_only=True)
+        x += w_ + rr.uniform(0.0, 0.004); prev_h = h_; prev_book = (x, h_)
 
 
 def cover_book(cm, xf, rr, x, y, z, w, h, tilt, col):
@@ -72,9 +89,9 @@ def cover_book(cm, xf, rr, x, y, z, w, h, tilt, col):
 
 
 def _pendant_brass(xf, x, y, z, glow=True):
-    _lathe(acc(SK['black']), xf, [(0.0, 0.0), (0.01, 0.0), (0.01, 0.4), (0.0, 0.4)], x, y + 0.18, z, seg=6)
-    _lathe(acc(SK['lamp']), xf, [(0.0, 0.0), (0.05, 0.0), (0.0, 0.05)], x, y - 0.02, z, seg=10)
-    _lathe(acc(SK['brass']), xf, [(0.04, 0.2), (0.07, 0.17), (0.17, 0.03), (0.18, 0.0), (0.16, 0.0), (0.06, 0.15), (0.03, 0.2)], x, y, z, seg=16)
+    _wl(acc(SK['black']), xf, [(0.0, 0.0), (0.01, 0.0), (0.01, 0.4), (0.0, 0.4)], x, y + 0.18, z, seg=6)
+    _wl(acc(SK['lamp']), xf, [(0.0, 0.0), (0.05, 0.0), (0.0, 0.05)], x, y - 0.02, z, seg=10)
+    _wl(acc(SK['brass']), xf, [(0.04, 0.2), (0.07, 0.17), (0.17, 0.03), (0.18, 0.0), (0.16, 0.0), (0.06, 0.15), (0.03, 0.2)], x, y, z, seg=16)
     if glow: CL.glow(root, 'shopin', *xf.p(x, y - 0.1, z), color='rgba(255,220,160,1)', size=1.6, day=0.0, night=0.9)
 
 
@@ -108,7 +125,7 @@ def wz2_books(pid, cm, xf, iw, gz, zb, y0, yt, rr):
         vb(bx - 0.1, bx + 0.1, ty, ty + 0.012, tz1 - 0.2, tz1 - 0.1, '#3a2a1e', r=0)
         cover_book(cm, xf, rr, bx, ty + 0.012, tz1 - 0.12, rr.uniform(0.15, 0.21), rr.uniform(0.21, 0.27), tilt, _jit(rr.choice(BOOK_PAL), rr))
     lx = tx1 - 0.2; lz = tz0 + 0.2                                                                             # 黃銅檯燈（綠燈罩）
-    _lathe(cp('#a8843e'), xf, [(0.0, 0.0), (0.07, 0.0), (0.07, 0.02), (0.012, 0.03), (0.012, 0.34), (0.0, 0.34)], lx, ty, lz, seg=12)
+    _wl(cp('#a8843e'), xf, [(0.0, 0.0), (0.07, 0.0), (0.07, 0.02), (0.012, 0.03), (0.012, 0.34), (0.0, 0.34)], lx, ty, lz, seg=12)
     _obox(cm, xf, '#2f5a3e', lx, ty + 0.36, lz + 0.02, 0.24, 0.06, 0.11)
     CL.glow(root, 'shopin', *xf.p(lx, ty + 0.3, lz + 0.05), color='rgba(255,214,150,1)', size=1.0, day=0.0, night=0.9)
     # 櫥窗：玻璃後面的低平台，封面朝外的書（大小、角度、顏色都不同）、幾疊、一盆小植物、一個舊地球儀
@@ -126,11 +143,11 @@ def wz2_books(pid, cm, xf, iw, gz, zb, y0, yt, rr):
                     t = rr.uniform(0.015, 0.04); _obox(cm, xf, _jit(rr.choice(BOOK_PAL), rr), x + L_ / 2, yy + t / 2, gz - 0.25, L_ * rr.uniform(0.85, 1), t, rr.uniform(0.12, 0.18), ry=rr.uniform(-0.15, 0.15)); yy += t
                 x += L_ + 0.08
             else:
-                _lathe(cp('#a8653e'), xf, [(0.0, 0.0), (0.06, 0.0), (0.075, 0.11), (0.0, 0.11)], x + 0.08, y0 + 0.32, gz - 0.25, seg=10)
+                _wl(cp('#a8653e'), xf, [(0.0, 0.0), (0.06, 0.0), (0.075, 0.11), (0.0, 0.11)], x + 0.08, y0 + 0.32, gz - 0.25, seg=10)
                 for k in range(7): a = k * 0.9; _ell(cm, xf, _jit('#4f7a3a', rr, 0.2), x + 0.08 + math.cos(a) * 0.05, y0 + 0.5 + (k % 3) * 0.04, gz - 0.25 + math.sin(a) * 0.05, 0.06, 0.025, 0.035, seg=6, rings=3)
                 x += 0.22
     gx_, gz_ = iw / 2 - 1.5, gz - 0.25                                                                         # 地球儀
-    _lathe(cp('#3a2a1e'), xf, [(0.0, 0.0), (0.07, 0.0), (0.02, 0.05), (0.02, 0.12), (0.0, 0.12)], gx_, y0 + 0.32, gz_, seg=10)
+    _wl(cp('#3a2a1e'), xf, [(0.0, 0.0), (0.07, 0.0), (0.02, 0.05), (0.02, 0.12), (0.0, 0.12)], gx_, y0 + 0.32, gz_, seg=10)
     _ell(cm, xf, '#5e7f8e', gx_, y0 + 0.56, gz_, 0.11, 0.11, 0.11, seg=12, rings=8)
     # 櫃台（右邊）＋舊收銀機、一疊包書紙
     cx0, cx1 = iw / 2 - 1.5, iw / 2 - 0.35
@@ -147,7 +164,7 @@ def wz2_laundry(pid, cm, xf, iw, gz, zb, y0, yt, rr):
     def machine(x, y, w, h, d, big, kind):
         vb(x - w / 2, x + w / 2, y, y + h, zb, zb + d, '#f2f3f2' if kind == 'washer' else '#e9ebeb', r=0.015)
         cy = y + h * (0.45 if big else 0.5); rd = min(w, h) * 0.36
-        xf_cyl(cp('#b5bbbf'), xf, (x, cy, zb + d), (x, cy, zb + d + 0.025), rd, seg=18); xf_cyl(cp('#2a2d30'), xf, (x, cy, zb + d + 0.025), (x, cy, zb + d + 0.03), rd * 0.8, seg=18)
+        _wc(cp('#b5bbbf'), xf, (x, cy, zb + d), (x, cy, zb + d + 0.025), rd, seg=18); _wc(cp('#2a2d30'), xf, (x, cy, zb + d + 0.025), (x, cy, zb + d + 0.03), rd * 0.8, seg=18)
         if rr.random() < 0.55:                                                                                 # 有的機器裡有衣服（不同顏色的一團）
             c = rr.choice(['#7a8aa0', '#c9c2b4', '#a8584a', '#4a5a4a', '#d8b860', '#5a6e8a']); _ell(cm, xf, _jit(c, rr), x + rr.uniform(-0.05, 0.05), cy - rd * 0.3, zb + d + 0.031, rd * 0.55, rd * 0.35, 0.004, seg=10, rings=4)
         vb(x - w / 2 + 0.05, x + w / 2 - 0.05, y + h - 0.12, y + h - 0.04, zb + d, zb + d + 0.006, '#c9d2d8', r=0)   # 控制面板
@@ -164,7 +181,7 @@ def wz2_laundry(pid, cm, xf, iw, gz, zb, y0, yt, rr):
         yy = y0 + 0.78 + row * 0.23; xx = vx + 0.09
         while xx < vx + 0.46:
             bw = rr.uniform(0.035, 0.065); bh = rr.uniform(0.09, 0.19); col = rr.choice(['#5aa8d8', '#e8eef2', '#f0c040', '#8a5ac8', '#4ab87a', '#e86a8a'])
-            _lathe(cp(_jit(col, rr)), xf, [(0.0, 0.0), (bw / 2, 0.0), (bw / 2, bh * 0.72), (bw * 0.18, bh * 0.85), (bw * 0.18, bh), (0.0, bh)], xx + bw / 2, yy, zb + 0.6, seg=8); xx += bw + 0.012
+            _wl(cp(_jit(col, rr)), xf, [(0.0, 0.0), (bw / 2, 0.0), (bw / 2, bh * 0.72), (bw * 0.18, bh * 0.85), (bw * 0.18, bh), (0.0, bh)], xx + bw / 2, yy, zb + 0.6, seg=8); xx += bw + 0.012
     sx = vx + 0.8
     vb(sx, sx + 0.42, y0, y0 + 1.5, zb, zb + 0.4, '#b8bcc0', r=0.015); vb(sx + 0.08, sx + 0.34, y0 + 1.05, y0 + 1.3, zb + 0.4, zb + 0.405, '#1e3a52', r=0)   # 兌幣機（螢幕）
     vb(sx + 0.12, sx + 0.3, y0 + 0.75, y0 + 0.82, zb + 0.4, zb + 0.41, '#2a2a2c', r=0)
@@ -183,15 +200,15 @@ def wz2_laundry(pid, cm, xf, iw, gz, zb, y0, yt, rr):
     yy = y0 + 0.85
     for k in range(rr.randint(4, 6)):                                                                          # 摺好的衣服一疊（每件大小、顏色不同）
         t = rr.uniform(0.025, 0.05); _obox(cm, xf, _jit(rr.choice(['#e8e4dc', '#5a6e8a', '#c95a4a', '#d8c890', '#7a7a7a']), rr), tx1 - 0.28, yy + t / 2, tz1 - 0.22, rr.uniform(0.26, 0.32), t, rr.uniform(0.2, 0.26), ry=rr.uniform(-0.1, 0.1)); yy += t
-    _lathe(cp('#3a8ac8'), xf, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.16), (0.02, 0.2), (0.02, 0.23), (0.0, 0.23)], tx0 + 1.25, y0 + 0.85, tz1 - 0.12, seg=8)
+    _wl(cp('#3a8ac8'), xf, [(0.0, 0.0), (0.05, 0.0), (0.05, 0.16), (0.02, 0.2), (0.02, 0.23), (0.0, 0.23)], tx0 + 1.25, y0 + 0.85, tz1 - 0.12, seg=8)
     _obox(cm, xf, '#e8d8c8', tx0 + 0.6, y0 + 0.65, tz1 + 0.005, 0.3, 0.32, 0.01)                              # 掛在桌邊的毛巾
     # 店裡另外：窗邊的大盆栽、垃圾桶、牆上的時鐘
-    _lathe(cp('#f2f2ee'), xf, [(0.0, 0.0), (0.16, 0.0), (0.19, 0.4), (0.0, 0.4)], -iw / 2 + 0.45, y0, gz - 0.5, seg=12)
+    _wl(cp('#f2f2ee'), xf, [(0.0, 0.0), (0.16, 0.0), (0.19, 0.4), (0.0, 0.4)], -iw / 2 + 0.45, y0, gz - 0.5, seg=12)
     for k in range(11):
-        a = k * 0.57; hh = rr.uniform(0.4, 0.85); xf_cyl(cp('#3f6a32'), xf, (-iw / 2 + 0.45, y0 + 0.4, gz - 0.5), (-iw / 2 + 0.45 + math.cos(a) * 0.12, y0 + 0.4 + hh, gz - 0.5 + math.sin(a) * 0.12), 0.006, seg=3)
+        a = k * 0.57; hh = rr.uniform(0.4, 0.85); _wc(cp('#3f6a32'), xf, (-iw / 2 + 0.45, y0 + 0.4, gz - 0.5), (-iw / 2 + 0.45 + math.cos(a) * 0.12, y0 + 0.4 + hh, gz - 0.5 + math.sin(a) * 0.12), 0.006, seg=3)
         _ell(cm, xf, _jit('#4f8a3a', rr, 0.2), -iw / 2 + 0.45 + math.cos(a) * 0.2, y0 + 0.4 + hh, gz - 0.5 + math.sin(a) * 0.2, rr.uniform(0.08, 0.14), 0.02, rr.uniform(0.05, 0.08), seg=6, rings=3)
-    xf_cyl(cp('#9aa0a6'), xf, (iw / 2 - 0.4, y0, gz - 1.2), (iw / 2 - 0.4, y0 + 0.5, gz - 1.2), 0.15, seg=12)
-    xf_cyl(cp('#f4f4f2'), xf, (0.6, yt - 0.55, zb + 0.001), (0.6, yt - 0.55, zb + 0.03), 0.14, seg=16); xf_cyl(cp('#2a2a2c'), xf, (0.6, yt - 0.55, zb + 0.03), (0.6, yt - 0.55, zb + 0.032), 0.12, seg=16)
+    _wc(cp('#9aa0a6'), xf, (iw / 2 - 0.4, y0, gz - 1.2), (iw / 2 - 0.4, y0 + 0.5, gz - 1.2), 0.15, seg=12)
+    _wc(cp('#f4f4f2'), xf, (0.6, yt - 0.55, zb + 0.001), (0.6, yt - 0.55, zb + 0.03), 0.14, seg=16); _wc(cp('#2a2a2c'), xf, (0.6, yt - 0.55, zb + 0.03), (0.6, yt - 0.55, zb + 0.032), 0.12, seg=16)
 
 
 # ---------------------------------------------------------------- B6 阿忠鮮果
@@ -205,7 +222,7 @@ def fruit_heap(cm, xf, rr, kind, x0, x1, z0, z1, y):
     if kind == 'grape':
         for k in range(int((x1 - x0) / 0.12) * 2):
             cx, cz = rr.uniform(x0 + 0.05, x1 - 0.05), rr.uniform(z0 + 0.05, z1 - 0.05)
-            for q in range(14): _ell(cm, xf, _jit(col, rr, 0.18), cx + rr.uniform(-0.04, 0.04), y + 0.03 + rr.uniform(0, 0.05), cz + rr.uniform(-0.05, 0.05), 0.012, 0.014, 0.012, seg=5, rings=3)
+            for q in range(9): _ell(cm, xf, _jit(col, rr, 0.18), cx + rr.uniform(-0.04, 0.04), y + 0.03 + rr.uniform(0, 0.05), cz + rr.uniform(-0.05, 0.05), 0.012, 0.014, 0.012, seg=5, rings=3)
         return
     nx = max(1, int((x1 - x0) / (2.1 * r))); nz = max(1, int((z1 - z0) / (2.1 * r)))
     for layer in range(2):
@@ -249,7 +266,7 @@ def wz2_fruit(pid, cm, xf, iw, gz, zb, y0, yt, rr):
     vb(cx0, cx1, y0, y0 + 0.9, cz0, cz1, '#b48a5e', r=0.015); vb(cx0 - 0.02, cx1 + 0.02, y0 + 0.9, y0 + 0.93, cz0 - 0.02, cz1 + 0.02, '#c9ced2', r=0.008)
     vb(cx0 + 0.2, cx0 + 0.55, y0 + 0.93, y0 + 1.0, cz0 + 0.2, cz1 - 0.1, '#f2f2ee', r=0.01); vb(cx0 + 0.24, cx0 + 0.51, y0 + 1.0, y0 + 1.01, cz0 + 0.22, cz1 - 0.12, '#c9ced2', r=0)   # 秤
     vb(cx1 - 0.55, cx1 - 0.2, y0 + 0.93, y0 + 1.08, cz0 + 0.1, cz0 + 0.4, '#2c2c2c', r=0.01); _obox(cm, xf, '#1c2a34', cx1 - 0.37, y0 + 1.15, cz0 + 0.22, 0.26, 0.12, 0.02, rx=0.5)
-    xf_cyl(cp('#e88aa8'), xf, (cx0 - 0.15, y0 + 1.0, cz1 - 0.1), (cx0 - 0.15, y0 + 1.35, cz1 - 0.1), 0.06, seg=10); xf_cyl(cp('#f4f4f2'), xf, (cx0 - 0.3, y0 + 1.0, cz1 - 0.1), (cx0 - 0.3, y0 + 1.28, cz1 - 0.1), 0.05, seg=10)
+    _wc(cp('#e88aa8'), xf, (cx0 - 0.15, y0 + 1.0, cz1 - 0.1), (cx0 - 0.15, y0 + 1.35, cz1 - 0.1), 0.06, seg=10); _wc(cp('#f4f4f2'), xf, (cx0 - 0.3, y0 + 1.0, cz1 - 0.1), (cx0 - 0.3, y0 + 1.28, cz1 - 0.1), 0.05, seg=10)
     # 地上：店裡的幾箱水果（不同大小的箱子放在棧板上，每箱不同的水果）
     plan = [('mango', -iw / 2 + 2.3, 0.55, 0.42), ('papaya', -iw / 2 + 2.95, 0.6, 0.45), ('dragon', 1.25, 0.5, 0.4), ('grape', 1.85, 0.42, 0.36), ('pear', 2.4, 0.5, 0.4), ('lemon', 3.0, 0.38, 0.34), ('guava', 3.5, 0.46, 0.38)]
     for (kind, x, w, d) in plan:
@@ -259,20 +276,25 @@ def wz2_fruit(pid, cm, xf, iw, gz, zb, y0, yt, rr):
         vb(x - w / 2, x + w / 2, y0 + 0.1, y0 + 0.1 + h, z - d / 2, z + d / 2, _jit('#c9a46a', rr), r=0)
         fruit_heap(cm, xf, rr, kind, x - w / 2 + 0.02, x + w / 2 - 0.02, z - d / 2 + 0.02, z + d / 2 - 0.02, y0 + 0.1 + h)
     for k in range(3):                                                                                         # 掛在架子上的香蕉（一串大、一串小）
-        hx = sx0 + 0.3 + k * 0.6; hy = y0 + 2.05; xf_cyl(cp('#5a5a5a'), xf, (hx, hy + 0.25, zb + 0.55), (hx, hy, zb + 0.55), 0.004, seg=3)
+        hx = sx0 + 0.3 + k * 0.6; hy = y0 + 2.05; _wc(cp('#5a5a5a'), xf, (hx, hy + 0.25, zb + 0.55), (hx, hy, zb + 0.55), 0.004, seg=3)
         n_ = rr.randint(5, 9)
         for q in range(n_):
-            a = (q / n_ - 0.5) * 1.6; L_ = rr.uniform(0.13, 0.19); xf_cyl(cp(_jit('#efcd3c', rr, 0.08)), xf, (hx, hy, zb + 0.55), (hx + math.sin(a) * L_, hy - L_ * 0.8, zb + 0.55 + math.cos(a) * 0.04), 0.02, seg=5)
+            a = (q / n_ - 0.5) * 1.6; L_ = rr.uniform(0.13, 0.19); _wc(cp(_jit('#efcd3c', rr, 0.08)), xf, (hx, hy, zb + 0.55), (hx + math.sin(a) * L_, hy - L_ * 0.8, zb + 0.55 + math.cos(a) * 0.04), 0.02, seg=5)
 
 
 # ---------------------------------------------------------------- B5 帝大紅茶（_tea 的店裡：三個大小不同的茶桶、不同高度的杯塔、封口機、冰桶、罐子）
 def wz2_tea(px, w, zf, zb, cm, rr):
     vb = lambda *a, **k: xf_vbox(cm, px, *a, **k); cp = lambda c: _CP(cm, c)
-    px.box(acc(SK['steel']), -w / 2 + 0.3, w / 2 - 0.3, 0.86, 0.9, zb, zb + 0.62)
+    zbb = zb; zb = zf - 1.3   # 工作檯緊貼在窗口後面（參考圖）：茶桶、封口機、冰桶放在離窗口 0.7～1.3 m 的地方；後牆的層架照舊在 zbb
+    vb(-w / 2 + 0.3, w / 2 - 0.3, 0.86, 0.9, zb, zb + 0.62, '#d4d8da', r=0)
     vb(-w / 2 + 0.3, w / 2 - 0.3, 0.06, 0.86, zb + 0.02, zb + 0.6, '#c9ccce', 0.9)
     x = -1.7
-    for (r_, h_) in ((0.2, 0.6), (0.17, 0.52), (0.15, 0.46)):                                                  # 茶桶（不鏽鋼、蓋子、黑色水龍頭、紅標）
-        _lathe(acc(SK['steel']), px, [(0.0, 0.0), (r_, 0.0), (r_, h_), (r_ * 0.9, h_ + 0.03), (r_ * 0.3, h_ + 0.06), (0.04, h_ + 0.09), (0.0, h_ + 0.09)], x, 0.9, zb + 0.32, seg=16)
+    for (r_, h_) in ((0.25, 0.72), (0.22, 0.64), (0.19, 0.56)):                                                  # 茶桶（不鏽鋼、蓋子、黑色水龍頭、紅標）
+        for (ya, yb_, cc) in ((0.0, 0.03, '#7c8286'), (h_ * 0.3, h_ * 0.32, '#8a9094'), (h_ - 0.02, h_ + 0.01, '#7c8286')):   # 不鏽鋼的接縫、桶緣（店內不受光：明暗要畫在顏色上）
+            _wl(cp(cc), px, [(0.0, ya), (r_ * 1.01, ya), (r_ * 1.01, yb_), (0.0, yb_)], x, 0.9, zb + 0.32, seg=16)
+        vb(x - r_ * 0.55, x - r_ * 0.38, 0.93, 0.9 + h_ - 0.03, zb + 0.32 + r_ * 0.85, zb + 0.32 + r_ * 0.95, '#f2f5f6', r=0)   # 正面的一條反光
+        vb(x + r_ * 0.45, x + r_ * 0.7, 0.93, 0.9 + h_ - 0.03, zb + 0.32 + r_ * 0.72, zb + 0.32 + r_ * 0.8, '#9aa0a4', r=0)    # 側面暗一點
+        _wl(cp(_jit('#b7bdc1', rr, 0.05)), px, [(0.0, 0.0), (r_, 0.0), (r_, h_), (r_ * 0.9, h_ + 0.03), (r_ * 0.3, h_ + 0.06), (0.04, h_ + 0.09), (0.0, h_ + 0.09)], x, 0.9, zb + 0.32, seg=16)
         vb(x - 0.025, x + 0.025, 0.98, 1.03, zb + 0.32 + r_, zb + 0.32 + r_ + 0.06, '#1e1e1e', r=0); vb(x - 0.08, x + 0.08, 0.9 + h_ * 0.55, 0.9 + h_ * 0.7, zb + 0.32 + r_ - 0.01, zb + 0.32 + r_ + 0.002, '#7a2a2c', r=0)
         x += 2 * r_ + rr.uniform(0.06, 0.12)
     sx = x + 0.15                                                                                              # 封口機（白、紅）
@@ -280,20 +302,22 @@ def wz2_tea(px, w, zf, zb, cm, rr):
     vb(sx + 0.55, sx + 1.15, 0.9, 1.08, zb + 0.08, zb + 0.56, '#e9ecef', r=0.02)                              # 冰桶＋冰塊
     for k in range(14): _obox(cm, px, '#f4f8fa', sx + 0.6 + rr.uniform(0.0, 0.5), 1.08 + rr.uniform(0, 0.03), zb + 0.12 + rr.uniform(0, 0.4), 0.04, 0.035, 0.04, ry=rr.uniform(0, 1.5), rx=rr.uniform(0, 0.8))
     # 櫃台上：不同高度的透明杯塔、吸管筒
-    for (cx_, ch) in ((-2.6, 0.48), (-2.42, 0.36), (-2.26, 0.56), (-2.1, 0.3)):
-        xf_cyl(acc(M['glass']), px, (cx_, 1.03, zf - 0.32), (cx_, 1.03 + ch, zf - 0.32), rr.uniform(0.04, 0.05), seg=10)
-    xf_cyl(cp('#8a6a3a'), px, (-1.75, 1.03, zf - 0.3), (-1.75, 1.18, zf - 0.3), 0.045, seg=8)
-    for k in range(9): xf_cyl(cp(rr.choice(['#e8e4dc', '#c8322a', '#2a2a2a'])), px, (-1.75 + rr.uniform(-0.02, 0.02), 1.15, zf - 0.3 + rr.uniform(-0.02, 0.02)), (-1.75 + rr.uniform(-0.04, 0.04), 1.36, zf - 0.3 + rr.uniform(-0.04, 0.04)), 0.004, seg=3)
+    for (cx_, ch) in ((1.42, 0.48), (1.58, 0.36), (1.74, 0.56), (1.9, 0.3)):   # 窗口右邊（左邊被牆擋住）
+        rc = rr.uniform(0.04, 0.05); _wc(cp('#e4eaec'), px, (cx_, 1.03, zf - 0.32), (cx_, 1.03 + ch, zf - 0.32), rc, seg=10)   # 疊起來的塑膠杯（半透明的白：透明玻璃材質從外面看不見）
+        for q in range(int(ch / 0.05)): _wc(cp('#cfd6d9'), px, (cx_, 1.03 + q * 0.05, zf - 0.32), (cx_, 1.035 + q * 0.05, zf - 0.32), rc * 1.04, seg=10)
+    _wc(cp('#8a6a3a'), px, (-1.75, 1.03, zf - 0.3), (-1.75, 1.18, zf - 0.3), 0.045, seg=8)
+    for k in range(9): _wc(cp(rr.choice(['#e8e4dc', '#c8322a', '#2a2a2a'])), px, (-1.75 + rr.uniform(-0.02, 0.02), 1.15, zf - 0.3 + rr.uniform(-0.02, 0.02)), (-1.75 + rr.uniform(-0.04, 0.04), 1.36, zf - 0.3 + rr.uniform(-0.04, 0.04)), 0.004, seg=3)
     # 後牆：白磁磚、一層木層架（大小不同的茶葉罐、玻璃罐、量杯）、掛著的毛巾、一盞吊燈
-    px.box(acc(SK['f_white']), -w / 2 + 0.24, w / 2 - 0.24, 0.0, 2.95, zb - 0.05, zb)
+    vb(-w / 2 + 0.24, w / 2 - 0.24, 0.0, 2.95, zbb - 0.05, zbb, '#f2f0ea', r=0)
+    for k in range(1, 30): vb(-w / 2 + 0.24, w / 2 - 0.24, k * 0.1, k * 0.1 + 0.004, zbb, zbb + 0.002, '#d8d4cc', r=0)   # 白磁磚的縫
     for y in (1.62, 2.05):
-        px.box(acc(SK['wood_lt']), -w / 2 + 0.4, 1.2, y, y + 0.03, zb, zb + 0.28); xx = -w / 2 + 0.5
+        vb(-w / 2 + 0.4, 1.2, y, y + 0.03, zbb, zbb + 0.28, '#b48a5e', r=0); xx = -w / 2 + 0.5
         while xx < 1.1:
             jr = rr.uniform(0.04, 0.08); jh = rr.uniform(0.1, 0.26); col = rr.choice(['#8a5a3a', '#c9a46a', '#d8d2c4', '#3a3a3a', '#b8bcc0'])
-            _lathe(cp(_jit(col, rr)), px, [(0.0, 0.0), (jr, 0.0), (jr, jh), (jr * 0.8, jh + 0.015), (0.0, jh + 0.015)], xx + jr, y + 0.03, zb + 0.15, seg=10); xx += 2 * jr + rr.uniform(0.02, 0.08)
-    vb(1.5, 1.82, 1.3, 1.75, zb + 0.01, zb + 0.02, '#f2f0ea', r=0)
-    _lathe(cp('#2a2a2c'), px, [(0.0, 0.0), (0.04, 0.0), (0.2, -0.16), (0.21, -0.17), (0.0, -0.12)], 0.2, 2.6, (zf + zb) / 2, seg=14)
-    CL.glow(root, 'shopin', *px.p(0.2, 2.35, (zf + zb) / 2), color='rgba(255,220,160,1)', size=1.4, day=0.0, night=0.9)
+            _wl(cp(_jit(col, rr)), px, [(0.0, 0.0), (jr, 0.0), (jr, jh), (jr * 0.8, jh + 0.015), (0.0, jh + 0.015)], xx + jr, y + 0.03, zbb + 0.15, seg=10); xx += 2 * jr + rr.uniform(0.02, 0.08)
+    vb(1.5, 1.82, 1.3, 1.75, zbb + 0.01, zbb + 0.02, '#f2f0ea', r=0)
+    _wl(cp('#2a2a2c'), px, [(0.0, 0.0), (0.04, 0.0), (0.2, -0.16), (0.21, -0.17), (0.0, -0.12)], 0.2, 2.6, (zf + zbb) / 2, seg=14)
+    CL.glow(root, 'shopin', *px.p(0.2, 2.35, (zf + zbb) / 2), color='rgba(255,220,160,1)', size=1.4, day=0.0, night=0.9)
 
 
 # ---------------------------------------------------------------- B5i 夏日冰菓室（窗台上的東西＋後面的層架）
@@ -303,40 +327,51 @@ def wz2_ice(px, w, zf, zb, cm, rr):
     # 古早剉冰機（鑄鐵機身、大輪子、冰盤），放在窗台左邊
     mx = -2.75
     vb(mx - 0.16, mx + 0.16, ly, ly + 0.08, lz - 0.14, lz + 0.14, '#c9ccce', r=0.01)
-    xf_cyl(cp('#b8bcc0'), px, (mx - 0.1, ly + 0.08, lz), (mx - 0.1, ly + 0.5, lz), 0.035, seg=8)
+    _wc(cp('#b8bcc0'), px, (mx - 0.1, ly + 0.08, lz), (mx - 0.1, ly + 0.5, lz), 0.035, seg=8)
     vb(mx - 0.14, mx + 0.12, ly + 0.45, ly + 0.58, lz - 0.1, lz + 0.1, '#d8dadb', r=0.015); vb(mx - 0.06, mx + 0.04, ly + 0.5, ly + 0.55, lz + 0.1, lz + 0.11, '#c8322a', r=0)
-    _lathe(cp('#e8eef0'), px, [(0.0, 0.0), (0.09, 0.0), (0.11, 0.03), (0.0, 0.03)], mx, ly + 0.08, lz, seg=12)
-    xf_cyl(cp('#8a8e92'), px, (mx + 0.16, ly + 0.42, lz - 0.02), (mx + 0.16, ly + 0.42, lz + 0.02), 0.13, seg=16); xf_cyl(cp('#c9ccce'), px, (mx + 0.16, ly + 0.42, lz + 0.02), (mx + 0.16, ly + 0.42, lz + 0.03), 0.03, seg=8)
-    xf_cyl(cp('#3a3a3a'), px, (mx + 0.16, ly + 0.42, lz + 0.03), (mx + 0.16 + 0.12, ly + 0.5, lz + 0.05), 0.008, seg=4)
+    _wl(cp('#e8eef0'), px, [(0.0, 0.0), (0.09, 0.0), (0.11, 0.03), (0.0, 0.03)], mx, ly + 0.08, lz, seg=12)
+    _wc(cp('#8a8e92'), px, (mx + 0.16, ly + 0.42, lz - 0.02), (mx + 0.16, ly + 0.42, lz + 0.02), 0.13, seg=16); _wc(cp('#c9ccce'), px, (mx + 0.16, ly + 0.42, lz + 0.02), (mx + 0.16, ly + 0.42, lz + 0.03), 0.03, seg=8)
+    _wc(cp('#3a3a3a'), px, (mx + 0.16, ly + 0.42, lz + 0.03), (mx + 0.16 + 0.12, ly + 0.5, lz + 0.05), 0.008, seg=4)
     # 配料玻璃罐（五個，粗細高矮不同，裡面是芒果、紅豆、芋頭、粉圓、鳳梨）
     x = -2.4
     for col in ('#f0b030', '#6a2a24', '#b8a0c6', '#3a2a22', '#e6cc5a'):
         jr = rr.uniform(0.055, 0.085); jh = rr.uniform(0.14, 0.24)
-        _lathe(acc(M['glass']), px, [(0.0, 0.0), (jr, 0.0), (jr, jh), (jr * 0.85, jh + 0.02), (0.0, jh + 0.02)], x + jr, ly, lz, seg=12)
-        _lathe(cp(_jit(col, rr)), px, [(0.0, 0.0), (jr * 0.92, 0.0), (jr * 0.92, jh * rr.uniform(0.45, 0.8)), (0.0, jh * 0.8)], x + jr, ly + 0.005, lz, seg=10)
-        _lathe(cp('#d8dadb'), px, [(0.0, 0.0), (jr * 0.88, 0.0), (jr * 0.88, 0.03), (0.0, 0.03)], x + jr, ly + jh + 0.02, lz, seg=10)
+        _wl(acc(M['glass']), px, [(0.0, 0.0), (jr, 0.0), (jr, jh), (jr * 0.85, jh + 0.02), (0.0, jh + 0.02)], x + jr, ly, lz, seg=12)
+        _wl(cp(_jit(col, rr)), px, [(0.0, 0.0), (jr * 0.92, 0.0), (jr * 0.92, jh * rr.uniform(0.45, 0.8)), (0.0, jh * 0.8)], x + jr, ly + 0.005, lz, seg=10)
+        _wl(cp('#d8dadb'), px, [(0.0, 0.0), (jr * 0.88, 0.0), (jr * 0.88, 0.03), (0.0, 0.03)], x + jr, ly + jh + 0.02, lz, seg=10)
         x += 2 * jr + rr.uniform(0.02, 0.05)
     # 糖漿瓶（六支，高矮、顏色不同）
     for col in ('#c8322a', '#2f8a4a', '#f0c040', '#8a4a2a', '#e86a8a', '#d8d2c4'):
         br = rr.uniform(0.025, 0.04); bh = rr.uniform(0.18, 0.3)
-        _lathe(cp(_jit(col, rr, 0.1)), px, [(0.0, 0.0), (br, 0.0), (br, bh * 0.7), (br * 0.4, bh * 0.85), (br * 0.4, bh), (0.0, bh)], x + br, ly, lz - rr.uniform(0.0, 0.06), seg=8)
+        _wl(cp(_jit(col, rr, 0.1)), px, [(0.0, 0.0), (br, 0.0), (br, bh * 0.7), (br * 0.4, bh * 0.85), (br * 0.4, bh), (0.0, bh)], x + br, ly, lz - rr.uniform(0.0, 0.06), seg=8)
         x += 2 * br + rr.uniform(0.015, 0.04)
     # 玻璃碗：三個疊著、一碗已經做好的芒果剉冰
-    for k in range(3): _lathe(acc(M['glass']), px, [(0.03, 0.0), (0.06, 0.005), (0.09, 0.06), (0.095, 0.065), (0.0, 0.03)], x + 0.1, ly + k * 0.025, lz, seg=12)
-    x += 0.24; _lathe(acc(M['glass']), px, [(0.03, 0.0), (0.06, 0.005), (0.09, 0.06), (0.095, 0.065), (0.0, 0.03)], x + 0.1, ly, lz + 0.02, seg=12)
+    for k in range(3): _wl(acc(M['glass']), px, [(0.03, 0.0), (0.06, 0.005), (0.09, 0.06), (0.095, 0.065), (0.0, 0.03)], x + 0.1, ly + k * 0.025, lz, seg=12)
+    x += 0.24; _wl(acc(M['glass']), px, [(0.03, 0.0), (0.06, 0.005), (0.09, 0.06), (0.095, 0.065), (0.0, 0.03)], x + 0.1, ly, lz + 0.02, seg=12)
     _ell(cm, px, '#f4f0e8', x + 0.1, ly + 0.09, lz + 0.02, 0.085, 0.07, 0.085, seg=10, rings=5)
     for k in range(6): _obox(cm, px, _jit('#f0b030', rr), x + 0.1 + rr.uniform(-0.05, 0.05), ly + 0.15 + rr.uniform(0, 0.02), lz + 0.02 + rr.uniform(-0.05, 0.05), 0.03, 0.025, 0.03, ry=rr.uniform(0, 1.5))
     # 後面：兩層木架（大小不同的鐵罐、鍋子、茶壺），吊燈（琺瑯燈罩）
     for y in (1.5, 1.95):
-        px.box(acc(SK['wood_lt']), -w / 2 + 0.35, w / 2 - 0.35, y, y + 0.03, zb, zb + 0.3); xx = -w / 2 + 0.45
+        vb(-w / 2 + 0.35, w / 2 - 0.35, y, y + 0.03, zb, zb + 0.3, '#b48a5e', r=0); xx = -w / 2 + 0.45
         while xx < w / 2 - 0.5:
             kind = rr.random(); r_ = rr.uniform(0.05, 0.12); h_ = rr.uniform(0.08, 0.24)
-            if kind < 0.5: _lathe(cp(_jit(rr.choice(['#c9ccce', '#b8a888', '#8a6a4a']), rr)), px, [(0.0, 0.0), (r_, 0.0), (r_, h_), (0.0, h_)], xx + r_, y + 0.03, zb + 0.16, seg=12)
-            elif kind < 0.8: _lathe(cp('#c9ccce'), px, [(0.0, 0.0), (r_ * 1.2, 0.0), (r_ * 1.3, h_ * 0.6), (r_ * 1.35, h_ * 0.62), (0.0, h_ * 0.62)], xx + r_, y + 0.03, zb + 0.16, seg=14)
+            if kind < 0.5: _wl(cp(_jit(rr.choice(['#c9ccce', '#b8a888', '#8a6a4a']), rr)), px, [(0.0, 0.0), (r_, 0.0), (r_, h_), (0.0, h_)], xx + r_, y + 0.03, zb + 0.16, seg=12)
+            elif kind < 0.8: _wl(cp('#c9ccce'), px, [(0.0, 0.0), (r_ * 1.2, 0.0), (r_ * 1.3, h_ * 0.6), (r_ * 1.35, h_ * 0.62), (0.0, h_ * 0.62)], xx + r_, y + 0.03, zb + 0.16, seg=14)
             else: _ell(cm, px, '#d8d2c4', xx + r_, y + 0.03 + h_ * 0.5, zb + 0.16, r_, h_ * 0.5, r_, seg=10, rings=6)
             xx += 2 * r_ + rr.uniform(0.04, 0.14)
-    _lathe(cp('#f2f0ea'), px, [(0.0, 0.0), (0.03, 0.0), (0.18, -0.14), (0.185, -0.15), (0.0, -0.1)], -1.4, 2.55, zf - 0.7, seg=14)
+    _wl(cp('#f2f0ea'), px, [(0.0, 0.0), (0.03, 0.0), (0.18, -0.14), (0.185, -0.15), (0.0, -0.1)], -1.4, 2.55, zf - 0.7, seg=14)
     CL.glow(root, 'shopin', *px.p(-1.4, 2.3, zf - 0.7), color='rgba(255,226,170,1)', size=1.3, day=0.0, night=0.9)
 
 
 WZ2_IN = {'A3': wz2_books, 'B2': wz2_laundry, 'B6': wz2_fruit}
+
+
+if __import__('os').environ.get('WZ2_STATS'):   # 量每間、每一類東西的三角形（只在開發時）
+    def _tri(cm): return sum(len(f.verts) - 2 for f in cm.bm.faces)
+    def _stat(fn, label):
+        def w(*a, **k):
+            cm = next(x for x in a if hasattr(x, 'bm')); t0 = _tri(cm); r = fn(*a, **k); print('WZ2_STATS', label, a[0] if isinstance(a[0], str) else '', _tri(cm) - t0); return r
+        return w
+    book_row = _stat(book_row, 'book_row'); fruit_heap = _stat(fruit_heap, 'fruit_heap'); cover_book = _stat(cover_book, 'cover_book')
+    for _k in list(WZ2_IN): WZ2_IN[_k] = _stat(WZ2_IN[_k], 'shop_' + _k)
+    wz2_tea = _stat(wz2_tea, 'tea'); wz2_ice = _stat(wz2_ice, 'ice')
