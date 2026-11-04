@@ -7,7 +7,7 @@
    外觀對齊：正面左邊（x −4.5～−1.5）是售票亭（外觀 nanyang_ext 的售票窗；大廳這側只是它的背牆＋一扇小門），中間 x −1.5～1.5 是玻璃門入口。
    影廳（nanyang_hall）照 AA_615 先用 2D；右邊那組門開著，門後 2.4 m 是一張影廳一角的卡片。 */
 const NANYANG_LAYOUT = {
-  version: 4,
+  version: 5,
   lobby: {
     id: 'nanyang_lobby', name: '南洋戲院', glb: 'assets/models/env/second_ai/bb_support/nanyang_lobby.glb', v: 4,
     w: 9.0, d: 14.0, h: 4.5, floor: 'carpet_red',
@@ -22,7 +22,7 @@ const NANYANG_LAYOUT = {
     photoBoard: {z: -0.3},
     benches: [{z0: -5.2, z1: -3.4}, {z0: -2.8, z1: -1.0}],
     bins: [[4.0, -0.4], [-1.1, 4.4]],
-    pendants: [[0.4, -4.6], [0.4, -1.4], [0.4, 1.8], [0.4, 5.0]],
+    pendants: [[0.4, -3.2], [0.4, 0.2], [0.4, 3.6]],   // v5：3 盞（原本 4 盞、最裡面那盞從門口看會擋住大招牌；參考圖只看得到招牌上面那盞）
     projector: {x: 3.6, z: 6.1},
     spawn: {x: 0.0, z: 6.4, yaw: Math.PI},
     blocks: [[-3.0, 5.9, 3.0, 2.2], [-3.9, -1.0, 1.4, 9.2], [0.35, -6.65, 1.0, 0.3],
@@ -40,7 +40,7 @@ const NANYANG_LAYOUT = {
       {kind: 'chalk', x: 0.35, z: -5.8, yaw: Math.PI, label: '看今日放映'},
       {kind: 'posters', x: 3.0, z: -3.4, yaw: Math.PI / 2, label: '看海報'}
     ],
-    lights: [{x: 0.4, z: -4.6, y: 3.18, kind: 'pendant'}, {x: 0.4, z: -1.4, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 1.8, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 5.0, y: 3.18, kind: 'pendant'},
+    lights: [{x: 0.4, z: -3.2, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 0.2, y: 3.18, kind: 'pendant'}, {x: 0.4, z: 3.6, y: 3.18, kind: 'pendant'},
              {x: -1.7, z: -6.9, y: 2.9, kind: 'sconce'}, {x: 2.1, z: -6.9, y: 2.9, kind: 'sconce'},
              {x: -3.2, z: -4.4, y: 2.2, kind: 'gooseneck'}, {x: -3.2, z: -2.4, y: 2.2, kind: 'gooseneck'},
              {x: 4.0, z: -4.8, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -3.35, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -1.9, y: 3.12, kind: 'poster_spot'}, {x: 4.0, z: -0.3, y: 3.12, kind: 'poster_spot'},
@@ -55,12 +55,15 @@ const NANYANG_LAYOUT = {
      座標：房間中心在原點；+z 是後牆（往大廳的門，接大廳右邊那組開著的門），−z 是銀幕。地板是平的（老戲院多半有坡，這一版先平的，導航簡單）。
      座椅一整排是導航阻擋；可以坐的是靠右走道的那一張（從走道走過去坐）。 */
   hall: {
-    id: 'nanyang_hall', name: '南洋戲院 1 廳', glb: 'assets/models/env/second_ai/bb_support/nanyang_hall.glb', v: 1,
+    id: 'nanyang_hall', name: '南洋戲院 1 廳', glb: 'assets/models/env/second_ai/bb_support/nanyang_hall.glb', v: 2,
     w: 11.0, d: 16.0, h: 5.6, floor: 'carpet_red',
     door: {x: 3.5, w: 2.0, h: 2.7},
     aisleR: {x0: 2.7, x1: 4.6}, aisleL: {x0: -5.5, x1: -4.7},
     seatBlock: {x0: -4.55, x1: 2.55, n: 12, pitch: 0.58},
     rows: {z0: 4.3, n: 9, pitch: 0.98},
+    // v2（11-04，LAWWW2：斜面導航）：地板前低後高——往大廳的門那一頭 y＝0（和大廳同高），每往銀幕一排降 0.12 m；
+    //   z ≥ slope.z0（最後一排後面的橫走道、門口）平的 y＝0；z ≤ slope.z1（第一排前面到舞台）平的 y＝slope.y1；中間是一整片斜面（坡度 0.12／0.98≈12%、約 7°）
+    slope: {z0: 4.3, z1: -3.54, y0: 0.0, y1: -0.96, perRow: 0.12},
     stage: {z0: -8.0, z1: -6.6, h: 0.6},
     screen: {x: 0.0, y: 1.4, w: 7.4, h: 3.3, z: -7.75},
     proscenium: {x0: -4.6, x1: 4.6, top: 5.0},
@@ -81,16 +84,19 @@ const NANYANG_LAYOUT = {
 (function () {
   const H = NANYANG_LAYOUT.hall, sb = H.seatBlock, rw = H.rows;
   const rowZ = r => rw.z0 - r * rw.pitch;
+  const sl = H.slope;
+  H.floorY = z => (z >= sl.z0 ? sl.y0 : z <= sl.z1 ? sl.y1 : sl.y0 + (sl.y1 - sl.y0) * (sl.z0 - z) / (sl.z0 - sl.z1));   // 地板高度（斜面導航用同一個式子）
+  H.rowY = Array.from({length: rw.n}, (_, r) => +(-(r) * sl.perRow).toFixed(3));
   H.rowZ = Array.from({length: rw.n}, (_, r) => +rowZ(r).toFixed(3));
   H.blocks = H.rowZ.map(z => [+((sb.x0 + sb.x1) / 2).toFixed(3), +(z + 0.05).toFixed(3), +(sb.x1 - sb.x0).toFixed(3), 0.72])
     .concat([[0, (H.stage.z0 + H.stage.z1) / 2, H.w, H.stage.z1 - H.stage.z0]]);
   // 可以坐的：每一排靠右走道那一張（x＝最右邊的座位），面向銀幕（yaw π＝面向 −z）
   const xR = sb.x1 - sb.pitch / 2;
-  H.seats = H.rowZ.map((z, r) => ({x: +xR.toFixed(3), z: +z.toFixed(3), yaw: Math.PI, row: r + 1, label: '坐下看電影', approach: {x: H.aisleR.x0 + 0.5, z: +z.toFixed(3)}}));
+  H.seats = H.rowZ.map((z, r) => ({x: +xR.toFixed(3), z: +z.toFixed(3), y: H.rowY[r], yaw: Math.PI, row: r + 1, label: '坐下看電影', approach: {x: H.aisleR.x0 + 0.5, z: +z.toFixed(3)}}));
   H.lights = [].concat(
     [-5.3, 5.3].flatMap(x => [3.0, -0.5, -4.0].map(z => ({x: x, y: 2.9, z: z, kind: 'house'}))),
-    H.rowZ.map(z => ({x: H.aisleR.x0 + 0.08, y: 0.18, z: z + 0.3, kind: 'aisle'})),
-    [{x: H.door.x, y: 3.0, z: H.d / 2 - 0.1, kind: 'exit'}, {x: -5.4, y: 2.6, z: -6.0, kind: 'exit'}],
+    H.rowZ.map((z, r) => ({x: H.aisleR.x0 + 0.08, y: +(H.rowY[r] + 0.18).toFixed(3), z: z + 0.3, kind: 'aisle'})),
+    [{x: H.door.x, y: 3.0, z: H.d / 2 - 0.1, kind: 'exit'}, {x: -5.4, y: 2.6 + sl.y1, z: -6.0, kind: 'exit'}],
     [{x: 0, y: H.screen.y + H.screen.h / 2, z: H.screen.z + 0.3, kind: 'screen'}]);
 })();
 if (typeof module !== 'undefined') module.exports = NANYANG_LAYOUT;

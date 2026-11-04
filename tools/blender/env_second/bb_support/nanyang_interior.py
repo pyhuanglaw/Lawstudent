@@ -249,9 +249,10 @@ pm.rbox(px - 0.41, px + 0.41, 2.05, 2.15, pz - 0.31, pz + 0.31, r=0.02, seg=2); 
 Mesh('POPMACHINE_GLASS', m_glass).box(px - 0.375, px + 0.375, 1.3, 2.05, pz - 0.275, pz + 0.275).finish(root, props={'glass': 1})
 Mesh('POPMACHINE_LAMP', m_warm).box(px - 0.3, px + 0.3, 2.02, 2.04, pz - 0.22, pz + 0.22).finish(root)
 props = CMesh('CONC_PROPS', m_vc); rng = random.Random(7)
-for _ in range(520):   # 爆米花堆（機器裡）
-    x = px + rng.uniform(-0.34, 0.34); z = pz + rng.uniform(-0.24, 0.24); y = 1.31 + abs(rng.gauss(0, 0.1)) * (1.4 - abs(x - px) * 2)
-    props.ell((x, y, z), 0.022, 0.018, 0.02, seg=6, rings=4)
+props.crbox(px - 0.36, px + 0.36, 1.3, 1.52, pz - 0.26, pz + 0.26, '#eccf86', r=0.04, seg=2)   # v5：機器裡滿到一半的爆米花（底下一整塊）
+for _ in range(320):   # 上面一顆一顆（v5：少一點、面數低一點，三角形省給別的）
+    x = px + rng.uniform(-0.34, 0.34); z = pz + rng.uniform(-0.24, 0.24); y = 1.5 + abs(rng.gauss(0, 0.07)) * (1.4 - abs(x - px) * 2)
+    props.ell((x, y, z), 0.024, 0.02, 0.022, seg=5, rings=3)
 props.paint(list(props.bm.faces), '#f4dfa0')
 # 倒角（bevel）會釋放面、之後新加的面可能佔進前面的位置，所以用集合比對新面、不用 list[n:]（v3 飲料櫃側面變綠就是這個）
 n0 = set(props.bm.faces)
@@ -263,8 +264,8 @@ props.paint([f for f in props.bm.faces if f not in n0], '#d63a34'); n0 = set(pro
 props.crbox(cx + depth - 0.6, cx + depth - 0.2, 1.06, 1.32, cz0 + 3.0, cz0 + 3.35, '#2a2b2e', r=0.03)                    # 收銀機
 props.add_bm(L.lathe([(0.0, 0.0), (0.1, 0.0), (0.12, 0.08), (0.12, 0.26), (0.07, 0.3), (0.0, 0.3)], seg=16), Matrix.Translation(g2b(cx + depth - 0.4, 1.06, cz0 + 3.7)))   # 糖果罐
 props.paint([f for f in props.bm.faces if f not in n0], '#e7a7c0'); n0 = set(props.bm.faces)
-props.crbox(X0 + 0.1, X0 + 0.75, 0.0, 0.3, cz0 + 4.3, cz0 + 5.1, '#c8ccd0', r=0.03); props.crbox(X0 + 0.1, X0 + 0.75, 1.9, 2.05, cz0 + 4.3, cz0 + 5.1, '#c8ccd0', r=0.03)   # 飲料櫃（中間空的、放瓶子）
-props.crbox(X0 + 0.1, X0 + 0.16, 0.3, 1.9, cz0 + 4.3, cz0 + 5.1, '#e6e8ea', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 4.3, cz0 + 4.34, '#c8ccd0', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 5.06, cz0 + 5.1, '#c8ccd0', r=0.01)
+props.crbox(X0 + 0.1, X0 + 0.75, 0.0, 0.3, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03); props.crbox(X0 + 0.1, X0 + 0.75, 1.9, 2.05, cz0 + 4.3, cz0 + 5.1, '#b4a68c', r=0.03)   # 飲料櫃（中間空的、放瓶子）
+props.crbox(X0 + 0.1, X0 + 0.16, 0.3, 1.9, cz0 + 4.3, cz0 + 5.1, '#c8b89a', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 4.3, cz0 + 4.34, '#b4a68c', r=0.01); props.crbox(X0 + 0.1, X0 + 0.75, 0.3, 1.9, cz0 + 5.06, cz0 + 5.1, '#b4a68c', r=0.01)
 for row in range(4):   # 一層一層的玻璃瓶、易開罐（旋轉體，顏色照參考圖：綠、橘、紅、白、藍）
     for k in range(5):
         n1 = set(props.bm.faces); bx_, by_, bz_ = X0 + 0.62, 0.36 + row * 0.38, cz0 + 4.43 + k * 0.145
@@ -274,6 +275,23 @@ for row in range(4):   # 一層一層的玻璃瓶、易開罐（旋轉體，顏�
     props.crbox(X0 + 0.12, X0 + 0.74, 0.33 + row * 0.38, 0.35 + row * 0.38, cz0 + 4.34, cz0 + 5.06, '#d8dcde', r=0.003)   # 層板
 n0 = set(props.bm.faces)
 props.cbox(X0 + 0.02, X0 + 0.1, 2.15, 2.6, cz0 + 2.4, cz0 + 2.5, '#3a3a3a')                                                 # 牆上電風扇的座
+# v5：參考圖櫃檯後面的層架（鐵罐、紙箱）、吸管杯、餐巾紙、小立牌
+for y in (1.62, 2.12): props.crbox(X0 + 0.02, X0 + 0.36, y - 0.025, y, cz0 + 0.3, cz0 + 3.4, '#5a3a24', r=0.006, seg=1)
+for k in range(9):
+    n1 = set(props.bm.faces); zz = cz0 + 0.45 + k * 0.33; yy = 1.62 if k % 2 else 2.12
+    if k % 3 == 2: props.crbox(X0 + 0.05, X0 + 0.33, yy, yy + 0.24, zz - 0.13, zz + 0.13, '#b08a5a', r=0.006, seg=1)   # 紙箱
+    else:
+        props.add_bm(L.lathe([(0.0, 0.0), (0.09, 0.0), (0.09, 0.2), (0.085, 0.21), (0.0, 0.21)], seg=12), Matrix.Translation(g2b(X0 + 0.18, yy, zz)))
+        props.paint([f for f in props.bm.faces if f not in n1], ['#a8a8a0', '#c4b080', '#8a8a86'][k % 3])          # 鐵罐
+n1 = set(props.bm.faces)
+props.add_bm(L.lathe([(0.0, 0.0), (0.045, 0.0), (0.05, 0.14), (0.0, 0.14)], seg=10), Matrix.Translation(g2b(cx + depth - 0.35, 1.06, cz0 + 2.75)))
+props.paint([f for f in props.bm.faces if f not in n1], '#e8e4da')
+for k in range(14):   # 吸管
+    a_ = k * 2.4; r_ = 0.03 * ((k % 4) / 4 + 0.2)
+    n1 = set(props.bm.faces); props.cyl((cx + depth - 0.35 + r_ * math.cos(a_), 1.1, cz0 + 2.75 + r_ * math.sin(a_)), (cx + depth - 0.35 + r_ * math.cos(a_) * 1.6, 1.36, cz0 + 2.75 + r_ * math.sin(a_) * 1.6), 0.004, seg=4)
+    props.paint([f for f in props.bm.faces if f not in n1], ['#f0ece4', '#d84a3a'][k % 2])
+props.crbox(cx + depth - 0.25, cx + depth - 0.1, 1.06, 1.2, cz0 + 3.45, cz0 + 3.62, '#f2f0ea', r=0.01, seg=1)   # 餐巾紙
+props.crbox(cx + depth - 0.12, cx + depth - 0.1, 1.06, 1.3, cz0 + 3.85, cz0 + 4.05, '#d8403a', r=0.004, seg=1)  # 小立牌
 props.finish(root, smooth=True)
 Mesh('FRIDGE_GLASS', m_glass).box(X0 + 0.76, X0 + 0.77, 0.15, 1.9, cz0 + 4.32, cz0 + 5.08).finish(root, props={'glass': 1})
 Mesh('FRIDGE_LIGHT', m_white).box(X0 + 0.12, X0 + 0.7, 1.92, 1.95, cz0 + 4.35, cz0 + 5.05).finish(root)
