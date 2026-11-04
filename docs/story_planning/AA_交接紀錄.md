@@ -16,6 +16,15 @@
   - AA 那 179 項由我補分類（排在接班後第一批工作）。
 - `check_orphans`：有幾項暫停、等「AA-C 結構化交付新的美國線時間線」（SCN-US-2D／CG／CH／EV、V4-R-US、ART-US-SEASON）。美國路線已經照 AA_516 等實作，這幾項很可能過時；我查完回 LAWWW。
 - `duty register --account C --role AA --ref`：已寫 `docs/handoff/duty_AA.json`，等值班 LAWWW `duty sync`。
+- **12:4x 補**：
+  - LAWWW-C 接班（947c67715），RULE_SOURCE 改為 `claude/adoring-meitner-mqzst8`（值班 C、seq 61）。我照它說的重新 `duty register --ref`，推在 26a25e194，請它 `duty sync`。
+  - `duty verify` 異常 6（我的分支在舊交班 e089e878 以後多 2726 個 commit）＝我把帳號 A、AA-B 的歷史快轉進來；已向 LAWWW-C 說明。
+- **通訊測試（使用者要求）**：
+  - LAWWW2-C：它先傳、我回 ACK；
+  - LAWWW-C：ACK；
+  - CC-C：ACK，它還不能 push，等使用者同意推送權限；
+  - BB-C：已傳，等 ACK。
+- **三個檔換名已做**（7f16110c7）：以安口氣表的哥大改「紐約那間法學院」；方奕廷、語彤大三下階梯的杜鵑花節改「松鼠節」。B3 已告訴 LAWWW-C。
 - 接著做：
   1. 照使用者要求，和帳號 C 其他職位試傳訊息；
   2. 照 AA-B「下一班第一步」回 LAWWW B3（AA_639 §2）、換三個檔；
