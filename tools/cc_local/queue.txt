@@ -37,6 +37,7 @@ YT3-C2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_prob
 YT3-D2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 8 | CASES=xmas_y4;CASE_S=900;CC_HEADLESS=0
 YT3-E2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 40 | CASES=ev8,grad_gf,end4;CASE_S=1200;CC_HEADLESS=0
 YT3-B2 | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_yutong_v3_probe.py | index.html | 10 | CASES=ev5;CASE_S=900;CC_HEADLESS=0
+ART_V20_CAT | d2b962a3f | probe | docs/story_planning/test_tools/cc/cc_art_v20_shots_probe.py | index.html | 6 | CASES=cat;CC_HEADLESS=0
 MD_haopai_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/haopai_render.py | index.html | 60 | CC_BLENDER_DEVICE=CPU;CC_SAMPLES=64;XARGS=assets/models/env/second_ai/bb_support/haopai.glb {out} --views docs/story_planning/test_tools/cc/blender/haopai_v2_views.json --res 1672x941 --tube 25 --emit 2 --door 15 --rack 8
 MD_dabu_v2b | 70faaaa76 | blender | tools/blender/env_second/bb_support/dabu_render.py | index.html | 90 | CC_BLENDER_DEVICE=CPU;XARGS=assets/models/env/second_ai/bb_support/dabu.glb {out} docs/story_planning/CC/shots/model/dabu/dabu_views.json --spots docs/story_planning/CC/shots/model/dabu/dabu_spots.json --samples 128 --res 1920x1080 --led 0.25 --emit 1.5 --exposure -0.4 --lamp 0.8 --fill 150
 MAP_fix    | f157d0ff6 | probe | docs/story_planning/test_tools/cc/cc_map_friend_go_probe.py | index.html | 30 | CC_HEADLESS=0
