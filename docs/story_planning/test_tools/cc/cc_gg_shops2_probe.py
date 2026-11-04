@@ -160,6 +160,17 @@ async def case_door(pg, cdp, errs, k):
     s = await pg.evaluate(GI.ST)
     check('[%s] 進店（zone %s）' % (tag, S['zone']), ok and s['zone'] == S['zone'], J({q: s[q] for q in ('zone', 'x', 'z')}))
     got = any_line(lines, AA[k]['door'])
+    if not got:   # BB-C 11-04：第一次抓到的是可昕的 toast（手機訊息），不是進門句——等 toast 收掉以後再等 3 秒，再收一次對話
+        tq = None
+        for _ in range(40):
+            tq = await pg.evaluate("(()=>{ const t=document.getElementById('toast'); return (t&&!t.classList.contains('hide')&&getComputedStyle(t).opacity!=='0'&&t.textContent.trim())?t.textContent.trim().slice(0,80):''; })()")   # textContent 收起來以後還在，要看 hide／opacity
+            if not tq: break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(3000)
+        more, _, _ = await GI.converse(pg, cdp, tag + '_in2', None, 30)
+        print('  [%s] toast 收掉（%s）＋3 秒以後再收：%s' % (tag, '已收' if not tq else '20 秒還在：' + str(tq)[:60], J(more)), flush=True)
+        lines = list(lines) + [x for x in more if x not in lines]
+        got = any_line(lines, AA[k]['door'])
     check('[%s] 一天第一次進來：進門句（AA_652 三句之一，逐字）' % tag, len(got) == 1, J(lines))
     await pg.screenshot(path=os.path.join(OUT, '%s_inside.png' % tag))
     await GI.stuck_check(pg, cdp, tag + '_inside', fb0, e0, errs)
@@ -205,7 +216,7 @@ async def case_hours(pg, cdp, errs, k):
             await GI.stuck_check(pg, cdp, tag, fb0, e0, errs)
     # 颱風天
     tag = '%s_typhoon' % tag0
-    td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
+    td = await pg.evaluate("(k=>{ const d=STORY.dayOfKey(k); return {day:d, wd:CALENDAR.dateOf(d).wd%%7, typhoon:!!CALENDAR.typhoon(d)}; })(%s)" % J(TYPHOON_KEY))
     check('[%s] 前置：%s 是颱風假（calendar.js TYPHOON）、%s 在 typhoonShops' % (tag, TYPHOON_KEY, S['zone']), td['typhoon'] and hrs['typhoonShop'], J([td, hrs]))
     hp, label, lines, s, toasts = await press_door(pg, cdp, tag, k, S['openH'], d=td, extra_desc='、%s 颱風假' % TYPHOON_KEY)
     check('[%s] 颱風天 %s 平常開的時間：進不去' % (tag, hhmm(hp)), s['zone'] == 'gongguan', J({q: s[q] for q in ('zone', 'x', 'z')}))
@@ -426,8 +437,9 @@ def date_cls(SM):
             # AA_652 答應的一句（手機訊息或對話）
             msgs = await pg.evaluate(SM.MSGS_JS, {'n': 0, 'id': self.pid})
             want = A['acc'].get(self.pid, A['acc0'])
-            alltxt = [m['text'] for m in msgs] + [x['t'] for L_ in self.gg2_log for x in L_['say']]
-            R.check('%s：答應的一句（AA_652：%s）' % (k, want), any(NZ(want) in NZ(t) for t in alltxt), J([m['text'] for m in msgs][-6:]))
+            inv_lines = list(getattr(self, 'last_invite_lines', None) or [])   # BB-C 11-04：照玩家從手機約——她的回覆泡泡在手機對話裡（PC 809163ee4 那次其實有，探針只查 msgs）
+            alltxt = [m['text'] for m in msgs] + [x['t'] for L_ in self.gg2_log for x in L_['say']] + inv_lines
+            R.check('%s：答應的一句（AA_652：%s；手機對話＋訊息＋見面）' % (k, want), any(NZ(want) in NZ(t) for t in alltxt), J({'phone': inv_lines[-4:], 'msgs': [m['text'] for m in msgs][-6:]}))
             if not self.gg2_log: return R.check('%s：見面那一場有演（meet_go）' % k, False, '沒有 meet_go 紀錄')
             g = self.gg2_log[0]; ss = g['seat'] or {}
             R.note('%s：開演那一刻 %s' % (k, J(ss)))

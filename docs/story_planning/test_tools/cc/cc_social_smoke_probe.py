@@ -1384,6 +1384,7 @@ class Person:
         items += [{'when': '^' + re.escape(opt['verb']) + '$', 'pick': '^' + re.escape(opt['verb']) + '$'}, {'when': re.escape(opt['t']), 'pick': re.escape(opt['t'])}, {'when': '^好，就', 'pick': '^好，就'}]
         ok, s, m, lines = await self.drive(Plan(items), tag)
         R.note('%s（%s %s，預期 %s）台詞：%s' % (tag, opt['verb'], opt['t'], opt['res'], J(lines[-5:])))
+        self.last_invite_lines = list(lines)   # CC-C 11-04：答應的那一句在手機對話裡（「林芷若（手機）｜「afar？好。……」」），不在 GAME.G.msgs——給 GG_shops2 的答應句檢查用
         if not R.check('%s：手機約一路點得完' % tag, ok, why_not_free(s)): await self.dump(tag, s); return None
         await self.check_free(tag + ' 回覆之後', fb0, err0)
         new = [x for x in await pg.evaluate(INVS_JS, self.pid) if x['id'] not in i0]
