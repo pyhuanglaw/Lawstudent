@@ -664,7 +664,7 @@
    "status": "進行中",
    "quote": "你沒辦法從github開源找要怎麼把我給你的二d圖片轉換成3 d的時候好看嗎還有很多你需要用的美術內容",
    "src": "使用者直接對 LAWWW2-C 工作階段說（LAWWW2-C 正在做阿德轉角外觀 WZ-FIVE-1104）",
-   "note": "LAWWW2-C 查了（14:1x）：①單張圖轉 3D 的 AI（TRELLIS.2／TripoSR MIT；Hunyuan3D 2.1、SF3D、Pixal3D、SAM 3D 有限制）都要 NVIDIA 顯示卡，雲端機器沒有、HuggingFace 大檔下載站被擋；而且只適合小物件，店面、招牌字會糊。②這台機器能用：Poly Haven 521 個 CC0 模型（之前只用貼圖）、HDRI；參考圖鏡頭對位（同角度疊圖）；DeepBump（GPL，CPU）法線／高度圖、Depth Anything V2 Small（Apache-2.0，GitHub release）估深度。③擋住：ambientCG 下載、Sketchfab、Kenney、Quaternius、blender.org、MakeHuman。先拿阿德轉角試做；問使用者電腦有沒有 NVIDIA 顯示卡（要不要在 PC 試 TRELLIS.2，由使用者決定）",
+   "note": "LAWWW2-C 查了（14:1x）：①單張圖轉 3D 的 AI（TRELLIS.2／TripoSR MIT；Hunyuan3D 2.1、SF3D、Pixal3D、SAM 3D 有限制）都要 NVIDIA 顯示卡，雲端機器沒有、HuggingFace 大檔下載站被擋；而且只適合小物件，店面、招牌字會糊。②這台機器能用：Poly Haven 521 個 CC0 模型（之前只用貼圖）、HDRI；參考圖鏡頭對位（同角度疊圖）；DeepBump（GPL，CPU）法線／高度圖、Depth Anything V2 Small（Apache-2.0，GitHub release）估深度。③擋住：ambientCG 下載、Sketchfab、Kenney、Quaternius、blender.org、MakeHuman。先拿阿德轉角試做；問使用者電腦有沒有 NVIDIA 顯示卡（要不要在 PC 試 TRELLIS.2，由使用者決定）；20:1x 使用者的訊息重新送到（工作階段重啟）：再回一次——實測現在被擋的 20 個網域給了可以直接複製的清單（code block），也說可以直接選比較寬的網路等級；TRELLIS.2 線上 demo 要上傳參考圖，等他同意",
    "task": "OPEN-SRC-2D3D-1104"
   },
   {

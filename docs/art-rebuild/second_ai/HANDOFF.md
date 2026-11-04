@@ -42,7 +42,7 @@
   建議留 ART-*，另外三個標「取消／被取代」（replacedBy ART-*），由 LAWWW-C 決定。
 - 同一類、也是等 LAWWW2 驗收＋整合的：FASTFOOD-24H-1103（BB 大口漢堡 1F／2F v1）、SPORT-SHOPS-1103（CC 大步 v1，先 BB 驗）。
 
-## 🔨 現在在做（11-04 18:4x UTC，帳號 C LAWWW2-C）
+## 🔨 現在在做（11-04 20:2x UTC，帳號 C LAWWW2-C）
 - 使用者 15:3x 說：「你繼續做別的事情我要睡覺了很久都不會看」（UA-LAWWW2-1104-07）。照排定的順序自己做，每段做完就 push；要使用者決定的記在下面，等他回來再問，不叫醒他。
 
 ### 本班交件
@@ -57,19 +57,30 @@
 - **ADE-PROPS-1104**：`c73d37367`，LAWWW-C 接進 `1a191554d`。LAWWW-C 另外修了電線桿擋到的腳踏車停車處。
 - **WZ-FIVE-1104 2:30 AM 外觀**：`69e953668`（灰泥、深綠招牌帶包轉角、圓筒壁燈、木格子、畫架、爬藤）。只換 `cafe_exterior.glb`／`.json`。等 LAWWW-C 換檔＋跑 `cafe_glb_integration.py`、CC 拍、BB 判。玻璃後面的店內還是舊簡化版。
 - **SEATFIG-LOD1-HAIR-1104**（BB P3，替身頭上的方塊）：`30c0ae20e`。遠處版從近處版再減、脖子以上不減，400 → 800 面；只換 `seated_figures.glb`／`.json`。等 LAWWW-C 換檔、CC 用 SITAMB_CLOUD_1104 ⑧ 同鏡頭重拍。
+- **NPC-ANIM-LOOPS-1104**（LAWWW-C 派工）：`2962616ac`。坐在桌前做事的七個循環動作，女生、男生 VRoid 骨架各一份（14 個片段），加上右手配件（紙杯、手機、筆）。說明在 `wip/npc_anim_loops_1104/README.md`。
+  - Node 測試 `tests/sit_task_loops_unit.js` 在開發分支 ALL PASS：遊戲換算出來的手的位置和預期差 ≤ 0.1 cm。
+  - 等 LAWWW-C 接線（manifest、SEATACT 選片段、手臂吃片段、配件開關），再 CC 拍、BB 判。
+  - 女生 VRoid 坐在 0.75 m 的桌前，桌子在胸口（遊戲的坐姿高度配上 VRoid 女生比較短的身體）：已寫進 README，要改是 LAWWW-C 的坐姿高度。
+- **BB-C 19:02 判 2:30 AM 外觀 v1**（BB_255 `1e30e2b85`）：方向對，有條件通過。ART_APPROVED 前要改四點：
+  - P1：晚上從玻璃看進去要有暖光的店內。
+  - 招牌帶上方一排鵝頸燈照招牌（v1 晚上招牌是暗的）。
+  - 轉角的爬藤要細細一條條往下垂、帶透明的葉片卡（v1 是方塊）。
+  - P3：門口的木椅（要一個小的導航阻擋，跟 LAWWW-C 說）；轉角那一面的一樓牆色和正面的奶油色灰泥統一。
 
 ### 佇列（照順序）
-1. WZ-FIVE-1104 後續：2:30 AM 店內窗卡（從 AA 的 v1d 室內往外拍，取代外觀玻璃後面的舊簡化版）。
+1. **WZ-FIVE-1104 第二版：BB 的四點**（上面）。店內暖光用窗卡：從 AA 的 v1d 室內往外拍、晚上的燈開著。
 2. TEACH-EAST-DRAWCALL（BB P3）：普通、博雅的 GLB 貼圖合併，draw call 要壓到 ×1.1 以內。
 3. HAIR-NOODLE-1104：等 CC 的近景探針。
-4. NPC-ANIM-LOOPS-1104。
-5. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
+4. OPEN-SRC-2D3D 收尾：ART_DIRECTION 的 R1／R2、HDRI 的提案。
 
 ### 記住（別的 AI 交代的做法）
 - 挪溫州街、公館的電線桿或機車排，要一起跑 `tests/bike_park_1104_unit.js`：腳踏車停車處照機車排的兩端算，電線桿擋到會 FAIL（LAWWW-C 11-04 18:15）。
 
 ### 等使用者回來再問（不叫醒）
 - OPEN-SRC-2D3D：要不要用使用者的參考圖試 TRELLIS.2 線上 demo？要上傳到外部服務，所以要他同意。
+- 網域（使用者的訊息重新送到，20:1x 回了）：
+  - 給了一份可以直接複製的清單（現在被擋、用得到的 20 個：`*.hf.space`、blender.org 三個、poly.pizza、幾個 CC0 貼圖站、MakeHuman、arxiv…）。
+  - 也說了可以直接選比較寬的網路等級，不用一個一個加。他決定。
 
 ### 沒有遠端備份的
 - 沒有。scratchpad 裡只有預覽渲染和烘焙暫存，成果都已經 push。

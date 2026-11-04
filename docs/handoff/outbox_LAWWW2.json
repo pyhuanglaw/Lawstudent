@@ -5659,6 +5659,32 @@
    "next": "LAWWW-C 換檔；之後做 2:30 AM 店內窗卡（從 AA 的 v1d 拍）",
    "noDirectIntegrate": false,
    "note": "2:30 AM 外觀照參考圖 wz_230am_ext（鏡像）：灰泥壁柱與轉角側牆、深綠招牌帶包轉角、SIGN_FACE 2:30 AM（bg #1c2c23）、圓筒壁燈、木格子氣窗與門、木畫架兩面（11:00–02:30／手沖）、轉角爬藤；拿掉木雨遮。網格 26→28、材質 23→25；effb5d9b3＋新 GLB：cafe_kit_glow_unit、zone_prewarm_unit ALL PASS"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2962616ac",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "NPC-ANIM-LOOPS-1104",
+   "files": [
+    "assets/models/char/second_ai/ual_sit_tasks.glb",
+    "assets/models/char/second_ai/ual_sit_tasks.json",
+    "assets/models/char/second_ai/hand_props.glb",
+    "assets/models/char/second_ai/hand_props.json",
+    "tools/anim/sit_task_loops.py",
+    "tools/anim/sit_task_props.py",
+    "tools/anim/preview_vrm_clip.py",
+    "tests/sit_task_loops_unit.js",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/README.md",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_anim_loops_F.jpg",
+    "docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_anim_loops_M.jpg",
+    "LICENSES.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 接線（manifest char.ual_sit_tasks／prop.hand_props、SEATACT 選片段 Sit_<動作>_<F|M>_Loop、速度 1、手臂吃片段、配件開關）；瀏覽器（我沒跑）；CC 拍；BB 判。吃飯沒有筷子、碗；桌子不是參考高度的座位手會高低",
+   "next": "LAWWW-C 接線；要別的桌高（吧台、矮桌）或筷子、碗就說",
+   "noDirectIntegrate": false,
+   "note": "14 個片段（7 種×女生／男生 VRoid 骨架）426 KB＋右手配件 81 KB（350 面）；在 VRoid 骨架上擺（遊戲坐下高度、參考桌 0.75 m／桌緣 0.30 m），手肘照關節彎、翻手心 65% 給前臂、手腕限制範圍；tests/sit_task_loops_unit.js 在 effb5d9b3 ALL PASS（遊戲換算的手位置和預期差 ≤ 0.1 cm、杯緣離嘴 0.5～1.0 cm）"
   }
  ]
 }

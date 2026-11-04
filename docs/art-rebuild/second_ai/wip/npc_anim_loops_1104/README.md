@@ -103,6 +103,12 @@ Blender Workbench 拍的，不是遊戲畫面：VRoid 人物照遊戲的坐法�
 
 ## 給 LAWWW-C（接線）
 
+拿檔案：
+
+```
+git checkout 2962616ac -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.glb assets/models/char/second_ai/hand_props.json tests/sit_task_loops_unit.js
+```
+
 1. `ASSETS.manifest` 加 `char.ual_sit_tasks`（lazy）、`prop.hand_props`。
 2. SEATACT 決定好要做 laptop／notes／textbook／phone 的路人：
    - 片段名字＝`Sit_` + 動作 + `_F`／`_M` + `_Loop`。
