@@ -198,6 +198,9 @@ NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_pl
 PTBOYA_before_shots | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ptboya_probe.py | index.html | 20 | HOUR=14;CC_HEADLESS=0
 PTBOYA_after_shots | 031cb3e0147a0b2aac77869d979e9d308435ff60 | probe | docs/story_planning/test_tools/cc/cc_ptboya_probe.py | index.html | 20 | HOUR=14;CC_HEADLESS=0
 PTBOYA_glb | 031cb3e0147a0b2aac77869d979e9d308435ff60 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 20 | CC_HEADLESS=0
+# EXAMLIB T-a、T-b（BB-C 17:29；BB_260 第 2 節；不進 v9.10.20）：cc_examlib_play.py 照玩家操作走（真的走上二樓、走進讀書區、用手機私訊柏翰）；雲端 ec060dcee ALL PASS 27 項（SwiftShader）
+#   T-a：第 14 週平日 10:30 總圖大廳：旁白→找不到位子→三個選項→再繞一圈 +20 分；T-b：前一晚私訊柏翰占位子 → 隔天 09:00 3F 直接坐下＋那一句／12:00 沒到「十二點零一分。位子收了。」、關係值不變
+EXAMLIB_play | ec060dcee9b9398ea3c701b5158aa49476983d59 | probe | docs/story_planning/test_tools/cc/cc_examlib_play.py | index.html | 20 | CASES=ta,tb;CC_HEADLESS=0
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
 WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=yizhan;HOURS=14,22;YARD=1;EAVE=1;CC_HEADLESS=0
 # ===== BB-C 13:24 舊 SHA 那批改排（BB_255 5b858ec58）：新 head 7c970654c（完整 SHA），排在 GG_REENTRY、SUNNY 補印後面 =====
