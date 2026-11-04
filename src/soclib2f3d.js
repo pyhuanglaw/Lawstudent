@@ -55,6 +55,7 @@ const SL2=(function(){
   function winsOn(L,w){ const along=Math.abs(w.x1-w.x0)>=Math.abs(w.z1-w.z0); if(w.kind!=='outer') return [];
     const side=along?(Math.abs(w.z0-(-L.D/2))<0.05?'N':'S'):(Math.abs(w.x0-L.W/2)<0.05?'E':'W'); return L.windows.filter(o=>o.wall===side&&(o.lv===w.lv)); }
 
+  const inw0=o=>(o.inward||[1,0,0])[0];
   function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,cols,outs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, A=S.A, B=S.B, LD=S.landing, MW=S.midWall, WL=S.well, MAT=B3.MAT, r=S.rise, t=S.tread;
     const b0=new TK.Bin(), b1=new TK.Bin(); const binOf=lv=>lv===1?b1:b0, grpOf=lv=>lv===1?lv1:lv0, fbOf=lv=>lv===1?fb1:fb0;
     const plaster=MAT.plaster(), dado=M('#c9cbc4',{rough:0.7}), inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide});
@@ -98,6 +99,8 @@ const SL2=(function(){
       const post=(a)=>along?[o.x+a,o.z]:[o.x,o.z+a]; for(const s of [-1,1]){ const [px,pz]=post(s*hw); bb.add(o.kind==='door'?MAT.frame():alu(),TK.boxG(0.08,o.h,0.12),px,y+o.h/2,pz,along?0:Math.PI/2); }
       bb.add(o.kind==='door'?MAT.frame():alu(),along?TK.boxG(o.w+0.16,0.1,0.14):TK.boxG(0.14,0.1,o.w+0.16),o.x,y+o.h+0.05,o.z);
       const top=(o.lv===1?RY:Y1-ST)-(y+o.h+0.1); if(top>0.05) bb.add(plaster,along?TK.boxG(o.w+0.16,top,T):TK.boxG(T,top,o.w+0.16),o.x,y+o.h+0.1+top/2,o.z);   /* 門上面的牆（門的開口在 walls 裡是空的）*/
+      /* 從閱覽室進來的門（kind 'door'）：兩扇關著的木門（開著的話門外是區域外面，什麼都沒有；出入是互動點，DOOR 會播推門）*/
+      if(o.kind==='door'){ const dx=o.x+inw0(o)*0.12; for(const s of [-1,1]){ const zc=o.z+s*hw/2; bb.add(M('#c9ad7c',{rough:0.55}),TK.boxG(0.045,o.h-0.02,hw-0.01),dx,y+o.h/2,zc); bb.add(frost(),TK.boxG(0.05,1.05,0.14),dx,y+1.42,zc,0,{noShadow:true}); bb.add(MAT.steel(),TK.boxG(0.01,0.3,0.12),dx+0.03,y+1.1,zc-s*(hw/2-0.07)); } }
       /* 玻璃門：兩扇往房間裡推開 90°（靠著門邊，開著走得過去）；門扇是玻璃＋鋁框 */
       if(o.kind==='glassDoor'){ const inw=o.inward||[0,0,1], lw=hw-0.04; for(const s of [-1,1]){ const [hx,hz]=post(s*(hw-0.02)), px=hx+inw[0]*lw/2, pz=hz+inw[2]*lw/2;
           const leaf=new THREE.Mesh(new THREE.PlaneGeometry(lw,o.h-0.1),MAT.glass()); leaf.position.set(px,y+o.h/2,pz); leaf.rotation.y=along?Math.PI/2:0; grpOf(o.lv).add(leaf);
@@ -138,7 +141,11 @@ const SL2=(function(){
     booking:'預約的小螢幕：今天的時段一格一格排滿了，只有傍晚六點那一格還是綠色的。',
     whiteboard:'白板上還留著上一組沒擦乾淨的字：一張畫到一半的表格，和「下週三前交初稿！！」',
     rules:'自習室使用規則：請保持安靜、手機請轉靜音、不可占位、請勿飲食（有蓋的水可以）。',
-    clock:'牆上的鐘。走得比手機慢了一分鐘。' };
+    clock:'牆上的鐘。走得比手機慢了一分鐘。',
+    reserve:'預約書架：一格一格放著別人預約的書，每本都夾著一張寫了名字和取書期限的紙條。',
+    newbooks:'新書推薦：館員挑的這個月新書，經濟、社會、政治、社工都有，旁邊放了一疊推薦卡。',
+    poster:'海報：「期末考週，自習室請勿占位：離開超過 30 分鐘，東西會被館員收到服務台」。下面一張小的是「論文寫作工作坊，報名請洽一樓服務台」。',
+    kiosk2:'自助服務機：查館藏、印預約單、查自己借了哪些書。螢幕上是「請先感應學生證」。' };
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin();
     const tableM=M('#d9cdb4',{rough:0.55}), legM=M('#7b8086',{rough:0.45}), divM=frost(), outletM=M('#3a3e44',{rough:0.5});
     for(const f of L.furniture){ const b=f.lv===1?b1:b0, y=f.lv===1?Y1:0, nav=f.lv===1?nav1:nav0, ry=f.ry||0, fx=Math.sin(ry), fz=Math.cos(ry), fb=f.lv===1?fb1:fb0;
@@ -151,7 +158,7 @@ const SL2=(function(){
         nav.blockRect(cx,cz,dx,len,0,0); }
       else if(f.type==='discTable'){ b.add(M('#e4ddd0',{rough:0.5}),TK.boxG(f.w,0.04,f.d,1.2),f.x,y+0.74,f.z); for(const sx of [-1,1]) b.add(legM,TK.boxG(0.06,0.72,f.d-0.2),f.x+sx*(f.w/2-0.15),y+0.36,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
       else if(f.type==='whiteboard'){ b.add(M('#f6f7f5',{rough:0.25}),TK.boxG(f.w,1.0,0.03),f.x,y+1.45,f.z); b.add(alu(),TK.boxG(f.w+0.06,0.04,0.08),f.x,y+0.93,f.z+0.03); IT.push({x:f.x,z:f.z+0.65,radius:0.9,lv:f.lv,label:'看白板',look:LOOK.whiteboard}); }   /* 白板和桌子北端之間（三格走道的中間那一格）*/
-      else if(f.type==='bookingScreen'){ b.add(M('#2a2e33',{rough:0.4}),TK.boxG(0.26,0.18,0.03),f.x,y+1.45,f.z); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.22,0.14),new THREE.MeshBasicMaterial({map:TK.signTex(f.name,{bg:'#e9f4ee',color:'#1f4d38'})})); sc.position.set(f.x,y+1.45,f.z+0.017); fb.add(sc);
+      else if(f.type==='bookingScreen'){ b.add(M('#2a2e33',{rough:0.4}),TK.boxG(0.26,0.18,0.03),f.x,y+1.45,f.z); const sc=new THREE.Mesh(new THREE.PlaneGeometry(0.22,0.14),new THREE.MeshBasicMaterial({map:TK.signTex(f.name,{bg:'#e9f4ee',color:'#1f4d38'})})); sc.position.set(f.x,y+1.46,f.z+0.026); (f.lv===1?lv1:lv0).add(sc);   /* 字放在樓層群組（正式模型載入後照樣在）、正式模型的螢幕面（f.z+0.023）前面 */
         IT.push({x:f.x,z:f.z+0.75,radius:0.75,lv:f.lv,label:'看預約螢幕（'+f.name+'）',look:LOOK.booking}); }
       else if(f.type==='lockers'){ const len=f.z1-f.z0, cz=(f.z0+f.z1)/2, x=f.x+f.d/2; b.add(M('#c3c9cd',{rough:0.42,metal:0.2}),TK.boxG(f.d,1.8,len),x,y+0.9,cz); const cw=len/f.n;
         for(let i=0;i<f.n;i++) for(let j=0;j<4;j++){ const zc=f.z0+cw*(i+0.5), yc=y+0.25+j*0.44; b.add(M('#aeb5ba',{rough:0.42,metal:0.2}),TK.boxG(0.012,0.4,cw-0.03),f.x+f.d+0.006,yc,zc,0,{noShadow:true}); b.add(M('#6a7076',{rough:0.4}),TK.boxG(0.02,0.05,0.03),f.x+f.d+0.014,yc+0.08,zc+cw/2-0.07,0,{noShadow:true}); }
@@ -166,13 +173,24 @@ const SL2=(function(){
       else if(f.type==='planter'){ b.add(M('#8c7f6e',{rough:0.8}),new THREE.CylinderGeometry(f.r,f.r*0.85,0.5,14),f.x,y+0.25,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.3,1),f.x,y+0.95,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='extinguisher'){ b.add(M('#b8262b',{rough:0.4}),new THREE.CylinderGeometry(0.08,0.08,0.5,12),f.x,y+0.4,f.z); }
       else if(f.type==='clock'){ const c=new THREE.Mesh(new THREE.CircleGeometry(0.17,24),new THREE.MeshBasicMaterial({map:TK.signTex('12',{bg:'#f7f5ef',color:'#444',size:40})})); c.position.set(f.x,y+2.55,f.z); c.rotation.y=ry; fb.add(c); IT.push({x:f.x+fx*1.2,z:f.z+fz*1.2,radius:0.8,lv:f.lv,label:'看時鐘',look:LOOK.clock}); }
-      else if(f.type==='rules'){ const p=new THREE.Mesh(new THREE.PlaneGeometry(f.w,0.8),new THREE.MeshBasicMaterial({map:TK.signTex('自習室使用規則',{bg:'#fbfaf6',color:'#2f3338',size:44})})); p.position.set(f.x,y+1.6,f.z); p.rotation.y=ry; fb.add(p); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.9,lv:f.lv,label:'看使用規則',look:LOOK.rules}); }
+      else if(f.type==='rules'){ const p=new THREE.Mesh(new THREE.PlaneGeometry(f.w,0.8),new THREE.MeshBasicMaterial({map:TK.signTex('自習室使用規則',{bg:'#fbfaf6',color:'#2f3338',size:44})})); p.position.set(f.x+fx*0.028,y+1.6,f.z+fz*0.028); p.rotation.y=ry; (f.lv===1?lv1:lv0).add(p);   /* 字放在樓層群組、正式模型的紙面（牆前 2.4 cm）前面 */ IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.9,lv:f.lv,label:'看使用規則',look:LOOK.rules}); }
       else if(f.type==='copier'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; const sb=new TK.Bin(); sb.add(M('#e8e8e3',{rough:0.5}),TK.boxG(f.w,0.9,f.d),0,0.45,0); sb.add(M('#c9ccce',{rough:0.45}),TK.boxG(f.w*0.9,0.16,f.d*0.86),0,0.98,-0.02); sb.add(M('#2c2f34',{rough:0.4}),TK.boxG(0.3,0.05,0.16),0.18,0.93,f.d/2-0.06,0,{rx:-0.4}); sb.add(M('#fbfaf4',{rough:0.8}),TK.boxG(0.32,0.03,0.24),-0.05,0.62,f.d/2+0.1); sb.build(g); fb.add(g);
         nav.blockRect(f.x,f.z,f.w,f.d,-ry,0.05); IT.push({x:f.x+fx*0.85,z:f.z+fz*0.85,radius:0.8,lv:f.lv,label:'影印',look:LOOK.copier}); }
       else if(f.type==='cardKiosk'){ b.add(M('#3c5a78',{rough:0.45}),TK.boxG(f.w,1.25,f.d),f.x,y+0.625,f.z); b.add(M('#cfe2ee',{rough:0.2}),TK.boxG(0.3,0.22,0.02),f.x,y+1.05,f.z-f.d/2-0.01); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.7,lv:f.lv,label:'影印卡儲值機',look:LOOK.kiosk}); }
       else if(f.type==='sofa'){ const sg=new THREE.Group(); sg.position.set(f.x,y,f.z); sg.rotation.y=ry; fb.add(sg); const sb=new TK.Bin(); const fab=M('#7f8a8c',{rough:0.88}), fab2=M('#6f797b',{rough:0.88});
         sb.add(fab2,new THREE.BoxGeometry(f.w,0.22,0.86),0,0.19,0); for(const sx of [-1,1]) sb.add(fab,new THREE.BoxGeometry(f.w/2-0.04,0.14,0.66),sx*(f.w/4),0.37,0.08); sb.add(fab2,new THREE.BoxGeometry(f.w-0.2,0.52,0.2),0,0.56,-0.33); for(const sx of [-1,1]) sb.add(fab2,new THREE.BoxGeometry(0.16,0.34,0.86),sx*(f.w/2-0.08),0.43,0); sb.build(sg);
         nav.blockRect(f.x,f.z,f.w,0.9,-ry,0.05); if(f.seat) IT.push({x:f.x+fx*0.75,z:f.z+fz*0.75,radius:1.1,lv:f.lv,label:'坐在沙發上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); }
+      else if(f.type==='lowShelf'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); fb.add(g); const sb=new TK.Bin(); sb.add(MAT.wood(),TK.boxG(f.w,f.h,f.d),0,f.h/2,0); sb.add(M('#6b4a3a',{rough:0.8}),TK.boxG(f.w-0.1,0.26,0.02),0,f.h*0.28,f.d/2+0.011); sb.add(M('#3f5a6e',{rough:0.8}),TK.boxG(f.w-0.1,0.26,0.02),0,f.h*0.72,f.d/2+0.011); sb.build(g);
+        nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); IT.push({x:f.x,z:f.z+0.85,radius:1.2,lv:f.lv,label:f.what==='reserve'?'看預約書架':'看新書推薦',look:LOOK[f.what]}); }   /* 北面窗下的矮書架（預約書架、新書推薦）*/
+      else if(f.type==='slatWall'){ const len=f.z1-f.z0, pl=new THREE.Mesh(new THREE.PlaneGeometry(len,f.h),MAT.wood()); pl.position.set(f.x+0.02,y+0.1+f.h/2,(f.z0+f.z1)/2); pl.rotation.y=Math.PI/2; fb.add(pl); }   /* 竹木條牆（備用模型：一片竹色的面）*/
+      else if(f.type==='hose'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#b3262b',{rough:0.4}),TK.boxG(0.74,1.3,0.12),0,0.9,0.06); sb.add(M('#e03a30',{rough:0.3}),TK.boxG(0.1,0.1,0.07),0,1.67,0.035); sb.build(g); }   /* 消防栓箱 */
+      else if(f.type==='exitSign'){ const g=new THREE.Group(); g.position.set(f.x,y+f.y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#e6e8e6'),TK.boxG(0.44,0.16,0.06),0,0,0); sb.add(new THREE.MeshBasicMaterial({color:0x5fe08a}),TK.boxG(0.38,0.12,0.07),0,0,0); sb.build(g); }   /* 避難方向指示燈（綠色）*/
+      else if(f.type==='umbrella'){ b.add(M('#6b7075',{rough:0.4}),new THREE.CylinderGeometry(f.r,f.r*0.9,0.55,14),f.x,y+0.275,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }   /* 傘架 */
+      else if(f.type==='posterStand'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#3a3d41'),TK.boxG(f.w,1.25,0.04),0,0.95,0,0,{rx:-0.12}); sb.add(M('#3a3d41'),TK.boxG(f.w,1.25,0.04),0,0.95,-0.3,0,{rx:0.12}); sb.build(g);
+        const pp=new THREE.Mesh(new THREE.PlaneGeometry(f.w-0.08,0.9),new THREE.MeshBasicMaterial({map:TK.signTex('期末考週 請勿占位',{bg:'#f6f1e4',color:'#7a2e2a',size:40})})); pp.position.set(0,1.0,0.075); pp.rotation.x=-0.12; g.add(pp); (f.lv===1?lv1:lv0).attach(pp);
+        nav.blockRect(f.x,f.z,f.w,f.d,-ry,0.05); IT.push({x:f.x+fx*0.85,z:f.z+fz*0.85,radius:0.9,lv:f.lv,label:'看海報',look:LOOK.poster}); }   /* 海報立牌（A 字型）；海報的字放在樓層群組 */
+      else if(f.type==='kiosk'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; fb.add(g); const sb=new TK.Bin(); sb.add(M('#d9d6d0'),TK.boxG(f.w,1.0,f.d),0,0.5,0); sb.add(M('#1a1c1f'),TK.boxG(f.w-0.06,0.42,0.05),0,1.22,0.0,0,{rx:-0.3}); sb.build(g);
+        nav.blockRect(f.x,f.z,f.w,f.d,-ry,0.05); IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.8,lv:f.lv,label:'自助服務機',look:LOOK.kiosk2}); }   /* 自助服務機 */
       else if(f.type==='coffeeTable'){ b.add(MAT.wood(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); } }
     b0.build(fb0); b1.build(fb1);
     // 座位（每一個都標樓層；椅子是備用模型的一部分，正式模型有自己的椅子）

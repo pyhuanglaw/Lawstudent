@@ -142,7 +142,12 @@ furn += [  # 二樓
          dict(type='rules', lv=1, x=5.0, z=11.08, ry=r3(PI), w=1.2),
          # 一樓
          dict(type='notice', lv=0, x=-0.8, z=-11.08, ry=0.0, w=2.0, what='floor1'),
-         dict(type='bench', lv=0, x=2.4, z=-10.75, w=1.6, d=0.42, ry=0.0, seat=True),
+         dict(type='bench', lv=0, x=1.2, z=-10.75, w=1.6, d=0.42, ry=0.0, seat=True),
+         dict(type='lowShelf', lv=0, x=-4.4, z=-10.92, w=3.8, d=0.35, h=0.85, what='reserve'),   # 北面窗下的矮書架：預約書架、新書推薦（擋導航、有互動點）
+         dict(type='lowShelf', lv=0, x=4.2, z=-10.92, w=3.4, d=0.35, h=0.85, what='newbooks'),
+         dict(type='slatWall', lv=0, x=-3.9, z0=-4.3, z1=0.3, h=2.7, face='+x'),                # 影印休息區西牆（樓梯間的牆）：竹木條＋樓層導覽框（不擋路）
+         dict(type='hose', lv=0, x=-2.6, z=2.7, ry=r3(PI)), dict(type='hose', lv=1, x=-3.9, z=5.6, ry=r3(PI / 2)),   # 消防栓箱（紅色，牆上凸出 12 cm）
+         dict(type='exitSign', lv=0, x=-7.88, z=ENT['z'], y=2.72, ry=r3(PI / 2)), dict(type='exitSign', lv=1, x=-5.0, z=-5.2, y=3.2, ry=r3(PI), hang=True),   # 避難方向指示燈（綠色，自己發光）
          dict(type='planter', lv=0, x=-7.3, z=-10.5, r=0.3),
          dict(type='planter', lv=0, x=7.3, z=-10.5, r=0.3),
          dict(type='planter', lv=0, x=7.35, z=2.15, r=0.28),
@@ -152,7 +157,10 @@ furn += [  # 二樓
          dict(type='cardKiosk', lv=0, x=2.6, z=2.45, w=0.5, d=0.4, ry=r3(PI)),
          dict(type='sofa', lv=0, x=-2.2, z=-2.6, w=2.0, ry=0.0, seat=True),                    # 休息區：兩張沙發面對面＋矮桌
          dict(type='sofa', lv=0, x=-2.2, z=-0.2, w=2.0, ry=r3(PI), seat=True),
-         dict(type='coffeeTable', lv=0, x=-2.2, z=-1.4, w=1.2, d=0.6)]
+         dict(type='coffeeTable', lv=0, x=-2.2, z=-1.4, w=1.2, d=0.6),
+         dict(type='umbrella', lv=0, x=-7.45, z=-9.75, r=0.2),                                  # 門口的傘架（台灣的雨天）
+         dict(type='posterStand', lv=0, x=-3.0, z=-6.0, ry=r3(-PI / 4), w=0.62, d=0.45),     # 門廳的海報立牌（期末考週請勿占位、論文寫作工作坊）
+         dict(type='kiosk', lv=0, x=-7.6, z=-6.4, ry=r3(PI / 2), w=0.6, d=0.5)]              # 自助服務機（查館藏、印預約單；西牆、門和樓梯中間，面向東）
 
 # ---- 門（關著的、洗手間）：face＝門朝哪一邊（站在那一邊看得到門）----
 doors = [dict(id='wc_m', lv=1, x=WC['doors'][0], z=DZ1, face='+z', label='男廁', look='男廁。乾淨，有一股淡淡的芳香劑味道。洗手台的鏡子前面，有人在整理頭髮。', wc=True),
@@ -176,13 +184,14 @@ windows = [dict(lv=0, wall='N', a0=-6.4, a1=-2.4, y0=1.0, y1=3.0), dict(lv=0, wa
            dict(lv=0, wall='E', a0=-10.4, a1=-6.0, y0=1.0, y1=3.0), dict(lv=0, wall='E', a0=-4.4, a1=2.0, y0=1.0, y1=3.0),
            dict(lv=1, wall='E', a0=-0.4, a1=10.8, y0=0.85, y1=2.85, room='study'),
            dict(lv=1, wall='E', a0=-6.4, a1=-5.2, y0=0.9, y1=2.7), dict(lv=1, wall='E', a0=-4.6, a1=-1.4, y0=0.9, y1=2.7), dict(lv=1, wall='E', a0=-10.4, a1=-7.6, y0=0.9, y1=2.6, room='d3'),
-           dict(lv=1, wall='N', a0=-2.4, a1=-0.4, y0=0.9, y1=2.6, room='d1'), dict(lv=1, wall='N', a0=1.2, a1=3.2, y0=0.9, y1=2.6, room='d2'),
-           dict(lv=1, wall='N', a0=5.0, a1=7.0, y0=0.9, y1=2.6, room='d3'),
+           dict(lv=1, wall='N', a0=-2.4, a1=-0.4, y0=2.2, y1=2.95, room='d1'), dict(lv=1, wall='N', a0=1.2, a1=3.2, y0=2.2, y1=2.95, room='d2'),   # 討論室北牆：白板（0.95～2.05 m）上面的高窗
+           dict(lv=1, wall='N', a0=5.0, a1=7.0, y0=2.2, y1=2.95, room='d3'),
            dict(lv=1, wall='S', a0=-3.6, a1=-2.0, y0=0.9, y1=2.6)]
 
 # 天花板燈（日光燈盤）：{lv, x, z, w, d}
 lights = []
-for x in (-6.0, -2.0, 2.0, 6.0): lights.append(dict(lv=0, x=x, z=-8.0, w=1.2, d=0.6))
+for x in (-6.0, -2.0, 2.0, 6.0):
+    for z in (-9.6, -6.4): lights.append(dict(lv=0, x=x, z=z, w=1.2, d=0.6))   # 一樓門廳兩排
 for x, z in ((-1.4, -2.6), (1.6, -0.6), (6.4, -0.6), (-1.4, 1.4)): lights.append(dict(lv=0, x=x, z=z, w=1.2, d=0.6))
 for x in (-6.0, -2.0, 2.0, 6.0): lights.append(dict(lv=1, x=x, z=-5.8, w=1.2, d=0.3))
 for z in (-2.6, 1.6, 5.6, 9.6): lights.append(dict(lv=1, x=-2.8, z=z, w=0.3, d=1.2))
