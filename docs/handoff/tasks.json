@@ -42798,11 +42798,11 @@
    "id": "AA617-WZ-CAFES-1103",
    "title": "木曜日（13–22，週二休，可讀書）、日常失速（13–01，不給讀書）接進遊戲：營業時間、互動、同學作息、台詞（AA 接著寫）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "note": "AA_617（企劃線 3e4651ebf）；使用者排在 D99 三項之後",
-   "next": "木曜日：LAWWW2 場景已整合（開發分支 aa8cb5beb，second-ai-env-art 50c1b0681）；AA_618 第 1 節的系統與台詞由 LAWWW 子代理在 worktree 做（11-04 00:3x 開工）；日常失速等場景。2D 背景（BB 照 D97 要）、雨天 CG 還沒有",
-   "sha": "aa8cb5beb"
+   "next": "木曜日 AA_618 第 1 節已合（b04191041，子代理 ab7fbd7cf）；缺台詞五項＋四個自定判斷已問 AA（11-04 00:5x）；念書路人 6～10 個 LAWWW 待排；BB 排 PC 真實流程；日常失速等場景",
+   "sha": "b04191041"
   },
   {
    "first": {
@@ -43704,8 +43704,8 @@
    "id": "BUG-CARD-BOHAN-WALK-1103",
    "title": "第一堂民總 classScene：玩家先坐第 2 排，劇情叫他走到第 1 排卡 4 秒（BB f606 walkFallbacks=1，P2）",
    "status": "已實作待整合",
-   "next": "GM.walkTo 坐著先起身（1ec7c8634）；BB 排 PC 重跑 f606 確認 walkFallbacks=0",
-   "sha": "1ec7c8634"
+   "next": "根因（CC 讀程式）：classScene 沒檢查 mainDay，9/4 沒上到的局每週四重演、和選座位搶玩家；4cb41c3a0 只在第 2 天演＋過了記錯過；1ec7c8634 坐著先起身留當保險。BB 排 PC N20_f606c 在 a8c485729 確認",
+   "sha": "4cb41c3a0"
   },
   {
    "first": {
