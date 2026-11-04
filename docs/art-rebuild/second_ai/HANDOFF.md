@@ -10,7 +10,20 @@
 - **WZ-FIVE-1104 溫州街第一批五間**（使用者 04:4x 定案，AA_654 §6）：
   - 我做五間的外觀、招牌、窗卡、烘焙。室內：2:30 AM、小路、SUNNY SIDE 是 AA；林家是 BB；阿德是 CC。
   - 門窗數字已經給 AA、BB、CC（04:5x，照 cafe_layout.py 和 wz_shops_layout.js，房間、門、出口都不動）。已請 LAWWW 列出不能動的劇情座標。
-  - 下一步：從參考圖 wz_*_ext 裁招牌和立面貼圖（sign_atlas、xs_front_tex 的 QW），改 wz_street.py 的五間店面和 cafe_exterior。窗卡等室內 MODEL_READY 後再拍。
+  - 05:1x 進度（WIP，wenzhou_street.glb 在 a4c2cc05f 之後，不要整合）：
+    - 已做：招牌、價目牌、暖簾、黑板、門、營業時間牌（11:00–02:30）從參考圖裁好（sign_atlas 的 wz_*_h、xs_front_tex 的 QW）；SIGNMAP 的 A4、B3、B7、A1 換新招牌。
+    - 林家：深綠雨遮、不鏽鋼攤車、白磁磚。
+    - SUNNY SIDE：綠白條紋雨遮、深綠框落地窗（sf frame／grid）。
+    - 小路：木招牌、暖簾、紅燈籠（sf lantern）、黑板立牌。
+    - 比較圖：docs/art-rebuild/second_ai/wip/wz_five_1104/fronts_wip3_vs_ref.jpg。
+  - 還沒做：
+    - 小路一樓立面還是淺色（參考圖是深色木）；
+    - 阿德（A2 轉角的 COPY_ 兩種外觀）；
+    - 2:30 AM 外觀（cafe_exterior.py，深綠飾帶、奶油色牆、木門窗）；
+    - 五間的窗卡（等室內 MODEL_READY）；
+    - cafe 重烘；
+    - props.json 的雜物位置有變，交件時 LAWWW 要更新導航阻擋。
+  - 2:30 AM 室內 AA v1（0963f3cb5）：導航過；美術退回 v1b（護牆板、吊燈、層架、深色天花板、地毯）。
 - 今天交出去的（都已 push）：
   - 公館 GLB e0560b289：窗卡 v4、頁間盆栽、白天光暈 0；
   - 斑馬線＋公館視距 305ef2d2a（LAWWW 已接 9ac863212）；
