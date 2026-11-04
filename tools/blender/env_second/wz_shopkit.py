@@ -745,6 +745,7 @@ def xs_stair(xf, st, z):
 def xs_window(spec, xf, w):
     """新生南路二樓（山嵐、同弦、運動廣場、大口漢堡）：整排玻璃，後面 0.5 m 是參考圖二樓的店內；solid＝南洋戲院那種一整片字的外牆（貼圖直接在牆面上）"""
     x0, x1, y0, y1 = w['x'] - w['w'] / 2, w['x'] + w['w'] / 2, w['y0'], w['y1']
+    if w.get('blank'): xf.box(acc(frame_mat(spec.get('color', '#d9cbb0'))), x0, x1, y0 - 0.01, y1 + 0.01, -0.25, -0.005); return   # 這一段不開窗（牆補起來）
     if w.get('solid'):
         xf.box(acc(M['gwall']), x0, x1, y0, y1, -0.25, -0.01); _xq(xf, w['tex'], x0, x1, y0, y1, 0.004, tiles=1); return
     fr = acc(frame_mat(w.get('frame', '#2a2a28')))
