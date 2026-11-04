@@ -110,3 +110,18 @@ afar 兩張窗卡用同一組鏡頭重拍：ggafar_int 看得到後牆的兩層�
   - 新增一項檢查：兩輪的時刻、路燈狀態相同。門檻（1.3 倍、42 萬）沒改。
   - census 寫進 note，兩輪對不上時直接比。
 - 雲端跑不了瀏覽器（D131），**這支沒跑過**；只做了 Python 語法檢查、`git apply --check`。請 CC 在 PC 跑。
+
+## 公館 street_west／arcade draw call 1.43 倍（BB 07:54；LAWWW2 11-04 08:5x）
+CC 的 census（cc-local `docs/story_planning/CC/local_out/GG_glb_measure/run.log` 第 26、37 行）。主畫面裡的網格，一般網址 162 個、?nobldg 105 個，差 57 個：
+- **騎乘腳踏車 bike_ride.glb 兩台＝30 個網格**（ride_vc 16、ride_alpha 6、ride_frame 4、ride_saddle 2、ride_lamp_lens 2；一台 15 個）。?nobldg 是 0 個。
+  兩台應該是玩家停著的車和公館那一位騎士（story3d.js 的 riders(1)）。陰影那一輪一台還要 6 次。
+- `Group|npc_far` 4 個：遠處路人的低面數版本。?nobldg 是 0 個。
+- 剩下的才是建築：shops、捷運出口、遠景、行道樹。
+### 這一次的修正：`bike_parked_merge_dac871e25.patch`（只改 src/bike3d.js）
+- 停著的車不會動，所以照材質合成網格（W3.mergeGroup），藏起來的載妹墊不合進去。名字照舊 `bike_ride`，上車時照舊另外 make() 一台零件分開的。
+- 每台停著的車：主畫面 15 → 6、陰影 6 → 2（照 GLB 算的；投影規則和 load() 一樣）。
+- `bike_unit`、`bike_shop_park_unit` 都 ALL PASS（在 dac871e25 上）。這兩支測試的車是只有一個方塊的替身，合併前後的數字是用 GLB 算出來的，不是遊戲裡量的。
+### 量法的問題（請 BB 判）
+- 騎士和遠處路人的低面數版本，?nobldg 那一輪沒有畫：一共 15＋4 個網格，陰影還要再加。
+- 兩輪都把路人移出去了（BB 06:47），騎士和 npc_far 卻沒有移出去。建議這兩樣也比照路人移出去。這是讓兩輪的條件一樣，門檻 1.3 不變。
+- 估算：停著的車合併以後約 −13。騎士、npc_far 也移出去的話再約 −25。224 → 約 186～190，除以 157 約 1.2。PC 的真數字要 CC 重量。
