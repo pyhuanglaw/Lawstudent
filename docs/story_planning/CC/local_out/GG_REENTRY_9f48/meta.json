@@ -1,0 +1,22 @@
+{
+  "rerun": "",
+  "id": "GG_REENTRY_9f48",
+  "sha": "9f481443d",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_reentry_probe.py",
+  "env": "HOURS=14,21;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:21:36",
+  "end": "2026-11-04T21:21:46",
+  "seconds": 10,
+  "exit": null,
+  "error": "worktree add 9f481443d failed: fatal: invalid reference: 9f481443d",
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "res_peak": {
+    "cpu": 16,
+    "mem": 47,
+    "used_gb": 14.8,
+    "chrome_testing": 18
+  }
+}

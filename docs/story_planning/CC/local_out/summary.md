@@ -1158,3 +1158,4 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 2.0s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_shops2_afar_seat] | [gpu_wrap 4458.9s] page close url=http://127.0.0.1:8800/index.html | [gpu_wrap 4459.0s] BROWSER DISCONNECTED
 - 2026-11-04T21:21:27  GG_night_r8c  sha=060a1a093  exit=0  119s    INFO G02 ggbook_int  找得到：白天 True／晚上 True；晚上材質有變：False（白天 emissive #ededed×1、晚上 #ededed×1）；卡面亮度 白天 None→晚上 None / INFO 總覽圖  做不出來：No module named 'PIL' / ALL PASS
       err.log (last 5): [gpu_wrap 1.2s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [GG_night_r8c] | [gpu_wrap 45.8s] page close url=http://127.0.0.1:8802/index.html | [gpu_wrap 45.8s] BROWSER DISCONNECTED
+- 2026-11-04T21:21:46  GG_REENTRY_9f48  sha=9f481443d  exit=  10s  worktree add 9f481443d failed: fatal: invalid reference: 9f481443d  
