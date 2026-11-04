@@ -1,1 +1,13 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_qa_w1_wrap.py http://127.0.0.1:8811/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_qa_w1\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_qa_w1_wrap.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ3_qa_w1\out
+PASS A4 地圖開關 5 次：新開 canvas 1 張（每次累計 [1, 1, 1, 1, 1]）、關掉後大地圖畫布 [0, 0]
+SHOT A2 宿舍書桌：{"label": "坐在書桌前", "x": -1.14, "z": 0.142, "yaw": -1.5708, "floor": 0, "lift": 0} → A2_宿舍書桌.png
+SHOT C2a Café 吧檯高腳椅：{"label": "吧檯", "x": -4.5, "z": -3.3, "yaw": 3.141592653589793, "floor": 0, "lift": 0.27} → C2a_Café_吧檯高腳椅.png
+SHOT C2b 一盞 和室跪坐：{"label": "在和室坐下", "x": -2.15, "z": -3.5, "yaw": 0, "floor": 0.08, "lift": 0} → C2b_一盞_和室跪坐.png
+SHOT C2c 一盞 緣側跪坐：{"label": "坐在緣側", "x": 0.6, "z": 5.55, "yaw": 0, "floor": 0.08, "lift": 0} → C2c_一盞_緣側跪坐.png
+SHOT C3a 小公園 鞦韆：{"label": "盪鞦韆", "x": 31.7, "z": 25, "yaw": 3.141592653589793, "floor": 0, "lift": 0} → C3a_小公園_鞦韆.png
+SHOT C3b 小公園 樹下圓椅：{"label": "坐在老樹下的圓椅", "x": 26, "z": 19.9, "yaw": 3.141592653589793, "floor": 0, "lift": 0} → C3b_小公園_樹下圓椅.png
+SHOT B6g1 體育館 看台：{"label": "坐在看台", "x": -6, "z": -16.37, "yaw": 0, "floor": 0, "lift": 0} → B6g1_體育館_看台.png
+SHOT B6g2 體育館 大廳長椅：{"label": "坐在大廳的長椅", "x": -6, "z": 15.34, "yaw": 3.141592653589793, "floor": 0, "lift": 0} → B6g2_體育館_大廳長椅.png
+SHOT B6g3 體育館 場邊長椅：{"label": "坐在場邊的長椅", "x": 19.14, "z": -10.6, "yaw": -1.5707963267948966, "floor": 0, "lift": 0} → B6g3_體育館_場邊長椅.png
+SHOT B6e 閱覽室電梯車廂：{"cam": [10.4, 2.63, -0.76], "car": [10.4, -1.65], "cols": 3}
+ALL DONE（截圖要人看）

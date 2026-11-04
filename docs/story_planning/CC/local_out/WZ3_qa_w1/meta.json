@@ -1,23 +1,23 @@
 {
-  "rerun": "",
+  "rerun": "winpath1104",
   "id": "WZ3_qa_w1",
   "sha": "b53bfab72",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_qa_w1_wrap.py",
-  "env": "CC_HEADLESS=0",
+  "env": "CC_HEADLESS=0;RERUN=winpath1104",
   "machine": "MSI",
-  "start": "2026-11-04T16:28:56",
-  "end": "2026-11-04T16:29:48",
-  "seconds": 52,
-  "exit": 1,
+  "start": "2026-11-04T21:19:28",
+  "end": "2026-11-04T21:25:28",
+  "seconds": 360,
+  "exit": 0,
   "error": null,
-  "runner": "6f08f2eb23",
-  "rf_round": "25",
-  "url": "http://127.0.0.1:8811/index.html",
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8800/index.html",
   "res_peak": {
-    "cpu": 44,
-    "mem": 53,
-    "used_gb": 16.8,
-    "chrome_testing": 19
+    "cpu": 74,
+    "mem": 54,
+    "used_gb": 17.0,
+    "chrome_testing": 28
   }
 }
