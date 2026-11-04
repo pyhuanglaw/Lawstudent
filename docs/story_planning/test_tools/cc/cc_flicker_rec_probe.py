@@ -28,7 +28,7 @@ def check(name, ok, info=''):
 
 
 HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
-HIDE_PEOPLE = """(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const n of (E.npcs||[])) if(n&&n.obj) n.obj.visible=false; for(const x of (E.extras||[])) if(x&&x.obj) x.obj.visible=false; return true; })()"""
+HIDE_PEOPLE = """(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const n of (E.npcs||[])) if(n&&n.obj){ n.hidden=true; n.obj.visible=false; } for(const x of (E.extras||[])) if(x&&x.obj){ x.hidden=true; x.obj.visible=false; } return true; })()"""
 SET_CAM = """(([e,l])=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); return true; })"""
 WZ_DOORS = """(()=>GAME.E.interactables.filter(i=>!i.hidden&&i.exit&&/^wz_/.test(i.exit.to||'')).map(i=>({x:+(+i.x).toFixed(2),z:+(+i.z).toFixed(2),label:i.label,to:i.exit.to})))()"""
 LIFT_JS = r"""(()=>{ const E=GAME.E, V=THREE.Vector3; const it=E.interactables.find(i=>!i.hidden&&/電梯/.test(i.label||''));

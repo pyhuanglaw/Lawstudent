@@ -38,7 +38,7 @@ def check(name, ok, info=''):
 SEED_INIT = """(()=>{ let s=%d>>>0; const f=function(){ s=(s+0x6D2B79F5)>>>0; let t=s; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; };
   Math.random=f; window.__ccSeed=n=>{ s=n>>>0; return true; }; window.__ccSeeded=true; })();""" % SEED
 HUD = """(on=>{ for(const id of ['hud','hudR','minimap','ctlR','joy','interact','toast']){ const e=document.getElementById(id); if(e) e.style.visibility=on?'':'hidden'; } })"""
-HIDE = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const q of (E.npcs||[])) if(q&&q.obj){ q.obj.visible=false; n++; } for(const x of (E.extras||[])) if(x&&x.obj){ x.obj.visible=false; n++; } return n; })()"""
+HIDE = """(()=>{ const E=GAME.E; let n=0; if(E.player&&E.player.obj) E.player.obj.visible=false; for(const q of (E.npcs||[])) if(q&&q.obj){ q.hidden=true; q.obj.visible=false; n++; } for(const x of (E.extras||[])) if(x&&x.obj){ x.hidden=true; x.obj.visible=false; n++; } return n; })()"""
 MESHN = "(()=>{ let n=0; const z=GAME.E.zone; if(z&&z.group) z.group.traverse(o=>{ if(o.isMesh) n++; }); return n; })()"
 # DET=1：停主迴圈、時刻和 shader 時間設回固定值、重設種子、手動走三格、畫一幀
 AIM_DET = """(([e,l,h,seed])=>{ const E=GAME.E, G=GAME.G; E.paused=true; window.__ccSeed(seed); G.hour=h; E.hour=h; if(E.applyTime) E.applyTime(h); E.time=100; E._shT=0;

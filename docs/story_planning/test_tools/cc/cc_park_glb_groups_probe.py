@@ -24,9 +24,9 @@ def check(name, ok, info=''):
     return ok
 
 
-MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[];
-  for(const n of (E.npcs||[])) if(n&&n.obj&&n.obj.visible){ hid.push(n.obj); n.obj.visible=false; }
-  for(const x of (E.extras||[])) if(x&&x.obj&&x.obj.visible){ hid.push(x.obj); x.obj.visible=false; }
+MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[], hidN=[];
+  for(const n of (E.npcs||[])) if(n&&n.obj&&!n.hidden){ hidN.push(n); n.hidden=true; n.obj.visible=false; }
+  for(const x of (E.extras||[])) if(x&&x.obj&&!x.hidden){ hidN.push(x); x.hidden=true; x.obj.visible=false; }
   if(window.__ccHideBikes){ const pb=E.zone&&E.zone.group&&E.zone.group.getObjectByName('parked_bikes'); if(pb&&pb.visible){ hid.push(pb); pb.visible=false; } }
   E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250));
@@ -38,7 +38,7 @@ MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[];
     c.traverse(o=>{ if(!(o.isMesh||o.isInstancedMesh)||!vis(o)) return; let inF=true; try{ if(o.geometry){ if(!o.geometry.boundingSphere) o.geometry.computeBoundingSphere(); const s=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld); if(!o.isInstancedMesh&&o.frustumCulled!==false) inF=fr.intersectsSphere(s); } }catch(err){}
       if(!inF) return; const nm=Array.isArray(o.material)?o.material.length:1; const geo=o.geometry; const n=geo?(geo.index?geo.index.count:(geo.attributes.position?geo.attributes.position.count:0))/3:0; const inst=o.isInstancedMesh?(o.count||1):1;
       a.calls+=nm; a.tris+=Math.round(n*inst); a.meshes++; }); }
-  hid.forEach(o=>o.visible=true); E.endCinematic&&E.endCinematic();
+  hid.forEach(o=>o.visible=true); hidN.forEach(n=>{ n.hidden=false; }); E.endCinematic&&E.endCinematic();
   return {tot, groups, nGroups:Object.keys(groups).length}; })"""
 
 
