@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20R_reach",
+  "sha": "d3828452abe2d10f1b7bb3b47d8313482f83b2d3",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T23:42:33",
+  "end": "2026-11-04T23:51:26",
+  "seconds": 534,
+  "exit": 0,
+  "error": null,
+  "runner": "4fb4f82141",
+  "rf_round": "5",
+  "url": "http://127.0.0.1:8800/index.html?turbo",
+  "res_peak": {
+    "cpu": 87,
+    "mem": 55,
+    "used_gb": 17.5,
+    "chrome_testing": 26
+  }
+}
