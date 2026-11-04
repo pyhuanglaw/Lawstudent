@@ -176,6 +176,13 @@ TAPPREF_zone_e9b3 | e9b3b82bf7f83d7d0758a0dae91f1a6296e03d11 | probe | docs/stor
 # ===== [順序 3] SITAMB 7 項（BB-C 14:41）：子代理寫好、雲端驗完排在這裡
 # NTU_REF_teach（LAWWW-C 15:20：使用者 15:1x「普通 博雅 教學館目前感覺跟真正的太不像了」TEACH-PTBOYA-REF-1104；總表第 107～109 列的角度、14:00、現在的 head＝修改前；BB 可以調順序）
 NTU_REF_teach | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ntu_ref_probe.py | index.html | 15 | ONLY=boya_n,boya_lake,putong;HOUR=14;CC_HEADLESS=0
+# PTBOYA v2（BB-C 16:30；TEACH-PTBOYA-REF-1104；不進 v9.10.20；使用者點名 X227）：排在 V20R、SITAMB 後面，阿德 v2、AA663、AA660 前面
+#   cc_ptboya_probe（雲端 d382、7128 兩版 ALL PASS）：LAWWW2 cams.json 四個照片角度（PNG 1280×960，lens→垂直 FOV）＋走過去四張（站位用導航格找）；
+#   pt02 的鏡頭在文學院門廊前 4 m，被文學院擋住 → 另附藏起文學院的【捷徑】版；拍完雲端跑 same_angle_check --mode campus，D136 兩欄（by06 雨遮天窗洞那一格特別標）
+#   PTBOYA_glb：campus_glb_integration（71281 的測試和 e9b3 一樣），用 PARK_glb_r3 同一支包裝（量之前也藏停著的腳踏車），teach_east 的 calls 和上次 ×1.115 比
+PTBOYA_before_shots | d3828452abe2d10f1b7bb3b47d8313482f83b2d3 | probe | docs/story_planning/test_tools/cc/cc_ptboya_probe.py | index.html | 20 | HOUR=14;CC_HEADLESS=0
+PTBOYA_after_shots | 71281be8e05698117b1bd0421e61c9b9e641d652 | probe | docs/story_planning/test_tools/cc/cc_ptboya_probe.py | index.html | 20 | HOUR=14;CC_HEADLESS=0
+PTBOYA_glb | 71281be8e05698117b1bd0421e61c9b9e641d652 | probe | docs/story_planning/test_tools/cc/cc_park_glb_wrap.py | index.html | 20 | CC_HEADLESS=0
 # PARK_glb_r3（BB-C 14:0x）：campus_glb_integration 效能那一項量之前也藏 parked_bikes（包裝 cc_park_glb_wrap.py，不改測試本身）；PARK_glb_groups2：admin_arcade、soc_court 兩個鏡頭、兩輪、藏 parked_bikes，列差最多的 10 組
 WZ4_yizhan_r2 | 7c970654c48b2d28f32e6d1c2241870e12d5998b | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=yizhan;HOURS=14,22;YARD=1;EAVE=1;CC_HEADLESS=0
 # ===== BB-C 13:24 舊 SHA 那批改排（BB_255 5b858ec58）：新 head 7c970654c（完整 SHA），排在 GG_REENTRY、SUNNY 補印後面 =====

@@ -6,7 +6,8 @@
         cams.json 是 Blender 的 eye／at／lens（mm，36 mm 寬感光元件，AUTO＝橫向用寬）、1280×960 → 遊戲用垂直 FOV＝2·atan(18／lens／(1280／960))：
         24 mm＝58.7°、26 mm＝54.9°、18 mm＝73.7°。停主迴圈、時刻固定、手動畫一幀（同 cc_ade_v2_shots_probe.py 的 AIM）。PNG（給 same_angle_check）。
     - 玩家平常走過去的視角（每棟兩張；BB-C 16:30）：【前置／捷徑】讀檔把玩家放在路上、朝著那棟，等跟隨鏡頭轉好，照遊戲本來的畫面（玩家在畫面裡），1280×720 JPEG。
-        普通：從南邊的路往門口走（正面、偏東）；博思：普通和博思中間的路往主入口看、湖邊步道往北面看。
+        普通：文學院和普通中間的路，從東、西兩邊走過來看門口；博思：普通和博思中間的路往主入口看、湖邊步道往北面看。站的位置在遊戲裡用導航格找（WALK 的說明）。
+    - 每張記「畫面正中打到哪一棟」（raycast，ckTag／*_glb）：照片角度被別的建築擋住時印 INFO，另外拍一張藏起擋住那棟的【捷徑】版（HIDE_ALSO：pt02 被文學院擋住）。
   每張都藏路人、騎車的路人（cc_det.HIDE_PEOPLE_JS；走過去那幾張玩家照留）、門上的出口標籤（cc_det.HIDE_LABELS_JS）、HUD。白天 14:00、晴、固定 CC_SEED。
   也記：兩棟的正式模型有沒有接上（campus_putong_glb／campus_boya_glb）、calls／tris。
   學校照片照 list.json 用 tools/ref/fetch_ref_images.py 抓到本機比，不進 repo（CC_50 第 44 條）；比對用 same_angle_check --mode campus（雲端做）。
@@ -31,11 +32,15 @@ CAMS = {'pt02': {'photo': 'putong_web_02', 'eye': [-38, 7, -18], 'at': [-38, 10,
         'by05': {'photo': 'boya_web_05', 'eye': [-14, 1.6, -116], 'at': [-30.68, 13.42, -84.45], 'lens': 24, 'note': '斜坡綠屋頂（北面）'},
         'by06': {'photo': 'boya_web_06', 'eye': [-28, 1.5, -68], 'at': [-37, 6.5, -74.5], 'lens': 18, 'note': '主入口雨遮（BB-C：雨遮上的天窗洞和照片 06 太像，這一格要特別標）；空橋和照片左右相反（LAWWW2）'}}
 RES = (1280, 960)
-# 走過去：(代號, 玩家站的 (x, z), 朝向的點 (x, z), 說明)；普通 (−38, −58.5) 34×16、門 (−38, −49.4)；博思 (−38, −83) 34×18、門 (−38, −72.8)
-WALK = [('pt_walk_a', (-38, -36), (-38, -52), '普通：從南邊的路正面往門口走'),
-        ('pt_walk_b', (-27, -40), (-38, -52), '普通：從東南邊斜著往門口走'),
-        ('by_walk_a', (-25, -70), (-38, -76), '博思：普通和博思中間的路往主入口（雨遮）看'),
-        ('by_walk_b', (-30, -99), (-38, -90), '博思：湖邊步道往北面（斜坡）看')]
+# 走過去：(代號, 錨點 (x, z), 往外的方向 (dx, dz), 距離, 朝向的點 (x, z), 說明)——站的位置在遊戲裡找：從錨點沿方向走「距離」公尺，
+#   站不住（E.nav.clear 半徑 0.4 m）就距離 ±1～4 m、方向 ±8°～24° 找最近站得住的（11-04 雲端第一輪寫死的 (−38,−36)、(−27,−40) 在文學院裡，被引擎移了 6～14 m）。
+#   普通 (−38, −58.5) 34×16、門 (−38, −49.4)；文學院 (−38, −34) 40×18（北面 z≈−43；普通南面 z≈−50.5，中間的路約 7 m 寬）；博思 (−38, −83) 34×18、門 (−38, −72.8)
+WALK = [('pt_walk_a', (-38, -49.4), (1, 0.3), 12, (-38, -52), '普通：文學院和普通中間的路，從東邊走過來看門口'),
+        ('pt_walk_b', (-38, -49.4), (-1, 0.3), 12, (-38, -52), '普通：同一條路，從西邊走過來看門口'),
+        ('by_walk_a', (-38, -72.8), (1, 0.4), 13, (-38, -76), '博思：普通和博思中間的路往主入口（雨遮）看'),
+        ('by_walk_b', (-38, -92), (0.45, -1), 8, (-38, -90), '博思：湖邊步道往北面（斜坡）看')]
+# 照片角度被別的建築擋住時，另外拍一張把擋住的那棟藏起來的【捷徑】版（不是遊戲畫面，只給 LAWWW2 比模型）：pt02 的鏡頭在文學院門廊前 4 m（LAWWW2 的 Blender 場景沒有文學院）
+HIDE_ALSO = {'pt02': 'arts'}
 
 
 def check(name, ok, info=''):
@@ -60,6 +65,15 @@ AIM = """(([e,l,h,seed,fov])=>{ const E=GAME.E, G=GAME.G, cam=E.camera; E.paused
   for(let i=0;i<3;i++){ E.update(1/60); cam.position.set(...e); E.cam.look=new THREE.Vector3(...l); cam.lookAt(E.cam.look); cam.updateMatrixWorld(); }
   cam.fov=fov; cam.updateProjectionMatrix(); E._shT=0; E.render(); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles, fov:cam.fov, aspect:+cam.aspect.toFixed(4)};
   cam.fov=fov0; cam.updateProjectionMatrix(); return out; })"""
+FIND = """(([ax,az,dx,dz,d0])=>{ const n=GAME.E.nav; if(!n) return null; const L=Math.hypot(dx,dz); dx/=L; dz/=L;
+  for(const dd of [0,1,-1,2,-2,3,-3,4,-4]) for(const ang of [0,8,-8,16,-16,24,-24]){ const a=ang*Math.PI/180, ux=dx*Math.cos(a)-dz*Math.sin(a), uz=dx*Math.sin(a)+dz*Math.cos(a), d=d0+dd; if(d<2) continue;
+    const x=ax+ux*d, z=az+uz*d; if(n.clear?n.clear(x,z,0.4):n.free(x,z)) return [+x.toFixed(2),+z.toFixed(2),d,ang]; } return null; })"""
+# 畫面正中打到哪一棟（往上找 userData.ckTag 或 *_glb；看不見的不算）
+CENTER = """(()=>{ const E=GAME.E, rc=new THREE.Raycaster(); rc.setFromCamera(new THREE.Vector2(0,0),E.camera); const vis=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };
+  const hits=rc.intersectObjects(E.zone.group.children,true); for(const h of hits){ if(!vis(h.object)) continue; if(h.object.material&&h.object.material.visible===false) continue; let o=h.object, tag=null, glb=null;
+    for(;o;o=o.parent){ if(!glb&&/_glb$/.test(o.name||'')) glb=o.name; if(o.userData&&o.userData.ckTag){ tag=o.userData.ckTag; break; } } return {dist:+h.distance.toFixed(1), tag, glb:glb||(tag?null:''), mesh:(h.object.name||'').slice(0,40)}; } return null; })()"""
+# 把某個標記的套件和正式模型都藏起來／放回來（【捷徑】）
+HIDE_TAG = """(([tag,on])=>{ const z=GAME.E.zone; let n=0; z.group.traverse(o=>{ if((o.userData&&o.userData.ckTag===tag)||o.name==='campus_'+tag+'_glb'){ if(on){ if(o.userData.__ccTagHid){ o.visible=true; o.userData.__ccTagHid=false; n++; } } else if(o.visible){ o.visible=false; o.userData.__ccTagHid=true; n++; } } }); return n; })"""
 FRAMES = """(async n=>{ const E=GAME.E, f0=E.frame; for(let i=0;i<300&&E.frame<f0+n;i++) await new Promise(r=>setTimeout(r,100)); const ri=E.renderer.info.render, P=E.player.obj.position, c=E.camera.position;
   return {calls:ri.calls, tris:ri.triangles, frames:E.frame-f0, player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], mode:E.cam.mode}; })"""
 
@@ -110,13 +124,34 @@ async def main():
                 ri = await pg.evaluate(AIM + '(%s)' % J([c['eye'], c['at'], HOUR, seed + k, fov]))
                 fn = 'ptboya_%s_%04d.png' % (key, int(round(HOUR * 100)))
                 await pg.screenshot(path=os.path.join(OUT, fn))
-                meta[fn] = dict(ri, cam=c['eye'], look=c['at'], lens=c['lens'], photo=c['photo'], note=c['note'], glb=g)
-                print('  %s：%s %d mm＝垂直 %s°（aspect %s）、calls %s、tris %s｜%s' % (fn, c['photo'], c['lens'], ri['fov'], ri['aspect'], ri['calls'], ri['tris'], c['note']), flush=True)
+                ctr = await pg.evaluate(CENTER)
+                meta[fn] = dict(ri, cam=c['eye'], look=c['at'], lens=c['lens'], photo=c['photo'], note=c['note'], glb=g, center=ctr)
+                print('  %s：%s %d mm＝垂直 %s°（aspect %s）、calls %s、tris %s、畫面正中＝%s｜%s' % (fn, c['photo'], c['lens'], ri['fov'], ri['aspect'], ri['calls'], ri['tris'], J(ctr), c['note']), flush=True)
+                want_tag = 'putong' if key.startswith('pt') else 'boya'
+                bld = ctr and (ctr.get('tag') or (ctr.get('glb') or '').replace('campus_', '').replace('_glb', ''))
+                if bld and bld != want_tag: print('INFO %s：畫面正中打到的是 %s（%.1f m，不是 %s）——照片的角度在遊戲裡被別的建築擋住' % (key, bld, ctr['dist'], want_tag), flush=True)
+                if key in HIDE_ALSO:
+                    nh = await pg.evaluate(HIDE_TAG + '(%s)' % J([HIDE_ALSO[key], False]))
+                    ri2 = await pg.evaluate(AIM + '(%s)' % J([c['eye'], c['at'], HOUR, seed + k, fov]))
+                    fn2 = 'ptboya_%s_hide_%s_%04d.png' % (key, HIDE_ALSO[key], int(round(HOUR * 100)))
+                    await pg.screenshot(path=os.path.join(OUT, fn2)); ctr2 = await pg.evaluate(CENTER)
+                    await pg.evaluate(HIDE_TAG + '(%s)' % J([HIDE_ALSO[key], True]))
+                    meta[fn2] = dict(ri2, cam=c['eye'], look=c['at'], lens=c['lens'], photo=c['photo'], note='【捷徑】藏起 %s（%d 個物件）——不是遊戲畫面，只給 LAWWW2 比模型' % (HIDE_ALSO[key], nh), center=ctr2)
+                    print('  %s：【捷徑】藏起 %s（%d 個物件）、畫面正中＝%s' % (fn2, HIDE_ALSO[key], nh, J(ctr2)), flush=True)
             await pg.evaluate("GAME.E.paused=false; GAME.E.endCinematic&&GAME.E.endCinematic()"); await pg.evaluate(HUD + '(true)')
         walks = [w for w in WALK if want(w[0])]
         if walks:
             await pg.set_viewport_size({'width': 1280, 'height': 720}); await pg.wait_for_timeout(800)
-        for key, pos, tgt, note in walks:
+        found = {}
+        if walks:
+            if not await pg.evaluate("GAME.G&&GAME.G.zone==='campus'"):
+                await load(pg, cdp, (-38, -40), 3.1416)
+            for key, anc, dr, dist, tgt, note in walks:
+                found[key] = await pg.evaluate(FIND + '(%s)' % J([anc[0], anc[1], dr[0], dr[1], dist]))
+                print('  %s：站的位置＝%s（錨點 %s、方向 %s、距離 %s）' % (key, J(found[key]), list(anc), list(dr), dist), flush=True)
+        for key, anc, dr, dist, tgt, note in walks:
+            if not check('%s 找得到站得住的位置' % key, bool(found.get(key)), J(found.get(key))): continue
+            pos = (found[key][0], found[key][1])
             yaw = math.atan2(tgt[0] - pos[0], tgt[1] - pos[1])
             print('  [前置／捷徑] 讀檔：校園 %s、朝 %s（yaw %.2f）' % (pos, tgt, yaw), flush=True)
             n, sec = await load(pg, cdp, pos, yaw)
@@ -126,9 +161,10 @@ async def main():
             fr = await pg.evaluate(FRAMES + '(8)')
             fn = 'ptboya_%s_%04d.jpg' % (key, int(round(HOUR * 100)))
             await pg.screenshot(path=os.path.join(OUT, fn), type='jpeg', quality=88)
+            ctr = await pg.evaluate(CENTER)
             moved = math.hypot(fr['player'][0] - pos[0], fr['player'][1] - pos[1])
-            meta[fn] = dict(fr, stand=pos, toward=tgt, yaw=round(yaw, 3), note=note, moved=round(moved, 2))
-            print('  %s：玩家 %s（讀檔 %s，差 %.2f m）、鏡頭 %s %s、calls %s、tris %s｜%s' % (fn, fr['player'], list(pos), moved, fr['cam'], fr['mode'], fr['calls'], fr['tris'], note), flush=True)
+            meta[fn] = dict(fr, stand=pos, toward=tgt, yaw=round(yaw, 3), note=note, moved=round(moved, 2), center=ctr)
+            print('  %s：玩家 %s（讀檔 %s，差 %.2f m）、鏡頭 %s %s、calls %s、tris %s、畫面正中＝%s｜%s' % (fn, fr['player'], list(pos), moved, fr['cam'], fr['mode'], fr['calls'], fr['tris'], J(ctr), note), flush=True)
             if moved > 0.6: print('INFO %s：讀檔的位置站不住，引擎把玩家移了 %.2f m（照移過的位置拍）' % (key, moved), flush=True)
             await pg.evaluate(HUD + '(true)')
         check('沒有 JS 例外', not errs, J(errs[:3]))
