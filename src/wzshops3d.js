@@ -192,7 +192,7 @@ const WZS=(()=>{
   /* 順手的事（src/sideq3d.js，AA_404 SQ14、AA_405 SQ20）：一盞茶屋、半熟早午餐點完（真的買了）叫 SIDEQ.atShop */
   async function sideq(GM,key,it){ if(!it||typeof SIDEQ==='undefined'||!SIDEQ.atShop) return; try{ await SIDEQ.atShop(GM,key,{item:it[0],price:it[1]}); }catch(e){ console.warn('SIDEQ',e); } }
   S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind;
-    if(k==='cvs413'){ G.flags.CVS_FROM='wenzhou'; await GM.enter('cvs',{x:0,z:3.4,yaw:Math.PI}); return; }   /* AA_413：日日便利，24 小時 */
+    if(k==='cvs413'){ G.flags.CVS_FROM='wenzhou'; const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN.cvs; await GM.enter('cvs',SI?{x:SI.x,z:SI.z,yaw:SI.yaw}:{x:0,z:3.4,yaw:Math.PI}); return; }   /* 進門站的地方照 zones3d.js SHOP_IN（日和便利店 v2，GG-SHOPS-REDO-1104）*/   /* AA_413：日日便利，24 小時 */
     GM.sceneBegin();
     try{
       if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }

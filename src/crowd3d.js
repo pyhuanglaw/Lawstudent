@@ -330,7 +330,7 @@ const CROWD=(function(){
   S.shopWindows=function(def,G){ if(typhoon(def.zone,G)) return []; const z=def.zone;
     if(/^l118_/.test(z)){ const id=z.slice(5), s=typeof L118!=='undefined'&&L118.shop?L118.shop(id):null; if(!s||!s.hours) return []; return s.hours.open.filter(([a,b])=>L118.isOpen(id,Object.assign({},G,{hour:(a+b)/2}))).map(w=>w.slice()); }
     if(z==='noodle') return typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G)?[]:[[11,14],[17,21]];
-    if(z==='bookstore') return [[11,21]]; if(z==='cvs') return [[0,24]];
+    if(z==='bookstore') return [[11,21]]; if(z==='cvs') return [[0,24]]; if(z==='aoki') return [[11,21]];   /* 青木茶室（GG-SHOPS-REDO-1104）：稿上沒有營業時間，門整天開著；客人只排 11:00～21:00 */
     if(typeof PLACES!=='undefined'&&PLACES.windowsOf){ if(PLACES.typhoonClosed&&PLACES.typhoonClosed(z,G.day)) return []; const ws=PLACES.windowsOf(z,G.day); return ws?ws.map(w=>[w[0],Math.min(24,w[1])]):[]; }
     return []; };
   /* 有人跟著你、今天約好在這間店（邀約的地點）：客人少一半（劇情、約會的那一桌旁邊不要太擠）*/
@@ -355,8 +355,14 @@ const CROWD=(function(){
     const add=(zone,kind,door,units,o)=>{ if(units.length) out.push(Object.assign({zone,kind,door,units,ix:out.length},o||{})); };
     /* 公館：阿鳳麵店（中間那張桌留給玩家、阿哲、麵店團：只排東西兩張）、日日便利、舊路書房 */
     add('noodle','meal',[0,3.5],S.pairUnits([{x:-3,z:-0.3,yaw:0},{x:-3,z:1.3,yaw:Math.PI},{x:3,z:-0.3,yaw:0},{x:3,z:1.3,yaw:Math.PI}]),{noKeep:true});
-    add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
-    add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    /* 公館三間新室內（GG-SHOPS-REDO-1104）：配置有載入＝照新的貨架、書牆（CVS_LAYOUT／YEJIAN_LAYOUT；站的點離家具 0.75 m、面向架子），青木茶室坐配置的座位；沒有＝舊的室內 */
+    const CV=typeof CVS_LAYOUT!=='undefined'&&CVS_LAYOUT.shop?CVS_LAYOUT.shop:null, YJ=typeof YEJIAN_LAYOUT!=='undefined'?YEJIAN_LAYOUT:null, AK=typeof AOKI_LAYOUT!=='undefined'?AOKI_LAYOUT:null, P=Math.PI;
+    /* 日和便利店：貨架中間的走道只有 0.8 m（一條走道站一個人）：一號貨架西邊兩個、一二號之間一個、二三號之間兩個、三號東邊一個（面向貨架）；西牆壁架北段一個；冷藏櫃前兩個（面向北）；排隊結帳：收銀機南邊、面向櫃台 */
+    if(CV) add('cvs','cvs',[CV.spawn.x,CV.spawn.z],standUnits([[-3.95,-2.7,P/2],[-3.95,-0.5,P/2],[-2.4,-1.6,P/2],[-0.8,-2.6,P/2],[-0.8,-0.4,P/2],[0.75,-2.8,-P/2],[-4.6,-3.6,-P/2],[2.3,-4.3,P],[4.1,-4.3,P]]).concat(standUnits([[1.45,2.15,P/2]],'pay')));
+    else add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
+    if(YJ) add('bookstore','book',[YJ.spawn.x,YJ.spawn.z],standUnits([[-2.3,-4.0,P],[2.3,-4.0,P],[-0.6,1.55,0],[3.0,1.55,0]]));   /* 北牆書牆前兩個（西段是買法律書的互動點、梯子東邊 (0.3,−3.95) 是法律系同學「找書的女生」的位子 src/data/pool_story.js）、窗前兩座斜面書架北邊（書架面向北）*/
+    else add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-0.45).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
         add('wz_'+k,kind,[L.spawn.x,L.spawn.z],S.pairUnits(seatsOf((L.seats||[]).filter(s=>!s.npcOnly&&!/打工/.test(s.label||''))))); }

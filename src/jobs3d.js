@@ -310,7 +310,8 @@ const JOBS=(function(){
       j.chk=d; } };
 
   // ---------- 出門提醒 ----------
-  S.GOTO_X={cafe:{x:0,z:4.4,yaw:Math.PI},books:{x:0,z:4.0,yaw:Math.PI},cvs:{x:0,z:3.6,yaw:Math.PI}};   /* Café、書店：門口進去的地方（zones3d.js 的出口內側）*/
+  S.GOTO_X={cafe:{x:0,z:4.4,yaw:Math.PI},books:{x:0,z:4.0,yaw:Math.PI},cvs:{x:0,z:3.6,yaw:Math.PI}};
+  { const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN?Z3.SHOP_IN:null; for(const [k,z] of [['books','bookstore'],['cvs','cvs']]) if(SI&&SI[z]&&SI[z].gg) S.GOTO_X[k]={x:SI[z].x,z:SI[z].z,yaw:SI[z].yaw}; }   /* 公館兩間新室內（GG-SHOPS-REDO-1104）：進門站的地方照 zones3d.js SHOP_IN */   /* Café、書店：門口進去的地方（zones3d.js 的出口內側）*/
   S.goto=k=>{ const s=shop(k); if(S.GOTO_X[k]) return Object.assign({zone:s.zone},S.GOTO_X[k]); const L=typeof WZ_SHOPS_LAYOUT!=='undefined'?WZ_SHOPS_LAYOUT[k==='copy'?'print':(k==='tea'?'teahouse':'brunch')]:null, sp=L&&L.spawn?L.spawn:{x:0,z:3.5,yaw:Math.PI}; return {zone:s.zone,x:sp.x,z:k==='copy'?Math.min(sp.z,3.3):sp.z,yaw:sp.yaw||Math.PI}; };
   S.plan=function(G){ if(typeof OUT==='undefined'||!hasCal()||!law(G)) return; const d=G.day;
     for(const k of S.KEYS){ if(!S.active(G,k)) continue; const s=shop(k), id='job_'+k+'_'+d, H0=S.hrs(k,d), title=s.hours?s.title+'（'+hm(H0[0])+'～'+hm(H0[1])+'）':s.title;
@@ -376,7 +377,8 @@ const JOBS=(function(){
   S.deskLabel=(G,k)=>{ if(!S.job(G,k)){ if(k==='copy') return '跟阿德說想打工'; return '應徵：'+D().notice[k]; } if(S.shiftNow(G,k)) return '開始上班'; return '找'+shop(k).boss; };
   S.deskHidden=(G,k)=>{ if(!G||!law(G)) return true; const j=S.job(G,k); if(!j) return !S.eligible(G,k)||(k==='copy'&&!S.rec(G)._meta.asked.copy); return !!j.gone&&!j.pendLeave; };
   S.addDesk=function(GM,zoneId){ const k=S.ZONE_KEY[zoneId], E=GM&&GM.E; if(!k||!E||!Array.isArray(E.interactables)) return null; const s=shop(k), Gf=()=>GM.G;
-    const it={x:s.desk.x,z:s.desk.z,radius:1.0,wzJob:k,get label(){ return S.deskLabel(Gf(),k); },get hidden(){ return S.deskHidden(Gf(),k); }}; E.interactables.push(it); return it; };
+    const SI=typeof Z3!=='undefined'&&Z3.SHOP_IN&&Z3.SHOP_IN[zoneId], dk=(SI&&SI.gg&&SI.job)||s.desk;   /* 頁間書屋、日和便利店的新室內（GG-SHOPS-REDO-1104）：告示的位置照 SHOP_IN.job */
+    const it={x:dk.x,z:dk.z,radius:1.0,wzJob:k,get label(){ return S.deskLabel(Gf(),k); },get hidden(){ return S.deskHidden(Gf(),k); }}; E.interactables.push(it); return it; };
   S.desk=async function(GM,k){ const G=GM.G, j=S.job(G,k);
     if(!j){ GM.sceneBegin(); try{ await S.apply(GM,k); } finally { GM.sceneEnd(); } return true; }
     if(j.pendLeave){ GM.sceneBegin(); try{ await S.leave(GM,k,j.gone||'quit'); } finally { GM.sceneEnd(); } return true; }
