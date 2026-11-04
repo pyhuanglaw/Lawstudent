@@ -1254,3 +1254,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       err.log (last 5): [gpu_wrap 1.1s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [V20R_reach] | [gpu_wrap 496.3s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 496.3s] BROWSER DISCONNECTED
 - 2026-11-04T23:55:28  V20R_zone  sha=d3828452abe2d10f1b7bb3b47d8313482f83b2d3  exit=0  187s    PASS 校門 → 公館：回到校園後走得到霖澤館前 / PASS 沒有 JS 例外  [] / ALL PASS
       err.log (last 5): [gpu_wrap 153.9s] page close url=http://127.0.0.1:8800/index.html?turbo?turbo | [gpu_wrap 153.9s] BROWSER DISCONNECTED
+- 2026-11-04T23:59:02  V20R_touch  sha=d3828452abe2d10f1b7bb3b47d8313482f83b2d3  exit=0  180s    PASS 讀檔後可以走  4.03 / PASS 沒有 JS 例外 / ALL PASS
+      err.log (last 5): [gpu_wrap 148.1s] page close url=http://127.0.0.1:8800/index.html?turbo&turbo | [gpu_wrap 148.1s] BROWSER DISCONNECTED
