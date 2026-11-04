@@ -243,6 +243,7 @@ const FEST=(function(){
     if(!o) return null;
     let v=null; if(o.slot){ const V=o.V; if(V.length===1&&V[0].kind!=='inv') v=V[0]; else { const i=await GM.choose(V.map(x=>({t:x.t})).concat([{t:'算了'}])); if(i>=V.length) return null; v=V[i]; } }
     await S.reply(GM,id,who,f,'accept',v||{h:o.kind==='video'?21:12});
+    if(o.slot&&typeof INV!=='undefined'&&INV.townLine){ const tw=INV.townLine(G,id,{day:f.d,h:(v&&v.h)||S.TIME[o.slot]}); if(tw) await GM.say(who,tw); }   /* AA_675 1-1：語彤寒暑假平日在淡水，答應臺北的那一場多一句（同邀約） */
     if(o.kind==='trip'){ const q=S.planDrive(G,f,{city:o.city}); if(q) await GM.say(null,'約好 '+dLabel(f.d)+'，開車去'+o.city+'。'); return q; }
     if(o.kind==='video'){ const q=S.planVideo(G,f,false); if(q) await GM.say(null,'約好 '+dLabel(f.d)+' '+hm(q.h)+'，'+q.place+'。'); return q; }
     if(v.kind==='drive'){ const q=S.planDrive(G,f,{city:v.city,loc:v.loc,eve:true,h:v.h,bg:'d15_base_night'}); if(q) await GM.say(null,'約好 '+dLabel(f.d)+' '+hm(q.h)+'，開車上陽明山。'); return q; }
