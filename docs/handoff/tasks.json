@@ -45400,6 +45400,27 @@
    "next": "【LAWWW-C 11-04 15:5x】排在 AA664、AA665 後面，CANON-PURGE-SRC-1104 子代理合併完再一起做（apply_line_table＋aa666_fix.json＋相關 Node）；AA_254（94bffbf08）以安不放 CG-11＝遊戲現在的 yesCg:null，不用改程式"
   },
   {
+   "id": "AA668-LINES-1104",
+   "title": "AA_668 台詞第五批：termend_lines.js 11 處（婉拒收尾的「……開學見。」「……下學期。」8 處、以安 low「……不是因為你。」、以安 Y3S1 期末飯邀約收尾、可昕 Y5S1「受訓的時候不能看手機」→「白天都在上課」）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上期末飯邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 11-04 16:17（企劃線 f89373846、outbox b68bb5f82；D109）",
+   "authorized": "D109",
+   "next": "【LAWWW-C 11-04 16:1x】排在 AA664～666 後面一起做（CANON-PURGE-SRC 子代理合併完）；做法同 AA663"
+  },
+  {
    "id": "NPC-ANIM-LOOPS-1104",
    "title": "坐著做事的動作循環（現成 CC0 片段沒有的）：打字（桌上、腿上筆電，3～4 秒）、寫字（3～4 秒）、滑手機（2 秒）、翻真的書頁（book_open 可翻的頁＋1.2 秒）、坐著喝飲料（約 4 秒，手上杯子配件，seatact 那段時間藏桌上的杯子）、吃飯（筷子／湯匙，約 3 秒）",
    "area": "ART",
