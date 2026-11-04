@@ -45189,6 +45189,28 @@
     "receiver": "LAWWW2",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BB-A-1102-1104-MISC",
+   "title": "BB 帳號 A 11-02～11-04 的零星文件：背景提示詞第 107～110b 組、企劃分支 README／CLAUDE.md 換虛構校名、v9.10.18 驗收紀錄（BB-C 照 AA-C 12:47 incr 歸類補登的 outbox 第 77 筆）",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "已驗收",
+   "priority": "P3",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:2x】只有文件、不進遊戲；outbox_BB 第 77 筆（256ecbe4，claude/story-planning）",
+   "evidence": "outbox_BB.json 第 77 筆 256ecbe4（已交付、ACK）",
+   "source": "BB-C 11-04 outbox 補登",
+   "authorized": "BB 職責內文件"
   }
  ]
 }

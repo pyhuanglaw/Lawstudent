@@ -21467,6 +21467,838 @@
    "kind": "wip",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "reason": "LAWWW2 11-02 美國草原超市光照烘焙 WIP 檢查點（還沒交件；LAWWW 06:0x 分類）"
+  },
+  {
+   "sha": "188eb06248",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 060a1a093；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-FIVE-1104"
+  },
+  {
+   "sha": "26bc41c6bc",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 5dc06d913；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-YIZHAN-1104"
+  },
+  {
+   "sha": "60fd15d380",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit ae0095d0d；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "SEAT-ACTIVITY-1104"
+  },
+  {
+   "sha": "3c613fe8c9",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 47909c659；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SECOND-1104"
+  },
+  {
+   "sha": "7cbbecbb1f",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 7fbf558c9；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SECOND-1104"
+  },
+  {
+   "sha": "1d46750691",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 9271834e0；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-NIGHT-CARDS-1104"
+  },
+  {
+   "sha": "e0560b289e",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 610c528cb；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-NIGHT-CARDS-1104"
+  },
+  {
+   "sha": "f936fd2c86",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 01505ccd0；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "2562ae9962",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 809163ee4；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-NIGHT-CARDS-1104"
+  },
+  {
+   "sha": "99e412ad68",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 23eaaa7ae；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-NIGHT-CARDS-1104"
+  },
+  {
+   "sha": "5a38bdad5f",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 637ee6982；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "PERF-GG-DC-1104"
+  },
+  {
+   "sha": "93dbf8b993",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 4e3f6ccef；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "011b829da4",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit b85e1afc1；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "8de87af160",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit fb5d7f367；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "82d541853f",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 42467c2dc；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "ART-WZ-CAFES-1103"
+  },
+  {
+   "sha": "50c1b06817",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit aa8cb5beb；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "ART-WZ-CAFES-1103"
+  },
+  {
+   "sha": "c43b12aa2b",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 2aaa7d22b；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-YIZHAN-1104"
+  },
+  {
+   "sha": "7dc6db1ec5",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 2aaa7d22b；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "AA624-YT-BACKGROUND-1103"
+  },
+  {
+   "sha": "f22ef5dcd7",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 2aaa7d22b；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-CAT-FLOAT-RUB-1103"
+  },
+  {
+   "sha": "1b0baf8df7",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 4c9ef7a93；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "AA624-YT-BACKGROUND-1103"
+  },
+  {
+   "sha": "09401a4c76",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 4667804a6；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "ART-LIB-FRONT-PAVING-1103"
+  },
+  {
+   "sha": "af94189c1d",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit 4dc6568e8；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "ART-LIB-FRONT-PAVING-1103"
+  },
+  {
+   "sha": "764a8323c4",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit e2c470355；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "DORM-DESK-ITEMS-3D-1103"
+  },
+  {
+   "sha": "04cf29dc53",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "整合 commit b1ae1c390；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "DORM-LADDER-STOOP-1103"
+  },
+  {
+   "sha": "f785028e68",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "fde1b670ee",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "1e5aadb330",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "7eb8ba56ca",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-SECOND-1104"
+  },
+  {
+   "sha": "a10acaf6ee",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SECOND-1104"
+  },
+  {
+   "sha": "4a5c97140a",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-YIZHAN-1104"
+  },
+  {
+   "sha": "ebae33ef75",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-FIVE-1104"
+  },
+  {
+   "sha": "a4c2cc05f2",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-FIVE-1104"
+  },
+  {
+   "sha": "badb191ae3",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-FIVE-1104"
+  },
+  {
+   "sha": "7ce11b108c",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-NIGHT-CARDS-1104"
+  },
+  {
+   "sha": "4c4b04c3de",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "ART-SHANLAN-BOOKSTORE-1103"
+  },
+  {
+   "sha": "3a81bf5a18",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "XINSHENG-SIDE-1103"
+  },
+  {
+   "sha": "da87ed3e63",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "ART-WZ-CAFES-1103"
+  },
+  {
+   "sha": "5a4e71b725",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "ART-WZ-CAFES-1103"
+  },
+  {
+   "sha": "d2a809aa4d",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "AA624-YT-BACKGROUND-1103"
+  },
+  {
+   "sha": "150ac7921e",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "WZ-YIZHAN-1104"
+  },
+  {
+   "sha": "6a699e67ac",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "AA624-YT-BACKGROUND-1103"
+  },
+  {
+   "sha": "fd096aa58f",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "AA624-YT-BACKGROUND-1103"
+  },
+  {
+   "sha": "6316471ba9",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "DORM-DESK-ITEMS-3D-1103"
+  },
+  {
+   "sha": "6b3f5fada5",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "CAMPUS-RELAYOUT-1102"
+  },
+  {
+   "sha": "5c33eb4856",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "b411cd0f03",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "8b4214b5a7",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "f026bd5bed",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "50b670241b",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "36106da4b2",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "DORM-LOFT-SCALE-1102"
+  },
+  {
+   "sha": "fa9b9f5d83",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "2c3e0ee561",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "CAMPUS-BLACKFOREST-1102"
+  },
+  {
+   "sha": "0f2d7445e8",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-3F-1102"
+  },
+  {
+   "sha": "26122f04b9",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LAW-RELAYOUT-1102"
+  },
+  {
+   "sha": "123bffae2e",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "LIB-FRONT-1102"
+  },
+  {
+   "sha": "7ce15be8bd",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "LIB-B1-V4-1102"
+  },
+  {
+   "sha": "5a235f08db",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-B1-V4-1102"
+  },
+  {
+   "sha": "b0ffd9c05a",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-B1-V4-1102"
+  },
+  {
+   "sha": "eb4f984eba",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-B1-V4-1102"
+  },
+  {
+   "sha": "b6b730257b",
+   "kind": "covered",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "LIB-B1-V4-1102"
+  },
+  {
+   "sha": "f74e90c701",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-FRONT-1102"
+  },
+  {
+   "sha": "dc1b758b16",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "LIB-FRONT-1102"
+  },
+  {
+   "sha": "99da849e42",
+   "kind": "wip",
+   "role": "LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "ATTEND-ROLLCALL-1102"
+  },
+  {
+   "sha": "c71ef2b0aa",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "936894873a",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "c13f4870b0",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "5133d8a20d",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "55d15b8e8a",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "09e43ec5db",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "152de367e7",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "d870326b30",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "WZ-SHOPS1-1104"
+  },
+  {
+   "sha": "b984cfe354",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "7c15d3a622",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "7524deba21",
+   "kind": "covered",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "e3c2920241",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "7cf398b5d7",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "d44c708068",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "6f44167005",
+   "kind": "covered",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "SOCIAL-STUCK-1104"
+  },
+  {
+   "sha": "21d6dd0e17",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "e04550ac71",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "f5ffae8f0d",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "44a6024f30",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "7f3915f2d8",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "f825eed10f",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "1248022baf",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS-REDO-1104"
+  },
+  {
+   "sha": "2c8614c9eb",
+   "kind": "covered",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "c2c060448f",
+   "kind": "covered",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "ba50df1935",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "7a5c132a17",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "SOCIAL-STUCK-1104"
+  },
+  {
+   "sha": "37abd5a963",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "abf1a0949c",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "a2e881ac2d",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "70faaaa76a",
+   "kind": "covered",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "交付版本；之後的版本已交付／整合，見任務；LAWWW-C 11-04 接班分類（D94／D135）",
+   "coveredBy": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "bdc4479fdd",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "f7ef4e9355",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "a572b2d254",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "b7290f4306",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "e91c8f04fc",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "451bb65ee6",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "90514c7335",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "8b2099e836",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "WIP 檢查點（之後的版本已交付／整合，見任務）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
+  },
+  {
+   "sha": "4fc38d5133",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "轉角唱片 corner.glb／corner_layout.js WIP（看改的檔案分類）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "8a87c89c10",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "轉角唱片室內腳本＋N20X 探針 WIP（看改的檔案分類）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "GG-SHOPS2-1104"
+  },
+  {
+   "sha": "154216d0b7",
+   "kind": "wip",
+   "role": "CC",
+   "branch": "claude/cc-testing",
+   "reason": "新生運動廣場 xinsheng_sports WIP（看改的檔案分類）；LAWWW-C 11-04 接班分類（D94／D135）",
+   "task": "MODEL-HELP-1103"
   }
  ],
  "scannedThroughNote": "2026-11-02 05:3x 使用者刪了帳號 B 的分支（funny-albattani、cool-heisenberg、elegant-brown；內容整條在 second-ai-env-art、story-planning）：從這裡拿掉，之後的核對靠 watermarks.json（incr）"
