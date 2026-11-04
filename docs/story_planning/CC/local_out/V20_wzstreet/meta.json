@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "V20_wzstreet",
+  "sha": "322cd967db8188ae8c81fe3de473d0b5b7ad871c",
+  "kind": "game",
+  "script": "tests/wz_street_integration.py",
+  "env": "XARGS={url};CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T22:18:33",
+  "end": "2026-11-04T22:20:53",
+  "seconds": 140,
+  "exit": 0,
+  "error": null,
+  "runner": "bde5cea8d9",
+  "rf_round": "2",
+  "url": "http://127.0.0.1:8800/index.html",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 57,
+    "used_gb": 18.1,
+    "chrome_testing": 27
+  }
+}
