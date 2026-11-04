@@ -4,7 +4,7 @@
 //   2 青木茶室外帶：桂花烏龍奶茶 70、柚香綠茶 60、春摘白茶 65（不賣珍珠）
 //   3 任務標題、提示、店名顯示用新名；舊存檔相簿裡存下的舊標題讀檔換新（SIDEQ.renameMigrate，再讀一次不變）
 //   4 玩家看得到的字：src/ 裡（去掉註解、上面那幾個 key）沒有舊店名；兩個自動產生、要改來源的檔另外列出（shop_enc.js＝AA 的 JSON、us_layouts.js＝LAWWW2 的 Blender 腳本）
-//   5 便利商店：地點說明 07:00–24:00、明軒清單那一句照 AA_647 改；溫州街 A5 招牌不寫 24H
+//   5 便利商店：使用者 11-04 02:1x「所有便利商店都是24小時」（取代 AA_647 第 6 節的 07:00–24:00）——地點說明 24 小時、明軒清單那一句照原本、溫州街 A5 招牌 24H
 // 修改前（開發分支 393712ba7）：第 2～5 項 FAIL。用法：node tests/shop_rename_1104_unit.js
 'use strict';
 require('./alison.js');
@@ -45,8 +45,8 @@ let money=[]; GM.money=d=>{ money.push(d); H.G.money+=d; };
     check('4 地點名、快速移動、大地圖：日和便利店、頁間書屋、慢輪單車',PLACES.names.cvs==='日和便利店'&&PLACES.names.bookstore==='頁間書屋'&&PLACES.names.bikeshop==='慢輪單車'&&/\['cvs','日和便利店'/.test(rd('src/data/places.js'))&&/\['bookstore','頁間書屋'\],\['cvs','日和便利店'\]/.test(rd('src/placemap3d.js')));
     check('4 打工：頁間書屋的班、頁間書屋的老闆（JOBS 的 key books、薪水照舊 784）',/books:\{ name:'頁間書屋', short:'頁間書屋'[^\n]*contact:'頁間書屋的老闆'[^\n]*title:'頁間書屋的班'/.test(rd('src/data/wz_jobs.js'))&&/pay:784, payToast:'頁間書屋 薪水 784 元'/.test(rd('src/data/wz_jobs.js'))); }
   // ---- 5 便利商店 ----
-  { check('5 便利商店的地點說明 07:00–24:00（AA_647 第 6 節）',PLACES.hours.cvs&&PLACES.hours.cvs.text==='07:00–24:00');
-    const row=STORY.MX_FM1.rows[6]; check('5 明軒的清單第 7 家：日和便利店、「最後一名。可是它開到半夜十二點。最後一名是留給晚上讀書的人。」（AA_647 第 6 節原句）',row[0]==='日和便利店'&&row[3]==='最後一名。可是它開到半夜十二點。最後一名是留給晚上讀書的人。',J(row));
-    const z=rd('src/zones3d.js'); check('5 溫州街 A5 招牌：日和便利店、不寫 24H；看便利商店那一句改新名',/wz:'A5'[^\n]*name:'日和便利店',signBg/.test(z)&&!/name:'日和便利店',sub:'24H'/.test(z)&&/look:'日和便利店的自動門開了又關。/.test(z)); }
+  { check('5 便利商店的地點說明 24 小時（使用者 11-04 02:1x）',PLACES.hours.cvs&&PLACES.hours.cvs.text==='24 小時');
+    const row=STORY.MX_FM1.rows[6]; check('5 明軒的清單第 7 家：日和便利店、「最後一名。可是它二十四小時開。最後一名是留給半夜的。」（24 小時＝原本那一句）',row[0]==='日和便利店'&&row[3]==='最後一名。可是它二十四小時開。最後一名是留給半夜的。',J(row));
+    const z=rd('src/zones3d.js'); check('5 溫州街 A5 招牌：日和便利店、24H；看便利商店那一句改新名',/wz:'A5'[^\n]*name:'日和便利店',sub:'24H',signBg/.test(z)&&/look:'日和便利店的自動門開了又關。/.test(z)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
