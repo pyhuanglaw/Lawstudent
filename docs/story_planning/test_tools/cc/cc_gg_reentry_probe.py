@@ -6,7 +6,7 @@
   判定（每一次進公館）：
     ① 窗卡網格 NOSHADOW_xs_fronts_lit 的 program LINK_STATUS＝true；
     ② 每張卡「有畫」：|原樣 − 藏| ≥ DRAWN_MIN（預設 4）——壞掉時網格沒畫，藏不藏都一樣；
-    ③ 營業的店「亮」：原樣 − 黑 ≥ LIT_MIN（預設 8）；打烊的店「暗」：原樣 − 黑 < LIT_MIN（營業／打烊照 GAME.E.zone.ggLit.lit 和 xsShops 順序）；
+    ③ 營業的店「亮」：原樣 − 黑 ≥ LIT_MIN（預設 8）；打烊的店「暗」：≤ 同一張卡營業時的 0.35 倍、≤ 40（BB-C 13:35）（營業／打烊照 GAME.E.zone.ggLit.lit 和 xsShops 順序）；
     ④ 整支跑完 console 沒有 THREE.WebGLProgram／Shader Error／redefinition。
   修改前對照：060a1a093 必須 FAIL（第 2 次以後 ①②），修好的 SHA PASS（BB_229）。Playwright（PC 有 GPU、有視窗／雲端 SwiftShader）≠ iPhone 實機。
 用法：LW_TESTS=<wt>/tests [HOURS=14,21] [CARDS=ggtea_int,ggdb_int] python3 cc_gg_reentry_probe.py <url> <out>"""
@@ -42,6 +42,7 @@ SPAWN = {'x': -30, 'z': 14, 'yaw': 1.5708}
 EYE_Z, EYE_Y = 20.0, 1.6
 FAILS = []
 UNKN = []
+OPEN_LUMA = {}   # 每張卡第一次量到「營業、有畫」的平均亮度（打烊「暗」的比較基準）
 
 
 def check(name, ok, info=''):
@@ -152,8 +153,15 @@ async def measure(pg, tag):
         else:
             check('[%s] %s %s 窗卡有畫（判準定案：%s）' % (tag, G, k, verdict), verdict == 'DRAWN', J(r))
         if None not in (base, blk):
-            if open_: check('[%s] %s %s 營業→亮（原樣−黑≥%s）' % (tag, G, k, LIT_MIN), base - blk >= LIT_MIN, '%.1f−%.1f' % (base, blk))
-            else: check('[%s] %s %s 打烊→暗（原樣−黑<%s）' % (tag, G, k, LIT_MIN), base - blk < LIT_MIN, '%.1f−%.1f' % (base, blk))
+            if open_:
+                if r.get('verdict') == 'DRAWN' and k not in OPEN_LUMA: OPEN_LUMA[k] = base
+                check('[%s] %s %s 營業→亮（原樣−黑≥%s）' % (tag, G, k, LIT_MIN), base - blk >= LIT_MIN, '%.1f−%.1f' % (base, blk))
+            else:   # BB-C 13:35：打烊的「暗」＝這張卡打烊時的平均亮度 ≤ 同一張卡營業（第一次看到營業）時的 0.35 倍，而且 ≤ 40；不跟設黑比
+                ref = OPEN_LUMA.get(k)
+                ratio = round(base / ref, 3) if ref else None
+                r['dark_ratio'] = ratio; r['open_luma_ref'] = ref
+                if ref is None: info('[%s] %s %s 打烊→暗：還沒量到這張卡營業時的亮度（先跑營業的那一輪），先記數字' % (tag, G, k), '原樣 %.1f' % base)
+                else: check('[%s] %s %s 打烊→暗（≤ 營業 %.1f 的 0.35 倍、≤ 40）' % (tag, G, k, ref), base <= 0.35 * ref and base <= 40, '原樣 %.1f、比值 %s' % (base, ratio))
     await pg.evaluate(HUD + '(true)')
     return {'state': st, 'cards': rows}
 
