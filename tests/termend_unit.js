@@ -111,7 +111,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,23.5,0.25); check('7b. 沛珊大一下（和柏翰交往中＝C5）：時段第一天不傳、不發心意邀約',!(G.msgs||[]).some(x=>/^te_(nope_)?Y1S2_classmate_peishan/.test(x.tag||'')));
     G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2); const m=(G.msgs||[]).find(x=>x.tag==='te_nope_Y1S2_classmate_peishan');
-    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了……下次再問你問題喔。」',!!m&&m.text==='期末考完了！這次我有約了……下次再問你問題喔。'&&m.h===20,JSON.stringify(m)); }
+    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了，下次再問你問題喔。」',!!m&&m.text==='期末考完了！這次我有約了，下次再問你問題喔。'&&m.h===20,JSON.stringify(m)); }
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
   { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,1); TERMEND.rec(G,'Y1S2').picked={who:'classmate_peishan',kind:'friend',day:G.day,by:'player'}; G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2);
     check('7b. 這學期玩家已經自己約她吃過期末飯：不傳',!(G.msgs||[]).some(x=>x.tag==='te_nope_Y1S2_classmate_peishan')); }
