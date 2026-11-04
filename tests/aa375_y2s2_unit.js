@@ -84,7 +84,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     check('1. 6/7 深夜「在幹嘛」：不說「下班回來都這個時間」、不說「怎麼跟客人介紹」',got.length>0&&!got.some(t=>/下班|客人/.test(t)),J(got)); }
   // 期末：心意、女朋友、朋友
   { const H=TERMEND.heart('heroine_02','Y2S2'), F=TERMEND.gf('heroine_02','Y2S2'), Fr=TERMEND.friend?TERMEND.friend('heroine_02','Y2S2'):null;
-    check('1. 心意邀約（大二下）：「這禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」、不在 Café 打烊以後',!!H&&H.invite==='這禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。'&&H.place!=='cafe',J(H&&[H.invite,H.place]));
+    check('1. 心意邀約（大二下）：「下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。」（AA_689 第五節：原本「這禮拜五」，週五晚上到、飯在下週五）、不在 Café 打烊以後',!!H&&H.invite==='下禮拜五晚上我有空。……我想吃飯，不想吃店裡的東西。'&&H.place!=='cafe',J(H&&[H.invite,H.place]));
     check('1. 交往中期末約會（大二下）：「禮拜五晚上，我們去吃宵夜。……我現在不用上班了。」、公館宵夜',!!F&&F.invite==='禮拜五晚上，我們去吃宵夜。……我現在不用上班了。'&&F.place==='yexiao',J(F&&[F.invite,F.place]));
     check('1. 朋友的期末飯（大二下）：她不顧店了，不在 Café 打烊以後；句子照 AA_369 M2',!!Fr&&Fr.place!=='cafe'&&Fr.genByTerm.Y2S2==='考完了嗎？九月我就走了。……出來吃個東西？',J(Fr&&Fr.place));
     const all=[H.invite,F.invite,Fr&&Fr.genByTerm.Y2S2];
