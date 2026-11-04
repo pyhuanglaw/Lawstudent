@@ -29,9 +29,9 @@ const CVS_LAYOUT = {
     microwave: {x0: -5.9, x1: -3.55, z0: -2.84, z1: -2.38, h: 0.95, note: '微波爐、熱水瓶、袋子層架（貼在員工室的牆上，面向店裡）'},
     bins: {x0: -5.1, x1: -3.75, z0: -2.37, z1: -1.95, note: '三色回收桶：資源回收、一般垃圾、廚餘'},
     coolers: {x0: 5.3, x1: 6.0, z0: -6.5, z1: -1.4, h: 2.15, parts: [
-      {kind: 'drink', z0: -6.5, z1: -4.5, label: '飲品冷藏'},
-      {kind: 'fresh', z0: -4.5, z1: -2.95, label: '鮮食・三明治・飯糰'},
-      {kind: 'frozen', z0: -2.95, z1: -1.4, label: '冷凍食品'}]},
+      {kind: 'drink', z0: -6.5, z1: -4.46, doors: 2, label: '飲品冷藏'},
+      {kind: 'fresh', z0: -4.46, z1: -2.42, doors: 2, label: '鮮食・三明治・飯糰'},
+      {kind: 'frozen', z0: -2.42, z1: -1.4, doors: 1, label: '冷凍食品'}]},
     chestFreezer: {x0: 3.3, x1: 4.4, z0: -2.1, z1: -1.0, h: 0.85},
     counter: {x0: 3.4, x1: 4.2, z0: -0.6, z1: 4.0, h: 0.95, flap: {z0: 4.0, z1: 4.7},
       parts: [{kind: 'coffee_side', z0: -0.6, z1: 0.5}, {kind: 'register', z0: 0.5, z1: 1.6}, {kind: 'display', z0: 1.6, z1: 2.4}, {kind: 'hot_case', z0: 2.4, z1: 3.6}]},
