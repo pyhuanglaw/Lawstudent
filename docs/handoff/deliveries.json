@@ -17071,6 +17071,19 @@
    "task": "AA683-NOODLE-CLOSED-1104",
    "integration": "未整合",
    "note": "LAWWW-C 17:4x 登記"
+  },
+  {
+   "id": "DL-LAWWW2-c73d37367",
+   "date": "2026-11-04T17:47Z",
+   "from": "LAWWW2",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c73d37367",
+   "msg": "ACTIONED",
+   "what": "ADE-PROPS-1104（BB_255 P3）：阿德店門前的電線桿第二支 x −9.2 → −12.7、跨巷電線改 [-12.7,-9.5,-5.2]；門西邊兩台機車用 gap 拿掉（其他 40 台座標不變）；patch docs/art-rebuild/second_ai/wip/ade_pilot_1104/ade_props_1104.patch",
+   "task": "ADE-V2-1104",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 17:4x 套 patch（src/zones3d.js 3 行）；溫州街 wz_* 21 支＋aa413_wz ALL PASS"
   }
  ],
  "ignored": [
