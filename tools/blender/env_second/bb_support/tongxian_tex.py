@@ -6,10 +6,12 @@
                        弦的紙盒（只有抽象圖案、沒有字或品牌，D77）、照片（抽象色塊）、空白紙、空白木板、譜架、軟木板
   tongxian_props_emit.png 只有窗外景那一格是亮的（窗外的景自己發光，不被室內光弄暗）
   tongxian_atlas.json  每一格在圖上的位置（像素，左上原點），Blender 腳本照這份給 UV
-全部是程式畫的，沒有任何外部圖片、沒有字、沒有品牌標誌。"""
+v4（11-04，照參考圖重做）：道具貼圖集 1024 → 2048，加上印刷的東西（中文字用系統的文泉驛正黑）：弦的包裝 8 種、Pick 吊卡、移調夾／調音器的盒子、
+  店名木牌「同弦樂器」、手寫紙條（弦一個月換一次、換弦 $150…新台幣）、價錢牌、名片、樂譜、溝槽板、膠帶；新的窗外景（新生南路的路樹、對面的公寓、路牌）。
+全部是程式畫的，沒有任何外部圖片、沒有真實品牌或標誌（店名「同弦樂器」虛構）。"""
 import json, math, os
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 GEN = os.path.join(HERE, '..', 'textures', 'gen')
@@ -90,6 +92,8 @@ gput('e_blonde', ash)
 gput('e_cherry', radial(C, C, [(0.3, '#c0582c'), (0.6, '#8a1e16'), (0.9, '#3e0808'), (1.4, '#200404')], base=grain(C, C, '#c87a3c', '#8a4a20', freq=12)))
 gput('e_olive', flat(C, C, '#727552'))
 gput('e_white', flat(C, C, '#efece3'))
+gput('e_navy', radial(C, C, [(0.4, '#2e4566'), (1.2, '#1f2f48')]))   # v4：參考圖右上的深藍、灰綠
+gput('e_sage', flat(C, C, '#93a596'))
 gput('owner_burst', radial(C, C, [(0.25, '#c88a3a'), (0.5, '#8a4a1c'), (0.75, '#3c1e0c'), (1.3, '#1a0c06')], base=grain(C, C, '#c89048', '#7a4a1e', freq=14, wav=1.2)))
 
 
@@ -157,7 +161,7 @@ gput('rubber', flat(C, C, '#2a2a2a', var=0.02))
 Image.fromarray((np.clip(gimg, 0, 1) * 255).astype(np.uint8)).save(os.path.join(GEN, 'tongxian_guitar.png'))
 
 # ======================= 道具貼圖集 =======================
-PS = 1024
+PS = 2048   # v4：1024 → 2048（右半、下半放印刷的東西：弦的包裝、Pick 卡、木牌、手寫紙條、價錢牌、新的窗外景）
 pimg = np.zeros((PS, PS, 3), np.float32); pcells = {}
 
 
@@ -331,6 +335,163 @@ pput('flyer', 896, 704, flat(128, 128, '#f4ead0', var=0.02))
 pput('tolex', 0, 832, hx('#1f1d1c') * (0.8 + 0.2 * noise(128, 128, 1)[..., None]))
 pput('tolex_tan', 128, 832, hx('#b89a6a') * (0.82 + 0.18 * noise(128, 128, 1)[..., None]))
 gigbag = hx('#232426') * (0.85 + 0.15 * noise(128, 128, 2)[..., None]); gigbag[60:68] = hx('#4a4a4c'); pput('gigbag', 256, 832, gigbag)
+
+# ======================= v4（11-04）：照參考圖加的印刷品（字用文泉驛正黑，GPL＋字型例外：嵌進圖片可以；沒有任何真實品牌） =======================
+FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
+def font(px): return ImageFont.truetype(FONT, int(px))
+def to_arr(im): return np.asarray(im.convert('RGB'), np.float32) / 255
+def pim(name, x, y, im): pput(name, x, y, to_arr(im))
+
+
+def hand_text(d, w, h, lines, col, size, rng, y0=None, lh=None):
+    """麥克筆的字：每個字稍微歪、大小不一"""
+    n = len(lines); lh = lh or h / (n + 0.6); y0 = y0 if y0 is not None else lh * 0.8
+    for i, s in enumerate(lines):
+        f = font(size); tw = sum(f.getlength(ch) for ch in s); x = (w - tw) / 2; y = y0 + lh * i
+        for ch in s:
+            d.text((x, y + rng.uniform(-3, 3)), ch, font=f, fill=col, anchor='lm', stroke_width=2, stroke_fill=col); x += f.getlength(ch) * rng.uniform(0.95, 1.05)
+
+
+def paper(w, h, base='#f3eedf', rng=R):
+    a = np.zeros((h, w, 3), np.float32) + hx(base); a *= (0.95 + 0.05 * noise(h, w, 6, rng)[..., None])
+    yy = np.linspace(0, 1, h)[:, None, None]; a *= (1 - 0.05 * yy)   # 下緣比較黃
+    return Image.fromarray((np.clip(a, 0, 1) * 255).astype(np.uint8))
+
+
+# ---- 窗外：新生南路（1024×640；參考圖：一排高大的路樹、對面的老公寓（鐵窗、冷氣、陽台）、一樓的騎樓店面、綠籬、汽車、路牌「新生南路」）
+VW, VH = 1024, 640
+rv = np.random.default_rng(1104)
+im = Image.new('RGB', (VW, VH), '#e8ecec'); d = ImageDraw.Draw(im)
+for y in range(VH // 2):
+    k = y / (VH / 2); d.line([(0, y), (VW, y)], fill=tuple(int(a * (1 - k) + b * k) for a, b in zip((206, 222, 232), (238, 236, 226))))
+for bi, (bx0, bx1, top, col) in enumerate(((0, 330, 60, '#d8cfbc'), (330, 700, 30, '#e2dccd'), (700, 1024, 80, '#cfc6b2'))):   # 對面的公寓（三棟）
+    d.rectangle([bx0, top, bx1, 470], fill=col)
+    for fy in range(6):
+        y0 = top + 20 + fy * 62
+        if y0 + 40 > 400: break
+        d.rectangle([bx0, y0 + 48, bx1, y0 + 54], fill='#bdb29e')
+        for fx in range(int((bx1 - bx0 - 20) // 70)):
+            x0 = bx0 + 18 + fx * 70
+            d.rectangle([x0, y0, x0 + 48, y0 + 38], fill='#7f8a90'); d.rectangle([x0, y0, x0 + 48, y0 + 38], outline='#ece6d8', width=3)
+            for bx in range(x0, x0 + 49, 7): d.line([(bx, y0 - 2), (bx, y0 + 40)], fill='#5e605c', width=2)   # 鐵窗
+            if (fx + fy + bi) % 3 == 0: d.rectangle([x0 + 6, y0 + 40, x0 + 40, y0 + 52], fill='#f2f2ee')   # 冷氣
+d.rectangle([0, 395, VW, 470], fill='#a89c86')   # 一樓騎樓
+for sx in range(10, VW, 92):
+    d.rectangle([sx, 405, sx + 70, 466], fill=['#5f6f72', '#7a6a50', '#3f5a4a', '#8a5a4a'][(sx // 92) % 4])
+    d.rectangle([sx - 4, 396, sx + 74, 412], fill=['#2f6a5a', '#c8b070', '#a83a2a', '#e8e0d0'][(sx // 92 + 1) % 4])   # 招牌（只有顏色、沒有字）
+d.rectangle([0, 470, VW, 490], fill='#c8c2b6')   # 對面的人行道
+d.rectangle([0, 490, VW, VH], fill='#8e8c86')    # 馬路
+for x in range(0, VW, 110): d.rectangle([x, 556, x + 56, 562], fill='#ece8dc')
+for (cx_, cy_, w_, col) in ((560, 520, 150, '#dedcd8'), (180, 505, 120, '#5a6a7a'), (880, 512, 130, '#2a2a2c')):   # 汽車
+    d.rounded_rectangle([cx_ - w_ / 2, cy_ - 22, cx_ + w_ / 2, cy_ + 16], 10, fill=col); d.rounded_rectangle([cx_ - w_ * 0.32, cy_ - 44, cx_ + w_ * 0.28, cy_ - 18], 8, fill=col)
+    d.rectangle([cx_ - w_ * 0.28, cy_ - 40, cx_ + w_ * 0.24, cy_ - 22], fill='#9fb0ba')
+    for s in (-1, 1): d.ellipse([cx_ + s * w_ * 0.3 - 14, cy_ + 4, cx_ + s * w_ * 0.3 + 14, cy_ + 30], fill='#1a1a1a')
+for k in range(40):   # 綠籬（分隔島）
+    x = k * 27 + rv.uniform(-5, 5); d.ellipse([x - 22, 452, x + 22, 492], fill=['#3f6a2c', '#4b7a34', '#365e26', '#5a8a3a'][k % 4])
+tr = Image.new('RGBA', (VW, VH), (0, 0, 0, 0)); td = ImageDraw.Draw(tr)
+for tx_ in (60, 330, 600, 900):   # 路樹（樟樹／楓香）：粗樹幹、分枝、很多葉團（亮綠、逆光）
+    td.polygon([(tx_ - 16, 500), (tx_ + 16, 500), (tx_ + 8, 240), (tx_ - 8, 240)], fill='#5a4a3a')
+    for (dx, dy, wd) in ((-90, -150, 10), (100, -170, 10), (-40, -210, 7), (50, -230, 7)): td.line([(tx_, 300), (tx_ + dx, 300 + dy)], fill='#4e4032', width=wd)
+    for k in range(170):
+        a = rv.uniform(0, 2 * math.pi); rr = rv.uniform(0, 1) ** 0.55 * 210
+        x = tx_ + math.cos(a) * rr; y = 150 + math.sin(a) * rr * 0.6
+        s = rv.uniform(14, 34); c = [(58, 96, 40), (84, 126, 52), (118, 158, 66), (164, 190, 92), (48, 80, 34), (196, 212, 120)][k % 6]
+        td.ellipse([x - s, y - s * 0.8, x + s, y + s * 0.8], fill=c + (255,))
+im = Image.alpha_composite(im.convert('RGBA'), tr).convert('RGB').filter(ImageFilter.GaussianBlur(1.6)); d = ImageDraw.Draw(im)
+d.rectangle([118, 230, 126, 640], fill='#8a8e90')   # 路牌的桿子（前景，不模糊）＋藍底白字「新生南路 Xinsheng S. Rd.」（臺北市的路牌：公共標示，不是品牌）
+d.rounded_rectangle([40, 250, 210, 312], 6, fill='#1f4f9a', outline='#f2f2f2', width=3)
+d.text((125, 270), '新生南路', font=font(30), fill='#ffffff', anchor='mm'); d.text((125, 298), 'Xinsheng S. Rd.', font=font(15), fill='#ffffff', anchor='mm')
+pim('view', 1024, 0, im)
+
+# ---- 店名木牌（門片上掛的；0.3 × 0.44 m）：舊木板、刷白邊、毛筆感的「同弦樂器」＋吉他線稿（參考圖）
+SW, SH = 384, 560
+b = grain(SH, SW, '#c9a477', '#9a7048', freq=7, along='u', wav=1.4, contrast=0.4)
+b *= (0.9 + 0.1 * noise(SH, SW, 3)[..., None]); yy, xx = np.mgrid[0:SH, 0:SW]
+edge = np.minimum(np.minimum(xx, SW - 1 - xx), np.minimum(yy, SH - 1 - yy)); b[edge < 10] *= 0.72   # 邊緣比較深（手摸、日曬）
+im = Image.fromarray((np.clip(b, 0, 1) * 255).astype(np.uint8)); d = ImageDraw.Draw(im)
+for i, ch in enumerate('同弦'): d.text((SW / 2 + (i - 0.5) * 150, 140), ch, font=font(128), fill='#2a1a10', anchor='mm', stroke_width=3, stroke_fill='#2a1a10')
+for i, ch in enumerate('樂器'): d.text((SW / 2 + (i - 0.5) * 150, 290), ch, font=font(128), fill='#2a1a10', anchor='mm', stroke_width=3, stroke_fill='#2a1a10')
+gx, gy = 120, 470   # 吉他線稿（斜的，琴頸往右上）
+d.ellipse([gx - 52, gy - 40, gx + 22, gy + 30], outline='#2a1a10', width=4); d.ellipse([gx - 18, gy - 62, gx + 34, gy - 14], outline='#2a1a10', width=4)
+d.ellipse([gx - 14, gy - 30, gx + 6, gy - 10], outline='#2a1a10', width=3)
+d.line([(gx + 10, gy - 30), (SW - 40, 360)], fill='#2a1a10', width=6); d.line([(SW - 40, 360), (SW - 22, 344)], fill='#2a1a10', width=9)
+pim('sign', 1024, 640, im)
+
+# ---- 手寫紙條（新台幣；店裡的口氣）
+rh = np.random.default_rng(77)
+NOTES = [('note_string', 384, 420, ['弦一個月', '換一次'], '#23243a', 92, '#f4efe0'),
+         ('note_setup', 256, 256, ['換弦 $150', '調琴 $300', '當天可取'], '#23305a', 34, '#f6f1e2'),
+         ('note_lesson', 256, 256, ['吉他課', '週三 晚上', '一堂 $600'], '#5a2a20', 38, '#fbf3d6'),
+         ('note_owner', 256, 128, ['不賣，老闆的'], '#3a2a20', 34, '#f4efe2'),
+         ('note_wash', 256, 256, ['試彈前', '請先洗手', '謝謝 :)'], '#23305a', 38, '#eef3f0'),
+         ('note_used', 256, 256, ['二手琴', '寄賣中', '歡迎詢問'], '#7a2a20', 38, '#f6efe0')]
+# 排版（不重疊）
+pos = {'note_string': (1408, 640), 'note_setup': (1792, 640), 'note_lesson': (1792, 896), 'note_owner': (1664, 1152), 'note_wash': (1408, 1152), 'note_used': (1792, 1280)}
+for (nm, w, h, lines, col, sz, bg) in NOTES:
+    p = paper(w, h, bg, rh); d = ImageDraw.Draw(p)
+    if nm == 'note_owner':
+        f = font(sz); d.text((w / 2, h / 2), lines[0], font=f, fill=col, anchor='mm', stroke_width=1, stroke_fill=col)
+    else: hand_text(d, w, h, lines, col, sz, rh)
+    if nm == 'note_string': d.line([(80, 380), (310, 372)], fill='#c83a2a', width=5)
+    pim(nm, *pos[nm], p)
+
+# ---- 價錢牌（掛在吉他上的小卡；新台幣）
+PRICES = ['NT$4,800', 'NT$6,200', 'NT$8,900', 'NT$12,800', 'NT$15,600', 'NT$3,600', 'NT$22,000', 'NT$9,800']
+for i, pr in enumerate(PRICES):
+    w, h = 128, 96; p = paper(w, h, '#f7f3e8', rh); d = ImageDraw.Draw(p)
+    d.ellipse([8, 8, 18, 18], outline='#8a8a8a', width=2); d.text((w / 2, 40), pr, font=font(22), fill='#c0262a' if i % 3 == 0 else '#1f2a44', anchor='mm', stroke_width=1, stroke_fill='#c0262a' if i % 3 == 0 else '#1f2a44')
+    d.text((w / 2, 72), ['面單', '全單', '電吉他', '民謠', '二手', '入門', '手工', '旅行'][i], font=font(20), fill='#555555', anchor='mm')
+    pim(f'ptag{i}', 640 + (i % 4) * 128, 1824 + (i // 4) * 96, p)
+
+# ---- 弦的包裝（印刷；正面 192 × 192）：不同種類、粗細、顏色；只有中文品名和規格，沒有品牌
+SP = [('#f1ece0', '#1f3f6e', '民謠吉他弦', '磷青銅', '012-053'), ('#232326', '#d4a84a', '電吉他弦', '鍍鎳', '010-046'), ('#8a2a26', '#f3e8d0', '民謠吉他弦', '80/20 黃銅', '011-052'),
+      ('#e9d6a0', '#5a3420', '古典吉他弦', '尼龍 高張力', 'NORMAL'), ('#36695a', '#f1ece0', '電吉他弦', '純鎳', '009-042'), ('#c9d4dc', '#23283a', '貝斯弦', '不鏽鋼', '045-105'),
+      ('#e8b4b0', '#5a2a30', '烏克麗麗弦', '碳纖', 'SOPRANO'), ('#f6f3ec', '#2f7a4f', '民謠吉他弦', '包膜 長效', '012-053')]
+for i, (bg, fg, a, b_, c) in enumerate(SP):
+    w = h = 192; p = Image.new('RGB', (w, h), bg); d = ImageDraw.Draw(p)
+    d.rectangle([8, 8, w - 9, h - 9], outline=fg, width=4)
+    d.rectangle([8, 8, w - 9, 52], fill=fg); d.text((w / 2, 31), a, font=font(30), fill=bg, anchor='mm')
+    d.text((w / 2, 82), b_, font=font(24), fill=fg, anchor='mm')
+    for k in range(6): d.line([(36, 104 + k * 7), (w - 36, 104 + k * 7)], fill=fg, width=1 + (5 - k) // 2)   # 六條弦的圖（粗細不同）
+    d.text((w / 2, 166), c, font=font(26), fill=fg, anchor='mm')
+    pim(f'spack{i}', (i % 4) * 192, 1408 + (i // 4) * 192, p)
+    # 包裝的側面：只有色條
+# ---- Pick 卡（吊卡，6 片 Pick）、移調夾的盒子、背帶的標籤
+for i, (bg, cols, txt) in enumerate((('#1f2a44', ['#d94a3a', '#e9b03a', '#3a7ad9', '#f2efe6', '#7a3ad9', '#3ab07a'], '0.71mm'), ('#f2efe6', ['#2a2a2a', '#c8202a', '#2a2a2a', '#c8202a', '#2a2a2a', '#c8202a'], '0.46mm'),
+                                    ('#7a2a26', ['#f2efe6', '#e9b03a', '#f2efe6', '#e9b03a', '#f2efe6', '#e9b03a'], '0.88mm'), ('#36695a', ['#e97ab0', '#7ad0e0', '#f0e070', '#b0e07a', '#e9a03a', '#f2efe6'], '綜合 6入'))):
+    w, h = 160, 224; p = Image.new('RGB', (w, h), bg); d = ImageDraw.Draw(p)
+    d.ellipse([w / 2 - 10, 8, w / 2 + 10, 28], fill='#d8d4c8')   # 吊孔
+    for k, c in enumerate(cols):
+        x, y = 40 + (k % 2) * 80, 72 + (k // 2) * 50; s = 22
+        d.polygon([(x - s, y - s * 0.7), (x + s, y - s * 0.7), (x, y + s)], fill=c, outline='#111111')
+    d.text((w / 2, 206), txt, font=font(22), fill='#f2efe6' if bg != '#f2efe6' else '#1f2a44', anchor='mm')
+    pim(f'pcard{i}', i * 160, 1792, p)
+cb = Image.new('RGB', (192, 128), '#1d1d1f'); d = ImageDraw.Draw(cb)   # 移調夾的盒子
+d.rectangle([6, 6, 185, 121], outline='#d4a84a', width=3); d.text((96, 40), '移調夾', font=font(30), fill='#f1ece0', anchor='mm'); d.text((96, 88), '快速 單手', font=font(22), fill='#d4a84a', anchor='mm')
+pim('capobox', 768, 1600, cb)
+tn = Image.new('RGB', (192, 128), '#f1ece0'); d = ImageDraw.Draw(tn)
+d.rectangle([6, 6, 185, 121], outline='#23283a', width=3); d.text((96, 40), '夾式調音器', font=font(26), fill='#23283a', anchor='mm'); d.text((96, 88), '吉他 貝斯 烏克', font=font(20), fill='#5a5a5a', anchor='mm')
+pim('tunerbox', 960, 1600, tn)
+# ---- 紙膠帶、髒污（櫃台、牆）、名片
+tp = np.zeros((32, 128, 3), np.float32) + hx('#e6d6a6'); tp *= (0.92 + 0.08 * noise(32, 128, 2)[..., None]); pput('tape', 1024, 1408, tp)
+tp2 = np.zeros((32, 128, 3), np.float32) + hx('#d2d6c8'); tp2 *= (0.9 + 0.1 * noise(32, 128, 2)[..., None]); pput('tape_old', 1024, 1440, tp2)   # 撕掉後留下的膠帶痕（灰）
+cards = paper(192, 128, '#f6f3ec', rh); d = ImageDraw.Draw(cards); d.text((96, 44), '同弦樂器', font=font(30), fill='#2a1a10', anchor='mm'); d.text((96, 88), '新生南路 二樓', font=font(20), fill='#555555', anchor='mm')
+pim('bizcard', 1152, 1408, cards)
+# ---- 樂譜（譜架上：五線譜＋音符）、書的書背（樂譜書）
+sc = paper(256, 320, '#f6f2e6', rh); d = ImageDraw.Draw(sc)
+d.text((128, 26), '練習曲　第三首', font=font(22), fill='#222222', anchor='mm')
+for st in range(6):
+    y0 = 56 + st * 44
+    for k in range(5): d.line([(16, y0 + k * 6), (240, y0 + k * 6)], fill='#444444', width=1)
+    for n in range(9):
+        x = 30 + n * 24; y = y0 + rh.integers(0, 5) * 6 - 3
+        d.ellipse([x - 4, y - 3, x + 4, y + 3], fill='#111111'); d.line([(x + 4, y), (x + 4, y - 18)], fill='#111111', width=1)
+pim('score', 1344, 1408, sc)
+# ---- 溝槽板（米色烤漆木條；一格 15 cm 高的木條＋溝）
+sl = grain(128, 256, '#efe3cc', '#d9c6a4', freq=5, along='u', wav=1.0, contrast=0.25)
+sl[:10] = hx('#6a4a30') * (0.85 + 0.15 * noise(10, 256, 2)[..., None]); sl[10:13] = hx('#c9b28c')
+pput('slat', 1600, 1536, sl)
+
 Image.fromarray((pimg * 255).astype(np.uint8)).save(os.path.join(GEN, 'tongxian_props.png'))
 emit = np.zeros_like(pimg); x, y, w, h = pcells['view']; emit[y:y + h, x:x + w] = pimg[y:y + h, x:x + w] * 0.85
 Image.fromarray((emit * 255).astype(np.uint8)).save(os.path.join(GEN, 'tongxian_props_emit.png'))
