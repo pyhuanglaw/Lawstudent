@@ -1,0 +1,193 @@
+diff --git a/docs/story_planning/test_tools/cc/cc_social_smoke_probe.py b/docs/story_planning/test_tools/cc/cc_social_smoke_probe.py
+index fcd75354b..0bb08b461 100644
+--- a/docs/story_planning/test_tools/cc/cc_social_smoke_probe.py
++++ b/docs/story_planning/test_tools/cc/cc_social_smoke_probe.py
+@@ -38,6 +38,25 @@
+   shop    店內偶遇「一起坐」（src/data/shop_enc.js 有 join 的列；外帶窗口 wz_tea／wz_ice 不測）：掃到她會在店裡的時段 → 讀檔到那間店 →「和○○打招呼」→「一起坐」
+   walk    自由出行偶遇「一起走一段」（ENC.JOIN 有她）：掃到她會出現的景點與時段 → 公館捷運站入口 → 景點 → 散步 → 偶遇 →「一起走一段」→ 一件事 → 回公館
+           （偶遇沒有出現＝INFO，不判 FAIL；卡住照判）
++  X207 驗收（INV-SIT-TOGETHER-1104，LAWWW 909c729a6／v9.10.20；對照 c2232eb6c；BB 11-04 02:16）——不在預設 STEPS，要用 STEPS 點名。共同前置：平日 09:00 校園、
++          關係朋友（可攻略第 5 階）、有聯絡方式 → 手機約「去總圖一起念書」（她會答應的最近時段）→ 時間快到（手機跳過時間；不夠才改存檔時間，[前置／捷徑]）→「直接過去」。
++          她帶路時玩家像真人一樣跟著走（L.go_to 點地面／搖桿，追她的位置；二樓坐滿改去三樓＝走到二樓東側樓梯間的門按互動）。
++    study_x207          X207 七點（同上）＋開演位置取「（你們在長桌的一角坐下。…）」那一句的時候（沒有那句＝對照組，取見面第一句）
++    study_f3            二樓（lv1）座位全滿 → 要走到三樓閱覽區坐下。【前置／捷徑】進總圖大廳就把 lv1 的 zone.seats 設 taken（遊戲自己的「有人坐」欄位：
++                        classes3d.js 替身坐的位子、INV.pairSeats／seatBusy 都看它）
++    study_reload_lead   帶路途中讀檔：iv.lead.ph＝go（她正走向座位）那一刻 GAME.snapshot→applySave【前置／捷徑】→ 讀回來 iv.lead 還在、接著帶路、兩個人坐下
++    study_phone_reload  手機約好總圖念書以後「選單 → 回標題 → 繼續」（按不到才 snapshot→applySave）→ 約還在 → 照 X207 演完
++    study_r2            風險 2：演完她解凍（n.frozen＝false）、起身（作息本來就在這裡坐著讀書的＝INFO），AFTER_S 秒內回自己的作息
++    study_r3            風險 3：①帶路途中、②演完 30 秒內：手機 訊息 → 約 → 算了 → 手機不能自己再打開（game3d.js 回呼問 INV.phoneBack）；
++                        ③改天：【前置／捷徑】INV.offer 讓她約你（明天 15:00 總圖）→ 手機按「改天」→ 一次照常（選算了）、一次【前置／捷徑：注入例外】INV.flow 回傳 rejected
++                        promise → 兩次都不能有 unhandledrejection（CON_JS 的監聽記在 window.__CCE「rejection …」）
++    study_r4            風險 4：【前置／捷徑：注入例外】GAME.sitAt 在「玩家坐下」那一次（原本的 sitAt 做完、兩個人都坐著）丟例外
++                        → 兩個人都起身、她解凍、D.busyDepth 回 0、沒有淡出、那一筆約 cancelled、回到可以自由移動
++    study_r6            風險 6：早到（約好時間前約 1 小時用手機「今天」→「前往」）→「約好的是 …，還早。」只出現一次（掛 GAME.toast 數）
++    study_abandon       作罷三種（ABANDON＝leave,timeout,close 選）：帶路途中走出總圖／帶路超過 2 小時（真的等遊戲時間，約 5 分鐘；ABANDON_FAST=1＝
++                        【前置／捷徑】讀檔到帶路開始後 1h55m）／閉館（優先約 20:30～21:45 的時段真的等到 22:00；約不到才【前置／捷徑】讀檔到 21:54）
++                        → 那一筆 cancelled、G.msgs 多一則「……後來作罷了。」、不卡住（check_free）。也可以 STEPS=study_abandon_leave／_timeout／_close 單獨跑
++    每一項另外記：INFO 7（她在大廳一樓 lv0 找座位、大廳各層座位數）、風險 5（兩個選單互搶：掛 GAME.choose，前一個還沒選完又開一個＝記 INFO，不判）
+ 
+ 每一段結束都跑同一套「沒卡住」檢查（15 秒內要全部成立，不然 FAIL＋截圖＋G.zone、時間、對話、按鈕、D.busyWho、console 最後 30 行）：
+   #dlg、#choices 隱藏、GAME.D.active＝false、D.busyDepth＝0、player.busy＝false、ADV.active＝false、EVENTS.running 空、鏡頭 follow、沒有淡出、
+@@ -96,7 +115,12 @@ ROSTER = (os.environ.get('ROSTER') or '1') == '1'                     # phone_da
+ AFTER_S = int(os.environ.get('AFTER_S') or 150)                       # 約會結束後等幾秒看她回到自己的行程
+ SLOT_OVERRIDE = (os.environ.get('SLOT_OVERRIDE') or '').strip()   # 'zone,hour,YYYY-MM-DD'：greet／up／menu／invite／reload 讀檔到這個時段（不掃）
+ STUDY_MSG = '使用者 11-04：約念書不能在門口結束，要一起坐下'
+-STUDY_VARIANTS = env_list('STUDY_VARIANTS', 'full,reload')   # X207 ②「二樓滿了改去三樓」、⑥「帶路途中讀檔」
++STUDY_VARIANTS = env_list('STUDY_VARIANTS', 'full,reload')   # X207 ②「二樓滿了改去三樓」、⑥「帶路途中讀檔」（reload＝iv.lead 有值的時候存讀檔）
++ABANDON = env_list('ABANDON', 'leave,timeout,close')           # study_abandon：作罷三種
++ABANDON_FAST = (os.environ.get('ABANDON_FAST') or '0') == '1'    # 1＝帶路超過 2 小時用【前置／捷徑】讀檔到 1h55m
++ABANDON_WAIT_S = int(os.environ.get('ABANDON_WAIT_S') or 600)     # 作罷最多等幾秒（2 小時遊戲時間＝300 秒）
++STUDY_WAIT_S = int(os.environ.get('STUDY_WAIT_S') or 420)         # 約念書每一段最多等幾秒（帶路、上樓）
++STUDY_STEPS = ['study_x207', 'study_f3', 'study_reload_lead', 'study_phone_reload', 'study_r2', 'study_r3', 'study_r4', 'study_r6', 'study_abandon']
+ # AA_649（企劃線 37daf8027）照抄：約念書在總圖的台詞（逐字比對；比對時去掉「」和空白）
+ AA649 = {
+     'guide': '（小聲）二樓靠窗那排比較安靜。',
+@@ -115,6 +139,38 @@ AA649 = {
+             'kexin': ('（小聲）你們的總圖好大。', '我要趕車回木柵了。……今天謝謝你。')}}
+ FULL_HOOK_JS = r"""(on=>{ clearInterval(window.__CCFULL); if(!on) return 0; window.__CCFULL=setInterval(()=>{ try{ const G=GAME.G, E=GAME.E; if(G.zone!=='library_hall'||!E.zone||!E.zone.seats) return; const P=E.player;
+     for(const q of E.zone.seats){ if((q.lv|0)!==1) continue; if(P.seat===q) continue; if(!q.__cc){ q.__cc=1; q.taken=true; } } }catch(e){} },300); return 1; })"""
++LEAD_JS = r"""(a=>{ const G=GAME.G, E=GAME.E, P=E.player, pp=P.obj.position; const L=(G.invites||[]).filter(v=>v.who===a.id); const iv=(a.iv&&L.find(v=>v.id===a.iv))||L[L.length-1]||null;
++  let n=null; try{ n=(typeof INV!=='undefined'&&INV.npcOf)?INV.npcOf(GAME,a.id):null; }catch(e){} if(!n) n=(E.npcs||[]).find(q=>q&&q.charId===a.id&&q.obj)||null;
++  const sk=s=>s?{x:+(+s.x).toFixed(2),z:+(+s.z).toFixed(2),lv:s.lv|0}:null; const ld=iv&&iv.lead;
++  return {feat:typeof INV!=='undefined'&&typeof INV.leadTick==='function', zone:G.zone, hour:+(+G.hour).toFixed(4), day:G.day, plv:P.lv|0, px:+pp.x.toFixed(2), pz:+pp.z.toFixed(2), pseat:sk(P.seat),
++    iv:iv?{id:iv.id,state:iv.state,place:iv.place,zone:iv.zone,day:iv.day,h:iv.h,early:!!iv.early,err:!!iv.err,opened:!!iv.opened,alt:!!iv.alt,noLead:!!iv.noLead,
++      lead:ld?{ph:ld.ph||null,z:ld.z||null,her:sk(ld.her),me:sk(ld.me),look:sk(ld.look)}:null}:null,
++    n:n&&n.obj?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),lv:n.lv|0,seat:sk(n.seat),frozen:!!n.frozen,beh:n.beh||null,ivLead:n._ivLead||null,pose:n.pose||null}:null,
++    nmsg:(G.msgs||[]).length}; })"""
++NPCST_JS = r"""(id=>{ const G=GAME.G, E=GAME.E, P=E.player; let n=null; try{ n=(typeof INV!=='undefined'&&INV.npcOf)?INV.npcOf(GAME,id):null; }catch(e){} if(!n) n=(E.npcs||[]).find(q=>q&&q.charId===id&&q.obj)||null;
++  let w=null; try{ w=STORY.whereIs(GAME,id); }catch(e){} const f=document.getElementById('fade');
++  return {zone:G.zone, pseat:!!P.seat, depth:(GAME.D&&GAME.D.busyDepth)|0, npc:!!(n&&n.obj), nseat:!!(n&&n.seat), frozen:!!(n&&n.frozen), beh:n?n.beh||null:null, pose:n?n.pose||null:null, ivLead:n?n._ivLead||null:null,
++    where:w?{zone:w.zone||null,act:w.act||'',away:w.away||null}:null, keep:!!(n&&n.seat&&w&&w.zone===G.zone&&['read','eat','sit','class'].includes(w.act)), fade:!!(f&&f.classList.contains('on'))}; })"""
++EXIT_JS = "(z=>{ const it=(GAME.E.interactables||[]).find(i=>i.exit&&i.exit.to===z); return it?{x:+it.x.toFixed(2),z:+it.z.toFixed(2),lv:it.lv|0,label:it.label||''}:null; })"
++MSGS_JS = "(a=>(GAME.G.msgs||[]).slice(a.n).filter(m=>m.who===a.id).map(m=>({day:m.day,h:m.h,text:m.text,iv:m.iv||null})))"
++LIBSEATS_JS = "(()=>{ const s=(GAME.E.zone&&GAME.E.zone.seats)||[]; const o={}; for(const q of s){ if(q.label) continue; const k='lv'+(q.lv|0); o[k]=(o[k]||0)+1; } return o; })()"
++MARK_JS = "(()=>({t:(window.__CCT||[]).length, x:(window.__CCX||[]).length, r:(window.__CCE||[]).filter(e=>String(e).startsWith('rejection')).length}))()"
++# 掛 GAME.toast（數「還早」）和 GAME.choose（風險 5：前一個選單還沒選完又開一個）；只記錄，原本的函式照呼叫、回傳同一個 promise
++HOOK2_JS = r"""(()=>{ if(window.__CCT) return true; const T=window.__CCT=[], C=window.__CCX=[];
++  const t0=GAME.toast; if(typeof t0==='function') GAME.toast=function(t,ms){ try{ T.push({t:String(t),h:+(+GAME.G.hour).toFixed(3),ms:Date.now()}); if(T.length>800) T.splice(0,200); }catch(e){} return t0.apply(this,arguments); };
++  const c0=GAME.choose; let pend=0, cur=null; if(typeof c0==='function') GAME.choose=function(opts){ let o=[]; try{ o=(opts||[]).map(x=>String(x&&x.t!=null?x.t:x)).slice(0,6); }catch(e){}
++    try{ if(pend>0) C.push({prev:cur,next:o,h:+(+GAME.G.hour).toFixed(3),zone:GAME.G.zone,ms:Date.now()}); }catch(e){} pend++; cur=o; let p;
++    try{ p=c0.apply(this,arguments); }catch(e){ pend=Math.max(0,pend-1); throw e; }
++    Promise.resolve(p).finally(()=>{ pend=Math.max(0,pend-1); }).catch(()=>{}); return p; };
++  return true; })()"""
++# 風險 4：玩家在見面那一刻坐下（原本的 sitAt 做完、兩個人都坐著）丟一次例外，之後換回原本的
++INJ_SIT_JS = r"""(on=>{ const G0=window.__CCSIT0||(window.__CCSIT0=GAME.sitAt); if(!on){ GAME.sitAt=G0; return 0; } window.__CCINJ=0;
++  GAME.sitAt=function(e,st){ const r=G0.apply(this,arguments); if(e===GAME.E.player&&!window.__CCINJ){ window.__CCINJ=1; GAME.sitAt=G0; throw new Error('CC 注入：見面時 GAME.sitAt（玩家坐下）丟例外'); } return r; }; return 1; })"""
++# 風險 3：改天以後的 INV.flow 回傳 rejected promise 一次（之後換回原本的）
++INJ_FLOW_JS = r"""(()=>{ const f0=INV.flow; window.__CCFLOW=0; INV.flow=function(){ INV.flow=f0; window.__CCFLOW=1; return Promise.reject(new Error('CC 注入：改天以後 INV.flow 失敗')); }; return 1; })()"""
++OFFER_JS = r"""(id=>{ const G=GAME.G; let iv=null; try{ iv=INV.offer(G,id,'library',G.day+1,15,null); }catch(e){ return {err:String(e)}; } return iv?{id:iv.id,state:iv.state,day:iv.day,h:iv.h}:null; })"""
++CANCEL_RX = r'^(算了|返回|先不要|不約了|今天不去了)'
++NZ = lambda t: re.sub(r'[「」\s]', '', t or '')
+ ID_RX = r'^(heroine_0\d|classmate_\w+|pool_\d+|econ_\w+|npc_\w+|jp_\w+|kexin|zhe|yu|kai|prof_\w+)$'
+ 
+ BASEF = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True,
+@@ -374,6 +430,7 @@ class Person:
+     def __init__(self, pw, pid):
+         self.pw = pw; self.pid = pid; self.R = Res(pid); self.pg = None; self.cdp = None; self.errs = []; self.info = None
+         self.base_slot = None; self.arrive_snap = None; self.tagn = 0; self.tx = None; self.seat_pending = False; self.seat_sample = None; self.mid_tag = None; self.guide_on = None; self.guide = []; self.study_on = False; self.last_seat = None; self.mid_reload = False; self.mid_reloaded = False
++        self.lead_iv = None; self.first_sample = None; self.sprep = {}; self.mk = {'t': 0, 'x': 0, 'r': 0}; self.close_short = False; self.study_reset()
+ 
+     async def start(self):
+         b, ctx, pg, cdp, errs = await L.launch(self.pw, landscape=True)
+@@ -385,6 +442,7 @@ class Person:
+         await pg.evaluate("localStorage.clear()")
+         self.info = await pg.evaluate(INFO_JS, self.pid)
+         await pg.evaluate(SAY_HOOK)
++        await pg.evaluate(HOOK2_JS)
+         return ok and self.info is not None
+ 
+     async def close(self):
+@@ -471,6 +529,7 @@ class Person:
+             if time.time() - last_t > STUCK_S:
+                 return False, s, menus, lines
+             if s['phone']:
++                self.phone_log.append({'zone': s['zone'], 'hour': s['hour'], 'where': 'drive', 't': time.time()})
+                 self.R.info('%s：手機自己打開（遊戲暫停），按「收起來」' % tag); await L.tap(pg, self.cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800); continue
+             if s['menu'] or s['bigmap']:
+                 await L.close_panels(pg, self.cdp); continue
+@@ -479,7 +538,7 @@ class Person:
+                 menus.append({'opts': [o['t'] for o in s['ch']], 'dim': [o['dim'] for o in s['ch']], 'pick': k})
+                 self.R.note('%s 選單 %s → 選「%s」' % (tag, J([o['t'] + ('（灰）' if o['dim'] else '') for o in s['ch']]), s['ch'][k]['t'] if k < len(s['ch']) else k))
+                 await self.tap_choice(k); await pg.wait_for_timeout(800); continue
+-            if self.mid_reload and str(s['zone']).startswith('library') and not s['seat'] and s['depth'] > 0 and not s['ch']:
++            if self.mid_reload == 'dlg' and str(s['zone']).startswith('library') and not s['seat'] and s['depth'] > 0 and not s['ch']:
+                 self.mid_reload = False; self.mid_reloaded = True
+                 self.R.setup('%s：X207 ⑥ 人在總圖、還沒坐下，GAME.snapshot→applySave（途中存檔再讀檔）' % tag)
+                 await self.load(snap=await pg.evaluate(SNAP_JS), why='帶路途中')
+@@ -490,7 +549,11 @@ class Person:
+             if s['dlg'] or s['dlgVis']:
+                 if self.study_on: self.last_seat = await pg.evaluate(SEAT_JS, self.pid)
+                 if self.seat_pending and s['depth'] > 0:
+-                    self.seat_sample = await pg.evaluate(SEAT_JS, self.pid); self.seat_pending = False
++                    smp = await pg.evaluate(SEAT_JS, self.pid)
++                    if not self.study_on: self.seat_sample = smp; self.seat_pending = False
++                    else:   # 約念書：開演＝坐下旁白那一句（909c729a6 在門口先演開場、帶路以後才坐下）；沒有那一句（對照組）＝見面第一句
++                        if self.first_sample is None: self.first_sample = smp
++                        if NZ(s['text']) == NZ(AA649['sit_narr']): self.seat_sample = smp; self.seat_pending = False
+                 if self.tx is not None and s['text'] and (not self.tx or self.tx[-1]['text'] != s['text']):
+                     self.tx.append({'name': s['name'], 'text': s['text'], 'slots': await pg.evaluate(SLOTS_JS), 'adv': s['adv']})
+                     if self.mid_tag and len(self.tx) == 4: await self.shot(self.mid_tag + '_mid')
+@@ -1075,10 +1138,16 @@ class Person:
+             s = await self.st()
+             if s['ch'] or s['dlg'] or s['dlgVis'] or s['depth'] or s['busy']: return True
+             if done and await done(): return True
+-            if s['phone']: await L.tap(self.pg, self.cdp, '#btnPhoneClose')
++            if s['phone']:
++                self.phone_log.append({'zone': s['zone'], 'hour': s['hour'], 'where': 'wait', 't': time.time()}); await L.tap(self.pg, self.cdp, '#btnPhoneClose')
+             if self.guide_on and str(s['zone']) == str(self.guide_on) and not s['seat']:
+                 g = await self.pg.evaluate(SEAT_JS, self.pid)
+                 if g['nD'] is not None: self.guide.append(g['nD'])
++            if self.study_on:   # 約念書：她帶路＝跟著走；一起走去三樓＝走到樓梯間的門（INV-SIT-TOGETHER-1104）
++                r = await self.follow_lead(self.mid_tag or 'study')
++                if r == 'busy': return True
++                if r == 'gone': return bool(done and await done())
++                if r == 'moved': continue
+             await self.pg.wait_for_timeout(1200)
+         return False
+ 
+@@ -1087,7 +1156,7 @@ class Person:
+         menus, lines, s = [], [], await self.st()
+         for ph in range(phases):
+             if done and await done(): break
+-            if not await self.wait_busy(first_wait if ph == 0 else 240, done):
++            if not await self.wait_busy(first_wait if ph == 0 else (STUDY_WAIT_S if self.study_on else 240), done):
+                 break
+             if done and await done() and is_free(await self.st()): break
+             ok, s, m, l = await self.drive(plan, tag)
+@@ -1206,7 +1275,9 @@ class Person:
+         say0 = await pg.evaluate("(window.__CCS||[]).length"); self.tx = []; self.seat_sample = None; self.seat_pending = True; self.mid_tag = tag
+         self.study_on = bool(iv.get('study')); self.guide_on = iv['zone'] if self.study_on else None; self.guide = []; self.last_seat = None; self.mid_reloaded = False
+         if variant == 'full': R.setup('%s：X207 ② 二樓（lv1）的座位全部設成有人坐（seat.taken，進總圖大廳就設）' % tag); await pg.evaluate(FULL_HOOK_JS, True)
+-        if variant == 'reload': self.mid_reload = True
++        self.study_reset(); self.lead_iv = iv.get('id'); self.first_sample = None; await self.mark()
++        if variant == 'reload': self.mid_reload = 'lead'
++        if variant == 'reload_dlg': self.mid_reload = 'dlg'
+         await self.shot(tag + '_depart')
+         done = lambda: self.iv_done(iv['id'])
+         if walk:
+@@ -1219,12 +1290,14 @@ class Person:
+                 await L.go_to(pg, self.cdp, GoRun(R), ex['x'], ex['z'], 1.4, '往 %s 的門（%s）' % (iv['zone'], ex['label']), max_s=WALK_S)
+                 if (await self.st())['interact']: await L.tap(pg, self.cdp, '#interact'); await pg.wait_for_timeout(6000)
+             else: R.info('%s：沒有出現「直接過去／自己走過去」的選單' % tag, J({k: s[k] for k in ('zone', 'hour', 'ch')}) if got else '等了 240 秒')
+-        ok, menus, lines, s = await self.run_scene(tag, plan, done=done)
++        ok, menus, lines, s = await self.run_scene(tag, plan, done=done, first_wait=STUDY_WAIT_S if self.study_on else 300, phases=12 if self.study_on else 4)
+         arr = await self.st()
+         if arr['zone'] == iv['zone'] or (iv['zone'] == 'library_hall' and arr['zone'] == 'library'): await self.shot(tag + '_arrive')
+         if not R.check('%s：出發、到場、見面那一場一路點得完' % tag, ok, why_not_free(s)): await self.dump(tag, s); self.tx = None; return menus
+         if not await self.iv_done(iv['id']):
+             R.check('%s：到了約定的地方、見面那一場有開始' % tag, False, J({'zone': arr['zone'], 'hour': arr['hour'], 'iv': await pg.evaluate(INVS_JS, self.pid)})); self.tx = None; return menus
++        if self.study_on and self.seat_sample is None and self.first_sample is not None:
++            self.seat_sample = self.first_sample; R.note('%s：沒有看到 AA_649 的坐下旁白，開演位置用見面第一句那一刻' % tag)
+         ss = self.seat_sample
+         if ss is not None: R.check('%s：開演時她在場（離玩家 ≤ 4 m）' % tag, ss['npc'] and ss['nD'] is not None and ss['nD'] <= 4, J(ss))
+         if ss is not None and not self.study_on:
+@@ -1233,7 +1306,8 @@ class Person:
+         if variant == 'full':
+             await pg.evaluate(FULL_HOOK_JS, False)
+             R.check('%s：X207 ② 二樓滿了→真的走到三樓閱覽區（開演時 zone＝library）' % tag, bool(ss) and ss['zone'] == 'library', J(ss))
+-        if variant == 'reload': R.check('%s：X207 ⑥ 帶路途中讀檔以後接著帶路、兩個人坐下' % tag, self.mid_reloaded and bool(ss) and ss['pseat'] and ss['nseat'], J({'reloaded': self.mid_reloaded, 'seat': ss}))
++        if variant in ('reload', 'reload_dlg'): R.check('%s：X207 ⑥ 帶路途中（iv.lead 有值）讀檔以後接著帶路、兩個人坐下' % tag, self.mid_reloaded and bool(ss) and ss['pseat'] and ss['nseat'],
++                                                     J({'reloaded': self.mid_reloaded, 'seat': ss, 'lead': self.lead_log[-4:]}))
+         await self.shot(tag + '_end')
+         if record or self.study_on: await self.date_report(tag, rec0, say0, self.study_on, True, place_zone=iv['zone'], iv_id=iv['id'], variant=variant)
+         else: await self.check_free(tag + ' 結束', fb0, err0)
