@@ -58,7 +58,7 @@ M = dict(
     vm=L.vc_metal('cvs_vc_metal', rough=0.35, metal=0.45),
     glass=L.flat('cvs_glass', '#e4eef0', rough=0.03, alpha=0.08),
     decal=img_mat('cvs_decal', P['decal'], rough=0.4, alpha=True),
-    led=L.flat('GLOW_cvs_led', '#ffffff', rough=0.3, emit=tuple(v * 7.0 for v in B.srgb('#fff6e8'))),
+    led=L.flat('GLOW_cvs_led', '#ffffff', rough=0.3, emit=tuple(v * 7.0 for v in B.srgb('#ffe8c8'))),
     cooler=img_mat('GLOW_cvs_cooler', P['cooler'], rough=0.3, emit=1.6),
     screen=img_mat('GLOW_cvs_screen', P['screen'], rough=0.2, emit=1.2),
 )
@@ -130,7 +130,7 @@ def cell_u(rect, length, per=1.2, rng=R):
     f = min(1.0, length / per); a = rng.uniform(0, 1 - f); return sub(rect, a, 0, a + f, 1)
 
 
-WALLC = '#eee8dc'; GREEN = '#708a3a'; DKG = '#4e6428'; ALU = '#c6cacc'; WHITE = '#f2f1ec'
+WALLC = '#ece3d2'; GREEN = '#708a3a'; DKG = '#4e6428'; ALU = '#c6cacc'; WHITE = '#f2f1ec'
 
 # ================= 地板、天花板 =================
 fl = Mesh('FLOOR', M['floor']); uvq(fl, [(X0, 0, Z1), (X1, 0, Z1), (X1, 0, Z0), (X0, 0, Z0)], (0, 0, W / 2.4, D / 2.4)); fl.finish(root, uv=False)
@@ -264,7 +264,7 @@ for k, col in enumerate(('#46784a', '#34527f', '#7a5438')):
     VC.cbox(x0 + 0.1, x0 + bwid - 0.1, 0.6, 0.66, bn['z1'], bn['z1'] + 0.004, '#1e1e1e'); face(PR, (x0 + bwid / 2, 0.35, bn['z1'] + 0.006), '+z', 0.3, 0.38, C[f'bin{k}'])
 
 # ================= 中間三排貨架 =================
-LEV = [0.12, 0.40, 0.68, 0.96, 1.24]
+LEV = [0.12, 0.42, 0.72, 1.02, 1.32]
 KINDS = {1: ['bottle', 'paper', 'mix_daily', 'bottle', 'paper'], 2: ['chips', 'box', 'noodle', 'mix_snack', 'chips'], 3: ['stat', 'stat', 'box', 'can', 'mix_daily']}
 
 
@@ -299,14 +299,14 @@ for g in S['gondolas']:
             gbox(GD, gx - hw + 0.04, gx + hw - 0.04, y, LEV[i + 1] - 0.04, min(zend, zend + sg * 0.22), max(zend, zend + sg * 0.22), n, cell_u(GC[kinds[(i + 2) % len(kinds)]][R.randrange(2)], g['w'] - 0.08))
         VC.cbox(gx - hw, gx + hw, 0, 0.1, min(zend, zend + sg * 0.27), max(zend, zend + sg * 0.27), '#e4e2dc')
     # 吊牌（朝店門，雙面）
-    zc = min(z1 - 0.3, 0.2) if g['n'] != 2 else -0.3
+    zc = z1 - 0.6 if g['n'] != 2 else 0.6
     face(PR, (gx, 2.55, zc), '+z', 0.95, 0.3, C[f'hang{g["n"] - 1}'], two=True)
     for dx in (-0.4, 0.4): ccyl(VM, (gx + dx, H, zc), (gx + dx, 2.7, zc), 0.003, '#8a8c8e', seg=4)
     if 'endcap' in g:   # 端架：下兩層泡麵碗、上兩層零食；頂上綠色招牌
         e = g['endcap']; ez0, ez1, eh = e['z0'], e['z1'], e['h']
         VC.cbox(gx - hw, gx + hw, 0, 0.1, ez0, ez1, '#e4e2dc'); VC.cbox(gx - hw, gx + hw, 0.1, eh, ez0 - 0.02, ez0 + 0.02, '#ecebe6')
         for x in (gx - hw, gx + hw): VC.cbox(x - 0.015 if x < gx else x - 0.03, x + 0.03 if x < gx else x + 0.015, 0, eh, ez0, ez1, '#f0efea')
-        lv = [0.1, 0.42, 0.78, 1.14, 1.5]
+        lv = [0.1, 0.42, 0.8, 1.18, 1.56]
         for i, y in enumerate(lv[:-1]):
             VC.cbox(gx - hw + 0.03, gx + hw - 0.03, y - 0.025, y, ez0, ez1 - 0.02, '#d6d6d2')
             face(GD, (gx, y - 0.022, ez1 - 0.018), '+z', g['w'] - 0.06, 0.045, cell_u(GC['price'][0], 0.74, per=3.6))
@@ -446,7 +446,7 @@ for k in range(4): ccyl(VC, (-0.05 + k * 0.12, 0.05, 6.7), (-0.08 + k * 0.13, 0.
 
 # ================= 窗外（只給渲染用） =================
 if PREVIEW:
-    om = img_mat('PREVIEW_outside', P['outside'], rough=1.0, emit=1.4); ob_ = Mesh('PREVIEW_outside', om)
+    om = img_mat('PREVIEW_outside', P['outside'], rough=1.0, emit=0.75); ob_ = Mesh('PREVIEW_outside', om)
     face(ob_, (X0 - 6.0, 2.6, 2.0), '+x', 22, 8.2, (0, 0, 1, 1)); face(ob_, (-2.0, 2.6, Z1 + 6.0), '-z', 22, 8.2, (0, 0, 1, 1)); ob_.finish(root, uv=False)
 
 # ================= 收尾：牆分組、合併、匯出 =================

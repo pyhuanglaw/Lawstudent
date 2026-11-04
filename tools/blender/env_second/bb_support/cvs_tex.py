@@ -15,7 +15,7 @@ GREEN = (112, 138, 58); DKGREEN = (78, 100, 40); CREAM = (246, 241, 226); SUN = 
 def floor(path, rough_path):
     W = H = 1024; t = 256; rng = np.random.RandomState(301)
     n1 = _noise(H, W, 180, 302); n2 = _noise(H, W, 20, 303, 3); n3 = _noise(H, W, 4, 304, 2)
-    base = np.array([196, 193, 186], np.float32)   # 參考圖地磚 #bfbcb5（偏暖的淺灰）
+    base = np.array([206, 190, 168], np.float32)   # 參考圖地磚（陽光下偏暖）（偏暖的淺灰）
     col = base[None, None] * (0.93 + 0.1 * n1[..., None] + 0.05 * (n2[..., None] - 0.5) + 0.04 * (n3[..., None] - 0.5)) * np.ones((H, W, 1), np.float32)
     for i in range(4):
         for j in range(4):
@@ -34,7 +34,7 @@ def floor(path, rough_path):
 # ---------------- 天花板（1024＝2.4 m：60 cm 白色礦纖板＋白色 T 型鋼架；UV 重複） ----------------
 def ceiling(path):
     W = H = 1024; t = 256; n1 = _noise(H, W, 6, 311, 2); n2 = _noise(H, W, 200, 312)
-    col = np.array([236, 233, 226], np.float32)[None, None] * (0.97 + 0.03 * n2[..., None] + 0.04 * (n1[..., None] - 0.5)) * np.ones((H, W, 1), np.float32)
+    col = np.array([240, 230, 212], np.float32)[None, None] * (0.97 + 0.03 * n2[..., None] + 0.04 * (n1[..., None] - 0.5)) * np.ones((H, W, 1), np.float32)
     rng = np.random.RandomState(313); dots = rng.rand(H, W) > 0.97; col[dots] *= 0.9   # 礦纖板的小孔
     for i in range(0, H, t): col[max(0, i - 5):i + 5] = [246, 245, 242]; col[max(0, i - 6):max(0, i - 5)] = [200, 198, 192]
     for j in range(0, W, t): col[:, max(0, j - 5):j + 5] = [246, 245, 242]; col[:, max(0, j - 6):max(0, j - 5)] = [200, 198, 192]
@@ -43,14 +43,16 @@ def ceiling(path):
 
 # ---------------- 淺色橡木（512＝1 m；吧台、桌面、椅子、櫃台正面） ----------------
 def wood(path):
+    """淡色橡木：橫向細紋（每一列一個亮度，沿 u 方向拉長的雜訊）、拼板之間顏色稍有不同"""
     W = H = 512; rng = np.random.RandomState(321)
-    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
-    n1 = _noise(H, W, 60, 322); n2 = _noise(H, W, 8, 323, 2)
-    g = np.sin((xx * 0.06 + 9 * n1 + 1.5 * np.sin(yy * 0.01)) * 2.2) * 0.5 + 0.5
-    base = np.array([222, 192, 146], np.float32)
-    col = base[None, None] * (0.9 + 0.08 * g[..., None] + 0.06 * (n2[..., None] - 0.5))
-    for x in rng.randint(0, W, 30): col[:, x:x + 1] *= 0.9
-    for x in (0, 128, 256, 384): col[:, x:x + 2] *= 0.82   # 拼板縫
+    rows = rng.normal(0, 1, (H, 1)).astype(np.float32)
+    rows = np.asarray(Image.fromarray(((rows - rows.min()) / (np.ptp(rows) + 1e-6) * 255).astype(np.uint8)).resize((1, H), Image.BILINEAR), np.float32) / 255
+    streak = _noise(H, W, 3, 324, 2); long_ = np.asarray(Image.fromarray((_noise(H // 8, W // 64 + 1, 1, 325, 1) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
+    g = 0.6 * rows + 0.25 * long_ + 0.15 * streak
+    base = np.array([226, 198, 156], np.float32)
+    col = base[None, None] * (0.88 + 0.16 * g[..., None])
+    for k, y in enumerate(range(0, H, 128)): col[y:y + 128] *= rng.uniform(0.95, 1.04)
+    for y in (0, 128, 256, 384): col[y:y + 2] *= 0.85   # 拼板縫
     return _save(col, path)
 
 
