@@ -5300,6 +5300,21 @@
    "receiver": "LAWWW",
    "next": "LAWWW 照 AA_686 改 2、3b～3e、4；spots_v3／aa_walk_v1 換白名單後拿掉 EXTRA",
    "note": "回 LAWWW-C 20:14；使用者睡覺中，AA 自己定"
+  },
+  {
+   "branch": "claude/magical-albattani-bk7b4n",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "CANON-PURGE-SRC-1104",
+   "sha": "2d4d5dc72",
+   "files": [
+    "docs/story_planning/AA_685_回LAWWW_第二輪十項.md"
+   ],
+   "receiver": "LAWWW",
+   "next": "LAWWW 照 AA_685 D-1 改 S.reInvite：回到臺北當天 21:00 約、隔了沒班的週六用日期句（過年加「茶屋過年休息」）；D-2 照現在",
+   "note": "回 BB-C 20:30 兩件 INFO；使用者睡覺中，AA 自己定"
   }
  ],
  "items": [
