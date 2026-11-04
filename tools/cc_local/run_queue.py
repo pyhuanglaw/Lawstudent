@@ -447,6 +447,324 @@ def parse_env(s):
     return d
 
 
+# ================= 失敗自動追蹤（CC_AUTORETRY／CC_TRACE；TEST-TRACE-1104、BB_256）=================
+# 預設關：佇列 ENV 寫 CC_AUTORETRY=1、或 runner 加 --autoretry 才開。關的時候下面的程式一行都不會執行。
+# 出錯一律只寫一行警告、退回舊行為（不讓 runner 當掉）。
+AR_KEEP = ('meta.json', 'running.json', 'notes.txt', 'attempt1', 'attempt2', 'report.json', 'report.md')
+ENV_PATTERNS = [
+    (r'PAGE CRASH', '頁面 renderer 當掉（gpu_wrap 診斷 PAGE CRASH）'),
+    (r'TargetClosedError|Target page, context or browser has been closed|Target closed|Browser has been closed|Browser closed', '瀏覽器／頁面被關掉（Target closed）'),
+    (r"BrowserType\.launch|Executable doesn't exist|Failed to launch|Host system is missing dependencies", 'playwright 啟動瀏覽器失敗'),
+    (r'out of memory|MemoryError|Cannot allocate memory|ENOMEM|OOM', '記憶體不足'),
+    (r"GPU process isn't usable|GPU process exited unexpectedly|Failed to create WebGL|Could not create a WebGL context|Error creating WebGL context|GPU initialization failed", 'GPU 初始化失敗'),
+]
+TB_PATTERNS = [
+    (r'playwright\._impl\._errors\.TimeoutError|playwright\.\w+\.TimeoutError|TimeoutError: [A-Za-z.]+: Timeout \d+ms exceeded', 'playwright 等待逾時（TimeoutError）'),
+    (r'\bKeyError\b', 'KeyError'), (r'\bNameError\b', 'NameError'), (r'\bAttributeError\b', 'AttributeError'),
+    (r'\bTypeError\b', 'TypeError'), (r'\bIndexError\b', 'IndexError'), (r'\bSyntaxError\b', 'SyntaxError'),
+    (r'\bModuleNotFoundError\b|\bImportError\b', 'ImportError'), (r'\bZeroDivisionError\b', 'ZeroDivisionError'),
+]
+TEXT_EXT = ('.log', '.json', '.jsonl', '.txt', '.md')
+
+
+def ar_env_flag(env, key, default=''):
+    return str(env.get(key, os.environ.get(key, default)) or '').strip()
+
+
+def read_text(path, limit=4 * 1024 * 1024):
+    try:
+        with open(path, 'rb') as fh:
+            return fh.read(limit).decode('utf-8', 'replace')
+    except OSError:
+        return ''
+
+
+def read_jsonl(path):
+    out = []
+    for line in read_text(path).splitlines():
+        try:
+            out.append(json.loads(line))
+        except Exception:
+            pass
+    return out
+
+
+def git_blob(path):
+    if not path or not os.path.exists(path):
+        return None
+    try:
+        r = subprocess.run([GIT, 'hash-object', path], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, timeout=30)
+        return r.stdout.strip() or None
+    except Exception:
+        return None
+
+
+def input_hash(envd, xargs):
+    """存檔／種子／輸入＝佇列這一項的 ENV（不含 RERUN、CASES、CC_AUTORETRY 這些只管 runner 的鍵）＋XARGS；CASES 另外列"""
+    keep = {k: v for k, v in envd.items() if k not in ('RERUN', 'CASES', 'CC_AUTORETRY', 'CC_TRACE', 'CC_TRACE_DIR')}
+    s = json.dumps([sorted(keep.items()), xargs], ensure_ascii=False)
+    return hashlib.sha256(s.encode('utf-8')).hexdigest()[:16]
+
+
+class Sanitizer(object):
+    """把本機絕對路徑、使用者名稱、Cookie／Token 換掉（推上 GitHub 之前）"""
+    SECRET = re.compile(r'(?i)\b(authorization|cookie|set-cookie|x-api-key|api[_-]?key|access[_-]?token|token|password)(\s*[:=]\s*)([^\s,;&"\']+)')
+    HDR = re.compile(r'(?i)("name"\s*:\s*"(?:cookie|set-cookie|authorization|proxy-authorization|x-api-key)"\s*,\s*"value"\s*:\s*")[^"]*')
+
+    def __init__(self, paths):
+        pairs = []
+        for p, tok in paths:
+            if p and len(p) >= 4:
+                for v in {p, p.replace('\\', '/'), p.replace('\\', '\\\\'), p.replace('/', '\\')}:
+                    pairs.append((v, tok))
+        pairs.sort(key=lambda x: -len(x[0]))
+        self.pairs = pairs
+        try:
+            import getpass
+            u = getpass.getuser()
+        except Exception:
+            u = ''
+        self.user = u
+        self.user_word = re.compile(r'(?i)(?<![A-Za-z0-9])%s(?![A-Za-z0-9])' % re.escape(u)) if len(u) >= 3 else None
+        self.user_path = re.compile(r'(?i)([\\/]+)%s(?=[\\/"\'\s]|$)' % re.escape(u)) if len(u) >= 3 else None
+
+    def text(self, s, word=True):
+        for p, tok in self.pairs:
+            if p in s:
+                s = s.replace(p, tok)
+        if self.user_path is not None:
+            s = self.user_path.sub(lambda m: m.group(1) + '<USER>', s)
+        if word and self.user_word is not None:
+            s = self.user_word.sub('<USER>', s)
+        s = self.HDR.sub(lambda m: m.group(1) + '<REDACTED>', s)
+        return self.SECRET.sub(lambda m: m.group(1) + m.group(2) + '<REDACTED>', s)
+
+    def hits(self, s):
+        h = [tok for p, tok in self.pairs if p in s]
+        if self.user_path is not None and self.user_path.search(s):
+            h.append('<USER>')
+        if self.SECRET.search(s) and '<REDACTED>' not in self.SECRET.search(s).group(3):
+            h.append('secret')
+        return sorted(set(h))
+
+    def file(self, path):
+        try:
+            with open(path, 'rb') as fh:
+                raw = fh.read()
+            s = raw.decode('utf-8')
+        except Exception:
+            return False
+        t = self.text(s)
+        if t != s:
+            with open(path, 'wb') as fh:
+                fh.write(t.encode('utf-8'))
+            return True
+        return False
+
+    def zipfile(self, path):
+        """trace.zip：文字的 entry（.trace／.network／.stacks／json、html、css、js）改寫；回傳 (改了幾個 entry, 掃描後還留著的命中)"""
+        import zipfile
+        tmp = path + '.san'
+        changed = 0
+        left = []
+        with zipfile.ZipFile(path) as zi, zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zo:
+            for info in zi.infolist():
+                data = zi.read(info.filename)
+                try:
+                    s = data.decode('utf-8')
+                    t = self.text(s, word=False)        # trace 裡只換路徑形式的使用者名稱，不動一般文字（免得弄壞 JSON 鍵）
+                    if t != s:
+                        changed += 1
+                        data = t.encode('utf-8')
+                    hh = self.hits(t)
+                    if hh:
+                        left.append('%s:%s' % (info.filename, ','.join(hh)))
+                except UnicodeDecodeError:
+                    pass
+                zo.writestr(info, data)
+        os.replace(tmp, path)
+        return changed, left
+
+
+HEAVY_EXT = ('.glb', '.gltf', '.bin', '.wrl', '.vrm', '.woff', '.woff2', '.ttf', '.otf', '.ktx2', '.mp3', '.ogg', '.wav', '.mp4', '.webm', '.hdr', '.exr')
+
+
+def slim_zip(path, max_bytes, body_max=512 * 1024):
+    """trace.zip 變小（遊戲 trace 會把 GLB／貼圖／字型的下載內容整包存進去，一份 27～63 MB）：
+    1. resources/ 底下的模型、字型、音效（HEAVY_EXT）和超過 body_max 的回應內容拿掉（Trace Viewer 的 Network 分頁看不到那些內容，時間軸、DOM snapshot、畫面不受影響）。
+    2. 還是超過 max_bytes：畫面截圖（screencast）平均抽掉一部分，trace.trace 裡對應的 screencast-frame 行一起拿掉。
+    回傳 dict（前後大小、拿掉幾個、抽幀間隔）。"""
+    import zipfile
+    st = {'before': os.path.getsize(path), 'dropped_bodies': 0, 'dropped_bytes': 0, 'frame_step': 1, 'frames': 0}
+    with zipfile.ZipFile(path) as zi:
+        infos = zi.infolist()
+        keep = []
+        for i in infos:
+            n = i.filename
+            if n.startswith('resources/') and (n.lower().endswith(HEAVY_EXT) or i.file_size > body_max):
+                st['dropped_bodies'] += 1; st['dropped_bytes'] += i.file_size
+                continue
+            keep.append(i)
+        frames = [i for i in keep if i.filename.startswith('screencast/')]
+        st['frames'] = len(frames)
+        other = sum(i.compress_size for i in keep if not i.filename.startswith('screencast/'))
+        fb = sum(i.compress_size for i in frames)
+        step = 1
+        if other + fb > max_bytes and fb > 0:
+            room = max(max_bytes - other, max_bytes // 4)
+            step = max(1, -(-fb // max(1, room)))
+        st['frame_step'] = step
+        drop_frames = set(i.filename for k, i in enumerate(frames) if step > 1 and k % step)
+        if st['dropped_bodies'] == 0 and not drop_frames:
+            st['after'] = st['before']
+            return st
+        tmp = path + '.slim'
+        with zipfile.ZipFile(tmp, 'w', zipfile.ZIP_DEFLATED) as zo:
+            for i in keep:
+                if i.filename in drop_frames:
+                    continue
+                data = zi.read(i.filename)
+                if drop_frames and i.filename.endswith('.trace'):
+                    out = []
+                    for line in data.decode('utf-8', 'replace').splitlines():
+                        if '"screencast-frame"' in line:
+                            m = re.search(r'"file"\s*:\s*"([^"]+)"', line)
+                            if m and m.group(1) in drop_frames:
+                                continue
+                        out.append(line)
+                    data = ('\n'.join(out) + '\n').encode('utf-8')
+                zo.writestr(i, data)
+    os.replace(tmp, path)
+    st['after'] = os.path.getsize(path)
+    st['frames_kept'] = st['frames'] - len(drop_frames)
+    return st
+
+
+def classify(a1, a2, same, notes):
+    """回傳 (分類, 細項, 依據[])。a1／a2：attempt dict（a2 可能 None）"""
+    basis = []
+
+    def env_hits(a):
+        txt = '\n'.join(x for x in (a['err'] + '\n' + a['run']).splitlines() if not x.startswith('[cc_trace'))   # 追蹤工具自己的警告不算證據
+        out = []
+        for pat, why in ENV_PATTERNS:
+            m = re.search(pat, txt)
+            if m:
+                ln = txt[max(0, txt.rfind('\n', 0, m.start()) + 1): txt.find('\n', m.end()) if txt.find('\n', m.end()) >= 0 else len(txt)]
+                out.append('%s：「%s」' % (why, ln.strip()[:200]))
+        for e in a['events']:
+            if e.get('kind') == 'crash' or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False):
+                out.append('events.jsonl：%s（rel %.1fs）' % (e['kind'], e.get('rel') or 0))
+        return out
+
+    def fail_before_env(a):
+        """有沒有 FAIL 行比第一次 crash／斷線更早（events.jsonl 的時間）"""
+        tc = [e.get('t') for e in a['events'] if e.get('kind') == 'crash' or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False)]
+        tf = [e.get('t') for e in a['events'] if e.get('kind') == 'fail_line']
+        if tc:
+            return bool(tf) and min(tf) < min(tc)
+        return bool(a['fails'])   # 沒有時間資訊（第一次沒開 trace）：有 FAIL 行就當作先 FAIL
+
+    def game_errors(a):
+        ev = [e for e in a['events'] if e.get('kind') == 'pageerror' and '__playwright_evaluation_script__' not in (e.get('stack') or '')]
+        if ev or a['events']:
+            return ev     # 有 events.jsonl（開了 trace）：以它為準；gpu_wrap 的診斷行是同一批，不重複算
+        return [{'kind': 'pageerror(gpu_wrap)', 'message': x} for x in re.findall(r'\] pageerror (.*)', a['err'])]
+
+    def ltes(a):
+        out = []
+        for st in a['states']:
+            for pg in st.get('pages', []):
+                s = pg.get('state') or {}
+                v = s.get('lastTalkError') or ((s.get('snapshot') or {}).get('lastTalkError') if isinstance(s.get('snapshot'), dict) else None)
+                if v:
+                    out.append(v)
+        return out
+
+    def tb_hits(a):
+        if 'Traceback (most recent call last)' not in a['err']:
+            return []
+        tb = a['err'][a['err'].rfind('Traceback (most recent call last)'):]
+        out = []
+        for pat, why in TB_PATTERNS:
+            if re.search(pat, tb):
+                out.append(why)
+        return out, tb
+
+    def tb_detail(tb):
+        lines = [x for x in tb.splitlines() if x.strip()]
+        frames = [x.strip() for x in lines if x.strip().startswith('File ')]
+        exc = [x.strip() for x in lines if re.match(r'^[A-Za-z_][\w.]*(Error|Exception|Exit)\b', x.strip())]
+        last = exc[-1] if exc else (lines[-1].strip() if lines else '')
+        sel = re.search(r'waiting for (?:locator\()?["\']([^"\']+)["\']', tb) or re.search(r'wait_for_selector\(\s*["\']([^"\']+)', tb)
+        probe_frames = [f for f in frames if 'site-packages' not in f and 'dist-packages' not in f and 'playwright' not in f and 'gpu_wrap' not in f and 'runpy' not in f and 'cc_trace' not in f]
+        return last[:300], (sel.group(1) if sel else None), (probe_frames[-1][:300] if probe_frames else None)
+
+    # --- runner 自己的例外（沒跑到探針）
+    if a1.get('runner_error'):
+        e = a1['runner_error']
+        if re.search(r'worktree add|no free port|server|node not found|blender not found', e):
+            return 'ENVIRONMENT', 'runner', ['runner 例外（沒跑到探針）：%s' % e[:300]]
+        if re.search(r'SCRIPT_FROM|unknown kind', e):
+            return 'TEST_BUG', 'queue', ['佇列設定錯誤：%s' % e[:300]]
+        return 'UNKNOWN', 'runner', ['runner 例外，分不出原因：%s' % e[:300]]
+    # --- 重跑通過
+    if a2 is not None and a2['exit'] == 0 and not a2['timeout']:
+        if same['all']:
+            return 'FLAKY', '首次失敗、重跑通過', ['第一次 %s，重跑 exit 0；兩次的遊戲 SHA、腳本 blob、輸入雜湊都相同（見 conditions）' %
+                                             ('逾時' if a1['timeout'] else 'exit %s' % a1['exit'])] + notes
+        return 'UNKNOWN', '重跑通過但條件不同', ['重跑 exit 0，但兩次條件不同：%s，不能判 FLAKY' % '、'.join(same['diff'])] + notes
+    last = a2 if a2 is not None else a1
+    # --- 逾時（兩次都逾時、或沒重跑）
+    if last['timeout']:
+        eh = env_hits(a1) + (env_hits(a2) if a2 else [])
+        if eh:
+            return 'TIMEOUT', 'ENVIRONMENT', ['逾時被 runner 中止；另有環境訊號：' + '；'.join(eh[:4])] + notes
+        return 'TIMEOUT', 'UNKNOWN', ['逾時被 runner 中止（%s）；沒有環境訊號、沒有 traceback 可以判斷——只憑逾時不判 GAME_BUG' % last['error']] + notes
+    # --- 都 FAIL：以有 trace 的那一次為主，第一次的 log 也看
+    eh = env_hits(last)
+    if eh and not fail_before_env(last):
+        return 'ENVIRONMENT', 'browser', eh[:5] + ['在 crash／斷線之前沒有探針的 FAIL 行'] + notes
+    ge = game_errors(last)
+    lt = ltes(last)
+    tbr = tb_hits(last)
+    tbh, tb = (tbr if tbr else ([], ''))
+    if last['fails'] and (ge or lt):
+        b = ['探針斷言 FAIL %d 行（第一行：%s）' % (len(last['fails']), last['fails'][0]['name'][:120])]
+        if ge:
+            g = ge[0]
+            b.append('遊戲頁面 pageerror %d 筆，第一筆：%s %s' % (len(ge), g.get('name') or '', (g.get('message') or '')[:200]))
+            if g.get('stack'):
+                b.append('stack 第一行：%s' % (g['stack'].strip().splitlines()[1:2] or [''])[0].strip()[:200])
+        if lt:
+            b.append('GAME.lastTalkError：%s' % json.dumps(lt[0], ensure_ascii=False)[:200])
+        if tbh:
+            b.append('另有探針 traceback（%s），要一起看' % '、'.join(tbh))
+        if eh:
+            b.append('另有環境訊號（但在 FAIL 之後）：' + '；'.join(eh[:2]))
+        return 'GAME_BUG', '初判', b + notes
+    if tbh and not ge:
+        lastl, sel, frame = tb_detail(tb)
+        b = ['探針 Python traceback：%s' % lastl, '原因類型：%s' % '、'.join(tbh)]
+        if frame:
+            b.append('探針出錯的位置：%s' % frame)
+        if sel:
+            b.append('等待的 selector：%s' % sel)
+            dom = last.get('dom_check', {}).get(sel)
+            if dom is not None:
+                b.append('trace 的 DOM snapshot 裡%s這個 selector（%s）' % ('有' if dom else '沒有', '只檢查 #id 形式'))
+        b.append('遊戲頁面沒有 pageerror')
+        return 'TEST_BUG', '初判', b + notes
+    if eh:
+        return 'UNKNOWN', 'env-after-fail', ['有環境訊號，但探針在那之前已經 FAIL：' + '；'.join(eh[:3])] + notes
+    if last['fails']:
+        return 'UNKNOWN', 'assert', ['探針斷言 FAIL %d 行（%s），兩次%s；沒有 JS 例外、沒有 traceback、沒有環境訊號——要看預期／實際判斷是遊戲還是探針' %
+                                     (len(last['fails']), last['fails'][0]['name'][:120], '一致' if (a2 and [f['name'] for f in a1['fails']] == [f['name'] for f in a2['fails']]) else '的 FAIL 行不同或只跑一次')] + notes
+    if ge:
+        return 'UNKNOWN', 'jserror-no-assert', ['有遊戲 pageerror 但探針沒有 FAIL 斷言（exit %s）：%s' % (last['exit'], (ge[0].get('message') or '')[:200])] + notes
+    return 'UNKNOWN', '', ['exit %s，沒有 FAIL 行、traceback、JS 例外或環境訊號可以判斷' % last['exit']] + notes
+
+
 class Item(object):
     def __init__(self, f):
         self.id, self.sha, self.kind, self.script, self.url = f[0], f[1], f[2], f[3], f[4]
@@ -746,6 +1064,12 @@ class Runner(object):
         srv = srv2 = p = None
         ports = []
         log('==== START %s  (%s @ %s) ====' % (it.id, it.kind, sha))
+        ar_on = self.autoretry_on(it)
+        if ar_on:
+            try:
+                self.ar_clean(od)
+            except Exception as e:
+                log('WARNING autoretry clean failed for %s: %r' % (it.id, e))
         running_f = os.path.join(od, 'running.json')   # BB 11-03：被打斷的項目要記下來（中斷時間、跑到哪）；正常結束會刪掉
         try:
             with open(running_f, 'w', encoding='utf-8') as fh:
@@ -809,6 +1133,8 @@ class Runner(object):
                 env.setdefault('CC_BLENDER_THREADS', str(blender_threads()))
                 meta['blender_threads'] = env['CC_BLENDER_THREADS']
             cmd, cwd = self.build_cmd(it, wt, od, url, url2, env)
+            if ar_on:
+                it._t_proc = time.time()
             with open(os.path.join(od, 'run.log'), 'wb') as fo, open(os.path.join(od, 'err.log'), 'wb') as fe:
                 p = subprocess.Popen(cmd, cwd=cwd, env=env, stdout=fo, stderr=fe, stdin=subprocess.DEVNULL, **popen_flags())
                 try:
@@ -817,6 +1143,11 @@ class Runner(object):
                     kill_tree(p)
                     meta['error'] = 'timeout %d min' % it.tmin
             meta['exit'] = p.returncode
+            if ar_on:
+                try:
+                    self.ar_retry(it, meta, od, wt, url, url2, env, cmd)
+                except Exception as e:      # 新功能出錯：退回舊行為（第一次的結果照記）
+                    log('WARNING autoretry failed for %s (old behaviour kept): %r' % (it.id, e))
         except Exception as e:
             meta['error'] = str(e)
             log('ERROR %s : %s' % (it.id, e))
@@ -843,12 +1174,319 @@ class Runner(object):
             pass
         meta['end'] = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
         meta['seconds'] = int(round(time.time() - t0))
+        if ar_on:
+            try:
+                self.ar_report(it, meta, od)
+            except Exception as e:
+                log('WARNING autoretry report failed for %s (old behaviour kept): %r' % (it.id, e))
         with open(os.path.join(od, 'meta.json'), 'w', encoding='utf-8') as fh:
             json.dump(meta, fh, ensure_ascii=False, indent=2)
         lines = self.summary_lines(it, meta, od)
         self.commit(it, meta, od, lines)
         log('==== END   %s  exit=%s  %ss  %s ====' % (it.id, meta['exit'], meta['seconds'], meta['error'] or ''))
         return meta
+
+    # ---------- 失敗自動追蹤（CC_AUTORETRY） ----------
+    def autoretry_on(self, it):
+        try:
+            return bool(getattr(self.a, 'autoretry', False)) or str(it.envd.get('CC_AUTORETRY', os.environ.get('CC_AUTORETRY', ''))).strip() == '1'
+        except Exception:
+            return False
+
+    @staticmethod
+    def script_of(it, cmd):
+        want = it.script.replace('\\', '/')
+        for x in cmd or []:
+            if isinstance(x, str) and x.replace('\\', '/').endswith(want):
+                return x
+        return None
+
+    def ar_clean(self, od):
+        """開這一項之前：刪掉上一次（舊 RERUN）留下的 attempt1／attempt2／report"""
+        for n in ('attempt1', 'attempt2'):
+            shutil.rmtree(os.path.join(od, n), ignore_errors=True)
+        for n in ('report.json', 'report.md', 'notes.txt'):
+            try:
+                os.remove(os.path.join(od, n))
+            except OSError:
+                pass
+
+    def ar_cases(self, it, script, run_log, env):
+        """有 CASES 的探針：第一次 run.log 照「== X」段落找出 FAIL 屬於哪些 CASE。回傳 (cases 字串或 None, 說明)"""
+        src = read_text(script) if script else ''
+        if not re.search(r"environ\.get\(\s*['\"]CASES['\"]", src):
+            return None, '探針不支援 CASES 環境變數：整支重跑'
+        valid = [c.strip() for c in str(env.get('CASES', '')).split(',') if c.strip()]
+        if not valid:
+            m = re.search(r"environ\.get\(\s*['\"]CASES['\"]\s*\)\s*or\s*['\"]([^'\"]+)['\"]", src)
+            valid = [c.strip() for c in (m.group(1) if m else '').split(',') if c.strip()]
+        if not valid:
+            return None, '找不到這支探針的 CASES 清單：整支重跑'
+        cur, failed, orphan = None, [], []
+        for line in run_log.splitlines():
+            m = re.match(r'^== (?:case )?([A-Za-z0-9_]+)', line)
+            if m:
+                cur = m.group(1) if m.group(1) in valid else '?' + m.group(1)
+                continue
+            if line.startswith('FAIL'):
+                if cur is None or cur.startswith('?'):
+                    orphan.append(line[:120])
+                elif cur not in failed:
+                    failed.append(cur)
+        if orphan:
+            return None, 'FAIL 行不在任何已知 CASE 段落裡（例：%s）：整支重跑' % orphan[0]
+        if not failed:
+            return None, '第一次沒有可以歸到 CASE 的 FAIL 行（exit≠0 但沒有 FAIL，或逾時）：整支重跑'
+        if sorted(failed) == sorted(valid):
+            return None, '所有 CASE（%s）都有 FAIL：整支重跑' % ','.join(valid)
+        return ','.join(failed), '只重跑 FAIL 的 CASE %s（第一次跑了 %s；前置操作照探針原樣做）' % (','.join(failed), ','.join(valid))
+
+    def ar_retry(self, it, meta, od, wt, url, url2, env, cmd1):
+        """第一次跑完（還在 try 裡、worktree 和 server 都還在）：FAIL 就把第一次的輸出搬到 attempt1/，開 trace 重跑一次到 attempt2/"""
+        ar = {'on': True, 'a1': {'exit': meta['exit'], 'error': meta['error'], 'timeout': bool(meta['error'] and str(meta['error']).startswith('timeout')),
+                                 'blob': git_blob(self.script_of(it, cmd1)), 'input': input_hash({k: env.get(k) for k in it.envd}, it.envd.get('XARGS', '').strip()),
+                                 'cases': str(env.get('CASES', '') or '(探針預設)'), 'seconds': int(round(time.time() - it._t_proc)) if hasattr(it, '_t_proc') else None},
+              'a2': None, 'notes': [], 'script_path': self.script_of(it, cmd1)}
+        it._ar = ar
+        meta['attempt'] = 1
+        a1 = ar['a1']
+        if a1['exit'] == 0 and not a1['error']:
+            meta['final'] = 'PASS'
+            return
+        if a1['timeout']:
+            try:
+                lim = float(ar_env_flag(it.envd, 'CC_RETRY_MAX_MIN', '20') or 20)
+            except ValueError:
+                lim = 20
+            if ar_env_flag(it.envd, 'CC_RETRY_TIMEOUT') != '1' or it.tmin > lim:
+                ar['notes'].append('逾時不重跑（預設；要重跑：ENV CC_RETRY_TIMEOUT=1，而且逾時 ≤ CC_RETRY_MAX_MIN=%g 分）' % lim)
+                return
+        a1dir = os.path.join(od, 'attempt1')
+        os.makedirs(a1dir, exist_ok=True)
+        for n in os.listdir(od):
+            if n in AR_KEEP:
+                continue
+            try:
+                shutil.move(os.path.join(od, n), os.path.join(a1dir, n))
+            except Exception as e:
+                ar['notes'].append('第一次的 %s 沒搬到 attempt1：%r' % (n, e))
+        od2 = os.path.join(od, 'attempt2')
+        tdir = os.path.join(od2, 'trace')
+        os.makedirs(tdir, exist_ok=True)
+        env2 = dict(env)
+        env2['CC_TRACE'] = '1'
+        env2['CC_TRACE_DIR'] = tdir
+        cases, why = self.ar_cases(it, ar['script_path'], read_text(os.path.join(a1dir, 'run.log')), env)
+        ar['scope'] = why
+        if cases:
+            env2['CASES'] = cases
+        cmd2, cwd2 = self.build_cmd(it, wt, od2, url, url2, env2)
+        a2 = {'exit': None, 'error': None, 'timeout': False, 'blob': git_blob(self.script_of(it, cmd2)),
+              'input': input_hash({k: env2.get(k) for k in it.envd}, it.envd.get('XARGS', '').strip()), 'cases': cases or str(env.get('CASES', '') or '(探針預設)')}
+        ar['a2'] = a2
+        log('AUTORETRY %s: first run %s - rerun once with trace (%s)' % (it.id, ('timeout' if a1['timeout'] else 'exit %s' % a1['exit']), 'CASES=' + cases if cases else 'whole probe'))
+        t2 = time.time()
+        p2 = None
+        try:
+            with open(os.path.join(od2, 'run.log'), 'wb') as fo, open(os.path.join(od2, 'err.log'), 'wb') as fe:
+                p2 = subprocess.Popen(cmd2, cwd=cwd2, env=env2, stdout=fo, stderr=fe, stdin=subprocess.DEVNULL, **popen_flags())
+                try:
+                    p2.wait(it.tmin * 60)
+                except subprocess.TimeoutExpired:
+                    kill_tree(p2)
+                    a2['error'] = 'timeout %d min' % it.tmin
+                    a2['timeout'] = True
+            a2['exit'] = p2.returncode
+        finally:
+            if p2 is not None and p2.poll() is None:
+                kill_tree(p2)
+        a2['seconds'] = int(round(time.time() - t2))
+        meta['attempt'] = 2
+        meta['exit2'] = a2['exit']
+        if a2['error']:
+            meta['error2'] = a2['error']
+
+    def ar_attempt(self, od, sub, rec):
+        d = os.path.join(od, sub) if sub else od
+        run = read_text(os.path.join(d, 'run.log'))
+        fails = []
+        for line in run.splitlines():
+            if line.startswith('FAIL ') or line.startswith('FAILED'):
+                if line.startswith('FAILED'):
+                    continue
+                body = line[5:]
+                name, _, info = body.partition('  ')
+                fails.append({'line': line[:300], 'name': name[:300], 'info': info.strip()[:300]})
+        tdir = os.path.join(d, 'trace')
+        states = []
+        for f in sorted(glob.glob(os.path.join(tdir, 'state_*.json'))):
+            try:
+                with open(f, encoding='utf-8') as fh:
+                    states.append(json.load(fh))
+            except Exception:
+                pass
+        envj = {}
+        try:
+            with open(os.path.join(tdir, 'env.json'), encoding='utf-8') as fh:
+                envj = json.load(fh)
+        except Exception:
+            pass
+        a = dict(rec or {})
+        a.update({'run': run, 'err': read_text(os.path.join(d, 'err.log')), 'fails': fails,
+                  'events': read_jsonl(os.path.join(tdir, 'events.jsonl')), 'states': states, 'envj': envj, 'dir': d})
+        return a
+
+    def ar_dom_check(self, a, tb):
+        """TEST_BUG 的佐證：等待的 #id selector 在 trace 的 DOM snapshot 裡有沒有出現"""
+        out = {}
+        try:
+            import zipfile
+            m = re.search(r'waiting for (?:locator\()?["\']([^"\']+)["\']', tb or '')
+            if not m or not re.fullmatch(r'#[A-Za-z][\w-]*', m.group(1)):
+                return out
+            sel = m.group(1)
+            needle = '"id":"%s"' % sel[1:]
+            found = False
+            for z in glob.glob(os.path.join(a['dir'], 'trace', '*.zip')):
+                with zipfile.ZipFile(z) as zi:
+                    for n in zi.namelist():
+                        if n.endswith('.trace') and needle in zi.read(n).decode('utf-8', 'replace'):
+                            found = True
+            out[sel] = found
+        except Exception as e:
+            log('autoretry dom check skipped: %r' % (e,))
+        return out
+
+    def ar_report(self, it, meta, od):
+        """（finally 之後、寫 meta.json 之前）分類、寫 report.json／report.md、清本機資訊；PASS 只加 attempt／final"""
+        ar = getattr(it, '_ar', None)
+        if ar is None:       # 沒跑到探針（runner 例外）
+            ar = {'a1': {'exit': meta['exit'], 'error': meta['error'], 'timeout': False, 'runner_error': meta['error'], 'blob': None,
+                         'input': input_hash(it.envd, it.envd.get('XARGS', '').strip()), 'cases': None}, 'a2': None, 'notes': [], 'scope': None}
+            meta['attempt'] = 1
+        if meta.get('final') == 'PASS':
+            return
+        two = ar['a2'] is not None
+        a1 = self.ar_attempt(od, 'attempt1' if two else '', ar['a1'])
+        a2 = self.ar_attempt(od, 'attempt2', ar['a2']) if two else None
+        if a2 is not None:
+            a2['dom_check'] = self.ar_dom_check(a2, a2['err'][a2['err'].rfind('Traceback'):] if 'Traceback' in a2['err'] else '')
+        cond = {'game_sha': [meta['sha'], meta['sha'] if two else None],
+                'script_blob': [a1.get('blob'), a2.get('blob') if a2 else None],
+                'input_hash': [a1.get('input'), a2.get('input') if a2 else None],
+                'cases': [a1.get('cases'), a2.get('cases') if a2 else None]}
+        diff = []
+        if two:
+            if cond['script_blob'][0] != cond['script_blob'][1] or not cond['script_blob'][0]:
+                diff.append('腳本 blob 不同或讀不到')
+            if cond['input_hash'][0] != cond['input_hash'][1]:
+                diff.append('輸入雜湊不同')
+            c1, c2 = a1.get('cases') or '', a2.get('cases') or ''
+            if c1 != c2 and not (ar.get('scope') or '').startswith('只重跑'):
+                diff.append('CASES 不同（%s → %s）' % (c1, c2))
+        same = {'all': two and not diff, 'diff': diff}
+        notes = list(ar.get('notes') or [])
+        try:
+            cls, sub, basis = classify(a1, a2, same, notes)
+        except Exception as e:
+            cls, sub, basis = 'UNKNOWN', 'classify-error', ['分類程式出錯：%r' % (e,)]
+        final = {'FLAKY': 'FLAKY'}.get(cls, 'TIMEOUT' if (a2 or a1)['timeout'] else ('ERROR' if a1.get('runner_error') else 'FAIL'))
+        meta['final'] = final
+        meta['class'] = cls if not sub else '%s/%s' % (cls, sub)
+        meta['class_basis'] = basis[:3]
+        meta['report'] = 'report.json'
+        # 證據：PASS（重跑通過）不留 trace zip
+        last = a2 if a2 is not None else a1
+        if cls == 'FLAKY':
+            for z in glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')):
+                try:
+                    os.remove(z)
+                except OSError:
+                    pass
+            notes.append('重跑 PASS：照規則刪掉 attempt2 的 trace.zip（events／state／env 保留）')
+        san = Sanitizer([(self.work, '<REPO>'), (self.repo, '<REPO_MAIN>'), (self.wtroot, '<WTROOT>'),
+                         (os.path.expanduser('~'), '<HOME>'), (__import__('tempfile').gettempdir(), '<TMP>')])
+        try:
+            max_mb = float(ar_env_flag(it.envd, 'CC_TRACE_MAX_MB', '20') or 20)
+        except ValueError:
+            max_mb = 20.0
+        scan = {'text_files_rewritten': [], 'zip_entries_rewritten': 0, 'left_hits': []}
+        for sub_d in ('attempt1', 'attempt2'):
+            for dp, _, fs in os.walk(os.path.join(od, sub_d)):
+                for f in fs:
+                    fp = os.path.join(dp, f)
+                    if f.lower().endswith(TEXT_EXT):
+                        if san.file(fp):
+                            scan['text_files_rewritten'].append(os.path.relpath(fp, od).replace('\\', '/'))
+                        hh = san.hits(read_text(fp))
+                        if hh:
+                            scan['left_hits'].append('%s:%s' % (os.path.relpath(fp, od), ','.join(hh)))
+                    elif f.lower().endswith('.zip'):
+                        try:
+                            if ar_env_flag(it.envd, 'CC_TRACE_KEEP_BODIES') != '1':
+                                scan.setdefault('slim', {})[os.path.relpath(fp, od).replace('\\', '/')] = slim_zip(fp, int(max_mb * 1024 * 1024))
+                            n, left = san.zipfile(fp)
+                            scan['zip_entries_rewritten'] += n
+                            scan['left_hits'] += ['%s!%s' % (os.path.relpath(fp, od), x) for x in left]
+                        except Exception as e:
+                            scan['left_hits'].append('%s: zip not scanned %r' % (f, e))
+
+        def rel(p):
+            return os.path.relpath(p, od).replace('\\', '/')
+        shots = sorted(rel(os.path.join(dp, f)) for dp, _, fs in os.walk(od) for f in fs if f.lower().endswith(('.png', '.jpg', '.webp')))
+        traces = [{'path': rel(z), 'bytes': os.path.getsize(z), 'push': os.path.getsize(z) <= max_mb * 1024 * 1024}
+                  for z in sorted(glob.glob(os.path.join(od, 'attempt2', 'trace', '*.zip')))]
+        js = []
+        for e in last['events']:
+            if e.get('kind') in ('pageerror', 'console', 'requestfailed', 'crash') or (e.get('kind') == 'browser_disconnected' and e.get('expected') is False):
+                js.append({k: e.get(k) for k in ('rel', 'kind', 'ctx', 'page', 'level', 'name', 'message', 'text', 'stack', 'url', 'failure') if e.get(k) is not None})
+        js_wrap = re.findall(r'\[gpu_wrap [^\]]*\] (pageerror .*|PAGE CRASH.*|BROWSER DISCONNECTED.*)', a1['err'] + (a2['err'] if a2 else ''))
+        url = meta.get('url', '')
+        allrun = a1['run'] + (a2['run'] if a2 else '')
+        setups = [x.strip()[:200] for x in allrun.splitlines() if '前置／捷徑' in x]
+        state_view = []
+        for st in last['states']:
+            for pg in st.get('pages', []):
+                state_view.append({'ctx_why': st.get('why'), 'page': pg.get('page'), 'state': pg.get('state'), 'error': pg.get('error'), 'closed': pg.get('closed')})
+        rc_cc, cc_sha = git('-C', self.repo, 'rev-parse', '--short', 'origin/' + CC_BRANCH, capture=True)   # 腳本版本＝runner 合併進來的 cc-testing
+        rep = OrderedDict([
+            ('id', it.id), ('sha', meta['sha']), ('kind', it.kind), ('script', it.script), ('script_from', it.envd.get('SCRIPT_FROM') or None),
+            ('script_blob', cond['script_blob']), ('cc_testing_sha', cc_sha.strip() if rc_cc == 0 else None), ('runner', self.self_hash[:10]),
+            ('final', final), ('class', cls), ('class_sub', sub), ('basis', basis),
+            ('conditions', OrderedDict([('same', same['all']), ('diff', diff), ('game_sha', cond['game_sha']), ('script_blob', cond['script_blob']),
+                                        ('input_hash', cond['input_hash']), ('cases', cond['cases'])])),
+            ('rerun_scope', ar.get('scope')),
+            ('attempts', [OrderedDict([('n', i + 1), ('exit', a.get('exit')), ('error', a.get('error')), ('timeout', a.get('timeout')), ('seconds', a.get('seconds')),
+                                       ('fails', a['fails'][:40]), ('dir', rel(a['dir']) if a['dir'] != od else '.'),
+                                       ('run_tail', [x[:300] for x in a['run'].splitlines()[-8:]]), ('err_tail', [x[:300] for x in a['err'].splitlines()[-12:]])])
+                          for i, a in enumerate([x for x in (a1, a2) if x is not None])]),
+            ('js_errors', js[:40]), ('js_errors_gpu_wrap', [x[:300] for x in js_wrap[:20]]),
+            ('state', state_view),
+            ('env', OrderedDict([('browser', last['envj'].get('browser')), ('playwright', last['envj'].get('playwright')),
+                                 ('gpu_renderer', last['envj'].get('gpu_renderer')), ('headless', last['envj'].get('headless')),
+                                 ('os', last['envj'].get('os')), ('cc_gpu', last['envj'].get('cc_gpu')), ('slot', getattr(it, 'slot', None))])),
+            ('shortcuts', OrderedDict([('turbo', 'turbo' in url), ('url', san.text(url)), ('setup_lines', len(setups)), ('setup_first', setups[:6]),
+                                       ('load_save', sum(1 for x in setups if '讀檔' in x))])),
+            ('screenshots', shots[:80]), ('traces', traces), ('sanitize', scan), ('notes', notes),
+            ('show_trace', 'python -m playwright show-trace <trace.zip>（或拖到 https://trace.playwright.dev）'),
+        ])
+        rep = json.loads(san.text(json.dumps(rep, ensure_ascii=False)))
+        with open(os.path.join(od, 'report.json'), 'w', encoding='utf-8') as fh:
+            json.dump(rep, fh, ensure_ascii=False, indent=2)
+        md = ['# %s：%s（%s）' % (it.id, final, meta['class']), '',
+              '- SHA %s，腳本 %s（blob %s）' % (meta['sha'], it.script, ' / '.join(str(x) for x in cond['script_blob'])),
+              '- 兩次條件相同：%s %s' % (same['all'], ('（' + '、'.join(diff) + '）') if diff else ''),
+              '- 重跑範圍：%s' % (ar.get('scope') or '沒有重跑'), '', '## 判斷依據'] + ['- ' + b for b in basis] + ['', '## 每一次']
+        for a in rep['attempts']:
+            md.append('- 第 %s 次：exit %s %s，%s 秒，FAIL %d 行' % (a['n'], a['exit'], a['error'] or '', a['seconds'], len(a['fails'])))
+            md += ['  - `%s`' % f['line'] for f in a['fails'][:10]]
+        md += ['', '## JS／console 錯誤'] + ['- %s %s' % (e.get('kind'), (e.get('message') or e.get('text') or e.get('failure') or '')[:200]) for e in js[:15]]
+        md += ['', '## 遊戲狀態'] + ['- ```%s```' % json.dumps(s.get('state'), ensure_ascii=False)[:600] for s in state_view[:3]]
+        md += ['', '## 檔案'] + ['- trace `%s`（%d bytes%s）' % (t['path'], t['bytes'], '' if t['push'] else '，超過上限不推') for t in traces] + ['- 截圖 `%s`' % s for s in shots[:20]]
+        md += ['', '- 捷徑：turbo=%s，[前置／捷徑] %d 行（讀檔 %d）' % (rep['shortcuts']['turbo'], len(setups), rep['shortcuts']['load_save'])]
+        with open(os.path.join(od, 'report.md'), 'w', encoding='utf-8') as fh:
+            fh.write('\n'.join(md) + '\n')
+        log('AUTORETRY %s: final %s  class %s' % (it.id, final, meta['class']))
 
     @staticmethod
     def tail(path, n):
@@ -858,12 +1496,19 @@ class Runner(object):
             return [x.rstrip('\r\n') for x in fh.readlines()[-n:]]
 
     def summary_lines(self, it, meta, od):
-        tail = ' / '.join(self.tail(os.path.join(od, 'run.log'), 3))
+        rl = os.path.join(od, 'run.log')
+        if not os.path.exists(rl) and os.path.exists(os.path.join(od, 'attempt2', 'run.log')):   # CC_AUTORETRY 重跑過：第一次的搬到 attempt1/
+            rl = os.path.join(od, 'attempt2', 'run.log')
+        tail = ' / '.join(self.tail(rl, 3))
         lines = ['%s  sha=%s  exit=%s  %ss  %s  %s' % (it.id, meta['sha'], '' if meta['exit'] is None else meta['exit'],
                                                       meta['seconds'], meta['error'] or '', tail)]
         el = os.path.join(od, 'err.log')
+        if not os.path.exists(el) and os.path.exists(os.path.join(od, 'attempt2', 'err.log')):
+            el = os.path.join(od, 'attempt2', 'err.log')
         if os.path.exists(el) and os.path.getsize(el) > 0:
             lines.append('    err.log (last 5): ' + ' | '.join(self.tail(el, 5)))
+        if meta.get('final') and meta.get('final') != 'PASS':
+            lines.append('    autoretry: final %s  class %s  exit2 %s' % (meta.get('final'), meta.get('class'), meta.get('exit2')))
         return lines
 
     # ---------- 5. commit＋push（一把鎖，序列化） ----------
@@ -882,8 +1527,9 @@ class Runner(object):
             skipped = 0
             add = []
             big = []
+            traces = [f for f in files if f.lower().endswith('.zip') and (os.sep + 'attempt2' + os.sep + 'trace' + os.sep) in f]   # CC_AUTORETRY 的 trace（沒開時沒有這種檔）
             for f in files:
-                if f.lower().endswith('.png'):
+                if f.lower().endswith('.png') or f in traces:
                     continue
                 if os.path.getsize(f) > BIG_CAP:   # BB 13:30：超過 50 MB 的不推，只記路徑和大小
                     big.append(f)
@@ -909,6 +1555,27 @@ class Runner(object):
                     fh.write('screenshots not pushed (over 25 MB): %d\n' % skipped)
                 if nf not in add:
                     add.append(nf)
+            if traces:
+                try:
+                    tmax = float(it.envd.get('CC_TRACE_MAX_MB') or os.environ.get('CC_TRACE_MAX_MB') or 20) * 1024 * 1024
+                except ValueError:
+                    tmax = 20 * 1024 * 1024
+                tnotes = []
+                for f in sorted(traces):
+                    sz = os.path.getsize(f)
+                    if sz > tmax:
+                        tnotes.append('trace not pushed (over %d MB): %s  %d bytes' % (tmax // 1048576, os.path.relpath(f, od), sz))
+                    elif acc + sz > PNG_CAP:
+                        tnotes.append('trace not pushed (item over 25 MB with screenshots): %s  %d bytes' % (os.path.relpath(f, od), sz))
+                    else:
+                        acc += sz
+                        add.append(f)
+                if tnotes:
+                    nf = os.path.join(od, 'notes.txt')
+                    with open(nf, 'a', encoding='utf-8') as fh:
+                        fh.write('\n'.join(tnotes) + '\n')
+                    if nf not in add:
+                        add.append(nf)
             # 先把索引清空（不動檔案）：舊 runner 中斷時可能留下已 git add 但沒 commit 的檔（BB 20:21：R8_y4s2rt／02_mk12），不能被這一筆帶進去
             git('-C', self.work, 'reset', '-q', quiet=True)
             for i in range(0, len(add), 50):
@@ -1172,6 +1839,7 @@ def parse_args(argv):
     ap.add_argument('--queue', default=None)
     ap.add_argument('--branch-local', default='claude/cc-local')
     ap.add_argument('--headless', action='store_true', help='no browser windows (default: visible windows on Windows / when DISPLAY is set)')
+    ap.add_argument('--autoretry', action='store_true', help='CC_AUTORETRY for every item: a failed item reruns once with Playwright trace (see README)')
     a = ap.parse_args(argv)
     if not a.repo:
         ap.error('--repo is required on this platform')

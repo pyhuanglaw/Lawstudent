@@ -113,6 +113,7 @@ class Tracer(object):
                     'cc_gpu': os.environ.get('CC_GPU'), 'cc_browser': os.environ.get('CC_BROWSER') or 'chromium',
                     'trace_max_mb': MAX_MB, 'traces': [], 'states': [], 'end': None}
         self.finished = False
+        self.closing = False     # 探針自己關瀏覽器（browser.close／playwright 結束）之後的斷線＝正常，不算環境問題
         self.write_env()
 
     @staticmethod
@@ -145,7 +146,7 @@ class Tracer(object):
             self.env['browser'].append(browser.version)
             self.env['headless'].append(kw.get('headless', True))
             self.write_env()
-            browser.on('disconnected', lambda *_: self.event('browser_disconnected'))
+            browser.on('disconnected', lambda *_: self.event('browser_disconnected', expected=self.closing))
         except Exception as e:
             _warn('on_launch: %r' % (e,))
 
@@ -406,7 +407,7 @@ def install():
     AC.close = ctx_close
     a_bc = AB.close
     async def br_close(self, *a, **kw):
-        await tr.a_flush_all('browser.close', list(self.contexts)); return await a_bc(self, *a, **kw)
+        await tr.a_flush_all('browser.close', list(self.contexts)); tr.closing = True; return await a_bc(self, *a, **kw)
     AB.close = br_close
     s_cc = SC.close
     def sctx_close(self, *a, **kw):
@@ -414,7 +415,7 @@ def install():
     SC.close = sctx_close
     s_bc = SB.close
     def sbr_close(self, *a, **kw):
-        tr.s_flush_all('browser.close', list(self.contexts)); return s_bc(self, *a, **kw)
+        tr.s_flush_all('browser.close', list(self.contexts)); tr.closing = True; return s_bc(self, *a, **kw)
     SB.close = sbr_close
 
     # async_playwright()／sync_playwright() 結束（探針在 async with 裡 sys.exit、或沒關瀏覽器）
@@ -424,6 +425,7 @@ def install():
             await tr.a_flush_all('playwright exit%s' % (' (%s)' % a[0].__name__ if a and a[0] else ''))
         except Exception as e:
             _warn('aexit flush: %r' % (e,))
+        tr.closing = True
         return await a_exit(self, *a)
     acm.PlaywrightContextManager.__aexit__ = aexit
     s_exit = scm.PlaywrightContextManager.__exit__
@@ -432,6 +434,7 @@ def install():
             tr.s_flush_all('playwright exit%s' % (' (%s)' % a[0].__name__ if a and a[0] else ''))
         except Exception as e:
             _warn('exit flush: %r' % (e,))
+        tr.closing = True
         return s_exit(self, *a)
     scm.PlaywrightContextManager.__exit__ = sexit
 
