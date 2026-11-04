@@ -176,6 +176,8 @@ const ASSETS = (function(){
     'bldg.us_asian_market':{url:'assets/models/env/second_ai/us_asian_market.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_asian_market.py（美國交換：大超市對面的小亞洲超市「竹葉亞洲超市」室內；店名、商品包裝虛構；配置 us_asian_market.layout.json；LAWWW2-C，使用者 2026-10-17 23:0x）', license:'本作；貼圖 CC0'},
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
+    /* 坐著的人會動（NPC-AMBIENT-ANIM-1104）：character3d.js 的 sitAmbient；第一次有人坐下才下載（lazy，約 0.3 MB）。重抽：python3 -I tools/anim/extract_ual.py --ual1 <UAL1.glb> --ual2 <UAL2.glb> */
+    'char.ual_sit_clips':{url:'assets/models/char/ual_sit_clips.glb', type:'clips', lazy:true, source:'Quaternius「Universal Animation Library」（UAL1）＋「Universal Animation Library 2」（UAL2），https://quaternius.com/packs/universalanimationlibrary.html；本作只抽出骨架節點與旋轉軌道（tools/anim/extract_ual.py）：Sitting_Idle_Loop、Sitting_Idle02_Loop、Sitting_Idle03_Loop、Sitting_Talking_Loop、Sitting_Nodding_Loop、Sitting_Enter、Sitting_Exit、Drink、Idle_LookAround_Loop（UAL1）；Yes、Consume、Idle_TalkingPhone_Loop（UAL2）', license:'CC0 1.0'},
   };
   /* 路人底模（LAWWW2 Blender；第一批 2026-10-14 整合；第二批 nf5–8／nm5–8＋nf4、nm3 低彩度重建 2026-10-17，9442e59b／b1680957）：使用者 2026-10-17 P0（「長得很像的路人真的太多了」「路人數量要再加倍」，經 LAWWW2-C、AA-C 轉達）→ 預設打開。
      anon：只給沒有名字的路人（character3d.js 的 C.anonPool）；lazy：不在開場預載——每次換區域從池子挑最多 4 女＋4 男在背景下載、沒有人在用的放掉（A.unloadVRM）。
