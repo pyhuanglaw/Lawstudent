@@ -252,7 +252,8 @@ const WZS=(()=>{
   S._seated=seated;
   async function buy(GM,items,h,after,sit,key){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
     const i=key&&typeof EAT!=='undefined'?await EAT.choose(GM,key,opts,items.map(x=>x[0]),items.map(x=>x[1])):await GM.choose(opts);   /* key：店員認得你、老樣子、吃過的、一起吃（src/eat3d.js，AA_329）*/ if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
-    GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); const tg=key&&typeof EAT!=='undefined'?await EAT.after(GM,key,it[0]):false; if(after&&!tg) await after(it); };   /* 一起吃了＝結尾換一起吃的那一句 */
+    const treat=key==='溫州街・一盞'&&typeof FEED!=='undefined'&&!!FEED.ytTreatDue&&FEED.ytTreatDue(G)&&!(typeof EAT!=='undefined'&&EAT.staffAway&&EAT.staffAway(GM,key));   /* AA_679 第 3 列（AA_504 3-2）：語彤雙主修上了（7/3 她私訊「蘇姨說要請你喝茶。」）以後第一次在一盞點東西：蘇姨一句、這一杯不用錢（src/feed3d.js；原本接在燒臘店的點餐）；蘇姨不在店裡（EAT.staffAway）＝照常付錢、等下一次 */
+    if(treat){ const T=FEED.ytTreatOf(); FEED.ytTreatDone(G); await GM.say({name:'蘇姨'},T.line); } else GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); const tg=key&&typeof EAT!=='undefined'?await EAT.after(GM,key,it[0]):false; if(after&&!tg) await after(it); };   /* 一起吃了＝結尾換一起吃的那一句 */
     if(sit) await seated(GM,run); else await run(); return it; }
 
   /* 順手的事（src/sideq3d.js，AA_404 SQ14、AA_405 SQ20）：一盞茶屋、半熟早午餐點完（真的買了）叫 SIDEQ.atShop */

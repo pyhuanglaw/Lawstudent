@@ -27,8 +27,7 @@ const NOODLE_TABLE={
     /* 第 3 則：演過 ev_xinci_double（雙主修）＝3；沒有＝3b（取代第 3 則）*/
     {who:['classmate_xinci'],dialogue:[{if:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。'},{unless:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'公車今天塞了二十分鐘。我以為趕不上了。'}]},
     {bgn:false/* AA_675 1-2 換不了：燒臘店、盤子、吃飯、飯來 */,who:['zhe'],if:{weeks:[14,15]}/* AA_491 第 7 點：只在考試前輪到；D118 沒有期中考（AA_581 第 7 節 C、第 11 節第 3 點）：只留期末第 14～15 週 */,dialogue:[{speaker:null,text:'考試前的燒臘店，長桌比平常安靜。每個人的盤子旁邊都有一本書。'},{speaker:'zhe',text:'吃飯的時候不准讀。……好啦，讀到飯來。'}]},
-    {who:['yu','classmate_bohan'],dialogue:[{speaker:'yu',text:'欸，下禮拜的報告分組，你們不要又全部丟給柏翰。'},{speaker:'classmate_bohan',text:'我已經習慣了。'},{speaker:'yu',text:'就是因為你習慣了。'}]},
-    {bgn:false/* AA_675 1-2 換不了：語彤顧店、阿姨 */,who:['heroine_03'],if:{ytShift:true},dialogue:[{speaker:null,text:'語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。'}]} ],
+    {who:['yu','classmate_bohan'],dialogue:[{speaker:'yu',text:'欸，下禮拜的報告分組，你們不要又全部丟給柏翰。'},{speaker:'classmate_bohan',text:'我已經習慣了。'},{speaker:'yu',text:'就是因為你習慣了。'}]} ],   /* AA_679 第 7 列（企劃線 ee055afbe，AA-C 定 D109）：第 6 則「語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。」拿掉（她不在燒臘店；AA_675 1-2 長桌閒聊搬到桌遊夜，這一則搬不過去）*/
   Y3:[
     {who:['yu','zhe'],if:{zheYu:true},dialogue:[{speaker:'yu',text:'他暑假要去事務所實習。他自己不講，我先講。'},{speaker:'zhe',text:'……沒事啦。吃飯。'}]},
     {bgn:false/* AA_675 1-2 換不了：阿姨、飯都涼了 */,who:['zhe'],dialogue:[{speaker:null,text:'阿姨把電視轉到新聞。整桌在吵剛剛那則報導，吵到飯都涼了。'},{speaker:'zhe',text:'好了，下課了。'}]},

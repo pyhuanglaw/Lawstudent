@@ -964,8 +964,7 @@ const STORY_EVENTS=[
     after:G=>{ if(typeof SOCIAL==='undefined'||typeof STORY==='undefined') return; for(const id of ['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01']) if(STORY.knows(id,G)) SOCIAL.remember(id,'SHARED_CLASS','刑總二期末考'); } },   /* AA_578 #9：「期中」→「期末」*/
   { id:'ev_midterm_supper_y1s2', title:'考完的晚餐', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'公館燒臘・長桌',bg:'noodle_table'},
-      {if:EV_KNOWS('heroine_03'),speaker:null,text:'（阿姨的手好了，今天端麵的還是語彤。）'},   /* AA_185 3-8：接得上語彤事件 4（阿姨扭到手）；D118 晚餐在期末（第 16 週），AA_581 第 7 節 B、第 11 節第 3 點：護腕改字 */
-      {unless:EV_KNOWS('heroine_03'),speaker:null,text:'（今天端麵的是一個沒見過的女生。）'},   /* AA_373 #15：還沒認識語彤的玩家；AA_581 第 7 節 B */
+      /* AA_679 第 1 列（企劃線 ee055afbe，AA-C 定 D109）：「（阿姨的手好了，今天端麵的還是語彤。）」「（今天端麵的是一個沒見過的女生。）」兩句拿掉——她不在燒臘店端麵；接的「阿姨扭到手」事件已經退場 */
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'今天不講考試。誰講誰請。'},
       {if:EV_KNOWS('yu'),speaker:'zhe',expression:'smile',text:'那第二題——'},
       {if:EV_KNOWS('yu'),speaker:'yu',expression:'laugh',text:'你請。'},

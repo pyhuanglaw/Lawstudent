@@ -1,7 +1,7 @@
 /* ===== 1B-12～1B-25：大三下到大四下的人物事件（AA_322 a10e64be、AA_323 c9b4f60e；AA-C 2026-10-20 定稿，第②級，台詞照抄不改字）=====
    1B-12 以安新 16：3/23 21:00 麵店團揪餞行 → 3/24 19:00 麵店長桌（18:45～19:15 走到麵店就演）；3/24 21:00 送機揪團 → 3/25 10:00 桃園機場（出遊）；
          沒去＝11:40 登機證照片；日本路線＝3/25 一起出發（AA_253 9-1，挽回中只有兩句；和可昕也在交往＝9-1b）。讀 HOOK_AN_SENDOFF。
-   1B-13 語彤 T1：2/23 21:00 私訊 → 2/24（四）16:45～17:30 公館麵店門口（沒到＝之後的週四 17:00～17:30 照樣在門口演「第一次」，到第 15 週）→ 之後每週四 17:00～17:30「今天要去嗎？」
+   1B-13 語彤 T1：2/23 21:00 私訊 → 2/24（四）16:45～17:30 一盞茶屋門口（AA_679 第 2 列；原本公館麵店門口。沒到＝之後的週四 17:00～17:30 照樣在門口演「第一次」，到第 15 週）→ 之後每週四 17:00～17:30「今天要去嗎？」
          「走吧。」＝旁白輪流、快轉 2 小時；「今天不行。」＝「好。下週四。」（AA_337 第 2 節）；3/23 那一次是田野的發現（那天沒去＝3/30）。
          日本路線：沒有 T1；2/24 起到第 15 週，每週四 21:00 她傳一張田野的照片（六張輪流、沒有字、不用回）。YT_T1、YT_T1_N、FIELD_FINDING。
    1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算；她 7 月回台中、8/1～9/1 不上班（AA_508 0-2 第 9 點），實際上 6/30 是最後一個班）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
@@ -128,14 +128,17 @@ const Y34B=(function(){
     Promise.resolve().then(()=>S.departResume(GM)).catch(e=>console.warn('Y34B.departResume',e)).finally(()=>{ resuming=false; }); return true; };
   if(typeof EXCH!=='undefined'&&EXCH.AIR) EXCH.AIR.jp={board:GM=>S.departFly(GM),resume:GM=>S.departResumeTick(GM)};   /* S.departFly、S.departResume 照呼叫當下的（jp3d.js 包過的那一個）*/
   /* ================= 1B-13 語彤 T1 ================= */
-  const NOODLE_DOOR={x:-63,z:21};   /* 公館店面街第一間（zones3d.js：阿鳳麵店的門，互動點 FZ+2）*/
-  const nearDoor=(G,E)=>{ if(G.zone==='noodle') return true; if(G.zone!=='gongguan'||!E||!E.player) return false; const p=E.player.obj.position; return Math.hypot(p.x-NOODLE_DOOR.x,p.z-NOODLE_DOOR.z)<6; };
+  /* AA_679 第 2 列（企劃線 ee055afbe，AA-C 定 D109）：T1 整組地點從公館麵店門口改成一盞茶屋門口（週四傍晚茶屋照常開，她不在班）——溫州街上「進去一盞」那一點（wz_shops_layout.js 的 enterAt）6 m 內，或人在一盞裡面。
+     原本：公館店面街第一間（阿鳳麵店的門 (-63, 21)）、人在燒臘店裡 */
+  const TEA_DOOR=()=>{ const L=typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT.teahouse&&WZ_SHOPS_LAYOUT.teahouse.enterAt; return L&&typeof L.x==='number'&&typeof L.z==='number'?L:{x:-20.5,z:4.6}; };
+  const nearDoor=(G,E)=>{ if(G.zone==='wz_teahouse') return true; if(G.zone!=='wenzhou'||!E||!E.player) return false; const p=E.player.obj.position, D0=TEA_DOOR(); return Math.hypot(p.x-D0.x,p.z-D0.z)<6; };
+  S.t1Door=TEA_DOOR;
   S.t1On=G=>law(G)&&(!JP(G)||(D('sendoff')!=null&&G.day<D('sendoff')))&&fri('heroine_03');   /* AA_341 裁定 4：日本路線 2/21～3/24 在臺灣、沒有修課，照台灣路線演 T1 第一次（2/24），之後週四照常到 3/23（3/25 以後才沒有）*/
   S.t1Window=G=>{ const d0=D('thu1'), w15=D('y3s2w15'); if(d0==null||G.day<d0||G.day>w15) return false; return CALENDAR.dateOf(G.day).wd===4&&G.hour>=(G.day===d0?16.75:17)&&G.hour<17.5; };   /* 2/24 16:45～17:30；之後的週四 17:00～17:30（AA_322 第 6 節、AA_337 第 2 題：2/24 沒去的，之後的週四在這個時間演「第一次」）；第 16 週期末不去：6/1 第 15 週為止 */
   S.t1FirstDue=(G,E)=>S.t1On(G)&&!G.flags.YT_T1&&S.t1Window(G)&&nearDoor(G,E);
   S.t1WeekDue=(G,E)=>S.t1On(G)&&!!G.flags.YT_T1&&S.t1Window(G)&&nearDoor(G,E)&&G.flags.YT_T1_DAY!==G.day;
-  S.ytPhone=function(G){ const d=D('yt'); if(d==null||G.day<d||G.day>D('thu1')||!S.t1On(G)) return; if(NOW(G)>=T(d,21)&&NOW(G)<T(D('thu1'),17.5)) at(G,d,G.day===d?Math.max(21,G.hour):G.hour,[DM('heroine_03','明天傍晚 麵店門口'),DM('heroine_03','我有事想問你')],'y3_yt_t1_ask'); };   /* AA_180 第 4 節 */
-  /* 日本路線（AA_337 第 2 節；AA_341 裁定 4 改從 3/30 起）：她每週四 21:00 傳一張田野的照片，沒有字、不用回、也沒有回問；3/30 起到第 15 週（6/1），六張輪完從頭。人在日本＝當地 22:00（3/23 以前日本路線還在臺灣，照台灣路線去麵店門口）*/
+  S.ytPhone=function(G){ const d=D('yt'); if(d==null||G.day<d||G.day>D('thu1')||!S.t1On(G)) return; if(NOW(G)>=T(d,21)&&NOW(G)<T(D('thu1'),17.5)) at(G,d,G.day===d?Math.max(21,G.hour):G.hour,[DM('heroine_03','明天傍晚 茶屋門口'),DM('heroine_03','我有事想問你')],'y3_yt_t1_ask'); };   /* AA_180 第 4 節 */
+  /* 日本路線（AA_337 第 2 節；AA_341 裁定 4 改從 3/30 起）：她每週四 21:00 傳一張田野的照片，沒有字、不用回、也沒有回問；3/30 起到第 15 週（6/1），六張輪完從頭。人在日本＝當地 22:00（3/23 以前日本路線還在臺灣，照台灣路線去茶屋門口）*/
   /* AA_466 第 2 節（AA-B 2026-10-25，企劃線 30cc3235a）：改成兩週一張（3/30、4/13、4/27、5/11、5/25、6/8、6/22、7/6），照順序各一次；原本六張留著，加第 7、8 張。
      第幾張＝已經收過幾張（tag y3_yt_jp_<日>；舊存檔照手機裡已經收過的張數接著算，八張收完就不再傳）。8/5 回來以後照舊不傳 */
   const YT_JP=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）','📷（老書店門口的傘桶，插滿了傘）','📷（鐘錶行的玻璃櫃，每一支錶停在不同的時間）','📷（修鞋店的牆，掛滿了鞋楦）','📷（她的田野筆記，第一頁只寫了一行，字太小看不清楚）','📷（巷口的公布欄，貼著一張手寫的「收舊家電」）',

@@ -90,7 +90,7 @@ await sec(2,async()=>{
   PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci','yu']) H.FAMILIAR(id);
   check('2. 燒臘店裡的長桌閒聊不再演（STORY.ndlTalkDue＝false；STORY.NDL_TALK_BGN）',STORY.NDL_TALK_BGN===true&&STORY.ndlTalkDue(H.G,false)===false);
   const skip=[]; for(const k of Object.keys(NOODLE_TABLE)) NOODLE_TABLE[k].forEach((e,i)=>{ if(e&&e.bgn===false) skip.push(k+'-'+(i+1)); });
-  check('2. 換不了的 11 則標 bgn:false（滷蛋、碗、筷子、阿姨端菜、燒臘店、語彤顧店…）',skip.length===11,J(skip));
+  check('2. 換不了的標 bgn:false（滷蛋、碗、筷子、阿姨端菜、燒臘店、語彤顧店…）：大一 3 則、大二 2 則、大三 2 則、大四 3 則（大二第 6 則「語彤在櫃台後面寫作業」AA_679 第 7 列整則拿掉）',J(skip)===J(['Y1-2','Y1-6','Y1-8','Y2-1','Y2-4','Y3-2','Y3-6','Y4-4','Y4-5','Y4-6']),J(skip));
   /* 桌遊夜：在群組、在場的人說的那一則照順序 */
   const n5=STORY.termDayIn('Y1S1',5,5); fresh(n5,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX]) H.FAMILIAR(id);
   const p1=B.talkPick(H.G);
