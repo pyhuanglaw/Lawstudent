@@ -90,7 +90,8 @@ GLASS_JS = "(async(on)=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.mat
 
 
 # GG_night_r8（LAWWW／LAWWW2 08:45）：「底」——窗卡 mesh 的 color、emissive 設 (0,0,0) 再量同一個框（路燈、環境光、玻璃照在那一塊的亮度）；BASE=1、晚上那一輪才做
-BLACK_JS = "(async(on)=>{ const W=window.__ccBlk||(window.__ccBlk=new Map()); GAME.E.scene.traverse(o=>{ if(!o.isMesh||o.name!=='NOSHADOW_xs_fronts_lit') return; const m=o.material; if(on){ if(!W.has(m)) W.set(m,{c:m.color.clone(),e:m.emissive?m.emissive.clone():null}); m.color.setRGB(0,0,0); if(m.emissive) m.emissive.setRGB(0,0,0); } else { const b=W.get(m); if(b){ m.color.copy(b.c); if(b.e&&m.emissive) m.emissive.copy(b.e); } } }); if(!on) W.clear(); await " + TWO_FRAMES + "; return true; })"
+MATLIST_JS = "(()=>{ const out=[]; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ if(m&&/xs_fronts|wz_xs/.test(m.name||'')){ let vis=true; for(let q=o;q;q=q.parent) if(q.visible===false){ vis=false; break; } out.push({mesh:o.name||'(無名)', type:o.type, mat:m.name, matUuid:m.uuid.slice(0,8), vis, verts:o.geometry&&o.geometry.attributes.position?o.geometry.attributes.position.count:null, uv1:!!(o.geometry&&o.geometry.attributes.uv1), parent:o.parent&&(o.parent.name||o.parent.type)}); } } }); return JSON.stringify(out.slice(0,40)); })()"
+BLACK_JS = "(async(on)=>{ const W=window.__ccBlk||(window.__ccBlk=new Map()); GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material]; if(!ms.some(m=>m&&/xs_fronts|wz_xs/.test(m.name||''))) return; for(const m of ms){ if(!m||!/xs_fronts|wz_xs/.test(m.name||'')) continue; if(on){ if(!W.has(m)) W.set(m,{c:m.color.clone(),e:m.emissive?m.emissive.clone():null}); m.color.setRGB(0,0,0); if(m.emissive) m.emissive.setRGB(0,0,0); } else { const b=W.get(m); if(b){ m.color.copy(b.c); if(b.e&&m.emissive) m.emissive.copy(b.e); } } } }); if(!on) W.clear(); await " + TWO_FRAMES + "; return true; })"
 
 
 def luma_of(png, quad, iw, ih):
@@ -152,6 +153,9 @@ async def run_time(pg, hour, when):
     try: gl = await pg.evaluate(GGLIT_JS)
     except Exception as e: gl = 'ERR ' + str(e)[:200]
     print('  %s ggLit：%s' % (when, gl), flush=True)
+    if os.environ.get('BASE') == '1':
+        try: print('  %s 用到 xs_fronts 材質的網格：%s' % (when, await pg.evaluate(MATLIST_JS)), flush=True)
+        except Exception as e: print('  %s 網格清單失敗：%r' % (when, e), flush=True)
     diag2 = os.environ.get('DIAG2') == '1' and when == 'night'
     if diag2:
         try: sh = await pg.evaluate(SHADER_JS)

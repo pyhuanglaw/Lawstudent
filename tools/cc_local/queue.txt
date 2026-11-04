@@ -67,6 +67,8 @@ GG_night_r7 | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_
 # GG_night_r8（LAWWW 08:45，擋 v9.10.20，最前）：8f936f018 打烊乘數 0.03；21:00、01:30 對 14:00；21:00 另外量「底」（窗卡 color／emissive＝0）
 GG_night_r8_21 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;BASE=1;CC_HEADLESS=0
 GG_night_r8_0130 | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,1.5;CC_HEADLESS=0
+# GG_night_r8b：r8 的「底」只把名字叫 NOSHADOW_xs_fronts_lit 的網格設黑，畫面完全沒變 → 改成所有用 xs_fronts 材質的網格都設黑，並列出這些網格（名字、可見、uv1）
+GG_night_r8b | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 25 | HOURS=14,21;BASE=1;CC_HEADLESS=0
 # GG_glb_measure2（LAWWW 08:54）：0f8b320ff 量法第二版（騎士、npc_far 兩輪都移出）＋停車合併；排在 GG_night_r8 後
 GG_glb_measure2 | 0f8b320ff | game | tests/gongguan_glb_integration.py | index.html | 40 | CC_HEADLESS=0
 # SUNNY_seatfix（LAWWW 08:59）：46d459625 桌 4 北側「坐下點餐」走近點 ap [1.8,−0.5]；舊版 dac871e25 WZ4_reach 卡住
