@@ -30,10 +30,10 @@ const CRACKTALK_LINES=(function(){
       {label:'n'},RES('drift'),
       {label:'e'} ],
     [YT]:[
-      yt('我分給你的時間，你好像不太需要。……沒關係，我只是想問清楚。'),
+      yt('週四斜對面那個位子，是我自己要留的。'),yt('……你沒來的那幾次，我也坐到閉館。'),   /* AA_677 第 3 節（企劃線 d784b1634）：第一句改成她自己選的位子（稿上「／」分成兩句）*/
       {choice:[{text:'「我需要。週四我都來。」',goto:'a'},{text:'「我們好像都太忙了。」',goto:'b'},{text:NONE,goto:'n'}]},
       {label:'a'},yt('好。那斜對面，我繼續留。'),RES('mend'),{goto:'e'},
-      {label:'b'},yt('嗯。那我把這段時間，還給我自己。……謝謝你教我分時間。'),RES('apart_talk'),{goto:'e'},
+      {label:'b'},yt('嗯。那這段時間，我自己用。'),RES('apart_talk'),{goto:'e'},
       {label:'n'},RES('drift'),
       {label:'e'} ],
     [PS]:[
