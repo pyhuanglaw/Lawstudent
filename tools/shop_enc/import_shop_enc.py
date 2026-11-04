@@ -14,6 +14,7 @@ V1 = 'docs/story_planning/shop_enc/shop_enc_aa_v1.json'
 V2 = 'docs/story_planning/shop_enc/shop_enc_aa_v2.json'
 HEAR = 'docs/story_planning/AA_640_店裡客人的路人句.md'
 A641 = 'docs/story_planning/AA_641_店內偶遇_回LAWWW四件.md'
+A655 = 'docs/story_planning/AA_655_溫州街第一批_改名規則與小路居酒屋菜單.md'   # WZ-SHOPS1-1104：學姊的店內偶遇搬到林家乾麵（第 4 節）；店名照 tools/story/aa655_fix.json（read_fix）
 OUT = os.path.join(ROOT, 'src', 'data', 'shop_enc.js')
 FIXED = []
 
@@ -57,6 +58,26 @@ def aa641(t):
             'joinH': int(j.group(1)) / 60, 'joinLine': jl.group(1), 'joinHint': '等一下有'}
 
 
+def aa655(t, rows):
+    """AA_655 第 4 節（WZ-SHOPS1-1104，企劃線 a22e53016）：小路 18:00 才開——學姊的店內偶遇（spot wz_teishoku）搬到林家乾麵（wz_lin），時段照舊、memo 不改；
+    why、away、第二句照第 4 節換（一字不改照稿；稿和 JSON 對不上就停）。"""
+    a, b = t.find('## 4.'), t.find('## 5.')
+    if a < 0 or b < 0: sys.exit(A655 + '：找不到第 4 節')
+    sec = t[a:b]
+    mv = re.search(r"搬到林家乾麵\*\*（`spot:'(wz_\w+)'`）", sec)
+    why = re.search(r'`why`：「(.+?)」', sec); away = re.search(r'`away`：「(.+?)」', sec)
+    ln = re.search(r'「([^「」]+)」照舊；「([^「」]+)」→「([^「」]+)」', sec)
+    memo = re.search(r"`memo:'(\w+)'` 不改", sec)
+    if not (mv and why and away and ln and memo): sys.exit(A655 + '：第 4 節讀不到 spot／why／away／台詞／memo')
+    hit = [r for r in rows if r.get('who') == 'heroine_05' and r.get('spot') == 'wz_teishoku' and r.get('memo') == memo.group(1)]
+    if len(hit) != 1: sys.exit(A655 + '：JSON 裡找不到學姊在定食店的那一列（memo ' + memo.group(1) + '）')
+    r = hit[0]; acq = (r.get('lines') or {}).get('acq') or []
+    if ln.group(1) not in acq or ln.group(2) not in acq: sys.exit(A655 + '：學姊那一列的台詞和稿不同：' + json.dumps(acq, ensure_ascii=False))
+    r['spot'] = mv.group(1); r['why'] = why.group(1); r['away'] = away.group(1)
+    r['lines'] = dict(r['lines'], acq=[ln.group(3) if x == ln.group(2) else x for x in acq])
+    r['src'] = r.get('src', '') + '＋AA_655'
+
+
 def build():
     s1, t1 = src(V1); s2, t2 = src(V2); s3, t3 = src(HEAR); s4, t4 = src(A641)
     a, b = json.loads(t1), json.loads(t2)
@@ -67,6 +88,7 @@ def build():
         if r.get('who') == 'heroine_05' and r.get('spot') == 'wz_teishoku':
             r['weekMax'] = 1; r['selfOnly'] = True
         rows.append(r)
+    s5, t5 = src(A655); aa655(t5, rows)
     m = re.search(r'```json\s*(\{.*?\})\s*```', t3, re.S)
     if not m: sys.exit(HEAR + '：找不到 JSON')
     hear = json.loads(m.group(1))
@@ -78,7 +100,7 @@ def build():
     hear['quietUse'] = {'book': [0, 1, 2, 3, 4, 5], 'cafe': [1, 2, 3, 4, 6]}   # 第幾句（0 起）：書店 1～6、Café 2～5、7
     hear['quietExam'] = ex.group(1)   # LAWWW 決定加（AA_640 給 LAWWW 的小註最後一點）：只在考試週、放 quiet
     x = aa641(t4); x['src'] = A641 + '@' + s4
-    d = {'src': [V1 + '@' + s1, V2 + '@' + s2, HEAR + '@' + s3, A641 + '@' + s4],
+    d = {'src': [V1 + '@' + s1, V2 + '@' + s2, HEAR + '@' + s3, A641 + '@' + s4, A655 + '@' + s5],
          'rules': {'v1': a.get('rules'), 'v2': b.get('rules')},
          'rows': rows, 'newPeople': a.get('newPeople', []), 'shopkeepers': b.get('shopkeepers', []),
          'hear': hear, 'aa641': x}
