@@ -1022,3 +1022,5 @@ fatal: 'C:/Users/USER/Documents/wt_cc_R8_rr2' already exists    [ 135.3s] main_p
       autoretry: final FAIL  class UNKNOWN/assert  exit2 1
 - 2026-11-04T16:28:41  CAFE230v3_seats  sha=dac871e25  exit=0  99s    [gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\wt_cc_CAFE230v3_seats\tests\seats_on_furniture.py http://127.0.0.1:8810/index.html cafe / OK  cafe：座位 22，有問題 0 / {"bad": 0}
       err.log (last 5): [gpu_wrap 1.1s] headed slot 1: --window-position=920,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [CAFE230v3_seats] | [gpu_wrap 58.1s] page close url=http://127.0.0.1:8810/index.html?turbo&start0 | [gpu_wrap 58.2s] BROWSER DISCONNECTED
+- 2026-11-04T16:28:45  CAFE230v3_reach  sha=dac871e25  exit=0  70s    統計：1 個區域、22 個互動點、2 個劇情走路目的地、1 個出入口到達點 / PASS 沒有 JS 例外  [] / ALL PASS
+      err.log (last 5): [gpu_wrap 1.3s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [CAFE230v3_reach] | [gpu_wrap 34.7s] page close url=http://127.0.0.1:8811/index.html?turbo?turbo | [gpu_wrap 34.8s] BROWSER DISCONNECTED
