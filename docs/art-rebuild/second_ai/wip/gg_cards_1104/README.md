@@ -133,3 +133,54 @@ CC 的 census（cc-local `docs/story_planning/CC/local_out/GG_glb_measure/run.lo
 - 這兩樣不動：停在區域裡的自己的車（parent 就是區域群組）、玩家身上的車。
 - 分子、分母兩輪都用同一套量法，門檻 1.3 不變。note 多記一個 extraHidden（移出去幾組）。
 - 檢查做了：py_compile、量測那段 JS 的 node --check；選取的規則用 Node 模擬一個場景驗過（停著的車留著，騎士、npc_far 移出）。瀏覽器還沒跑，要 CC 跑。
+
+---
+
+## GG-NIGHT-CARDS-1104：第二次進公館，整張窗卡不畫（LAWWW2-C，2026-11-04 13:0x）
+
+狀態：修法＋單元測試交給 LAWWW-C 整合；瀏覽器回歸（CC-C r8c）還沒跑。
+
+### 原本錯在哪
+- 證據：CC-C r8c 用雲端 SwiftShader，在 060a1a093 上同一頁先讀檔 14:00、再讀 21:00。
+  - 21:00 那一次，窗卡的程式 `LINK_STATUS＝false`。
+  - vertex 錯誤：`'uv1' : redefinition`、`'vShopIdx' : redefinition`。
+  - fragment 錯誤：`'uShopLit' : redefinition`、`'vShopIdx' : redefinition`。
+  - 原因 BB-C 讀程式碼先看出來，r8c 證實了。
+- 機制：
+  1. 快取的 GLB 每次進區域都是 `c.scene.clone(true)`：網格是新的，材質還是同一個。
+  2. `ggShopLit` 每次進公館都再包一層 `onBeforeCompile`。新的 `mine.prev` 是上一次的 `mine`，著色器就被 patch 兩次。
+  3. 程式連結失敗，整張窗卡網格不畫。營業中的店也一樣，框裡只看到後面被燈照著的磚牆 `wz_wall_mosaic`。
+- 所以這個 bug 是「第二次進公館」才出現，不是「晚上」才出現。r8b 的探針剛好先 14:00、後 21:00，晚上那張正好是第二次進去。
+  - 這也解釋了 r8b 的兩個怪現象：把材質設黑沒有變化，打烊乘數改多少也沒有差別。
+  - **之前所有「打烊的店窗還亮」的亮度數字，都是在窗卡不見的狀態下量的，修好以後要重量**（BB-C 第 4 點）。
+- 還有一個潛在問題：別的程式如果在 ggShopLit 之後又包一層（像 `patchSeeThrough` 那樣串在後面），`guard` 接回去時兩個包裝會互相呼叫，編譯會無限遞迴。目前 `wz_xs_fronts` 沒有被別的程式包，還沒真的發生；單元測試第 4 項會觸發這種情況，修改前就是 `Maximum call stack size exceeded`。
+
+### 改了什麼（`gg_shoplit_reentry_ebd44c2e3.patch`，只改 `src/zones3d.js` 的 ggShopLit，另外新增一個測試）
+做法和 LOBBY-REENTRY（`roomLightmap` 的 `lmWired`）同一型：
+1. 接過的材質記在 `ggLitWired`（WeakMap：材質 → `{lit, U, mine, compiled, rewrap, entries}`）。再進來就沿用，不再包。
+2. uniform 物件也沿用。材質如果沒有被丟掉，three.js 會用快取的程式、不再呼叫 `onBeforeCompile`，綁著的還是第一次的 uniform；所以新的 `upd` 要寫進同一個 `lit` 陣列，打烊才會暗。修改前，第二次的 `lit` 是新的陣列，沒有綁到任何程式。
+3. patch 本身先看原始碼裡有沒有 `uShopLit`／`vShopIdx`：有的話只接 uniform、不改原始碼。
+4. 包裝函式加防遞迴。
+5. 除錯欄位 `GAME.E.zone.ggLit.entries()`：這個材質接過幾次，也就是第幾次進公館。`compiled()`、`rewrap()` 改成跨進場累計。
+
+### 測試（Node，不需要瀏覽器，D131）
+`node tests/gg_shoplit_reentry_unit.js` 用遊戲真正的 `zones3d.js`，加上 three.js 真的 `ShaderLib.standard` 原始碼，拿同一個材質建三次區域：
+
+| 項目 | 修改前（ebd44c2e3） | 修改後 |
+|---|---|---|
+| 1 第一次：各宣告一次 | PASS | PASS |
+| 2 第二次、第三次重新編譯：各宣告一次 | **FAIL**（各 2 次，和 r8c 的 redefinition 一致） | PASS |
+| 3 沒有重新編譯時：快取的程式讀到第二次 upd 寫的值（22:00 afar＝0.03） | **FAIL**（讀到 1） | PASS |
+| 4 別的程式串在後面、guard 接回去：不遞迴，兩邊的 patch 各一次 | **FAIL**（無限遞迴） | PASS |
+| 5 光暈同一個 uniform、材質沒有複製、entries＝3 | entries FAIL | PASS |
+
+其他相關測試套用修法以後：
+- `gg_glow_shoplit_unit` 9/9 PASS。
+- `gg_shops2_1104_unit` 120 PASS、1 FAIL。這項 FAIL 是第 10 項「台詞逐字在 AA_652 裡」，修改前在 ebd44c2e3 上就失敗，和這次修改無關。
+
+### 還沒驗證
+- 瀏覽器（PC，cc-local）：請 CC 排 r8c 回歸，兩種順序都跑，各看兩次的 `LINK_STATUS` 和卡面：
+  1. 先 14:00 再 21:00；
+  2. 先 21:00 再 14:00。
+- 打烊亮度要重新量（GG_night），因為之前的數字作廢。
+- `tests/gongguan_glb_integration.py`。
