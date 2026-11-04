@@ -67,6 +67,9 @@ const XS3=(function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.xinsheng_street']&&Z3.attachWenzhouModel) ASSETS.loadOne('bldg.xinsheng_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
       Z3.attachWenzhouModel(E,g,c.scene.clone(true),'xsfb','xinsheng_street_glb'); }).catch(e=>console.warn('新生南路正式模型載入失敗，用方塊立面',e));
     return zone; };
+  /* 正式模型登錄在這裡（和木曜日、118 巷店家一樣，不動 assets3d.js）：七家店照參考圖的店面（ART-XINSHENG-FRONTS-1104，LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng；
+     招牌、店內、二樓窗的貼圖從使用者的參考圖裁出來，xs_front_tex.py）＋其他樓房、騎樓 */
+  if(typeof ASSETS!=='undefined'&&!ASSETS.manifest['bldg.xinsheng_street']) ASSETS.manifest['bldg.xinsheng_street']={url:'assets/models/env/second_ai/xinsheng_street.glb',type:'building',lazy:true,source:'LAWWW2 tools/blender/env_second/wz_street.py --set xinsheng（店面貼圖：使用者提供的參考圖 ref_images/shops/*_ext.webp）',license:'本作'};
   if(typeof Z3!=='undefined'&&Z3.ZONES) Z3.ZONES.xinsheng={id:'xinsheng',name:'新生南路',indoor:false,cityLight:0.9,size:[76,136],camDist:5.6,build(E){ return S.build(E); }};
   return S;
 })();
