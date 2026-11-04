@@ -276,13 +276,28 @@ async def talk_lines(pg, cdp, secs=40):
     return lines
 
 
+YARDWRAP_JS = r"""(()=>{ const W=window.__ccYard||(window.__ccYard={enter:[],intro:[],pos:[]}); 
+  if(typeof STORY!=='undefined'&&STORY.onEnter&&!STORY.onEnter.__cc){ const f=STORY.onEnter; STORY.onEnter=function(z,GM,o){ W.enter.push({t:+(performance.now()/1000).toFixed(2), zone:z, fromLoad:!!(o&&o.fromLoad), opts:o?Object.keys(o):[]});
+      if(z==='wz_teahouse') setTimeout(()=>{ try{ const p=GAME.E.player.obj.position; W.pos.push({after:0.5, x:+p.x.toFixed(2), z:+p.z.toFixed(2)}); }catch(e){} },500); return f.apply(this,arguments); }; STORY.onEnter.__cc=true; }
+  if(typeof WZS!=='undefined'&&WZS.yardIntro&&!WZS.yardIntro.__cc){ const g=WZS.yardIntro; WZS.yardIntro=function(GM){ const E=GM.E, z=E&&E.zone, P=E&&E.player; const rec={t:+(performance.now()/1000).toFixed(2), flag:!!((GM.G.flags||{}).WZ_TEA_YARD_IN), zoneId:z&&z.id, pz:P?+P.obj.position.z.toFixed(2):null, px:P?+P.obj.position.x.toFixed(2):null, yardZ:z?(z.yardZ===undefined?'undefined':z.yardZ):null}; W.intro.push(rec);
+      const r=g.apply(this,arguments); Promise.resolve(r).then(v=>{ rec.ret=v; }, e=>{ rec.err=String(e).slice(0,80); }); return r; }; WZS.yardIntro.__cc=true; }
+  return {wrappedEnter:!!(STORY.onEnter&&STORY.onEnter.__cc), wrappedIntro:!!(typeof WZS!=='undefined'&&WZS.yardIntro&&WZS.yardIntro.__cc)}; })()"""
+YARDSTATE_JS = r"""(()=>{ const G=GAME.G, E=GAME.E, z=E.zone, p=E.player.obj.position, W=window.__ccYard||{}; const t=document.getElementById('toast'), c=document.getElementById('caption');
+  return {zone:G.zone, flag_WZ_TEA_YARD_IN:!!((G.flags||{}).WZ_TEA_YARD_IN), pos:[+p.x.toFixed(2),+p.z.toFixed(2)], yardZ:z&&z.yardZ!==undefined?z.yardZ:'undefined', spawn:z&&z.spawn||null,
+    toast:(t&&!t.classList.contains('hide'))?(t.textContent||'').trim().slice(0,60):'', caption:(c&&!c.classList.contains('hide'))?(c.textContent||'').trim().slice(0,60):'', onEnter:(W.enter||[]).slice(-3), yardIntro:(W.intro||[]).slice(-2), posAfter:(W.pos||[]).slice(-1)}; })()"""
+
 async def enter_gate(pg, cdp, tag):
     ex, ez, sz2, lab = SH['enter']
     await load(pg, cdp, 'wenzhou', ex, sz2, 14.0, yaw=0, keep=True)
     it = await pg.evaluate("(lb=>{ const i=GAME.E.interactables.find(i=>(i.label||'').startsWith(lb)); return i?{x:i.x,z:i.z,r:i.radius||1.2,label:i.label}:null; })(%s)" % J(lab))
     if not check('[%s] 溫州街有「%s」' % (tag, lab), bool(it), J(it)): return None
     await L.go_to(pg, cdp, L.Run('gate', OUT), it['x'], it['z'], max(0.4, it['r'] * 0.6), it['label'], max_s=120)
-    await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact')
+    await pg.wait_for_timeout(800)
+    # BB-C 14:0x：第一次進冠木門的旁白沒出來——包一層記錄 STORY.onEnter（zoneId、opts.fromLoad）和 WZS.yardIntro（有沒有叫到、回傳什麼、那一刻 P.z 和 yardZ）
+    await pg.evaluate(YARDWRAP_JS)
+    print('  [%s] 進門之前：%s' % (tag, J(await pg.evaluate(YARDSTATE_JS))), flush=True)
+    print('  [%s] 進門方式：走到溫州街的「%s」(%s, %s) 按互動鈕（玩家操作，不是讀檔／GAME.enter）' % (tag, it['label'], it['x'], it['z']), flush=True)
+    await L.tap(pg, cdp, '#interact')
     cap = ''
     for _ in range(40):
         await pg.wait_for_timeout(250)
@@ -292,6 +307,7 @@ async def enter_gate(pg, cdp, tag):
     for _ in range(24):   # 旁白在進門後 0.7 秒才出來
         await pg.wait_for_timeout(250); c = await pg.evaluate(CAPTION)
         if c: cap = c
+    print('  [%s] 進門之後：%s' % (tag, J(await pg.evaluate(YARDSTATE_JS))), flush=True)
     return cap
 
 
