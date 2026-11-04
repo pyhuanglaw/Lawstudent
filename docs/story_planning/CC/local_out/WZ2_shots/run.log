@@ -1,0 +1,69 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz2_probe.py http://127.0.0.1:8801/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\WZ2_shots\out
+CC WZ2 v3 溫州街第二批五間；SHA=47909c659；CASES=shots；店=A3,B5,B5i,B6,B2；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 遊戲載入  17.3 秒
+== shots
+  [前置／捷徑] 讀檔到溫州街 (10.00, 0.00)、2025-09-23（day 7）14.0 時、晴天、條件事件關閉［shots_day］
+PASS [shots_day] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [shots_day] 正式模型 wenzhou_street_glb 有載入  讀檔後 19.05 秒
+  截圖 wz2_A3_door_day.png：鏡頭 [14.2, 1.7, -3.0] → [14.2, 2.2, 5.0]；店面那一塊平均亮度 60.1
+  截圖 wz2_A3_win_day.png：鏡頭 [14.2, 1.5, 3.5] → [14.2, 1.4, 5.0]；店面那一塊平均亮度 52.8
+  截圖 wz2_B5_door_day.png：鏡頭 [19.5, 1.7, 3.0] → [19.5, 2.2, -8.0]；店面那一塊平均亮度 75.6
+  截圖 wz2_B5_win_day.png：鏡頭 [17.4, 1.5, -6.5] → [17.4, 1.4, -8.0]；店面那一塊平均亮度 85.9
+  截圖 wz2_B5i_door_day.png：鏡頭 [26.5, 1.7, 3.0] → [26.5, 2.2, -8.0]；店面那一塊平均亮度 81
+  截圖 wz2_B5i_win_day.png：鏡頭 [24.4, 1.5, -6.5] → [24.4, 1.4, -8.0]；店面那一塊平均亮度 82.2
+  截圖 wz2_B6_door_day.png：鏡頭 [35.0, 1.7, 3.0] → [35.0, 2.2, -5.0]；店面那一塊平均亮度 74
+  截圖 wz2_B6_win_day.png：鏡頭 [35.0, 1.5, -3.5] → [35.0, 1.4, -5.0]；店面那一塊平均亮度 65.2
+  截圖 wz2_B2_door_day.png：鏡頭 [-18.0, 1.7, 3.0] → [-18.0, 2.2, -5.0]；店面那一塊平均亮度 139.2
+  截圖 wz2_B2_win_day.png：鏡頭 [-18.0, 1.5, -3.5] → [-18.0, 1.4, -5.0]；店面那一塊平均亮度 134.4
+INFO 常在洗衣 day（14.0 時）店面那一塊的材質  [{"wz_sf_lamp_cool": {"verts": 112, "emissive": "#eef6ff", "emissiveIntensity": 1, "lum": 0.913, "emissiveMap": false, "vcol": true}}, {"wz_sf_lamp": {"verts": 48, "emissive": "#ffe2b0", "emissiveIntensity": 1, "lum": 0.788, "emissiveMap": false, "vcol": false}}, {"wz_sf_vend_panel": {"verts": 4, "emissive": "#cfe4ff", "emissiveIntensity": 1, "lum": 0.76, "emissiveMap": false, "vcol": true}}, {"wz_signs_lit": {"verts": 4, "emissive": "#ffffff", "emissiveIntensity": 0.25, "lum": 0.25, "emissiveMap": true, "vcol": false}}, {"cafe_glass": {"verts": 8, "emissive": "#000000", "emissiveIntensity": 1, "lum": 0, "emissiveMap": false, "vcol": true}}, {"cafe_vc_wz_gloss": {"verts": 120, "emissive": "#000000", "emissiveIntensity": 1, "lum": 0, "emissiveMap": false, "vcol": true}}]
+INFO 常在洗衣 day 光暈  [{"x": -20.86, "y": 2.4, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -20.86, "y": 1.9, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -15.14, "y": 2.4, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -15.14, "y": 1.9, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -18, "y": 2.79, "z": -5.45, "day": 0, "night": 0.9, "visible": true}, {"x": -18, "y": 3.28, "z": -4.4, "day": 0, "night": 0.55, "visible": true}]
+  截圖 wz1_lin_sign.png：鏡頭 [36.0, 1.7, -3.0] → [36.0, 3.0, 5.0]；店面那一塊平均亮度 42.4
+  截圖 wz1_sunny_sign.png：鏡頭 [44.0, 1.7, 3.0] → [44.0, 3.0, -5.0]；店面那一塊平均亮度 143
+  截圖 wz1_xiaolu_sign.png：鏡頭 [-2.8, 1.7, 3.0] → [-2.8, 3.0, -5.0]；店面那一塊平均亮度 43.2
+  截圖 wz1_ade_sign.png：鏡頭 [-8.0, 1.7, -3.0] → [-8.0, 3.0, 5.0]；店面那一塊平均亮度 95.4
+INFO 店名文字 A3  「看書店的櫥窗」look：巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。（舊名 巷口書房）
+INFO 店名文字 B5  「買一杯飲料」
+INFO 店名文字 B5i  「買一碗冰」
+INFO 店名文字 B5i  「看夏日冰菓室」look：（鐵捲門拉著。上面貼了一張紙：「五月見」。）（新名 夏日冰菓室）
+INFO 店名文字 B5i  「看價目板」
+INFO 店名文字 B6  「買水果」
+INFO 店名文字 B6  「看阿忠水果」look：（騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。）（舊名 阿忠水果）
+INFO 店名文字 B2  「看自助洗衣」look：（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）（舊名 自助洗衣）
+INFO 店名文字 B2  「看布告欄」
+INFO 店名文字 PLACES.names  {"wz_tea": "巷口茶飲", "wz_ice": "夏日冰菓室"}
+  [前置／捷徑] 讀檔到溫州街 (10.00, 0.00)、2025-09-23（day 7）21.0 時、晴天、條件事件關閉［shots_night］
+PASS [shots_night] 日期 2025-09-23 換得到遊戲的 day  {"day": 7, "wd": 2, "key": "2025-09-23"}
+PASS [shots_night] 正式模型 wenzhou_street_glb 有載入  讀檔後 4.13 秒
+  截圖 wz2_A3_door_night.png：鏡頭 [14.2, 1.7, -3.0] → [14.2, 2.2, 5.0]；店面那一塊平均亮度 74.9
+  截圖 wz2_A3_win_night.png：鏡頭 [14.2, 1.5, 3.5] → [14.2, 1.4, 5.0]；店面那一塊平均亮度 65.8
+  截圖 wz2_B5_door_night.png：鏡頭 [19.5, 1.7, 3.0] → [19.5, 2.2, -8.0]；店面那一塊平均亮度 70.5
+  截圖 wz2_B5_win_night.png：鏡頭 [17.4, 1.5, -6.5] → [17.4, 1.4, -8.0]；店面那一塊平均亮度 78.5
+  截圖 wz2_B5i_door_night.png：鏡頭 [26.5, 1.7, 3.0] → [26.5, 2.2, -8.0]；店面那一塊平均亮度 68.9
+  截圖 wz2_B5i_win_night.png：鏡頭 [24.4, 1.5, -6.5] → [24.4, 1.4, -8.0]；店面那一塊平均亮度 73.5
+  截圖 wz2_B6_door_night.png：鏡頭 [35.0, 1.7, 3.0] → [35.0, 2.2, -5.0]；店面那一塊平均亮度 61.1
+  截圖 wz2_B6_win_night.png：鏡頭 [35.0, 1.5, -3.5] → [35.0, 1.4, -5.0]；店面那一塊平均亮度 62.3
+  截圖 wz2_B2_door_night.png：鏡頭 [-18.0, 1.7, 3.0] → [-18.0, 2.2, -5.0]；店面那一塊平均亮度 106.6
+  截圖 wz2_B2_win_night.png：鏡頭 [-18.0, 1.5, -3.5] → [-18.0, 1.4, -5.0]；店面那一塊平均亮度 109
+INFO 常在洗衣 night（21.0 時）店面那一塊的材質  [{"wz_signs_lit": {"verts": 4, "emissive": "#ffffff", "emissiveIntensity": 1.1, "lum": 1.1, "emissiveMap": true, "vcol": false}}, {"wz_sf_lamp_cool": {"verts": 112, "emissive": "#eef6ff", "emissiveIntensity": 1, "lum": 0.913, "emissiveMap": false, "vcol": true}}, {"wz_sf_lamp": {"verts": 48, "emissive": "#ffe2b0", "emissiveIntensity": 1, "lum": 0.788, "emissiveMap": false, "vcol": false}}, {"wz_sf_vend_panel": {"verts": 4, "emissive": "#cfe4ff", "emissiveIntensity": 1, "lum": 0.76, "emissiveMap": false, "vcol": true}}, {"cafe_glass": {"verts": 8, "emissive": "#000000", "emissiveIntensity": 1, "lum": 0, "emissiveMap": false, "vcol": true}}, {"cafe_vc_wz_gloss": {"verts": 120, "emissive": "#000000", "emissiveIntensity": 1, "lum": 0, "emissiveMap": false, "vcol": true}}]
+INFO 常在洗衣 night 光暈  [{"x": -20.86, "y": 2.4, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -20.86, "y": 1.9, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -15.14, "y": 2.4, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -15.14, "y": 1.9, "z": -4.88, "day": 0, "night": 0.8, "visible": true}, {"x": -18, "y": 2.79, "z": -5.45, "day": 0, "night": 0.9, "visible": true}, {"x": -18, "y": 3.28, "z": -4.4, "day": 0, "night": 0.55, "visible": true}]
+INFO 常在洗衣晚上有沒有亮  店面那一塊最亮的材質 emissive×強度：白天 0.913 → 晚上 1.1；櫥窗截圖亮度：白天 134.4 → 晚上 109
+  [前置／捷徑] 讀檔到溫州街 (24.40, 0.00)、2025-12-10（day 85）14.0 時、晴天、條件事件關閉［ice_dec］
+PASS [ice_dec] 日期 2025-12-10 換得到遊戲的 day  {"day": 85, "wd": 3, "key": "2025-12-10"}
+PASS [ice_dec] 正式模型 wenzhou_street_glb 有載入  讀檔後 4.06 秒
+  截圖 wz2_B5i_door_dec.png：鏡頭 [26.5, 1.7, 3.0] → [26.5, 2.2, -8.0]；店面那一塊平均亮度 66.1
+  截圖 wz2_B5i_win_dec.png：鏡頭 [24.4, 1.5, -6.5] → [24.4, 1.4, -8.0]；店面那一塊平均亮度 60.1
+PASS [ice_dec] 冰菓室季節節點找得到（SEASON_ICECLOSED_on_B5i*）  [{"n": "SEASON_ICECLOSED_on_B5i", "visible": true, "shown": true}, {"n": "SEASON_ICECLOSED_on_B5i_note", "visible": true, "shown": true}, {"n": "SEASON_ICECLOSED_on_B5i_shutter", "visible": true, "shown": true}]
+PASS [ice_dec] 2025-12-10（12 月）鐵捲門拉下（節點顯示）  [{"n": "SEASON_ICECLOSED_on_B5i", "visible": true, "shown": true}, {"n": "SEASON_ICECLOSED_on_B5i_note", "visible": true, "shown": true}, {"n": "SEASON_ICECLOSED_on_B5i_shutter", "visible": true, "shown": true}]
+PASS [ice_dec] 窗口按鈕：「看夏日冰菓室」出現、「買一碗冰」藏起來  [{"label": "買一碗冰", "x": 24.4, "z": -7.4, "hidden": true}, {"label": "看夏日冰菓室", "x": 26.5, "z": -7.4, "hidden": false}, {"label": "看價目板", "x": 25.4, "z": -7.4, "hidden": true}]
+INFO [ice_dec] WZS.inSeason(ice)  False
+  [前置／捷徑] 讀檔到溫州街 (24.40, 0.00)、2026-07-15（day 302）14.0 時、晴天、條件事件關閉［ice_jul］
+PASS [ice_jul] 日期 2026-07-15 換得到遊戲的 day  {"day": 302, "wd": 3, "key": "2026-07-15"}
+PASS [ice_jul] 正式模型 wenzhou_street_glb 有載入  讀檔後 2.3 秒
+  截圖 wz2_B5i_door_jul.png：鏡頭 [26.5, 1.7, 3.0] → [26.5, 2.2, -8.0]；店面那一塊平均亮度 81.1
+  截圖 wz2_B5i_win_jul.png：鏡頭 [24.4, 1.5, -6.5] → [24.4, 1.4, -8.0]；店面那一塊平均亮度 82.2
+PASS [ice_jul] 冰菓室季節節點找得到（SEASON_ICECLOSED_on_B5i*）  [{"n": "SEASON_ICECLOSED_on_B5i", "visible": false, "shown": false}, {"n": "SEASON_ICECLOSED_on_B5i_note", "visible": false, "shown": false}, {"n": "SEASON_ICECLOSED_on_B5i_shutter", "visible": false, "shown": false}]
+PASS [ice_jul] 2026-07-15（7 月）鐵捲門拉開（節點不顯示）  [{"n": "SEASON_ICECLOSED_on_B5i", "visible": false, "shown": false}, {"n": "SEASON_ICECLOSED_on_B5i_note", "visible": false, "shown": false}, {"n": "SEASON_ICECLOSED_on_B5i_shutter", "visible": false, "shown": false}]
+PASS [ice_jul] 窗口按鈕：「買一碗冰」出現、「看夏日冰菓室」藏起來  [{"label": "買一碗冰", "x": 24.4, "z": -7.4, "hidden": false}, {"label": "看夏日冰菓室", "x": 26.5, "z": -7.4, "hidden": true}, {"label": "看價目板", "x": 25.4, "z": -7.4, "hidden": true}]
+INFO [ice_jul] WZS.inSeason(ice)  True
+PASS 沒有 JS 例外  []
+ALL PASS

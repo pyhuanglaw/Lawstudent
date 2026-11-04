@@ -1,0 +1,2005 @@
+{
+ "sha": "47909c659",
+ "datekey": "2025-09-23",
+ "hide_npc": true,
+ "shots": {
+  "A3_door_day": {
+   "file": "wz2_A3_door_day.png",
+   "eye": [
+    14.2,
+    1.7,
+    -3.0
+   ],
+   "look": [
+    14.2,
+    2.2,
+    5.0
+   ],
+   "rect": [
+    8.4,
+    20.0,
+    0.3,
+    3.0,
+    5.0
+   ],
+   "screen": [
+    [
+     759.4,
+     305.3,
+     0.9758
+    ],
+    [
+     84.6,
+     305.3,
+     0.9758
+    ],
+    [
+     91.6,
+     149.5,
+     0.9764
+    ],
+    [
+     752.4,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 60.1,
+   "shop": "溫州書屋",
+   "hour": 14.0
+  },
+  "A3_win_day": {
+   "file": "wz2_A3_win_day.png",
+   "eye": [
+    14.2,
+    1.5,
+    3.5
+   ],
+   "look": [
+    14.2,
+    1.4,
+    5.0
+   ],
+   "rect": [
+    13.0,
+    15.4,
+    0.5,
+    2.4,
+    5.0
+   ],
+   "screen": [
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 52.8,
+   "shop": "溫州書屋",
+   "hour": 14.0
+  },
+  "B5_door_day": {
+   "file": "wz2_B5_door_day.png",
+   "eye": [
+    19.5,
+    1.7,
+    3.0
+   ],
+   "look": [
+    19.5,
+    2.2,
+    -8.0
+   ],
+   "rect": [
+    16.0,
+    23.0,
+    0.3,
+    3.0,
+    -8.0
+   ],
+   "screen": [
+    [
+     274.8,
+     274.8,
+     0.9829
+    ],
+    [
+     569.2,
+     274.8,
+     0.9829
+    ],
+    [
+     567.5,
+     161.8,
+     0.9831
+    ],
+    [
+     276.5,
+     161.8,
+     0.9831
+    ]
+   ],
+   "luma": 75.6,
+   "shop": "帝大紅茶",
+   "hour": 14.0
+  },
+  "B5_win_day": {
+   "file": "wz2_B5_win_day.png",
+   "eye": [
+    17.4,
+    1.5,
+    -6.5
+   ],
+   "look": [
+    17.4,
+    1.4,
+    -8.0
+   ],
+   "rect": [
+    16.2,
+    18.6,
+    0.5,
+    2.4,
+    -8.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 85.9,
+   "shop": "帝大紅茶",
+   "hour": 14.0
+  },
+  "B5i_door_day": {
+   "file": "wz2_B5i_door_day.png",
+   "eye": [
+    26.5,
+    1.7,
+    3.0
+   ],
+   "look": [
+    26.5,
+    2.2,
+    -8.0
+   ],
+   "rect": [
+    23.0,
+    30.0,
+    0.3,
+    3.0,
+    -8.0
+   ],
+   "screen": [
+    [
+     274.8,
+     274.8,
+     0.9829
+    ],
+    [
+     569.2,
+     274.8,
+     0.9829
+    ],
+    [
+     567.5,
+     161.8,
+     0.9831
+    ],
+    [
+     276.5,
+     161.8,
+     0.9831
+    ]
+   ],
+   "luma": 81,
+   "shop": "夏日冰菓室",
+   "hour": 14.0
+  },
+  "B5i_win_day": {
+   "file": "wz2_B5i_win_day.png",
+   "eye": [
+    24.4,
+    1.5,
+    -6.5
+   ],
+   "look": [
+    24.4,
+    1.4,
+    -8.0
+   ],
+   "rect": [
+    23.2,
+    25.6,
+    0.5,
+    2.4,
+    -8.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 82.2,
+   "shop": "夏日冰菓室",
+   "hour": 14.0
+  },
+  "B6_door_day": {
+   "file": "wz2_B6_door_day.png",
+   "eye": [
+    35.0,
+    1.7,
+    3.0
+   ],
+   "look": [
+    35.0,
+    2.2,
+    -5.0
+   ],
+   "rect": [
+    30.0,
+    40.0,
+    0.3,
+    3.0,
+    -5.0
+   ],
+   "screen": [
+    [
+     131.1,
+     305.3,
+     0.9758
+    ],
+    [
+     712.9,
+     305.3,
+     0.9758
+    ],
+    [
+     706.8,
+     149.5,
+     0.9764
+    ],
+    [
+     137.2,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 74,
+   "shop": "阿忠鮮果",
+   "hour": 14.0
+  },
+  "B6_win_day": {
+   "file": "wz2_B6_win_day.png",
+   "eye": [
+    35.0,
+    1.5,
+    -3.5
+   ],
+   "look": [
+    35.0,
+    1.4,
+    -5.0
+   ],
+   "rect": [
+    33.8,
+    36.2,
+    0.5,
+    2.4,
+    -5.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 65.2,
+   "shop": "阿忠鮮果",
+   "hour": 14.0
+  },
+  "B2_door_day": {
+   "file": "wz2_B2_door_day.png",
+   "eye": [
+    -18.0,
+    1.7,
+    3.0
+   ],
+   "look": [
+    -18.0,
+    2.2,
+    -5.0
+   ],
+   "rect": [
+    -21.0,
+    -15.0,
+    0.3,
+    3.0,
+    -5.0
+   ],
+   "screen": [
+    [
+     247.5,
+     305.3,
+     0.9758
+    ],
+    [
+     596.5,
+     305.3,
+     0.9758
+    ],
+    [
+     592.9,
+     149.5,
+     0.9764
+    ],
+    [
+     251.1,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 139.2,
+   "shop": "常在洗衣",
+   "hour": 14.0
+  },
+  "B2_win_day": {
+   "file": "wz2_B2_win_day.png",
+   "eye": [
+    -18.0,
+    1.5,
+    -3.5
+   ],
+   "look": [
+    -18.0,
+    1.4,
+    -5.0
+   ],
+   "rect": [
+    -19.2,
+    -16.8,
+    0.5,
+    2.4,
+    -5.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 134.4,
+   "shop": "常在洗衣",
+   "hour": 14.0
+  },
+  "A3_door_night": {
+   "file": "wz2_A3_door_night.png",
+   "eye": [
+    14.2,
+    1.7,
+    -3.0
+   ],
+   "look": [
+    14.2,
+    2.2,
+    5.0
+   ],
+   "rect": [
+    8.4,
+    20.0,
+    0.3,
+    3.0,
+    5.0
+   ],
+   "screen": [
+    [
+     759.4,
+     305.3,
+     0.9758
+    ],
+    [
+     84.6,
+     305.3,
+     0.9758
+    ],
+    [
+     91.6,
+     149.5,
+     0.9764
+    ],
+    [
+     752.4,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 74.9,
+   "shop": "溫州書屋",
+   "hour": 21.0
+  },
+  "A3_win_night": {
+   "file": "wz2_A3_win_night.png",
+   "eye": [
+    14.2,
+    1.5,
+    3.5
+   ],
+   "look": [
+    14.2,
+    1.4,
+    5.0
+   ],
+   "rect": [
+    13.0,
+    15.4,
+    0.5,
+    2.4,
+    5.0
+   ],
+   "screen": [
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 65.8,
+   "shop": "溫州書屋",
+   "hour": 21.0
+  },
+  "B5_door_night": {
+   "file": "wz2_B5_door_night.png",
+   "eye": [
+    19.5,
+    1.7,
+    3.0
+   ],
+   "look": [
+    19.5,
+    2.2,
+    -8.0
+   ],
+   "rect": [
+    16.0,
+    23.0,
+    0.3,
+    3.0,
+    -8.0
+   ],
+   "screen": [
+    [
+     274.8,
+     274.8,
+     0.9829
+    ],
+    [
+     569.2,
+     274.8,
+     0.9829
+    ],
+    [
+     567.5,
+     161.8,
+     0.9831
+    ],
+    [
+     276.5,
+     161.8,
+     0.9831
+    ]
+   ],
+   "luma": 70.5,
+   "shop": "帝大紅茶",
+   "hour": 21.0
+  },
+  "B5_win_night": {
+   "file": "wz2_B5_win_night.png",
+   "eye": [
+    17.4,
+    1.5,
+    -6.5
+   ],
+   "look": [
+    17.4,
+    1.4,
+    -8.0
+   ],
+   "rect": [
+    16.2,
+    18.6,
+    0.5,
+    2.4,
+    -8.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 78.5,
+   "shop": "帝大紅茶",
+   "hour": 21.0
+  },
+  "B5i_door_night": {
+   "file": "wz2_B5i_door_night.png",
+   "eye": [
+    26.5,
+    1.7,
+    3.0
+   ],
+   "look": [
+    26.5,
+    2.2,
+    -8.0
+   ],
+   "rect": [
+    23.0,
+    30.0,
+    0.3,
+    3.0,
+    -8.0
+   ],
+   "screen": [
+    [
+     274.8,
+     274.8,
+     0.9829
+    ],
+    [
+     569.2,
+     274.8,
+     0.9829
+    ],
+    [
+     567.5,
+     161.8,
+     0.9831
+    ],
+    [
+     276.5,
+     161.8,
+     0.9831
+    ]
+   ],
+   "luma": 68.9,
+   "shop": "夏日冰菓室",
+   "hour": 21.0
+  },
+  "B5i_win_night": {
+   "file": "wz2_B5i_win_night.png",
+   "eye": [
+    24.4,
+    1.5,
+    -6.5
+   ],
+   "look": [
+    24.4,
+    1.4,
+    -8.0
+   ],
+   "rect": [
+    23.2,
+    25.6,
+    0.5,
+    2.4,
+    -8.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 73.5,
+   "shop": "夏日冰菓室",
+   "hour": 21.0
+  },
+  "B6_door_night": {
+   "file": "wz2_B6_door_night.png",
+   "eye": [
+    35.0,
+    1.7,
+    3.0
+   ],
+   "look": [
+    35.0,
+    2.2,
+    -5.0
+   ],
+   "rect": [
+    30.0,
+    40.0,
+    0.3,
+    3.0,
+    -5.0
+   ],
+   "screen": [
+    [
+     131.1,
+     305.3,
+     0.9758
+    ],
+    [
+     712.9,
+     305.3,
+     0.9758
+    ],
+    [
+     706.8,
+     149.5,
+     0.9764
+    ],
+    [
+     137.2,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 61.1,
+   "shop": "阿忠鮮果",
+   "hour": 21.0
+  },
+  "B6_win_night": {
+   "file": "wz2_B6_win_night.png",
+   "eye": [
+    35.0,
+    1.5,
+    -3.5
+   ],
+   "look": [
+    35.0,
+    1.4,
+    -5.0
+   ],
+   "rect": [
+    33.8,
+    36.2,
+    0.5,
+    2.4,
+    -5.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 62.3,
+   "shop": "阿忠鮮果",
+   "hour": 21.0
+  },
+  "B2_door_night": {
+   "file": "wz2_B2_door_night.png",
+   "eye": [
+    -18.0,
+    1.7,
+    3.0
+   ],
+   "look": [
+    -18.0,
+    2.2,
+    -5.0
+   ],
+   "rect": [
+    -21.0,
+    -15.0,
+    0.3,
+    3.0,
+    -5.0
+   ],
+   "screen": [
+    [
+     247.5,
+     305.3,
+     0.9758
+    ],
+    [
+     596.5,
+     305.3,
+     0.9758
+    ],
+    [
+     592.9,
+     149.5,
+     0.9764
+    ],
+    [
+     251.1,
+     149.5,
+     0.9764
+    ]
+   ],
+   "luma": 106.6,
+   "shop": "常在洗衣",
+   "hour": 21.0
+  },
+  "B2_win_night": {
+   "file": "wz2_B2_win_night.png",
+   "eye": [
+    -18.0,
+    1.5,
+    -3.5
+   ],
+   "look": [
+    -18.0,
+    1.4,
+    -5.0
+   ],
+   "rect": [
+    -19.2,
+    -16.8,
+    0.5,
+    2.4,
+    -5.0
+   ],
+   "screen": [
+    [
+     69.3,
+     458.9,
+     0.8732
+    ],
+    [
+     774.7,
+     458.9,
+     0.8732
+    ],
+    [
+     805.7,
+     -124,
+     0.8619
+    ],
+    [
+     38.3,
+     -124,
+     0.8619
+    ]
+   ],
+   "luma": 109,
+   "shop": "常在洗衣",
+   "hour": 21.0
+  }
+ },
+ "laundry": {
+  "day": {
+   "mats": {
+    "cafe_glass": {
+     "verts": 8,
+     "meshes": [
+      "cafe_glass"
+     ],
+     "color": "#dfe6e6",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_gloss": {
+     "verts": 120,
+     "meshes": [
+      "cafe_vc_wz_gloss"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_matte": {
+     "verts": 870,
+     "meshes": [
+      "cafe_vc_wz_matte"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_metal": {
+     "verts": 408,
+     "meshes": [
+      "cafe_vc_wz_metal"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_band": {
+     "verts": 44,
+     "meshes": [
+      "wz_cafe_band"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_in_shop": {
+     "verts": 898,
+     "meshes": [
+      "wz_in_shop"
+     ],
+     "color": "#ffffff",
+     "emissive": null,
+     "emissiveIntensity": 0,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_in_tiles_wenzhou": {
+     "verts": 72,
+     "meshes": [
+      "wz_in_tiles_wenzhou"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_sf_lamp_cool": {
+     "verts": 112,
+     "meshes": [
+      "wz_sf_lamp_cool"
+     ],
+     "color": "#f4f8ff",
+     "emissive": "#eef6ff",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0.913
+    },
+    "wz_sf_vend_panel": {
+     "verts": 4,
+     "meshes": [
+      "wz_sf_vend_panel"
+     ],
+     "color": "#dfe9f2",
+     "emissive": "#cfe4ff",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0.76
+    },
+    "wz_shop_notes": {
+     "verts": 24,
+     "meshes": [
+      "wz_shop_notes"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_signs_lit": {
+     "verts": 4,
+     "meshes": [
+      "wz_signs_lit"
+     ],
+     "color": "#ffffff",
+     "emissive": "#ffffff",
+     "emissiveIntensity": 0.25,
+     "emissiveMap": true,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0.25
+    },
+    "wz_vc_matte": {
+     "verts": 24,
+     "meshes": [
+      "wz_vc_matte"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_wall_plaster": {
+     "verts": 13,
+     "meshes": [
+      "wz_wall_plaster"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_wall_tile": {
+     "verts": 134,
+     "meshes": [
+      "wz_wall_tile"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_ground_wall": {
+     "verts": 12,
+     "meshes": [
+      "wz_wz_ground_wall"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_sf_lamp": {
+     "verts": 48,
+     "meshes": [
+      "wz_wz_sf_lamp"
+     ],
+     "color": "#fff4dc",
+     "emissive": "#ffe2b0",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": false,
+     "visible": true,
+     "lum": 0.788
+    }
+   },
+   "glows": [
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -20.86,
+     "y": 2.4,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -20.86,
+     "y": 1.9,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -15.14,
+     "y": 2.4,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -15.14,
+     "y": 1.9,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -18,
+     "y": 2.79,
+     "z": -5.45,
+     "size": 1.3,
+     "day": 0,
+     "night": 0.9
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -18,
+     "y": 3.28,
+     "z": -4.4,
+     "size": 2.2,
+     "day": 0,
+     "night": 0.55
+    }
+   ]
+  },
+  "night": {
+   "mats": {
+    "cafe_glass": {
+     "verts": 8,
+     "meshes": [
+      "cafe_glass"
+     ],
+     "color": "#dfe6e6",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_gloss": {
+     "verts": 120,
+     "meshes": [
+      "cafe_vc_wz_gloss"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_matte": {
+     "verts": 870,
+     "meshes": [
+      "cafe_vc_wz_matte"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_vc_wz_metal": {
+     "verts": 408,
+     "meshes": [
+      "cafe_vc_wz_metal"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "cafe_band": {
+     "verts": 44,
+     "meshes": [
+      "wz_cafe_band"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_in_shop": {
+     "verts": 898,
+     "meshes": [
+      "wz_in_shop"
+     ],
+     "color": "#ffffff",
+     "emissive": null,
+     "emissiveIntensity": 0,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_in_tiles_wenzhou": {
+     "verts": 72,
+     "meshes": [
+      "wz_in_tiles_wenzhou"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_sf_lamp_cool": {
+     "verts": 112,
+     "meshes": [
+      "wz_sf_lamp_cool"
+     ],
+     "color": "#f4f8ff",
+     "emissive": "#eef6ff",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0.913
+    },
+    "wz_sf_vend_panel": {
+     "verts": 4,
+     "meshes": [
+      "wz_sf_vend_panel"
+     ],
+     "color": "#dfe9f2",
+     "emissive": "#cfe4ff",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0.76
+    },
+    "wz_shop_notes": {
+     "verts": 24,
+     "meshes": [
+      "wz_shop_notes"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_signs_lit": {
+     "verts": 4,
+     "meshes": [
+      "wz_signs_lit"
+     ],
+     "color": "#ffffff",
+     "emissive": "#ffffff",
+     "emissiveIntensity": 1.1,
+     "emissiveMap": true,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 1.1
+    },
+    "wz_vc_matte": {
+     "verts": 24,
+     "meshes": [
+      "wz_vc_matte"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_wall_plaster": {
+     "verts": 13,
+     "meshes": [
+      "wz_wall_plaster"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_wall_tile": {
+     "verts": 134,
+     "meshes": [
+      "wz_wall_tile"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": true,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_ground_wall": {
+     "verts": 12,
+     "meshes": [
+      "wz_wz_ground_wall"
+     ],
+     "color": "#ffffff",
+     "emissive": "#000000",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": true,
+     "vcol": false,
+     "visible": true,
+     "lum": 0
+    },
+    "wz_sf_lamp": {
+     "verts": 48,
+     "meshes": [
+      "wz_wz_sf_lamp"
+     ],
+     "color": "#fff4dc",
+     "emissive": "#ffe2b0",
+     "emissiveIntensity": 1,
+     "emissiveMap": false,
+     "map": false,
+     "vcol": false,
+     "visible": true,
+     "lum": 0.788
+    }
+   },
+   "glows": [
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -20.86,
+     "y": 2.4,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -20.86,
+     "y": 1.9,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -15.14,
+     "y": 2.4,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -15.14,
+     "y": 1.9,
+     "z": -4.88,
+     "size": 0.9,
+     "day": 0,
+     "night": 0.8
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -18,
+     "y": 2.79,
+     "z": -5.45,
+     "size": 1.3,
+     "day": 0,
+     "night": 0.9
+    },
+    {
+     "batch": "wenzhou_street_glb_glows",
+     "visible": true,
+     "x": -18,
+     "y": 3.28,
+     "z": -4.4,
+     "size": 2.2,
+     "day": 0,
+     "night": 0.55
+    }
+   ]
+  },
+  "summary": {
+   "max_emissive_lum_day": 0.913,
+   "max_emissive_lum_night": 1.1,
+   "win_luma_day": 134.4,
+   "win_luma_night": 109
+  }
+ },
+ "ice": {
+  "dec": {
+   "date": "2025-12-10",
+   "state": {
+    "nodes": [
+     {
+      "n": "SEASON_ICECLOSED_on_B5i",
+      "visible": true,
+      "shown": true
+     },
+     {
+      "n": "SEASON_ICECLOSED_on_B5i_note",
+      "visible": true,
+      "shown": true
+     },
+     {
+      "n": "SEASON_ICECLOSED_on_B5i_shutter",
+      "visible": true,
+      "shown": true
+     }
+    ],
+    "items": [
+     {
+      "label": "買一碗冰",
+      "x": 24.4,
+      "z": -7.4,
+      "hidden": true
+     },
+     {
+      "label": "看夏日冰菓室",
+      "x": 26.5,
+      "z": -7.4,
+      "hidden": false
+     },
+     {
+      "label": "看價目板",
+      "x": 25.4,
+      "z": -7.4,
+      "hidden": true
+     }
+    ],
+    "date": "2025-12-10",
+    "month": 12,
+    "inSeason": false
+   },
+   "door": {
+    "file": "wz2_B5i_door_dec.png",
+    "eye": [
+     26.5,
+     1.7,
+     3.0
+    ],
+    "look": [
+     26.5,
+     2.2,
+     -8.0
+    ],
+    "rect": [
+     23.0,
+     30.0,
+     0.3,
+     3.0,
+     -8.0
+    ],
+    "screen": [
+     [
+      274.8,
+      274.8,
+      0.9829
+     ],
+     [
+      569.2,
+      274.8,
+      0.9829
+     ],
+     [
+      567.5,
+      161.8,
+      0.9831
+     ],
+     [
+      276.5,
+      161.8,
+      0.9831
+     ]
+    ],
+    "luma": 66.1
+   },
+   "win": {
+    "file": "wz2_B5i_win_dec.png",
+    "eye": [
+     24.4,
+     1.5,
+     -6.5
+    ],
+    "look": [
+     24.4,
+     1.4,
+     -8.0
+    ],
+    "rect": [
+     23.2,
+     25.6,
+     0.5,
+     2.4,
+     -8.0
+    ],
+    "screen": [
+     [
+      69.3,
+      458.9,
+      0.8732
+     ],
+     [
+      774.7,
+      458.9,
+      0.8732
+     ],
+     [
+      805.7,
+      -124,
+      0.8619
+     ],
+     [
+      38.3,
+      -124,
+      0.8619
+     ]
+    ],
+    "luma": 60.1
+   }
+  },
+  "jul": {
+   "date": "2026-07-15",
+   "state": {
+    "nodes": [
+     {
+      "n": "SEASON_ICECLOSED_on_B5i",
+      "visible": false,
+      "shown": false
+     },
+     {
+      "n": "SEASON_ICECLOSED_on_B5i_note",
+      "visible": false,
+      "shown": false
+     },
+     {
+      "n": "SEASON_ICECLOSED_on_B5i_shutter",
+      "visible": false,
+      "shown": false
+     }
+    ],
+    "items": [
+     {
+      "label": "買一碗冰",
+      "x": 24.4,
+      "z": -7.4,
+      "hidden": false
+     },
+     {
+      "label": "看夏日冰菓室",
+      "x": 26.5,
+      "z": -7.4,
+      "hidden": true
+     },
+     {
+      "label": "看價目板",
+      "x": 25.4,
+      "z": -7.4,
+      "hidden": true
+     }
+    ],
+    "date": "2026-07-15",
+    "month": 7,
+    "inSeason": true
+   },
+   "door": {
+    "file": "wz2_B5i_door_jul.png",
+    "eye": [
+     26.5,
+     1.7,
+     3.0
+    ],
+    "look": [
+     26.5,
+     2.2,
+     -8.0
+    ],
+    "rect": [
+     23.0,
+     30.0,
+     0.3,
+     3.0,
+     -8.0
+    ],
+    "screen": [
+     [
+      274.8,
+      274.8,
+      0.9829
+     ],
+     [
+      569.2,
+      274.8,
+      0.9829
+     ],
+     [
+      567.5,
+      161.8,
+      0.9831
+     ],
+     [
+      276.5,
+      161.8,
+      0.9831
+     ]
+    ],
+    "luma": 81.1
+   },
+   "win": {
+    "file": "wz2_B5i_win_jul.png",
+    "eye": [
+     24.4,
+     1.5,
+     -6.5
+    ],
+    "look": [
+     24.4,
+     1.4,
+     -8.0
+    ],
+    "rect": [
+     23.2,
+     25.6,
+     0.5,
+     2.4,
+     -8.0
+    ],
+    "screen": [
+     [
+      69.3,
+      458.9,
+      0.8732
+     ],
+     [
+      774.7,
+      458.9,
+      0.8732
+     ],
+     [
+      805.7,
+      -124,
+      0.8619
+     ],
+     [
+      38.3,
+      -124,
+      0.8619
+     ]
+    ],
+    "luma": 82.2
+   }
+  }
+ },
+ "wz1": {
+  "lin": {
+   "file": "wz1_lin_sign.png",
+   "eye": [
+    36.0,
+    1.7,
+    -3.0
+   ],
+   "look": [
+    36.0,
+    3.0,
+    5.0
+   ],
+   "rect": [
+    32.5,
+    39.5,
+    2.2,
+    3.8,
+    5.0
+   ],
+   "screen": [
+    [
+     623.6,
+     240.5,
+     0.9761
+    ],
+    [
+     220.4,
+     240.5,
+     0.9761
+    ],
+    [
+     226.7,
+     150.9,
+     0.9769
+    ],
+    [
+     617.3,
+     150.9,
+     0.9769
+    ]
+   ],
+   "luma": 42.4,
+   "shop": "林家乾麵",
+   "hour": 14.0
+  },
+  "sunny": {
+   "file": "wz1_sunny_sign.png",
+   "eye": [
+    44.0,
+    1.7,
+    3.0
+   ],
+   "look": [
+    44.0,
+    3.0,
+    -5.0
+   ],
+   "rect": [
+    40.5,
+    47.5,
+    2.2,
+    3.8,
+    -5.0
+   ],
+   "screen": [
+    [
+     220.4,
+     240.5,
+     0.9761
+    ],
+    [
+     623.6,
+     240.5,
+     0.9761
+    ],
+    [
+     617.3,
+     150.9,
+     0.9769
+    ],
+    [
+     226.7,
+     150.9,
+     0.9769
+    ]
+   ],
+   "luma": 143,
+   "shop": "SUNNY SIDE（半熟）",
+   "hour": 14.0
+  },
+  "xiaolu": {
+   "file": "wz1_xiaolu_sign.png",
+   "eye": [
+    -2.8,
+    1.7,
+    3.0
+   ],
+   "look": [
+    -2.8,
+    3.0,
+    -5.0
+   ],
+   "rect": [
+    -6.3,
+    0.7000000000000002,
+    2.2,
+    3.8,
+    -5.0
+   ],
+   "screen": [
+    [
+     220.4,
+     240.5,
+     0.9761
+    ],
+    [
+     623.6,
+     240.5,
+     0.9761
+    ],
+    [
+     617.3,
+     150.9,
+     0.9769
+    ],
+    [
+     226.7,
+     150.9,
+     0.9769
+    ]
+   ],
+   "luma": 43.2,
+   "shop": "小路（巷子裡定食）",
+   "hour": 14.0
+  },
+  "ade": {
+   "file": "wz1_ade_sign.png",
+   "eye": [
+    -8.0,
+    1.7,
+    -3.0
+   ],
+   "look": [
+    -8.0,
+    3.0,
+    5.0
+   ],
+   "rect": [
+    -11.5,
+    -4.5,
+    2.2,
+    3.8,
+    5.0
+   ],
+   "screen": [
+    [
+     623.6,
+     240.5,
+     0.9761
+    ],
+    [
+     220.4,
+     240.5,
+     0.9761
+    ],
+    [
+     226.7,
+     150.9,
+     0.9769
+    ],
+    [
+     617.3,
+     150.9,
+     0.9769
+    ]
+   ],
+   "luma": 95.4,
+   "shop": "阿德影印輸出",
+   "hour": 14.0
+  }
+ },
+ "names": {
+  "near": [
+   {
+    "shop": "A3",
+    "label": "看書店的櫥窗",
+    "look": "巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。",
+    "hidden": false
+   },
+   {
+    "shop": "B5",
+    "label": "買一杯飲料",
+    "look": null,
+    "hidden": false
+   },
+   {
+    "shop": "B5i",
+    "label": "買一碗冰",
+    "look": null,
+    "hidden": false
+   },
+   {
+    "shop": "B5i",
+    "label": "看夏日冰菓室",
+    "look": "（鐵捲門拉著。上面貼了一張紙：「五月見」。）",
+    "hidden": true
+   },
+   {
+    "shop": "B5i",
+    "label": "看價目板",
+    "look": null,
+    "hidden": true
+   },
+   {
+    "shop": "B6",
+    "label": "買水果",
+    "look": null,
+    "hidden": false
+   },
+   {
+    "shop": "B6",
+    "label": "看阿忠水果",
+    "look": "（騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。）",
+    "hidden": false
+   },
+   {
+    "shop": "B2",
+    "label": "看自助洗衣",
+    "look": "（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）",
+    "hidden": false
+   },
+   {
+    "shop": "B2",
+    "label": "看布告欄",
+    "look": null,
+    "hidden": false
+   }
+  ],
+  "places": {
+   "wz_tea": "巷口茶飲",
+   "wz_ice": "夏日冰菓室"
+  }
+ },
+ "door": {},
+ "boot_s": 17.3
+}

@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ2_shots",
+  "sha": "47909c659",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_wz2_probe.py",
+  "env": "CASES=shots;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T21:09:25",
+  "end": "2026-11-04T21:11:34",
+  "seconds": 128,
+  "exit": 0,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8801/index.html",
+  "res_peak": {
+    "cpu": 21,
+    "mem": 54,
+    "used_gb": 17.1,
+    "chrome_testing": 28
+  }
+}
