@@ -1,0 +1,24 @@
+[gpu_wrap 1.4s] headed slot 0: --window-position=0,0 --window-size=900,900 --window-name=CC 測試中，請勿點選 [BIKE_flow_r3]
+Traceback (most recent call last):
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\tools\cc_local\gpu_wrap.py", line 136, in <module>
+    runpy.run_path(script, run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 292, in run_path
+  File "<frozen runpy>", line 97, in _run_module_code
+  File "<frozen runpy>", line 87, in _run_code
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_flow_bike_diag.py", line 184, in <module>
+    sys.exit(asyncio.run(main()))   # 失敗時結束碼 1（v9.7 回歸：原本印 FAILED 但結束碼 0，佇列記成 rc=0）
+             ~~~~~~~~~~~^^^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\USER\AppData\Local\Python\pythoncore-3.15-64\Lib\asyncio\base_events.py", line 724, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_flow_bike_diag.py", line 155, in main
+    ux, uz = k['parked'][0] - door['x'], k['parked'][1] - door['z']; ul = math.hypot(ux, uz) or 1   # 站在車離店門遠的那一邊（候選 14：站在靠門那邊，按鈕是「進入便利商店」——門比車近）
+             ~~~~~~~~~~~^^^
+TypeError: 'NoneType' object is not subscriptable
