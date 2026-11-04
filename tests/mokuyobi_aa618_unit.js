@@ -61,7 +61,7 @@ const T=()=>said.map(s=>s.t);
     check('1. 快速前往有「木曜日」（落點＝MOK3.IN，SPAWN-EXIT-1104 以後是樓梯第五、六階），不在一開始就知道的清單（自己走去過一次才出現）',!!q&&q[1]==='木曜日'&&q[2].x===-3.75&&q[2].z===5.4&&(q[2].lv|0)===0&&!PLACES.known0.wz_mokuyobi,J(q));
     check('1. 測試用的 MOK3 常數和 src/mokuyobi3d.js 一樣',/const OUT=\{x:7\.4,z:-2\.85,yaw:0\}/.test(MSRC)&&/const IN=\{x:-3\.75,z:5\.4,yaw:Math\.PI,lv:0\}/.test(MSRC));
     const pm=fs.readFileSync(path.join(ROOT,'src/placemap3d.js'),'utf8'), gd=fs.readFileSync(path.join(ROOT,'src/guide3d.js'),'utf8');
-    check('1. 手機地圖的溫州街圖釘有木曜日、導航連得到',pm.includes("['wz_mokuyobi','木曜日']")&&/wz_mokuyobi:'wenzhou'/.test(pm)&&/wenzhou:\['gongguan','cafe','wz_mokuyobi'\]/.test(gd)&&/wz_mokuyobi:\['wenzhou'\]/.test(gd)); }
+    check('1. 手機地圖的溫州街圖釘有木曜日、導航連得到',pm.includes("['wz_mokuyobi','木曜日']")&&/wz_mokuyobi:'wenzhou'/.test(pm)&&/wenzhou:\['gongguan','cafe','wz_mokuyobi'[^\]]*\]/.test(gd)&&/wz_mokuyobi:\['wenzhou'\]/.test(gd)); }
   // ===== 2. 店門 =====
   { fresh(TD('Y1S1',5,2),15); G.zone='wenzhou'; const r=await STORY.interact({exit:{to:'wz_mokuyobi',spawn:{}},label:'上二樓（木曜日）'},GM);
     check('2. 週二按「上二樓（木曜日）」：進不去、寫今天公休',r===true&&/今天公休/.test(toasts.join('')),J(toasts));
