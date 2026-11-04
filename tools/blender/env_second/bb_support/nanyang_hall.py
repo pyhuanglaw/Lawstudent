@@ -75,7 +75,7 @@ def screen_tex(im, d):  # 銀幕：中間亮、邊緣一點暗角（放映燈打
     for y in range(0, h, 4):
         for x in range(0, w, 4):
             dx, dy = (x - w / 2) / (w / 2), (y - h / 2) / (h / 2); v = int(200 - 50 * (dx * dx * 0.6 + dy * dy * 0.8))
-            d.rectangle([x, y, x + 3, y + 3], fill=(v, v - 8, v - 22))   # v2：暗一點、偏暖（放映機的光打在舊銀幕上）
+            d.rectangle([x, y, x + 3, y + 3], fill=(v, int(v * 0.8), int(v * 0.66)))   # v2：暗一點、偏暖（暖色的燈打在舊銀幕上，參考圖是米粉色）
 
 
 def velvet(im, d):      # 絨布：直條皺褶的明暗（布幕、牆板共用）
@@ -101,7 +101,7 @@ m_gold = L.flat('nh_gold', '#c39a4c', rough=0.35, metal=0.42)
 m_iron = L.flat('nh_iron', '#2b2a2a', rough=0.5, metal=0.35)
 m_black = L.flat('nh_black', '#101010', rough=0.9)
 m_warm = glowmat('nh_warm', '#ffd9a0', 4.0)
-m_aisle = glowmat('nh_aisle', '#ffc27a', 6.0)
+m_aisle = glowmat('nh_aisle', '#ffc27a', 4.0)
 IM = {k: img_mat('nh_' + k, p, rough=0.85 if k == 'velvet' else 0.6,
                  emit=(2.2 if k == 'exit' else 0.3 if k == 'screen' else 0.0)) for k, p in P.items()}   # v2：銀幕暗一點
 
@@ -278,7 +278,7 @@ B.mesh_obj('ROW_PLATES', pl, IM['rowplate'], root, None)
 al = Mesh('AISLE_LIGHTS', m_aisle); ah = Mesh('AISLE_LIGHT_HOUSING', m_gold)
 for L_ in LAY['lights']:
     if L_['kind'] != 'aisle': continue
-    yl = L_['y'] - 0.18; al.box(L_['x'] - 0.06, L_['x'] + 0.06, yl + 0.08, yl + 0.16, L_['z'] - 0.02, L_['z'] + 0.02); ah.box(L_['x'] - 0.08, L_['x'] + 0.08, yl + 0.06, yl + 0.18, L_['z'] - 0.04, L_['z'] - 0.02)
+    yl = L_['y'] - 0.18; al.box(L_['x'] - 0.03, L_['x'] + 0.03, yl + 0.1, yl + 0.14, L_['z'] - 0.02, L_['z'] + 0.02); ah.box(L_['x'] - 0.05, L_['x'] + 0.05, yl + 0.08, yl + 0.16, L_['z'] - 0.04, L_['z'] - 0.02)   # v2：小顆一點（參考圖是一點一點的）
 al.finish(root); ah.finish(root)
 # 左邊前方的太平門（左牆上、靠銀幕）
 ez = -6.0; ed = Mesh('EXIT_DOOR_L', m_wood); ed.rbox(X0 + 0.02, X0 + 0.07, YF, YF + 2.3, ez - 0.55, ez + 0.55, r=0.01, seg=1); ed.finish(root)
