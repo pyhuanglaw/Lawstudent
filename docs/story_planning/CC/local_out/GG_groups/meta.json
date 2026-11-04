@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "GG_groups",
+  "sha": "610c528cb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_groups_probe.py",
+  "env": "CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:45:25",
+  "end": "2026-11-04T12:47:16",
+  "seconds": 111,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 82,
+    "mem": 56,
+    "used_gb": 17.8,
+    "chrome_testing": 18
+  }
+}
