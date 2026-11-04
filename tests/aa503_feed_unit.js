@@ -42,7 +42,7 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   const A630=(()=>{ try{ return (cp.__worldEf||cp.execFileSync).call(cp,'git',['-C',H.ROOT,'show','bb4401fd3:docs/story_planning/AA_630_語彤台詞改寫.md'],{encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } })();
   const bad=L.filter(([w,t])=>!doc.includes(t)&&!(A630&&A630.includes(' | '+t+' | ')));
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
-  check('0. 動態 44 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 3、可昕 8、沛珊 6）、私訊 10 則',FEED_Y1S1.posts.length===44&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
+  check('0. 動態 43 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 2、可昕 8、沛珊 6）、私訊 10 則（2026-11-04：學姊 sis2「空的保溫瓶」拿掉，D127④、AA_661 第 48 列 ebdd2fb59）',FEED_Y1S1.posts.length===43&&!FEED_Y1S1.posts.some(p=>p.id==='sis2')&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
   /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
   const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。',
     '宿舍走廊，一個蛋糕，蠟燭被風吹斜了','予樂生日。','我幫你轉達。她說：你誰？','一個鬧鐘。她每天遲到。'];
@@ -139,7 +139,7 @@ sec('3',()=>{ const P=FEED_Y1S1.posts, add=[
   const L=[...log.values()], byDay={}; for(const i of L) byDay[i.day]=(byDay[i.day]||0)+1;
   let worst=0, wid=''; for(const i of L){ const n=L.filter(j=>j.who===i.who&&T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; if(n>worst){ worst=n; wid=i.id; } }
   const miss=FEED_Y1S1.posts.map(p=>p.id).filter(id=>!log.has(id));
-  check('3. 大一上走一遍（七位都很熟）：44 則都出',L.length===44&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
+  check('3. 大一上走一遍（七位都很熟）：43 則都出（sis2 保溫瓶拿掉）',L.length===43&&!miss.length,J({n:L.length,miss,done:miss.map(id=>R().done[id])}));
   check('3. 大一上走一遍：一天不超過四則（最多 '+Math.max(0,...Object.values(byDay))+'）、每位連續七天不超過兩則（最多 '+worst+'）',Math.max(0,...Object.values(byDay))<=4&&worst<=2,wid);
   const kx3=log.get('kx3'); check('3. 可昕第 3 則（沒去過木柵大學、沒有 K1b）：照第一個能問的日子，第 6 週週四 12:30（予樂的宵夜在週三晚上）',!!kx3&&kx3.day===TD(6,4)&&Math.abs(kx3.h-12.5)<0.01,J(kx3)); });
 

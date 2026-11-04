@@ -123,7 +123,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
   check('0. 大四下＋暑假：動態 33 則（以安 6、芷若 5、語彤 5、子晴 5、學姊 4、沛珊 4、可昕 4）、沒有私訊；畢業以後：動態 26 則（4、4、4、3、4、4、3）、沒有私訊',
     !!SET.Y4S2&&!!SET.PG&&J(cnt(SET.Y4S2))===J([6,5,5,5,4,4,4])&&SET.Y4S2.dms.length===0&&J(cnt(SET.PG))===J([4,4,4,3,4,4,3])&&SET.PG.dms.length===0,J([cnt(SET.Y4S2),cnt(SET.PG)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 九份的 id 都不重複（動態 284＋33＋26、私訊 23；前七份 284＝多 AA_514 加的 kx4bc）',ids.length===366&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 九份的 id 都不重複（動態 283＋33＋26、私訊 23；前七份 283＝多 AA_514 加的 kx4bc、少大一上 sis2 保溫瓶（2026-11-04 拿掉：D127④、AA_661 第 48 列））',ids.length===365&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   /* sis3h 的私訊：AA 對 AA_584 的補充第 2 點（2026-11-02 19:19；AA_584 第 9 節第 1 點，企劃線 14154434b）祐廷「恭喜。最後幾頁？」、她「一百二十二頁。指導教授要我刪二十頁，刪了。」——不在 AA_510 的稿，對 AA_584 */
   let D584=''; try{ D584=cp.execSync('git -c core.quotepath=false show 14154434b:"docs/story_planning/AA_584_學姊改稿_第二批_閒聊階梯與邀約.md"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D584=''; }
   const SIS3H=['恭喜。最後幾頁？','一百二十二頁。指導教授要我刪二十頁，刪了。'], in584=t=>SIS3H.includes(t)&&D584.includes('「'+t+'」');

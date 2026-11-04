@@ -101,7 +101,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
   check('0. 大一下：動態 47 則（以安 7、芷若 6、語彤 6、子晴 8、學姊 5、沛珊 8、可昕 7）、私訊 7 則；大二上：動態 38 則（6、6、4、6、5、5、6——可昕多 AA_514 第 2 節的第 4b 則）、私訊 3 則',!!SET.Y1S2&&!!SET.Y2S1&&SET.Y1S2.posts.length===47&&SET.Y1S2.dms.length===7&&SET.Y2S1.posts.length===38&&SET.Y2S1.dms.length===3,
     J([SET.Y1S2&&SET.Y1S2.posts.length,SET.Y1S2&&SET.Y1S2.dms.length,SET.Y2S1&&SET.Y2S1.posts.length,SET.Y2S1&&SET.Y2S1.dms.length]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 三個學期的 id 都不重複（動態 44＋47＋38、私訊 10＋7＋3）',ids.length===149&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
+  check('0. 三個學期的 id 都不重複（動態 43＋47＋38、私訊 10＋7＋3）（大一上 sis2 保溫瓶 2026-11-04 拿掉：D127④、AA_661 第 48 列）',ids.length===148&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
   /* 2026-10-30 AA_524 Z3（企劃線 8fd10848d）：芷若 zr3c 多了 yes 版（前一晚回「我去。」去看了早場的玩家：圖、私訊的回答）——對 AA_505 的稿用 no 版（原句）；yes 版在 tests/aa524_promises_unit.js 對 AA_524 的稿 */
   const A524=p=>p.id!=='zr3c'?p:Object.assign({},p,{went:undefined,pic:p.pic&&typeof p.pic==='object'?p.pic.no:p.pic,dm:(p.dm||[]).map(x=>x&&typeof x==='object'&&x.no!=null?x.no:x)});
   for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id)).map(A524)}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
