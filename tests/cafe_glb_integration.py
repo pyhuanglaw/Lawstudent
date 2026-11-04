@@ -3,14 +3,16 @@
 檢查正式模型接進遊戲之後，「畫面以外的東西」都沒變、或照設計變了：
   溫州街（外觀 bldg.cafe_exterior）：
     1. 正式模型接上（cafeB.userData.formal），套件的 Café 外觀與門口道具藏起來；招牌／立牌／菜單板面有 canvas 字。
-    2. 導航格和 ?nobldg（程序化備用版）一模一樣：外觀整合沒有動到導航（店門口、盆栽、A 字立牌的阻擋都還在）。
-    3. 店門互動點「進入兩點半 Café」(54.2,0) 還在。
+    2. 導航格＝?nobldg（程序化備用版）＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou，正式街景模型接上時才擋；2a67b1443 起，和 wz_street_integration.py 同一個標準）：
+       外觀整合沒有動到其他導航（店門口、盆栽、A 字立牌的阻擋都還在）。
+    3. 店門互動點「進入 2:30 AM」(54.2,0) 還在（AA_655 改名，e8c657891；原本「進入兩點半 Café」）。
   咖啡廳室內（bldg.cafe_interior）：
     4. 正式模型接上（zone.formal）、程序化備用模型藏起來；會淡出的牆（WALL_*）有前後左右四面。
     5. 鏡頭在前牆外面時前牆淡出、後牆不淡出（attachRoomGLB 的牆面淡出照常運作）。
-    6. 故事用到的東西沒變：8 個座位（seats[0..7] 的位置與方向）、4 個雙人桌互動點、吧檯點餐 (−2.5,−3.2)、出口 (0,5.6)。
-    7. 新家具的導航：窗邊吧台、書牆、大盆栽擋住；進出門的走道、出生點走得到。和 ?nobldg 的導航一樣（備用版也放了同樣的阻擋）。
-    8. 店面玻璃外的街景：白天、夜晚換不同的貼圖。
+    6. 故事用到的東西沒變：8 個座位（seats[0..7] 的位置與方向）、4 個雙人桌互動點（前 4 個；2:30 AM v1b 起後面多 9 個座位按鈕，cafe230_layout v2 seatPlan）、吧檯點餐 (−2.5,−3.2)、出口 (0,5.6)。
+    7. 新家具的導航：窗邊吧台、書牆、大盆栽擋住（西牆那盆 cafe230_layout v2 搬到 (−6.35,1.95)）、拱門卡座與小圓桌擋住；進出門的走道、出生點走得到。和 ?nobldg 的導航一樣（備用版也放了同樣的阻擋）。
+    8. 店面玻璃外的街景（2:30 AM v1b 的做法，zones3d.js attachCafe230＋cafeStreetLive；README_cafe230）：溫州街 3D 街景載入以後，正面那張畫的窗景藏起來、不參加牆面淡出；
+       街景的天空白天、晚上換不同的貼圖。（舊 Café 是一張 15 m 寬的窗景平面依時段換貼圖，2:30 AM 沒有那張平面了）
   每一項都跑一般網址與 ?nobldg 兩次，比較兩邊。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放到溫州街、咖啡廳（GAME.applySave），關掉條件事件；直接設鏡頭位置測牆面淡出。
 用法：python3 tests/cafe_glb_integration.py http://127.0.0.1:8765/index.html
@@ -22,12 +24,15 @@ import playlib as PL
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'cafe_glb_integration')
+CAFE230_SEAT_BTNS = [[-0.85, 1.5], [0.85, 1.5], [-4.5, -3.3], [-2.9, -3.3], [-1.3, -3.3], [0.3, -3.3], [-6.3, -0.55], [-6.3, 0.55], [-4.65, 0]]   # 2:30 AM v1b：長桌兩端、吧檯 4、卡座 3（cafe230_layout.js v2）
 SEATS = [(4.5, -3.3, 0), (4.5, -1.7, 3.1416), (4.5, 0.7, 0), (4.5, 2.3, 3.1416), (0, 0.7, 0), (0, 2.3, 3.1416), (-4, 1.7, 0), (-4, 3.3, 3.1416)]   # twoTop：先 z−0.8（朝 +z）再 z+0.8（朝 −z）
 
 # 等 Café 那一棟（套件 14×13、x＝55.4）接上正式模型：不能等「任何一個物件有 formal」——溫州街公寓的正式模型接上時，那些套件公寓也會標 formal，
 # 先載完的話測試會在 Café 還沒接上時就開始檢查（2026-10-10 遠景公寓那批的 GLB 變大、載入順序變了才發現）
 WAIT_FORMAL_EXT = "(async()=>{ for(let i=0;i<240;i++){ const z=GAME.E.zone; const c=z&&z.group.children.find(o=>{ const f=o.userData&&o.userData.footprint; return f&&f.w===14&&f.d===13&&Math.abs(o.position.x-55.4)<0.05; }); if(c&&c.userData.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
 WAIT_FORMAL_INT = "(async()=>{ for(let i=0;i<240;i++){ if(GAME.E.zone&&GAME.E.zone.formal) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()"
+# ?nobldg 的導航格加上門口雜物的阻擋（Z3.propBlocks，正式街景模型接上時才擋；2a67b1443 起，wz_street_integration.py 同一個做法）以後的雜湊
+NAV_HASH_PROPS = "(()=>{ const n0=GAME.E.nav, n=new E3.NavGrid(n0.w,n0.h,n0.cell,n0.ox,n0.oz); n.b.set(n0.b); const L=(Z3.PROP_BLOCKS&&Z3.PROP_BLOCKS.wenzhou)||[]; if(Z3.propBlocks) Z3.propBlocks(n, L); let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0), L.length]; })()"
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
 
 
@@ -46,7 +51,7 @@ async def wenzhou(pg, run, formal):
         const near=(o,x,z)=>Math.abs(o.position.x-x)<0.05&&Math.abs(o.position.z-z)<0.05;
         const props=z.group.children.filter(o=>near(o,54.4,3.6)||near(o,54.85,4.6)||near(o,54.85,-4.6)).map(o=>o.visible);
         const faces={}; if(root) root.traverse(o=>{ if(o.isMesh&&/SIGN_FACE|ABOARD_FACE|MENU_FACE/.test(o.name)) faces[o.name]=!!(o.material.map&&o.material.map.isCanvasTexture); });
-        const it=GAME.E.interactables.find(i=>i.label==='進入兩點半 Café');
+        const it=GAME.E.interactables.find(i=>i.label==='進入 2:30 AM');   /* AA_655 改名（e8c657891）：原本「進入兩點半 Café」 */
         return {formal:!!cafe.userData.formal, kitVisible, props, faces, door:it?[it.x,it.z]:null}; })()""")
     if formal:
         run.check('套件的 Café 外觀與光暈藏起來', info.get('kitVisible', 1) == 0, json.dumps(info.get('kitVisible')))
@@ -59,7 +64,7 @@ async def wenzhou(pg, run, formal):
     for (x, z, name) in ((54.2, 0, '店門口'), (54.75, 2.0, '騎樓（門與立牌之間）'), (52.0, 0, '店門前的路')):
         run.check(f'導航：{name} ({x},{z}) 走得到', await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
     await run.shot(pg, 'wenzhou_' + ('formal' if formal else 'nobldg'))
-    return await pg.evaluate(NAV_HASH)
+    return [await pg.evaluate(NAV_HASH), None if formal else await pg.evaluate(NAV_HASH_PROPS)]
 
 
 async def cafe(pg, run, formal):
@@ -83,9 +88,10 @@ async def cafe(pg, run, formal):
     want = [[round(x, 2), round(z, 2), round(y, 4)] for (x, z, y) in SEATS]
     # ART-WZ4（LAWWW2-B bbc566da）起座位只增不減：前 8 個（故事用到的）不變，後面多的是新座位
     run.check('8 個座位的位置與方向不變（seats[0..7]；ART-WZ4 起座位只增不減）', info['seats'][:8] == want and len(info['seats']) >= 8, json.dumps({'n': len(info['seats']), 'first8': info['seats'][:8]}))
-    run.check('4 個雙人桌互動點不變', info['tables'] == [[4.5, -1.7], [4.5, 2.3], [0, 2.3], [-4, 3.3]], json.dumps(info['tables']))
+    # 原本 4 個雙人桌（故事用到的）不變；2:30 AM v1b（cafe230_layout v2 seatPlan）起後面多 9 個座位按鈕：長桌兩端 8、9 號、吧檯 10～13 號、拱門卡座 2 個（LAWWW 11-04 照 GLB 坐墊改 x −6.3）＋卡座對面 1 個
+    run.check('4 個雙人桌互動點不變（前 4 個）；2:30 AM 新開放的 9 個座位按鈕照配置', info['tables'][:4] == [[4.5, -1.7], [4.5, 2.3], [0, 2.3], [-4, 3.3]] and info['tables'][4:] == CAFE230_SEAT_BTNS, json.dumps(info['tables']))
     run.check('吧檯點餐 (−2.5,−3.2)、出口 (0,5.6) 不變', info['bar'] == [-2.5, -3.2] and info['exit'] == [0, 5.6], json.dumps([info['bar'], info['exit']]))
-    for (x, z, name) in ((3.775, 5.56, '右段窗邊吧台'), (-3.775, 5.56, '左段窗邊吧台'), (4.1, -5.81, '書牆'), (-6.35, 0.4, '左牆大盆栽'), (6.35, -0.5, '右牆大盆栽'), (-2.5, -4.4, '吧檯')):
+    for (x, z, name) in ((3.775, 5.56, '右段窗邊吧台'), (-3.775, 5.56, '左段窗邊吧台'), (4.1, -5.81, '書牆'), (-6.35, 1.95, '左牆大盆栽（cafe230_layout v2 從 (−6.35,0.4) 搬來）'), (6.35, -0.5, '右牆大盆栽'), (-2.5, -4.4, '吧檯'), (-6.56, 0, '拱門卡座'), (-5.4, 0, '卡座小圓桌')):
         run.check(f'導航：{name} ({x},{z}) 擋住', not await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
     for (x, z, name) in ((0, 4.6, '出生點'), (0, 5.0, '門口走道'), (-2.5, -3.2, '點餐位置'), (2.0, 4.6, '窗邊吧台前')):   # 0.4 m 格子：z>5.2 那一排本來就是牆邊（room() 的 blockOutside）
         run.check(f'導航：{name} ({x},{z}) 走得到', await pg.evaluate(f"GAME.E.nav.free({x},{z})"))
@@ -101,8 +107,16 @@ async def cafe(pg, run, formal):
             E.cinematic(new THREE.Vector3(0,2.2,9.2),new THREE.Vector3(0,1.5,0)); E.camera.position.set(0,2.2,9.2); const f0=E.frame; for(let i=0;i<240&&E.frame<f0+6;i++) await new Promise(r=>setTimeout(r,250));
             const op=fw.map(w=>+w.material.opacity.toFixed(2)); for(const w of fw) w.userData.dir.z=-1; E.endCinematic(); return op; })()""")
         run.check('（自我檢查）前牆 dir 故意弄反時，淡出檢查會失敗', len(neg) > 0 and max(neg) > 0.5, json.dumps(neg))
-        sv = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone; const v=z.group.children.find(o=>o.isMesh&&o.geometry&&o.geometry.parameters&&o.geometry.parameters.width===15); if(!v) return null; z.applyTime(11,'sunny'); const a=v.material.map.uuid; z.applyTime(21,'sunny'); const b=v.material.map.uuid; z.applyTime(11,'sunny'); return [a!==b, !!a]; })()""")
-        run.check('店面玻璃外的街景：白天和夜晚是不同的貼圖', sv == [True, True], json.dumps(sv))
+        # 2:30 AM v1b（attachCafe230＋cafeStreetLive）：溫州街 3D 街景載入以後，正面那張畫的窗景（WALL_front*VIEW*）藏起來、不在淡出的牆裡；街景的天空白天、晚上換貼圖
+        sv = await pg.evaluate("""(async()=>{ const E=GAME.E, z=E.zone; for(let i=0;i<240&&!z.cafeStreet;i++) await new Promise(r=>setTimeout(r,250)); const st=z.cafeStreet; if(!st) return {street:false};
+            let front=null; z.group.traverse(o=>{ if(!front&&o.isMesh&&/^WALL_front/.test(o.name)&&/VIEW/.test(o.name)) front=o; });
+            let sky=null; st.traverse(o=>{ if(!sky&&o.isMesh&&o.geometry&&o.geometry.parameters&&o.geometry.parameters.radius===140) sky=o; });
+            const inWalls=!!front&&z.walls.includes(front), inParts=!!front&&z.winParts.some(p=>p.obj===front);
+            let a=null,b=null; if(sky){ z.applyTime(11,'sunny'); a=sky.material.map&&sky.material.map.uuid; z.applyTime(21,'sunny'); b=sky.material.map&&sky.material.map.uuid; z.applyTime(11,'sunny'); }
+            return {street:true, streetVisible:st.visible, front:!!front, frontVisible:front?front.visible:null, inWalls, inParts, sky:!!sky, dayNight:[!!a, a!==b]}; })()""")
+        run.check('店面玻璃外：溫州街 3D 街景載入了（z.cafeStreet）、看得到', bool(sv.get('street')) and sv.get('streetVisible') is True, json.dumps(sv))
+        run.check('店面玻璃外：正面畫的窗景藏起來（不在淡出的牆、不在窗的零件裡）', sv.get('front') is True and sv.get('frontVisible') is False and not sv.get('inWalls') and not sv.get('inParts'), json.dumps(sv))
+        run.check('店面玻璃外的街景：天空白天和夜晚是不同的貼圖', sv.get('dayNight') == [True, True], json.dumps(sv))
     await run.shot(pg, 'cafe_' + ('formal' if formal else 'nobldg'))
     return await pg.evaluate(NAV_HASH)
 
@@ -119,7 +133,10 @@ async def main():
             hashes[('cafe', formal)] = await cafe(pg, run, formal)
             run.check(('一般網址' if formal else '?nobldg') + '：沒有 JS 錯誤', not errs, '; '.join(errs[:3]))
             await b.close()
-    run.check('溫州街導航格：正式模型和程序化版完全相同', hashes[('wenzhou', True)] == hashes[('wenzhou', False)], json.dumps([hashes[('wenzhou', True)], hashes[('wenzhou', False)]]))
+    # 原本要求「完全相同」：2a67b1443（2026-10-22 ART-WZ0）起正式街景模型接上時多擋門口雜物（Z3.PROP_BLOCKS.wenzhou；套件備用版沒有那些雜物，先擋會變成看不見的牆，tests/street_props_nav_unit.js），
+    # 從那時就不成立（d432de8ba 時差 18 格＝7 個雜物）。照 wz_street_integration.py 同一個標準：正式＝程序化版＋門口雜物阻擋，其他完全相同
+    fw, nw = hashes[('wenzhou', True)][0], hashes[('wenzhou', False)]
+    run.check('溫州街導航格：正式模型＝程序化版＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou），其他完全相同', fw == nw[1][:4] and nw[1][4] > 0 and nw[1][3] > nw[0][3], json.dumps([fw, nw[1], nw[0]]))
     run.check('店內導航格：正式模型和程序化版完全相同', hashes[('cafe', True)] == hashes[('cafe', False)], json.dumps([hashes[('cafe', True)], hashes[('cafe', False)]]))
     sys.exit(run.finish())
 

@@ -227,7 +227,8 @@ const ASSETS = (function(){
     'char.xiuqin': {url:'assets/models/char/second_ai/bl_xiuqin.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」（npc.py 變體 xiuqin，1b0baf8df）：秀琴姨——黑灰燙捲短髮、深靛藍針織衫、深灰長裙、棕樂福鞋；不是路人池（沒有 ambient／anon），語彤家用',license:'CC0'},
     'char.xiuqin_apron': {url:'assets/models/char/second_ai/bl_xiuqin_apron.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Darkness_Shibu」（npc.py 變體 xiuqin＋npc_apron.py 圍裙，d2a809aa4 第四版）：秀琴姨在家穿圍裙那一版（第一次去她家）；不是路人池',license:'CC0'}});
   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
-  if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
+  A.nobldg=typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'');   /* 進區域時才登錄的正式模型（例：zones3d.js 的 cafe230Reg）也要看這個，不然 ?nobldg 照樣載（CAFE230_glb 2026-11-04）*/
+  if(A.nobldg) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
   // 使用者驗收美術方向之前，預設仍是 VRoid 加工版；這個參數讓使用者在實際遊戲（包括手機）裡看 Blender 版
   { const bl=typeof location!=='undefined'&&/[?&]blchar\b/.test(location.search||''); for(const k of Object.keys(A.manifest)){ const m=A.manifest[k]; if(bl&&m.blUrl) m.url=m.blUrl; if(!bl&&m.blOnly) delete A.manifest[k]; } }   /* blOnly：只有 Blender 版的人物（芯慈），沒有 ?blchar 照舊用路人底模 */
