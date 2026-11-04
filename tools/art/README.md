@@ -1,16 +1,18 @@
 # tools/art：美術驗收與生成的輔助工具（D138，2026-11-04）
 
-來源：BB-C 的雲端試跑（企劃線 `docs/story_planning/BB_259_圖轉3D_疊圖驗收_頭髮診斷.md`，`claude/wonderful-mayer-7fm9g6` 3e6f5040a 的 `docs/story_planning/test_tools/bb/img2_3d/`）；LAWWW2-C 11-04 15:1x 同意 R1、R2。規則在 CLAUDE.md MANDATORY 第 2 點、`docs/art-rebuild/ART_DIRECTION.md` 第 12 節。
+來源：BB-C 的雲端試跑（企劃線 `docs/story_planning/BB_259_圖轉3D_疊圖驗收_頭髮診斷.md`，`claude/wonderful-mayer-7fm9g6` 的 `docs/story_planning/test_tools/bb/img2_3d/`：TripoSR 那幾支 3e6f5040a，same_angle_check.py 7cebf3622（加 `--mode campus`））；LAWWW2-C 11-04 15:1x 同意 R1、R2。規則在 CLAUDE.md MANDATORY 第 2 點、`docs/art-rebuild/ART_DIRECTION.md` 第 12 節。
 
 ## same_angle_check.py：同角度疊圖驗收（R1）
 
 - 什麼時候用：有使用者參考圖的場景，交件前。沒有參考圖、畫面裡沒有直線（純植物、人物）、只看顏色（那個用 ref_match）時不用。
-- 安裝：`pip install numpy pillow opencv-python-headless scikit-image`（約 400 MB，不放進 repo）。
-- 用法：`python3 tools/art/same_angle_check.py <參考圖> <遊戲截圖> <輸出前綴> --fov <截圖的垂直 FOV> [--crop/--crop2 x0,y0,x1,y1] [--mask x0,y0,x1,y1 ...]`
+- 安裝：`pip install numpy scipy pillow opencv-python-headless scikit-image`（約 400 MB，不放進 repo）。
+- 用法：`python3 tools/art/same_angle_check.py <參考圖> <遊戲截圖> <輸出前綴> --fov <截圖的垂直 FOV> [--mode shop|campus] [--crop/--crop2 x0,y0,x1,y1] [--mask x0,y0,x1,y1 ...]`
+  - `--mode shop`（預設，D133）：店面照參考圖做，越像越好。
+  - `--mode campus`（D136）：校園建築。分兩部分——相似（大體量 SSIM ≥0.50、材質區塊 ≥5／9、開窗節奏只當參考）要接近；對好位置以後 8×6 格裡細部（窗型、裝飾、屋頂輪廓）1:1 重疊的格子＋屋頂天際線一樣要是 0，有的話報 `REVIEW_COPY`、畫橘框給人看。
 - 量：消失點（鏡頭要左轉、往下幾度）、左右兩半的垂直線傾斜（兩邊都接近 0、消失點卻偏高＝參考圖用了移軸，改 `camera.setViewOffset`／Blender `shift_y`，不壓低俯角）、6×4 格裡參考圖東西多 1.8 倍以上的格子（紅框）。
 - 暫定門檻（只用 6 組圖校過）：消失點差 ≤2%、垂直線傾斜差 ≤1.5°、長寬比 ±3%、紅框 ≤3／24。
 - 交件附：`<前綴>_overlay.jpg`、`<前綴>_structure.json`、鏡頭設定。截圖一定要用遊戲畫面，Blender 渲染只能預看。
-- D136 校園建築：分數不是越高越好，獨特的造型和細節一比一重疊的地方要標出來、改成自己的設計。
+- D136 校園建築一律用 `--mode campus`：分數不是越高越好，橘框裡是照抄的改成自己的設計。
 - 工具認不出兩張圖是不是同一間店（兩張 AI 參考圖的鏡頭可能幾乎一樣），這要靠拆圖清單。
 
 ## triposr/：中遠景的有機小雜物（R2）
