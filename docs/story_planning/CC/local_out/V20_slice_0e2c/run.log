@@ -1,40 +1,40 @@
-[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_slice_probe.py http://127.0.0.1:8802/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V20_slice_0e2c\out
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_wz_slice_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\V20_slice_0e2c\out
 CC WZ_SLICE_SHOTS 溫州街東段 [24.0, 34.0, 44.0, 52.0] × 8 方向；14:00；SHA=0e2ca42d4cfea8f3ee1aff241ac6a199e9a1b938；Windows＋GPU ≠ iPhone
-PASS 遊戲載入  22.8 秒
+PASS 遊戲載入  20.2 秒
   [前置／捷徑] 讀檔：溫州街 (24.0, 0)、2025-09-23（二）14:00、晴、條件事件關閉
-PASS 讀檔進到溫州街（場景 mesh 685、13 秒穩定）
-  藏起來的路人／騎車的路人：11
+PASS 讀檔進到溫州街（場景 mesh 685、10 秒穩定）
+  藏起來的路人／騎車的路人：10
   slice_x24_d000：calls 152、tris 262861
   slice_x24_d045：calls 193、tris 304444
-  slice_x24_d090：calls 213、tris 350790
-  slice_x24_d135：calls 205、tris 358495
-  slice_x24_d180：calls 185、tris 370455
-  slice_x24_d225：calls 205、tris 372740
-  slice_x24_d270：calls 242、tris 416875
-  slice_x24_d315：calls 224、tris 395370
+  slice_x24_d090：calls 195、tris 299778
+  slice_x24_d135：calls 169、tris 258611
+  slice_x24_d180：calls 126、tris 216281
+  slice_x24_d225：calls 144、tris 243667
+  slice_x24_d270：calls 179、tris 287810
+  slice_x24_d315：calls 188、tris 296442
   slice_x34_d000：calls 155、tris 271437
-  slice_x34_d045：calls 221、tris 357620
-  slice_x34_d090：calls 223、tris 341110
-  slice_x34_d135：calls 205、tris 360291
-  slice_x34_d180：calls 163、tris 316635
-  slice_x34_d225：calls 216、tris 423494
-  slice_x34_d270：calls 314、tris 526166
-  slice_x34_d315：calls 271、tris 442007
+  slice_x34_d045：calls 187、tris 300790
+  slice_x34_d090：calls 184、tris 280936
+  slice_x34_d135：calls 164、tris 254045
+  slice_x34_d180：calls 128、tris 216753
+  slice_x34_d225：calls 148、tris 243255
+  slice_x34_d270：calls 194、tris 288127
+  slice_x34_d315：calls 196、tris 282905
   slice_x44_d000：calls 157、tris 273489
   slice_x44_d045：calls 169、tris 275017
   slice_x44_d090：calls 165、tris 250295
   slice_x44_d135：calls 158、tris 239633
   slice_x44_d180：calls 127、tris 207617
-  slice_x44_d225：calls 205、tris 329612
-  slice_x44_d270：calls 300、tris 464749
-  slice_x44_d315：calls 225、tris 358900
+  slice_x44_d225：calls 155、tris 244609
+  slice_x44_d270：calls 210、tris 311785
+  slice_x44_d315：calls 202、tris 296015
   slice_x52_d000：calls 180、tris 308530
   slice_x52_d045：calls 141、tris 246868
   slice_x52_d090：calls 138、tris 232538
   slice_x52_d135：calls 138、tris 233760
-  slice_x52_d180：calls 152、tris 238665
-  slice_x52_d225：calls 222、tris 347292
-  slice_x52_d270：calls 313、tris 503432
-  slice_x52_d315：calls 274、tris 453694
+  slice_x52_d180：calls 153、tris 238785
+  slice_x52_d225：calls 175、tris 269548
+  slice_x52_d270：calls 241、tris 363064
+  slice_x52_d315：calls 230、tris 343451
 PASS 沒有 JS 例外  []
 ALL PASS
