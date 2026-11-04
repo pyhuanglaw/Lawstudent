@@ -7,6 +7,87 @@ LAWWW2-C 2026-11-04。狀態：**MODEL_READY**。新增兩個檔案，**遊戲�
 
 還沒在瀏覽器看過。Node 測試用遊戲自己的換算程式，量過人物的手在哪裡。
 
+## 補件：右手筷子、吃飯片段重擺、筆尖碰紙（LAWWW-C 11-04 21:42Z 的 1 和 4；LAWWW2-C 11-04 22:xx）
+
+狀態：**MODEL_READY**。換了這四個檔：`ual_sit_tasks.glb`／`.json`、`hand_props.glb`／`.json`。遊戲的接線（LAWWW-C 的檔）另外給 patch。
+
+### 1. 右手的筷子 `hand_chopsticks`，吃飯片段照筷子尖重擺
+
+- 配件：兩支 23 cm 的竹筷（尾端 7 mm 方、尖端 4 mm），24 面，和杯子、手機、筆在同一顆 `hand_props.glb`。
+  - 一樣擺在右手骨頭的座標裡，掛法相同：複製到骨頭底下、位置 0、不轉。
+  - 兩支夾在虎口；上面那支在拇指那邊，尖端靠在一起（差 3 mm）。
+- 原本的吃飯片段只有「握筷子的手形」，沒算過筷子尖在哪裡。這版改成像寫字照筆尖那樣，照筷子尖擺手：
+  - 每 2.5 秒一口。
+  - 碗裡夾麵：筷子尖在碗裡的麵上。碗照 SEATACT `S_meal` 的麵碗：桌緣往裡 0.16 m、湯面 5.8 cm、碗口 7.5 cm。
+  - 送到嘴邊：筷子尖在下唇前面 1.5 cm。
+  - 左手扶著碗的左前側（手心貼碗壁）。原本左手平放在桌上，會壓進左邊的盤子。
+- 姿勢是在兩種骨架上搜尋出來的：
+  - 筷子朝的方向和要的一樣（0°），手腕彎在人做得到的範圍內，手、手指不碰到碗和桌面。
+  - 碗裡：筷子往左前下插進碗。女生的桌子在胸口，所以筷子平一點（往下 20°），男生往下 38°。
+  - 嘴邊：筷子從右前方往左、往上一點送進嘴（往左 70°、往上 23°）。
+  - 手腕最多：女生往手心彎 42°、男生 37°；往小指那邊 ≤ 15°。範圍是 60°／30°。
+- 圖（Blender Workbench 預覽，不是遊戲畫面）：0 秒碗裡、0.75 秒舉起來、1.1 秒嘴邊；紅點是嘴。
+
+![女生吃飯](npc_eat_chopsticks_F.jpg)
+
+![男生吃飯](npc_eat_chopsticks_M.jpg)
+
+### 4. 寫字的筆尖壓進紙（LAWWW-C「約 4～5 mm」）
+
+- 原因：筆尖照桌面擺，可是攤開的筆記本紙面比桌面高 4.1 mm（desk_props `nb_top_y`）。
+- 改成照紙面擺：碰紙那一格（2.35 秒），筆的最低點在紙面上 0.5 mm（女）、0.6 mm（男）。原本女生是紙面下 3.9 mm。
+
+![寫字（2.35 秒，筆尖碰紙）](npc_write_paper.jpg)
+
+### 順便修的：男生手上的配件位置
+
+- 配件是照女生的手做的，掛在右手骨頭上；遊戲照人物縮放（男生 0.907）。
+- 所以掛在男生手上，配件比照男生自己的手算的近手腕約 9%：筆尖近 8.5 mm、杯子近 6 mm。
+- 這版每一種身材都用「配件真的掛上去以後」的位置擺手（`sit_task_loops.prop_on`）。男生的寫字、喝飲料、滑手機片段因此動了 3～7 mm。女生的不變。
+- 舊的 `hand_props.glb` 裡的紙杯，比當時的程式（`2962616ac`）產生的偏 1 mm：檔案比程式舊。這次重新產生，對齊了。
+
+### 測試（Node，不是瀏覽器）
+
+在開發分支 `9039f2b20` 換上這四個檔、套上下面的 patch：
+
+- `tests/sit_task_loops_unit.js`（這次加了吃飯和配件）：**ALL PASS**。
+  - 照遊戲的掛法把 GLB 裡的筷子掛到右手骨頭上量：筷子尖和預期的差 0～1 mm。1 秒離嘴 1.5 cm；0、2.35 秒在碗裡夾麵的那一點 0～4 mm（女生、男生都一樣）。
+  - 寫字的筆尖：碰紙那一格在紙面上 0.5／0.6 mm。
+  - 開發分支原樣跑：8 項 FAIL（沒有筷子、女生的筆尖在紙面下 3.9 mm、吃飯片段還是舊的）。
+- `tests/sit_task_wire_unit.js`（LAWWW-C 的，patch 改了吃飯那一項）：54 項 **ALL PASS**。
+  - 吃飯的人播 `Sit_Eat_F_Loop`、右手拿筷子、桌上那雙拿掉（碗和盤子留著）。
+  - `WIN` 照舊不比量到的鬆。
+  - 只換檔、沒套 patch：53 PASS、2 FAIL。吃飯對不上 `HANDS`，判「合不上」。
+- `seat_activity_1104_unit`、`exam_lib_crowd_unit`、`npc_ambient_unit`、`seat_ambient_unit`、`crowd_seat_talk_unit`、`crowd_unit`、`indoor_crowd_unit`：ALL PASS。
+
+### 給 LAWWW-C
+
+```
+git checkout <SHA> -- assets/models/char/second_ai/ual_sit_tasks.glb assets/models/char/second_ai/ual_sit_tasks.json assets/models/char/second_ai/hand_props.glb assets/models/char/second_ai/hand_props.json tests/sit_task_loops_unit.js tools/anim/sit_task_loops.py tools/anim/sit_task_props.py tools/anim/preview_vrm_clip.py
+git show <SHA>:docs/art-rebuild/second_ai/wip/npc_anim_loops_1104/npc_eat_chopsticks_1104.patch | git apply
+```
+
+patch（以開發分支 `9039f2b20` 為底）改三個檔：
+
+- `src/character3d.js`：
+  - `C.SIT_TASK.HANDS` 六格：女生寫字、吃飯；男生寫字、滑手機、喝飲料、吃飯。值＝`ual_sit_tasks.json` 的 `expect.hands0`，其他格的差 < 0.6 mm。
+  - `PROP` 加 `eat:'hand_chopsticks'`。
+  - `LOOK.eat` 改成看碗裡夾麵那一點 `[0,0.06,0.15]`。
+- `src/seatact3d.js`：
+  - `S.TASK` 加 `eat`、`eat2`，吃飯打開。要不要開你決定；不開就把這一行還原，其他照套。
+  - `S.PROP_FAM` 加 `hand_chopsticks:/^item_chopsticks$/`，桌上那雙會拿掉。
+- `tests/sit_task_wire_unit.js`：「吃飯先不用片段」那一項改成「吃的人播 Sit_Eat、右手拿筷子、桌上那雙拿掉」。原本「併回以後」那一段拿掉，因為已經併回了。
+
+### 還沒做／已知的不足
+
+- 女生坐在 0.75 m 的桌子前，桌子在胸口（舊問題，見下面）。吃飯時頭離碗很近：嘴只比桌面高 12～14 cm。
+- 左手扶碗、筷子插進碗，是照 `S_meal` 的碗（桌緣往裡 0.16、左右置中）擺的。
+  - `S_meal2` 的碗偏 2 cm，`S_meal_t` 的碗近 3 cm：左手會離碗 2～3 cm，或碰到碗壁。
+- 筷子上沒有麵；碗裡的麵是 desk_props 的模型，筷子只是插進去。
+- 打字、翻書、滑手機（女生）沒動。
+- 21:42Z 的 2（另外兩組骨架的片段）、3（Café 桌緣 0.20 的版本）還沒做，接著做。
+- 還沒在瀏覽器看過（D131）。美術要 BB 判（D120／D128）。
+
 ## 派工
 
 LAWWW-C：「打字（加觸控板版本）、寫字、滑手機、翻書頁、喝飲料（含杯子配件）、吃飯，交 GLB 片段和要動的骨頭」。

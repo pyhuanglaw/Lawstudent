@@ -35,7 +35,7 @@ HP = {}
 if A.props:                                                      # 手上配件 GLB（sit_task_props.py）：照遊戲的掛法——右手骨頭底下、不轉
     before = set(bpy.data.objects); tmp2 = os.path.join(A.out, '_props.glb'); shutil.copyfile(A.props, tmp2); bpy.ops.import_scene.gltf(filepath=tmp2); os.remove(tmp2)
     for o in set(bpy.data.objects) - before:
-        if o.type == 'MESH' and o.name.split('.')[0] in ('hand_cup', 'hand_phone', 'hand_pen'):
+        if o.type == 'MESH' and o.name.split('.')[0] in ('hand_cup', 'hand_phone', 'hand_pen', 'hand_chopsticks'):
             HP[o.name.split('.')[0]] = o; o.parent = None; o.hide_render = True
             for m in o.data.materials:                               # Workbench 拿「作用中」的貼圖節點當顏色：設成底色那一張（不然拿到自發光那一張＝全黑）
                 for nd in m.node_tree.nodes:
@@ -98,13 +98,21 @@ def props(kind):
         PROPS.append(box('screen', (0.304 , 0.006 , 0.2 ), tuple(ual_pt((0, D + 0.115, E + 0.245))), rotm=np.array(Matrix.Rotation(-0.3, 3, 'X')), col=(0.2, 0.22, 0.26)))
     if kind == 'write': PROPS.append(box('notebook', (0.368 , 0.261 , 0.004 ), tuple(ual_pt((0, D + 0.002, E + 0.15))), col=(0.95, 0.94, 0.88)))
     if kind == 'page': PROPS.append(box('book', (0.31 , 0.22 , 0.025 ), tuple(ual_pt((0, D + 0.0125, E + 0.14))), col=(0.95, 0.92, 0.82)))
+    if kind == 'eat':                                                    # 碗（SEATACT S_meal 的麵碗：桌緣往裡 0.16、湯面 0.058、碗口 0.075 m；畫到湯面，碗口畫一圈）、左後方的盤子
+        bc = np.array(ual_pt((0, D, E + T.BOWL['z'])))
+        bpy.ops.mesh.primitive_cone_add(vertices=24, radius1=0.035, radius2=0.071, depth=0.058, location=tuple(bc + np.array([0, 0, 0.029])))
+        o = bpy.context.active_object; o.data.materials.append(mat_obj('broth', (0.86, 0.72, 0.48))); PROPS.append(o)
+        bpy.ops.mesh.primitive_torus_add(major_radius=0.078, minor_radius=0.003, location=tuple(bc + np.array([0, 0, 0.075])))
+        o = bpy.context.active_object; o.data.materials.append(mat_obj('rim', (0.96, 0.96, 0.96))); PROPS.append(o)
+        pc = np.array(ual_pt((0.2, D, E + 0.13))); bpy.ops.mesh.primitive_cylinder_add(vertices=24, radius=0.1, depth=0.022, location=tuple(pc + np.array([0, 0, 0.011])))
+        o = bpy.context.active_object; o.data.materials.append(mat_obj('plate', (0.94, 0.94, 0.92))); PROPS.append(o)
     for o in HP.values(): o.hide_render = True
-    want = {'drink': 'hand_cup', 'phone': 'hand_phone', 'write': 'hand_pen'}.get(kind)
+    want = {'drink': 'hand_cup', 'phone': 'hand_phone', 'write': 'hand_pen', 'eat': 'hand_chopsticks'}.get(kind)
     if want in HP:
         hb = pb['J_Bip_R_Hand']; Rp = np.array(hb.matrix.to_3x3().normalized()); Rr = np.array(arm.data.bones['J_Bip_R_Hand'].matrix_local.to_3x3().normalized())
         Mx = Matrix((Rp @ Rr.T).tolist()).to_4x4(); Mx.translation = hb.head
         HP[want].matrix_world = arm.matrix_world @ Mx; HP[want].hide_render = False
-        return
+        if kind != 'eat': return
     if kind == 'drink':
         h, f, n, b = hand_frame_b('r'); B = T.basis(f, n); g = h + B @ (np.array(T.CUP_HAND) ); ax = b
         c = g + ax * ((T.CUP_H / 2 - T.CUP_GRIP) ); PROPS.append(cyl('cup', T.CUP_R , T.CUP_H , tuple(c), tuple(ax), (0.92, 0.9, 0.85)))
