@@ -46237,7 +46237,7 @@
     "acceptance": "照 AA_684 七件；台詞逐字；換不了的夕陽台詞記給 AA；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 19:3x】BB AA684_walk 45 PASS／2 FAIL（那 2 項等 TE-HEART-EXEMPT-1104）｜【LAWWW-C 11-04 19:1x】合併 b8b0918de（子代理 aa684-1104 e6d8410c4）；tests/aa684_canon_fix_unit.js 53 項，修改前 FAILED 26、修改後 ALL PASS；全套 987 支結束碼 0；要 AA 定的已傳｜【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）",
+   "next": "【LAWWW-C 11-04 20:5x】BB-C 20:39：c93238d48 用 Node 照日期走 AA_684、AA_685 69／69 PASS（CC da1eda597，BB_255）；還沒驗：TE-HEART-AVOID 那一組、C11 過年（AA_685 D 節）、桌遊夜和告白邀約的瀏覽器玩家操作——先不標已驗收｜【LAWWW-C 11-04 19:3x】BB AA684_walk 45 PASS／2 FAIL（那 2 項等 TE-HEART-EXEMPT-1104）｜【LAWWW-C 11-04 19:1x】合併 b8b0918de（子代理 aa684-1104 e6d8410c4）；tests/aa684_canon_fix_unit.js 53 項，修改前 FAILED 26、修改後 ALL PASS；全套 987 支結束碼 0；要 AA 定的已傳｜【LAWWW-C 11-04 18:1x】派子代理在 worktree 做（和台詞第 671b～683 批子代理同時，vac_activities.js 兩邊改不同的項目）",
    "sha": "e6d8410c4"
   },
   {
@@ -46364,7 +46364,7 @@
     "acceptance": "照 AA_685 逐字；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 20:2x】合併 a2de8c84e（子代理 aa685-1104 ab8f7610f；含 C 節 91f240e50「海風與燈」）；tests/aa685_canon_fix2_unit.js 56 項修改前 FAILED 37、修改後 ALL PASS；子代理全套 989 支全過；合併後相關 17 支 0 失敗。要 AA 定的 5 件已傳；BB 測｜【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）",
+   "next": "【LAWWW-C 11-04 20:5x】BB-C 20:39：69／69 PASS（同 AA684，c93238d48，BB_255）；AA_685 D 節（企劃線 2d4d5dc72：重逢中間隔了沒班的週六＝回到臺北當天 21:00 約、invite 用日期「{月}/{日} 那個週六我五點下班」、過年加「茶屋過年休息」、S.reInvite 的 send=day-7 拿掉；D-2 阿哲逗號照留）併進 AA686-FIX3-1104 的子代理｜【LAWWW-C 11-04 20:2x】合併 a2de8c84e（子代理 aa685-1104 ab8f7610f；含 C 節 91f240e50「海風與燈」）；tests/aa685_canon_fix2_unit.js 56 項修改前 FAILED 37、修改後 ALL PASS；子代理全套 989 支全過；合併後相關 17 支 0 失敗。要 AA 定的 5 件已傳；BB 測｜【LAWWW-C 11-04 19:2x】派子代理（和 TE-HEART-EXEMPT 子代理同時；termend3d.js 不碰，只改 termend_lines.js 的兩句）",
    "sha": "ab8f7610f"
   },
   {
@@ -46393,7 +46393,7 @@
     "acceptance": "照稿逐字；BB 測",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 11-04 20:2x】和 TE-HEART-AVOID-1104 同一個子代理做（都改 termend）"
+   "next": "【LAWWW-C 11-04 20:5x】加兩件給同一個子代理：AA_685 D-1（2d4d5dc72）；AA_686 第 4 項延伸（72707f636）：手機「新年快樂」語彤 L「初四開店。你要第一個來喝。」的「初四」照年份換（2027＝初五）——msg2_pool.js 是產生的檔，執行時換、不改資料檔｜【LAWWW-C 11-04 20:2x】和 TE-HEART-AVOID-1104 同一個子代理做（都改 termend）"
   },
   {
    "id": "TE-HEART-AVOID-1104",
