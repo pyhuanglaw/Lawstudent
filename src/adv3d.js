@@ -13,6 +13,7 @@ const ADV = (function(){
 #advBg{position:absolute;inset:0;background:rgba(10,12,18,.28);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);transition:backdrop-filter .4s,background .4s}
 #adv.blur #advBg{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);background:rgba(10,12,18,.38)}
 #adv.image #advBg{background-size:cover;background-position:center}
+body:has(#adv.on.image) #letterT,body:has(#adv.on.image) #letterB,body:has(#adv.on.cg) #letterT,body:has(#adv.on.cg) #letterB{height:0!important}   /* BB-C 11-04（BB_255）：劇情黑邊（GM.letterbox）在圖片背景／CG 底下只剩一條純黑，沒有作用——圖片、CG 的時候收起來；3D 模糊背景照舊 */
 #adv.freeze #advBg{background:rgba(0,0,0,0)}
 #adv.night #advBg{filter:brightness(.42) saturate(.6)}#adv.night #advBg::after{content:'';position:absolute;inset:0;background:rgba(18,28,64,.32)}   /* 白天的圖當晚上用（OUT.BG 的 night:true；有夜晚版的圖以前先這樣）*/
 #adv.dark #advBg{background:#15171d;backdrop-filter:none;-webkit-backdrop-filter:none}   /* 出遊（離開 3D 地圖的地方）：2D 背景還沒有圖時的深色底（MISSING_EXTERNAL_ART）*/
