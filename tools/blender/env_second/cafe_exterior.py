@@ -43,14 +43,13 @@ NIGHT_MATS = {
     'cafe_sign_face': ['#f4ead8', 1.1, 0.15],
     'ext_glass_lit': ['#ffd9a0', 0.75, 0.0],
 }
-BOUNCE_MATS = {'cafe_int_floor': [0.35, 0.7], 'cafe_int_plaster': [0.42, 0.85], 'cafe_int_wood': [0.32, 0.65], 'cafe_int_ceiling': [0.35, 0.75],
-               'cafe_int_beam': [0.3, 0.6], 'cafe_int_books': [0.4, 0.75], 'cafe_int_shelf': [0.32, 0.65], 'cafe_int_bar': [0.32, 0.65]}   # 白天店裡也開燈（和 zones3d.js 的 CAFE_BOUNCE 相同）
+BOUNCE_MATS = {'cafe_int_plaster': [0.42, 0.85]}   # v2：玻璃後面換成店內窗卡（材質借用 zones3d.js CAFE_BOUNCE 已經有的 cafe_int_plaster：用自己的底色貼圖發光，白天 0.42、晚上 0.85——遊戲程式不用改）
 
 random.seed(230)
 B.reset(texres=TEXRES)
 root = B.group('cafe_exterior', props={'kind': 'cafe_exterior', 'w': W, 'd': D, 'gh': GH})
 mat = CL.materials()
-mat['stucco'] = L.pbr('cafe230_stucco', 'white_plaster_02', tile=1.4, target='#e3d5b9', normal=1.0, rough_value=0.88)   # 參考圖的奶油色粗灰泥（WZ-FIVE-1104）
+mat['stucco'] = L.pbr('cafe230_stucco', 'white_plaster_02', tile=1.4, target='#dcc8a2', normal=1.0, rough_value=0.88)   # 參考圖的奶油色粗灰泥（WZ-FIVE-1104；v2：#e3d5b9→#dcc8a2，轉角那一面曬不到太陽時偏灰，BB-C 19:02 第 4 點）
 mat['fascia_green'] = L.pbr('cafe230_fascia', 'plaster_grey_04', tile=1.2, target='#1c2c23', maps=('diff',), res=256, rough_value=0.5)   # 深綠招牌帶（漆面）
 mat['board'] = L.pbr('cafe_sign_face', None, tint=B.srgb('#1c2c23'), rough=0.7)   # 招牌面：遊戲換成 canvas（深綠底＋奶油色字）；預覽時和招牌帶同色
 mat['pier'] = mat['stucco']   # 一樓壁柱：咖啡色外牆板 → 灰泥（CL.storefront 讀 mat['pier']）
@@ -246,17 +245,21 @@ SIGN_W, SIGN_Y0, SIGN_Y1 = 6.6, BAND_Y0 + 0.06, BAND_Y1 - 0.04
 face = Mesh('SIGN_FACE', mat['board'])                                               # 字由遊戲畫（zones3d.js cafeSignTex）：底色和招牌帶同色、奶油色襯線字
 face.quad([(-SIGN_W / 2, SIGN_Y0, BAND_D + 0.006), (SIGN_W / 2, SIGN_Y0, BAND_D + 0.006), (SIGN_W / 2, SIGN_Y1, BAND_D + 0.006), (-SIGN_W / 2, SIGN_Y1, BAND_D + 0.006)])
 uv01(face.finish(shop, props={'sign': '2:30 AM', 'bg': '#1c2c23', 'color': '#efe2c2', 'serif': 1}))
-gn = Mesh('sign_lamps', mat['metal']); gb = Mesh('sign_lamp_bulbs', mat['bulb'])        # 招牌上面的鵝頸燈（往下照字）
-for k, x in enumerate((-2.4, 0.0, 2.4)):
-    y = GH + 0.12
-    gn.box(x - 0.06, x + 0.06, y - 0.05, y + 0.08, -0.02, 0.03)
-    gn.cyl((x, y, 0.02), (x, y + 0.14, 0.32), 0.012, seg=6); gn.cyl((x, y + 0.14, 0.32), (x, y + 0.04, 0.62), 0.012, seg=6)
-    shade = L.lathe([(0.02, 0.0), (0.05, -0.02), (0.11, -0.12), (0.12, -0.14)], seg=14)
-    bmesh.ops.rotate(shade, verts=shade.verts, cent=(0, 0, 0), matrix=Matrix.Rotation(math.radians(-40), 3, 'X'))
-    gn.add_bm(shade, Matrix.Translation(g2b(x, y + 0.06, 0.65))); shade.free()
-    gb.sphere((x, y - 0.02, 0.67), 0.035, seg=8, rings=4)
-    CL.glow(root, 'signlamp', x, y - 0.06, 0.67, color='rgba(255,226,170,1)', size=0.9, day=0.0, night=0.9)
-gn.finish(shop); gb.finish(shop, smooth=True)
+gn = Mesh('sign_lamps', mat['metal']); gb = Mesh('sign_lamp_bulbs', mat['bulb']); gg = Mesh('sign_lamp_glass', mat['lampglass'])   # 招牌上面一排鵝頸燈（往下照字；v2：3→5 盞、燈罩大、燈罩裡亮）
+for k, x in enumerate((-2.9, -1.45, 0.0, 1.45, 2.9)):
+    y = GH + 0.1
+    gn.box(x - 0.07, x + 0.07, y - 0.06, y + 0.09, -0.02, 0.03)                                    # 牆上的座
+    gn.cyl((x, y, 0.02), (x, y + 0.16, 0.3), 0.014, seg=6); gn.cyl((x, y + 0.16, 0.3), (x, y + 0.08, 0.62), 0.014, seg=6)   # 鵝頸：先往上往外、再往下
+    shade = L.lathe([(0.022, 0.0), (0.06, -0.03), (0.15, -0.15), (0.17, -0.18), (0.172, -0.19)], seg=16)   # 穀倉燈罩（外面黑）
+    bmesh.ops.rotate(shade, verts=shade.verts, cent=(0, 0, 0), matrix=Matrix.Rotation(math.radians(38), 3, 'X'))   # 燈罩口往下、往招牌那邊斜 38°（v1 是 −38°＝朝街上）
+    gn.add_bm(shade, Matrix.Translation(g2b(x, y + 0.1, 0.66))); shade.free()
+    inner = L.lathe([(0.02, -0.01), (0.055, -0.035), (0.14, -0.15), (0.158, -0.175)], seg=16)       # 燈罩裡面（暖光；晚上亮）
+    bmesh.ops.reverse_faces(inner, faces=inner.faces)
+    bmesh.ops.rotate(inner, verts=inner.verts, cent=(0, 0, 0), matrix=Matrix.Rotation(math.radians(38), 3, 'X'))
+    gg.add_bm(inner, Matrix.Translation(g2b(x, y + 0.1, 0.66))); inner.free()
+    gb.sphere((x, y + 0.05, 0.625), 0.038, seg=8, rings=4)                                       # 燈泡在燈罩裡
+    CL.glow(root, 'signlamp', x, SIGN_Y1 - 0.12, BAND_D + 0.12, color='rgba(255,222,165,1)', size=1.7, day=0.0, night=0.85)   # 一個光暈管兩件事：燈罩口、照在招牌上的那一片
+gn.finish(shop); gb.finish(shop, smooth=True); gg.finish(shop)
 # 氣窗、門的木格子（參考圖：深色木框、上面一排小格子；外面那一面）
 mun = Mesh('shop_muntins', mat['wood'])
 for xs in sf_info['bays']:
@@ -284,31 +287,99 @@ for sgn in (-1, 1):
     sconce(sgn * (DOOR + POST / 2), 2.0, 0.08, 0.85)
 lmet.finish(shop); lgl.finish(shop); lbu.finish(shop, smooth=True)
 
-# ================================================================ 4. 店內（和室內區域同一套配置；外觀 z' = 室內 z − 6）
-inside = CL.grp('INTERIOR', root, z=IZ)
-res = CL.interior(mat, inside, lite=True, half_w=W / 2 - 0.37)
-uv01(res['menu'].finish(inside, props={'menu': ['今日手沖', '衣索比亞　耶加雪菲', '瓜地馬拉　安提瓜', '拿鐵　120　・　檸檬塔　90']}))
-for (x, y, z) in res['glows']: CL.glow(root, 'pendant', x, y, z + IZ, color='rgba(255,200,130,1)', size=1.5, day=0.55, night=1.0)
+# ================================================================ 4. 店內窗卡（v2，BB-C 19:02 第 1 點「晚上從玻璃看進去，一整間暖黃的燈、書架、檯燈」）
+# v1 玻璃後面是簡化的店內（cafe_layout 的 lite 版：幾何多、在 Blender 裡晚上是灰的）。v2 換成 AA 的店內模型（遊戲裡走進去的那一間）開燈拍的兩張窗卡：
+#   cafe230_wincard.py 拍（Cycles；鏡頭在 8 m 外、視野剛好框住窗卡；外觀座標 z' = 室內 z − 6）→ textures/gen/cafe230_wincard.png（1024×512）＋.json（範圍）。
+#   材質名借用 zones3d.js 的 CAFE_BOUNCE 已經有的 cafe_int_plaster：底色貼圖自己發光（白天 0.42、晚上 0.85）——遊戲程式不用改。
+#   窗卡後面放一層暗的背板、窗卡和玻璃中間放一塊地板：從斜的角度看進去不會看到空的。
+import json as _json
+WC = _json.load(open(os.path.join(HERE, 'textures', 'gen', 'cafe230_wincard.json'), encoding='utf-8'))
+def img_mat(name, png, rough=0.9):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bsdf = nt.nodes['Principled BSDF']; bsdf.inputs['Roughness'].default_value = rough
+    try: bsdf.inputs['Specular IOR Level'].default_value = 0.1
+    except Exception: pass
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(png); nt.links.new(tx.outputs['Color'], bsdf.inputs['Base Color']); m['tile'] = 1.0
+    return m
+for _m in [m for m in bpy.data.materials if m.name == 'cafe_int_plaster']: _m.name = 'cafe_int_plaster_lite_unused'   # CL.materials() 已經有一個同名的（簡化店內用）：不改名的話新的會變成 .001、遊戲認不得
+mat['wincard'] = img_mat('cafe_int_plaster', os.path.join(HERE, 'textures', 'gen', 'cafe230_wincard.png'))
+assert mat['wincard'].name == 'cafe_int_plaster', mat['wincard'].name
+def uvquad(me, pts, uvs):
+    """一個四邊形＋自己的 UV（遊戲座標的點，從正面看逆時針；uvs＝四個角的 (u, v)）"""
+    vs = [me.bm.verts.new(g2b(*q)) for q in pts]; f = me.bm.faces.new(vs); uvl = me.bm.loops.layers.uv.verify()
+    for lp, uv in zip(f.loops, uvs): lp[uvl].uv = uv
+    return f
+def uvrect(px):   # 貼圖集的像素範圍（左上原點）→ UV（v 往上）
+    x0, y0, x1, y1 = px; return x0 / 1024, 1 - y1 / 512, x1 / 1024, 1 - y0 / 512
+inside = CL.grp('INTERIOR', root)
+wc = Mesh('wincard', mat['wincard'])
+F_ = WC['front']; u0, v0, u1, v1 = uvrect(F_['px']); FX0, FX1 = F_['x']; FY0, FY1 = F_['y']; FZ = -0.9
+uvquad(wc, [(FX0, FY0, FZ), (FX1, FY0, FZ), (FX1, FY1, FZ), (FX0, FY1, FZ)], [(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
+S_ = WC['side']; u0, v0, u1, v1 = uvrect(S_['px']); SZ0, SZ1 = S_['z']; SY0, SY1 = S_['y']; SXP = 5.85     # 側面：從外面看，左邊＝前面（z' 大）
+uvquad(wc, [(SXP, SY0, SZ1), (SXP, SY0, SZ0), (SXP, SY1, SZ0), (SXP, SY1, SZ1)], [(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
+wc.finish(inside, uv=False)
+dk = Mesh('wincard_back', mat['room_dark'])                                                 # 背板（朝裡面）、窗卡和玻璃之間的地板
+dk.quad([(FX1, FY0, FZ - 0.02), (FX0, FY0, FZ - 0.02), (FX0, FY1, FZ - 0.02), (FX1, FY1, FZ - 0.02)])
+dk.quad([(SXP - 0.02, SY0, SZ0), (SXP - 0.02, SY0, SZ1), (SXP - 0.02, SY1, SZ1), (SXP - 0.02, SY1, SZ0)])
+dk.quad([(FX0, 0.01, -0.02), (FX1, 0.01, -0.02), (FX1, 0.01, FZ), (FX0, 0.01, FZ)][::-1])
+dk.quad([(SXP, 0.01, SZ1), (W / 2 - 0.25, 0.01, SZ1), (W / 2 - 0.25, 0.01, SZ0), (SXP, 0.01, SZ0)][::-1])
+dk.finish(inside)
+# 窗卡上的燈也有光暈（遊戲的 TK.glowSprite）：燈在窗卡上的位置＝從拍窗卡的鏡頭看過去、投到窗卡平面上（光暈放在窗卡前面一點）
+def proj_front(x, y, zi):
+    cz = 8.0; cy = 1.525; t = (cz - FZ) / (cz - (zi - 6.0)); return (x * t, cy + (y - cy) * t, FZ + 0.04)
+def proj_side(x, y, zi):
+    cx, cy, cz = SXP + 8.0, 1.7, -6.5; t = (cx - SXP) / (cx - x); return (SXP + 0.04, cy + (y - cy) * t, cz + ((zi - 6.0) - cz) * t)
+for (x, y, zi) in ((1.95, 1.44, 5.4), (-1.95, 1.44, 5.4), (5.6, 1.44, 5.4), (-5.6, 1.44, 5.4)):     # 窗邊吧台的燈罩檯燈（離玻璃最近、最亮）
+    CL.glow(root, 'winlamp', *proj_front(x, y, zi), color='rgba(255,214,150,1)', size=0.9, day=0.2, night=0.9)
+for (x, y, zi) in ((-4.24, 2.1, -3.95), (-1.92, 2.1, -3.95), (0.4, 2.1, -3.95)):                     # 吧台上方的吊燈（隔一盞一個）
+    CL.glow(root, 'pendant', *proj_front(x, y, zi), color='rgba(255,200,130,1)', size=0.5, day=0.1, night=0.6)
+for (x, y, zi) in ((6.82, 1.14, -3.15), (6.82, 1.14, 0.85)):                                          # 側窗窗台上的檯燈
+    CL.glow(root, 'winlamp', *proj_side(x, y, zi), color='rgba(255,214,150,1)', size=0.8, day=0.15, night=0.85)
+# 菜單（MENU_FACE：遊戲照舊畫字；v1 在簡化店內的後牆，v2 立在左邊那段櫥窗裡、窗台上，面向街道）
+mx_, my0, mz_ = -4.3, SILL + 0.03, -0.24; MW, MH, MT = 0.38, 0.52, math.radians(9)
+mfr = Mesh('menu_easel', mat['wood2'])
+mfr.box(mx_ - MW / 2 - 0.025, mx_ + MW / 2 + 0.025, my0, my0 + 0.03, mz_ - 0.05, mz_ + 0.03)            # 底座
+mtop = (my0 + 0.03 + MH, mz_ - MH * math.tan(MT))
+for sx in (-1, 1): mfr.cyl((mx_ + sx * (MW / 2 + 0.012), my0 + 0.03, mz_), (mx_ + sx * (MW / 2 + 0.012), mtop[0] + 0.02, mtop[1] - 0.004), 0.011, seg=6)
+mfr.cyl((mx_, my0 + 0.03, mz_ - 0.2), (mx_, mtop[0] - 0.05, mtop[1] - 0.02), 0.009, seg=6)               # 後面撐的那支
+mfr.finish(inside)
+menu = Mesh('MENU_FACE', mat['chalk'])
+menu.quad([(mx_ - MW / 2, my0 + 0.03, mz_ + 0.01), (mx_ + MW / 2, my0 + 0.03, mz_ + 0.01), (mx_ + MW / 2, mtop[0], mtop[1] + 0.01), (mx_ - MW / 2, mtop[0], mtop[1] + 0.01)])
+uv01(menu.finish(inside, props={'menu': ['今日手沖', '衣索比亞　耶加雪菲', '瓜地馬拉　安提瓜', '拿鐵　120　・　檸檬塔　90']}))
 
-# ================================================================ 5. 爬藤（參考圖：從轉角的招牌帶上面垂下來一大片；兩邊壁柱下半段有一些）
-ivy = Mesh('ivy', mat['ivy'])
-for s in (-1, 1):                                   # 壁柱下半段（壁燈 2.25 m 以下，不蓋到燈）
-    x = s * (W / 2 - PIL / 2); y = 0.45
-    while y < 1.75:
-        for _ in range(2):
-            w_ = random.uniform(0.4, 0.62)
-            card(ivy, x + random.uniform(-0.16, 0.16), y + random.uniform(-0.1, 0.1), 0.09 + random.uniform(0, 0.06), w_, w_,
-                 ry=random.uniform(-0.25, 0.25), rx=random.uniform(-0.25, 0.25), uv=rand_uv(0.45))
-        y += 0.34 if s > 0 else 0.5
-for _ in range(16):                                 # 轉角：正面招牌帶前緣垂下（x 4.6～7.3）
-    w_ = random.uniform(0.38, 0.6); xx = random.uniform(4.6, W / 2 + BAND_D); hh = w_ * random.uniform(1.4, 2.0)
-    card(ivy, xx, BAND_Y0 + 0.08 - hh * random.uniform(0.25, 0.5), BAND_D + random.uniform(0.01, 0.06), w_, hh, ry=random.uniform(-0.25, 0.25), uv=rand_uv(0.4))
-for _ in range(12):                                 # 轉角：側面招牌帶前緣垂下（z −1.8～0.3）
-    w_ = random.uniform(0.38, 0.6); zz = random.uniform(-1.8, BAND_D); hh = w_ * random.uniform(1.4, 2.0)
-    card(ivy, W / 2 + BAND_D + random.uniform(0.01, 0.06), BAND_Y0 + 0.08 - hh * random.uniform(0.25, 0.5), zz, w_, hh, ry=math.pi / 2 + random.uniform(-0.25, 0.25), uv=rand_uv(0.4))
-for _ in range(10):                                 # 招牌帶頂上冒出來、蓋過轉角的上緣（從二樓的花台垂下來）
-    w_ = random.uniform(0.4, 0.65)
-    card(ivy, random.uniform(5.4, W / 2 + BAND_D), BAND_Y1 + random.uniform(-0.05, 0.25), random.uniform(0.05, BAND_D + 0.04), w_, w_, ry=random.uniform(-0.6, 0.6), rx=random.uniform(-0.5, 0.2), uv=rand_uv(0.45))
+# ================================================================ 5. 爬藤（v2，BB-C 19:02 第 3 點：參考圖是細細一條條往下垂；v1 是一大塊一大塊方的葉片卡）
+# 藤條貼圖 gen_leaves.py strands（四條，一條 128×512：頂端在上緣）；一條藤＝一張細長的卡（寬＝長的 1/4，照貼圖的比例），底端往外飄一點。
+# 從二樓的花台垂下來：越過招牌帶的上緣，掛在轉角的招牌帶前面，有的垂到窗的上半部；轉角上面一小團葉子（v1 的葉片卡縮小）當藤的起點。
+mat['strand'] = CL.leaf_mat('cafe_leaf_strand', 'ivy_strands.png')
+stv = Mesh('ivy_strands', mat['strand'])
+def strand(x, ytop, z, length, ry, lean=0.1, up=False, col=None):
+    """一條藤：頂端中間在 (x, ytop, z)、往下 length（up：從 ytop 往上爬）；ry＝面向（0＝+z、π/2＝+x）；lean＝底端離牆多遠"""
+    col = random.randrange(4) if col is None else col; w = length / 4.0 * random.uniform(0.92, 1.08)
+    tx_, tz_ = math.cos(ry), -math.sin(ry); nx_, nz_ = math.sin(ry), math.cos(ry)
+    yb = ytop + length if up else ytop - length
+    top = [(x - tx_ * w / 2, ytop, z - tz_ * w / 2), (x + tx_ * w / 2, ytop, z + tz_ * w / 2)]
+    bot = [(q[0] + nx_ * lean, yb, q[2] + nz_ * lean) for q in top]
+    ua, ub = col / 4 + 0.004, (col + 1) / 4 - 0.004
+    if up: uvquad(stv, [top[0], top[1], bot[1], bot[0]], [(ua, 1), (ub, 1), (ub, 0), (ua, 0)])     # 往上爬：根（貼圖上緣）在下面、尾端在上面
+    else: uvquad(stv, [bot[0], bot[1], top[1], top[0]], [(ua, 0), (ub, 0), (ub, 1), (ua, 1)])
+TOPY = BAND_Y1 + 0.06
+for k in range(13):                                 # 轉角：正面的招牌帶前面（x 4.7～7.3）
+    xx = random.uniform(4.7, W / 2 + BAND_D - 0.05); L_ = random.uniform(1.0, 2.3) * (1.0 if xx > 5.6 else 0.75)
+    strand(xx, TOPY + random.uniform(-0.02, 0.08), BAND_D + random.uniform(0.02, 0.07), L_, random.uniform(-0.35, 0.35), lean=random.uniform(0.04, 0.16))
+for k in range(10):                                 # 轉角：側面的招牌帶前面（z' −2.6～0.2）
+    zz = random.uniform(-2.6, BAND_D - 0.05); L_ = random.uniform(1.0, 2.3) * (1.0 if zz > -1.5 else 0.75)
+    strand(W / 2 + BAND_D + random.uniform(0.02, 0.07), TOPY + random.uniform(-0.02, 0.08), zz, L_, math.pi / 2 + random.uniform(-0.35, 0.35), lean=random.uniform(0.04, 0.16))
+for k in range(4):                                  # 正轉角：斜 45°
+    strand(W / 2 + BAND_D + 0.02, TOPY + random.uniform(0.0, 0.08), BAND_D + 0.02, random.uniform(1.4, 2.4), math.pi / 4 + random.uniform(-0.2, 0.2), lean=random.uniform(0.08, 0.2))
+for s in (-1, 1):                                   # 兩邊壁柱下半段：往上爬的細藤（壁燈 2.25 m 以下，不蓋到燈）
+    for k in range(3):
+        strand(s * (W / 2 - PIL / 2) + random.uniform(-0.17, 0.17), 0.42, 0.075 + random.uniform(0, 0.03), random.uniform(1.0, 1.45), random.uniform(-0.25, 0.25), lean=0.0, up=True)
+stv.finish(shop, uv=False)
+ivy = Mesh('ivy', mat['ivy'])                        # 轉角頂上一小團葉子（藤的起點；v1 的葉片卡縮小）
+for _ in range(14):
+    w_ = random.uniform(0.24, 0.4); onfront = random.random() < 0.55
+    if onfront: cx_, cz_, ry_ = random.uniform(5.3, W / 2 + BAND_D), random.uniform(0.04, BAND_D + 0.06), random.uniform(-0.6, 0.6)
+    else: cx_, cz_, ry_ = W / 2 + BAND_D + random.uniform(0.0, 0.06), random.uniform(-1.6, BAND_D), math.pi / 2 + random.uniform(-0.6, 0.6)
+    card(ivy, cx_, BAND_Y1 + random.uniform(-0.04, 0.2), cz_, w_, w_, ry=ry_, rx=random.uniform(-0.5, 0.2), uv=rand_uv(0.45))
 ivy.finish(shop, uv=False)
 
 # ================================================================ 6. 門口道具：兩組盆栽（在原本的導航阻擋範圍內）、壁柱花台、窗台小盆栽、A 字立牌
@@ -359,6 +430,20 @@ fm.quad(q); uv01(fm.finish(props, props={'aboard': ['Business Hours', '11:00 –
 fb_ = Mesh('ABOARD_FACE_back', mat['chalk'])                                                  # 板子背面也是黑板（往店裡那一面寫手沖菜單；遊戲照舊畫兩面：tests/cafe_glb_integration.py 要四個字面）
 fb_.quad([ep(EW / 2, fr0 + 0.03, -0.014), ep(-EW / 2, fr0 + 0.03, -0.014), ep(-EW / 2, fr1 - 0.03, -0.014), ep(EW / 2, fr1 - 0.03, -0.014)])
 uv01(fb_.finish(props, props={'aboard': ['今日手沖', '衣索比亞', '耶加雪菲', '—', '讀書位 有']}))
+# 門口的木椅（參考圖：門旁一張木椅；v2，BB-C 19:02 第 4 點）：門的另一邊（畫架在 x 3.6），靠著左邊那段櫥窗下的木板、稍微轉向門。
+# 導航：遊戲要加一個小阻擋——世界座標 blockCircle(54.95, −2.3, 0.32)（外觀 x −2.3、z 0.45；cafeB 原點在世界 x 55.4、正面朝 −x）。LAWWW-C 接
+CHX, CHZ, CHR = -2.3, 0.45, math.radians(18)
+_ch = Mesh('_chair_tmp', mat['wood2'])
+for lx in (-0.18, 0.18):
+    _ch.cyl((lx, 0.0, 0.16), (lx, 0.44, 0.16), 0.017, seg=6)                                       # 前腳
+    _ch.cyl((lx, 0.0, -0.17), (lx * 0.96, 0.9, -0.22), 0.018, seg=6)                               # 後腳（往上就是椅背的柱子，往後斜）
+_ch.box(-0.21, 0.21, 0.44, 0.475, -0.2, 0.2)                                                         # 坐墊
+for (y_, zc) in ((0.86, -0.215), (0.68, -0.2)): _ch.box(-0.19, 0.19, y_ - 0.035, y_ + 0.035, zc - 0.012, zc + 0.012)   # 椅背兩條橫木
+for lx in (-0.06, 0.06): _ch.box(lx - 0.014, lx + 0.014, 0.5, 0.82, -0.21, -0.19)                    # 椅背中間兩支直木
+for (y_, a_, b_) in ((0.17, -0.17, 0.16),): _ch.box(-0.17, 0.17, y_ - 0.012, y_ + 0.012, 0.15, 0.17); _ch.box(-0.17, 0.17, y_ - 0.012, y_ + 0.012, -0.18, -0.16)   # 腳中間的橫撐
+chair = Mesh('door_chair', mat['wood2'])
+chair.add_bm(_ch.bm, Matrix.Translation(g2b(CHX, 0.0, CHZ)) @ Matrix.Rotation(CHR, 4, 'Z')); _ch.bm.free()
+chair.finish(props)
 
 # ================================================================ 合併同材質的零件（少很多 draw call）；招牌、立牌、菜單板面要單獨（遊戲換 canvas 貼圖）
 # 純色材質改成三個頂點色材質（第二輪減量，2026-10-10；lib2.vc_consolidate）：亮面（瓷杯、檯面、釉面盆）、霧面、金屬，各一次 draw call。
@@ -371,11 +456,11 @@ L.realize_small_instances(root, keep=_keep)   # 第三輪減量（2026-10-16）�
 L.split_by_material(root, keep=_keep)
 # 效能第二輪（2026-10-16）：玻璃看進去的店內（地板、牆、木頭、天花板、樑、書、層架、吧台）八個貼圖材質合成一張 cafe_int_atlas——
 # 遊戲的 CAFE_BOUNCE（白天店裡也開燈）要加一行 cafe_int_atlas；名字是 cafe_int_ 開頭，WZ_NO_SHADOW 照舊不投影。外面的小貼圖材質另一張。
-L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_atlas.png'), 'cafe_int_atlas', only=set(BOUNCE_MATS), max_tris=6000, max_rep=8, cell=256, rough=0.6, keep=_keep)
+# v2：店內換成窗卡（cafe_int_plaster），店內的貼圖集（cafe_int_atlas、cafe_int_rows）不用了——窗卡不能被合進 256 的小格子
 L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_small_atlas.png'), 'cafe_ext_small_atlas', protect=set(NIGHT_MATS) | set(BOUNCE_MATS) | {'cafe230_stucco', 'cafe230_fascia'}, max_tris=600, keep=_keep)   # 灰泥、招牌帶不併（WZ-FIVE-1104：併進小貼圖集細節和顏色都會被壓掉）
-L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_int_rows.jpg'), 'cafe_int_rows', only=set(BOUNCE_MATS), max_tris=4000, max_vloss=0.06, keep=_keep)   # 店內剩下的（牆、樑、天花板、木頭）：CAFE_BOUNCE 也要加 cafe_int_rows
+# （店內的 atlas_rows 也拿掉）
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', 'cafe_ext_rows.jpg'), 'cafe_ext_rows', protect=set(NIGHT_MATS) | set(BOUNCE_MATS) | {'cafe230_stucco', 'cafe230_fascia'}, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith(('cafe_int_atlas', 'cafe_ext_small_atlas')))
-L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_leaf_atlas.png'), 'cafe_leaf_atlas', alpha=True, max_tris=4000, keep=_keep, rough=0.7)   # 效能第三輪：四種葉片卡合一張（名字 cafe_leaf_ 開頭：遊戲照舊雙面＋alphaTest）
+L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', 'cafe_leaf_atlas.png'), 'cafe_leaf_atlas', alpha=True, max_tris=4000, keep=_keep, rough=0.7, skip=lambda m: m.name == 'cafe_leaf_strand')   # 藤條不進來：一格 256 太糊（v2 多一次 draw call）   # 效能第三輪：四種葉片卡合一張（名字 cafe_leaf_ 開頭：遊戲照舊雙面＋alphaTest）
 L.merge_by_material(root, keep=_keep)
 info = L.export(OUT, gpu_instances=True)
 info.update({'night_mats': NIGHT_MATS, 'bounce_mats': BOUNCE_MATS})

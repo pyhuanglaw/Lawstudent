@@ -1,6 +1,6 @@
 """Blender 模型渲染圖（驗收用，D38 第 12.8 節的⑤；不是遊戲截圖）：匯入 GLB → Cycles（CPU、低取樣＋降噪）→ PNG。
 這個沙盒的 EEVEE 要用軟體 OpenGL，一張圖十幾分鐘還出不來，所以用 Cycles。
-用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--season summer|autumn|bare|snow] [--exposure EV] [--view Standard] [--hide 名稱]... [--noemit] [--point x,y,z,W]...
+用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--bounce 材質=強度]... [--facetex 網格名=圖@發光]... [--season summer|autumn|bare|snow] [--exposure EV] [--view Standard] [--hide 名稱]... [--noemit] [--point x,y,z,W]...
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -47,6 +47,17 @@ for o in sc.objects:   # 窗外的景（名稱 PREVIEW_view*：建模腳本 --pr
 for t in [A[i + 1] for i, x in enumerate(A) if x == '--point']:   # 室內預覽：--point x,y,z,瓦數（遊戲座標）
     x, y, z, e = map(float, t.split(',')); lt = bpy.data.objects.new('pt', bpy.data.lights.new('pt', 'POINT')); lt.data.energy = e; lt.data.color = (1.0, 0.95, 0.88); lt.data.shadow_soft_size = 0.4
     lt.location = g2b(x, y, z); sc.collection.objects.link(lt)
+for t in [A[i + 1] for i, x in enumerate(A) if x == '--bounce']:   # --bounce 材質名=強度：照遊戲的 TK.bounce（底色貼圖自己發光；例：2:30 AM 的店內窗卡 cafe_int_plaster=0.85 是晚上）
+    nm, k = t.split('='); mt = bpy.data.materials.get(nm)
+    if mt and mt.use_nodes and 'Principled BSDF' in mt.node_tree.nodes:
+        b = mt.node_tree.nodes['Principled BSDF']; src = b.inputs['Base Color'].links[0].from_socket if b.inputs['Base Color'].links else None
+        if src is not None: mt.node_tree.links.new(src, b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = float(k)
+for t in [A[i + 1] for i, x in enumerate(A) if x == '--facetex']:   # --facetex 網格名=圖@發光強度：遊戲用 canvas 畫字的板面（SIGN_FACE…），預覽時貼一張近似的圖
+    nm, rest = t.split('=', 1); png, k = (rest.split('@') + ['0'])[:2]; img = bpy.data.images.load(os.path.abspath(png))
+    fm = bpy.data.materials.new('preview_' + nm); fm.use_nodes = True; b = fm.node_tree.nodes['Principled BSDF']; tx = fm.node_tree.nodes.new('ShaderNodeTexImage'); tx.image = img
+    fm.node_tree.links.new(tx.outputs['Color'], b.inputs['Base Color']); fm.node_tree.links.new(tx.outputs['Color'], b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = float(k); b.inputs['Roughness'].default_value = 0.8
+    for ob in bpy.data.objects:
+        if ob.type == 'MESH' and nm in ob.name: ob.data.materials.clear(); ob.data.materials.append(fm)
 if '--exposure' in A: sc.view_settings.exposure = float(A[A.index('--exposure') + 1])
 if '--noemit' in A:   # --noemit：白天的渲染不讓自發光發亮（總圖、行政大樓亮燈的窗有自發光貼圖；遊戲裡只有晚上開，Blender 會一直亮）
     for mt in bpy.data.materials:
