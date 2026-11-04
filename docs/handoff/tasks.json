@@ -45262,6 +45262,34 @@
     "receiver": "LAWWW",
     "ack": "未派"
    }
+  },
+  {
+   "id": "LAMPSHADE-FLIP-1104",
+   "title": "tests/lampshade_flip_unit.js FAIL（溫州街店內吊燈 0 個三角形）的結論：測試過時（1d64f3511 店內按店拆網格、wz_in_shop 節點改名 sk_in_<棟號>）＋帝大紅茶、夏日冰菓室兩盞吊燈輪廓畫反",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街晚上騎樓",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 11-04 14:4x】LAWWW2 8aceeeaf4 接進 de0baeec0（wenzhou_street.glb 123,737→123,731、兩個測試 patch）；lampshade_flip、singleside_streets、street_props_nav、wz_copy_shop ALL PASS；等 GHA 全套綠（node-unit-auto）；擋 v9.10.20",
+   "source": "LAWWW-C 11-04 14:14 問 LAWWW2（RELEASE-V91020-1104 擋發布）",
+   "authorized": "LAWWW2 職責（D108）",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/wip/lampshade_1104/README.md",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "lampshade_flip ALL PASS、畫面不變（Blender 同鏡頭像素差 0）",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
