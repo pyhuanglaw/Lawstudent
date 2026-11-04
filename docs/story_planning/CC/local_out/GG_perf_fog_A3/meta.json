@@ -1,0 +1,23 @@
+{
+  "rerun": "fog3",
+  "id": "GG_perf_fog_A3",
+  "sha": "9ac863212",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/cc_gg_perf_probe.py",
+  "env": "RUN=fogA3;RERUN=fog3;CC_HEADLESS=0",
+  "machine": "MSI",
+  "start": "2026-11-04T12:47:44",
+  "end": "2026-11-04T12:50:14",
+  "seconds": 150,
+  "exit": 0,
+  "error": null,
+  "runner": "9bde5687ff",
+  "rf_round": "22",
+  "url": "http://127.0.0.1:8811/index.html",
+  "res_peak": {
+    "cpu": 100,
+    "mem": 60,
+    "used_gb": 18.9,
+    "chrome_testing": 19
+  }
+}
