@@ -1,0 +1,23 @@
+{
+  "rerun": "",
+  "id": "WZ4_reach",
+  "sha": "dac871e25",
+  "kind": "game",
+  "script": "tests/reachability_all.py",
+  "env": "XARGS={url} --zones wz_teahouse,wz_teishoku,wz_brunch",
+  "machine": "MSI",
+  "start": "2026-11-04T16:35:01",
+  "end": "2026-11-04T16:36:14",
+  "seconds": 73,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "25",
+  "url": "http://127.0.0.1:8810/index.html?turbo",
+  "res_peak": {
+    "cpu": 97,
+    "mem": 50,
+    "used_gb": 15.9,
+    "chrome_testing": 19
+  }
+}
