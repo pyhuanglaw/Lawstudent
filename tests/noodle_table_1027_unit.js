@@ -10,7 +10,7 @@
 //   6  燒臘店的長桌一則都不演（STORY.ndlTalkPick：麵店日的作息裡沒有人了）
 //   7  大二～大四：條件（交往以後、雙主修、Y3S2、以安在日本、2029-03-01、Y4S1／Y4S2）
 //   8  燒臘店走進來兩秒以後也不演（S.ndlTalkTick）
-// 修改前（開發分支 9f70c066f）：長桌閒聊還在燒臘店——第 0（大二六則）、2、3、5、6、7、8 項 FAIL。用法：node tests/noodle_table_1027_unit.js
+// 修改前（開發分支 9f70c066f）：長桌閒聊還在燒臘店、桌遊夜沒有 BGN.talk——第 0 項 FAIL 就停（FAILED 1）。用法：node tests/noodle_table_1027_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;

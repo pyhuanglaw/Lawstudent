@@ -58,7 +58,8 @@ const BGN=(function(){
   S.YU_LATE={term:'Y1S2',weeks:[13,14,15],h:23};
   S.yuLate=d=>{ if(!hasCal()||d==null||!S.isNight(d)) return false; const t=CALENDAR.termOf(d); return !!t&&t.id===S.YU_LATE.term&&S.YU_LATE.weeks.includes(t.week); };
   /* 作息：桌遊夜 20:00～23:30 在日常失速（沒有 3D）*/
-  S.sched=function(c,G){ if(!c||!G||!law(G)) return null; const hr=G.hour%24; if(c.id==='yu'&&S.yuLate(G.day)&&hr>=S.YU_LATE.h&&hr<S.H1) return {days:[5],from:S.YU_LATE.h,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_675 1-3 桌遊夜（戲院下班趕到）'};
+  const pres=(G,id)=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,G); return !(p&&p.here===false); };   /* 那一天人不在（出遠門、回老家）＝不來 */
+  S.sched=function(c,G){ if(!c||!G||!law(G)) return null; const hr=G.hour%24; if(c.id==='yu'&&S.yuLate(G.day)&&hr>=S.YU_LATE.h&&hr<S.H1) return pres(G,'yu')?{days:[5],from:S.YU_LATE.h,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_675 1-3 桌遊夜（戲院下班趕到）'}:null;
     if(hr<S.H0||hr>=S.H1||!S.here(G,c.id)) return null;
     if(typeof STORY!=='undefined'&&STORY.presence){ const p=STORY.presence(c.id,G); if(p&&p.here===false) return null; }
     return {days:[5],from:S.H0,to:S.H1,zone:null,act:'out',away:L.away,note:'AA_623 桌遊夜'}; };
@@ -85,7 +86,7 @@ const BGN=(function(){
      1-3 ev_yu_sign_seat（events.js，「Alison 每次都坐阿哲旁邊。」）：Alison 23:00 趕到的那一次桌遊夜，接在場景後面演（2D，不等 3D）；條件照事件（認識 Alison、大一下第 13～15 週、只一次），
        記 yu2SeatDay（第三個徵兆 ev_yu_sign_question_* 照舊讀）、記成演過。 */
   const REG=['zhe','yu','classmate_bohan','classmate_xinci'];   /* 長桌常客（story3d.js NDL_REGULARS）*/
-  S.talkHere=(G,id)=>S.here(G,id,G.day)||(id==='yu'&&S.yuLate(G.day));
+  S.talkHere=(G,id)=>(S.here(G,id,G.day)||(id==='yu'&&S.yuLate(G.day)))&&pres(G,id);
   S.talkPick=function(G){ if(!G||!G.flags||typeof NOODLE_TABLE==='undefined'||typeof STORY==='undefined'||!STORY.ndlTalkGroup||!inGrp(G)) return null; const k=STORY.ndlTalkGroup(G), T=k&&NOODLE_TABLE[k]; if(!T||!T.length) return null;
     const F=G.flags, N=F.ndlTalkN||{}, i0=(N[k]|0)%T.length, O=F.ndlTalkOnce||{}, kn=id=>knows(id,G);
     const ok=e=>!!e&&!e.retired&&e.bgn!==false&&!(e.once&&O[e.once]!=null)&&(e.who||[]).concat(e.know||[]).every(kn)&&(!STORY.ndlTalkIf||STORY.ndlTalkIf(G,e.if))
@@ -103,7 +104,7 @@ const BGN=(function(){
     if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(p.e.dialogue||[],{id:'bgn_table_'+p.k+'_'+(p.i+1)});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here){ try{ SOCIAL.activity(id,'classmate'); }catch(e){} }
     return true; };
-  S.yuSign=async function(GM){ const G=GM.G; if(!S.yuLate(G.day)||typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return false;
+  S.yuSign=async function(GM){ const G=GM.G; if(!S.yuLate(G.day)||!pres(G,'yu')||typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return false;
     const ev=STORY_EVENTS.find(e=>e&&e.id==='ev_yu_sign_seat'); if(!ev) return false; let ok=false; try{ ok=!!EVENTS.check(ev,{chain:true}); }catch(e){ ok=false; } if(!ok) return false;
     if(typeof ADV!=='undefined'&&ADV.preload) ADV.preload(ev.participants||[]);
     if(EVENTS.runLines) await EVENTS.runLines(ev.dialogue||[],ev); if(EVENTS.applyConsequences) EVENTS.applyConsequences(ev.consequences);

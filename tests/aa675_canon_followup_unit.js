@@ -128,6 +128,9 @@ await sec(3,async()=>{
   fresh(n14,22,'dorm'); PHONE.join(H.G,'noodle_team','桌遊團'); for(const id of ['zhe','classmate_bohan','classmate_xinci',MX,'yu']) H.FAMILIAR(id); H.G.flags.ndlTalkN={Y1:6};
   const p=B.talkPick(H.G); check('3. 那一晚長桌閒聊有 Alison 的那幾則也可以輪到（輪到第 7 則「憲法課老師今天點了阿哲兩次。」，Alison 在）',!!p&&(NOODLE_TABLE.Y1[p.i].who||[]).includes('yu')&&p.i===6,J(p&&p.i));
   check('3. 第三個徵兆（騎樓、社課後）照舊讀 yu2SeatDay',/yu2SeatDay!=null/.test(src('src/data/events.js')));
+  { const P=CHARACTERS.yu.presence, k14=CALENDAR.dateOf(n14).key, k15=CALENDAR.dateOf(n14+1).key, keep=P.absentDates; P.absentDates=(keep||[]).concat([[k14,k15,'（測試）出遠門','trip']]);   /* absentDates 不含最後一天 */
+    fresh(n14,23.2,'dorm'); H.G.flags.met_yu=true; const s1=B.sched({id:'yu'},H.G), t1=B.talkHere(H.G,'yu'); const y1=await B.yuSign(GM); P.absentDates=keep;
+    check('3. 那一天 Alison 人不在（出遠門）＝不來：作息不放日常失速、長桌閒聊不算她在、徵兆不演',s1===null&&!t1&&y1===false&&!H.G.events.done.ev_yu_sign_seat,J([s1,t1,y1])); }
 });
 
 /* ---------- 4 第 72 列：告白晚餐週六 17:30 一盞茶屋 ---------- */
