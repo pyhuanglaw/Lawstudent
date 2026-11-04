@@ -95,9 +95,9 @@ await sec('5',()=>{
   check('5. 大一下：6/11（四）20:30 傳；她 6/18 雙主修筆試以前不來（AA_250 第 2 節，照舊）＝6/18 以後的第一個週六 6/20（稿：「和週六的飯不衝突了」）',J(R.Y1S2.sent.slice(0,2))===J(['2026-06-11',4])&&J(R.Y1S2.dinner)===J(['2026-06-20',6,18])&&in687('她 6/18 的雙主修筆試和週六的飯不衝突了'),J(R.Y1S2));
   check('5. 全部學期（傳的那天、飯的那天）：'+TERMS.map(t=>t+' '+EXP[t][0]+'→'+EXP[t][1]).join('、'),TERMS.every(t=>!!R[t].sent&&R[t].sent[0]===EXP[t][0]&&!!R[t].dinner&&R[t].dinner[0]===EXP[t][1]),J(TERMS.map(t=>[t,R[t].sent&&R[t].sent[0],R[t].dinner&&R[t].dinner[0]])));
   check('3. 那一頓 18:00（原本 17:30；稿「改成 **18:00**」）、溫州街・小路、週六；資料 h 18、examDay',TERMS.every(t=>!!R[t].dinner&&R[t].dinner[1]===6&&R[t].dinner[2]===18&&R[t].place==='溫州街・小路')&&TERMEND_LINES.FRIEND[YT].h===18&&TERMEND_LINES.FRIEND[YT].examDay===true&&TERMEND.dinnerH('Y2S1','friend',TERMEND.friend(YT,'Y2S1'))===18&&in687('改成 **18:00**'),J(TERMS.map(t=>[t,R[t].dinner,R[t].place])));
-  /* 週五考完：別人的朋友邀約照舊隔天（週六）20:30（只有語彤那一則改）*/
+  /* 週五考完：別人的朋友邀約原本照舊隔天（週六）20:30；TE-FRI-SAME-NIGHT-1104（BB-C 22:09）起接在語彤那一則後面、同一個週五晚上到（20:39），飯的日子照原本 */
   { const {w}=setupTerm('Y2S2',[YT,AN]); at('2027-06-11',19.9); run(19.9,21.5); const a1=PHONE.byAsk(H.G,tagOf('Y2S2')), b1=PHONE.byAsk(H.G,'te_Y2S2_'+AN); at('2027-06-12',19.9); run(19.9,21.5); const b2=PHONE.byAsk(H.G,'te_Y2S2_'+AN);
-    check('5. 大二下另一位朋友（以安）的邀約照舊在最後一科考完的隔天 6/12（六）20:30 傳；語彤那一則 6/11（五）就到了',!!a1&&K(a1.day)==='2027-06-11'&&!b1&&!!b2&&K(b2.day)==='2027-06-12'&&b2.h>=20.5,J([a1&&K(a1.day),b1&&K(b1.day),b2&&[K(b2.day),b2.h]])); }
+    check('5. 大二下：語彤那一則 6/11（五）20:30 到；另一位朋友（以安）的邀約同一晚 20:39 接在她後面到（TE-FRI-SAME-NIGHT-1104，原本隔天 6/12）、隔天不再傳',!!a1&&K(a1.day)==='2027-06-11'&&a1.h===20.5&&!!b1&&K(b1.day)==='2027-06-11'&&b1.h===20.65&&!!b2&&K(b2.day)==='2027-06-11'&&b2.h===20.65&&(H.G.msgs||[]).filter(m=>m.tag==='te_Y2S2_'+AN).length===1,J([a1&&[K(a1.day),a1.h],b1&&[K(b1.day),b1.h],b2&&[K(b2.day),b2.h]])); }
 });
 
 /* ---------- 4 小路的開場、收尾；背景 ---------- */

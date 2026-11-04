@@ -139,7 +139,15 @@ const TERMEND=(function(){
     const d1=P.back||w.from;   /* 玩家回來那天（不在國外＝時段第一天）*/
     for(const id in P.nope){ const t=S.nopeText(Lx,P.nope[id],id,w.id), tag='te_nope_'+w.id+'_'+id, mine=x=>!!(x&&x.who===id);   /* 時段的最後一天 20:00（BB_203 5-4）；這學期玩家已經約她吃過期末飯＝不傳；一學期一人一句 */
       if(t&&now>=T(w.to,20)&&!PHONE.sent(G,tag)&&!mine(R.picked)&&!mine(R.done)) PHONE.at(G,w.to,20,[{th:'p:'+id,from:id,text:t}],tag); }
-    let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, hs=kind==='heart'?S.heart(id,w.id):null, xs=hs||(kind==='friend'?S.friend(id,w.id):null), d0=xs&&xs.examDay?S.heartFrom(G,w,id,xs):Math.max(S.fromDay(w,id),P.back||w.from);   /* examDay：AA_684 第 6 項（語彤的心意邀約：最後一科考完的那天）；AA_687 第 5 項（企劃線 d41750385，AA-C 定 D109）：語彤的期末飯（朋友那一則，FRIEND 寫 examDay）也照這個規則發 */
+    /* TE-FRI-SAME-NIGHT-1104（BB-C 2026-11-04 22:09）：週五考完的學期（大二下、大四上），語彤那一則（examDay）週五晚上就到、其他人原本隔天才到——玩家只看得到她一個人約，接了以後別人就不傳，等於遊戲替玩家選了人（理由同 TE-HEART-EXEMPT）。
+       改成：她那一則比一般的邀約早到的時候（exD＜P.back），其他人的心意、朋友邀約也在她那一晚到、接在她那一則後面，間隔照舊 9 分鐘（她 20:30，別人 20:39、20:48…，照原本的先後）。
+       晚餐的日子照各自原本的排法（S.dinnerDay 的「那天以後」照舊從 P.back 算、S.genDay 避開她那一晚照舊，TE-HEART-AVOID）；當天才約的（sameDay，芯慈）、S.FROM 比那一晚晚的（學姊大四上 12/24）照原本；
+       可昕、女朋友的學期末約會不在 send（不是「只能接一個」的邀約），不動。她這學期沒有 examDay 那一則（不在名單：交往中、沒約）＝照原本隔天。其他學期（最後一科在時段第一天以前或當天考完）本來就同一晚到，不動 */
+    const exSp=(id,kind)=>{ const s=kind==='heart'?S.heart(id,w.id):S.friend(id,w.id); return s&&s.examDay&&!(kind==='heart'&&s.sameDay)?s:null; },
+      exL=P.heart.map(id=>[id,'heart']).concat(P.friend.map(id=>[id,'friend'])).filter(x=>exSp(x[0],x[1])),
+      exD=exL.length?Math.min.apply(null,exL.map(x=>S.heartFrom(G,w,x[0],exSp(x[0],x[1])))):null, fri=exD!=null&&exD<(P.back||w.from);
+    let n=0, nEx=0, nGen=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, hs=kind==='heart'?S.heart(id,w.id):null, xs=hs||(kind==='friend'?S.friend(id,w.id):null), isEx=!!(xs&&xs.examDay); let h=20.5+(n++)*0.15, d0=isEx?S.heartFrom(G,w,id,xs):Math.max(S.fromDay(w,id),P.back||w.from);   /* examDay：AA_684 第 6 項（語彤的心意邀約：最後一科考完的那天）；AA_687 第 5 項（企劃線 d41750385，AA-C 定 D109）：語彤的期末飯（朋友那一則，FRIEND 寫 examDay）也照這個規則發 */
+      if(fri&&!(hs&&hs.sameDay)){ if(isEx){ if(d0===exD) h=20.5+(nEx++)*0.15; } else { const df=Math.max(S.fromDay(w,id),exD); if(df===exD){ d0=df; h=20.5+(exL.length+nGen++)*0.15; } } }   /* TE-FRI-SAME-NIGHT-1104：週五考完的學期，一般的邀約接在她那一則後面、同一晚到 */
       const taken=kind==='heart'&&S.isExempt(G,w.id,id)?S.exBlocked(G,w.id,id):R.picked;   /* TE-HEART-EXEMPT-1104：不佔名額的那一則不看 R.picked（別人那一頓定了照樣傳；時間撞到的，傳到以後 S.exSweep 照「改天」回）；這學期已經和她本人約了期末的飯才不發 */
       /* 當天才約（HEART.sameDay，芯慈 AA_537b 第 7 節「考完了。今天晚上有空嗎。……我沒有提前一天。」）：先排好日子，那一天 12:00 傳、回覆到 17:30，飯就在那天（BB-B 10-31：原本時段第一天 20:30 傳、飯排在兩天後，「今天」不對）*/
       if(hs&&hs.sameDay){ const RH=R.heartDay||(R.heartDay={}); if(PHONE.sent(G,tag)||taken) return;
@@ -311,7 +319,7 @@ const TERMEND=(function(){
   /* ---- TE-HEART-AVOID-1104（BB-C 2026-11-04 20:17，只改條件、不改台詞）----
      1. 還沒回的一般邀約（不佔名額的那一則以外的心意、朋友的邀約）排日子時，避開語彤那一頓那一整晚（同一天的晚上都不排），往後排到別的晚上：
         S.genDay＝先照原本的規則、跳過語彤那一晚（S.exEvening）排；排一般那一頓（S.planDinner）、算還沒回的那一則會排在哪裡（S.askSlot，S.exSweep 看撞不撞）、當天才約的保留日（heartDay）都走這裡。
-     2. 別人的邀約傳來的時間不動（不讓同一晚的邀約一起到）。找不到別的晚上（期末週的窗口排滿）＝照原本（照字面：時間撞到才互斥、自動婉拒，同 TE-HEART-EXEMPT），console.info 記一筆
+     2. 別人的邀約傳來的時間不動（不讓同一晚的邀約一起到；週五考完的學期另外照 TE-FRI-SAME-NIGHT-1104：其他人的邀約接在她那一則後面、同一晚到，BB-C 22:09）。找不到別的晚上（期末週的窗口排滿）＝照原本（照字面：時間撞到才互斥、自動婉拒，同 TE-HEART-EXEMPT），console.info 記一筆
         （「TE-HEART-AVOID 找不到別的晚上…」；CC 走的時候數有幾次。其他照字面互斥的情形記「TE-HEART-AVOID 照字面互斥…」，分開數）。
      3. 玩家自己約語彤＝佔一般名額（照原本）；4. 阿凱的保底照原本（kaiAsk 不經這裡）；6. 玩家自己約的吃飯和她那一頓撞到＝照邀約系統原本的做法（S.playerPicked），不改。
      5. 語彤那一晚＝她那一頓答應了（R.heartPick）＝排好的那一天；她那一則已經到了、還沒回＝現在答應會排在哪一天（S.exNatural）；還沒到、回了「那天有約了。」、過了期限＝沒有（不避開）。
