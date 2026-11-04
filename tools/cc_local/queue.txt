@@ -60,6 +60,10 @@ CAFE230v2_reach | 75a095355 | game | tests/reachability_all.py | index.html?turb
 CAFE230v2_islands | 75a095355 | game | tools/dev_scratch/nav_islands.py | index.html | 20 | XARGS={url} cafe
 CAFE230v2_wzstreet | 75a095355 | game | tests/wz_street_integration.py | index.html | 40 | XARGS={url}
 CAFE230v2_shots | 75a095355 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 20 | HOURS=14,22;CC_HEADLESS=0
+# CAFE230v3（BB 07:47，排在 WZ3 前：LAWWW 等這組截圖決定環境光）：33222ed89 v1c＋卡座修正；坐沙發椅兩張；22:00 吊燈／檯燈下桌面 vs 沒燈的桌面（螢幕座標，亮度雲端算）
+CAFE230v3_shots | 33222ed89 | probe | docs/story_planning/test_tools/cc/cc_cafe230_shot_probe.py | index.html | 30 | HOURS=14,22;SOFA=1;CC_HEADLESS=0
+CAFE230v3_seats | 33222ed89 | game | tests/seats_on_furniture.py | index.html | 30 | XARGS={url} cafe
+CAFE230v3_reach | 33222ed89 | game | tests/reachability_all.py | index.html?turbo | 30 | XARGS={url} --zones cafe
 # WZ3（BB 07:43）：b53bfab72 小路 v1f、SUNNY SIDE v1d、一盞 v1d＋前院；8 角度拼圖 14／22；一盞門外／前院／緣側＋坐墊；qa_w1；小路拿掉的 5 張座位只記 INFO
 WZ3_komichi_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=komichi;HOURS=14,22;CC_HEADLESS=0
 WZ3_sunny_shots | b53bfab72 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 20 | SHOP=sunny;HOURS=14,22;CC_HEADLESS=0
