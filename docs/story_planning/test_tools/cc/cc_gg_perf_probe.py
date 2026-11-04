@@ -33,6 +33,12 @@ FPS = """(async ms=>{ const ts=[]; const t0=performance.now(); await new Promise
 MEM = """(()=>{ const E=GAME.E, mi=E.renderer.info.memory; const seen=new Set(); let px=0, big=null;
   E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms) for(const k in m){ const t=m[k]; if(t&&t.isTexture&&!seen.has(t)){ seen.add(t); const im=t.image||{}; const w=im.width||0, h=im.height||0; px+=w*h; if(!big||w*h>big.w*big.h) big={w,h,name:t.name||k}; } } });
   return {textures:mi.textures, geometries:mi.geometries, texCount:seen.size, texPixels:px, texMP:+(px/1e6).toFixed(2), biggest:big}; })()"""
+VISLIST = """(()=>{ const E=GAME.E, cam=E.camera; cam.updateMatrixWorld(); const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse));
+  const shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; }; const out=[];
+  E.scene.traverse(o=>{ if(!(o.isMesh||o.isSprite||o.isPoints||o.isLine)) return; if(!shown(o)) return; let inF=true; try{ if(o.geometry){ if(!o.geometry.boundingSphere) o.geometry.computeBoundingSphere(); const bs=o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld); inF=fr.intersectsSphere(bs); } }catch(e){}
+    if(!inF&&o.frustumCulled!==false) return; const ms=Array.isArray(o.material)?o.material:[o.material]; out.push({n:o.name||'(無名)', p:(o.parent&&o.parent.name)||'', m:ms.map(m=>m&&m.name||'?').join('+'), inst:o.isInstancedMesh?o.count:0, fc:o.frustumCulled!==false}); });
+  return out; })()"""
+INFO_JS = "(()=>({hour:+GAME.G.hour.toFixed(3), npcs:(GAME.E.npcs||[]).length, npcsVisible:(GAME.E.npcs||[]).filter(n=>n.obj&&n.obj.parent).length}))()"
 GLBREADY = "(()=>{ const z=GAME.E.zone; if(!z||!z.group) return false; const g=z.group.children.find(o=>o.name==='%s'); if(!g) return false; let m=0; g.traverse(o=>{ if(o.isMesh) m++; }); return m>0; })()" % GLB
 
 
@@ -63,9 +69,15 @@ async def one(p, formal):
         d = await pg.evaluate(DRAW + '(%s,%s)' % (J(list(e)), J(list(l))))
         await pg.wait_for_timeout(1500)
         f = await pg.evaluate(FPS + '(8000)')
+        f.update(await pg.evaluate(INFO_JS))
+        if os.environ.get('LIST') == '1':
+            vl = await pg.evaluate(VISLIST)
+            json.dump(vl, open(os.path.join(OUT, 'vis_%s_%s.json' % (v, 'formal' if formal else 'nobldg')), 'w', encoding='utf-8'), ensure_ascii=False)
+            f['visCount'] = len(vl)
+            print('  %s %s：畫面裡的 mesh %d 個（清單寫進 vis_*.json）' % (tag, v, len(vl)), flush=True)
         await pg.screenshot(path=os.path.join(OUT, 'perf_%s_%s.png' % (v, 'formal' if formal else 'nobldg')))
         res['views'][v] = dict(d, **f)
-        print('  %s %s：draw call %s、三角形 %s（藏路人）；FPS 平均 %s、最低 %s、1%%low %s（%s 格；路人在：call %s／tris %s）' % (tag, v, d['calls'], d['tris'], f['avg'], f['min'], f['low1'], f['frames'], f['calls_live'], f['tris_live']), flush=True)
+        print('  %s %s：draw call %s、三角形 %s（藏路人）；FPS 平均 %s、最低 %s、1%%low %s（%s 格；路人在：call %s／tris %s）；遊戲時間 %s、路人 %s（在場景 %s）' % (tag, v, d['calls'], d['tris'], f['avg'], f['min'], f['low1'], f['frames'], f['calls_live'], f['tris_live'], f.get('hour'), f.get('npcs'), f.get('npcsVisible')), flush=True)
     await pg.evaluate("GAME.E.endCinematic&&GAME.E.endCinematic()")
     check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3]))
     await b.close()
