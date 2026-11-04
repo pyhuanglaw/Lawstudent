@@ -167,7 +167,7 @@ def build_putong():
 def build_boya():
     """v2（TEACH-PTBOYA-REF-1104，使用者 11-04「普通 博雅 教學館跟真正的太不像」；官網照片 boya_web_03～06；D136 像但不照抄）：
     保留：五層、白色＋玻璃的樓層、一樓玻璃大廳、樓板邊的清水模帶。
-    改成照片的感覺：靠普通那面（南面）二樓以上改紅磚＋深的小方窗；主入口清水混凝土大雨遮（真的是正中間一個圓洞 → 這裡往東偏、長條橢圓的天窗洞，避開西邊的空橋）；
+    改成照片的感覺：靠普通那面（南面）二樓以上改紅磚＋深的小方窗；主入口清水混凝土大雨遮（真的是正中間一個圓洞 → 這裡一排五個小方形天窗（v2b，BB D136），雨遮往東偏、避開西邊的空橋）；
       北面一大片長草的斜坡一路到二樓（二樓以上往南退到 z=−2.5），斜坡上一道木格柵樓梯（真的通到屋頂花園 → 這裡底下關著門）；入口上方木格柵、一樓圓柱。
     不動：導航（CK.modern 34×18 本體）、門口 DOORS.boya、空橋（x=−41.2、二樓 4.6 m）、樓層高度。"""
     W, D = 34.0, 18.0; YF = [0.0, 4.6, 8.45, 12.3, 16.15, 20.0]; TOP = YF[-1]; NF = 5; NZ = -2.5
@@ -250,32 +250,20 @@ def build_boya():
     y_ = YF[1]
     while y_ <= TOP + 0.6 + 1e-6: kit.fbox('misc', FRONT, SX0, SX1, y_ - 0.04, y_ + 0.04, -0.15, -0.03, skip=('in',), col='#ecebe6'); y_ += 1.28
     for s_, uu in ((-1, SX0), (1, SX1)): kit.face('brick', [FRONT.p(uu, YF[1], 0.0), FRONT.p(uu, TOP + 0.6, 0.0), FRONT.p(uu, TOP + 0.6, -0.15), FRONT.p(uu, YF[1], -0.15)], tuple(FRONT.R[i] * -s_ for i in range(3)))
-    # ---- 主入口的清水混凝土大雨遮（二樓樓板高、往外挑 3.6 m、厚 0.6）＋長條橢圓的天窗洞；底下四盞崁燈；名牌在雨遮前緣
+    # ---- 主入口的清水混凝土大雨遮（二樓樓板高、往外挑 3.6 m、厚 0.6）＋一排五個小方形天窗；底下四盞崁燈；名牌在雨遮前緣
+    #   v2b（BB-C 16:3x BB_255，D136）：v2 的長條橢圓洞從低角度看和照片 06 的圓洞一樣（建築師很有辨識度的設計）→ 改成一排小方形天窗（0.6 m 見方、間距 1.4 m，靠外緣）
     CX0, CX1, CZ0, CZ1, CY0, CY1 = -1.2, 9.0, D / 2, D / 2 + 3.6, YF[1], YF[1] + 0.6
-    hc, ha, hb = (4.4, D / 2 + 1.95), 1.25, 0.62
-    def stad(th):
-        dx, dz = math.cos(th), math.sin(th); lo, hi = 0.0, ha + hb + 1.0
-        for _ in range(40):
-            t = (lo + hi) / 2; px, pz = dx * t, dz * t
-            ins = (abs(px) <= ha and abs(pz) <= hb) or math.hypot(abs(px) - ha, pz) <= hb
-            lo, hi = (t, hi) if ins else (lo, t)
-        return (hc[0] + dx * lo, hc[1] + dz * lo)
-    def rect_(th):
-        dx, dz = math.cos(th), math.sin(th); ts = []
-        if dx > 1e-9: ts.append((CX1 - hc[0]) / dx)
-        if dx < -1e-9: ts.append((CX0 - hc[0]) / dx)
-        if dz > 1e-9: ts.append((CZ1 - hc[1]) / dz)
-        if dz < -1e-9: ts.append((CZ0 - hc[1]) / dz)
-        t = min(ts); return (hc[0] + dx * t, hc[1] + dz * t)
-    ths = sorted(set([round(-math.pi + 2 * math.pi * k / 40, 9) for k in range(40)] + [round(math.atan2(cz - hc[1], cx - hc[0]), 9) for cx in (CX0, CX1) for cz in (CZ0, CZ1)]))
+    HOLES = [(1.2 + 1.4 * k, D / 2 + 2.35, 0.3) for k in range(5)]   # (中心 x、中心 z、半邊長)
+    xs_ = sorted(set([CX0, CX1] + [h[0] - h[2] for h in HOLES] + [h[0] + h[2] for h in HOLES])); zs_ = sorted(set([CZ0, CZ1] + [h[1] - h[2] for h in HOLES] + [h[1] + h[2] for h in HOLES]))
     cm_ = kit.acc('trim')
-    for i in range(len(ths)):
-        t0, t1 = ths[i], ths[(i + 1) % len(ths)]
-        (ix0, iz0), (ix1, iz1) = stad(t0), stad(t1); (ox0, oz0), (ox1, oz1) = rect_(t0), rect_(t1)
-        kit.face(cm_, [(ix0, CY1, iz0), (ox0, CY1, oz0), (ox1, CY1, oz1), (ix1, CY1, iz1)], (0, 1, 0))
-        kit.face(cm_, [(ix0, CY0, iz0), (ox0, CY0, oz0), (ox1, CY0, oz1), (ix1, CY0, iz1)], (0, -1, 0))
-        mx, mz = (ix0 + ix1) / 2, (iz0 + iz1) / 2
-        kit.face(cm_, [(ix0, CY0, iz0), (ix1, CY0, iz1), (ix1, CY1, iz1), (ix0, CY1, iz0)], (hc[0] - mx, 0, hc[1] - mz))
+    for i in range(len(xs_) - 1):
+        for j in range(len(zs_) - 1):
+            xa, xb, za, zb = xs_[i], xs_[i + 1], zs_[j], zs_[j + 1]; mx, mz = (xa + xb) / 2, (za + zb) / 2
+            if any(abs(mx - hx) < hr and abs(mz - hz) < hr for hx, hz, hr in HOLES): continue
+            kit.face(cm_, [(xa, CY1, za), (xb, CY1, za), (xb, CY1, zb), (xa, CY1, zb)], (0, 1, 0)); kit.face(cm_, [(xa, CY0, za), (xb, CY0, za), (xb, CY0, zb), (xa, CY0, zb)], (0, -1, 0))
+    for hx, hz, hr in HOLES:                                                                       # 天窗洞的四面內壁（朝洞裡）
+        for (p0, p1, n) in (((hx - hr, hz - hr), (hx + hr, hz - hr), (0, 0, 1)), ((hx - hr, hz + hr), (hx + hr, hz + hr), (0, 0, -1)), ((hx - hr, hz - hr), (hx - hr, hz + hr), (1, 0, 0)), ((hx + hr, hz - hr), (hx + hr, hz + hr), (-1, 0, 0))):
+            kit.face(cm_, [(p0[0], CY0, p0[1]), (p1[0], CY0, p1[1]), (p1[0], CY1, p1[1]), (p0[0], CY1, p0[1])], n)
     for (p0, p1, n) in (((CX0, CZ1), (CX1, CZ1), (0, 0, 1)), ((CX0, CZ0), (CX0, CZ1), (-1, 0, 0)), ((CX1, CZ0), (CX1, CZ1), (1, 0, 0))):
         kit.face(cm_, [(p0[0], CY0, p0[1]), (p1[0], CY0, p1[1]), (p1[0], CY1, p1[1]), (p0[0], CY1, p0[1])], n)
     for (x, z) in ((0.6, D / 2 + 1.0), (0.6, D / 2 + 2.6), (7.8, D / 2 + 1.0), (7.8, D / 2 + 2.6)): kit.box(kit.acc('lamp'), x - 0.18, x + 0.18, CY0 - 0.02, CY0, z - 0.18, z + 0.18, skip=('top',))
@@ -352,7 +340,7 @@ def build_boya():
         kit.box(mk, a, b_, TOP, TOP + 0.6, c0, c1, skip=('bottom', 'top'))
     for (x, z) in ((-12.0, 0.5), (-10.5, 0.5), (8.0, 4.0), (9.5, 4.0)):
         kit.box('misc', x - 0.5, x + 0.5, TOP + 0.02, TOP + 0.55, z - 0.3, z + 0.3, skip=('bottom',), col='#c9c8c3')
-    return finish(root, accs, VC, plates, out, '博雅 v2（TEACH-PTBOYA-REF-1104）：南面二樓以上紅磚、清水混凝土大雨遮＋長條天窗洞、北面長草斜坡到二樓＋木格柵樓梯（底下關著）、入口木格柵、一樓圓柱；照官網照片，D136 像但不照抄')
+    return finish(root, accs, VC, plates, out, '博雅 v2（TEACH-PTBOYA-REF-1104）：南面二樓以上紅磚、清水混凝土大雨遮＋一排小方形天窗、北面長草斜坡到二樓＋木格柵樓梯（底下關著）、入口木格柵、一樓圓柱；照官網照片，D136 像但不照抄')
 
 
 def finish(root, accs, VC, plates, out, note):
