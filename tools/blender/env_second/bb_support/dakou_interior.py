@@ -208,6 +208,11 @@ def t_poster(im, d):      # 牆上的小海報：漢堡＋飲料（自己畫的�
     d.text((40, h - 110), '考試加油　宵夜半價', font=font(46), fill=(250, 248, 242))
 
 
+def t_study_logo(im, d):   # v2：樓梯間的標誌牆（深藍底、漢堡標誌、「大口漢堡」、橘色弧）
+    w, h = im.size; d.rectangle([0, 0, w, h], fill=NAVY); logo(d, w // 2, int(h * 0.35), int(w * 0.22))
+    d.text((int(w * 0.12), int(h * 0.55)), '大口漢堡', font=font(int(w * 0.18)), fill=(250, 248, 242)); swoosh(d, w, h, h * 0.78)
+
+
 def t_staff(im, d):
     w, h = im.size; d.rectangle([0, 0, w, h], fill=(250, 248, 242)); d.text((24, 16), '員工專用', font=font(70), fill=NAVY)
 
@@ -318,7 +323,7 @@ def t_books(im, d):   # 課本封面（照參考圖：民法（總則）、刑�
 P = {k: tex(f'{k}.png', s, f) for k, s, f in (('mural', (1400, 330), t_mural), ('study', (420, 840), t_study), ('counter', (1600, 200), t_counter),
                                                ('sign_order', (420, 170), t_sign('點餐')), ('sign_pick', (420, 170), t_sign('取餐')),
                                                ('kiosk', (420, 760), t_kiosk), ('ceiling', (512, 512), t_ceiling), ('poster', (520, 700), t_poster),
-                                               ('staff', (340, 110), t_staff), ('floor', (512, 512), t_floor), ('books', (1000, 120), t_books))}
+                                               ('staff', (340, 110), t_staff), ('floor', (512, 512), t_floor), ('books', (1000, 120), t_books), ('study_logo', (420, 360), t_study_logo))}
 GLOW_PATH = make_glow_atlas()
 for i in range(4): P[f'menu{i}'] = tex(f'menu{i}.png', (640, 360), t_menu(i))
 
@@ -637,6 +642,8 @@ else:
     # 東牆的大牆面、樓梯口的直幅、書架
     mu = F['mural']; wall_card('MURAL', X1 - 0.01, mu['z0'], mu['z1'], mu['y0'], mu['y1'], IM['mural'], -1)
     sg = F['signStudy']; wall_card('SIGN_STUDY', X1 - 0.01, sg['z0'], sg['z1'], sg['y0'], sg['y1'], IM['study'], -1)
+    zcard('POSTER_2F', Z0 + 0.012, -3.4, -2.5, Y0 + 1.55, Y0 + 2.75, IM['poster'], +1)                      # v2：後牆的小海報（參考圖第 12 項）
+    wall_card('STAIRWELL_LOGO', X1 - 0.012, 0.6, 2.6, Y0 - 1.9, Y0 - 0.25, IM['study_logo'], -1)            # v2：樓梯間牆上的標誌（從二樓樓梯口往下看得到，參考圖第 3 項）
     bk = F['bookcase']; shelf = Mesh('BOOKCASE', m_lam); shelf.box(bk['x0'], bk['x1'], Y0, Y0 + bk['h'], Z0, Z0 + 0.03)
     for x in (bk['x0'], bk['x1'] - 0.03): shelf.box(x, x + 0.03, Y0, Y0 + bk['h'], Z0, bk['z1'])
     for k in range(5): shelf.box(bk['x0'], bk['x1'], Y0 + k * bk['h'] / 4.6, Y0 + k * bk['h'] / 4.6 + 0.03, Z0, bk['z1'])
