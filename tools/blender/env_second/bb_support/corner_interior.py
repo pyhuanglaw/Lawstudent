@@ -58,7 +58,7 @@ P = 'cr_'
 M = {
     'floor': img_mat(P + 'floor_terrazzo', 'corner_floor.png', rough=0.3, tile=1.0),
     'wall': L.pbr(P + 'plaster', 'painted_plaster_wall', tile=2.2, target='#d6cab2', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.9),
-    'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#94806c', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
+    'ceil': L.pbr(P + 'concrete', 'granular_concrete', tile=1.6, target='#7c6a58', normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.92),
     'wood': L.pbr(P + 'wood', 'walnut_veneer', tile=1.0, target='#7a5232', normal=0.35, maps=('diff', 'nor'), res=512, rough_value=0.5),   # 參考圖的唱片箱、唱片牆是中間色的胡桃木
     'vc': L.vc_material(P + 'vc', rough=0.6), 'vcm': L.vc_metal(P + 'vc_metal', rough=0.38, metal=0.4),
     'glass': L.flat(P + 'glass', '#d4e2e0', rough=0.05, alpha=0.14),
@@ -305,9 +305,10 @@ def stack_build(n, seed, sp=0.03):
     """唱片箱裡的一排（n 張，從 +z〔前〕往 −z 排）：原點在這一排的前緣中間、箱子內底"""
     def f(pt):
         rr = random.Random(seed); u = pt['goods']
-        for k in range(n):
-            c = f'cover{rr.randrange(NCOV)}'; b = f'cover{rr.randrange(NCOV)}'
-            lp_rec(u, rr.uniform(-0.004, 0.004), 0.0, -0.02 - k * sp, c, b, tilt=0.2 + rr.uniform(-0.05, 0.05), yaw=rr.uniform(-0.025, 0.025))
+        lp_rec(u, 0.0, 0.0, -0.012, f'hero{seed % 12}', f'cover{rr.randrange(NCOV)}', tilt=0.07, yaw=0.0)   # v1b：最前面那張幾乎直立、封面正對前面（參考圖每一欄看得到一張封面）
+        for k in range(1, n):
+            c = f'cover{rr.randrange(NCOV)}' if rr.random() < 0.7 else f'hero{rr.randrange(12)}'; b = f'cover{rr.randrange(NCOV)}'
+            lp_rec(u, rr.uniform(-0.004, 0.004), 0.0, -0.05 - (k - 1) * sp, c, b, tilt=0.2 + rr.uniform(-0.05, 0.05), yaw=rr.uniform(-0.025, 0.025))
     return f
 
 
@@ -316,7 +317,7 @@ STACKS = {}
 
 def stack_proto(n, variant):
     key = (n, variant)
-    if key not in STACKS: STACKS[key] = Proto(f'lpstack{n}_{variant}', stack_build(n, 100 + variant * 17 + n))
+    if key not in STACKS: STACKS[key] = Proto(f'lpstack{n}_{variant}', stack_build(n, 100 + variant * 5 + n))
     return STACKS[key]
 
 
@@ -327,7 +328,7 @@ fl = Part('floor', smooth=False); fl['floor'].box(X0, X1, -0.02, 0.0, Z0, Z1); f
 ce = Part('ceiling', smooth=False); ce['ceil'].quad([(XI0, H, ZI0), (XI1, H, ZI0), (XI1, H, ZI1), (XI0, H, ZI1)]); ce.done()
 bm_ = Part('beams', smooth=False)
 for zb in (3.1, -1.0, -4.1):   # 外露的樑（沿 x）
-    bm_['ceil'].box(XI0 + 0.03, XI1, H - 0.36, H, zb - 0.15, zb + 0.15)   # 左端停在飾板前面
+    bm_['ceil'].box(XI0 + 0.46, XI1, H - 0.36, H, zb - 0.15, zb + 0.15)   # 左端停在唱片牆、飾板前面
 bm_.done()
 pp = Part('pipes')   # 管線（沿 z）：消防水管、電線導管
 for (x, y, r, col) in ((-3.2, H - 0.12, 0.045, '#c9c2b4'), (-0.95, H - 0.09, 0.025, '#b9b4aa'), (0.75, H - 0.1, 0.018, '#d0cbc0'), (3.05, H - 0.13, 0.05, '#c0b9ad')):
@@ -336,6 +337,21 @@ for (x, y, r, col) in ((-3.2, H - 0.12, 0.045, '#c9c2b4'), (-0.95, H - 0.09, 0.0
     while zz > ZI0:
         crb(pp['vcm'], x - r - 0.01, x + r + 0.01, y - r - 0.01, H, zz - 0.012, zz + 0.012, '#6f6b64', r=0.002); zz -= 1.5
 for zz in (4.4, 1.0, -3.0): ccyl(pp['vcm'], (XI0 + 0.3, H - 0.2, zz), (XI1 - 0.3, H - 0.2, zz), 0.016, '#b9b4aa', seg=6)
+# v1b：老房子改的店——鍍鋅風管（方管沿 z、吊架）、一根軟風管接到冷氣、更多電線導管、灑水頭、線槽
+dx_ = 1.05; zf0, zf1 = ZI1 - 0.3, ZI0 + 0.4
+crb(pp['vcm'], dx_ - 0.22, dx_ + 0.22, H - 0.62, H - 0.4, zf1, zf0, '#a8aaa8', r=0.01)
+zz = zf0 - 0.2
+while zz > zf1:
+    crb(pp['vcm'], dx_ - 0.235, dx_ + 0.235, H - 0.635, H - 0.62, zz - 0.02, zz + 0.02, '#7d7f80', r=0.002)   # 接縫
+    for sx_ in (-1, 1): ccyl(pp['vcm'], (dx_ + sx_ * 0.2, H - 0.62, zz), (dx_ + sx_ * 0.2, H, zz), 0.005, '#6f6b64', seg=4)
+    zz -= 1.2
+for zg in (3.4, 0.6, -2.2): crb(pp['vcm'], dx_ - 0.2, dx_ + 0.2, H - 0.64, H - 0.62, zg - 0.12, zg + 0.12, '#5a5c5e', r=0.004)   # 出風口
+cpath(pp['vcm'], [(dx_ - 0.22, H - 0.5, -1.0), (0.6, H - 0.45, -0.85), (0.3, H - 0.3, -0.6)], 0.09, '#b9bbbc', seg=8)   # 軟風管 → 冷氣
+for (x, col) in ((-2.3, '#3a3a3a'), (-2.2, '#d8d2c4'), (2.2, '#3a3a3a'), (2.75, '#c9c4b8'), (-1.35, '#b9b4aa')):
+    ccyl(pp['vcm'], (x, H - 0.05, ZI1), (x, H - 0.05, ZI0), 0.012, col, seg=5)
+for zz in (4.0, 1.4, -1.6, -4.4):
+    for x in (-2.0, 0.2, 2.4): ccyl(pp['vcm'], (x, H - 0.1, zz), (x, H - 0.16, zz), 0.012, '#c9a24a', seg=6)   # 灑水頭
+crb(pp['vcm'], -2.95, -2.75, H - 0.08, H - 0.04, ZI0 + 0.3, ZI1 - 0.2, '#8d8a84', r=0.003)   # 線槽
 pp.done()
 for side in ('left', 'right', 'back'):
     p = Part('wall', side=side, smooth=False)
@@ -594,10 +610,10 @@ lpn = IT['logo_panel']   # 上半段的飾板（深灰綠漆面＋字：從店�
 pw['vc'].crbox(XI0, XI0 + 0.02, lpn['y'] - lpn['h'] / 2, lpn['y'] + lpn['h'] / 2, lpn['z'] - lpn['d'] / 2, lpn['z'] + lpn['d'] / 2, '#43504d', r=0.004)
 pw['sign'].rect((XI0 + 0.0215, lpn['y'], lpn['z']), (0, 0, -1), (0, 1, 0), lpn['d'] / 2, lpn['h'] / 2, ATL['logo_panel'])
 pw.done()
-RW_TOP = IT['record_wall']['h']
+RW_TOP = IT['record_wall']['hBack']
 pothos('pothos_l1', XI0 + 0.12, ps_['y'], ps_['z'] - 0.3, side='left', nv=14, drop=1.3, dirx=1)
 pothos('pothos_l2', XI0 + 0.12, ps_['y'], ps_['z'] + 0.3, side='left', nv=12, drop=1.0, dirx=1, dirz=0.5)
-pothos('pothos_l3', XI0 + 0.2, RW_TOP, -1.9, side='left', nv=9, drop=0.9, dirx=1)   # 唱片牆上面兩盆（參考圖：後段的唱片架上面有植物）
+pothos('pothos_l3', XI0 + 0.2, RW_TOP, -1.9, side='left', nv=10, drop=1.1, dirx=1)   # 唱片牆上面兩盆（參考圖：後段的唱片架上面有植物）
 pothos('pothos_l4', XI0 + 0.2, RW_TOP, -4.1, side='left', nv=8, drop=0.8, dirx=1)
 psl = IT['plant_stool']; pss = Part('plant_stool')
 pss['wood'].rbox(psl['x'] - 0.15, psl['x'] + 0.15, 0.42, 0.45, psl['z'] - 0.15, psl['z'] + 0.15, r=0.006)
@@ -605,8 +621,13 @@ for sx in (-1, 1):
     for sz in (-1, 1): pss['wood'].rbox(psl['x'] + sx * 0.12 - 0.015, psl['x'] + sx * 0.12 + 0.015, 0.0, 0.42, psl['z'] + sz * 0.12 - 0.015, psl['z'] + sz * 0.12 + 0.015, r=0.004)
 pss.done()
 leafy('stool_plant', psl['x'], 0.45, psl['z'], ['small0', 'small1'], n=22, rad=0.2, hgt=(0.15, 0.45), size=(0.08, 0.12), pot=(0.1, 0.17), potcol='#e8e3d6', seed=5)
-RW = IT['record_wall']; prw = Part('record_wall', side='left', T=fm((XI0 + RW['w'] / 2, 0, RW['z']), rot('Y', math.pi / 2)))
-record_shelf(prw, RW['d'], RW['w'], RW['h'], [0.7, 1.08, 1.46, 1.86], cw=0.4, doors=True, tops=True, seed=7)
+RW = IT['record_wall']; rz0, rz1, sz_ = RW['z'] + RW['d'] / 2, RW['z'] - RW['d'] / 2, RW['splitZ']   # v1b：飾板下面那一段 2.3 m、飾板後面加高到 2.95（快到天花板）
+prw = Part('record_wall', side='left', T=fm((XI0 + RW['w'] / 2, 0, (rz0 + sz_) / 2), rot('Y', math.pi / 2)))
+record_shelf(prw, rz0 - sz_, RW['w'], RW['h'], [0.7, 1.08, 1.46, 1.86], cw=0.4, doors=True, tops=True, seed=7)
+prw.done()
+prw = Part('record_wall_hi', side='left', T=fm((XI0 + RW['w'] / 2, 0, (sz_ + rz1) / 2), rot('Y', math.pi / 2)))
+record_shelf(prw, sz_ - rz1, RW['w'], RW['hBack'], [0.7, 1.08, 1.46, 1.86, 2.24, 2.6], cw=0.4, doors=True, tops=True, seed=8)
+RW = dict(RW, d=rz0 - rz1)
 for k in range(5): prw['goods'].rect((-RW['d'] / 2 + 0.6 + k * 1.35, 1.32 if k % 2 else 0.94, RW['w'] / 2 + 0.004), (1, 0, 0), (0, 1, 0), 0.05, 0.035, ATL['note_new' if k % 2 else 'note_price'])
 prw.done()
 
@@ -623,9 +644,10 @@ def bin_box(it, k):
         w_.rbox(a0, a1, h - 0.035, h, b0, b1, r=0.006)                                       # 上緣一圈
     for (a0, a1) in ((xa + 0.02, xa + 0.06), (xb - 0.06, xb - 0.02)): w_.rbox(a0, a1, 0.08, h - 0.035, zb, zb + 0.014, r=0.004)   # 正面的框
     w_.rbox(xa + 0.02, xb - 0.02, 0.08, 0.12, zb, zb + 0.014, r=0.004)
-    c.cbox(xa + t, xb - t, h - 0.24, h - 0.22, za + t, zb - t, '#3a2a1e')                    # 內底（暗）
+    IB = 0.14   # v1b：內底墊高（v1 是 0.22，唱片只露出上緣）：唱片露出一半左右，和參考圖一樣
+    c.cbox(xa + t, xb - t, h - IB - 0.02, h - IB, za + t, zb - t, '#3a2a1e')                    # 內底（暗）
     n4 = 4; cw = (w - 2 * t) / n4
-    for j in range(1, n4): xx = xa + t + j * cw; c.cbox(xx - 0.006, xx + 0.006, h - 0.22, h - 0.05, za + t, zb - t, '#5a4030')   # 隔板
+    for j in range(1, n4): xx = xa + t + j * cw; c.cbox(xx - 0.006, xx + 0.006, h - IB, h - 0.05, za + t, zb - t, '#5a4030')   # 隔板
     if it.get('poster'):
         g.rect((xa + 0.5, h * 0.5 + 0.02, zb + 0.0155), (1, 0, 0), (0, 1, 0), 0.42, 0.29, ATL['poster_gg'])
         g.rect((xb - 0.25, h * 0.5 + 0.02, zb + 0.0157), (1, 0, 0), (0, 1, 0), 0.15, 0.214, ATL['note_bin'])
@@ -637,13 +659,13 @@ def bin_box(it, k):
         zz = za + 0.05 if i == len(sg) - 1 else z + 0.05; cell = f'sign_{nm}'; ww = 0.36 if nm != 'electronic' else 0.43
         crb(c, x - ww / 2 - 0.01, x + ww / 2 + 0.01, h + 0.14, h + 0.25, zz - 0.012, zz + 0.012, '#2e3533', r=0.004)
         g.rect((x, h + 0.195, zz + 0.0125), (1, 0, 0), (0, 1, 0), ww / 2 - 0.005, 0.05, ATL[cell])
-        for sx in (-1, 1): ccyl(c, (x + sx * ww * 0.35, h - 0.22, zz), (x + sx * ww * 0.35, h + 0.14, zz), 0.005, '#2a2b2d', seg=4)
+        for sx in (-1, 1): ccyl(c, (x + sx * ww * 0.35, h - IB, zz), (x + sx * ww * 0.35, h + 0.14, zz), 0.005, '#2a2b2d', seg=4)
     p.done()
     # 唱片：每一格一排（instancing）；箱子深的分前後兩排
-    nrow = 1 if d < 1.4 else 2; rl = (d - 2 * t - 0.04) / nrow; n = int(rl / 0.03)
+    nrow = 1 if d < 1.4 else 2; rl = (d - 2 * t - 0.04) / nrow; n = int((rl - 0.03) / 0.03) + 1
     for j in range(n4):
         for rw in range(nrow):
-            stack_proto(n, (k * 4 + j + rw) % 4).place(fm((xa + t + (j + 0.5) * cw, h - 0.22, zb - t - 0.02 - rw * rl)))
+            stack_proto(n, (k * 4 + j + rw) % 12).place(fm((xa + t + (j + 0.5) * cw, h - IB, zb - t - 0.02 - rw * rl)))
 
 
 for k, it in enumerate([i for i in ITL if i['kind'] == 'bin']): bin_box(it, k)
@@ -747,6 +769,7 @@ RACK = [(SH[1], [('spk', -1.5), ('amp', -0.95), ('rcv', -0.35), ('spk', 0.25), (
         (SH[4], [('spk', -1.45), ('spk', -1.05), ('tt', -0.3), ('rcv', 0.45), ('spk', 1.1), ('spk', 1.5)])]
 for y, row in RACK:
     for kind, x in row:
+        x *= 0.92   # v1b：鐵架改成 3.1 m 長
         pr_ = {'spk': SPK, 'amp': AMP, 'rcv': RCV, 'deck': DECK, 'tt': TT}[kind]
         pr_.place(RT @ fm((x, y, 0.04 if kind != 'tt' else 0.0), rot('Y', random.uniform(-0.06, 0.06))))
 bpl = IT['big_plant']
@@ -807,8 +830,10 @@ POSTERS = [(4.05, 2.3, 0.74, 1.3, 'poster_river', '#2a2622'), (3.2, 2.45, 0.56, 
            (1.92, 2.7, 0.4, 0.4, 'frame_vinyl', '#2a2622'), (1.9, 2.12, 0.38, 0.38, 'cover12', '#2a2622'), (1.38, 2.42, 0.46, 0.6, 'poster_sea', '#6b4a30'),
            (0.78, 2.6, 0.56, 0.44, 'poster_mtn', '#2a2622'), (0.18, 2.6, 0.4, 0.52, 'portrait', '#2a2622'), (-0.4, 2.62, 0.56, 0.44, 'poster_city', '#6b4a30'),
            (-0.98, 2.6, 0.36, 0.46, 'lineart_tt', '#2a2622'), (-1.48, 2.75, 0.36, 0.36, 'cover21', '#2a2622'), (-1.52, 2.32, 0.34, 0.34, 'cover5', '#2a2622'),
-           (-1.98, 2.55, 0.4, 0.4, 'cover30', '#2a2622'), (-2.5, 2.7, 0.36, 0.36, 'cover8', '#2a2622'), (-2.95, 2.45, 0.44, 0.44, 'frame_vinyl', '#6b4a30'),
-           (-3.45, 2.65, 0.36, 0.46, 'portrait', '#2a2622'), (-4.0, 1.85, 0.56, 0.42, 'poster_mtn', '#2a2622'), (-4.55, 2.0, 0.36, 0.36, 'cover17', '#6b4a30'), (-4.95, 1.8, 0.36, 0.46, 'lineart_tt', '#6b4a30')]
+           (-1.98, 2.55, 0.4, 0.4, 'hero4', '#2a2622'), (-2.5, 2.7, 0.36, 0.36, 'cover8', '#2a2622'), (-2.95, 2.45, 0.44, 0.44, 'frame_vinyl', '#6b4a30'),
+           (-3.45, 2.65, 0.36, 0.46, 'portrait', '#2a2622'), (-4.0, 1.85, 0.56, 0.42, 'poster_mtn', '#2a2622'), (-4.55, 2.0, 0.36, 0.36, 'cover17', '#6b4a30'), (-4.95, 1.8, 0.36, 0.46, 'lineart_tt', '#6b4a30'),
+           (3.4, 1.62, 0.34, 0.34, 'hero2', '#2a2622'), (4.7, 1.55, 0.32, 0.32, 'hero6', '#6b4a30'), (0.95, 2.05, 0.3, 0.3, 'hero9', '#2a2622'), (-0.95, 2.05, 0.32, 0.32, 'hero1', '#2a2622'),
+           (2.95, 3.0, 0.3, 0.3, 'hero7', '#2a2622'), (-0.3, 3.0, 0.3, 0.3, 'hero11', '#6b4a30'), (-3.9, 2.55, 0.4, 0.4, 'poster_city', '#2a2622'), (-4.6, 2.6, 0.34, 0.34, 'hero5', '#2a2622')]   # v1b：右牆補滿
 for (z, y, w, h, cell, fc) in POSTERS: frame_on_wall(pwr, xw, y, z, w, h, cell, sgn=-1, fcol=fc, depth=0.022)
 ls_ = IT['listen_sign']; crb(pwr['vcm'], XI1 - 0.01, XI1, ls_['y'] - 0.07, ls_['y'] + 0.07, ls_['z'] - 0.14, ls_['z'] + 0.14, '#b9b6ae', r=0.003)
 pwr['goods'].rect((XI1 - 0.0105, ls_['y'], ls_['z']), (0, 0, 1), (0, 1, 0), 0.135, 0.06, ATL['sign_listen'])
@@ -816,6 +841,30 @@ bn = IT['banner']; ccyl(pwr['vcm'], (XI1, bn['y'] + bn['h'] / 2 + 0.03, bn['z'] 
 u0, v0, u1, v1 = ATL['banner']; xb_ = XI1 - 0.03; za_, zb_ = bn['z'] - bn['w'] / 2, bn['z'] + bn['w'] / 2; yt, yb = bn['y'] + bn['h'] / 2, bn['y'] - bn['h'] / 2
 pwr['sign'].face([(xb_, yb, za_), (xb_, yb, zb_), (xb_, yt, zb_), (xb_, yt, za_)], [(u1, v0), (u1, v1), (u0, v1), (u0, v0)])   # 畫的方向往右＝布旗往下（從店裡看，左＝店門那一側〔+z〕）
 pwr.done()
+
+# ======================================================================
+# v1b：植物補到 9 盆以上——吊掛的黃金葛 3 盆、右前角的大葉盆栽（模型葉子：tools/blender/plants.py 的 leaf_mesh，材質用頂點色，不加材質）
+# ======================================================================
+sys.path.insert(0, os.path.join(REPO, 'tools', 'blender'))
+import plants as PLN   # noqa: E402
+for k, it in enumerate([i for i in ITL if i['kind'] == 'hanging']):
+    hx_, hy_, hz_ = it['x'], it['y'], it['z']; ph = Part(f'hang_cords{k}')
+    for a in (0.3, 2.4, 4.5): ccyl(ph['vc'], (hx_ + 0.11 * math.cos(a), hy_ + 0.16, hz_ + 0.11 * math.sin(a)), (hx_, H - 0.02, hz_), 0.003, '#c8b48a', seg=3)   # 麻繩
+    crb(ph['vcm'], hx_ - 0.02, hx_ + 0.02, H - 0.03, H, hz_ - 0.02, hz_ + 0.02, '#2a2b2d', r=0.003); ph.done()
+    pothos(f'hanging{k}', hx_, hy_, hz_, nv=14, drop=0.85, spread=0.8, pot='#d9cbb4', dirx=1 if hx_ < 0 else -1)
+fp_ = IT['front_plant']; pfp = Part('front_plant'); c = pfp['vc']
+clathe(c, [(0.0, 0.0), (0.18, 0.0), (0.23, 0.42), (0.245, 0.45), (0.225, 0.45), (0.0, 0.43)], fp_['x'], 0, fp_['z'], '#3a3a38', seg=18)   # 深灰陶盆
+clathe(c, [(0.0, 0.41), (0.215, 0.41), (0.0, 0.42)], fp_['x'], 0, fp_['z'], '#4a3424', seg=14)
+rnd = random.Random(77)
+for k in range(6):
+    a = k * 1.05 + rnd.uniform(-0.3, 0.3); hh = rnd.uniform(0.75, 1.35); lean = rnd.uniform(0.1, 0.25)
+    tx, tz = fp_['x'] + math.cos(a) * hh * lean, fp_['z'] + math.sin(a) * hh * lean
+    ccyl(c, (fp_['x'], 0.42, fp_['z']), (tx, 0.42 + hh, tz), 0.012, '#5a4a30', seg=5, r2=0.007)
+    for j in range(rnd.randint(4, 6)):
+        t = 0.35 + 0.65 * (j + 1) / 6; base = (fp_['x'] + (tx - fp_['x']) * t, 0.42 + hh * t, fp_['z'] + (tz - fp_['z']) * t)
+        n0 = _N0(c); Lf = rnd.uniform(0.2, 0.3); PLN.leaf_mesh(c.bm, base, -(a + (j % 2 - 0.5) * 2.2 + rnd.uniform(-0.4, 0.4)), rnd.uniform(-0.1, 0.5), Lf, Lf * 0.42, droop=Lf * 0.3)
+        c.paint(_new(c, n0), rnd.choice(['#2f4c28', '#3a5a30', '#2a4424']))
+pfp.done()
 
 # ======================================================================
 for ob in list(root.children):

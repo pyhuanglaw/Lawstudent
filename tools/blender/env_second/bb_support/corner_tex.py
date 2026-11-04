@@ -179,6 +179,21 @@ def cover(seed):
     return f
 
 
+HERO = [('pole', 5, '午後回聲'), ('clouds', 0, '白色電車'), ('bokeh', 2, '晚安台北'), ('sakura', 3, '南方早晨'), ('city', 1, '星際樂團'), ('sea', 4, '河岸'),
+        ('train', 5, '小站'), ('moon', 7, '第七夜'), ('bridge', 1, '溫州街'), ('mount', 6, '風的形狀'), ('tree', 3, '慢慢走'), ('pole', 2, '藍色時刻')]
+
+
+def hero(k):
+    """v1b：唱片箱前排的封面（12 種虛構插畫：夕陽電線桿、雲、城市夜景散景、櫻花、夜景、海、電車、月亮、橋、山、樹、夜的電線桿）——比一般封面飽和、字大一點"""
+    def f(im, d):
+        w, h = im.size; kind, sky, t = HERO[k]; sc = scene(w, h, 300 + k * 13, kind, sky=sky)
+        a = np.asarray(sc, np.float32); m = a.mean(-1, keepdims=True); a = np.clip(m + (a - m) * 1.25, 0, 255)   # 飽和一點
+        im.paste(Image.fromarray(a.astype(np.uint8))); d = ImageDraw.Draw(im)
+        col = (250, 246, 236) if sky in (1, 2, 5, 7) else (34, 32, 40)
+        d.text((w * 0.08, h * 0.07), t, font=font(w * 0.12), fill=col, anchor='lt'); d.rectangle([0, 0, w - 1, h - 1], outline=(30, 28, 26), width=1)
+    return f
+
+
 def poster_taipei(im, d):
     """「台北的午後 獨立音樂合輯 Vol.2」（參考圖左牆：深藍夜空、河邊的城市剪影、一座高塔）"""
     w, h = im.size; sc = scene(w, h, 17, 'city', sky=2); a = np.asarray(sc, np.float32)
@@ -194,7 +209,8 @@ def poster_gg(im, d):
     d2.polygon([(w * 0.72, h * 0.78), (w * 0.8, h * 0.68), (w * 0.88, h * 0.78)], fill=(40, 34, 48, 255))
     for k in range(40): x, y = rr.uniform(0, w), rr.uniform(0, h * 0.4); d2.point((x, y), fill=(255, 245, 220, 220))
     im.paste(vignette(fade(sc, 0.08), 0.4)); d = ImageDraw.Draw(im)
-    d.text((w * 0.08, h * 0.12), '公館聲響祭', font=font(h * 0.2), fill=rgb('#f4ecda'), anchor='lt'); d.text((w * 0.09, h * 0.37), "Gongguan Sound Festival '02", font=font(h * 0.07), fill=rgb('#e4dccb'), anchor='lt')
+    d.text((w * 0.07, h * 0.08), '公館聲響祭', font=font(h * 0.24), fill=rgb('#fbf3e0'), anchor='lt', stroke_width=2, stroke_fill=rgb('#2a2236'))   # v1b：字大、加描邊（正對主視角要看得清楚）
+    d.text((w * 0.08, h * 0.38), "Gongguan Sound Festival '02", font=font(h * 0.085), fill=rgb('#f0e8d6'), anchor='lt', stroke_width=1, stroke_fill=rgb('#2a2236'))
 
 
 def poster_river(im, d):
@@ -296,11 +312,11 @@ def spines(kind):
         w, h = im.size; rr = np.random.default_rng(31 if kind == 'lp' else 47); x = 0
         cols = ['#2a2a2a', '#e8e0d0', '#8a3a30', '#2f4f6a', '#c8a050', '#3a5a4a', '#6a4a6a', '#d0c8b8', '#1e1e22', '#b85a3a', '#5a6a8a', '#e8d8b0', '#4a3a30']
         while x < w:
-            ww = int(rr.uniform(3, 7) if kind == 'lp' else rr.uniform(10, 16)); c = np.array(rgb(cols[rr.integers(len(cols))]), np.float32) * rr.uniform(0.75, 1.05)
+            ww = int(rr.uniform(3, 7) if kind == 'lp' else rr.uniform(10, 16)); c = np.array(rgb(cols[rr.integers(len(cols))]), np.float32) * rr.uniform(0.95, 1.2)   # v1b：亮一點（v1 在櫃子裡看起來像空格子）
             d.rectangle([x, 0, x + ww - 1, h], fill=tuple(int(v) for v in np.clip(c, 0, 255)))
             if kind == 'cd' and rr.random() < 0.7: d.rectangle([x + 2, h * 0.1, x + ww - 3, h * 0.6], fill=tuple(int(v) for v in np.clip(c * 1.3, 0, 255)))
             d.line([x, 0, x, h], fill=(20, 18, 16), width=1); x += ww
-        a = np.asarray(im, np.float32); yy = np.linspace(0, 1, h)[:, None]; a *= (0.7 + 0.3 * np.clip(yy * 3, 0, 1))[..., None]   # 上面一點陰影（櫃子的上板）
+        a = np.asarray(im, np.float32); yy = np.linspace(0, 1, h)[:, None]; a *= (0.85 + 0.15 * np.clip(yy * 3, 0, 1))[..., None]   # 上面一點陰影（櫃子的上板）
         im.paste(Image.fromarray(np.clip(a + noise(w, h, 2, 5)[..., None], 0, 255).astype(np.uint8)))
     return f
 
@@ -362,14 +378,14 @@ def counter_face(im, d):
 
 def rug(im, d):
     """波斯地毯（紅褐底、深藍框、米色花紋；邊緣磨舊）"""
-    w, h = im.size; im.paste(rgb('#7a3a2a'), [0, 0, w, h]); d = ImageDraw.Draw(im)
-    for k, (m, c) in enumerate(((0, '#2a2e44'), (18, '#c8aa7a'), (26, '#2a2e44'), (60, '#a85a3a'), (66, '#c8aa7a'))): d.rectangle([m, m, w - 1 - m, h - 1 - m], outline=rgb(c), width=6 if k != 3 else 3)
+    w, h = im.size; im.paste(rgb('#7a5444'), [0, 0, w, h]); d = ImageDraw.Draw(im)   # v1b：參考圖的地毯是褪色的褐紅（#8e6e5a 一帶），不是正紅
+    for k, (m, c) in enumerate(((0, '#34384a'), (18, '#c4ad8a'), (26, '#34384a'), (60, '#9a6a52'), (66, '#c4ad8a'))): d.rectangle([m, m, w - 1 - m, h - 1 - m], outline=rgb(c), width=6 if k != 3 else 3)
     for i in range(6):
         for j in range(8):
             cx, cy = 90 + i * (w - 180) / 5, 90 + j * (h - 180) / 7; s = 22
-            d.polygon([(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)], outline=rgb('#d0b080'), fill=rgb('#5a2a22' if (i + j) % 2 else '#8a4a32'))
-    d.ellipse([w / 2 - w * 0.22, h / 2 - h * 0.18, w / 2 + w * 0.22, h / 2 + h * 0.18], outline=rgb('#c8aa7a'), width=5, fill=rgb('#2a2e44'))
-    d.ellipse([w / 2 - w * 0.12, h / 2 - h * 0.1, w / 2 + w * 0.12, h / 2 + h * 0.1], fill=rgb('#a85a3a'))
+            d.polygon([(cx, cy - s), (cx + s, cy), (cx, cy + s), (cx - s, cy)], outline=rgb('#c8b08a'), fill=rgb('#5e3e34' if (i + j) % 2 else '#8a6048'))
+    d.ellipse([w / 2 - w * 0.22, h / 2 - h * 0.18, w / 2 + w * 0.22, h / 2 + h * 0.18], outline=rgb('#c4ad8a'), width=5, fill=rgb('#3a3e50'))
+    d.ellipse([w / 2 - w * 0.12, h / 2 - h * 0.1, w / 2 + w * 0.12, h / 2 + h * 0.1], fill=rgb('#9a6a52'))
     a = np.asarray(im, np.float32); a += noise(w, h, 2, 14)[..., None]; a *= (0.85 + 0.15 * (noise(w, h, 40, 1) + 1) / 2)[..., None]
     im.paste(Image.fromarray(np.clip(a, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.7)))
 
@@ -404,7 +420,8 @@ def cab_door(im, d):
 # ======================= 1. 印刷圖集（2048²） =======================
 GW = 2048
 G = Image.new('RGB', (GW, GW), rgb('#cfc7b8'))
-CELLS = [(f'cover{k}', 144, 144, cover(k)) for k in range(40)]
+CELLS = [(f'cover{k}', 144, 144, cover(k)) for k in range(28)]
+CELLS += [(f'hero{k}', 176, 176, hero(k)) for k in range(12)]   # v1b：唱片箱每一欄最前面那張（封面正對鏡頭）
 CELLS += [('poster_taipei', 384, 544, poster_taipei), ('poster_river', 320, 560, poster_river), ('poster_girl', 320, 432, poster_girl), ('poster_crowd', 320, 464, poster_crowd),
           ('poster_gg', 512, 352, poster_gg), ('poster_mtn', 288, 224, plain(31, 'mount', 0)), ('poster_city', 288, 224, plain(41, 'city', 5)), ('poster_sea', 224, 288, plain(52, 'sea', 4)),
           ('frame_vinyl', 192, 192, framed_vinyl), ('portrait', 224, 288, portrait), ('lineart_tt', 224, 288, lineart_tt), ('note_bin', 224, 320, note_bin),
