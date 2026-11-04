@@ -504,6 +504,6 @@ INVITE_DATA.places.push({id:'mokuyobi',zone:'wz_mokuyobi',name:'木曜日',verb:
   days:[0,1,3,4,5,6],off:[2],hours:[13,22],show:G=>!!G&&!!G.visited&&!!G.visited.wz_mokuyobi,
   scene:(GM,iv,who)=>typeof MOKS!=='undefined'&&MOKS.meetScene?MOKS.meetScene(GM,iv,who):GM.say(null,'你和'+((who&&who.name)||'')+'在木曜日坐坐。')});
 (function(){ const ACC={heroine_01:'「木曜日？好，我帶書。」',heroine_02:'「好。……我想坐窗邊。」',heroine_03:'「好。我把報告帶去寫。」',heroine_04:'「那裡不能大聲說話吧。……好啦。」',heroine_05:'「好。我很久沒去了。」',
-    classmate_peishan:'「好！我想吃那個布丁。」',kexin:'「好啊。我想吃巴斯克。」',zhe:'「那裡我講話會被瞪吧。……好啦。」',classmate_bohan:'「好，讀書。」',classmate_mingxuan:'「週四我在。」'};
+    classmate_peishan:'「好！我想吃那個布丁。」',kexin:'「好啊。我想吃巴斯克。」',zhe:'「那裡我講話會被瞪吧。……好啦。」',classmate_bohan:'「好，讀書。」',classmate_mingxuan:'「好。我帶筆電去。」'};
   INVITE_DATA.mokuyobiAcc=ACC;
   for(const id in ACC){ const p=INVITE_DATA.people[id]||(INVITE_DATA.people[id]={}); (p.acc||(p.acc={})).mokuyobi=[ACC[id]]; } })();

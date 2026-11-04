@@ -1,4 +1,4 @@
-// 木曜日（wz_mokuyobi）的系統與台詞（AA_617 第 1、3、4 節；AA_618 第 1 節 1-1～1-8，企劃線 ca876b23d；AA_645 補台詞，企劃線 ed6a4329d；src/mokuyobi_sys3d.js）。不需要瀏覽器。
+// 木曜日（wz_mokuyobi）的系統與台詞（AA_617 第 1、3、4 節；AA_618 第 1 節 1-1～1-8，企劃線 ca876b23d；AA_645 補台詞，企劃線 ed6a4329d、第 6 節 350c90382；src/mokuyobi_sys3d.js）。不需要瀏覽器。
 // 用法：node tests/mokuyobi_aa618_unit.js（稿用 git show 讀，台詞逐字對稿）。這是模擬（Node 裡跑真正的 STORY、INV、PLACES、LIBQ、EAT），不是真實玩家流程（瀏覽器測試照 D131 排使用者電腦）。
 //   0 台詞都在稿上；1 營業時間、週二、颱風、名稱、快速前往要去過；2 店門關著擋；3 第一次進去；4 點東西；5 坐下記位子、一趟只問一次；6 老位子；7 讀書旁白、21:40 溫水；
 //   8 熟了以後的閒聊；9 考試週（旁白、柏翰明軒作息、當面一句）；10 打烊（柏翰一起去兩點半）；11 邀約地點與見面；12 雨天；13 小聲；14 存檔欄位；
@@ -133,12 +133,12 @@ const T=()=>said.map(s=>s.t);
     fresh(sat,10); G.zone='dorm'; know('heroine_01',S4); check('11. 還沒去過：清單上沒有（show）',!P.show(G,'heroine_01')); G.visited.wz_mokuyobi=true; check('11. 去過以後有',P.show(G,'heroine_01'));
     const d=INV.decide(G,'heroine_01','mokuyobi',tue,15); check('11. 約週二：沒開（系統說週二休）',d.res!=='accept'&&(d.why==='closed'),J(d));
     const iv=INV.accept(G,'heroine_01','mokuyobi',sat,15,{by:'player'}); G.zone='wz_mokuyobi'; G.day=sat; G.hour=15; said=[]; await INV.meet(GM,iv,null);
-    check('11. 以安第一次：她先到的旁白（AA_645：名字代入）＋「（小聲）我常來這裡讀書。……第一次跟人一起來。」',T().includes('（'+SOCIAL.displayName('heroine_01')+'坐在窗邊那桌，已經點好了。）')&&!T().includes(MOKS.L.meet)&&T().includes(MOKS.DATE.heroine_01.first)&&iv.state==='done',J(T()));
+    check('11. 以安第一次：她先到的旁白（AA_645：名字代入）＋「（小聲）我常來這裡讀書。……第一次跟人一起來。」',T().includes('（以安坐在窗邊那桌，已經點好了。）')&&!T().includes(MOKS.L.meet)&&T().includes(MOKS.DATE.heroine_01.first)&&iv.state==='done',J(T()));
     MOKS.rand=()=>0.1; const iv2=INV.accept(G,'heroine_01','mokuyobi',sat,17,{by:'player'}); said=[]; await INV.meet(GM,iv2,null);
     check('11. 第二次：隨機一次＝那一句（不再說第一次那句）',T().includes(MOKS.DATE.heroine_01.line)&&!T().includes(MOKS.DATE.heroine_01.first),J(T()));
     MOKS.rand=()=>0.9; const iv3=INV.accept(G,'heroine_01','mokuyobi',sat,19,{by:'player'}); said=[]; await INV.meet(GM,iv3,null); check('11. 沒抽到就不說',!T().includes(MOKS.DATE.heroine_01.line));
     know('zhe',S4); const iz=INV.accept(G,'zhe','mokuyobi',sat,20,{by:'player'}); said=[]; await INV.meet(GM,iz,null);
-    check('11. 阿哲（朋友）一句；他先到的旁白不分男女（AA_645 第 2 節）',T().includes(MOKS.FRIEND.zhe)&&T().includes('（'+SOCIAL.displayName('zhe')+'坐在窗邊那桌，已經點好了。）'),J(T()));
+    check('11. 阿哲（朋友）一句；他先到的旁白不分男女（AA_645 第 2 節）',T().includes(MOKS.FRIEND.zhe)&&T().includes('（阿哲坐在窗邊那桌，已經點好了。）'),J(T()));
     const iw=INV.accept(G,'heroine_01','mokuyobi',sat,20,{by:'player',now:true}); said=[]; MOKS.rand=()=>0.1; await INV.meet(GM,iw,null); check('11. 一起走過來的：沒有「先到」那一句',!T().some(t=>/坐在(窗邊|靠書櫃)那桌，已經點好了/.test(t)),J(T()));
     MOKS.rand=Math.random; }
   // ===== 12. 雨天 =====
@@ -161,12 +161,12 @@ const T=()=>said.map(s=>s.t);
     check('14. 新遊戲的預設有 mokuyobi:{n:0,seats:{}}（舊存檔 migrate 照 defaults 補）',/mokuyobi:\{n:0,seats:\{\}\}/.test(line)&&/function migrate\(s\)\{ const d=defaults\(s\.name\);[^\n]*for\(const k in d\)\{ if\(s\[k\]===undefined\|\|s\[k\]===null\) s\[k\]=d\[k\];/.test(g3));
     const g={day:1}; MOKS.rec(g); const g2={day:1,mokuyobi:'壞'}; MOKS.rec(g2); const g4={day:1,mokuyobi:{n:-3,seats:[1]}}; MOKS.rec(g4);
     check('14. 沒有、壞掉的欄位重設（從零開始）',g.mokuyobi.n===0&&J(g.mokuyobi.seats)==='{}'&&g2.mokuyobi.n===0&&g4.mokuyobi.n===0&&!Array.isArray(g4.mokuyobi.seats)); }
-  // ===== 15～20. AA_645（企劃線 ed6a4329d）=====
-  let s645=''; try{ s645=cp.execSync('git -c core.quotepath=off show ed6a4329d:"docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  // ===== 15～20. AA_645（企劃線 ed6a4329d；第 6 節三題 350c90382：叫法、明軒那句、海報第三句）=====
+  let s645=''; try{ s645=cp.execSync('git -c core.quotepath=off show 350c90382:"docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   const in645=t=>s645.includes(String(t).replace(/^「|」$/g,''));
   { const L0=MOKS.L, all=[].concat(L0.look.bookcase,L0.look.record,L0.look.poster,L0.close.map(x=>x[1]),L0.xc.map(x=>x[1]),[L0.meetFmt,MOKS.ACC0],Object.values(INVITE_DATA.mokuyobiAcc||{}));
-    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@ed6a4329d；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===23&&!bad.length,J(bad));
-    check('15. 書櫃三句、唱片機三句、海報兩句（稿上海報只有兩句，第三點是 D77 的註）；答應十人各一句',L0.look.bookcase.length===3&&L0.look.record.length===3&&L0.look.poster.length===2&&Object.keys(INVITE_DATA.mokuyobiAcc).length===10);
+    const bad=all.filter(t=>!in645(t)); check('15. 讀得到 AA_645@350c90382；AA_645 的每一句（'+all.length+' 句）都在稿上',!!s645&&all.length===24&&!bad.length,J(bad));
+    check('15. 書櫃三句、唱片機三句、海報三句（第 6 節第 3 點補第三句）；答應十人各一句',L0.look.bookcase.length===3&&L0.look.record.length===3&&L0.look.poster.length===3&&Object.keys(INVITE_DATA.mokuyobiAcc).length===10);
     check('15.「靠書櫃那桌」「窗邊那桌」都在稿上',s645.includes('窗邊那桌」改「靠書櫃那桌」')); }
   { fresh(wed,15); E.interactables=[]; MOK3.zone.build(E); const lk=k=>E.interactables.find(q=>q.mokLook===k);
     check('16. 書櫃、唱片機、海報有按鈕（配置 interact 的位置、label、二樓）',['bookcase','record','poster'].every(k=>{ const q=lk(k), d=L.interact.find(x=>x.kind===k); return !!q&&q.x===d.x&&q.z===d.z&&q.lv===1&&q.label===d.label; }),J(E.interactables));
@@ -176,7 +176,7 @@ const T=()=>said.map(s=>s.t);
   { const sat=TD('Y1S1',7,6); fresh(sat,15); know('heroine_02',S4); G.visited.wz_mokuyobi=true;
     const win=L.seats.filter(s=>s.table===1||s.table===2);
     check('17. 窗邊＝配置 table 1、2（label「坐窗邊」的四個位子）',win.length===4&&win.every(s=>s.label==='坐窗邊')&&J(MOKS.WIN_TABLES)===J([1,2]));
-    const nm=SOCIAL.displayName('heroine_02'); check('17. 窗邊沒滿：「（'+nm+'坐在窗邊那桌，已經點好了。）」',MOKS.meetLine(GM,'heroine_02')==='（'+nm+'坐在窗邊那桌，已經點好了。）');
+    const nm='芷若';   /* AA_645 第 6 節第 1 點：祐廷平常的叫法，不用全名 */ check('17. 窗邊沒滿：「（'+nm+'坐在窗邊那桌，已經點好了。）」',MOKS.meetLine(GM,'heroine_02')==='（'+nm+'坐在窗邊那桌，已經點好了。）');
     E.npcs=[{seat:{x:win[0].x,z:win[0].z,lv:1}}]; check('17. 只有一桌有人：還是窗邊',MOKS.meetLine(GM,'heroine_02').includes('窗邊那桌'));
     E.npcs.push({seat:{x:win[3].x,z:win[3].z,lv:1}}); check('17. 窗邊兩桌都有人：「靠書櫃那桌」',MOKS.meetLine(GM,'heroine_02')==='（'+nm+'坐在靠書櫃那桌，已經點好了。）',MOKS.meetLine(GM,'heroine_02'));
     E.npcs=[]; }

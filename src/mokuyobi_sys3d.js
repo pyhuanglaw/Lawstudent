@@ -43,7 +43,7 @@ const MOKS=(function(){
     meetFmt:'（{名字}坐在窗邊那桌，已經點好了。）', meetBook:'靠書櫃那桌', meetWin:'窗邊那桌',   /* AA_645 第 2 節 */
     look:{bookcase:['（書櫃上的書都很舊，書背褪成差不多的顏色。有一本詩集夾著別人留下的書籤。）','（最下面一層貼著一張紙：「可以拿下來看，看完請放回原位。」）','（你抽出一本小說，翻了兩頁，又放回去。旁邊那個人抬頭看了你一眼，又低頭讀書。）'],
       record:['（唱片機在轉，放的是一張沒有歌詞的鋼琴曲。）','（旁邊的木箱裡，唱片照年份一張一張排好。）','（一面放完了。老闆走過來把唱片翻面，又回到吧檯。）'],
-      poster:['（《夏の残光》。海報上的女生站在海邊，看著畫面外面。下面一行小字：一九九八年上映。）','（海報的角落有一點泛黃，框是和書櫃一樣的胡桃木。）']},   /* AA_645 第 1 節（海報稿上只有兩句；第三點是 D77 的註）*/
+      poster:['（《夏の残光》。海報上的女生站在海邊，看著畫面外面。下面一行小字：一九九八年上映。）','（海報的角落有一點泛黃，框是和書櫃一樣的胡桃木。）','（海報下面夾著一張手寫的小卡：「老闆看了七次。」）']},   /* AA_645 第 6 節第 3 點補第三句，三句輪流 */   /* AA_645 第 1 節（海報稿上只有兩句；第三點是 D77 的註）*/
     lookLabel:{bookcase:'看看書櫃',record:'看唱片機',poster:'看海報'},   /* 按鈕的字照配置 interact 的 label */
     close:[['老闆','「（小聲）十點了。……要打烊了。」'],[null,'（你收好書，走下樓梯。巷子裡只剩路燈。）']],   /* AA_645 第 3 節：一般 22:00 打烊（當晚出過 21:40 溫水＝只出旁白）*/
     xc:[['classmate_xinci','「（小聲）這裡的燈剛好，看書不累。」']],   /* AA_645 5-b：進門看到芯慈 */
@@ -173,7 +173,9 @@ const MOKS=(function(){
   S.WIN_TABLES=[1,2];
   S.windowFull=function(GM,id){ const L=LAY(), E=GM&&GM.E; if(!L||!E) return false; const her=GM.npc&&GM.npc[id];
     return S.WIN_TABLES.every(t=>L.seats.some(s=>s.table===t&&(E.npcs||[]).some(n=>n&&n!==her&&n.charId!==id&&n.seat&&(n.seat.lv|0)===1&&Math.hypot(n.seat.x-s.x,n.seat.z-s.z)<0.35))); };
-  S.meetLine=(GM,id)=>S.L.meetFmt.replace('{名字}',nameOf(id)).replace(S.L.meetWin,S.windowFull(GM,id)?S.L.meetBook:S.L.meetWin);
+  S.CALL={heroine_01:'以安',heroine_02:'芷若',heroine_03:'語彤',heroine_04:'子晴',heroine_05:'學姊',classmate_peishan:'沛珊',kexin:'可昕',zhe:'阿哲',classmate_bohan:'柏翰',classmate_mingxuan:'明軒',classmate_xinci:'芯慈',yu:'Alison'};   /* AA_645 第 6 節第 1 點（企劃線 350c90382）：祐廷平常的叫法；其他人用平常顯示的短名（SOCIAL.npcName），不用全名 */
+  S.callName=id=>S.CALL[id]||((typeof SOCIAL!=='undefined'&&SOCIAL.npcName)?SOCIAL.npcName(id):nameOf(id));
+  S.meetLine=(GM,id)=>S.L.meetFmt.replace('{名字}',S.callName(id)).replace(S.L.meetWin,S.windowFull(GM,id)?S.L.meetBook:S.L.meetWin);
   S.meetScene=async function(GM,iv,who){ const G=GM.G, id=iv.who, D=S.DATE[id], F=S.FRIEND[id];
     const before=(G.invites||[]).some(q=>q!==iv&&q.who===id&&q.place==='mokuyobi'&&q.state==='done');
     if(!iv.now) await GM.say(null,S.meetLine(GM,id));   /* 約的人先到（一起走過來的不說）：AA_645 第 2 節不分男女 */
