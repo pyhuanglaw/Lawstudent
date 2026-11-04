@@ -1,10 +1,10 @@
 {
  "role": "BB",
- "account": "A",
- "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
- "branch": "claude/story-planning",
- "state": "handed-off",
- "handedOffAt": "2026-11-04T09:04Z",
- "sha": "e7f6cc65",
- "snapshot": "docs/handoff/snapshots/2026-11-04T0904Z_A_BB.json"
+ "account": "C",
+ "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
+ "branch": "claude/wonderful-mayer-7fm9g6",
+ "since": "2026-11-04T12:44Z",
+ "state": "on",
+ "sinceSha": "69a24fa5",
+ "userOk": false
 }
