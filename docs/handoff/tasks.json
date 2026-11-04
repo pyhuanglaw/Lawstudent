@@ -43971,17 +43971,15 @@
    "owner": "LAWWW",
    "priority": "P1",
    "title": "溫州街第一批五間店改造（2:30 AM、林家乾麵、SUNNY SIDE、阿德影印、小路居酒屋；USER_WANTS X212、AA_654）",
-   "status": "暫停",
-   "next": "LAWWW 已回 AA 影響範圍：cafe／wz_teishoku 內部 id 不動、顯示字與「兩點半」261 處由 AA 列清單；建議 2:30 AM 照舊 11:00–02:30、小路 17:30–24:00",
+   "status": "進行中",
+   "next": "使用者 04:5x 定案：分工照 AA_654、2:30 AM 營業照舊、小路 18:00～02:00。外觀 LAWWW2、室內 AA（2:30 AM、小路、SUNNY SIDE）／BB（林家）／CC（阿德）；LAWWW 先交不能動的座標清單（docs/handoff/WZ_SHOPS1_FIXED_COORDS.md），再接改名、營業時間、模型",
    "xai": {
     "spec": "企劃線 41169746b AA_654",
     "branch": "claude/story-planning",
     "acceptance": "AA_654 第 3 節",
     "receiver": "LAWWW",
     "ack": "ACK"
-   },
-   "pausedReason": "使用者要求先提修改範圍與分工、確認後再開工",
-   "resumeWhen": "使用者回 AA_654 第 6 節（分工、2:30 AM 與小路營業時間）"
+   }
   }
  ]
 }
