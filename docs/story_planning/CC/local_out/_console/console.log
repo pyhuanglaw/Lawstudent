@@ -101,3 +101,19 @@
 [16:21:06] [res] cpu=7% mem=38% (11.9/31.4 GB) chrome_testing=0  START GG_night_r7
 [16:21:06] [res] cpu=8% mem=38% (11.9/31.4 GB) chrome_testing=0  START CAFE230v3_shots
 [16:23:36] [res] cpu=25% mem=51% (16.1/31.4 GB) chrome_testing=19  END GG_night_r7
+    To https://github.com/pyhuanglaw/Lawstudent.git
+       12be57d78..3b1ec5103  claude/cc-local -> claude/cc-local
+    branch 'claude/cc-local' set up to track 'origin/claude/cc-local'.
+[16:23:46] ==== END   GG_night_r7  exit=0  153s   ====
+[16:23:47] AUTORETRY TT_V15b_chunk: first run exit 1 - rerun once with trace (whole probe)
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;STEPS=media,greet;QUICK=1;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_02;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=zhe,yu,classmate_bohan,classmate_mingxuan,classmate_youchen,kai;QUICK=1;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_01,heroine_03,heroine_04;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=heroine_05,classmate_peishan,kexin,classmate_xinci;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=econ_zhengxun,econ_pinyu,econ_weilun,econ_tangrui,econ_jiahao,jp_caizhen,jp_liheng,jp_yuheng,npc_fangyt,npc_huangxh,npc_ta_chen;CC_HEADLESS=0')
+[16:23:49] bad queue line (skipped): W970f958 | probe | docs/story_planning/test_tools/cc/cc_social_smoke_probe.py |   (invalid literal for int() with base 10: 'CASES=pool;STEPS=first,greet,reload,phone;CC_HEADLESS=0')
+[16:23:49] memory 45% before starting CAFE230v3_seats (2 running)
+[16:23:49] ==== START CAFE230v3_seats  (game @ 0c2d4997b) ====
+[16:23:53] [res] cpu=63% mem=46% (14.2/31.4 GB) chrome_testing=18  START CAFE230v3_seats
+[16:25:30] [res] cpu=48% mem=53% (16.8/31.4 GB) chrome_testing=19  END CAFE230v3_seats
