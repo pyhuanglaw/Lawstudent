@@ -1,0 +1,30 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_yutong_v3_probe.py http://127.0.0.1:8810/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\YT3-F1\out
+cc_yutong_v3_probe  SHA=a8c485729  URL=http://127.0.0.1:8810/index.html  CASES=grad_gf
+PASS 稿讀得到：AA_610_語彤改成打工同事才認識.md（origin/claude/story-planning）  1576 字
+PASS 稿讀得到：AA_624_語彤新背景_富二代_打工.md（origin/claude/story-planning）  4925 字
+PASS 稿讀得到：AA_625_語彤新版事件台詞.md（origin/claude/story-planning）  7950 字
+PASS 稿讀得到：AA_642_語彤第三版接線_回LAWWW六件.md（origin/claude/story-planning）  2296 字
+PASS 稿讀得到：AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md（origin/claude/story-planning）  3308 字
+
+==== grad_gf：畢業那天（交往中：她的約） ====
+PASS [grad_gf] 遊戲載入
+  [前置／捷徑] [grad_gf] 最小存檔讀檔：2029-06-02（星期六，Y4S2 第 15 週）5.83 dorm；遊戲 API 設前置：{"stage": "RELATIONSHIP", "rel": {"fam": 60, "trust": 45, "aff": 0, "resp": 0, "comf": 40, "rom": 60, "npcRom": 50, "seen": 0, "talked": 1}, "knows": true, "dating": true, "jobs": null, "groups": [], "pg": {"pgDone": 1, "on": false}}
+  [前置／捷徑] [grad_gf] GAME.snapshot() 再讀一次（條件事件照開、手機自動打開照開）
+  [ 327.1s] 選項 ["「好。我回去看。」", "「媽，今天先拍照。」"] → 點「「好。我回去看。」」
+  [ 358.4s] 選項 ["「好。」", "「今天晚上我有約了。」"] → 點「「好。」」
+  [grad_gf] 事件：[]
+  [grad_gf] 台詞：[["旁白", "（學士服掛在門後面，已經燙過了。）"], ["旁白", "（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）"], ["旁白", "（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）"], ["媽媽", "我們家第一個首都帝大畢業的。"], ["旁白", "（媽媽哭了。）"], ["旁白", "（爸爸沒有說話，拍照拍了五十張。）"], ["姊姊", "媽，不要哭了，妝。"], ["媽媽", "（從包包裡拿出一個信封）對了，大伯叫我拿給你——"], ["姊姊", "媽！今天！今天不要！"], ["旁白", "祐廷接過信封，放進學士服的口袋。"], ["旁白", "（媽媽擦了一下眼睛。）"], ["旁白", "（晨思鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）"], ["旁白", "（語彤從社科院那邊跑過來，擠進照片的角落。她媽媽在後面拿著手機拍。）"], ["Alison", "（把學士帽戴到阿哲頭上）你的帽子歪了。"], ["阿哲", "那是妳的帽子。"], ["旁白", "（語彤穿著學士服，手上拿著一把深藍色的長柄傘。外面在飄雨。）"], ["旁白", "（典禮結束。語彤旁邊站著一位穿著套裝的女士，手上抱著花。）"], ["語彤", "……媽。這是祐廷。茶屋的。"], ["語彤的媽媽", "（看了你一眼，點了一下頭）你好。"], ["旁白", "（她們拍了一張合照。語彤的媽媽把花給她，沒有多說什麼。）"], ["語彤的媽媽", "恭喜。"], ["語彤", "恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。"], ["阿凱", "畢業快樂。宵夜？"], ["祐廷", "……現在才中午。"], ["阿凱", "那晚上。"], ["語彤", "今天不排班。晚上來我家，我煮。"], ["阿哲", "晚上五點半兩點半啦，能來的都來。"], ["旁白", "（公館的餐廳。爸爸點了一桌，說是慶祝。）"], ["旁白", "（媽媽把每一道菜都拍了一張。）"], ["姊姊", "媽，妳拍菜比拍他多。"]]
+  [grad_gf] 立繪框：{"grad_gf_語彤_land": [{"id": "advL", "show": true, "dim": true, "off": true, "img": "http://127.0.0.1:8810/assets/portraits/zhe/campus/neutral.webp"}, {"id": "advR", "show": true, "dim": false, "off": false, "img": "http://127.0.0.1:8810/assets/portraits/heroine_03/campus/neutral.webp"}]}
+PASS [grad_gf] 演完（!!GAME.G.flags.GRAD_DONE&&((window.__YT3||{}).scr||[]).some(r=>(r.k==='choices'|）
+PASS [grad_gf] 稿逐句「語彤：今天不排班。晚上來我家，我煮。」（AA_643_語彤AA625接線_回LAWWW六題＋畢業那天四句.md:39）
+PASS [grad_gf] 畫面上沒有舊設定的字（麵店、阿鳳、扭到）  []
+  [ 383.4s] [grad_gf] 選單／字幕：["出發：學期末的飯：陳語彤（一盞茶屋打烊後）18:30　走過去約 15 分鐘｜晚一點（20 分鐘後再提醒）｜不去了"]
+FAIL [grad_gf] 選單／字幕有「學期末的飯：陳語彤（她家）18:30」  ["出發：學期末的飯：陳語彤（一盞茶屋打烊後）18:30　走過去約 15 分鐘｜晚一點（20 分鐘後再提醒）｜不去了"]
+FAIL [grad_gf] 選單／字幕沒有「一盞茶屋打烊後」  ["出發：學期末的飯：陳語彤（一盞茶屋打烊後）18:30　走過去約 15 分鐘｜晚一點（20 分鐘後再提醒）｜不去了"]
+PASS [grad_gf] 選單／字幕沒有「麵店」  []
+PASS [grad_gf] 沒有 JS 例外  []
+
+==== 摘要 ====
+FAIL grad_gf 畢業那天（交往中：她的約）
+SHA a8c485729
+FAILED: [grad_gf] 選單／字幕有「學期末的飯：陳語彤（她家）18:30」, [grad_gf] 選單／字幕沒有「一盞茶屋打烊後」
