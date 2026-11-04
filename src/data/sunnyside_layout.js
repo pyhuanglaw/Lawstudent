@@ -15,7 +15,7 @@ const SUNNYSIDE_LAYOUT = {
   rightWindow: {z0: -2.4, z1: 4.6, sill: 0.75, head: 2.55, mullions: 13, transom: 2.0, color: '#3f5a3c', note: 'v1d（BB_257 §11①、LAWWW2 11-04 06:58）：轉角店的右牆整面落地窗；z 4.6～5.0 是轉角柱，z −5～−2.4 留牆給廚房'},
   front: {door: {x: 0.4, w: 1.0}, windows: [[-3.0, -0.3], [1.1, 3.0]], sill: 0.75, head: 2.55, note: '照舊（FIXED_COORDS §3）'},
   spawn: {x: 0.4, z: 4.0, yaw: Math.PI},
-  seeThru: ['wzs_pendant', 'wzs_bulb'],
+  seeThru: ['wzs_pendant', 'wzs_bulb', 'sns_vc_metal'],   /* sns_vc_metal：吧台上方的吊架（LAWWW2-C 11-04 13:1x，BB_255 吧台鏡頭被擋）*/
   seeThruNote: '吊燈照舊叫 wzs_pendant（燈罩）、wzs_bulb（燈泡）的材質名稱沒有沿用；新版的吊燈是 GLOW_pendant_*，兩盞在中間桌子上方 2.3 m。LAWWW2 拍鏡頭遮擋時再定要不要透空。',
   exit: {at: {x: 0.4, z: 4.45}, label: '離開 SUNNY SIDE', to: 'wenzhou', spawn: {x: 42.0, z: -4.1, yaw: 0}},
   enterAt: {x: 42.0, z: -4.6, label: '進去 SUNNY SIDE', note: '照舊（B7 店門）'},
