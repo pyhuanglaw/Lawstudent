@@ -1214,6 +1214,29 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "ACK"
+  },
+  {
+   "task": "BB-A-1102-1104-MISC",
+   "branch": "claude/story-planning",
+   "sha": "256ecbe4",
+   "files": [
+    "docs/story_planning/BB_132_校外約會CG生成單.md",
+    "README.md",
+    "CLAUDE.md",
+    "qa/library_ref_使用者1102/",
+    "qa/bg107/",
+    "qa/bg109/",
+    "docs/story_planning/incoming/bg109_使用者1102/",
+    "docs/story_planning/test_tools/bg3d_probe.py",
+    "docs/story_planning/BB_252_v9.10.18驗收.md",
+    "docs/story_planning/bb_runs/v18r/"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "無（BB 帳號 A 11-02～11-04 的背景提示詞第 107～110b 組、企劃分支 README／CLAUDE.md 換虛構校名、v9.10.18 驗收紀錄；BB-C 11-04 照 AA-C 12:47 incr 歸類補登）",
+   "noDirectIntegrate": false,
+   "receiver": "AA",
+   "ack": "ACK"
   }
  ],
  "items": [
