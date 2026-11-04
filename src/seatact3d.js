@@ -22,6 +22,7 @@
      正式模型還沒載好：找不到桌子的過 1.5 秒、5 秒、之後每 4 秒（模型數量變了）再找一次。
    - 畫面：同一種網格一個 InstancedMesh（每一層樓一個群組，跟著那一層顯示／隱藏）；7 m 內用 LOD0、7.5 m 外換 _lod1（筆、螢光筆省略；單件沒有 _lod1＝照用），12 m 外單件不畫。
      一個區域最多 S.CAP 組（24）。人起身、走了、換區域：那一組拿掉。載入失敗：人照樣坐、桌上沒有東西。
+   - 占著、人不在的位子（EXAM-LIB-CROWD-1104，src/examlib3d.js 期末考前的圖書館）：S.AWAY 給的座位，桌上放「休息」那一組（S.awayTick；測試：node tests/exam_lib_crowd_unit.js）。
    - 每 30 格（game3d.js 主迴圈，和 STORY.tick 同一格）跑 S.tick。測試：node tests/seat_activity_1104_unit.js
    平板（S.TABLET_OK）：desk_props 現在沒有平板；美術做了 item_tablet（桌上：原點＝底面中心、+z 離開人、螢幕朝上，約 0.25×0.17×0.007 m）、hold_tablet（手上：同 item 的座標，遊戲端轉到手上）就自動加進去。 */
 'use strict';
@@ -159,7 +160,7 @@ const SEATACT=(function(){
     R.loading=ASSETS.loadOne(S.PROP_KEY).then(c=>{ const m={}; if(c&&c.scene) c.scene.traverse(o=>{ if(o.isMesh&&o.name) m[o.name]=o; }); R.props=m; R.loading=null; S.TABLET_OK=!!(m.item_tablet&&m.hold_tablet); R.dirty=true; for(const r of R.on.values()) r.items=null; },
       e=>{ console.warn('SEATACT desk_props（人照樣坐，桌上沒有東西）',e); R.failed=true; R.loading=null; }); }
   S.ready=()=>!!R.props;
-  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()){ unhold(r); unChat(r); } R.on.clear(); R.dirty=false; }
+  function clearAll(){ for(const g of R.groups.values()) disposeG(g); R.groups.clear(); for(const r of R.on.values()){ unhold(r); unChat(r); } R.on.clear(); R.dirty=false; awayKeys.clear(); }
   /* 同桌聊天的兩個人（NPC-AMBIENT-ANIM-1104，USER_WANTS X222）：兩個都是 chat（crowd3d.js 一桌兩個人、互相看著對方的那一組）、都不是有名字的人＝一組；
      兩個人的 obj.userData.sitChat＝{pair}（共用的 pair：na、nb、輪到誰 turn、時鐘 t、這一輪多久 dur）——character3d.js 的 sitAmbient 照它輪流說話（Sitting_Talking_Loop）、點頭（Sitting_Nodding_Loop）。
      有一個人走了、起身、換區域＝兩個人都拿掉（剩下那一個照舊坐著）。有名字的人照劇情，不配（姿勢、手不動）*/
@@ -194,7 +195,7 @@ const SEATACT=(function(){
     if(chatting(E,n)) return place==='meal'?null:{act:'chat'};
     const act=S.actAt(G.zone,G.day,st,place,busy); return act?{act}:null; }
   /* 套用到人身上（只有路人）：姿勢、手上的東西、腿上的筆電 */
-  function applyBody(r){ if(r.named) return; const A=S.ACT[r.act]; const n=r.n, o=n.obj; if(!A||!A.pose) return;
+  function applyBody(r){ if(r.named||r.away) return; const A=S.ACT[r.act]; const n=r.n, o=n.obj; if(!A||!A.pose) return;
     let act=r.act, pose=A.pose, hold=A.hold||null;
     if(hold==='tablet'&&!S.TABLET_OK){ hold='phone'; }
     const lap=A.lap&&!r.set;   /* 筆電放不上桌子：腿上 */
@@ -211,15 +212,18 @@ const SEATACT=(function(){
     load(); R.t++;
     const live=new Set();
     /* 已經配好的：人還坐著就留著（姿勢被別人改回來的路人＝再套一次） */
-    for(const r of [...R.on.values()]){ if(!E.npcs.includes(r.n)||!seatedOk(r.n)||r.n.seat!==r.st){ drop(r); continue; } live.add(r.n);
+    let awayN=0;
+    for(const r of [...R.on.values()]){ if(r.away){ awayN++; continue; }   /* 占著、人不在的位子：S.awayTick 管 */
+      if(!E.npcs.includes(r.n)||!seatedOk(r.n)||r.n.seat!==r.st){ drop(r); continue; } live.add(r.n);
       if(!r.named&&r.pose&&r.n.pose!==r.pose&&(r.n.pose==='sit'||r.n.pose==='read')) applyBody(r); }
     const busy=[...R.on.values()].map(r=>({st:r.st,act:r.act}));
     const PP=E.player&&E.player.obj&&E.player.obj.position, cand=E.npcs.filter(n=>!live.has(n)&&seatedOk(n));
-    if(PP&&cand.length+R.on.size>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
+    if(PP&&cand.length+R.on.size-awayN>S.CAP) cand.sort((a,b)=>Math.hypot(a.seat.x-PP.x,a.seat.z-PP.z)-Math.hypot(b.seat.x-PP.x,b.seat.z-PP.z));   /* 超過上限：離玩家近的先配 */
     const ixDone=indexStep(E.zone,S.INDEX_MS).done;   /* 桌子的索引還在分段算：人先照做的事坐好（手上的照拿），桌上等算好再放 */
-    for(const n of cand){ if(R.on.size>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
+    for(const n of cand){ if(R.on.size-awayN>=S.CAP) break; const d=decide(GM,n,place,busy); if(!d) continue;
       const r={n,st:n.seat,act:d.act,named:!!d.named,forced:d.set,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null};
       R.on.set(n,r); busy.push({st:r.st,act:r.act}); if(ixDone) retable(E,r,place); applyBody(r); R.dirty=true; }
+    S.awayTick(GM,place,ixDone);
     /* 還沒找過的；找不到桌子的 1.5 秒、5 秒後再找；模型變了（正式模型載好、備用方塊藏起來＝索引重算完）每個人都重找（桌面高度可能不一樣）*/
     if(ixDone){ const sig=triIx.sig; for(const r of R.on.values()){ const due=!r.tbN||r.tbSig!==sig||(!r.tb&&r.tbN<3&&Date.now()-r.tbT>(r.tbN===1?1500:5000)); if(!due) continue;
         const had=r.set, hy=r.tb&&r.tb.y; retable(E,r,place,sig); if(r.set!==had||r.tbN===1||(r.tb&&r.tb.y)!==hy){ applyBody(r); r.items=null; R.dirty=true; } } }
@@ -234,6 +238,18 @@ const SEATACT=(function(){
     r.set=set; r.kind=r.tb?(r.tb.wide?'wide':(r.tb.depth>=0.3?'narrow':(r.tb.depth>=0.2?'tiny':null))):null; r.items=null; }
   function drop(r){ unChat(r); R.on.delete(r.n); unhold(r); if(r.set) R.dirty=true; }
   S.drop=function(n){ const r=R.on.get(n); if(r){ drop(r); } };
+  /* 占著、人不在的位子（EXAM-LIB-CROWD-1104：期末考前的圖書館，src/examlib3d.js）：S.AWAY＝[fn(GM)→[座位…]]，每個位子桌上放「休息」那一組（圖書館：闔上的筆電、課本、杯子、蓋著的手機／闔上的筆記本）；
+     沒有人坐（座位上有人＝照那個人配）、最多 S.AWAY_CAP 個（離玩家近的先）；位子不在清單上了（有人坐下、占的人回來了、換區域）就拿掉。沒有 AWAY＝照舊 */
+  S.AWAY=[]; S.AWAY_CAP=40;
+  const awayKeys=new Map();   /* 座位鍵 → 代表那個位子的物件（R.on 的鍵；不是人）*/
+  function awayList(GM,E){ const out=new Map(); for(const f of S.AWAY){ let L=null; try{ L=f(GM); }catch(e){ console.warn('SEATACT.AWAY',e); } for(const st of (L||[])){ if(!st) continue; const k=skey(st); if(!out.has(k)) out.set(k,st); } }
+    if(out.size>S.AWAY_CAP){ const P=E.player&&E.player.obj&&E.player.obj.position; const L=[...out.entries()]; if(P) L.sort((a,b)=>Math.hypot(a[1].x-P.x,a[1].z-P.z)-Math.hypot(b[1].x-P.x,b[1].z-P.z)); return new Map(L.slice(0,S.AWAY_CAP)); }
+    return out; }
+  const sitAt=(E,st)=>(E.npcs||[]).some(n=>n&&(n.seat||n.seatTarget)&&Math.hypot((n.seat||n.seatTarget).x-st.x,(n.seat||n.seatTarget).z-st.z)<0.35&&((n.seat||n.seatTarget).lv|0)===(st.lv|0))||!!(E.player&&E.player.seat&&Math.hypot(E.player.seat.x-st.x,E.player.seat.z-st.z)<0.35);
+  S.awayTick=function(GM,place,ixDone){ const E=GM.E; if(!S.AWAY.length&&!awayKeys.size) return; const want=place==='library'?awayList(GM,E):new Map();
+    for(const [k,n] of [...awayKeys.entries()]){ const r=R.on.get(n); if(!r||!want.has(k)||sitAt(E,r.st)){ if(r) drop(r); awayKeys.delete(k); } }   /* !r：換日時整批 drop 掉了＝下面重新放 */
+    for(const [k,st] of want){ if(awayKeys.has(k)||sitAt(E,st)) continue; const n={away:true,key:k};   /* 不是人：applyBody、手上的東西、聊天都不碰 */
+      const r={n,st,act:'rest',named:false,away:true,forced:undefined,set:null,items:null,tb:undefined,tbT:0,tbN:0,pose:null,hold:null,kind:null}; awayKeys.set(k,n); R.on.set(n,r); if(ixDone) retable(E,r,place); R.dirty=true; } };
   S.clear=clearAll;
   // ---------- 畫出來 ----------
   const near=new Map();   /* r → true／false（7 m 內）*/
