@@ -1,0 +1,4974 @@
+{
+ "sha": "75a095355",
+ "boot_s": 19.8,
+ "day": {
+  "hour": 14.0,
+  "glb_s": 10.6,
+  "viewport": [
+   844,
+   390
+  ],
+  "cards": {
+   "ggtea_int": {
+    "screen": [
+     [
+      684.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      47.3,
+      0.9
+     ],
+     [
+      684.5,
+      47.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       1,
+       1,
+       1
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "8c6bface",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggtea_take": {
+    "screen": [
+     [
+      546.4,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      32.3,
+      0.9
+     ],
+     [
+      546.4,
+      32.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.41,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       1,
+       1,
+       1
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "8c6bface",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbook_int": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbook_int2": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcvs_int": {
+    "screen": [
+     [
+      771.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      9.6,
+      0.9
+     ],
+     [
+      771.5,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.81,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       3,
+       3,
+       3
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_plaster",
+      "mat": "wz_wall_plaster",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2542,
+      "bbox": [
+       -34.4,
+       0,
+       17.95,
+       51.6,
+       19.7,
+       35
+      ],
+      "uuid": "f37b3d40",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcvs_side": {
+    "screen": [
+     [
+      737.8,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      9.6,
+      0.9
+     ],
+     [
+      737.8,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.81,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       3,
+       3,
+       3
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_plaster",
+      "mat": "wz_wall_plaster",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2542,
+      "bbox": [
+       -34.4,
+       0,
+       17.95,
+       51.6,
+       19.7,
+       35
+      ],
+      "uuid": "f37b3d40",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggyy_int": {
+    "screen": [
+     [
+      1078.3,
+      326.3,
+      0.9
+     ],
+     [
+      -234.3,
+      326.3,
+      0.9
+     ],
+     [
+      -234.3,
+      30.9,
+      0.9
+     ],
+     [
+      1078.3,
+      30.9,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 3,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "wz_small_atlas_gongguan",
+      "mat": "wz_small_atlas_gongguan",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 1742,
+      "bbox": [
+       -56.5,
+       -0.0,
+       21.2,
+       76.01,
+       3.85,
+       22.25
+      ],
+      "uuid": "f8855142",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "wz_small_atlas_gongguan",
+      "mat": "wz_small_atlas_gongguan",
+      "dist": 2.25,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 1742,
+      "bbox": [
+       -56.5,
+       -0.0,
+       21.2,
+       76.01,
+       3.85,
+       22.25
+      ],
+      "uuid": "f8855142",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "8c6bface",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbike_int2": {
+    "screen": [
+     [
+      614.8,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      39.1,
+      0.9
+     ],
+     [
+      614.8,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       5,
+       5,
+       5
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "1c5fd92f",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbike_int": {
+    "screen": [
+     [
+      733.7,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      39.1,
+      0.9
+     ],
+     [
+      733.7,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggafar_int": {
+    "screen": [
+     [
+      590.2,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      17.8,
+      0.9
+     ],
+     [
+      590.2,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggafar_win": {
+    "screen": [
+     [
+      717.3,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      17.8,
+      0.9
+     ],
+     [
+      717.3,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "6d3b7b5b",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcorner_int": {
+    "screen": [
+     [
+      642.7,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      -3.5,
+      0.9
+     ],
+     [
+      642.7,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       7,
+       7,
+       7
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "1c5fd92f",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcorner_win": {
+    "screen": [
+     [
+      536,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      -3.5,
+      0.9
+     ],
+     [
+      536,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       7,
+       7,
+       7
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "1c5fd92f",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggdb_int": {
+    "screen": [
+     [
+      814.9,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      42.4,
+      0.9
+     ],
+     [
+      814.9,
+      42.4,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "0e72c5c5",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       8,
+       8,
+       8
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "76d5dc24",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "1c5fd92f",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   }
+  },
+  "ggLit": "{\"name\":\"NOSHADOW_xs_fronts_lit\",\"mat\":\"wz_xs_fronts\",\"uv1\":true,\"inScene\":true,\"compiled\":1,\"rewrap\":0,\"lit\":[1,1,1,1,0.18,1,1,1,1],\"glow\":{\"1\":2,\"2\":5,\"3\":4,\"4\":5,\"5\":6,\"6\":3,\"7\":3,\"8\":3},\"hour\":14.025201333333346,\"found\":true,\"matSame\":\"wz_xs_fronts\"}"
+ },
+ "night": {
+  "hour": 21.0,
+  "glb_s": 3.57,
+  "viewport": [
+   844,
+   390
+  ],
+  "cards": {
+   "ggtea_int": {
+    "screen": [
+     [
+      684.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      327.9,
+      0.9
+     ],
+     [
+      159.5,
+      47.3,
+      0.9
+     ],
+     [
+      684.5,
+      47.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       1,
+       1,
+       1
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "c754eeab",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggtea_take": {
+    "screen": [
+     [
+      546.4,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      271.6,
+      0.9
+     ],
+     [
+      297.6,
+      32.3,
+      0.9
+     ],
+     [
+      546.4,
+      32.3,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.41,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       1,
+       1,
+       1
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "c754eeab",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbook_int": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbook_int2": {
+    "screen": [
+     [
+      799.4,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      367.3,
+      0.9
+     ],
+     [
+      44.6,
+      -10.1,
+      0.9
+     ],
+     [
+      799.4,
+      -10.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcvs_int": {
+    "screen": [
+     [
+      771.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      444.4,
+      0.9
+     ],
+     [
+      72.5,
+      9.6,
+      0.9
+     ],
+     [
+      771.5,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.81,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       3,
+       3,
+       3
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_plaster",
+      "mat": "wz_wall_plaster",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2542,
+      "bbox": [
+       -34.4,
+       0,
+       17.95,
+       51.6,
+       19.7,
+       35
+      ],
+      "uuid": "ef394601",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcvs_side": {
+    "screen": [
+     [
+      737.8,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      444.4,
+      0.9
+     ],
+     [
+      106.2,
+      9.6,
+      0.9
+     ],
+     [
+      737.8,
+      9.6,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.81,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       3,
+       3,
+       3
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_plaster",
+      "mat": "wz_wall_plaster",
+      "dist": 2.86,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2542,
+      "bbox": [
+       -34.4,
+       0,
+       17.95,
+       51.6,
+       19.7,
+       35
+      ],
+      "uuid": "ef394601",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggyy_int": {
+    "screen": [
+     [
+      1078.3,
+      326.3,
+      0.9
+     ],
+     [
+      -234.3,
+      326.3,
+      0.9
+     ],
+     [
+      -234.3,
+      30.9,
+      0.9
+     ],
+     [
+      1078.3,
+      30.9,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 3,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "wz_small_atlas_gongguan",
+      "mat": "wz_small_atlas_gongguan",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 1742,
+      "bbox": [
+       -56.5,
+       -0.0,
+       21.2,
+       76.01,
+       3.85,
+       22.25
+      ],
+      "uuid": "d9b3c407",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "wz_small_atlas_gongguan",
+      "mat": "wz_small_atlas_gongguan",
+      "dist": 2.25,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 1742,
+      "bbox": [
+       -56.5,
+       -0.0,
+       21.2,
+       76.01,
+       3.85,
+       22.25
+      ],
+      "uuid": "d9b3c407",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "wz_wall_mosaic",
+      "mat": "wz_wall_mosaic",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 2836,
+      "bbox": [
+       -56.8,
+       0,
+       17.95,
+       68.6,
+       19.7,
+       35
+      ],
+      "uuid": "c754eeab",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbike_int2": {
+    "screen": [
+     [
+      614.8,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      334.5,
+      0.9
+     ],
+     [
+      229.2,
+      39.1,
+      0.9
+     ],
+     [
+      614.8,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       5,
+       5,
+       5
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "6bcfe7e8",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggbike_int": {
+    "screen": [
+     [
+      733.7,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      318.1,
+      0.9
+     ],
+     [
+      110.3,
+      39.1,
+      0.9
+     ],
+     [
+      733.7,
+      39.1,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggafar_int": {
+    "screen": [
+     [
+      590.2,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      337.7,
+      0.9
+     ],
+     [
+      253.8,
+      17.8,
+      0.9
+     ],
+     [
+      590.2,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggafar_win": {
+    "screen": [
+     [
+      717.3,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      337.7,
+      0.9
+     ],
+     [
+      126.7,
+      17.8,
+      0.9
+     ],
+     [
+      717.3,
+      17.8,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 1.96,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "cafe_vc_wz_matte",
+      "mat": "cafe_vc_wz_matte",
+      "dist": 2.03,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 30778,
+      "bbox": [
+       -88,
+       0,
+       18.13,
+       77.4,
+       43.76,
+       34.11
+      ],
+      "uuid": "ceeb6eca",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcorner_int": {
+    "screen": [
+     [
+      642.7,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      352.5,
+      0.9
+     ],
+     [
+      201.3,
+      -3.5,
+      0.9
+     ],
+     [
+      642.7,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       7,
+       7,
+       7
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "6bcfe7e8",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggcorner_win": {
+    "screen": [
+     [
+      536,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      352.5,
+      0.9
+     ],
+     [
+      308,
+      -3.5,
+      0.9
+     ],
+     [
+      536,
+      -3.5,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 6,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       7,
+       7,
+       7
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "6bcfe7e8",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   },
+   "ggdb_int": {
+    "screen": [
+     [
+      814.9,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      332.8,
+      0.9
+     ],
+     [
+      29.1,
+      42.4,
+      0.9
+     ],
+     [
+      814.9,
+      42.4,
+      0.9
+     ]
+    ],
+    "mesh_names": [
+     "NOSHADOW_xs_fronts",
+     "NOSHADOW_xs_fronts_lit"
+    ],
+    "verts_in_rect": 4,
+    "mesh": "NOSHADOW_xs_fronts_lit",
+    "mat": {
+     "name": "wz_xs_fronts",
+     "color": "#ffffff",
+     "emissive": "#ededed",
+     "emissiveIntensity": 1,
+     "emissiveMap": true,
+     "map": true,
+     "transparent": false,
+     "toneMapped": true
+    },
+    "luma": null,
+    "luma_err": "No module named 'PIL'",
+    "alloff": "[1,0,0,0,0,0,0,0,0]",
+    "glass_n": 1,
+    "ray": [
+     {
+      "mesh": "cafe_glass",
+      "mat": "cafe_glass",
+      "dist": 2,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color",
+       "color_1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": false,
+      "emissiveMap": false,
+      "transparent": true,
+      "opacity": 0.1599999964237213,
+      "verts": 120,
+      "bbox": [
+       -87.7,
+       0,
+       18.99,
+       76.41,
+       3.45,
+       23.46
+      ],
+      "uuid": "4d53ff86",
+      "ud": [
+       "name"
+      ]
+     },
+     {
+      "mesh": "NOSHADOW_xs_fronts_lit",
+      "mat": "wz_xs_fronts",
+      "dist": 2.8,
+      "uv1": true,
+      "uv1name": "uv1",
+      "uv1x": [
+       8,
+       8,
+       8
+      ],
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "uv1"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": true,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 112,
+      "bbox": [
+       -56.44,
+       0,
+       18.8,
+       76.41,
+       4.17,
+       22.8
+      ],
+      "uuid": "7cc4f8b2",
+      "ud": [
+       "name",
+       "xsShops"
+      ]
+     },
+     {
+      "mesh": "wz_wall_tile",
+      "mat": "wz_wall_tile",
+      "dist": 2.85,
+      "uv1": false,
+      "uv1name": null,
+      "uv1x": null,
+      "attrs": [
+       "position",
+       "normal",
+       "uv",
+       "color"
+      ],
+      "detail": null,
+      "parents": [
+       "gongguan_shops",
+       "gongguan_shops_glb",
+       "(Group)",
+       "(Scene)"
+      ],
+      "map": true,
+      "emissiveMap": false,
+      "transparent": false,
+      "opacity": 1,
+      "verts": 8846,
+      "bbox": [
+       -88,
+       0,
+       17.95,
+       77.6,
+       20.6,
+       35
+      ],
+      "uuid": "6bcfe7e8",
+      "ud": [
+       "name"
+      ]
+     }
+    ]
+   }
+  },
+  "ggLit": "{\"name\":\"NOSHADOW_xs_fronts_lit\",\"mat\":\"wz_xs_fronts\",\"uv1\":true,\"inScene\":true,\"compiled\":1,\"rewrap\":0,\"lit\":[1,0.18,1,1,1,0.18,0.18,0.18,0.18],\"glow\":{\"1\":2,\"2\":5,\"3\":4,\"4\":5,\"5\":6,\"6\":3,\"7\":3,\"8\":3},\"hour\":21.027377999999917,\"found\":true,\"matSame\":\"wz_xs_fronts\"}"
+ },
+ "table": {
+  "ggtea_int": {
+   "shop": "G01 青木茶室",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggtea_take": {
+   "shop": "G01 青木茶室",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbook_int": {
+   "shop": "G02 頁間書屋",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbook_int2": {
+   "shop": "G02 頁間書屋",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcvs_int": {
+   "shop": "G03 日和便利店",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcvs_side": {
+   "shop": "G03 日和便利店",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggyy_int": {
+   "shop": "G05 洋洋鹹酥雞",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbike_int2": {
+   "shop": "G06 慢輪單車",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggbike_int": {
+   "shop": "G06 慢輪單車",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggafar_int": {
+   "shop": "G07 Afar café",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggafar_win": {
+   "shop": "G07 Afar café",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcorner_int": {
+   "shop": "G12 轉角唱片",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggcorner_win": {
+   "shop": "G12 轉角唱片",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  },
+  "ggdb_int": {
+   "shop": "G14 Daybreak",
+   "found_day": true,
+   "found_night": true,
+   "mat_day": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_night": {
+    "name": "wz_xs_fronts",
+    "color": "#ffffff",
+    "emissive": "#ededed",
+    "emissiveIntensity": 1,
+    "emissiveMap": true,
+    "map": true,
+    "transparent": false,
+    "toneMapped": true
+   },
+   "mat_changed_at_night": false,
+   "luma_day": null,
+   "luma_night": null
+  }
+ }
+}
