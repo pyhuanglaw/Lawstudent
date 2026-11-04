@@ -62,7 +62,9 @@ async def run_hour(pg, cdp, h):
         info[name] = ri
         print('  [%s] %s：calls %s、tris %s' % (tag, name, ri['calls'], ri['tris']), flush=True)
     await pg.evaluate("(()=>{ const E=GAME.E; if(E.player&&E.player.obj) E.player.obj.visible=true; E.endCinematic&&E.endCinematic(); })()")
-    await pg.evaluate(HUD + '(true)'); await pg.wait_for_timeout(2500)
+    await pg.evaluate(HUD + '(true)'); await pg.wait_for_timeout(6000)   # r1：2.5 秒拍到一整面灰牆 → 等久一點，並記鏡頭位置（灰牆還在＝看鏡頭是不是在牆裡）
+    cam = await pg.evaluate("(()=>{ const E=GAME.E, c=E.camera.position, p=E.player.obj.position; return {mode:E.cam.mode, cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+p.x.toFixed(2),+p.z.toFixed(2)], yaw:+E.cam.yaw.toFixed(2)}; })()")
+    print('  [%s] 玩家視角的鏡頭：%s' % (tag, J(cam)), flush=True)
     await pg.screenshot(path=os.path.join(OUT, 'cafe230_%s_game.png' % tag))
     return info
 
