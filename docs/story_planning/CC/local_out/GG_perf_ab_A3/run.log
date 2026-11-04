@@ -1,0 +1,24 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_perf_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_perf_ab_A3\out
+CC 公館效能原始數字；RUN=abA3；SHA=9ac863212；VIEWS=street_west,arcade；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 一般網址：遊戲載入  20.2 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+PASS 一般網址：正式模型 gongguan_shops_glb 有載入  {"讀檔到區域建好_s": 9.5, "讀檔到正式模型出現_s": 9.53}
+  一般網址：讀檔→區域 9.50 秒；讀檔→正式模型 9.53 秒；GLB 下載 []
+  一般網址：記憶體／貼圖 {"textures": 197, "geometries": 428, "texCount": 189, "texPixels": 26136262, "texMP": 26.14, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}
+  一般網址 street_west：畫面裡的 mesh 163 個（清單寫進 vis_*.json）
+  一般網址 street_west：draw call 191、三角形 319849（藏路人）；FPS 平均 56.41、最低 27.17、1%low 28.8（452 格；路人在：call 214／tris 383597）；遊戲時間 17.597、路人 12（在場景 12）
+  一般網址 arcade：畫面裡的 mesh 155 個（清單寫進 vis_*.json）
+  一般網址 arcade：draw call 190、三角形 329879（藏路人）；FPS 平均 55.1、最低 27.25、1%low 29.26（441 格；路人在：call 199／tris 349179）；遊戲時間 17.665、路人 12（在場景 12）
+PASS 一般網址：沒有 JS 例外  []
+PASS ?nobldg：遊戲載入  17.6 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+  ?nobldg：讀檔→區域 5.39 秒；讀檔→正式模型 None 秒；GLB 下載 []
+  ?nobldg：記憶體／貼圖 {"textures": 128, "geometries": 185, "texCount": 145, "texPixels": 9524771, "texMP": 9.52, "biggest": {"w": 2048, "h": 256, "name": "map"}}
+  ?nobldg street_west：畫面裡的 mesh 136 個（清單寫進 vis_*.json）
+  ?nobldg street_west：draw call 160、三角形 439916（藏路人）；FPS 平均 56.38、最低 25.06、1%low 28.28（452 格；路人在：call 169／tris 458868）；遊戲時間 17.599、路人 12（在場景 12）
+  ?nobldg arcade：畫面裡的 mesh 153 個（清單寫進 vis_*.json）
+  ?nobldg arcade：draw call 158、三角形 439908（藏路人）；FPS 平均 66.14、最低 13.04、1%low 19.98（530 格；路人在：call 187／tris 515211）；遊戲時間 17.668、路人 12（在場景 12）
+PASS ?nobldg：沒有 JS 例外  []
+表：{"street_west": {"calls": 191, "nobldg_calls": 160, "limit_1.3x": 208.0, "margin": 17.0, "ratio": 1.1938, "tris": 319849, "tris_limit": 420000, "tris_margin": 100151, "fps_avg": 56.41, "fps_min": 27.17, "fps_low1": 28.8, "nobldg_fps_avg": 56.38, "nobldg_fps_min": 25.06}, "arcade": {"calls": 190, "nobldg_calls": 158, "limit_1.3x": 205.4, "margin": 15.4, "ratio": 1.2025, "tris": 329879, "tris_limit": 420000, "tris_margin": 90121, "fps_avg": 55.1, "fps_min": 27.25, "fps_low1": 29.26, "nobldg_fps_avg": 66.14, "nobldg_fps_min": 13.04}, "_mem": {"formal": {"textures": 197, "geometries": 428, "texCount": 189, "texPixels": 26136262, "texMP": 26.14, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}, "nobldg": {"textures": 128, "geometries": 185, "texCount": 145, "texPixels": 9524771, "texMP": 9.52, "biggest": {"w": 2048, "h": 256, "name": "map"}}, "glb_kb_total": 0, "glb_files": [], "glb_s": 9.53}}
+GLB 載入：讀檔→正式模型 9.53 秒；檔案 []
+ALL PASS
