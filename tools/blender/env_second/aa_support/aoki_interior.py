@@ -213,7 +213,7 @@ bb = IT['back_bench'][0]; xf0.rbox(sh.a('wood'), bb['x'] - bb['w'] / 2, bb['x'] 
 xf0.rbox(sh.a('vcg'), bb['x'] - bb['w'] / 2, bb['x'] + bb['w'] / 2, bb['h'], bb['h'] + 0.03, bb['z'] - bb['d'] / 2, bb['z'] + bb['d'] / 2, r=0.006, seg=1, col='#e2dcd0')
 for k in range(2): Xf(bb['x'] - 1.6 + k * 0.5, bb['z'], 0, bb['h'] + 0.03).lathe(sh.a('vcm'), [(0.0, 0.0), (0.09, 0.0), (0.1, 0.18), (0.06, 0.24), (0.02, 0.26), (0.0, 0.27)], 0, 0, 0, seg=10, col='#2f2f2f')   # 熱水壺
 Xf(bb['x'] + 0.4, bb['z'], 0, bb['h'] + 0.03).rbox(sh.a('vcm'), -0.2, 0.2, 0.0, 0.42, -0.18, 0.18, r=0.02, seg=1, col='#c8c8c4')   # 煮水機
-tx0, tx1 = bx0 - 0.3, X1                                                                                                    # 綠色長條磁磚（直貼）
+tx0, tx1 = bb['x'] - bb['w'] / 2 - 0.3, X1                                                                                                    # 綠色長條磁磚（直貼）
 for k in range(int((tx1 - tx0) / 0.08)):
     xx = tx0 + 0.04 + k * 0.08; xf0.rbox(sh.a('vcg'), xx - 0.036, xx + 0.036, 0.95, 3.0, Z0, Z0 + 0.012, r=0.004, seg=1, col=R.choice(['#7d9a7e', '#7a957a', '#829f82', '#76917a']))
 for (y, n, kind) in ((1.3, 34, 'jar'), (1.75, 40, 'bag'), (2.2, 28, 'pot'), (2.65, 30, 'tin')):                         # 四層層板（v2b：擺滿＋層板下的燈條）

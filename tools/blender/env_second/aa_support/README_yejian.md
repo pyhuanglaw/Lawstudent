@@ -52,3 +52,7 @@
 - **ref_match ALL PASS**：亮度 0.458／0.410、對比過、冷暖 +0.285／+0.288、九宮格 0.065。圖 `model_renders/yejian_v2_refcam{.png,_cmp.jpg,_report.json}`。
 - 規格：**36,652** 三角形、材質 12、2.51 MB。
 - 醜點：窗外樹影是一格一格的（窗框的影子比葉子明顯）；咖啡吧的東西遠看還是小；書牆中段的類別牌從這個角度看不清楚；參考圖左邊的書牆比我們近（我們的店深 10 m，書牆到桌子 2 m）。
+
+## v3（LAWWW2 11-04 03:12：沙發前的茶几只留 0.3 m，坐東邊那張會滑開）
+- 茶几往南移 0.6 m：`coffee_table` z −2.85 → −2.25，沙發前留 0.9 m；圓地毯一起移（中心 sofa z + 1.4）。block 改成 `[4.3, -2.25, 0.9, 0.55]`。盆栽 (5.55, −2.2) 不動。
+- `yejian_layout.js` version 3。規格不變：36,652 三角形、12 材質、2.51 MB。ref_match ALL PASS（鏡頭同 v2）。圖 `model_renders/yejian_v3_refcam_cmp.jpg`。
