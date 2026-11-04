@@ -1,0 +1,643 @@
+{
+ "tag": "d382",
+ "url": "http://127.0.0.1:8792/index.html",
+ "fig": {
+  "groups": [
+   {
+    "name": "seated_figures:7:chinese_y1:am",
+    "parents": [
+     "L0",
+     "Group",
+     "Scene"
+    ],
+    "box": {
+     "min": [
+      -14.25,
+      0.3,
+      -6.85
+     ],
+     "max": [
+      -7.95,
+      1.8,
+      3.15
+     ]
+    },
+    "ims": [
+     {
+      "name": "fig_npc_nf2_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf2_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_laptop",
+      "count": 0,
+      "visible": false,
+      "tris": 256,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_laptop_lod1",
+      "count": 2,
+      "visible": true,
+      "tris": 12,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf6_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf6_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_phone",
+      "count": 0,
+      "visible": false,
+      "tris": 198,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_phone_lod1",
+      "count": 6,
+      "visible": true,
+      "tris": 8,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_write_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_write_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_write",
+      "count": 0,
+      "visible": false,
+      "tris": 150,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_write_lod1",
+      "count": 5,
+      "visible": true,
+      "tris": 2,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm3_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm3_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_book",
+      "count": 0,
+      "visible": false,
+      "tris": 298,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_book_lod1",
+      "count": 2,
+      "visible": true,
+      "tris": 30,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf13_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf13_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_write_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_write_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf6_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf6_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_code",
+      "count": 0,
+      "visible": false,
+      "tris": 252,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "desk:lset_code_lod1",
+      "count": 2,
+      "visible": true,
+      "tris": 26,
+      "mat": {
+       "name": "desk_props",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm2_write_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm2_write_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf13_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf13_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf3_write_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf3_write_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm13_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm2_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm2_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm8_write_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nm8_write_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_listen_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf1_listen_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf3_phone_c0",
+      "count": 0,
+      "visible": false,
+      "tris": 2400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     },
+     {
+      "name": "fig_npc_nf3_phone_c0_lod1",
+      "count": 1,
+      "visible": true,
+      "tris": 400,
+      "mat": {
+       "name": "seated_fig",
+       "color": "#ffffff",
+       "map": true,
+       "transparent": false
+      }
+     }
+    ]
+   }
+  ],
+  "fig": [
+   {
+    "key": "7:chinese_y1:am",
+    "n": 17,
+    "leaving": false,
+    "loaded": true
+   }
+  ],
+  "npcs": 16,
+  "sitamb": true,
+  "nositamb": false
+ },
+ "box": {
+  "min": [
+   -14.25,
+   0.3,
+   -6.85
+  ],
+  "max": [
+   -7.95,
+   1.8,
+   3.15
+  ]
+ },
+ "shots": {
+  "d8_d382_side.jpg": {
+   "calls": 288,
+   "tris": 530678,
+   "cam": [
+    -15.45,
+    1.0,
+    -1.85
+   ],
+   "look": [
+    -11.1,
+    1.2,
+    -1.85
+   ],
+   "note": "側面低角度（同 boya_feet）"
+  },
+  "d8_d382_back.jpg": {
+   "calls": 219,
+   "tris": 514978,
+   "cam": [
+    -11.1,
+    4.8,
+    5.15
+   ],
+   "look": [
+    -11.1,
+    1.1,
+    -1.85
+   ],
+   "note": "+z 那一端的上方往另一端"
+  },
+  "d8_d382_front.jpg": {
+   "calls": 214,
+   "tris": 410619,
+   "cam": [
+    -11.1,
+    4.8,
+    -8.85
+   ],
+   "look": [
+    -11.1,
+    1.1,
+    -1.85
+   ],
+   "note": "−z 那一端的上方往另一端"
+  },
+  "d8_d382_back_nodesk.jpg": {
+   "calls": 214,
+   "tris": 514784,
+   "cam": [
+    -11.1,
+    4.8,
+    5.15
+   ],
+   "look": [
+    -11.1,
+    1.1,
+    -1.85
+   ],
+   "note": "【捷徑】藏起桌上小物 desk:*（5 個 InstancedMesh）——診斷用，不是遊戲畫面"
+  }
+ }
+}
