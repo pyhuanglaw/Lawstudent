@@ -1,0 +1,20 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_perf_probe.py http://127.0.0.1:8813/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_perf_fog_A2\out
+CC 公館效能原始數字；RUN=fogA2；SHA=9ac863212；VIEWS=street_west,arcade；Playwright（PC 有 GPU、有視窗），不是手機實機
+PASS 一般網址：遊戲載入  22.5 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+PASS 一般網址：正式模型 gongguan_shops_glb 有載入  {"讀檔到區域建好_s": 9.42, "讀檔到正式模型出現_s": 9.44}
+  一般網址：讀檔→區域 9.42 秒；讀檔→正式模型 9.44 秒；GLB 下載 []
+  一般網址：記憶體／貼圖 {"textures": 140, "geometries": 401, "texCount": 189, "texPixels": 26136262, "texMP": 26.14, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}
+  一般網址 street_west：draw call 191、三角形 319849（藏路人）；FPS 平均 46.23、最低 11.12、1%low 16.45（370 格；路人在：call 217／tris 390160）
+  一般網址 arcade：draw call 190、三角形 329879（藏路人）；FPS 平均 48.98、最低 9.38、1%low 17.23（393 格；路人在：call 217／tris 399331）
+PASS 一般網址：沒有 JS 例外  []
+PASS ?nobldg：遊戲載入  22.2 秒
+  [前置／捷徑] 讀檔到公館 17:30 (−30,14)，條件事件關閉
+  ?nobldg：讀檔→區域 5.08 秒；讀檔→正式模型 None 秒；GLB 下載 []
+  ?nobldg：記憶體／貼圖 {"textures": 105, "geometries": 171, "texCount": 145, "texPixels": 9524771, "texMP": 9.52, "biggest": {"w": 2048, "h": 256, "name": "map"}}
+  ?nobldg street_west：draw call 174、三角形 457209（藏路人）；FPS 平均 60.15、最低 18.76、1%low 24.2（482 格；路人在：call 166／tris 452654）
+  ?nobldg arcade：draw call 158、三角形 439908（藏路人）；FPS 平均 58.28、最低 9.68、1%low 17.46（467 格；路人在：call 200／tris 552530）
+PASS ?nobldg：沒有 JS 例外  []
+表：{"street_west": {"calls": 191, "nobldg_calls": 174, "limit_1.3x": 226.2, "margin": 35.2, "ratio": 1.0977, "tris": 319849, "tris_limit": 420000, "tris_margin": 100151, "fps_avg": 46.23, "fps_min": 11.12, "fps_low1": 16.45, "nobldg_fps_avg": 60.15, "nobldg_fps_min": 18.76}, "arcade": {"calls": 190, "nobldg_calls": 158, "limit_1.3x": 205.4, "margin": 15.4, "ratio": 1.2025, "tris": 329879, "tris_limit": 420000, "tris_margin": 90121, "fps_avg": 48.98, "fps_min": 9.38, "fps_low1": 17.23, "nobldg_fps_avg": 58.28, "nobldg_fps_min": 9.68}, "_mem": {"formal": {"textures": 140, "geometries": 401, "texCount": 189, "texPixels": 26136262, "texMP": 26.14, "biggest": {"w": 1024, "h": 1024, "name": "tree_leaves"}}, "nobldg": {"textures": 105, "geometries": 171, "texCount": 145, "texPixels": 9524771, "texMP": 9.52, "biggest": {"w": 2048, "h": 256, "name": "map"}}, "glb_kb_total": 0, "glb_files": [], "glb_s": 9.44}}
+GLB 載入：讀檔→正式模型 9.44 秒；檔案 []
+ALL PASS
