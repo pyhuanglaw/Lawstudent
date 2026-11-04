@@ -1,23 +1,23 @@
 {
-  "rerun": "",
+  "rerun": "060a",
   "id": "WZ4_yizhan",
-  "sha": "dac871e25",
+  "sha": "060a1a093",
   "kind": "probe",
   "script": "docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py",
-  "env": "SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0",
+  "env": "SHOP=yizhan;HOURS=14,22;YARD=1;CC_HEADLESS=0;RERUN=060a",
   "machine": "MSI",
-  "start": "2026-11-04T16:39:47",
-  "end": "2026-11-04T16:54:13",
-  "seconds": 867,
+  "start": "2026-11-04T17:16:06",
+  "end": "2026-11-04T17:30:35",
+  "seconds": 870,
   "exit": 1,
   "error": null,
   "runner": "6f08f2eb23",
   "rf_round": "25",
   "url": "http://127.0.0.1:8811/index.html",
   "res_peak": {
-    "cpu": 69,
-    "mem": 58,
-    "used_gb": 18.4,
-    "chrome_testing": 29
+    "cpu": 83,
+    "mem": 60,
+    "used_gb": 19.0,
+    "chrome_testing": 30
   }
 }
