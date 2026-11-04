@@ -290,7 +290,7 @@
    "kind": "原話",
    "status": "進行中",
    "task": "IMG2-3D-RESEARCH-1104",
-   "note": "BB-C 研究開源 image-to-3D（單張圖→模型、照片→PBR 材質、深度→2.5D 遠景）和開源美術素材庫；在雲端實際試跑能跑的、做對照圖，交 LAWWW2-C（美術總監，D111）決定要不要用。總表的列等 LAWWW-C 開"
+   "note": "BB-C 研究開源 image-to-3D（單張圖→模型、照片→PBR 材質、深度→2.5D 遠景）和開源美術素材庫；在雲端實際試跑能跑的、做對照圖，交 LAWWW2-C（美術總監，D111）決定要不要用。總表的列等 LAWWW-C 開｜15:1x 試驗完成，報告 BB_259，交 LAWWW2-C"
   },
   {
    "id": "UA-BB-1104-IMG2-3D-OK",
@@ -299,7 +299,7 @@
    "kind": "選擇題答案",
    "status": "進行中",
    "task": "IMG2-3D-RESEARCH-1104",
-   "note": "BB-C 問：TripoSR／TRELLIS／Hunyuan3D 等開源 2D→3D 要不要在雲端下載試跑（第一次被系統以外部程式碼擋下）；只在暫存資料夾、不碰遊戲檔、成果交 LAWWW2-C 決定"
+   "note": "BB-C 問：TripoSR／TRELLIS／Hunyuan3D 等開源 2D→3D 要不要在雲端下載試跑（第一次被系統以外部程式碼擋下）；只在暫存資料夾、不碰遊戲檔、成果交 LAWWW2-C 決定｜15:1x 試驗完成，報告 BB_259，交 LAWWW2-C"
   },
   {
    "id": "UA-BB-1104-TEST-METHODS",
@@ -326,7 +326,7 @@
    "kind": "原話",
    "status": "進行中",
    "task": "IMG2-3D-RESEARCH-1104",
-   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則"
+   "note": "試跑成功（LAWWW2-C 看過對照圖、同意採用）就把做法寫成美術規則：LAWWW2-C 寫進 docs/art-rebuild/ART_DIRECTION.md 第 12 節的 SOP，LAWWW-C 寫進 CLAUDE.md 的 MANDATORY 3D 規則第 2 點工具表；BB 驗收加一項對照。沒成功就照實回報、不寫規則｜15:1x 試驗完成（BB_259）：R1 同角度疊圖驗收、R2 TripoSR 中遠景雜物試成功；LAWWW2-C 同意寫進 ART_DIRECTION 第 12 節；已請 LAWWW-C 在 CLAUDE.md MANDATORY 第 2 點補兩行；頭髮改法未在遊戲內驗證、不寫"
   },
   {
    "id": "UA-BB-1104-TRELLIS2-HOW",
