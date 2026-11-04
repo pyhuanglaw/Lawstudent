@@ -4183,6 +4183,15 @@
    "task": "AA617-WZ-CAFES-1103",
    "kind": "text",
    "note": "木曜日第 1 節（1-1～1-7）台詞照抄進 src/mokuyobi_sys3d.js（子代理 cfeeeff49，tests/mokuyobi_aa618_unit.js 逐字對照 ca876b23d）；第 2 節日常失速等場景"
+  },
+  {
+   "path": "docs/story_planning/AA_645_木曜日補台詞_回LAWWW.md",
+   "sha": "ed6a4329d",
+   "status": "approved",
+   "approvedBy": "AA 定稿（AA_645，D109）",
+   "task": "AA617-WZ-CAFES-1103",
+   "kind": "text",
+   "note": "木曜日補台詞：看書櫃／唱片機／海報、朋友先到、一般 22:00 打烊、約去木曜日答應的一句、芯慈作息（子代理 01a9fbfd3 照抄進 src/mokuyobi_sys3d.js、invites.js；mokuyobi_aa618_unit 第 15～20 項逐字對照）"
   }
  ]
 }
