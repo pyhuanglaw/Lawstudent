@@ -73,7 +73,7 @@ GG_night_r8b | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards
 GG_night_r8c | 060a1a093 | probe | docs/story_planning/test_tools/cc/cc_gg_cards_shot_probe.py | index.html | 20 | HOURS=14,21;CARDS=ggtea_int,ggbook_int;CC_HEADLESS=0
 # ===== CC-C 11-04 13:2x 最前（BB-C 13:10～13:17）=====
 # GG_REENTRY（擋 v9.10.20）：修好的 9f481443d（接 LAWWW2 22e81cfd0），GPU 版 14 張卡、HOURS=14,21 兩輪＝4 次進公館；雲端同一支 3 張的 060a1a093 修改前 FAILED 18；要每次 LINK true、有畫、打烊暗營業亮、console 沒 shader 錯誤
-GG_REENTRY_9f48 | 9f481443d | probe | docs/story_planning/test_tools/cc/cc_gg_reentry_probe.py | index.html | 45 | HOURS=14,21;CC_HEADLESS=0
+GG_REENTRY_9f48 | 9f481443de130b93f3a65f515c988080cf8facdf | probe | docs/story_planning/test_tools/cc/cc_gg_reentry_probe.py | index.html | 45 | HOURS=14,21;CC_HEADLESS=0;RERUN=fullsha
 # SUNNY 整套 14 張（BB-C 13:10／13:17）：STAND_WATCH=F13 看 40 分鐘那次會不會重現；每張走到旁邊印座位佔用（有 seat 的 NPC、那張 interactable 的 hidden／radius／taken），F00、F12 是重點
 SUNNY_seatfix_sit_r2 | 46d459625 | probe | docs/story_planning/test_tools/cc/cc_wz_shop_shots_probe.py | index.html | 60 | SHOP=sunny;HOURS= ;SEATS=1;SIT_WAIT=6;STAND_WATCH=F13;CC_HEADLESS=0
 # GG_shops2 r2（BB-C 13:07）：hours 的 stray %＝探針（%%7 已修）；afar_door 進門句 toast 收掉＋3 秒還是沒有（雲端）→ DOORDIAG 記 doorDue／sceneFree／alone／GG2_DOOR
