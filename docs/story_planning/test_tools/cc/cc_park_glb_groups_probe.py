@@ -12,7 +12,8 @@ from playwright.async_api import async_playwright
 
 URL, OUT = sys.argv[1], sys.argv[2]
 J = lambda o: json.dumps(o, ensure_ascii=False)
-V = [float(x) for x in (os.environ.get('VIEW') or '38,1.7,0.5,100,10,0').split(',')]
+VIEWS = [(v.split(':')[0], [float(x) for x in v.split(':')[1].split(',')]) for v in (os.environ.get('VIEWS') or 'avenue:38,1.7,0.5,100,10,0').split(';') if ':' in v]   # 名稱:ex,ey,ez,lx,ly,lz;…
+HIDE_BIKES = os.environ.get('HIDE_BIKES', '1') == '1'   # BB-C 14:0x：量之前把 parked_bikes 藏起來（每次讀檔停的車不一樣）
 ROUNDS = int(os.environ.get('ROUNDS') or 2)
 FAILS = []
 
@@ -26,6 +27,7 @@ def check(name, ok, info=''):
 MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[];
   for(const n of (E.npcs||[])) if(n&&n.obj&&n.obj.visible){ hid.push(n.obj); n.obj.visible=false; }
   for(const x of (E.extras||[])) if(x&&x.obj&&x.obj.visible){ hid.push(x.obj); x.obj.visible=false; }
+  if(window.__ccHideBikes){ const pb=E.zone&&E.zone.group&&E.zone.group.getObjectByName('parked_bikes'); if(pb&&pb.visible){ hid.push(pb); pb.visible=false; } }
   E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
   const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250));
   const ri=E.renderer.info.render, tot={calls:ri.calls, tris:ri.triangles};
@@ -42,8 +44,7 @@ MEASURE_JS = r"""(async(e,l)=>{ const E=GAME.E; const hid=[];
 
 async def main():
     os.makedirs(OUT, exist_ok=True)
-    e, l = V[:3], V[3:]
-    print('CC PARK_glb 群組拆解：avenue 鏡頭 %s → %s；%d 輪；SHA=%s；Playwright，不是手機實機' % (e, l, ROUNDS, os.environ.get('SHA', '?')), flush=True)
+    print('CC PARK_glb 群組拆解：鏡頭 %s；%d 輪；%s；SHA=%s；Playwright，不是手機實機' % (J([n for n, _ in VIEWS]), ROUNDS, '停著的腳踏車藏起來' if HIDE_BIKES else '停著的腳踏車照舊', os.environ.get('SHA', '?')), flush=True)
     rounds = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
@@ -61,17 +62,23 @@ async def main():
                 else: st = 0; last = n
                 if st >= 4: break
             await L.close_panels(pg, cdp)
-            m = await pg.evaluate(MEASURE_JS + '(%s,%s)' % (J(e), J(l)))
-            await pg.screenshot(path=os.path.join(OUT, 'avenue_round%d.png' % (r + 1)))
-            print('  [第 %d 輪] mesh %d、renderer.info calls %s、tris %s、群組 %d 個' % (r + 1, last, m['tot']['calls'], m['tot']['tris'], m['nGroups']), flush=True)
-            rounds.append(m)
+            await pg.evaluate("window.__ccHideBikes=%s" % ('true' if HIDE_BIKES else 'false'))
+            rr = {}
+            for vn, V in VIEWS:
+                m = await pg.evaluate(MEASURE_JS + '(%s,%s)' % (J(V[:3]), J(V[3:])))
+                await pg.screenshot(path=os.path.join(OUT, '%s_round%d.png' % (vn, r + 1)))
+                print('  [第 %d 輪 %s] mesh %d、renderer.info calls %s、tris %s、群組 %d 個' % (r + 1, vn, last, m['tot']['calls'], m['tot']['tris'], m['nGroups']), flush=True)
+                rr[vn] = m
+            rounds.append(rr)
         check('沒有 JS 例外', not errs, J(errs[:3]))
         await b.close()
     if len(rounds) >= 2:
-        a, c = rounds[0]['groups'], rounds[1]['groups']
+      for vn, _ in VIEWS:
+        a, c = rounds[0][vn]['groups'], rounds[1][vn]['groups']
+        print('== %s' % vn, flush=True)
         keys = set(a) | set(c)
         diff = sorted(keys, key=lambda k: -abs((c.get(k, {}).get('calls', 0)) - (a.get(k, {}).get('calls', 0))))
-        print('INFO 兩輪 renderer.info：calls %s → %s、tris %s → %s' % (rounds[0]['tot']['calls'], rounds[1]['tot']['calls'], rounds[0]['tot']['tris'], rounds[1]['tot']['tris']), flush=True)
+        print('INFO 兩輪 renderer.info：calls %s → %s、tris %s → %s' % (rounds[0][vn]['tot']['calls'], rounds[1][vn]['tot']['calls'], rounds[0][vn]['tot']['tris'], rounds[1][vn]['tot']['tris']), flush=True)
         print('INFO 兩輪估計 calls 差最多的 10 組：', flush=True)
         for k in diff[:10]:
             print('  %s：calls %s → %s、tris %s → %s、mesh %s → %s' % (k, a.get(k, {}).get('calls'), c.get(k, {}).get('calls'), a.get(k, {}).get('tris'), c.get(k, {}).get('tris'), a.get(k, {}).get('meshes'), c.get(k, {}).get('meshes')), flush=True)
