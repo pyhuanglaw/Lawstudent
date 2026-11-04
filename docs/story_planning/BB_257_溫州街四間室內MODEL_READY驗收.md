@@ -767,3 +767,7 @@ v1e 只換了 `kmc_print.png` 的四格：兩張海報、卡座牆的人像、�
 - **一盞室內 v1c（3d0131fe0）：MODEL_READY。** model_renders/yizhan_v1c_genkan.png 看過，門口東側柱腳的兩條黑帶沒了（腰板、長押改成貼在柱子外面 2 cm）。鞋子從出生點挪開，坐墊改 20 段，看不出八角形。只改了這幾處，導航和 FIXED 照 v1b 的結果（§10）。建議（不擋）：地板加舊木的深淺。
 - **小路 v1f（9d1c3bbe7）：MODEL_READY。** komichi_v1f_posters.jpg 看過，四張圖都做了透視校正、照原本的長寬比，沒有帶到木框、牆或光斑；在遊戲距離看清楚、沒有拉寬。§2 的 7 條在 v1e 已經都改到了，導航照 LAWWW2 v1c 的結果。
 - SUNNY SIDE：等 LAWWW2 給側牆的窗洞數字，再做 v1d。阿德：等 CC v1c。
+- **SUNNY SIDE v1d（8345fe067）：MODEL_READY。**（BB 本人看圖，07:0x UTC）
+  - §11 兩條都改到：右牆有轉角落地窗，深綠窗框 13 櫺、窗台小盆栽、窗外是樹影街景卡，見 sunnyside_v1d_rightwin.png；黃金葛的葉子長在藤上，不再懸空，見 sunnyside_v1d_pothos.png。
+  - ref_match 五項過；shopchk2 NG 0；38.5k 三角形／12 材質／2.44 MB。
+  - 建議（不擋）：對位鏡頭裡窗外偏白，晚上要靠窗卡和燈光拉出層次；左前景的收銀台在對位鏡頭外，進遊戲後的截圖要能看到。外觀對齊等 LAWWW2 拍圖。
