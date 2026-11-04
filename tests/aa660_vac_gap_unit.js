@@ -6,7 +6,8 @@
 //   臺灣路線（和另一條國外路線）都不出現；舊存檔過了日期不補。
 //   第 4 節三件：4-1 美國路線 12/21 人在美國，家人群組週四那則（「連假回來嗎」）不發；4-2 她主動約你的那幾則（INV.offer）訊息只有 who、沒有 th／from，遊戲照 who 放進她的私訊（標題是她）；
 //   4-3 子晴那句的店名換 2:30 AM。
-// 修改前（開發分支 55f685380）：第 0 節載入、G1～G6、4-3 都 FAIL（4-1、4-2 是查證，修改前後都 PASS）。
+// 修改前（開發分支 55f685380 的程式＋這支測試）：FAILED 41——第 0 節（模組、index.html、白名單、台詞表）、G1～G6 每一項「有出現」的檢查、4-3；
+//   修改前後都 PASS 的 12 項：讀稿兩項、「不出現／舊存檔不補」那幾項、4-1 兩項、4-2（後三項是查證，沒改程式）。修改後 ALL PASS（53 項）。
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
