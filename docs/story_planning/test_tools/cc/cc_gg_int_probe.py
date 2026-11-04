@@ -160,7 +160,12 @@ async def stuck_check(pg, cdp, tag, fb0, e0, errs, soft=False):
         if moved >= 0.3: break
     s = await pg.evaluate(ST); new = errs[e0:]
     ok = (not s['dlg'] and not s['choices'] and s['depth'] == 0 and moved >= 0.3 and s['fb'] == fb0 and not new)
-    info = J({'zone': s['zone'], 'dlg': s['dlg'], 'depth': s['depth'], 'moved': round(moved, 2), 'fb': [fb0, s['fb']], 'errs': new[:2]})
+    extra = {}
+    if s['depth'] != 0:   # CC-C 11-04：afar_seats14 起身後 busyDepth 1（前一張一樣的流程是 0）——只多記資訊，判準不變：誰鎖住、幾點、3 秒後還在不在
+        extra['who'] = await pg.evaluate("(()=>{ const D=GAME.D||{}; return {who:(D.busyWho||[]).slice(0,6), cover:D.coverWho||null, evr:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, hour:+(+GAME.G.hour).toFixed(3)}; })()")
+        await pg.wait_for_timeout(3000)
+        extra['depth3s'] = await pg.evaluate("(GAME.D&&GAME.D.busyDepth)|0")
+    info = J(dict({'zone': s['zone'], 'dlg': s['dlg'], 'depth': s['depth'], 'moved': round(moved, 2), 'fb': [fb0, s['fb']], 'errs': new[:2]}, **extra))
     if soft: obs('[%s] 卡住檢查%s' % (tag, '通過' if ok else '沒通過'), info)
     else: check('[%s] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）' % tag, ok, info)
     if not ok: await pg.screenshot(path=os.path.join(OUT, 'STUCK_%s.png' % tag))
