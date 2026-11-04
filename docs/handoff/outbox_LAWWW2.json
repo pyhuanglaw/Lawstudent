@@ -5554,6 +5554,32 @@
    "next": "只換 campus_boya.glb／.json",
    "noDirectIntegrate": false,
    "note": "v2b：博雅雨遮的天窗洞（v2 長條橢圓）改成一排五個小方形天窗（BB-C 16:3x，D136）；三角形 5,738 → 5,626"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d393b6f3c",
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "SOCLIB-2F-1104",
+   "files": [
+    "src/soclib2f3d.js",
+    "src/data/soclib2f_layout.js",
+    "tests/soclib2f_unit.js",
+    "assets/models/env/second_ai/soclib2f_interior.glb",
+    "assets/models/env/second_ai/soclib2f_interior.json",
+    "assets/models/env/second_ai/soclib2f_interior_lm_day.webp",
+    "assets/models/env/second_ai/soclib2f_interior_lm_night.webp",
+    "tools/blender/env_second/soclib2f_layout_gen.py",
+    "tools/blender/env_second/soclib2f_interior.py",
+    "tools/blender/env_second/lightbake/bake_soclib2f.sh",
+    "tools/blender/env_second/lightbake/soclib2f_interior_lm.json",
+    "docs/art-rebuild/second_ai/wip/soclib2f_1104/"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW-C 拿檔＋git apply soclib2f_wiring.patch（ae5248250 為底）；加自習室讀書的人（平常 30～40%、期末 85%、老位子不放）；CC 真實流程＋截圖；BB 判 ART",
+   "next": "LAWWW-C 接；二樓窗景照片（電腦上拍）；AA-C 看玩家文字",
+   "noDirectIntegrate": false,
+   "note": "使用者 11-04 16:1x 對 AA-C（X228、AA_669 第 6 節）。東側館＝新區域 soclib_2f：一樓門廳＋雙跑樓梯＋電梯＋影印休息區；二樓自習室 49 位（老位子＝靠窗北往南第三個 (6.82,1.5)，SL2.oldSeat()）、討論室 3、男女廁＋飲水機、置物櫃、公告欄。soclib2f_unit 等 7 支 ALL PASS；lm_probe 15 點過；沒在瀏覽器看過。檢查點 308df73ce、14b52ece0"
   }
  ]
 }
