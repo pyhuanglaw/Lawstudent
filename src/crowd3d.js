@@ -362,6 +362,8 @@ const CROWD=(function(){
     else add('cvs','cvs',[0,3.5],standUnits(shelfPts([[-3.75,-4.2,0,4.5,[1]],[4.5,-4.2,0,3,[1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[-1]]])).concat(standUnits([[4.6,-0.55,Math.PI]],'pay')));
     if(YJ) add('bookstore','book',[YJ.spawn.x,YJ.spawn.z],standUnits([[-2.3,-4.0,P],[2.3,-4.0,P],[-0.6,1.55,0],[3.0,1.55,0]]));   /* 北牆書牆前兩個（西段是買法律書的互動點、梯子東邊 (0.3,−3.95) 是法律系同學「找書的女生」的位子 src/data/pool_story.js）、窗前兩座斜面書架北邊（書架面向北）*/
     else add('bookstore','book',[0,4],standUnits(shelfPts([[0,-4.7,0,11,[1]],[-5.7,0,Math.PI/2,8,[1]],[5.7,0,Math.PI/2,8,[-1]],[-2,0,Math.PI/2,5,[1,-1]],[2,0,Math.PI/2,5,[1,-1]]])));
+    /* afar café（咖啡）、Daybreak（早午餐）（GG-SHOPS2-1104）：配置的座位；營業時間照 places.js */
+    for(const [zk,kind,L] of [['afar','cafe',typeof AFAR_LAYOUT!=='undefined'?AFAR_LAYOUT:null],['daybreak','brunch',typeof DAYBREAK_LAYOUT!=='undefined'?DAYBREAK_LAYOUT:null]]){ if(L) add(zk,kind,[L.exit.at.x,+(L.d/2-2).toFixed(2)],S.pairUnits(seatsOf(L.seats))); }
     if(AK) add('aoki','tea',[AK.spawn.x,AK.spawn.z],S.pairUnits(seatsOf(AK.seats.map(q=>q.seatH>0.6?Object.assign({},q,{lift:+(q.seatH-0.45).toFixed(2)}):q))));   /* 吧台高腳椅（seatH 0.72）＝bar */
     /* 溫州街：半熟、一盞、林家乾麵、巷子裡定食（配置檔的座位；打工的、阿芃的位子不算）、阿德影印（櫃台前、文具架前、自助影印旁邊站著）*/
     if(WZ){ for(const [k,kind] of [['brunch','brunch'],['teahouse','tea'],['lin','meal'],['teishoku','meal']]){ const L=WZ[k]; if(!L||!L.spawn) continue;
