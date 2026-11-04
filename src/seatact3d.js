@@ -170,7 +170,12 @@ const SEATACT=(function(){
       const m=partnerOf(E,r.n), rm=m&&R.on.get(m); if(!rm||rm===r||rm.act!=='chat'||rm.named||rm.pair||partnerOf(E,m)!==r.n) continue;
       const P={na:r.n,nb:m,turn:Math.random()<0.5?0:1,t:0,dur:3+Math.random()*4}; r.pair=rm.pair=P; setChat(r); setChat(rm); } }
   S.pairs=()=>{ const out=new Set(); for(const r of R.on.values()) if(r.pair) out.add(r.pair); return [...out]; };   /* 測試用 */
-  function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); }
+  function unhold(r){ if(!r||r.named) return; const o=r.n&&r.n.obj; if(r.hold&&r.hold!=='book'&&o&&typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,'book'); if(o&&o.userData) delete o.userData.sitFocus; }
+  /* 看著桌上的東西（NPC-AMBIENT-ANIM-1104）：用筆電、寫筆記、看桌上的書（sit、桌上有那一組）的路人，obj.userData.sitFocus＝桌上那一組的中間（世界座標）：
+     character3d.js 的 sitAmbient 讓他低頭、眼睛看著那裡（舊版：坐著直直看前面）；起身、走了、換區域拿掉 */
+  S.FOCUS={laptop:1,notes:1,textbook:1};
+  function focusOf(r,act,pose){ if(pose!=='sit'||!S.FOCUS[act]||!r.set||!r.tb) return null; const st=r.st, yaw=st.yaw||0, d=r.tb.edge+Math.min(0.16,(r.tb.depth||0.2)*0.6);
+    const f=r.focus||(r.focus={x:0,y:0,z:0}); f.x=st.x+Math.sin(yaw)*d; f.y=r.tb.y; f.z=st.z+Math.cos(yaw)*d; return f; }
   /* 這個人現在可以配嗎：坐著（seat、sit／read）、不是上課的同學、店員、玩家；換了姿勢（起身）＝不能 */
   const seatedOk=n=>!!(n&&n.seat&&n.obj&&!n.hidden&&(n.pose==='sit'||n.pose==='read')&&!n.clsStudent&&!n.clerk&&!n.seatTarget&&!n.leaving);
   const named=n=>!n.isExtra||!!(n.id||(n.name&&n.name!==''));
@@ -196,7 +201,8 @@ const SEATACT=(function(){
     if(lap){ const u=o.userData||{}; const has=!!(u.props&&u.props.laptop_lap); if(has&&typeof CHAR!=='undefined'&&CHAR.setProp) CHAR.setProp(o,'laptop_lap',true); else { act='book'; pose='read'; hold='book'; } }
     else if(o.userData&&o.userData.props&&o.userData.props.laptop_lap&&typeof CHAR!=='undefined'&&CHAR.setProp) CHAR.setProp(o,'laptop_lap',false);   /* 筆電在桌上了：腿上那台收起來 */
     if(n.pose!==pose){ n.pose=pose; } n.idlePose=pose; r.pose=pose; r.hold=pose==='read'?hold:null; r.bodyAct=act;
-    if(typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,pose==='read'?(hold||'book'):'book'); }
+    if(typeof CHAR!=='undefined'&&CHAR.setReadItem) CHAR.setReadItem(o,pose==='read'?(hold||'book'):'book');
+    const fo=focusOf(r,act,pose); if(o.userData){ if(fo) o.userData.sitFocus=fo; else delete o.userData.sitFocus; } }
   // ---------- 每 30 格 ----------
   S.tick=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!G) return;
     if(E.zone!==R.zone){ clearAll(); R.zone=E.zone; R.zid=G.zone; R.t=0; S._zoneSeats=(E.zone&&E.zone.seats)||[]; }

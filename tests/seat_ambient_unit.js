@@ -130,6 +130,18 @@ const amb=h=>h.userData.amb||null;
     check('⑥ 每一格剛好一個人在說話（Sitting_Talking_Loop）、一個在點頭（Sitting_Nodding_Loop）（換人那一格可以差一格：兩個人更新的先後；片段真的在播 ≥ 六成的格）；15 秒內換過人；說話的人手在比劃（≥ 3 cm）',n>0&&bad<=swaps&&swaps>=1&&wave>=0.03&&onOk>=0.6*n,'不對的格數 '+bad+'／'+n+'、片段在播 '+onOk+'／'+n+'、換人 '+swaps+' 次、手 '+cm(wave));
     nb.pose='idle'; SEATACT.tick(GM); check('⑥ 一個人起身：兩個人的聊天都拿掉',!ha.userData.sitChat&&!hb.userData.sitChat);
     SEATACT.clear(); rm(ha); rm(hb); }
+  /* ---------- ⑧ 看著桌上的東西：SEATACT 給用筆電、寫筆記、看桌上的書的路人 sitFocus；人低頭、眼睛看那裡 ---------- */
+  { const tbl=new THREE.Mesh(new THREE.BoxGeometry(6,0.04,0.8),new THREE.MeshBasicMaterial()); tbl.position.set(0,0.73,0.7); const grp=new THREE.Group(); grp.add(tbl);
+    const seats=[...Array(8)].map((_,i)=>({x:-2.8+i*0.8,z:0,yaw:0,lv:0})); const npcs=seats.map(st=>{ const o=new THREE.Group(); o.userData={}; o.position.set(st.x,0,st.z); return {obj:o,seat:st,pose:'read',idlePose:'read',isExtra:true,name:'',lv:0,frozen:true}; });
+    const E={zone:{seats,group:grp},npcs,player:{obj:{position:new THREE.Vector3(0,0,3)}},scene}; const GM={E,G:{zone:'library',day:9}};
+    SEATACT.clear(); SEATACT.tick(GM); await new Promise(r=>setTimeout(r,5)); for(let i=0;i<50&&SEATACT.indexing&&SEATACT.indexing();i++) SEATACT.tick(GM); SEATACT.tick(GM); SEATACT.tick(GM);
+    const L=SEATACT.state().list, foc=L.filter(r=>SEATACT.FOCUS&&SEATACT.FOCUS[r.act]&&r.set&&r.pose==='sit'), other=L.filter(r=>!(SEATACT.FOCUS&&SEATACT.FOCUS[r.act]&&r.set&&r.pose==='sit'));
+    const fOk=foc.length>0&&foc.every(r=>{ const n=npcs.find(q=>q.seat.x===r.x); const f=n&&n.obj.userData.sitFocus; return f&&Math.abs(f.y-0.75)<0.02&&f.z>0.3&&f.z<0.7&&Math.abs(f.x-r.x)<0.01; })&&other.every(r=>{ const n=npcs.find(q=>q.seat.x===r.x); return !(n&&n.obj.userData.sitFocus); });
+    check('⑧ SEATACT：用筆電、寫筆記、看桌上的書（sit、桌上有那一組）的路人有 sitFocus（桌面上、在他前面），其他人沒有',fOk,foc.map(r=>r.act).join('、')+'／其他 '+other.map(r=>r.act).join('、'));
+    SEATACT.clear(); check('⑧ 換區域（清掉）：sitFocus 拿掉',npcs.every(n=>!n.obj.userData.sitFocus));
+    if(hasAmb){ const h=mk('char.heroine_01'); h.position.set(0,0,0); for(let i=0;i<10;i++) step(h,'sit'); const pitch=()=>{ const q=relQ(h,'head'); return new THREE.Euler().setFromQuaternion(q,'YXZ').x; };
+      const sx=h.userData.sx||1; const p0=pitch(); h.userData.sitFocus={x:0,y:0.75,z:0.5}; for(let i=0;i<10;i++) step(h,'sit'); const p1=pitch(), lk=h.userData.look.position.clone(), want=h.worldToLocal(new THREE.Vector3(0,0.75,0.5));
+      check('⑧ 有 sitFocus：頭往下（≥ 12°）、眼睛看著桌上那一點',Math.abs(p1-p0)>=12*Math.PI/180&&lk.distanceTo(want)<0.01,'頭 '+deg(Math.abs(p1-p0))+'、眼睛目標差 '+cm(lk.distanceTo(want))); rm(h); } }
   /* ---------- ⑤ 片段沒載好：照舊靜止、不報錯、不再試 ---------- */
   { const key='char.npc_m1'; const raw=ASSETS.cache['char.ual_sit_clips']; delete ASSETS.cache['char.ual_sit_clips']; delete ASSETS.status['char.ual_sit_clips']; const url=ASSETS.manifest['char.ual_sit_clips']&&ASSETS.manifest['char.ual_sit_clips'].url; if(url) delete window.ASSET_DATA[url];
     if(hasAmb) CHAR._ambReset(); let calls=0; const lo=ASSETS.loadOne; ASSETS.loadOne=k=>{ if(k==='char.ual_sit_clips') calls++; return lo(k); }; const ow=console.warn; console.warn=()=>{};
