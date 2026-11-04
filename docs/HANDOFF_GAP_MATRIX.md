@@ -49,7 +49,9 @@
 
 **D｜最新決策與規則**：使用者 UA-LAWWW-1104-71～75（D132 BB 代驗 MODEL_READY、D133 美術符合參考圖不複製、X217 坐著的人、X218 93% 先推 GitHub、X219 交班）；LAWWW 自己決定：影印店客人可以坐、SUNNY／2:30 AM 夜景換圖、2:30 AM manifest 指烘焙版（CAFE230_BAKED）。
 
-**E｜跨 AI 協作**：AA（story-planning 81f740cb7）、BB（222cc98d0）、CC（cc-testing b63bc232c）已交班、喚醒已關（CC 是刪除不是停用）。LAWWW2：見收尾。
+**E｜跨 AI 協作**：AA（story-planning 81f740cb7）、BB（222cc98d0）、CC（cc-testing b63bc232c）、LAWWW2（second-ai-env-art 5f85444cd）都已交班、喚醒已關（CC 是刪除不是停用；LAWWW2 的 duty handoff 被工具拒絕——RULE_SOURCE 的 duty.json 裡 LAWWW2 是 off，11-03 08:2x 的值班登記沒 sync；它手動改 duty_LAWWW2.json，LAWWW duty sync 收進來，記成異常）。LAWWW2 最後兩件 26bc41c6b（一盞前院第二版）、01b2b4786（量法第二版）LAWWW 都已接（5dc06d913、0f8b320ff）。
+
+**收尾（09:2x）**：四職位交班後 LAWWW：duty sync（四職位）、職位快照路徑修成檔名、check OK、roles OK、asks OK、duty verify 只剩換班中的 5 項；incr 918 項未分類（B6）；之後 snapshot＋duty handoff、停用 LAWWW 每小時保險喚醒 trig_01WqEgbbq2VjstnVcJePRKXa。
 
 **F｜測試與問題**：本機只跑改到的 Node 單元測試（每批相關 3～41 支 ALL PASS）；handoff_cc_unit 1 項 FAIL 是舊的（watermarks CC 已前進、測試寫死 b4893fd5，改前就 FAIL）。瀏覽器全在使用者電腦（D131），Playwright≠iPhone。
 

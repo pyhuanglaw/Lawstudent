@@ -556,7 +556,7 @@
 | X216 | 美術驗收除了標準還要符合參考圖、盡量做到；不要把同樣的東西複製貼上，要有各種大小不同的東西像圖片一樣（D133） | 11-04 06:1x（對 BB；UA-BB-1104-ART-REF-VARIETY） | 規則（永久）：生效中 | 所有美術驗收（BB 代驗 MODEL_READY／ART_APPROVED；AA、CC、LAWWW2 交件前自查） | — |
 | X217 | 坐下「讀書」的人不一定在讀書：咖啡廳、圖書館裡坐著的人要有筆記型電腦、平板、滑手機、看書、寫筆記各種樣子，桌上要有東西 | 11-04 06:2x（對 LAWWW；UA-LAWWW-1104-73） | 在開發分支 | SEAT-ACTIVITY-1104（LAWWW 程式；桌上小物用 LAWWW2 desk_props.glb 的 rset／tset／lset／hold_phone；平板模型要新做）；開發分支 1fa3cfee0 之後合併（seatact3d.js；筆電、寫筆記、看書、滑手機、休息＋桌上小物）；平板等 LAWWW2 做 item_tablet／hold_tablet；吃飯的店碗盤沒模型；瀏覽器實看排 CC | 11-05 |
 | X218 | 週額度 93%（還有約兩小時、還沒要交班）：手邊做到一半的先放到 GitHub，通知每個 AI（含 CC） | 11-04 07:4x（對 LAWWW；UA-LAWWW-1104-74） | 已完成 | LAWWW：子代理成果全部合併推上開發分支、SEAT-ACTIVITY WIP 先 bundle 備份；已通知 LAWWW2、AA、BB、CC 各自 commit＋push 回 SHA | — |
-| X219 | 帳號 A 交班：等其他 AI 交班後 LAWWW 檢查完畢再交班；不用再每小時啟動（D129 保險喚醒停用） | 11-04 09:0x（對 LAWWW；UA-LAWWW-1104-75） | 進行中 | LAWWW：收子代理、確認 LAWWW2／AA／BB／CC 交班登記、roles／incr／duty verify、存快照、duty handoff、停用每小時保險喚醒 | 11-04 |
+| X219 | 帳號 A 交班：等其他 AI 交班後 LAWWW 檢查完畢再交班；不用再每小時啟動（D129 保險喚醒停用） | 11-04 09:0x（對 LAWWW；UA-LAWWW-1104-75） | 已完成 | LAWWW：收子代理、確認 LAWWW2／AA／BB／CC 交班登記、roles／incr／duty verify、存快照、duty handoff、停用每小時保險喚醒 | 11-04 |
 
 ---
 
