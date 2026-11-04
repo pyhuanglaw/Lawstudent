@@ -1,0 +1,68 @@
+[gpu_wrap] CC_GPU=1 跑 C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\test_tools\cc\cc_gg_shops2_probe.py http://127.0.0.1:8800/index.html C:\Users\USER\Documents\Lawstudent_cclocal\docs\story_planning\CC\local_out\GG_shops2_afar_seat_08\out
+CASES=["afar_seats"]
+PASS 遊戲載入
+PASS 這一版有 afar、daybreak 區域和 GG2（src/gg2shops3d.js）
+== afar_seats：座位
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方
+  [load] （旁白）：（吧台後面的店員抬頭說了一聲「歡迎光臨」，又低頭繼續磨豆子。）
+PASS [afar_seats] 玩家可坐的座位 24 個、都可以讀書  [[-2.5, 3.1, "坐窗邊", true], [-1.7, 3.1, "坐窗邊", true], [-0.9, 3.1, "坐窗邊", true], [-0.1, 3.1, "坐窗邊", true], [0.7, 3.1, "坐窗邊", true], [1.4, 3.1, "坐窗邊", true], [3.15, 0.65, "坐下", true], [3.15, 1.15, "坐下", true], [2.05, 0.65, "坐下", true], [2.05, 1.15, "坐下", true], [1.45, 0.65, "坐下", true], [1.45, 1.15, "坐下", true], [0.35, 0.65, "坐下", true], [0.35, 1.15, "坐下", true], [-0.25, 0.65, "坐下", true], [-0.25, 1.15, "坐下", true], [-1.35, 0.65, "坐下", true], [-1.35, 1.15, "坐下", true], [3.6, -3.15, "坐靠牆的位子", true], [1.8, -3.15, "坐靠牆的位子", true], [0, -3.15, "坐靠牆的位子", true], [-1.8, -3.15, "坐靠牆的位子", true], [-3.6, -2.3, "坐下", true], [-3.6, -3.4, "坐下", true]]
+PASS [afar_seats] 配置裡玩家不能坐的 2 張＝[[-4.65, -3.4], [-4.65, -2.3]]，沒有「坐下」的互動點（選不到）  [{"x": -4.65, "z": -2.3, "table": 4, "seatH": 0.45, "near": []}, {"x": -4.65, "z": -3.4, "table": 5, "seatH": 0.45, "near": []}]
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（每一張重讀：讀書的時段次數是新的）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats08] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0.5, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats08] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（每一張重讀：讀書的時段次數是新的）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats09] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats09] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（每一張重讀：讀書的時段次數是新的）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats10] 座位占用：{"near": [], "taken": null, "label": "坐下"}
+  走不到「座位 (1.45,0.65) 的走近點（GAME.seatApproach）[1.45, 0.1]」：最後位置 (1.55,-0.12)，目標 (1.45,0.1)；點地面 105 次、轉鏡頭 0 次、搖桿 6 次
+    這段時間：畫面 11019 格／301 秒、遊戲時間 12.03→14.04、paused=False、開著的面板 []
+PASS [afar_seats10] 走到座位的走近點：最近的互動是這一張（1.45,0.65）「坐下」  {"at": [1.55, -0.12], "ap": [1.45, 0.1], "interact": "坐下"}
+  [afar_seats10] walkFallbacks 走近 0→0
+  [afar_seats10] （旁白）：（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）
+PASS [afar_seats10] 坐下（P.seat、pose sit）  {"pose": "sit", "seat": [1.45, 0.65]}
+PASS [afar_seats10] 坐下那一句照位子類型（AA_652，逐字）  {"want": "（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）", "got": ["（你在方桌坐下。隔壁桌有人戴著耳機在寫報告。）"]}
+  [afar_seats10] walkFallbacks 坐下 0→0
+PASS [afar_seats10] 座位選單有「讀書」（不是灰的）  ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 14:33", "趴著睡一下：1 小時睡到 15:03", "起身"]
+  [afar_seats10] 選單 ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 14:33", "趴著睡一下：1 小時睡到 15:03", "起身"] → 讀書選讀多久（1～3 小時只算一次）。用掉下午 1 次（還剩 0）
+  [afar_seats10] 選單 ["讀 1 小時用掉下午 1 次（還剩 0）", "讀 2 小時用掉下午 1 次（還剩 0）", "讀 3 小時用掉下午 1 次（還剩 0）", "算了"] → 讀 1 小時用掉下午 1 次（還剩 0）
+  [afar_seats10] 選單 ["通識：電影與敘事這週：課程導論", "憲法（上）這週：憲法的基本概念", "刑法總則（一）這週：刑法的基本原則：罪刑法定", "民法總則這週：權利主體：權利能力", "經濟學原理（上）這週：供給與需求", "整理這週的筆記（不挑一科）"] → 整理這週的筆記（不挑一科）
+  [afar_seats10] （旁白）：你讀了民法第 154 條和幾則判決。網拍標價到底算不算要約，原來連法院都吵過。
+  [afar_seats10] 選單計畫沒用完：["起身"]
+  [afar_seats10] walkFallbacks 讀書 0→0
+PASS [afar_seats10] 讀書時坐著（P.seat、pose sit／read）  ["idle", "read", "sit"]
+PASS [afar_seats10] 起身（P.seat 沒了）  {"pose": "idle", "seat": null, "x": 1.45, "z": 1.4}
+  [afar_seats10] walkFallbacks 起身 0→0（這一張共 +0）
+PASS [afar_seats10] 起身後腳下站得住（nav.free、canStand 0.3）  {"free": true, "stand": true, "x": 1.45, "z": 1.4}
+PASS [afar_seats10] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 4.67, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（每一張重讀：讀書的時段次數是新的）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats11] 座位占用：{"near": [], "taken": null, "label": "坐下"}
+  走不到「座位 (1.45,1.15) 的走近點（GAME.seatApproach）[1.45, 1.7]」：最後位置 (1.59,1.91)，目標 (1.45,1.7)；點地面 104 次、轉鏡頭 0 次、搖桿 6 次
+    這段時間：畫面 10175 格／300 秒、遊戲時間 12.03→14.03、paused=False、開著的面板 []
+  到達「座位 (1.45,1.15) 的按鈕點 [1.45, 1.15]」附近（0.29 m）：點地面 15 次、轉鏡頭 0 次、搖桿 1 次，44 秒
+FAIL [afar_seats11] 走到座位旁：最近的互動是這一張（1.45,1.15）「坐下」  {"at": [1.31, 1.4], "interact": "坐下", "nearest": {"x": 1.45, "z": 0.65, "sx": 1.45, "sz": 0.65, "label": "坐下"}, "cands": []}
+INFO [afar_seats11] 走到桌子另一邊也被同桌隔壁那張搶走按鈕（1.45,0.65）
+PASS [afar_seats11] 卡住檢查（對話關、busyDepth 0、搖桿 ≥0.3 m、walkFallbacks 沒增加、沒有 JS 例外）  {"zone": "afar", "dlg": false, "depth": 0, "moved": 4.67, "fb": [0, 0], "errs": []}
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（補測第 1 次、等 60 秒讓 NPC 起身）
+  [load] （旁白）：（窗邊長桌坐了一排打筆電的人，每個人面前都有一盞小燈。）
+  [afar_seats08_retry1] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0.5, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats08_retry1] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）12:00（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（補測第 1 次、等 60 秒讓 NPC 起身）
+  [load] （旁白）：（吧台後面的店員抬頭說了一聲「歡迎光臨」，又低頭繼續磨豆子。）
+  [afar_seats09_retry1] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats09_retry1] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）13:30（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（補測第 2 次、晚 1.5 小時）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats08_retry2] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0.5, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats08_retry2] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+  [前置／捷徑] 讀檔：afar (2.575, 2)、2025-09-23（二）13:30（day 7；要的是 day 7）、money 3000、條件事件關閉、afar café 店裡進門的地方（補測第 2 次、晚 1.5 小時）
+  [load] （旁白）：（門上的小鈴響了一下。咖啡的味道比外面的騎樓還濃。）
+  [afar_seats09_retry2] 座位占用：{"near": [{"name": "(路人)", "id": null, "dSeat": 0, "dTarget": null}], "taken": null, "label": "坐下"}
+INFO [afar_seats09_retry2] 有人坐著或正走過去（照設計：freeSeat 0.4 m）→ 先跳過，這一項最後回頭補測
+INFO [afar_seats] 實際坐下測到 1／總共 4 張（補測後還是有人坐：[8, 9]）
+PASS 沒有 JS 例外  []
+FAILED 1: [afar_seats11] 走到座位旁：最近的互動是這一張（1.45,1.15）「坐下」
