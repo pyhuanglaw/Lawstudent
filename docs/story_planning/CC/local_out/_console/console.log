@@ -737,3 +737,58 @@
 [22:59:01] 正在跑：V20_touchwz_909c（已跑 1 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:04:01] 正在跑：V20_touchwz_909c（已跑 6 分／上限 60 分）——還沒測完，請不要關 (tests still running - please do not close)
 [23:05:03] [res] cpu=21% mem=36% (11.5/31.4 GB) chrome_testing=0  END V20_touchwz_909c
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+    To https://github.com/pyhuanglaw/Lawstudent.git
+     ! [rejected]            claude/cc-local -> claude/cc-local (fetch first)
+    error: failed to push some refs to 'https://github.com/pyhuanglaw/Lawstudent.git'
+    hint: Updates were rejected because the remote contains work that you do not
+    hint: have locally. This is usually caused by another repository pushing to
+    hint: the same ref. If you want to integrate the remote changes, use
+    hint: 'git pull' before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[23:05:45] push failed for V20_touchwz_909c (results stay in C:\Users\USER\Documents\Lawstudent_cclocal, rerun later)
+[23:05:45] ==== END   V20_touchwz_909c  exit=1  462s   ====
+[23:05:47] memory 36% before starting GG_shops2_afar_seat_16 (0 running)
+[23:05:47] memory 36% before starting GG_shops2_afar_seat_20 (1 running)
+[23:05:47] ==== START GG_shops2_afar_seat_16  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[23:05:47] memory 36% before starting GG_shops2_db_seat_00 (2 running)
+[23:05:47] ==== START GG_shops2_afar_seat_20  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[23:05:47] ==== START GG_shops2_db_seat_00  (probe @ 7c970654c48b2d28f32e6d1c2241870e12d5998b) ====
+[23:05:50] [res] cpu=17% mem=35% (11.5/31.4 GB) chrome_testing=0  START GG_shops2_afar_seat_20
+[23:05:50] [res] cpu=20% mem=35% (11.5/31.4 GB) chrome_testing=0  START GG_shops2_afar_seat_16
+[23:05:50] [res] cpu=20% mem=35% (11.5/31.4 GB) chrome_testing=0  START GG_shops2_db_seat_00
+[23:09:01] 正在跑：GG_shops2_afar_seat_16（已跑 3 分／上限 20 分）、GG_shops2_afar_seat_20（已跑 3 分／上限 20 分）、GG_shops2_db_seat_00（已跑 3 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:14:01] 正在跑：GG_shops2_afar_seat_16（已跑 8 分／上限 20 分）、GG_shops2_afar_seat_20（已跑 8 分／上限 20 分）、GG_shops2_db_seat_00（已跑 8 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:19:01] 正在跑：GG_shops2_afar_seat_16（已跑 13 分／上限 20 分）、GG_shops2_afar_seat_20（已跑 13 分／上限 20 分）、GG_shops2_db_seat_00（已跑 13 分／上限 20 分）——還沒測完，請不要關 (tests still running - please do not close)
+[23:19:32] [res] cpu=54% mem=48% (15.2/31.4 GB) chrome_testing=19  END GG_shops2_afar_seat_16
