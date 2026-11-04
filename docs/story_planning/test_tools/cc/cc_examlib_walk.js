@@ -9,6 +9,7 @@
    T-f 經濟系那一年：品妤 8～14（社科圖一樓）、阿勳 8～17（社科圖二樓；還沒有二樓＝一樓）、韋綸 8～12（總圖 B1），平日。
    BB_260：T-e 要等 LAWWW 照第 1 節補作息才能 PASS；補好以前先跑、FAIL 照實記。判定歸 BB。
    【前置／捷徑】pg_harness 的假 GM＋照 index.html 的順序載入其餘的檔（同 tests/exam_lib_crowd_unit.js 的載法）；直接設 G 的日期時間。
+   r2（BB-C 17:34、17:35；37c354189）：只有原本空檔、wander、walk 的時段換成讀書（來源 bb260）；原本有事的照舊；不去的那天只看有沒有新加的；另加 BB-C 點名的五個時間點。
    用法：LW_ROOT=<開發分支 worktree> node cc_examlib_walk.js */
 'use strict';
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -36,6 +37,9 @@ const daysOfWeek=(term,week)=>{ const r=CALENDAR.termDays(term), out=[]; for(let
 const zoneNow=id=>{ const c=CHARACTERS[id]; if(!c) return {zone:null,why:'沒有這個人'}; let e=null; try{ e=STORY.schedEnt(c,H.G); }catch(err){ return {zone:null,why:'例外 '+String(err).slice(0,80)}; } return {zone:e&&e.zone||null,src:e&&e.exlib||null,act:e&&e.act||null}; };
 const baseNow=id=>{ try{ return EXLIB.base(CHARACTERS[id],H.G); }catch(e){ return null; } };
 const prior=b=>!!b&&(!!b.cls||b.act==='class'||b.act==='exam'||!!b.pri||!!b.talkEvent||!!b.invite||!!b.activity||!!b.spot||/work|job|shift/.test(String(b.act||'')));
+/* r2（BB-C 17:34／17:35；37c354189）：只有原本是空檔、wander、walk 的時段才換成讀書（來源 'bb260'）；上課、吃飯、劇情、約好的照舊。
+   「不去」那一天＝不新增（只看有沒有 'bb260'）；原本就有的讀書時段搬到表上那一間（來源 '3'）照 AA_669 本來就對 */
+const fillable=b=>!b||((b.act==='wander'||b.act==='walk')&&!prior(b));
 
 /* BB_260 第 1 節（照抄）：[人, 名字, 區域, [[星期 1～7, 從, 到], ...], 學期] */
 const TABLE=[
@@ -60,19 +64,33 @@ const NOT={zhe:[5],yu:[3],classmate_mingxuan:[5]};   /* 「五不去」「三不
             setT(d,h); const on=EXLIB.on(H.G,d,h); if(!on) continue;
             const s=slots.find(q=>q[0]===wd&&h>=q[1]&&h<q[2]); const now=zoneNow(id), b=baseNow(id);
             if(s){ if(!EXLIB.isOpen(zone,d,h)){ res.closed++; continue; }
+              if(!fillable(b)){   /* 原本有事（上課、吃飯、劇情、約好的、原本就在讀書）＝照舊：不能被 bb260 蓋掉 */
+                res.prio++; if(now.src==='bb260'){ res.over=(res.over||0)+1; if(res.ex.length<4) res.ex.push(CALENDAR.dateOf(d).key+'（'+WD[wd]+'）'+hm(h)+' 原本 '+(b.zone||'-')+'/'+(b.act||'-')+' 被換成讀書'); }
+                else if(res.prioEx.length<3) res.prioEx.push(CALENDAR.dateOf(d).key+'（'+WD[wd]+'）'+hm(h)+' '+(b.zone||'')+'/'+(b.act||'')+'→'+(now.zone||'-'));
+                continue; }
               if(now.zone===zone){ res.hit++; continue; }
-              if(prior(b)){ res.prio++; if(res.prioEx.length<3) res.prioEx.push(CALENDAR.dateOf(d).key+'（'+WD[wd]+'）'+hm(h)+' '+(b.zone||'')+'/'+(b.act||'')); continue; }
               res.miss++; if(res.ex.length<4) res.ex.push(CALENDAR.dateOf(d).key+'（'+WD[wd]+'）'+hm(h)+' 在 '+(now.zone||'（不在場）')+(b?'（原本 '+(b.zone||'-')+'/'+(b.act||'-')+'）':'（原本沒有作息）'));
-            } else if((NOT[id]||[]).includes(wd)){ res.notDay.n++; if(now.zone===zone){ res.notDay.lib++; if(res.notDay.ex.length<2) res.notDay.ex.push(CALENDAR.dateOf(d).key+' '+hm(h)); } }
+            } else if((NOT[id]||[]).includes(wd)){ res.notDay.n++; if(now.src==='bb260'){ res.notDay.lib++; if(res.notDay.ex.length<2) res.notDay.ex.push(CALENDAR.dateOf(d).key+' '+hm(h)); } else if(now.zone===zone) res.notDay.moved=(res.notDay.moved||0)+1; }
           }
         }
       }
       const tot=res.hit+res.miss;
       info('[T-e] '+name+'（'+id+'）'+term+' 第 14～16 週、表上的時段（每 30 分）：在 '+zone+' '+res.hit+'／'+tot+'；上課等優先 '+res.prio+'；那一間沒開 '+res.closed+(res.prioEx.length?'；優先例 '+J(res.prioEx):''));
-      check('[T-e] '+name+' '+term+'：表上的時段（沒有上課等優先的事）都在 '+zone,tot>0&&res.miss===0,res.miss?('沒到 '+res.miss+'／'+tot+'，例 '+J(res.ex)):'');
-      if(NOT[id]) check('[T-e] '+name+' '+term+'：星期'+NOT[id].map(w=>WD[w]).join('、')+'不去 '+zone+'（對上 4-1「不行」那句）',res.notDay.lib===0,res.notDay.lib?J(res.notDay.ex):'');
+      check('[T-e] '+name+' '+term+'：表上的時段、原本是空檔／wander／walk 的都在 '+zone,tot>0&&res.miss===0,res.miss?('沒到 '+res.miss+'／'+tot+'，例 '+J(res.ex.filter(x=>!/被換成讀書/.test(x)))):'');
+      check('[T-e] '+name+' '+term+'：原本有事的時段照舊（沒有被換成讀書）',!res.over,res.over?(res.over+' 格，例 '+J(res.ex.filter(x=>/被換成讀書/.test(x)))):res.prio+' 格照舊');
+      if(NOT[id]) check('[T-e] '+name+' '+term+'：星期'+NOT[id].map(w=>WD[w]).join('、')+'不新增讀書時段（沒有 bb260；原本的讀書搬過去 '+(res.notDay.moved||0)+' 格照 AA_669 算對）',res.notDay.lib===0,res.notDay.lib?J(res.notDay.ex):'');
     }
   }
+  /* BB-C 17:34 點名的時間點（LAWWW 的做法：只填空檔）*/
+  { const spot=(term,wd,h)=>{ const r=CALENDAR.termDays(term); for(const week of [14,15]) for(const d of daysOfWeek(term,week)) if(CALENDAR.dateOf(d).wd===wd) return [d,h]; return null; };
+    const look=(id,term,wd,h)=>{ const r=CALENDAR.termDays(term); law0(CALENDAR.dateOf(r.from).key); const sp=spot(term,wd,h); if(!sp) return null; setT(sp[0],sp[1]); const n=zoneNow(id), b=baseNow(id);
+      return {at:CALENDAR.dateOf(sp[0]).key+'（'+WD[wd]+'）'+hm(sp[1]), now:n.zone, src:n.src, act:n.act, base:b?(b.zone||'-')+'/'+(b.act||'-'):null}; };
+    let r;
+    r=look('zhe','Y2S1',1,11); check('[T-e] 阿哲 週一 11:00 照舊上課（不換）',!!r&&r.src!=='bb260'&&/class/.test(String(r.act)+String(r.base)),J(r));
+    r=look('zhe','Y2S1',1,16); check('[T-e] 阿哲 週一 16:00 原本在校園晃 → 在 B1（bb260）',!!r&&r.now==='library_b1'&&r.src==='bb260',J(r));
+    r=look('zhe','Y2S1',7,12); check('[T-e] 阿哲 週日 12:00 照舊在 118 巷吃飯（不換）',!!r&&r.src!=='bb260'&&r.now!=='library_b1',J(r));
+    r=look('classmate_mingxuan','Y2S1',1,18); check('[T-e] 明軒 大二 週一 18:00 原本在 118 巷走路 → 在 A館 4F（bb260）',!!r&&r.now==='linze_4f'&&r.src==='bb260',J(r));
+    r=look('classmate_mingxuan','Y1S1',1,18); check('[T-e] 明軒 大一 週一 18:00 不加（since Y2S1）',!!r&&r.src!=='bb260',J(r)); }
   /* 同一天同一間最多三位（表上的人＋第 3 節其他人；pool 不在 EXLIB 的名單裡、照 crowd3d）*/
   { const term='Y2S1'; let worst=null; for(const week of [14,15]) for(const d of daysOfWeek(term,week)) for(let h=8;h<22;h+=1){ setT(d,h); if(!EXLIB.on(H.G,d,h)) continue; const cnt={};
       for(const id of Object.keys(EXLIB.cast(H.G))){ if(!EXLIB.inCast(H.G,id)) continue; const z=zoneNow(id).zone; if(z&&EXLIB.isLib(z)) cnt[z]=(cnt[z]||0)+1; }
