@@ -1,0 +1,9 @@
+{
+  "why": "playwright exit (TargetClosedError)",
+  "pages": [
+    {
+      "page": 1,
+      "closed": true
+    }
+  ]
+}

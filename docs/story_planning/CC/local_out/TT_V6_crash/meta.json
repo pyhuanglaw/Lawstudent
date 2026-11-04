@@ -1,0 +1,33 @@
+{
+  "rerun": "",
+  "id": "TT_V6_crash",
+  "sha": "d2e36f6eb",
+  "kind": "probe",
+  "script": "docs/story_planning/test_tools/cc/selftest/st_crash.py",
+  "env": "CC_AUTORETRY=1",
+  "machine": "MSI",
+  "start": "2026-11-04T20:59:40",
+  "end": "2026-11-04T21:00:31",
+  "seconds": 51,
+  "exit": 1,
+  "error": null,
+  "runner": "6f08f2eb23",
+  "rf_round": "1",
+  "url": "http://127.0.0.1:8802/index.html",
+  "attempt": 2,
+  "exit2": 1,
+  "res_peak": {
+    "cpu": 24,
+    "mem": 46,
+    "used_gb": 14.2,
+    "chrome_testing": 25
+  },
+  "final": "FAIL",
+  "class": "ENVIRONMENT/browser",
+  "report": "report.json",
+  "class_basis": [
+    "瀏覽器／頁面被關掉（Target closed）：「playwright._impl._errors.TargetClosedError: Page.evaluate: Target page, context or browser has been closed」",
+    "events.jsonl：browser_disconnected（rel 3.0s）",
+    "在 crash／斷線之前沒有探針的 FAIL 行"
+  ]
+}

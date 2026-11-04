@@ -1,0 +1,7 @@
+{"t": 1793797215.483, "rel": 1.58, "kind": "context_open", "ctx": 1, "page": null}
+{"t": 1793797215.77, "rel": 1.87, "kind": "page_open", "ctx": 1, "page": 1, "url": "about:blank"}
+{"t": 1793797216.871, "rel": 2.97, "kind": "close", "ctx": 1, "page": 1, "url": "about:blank"}
+{"t": 1793797216.875, "rel": 2.97, "kind": "browser_disconnected", "ctx": null, "page": null, "expected": false}
+{"t": 1793797223.608, "rel": 9.71, "kind": "trace_chunk", "ctx": 1, "page": null, "chunk": 1, "bad": false, "until": "flush: playwright exit (TargetClosedError)", "bytes": null}
+{"t": 1793797223.613, "rel": 9.71, "kind": "trace_chunks", "ctx": 1, "page": null, "kept": ["trace_TT_V6_crash_1_c001.zip"], "dropped": 0, "error": "TargetClosedError('Tracing.stop: Target page, context or browser has been closed')"}
+{"t": 1793797223.643, "rel": 9.74, "kind": "process_end", "ctx": null, "page": null, "why": "exception TargetClosedError"}
